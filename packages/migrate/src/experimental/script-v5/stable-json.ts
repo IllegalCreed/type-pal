@@ -73,6 +73,20 @@ export function stableJsonSha256(value: unknown): string {
   return createHash('sha256').update(stableJson(value)).digest('hex')
 }
 
+/**
+ * Process-local mutation sentinel for large already-canonical data graphs.
+ *
+ * This intentionally does not replace `stableJsonSha256` for published digests: it preserves
+ * insertion order and therefore avoids the recursive key sorting cost of the canonical form.
+ * Callers use it only to detect a caller mutating an input after an authority was prepared;
+ * the initial authority still records the canonical digest.
+ */
+export function fastJsonSha256(value: unknown): string {
+  const serialized = JSON.stringify(value)
+  if (serialized === undefined) throw new Error('fast JSON: unsupported undefined root')
+  return createHash('sha256').update(serialized).digest('hex')
+}
+
 export function formatStableJson(value: unknown): string {
   return `${JSON.stringify(canonicalJsonValue(value), null, 2)}\n`
 }

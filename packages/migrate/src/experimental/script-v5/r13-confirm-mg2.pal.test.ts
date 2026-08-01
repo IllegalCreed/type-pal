@@ -280,6 +280,17 @@ describe.skipIf(!existsSync(extracted))('R13-4 confirm append-only PAL MG2 seal'
         openConfirmDebts: 0,
       },
     })
+    // Historical R13-confirm is byte-pinned. These values protect the compatibility
+    // wrapper from silently inheriting a newer global runtime capability table.
+    expect(first.confirmRuntimeCapability.digest).toBe(
+      'd63365c7ced62ca213d7a580a73c25700bdf65be99e862bb6eff3890f2cc1c6d',
+    )
+    expect(stableJsonSha256(first.confirmRuntimeCapability.matrix)).toBe(
+      'd25ee2a7940082e20948730c2bd467f659ff3e0b4de19047050b84fe4e42e7a9',
+    )
+    expect(first.confirmSeal.digest).toBe(
+      '8909257867ff6873e17ea4534d183b325e908615bdc2c8630cfc7174efce313d',
+    )
     const confirmProofs = first.confirmSourceDisposition.evidence.filter(
       (entry) => entry.kind === 'r13-confirm-site',
     )

@@ -11,9 +11,15 @@ import type { MigrationPlan } from '../../migration-plan.js'
 import { createMigrationPlan } from '../../migration-plan.js'
 import type { MigrationFileSet, MigrationJson, PalMigrationSources } from '../../pal-migration.js'
 import {
+  collectSourceEntrySites,
+  type ScriptControlFlowAuditV1,
+} from '../../script-control-flow-audit.js'
+import type { P7GeneratedCanonical } from './p7-generated.js'
+import {
   R13_ENEMY_SCRIPT_SEAL_PATH,
   R13_ENEMY_SCRIPT_TRANSITION_ID,
 } from './r13-enemy-script-mg2.js'
+import { R13_ENEMY_SCRIPT_SUCCESSOR_CONTENT_DIGEST } from './r13-enemy-script-augmentation.js'
 import {
   assertR13ExistingSchemaAugmentationEvidence,
   assertR13ExistingSchemaFinalTargetClosure,
@@ -27,10 +33,29 @@ import {
   rewindR13ExistingSchemaAugmentation,
 } from './r13-existing-schema-augmentation.js'
 import type { PreparedR13SourceExecutionCensus } from './source-execution-census.js'
-import { stableJsonSha256, stableStringCompare } from './stable-json.js'
+import {
+  buildAndAssertR13SourceInstructionDispositionV3,
+  assertR13SourceInstructionDispositionV3,
+  digestR13ContentSnapshot,
+  R13_EXISTING_SCHEMA_SKILL_LOSSY_NOTES,
+  type R13EnemyClosureAuthority,
+  type R13DispositionEvidence,
+  type R13MigrationObservation,
+  type R13SourceExecutionDisposition,
+  type R13SourceInstructionDispositionBuildArgs,
+  type R13SourceInstructionDispositionV3,
+} from './source-instruction-disposition.js'
+import {
+  fastJsonSha256,
+  stableJsonSha256,
+  stableStringCompare,
+} from './stable-json.js'
 
 export const R13_SOURCE_SEMANTICS_TRANSITION_ID = 'r13-source-semantics-v1' as const
 export const R13_SOURCE_SEMANTICS_SEAL_PATH = '_transitions/r13-source-semantics-v1.json' as const
+/** Published R13-5 source-ledger digest. 6A may only append its explicit allowlist delta. */
+export const R13_SOURCE_SEMANTICS_PARENT_SOURCE_REPORT_DIGEST =
+  'c2d7e7395dfa2f0eabc3c7a80cf24c8f26ccce06c33010ddbf59312429616324' as const
 export const R13_SOURCE_SEMANTICS_PARENT_ENEMY_DIGEST =
   '54804a6c69e644e9c44fd98fd489d0f73eee6580c4ffc3c3753322074361fab6' as const
 export const R13_SOURCE_SEMANTICS_PARENT_ENEMY_FILE_SHA256 =
@@ -52,6 +77,24 @@ interface R13SourceSemanticsSealBodyV1 {
     skillCosts: 3
   }
   externalPrerequisites: R13ExistingSchemaAugmentationEvidenceV1['externalPrerequisites']
+  sourceControl: R13SourceSemanticsSourceControlV1
+}
+
+export interface R13SourceSemanticsSourceControlV1 {
+  version: 3
+  methodVersion: 'n3-p7-r13-source-instruction-disposition-v3'
+  sourceDigest: string
+  auditDigest: string
+  reportDigest: string
+  finalDigest: string
+  summary: {
+    executionSites: number
+    openDebtSites: number
+    openObservations: number
+    existingSchemaSites: 22
+    existingSchemaSkillCosts: 3
+  }
+  parentReportDigest: typeof R13_SOURCE_SEMANTICS_PARENT_SOURCE_REPORT_DIGEST
 }
 
 export interface R13SourceSemanticsTransitionSealV1 extends R13SourceSemanticsSealBodyV1 {
@@ -64,7 +107,28 @@ export interface PreparedR13SourceSemanticsAuthority {
   readonly currentMigration: MigrationFileSet
   readonly preparedCurrentSourceCensus?: PreparedR13SourceExecutionCensus
   readonly augmentation: R13ExistingSchemaAugmentation
+  readonly sourceDisposition: R13SourceInstructionDispositionV3
+  readonly sourceDispositionInput: R13SourceSemanticsDispositionInput
+  /** Content identity of every mutable input used to build the source ledger. */
+  readonly sourceDispositionInputDigest: string
+  /** Process-local fast sentinel used to validate prepared replay without canonical re-hashing. */
+  readonly sourceDispositionInputFastDigest: string
+  readonly sourceControl: R13SourceSemanticsSourceControlV1
   readonly digest: string
+}
+
+/** Historical R13-5 authority plus the current source/migration needed to rebuild
+ * the R13-6A source ledger. The generated snapshot must be the published R13-5
+ * successor; the new augmentation is supplied by the enclosing authority. */
+export interface R13SourceSemanticsDispositionInput {
+  historicalSources: PalMigrationSources
+  historicalMigration: MigrationFileSet
+  historicalAudit: ScriptControlFlowAuditV1
+  generated: P7GeneratedCanonical
+  /** The complete, published R13-5 ledger. No 6A report may be built without it. */
+  parentSourceDisposition: R13SourceInstructionDispositionV3
+  r13EnemyClosure: R13EnemyClosureAuthority
+  preparedHistoricalSourceCensus?: PreparedR13SourceExecutionCensus
 }
 
 export interface R13SourceSemanticsV5MigrationPlan {
@@ -78,6 +142,142 @@ export interface R13SourceSemanticsV5MigrationPlan {
 }
 
 const preparedAuthorities = new WeakSet<PreparedR13SourceSemanticsAuthority>()
+const preparedInputReports = new WeakSet<object>()
+
+function deepFreezeReport<T>(value: T, seen = new WeakSet<object>()): T {
+  if (!value || typeof value !== 'object' || seen.has(value)) return value
+  seen.add(value)
+  for (const nested of Object.values(value as Record<string, unknown>))
+    deepFreezeReport(nested, seen)
+  return Object.freeze(value)
+}
+
+type InputDigest = (value: unknown) => string
+
+function digestSourceRoots(sources: PalMigrationSources, digest: InputDigest): string {
+  const roots = collectSourceEntrySites(sources)
+  // The census generator uses this exact payload. Hashing it here is intentionally much
+  // cheaper than rebuilding the 81k-site source disposition, while still catching mutation of
+  // commands or any source object that contributes an entry root.
+  return digest({
+    commands: sources.migrate.commands,
+    entries: roots.sites,
+    emptyPointers: roots.emptyPointers,
+  })
+}
+
+function digestMigrationInput(
+  migration: MigrationFileSet,
+  digest: InputDigest,
+  snapshotDigest: (snapshot: MigrationSnapshot) => string,
+  mode: 'stable' | 'fast',
+): string {
+  const report =
+    mode === 'fast'
+      ? {
+          // Keep the process-local sentinel compact: these are the migration report branches
+          // consumed by the source ledger.
+          rawContent: {
+            pendingUse: migration.report.rawContent.pendingUse,
+            pendingEquip: migration.report.rawContent.pendingEquip,
+            pendingThrow: migration.report.rawContent.pendingThrow,
+            pendingSkills: migration.report.rawContent.pendingSkills,
+          },
+          rawProjection: migration.report.rawProjection,
+          content: {
+            pendingUse: migration.report.content.pendingUse,
+            pendingThrow: migration.report.content.pendingThrow,
+            pendingSkills: migration.report.content.pendingSkills,
+            lossySkills: migration.report.content.lossySkills,
+          },
+          enemies: migration.report.enemies?.pendingScripts ?? [],
+          scripts: {
+            knownNoOpDetails: migration.report.scripts.knownNoOpDetails,
+            instructionOutcomes: migration.report.scripts.instructionOutcomes,
+            notes: migration.report.scripts.notes,
+          },
+          foldedHostileRoots: migration.report.foldedHostileRoots,
+          spriteActionMaterialization: migration.report.spriteActionMaterialization,
+        }
+      : {
+          rawContent: migration.report.rawContent,
+          rawProjection: migration.report.rawProjection,
+          content: migration.report.content,
+          enemies: migration.report.enemies,
+          scripts: migration.report.scripts,
+          foldedHostileRoots: migration.report.foldedHostileRoots,
+          spriteActionMaterialization: migration.report.spriteActionMaterialization,
+        }
+  return digest({
+    snapshot: snapshotDigest({
+      files: migration.files,
+      managedFiles: migration.managedFiles,
+    }),
+    ...report,
+  })
+}
+
+function fastDigestR13ContentSnapshot(snapshot: MigrationSnapshot): string {
+  return fastJsonSha256(
+    [...snapshot.managedFiles]
+      .filter((path) => snapshot.files.has(path))
+      .sort(stableStringCompare)
+      .map((path) => ({ path, value: snapshot.files.get(path)! })),
+  )
+}
+
+function digestSourceDispositionInputs(args: {
+  input: R13SourceSemanticsDispositionInput
+  currentSources: PalMigrationSources
+  currentMigration: MigrationFileSet
+  preparedCurrentSourceCensus?: PreparedR13SourceExecutionCensus
+  mode?: 'stable' | 'fast'
+}): string {
+  const { input } = args
+  const mode = args.mode ?? 'stable'
+  const digest = mode === 'fast' ? fastJsonSha256 : stableJsonSha256
+  const snapshotDigest = mode === 'fast' ? fastDigestR13ContentSnapshot : digestR13ContentSnapshot
+  return digest({
+    historicalSources: digestSourceRoots(input.historicalSources, digest),
+    historicalMigration: digestMigrationInput(
+      input.historicalMigration,
+      digest,
+      snapshotDigest,
+      mode,
+    ),
+    historicalAudit: input.historicalAudit.digest,
+    generated: {
+      snapshot: snapshotDigest(input.generated.snapshot),
+      ir: digest(input.generated.ir),
+      ledger: input.generated.ledgerDraft.digest,
+      c8: digest(input.generated.c8Evidence),
+      autoLifecycleRepair: input.generated.autoLifecycleRepairEvidence.digest,
+      sceneRepair: digest(input.generated.sceneSemanticRepairEvidence),
+      triggerActivation: digest(input.generated.triggerActivationEvidence),
+      autoIdleGate: input.generated.autoIdleGateEvidence.digest,
+    },
+    parentSourceDisposition: input.parentSourceDisposition.digest,
+    r13EnemyClosure: {
+      sourceDisposition: input.r13EnemyClosure.sourceDisposition.digest,
+      currentSources: digestSourceRoots(input.r13EnemyClosure.currentSources, digest),
+      currentMigration: digestMigrationInput(
+        input.r13EnemyClosure.currentMigration,
+        digest,
+        snapshotDigest,
+        mode,
+      ),
+      augmentationEvidence: input.r13EnemyClosure.augmentationEvidence.digest,
+    },
+    currentSources: digestSourceRoots(args.currentSources, digest),
+    currentMigration: digestMigrationInput(args.currentMigration, digest, snapshotDigest, mode),
+    ...(input.preparedHistoricalSourceCensus
+      ? { preparedHistoricalSourceCensus: input.preparedHistoricalSourceCensus.censusDigest }
+      : {}),
+    ...(args.preparedCurrentSourceCensus
+      ? { preparedCurrentSourceCensus: args.preparedCurrentSourceCensus.censusDigest }
+      : {}),
+  })
+}
 
 function cloneSnapshot(source: MigrationSnapshot): MigrationSnapshot {
   return {
@@ -202,9 +402,492 @@ function assertPublishedEnemyParent(base: MigrationSnapshot): void {
     throw new Error('R13 source semantics MG2: published enemy parent byte-pin 漂移')
 }
 
+const R13_6A_SKILL_IDS = ['352', '372', '373'] as const
+const R13_6A_SITE_ID_COUNT = 22
+
+function evidenceMap(
+  report: R13SourceInstructionDispositionV3,
+): Map<string, R13DispositionEvidence> {
+  return new Map(report.evidence.map((entry) => [entry.id, entry]))
+}
+
+function observationMap(
+  report: R13SourceInstructionDispositionV3,
+): Map<string, R13MigrationObservation> {
+  return new Map(report.observations.map((entry) => [entry.id, entry]))
+}
+
+function dispositionMap(
+  report: R13SourceInstructionDispositionV3,
+): Map<string, R13SourceExecutionDisposition> {
+  return new Map(report.dispositions.map((entry) => [entry.siteId, entry]))
+}
+
+function sortedJson(value: unknown): string {
+  return stableJsonSha256(value)
+}
+
+function assertOnlyAllowedEvidenceDelta(
+  parent: R13SourceInstructionDispositionV3,
+  successor: R13SourceInstructionDispositionV3,
+  parentAllowed: ReadonlySet<string>,
+  successorAllowed: ReadonlySet<string>,
+  parentAllowedOwners: ReadonlySet<string>,
+  successorAllowedOwners: ReadonlySet<string>,
+): void {
+  const parentEvidence = evidenceMap(parent)
+  const successorEvidence = evidenceMap(successor)
+  const parentOutside = [...parentEvidence.keys()].filter((id) => !parentAllowed.has(id)).sort()
+  const successorOutside = [...successorEvidence.keys()]
+    .filter((id) => !successorAllowed.has(id))
+    .sort()
+  if (sortedJson(parentOutside) !== sortedJson(successorOutside))
+    throw new Error('R13 source semantics MG2: 6A evidence 白名单外集合漂移')
+  for (const id of parentOutside) {
+    const before = parentEvidence.get(id)
+    const after = successorEvidence.get(id)
+    if (!before || !after || !isDeepStrictEqual(before, after))
+      throw new Error(`R13 source semantics MG2: 6A 非白名单 evidence 漂移 ${id}`)
+  }
+
+  // An allowlisted proof may legitimately be referenced by the same object more than once
+  // (for example, a disposition's aggregate evidence and each of its layer entries). What
+  // must be rejected is a reference from an untouched object: otherwise excluding the proof
+  // from the equality check could hide a cross-object semantic change.
+  const references = (report: R13SourceInstructionDispositionV3): Map<string, Set<string>> => {
+    const owners = new Map<string, Set<string>>()
+    const add = (id: string, owner: string): void => {
+      const set = owners.get(id) ?? new Set<string>()
+      set.add(owner)
+      owners.set(id, set)
+    }
+    for (const disposition of report.dispositions) {
+      const owner = `site:${disposition.siteId}`
+      for (const id of disposition.evidenceIds) add(id, owner)
+      for (const layer of Object.values(disposition.layers))
+        for (const id of layer.evidenceIds) add(id, owner)
+    }
+    for (const observation of report.observations) {
+      const owner = `observation:${observation.id}`
+      for (const id of observation.evidenceIds) add(id, owner)
+    }
+    return owners
+  }
+  for (const [id, owners] of references(parent))
+    if (parentAllowed.has(id))
+      for (const owner of owners)
+        if (!parentAllowedOwners.has(owner))
+          throw new Error(`R13 source semantics MG2: parent allowlist proof 被跨对象复用 ${id}`)
+  for (const [id, owners] of references(successor))
+    if (successorAllowed.has(id))
+      for (const owner of owners)
+        if (!successorAllowedOwners.has(owner))
+          throw new Error(`R13 source semantics MG2: successor allowlist proof 被跨对象复用 ${id}`)
+}
+
+function assertR13SourceDisposition6AParentDelta(args: {
+  parent: R13SourceInstructionDispositionV3
+  successor: R13SourceInstructionDispositionV3
+  ownedSiteIds: readonly string[]
+}): void {
+  const { parent, successor } = args
+  if (parent.digest !== R13_SOURCE_SEMANTICS_PARENT_SOURCE_REPORT_DIGEST)
+    throw new Error('R13 source semantics MG2: R13-5 parent source report digest 漂移')
+  // This is deliberately a full structural/digest check at the trust boundary. Once prepared,
+  // the successor report is deep-frozen and only this branded authority can be reused.
+  assertR13SourceInstructionDispositionV3(parent)
+  // The successor's 6A evidence was already source-backed by buildAndAssert above. Keep this
+  // second pass structural-only so the 81k-site closure is not rebuilt a third time.
+  assertR13SourceInstructionDispositionV3(successor, undefined, {
+    allowExistingSchemaAuthority: true,
+  })
+  if (sortedJson(parent.census) !== sortedJson(successor.census))
+    throw new Error('R13 source semantics MG2: 6A census 漂移')
+  for (const key of ['sourceDigest', 'rawDigest'] as const)
+    if (parent.generator[key] !== successor.generator[key])
+      throw new Error(`R13 source semantics MG2: 6A generator.${key} 漂移`)
+  // augmentedDigest intentionally binds the R13-6A closure evidence even though the
+  // generated snapshot remains the published R13-5 successor. The allowlist checks below
+  // prove that this metadata delta closes only the 22 owned source sites.
+  if (parent.generator.augmentedDigest === successor.generator.augmentedDigest)
+    throw new Error('R13 source semantics MG2: 6A augmented generator 未体现 closure 增量')
+  if (parent.generator.finalDigest === successor.generator.finalDigest)
+    throw new Error('R13 source semantics MG2: 6A final generator 未体现增量')
+
+  const ownedSiteIds = [...new Set(args.ownedSiteIds)].sort()
+  if (ownedSiteIds.length !== R13_6A_SITE_ID_COUNT)
+    throw new Error(`R13 source semantics MG2: 6A owned site 数=${ownedSiteIds.length}`)
+  const ownedSites = new Set(ownedSiteIds)
+  const beforeSites = dispositionMap(parent)
+  const afterSites = dispositionMap(successor)
+  const ownedAddresses = new Set(
+    ownedSiteIds
+      .map((siteId) => parent.census.sites.find((site) => site.id === siteId)?.address)
+      .filter((address): address is number => address !== undefined),
+  )
+  if (beforeSites.size !== afterSites.size || beforeSites.size !== parent.census.sites.length)
+    throw new Error('R13 source semantics MG2: 6A disposition cardinality 漂移')
+  const parentAllowedEvidence = new Set<string>()
+  const successorAllowedEvidence = new Set<string>()
+  const parentAllowedEvidenceOwners = new Set<string>()
+  const successorAllowedEvidenceOwners = new Set<string>()
+  const parentEvidence = evidenceMap(parent)
+  const successorEvidence = evidenceMap(successor)
+
+  for (const [siteId, before] of beforeSites) {
+    const after = afterSites.get(siteId)
+    if (!after) throw new Error(`R13 source semantics MG2: 6A site 缺失 ${siteId}`)
+    if (!ownedSites.has(siteId)) {
+      if (!isDeepStrictEqual(before, after))
+        throw new Error(`R13 source semantics MG2: 6A 非 owned site 漂移 ${siteId}`)
+      continue
+    }
+    if (
+      before.disposition !== 'open-debt' ||
+      before.layers.raw.state !== 'open' ||
+      before.layers.augmented.state !== 'open' ||
+      before.layers.final.state !== 'open' ||
+      after.layers.raw.state !== 'open' ||
+      after.layers.augmented.state !== 'open' ||
+      after.layers.final.state !== 'accounted' ||
+      after.disposition !== 'structured' ||
+      sortedJson(before.candidateEvidenceIds) !== sortedJson(after.candidateEvidenceIds)
+    )
+      throw new Error(`R13 source semantics MG2: 6A owned site 状态非法 ${siteId}`)
+    for (const id of before.evidenceIds) parentAllowedEvidence.add(id)
+    for (const id of after.evidenceIds) successorAllowedEvidence.add(id)
+    parentAllowedEvidenceOwners.add(`site:${siteId}`)
+    successorAllowedEvidenceOwners.add(`site:${siteId}`)
+    const closure = after.evidenceIds
+      .map((id) => successorEvidence.get(id))
+      .find((entry) => entry?.kind === 'r13-existing-schema-site')
+    if (
+      !closure ||
+      closure.kind !== 'r13-existing-schema-site' ||
+      !after.layers.final.evidenceIds.includes(closure.id) ||
+      closure.appliesToLayers.length !== 1 ||
+      closure.appliesToLayers[0] !== 'final'
+    )
+      throw new Error(`R13 source semantics MG2: 6A owned site closure 漂移 ${siteId}`)
+    const openProofs = after.evidenceIds
+      .map((id) => successorEvidence.get(id))
+      .filter(
+        (entry): entry is Extract<R13DispositionEvidence, { kind: 'open-debt' }> =>
+          entry?.kind === 'open-debt',
+      )
+    if (
+      openProofs.length !== 1 ||
+      openProofs[0]!.batch !== 'R13-6' ||
+      sortedJson(openProofs[0]!.appliesToLayers) !== sortedJson(['raw', 'augmented'])
+    )
+      throw new Error(`R13 source semantics MG2: 6A owned site open proof 漂移 ${siteId}`)
+    const parentProofs = before.evidenceIds
+      .map((id) => parentEvidence.get(id))
+      .filter(
+        (entry): entry is Extract<R13DispositionEvidence, { kind: 'open-debt' }> =>
+          entry?.kind === 'open-debt',
+      )
+    if (
+      parentProofs.length !== 1 ||
+      parentProofs[0]!.batch !== 'R13-6' ||
+      sortedJson(parentProofs[0]!.appliesToLayers) !== sortedJson(['raw', 'augmented', 'final'])
+    )
+      throw new Error(`R13 source semantics MG2: R13-5 owned site 前态漂移 ${siteId}`)
+  }
+
+  const beforeObservations = observationMap(parent)
+  const afterObservations = observationMap(successor)
+  const sourceObservationAddress = (id: string): number | undefined => {
+    const match = /^source:(\d+):/.exec(id)
+    return match ? Number(match[1]) : undefined
+  }
+  const parentOwnedSourceObservations = [...beforeObservations.values()].filter((observation) => {
+    const address = sourceObservationAddress(observation.id)
+    return address !== undefined && ownedAddresses.has(address)
+  })
+  const successorOwnedSourceObservations = [...afterObservations.values()].filter((observation) => {
+    const address = sourceObservationAddress(observation.id)
+    return address !== undefined && ownedAddresses.has(address)
+  })
+  for (const observation of parentOwnedSourceObservations)
+    parentAllowedEvidenceOwners.add(`observation:${observation.id}`)
+  for (const observation of successorOwnedSourceObservations)
+    successorAllowedEvidenceOwners.add(`observation:${observation.id}`)
+  for (const observation of [...parentOwnedSourceObservations, ...successorOwnedSourceObservations])
+    if (
+      observation.domain !== 'source-command' ||
+      !observation.kind.startsWith('R13-6:') ||
+      observation.final !== 'open'
+    )
+      throw new Error(`R13 source semantics MG2: 6A owned source observation 状态漂移 ${observation.id}`)
+  for (const skillId of R13_6A_SKILL_IDS) {
+    const pendingId = `skill:${skillId}:pending`
+    const lossyId = `skill:${skillId}:lossy`
+    const costId = `skill:${skillId}:item-cost`
+    const pending = beforeObservations.get(pendingId)
+    const lossy = afterObservations.get(lossyId)
+    const cost = afterObservations.get(costId)
+    if (!pending || !lossy || !cost)
+      throw new Error(`R13 source semantics MG2: 6A skill observation 缺失 ${skillId}`)
+    for (const id of pending.evidenceIds) parentAllowedEvidence.add(id)
+    for (const id of [...lossy.evidenceIds, ...cost.evidenceIds]) successorAllowedEvidence.add(id)
+    parentAllowedEvidenceOwners.add(`observation:${pendingId}`)
+    successorAllowedEvidenceOwners.add(`observation:${lossyId}`)
+    successorAllowedEvidenceOwners.add(`observation:${costId}`)
+    if (
+      pending.domain !== 'skill' ||
+      pending.kind !== 'pending' ||
+      pending.raw !== 'open' ||
+      pending.augmented !== 'open' ||
+      pending.final !== 'open'
+    )
+      throw new Error(`R13 source semantics MG2: 6A skill pending 前态漂移 ${skillId}`)
+    if (
+      lossy.domain !== 'skill' ||
+      lossy.kind !== 'lossy' ||
+      lossy.raw !== 'open' ||
+      lossy.augmented !== 'open' ||
+      lossy.final !== 'open' ||
+      sortedJson(lossy.sourceRootIds) !==
+        sortedJson(
+          [
+            `global/skills/${skillId}/scriptOnUse`,
+            `global/skills/${skillId}/scriptOnSuccess`,
+          ].sort(stableStringCompare),
+        )
+    )
+      throw new Error(`R13 source semantics MG2: 6A skill lossy 状态漂移 ${skillId}`)
+    if (
+      cost.domain !== 'skill' ||
+      cost.kind !== 'item-cost' ||
+      cost.raw !== 'open' ||
+      cost.augmented !== 'open' ||
+      cost.final !== 'accounted' ||
+      sortedJson(cost.sourceRootIds) !==
+        sortedJson([`global/skills/${skillId}/scriptOnUse`])
+    )
+      throw new Error(`R13 source semantics MG2: 6A skill cost 状态漂移 ${skillId}`)
+    const lossyProofs = lossy.evidenceIds
+      .map((id) => successorEvidence.get(id))
+      .filter(
+        (entry): entry is Extract<R13DispositionEvidence, { kind: 'open-debt' }> =>
+          entry?.kind === 'open-debt',
+      )
+    if (
+      lossyProofs.length !== 1 ||
+      lossyProofs[0]!.reason !==
+        `skill-lossy:${R13_EXISTING_SCHEMA_SKILL_LOSSY_NOTES[skillId]}` ||
+      lossyProofs[0]!.batch !== 'R13-6' ||
+      sortedJson(lossyProofs[0]!.appliesToLayers) !==
+        sortedJson(['raw', 'augmented', 'final'])
+    )
+      throw new Error(`R13 source semantics MG2: 6A skill lossy proof 漂移 ${skillId}`)
+    const costOpenProofs = cost.evidenceIds
+      .map((id) => successorEvidence.get(id))
+      .filter(
+        (entry): entry is Extract<R13DispositionEvidence, { kind: 'open-debt' }> =>
+          entry?.kind === 'open-debt',
+      )
+    if (
+      costOpenProofs.length !== 1 ||
+      costOpenProofs[0]!.batch !== 'R13-6' ||
+      sortedJson(costOpenProofs[0]!.appliesToLayers) !== sortedJson(['raw', 'augmented'])
+    )
+      throw new Error(`R13 source semantics MG2: 6A skill cost open proof 漂移 ${skillId}`)
+  }
+  for (const [id, observation] of beforeObservations) {
+    if (id.endsWith(':pending') && R13_6A_SKILL_IDS.some((skillId) => id === `skill:${skillId}:pending`))
+      continue
+    if (parentOwnedSourceObservations.some((entry) => entry.id === id)) continue
+    const after = afterObservations.get(id)
+    if (!after || !isDeepStrictEqual(observation, after))
+      throw new Error(`R13 source semantics MG2: 6A 非白名单 observation 漂移 ${id}`)
+  }
+  for (const [id, observation] of afterObservations) {
+    if (
+      R13_6A_SKILL_IDS.some(
+        (skillId) => id === `skill:${skillId}:lossy` || id === `skill:${skillId}:item-cost`,
+      )
+    )
+      continue
+    if (successorOwnedSourceObservations.some((entry) => entry.id === id)) continue
+    if (!beforeObservations.has(id))
+      throw new Error(`R13 source semantics MG2: 6A 新增非白名单 observation ${id}`)
+    if (!isDeepStrictEqual(beforeObservations.get(id), observation))
+      throw new Error(`R13 source semantics MG2: 6A observation 内容漂移 ${id}`)
+  }
+  const sourceObservationDelta =
+    successorOwnedSourceObservations.length - parentOwnedSourceObservations.length
+  const expectedObservations =
+    parent.summary.observations + sourceObservationDelta + R13_6A_SKILL_IDS.length
+  if (successor.summary.observations !== expectedObservations)
+    throw new Error('R13 source semantics MG2: 6A observation cardinality delta 漂移')
+  const parentOwnedOpenObservations = parentOwnedSourceObservations.filter(
+    (observation) => observation.final === 'open',
+  ).length
+  const successorOwnedOpenObservations = successorOwnedSourceObservations.filter(
+    (observation) => observation.final === 'open',
+  ).length
+  const expectedOpenObservations =
+    parent.summary.openObservations - parentOwnedOpenObservations + successorOwnedOpenObservations
+  if (successor.summary.openObservations !== expectedOpenObservations)
+    throw new Error('R13 source semantics MG2: 6A open observation delta 漂移')
+
+  const expectedByDisposition = structuredClone(parent.summary.byDisposition)
+  expectedByDisposition['open-debt'] -= R13_6A_SITE_ID_COUNT
+  expectedByDisposition.structured += R13_6A_SITE_ID_COUNT
+  if (!isDeepStrictEqual(successor.summary.byDisposition, expectedByDisposition))
+    throw new Error('R13 source semantics MG2: 6A disposition summary delta 漂移')
+  const expectedByLayer = structuredClone(parent.summary.byLayer)
+  expectedByLayer.final.open -= R13_6A_SITE_ID_COUNT
+  expectedByLayer.final.accounted += R13_6A_SITE_ID_COUNT
+  if (
+    expectedByLayer.raw.open !== successor.summary.byLayer.raw.open ||
+    expectedByLayer.raw.accounted !== successor.summary.byLayer.raw.accounted ||
+    expectedByLayer.augmented.open !== successor.summary.byLayer.augmented.open ||
+    expectedByLayer.augmented.accounted !== successor.summary.byLayer.augmented.accounted ||
+    !isDeepStrictEqual(expectedByLayer.final, successor.summary.byLayer.final)
+  )
+    throw new Error('R13 source semantics MG2: 6A layer summary delta 漂移')
+  for (const key of [
+    'instructions',
+    'reachableInstructions',
+    'executionSites',
+    'dispositionSites',
+  ] as const)
+    if (parent.summary[key] !== successor.summary[key])
+      throw new Error(`R13 source semantics MG2: 6A summary.${key} 漂移`)
+  if (successor.summary.openDebtSites !== parent.summary.openDebtSites - R13_6A_SITE_ID_COUNT)
+    throw new Error('R13 source semantics MG2: 6A openDebtSites delta 漂移')
+
+  const openAddresses = (report: R13SourceInstructionDispositionV3): Set<number> => {
+    const censusById = new Map(report.census.sites.map((site) => [site.id, site.address]))
+    return new Set(
+      report.dispositions
+        .filter((entry) => entry.layers.final.state === 'open')
+        .map((entry) => censusById.get(entry.siteId))
+        .filter((address): address is number => address !== undefined),
+    )
+  }
+  const beforeOpenAddresses = openAddresses(parent)
+  const afterOpenAddresses = openAddresses(successor)
+  for (const address of afterOpenAddresses)
+    if (!beforeOpenAddresses.has(address))
+      throw new Error(`R13 source semantics MG2: 6A 新增 open source address ${address}`)
+  for (const address of beforeOpenAddresses)
+    if (!afterOpenAddresses.has(address) && !ownedAddresses.has(address))
+      throw new Error(`R13 source semantics MG2: 6A 非白名单 open address 关闭 ${address}`)
+  if (successor.summary.openDebtSourceAddresses !== afterOpenAddresses.size)
+    throw new Error('R13 source semantics MG2: 6A open source address summary 漂移')
+
+  assertOnlyAllowedEvidenceDelta(
+    parent,
+    successor,
+    parentAllowedEvidence,
+    successorAllowedEvidence,
+    parentAllowedEvidenceOwners,
+    successorAllowedEvidenceOwners,
+  )
+}
+
+function buildSourceControl(
+  report: R13SourceInstructionDispositionV3,
+  audit: ScriptControlFlowAuditV1,
+  parentReportDigest: typeof R13_SOURCE_SEMANTICS_PARENT_SOURCE_REPORT_DIGEST,
+): R13SourceSemanticsSourceControlV1 {
+  const existingSchemaSites = report.evidence.filter(
+    (proof) => proof.kind === 'r13-existing-schema-site',
+  ).length
+  const existingSchemaSkillCosts = report.evidence.filter(
+    (proof) => proof.kind === 'r13-existing-schema-skill-cost',
+  ).length
+  if (existingSchemaSites !== 22 || existingSchemaSkillCosts !== 3)
+    throw new Error(
+      `R13 source semantics MG2: source ledger 6A proof=${existingSchemaSites}/` +
+        existingSchemaSkillCosts,
+    )
+  return {
+    version: 3,
+    methodVersion: report.methodVersion,
+    sourceDigest: report.generator.sourceDigest,
+    auditDigest: audit.digest,
+    reportDigest: report.digest,
+    finalDigest: report.generator.finalDigest,
+    summary: {
+      executionSites: report.summary.executionSites,
+      openDebtSites: report.summary.openDebtSites,
+      openObservations: report.summary.openObservations,
+      existingSchemaSites: 22,
+      existingSchemaSkillCosts: 3,
+    },
+    parentReportDigest,
+  }
+}
+
+function buildSourceDisposition(args: {
+  input: R13SourceSemanticsDispositionInput
+  currentSources: PalMigrationSources
+  currentMigration: MigrationFileSet
+  preparedCurrentSourceCensus?: PreparedR13SourceExecutionCensus
+  augmentation: R13ExistingSchemaAugmentation
+}): {
+  report: R13SourceInstructionDispositionV3
+  control: R13SourceSemanticsSourceControlV1
+} {
+  if (
+    args.input.parentSourceDisposition.digest !==
+    R13_SOURCE_SEMANTICS_PARENT_SOURCE_REPORT_DIGEST
+  )
+    throw new Error(
+      `R13 source semantics MG2: source ledger parent report 漂移 ` +
+        `${args.input.parentSourceDisposition.digest} != ` +
+        R13_SOURCE_SEMANTICS_PARENT_SOURCE_REPORT_DIGEST,
+    )
+  if (
+    digestR13ExistingSchemaContentSnapshot(args.input.generated.snapshot) !==
+    R13_ENEMY_SCRIPT_SUCCESSOR_CONTENT_DIGEST
+  )
+    throw new Error('R13 source semantics MG2: source ledger R13-5 generated successor 漂移')
+  const sourceArgs: R13SourceInstructionDispositionBuildArgs = {
+    sources: args.input.historicalSources,
+    migration: args.input.historicalMigration,
+    audit: args.input.historicalAudit,
+    generated: args.input.generated,
+    final: args.augmentation.snapshot,
+    r13EnemyClosure: args.input.r13EnemyClosure,
+    r13ExistingSchemaClosure: {
+      currentSources: args.currentSources,
+      currentMigration: args.currentMigration,
+      augmentationEvidence: args.augmentation.evidence,
+      augmentationSnapshot: args.augmentation.snapshot,
+      ...(args.preparedCurrentSourceCensus
+        ? { preparedCurrentSourceCensus: args.preparedCurrentSourceCensus }
+        : {}),
+    },
+    ...(args.input.preparedHistoricalSourceCensus
+      ? { preparedSourceCensus: args.input.preparedHistoricalSourceCensus }
+      : {}),
+  }
+  const report = buildAndAssertR13SourceInstructionDispositionV3(sourceArgs)
+  assertR13SourceDisposition6AParentDelta({
+    parent: args.input.parentSourceDisposition,
+    successor: report,
+    ownedSiteIds: args.augmentation.evidence.sites.map((entry) => entry.siteId),
+  })
+  return {
+    report,
+    control: buildSourceControl(
+      report,
+      args.input.historicalAudit,
+      R13_SOURCE_SEMANTICS_PARENT_SOURCE_REPORT_DIGEST,
+    ),
+  }
+}
+
 function buildSeal(
   evidence: R13ExistingSchemaAugmentationEvidenceV1,
   changedPaths: readonly string[],
+  sourceControl: R13SourceSemanticsSourceControlV1,
 ): R13SourceSemanticsTransitionSealV1 {
   assertR13ExistingSchemaAugmentationEvidence(evidence)
   return digestRecord<R13SourceSemanticsTransitionSealV1>({
@@ -223,6 +906,7 @@ function buildSeal(
       skillCosts: 3,
     },
     externalPrerequisites: structuredClone(evidence.externalPrerequisites),
+    sourceControl: structuredClone(sourceControl),
   })
 }
 
@@ -434,6 +1118,7 @@ function prepareAuthority(args: {
   currentSources: PalMigrationSources
   currentMigration: MigrationFileSet
   preparedCurrentSourceCensus?: PreparedR13SourceExecutionCensus
+  sourceDispositionInput: R13SourceSemanticsDispositionInput
 }): PreparedR13SourceSemanticsAuthority {
   const parentContent = contentView(args.parent)
   if (
@@ -449,9 +1134,52 @@ function prepareAuthority(args: {
       ? { preparedCurrentSourceCensus: args.preparedCurrentSourceCensus }
       : {}),
   })
+  const sourceDisposition = buildSourceDisposition({
+    input: args.sourceDispositionInput,
+    currentSources: args.currentSources,
+    currentMigration: args.currentMigration,
+    augmentation,
+    ...(args.preparedCurrentSourceCensus
+      ? { preparedCurrentSourceCensus: args.preparedCurrentSourceCensus }
+      : {}),
+  })
+  // The full source-backed build above validates both inherited reports. Freeze and brand those
+  // large external authorities once; rescanning ~81k dispositions on every prepared replay made
+  // the supposedly fast path slower than rebuilding the migration plan. A caller replacing either
+  // report loses the brand, while in-place edits are prevented by the recursive freeze.
+  const frozenParentSourceDisposition = deepFreezeReport(
+    args.sourceDispositionInput.parentSourceDisposition,
+  )
+  const frozenEnemySourceDisposition = deepFreezeReport(
+    args.sourceDispositionInput.r13EnemyClosure.sourceDisposition,
+  )
+  preparedInputReports.add(frozenParentSourceDisposition)
+  preparedInputReports.add(frozenEnemySourceDisposition)
+  const frozenSourceDisposition = deepFreezeReport(sourceDisposition.report)
+  const frozenSourceControl = deepFreezeReport(sourceDisposition.control)
+  const sourceDispositionInputDigest = digestSourceDispositionInputs({
+    input: args.sourceDispositionInput,
+    currentSources: args.currentSources,
+    currentMigration: args.currentMigration,
+    ...(args.preparedCurrentSourceCensus
+      ? { preparedCurrentSourceCensus: args.preparedCurrentSourceCensus }
+      : {}),
+  })
+  const sourceDispositionInputFastDigest = digestSourceDispositionInputs({
+    input: args.sourceDispositionInput,
+    currentSources: args.currentSources,
+    currentMigration: args.currentMigration,
+    mode: 'fast',
+    ...(args.preparedCurrentSourceCensus
+      ? { preparedCurrentSourceCensus: args.preparedCurrentSourceCensus }
+      : {}),
+  })
   const digest = stableJsonSha256({
     parent: R13_EXISTING_SCHEMA_PARENT_CONTENT_DIGEST,
     evidence: augmentation.evidence.digest,
+    sourceControl: frozenSourceControl,
+    sourceDispositionInputDigest,
+    sourceDispositionInputFastDigest,
   })
   const prepared = Object.freeze({
     parentContent,
@@ -461,6 +1189,11 @@ function prepareAuthority(args: {
       ? { preparedCurrentSourceCensus: args.preparedCurrentSourceCensus }
       : {}),
     augmentation,
+    sourceDispositionInput: args.sourceDispositionInput,
+    sourceDispositionInputDigest,
+    sourceDispositionInputFastDigest,
+    sourceDisposition: frozenSourceDisposition,
+    sourceControl: frozenSourceControl,
     digest,
   })
   preparedAuthorities.add(prepared)
@@ -474,6 +1207,7 @@ function assertPreparedAuthority(
     currentSources: PalMigrationSources
     currentMigration: MigrationFileSet
     preparedCurrentSourceCensus?: PreparedR13SourceExecutionCensus
+    sourceDispositionInput: R13SourceSemanticsDispositionInput
   },
 ): void {
   if (!preparedAuthorities.has(authority))
@@ -481,9 +1215,28 @@ function assertPreparedAuthority(
   if (
     authority.currentSources !== args.currentSources ||
     authority.currentMigration !== args.currentMigration ||
-    authority.preparedCurrentSourceCensus !== args.preparedCurrentSourceCensus
+    authority.preparedCurrentSourceCensus !== args.preparedCurrentSourceCensus ||
+    authority.sourceDispositionInput !== args.sourceDispositionInput
   )
     throw new Error('R13 source semantics MG2: prepared authority 输入身份漂移')
+  // The initial source-backed build validated, recursively froze, and branded these reports.
+  // Rechecking the brand is both mutation-safe and intentionally O(1) on prepared replay.
+  if (
+    !preparedInputReports.has(args.sourceDispositionInput.parentSourceDisposition) ||
+    !preparedInputReports.has(args.sourceDispositionInput.r13EnemyClosure.sourceDisposition)
+  )
+    throw new Error('R13 source semantics MG2: prepared source report 身份漂移')
+  const expectedSourceDispositionInputFastDigest = digestSourceDispositionInputs({
+    input: args.sourceDispositionInput,
+    currentSources: args.currentSources,
+    currentMigration: args.currentMigration,
+    mode: 'fast',
+    ...(args.preparedCurrentSourceCensus
+      ? { preparedCurrentSourceCensus: args.preparedCurrentSourceCensus }
+      : {}),
+  })
+  if (authority.sourceDispositionInputFastDigest !== expectedSourceDispositionInputFastDigest)
+    throw new Error('R13 source semantics MG2: prepared source input 内容漂移')
   if (authority.parentContent !== contentView(args.parent)) {
     // contentView creates a new shell, so compare the immutable parent identity by digest rather
     // than object identity. The expensive source-backed augmentation itself remains branded.
@@ -497,9 +1250,26 @@ function assertPreparedAuthority(
     authority.augmentation.snapshot,
     authority.augmentation.evidence,
   )
+  // `authority` is module-branded and its successor report was recursively frozen before the
+  // brand was installed. Repeating the full structural scan here defeats the prepared fast path.
+  if (
+    args.sourceDispositionInput.parentSourceDisposition.digest !==
+    R13_SOURCE_SEMANTICS_PARENT_SOURCE_REPORT_DIGEST
+  )
+    throw new Error('R13 source semantics MG2: prepared parent source ledger 漂移')
+  const expectedControl = buildSourceControl(
+    authority.sourceDisposition,
+    args.sourceDispositionInput.historicalAudit,
+    R13_SOURCE_SEMANTICS_PARENT_SOURCE_REPORT_DIGEST,
+  )
+  if (!isDeepStrictEqual(expectedControl, authority.sourceControl))
+    throw new Error('R13 source semantics MG2: prepared source ledger 摘要漂移')
   const expectedDigest = stableJsonSha256({
     parent: R13_EXISTING_SCHEMA_PARENT_CONTENT_DIGEST,
     evidence: authority.augmentation.evidence.digest,
+    sourceControl: authority.sourceControl,
+    sourceDispositionInputDigest: authority.sourceDispositionInputDigest,
+    sourceDispositionInputFastDigest: authority.sourceDispositionInputFastDigest,
   })
   if (authority.digest !== expectedDigest)
     throw new Error('R13 source semantics MG2: prepared authority 摘要漂移')
@@ -512,6 +1282,7 @@ export function createR13SourceSemanticsV5MigrationPlan(args: {
   currentMigration: MigrationFileSet
   projectPrerequisites?: ReadonlyMap<string, MigrationJson>
   preparedCurrentSourceCensus?: PreparedR13SourceExecutionCensus
+  sourceDispositionInput: R13SourceSemanticsDispositionInput
   preparedAuthority?: PreparedR13SourceSemanticsAuthority
 }): R13SourceSemanticsV5MigrationPlan {
   assertPublishedEnemyParent(args.base)
@@ -549,12 +1320,17 @@ export function createR13SourceSemanticsV5MigrationPlan(args: {
       ...(args.preparedCurrentSourceCensus
         ? { preparedCurrentSourceCensus: args.preparedCurrentSourceCensus }
         : {}),
+      sourceDispositionInput: args.sourceDispositionInput,
     }
     if (args.preparedAuthority) {
       assertPreparedAuthority(args.preparedAuthority, authorityArgs)
       authority = args.preparedAuthority
     } else authority = prepareAuthority(authorityArgs)
-    expectedSeal = buildSeal(authority.augmentation.evidence, R13_EXISTING_SCHEMA_CHANGED_PATHS)
+    expectedSeal = buildSeal(
+      authority.augmentation.evidence,
+      R13_EXISTING_SCHEMA_CHANGED_PATHS,
+      authority.sourceControl,
+    )
     assertR13SourceSemanticsPublishedSealMatchesAuthority(publishedSeal, expectedSeal)
   } else {
     const parentContent = contentView(args.base)
@@ -566,6 +1342,7 @@ export function createR13SourceSemanticsV5MigrationPlan(args: {
         ...(args.preparedCurrentSourceCensus
           ? { preparedCurrentSourceCensus: args.preparedCurrentSourceCensus }
           : {}),
+        sourceDispositionInput: args.sourceDispositionInput,
       })
       authority = args.preparedAuthority
     } else {
@@ -576,9 +1353,14 @@ export function createR13SourceSemanticsV5MigrationPlan(args: {
         ...(args.preparedCurrentSourceCensus
           ? { preparedCurrentSourceCensus: args.preparedCurrentSourceCensus }
           : {}),
+        sourceDispositionInput: args.sourceDispositionInput,
       })
     }
-    expectedSeal = buildSeal(authority.augmentation.evidence, R13_EXISTING_SCHEMA_CHANGED_PATHS)
+    expectedSeal = buildSeal(
+      authority.augmentation.evidence,
+      R13_EXISTING_SCHEMA_CHANGED_PATHS,
+      authority.sourceControl,
+    )
   }
   const baseContent = contentView(args.base)
   const oursContent = contentView(args.ours)

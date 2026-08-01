@@ -3,8 +3,12 @@ import { describe, expect, test } from 'vitest'
 import type { MigrationSnapshot } from '../../migration-baseline.js'
 import type { MigrationJson } from '../../pal-migration.js'
 import {
+  assertHistoricalR13_5RuntimeCapabilityAuditReportV3,
+  assertHistoricalR13_5RuntimeCapabilityAuditV3,
+  assertR13RuntimeCapabilityAuditReportV3,
   assertR13RuntimeCapabilityAuditV3,
   auditR13RuntimeCapabilitiesV3,
+  buildAndAssertHistoricalR13_5RuntimeCapabilityAuditV3,
   buildAndAssertR13RuntimeCapabilityAuditV3,
   buildR13RuntimeCapabilityMatrixV3,
   type R13RuntimeCapabilityAuditV3,
@@ -99,6 +103,19 @@ describe('R13 runtime capability audit v3', () => {
     expect(
       new Set(matrix.cells.map((cell) => `${cell.domain}\0${cell.context}\0${cell.kind}`)).size,
     ).toBe(matrix.cells.length)
+  })
+
+  test('R13-5 historical 与 current matrix 通过具名入口隔离，错 profile 必须失败', () => {
+    const value = snapshot()
+    const current = buildAndAssertR13RuntimeCapabilityAuditV3(value)
+    const historical = buildAndAssertHistoricalR13_5RuntimeCapabilityAuditV3(value)
+
+    expect(historical.digest).not.toBe(current.digest)
+    expect(() => assertR13RuntimeCapabilityAuditReportV3(current)).not.toThrow()
+    expect(() => assertHistoricalR13_5RuntimeCapabilityAuditReportV3(historical)).not.toThrow()
+    expect(() => assertR13RuntimeCapabilityAuditReportV3(historical)).toThrow('matrix 漂移')
+    expect(() => assertHistoricalR13_5RuntimeCapabilityAuditReportV3(current)).toThrow('matrix 漂移')
+    expect(() => assertHistoricalR13_5RuntimeCapabilityAuditV3(historical, value)).not.toThrow()
   })
 
   test('分别审计 hook、transition、battle action、fallback 与 onDefeated', () => {

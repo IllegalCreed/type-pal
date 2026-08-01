@@ -297,6 +297,17 @@ describe('0x73 淡入场景(script.c: PAL_MakeScene + VIDEO_FadeScreen)', () => 
       emittedKinds: ['ditherScreen'],
     })
   })
+
+  test('historical-r13-4 profile 对 0x9B 丢弃，不伪造抖屏', () => {
+    const ctx = ctxOf([{ opcode: 0x9b, operands: [2, 0xffff, 0] }])
+    ctx.palSemanticProfile = 'historical-r13-4'
+    expect(bodyOf(ctx)).toEqual([])
+    expect(ctx.report.instructionOutcomes[0]).toMatchObject({
+      sourceOpcode: 0x9b,
+      outcome: 'dropped',
+      emittedKinds: [],
+    })
+  })
 })
 
 describe('0x05/0x8E 对话重画', () => {
@@ -320,6 +331,17 @@ describe('0x05/0x8E 对话重画', () => {
     expect(bodyOf(ctxOf([{ opcode: 0x8e, operands: [0, 9, 0] }]))).toEqual([
       { kind: 'clearDialog' },
     ])
+  })
+
+  test('historical-r13-4 profile 的 0x05 只清对话，不带新版等待', () => {
+    const ctx = ctxOf([{ opcode: 0x05, operands: [0, 3, 0] }])
+    ctx.palSemanticProfile = 'historical-r13-4'
+    expect(bodyOf(ctx)).toEqual([{ kind: 'clearDialog' }])
+    expect(ctx.report.instructionOutcomes[0]).toMatchObject({
+      sourceOpcode: 0x05,
+      outcome: 'emitted',
+      emittedKinds: ['clearDialog'],
+    })
   })
 })
 

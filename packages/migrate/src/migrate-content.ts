@@ -691,7 +691,9 @@ export function mapSkills(
         pending.push({
           id: s.id,
           name: s._name,
-          reason: `scriptOnUse=${s.scriptOnUse}(非纯物品门)→ 战斗期`,
+          reason: enableItemCosts
+            ? `scriptOnUse=${s.scriptOnUse}(非纯物品门)→ 战斗期`
+            : `scriptOnUse=${s.scriptOnUse}(动态公式 0x35/0x88 系)→ 战斗期`,
         })
         continue
       }
@@ -2671,7 +2673,12 @@ export function mapScenesStatic(
   if (allCommands) assertNoMigrationGaps(tctx.report)
 
   for (let i = 0; i < scenes.length; i++)
-    scenes[i] = externalizeSceneScripts(scenes[i]!, registry, report.sceneEntriesLifted)
+    scenes[i] = externalizeSceneScripts(
+      scenes[i]!,
+      registry,
+      report.sceneEntriesLifted,
+      options.palSemanticProfile ?? 'current-r13-6a',
+    )
   assertNoBattleCfgMarkers(registry.commandBodies())
   report.sceneEntriesLifted.sort()
   report.entryNormalization = normalizeSceneEntryReferences(scenes, registry.commandBodies(), {
@@ -2798,6 +2805,7 @@ function externalizeSceneScripts(
   scene: SceneDef,
   registry: ScriptRegistry,
   sceneEntriesLifted: string[],
+  palSemanticProfile: NonNullable<SceneMigrationOptions['palSemanticProfile']>,
 ): SceneDef {
   const bindStages = (
     stages: ScriptStage[] | undefined,
@@ -2807,7 +2815,11 @@ function externalizeSceneScripts(
     stages?.map((stage, index) => {
       const id = `scene/${scene.id}/root/${source}/stage-${index}`
       bindScriptStageInstructionOutcomeBody(stage, id)
-      const lifted = liftEntry ? liftEarlyDitherSceneEntry(stage) : undefined
+      const lifted = liftEntry
+        ? liftEarlyDitherSceneEntry(stage, {
+            allowWaitInPrepare: palSemanticProfile !== 'historical-r13-4',
+          })
+        : undefined
       const output = lifted?.stage ?? stage
       if (lifted?.kind === 'lifted') sceneEntriesLifted.push(id)
       const sourceAddresses = scriptStageSourceAddresses(stage)
@@ -2936,7 +2948,12 @@ export function resolveSceneScriptPatches(
         binding = cleanFolded.map((stage, index) => {
           const id = `scene/${cmd.scene}/override/${slot}/L-${targetAddress}/stage-${index}`
           bindScriptStageInstructionOutcomeBody(stage, id)
-          const lifted = slot === 'on-enter' ? liftEarlyDitherSceneEntry(stage) : undefined
+          const lifted =
+            slot === 'on-enter'
+              ? liftEarlyDitherSceneEntry(stage, {
+                  allowWaitInPrepare: tctx.palSemanticProfile !== 'historical-r13-4',
+                })
+              : undefined
           const output = lifted?.stage ?? stage
           if (lifted?.kind === 'lifted') sceneEntriesLifted.push(id)
           const sourceAddresses = scriptStageSourceAddresses(stage)

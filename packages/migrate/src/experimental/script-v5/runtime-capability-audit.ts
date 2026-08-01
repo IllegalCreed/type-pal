@@ -123,6 +123,19 @@ interface RuntimeCorpus {
   skills: SkillData[]
 }
 
+/**
+ * The published R13-confirm seal predates `wait` becoming legal in a hidden
+ * scene-entry prepare. Keep that compatibility axis local to the historical
+ * audit instead of mutating the current shared capability table.
+ */
+interface R13RuntimeCapabilityAuditOptions {
+  sceneEntryWaitSafe?: boolean
+}
+
+const R13_RUNTIME_CAPABILITY_HISTORICAL_CONFIRM_OPTIONS = Object.freeze({
+  sceneEntryWaitSafe: false,
+})
+
 const COMMAND_EVIDENCE = {
   prepare: 'content:scene-entry-prepare-safety',
   world: 'reforge:v5-world-command-host',
@@ -188,7 +201,11 @@ const ENEMY_SKILL_EFFECTS = new Set<SkillEffect['kind']>([
   'applyStatus',
 ])
 
-function commandStatus(kind: string, context: R13CommandContext): R13RuntimeCapabilityCell {
+function commandStatus(
+  kind: string,
+  context: R13CommandContext,
+  options: R13RuntimeCapabilityAuditOptions,
+): R13RuntimeCapabilityCell {
   if (context === 'scene-entry-prepare') {
     const v5Safe =
       kind === 'selectEntityBehavior' ||
@@ -196,7 +213,9 @@ function commandStatus(kind: string, context: R13CommandContext): R13RuntimeCapa
       kind === 'setEntityTriggerActivation' ||
       kind === 'selectSceneHooks'
     const legacySafe =
-      SCENE_ENTRY_PREPARE_SAFETY[kind as keyof typeof SCENE_ENTRY_PREPARE_SAFETY] === 'safe'
+      kind === 'wait' && options.sceneEntryWaitSafe === false
+        ? false
+        : SCENE_ENTRY_PREPARE_SAFETY[kind as keyof typeof SCENE_ENTRY_PREPARE_SAFETY] === 'safe'
     const status =
       (v5Safe || legacySafe) && kind !== 'endBattle' && kind !== 'fleeBattle'
         ? 'executed'
@@ -277,13 +296,15 @@ function skillStatus(kind: SkillEffect['kind'], context: R13SkillContext): R13Sk
   }
 }
 
-export function buildR13RuntimeCapabilityMatrix(): R13RuntimeCapabilityAuditV2['matrix'] {
+function buildR13RuntimeCapabilityMatrixWithOptions(
+  options: R13RuntimeCapabilityAuditOptions = {},
+): R13RuntimeCapabilityAuditV2['matrix'] {
   const commandKinds = Object.entries(AUTHOR_COMMAND_V5_KINDS)
     .filter(([, enabled]) => enabled)
     .map(([kind]) => kind)
     .sort(stableStringCompare)
   const commandCells = R13_COMMAND_CONTEXTS.flatMap((context) =>
-    commandKinds.map((kind) => commandStatus(kind, context)),
+    commandKinds.map((kind) => commandStatus(kind, context, options)),
   )
   const skillKinds = (Object.keys(SKILL_EFFECT_KIND_TABLE) as SkillEffect['kind'][]).sort(
     stableStringCompare,
@@ -292,6 +313,10 @@ export function buildR13RuntimeCapabilityMatrix(): R13RuntimeCapabilityAuditV2['
     skillKinds.map((kind) => skillStatus(kind, context)),
   )
   return { commandKinds, commandCells, skillKinds, skillCells }
+}
+
+export function buildR13RuntimeCapabilityMatrix(): R13RuntimeCapabilityAuditV2['matrix'] {
+  return buildR13RuntimeCapabilityMatrixWithOptions()
 }
 
 function value<T>(snapshot: MigrationSnapshot, path: string): T {
@@ -356,11 +381,12 @@ function buildConfirmDebts(uses: readonly R13RuntimeCapabilityUse[]): R13Runtime
     }))
 }
 
-export function auditR13RuntimeCapabilities(
+function auditR13RuntimeCapabilitiesWithOptions(
   snapshot: MigrationSnapshot,
+  options: R13RuntimeCapabilityAuditOptions = {},
 ): R13RuntimeCapabilityAuditV2 {
   const corpus = runtimeCorpus(snapshot)
-  const matrix = buildR13RuntimeCapabilityMatrix()
+  const matrix = buildR13RuntimeCapabilityMatrixWithOptions(options)
   const commandCells = new Map(
     matrix.commandCells.map((cell) => [cellKey(cell.context, cell.kind), cell]),
   )
@@ -664,9 +690,26 @@ export function auditR13RuntimeCapabilities(
   return { ...withoutDigest, digest: stableJsonSha256(withoutDigest) }
 }
 
-export function assertR13RuntimeCapabilityAudit(
+export function auditR13RuntimeCapabilities(
+  snapshot: MigrationSnapshot,
+): R13RuntimeCapabilityAuditV2 {
+  return auditR13RuntimeCapabilitiesWithOptions(snapshot)
+}
+
+/** Rebuild the byte-pinned published R13-confirm audit under its historical matrix. */
+export function auditHistoricalR13ConfirmRuntimeCapabilities(
+  snapshot: MigrationSnapshot,
+): R13RuntimeCapabilityAuditV2 {
+  return auditR13RuntimeCapabilitiesWithOptions(
+    snapshot,
+    R13_RUNTIME_CAPABILITY_HISTORICAL_CONFIRM_OPTIONS,
+  )
+}
+
+function assertR13RuntimeCapabilityAuditWithOptions(
   report: R13RuntimeCapabilityAuditV2,
   snapshot: MigrationSnapshot,
+  options: R13RuntimeCapabilityAuditOptions = {},
 ): void {
   if (
     report.kind !== 'r13-runtime-capability-audit' ||
@@ -674,7 +717,7 @@ export function assertR13RuntimeCapabilityAudit(
     report.methodVersion !== R13_RUNTIME_CAPABILITY_METHOD
   )
     throw new Error('R13 runtime capability: header 漂移')
-  const expectedMatrix = buildR13RuntimeCapabilityMatrix()
+  const expectedMatrix = buildR13RuntimeCapabilityMatrixWithOptions(options)
   if (stableJsonSha256(report.matrix) !== stableJsonSha256(expectedMatrix))
     throw new Error('R13 runtime capability: matrix 漂移')
   const commandCells = new Map(
@@ -779,11 +822,29 @@ export function assertR13RuntimeCapabilityAudit(
   const { digest, ...withoutDigest } = report
   if (stableJsonSha256(withoutDigest) !== digest)
     throw new Error('R13 runtime capability: digest 漂移')
-  const rebuilt = auditR13RuntimeCapabilities(snapshot)
+  const rebuilt = auditR13RuntimeCapabilitiesWithOptions(snapshot, options)
   if (stableJsonSha256(rebuilt) !== stableJsonSha256(report))
     throw new Error('R13 runtime capability: snapshot-backed rebuild 漂移')
   if (report.issues.length)
     throw new Error(`R13 runtime capability audit failed:\n${report.issues.join('\n')}`)
+}
+
+export function assertR13RuntimeCapabilityAudit(
+  report: R13RuntimeCapabilityAuditV2,
+  snapshot: MigrationSnapshot,
+): void {
+  assertR13RuntimeCapabilityAuditWithOptions(report, snapshot)
+}
+
+export function assertHistoricalR13ConfirmRuntimeCapabilityAudit(
+  report: R13RuntimeCapabilityAuditV2,
+  snapshot: MigrationSnapshot,
+): void {
+  assertR13RuntimeCapabilityAuditWithOptions(
+    report,
+    snapshot,
+    R13_RUNTIME_CAPABILITY_HISTORICAL_CONFIRM_OPTIONS,
+  )
 }
 
 export function assertR13NoRuntimeCapabilityDebt(

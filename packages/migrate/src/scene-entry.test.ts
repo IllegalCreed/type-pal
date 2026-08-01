@@ -28,8 +28,13 @@ describe('liftEarlyDitherSceneEntry', () => {
   })
 
   test('阻塞命令、分支和 callScript 前缀均不提升', () => {
+    expect(
+      liftEarlyDitherSceneEntry(
+        { body: [{ kind: 'wait', ms: 1 }, { kind: 'ditherScreen' }] },
+        { allowWaitInPrepare: false },
+      ),
+    ).toMatchObject({ kind: 'unchanged', reason: 'blocked' })
     for (const stage of [
-      { body: [{ kind: 'wait' as const, ms: 1 }, { kind: 'ditherScreen' as const }] },
       {
         body: [
           {
@@ -55,6 +60,23 @@ describe('liftEarlyDitherSceneEntry', () => {
         reason: 'blocked',
       })
     }
+  })
+
+  test('current 迁移允许把 wait 留在隐藏画面的 prepare', () => {
+    const stage: ScriptStage = {
+      body: [{ kind: 'wait', ms: 180 }, { kind: 'ditherScreen', ms: 720 }],
+    }
+    expect(liftEarlyDitherSceneEntry(stage)).toEqual({
+      kind: 'lifted',
+      ditherIndex: 1,
+      stage: {
+        entry: {
+          prepare: [{ kind: 'wait', ms: 180 }],
+          reveal: { kind: 'dither', ms: 720, source: 'previousPresentedFrame' },
+        },
+        body: [],
+      },
+    })
   })
 
   test('无 dither 与已有 entry 保持不变', () => {

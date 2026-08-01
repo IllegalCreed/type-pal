@@ -6611,6 +6611,69 @@ disposition 与 seal；历史 `215 sites / 197 observations` 只作为 R13-5 隔
 5. 每个变化都要重算 current census/disposition，补 exact source site/hash/context →
    canonical target/digest 或 asset/runtime evidence，并保持 R13-5 及更早 seal byte-pin。
 
+##### R13-6A implementation candidate：prepared authority / historical profile 硬化（2026-08-02）
+
+本轮在不改公共 schema、SAVE 版本和已发布产物的前提下，补齐了 R13-6A 的输入身份、
+历史运行时矩阵和 observation delta 门禁。这里是实现候选与自验记录，不代表 R13-6A、
+R13-Z、N3-1、C8 或 ED-5I 已完成。
+
+- **prepared source input fingerprint**：`sourceDispositionInputDigest` 覆盖 historical/current
+  source roots 与 commands、migration snapshot/report、historical audit、generated snapshot/IR、
+  ledger/evidence、parent source disposition、enemy closure 与 prepared census；另有进程内 fast
+  sentinel 用于 prepared replay。`generated.ir` 已作为独立摘要输入，不能只凭 snapshot/ledger
+  摘要复用旧 authority。parent/enemy source report 在复用时重新执行自身 digest/结构断言，
+  successor disposition/sourceControl 深冻结；同一对象内历史 source command 被替换或修改时
+  必须 fail-closed。
+- **seal / authority anti-tamper**：独立 JSON 反序列化的等值 seal 可以通过；篡改
+  `sourceControl.reportDigest` 后即使重签外层 seal 仍拒绝；prepared authority 同时检查输入
+  identity、内容 fingerprint、authority digest，避免把“同一引用”误当成“同一内容”。
+- **R13-5 successor 身份**：source ledger 绑定已发布 successor
+  `5750ac4fbaec8cc487be1bdbd88881005d239a7f6a118adba8286643208c2603`；它与 existing-schema
+  augmentation 的 parent content-view `4d4bcbdb04b26947c75c1cd3899c9b988ace926a54d5d2a2f7f5e4f961e12a33`
+  是不同信任身份，禁止混用。
+- **6A observation delta**：22 个 owned site 只允许 final 从 open-debt/open 转为
+  structured/accounted；raw/augmented 仍保留 R13-6 open proof。owned source observation 按
+  source address 分组后允许随 exact site closure 消失；非 owned site/observation 仍要求逐项深相等。
+  总 observation 按 `parent + successorOwnedSource - parentOwnedSource + 3` 重算，`+3` 来自
+  技能 352/372/373 各自拆成一个仍 open 的 lossy observation 与一个 final accounted item-cost
+  observation；open observation 净变化为零，6B gesture/0x76 债务保持 open。
+- **historical/current runtime profile**：当前矩阵允许 hidden scene-entry prepare 中的 `wait`；
+  已发布 R13-confirm / R13-5 historical profile 保持拒绝。V2 新增具名
+  `auditHistoricalR13ConfirmRuntimeCapabilities` / `assertHistoricalR13ConfirmRuntimeCapabilityAudit`，
+  V3 保留具名 historical R13-5 wrapper；R13-confirm authority/replay 和 R13-5 enemy authority
+  不得误用 current 矩阵，合并后的作者 target 仍独立按 current 矩阵验证。历史与当前矩阵唯一差异
+  已硬钉：current `96e67cfb…`，published historical `d25ee2a7…`；已发布 runtime report
+  `d63365c7…` 与 confirm seal `89092578…` 也加入 PAL pin。迁移产物层的 `0x9B`、`0x05 delay`、
+  `setPalette` 已按 `historical-r13-4` / `current-r13-6a` 隔离。
+
+**自验证证据（最新代码）**：
+
+- `pnpm --filter @type-pal/migrate exec tsc --noEmit`：通过；`git diff --check`：通过；
+- runtime capability V2/V3、scene-entry、translate-events 及相关单元：95 tests 通过（另有
+  content script-library 18 tests 通过）；历史矩阵精确命中 `d25ee2a7…`；
+- R13-6A source-semantics PAL：11/11 通过，wall `510.82s`（约 510s 为一次冷 PAL 夹具构建，
+  prepared replay 已不再触发 120s 超时）；
+- R13-5 enemy historical initialize 回放：1 passed / 2 skipped，wall `386.25s`；历史 confirm
+  runtime report、matrix 和 seal 均与已发布 pin 相等。
+
+**测试性能债的真实边界**：这轮关闭的是 repeated prepared replay、重复 capability rebuild、
+  setup 误占 per-test timeout，以及历史矩阵被当前全局表污染；没有把 81,674-site source-backed
+  冷构建伪装成“已快”。实测冷启动仍约 6–9 分钟、单核满载、约 1GB 以上 RSS，原因是 PAL fixture
+  在 worker 内重建完整 P2→P7 链、census、source ledger 和多层 authority，并非普通单元测试。
+  下一项独立性能债必须把行为测试迁到合成小 fixture，只保留一个 source-backed PAL cold canary，
+  或做受 digest 校验的预构建 fixture；不得继续提高 timeout、跳过 source-backed 证明或跨调用
+  偷渡全局缓存。
+
+##### R13-6A implementation review 签字
+
+| Agent | 结论 | 日期 | 重点 |
+|---|---|---|---|
+| Codex | **pending** | - | 等本节最新 PAL 证据与性能边界复核后自签。 |
+| Kimi | **pending** | - | 审查 prepared trust boundary、seal/authority 防篡改、historical/current 矩阵隔离及 5750/4d4b 双身份。 |
+| GLM | **pending** | - | 独立核对 22-site delta、owned observation 计数、三技能 pending→lossy+item-cost 守恒、6B open 债和测试矩阵。 |
+
+三方 `accept` 前不得标记 R13-6A done，也不得启动需要新公共 schema 的 R13-6B 实现。
+
 ##### R13-6B：公共 schema / 表现状态 delta（draft，blocked）
 
 以下能力现模型不能无损表达，必须先形成最小设计并重新取得 Codex / Kimi / GLM 三方

@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto'
+import { isDeepStrictEqual } from 'node:util'
 import type {
   EnemyDef,
   ItemDataV5,
@@ -27,6 +28,13 @@ import {
   type R13EnemySourceRootClosure,
 } from './r13-enemy-source-disposition.js'
 import {
+  assertR13ExistingSchemaAugmentationEvidence,
+  augmentR13ExistingSchemaAfterEnemy,
+  R13_EXISTING_SCHEMA_COMMAND_ORACLE,
+  type R13ExistingSchemaAugmentationEvidenceV1,
+  rewindR13ExistingSchemaAugmentation,
+} from './r13-existing-schema-augmentation.js'
+import {
   assertPreparedR13SourceExecutionCensus,
   assertR13SourceExecutionCensus,
   buildR13SourceExecutionCensus,
@@ -41,6 +49,12 @@ import type { P4AuthorOwnerIdentity, P6ItemPrivateScriptIdentity } from './types
 export const R13_SOURCE_DISPOSITION_METHOD = 'n3-p7-r13-source-instruction-disposition-v2' as const
 export const R13_SOURCE_DISPOSITION_METHOD_V3 =
   'n3-p7-r13-source-instruction-disposition-v3' as const
+
+export const R13_EXISTING_SCHEMA_SKILL_LOSSY_NOTES = Object.freeze({
+  '352': '0x68 敌方施法分支(alt L_39419)未表达 —— 战斗期',
+  '372': '0x68 敌方施法分支(alt L_43047)未表达 —— 战斗期',
+  '373': '0x68 敌方施法分支(alt L_43039)未表达 —— 战斗期',
+} as const)
 
 export type R13SourceDisposition =
   | 'translated'
@@ -138,6 +152,34 @@ export type R13DispositionEvidence =
       augmentationEvidenceDigest: string
       layerTargets: Record<'augmented' | 'final', { selectors: string[]; digest: string }>
       appliesToLayers: Array<'augmented' | 'final'>
+    })
+  | (SiteClosureEvidenceBase & {
+      kind: 'r13-existing-schema-site'
+      proves: 'structured'
+      augmentationEvidenceDigest: string
+      owner: string
+      parentContainerDigest: string
+      successorContainerDigest: string
+      commandDigest: string
+      finalIndex: number
+      beforeDigest?: string
+      afterDigest?: string
+      targetSelectors: string[]
+      targetDigests: string[]
+      layerTargets: { final: { selectors: string[]; digests: string[] } }
+    })
+  | (EvidenceBase & {
+      scope: 'observation-closure'
+      kind: 'r13-existing-schema-skill-cost'
+      skillId: '352' | '372' | '373'
+      sourceRootIds: string[]
+      sourceClosureDigest: string
+      augmentationEvidenceDigest: string
+      parentCostDigest: string
+      successorCostDigest: string
+      items: [{ itemId: '148'; amount: 1 }]
+      layerTargets: { final: { selectors: string[]; digests: string[] } }
+      appliesToLayers: ['final']
     })
   | (SiteClosureEvidenceBase & {
       kind: 'canonical-site'
@@ -414,6 +456,7 @@ const EVIDENCE_KINDS: Record<
     'r13-cross-activation-site',
     'r13-confirm-site',
     'r13-enemy-script-site',
+    'r13-existing-schema-site',
   ]),
   folded: new Set(['canonical-site']),
   'asset-baked': new Set(['asset-bake']),
@@ -2609,13 +2652,11 @@ function openDebtForSite(args: {
     return { batch: 'R13-2', reason: 'reset-idle-gate-not-preserved' }
   if (args.command.op === 'raw' && args.command.opcode === 0x0a)
     return { batch: 'R13-4', reason: 'confirm-runtime-constant-true' }
-  if (args.command.op === 'raw' && args.command.opcode === 0x76)
+  if (args.command.op === 'raw' && (args.command.opcode === 0x76 || args.command.opcode === 0x9b))
     return {
       batch: 'R13-6',
-      reason: 'fill-black-dropped',
+      reason: args.command.opcode === 0x76 ? 'fill-black-dropped' : 'redraw-dropped',
     }
-  if (args.command.op === 'raw' && args.command.opcode === 0x9b)
-    return { batch: 'R13-6', reason: 'redraw-dropped' }
   if (
     args.command.op === 'raw' &&
     args.command.opcode === 0x05 &&
@@ -2983,6 +3024,262 @@ function r13EnemyClosureEvidence(args: {
   return { sites: projections, observations }
 }
 
+function r13ExistingSchemaOwnerCommands(snapshot: MigrationSnapshot, ownerId: string): unknown[] {
+  const oracle = R13_EXISTING_SCHEMA_COMMAND_ORACLE.find((entry) => entry.id === ownerId)
+  if (!oracle) throw new Error(`R13 disposition: existing-schema owner 未登记 ${ownerId}`)
+  const scene = snapshot.files.get(`content/scenes/${oracle.owner.sceneId}.json`) as
+    | SceneDefV5
+    | undefined
+  if (!scene) throw new Error(`R13 disposition: existing-schema scene 缺失 ${oracle.owner.sceneId}`)
+  const flow = (() => {
+    if (oracle.owner.kind === 'entity') {
+      const owner = oracle.owner
+      return scene.entities.find((entity) => entity.id === owner.entityId)?.behaviors?.[
+        owner.channel
+      ]?.[owner.behaviorId]?.flow
+    }
+    const owner = oracle.owner
+    return scene.hooks?.[owner.channel]?.variants?.[owner.behaviorId]?.flow
+  })()
+  if (!flow) throw new Error(`R13 disposition: existing-schema flow 缺失 ${ownerId}`)
+  const node =
+    oracle.node.kind === 'stage'
+      ? flow.kind === 'stages'
+        ? flow.stages.find((stage) => stage.id === oracle.node.id)
+        : undefined
+      : flow.kind === 'stateMachine'
+        ? flow.machine.states[oracle.node.id]
+        : undefined
+  if (!node) throw new Error(`R13 disposition: existing-schema node 缺失 ${ownerId}`)
+  return oracle.segment === 'body' ? [...node.body] : [...(node.entry?.prepare ?? [])]
+}
+
+function r13ExistingSchemaClosureEvidence(args: {
+  authority: R13ExistingSchemaClosureAuthority
+  generated: P7GeneratedCanonical
+  final: MigrationSnapshot
+  census: R13SourceExecutionCensusV1
+  evidence: Map<string, R13DispositionEvidence>
+}): {
+  projectedFinal: MigrationSnapshot
+  sites: Map<string, ProjectionEvidence>
+  skillCosts: Map<'352' | '372' | '373', string>
+  currentLossySkills: Map<string, string>
+} {
+  const { authority } = args
+  const augmentationEvidence = authority.augmentationEvidence
+  assertR13ExistingSchemaAugmentationEvidence(augmentationEvidence)
+  const rebuiltParent = rewindR13ExistingSchemaAugmentation(
+    authority.augmentationSnapshot,
+    augmentationEvidence,
+  )
+  const rebuilt = augmentR13ExistingSchemaAfterEnemy({
+    parent: rebuiltParent,
+    currentSources: authority.currentSources,
+    currentMigration: authority.currentMigration,
+    ...(authority.preparedCurrentSourceCensus
+      ? { preparedCurrentSourceCensus: authority.preparedCurrentSourceCensus }
+      : {}),
+  })
+  if (!isDeepStrictEqual(rebuilt.evidence, augmentationEvidence))
+    throw new Error('R13 disposition: existing-schema augmentation evidence 重建漂移')
+  const currentCensus =
+    authority.preparedCurrentSourceCensus?.census ??
+    buildR13SourceExecutionCensus(authority.currentSources)
+  if (authority.preparedCurrentSourceCensus)
+    assertPreparedR13SourceExecutionCensus(
+      authority.preparedCurrentSourceCensus,
+      authority.currentSources,
+      currentCensus,
+    )
+  else assertR13SourceExecutionCensus(currentCensus)
+
+  const projectedFinal = rewindR13ExistingSchemaAugmentation(args.final, augmentationEvidence)
+  const siteById = new Map(args.census.sites.map((site) => [site.id, site]))
+  const contexts = contextById(args.census)
+  const projections = new Map<string, ProjectionEvidence>()
+  for (const sourceSite of augmentationEvidence.sites) {
+    const site = siteById.get(sourceSite.siteId)
+    const context = site ? contexts.get(site.contextId) : undefined
+    const instruction = args.census.instructions[sourceSite.address]
+    if (
+      !site ||
+      site.address !== sourceSite.address ||
+      site.contextId !== sourceSite.contextId ||
+      !context ||
+      !instruction ||
+      instruction.sourceCommandSha256 !== sourceSite.sourceCommandSha256 ||
+      context.entrySiteId !== sourceSite.sourceEntrySiteId ||
+      stableJsonSha256(context.host) !== stableJsonSha256(sourceSite.sourceHost)
+    )
+      throw new Error(`R13 disposition: existing-schema source site 漂移 ${sourceSite.siteId}`)
+
+    const commands = r13ExistingSchemaOwnerCommands(args.final, sourceSite.owner)
+    const matches = commands
+      .map((command, index) => ({ command, index }))
+      .filter(({ command }) => stableJsonSha256(command) === sourceSite.commandDigest)
+      .filter(({ index }) => {
+        const before = commands[index - 1]
+        const after = commands[index + 1]
+        return (
+          (sourceSite.beforeDigest === undefined
+            ? index === 0
+            : before !== undefined && stableJsonSha256(before) === sourceSite.beforeDigest) &&
+          (sourceSite.afterDigest === undefined
+            ? index === commands.length - 1
+            : after !== undefined && stableJsonSha256(after) === sourceSite.afterDigest)
+        )
+      })
+    if (matches.length !== 1)
+      throw new Error(`R13 disposition: existing-schema final command 不唯一 ${sourceSite.siteId}`)
+    const finalIndex = matches[0]!.index
+    const selector = `${sourceSite.owner}#command/${finalIndex}`
+    const identity = {
+      siteId: sourceSite.siteId,
+      contextId: sourceSite.contextId,
+      address: sourceSite.address,
+      sourceCommandSha256: sourceSite.sourceCommandSha256,
+      augmentationEvidenceDigest: augmentationEvidence.digest,
+      owner: sourceSite.owner,
+      parentContainerDigest: sourceSite.parentContainerDigest,
+      successorContainerDigest: sourceSite.successorContainerDigest,
+      commandDigest: sourceSite.commandDigest,
+      finalIndex: sourceSite.finalIndex,
+      beforeDigest: sourceSite.beforeDigest,
+      afterDigest: sourceSite.afterDigest,
+      targetSelectors: [selector],
+      targetDigests: [sourceSite.commandDigest],
+    }
+    const id = evidenceId('r13-existing-schema-site', identity)
+    addEvidence(args.evidence, {
+      id,
+      scope: 'site-closure',
+      kind: 'r13-existing-schema-site',
+      proves: 'structured',
+      siteId: sourceSite.siteId,
+      contextId: sourceSite.contextId,
+      addresses: [sourceSite.address],
+      sourceCommandSha256: sourceSite.sourceCommandSha256,
+      appliesToLayers: ['final'],
+      augmentationEvidenceDigest: augmentationEvidence.digest,
+      owner: sourceSite.owner,
+      parentContainerDigest: sourceSite.parentContainerDigest,
+      successorContainerDigest: sourceSite.successorContainerDigest,
+      commandDigest: sourceSite.commandDigest,
+      finalIndex: sourceSite.finalIndex,
+      ...(sourceSite.beforeDigest !== undefined ? { beforeDigest: sourceSite.beforeDigest } : {}),
+      ...(sourceSite.afterDigest !== undefined ? { afterDigest: sourceSite.afterDigest } : {}),
+      targetSelectors: [selector],
+      targetDigests: [sourceSite.commandDigest],
+      layerTargets: { final: { selectors: [selector], digests: [sourceSite.commandDigest] } },
+    })
+    projections.set(sourceSite.siteId, { disposition: 'structured', evidenceId: id })
+  }
+  if (projections.size !== 22)
+    throw new Error(`R13 disposition: existing-schema site cardinality=${projections.size}`)
+
+  const skillCosts = new Map<'352' | '372' | '373', string>()
+  const finalSkillValues = args.final.files.get('content/skills.json') as
+    | { skills?: SkillData[] }
+    | undefined
+  const finalSkills = new Map(
+    (finalSkillValues?.skills ?? []).map((skill) => [String(skill.id), skill] as const),
+  )
+  for (const skill of augmentationEvidence.skills) {
+    const skillId = skill.skillId
+    const finalSkill = finalSkills.get(skillId)
+    if (
+      !finalSkill ||
+      !isDeepStrictEqual(finalSkill.cost?.items, skill.items) ||
+      stableJsonSha256(finalSkill.cost) !== skill.successorCostDigest
+    )
+      throw new Error(`R13 disposition: existing-schema final skill cost 漂移 ${skillId}`)
+    // Item cost is owned exclusively by the player-side scriptOnUse gate. The
+    // scriptOnSuccess 0x68 branch remains a separate lossy observation.
+    const sourceRootIds = [`global/skills/${skillId}/scriptOnUse`]
+    const sourceRoots = sourceRootIds.map((rootId) => {
+      const addresses = addressesForRoot(args.census, rootId)
+      const currentAddresses = addressesForRoot(currentCensus, rootId)
+      const historicalCommands = addresses.map(
+        (address) => args.census.instructions[address]?.sourceCommandSha256,
+      )
+      const currentCommands = currentAddresses.map(
+        (address) => currentCensus.instructions[address]?.sourceCommandSha256,
+      )
+      if (
+        stableJsonSha256(currentAddresses) !== stableJsonSha256(addresses) ||
+        stableJsonSha256(currentCommands) !== stableJsonSha256(historicalCommands)
+      )
+        throw new Error(`R13 disposition: existing-schema skill source 漂移 ${skillId}/${rootId}`)
+      return {
+        rootId,
+        addresses,
+        commands: historicalCommands,
+      }
+    })
+    const addresses = [...new Set(sourceRoots.flatMap((root) => root.addresses))].sort(
+      (left, right) => left - right,
+    )
+    const sourceClosureDigest = stableJsonSha256(sourceRoots)
+    const selector = `content/skills.json#${skillId}/cost/items`
+    const itemsDigest = stableJsonSha256(finalSkill.cost.items)
+    const identity = {
+      skillId,
+      sourceRootIds,
+      sourceClosureDigest,
+      augmentationEvidenceDigest: augmentationEvidence.digest,
+      parentCostDigest: skill.parentCostDigest,
+      successorCostDigest: skill.successorCostDigest,
+      items: skill.items,
+      targetSelectors: [selector],
+      targetDigests: [itemsDigest],
+    }
+    const id = evidenceId('r13-existing-schema-skill-cost', identity)
+    addEvidence(args.evidence, {
+      id,
+      scope: 'observation-closure',
+      kind: 'r13-existing-schema-skill-cost',
+      addresses,
+      skillId,
+      sourceRootIds,
+      sourceClosureDigest,
+      augmentationEvidenceDigest: augmentationEvidence.digest,
+      parentCostDigest: skill.parentCostDigest,
+      successorCostDigest: skill.successorCostDigest,
+      items: structuredClone(skill.items),
+      layerTargets: { final: { selectors: [selector], digests: [itemsDigest] } },
+      appliesToLayers: ['final'],
+    })
+    skillCosts.set(skillId, id)
+  }
+  if (skillCosts.size !== 3)
+    throw new Error(`R13 disposition: existing-schema skill cost cardinality=${skillCosts.size}`)
+
+  const currentLossySkills = new Map<string, string>()
+  const currentPending = new Set(
+    authority.currentMigration.report.content.pendingSkills.map((entry) => String(entry.id)),
+  )
+  for (const entry of authority.currentMigration.report.content.lossySkills) {
+    const id = String(entry.id)
+    if (skillCosts.has(id as '352' | '372' | '373')) {
+      const expectedNote =
+        R13_EXISTING_SCHEMA_SKILL_LOSSY_NOTES[
+          id as keyof typeof R13_EXISTING_SCHEMA_SKILL_LOSSY_NOTES
+        ]
+      if (
+        currentPending.has(id) ||
+        entry.notes.length !== 1 ||
+        entry.notes[0] !== expectedNote
+      )
+        throw new Error(`R13 disposition: existing-schema skill lossy 语义漂移 ${id}`)
+      currentLossySkills.set(id, `skill-lossy:${entry.notes.join('|')}`)
+    }
+  }
+  if (currentLossySkills.size !== skillCosts.size)
+    throw new Error('R13 disposition: existing-schema skill current lossy 集合漂移')
+  return { projectedFinal, sites: projections, skillCosts, currentLossySkills }
+}
+
 function reportObservations(args: {
   sources: PalMigrationSources
   migration: MigrationFileSet
@@ -2993,6 +3290,8 @@ function reportObservations(args: {
   dispositions: readonly R13SourceExecutionDisposition[]
   c8Observations: ReadonlyMap<string, string>
   r13EnemyObservations: ReadonlyMap<string, string>
+  r13ExistingSchemaSkillCosts: ReadonlyMap<'352' | '372' | '373', string>
+  r13ExistingSchemaCurrentLossySkills: ReadonlyMap<string, string>
 }): R13MigrationObservation[] {
   const observations = new Map<string, R13MigrationObservation>()
   const rawItems = new Map(args.migration.report.rawProjection.items.map((item) => [item.id, item]))
@@ -3214,6 +3513,9 @@ function reportObservations(args: {
   }
   for (const pending of args.migration.report.rawContent.pendingSkills) {
     const objectId = String(pending.id)
+    // R13-6A only accounts for the player-side item cost. The historical pending
+    // observation must not be promoted to a blanket skill closure.
+    if (args.r13ExistingSchemaSkillCosts.has(objectId as '352' | '372' | '373')) continue
     const rootIds = [
       root('skills', objectId, 'scriptOnUse'),
       root('skills', objectId, 'scriptOnSuccess'),
@@ -3259,6 +3561,36 @@ function reportObservations(args: {
       rootIds,
       batch: 'R13-6',
       reason: 'skill-lossy-without-user-decision',
+    })
+  }
+  // The current extractor intentionally reclassifies 352/372/373 as lossy because
+  // the enemy 0x68 branch is still not represented. Keep that debt open while adding
+  // a separate, narrow item-cost observation for the part R13-6A actually owns.
+  for (const [objectId, reason] of args.r13ExistingSchemaCurrentLossySkills) {
+    const rootIds = [
+      root('skills', objectId, 'scriptOnUse'),
+      root('skills', objectId, 'scriptOnSuccess'),
+    ]
+    addOpen({
+      id: `skill:${objectId}:lossy`,
+      domain: 'skill',
+      kind: 'lossy',
+      objectId,
+      rootIds,
+      batch: 'R13-6',
+      reason,
+    })
+  }
+  for (const [objectId, closureEvidenceId] of args.r13ExistingSchemaSkillCosts) {
+    addLayered({
+      id: `skill:${objectId}:item-cost`,
+      domain: 'skill',
+      kind: 'item-cost',
+      objectId,
+      rootIds: [root('skills', objectId, 'scriptOnUse')],
+      batch: 'R13-6',
+      reason: 'r13-6a-skill-item-cost',
+      closureEvidenceId,
     })
   }
   for (const pending of args.migration.report.enemies?.pendingScripts ?? []) {
@@ -3369,6 +3701,18 @@ export interface R13EnemyClosureAuthority {
   augmentationEvidence: R13EnemyScriptAugmentationEvidenceV1
 }
 
+/**
+ * R13-6A 的窄桥：既有 schema 增量只拥有 22 个表现指令位置和三个蛊术
+ * item cost。它不能把整条技能 observation 或同一 flow 的其它源站点一并销账。
+ */
+export interface R13ExistingSchemaClosureAuthority {
+  currentSources: PalMigrationSources
+  currentMigration: MigrationFileSet
+  augmentationEvidence: R13ExistingSchemaAugmentationEvidenceV1
+  augmentationSnapshot: MigrationSnapshot
+  preparedCurrentSourceCensus?: PreparedR13SourceExecutionCensus
+}
+
 export interface R13SourceInstructionDispositionBuildArgs {
   sources: PalMigrationSources
   migration: MigrationFileSet
@@ -3376,6 +3720,7 @@ export interface R13SourceInstructionDispositionBuildArgs {
   generated: P7GeneratedCanonical
   final: MigrationSnapshot
   r13EnemyClosure?: R13EnemyClosureAuthority
+  r13ExistingSchemaClosure?: R13ExistingSchemaClosureAuthority
   preparedSourceCensus?: PreparedR13SourceExecutionCensus
 }
 
@@ -3406,23 +3751,37 @@ function buildR13SourceInstructionDispositionInternal(
   if (census.generator.sourceDigest !== args.audit.generator.sourceDigest)
     throw new Error('R13 disposition: census 与 P0 source digest 不一致')
   const evidence = new Map<string, R13DispositionEvidence>()
+  const existingSchemaClosure = args.r13ExistingSchemaClosure
+    ? r13ExistingSchemaClosureEvidence({
+        authority: args.r13ExistingSchemaClosure,
+        generated: args.generated,
+        final: args.final,
+        census,
+        evidence,
+      })
+    : undefined
+  // Historical R13-0…R13-5 proofs must see the target with the new 6A-owned
+  // leaves rewound. Otherwise an inserted command would look like arbitrary
+  // author drift in every neighbouring site. The new bridge itself is checked
+  // against the real final target above.
+  const historicalFinal = existingSchemaClosure?.projectedFinal ?? args.final
   const bodies = bodyEvidence(args.audit, evidence)
   const noops = knownNoOpEvidence(args.migration, evidence)
   const domain = domainProjectionEvidence({
     sources: args.sources,
     migration: args.migration,
-    final: args.final,
+    final: historicalFinal,
     census,
     evidence,
   })
-  const c8Observations = c8Evidence(args.generated, args.final, census, evidence)
+  const c8Observations = c8Evidence(args.generated, historicalFinal, census, evidence)
   const enemyClosure = args.r13EnemyClosure
     ? r13EnemyClosureEvidence({
         authority: args.r13EnemyClosure,
         historicalSources: args.sources,
         historicalMigration: args.migration,
         generated: args.generated,
-        final: args.final,
+        final: historicalFinal,
         census,
         evidence,
       })
@@ -3435,33 +3794,33 @@ function buildR13SourceInstructionDispositionInternal(
     audit: args.audit,
     migration: args.migration,
     generated: args.generated,
-    final: args.final,
+    final: historicalFinal,
     census,
     evidence,
     targetsByBody,
   })
   const c8Sites = c8SiteEvidence({
     generated: args.generated,
-    final: args.final,
+    final: historicalFinal,
     census,
     evidence,
   })
   const repairs = sceneRepairEvidence({
     generated: args.generated,
-    final: args.final,
+    final: historicalFinal,
     census,
     evidence,
   })
   const crossActivation = r13CrossActivationSiteEvidence({
     generated: args.generated,
-    final: args.final,
+    final: historicalFinal,
     census,
     evidence,
   })
   const confirm = options.confirmClosure
     ? r13ConfirmSiteEvidence({
         generated: args.generated,
-        final: args.final,
+        final: historicalFinal,
         census,
         evidence,
       })
@@ -3470,7 +3829,7 @@ function buildR13SourceInstructionDispositionInternal(
     sources: args.sources,
     migration: args.migration,
     generated: args.generated,
-    final: args.final,
+    final: historicalFinal,
     census,
     evidence,
   })
@@ -3479,7 +3838,7 @@ function buildR13SourceInstructionDispositionInternal(
     migration: args.migration,
     audit: args.audit,
     generated: args.generated,
-    final: args.final,
+    final: historicalFinal,
     census,
     evidence,
     targetsByBody,
@@ -3491,6 +3850,7 @@ function buildR13SourceInstructionDispositionInternal(
     crossActivation,
     confirm,
     enemyClosure.sites,
+    ...(existingSchemaClosure ? [existingSchemaClosure.sites] : []),
     assets,
     callOwners,
   ])
@@ -3580,11 +3940,18 @@ function buildR13SourceInstructionDispositionInternal(
             site,
             context,
             debt: {
-              batch: proof.kind === 'r13-enemy-script-site' ? 'R13-5' : 'R13-0',
+              batch:
+                proof.kind === 'r13-enemy-script-site'
+                  ? 'R13-5'
+                  : proof.kind === 'r13-existing-schema-site'
+                    ? 'R13-6'
+                    : 'R13-0',
               reason:
                 proof.kind === 'r13-enemy-script-site'
                   ? 'enemy-pre-augmentation-site'
-                  : 'pre-augmentation-site-not-yet-accounted',
+                  : proof.kind === 'r13-existing-schema-site'
+                    ? 'pre-r13-6-existing-schema-site'
+                    : 'pre-augmentation-site-not-yet-accounted',
             },
             appliesToLayers: missingLayers,
           })
@@ -3627,11 +3994,14 @@ function buildR13SourceInstructionDispositionInternal(
   dispositions.sort((left, right) => stableStringCompare(left.siteId, right.siteId))
   const observations = reportObservations({
     ...args,
+    final: historicalFinal,
     census,
     evidence,
     dispositions,
     c8Observations,
     r13EnemyObservations: enemyClosure.observations,
+    r13ExistingSchemaSkillCosts: existingSchemaClosure?.skillCosts ?? new Map(),
+    r13ExistingSchemaCurrentLossySkills: existingSchemaClosure?.currentLossySkills ?? new Map(),
   })
   const byDisposition = Object.fromEntries(
     DISPOSITIONS.map((disposition) => [disposition, 0]),
@@ -3680,6 +4050,16 @@ function buildR13SourceInstructionDispositionInternal(
               r13EnemyClosure: {
                 sourceDispositionDigest: args.r13EnemyClosure.sourceDisposition.digest,
                 augmentationEvidenceDigest: args.r13EnemyClosure.augmentationEvidence.digest,
+              },
+            }
+          : {}),
+        ...(args.r13ExistingSchemaClosure
+          ? {
+              r13ExistingSchemaClosure: {
+                augmentationEvidenceDigest:
+                  args.r13ExistingSchemaClosure.augmentationEvidence.digest,
+                siteCount: existingSchemaClosure?.sites.size ?? 0,
+                skillCostCount: existingSchemaClosure?.skillCosts.size ?? 0,
               },
             }
           : {}),
@@ -3743,6 +4123,17 @@ function assertR13SourceInstructionDispositionBacked(
   const finalSnapshotDigest = sameSnapshotIdentity(source.final, source.generated.snapshot)
     ? augmentedSnapshotDigest
     : digestR13ContentSnapshot(source.final)
+  const trustedExistingSchemaEvidence = new Map<string, R13DispositionEvidence>()
+  const existingSchemaClosure = source.r13ExistingSchemaClosure
+    ? r13ExistingSchemaClosureEvidence({
+        authority: source.r13ExistingSchemaClosure,
+        generated: source.generated,
+        final: source.final,
+        census: report.census,
+        evidence: trustedExistingSchemaEvidence,
+      })
+    : undefined
+  const historicalFinal = existingSchemaClosure?.projectedFinal ?? source.final
   const expectedGenerator = {
     sourceDigest: report.census.generator.sourceDigest,
     rawDigest: stableJsonSha256({
@@ -3763,6 +4154,16 @@ function assertR13SourceInstructionDispositionBacked(
             r13EnemyClosure: {
               sourceDispositionDigest: source.r13EnemyClosure.sourceDisposition.digest,
               augmentationEvidenceDigest: source.r13EnemyClosure.augmentationEvidence.digest,
+            },
+          }
+        : {}),
+      ...(source.r13ExistingSchemaClosure
+        ? {
+            r13ExistingSchemaClosure: {
+              augmentationEvidenceDigest:
+                source.r13ExistingSchemaClosure.augmentationEvidence.digest,
+              siteCount: existingSchemaClosure?.sites.size ?? 0,
+              skillCostCount: existingSchemaClosure?.skillCosts.size ?? 0,
             },
           }
         : {}),
@@ -3799,7 +4200,7 @@ function assertR13SourceInstructionDispositionBacked(
       stableStringCompare(canonicalTargetIdentityKey(left), canonicalTargetIdentityKey(right)),
     )
     const augmentedTargets = exactCanonicalLayerTargets(source.generated.snapshot, identities)
-    const finalTargets = exactCanonicalLayerTargets(source.final, identities)
+    const finalTargets = exactCanonicalLayerTargets(historicalFinal, identities)
     const expectedLayerTargets: typeof evidence.layerTargets = {
       raw: rawTargets,
       ...(augmentedTargets ? { augmented: augmentedTargets } : {}),
@@ -3884,7 +4285,7 @@ function assertR13SourceInstructionDispositionBacked(
     migration: source.migration,
     audit: source.audit,
     generated: source.generated,
-    final: source.final,
+    final: historicalFinal,
     census: report.census,
     evidence: reportEvidence,
     targetsByBody,
@@ -4022,26 +4423,26 @@ function assertR13SourceInstructionDispositionBacked(
   const trustedSiteEvidence = new Map<string, R13DispositionEvidence>()
   c8SiteEvidence({
     generated: source.generated,
-    final: source.final,
+    final: historicalFinal,
     census: report.census,
     evidence: trustedSiteEvidence,
   })
   sceneRepairEvidence({
     generated: source.generated,
-    final: source.final,
+    final: historicalFinal,
     census: report.census,
     evidence: trustedSiteEvidence,
   })
   r13CrossActivationSiteEvidence({
     generated: source.generated,
-    final: source.final,
+    final: historicalFinal,
     census: report.census,
     evidence: trustedSiteEvidence,
   })
   if (report.version === 3)
     r13ConfirmSiteEvidence({
       generated: source.generated,
-      final: source.final,
+      final: historicalFinal,
       census: report.census,
       evidence: trustedSiteEvidence,
     })
@@ -4051,7 +4452,7 @@ function assertR13SourceInstructionDispositionBacked(
         historicalSources: source.sources,
         historicalMigration: source.migration,
         generated: source.generated,
-        final: source.final,
+        final: historicalFinal,
         census: report.census,
         evidence: trustedSiteEvidence,
       })
@@ -4060,7 +4461,7 @@ function assertR13SourceInstructionDispositionBacked(
     sources: source.sources,
     migration: source.migration,
     generated: source.generated,
-    final: source.final,
+    final: historicalFinal,
     census: report.census,
     evidence: trustedSiteEvidence,
   })
@@ -4069,11 +4470,14 @@ function assertR13SourceInstructionDispositionBacked(
     migration: source.migration,
     audit: source.audit,
     generated: source.generated,
-    final: source.final,
+    final: historicalFinal,
     census: report.census,
     evidence: trustedSiteEvidence,
     targetsByBody,
   })
+  for (const proof of trustedExistingSchemaEvidence.values())
+    addEvidence(trustedSiteEvidence, proof)
+  const trustedExistingSchema = existingSchemaClosure
   for (const proof of report.evidence) {
     if (proof.scope !== 'site-closure' || proof.kind === 'canonical-site') continue
     if (
@@ -4088,12 +4492,22 @@ function assertR13SourceInstructionDispositionBacked(
   }
 
   const trustedC8Evidence = new Map<string, R13DispositionEvidence>()
-  c8Evidence(source.generated, source.final, report.census, trustedC8Evidence)
+  c8Evidence(source.generated, historicalFinal, report.census, trustedC8Evidence)
   for (const proof of report.evidence) {
     if (proof.kind === 'c8-augmentation') {
       const expected = trustedC8Evidence.get(proof.id)
       if (!expected || stableJsonSha256(expected) !== stableJsonSha256(proof))
         throw new Error(`R13 disposition: source-backed C8 observation 漂移 ${proof.id}`)
+      continue
+    }
+    if (proof.kind === 'r13-existing-schema-skill-cost') {
+      const expected = trustedExistingSchema?.skillCosts.get(proof.skillId)
+        ? trustedSiteEvidence.get(trustedExistingSchema.skillCosts.get(proof.skillId)!)
+        : undefined
+      if (!expected || stableJsonSha256(expected) !== stableJsonSha256(proof))
+        throw new Error(
+          `R13 disposition: source-backed existing-schema skill cost 漂移 ${proof.id}`,
+        )
       continue
     }
     if (proof.kind === 'r13-enemy-augmentation') {
@@ -4173,9 +4587,9 @@ function assertR13SourceInstructionDispositionBacked(
           )
     const finalTarget =
       proof.domain === 'skill'
-        ? exactSkillTarget(source.final, proof.objectId)
+        ? exactSkillTarget(historicalFinal, proof.objectId)
         : exactItemCapabilityTarget(
-            source.final,
+            historicalFinal,
             proof.objectId,
             proof.capability === 'throw' ? 'throw' : 'use',
           )
@@ -4245,7 +4659,7 @@ function assertR13SourceInstructionDispositionBacked(
 function assertR13SourceInstructionDispositionInternal(
   report: AnyR13SourceInstructionDisposition,
   source: R13SourceInstructionDispositionBuildArgs | undefined,
-  options: { verifyDigest: boolean },
+  options: { verifyDigest: boolean; allowExistingSchemaAuthority?: boolean },
 ): void {
   const assertSortedUniqueStrings = (values: readonly string[], label: string): void => {
     for (let index = 1; index < values.length; index++)
@@ -4303,7 +4717,8 @@ function assertR13SourceInstructionDispositionInternal(
         ? 'candidate'
         : entry.kind === 'c8-augmentation' ||
             entry.kind === 'domain-augmentation' ||
-            entry.kind === 'r13-enemy-augmentation'
+            entry.kind === 'r13-enemy-augmentation' ||
+            entry.kind === 'r13-existing-schema-skill-cost'
           ? 'observation-closure'
           : entry.kind === 'open-debt'
             ? 'open-debt'
@@ -4431,6 +4846,67 @@ function assertR13SourceInstructionDispositionInternal(
         stableJsonSha256(entry.layerTargets.final)
       )
         throw new Error(`R13 disposition: evidence ${entry.id} enemy final observation target 漂移`)
+    }
+    if (entry.kind === 'r13-existing-schema-site') {
+      const site = sites.get(entry.siteId)
+      const context = site ? contexts.get(site.contextId) : undefined
+      const instruction = site ? report.census.instructions[site.address] : undefined
+      if (
+        !site ||
+        !context ||
+        !instruction ||
+        entry.contextId !== site.contextId ||
+        entry.addresses.length !== 1 ||
+        entry.addresses[0] !== site.address ||
+        entry.sourceCommandSha256 !== instruction.sourceCommandSha256 ||
+        !/^[0-9a-f]{64}$/.test(entry.augmentationEvidenceDigest) ||
+        !/^[0-9a-f]{64}$/.test(entry.parentContainerDigest) ||
+        !/^[0-9a-f]{64}$/.test(entry.successorContainerDigest) ||
+        !/^[0-9a-f]{64}$/.test(entry.commandDigest) ||
+        !Number.isSafeInteger(entry.finalIndex) ||
+        entry.targetSelectors.length !== entry.targetDigests.length ||
+        entry.targetSelectors.length !== 1 ||
+        !entry.appliesToLayers.includes('final') ||
+        entry.appliesToLayers.includes('raw') ||
+        entry.appliesToLayers.includes('augmented') ||
+        stableJsonSha256(entry.layerTargets.final.selectors) !==
+          stableJsonSha256(entry.targetSelectors) ||
+        stableJsonSha256(entry.layerTargets.final.digests) !== stableJsonSha256(entry.targetDigests)
+      )
+        throw new Error(`R13 disposition: evidence ${entry.id} existing-schema site identity 漂移`)
+      assertSortedUniqueStrings(entry.targetSelectors, `evidence ${entry.id} selectors`)
+      for (const digest of entry.targetDigests)
+        if (!/^[0-9a-f]{64}$/.test(digest))
+          throw new Error(`R13 disposition: evidence ${entry.id} target digest 无效`)
+    }
+    if (entry.kind === 'r13-existing-schema-skill-cost') {
+      if (
+        !['352', '372', '373'].includes(entry.skillId) ||
+        entry.sourceRootIds.length !== 1 ||
+        entry.sourceRootIds[0] !== `global/skills/${entry.skillId}/scriptOnUse` ||
+        !/^[0-9a-f]{64}$/.test(entry.sourceClosureDigest) ||
+        !/^[0-9a-f]{64}$/.test(entry.augmentationEvidenceDigest) ||
+        !/^[0-9a-f]{64}$/.test(entry.parentCostDigest) ||
+        !/^[0-9a-f]{64}$/.test(entry.successorCostDigest) ||
+        entry.items.length !== 1 ||
+        entry.items[0]?.itemId !== '148' ||
+        entry.items[0]?.amount !== 1 ||
+        entry.appliesToLayers.length !== 1 ||
+        entry.appliesToLayers[0] !== 'final' ||
+        entry.layerTargets.final.selectors.length !== 1 ||
+        entry.layerTargets.final.selectors[0] !==
+          `content/skills.json#${entry.skillId}/cost/items` ||
+        entry.layerTargets.final.digests.length !== 1
+      )
+        throw new Error(`R13 disposition: evidence ${entry.id} existing-schema skill identity 漂移`)
+      assertSortedUniqueStrings(entry.sourceRootIds, `evidence ${entry.id} skill roots`)
+      assertSortedUniqueStrings(
+        entry.layerTargets.final.selectors,
+        `evidence ${entry.id} selectors`,
+      )
+      for (const digest of entry.layerTargets.final.digests)
+        if (!/^[0-9a-f]{64}$/.test(digest))
+          throw new Error(`R13 disposition: evidence ${entry.id} skill target digest 无效`)
     }
     if (
       entry.kind === 'c8-site-repair' ||
@@ -4746,7 +5222,9 @@ function assertR13SourceInstructionDispositionInternal(
       )
         throw new Error(`R13 disposition: observation ${observation.id} evidence ${id} root 越界`)
       if (
-        (proof.kind === 'domain-augmentation' || proof.kind === 'r13-enemy-augmentation') &&
+        (proof.kind === 'domain-augmentation' ||
+          proof.kind === 'r13-enemy-augmentation' ||
+          proof.kind === 'r13-existing-schema-skill-cost') &&
         proof.sourceRootIds.some(
           (sourceRootId) => !observation.sourceRootIds.includes(sourceRootId),
         )
@@ -4763,7 +5241,7 @@ function assertR13SourceInstructionDispositionInternal(
               (proof) =>
                 (proof.scope === 'observation-closure' &&
                   layer !== 'raw' &&
-                  proof.appliesToLayers.includes(layer)) ||
+                  (proof.appliesToLayers as readonly R13DispositionLayer[]).includes(layer)) ||
                 (observation.domain === 'source-command' &&
                   proof.scope === 'site-closure' &&
                   proof.appliesToLayers.includes(layer)),
@@ -4821,6 +5299,137 @@ function assertR13SourceInstructionDispositionInternal(
       )
     )
       throw new Error('R13 disposition: confirm v2/v3 closure 漂移')
+  }
+  const existingSiteProofs = report.evidence.filter(
+    (proof): proof is Extract<R13DispositionEvidence, { kind: 'r13-existing-schema-site' }> =>
+      proof.kind === 'r13-existing-schema-site',
+  )
+  const existingSkillProofs = report.evidence.filter(
+    (proof): proof is Extract<R13DispositionEvidence, { kind: 'r13-existing-schema-skill-cost' }> =>
+      proof.kind === 'r13-existing-schema-skill-cost',
+  )
+  if (source?.r13ExistingSchemaClosure) {
+    const expectedSiteIds = source.r13ExistingSchemaClosure.augmentationEvidence.sites
+      .map((entry) => entry.siteId)
+      .sort(stableStringCompare)
+    const actualSiteIds = existingSiteProofs.map((entry) => entry.siteId).sort(stableStringCompare)
+    const expectedSkillIds = ['352', '372', '373']
+    const actualSkillIds = existingSkillProofs
+      .map((entry) => entry.skillId)
+      .sort(stableStringCompare)
+    const existingSkillObservations = new Map(
+      report.observations
+        .filter((observation) => observation.kind === 'item-cost')
+        .map((observation) => [observation.objectId, observation] as const),
+    )
+    const lossyExisting = new Map(
+      report.observations
+        .filter((observation) => observation.domain === 'skill' && observation.kind === 'lossy')
+        .map((observation) => [observation.objectId, observation] as const),
+    )
+    if (
+      existingSiteProofs.length !== 22 ||
+      stableJsonSha256(actualSiteIds) !== stableJsonSha256(expectedSiteIds) ||
+      existingSkillProofs.length !== 3 ||
+      stableJsonSha256(actualSkillIds) !== stableJsonSha256(expectedSkillIds) ||
+      existingSiteProofs.some((proof) => {
+        const disposition = dispositionBySite.get(proof.siteId)
+        return (
+          !disposition ||
+          disposition.layers.raw.state !== 'open' ||
+          disposition.layers.augmented.state !== 'open' ||
+          disposition.layers.final.state !== 'accounted' ||
+          !disposition.layers.final.evidenceIds.includes(proof.id) ||
+          !disposition.layers.raw.evidenceIds.some((id) => {
+            const open = evidence.get(id)
+            return open?.kind === 'open-debt' && open.batch === 'R13-6'
+          }) ||
+          !disposition.layers.augmented.evidenceIds.some((id) => {
+            const open = evidence.get(id)
+            return open?.kind === 'open-debt' && open.batch === 'R13-6'
+          })
+        )
+      }) ||
+      existingSkillProofs.some((proof) => {
+        const observation = existingSkillObservations.get(proof.skillId)
+        const openProofs = observation?.evidenceIds
+          .map((id) => evidence.get(id))
+          .filter(
+            (entry): entry is Extract<R13DispositionEvidence, { kind: 'open-debt' }> =>
+              entry?.kind === 'open-debt',
+          )
+        return (
+          !observation ||
+          observation.id !== `skill:${proof.skillId}:item-cost` ||
+          observation.domain !== 'skill' ||
+          observation.objectId !== proof.skillId ||
+          stableJsonSha256(observation.sourceRootIds) !==
+            stableJsonSha256(proof.sourceRootIds) ||
+          stableJsonSha256(observation.sourceAddresses) !== stableJsonSha256(proof.addresses) ||
+          observation.raw !== 'open' ||
+          observation.augmented !== 'open' ||
+          observation.final !== 'accounted' ||
+          !observation.evidenceIds.includes(proof.id) ||
+          openProofs?.length !== 1 ||
+          openProofs[0]?.batch !== 'R13-6' ||
+          stableJsonSha256(openProofs[0]?.appliesToLayers) !==
+            stableJsonSha256(['raw', 'augmented'])
+        )
+      }) ||
+      expectedSkillIds.some((skillId) => {
+        const observation = lossyExisting.get(skillId)
+        const openProofs = observation?.evidenceIds
+          .map((id) => evidence.get(id))
+          .filter(
+            (entry): entry is Extract<R13DispositionEvidence, { kind: 'open-debt' }> =>
+              entry?.kind === 'open-debt',
+          )
+        const expectedRoots = [
+          `global/skills/${skillId}/scriptOnSuccess`,
+          `global/skills/${skillId}/scriptOnUse`,
+        ].sort(stableStringCompare)
+        return (
+          !observation ||
+          observation.id !== `skill:${skillId}:lossy` ||
+          observation.domain !== 'skill' ||
+          observation.raw !== 'open' ||
+          observation.augmented !== 'open' ||
+          observation.final !== 'open' ||
+          openProofs?.length !== 1 ||
+          openProofs[0]?.reason !==
+            `skill-lossy:${
+              R13_EXISTING_SCHEMA_SKILL_LOSSY_NOTES[
+                skillId as keyof typeof R13_EXISTING_SCHEMA_SKILL_LOSSY_NOTES
+              ]
+            }` ||
+          stableJsonSha256(openProofs[0]?.appliesToLayers) !==
+            stableJsonSha256(['raw', 'augmented', 'final']) ||
+          stableJsonSha256(observation.sourceRootIds) !== stableJsonSha256(expectedRoots)
+        )
+      }) ||
+      report.observations.some(
+        (observation) =>
+          observation.domain === 'skill' &&
+          observation.kind === 'pending' &&
+          expectedSkillIds.includes(observation.objectId),
+      )
+    )
+      throw new Error('R13 disposition: existing-schema 6A completeness/anti-laundering 漂移')
+
+    const stillOpenAddresses = new Set([16396, 21418, 21518, 29953, 2901, 3051, 4729, 28095])
+    if (
+      report.census.sites.some(
+        (site) =>
+          stillOpenAddresses.has(site.address) &&
+          dispositionBySite.get(site.id)?.layers.final.state !== 'open',
+      )
+    )
+      throw new Error('R13 disposition: R13-6B gesture/0x76 被 6A 意外销账')
+  } else if (
+    (existingSiteProofs.length || existingSkillProofs.length) &&
+    !options.allowExistingSchemaAuthority
+  ) {
+    throw new Error('R13 disposition: 未提供 existing-schema authority 却出现 6A evidence')
   }
   if (source?.r13EnemyClosure) {
     const enemySiteProofs = report.evidence.filter(
@@ -4903,11 +5512,23 @@ function assertR13SourceInstructionDispositionInternal(
   }
 }
 
+export interface R13SourceInstructionDispositionAssertOptions {
+  /**
+   * 允许对已经由 source-backed build-and-assert 校验过的 6A report 做轻量结构复核。
+   * 不提供 source authority 时默认拒绝，避免把 6A evidence 当成普通历史报告。
+   */
+  allowExistingSchemaAuthority?: boolean
+}
+
 export function assertR13SourceInstructionDisposition(
   report: AnyR13SourceInstructionDisposition,
   source?: R13SourceInstructionDispositionBuildArgs,
+  options: R13SourceInstructionDispositionAssertOptions = {},
 ): void {
-  assertR13SourceInstructionDispositionInternal(report, source, { verifyDigest: true })
+  assertR13SourceInstructionDispositionInternal(report, source, {
+    verifyDigest: true,
+    ...options,
+  })
 }
 
 export function buildAndAssertR13SourceInstructionDisposition(
@@ -4929,10 +5550,11 @@ export function buildAndAssertR13SourceInstructionDispositionV3(
 export function assertR13SourceInstructionDispositionV3(
   report: R13SourceInstructionDispositionV3,
   source?: R13SourceInstructionDispositionBuildArgs,
+  options: R13SourceInstructionDispositionAssertOptions = {},
 ): void {
   if (report.version !== 3 || report.methodVersion !== R13_SOURCE_DISPOSITION_METHOD_V3)
     throw new Error('R13 disposition v3: header 漂移')
-  assertR13SourceInstructionDisposition(report, source)
+  assertR13SourceInstructionDisposition(report, source, options)
 }
 
 export function assertR13NoOpenSourceDebt(

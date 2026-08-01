@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url'
 import { loadPalBaseline } from '../../migration-baseline.js'
 import {
   buildPalHistoricalR13_4V9Migration,
+  buildPalHistoricalR13_5V10Migration,
   buildPalMigration,
   palSoundAssetForSources,
 } from '../../pal-migration.js'
@@ -125,6 +126,25 @@ let currentV10Fixture: PalTestCurrentV10Fixture | undefined
 export function getPalTestCurrentV10Fixture(): PalTestCurrentV10Fixture {
   currentV10Fixture ??= loadCurrentV10Fixture()
   return currentV10Fixture
+}
+
+function loadHistoricalR13_5V10Fixture() {
+  const sources = loadPalMigrationSources(PAL_TEST_REPO)
+  const migration = buildPalHistoricalR13_5V10Migration(sources)
+  const audit = auditPalScriptControlFlow(sources, migration)
+  assertScriptControlFlowAudit(audit)
+  return Object.freeze({ sources, migration, audit })
+}
+
+export type PalTestHistoricalR13_5V10Fixture = ReturnType<
+  typeof loadHistoricalR13_5V10Fixture
+>
+let historicalR13_5V10Fixture: PalTestHistoricalR13_5V10Fixture | undefined
+
+/** Published R13-5 current-v10 authority, before the R13-6A source-semantics delta. */
+export function getPalTestHistoricalR13_5V10Fixture(): PalTestHistoricalR13_5V10Fixture {
+  historicalR13_5V10Fixture ??= loadHistoricalR13_5V10Fixture()
+  return historicalR13_5V10Fixture
 }
 
 function loadPhaseFixture() {

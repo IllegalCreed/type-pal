@@ -891,7 +891,11 @@ function recordInstructionOutcome(args: {
     opcode !== undefined && (opcode === 0x24 || opcode === 0x25) && (operands[0] ?? 0) === 0
   let outcome: TranslateInstructionOutcome['outcome']
   if (args.ctx.report.gaps.length > args.gapStart) outcome = 'gap'
-  else if (args.command.op === 'setPalette' && directKinds.length === 0) outcome = 'deferred'
+  else if (
+    args.command.op === 'setPalette' &&
+    (args.ctx.palSemanticProfile === 'historical-r13-4' || directKinds.length === 0)
+  )
+    outcome = 'deferred'
   else if (args.ctx.report.knownNoOpDetails.length > args.knownNoOpStart || sourceNoOp)
     outcome = 'known-noop-candidate'
   else if (args.command.op === 'end' || args.command.op === 'goto') outcome = 'control-flow'

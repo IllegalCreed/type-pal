@@ -12,16 +12,22 @@ import {
 } from '../../migration-project-io.js'
 import type { MigrationJson } from '../../pal-migration.js'
 import {
+  getPalTestGeneratedFixture,
   getPalTestCurrentV10Fixture,
+  getPalTestHistoricalR13_5V10Fixture,
   hasPalTestFixture,
   PAL_TEST_REPO,
 } from './pal-test-fixture.js'
 import { R13_EXISTING_SCHEMA_CHANGED_PATHS } from './r13-existing-schema-augmentation.js'
 import {
+  prepareR13EnemyScriptAuthority,
+} from './r13-enemy-script-mg2.js'
+import {
   assertR13SourceSemanticsPublishedSealMatchesAuthority,
   createR13SourceSemanticsV5MigrationPlan,
   R13_SOURCE_SEMANTICS_SEAL_PATH,
   R13_SOURCE_SEMANTICS_TRANSITION_ID,
+  type R13SourceSemanticsDispositionInput,
   type R13SourceSemanticsV5MigrationPlan,
 } from './r13-source-semantics-mg2.js'
 import { stableJsonSha256 } from './stable-json.js'
@@ -32,6 +38,7 @@ interface Fixture {
   current: ReturnType<typeof getPalTestCurrentV10Fixture>
   first: R13SourceSemanticsV5MigrationPlan
   projectPrerequisites: ReadonlyMap<string, MigrationJson>
+  sourceDispositionInput: R13SourceSemanticsDispositionInput
 }
 
 function cloneSnapshot(source: MigrationSnapshot): MigrationSnapshot {
@@ -60,6 +67,7 @@ function planArgs(fixture: Fixture, input: { base: MigrationSnapshot; ours: Migr
     currentSources: fixture.current.sources,
     currentMigration: fixture.current.migration,
     projectPrerequisites: fixture.projectPrerequisites,
+    sourceDispositionInput: fixture.sourceDispositionInput,
   }
 }
 
@@ -77,7 +85,31 @@ describe.skipIf(!hasPalTestFixture())('R13-6A source semantics append-only PAL M
   let fixture: Fixture
 
   beforeAll(() => {
+    const historical = getPalTestGeneratedFixture()
+    const historicalR13_5 = getPalTestHistoricalR13_5V10Fixture()
     const current = getPalTestCurrentV10Fixture()
+    const enemyAuthority = prepareR13EnemyScriptAuthority({
+      generated: historical.generated,
+      historicalSources: historical.sources,
+      historicalMigration: historical.migration,
+      historicalAudit: historical.currentAudit,
+      currentSources: historicalR13_5.sources,
+      currentMigration: historicalR13_5.migration,
+      currentAudit: historicalR13_5.audit,
+    })
+    const sourceDispositionInput: R13SourceSemanticsDispositionInput = {
+      historicalSources: historical.sources,
+      historicalMigration: historical.migration,
+      historicalAudit: historical.currentAudit,
+      generated: enemyAuthority.successorGenerated,
+      parentSourceDisposition: enemyAuthority.sourceDisposition,
+      r13EnemyClosure: {
+        sourceDisposition: enemyAuthority.augmentation.enemySourceDisposition,
+        currentSources: historicalR13_5.sources,
+        currentMigration: historicalR13_5.migration,
+        augmentationEvidence: enemyAuthority.augmentation.evidence,
+      },
+    }
     const baseline = loadPalBaseline(PAL_TEST_REPO)
     if (!baseline) throw new Error('R13-6A PAL test fixture: baseline 缺失')
     const loadedBase = cloneWithoutSourceSemanticsSeal(
@@ -105,12 +137,14 @@ describe.skipIf(!hasPalTestFixture())('R13-6A source semantics append-only PAL M
       currentSources: current.sources,
       currentMigration: current.migration,
       projectPrerequisites,
+      sourceDispositionInput,
     }
     fixture = {
       base,
       ours,
       current,
       projectPrerequisites,
+      sourceDispositionInput,
       first: createR13SourceSemanticsV5MigrationPlan(input),
     }
   }, 900_000)
@@ -155,12 +189,12 @@ describe.skipIf(!hasPalTestFixture())('R13-6A source semantics append-only PAL M
       if (!/^content\/maps\/(?!index\.json$)[^/]+\.json$/.test(path)) continue
       expect(first.target.files.get(path), path).toEqual(fixture.ours.files.get(path))
     }
-  }, 120_000)
+  }, 30_000)
 
   test('重放得到相同 seal 和零写入计划', () => {
     const { first } = fixture
-    const replay = createR13SourceSemanticsV5MigrationPlan(
-      planArgs(fixture, {
+    const replay = createR13SourceSemanticsV5MigrationPlan({
+      ...planArgs(fixture, {
         base: cloneSnapshot(first.nextBaseline),
         ours: (() => {
           const replayOurs = cloneSnapshot(first.target)
@@ -170,14 +204,15 @@ describe.skipIf(!hasPalTestFixture())('R13-6A source semantics append-only PAL M
           return replayOurs
         })(),
       }),
-    )
+      preparedAuthority: first.authority,
+    })
     expect(replay.sealMode).toBe('replay')
     expect(replay.seal).toEqual(first.seal)
     expect(replay.plan).toMatchObject({ deletes: [], conflicts: [] })
     expect(replay.plan.writes.size).toBe(0)
     expect(replay.target.files).toEqual(first.target.files)
     expect(replay.nextBaseline.files).toEqual(first.nextBaseline.files)
-  }, 120_000)
+  }, 30_000)
 
   test.each([
     'metadata',
@@ -196,7 +231,7 @@ describe.skipIf(!hasPalTestFixture())('R13-6A source semantics append-only PAL M
         planArgs(fixture, { base, ours: fixture.first.target }),
       ),
     ).toThrow(/半状态/)
-  })
+  }, 30_000)
 
   test('拒绝工程携带 source-semantics seal 或源指令漂移', () => {
     const ours = cloneSnapshot(fixture.ours)
@@ -220,7 +255,7 @@ describe.skipIf(!hasPalTestFixture())('R13-6A source semantics append-only PAL M
         currentSources: sources,
       }),
     ).toThrow(/source command 漂移|source site\/context 漂移/)
-  })
+  }, 30_000)
 
   test('拒绝 parent owned container 漂移，并能验证发布 seal 与 authority 一致', () => {
     const base = cloneSnapshot(fixture.base)
@@ -234,9 +269,27 @@ describe.skipIf(!hasPalTestFixture())('R13-6A source semantics append-only PAL M
     expect(() =>
       createR13SourceSemanticsV5MigrationPlan(planArgs(fixture, { base, ours: fixture.ours })),
     ).toThrow(/parent content digest 漂移|parent authority 漂移|parent container 漂移/)
+    const independentlyLoadedSeal = JSON.parse(JSON.stringify(fixture.first.seal)) as typeof fixture.first.seal
     expect(() =>
-      assertR13SourceSemanticsPublishedSealMatchesAuthority(fixture.first.seal, fixture.first.seal),
+      assertR13SourceSemanticsPublishedSealMatchesAuthority(
+        independentlyLoadedSeal,
+        fixture.first.seal,
+      ),
     ).not.toThrow()
+    const tamperedSourceControl = structuredClone(independentlyLoadedSeal) as typeof fixture.first.seal
+    tamperedSourceControl.sourceControl.reportDigest = '0'.repeat(64)
+    tamperedSourceControl.digest = stableJsonSha256(
+      (() => {
+        const { digest: _digest, ...body } = tamperedSourceControl
+        return body
+      })(),
+    )
+    expect(() =>
+      assertR13SourceSemanticsPublishedSealMatchesAuthority(
+        tamperedSourceControl,
+        fixture.first.seal,
+      ),
+    ).toThrow(/published seal 与 authority 不符/)
     expect(fixture.first.seal.parent.transitionId).toBe('r13-enemy-script-v1')
     expect(fixture.first.seal.parent.digest).toBe(
       fixture.base.baselineMetadata?.transitions['r13-enemy-script-v1'],
@@ -276,7 +329,27 @@ describe.skipIf(!hasPalTestFixture())('R13-6A source semantics append-only PAL M
         preparedAuthority: fixture.first.authority,
       }),
     ).toThrow(/prepared authority 输入身份漂移/)
-  })
+
+    const originalHistoricalSources = fixture.sourceDispositionInput.historicalSources
+    const mutatedHistoricalSources = structuredClone(
+      originalHistoricalSources,
+    ) as typeof originalHistoricalSources
+    const historicalCommand = mutatedHistoricalSources.migrate.commands[1736]
+    if (!historicalCommand || historicalCommand.op !== 'raw')
+      throw new Error('R13-6A test fixture 缺可变 historical source command')
+    historicalCommand.operands = [...(historicalCommand.operands ?? []), 99]
+    fixture.sourceDispositionInput.historicalSources = mutatedHistoricalSources
+    try {
+      expect(() =>
+        createR13SourceSemanticsV5MigrationPlan({
+          ...planArgs(fixture, { base: fixture.base, ours: fixture.ours }),
+          preparedAuthority: fixture.first.authority,
+        }),
+      ).toThrow(/prepared source input 内容漂移/)
+    } finally {
+      fixture.sourceDispositionInput.historicalSources = originalHistoricalSources
+    }
+  }, 30_000)
 
   test('作者 scene/map 修改留在 project target，不污染纯 successor baseline', () => {
     const ours = cloneSnapshot(fixture.ours)

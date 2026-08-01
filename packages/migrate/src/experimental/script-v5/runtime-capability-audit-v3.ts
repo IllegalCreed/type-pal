@@ -99,6 +99,19 @@ export interface R13RuntimeCapabilityAuditV3 {
   digest: string
 }
 
+/**
+ * Historical R13-5 was published before `wait` became legal in a hidden scene-entry
+ * prepare.  Keep that compatibility axis explicit at the audit boundary instead of
+ * mutating the shared content capability table.
+ */
+interface R13RuntimeCapabilityAuditOptions {
+  sceneEntryWaitSafe?: boolean
+}
+
+const R13_RUNTIME_CAPABILITY_HISTORICAL_R13_5_OPTIONS = Object.freeze({
+  sceneEntryWaitSafe: false,
+})
+
 interface RuntimeCorpusV3 {
   scenes: SceneDefV5[]
   items: ItemDataV5[]
@@ -257,7 +270,11 @@ function runtimeCorpus(snapshot: MigrationSnapshot): RuntimeCorpusV3 {
   }
 }
 
-function worldCell(kind: string, context: string): R13RuntimeCapabilityV3Cell {
+function worldCell(
+  kind: string,
+  context: string,
+  options: R13RuntimeCapabilityAuditOptions,
+): R13RuntimeCapabilityV3Cell {
   if (context === 'scene-entry-prepare') {
     const v5Safe =
       kind === 'selectEntityBehavior' ||
@@ -265,7 +282,9 @@ function worldCell(kind: string, context: string): R13RuntimeCapabilityV3Cell {
       kind === 'setEntityTriggerActivation' ||
       kind === 'selectSceneHooks'
     const legacySafe =
-      SCENE_ENTRY_PREPARE_SAFETY[kind as keyof typeof SCENE_ENTRY_PREPARE_SAFETY] === 'safe'
+      kind === 'wait' && options.sceneEntryWaitSafe === false
+        ? false
+        : SCENE_ENTRY_PREPARE_SAFETY[kind as keyof typeof SCENE_ENTRY_PREPARE_SAFETY] === 'safe'
     return {
       domain: 'world-command',
       context,
@@ -348,7 +367,9 @@ function aiActionCell(kind: AiAction['kind'], context: string): R13RuntimeCapabi
   }
 }
 
-export function buildR13RuntimeCapabilityMatrixV3(): R13RuntimeCapabilityAuditV3['matrix'] {
+function buildR13RuntimeCapabilityMatrixV3WithOptions(
+  options: R13RuntimeCapabilityAuditOptions = {},
+): R13RuntimeCapabilityAuditV3['matrix'] {
   const worldKinds = Object.entries(AUTHOR_COMMAND_V5_KINDS)
     .filter(([, enabled]) => enabled)
     .map(([kind]) => kind)
@@ -383,7 +404,7 @@ export function buildR13RuntimeCapabilityMatrixV3(): R13RuntimeCapabilityAuditV3
   const cells = domains.flatMap((domain) =>
     domain.contexts.flatMap((context) =>
       domain.kinds.map((kind): R13RuntimeCapabilityV3Cell => {
-        if (domain.domain === 'world-command') return worldCell(kind, context)
+        if (domain.domain === 'world-command') return worldCell(kind, context, options)
         if (domain.domain === 'skill-effect') return skillCell(kind as SkillEffect['kind'], context)
         if (domain.domain === 'enemy-ai-action')
           return aiActionCell(kind as AiAction['kind'], context)
@@ -424,6 +445,10 @@ export function buildR13RuntimeCapabilityMatrixV3(): R13RuntimeCapabilityAuditV3
   return { domains, cells }
 }
 
+export function buildR13RuntimeCapabilityMatrixV3(): R13RuntimeCapabilityAuditV3['matrix'] {
+  return buildR13RuntimeCapabilityMatrixV3WithOptions()
+}
+
 function capabilityKey(domain: string, context: string, kind: string): string {
   return `${domain}\0${context}\0${kind}`
 }
@@ -454,11 +479,12 @@ function inventoryOf(corpus: RuntimeCorpusV3): R13RuntimeCapabilityAuditV3['inve
   }
 }
 
-export function auditR13RuntimeCapabilitiesV3(
+function auditR13RuntimeCapabilitiesV3WithOptions(
   snapshot: MigrationSnapshot,
+  options: R13RuntimeCapabilityAuditOptions = {},
 ): R13RuntimeCapabilityAuditV3 {
   const corpus = runtimeCorpus(snapshot)
-  const matrix = buildR13RuntimeCapabilityMatrixV3()
+  const matrix = buildR13RuntimeCapabilityMatrixV3WithOptions(options)
   const cells = new Map(
     matrix.cells.map((cell) => [capabilityKey(cell.domain, cell.context, cell.kind), cell]),
   )
@@ -811,7 +837,16 @@ export function auditR13RuntimeCapabilitiesV3(
   return { ...withoutDigest, digest: stableJsonSha256(withoutDigest) }
 }
 
-export function assertR13RuntimeCapabilityAuditReportV3(report: R13RuntimeCapabilityAuditV3): void {
+export function auditR13RuntimeCapabilitiesV3(
+  snapshot: MigrationSnapshot,
+): R13RuntimeCapabilityAuditV3 {
+  return auditR13RuntimeCapabilitiesV3WithOptions(snapshot)
+}
+
+function assertR13RuntimeCapabilityAuditReportV3WithOptions(
+  report: R13RuntimeCapabilityAuditV3,
+  options: R13RuntimeCapabilityAuditOptions = {},
+): void {
   if (
     report.kind !== 'r13-runtime-capability-audit' ||
     report.version !== 3 ||
@@ -820,7 +855,7 @@ export function assertR13RuntimeCapabilityAuditReportV3(report: R13RuntimeCapabi
     throw new Error('R13 runtime capability v3: header 漂移')
   if (!/^[0-9a-f]{64}$/.test(report.generator.corpusDigest))
     throw new Error('R13 runtime capability v3: corpus digest 非 sha256')
-  const expectedMatrix = buildR13RuntimeCapabilityMatrixV3()
+  const expectedMatrix = buildR13RuntimeCapabilityMatrixV3WithOptions(options)
   if (stableJsonSha256(report.matrix) !== stableJsonSha256(expectedMatrix))
     throw new Error('R13 runtime capability v3: matrix 漂移')
   const cells = new Map(
@@ -896,25 +931,76 @@ export function assertR13RuntimeCapabilityAuditReportV3(report: R13RuntimeCapabi
     throw new Error(`R13 runtime capability v3 audit failed:\n${report.issues.join('\n')}`)
 }
 
+export function assertR13RuntimeCapabilityAuditReportV3(
+  report: R13RuntimeCapabilityAuditV3,
+): void {
+  assertR13RuntimeCapabilityAuditReportV3WithOptions(report)
+}
+
 /**
  * 仅用于“刚由同一 snapshot 构建”的本地报告：builder 已读取 snapshot 一次，这里校验报告
  * 自洽、矩阵与零 issue，不再立刻重复构建 62k+ use。外部传入或可跨调用缓存的报告仍必须走
  * assertR13RuntimeCapabilityAuditV3 的 snapshot-backed rebuild。
  */
+function buildAndAssertR13RuntimeCapabilityAuditV3WithOptions(
+  snapshot: MigrationSnapshot,
+  options: R13RuntimeCapabilityAuditOptions = {},
+): R13RuntimeCapabilityAuditV3 {
+  const report = auditR13RuntimeCapabilitiesV3WithOptions(snapshot, options)
+  assertR13RuntimeCapabilityAuditReportV3WithOptions(report, options)
+  return report
+}
+
 export function buildAndAssertR13RuntimeCapabilityAuditV3(
   snapshot: MigrationSnapshot,
 ): R13RuntimeCapabilityAuditV3 {
-  const report = auditR13RuntimeCapabilitiesV3(snapshot)
-  assertR13RuntimeCapabilityAuditReportV3(report)
-  return report
+  return buildAndAssertR13RuntimeCapabilityAuditV3WithOptions(snapshot)
+}
+
+/** Rebuild the byte-pinned R13-5 audit without exposing an unlabelled matrix option. */
+export function buildAndAssertHistoricalR13_5RuntimeCapabilityAuditV3(
+  snapshot: MigrationSnapshot,
+): R13RuntimeCapabilityAuditV3 {
+  return buildAndAssertR13RuntimeCapabilityAuditV3WithOptions(
+    snapshot,
+    R13_RUNTIME_CAPABILITY_HISTORICAL_R13_5_OPTIONS,
+  )
+}
+
+function assertR13RuntimeCapabilityAuditV3WithOptions(
+  report: R13RuntimeCapabilityAuditV3,
+  snapshot: MigrationSnapshot,
+  options: R13RuntimeCapabilityAuditOptions = {},
+): void {
+  assertR13RuntimeCapabilityAuditReportV3WithOptions(report, options)
+  const rebuilt = auditR13RuntimeCapabilitiesV3WithOptions(snapshot, options)
+  if (stableJsonSha256(rebuilt) !== stableJsonSha256(report))
+    throw new Error('R13 runtime capability v3: snapshot-backed rebuild 漂移')
 }
 
 export function assertR13RuntimeCapabilityAuditV3(
   report: R13RuntimeCapabilityAuditV3,
   snapshot: MigrationSnapshot,
 ): void {
-  assertR13RuntimeCapabilityAuditReportV3(report)
-  const rebuilt = auditR13RuntimeCapabilitiesV3(snapshot)
-  if (stableJsonSha256(rebuilt) !== stableJsonSha256(report))
-    throw new Error('R13 runtime capability v3: snapshot-backed rebuild 漂移')
+  assertR13RuntimeCapabilityAuditV3WithOptions(report, snapshot)
+}
+
+export function assertHistoricalR13_5RuntimeCapabilityAuditReportV3(
+  report: R13RuntimeCapabilityAuditV3,
+): void {
+  assertR13RuntimeCapabilityAuditReportV3WithOptions(
+    report,
+    R13_RUNTIME_CAPABILITY_HISTORICAL_R13_5_OPTIONS,
+  )
+}
+
+export function assertHistoricalR13_5RuntimeCapabilityAuditV3(
+  report: R13RuntimeCapabilityAuditV3,
+  snapshot: MigrationSnapshot,
+): void {
+  assertR13RuntimeCapabilityAuditV3WithOptions(
+    report,
+    snapshot,
+    R13_RUNTIME_CAPABILITY_HISTORICAL_R13_5_OPTIONS,
+  )
 }

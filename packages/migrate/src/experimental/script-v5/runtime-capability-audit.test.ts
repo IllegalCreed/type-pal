@@ -3,7 +3,9 @@ import { describe, expect, test } from 'vitest'
 import type { MigrationSnapshot } from '../../migration-baseline.js'
 import type { MigrationJson } from '../../pal-migration.js'
 import {
+  assertHistoricalR13ConfirmRuntimeCapabilityAudit,
   assertR13RuntimeCapabilityAudit,
+  auditHistoricalR13ConfirmRuntimeCapabilities,
   auditR13RuntimeCapabilities,
   buildR13RuntimeCapabilityMatrix,
   R13_COMMAND_CONTEXTS,
@@ -90,6 +92,35 @@ describe('R13 runtime capability audit', () => {
       matrix.commandKinds.length * R13_COMMAND_CONTEXTS.length,
     )
     expect(matrix.skillCells).toHaveLength(matrix.skillKinds.length * R13_SKILL_CONTEXTS.length)
+  })
+
+  test('published R13-confirm matrix keeps historical wait refusal isolated from current', () => {
+    const value = snapshot()
+    const current = auditR13RuntimeCapabilities(value)
+    const historical = auditHistoricalR13ConfirmRuntimeCapabilities(value)
+    const currentWait = current.matrix.commandCells.find(
+      (cell) => cell.context === 'scene-entry-prepare' && cell.kind === 'wait',
+    )
+    const historicalWait = historical.matrix.commandCells.find(
+      (cell) => cell.context === 'scene-entry-prepare' && cell.kind === 'wait',
+    )
+
+    expect(currentWait?.status).toBe('executed')
+    expect(historicalWait?.status).toBe('refused')
+    expect(stableJsonSha256(current.matrix)).toBe(
+      '96e67cfbdd131d528654589715dd709f2fceae95110432ca4b43e9a1a7332937',
+    )
+    expect(stableJsonSha256(historical.matrix)).toBe(
+      'd25ee2a7940082e20948730c2bd467f659ff3e0b4de19047050b84fe4e42e7a9',
+    )
+    expect(historical.digest).not.toBe(current.digest)
+    expect(() => assertR13RuntimeCapabilityAudit(historical, value)).toThrow('matrix 漂移')
+    expect(() =>
+      assertHistoricalR13ConfirmRuntimeCapabilityAudit(current, value),
+    ).toThrow('matrix 漂移')
+    expect(() =>
+      assertHistoricalR13ConfirmRuntimeCapabilityAudit(historical, value),
+    ).not.toThrow()
   })
 
   test('registers real confirm execution without an R13-4 debt', () => {

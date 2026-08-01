@@ -9,6 +9,7 @@ import type { MigrationJson } from '../../pal-migration.js'
 import {
   getPalTestCurrentV10Fixture,
   getPalTestGeneratedFixture,
+  getPalTestHistoricalR13_5V10Fixture,
   getPalTestPreparedSourceExecutionCensus,
   hasPalTestFixture,
   PAL_TEST_REPO,
@@ -43,10 +44,12 @@ import { stableJsonSha256 } from './stable-json.js'
 function currentEnemySnapshot(): {
   generated: ReturnType<typeof getPalTestGeneratedFixture>
   current: ReturnType<typeof getPalTestCurrentV10Fixture>
+  historicalR13_5: ReturnType<typeof getPalTestHistoricalR13_5V10Fixture>
   final: MigrationSnapshot
 } {
   const generated = getPalTestGeneratedFixture()
   const current = getPalTestCurrentV10Fixture()
+  const historicalR13_5 = getPalTestHistoricalR13_5V10Fixture()
   const enemies = current.migration.files.get('content/enemies.json')
   if (!enemies) throw new Error('R13-5 PAL enemy audit: current enemies 缺失')
   const files = new Map(generated.generated.snapshot.files)
@@ -54,6 +57,7 @@ function currentEnemySnapshot(): {
   return {
     generated,
     current,
+    historicalR13_5,
     final: {
       files,
       managedFiles: new Set(generated.generated.snapshot.managedFiles),
@@ -168,12 +172,12 @@ describe.skipIf(!hasPalTestFixture())('R13-5 PAL full-path enemy audits', () => 
   }, 120_000)
 
   test('successor 只替换 enemies、增加五个 locale 键并删除八份旧遭遇演出', () => {
-    const { generated, current } = fixture
+    const { generated, historicalR13_5 } = fixture
     const augmentation = augmentR13EnemyScriptsAfterConfirm({
       parent: generated.generated.snapshot,
       historicalMigration: generated.migration,
-      currentSources: current.sources,
-      currentMigration: current.migration,
+      currentSources: historicalR13_5.sources,
+      currentMigration: historicalR13_5.migration,
     })
     expect(augmentation.evidence.summary).toEqual({
       enemies: 153,
@@ -203,6 +207,12 @@ describe.skipIf(!hasPalTestFixture())('R13-5 PAL full-path enemy audits', () => 
       cursorTraceEdges: 26,
     })
     expect(augmentation.runtimeCapability.issues).toEqual([])
+    expect(augmentation.runtimeCapability.digest).toBe(
+      '3da46aa3a98839078153e2a3880e045d73ef2d3456da862a71332a235b76988f',
+    )
+    expect(augmentation.evidence.digest).toBe(
+      '6df51877ed46003b5c9a6f95f2882e511e383f0b73753de05951545aa5fa7cee',
+    )
     expect(stableJsonSha256(augmentation.snapshot.files.get('content/skills.json'))).toBe(
       stableJsonSha256(generated.generated.snapshot.files.get('content/skills.json')),
     )
@@ -213,7 +223,7 @@ describe.skipIf(!hasPalTestFixture())('R13-5 PAL full-path enemy audits', () => 
   }, 120_000)
 
   test('MG2 初始化只写八个内容文件，旧 seal 不动且保留作者改动', () => {
-    const { generated, current } = fixture
+    const { generated, current, historicalR13_5 } = fixture
     const managed = discoverProjectManagedFiles(
       PAL_TEST_REPO,
       new Set([...generated.baseline.managedFiles, ...current.migration.managedFiles]),
@@ -225,9 +235,9 @@ describe.skipIf(!hasPalTestFixture())('R13-5 PAL full-path enemy audits', () => 
       historicalSources: generated.sources,
       historicalMigration: generated.migration,
       historicalAudit: generated.currentAudit,
-      currentSources: current.sources,
-      currentMigration: current.migration,
-      currentAudit: current.audit,
+      currentSources: historicalR13_5.sources,
+      currentMigration: historicalR13_5.migration,
+      currentAudit: historicalR13_5.audit,
       preparedHistoricalSourceCensus,
     })
     // 正式发布后的 baseline 已含 R13-5 seal 与 successor 内容；两者都回建到 parent，
@@ -249,12 +259,20 @@ describe.skipIf(!hasPalTestFixture())('R13-5 PAL full-path enemy audits', () => 
       historicalSources: generated.sources,
       historicalMigration: generated.migration,
       historicalAudit: generated.currentAudit,
-      currentSources: current.sources,
-      currentMigration: current.migration,
-      currentAudit: current.audit,
+      currentSources: historicalR13_5.sources,
+      currentMigration: historicalR13_5.migration,
+      currentAudit: historicalR13_5.audit,
       preparedHistoricalSourceCensus,
       preparedAuthority: authority,
     })
+    expect(() =>
+      createR13EnemyScriptV5MigrationPlan({
+        ...planArgs({ base, ours }),
+        currentSources: current.sources,
+        currentMigration: current.migration,
+        currentAudit: current.audit,
+      }),
+    ).toThrow(/prepared authority 输入身份漂移/)
     const oldControl = [...base.files]
       .filter(([path]) => path.startsWith('_transitions/'))
       .map(([path, value]) => [path, structuredClone(value)] as const)

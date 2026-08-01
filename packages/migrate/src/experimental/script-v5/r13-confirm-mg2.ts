@@ -24,8 +24,8 @@ import {
   type R13ItemThrowV5MigrationPlan,
 } from './r13-item-throw-mg2.js'
 import {
-  assertR13RuntimeCapabilityAudit,
-  auditR13RuntimeCapabilities,
+  assertHistoricalR13ConfirmRuntimeCapabilityAudit,
+  auditHistoricalR13ConfirmRuntimeCapabilities,
   type R13_RUNTIME_CAPABILITY_METHOD,
   type R13RuntimeCapabilityAuditV2,
 } from './runtime-capability-audit.js'
@@ -399,8 +399,8 @@ export function prepareR13ConfirmControlAuditAuthority(args: {
     final,
   }
   const sourceDisposition = buildAndAssertR13SourceInstructionDispositionV3(sourceArgs)
-  const runtimeCapability = auditR13RuntimeCapabilities(final)
-  assertR13RuntimeCapabilityAudit(runtimeCapability, final)
+  const runtimeCapability = auditHistoricalR13ConfirmRuntimeCapabilities(final)
+  assertHistoricalR13ConfirmRuntimeCapabilityAudit(runtimeCapability, final)
   const sealEvidence = buildConfirmControlAuditSealEvidence(
     sourceDisposition,
     runtimeCapability,
@@ -471,8 +471,27 @@ export function assertR13ConfirmPublishedSealMatchesAuthority(
   publishedSeal: unknown,
   expectedSeal: R13ConfirmTransitionSealV1,
 ): void {
-  if (!isDeepStrictEqual(publishedSeal, expectedSeal))
-    throw new Error('R13 confirm MG2: 权威重建证据与已发布 seal 不符')
+  if (!isDeepStrictEqual(publishedSeal, expectedSeal)) {
+    const published = publishedSeal as Partial<R13ConfirmTransitionSealV1> | undefined
+    throw new Error(
+      'R13 confirm MG2: 权威重建证据与已发布 seal 不符 ' +
+        JSON.stringify({
+          publishedDigest: typeof published?.digest === 'string' ? published.digest : undefined,
+          expectedDigest: expectedSeal.digest,
+          publishedEvidenceDigest: (published?.evidence as { digest?: unknown } | undefined)?.digest,
+          expectedEvidenceDigest: expectedSeal.evidence.digest,
+          publishedAuditDigest:
+            published?.audits === undefined ? undefined : stableJsonSha256(published.audits),
+          expectedAuditDigest: stableJsonSha256(expectedSeal.audits),
+          publishedSourceReportDigest: published?.audits?.sourceControl?.reportDigest,
+          expectedSourceReportDigest: expectedSeal.audits.sourceControl.reportDigest,
+          publishedRuntimeReportDigest: published?.audits?.runtimeExecution?.reportDigest,
+          expectedRuntimeReportDigest: expectedSeal.audits.runtimeExecution.reportDigest,
+          publishedRuntimeMatrixDigest: published?.audits?.runtimeExecution?.matrixDigest,
+          expectedRuntimeMatrixDigest: expectedSeal.audits.runtimeExecution.matrixDigest,
+        }),
+    )
+  }
 }
 
 export interface R13ConfirmSealAuthorityArgs {

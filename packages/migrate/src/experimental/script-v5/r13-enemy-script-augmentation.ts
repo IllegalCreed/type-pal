@@ -17,7 +17,7 @@ import {
   type R13EnemySourceDispositionV1,
 } from './r13-enemy-source-disposition.js'
 import {
-  buildAndAssertR13RuntimeCapabilityAuditV3,
+  buildAndAssertHistoricalR13_5RuntimeCapabilityAuditV3,
   type R13RuntimeCapabilityAuditV3,
 } from './runtime-capability-audit-v3.js'
 import { digestR13ContentSnapshot } from './source-instruction-disposition.js'
@@ -25,6 +25,9 @@ import { digestRecord, stableJsonSha256, stableStringCompare } from './stable-js
 
 export const R13_ENEMY_SCRIPT_PARENT_CONTENT_DIGEST =
   'f4b1a1e8be9a2a902e70e88f838b3fa03e433b97f6f802a86ccac3ee822158a2' as const
+/** Published R13-5 enemy successor content. 6A consumes this snapshot as its source parent. */
+export const R13_ENEMY_SCRIPT_SUCCESSOR_CONTENT_DIGEST =
+  '5750ac4fbaec8cc487be1bdbd88881005d239a7f6a118adba8286643208c2603' as const
 export const R13_ENEMY_SCRIPT_PARENT_ENEMIES_DIGEST =
   '28917ea42cb7bc8ca90dcb9268f7c3badbcc3ad1996db9f91d55a33a2ea3a119' as const
 export const R13_ENEMY_SCRIPT_CURRENT_ENEMIES_DIGEST =
@@ -450,7 +453,7 @@ export function assertR13EnemyScriptAugmentationEvidence(
         !/^[0-9a-f]{64}$/.test(entry.successorCommandDigest) ||
         entry.oldCommandDigest === entry.successorCommandDigest,
     ) ||
-    !/^[0-9a-f]{64}$/.test(evidence.successorContentDigest) ||
+    evidence.successorContentDigest !== R13_ENEMY_SCRIPT_SUCCESSOR_CONTENT_DIGEST ||
     !/^[0-9a-f]{64}$/.test(evidence.audits.enemySourceDispositionDigest) ||
     !/^[0-9a-f]{64}$/.test(evidence.audits.runtimeCapabilityDigest) ||
     evidence.audits.enemySourceDispositionSummary.cursorTraceStates !== 25 ||
@@ -707,7 +710,7 @@ export function augmentR13EnemyScriptsAfterConfirm(args: {
   }
   const enemySourceDisposition = buildR13EnemySourceDispositionFromPal(dispositionArgs)
   assertR13EnemySourceDispositionFromPal(enemySourceDisposition, dispositionArgs)
-  const runtimeCapability = buildAndAssertR13RuntimeCapabilityAuditV3(snapshot)
+  const runtimeCapability = buildAndAssertHistoricalR13_5RuntimeCapabilityAuditV3(snapshot)
 
   const evidence = digestRecord<R13EnemyScriptAugmentationEvidenceV1>({
     kind: 'r13-enemy-script-augmentation-evidence',

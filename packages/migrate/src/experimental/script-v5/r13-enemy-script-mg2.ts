@@ -46,8 +46,8 @@ import {
   R13_ITEM_THROW_SEAL_PATH,
 } from './r13-item-throw-mg2.js'
 import {
-  assertR13RuntimeCapabilityAuditReportV3,
-  assertR13RuntimeCapabilityAuditV3,
+  assertHistoricalR13_5RuntimeCapabilityAuditReportV3,
+  assertHistoricalR13_5RuntimeCapabilityAuditV3,
   buildAndAssertR13RuntimeCapabilityAuditV3,
   type R13_RUNTIME_CAPABILITY_V3_METHOD,
   type R13RuntimeCapabilityAuditV3,
@@ -448,7 +448,7 @@ export function prepareR13EnemyScriptAuthority(args: {
   }
   const sourceDisposition = buildAndAssertR13SourceInstructionDispositionV3(sourceArgs)
   const runtimeCapability = augmentation.runtimeCapability
-  assertR13RuntimeCapabilityAuditReportV3(runtimeCapability)
+  assertHistoricalR13_5RuntimeCapabilityAuditReportV3(runtimeCapability)
   const auditSeal = buildAuditSeal(sourceDisposition, runtimeCapability, args.historicalAudit)
 
   const cadenceAuthority = prepareR13CadenceAuthority(successorGenerated)
@@ -525,7 +525,10 @@ function assertPreparedAuthority(
   // prepared 只接受本模块完整构建并登记在 WeakSet 的 authority。每次复用都重验 pure
   // successor 全闭包、R13-5 owned target closure 与摘要，防止签后 Map 内容漂移；但不再
   // 遍历 81,674 个 execution sites。未提供 prepared 的生产路径仍会完整重建并断言源账。
-  assertR13RuntimeCapabilityAuditV3(prepared.runtimeCapability, prepared.augmentation.snapshot)
+  assertHistoricalR13_5RuntimeCapabilityAuditV3(
+    prepared.runtimeCapability,
+    prepared.augmentation.snapshot,
+  )
   const auditSeal = buildAuditSeal(
     prepared.sourceDisposition,
     prepared.runtimeCapability,
@@ -635,6 +638,8 @@ export function createR13EnemyScriptV5MigrationPlan(args: {
   // delta closure 独立校验。把 81,674-site 报告重新绑定到作者 target 既不会增加 R13-5
   // 证明力，又会让每次 replay 重做数分钟全表扫描。target 自身仍须跑完整 runtime capability。
   const finalSourceDisposition = authority.sourceDisposition
+  // authority report 重放发布时的 R13-5 matrix；合并后的作者 target 面向当前 runtime，
+  // 因此必须独立按 current matrix（scene-entry prepare 可执行 wait）验证。
   const finalRuntimeCapability = buildAndAssertR13RuntimeCapabilityAuditV3(confirm.target)
   buildAuditSeal(finalSourceDisposition, finalRuntimeCapability, args.historicalAudit)
 
