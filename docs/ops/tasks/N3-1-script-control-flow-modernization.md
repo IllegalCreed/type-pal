@@ -6672,8 +6672,9 @@ R13-Z、N3-1、C8 或 ED-5I 已完成。
   峰值 RSS 分别为约 `474.8MB / 534.2MB / 518.1MB`；该门不构建完整 PAL P2→P7 fixture，
   但保留 6 个 source-backed lite/oracle 文件和 5 个 P7 混合文件的纯单元测试。
 - `test:canary` 是独立冷进程，直接重读 extracted source、audit、published baseline/project，
-  精确重建 R13-6A authority 并 replay `0/0/0`；最终 `1 file / 2 tests` 通过，墙钟 `484.72s`
-  （约 8 分钟），峰值 RSS `3,630,317,568B`（约 3.63GB）。墙钟在 `≤10min` 内，但 RSS 高于
+  精确重建 R13-6A authority 并 replay `0/0/0`；精简非 replay 必需引用后 `1 file / 2 tests`
+  通过，墙钟 `484.80s`（约 8 分钟），峰值 RSS `3,451,617,280B`（约 3.45GB）。墙钟在 `≤10min`
+  内，RSS 相对原 3.63GB 只降约 4.9%，主峰仍在生产建链期且高于
   原 `≤1.5GB` 初始目标，不能把该风险宣称已解决。
 - `test:release` 继续保留完整 PAL shared/fresh 矩阵；完整 22 文件共享乱序首轮探针在
   `19m36s` 未结束而中止，因此 G7 乱序证据仍待独立顺序探针补齐。这个慢路径只属于发布/审查门，

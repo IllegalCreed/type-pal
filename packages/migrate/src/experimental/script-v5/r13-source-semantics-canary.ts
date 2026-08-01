@@ -26,10 +26,6 @@ export interface R13SourceSemanticsCanaryFixture {
   base: MigrationSnapshot
   ours: MigrationSnapshot
   first: R13SourceSemanticsV5MigrationPlan
-  historical: ReturnType<typeof getPalTestGeneratedFixture>
-  enemyAuthority: ReturnType<typeof prepareR13EnemyScriptAuthority>
-  current: ReturnType<typeof getPalTestCurrentV10Fixture>
-  sourceDispositionInput: R13SourceSemanticsDispositionInput
   projectPrerequisites: ReadonlyMap<string, MigrationJson>
 }
 
@@ -138,10 +134,6 @@ export function buildR13SourceSemanticsCanaryFixture(): R13SourceSemanticsCanary
     base,
     ours,
     first,
-    historical,
-    enemyAuthority,
-    current,
-    sourceDispositionInput,
     projectPrerequisites,
   }
 }

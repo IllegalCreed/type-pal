@@ -56,10 +56,10 @@ describe('R13-6A source-backed cold canary', () => {
     const replay = createR13SourceSemanticsV5MigrationPlan({
       base: cloneR13SourceSemanticsCanarySnapshot(fixture.first.nextBaseline),
       ours: replayOurs,
-      currentSources: fixture.current.sources,
-      currentMigration: fixture.current.migration,
+      currentSources: fixture.first.authority.currentSources,
+      currentMigration: fixture.first.authority.currentMigration,
       projectPrerequisites: fixture.projectPrerequisites,
-      sourceDispositionInput: fixture.sourceDispositionInput,
+      sourceDispositionInput: fixture.first.authority.sourceDispositionInput,
       preparedAuthority: fixture.first.authority,
     })
     expect(replay.sealMode).toBe('replay')
