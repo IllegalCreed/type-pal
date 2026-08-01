@@ -6668,7 +6668,7 @@ R13-Z、N3-1、C8 或 ED-5I 已完成。
 
 `docs/ops/tasks/OPS-TST-PERF-test-fixture-stratification.md` 已把日常开发门与发布门拆开：
 
-- `test:fast` 固定运行 `70 files / 504 tests`，连续三次墙钟为 `39.29s / 36.77s / 39.28s`，
+- `test:fast` 当前固定运行 `70 files / 506 tests`（本轮 G2 trust-boundary 返工新增 2 tests），此前三次墙钟为 `39.29s / 36.77s / 39.28s`，
   峰值 RSS 分别为约 `474.8MB / 534.2MB / 518.1MB`；该门不构建完整 PAL P2→P7 fixture，
   但保留 6 个 source-backed lite/oracle 文件和 5 个 P7 混合文件的纯单元测试。
 - `test:canary` 是独立冷进程，直接重读 extracted source、audit、published baseline/project，

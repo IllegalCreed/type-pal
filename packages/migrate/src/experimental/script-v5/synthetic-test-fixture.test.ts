@@ -1,7 +1,16 @@
 import { describe, expect, test } from 'vitest'
 import { createMigrationPlan } from '../../migration-plan.js'
-import { assertR13SourceExecutionCensus } from './source-execution-census.js'
 import {
+  assertHistoricalR13_5RuntimeCapabilityAuditReportV3,
+  assertR13RuntimeCapabilityAuditReportV3,
+  assertR13RuntimeCapabilityAuditV3,
+  buildAndAssertHistoricalR13_5RuntimeCapabilityAuditV3,
+  buildAndAssertR13RuntimeCapabilityAuditV3,
+} from './runtime-capability-audit-v3.js'
+import { assertR13SourceExecutionCensus } from './source-execution-census.js'
+import { stableJsonSha256 } from './stable-json.js'
+import {
+  createSyntheticRuntimeSnapshot,
   createSyntheticSourceGraphFixture,
   createSyntheticStageFlowFixture,
 } from './synthetic-test-fixture.js'
@@ -84,5 +93,37 @@ describe('synthetic migration fixture', () => {
     const branch = flow.stages[0]!.body[0]!
     if (branch.kind !== 'branch') throw new Error('synthetic branch missing')
     expect(branch.then[0]).toMatchObject({ kind: 'confirm', id: 'continue-choice' })
+  })
+
+  test('keeps current/historical profile, snapshot identity and missing prerequisites fail-closed', () => {
+    const snapshot = createSyntheticRuntimeSnapshot()
+    const current = buildAndAssertR13RuntimeCapabilityAuditV3(snapshot)
+    const historical = buildAndAssertHistoricalR13_5RuntimeCapabilityAuditV3(snapshot)
+    expect(() => assertR13RuntimeCapabilityAuditReportV3(historical)).toThrow('matrix 漂移')
+    expect(() => assertHistoricalR13_5RuntimeCapabilityAuditReportV3(current)).toThrow(
+      'matrix 漂移',
+    )
+
+    const editedSnapshot = createSyntheticRuntimeSnapshot()
+    editedSnapshot.files.set('content/items.json', [{ id: 'edited' }])
+    expect(() => assertR13RuntimeCapabilityAuditV3(current, editedSnapshot)).toThrow(
+      /snapshot-backed rebuild 漂移|校验失败|无效|缺键/,
+    )
+
+    const missingPrerequisite = createSyntheticRuntimeSnapshot()
+    missingPrerequisite.files.delete('content/shared-scripts.json')
+    expect(() => buildAndAssertR13RuntimeCapabilityAuditV3(missingPrerequisite)).toThrow(
+      '缺 content/shared-scripts.json',
+    )
+  })
+
+  test('rejects forged self-resigned runtime evidence', () => {
+    const report = buildAndAssertR13RuntimeCapabilityAuditV3(createSyntheticRuntimeSnapshot())
+    const forged = structuredClone(report)
+    forged.matrix.cells[0]!.status =
+      forged.matrix.cells[0]!.status === 'executed' ? 'refused' : 'executed'
+    const { digest: _digest, ...withoutDigest } = forged
+    forged.digest = stableJsonSha256(withoutDigest)
+    expect(() => assertR13RuntimeCapabilityAuditReportV3(forged)).toThrow(/matrix 漂移|digest/)
   })
 })

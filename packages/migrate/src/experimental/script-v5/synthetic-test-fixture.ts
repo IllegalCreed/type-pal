@@ -1,4 +1,6 @@
 import type { ScriptFlowV5 } from '@type-pal/content'
+import type { MigrationSnapshot } from '../../migration-baseline.js'
+import type { MigrationJson } from '../../pal-migration.js'
 import type { SourceEntrySite } from '../../script-control-flow-audit.js'
 import type { SourceCmd } from '../../source-facts.js'
 import {
@@ -16,6 +18,38 @@ export interface SyntheticSourceGraphFixture {
 
 export interface SyntheticSourceGraphOptions {
   entryOrder?: 'forward' | 'reverse'
+}
+
+export interface SyntheticRuntimeSnapshotOverrides {
+  scene?: MigrationJson
+  items?: MigrationJson
+  shared?: MigrationJson
+  enemies?: MigrationJson
+  skills?: MigrationJson
+}
+
+/** Minimal valid v5 runtime corpus used to exercise profile, snapshot identity and prerequisite
+ * boundaries without loading any PAL source or published project data. */
+export function createSyntheticRuntimeSnapshot(
+  overrides: SyntheticRuntimeSnapshotOverrides = {},
+): MigrationSnapshot {
+  const files = new Map<string, MigrationJson>([
+    ['content/scenes/index.json', ['s001']],
+    [
+      'content/scenes/s001.json',
+      overrides.scene ?? {
+        id: 's001',
+        mapId: 'map-001',
+        entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+        entities: [],
+      },
+    ],
+    ['content/items.json', overrides.items ?? []],
+    ['content/shared-scripts.json', overrides.shared ?? {}],
+    ['content/enemies.json', overrides.enemies ?? []],
+    ['content/skills.json', overrides.skills ?? { skills: [], levelUp: {} }],
+  ])
+  return { files, managedFiles: new Set(files.keys()) }
 }
 
 function sourceEntry(

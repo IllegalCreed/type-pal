@@ -1,6 +1,6 @@
 # OPS-TST-PERF - 迁移测试 fixture 分层与冷启动性能债
 
-Status: build
+Status: rework
 Phase: phase2
 Capability: test infrastructure / N3-1 support
 Coding Owner: Codex
@@ -65,7 +65,7 @@ Branch: main (用户要求持续提交，暂不切分工作分支)
 - 初步迁移目标：逐项审计 17 个 PAL-heavy 文件 / 123 tests、3 个 `pal-fresh` 文件 / 5 tests，以及 2 个直接读取真实 PAL 但未列 heavy 的轻量文件；预计约 44 个完整链行为/篡改断言改为 synthetic，依赖历史计数/样本的测试改读带 provenance 的 compact oracle（现有 11 个关键 JSON 约 31.8MB，解析基线约 0.10s）；只保留 1 个文件 / 2 个测试作为 source-backed producer canary；3 个 `pal-fresh` 文件继续归 release。
 - compact oracle 不是运行时缓存，也不能自证 source proof：必须记录 source commit、抽取版本、compiler/method/schema 版本、canonical input/output digest，并由 producer canary 独立重建后校验。
 
-本轮实现后的清单已固定为：fast `70 files / 504 tests`、release `92 files / 633 tests`、canary
+本轮实现后的清单已固定为：fast `70 files / 506 tests`、release `92 files / 635 tests`、canary
 `1 file / 2 tests`；相对开卡基线 `87 files / 623 tests` 为新增门禁/覆盖，不减少既有测试。
 
 ### G1 现有测试去向总表（设计阶段路线，不得删断言）
@@ -131,9 +131,9 @@ source-backed 归属，不能只改 Vitest include/exclude。
 ### 进入 done 前:审查签字
 
 - Codex: pending
-- Kimi: pending
-- GLM: pending
-- counter / 返工处理: N/A
+- Kimi: counter（2026-08-02；G1/G2 synthetic trust-boundary 与 G7 顺序证据不足，G8 RSS 超目标）
+- GLM: counter（2026-08-02 返工复审；G2 新增 runtime trust-boundary 子集 conditional accept，G5/G6 可接受；G1 逐项映射、G7、G8 仍未闭合）
+- counter / 返工处理: 保持 build，完成下列最小返工并重新跑证据；未补齐前不得标记 done
 - 缺签豁免: N/A
 - done 准入结论: blocked
 
@@ -184,20 +184,22 @@ source-backed 归属，不能只改 Vitest include/exclude。
    shuffle seed 的结果/digest 完全一致。跨 worker/跨命令全局 cache 属 counter。当前已加入
    `PAL_TEST_SHARED_GATE` 的 release-only 共享边界、canary 独立进程与 synthetic entry-order 反例；
    2026-08-02 对完整 22 文件共享矩阵的首轮乱序探针运行 `19m36s` 仍未结束而中止，未将其记为
-   通过，后续需用独立顺序探针补齐 3 个 seed 的证据。
+   通过；新增的 synthetic order probe 已用固定 seed `20260802/03/04` 各跑 4 files / 11 tests 通过，但不能
+   替代完整 PAL shared route，后续仍需补低频 shared 顺序探针或由用户豁免。
 8. **G8 性能**：在无并发重测的参考机上做 3 次冷跑并记录 median/max/RSS；synthetic 定向文件
    `≤10s`、fast（unit + lite + oracle）目标 `≤60s` 且 RSS `≤700MB`，canary 初期 `≤10min`
    且 RSS `≤1.5GB`，release 不得比开卡基线回退 10% 以上；不得靠增大 timeout 掩盖重复构建。
    当前 fast 三次实测分别为 `39.29s / 497,975,296B`、`36.77s / 560,119,808B`、
-   `39.28s / 543,473,664B`，504 tests 全绿；最终 canary `484.72s / 3,630,317,568B`，
-   2/2 全绿，墙钟达标但 RSS 尚未达 1.5GB 目标，保留为发布慢路径风险，不得标成完全达标。
+   `39.28s / 543,473,664B`，返工前 504 tests 全绿；G2 返工后的 fast 为 506 tests 全绿；最终
+   canary `484.72s / 3,630,317,568B`，2/2 全绿，墙钟达标但 RSS 尚未达 1.5GB 目标，保留为
+   发布慢路径风险，不得标成完全达标。
 
 ### 主审立场
 
 - Reviewer: Kimi（架构边界）+ GLM（覆盖/测试矩阵）
-- 结论: Kimi 条件性 agree；GLM pending；Codex pending
-- 必改项: 三方设计签字前不得改实现；必须锁定 synthetic 不生成 source proof、canary 真冷且不命中 cache、缓存仅进程内、release fresh，以及输入变更/返回值篡改/wrong profile/file shuffle/canary 非首个的负向测试矩阵。
-- 是否建议进入 build: pending
+- 结论: Kimi counter；GLM counter；Codex pending
+- 必改项: G1/G2 逐项迁移映射、shared route 的跨文件乱序证据与 canary RSS 裁决仍未闭合；不得把 synthetic/oracle probe 当作 source proof。
+- 是否建议进入 build: rework
 
 ## 额度 / 代班记录(如适用)
 
@@ -242,17 +244,22 @@ source-backed 归属，不能只改 Vitest include/exclude。
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: Kimi + GLM counter（覆盖、顺序隔离与性能复审）
+- 必须返工项:
+  1. **G1/G2 trust-boundary 覆盖**：返工新增 `createSyntheticRuntimeSnapshot`，并在生产 runtime capability builder 上覆盖 current/historical wrong profile、snapshot 内容 identity 漂移、缺 shared prerequisite、伪造自签 evidence；定向 6/6 实跑通过，故这四类可记 conditional accept。原 G1 表承诺的约 44 条 authority/seal、半状态、initialize/replay、owned/non-owned merge 及其逐条旧测试标题映射仍未闭合；继续按旧断言逐项补齐，不能用 synthetic 摘要替代 source proof。
+  2. **G7 乱序/隔离证据**：新增 probe 已扩为 4 个独立 synthetic/oracle 文件 / 11 个 tests，固定 seed `20260802/03/04` 均通过（约 2–3s/次），因此跨文件顺序探针本身可运行；但它仍不是完整 `release-pal-shared` 乱序/逆序证据。完整共享矩阵首轮运行 `19m36s` 后中止，尚无默认、逆序及至少 3 个固定 seed 的共享结果/digest 一致性证据。仍需补低频 shared 顺序探针或由用户明确豁免；shared fixture 继续要求深冻结/归还 digest，跨 worker/跨命令不得复用 authority。
+  3. **G8 内存与冷跑证据**：canary `484.72s` 墙钟合格但峰值 RSS `3,630,317,568B`（约 3.63GB）超过 `1.5GB` 目标；需优化到目标，或由用户明确批准并记录“已知发布慢路径风险”豁免，且补齐 canary/release 的 3 次冷跑 median/max/RSS 与相对开卡基线回归数据。不得宣称性能债完全达标。
+- Accept / rework: rework（G2 新增四类 conditional accept；G1 残余映射、G7、G8 为阻塞项）
 
 ### 当前待审结果
 
 - Codex 自验：`typecheck`、manifest/oracle、release-unit `65 files / 491 tests`、release-preflight
   `1/1`、source-backed canary `1 file / 2 tests`（最终 `484.72s / 3,630,317,568B`）均通过；
-  fast 三次均为 504 tests 全绿。
-- 仍待 Kimi/GLM：审阅 mixed P7 去向、oracle trust boundary、canary golden 独立性、RSS 3.7GB
-  风险与 G7 顺序探针方案；在两方签 `accept` 或用户批准豁免前不得标记 done。
+  G2 返工定向 synthetic trust-boundary `6/6` 通过（约 0.4s）；固定 seed `20260802/03/04` 的四文件 synthetic probe 各为 `4 files / 11 tests` 全绿；fast 当前为 506 tests 全绿。
+- manifest 实跑守恒：fast `70 files / 506 tests`、release `92 files / 635 tests`、canary `1 file / 2 tests`，`routeSha256`/`projectName` 均参与 pin 校验。
+- Kimi/GLM 复审确认 mixed/PAL 路由与 oracle 边界可核验；G2 最小 trust-boundary 子集已补，
+  但完整旧断言逐条迁移映射、跨文件 G7 顺序探针缺证和 G8 RSS 超标仍未闭合；在 Kimi/GLM 均签 `accept`
+  或用户明确批准性能豁免前不得标记 done。
 
 ## 用户验收
 
@@ -264,17 +271,22 @@ source-backed 归属，不能只改 Vitest include/exclude。
 - 2026-08-02 Codex: 根据用户要求把反复出现的 PAL 冷启动问题升级为独立测试基础设施任务；已记录 81k source-backed 基线、prepared replay 已修但 cold 未修、synthetic + canary 设计和性能验收目标。Next: 等 Kimi/GLM 设计审查，签齐后进入 build。
 - 2026-08-02 Kimi: 对 synthetic + compact oracle + 真冷 source-backed canary 原则性 agree；要求 synthetic 不冒充 source proof、canary 不命中待验证 cache、只允许进程内复用，并补输入漂移/返回值篡改/wrong profile/乱序/release fresh 负向矩阵。Evidence: 设计审查消息。Next: Codex 落实 G1–G8。
 - 2026-08-02 GLM: agree（附 G1–G8）；要求逐文件旧断言映射、87 files/623 tests 清单守恒、真实 CFG/census/integration/P2→P7→R13 canary 不删、cache provenance 与 release live rebuild、三次冷跑性能证据。Evidence: 覆盖审查消息。Next: Codex 进入 build。
+- 2026-08-02 Codex: 提交 `a8c86638` 完成实现候选与证据收口；fast 三次 504 tests 全绿（约 37–39s），最终 source-backed canary 2/2（484.72s，RSS 3.63GB），release-unit/preflight/oracle/manifest/typecheck 通过。完整共享乱序首轮 19m36s 未结束已中止，G7 与 canary RSS 仍是显式风险。Next: Kimi/GLM 复审并签 `accept` 或列返工。
+- 2026-08-02 GLM: counter（覆盖/测试矩阵复审）。G5 的 70/504、92/633、1/2 manifest 守恒与 G6 oracle 输入闭包可复核；但 synthetic 仅 4 个测试，G1/G2 约 44 条关键反例尚未逐项迁移，G7 的 22 文件乱序探针中止且无逆序+3 seed 完整证据，G8 canary RSS 3.63GB 超 1.5GB 目标。Next: Codex 补 synthetic trust-boundary 映射、独立顺序探针和三次冷跑/RSS 证据；不得标记 done。
+- 2026-08-02 Codex: 针对 G1/G2 counter 增加 `createSyntheticRuntimeSnapshot` 与 2 个 production runtime capability trust-boundary 测试：current/historical wrong profile、snapshot 内容身份漂移、缺 shared prerequisite、伪造自签 evidence；定向 6/6 通过，manifest 更新为 fast 70/506、release 92/635。G7/G8 仍 blocked，未宣称 done。
+- 2026-08-02 Kimi: counter（架构复审）。G2 返工的 6 个 production-builder trust-boundary 测试可 conditional accept；但单文件 shuffle probe 对 G7 是空操作，且 canary RSS 3.63GB 超 1.5GB 目标。Next: 补真实多文件/跨文件 shared 顺序证据，或请用户裁决性能豁免；不得标记 done。
+- 2026-08-02 Codex: 将 `test:synthetic:shuffle` 扩为 4 个独立 synthetic/oracle 文件、11 tests；固定 seed `20260802/03/04` 均全绿（约 2–3s/次）。它只证明便宜的跨文件顺序探针稳定，不冒充 22-file PAL shared shuffle；G7/G8 完整证据仍 blocked。
 
 ## 下一位 Agent 提示词
 
 ```text
 接手任务: OPS-TST-PERF - 迁移测试 fixture 分层与冷启动性能债
 任务卡: docs/ops/tasks/OPS-TST-PERF-test-fixture-stratification.md
-当前状态: draft，build 准入 blocked
-你的角色: 设计审查方（Kimi=架构边界 / GLM=覆盖与测试矩阵）
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、N3-1 R13-6A 性能边界、packages/migrate/vitest.tests.ts、vitest.config.ts、pal-test-fixture.ts、r13-source-semantics-mg2.ts
-已完成: prepared authority replay 已做内容 fingerprint/deep freeze；真实 PAL 冷启动仍约 6–9 分钟；本卡提出 synthetic 行为层 + source-backed canary/release 层，禁止无 digest 缓存和扩大 timeout。
-请你做: 评估 synthetic fixture 是否会引入第二套生产语义；核对哪些测试必须保留真实 PAL；给出 agree 或 counter+理由，并提出进入 build 前必须补的验收指标。
-不要做: 不改实现文件、不把 PAL 门禁删掉、不把 synthetic 结果当作真实源账、不标记 done。
-输出要求: 在任务卡推进签字中写入设计结论（agree/counter）、风险和建议；若 agree，明确 build allowed 的前提。
+当前状态: rework，基于 `a8c86638` 的 G2 最小返工已通过定向测试，等待继续实现/复审
+你的角色: Coding Owner（Codex；修复后再交 Kimi/GLM 复审）
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、N3-1 R13-6A 性能边界、packages/migrate/vitest.tests.ts、vitest.config.ts、pal-test-fixture.ts、r13-source-semantics-canary.ts
+已完成: G2 runtime trust-boundary 四类 synthetic 覆盖（定向6/6）、4 文件/11 tests synthetic-oracle seed probe（20260802/03/04各全绿）、fast 分层、compact oracle、manifest/preflight、独立 R13-6A source-backed canary；canary 484.72s/RSS 3.63GB，G7 完整 shared shuffle 仍中止。
+请你做: 补齐 G1 旧断言逐项映射与 G2 剩余半状态/initialize-replay/owned-merge 等生产 `prepare*` synthetic 覆盖；设计真正跨文件 shared 顺序探针或取得用户豁免；处理 canary RSS 或记录用户批准的明确性能风险，并补三次冷跑 median/max/RSS 与基线回归证据。
+不要做: 不把 4 文件 synthetic-oracle shuffle 冒充 22-file PAL 证据，不把未达标 RSS/未完成的完整共享乱序记为通过，不标记 done；修改实现前必须保持任务卡 counter 与上下文锚点。
+输出要求: 修复后重新跑 manifest、synthetic、fast、顺序探针和必要的 canary/release 证据；再交 Kimi/GLM 签 `accept` 或 `counter`。未集齐三方 `accept` 不得标记 done。
 ```
