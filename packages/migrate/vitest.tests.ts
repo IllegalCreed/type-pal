@@ -16,6 +16,7 @@ export const PAL_SHARED_TESTS = [
   'src/experimental/script-v5/r13-enemy-source-disposition.pal.test.ts',
   'src/experimental/script-v5/r13-item-throw-augmentation.pal.test.ts',
   'src/experimental/script-v5/r13-item-throw-mg2.pal.test.ts',
+  'src/experimental/script-v5/r13-source-semantics-mg2.pal.test.ts',
   'src/experimental/script-v5/source-instruction-disposition.pal.test.ts',
 ] as const
 

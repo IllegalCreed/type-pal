@@ -539,13 +539,11 @@ function commandContainer(scene: SceneDefV5, spec: CommandContainerSpec): Author
     if (flow.kind !== 'stateMachine')
       throw new Error(`R13 existing-schema augmentation: ${spec.id} 不是 stateMachine`)
     const state = flow.machine.states[spec.node.id]
-    if (!state)
-      throw new Error(`R13 existing-schema augmentation: ${spec.id} state 不存在`)
+    if (!state) throw new Error(`R13 existing-schema augmentation: ${spec.id} state 不存在`)
     node = state
   }
   if (spec.segment === 'body') return node.body
-  if (!node.entry)
-    throw new Error(`R13 existing-schema augmentation: ${spec.id} entry 不存在`)
+  if (!node.entry) throw new Error(`R13 existing-schema augmentation: ${spec.id} entry 不存在`)
   return node.entry.prepare
 }
 
@@ -561,10 +559,7 @@ function contextIdFromSiteId(siteId: string): string {
   return siteId.slice(marker + 1)
 }
 
-function validateSourceCommand(
-  source: PalMigrationSources,
-  insertion: CommandInsertionSpec,
-): void {
+function validateSourceCommand(source: PalMigrationSources, insertion: CommandInsertionSpec): void {
   const command = source.migrate.commands[insertion.address] as
     | { op?: string; opcode?: number; operands?: number[]; paletteIndex?: number }
     | undefined
@@ -619,11 +614,15 @@ function sourceEvidence(args: {
     (args.insertion.expectedHostSourceId !== undefined &&
       context.host.sourceId !== args.insertion.expectedHostSourceId)
   )
-    throw new Error(`R13 existing-schema augmentation: source site/context 漂移 ${args.insertion.siteId}`)
+    throw new Error(
+      `R13 existing-schema augmentation: source site/context 漂移 ${args.insertion.siteId}`,
+    )
   const inserted = args.successorContainer[args.finalIndex]
   const expectedCommand = commandFor(args.insertion.source)
   if (!inserted || !isDeepStrictEqual(inserted, expectedCommand))
-    throw new Error(`R13 existing-schema augmentation: inserted command 漂移 ${args.insertion.siteId}`)
+    throw new Error(
+      `R13 existing-schema augmentation: inserted command 漂移 ${args.insertion.siteId}`,
+    )
   const before = args.successorContainer[args.finalIndex - 1]
   const after = args.successorContainer[args.finalIndex + 1]
   return {
@@ -643,7 +642,10 @@ function sourceEvidence(args: {
   }
 }
 
-function indexedSkills(value: ReturnType<typeof validateSkills>, label: string): Map<string, SkillData> {
+function indexedSkills(
+  value: ReturnType<typeof validateSkills>,
+  label: string,
+): Map<string, SkillData> {
   const result = new Map<string, SkillData>()
   for (const skill of value.skills) {
     if (result.has(skill.id))
@@ -678,9 +680,16 @@ function augmentSkillCosts(args: {
     .sort(stableStringCompare)
   const expectedIds = R13_EXISTING_SCHEMA_SKILL_COSTS.map((entry) => entry.skillId)
   if (!isDeepStrictEqual(changed, expectedIds))
-    throw new Error(`R13 existing-schema augmentation: current skill delta 漂移 ${changed.join(',')}`)
+    throw new Error(
+      `R13 existing-schema augmentation: current skill delta 漂移 ${changed.join(',')}`,
+    )
   for (const id of parentById.keys())
-    if (!isDeepStrictEqual(withoutItemCosts(parentById.get(id)!), withoutItemCosts(currentById.get(id)!)))
+    if (
+      !isDeepStrictEqual(
+        withoutItemCosts(parentById.get(id)!),
+        withoutItemCosts(currentById.get(id)!),
+      )
+    )
       throw new Error(`R13 existing-schema augmentation: skill 非 items 字段漂移 ${id}`)
 
   const next = structuredClone(parent)
@@ -702,9 +711,7 @@ function augmentSkillCosts(args: {
       skillId: spec.skillId,
       parentCostDigest: stableJsonSha256(parentSkill.cost),
       successorCostDigest: stableJsonSha256(successorSkill.cost),
-      items: [{ itemId: '148' as const, amount: 1 as const }] as [
-        { itemId: '148'; amount: 1 },
-      ],
+      items: [{ itemId: '148' as const, amount: 1 as const }] as [{ itemId: '148'; amount: 1 }],
     }
   })
   args.snapshot.files.set(path, asMigrationJson(next))
@@ -807,9 +814,7 @@ export function augmentR13ExistingSchemaAfterEnemy(args: {
     throw new Error('R13 existing-schema augmentation: command oracle 数量漂移')
   const census = censusFor({
     sources: args.currentSources,
-    ...(args.preparedCurrentSourceCensus
-      ? { prepared: args.preparedCurrentSourceCensus }
-      : {}),
+    ...(args.preparedCurrentSourceCensus ? { prepared: args.preparedCurrentSourceCensus } : {}),
   })
   const snapshot = cloneSnapshot(args.parent)
   const clonedScenes = new Set<string>()
@@ -887,4 +892,86 @@ export function augmentR13ExistingSchemaAfterEnemy(args: {
   })
   assertR13ExistingSchemaFinalTargetClosure(snapshot, evidence)
   return { snapshot, evidence }
+}
+
+/**
+ * Reconstruct the R13-5 parent content from a published pure R13-6A successor.
+ *
+ * The transition seal deliberately stores only source-backed command/skill evidence,
+ * not a second copy of every parent file.  Replay therefore removes exactly the
+ * evidenced commands (using their successor indices and digests) and the three
+ * evidenced item costs, then re-checks the canonical parent digest.  Author edits
+ * in a project target cannot be rewound silently: any mismatch fails closed.
+ */
+export function rewindR13ExistingSchemaAugmentation(
+  successor: MigrationSnapshot,
+  evidence: R13ExistingSchemaAugmentationEvidenceV1,
+): MigrationSnapshot {
+  assertR13ExistingSchemaAugmentationEvidence(evidence)
+  if (digestR13ExistingSchemaContentSnapshot(successor) !== evidence.successorContentDigest)
+    throw new Error('R13 existing-schema augmentation: replay successor content digest 漂移')
+
+  const parent = cloneSnapshot(successor)
+  const touchedScenes = new Set<string>()
+  for (const spec of R13_EXISTING_SCHEMA_COMMAND_ORACLE) {
+    const path = `content/scenes/${spec.owner.sceneId}.json`
+    const rawValue = parent.files.get(path)
+    if (rawValue === undefined)
+      throw new Error(`R13 existing-schema augmentation: replay scene 缺失 ${path}`)
+    const raw = structuredClone(rawValue)
+    const scene = sceneOf({ ...parent, files: new Map([[path, raw]]) }, spec.owner.sceneId)
+    const container = commandContainer(scene, spec)
+    const entries = evidence.sites
+      .filter((entry) => entry.owner === spec.id)
+      .sort((left, right) => right.finalIndex - left.finalIndex)
+    if (entries.length !== spec.insertions.length)
+      throw new Error(`R13 existing-schema augmentation: replay site 数量漂移 ${spec.id}`)
+    for (const entry of entries) {
+      const command = container[entry.finalIndex]
+      if (!command || stableJsonSha256(command) !== entry.commandDigest)
+        throw new Error(`R13 existing-schema augmentation: replay command 漂移 ${entry.siteId}`)
+      container.splice(entry.finalIndex, 1)
+    }
+    if (stableJsonSha256(container) !== entries[0]?.parentContainerDigest)
+      throw new Error(`R13 existing-schema augmentation: replay parent container 漂移 ${spec.id}`)
+    parent.files.set(path, asMigrationJson(scene))
+    parent.hashes?.delete(path)
+    touchedScenes.add(path)
+  }
+
+  const skillValue = parent.files.get('content/skills.json')
+  if (skillValue === undefined)
+    throw new Error('R13 existing-schema augmentation: replay skills 缺失')
+  const skills = validateSkills(structuredClone(skillValue))
+  const skillsById = indexedSkills(skills, 'replay parent')
+  for (const expected of R13_EXISTING_SCHEMA_SKILL_COSTS) {
+    const skill = skillsById.get(expected.skillId)
+    const evidenceEntry = evidence.skills.find((entry) => entry.skillId === expected.skillId)
+    if (
+      !skill ||
+      !evidenceEntry ||
+      !isDeepStrictEqual(skill.cost.items, expected.items) ||
+      stableJsonSha256(skill.cost) !== evidenceEntry.successorCostDigest
+    )
+      throw new Error(
+        `R13 existing-schema augmentation: replay skill cost 漂移 ${expected.skillId}`,
+      )
+    delete skill.cost.items
+  }
+  parent.files.set('content/skills.json', asMigrationJson(skills))
+  parent.hashes?.delete('content/skills.json')
+
+  if (digestR13ExistingSchemaContentSnapshot(parent) !== evidence.parentContentDigest)
+    throw new Error('R13 existing-schema augmentation: replay parent content digest 漂移')
+  // Keep the path set/managed set byte-for-byte stable; only the evidenced JSON
+  // leaves and their cached hashes are intentionally changed.
+  if (
+    touchedScenes.size !== evidence.summary.changedScenes ||
+    !isDeepStrictEqual(
+      [...parent.managedFiles].sort(stableStringCompare),
+      [...successor.managedFiles].sort(stableStringCompare),
+    )
+  )
+    throw new Error('R13 existing-schema augmentation: replay parent snapshot shape 漂移')
+  return parent
 }
