@@ -354,6 +354,7 @@ type R13SourceInstructionDispositionUnsigned =
 interface ExpandedSourceCmd extends SourceCmd {
   reset?: boolean
   idleFrames?: number
+  paletteIndex?: number
 }
 
 /**
@@ -2608,23 +2609,25 @@ function openDebtForSite(args: {
     return { batch: 'R13-2', reason: 'reset-idle-gate-not-preserved' }
   if (args.command.op === 'raw' && args.command.opcode === 0x0a)
     return { batch: 'R13-4', reason: 'confirm-runtime-constant-true' }
-  if (args.command.op === 'raw' && (args.command.opcode === 0x76 || args.command.opcode === 0x9b))
+  if (args.command.op === 'raw' && args.command.opcode === 0x76)
     return {
       batch: 'R13-6',
-      reason: args.command.opcode === 0x76 ? 'fill-black-dropped' : 'redraw-dropped',
+      reason: 'fill-black-dropped',
     }
-  if (
-    args.command.op === 'raw' &&
-    args.command.opcode === 0x05 &&
-    (args.command.operands?.[1] ?? 0) > 0
-  )
-    return { batch: 'R13-6', reason: 'redraw-delay-not-preserved' }
+  if (args.command.op === 'raw' && args.command.opcode === 0x9b)
+    return { batch: 'R13-6', reason: 'redraw-dropped' }
   if (
     args.command.op === 'raw' &&
     args.command.opcode === 0x05 &&
     (args.command.operands?.[2] ?? 0) === 0xffff
   )
     return { batch: 'R13-6', reason: 'redraw-gesture-not-preserved' }
+  if (
+    args.command.op === 'raw' &&
+    args.command.opcode === 0x05 &&
+    (args.command.operands?.[1] ?? 0) > 0
+  )
+    return { batch: 'R13-6', reason: 'redraw-delay-not-preserved' }
   if (args.command.op === 'setPalette')
     return { batch: 'R13-6', reason: 'palette-without-executable-equivalent' }
   const root = args.openRoots.get(args.context.entrySiteId)

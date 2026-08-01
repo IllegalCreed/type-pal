@@ -260,7 +260,7 @@ describe('script library schema', () => {
     ).not.toThrow()
     expect(() => checkStages([entryStage], 'entity.trigger')).toThrow(/只允许出现在场景 onEnter/)
     expect(SCENE_ENTRY_PREPARE_SAFETY.playMusic).toBe('safe')
-    expect(SCENE_ENTRY_PREPARE_SAFETY.wait).toBe('blocked')
+    expect(SCENE_ENTRY_PREPARE_SAFETY.wait).toBe('safe')
     expect(() =>
       checkStages(
         [
@@ -272,7 +272,7 @@ describe('script library schema', () => {
         'scene.onEnter',
         { allowSceneEntry: true },
       ),
-    ).toThrow(/wait 不允许在隐藏目标画面时执行/)
+    ).not.toThrow()
   })
 
   it('scene entry reveal 参数 fail-loud，普通旧 stage 仍兼容', () => {

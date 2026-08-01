@@ -626,6 +626,7 @@ export function mapSkills(
   commands: readonly SourceCmd[],
   labelIndex: Map<string, number>,
   soundAssetForNum?: SoundAssetForNum,
+  enableItemCosts = true,
 ): SkillMigrationResult {
   const skills: SkillData[] = []
   const pending: SkillMigrationResult['pending'] = []
@@ -682,7 +683,7 @@ export function mapSkills(
       continue
     }
     const itemCosts =
-      s.scriptOnUse !== 0
+      enableItemCosts && s.scriptOnUse !== 0
         ? translateSkillItemCostScript(commands, labelIndex, s.scriptOnUse)
         : undefined
     if (s.scriptOnUse !== 0) {
@@ -1386,9 +1387,17 @@ export interface EnemyMigrationAuthority {
   reportHookSources: boolean
 }
 
+export interface MigrateAllOptions {
+  /** R13-6A 之前这三条玩家物品门仍是 pending；历史 R13-5 重放必须固定旧口径。 */
+  skillItemCosts?: boolean
+  /** 与场景翻译共用的 PAL 历史/current 语义隔离。 */
+  palSemanticProfile?: 'historical-r13-4' | 'current-r13-6a'
+}
+
 export function migrateAll(
   src: MigrateSources,
   enemyAuthority?: EnemyMigrationAuthority,
+  options: MigrateAllOptions = {},
 ): MigrateOutput {
   const labelIndex = buildLabelIndex(src.commands)
   const explicitLabels = new Set(labelIndex.keys())
@@ -1440,6 +1449,7 @@ export function migrateAll(
     src.commands,
     labelIndex,
     src.soundAssetForNum,
+    options.skillItemCosts ?? true,
   )
   // 物品:表字段(M1a)+ 装备效果(M1b)+ 使用效果(M1d)
   const pendingEquip: MigrateOutput['report']['pendingEquip'] = []
@@ -1633,6 +1643,7 @@ export function migrateAll(
     labelAt: new Map([...labelIndex].map(([l, i]) => [l, { cmds: src.commands, idx: i }] as const)),
     sourceAddressAt: (_cmds: readonly SourceCmd[], idx: number) => idx,
     explicitLabels,
+    palSemanticProfile: options.palSemanticProfile ?? 'current-r13-6a',
     locale: {} as Record<string, string>,
     report: emptyTranslateReport(),
     soundAssetForNum: src.soundAssetForNum,
@@ -1946,6 +1957,8 @@ export interface SceneMigrationOptions {
     entry: number
     owner?: string
   }>
+  /** 已发布历史层与 current R13-6A 的翻译语义必须显式隔离，禁止重签 P0。 */
+  palSemanticProfile?: 'historical-r13-4' | 'current-r13-6a'
 }
 
 /**
@@ -2405,6 +2418,7 @@ export function mapScenesStatic(
     const ctx: TranslateCtx = {
       labelAt,
       sourceAddressAt: (cmds, idx) => addressesByCommands.get(cmds)?.[idx],
+      palSemanticProfile: options.palSemanticProfile ?? 'current-r13-6a',
       explicitLabels,
       locale: {} as Record<string, string>,
       report: emptyTranslateReport(),

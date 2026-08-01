@@ -906,6 +906,7 @@ export function augmentC8ItemUsesAfterP7(args: {
     labelAt,
     sourceAddressAt: (commands, index) => (commands === args.sourceCommands ? index : undefined),
     explicitLabels,
+    palSemanticProfile: 'historical-r13-4',
     locale: {},
     report: emptyTranslateReport(),
     spriteIdForNum,

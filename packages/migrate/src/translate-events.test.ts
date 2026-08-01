@@ -5,6 +5,7 @@
 import type { Command, SceneDef } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { finalizeBattleConfig } from './migrate-content.js'
+import { PAL_PALETTE_SITE_SPECS } from './pal-palette-sites.js'
 import type { SourceCmd } from './source-facts.js'
 import type { TranslateCtx } from './translate-events.js'
 import {
@@ -102,6 +103,88 @@ describe('R13-0 逐指令翻译轨迹', () => {
       ['scene/s001/root/on-enter/stage-0', target.id].sort(),
     )
     expect(new Set(outcomes.map((outcome) => outcome.owner))).toEqual(new Set(['scene']))
+  })
+})
+
+describe('PAL setPalette 14 站裁决', () => {
+  const paletteCtx = (address: number, paletteIndex: number): TranslateCtx => {
+    const ctx = ctxOf([
+      { op: 'setPalette', paletteIndex } as SourceCmd & { paletteIndex: number },
+    ])
+    ctx.sourceAddressAt = () => address
+    return ctx
+  }
+
+  test('palette 0/5 的普通站点发出 day/warm 氛围，outcome 必须是 emitted', () => {
+    const day = paletteCtx(21_982, 0)
+    expect(bodyOf(day)).toEqual([{ kind: 'setAmbience', ambience: 'day' }])
+    expect(day.report.instructionOutcomes[0]).toMatchObject({
+      sourceAddress: 21_982,
+      sourceOp: 'setPalette',
+      outcome: 'emitted',
+      emittedKinds: ['setAmbience'],
+    })
+
+    const warm = paletteCtx(22_223, 5)
+    expect(bodyOf(warm)).toEqual([{ kind: 'setAmbience', ambience: 'warm' }])
+    expect(warm.report.instructionOutcomes[0]).toMatchObject({
+      sourceAddress: 22_223,
+      outcome: 'emitted',
+      emittedKinds: ['setAmbience'],
+    })
+  })
+
+  test('RGBA 动画后的 palette 0 恢复仍归 asset-baked，不得误发 day', () => {
+    const ctx = paletteCtx(22_115, 0)
+    expect(bodyOf(ctx)).toEqual([])
+    expect(ctx.report.instructionOutcomes[0]).toMatchObject({
+      sourceAddress: 22_115,
+      outcome: 'deferred',
+      emittedKinds: [],
+    })
+    expect(ctx.report.notes['asset-baked:setPalette(0):frame-animation.pal.003']).toBe(1)
+  })
+
+  test('精确站点的 palette index 漂移 fail loud，不得按地址猜颜色', () => {
+    const ctx = paletteCtx(21_982, 5)
+    expect(bodyOf(ctx)).toEqual([])
+    expect(ctx.report.gaps[0]).toMatchObject({
+      sourceAddress: 21_982,
+      opcode: 'setPalette',
+      operands: [5],
+    })
+  })
+
+  test('oracle 恰为 5 day + 5 warm + 4 asset-baked，地址不得重复', () => {
+    expect(new Set(PAL_PALETTE_SITE_SPECS.map((spec) => spec.address)).size).toBe(14)
+    expect(
+      PAL_PALETTE_SITE_SPECS.filter(
+        (spec) => spec.treatment === 'ambience' && spec.ambience === 'day',
+      ),
+    ).toHaveLength(5)
+    expect(
+      PAL_PALETTE_SITE_SPECS.filter(
+        (spec) => spec.treatment === 'ambience' && spec.ambience === 'warm',
+      ),
+    ).toHaveLength(5)
+    expect(
+      PAL_PALETTE_SITE_SPECS.filter((spec) => spec.treatment === 'asset-baked'),
+    ).toHaveLength(4)
+  })
+
+  test('current 未裁决地址 fail loud；historical profile 仍保持 deferred', () => {
+    const current = paletteCtx(99_999, 0)
+    expect(bodyOf(current)).toEqual([])
+    expect(current.report.gaps[0]).toMatchObject({
+      sourceAddress: 99_999,
+      opcode: 'setPalette',
+    })
+
+    const historical = paletteCtx(99_999, 0)
+    historical.palSemanticProfile = 'historical-r13-4'
+    expect(bodyOf(historical)).toEqual([])
+    expect(historical.report.gaps).toEqual([])
+    expect(historical.report.instructionOutcomes[0]).toMatchObject({ outcome: 'deferred' })
   })
 })
 
@@ -203,6 +286,40 @@ describe('0x73 淡入场景(script.c: PAL_MakeScene + VIDEO_FadeScreen)', () => 
   test('→ 通用 ditherScreen，speed=2 精确换算为 2160ms', () => {
     const body = bodyOf(ctxOf([{ opcode: 0x73, operands: [2, 0, 0] }]))
     expect(body).toEqual([{ kind: 'ditherScreen', ms: 2160 }])
+  })
+
+  test('0x9B 重画后抖屏复用同一 2160ms clean 命令', () => {
+    const ctx = ctxOf([{ opcode: 0x9b, operands: [2, 0xffff, 0] }])
+    expect(bodyOf(ctx)).toEqual([{ kind: 'ditherScreen', ms: 2160 }])
+    expect(ctx.report.instructionOutcomes[0]).toMatchObject({
+      sourceOpcode: 0x9b,
+      outcome: 'emitted',
+      emittedKinds: ['ditherScreen'],
+    })
+  })
+})
+
+describe('0x05/0x8E 对话重画', () => {
+  test('0x05 非零 delay 保留为 clearDialog + operand[1]×60ms', () => {
+    const ctx = ctxOf([{ opcode: 0x05, operands: [0, 3, 0] }])
+    expect(bodyOf(ctx)).toEqual([
+      { kind: 'clearDialog' },
+      { kind: 'wait', ms: 180 },
+    ])
+    expect(ctx.report.instructionOutcomes[0]).toMatchObject({
+      sourceOpcode: 0x05,
+      outcome: 'emitted',
+      emittedKinds: ['clearDialog', 'wait'],
+    })
+  })
+
+  test('0x05 delay=0 与 0x8E 均只清对话', () => {
+    expect(bodyOf(ctxOf([{ opcode: 0x05, operands: [0, 0, 0] }]))).toEqual([
+      { kind: 'clearDialog' },
+    ])
+    expect(bodyOf(ctxOf([{ opcode: 0x8e, operands: [0, 9, 0] }]))).toEqual([
+      { kind: 'clearDialog' },
+    ])
   })
 })
 

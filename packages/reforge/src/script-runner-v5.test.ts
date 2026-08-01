@@ -609,7 +609,10 @@ describe('ScriptRunnerV5 flow semantics', () => {
           {
             id: 'initial',
             entry: {
-              prepare: [{ kind: 'clearDialog' }],
+              prepare: [
+                { kind: 'clearDialog' },
+                { kind: 'wait', ms: 180 },
+              ],
               reveal: { kind: 'cut' },
             },
             body: [{ kind: 'setFlag', flag: 'body', value: true }],
@@ -623,6 +626,46 @@ describe('ScriptRunnerV5 flow semantics', () => {
       },
     )
 
-    expect(host.calls).toEqual(['execute:clearDialog:-:-', 'reveal:cut', 'execute:setFlag:-:-'])
+    expect(host.calls).toEqual([
+      'execute:clearDialog:-:-',
+      'execute:wait:-:-',
+      'reveal:cut',
+      'execute:setFlag:-:-',
+    ])
+  })
+
+  test('scene entry waits for prepare commands before revealing the target frame', async () => {
+    const host = fakeHost()
+    const waitGate = deferred<void>()
+    host.execute = vi.fn(async (command) => {
+      host.calls.push(`execute:${command.kind}`)
+      if (command.kind === 'wait') await waitGate.promise
+    })
+    const running = new ScriptRunnerV5(host, new AbortController().signal).runFlow(
+      compile({
+        kind: 'stages',
+        initial: 'initial',
+        stages: [
+          {
+            id: 'initial',
+            entry: {
+              prepare: [{ kind: 'wait', ms: 180 }],
+              reveal: { kind: 'cut' },
+            },
+            body: [],
+          },
+        ],
+      }),
+      {
+        cursorController: controller(),
+        allowSceneEntry: true,
+        runSceneEntry: true,
+      },
+    )
+
+    await vi.waitFor(() => expect(host.calls).toEqual(['execute:wait']))
+    waitGate.resolve()
+    await running
+    expect(host.calls).toEqual(['execute:wait', 'reveal:cut'])
   })
 })

@@ -40,6 +40,7 @@ import {
   putLegacyDialogueText,
 } from './legacy-dialog.js'
 import { palPlayerBattleSpriteDefinitionId } from './pal-battle-sprites.js'
+import { palPaletteSiteAt } from './pal-palette-sites.js'
 import type { SoundAssetForNum } from './sound-migration.js'
 import { resolveSoundAsset } from './sound-migration.js'
 import type { SourceCmd } from './source-facts.js'
@@ -156,6 +157,11 @@ export interface TranslateCtx {
   labelAt: Map<string, { cmds: readonly SourceCmd[]; idx: number }>
   /** 源数组下标 → all.json 全局地址;生产迁移由 mapScenesStatic 注入。 */
   sourceAddressAt?: (cmds: readonly SourceCmd[], idx: number) => number | undefined
+  /**
+   * 已发布 P0→R13-5 重放必须保留当时的翻译结果；current-r13-6a 才启用后续源语义闭合。
+   * 缺省按 current 处理，便于独立翻译器测试与新迁移调用方。
+   */
+  palSemanticProfile?: 'historical-r13-4' | 'current-r13-6a'
   /** all.json 原本显式声明的 label;用于记录补全地址索引的命中。 */
   explicitLabels?: ReadonlySet<string>
   /** 当前翻译引用路径,只用于诊断。 */
@@ -885,7 +891,7 @@ function recordInstructionOutcome(args: {
     opcode !== undefined && (opcode === 0x24 || opcode === 0x25) && (operands[0] ?? 0) === 0
   let outcome: TranslateInstructionOutcome['outcome']
   if (args.ctx.report.gaps.length > args.gapStart) outcome = 'gap'
-  else if (args.command.op === 'setPalette') outcome = 'deferred'
+  else if (args.command.op === 'setPalette' && directKinds.length === 0) outcome = 'deferred'
   else if (args.ctx.report.knownNoOpDetails.length > args.knownNoOpStart || sourceNoOp)
     outcome = 'known-noop-candidate'
   else if (args.command.op === 'end' || args.command.op === 'goto') outcome = 'control-flow'
@@ -1173,9 +1179,39 @@ function walkBody(
         continue
       }
       if (op === 'setPalette') {
-        // 已知视觉缺口,不属于未知命令:二阶段必须用 RGBA 全屏色彩 profile 重写,严禁把
-        // paletteId/index 重新带回脚本 schema。这里只记迁移报告,不生成可执行旧节点。
-        note(ctx, `known-deferred:setPalette(${c.paletteIndex ?? 0})`)
+        if (ctx.palSemanticProfile === 'historical-r13-4') {
+          note(ctx, `known-deferred:setPalette(${c.paletteIndex ?? 0})`)
+          at = { cmds: at.cmds, idx: at.idx + 1 }
+          continue
+        }
+        const sourceAddress = sourceAddressAt(ctx, at.cmds, at.idx)
+        const spec = palPaletteSiteAt(sourceAddress)
+        if (!spec) {
+          flush()
+          recordGap(ctx, {
+            sourceAddress,
+            opcode: 'setPalette',
+            operands: [c.paletteIndex ?? 0],
+            owner: owner ?? 'scene',
+            reason: 'current PAL migration 出现未裁决 palette 站点',
+          })
+        } else if (spec.paletteIndex !== (c.paletteIndex ?? 0)) {
+          flush()
+          recordGap(ctx, {
+            sourceAddress,
+            opcode: 'setPalette',
+            operands: [c.paletteIndex ?? 0],
+            owner: owner ?? 'scene',
+            reason: `PAL palette 站点索引漂移: ${c.paletteIndex ?? 0} != ${spec.paletteIndex}`,
+          })
+        } else if (spec.treatment === 'ambience') {
+          flush()
+          body.push({ kind: 'setAmbience', ambience: spec.ambience })
+          resolved(ctx, `setPalette(${spec.paletteIndex}) -> setAmbience(${spec.ambience})`)
+        } else {
+          // palette 2/6 与紧随其后的 palette 0 恢复均已烘进 RGBA 帧动画。
+          note(ctx, `asset-baked:setPalette(${spec.paletteIndex}):${spec.assetId}`)
+        }
         at = { cmds: at.cmds, idx: at.idx + 1 }
         continue
       }
@@ -1313,7 +1349,12 @@ function walkBody(
         } else if (oc === 0x54) {
           push({ kind: 'setAmbience', ambience: 'night' }) // 0x54 use night palette(script.c:1810)
         } else if (oc === 0x9b) {
-          push(undefined) // 0x9B fade-to-scene:sdlpal 自认 FIXME wrong(script.c:2769),no-op
+          // PAL_MakeScene 后的定速空间抖动；与 0x73 speed=2 的 72×30ms 真值一致。
+          push(
+            ctx.palSemanticProfile === 'historical-r13-4'
+              ? undefined
+              : { kind: 'ditherScreen', ms: 2160 },
+          )
         } else if (oc === 0x08) {
           flush()
           if (
@@ -1545,7 +1586,15 @@ function walkBody(
           // 0x90 剧情侧清 enemy scriptOnTurnStart(六脚蜘蛛 s138 酒剑仙救场后降级):原版敌种绑定的
           // 「说一次」hack。二阶段遭遇绑定后**无需** —— 对话属于这场遭遇的 startBattle,丢弃(no-op)。
           push(undefined)
-        } else if (oc === 0x05 || oc === 0x8e) push({ kind: 'clearDialog' })
+        } else if (oc === 0x05) {
+          // PAL_MakeScene:先清对话/重画，再按 operand[1] 的 60ms tick 延时。
+          // operand[2]=0xFFFF 的旧引擎 gesture 刷新仍由 R13-6B 单独销账。
+          flush()
+          body.push({ kind: 'clearDialog' })
+          const delayTicks = o[1] ?? 0
+          if (ctx.palSemanticProfile !== 'historical-r13-4' && delayTicks > 0)
+            body.push({ kind: 'wait', ms: delayTicks * 60 })
+        } else if (oc === 0x8e) push({ kind: 'clearDialog' })
         else if (oc === 0xa7)
           push(undefined) // noop(备份屏)
         else if (oc === 0x1e && (o[1] ?? 0) === 0)

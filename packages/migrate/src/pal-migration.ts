@@ -185,10 +185,18 @@ type PalEnemyAuthorityKind = 'current-v10' | 'r13-confirm-parent-v9'
 interface PalEnemyAuthorityProfile {
   kind: PalEnemyAuthorityKind
   migrate?: EnemyMigrationAuthority
+  r13_6a: 'historical' | 'current'
 }
 
 const CURRENT_ENEMY_AUTHORITY: PalEnemyAuthorityProfile = Object.freeze({
   kind: 'current-v10',
+  r13_6a: 'current',
+})
+
+/** 已发布 R13-5 的 current-v10 输入视图；只冻结 R13-6A 之前的 source semantics。 */
+const R13_ENEMY_PARENT_AUTHORITY: PalEnemyAuthorityProfile = Object.freeze({
+  kind: 'current-v10',
+  r13_6a: 'historical',
 })
 
 /**
@@ -200,6 +208,7 @@ const translateR13ConfirmParentForMapEnemies =
 
 const R13_CONFIRM_PARENT_ENEMY_AUTHORITY: PalEnemyAuthorityProfile = Object.freeze({
   kind: 'r13-confirm-parent-v9',
+  r13_6a: 'historical',
   migrate: {
     translateScripts: translateR13ConfirmParentForMapEnemies,
     castSkillClosure: 'rules-only' as const,
@@ -524,6 +533,11 @@ function buildPalMigrationWithEnemyAuthority(
       legacyEntityAddresses,
     },
     enemyAuthority.migrate,
+    {
+      skillItemCosts: enemyAuthority.r13_6a === 'current',
+      palSemanticProfile:
+        enemyAuthority.r13_6a === 'current' ? 'current-r13-6a' : 'historical-r13-4',
+    },
   )
   const items = applyPalItemOverlays(migrated.items)
   const skills = {
@@ -595,6 +609,8 @@ function buildPalMigrationWithEnemyAuthority(
     {
       worldSpriteFrameCounts: sources.worldSpriteFrameCounts,
       globalScriptAliases: itemUseScriptAliases,
+      palSemanticProfile:
+        enemyAuthority.r13_6a === 'current' ? 'current-r13-6a' : 'historical-r13-4',
     },
   )
   const boss = applyPalBossEncounterOverlay(
@@ -812,6 +828,14 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
  */
 export function buildPalHistoricalR13_4V9Migration(sources: PalMigrationSources): MigrationFileSet {
   return buildPalMigrationWithEnemyAuthority(sources, R13_CONFIRM_PARENT_ENEMY_AUTHORITY)
+}
+
+/**
+ * 只用于重放已经发布的 R13-5 transition。敌人 v10 能力保持，但 R13-6A 的
+ * 技能物品门、palette/redraw/delay 仍按发布时旧口径生成。
+ */
+export function buildPalHistoricalR13_5V10Migration(sources: PalMigrationSources): MigrationFileSet {
+  return buildPalMigrationWithEnemyAuthority(sources, R13_ENEMY_PARENT_AUTHORITY)
 }
 
 /** 审计与测试用：抽取纯文件集内的场景，不经 projects/pal 回读。 */

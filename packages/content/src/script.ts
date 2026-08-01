@@ -326,7 +326,9 @@ export const SCENE_ENTRY_PREPARE_SAFETY = {
   unequip: 'safe',
   unmountParty: 'safe',
   vanishEntity: 'safe',
-  wait: 'blocked',
+  // PAL 的场景入场脚本会在清对话后等待数帧，再修改目标场景实体并揭示画面。
+  // wait 不读取/呈现目标世界，因而可以在隐藏目标画面的 prepare 阶段安全执行。
+  wait: 'safe',
 } as const satisfies Record<Command['kind'], SceneEntryPrepareSafety>
 
 export function sceneEntryPrepareSafety(command: Command): SceneEntryPrepareSafety {
