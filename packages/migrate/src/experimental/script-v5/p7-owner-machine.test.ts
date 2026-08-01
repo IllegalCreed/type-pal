@@ -4,6 +4,7 @@ import { checkScriptFlowV5 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { p7OwnerKey } from './p7-canonical.js'
 import { type LegacyStageInput, projectP7StateMachineOwnerFlow } from './p7-owner-machine.js'
+import { PAL_TEST_FAST_GATE } from './pal-test-fixture.js'
 import type { P4AuthorOwnerAllocation, P5CycleStructure, ScriptMigrationIRP6 } from './types.js'
 
 const ownerIdentity = {
@@ -179,70 +180,66 @@ describe('P7 state-machine owner projection', () => {
 
 const shadowRoot = resolve(process.cwd(), '.shadow/N3-1/v5/p6')
 
-describe.skipIf(!existsSync(resolve(shadowRoot, 'ir/script-migration-ir.json')))(
-  'P7 PAL state-machine owner projection',
-  () => {
-    test('all 65 owners merge to canonical v5 machines', () => {
-      const migration = JSON.parse(
-        readFileSync(resolve(shadowRoot, 'ir/script-migration-ir.json'), 'utf8'),
-      ) as ScriptMigrationIRP6
-      const sceneIndex = JSON.parse(
-        readFileSync(resolve(shadowRoot, 'target/project/content/scenes/index.json'), 'utf8'),
-      ) as string[]
-      const scenes = new Map<string, Record<string, unknown>>()
-      const entityScenes = new Map<string, string[]>()
-      for (const sceneId of sceneIndex) {
-        const scene = JSON.parse(
-          readFileSync(
-            resolve(shadowRoot, `target/project/content/scenes/${sceneId}.json`),
-            'utf8',
-          ),
-        ) as Record<string, unknown> & {
-          id: string
-          entities: Array<{ id: string }>
-        }
-        scenes.set(scene.id, scene)
-        for (const entity of scene.entities) {
-          const owners = entityScenes.get(entity.id) ?? []
-          owners.push(scene.id)
-          entityScenes.set(entity.id, owners)
-        }
+describe.skipIf(
+  PAL_TEST_FAST_GATE || !existsSync(resolve(shadowRoot, 'ir/script-migration-ir.json')),
+)('P7 PAL state-machine owner projection', () => {
+  test('all 65 owners merge to canonical v5 machines', () => {
+    const migration = JSON.parse(
+      readFileSync(resolve(shadowRoot, 'ir/script-migration-ir.json'), 'utf8'),
+    ) as ScriptMigrationIRP6
+    const sceneIndex = JSON.parse(
+      readFileSync(resolve(shadowRoot, 'target/project/content/scenes/index.json'), 'utf8'),
+    ) as string[]
+    const scenes = new Map<string, Record<string, unknown>>()
+    const entityScenes = new Map<string, string[]>()
+    for (const sceneId of sceneIndex) {
+      const scene = JSON.parse(
+        readFileSync(resolve(shadowRoot, `target/project/content/scenes/${sceneId}.json`), 'utf8'),
+      ) as Record<string, unknown> & {
+        id: string
+        entities: Array<{ id: string }>
       }
-      for (const owners of entityScenes.values()) owners.sort()
-
-      const stateMachineOwnerKeys = new Set(
-        migration.cycleStructures
-          .filter((cycle) => cycle.kind === 'state-machine')
-          .flatMap((cycle) => cycle.owners.map(p7OwnerKey)),
-      )
-      const owners = migration.owners.filter((owner) =>
-        stateMachineOwnerKeys.has(p7OwnerKey(owner.identity)),
-      )
-      expect(owners).toHaveLength(65)
-
-      let stateCount = 0
-      for (const owner of owners) {
-        const legacyStages = staticLegacyStages(migration, scenes, owner)
-        const flow = projectP7StateMachineOwnerFlow({
-          ir: migration,
-          owner,
-          entityScenes,
-          legacyStages,
-        })
-        stateCount += Object.keys(flow.machine.states).length
-        expect(() =>
-          checkScriptFlowV5(flow, `owner:${p7OwnerKey(owner.identity)}`, {
-            allowSceneEntry:
-              owner.identity.kind === 'scene-hook' && owner.identity.slot === 'onEnter',
-            forbidLoadScene:
-              owner.identity.kind === 'entity-behavior' && owner.identity.channel === 'auto',
-          }),
-        ).not.toThrow()
+      scenes.set(scene.id, scene)
+      for (const entity of scene.entities) {
+        const owners = entityScenes.get(entity.id) ?? []
+        owners.push(scene.id)
+        entityScenes.set(entity.id, owners)
       }
-      expect(stateCount).toBe(771)
-    }, 120_000)
-  },
-)
+    }
+    for (const owners of entityScenes.values()) owners.sort()
+
+    const stateMachineOwnerKeys = new Set(
+      migration.cycleStructures
+        .filter((cycle) => cycle.kind === 'state-machine')
+        .flatMap((cycle) => cycle.owners.map(p7OwnerKey)),
+    )
+    const owners = migration.owners.filter((owner) =>
+      stateMachineOwnerKeys.has(p7OwnerKey(owner.identity)),
+    )
+    expect(owners).toHaveLength(65)
+
+    let stateCount = 0
+    for (const owner of owners) {
+      const legacyStages = staticLegacyStages(migration, scenes, owner)
+      const flow = projectP7StateMachineOwnerFlow({
+        ir: migration,
+        owner,
+        entityScenes,
+        legacyStages,
+      })
+      stateCount += Object.keys(flow.machine.states).length
+      expect(() =>
+        checkScriptFlowV5(flow, `owner:${p7OwnerKey(owner.identity)}`, {
+          allowSceneEntry:
+            owner.identity.kind === 'scene-hook' && owner.identity.slot === 'onEnter',
+          forbidLoadScene:
+            owner.identity.kind === 'entity-behavior' && owner.identity.channel === 'auto',
+        }),
+      ).not.toThrow()
+    }
+    expect(stateCount).toBe(771)
+  }, 120_000)
+})
 
 function staticLegacyStages(
   ir: ScriptMigrationIRP6,

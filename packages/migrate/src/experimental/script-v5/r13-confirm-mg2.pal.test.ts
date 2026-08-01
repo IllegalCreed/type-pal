@@ -18,7 +18,7 @@ import {
   getPalTestPreparedR13CrossActivationAuthority,
   getPalTestPreparedR13ItemThrowAuthority,
   getPalTestPreparedSourceExecutionCensus,
-  PAL_TEST_FAST_GATE,
+  PAL_TEST_SHARED_GATE,
 } from './pal-test-fixture.js'
 import { rewindPublishedR13EnemyTransition } from './published-r13-enemy-test-fixture.js'
 import { prepareR13CadenceAuthority, R13_CADENCE_SEAL_PATH } from './r13-cadence-mg2.js'
@@ -156,13 +156,13 @@ describe.skipIf(!existsSync(extracted))('R13-4 confirm append-only PAL MG2 seal'
     const ours = rewoundEnemy.project
     hydrateControlHashes(base)
     rewindPublishedConfirmFixture(base, ours, shared)
-    const preparedSourceCensus = PAL_TEST_FAST_GATE
+    const preparedSourceCensus = PAL_TEST_SHARED_GATE
       ? getPalTestPreparedSourceExecutionCensus()
       : undefined
-    const preparedCadenceAuthority = PAL_TEST_FAST_GATE
+    const preparedCadenceAuthority = PAL_TEST_SHARED_GATE
       ? getPalTestPreparedR13CadenceAuthority()
       : prepareR13CadenceAuthority(shared.generated)
-    const preparedCrossActivationAuthority = PAL_TEST_FAST_GATE
+    const preparedCrossActivationAuthority = PAL_TEST_SHARED_GATE
       ? getPalTestPreparedR13CrossActivationAuthority()
       : prepareR13CrossActivationAuthority({
           generated: shared.generated,
@@ -170,13 +170,13 @@ describe.skipIf(!existsSync(extracted))('R13-4 confirm append-only PAL MG2 seal'
           migration: shared.migration,
           audit: shared.currentAudit,
         })
-    const preparedItemThrowAuthority = PAL_TEST_FAST_GATE
+    const preparedItemThrowAuthority = PAL_TEST_SHARED_GATE
       ? getPalTestPreparedR13ItemThrowAuthority()
       : prepareR13ItemThrowAuthority(shared.generated)
-    const preparedAuthority = PAL_TEST_FAST_GATE
+    const preparedAuthority = PAL_TEST_SHARED_GATE
       ? getPalTestPreparedR13ConfirmAuthority()
       : prepareR13ConfirmAuthority(shared.generated)
-    const preparedControlAuditAuthority = PAL_TEST_FAST_GATE
+    const preparedControlAuditAuthority = PAL_TEST_SHARED_GATE
       ? getPalTestPreparedR13ConfirmControlAuditAuthority()
       : prepareR13ConfirmControlAuditAuthority({
           sources: shared.sources,

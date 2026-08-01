@@ -7,7 +7,7 @@ import {
   getPalTestPhaseFixture,
   getPalTestPreparedP5ScriptTransition,
   PAL_TEST_EXTRACTED,
-  PAL_TEST_FAST_GATE,
+  PAL_TEST_SHARED_GATE,
 } from './pal-test-fixture.js'
 import { stableJsonSha256 } from './stable-json.js'
 import type { P5CycleTransitionGroup, ScriptTransitionLedgerDraftP5 } from './types.js'
@@ -17,7 +17,7 @@ let fixture: P5Fixture
 
 function loadP5Fixture() {
   const shared = getPalTestPhaseFixture()
-  const prepared = PAL_TEST_FAST_GATE
+  const prepared = PAL_TEST_SHARED_GATE
     ? getPalTestPreparedP5ScriptTransition()
     : prepareP5ScriptTransition({
         migration: shared.migration,

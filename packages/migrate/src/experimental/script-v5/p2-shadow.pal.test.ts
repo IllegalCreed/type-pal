@@ -15,13 +15,9 @@ import {
   getPalTestPreparedP2ScriptTransition,
   PAL_SHADOW_RELEASE_CORE_DIGEST,
   PAL_TEST_EXTRACTED,
-  PAL_TEST_FAST_GATE,
+  PAL_TEST_SHARED_GATE,
 } from './pal-test-fixture.js'
-import {
-  assertP2ShadowBundle,
-  buildDeterministicP2ShadowBundle,
-  buildPinnedP2ShadowBundleFromValidatedChain,
-} from './shadow-harness.js'
+import { assertP2ShadowBundle, buildDeterministicP2ShadowBundle } from './shadow-harness.js'
 import {
   createSeededV4ScriptCorpusReader,
   legacyAuthorCellSha256,
@@ -118,7 +114,7 @@ function rewriteFirstChunkHint(node: unknown, chunk: string): boolean {
 describe.skipIf(!existsSync(PAL_TEST_EXTRACTED))('N3 P2 PAL shadow migration', () => {
   beforeAll(() => {
     const shared = getPalTestPhaseFixture()
-    const prepared = PAL_TEST_FAST_GATE
+    const prepared = PAL_TEST_SHARED_GATE
       ? getPalTestPreparedP2ScriptTransition()
       : prepareP2ScriptTransition({
           base: shared.migration,
@@ -146,23 +142,12 @@ describe.skipIf(!existsSync(PAL_TEST_EXTRACTED))('N3 P2 PAL shadow migration', (
       currentAudit: fixture.audit,
       frozenAudit: fixture.frozen,
     }
-    const bundle = PAL_TEST_FAST_GATE
-      ? buildPinnedP2ShadowBundleFromValidatedChain(
-          args,
-          fixture.chain,
-          PAL_SHADOW_RELEASE_CORE_DIGEST.P2,
-        )
-      : buildDeterministicP2ShadowBundle(args, fixture.chain)
+    const bundle = buildDeterministicP2ShadowBundle(args, fixture.chain)
     const assertBundle = () =>
-      assertP2ShadowBundle(
-        bundle,
-        PAL_TEST_FAST_GATE
-          ? {
-              verificationMode: 'pinned-release-core',
-              expectedCoreDigest: PAL_SHADOW_RELEASE_CORE_DIGEST.P2,
-            }
-          : undefined,
-      )
+      assertP2ShadowBundle(bundle, {
+        verificationMode: 'live-double-build',
+        expectedCoreDigest: PAL_SHADOW_RELEASE_CORE_DIGEST.P2,
+      })
     const ir = JSON.parse(bundle.files.get('ir/script-migration-ir.json')!) as ScriptMigrationIRP2
     expect(ir).toMatchObject({
       canonical: false,
@@ -412,7 +397,7 @@ describe.skipIf(!existsSync(PAL_TEST_EXTRACTED))('N3 P2 PAL shadow migration', (
 
   test('作者共享脚本 metadata 属于语义源快照，物理 chunk 元数据不属于', () => {
     const baseline = fixture.corpus
-    const seededReader = PAL_TEST_FAST_GATE
+    const seededReader = PAL_TEST_SHARED_GATE
       ? createSeededV4ScriptCorpusReader(fixture.migration, baseline)
       : undefined
     const metadataEdited = cloneMigration(fixture.migration)

@@ -6664,6 +6664,24 @@ R13-Z、N3-1、C8 或 ED-5I 已完成。
   或做受 digest 校验的预构建 fixture；不得继续提高 timeout、跳过 source-backed 证明或跨调用
   偷渡全局缓存。
 
+##### OPS-TST-PERF 分层后的最新边界（2026-08-02）
+
+`docs/ops/tasks/OPS-TST-PERF-test-fixture-stratification.md` 已把日常开发门与发布门拆开：
+
+- `test:fast` 固定运行 `70 files / 504 tests`，连续三次墙钟为 `39.29s / 36.77s / 39.28s`，
+  峰值 RSS 分别为约 `474.8MB / 534.2MB / 518.1MB`；该门不构建完整 PAL P2→P7 fixture，
+  但保留 6 个 source-backed lite/oracle 文件和 5 个 P7 混合文件的纯单元测试。
+- `test:canary` 是独立冷进程，直接重读 extracted source、audit、published baseline/project，
+  精确重建 R13-6A authority 并 replay `0/0/0`；最终 `1 file / 2 tests` 通过，墙钟 `484.72s`
+  （约 8 分钟），峰值 RSS `3,630,317,568B`（约 3.63GB）。墙钟在 `≤10min` 内，但 RSS 高于
+  原 `≤1.5GB` 初始目标，不能把该风险宣称已解决。
+- `test:release` 继续保留完整 PAL shared/fresh 矩阵；完整 22 文件共享乱序首轮探针在
+  `19m36s` 未结束而中止，因此 G7 乱序证据仍待独立顺序探针补齐。这个慢路径只属于发布/审查门，
+  不应重新并入每次小功能的 fast 反馈回路。
+
+结论：81,674-site 冷构建的“每次开发都付费”已从默认门移除，但 source-backed 发布门的高 RSS
+与完整乱序探针仍是显式技术债，后续不得以跳过、放宽断言或跨命令缓存假装收口。
+
 ##### R13-6A implementation review 签字
 
 | Agent | 结论 | 日期 | 重点 |

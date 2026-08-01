@@ -58,6 +58,29 @@ export const PAL_TEST_AUDIT = resolve(
   'packages/migrate/baselines/script-control-flow/pal-v1.json',
 )
 export const PAL_TEST_FAST_GATE = process.env.TYPE_PAL_MIGRATE_TEST_GATE === 'fast'
+export const PAL_TEST_SHARED_GATE = process.env.TYPE_PAL_MIGRATE_TEST_GATE === 'release-shared'
+
+export function assertPalProducerFixtureGate(
+  ...args: [] | [gate: 'fast' | 'canary' | 'release' | 'release-shared' | undefined]
+): void {
+  const requestedGate =
+    args.length === 0
+      ? (process.env.TYPE_PAL_MIGRATE_TEST_GATE as
+          | 'fast'
+          | 'canary'
+          | 'release'
+          | 'release-shared'
+          | undefined)
+      : args[0]
+  if (
+    requestedGate !== 'canary' &&
+    requestedGate !== 'release' &&
+    requestedGate !== 'release-shared'
+  )
+    throw new Error(
+      `PAL producer fixture requires an explicit canary/release gate (received ${String(requestedGate)})`,
+    )
+}
 // 只能在对应 release live-double-build 通过后更新，并把证据回填 N3-1 任务卡。
 export const PAL_SHADOW_RELEASE_CORE_DIGEST = Object.freeze({
   P2: 'e29bfd90d470d1954a94445c0a9bab80984f7ccc265975d6e4146fcfe6449748',
@@ -101,6 +124,7 @@ type PalTestCoreFixture = ReturnType<typeof loadCoreFixture>
 let coreFixture: PalTestCoreFixture | undefined
 
 export function getPalTestCoreFixture(): PalTestCoreFixture {
+  assertPalProducerFixtureGate()
   coreFixture ??= loadCoreFixture()
   return coreFixture
 }
@@ -124,6 +148,7 @@ let currentV10Fixture: PalTestCurrentV10Fixture | undefined
  * R13-5 successor 专用；与 historical core 独立 load sources，禁止共享可变源数组。
  */
 export function getPalTestCurrentV10Fixture(): PalTestCurrentV10Fixture {
+  assertPalProducerFixtureGate()
   currentV10Fixture ??= loadCurrentV10Fixture()
   return currentV10Fixture
 }
@@ -136,13 +161,12 @@ function loadHistoricalR13_5V10Fixture() {
   return Object.freeze({ sources, migration, audit })
 }
 
-export type PalTestHistoricalR13_5V10Fixture = ReturnType<
-  typeof loadHistoricalR13_5V10Fixture
->
+export type PalTestHistoricalR13_5V10Fixture = ReturnType<typeof loadHistoricalR13_5V10Fixture>
 let historicalR13_5V10Fixture: PalTestHistoricalR13_5V10Fixture | undefined
 
 /** Published R13-5 current-v10 authority, before the R13-6A source-semantics delta. */
 export function getPalTestHistoricalR13_5V10Fixture(): PalTestHistoricalR13_5V10Fixture {
+  assertPalProducerFixtureGate()
   historicalR13_5V10Fixture ??= loadHistoricalR13_5V10Fixture()
   return historicalR13_5V10Fixture
 }
@@ -166,6 +190,7 @@ type PalTestPhaseFixture = ReturnType<typeof loadPhaseFixture>
 let phaseFixture: PalTestPhaseFixture | undefined
 
 export function getPalTestPhaseFixture(): PalTestPhaseFixture {
+  assertPalProducerFixtureGate()
   phaseFixture ??= loadPhaseFixture()
   return phaseFixture
 }
@@ -178,8 +203,8 @@ let preparedP5Transition: PreparedP5ScriptTransition | undefined
 let preparedP6Transition: PreparedP6ScriptTransition | undefined
 
 function assertFastPreparedTransitionFixture(): void {
-  if (!PAL_TEST_FAST_GATE)
-    throw new Error('PAL test fixture: shared prepared transition 仅允许 fast gate 使用')
+  if (!PAL_TEST_SHARED_GATE)
+    throw new Error('PAL test fixture: shared prepared transition 仅允许 release-shared gate 使用')
 }
 
 function getPreparedTransitionCorpusReader(): V4ScriptCorpusReader {
@@ -319,6 +344,7 @@ type PalTestGeneratedFixture = ReturnType<typeof loadGeneratedFixture>
 let generatedFixture: PalTestGeneratedFixture | undefined
 
 export function getPalTestGeneratedFixture(): PalTestGeneratedFixture {
+  assertPalProducerFixtureGate()
   generatedFixture ??= loadGeneratedFixture()
   return generatedFixture
 }
@@ -326,8 +352,8 @@ export function getPalTestGeneratedFixture(): PalTestGeneratedFixture {
 let preparedSourceCensus: PreparedR13SourceExecutionCensus | undefined
 
 export function getPalTestPreparedSourceExecutionCensus(): PreparedR13SourceExecutionCensus {
-  if (!PAL_TEST_FAST_GATE)
-    throw new Error('PAL test fixture: prepared source census 仅允许 fast gate 使用')
+  if (!PAL_TEST_SHARED_GATE)
+    throw new Error('PAL test fixture: prepared source census 仅允许 release-shared gate 使用')
   preparedSourceCensus ??= getPalTestGeneratedFixture().preparedSourceCensus
   return preparedSourceCensus
 }
@@ -335,8 +361,8 @@ export function getPalTestPreparedSourceExecutionCensus(): PreparedR13SourceExec
 let preparedCadenceAuthority: PreparedR13CadenceAuthority | undefined
 
 export function getPalTestPreparedR13CadenceAuthority(): PreparedR13CadenceAuthority {
-  if (!PAL_TEST_FAST_GATE)
-    throw new Error('PAL test fixture: prepared cadence authority 仅允许 fast gate 使用')
+  if (!PAL_TEST_SHARED_GATE)
+    throw new Error('PAL test fixture: prepared cadence authority 仅允许 release-shared gate 使用')
   preparedCadenceAuthority ??= prepareR13CadenceAuthority(getPalTestGeneratedFixture().generated)
   return preparedCadenceAuthority
 }
@@ -344,8 +370,8 @@ export function getPalTestPreparedR13CadenceAuthority(): PreparedR13CadenceAutho
 let preparedCrossActivationAuthority: PreparedR13CrossActivationAuthority | undefined
 
 export function getPalTestPreparedR13CrossActivationAuthority(): PreparedR13CrossActivationAuthority {
-  if (!PAL_TEST_FAST_GATE)
-    throw new Error('PAL test fixture: prepared cross authority 仅允许 fast gate 使用')
+  if (!PAL_TEST_SHARED_GATE)
+    throw new Error('PAL test fixture: prepared cross authority 仅允许 release-shared gate 使用')
   const fixture = getPalTestGeneratedFixture()
   preparedCrossActivationAuthority ??= prepareR13CrossActivationAuthority({
     generated: fixture.generated,
@@ -360,8 +386,10 @@ export function getPalTestPreparedR13CrossActivationAuthority(): PreparedR13Cros
 let preparedItemThrowAuthority: PreparedR13ItemThrowAuthority | undefined
 
 export function getPalTestPreparedR13ItemThrowAuthority(): PreparedR13ItemThrowAuthority {
-  if (!PAL_TEST_FAST_GATE)
-    throw new Error('PAL test fixture: prepared item throw authority 仅允许 fast gate 使用')
+  if (!PAL_TEST_SHARED_GATE)
+    throw new Error(
+      'PAL test fixture: prepared item throw authority 仅允许 release-shared gate 使用',
+    )
   preparedItemThrowAuthority ??= prepareR13ItemThrowAuthority(
     getPalTestGeneratedFixture().generated,
   )
@@ -371,8 +399,8 @@ export function getPalTestPreparedR13ItemThrowAuthority(): PreparedR13ItemThrowA
 let preparedConfirmAuthority: PreparedR13ConfirmAuthority | undefined
 
 export function getPalTestPreparedR13ConfirmAuthority(): PreparedR13ConfirmAuthority {
-  if (!PAL_TEST_FAST_GATE)
-    throw new Error('PAL test fixture: prepared confirm authority 仅允许 fast gate 使用')
+  if (!PAL_TEST_SHARED_GATE)
+    throw new Error('PAL test fixture: prepared confirm authority 仅允许 release-shared gate 使用')
   preparedConfirmAuthority ??= prepareR13ConfirmAuthority(getPalTestGeneratedFixture().generated)
   return preparedConfirmAuthority
 }
@@ -380,8 +408,10 @@ export function getPalTestPreparedR13ConfirmAuthority(): PreparedR13ConfirmAutho
 let preparedConfirmControlAuditAuthority: PreparedR13ConfirmControlAuditAuthority | undefined
 
 export function getPalTestPreparedR13ConfirmControlAuditAuthority(): PreparedR13ConfirmControlAuditAuthority {
-  if (!PAL_TEST_FAST_GATE)
-    throw new Error('PAL test fixture: prepared confirm control audit 仅允许 fast gate 使用')
+  if (!PAL_TEST_SHARED_GATE)
+    throw new Error(
+      'PAL test fixture: prepared confirm control audit 仅允许 release-shared gate 使用',
+    )
   const fixture = getPalTestGeneratedFixture()
   preparedConfirmControlAuditAuthority ??= prepareR13ConfirmControlAuditAuthority({
     sources: fixture.sources,

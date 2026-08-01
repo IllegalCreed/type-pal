@@ -6,7 +6,7 @@ import type { MigrationSnapshot } from '../../migration-baseline.js'
 import {
   getPalTestGeneratedFixture,
   getPalTestPreparedSourceExecutionCensus,
-  PAL_TEST_FAST_GATE,
+  PAL_TEST_SHARED_GATE,
 } from './pal-test-fixture.js'
 import {
   assertR13SourceInstructionDispositionV3,
@@ -104,7 +104,7 @@ describe.skipIf(!existsSync(extracted))('R13 source disposition PAL exact final 
       audit: currentAudit,
       generated,
       final,
-      ...(PAL_TEST_FAST_GATE
+      ...(PAL_TEST_SHARED_GATE
         ? {
             preparedSourceCensus: getPalTestPreparedSourceExecutionCensus(),
           }

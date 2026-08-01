@@ -1,0 +1,28 @@
+{
+  "kind": "migrate-test-manifest",
+  "version": 1,
+  "baseline": {
+    "files": 87,
+    "tests": 623
+  },
+  "gates": {
+    "fast": {
+      "files": 70,
+      "tests": 504,
+      "sha256": "595b542e64df7a0e50df28f718f7f0b7319fabcbc639f7399c817ed6801eb089",
+      "routeSha256": "f42218998d7f4d3a13617ba8b2f25b68a498fc9ff594f0070a2e5cdaaaa7a948"
+    },
+    "release": {
+      "files": 92,
+      "tests": 633,
+      "sha256": "adcc65102c58178a8b459fa3fbff09352accce68dfd9d7db81af0d44dfa3c37e",
+      "routeSha256": "d89b916ccb1ea419f00d7b875ecd630631714b065fbf7e932b0706e666773e48"
+    },
+    "canary": {
+      "files": 1,
+      "tests": 2,
+      "sha256": "c2048d0f3f9e8aa1a8d3efc75861d7923bd83870be43f3caf518ef25ecef5319",
+      "routeSha256": "3d3c6d9a8ecf22539b8b9f59b6134d4818443bd6b83e221f686210b823046fd9"
+    }
+  }
+}

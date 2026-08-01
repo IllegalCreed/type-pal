@@ -3,6 +3,7 @@ import { resolve } from 'node:path'
 import { checkScriptFlowV5 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { projectP7CycleStateMachine } from './p7-state-machine.js'
+import { PAL_TEST_FAST_GATE } from './pal-test-fixture.js'
 import type { P5CycleStructure, ScriptMigrationIRP6 } from './types.js'
 
 const owner = {
@@ -164,52 +165,48 @@ describe('P7 canonical state-machine projection', () => {
 
 const shadowRoot = resolve(process.cwd(), '.shadow/N3-1/v5/p6')
 
-describe.skipIf(!existsSync(resolve(shadowRoot, 'ir/script-migration-ir.json')))(
-  'P7 PAL cycle state-machine projection',
-  () => {
-    test('all 70 irreducible cycles close as canonical v5 machines', () => {
-      const migration = JSON.parse(
-        readFileSync(resolve(shadowRoot, 'ir/script-migration-ir.json'), 'utf8'),
-      ) as ScriptMigrationIRP6
-      const sceneIndex = JSON.parse(
-        readFileSync(resolve(shadowRoot, 'target/project/content/scenes/index.json'), 'utf8'),
-      ) as string[]
-      const entityScenes = new Map<string, string[]>()
-      for (const sceneId of sceneIndex) {
-        const scene = JSON.parse(
-          readFileSync(
-            resolve(shadowRoot, `target/project/content/scenes/${sceneId}.json`),
-            'utf8',
-          ),
-        ) as { id: string; entities: Array<{ id: string }> }
-        for (const entity of scene.entities) {
-          const scenes = entityScenes.get(entity.id) ?? []
-          scenes.push(scene.id)
-          entityScenes.set(entity.id, scenes)
-        }
+describe.skipIf(
+  PAL_TEST_FAST_GATE || !existsSync(resolve(shadowRoot, 'ir/script-migration-ir.json')),
+)('P7 PAL cycle state-machine projection', () => {
+  test('all 70 irreducible cycles close as canonical v5 machines', () => {
+    const migration = JSON.parse(
+      readFileSync(resolve(shadowRoot, 'ir/script-migration-ir.json'), 'utf8'),
+    ) as ScriptMigrationIRP6
+    const sceneIndex = JSON.parse(
+      readFileSync(resolve(shadowRoot, 'target/project/content/scenes/index.json'), 'utf8'),
+    ) as string[]
+    const entityScenes = new Map<string, string[]>()
+    for (const sceneId of sceneIndex) {
+      const scene = JSON.parse(
+        readFileSync(resolve(shadowRoot, `target/project/content/scenes/${sceneId}.json`), 'utf8'),
+      ) as { id: string; entities: Array<{ id: string }> }
+      for (const entity of scene.entities) {
+        const scenes = entityScenes.get(entity.id) ?? []
+        scenes.push(scene.id)
+        entityScenes.set(entity.id, scenes)
       }
-      for (const scenes of entityScenes.values()) scenes.sort()
+    }
+    for (const scenes of entityScenes.values()) scenes.sort()
 
-      const cycles = migration.cycleStructures.filter((cycle) => cycle.kind === 'state-machine')
-      expect(cycles).toHaveLength(70)
-      let states = 0
-      for (const cycle of cycles) {
-        const cycleOwner = cycle.owners[0]!
-        const flow = projectP7CycleStateMachine({
-          ir: migration,
-          cycle,
-          owner: cycleOwner,
-          entityScenes,
-        })
-        states += Object.keys(flow.machine.states).length
-        expect(() =>
-          checkScriptFlowV5(flow, `cycle:${cycle.identity.cycleId}`, {
-            allowSceneEntry: cycleOwner.kind === 'scene-hook' && cycleOwner.slot === 'onEnter',
-            forbidLoadScene: cycleOwner.kind === 'entity-behavior' && cycleOwner.channel === 'auto',
-          }),
-        ).not.toThrow()
-      }
-      expect(states).toBe(454)
-    }, 120_000)
-  },
-)
+    const cycles = migration.cycleStructures.filter((cycle) => cycle.kind === 'state-machine')
+    expect(cycles).toHaveLength(70)
+    let states = 0
+    for (const cycle of cycles) {
+      const cycleOwner = cycle.owners[0]!
+      const flow = projectP7CycleStateMachine({
+        ir: migration,
+        cycle,
+        owner: cycleOwner,
+        entityScenes,
+      })
+      states += Object.keys(flow.machine.states).length
+      expect(() =>
+        checkScriptFlowV5(flow, `cycle:${cycle.identity.cycleId}`, {
+          allowSceneEntry: cycleOwner.kind === 'scene-hook' && cycleOwner.slot === 'onEnter',
+          forbidLoadScene: cycleOwner.kind === 'entity-behavior' && cycleOwner.channel === 'auto',
+        }),
+      ).not.toThrow()
+    }
+    expect(states).toBe(454)
+  }, 120_000)
+})

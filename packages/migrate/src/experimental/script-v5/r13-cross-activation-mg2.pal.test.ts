@@ -17,6 +17,7 @@ import {
   getPalTestPreparedR13CrossActivationAuthority,
   getPalTestPreparedSourceExecutionCensus,
   PAL_TEST_FAST_GATE,
+  PAL_TEST_SHARED_GATE,
 } from './pal-test-fixture.js'
 import {
   prepareR13CadenceAuthority,
@@ -132,17 +133,17 @@ describe.skipIf(!existsSync(extracted))('R13 cross activation append-only PAL MG
       new Set([...base.managedFiles, ...migration.managedFiles]),
     )
     const ours = withoutCross(loadProjectMigrationSnapshot(repo, managed))
-    const preparedSourceCensus = PAL_TEST_FAST_GATE
+    const preparedSourceCensus = PAL_TEST_SHARED_GATE
       ? getPalTestPreparedSourceExecutionCensus()
       : undefined
     // Release still rebuilds both authorities from live PAL inputs in this fresh
     // file. Reusing those immutable results across replay/tamper cases avoids
     // repeating the full source disposition while every plan continues to
     // validate identity/digests and rebuild its target evidence.
-    const preparedCadenceAuthority = PAL_TEST_FAST_GATE
+    const preparedCadenceAuthority = PAL_TEST_SHARED_GATE
       ? getPalTestPreparedR13CadenceAuthority()
       : prepareR13CadenceAuthority(generated)
-    const preparedAuthority = PAL_TEST_FAST_GATE
+    const preparedAuthority = PAL_TEST_SHARED_GATE
       ? getPalTestPreparedR13CrossActivationAuthority()
       : prepareR13CrossActivationAuthority({
           generated,

@@ -1,0 +1,177 @@
+{
+  "kind": "pal-test-oracle-manifest",
+  "version": 1,
+  "methodVersion": "migrate-pal-oracle-v1",
+  "cacheFormatVersion": 1,
+  "producerContractVersion": "p2-p7-r13-6a-v1",
+  "profiles": {
+    "historicalR13_4": "pal-v9-projected-v8",
+    "historicalR13_5": "pal-v10-r13-5",
+    "current": "pal-v10-r13-6a"
+  },
+  "projection": "packages/migrate/test-fixtures/pal-oracle/v1/projection.json",
+  "projectionSha256": "b0c786931b12470815533228d39970dd96aacdad727876d2ed28390e00122ef9",
+  "inputs": [
+    {
+      "path": "data/extracted/events/all.json",
+      "bytes": 5470901,
+      "sha256": "3f54bc1aba2eb82653f71d7384260f6de4e3e5e1977ee48ffdbb31a27c409c8d"
+    },
+    {
+      "path": "packages/migrate/baselines/script-control-flow/pal-v1.json",
+      "bytes": 18192092,
+      "sha256": "8be70805697d574da029f291650ca03e5fc0980e3156bc14793f7580977cfbb4"
+    },
+    {
+      "path": "packages/migrate/baselines/pal/_state.json",
+      "bytes": 73005,
+      "sha256": "dd6719069ccdf43c5206710b385f1d6b5ec9f235d9dc82f46d2619d8fdce190e"
+    },
+    {
+      "path": "packages/migrate/baselines/pal/_transitions/c8-item-use-v5-v1.json",
+      "bytes": 87457,
+      "sha256": "325d52ed750e29ab5757002821037a270498b2f8c3af5158a79d568a27df3a24"
+    },
+    {
+      "path": "packages/migrate/baselines/pal/_transitions/r13-cadence-v1.json",
+      "bytes": 23856,
+      "sha256": "2b1e71b018ffba8aecd4adea628c325dd4f67e338508b22f6ed06f4517683453"
+    },
+    {
+      "path": "packages/migrate/baselines/pal/_transitions/r13-confirm-v1.json",
+      "bytes": 49937,
+      "sha256": "38d129fbe45fe9815ba2623b62283a290c302b3a816a4d58c2e6418f833f49b6"
+    },
+    {
+      "path": "packages/migrate/baselines/pal/_transitions/r13-cross-activation-v1.json",
+      "bytes": 118497,
+      "sha256": "723e4fd29f7d69aa861d67d5188038d242c1f5ff619d5c7fdce2854bdf50db12"
+    },
+    {
+      "path": "packages/migrate/baselines/pal/_transitions/r13-enemy-script-v1.json",
+      "bytes": 8596,
+      "sha256": "e913123d9f01b6b1caf530bb168c9e78abc7339d4ac5dbcd55b731433c39f9c9"
+    },
+    {
+      "path": "packages/migrate/baselines/pal/_transitions/r13-item-throw-v1.json",
+      "bytes": 69501,
+      "sha256": "2c74122277d724f77dfb3e0375bf88188a90bbf73541c872fad77a0a99f62b08"
+    },
+    {
+      "path": "packages/migrate/baselines/pal/_transitions/script-v4-v5.json",
+      "bytes": 30504059,
+      "sha256": "41263ba1fa216af014bf8b880405a587938be38938449f77ccec84ed40da6b12"
+    },
+    {
+      "path": "packages/migrate/baselines/pal/content/scenes/index.json",
+      "bytes": 2943,
+      "sha256": "a487a112f8e07dbcc5b671f67c9777d75445ddb6acb4c3eadc30bf343ca5009c"
+    },
+    {
+      "path": "packages/migrate/baselines/pal/content/items.json",
+      "bytes": 249823,
+      "sha256": "936763bda29531498bafb9a2841535e9afec15ba4066aca77a7ec415c146aa5f"
+    },
+    {
+      "path": "packages/migrate/baselines/pal/content/enemies.json",
+      "bytes": 383888,
+      "sha256": "dbd7dc16aa2ba938d1afc253aa5155b7e34f631b67eac5392b5b3d1c3402c8f5"
+    },
+    {
+      "path": "packages/migrate/baselines/pal/content/locale.json",
+      "bytes": 452873,
+      "sha256": "556372f725714d154886956045aaa9ef5227407f16cb77aacf42d382f64b6107"
+    },
+    {
+      "path": "projects/pal/manifest.json",
+      "bytes": 2349,
+      "sha256": "f50dfa9b0451e9142a0bba5400fa27490b24f3f87ea6b0b9111467d41244ff76"
+    },
+    {
+      "path": "projects/pal/content/ambiences.json",
+      "bytes": 234,
+      "sha256": "62f6baac145204f0871e685e98b394a8f8c95e918d309fd35a7ead6522accebf"
+    },
+    {
+      "path": "packages/migrate/test-fixtures/pal-oracle/v1/r13-source-semantics.json",
+      "bytes": 1014,
+      "sha256": "73b9fa96e50de7bb121519d09f39a0363e3c15435f4b2fb8af7e399b6fbefb2b"
+    },
+    {
+      "path": "packages/migrate/.shadow/N3-1/v5/p6/ir/script-migration-ir.json",
+      "bytes": 31409674,
+      "sha256": "9798639f815af5d13c8d1e660f7d7bc8db06a691ed4c6df6db4186107ffb9033"
+    },
+    {
+      "path": "packages/migrate/.shadow/N3-1/v5/p6/transitions/script-v4-v5.draft.json",
+      "bytes": 20314140,
+      "sha256": "847d326cc47e6fcac2ed66fac9c9961889bc673d0cbf70db6593c7a96ff8d347"
+    }
+  ],
+  "inputTrees": [
+    {
+      "role": "extracted-source",
+      "root": "data/extracted",
+      "selector": "all",
+      "files": 2906,
+      "bytes": 207905883,
+      "sha256": "7d460f1e019f523f1052f9f6659a560b7a24db3fa9f2103c8b83b81b984d8c9c"
+    },
+    {
+      "role": "published-baseline",
+      "root": "packages/migrate/baselines/pal",
+      "selector": "all",
+      "files": 321,
+      "bytes": 63553347,
+      "sha256": "2ee76569082b96aa1ad18c543c5db8a9d60f35b03c758c6183ec2a277a234304"
+    },
+    {
+      "role": "project-prerequisite",
+      "root": "projects/pal",
+      "selector": "all",
+      "files": 2418,
+      "bytes": 153581712,
+      "sha256": "1eef1959e649baa9cd6f46e9e75c562842590f9bf274204fe61926a8c06b3a91"
+    },
+    {
+      "role": "generated-shadow",
+      "root": "packages/migrate/.shadow/N3-1/v5/p6",
+      "selector": "all",
+      "files": 854,
+      "bytes": 118847521,
+      "sha256": "fcbdf51af14e688b4d6c10f0354f25dbea3b1d20fc92e19cd1c2c1bb31b09a01"
+    },
+    {
+      "role": "producer-code",
+      "root": "packages/migrate/src",
+      "selector": "production-typescript",
+      "files": 108,
+      "bytes": 2362844,
+      "sha256": "2d7886fc455abecb1b31b0c58a799984e689588b5077b63e08689760fe6abf67"
+    },
+    {
+      "role": "producer-code",
+      "root": "packages/content/src",
+      "selector": "production-typescript",
+      "files": 39,
+      "bytes": 566764,
+      "sha256": "aab0478d673759d974f937b38adcab66df12a61e58fddaf75b37dc657338fcf4"
+    },
+    {
+      "role": "producer-code",
+      "root": "packages/reforge/src",
+      "selector": "production-typescript",
+      "files": 92,
+      "bytes": 1115781,
+      "sha256": "27d5685e39e04a89c7783bb6a9ebe0bcdde85514f90a3676b1c6aa5ca033f876"
+    },
+    {
+      "role": "runtime-code",
+      "root": "packages/shared/src",
+      "selector": "production-typescript",
+      "files": 10,
+      "bytes": 69025,
+      "sha256": "5b2156f9dfee47a9c8ffdb62b8195e9d7513f4d38aa9c0da5e6fa4209a8522dc"
+    }
+  ]
+}

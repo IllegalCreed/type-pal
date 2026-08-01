@@ -14,6 +14,7 @@ import {
   getPalTestGeneratedFixture,
   getPalTestPreparedR13CadenceAuthority,
   PAL_TEST_FAST_GATE,
+  PAL_TEST_SHARED_GATE,
 } from './pal-test-fixture.js'
 import {
   assertR13CadencePublishedSealMatchesAuthority,
@@ -101,7 +102,7 @@ describe.skipIf(!existsSync(extracted))('R13 cadence append-only PAL MG2 seal', 
       generated,
       // Release prepares from this file's live generated input once; every plan
       // still revalidates identity, evidence digests, and canonical targets.
-      preparedAuthority: PAL_TEST_FAST_GATE
+      preparedAuthority: PAL_TEST_SHARED_GATE
         ? getPalTestPreparedR13CadenceAuthority()
         : prepareR13CadenceAuthority(generated),
     }

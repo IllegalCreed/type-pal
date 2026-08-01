@@ -1,6 +1,6 @@
 # OPS-TST-PERF - 迁移测试 fixture 分层与冷启动性能债
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: test infrastructure / N3-1 support
 Coding Owner: Codex
@@ -64,6 +64,9 @@ Branch: main (用户要求持续提交，暂不切分工作分支)
 - 冷路径的主要成本来自 `loadCore → P2-P6 → 81,674-site census → P7`，不是 Vitest assertion 本身。
 - 初步迁移目标：逐项审计 17 个 PAL-heavy 文件 / 123 tests、3 个 `pal-fresh` 文件 / 5 tests，以及 2 个直接读取真实 PAL 但未列 heavy 的轻量文件；预计约 44 个完整链行为/篡改断言改为 synthetic，依赖历史计数/样本的测试改读带 provenance 的 compact oracle（现有 11 个关键 JSON 约 31.8MB，解析基线约 0.10s）；只保留 1 个文件 / 2 个测试作为 source-backed producer canary；3 个 `pal-fresh` 文件继续归 release。
 - compact oracle 不是运行时缓存，也不能自证 source proof：必须记录 source commit、抽取版本、compiler/method/schema 版本、canonical input/output digest，并由 producer canary 独立重建后校验。
+
+本轮实现后的清单已固定为：fast `70 files / 504 tests`、release `92 files / 633 tests`、canary
+`1 file / 2 tests`；相对开卡基线 `87 files / 623 tests` 为新增门禁/覆盖，不减少既有测试。
 
 ### G1 现有测试去向总表（设计阶段路线，不得删断言）
 
@@ -178,10 +181,16 @@ source-backed 归属，不能只改 Vitest include/exclude。
    缺失/过期/损坏 fail-closed。任何 persisted payload 只能是 canonical projection，不能恢复并信任
    prepared authority；release 必须 live rebuild 并与 projection 深摘要相等。
 7. **G7 隔离/乱序**：真实 fixture 深冻结或使用带归还 digest 的 COW lease；默认、逆序和至少 3 个
-   shuffle seed 的结果/digest 完全一致。跨 worker/跨命令全局 cache 属 counter。
+   shuffle seed 的结果/digest 完全一致。跨 worker/跨命令全局 cache 属 counter。当前已加入
+   `PAL_TEST_SHARED_GATE` 的 release-only 共享边界、canary 独立进程与 synthetic entry-order 反例；
+   2026-08-02 对完整 22 文件共享矩阵的首轮乱序探针运行 `19m36s` 仍未结束而中止，未将其记为
+   通过，后续需用独立顺序探针补齐 3 个 seed 的证据。
 8. **G8 性能**：在无并发重测的参考机上做 3 次冷跑并记录 median/max/RSS；synthetic 定向文件
    `≤10s`、fast（unit + lite + oracle）目标 `≤60s` 且 RSS `≤700MB`，canary 初期 `≤10min`
    且 RSS `≤1.5GB`，release 不得比开卡基线回退 10% 以上；不得靠增大 timeout 掩盖重复构建。
+   当前 fast 三次实测分别为 `39.29s / 497,975,296B`、`36.77s / 560,119,808B`、
+   `39.28s / 543,473,664B`，504 tests 全绿；最终 canary `484.72s / 3,630,317,568B`，
+   2/2 全绿，墙钟达标但 RSS 尚未达 1.5GB 目标，保留为发布慢路径风险，不得标成完全达标。
 
 ### 主审立场
 
@@ -202,12 +211,33 @@ source-backed 归属，不能只改 Vitest include/exclude。
 
 ## Build: 实现与自测
 
-- Coding Owner: pending build gate
-- 修改文件: pending design sign-off
-- 实现摘要: pending
-- 运行命令: pending
+- Coding Owner: Codex
+- 修改文件: `packages/migrate/vitest.tests.ts`、`vitest.config.ts`、`vitest.release.config.ts`、
+  `vitest.canary.config.ts`、`package.json`、`src/experimental/script-v5/pal-test-fixture.ts`、
+  synthetic fixture/tests、PAL oracle/manifest/preflight、R13-6A source canary 及本卡/N3-1 性能边界。
+- 实现摘要:
+  - 默认 fast 只跑 unit + pal-lite + oracle；7 个 P7 混合文件的纯单元保留在 fast，PAL shadow
+    段在 `PAL_TEST_FAST_GATE` 下 fail-closed 跳过，不能因缺 fixture 绿过；新增 manifest 分类/路由
+    digest，新增 release-only preflight。
+  - synthetic fixture 使用生产 census、v5 stage/branch/call/goto/dynamic/scene-hook 词汇，
+    覆盖篡改、重放、作者冲突、入口顺序反例；oracle 对 source/baseline/project/shadow/runtime
+    输入做 digest pin，投影不可自证并在 manifest 失配时拒绝。
+  - R13-6A canary 在独立进程从 live extracted source、audit、baseline、project 重建 authority，
+    精确比对已签 golden，并独立 replay 断言 `0/0/0`；prepared fixture 仅允许 release-shared。
+- 运行命令:
+  - `pnpm --filter @type-pal/migrate typecheck`
+  - `pnpm --filter @type-pal/migrate test:manifest` / `test:oracle:verify`
+  - `/usr/bin/time -l pnpm --filter @type-pal/migrate test:fast`（连续 3 次）
+  - `/usr/bin/time -l pnpm --filter @type-pal/migrate test:canary`
+  - `pnpm --filter @type-pal/migrate exec vitest run --config vitest.release.config.ts --project release-preflight`
+  - `pnpm --filter @type-pal/migrate exec vitest run --config vitest.release.config.ts --project release-unit`
 - 浏览器 / 手工检查: N/A
-- 跳过的检查及原因: pending
+- 跳过的检查及原因:
+  - 完整 `test:release` 尚未在本轮重复执行，避免无谓地再次执行 8 分钟 canary；其 release-unit 与
+    preflight 已独立通过，canary 已独立通过，仍需最终收口前由审查方决定是否补跑全门。
+  - 完整 22 文件共享乱序首轮运行 `19m36s` 未结束后中止，故 G7 不能记为通过；需补独立顺序探针。
+  - 曾试验 `--expose-gc` 分段回收；临时跑测约 `491.56s / 3,524,575,232B`，仅降约 5%、
+    增加复杂度且当次因源码树 oracle 尚未重签而在断言阶段失败，已撤回该试验，不作为通过证据。
 
 ## Review: 审查与返工
 
@@ -215,6 +245,14 @@ source-backed 归属，不能只改 Vitest include/exclude。
 - 审查结论: pending
 - 必须返工项: pending
 - Accept / rework: pending
+
+### 当前待审结果
+
+- Codex 自验：`typecheck`、manifest/oracle、release-unit `65 files / 491 tests`、release-preflight
+  `1/1`、source-backed canary `1 file / 2 tests`（最终 `484.72s / 3,630,317,568B`）均通过；
+  fast 三次均为 504 tests 全绿。
+- 仍待 Kimi/GLM：审阅 mixed P7 去向、oracle trust boundary、canary golden 独立性、RSS 3.7GB
+  风险与 G7 顺序探针方案；在两方签 `accept` 或用户批准豁免前不得标记 done。
 
 ## 用户验收
 

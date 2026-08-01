@@ -8,7 +8,7 @@ import {
   getPalTestPhaseFixture,
   getPalTestPreparedP6ScriptTransition,
   PAL_TEST_EXTRACTED,
-  PAL_TEST_FAST_GATE,
+  PAL_TEST_SHARED_GATE,
 } from './pal-test-fixture.js'
 import { stableJsonSha256 } from './stable-json.js'
 
@@ -17,7 +17,7 @@ let fixture: P6Fixture
 
 function loadP6Fixture() {
   const shared = getPalTestPhaseFixture()
-  const prepared = PAL_TEST_FAST_GATE
+  const prepared = PAL_TEST_SHARED_GATE
     ? getPalTestPreparedP6ScriptTransition()
     : prepareP6ScriptTransition({
         migration: shared.migration,

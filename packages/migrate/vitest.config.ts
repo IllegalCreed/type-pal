@@ -1,9 +1,11 @@
 import { defineConfig } from 'vitest/config'
 import {
   ALL_MIGRATE_TESTS,
-  PAL_FRESH_TESTS,
-  PAL_HEAVY_TESTS,
-  PAL_SHARED_TESTS,
+  PAL_CANARY_TESTS,
+  PAL_FAST_EXCLUDED_TESTS,
+  PAL_LITE_TESTS,
+  PAL_ORACLE_TESTS,
+  PAL_RELEASE_PREFLIGHT_TESTS,
 } from './vitest.tests.js'
 
 export default defineConfig({
@@ -11,13 +13,19 @@ export default defineConfig({
     'process.env.TYPE_PAL_MIGRATE_TEST_GATE': JSON.stringify('fast'),
   },
   test: {
-    passWithNoTests: true,
+    passWithNoTests: false,
     projects: [
       {
         test: {
           name: 'unit',
           include: [...ALL_MIGRATE_TESTS],
-          exclude: [...PAL_HEAVY_TESTS],
+          exclude: [
+            ...PAL_FAST_EXCLUDED_TESTS,
+            ...PAL_LITE_TESTS,
+            ...PAL_ORACLE_TESTS,
+            ...PAL_CANARY_TESTS,
+            ...PAL_RELEASE_PREFLIGHT_TESTS,
+          ],
           pool: 'forks',
           isolate: true,
           maxWorkers: 2,
@@ -26,25 +34,23 @@ export default defineConfig({
       },
       {
         test: {
-          name: 'pal-shared',
-          include: [...PAL_SHARED_TESTS],
+          name: 'pal-lite',
+          include: [...PAL_LITE_TESTS],
           pool: 'forks',
-          isolate: false,
+          isolate: true,
           fileParallelism: false,
-          // Cold targeted runs may initialize the shared P2-P7 fixture inside the
-          // first synchronous beforeAll. Let it finish; per-test timeouts still
-          // catch accidental repeated planner work.
-          hookTimeout: 900_000,
+          hookTimeout: 120_000,
           sequence: { groupOrder: 1 },
         },
       },
       {
         test: {
-          name: 'pal-fresh',
-          include: [...PAL_FRESH_TESTS],
+          name: 'pal-oracle',
+          include: [...PAL_ORACLE_TESTS],
           pool: 'forks',
           isolate: true,
           fileParallelism: false,
+          hookTimeout: 120_000,
           sequence: { groupOrder: 2 },
         },
       },

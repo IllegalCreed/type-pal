@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { describe, expect, test } from 'vitest'
 import { auditP7StateMachineProjectionNeeds } from './p7-state-machine-audit.js'
+import { PAL_TEST_FAST_GATE } from './pal-test-fixture.js'
 import type { ScriptMigrationIRP6 } from './types.js'
 
 function syntheticIr(): ScriptMigrationIRP6 {
@@ -94,39 +95,38 @@ describe('P7 state-machine schema-needs audit', () => {
 
 const shadowRoot = resolve(process.cwd(), '.shadow/N3-1/v5/p6')
 
-describe.skipIf(!existsSync(resolve(shadowRoot, 'ir/script-migration-ir.json')))(
-  'P7 PAL state-machine schema needs',
-  () => {
-    test('freezes the full migration census before schema amendment', () => {
-      const migration = JSON.parse(
-        readFileSync(resolve(shadowRoot, 'ir/script-migration-ir.json'), 'utf8'),
-      ) as ScriptMigrationIRP6
-      expect(auditP7StateMachineProjectionNeeds(migration)).toEqual({
-        cycles: 70,
-        states: 172,
-        owners: 65,
-        stageCountHistogram: { 1: 59, 2: 1, 9: 5 },
-        machineCountHistogram: { 1: 60, 2: 5 },
-        multiStageOwners: [
-          'entity:s004:e93:auto:default',
-          'entity:s049:e825:auto:default',
-          'entity:s049:e828:auto:default',
-          'entity:s206:e3493:auto:default',
-          'entity:s206:e3494:auto:default',
-          'hook:s081:onEnter:default',
-        ],
-        multiStageEntries: 47,
-        transitions: {
-          bodyEnd: 131,
-          condition: 306,
-          conditionAtBodyEnd: 30,
-          conditionMidBody: 276,
-          commandOutcome: 1,
-          commandOutcomeWithFollowingCommands: 1,
-        },
-        statesWithMultipleTransitions: 136,
-        synchronousContinuationSites: 277,
-      })
+describe.skipIf(
+  PAL_TEST_FAST_GATE || !existsSync(resolve(shadowRoot, 'ir/script-migration-ir.json')),
+)('P7 PAL state-machine schema needs', () => {
+  test('freezes the full migration census before schema amendment', () => {
+    const migration = JSON.parse(
+      readFileSync(resolve(shadowRoot, 'ir/script-migration-ir.json'), 'utf8'),
+    ) as ScriptMigrationIRP6
+    expect(auditP7StateMachineProjectionNeeds(migration)).toEqual({
+      cycles: 70,
+      states: 172,
+      owners: 65,
+      stageCountHistogram: { 1: 59, 2: 1, 9: 5 },
+      machineCountHistogram: { 1: 60, 2: 5 },
+      multiStageOwners: [
+        'entity:s004:e93:auto:default',
+        'entity:s049:e825:auto:default',
+        'entity:s049:e828:auto:default',
+        'entity:s206:e3493:auto:default',
+        'entity:s206:e3494:auto:default',
+        'hook:s081:onEnter:default',
+      ],
+      multiStageEntries: 47,
+      transitions: {
+        bodyEnd: 131,
+        condition: 306,
+        conditionAtBodyEnd: 30,
+        conditionMidBody: 276,
+        commandOutcome: 1,
+        commandOutcomeWithFollowingCommands: 1,
+      },
+      statesWithMultipleTransitions: 136,
+      synchronousContinuationSites: 277,
     })
-  },
-)
+  })
+})

@@ -17,13 +17,9 @@ import {
   getPalTestPreparedP3ScriptTransition,
   PAL_SHADOW_RELEASE_CORE_DIGEST,
   PAL_TEST_EXTRACTED,
-  PAL_TEST_FAST_GATE,
+  PAL_TEST_SHARED_GATE,
 } from './pal-test-fixture.js'
-import {
-  assertP3ShadowBundle,
-  buildDeterministicP3ShadowBundle,
-  buildPinnedP3ShadowBundleFromValidatedChain,
-} from './shadow-harness.js'
+import { assertP3ShadowBundle, buildDeterministicP3ShadowBundle } from './shadow-harness.js'
 import { commandAtPointer, type readV4ScriptCorpus } from './source-v4.js'
 import { stableJsonSha256 } from './stable-json.js'
 
@@ -106,7 +102,7 @@ function planWith(ours: MigrationFileSet) {
 describe.skipIf(!existsSync(PAL_TEST_EXTRACTED))('N3 P3 PAL shadow migration', () => {
   beforeAll(() => {
     const shared = getPalTestPhaseFixture()
-    const prepared = PAL_TEST_FAST_GATE
+    const prepared = PAL_TEST_SHARED_GATE
       ? getPalTestPreparedP3ScriptTransition()
       : prepareP3ScriptTransition({
           migration: shared.migration,
@@ -191,23 +187,12 @@ describe.skipIf(!existsSync(PAL_TEST_EXTRACTED))('N3 P3 PAL shadow migration', (
       frozenAudit: fixture.frozen,
       sourceCommands: fixture.sourceCommands,
     }
-    const bundle = PAL_TEST_FAST_GATE
-      ? buildPinnedP3ShadowBundleFromValidatedChain(
-          args,
-          fixture.chain,
-          PAL_SHADOW_RELEASE_CORE_DIGEST.P3,
-        )
-      : buildDeterministicP3ShadowBundle(args, fixture.chain)
+    const bundle = buildDeterministicP3ShadowBundle(args, fixture.chain)
     const assertBundle = () =>
-      assertP3ShadowBundle(
-        bundle,
-        PAL_TEST_FAST_GATE
-          ? {
-              verificationMode: 'pinned-release-core',
-              expectedCoreDigest: PAL_SHADOW_RELEASE_CORE_DIGEST.P3,
-            }
-          : undefined,
-      )
+      assertP3ShadowBundle(bundle, {
+        verificationMode: 'live-double-build',
+        expectedCoreDigest: PAL_SHADOW_RELEASE_CORE_DIGEST.P3,
+      })
     assertBundle()
     const plan = JSON.parse(bundle.files.get('reports/transition-plan.json')!) as {
       summary: Record<string, number>

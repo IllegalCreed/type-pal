@@ -1,0 +1,120 @@
+{
+  "kind": "pal-test-oracle-projection",
+  "version": 1,
+  "methodVersion": "migrate-pal-oracle-v1",
+  "generatorEpoch": "n3-script-v5-p7-v1",
+  "managedFiles": 543,
+  "transitions": {
+    "script-v4-v5": {
+      "digest": "9b01dea89f4d567663ad64e03017d1ecdbdb01fb1540e6798a931f47900f4901",
+      "fileSha256": "41263ba1fa216af014bf8b880405a587938be38938449f77ccec84ed40da6b12",
+      "parentDigest": null,
+      "kind": "script-identity-transition",
+      "version": 1
+    },
+    "c8-item-use-v5-v1": {
+      "digest": "fbdbd50f5e47b924c8bf4dcfb0700d5b08a04afa0d3cc2bff0711b4b9da627a3",
+      "fileSha256": "325d52ed750e29ab5757002821037a270498b2f8c3af5158a79d568a27df3a24",
+      "parentDigest": null,
+      "kind": "c8-item-use-transition",
+      "version": 1
+    },
+    "r13-cadence-v1": {
+      "digest": "794659488a19cd131e2b5f7db235b62607264c9b77978edd36318119937dd80a",
+      "fileSha256": "2b1e71b018ffba8aecd4adea628c325dd4f67e338508b22f6ed06f4517683453",
+      "parentDigest": "fbdbd50f5e47b924c8bf4dcfb0700d5b08a04afa0d3cc2bff0711b4b9da627a3",
+      "kind": "r13-cadence-transition",
+      "version": 1
+    },
+    "r13-cross-activation-v1": {
+      "digest": "d20c06c821a044a6f6be2430da1d660d801a00b03b210082ba954e76b09bc686",
+      "fileSha256": "723e4fd29f7d69aa861d67d5188038d242c1f5ff619d5c7fdce2854bdf50db12",
+      "parentDigest": "794659488a19cd131e2b5f7db235b62607264c9b77978edd36318119937dd80a",
+      "kind": "r13-cross-activation-transition",
+      "version": 1
+    },
+    "r13-item-throw-v1": {
+      "digest": "c8df75a51de4c71ae5e71d43583b749736aecd61b0fd65e9b2568f2e1324502b",
+      "fileSha256": "2c74122277d724f77dfb3e0375bf88188a90bbf73541c872fad77a0a99f62b08",
+      "parentDigest": "d20c06c821a044a6f6be2430da1d660d801a00b03b210082ba954e76b09bc686",
+      "kind": "r13-item-throw-transition",
+      "version": 1
+    },
+    "r13-confirm-v1": {
+      "digest": "8909257867ff6873e17ea4534d183b325e908615bdc2c8630cfc7174efce313d",
+      "fileSha256": "38d129fbe45fe9815ba2623b62283a290c302b3a816a4d58c2e6418f833f49b6",
+      "parentDigest": "c8df75a51de4c71ae5e71d43583b749736aecd61b0fd65e9b2568f2e1324502b",
+      "kind": "r13-confirm-transition",
+      "version": 1
+    },
+    "r13-enemy-script-v1": {
+      "digest": "54804a6c69e644e9c44fd98fd489d0f73eee6580c4ffc3c3753322074361fab6",
+      "fileSha256": "e913123d9f01b6b1caf530bb168c9e78abc7339d4ac5dbcd55b731433c39f9c9",
+      "parentDigest": "8909257867ff6873e17ea4534d183b325e908615bdc2c8630cfc7174efce313d",
+      "kind": "r13-enemy-script-transition",
+      "version": 1
+    }
+  },
+  "scriptV4V5": {
+    "entries": 18383,
+    "evidence": 8975,
+    "groups": 5630,
+    "canonicalTargets": 8271,
+    "digest": "9b01dea89f4d567663ad64e03017d1ecdbdb01fb1540e6798a931f47900f4901"
+  },
+  "releaseCore": {
+    "p2": "e29bfd90d470d1954a94445c0a9bab80984f7ccc265975d6e4146fcfe6449748",
+    "p3": "d7102cbc361999e8b40e5184f755a91336ba29a0be4c48c68bf0f722af43c8be",
+    "p4": "f33fcdbacf7a982188f3b5dc66da705e80b9759fc20bee1cfaf5cef9d2745d3f"
+  },
+  "proofs": {
+    "p6Ir": "e511b463ef02a2354f255e1609d7b312d1d18a0584f06cc77c04131a70ed1719",
+    "p6Ledger": "1c67551e9200d402b167a715d4d3cfb2c45a543c8eaee64f99636fade56ca778",
+    "sourceAudit": "15c237c52e24c5e456cd5b36753689be511412921914dbd2c51de7e2f0dc0242",
+    "canonicalProject": "b5bb06bc492dbef940cf98690314138e62d2fcbfc5ba98185bbb4a9a18f3218a",
+    "compatibility": "f7d5f29ed66a465537cc7f1ebfbf8f870602655f5a229620503cabab44d6467b",
+    "sourceCensus": "3d19fb14b8261fd5a0e48f20cbd1e80fc57c31622624bb09126eb86ea2cb13ac",
+    "executionSites": 81674,
+    "crossDisposition": "36349824878131b5e67db7ba9edc7d1a00dd864aa88737cb0cd89b304181a79e",
+    "crossRawContent": "30ec6572770808f16c3af36b593cf5ff6f4bad3bac847ccbaaef2187e8c7b9c0",
+    "crossAugmentedContent": "b50da863b97a7be31605c3c264cebb502a7cc404e1e7517d5fd1227100f5b4bf",
+    "crossFinalContent": "b180c06f7ddb560f1046f1b854b19516838e81952f201356fd3219ea7eb0568b",
+    "cadenceEvidence": "e09764b9157a418f595b45c886096beb095ef1b828c40375d12778965c02a38a",
+    "cadenceLifecycle": "def96ee2882d12329ae6b40425f21c5bfbae66369f3638487a93ae168766e46a",
+    "itemThrowEvidence": "d35d39e6f85835d66057b060e3f67271084a55caa5d5e9bca23f921522c74f36",
+    "confirmEvidence": "57022d9efa05a970386ba8cef51f787c13a6c488f8d4665a5d5fe623de6f87f7",
+    "confirmDisposition": "48e4733dd3e18aa4f07d6beaadd5d52bb37668361bf2a99f7620f68bbd5cd01d",
+    "confirmRuntime": "d63365c7ced62ca213d7a580a73c25700bdf65be99e862bb6eff3890f2cc1c6d",
+    "enemyAugmentation": "6df51877ed46003b5c9a6f95f2882e511e383f0b73753de05951545aa5fa7cee",
+    "enemyDisposition": "c2d7e7395dfa2f0eabc3c7a80cf24c8f26ccce06c33010ddbf59312429616324",
+    "enemyRuntime": "3da46aa3a98839078153e2a3880e045d73ef2d3456da862a71332a235b76988f",
+    "r13SourceSemantics": {
+      "kind": "r13-source-semantics-canary-golden",
+      "version": 1,
+      "transitionId": "r13-source-semantics-v1",
+      "sealDigest": "0d52087bfcd78265b01d8eee94a4ca5f089a709ebb76934c30845061e9e52567",
+      "authorityDigest": "75aaadad85e98f65ade81bb43938f009cfddcc44529d5fe1731f38f256734241",
+      "sourceControlDigest": "5e28fb13867c11b47acf1fcf5fd3ef6db64ba3b945484d905e63c6b2f89573cf",
+      "sourceDispositionDigest": "ea30a4a869269fdf8f6f474a0dad3b68d639424681339ee5d70929e15e105b09",
+      "sourceDispositionInputDigest": "9b89b185312c9c914a3d109e4046a0c3391305a45efc3d849e274dc3f297dc36",
+      "augmentationDigest": "c2fc12250c0bace9584d4410266fe1194816453e6e2034cc1e1b2ddb6573bc7c",
+      "successorContentDigest": "d7defbb2b4416c915ebcf0f3b18120a8ae83cba011721248f921d1f1d808b654",
+      "summary": {
+        "commandSites": 22,
+        "skillCosts": 3,
+        "changedScenes": 16,
+        "changedFiles": 17,
+        "writes": 17,
+        "deletes": 0,
+        "conflicts": 0
+      },
+      "digest": "7366bc68633b604f18296c02ea50ef94402a5f69f5d97bc31e8089127643c51b"
+    }
+  },
+  "content": {
+    "scenes": 294,
+    "items": 234,
+    "enemies": 153,
+    "localeKeys": 9552
+  }
+}

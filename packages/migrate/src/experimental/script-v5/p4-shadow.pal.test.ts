@@ -18,13 +18,9 @@ import {
   getPalTestPreparedP4ScriptTransition,
   PAL_SHADOW_RELEASE_CORE_DIGEST,
   PAL_TEST_EXTRACTED,
-  PAL_TEST_FAST_GATE,
+  PAL_TEST_SHARED_GATE,
 } from './pal-test-fixture.js'
-import {
-  assertP4ShadowBundle,
-  buildDeterministicP4ShadowBundle,
-  buildPinnedP4ShadowBundleFromValidatedChain,
-} from './shadow-harness.js'
+import { assertP4ShadowBundle, buildDeterministicP4ShadowBundle } from './shadow-harness.js'
 import { commandAtPointer, type readV4ScriptCorpus } from './source-v4.js'
 import { stableJsonSha256 } from './stable-json.js'
 
@@ -118,7 +114,7 @@ function planWith(ours: MigrationFileSet) {
 describe.skipIf(!existsSync(PAL_TEST_EXTRACTED))('N3 P4 PAL shadow owner migration', () => {
   beforeAll(() => {
     const shared = getPalTestPhaseFixture()
-    const prepared = PAL_TEST_FAST_GATE
+    const prepared = PAL_TEST_SHARED_GATE
       ? getPalTestPreparedP4ScriptTransition()
       : prepareP4ScriptTransition({
           migration: shared.migration,
@@ -311,23 +307,12 @@ describe.skipIf(!existsSync(PAL_TEST_EXTRACTED))('N3 P4 PAL shadow owner migrati
       frozenAudit: fixture.frozen,
       sourceCommands: fixture.sourceCommands,
     }
-    const bundle = PAL_TEST_FAST_GATE
-      ? buildPinnedP4ShadowBundleFromValidatedChain(
-          args,
-          fixture.chain,
-          PAL_SHADOW_RELEASE_CORE_DIGEST.P4,
-        )
-      : buildDeterministicP4ShadowBundle(args, fixture.chain)
+    const bundle = buildDeterministicP4ShadowBundle(args, fixture.chain)
     const assertBundle = () =>
-      assertP4ShadowBundle(
-        bundle,
-        PAL_TEST_FAST_GATE
-          ? {
-              verificationMode: 'pinned-release-core',
-              expectedCoreDigest: PAL_SHADOW_RELEASE_CORE_DIGEST.P4,
-            }
-          : undefined,
-      )
+      assertP4ShadowBundle(bundle, {
+        verificationMode: 'live-double-build',
+        expectedCoreDigest: PAL_SHADOW_RELEASE_CORE_DIGEST.P4,
+      })
     assertBundle()
     const mutableFiles = bundle.files as Map<string, string>
     const inventory = mutableFiles.get('reports/p4-owner-inventory.json')!

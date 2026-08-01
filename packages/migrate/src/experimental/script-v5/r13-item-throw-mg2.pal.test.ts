@@ -16,7 +16,7 @@ import {
   getPalTestPreparedR13CrossActivationAuthority,
   getPalTestPreparedR13ItemThrowAuthority,
   getPalTestPreparedSourceExecutionCensus,
-  PAL_TEST_FAST_GATE,
+  PAL_TEST_SHARED_GATE,
 } from './pal-test-fixture.js'
 import { prepareR13CadenceAuthority, R13_CADENCE_SEAL_PATH } from './r13-cadence-mg2.js'
 import { R13_CONFIRM_SEAL_PATH, R13_CONFIRM_TRANSITION_ID } from './r13-confirm-mg2.js'
@@ -128,13 +128,13 @@ describe.skipIf(!existsSync(extracted))('R13-3 item throw append-only PAL MG2 se
       new Set([...base.managedFiles, ...shared.migration.managedFiles]),
     )
     const ours = historicalParent(loadProjectMigrationSnapshot(repo, managed), shared)
-    const preparedSourceCensus = PAL_TEST_FAST_GATE
+    const preparedSourceCensus = PAL_TEST_SHARED_GATE
       ? getPalTestPreparedSourceExecutionCensus()
       : undefined
-    const preparedCadenceAuthority = PAL_TEST_FAST_GATE
+    const preparedCadenceAuthority = PAL_TEST_SHARED_GATE
       ? getPalTestPreparedR13CadenceAuthority()
       : prepareR13CadenceAuthority(shared.generated)
-    const preparedCrossActivationAuthority = PAL_TEST_FAST_GATE
+    const preparedCrossActivationAuthority = PAL_TEST_SHARED_GATE
       ? getPalTestPreparedR13CrossActivationAuthority()
       : prepareR13CrossActivationAuthority({
           generated: shared.generated,
@@ -142,7 +142,7 @@ describe.skipIf(!existsSync(extracted))('R13-3 item throw append-only PAL MG2 se
           migration: shared.migration,
           audit: shared.currentAudit,
         })
-    const preparedAuthority = PAL_TEST_FAST_GATE
+    const preparedAuthority = PAL_TEST_SHARED_GATE
       ? getPalTestPreparedR13ItemThrowAuthority()
       : prepareR13ItemThrowAuthority(shared.generated)
     const input = {
