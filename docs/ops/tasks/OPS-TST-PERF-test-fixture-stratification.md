@@ -65,7 +65,7 @@ Branch: main (用户要求持续提交，暂不切分工作分支)
 - 初步迁移目标：逐项审计 17 个 PAL-heavy 文件 / 123 tests、3 个 `pal-fresh` 文件 / 5 tests，以及 2 个直接读取真实 PAL 但未列 heavy 的轻量文件；预计约 44 个完整链行为/篡改断言改为 synthetic，依赖历史计数/样本的测试改读带 provenance 的 compact oracle（现有 11 个关键 JSON 约 31.8MB，解析基线约 0.10s）；只保留 1 个文件 / 2 个测试作为 source-backed producer canary；3 个 `pal-fresh` 文件继续归 release。
 - compact oracle 不是运行时缓存，也不能自证 source proof：必须记录 source commit、抽取版本、compiler/method/schema 版本、canonical input/output digest，并由 producer canary 独立重建后校验。
 
-本轮实现后的清单已固定为：fast `70 files / 506 tests`、release `92 files / 635 tests`、canary
+本轮实现后的清单已固定为：fast `70 files / 507 tests`、release `92 files / 636 tests`、canary
 `1 file / 2 tests`；相对开卡基线 `87 files / 623 tests` 为新增门禁/覆盖，不减少既有测试。
 
 ### G1 现有测试去向总表（设计阶段路线，不得删断言）
@@ -191,8 +191,9 @@ source-backed 归属，不能只改 Vitest include/exclude。
    且 RSS `≤1.5GB`，release 不得比开卡基线回退 10% 以上；不得靠增大 timeout 掩盖重复构建。
    当前 fast 三次实测分别为 `39.29s / 497,975,296B`、`36.77s / 560,119,808B`、
    `39.28s / 543,473,664B`，返工前 504 tests 全绿；G2 返工后的 fast 为 506 tests 全绿；最终
-   canary 精简非 replay 必需引用后为 `484.80s / 3,451,617,280B`，2/2 全绿，墙钟达标但 RSS
-   仍未达 1.5GB 目标；相对原 `3,630,317,568B` 仅下降约 4.9%，说明峰值主要在生产建链期，保留为
+   canary 采用 canary-only 阶段缓存释放、GC 与 source-input-only enemy authority 后为
+   `339.10s / 2,568,863,744B`，2/2 全绿，墙钟达标但 RSS 仍未达 1.5GB 目标；相对原
+   `484.72s / 3,630,317,568B` 分别下降约 30.0% / 29.2%，剩余峰值主要在 source disposition，保留为
    发布慢路径风险，不得标成完全达标。
 
 ### 主审立场
@@ -249,15 +250,18 @@ source-backed 归属，不能只改 Vitest include/exclude。
 - 必须返工项:
   1. **G1/G2 trust-boundary 覆盖**：返工新增 `createSyntheticRuntimeSnapshot`，并在生产 runtime capability builder 上覆盖 current/historical wrong profile、snapshot 内容 identity 漂移、缺 shared prerequisite、伪造自签 evidence；定向 6/6 实跑通过，故这四类可记 conditional accept。原 G1 表承诺的约 44 条 authority/seal、半状态、initialize/replay、owned/non-owned merge 及其逐条旧测试标题映射仍未闭合；继续按旧断言逐项补齐，不能用 synthetic 摘要替代 source proof。
   2. **G7 乱序/隔离证据**：新增 probe 已扩为 4 个独立 synthetic/oracle 文件 / 11 个 tests，固定 seed `20260802/03/04` 均通过（约 2–3s/次），因此跨文件顺序探针本身可运行；但它仍不是完整 `release-pal-shared` 乱序/逆序证据。完整共享矩阵首轮运行 `19m36s` 后中止，尚无默认、逆序及至少 3 个固定 seed 的共享结果/digest 一致性证据。仍需补低频 shared 顺序探针或由用户明确豁免；shared fixture 继续要求深冻结/归还 digest，跨 worker/跨命令不得复用 authority。
-  3. **G8 内存与冷跑证据**：canary 去掉返回 fixture 中不参与 replay 的历史/enemy/current 包装引用后，`484.80s`、峰值 RSS `3,451,617,280B`（约 3.45GB），2/2 通过；相对 `3.63GB` 仅下降约 4.9%，仍超过 `1.5GB` 目标，证明主峰位于生产 P2→R13 建链而非测试返回值。需把 producer 改为阶段化/流式释放，或由用户明确批准并记录“已知发布慢路径风险”豁免；且补齐 canary/release 的 3 次冷跑 median/max/RSS 与相对开卡基线回归数据。不得宣称性能债完全达标。
+  3. **G8 内存与冷跑证据**：先移除 fixture 无用包装引用，再把 P2-P6/module cache 在 source disposition 前仅于隔离 canary 中释放并 GC，最后抽出 source-input-only enemy authority，避免额外构建 cadence/cross/item-throw/confirm/control-audit 五套 authority；golden 重签后最终 `339.10s / 2,568,863,744B`（约 2.57GB），2/2 通过。相对原 `484.72s / 3.63GB` 分别下降约 30.0% / 29.2%，但仍超过 `1.5GB` 目标。需继续流式化 source disposition，或由用户明确批准并记录“已知发布慢路径风险”豁免；且补齐 canary/release 的 3 次冷跑 median/max/RSS 与相对开卡基线回归数据。不得宣称性能债完全达标。
 - Accept / rework: rework（G2 新增四类 conditional accept；G1 残余映射、G7、G8 为阻塞项）
 
 ### 当前待审结果
 
 - Codex 自验：`typecheck`、manifest/oracle、release-unit `65 files / 491 tests`、release-preflight
-  `1/1`、source-backed canary `1 file / 2 tests`（最新 `484.80s / 3,451,617,280B`）均通过；
-  G2 返工定向 synthetic trust-boundary `6/6` 通过（约 0.4s）；固定 seed `20260802/03/04` 的四文件 synthetic probe 各为 `4 files / 11 tests` 全绿；fast 当前为 506 tests 全绿。
-- manifest 实跑守恒：fast `70 files / 506 tests`、release `92 files / 635 tests`、canary `1 file / 2 tests`，`routeSha256`/`projectName` 均参与 pin 校验。
+  `1/1`、source-backed canary `1 file / 2 tests`（最新 `339.10s / 2,568,863,744B`）均通过；
+  G2 返工定向 synthetic trust-boundary `6/6` 通过（约 0.4s）；固定 seed `20260802/03/04` 的四文件 synthetic probe 各为 `4 files / 12 tests` 全绿；fast 当前为 507 tests 全绿。
+- manifest 实跑守恒：fast `70 files / 507 tests`、release `92 files / 636 tests`、canary `1 file / 2 tests`，`routeSha256`/`projectName` 均参与 pin 校验。
+- 完整 enemy authority 定向 release 回归：`release-pal-shared` 下
+  `r13-enemy-audits.pal.test.ts` 为 `3/3`，`374.62s`，峰值 RSS `3,740,139,520B`；窄
+  source-input-only canary 与正式完整 authority 均通过，未改变发布路径的语义断言。
 - Kimi/GLM 复审确认 mixed/PAL 路由与 oracle 边界可核验；G2 最小 trust-boundary 子集已补，
   但完整旧断言逐条迁移映射、跨文件 G7 顺序探针缺证和 G8 RSS 超标仍未闭合；在 Kimi/GLM 均签 `accept`
   或用户明确批准性能豁免前不得标记 done。
@@ -278,6 +282,8 @@ source-backed 归属，不能只改 Vitest include/exclude。
 - 2026-08-02 Kimi: counter（架构复审）。G2 返工的 6 个 production-builder trust-boundary 测试可 conditional accept；但单文件 shuffle probe 对 G7 是空操作，且 canary RSS 3.63GB 超 1.5GB 目标。Next: 补真实多文件/跨文件 shared 顺序证据，或请用户裁决性能豁免；不得标记 done。
 - 2026-08-02 Codex: 将 `test:synthetic:shuffle` 扩为 4 个独立 synthetic/oracle 文件、11 tests；固定 seed `20260802/03/04` 均全绿（约 2–3s/次）。它只证明便宜的跨文件顺序探针稳定，不冒充 22-file PAL shared shuffle；G7/G8 完整证据仍 blocked。
 - 2026-08-02 Codex: source canary 返回值移除 replay 不需要的 historical/enemy/current 包装引用，replay 改直接复用已验证 authority 输入；oracle 重签后冷跑 2/2，`484.80s / 3,451,617,280B`。相对 3.63GB 只降约 4.9%，确认主峰在生产建链期；保留安全清理，但 G8 仍需阶段化/流式 producer 重构，未宣称达标。
+- 2026-08-02 Codex: 增加 canary-only module cache release（release-shared fail-closed）与 `--expose-gc`，并把 enemy authority 拆为 augmentation/source-input 两阶段，在 source disposition 前释放 P2-P6 中间链；canary 改走 source-input-only 路径，不再构建五套无关 authority。新 golden 经 live source 重签，最终 2/2、`339.10s / 2,568,863,744B`，较原始下降约 30.0% / 29.2%；G8 仍 blocked。
+- 2026-08-02 Codex: 在正式 `release-pal-shared` 配置下定向回归完整 `r13-enemy-audits.pal.test.ts`，`3/3` 通过，`374.62s / 3,740,139,520B`；确认 source-input-only 仅为 canary 优化，完整 enemy authority 发布路径未被削弱。G8 RSS 与 G7 共享乱序证据仍 blocked。
 
 ## 下一位 Agent 提示词
 
@@ -287,8 +293,8 @@ source-backed 归属，不能只改 Vitest include/exclude。
 当前状态: rework，基于 `a8c86638` 的 G2 最小返工已通过定向测试，等待继续实现/复审
 你的角色: Coding Owner（Codex；修复后再交 Kimi/GLM 复审）
 先读: AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、N3-1 R13-6A 性能边界、packages/migrate/vitest.tests.ts、vitest.config.ts、pal-test-fixture.ts、r13-source-semantics-canary.ts
-已完成: G2 runtime trust-boundary 四类 synthetic 覆盖（定向6/6）、4 文件/11 tests synthetic-oracle seed probe（20260802/03/04各全绿）、fast 分层、compact oracle、manifest/preflight、独立 R13-6A source-backed canary；canary 精简存活引用后 484.80s/RSS 3.45GB，G7 完整 shared shuffle 仍中止。
-请你做: 补齐 G1 旧断言逐项映射与 G2 剩余半状态/initialize-replay/owned-merge 等生产 `prepare*` synthetic 覆盖；设计真正跨文件 shared 顺序探针或取得用户豁免；将 canary producer 改为阶段化/流式释放，或记录用户批准的明确性能风险，并补三次冷跑 median/max/RSS 与基线回归证据。
+已完成: G2 runtime trust-boundary 四类 synthetic 覆盖（定向6/6）、4 文件/12 tests synthetic-oracle seed probe、fast 分层、compact oracle、manifest/preflight、独立 R13-6A source-backed canary；canary 阶段释放+窄 authority 后 339.10s/RSS 2.57GB，G7 完整 shared shuffle 仍中止。
+请你做: 补齐 G1 旧断言逐项映射与 G2 剩余半状态/initialize-replay/owned-merge 等生产 `prepare*` synthetic 覆盖；设计真正跨文件 shared 顺序探针或取得用户豁免；继续流式化 source disposition，或记录用户批准的明确性能风险，并补三次冷跑 median/max/RSS 与基线回归证据。
 不要做: 不把 4 文件 synthetic-oracle shuffle 冒充 22-file PAL 证据，不把未达标 RSS/未完成的完整共享乱序记为通过，不标记 done；修改实现前必须保持任务卡 counter 与上下文锚点。
 输出要求: 修复后重新跑 manifest、synthetic、fast、顺序探针和必要的 canary/release 证据；再交 Kimi/GLM 签 `accept` 或 `counter`。未集齐三方 `accept` 不得标记 done。
 ```

@@ -11,8 +11,12 @@ import {
   getPalTestHistoricalR13_5V10Fixture,
   hasPalTestFixture,
   PAL_TEST_REPO,
+  releasePalTestProducerCachesForCanary,
 } from './pal-test-fixture.js'
-import { prepareR13EnemyScriptAuthority } from './r13-enemy-script-mg2.js'
+import {
+  completeR13EnemyScriptSourceInputs,
+  prepareR13EnemyScriptSourceAugmentation,
+} from './r13-enemy-script-mg2.js'
 import {
   createR13SourceSemanticsV5MigrationPlan,
   R13_SOURCE_SEMANTICS_SEAL_PATH,
@@ -81,29 +85,39 @@ function stripSourceSemanticsSeal(source: MigrationSnapshot): MigrationSnapshot 
 export function buildR13SourceSemanticsCanaryFixture(): R13SourceSemanticsCanaryFixture {
   if (!hasPalTestFixture())
     throw new Error('R13 source semantics canary: extracted source/audit fixture 缺失')
-  const historical = getPalTestGeneratedFixture()
-  const historicalR13_5 = getPalTestHistoricalR13_5V10Fixture()
-  const current = getPalTestCurrentV10Fixture()
-  const enemyAuthority = prepareR13EnemyScriptAuthority({
-    generated: historical.generated,
-    historicalSources: historical.sources,
-    historicalMigration: historical.migration,
-    historicalAudit: historical.currentAudit,
-    currentSources: historicalR13_5.sources,
-    currentMigration: historicalR13_5.migration,
-    currentAudit: historicalR13_5.audit,
-  })
-  const sourceDispositionInput: R13SourceSemanticsDispositionInput = {
-    historicalSources: historical.sources,
-    historicalMigration: historical.migration,
-    historicalAudit: historical.currentAudit,
-    generated: enemyAuthority.successorGenerated,
-    parentSourceDisposition: enemyAuthority.sourceDisposition,
-    r13EnemyClosure: {
-      sourceDisposition: enemyAuthority.augmentation.enemySourceDisposition,
+  const prepared = (() => {
+    const historical = getPalTestGeneratedFixture()
+    const historicalR13_5 = getPalTestHistoricalR13_5V10Fixture()
+    const current = getPalTestCurrentV10Fixture()
+    const sourceAugmentation = prepareR13EnemyScriptSourceAugmentation({
+      generated: historical.generated,
+      historicalMigration: historical.migration,
       currentSources: historicalR13_5.sources,
       currentMigration: historicalR13_5.migration,
-      augmentationEvidence: enemyAuthority.augmentation.evidence,
+    })
+    return {
+      historicalSources: historical.sources,
+      historicalMigration: historical.migration,
+      historicalAudit: historical.currentAudit,
+      currentSources: current.sources,
+      currentMigration: current.migration,
+      ...sourceAugmentation,
+    }
+  })()
+  releasePalTestProducerCachesForCanary()
+  ;(globalThis as { gc?: () => void }).gc?.()
+  const sourceInputs = completeR13EnemyScriptSourceInputs(prepared)
+  const sourceDispositionInput: R13SourceSemanticsDispositionInput = {
+    historicalSources: prepared.historicalSources,
+    historicalMigration: prepared.historicalMigration,
+    historicalAudit: prepared.historicalAudit,
+    generated: sourceInputs.successorGenerated,
+    parentSourceDisposition: sourceInputs.sourceDisposition,
+    r13EnemyClosure: {
+      sourceDisposition: sourceInputs.augmentation.enemySourceDisposition,
+      currentSources: prepared.currentSources,
+      currentMigration: prepared.currentMigration,
+      augmentationEvidence: sourceInputs.augmentation.evidence,
     },
   }
   const baseline = loadPalBaseline(PAL_TEST_REPO)
@@ -111,7 +125,7 @@ export function buildR13SourceSemanticsCanaryFixture(): R13SourceSemanticsCanary
   const base = stripSourceSemanticsSeal(baseline)
   const managed = discoverProjectManagedFiles(
     PAL_TEST_REPO,
-    new Set([...base.managedFiles, ...current.migration.managedFiles]),
+    new Set([...base.managedFiles, ...prepared.currentMigration.managedFiles]),
   )
   const ours = loadProjectMigrationSnapshot(PAL_TEST_REPO, managed)
   const projectPrerequisites = new Map<string, MigrationJson>([
@@ -125,8 +139,8 @@ export function buildR13SourceSemanticsCanaryFixture(): R13SourceSemanticsCanary
   const first = createR13SourceSemanticsV5MigrationPlan({
     base,
     ours,
-    currentSources: current.sources,
-    currentMigration: current.migration,
+    currentSources: prepared.currentSources,
+    currentMigration: prepared.currentMigration,
     projectPrerequisites,
     sourceDispositionInput,
   })

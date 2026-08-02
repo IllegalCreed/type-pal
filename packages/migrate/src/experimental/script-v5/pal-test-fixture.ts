@@ -422,3 +422,34 @@ export function getPalTestPreparedR13ConfirmControlAuditAuthority(): PreparedR13
   })
   return preparedConfirmControlAuditAuthority
 }
+
+/**
+ * Drop producer-only module caches between the cold source-chain build and the final canary
+ * transition. The returned authorities keep every live input required for replay; the discarded
+ * wrappers additionally retain P2-P6 intermediate chains, duplicate audits and historical build
+ * products that are not part of the R13-6A trust boundary.
+ *
+ * This is intentionally canary-only. Shared release tests depend on process-local fixture identity
+ * and must never have their caches invalidated by another test file.
+ */
+export function releasePalTestProducerCachesForCanary(): void {
+  if (process.env.TYPE_PAL_MIGRATE_TEST_GATE !== 'canary')
+    throw new Error('PAL test fixture: producer cache release 仅允许 canary gate 使用')
+  coreFixture = undefined
+  currentV10Fixture = undefined
+  historicalR13_5V10Fixture = undefined
+  phaseFixture = undefined
+  generatedFixture = undefined
+  preparedTransitionCorpusReader = undefined
+  preparedP2Transition = undefined
+  preparedP3Transition = undefined
+  preparedP4Transition = undefined
+  preparedP5Transition = undefined
+  preparedP6Transition = undefined
+  preparedSourceCensus = undefined
+  preparedCadenceAuthority = undefined
+  preparedCrossActivationAuthority = undefined
+  preparedItemThrowAuthority = undefined
+  preparedConfirmAuthority = undefined
+  preparedConfirmControlAuditAuthority = undefined
+}

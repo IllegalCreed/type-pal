@@ -13,6 +13,7 @@ export default defineConfig({
     include: [...PAL_CANARY_TESTS],
     passWithNoTests: false,
     pool: 'forks',
+    execArgv: ['--expose-gc'],
     isolate: true,
     fileParallelism: false,
     hookTimeout: 900_000,

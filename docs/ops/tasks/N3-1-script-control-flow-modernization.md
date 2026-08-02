@@ -6668,17 +6668,21 @@ R13-Z、N3-1、C8 或 ED-5I 已完成。
 
 `docs/ops/tasks/OPS-TST-PERF-test-fixture-stratification.md` 已把日常开发门与发布门拆开：
 
-- `test:fast` 当前固定运行 `70 files / 506 tests`（本轮 G2 trust-boundary 返工新增 2 tests），此前三次墙钟为 `39.29s / 36.77s / 39.28s`，
+- `test:fast` 当前固定运行 `70 files / 507 tests`（本轮 trust-boundary/缓存隔离返工新增 3 tests），此前三次墙钟为 `39.29s / 36.77s / 39.28s`，
   峰值 RSS 分别为约 `474.8MB / 534.2MB / 518.1MB`；该门不构建完整 PAL P2→P7 fixture，
   但保留 6 个 source-backed lite/oracle 文件和 5 个 P7 混合文件的纯单元测试。
 - `test:canary` 是独立冷进程，直接重读 extracted source、audit、published baseline/project，
-  精确重建 R13-6A authority 并 replay `0/0/0`；精简非 replay 必需引用后 `1 file / 2 tests`
-  通过，墙钟 `484.80s`（约 8 分钟），峰值 RSS `3,451,617,280B`（约 3.45GB）。墙钟在 `≤10min`
-  内，RSS 相对原 3.63GB 只降约 4.9%，主峰仍在生产建链期且高于
+  精确重建 R13-6A authority 并 replay `0/0/0`；经 canary-only 阶段缓存释放、GC 与
+  source-input-only enemy authority 后，`1 file / 2 tests` 通过，墙钟 `339.10s`（约 5 分 39 秒），
+  峰值 RSS `2,568,863,744B`（约 2.57GB）。相对原 `484.72s / 3.63GB` 分别下降约 30.0% / 29.2%，
+  主峰已收敛到 source disposition，但仍高于
   原 `≤1.5GB` 初始目标，不能把该风险宣称已解决。
 - `test:release` 继续保留完整 PAL shared/fresh 矩阵；完整 22 文件共享乱序首轮探针在
   `19m36s` 未结束而中止，因此 G7 乱序证据仍待独立顺序探针补齐。这个慢路径只属于发布/审查门，
   不应重新并入每次小功能的 fast 反馈回路。
+- 在正式 `release-pal-shared` 配置下定向回归完整 `r13-enemy-audits.pal.test.ts` 为 `3/3`，
+  `374.62s`、峰值 RSS `3,740,139,520B`；这证明 canary 的 source-input-only 拆分没有改变
+  完整 enemy authority 发布路径，但也确认该路径仍需后续流式化/降峰。
 
 结论：81,674-site 冷构建的“每次开发都付费”已从默认门移除，但 source-backed 发布门的高 RSS
 与完整乱序探针仍是显式技术债，后续不得以跳过、放宽断言或跨命令缓存假装收口。

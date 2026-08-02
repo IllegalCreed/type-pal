@@ -182,6 +182,28 @@ export interface PreparedR13EnemyScriptAuthority {
   readonly digest: string
 }
 
+export interface R13EnemyScriptSourceInputArgs {
+  generated: P7GeneratedCanonical
+  historicalSources: PalMigrationSources
+  historicalMigration: MigrationFileSet
+  historicalAudit: ScriptControlFlowAuditV1
+  currentSources: PalMigrationSources
+  currentMigration: MigrationFileSet
+  preparedHistoricalSourceCensus?: PreparedR13SourceExecutionCensus
+}
+
+export interface PreparedR13EnemyScriptSourceInputs {
+  readonly augmentation: R13EnemyScriptAugmentation
+  readonly successorGenerated: P7GeneratedCanonical
+  readonly sourceDisposition: R13SourceInstructionDispositionV3
+  readonly runtimeCapability: R13RuntimeCapabilityAuditV3
+}
+
+export interface PreparedR13EnemyScriptSourceAugmentation {
+  readonly augmentation: R13EnemyScriptAugmentation
+  readonly successorGenerated: P7GeneratedCanonical
+}
+
 const preparedAuthorities = new WeakSet<PreparedR13EnemyScriptAuthority>()
 
 function deepFreezeReport<T>(value: T, seen = new WeakSet<object>()): T {
@@ -402,6 +424,71 @@ export function assertR13EnemyScriptPublishedSealMatchesAuthority(
     throw new Error('R13 enemy script MG2: 权威重建证据与已发布 seal 不符')
 }
 
+export function prepareR13EnemyScriptSourceAugmentation(
+  args: Pick<
+    R13EnemyScriptSourceInputArgs,
+    'generated' | 'historicalMigration' | 'currentSources' | 'currentMigration'
+  >,
+): PreparedR13EnemyScriptSourceAugmentation {
+  const augmentation = augmentR13EnemyScriptsAfterConfirm({
+    parent: args.generated.snapshot,
+    historicalMigration: args.historicalMigration,
+    currentSources: args.currentSources,
+    currentMigration: args.currentMigration,
+  })
+  const successorGenerated: P7GeneratedCanonical = Object.freeze({
+    ...args.generated,
+    snapshot: augmentation.snapshot,
+  })
+  assertSuccessorGeneratedIdentity(args.generated, successorGenerated, augmentation.snapshot)
+  return Object.freeze({ augmentation, successorGenerated })
+}
+
+export function completeR13EnemyScriptSourceInputs(args: {
+  historicalSources: PalMigrationSources
+  historicalMigration: MigrationFileSet
+  historicalAudit: ScriptControlFlowAuditV1
+  currentSources: PalMigrationSources
+  currentMigration: MigrationFileSet
+  preparedHistoricalSourceCensus?: PreparedR13SourceExecutionCensus
+  augmentation: R13EnemyScriptAugmentation
+  successorGenerated: P7GeneratedCanonical
+}): PreparedR13EnemyScriptSourceInputs {
+  const r13EnemyClosure = {
+    sourceDisposition: args.augmentation.enemySourceDisposition,
+    currentSources: args.currentSources,
+    currentMigration: args.currentMigration,
+    augmentationEvidence: args.augmentation.evidence,
+  }
+  const sourceArgs: R13SourceInstructionDispositionBuildArgs = {
+    sources: args.historicalSources,
+    migration: args.historicalMigration,
+    audit: args.historicalAudit,
+    generated: args.successorGenerated,
+    final: args.augmentation.snapshot,
+    r13EnemyClosure,
+    ...(args.preparedHistoricalSourceCensus
+      ? { preparedSourceCensus: args.preparedHistoricalSourceCensus }
+      : {}),
+  }
+  const sourceDisposition = buildAndAssertR13SourceInstructionDispositionV3(sourceArgs)
+  const runtimeCapability = args.augmentation.runtimeCapability
+  assertHistoricalR13_5RuntimeCapabilityAuditReportV3(runtimeCapability)
+  return Object.freeze({
+    augmentation: args.augmentation,
+    successorGenerated: args.successorGenerated,
+    sourceDisposition: deepFreezeReport(sourceDisposition),
+    runtimeCapability: deepFreezeReport(runtimeCapability),
+  })
+}
+
+export function prepareR13EnemyScriptSourceInputs(
+  args: R13EnemyScriptSourceInputArgs,
+): PreparedR13EnemyScriptSourceInputs {
+  const prepared = prepareR13EnemyScriptSourceAugmentation(args)
+  return completeR13EnemyScriptSourceInputs({ ...args, ...prepared })
+}
+
 export function prepareR13EnemyScriptAuthority(args: {
   generated: P7GeneratedCanonical
   historicalSources: PalMigrationSources
@@ -413,44 +500,15 @@ export function prepareR13EnemyScriptAuthority(args: {
   preparedHistoricalSourceCensus?: PreparedR13SourceExecutionCensus
   preparedCurrentSourceCensus?: PreparedR13SourceExecutionCensus
 }): PreparedR13EnemyScriptAuthority {
-  const augmentation = augmentR13EnemyScriptsAfterConfirm({
-    parent: args.generated.snapshot,
-    historicalMigration: args.historicalMigration,
-    currentSources: args.currentSources,
-    currentMigration: args.currentMigration,
-  })
+  const sourceInputs = prepareR13EnemyScriptSourceInputs(args)
+  const { augmentation, successorGenerated, sourceDisposition, runtimeCapability } = sourceInputs
+  const auditSeal = buildAuditSeal(sourceDisposition, runtimeCapability, args.historicalAudit)
+
   const mergedTargetClosure = prepareR13EnemyScriptMergedTargetClosure(
     args.generated.snapshot,
     augmentation.snapshot,
     augmentation.evidence,
   )
-  const successorGenerated: P7GeneratedCanonical = Object.freeze({
-    ...args.generated,
-    snapshot: augmentation.snapshot,
-  })
-  assertSuccessorGeneratedIdentity(args.generated, successorGenerated, augmentation.snapshot)
-  const r13EnemyClosure = {
-    sourceDisposition: augmentation.enemySourceDisposition,
-    currentSources: args.currentSources,
-    currentMigration: args.currentMigration,
-    augmentationEvidence: augmentation.evidence,
-  }
-  const sourceArgs: R13SourceInstructionDispositionBuildArgs = {
-    sources: args.historicalSources,
-    migration: args.historicalMigration,
-    audit: args.historicalAudit,
-    generated: successorGenerated,
-    final: augmentation.snapshot,
-    r13EnemyClosure,
-    ...(args.preparedHistoricalSourceCensus
-      ? { preparedSourceCensus: args.preparedHistoricalSourceCensus }
-      : {}),
-  }
-  const sourceDisposition = buildAndAssertR13SourceInstructionDispositionV3(sourceArgs)
-  const runtimeCapability = augmentation.runtimeCapability
-  assertHistoricalR13_5RuntimeCapabilityAuditReportV3(runtimeCapability)
-  const auditSeal = buildAuditSeal(sourceDisposition, runtimeCapability, args.historicalAudit)
-
   const cadenceAuthority = prepareR13CadenceAuthority(successorGenerated)
   const crossActivationAuthority = prepareR13CrossActivationAuthority({
     generated: successorGenerated,

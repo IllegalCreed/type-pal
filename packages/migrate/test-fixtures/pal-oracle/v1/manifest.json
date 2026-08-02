@@ -10,7 +10,7 @@
     "current": "pal-v10-r13-6a"
   },
   "projection": "packages/migrate/test-fixtures/pal-oracle/v1/projection.json",
-  "projectionSha256": "b0c786931b12470815533228d39970dd96aacdad727876d2ed28390e00122ef9",
+  "projectionSha256": "aeebfe463f0f9198fc23af7c970289ae390bd9981aca7293177b988e1b9c81d6",
   "inputs": [
     {
       "path": "data/extracted/events/all.json",
@@ -95,7 +95,7 @@
     {
       "path": "packages/migrate/test-fixtures/pal-oracle/v1/r13-source-semantics.json",
       "bytes": 1014,
-      "sha256": "73b9fa96e50de7bb121519d09f39a0363e3c15435f4b2fb8af7e399b6fbefb2b"
+      "sha256": "1b88dc251b333c661d27c1087910e19ef2eea01b705d78dffbb85ff180a05542"
     },
     {
       "path": "packages/migrate/.shadow/N3-1/v5/p6/ir/script-migration-ir.json",
@@ -146,8 +146,8 @@
       "root": "packages/migrate/src",
       "selector": "production-typescript",
       "files": 108,
-      "bytes": 2363750,
-      "sha256": "a7dcb4c9d993f148e5ba20da27a7e1b4b96b5e490ccc6cddb25be641a00bcce9"
+      "bytes": 2367865,
+      "sha256": "a6276b5b9fdf39705643f0e95a920ceb5ac2650d9c165386eebbfce6da7c356a"
     },
     {
       "role": "producer-code",
