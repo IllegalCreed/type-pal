@@ -211,11 +211,13 @@ export interface PreparedR13EnemyScriptSourceAugmentation<
 
 const preparedAuthorities = new WeakSet<PreparedR13EnemyScriptAuthority>()
 
-function deepFreezeReport<T>(value: T, seen = new WeakSet<object>()): T {
-  if (!value || typeof value !== 'object' || seen.has(value)) return value
-  seen.add(value)
+function deepFreezeReport<T>(value: T, active = new WeakSet<object>()): T {
+  if (!value || typeof value !== 'object') return value
+  if (active.has(value)) throw new Error('R13 enemy script MG2: report cycle')
+  active.add(value)
   for (const nested of Object.values(value as Record<string, unknown>))
-    deepFreezeReport(nested, seen)
+    deepFreezeReport(nested, active)
+  active.delete(value)
   return Object.freeze(value)
 }
 

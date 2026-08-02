@@ -2300,8 +2300,11 @@ export function augmentR13TriggerActivations(args: {
     refreshFinalFlowDigest(ownerEvidence[index]!, spec)
   for (const [index, spec] of R13_DELAYED_TRIGGER_OWNERS.entries())
     refreshFinalFlowDigest(delayedOwnerEvidence[index]!, spec)
+  // `finalizedScenes` is assembled from this augmentation's private scene working set and is not
+  // mutated after the snapshot is returned.  Re-cloning every scene here used to create a third
+  // simultaneous 294-scene graph for no isolation benefit.
   for (const scene of finalizedScenes)
-    files.set(`content/scenes/${scene.id}.json`, structuredClone(scene) as unknown as MigrationJson)
+    files.set(`content/scenes/${scene.id}.json`, scene as unknown as MigrationJson)
 
   const translationOutput = args.translation.finish()
   if (translationOutput.report.gaps.length || translationOutput.report.flowCuts)

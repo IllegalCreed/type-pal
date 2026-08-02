@@ -13,7 +13,12 @@ export default defineConfig({
     include: [...PAL_CANARY_TESTS],
     passWithNoTests: false,
     pool: 'forks',
-    execArgv: ['--expose-gc'],
+    // The source producer has been made streaming/COW, but V8 otherwise retains a multi-GB
+    // default old-space allowance and cold-run RSS varies with its expansion heuristics. Keep
+    // the canary close to the documented resource envelope and fail loudly if the live producer
+    // regresses toward the former 3–4 GB path. The 1168 MiB heap leaves room for one canonical
+    // digest while the process-level RSS gate remains 1.5 GB.
+    execArgv: ['--expose-gc', '--max-old-space-size=1168'],
     isolate: true,
     fileParallelism: false,
     hookTimeout: 900_000,

@@ -4,11 +4,15 @@ import {
   discoverProjectManagedFiles,
   loadProjectMigrationSnapshot,
 } from '../../migration-project-io.js'
-import type { MigrationJson } from '../../pal-migration.js'
 import {
-  getPalTestCurrentV10Fixture,
+  buildPalHistoricalR13_5V10Migration,
+  buildPalMigration,
+  type MigrationFileSet,
+  type MigrationJson,
+  type PalMigrationSources,
+} from '../../pal-migration.js'
+import {
   getPalTestSourceDispositionFixture,
-  getPalTestHistoricalR13_5V10Fixture,
   hasPalTestFixture,
   PAL_TEST_REPO,
   releasePalTestProducerCachesForCanary,
@@ -22,11 +26,77 @@ import {
   projectR13SourceSemanticsGenerated,
   R13_SOURCE_SEMANTICS_SEAL_PATH,
   R13_SOURCE_SEMANTICS_TRANSITION_ID,
+  digestR13SourceSemanticsMigrationInput,
+  digestR13SourceSemanticsMigrationInputFast,
+  registerR13SourceSemanticsCanaryMigrationInputDigest,
   type R13SourceSemanticsDispositionInput,
   type R13SourceSemanticsV5MigrationPlan,
 } from './r13-source-semantics-mg2.js'
 import { projectR13SourceDispositionGenerated } from './source-instruction-disposition.js'
 import { stableJsonSha256 } from './stable-json.js'
+
+/**
+ * The cold canary needs independent source/migration identities for the historical R13-5
+ * augmentation and the later current-v10 closure. Both profiles are derived from the same live
+ * extracted source corpus, so their top-level identities must be distinct while the immutable
+ * source pages can remain shared. Re-reading and parsing that corpus for each profile retained
+ * hundreds of MB of duplicate arrays without adding any source-proof value.
+ */
+function loadCanarySourcesMigration(
+  source: PalMigrationSources,
+  buildMigration: typeof buildPalHistoricalR13_5V10Migration | typeof buildPalMigration,
+) {
+  const sources: PalMigrationSources = {
+    ...source,
+    migrate: { ...source.migrate },
+    allJson: { segments: source.allJson.segments },
+    eventsByScene: new Map(source.eventsByScene),
+  }
+  return Object.freeze({ sources, migration: buildMigration(sources) })
+}
+
+/**
+ * After the current-v10 source-backed authority has been hashed, R13-6A only reads three
+ * content files and four report leaves from that migration. Keep those leaves in a branded
+ * narrow view; the full migration graph is otherwise dead weight during the 81k-site ledger.
+ */
+function compactCurrentMigrationForR13SourceSemantics(
+  migration: MigrationFileSet,
+): MigrationFileSet {
+  const files = new Map<string, MigrationJson>()
+  for (const path of ['content/enemies.json', 'content/skills.json', 'content/locale.json']) {
+    const value = migration.files.get(path)
+    if (value === undefined)
+      throw new Error(`R13 source semantics canary: current migration 缺 ${path}`)
+    files.set(path, value)
+  }
+  const report = {
+    rawContent: {},
+    rawProjection: { enemies: migration.report.rawProjection.enemies },
+    content: {
+      pendingSkills: migration.report.content.pendingSkills,
+      lossySkills: migration.report.content.lossySkills,
+    },
+    enemies: {
+      pendingScripts: migration.report.enemies?.pendingScripts ?? [],
+      hookSources: migration.report.enemies?.hookSources ?? [],
+    },
+    enemyTeams: {},
+    scenes: {},
+    scripts: {},
+    graph: {},
+    scriptRegistry: {},
+    foldedHostileRoots: [],
+    foldedSpriteRoots: [],
+    audit: {},
+    spriteActions: {},
+    spriteActionMaterialization: {},
+    bossOverlay: { attached: 0, clearedEnemies: [] },
+    maps: {},
+    assets: {},
+  } as unknown as MigrationFileSet['report']
+  return { files, managedFiles: new Set(files.keys()), report }
+}
 
 export interface R13SourceSemanticsCanaryFixture {
   base: MigrationSnapshot
@@ -90,20 +160,24 @@ export function buildR13SourceSemanticsCanaryFixture(): R13SourceSemanticsCanary
   const { sourceDispositionInput, currentSources, currentMigration } = (() => {
     const prepared = (() => {
       const historical = getPalTestSourceDispositionFixture()
-      const historicalR13_5 = getPalTestHistoricalR13_5V10Fixture()
-      const current = getPalTestCurrentV10Fixture()
-      const sourceAugmentation = prepareR13EnemyScriptSourceAugmentation({
-        generated: historical.generated,
-        historicalMigration: historical.migration,
-        currentSources: historicalR13_5.sources,
-        currentMigration: historicalR13_5.migration,
-      })
+      const sourceAugmentation = (() => {
+        // R13-5 is only the augmentation input.  Keep it in this lexical scope so it can die
+        // before the current-v10 closure fixture is loaded below.
+        const historicalR13_5 = loadCanarySourcesMigration(
+          historical.sources,
+          buildPalHistoricalR13_5V10Migration,
+        )
+        return prepareR13EnemyScriptSourceAugmentation({
+          generated: historical.generated,
+          historicalMigration: historical.migration,
+          currentSources: historicalR13_5.sources,
+          currentMigration: historicalR13_5.migration,
+        })
+      })()
       return {
         historicalSources: historical.sources,
         historicalMigration: historical.migration,
         historicalAudit: historical.currentAudit,
-        currentSources: current.sources,
-        currentMigration: current.migration,
         augmentation: sourceAugmentation.augmentation,
         successorGenerated: projectR13SourceDispositionGenerated(
           sourceAugmentation.successorGenerated,
@@ -112,7 +186,24 @@ export function buildR13SourceSemanticsCanaryFixture(): R13SourceSemanticsCanary
     })()
     releasePalTestProducerCachesForCanary()
     ;(globalThis as { gc?: () => void }).gc?.()
-    const sourceInputs = completeR13EnemyScriptSourceInputs(prepared)
+    const currentFull = loadCanarySourcesMigration(
+      prepared.historicalSources,
+      buildPalMigration,
+    )
+    const currentMigrationDigest = digestR13SourceSemanticsMigrationInput(currentFull.migration)
+    const currentMigrationFastDigest =
+      digestR13SourceSemanticsMigrationInputFast(currentFull.migration)
+    const currentMigration = compactCurrentMigrationForR13SourceSemantics(currentFull.migration)
+    registerR13SourceSemanticsCanaryMigrationInputDigest(
+      currentMigration,
+      currentMigrationDigest,
+      currentMigrationFastDigest,
+    )
+    const sourceInputs = completeR13EnemyScriptSourceInputs({
+      ...prepared,
+      currentSources: currentFull.sources,
+      currentMigration,
+    })
     const sourceDispositionInput: R13SourceSemanticsDispositionInput = {
       historicalSources: prepared.historicalSources,
       historicalMigration: prepared.historicalMigration,
@@ -121,26 +212,30 @@ export function buildR13SourceSemanticsCanaryFixture(): R13SourceSemanticsCanary
       parentSourceDisposition: sourceInputs.sourceDisposition,
       r13EnemyClosure: {
         sourceDisposition: sourceInputs.augmentation.enemySourceDisposition,
-        currentSources: prepared.currentSources,
-        currentMigration: prepared.currentMigration,
+        currentSources: currentFull.sources,
+        currentMigration,
         augmentationEvidence: sourceInputs.augmentation.evidence,
       },
     }
     return {
       sourceDispositionInput,
-      currentSources: prepared.currentSources,
-      currentMigration: prepared.currentMigration,
+      currentSources: currentFull.sources,
+      currentMigration,
     }
   })()
   ;(globalThis as { gc?: () => void }).gc?.()
-  const baseline = loadPalBaseline(PAL_TEST_REPO)
-  if (!baseline) throw new Error('R13 source semantics canary: baseline 缺失')
-  const base = stripSourceSemanticsSeal(baseline)
-  const managed = discoverProjectManagedFiles(
-    PAL_TEST_REPO,
-    new Set([...base.managedFiles, ...currentMigration.managedFiles]),
-  )
-  const ours = loadProjectMigrationSnapshot(PAL_TEST_REPO, managed)
+  const base = (() => {
+    const baseline = loadPalBaseline(PAL_TEST_REPO)
+    if (!baseline) throw new Error('R13 source semantics canary: baseline 缺失')
+    return stripSourceSemanticsSeal(baseline)
+  })()
+  const ours = (() => {
+    const managed = discoverProjectManagedFiles(
+      PAL_TEST_REPO,
+      new Set([...base.managedFiles, ...currentMigration.managedFiles]),
+    )
+    return loadProjectMigrationSnapshot(PAL_TEST_REPO, managed)
+  })()
   const projectPrerequisites = new Map<string, MigrationJson>([
     [
       'content/ambiences.json',
@@ -149,6 +244,10 @@ export function buildR13SourceSemanticsCanaryFixture(): R13SourceSemanticsCanary
       ) as MigrationJson,
     ],
   ])
+  // Loading the baseline and checked-out project creates short-lived parser/managed-file
+  // intermediates. They are no longer part of the source proof once the snapshots above exist;
+  // reclaim them before the stable source-input digest instead of overlapping both peaks.
+  ;(globalThis as { gc?: () => void }).gc?.()
   const first = createR13SourceSemanticsV5MigrationPlan({
     base,
     ours,

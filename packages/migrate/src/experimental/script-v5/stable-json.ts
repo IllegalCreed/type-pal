@@ -203,6 +203,77 @@ export function stableJsonFramedSha256(values: Iterable<unknown>): string {
   return hash.digest('hex')
 }
 
+type FastJsonContext = 'root' | 'array' | 'object'
+
+function normalizeFastJsonValue(value: unknown, key: string): unknown {
+  if (value && typeof value === 'object') {
+    const toJSON = (value as { toJSON?: (key: string) => unknown }).toJSON
+    if (typeof toJSON === 'function') return toJSON.call(value, key)
+    if (value instanceof Number || value instanceof String || value instanceof Boolean)
+      return value.valueOf()
+  }
+  return value
+}
+
+/** Stream the exact bytes produced by JSON.stringify without materialising the full string. */
+function writeFastJson(
+  input: unknown,
+  key: string,
+  context: FastJsonContext,
+  active: Set<object>,
+  write: (chunk: string) => void,
+): boolean {
+  const value = normalizeFastJsonValue(input, key)
+  if (value === undefined || typeof value === 'function' || typeof value === 'symbol') {
+    if (context === 'array') {
+      write('null')
+      return true
+    }
+    return false
+  }
+  if (value === null) {
+    write('null')
+    return true
+  }
+  if (typeof value === 'string' || typeof value === 'boolean') {
+    write(JSON.stringify(value))
+    return true
+  }
+  if (typeof value === 'number') {
+    write(Number.isFinite(value) ? JSON.stringify(value) : 'null')
+    return true
+  }
+  if (typeof value === 'bigint') throw new TypeError('Do not know how to serialize a BigInt')
+  if (typeof value !== 'object') return false
+  if (active.has(value)) throw new TypeError('Converting circular structure to JSON')
+  active.add(value)
+  if (Array.isArray(value)) {
+    write('[')
+    for (let index = 0; index < value.length; index++) {
+      if (index) write(',')
+      writeFastJson(value[index], String(index), 'array', active, write)
+    }
+    write(']')
+  } else {
+    write('{')
+    let written = 0
+    for (const property of Object.keys(value)) {
+      const child = normalizeFastJsonValue(
+        (value as Record<string, unknown>)[property],
+        property,
+      )
+      if (child === undefined || typeof child === 'function' || typeof child === 'symbol') continue
+      if (written++) write(',')
+      write(JSON.stringify(property))
+      write(':')
+      writeFastJson(child, property, 'object', active, write)
+    }
+    write('}')
+  }
+  active.delete(value)
+  return true
+}
+
 /**
  * Process-local mutation sentinel for large already-canonical data graphs.
  *
@@ -212,9 +283,20 @@ export function stableJsonFramedSha256(values: Iterable<unknown>): string {
  * the initial authority still records the canonical digest.
  */
 export function fastJsonSha256(value: unknown): string {
-  const serialized = JSON.stringify(value)
-  if (serialized === undefined) throw new Error('fast JSON: unsupported undefined root')
-  return createHash('sha256').update(serialized).digest('hex')
+  const hash = createHash('sha256')
+  let buffer = ''
+  const flush = (): void => {
+    if (!buffer) return
+    hash.update(buffer)
+    buffer = ''
+  }
+  const written = writeFastJson(value, '', 'root', new Set(), (chunk) => {
+    buffer += chunk
+    if (buffer.length >= 64 * 1024) flush()
+  })
+  if (!written) throw new Error('fast JSON: unsupported undefined root')
+  flush()
+  return hash.digest('hex')
 }
 
 export function formatStableJson(value: unknown): string {

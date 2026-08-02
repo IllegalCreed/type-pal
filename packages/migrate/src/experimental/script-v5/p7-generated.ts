@@ -96,13 +96,9 @@ export type P7SourceDispositionGenerated = Pick<
 
 export type ValidatedP6TransformChain = ReturnType<typeof buildValidatedP6TransformChain>
 
-function asJson(value: unknown): MigrationJson {
-  return JSON.parse(JSON.stringify(value)) as MigrationJson
-}
-
 function readGeneratedSource(files: ReadonlyMap<string, MigrationJson>): {
-  scenes: SceneDef[]
-  items: ItemData[]
+  scenes: readonly SceneDef[]
+  items: readonly ItemData[]
 } {
   const sceneIds = files.get('content/scenes/index.json')
   if (!Array.isArray(sceneIds) || sceneIds.some((id) => typeof id !== 'string'))
@@ -110,11 +106,13 @@ function readGeneratedSource(files: ReadonlyMap<string, MigrationJson>): {
   const scenes = sceneIds.map((id) => {
     const scene = files.get(`content/scenes/${String(id)}.json`)
     if (!scene) throw new Error(`P7 generated: scene 缺失 ${String(id)}`)
-    return structuredClone(scene) as unknown as SceneDef
+    // The canonical projector only reads the source payload and assembles independent output
+    // values; avoid a full intermediary scene graph before projection starts.
+    return scene as unknown as SceneDef
   })
   const items = files.get('content/items.json')
   if (!Array.isArray(items)) throw new Error('P7 generated: content/items.json 无效')
-  return { scenes, items: structuredClone(items) as unknown as ItemData[] }
+  return { scenes, items: items as unknown as readonly ItemData[] }
 }
 
 function finalizedTriggerActivationEvidence(
@@ -185,11 +183,13 @@ export function buildP7GeneratedCanonicalFromValidatedChain(
   )
   for (const scene of project.scenes) {
     const path = `content/scenes/${scene.id}.json`
-    files.set(path, asJson(scene))
+    // These are freshly assembled canonical values. Later augmentations clone before mutation;
+    // serialising every scene here created another complete graph at the P7 peak.
+    files.set(path, scene as unknown as MigrationJson)
     managedFiles.add(path)
   }
-  files.set('content/items.json', asJson(project.items))
-  files.set(P7_SHARED_SCRIPTS_PATH, asJson(project.scripts))
+  files.set('content/items.json', project.items as unknown as MigrationJson)
+  files.set(P7_SHARED_SCRIPTS_PATH, project.scripts as unknown as MigrationJson)
   managedFiles.add('content/items.json')
   managedFiles.add('content/scenes/index.json')
   managedFiles.add(P7_SHARED_SCRIPTS_PATH)
@@ -311,11 +311,11 @@ export function buildP7SourceDispositionGeneratedFromValidatedOutput(
     )
     for (const scene of project.scenes) {
       const path = `content/scenes/${scene.id}.json`
-      files.set(path, asJson(scene))
+      files.set(path, scene as unknown as MigrationJson)
       managedFiles.add(path)
     }
-    files.set('content/items.json', asJson(project.items))
-    files.set(P7_SHARED_SCRIPTS_PATH, asJson(project.scripts))
+    files.set('content/items.json', project.items as unknown as MigrationJson)
+    files.set(P7_SHARED_SCRIPTS_PATH, project.scripts as unknown as MigrationJson)
     managedFiles.add('content/items.json')
     managedFiles.add('content/scenes/index.json')
     managedFiles.add(P7_SHARED_SCRIPTS_PATH)

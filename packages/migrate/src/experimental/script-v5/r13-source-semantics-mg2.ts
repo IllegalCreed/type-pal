@@ -57,6 +57,11 @@ export const R13_SOURCE_SEMANTICS_PARENT_ENEMY_DIGEST =
 export const R13_SOURCE_SEMANTICS_PARENT_ENEMY_FILE_SHA256 =
   'e913123d9f01b6b1caf530bb168c9e78abc7339d4ac5dbcd55b731433c39f9c9' as const
 
+/** R13-6A does not own this legacy save sidecar; keep it opaque like an atomic map. */
+const R13_UNOWNED_OPAQUE_PATHS = Object.freeze([
+  'content/migrations/script-v4-v5-save.json',
+] as const)
+
 interface R13SourceSemanticsSealBodyV1 {
   kind: 'r13-source-semantics-transition'
   version: 1
@@ -171,12 +176,23 @@ export interface R13SourceSemanticsV5MigrationPlan {
 
 const preparedAuthorities = new WeakSet<PreparedR13SourceSemanticsAuthority>()
 const preparedInputReports = new WeakSet<object>()
+/**
+ * A canary may discard a full current-v10 MigrationFileSet after hashing it once, while keeping
+ * a narrow read-only view for the enemy/schema closure. The digest is process-local and branded
+ * to that view; a plain JSON object cannot claim the full migration identity.
+ */
+const trustedMigrationInputDigests = new WeakMap<
+  MigrationFileSet,
+  { stable: string; fast?: string }
+>()
 
-function deepFreezeReport<T>(value: T, seen = new WeakSet<object>()): T {
-  if (!value || typeof value !== 'object' || seen.has(value)) return value
-  seen.add(value)
+function deepFreezeReport<T>(value: T, active = new WeakSet<object>()): T {
+  if (!value || typeof value !== 'object') return value
+  if (active.has(value)) throw new Error('R13 source semantics MG2: report cycle')
+  active.add(value)
   for (const nested of Object.values(value as Record<string, unknown>))
-    deepFreezeReport(nested, seen)
+    deepFreezeReport(nested, active)
+  active.delete(value)
   return Object.freeze(value)
 }
 
@@ -245,6 +261,31 @@ function digestMigrationInput(
   })
 }
 
+export function digestR13SourceSemanticsMigrationInput(migration: MigrationFileSet): string {
+  return digestMigrationInput(migration, stableJsonSha256, digestR13ContentSnapshot, 'stable')
+}
+
+export function digestR13SourceSemanticsMigrationInputFast(migration: MigrationFileSet): string {
+  return digestMigrationInput(migration, fastJsonSha256, fastDigestR13ContentSnapshot, 'fast')
+}
+
+export function registerR13SourceSemanticsCanaryMigrationInputDigest(
+  migration: MigrationFileSet,
+  digest: string,
+  fastDigest?: string,
+): void {
+  if (process.env.TYPE_PAL_MIGRATE_TEST_GATE !== 'canary')
+    throw new Error('R13 source semantics MG2: compact migration brand 仅允许 canary')
+  if (!/^[0-9a-f]{64}$/.test(digest))
+    throw new Error('R13 source semantics MG2: migration input digest 无效')
+  if (fastDigest !== undefined && !/^[0-9a-f]{64}$/.test(fastDigest))
+    throw new Error('R13 source semantics MG2: migration fast input digest 无效')
+  trustedMigrationInputDigests.set(migration, {
+    stable: digest,
+    ...(fastDigest ? { fast: fastDigest } : {}),
+  })
+}
+
 function fastDigestR13ContentSnapshot(snapshot: MigrationSnapshot): string {
   return fastJsonSha256(
     [...snapshot.managedFiles]
@@ -280,33 +321,50 @@ function digestSourceDispositionInputs(args: {
   const digestMigration = (migration: MigrationFileSet): string => {
     const cached = migrationDigests.get(migration)
     if (cached !== undefined) return cached
+    const trusted = trustedMigrationInputDigests.get(migration)
+    const trustedDigest = mode === 'stable' ? trusted?.stable : trusted?.fast
+    if (trustedDigest !== undefined) {
+      migrationDigests.set(migration, trustedDigest)
+      return trustedDigest
+    }
     const value = digestMigrationInput(migration, digest, snapshotDigest, mode)
     migrationDigests.set(migration, value)
     return value
   }
+  const historicalSources = digestSources(input.historicalSources)
+  const historicalMigration = digestMigration(input.historicalMigration)
+  const generatedSnapshot = snapshotDigest(input.generated.snapshot)
+  const generatedIr = digest(input.generated.ir)
+  const c8Evidence = digest(input.generated.c8Evidence)
+  const sceneRepairEvidence = digest(input.generated.sceneSemanticRepairEvidence)
+  const triggerActivationEvidence = digest(input.generated.triggerActivationEvidence)
+  const enemyCurrentSources = digestSources(input.r13EnemyClosure.currentSources)
+  const enemyCurrentMigration = digestMigration(input.r13EnemyClosure.currentMigration)
+  const currentSources = digestSources(args.currentSources)
+  const currentMigration = digestMigration(args.currentMigration)
   return digest({
-    historicalSources: digestSources(input.historicalSources),
-    historicalMigration: digestMigration(input.historicalMigration),
+    historicalSources,
+    historicalMigration,
     historicalAudit: input.historicalAudit.digest,
     generated: {
-      snapshot: snapshotDigest(input.generated.snapshot),
-      ir: digest(input.generated.ir),
+      snapshot: generatedSnapshot,
+      ir: generatedIr,
       ledger: input.generated.ledgerDraft.digest,
-      c8: digest(input.generated.c8Evidence),
+      c8: c8Evidence,
       autoLifecycleRepair: input.generated.autoLifecycleRepairEvidence.digest,
-      sceneRepair: digest(input.generated.sceneSemanticRepairEvidence),
-      triggerActivation: digest(input.generated.triggerActivationEvidence),
+      sceneRepair: sceneRepairEvidence,
+      triggerActivation: triggerActivationEvidence,
       autoIdleGate: input.generated.autoIdleGateEvidence.digest,
     },
     parentSourceDisposition: input.parentSourceDisposition.digest,
     r13EnemyClosure: {
       sourceDisposition: input.r13EnemyClosure.sourceDisposition.digest,
-      currentSources: digestSources(input.r13EnemyClosure.currentSources),
-      currentMigration: digestMigration(input.r13EnemyClosure.currentMigration),
+      currentSources: enemyCurrentSources,
+      currentMigration: enemyCurrentMigration,
       augmentationEvidence: input.r13EnemyClosure.augmentationEvidence.digest,
     },
-    currentSources: digestSources(args.currentSources),
-    currentMigration: digestMigration(args.currentMigration),
+    currentSources,
+    currentMigration,
     ...(input.preparedHistoricalSourceCensus
       ? { preparedHistoricalSourceCensus: input.preparedHistoricalSourceCensus.censusDigest }
       : {}),
@@ -329,6 +387,35 @@ function cloneSnapshot(source: MigrationSnapshot): MigrationSnapshot {
 
 function asJson(value: unknown): MigrationJson {
   return JSON.parse(JSON.stringify(value)) as MigrationJson
+}
+
+/**
+ * The isolated canary only needs the historical migration's identity and enemy pending-script
+ * count after the source disposition has been built. Keep a small read-only view instead of
+ * retaining the full R13-5 report/files graph through authority construction. Normal release
+ * callers never enter this representation-only path.
+ */
+function compactHistoricalMigrationForAuthority(migration: MigrationFileSet): MigrationFileSet {
+  const files = new Map<string, MigrationJson>()
+  for (const path of ['content/enemies.json', 'content/skills.json', 'content/locale.json']) {
+    const value = migration.files.get(path)
+    if (value !== undefined) files.set(path, value)
+  }
+  const report = {
+    rawContent: {},
+    rawProjection: { enemies: migration.report.rawProjection.enemies },
+    content: {
+      pendingUse: migration.report.content.pendingUse,
+      pendingThrow: migration.report.content.pendingThrow,
+      pendingSkills: migration.report.content.pendingSkills,
+      lossySkills: migration.report.content.lossySkills,
+    },
+    enemies: { pendingScripts: migration.report.enemies?.pendingScripts ?? [] },
+    scripts: {},
+    foldedHostileRoots: [],
+    spriteActionMaterialization: {},
+  } as unknown as MigrationFileSet['report']
+  return { files, managedFiles: new Set(files.keys()), report }
 }
 
 function digestRecord<T>(value: Omit<T, 'digest'>): T {
@@ -854,9 +941,28 @@ function buildR13SourceDisposition6AFromParent(args: {
     throw new Error('R13 source semantics MG2: 6A historical/current source roots 漂移')
 
   const evidence = evidenceMap(parent)
-  const contexts = new Map(parent.census.contexts.map((context) => [context.id, context] as const))
-  const sites = new Map(parent.census.sites.map((site) => [site.id, site] as const))
   const dispositions = dispositionMap(parent)
+  const ownedSiteIds = new Set(args.augmentation.evidence.sites.map((site) => site.siteId))
+  const openDebtSiteIds = new Set(
+    [...dispositions.values()]
+      .filter((disposition) => disposition.disposition === 'open-debt')
+      .map((disposition) => disposition.siteId),
+  )
+  for (const siteId of ownedSiteIds) openDebtSiteIds.add(siteId)
+  // 6A mutates exactly 22 owned sites, while the later observation summary needs only the
+  // open-debt sites. Indexing this required subset avoids duplicating every 81,674-site census
+  // entry; the structural parent-delta validator below still walks the full report afterward.
+  const sites = new Map(
+    parent.census.sites
+      .filter((site) => openDebtSiteIds.has(site.id))
+      .map((site) => [site.id, site] as const),
+  )
+  const ownedContextIds = new Set([...sites.values()].map((site) => site.contextId))
+  const contexts = new Map(
+    parent.census.contexts
+      .filter((context) => ownedContextIds.has(context.id))
+      .map((context) => [context.id, context] as const),
+  )
   const addEvidence = (entry: R13DispositionEvidence): void => {
     const previous = evidence.get(entry.id)
     if (previous && !isDeepStrictEqual(previous, entry))
@@ -976,26 +1082,15 @@ function buildR13SourceDisposition6AFromParent(args: {
     })
   }
 
-  const rootAddresses = (() => {
-    const rootByContext = new Map(
-      parent.census.contexts.map((context) => [context.id, context.entrySiteId] as const),
-    )
-    const index = new Map<string, Set<number>>()
-    for (const site of parent.census.sites) {
-      const root = rootByContext.get(site.contextId)
-      if (!root) continue
-      const addresses = index.get(root) ?? new Set<number>()
-      addresses.add(site.address)
-      index.set(root, addresses)
-    }
-    return new Map(
-      [...index].map(([root, addresses]) => [
-        root,
-        [...addresses].sort((left, right) => left - right),
-      ]),
-    )
-  })()
-  const addressesForRoot = (rootId: string): number[] => rootAddresses.get(rootId) ?? []
+  const rootByContext = new Map(
+    parent.census.contexts.map((context) => [context.id, context.entrySiteId] as const),
+  )
+  const addressesForRoot = (rootId: string): number[] => {
+    const addresses = new Set<number>()
+    for (const site of parent.census.sites)
+      if (rootByContext.get(site.contextId) === rootId) addresses.add(site.address)
+    return [...addresses].sort((left, right) => left - right)
+  }
   const skillCosts = new Map<'352' | '372' | '373', string>()
   const finalSkillsValue = args.augmentation.snapshot.files.get('content/skills.json') as
     | { skills?: SkillData[] }
@@ -1391,12 +1486,44 @@ function targetSnapshot(plan: MigrationPlan, managedFiles: ReadonlySet<string>):
 function withoutAtomicMaps(source: MigrationSnapshot): MigrationSnapshot {
   const result = cloneSnapshot(source)
   for (const path of [...result.files.keys()])
-    if (isAtomicProjectMapPath(path)) result.files.delete(path)
+    if (isAtomicProjectMapPath(path) || R13_UNOWNED_OPAQUE_PATHS.includes(path as never))
+      result.files.delete(path)
   for (const path of [...result.managedFiles])
-    if (isAtomicProjectMapPath(path)) result.managedFiles.delete(path)
+    if (isAtomicProjectMapPath(path) || R13_UNOWNED_OPAQUE_PATHS.includes(path as never))
+      result.managedFiles.delete(path)
   for (const path of [...(result.hashes?.keys() ?? [])])
-    if (isAtomicProjectMapPath(path)) result.hashes?.delete(path)
+    if (isAtomicProjectMapPath(path) || R13_UNOWNED_OPAQUE_PATHS.includes(path as never))
+      result.hashes?.delete(path)
   return result
+}
+
+function mergeUnownedOpaqueRepresentation(
+  target: MigrationSnapshot,
+  base: MigrationSnapshot,
+  ours: MigrationSnapshot,
+  generated: MigrationSnapshot,
+): void {
+  for (const path of R13_UNOWNED_OPAQUE_PATHS) {
+    const basePresent = base.files.has(path) || base.hashes?.has(path) === true
+    const generatedPresent = generated.files.has(path) || generated.hashes?.has(path) === true
+    const baseHash = snapshotFileHash(base, path)
+    const generatedHash = snapshotFileHash(generated, path)
+    if (basePresent !== generatedPresent || baseHash !== generatedHash)
+      throw new Error(`R13 source semantics MG2: generated 改动非 owned opaque path ${path}`)
+
+    target.files.delete(path)
+    target.hashes?.delete(path)
+    if (ours.files.has(path)) target.files.set(path, ours.files.get(path)!)
+    target.managedFiles.add(path)
+    const hash = ours.hashes?.get(path)
+    if (hash && ours.files.has(path)) {
+      target.hashes ??= new Map()
+      target.hashes.set(path, hash)
+    } else if (!ours.files.has(path) && ours.hashes?.has(path)) {
+      target.hashes ??= new Map()
+      target.hashes.set(path, ours.hashes.get(path)!)
+    }
+  }
 }
 
 function mergeUnownedAtomicMapRepresentation(
@@ -1609,6 +1736,19 @@ function prepareAuthority(args: {
       ? { preparedCurrentSourceCensus: args.preparedCurrentSourceCensus }
       : {}),
   })
+  if (process.env.TYPE_PAL_MIGRATE_TEST_GATE === 'canary') {
+    const historicalMigration = args.sourceDispositionInput.historicalMigration
+    const historicalDigest = digestR13SourceSemanticsMigrationInput(historicalMigration)
+    const historicalFastDigest = digestR13SourceSemanticsMigrationInputFast(historicalMigration)
+    const compactHistoricalMigration = compactHistoricalMigrationForAuthority(historicalMigration)
+    registerR13SourceSemanticsCanaryMigrationInputDigest(
+      compactHistoricalMigration,
+      historicalDigest,
+      historicalFastDigest,
+    )
+    args.sourceDispositionInput.historicalMigration = compactHistoricalMigration
+    ;(globalThis as { gc?: () => void }).gc?.()
+  }
   // The full source-backed build above validates both inherited reports. Freeze and brand those
   // large external authorities once; rescanning ~81k dispositions on every prepared replay made
   // the supposedly fast path slower than rebuilding the migration plan. A caller replacing either
@@ -1872,6 +2012,7 @@ export function createR13SourceSemanticsV5MigrationPlan(args: {
   ])
   const target = targetSnapshot(plan, targetManaged)
   mergeUnownedAtomicMapRepresentation(target, baseContent, oursContent, generatedContent)
+  mergeUnownedOpaqueRepresentation(target, baseContent, oursContent, generatedContent)
   assertTargetShape(target, 'target')
   commandClosureSnapshot(generatedContent, authority.augmentation.evidence)
   assertMergedOwnedClosure(target, authority.augmentation.evidence)

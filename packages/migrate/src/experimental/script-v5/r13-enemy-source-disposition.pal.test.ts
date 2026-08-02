@@ -65,6 +65,20 @@ function fixture() {
   return { migrated, hookSources, overlay, args, report }
 }
 
+function mutateEnemy(
+  enemies: readonly EnemyDef[],
+  enemyId: string,
+  mutate: (enemy: EnemyDef) => void,
+): EnemyDef[] {
+  const index = enemies.findIndex((enemy) => enemy.id === enemyId)
+  if (index < 0) throw new Error(`fixture 缺 ${enemyId}`)
+  const enemy = structuredClone(enemies[index]!)
+  mutate(enemy)
+  const next = [...enemies]
+  next[index] = enemy
+  return next
+}
+
 describe.skipIf(!existsSync(extracted))('R13-5 enemy source disposition', () => {
   const data = fixture()
 
@@ -238,8 +252,11 @@ describe.skipIf(!existsSync(extracted))('R13-5 enemy source disposition', () => 
     })
   })
 
-  test('独立 closure、不可达证明和 overlay state 篡改均 fail-closed', () => {
-    const closureDrift = structuredClone(data.args) as typeof data.args
+  test('独立 closure 漂移会 fail-closed', () => {
+    const closureDrift = {
+      ...data.args,
+      hookSources: structuredClone(data.args.hookSources),
+    }
     const source473 = closureDrift.hookSources.find((owner) => owner.id === 'enemy-473')?.hooks
       .ready
     if (!source473) throw new Error('fixture 缺 enemy-473 hook source')
@@ -247,55 +264,83 @@ describe.skipIf(!existsSync(extracted))('R13-5 enemy source disposition', () => 
     expect(() => buildR13EnemySourceDisposition(closureDrift)).toThrow(
       'translator/source census 闭包漂移',
     )
+  })
 
-    const reachabilityDrift = structuredClone(data.args) as typeof data.args
-    const end41554 = reachabilityDrift.commands[41554]
+  test('不可达证明漂移会 fail-closed', () => {
+    const end41554 = data.args.commands[41554]
     if (end41554?.op !== 'end') throw new Error('fixture L_41554 不是 END')
-    ;(end41554 as SourceCmd & { advance?: boolean }).advance = true
+    const reachabilityDrift = {
+      ...data.args,
+      commands: [...data.args.commands],
+    }
+    reachabilityDrift.commands[41554] = { ...end41554, advance: true } as SourceCmd
     expect(() => buildR13EnemySourceDisposition(reachabilityDrift)).toThrow(
       'translator/source census 闭包漂移',
     )
+  })
 
-    const overlayDrift = structuredClone(data.args) as typeof data.args
-    const state42524 = overlayDrift.overlayEnemies.find((enemy) => enemy.id === 'enemy-473')?.ai
-      .hooks?.ready?.states['state-L_42524']
-    if (!state42524) throw new Error('fixture 缺 enemy-473 state-L_42524')
-    state42524.next = { kind: 'stay' }
+  test('overlay state 篡改会 fail-closed', () => {
+    const overlayDrift = {
+      ...data.args,
+      overlayEnemies: mutateEnemy(data.args.overlayEnemies, 'enemy-473', (enemy) => {
+        const state = enemy.ai.hooks?.ready?.states['state-L_42524']
+        if (!state) throw new Error('fixture 缺 enemy-473 state-L_42524')
+        state.next = { kind: 'stay' }
+      }),
+    }
     expect(() => buildR13EnemySourceDisposition(overlayDrift)).toThrow(
       'raw/overlay/final target 漂移',
     )
   })
 
-  test('final hook 删除或换臂会 fail-closed，不可只靠 pendingScripts=[] 过门', () => {
-    const deleted = structuredClone(data.args) as typeof data.args
-    const enemy496 = deleted.finalEnemies.find((enemy) => enemy.id === 'enemy-496')
-    if (!enemy496?.ai.hooks) throw new Error('fixture 缺 enemy-496 hook')
-    delete enemy496.ai.hooks.turnStart
+  test('final hook 删除会 fail-closed，不可只靠 pendingScripts=[] 过门', () => {
+    const deleted = {
+      ...data.args,
+      finalEnemies: mutateEnemy(data.args.finalEnemies, 'enemy-496', (enemy) => {
+        if (!enemy.ai.hooks) throw new Error('fixture 缺 enemy-496 hook')
+        delete enemy.ai.hooks.turnStart
+      }),
+    }
     expect(() => buildR13EnemySourceDisposition(deleted)).toThrow(
       'enemy-496.ai.hooks.turnStart 不存在',
     )
+  })
 
-    const changed = structuredClone(data.args) as typeof data.args
-    const enemy547 = changed.finalEnemies.find((enemy) => enemy.id === 'enemy-547')
-    const initial = enemy547?.ai.hooks?.ready?.states.initial
-    if (!initial) throw new Error('fixture 缺 enemy-547 ready initial')
-    initial.next = { kind: 'stay' }
+  test('final ready 初始臂换成 stay 会 fail-closed', () => {
+    const changed = {
+      ...data.args,
+      finalEnemies: mutateEnemy(data.args.finalEnemies, 'enemy-547', (enemy) => {
+        const initial = enemy.ai.hooks?.ready?.states.initial
+        if (!initial) throw new Error('fixture 缺 enemy-547 ready initial')
+        initial.next = { kind: 'stay' }
+      }),
+    }
     expect(() => buildR13EnemySourceDisposition(changed)).toThrow('raw/overlay/final target 漂移')
+  })
 
-    const randomChanged = structuredClone(data.args) as typeof data.args
-    const random = randomChanged.finalEnemies.find((enemy) => enemy.id === 'enemy-546')?.ai.hooks
-      ?.ready?.states['state-L_42953']?.next
-    if (random?.kind !== 'random') throw new Error('fixture 缺 enemy-546 random')
-    random.choices.pop()
+  test('final random 分支缺臂会 fail-closed', () => {
+    const randomChanged = {
+      ...data.args,
+      finalEnemies: mutateEnemy(data.args.finalEnemies, 'enemy-546', (enemy) => {
+        const random = enemy.ai.hooks?.ready?.states['state-L_42953']?.next
+        if (random?.kind !== 'random') throw new Error('fixture 缺 enemy-546 random')
+        random.choices.pop()
+      }),
+    }
     expect(() => buildR13EnemySourceDisposition(randomChanged)).toThrow(
       'raw/overlay/final target 漂移',
     )
+  })
 
-    const cursorChanged = structuredClone(data.args) as typeof data.args
-    const cursorState = cursorChanged.finalEnemies.find((enemy) => enemy.id === 'enemy-519')?.ai
-      .hooks?.turnStart?.states['state-L_42378']
-    if (!cursorState) throw new Error('fixture 缺 enemy-519 state-L_42378')
-    cursorState.body.pop()
+  test('final cursor state 缺指令会 fail-closed', () => {
+    const cursorChanged = {
+      ...data.args,
+      finalEnemies: mutateEnemy(data.args.finalEnemies, 'enemy-519', (enemy) => {
+        const cursorState = enemy.ai.hooks?.turnStart?.states['state-L_42378']
+        if (!cursorState) throw new Error('fixture 缺 enemy-519 state-L_42378')
+        cursorState.body.pop()
+      }),
+    }
     expect(() => buildR13EnemySourceDisposition(cursorChanged)).toThrow(
       'state-L_42378 body 长度漂移',
     )

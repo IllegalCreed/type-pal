@@ -881,14 +881,26 @@ export interface R13ConfirmControlFlowEvidenceV1 {
   digest: string
 }
 
-function readScenes(snapshot: MigrationSnapshot): SceneDefV5[] {
+/**
+ * The augmentation mutates its local scene working set, while the evidence readers only inspect
+ * an already immutable snapshot.  Keep those two modes explicit: cloning for the former avoids
+ * mutating a parent snapshot; reusing for the latter avoids materialising several 294-scene
+ * copies solely to prove selectors and deltas.
+ */
+function readScenes(
+  snapshot: MigrationSnapshot,
+  options: { clone?: boolean } = {},
+): SceneDefV5[] {
+  const cloneScenes = options.clone ?? true
   const ids = snapshot.files.get('content/scenes/index.json')
   if (!Array.isArray(ids) || ids.some((id) => typeof id !== 'string'))
     throw new Error('R13 confirm: scene index 无效')
   return ids.map((id) => {
     const scene = snapshot.files.get(`content/scenes/${String(id)}.json`)
     if (!scene) throw new Error(`R13 confirm: scene 缺失 ${String(id)}`)
-    return structuredClone(scene) as unknown as SceneDefV5
+    return cloneScenes
+      ? (structuredClone(scene) as unknown as SceneDefV5)
+      : (scene as unknown as SceneDefV5)
   })
 }
 
@@ -2012,7 +2024,7 @@ export function augmentR13ConfirmControlFlow(args: {
     managedFiles: new Set(args.snapshot.managedFiles),
     ...(args.snapshot.hashes ? { hashes: new Map(args.snapshot.hashes) } : {}),
   }
-  const finalScenes = readScenes(snapshot)
+  const finalScenes = readScenes(snapshot, { clone: false })
   if (sceneConfirmCount(finalScenes) !== 31)
     throw new Error('R13 confirm: final physical confirm != 31')
   const exactSceneDigests = R13_CONFIRM_EXACT_SCENE_IDS.map((sceneId) => {
@@ -2244,7 +2256,7 @@ export function assertR13ConfirmControlFlowEvidence(
 
 function snapshotFlowByOwnerKey(snapshot: MigrationSnapshot): Map<string, ScriptFlowV5> {
   const result = new Map<string, ScriptFlowV5>()
-  for (const scene of readScenes(snapshot)) {
+  for (const scene of readScenes(snapshot, { clone: false })) {
     for (const entityValue of scene.entities)
       for (const channel of ['trigger', 'auto'] as const)
         for (const [behaviorId, behavior] of Object.entries(
@@ -2273,7 +2285,7 @@ function assertR13ConfirmPhysicalSelectorsBacked(
   const logicalById = new Map(evidence.logicalSites.map((site) => [site.siteId, site]))
   if (
     options.immutableAuthority &&
-    sceneConfirmCount(readScenes(snapshot)) !== evidence.summary.physicalSites
+    sceneConfirmCount(readScenes(snapshot, { clone: false })) !== evidence.summary.physicalSites
   )
     throw new Error('R13 confirm: final physical confirm 数量漂移')
   for (const physical of evidence.physicalSites) {
@@ -2379,8 +2391,12 @@ export function assertR13ConfirmDispositionBacked(
   if (confirmSnapshotDigest(successorSnapshot) !== evidence.successorConfirmDigest)
     throw new Error('R13 confirm: successor snapshot digest 漂移')
 
-  const parentScenes = new Map(readScenes(parentSnapshot).map((scene) => [scene.id, scene]))
-  const successorScenes = new Map(readScenes(successorSnapshot).map((scene) => [scene.id, scene]))
+  const parentScenes = new Map(
+    readScenes(parentSnapshot, { clone: false }).map((scene) => [scene.id, scene]),
+  )
+  const successorScenes = new Map(
+    readScenes(successorSnapshot, { clone: false }).map((scene) => [scene.id, scene]),
+  )
   const changedScenes = [...successorScenes.entries()]
     .filter(([sceneId, scene]) => stableJson(scene) !== stableJson(parentScenes.get(sceneId)))
     .map(([sceneId]) => sceneId)

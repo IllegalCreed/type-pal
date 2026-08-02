@@ -1636,9 +1636,11 @@ export function augmentR13AutoIdleGates(args: {
   validateScenesV5(scenes)
   const files = new Map(args.snapshot.files)
   const managedFiles = new Set(args.snapshot.managedFiles)
+  // `readScenes` already created this augmentation's isolated working set.  Retain those values
+  // directly in the successor instead of JSON-cloning every scene a second time at the handoff.
   for (const scene of scenes) {
     const path = `content/scenes/${scene.id}.json`
-    files.set(path, JSON.parse(JSON.stringify(scene)) as MigrationJson)
+    files.set(path, scene as unknown as MigrationJson)
     managedFiles.add(path)
   }
   const withoutDigest = {

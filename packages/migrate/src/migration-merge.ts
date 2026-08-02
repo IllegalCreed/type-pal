@@ -29,7 +29,8 @@ const present = (value: MigrationJson): Node => ({ present: true, value })
 const cloneNode = (node: Node): Node =>
   node.present ? present(structuredClone(node.value!)) : absent()
 const same = (left: Node, right: Node): boolean =>
-  left.present === right.present && (!left.present || isDeepStrictEqual(left.value, right.value))
+  left.present === right.present &&
+  (!left.present || left.value === right.value || isDeepStrictEqual(left.value, right.value))
 const isObject = (node: Node): node is Node & { value: Record<string, MigrationJson> } =>
   node.present && !!node.value && typeof node.value === 'object' && !Array.isArray(node.value)
 const isArray = (node: Node): node is Node & { value: MigrationJson[] } =>
@@ -78,6 +79,25 @@ function conflict(
 interface MergeContext {
   file: string
   conflicts: MergeConflict[]
+  /** Whole-subtree equality is safe only for files without identity/order/ownership rules. */
+  allowWholeSubtreeFastPath: boolean
+}
+
+function allowsWholeSubtreeFastPath(file: string): boolean {
+  // These files contain array identity/order or authored-takeover semantics that must still be
+  // traversed to reject an equal-but-invalid insertion. Opaque/content sidecars and scalar maps
+  // may safely select an unchanged whole tree.
+  return !(
+    file === 'content/assets/index.json' ||
+    file === 'content/stamps.json' ||
+    file === 'content/sprites.json' ||
+    file === 'content/skills.json' ||
+    file === 'content/scenes/index.json' ||
+    /^content\/scenes\/s\d+\.json$/.test(file) ||
+    /^content\/(actors|items|sprites|battle-sprites|enemies|enemy-teams|music|battle-fields|poisons|shops|tilesets)\.json$/.test(
+      file,
+    )
+  )
 }
 
 function isSpritePosesPath(file: string, path: string): boolean {
@@ -335,6 +355,26 @@ function mergeNode(base: Node, ours: Node, theirs: Node, path: string, ctx: Merg
     // 一旦作者接管 AssetId，整条记录成为作者所有；迁移侧字段不能再逐项拼入。
     if (oursOrigin === 'authored' && theirsOrigin !== 'authored') return cloneNode(ours)
   }
+
+  // Equal whole subtrees have no merge work left. This is especially important for large
+  // unowned sidecars and canonical content files: the previous path recursively allocated a
+  // detached object for every child even when one side was byte-for-byte unchanged. Keep the
+  // three-way precedence identical to mergeAtomicNode, but make the decision before array/object
+  // dispatch. The special authored/sprite rules above intentionally remain ahead of this fast
+  // path.
+  // Identity-bearing arrays (pages/stages/id lists) still need their order/identity validators,
+  // even when two sides happen to be deeply equal; an equal-but-invalid insertion must remain a
+  // fail-closed conflict. Object/primitive subtrees can take the whole-subtree shortcut safely.
+  if (
+    ctx.allowWholeSubtreeFastPath &&
+    !isArray(base) &&
+    !isArray(ours) &&
+    !isArray(theirs)
+  ) {
+    if (same(ours, base)) return cloneNode(theirs)
+    if (same(theirs, base) || same(ours, theirs)) return cloneNode(ours)
+  }
+
   if (!base.present && isArray(ours) && isArray(theirs)) {
     const mode = arrayMode(ctx.file, path)
     const empty = present([]) as Node & { value: MigrationJson[] }
@@ -377,7 +417,11 @@ export function mergeManagedFile(
   theirs: VersionedJson,
 ): FileMergeResult {
   const conflicts: MergeConflict[] = []
-  const value = mergeNode(base, ours, theirs, '', { file, conflicts })
+  const value = mergeNode(base, ours, theirs, '', {
+    file,
+    conflicts,
+    allowWholeSubtreeFastPath: allowsWholeSubtreeFastPath(file),
+  })
   if (file === 'assets/index.json' && value.present)
     validateAssetCatalog(value.value, 'MG2 assets/index.json target')
   return { value, conflicts }

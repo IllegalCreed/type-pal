@@ -236,10 +236,10 @@ function asJson(value: unknown): MigrationJson {
   return JSON.parse(JSON.stringify(value)) as MigrationJson
 }
 
-function required<T>(snapshot: MigrationSnapshot, path: string): T {
+function required<T>(snapshot: MigrationSnapshot, path: string, clone = true): T {
   const value = snapshot.files.get(path)
   if (value === undefined) throw new Error(`C8 item use augmentation: 缺 ${path}`)
-  return structuredClone(value) as unknown as T
+  return clone ? (structuredClone(value) as T) : (value as unknown as T)
 }
 
 function put(snapshot: MigrationSnapshot, path: string, value: unknown): void {
@@ -664,15 +664,28 @@ export function assertC8ItemUseFinalTargetClosure(
   assertProjectedAllocationClosure(scenes, items)
 }
 
+function projectedSceneHasAllocations(scene: SceneDefV5): boolean {
+  for (const entity of scene.entities)
+    for (const channel of ['trigger', 'auto'] as const)
+      if (Object.keys(entity.behaviors?.[channel] ?? {}).length) return true
+  return (['onEnter', 'onTeleport'] as const).some(
+    (hook) => Object.keys(scene.hooks?.[hook]?.variants ?? {}).length > 0,
+  )
+}
+
 function mergeProjectedAllocations(
-  targetScenes: SceneDefV5[],
+  sourceScenes: ReadonlyMap<string, SceneDefV5>,
+  mutableScene: (sceneId: string) => SceneDefV5,
   projectedScenes: readonly SceneDefV5[],
 ): C8OwnedTargetEvidenceV1[] {
-  const byId = new Map(targetScenes.map((scene) => [scene.id, scene]))
   const owned: C8OwnedTargetEvidenceV1[] = []
   for (const projected of projectedScenes) {
-    const targetScene = byId.get(projected.id)
-    if (!targetScene) throw new Error(`C8 item use augmentation: 场景不存在 ${projected.id}`)
+    if (!sourceScenes.has(projected.id))
+      throw new Error(`C8 item use augmentation: 场景不存在 ${projected.id}`)
+    // The projector lists every scene, but only a small subset receives a behavior/hook
+    // allocation.  Do not clone the other 290+ scene graphs merely to iterate over them.
+    if (!projectedSceneHasAllocations(projected)) continue
+    const targetScene = mutableScene(projected.id)
     const targetEntities = new Map(targetScene.entities.map((entity) => [entity.id, entity]))
     for (const sourceEntity of projected.entities) {
       if (!sourceEntity.behaviors) continue
@@ -859,15 +872,26 @@ export function augmentC8ItemUsesAfterP7(args: {
   sourceCommands: readonly SourceCmd[]
 }): C8ItemUseAugmentation {
   const snapshot = cloneSnapshot(args.snapshot)
-  const sceneIds = required<string[]>(snapshot, 'content/scenes/index.json')
-  const scenes = validateScenesV5(
-    sceneIds.map((id) => required(snapshot, `content/scenes/${id}.json`)),
+  const sceneIds = required<string[]>(snapshot, 'content/scenes/index.json', false)
+  const sourceScenes = validateScenesV5(
+    sceneIds.map((id) => required(snapshot, `content/scenes/${id}.json`, false)),
   )
+  const sourceScenesById = new Map(sourceScenes.map((scene) => [scene.id, scene]))
+  const mutatedScenes = new Map<string, SceneDefV5>()
+  const mutableScene = (sceneId: string): SceneDefV5 => {
+    const existing = mutatedScenes.get(sceneId)
+    if (existing) return existing
+    const source = sourceScenesById.get(sceneId)
+    if (!source) throw new Error(`C8 item use augmentation: 场景不存在 ${sceneId}`)
+    const clone = structuredClone(source)
+    mutatedScenes.set(sceneId, clone)
+    return clone
+  }
   const items = validateR13ItemThrowParentItems(required(snapshot, 'content/items.json'))
   const locale = validateLocale(required(snapshot, 'content/locale.json'), {
     allowLegacySoftWrap: true,
   })
-  const actors = required<ActorDef[]>(snapshot, 'content/actors.json')
+  const actors = required<ActorDef[]>(snapshot, 'content/actors.json', false)
   const sprites = validateSprites(required(snapshot, 'content/sprites.json'))
   const diagnostics = validateMigrationDiagnostics(
     required(snapshot, 'content/migration-diagnostics.json'),
@@ -875,13 +899,13 @@ export function augmentC8ItemUsesAfterP7(args: {
 
   const sprite259 = ensureStorySprite(sprites, 259, { kind: 'static' })
   const spriteIdForNum = storySpriteResolver(sprites, actors)
-  const assets = required<{ assets?: Record<string, unknown> }>(snapshot, 'assets/index.json')
+  const assets = required<{ assets?: Record<string, unknown> }>(snapshot, 'assets/index.json', false)
   const soundAssetForNum = (sound: number) => {
     const id = palSoundAssetId(sound)
     return assets.assets?.[id] ? id : undefined
   }
 
-  const legacyScenes = minimalLegacyScenes(scenes)
+  const legacyScenes = minimalLegacyScenes(sourceScenes)
   const sceneBattleDefaults = new Map(
     legacyScenes.map((scene) => [
       scene.id,
@@ -982,7 +1006,7 @@ export function augmentC8ItemUsesAfterP7(args: {
   })
   dedupeProjectedAllocations(projection.scenes, projection.items)
   assertProjectedAllocationClosure(projection.scenes, projection.items)
-  const ownedTargets = mergeProjectedAllocations(scenes, projection.scenes)
+  const ownedTargets = mergeProjectedAllocations(sourceScenesById, mutableScene, projection.scenes)
   for (const projected of projection.items) {
     const target = targetItems.get(projected.id)
     if (!target || !projected.use)
@@ -1052,12 +1076,14 @@ export function augmentC8ItemUsesAfterP7(args: {
     .sort((left, right) => Number(left) - Number(right))
   sameStringSet(sourceUsableItemIds, targetRunnableUseItemIds, 'source usable / target runnable')
 
-  validateScenesV5(scenes)
+  const finalScenes = sourceScenes.map((scene) => mutatedScenes.get(scene.id) ?? scene)
+  validateScenesV5(finalScenes)
   validateR13ItemThrowParentItems(items)
   validateLocale(locale, { allowLegacySoftWrap: true })
   validateSprites(sprites)
   validateMigrationDiagnostics(diagnostics)
-  for (const scene of scenes) put(snapshot, `content/scenes/${scene.id}.json`, scene)
+  for (const [sceneId, scene] of mutatedScenes)
+    put(snapshot, `content/scenes/${sceneId}.json`, scene)
   put(snapshot, 'content/items.json', items)
   put(snapshot, 'content/locale.json', locale)
   put(snapshot, 'content/sprites.json', sprites)

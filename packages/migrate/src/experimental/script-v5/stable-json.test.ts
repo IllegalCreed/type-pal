@@ -1,6 +1,11 @@
 import { createHash } from 'node:crypto'
 import { describe, expect, test } from 'vitest'
-import { stableJson, stableJsonFramedSha256, stableJsonSha256 } from './stable-json.js'
+import {
+  fastJsonSha256,
+  stableJson,
+  stableJsonFramedSha256,
+  stableJsonSha256,
+} from './stable-json.js'
 
 describe('script-v5 strict stable JSON', () => {
   test('普通 JSON 对象不受键插入顺序影响', () => {
@@ -36,6 +41,30 @@ describe('script-v5 strict stable JSON', () => {
 
   test('长度前缀序列摘要仍拒绝非法值', () => {
     expect(() => stableJsonFramedSha256([{ ok: true }, undefined])).toThrow('stable JSON')
+  })
+
+  test.each([
+    null,
+    true,
+    -0,
+    Number.NaN,
+    Number.POSITIVE_INFINITY,
+    '引号"、反斜线\\、换行\n与😀',
+    [1, undefined, false, null, { z: 1, omitted: undefined, a: 2 }],
+    { '10': 'ten', '2': 'two', omitted: undefined, z: 1, a: 2 },
+    new Date(0),
+  ])('快速流式摘要与 JSON.stringify 字节完全一致 %#', (value) => {
+    const serialized = JSON.stringify(value)
+    if (serialized === undefined) throw new Error('test fixture unexpectedly omitted')
+    const expected = createHash('sha256').update(serialized).digest('hex')
+    expect(fastJsonSha256(value)).toBe(expected)
+  })
+
+  test('快速流式摘要保留 JSON.stringify 的 root 与循环失败语义', () => {
+    expect(() => fastJsonSha256(undefined)).toThrow('unsupported undefined root')
+    const cyclic: { self?: unknown } = {}
+    cyclic.self = cyclic
+    expect(() => fastJsonSha256(cyclic)).toThrow('circular structure')
   })
 
   test.each([
