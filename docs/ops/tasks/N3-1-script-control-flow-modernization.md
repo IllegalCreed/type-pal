@@ -6701,11 +6701,17 @@ R13-Z、N3-1、C8 或 ED-5I 已完成。
 
 | Agent | 结论 | 日期 | 重点 |
 |---|---|---|---|
-| Codex | **pending** | - | 等本节最新 PAL 证据与性能边界复核后自签。 |
+| Codex | **accept** | 2026-08-03 | 独立复核当前候选：`pnpm --filter @type-pal/migrate run check:fast`（typecheck + manifest 72/549，549 passed / 5 skipped）与 4 个 R13-6A 相关单元文件 92/92 全绿；content check 32/387 全绿，reforge/editor typecheck 通过。逐项核对 22 个 source sites、3 个技能 item-cost、16 场景/17 owned paths、14 palette（5 day/5 warm/4 asset-baked）及 prepared authority/historical-current profile 的 fail-closed 约束；无公共 schema/SAVE 变化，6B 仍保持设计阻塞。accept 只收口 Codex 自验，不代表 R13-6A/N3-1/C8/ED-5I done。 |
 | Kimi | **pending** | - | 审查 prepared trust boundary、seal/authority 防篡改、historical/current 矩阵隔离及 5750/4d4b 双身份。 |
 | GLM | **pending** | - | 独立核对 22-site delta、owned observation 计数、三技能 pending→lossy+item-cost 守恒、6B open 债和测试矩阵。 |
 
 三方 `accept` 前不得标记 R13-6A done，也不得启动需要新公共 schema 的 R13-6B 实现。
+
+**2026-08-03 Codex 自验补记**：本轮没有修改实现/生成产物，工作树保持干净；复核范围覆盖
+R13-6A source disposition、existing-schema augmentation、runtime capability V2/V3、palette
+site oracle、技能 item-cost 迁移和性能分层后的 fast 门。现有 source-backed PAL 冷门证据仍以
+上方 `11/11` 与 `0/0/0` 记录为准，未用 fast 门替代冷门。下一步交 Kimi 做架构/信任边界审查，
+交 GLM 做数据守恒/测试矩阵审查；两席未 `accept` 前不得改 6A 状态、启动 6B 或标 N3-1 done。
 
 ##### R13-6B：公共 schema / 表现状态 delta（draft，blocked）
 
