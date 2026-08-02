@@ -11,7 +11,6 @@
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | N3-1 | 结构化控制流、实体具名行为与内部脚本退役 | build | Codex 进入 R13-6 技能/palette 表现债闭包 | R13-5 三方复审 accept 已齐并收口；R13-6 仍须按既有 10 pending + 4 lossy skill + 14 palette 源账逐组销账，R13-Z 未开始 |
-| OPS-TST-PERF | 迁移测试 fixture 分层与冷启动性能债 | rework | Codex 补 G1 映射与 G7 shared 顺序探针 | G8 已获三方 accept；fast 71/533 为 39.38s，G1/G7 仍阻塞 |
 | C8 | 物品用途机制、运行时与迁移闭环 | review | 等待 N3-1 完成后交用户联合验收 | `0d4aa48b` 三方最终 accept 已齐；100/0、20 件/21 根及引用反跳均通过审查 |
 | W9 | 实体暂离、重现与明雷逃跑冷却 | draft | 先冻结精确状态机，再由 Kimi / GLM 设计审查 | 18b 二次真值核对补入 0x4B 手动确认、0x52 toggle、world-update pause、敌逃/terminate success；Codex 签字撤回 pending，未准入 build |
 | B10-1 | 混乱敌人攻击同伴 | draft | 先冻结语义空槽 schema，再由三方设计签字 | 18a 二次真值核对补入 confused 前废弃玩家抽样；二阶段已压掉 68/380 队源空槽，不能用活目标分布冒充 RNG 忠实，Codex 签字 pending |
