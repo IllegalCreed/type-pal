@@ -33,7 +33,11 @@ import {
   augmentR13TriggerActivations,
   type R13TriggerActivationEvidenceV1,
 } from './r13-trigger-activation-graph.js'
-import { buildValidatedP6TransformChain, type P6TransformBuildArgs } from './shadow-harness.js'
+import {
+  buildValidatedP6TransformChain,
+  type P6TransformBuildArgs,
+  type P6ValidatedTransformOutput,
+} from './shadow-harness.js'
 import type { R13SourceExecutionCensusV1 } from './source-execution-census.js'
 import { stableJsonSha256 } from './stable-json.js'
 
@@ -69,6 +73,26 @@ export interface P7GeneratedCanonicalArgs extends P6TransformBuildArgs {
   sourceCensus: R13SourceExecutionCensusV1
   soundAssetForNum?: SoundAssetForNum
 }
+
+/**
+ * The source-disposition canary does not need the historical cadence/confirm snapshots, the
+ * projected project, or the equip evidence.  This is the exact subset consumed by the R13-5
+ * source ledger and R13-6A source semantics path.
+ */
+export type P7SourceDispositionGenerated = Pick<
+  P7GeneratedCanonical,
+  | 'snapshot'
+  | 'r13CrossActivationParentSnapshot'
+  | 'ir'
+  | 'ledgerDraft'
+  | 'c8Evidence'
+  | 'autoLifecycleRepairEvidence'
+  | 'sceneSemanticRepairEvidence'
+  | 'triggerActivationEvidence'
+  | 'autoIdleGateEvidence'
+  | 'itemThrowEvidence'
+  | 'confirmEvidence'
+>
 
 export type ValidatedP6TransformChain = ReturnType<typeof buildValidatedP6TransformChain>
 
@@ -239,6 +263,158 @@ export function buildP7GeneratedCanonicalFromValidatedChain(
     confirmEvidence: confirm.evidence,
     equipBattleSpriteEvidence: equipBattleSprites.evidence,
   }
+}
+
+/**
+ * Source-backed canary producer. It runs the same P7 project and R13 augmentation transforms as
+ * the full producer, but scopes and returns only the eleven fields consumed by the source ledger.
+ * In particular, the cadence parent, confirm parent/successor, projected project and equip
+ * evidence are allowed to die before the source-disposition phase starts. The full builder above
+ * remains the authority path for release and feature-specific tests.
+ */
+export function buildP7SourceDispositionGeneratedFromValidatedOutput(
+  args: P7GeneratedCanonicalArgs,
+  chain: P6ValidatedTransformOutput,
+): P7SourceDispositionGenerated {
+  if (
+    chain.inputs.migration !== args.migration ||
+    chain.inputs.currentAudit !== args.currentAudit ||
+    chain.inputs.frozenAudit !== args.frozenAudit ||
+    chain.inputs.sourceCommands !== args.sourceCommands
+  )
+    throw new Error('P7 source disposition: validated P6 output 与输入不一致')
+
+  let workingSnapshot = (() => {
+    const project = projectP7CanonicalProject({
+      ir: chain.p6.ir,
+      sourceCommands: args.sourceCommands,
+      sourceAudit: args.currentAudit,
+      ...readGeneratedSource(args.migration.files),
+    })
+    // This projection replaces every scene/script/item value it owns and never mutates
+    // retained migration JSON in place. Keep untouched assets/maps shared read-only.
+    const files = new Map(args.migration.files)
+    const managedFiles = new Set(args.migration.managedFiles)
+    for (const path of [...files.keys()]) {
+      if (
+        path.startsWith('content/scripts/') ||
+        (/^content\/scenes\/[^/]+\.json$/.test(path) && path !== 'content/scenes/index.json')
+      )
+        files.delete(path)
+    }
+    for (const path of [...managedFiles])
+      if (path.startsWith('content/scripts/')) managedFiles.delete(path)
+
+    files.set(
+      'content/scenes/index.json',
+      project.scenes.map((scene) => scene.id),
+    )
+    for (const scene of project.scenes) {
+      const path = `content/scenes/${scene.id}.json`
+      files.set(path, asJson(scene))
+      managedFiles.add(path)
+    }
+    files.set('content/items.json', asJson(project.items))
+    files.set(P7_SHARED_SCRIPTS_PATH, asJson(project.scripts))
+    managedFiles.add('content/items.json')
+    managedFiles.add('content/scenes/index.json')
+    managedFiles.add(P7_SHARED_SCRIPTS_PATH)
+
+    if ([...files.keys()].some((path) => path.startsWith('content/scripts/')))
+      throw new Error('P7 source disposition: legacy script file 未归零')
+    return { files, managedFiles }
+  })()
+
+  const c8Evidence = (() => {
+    const result = augmentC8ItemUsesAfterP7({
+      snapshot: workingSnapshot,
+      itemSources: args.itemSources,
+      sourceCommands: args.sourceCommands,
+    })
+    workingSnapshot = result.snapshot
+    return result.evidence
+  })()
+  const autoLifecycleRepairEvidence = (() => {
+    const result = repairPalAutoLifecycleAfterC8({
+      snapshot: workingSnapshot,
+      sourceCommands: args.sourceCommands,
+    })
+    workingSnapshot = result.snapshot
+    return result.evidence
+  })()
+  const sceneSemanticRepairEvidence = (() => {
+    const result = repairPalSceneSemanticsAfterP7({
+      snapshot: workingSnapshot,
+      sourceCommands: args.sourceCommands,
+    })
+    workingSnapshot = result.snapshot
+    return result.evidence
+  })()
+  // Keep this parent for the source disposition; the earlier cadence parent is intentionally not
+  // returned and becomes unreachable once the trigger transform starts.
+  const r13CrossActivation = (() => {
+    const triggerActivation = augmentR13TriggerActivations({
+      snapshot: workingSnapshot,
+      ir: chain.p6.ir,
+      translation: createPalR13TranslationSession(args.migration),
+    })
+    const autoIdleGate = augmentR13AutoIdleGates({
+      snapshot: triggerActivation.snapshot,
+      sourceCommands: args.sourceCommands,
+    })
+    const triggerActivationEvidence = finalizedTriggerActivationEvidence(
+      triggerActivation.evidence,
+      autoIdleGate.snapshot,
+    )
+    workingSnapshot = autoIdleGate.snapshot
+    return {
+      snapshot: autoIdleGate.snapshot,
+      triggerActivationEvidence,
+      autoIdleGateEvidence: autoIdleGate.evidence,
+    }
+  })()
+
+  const final = (() => {
+    const itemThrows = augmentR13ItemThrows({
+      snapshot: workingSnapshot,
+      itemSources: args.itemSources,
+      magicSources: args.magicSources,
+      objectMagicSources: args.objectMagicSources,
+      sourceCommands: args.sourceCommands,
+      ...(args.soundAssetForNum ? { soundAssetForNum: args.soundAssetForNum } : {}),
+    })
+    const confirm = augmentR13ConfirmControlFlow({
+      snapshot: itemThrows.snapshot,
+      ir: chain.p6.ir,
+      sourceCommands: args.sourceCommands,
+      sourceCensus: args.sourceCensus,
+      translation: createPalR13TranslationSession(args.migration),
+      sourceAudit: args.currentAudit,
+      triggerActivationEvidence: r13CrossActivation.triggerActivationEvidence,
+      c8Evidence,
+    })
+    const equipBattleSprites = upgradeEquipBattleSpritesAfterR13(confirm.snapshot)
+    workingSnapshot = equipBattleSprites.snapshot
+    return {
+      snapshot: equipBattleSprites.snapshot,
+      itemThrowEvidence: itemThrows.evidence,
+      confirmEvidence: confirm.evidence,
+    }
+  })()
+
+  return Object.freeze({
+    snapshot: workingSnapshot,
+    r13CrossActivationParentSnapshot: r13CrossActivation.snapshot,
+    ir: chain.p6.ir,
+    ledgerDraft: chain.p6.ledger,
+    c8Evidence,
+    autoLifecycleRepairEvidence,
+    sceneSemanticRepairEvidence,
+    triggerActivationEvidence: r13CrossActivation.triggerActivationEvidence,
+    autoIdleGateEvidence: r13CrossActivation.autoIdleGateEvidence,
+    itemThrowEvidence: final.itemThrowEvidence,
+    confirmEvidence: final.confirmEvidence,
+  })
 }
 
 export function buildP7GeneratedCanonical(args: P7GeneratedCanonicalArgs): P7GeneratedCanonical {

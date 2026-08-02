@@ -36,6 +36,17 @@ function filesOf(): Map<string, MigrationJson> {
 }
 
 describe('MG2 script library 规范视图', () => {
+  test('没有脚本库时只复制 Map 壳，不克隆无关内容树', () => {
+    const value: MigrationJson = { nested: [{ id: 'keep', value: 1 }] }
+    const input = new Map<string, MigrationJson>([['content/locale.json', value]])
+    const canonical = canonicalizeMigrationScriptFiles(input)
+    const materialized = materializeMigrationScriptFiles(canonical)
+    expect(canonical).not.toBe(input)
+    expect(materialized).not.toBe(canonical)
+    expect(canonical.get('content/locale.json')).toBe(value)
+    expect(materialized.get('content/locale.json')).toBe(value)
+  })
+
   test('content normalize 重建 index 时保留 library', () => {
     expect(fixture().index.library).toEqual(library)
   })

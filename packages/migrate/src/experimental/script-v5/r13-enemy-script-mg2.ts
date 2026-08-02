@@ -57,6 +57,7 @@ import {
   buildAndAssertR13SourceInstructionDispositionV3,
   type R13_SOURCE_DISPOSITION_METHOD_V3,
   type R13DebtBatch,
+  type R13SourceDispositionGeneratedInput,
   type R13SourceInstructionDispositionBuildArgs,
   type R13SourceInstructionDispositionV3,
 } from './source-instruction-disposition.js'
@@ -192,16 +193,20 @@ export interface R13EnemyScriptSourceInputArgs {
   preparedHistoricalSourceCensus?: PreparedR13SourceExecutionCensus
 }
 
-export interface PreparedR13EnemyScriptSourceInputs {
+export interface PreparedR13EnemyScriptSourceInputs<
+  TGenerated extends R13SourceDispositionGeneratedInput = P7GeneratedCanonical,
+> {
   readonly augmentation: R13EnemyScriptAugmentation
-  readonly successorGenerated: P7GeneratedCanonical
+  readonly successorGenerated: TGenerated
   readonly sourceDisposition: R13SourceInstructionDispositionV3
   readonly runtimeCapability: R13RuntimeCapabilityAuditV3
 }
 
-export interface PreparedR13EnemyScriptSourceAugmentation {
+export interface PreparedR13EnemyScriptSourceAugmentation<
+  TGenerated extends R13SourceDispositionGeneratedInput = P7GeneratedCanonical,
+> {
   readonly augmentation: R13EnemyScriptAugmentation
-  readonly successorGenerated: P7GeneratedCanonical
+  readonly successorGenerated: TGenerated
 }
 
 const preparedAuthorities = new WeakSet<PreparedR13EnemyScriptAuthority>()
@@ -395,9 +400,9 @@ function buildSeal(
   })
 }
 
-function assertSuccessorGeneratedIdentity(
-  parent: P7GeneratedCanonical,
-  successor: P7GeneratedCanonical,
+function assertSuccessorGeneratedIdentity<TGenerated extends R13SourceDispositionGeneratedInput>(
+  parent: TGenerated,
+  successor: TGenerated,
   snapshot: MigrationSnapshot,
 ): void {
   const parentRecord = parent as unknown as Record<string, unknown>
@@ -424,27 +429,33 @@ export function assertR13EnemyScriptPublishedSealMatchesAuthority(
     throw new Error('R13 enemy script MG2: 权威重建证据与已发布 seal 不符')
 }
 
-export function prepareR13EnemyScriptSourceAugmentation(
-  args: Pick<
-    R13EnemyScriptSourceInputArgs,
-    'generated' | 'historicalMigration' | 'currentSources' | 'currentMigration'
-  >,
-): PreparedR13EnemyScriptSourceAugmentation {
+export function prepareR13EnemyScriptSourceAugmentation<
+  TGenerated extends R13SourceDispositionGeneratedInput,
+>(
+  args: {
+    generated: TGenerated
+    historicalMigration: MigrationFileSet
+    currentSources: PalMigrationSources
+    currentMigration: MigrationFileSet
+  },
+): PreparedR13EnemyScriptSourceAugmentation<TGenerated> {
   const augmentation = augmentR13EnemyScriptsAfterConfirm({
     parent: args.generated.snapshot,
     historicalMigration: args.historicalMigration,
     currentSources: args.currentSources,
     currentMigration: args.currentMigration,
   })
-  const successorGenerated: P7GeneratedCanonical = Object.freeze({
+  const successorGenerated = Object.freeze({
     ...args.generated,
     snapshot: augmentation.snapshot,
-  })
+  }) as TGenerated
   assertSuccessorGeneratedIdentity(args.generated, successorGenerated, augmentation.snapshot)
   return Object.freeze({ augmentation, successorGenerated })
 }
 
-export function completeR13EnemyScriptSourceInputs(args: {
+export function completeR13EnemyScriptSourceInputs<
+  TGenerated extends R13SourceDispositionGeneratedInput,
+>(args: {
   historicalSources: PalMigrationSources
   historicalMigration: MigrationFileSet
   historicalAudit: ScriptControlFlowAuditV1
@@ -452,8 +463,8 @@ export function completeR13EnemyScriptSourceInputs(args: {
   currentMigration: MigrationFileSet
   preparedHistoricalSourceCensus?: PreparedR13SourceExecutionCensus
   augmentation: R13EnemyScriptAugmentation
-  successorGenerated: P7GeneratedCanonical
-}): PreparedR13EnemyScriptSourceInputs {
+  successorGenerated: TGenerated
+}): PreparedR13EnemyScriptSourceInputs<TGenerated> {
   const r13EnemyClosure = {
     sourceDisposition: args.augmentation.enemySourceDisposition,
     currentSources: args.currentSources,

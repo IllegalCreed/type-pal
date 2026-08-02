@@ -12,19 +12,18 @@ import {
 } from '../../migration-project-io.js'
 import type { MigrationJson } from '../../pal-migration.js'
 import {
-  getPalTestGeneratedFixture,
   getPalTestCurrentV10Fixture,
+  getPalTestGeneratedFixture,
   getPalTestHistoricalR13_5V10Fixture,
   hasPalTestFixture,
   PAL_TEST_REPO,
 } from './pal-test-fixture.js'
+import { prepareR13EnemyScriptAuthority } from './r13-enemy-script-mg2.js'
 import { R13_EXISTING_SCHEMA_CHANGED_PATHS } from './r13-existing-schema-augmentation.js'
-import {
-  prepareR13EnemyScriptAuthority,
-} from './r13-enemy-script-mg2.js'
 import {
   assertR13SourceSemanticsPublishedSealMatchesAuthority,
   createR13SourceSemanticsV5MigrationPlan,
+  projectR13SourceSemanticsGenerated,
   R13_SOURCE_SEMANTICS_SEAL_PATH,
   R13_SOURCE_SEMANTICS_TRANSITION_ID,
   type R13SourceSemanticsDispositionInput,
@@ -101,7 +100,7 @@ describe.skipIf(!hasPalTestFixture())('R13-6A source semantics append-only PAL M
       historicalSources: historical.sources,
       historicalMigration: historical.migration,
       historicalAudit: historical.currentAudit,
-      generated: enemyAuthority.successorGenerated,
+      generated: projectR13SourceSemanticsGenerated(enemyAuthority.successorGenerated),
       parentSourceDisposition: enemyAuthority.sourceDisposition,
       r13EnemyClosure: {
         sourceDisposition: enemyAuthority.augmentation.enemySourceDisposition,
@@ -269,14 +268,18 @@ describe.skipIf(!hasPalTestFixture())('R13-6A source semantics append-only PAL M
     expect(() =>
       createR13SourceSemanticsV5MigrationPlan(planArgs(fixture, { base, ours: fixture.ours })),
     ).toThrow(/parent content digest 漂移|parent authority 漂移|parent container 漂移/)
-    const independentlyLoadedSeal = JSON.parse(JSON.stringify(fixture.first.seal)) as typeof fixture.first.seal
+    const independentlyLoadedSeal = JSON.parse(
+      JSON.stringify(fixture.first.seal),
+    ) as typeof fixture.first.seal
     expect(() =>
       assertR13SourceSemanticsPublishedSealMatchesAuthority(
         independentlyLoadedSeal,
         fixture.first.seal,
       ),
     ).not.toThrow()
-    const tamperedSourceControl = structuredClone(independentlyLoadedSeal) as typeof fixture.first.seal
+    const tamperedSourceControl = structuredClone(
+      independentlyLoadedSeal,
+    ) as typeof fixture.first.seal
     tamperedSourceControl.sourceControl.reportDigest = '0'.repeat(64)
     tamperedSourceControl.digest = stableJsonSha256(
       (() => {

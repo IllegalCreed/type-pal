@@ -54,6 +54,11 @@ function rewriteScriptRefs(
 export function canonicalizeMigrationScriptFiles(
   input: ReadonlyMap<string, MigrationJson>,
 ): Map<string, MigrationJson> {
+  // Most v5 snapshots (including the PAL source canary) have no physical script library at all.
+  // Canonicalization has no rewrite to perform in that shape, so detach only the Map shell and
+  // avoid a full structuredClone of every content file. The caller still receives a fresh Map and
+  // no value is mutated on this branch.
+  if (!input.has(SCRIPT_INDEX_PATH)) return new Map(input)
   const files = new Map([...input].map(([path, value]) => [path, structuredClone(value)] as const))
   const index = files.get(SCRIPT_INDEX_PATH) as unknown as ScriptIndexV1 | undefined
   if (!index) return files
@@ -104,6 +109,10 @@ export function canonicalizeMigrationScriptFiles(
 export function materializeMigrationScriptFiles(
   input: ReadonlyMap<string, MigrationJson>,
 ): Map<string, MigrationJson> {
+  // A canonical snapshot without a script index/view is already materialized. As above, preserve
+  // the detached Map contract without cloning unrelated project JSON.
+  if (!input.has(SCRIPT_INDEX_PATH) || !input.has(MIGRATION_SCRIPT_VIEW_PATH))
+    return new Map(input)
   const files = new Map([...input].map(([path, value]) => [path, structuredClone(value)] as const))
   const index = files.get(SCRIPT_INDEX_PATH) as unknown as ScriptIndexV1 | undefined
   const view = files.get(MIGRATION_SCRIPT_VIEW_PATH) as unknown as CanonicalScriptView | undefined

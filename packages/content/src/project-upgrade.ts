@@ -151,6 +151,37 @@ const DROP_STATIC_COMMAND = Symbol('drop-static-command')
 
 /** 对话与 setActorAppearance 的旧数字立绘递归升级；输入不原地修改。 */
 export function upgradeLegacyStaticImageCommands<T>(input: T): T {
+  // The migration planner invokes this normalizer for every content file in three snapshots.
+  // Most canonical v5 files contain no legacy static-image command at all; prove that cheaply
+  // before allocating a detached copy of the whole JSON tree. The scan is conservative: any
+  // potentially relevant command is sent through the existing validating rewrite below.
+  const hasPotentialLegacyCommand = (value: unknown): boolean => {
+    if (Array.isArray(value)) return value.some(hasPotentialLegacyCommand)
+    if (!value || typeof value !== 'object') return false
+    const source = value as Record<string, unknown>
+    if (
+      source.kind === 'setActorAppearance' &&
+      'portrait' in source &&
+      typeof source.portrait !== 'string'
+    )
+      return true
+    if (source.kind === 'dialog') {
+      const cue = source.cue
+      if (cue && typeof cue === 'object') {
+        const portrait = (cue as Record<string, unknown>).portrait
+        if (
+          portrait &&
+          typeof portrait === 'object' &&
+          'icon' in portrait &&
+          typeof (portrait as Record<string, unknown>).icon !== 'string'
+        )
+          return true
+      }
+    }
+    return Object.values(source).some(hasPotentialLegacyCommand)
+  }
+  if (!hasPotentialLegacyCommand(input)) return input
+
   const walk = (value: unknown, where: string): unknown | typeof DROP_STATIC_COMMAND => {
     if (Array.isArray(value))
       return value.flatMap((child, index) => {

@@ -43,8 +43,51 @@ import {
   type R13SourceExecutionContext,
   type R13SourceExecutionSite,
 } from './source-execution-census.js'
-import { stableJson, stableJsonSha256, stableStringCompare } from './stable-json.js'
+import {
+  stableJson,
+  stableJsonFramedSha256,
+  stableJsonSha256,
+  stableStringCompare,
+} from './stable-json.js'
 import type { P4AuthorOwnerIdentity, P6ItemPrivateScriptIdentity } from './types.js'
+
+/**
+ * Minimum P7 projection needed by the source-disposition producer. Callers may pass a full
+ * P7GeneratedCanonical, but the canary can drop unrelated historical snapshots before this
+ * expensive source-backed build begins.
+ */
+export type R13SourceDispositionGeneratedInput = Pick<
+  P7GeneratedCanonical,
+  | 'snapshot'
+  | 'r13CrossActivationParentSnapshot'
+  | 'ir'
+  | 'ledgerDraft'
+  | 'c8Evidence'
+  | 'autoLifecycleRepairEvidence'
+  | 'sceneSemanticRepairEvidence'
+  | 'triggerActivationEvidence'
+  | 'autoIdleGateEvidence'
+  | 'confirmEvidence'
+  | 'itemThrowEvidence'
+>
+
+export function projectR13SourceDispositionGenerated(
+  generated: R13SourceDispositionGeneratedInput,
+): R13SourceDispositionGeneratedInput {
+  return Object.freeze({
+    snapshot: generated.snapshot,
+    r13CrossActivationParentSnapshot: generated.r13CrossActivationParentSnapshot,
+    ir: generated.ir,
+    ledgerDraft: generated.ledgerDraft,
+    c8Evidence: generated.c8Evidence,
+    autoLifecycleRepairEvidence: generated.autoLifecycleRepairEvidence,
+    sceneSemanticRepairEvidence: generated.sceneSemanticRepairEvidence,
+    triggerActivationEvidence: generated.triggerActivationEvidence,
+    autoIdleGateEvidence: generated.autoIdleGateEvidence,
+    confirmEvidence: generated.confirmEvidence,
+    itemThrowEvidence: generated.itemThrowEvidence,
+  })
+}
 
 export const R13_SOURCE_DISPOSITION_METHOD = 'n3-p7-r13-source-instruction-disposition-v2' as const
 export const R13_SOURCE_DISPOSITION_METHOD_V3 =
@@ -479,26 +522,21 @@ export function digestR13ContentSnapshot(snapshot: MigrationSnapshot): string {
 }
 
 function dispositionReportDigest(report: R13SourceInstructionDispositionUnsigned): string {
-  const hash = createHash('sha256')
-  const update = (value: unknown): void => {
-    const serialized = stableJson(value)
-    hash
-      .update(String(Buffer.byteLength(serialized)))
-      .update(':')
-      .update(serialized)
-  }
-  update({
-    kind: report.kind,
-    version: report.version,
-    methodVersion: report.methodVersion,
-    generator: report.generator,
-    censusDigest: report.census.digest,
-    summary: report.summary,
-  })
-  for (const entry of report.evidence) update(entry)
-  for (const entry of report.dispositions) update(entry)
-  for (const entry of report.observations) update(entry)
-  return hash.digest('hex')
+  return stableJsonFramedSha256(
+    (function* (): Iterable<unknown> {
+      yield {
+        kind: report.kind,
+        version: report.version,
+        methodVersion: report.methodVersion,
+        generator: report.generator,
+        censusDigest: report.census.digest,
+        summary: report.summary,
+      }
+      yield* report.evidence
+      yield* report.dispositions
+      yield* report.observations
+    })(),
+  )
 }
 
 function migrationSnapshot(migration: MigrationFileSet): MigrationSnapshot {
@@ -1330,7 +1368,7 @@ function addDomainAugmentationEvidence(args: {
 function canonicalSiteEvidence(args: {
   audit: ScriptControlFlowAuditV1
   migration: MigrationFileSet
-  generated: P7GeneratedCanonical
+  generated: R13SourceDispositionGeneratedInput
   final: MigrationSnapshot
   census: R13SourceExecutionCensusV1
   evidence: Map<string, R13DispositionEvidence>
@@ -1576,7 +1614,7 @@ function canonicalSiteEvidence(args: {
 }
 
 function c8Evidence(
-  generated: P7GeneratedCanonical,
+  generated: R13SourceDispositionGeneratedInput,
   final: MigrationSnapshot,
   census: R13SourceExecutionCensusV1,
   evidence: Map<string, R13DispositionEvidence>,
@@ -1640,7 +1678,7 @@ function c8Evidence(
 }
 
 function c8SiteEvidence(args: {
-  generated: P7GeneratedCanonical
+  generated: R13SourceDispositionGeneratedInput
   final: MigrationSnapshot
   census: R13SourceExecutionCensusV1
   evidence: Map<string, R13DispositionEvidence>
@@ -1742,7 +1780,7 @@ function c8SiteEvidence(args: {
 }
 
 function sceneRepairEvidence(args: {
-  generated: P7GeneratedCanonical
+  generated: R13SourceDispositionGeneratedInput
   final: MigrationSnapshot
   census: R13SourceExecutionCensusV1
   evidence: Map<string, R13DispositionEvidence>
@@ -1912,7 +1950,7 @@ function r13HookOwnerForEntry(
  * 12 owner / 13 execution sites，全部绑定到最终 owner flow。
  */
 function r13CrossActivationSiteEvidence(args: {
-  generated: P7GeneratedCanonical
+  generated: R13SourceDispositionGeneratedInput
   final: MigrationSnapshot
   census: R13SourceExecutionCensusV1
   evidence: Map<string, R13DispositionEvidence>
@@ -2192,7 +2230,7 @@ function r13CrossActivationSiteEvidence(args: {
 }
 
 function r13ConfirmSiteEvidence(args: {
-  generated: P7GeneratedCanonical
+  generated: R13SourceDispositionGeneratedInput
   final: MigrationSnapshot
   census: R13SourceExecutionCensusV1
   evidence: Map<string, R13DispositionEvidence>
@@ -2318,7 +2356,7 @@ function assetCommandTargetIndex(
 function assetEvidence(args: {
   sources: PalMigrationSources
   migration: MigrationFileSet
-  generated: P7GeneratedCanonical
+  generated: R13SourceDispositionGeneratedInput
   final: MigrationSnapshot
   census: R13SourceExecutionCensusV1
   evidence: Map<string, R13DispositionEvidence>
@@ -2462,7 +2500,7 @@ function verifiedExplicitCallOwnerSites(args: {
   sources: PalMigrationSources
   migration: MigrationFileSet
   audit: ScriptControlFlowAuditV1
-  generated: P7GeneratedCanonical
+  generated: R13SourceDispositionGeneratedInput
   final: MigrationSnapshot
   census: R13SourceExecutionCensusV1
   evidence: Map<string, R13DispositionEvidence>
@@ -2735,7 +2773,7 @@ function r13EnemyClosureEvidence(args: {
   authority: R13EnemyClosureAuthority
   historicalSources: PalMigrationSources
   historicalMigration: MigrationFileSet
-  generated: P7GeneratedCanonical
+  generated: R13SourceDispositionGeneratedInput
   final: MigrationSnapshot
   census: R13SourceExecutionCensusV1
   evidence: Map<string, R13DispositionEvidence>
@@ -3056,7 +3094,7 @@ function r13ExistingSchemaOwnerCommands(snapshot: MigrationSnapshot, ownerId: st
 
 function r13ExistingSchemaClosureEvidence(args: {
   authority: R13ExistingSchemaClosureAuthority
-  generated: P7GeneratedCanonical
+  generated: R13SourceDispositionGeneratedInput
   final: MigrationSnapshot
   census: R13SourceExecutionCensusV1
   evidence: Map<string, R13DispositionEvidence>
@@ -3266,11 +3304,7 @@ function r13ExistingSchemaClosureEvidence(args: {
         R13_EXISTING_SCHEMA_SKILL_LOSSY_NOTES[
           id as keyof typeof R13_EXISTING_SCHEMA_SKILL_LOSSY_NOTES
         ]
-      if (
-        currentPending.has(id) ||
-        entry.notes.length !== 1 ||
-        entry.notes[0] !== expectedNote
-      )
+      if (currentPending.has(id) || entry.notes.length !== 1 || entry.notes[0] !== expectedNote)
         throw new Error(`R13 disposition: existing-schema skill lossy 语义漂移 ${id}`)
       currentLossySkills.set(id, `skill-lossy:${entry.notes.join('|')}`)
     }
@@ -3283,7 +3317,7 @@ function r13ExistingSchemaClosureEvidence(args: {
 function reportObservations(args: {
   sources: PalMigrationSources
   migration: MigrationFileSet
-  generated: P7GeneratedCanonical
+  generated: R13SourceDispositionGeneratedInput
   final: MigrationSnapshot
   census: R13SourceExecutionCensusV1
   evidence: Map<string, R13DispositionEvidence>
@@ -3717,7 +3751,7 @@ export interface R13SourceInstructionDispositionBuildArgs {
   sources: PalMigrationSources
   migration: MigrationFileSet
   audit: ScriptControlFlowAuditV1
-  generated: P7GeneratedCanonical
+  generated: R13SourceDispositionGeneratedInput
   final: MigrationSnapshot
   r13EnemyClosure?: R13EnemyClosureAuthority
   r13ExistingSchemaClosure?: R13ExistingSchemaClosureAuthority
@@ -5363,8 +5397,7 @@ function assertR13SourceInstructionDispositionInternal(
           observation.id !== `skill:${proof.skillId}:item-cost` ||
           observation.domain !== 'skill' ||
           observation.objectId !== proof.skillId ||
-          stableJsonSha256(observation.sourceRootIds) !==
-            stableJsonSha256(proof.sourceRootIds) ||
+          stableJsonSha256(observation.sourceRootIds) !== stableJsonSha256(proof.sourceRootIds) ||
           stableJsonSha256(observation.sourceAddresses) !== stableJsonSha256(proof.addresses) ||
           observation.raw !== 'open' ||
           observation.augmented !== 'open' ||

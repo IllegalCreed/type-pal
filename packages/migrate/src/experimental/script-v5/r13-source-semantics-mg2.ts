@@ -15,7 +15,6 @@ import {
   collectSourceEntrySites,
   type ScriptControlFlowAuditV1,
 } from '../../script-control-flow-audit.js'
-import type { P7GeneratedCanonical } from './p7-generated.js'
 import { R13_ENEMY_SCRIPT_SUCCESSOR_CONTENT_DIGEST } from './r13-enemy-script-augmentation.js'
 import {
   R13_ENEMY_SCRIPT_SEAL_PATH,
@@ -41,6 +40,7 @@ import {
   type R13DispositionEvidence,
   type R13EnemyClosureAuthority,
   type R13MigrationObservation,
+  type R13SourceDispositionGeneratedInput,
   type R13SourceExecutionDisposition,
   type R13SourceInstructionDispositionV3,
   sealR13SourceInstructionDispositionV3,
@@ -113,6 +113,38 @@ export interface PreparedR13SourceSemanticsAuthority {
   readonly digest: string
 }
 
+/**
+ * The R13-6A ledger only consumes this P7 projection after the full R13-5 parent report has
+ * already been built. Keeping the narrower shape prevents a prepared R13-6A authority from
+ * retaining unrelated historical snapshots and feature evidence.
+ */
+export type R13SourceSemanticsGeneratedInput = Pick<
+  R13SourceDispositionGeneratedInput,
+  | 'snapshot'
+  | 'ir'
+  | 'ledgerDraft'
+  | 'c8Evidence'
+  | 'autoLifecycleRepairEvidence'
+  | 'sceneSemanticRepairEvidence'
+  | 'triggerActivationEvidence'
+  | 'autoIdleGateEvidence'
+>
+
+export function projectR13SourceSemanticsGenerated(
+  generated: R13SourceDispositionGeneratedInput,
+): R13SourceSemanticsGeneratedInput {
+  return Object.freeze({
+    snapshot: generated.snapshot,
+    ir: generated.ir,
+    ledgerDraft: generated.ledgerDraft,
+    c8Evidence: generated.c8Evidence,
+    autoLifecycleRepairEvidence: generated.autoLifecycleRepairEvidence,
+    sceneSemanticRepairEvidence: generated.sceneSemanticRepairEvidence,
+    triggerActivationEvidence: generated.triggerActivationEvidence,
+    autoIdleGateEvidence: generated.autoIdleGateEvidence,
+  })
+}
+
 /** Historical R13-5 authority plus the current source/migration needed to rebuild
  * the R13-6A source ledger. The generated snapshot must be the published R13-5
  * successor; the new augmentation is supplied by the enclosing authority. */
@@ -120,7 +152,7 @@ export interface R13SourceSemanticsDispositionInput {
   historicalSources: PalMigrationSources
   historicalMigration: MigrationFileSet
   historicalAudit: ScriptControlFlowAuditV1
-  generated: P7GeneratedCanonical
+  generated: R13SourceSemanticsGeneratedInput
   /** The complete, published R13-5 ledger. No 6A report may be built without it. */
   parentSourceDisposition: R13SourceInstructionDispositionV3
   r13EnemyClosure: R13EnemyClosureAuthority
@@ -233,14 +265,28 @@ function digestSourceDispositionInputs(args: {
   const mode = args.mode ?? 'stable'
   const digest = mode === 'fast' ? fastJsonSha256 : stableJsonSha256
   const snapshotDigest = mode === 'fast' ? fastDigestR13ContentSnapshot : digestR13ContentSnapshot
+  // This cache lives for one identity calculation only. It removes repeated whole-source and
+  // migration serializations when the R13-5 closure and R13-6A current input share the same
+  // object, without allowing a mutation to survive into a later authority check.
+  const sourceRootDigests = new WeakMap<PalMigrationSources, string>()
+  const migrationDigests = new WeakMap<MigrationFileSet, string>()
+  const digestSources = (sources: PalMigrationSources): string => {
+    const cached = sourceRootDigests.get(sources)
+    if (cached !== undefined) return cached
+    const value = digestSourceRoots(sources, digest)
+    sourceRootDigests.set(sources, value)
+    return value
+  }
+  const digestMigration = (migration: MigrationFileSet): string => {
+    const cached = migrationDigests.get(migration)
+    if (cached !== undefined) return cached
+    const value = digestMigrationInput(migration, digest, snapshotDigest, mode)
+    migrationDigests.set(migration, value)
+    return value
+  }
   return digest({
-    historicalSources: digestSourceRoots(input.historicalSources, digest),
-    historicalMigration: digestMigrationInput(
-      input.historicalMigration,
-      digest,
-      snapshotDigest,
-      mode,
-    ),
+    historicalSources: digestSources(input.historicalSources),
+    historicalMigration: digestMigration(input.historicalMigration),
     historicalAudit: input.historicalAudit.digest,
     generated: {
       snapshot: snapshotDigest(input.generated.snapshot),
@@ -255,17 +301,12 @@ function digestSourceDispositionInputs(args: {
     parentSourceDisposition: input.parentSourceDisposition.digest,
     r13EnemyClosure: {
       sourceDisposition: input.r13EnemyClosure.sourceDisposition.digest,
-      currentSources: digestSourceRoots(input.r13EnemyClosure.currentSources, digest),
-      currentMigration: digestMigrationInput(
-        input.r13EnemyClosure.currentMigration,
-        digest,
-        snapshotDigest,
-        mode,
-      ),
+      currentSources: digestSources(input.r13EnemyClosure.currentSources),
+      currentMigration: digestMigration(input.r13EnemyClosure.currentMigration),
       augmentationEvidence: input.r13EnemyClosure.augmentationEvidence.digest,
     },
-    currentSources: digestSourceRoots(args.currentSources, digest),
-    currentMigration: digestMigrationInput(args.currentMigration, digest, snapshotDigest, mode),
+    currentSources: digestSources(args.currentSources),
+    currentMigration: digestMigration(args.currentMigration),
     ...(input.preparedHistoricalSourceCensus
       ? { preparedHistoricalSourceCensus: input.preparedHistoricalSourceCensus.censusDigest }
       : {}),
@@ -430,9 +471,9 @@ function assertOnlyAllowedEvidenceDelta(
   successorAllowed: ReadonlySet<string>,
   parentAllowedOwners: ReadonlySet<string>,
   successorAllowedOwners: ReadonlySet<string>,
+  parentEvidence: ReadonlyMap<string, R13DispositionEvidence>,
+  successorEvidence: ReadonlyMap<string, R13DispositionEvidence>,
 ): void {
-  const parentEvidence = evidenceMap(parent)
-  const successorEvidence = evidenceMap(successor)
   const parentOutside = [...parentEvidence.keys()].filter((id) => !parentAllowed.has(id)).sort()
   const successorOutside = [...successorEvidence.keys()]
     .filter((id) => !successorAllowed.has(id))
@@ -450,9 +491,13 @@ function assertOnlyAllowedEvidenceDelta(
   // (for example, a disposition's aggregate evidence and each of its layer entries). What
   // must be rejected is a reference from an untouched object: otherwise excluding the proof
   // from the equality check could hide a cross-object semantic change.
-  const references = (report: R13SourceInstructionDispositionV3): Map<string, Set<string>> => {
+  const references = (
+    report: R13SourceInstructionDispositionV3,
+    allowed: ReadonlySet<string>,
+  ): Map<string, Set<string>> => {
     const owners = new Map<string, Set<string>>()
     const add = (id: string, owner: string): void => {
+      if (!allowed.has(id)) return
       const set = owners.get(id) ?? new Set<string>()
       set.add(owner)
       owners.set(id, set)
@@ -469,16 +514,14 @@ function assertOnlyAllowedEvidenceDelta(
     }
     return owners
   }
-  for (const [id, owners] of references(parent))
-    if (parentAllowed.has(id))
-      for (const owner of owners)
-        if (!parentAllowedOwners.has(owner))
-          throw new Error(`R13 source semantics MG2: parent allowlist proof 被跨对象复用 ${id}`)
-  for (const [id, owners] of references(successor))
-    if (successorAllowed.has(id))
-      for (const owner of owners)
-        if (!successorAllowedOwners.has(owner))
-          throw new Error(`R13 source semantics MG2: successor allowlist proof 被跨对象复用 ${id}`)
+  for (const [id, owners] of references(parent, parentAllowed))
+    for (const owner of owners)
+      if (!parentAllowedOwners.has(owner))
+        throw new Error(`R13 source semantics MG2: parent allowlist proof 被跨对象复用 ${id}`)
+  for (const [id, owners] of references(successor, successorAllowed))
+    for (const owner of owners)
+      if (!successorAllowedOwners.has(owner))
+        throw new Error(`R13 source semantics MG2: successor allowlist proof 被跨对象复用 ${id}`)
 }
 
 function assertR13SourceDisposition6AParentDelta(args: {
@@ -489,15 +532,17 @@ function assertR13SourceDisposition6AParentDelta(args: {
   const { parent, successor } = args
   if (parent.digest !== R13_SOURCE_SEMANTICS_PARENT_SOURCE_REPORT_DIGEST)
     throw new Error('R13 source semantics MG2: R13-5 parent source report digest 漂移')
-  // This is deliberately a full structural/digest check at the trust boundary. Once prepared,
-  // the successor report is deep-frozen and only this branded authority can be reused.
-  assertR13SourceInstructionDispositionV3(parent)
-  // The successor's 6A evidence was already source-backed by buildAndAssert above. Keep this
-  // second pass structural-only so the 81k-site closure is not rebuilt a third time.
+  // buildSourceDisposition has already source-backed validated the parent immediately before
+  // constructing this successor. Keep this pass structural-only so the 81k-site closure is not
+  // rebuilt a second time while both parent and successor indexes are resident.
   assertR13SourceInstructionDispositionV3(successor, undefined, {
     allowExistingSchemaAuthority: true,
   })
-  if (sortedJson(parent.census) !== sortedJson(successor.census))
+  // This validator is private to buildSourceDisposition6AFromParent, which passes the already
+  // source-backed parent census through by identity. Comparing two 81k-site canonical copies
+  // here would only recreate temporary graphs; identity is the stronger invariant for this
+  // append-only bridge.
+  if (parent.census !== successor.census)
     throw new Error('R13 source semantics MG2: 6A census 漂移')
   for (const key of ['sourceDigest', 'rawDigest'] as const)
     if (parent.generator[key] !== successor.generator[key])
@@ -514,11 +559,12 @@ function assertR13SourceDisposition6AParentDelta(args: {
   if (ownedSiteIds.length !== R13_6A_SITE_ID_COUNT)
     throw new Error(`R13 source semantics MG2: 6A owned site 数=${ownedSiteIds.length}`)
   const ownedSites = new Set(ownedSiteIds)
+  const censusAddressesById = new Map(parent.census.sites.map((site) => [site.id, site.address]))
   const beforeSites = dispositionMap(parent)
   const afterSites = dispositionMap(successor)
   const ownedAddresses = new Set(
     ownedSiteIds
-      .map((siteId) => parent.census.sites.find((site) => site.id === siteId)?.address)
+      .map((siteId) => censusAddressesById.get(siteId))
       .filter((address): address is number => address !== undefined),
   )
   if (beforeSites.size !== afterSites.size || beforeSites.size !== parent.census.sites.length)
@@ -758,11 +804,10 @@ function assertR13SourceDisposition6AParentDelta(args: {
     throw new Error('R13 source semantics MG2: 6A openDebtSites delta 漂移')
 
   const openAddresses = (report: R13SourceInstructionDispositionV3): Set<number> => {
-    const censusById = new Map(report.census.sites.map((site) => [site.id, site.address]))
     return new Set(
       report.dispositions
         .filter((entry) => entry.layers.final.state === 'open')
-        .map((entry) => censusById.get(entry.siteId))
+        .map((entry) => censusAddressesById.get(entry.siteId))
         .filter((address): address is number => address !== undefined),
     )
   }
@@ -784,6 +829,8 @@ function assertR13SourceDisposition6AParentDelta(args: {
     successorAllowedEvidence,
     parentAllowedEvidenceOwners,
     successorAllowedEvidenceOwners,
+    parentEvidence,
+    successorEvidence,
   )
 }
 
@@ -796,11 +843,10 @@ function buildR13SourceDisposition6AFromParent(args: {
   currentSources: PalMigrationSources
   currentMigration: MigrationFileSet
   augmentation: R13ExistingSchemaAugmentation
+  generatedSnapshotDigest: string
 }): R13SourceInstructionDispositionV3 {
   const parent = args.input.parentSourceDisposition
-  assertR13SourceInstructionDispositionV3(parent)
   assertR13ExistingSchemaAugmentationEvidence(args.augmentation.evidence)
-  assertR13ExistingSchemaFinalTargetClosure(args.augmentation.snapshot, args.augmentation.evidence)
   if (
     digestSourceRoots(args.currentSources, stableJsonSha256) !==
     digestSourceRoots(args.input.historicalSources, stableJsonSha256)
@@ -1177,7 +1223,6 @@ function buildR13SourceDisposition6AFromParent(args: {
       .map((entry) => sites.get(entry.siteId)?.address)
       .filter((address): address is number => address !== undefined),
   )
-  const augmentedSnapshotDigest = digestR13ContentSnapshot(args.input.generated.snapshot)
   const report = sealR13SourceInstructionDispositionV3({
     kind: 'r13-source-instruction-disposition',
     version: 3,
@@ -1186,7 +1231,7 @@ function buildR13SourceDisposition6AFromParent(args: {
       sourceDigest: parent.generator.sourceDigest,
       rawDigest: parent.generator.rawDigest,
       augmentedDigest: stableJsonSha256({
-        snapshot: augmentedSnapshotDigest,
+        snapshot: args.generatedSnapshotDigest,
         report: args.input.historicalMigration.report.content,
         c8: args.input.generated.c8Evidence,
         autoLifecycleRepair: args.input.generated.autoLifecycleRepairEvidence,
@@ -1203,7 +1248,10 @@ function buildR13SourceDisposition6AFromParent(args: {
           skillCostCount: 3,
         },
       }),
-      finalDigest: digestR13ContentSnapshot(args.augmentation.snapshot),
+      finalDigest:
+        args.input.generated.snapshot === args.augmentation.snapshot
+          ? args.generatedSnapshotDigest
+          : digestR13ContentSnapshot(args.augmentation.snapshot),
     },
     census: parent.census,
     evidence: [...evidence.values()].sort((left, right) => stableStringCompare(left.id, right.id)),
@@ -1219,11 +1267,6 @@ function buildR13SourceDisposition6AFromParent(args: {
       observations: observationEntries.length,
       openObservations: observationEntries.filter((entry) => entry.final === 'open').length,
     },
-  })
-  assertR13SourceDisposition6AParentDelta({
-    parent,
-    successor: report,
-    ownedSiteIds: args.augmentation.evidence.sites.map((entry) => entry.siteId),
   })
   return report
 }
@@ -1280,16 +1323,27 @@ function buildSourceDisposition(args: {
         `${args.input.parentSourceDisposition.digest} != ` +
         R13_SOURCE_SEMANTICS_PARENT_SOURCE_REPORT_DIGEST,
     )
-  if (
-    digestR13ExistingSchemaContentSnapshot(args.input.generated.snapshot) !==
-    R13_ENEMY_SCRIPT_SUCCESSOR_CONTENT_DIGEST
+  const generatedSnapshotDigest = digestR13ExistingSchemaContentSnapshot(
+    args.input.generated.snapshot,
   )
+  if (generatedSnapshotDigest !== R13_ENEMY_SCRIPT_SUCCESSOR_CONTENT_DIGEST)
     throw new Error('R13 source semantics MG2: source ledger R13-5 generated successor 漂移')
+  // Validate the immutable published parent before constructing a successor from it. The
+  // following delta validator may therefore focus on the successor and the explicit 6A delta.
+  assertR13SourceInstructionDispositionV3(args.input.parentSourceDisposition)
   const report = buildR13SourceDisposition6AFromParent({
     input: args.input,
     currentSources: args.currentSources,
     currentMigration: args.currentMigration,
     augmentation: args.augmentation,
+    generatedSnapshotDigest,
+  })
+  // Run the fail-closed parent-delta validator only after the builder's large working maps
+  // have gone out of scope; the validator creates its own indexes and must not overlap them.
+  assertR13SourceDisposition6AParentDelta({
+    parent: args.input.parentSourceDisposition,
+    successor: report,
+    ownedSiteIds: args.augmentation.evidence.sites.map((entry) => entry.siteId),
   })
   return {
     report,
@@ -1538,11 +1592,6 @@ function prepareAuthority(args: {
   sourceDispositionInput: R13SourceSemanticsDispositionInput
 }): PreparedR13SourceSemanticsAuthority {
   const parentContent = contentView(args.parent)
-  if (
-    digestR13ExistingSchemaContentSnapshot(parentContent) !==
-    R13_EXISTING_SCHEMA_PARENT_CONTENT_DIGEST
-  )
-    throw new Error('R13 source semantics MG2: parent content digest 漂移')
   const augmentation = augmentR13ExistingSchemaAfterEnemy({
     parent: parentContent,
     currentSources: args.currentSources,

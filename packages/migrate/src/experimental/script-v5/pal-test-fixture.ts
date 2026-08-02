@@ -21,6 +21,7 @@ import { type PreparedP4ScriptTransition, prepareP4ScriptTransition } from './p4
 import { type PreparedP5ScriptTransition, prepareP5ScriptTransition } from './p5-transition-plan.js'
 import { type PreparedP6ScriptTransition, prepareP6ScriptTransition } from './p6-transition-plan.js'
 import {
+  buildP7SourceDispositionGeneratedFromValidatedOutput,
   buildP7GeneratedCanonicalFromValidatedChain,
   type P7GeneratedCanonicalArgs,
 } from './p7-generated.js'
@@ -40,7 +41,11 @@ import {
   type PreparedR13ItemThrowAuthority,
   prepareR13ItemThrowAuthority,
 } from './r13-item-throw-mg2.js'
-import { buildValidatedP6TransformChain, type P6TransformBuildArgs } from './shadow-harness.js'
+import {
+  buildValidatedP6TransformChain,
+  buildValidatedP6TransformOutput,
+  type P6TransformBuildArgs,
+} from './shadow-harness.js'
 import {
   type PreparedR13SourceExecutionCensus,
   prepareR13SourceExecutionCensus,
@@ -347,6 +352,79 @@ export function getPalTestGeneratedFixture(): PalTestGeneratedFixture {
   assertPalProducerFixtureGate()
   generatedFixture ??= loadGeneratedFixture()
   return generatedFixture
+}
+
+/**
+ * Canary-only source producer. It deliberately bypasses the full phase/generated fixture cache:
+ * the source ledger consumes only the final P6 IR/ledger plus the eleven P7 fields returned by
+ * the narrow producer. Release/shadow tests continue to use `getPalTestGeneratedFixture()` so
+ * their full phase matrix and feature-specific snapshots remain available.
+ */
+function loadSourceDispositionFixture() {
+  const compact = (() => {
+    const sources = loadPalMigrationSources(PAL_TEST_REPO)
+    const rawMigration = buildPalHistoricalR13_4V9Migration(sources)
+    const migration = projectMigrationV9ToLegacyV8(rawMigration)
+    const currentAudit = auditPalScriptControlFlow(sources, migration)
+    assertScriptControlFlowAudit(currentAudit)
+    const frozenAudit = JSON.parse(readFileSync(PAL_TEST_AUDIT, 'utf8')) as ScriptControlFlowAuditV1
+    const sourceCommands = sources.allJson.segments.flatMap((segment) => segment.commands)
+    const p6Args: P6TransformBuildArgs = {
+      migration,
+      currentAudit,
+      frozenAudit,
+      sourceCommands,
+    }
+    const sourceCensus = prepareR13SourceExecutionCensus(sources).census
+    const p6 = buildValidatedP6TransformOutput(p6Args)
+    return {
+      sources,
+      migration,
+      currentAudit,
+      sourceCommands,
+      sourceCensus,
+      itemSources: sources.migrate.items,
+      magicSources: sources.migrate.magic,
+      objectMagicSources: sources.migrate.objectMagics ?? [],
+      p6,
+    }
+  })()
+
+  // Do not leave a full phase/generated wrapper alive if another PAL helper was touched earlier
+  // in the same worker. The compact locals above are the only inputs needed by the narrow P7
+  // transform; all other module caches are producer-only and can be released at this boundary.
+  releasePalTestProducerCachesForCanary()
+  ;(globalThis as { gc?: () => void }).gc?.()
+
+  const generated = buildP7SourceDispositionGeneratedFromValidatedOutput(
+    {
+      migration: compact.migration,
+      currentAudit: compact.currentAudit,
+      frozenAudit: compact.p6.inputs.frozenAudit,
+      sourceCommands: compact.sourceCommands,
+      itemSources: compact.itemSources,
+      magicSources: compact.magicSources,
+      objectMagicSources: compact.objectMagicSources,
+      sourceCensus: compact.sourceCensus,
+      soundAssetForNum: palSoundAssetForSources(compact.sources),
+    },
+    compact.p6,
+  )
+  return Object.freeze({
+    sources: compact.sources,
+    migration: compact.migration,
+    currentAudit: compact.currentAudit,
+    generated,
+  })
+}
+
+export type PalTestSourceDispositionFixture = ReturnType<typeof loadSourceDispositionFixture>
+let sourceDispositionFixture: PalTestSourceDispositionFixture | undefined
+
+export function getPalTestSourceDispositionFixture(): PalTestSourceDispositionFixture {
+  assertPalProducerFixtureGate('canary')
+  sourceDispositionFixture ??= loadSourceDispositionFixture()
+  return sourceDispositionFixture
 }
 
 let preparedSourceCensus: PreparedR13SourceExecutionCensus | undefined

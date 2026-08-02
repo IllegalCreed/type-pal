@@ -771,12 +771,13 @@ export function assertR13ExistingSchemaAugmentationEvidence(
     throw new Error('R13 existing-schema augmentation: evidence payload 漂移')
 }
 
-export function assertR13ExistingSchemaFinalTargetClosure(
+function assertR13ExistingSchemaFinalTargetClosureWithDigest(
   snapshot: MigrationSnapshot,
   evidence: R13ExistingSchemaAugmentationEvidenceV1,
+  successorContentDigest: string,
 ): void {
   assertR13ExistingSchemaAugmentationEvidence(evidence)
-  if (digestR13ExistingSchemaContentSnapshot(snapshot) !== evidence.successorContentDigest)
+  if (successorContentDigest !== evidence.successorContentDigest)
     throw new Error('R13 existing-schema augmentation: successor content digest 漂移')
   const skillFile = validateSkills(snapshot.files.get('content/skills.json'))
   const skills = indexedSkills(skillFile, 'final')
@@ -794,6 +795,17 @@ export function assertR13ExistingSchemaFinalTargetClosure(
         throw new Error(`R13 existing-schema augmentation: final command 漂移 ${entry.siteId}`)
     }
   }
+}
+
+export function assertR13ExistingSchemaFinalTargetClosure(
+  snapshot: MigrationSnapshot,
+  evidence: R13ExistingSchemaAugmentationEvidenceV1,
+): void {
+  assertR13ExistingSchemaFinalTargetClosureWithDigest(
+    snapshot,
+    evidence,
+    digestR13ExistingSchemaContentSnapshot(snapshot),
+  )
 }
 
 export function augmentR13ExistingSchemaAfterEnemy(args: {
@@ -870,6 +882,7 @@ export function augmentR13ExistingSchemaAfterEnemy(args: {
   if (!isDeepStrictEqual(paths, R13_EXISTING_SCHEMA_CHANGED_PATHS))
     throw new Error(`R13 existing-schema augmentation: changed paths 漂移 ${paths.join(',')}`)
 
+  const successorContentDigest = digestR13ExistingSchemaContentSnapshot(snapshot)
   const evidence = digestRecord<R13ExistingSchemaAugmentationEvidenceV1>({
     kind: 'r13-existing-schema-augmentation-evidence',
     version: 1,
@@ -882,7 +895,7 @@ export function augmentR13ExistingSchemaAfterEnemy(args: {
       changedFiles: 17,
     },
     parentContentDigest: parentDigest,
-    successorContentDigest: digestR13ExistingSchemaContentSnapshot(snapshot),
+    successorContentDigest,
     changedPaths: paths,
     sites: siteEvidence,
     skills: skillEvidence,
@@ -890,7 +903,7 @@ export function augmentR13ExistingSchemaAfterEnemy(args: {
       warmAmbience: { id: 'warm', tint: [255, 230, 102], ownership: 'project-authored' },
     },
   })
-  assertR13ExistingSchemaFinalTargetClosure(snapshot, evidence)
+  assertR13ExistingSchemaFinalTargetClosureWithDigest(snapshot, evidence, successorContentDigest)
   return { snapshot, evidence }
 }
 

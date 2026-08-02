@@ -95,6 +95,10 @@ describe('旧静态图引用单向升级', () => {
       { kind: 'branch', then: [{ kind: 'setActorAppearance', actor: 'a', battleSprite: 9 }] },
     ])
     expect(upgradeLegacyStaticImageCommands(upgraded)).toEqual(upgraded)
+    const canonicalOnly = [
+      { kind: 'dialog', cue: { portrait: { asset: 'portrait.pal.003', side: 'left' } } },
+    ]
+    expect(upgradeLegacyStaticImageCommands(canonicalOnly)).toBe(canonicalOnly)
   })
 
   test('存档 party/reserve 共用同一立绘映射，0 清字段且不改输入', () => {

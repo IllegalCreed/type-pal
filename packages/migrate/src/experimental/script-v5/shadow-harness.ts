@@ -1552,6 +1552,120 @@ export type P6TransformBuildArgs = Pick<
   'migration' | 'currentAudit' | 'frozenAudit' | 'sourceCommands'
 >
 
+/**
+ * The source-backed R13 canary only needs the final P6 IR/ledger and the input identities.
+ * Keeping this compact shape separate from the full phase matrix prevents the producer from
+ * retaining every P2-P5 intermediate until P7 has finished.
+ */
+export interface P6ValidatedTransformOutput {
+  readonly inputs: P6TransformBuildArgs
+  readonly p6: Pick<
+    ReturnType<typeof buildP6ScriptMigrationIR>,
+    'ir' | 'ledger'
+  >
+}
+
+/**
+ * Build and validate the complete P2-P6 chain while releasing each prior phase as soon as the
+ * next phase has been validated.  The existing `buildValidatedP6TransformChain` intentionally
+ * returns the complete matrix for shadow/release tests; this compact variant is canary-only and
+ * must not be used as a substitute for those phase artifacts.
+ */
+export function buildValidatedP6TransformOutput(
+  args: P6TransformBuildArgs,
+): P6ValidatedTransformOutput {
+  let p2: ReturnType<typeof buildP2ScriptMigrationIR> | undefined = (() => {
+    const result = buildP2ScriptMigrationIR(args)
+    validateScriptMigrationIR({
+      migration: args.migration,
+      frozenAudit: args.frozenAudit,
+      ir: result.ir,
+      ledger: result.ledger,
+      throughPhase: 'P2',
+    })
+    return result
+  })()
+  let p3: ReturnType<typeof buildP3ScriptMigrationIR> | undefined = (() => {
+    const previous = p2!
+    const result = buildP3ScriptMigrationIR({
+      migration: args.migration,
+      frozenAudit: args.frozenAudit,
+      sourceCommands: args.sourceCommands,
+      p2: previous.ir,
+      p2Ledger: previous.ledger,
+    })
+    validateP3ScriptMigrationIR({
+      migration: args.migration,
+      frozenAudit: args.frozenAudit,
+      sourceCommands: args.sourceCommands,
+      p2: previous.ir,
+      p2Ledger: previous.ledger,
+      ir: result.ir,
+      ledger: result.ledger,
+      throughPhase: 'P3',
+    })
+    return result
+  })()
+  p2 = undefined
+  let p4: ReturnType<typeof buildP4ScriptMigrationIR> | undefined = (() => {
+    const previous = p3!
+    const result = buildP4ScriptMigrationIR({
+      migration: args.migration,
+      frozenAudit: args.frozenAudit,
+      p3: previous.ir,
+      p3Ledger: previous.ledger,
+    })
+    validateP4ScriptMigrationIR({
+      migration: args.migration,
+      frozenAudit: args.frozenAudit,
+      p3: previous.ir,
+      p3Ledger: previous.ledger,
+      ir: result.ir,
+      ledger: result.ledger,
+      throughPhase: 'P4',
+    })
+    return result
+  })()
+  p3 = undefined
+  let p5: ReturnType<typeof buildP5ScriptMigrationIR> | undefined = (() => {
+    const previous = p4!
+    const result = buildP5ScriptMigrationIR({
+      frozenAudit: args.frozenAudit,
+      p4: previous.ir,
+      p4Ledger: previous.ledger,
+    })
+    validateP5ScriptMigrationIR({
+      frozenAudit: args.frozenAudit,
+      p4: previous.ir,
+      p4Ledger: previous.ledger,
+      ir: result.ir,
+      ledger: result.ledger,
+      throughPhase: 'P5',
+    })
+    return result
+  })()
+  p4 = undefined
+  const p6 = (() => {
+    const previous = p5!
+    const result = buildP6ScriptMigrationIR({
+      frozenAudit: args.frozenAudit,
+      p5: previous.ir,
+      p5Ledger: previous.ledger,
+    })
+    validateP6ScriptMigrationIR({
+      frozenAudit: args.frozenAudit,
+      p5: previous.ir,
+      p5Ledger: previous.ledger,
+      ir: result.ir,
+      ledger: result.ledger,
+      throughPhase: 'P6',
+    })
+    return result
+  })()
+  p5 = undefined
+  return Object.freeze({ inputs: args, p6: { ir: p6.ir, ledger: p6.ledger } })
+}
+
 /** 从权威 v4 提取结果重建并逐阶段验证完整 P2-P6 IR；不依赖 baseline/ours 三方合并。 */
 export function buildValidatedP6TransformChain(args: P6TransformBuildArgs) {
   const p2 = buildP2ScriptMigrationIR(args)

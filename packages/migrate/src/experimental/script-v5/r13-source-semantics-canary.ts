@@ -7,7 +7,7 @@ import {
 import type { MigrationJson } from '../../pal-migration.js'
 import {
   getPalTestCurrentV10Fixture,
-  getPalTestGeneratedFixture,
+  getPalTestSourceDispositionFixture,
   getPalTestHistoricalR13_5V10Fixture,
   hasPalTestFixture,
   PAL_TEST_REPO,
@@ -19,11 +19,13 @@ import {
 } from './r13-enemy-script-mg2.js'
 import {
   createR13SourceSemanticsV5MigrationPlan,
+  projectR13SourceSemanticsGenerated,
   R13_SOURCE_SEMANTICS_SEAL_PATH,
   R13_SOURCE_SEMANTICS_TRANSITION_ID,
   type R13SourceSemanticsDispositionInput,
   type R13SourceSemanticsV5MigrationPlan,
 } from './r13-source-semantics-mg2.js'
+import { projectR13SourceDispositionGenerated } from './source-instruction-disposition.js'
 import { stableJsonSha256 } from './stable-json.js'
 
 export interface R13SourceSemanticsCanaryFixture {
@@ -85,47 +87,58 @@ function stripSourceSemanticsSeal(source: MigrationSnapshot): MigrationSnapshot 
 export function buildR13SourceSemanticsCanaryFixture(): R13SourceSemanticsCanaryFixture {
   if (!hasPalTestFixture())
     throw new Error('R13 source semantics canary: extracted source/audit fixture 缺失')
-  const prepared = (() => {
-    const historical = getPalTestGeneratedFixture()
-    const historicalR13_5 = getPalTestHistoricalR13_5V10Fixture()
-    const current = getPalTestCurrentV10Fixture()
-    const sourceAugmentation = prepareR13EnemyScriptSourceAugmentation({
-      generated: historical.generated,
-      historicalMigration: historical.migration,
-      currentSources: historicalR13_5.sources,
-      currentMigration: historicalR13_5.migration,
-    })
-    return {
-      historicalSources: historical.sources,
-      historicalMigration: historical.migration,
-      historicalAudit: historical.currentAudit,
-      currentSources: current.sources,
-      currentMigration: current.migration,
-      ...sourceAugmentation,
+  const { sourceDispositionInput, currentSources, currentMigration } = (() => {
+    const prepared = (() => {
+      const historical = getPalTestSourceDispositionFixture()
+      const historicalR13_5 = getPalTestHistoricalR13_5V10Fixture()
+      const current = getPalTestCurrentV10Fixture()
+      const sourceAugmentation = prepareR13EnemyScriptSourceAugmentation({
+        generated: historical.generated,
+        historicalMigration: historical.migration,
+        currentSources: historicalR13_5.sources,
+        currentMigration: historicalR13_5.migration,
+      })
+      return {
+        historicalSources: historical.sources,
+        historicalMigration: historical.migration,
+        historicalAudit: historical.currentAudit,
+        currentSources: current.sources,
+        currentMigration: current.migration,
+        augmentation: sourceAugmentation.augmentation,
+        successorGenerated: projectR13SourceDispositionGenerated(
+          sourceAugmentation.successorGenerated,
+        ),
+      }
+    })()
+    releasePalTestProducerCachesForCanary()
+    ;(globalThis as { gc?: () => void }).gc?.()
+    const sourceInputs = completeR13EnemyScriptSourceInputs(prepared)
+    const sourceDispositionInput: R13SourceSemanticsDispositionInput = {
+      historicalSources: prepared.historicalSources,
+      historicalMigration: prepared.historicalMigration,
+      historicalAudit: prepared.historicalAudit,
+      generated: projectR13SourceSemanticsGenerated(sourceInputs.successorGenerated),
+      parentSourceDisposition: sourceInputs.sourceDisposition,
+      r13EnemyClosure: {
+        sourceDisposition: sourceInputs.augmentation.enemySourceDisposition,
+        currentSources: prepared.currentSources,
+        currentMigration: prepared.currentMigration,
+        augmentationEvidence: sourceInputs.augmentation.evidence,
+      },
     }
-  })()
-  releasePalTestProducerCachesForCanary()
-  ;(globalThis as { gc?: () => void }).gc?.()
-  const sourceInputs = completeR13EnemyScriptSourceInputs(prepared)
-  const sourceDispositionInput: R13SourceSemanticsDispositionInput = {
-    historicalSources: prepared.historicalSources,
-    historicalMigration: prepared.historicalMigration,
-    historicalAudit: prepared.historicalAudit,
-    generated: sourceInputs.successorGenerated,
-    parentSourceDisposition: sourceInputs.sourceDisposition,
-    r13EnemyClosure: {
-      sourceDisposition: sourceInputs.augmentation.enemySourceDisposition,
+    return {
+      sourceDispositionInput,
       currentSources: prepared.currentSources,
       currentMigration: prepared.currentMigration,
-      augmentationEvidence: sourceInputs.augmentation.evidence,
-    },
-  }
+    }
+  })()
+  ;(globalThis as { gc?: () => void }).gc?.()
   const baseline = loadPalBaseline(PAL_TEST_REPO)
   if (!baseline) throw new Error('R13 source semantics canary: baseline 缺失')
   const base = stripSourceSemanticsSeal(baseline)
   const managed = discoverProjectManagedFiles(
     PAL_TEST_REPO,
-    new Set([...base.managedFiles, ...prepared.currentMigration.managedFiles]),
+    new Set([...base.managedFiles, ...currentMigration.managedFiles]),
   )
   const ours = loadProjectMigrationSnapshot(PAL_TEST_REPO, managed)
   const projectPrerequisites = new Map<string, MigrationJson>([
@@ -139,8 +152,8 @@ export function buildR13SourceSemanticsCanaryFixture(): R13SourceSemanticsCanary
   const first = createR13SourceSemanticsV5MigrationPlan({
     base,
     ours,
-    currentSources: prepared.currentSources,
-    currentMigration: prepared.currentMigration,
+    currentSources,
+    currentMigration,
     projectPrerequisites,
     sourceDispositionInput,
   })

@@ -31,6 +31,9 @@ describe('R13-6A source-backed cold canary', () => {
     expect(fixture.first.authority.sourceDispositionInputDigest).toBe(
       golden.sourceDispositionInputDigest,
     )
+    expect(fixture.first.authority.sourceDisposition.census).toBe(
+      fixture.first.authority.sourceDispositionInput.parentSourceDisposition.census,
+    )
     expect(fixture.first.authority.augmentation.evidence.digest).toBe(golden.augmentationDigest)
     expect(fixture.first.augmentation.evidence.successorContentDigest).toBe(
       golden.successorContentDigest,
