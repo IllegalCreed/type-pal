@@ -285,6 +285,7 @@ source-backed 归属，不能只改 Vitest include/exclude。
 - 2026-08-02 Codex: 增加 canary-only module cache release（release-shared fail-closed）与 `--expose-gc`，并把 enemy authority 拆为 augmentation/source-input 两阶段，在 source disposition 前释放 P2-P6 中间链；canary 改走 source-input-only 路径，不再构建五套无关 authority。新 golden 经 live source 重签，最终 2/2、`339.10s / 2,568,863,744B`，较原始下降约 30.0% / 29.2%；G8 仍 blocked。
 - 2026-08-02 Codex: 在正式 `release-pal-shared` 配置下定向回归完整 `r13-enemy-audits.pal.test.ts`，`3/3` 通过，`374.62s / 3,740,139,520B`；确认 source-input-only 仅为 canary 优化，完整 enemy authority 发布路径未被削弱。G8 RSS 与 G7 共享乱序证据仍 blocked。
 - 2026-08-02 Codex: 试验在 report seal 前清空 disposition 构造期 Map；canary 内容 `2/2` 仍绿，但实测回退到 `365.25s / 3,963,371,520B`，较上一轮 `339.10s / 2,568,863,744B` 明显更差。结论是主动清空改变 GC/重新分配节奏并扩大峰值，已反向撤销，不把主观“释放引用”当作有效优化。
+- 2026-08-02 Codex: 试验复用 branded current source census，冷跑 `330.86s / 3,084,697,600B`；虽节省约 8s，但 prepared census digest 被纳入 authority identity，导致 canary golden `authorityDigest` 漂移且 RSS 增约 0.5GB，已撤销。后续需保持 authority digest 与执行优化解耦，不能为省一次 census 重签语义身份。
 
 ## 下一位 Agent 提示词
 
