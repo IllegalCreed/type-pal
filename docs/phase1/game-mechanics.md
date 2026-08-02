@@ -222,6 +222,59 @@ if (法术.wElemental != 0) {                      // 带属性的仙术
 - **战场环境**:`lprgBattleField[...].rgsMagicEffect[elem]` 给某元素 ±加成(`×(10+加成)/10`)——不同战斗场地对某系仙术有增减。
 - 玩家被仙术击中减伤:`sDamage /= ((主动防御?2:1) × (护体?2:1)) + (法术自动防御?1:0)`([fight.c:4801-4803](../../reference/sdlpal/fight.c#L4801-L4803))。
 
+### 特殊仙术:乾坤一掷(钱换伤害,林月如)
+
+> 2026-07-31 用户提出核对并纠正扣钱上限;源码级确认([script.c:2547-2554](../../reference/sdlpal/script.c#L2547-L2554) 0x88 + [fight.c:174-249](../../reference/sdlpal/fight.c#L174-L249) PAL_CalcMagicDamage + object-magics scriptOnUse 入口)。
+
+乾坤一掷(magic 394,林月如)的**唯一特殊之处**是:它的 `法术.wBaseDamage`(仙术固定威力)不是静态值,而是由当前金钱在 `scriptOnUse` 里**动态设定**。一旦 baseDamage 设好,后续伤害结算走的就是上面通用的 `PAL_CalcMagicDamage`,没有任何特殊公式。
+
+**完整执行链**(scriptOnUse 入口 = `object-magics[394].scriptOnUse` = `@43068`,共 3 条有效命令):
+
+```
+@43068  0x1E [-1, 43064]    扣 1 文(占位检查);钱 < 1 则跳 @43064 失败("钱不够,只好作罢")
+@43069  0x1E [1, 0]         加回 1 文(补回占位,钱数还原)
+@43070  0x88 [394]          设 baseDamage = floor(min(当前钱, 5000) × 2 / 5),并扣 min(当前钱, 5000)
+```
+
+前两步是"够不够 1 文"的门槛检查(扣 1 再加回),**没有固定手续费**;真正的扣钱全在 0x88 一步完成。
+
+**0x88 伤害基数公式**(0x88 = `OP_SET_MAGIC_DAMAGE_BY_MONEY`,[script.c:2547-2554](../../reference/sdlpal/script.c#L2547-L2554)):
+
+```c
+i = min(dwCash, 5000);                  // 当前钱与 5000 取小
+dwCash -= i;                            // 扣掉 i(这就是实际扣钱,上限 5000)
+法术.wBaseDamage = floor(i × 2 / 5);    // = i × 0.4
+```
+
+- baseDamage 的钱基数范围 **[0, 5000]** → baseDamage **[0, 2000]**(`floor(5000×2/5)=2000`)。
+- **扣钱上限就是 5000**(用户 2026-07-31 纠正确认)。
+
+**门槛**:
+- 钱数 = 0 → 第一步 0x1E 扣 1 失败 → "钱不够,只好作罢",不放动画、不结算(MP 仍已扣,见 [fight.c:4217](../../reference/sdlpal/fight.c#L4217) `g_fScriptSuccess` gate)。
+- 钱数 ≥ 1 → 通过门槛,0x88 扣 `min(钱, 5000)` 并设 baseDamage。
+
+**最终伤害**(0x88 设好 baseDamage 后,走通用 `PAL_CalcMagicDamage`):
+
+```
+damage = calcBaseDamage(灵力, 防御) / 4 + baseDamage     // 灵力/4 + 仙术基础伤害
+damage ×= (10 - 元素抗性 / 倍率) / 5                      // × (1 - 抗性)
+damage ×= (10 + 战场元素加成) / 10                        // × (1 + 战场增强)
+```
+
+乾坤一掷的 `wElemental`(元素属性)需查 magic data;若带元素,抗性/战场加成照常生效。
+
+**举例**(忽略灵力部分,只看 baseDamage 与扣钱):
+
+| 当前钱 | 0x88 扣钱 | baseDamage | 说明 |
+|---|---|---|---|
+| 0 | 失败 | — | "钱不够,只好作罢",不能用 |
+| 1 | 1 | 0 | floor(1×2/5)=0,只有灵力部分有伤害 |
+| 2500 | 2500 | 1000 | floor(2500×2/5)=1000 |
+| 5000 | 5000 | 2000 | 满基数,满 baseDamage |
+| 99999 | 5000 | 2000 | min(99999,5000)=5000,扣钱封顶 5000 |
+
+钱数 ≥ 5000 即可打出满 baseDamage(2000),扣钱恰为 5000。
+
 ### ts 实现状态
 
 > ✅ **公式核心与攻击编排已完整实现**（2026-07-29 逐行代码审计确认）。
@@ -231,6 +284,7 @@ if (法术.wElemental != 0) {                      // 带属性的仙术
   - `+RandomLong(1,2)` jitter ✅（:93）、`RandomFloat(1,1.125)` 浮动 ✅（:103）、暴击 ×3 ✅（:95-96）、李逍遥 ×2 ✅（:99-102）、双重攻击 ✅、群体普攻递减 ✅（:190-199）。
   - 玩家攻击力 `(等级+6)×6` bug **已修复**——玩家 str = `role.attackStrength` 不含等级项;等级项只用于敌人 str（:136）。2026-06-02 审计修正。
   - 敌人打玩家:`def×2`(主动防御)✓（:386）、res=2 ✓、**自动防御** ✅（:324,7/17 概率）、**援护** ✅（:331-351,coverBy 查找+免疫）、**护体 /2** ✅（:393-395）。
+- **乾坤一掷**(钱换伤害)✅ 已实现:`0x88 OP_SET_MAGIC_DAMAGE_BY_MONEY`([battle-opcodes.ts:732-744](../../packages/game/src/core/battle/battle-opcodes.ts#L732-L744))按 `min(dwCash,5000)×2/5` 设 baseDamage 并扣钱;`scriptOnUse` 失败 gate(钱 <500 不结算)见 [magic.ts:258](../../packages/game/src/core/battle/actions/magic.ts#L258);reforge 战内 `moneyDelta` 追踪扣钱、战后并入 `world.money`([battle-core.ts:217-219](../../packages/reforge/src/battle/battle-core.ts#L217-L219))。全链测试 `乾坤一掷:scriptOnUse 0x88 set baseDamage by cash → E1 全体伤害`见 [magic-inline-damage.test.ts:596](../../packages/game/src/core/battle/__tests__/magic-inline-damage.test.ts#L596)。
 
 ---
 
