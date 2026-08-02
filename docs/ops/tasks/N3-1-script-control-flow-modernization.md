@@ -6682,7 +6682,7 @@ R13-Z、N3-1、C8 或 ED-5I 已完成。
   `484.72s / 3,630,317,568B`，max RSS 下降约 59.3%、wall median 下降约 16.3%。另有等价样本
   `296.88s / 1,383,710,720B`；`1152MiB` 压力跑约 192s OOM，最终使用 `1168MiB` old-space
   fail-loud 上限。原 projection/source disposition/stable source input/seal/golden 与 replay
-  `0/0/0` 未改变，G8 已由 Codex 闭合待 Kimi/GLM 复核。
+  `0/0/0` 未改变；Codex、Kimi、GLM 已对 G8 三方 accept。
 - `test:release` 继续保留完整 PAL shared/fresh 矩阵；完整 22 文件共享乱序首轮探针在
   `19m36s` 未结束而中止，因此 G7 乱序证据仍待独立顺序探针补齐。这个慢路径只属于发布/审查门，
   不应重新并入每次小功能的 fast 反馈回路。
