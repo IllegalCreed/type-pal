@@ -8,7 +8,7 @@ Generation Owner: N/A
 Reviewer: Kimi + GLM
 Visual Verification Owner: N/A
 Unavailable Agents: none
-Branch: main (用户要求持续提交，暂不切分工作分支)
+Branch: chore/docs-migrate-cleanup（沿用当前工作树；用户要求持续提交）
 
 ## 目标
 
@@ -228,6 +228,11 @@ source-backed 归属，不能只改 Vitest include/exclude。
     输入做 digest pin，投影不可自证并在 manifest 失配时拒绝。
   - R13-6A canary 在独立进程从 live extracted source、audit、baseline、project 重建 authority，
     精确比对已签 golden，并独立 replay 断言 `0/0/0`；prepared fixture 仅允许 release-shared。
+  - R13-6A source disposition 不再对同一份 81,674-site historical source 做第二次全量
+    build-and-assert：先验证已发布 R13-5 父报告和 current/historical source-root digest，再只重建
+    22 个既有-schema站点、3 个技能观察及其受影响的 source-debt observation；最后仍由原有
+    `assertR13SourceDisposition6AParentDelta` 做完整 allowlist、orphan evidence、cardinality、layer
+    和 parent/successor 守恒校验。已签 golden 未重签，证明这是执行路径优化而非语义改口。
 - 运行命令:
   - `pnpm --filter @type-pal/migrate typecheck`
   - `pnpm --filter @type-pal/migrate test:manifest` / `test:oracle:verify`
@@ -250,18 +255,23 @@ source-backed 归属，不能只改 Vitest include/exclude。
 - 必须返工项:
   1. **G1/G2 trust-boundary 覆盖**：返工新增 `createSyntheticRuntimeSnapshot`，并在生产 runtime capability builder 上覆盖 current/historical wrong profile、snapshot 内容 identity 漂移、缺 shared prerequisite、伪造自签 evidence；定向 6/6 实跑通过，故这四类可记 conditional accept。原 G1 表承诺的约 44 条 authority/seal、半状态、initialize/replay、owned/non-owned merge 及其逐条旧测试标题映射仍未闭合；继续按旧断言逐项补齐，不能用 synthetic 摘要替代 source proof。
   2. **G7 乱序/隔离证据**：新增 probe 已扩为 4 个独立 synthetic/oracle 文件 / 11 个 tests，固定 seed `20260802/03/04` 均通过（约 2–3s/次），因此跨文件顺序探针本身可运行；但它仍不是完整 `release-pal-shared` 乱序/逆序证据。完整共享矩阵首轮运行 `19m36s` 后中止，尚无默认、逆序及至少 3 个固定 seed 的共享结果/digest 一致性证据。仍需补低频 shared 顺序探针或由用户明确豁免；shared fixture 继续要求深冻结/归还 digest，跨 worker/跨命令不得复用 authority。
-  3. **G8 内存与冷跑证据**：先移除 fixture 无用包装引用，再把 P2-P6/module cache 在 source disposition 前仅于隔离 canary 中释放并 GC，最后抽出 source-input-only enemy authority，避免额外构建 cadence/cross/item-throw/confirm/control-audit 五套 authority；golden 重签后最终 `339.10s / 2,568,863,744B`（约 2.57GB），2/2 通过。相对原 `484.72s / 3.63GB` 分别下降约 30.0% / 29.2%，但仍超过 `1.5GB` 目标。需继续流式化 source disposition，或由用户明确批准并记录“已知发布慢路径风险”豁免；且补齐 canary/release 的 3 次冷跑 median/max/RSS 与相对开卡基线回归数据。不得宣称性能债完全达标。
+  3. **G8 内存与冷跑证据**：先移除 fixture 无用包装引用，再把 P2-P6/module cache 在 source disposition 前仅于隔离 canary 中释放并 GC，最后抽出 source-input-only enemy authority，避免额外构建 cadence/cross/item-throw/confirm/control-audit 五套 authority；随后又把 R13-6A 从“父报告之后第二次全量扫描 81,674 sites”改成父报告受约束增量。最终 exact-golden canary `2/2`，`271.87s / 2,857,975,808B`；相对原 `484.72s / 3.63GB` 墙钟下降约 43.9%，但本轮 RSS 仍约 2.86GB，超过 `1.5GB` 目标且较此前 `339.10s / 2.57GB` 样本有波动。正式 `r13-source-semantics-mg2.pal.test.ts` release 定向 `11/11` 为 `401.44s / 3,415,769,088B`。需继续降峰或由用户明确批准并记录“已知发布慢路径风险”豁免；且补齐 exact 版本 canary/release 的 3 次冷跑 median/max/RSS 与相对开卡基线回归数据。不得宣称性能债完全达标。
 - Accept / rework: rework（G2 新增四类 conditional accept；G1 残余映射、G7、G8 为阻塞项）
 
 ### 当前待审结果
 
 - Codex 自验：`typecheck`、manifest/oracle、release-unit `65 files / 491 tests`、release-preflight
-  `1/1`、source-backed canary `1 file / 2 tests`（最新 `339.10s / 2,568,863,744B`）均通过；
+  `1/1`、source-backed canary `1 file / 2 tests`（增量 source disposition 最新 exact-golden
+  `271.87s / 2,857,975,808B`）均通过；对应正式 release source-semantics 文件 `11/11`，
+  `401.44s / 3,415,769,088B`；
   G2 返工定向 synthetic trust-boundary `6/6` 通过（约 0.4s）；固定 seed `20260802/03/04` 的四文件 synthetic probe 各为 `4 files / 12 tests` 全绿；fast 当前为 507 tests 全绿。
 - manifest 实跑守恒：fast `70 files / 507 tests`、release `92 files / 636 tests`、canary `1 file / 2 tests`，`routeSha256`/`projectName` 均参与 pin 校验。
 - 完整 enemy authority 定向 release 回归：`release-pal-shared` 下
   `r13-enemy-audits.pal.test.ts` 为 `3/3`，`374.62s`，峰值 RSS `3,740,139,520B`；窄
   source-input-only canary 与正式完整 authority 均通过，未改变发布路径的语义断言。
+- 本轮增量 source disposition 后：fast `70 files / 507 tests` 为 `34.79s / 543,506,432B`；
+  fixed seed `20260802/03/04` 的 synthetic shuffle 均为 `4 files / 12 tests` 全绿；oracle、
+  typecheck、`git diff --check` 均通过。该证据不替代 G7 完整 shared route。
 - Kimi/GLM 复审确认 mixed/PAL 路由与 oracle 边界可核验；G2 最小 trust-boundary 子集已补，
   但完整旧断言逐条迁移映射、跨文件 G7 顺序探针缺证和 G8 RSS 超标仍未闭合；在 Kimi/GLM 均签 `accept`
   或用户明确批准性能豁免前不得标记 done。
@@ -287,6 +297,7 @@ source-backed 归属，不能只改 Vitest include/exclude。
 - 2026-08-02 Codex: 试验在 report seal 前清空 disposition 构造期 Map；canary 内容 `2/2` 仍绿，但实测回退到 `365.25s / 3,963,371,520B`，较上一轮 `339.10s / 2,568,863,744B` 明显更差。结论是主动清空改变 GC/重新分配节奏并扩大峰值，已反向撤销，不把主观“释放引用”当作有效优化。
 - 2026-08-02 Codex: 试验复用 branded current source census，冷跑 `330.86s / 3,084,697,600B`；虽节省约 8s，但 prepared census digest 被纳入 authority identity，导致 canary golden `authorityDigest` 漂移且 RSS 增约 0.5GB，已撤销。后续需保持 authority digest 与执行优化解耦，不能为省一次 census 重签语义身份。
 - 2026-08-02 Codex: 再试仅在 `prepareAuthority` 内局部复用、且不写入 authority identity 的 current prepared census；golden `2/2` 通过且 RSS 降到 `2,151,923,712B`，但深冻结/完整校验把墙钟拉长到 `548.05s`（较 `339.10s` 回退约 61%）。已撤销；结论是现有 prepared census 适合进程内重放，不适合作为冷 canary 的构建期内存换时间方案。
+- 2026-08-02 Codex: 将 R13-6A source disposition 改为从已验证 R13-5 父报告做窄增量，只重建 22 site、3 skill observation 和受影响的 source-debt observation；保留 source-root digest、完整 parent-delta/orphan/cardinality/layer 校验，未更新任何发布 golden。strict canary `2/2` 精确命中原 seal，`271.87s / 2,857,975,808B`；正式 source-semantics release `11/11`，`401.44s / 3,415,769,088B`；fast `70/507` 为 `34.79s / 543,506,432B`，三 seed synthetic shuffle `4/12` 全绿。墙钟继续下降，但 RSS 仍超 1.5GB 且只完成 exact 版本一次冷跑，状态保持 rework。
 
 ## 下一位 Agent 提示词
 

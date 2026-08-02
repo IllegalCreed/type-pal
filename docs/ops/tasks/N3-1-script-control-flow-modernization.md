@@ -6673,16 +6673,20 @@ R13-Z、N3-1、C8 或 ED-5I 已完成。
   但保留 6 个 source-backed lite/oracle 文件和 5 个 P7 混合文件的纯单元测试。
 - `test:canary` 是独立冷进程，直接重读 extracted source、audit、published baseline/project，
   精确重建 R13-6A authority 并 replay `0/0/0`；经 canary-only 阶段缓存释放、GC 与
-  source-input-only enemy authority 后，`1 file / 2 tests` 通过，墙钟 `339.10s`（约 5 分 39 秒），
-  峰值 RSS `2,568,863,744B`（约 2.57GB）。相对原 `484.72s / 3.63GB` 分别下降约 30.0% / 29.2%，
-  主峰已收敛到 source disposition，但仍高于
-  原 `≤1.5GB` 初始目标，不能把该风险宣称已解决。
+  source-input-only enemy authority 后，又将 R13-6A 的第二次 81,674-site 全量 disposition build
+  改为基于已验证 R13-5 父报告的 22-site/3-skill 受约束增量；原 seal/authority/source ledger
+  golden 未重签，`1 file / 2 tests` 精确通过，墙钟 `271.87s`，峰值 RSS
+  `2,857,975,808B`（约 2.86GB）。相对原 `484.72s / 3.63GB` 墙钟下降约 43.9%，但 RSS 仍高于
+  原 `≤1.5GB` 初始目标且样本有波动，不能把该风险宣称已解决。
 - `test:release` 继续保留完整 PAL shared/fresh 矩阵；完整 22 文件共享乱序首轮探针在
   `19m36s` 未结束而中止，因此 G7 乱序证据仍待独立顺序探针补齐。这个慢路径只属于发布/审查门，
   不应重新并入每次小功能的 fast 反馈回路。
 - 在正式 `release-pal-shared` 配置下定向回归完整 `r13-enemy-audits.pal.test.ts` 为 `3/3`，
   `374.62s`、峰值 RSS `3,740,139,520B`；这证明 canary 的 source-input-only 拆分没有改变
   完整 enemy authority 发布路径，但也确认该路径仍需后续流式化/降峰。
+- 增量 disposition 对应的正式 `r13-source-semantics-mg2.pal.test.ts` 定向回归 `11/11`，
+  `401.44s / 3,415,769,088B`；fast `70/507` 为 `34.79s / 543,506,432B`。发布语义未回退，
+  但 exact 版本三次冷跑、G7 完整 shared 顺序证据与 G8 RSS 仍未闭合。
 
 结论：81,674-site 冷构建的“每次开发都付费”已从默认门移除，但 source-backed 发布门的高 RSS
 与完整乱序探针仍是显式技术债，后续不得以跳过、放宽断言或跨命令缓存假装收口。
