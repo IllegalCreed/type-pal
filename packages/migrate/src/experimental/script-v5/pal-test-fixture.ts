@@ -502,6 +502,23 @@ export function getPalTestPreparedR13ConfirmControlAuditAuthority(): PreparedR13
 }
 
 /**
+ * Order-probe only reset. The expensive historical source/phase/generated graphs and the
+ * sequential P2-P6 transition lease stay live; only independent R13 authority wrappers are
+ * dropped so a real release-shared worker can exercise consumer initialization order without
+ * rebuilding the heaviest phase chain for every permutation.
+ */
+export function resetPalTestSharedPreparedCachesForOrderProbe(): void {
+  if (!PAL_TEST_SHARED_GATE)
+    throw new Error('PAL test fixture: shared order probe 仅允许 release-shared gate 使用')
+  preparedSourceCensus = undefined
+  preparedCadenceAuthority = undefined
+  preparedCrossActivationAuthority = undefined
+  preparedItemThrowAuthority = undefined
+  preparedConfirmAuthority = undefined
+  preparedConfirmControlAuditAuthority = undefined
+}
+
+/**
  * Drop producer-only module caches between the cold source-chain build and the final canary
  * transition. The returned authorities keep every live input required for replay; the discarded
  * wrappers additionally retain P2-P6 intermediate chains, duplicate audits and historical build

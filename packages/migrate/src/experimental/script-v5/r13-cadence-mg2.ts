@@ -3,6 +3,7 @@ import type { SceneDefV5 } from '@type-pal/content'
 import { validateScenesV5 } from '@type-pal/content'
 import type { MigrationSnapshot } from '../../migration-baseline.js'
 import type { MigrationJson } from '../../pal-migration.js'
+import { appendOnlyTransitionState } from './append-only-transition-state.js'
 import {
   C8_ITEM_USE_SEAL_PATH,
   C8_ITEM_USE_TRANSITION_ID,
@@ -89,19 +90,6 @@ function publishedC8Digest(base: MigrationSnapshot): string {
   const actual = recordDigest(base.files.get(C8_ITEM_USE_SEAL_PATH), C8_ITEM_USE_SEAL_PATH)
   if (actual !== expected) throw new Error('R13 cadence MG2: C8 seal 与 metadata 不符')
   return actual
-}
-
-function cadenceState(base: MigrationSnapshot): 'initialize' | 'replay' {
-  const metadata = base.baselineMetadata?.transitions[R13_CADENCE_TRANSITION_ID] !== undefined
-  const file = base.files.has(R13_CADENCE_SEAL_PATH)
-  const managed = base.managedFiles.has(R13_CADENCE_SEAL_PATH)
-  const hash = base.hashes?.has(R13_CADENCE_SEAL_PATH) === true
-  if (!metadata && !file && !managed && !hash) return 'initialize'
-  if (metadata && file && managed && hash) return 'replay'
-  throw new Error(
-    `R13 cadence MG2: transition 半状态 metadata=${metadata} file=${file} ` +
-      `managed=${managed} hash=${hash}`,
-  )
 }
 
 function stripCadenceControl(
@@ -226,7 +214,11 @@ export function createR13CadenceV5MigrationPlan(args: {
   preparedAuthority?: PreparedR13CadenceAuthority
 }): R13CadenceV5MigrationPlan {
   const parentDigest = publishedC8Digest(args.base)
-  const cadenceSealMode = cadenceState(args.base)
+  const cadenceSealMode = appendOnlyTransitionState(args.base, {
+    transitionId: R13_CADENCE_TRANSITION_ID,
+    sealPath: R13_CADENCE_SEAL_PATH,
+    errorPrefix: 'R13 cadence MG2',
+  })
   if (
     args.generated.snapshot.files.has(R13_CADENCE_SEAL_PATH) ||
     args.generated.snapshot.managedFiles.has(R13_CADENCE_SEAL_PATH) ||

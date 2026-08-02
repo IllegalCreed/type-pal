@@ -2,6 +2,7 @@ import { isDeepStrictEqual } from 'node:util'
 import { SCRIPT_V4_V5_TRANSITION_ID } from '@type-pal/content'
 import type { MigrationSnapshot } from '../../migration-baseline.js'
 import type { MigrationJson } from '../../pal-migration.js'
+import { appendOnlyTransitionState } from './append-only-transition-state.js'
 import {
   assertC8ItemUseFinalTargetClosure,
   C8_ITEM_IDS,
@@ -222,18 +223,6 @@ function buildSeal(
   })
 }
 
-function c8State(base: MigrationSnapshot): 'initialize' | 'replay' {
-  const metadata = base.baselineMetadata?.transitions[C8_ITEM_USE_TRANSITION_ID] !== undefined
-  const file = base.files.has(C8_ITEM_USE_SEAL_PATH)
-  const managed = base.managedFiles.has(C8_ITEM_USE_SEAL_PATH)
-  const hash = base.hashes?.has(C8_ITEM_USE_SEAL_PATH) === true
-  if (!metadata && !file && !managed && !hash) return 'initialize'
-  if (metadata && file && managed && hash) return 'replay'
-  throw new Error(
-    `C8 item use MG2: transition 半状态 metadata=${metadata} file=${file} managed=${managed} hash=${hash}`,
-  )
-}
-
 function stripC8Control(
   source: MigrationSnapshot,
   options: { removeMetadata: boolean },
@@ -259,7 +248,11 @@ export function createC8ItemUseV5MigrationPlan(args: {
 }): C8ItemUseV5MigrationPlan {
   const p7Digest = publishedP7Digest(args.base)
   const expectedSeal = buildSeal(args.evidence, p7Digest)
-  const sealMode = c8State(args.base)
+  const sealMode = appendOnlyTransitionState(args.base, {
+    transitionId: C8_ITEM_USE_TRANSITION_ID,
+    sealPath: C8_ITEM_USE_SEAL_PATH,
+    errorPrefix: 'C8 item use MG2',
+  })
 
   if (
     args.generated.files.has(C8_ITEM_USE_SEAL_PATH) ||

@@ -2,6 +2,7 @@ import { isDeepStrictEqual } from 'node:util'
 import type { MigrationSnapshot } from '../../migration-baseline.js'
 import type { MigrationFileSet, MigrationJson, PalMigrationSources } from '../../pal-migration.js'
 import type { ScriptControlFlowAuditV1 } from '../../script-control-flow-audit.js'
+import { appendOnlyTransitionState } from './append-only-transition-state.js'
 import type { P7GeneratedCanonical } from './p7-generated.js'
 import type { PreparedR13CadenceAuthority } from './r13-cadence-mg2.js'
 import {
@@ -84,19 +85,6 @@ function publishedCrossActivationDigest(base: MigrationSnapshot): string {
   if (actual !== expected)
     throw new Error('R13 item throw MG2: R13 cross-activation seal 与 metadata 不符')
   return actual
-}
-
-function transitionState(base: MigrationSnapshot): 'initialize' | 'replay' {
-  const metadata = base.baselineMetadata?.transitions[R13_ITEM_THROW_TRANSITION_ID] !== undefined
-  const file = base.files.has(R13_ITEM_THROW_SEAL_PATH)
-  const managed = base.managedFiles.has(R13_ITEM_THROW_SEAL_PATH)
-  const hash = base.hashes?.has(R13_ITEM_THROW_SEAL_PATH) === true
-  if (!metadata && !file && !managed && !hash) return 'initialize'
-  if (metadata && file && managed && hash) return 'replay'
-  throw new Error(
-    `R13 item throw MG2: transition 半状态 metadata=${metadata} file=${file} ` +
-      `managed=${managed} hash=${hash}`,
-  )
 }
 
 function stripControl(
@@ -206,7 +194,11 @@ export function createR13ItemThrowV5MigrationPlan(args: {
   preparedCrossActivationAuthority?: PreparedR13CrossActivationAuthority
   preparedAuthority?: PreparedR13ItemThrowAuthority
 }): R13ItemThrowV5MigrationPlan {
-  const itemThrowSealMode = transitionState(args.base)
+  const itemThrowSealMode = appendOnlyTransitionState(args.base, {
+    transitionId: R13_ITEM_THROW_TRANSITION_ID,
+    sealPath: R13_ITEM_THROW_SEAL_PATH,
+    errorPrefix: 'R13 item throw MG2',
+  })
   const parentDigest = publishedCrossActivationDigest(args.base)
   if (
     args.generated.snapshot.files.has(R13_ITEM_THROW_SEAL_PATH) ||

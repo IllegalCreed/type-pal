@@ -65,10 +65,15 @@ Branch: chore/docs-migrate-cleanup（沿用当前工作树；用户要求持续�
 - 初步迁移目标：逐项审计 17 个 PAL-heavy 文件 / 123 tests、3 个 `pal-fresh` 文件 / 5 tests，以及 2 个直接读取真实 PAL 但未列 heavy 的轻量文件；预计约 44 个完整链行为/篡改断言改为 synthetic，依赖历史计数/样本的测试改读带 provenance 的 compact oracle（现有 11 个关键 JSON 约 31.8MB，解析基线约 0.10s）；只保留 1 个文件 / 2 个测试作为 source-backed producer canary；3 个 `pal-fresh` 文件继续归 release。
 - compact oracle 不是运行时缓存，也不能自证 source proof：必须记录 source commit、抽取版本、compiler/method/schema 版本、canonical input/output digest，并由 producer canary 独立重建后校验。
 
-本轮实现后的清单已固定为：fast `71 files / 533 tests`、release `93 files / 662 tests`、canary
+本轮实现后的清单已固定为：fast `72 files / 549 tests`、release `95 files / 679 tests`、canary
 `1 file / 2 tests`；相对开卡基线 `87 files / 623 tests` 为新增门禁/覆盖，不减少既有测试。
 
 ### G1 现有测试去向总表（设计阶段路线，不得删断言）
+
+逐条旧标题到后继证明的 44 条闭环见
+[`docs/ops/audits/OPS-TST-PERF-g1-coverage-map.md`](../audits/OPS-TST-PERF-g1-coverage-map.md)。
+该清单明确区分 fast synthetic、compact oracle、source-backed canary 和 release-shared；表中
+source proof 没有被 synthetic 结果替代。
 
 | 文件 | 当前测试数 | 初始去向 | 必须保留的证明 |
 |---|---:|---|---|
@@ -183,9 +188,10 @@ source-backed 归属，不能只改 Vitest include/exclude。
 7. **G7 隔离/乱序**：真实 fixture 深冻结或使用带归还 digest 的 COW lease；默认、逆序和至少 3 个
    shuffle seed 的结果/digest 完全一致。跨 worker/跨命令全局 cache 属 counter。当前已加入
    `PAL_TEST_SHARED_GATE` 的 release-only 共享边界、canary 独立进程与 synthetic entry-order 反例；
-   2026-08-02 对完整 22 文件共享矩阵的首轮乱序探针运行 `19m36s` 仍未结束而中止，未将其记为
-   通过；新增的 synthetic order probe 已用固定 seed `20260802/03/04` 各跑 4 files / 11 tests 通过，但不能
-   替代完整 PAL shared route，后续仍需补低频 shared 顺序探针或由用户豁免。
+   新增低频真实探针 `pal-shared-order-probe.pal.test.ts`，在同一 `release-pal-shared` worker 中
+   只冷初始化一次真实 PAL lease，再按默认、逆序和 `20260802/03/04` 五种消费者顺序读取，整组前后
+   lease digest 与 authority summary 均一致；一手实跑 `1 file / 1 test`、`262.59s`。完整 22 文件
+   shared shuffle 仍不作为开发门，首轮 `19m36s` 中止记录保留为成本证据。
 8. **G8 性能**：在无并发重测的参考机上做 3 次冷跑并记录 median/max/RSS；synthetic 定向文件
    `≤10s`、fast（unit + lite + oracle）目标 `≤60s` 且 RSS `≤700MB`，canary 初期 `≤10min`
    且 RSS `≤1.5GB`，release 不得比开卡基线回退 10% 以上；不得靠增大 timeout 掩盖重复构建。
@@ -222,7 +228,9 @@ source-backed 归属，不能只改 Vitest include/exclude。
 - Coding Owner: Codex
 - 修改文件: `packages/migrate/vitest.tests.ts`、`vitest.config.ts`、`vitest.release.config.ts`、
   `vitest.canary.config.ts`、`package.json`、`src/experimental/script-v5/pal-test-fixture.ts`、
-  synthetic fixture/tests、PAL oracle/manifest/preflight、R13-6A source canary 及本卡/N3-1 性能边界。
+  `src/experimental/script-v5/append-only-transition-state.ts` 及其 16-mask fast test、
+  `pal-shared-order-probe.pal.test.ts`、G1 44 条映射文档、PAL oracle/manifest/preflight、
+  R13-6A source canary 及本卡/N3-1 性能边界。
 - 实现摘要:
   - 默认 fast 只跑 unit + pal-lite + oracle；7 个 P7 混合文件的纯单元保留在 fast，PAL shadow
     段在 `PAL_TEST_FAST_GATE` 下 fail-closed 跳过，不能因缺 fixture 绿过；新增 manifest 分类/路由
@@ -245,6 +253,10 @@ source-backed 归属，不能只改 Vitest include/exclude。
     生成数百 MB 完整字符串；31 个 strict/fast JSON 单元断言覆盖键顺序、特殊数字、Unicode、
     omission、Date、root failure 与 cycle。PAL projection、source disposition、stable input digest、
     seal 及 0/0/0 均未变化，仅 oracle/manifest 的生产代码指纹按最终源码更新。
+  - C8、cadence、cross-activation、item-throw、confirm、enemy-script、source-semantics 七个
+    append-only MG2 计划统一调用 `appendOnlyTransitionState`；空四元组只允许 initialize、完整
+    四元组只允许 replay、其余 14 种半状态 fail-closed。G1 的 initialize/replay/半状态边界由同一条
+    生产代码和 16 个 fast mask 断言维护，不再由七份复制逻辑漂移。
 - 运行命令:
   - `pnpm --filter @type-pal/migrate typecheck`
   - `pnpm --filter @type-pal/migrate test:manifest` / `test:oracle:verify`
@@ -252,11 +264,13 @@ source-backed 归属，不能只改 Vitest include/exclude。
   - `/usr/bin/time -l pnpm --filter @type-pal/migrate test:canary`（三次冷跑 + 最终 gate-only 复核）
   - `pnpm --filter @type-pal/migrate exec vitest run --config vitest.release.config.ts --project release-preflight`
   - `pnpm --filter @type-pal/migrate exec vitest run --config vitest.release.config.ts --project release-unit`
+  - `pnpm --filter @type-pal/migrate exec vitest run --config vitest.release.config.ts --project release-pal-shared src/experimental/script-v5/pal-shared-order-probe.pal.test.ts`
 - 浏览器 / 手工检查: N/A
 - 跳过的检查及原因:
   - 完整 `test:release` 尚未在本轮重复执行，避免无谓地再次执行 8 分钟 canary；其 release-unit 与
     preflight 已独立通过，canary 已独立通过，仍需最终收口前由审查方决定是否补跑全门。
-  - 完整 22 文件共享乱序首轮运行 `19m36s` 未结束后中止，故 G7 不能记为通过；需补独立顺序探针。
+  - 完整 22 文件共享乱序首轮运行 `19m36s` 未结束后中止；已改由低频真实 shared order probe
+    覆盖同一共享 lease 的五种消费者顺序，不把完整 shuffle 当作开发门。
   - 早期只加 `--expose-gc` 的试验约 `491.56s / 3,524,575,232B`，证明 GC 本身不是修复；最终仅在
     canary 的明确生命周期边界回收已死亡 parser/full-migration 图，并配合 COW、窄视图与流式摘要。
     `1168MiB` worker 超限即失败，不能把未处理 OOM 算作通过。
@@ -328,8 +342,8 @@ source-backed 归属，不能只改 Vitest include/exclude。
   **G8 accept**。相对开卡基线 484.72s/3.63GB，max RSS 降约 59%、wall median 降约 16%；
   COW/流式 digest/WeakMap 窄视图/1168MiB fail-loud 四机制真实、隔离正确、不破坏语义。
 
-  **G1/G7 仍 counter**（不在本次复核范围）：G1 逐项旧断言映射未闭合、G7 完整 shared 顺序
-  探针缺证。任务仍 rework，不得标记 done。未修改实现文件。
+  **G1/G7 旧结论保持历史记录**（不在该次复核范围）。本轮已补齐 44 条映射和低频真实 shared
+  order probe，尚待 Kimi/GLM 对新证据复审；任务仍 `rework`，不得标记 done。
 
 ## 用户验收
 
@@ -338,6 +352,13 @@ source-backed 归属，不能只改 Vitest include/exclude。
 
 ## 交接日志
 
+- 2026-08-03 Codex: G1 逐条映射落盘至 `docs/ops/audits/OPS-TST-PERF-g1-coverage-map.md`，固定 44 条旧
+  PAL-heavy 断言及其 fast-synthetic/oracle/canary/release-shared 后继证明；新增生产级
+  `appendOnlyTransitionState`，统一 C8/R13 七处四位发布状态判断，并以 16 个 mask fast 测试锁定
+  initialize/replay/14 种半状态 fail-closed。G7 新增真实 `release-pal-shared` 低频 order probe：一次
+  冷初始化后在同一 worker 中跑默认、逆序和 `20260802/03/04` 三个 seed，前后 lease digest 与
+  authority summary 一致；一手实跑 `1 file / 1 test`、`262.59s`。完整 shared shuffle 仍保留为历史
+  成本证据，不进入开发默认门。待 Kimi/GLM 对 G1/G7 复审，任务仍 `rework`，不得标记 done。
 - 2026-08-02 Codex: 根据用户要求把反复出现的 PAL 冷启动问题升级为独立测试基础设施任务；已记录 81k source-backed 基线、prepared replay 已修但 cold 未修、synthetic + canary 设计和性能验收目标。Next: 等 Kimi/GLM 设计审查，签齐后进入 build。
 - 2026-08-02 Kimi: 对 synthetic + compact oracle + 真冷 source-backed canary 原则性 agree；要求 synthetic 不冒充 source proof、canary 不命中待验证 cache、只允许进程内复用，并补输入漂移/返回值篡改/wrong profile/乱序/release fresh 负向矩阵。Evidence: 设计审查消息。Next: Codex 落实 G1–G8。
 - 2026-08-02 GLM: agree（附 G1–G8）；要求逐文件旧断言映射、87 files/623 tests 清单守恒、真实 CFG/census/integration/P2→P7→R13 canary 不删、cache provenance 与 release live rebuild、三次冷跑性能证据。Evidence: 覆盖审查消息。Next: Codex 进入 build。

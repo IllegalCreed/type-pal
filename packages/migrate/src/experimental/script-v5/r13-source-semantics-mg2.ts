@@ -15,6 +15,7 @@ import {
   collectSourceEntrySites,
   type ScriptControlFlowAuditV1,
 } from '../../script-control-flow-audit.js'
+import { appendOnlyTransitionState } from './append-only-transition-state.js'
 import { R13_ENEMY_SCRIPT_SUCCESSOR_CONTENT_DIGEST } from './r13-enemy-script-augmentation.js'
 import {
   R13_ENEMY_SCRIPT_SEAL_PATH,
@@ -495,20 +496,6 @@ function assertWarmAmbiencePrerequisite(args: {
     throw new Error(
       'R13 source semantics MG2: 外部 prerequisite content/ambiences.json 缺 warm/[255,230,102]',
     )
-}
-
-function transitionState(base: MigrationSnapshot): 'initialize' | 'replay' {
-  const metadata =
-    base.baselineMetadata?.transitions[R13_SOURCE_SEMANTICS_TRANSITION_ID] !== undefined
-  const file = base.files.has(R13_SOURCE_SEMANTICS_SEAL_PATH)
-  const managed = base.managedFiles.has(R13_SOURCE_SEMANTICS_SEAL_PATH)
-  const hash = base.hashes?.has(R13_SOURCE_SEMANTICS_SEAL_PATH) === true
-  if (!metadata && !file && !managed && !hash) return 'initialize'
-  if (metadata && file && managed && hash) return 'replay'
-  throw new Error(
-    `R13 source semantics MG2: transition 半状态 metadata=${metadata} file=${file} ` +
-      `managed=${managed} hash=${hash}`,
-  )
 }
 
 function assertPublishedEnemyParent(base: MigrationSnapshot): void {
@@ -1892,7 +1879,11 @@ export function createR13SourceSemanticsV5MigrationPlan(args: {
   preparedAuthority?: PreparedR13SourceSemanticsAuthority
 }): R13SourceSemanticsV5MigrationPlan {
   assertPublishedEnemyParent(args.base)
-  const sealMode = transitionState(args.base)
+  const sealMode = appendOnlyTransitionState(args.base, {
+    transitionId: R13_SOURCE_SEMANTICS_TRANSITION_ID,
+    sealPath: R13_SOURCE_SEMANTICS_SEAL_PATH,
+    errorPrefix: 'R13 source semantics MG2',
+  })
   assertProjectHasNoTransitionFiles(args.ours, 'project')
   assertWarmAmbiencePrerequisite(args)
 

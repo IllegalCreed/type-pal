@@ -4,6 +4,7 @@ import { validateScenesV5 } from '@type-pal/content'
 import type { MigrationSnapshot } from '../../migration-baseline.js'
 import type { MigrationFileSet, MigrationJson, PalMigrationSources } from '../../pal-migration.js'
 import type { ScriptControlFlowAuditV1 } from '../../script-control-flow-audit.js'
+import { appendOnlyTransitionState } from './append-only-transition-state.js'
 import type { P7GeneratedCanonical } from './p7-generated.js'
 import {
   createR13CadenceV5MigrationPlan,
@@ -222,20 +223,6 @@ function publishedCadenceDigest(base: MigrationSnapshot): string {
   if (actual !== expected)
     throw new Error('R13 cross activation MG2: R13 cadence seal 与 metadata 不符')
   return actual
-}
-
-function crossActivationState(base: MigrationSnapshot): 'initialize' | 'replay' {
-  const metadata =
-    base.baselineMetadata?.transitions[R13_CROSS_ACTIVATION_TRANSITION_ID] !== undefined
-  const file = base.files.has(R13_CROSS_ACTIVATION_SEAL_PATH)
-  const managed = base.managedFiles.has(R13_CROSS_ACTIVATION_SEAL_PATH)
-  const hash = base.hashes?.has(R13_CROSS_ACTIVATION_SEAL_PATH) === true
-  if (!metadata && !file && !managed && !hash) return 'initialize'
-  if (metadata && file && managed && hash) return 'replay'
-  throw new Error(
-    `R13 cross activation MG2: transition 半状态 metadata=${metadata} file=${file} ` +
-      `managed=${managed} hash=${hash}`,
-  )
 }
 
 function stripCrossActivationControl(
@@ -879,7 +866,11 @@ export function createR13CrossActivationV5MigrationPlan(args: {
   preparedCadenceAuthority?: PreparedR13CadenceAuthority
   preparedAuthority?: PreparedR13CrossActivationAuthority
 }): R13CrossActivationV5MigrationPlan {
-  const crossActivationSealMode = crossActivationState(args.base)
+  const crossActivationSealMode = appendOnlyTransitionState(args.base, {
+    transitionId: R13_CROSS_ACTIVATION_TRANSITION_ID,
+    sealPath: R13_CROSS_ACTIVATION_SEAL_PATH,
+    errorPrefix: 'R13 cross activation MG2',
+  })
   const publishedParentDigest = publishedCadenceDigest(args.base)
   if (
     args.generated.snapshot.files.has(R13_CROSS_ACTIVATION_SEAL_PATH) ||

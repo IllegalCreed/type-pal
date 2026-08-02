@@ -7,6 +7,7 @@ import {
 } from '../../migration-baseline.js'
 import type { MigrationFileSet, MigrationJson, PalMigrationSources } from '../../pal-migration.js'
 import type { ScriptControlFlowAuditV1 } from '../../script-control-flow-audit.js'
+import { appendOnlyTransitionState } from './append-only-transition-state.js'
 import { C8_ITEM_USE_SEAL_PATH } from './c8-item-use-mg2.js'
 import type { P7GeneratedCanonical } from './p7-generated.js'
 import { P7_FULL_LEDGER_PATH } from './p7-mg2.js'
@@ -253,19 +254,6 @@ function publishedConfirmDigest(base: MigrationSnapshot): string {
   if (actual !== expected)
     throw new Error('R13 enemy script MG2: R13 confirm seal 与 metadata 不符')
   return actual
-}
-
-function transitionState(base: MigrationSnapshot): 'initialize' | 'replay' {
-  const metadata = base.baselineMetadata?.transitions[R13_ENEMY_SCRIPT_TRANSITION_ID] !== undefined
-  const file = base.files.has(R13_ENEMY_SCRIPT_SEAL_PATH)
-  const managed = base.managedFiles.has(R13_ENEMY_SCRIPT_SEAL_PATH)
-  const hash = base.hashes?.has(R13_ENEMY_SCRIPT_SEAL_PATH) === true
-  if (!metadata && !file && !managed && !hash) return 'initialize'
-  if (metadata && file && managed && hash) return 'replay'
-  throw new Error(
-    `R13 enemy script MG2: transition 半状态 metadata=${metadata} file=${file} ` +
-      `managed=${managed} hash=${hash}`,
-  )
 }
 
 function stripControl(
@@ -638,7 +626,11 @@ export function createR13EnemyScriptV5MigrationPlan(args: {
   preparedCurrentSourceCensus?: PreparedR13SourceExecutionCensus
   preparedAuthority?: PreparedR13EnemyScriptAuthority
 }): R13EnemyScriptV5MigrationPlan {
-  const enemyScriptSealMode = transitionState(args.base)
+  const enemyScriptSealMode = appendOnlyTransitionState(args.base, {
+    transitionId: R13_ENEMY_SCRIPT_TRANSITION_ID,
+    sealPath: R13_ENEMY_SCRIPT_SEAL_PATH,
+    errorPrefix: 'R13 enemy script MG2',
+  })
   const parentDigest = publishedConfirmDigest(args.base)
   if (
     args.ours.files.has(R13_ENEMY_SCRIPT_SEAL_PATH) ||

@@ -2,6 +2,7 @@ import { isDeepStrictEqual } from 'node:util'
 import type { MigrationSnapshot } from '../../migration-baseline.js'
 import type { MigrationFileSet, MigrationJson, PalMigrationSources } from '../../pal-migration.js'
 import type { ScriptControlFlowAuditV1 } from '../../script-control-flow-audit.js'
+import { appendOnlyTransitionState } from './append-only-transition-state.js'
 import {
   assertEquipBattleSpriteFinalTargetClosure,
   assertEquipBattleSpriteUpgradeBacked,
@@ -165,19 +166,6 @@ function publishedItemThrowDigest(base: MigrationSnapshot): string {
   const actual = recordDigest(base.files.get(R13_ITEM_THROW_SEAL_PATH), R13_ITEM_THROW_SEAL_PATH)
   if (actual !== expected) throw new Error('R13 confirm MG2: R13 item-throw seal 与 metadata 不符')
   return actual
-}
-
-function transitionState(base: MigrationSnapshot): 'initialize' | 'replay' {
-  const metadata = base.baselineMetadata?.transitions[R13_CONFIRM_TRANSITION_ID] !== undefined
-  const file = base.files.has(R13_CONFIRM_SEAL_PATH)
-  const managed = base.managedFiles.has(R13_CONFIRM_SEAL_PATH)
-  const hash = base.hashes?.has(R13_CONFIRM_SEAL_PATH) === true
-  if (!metadata && !file && !managed && !hash) return 'initialize'
-  if (metadata && file && managed && hash) return 'replay'
-  throw new Error(
-    `R13 confirm MG2: transition 半状态 metadata=${metadata} file=${file} ` +
-      `managed=${managed} hash=${hash}`,
-  )
 }
 
 function stripControl(
@@ -565,7 +553,11 @@ export function createR13ConfirmV5MigrationPlan(args: {
   preparedAuthority?: PreparedR13ConfirmAuthority
   preparedControlAuditAuthority?: PreparedR13ConfirmControlAuditAuthority
 }): R13ConfirmV5MigrationPlan {
-  const confirmSealMode = transitionState(args.base)
+  const confirmSealMode = appendOnlyTransitionState(args.base, {
+    transitionId: R13_CONFIRM_TRANSITION_ID,
+    sealPath: R13_CONFIRM_SEAL_PATH,
+    errorPrefix: 'R13 confirm MG2',
+  })
   if (args.ours.files.has(R13_CONFIRM_SEAL_PATH) || args.ours.hashes?.has(R13_CONFIRM_SEAL_PATH))
     throw new Error('R13 confirm MG2: project 不得携带 confirm seal')
 
