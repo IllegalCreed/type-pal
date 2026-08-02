@@ -522,14 +522,27 @@ PAL 的 33 件武器中另有 13 件允许多角色，但这些物品当前都�
 | Agent | 签字 | 日期 | 证据 / 备注 |
 |---|---|---|---|
 | Codex | **accept** | 2026-07-30 | 逐层复核 `EquipEffect.byActor`、v8→v9 fail-loud 升级、validator/refs、唯一 runtime 派生口、Editor 多角色行/剪枝/单效果约束、上游 7 件 authority 与正式 content9 落盘。专项复跑：content 4 files / 138 tests、editor 1 / 11、reforge 1 / 2、migrate 1 / 4 全绿；四包 typecheck 全绿。R13-4 formal 审查已独立对账 PAL 7 件 items 与 content9 seal，但这里只作为交叉证据，不替代 E1 两席 implementation review。 |
-| Kimi | **pending** | — | 需只读审查 schema/runtime/version/Editor 交互与 R13-4 联合 epoch 边界，签 `accept` 或给出 `counter`。 |
+| Kimi | **accept** | 2026-07-30 | schema/runtime/version/Editor 交互与联合 epoch 边界只读审查通过：byActor Object.hasOwn 按 template 分流且未命中不抹前置（item.ts:440-447）；validator exact keys/单效果/非空修剪 fail-closed；Editor 逐行 picker 无映射行显示「不覆写」（P3 落实）、取消角色同命令剪枝、undo/redo 一笔、单效果双闸；上游 0x1A row=1 复制全 equipableBy、空则 pending 不静默、assertPalMappings 精确集合闭包；产物程序化核对恰 7 件映射正确、73 件 multi-role 无 byActor、无顺手改动；readiness 唯一派生口消费方零改动获益；v8→v9 升级幂等/半状态/零角色 fail-loud；E1 与 R13-4 联合 content9 符合设计 8 并入条件（R13-4 未先发布）。P1 已落实（items 在 R13-4 首跑清单与 seal 交叉证据内）；P2 以闭包断言+测试等价满足（见记录项）。accept 仅代表 E1 实现可送 GLM 复核，不代表 E1/ED-5I done。 |
 | GLM | **pending** | — | 需只读复核 7/7 数据守恒、13 件 multi-role non-override、validator/upgrade/MG2/测试矩阵，签 `accept` 或给出 `counter`。 |
 
-- **当前门禁**：E1 implementation candidate 已提交，Codex `accept`；Kimi / GLM
-  implementation review pending。两席未齐前不得把 E1 或 ED-5I 标 done，也不得把 R13-4 对
+- **当前门禁**：E1 implementation candidate 已提交，Codex / Kimi `accept`；**GLM
+  implementation review pending**。GLM 未签前不得把 E1 或 ED-5I 标 done，也不得把 R13-4 对
   items 的交叉审查改写成 E1 正式验收。
 - **并行边界**：Codex 可继续 R13-5 的只读 census / delta 设计；若 E1 出现 `counter`，须在
   下一内容 epoch 发布前先返工并重新生成，不得让错误 authority 继续向后累积。
+- 2026-07-30 Kimi：完成 E1 实现审查，签 **accept**。一手核对：item.ts:32 byActor 联合、
+  :440-447 Object.hasOwn 按 template 分流且未命中槽不抹前置命中、transient 层级不变；
+  validate.ts:853-883 exact keys/单效果/修剪 fail-closed；Editor 逐行 picker「不覆写」
+  空值文案（ItemTab.test.tsx:378-401）、同命令剪枝 undo/redo 一笔（:403-424）、第二效果
+  disabled + validator 双闸；migrate-content.ts:786-802 复制全 equipableBy、空 pending、
+  authority 精确集合闭包（equip-battle-sprite-v8-authority.ts:78-86）；产物恰 7 件映射
+  （163/164/165→lin-yueru:player-fighter-6、179/185/187/188→anu:player-fighter-7）、
+  73 件 multi-role 无 byActor；readiness 唯一派生口；复跑 content 138/editor 11/
+  reforge epoch-v9 9+readiness 2/migrate authority 4 全绿。
+  记录项（非反例）：P2「13 multi-role non-override 名单」未以名单字段入 evidence，实际由
+  assertPalMappings 精确集合闭包（发明映射即漂移 fail-loud）+ migrate-content.test.ts:264-272
+  显式断言等价满足，予以认可不再要求补字段；R13-4 与 E1 已同提交 6a8296a1 入库，此前
+  "实现未提交"记录项随之销账。未修改实现文件。
 
 ## 用户验收
 
