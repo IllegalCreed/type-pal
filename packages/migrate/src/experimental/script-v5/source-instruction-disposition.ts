@@ -4029,9 +4029,6 @@ function buildR13SourceInstructionDispositionInternal(
   const finalSnapshotDigest = sameSnapshotIdentity(args.final, args.generated.snapshot)
     ? augmentedSnapshotDigest
     : digestR13ContentSnapshot(args.final)
-  const sortedEvidence = [...evidence.values()].sort((left, right) =>
-    stableStringCompare(left.id, right.id),
-  )
   const reportBody = {
     generator: {
       sourceDigest: census.generator.sourceDigest,
@@ -4070,7 +4067,7 @@ function buildR13SourceInstructionDispositionInternal(
       finalDigest: finalSnapshotDigest,
     },
     census,
-    evidence: sortedEvidence,
+    evidence: [...evidence.values()].sort((left, right) => stableStringCompare(left.id, right.id)),
     dispositions,
     observations,
     summary: {
@@ -4086,35 +4083,6 @@ function buildR13SourceInstructionDispositionInternal(
       openObservations,
     },
   }
-  // The sealed report owns the sorted evidence/disposition/observation arrays from here onward.
-  // Release construction-only indexes before hashing the report; retaining their backing stores
-  // used to overlap the 81k-site report serialization and dominate the cold-canary RSS peak.
-  for (const index of [
-    bodies.translatedByAddress,
-    bodies.foldedByAddress,
-    noops,
-    domain.projections,
-    domain.openRoots,
-    c8Observations,
-    enemyClosure.sites,
-    enemyClosure.observations,
-    canonical,
-    c8Sites,
-    repairs,
-    crossActivation,
-    confirm,
-    assets,
-    callOwners,
-    exact,
-    contexts,
-    baseCandidateEvidenceByAddress,
-    sites,
-  ])
-    index.clear()
-  existingSchemaClosure?.sites.clear()
-  existingSchemaClosure?.skillCosts.clear()
-  existingSchemaClosure?.currentLossySkills.clear()
-  evidence.clear()
   if (options.confirmClosure)
     return sealR13SourceInstructionDispositionV3({
       kind: 'r13-source-instruction-disposition',
