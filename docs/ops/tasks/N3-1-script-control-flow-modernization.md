@@ -6713,6 +6713,65 @@ site oracle、技能 item-cost 迁移和性能分层后的 fast 门。现有 sou
 上方 `11/11` 与 `0/0/0` 记录为准，未用 fast 门替代冷门。下一步交 Kimi 做架构/信任边界审查，
 交 GLM 做数据守恒/测试矩阵审查；两席未 `accept` 前不得改 6A 状态、启动 6B 或标 N3-1 done。
 
+#### 给 Kimi（R13-6A prepared authority / runtime 边界实现审查）——待执行
+
+```text
+审查任务：N3-1 R13-6A 既有 schema 技能/palette 源语义闭包
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态：N3-1 总体 build；R13-6A implementation review，Codex=accept，Kimi/GLM=pending。
+你的职责：只读架构/runtime/MG2 主审，不修改实现、生成产物、baseline、seal 或其他签字。
+
+先读：AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md；本卡 R13-6A 源账、implementation
+candidate、性能边界与本签字区；packages/migrate/src/experimental/script-v5/
+{r13-source-semantics-mg2,r13-existing-schema-augmentation,r13-source-semantics-canary,
+runtime-capability-audit,runtime-capability-audit-v3}.ts；packages/migrate/src/{pal-migration,
+translate-events,pal-palette-sites}.ts。
+
+必须独立核对：
+1. prepared authority 是否绑定 historical/current 两个 source identity，拒绝同一对象替换、
+   内容漂移、自洽重签和 successor 5750ac4f…/parent 4d4bcbdb… 身份混用；
+2. R13-6A 22 source sites、3 item-cost 的 existing-schema augmentation 与 14 palette
+   day/warm/asset-baked 处理是否 fail-closed，且不复活 palette schema/全局状态；
+3. historical-r13-4 / current-r13-6a runtime profile 是否隔离，R13-5/R13-6A replay 与
+   current target 的 capability audit 是否使用正确矩阵；
+4. append-only baseline/seal、作者 target 三方合并、旧 control byte-pin 和 0/0/0 replay 是否
+   没有把 fast/canary 证据冒充 release 冷门；
+5. 独立运行可承受的 unit/fast 门；如能运行 release-pal-shared，记录 11/11 与 wall/RSS。
+
+输出：在本卡“R13-6A implementation review 签字”Kimi 行签 accept，或写 counter（精确
+file:line、复现命令、最小返工）；只写自己的交接记录，不标 R13-6A/N3-1/C8/ED-5I done。
+```
+
+#### 给 GLM（R13-6A source disposition / 覆盖矩阵实现审查）——待执行
+
+```text
+审查任务：N3-1 R13-6A 技能/palette 数据守恒、MG2 与测试矩阵
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态：N3-1 总体 build；R13-6A implementation review，Codex=accept，Kimi/GLM=pending。
+你的职责：只读数据/迁移/测试主审，不修改实现、生成产物、baseline、seal 或其他签字。
+
+先读：AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md；本卡 R13-6A 当前源账与签字区；
+docs/ops/tasks/OPS-TST-PERF-test-fixture-stratification.md；packages/migrate/src/experimental/
+script-v5/{r13-source-semantics-mg2,r13-existing-schema-augmentation,source-instruction-
+disposition,r13-source-semantics-canary}.ts；packages/migrate/src/{pal-palette-sites,
+migrate-content,translate-events}.ts；projects/pal/content/ambiences.json。
+
+必须独立核对：
+1. 22 site / 3 skill-cost / 16 scene / 17 changed-file cardinality，source address/context/hash
+   与 final command closure 是否逐项守恒；352/372/373 的 item 148 成本是否仅由源链生成；
+2. 14 palette 是否精确为 5 day + 5 warm + 4 asset-baked，palette index 漂移和未知地址是否
+   fail-loud，6B 的 7 shake/4 lossy/0x76/loadScene 债务是否仍明确 open；
+3. raw/augmented/final observation delta、R13-5 parent 215/197 隔离、owned observation
+   +3 拆分与 orphan/cardinality/layer validator 是否成立；
+4. MG2 initialize 17 writes、append-only seal、历史 control byte-pin、作者改动保护与 replay
+   0/0/0 是否完整；不得把“final 有技能”当成源语义闭合；
+5. 独立运行 `pnpm --filter @type-pal/migrate run check:fast` 或定向 PAL 门并记录实际数字，
+   不以提高 timeout/跳过 source-backed 证明代替覆盖。
+
+输出：在本卡“R13-6A implementation review 签字”GLM 行签 accept，或写 counter（精确
+数字/selector/digest/测试与最小返工）；只写自己的交接记录，不标 R13-6A/N3-1/C8/ED-5I done。
+```
+
 ##### R13-6B：公共 schema / 表现状态 delta（draft，blocked）
 
 以下能力现模型不能无损表达，必须先形成最小设计并重新取得 Codex / Kimi / GLM 三方
