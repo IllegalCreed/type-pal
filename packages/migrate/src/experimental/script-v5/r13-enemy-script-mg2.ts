@@ -320,8 +320,8 @@ function buildAuditSeal(
   const finalOpenR13_6Observations = finalOpenObservationsForBatch(sourceDisposition, 'R13-6')
   if (
     sourceDisposition.summary.executionSites !== 81_674 ||
-    sourceDisposition.summary.openDebtSites !== 10_581 ||
-    sourceDisposition.summary.openObservations !== 6_624 ||
+    sourceDisposition.summary.openDebtSites !== 6_651 ||
+    sourceDisposition.summary.openObservations !== 6_055 ||
     finalOpenR13_5Sites !== 0 ||
     finalOpenR13_5Observations !== 0 ||
     finalOpenR13_6Sites !== 215 ||

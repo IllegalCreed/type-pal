@@ -271,6 +271,21 @@ export type R13DispositionEvidence =
       >
     })
   | (SiteClosureEvidenceBase & {
+      kind: 'folded-hostile-site'
+      proves: 'folded'
+      sceneId: string
+      entityId: string
+      channel: 'trigger' | 'auto'
+      sourceRootId: string
+      sourceClosureDigest: string
+      foldedRootIds: string[]
+      foldedRootsDigest: string
+      translationOutcomeDigest: string
+      targetSelectors: string[]
+      targetDigests: string[]
+      layerTargets: Partial<Record<R13DispositionLayer, ExactLayerTargets>>
+    })
+  | (SiteClosureEvidenceBase & {
       kind: 'r13-cross-activation-site'
       proves: 'structured'
       family:
@@ -501,7 +516,7 @@ const EVIDENCE_KINDS: Record<
     'r13-enemy-script-site',
     'r13-existing-schema-site',
   ]),
-  folded: new Set(['canonical-site']),
+  folded: new Set(['canonical-site', 'folded-hostile-site']),
   'asset-baked': new Set(['asset-bake']),
   'runtime-equivalent': new Set(['runtime-equivalent']),
   'explicit-noop': new Set(['verified-noop']),
@@ -1898,6 +1913,143 @@ function sceneRepairEvidence(args: {
         disposition: 'structured',
         evidenceId: id,
       })
+    }
+  }
+  return result
+}
+
+/**
+ * 标准野怪的 trigger/auto 脚本在 M3/B9 已被结构化折叠进 Entity.hostile。旧 source
+ * ledger 只看仍保留的 ScriptBody，因此会漏掉 chase/goto/end 等被 hostile runner
+ * 接管的源站点。这里不按 opcode 猜测：只有生产迁移明确记录在 foldedHostileRoots、
+ * census 又证明属于同一个直接实体入口，且 raw/augmented/final 的 hostile 目标逐层
+ * 精确相等时，才允许把该 site 记为 folded。
+ */
+function foldedHostileSiteEvidence(args: {
+  migration: MigrationFileSet
+  generated: R13SourceDispositionGeneratedInput
+  final: MigrationSnapshot
+  census: R13SourceExecutionCensusV1
+  evidence: Map<string, R13DispositionEvidence>
+}): Map<string, ProjectionEvidence> {
+  const result = new Map<string, ProjectionEvidence>()
+  const contexts = contextById(args.census)
+  const outcomesByBody = new Map<string, TranslateInstructionOutcome[]>()
+  for (const outcome of args.migration.report.scripts.instructionOutcomes) {
+    if (!outcome.bodyId) continue
+    const outcomes = outcomesByBody.get(outcome.bodyId) ?? []
+    outcomes.push(outcome)
+    outcomesByBody.set(outcome.bodyId, outcomes)
+  }
+  const rawSnapshot = migrationSnapshot(args.migration)
+
+  for (const folded of [...args.migration.report.foldedHostileRoots].sort(
+    (left, right) =>
+      stableStringCompare(left.sceneId, right.sceneId) ||
+      stableStringCompare(left.entityId, right.entityId),
+  )) {
+    const identity: CanonicalTargetIdentity = {
+      kind: 'folded-hostile',
+      sceneId: folded.sceneId,
+      entityId: folded.entityId,
+    }
+    const rawTarget = exactCanonicalLayerTargets(rawSnapshot, [identity])
+    const augmentedTarget = exactCanonicalLayerTargets(args.generated.snapshot, [identity])
+    const finalTarget = exactCanonicalLayerTargets(args.final, [identity])
+    if (!rawTarget || !augmentedTarget || !sameExactTargets(rawTarget, augmentedTarget))
+      throw new Error(
+        `R13 disposition: folded hostile ${folded.sceneId}/${folded.entityId} ` +
+          `raw/augmented target 漂移`,
+      )
+    const appliesToLayers: R13DispositionLayer[] = [
+      'raw',
+      'augmented',
+      ...(finalTarget && sameExactTargets(augmentedTarget, finalTarget)
+        ? (['final'] as const)
+        : []),
+    ]
+    const layerTargets: Partial<Record<R13DispositionLayer, ExactLayerTargets>> = {
+      raw: rawTarget,
+      augmented: augmentedTarget,
+      ...(finalTarget ? { final: finalTarget } : {}),
+    }
+
+    for (const channel of ['trigger', 'auto'] as const) {
+      const rootPattern = new RegExp(
+        `^folded/hostile/${folded.sceneId}/${folded.entityId}/${channel}/stage-[0-9]+$`,
+      )
+      const roots = folded.roots
+        .filter((root) => rootPattern.test(root.id))
+        .sort((left, right) => stableStringCompare(left.id, right.id))
+      if (!roots.length) continue
+      const foldedRootIds = roots.map((root) => root.id)
+      const translationOutcomes = sortedInstructionOutcomes(
+        foldedRootIds.flatMap((bodyId) => outcomesByBody.get(bodyId) ?? []),
+      )
+      if (
+        foldedRootIds.some(
+          (bodyId) => !translationOutcomes.some((outcome) => outcome.bodyId === bodyId),
+        ) ||
+        translationOutcomes.some(
+          (outcome) => outcome.outcome === 'gap' || outcome.outcome === 'deferred',
+        )
+      )
+        throw new Error(
+          `R13 disposition: folded hostile ${folded.sceneId}/${folded.entityId}/${channel} ` +
+            `translation outcome 不闭合`,
+        )
+
+      const sourceRootId = `${folded.sceneId}/${folded.entityId}/${channel}`
+      const matchingContexts = args.census.contexts.filter(
+        (context) =>
+          context.entrySiteId === sourceRootId &&
+          context.host.sourceId === sourceRootId &&
+          context.host.kind === `entity-${channel}` &&
+          context.channel === channel,
+      )
+      if (!matchingContexts.length)
+        throw new Error(`R13 disposition: folded hostile source root 缺失 ${sourceRootId}`)
+      const contextIds = new Set(matchingContexts.map((context) => context.id))
+      const sites = args.census.sites.filter((site) => contextIds.has(site.contextId))
+      if (!sites.length)
+        throw new Error(`R13 disposition: folded hostile source sites 缺失 ${sourceRootId}`)
+      const sourceDigest = sourceClosureDigest(args.census, sourceRootId)
+      const foldedRootsDigest = stableJsonSha256(roots)
+      const translationOutcomeDigest = stableJsonSha256(translationOutcomes)
+      for (const site of sites) {
+        if (result.has(site.id))
+          throw new Error(`R13 disposition: folded hostile site collision ${site.id}`)
+        const instruction = args.census.instructions[site.address]
+        if (!instruction)
+          throw new Error(`R13 disposition: folded hostile site 缺 source ${site.id}`)
+        const identity = {
+          siteId: site.id,
+          sceneId: folded.sceneId,
+          entityId: folded.entityId,
+          channel,
+          sourceRootId,
+          sourceClosureDigest: sourceDigest,
+          foldedRootIds,
+          foldedRootsDigest,
+          translationOutcomeDigest,
+          targetSelectors: augmentedTarget.selectors,
+          targetDigests: augmentedTarget.digests,
+          appliesToLayers,
+          layerTargets,
+        }
+        const id = evidenceId('folded-hostile-site', identity)
+        addEvidence(args.evidence, {
+          id,
+          scope: 'site-closure',
+          kind: 'folded-hostile-site',
+          proves: 'folded',
+          contextId: site.contextId,
+          addresses: [site.address],
+          sourceCommandSha256: instruction.sourceCommandSha256,
+          ...identity,
+        })
+        result.set(site.id, { disposition: 'folded', evidenceId: id })
+      }
     }
   }
   return result
@@ -3864,6 +4016,15 @@ function buildR13SourceInstructionDispositionInternal(
     census,
     evidence,
   })
+  const foldedHostiles = args.bindIndirectEntityBodies
+    ? foldedHostileSiteEvidence({
+        migration: args.migration,
+        generated: args.generated,
+        final: historicalFinal,
+        census,
+        evidence,
+      })
+    : new Map<string, ProjectionEvidence>()
   const crossActivation = r13CrossActivationSiteEvidence({
     generated: args.generated,
     final: historicalFinal,
@@ -3900,6 +4061,7 @@ function buildR13SourceInstructionDispositionInternal(
   for (const index of [
     c8Sites,
     repairs,
+    foldedHostiles,
     crossActivation,
     confirm,
     enemyClosure.sites,
@@ -4486,6 +4648,14 @@ function assertR13SourceInstructionDispositionBacked(
     census: report.census,
     evidence: trustedSiteEvidence,
   })
+  if (source.bindIndirectEntityBodies)
+    foldedHostileSiteEvidence({
+      migration: source.migration,
+      generated: source.generated,
+      final: historicalFinal,
+      census: report.census,
+      evidence: trustedSiteEvidence,
+    })
   r13CrossActivationSiteEvidence({
     generated: source.generated,
     final: historicalFinal,
@@ -4980,6 +5150,55 @@ function assertR13SourceInstructionDispositionInternal(
         (!entry.layerTargets.final || !sameExactTargets(augmented, entry.layerTargets.final))
       )
         throw new Error(`R13 disposition: evidence ${entry.id} final site target 漂移`)
+    }
+    if (entry.kind === 'folded-hostile-site') {
+      const site = sites.get(entry.siteId)
+      const context = site ? contexts.get(site.contextId) : undefined
+      const instruction = site ? report.census.instructions[site.address] : undefined
+      const raw = entry.layerTargets.raw
+      const augmented = entry.layerTargets.augmented
+      if (
+        !site ||
+        !context ||
+        !instruction ||
+        entry.contextId !== site.contextId ||
+        entry.addresses.length !== 1 ||
+        entry.addresses[0] !== site.address ||
+        entry.sourceCommandSha256 !== instruction.sourceCommandSha256 ||
+        entry.sourceRootId !== `${entry.sceneId}/${entry.entityId}/${entry.channel}` ||
+        context.entrySiteId !== entry.sourceRootId ||
+        context.host.sourceId !== entry.sourceRootId ||
+        context.host.kind !== `entity-${entry.channel}` ||
+        context.channel !== entry.channel ||
+        entry.foldedRootIds.length === 0 ||
+        entry.foldedRootIds.some(
+          (rootId) =>
+            !new RegExp(
+              `^folded/hostile/${entry.sceneId}/${entry.entityId}/${entry.channel}/stage-[0-9]+$`,
+            ).test(rootId),
+        ) ||
+        !/^[0-9a-f]{64}$/.test(entry.sourceClosureDigest) ||
+        !/^[0-9a-f]{64}$/.test(entry.foldedRootsDigest) ||
+        !/^[0-9a-f]{64}$/.test(entry.translationOutcomeDigest) ||
+        !raw ||
+        !augmented ||
+        !entry.appliesToLayers.includes('raw') ||
+        !entry.appliesToLayers.includes('augmented') ||
+        !sameExactTargets(raw, augmented) ||
+        stableJsonSha256(augmented.selectors) !== stableJsonSha256(entry.targetSelectors) ||
+        stableJsonSha256(augmented.digests) !== stableJsonSha256(entry.targetDigests)
+      )
+        throw new Error(`R13 disposition: evidence ${entry.id} folded hostile identity 漂移`)
+      assertSortedUniqueStrings(entry.foldedRootIds, `evidence ${entry.id} folded roots`)
+      assertSortedUniqueStrings(entry.targetSelectors, `evidence ${entry.id} selectors`)
+      for (const digest of entry.targetDigests)
+        if (!/^[0-9a-f]{64}$/.test(digest))
+          throw new Error(`R13 disposition: evidence ${entry.id} target digest 无效`)
+      if (
+        entry.appliesToLayers.includes('final') &&
+        (!entry.layerTargets.final || !sameExactTargets(augmented, entry.layerTargets.final))
+      )
+        throw new Error(`R13 disposition: evidence ${entry.id} final hostile target 漂移`)
     }
     if (entry.kind === 'r13-enemy-script-site') {
       const site = sites.get(entry.siteId)

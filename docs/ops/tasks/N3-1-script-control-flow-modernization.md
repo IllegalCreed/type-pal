@@ -7232,6 +7232,37 @@ raw/augmented/final canonical target，只是 context join 没有把证明接起
 处理 dynamic binding 未物化正文、item use/domain projection 和其余显式债务，再执行
 runtime/save/browser/remigration 最终门禁。
 
+##### R13-Z folded hostile source-site 精确销账（2026-08-03，进行中）
+
+继续拆分 `unclassified-reachable-source-site` 后确认，最大一块并非未迁移指令，而是 M3/B9
+生产迁移已把标准野怪的 trigger/auto 脚本折叠为 `Entity.hostile`，source ledger 却只认仍保留的
+`ScriptBody`，因此 chase/goto/end 等由 hostile runner 接管的源站点没有闭包证据。
+
+- 新增 `folded-hostile-site` site closure，不按 opcode 或实体外形猜测；每条证明必须同时绑定
+  `migration.report.foldedHostileRoots` 的精确 folded body、无 `gap/deferred` 的 instruction outcome、
+  同一直接实体入口的 census context/source closure digest，以及 raw/augmented/final
+  `content/scenes/<scene>.json#entity/<entity>/hostile` 的逐层精确 target digest。动态实体、跨实体、
+  跨场景和 target 漂移均 fail closed。
+- 该证明只在 R13-5/R13-6 显式开启的 `bindIndirectEntityBodies` authority 生效；第一次深度复跑
+  发现无门控验证会让已发布 R13-confirm source report 从 `48e473...` 漂移，随即补上 build/assert
+  双侧门控。修正后 MG2 initialize 1/1 通过，confirm 已发布 seal 原样 replay，没有重冻历史封印。
+- R13-5 parent open debt 从 `10,581 / 6,624` 降至 `6,651 / 6,055`，精确关闭 `3,930`
+  个执行站点和 `569` 个观察项；R13-6A successor 相应为 `6,629 / 6,033`，其 22 条 allowlist
+  delta 未扩大。当前 R13-5 parent source-ledger digest 为
+  `ada855728445050c8da9cf30870f98bde0f942f69149cb1c3026d40aabf08f1b`，6A successor
+  source-disposition digest 为
+  `7ab030b2a0e5f19ac83738857c9b10b8f927293e3d7524723b3a333ce0eac9a9`。
+- live source-backed canary golden 仅因上述 source control/evidence 链更新；augmentation digest、
+  successor content digest、changed files/writes/deletes/conflicts 均未变化。P0 frozen digest
+  `dd42217c87ece120140dd302e735460cc48b2570fd993e2c35d614bbc0303004` 和 published transition
+  文件均未修改。
+
+验证：migrate typecheck 与 `git diff --check` 通过；fast 75 files / 558 passed / 5 skipped
+（20.04s）、`test:oracle:verify` 2/2（1.89s）；`release-pal-shared` 的 MG2 initialize 单测
+1/1（2 skipped，361.37s）通过；`test:canary` 最终 2/2（230.13s）通过；oracle 只同步
+production source tree fingerprint、live golden 及其投影摘要。R13-Z 仍未关闭；下一步继续处理
+剩余 dynamic binding、item use/domain projection 与其余显式债务。
+
 ##### R13-6B implementation review 交接提示词（下一位 Agent 可直接复制）
 
 ```text
