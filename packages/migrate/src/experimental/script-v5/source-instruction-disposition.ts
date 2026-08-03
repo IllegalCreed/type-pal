@@ -259,6 +259,21 @@ export type R13DispositionEvidence =
       >
     })
   | (SiteClosureEvidenceBase & {
+      kind: 'c8-source-site'
+      proves: 'structured'
+      itemId: string
+      channel: 'use'
+      sourceRootId: string
+      sourceClosureDigest: string
+      c8EvidenceDigest: string
+      c8OwnedTargetsDigest: string
+      targetSelectors: string[]
+      targetDigests: string[]
+      layerTargets: Partial<
+        Record<'augmented' | 'final', { selectors: string[]; digests: string[] }>
+      >
+    })
+  | (SiteClosureEvidenceBase & {
       kind: 'scene-semantic-repair'
       proves: 'structured'
       sceneId: string
@@ -510,6 +525,7 @@ const EVIDENCE_KINDS: Record<
     'canonical-site',
     'explicit-call-owner',
     'c8-site-repair',
+    'c8-source-site',
     'scene-semantic-repair',
     'r13-cross-activation-site',
     'r13-confirm-site',
@@ -1808,6 +1824,116 @@ function c8SiteEvidence(args: {
     layerTargets: layered.layerTargets,
   })
   return new Map([[site.id, { disposition: 'structured', evidenceId: id }]])
+}
+
+/**
+ * C8 已用 source-backed projector 把 20 个物品使用根投影为 canonical ItemUse，且把动态
+ * behavior/hook/locale/sprite 分配记录在 ownedTargets。旧 ledger 只有 @763 的 checkpoint
+ * 特例，导致同一批 C8 use closure 的其余 execution sites 仍停在 pending/candidate。这里仅
+ * 销 C8 的 use 根；item 137 的 throw 继续交给 R13-3，不能跨批借证。
+ */
+function c8SourceSiteEvidence(args: {
+  generated: R13SourceDispositionGeneratedInput
+  final: MigrationSnapshot
+  census: R13SourceExecutionCensusV1
+  commands: readonly ExpandedSourceCmd[]
+  evidence: Map<string, R13DispositionEvidence>
+  excludedSiteIds: ReadonlySet<string>
+}): Map<string, ProjectionEvidence> {
+  const result = new Map<string, ProjectionEvidence>()
+  const contexts = contextById(args.census)
+  const c8EvidenceDigest = stableJsonSha256(args.generated.c8Evidence)
+  const c8OwnedTargetsDigest = stableJsonSha256(args.generated.c8Evidence.ownedTargets)
+
+  for (const item of [...args.generated.c8Evidence.items].sort((left, right) =>
+    stableStringCompare(left.itemId, right.itemId),
+  )) {
+    const source = item.sourceRoots.find((candidate) => candidate.channel === 'use')
+    const target = item.targets.find((candidate) => candidate.channel === 'use')
+    if (!source || !target || target.identity.kind !== 'item-use')
+      throw new Error(`R13 disposition: C8 item ${item.itemId} use evidence 不闭合`)
+    if (source.address <= 0 || target.identity.itemId !== item.itemId)
+      throw new Error(`R13 disposition: C8 item ${item.itemId} use identity 漂移`)
+
+    const sourceRootId = `global/items/${item.itemId}/scriptOnUse`
+    const rootAddresses = addressesForRoot(args.census, sourceRootId)
+    if (!rootAddresses.includes(source.address))
+      throw new Error(`R13 disposition: C8 item ${item.itemId} use root @${source.address} 缺失`)
+    const augmentedTarget = exactItemCapabilityTarget(
+      args.generated.snapshot,
+      item.itemId,
+      'use',
+    )
+    if (
+      !augmentedTarget ||
+      augmentedTarget.digests.length !== 1 ||
+      augmentedTarget.digests[0] !== target.digest
+    )
+      throw new Error(`R13 disposition: C8 item ${item.itemId} use target 漂移`)
+    const layered = layeredTargets(
+      augmentedTarget,
+      exactItemCapabilityTarget(args.final, item.itemId, 'use'),
+    )
+    const contextIds = new Set(
+      args.census.contexts
+        .filter((context) => context.entrySiteId === sourceRootId)
+        .map((context) => context.id),
+    )
+    const sites = args.census.sites.filter(
+      (site) => contextIds.has(site.contextId) && !args.excludedSiteIds.has(site.id),
+    )
+    if (!contextIds.size)
+      throw new Error(`R13 disposition: C8 item ${item.itemId} use execution sites 缺失`)
+    if (!sites.length) continue
+    const sourceDigest = sourceClosureDigest(args.census, sourceRootId)
+
+    for (const site of sites) {
+      const context = contexts.get(site.contextId)
+      const instruction = args.census.instructions[site.address]
+      const command = args.commands[site.address]
+      if (!context || !instruction || !command || context.entrySiteId !== sourceRootId)
+        throw new Error(`R13 disposition: C8 item ${item.itemId} site identity 缺失 ${site.id}`)
+      // C8 root closure only proves the successfully projected item behavior. Explicit control/
+      // presentation debts retain their narrower R13 batch even when they share this closure.
+      if (
+        openDebtForSite({
+          site,
+          context,
+          command,
+          openRoots: new Map(),
+          exactClosures: new Set(),
+        })
+      )
+        continue
+      if (result.has(site.id)) throw new Error(`R13 disposition: C8 site collision ${site.id}`)
+      const identity = {
+        siteId: site.id,
+        itemId: item.itemId,
+        channel: 'use' as const,
+        sourceRootId,
+        sourceClosureDigest: sourceDigest,
+        c8EvidenceDigest,
+        c8OwnedTargetsDigest,
+        targetSelectors: augmentedTarget.selectors,
+        targetDigests: augmentedTarget.digests,
+        appliesToLayers: layered.appliesToLayers,
+        layerTargets: layered.layerTargets,
+      }
+      const id = evidenceId('c8-source-site', identity)
+      addEvidence(args.evidence, {
+        id,
+        scope: 'site-closure',
+        kind: 'c8-source-site',
+        proves: 'structured',
+        contextId: site.contextId,
+        addresses: [site.address],
+        sourceCommandSha256: instruction.sourceCommandSha256,
+        ...identity,
+      })
+      result.set(site.id, { disposition: 'structured', evidenceId: id })
+    }
+  }
+  return result
 }
 
 function sceneRepairEvidence(args: {
@@ -4057,6 +4183,29 @@ function buildR13SourceInstructionDispositionInternal(
     evidence,
     targetsByBody,
   })
+  const c8ExcludedSiteIds = new Set(
+    [
+      c8Sites,
+      repairs,
+      foldedHostiles,
+      crossActivation,
+      confirm,
+      enemyClosure.sites,
+      ...(existingSchemaClosure ? [existingSchemaClosure.sites] : []),
+      assets,
+      callOwners,
+    ].flatMap((index) => [...index.keys()]),
+  )
+  const c8SourceSites = args.bindIndirectEntityBodies
+    ? c8SourceSiteEvidence({
+        generated: args.generated,
+        final: historicalFinal,
+        census,
+        commands: args.sources.migrate.commands as ExpandedSourceCmd[],
+        evidence,
+        excludedSiteIds: c8ExcludedSiteIds,
+      })
+    : new Map<string, ProjectionEvidence>()
   const exact = new Map<string, ProjectionEvidence>()
   for (const index of [
     c8Sites,
@@ -4068,6 +4217,7 @@ function buildR13SourceInstructionDispositionInternal(
     ...(existingSchemaClosure ? [existingSchemaClosure.sites] : []),
     assets,
     callOwners,
+    c8SourceSites,
   ])
     for (const [siteId, projection] of index) {
       if (exact.has(siteId)) throw new Error(`R13 disposition: site closure collision ${siteId}`)
@@ -4636,39 +4786,42 @@ function assertR13SourceInstructionDispositionBacked(
   }
 
   const trustedSiteEvidence = new Map<string, R13DispositionEvidence>()
-  c8SiteEvidence({
+  const trustedC8Sites = c8SiteEvidence({
     generated: source.generated,
     final: historicalFinal,
     census: report.census,
     evidence: trustedSiteEvidence,
   })
-  sceneRepairEvidence({
+  const trustedRepairs = sceneRepairEvidence({
     generated: source.generated,
     final: historicalFinal,
     census: report.census,
     evidence: trustedSiteEvidence,
   })
-  if (source.bindIndirectEntityBodies)
-    foldedHostileSiteEvidence({
-      migration: source.migration,
-      generated: source.generated,
-      final: historicalFinal,
-      census: report.census,
-      evidence: trustedSiteEvidence,
-    })
-  r13CrossActivationSiteEvidence({
+  const trustedFoldedHostiles = source.bindIndirectEntityBodies
+    ? foldedHostileSiteEvidence({
+        migration: source.migration,
+        generated: source.generated,
+        final: historicalFinal,
+        census: report.census,
+        evidence: trustedSiteEvidence,
+      })
+    : new Map<string, ProjectionEvidence>()
+  const trustedCrossActivation = r13CrossActivationSiteEvidence({
     generated: source.generated,
     final: historicalFinal,
     census: report.census,
     evidence: trustedSiteEvidence,
   })
-  if (report.version === 3)
-    r13ConfirmSiteEvidence({
-      generated: source.generated,
-      final: historicalFinal,
-      census: report.census,
-      evidence: trustedSiteEvidence,
-    })
+  const trustedConfirm =
+    report.version === 3
+      ? r13ConfirmSiteEvidence({
+          generated: source.generated,
+          final: historicalFinal,
+          census: report.census,
+          evidence: trustedSiteEvidence,
+        })
+      : new Map<string, ProjectionEvidence>()
   const trustedEnemyClosure = source.r13EnemyClosure
     ? r13EnemyClosureEvidence({
         authority: source.r13EnemyClosure,
@@ -4680,7 +4833,7 @@ function assertR13SourceInstructionDispositionBacked(
         evidence: trustedSiteEvidence,
       })
     : undefined
-  assetEvidence({
+  const trustedAssets = assetEvidence({
     sources: source.sources,
     migration: source.migration,
     generated: source.generated,
@@ -4688,7 +4841,7 @@ function assertR13SourceInstructionDispositionBacked(
     census: report.census,
     evidence: trustedSiteEvidence,
   })
-  verifiedExplicitCallOwnerSites({
+  const trustedCallOwners = verifiedExplicitCallOwnerSites({
     sources: source.sources,
     migration: source.migration,
     audit: source.audit,
@@ -4701,6 +4854,29 @@ function assertR13SourceInstructionDispositionBacked(
   for (const proof of trustedExistingSchemaEvidence.values())
     addEvidence(trustedSiteEvidence, proof)
   const trustedExistingSchema = existingSchemaClosure
+  if (source.bindIndirectEntityBodies)
+    c8SourceSiteEvidence({
+      generated: source.generated,
+      final: historicalFinal,
+      census: report.census,
+      commands: source.sources.migrate.commands as ExpandedSourceCmd[],
+      evidence: trustedSiteEvidence,
+      excludedSiteIds: new Set(
+        [
+          trustedC8Sites,
+          trustedRepairs,
+          trustedFoldedHostiles,
+          trustedCrossActivation,
+          trustedConfirm,
+          trustedEnemyClosure?.sites,
+          existingSchemaClosure?.sites,
+          trustedAssets,
+          trustedCallOwners,
+        ]
+          .filter((index): index is Map<string, ProjectionEvidence> => Boolean(index))
+          .flatMap((index) => [...index.keys()]),
+      ),
+    })
   for (const proof of report.evidence) {
     if (proof.scope !== 'site-closure' || proof.kind === 'canonical-site') continue
     if (
@@ -5133,6 +5309,7 @@ function assertR13SourceInstructionDispositionInternal(
     }
     if (
       entry.kind === 'c8-site-repair' ||
+      entry.kind === 'c8-source-site' ||
       entry.kind === 'scene-semantic-repair' ||
       entry.kind === 'r13-cross-activation-site' ||
       entry.kind === 'r13-confirm-site'
@@ -5150,6 +5327,43 @@ function assertR13SourceInstructionDispositionInternal(
         (!entry.layerTargets.final || !sameExactTargets(augmented, entry.layerTargets.final))
       )
         throw new Error(`R13 disposition: evidence ${entry.id} final site target 漂移`)
+    }
+    if (entry.kind === 'c8-source-site') {
+      const site = sites.get(entry.siteId)
+      const context = site ? contexts.get(site.contextId) : undefined
+      const instruction = site ? report.census.instructions[site.address] : undefined
+      const augmented = entry.layerTargets.augmented
+      if (
+        !site ||
+        !context ||
+        !instruction ||
+        entry.contextId !== site.contextId ||
+        entry.addresses.length !== 1 ||
+        entry.addresses[0] !== site.address ||
+        entry.sourceCommandSha256 !== instruction.sourceCommandSha256 ||
+        entry.channel !== 'use' ||
+        !/^\d+$/.test(entry.itemId) ||
+        entry.sourceRootId !== `global/items/${entry.itemId}/scriptOnUse` ||
+        context.entrySiteId !== entry.sourceRootId ||
+        !/^[0-9a-f]{64}$/.test(entry.sourceClosureDigest) ||
+        !/^[0-9a-f]{64}$/.test(entry.c8EvidenceDigest) ||
+        !/^[0-9a-f]{64}$/.test(entry.c8OwnedTargetsDigest) ||
+        !augmented ||
+        !entry.appliesToLayers.includes('augmented') ||
+        entry.targetSelectors.length !== entry.targetDigests.length ||
+        stableJsonSha256(augmented.selectors) !== stableJsonSha256(entry.targetSelectors) ||
+        stableJsonSha256(augmented.digests) !== stableJsonSha256(entry.targetDigests)
+      )
+        throw new Error(`R13 disposition: evidence ${entry.id} C8 source site identity 漂移`)
+      assertSortedUniqueStrings(entry.targetSelectors, `evidence ${entry.id} selectors`)
+      for (const digest of entry.targetDigests)
+        if (!/^[0-9a-f]{64}$/.test(digest))
+          throw new Error(`R13 disposition: evidence ${entry.id} target digest 无效`)
+      if (
+        entry.appliesToLayers.includes('final') &&
+        (!entry.layerTargets.final || !sameExactTargets(augmented, entry.layerTargets.final))
+      )
+        throw new Error(`R13 disposition: evidence ${entry.id} final C8 target 漂移`)
     }
     if (entry.kind === 'folded-hostile-site') {
       const site = sites.get(entry.siteId)

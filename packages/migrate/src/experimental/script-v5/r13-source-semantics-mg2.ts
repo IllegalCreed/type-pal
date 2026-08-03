@@ -52,7 +52,7 @@ export const R13_SOURCE_SEMANTICS_TRANSITION_ID = 'r13-source-semantics-v1' as c
 export const R13_SOURCE_SEMANTICS_SEAL_PATH = '_transitions/r13-source-semantics-v1.json' as const
 /** Published R13-5 source-ledger digest. 6A may only append its explicit allowlist delta. */
 export const R13_SOURCE_SEMANTICS_PARENT_SOURCE_REPORT_DIGEST =
-  'ada855728445050c8da9cf30870f98bde0f942f69149cb1c3026d40aabf08f1b' as const
+  '86bbb33f5ad670c6f290737475a828bdfe00aa25a777d469d89d7f97e7d256e5' as const
 export const R13_SOURCE_SEMANTICS_PARENT_ENEMY_DIGEST =
   '54804a6c69e644e9c44fd98fd489d0f73eee6580c4ffc3c3753322074361fab6' as const
 export const R13_SOURCE_SEMANTICS_PARENT_ENEMY_FILE_SHA256 =

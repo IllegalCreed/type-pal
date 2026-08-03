@@ -2,11 +2,11 @@
   "kind": "r13-source-semantics-canary-golden",
   "version": 1,
   "transitionId": "r13-source-semantics-v1",
-  "sealDigest": "b0480ec36c461b68ef94d14e1477936208cd8212f5f0f5ccce9f616610dfa591",
-  "authorityDigest": "ff5243bca6e3f0c596d0eb9350ebf237302d6606d3e7395901015600501c56f6",
-  "sourceControlDigest": "df5c55a51ffb2247e1b6186f96ebe44c75d8b9d2e7f4da8a9c3f5c802824abf5",
-  "sourceDispositionDigest": "7ab030b2a0e5f19ac83738857c9b10b8f927293e3d7524723b3a333ce0eac9a9",
-  "sourceDispositionInputDigest": "9cc041c30c81eb13ebd83f5e92be5e9170ef20ec738512eec663b48a9b18f2a1",
+  "sealDigest": "f78b751e4a005d5ef9848ff71f1591e522aaa7ecc60f51fe0245e7268a23ced1",
+  "authorityDigest": "193dfb2ceb839728f22177c1272780a1c28d54bcf2f888991c430ff03ed0970e",
+  "sourceControlDigest": "0bc729416f36976e13aca6cc5f0a027d45d9cfef72d65d5b8cbb78cd07a58a88",
+  "sourceDispositionDigest": "b696c7bdf60d80870c169cf6602be63fb5f798e209e243c4891d4da51ac917cf",
+  "sourceDispositionInputDigest": "0f0aa4748ea90eb525bb2c4ad3f55b08518575870ab8c861a6fd563e35ef1397",
   "augmentationDigest": "c2fc12250c0bace9584d4410266fe1194816453e6e2034cc1e1b2ddb6573bc7c",
   "successorContentDigest": "d7defbb2b4416c915ebcf0f3b18120a8ae83cba011721248f921d1f1d808b654",
   "summary": {
@@ -18,5 +18,5 @@
     "deletes": 0,
     "conflicts": 0
   },
-  "digest": "59c812a181274e8a8b51eb02f7d11bb1944ee82c9a939afe6d8b7e4031183080"
+  "digest": "016e0273e9115104b1b760ed4272dbc693bf5c4878d1356b52750a6e292eddc8"
 }

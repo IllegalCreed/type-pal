@@ -7263,6 +7263,35 @@ runtime/save/browser/remigration 最终门禁。
 production source tree fingerprint、live golden 及其投影摘要。R13-Z 仍未关闭；下一步继续处理
 剩余 dynamic binding、item use/domain projection 与其余显式债务。
 
+##### R13-Z C8 item-use source-site 精确销账（2026-08-03，进行中）
+
+对剩余 `item-scriptOnUse-pending` 做 source-backed 复核后确认，C8 已为 20 个使用根（21 个
+根含另一个只用于投掷的 channel）生成 item capability target、source closure 和 owned
+behavior/hook/locale/sprite allocation；旧账只把其中一个 `@763` 特例当 site closure，其余
+站点错误地停在 observation/domain candidate。
+
+- 新增 `c8-source-site`，只接管 `global/items/<id>/scriptOnUse`，证明绑定 census 的精确
+  context/site、C8 source closure、item use target、C8 evidence digest 和完整 owned-target
+  digest。item 137 的 `scriptOnThrow` 明确不纳入，继续由 R13-3 负责。
+- 站点认领遵循窄证据优先：C8 先排除既有 C8 repair、scene repair、folded hostile、cross
+  activation、confirm、enemy/schema、asset 和 explicit-call owner closure；同一站点若有更窄
+  的 delayed-goto/checkpoint 等证明，不允许 C8 覆盖。
+- 第一次试跑发现另一个关键反例：C8 根内的 2 条 `0x76/0x9b` 表现 debt 会被整根闭包误销，
+  于是增加 `openDebtForSite` 的 explicit-control/presentation veto。最终 R13-6 恢复为
+  `215 / 197`，没有牺牲 fill/redraw/palette 语义。
+- 安全结果：R13-5 parent open debt 从 `6,651 / 6,055` 降到 `5,129 / 4,656`，净关闭
+  `1,522` 个执行站点和 `1,399` 个观察项；R13-6A successor 为 `5,107 / 4,634`，仍只
+  减少既有 22 条 allowlist。当前 parent source-ledger digest 为
+  `86bbb33f5ad670c6f290737475a828bdfe00aa25a777d469d89d7f97e7d256e5`，6A successor
+  source-disposition digest 为
+  `b696c7bdf60d80870c169cf6602be63fb5f798e209e243c4891d4da51ac917cf`。
+
+验证：migrate typecheck 通过；fast 75 files / 558 passed / 5 skipped（19.36s）、
+`test:oracle:verify` 2/2（1.54s）；MG2 initialize 单测 1/1（2 skipped，378.10s）通过；
+`test:canary` 最终 2/2（225.69s）通过；live golden/oracle 已由 producer 重新生成并通过
+完整性校验。R13-Z 仍未关闭；下一步继续处理剩余 dynamic binding、domain projection 和
+其余显式债务。
+
 ##### R13-6B implementation review 交接提示词（下一位 Agent 可直接复制）
 
 ```text
