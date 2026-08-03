@@ -6702,10 +6702,53 @@ R13-Z、N3-1、C8 或 ED-5I 已完成。
 | Agent | 结论 | 日期 | 重点 |
 |---|---|---|---|
 | Codex | **accept** | 2026-08-03 | 独立复核当前候选：`pnpm --filter @type-pal/migrate run check:fast`（typecheck + manifest 72/549，549 passed / 5 skipped）与 4 个 R13-6A 相关单元文件 92/92 全绿；content check 32/387 全绿，reforge/editor typecheck 通过。逐项核对 22 个 source sites、3 个技能 item-cost、16 场景/17 owned paths、14 palette（5 day/5 warm/4 asset-baked）及 prepared authority/historical-current profile 的 fail-closed 约束；无公共 schema/SAVE 变化，6B 仍保持设计阻塞。accept 只收口 Codex 自验，不代表 R13-6A/N3-1/C8/ED-5I done。 |
-| Kimi | **pending** | - | 审查 prepared trust boundary、seal/authority 防篡改、historical/current 矩阵隔离及 5750/4d4b 双身份。 |
-| GLM | **pending** | - | 独立核对 22-site delta、owned observation 计数、三技能 pending→lossy+item-cost 守恒、6B open 债和测试矩阵。 |
+| Kimi | **accept** | 2026-08-03 | prepared trust boundary、seal/authority 防篡改、historical/current 矩阵隔离及 5750/4d4b 双身份审查通过：输入指纹全覆盖（generated.ir 独立摘要）、双常量分层钉死且混用 fail-closed（一手核对）、brand+freeze+tamper/自洽重签拒绝、current 96e67cfb…/historical d25ee2a7… 矩阵隔离不误用、352/372/373 cost.items 形状链与 +3 拆分/重算式精确、14 palette=5+5+4 无 schema 复活、施法先扣 MP 后物品门（fizzle 语义忠实）、6B 债保持 open。复跑 check:fast 72/549、canary 2/2（222.71s）。记录项 3 条见交接。accept 仅准入 R13-6B 设计评审，不标 R13-6A/N3-1/C8/ED-5I done。 |
+| GLM | **accept** | 2026-08-03 | 一手核实全绿。**3 skill item-cost**：源 all.json 三尸咒(352)/万蛊蚀天(372)/毒吞天下(373) scriptOnUse 各有 `0x20[148,1,43058]`=remove item 148(蛊)×1 不够跳失败；与 `r13-existing-schema-augmentation.ts:46-48` oracle `cost.items=[{itemId:'148',amount:1}]` 精确一致（sdlpal 0x20 = RemoveItem with check+jump）。**14 palette**：pal-palette-sites.ts 逐条数 14 = 5 day(palette 0: 21982/21990/23975/28850/30645) + 5 warm(palette 5: 22223/22275/24710/28624/30589) + 4 asset-baked(palette 2/6 + 恢复: 22109/22115→pal.003, 32055/32062→pal.007)，与任务卡完全一致；palette 2/6 烘进 RGBA 不发 setAmbience。**6A 无独立 seal/baseline**（既有 schema 子批，不改产物/contentVersion/SAVE），source-backed 证明由 canary 承担。**canary 2/2 全绿**（266s）：producer rebuild matches exact R13-6A golden + replays to identical seal and zero writes；22-site/3-skill observation delta 与 R13-5 parent 215/197 隔离由 golden 命中证明。**check:fast 549 passed/5 skipped**（72 files, 43s）全绿。**6B open 债仍明确 draft blocked**：7 shake/酒神 MP×8/303-305 分支/0x76 黑屏/loadScene 时序五项（:6780-6784）三方 pending，6A 未吞。accept 只收口 R13-6A source disposition + existing-schema 子批，不代表 6B/R13-Z/N3-1/C8/ED-5I done。 |
 
-三方 `accept` 前不得标记 R13-6A done，也不得启动需要新公共 schema 的 R13-6B 实现。
+三方 implementation review `accept` 已于 2026-08-03 集齐；这只关闭候选实现审查，
+不等于正式产物已经发布。当前 `projects/pal` 仍是 R13-5 parent：三项蛊术尚无
+`cost.items`，baseline 尚无 `r13-source-semantics-v1` seal。R13-6A 必须完成正式
+publication（17 个 owned 写入、append-only seal、随后 replay `0/0/0`）并记录磁盘证据后
+才能标记 done；在此之前不得启动需要新公共 schema 的 R13-6B 实现。
+
+**Codex 收敛说明（2026-08-03）**：GLM 交接中的“6A 无独立 seal/baseline”与已审代码、
+canary 及 Kimi 一手记录冲突。仓库真值是 `r13-source-semantics-mg2.ts` 已定义独立
+`r13-source-semantics-v1` append-only transition，canary 也明确断言 initialize 17 writes、
+seal 仅进入 nextBaseline、replay 零写；当前缺的是把该已审 transition 接入正式 CLI 并发布，
+不是取消 seal。保留 GLM 原文作为历史审查记录，本说明只收敛 publication 边界。
+
+- 2026-08-03 Kimi：完成 R13-6A prepared trust boundary / runtime 边界只读实现审查，签
+  **accept**。一手证据：
+  - **双身份**：`R13_ENEMY_SCRIPT_SUCCESSOR_CONTENT_DIGEST=5750ac4f…`
+    （r13-enemy-script-augmentation.ts:29-30）与
+    `R13_EXISTING_SCHEMA_PARENT_CONTENT_DIGEST=4d4bcbdb…`
+    （r13-existing-schema-augmentation.ts:22-23）为两层独立常量；ledger 强制
+    `generatedSnapshotDigest===5750ac4f…` 否则抛"successor 漂移"
+    （r13-source-semantics-mg2.ts:1408-1412）——混用 fail-closed，一手核对成立。
+  - **prepared 边界**：输入指纹覆盖 historical/current roots/commands/migration/audit/
+    generated snapshot+IR（独立摘要）/ledger/parent disposition/enemy closure/census；
+    brand+深冻结+tamper 测试（sourceControl.reportDigest 重签仍拒、自洽重签拒）。
+  - **矩阵隔离**：current 允许 scene-entry wait（`96e67cfb…`）vs historical 拒绝
+    （`d25ee2a7…`）双向错 profile 抛错；R13-confirm/R13-5 不误用 current 矩阵；作者
+    target 独立按 current 矩阵验证；confirm seal `89092578…` pin 在案。
+  - **22 site + 3 item-cost**：352/372/373 的 `0x68→0x20` 形状链（不按 id 硬编码）→
+    `cost.items=[{148,1}]`（migrate-content.test.ts:371-394 钉）；+3 拆分（lossy open +
+    cost accounted）与 `parent + successorOwnedSource - parentOwnedSource + 3` 重算式
+    逐字一致；augmentSkillCosts 防洗钱（parent 必无 items、仅 3 id 变化）。
+  - **14 palette**：5 day + 5 warm + 4 asset-baked 站点 oracle 精确；无 palette schema/
+    全局状态复活（setAmbience by-id、paletteId 已退役）。
+  - **施法顺序**：先扣 MP（battle-core.ts:997）后物品门（:1001-1030），不足则 fizzled
+    （MP 已耗、物品未动、无效果/动画/隐藏成长），库存 writeBackInventory 胜/败/逃回写；
+    对一阶段 magic.ts:254-272 真值一致。
+  - **复跑**：`check:fast` **72 files / 549 passed / 5 skipped**（与 Codex 记录一致）；
+    `test:canary` **2/2 绿，222.71s**。
+  记录项（非反例）：①卡内"parent/enemy source report 复用时重新执行自身 digest/结构
+  断言"措辞略强于实现——实现是 brand+深冻结+digest 钉的刻意 O(1)（该模型本身已过 G8
+  三方审查，认可）；②"open observation 净变化为零"无局部等式断言，由重算式 + golden
+  传递钉住，残余风险低；③`projects/pal/content/skills.json` 当前三条蛊术仍无
+  cost.items——6A 未发布的预期状态（baseline 无 r13-source-semantics seal），非遗漏，
+  发布时 17 个 owned 写入将落盘。未修改实现/产物/seal/其他签字。
+  Next：GLM 数据守恒审查；两席 accept 后 R13-6A 方可标 done 并进入 R13-6B 设计评审。
 
 **2026-08-03 Codex 自验补记**：本轮没有修改实现/生成产物，工作树保持干净；复核范围覆盖
 R13-6A source disposition、existing-schema augmentation、runtime capability V2/V3、palette
@@ -6713,7 +6756,9 @@ site oracle、技能 item-cost 迁移和性能分层后的 fast 门。现有 sou
 上方 `11/11` 与 `0/0/0` 记录为准，未用 fast 门替代冷门。下一步交 Kimi 做架构/信任边界审查，
 交 GLM 做数据守恒/测试矩阵审查；两席未 `accept` 前不得改 6A 状态、启动 6B 或标 N3-1 done。
 
-#### 给 Kimi（R13-6A prepared authority / runtime 边界实现审查）——待执行
+#### 给 GLM（R13-6A source disposition / 覆盖矩阵实现审查）——待执行
+
+#### 给 Kimi（R13-6A prepared authority / runtime 边界实现审查）——已于 2026-08-03 执行，签 accept（保留备查，勿再执行）
 
 ```text
 审查任务：N3-1 R13-6A 既有 schema 技能/palette 源语义闭包
@@ -6742,7 +6787,7 @@ translate-events,pal-palette-sites}.ts。
 file:line、复现命令、最小返工）；只写自己的交接记录，不标 R13-6A/N3-1/C8/ED-5I done。
 ```
 
-#### 给 GLM（R13-6A source disposition / 覆盖矩阵实现审查）——待执行
+#### 给 GLM（R13-6A source disposition / 覆盖矩阵实现审查）——已于 2026-08-03 执行，签 accept（保留备查，勿再执行）
 
 ```text
 审查任务：N3-1 R13-6A 技能/palette 数据守恒、MG2 与测试矩阵
@@ -6771,6 +6816,29 @@ migrate-content,translate-events}.ts；projects/pal/content/ambiences.json。
 输出：在本卡“R13-6A implementation review 签字”GLM 行签 accept，或写 counter（精确
 数字/selector/digest/测试与最小返工）；只写自己的交接记录，不标 R13-6A/N3-1/C8/ED-5I done。
 ```
+
+- 2026-08-03 GLM：完成 R13-6A source disposition / 覆盖矩阵 implementation review，签
+  **accept**。一手核实（源数据 + final oracle + canary 实跑，非 Codex 清单复述）：
+  - **3 skill item-cost**：源 all.json 三尸咒(spell 352)/万蛊蚀天(372)/毒吞天下(373)
+    scriptOnUse 各有 `0x20[148,1,43058]` = sdlpal RemoveItem(item 148 蛊 ×1, 不够跳失败)；
+    与 `r13-existing-schema-augmentation.ts:46-48` oracle `cost.items=[{itemId:'148',
+    amount:1}]` 精确一致。任务卡措辞「0x68→0x20 链」略不精确(实际只有 0x20 带
+    check+jump,无独立 0x68),但语义结论正确。
+  - **14 palette**：pal-palette-sites.ts 逐条核实 14 站 = 5 day(palette 0: 21982/21990/
+    23975/28850/30645) + 5 warm(palette 5: 22223/22275/24710/28624/30589) + 4 asset-baked
+    (palette 2/6+恢复: 22109/22115→frame-animation.pal.003, 32055/32062→
+    frame-animation.pal.007)。palette 2/6 已烘进 RGBA 不发 setAmbience。
+  - **6A 无独立 seal/baseline**（既有 schema 子批，不改产物/contentVersion/SAVE/manifest）；
+    source-backed 证明由 canary 承担。canary 2/2 全绿（266s）：producer rebuild matches
+    exact R13-6A golden + replays to identical seal and zero writes；22-site/3-skill
+    observation delta 与 R13-5 parent 215/197 隔离由 golden 精确命中证明。
+  - **check:fast** 549 passed / 5 skipped（72 files, 43s）全绿；与 Codex 自验 72/549 一致。
+  - **6B open 债仍明确** draft blocked（:6780-6784）：7 shake / 酒神 MP×8+清 MP+酒门禁 /
+    303-305 玩家敌人不同 effect chain / 0x76 持续黑屏 transient / loadScene 时序五项，
+    三方均 pending，6A 未静默吞掉。
+
+  未修改实现/产物/baseline/seal/Kimi 签字；仅更新本表 GLM 行与本交接记录。
+  accept 只收口 R13-6A source disposition + existing-schema 子批。
 
 ##### R13-6B：公共 schema / 表现状态 delta（draft，blocked）
 
