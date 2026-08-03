@@ -7,10 +7,10 @@ import {
 import {
   buildPalHistoricalR13_5V10Migration,
   buildPalMigration,
-  type MigrationFileSet,
   type MigrationJson,
   type PalMigrationSources,
 } from '../../pal-migration.js'
+import { rewindPalR13SixBPublication } from '../../pal-r13-six-b-rewind.js'
 import {
   getPalTestSourceDispositionFixture,
   hasPalTestFixture,
@@ -18,25 +18,25 @@ import {
   releasePalTestProducerCachesForCanary,
 } from './pal-test-fixture.js'
 import {
-  R13_EXISTING_SCHEMA_CHANGED_PATHS,
-  rewindR13ExistingSchemaAugmentation,
-  type R13ExistingSchemaAugmentationEvidenceV1,
-} from './r13-existing-schema-augmentation.js'
-import {
   completeR13EnemyScriptSourceInputs,
   prepareR13EnemyScriptSourceAugmentation,
 } from './r13-enemy-script-mg2.js'
 import {
-  createR13SourceSemanticsV5MigrationPlan,
+  R13_EXISTING_SCHEMA_CHANGED_PATHS,
+  type R13ExistingSchemaAugmentationEvidenceV1,
+  rewindR13ExistingSchemaAugmentation,
+} from './r13-existing-schema-augmentation.js'
+import {
   compactCurrentMigrationForR13SourceSemantics,
+  createR13SourceSemanticsV5MigrationPlan,
+  digestR13SourceSemanticsMigrationInput,
+  digestR13SourceSemanticsMigrationInputFast,
   projectR13SourceSemanticsGenerated,
   R13_SOURCE_SEMANTICS_SEAL_PATH,
   R13_SOURCE_SEMANTICS_TRANSITION_ID,
-  digestR13SourceSemanticsMigrationInput,
-  digestR13SourceSemanticsMigrationInputFast,
-  registerR13SourceSemanticsMigrationInputDigest,
   type R13SourceSemanticsDispositionInput,
   type R13SourceSemanticsV5MigrationPlan,
+  registerR13SourceSemanticsMigrationInputDigest,
 } from './r13-source-semantics-mg2.js'
 import { projectR13SourceDispositionGenerated } from './source-instruction-disposition.js'
 import { stableJsonSha256 } from './stable-json.js'
@@ -105,7 +105,9 @@ export function cloneR13SourceSemanticsCanarySnapshot(
 }
 
 function stripSourceSemanticsSeal(source: MigrationSnapshot): MigrationSnapshot {
-  const snapshot = cloneR13SourceSemanticsCanarySnapshot(source)
+  // The checked-in baseline may already be the content11/R13-6B successor. Rewind its
+  // append-only leaves before replaying the R13-6A source-semantics seal below.
+  const snapshot = cloneR13SourceSemanticsCanarySnapshot(rewindPalR13SixBPublication(source))
   const rawSeal = snapshot.files.get(R13_SOURCE_SEMANTICS_SEAL_PATH)
   const evidence =
     rawSeal && typeof rawSeal === 'object' && !Array.isArray(rawSeal)
@@ -173,13 +175,11 @@ export function buildR13SourceSemanticsCanaryFixture(): R13SourceSemanticsCanary
     })()
     releasePalTestProducerCachesForCanary()
     ;(globalThis as { gc?: () => void }).gc?.()
-    const currentFull = loadCanarySourcesMigration(
-      prepared.historicalSources,
-      buildPalMigration,
-    )
+    const currentFull = loadCanarySourcesMigration(prepared.historicalSources, buildPalMigration)
     const currentMigrationDigest = digestR13SourceSemanticsMigrationInput(currentFull.migration)
-    const currentMigrationFastDigest =
-      digestR13SourceSemanticsMigrationInputFast(currentFull.migration)
+    const currentMigrationFastDigest = digestR13SourceSemanticsMigrationInputFast(
+      currentFull.migration,
+    )
     const currentMigration = compactCurrentMigrationForR13SourceSemantics(currentFull.migration)
     registerR13SourceSemanticsMigrationInputDigest(
       currentMigration,

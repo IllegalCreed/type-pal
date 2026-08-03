@@ -323,7 +323,7 @@ function buildR13SixBMigration(
   sources: PalMigrationSources,
   publishedBaseline: MigrationSnapshot,
 ): MigrationFileSet {
-  const raw = buildPalMigration(sources)
+  const raw = buildPalMigration(sources, { r13SixBSourceSemantics: true })
   const skills = raw.files.get('content/skills.json')
   if (skills === undefined) throw new Error('R13-6B raw migration 缺 content/skills.json')
   let files = new Map(publishedBaseline.files)

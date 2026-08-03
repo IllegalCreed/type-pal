@@ -111,10 +111,21 @@ describe('R13 runtime capability audit v3', () => {
     const historical = buildAndAssertHistoricalR13_5RuntimeCapabilityAuditV3(value)
 
     expect(historical.digest).not.toBe(current.digest)
+    expect(
+      historical.matrix.domains.find((entry) => entry.domain === 'world-command')?.kinds,
+    ).not.toContain('holdScreen')
+    expect(
+      historical.matrix.domains.find((entry) => entry.domain === 'world-command')?.kinds,
+    ).not.toContain('revealScreen')
+    expect(
+      historical.matrix.domains.find((entry) => entry.domain === 'skill-effect')?.kinds,
+    ).not.toContain('resourceDelta')
     expect(() => assertR13RuntimeCapabilityAuditReportV3(current)).not.toThrow()
     expect(() => assertHistoricalR13_5RuntimeCapabilityAuditReportV3(historical)).not.toThrow()
     expect(() => assertR13RuntimeCapabilityAuditReportV3(historical)).toThrow('matrix 漂移')
-    expect(() => assertHistoricalR13_5RuntimeCapabilityAuditReportV3(current)).toThrow('matrix 漂移')
+    expect(() => assertHistoricalR13_5RuntimeCapabilityAuditReportV3(current)).toThrow(
+      'matrix 漂移',
+    )
     expect(() => assertHistoricalR13_5RuntimeCapabilityAuditV3(historical, value)).not.toThrow()
   })
 

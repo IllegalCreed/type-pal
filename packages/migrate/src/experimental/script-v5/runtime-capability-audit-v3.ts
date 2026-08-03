@@ -106,10 +106,13 @@ export interface R13RuntimeCapabilityAuditV3 {
  */
 interface R13RuntimeCapabilityAuditOptions {
   sceneEntryWaitSafe?: boolean
+  /** R13-5 matrix predates hold/reveal and resourceDelta; keep its published report byte-stable. */
+  r13SixBCapabilities?: boolean
 }
 
 const R13_RUNTIME_CAPABILITY_HISTORICAL_R13_5_OPTIONS = Object.freeze({
   sceneEntryWaitSafe: false,
+  r13SixBCapabilities: false,
 })
 
 interface RuntimeCorpusV3 {
@@ -374,13 +377,19 @@ function buildR13RuntimeCapabilityMatrixV3WithOptions(
   const worldKinds = Object.entries(AUTHOR_COMMAND_V5_KINDS)
     .filter(([, enabled]) => enabled)
     .map(([kind]) => kind)
+    .filter(
+      (kind) =>
+        options.r13SixBCapabilities !== false || (kind !== 'holdScreen' && kind !== 'revealScreen'),
+    )
     .sort(stableStringCompare)
   const battleKinds = Object.keys(BATTLE_ACTION_EVIDENCE).sort(stableStringCompare)
   const hookCommandKinds = Object.keys(ENEMY_HOOK_COMMAND_EVIDENCE).sort(stableStringCompare)
   const transitionKinds = Object.keys(ENEMY_HOOK_TRANSITION_EVIDENCE).sort(stableStringCompare)
   const aiKinds = Object.keys(ENEMY_AI_ACTION_EVIDENCE).sort(stableStringCompare)
   const defeatedKinds = Object.keys(ENEMY_ON_DEFEATED_EVIDENCE).sort(stableStringCompare)
-  const skillKinds = Object.keys(SKILL_EFFECT_KIND_TABLE).sort(stableStringCompare)
+  const skillKinds = Object.keys(SKILL_EFFECT_KIND_TABLE)
+    .filter((kind) => options.r13SixBCapabilities !== false || kind !== 'resourceDelta')
+    .sort(stableStringCompare)
   const domains: R13RuntimeCapabilityAuditV3['matrix']['domains'] = [
     { domain: 'world-command', contexts: [...WORLD_CONTEXTS], kinds: worldKinds },
     {
@@ -932,9 +941,7 @@ function assertR13RuntimeCapabilityAuditReportV3WithOptions(
     throw new Error(`R13 runtime capability v3 audit failed:\n${report.issues.join('\n')}`)
 }
 
-export function assertR13RuntimeCapabilityAuditReportV3(
-  report: R13RuntimeCapabilityAuditV3,
-): void {
+export function assertR13RuntimeCapabilityAuditReportV3(report: R13RuntimeCapabilityAuditV3): void {
   assertR13RuntimeCapabilityAuditReportV3WithOptions(report)
 }
 

@@ -7062,7 +7062,7 @@ release 门仍需真实磁盘 baseline、seal 和完整 replay，禁止以提高
   `writes=0 / deletes=0 / conflicts=0`；PAL project/baseline 同一迁移事务更新，未写入源 chunk
   作为 canonical 文件。
 
-自验结果：content **33 files / 391 tests**；reforge **77 / 777**；migrate **75 / 557（5 skipped）**；
+自验结果（首次实现）：content **33 files / 391 tests**；reforge **77 / 777**；migrate **75 / 557（5 skipped）**；
 editor **93 / 793**；migrate/content/editor typecheck 通过；`git diff --check` 通过。R13-6B
 implementation review 仍只登记 Codex 自验，Kimi/GLM 尚未写 `accept`；在两席签字前不得进入
 `review -> done`，也不得把 N3-1、C8、ED-5I 标记完成。
@@ -7072,8 +7072,58 @@ implementation review 仍只登记 Codex 自验，Kimi/GLM 尚未写 `accept`；
 | Agent | 结论 | 日期 | 证据 / 备注 |
 |---|---|---|---|
 | Codex | **accept（自验）** | 2026-08-03 | 上述四包测试、typecheck、正式迁移写盘与 replay `0/0/0` 全部通过；仅代表 Coding Owner 自验。 |
-| Kimi | **pending** | — | 待独立复跑 battle timing、transient finalizer、content11/SAVE8 与 editor 分支闭环。 |
-| GLM | **pending** | — | 待独立复跑源数据覆盖、baseline v2 ledger、871 条 loadScene 证据及迁移测试矩阵。 |
+| Kimi | **counter** | 2026-08-03 | 四处源真值/冻结条款违背：F1 敌侧 gate 概率用了玩家值（源 @43089=70/@43096=50/@43123=30，实现 60/33/44）；F2 303/305 敌链缺 0x2D 状态步（sleep/confuse 3t→HP-1，核心语义丢失，且设计冻结同样漏此项需三方复核）；F3 7 技能 preShake level=3 但源默认 4（operand[1]=0→i=4）；F4 编辑器预览未实现 hold/reveal（冻结明确要求渲染黑屏）。全部一手复现，最小返工见交接记录。不得转 accept，不得标 R13-6B/N3-1/C8/ED-5I done。 |
+| GLM | **counter** | 2026-08-03 | 数据层精确（7 preShake 20/20/14/24/14/14/14、370 酒神、303/305 HP-1 + 304 instantKill G1 落实、content11/SAVE8）；check:fast 557/5 绿。**但 canary 真实失败**：`P2 current audit differs from frozen P0: 7026f9a5… != dd42217c…`（p2-transform.ts:146）。根因：6B 改 translate-events.ts 给 loadScene 加 `__palSourceAddress` + foldDoorPattern 吸收 fade，改变了 P2 翻译输出 → P2 audit digest 漂移 → canary frozen P0 校验挂。fast 门不暴露（用 synthetic/oracle 不跑完整 P2 冷构建）。须修 translate-events 或重新冻结 P0 digest 并证明漂移仅来自 6B 预期改动（非语义破坏），canary 2/2 全绿后方可 accept。见交接。 |
+
+- 2026-08-03 Kimi：完成 R13-6B implementation review 架构/runtime/editor 只读审查，签
+  **counter**（四项，全部一手复现）。通过项先行记录：execution/schema/v10→v11 升级、
+  370 酒神防双结算、hold/reveal 运行时 finalizer 单源、loadScene profile 四项证据门槛、
+  content11/SAVE8 边界、baseline v2 ledger 保留、source chunk 不冒充 canonical、复跑
+  reforge/content check 全绿——均成立，返工后无需复审。
+  **反例与最小返工**：
+  - **F1 敌侧 gate 概率错用玩家值**。实现 `packages/migrate/src/pal-authored-overlays.ts:32-56`
+    为 303→chance 60、304→33、305→44（玩家侧操作数）；产物
+    `projects/pal/content/skills.json` 同值，测试同值钉死。一手源核对
+    （data/extracted/events/all.json）：303 敌支 @43089 `0x06 [70,43072]`、305 敌支
+    @43096 `0x06 [50,43072]`、304 敌支 @43123 `0x06 [30,43072]`。返工：迁移器敌侧按
+    敌支操作数 70/50/30（或按 0x06 规范化 69/49/29，与既有 0x06 边界的确定口径一致，
+    请 GLM 数据侧定）生成，禁止抄玩家值；修正后重迁，不手改产物。
+  - **F2 303/305 敌链缺 0x2D 状态步（核心语义丢失；设计冻结同漏，需三方复核）**。
+    一手源核对：303 敌支过门后 L_39391 = `0x2D [2,3,0]`（玩家 sleep 3 回合）
+    → `0x1B [0,65535,0]`（HP-1）→ end；305 敌支 L_39398 = `0x2D [0,3,0]`（confused
+    3 回合）→ `0x1B [0,65535,0]` → end。当前实现敌支仅 `gate + resourceDelta(-1)`——
+    回梦/鬼降的**上状态本身就是技能本体**，缺状态步等于语义丢失。冻结矩阵原文"任一
+    side branch 缺源链或概率/回合不符则拒绝发布"，且设计冻结与 GLM G1 均未列 0x2D——
+    须先在本卡 R13-6B 设计节补记敌链 `gate → applyStatus(sleep/confused,3) →
+    resourceDelta(-1)` 的三方口径，再按此迁移；不得由实现方擅自维持现状。
+  - **F3 preShake level 应为 4 非 3**。实现 `pal-authored-overlays.ts:19-25` 全部
+    `level: 3`。一手源核对：7 条 scriptOnUse 的 0x35 operands 全为 `[frames,0,0]`
+    （@43107=24/@43109=20/@43111=14，帧数全对），script.c:1525-1529
+    `i=operand[1]; if(i==0) i=4`——level 默认 4。level 3 疑似从末尾震屏常量
+    （fight.c:2718 `VIDEO_ShakeScreen(i,3)`）误抄。返工：7 技能 preShake level 改 4。
+  - **F4 编辑器预览未实现 hold/reveal（冻结条款直接漏项）**。编辑器 UI 有展示
+    （CommandForm.tsx:422/433、ScriptTree.tsx:124/126、CanonicalScriptEditorV5.tsx:472/492），
+    但预览宿主未实现：`packages/reforge/src/script-host-adapter-v5.ts:308` 与
+    `script-runner.ts:478` 对无宿主直接 throw「宿主未实现 holdScreen」；editor
+    playback.ts 无 holdScreen/revealScreen handler——s003/s020/s174 等含黑屏事务的
+    flow 预览必中断。冻结原文要求"编辑器预览必须渲染 hold 期间的黑屏，并在 reveal/
+    场景切换时恢复"。返工：在 editor playback host 实现 hold/reveal（可复用
+    playback.ts:563-573 的 view.fadeBlack 幕布通道），abort/loadScene/卸载走同一
+    finalizer。
+  - **F5（GLM 发现，本席复核机制成立）**：6B 给 loadScene 注入 `__palSourceAddress`
+    （translate-events.ts:1174）+ foldDoorPattern 吸收 fade 改变了 P2 翻译输出 →
+    P2 audit digest 由 `dd42217c…`（p2-transform.ts:31 冻结）漂移为 `7026f9a5…`，
+    canary frozen P0 校验失败。返工：证明漂移仅来自 6B 预期改动（逐条 diff P2 输出
+    证明无语义破坏）后重冻 P0，或把 `__palSourceAddress` 移出 P2 翻译路径（如改在
+    P6/canonical 投影期注入），保持 frozen P0 不变。**本席复跑 canary 实测 2/2 绿
+    （265.81s）**——因工作树已含 Codex 未提交返工（`__palSourceAddress` 已改为
+    6B 路径条件注入、execution overlay 已加 `r13SixBExecution` 门控），即 F5 正被
+    修复中；该结果不等于 F1-F4 已修：同一份未提交返工里 gate 仍为 60/33/44、303/305
+    仍无 applyStatus、preShake level 仍为 3、editor playback 仍无 hold/reveal。
+  复现命令：`python3` 读取 `data/extracted/events/all.json` 按上述 label 逐项核对
+  （@43089/@43096/@43123、L_39391/L_39398、@43107/@43109/@43111）。
+  任务转 rework；F1-F3 修上游迁移并重迁、F4 修编辑器、F5 定 drift 口径后，本席按
+  diff 复审并改签。
 
 ##### R13-6B implementation review 交接提示词（下一位 Agent 可直接复制）
 
@@ -7244,6 +7294,75 @@ docs/phase2/foundation/phase1-knowledge-harvest.md；本卡 R13-6A publication e
 
   设计方向（execution 覆写 + preShake + hold/reveal token + loadScene profile）成立，5 项 open debt
   均有源数据支撑。agree 仅准入 R13-6B build 设计，实现时须落实 G1（304 即死非 HP-1）+ Kimi P1-P6。
+
+- 2026-08-03 GLM R13-6B implementation review：签 **counter**。数据层精确（非反例），但 canary
+  真实失败。一手核实：
+  - **数据层全绿**：content11/SAVE8/min8 ✅；7 preShake 逐条精确（330/334/342/357/378/380/385
+    = 20/20/14/24/14/14/14 frames）✅；370 酒神 cost.mp=1+items=[{86,1}] execution.player ✅；
+    **G1 完美落实**——303/305 `gate+resourceDelta hp -1`，**304 `gate+instantKill`（独立即死，
+    非 resourceDelta）** ✅；check:fast 557 passed/5 skipped（75 files, 92.5s）全绿。
+  - **canary 真实失败**（blocker）：`pnpm test:canary` → `P2 current audit differs from
+    frozen P0: 7026f9a5d61aa1db401facb452a8049445bb59d2edb3f1ded893e6a6219723d5 !=
+    dd42217c87ece120140dd302e735460cc48b2570fd993e2c35d614bbc0303004`（p2-transform.ts:146
+    assertPalP0Audit）。根因：6B 提交 `b5d25b8d` 改了 `translate-events.ts`（loadScene 加
+    `__palSourceAddress` 迁移期私有字段 + foldDoorPattern 吸收 fade 逻辑），改变了 P2 翻译
+    输出的命令序列结构 → P2 audit digest 漂移 → canary 的 frozen P0（`PAL_P0_SCRIPT_AUDIT_DIGEST`
+    = `dd42217c…`，p2-transform.ts:31）校验失败。fast 门不暴露此问题（fast 用 synthetic/oracle，
+    不跑完整 P2 冷构建）；只有 canary 的 source-backed 冷构建才触发 P2 audit digest 比对。
+  - **最小返工**：Codex 须二选一 —— ① 证明 P2 digest 漂移仅来自 6B 预期改动（loadScene
+    `__palSourceAddress` + foldDoorPattern fade 吸收），非语义破坏，并重新冻结
+    `PAL_P0_SCRIPT_AUDIT_DIGEST` 为新值 `7026f9a5…`；或 ② 如果漂移含非预期语义变化，修
+    translate-events 使 P2 输出恢复稳定。修后 canary 2/2 必须全绿（producer rebuild matches
+    golden + replays to identical seal and zero writes）。
+  - 复现：`cd packages/migrate && pnpm test:canary`（86s 后 P2 audit assert 失败，2 tests skip）。
+
+  counter 仅因 canary P2 audit 回归。数据层/schema/skill execution/preShake/hold-reveal 设计
+  全部无反例。Codex 修 canary 后 GLM 可改签 accept。未修改实现/产物/baseline/seal/Kimi 签字。
+
+- 2026-08-03 Codex 对 GLM counter 的返工回应：不重冻 P0/P2 digest，保留 `dd42217c…`。已完成
+  三层隔离与回放修复：
+  - `buildPalMigration` 默认固定 `current-r13-6a`；只有 R13-6B successor 显式传入
+    `r13SixBSourceSemantics` 才启用技能 execution/preShake 与 `loadScene` 私有源地址证据；
+    `foldDoorPattern` 在默认 profile 恢复 R13-6B 前的命令形状。
+  - 历史 R13-5/R13-confirm capability matrix 通过具名选项排除 6B 新增的
+    `holdScreen`/`revealScreen`/`resourceDelta`，历史 report digest 保持不变。
+  - canary 夹具在回放 R13-6A seal 前，对已发布 content11 基线执行 fail-closed 的 6B→6A
+    rewind（860 个唯一 source transition、4 组 hold/reveal、技能 overlay/order）；rewind 使用
+    逐文件 copy-on-write，不再深拷贝整份 PAL baseline；真实摘要精确恢复 `d7defbb2…`
+    （6A successor）与 `4d4bcbdb…`（R13-5 parent），且逐文件与 `b5d25b8d^` 的 6A baseline
+    比对为 0 差异。
+  - 证据：`pnpm --filter @type-pal/migrate run test:canary` **2/2 通过**；1168MiB old-space
+    成功样本 280.13s，按用户 2026-08-03 裁决放宽为单 worker / 2048MiB 后为
+    **256.03s、max RSS 1,583,431,680B**（约快 8.6%，仍远低于旧 3–4GB 路径）；
+    `test:fast` **75 files / 558 passed / 5 skipped，22.84s**；正式 `migrate:content` dry-run
+    `applied=0 / already=871 / skipped=0`，迁移 plan `writes=0 / deletes=0 / conflicts=0`；
+    未修改任何 P0/P2 内容冻结 digest、baseline 正文或 projects/pal 生成产物。
+  - 源树 oracle 指纹仅因实现返工按实际值更新：migrate/src **112 files / 2,461,158 bytes /
+    4612623f…**；这不是内容 digest 重冻结。
+  **GLM 仍为 counter，待其只读复跑并改签 `accept`；Kimi 的 F1–F4 counter 也仍未关闭，
+  因此不得标记 R13-6B/N3-1/C8/ED-5I done。**
+
+##### R13-6B implementation review 返工交接提示词（下一位 Agent 可直接复制）
+
+```text
+复审 N3-1 R13-6B implementation counter 返工；只读，不改实现、生成产物、P0/P2 digest 或签字以外的任务卡内容。
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态：R13-6B 仍在 build/review blocked；GLM 原 counter 已完成 Codex 返工，待 GLM 改签；Kimi F1–F4 counter 仍保留。
+
+先读：AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡 R13-6B implementation evidence、GLM counter 及本返工回应；
+再读：packages/migrate/src/pal-r13-six-b-rewind.ts、pal-migration.ts、translate-events.ts、
+pal-authored-overlays.ts、runtime-capability-audit(-v3).ts、r13-source-semantics-canary.ts。
+
+复跑证据：
+1. `pnpm --filter @type-pal/migrate run test:canary`（必须 2/2，且 P2 frozen digest 仍为 `dd42217c…`）；
+2. `pnpm --filter @type-pal/migrate run test:fast`（当前 558 passed/5 skipped）；
+3. `pnpm --filter @type-pal/migrate run migrate:content`（必须 applied=0/already=871/skipped=0，plan 0/0/0）。
+
+重点核对：默认 build 是否完全保持 R13-6A/P0 输出；R13-6B 专用 profile 是否只为 successor 证据生成私有地址/技能字段；
+历史 capability matrix 是否不含 6B 新能力；content11 baseline 的 6B→6A rewind 是否摘要钉住、命中数 fail-closed、
+不读取或修改 projects/pal；oracle 指纹更新是否仅覆盖 producer source tree。通过则只把本表 GLM 行改为
+`accept` 并记录上述证据；任一反例继续 `counter`，给出 file:line、真值出处和最小返工。不得标记 N3-1/C8/ED-5I done。
+```
 
 #### 给 Kimi（R13-5 counter 返工复审）——已于 2026-07-31 执行，改签 accept（保留备查，勿再执行）
 

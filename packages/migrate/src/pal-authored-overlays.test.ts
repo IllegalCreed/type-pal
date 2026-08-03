@@ -42,7 +42,11 @@ describe('PAL 已审计内容 overlay', () => {
       {
         id: '304',
         name: '夺魂',
-        effects: [{ kind: 'gate', magicResist: true }, { kind: 'gate', chance: 33 }, { kind: 'instantKill' }],
+        effects: [
+          { kind: 'gate', magicResist: true },
+          { kind: 'gate', chance: 33 },
+          { kind: 'instantKill' },
+        ],
         animation: { effectSprite: 39 },
       },
       {
@@ -68,7 +72,12 @@ describe('PAL 已审计内容 overlay', () => {
         cost: { mp: 1 },
       },
     ] as SkillData[]
-    const out = applyPalSkillOverlays(source)
+    const frozen = applyPalSkillOverlays(source)
+    expect(frozen.find((skill) => skill.id === '303')?.execution).toBeUndefined()
+    expect(frozen.find((skill) => skill.id === '330')?.animation.preShake).toBeUndefined()
+    expect(frozen.find((skill) => skill.id === '370')?.cost.items).toBeUndefined()
+
+    const out = applyPalSkillOverlays(source, { r13SixBExecution: true })
     const byId = new Map(out.map((skill) => [skill.id, skill]))
     expect(byId.get('330')?.animation.preShake).toEqual({ frames: 20, level: 3 })
     expect(byId.get('303')?.execution?.enemy?.effects).toEqual([

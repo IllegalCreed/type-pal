@@ -61,7 +61,9 @@ const PAL_SKILL_EXECUTION_OVERLAYS: Readonly<Record<string, PalSkillExecutionOve
     cost: { mp: 1, items: [{ itemId: '86', amount: 1 }] },
     execution: {
       player: {
-        prepare: [{ kind: 'remainingResourceDamage', resource: 'mp', multiplier: 8, consume: 'all' }],
+        prepare: [
+          { kind: 'remainingResourceDamage', resource: 'mp', multiplier: 8, consume: 'all' },
+        ],
       },
     },
   },
@@ -153,19 +155,34 @@ const SPECIAL_SKILLS: SkillData[] = [
   },
 ]
 
+export interface PalSkillOverlayOptions {
+  /** R13-6B successor 专属；历史/current-6A producer 必须保持冻结技能输出。 */
+  r13SixBExecution?: boolean
+}
+
 /** 已审计动态公式的数据化结果；保持原迁移顺序，缺项稳定追加。 */
-export function applyPalSkillOverlays(input: readonly SkillData[]): SkillData[] {
+export function applyPalSkillOverlays(
+  input: readonly SkillData[],
+  options: PalSkillOverlayOptions = {},
+): SkillData[] {
   const overlays = new Map(SPECIAL_SKILLS.map((skill) => [skill.id, skill]))
   const output = input.map((skill) => {
     const special = overlays.get(skill.id)
-    const executionOverlay = PAL_SKILL_EXECUTION_OVERLAYS[skill.id]
+    const executionOverlay = options.r13SixBExecution
+      ? PAL_SKILL_EXECUTION_OVERLAYS[skill.id]
+      : undefined
     if (special) return structuredClone(special)
     if (!executionOverlay) return structuredClone(skill)
     const merged: SkillData = {
       ...structuredClone(skill),
       ...(executionOverlay.cost ? { cost: structuredClone(executionOverlay.cost) } : {}),
       ...(executionOverlay.animation
-        ? { animation: { ...structuredClone(skill.animation), ...structuredClone(executionOverlay.animation) } }
+        ? {
+            animation: {
+              ...structuredClone(skill.animation),
+              ...structuredClone(executionOverlay.animation),
+            },
+          }
         : {}),
       ...(executionOverlay.execution
         ? {

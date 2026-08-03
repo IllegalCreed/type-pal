@@ -42,4 +42,20 @@ describe('R13-6B loadScene source transition', () => {
     ]
     expect(foldDoorPattern(noAddress)).toEqual([{ kind: 'loadScene', scene: 's002' }])
   })
+
+  test('普通 profile 保持 R13-6B 前的冻结输出形状', () => {
+    const body: Command[] = [
+      { kind: 'loadScene', scene: 's002' },
+      { kind: 'teleportParty', pos: { col: 3, row: 4, height: 0 }, facing: 'left' },
+      { kind: 'fade', dir: 'out', ms: 1200 },
+    ]
+    expect(foldDoorPattern(body)).toEqual([
+      {
+        kind: 'loadScene',
+        scene: 's002',
+        pos: { col: 3, row: 4, height: 0 },
+        facing: 'left',
+      },
+    ])
+  })
 })

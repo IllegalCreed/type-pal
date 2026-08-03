@@ -130,10 +130,13 @@ interface RuntimeCorpus {
  */
 interface R13RuntimeCapabilityAuditOptions {
   sceneEntryWaitSafe?: boolean
+  /** R13-confirm matrix predates hold/reveal and resourceDelta. */
+  r13SixBCapabilities?: boolean
 }
 
 const R13_RUNTIME_CAPABILITY_HISTORICAL_CONFIRM_OPTIONS = Object.freeze({
   sceneEntryWaitSafe: false,
+  r13SixBCapabilities: false,
 })
 
 const COMMAND_EVIDENCE = {
@@ -303,13 +306,17 @@ function buildR13RuntimeCapabilityMatrixWithOptions(
   const commandKinds = Object.entries(AUTHOR_COMMAND_V5_KINDS)
     .filter(([, enabled]) => enabled)
     .map(([kind]) => kind)
+    .filter(
+      (kind) =>
+        options.r13SixBCapabilities !== false || (kind !== 'holdScreen' && kind !== 'revealScreen'),
+    )
     .sort(stableStringCompare)
   const commandCells = R13_COMMAND_CONTEXTS.flatMap((context) =>
     commandKinds.map((kind) => commandStatus(kind, context, options)),
   )
-  const skillKinds = (Object.keys(SKILL_EFFECT_KIND_TABLE) as SkillEffect['kind'][]).sort(
-    stableStringCompare,
-  )
+  const skillKinds = (Object.keys(SKILL_EFFECT_KIND_TABLE) as SkillEffect['kind'][])
+    .filter((kind) => options.r13SixBCapabilities !== false || kind !== 'resourceDelta')
+    .sort(stableStringCompare)
   const skillCells = R13_SKILL_CONTEXTS.flatMap((context) =>
     skillKinds.map((kind) => skillStatus(kind, context)),
   )

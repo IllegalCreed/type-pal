@@ -160,9 +160,10 @@ export interface TranslateCtx {
   sourceAddressAt?: (cmds: readonly SourceCmd[], idx: number) => number | undefined
   /**
    * 已发布 P0→R13-5 重放必须保留当时的翻译结果；current-r13-6a 才启用后续源语义闭合。
-   * 缺省按 current 处理，便于独立翻译器测试与新迁移调用方。
+   * current-r13-6b 只供 R13-6B successor 提取 loadScene 源时序证据，默认迁移仍固定 6A，
+   * 避免改写 P0 冻结翻译输出。
    */
-  palSemanticProfile?: 'historical-r13-4' | 'current-r13-6a'
+  palSemanticProfile?: 'historical-r13-4' | 'current-r13-6a' | 'current-r13-6b'
   /** all.json 原本显式声明的 label;用于记录补全地址索引的命中。 */
   explicitLabels?: ReadonlySet<string>
   /** 当前翻译引用路径,只用于诊断。 */
@@ -1164,12 +1165,17 @@ function walkBody(
       if (op === 'loadScene') {
         flush()
         // loadScene operand 1-based(sdlpal rgScene[wNumScene-1])→ 0-based scene index,对齐 sceneSlug/sc.sceneId 命名
-        body.push({
+        const loadScene = {
           kind: 'loadScene',
           scene: sceneSlug(Math.max(0, (c.sceneId ?? 1) - 1)),
-          // 迁移期私有证据，foldDoorPattern 必须消费并从最终 canonical 删除。
-          __palSourceAddress: instructionSourceAddress,
-        } as unknown as Command)
+          ...(ctx.palSemanticProfile === 'current-r13-6b'
+            ? {
+                // R13-6B 专用迁移证据，foldDoorPattern 必须消费并从最终 canonical 删除。
+                __palSourceAddress: instructionSourceAddress,
+              }
+            : {}),
+        }
+        body.push(loadScene as Command)
         at = { cmds: at.cmds, idx: at.idx + 1 }
         continue
       }
@@ -2141,9 +2147,9 @@ export function translateActivationBlock(args: {
 
 /**
  * 门模式 peephole:loadScene 与相邻(≤2 距离)teleportParty/fade(out) 折叠为单条
- * loadScene{scene,pos,transition}(主流原版链形 `loadScene setPartyPos fadeOut`×666 及变序)。
- * 引擎的 loadScene 内建淡出/淡入；只有源地址与相邻 fade 同时存在时才写 source profile，
- * 否则保持省略 transition 的 modern 260/260 默认，不能伪造源时序。
+ * loadScene{scene,pos}(主流原版链形 `loadScene setPartyPos fadeOut`×666 及变序)。
+ * 默认语义必须保持已冻结 P0 输出；只有 R13-6B 专用 profile 注入的源地址与相邻 fade
+ * 同时存在时才额外写 source transition，不能从普通 canonical 命令伪造源时序。
  */
 export function foldDoorPattern(body: Command[]): Command[] {
   const out: Command[] = []
@@ -2181,26 +2187,33 @@ export function foldDoorPattern(body: Command[]): Command[] {
       }
       if (p.kind !== 'fade') break
     }
-    const transition =
+    const sourceTransition =
       absorbedFade && Number.isSafeInteger(sourceAddress)
         ? {
-            kind: 'source' as const,
-            outMs: absorbedFade.ms ?? 300,
-            inMs: 600,
-            color: 'black' as const,
-            evidenceId: `pal-load-scene-${sourceAddress}`,
+            transition: {
+              kind: 'source' as const,
+              outMs: absorbedFade.ms ?? 300,
+              inMs: 600,
+              color: 'black' as const,
+              evidenceId: `pal-load-scene-${sourceAddress}`,
+            },
           }
-        : c.transition
-    const presentation = {
-      ...(facing ? { facing } : {}),
-      ...(transition ? { transition } : {}),
-    }
+        : {}
     out.push(
       pos
-        ? { kind: 'loadScene', scene: c.scene, pos, ...presentation }
-        : c.entryId
-          ? { kind: 'loadScene', scene: c.scene, entryId: c.entryId, ...presentation }
-          : { kind: 'loadScene', scene: c.scene, ...presentation },
+        ? {
+            kind: 'loadScene',
+            scene: c.scene,
+            pos,
+            ...(facing ? { facing } : {}),
+            ...sourceTransition,
+          }
+        : {
+            kind: 'loadScene',
+            scene: c.scene,
+            ...(facing ? { facing } : {}),
+            ...sourceTransition,
+          },
     )
     i += consumed
   }

@@ -1393,7 +1393,7 @@ export interface MigrateAllOptions {
   /** R13-6A 之前这三条玩家物品门仍是 pending；历史 R13-5 重放必须固定旧口径。 */
   skillItemCosts?: boolean
   /** 与场景翻译共用的 PAL 历史/current 语义隔离。 */
-  palSemanticProfile?: 'historical-r13-4' | 'current-r13-6a'
+  palSemanticProfile?: 'historical-r13-4' | 'current-r13-6a' | 'current-r13-6b'
 }
 
 export function migrateAll(
@@ -1959,8 +1959,8 @@ export interface SceneMigrationOptions {
     entry: number
     owner?: string
   }>
-  /** 已发布历史层与 current R13-6A 的翻译语义必须显式隔离，禁止重签 P0。 */
-  palSemanticProfile?: 'historical-r13-4' | 'current-r13-6a'
+  /** 已发布历史层、current R13-6A 与 6B 专用证据提取必须显式隔离，禁止重签 P0。 */
+  palSemanticProfile?: 'historical-r13-4' | 'current-r13-6a' | 'current-r13-6b'
 }
 
 /**

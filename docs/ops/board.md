@@ -10,7 +10,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| N3-1 | 结构化控制流、实体具名行为与内部脚本退役 | build | 等待 Kimi / GLM 完成 R13-6B implementation review；Codex 负责收口 | R13-6B 已实现并自验：content11/SAVE8、4 组 hold/reveal、871 条 loadScene source 证据、二跑 0/0/0；三方 review 未齐，R13-Z 未开始 |
+| N3-1 | 结构化控制流、实体具名行为与内部脚本退役 | build | GLM 复审 F5 返工；Codex 继续处理 Kimi F1–F4 counter | GLM canary blocker 已隔离修复：P0/P2 不重冻，canary 2/2（256.03s / RSS 1.58GB）；Kimi counter 未关闭，R13-Z 未开始 |
 | C8 | 物品用途机制、运行时与迁移闭环 | review | 等待 N3-1 完成后交用户联合验收 | `0d4aa48b` 三方最终 accept 已齐；100/0、20 件/21 根及引用反跳均通过审查 |
 | W9 | 实体暂离、重现与明雷逃跑冷却 | draft | 先冻结精确状态机，再由 Kimi / GLM 设计审查 | 18b 二次真值核对补入 0x4B 手动确认、0x52 toggle、world-update pause、敌逃/terminate success；Codex 签字撤回 pending，未准入 build |
 | B10-1 | 混乱敌人攻击同伴 | draft | 先冻结语义空槽 schema，再由三方设计签字 | 18a 二次真值核对补入 confused 前废弃玩家抽样；二阶段已压掉 68/380 队源空槽，不能用活目标分布冒充 RNG 忠实，Codex 签字 pending |

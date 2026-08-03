@@ -111,16 +111,17 @@ describe('R13 runtime capability audit', () => {
       '91abf7787b9eb8994e97df0ab4e0ad4a57e8268ae83c860d36d02830ab78e5fa',
     )
     expect(stableJsonSha256(historical.matrix)).toBe(
-      '57f89de645d5d928964eec82bdafba1da6492ec90e6c57f59674ee53e6918380',
+      'd25ee2a7940082e20948730c2bd467f659ff3e0b4de19047050b84fe4e42e7a9',
     )
+    expect(historical.matrix.commandKinds).not.toContain('holdScreen')
+    expect(historical.matrix.commandKinds).not.toContain('revealScreen')
+    expect(historical.matrix.skillKinds).not.toContain('resourceDelta')
     expect(historical.digest).not.toBe(current.digest)
     expect(() => assertR13RuntimeCapabilityAudit(historical, value)).toThrow('matrix 漂移')
-    expect(() =>
-      assertHistoricalR13ConfirmRuntimeCapabilityAudit(current, value),
-    ).toThrow('matrix 漂移')
-    expect(() =>
-      assertHistoricalR13ConfirmRuntimeCapabilityAudit(historical, value),
-    ).not.toThrow()
+    expect(() => assertHistoricalR13ConfirmRuntimeCapabilityAudit(current, value)).toThrow(
+      'matrix 漂移',
+    )
+    expect(() => assertHistoricalR13ConfirmRuntimeCapabilityAudit(historical, value)).not.toThrow()
   })
 
   test('registers real confirm execution without an R13-4 debt', () => {

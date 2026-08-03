@@ -510,10 +510,22 @@ function assertPalBattleSpriteBaseline(args: {
     throw new Error(`PAL 敌 AI 间接目标集漂移: ${JSON.stringify(uniqueTargets)}`)
 }
 
+export interface PalMigrationBuildOptions {
+  /** 仅 R13-6B successor 启用技能语义和 loadScene 源证据；普通 build 必须保持冻结输出。 */
+  r13SixBSourceSemantics?: boolean
+}
+
 function buildPalMigrationWithEnemyAuthority(
   sources: PalMigrationSources,
   enemyAuthority: PalEnemyAuthorityProfile,
+  options: PalMigrationBuildOptions = {},
 ): MigrationFileSet {
+  const palSemanticProfile =
+    enemyAuthority.r13_6a === 'current'
+      ? options.r13SixBSourceSemantics
+        ? ('current-r13-6b' as const)
+        : ('current-r13-6a' as const)
+      : ('historical-r13-4' as const)
   const soundAssetForNum = palSoundAssetForSources(sources)
   const convertedMaps = auditAndConvertSourceMaps(sources.tilemaps)
   const legacyEntityAddresses = new Map<number, { scene: string; entity: string }>()
@@ -537,14 +549,15 @@ function buildPalMigrationWithEnemyAuthority(
     enemyAuthority.migrate,
     {
       skillItemCosts: enemyAuthority.r13_6a === 'current',
-      palSemanticProfile:
-        enemyAuthority.r13_6a === 'current' ? 'current-r13-6a' : 'historical-r13-4',
+      palSemanticProfile,
     },
   )
   const items = applyPalItemOverlays(migrated.items)
   const skills = {
     ...migrated.skills,
-    skills: applyPalSkillOverlays(migrated.skills.skills),
+    skills: applyPalSkillOverlays(migrated.skills.skills, {
+      r13SixBExecution: options.r13SixBSourceSemantics,
+    }),
   }
   const globalRoots = makeGlobalScriptRoots({
     items: sources.migrate.items.flatMap((item) => [
@@ -611,8 +624,7 @@ function buildPalMigrationWithEnemyAuthority(
     {
       worldSpriteFrameCounts: sources.worldSpriteFrameCounts,
       globalScriptAliases: itemUseScriptAliases,
-      palSemanticProfile:
-        enemyAuthority.r13_6a === 'current' ? 'current-r13-6a' : 'historical-r13-4',
+      palSemanticProfile,
     },
   )
   const boss = applyPalBossEncounterOverlay(
@@ -820,8 +832,11 @@ function buildPalMigrationWithEnemyAuthority(
 }
 
 /** data/extracted 的 current v10 纯迁移；严禁读取 projects/pal。 */
-export function buildPalMigration(sources: PalMigrationSources): MigrationFileSet {
-  return buildPalMigrationWithEnemyAuthority(sources, CURRENT_ENEMY_AUTHORITY)
+export function buildPalMigration(
+  sources: PalMigrationSources,
+  options: PalMigrationBuildOptions = {},
+): MigrationFileSet {
+  return buildPalMigrationWithEnemyAuthority(sources, CURRENT_ENEMY_AUTHORITY, options)
 }
 
 /**
@@ -836,7 +851,9 @@ export function buildPalHistoricalR13_4V9Migration(sources: PalMigrationSources)
  * 只用于重放已经发布的 R13-5 transition。敌人 v10 能力保持，但 R13-6A 的
  * 技能物品门、palette/redraw/delay 仍按发布时旧口径生成。
  */
-export function buildPalHistoricalR13_5V10Migration(sources: PalMigrationSources): MigrationFileSet {
+export function buildPalHistoricalR13_5V10Migration(
+  sources: PalMigrationSources,
+): MigrationFileSet {
   return buildPalMigrationWithEnemyAuthority(sources, R13_ENEMY_PARENT_AUTHORITY)
 }
 
