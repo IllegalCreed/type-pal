@@ -7071,7 +7071,7 @@ implementation review 仍只登记 Codex 自验，Kimi/GLM 尚未写 `accept`；
 
 | Agent | 结论 | 日期 | 证据 / 备注 |
 |---|---|---|---|
-| Codex | **accept（自验）** | 2026-08-03 | 上述四包测试、typecheck、正式迁移写盘与 replay `0/0/0` 全部通过；仅代表 Coding Owner 自验。 |
+| Codex | **accept（返工自验）** | 2026-08-03 | `fd2e4353` 已闭合 Kimi F1-F4：敌侧 70/30/50、303/305 状态 3t→HP-1、7 技能 preShake level=4、编辑器 hold/reveal 与统一 finalizer；四包门禁、正式重迁、replay `0/0/0`、canary 2/2 均通过。仅代表 Coding Owner 自验。 |
 | Kimi | **counter** | 2026-08-03 | 四处源真值/冻结条款违背：F1 敌侧 gate 概率用了玩家值（源 @43089=70/@43096=50/@43123=30，实现 60/33/44）；F2 303/305 敌链缺 0x2D 状态步（sleep/confuse 3t→HP-1，核心语义丢失，且设计冻结同样漏此项需三方复核）；F3 7 技能 preShake level=3 但源默认 4（operand[1]=0→i=4）；F4 编辑器预览未实现 hold/reveal（冻结明确要求渲染黑屏）。全部一手复现，最小返工见交接记录。不得转 accept，不得标 R13-6B/N3-1/C8/ED-5I done。 |
 | GLM | **accept** | 2026-08-03 | counter 返工闭合（`46fad115`）：Codex 不重冻 P0 digest，改为隔离 6B——默认 `buildPalMigration` 固定 `current-r13-6a` profile，只显式传 `r13SixBSourceSemantics` 才启用 6B；canary 回放前对 content11 做 fail-closed 6B→6A rewind（逐文件 COW）。一手复跑：**canary 2/2 全绿**（267s，P2 frozen digest 仍 `dd42217c…` 未重冻）；**fast 558/5 skip**（75 files, 20s）；**dry-run writes=0/deletes=0/conflicts=0**。数据层（上轮已核：7 preShake/370/303-305 G1 落实/content11/SAVE8）无反例。accept 只收口 R13-6B implementation，不代表 R13-Z/N3-1/C8/ED-5I done。 |
 
@@ -7361,7 +7361,71 @@ docs/phase2/foundation/phase1-knowledge-harvest.md；本卡 R13-6A publication e
   counter 返工闭合，改签 **accept**。Kimi F1-F4 counter 仍阻塞，任务仍 rework，不得标记 done。
   未修改实现/产物/baseline/seal/Kimi 签字。
 
-##### R13-6B implementation review 返工交接提示词（下一位 Agent 可直接复制）
+##### R13-6B Kimi F1-F4 返工与源真值补正（2026-08-03）
+
+用户指示“处理吧”后，Codex 按 Kimi 的一手反例修复 `fd2e4353`。本节补正早期设计记录中遗漏的
+303/305 敌侧状态步；历史审查文字作为当时事实保留，不回写伪造三方结论。Kimi 的 `counter`
+在其独立复审前继续有效，N3-1 保持 `build`，R13-Z、C8、ED-5I 均未因此完成。
+
+- **F1 敌侧概率**：`translateSkillScript` 对 `0x06` 的既有 canonical 口径是操作数原值
+  `chance=a`，不做 69/49/29 的二次换算；因此按 `all.json` 敌支原值生成 303=70、305=50、
+  304=30。实现锚：`packages/migrate/src/pal-authored-overlays.ts:31-59`。
+- **F2 敌侧完整链**：303 固定为 `gate(70) → sleep(3t) → HP-1`，305 固定为
+  `gate(50) → confused(3t) → HP-1`；304 保持 `gate(30) → instantKill`，没有错误套用
+  `resourceDelta(-1)`。overlay 单测逐 effect/顺序钉住三条链。
+- **F3 preShake**：330/334/342/357/378/380/385 的帧数仍为
+  20/20/14/24/14/14/14，level 全部改为 `4`，对应 `0x35 operand[1]=0` 的原版默认值；
+  单测一次对账 7/7。
+- **F4 编辑器预览**：`Playback` 新增纯表现层 token，不进入 scratch world/工程/存档；
+  `holdScreen` 立即写现有 `view.fadeBlack=1`，同 token `revealScreen` 用 260ms 淡入恢复。
+  异常、`loadScene`、停止/组件卸载统一走 `finalizeScreenHold`；错误 token fail-loud 后也恢复画面。
+  锚点：`packages/editor/src/core/playback.ts:112-113,506-520,620-637,671-677`。
+- **上游重迁**：只改迁移 overlay 后先 dry-run 得 `writes=1 / deletes=0 / conflicts=0`，再由
+  `migrate:content -- --write` 原子更新 PAL skills + baseline；二次 dry-run 为
+  `applied=0 / already=871 / skipped=0`、`writes=0 / deletes=0 / conflicts=0`。没有手改
+  `projects/pal`。oracle 由 `test:oracle:update` 专用生成器重签，projection 零变化。
+- **返工验证**：content **33 files / 391 tests**；reforge **77 / 777**；editor
+  **93 / 797**；migrate fast **75 / 558（5 skipped）**；四包 typecheck 通过；定向
+  editor playback **11/11**、PAL overlay **3/3**；source canary **2/2，245.63s**；
+  `git diff --check` 通过。
+
+##### 给 Kimi（R13-6B F1-F4 定向返工复审；下一位 Agent 可直接复制）
+
+```text
+复审 N3-1 R13-6B 的 Kimi F1-F4 counter 返工；只读，不改实现、生成产物、P0/P2 digest、
+GLM 签字或任务状态。任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态：N3-1 build；GLM 已 accept F5，Codex 已在 fd2e4353 完成 F1-F4 返工并自验；
+你的 Kimi counter 仍有效，只有独立核对无反例后才能改签 accept。不得标 R13-6B/N3-1/C8/ED-5I done。
+
+先读：AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md；本卡 R13-6B implementation review、
+Kimi F1-F4 counter 和“R13-6B Kimi F1-F4 返工与源真值补正”；再读：
+packages/migrate/src/pal-authored-overlays.ts 及测试、projects/pal/content/skills.json、
+packages/migrate/baselines/pal/content/skills.json、packages/editor/src/core/playback.ts 及测试。
+
+必须独立核对：
+1. all.json @43089/@43096/@43123 与 L_39391/L_39398：敌侧 gate 必须是 303=70、305=50、
+   304=30；303/305 必须分别 sleep/confused 3t 后 HP-1，304 仍为 instantKill。
+2. 现有 0x06 canonical 口径是否确为 operand 原值（translateSkillScript chance=a），不得把玩家
+   60/44/33 再抄回敌侧，也不得无证据改成 69/49/29。
+3. 7 个 preShake 必须全部 level=4，帧数仍为 20/20/14/24/14/14/14，且末尾 shake 未被覆盖。
+4. 编辑器 canonical/legacy 预览的 hold/reveal 是否实际使用 fadeBlack 幕布；正常配对、错误 token、
+   stop/卸载、异常和 loadScene 是否收尾；状态不得进入工程、scratch world 或存档。
+5. 证明改动来自上游迁移器且 PAL project/baseline 同步；复跑 migrate dry-run 必须
+   applied=0/already=871/skipped=0、writes=0/deletes=0/conflicts=0。
+
+建议复跑：
+- pnpm --filter @type-pal/migrate exec vitest run src/pal-authored-overlays.test.ts
+- pnpm --filter @type-pal/editor exec vitest run src/core/playback.test.ts
+- pnpm --filter @type-pal/migrate run check:fast
+- pnpm --filter @type-pal/migrate run migrate:content
+canary 已由 Codex 在 fd2e4353 后跑 2/2（245.63s）；若不怀疑 F5/P0 隔离可不重复这项慢门，
+但需检查该证据对应当前提交且 frozen digest 未重冻。
+
+输出：在本卡 R13-6B implementation review 的 Kimi 行把 counter 改为 accept，或保留 counter 并给出
+file:line、源地址、实际/期望和最小返工。另写独立复跑数字；不得修改 Codex/GLM 行或标记 done。
+```
+
+##### R13-6B F5 返工交接提示词（GLM 已完成，保留备查，勿再执行）
 
 ```text
 复审 N3-1 R13-6B implementation counter 返工；只读，不改实现、生成产物、P0/P2 digest 或签字以外的任务卡内容。
