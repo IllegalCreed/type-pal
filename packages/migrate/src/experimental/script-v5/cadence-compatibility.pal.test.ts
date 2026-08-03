@@ -356,9 +356,9 @@ describe('R13-1 PAL cadence compatibility', () => {
         r13One: 22,
         r13Two: 56,
       },
-      // R13-5 正式删除八份旧遭遇 choreography 后，flow 数量/边界不变，payload 摘要收缩。
-      bytes: 7_949_335,
-      sha256: '7fb7e04ba705cafa75f2e65a22811c8e2a6f848001b930ce49a6e9a137dd3bcf',
+      // R13-6A 正式补入 22 个既有 schema source sites 后，flow 数量/边界不变。
+      bytes: 7_950_872,
+      sha256: '467e52b28a826e5b38e434e5d38db4988a75deb6c16dc5769eeb9d2d0ec61401',
     })
     expect({
       historical: continueStats.historical,

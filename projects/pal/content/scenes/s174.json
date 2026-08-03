@@ -3004,6 +3004,10 @@
                     "kind": "clearDialog"
                   },
                   {
+                    "kind": "wait",
+                    "ms": 120
+                  },
+                  {
                     "cue": {
                       "portrait": {
                         "asset": "portrait.pal.082",

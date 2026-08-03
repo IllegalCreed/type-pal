@@ -2777,7 +2777,13 @@
       "name": "三尸咒",
       "desc": "下蛊攻击敌方单人，\n有蛊时才能使用。",
       "cost": {
-        "mp": 22
+        "mp": 22,
+        "items": [
+          {
+            "itemId": "148",
+            "amount": 1
+          }
+        ]
       },
       "usableOutsideBattle": false,
       "target": "oneEnemy",
@@ -2834,7 +2840,13 @@
       "name": "万蛊蚀天",
       "desc": "放蛊攻击敌方全体，\n有蛊时才能使用。",
       "cost": {
-        "mp": 34
+        "mp": 34,
+        "items": [
+          {
+            "itemId": "148",
+            "amount": 1
+          }
+        ]
       },
       "usableOutsideBattle": false,
       "target": "allEnemies",
@@ -2862,7 +2874,13 @@
       "name": "毒吞天下",
       "desc": "",
       "cost": {
-        "mp": 48
+        "mp": 48,
+        "items": [
+          {
+            "itemId": "148",
+            "amount": 1
+          }
+        ]
       },
       "usableOutsideBattle": false,
       "target": "allEnemies",

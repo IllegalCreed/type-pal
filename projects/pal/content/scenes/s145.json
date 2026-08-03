@@ -653,6 +653,10 @@
                 "id": "initial",
                 "body": [
                   {
+                    "kind": "setAmbience",
+                    "ambience": "day"
+                  },
+                  {
                     "kind": "teleportParty",
                     "pos": {
                       "col": 75,

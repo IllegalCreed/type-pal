@@ -1791,6 +1791,10 @@
                     "mapId": "map-165"
                   },
                   {
+                    "kind": "ditherScreen",
+                    "ms": 2160
+                  },
+                  {
                     "kind": "wait",
                     "ms": 1000
                   },

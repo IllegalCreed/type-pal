@@ -56,6 +56,10 @@
                     "kind": "clearDialog"
                   },
                   {
+                    "kind": "wait",
+                    "ms": 120
+                  },
+                  {
                     "cue": {
                       "autoAdvance": 685,
                       "portrait": {
@@ -103,6 +107,10 @@
                     "dir": "out",
                     "kind": "fade",
                     "ms": 2400
+                  },
+                  {
+                    "kind": "setAmbience",
+                    "ambience": "day"
                   },
                   {
                     "kind": "loadScene",

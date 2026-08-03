@@ -229,6 +229,10 @@
                 "id": "initial",
                 "body": [
                   {
+                    "kind": "setAmbience",
+                    "ambience": "warm"
+                  },
+                  {
                     "actor": "li-xiaoyao",
                     "kind": "setActorSprite",
                     "sprite": "sprite-232"

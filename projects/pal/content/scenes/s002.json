@@ -857,6 +857,10 @@
                       "kind": "clearDialog"
                     },
                     {
+                      "kind": "wait",
+                      "ms": 120
+                    },
+                    {
                       "kind": "dialog",
                       "cue": {
                         "rows": [

@@ -329,6 +329,10 @@
                       "kind": "clearDialog"
                     },
                     {
+                      "kind": "wait",
+                      "ms": 180
+                    },
+                    {
                       "kind": "setPartyFacing",
                       "facing": "down",
                       "gesture": 1

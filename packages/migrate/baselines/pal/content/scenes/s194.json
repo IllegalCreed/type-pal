@@ -76,6 +76,10 @@
                     "kind": "clearDialog"
                   },
                   {
+                    "kind": "wait",
+                    "ms": 120
+                  },
+                  {
                     "facing": "left",
                     "kind": "setEntityFacing",
                     "target": {

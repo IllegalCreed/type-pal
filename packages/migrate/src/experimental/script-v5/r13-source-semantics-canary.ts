@@ -18,17 +18,23 @@ import {
   releasePalTestProducerCachesForCanary,
 } from './pal-test-fixture.js'
 import {
+  R13_EXISTING_SCHEMA_CHANGED_PATHS,
+  rewindR13ExistingSchemaAugmentation,
+  type R13ExistingSchemaAugmentationEvidenceV1,
+} from './r13-existing-schema-augmentation.js'
+import {
   completeR13EnemyScriptSourceInputs,
   prepareR13EnemyScriptSourceAugmentation,
 } from './r13-enemy-script-mg2.js'
 import {
   createR13SourceSemanticsV5MigrationPlan,
+  compactCurrentMigrationForR13SourceSemantics,
   projectR13SourceSemanticsGenerated,
   R13_SOURCE_SEMANTICS_SEAL_PATH,
   R13_SOURCE_SEMANTICS_TRANSITION_ID,
   digestR13SourceSemanticsMigrationInput,
   digestR13SourceSemanticsMigrationInputFast,
-  registerR13SourceSemanticsCanaryMigrationInputDigest,
+  registerR13SourceSemanticsMigrationInputDigest,
   type R13SourceSemanticsDispositionInput,
   type R13SourceSemanticsV5MigrationPlan,
 } from './r13-source-semantics-mg2.js'
@@ -53,49 +59,6 @@ function loadCanarySourcesMigration(
     eventsByScene: new Map(source.eventsByScene),
   }
   return Object.freeze({ sources, migration: buildMigration(sources) })
-}
-
-/**
- * After the current-v10 source-backed authority has been hashed, R13-6A only reads three
- * content files and four report leaves from that migration. Keep those leaves in a branded
- * narrow view; the full migration graph is otherwise dead weight during the 81k-site ledger.
- */
-function compactCurrentMigrationForR13SourceSemantics(
-  migration: MigrationFileSet,
-): MigrationFileSet {
-  const files = new Map<string, MigrationJson>()
-  for (const path of ['content/enemies.json', 'content/skills.json', 'content/locale.json']) {
-    const value = migration.files.get(path)
-    if (value === undefined)
-      throw new Error(`R13 source semantics canary: current migration 缺 ${path}`)
-    files.set(path, value)
-  }
-  const report = {
-    rawContent: {},
-    rawProjection: { enemies: migration.report.rawProjection.enemies },
-    content: {
-      pendingSkills: migration.report.content.pendingSkills,
-      lossySkills: migration.report.content.lossySkills,
-    },
-    enemies: {
-      pendingScripts: migration.report.enemies?.pendingScripts ?? [],
-      hookSources: migration.report.enemies?.hookSources ?? [],
-    },
-    enemyTeams: {},
-    scenes: {},
-    scripts: {},
-    graph: {},
-    scriptRegistry: {},
-    foldedHostileRoots: [],
-    foldedSpriteRoots: [],
-    audit: {},
-    spriteActions: {},
-    spriteActionMaterialization: {},
-    bossOverlay: { attached: 0, clearedEnemies: [] },
-    maps: {},
-    assets: {},
-  } as unknown as MigrationFileSet['report']
-  return { files, managedFiles: new Set(files.keys()), report }
 }
 
 export interface R13SourceSemanticsCanaryFixture {
@@ -143,10 +106,34 @@ export function cloneR13SourceSemanticsCanarySnapshot(
 
 function stripSourceSemanticsSeal(source: MigrationSnapshot): MigrationSnapshot {
   const snapshot = cloneR13SourceSemanticsCanarySnapshot(source)
+  const rawSeal = snapshot.files.get(R13_SOURCE_SEMANTICS_SEAL_PATH)
+  const evidence =
+    rawSeal && typeof rawSeal === 'object' && !Array.isArray(rawSeal)
+      ? (rawSeal as { augmentation?: R13ExistingSchemaAugmentationEvidenceV1 }).augmentation
+      : undefined
   snapshot.files.delete(R13_SOURCE_SEMANTICS_SEAL_PATH)
   snapshot.managedFiles.delete(R13_SOURCE_SEMANTICS_SEAL_PATH)
   snapshot.hashes?.delete(R13_SOURCE_SEMANTICS_SEAL_PATH)
   delete snapshot.baselineMetadata?.transitions[R13_SOURCE_SEMANTICS_TRANSITION_ID]
+  // Once R13-6A is formally published, the checked-in baseline is the successor. The canary
+  // still exercises the one-time initialize path, so rewind only the evidenced 6A delta before
+  // removing its seal; this keeps the fixture independent of the live publication state.
+  if (!evidence) return snapshot
+  const content = cloneR13SourceSemanticsCanarySnapshot(snapshot)
+  for (const path of [...content.files.keys()])
+    if (path.startsWith('_transitions/')) content.files.delete(path)
+  for (const path of [...content.managedFiles])
+    if (path.startsWith('_transitions/')) content.managedFiles.delete(path)
+  for (const path of [...(content.hashes?.keys() ?? [])])
+    if (path.startsWith('_transitions/')) content.hashes?.delete(path)
+  delete content.baselineMetadata
+  const parent = rewindR13ExistingSchemaAugmentation(content, evidence)
+  for (const path of R13_EXISTING_SCHEMA_CHANGED_PATHS) {
+    const value = parent.files.get(path)
+    if (value === undefined) throw new Error(`R13 source semantics canary: rewind 缺 ${path}`)
+    snapshot.files.set(path, value)
+    snapshot.hashes?.delete(path)
+  }
   return snapshot
 }
 
@@ -194,7 +181,7 @@ export function buildR13SourceSemanticsCanaryFixture(): R13SourceSemanticsCanary
     const currentMigrationFastDigest =
       digestR13SourceSemanticsMigrationInputFast(currentFull.migration)
     const currentMigration = compactCurrentMigrationForR13SourceSemantics(currentFull.migration)
-    registerR13SourceSemanticsCanaryMigrationInputDigest(
+    registerR13SourceSemanticsMigrationInputDigest(
       currentMigration,
       currentMigrationDigest,
       currentMigrationFastDigest,
@@ -234,7 +221,17 @@ export function buildR13SourceSemanticsCanaryFixture(): R13SourceSemanticsCanary
       PAL_TEST_REPO,
       new Set([...base.managedFiles, ...currentMigration.managedFiles]),
     )
-    return loadProjectMigrationSnapshot(PAL_TEST_REPO, managed)
+    const snapshot = loadProjectMigrationSnapshot(PAL_TEST_REPO, managed)
+    // The checked-in project advances together with the baseline. Recreate the pre-publication
+    // author side for exactly the 17 owned paths so this fixture continues to prove initialize
+    // writes rather than merely exercising the already-published replay path.
+    for (const path of R13_EXISTING_SCHEMA_CHANGED_PATHS) {
+      const value = base.files.get(path)
+      if (value === undefined) throw new Error(`R13 source semantics canary: parent 缺 ${path}`)
+      snapshot.files.set(path, structuredClone(value))
+      snapshot.hashes?.delete(path)
+    }
+    return snapshot
   })()
   const projectPrerequisites = new Map<string, MigrationJson>([
     [

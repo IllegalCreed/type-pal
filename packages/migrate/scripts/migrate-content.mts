@@ -45,9 +45,23 @@ import {
 } from '../src/experimental/script-v5/r13-confirm-mg2.js'
 import { repairMissingR13ConfirmSeal } from '../src/experimental/script-v5/r13-confirm-seal-repair.js'
 import {
+  completeR13EnemyScriptSourceInputs,
   createR13EnemyScriptV5MigrationPlan,
+  prepareR13EnemyScriptAuthority,
+  prepareR13EnemyScriptSourceAugmentation,
   type R13EnemyScriptV5MigrationPlan,
 } from '../src/experimental/script-v5/r13-enemy-script-mg2.js'
+import {
+  compactCurrentMigrationForR13SourceSemantics,
+  createR13SourceSemanticsV5MigrationPlan,
+  digestR13SourceSemanticsMigrationInput,
+  digestR13SourceSemanticsMigrationInputFast,
+  projectR13SourceSemanticsGenerated,
+  registerR13SourceSemanticsMigrationInputDigest,
+  R13_SOURCE_SEMANTICS_TRANSITION_ID,
+  type R13SourceSemanticsDispositionInput,
+  type R13SourceSemanticsV5MigrationPlan,
+} from '../src/experimental/script-v5/r13-source-semantics-mg2.js'
 import {
   assertR13RuntimeCapabilityAudit,
   auditR13RuntimeCapabilities,
@@ -103,9 +117,11 @@ import {
 import { preparePalManifest } from '../src/pal-manifest.js'
 import {
   buildPalHistoricalR13_4V9Migration,
+  buildPalHistoricalR13_5V10Migration,
   buildPalMigration,
   type MigrationFileSet,
   type MigrationJson,
+  type PalMigrationSources,
   palSoundAssetForSources,
 } from '../src/pal-migration.js'
 import { loadPalMigrationSources } from '../src/pal-migration-io.js'
@@ -114,6 +130,7 @@ import {
   auditPalScriptControlFlow,
   type ScriptControlFlowAuditV1,
 } from '../src/script-control-flow-audit.js'
+import { projectR13SourceDispositionGenerated } from '../src/experimental/script-v5/source-instruction-disposition.js'
 import { normalizeMigrationScriptFiles } from '../src/script-library-normalize.js'
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
@@ -124,6 +141,7 @@ const INTERNAL_PHASE_ENV = 'TYPE_PAL_MIGRATE_INTERNAL_PHASE'
 const EXPECTED_SOURCE_DIGEST_ENV = 'TYPE_PAL_MIGRATE_EXPECTED_SOURCE_DIGEST'
 const EXPECTED_RUNTIME_DIGEST_ENV = 'TYPE_PAL_MIGRATE_EXPECTED_RUNTIME_DIGEST'
 const EXPECTED_TARGET_CONTENT_VERSION_ENV = 'TYPE_PAL_MIGRATE_EXPECTED_TARGET_CONTENT_VERSION'
+const EXPECTED_TRANSITION_ENV = 'TYPE_PAL_MIGRATE_EXPECTED_TRANSITION'
 type CanonicalV5InputManifest =
   | ProjectManifest<5>
   | ProjectManifest<6>
@@ -132,6 +150,7 @@ type CanonicalV5InputManifest =
   | ProjectManifest<9>
   | ProjectManifest<10>
 type P7V5TargetManifest = ProjectManifest<9> | ProjectManifest<10>
+type CanonicalV5Transition = 'confirm' | 'r13-enemy' | 'r13-source'
 
 const readJson = <T,>(path: string): T => JSON.parse(readFileSync(resolve(repo, path), 'utf8')) as T
 const writeJson = (path: string, value: unknown): void => {
@@ -197,6 +216,37 @@ async function runCanonicalV5Phase(
         )
     })
   })
+}
+
+async function writeAndVerifyCanonicalV5Transition(
+  transition: CanonicalV5Transition,
+  targetContentVersion: 9 | 10,
+): Promise<void> {
+  const phaseEnv = {
+    [EXPECTED_TARGET_CONTENT_VERSION_ENV]: String(targetContentVersion),
+    [EXPECTED_TRANSITION_ENV]: transition,
+  }
+  const writeOutput = await runCanonicalV5Phase('--write-once', phaseEnv)
+  const evidence = /\[v5 首轮证据\] source=([0-9a-f]{64}) runtime=([0-9a-f]{64})/.exec(
+    writeOutput,
+  )
+  if (!evidence)
+    throw new Error(`canonical v5 ${transition} 写入子进程未返回首轮 R13 证据`)
+  await runCanonicalV5Phase('--verify-idempotence', {
+    ...phaseEnv,
+    [EXPECTED_SOURCE_DIGEST_ENV]: evidence[1]!,
+    [EXPECTED_RUNTIME_DIGEST_ENV]: evidence[2]!,
+  })
+  console.log(`[v5 分进程幂等] ${transition} 写入与二次 0/0/0 验证均完成`)
+}
+
+function forkPalMigrationSources(source: PalMigrationSources): PalMigrationSources {
+  return {
+    ...source,
+    migrate: { ...source.migrate },
+    allJson: { segments: source.allJson.segments },
+    eventsByScene: new Map(source.eventsByScene),
+  }
 }
 
 function sameSnapshot(expected: MigrationSnapshot, actual: MigrationSnapshot, label: string): void {
@@ -281,10 +331,57 @@ function reportAndAssertR13EnemyScriptPlan(
   }
 }
 
+function reportAndAssertR13SourceSemanticsPlan(
+  result: R13SourceSemanticsV5MigrationPlan,
+): R13ControlAuditSeal {
+  const expectedWrites = [...result.augmentation.evidence.changedPaths].sort()
+  const actualWrites = [...result.plan.writes.keys()].sort()
+  if (result.plan.deletes.length)
+    throw new Error(`R13-6A 正式计划不得删除文件: ${result.plan.deletes.join(',')}`)
+  if (result.sealMode === 'initialize' && !isDeepStrictEqual(actualWrites, expectedWrites))
+    throw new Error(
+      `R13-6A initialize 写白名单漂移: expected=${expectedWrites.join(',')} ` +
+        `actual=${actualWrites.join(',')}`,
+    )
+  if (result.sealMode === 'replay' && result.plan.writes.size)
+    throw new Error(`R13-6A replay 非空计划: writes=${result.plan.writes.size} deletes=0`)
+
+  const source = result.authority.sourceDisposition
+  if (result.authority.sourceControl.reportDigest !== source.digest)
+    throw new Error('R13-6A source control/report digest 漂移')
+  const runtime = auditR13RuntimeCapabilities(result.target)
+  assertR13RuntimeCapabilityAudit(runtime, result.target)
+  console.log(
+    `[R13-6A 源指令账] sites=${source.summary.executionSites} ` +
+      `open=${source.summary.openDebtSites}/${source.summary.openObservations} ` +
+      `6A=${result.augmentation.evidence.summary.commandSites}/` +
+      `${result.augmentation.evidence.summary.skillCosts} digest=${source.digest}`,
+  )
+  console.log(
+    `[R13-6A 运行时矩阵] cells=${runtime.summary.commandCells + runtime.summary.skillCells} ` +
+      `uses=${runtime.summary.uses} refused=${runtime.summary.refusedUses} ` +
+      `open=${runtime.summary.openDebts} digest=${runtime.digest}`,
+  )
+  console.log(
+    `[R13-6A publication] mode=${result.sealMode} seal=${result.seal.digest} ` +
+      `writes=${result.plan.writes.size} deletes=0`,
+  )
+  return {
+    sourceDispositionDigest: source.digest,
+    runtimeCapabilityDigest: runtime.digest,
+  }
+}
+
 function isR13EnemyScriptPlan(
   result: R13ConfirmV5MigrationPlan,
 ): result is R13EnemyScriptV5MigrationPlan {
   return 'enemyScriptSeal' in result
+}
+
+function isR13SourceSemanticsPlan(
+  result: R13ConfirmV5MigrationPlan | R13SourceSemanticsV5MigrationPlan,
+): result is R13SourceSemanticsV5MigrationPlan {
+  return 'sealMode' in result && 'augmentation' in result
 }
 
 function buildAndAssertR13ControlAudits(args: {
@@ -803,26 +900,41 @@ async function main(): Promise<void> {
   if (repairR13ConfirmSeal && !canonicalV5)
     throw new Error('R13 confirm seal 显式修复只接受 canonical v5+ 工程')
   if (writeRequested && canonicalV5 && !bootstrap) {
-    const expectedTargetContentVersion = contentVersion === 9 || contentVersion === 10 ? '10' : '9'
-    const phaseEnv = {
-      [EXPECTED_TARGET_CONTENT_VERSION_ENV]: expectedTargetContentVersion,
+    if (contentVersion === 9) {
+      await writeAndVerifyCanonicalV5Transition('r13-enemy', 10)
+      await writeAndVerifyCanonicalV5Transition('r13-source', 10)
+    } else if (contentVersion === 10) {
+      await writeAndVerifyCanonicalV5Transition('r13-source', 10)
+    } else {
+      await writeAndVerifyCanonicalV5Transition('confirm', 9)
     }
-    const writeOutput = await runCanonicalV5Phase('--write-once', phaseEnv)
-    const evidence = /\[v5 首轮证据\] source=([0-9a-f]{64}) runtime=([0-9a-f]{64})/.exec(
-      writeOutput,
-    )
-    if (!evidence) throw new Error('canonical v5 写入子进程未返回首轮 R13 证据')
-    await runCanonicalV5Phase('--verify-idempotence', {
-      ...phaseEnv,
-      [EXPECTED_SOURCE_DIGEST_ENV]: evidence[1]!,
-      [EXPECTED_RUNTIME_DIGEST_ENV]: evidence[2]!,
-    })
-    console.log('[v5 分进程幂等] 写入与二次 0/0/0 验证均完成')
     return
   }
   const manifest = rawManifest as LoadedManifest | CanonicalV5InputManifest
+  const configuredTransition = process.env[EXPECTED_TRANSITION_ENV]
+  if (!writeOnce && !verifyIdempotence && configuredTransition !== undefined)
+    throw new Error(`${EXPECTED_TRANSITION_ENV} 只允许内部迁移阶段设置`)
+  if ((writeOnce || verifyIdempotence) && configuredTransition === undefined)
+    throw new Error('canonical v5 内部迁移阶段缺 transition')
+  const canonicalTransition: CanonicalV5Transition =
+    configuredTransition === undefined
+      ? manifest.contentVersion === 10
+        ? 'r13-source'
+        : manifest.contentVersion === 9
+          ? 'r13-enemy'
+          : 'confirm'
+      : configuredTransition === 'confirm' ||
+          configuredTransition === 'r13-enemy' ||
+          configuredTransition === 'r13-source'
+        ? configuredTransition
+        : (() => {
+            throw new Error(`canonical v5 transition 无效: ${configuredTransition}`)
+          })()
   const sources = loadPalMigrationSources(repo)
-  const theirs = buildPalMigration(sources)
+  let theirs =
+    canonicalTransition === 'r13-enemy'
+      ? buildPalHistoricalR13_5V10Migration(sources)
+      : buildPalMigration(sources)
   reportGeneration(theirs)
   const baseline = repairR13ConfirmSeal
     ? loadPalBaselineRepairCandidate(repo, R13_CONFIRM_SEAL_PATH)
@@ -862,6 +974,15 @@ async function main(): Promise<void> {
                     `${expectedTargetContentVersionRaw}`,
                 )
               })()
+    if (
+      expectedTargetContentVersion !== undefined &&
+      ((canonicalTransition === 'confirm' && expectedTargetContentVersion !== 9) ||
+        (canonicalTransition !== 'confirm' && expectedTargetContentVersion !== 10))
+    )
+      throw new Error(
+        `canonical v5 transition/target 不匹配: ${canonicalTransition}/` +
+          `content${expectedTargetContentVersion}`,
+      )
     if (writeOnce && expectedTargetContentVersion === 9 && manifest.contentVersion > 9)
       throw new Error(`confirm write-once 源版本无效: content${manifest.contentVersion}`)
     if (
@@ -880,6 +1001,14 @@ async function main(): Promise<void> {
         `v5 幂等 target 版本漂移: expected=${expectedTargetContentVersion} ` +
           `actual=${manifest.contentVersion}`,
       )
+    if (canonicalTransition === 'r13-source' && (writeOnce || verifyIdempotence)) {
+      const stableDigest = digestR13SourceSemanticsMigrationInput(theirs)
+      const fastDigest = digestR13SourceSemanticsMigrationInputFast(theirs)
+      const compact = compactCurrentMigrationForR13SourceSemantics(theirs)
+      registerR13SourceSemanticsMigrationInputDigest(compact, stableDigest, fastDigest)
+      theirs = compact
+      ;(globalThis as { gc?: () => void }).gc?.()
+    }
     // current successor 与 immutable parent 必须独立加载源快照，不能共享被旧 translator
     // 原地展开过的命令数组；v4 bootstrap 不需要付这次历史重放成本。
     const parentSources = loadPalMigrationSources(repo)
@@ -936,10 +1065,74 @@ async function main(): Promise<void> {
       )
       return
     }
-    const v5 = advancesEnemyScript
-      ? (() => {
+    const v5 =
+      canonicalTransition === 'r13-source'
+        ? (() => {
+            if (manifest.contentVersion !== 10)
+              throw new Error(`R13-6A 只接受 content10，收到 ${manifest.contentVersion}`)
+            const parentR13_5 = (() => {
+              const r13_5Sources = loadPalMigrationSources(repo)
+              const r13_5Migration = buildPalHistoricalR13_5V10Migration(r13_5Sources)
+              return prepareR13EnemyScriptSourceAugmentation({
+                generated,
+                historicalMigration: authorityMigration,
+                currentSources: r13_5Sources,
+                currentMigration: r13_5Migration,
+              })
+            })()
+            ;(globalThis as { gc?: () => void }).gc?.()
+            const sourceInputs = completeR13EnemyScriptSourceInputs({
+              historicalSources: parentSources,
+              historicalMigration: authorityMigration,
+              historicalAudit,
+              preparedHistoricalSourceCensus,
+              augmentation: parentR13_5.augmentation,
+              successorGenerated: projectR13SourceDispositionGenerated(
+                parentR13_5.successorGenerated,
+              ),
+              currentSources: sources,
+              currentMigration: theirs,
+            })
+            const sourceDispositionInput: R13SourceSemanticsDispositionInput = {
+              historicalSources: parentSources,
+              historicalMigration: authorityMigration,
+              historicalAudit,
+              generated: projectR13SourceSemanticsGenerated(sourceInputs.successorGenerated),
+              parentSourceDisposition: sourceInputs.sourceDisposition,
+              r13EnemyClosure: {
+                sourceDisposition: sourceInputs.augmentation.enemySourceDisposition,
+                currentSources: sources,
+                currentMigration: theirs,
+                augmentationEvidence: sourceInputs.augmentation.evidence,
+              },
+              preparedHistoricalSourceCensus,
+            }
+            const projectPrerequisites = new Map<string, MigrationJson>([
+              ['content/ambiences.json', readJson<MigrationJson>('projects/pal/content/ambiences.json')],
+            ])
+            return createR13SourceSemanticsV5MigrationPlan({
+              base: baseline,
+              ours,
+              currentSources: sources,
+              currentMigration: theirs,
+              projectPrerequisites,
+              sourceDispositionInput,
+            })
+          })()
+        : canonicalTransition === 'r13-enemy'
+          ? (() => {
           const successorAudit = auditPalScriptControlFlow(sources, theirs)
           assertScriptControlFlowAudit(successorAudit)
+          const preparedAuthority = prepareR13EnemyScriptAuthority({
+            generated,
+            historicalSources: parentSources,
+            historicalMigration: authorityMigration,
+            historicalAudit,
+            currentSources: sources,
+            currentMigration: theirs,
+            currentAudit: successorAudit,
+            preparedHistoricalSourceCensus,
+          })
           return createR13EnemyScriptV5MigrationPlan({
             base: baseline,
             ours,
@@ -951,17 +1144,18 @@ async function main(): Promise<void> {
             currentMigration: theirs,
             currentAudit: successorAudit,
             preparedHistoricalSourceCensus,
+            preparedAuthority,
           })
         })()
-      : createR13ConfirmV5MigrationPlan({
-          base: baseline,
-          ours,
-          generated,
-          sources: parentSources,
-          migration: authorityMigration,
-          audit: historicalAudit,
-          preparedSourceCensus: preparedHistoricalSourceCensus,
-        })
+          : createR13ConfirmV5MigrationPlan({
+              base: baseline,
+              ours,
+              generated,
+              sources: parentSources,
+              migration: authorityMigration,
+              audit: historicalAudit,
+              preparedSourceCensus: preparedHistoricalSourceCensus,
+            })
     reportPlan(v5.plan)
     if (v5.plan.conflicts.length) {
       if (verifyIdempotence)
@@ -972,6 +1166,7 @@ async function main(): Promise<void> {
     }
     await validateP7V5Target(v5.target, targetManifest)
     const firstR13 = (() => {
+      if (isR13SourceSemanticsPlan(v5)) return reportAndAssertR13SourceSemanticsPlan(v5)
       if (isR13EnemyScriptPlan(v5)) {
         if (manifest.contentVersion !== 9 && manifest.contentVersion !== 10)
           throw new Error(`R13-5 outer 不接受 content${manifest.contentVersion}`)

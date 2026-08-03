@@ -55,6 +55,10 @@
                 "id": "initial",
                 "body": [
                   {
+                    "kind": "setAmbience",
+                    "ambience": "warm"
+                  },
+                  {
                     "actor": "li-xiaoyao",
                     "kind": "setActorSprite",
                     "sprite": "sprite-193"
@@ -74,6 +78,10 @@
                   },
                   {
                     "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 180
                   },
                   {
                     "cue": {

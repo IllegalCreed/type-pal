@@ -37,6 +37,10 @@
                 "entry": {
                   "prepare": [
                     {
+                      "kind": "setAmbience",
+                      "ambience": "warm"
+                    },
+                    {
                       "kind": "teleportParty",
                       "pos": {
                         "col": 80,
@@ -54,6 +58,10 @@
                     },
                     {
                       "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 180
                     },
                     {
                       "kind": "setEntityState",
@@ -309,6 +317,10 @@
                     "dir": "out",
                     "kind": "fade",
                     "ms": 1200
+                  },
+                  {
+                    "kind": "setAmbience",
+                    "ambience": "day"
                   },
                   {
                     "kind": "loadScene",

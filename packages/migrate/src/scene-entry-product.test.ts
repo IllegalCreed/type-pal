@@ -144,7 +144,9 @@ const expectedNonEarlyOnEnterScenes = [
   's188',
   's203',
   's227',
+  's230',
   's233',
+  's243',
   's251',
 ]
 

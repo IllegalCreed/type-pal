@@ -3,7 +3,7 @@
   "version": 1,
   "methodVersion": "migrate-pal-oracle-v1",
   "generatorEpoch": "n3-script-v5-p7-v1",
-  "managedFiles": 543,
+  "managedFiles": 544,
   "transitions": {
     "script-v4-v5": {
       "digest": "9b01dea89f4d567663ad64e03017d1ecdbdb01fb1540e6798a931f47900f4901",
@@ -52,6 +52,13 @@
       "fileSha256": "e913123d9f01b6b1caf530bb168c9e78abc7339d4ac5dbcd55b731433c39f9c9",
       "parentDigest": "8909257867ff6873e17ea4534d183b325e908615bdc2c8630cfc7174efce313d",
       "kind": "r13-enemy-script-transition",
+      "version": 1
+    },
+    "r13-source-semantics-v1": {
+      "digest": "0d52087bfcd78265b01d8eee94a4ca5f089a709ebb76934c30845061e9e52567",
+      "fileSha256": "3c0fa680cfd9ebec377aa361721ce11dab34234bcb9c77932a3aff7d33e5d8da",
+      "parentDigest": "54804a6c69e644e9c44fd98fd489d0f73eee6580c4ffc3c3753322074361fab6",
+      "kind": "r13-source-semantics-transition",
       "version": 1
     }
   },

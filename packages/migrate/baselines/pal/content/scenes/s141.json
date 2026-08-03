@@ -662,6 +662,10 @@
                 "id": "initial",
                 "body": [
                   {
+                    "kind": "setAmbience",
+                    "ambience": "warm"
+                  },
+                  {
                     "kind": "cameraSnap",
                     "to": {
                       "col": 66,

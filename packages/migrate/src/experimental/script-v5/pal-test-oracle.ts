@@ -168,6 +168,7 @@ const TRANSITION_IDS = [
   'r13-item-throw-v1',
   'r13-confirm-v1',
   'r13-enemy-script-v1',
+  'r13-source-semantics-v1',
 ] as const
 
 function readJson<T>(path: string): T {

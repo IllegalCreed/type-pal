@@ -1999,6 +1999,10 @@
                 "id": "legacy-002",
                 "body": [
                   {
+                    "kind": "setAmbience",
+                    "ambience": "day"
+                  },
+                  {
                     "kind": "setEntityState",
                     "state": 1,
                     "target": {
@@ -2031,6 +2035,10 @@
               {
                 "id": "legacy-003",
                 "body": [
+                  {
+                    "kind": "setAmbience",
+                    "ambience": "day"
+                  },
                   {
                     "kind": "setEntityState",
                     "state": 0,
@@ -2153,6 +2161,10 @@
                   },
                   {
                     "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 300
                   },
                   {
                     "cue": {

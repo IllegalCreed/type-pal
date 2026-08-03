@@ -2119,6 +2119,10 @@
                     "mapId": "map-164"
                   },
                   {
+                    "kind": "ditherScreen",
+                    "ms": 2160
+                  },
+                  {
                     "asset": "sound.pal.256",
                     "kind": "playSound"
                   },

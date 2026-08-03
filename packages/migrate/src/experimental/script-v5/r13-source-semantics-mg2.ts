@@ -187,6 +187,13 @@ const trustedMigrationInputDigests = new WeakMap<
   { stable: string; fast?: string }
 >()
 
+function allowsTrustedMigrationInputDigest(): boolean {
+  return (
+    process.env.TYPE_PAL_MIGRATE_TEST_GATE === 'canary' ||
+    process.env.TYPE_PAL_MIGRATE_INTERNAL_PHASE === '1'
+  )
+}
+
 function deepFreezeReport<T>(value: T, active = new WeakSet<object>()): T {
   if (!value || typeof value !== 'object') return value
   if (active.has(value)) throw new Error('R13 source semantics MG2: report cycle')
@@ -270,13 +277,13 @@ export function digestR13SourceSemanticsMigrationInputFast(migration: MigrationF
   return digestMigrationInput(migration, fastJsonSha256, fastDigestR13ContentSnapshot, 'fast')
 }
 
-export function registerR13SourceSemanticsCanaryMigrationInputDigest(
+export function registerR13SourceSemanticsMigrationInputDigest(
   migration: MigrationFileSet,
   digest: string,
   fastDigest?: string,
 ): void {
-  if (process.env.TYPE_PAL_MIGRATE_TEST_GATE !== 'canary')
-    throw new Error('R13 source semantics MG2: compact migration brand 仅允许 canary')
+  if (!allowsTrustedMigrationInputDigest())
+    throw new Error('R13 source semantics MG2: compact migration brand 仅允许 canary/内部迁移')
   if (!/^[0-9a-f]{64}$/.test(digest))
     throw new Error('R13 source semantics MG2: migration input digest 无效')
   if (fastDigest !== undefined && !/^[0-9a-f]{64}$/.test(fastDigest))
@@ -285,6 +292,53 @@ export function registerR13SourceSemanticsCanaryMigrationInputDigest(
     stable: digest,
     ...(fastDigest ? { fast: fastDigest } : {}),
   })
+}
+
+/** Backward-compatible name retained for the source-backed canary. */
+export const registerR13SourceSemanticsCanaryMigrationInputDigest =
+  registerR13SourceSemanticsMigrationInputDigest
+
+/**
+ * Once the full current-v10 migration has been content-hashed, R13-6A only consumes these
+ * three files and report leaves. The caller must register the full stable/fast digests on the
+ * returned process-local view before using it as an authority input.
+ */
+export function compactCurrentMigrationForR13SourceSemantics(
+  migration: MigrationFileSet,
+): MigrationFileSet {
+  const files = new Map<string, MigrationJson>()
+  for (const path of ['content/enemies.json', 'content/skills.json', 'content/locale.json']) {
+    const value = migration.files.get(path)
+    if (value === undefined)
+      throw new Error(`R13 source semantics MG2: current migration 缺 ${path}`)
+    files.set(path, value)
+  }
+  const report = {
+    rawContent: {},
+    rawProjection: { enemies: migration.report.rawProjection.enemies },
+    content: {
+      pendingSkills: migration.report.content.pendingSkills,
+      lossySkills: migration.report.content.lossySkills,
+    },
+    enemies: {
+      pendingScripts: migration.report.enemies?.pendingScripts ?? [],
+      hookSources: migration.report.enemies?.hookSources ?? [],
+    },
+    enemyTeams: {},
+    scenes: {},
+    scripts: {},
+    graph: {},
+    scriptRegistry: {},
+    foldedHostileRoots: [],
+    foldedSpriteRoots: [],
+    audit: {},
+    spriteActions: {},
+    spriteActionMaterialization: {},
+    bossOverlay: { attached: 0, clearedEnemies: [] },
+    maps: {},
+    assets: {},
+  } as unknown as MigrationFileSet['report']
+  return { files, managedFiles: new Set(files.keys()), report }
 }
 
 function fastDigestR13ContentSnapshot(snapshot: MigrationSnapshot): string {
@@ -1723,7 +1777,7 @@ function prepareAuthority(args: {
       ? { preparedCurrentSourceCensus: args.preparedCurrentSourceCensus }
       : {}),
   })
-  if (process.env.TYPE_PAL_MIGRATE_TEST_GATE === 'canary') {
+  if (allowsTrustedMigrationInputDigest()) {
     const historicalMigration = args.sourceDispositionInput.historicalMigration
     const historicalDigest = digestR13SourceSemanticsMigrationInput(historicalMigration)
     const historicalFastDigest = digestR13SourceSemanticsMigrationInputFast(historicalMigration)
