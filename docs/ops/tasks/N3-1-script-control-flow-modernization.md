@@ -7073,7 +7073,7 @@ implementation review 仍只登记 Codex 自验，Kimi/GLM 尚未写 `accept`；
 |---|---|---|---|
 | Codex | **accept（自验）** | 2026-08-03 | 上述四包测试、typecheck、正式迁移写盘与 replay `0/0/0` 全部通过；仅代表 Coding Owner 自验。 |
 | Kimi | **counter** | 2026-08-03 | 四处源真值/冻结条款违背：F1 敌侧 gate 概率用了玩家值（源 @43089=70/@43096=50/@43123=30，实现 60/33/44）；F2 303/305 敌链缺 0x2D 状态步（sleep/confuse 3t→HP-1，核心语义丢失，且设计冻结同样漏此项需三方复核）；F3 7 技能 preShake level=3 但源默认 4（operand[1]=0→i=4）；F4 编辑器预览未实现 hold/reveal（冻结明确要求渲染黑屏）。全部一手复现，最小返工见交接记录。不得转 accept，不得标 R13-6B/N3-1/C8/ED-5I done。 |
-| GLM | **counter** | 2026-08-03 | 数据层精确（7 preShake 20/20/14/24/14/14/14、370 酒神、303/305 HP-1 + 304 instantKill G1 落实、content11/SAVE8）；check:fast 557/5 绿。**但 canary 真实失败**：`P2 current audit differs from frozen P0: 7026f9a5… != dd42217c…`（p2-transform.ts:146）。根因：6B 改 translate-events.ts 给 loadScene 加 `__palSourceAddress` + foldDoorPattern 吸收 fade，改变了 P2 翻译输出 → P2 audit digest 漂移 → canary frozen P0 校验挂。fast 门不暴露（用 synthetic/oracle 不跑完整 P2 冷构建）。须修 translate-events 或重新冻结 P0 digest 并证明漂移仅来自 6B 预期改动（非语义破坏），canary 2/2 全绿后方可 accept。见交接。 |
+| GLM | **accept** | 2026-08-03 | counter 返工闭合（`46fad115`）：Codex 不重冻 P0 digest，改为隔离 6B——默认 `buildPalMigration` 固定 `current-r13-6a` profile，只显式传 `r13SixBSourceSemantics` 才启用 6B；canary 回放前对 content11 做 fail-closed 6B→6A rewind（逐文件 COW）。一手复跑：**canary 2/2 全绿**（267s，P2 frozen digest 仍 `dd42217c…` 未重冻）；**fast 558/5 skip**（75 files, 20s）；**dry-run writes=0/deletes=0/conflicts=0**。数据层（上轮已核：7 preShake/370/303-305 G1 落实/content11/SAVE8）无反例。accept 只收口 R13-6B implementation，不代表 R13-Z/N3-1/C8/ED-5I done。 |
 
 - 2026-08-03 Kimi：完成 R13-6B implementation review 架构/runtime/editor 只读审查，签
   **counter**（四项，全部一手复现）。通过项先行记录：execution/schema/v10→v11 升级、
@@ -7341,6 +7341,25 @@ docs/phase2/foundation/phase1-knowledge-harvest.md；本卡 R13-6A publication e
     4612623f…**；这不是内容 digest 重冻结。
   **GLM 仍为 counter，待其只读复跑并改签 `accept`；Kimi 的 F1–F4 counter 也仍未关闭，
   因此不得标记 R13-6B/N3-1/C8/ED-5I done。**
+- 2026-08-03 GLM R13-6B counter 返工复审（`46fad115`）：**counter 改签 accept**。一手复跑（非
+  Codex 报告复述）：
+  - **canary 2/2 全绿**（267s）：producer rebuild matches exact R13-6A golden + replays to
+    identical seal and zero writes。P2 frozen digest **仍为 `dd42217c…`**（p2-transform.ts:31
+    一手 grep 确认，未重冻）—— 上轮 counter 的 P2 audit digest 漂移问题已通过隔离方案闭合。
+  - **隔离方案核实**：`buildPalMigration` 默认 `current-r13-6a`（pal-migration.ts:527），
+    只显式传 `r13SixBSourceSemantics: true` 才启用 6B（:525-529）；P2 翻译在默认 profile
+    恢复 R13-6B 前的命令形状（foldDoorPattern 不加 `__palSourceAddress`/absorbedFade）。
+    canary 回放 R13-6A seal 前，由 `pal-r13-six-b-rewind.ts` 对 content11 baseline 做
+    fail-closed 6B→6A rewind（逐文件 COW :22、transaction 不闭合 throw :118/133、命中数
+    mismatch throw :144）。
+  - **fast** 75 files / 558 passed / 5 skipped（20s）全绿。
+  - **dry-run** `writes=0 / deletes=0 / conflicts=0`，applied=0/already=871/skipped=0。
+  - 数据层（上轮 counter 已核无反例）：7 preShake 20/20/14/24/14/14/14、370 酒神 item 86
+    MP×8 清 MP、303/305 resourceDelta hp -1 + **304 instantKill（G1 完美落实）**、
+    content11/SAVE8/min8。
+
+  counter 返工闭合，改签 **accept**。Kimi F1-F4 counter 仍阻塞，任务仍 rework，不得标记 done。
+  未修改实现/产物/baseline/seal/Kimi 签字。
 
 ##### R13-6B implementation review 返工交接提示词（下一位 Agent 可直接复制）
 
