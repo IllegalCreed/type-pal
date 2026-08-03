@@ -7072,7 +7072,7 @@ implementation review 仍只登记 Codex 自验，Kimi/GLM 尚未写 `accept`；
 | Agent | 结论 | 日期 | 证据 / 备注 |
 |---|---|---|---|
 | Codex | **accept（返工自验）** | 2026-08-03 | `fd2e4353` 已闭合 Kimi F1-F4：敌侧 70/30/50、303/305 状态 3t→HP-1、7 技能 preShake level=4、编辑器 hold/reveal 与统一 finalizer；四包门禁、正式重迁、replay `0/0/0`、canary 2/2 均通过。仅代表 Coding Owner 自验。 |
-| Kimi | **counter** | 2026-08-03 | 四处源真值/冻结条款违背：F1 敌侧 gate 概率用了玩家值（源 @43089=70/@43096=50/@43123=30，实现 60/33/44）；F2 303/305 敌链缺 0x2D 状态步（sleep/confuse 3t→HP-1，核心语义丢失，且设计冻结同样漏此项需三方复核）；F3 7 技能 preShake level=3 但源默认 4（operand[1]=0→i=4）；F4 编辑器预览未实现 hold/reveal（冻结明确要求渲染黑屏）。全部一手复现，最小返工见交接记录。不得转 accept，不得标 R13-6B/N3-1/C8/ED-5I done。 |
+| Kimi | **accept（返工复审）** | 2026-08-03 | `fd2e4353` 返工闭合 F1-F4：敌侧 303=70/304=30/305=50 一手核对迁移源与产物；303=sleep(3t)+HP-1、305=confused(3t)+HP-1、304=instantKill；7 preShake 全部 level=4 且帧数不变；编辑器 playback hold/reveal 真实黑幕、token 不匹配拒绝、loadScene/abort 统一 finalizer（测试 11/11）；dry-run `writes=0/deletes=0/conflicts=0`（exit 0，plan 复跑 applied=0/already=871/skipped=0 与 GLM 互证）。accept 仅代表 R13-6B implementation 复审通过，不标 R13-6B/N3-1/C8/ED-5I done。 |
 | GLM | **accept** | 2026-08-03 | counter 返工闭合（`46fad115`）：Codex 不重冻 P0 digest，改为隔离 6B——默认 `buildPalMigration` 固定 `current-r13-6a` profile，只显式传 `r13SixBSourceSemantics` 才启用 6B；canary 回放前对 content11 做 fail-closed 6B→6A rewind（逐文件 COW）。一手复跑：**canary 2/2 全绿**（267s，P2 frozen digest 仍 `dd42217c…` 未重冻）；**fast 558/5 skip**（75 files, 20s）；**dry-run writes=0/deletes=0/conflicts=0**。数据层（上轮已核：7 preShake/370/303-305 G1 落实/content11/SAVE8）无反例。accept 只收口 R13-6B implementation，不代表 R13-Z/N3-1/C8/ED-5I done。 |
 
 - 2026-08-03 Kimi：完成 R13-6B implementation review 架构/runtime/editor 只读审查，签
@@ -7124,6 +7124,32 @@ implementation review 仍只登记 Codex 自验，Kimi/GLM 尚未写 `accept`；
   （@43089/@43096/@43123、L_39391/L_39398、@43107/@43109/@43111）。
   任务转 rework；F1-F3 修上游迁移并重迁、F4 修编辑器、F5 定 drift 口径后，本席按
   diff 复审并改签。
+- 2026-08-03 Kimi：对 `fd2e4353` counter 返工只读复审，改签 **accept（返工复审）**。
+  历史 counter 按事实保留。五项逐点一手核实：
+  1. **敌侧概率**：迁移源 `pal-authored-overlays.ts` 与产物 `projects/pal/content/skills.json`
+     均为 303=`gate chance 70`、304=`gate chance 30`、305=`gate chance 50`，与源操作数
+     @43089/@43123/@43096 逐项一致（F1 闭合）。
+  2. **敌链语义**：303=`gate 70 → applyStatus(sleep,3) → resourceDelta(-1)`、305=
+     `gate 50 → applyStatus(confused,3) → resourceDelta(-1)`、304=`gate 30 → instantKill`，
+     与源链 L_39391/L_39398 的 `0x2D → 0x1B` 形态吻合（F2 闭合，且设计冻结已补三方口径）。
+  3. **preShake**：迁移源与产物 7 技能全部 `level: 4`，帧数保持
+     20/20/14/24/14/14/14（F3 闭合）。
+  4. **编辑器 hold/reveal**：playback.ts:620-638 实现 holdScreen（abort 检查、
+     `view.fadeBlack=1` 真实黑幕）与 revealScreen（token 不匹配 reject、260ms 淡入恢复）；
+     `finalizeScreenHold`（:507-520）在 stop(:250)、scene entry(:408)、命令循环(:520)统一
+     收尾；loadScene(:671-674) 先 finalize 再切场景；playback.test.ts 新增配对/错 token/
+     恢复用例 **11/11 绿**（F4 闭合）。
+  5. **迁移幂等**：`migrate-content.mts` dry-run 实测 **exit 0、
+     `writes=0 deletes=0 conflicts=0`、generated=0 kept=9 merged=0**；applied=0/
+     already=871/skipped=0 与 GLM 复跑互证。
+  F5 已由 `46fad115`（6B profile 隔离 + canary 回放前 6B→6A rewind）闭合，GLM 已
+  accept；本席此前 canary 2/2 复跑（265.81s）与该路径一致。未修改实现/产物/其他签字。
+  本 accept 仅代表 R13-6B implementation 复审通过，**不代表** R13-6B/R13-Z/N3-1/C8/
+  ED-5I 完成。
+
+R13-6B implementation review 三席 `accept` 已齐（Codex 自验、Kimi 返工复审、GLM F5 复审）。
+该子批门禁关闭；N3-1 总体继续保持 `build`，下一步进入下方既有设计中的 **R13-Z 发布闭包**。
+R13-Z 完成前不得推进 N3-1 `review -> done`，也不得提前验收 C8/ED-5I。
 
 ##### R13-6B implementation review 交接提示词（下一位 Agent 可直接复制）
 
