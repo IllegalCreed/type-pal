@@ -6840,6 +6840,49 @@ migrate-content,translate-events}.ts；projects/pal/content/ambiences.json。
   未修改实现/产物/baseline/seal/Kimi 签字；仅更新本表 GLM 行与本交接记录。
   accept 只收口 R13-6A source disposition + existing-schema 子批。
 
+##### R13-6A formal publication closure（2026-08-03）
+
+三方 implementation review `accept` 已齐，本批已由上游迁移 CLI 正式落盘；以下是磁盘上的
+可复核证据，覆盖初始化写入、append-only transition、跨进程重放和快速门禁：
+
+- 正式命令：`pnpm --filter @type-pal/migrate run migrate:content -- --write`；transaction
+  `36` operations，initialize `writes=17 / deletes=0 / conflicts=0`。17 个 owned paths
+  为 16 个场景文件加 `content/skills.json`，3 个技能（352/372/373）各生成
+  `cost.items=[{itemId:"148",amount:1}]`，22 个 source sites、3 个 skill costs、16 个
+  changed scenes 与 14 个 palette site 的 cardinality 保持不变。
+- 新增 baseline transition：`r13-source-semantics-v1`，父 transition 为
+  `r13-enemy-script-v1`；baseline `_state.json` 记录 `managedFiles=544` 和 seal
+  `0d52087bfcd78265b01d8eee94a4ca5f089a709ebb76934c30845061e9e52567`。source report digest
+  为 `ea30a4a869269fdf8f6f474a0dad3b68d639424681339ee5d70929e15e105b09`，successor content
+  digest 为 `d7defbb2b4416c915ebcf0f3b18120a8ae83cba011721248f921d1f1d808b654`。
+- 新开独立 Node 进程执行 replay：`writes=0 / deletes=0 / conflicts=0`，source/runtime/seal
+  分别稳定为 `ea30a4a869269fdf8f6f474a0dad3b68d639424681339ee5d70929e15e105b09`、
+  `48234f8e06d5db3ca741d63035428aa80735ea9c28f9c44f37f8bad71e1a0600`、
+  `0d52087bfcd78265b01d8eee94a4ca5f089a709ebb76934c30845061e9e52567`；随后 dry-run 仍为
+  严格 `0/0/0`。这证明正式发布不会重复写入，也没有把 canary-only 证据冒充生产发布。
+- 回归门禁：`pnpm --filter @type-pal/migrate run check:fast` 通过，`72 files / 549 passed /
+  5 skipped`，墙钟 `33.48s`；source-backed canary 独立进程 `2/2` 通过，墙钟 `437.18s`。
+  canary 较历史样本更慢的原因是同时有另一工作区的 VitePress 构建占用约 219% CPU；本
+  canary worker 自身约 76% CPU、1.3% 内存，未发现死锁或异常增长。
+- 代码与生成物均来自迁移器：未手改 `projects/pal`，未改变公共 schema、`contentVersion` 或
+  `SAVE_VERSION`。R13-6A 现可标记完成；R13-6B 仍为 `draft / blocked`，不得因本次发布绕过
+  设计三签。
+
+本次发布后 N3-1 的下一步是 R13-6B 最小 schema / transient presentation 设计，不是直接实现。
+下一位 Agent 提示词（可直接复制）：
+
+```text
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md；N3-1 总体仍 build，R13-6A
+已完成正式 publication，R13-6B 仍 draft/blocked。你负责只读产出 R13-6B 最小设计与风险清单，
+不得修改实现/生成物/schema/contentVersion/SAVE_VERSION。先读 AGENTS.md、CLAUDE.md、
+docs/phase2/READ-FIRST.md、phase1 game-mechanics 真值、本卡 R13-6B 五项 open debt 与 R13-6A
+formal publication closure。必须分别冻结：7 项前置震屏、酒神扣 MP 后读取剩余 MP×8/清 MP 与
+酒门禁、303/304/305 玩家/敌人 effect chain、0x76 持续黑屏 transient 及 reveal/abort 边界、
+loadScene 源时序。输出最小公共 schema/runtime/editor 变更面、是否进入 SAVE、迁移/回滚策略、
+测试矩阵和 fail-closed 条件，并在本卡 R13-6B draft->build 设计签字区给 Codex/Kimi/GLM
+签 `agree` 或写 `counter`。三签前不得开始实现、不得标记 done。
+```
+
 ##### R13-6B：公共 schema / 表现状态 delta（draft，blocked）
 
 以下能力现模型不能无损表达，必须先形成最小设计并重新取得 Codex / Kimi / GLM 三方
