@@ -8,11 +8,17 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { isDeepStrictEqual } from 'node:util'
-import type { AssetCatalogV1, LoadedManifest, ProjectManifest } from '@type-pal/content'
+import type {
+  AssetCatalogV1,
+  CurrentManifest,
+  LoadedManifest,
+  ProjectManifest,
+} from '@type-pal/content'
 import {
   checkSharedScriptLibraryV5,
   mapAssetById,
   upgradeManifestV9ToV10,
+  upgradeManifestV10ToV11,
   validateActors,
   validateAssetCatalog,
   validateBattleFields,
@@ -115,10 +121,13 @@ import {
   type PalBinaryAssetSource,
 } from '../src/pal-assets.js'
 import { preparePalManifest } from '../src/pal-manifest.js'
+import { applyPalR13SixBSceneOverlays } from '../src/pal-r13-six-b-overlays.js'
+import { applyPalR13SixBLoadSceneTransitions } from '../src/pal-r13-six-b-load-scene.js'
 import {
   buildPalHistoricalR13_4V9Migration,
   buildPalHistoricalR13_5V10Migration,
   buildPalMigration,
+  derivePalMigrationFileSet,
   type MigrationFileSet,
   type MigrationJson,
   type PalMigrationSources,
@@ -149,7 +158,8 @@ type CanonicalV5InputManifest =
   | ProjectManifest<8>
   | ProjectManifest<9>
   | ProjectManifest<10>
-type P7V5TargetManifest = ProjectManifest<9> | ProjectManifest<10>
+  | ProjectManifest<11>
+type P7V5TargetManifest = ProjectManifest<9> | ProjectManifest<10> | ProjectManifest<11>
 type CanonicalV5Transition = 'confirm' | 'r13-enemy' | 'r13-source'
 
 const readJson = <T,>(path: string): T => JSON.parse(readFileSync(resolve(repo, path), 'utf8')) as T
@@ -238,6 +248,109 @@ async function writeAndVerifyCanonicalV5Transition(
     [EXPECTED_RUNTIME_DIGEST_ENV]: evidence[2]!,
   })
   console.log(`[v5 分进程幂等] ${transition} 写入与二次 0/0/0 验证均完成`)
+}
+
+/**
+ * R13-6B 只改变 canonical skill data 与 contentVersion；不改变 SAVE_VERSION，
+ * 也不把 transient screen transaction 写进 world/save。沿用标准三值 merge 事务，
+ * 因此作者在 R13-6A 后的内容编辑仍会被保留并在有冲突时停在 plan 门禁。
+ */
+async function runR13SixBTransition(
+  manifest: ProjectManifest<10> | ProjectManifest<11>,
+  manifestText: string,
+  write: boolean,
+): Promise<void> {
+  const sources = loadPalMigrationSources(repo)
+  const baseline = loadPalBaseline(repo)
+  if (!baseline) throw new Error('R13-6B 缺 PAL baseline v2；不得绕过 baseline 写 generated content')
+  const theirs = buildR13SixBMigration(sources, baseline)
+  reportGeneration(theirs)
+  const seed = new Set([...baseline.managedFiles, ...theirs.managedFiles])
+  const managed = discoverProjectManagedFiles(repo, seed)
+  const ours = loadProjectMigrationSnapshot(repo, managed)
+  const plan = createMigrationPlan(baseline, ours, theirs)
+  reportPlan(plan)
+  if (plan.conflicts.length) {
+    writeConflictReport(plan)
+    throw new Error(`R13-6B plan 存在 conflicts=${plan.conflicts.length}`)
+  }
+  const target: MigrationSnapshot = {
+    files: plan.target,
+    managedFiles: new Set([...managed, ...plan.target.keys()]),
+  }
+  const catalog = validateAssetCatalog(
+    target.files.get('assets/index.json') as unknown as AssetCatalogV1,
+    'R13-6B target assets/index.json',
+  )
+  const nextManifest: CurrentManifest =
+    manifest.contentVersion === 10
+      ? upgradeManifestV10ToV11(manifest)
+      : structuredClone(manifest)
+  await validateP7V5Target(target, nextManifest)
+  if (!write) {
+    assertPalBaselineSnapshotCurrent(repo, baseline)
+    assertProjectSnapshotCurrent(repo, ours, target.managedFiles)
+    if (readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8') !== manifestText)
+      throw new Error('R13-6B dry-run 期间 manifest.json 已变更')
+    console.log('[R13-6B dry-run] 未写盘；确认 plan 后加 --write')
+    return
+  }
+  await commitAndVerify({
+    ours,
+    target,
+    plan,
+    previousBaseline: baseline,
+    theirs,
+    binaryAssets: sources.binaryAssets,
+    currentManifestText: manifestText,
+    nextManifest,
+    rebuildTheirs: buildR13SixBMigration,
+  })
+  console.log(
+    manifest.contentVersion === 10
+      ? '[R13-6B publication] content10 → content11；SAVE_VERSION 保持 8'
+      : '[R13-6B publication] content11 successor refresh；SAVE_VERSION 保持 8',
+  )
+}
+
+/**
+ * R13-6B 是 R13-6A 已发布 canonical 的 append-only successor。raw build 仍承担
+ * 历史父层生成，不能拿它覆盖已发布的 R13-3～6A 场景/脚本；这里只投影本卡拥有的
+ * skills.json、经 structural path 再核对的 loadScene source profile，以及四组 0x76 transaction；
+ * 其余字段逐字继承已验签 baseline。
+ */
+function buildR13SixBMigration(
+  sources: PalMigrationSources,
+  publishedBaseline: MigrationSnapshot,
+): MigrationFileSet {
+  const raw = buildPalMigration(sources)
+  const skills = raw.files.get('content/skills.json')
+  if (skills === undefined) throw new Error('R13-6B raw migration 缺 content/skills.json')
+  let files = new Map(publishedBaseline.files)
+  for (const path of publishedBaseline.managedFiles) {
+    if (files.has(path)) continue
+    const generated = raw.files.get(path)
+    if (generated === undefined)
+      throw new Error(`R13-6B raw migration 无法重建 baseline 托管文件 ${path}`)
+    files.set(path, generated)
+  }
+  files.set('content/skills.json', skills)
+  const loadSceneProfiles = applyPalR13SixBLoadSceneTransitions(files, raw.files)
+  files = loadSceneProfiles.files
+  const summary = Object.fromEntries(
+    ['applied', 'already', 'skipped'].map((status) => [
+      status,
+      loadSceneProfiles.dispositions.filter((entry) => entry.status === status).length,
+    ]),
+  )
+  console.log(
+    `[R13-6B loadScene profile] applied=${summary.applied} already=${summary.already} ` +
+      `skipped=${summary.skipped}`,
+  )
+  files = applyPalR13SixBSceneOverlays(files)
+  const successor = derivePalMigrationFileSet(raw, files, new Set(publishedBaseline.managedFiles))
+  successor.baselineMetadata = publishedBaseline.baselineMetadata
+  return successor
 }
 
 function forkPalMigrationSources(source: PalMigrationSources): PalMigrationSources {
@@ -496,7 +609,9 @@ async function validateP7V5Target(
   manifest: P7V5TargetManifest,
 ): Promise<void> {
   if (
-    (manifest.contentVersion !== 9 && manifest.contentVersion !== 10) ||
+    (manifest.contentVersion !== 9 &&
+      manifest.contentVersion !== 10 &&
+      manifest.contentVersion !== 11) ||
     manifest.minimumSaveVersion !== 8 ||
     manifest.content.scripts !== undefined
   )
@@ -640,7 +755,11 @@ async function commitAndVerify(args: {
   theirs: MigrationFileSet
   binaryAssets: readonly PalBinaryAssetSource[]
   currentManifestText: string
-  nextManifest: LoadedManifest
+  nextManifest: ProjectManifest<number>
+  rebuildTheirs?: (
+    sources: PalMigrationSources,
+    publishedBaseline: MigrationSnapshot,
+  ) => MigrationFileSet
 }): Promise<void> {
   const { ours, target, plan, previousBaseline, theirs, nextManifest } = args
   const nextBaseline = snapshotOf(theirs)
@@ -727,7 +846,9 @@ async function commitAndVerify(args: {
 
   // 真正重读提取源并重跑纯生成，不用上一轮内存结果冒充幂等。
   const sources2 = loadPalMigrationSources(repo)
-  const theirs2 = buildPalMigration(sources2)
+  const theirs2 = args.rebuildTheirs
+    ? args.rebuildTheirs(sources2, baselineAfter)
+    : buildPalMigration(sources2)
   sameSnapshot(nextBaseline, snapshotOf(theirs2), '二次纯生成')
   const secondManaged = discoverProjectManagedFiles(
     repo,
@@ -885,10 +1006,11 @@ async function main(): Promise<void> {
       contentVersion !== 7 &&
       contentVersion !== 8 &&
       contentVersion !== 9 &&
-      contentVersion !== 10)
+      contentVersion !== 10 &&
+      contentVersion !== 11)
   )
     throw new Error(
-      `PAL migrate:content 只接受 contentVersion 4/5/6/7/8/9/10，收到 ${JSON.stringify(contentVersion)}`,
+      `PAL migrate:content 只接受 contentVersion 4/5/6/7/8/9/10/11，收到 ${JSON.stringify(contentVersion)}`,
     )
   const canonicalV5 =
     contentVersion === 5 ||
@@ -899,6 +1021,24 @@ async function main(): Promise<void> {
     contentVersion === 10
   if (repairR13ConfirmSeal && !canonicalV5)
     throw new Error('R13 confirm seal 显式修复只接受 canonical v5+ 工程')
+
+  // R13-6B 是 content10 → content11 的独立迁移边界。内部 v5 子进程仍由
+  // EXPECTED_TRANSITION 驱动旧的 R13-5/R13-6A 事务；只有外层命令进入这里。
+  if (
+    (contentVersion === 10 || contentVersion === 11) &&
+    !bootstrap &&
+    process.env[EXPECTED_TRANSITION_ENV] === undefined &&
+    !writeOnce &&
+    !verifyIdempotence &&
+    !repairR13ConfirmSeal
+  ) {
+    await runR13SixBTransition(
+      rawManifest as ProjectManifest<10> | ProjectManifest<11>,
+      manifestText,
+      writeRequested,
+    )
+    return
+  }
   if (writeRequested && canonicalV5 && !bootstrap) {
     if (contentVersion === 9) {
       await writeAndVerifyCanonicalV5Transition('r13-enemy', 10)

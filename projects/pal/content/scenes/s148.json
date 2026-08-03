@@ -45,7 +45,14 @@
                   "body": [
                     {
                       "kind": "loadScene",
-                      "scene": "s154"
+                      "scene": "s154",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-22429"
+                      }
                     }
                   ]
                 }

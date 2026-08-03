@@ -121,6 +121,10 @@ export function describeScriptCommand(
       return { icon: '🧹', label: '清对话框' }
     case 'fade':
       return { icon: '🌓', label: cmd.dir === 'out' ? '淡出（黑）' : '淡入' }
+    case 'holdScreen':
+      return { icon: '⬛', label: '保持黑屏', detail: '迁移演出事务' }
+    case 'revealScreen':
+      return { icon: '🌅', label: '恢复画面', detail: '迁移演出事务' }
     case 'ditherScreen':
       return { icon: '▦', label: `逐像素渐变 ${cmd.ms ?? 720}ms` }
     case 'playVideo':
@@ -148,7 +152,9 @@ export function describeScriptCommand(
       return {
         icon: '🚪',
         label: `切到场景 ${cmd.scene}`,
-        detail,
+        detail: `${detail} · ${
+          cmd.transition?.kind === 'source' ? '源时序' : '现代过渡'
+        }`,
       }
     }
     case 'setPartyFacing':

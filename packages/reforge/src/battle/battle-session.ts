@@ -708,11 +708,11 @@ export class BattleSession {
           ...(y !== undefined ? { y } : {}),
         }
       },
-      onScreenShake: (durationMs) => {
+      onScreenShake: (durationMs, level) => {
         const untilMs = this.nowMs + durationMs
         this.screenShake = {
           untilMs: Math.max(this.screenShake?.untilMs ?? 0, untilMs),
-          level: 3,
+          level: level ?? 3,
         }
       },
       onWaveAdd: (wave) => {
@@ -1615,11 +1615,13 @@ export class BattleSession {
     const s = this.state
     const skill = la.skillId ? this.opts.skills?.[la.skillId] : undefined
     if (!skill) return null
-    const a = skill.animation
+    const execution = skill.execution?.[la.side]
+    const a = execution?.animation ?? skill.animation
+    const skillEffects = execution?.effects ?? skill.effects
     const fire = this.assets.fireSprites?.[a.effectSprite]
     this.currentFire = la.fizzled ? null : (fire ?? null)
     // 召唤：effect 直接引用 summon profile 定义，资源已在进战 readiness 完整预载。
-    const summonEff = skill.effects.find((e) => e.kind === 'summon')
+    const summonEff = skillEffects.find((e) => e.kind === 'summon')
     const summonSprite =
       !la.fizzled && summonEff?.kind === 'summon'
         ? this.requireAppearance(summonEff.battleSprite, 'summon').sprite
@@ -1634,6 +1636,7 @@ export class BattleSession {
       fireDelay: a.fireDelay ?? 0,
       effectTimes: a.effectTimes ?? 0,
       shake: a.shake ?? 0,
+      ...(a.preShake ? { preShake: a.preShake } : {}),
       wave: a.wave ?? 0,
       ...(a.sound ? { sound: a.sound } : {}),
     }
@@ -1781,7 +1784,13 @@ export class BattleSession {
       // flee 等专用 effect 路由截断，不能让失败施法产生任何成功效果演出。
       if (la.fizzled) return this.buildCastTimeline(la, pHp, eHp)
       const trance = la.skillId
-        ? s.skills[la.skillId]?.effects.find((effect) => effect.kind === 'trance')
+        ? (() => {
+            const castSkill = s.skills[la.skillId]
+            return (
+              castSkill?.execution?.[la.side]?.effects?.find((effect) => effect.kind === 'trance') ??
+              castSkill?.effects.find((effect) => effect.kind === 'trance')
+            )
+          })()
         : undefined
       if (la.side === 'player' && trance?.kind === 'trance') {
         const oldDefinitionId = expectDefined(playerAppearanceBefore[la.idx])
@@ -1809,10 +1818,11 @@ export class BattleSession {
       // 偷窃技(飞龙探云手):专用冲刺时间线(一阶段 buildStealTimeline;技能 effectSprite=65535
       // 本就无特效,generic cast 会打空气)—— 冲到敌前 5 步滑步 + 敌闪白
       const sk = la.skillId ? s.skills[la.skillId] : undefined
+      const skEffects = sk?.execution?.[la.side]?.effects ?? sk?.effects ?? []
       if (
         la.side === 'player' &&
         la.target !== undefined &&
-        sk?.effects.some((e) => e.kind === 'steal')
+        skEffects.some((e) => e.kind === 'steal')
       ) {
         const pos = s.enemies[la.target]?.basePos
         const stealFrame = this.playerFrames(la.idx).steal
@@ -1830,7 +1840,7 @@ export class BattleSession {
       }
       // 金蝉脱壳(fleeBattle;effectSprite=65535 无特效,generic cast 会打空气):
       // 成功 → 全队滑出屏(flee 命令成功同款演出);boss 失败 → 无演出,「无法逃离!」横幅已弹
-      if (la.side === 'player' && sk?.effects.some((e) => e.kind === 'fleeBattle')) {
+      if (la.side === 'player' && skEffects.some((e) => e.kind === 'fleeBattle')) {
         if (!la.fleeSuccess) return null
         const alive = s.players
           .map((_, i) => i)
@@ -2017,6 +2027,7 @@ export class BattleSession {
             fireDelay: a.fireDelay ?? 0,
             effectTimes: a.effectTimes ?? 0,
             shake: a.shake ?? 0,
+            ...(a.preShake ? { preShake: a.preShake } : {}),
             wave: a.wave ?? 0,
             ...(a.sound ? { sound: a.sound } : {}),
           },

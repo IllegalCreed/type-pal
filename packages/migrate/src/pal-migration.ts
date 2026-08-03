@@ -103,6 +103,8 @@ export interface PalMigrationSources {
 export interface MigrationFileSet {
   files: Map<string, MigrationJson>
   managedFiles: Set<string>
+  /** Published PAL baselines keep their transition ledger across append-only successors. */
+  baselineMetadata?: import('./migration-baseline.js').MigrationSnapshot['baselineMetadata']
   report: {
     /** migrateAll 的原始观察，尚未经过 PAL overlay 或后置增强消账。 */
     rawContent: ReturnType<typeof migrateAll>['report']

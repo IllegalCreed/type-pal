@@ -45,7 +45,14 @@
                     {
                       "entryId": "pal-entry-47a1fc50",
                       "kind": "loadScene",
-                      "scene": "s046"
+                      "scene": "s046",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-9326"
+                      }
                     }
                   ]
                 }
@@ -90,7 +97,14 @@
                     {
                       "entryId": "pal-entry-83900727",
                       "kind": "loadScene",
-                      "scene": "s046"
+                      "scene": "s046",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-9330"
+                      }
                     }
                   ]
                 }
@@ -135,7 +149,14 @@
                     {
                       "entryId": "pal-entry-af45bce0",
                       "kind": "loadScene",
-                      "scene": "s046"
+                      "scene": "s046",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-9334"
+                      }
                     }
                   ]
                 }
@@ -1630,7 +1651,14 @@
                   {
                     "entryId": "pal-entry-6a8e4aa2",
                     "kind": "loadScene",
-                    "scene": "s044"
+                    "scene": "s044",
+                    "transition": {
+                      "kind": "source",
+                      "outMs": 600,
+                      "inMs": 600,
+                      "color": "black",
+                      "evidenceId": "pal-load-scene-9176"
+                    }
                   },
                   {
                     "kind": "setParty",

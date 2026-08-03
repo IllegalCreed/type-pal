@@ -1,6 +1,6 @@
 import {
+  type CurrentManifest,
   emptyWorldScriptStateV5,
-  type ProjectManifest,
   type SceneDefV5,
   type WorldStateV7,
 } from '@type-pal/content'
@@ -120,11 +120,11 @@ function project(): LoadedProjectV5Core {
   return { sharedScripts: {} } as unknown as LoadedProjectV5Core
 }
 
-function currentManifest(): ProjectManifest<10> {
+function currentManifest(): CurrentManifest {
   return {
     id: 'demo',
     name: 'Demo',
-    contentVersion: 10,
+    contentVersion: 11,
     minimumSaveVersion: 8,
     entryScene: 's001',
     content: {},

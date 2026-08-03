@@ -45,7 +45,14 @@
                     {
                       "entryId": "pal-entry-a2beda22",
                       "kind": "loadScene",
-                      "scene": "s118"
+                      "scene": "s118",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-17888"
+                      }
                     }
                   ]
                 }
@@ -1025,7 +1032,14 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s121"
+                    "scene": "s121",
+                    "transition": {
+                      "kind": "source",
+                      "outMs": 600,
+                      "inMs": 600,
+                      "color": "black",
+                      "evidenceId": "pal-load-scene-18108"
+                    }
                   }
                 ],
                 "next": "legacy-002"

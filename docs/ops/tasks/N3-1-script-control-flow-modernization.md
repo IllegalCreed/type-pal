@@ -7041,6 +7041,63 @@ release 门仍需真实磁盘 baseline、seal 和完整 replay，禁止以提高
 | Kimi | **agree** | 2026-08-03 | 架构/battle timing/transient presentation 主审通过：execution 显式分叉（缺席字节语义不变）+ remainingResourceDamage 与 0x57 真值吻合、preShake 与末尾 shake 分时间点、hold/reveal token 事务不可存档且 finalizer 单源、loadScene profile 默认 260/260 字节兼容、无 SAVE bump、content11 独立 transition。附 P1-P6 风险钉（见「Kimi R13-6B 设计主审」），其中 P1（preShake 并发于特效起手帧而非串行先于特效）为实现语义必落钉。 |
 | GLM | **agree** | 2026-08-03 | 一手源数据核实（all.json + spells + items + magic + sdlpal script.c/fight.c）。**7 preShake**：330/334/342/357/378/380/385 逐条匹配源 0x35 ShakeScreen 帧数 20/20/14/24/14/14/14 ✅。**酒神 370**：item 86(酒)+ 0x57 默认乘 8 读余 MP×8+清 MP+0x20 酒门失败(MP 已扣不播效果)全闭合 ✅。**0x76**：4 site(2901/3051/4729/28095)全有 hold(0x50/0x93)+reveal(0x51)配对 ✅。**版本边界**：SAVE_VERSION=8 不变、CONTENT_VERSION=10 视 schema 改动升级，与设计一致。**附 G1 风险钉（实现期核对，非 blocker）**：设计草案把 304(夺魂)与 303/305 并列为「HP -1 直接资源变化」，但源数据 304 是即死(0x5F killPlayer/0x60 killEnemy HP 直接置 0)，**不是 HP -1**；只有 303(回梦)/305(鬼降)敌侧是 0x1B HP-1。玩家/敌人分支(0x68)对 3 技能都成立，实现时 304 须按即死形态(独立 effect)处理，不得套 resourceDelta(-1)。另：script-census.md:83 把 0x5F 误标 jumpIfScene(实为 killPlayer)，实现若依赖该表须勘误。 |
 
+##### R13-6B implementation evidence（2026-08-03；待 review）
+
+本轮已按上述三方设计签字进入 build，仍保持 N3-1 `build`，未将 R13-6B 或下游 C8/ED-5I 标记完成。
+
+- **Content/schema**：发布 `contentVersion=11`（SAVE_VERSION/minimumSaveVersion 仍为 8）；新增
+  `SkillData.execution.player/enemy`、`SkillPrepareEffect.remainingResourceDamage`、
+  `resourceDelta`、7 个 `animation.preShake`；新增 hold/reveal 与 `SceneTransitionProfile` 的
+  validator、v10→v11 工程/内容升级链。
+- **Reforge/editor**：battle 按施法者解析分支，370 先过 MP/酒门再按剩余 MP×8 清 MP，303/305
+  敌侧直接 HP-1，304 使用独立即死；preShake 与 OffMagic 起手帧并发；hold/reveal 由单一
+  screen transaction/finalizer 管理；编辑器支持玩家/敌人分支、prepare、前置震屏与 loadScene
+  profile，且不把 transient presentation 写入存档。
+- **Migration**：上游迁移器先生成并校验 canonical，再写 PAL；4 组 0x76 hold/reveal 配对、
+  `loadScene` source profile `applied=860 / already=11 / skipped=0`（总计 871 条证据命中），
+  技能/场景覆盖均通过 validator。R13-6B successor 修复了一个门禁缺陷：生成 baseline 时保留
+  已发布 v2 `_state` 的 generator epoch/transition ledger，不再降回 v1；oracle 与后续链因此
+  仍 fail-closed。
+- **发布与幂等**：正式写盘后回放为 `applied=0 / already=871 / skipped=0`，二次计划
+  `writes=0 / deletes=0 / conflicts=0`；PAL project/baseline 同一迁移事务更新，未写入源 chunk
+  作为 canonical 文件。
+
+自验结果：content **33 files / 391 tests**；reforge **77 / 777**；migrate **75 / 557（5 skipped）**；
+editor **93 / 793**；migrate/content/editor typecheck 通过；`git diff --check` 通过。R13-6B
+implementation review 仍只登记 Codex 自验，Kimi/GLM 尚未写 `accept`；在两席签字前不得进入
+`review -> done`，也不得把 N3-1、C8、ED-5I 标记完成。
+
+##### R13-6B implementation review 签字
+
+| Agent | 结论 | 日期 | 证据 / 备注 |
+|---|---|---|---|
+| Codex | **accept（自验）** | 2026-08-03 | 上述四包测试、typecheck、正式迁移写盘与 replay `0/0/0` 全部通过；仅代表 Coding Owner 自验。 |
+| Kimi | **pending** | — | 待独立复跑 battle timing、transient finalizer、content11/SAVE8 与 editor 分支闭环。 |
+| GLM | **pending** | — | 待独立复跑源数据覆盖、baseline v2 ledger、871 条 loadScene 证据及迁移测试矩阵。 |
+
+##### R13-6B implementation review 交接提示词（下一位 Agent 可直接复制）
+
+```text
+复审任务：N3-1 R13-6B implementation review；任务卡 docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态：N3-1 build；R13-6B 已完成实现与 Codex 自验，但不得修改实现、生成产物或签字以外的文件。
+先读：AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡 R13-6B 设计草案与 implementation evidence；
+再读 packages/content/src/{skill,script,validate,skill-execution-v11-upgrade}.ts、
+packages/migrate/src/{pal-r13-six-b-load-scene,pal-r13-six-b-overlays,fold-door-pattern-r13-six-b}.ts、
+packages/migrate/scripts/migrate-content.mts、packages/reforge/src/{battle/battle-core,battle/battle-anim,
+screen-hold-transaction,main,script-runner}.ts、packages/editor/src/ui/{SkillTab,SkillAnimationEditor,
+CommandForm,ScriptTree}.tsx。
+独立复跑：content 33/391；reforge 77/777；migrate 75/557（5 skipped）；editor 93/793；四包
+typecheck；migrate:content dry-run 与 source profile replay；确认第二次计划严格
+writes=0/deletes=0/conflicts=0。
+逐项核对：7 preShake 帧数和并发起手时点；370 MP/酒门/剩余 MP×8/清 MP 且无双结算；303/305
+敌侧直接 HP-1、304 独立即死；hold/reveal token 配对、abort/loadScene finalizer 与不进 SAVE；
+loadScene source profile 的 evidenceId/默认 260/260；content11 与 SAVE8 边界；baseline v2
+transition ledger 保留；source chunk 不冒充 canonical；编辑器分支/prepare/profile 可编辑；迁移
+作者修改保护与 replay 幂等。任何反例必须写 file:line、命令、实际/期望值和最小返工，不得只写“有风险”。
+输出：在本卡“R13-6B implementation review”对应席位签 `accept` 或 `counter`，附独立复跑数字；
+不得标记 R13-6B/N3-1/C8/ED-5I done。两席 accept 后由 Codex 收口。
+```
+
 ##### Kimi R13-6B 设计主审（2026-08-03）
 
 **方法**：只读设计审查；对一阶段 game-mechanics / battle 真值锚（anim-timeline.ts、

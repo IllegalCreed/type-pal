@@ -91,7 +91,14 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s146"
+                    "scene": "s146",
+                    "transition": {
+                      "kind": "source",
+                      "outMs": 1800,
+                      "inMs": 600,
+                      "color": "black",
+                      "evidenceId": "pal-load-scene-22678"
+                    }
                   }
                 ]
               }

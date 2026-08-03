@@ -44,7 +44,7 @@ export interface WorldState {
   hostileAwareness?: { rangeMultiplier: 0 | 3; remainingMs: number }
 }
 
-/** canonical script-v5 世界态；contentVersion 5..10 共用这一条脚本权威。 */
+/** canonical script-v5 世界态；contentVersion 5..11 共用这一条脚本权威。 */
 export interface WorldStateV5 extends Omit<WorldState, 'script'> {
   script?: WorldScriptStateV5
 }
@@ -63,6 +63,8 @@ export type WorldStateV9 = WorldStateV5
 
 /** contentVersion 10 只收紧敌人脚本与 battle context，不复制世界态 schema。 */
 export type WorldStateV10 = WorldStateV9
+/** contentVersion 11 只增加技能执行分支/表现事务 schema，不复制世界态。 */
+export type WorldStateV11 = WorldStateV10
 
 /** manifest.startWorld —— initialWorld() 的数据化(loader 从工程 JSON 读,buildWorld 组装)。 */
 export interface StartWorld {
@@ -96,7 +98,7 @@ export interface EntryPoint {
 }
 
 /** 工程内容 schema 版本；与存档 SAVE_VERSION 是两个独立的版本轴。 */
-export const CONTENT_VERSION = 10 as const
+export const CONTENT_VERSION = 11 as const
 /** 当前工程仍允许读取的最早 SAVE envelope；不得从 CONTENT_VERSION 推导。 */
 export const CURRENT_PROJECT_MINIMUM_SAVE_VERSION = 8 as const
 
@@ -137,6 +139,8 @@ export type LegacyManifestV8 = ProjectManifest<8>
 
 /** contentVersion 9 只允许 R13-5 敌人脚本升级边界读取。 */
 export type LegacyManifestV9 = ProjectManifest<9>
+/** contentVersion 10 只允许 R13-5/R13-6B 的升级边界读取。 */
+export type LegacyManifestV10 = ProjectManifest<10>
 
 /** canonical loader 解析、runtime/editor 消费的当前工程清单。 */
 export type CurrentManifest = ProjectManifest<typeof CONTENT_VERSION>

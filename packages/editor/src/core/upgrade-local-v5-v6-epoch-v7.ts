@@ -13,6 +13,7 @@ import {
   upgradeManifestV7ToV8,
   upgradeManifestV8ToV9,
   upgradeManifestV9ToV10,
+  upgradeManifestV10ToV11,
   validateProjectRelativePath,
 } from '@type-pal/content'
 import {
@@ -114,7 +115,7 @@ async function buildCurrentV10Upgrade(
 }> {
   const manifestRecordValue = manifestRecord(legacyManifest)
   if (!manifestRecordValue) throw new Error('manifest: 期望对象')
-  const current = upgradeManifestV9ToV10(legacyManifest)
+  const current = upgradeManifestV10ToV11(upgradeManifestV9ToV10(legacyManifest))
   const values = new Map<string, unknown>([['manifest.json', current]])
   const writes: Record<string, unknown> = { 'manifest.json': current }
   const upgrade = async (
@@ -244,5 +245,21 @@ export async function upgradeLocalProjectV9EnemyScriptV10(
   if (record?.contentVersion !== 9) return false
   const legacy = structuredClone(record) as unknown as LegacyManifestV9
   await preflightAndWriteCurrent(dir, source, legacy)
+  return true
+}
+
+/** content 10 -> 11：技能执行分支/表现事务是可选字段，现有内容只做 manifest 原子晋升。 */
+export async function upgradeLocalProjectV10SkillExecutionV11(
+  dir: FileSystemDirectoryHandle,
+  source: FileSource,
+  rawManifest: unknown,
+): Promise<boolean> {
+  const record = manifestRecord(rawManifest)
+  if (record?.contentVersion !== 10) return false
+  const current = upgradeManifestV10ToV11(record)
+  const overlay = projectOverlay(source, new Map([['manifest.json', current]]))
+  const project = await loadProjectV5From(overlay)
+  await Promise.all([loadAllScenesV5(project), loadStampTemplatesV5(project)])
+  await writeProject(dir, { 'manifest.json': current })
   return true
 }

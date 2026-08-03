@@ -331,6 +331,70 @@ test('技能、物品和敌人音效 guard 拒绝旧数字与负号协议', () =
   ).toThrow('期望非空 AssetId')
 })
 
+test('技能执行分支、直接资源变化、前置震屏与剩余 MP 语义可校验', () => {
+  expect(() =>
+    validateSkills({
+      skills: [
+        {
+          id: '370',
+          name: '酒神',
+          cost: { mp: 1, items: [{ itemId: '86', amount: 1 }] },
+          target: 'oneEnemy',
+          effects: [],
+          animation: { effectSprite: 34, preShake: { frames: 20, level: 3 } },
+          execution: {
+            player: {
+              prepare: [{ kind: 'remainingResourceDamage', resource: 'mp', multiplier: 8, consume: 'all' }],
+            },
+            enemy: {
+              effects: [{ kind: 'resourceDelta', resource: 'hp', delta: -1 }],
+            },
+          },
+        },
+      ],
+      levelUp: {},
+    }),
+  ).not.toThrow()
+  expect(() =>
+    validateSkills({
+      skills: [
+        {
+          id: 'x',
+          name: 'x',
+          cost: {},
+          target: 'oneEnemy',
+          effects: [],
+          animation: { effectSprite: 1, preShake: { frames: 0, level: 3 } },
+        },
+      ],
+      levelUp: {},
+    }),
+  ).toThrow('preShake.frames')
+  expect(() =>
+    validateSkills({
+      skills: [
+        {
+          id: 'x',
+          name: 'x',
+          cost: {},
+          target: 'oneEnemy',
+          effects: [],
+          animation: { effectSprite: 1 },
+          execution: {
+            player: {
+              prepare: [
+                { kind: 'remainingResourceDamage', resource: 'mp', multiplier: 8, consume: 'all' },
+                { kind: 'remainingResourceDamage', resource: 'mp', multiplier: 8, consume: 'all' },
+              ],
+            },
+          },
+        },
+      ],
+      levelUp: {},
+    }),
+  ).toThrow('只允许一个前置资源效果')
+})
+
 test('SkillCost.items 只接受非空物品 ID 与正安全整数数量', () => {
   const bundle = (items: unknown) => ({
     skills: [

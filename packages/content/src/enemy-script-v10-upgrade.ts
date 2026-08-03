@@ -1,4 +1,4 @@
-import type { CurrentManifest, LegacyManifestV9 } from './character.js'
+import type { LegacyManifestV10, LegacyManifestV9 } from './character.js'
 import type { EnemyDef } from './enemy.js'
 import { checkBattleChoreographyV10, checkEnemyOnDefeatedCommandsV10 } from './enemy-script-v10.js'
 import { validateEnemies } from './validate.js'
@@ -56,7 +56,7 @@ export function upgradeEmbeddedBattleChoreographyV9ToV10<T>(value: T, owner: str
   return upgraded
 }
 
-export function upgradeManifestV9ToV10(value: unknown): CurrentManifest {
+export function upgradeManifestV9ToV10(value: unknown): LegacyManifestV10 {
   const manifest = record(value, 'manifest')
   if (manifest.contentVersion !== 9) throw new Error('manifest: 期望 contentVersion 9')
   if (manifest.minimumSaveVersion !== 8)

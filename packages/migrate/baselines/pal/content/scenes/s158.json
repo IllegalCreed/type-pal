@@ -45,7 +45,14 @@
                     {
                       "entryId": "pal-entry-be3390c8",
                       "kind": "loadScene",
-                      "scene": "s159"
+                      "scene": "s159",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-22627"
+                      }
                     }
                   ]
                 }
@@ -162,6 +169,13 @@
                           "col": 123,
                           "row": 94,
                           "height": 0
+                        },
+                        "transition": {
+                          "kind": "source",
+                          "outMs": 600,
+                          "inMs": 600,
+                          "color": "black",
+                          "evidenceId": "pal-load-scene-22651"
                         }
                       }
                     ],

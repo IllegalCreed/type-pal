@@ -45,7 +45,14 @@
                     {
                       "entryId": "pal-entry-aabf2ff9",
                       "kind": "loadScene",
-                      "scene": "s019"
+                      "scene": "s019",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-4052"
+                      }
                     }
                   ]
                 }
@@ -2976,6 +2983,11 @@
                       "ms": 1800
                     },
                     {
+                      "kind": "holdScreen",
+                      "color": "black",
+                      "token": "pal-blackout-wedding-transition"
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 0,
                       "target": {
@@ -3125,9 +3137,8 @@
                       "kind": "setAmbience"
                     },
                     {
-                      "dir": "in",
-                      "kind": "fade",
-                      "ms": 600
+                      "kind": "revealScreen",
+                      "token": "pal-blackout-wedding-transition"
                     },
                     {
                       "kind": "wait",

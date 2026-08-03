@@ -1,6 +1,6 @@
 import {
   emptyWorldScriptStateV5,
-  type ProjectManifest,
+  type CurrentManifest,
   type ProjectMigrationSidecarV1,
   type SceneDefV5,
 } from '@type-pal/content'
@@ -52,11 +52,11 @@ const scene: SceneDefV5 = {
   ],
 }
 
-function manifest(over: Partial<ProjectManifest<10>> = {}): ProjectManifest<10> {
+function manifest(over: Partial<CurrentManifest> = {}): CurrentManifest {
   return {
     id: 'demo',
     name: 'Demo',
-    contentVersion: 10,
+    contentVersion: 11,
     minimumSaveVersion: 8,
     entryScene: 's001',
     content: {
@@ -380,7 +380,7 @@ describe('canonical v5 editor project IO', () => {
 
     const merged = mergeLegacyEditorShellIntoV5(canonical, shell)
     expect(merged.manifest).toMatchObject({
-      contentVersion: 10,
+      contentVersion: 11,
       minimumSaveVersion: 8,
       name: 'Renamed',
     })

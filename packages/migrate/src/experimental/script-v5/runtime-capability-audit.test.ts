@@ -108,10 +108,10 @@ describe('R13 runtime capability audit', () => {
     expect(currentWait?.status).toBe('executed')
     expect(historicalWait?.status).toBe('refused')
     expect(stableJsonSha256(current.matrix)).toBe(
-      '96e67cfbdd131d528654589715dd709f2fceae95110432ca4b43e9a1a7332937',
+      '91abf7787b9eb8994e97df0ab4e0ad4a57e8268ae83c860d36d02830ab78e5fa',
     )
     expect(stableJsonSha256(historical.matrix)).toBe(
-      'd25ee2a7940082e20948730c2bd467f659ff3e0b4de19047050b84fe4e42e7a9',
+      '57f89de645d5d928964eec82bdafba1da6492ec90e6c57f59674ee53e6918380',
     )
     expect(historical.digest).not.toBe(current.digest)
     expect(() => assertR13RuntimeCapabilityAudit(historical, value)).toThrow('matrix 漂移')

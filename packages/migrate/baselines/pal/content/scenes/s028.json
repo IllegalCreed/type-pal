@@ -45,7 +45,14 @@
                     {
                       "entryId": "pal-entry-9147e9ae",
                       "kind": "loadScene",
-                      "scene": "s025"
+                      "scene": "s025",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-6527"
+                      }
                     }
                   ]
                 }
@@ -298,7 +305,14 @@
                     },
                     {
                       "kind": "loadScene",
-                      "scene": "s026"
+                      "scene": "s026",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-6777"
+                      }
                     },
                     {
                       "asset": "music.pal.071",

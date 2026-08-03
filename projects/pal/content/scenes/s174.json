@@ -45,7 +45,14 @@
                     {
                       "entryId": "pal-entry-82e26573",
                       "kind": "loadScene",
-                      "scene": "s176"
+                      "scene": "s176",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-27725"
+                      }
                     }
                   ]
                 }
@@ -863,6 +870,11 @@
                       "ms": 1200
                     },
                     {
+                      "kind": "holdScreen",
+                      "color": "black",
+                      "token": "pal-blackout-months-later"
+                    },
+                    {
                       "cue": {
                         "autoAdvance": 342,
                         "rows": [
@@ -883,9 +895,8 @@
                       "kind": "setAmbience"
                     },
                     {
-                      "dir": "in",
-                      "kind": "fade",
-                      "ms": 600
+                      "kind": "revealScreen",
+                      "token": "pal-blackout-months-later"
                     },
                     {
                       "kind": "wait",
@@ -901,7 +912,14 @@
                     },
                     {
                       "kind": "loadScene",
-                      "scene": "s172"
+                      "scene": "s172",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-28104"
+                      }
                     }
                   ]
                 }
@@ -2788,7 +2806,14 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s177"
+                    "scene": "s177",
+                    "transition": {
+                      "kind": "source",
+                      "outMs": 600,
+                      "inMs": 600,
+                      "color": "black",
+                      "evidenceId": "pal-load-scene-27947"
+                    }
                   }
                 ],
                 "next": "legacy-003"

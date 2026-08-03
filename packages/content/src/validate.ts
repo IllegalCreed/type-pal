@@ -346,33 +346,86 @@ export function validateSkills(json: unknown): {
     >
     validateSkillAnimation(animation, `skills.skills[${i}].animation`)
     const effects = assertArray<Record<string, unknown>>(so.effects, `skills.skills[${i}].effects`)
-    effects.forEach((effect, effectIndex) => {
-      const eo = assertObject(effect, `skills.skills[${i}].effects[${effectIndex}]`) as Record<
+    effects.forEach((effect, effectIndex) =>
+      validateSkillEffect(
+        assertObject(effect, `skills.skills[${i}].effects[${effectIndex}]`) as Record<
+          string,
+          unknown
+        >,
+        `skills.skills[${i}].effects[${effectIndex}]`,
+      ),
+    )
+    if (so.execution !== undefined) {
+      const execution = assertObject(so.execution, `skills.skills[${i}].execution`) as Record<
         string,
         unknown
       >
-      if (eo.kind === 'summon') {
-        if ('godId' in eo)
-          throw new Error(
-            `skills.skills[${i}].effects[${effectIndex}].godId: 已退役；请使用 battleSprite`,
+      requireOnlyKeys(execution, ['player', 'enemy'], `skills.skills[${i}].execution`)
+      for (const side of ['player', 'enemy'] as const) {
+        const raw = execution[side]
+        if (raw === undefined) continue
+        const override = assertObject(raw, `skills.skills[${i}].execution.${side}`) as Record<
+          string,
+          unknown
+        >
+        requireOnlyKeys(override, ['effects', 'animation', 'prepare'], `skills.skills[${i}].execution.${side}`)
+        if (override.effects !== undefined) {
+          const branchEffects = assertArray<Record<string, unknown>>(
+            override.effects,
+            `skills.skills[${i}].execution.${side}.effects`,
           )
-        if (typeof eo.battleSprite !== 'string' || eo.battleSprite.length === 0)
-          throw new Error(
-            `skills.skills[${i}].effects[${effectIndex}].battleSprite: 期望非空 BattleSpriteDef.id`,
+          branchEffects.forEach((effect, effectIndex) =>
+            validateSkillEffect(
+              assertObject(
+                effect,
+                `skills.skills[${i}].execution.${side}.effects[${effectIndex}]`,
+              ) as Record<string, unknown>,
+              `skills.skills[${i}].execution.${side}.effects[${effectIndex}]`,
+            ),
           )
-        validateOptionalAssetId(eo, 'sound', `skills.skills[${i}].effects[${effectIndex}]`)
+        }
+        if (override.animation !== undefined)
+          validateSkillAnimation(
+            assertObject(
+              override.animation,
+              `skills.skills[${i}].execution.${side}.animation`,
+            ) as Record<string, unknown>,
+            `skills.skills[${i}].execution.${side}.animation`,
+          )
+        if (override.prepare !== undefined) {
+          const prepares = assertArray<Record<string, unknown>>(
+            override.prepare,
+            `skills.skills[${i}].execution.${side}.prepare`,
+          )
+          if (prepares.length > 1)
+            throw new Error(`skills.skills[${i}].execution.${side}.prepare: 只允许一个前置资源效果`)
+          prepares.forEach((prepare, prepareIndex) => {
+            const po = assertObject(
+              prepare,
+              `skills.skills[${i}].execution.${side}.prepare[${prepareIndex}]`,
+            ) as Record<string, unknown>
+            requireOnlyKeys(
+              po,
+              ['kind', 'resource', 'multiplier', 'consume'],
+              `skills.skills[${i}].execution.${side}.prepare[${prepareIndex}]`,
+            )
+            if (po.kind !== 'remainingResourceDamage')
+              throw new Error(
+                `skills.skills[${i}].execution.${side}.prepare[${prepareIndex}].kind: 未知前置效果`,
+              )
+            if (po.resource !== 'mp' || po.consume !== 'all')
+              throw new Error(
+                `skills.skills[${i}].execution.${side}.prepare[${prepareIndex}]: 只支持清空剩余 MP`,
+              )
+            requireFiniteNumber(
+              po.multiplier,
+              `skills.skills[${i}].execution.${side}.prepare[${prepareIndex}].multiplier`,
+              { positive: true },
+            )
+          })
+        }
       }
-      if (eo.kind === 'trance') {
-        if ('sprite' in eo)
-          throw new Error(
-            `skills.skills[${i}].effects[${effectIndex}].sprite: 已退役；请使用 battleSprite`,
-          )
-        if (typeof eo.battleSprite !== 'string' || eo.battleSprite.length === 0)
-          throw new Error(
-            `skills.skills[${i}].effects[${effectIndex}].battleSprite: 期望非空 BattleSpriteDef.id`,
-          )
-      }
-    })
+    }
   })
   assertObject((json as { levelUp: unknown }).levelUp, 'skills.levelUp')
   return { skills, levelUp: (json as { levelUp: Record<string, unknown> }).levelUp }
@@ -421,6 +474,7 @@ function validateSkillAnimation(animation: Record<string, unknown>, ctx: string)
       'fireDelay',
       'effectTimes',
       'shake',
+      'preShake',
       'wave',
       'sound',
       'keepEffect',
@@ -451,7 +505,34 @@ function validateSkillAnimation(animation: Record<string, unknown>, ctx: string)
       throw new Error(`${ctx}.${key}: 期望有限数`)
   if (animation.keepEffect !== undefined && typeof animation.keepEffect !== 'boolean')
     throw new Error(`${ctx}.keepEffect: 期望 boolean`)
+  if (animation.preShake !== undefined) {
+    const pre = assertObject(animation.preShake, `${ctx}.preShake`) as Record<string, unknown>
+    requireOnlyKeys(pre, ['frames', 'level'], `${ctx}.preShake`)
+    requireFiniteNumber(pre.frames, `${ctx}.preShake.frames`, { positive: true, integer: true })
+    requireFiniteNumber(pre.level, `${ctx}.preShake.level`, { positive: true })
+  }
   validateOptionalAssetId(animation, 'sound', ctx)
+}
+
+function validateSkillEffect(effect: Record<string, unknown>, ctx: string): void {
+  if (typeof effect.kind !== 'string') throw new Error(`${ctx}.kind: 期望 string`)
+  if (effect.kind === 'summon') {
+    if ('godId' in effect) throw new Error(`${ctx}.godId: 已退役；请使用 battleSprite`)
+    if (typeof effect.battleSprite !== 'string' || effect.battleSprite.length === 0)
+      throw new Error(`${ctx}.battleSprite: 期望非空 BattleSpriteDef.id`)
+    validateOptionalAssetId(effect, 'sound', ctx)
+  }
+  if (effect.kind === 'trance') {
+    if ('sprite' in effect) throw new Error(`${ctx}.sprite: 已退役；请使用 battleSprite`)
+    if (typeof effect.battleSprite !== 'string' || effect.battleSprite.length === 0)
+      throw new Error(`${ctx}.battleSprite: 期望非空 BattleSpriteDef.id`)
+  }
+  if (effect.kind === 'resourceDelta') {
+    requireOnlyKeys(effect, ['kind', 'resource', 'delta'], ctx)
+    if (effect.resource !== 'hp' && effect.resource !== 'mp')
+      throw new Error(`${ctx}.resource: 只支持 hp/mp`)
+    requireFiniteNumber(effect.delta, `${ctx}.delta`)
+  }
 }
 
 function validateOptionalUnavailableMessage(effect: Record<string, unknown>, ctx: string): void {

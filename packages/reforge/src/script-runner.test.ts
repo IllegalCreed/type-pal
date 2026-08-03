@@ -11,10 +11,9 @@ import { makeTestWorld } from './test-fixtures.js'
 /** 记录调用序的 fake host;异步项立即 resolve(顺序性由调用序断言)。 */
 function fakeHost(calls: string[]): ScriptHost {
   const visibleArgs = (args: unknown[]): unknown[] => {
-    const last = args.at(-1)
-    return typeof AbortSignal !== 'undefined' && last instanceof AbortSignal
-      ? args.slice(0, -1)
-      : args
+    return typeof AbortSignal === 'undefined'
+      ? args
+      : args.filter((arg) => !(arg instanceof AbortSignal))
   }
   const log =
     (name: string) =>
@@ -38,6 +37,8 @@ function fakeHost(calls: string[]): ScriptHost {
     dialog: alog('dialog'),
     clearDialog: log('clearDialog'),
     fade: alog('fade'),
+    holdScreen: alog('holdScreen'),
+    revealScreen: alog('revealScreen'),
     ditherScreen: alog('ditherScreen'),
     revealSceneEntry: alog('revealSceneEntry'),
     wait: alog('wait'),
@@ -285,6 +286,32 @@ test('loadScene 命名落点原样交给 host，不降级成默认或临时坐�
   expect(calls).toEqual([
     'loadScene("s001",{"entryId":"west","facing":"up"})',
     'loadScene("s001",{"entryId":"east"})',
+  ])
+})
+
+test('R13-6B 黑屏配对与 source 场景过渡原样交给 host', async () => {
+  const calls: string[] = []
+  const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)
+  await r.run([
+    { kind: 'holdScreen', color: 'black', token: 'pal-night' },
+    { kind: 'revealScreen', token: 'pal-night' },
+    {
+      kind: 'loadScene',
+      scene: 's002',
+      entryId: 'west',
+      transition: {
+        kind: 'source',
+        outMs: 1200,
+        inMs: 600,
+        color: 'black',
+        evidenceId: 'pal-load-scene-100',
+      },
+    },
+  ])
+  expect(calls).toEqual([
+    'holdScreen("black","pal-night")',
+    'revealScreen("pal-night")',
+    'loadScene("s002",{"entryId":"west"},{"kind":"source","outMs":1200,"inMs":600,"color":"black","evidenceId":"pal-load-scene-100"})',
   ])
 })
 

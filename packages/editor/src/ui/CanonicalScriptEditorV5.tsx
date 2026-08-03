@@ -469,6 +469,7 @@ export const AUTHOR_COMMAND_PRESENTATION_V5 = {
   giveItem: ['🎁', '获得物品'],
   giveMoney: ['💰', '增减金钱'],
   halveMoney: ['💸', '金钱减半'],
+  holdScreen: ['⬛', '保持黑屏'],
   increaseHpMp: ['❤', '恢复或扣除全队生命法力'],
   learnSkill: ['📖', '学会技能'],
   loadLastSave: ['📂', '读取最近存档'],
@@ -488,6 +489,7 @@ export const AUTHOR_COMMAND_PRESENTATION_V5 = {
   playVideo: ['🎬', '播放视频'],
   quitToTitle: ['🏁', '返回标题画面'],
   releaseEntity: ['🔓', '归还实体控制'],
+  revealScreen: ['🌅', '恢复画面'],
   revivePartyAll: ['✨', '复活全队'],
   ride: ['⛵', '载具移动'],
   selectEntityBehavior: ['🔗', '切换实体脚本'],
@@ -2809,7 +2811,10 @@ function insertionGroups(context?: CanonicalScriptEditorContextV5): InsertionGro
     ]),
   )
   const more = (Object.keys(AUTHOR_COMMAND_PRESENTATION_V5) as AuthorCommandV5['kind'][])
-    .filter((kind) => !represented.has(kind))
+    .filter(
+      (kind) =>
+        !represented.has(kind) && kind !== 'holdScreen' && kind !== 'revealScreen',
+    )
     .map((kind) => {
       const command = examples.get(kind)
       if (!command) return fallbackInsertionChoiceV5(kind, context, target)

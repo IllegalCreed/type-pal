@@ -25,7 +25,7 @@
     {
       "path": "packages/migrate/baselines/pal/_state.json",
       "bytes": 73270,
-      "sha256": "7e6b703f7e199a9cb8609b0faf665e9c1d92a57256a03eb2c471fad221126131"
+      "sha256": "db9b65ff3a3fa08d595a872b92abfb30be8a36acebe72d0776695bfb9ebf9be0"
     },
     {
       "path": "packages/migrate/baselines/pal/_transitions/c8-item-use-v5-v1.json",
@@ -85,7 +85,7 @@
     {
       "path": "projects/pal/manifest.json",
       "bytes": 2349,
-      "sha256": "f50dfa9b0451e9142a0bba5400fa27490b24f3f87ea6b0b9111467d41244ff76"
+      "sha256": "b1d5a35ea298c42bc150a186344eb2846301db3e740e5c4c9ff19c8f499c9b00"
     },
     {
       "path": "projects/pal/content/ambiences.json",
@@ -122,16 +122,16 @@
       "root": "packages/migrate/baselines/pal",
       "selector": "all",
       "files": 322,
-      "bytes": 63581752,
-      "sha256": "2a88e9fd40f953ed630af7acdf0e99f2a52e6efb1210d3ef6c3b98d11fca7da3"
+      "bytes": 63826653,
+      "sha256": "7c0ceea8c192447bb18bb862d2512d5ed644dfd8736b26f1b36f6005116420b0"
     },
     {
       "role": "project-prerequisite",
       "root": "projects/pal",
       "selector": "all",
       "files": 2418,
-      "bytes": 153584608,
-      "sha256": "e347492d2a11de4e6b8879a6aa6dae4332646c61190a527428b9232ed4dff31b"
+      "bytes": 153829509,
+      "sha256": "81814e1016c979e6720fb7e9cffffb1778275774ed94c8b0299fdf0be467e793"
     },
     {
       "role": "generated-shadow",
@@ -145,25 +145,25 @@
       "role": "producer-code",
       "root": "packages/migrate/src",
       "selector": "production-typescript",
-      "files": 109,
-      "bytes": 2426726,
-      "sha256": "f9f330aa21343e3de21c2f256761f095d7458f55bfcaa98ad945f8dc23e24516"
+      "files": 111,
+      "bytes": 2450999,
+      "sha256": "5da3a35f4b72a982b2a9a7c3129343c5a2f26c5e32f95be6b7056c27edc64d32"
     },
     {
       "role": "producer-code",
       "root": "packages/content/src",
       "selector": "production-typescript",
-      "files": 39,
-      "bytes": 568066,
-      "sha256": "9079eecbe3ccf47f98b4097110cb2eeddba84f4aae7e3033fcc38857fe5b23e3"
+      "files": 40,
+      "bytes": 576000,
+      "sha256": "f682e683b880cbf2b601bcdc4ea68126a2914cf5616e2f255109c04981fbea49"
     },
     {
       "role": "producer-code",
       "root": "packages/reforge/src",
       "selector": "production-typescript",
-      "files": 92,
-      "bytes": 1115781,
-      "sha256": "27d5685e39e04a89c7783bb6a9ebe0bcdde85514f90a3676b1c6aa5ca033f876"
+      "files": 93,
+      "bytes": 1123117,
+      "sha256": "7d02a2be3e5d54c69f63c17dfd3782a5a6fa3d248188e22a381248ca39d39f8d"
     },
     {
       "role": "runtime-code",

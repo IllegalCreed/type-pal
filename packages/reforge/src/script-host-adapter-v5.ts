@@ -68,15 +68,16 @@ export async function executeLegacyScriptHostEffectV5(
       host.teleportParty(command.pos, command.facing)
       return
     case 'loadScene':
-      await host.loadScene(
-        command.scene,
-        {
+      {
+        const spawn = {
           ...(command.entryId !== undefined ? { entryId: command.entryId } : {}),
           ...(command.pos !== undefined ? { pos: command.pos } : {}),
           ...(command.facing !== undefined ? { facing: command.facing } : {}),
-        } as SceneSpawn,
-        signal,
-      )
+        } as SceneSpawn
+        if (command.transition === undefined)
+          await host.loadScene(command.scene, spawn, signal)
+        else await host.loadScene(command.scene, spawn, signal, command.transition)
+      }
       return
     case 'setPartyFacing':
       host.setPartyFacing(command.facing, command.gesture, command.member)
@@ -303,6 +304,14 @@ export async function executeLegacyScriptHostEffectV5(
       return
     case 'endBattle':
       throw new Error('ScriptProjectRuntimeV5: endBattle 只能用于战斗演出脚本')
+    case 'holdScreen':
+      if (!host.holdScreen) throw new Error('ScriptProjectRuntimeV5: 宿主未实现 holdScreen')
+      await host.holdScreen(command.color, command.token, signal)
+      return
+    case 'revealScreen':
+      if (!host.revealScreen) throw new Error('ScriptProjectRuntimeV5: 宿主未实现 revealScreen')
+      await host.revealScreen(command.token, signal)
+      return
     default: {
       const unhandled: never = command
       throw new Error(

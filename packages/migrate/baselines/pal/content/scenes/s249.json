@@ -288,7 +288,14 @@
                     },
                     {
                       "kind": "loadScene",
-                      "scene": "s260"
+                      "scene": "s260",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-34000"
+                      }
                     }
                   ]
                 }
@@ -368,7 +375,14 @@
                   "body": [
                     {
                       "kind": "loadScene",
-                      "scene": "s260"
+                      "scene": "s260",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-34000"
+                      }
                     }
                   ]
                 }
@@ -413,7 +427,14 @@
                     {
                       "entryId": "pal-entry-eb77bd55",
                       "kind": "loadScene",
-                      "scene": "s260"
+                      "scene": "s260",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-34008"
+                      }
                     }
                   ]
                 }
@@ -458,7 +479,14 @@
                     {
                       "entryId": "pal-entry-46569d3b",
                       "kind": "loadScene",
-                      "scene": "s260"
+                      "scene": "s260",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-34016"
+                      }
                     }
                   ]
                 }
@@ -503,7 +531,14 @@
                     {
                       "entryId": "pal-entry-d1feffd2",
                       "kind": "loadScene",
-                      "scene": "s260"
+                      "scene": "s260",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-34024"
+                      }
                     }
                   ]
                 }
@@ -548,7 +583,14 @@
                     {
                       "entryId": "pal-entry-d1feffd2",
                       "kind": "loadScene",
-                      "scene": "s260"
+                      "scene": "s260",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-34032"
+                      }
                     }
                   ]
                 }
@@ -788,7 +830,14 @@
                   {
                     "entryId": "pal-entry-b52cbef0",
                     "kind": "loadScene",
-                    "scene": "s249"
+                    "scene": "s249",
+                    "transition": {
+                      "kind": "source",
+                      "outMs": 600,
+                      "inMs": 600,
+                      "color": "black",
+                      "evidenceId": "pal-load-scene-33965"
+                    }
                   }
                 ]
               }

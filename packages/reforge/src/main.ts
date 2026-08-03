@@ -129,6 +129,10 @@ import {
 import { type LoadedProject, loadSceneDef } from './loader.js'
 import { type LoadedProjectV5, loadSceneDefV5 } from './loader-v5.js'
 import {
+  runWithPresentationFinalizer,
+  ScreenHoldTransaction,
+} from './screen-hold-transaction.js'
+import {
   castOutdoorSkill,
   closeMagicMenu,
   type MagicMenuState,
@@ -1144,6 +1148,8 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
   const timers: { deadline: number; settle: (error?: Error) => void }[] = []
   const fadeDriver = new SupersedingFadeDriver(0) // 0 透明 → 1 全黑；新事务连续接管并兑现旧 Promise
   let fadeCurtain: 'black' | 'red' = 'black' // 幕布色(gameOver 渐红;fade-in 结束回黑)
+  /** 0x76/ShowFBP 的黑屏保持事务；只存在呈现层，不能进入 WorldState/SAVE。 */
+  const screenHold = new ScreenHoldTransaction()
   // 0x35 震屏(script.c:1521 VIDEO_ShakeScreen):世界层渲染 y ±level 交替;到期/0 关自清
   let worldShake: { untilMs: number; level: number } | null = null
   // 0x71 屏波(仙灵岛水面/蛤蟆谷):世界层合成到离屏后逐行左卷;状态在 vars 随存档
@@ -1311,6 +1317,30 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
   ): Promise<void> {
     fadeCurtain = color
     return fadeDriver.begin(dir === 'out' ? 1 : 0, nowMs, ms, signal, owner)
+  }
+
+  async function hostHoldScreen(
+    color: 'black',
+    token: string,
+    signal?: AbortSignal,
+  ): Promise<void> {
+    assertRunnerActive(signal, '黑屏保持所属 runner 已取消')
+    const handle = screenHold.begin(token)
+    fadeCurtain = color
+    try {
+      await fadeDriver.begin(1, nowMs, 0, signal, handle.owner)
+      assertRunnerActive(signal, '黑屏保持所属 runner 已取消')
+    } catch (error) {
+      screenHold.cancelOwned(handle)
+      throw error
+    }
+  }
+
+  async function hostRevealScreen(token: string, signal?: AbortSignal): Promise<void> {
+    assertRunnerActive(signal, '黑屏恢复所属 runner 已取消')
+    screenHold.takeForReveal(token)
+    await hostFade('in', 260, 'black', signal)
+    assertRunnerActive(signal, '黑屏恢复所属 runner 已取消')
   }
 
   async function awaitOwnedDither(
@@ -1514,7 +1544,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
       followerPos.length = 0
       updateCamera()
     },
-    loadScene: async (sceneId, spawn, signal) => {
+    loadScene: async (sceneId, spawn, signal, transition) => {
       assertRunnerActive(signal, `脚本切场景 ${sceneId} 的 runner 已取消`)
       const sceneToken = sceneSwitchIntent.begin()
       const visualOwner = {}
@@ -1544,6 +1574,8 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
           assertSceneSwitchPlanCurrent(prepared, worldView)
         },
         present: async (prepared) => {
+          // 切场景是黑屏事务的统一 finalizer；旧 token 不得把新场景揭示再盖黑。
+          screenHold.cancel()
           preserveClosedDialogFrame = false
           markSceneLoad(fromSceneId, sceneId, 'preflight')
           ditherTransition.cancel()
@@ -1566,7 +1598,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
             }
           } else {
             markSceneLoad(fromSceneId, sceneId, 'fade-out')
-            await hostFade('out', 260, 'black', signal, visualOwner)
+            await hostFade('out', transition?.outMs ?? 260, 'black', signal, visualOwner)
           }
         },
         commit: (prepared) => {
@@ -1593,7 +1625,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
       startAutoRunners()
       if (!entry) {
         markSceneLoad(fromSceneId, sceneId, 'fade-in')
-        await hostFade('in', 260, 'black', signal, visualOwner)
+        await hostFade('in', transition?.inMs ?? 260, 'black', signal, visualOwner)
         assertRequestCurrent()
         markSceneLoad(fromSceneId, sceneId, 'done')
       } else {
@@ -1616,6 +1648,8 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
         '屏幕渐变所属 runner 已取消',
       )
     },
+    holdScreen: hostHoldScreen,
+    revealScreen: hostRevealScreen,
     setPartyFacing: (fc, gesture, member) => {
       // 原版 0x15:wPartyDirection=o[0] + rgParty[o[2]].wFrame=dir*3+o[1] —— 每次都写帧;
       // gesture 缺省(=0 站立帧)即清脚本姿势。member>0 = 跟随者(渲染落地后生效,先忽略)。
@@ -3525,6 +3559,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     authority.clear() // E6a:强停演出同样归还全部实体
     for (const t of timers.splice(0)) t.settle()
     fadeDriver.cancel(0)
+    screenHold.cancel()
     ditherTransition.cancel()
     sceneEntrySession.cancel()
     resetFrameAnimationPresentation()
@@ -4984,7 +5019,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
       }
     }
 
-    render()
+    runWithPresentationFinalizer(render, abortScript)
     requestAnimationFrame(tick)
   }
   saveMetasReady = refreshSaveMetas().catch((error: unknown) => {

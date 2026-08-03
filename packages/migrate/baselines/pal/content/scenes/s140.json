@@ -2027,7 +2027,14 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s142"
+                    "scene": "s142",
+                    "transition": {
+                      "kind": "source",
+                      "outMs": 1200,
+                      "inMs": 600,
+                      "color": "black",
+                      "evidenceId": "pal-load-scene-21987"
+                    }
                   }
                 ],
                 "next": "legacy-003"

@@ -61,13 +61,24 @@ export type SceneSpawn =
   | { pos: GridPos; entryId?: never; facing?: Facing }
   | { entryId?: never; pos?: never; facing?: Facing }
 
-export type LoadSceneCommand = { kind: 'loadScene'; scene: string } & SceneSpawn
+export type SceneTransitionProfile =
+  | { kind: 'modern'; outMs: 260; inMs: 260; color: 'black' }
+  | { kind: 'source'; outMs: number; inMs: number; color: 'black'; evidenceId: string }
+
+export type LoadSceneCommand = {
+  kind: 'loadScene'
+  scene: string
+  transition?: SceneTransitionProfile
+} & SceneSpawn
 
 export type Command =
   // 演出 / 对话
   | { kind: 'dialog'; cue: DialogueCue }
   | { kind: 'clearDialog' } // 原版 0x05 redrawScreen 的语义核(清对话箱)
   | { kind: 'fade'; dir: 'in' | 'out'; ms?: number; color?: 'black' | 'red' }
+  /** 持有表现层黑屏；必须由同 token 的 reveal/loadScene/abort 收尾，不进入存档。 */
+  | { kind: 'holdScreen'; color: 'black'; token: string }
+  | { kind: 'revealScreen'; token: string }
   /** 原版 0x73:把上一帧按 6 相位 × 12 级逐像素渐变为当前世界帧。 */
   | { kind: 'ditherScreen'; ms?: number }
   /** 播放工程内视频资产；阻塞至播放完毕或被跳过。 */
@@ -270,6 +281,7 @@ export const SCENE_ENTRY_PREPARE_SAFETY = {
   giveItem: 'safe',
   giveMoney: 'safe',
   halveMoney: 'safe',
+  holdScreen: 'blocked',
   increaseHpMp: 'safe',
   jumpScript: 'blocked',
   learnSkill: 'safe',
@@ -290,6 +302,7 @@ export const SCENE_ENTRY_PREPARE_SAFETY = {
   playVideo: 'blocked',
   quitToTitle: 'blocked',
   releaseEntity: 'safe',
+  revealScreen: 'blocked',
   revivePartyAll: 'safe',
   ride: 'blocked',
   setActorAppearance: 'blocked',
@@ -479,7 +492,13 @@ export function checkCommands(
     if (k === 'loadScene') {
       if (options.forbidLoadScene)
         throw new Error(`${path}[${i}]: auto 脚本禁止 loadScene，请由 trigger/onEnter 切换场景`)
-      const load = c as { scene?: unknown; entryId?: unknown; pos?: unknown; facing?: unknown }
+      const load = c as {
+        scene?: unknown
+        entryId?: unknown
+        pos?: unknown
+        facing?: unknown
+        transition?: unknown
+      }
       if (typeof load.scene !== 'string' || load.scene.length === 0)
         throw new Error(`${path}[${i}].scene: 期望非空场景 id`)
       if (load.entryId !== undefined && (typeof load.entryId !== 'string' || !load.entryId))
@@ -488,6 +507,39 @@ export function checkCommands(
         throw new Error(`${path}[${i}]: entryId 与 pos 不能同时存在`)
       if (load.pos !== undefined) checkGridPos(load.pos, `${path}[${i}].pos`)
       if (load.facing !== undefined) checkFacing(load.facing, `${path}[${i}].facing`)
+      if (load.transition !== undefined) {
+        const transition = load.transition as Record<string, unknown>
+        if (!transition || typeof transition !== 'object' || Array.isArray(transition))
+          throw new Error(`${path}[${i}].transition: 期望对象`)
+        if (transition.kind === 'modern') {
+          if (transition.outMs !== 260 || transition.inMs !== 260 || transition.color !== 'black')
+            throw new Error(`${path}[${i}].transition: modern 必须是 260/260 black`)
+        } else if (transition.kind === 'source') {
+          if (
+            typeof transition.outMs !== 'number' ||
+            !Number.isFinite(transition.outMs) ||
+            transition.outMs < 0 ||
+            typeof transition.inMs !== 'number' ||
+            !Number.isFinite(transition.inMs) ||
+            transition.inMs < 0 ||
+            transition.color !== 'black' ||
+            typeof transition.evidenceId !== 'string' ||
+            transition.evidenceId.length === 0
+          )
+            throw new Error(`${path}[${i}].transition: source 需要合法时序和 evidenceId`)
+        } else throw new Error(`${path}[${i}].transition.kind: 未知过渡类型`)
+      }
+    }
+    if (k === 'holdScreen') {
+      const command = c as { color?: unknown; token?: unknown }
+      if (command.color !== 'black') throw new Error(`${path}[${i}].color: 只支持 black`)
+      if (typeof command.token !== 'string' || command.token.length === 0)
+        throw new Error(`${path}[${i}].token: 期望非空 token`)
+    }
+    if (k === 'revealScreen') {
+      const token = (c as { token?: unknown }).token
+      if (typeof token !== 'string' || token.length === 0)
+        throw new Error(`${path}[${i}].token: 期望非空 token`)
     }
     if (k === 'playMusic') {
       const asset = (c as { asset?: unknown }).asset

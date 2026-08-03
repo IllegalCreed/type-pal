@@ -207,6 +207,7 @@ const SKILL_EFFECT_KIND_TABLE = {
   moneyDamage: true,
   removeStatus: true,
   revive: true,
+  resourceDelta: true,
   steal: true,
   summon: true,
   trance: true,

@@ -227,6 +227,21 @@
         "shake": 0,
         "wave": 0,
         "sound": "sound.pal.169"
+      },
+      "execution": {
+        "enemy": {
+          "effects": [
+            {
+              "kind": "gate",
+              "chance": 60
+            },
+            {
+              "kind": "resourceDelta",
+              "resource": "hp",
+              "delta": -1
+            }
+          ]
+        }
       }
     },
     {
@@ -262,6 +277,19 @@
         "shake": 0,
         "wave": 0,
         "sound": "sound.pal.170"
+      },
+      "execution": {
+        "enemy": {
+          "effects": [
+            {
+              "kind": "gate",
+              "chance": 33
+            },
+            {
+              "kind": "instantKill"
+            }
+          ]
+        }
       }
     },
     {
@@ -295,6 +323,21 @@
         "shake": 0,
         "wave": 8,
         "sound": "sound.pal.271"
+      },
+      "execution": {
+        "enemy": {
+          "effects": [
+            {
+              "kind": "gate",
+              "chance": 44
+            },
+            {
+              "kind": "resourceDelta",
+              "resource": "hp",
+              "delta": -1
+            }
+          ]
+        }
       }
     },
     {
@@ -1544,6 +1587,40 @@
       }
     },
     {
+      "id": "352",
+      "name": "三尸咒",
+      "desc": "下蛊攻击敌方单人，\n有蛊时才能使用。",
+      "cost": {
+        "mp": 22,
+        "items": [
+          {
+            "itemId": "148",
+            "amount": 1
+          }
+        ]
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "applyPoison",
+          "poisonId": "555"
+        }
+      ],
+      "animation": {
+        "effectSprite": 25,
+        "placement": "normal",
+        "xOffset": -4,
+        "yOffset": -20,
+        "speed": 1,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "wave": 0,
+        "sound": "sound.pal.313"
+      }
+    },
+    {
       "id": "353",
       "name": "御蜂术",
       "desc": "以笛音指挥毒蜂，\n攻击敌方全体。",
@@ -2018,7 +2095,13 @@
       "name": "酒神",
       "desc": "",
       "cost": {
-        "mp": 1
+        "mp": 1,
+        "items": [
+          {
+            "itemId": "86",
+            "amount": 1
+          }
+        ]
       },
       "usableOutsideBattle": false,
       "target": "allEnemies",
@@ -2046,6 +2129,26 @@
         "shake": 0,
         "wave": 0,
         "sound": "sound.pal.176"
+      },
+      "execution": {
+        "player": {
+          "prepare": [
+            {
+              "kind": "remainingResourceDamage",
+              "resource": "mp",
+              "multiplier": 8,
+              "consume": "all"
+            }
+          ],
+          "effects": [
+            {
+              "kind": "summon",
+              "battleSprite": "player-summon-15",
+              "speed": 1,
+              "sound": "sound.pal.301"
+            }
+          ]
+        }
       }
     },
     {
@@ -2067,6 +2170,74 @@
       "animation": {
         "effectSprite": 25,
         "placement": "normal",
+        "xOffset": -4,
+        "yOffset": -20,
+        "speed": 1,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "wave": 0,
+        "sound": "sound.pal.313"
+      }
+    },
+    {
+      "id": "372",
+      "name": "万蛊蚀天",
+      "desc": "放蛊攻击敌方全体，\n有蛊时才能使用。",
+      "cost": {
+        "mp": 34,
+        "items": [
+          {
+            "itemId": "148",
+            "amount": 1
+          }
+        ]
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "applyPoison",
+          "poisonId": "555"
+        }
+      ],
+      "animation": {
+        "effectSprite": 25,
+        "placement": "attackAll",
+        "xOffset": -4,
+        "yOffset": -20,
+        "speed": 1,
+        "fireDelay": 0,
+        "effectTimes": 0,
+        "shake": 0,
+        "wave": 0,
+        "sound": "sound.pal.313"
+      }
+    },
+    {
+      "id": "373",
+      "name": "毒吞天下",
+      "desc": "",
+      "cost": {
+        "mp": 48,
+        "items": [
+          {
+            "itemId": "148",
+            "amount": 1
+          }
+        ]
+      },
+      "usableOutsideBattle": false,
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "applyPoison",
+          "poisonId": "560"
+        }
+      ],
+      "animation": {
+        "effectSprite": 25,
+        "placement": "attackAll",
         "xOffset": -4,
         "yOffset": -20,
         "speed": 1,
@@ -2709,7 +2880,11 @@
         "effectTimes": 0,
         "shake": 0,
         "wave": 0,
-        "sound": "sound.pal.117"
+        "sound": "sound.pal.117",
+        "preShake": {
+          "frames": 20,
+          "level": 3
+        }
       }
     },
     {
@@ -2739,7 +2914,11 @@
         "shake": 0,
         "wave": 0,
         "sound": "sound.pal.120",
-        "keepEffect": true
+        "keepEffect": true,
+        "preShake": {
+          "frames": 20,
+          "level": 3
+        }
       }
     },
     {
@@ -2769,41 +2948,11 @@
         "shake": 0,
         "wave": 0,
         "sound": "sound.pal.132",
-        "keepEffect": true
-      }
-    },
-    {
-      "id": "352",
-      "name": "三尸咒",
-      "desc": "下蛊攻击敌方单人，\n有蛊时才能使用。",
-      "cost": {
-        "mp": 22,
-        "items": [
-          {
-            "itemId": "148",
-            "amount": 1
-          }
-        ]
-      },
-      "usableOutsideBattle": false,
-      "target": "oneEnemy",
-      "effects": [
-        {
-          "kind": "applyPoison",
-          "poisonId": "555"
+        "keepEffect": true,
+        "preShake": {
+          "frames": 14,
+          "level": 3
         }
-      ],
-      "animation": {
-        "effectSprite": 25,
-        "placement": "normal",
-        "xOffset": -4,
-        "yOffset": -20,
-        "speed": 1,
-        "fireDelay": 0,
-        "effectTimes": 0,
-        "shake": 0,
-        "wave": 0,
-        "sound": "sound.pal.313"
       }
     },
     {
@@ -2832,75 +2981,11 @@
         "effectTimes": 0,
         "shake": 0,
         "wave": 0,
-        "sound": "sound.pal.152"
-      }
-    },
-    {
-      "id": "372",
-      "name": "万蛊蚀天",
-      "desc": "放蛊攻击敌方全体，\n有蛊时才能使用。",
-      "cost": {
-        "mp": 34,
-        "items": [
-          {
-            "itemId": "148",
-            "amount": 1
-          }
-        ]
-      },
-      "usableOutsideBattle": false,
-      "target": "allEnemies",
-      "effects": [
-        {
-          "kind": "applyPoison",
-          "poisonId": "555"
+        "sound": "sound.pal.152",
+        "preShake": {
+          "frames": 24,
+          "level": 3
         }
-      ],
-      "animation": {
-        "effectSprite": 25,
-        "placement": "attackAll",
-        "xOffset": -4,
-        "yOffset": -20,
-        "speed": 1,
-        "fireDelay": 0,
-        "effectTimes": 0,
-        "shake": 0,
-        "wave": 0,
-        "sound": "sound.pal.313"
-      }
-    },
-    {
-      "id": "373",
-      "name": "毒吞天下",
-      "desc": "",
-      "cost": {
-        "mp": 48,
-        "items": [
-          {
-            "itemId": "148",
-            "amount": 1
-          }
-        ]
-      },
-      "usableOutsideBattle": false,
-      "target": "allEnemies",
-      "effects": [
-        {
-          "kind": "applyPoison",
-          "poisonId": "560"
-        }
-      ],
-      "animation": {
-        "effectSprite": 25,
-        "placement": "attackAll",
-        "xOffset": -4,
-        "yOffset": -20,
-        "speed": 1,
-        "fireDelay": 0,
-        "effectTimes": 0,
-        "shake": 0,
-        "wave": 0,
-        "sound": "sound.pal.313"
       }
     },
     {
@@ -2930,7 +3015,11 @@
         "shake": 0,
         "wave": 0,
         "sound": "sound.pal.175",
-        "keepEffect": true
+        "keepEffect": true,
+        "preShake": {
+          "frames": 14,
+          "level": 3
+        }
       }
     },
     {
@@ -2960,7 +3049,11 @@
         "shake": 0,
         "wave": 0,
         "sound": "sound.pal.132",
-        "keepEffect": true
+        "keepEffect": true,
+        "preShake": {
+          "frames": 14,
+          "level": 3
+        }
       }
     },
     {
@@ -2990,7 +3083,11 @@
         "shake": 0,
         "wave": 0,
         "sound": "sound.pal.175",
-        "keepEffect": true
+        "keepEffect": true,
+        "preShake": {
+          "frames": 14,
+          "level": 3
+        }
       }
     },
     {

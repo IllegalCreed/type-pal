@@ -18,6 +18,7 @@ import { type NormalizePayloadOptions, normalizePayloadV4Envelope } from './ops.
 import {
   type LegacySavePayloadV7,
   type LegacySavePayloadV8Content9,
+  type LegacySavePayloadV8Content10,
   SAVE_VERSION,
   type SavePayload,
   type SavePayloadV5,
@@ -29,6 +30,7 @@ import {
 export type {
   LegacySavePayloadV7,
   LegacySavePayloadV8Content9,
+  LegacySavePayloadV8Content10,
   SavePayloadV5,
   SavePayloadV6,
   SavePayloadV7,
@@ -83,15 +85,15 @@ export interface SaveMigrationResolverV7 {
 
 export type SaveMigrationResolver =
   | {
-      kind: 'current-v10'
+      kind: 'current-v11'
       projectId: string
-      targetContentVersion: 10
+      targetContentVersion: 11
       targetSaveVersion: 8
     }
   | {
-      kind: 'content-v9-v10'
+      kind: 'content-v10-v11'
       projectId: string
-      targetContentVersion: 10
+      targetContentVersion: 11
       targetSaveVersion: 8
     }
 
@@ -145,7 +147,7 @@ export type ValidatedProjectMigrationRegistryV1 = Readonly<
 >
 
 async function loadScriptV4V5MigrationBlob(args: {
-  manifest: ProjectManifest<5 | 6 | 7 | 8 | 9 | 10>
+  manifest: ProjectManifest<5 | 6 | 7 | 8 | 9 | 10 | 11>
   source: Pick<FileSource, 'readBytes'>
   descriptorValue: unknown
   signal?: AbortSignal
@@ -187,7 +189,7 @@ async function loadScriptV4V5MigrationBlob(args: {
  * 当前只定义 script-v4-v5；未知 transition 不允许被静默透传成“已验证”。
  */
 export async function loadProjectMigrationRegistryV5(args: {
-  manifest: ProjectManifest<5 | 6 | 7 | 8 | 9 | 10>
+  manifest: ProjectManifest<5 | 6 | 7 | 8 | 9 | 10 | 11>
   source: Pick<FileSource, 'readBytes'>
   signal?: AbortSignal
 }): Promise<ValidatedProjectMigrationRegistryV1> {
@@ -274,7 +276,7 @@ async function resolveSceneHookSelections(
  * 纯内存 identity normalization 到 content10。其它组合在任何兼容 IO 前拒绝。
  */
 export async function preflightSaveMigration(args: {
-  manifest: ProjectManifest<10>
+  manifest: ProjectManifest<10 | 11>
   payload: SavePayloadHeader
 }): Promise<SaveMigrationResolver> {
   const minimum = args.manifest.minimumSaveVersion
@@ -291,14 +293,14 @@ export async function preflightSaveMigration(args: {
     throw new Error(
       `工程 "${args.manifest.id}": 当前存档预检只接受 contentVersion ${CONTENT_VERSION}`,
     )
-  if (saveVersion !== SAVE_VERSION || (contentVersion !== CONTENT_VERSION && contentVersion !== 9))
+  if (saveVersion !== SAVE_VERSION || (contentVersion !== CONTENT_VERSION && contentVersion !== 10))
     throw new Error(
       `不支持的存档 epoch：收到 SAVE v${saveVersion} / contentVersion ${contentVersion}，` +
-        `当前只接受 SAVE v${SAVE_VERSION} / contentVersion 9|${CONTENT_VERSION}；` +
+        `当前只接受 SAVE v${SAVE_VERSION} / contentVersion 10|${CONTENT_VERSION}；` +
         '不会读取或重放历史兼容 sidecar',
     )
   return {
-    kind: contentVersion === 9 ? 'content-v9-v10' : 'current-v10',
+    kind: contentVersion === 10 ? 'content-v10-v11' : 'current-v11',
     projectId: args.manifest.id,
     targetContentVersion: CONTENT_VERSION,
     targetSaveVersion: SAVE_VERSION,
@@ -801,23 +803,23 @@ export function normalizeLegacyPayloadV8Content9(
   return payload
 }
 
-/** 当前 SAVE8/content10 或 historical content9 identity normalization；不读取 sidecar。 */
+/** 当前 SAVE8/content11 或 historical content10 identity normalization；不读取 sidecar。 */
 export function normalizePayloadV8(
-  input: LegacySavePayloadV8Content9 | SavePayloadV8,
+  input: LegacySavePayloadV8Content9 | LegacySavePayloadV8Content10 | SavePayloadV8,
   resolver: SaveMigrationResolver,
 ): SavePayloadV8 {
   if (input.projectId !== resolver.projectId)
     throw new Error(`存档工程 "${input.projectId}" 与 resolver "${resolver.projectId}" 不匹配`)
   if (
     input.version !== SAVE_VERSION ||
-    (resolver.kind === 'current-v10' && input.contentVersion !== 10) ||
-    (resolver.kind === 'content-v9-v10' && input.contentVersion !== 9)
+    (resolver.kind === 'current-v11' && input.contentVersion !== 11) ||
+    (resolver.kind === 'content-v10-v11' && input.contentVersion !== 10)
   )
     throw new Error(
       `${resolver.kind} resolver 与 SAVE${SAVE_VERSION}/contentVersion ${input.contentVersion} 不匹配`,
     )
   const payload = structuredClone(input) as SavePayloadV8
-  payload.contentVersion = 10
+  payload.contentVersion = 11
   if (payload.world.script !== undefined)
     checkWorldScriptStateV5(payload.world.script, 'payload.world.script')
   validateHostileAwareness(payload.world, 'payload.world')

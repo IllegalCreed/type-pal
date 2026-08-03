@@ -995,6 +995,8 @@ function applyPlayerSkill(
     return
   }
   p.mp -= mpCost
+  const execution = skill.execution?.player
+  const effects = execution?.effects ?? skill.effects
   // scriptOnUse 物品门在原版总扣 MP 之后执行(fight.c:4190/4215)。不能放进
   // validatePlayerAction 提前降级，否则会改变“选得出、轮到时缺蛊仍扣 MP 并熄火”的真值。
   // 同一物品的多条成本先聚合，避免重复行逐条扣减导致半成功。
@@ -1052,7 +1054,21 @@ function applyPlayerSkill(
       : skill.target === 'oneAlly' || skill.target === 'self'
         ? [Math.min(Math.max(targetAllyIdx ?? idx, 0), s.players.length - 1)]
         : []
-  effects: for (const eff of skill.effects) {
+  // 370 的 0x57：普通 MP 扣除与物品门成功后，读取**剩余** MP×8，再清空 MP；
+  // prepare 本身就是主伤害语义，不能再在 effects 里补一份 damage。
+  for (const prepare of execution?.prepare ?? []) {
+    if (prepare.kind !== 'remainingResourceDamage' || prepare.resource !== 'mp') continue
+    const amount = Math.max(0, Math.trunc(p.mp * prepare.multiplier))
+    p.mp = 0
+    if (amount <= 0) continue
+    for (const ti of enemyTargets) {
+      const enemy = expectDefined(s.enemies[ti])
+      const dealt = Math.min(enemy.hp, amount)
+      enemy.hp -= dealt
+      if (dealt > 0) s.log.push(`${p.roleId} 施展 ${skill.name},${enemy.def.id} 受到 ${dealt} 点伤害`)
+    }
+  }
+  effects: for (const eff of effects) {
     switch (eff.kind) {
       case 'summon': // 纯演出效果(神将现身动画,battle-session 时间线):gameplay 由链上 damage 结算
         break
@@ -1081,6 +1097,17 @@ function applyPlayerSkill(
           const e = expectDefined(s.enemies[ti])
           e.hp = 0
           s.log.push(`${p.roleId} 施展 ${skill.name},${e.def.id} 魂飞魄散`)
+        }
+        break
+      }
+      case 'resourceDelta': {
+        const targets = eff.resource === 'hp' ? enemyTargets : []
+        for (const ti of targets) {
+          const enemy = expectDefined(s.enemies[ti])
+          const before = enemy.hp
+          enemy.hp = Math.max(0, Math.min(enemy.def.stats.health, enemy.hp + eff.delta))
+          const delta = enemy.hp - before
+          if (delta !== 0) s.log.push(`${p.roleId} 施展 ${skill.name},${enemy.def.id} HP ${delta}`)
         }
         break
       }
@@ -2078,7 +2105,8 @@ function applyEnemySkill(
   // str = 魔强 + (级+6)×6,钳 ≥0(fight.c:4673-4678;物攻侧同构已带,此处曾漏级数项)
   let magStr = e.def.stats.magicStrength + (e.def.stats.level + 6) * 6
   if (magStr < 0) magStr = 0
-  effects: for (const eff of skill.effects) {
+  const effects = skill.execution?.enemy?.effects ?? skill.effects
+  effects: for (const eff of effects) {
     switch (eff.kind) {
       case 'gate': {
         // 顺序门(敌施法侧,夺魂/回梦/鬼降):概率门同 0x06;灵抗门对玩家**直通** ——
@@ -2102,6 +2130,17 @@ function applyEnemySkill(
           if (!t || t.hp <= 0) continue
           t.hp = 0
           s.log.push(`${e.def.id} 施展 ${skill.name},${t.roleId} 魂飞魄散`)
+        }
+        break
+      }
+      case 'resourceDelta': {
+        const resourceTargets = eff.resource === 'hp' ? targets : []
+        for (const ti of resourceTargets) {
+          const p = expectDefined(s.players[ti])
+          const before = p.hp
+          p.hp = Math.max(0, Math.min(p.maxHp, p.hp + eff.delta))
+          const delta = p.hp - before
+          if (delta !== 0) s.log.push(`${e.def.id} 施展 ${skill.name},${p.roleId} HP ${delta}`)
         }
         break
       }

@@ -30,4 +30,61 @@ describe('PAL 已审计内容 overlay', () => {
     expect(applyPalSkillOverlays(once)).toEqual(once)
     expect(source[1]?.name).toBe('stale')
   })
+
+  test('R13-6B 分支、前震屏和酒神资源公式在上游回补', () => {
+    const source = [
+      {
+        id: '303',
+        name: '回梦',
+        effects: [{ kind: 'gate', chance: 60 }],
+        animation: { effectSprite: 40 },
+      },
+      {
+        id: '304',
+        name: '夺魂',
+        effects: [{ kind: 'gate', magicResist: true }, { kind: 'gate', chance: 33 }, { kind: 'instantKill' }],
+        animation: { effectSprite: 39 },
+      },
+      {
+        id: '305',
+        name: '鬼降',
+        effects: [{ kind: 'gate', chance: 44 }],
+        animation: { effectSprite: 41 },
+      },
+      {
+        id: '330',
+        name: '天罡战气',
+        effects: [{ kind: 'damage', power: 320, elemental: 4 }],
+        animation: { effectSprite: 12 },
+      },
+      {
+        id: '370',
+        name: '酒神',
+        effects: [
+          { kind: 'summon', battleSprite: 'player-summon-15', speed: 1, sound: 'sound.pal.301' },
+          { kind: 'damage', power: 3, elemental: 0 },
+        ],
+        animation: { effectSprite: 34 },
+        cost: { mp: 1 },
+      },
+    ] as SkillData[]
+    const out = applyPalSkillOverlays(source)
+    const byId = new Map(out.map((skill) => [skill.id, skill]))
+    expect(byId.get('330')?.animation.preShake).toEqual({ frames: 20, level: 3 })
+    expect(byId.get('303')?.execution?.enemy?.effects).toEqual([
+      { kind: 'gate', chance: 60 },
+      { kind: 'resourceDelta', resource: 'hp', delta: -1 },
+    ])
+    expect(byId.get('304')?.execution?.enemy?.effects).toEqual([
+      { kind: 'gate', chance: 33 },
+      { kind: 'instantKill' },
+    ])
+    expect(byId.get('370')?.cost.items).toEqual([{ itemId: '86', amount: 1 }])
+    expect(byId.get('370')?.execution?.player?.prepare).toEqual([
+      { kind: 'remainingResourceDamage', resource: 'mp', multiplier: 8, consume: 'all' },
+    ])
+    expect(byId.get('370')?.execution?.player?.effects).toEqual([
+      { kind: 'summon', battleSprite: 'player-summon-15', speed: 1, sound: 'sound.pal.301' },
+    ])
+  })
 })

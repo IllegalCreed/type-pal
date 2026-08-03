@@ -39,7 +39,7 @@ export interface MigrationPlan {
 }
 
 export function snapshotOf(
-  fileSet: Pick<MigrationFileSet, 'files' | 'managedFiles'>,
+  fileSet: Pick<MigrationFileSet, 'files' | 'managedFiles' | 'baselineMetadata'>,
 ): MigrationSnapshot {
   return {
     files: new Map(fileSet.files),
@@ -50,6 +50,9 @@ export function snapshotOf(
         sha256(serializeMigrationJson(value, path)),
       ]),
     ),
+    ...(fileSet.baselineMetadata
+      ? { baselineMetadata: structuredClone(fileSet.baselineMetadata) }
+      : {}),
   }
 }
 

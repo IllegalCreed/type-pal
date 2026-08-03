@@ -53,6 +53,8 @@ export type SkillEffect =
       magicResist?: boolean
     } // 顺序门:effects 有序,门失败截断其后 —— 与原版脚本 jump-on-fail 同构(M1c-2)
   | { kind: 'instantKill' } // 0x60 即死(灵葫咒)
+  /** 直接改资源池，不经过魔法伤害随机数/元素抗性。303/305 敌侧为 hp -1。 */
+  | { kind: 'resourceDelta'; resource: 'hp' | 'mp'; delta: number }
   | { kind: 'steal'; rate: number } // 0x6A 偷金钱/道具(飞龙探云手)
   | { kind: 'collectTreasure' } // 0x33 收集敌方宝物(灵葫咒二次)
   // type=summon 召唤;speed=神将现身段帧速(召唤 magic 自己的 wSpeed);tint=背景染色量
@@ -94,6 +96,8 @@ export interface SkillAnimation {
   effectTimes?: number
   /** 末尾震屏帧数(原 wShake)。 */
   shake?: number
+  /** 特效起手时并发的前置震屏；不取代末尾 shake。 */
+  preShake?: { frames: number; level: number }
   /** 屏幕波幅叠加(原 wWave;演出期叠在战场常驻波上,fight.c:2666;原版仅 4 条法术非零)。 */
   wave?: number
   /** 法术效果音(原 wSound;(i−fireDelay)%n==0 帧循环播)。 */
@@ -101,6 +105,19 @@ export interface SkillAnimation {
   /** 特效末帧烙进战斗背景整场留存(原 wKeepEffect==0xFFFF;fight.c:2757 末帧 blit
    *  lpBackground,屏波≥9 时不烙 —— 万剑诀插剑入地等 12 招)。 */
   keepEffect?: boolean
+}
+
+export interface SkillPrepareEffect {
+  kind: 'remainingResourceDamage'
+  resource: 'mp'
+  multiplier: number
+  consume: 'all'
+}
+
+export interface SkillExecutionOverride {
+  effects?: SkillEffect[]
+  animation?: SkillAnimation
+  prepare?: SkillPrepareEffect[]
 }
 
 /** 技能定义。自包含:存值,不存原版 magicNumber 子表下标。 */
@@ -113,6 +130,11 @@ export interface SkillData {
   target: SkillTarget
   effects: SkillEffect[] // 做什么(有序;核心)。元素属于 damage 效果,不放顶层
   animation: SkillAnimation
+  /** 施放者侧覆写；缺席时沿用顶层公共链。仅属于一次施法，不进入世界态/存档。 */
+  execution?: {
+    player?: SkillExecutionOverride
+    enemy?: SkillExecutionOverride
+  }
   // 扩展口 phase3(注释留形):category/series(议题16 门派分类/体系,技能树 UI)
 }
 

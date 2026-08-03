@@ -45,7 +45,14 @@
                     {
                       "entryId": "pal-entry-043371c8",
                       "kind": "loadScene",
-                      "scene": "s228"
+                      "scene": "s228",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-31650"
+                      }
                     }
                   ]
                 }
@@ -90,7 +97,14 @@
                     {
                       "entryId": "pal-entry-8d685a35",
                       "kind": "loadScene",
-                      "scene": "s238"
+                      "scene": "s238",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-31658"
+                      }
                     }
                   ]
                 }
@@ -135,7 +149,14 @@
                     {
                       "entryId": "pal-entry-02543b24",
                       "kind": "loadScene",
-                      "scene": "s236"
+                      "scene": "s236",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-31662"
+                      }
                     }
                   ]
                 }
@@ -179,7 +200,14 @@
                   "body": [
                     {
                       "kind": "loadScene",
-                      "scene": "s232"
+                      "scene": "s232",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-31670"
+                      }
                     }
                   ]
                 }
@@ -224,7 +252,14 @@
                     {
                       "entryId": "pal-entry-95ace5b9",
                       "kind": "loadScene",
-                      "scene": "s237"
+                      "scene": "s237",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-31734"
+                      }
                     }
                   ]
                 }
@@ -269,7 +304,14 @@
                     {
                       "entryId": "pal-entry-f307fe05",
                       "kind": "loadScene",
-                      "scene": "s237"
+                      "scene": "s237",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-31742"
+                      }
                     }
                   ]
                 }
@@ -314,7 +356,14 @@
                     {
                       "entryId": "pal-entry-b2b17586",
                       "kind": "loadScene",
-                      "scene": "s237"
+                      "scene": "s237",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-31750"
+                      }
                     }
                   ]
                 }
@@ -359,7 +408,14 @@
                     {
                       "entryId": "pal-entry-1e96d6e2",
                       "kind": "loadScene",
-                      "scene": "s237"
+                      "scene": "s237",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-31758"
+                      }
                     }
                   ]
                 }
@@ -404,7 +460,14 @@
                     {
                       "entryId": "pal-entry-9c601eb8",
                       "kind": "loadScene",
-                      "scene": "s237"
+                      "scene": "s237",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-31766"
+                      }
                     }
                   ]
                 }
@@ -449,7 +512,14 @@
                     {
                       "entryId": "pal-entry-8eebe8e8",
                       "kind": "loadScene",
-                      "scene": "s237"
+                      "scene": "s237",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-31774"
+                      }
                     }
                   ]
                 }
@@ -494,7 +564,14 @@
                     {
                       "entryId": "pal-entry-1ff0b5ff",
                       "kind": "loadScene",
-                      "scene": "s237"
+                      "scene": "s237",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-31782"
+                      }
                     }
                   ]
                 }
@@ -539,7 +616,14 @@
                     {
                       "entryId": "pal-entry-d93a1fcd",
                       "kind": "loadScene",
-                      "scene": "s237"
+                      "scene": "s237",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-31790"
+                      }
                     }
                   ]
                 }
@@ -584,7 +668,14 @@
                     {
                       "entryId": "pal-entry-29e8d6a9",
                       "kind": "loadScene",
-                      "scene": "s242"
+                      "scene": "s242",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-31802"
+                      }
                     }
                   ]
                 }

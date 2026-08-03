@@ -791,7 +791,7 @@ describe('openLocalProject', () => {
     expect(opened.kind).toBe('v5')
     if (opened.kind !== 'v5') throw new Error('没有进入 v5 loader')
     expect(opened.project.manifest).toMatchObject({
-      contentVersion: 10,
+      contentVersion: 11,
       minimumSaveVersion: 8,
     })
     expect(writes).toEqual(['manifest.json'])
@@ -834,7 +834,7 @@ describe('openLocalProject', () => {
     expect(opened.kind).toBe('v5')
     if (opened.kind !== 'v5') throw new Error('没有进入 v5 loader')
     expect(opened.project.manifest).toMatchObject({
-      contentVersion: 10,
+      contentVersion: 11,
       minimumSaveVersion: 8,
     })
     expect(opened.project.items.poison?.throw).toEqual({
@@ -884,7 +884,7 @@ describe('openLocalProject', () => {
     expect(opened.kind).toBe('v5')
     if (opened.kind !== 'v5') throw new Error('没有进入 v5 loader')
     expect(opened.project.manifest).toMatchObject({
-      contentVersion: 10,
+      contentVersion: 11,
       minimumSaveVersion: 8,
     })
     expect(opened.project.items['shared-weapon']?.equip?.effects).toEqual([
@@ -948,7 +948,7 @@ describe('openLocalProject', () => {
     const reopened = await openLocalProject(dir)
     expect(reopened.kind).toBe('v5')
     expect(reopened.project.manifest).toMatchObject({
-      contentVersion: 10,
+      contentVersion: 11,
       minimumSaveVersion: 8,
     })
     expect(writes.at(-1)).toBe('manifest.json')
@@ -1018,7 +1018,7 @@ describe('openLocalProject', () => {
     const opened = await openLocalProject(dir)
     expect(opened.kind).toBe('v5')
     expect(opened.project.manifest).toMatchObject({
-      contentVersion: 10,
+      contentVersion: 11,
       minimumSaveVersion: 8,
     })
     expect(writes).toEqual(['manifest.json'])
@@ -1184,7 +1184,7 @@ describe('openLocalProject', () => {
         contentVersion: number
         minimumSaveVersion: number
       },
-    ).toMatchObject({ contentVersion: 10, minimumSaveVersion: 8 })
+    ).toMatchObject({ contentVersion: 11, minimumSaveVersion: 8 })
   })
 
   test('旧 v3 battle-sprite 全量登记、语义引用、manifest-last 与二次打开 no-op', async () => {
@@ -1883,7 +1883,7 @@ describe('openLocalProject', () => {
 
     const opened = await openLocalProject(dir)
     expect(opened.kind).toBe('v5')
-    expect(opened.project.manifest.contentVersion).toBe(10)
+    expect(opened.project.manifest.contentVersion).toBe(11)
     expect(opened.project.manifest.minimumSaveVersion).toBe(8)
     expect(writes.at(-1)).toBe('manifest.json')
     expect(files['content/shared-scripts.json']).toBeDefined()
@@ -1981,7 +1981,7 @@ describe('openLocalProject', () => {
     const opened = await openLocalProject(mockDir('v4-scalar-battle-sprite', files))
     expect(opened.kind).toBe('v5')
     expect(opened.project.manifest).toMatchObject({
-      contentVersion: 10,
+      contentVersion: 11,
       minimumSaveVersion: 8,
     })
     expect(opened.project.items.weapon?.equip?.effects).toEqual([
@@ -2004,7 +2004,7 @@ describe('openLocalProject', () => {
 
     const reopened = await openLocalProject(dir)
     expect(reopened.kind).toBe('v5')
-    expect(reopened.project.manifest.contentVersion).toBe(10)
+    expect(reopened.project.manifest.contentVersion).toBe(11)
     expect(reopened.project.manifest.minimumSaveVersion).toBe(8)
     expect(files['.type-pal/journals/script-v4-v5.json']).toBeUndefined()
   })
@@ -2107,7 +2107,7 @@ describe('openLocalProject', () => {
         contentVersion: number
         minimumSaveVersion: number
       },
-    ).toMatchObject({ contentVersion: 10, minimumSaveVersion: 8 })
+    ).toMatchObject({ contentVersion: 11, minimumSaveVersion: 8 })
   })
 
   test('旧 v3 sprite number/legacy-root/followers → catalog 单链，二次打开零写入', async () => {
@@ -2860,7 +2860,7 @@ describe('openLocalProject', () => {
     const dir = mockDir('old-v3', files, writes)
     const opened = await openLocalProject(dir)
     expect(opened.project.manifest.assets.roles['audio.openingMenuMusic']).toBe(expected)
-    expect(opened.project.manifest.contentVersion).toBe(10)
+    expect(opened.project.manifest.contentVersion).toBe(11)
     expect(writes.at(-1)).toBe('manifest.json')
 
     writes.length = 0
@@ -2873,14 +2873,14 @@ describe('openLocalProject', () => {
     const customWrites: string[] = []
     const opened = await openLocalProject(mockDir('custom-v3', custom, customWrites))
     expect(opened.project.manifest.assets.roles['audio.openingMenuMusic']).toBe('music.pal.009')
-    expect(opened.project.manifest.contentVersion).toBe(10)
+    expect(opened.project.manifest.contentVersion).toBe(11)
     expect(customWrites.at(-1)).toBe('manifest.json')
 
     const silentFiles = { ...fullProject }
     const silentWrites: string[] = []
     const silent = await openLocalProject(mockDir('silent-v3', silentFiles, silentWrites))
     expect(silent.project.manifest.assets.roles['audio.openingMenuMusic']).toBeUndefined()
-    expect(silent.project.manifest.contentVersion).toBe(10)
+    expect(silent.project.manifest.contentVersion).toBe(11)
     expect(silentWrites.at(-1)).toBe('manifest.json')
   })
 
@@ -3221,7 +3221,7 @@ describe('openLocalProject', () => {
       readSoundfont: async () => soundfont,
     })
 
-    expect(opened.project.manifest.contentVersion).toBe(10)
+    expect(opened.project.manifest.contentVersion).toBe(11)
     expect(opened.project.manifest.assets.legacy?.families).not.toContain('sound')
     expect(opened.scenes[0]?.music).toBe('music.pal.001')
     expect(canonicalHookBody(opened)).toEqual([{ kind: 'playSound', asset: 'sound.pal.045' }])

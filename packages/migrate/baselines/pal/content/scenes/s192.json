@@ -4018,7 +4018,14 @@
                     {
                       "entryId": "pal-entry-985bbe9a",
                       "kind": "loadScene",
-                      "scene": "s185"
+                      "scene": "s185",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-25615"
+                      }
                     }
                   ]
                 }

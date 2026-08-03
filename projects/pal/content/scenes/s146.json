@@ -45,7 +45,14 @@
                     {
                       "entryId": "pal-entry-a449054b",
                       "kind": "loadScene",
-                      "scene": "s165"
+                      "scene": "s165",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-22409"
+                      }
                     }
                   ]
                 }

@@ -7,6 +7,8 @@ function host(): ScriptHost {
     dialog: vi.fn(async () => undefined),
     clearDialog: vi.fn(),
     fade: vi.fn(async () => undefined),
+    holdScreen: vi.fn(async () => undefined),
+    revealScreen: vi.fn(async () => undefined),
     ditherScreen: vi.fn(async () => undefined),
     chaseStep: vi.fn(async () => undefined),
     vanishEntity: vi.fn(),
@@ -69,6 +71,42 @@ function host(): ScriptHost {
 }
 
 describe('script host adapter v5', () => {
+  test('forwards source scene transition and transient screen commands', async () => {
+    const target = host()
+    const signal = new AbortController().signal
+    const transition = {
+      kind: 'source' as const,
+      outMs: 1200,
+      inMs: 600,
+      color: 'black' as const,
+      evidenceId: 'pal-load-scene-100',
+    }
+    await executeLegacyScriptHostEffectV5(
+      target,
+      { kind: 'holdScreen', color: 'black', token: 'pal-night' },
+      {},
+      signal,
+      { currentSceneId: () => 's001' },
+    )
+    await executeLegacyScriptHostEffectV5(
+      target,
+      { kind: 'revealScreen', token: 'pal-night' },
+      {},
+      signal,
+      { currentSceneId: () => 's001' },
+    )
+    await executeLegacyScriptHostEffectV5(
+      target,
+      { kind: 'loadScene', scene: 's002', entryId: 'west', transition },
+      {},
+      signal,
+      { currentSceneId: () => 's001' },
+    )
+    expect(target.holdScreen).toHaveBeenCalledWith('black', 'pal-night', signal)
+    expect(target.revealScreen).toHaveBeenCalledWith('pal-night', signal)
+    expect(target.loadScene).toHaveBeenCalledWith('s002', { entryId: 'west' }, signal, transition)
+  })
+
   test('forwards canonical fade direction and duration to the runtime host', async () => {
     const target = host()
     const signal = new AbortController().signal

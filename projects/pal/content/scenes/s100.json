@@ -965,7 +965,14 @@
                     {
                       "entryId": "pal-entry-aacbf68d",
                       "kind": "loadScene",
-                      "scene": "s114"
+                      "scene": "s114",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-15665"
+                      }
                     }
                   ]
                 }
@@ -1010,7 +1017,14 @@
                     {
                       "entryId": "pal-entry-d0932794",
                       "kind": "loadScene",
-                      "scene": "s127"
+                      "scene": "s127",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-15677"
+                      }
                     }
                   ]
                 }
@@ -2247,7 +2261,14 @@
                     {
                       "entryId": "pal-entry-024cdbf6",
                       "kind": "loadScene",
-                      "scene": "s129"
+                      "scene": "s129",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-15743"
+                      }
                     }
                   ]
                 }
@@ -2341,7 +2362,14 @@
                     {
                       "entryId": "pal-entry-e93c81ef",
                       "kind": "loadScene",
-                      "scene": "s130"
+                      "scene": "s130",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-15770"
+                      }
                     }
                   ],
                   "next": "legacy-002"
@@ -2366,7 +2394,14 @@
                     {
                       "entryId": "pal-entry-e93c81ef",
                       "kind": "loadScene",
-                      "scene": "s130"
+                      "scene": "s130",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-15776"
+                      }
                     }
                   ]
                 }
@@ -2411,7 +2446,14 @@
                     {
                       "entryId": "pal-entry-3284b551",
                       "kind": "loadScene",
-                      "scene": "s137"
+                      "scene": "s137",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-15887"
+                      }
                     }
                   ]
                 }
@@ -2456,7 +2498,14 @@
                     {
                       "entryId": "pal-entry-c1cc9e03",
                       "kind": "loadScene",
-                      "scene": "s135"
+                      "scene": "s135",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-15895"
+                      }
                     }
                   ]
                 }
@@ -2501,7 +2550,14 @@
                     {
                       "entryId": "pal-entry-0fecb1a1",
                       "kind": "loadScene",
-                      "scene": "s136"
+                      "scene": "s136",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-15903"
+                      }
                     }
                   ]
                 }
@@ -6435,7 +6491,14 @@
                     },
                     {
                       "kind": "loadScene",
-                      "scene": "s115"
+                      "scene": "s115",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-20538"
+                      }
                     },
                     {
                       "asset": "music.pal.032",

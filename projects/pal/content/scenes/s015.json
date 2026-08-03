@@ -44,7 +44,14 @@
                   "body": [
                     {
                       "kind": "loadScene",
-                      "scene": "s017"
+                      "scene": "s017",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-4036"
+                      }
                     }
                   ]
                 }
@@ -63,7 +70,14 @@
                   "body": [
                     {
                       "kind": "loadScene",
-                      "scene": "s018"
+                      "scene": "s018",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-4212"
+                      }
                     }
                   ]
                 }
@@ -108,7 +122,14 @@
                     {
                       "entryId": "pal-entry-206a2a44",
                       "kind": "loadScene",
-                      "scene": "s014"
+                      "scene": "s014",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-4040"
+                      }
                     }
                   ]
                 }
@@ -235,7 +256,14 @@
                   {
                     "entryId": "pal-entry-f28ee264",
                     "kind": "loadScene",
-                    "scene": "s015"
+                    "scene": "s015",
+                    "transition": {
+                      "kind": "source",
+                      "outMs": 600,
+                      "inMs": 600,
+                      "color": "black",
+                      "evidenceId": "pal-load-scene-4044"
+                    }
                   }
                 ]
               }

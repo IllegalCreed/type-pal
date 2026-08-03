@@ -11,6 +11,7 @@ import type {
   ItemData,
   SkillData,
   SkillEffect,
+  SkillExecutionOverride,
   StatusId,
 } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
@@ -56,6 +57,7 @@ const EFFECT_KINDS: { v: SkillEffect['kind']; label: string }[] = [
   { v: 'buffStat', label: '属性增益' },
   { v: 'gate', label: '条件门' },
   { v: 'instantKill', label: '即死' },
+  { v: 'resourceDelta', label: '直接增减资源' },
   { v: 'steal', label: '偷窃' },
   { v: 'collectTreasure', label: '收宝' },
   { v: 'summon', label: '召唤' },
@@ -92,6 +94,8 @@ function defaultEffect(
       return { kind, chance: 50 }
     case 'instantKill':
       return { kind }
+    case 'resourceDelta':
+      return { kind, resource: 'hp', delta: -1 }
     case 'steal':
       return { kind, rate: 50 }
     case 'collectTreasure':
@@ -174,6 +178,28 @@ function EffectFields(props: {
                 </option>
               ))}
             </select>
+          </label>
+        </>
+      )
+    case 'resourceDelta':
+      return (
+        <>
+          <label>
+            <span>资源</span>
+            <select
+              className="in"
+              value={e.resource}
+              onChange={(event) =>
+                on({ ...e, resource: event.target.value as 'hp' | 'mp' })
+              }
+            >
+              <option value="hp">体力</option>
+              <option value="mp">真气</option>
+            </select>
+          </label>
+          <label>
+            <span>增减</span>
+            <N v={e.delta} on={(delta) => on({ ...e, delta: delta ?? 0 })} />
           </label>
         </>
       )
@@ -413,6 +439,172 @@ function EffectFields(props: {
   }
 }
 
+function ExecutionOverrideEditor(props: {
+  side: 'player' | 'enemy'
+  override: SkillExecutionOverride
+  fallbackAnimation: SkillData['animation']
+  onChange: (next: SkillExecutionOverride) => void
+  assetCatalog: AssetCatalogV1
+  assetReader: EditorAssetReader
+  assetBase: AssetBase
+  battleSprites: readonly BattleSpriteDef[]
+  onOpenSound?: (id: string) => void
+  onOpenBattleSprite?: (id: string) => void
+}) {
+  const {
+    side,
+    override,
+    fallbackAnimation,
+    onChange,
+    assetCatalog,
+    assetReader,
+    assetBase,
+    battleSprites,
+    onOpenSound,
+    onOpenBattleSprite,
+  } = props
+  const effects = override.effects ?? []
+  const setEffects = (next: SkillEffect[]): void =>
+    onChange({ ...override, effects: next.length ? next : undefined })
+  const setEffect = (index: number, next: SkillEffect): void => {
+    const updated = [...effects]
+    updated[index] = next
+    setEffects(updated)
+  }
+  const prepare = override.prepare?.find((entry) => entry.kind === 'remainingResourceDamage')
+  const setPrepare = (enabled: boolean, multiplier = prepare?.multiplier ?? 8): void => {
+    onChange({
+      ...override,
+      prepare: enabled
+        ? [{ kind: 'remainingResourceDamage', resource: 'mp', multiplier, consume: 'all' }]
+        : undefined,
+    })
+  }
+  return (
+    <div className="skill-execution-branch" data-side={side}>
+      <div className="item-effect-subhead">
+        <strong>{side === 'player' ? '玩家施法时' : '敌人施法时'}</strong>
+        <span className="hint2">只覆盖本次施法；未设置的部分沿用上方公共定义</span>
+      </div>
+      <div className="skill-execution-prepare">
+        <label className="cf-inline">
+          <input type="checkbox" checked={Boolean(prepare)} onChange={(event) => setPrepare(event.target.checked)} />
+          施法前按剩余真气扣体力
+        </label>
+        {prepare && (
+          <label>
+            <span>倍率</span>
+            <N
+              v={prepare.multiplier}
+              on={(value) => setPrepare(true, value ?? 0)}
+              ph="8"
+            />
+          </label>
+        )}
+      </div>
+      <div className="item-effect-subhead">
+        <span>分支效果</span>
+        <button
+          type="button"
+          className="mini-txt item-effect-add-button"
+          onClick={() => setEffects([...effects, defaultEffect('damage', battleSprites)])}
+        >
+          ＋ 添加分支效果
+        </button>
+      </div>
+      {effects.map((effect, index) => (
+        <div className="ef-row" key={`${side}-execution-${index}`}>
+          <select
+            className="in ef-kind"
+            value={effect.kind}
+            onChange={(event) =>
+              setEffect(index, defaultEffect(event.target.value as SkillEffect['kind'], battleSprites))
+            }
+          >
+            {EFFECT_KINDS.map((kind) => (
+              <option key={kind.v} value={kind.v}>
+                {kind.label}
+              </option>
+            ))}
+          </select>
+          <div className="ef-fields">
+            <EffectFields
+              e={effect}
+              on={(next) => setEffect(index, next)}
+              assetCatalog={assetCatalog}
+              assetReader={assetReader}
+              battleSprites={battleSprites}
+              onOpenSound={onOpenSound}
+              onOpenBattleSprite={onOpenBattleSprite}
+            />
+          </div>
+          <span className="ef-ops">
+            <button
+              type="button"
+              className="mini"
+              title="上移"
+              disabled={index === 0}
+              onClick={() => {
+                const next = [...effects]
+                ;[next[index - 1], next[index]] = [next[index]!, next[index - 1]!]
+                setEffects(next)
+              }}
+            >
+              ↑
+            </button>
+            <button
+              type="button"
+              className="mini"
+              title="下移"
+              disabled={index === effects.length - 1}
+              onClick={() => {
+                const next = [...effects]
+                ;[next[index], next[index + 1]] = [next[index + 1]!, next[index]!]
+                setEffects(next)
+              }}
+            >
+              ↓
+            </button>
+            <button
+              type="button"
+              className="mini"
+              title="删除"
+              onClick={() => setEffects(effects.filter((_, row) => row !== index))}
+            >
+              ✕
+            </button>
+          </span>
+        </div>
+      ))}
+      <div className="item-effect-subhead">
+        <label className="cf-inline">
+          <input
+            type="checkbox"
+            checked={Boolean(override.animation)}
+            onChange={(event) =>
+              onChange({
+                ...override,
+                animation: event.target.checked ? structuredClone(fallbackAnimation) : undefined,
+              })
+            }
+          />
+          覆写这次施法动画
+        </label>
+      </div>
+      {override.animation && (
+        <SkillAnimationEditor
+          animation={override.animation}
+          onChange={(animation) => onChange({ ...override, animation })}
+          assetCatalog={assetCatalog}
+          assetReader={assetReader}
+          assetBase={assetBase}
+          onOpenSound={onOpenSound}
+        />
+      )}
+    </div>
+  )
+}
+
 export function SkillTab(props: {
   skills: SkillData[]
   items: readonly ItemData[]
@@ -471,6 +663,16 @@ export function SkillTab(props: {
     const effects = [...skill.effects]
     effects[i] = next
     patch({ effects })
+  }
+  const setExecution = (
+    side: 'player' | 'enemy',
+    override: SkillExecutionOverride | undefined,
+  ): void => {
+    if (!skill) return
+    const execution = { ...(skill.execution ?? {}) }
+    if (override) execution[side] = override
+    else delete execution[side]
+    patch({ execution: Object.keys(execution).length ? execution : undefined })
   }
   return (
     <>
@@ -822,6 +1024,43 @@ export function SkillTab(props: {
                 assetBase={assetBase}
                 onOpenSound={onOpenSound}
               />
+            </div>
+
+            <div className="section">
+              <h4>
+                施法分支 <span className="hint2">仅用于区分玩家和敌人施法；不设置则沿用公共效果和动画</span>
+              </h4>
+              {(['player', 'enemy'] as const).map((side) => {
+                const override = skill.execution?.[side]
+                return override ? (
+                  <div key={side} className="section-subpanel">
+                    <ExecutionOverrideEditor
+                      side={side}
+                      override={override}
+                      fallbackAnimation={skill.animation}
+                      onChange={(next) => setExecution(side, next)}
+                      assetCatalog={assetCatalog}
+                      assetReader={assetReader}
+                      assetBase={assetBase}
+                      battleSprites={battleSprites}
+                      onOpenSound={onOpenSound}
+                      onOpenBattleSprite={onOpenBattleSprite}
+                    />
+                    <button type="button" className="mini-txt danger" onClick={() => setExecution(side, undefined)}>
+                      删除{side === 'player' ? '玩家' : '敌人'}分支
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    key={side}
+                    type="button"
+                    className="tool"
+                    onClick={() => setExecution(side, { effects: [] })}
+                  >
+                    ＋ 添加{side === 'player' ? '玩家' : '敌人'}施法分支
+                  </button>
+                )
+              })}
             </div>
           </div>
         ) : (

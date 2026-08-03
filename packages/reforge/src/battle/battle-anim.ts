@@ -51,6 +51,8 @@ export interface AnimFrame {
   sound?: AssetId
   /** 震屏帧(法术末 wShake 帧;session 累计 shakeUntil,合成级垂直位移,level 恒 3 fight.c:2718)。 */
   screenShake?: boolean
+  /** 震屏强度；缺省沿用原版末尾震屏 level=3。 */
+  screenShakeLevel?: number
   /** 屏幕波幅叠加设值(OffMagic 首帧设 = fx.wave;演出期叠在战场常驻波上,动作收尾归 0)。 */
   waveAdd?: number
   /** 召唤演出相(fight.c:3130-3187 + 889-912):in = 队员溶出/神将溶入/背景染色溶入(72×16ms);
@@ -674,6 +676,8 @@ export interface CastFxParams {
   fireDelay: number
   effectTimes: number
   shake: number
+  /** 特效起手时并发的前置震屏；不取代末尾 shake。 */
+  preShake?: { frames: number; level: number }
   /** 屏幕波幅叠加(原 wWave;fight.c:2666 演出期 += 、末尾还原)。 */
   wave: number
   sound?: AssetId
@@ -782,6 +786,9 @@ export function buildOffMagic(input: BuildOffMagicInput): AnimFrame[] {
         : {}),
       ...(i === 0 && fx.wave > 0 ? { waveAdd: fx.wave } : {}),
       ...(inShake ? { screenShake: true } : {}),
+      ...(fx.preShake && i < fx.preShake.frames
+        ? { screenShake: true, screenShakeLevel: fx.preShake.level }
+        : {}),
       ...(i === l - 1 && input.keepEffect ? { burnBg: drop } : {}),
     })
   }
@@ -1205,6 +1212,9 @@ export function buildEnemyCast(input: BuildEnemyCastInput): AnimFrame[] {
         // 屏波/震屏同玩家侧(fight.c:2942 敌施法同款孪生)
         ...(i === 0 && fx.wave > 0 ? { waveAdd: fx.wave } : {}),
         ...(inShake ? { screenShake: true } : {}),
+        ...(fx.preShake && i < fx.preShake.frames
+          ? { screenShake: true, screenShakeLevel: fx.preShake.level }
+          : {}),
         // keepEffect:末帧烙背景(fight.c:2983 敌施法同款)
         ...(i === l - 1 && input.keepEffect ? { burnBg: ov } : {}),
       })
@@ -1248,7 +1258,7 @@ export interface AnimSideEffects {
   onFighter?(d: FighterDelta): void
   onOverlay?(o: OverlayDraw[] | null): void
   /** 震屏帧进入(参数 = 本帧时长;session 累计 shakeUntil,fight.c:2718)。 */
-  onScreenShake?(durationMs: number): void
+  onScreenShake?(durationMs: number, level?: number): void
   /** 屏幕波幅叠加设值(OffMagic 首帧;收尾还原由 session 管,fight.c:2666/2835)。 */
   onWaveAdd?(wave: number): void
   onAppearanceTransition?(transition: NonNullable<AnimFrame['appearanceTransition']>): void
@@ -1295,7 +1305,7 @@ export class AnimPlayer {
     if (f.sound) this.fx.onSound?.(f.sound)
     if (f.damageNum) this.fx.onDamage?.(f.damageNum.target, f.damageNum.value)
     if (f.damageNums) for (const d of f.damageNums) this.fx.onDamage?.(d.target, d.value, d.tone)
-    if (f.screenShake) this.fx.onScreenShake?.(f.durationMs)
+    if (f.screenShake) this.fx.onScreenShake?.(f.durationMs, f.screenShakeLevel)
     if (f.waveAdd !== undefined) this.fx.onWaveAdd?.(f.waveAdd)
     if (f.appearanceTransition) this.fx.onAppearanceTransition?.(f.appearanceTransition)
     if (f.burnBg?.length) this.fx.onBurnBg?.(f.burnBg)

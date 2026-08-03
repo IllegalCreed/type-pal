@@ -9095,7 +9095,14 @@
                   {
                     "entryId": "pal-entry-bef262ec",
                     "kind": "loadScene",
-                    "scene": "s064"
+                    "scene": "s064",
+                    "transition": {
+                      "kind": "source",
+                      "outMs": 600,
+                      "inMs": 600,
+                      "color": "black",
+                      "evidenceId": "pal-load-scene-11872"
+                    }
                   }
                 ]
               }

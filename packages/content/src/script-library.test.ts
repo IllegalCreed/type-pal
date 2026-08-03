@@ -424,6 +424,32 @@ describe('script library schema', () => {
     ).toThrow(/非空命名落点 id/)
   })
 
+  it('loadScene 支持有证据的过渡 profile，hold/reveal 必须有 token', () => {
+    expect(() =>
+      checkCommands([
+        {
+          kind: 'loadScene',
+          scene: 's001',
+          transition: { kind: 'modern', outMs: 260, inMs: 260, color: 'black' },
+        },
+        { kind: 'holdScreen', color: 'black', token: 'fbp-1' },
+        { kind: 'revealScreen', token: 'fbp-1' },
+      ], 'script'),
+    ).not.toThrow()
+    expect(() =>
+      checkCommands([{ kind: 'holdScreen', color: 'black', token: '' }], 'script'),
+    ).toThrow('token')
+    expect(() =>
+      checkCommands([
+        {
+          kind: 'loadScene',
+          scene: 's001',
+          transition: { kind: 'modern', outMs: 300, inMs: 260, color: 'black' },
+        },
+      ], 'script'),
+    ).toThrow('modern')
+  })
+
   it('动作命令与页默认绑定 fail-loud，循环动作不能等待', () => {
     expect(() =>
       checkCommands(

@@ -7,7 +7,8 @@
  *  - 其余是 raw{opcode,operands};label = "L_<地址>",跳转目标必有 label。
  * 分层规则:
  *  - 线性直译查表;连续 showDialog 成组(尾冒号行 = speaker,后续行拼一页,文本进 locale);
- *  - 门模式:loadScene ± setPartyPos ± fadeOut(窗口 ≤3 命令)折叠成单条 loadScene{scene,pos};
+ *  - 门模式:loadScene ± setPartyPos ± fadeOut(窗口 ≤3 命令)折叠成单条
+ *    loadScene{scene,pos,transition};只有吸收到源 fade 且持有源地址时才写 source profile；
  *  - end.advance/reset → 多段 stages(原版触发入口推进的 clean 版);
  *  - goto:frameDelay→wait,目标内联续走(回边 → stage reset);
  *  - 跳转族或未知 op 只写迁移期 MigrationGap;可达 gap 会在写盘前统一失败,
@@ -1163,7 +1164,12 @@ function walkBody(
       if (op === 'loadScene') {
         flush()
         // loadScene operand 1-based(sdlpal rgScene[wNumScene-1])→ 0-based scene index,对齐 sceneSlug/sc.sceneId 命名
-        body.push({ kind: 'loadScene', scene: sceneSlug(Math.max(0, (c.sceneId ?? 1) - 1)) })
+        body.push({
+          kind: 'loadScene',
+          scene: sceneSlug(Math.max(0, (c.sceneId ?? 1) - 1)),
+          // 迁移期私有证据，foldDoorPattern 必须消费并从最终 canonical 删除。
+          __palSourceAddress: instructionSourceAddress,
+        } as unknown as Command)
         at = { cmds: at.cmds, idx: at.idx + 1 }
         continue
       }
@@ -2135,8 +2141,9 @@ export function translateActivationBlock(args: {
 
 /**
  * 门模式 peephole:loadScene 与相邻(≤2 距离)teleportParty/fade(out) 折叠为单条
- * loadScene{scene,pos}(主流原版链形 `loadScene setPartyPos fadeOut`×666 及变序)。
- * 引擎的 loadScene 内建淡出/淡入,相邻 fade 一并吸收。
+ * loadScene{scene,pos,transition}(主流原版链形 `loadScene setPartyPos fadeOut`×666 及变序)。
+ * 引擎的 loadScene 内建淡出/淡入；只有源地址与相邻 fade 同时存在时才写 source profile，
+ * 否则保持省略 transition 的 modern 260/260 默认，不能伪造源时序。
  */
 export function foldDoorPattern(body: Command[]): Command[] {
   const out: Command[] = []
@@ -2148,6 +2155,8 @@ export function foldDoorPattern(body: Command[]): Command[] {
     }
     let pos = c.pos
     let facing = c.facing
+    const sourceAddress = (c as Command & { __palSourceAddress?: unknown }).__palSourceAddress
+    let absorbedFade: Extract<Command, { kind: 'fade' }> | undefined
     // 向前看 ≤2:teleportParty(取坐标)/fade out(吸收)
     let consumed = 0
     for (let j = i + 1; j <= i + 2 && j < body.length; j++) {
@@ -2157,6 +2166,7 @@ export function foldDoorPattern(body: Command[]): Command[] {
         facing ??= n.facing
         consumed = j - i
       } else if (n.kind === 'fade' && n.dir === 'out') {
+        absorbedFade = n
         consumed = j - i
       } else break
     }
@@ -2171,10 +2181,26 @@ export function foldDoorPattern(body: Command[]): Command[] {
       }
       if (p.kind !== 'fade') break
     }
+    const transition =
+      absorbedFade && Number.isSafeInteger(sourceAddress)
+        ? {
+            kind: 'source' as const,
+            outMs: absorbedFade.ms ?? 300,
+            inMs: 600,
+            color: 'black' as const,
+            evidenceId: `pal-load-scene-${sourceAddress}`,
+          }
+        : c.transition
+    const presentation = {
+      ...(facing ? { facing } : {}),
+      ...(transition ? { transition } : {}),
+    }
     out.push(
       pos
-        ? { kind: 'loadScene', scene: c.scene, pos, ...(facing ? { facing } : {}) }
-        : { kind: 'loadScene', scene: c.scene, ...(facing ? { facing } : {}) },
+        ? { kind: 'loadScene', scene: c.scene, pos, ...presentation }
+        : c.entryId
+          ? { kind: 'loadScene', scene: c.scene, entryId: c.entryId, ...presentation }
+          : { kind: 'loadScene', scene: c.scene, ...presentation },
     )
     i += consumed
   }

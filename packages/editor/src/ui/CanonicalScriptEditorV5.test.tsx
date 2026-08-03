@@ -146,7 +146,7 @@ describe('CanonicalScriptEditorV5 author presentation', () => {
       ),
     )
     const enabledKinds = Object.entries(AUTHOR_COMMAND_V5_KINDS)
-      .filter(([, enabled]) => enabled)
+      .filter(([kind, enabled]) => enabled && kind !== 'holdScreen' && kind !== 'revealScreen')
       .map(([kind]) => kind)
     expect([...insertKinds].sort()).toEqual(enabledKinds.sort())
     const unavailableShared = host.querySelector<HTMLButtonElement>(

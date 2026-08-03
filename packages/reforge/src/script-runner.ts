@@ -16,6 +16,7 @@ import type {
   RuntimeScriptBinding,
   SceneReveal,
   SceneSpawn,
+  SceneTransitionProfile,
   ScriptCondition,
   ScriptRef,
   ScriptStage,
@@ -38,6 +39,8 @@ export interface ScriptHost {
   /** 0xA0 游戏通关退出:回标题屏(?menu;未存进度弃,同系统菜单 quit)。 */
   quitToTitle?(videos?: readonly AssetId[], signal?: AbortSignal): void | Promise<void>
   fade(dir: 'in' | 'out', ms: number, color?: 'black' | 'red', signal?: AbortSignal): Promise<void>
+  holdScreen?(color: 'black', token: string, signal?: AbortSignal): Promise<void>
+  revealScreen?(token: string, signal?: AbortSignal): Promise<void>
   /** 0x73 RGBA 逐像素渐变；host 持有帧快照与生命周期。 */
   ditherScreen(ms: number, signal?: AbortSignal): Promise<void>
   /** scene onEnter entry 的显式提交边界；普通脚本不得调用。 */
@@ -58,7 +61,12 @@ export interface ScriptHost {
   gameOver(signal?: AbortSignal): Promise<void>
   wait(ms: number, signal?: AbortSignal): Promise<void>
   teleportParty(pos: GridPos, facing?: Facing): void
-  loadScene(scene: string, spawn: SceneSpawn, signal?: AbortSignal): Promise<void>
+  loadScene(
+    scene: string,
+    spawn: SceneSpawn,
+    signal?: AbortSignal,
+    transition?: SceneTransitionProfile,
+  ): Promise<void>
   /**
    * 0x15:朝向 + 脚本姿势帧。gesture 缺省 = 清姿势(站立);>0 = 姿势帧
    * (渲染 = dir*framesPerDir + gesture,走路/传送时清)。member 0 = 队长。
@@ -466,6 +474,12 @@ export class ScriptRunner {
         return h.clearDialog()
       case 'fade':
         return h.fade(cmd.dir, cmd.ms ?? 300, cmd.color, this.signal)
+      case 'holdScreen':
+        if (!h.holdScreen) throw new Error('ScriptRunner: 宿主未实现 holdScreen')
+        return h.holdScreen(cmd.color, cmd.token, this.signal)
+      case 'revealScreen':
+        if (!h.revealScreen) throw new Error('ScriptRunner: 宿主未实现 revealScreen')
+        return h.revealScreen(cmd.token, this.signal)
       case 'ditherScreen':
         return h.ditherScreen(cmd.ms ?? 720, this.signal)
       case 'chasePlayer':
@@ -487,15 +501,16 @@ export class ScriptRunner {
       case 'teleportParty':
         return h.teleportParty(cmd.pos, cmd.facing)
       case 'loadScene':
-        return h.loadScene(
-          cmd.scene,
-          {
+        {
+          const spawn = {
             ...(cmd.entryId !== undefined ? { entryId: cmd.entryId } : {}),
             ...(cmd.pos !== undefined ? { pos: cmd.pos } : {}),
             ...(cmd.facing !== undefined ? { facing: cmd.facing } : {}),
-          } as SceneSpawn,
-          this.signal,
-        )
+          } as SceneSpawn
+          return cmd.transition === undefined
+            ? h.loadScene(cmd.scene, spawn, this.signal)
+            : h.loadScene(cmd.scene, spawn, this.signal, cmd.transition)
+        }
       case 'setPartyFacing':
         return h.setPartyFacing(cmd.facing, cmd.gesture, cmd.member)
       case 'setActorSprite':

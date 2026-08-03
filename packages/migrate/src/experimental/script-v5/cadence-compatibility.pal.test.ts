@@ -357,8 +357,8 @@ describe('R13-1 PAL cadence compatibility', () => {
         r13Two: 56,
       },
       // R13-6A 正式补入 22 个既有 schema source sites 后，flow 数量/边界不变。
-      bytes: 7_950_872,
-      sha256: '467e52b28a826e5b38e434e5d38db4988a75deb6c16dc5769eeb9d2d0ec61401',
+      bytes: 8_042_380,
+      sha256: '9dbef7b97a82ed31608636cdb817d6bfe267f4c457b03d8502d85f3d649030e2',
     })
     expect({
       historical: continueStats.historical,

@@ -45,7 +45,14 @@
                     {
                       "entryId": "pal-entry-81f53a81",
                       "kind": "loadScene",
-                      "scene": "s100"
+                      "scene": "s100",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-15755"
+                      }
                     }
                   ]
                 }
@@ -209,7 +216,14 @@
                     },
                     {
                       "kind": "loadScene",
-                      "scene": "s131"
+                      "scene": "s131",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-15752"
+                      }
                     }
                   ]
                 }

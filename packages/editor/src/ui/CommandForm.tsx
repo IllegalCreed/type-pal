@@ -17,6 +17,7 @@ import type {
   GridPos,
   LoadSceneCommand,
   Locale,
+  SceneTransitionProfile,
   SceneDef,
   ScriptIndexV1,
   SharedScriptMetaV1,
@@ -53,17 +54,19 @@ export function makeLoadScene(
   scene: string,
   target: LoadSceneTarget,
   facing?: Facing,
+  transition?: SceneTransitionProfile,
 ): LoadSceneCommand {
   const facingPatch = facing ? { facing } : {}
+  const transitionPatch = transition ? { transition } : {}
   if (target.mode === 'entry')
-    return { kind: 'loadScene', scene, entryId: target.entryId, ...facingPatch }
+    return { kind: 'loadScene', scene, entryId: target.entryId, ...facingPatch, ...transitionPatch }
   if (target.mode === 'pos')
-    return { kind: 'loadScene', scene, pos: { ...target.pos }, ...facingPatch }
-  return { kind: 'loadScene', scene, ...facingPatch }
+    return { kind: 'loadScene', scene, pos: { ...target.pos }, ...facingPatch, ...transitionPatch }
+  return { kind: 'loadScene', scene, ...facingPatch, ...transitionPatch }
 }
 
 export function retargetLoadScene(command: LoadSceneCommand, scene: string): LoadSceneCommand {
-  return makeLoadScene(scene, { mode: 'default' }, command.facing)
+  return makeLoadScene(scene, { mode: 'default' }, command.facing, command.transition)
 }
 
 function Row(props: { label: string; children: React.ReactNode }) {
@@ -413,6 +416,28 @@ export function CommandForm(props: {
           </Row>
           <Row label="毫秒">
             <Num value={cmd.ms ?? 300} onChange={(n) => set({ ms: n })} step={60} />
+          </Row>
+        </>
+      )
+    case 'holdScreen':
+      return (
+        <>
+          <Row label="画面状态">
+            <span className="hint2">保持黑屏，直到配对的恢复指令</span>
+          </Row>
+          <Row label="事务">
+            <input className="in mono" value={cmd.token} readOnly />
+          </Row>
+        </>
+      )
+    case 'revealScreen':
+      return (
+        <>
+          <Row label="画面状态">
+            <span className="hint2">恢复配对黑屏事务</span>
+          </Row>
+          <Row label="事务">
+            <input className="in mono" value={cmd.token} readOnly />
           </Row>
         </>
       )
@@ -794,6 +819,8 @@ export function CommandForm(props: {
       const target = availableScenes.find((s) => s.id === cmd.scene)
       const entries = Object.entries(target?.entries ?? {})
       const mode = cmd.entryId ? 'entry' : cmd.pos ? 'pos' : 'default'
+      const rebuild = (targetMode: LoadSceneTarget, facing = cmd.facing) =>
+        makeLoadScene(cmd.scene, targetMode, facing, cmd.transition)
       return (
         <>
           <Row label="目标场景">
@@ -817,7 +844,7 @@ export function CommandForm(props: {
               <button
                 type="button"
                 className={mode === 'default' ? 'active' : ''}
-                onClick={() => onChange(makeLoadScene(cmd.scene, { mode: 'default' }, cmd.facing))}
+                onClick={() => onChange(rebuild({ mode: 'default' }))}
               >
                 默认
               </button>
@@ -829,7 +856,7 @@ export function CommandForm(props: {
                   const entryId =
                     cmd.entryId && target?.entries?.[cmd.entryId] ? cmd.entryId : entries[0]?.[0]
                   if (entryId)
-                    onChange(makeLoadScene(cmd.scene, { mode: 'entry', entryId }, cmd.facing))
+                    onChange(rebuild({ mode: 'entry', entryId }))
                 }}
               >
                 命名
@@ -839,13 +866,11 @@ export function CommandForm(props: {
                 className={mode === 'pos' ? 'active' : ''}
                 onClick={() =>
                   onChange(
-                    makeLoadScene(
-                      cmd.scene,
+                    rebuild(
                       {
                         mode: 'pos',
                         pos: { ...(target?.entry.pos ?? { col: 0, row: 0, height: 0 }) },
                       },
-                      cmd.facing,
                     ),
                   )
                 }
@@ -861,10 +886,8 @@ export function CommandForm(props: {
                 value={cmd.entryId}
                 onChange={(e) =>
                   onChange(
-                    makeLoadScene(
-                      cmd.scene,
+                    rebuild(
                       { mode: 'entry', entryId: e.target.value },
-                      cmd.facing,
                     ),
                   )
                 }
@@ -887,10 +910,8 @@ export function CommandForm(props: {
                 value={cmd.pos.col}
                 onChange={(n) =>
                   onChange(
-                    makeLoadScene(
-                      cmd.scene,
+                    rebuild(
                       { mode: 'pos', pos: { ...cmd.pos!, col: n } },
-                      cmd.facing,
                     ),
                   )
                 }
@@ -899,10 +920,8 @@ export function CommandForm(props: {
                 value={cmd.pos.row}
                 onChange={(n) =>
                   onChange(
-                    makeLoadScene(
-                      cmd.scene,
+                    rebuild(
                       { mode: 'pos', pos: { ...cmd.pos!, row: n } },
-                      cmd.facing,
                     ),
                   )
                 }
@@ -911,10 +930,8 @@ export function CommandForm(props: {
                 value={cmd.pos.height ?? 0}
                 onChange={(n) =>
                   onChange(
-                    makeLoadScene(
-                      cmd.scene,
+                    rebuild(
                       { mode: 'pos', pos: { ...cmd.pos!, height: n } },
-                      cmd.facing,
                     ),
                   )
                 }
@@ -932,7 +949,7 @@ export function CommandForm(props: {
                   : cmd.pos
                     ? { mode: 'pos', pos: cmd.pos }
                     : { mode: 'default' }
-                onChange(makeLoadScene(cmd.scene, targetMode, f || undefined))
+                onChange(rebuild(targetMode, f || undefined))
               }}
             >
               <option value="">(保持)</option>
@@ -942,6 +959,18 @@ export function CommandForm(props: {
                 </option>
               ))}
             </select>
+          </Row>
+          <Row label="画面过渡">
+            <span className="hint2">
+              {cmd.transition?.kind === 'source'
+                ? `源时序：淡出 ${cmd.transition.outMs}ms / 淡入 ${cmd.transition.inMs}ms`
+                : '现代过渡：淡出 260ms / 淡入 260ms'}
+            </span>
+            {cmd.transition?.kind === 'source' && (
+              <button type="button" onClick={() => set({ transition: undefined })}>
+                改用现代过渡
+              </button>
+            )}
           </Row>
         </>
       )

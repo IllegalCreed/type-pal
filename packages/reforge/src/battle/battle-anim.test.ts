@@ -10,6 +10,7 @@ import {
   buildEnemyTransform,
   buildFleeFail,
   buildMateAttack,
+  buildOffMagic,
   buildPartyFlee,
   buildPlayerAttack,
   buildPlayerCast,
@@ -65,6 +66,33 @@ function record(frames: AnimFrame[]) {
 }
 
 describe('M4d-2 战斗动画时间线', () => {
+  test('R13-6B preShake 与 OffMagic 起手帧并发，末尾 shake 仍是独立时间点', () => {
+    const frames = buildOffMagic({
+      fireFrames: 3,
+      fx: {
+        placement: 'normal',
+        xOffset: 0,
+        yOffset: 0,
+        speed: 0,
+        fireDelay: 0,
+        effectTimes: 1,
+        shake: 1,
+        preShake: { frames: 2, level: 3 },
+        wave: 0,
+      },
+    })
+    expect(frames.length).toBeGreaterThan(3)
+    expect(frames[0]).toMatchObject({
+      screenShake: true,
+      screenShakeLevel: 3,
+      overlays: [expect.objectContaining({ sheet: 'magic', frameIdx: 0 })],
+    })
+    expect(frames[1]).toMatchObject({ screenShake: true, screenShakeLevel: 3 })
+    expect(frames[2]?.screenShakeLevel).toBeUndefined()
+    expect(frames.at(-1)).toMatchObject({ screenShake: true })
+    expect(frames.at(-1)?.screenShakeLevel).toBeUndefined()
+  })
+
   test('玩家物攻:冲刺(+64,+20)→挥击9+敌染色+伤害数字→敌抖动(−8/−4/−6)', () => {
     const frames = buildPlayerAttack({
       frames: PLAYER_FRAMES,

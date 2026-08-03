@@ -181,7 +181,14 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s145"
+                    "scene": "s145",
+                    "transition": {
+                      "kind": "source",
+                      "outMs": 2400,
+                      "inMs": 600,
+                      "color": "black",
+                      "evidenceId": "pal-load-scene-24731"
+                    }
                   }
                 ]
               }

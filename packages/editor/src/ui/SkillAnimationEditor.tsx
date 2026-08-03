@@ -121,6 +121,34 @@ export function SkillAnimationEditor(props: {
           onChange={(value) => patch('shake', value)}
         />
         <AnimationNumberField
+          label="前置震屏帧"
+          value={props.animation.preShake?.frames}
+          placeholder="关闭"
+          min={1}
+          onChange={(frames) =>
+            patch(
+              'preShake',
+              frames === undefined
+                ? undefined
+                : { frames: Math.max(1, Math.trunc(frames)), level: props.animation.preShake?.level ?? 3 },
+            )
+          }
+        />
+        {props.animation.preShake && (
+          <AnimationNumberField
+            label="前置震屏强度"
+            value={props.animation.preShake.level}
+            required
+            min={1}
+            onChange={(level) =>
+              patch('preShake', {
+                ...props.animation.preShake!,
+                level: Math.max(1, Math.trunc(level ?? 1)),
+              })
+            }
+          />
+        )}
+        <AnimationNumberField
           label="屏波"
           value={props.animation.wave}
           placeholder="0"

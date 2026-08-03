@@ -44,7 +44,14 @@
                   "body": [
                     {
                       "kind": "loadScene",
-                      "scene": "s004"
+                      "scene": "s004",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-1650"
+                      }
                     }
                   ]
                 }
@@ -89,7 +96,14 @@
                     {
                       "entryId": "pal-entry-2ab4db76",
                       "kind": "loadScene",
-                      "scene": "s001"
+                      "scene": "s001",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-244"
+                      }
                     }
                   ]
                 }
@@ -566,7 +580,14 @@
                   "body": [
                     {
                       "kind": "loadScene",
-                      "scene": "s002"
+                      "scene": "s002",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-48"
+                      }
                     }
                   ]
                 }
@@ -610,7 +631,14 @@
                   "body": [
                     {
                       "kind": "loadScene",
-                      "scene": "s001"
+                      "scene": "s001",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-56"
+                      }
                     }
                   ]
                 }
@@ -655,7 +683,14 @@
                     {
                       "entryId": "pal-entry-7640e57b",
                       "kind": "loadScene",
-                      "scene": "s001"
+                      "scene": "s001",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-216"
+                      }
                     }
                   ]
                 }
@@ -700,7 +735,14 @@
                     {
                       "entryId": "pal-entry-8e265ee5",
                       "kind": "loadScene",
-                      "scene": "s001"
+                      "scene": "s001",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-224"
+                      }
                     }
                   ]
                 }
@@ -745,7 +787,14 @@
                     {
                       "entryId": "pal-entry-ee1472b8",
                       "kind": "loadScene",
-                      "scene": "s001"
+                      "scene": "s001",
+                      "transition": {
+                        "kind": "source",
+                        "outMs": 600,
+                        "inMs": 600,
+                        "color": "black",
+                        "evidenceId": "pal-load-scene-232"
+                      }
                     }
                   ]
                 }
@@ -1903,9 +1952,13 @@
                       "ms": 600
                     },
                     {
-                      "dir": "in",
-                      "kind": "fade",
-                      "ms": 600
+                      "kind": "holdScreen",
+                      "color": "black",
+                      "token": "pal-blackout-inn-night"
+                    },
+                    {
+                      "kind": "revealScreen",
+                      "token": "pal-blackout-inn-night"
                     },
                     {
                       "cue": {
@@ -10447,9 +10500,13 @@
                       "ms": 3200
                     },
                     {
-                      "dir": "in",
-                      "kind": "fade",
-                      "ms": 600
+                      "kind": "holdScreen",
+                      "color": "black",
+                      "token": "pal-blackout-inn-next-day"
+                    },
+                    {
+                      "kind": "revealScreen",
+                      "token": "pal-blackout-inn-next-day"
                     },
                     {
                       "cue": {
