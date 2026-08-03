@@ -6898,13 +6898,198 @@ loadScene 源时序。输出最小公共 schema/runtime/editor 变更面、是�
 但只要黑屏状态不进入存档就不应升级 SAVE_VERSION；若设计要求序列化该状态，必须重新列为
 SAVE delta 审查，不能顺手带入。
 
+##### R13-6B 最小设计草案（2026-08-03，draft；三方设计签字前不得实现）
+
+本节是设计候选，不是实现承诺。它把五项 open debt 压到最小的公共模型变化；任何一项若被
+Kimi/GLM 证明与一阶段真值不符，必须在本节写 `counter` 后返工，不能直接改代码“试试看”。
+
+**设计锚点**：一阶段演出/资源真值见 `docs/phase1/game-mechanics.md` 与
+`docs/phase2/foundation/phase1-knowledge-harvest.md:389,418,481,503`；当前模型和消费点见
+`packages/content/src/skill.ts:6-12,80-115`、`packages/content/src/script.ts:59-80`、
+`packages/reforge/src/battle/battle-core.ts:970-1060,2057-2130`、
+`packages/reforge/src/main.ts:1517-1609`、`packages/reforge/src/screen-fx.ts:90-104`。
+
+###### 1. 技能执行分支：把“谁施放”从技能效果里显式化
+
+不复制技能资源，也不把 PAL magic/object id 重新暴露给作者；在现有 `SkillData` 上增加一个
+可选的 `execution` 覆写块，顶层 `cost/target/effects/animation` 仍是未分叉技能的共同默认值：
+
+```ts
+interface SkillExecutionOverride {
+  effects?: SkillEffect[]           // 有值时替换共同 effects，顺序即执行顺序
+  animation?: SkillAnimation        // 有值时替换共同 animation
+  prepare?: SkillPrepareEffect[]    // 资源扣除后的 transient 前置准备
+}
+
+interface SkillPrepareEffect {
+  kind: 'remainingResourceDamage'
+  resource: 'mp'
+  multiplier: number                // 370 = 8
+  consume: 'all'
+}
+
+interface SkillData {
+  // 现有字段保持；新增字段不进入世界态/存档
+  execution?: {
+    player?: SkillExecutionOverride
+    enemy?: SkillExecutionOverride
+  }
+}
+```
+
+约束：
+
+- `execution` 缺席时，player/enemy 都使用现有共同链，旧内容字节语义不变；出现分支时，
+  只允许明确的 `player`/`enemy` 覆写，不允许按“敌人有/没有某字段”隐式猜测另一侧。
+- `effects` 仍是有序、门失败截断的 gameplay 链；`prepare` 只计算/消费 transient 资源，
+  不直接绕过效果链。`remainingResourceDamage` 必须在常规 MP 扣除后读取剩余 MP，计算
+  `remaining × multiplier`，再清空 MP；缺字段、负 multiplier、重复 prepare 或非 MP 资源一律
+  fail-closed。
+- 303/304/305 使用 `execution.player/enemy.effects` 表达玩家/敌人不同的概率、回合数、
+  魔抗门与目标 HP 变化；目标 HP `-1` 必须用“直接资源变化”语义（不走魔法伤害随机数、
+  元素抗性或格挡），不能把 `damage(power:1)` 当近似。若现有 `SkillEffect` 没有该直接资源
+  变化形状，需新增一个最小 `resourceDelta` effect，并由测试钉住 clamp/日志/命中顺序。
+- 370 使用已有 `cost.mp=1` 与 item 86 酒门，成功后执行 `prepare.remainingResourceDamage`
+  并清空 MP；失败门沿用 6A：MP 已扣，酒不足不扣酒、不播效果、不结算成功效果。
+- `execution` 只属于 content 技能定义；不进 `WorldState`、`BattleState` 持久快照或
+  SAVE。若运行时需要缓存 resolved branch，必须是一次施法的局部值，不能写回技能表。
+
+###### 2. 前置震屏：与现有末尾 `animation.shake` 分成两个时间点
+
+现有 `SkillAnimation.shake` 继续表示特效链**末尾**震屏；新增的候选字段为
+`preShake?: { frames: number; level: number }`，只用于 330/334/342/357/378/380/385，帧数
+精确为 `20/20/14/24/14/14/14`，level 由源证据钉死（不在 runtime 写隐含常量）。施法时间线
+固定为：
+
+```text
+选择/轮到施法 → MP/物品门 → 成功才 preShake → effect animation → gameplay effects → postShake
+```
+
+资源门失败不能出现前摇；`preShake` 和 `shake` 不得合并、互相覆盖或共用一个“当前震屏”
+全局门。运行时沿用 `screen-fx` 的 time-based、AbortSignal 贯穿和 `finally` 收尾约束；编辑器
+预览必须能分别显示“前置震屏/特效/末尾震屏”，而不是只显示一个总帧数。
+
+###### 3. `0x76`：显式、不可存档的黑屏保持事务
+
+候选公共命令不是把 `0x76` 改名成 `fade`，而是增加一对可配对的 transient 表现命令：
+
+```ts
+{ kind: 'holdScreen'; color: 'black'; token: string }
+{ kind: 'revealScreen'; token: string }
+```
+
+`token` 是脚本体内稳定字符串，不是地址/IP；运行态只保存当前 presentation transaction，
+不进入 `WorldState`、存档或迁移 cursor。每个 hold 必须有同 token 的 reveal，或有明确的
+`loadScene`/脚本 abort finalizer；缺配对、重复 reveal、跨 token reveal 和异常退出必须
+fail-closed 并记录诊断，不能静默永久黑屏，也不能自动“猜测”恢复时点。
+
+运行时约束：hold/reveal 的 begin/end 必须是幂等的 owner transaction；`loadScene`、读档、
+脚本取消和 renderer error 都走同一个 finalizer；新事务不能被旧事务的 cleanup 清掉。编辑器
+预览必须渲染 hold 期间的黑屏，并在 reveal/场景切换时恢复；测试必须覆盖正常配对、abort、
+二次 loadScene、旧 token cleanup 不影响新 token 四条路径。
+
+迁移约束：每个可达 `0x76` 必须产出 source address → hold/reveal/finalizer 的 evidence；若
+源没有可证明的结束点，保持 open debt，不生成一个自称“完成”的 reveal。
+
+###### 4. `loadScene`：保留源时序的显式 profile，默认行为不变
+
+当前 `loadScene` 没有 profile 时固定走 260ms out/in。候选新增可选 `transition`：
+
+```ts
+type SceneTransitionProfile =
+  | { kind: 'modern'; outMs: 260; inMs: 260; color: 'black' }
+  | { kind: 'source'; outMs: number; inMs: number; color: 'black'; evidenceId: string }
+
+type LoadSceneCommand = { kind: 'loadScene'; scene: string; transition?: SceneTransitionProfile } & SceneSpawn
+```
+
+省略 `transition` 等价于当前 260/260，保证手写脚本和旧迁移产物兼容；迁移器只有在 source
+address、相邻 fade、目标 scene 与时序都能逐项核对时才生成 `source` profile，否则保留
+open/modern，不伪造数值。`evidenceId` 只连接迁移报告，不把旧 opcode/地址暴露给作者 UI。
+编辑器显示“现代过渡/源时序（来自迁移证据）”，不允许显示裸地址。
+
+推荐不升级 `SAVE_VERSION`：profile 和 hold/reveal 都是 content/transient；`contentVersion`
+若 validator/loader 的公共 schema 发生变化则升到下一版，由单独 migration transition 处理，
+但不得把屏幕保持状态写入存档。若审查认为需要持久化中断后的 hold，必须拆成新的 SAVE 高风险
+任务重新三签，不能在 R13-6B 顺手加入。
+
+###### 5. 五项债务的迁移、回滚和验证矩阵
+
+| 债务 | 迁移写入 | 回滚条件 | 最小验证 |
+|---|---|---|---|
+| 7 项前置震屏 | 仅 7 个精确 skill id 写 `animation.preShake` | 帧数/level/source hash 任一不符则 0 写入 | 7 条成功/失败门、前/后 shake 顺序、预览时间线 |
+| 酒神 370 | `execution.player.prepare` + item 86 门禁证据 | 公式或清 MP 时点不符则保留 open | MP=1/满/不足、酒足/不足、敌方误用、成功成长 |
+| 303/304/305 | player/enemy 分支 effects；直接 HP delta 独立 effect | 任一 side branch 缺源链或概率/回合不符则拒绝发布 | 6 个 side matrix、魔抗门、HP -1、失败截断 |
+| 0x76 | hold/reveal + token evidence | orphan/跨 token/无终点则不生成 successor | 配对、abort、二次切场、旧 cleanup 隔离 |
+| loadScene | source transition profile（仅证据充分的站点） | source 时序证据不完整则保留 modern/open | 260/260 兼容、source out/in、entry fade、abort |
+
+所有迁移均要求：source census、canonical target、作者改动保护、append-only transition、
+新进程 replay `0/0/0`；失败时回滚整个 transition，不允许写半个技能分支或半个黑屏事务。
+R13-6B 的 fast 门只跑合成/定向 unit，source-backed PAL 冷门只保留一个 initialize canary；
+release 门仍需真实磁盘 baseline、seal 和完整 replay，禁止以提高 timeout 或跳过冷门替代证明。
+
 ##### R13-6B `draft -> build` 设计推进签字
 
 | Agent | 签字 | 日期 | 证据 / 备注 |
 |---|---|---|---|
-| Codex | **pending** | - | 待 6A 定向实现与 current source ledger 重算后提交最小 schema 设计。 |
+| Codex | **pending** | - | 已提交本节最小设计草案；待 Kimi/GLM 只读反证后签 `agree` 或写 `counter`。三签前不改实现。 |
 | Kimi | **pending** | - | 架构 / battle timing / transient presentation state 主审；签字前不得实现 6B。 |
 | GLM | **pending** | - | 源分支、14+4 数据守恒、版本与测试矩阵主审；签字前不得实现 6B。 |
+
+#### 给 Kimi（R13-6B 最小设计架构/runtime 审查）——待执行
+
+```text
+审查任务：N3-1 R13-6B 最小设计；只读，不改实现、生成产物、schema、contentVersion、SAVE_VERSION。
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+
+先读：AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、docs/phase1/game-mechanics.md、
+docs/phase2/foundation/phase1-knowledge-harvest.md；本卡 R13-6A formal publication closure、
+R13-6B 五项 open debt 与“R13-6B 最小设计草案”。代码锚点：
+packages/content/src/{skill.ts,script.ts}；packages/reforge/src/battle/battle-core.ts、
+screen-fx.ts、main.ts 的对应行。
+
+必须反证：
+1. execution.player/enemy 覆写是否能表达 303/304/305 的概率、回合、魔抗和直接 HP -1，且不把
+   共同 SkillData、enemy/player runtime 或 SAVE 状态复制污染；直接 HP delta 是否需要更窄的 effect。
+2. 370 是否严格满足“先扣常规 MP → 酒门 → 读取剩余 MP×8 → 清 MP → 成功效果”，失败是否保持
+   6A 的 MP 已扣/酒不扣/无效果/无成长；prepare 是否会被敌方分支误用。
+3. preShake 与现有末尾 animation.shake 的时间顺序、Abort/finalizer 和渲染层级是否可实现，
+   是否需要把 preShake 从 SkillAnimation 拆成更小 presentation 类型。
+4. holdScreen/revealScreen token 事务是否能覆盖 abort、读档、二次 loadScene 和旧 cleanup 隔离，
+   且不进入 SAVE；无源终点时保持 open 的 fail-closed 条件是否足够。
+5. loadScene source profile 是否应 inline 数值、稳定 profile id 或保留现代默认；contentVersion/SAVE
+   边界是否正确。
+
+输出：在本卡 R13-6B 设计推进签字 Kimi 行签 `agree`，或给出精确 counter（file:line、真值出处、
+最小改动）。不得开始实现，不得标 R13-6B/N3-1/C8/ED-5I done。
+```
+
+#### 给 GLM（R13-6B 源数据/迁移/测试矩阵设计审查）——待执行
+
+```text
+审查任务：N3-1 R13-6B 最小设计；只读，不改实现、生成产物、schema、contentVersion、SAVE_VERSION。
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+
+先读：AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、docs/phase1/game-mechanics.md、
+docs/phase2/foundation/phase1-knowledge-harvest.md；本卡 R13-6A publication evidence、R13-6B
+源账与“最小设计草案”；源文件 data/extracted/data/object-magics.json、spells.json、events/all.json，
+以及 packages/migrate/src/experimental/script-v5 下 R13 ledger/disposition/canary。
+
+必须逐项核对：
+1. 7 个 preShake skill id 与 20/20/14/24/14/14/14 帧是否逐条对应 PAL 源地址/hash，未知站点是否
+   fail-loud；不得把现有末尾 shake 当成前摇。
+2. 303/304/305 的 player/enemy 分支概率、回合、魔抗、HP -1 是否源链闭合；HP -1 是否不能误映射
+   为普通 damage；370 的 item 86、MP×8、清 MP 时点和玩家/敌人适用侧是否闭合。
+3. 0x76 每个可达站点是否有可证明 reveal/finalizer；orphan、跨 token、相邻 loadScene 的归属和
+   `source` transition profile 是否能形成 source address→canonical target→digest 证据。
+4. migration transition 的 cardinality、作者改动保护、半状态拒绝和 replay 0/0/0；contentVersion
+   升级是否最小，SAVE_VERSION 是否保持不变且无 transient 落盘。
+5. fast/release/canary 测试矩阵是否覆盖正常、失败、abort、二次 loadScene、旧 cleanup 隔离和
+   玩家/敌人六个 side cases；不得以提高 timeout、跳过 PAL 或手改 projects/pal 代替。
+
+输出：在本卡 R13-6B 设计推进签字 GLM 行签 `agree`，或给出精确 counter（数字、selector、digest、
+测试与最小返工）。不得开始实现，不得标 R13-6B/N3-1/C8/ED-5I done。
+```
 
 #### 给 Kimi（R13-5 counter 返工复审）——已于 2026-07-31 执行，改签 accept（保留备查，勿再执行）
 
