@@ -452,6 +452,9 @@ export interface R13SourceInstructionDispositionV1 {
     rawDigest: string
     augmentedDigest: string
     finalDigest: string
+    options?: {
+      bindItemThrowSourceSites: true
+    }
   }
   census: R13SourceExecutionCensusV1
   evidence: R13DispositionEvidence[]
@@ -4577,6 +4580,9 @@ function buildR13SourceInstructionDispositionInternal(
           : {}),
       }),
       finalDigest: finalSnapshotDigest,
+      ...(args.bindItemThrowSourceSites
+        ? { options: { bindItemThrowSourceSites: true as const } }
+        : {}),
     },
     census,
     evidence: [...evidence.values()].sort((left, right) => stableStringCompare(left.id, right.id)),
@@ -4681,6 +4687,9 @@ function assertR13SourceInstructionDispositionBacked(
         : {}),
     }),
     finalDigest: finalSnapshotDigest,
+    ...(source.bindItemThrowSourceSites
+      ? { options: { bindItemThrowSourceSites: true as const } }
+      : {}),
   }
   if (stableJsonSha256(report.generator) !== stableJsonSha256(expectedGenerator))
     throw new Error('R13 disposition: source-backed generator 漂移')
@@ -5249,9 +5258,23 @@ function assertR13SourceInstructionDispositionInternal(
   const isV3 = report.version === 3 && report.methodVersion === R13_SOURCE_DISPOSITION_METHOD_V3
   if (report.kind !== 'r13-source-instruction-disposition' || (!isV2 && !isV3))
     throw new Error('R13 disposition: header 漂移')
-  for (const [key, digest] of Object.entries(report.generator))
-    if (!/^[0-9a-f]{64}$/.test(digest))
+  for (const [key, value] of Object.entries(report.generator)) {
+    if (key === 'options') continue
+    const digest = value as unknown
+    if (typeof digest !== 'string' || !/^[0-9a-f]{64}$/.test(digest))
       throw new Error(`R13 disposition: generator.${key} 非 sha256`)
+  }
+  const generatorOptions = (report.generator as { options?: unknown }).options
+  if (
+    generatorOptions !== undefined &&
+    (typeof generatorOptions !== 'object' ||
+      generatorOptions === null ||
+      Array.isArray(generatorOptions) ||
+      Object.keys(generatorOptions).length !== 1 ||
+      (generatorOptions as { bindItemThrowSourceSites?: unknown }).bindItemThrowSourceSites !==
+        true)
+  )
+    throw new Error('R13 disposition: generator.options 无效')
   if (source?.preparedSourceCensus)
     assertPreparedR13SourceExecutionCensus(
       source.preparedSourceCensus,
