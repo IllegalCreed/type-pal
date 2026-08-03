@@ -7292,6 +7292,36 @@ behavior/hook/locale/sprite allocation；旧账只把其中一个 `@763` 特例�
 完整性校验。R13-Z 仍未关闭；下一步继续处理剩余 dynamic binding、domain projection 和
 其余显式债务。
 
+##### R13-Z item scriptOnThrow 源证据闭环（2026-08-03，门控实现，未发布）
+
+继续核对 R13-3 的剩余 throw 站点后确认，P7 生成链已经由 `itemThrowEvidence` 对 76 个源根
+逐根重建，并在最终 snapshot 生成 76 个可运行 throw target；旧 `migration.report` 仍把这些根
+留在 `domain.openRoots`，不能据此把它们永久记为“缺目标”。本批新增 `r13-item-throw-site`
+site closure，但采用显式 `bindItemThrowSourceSites` 门控，默认关闭，因此不改写已发布的
+R13-5/R13-6A 报告、golden 或历史 transition seal。
+
+- 每条证明同时绑定：精确 item root/context/site 与 source command、census source closure、
+  `itemThrowEvidence.digest`、单根 `itemThrowRootDigest`、`content/items.json#item/<id>/throw`
+  augmented/final target digest；最终 target 不存在或漂移时 fail closed。
+- 只移除已由该证据完整覆盖且没有更窄显式控制/表现 debt 的 throw root；checkpoint、confirm、
+  fill/redraw、palette 等债务继续由 `openDebtForSite` 处理，不能被根级证据吞掉。
+- raw 层不被伪造为 accounted：旧物品没有 raw throw capability 时，站点只在 augmented/final
+  记 structured，统一保留 `pre-r13-3-item-throw-site` raw open evidence。
+
+一次真实 PAL source-backed 重建（R13-5 parent + enemy successor，门控开启）结果：
+
+- `executionSites=81674` 不变；`structured=13992`，新增 **160** 条 `r13-item-throw-site`；
+- `openDebtSites=5129 -> 4969`，`openObservations=4656 -> 4511`；raw 仍为 `7123` open，
+  augmented/final 均降至 `4969` open；
+- 当前门控报告 digest：
+  `e591ee02c2704f98d8cabb3870b589aeb0700ef721c171933970974bf1a39027`；该 digest 仅是待纳入
+  新 R13-Z append-only transition 的实验结果，不能写回 R13-5/R13-6A 历史 seal。
+
+实现与防伪复核已通过 migrate typecheck；PAL oracle 只更新了 production source-tree
+fingerprint，projection/历史 transition 未漂移。下一步不是直接改历史发布，而是为 R13-Z 新增
+append-only transition authority，把该门控作为自描述的后续 source report 选项接入，再补
+runtime/save/browser/remigration 最终门禁；在此之前 N3-1 继续保持 `build`，不得标 done。
+
 ##### R13-6B implementation review 交接提示词（下一位 Agent 可直接复制）
 
 ```text
