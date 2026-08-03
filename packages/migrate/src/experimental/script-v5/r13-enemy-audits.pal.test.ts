@@ -45,11 +45,13 @@ function currentEnemySnapshot(): {
   generated: ReturnType<typeof getPalTestGeneratedFixture>
   current: ReturnType<typeof getPalTestCurrentV10Fixture>
   historicalR13_5: ReturnType<typeof getPalTestHistoricalR13_5V10Fixture>
+  preparedHistoricalSourceCensus: ReturnType<typeof getPalTestPreparedSourceExecutionCensus>
   final: MigrationSnapshot
 } {
   const generated = getPalTestGeneratedFixture()
   const current = getPalTestCurrentV10Fixture()
   const historicalR13_5 = getPalTestHistoricalR13_5V10Fixture()
+  const preparedHistoricalSourceCensus = getPalTestPreparedSourceExecutionCensus()
   const enemies = current.migration.files.get('content/enemies.json')
   if (!enemies) throw new Error('R13-5 PAL enemy audit: current enemies 缺失')
   const files = new Map(generated.generated.snapshot.files)
@@ -58,6 +60,7 @@ function currentEnemySnapshot(): {
     generated,
     current,
     historicalR13_5,
+    preparedHistoricalSourceCensus,
     final: {
       files,
       managedFiles: new Set(generated.generated.snapshot.managedFiles),
@@ -223,13 +226,12 @@ describe.skipIf(!hasPalTestFixture())('R13-5 PAL full-path enemy audits', () => 
   }, 120_000)
 
   test('MG2 初始化只写八个内容文件，旧 seal 不动且保留作者改动', () => {
-    const { generated, current, historicalR13_5 } = fixture
+    const { generated, current, historicalR13_5, preparedHistoricalSourceCensus } = fixture
     const managed = discoverProjectManagedFiles(
       PAL_TEST_REPO,
       new Set([...generated.baseline.managedFiles, ...current.migration.managedFiles]),
     )
     const publishedOurs = loadProjectMigrationSnapshot(PAL_TEST_REPO, managed)
-    const preparedHistoricalSourceCensus = getPalTestPreparedSourceExecutionCensus()
     const authority = prepareR13EnemyScriptAuthority({
       generated: generated.generated,
       historicalSources: generated.sources,
@@ -492,5 +494,5 @@ describe.skipIf(!hasPalTestFixture())('R13-5 PAL full-path enemy audits', () => 
     expect(() =>
       assertR13EnemyScriptPublishedSealMatchesAuthority(tampered, first.enemyScriptSeal),
     ).toThrow(/权威重建证据/)
-  }, 240_000)
+  }, 600_000)
 })

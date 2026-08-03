@@ -20,6 +20,7 @@ import {
 } from './pal-test-fixture.js'
 import { prepareR13EnemyScriptAuthority } from './r13-enemy-script-mg2.js'
 import { R13_EXISTING_SCHEMA_CHANGED_PATHS } from './r13-existing-schema-augmentation.js'
+import { rewindPublishedR13SourceSemanticsTransition } from './published-r13-source-semantics-test-fixture.js'
 import {
   assertR13SourceSemanticsPublishedSealMatchesAuthority,
   createR13SourceSemanticsV5MigrationPlan,
@@ -49,15 +50,6 @@ function cloneSnapshot(source: MigrationSnapshot): MigrationSnapshot {
       ? { baselineMetadata: structuredClone(source.baselineMetadata) }
       : {}),
   }
-}
-
-function cloneWithoutSourceSemanticsSeal(source: MigrationSnapshot): MigrationSnapshot {
-  const snapshot = cloneSnapshot(source)
-  snapshot.files.delete(R13_SOURCE_SEMANTICS_SEAL_PATH)
-  snapshot.managedFiles.delete(R13_SOURCE_SEMANTICS_SEAL_PATH)
-  snapshot.hashes?.delete(R13_SOURCE_SEMANTICS_SEAL_PATH)
-  delete snapshot.baselineMetadata?.transitions[R13_SOURCE_SEMANTICS_TRANSITION_ID]
-  return snapshot
 }
 
 function planArgs(fixture: Fixture, input: { base: MigrationSnapshot; ours: MigrationSnapshot }) {
@@ -111,17 +103,16 @@ describe.skipIf(!hasPalTestFixture())('R13-6A source semantics append-only PAL M
     }
     const baseline = loadPalBaseline(PAL_TEST_REPO)
     if (!baseline) throw new Error('R13-6A PAL test fixture: baseline 缺失')
-    const loadedBase = cloneWithoutSourceSemanticsSeal(
-      // The checked-in PAL baseline is the published R13-5 enemy successor. This
-      // test deliberately exercises the one-time R13-6A initialization path.
-      baseline,
-    )
     const managed = discoverProjectManagedFiles(
       PAL_TEST_REPO,
-      new Set([...loadedBase.managedFiles, ...current.migration.managedFiles]),
+      new Set([...baseline.managedFiles, ...current.migration.managedFiles]),
     )
-    const base = loadedBase
-    const ours = loadProjectMigrationSnapshot(PAL_TEST_REPO, managed)
+    const rewound = rewindPublishedR13SourceSemanticsTransition({
+      publishedBaseline: baseline,
+      publishedProject: loadProjectMigrationSnapshot(PAL_TEST_REPO, managed),
+    })
+    const base = rewound.baseline
+    const ours = rewound.project
     const projectPrerequisites = new Map<string, MigrationJson>([
       [
         'content/ambiences.json',

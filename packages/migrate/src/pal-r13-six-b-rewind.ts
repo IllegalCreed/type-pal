@@ -1,4 +1,8 @@
-import type { MigrationSnapshot } from './migration-baseline.js'
+import {
+  type MigrationSnapshot,
+  serializeMigrationJson,
+  sha256,
+} from './migration-baseline.js'
 import type { MigrationJson } from './pal-migration.js'
 import { PAL_BLACK_SCREEN_TRANSACTION_EVIDENCE } from './pal-r13-six-b-overlays.js'
 
@@ -30,6 +34,12 @@ function cloneSnapshot(source: MigrationSnapshot): MigrationSnapshot {
   }
 }
 
+function setRewoundFile(snapshot: MigrationSnapshot, path: string, value: MigrationJson): void {
+  snapshot.files.set(path, value)
+  if (snapshot.hashes)
+    snapshot.hashes.set(path, sha256(serializeMigrationJson(value, path)))
+}
+
 function sourceTransitionCount(value: unknown): number {
   let count = 0
   const walk = (current: unknown): void => {
@@ -50,6 +60,29 @@ function sourceTransitionCount(value: unknown): number {
   }
   walk(value)
   return count
+}
+
+function hasPublishedR13SixBMarker(source: MigrationSnapshot): boolean {
+  const hasMarker = (current: unknown): boolean => {
+    if (Array.isArray(current)) return current.some(hasMarker)
+    if (!isRecord(current)) return false
+    if (
+      (current.kind === 'holdScreen' || current.kind === 'revealScreen') &&
+      typeof current.token === 'string'
+    )
+      return true
+    if (
+      current.kind === 'loadScene' &&
+      isRecord(current.transition) &&
+      current.transition.kind === 'source' &&
+      typeof current.transition.evidenceId === 'string' &&
+      current.transition.evidenceId.startsWith('pal-load-scene-')
+    )
+      return true
+    return Object.values(current).some(hasMarker)
+  }
+  const skills = source.files.get('content/skills.json')
+  return hasMarker(skills) || [...source.files.values()].some(hasMarker)
 }
 
 function visitArrays(
@@ -90,10 +123,7 @@ function rewindLoadSceneTransitions(snapshot: MigrationSnapshot): number {
       for (const child of Object.values(current)) walk(child)
     }
     walk(cloned)
-    if (changed) {
-      snapshot.files.set(path, cloned)
-      snapshot.hashes?.delete(path)
-    }
+    if (changed) setRewoundFile(snapshot, path, cloned)
   }
   return removed
 }
@@ -136,10 +166,7 @@ function rewindBlackScreenTransaction(
       matches++
       changed = true
     })
-    if (changed) {
-      snapshot.files.set(path, cloned)
-      snapshot.hashes?.delete(path)
-    }
+    if (changed) setRewoundFile(snapshot, path, cloned)
   }
   if (matches !== 1) throw new Error(`R13-6B rewind: transaction 命中 ${token}=${matches}`)
 }
@@ -189,8 +216,7 @@ function rewindSkillOverlay(snapshot: MigrationSnapshot): void {
   insertAfter('357', ['372', '373'])
   if (reordered.length !== skills.length) throw new Error('R13-6B rewind: skill 数量漂移')
   raw.skills = reordered as unknown as MigrationJson
-  snapshot.files.set('content/skills.json', raw as MigrationJson)
-  snapshot.hashes?.delete('content/skills.json')
+  setRewoundFile(snapshot, 'content/skills.json', raw as MigrationJson)
 }
 
 export function rewindPalR13SixBPublication(source: MigrationSnapshot): MigrationSnapshot {
@@ -204,4 +230,9 @@ export function rewindPalR13SixBPublication(source: MigrationSnapshot): Migratio
     rewindBlackScreenTransaction(snapshot, evidence.token, evidence.inMs)
   rewindSkillOverlay(snapshot)
   return snapshot
+}
+
+/** Synthetic v4/P7 fixtures predate R13-6B and must remain valid no-op inputs. */
+export function rewindPalR13SixBPublicationIfPresent(source: MigrationSnapshot): MigrationSnapshot {
+  return hasPublishedR13SixBMarker(source) ? rewindPalR13SixBPublication(source) : cloneSnapshot(source)
 }

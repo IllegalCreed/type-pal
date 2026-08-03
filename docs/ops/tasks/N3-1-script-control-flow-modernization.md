@@ -7151,6 +7151,38 @@ R13-6B implementation review 三席 `accept` 已齐（Codex 自验、Kimi 返工
 该子批门禁关闭；N3-1 总体继续保持 `build`，下一步进入下方既有设计中的 **R13-Z 发布闭包**。
 R13-Z 完成前不得推进 N3-1 `review -> done`，也不得提前验收 C8/ED-5I。
 
+##### R13-Z preflight：历史发布夹具回建与共享发布门（2026-08-03，进行中）
+
+本轮先处理发布门在 `content11 / R13-6B` 正式产物上污染历史 P2–R13-5 初始化夹具的问题。此前
+历史测试把最新 successor 当作旧 parent，导致 P2/P3/P4 determinism core、R13-4/5 authority
+digest 与 MG2 写集同时漂移；这不是生产迁移语义失败，而是测试夹具没有按发布链回到精确 parent。
+
+- 新增 `published-r13-source-semantics-test-fixture.ts`，按“最新发布 → R13-6B → R13-6A
+  existing-schema → R13-5 parent”逐文件 COW 回建，校验 baseline/project 四态、hash、17 条
+  owned paths 与作者 locale 增量；`published-r13-enemy-test-fixture.ts`、`published-v4-snapshot.ts`、
+  source-semantics MG2/canary/P2–P4 shadow 均复用该链。旧 fixture 无 seal 时只允许明确的
+  synthetic no-op rewind，不放宽正式发布校验。
+- R13-6B 的 `current-r13-6a` authority digest 从旧值
+  `8fe4ad1c6dffe273ddbdf5c06a504c34c0e06110dc9bb4696551e908c960a88a` 更新为
+  `8962f4249dca34fa351c983ce75c0604b4e591b8882596fa4931ff17d3cad829`；P0 frozen digest
+  `dd42217c87ece120140dd302e735460cc48b2570fd993e2c35d614bbc0303004` 未重冻、未修改。
+- `r13-enemy-audits` 的深度 MG2 anti-tamper 用例只把局部 timeout 从 240s 调到 600s；没有
+  调大全局 timeout、关闭断言或跳过 source-backed release。单测 1/1 通过，耗时 371.68s，
+  峰值约 0.8 GiB。
+
+验证证据：
+
+- `release-pal-shared`：24 files / 137 tests 全部通过，1992.69s（约 33.2 分钟）；
+- `release-preflight + release-unit`：71 files / 546 tests 全部通过，15.37s；
+- `test:canary`：2/2，226.07s；`check:fast`：75 files / 558 passed / 5 skipped，19.46s；
+- `test:oracle:verify`：2/2，0.99s；oracle 仅更新 source-tree fingerprint，未出现语义投影漂移。
+
+性能观察仍需诚实记录：共享发布 worker 在审计阶段出现过约 2.6 GiB 的瞬时 RSS，随后回落到
+约 1 GiB；本轮尚未把 81,674-site source audit 改造成可跨测试安全复用的 prepared report，
+因此不能宣称 R13-Z 或测试性能债已完成。下一步是继续清点 R13-Z 的 open-debt 聚合（当前
+published source transition 仍报告约 `27,804` open sites / `7,237` open observations），
+并在不触碰 P0 digest 的前提下完成 runtime/save/browser/remigration gates。
+
 ##### R13-6B implementation review 交接提示词（下一位 Agent 可直接复制）
 
 ```text

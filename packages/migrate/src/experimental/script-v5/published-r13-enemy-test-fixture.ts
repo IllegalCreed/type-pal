@@ -1,6 +1,7 @@
 import { isDeepStrictEqual } from 'node:util'
 import { type MigrationSnapshot, serializeMigrationJson, sha256 } from '../../migration-baseline.js'
 import type { MigrationJson } from '../../pal-migration.js'
+import { rewindPublishedR13SourceSemanticsTransition } from './published-r13-source-semantics-test-fixture.js'
 import {
   R13_ENEMY_SCRIPT_SEAL_PATH,
   R13_ENEMY_SCRIPT_TRANSITION_ID,
@@ -95,27 +96,36 @@ export function rewindPublishedR13EnemyTransition(args: {
   changedPaths: readonly string[]
   authoredLocaleIds: readonly string[]
 } {
-  const seal = publishedSeal(args.publishedBaseline)
+  // The live publication may already be the content11/R13-6B successor. Historical R13-5
+  // initialization must compare against its exact 6A parent, not treat 6B-owned scene/skill
+  // leaves as author edits. Rewind both sides before validating hashes and author deltas.
+  const sourceSemantics = rewindPublishedR13SourceSemanticsTransition({
+    publishedBaseline: args.publishedBaseline,
+    publishedProject: args.publishedProject,
+  })
+  const publishedBaseline = sourceSemantics.baseline
+  const publishedProject = sourceSemantics.project
+  const seal = publishedSeal(publishedBaseline)
   const changedPaths = seal.augmentation.files.changedPaths
   if (
-    args.publishedBaseline.baselineMetadata?.transitions[R13_ENEMY_SCRIPT_TRANSITION_ID] ===
+    publishedBaseline.baselineMetadata?.transitions[R13_ENEMY_SCRIPT_TRANSITION_ID] ===
       undefined ||
-    !args.publishedBaseline.managedFiles.has(R13_ENEMY_SCRIPT_SEAL_PATH) ||
-    args.publishedBaseline.hashes?.has(R13_ENEMY_SCRIPT_SEAL_PATH) !== true
+    !publishedBaseline.managedFiles.has(R13_ENEMY_SCRIPT_SEAL_PATH) ||
+    publishedBaseline.hashes?.has(R13_ENEMY_SCRIPT_SEAL_PATH) !== true
   )
     throw new Error('R13-5 published fixture enemy seal 四态不完整')
   if (
-    args.publishedProject.files.has(R13_ENEMY_SCRIPT_SEAL_PATH) ||
-    args.publishedProject.hashes?.has(R13_ENEMY_SCRIPT_SEAL_PATH)
+    publishedProject.files.has(R13_ENEMY_SCRIPT_SEAL_PATH) ||
+    publishedProject.hashes?.has(R13_ENEMY_SCRIPT_SEAL_PATH)
   )
     throw new Error('R13-5 published fixture project 泄漏 enemy seal')
 
-  const baseline = cloneSnapshot(args.publishedBaseline)
-  const project = cloneSnapshot(args.publishedProject)
+  const baseline = cloneSnapshot(publishedBaseline)
+  const project = cloneSnapshot(publishedProject)
   const localePath = 'content/locale.json'
   for (const path of changedPaths) {
-    const publishedValue = assertSnapshotFileHash(args.publishedBaseline, path, 'baseline')
-    const projectValue = assertSnapshotFileHash(args.publishedProject, path, 'project')
+    const publishedValue = assertSnapshotFileHash(publishedBaseline, path, 'baseline')
+    const projectValue = assertSnapshotFileHash(publishedProject, path, 'project')
     const parentValue = args.parent.files.get(path)
     if (parentValue === undefined) throw new Error(`R13-5 published fixture parent 缺 ${path}`)
     const successorValue = args.publishedSuccessor?.files.get(path)
@@ -127,8 +137,8 @@ export function rewindPublishedR13EnemyTransition(args: {
     if (path !== localePath) setSnapshotFile(project, path, parentValue)
   }
 
-  const baselineLocale = record(args.publishedBaseline.files.get(localePath), 'baseline locale')
-  const projectLocale = record(args.publishedProject.files.get(localePath), 'project locale')
+  const baselineLocale = record(publishedBaseline.files.get(localePath), 'baseline locale')
+  const projectLocale = record(publishedProject.files.get(localePath), 'project locale')
   const parentLocale = structuredClone(record(args.parent.files.get(localePath), 'parent locale'))
   const deletedLocaleIds = Object.keys(baselineLocale).filter(
     (id) => projectLocale[id] === undefined,

@@ -10,7 +10,6 @@ import {
   type MigrationJson,
   type PalMigrationSources,
 } from '../../pal-migration.js'
-import { rewindPalR13SixBPublication } from '../../pal-r13-six-b-rewind.js'
 import {
   getPalTestSourceDispositionFixture,
   hasPalTestFixture,
@@ -23,16 +22,14 @@ import {
 } from './r13-enemy-script-mg2.js'
 import {
   R13_EXISTING_SCHEMA_CHANGED_PATHS,
-  type R13ExistingSchemaAugmentationEvidenceV1,
-  rewindR13ExistingSchemaAugmentation,
 } from './r13-existing-schema-augmentation.js'
+import { rewindPublishedR13SourceSemanticsBaseline } from './published-r13-source-semantics-test-fixture.js'
 import {
   compactCurrentMigrationForR13SourceSemantics,
   createR13SourceSemanticsV5MigrationPlan,
   digestR13SourceSemanticsMigrationInput,
   digestR13SourceSemanticsMigrationInputFast,
   projectR13SourceSemanticsGenerated,
-  R13_SOURCE_SEMANTICS_SEAL_PATH,
   R13_SOURCE_SEMANTICS_TRANSITION_ID,
   type R13SourceSemanticsDispositionInput,
   type R13SourceSemanticsV5MigrationPlan,
@@ -102,41 +99,6 @@ export function cloneR13SourceSemanticsCanarySnapshot(
       ? { baselineMetadata: structuredClone(source.baselineMetadata) }
       : {}),
   }
-}
-
-function stripSourceSemanticsSeal(source: MigrationSnapshot): MigrationSnapshot {
-  // The checked-in baseline may already be the content11/R13-6B successor. Rewind its
-  // append-only leaves before replaying the R13-6A source-semantics seal below.
-  const snapshot = cloneR13SourceSemanticsCanarySnapshot(rewindPalR13SixBPublication(source))
-  const rawSeal = snapshot.files.get(R13_SOURCE_SEMANTICS_SEAL_PATH)
-  const evidence =
-    rawSeal && typeof rawSeal === 'object' && !Array.isArray(rawSeal)
-      ? (rawSeal as { augmentation?: R13ExistingSchemaAugmentationEvidenceV1 }).augmentation
-      : undefined
-  snapshot.files.delete(R13_SOURCE_SEMANTICS_SEAL_PATH)
-  snapshot.managedFiles.delete(R13_SOURCE_SEMANTICS_SEAL_PATH)
-  snapshot.hashes?.delete(R13_SOURCE_SEMANTICS_SEAL_PATH)
-  delete snapshot.baselineMetadata?.transitions[R13_SOURCE_SEMANTICS_TRANSITION_ID]
-  // Once R13-6A is formally published, the checked-in baseline is the successor. The canary
-  // still exercises the one-time initialize path, so rewind only the evidenced 6A delta before
-  // removing its seal; this keeps the fixture independent of the live publication state.
-  if (!evidence) return snapshot
-  const content = cloneR13SourceSemanticsCanarySnapshot(snapshot)
-  for (const path of [...content.files.keys()])
-    if (path.startsWith('_transitions/')) content.files.delete(path)
-  for (const path of [...content.managedFiles])
-    if (path.startsWith('_transitions/')) content.managedFiles.delete(path)
-  for (const path of [...(content.hashes?.keys() ?? [])])
-    if (path.startsWith('_transitions/')) content.hashes?.delete(path)
-  delete content.baselineMetadata
-  const parent = rewindR13ExistingSchemaAugmentation(content, evidence)
-  for (const path of R13_EXISTING_SCHEMA_CHANGED_PATHS) {
-    const value = parent.files.get(path)
-    if (value === undefined) throw new Error(`R13 source semantics canary: rewind 缺 ${path}`)
-    snapshot.files.set(path, value)
-    snapshot.hashes?.delete(path)
-  }
-  return snapshot
 }
 
 /**
@@ -214,7 +176,7 @@ export function buildR13SourceSemanticsCanaryFixture(): R13SourceSemanticsCanary
   const base = (() => {
     const baseline = loadPalBaseline(PAL_TEST_REPO)
     if (!baseline) throw new Error('R13 source semantics canary: baseline 缺失')
-    return stripSourceSemanticsSeal(baseline)
+    return rewindPublishedR13SourceSemanticsBaseline(baseline).baseline
   })()
   const ours = (() => {
     const managed = discoverProjectManagedFiles(

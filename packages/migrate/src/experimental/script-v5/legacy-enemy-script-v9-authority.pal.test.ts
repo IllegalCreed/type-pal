@@ -141,8 +141,10 @@ describe.skipIf(!hasPalTestFixture())('R13-5 historical enemy parent authority',
     const current = getPalTestCurrentV10Fixture()
     expect(current.sources).not.toBe(historical.sources)
     expect(current.sources.migrate.commands).not.toBe(historical.sources.migrate.commands)
+    // R13-6B source transition evidence is successor-only. The default current-r13-6a producer
+    // deliberately excludes that private address/profile delta while frozen P0 stays unchanged.
     expect(current.audit.digest).toBe(
-      '8fe4ad1c6dffe273ddbdf5c06a504c34c0e06110dc9bb4696551e908c960a88a',
+      '8962f4249dca34fa351c983ce75c0604b4e591b8882596fa4931ff17d3cad829',
     )
     expect(current.migration.report.enemies?.pendingScripts).toEqual([])
     // 44 ready/turnStart owners + 15 battleEnd owners - 5 overlapping owners.

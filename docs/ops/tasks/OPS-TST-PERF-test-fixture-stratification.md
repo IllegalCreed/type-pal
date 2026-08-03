@@ -348,6 +348,10 @@ source-backed 归属，不能只改 Vitest include/exclude。
 ## 用户验收
 
 - 用户结论: pending
+- 2026-08-03 后续观测：R13-Z 历史发布夹具回建后的完整 `release-pal-shared` 为 24 files / 137
+  tests、1992.69s；worker RSS 在审计阶段出现约 2.6 GiB 瞬时峰值后回落。该成本来自正式
+  release 对 81,674-site source audit 的完整证明，不改变已验收的 G8 canary/fast 目标，也不
+  通过 timeout 掩盖；prepared report / release 调度优化作为 R13-Z 后续性能观察项保留。
 - 后续任务: 完成性能债后回到 N3-1 R13-6A / C8 联合验收
 
 ## 交接日志

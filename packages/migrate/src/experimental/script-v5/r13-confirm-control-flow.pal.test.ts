@@ -294,5 +294,5 @@ describePal('R13-4 confirm source control flow (PAL)', () => {
       draft.summary.terminalFamilies.raw.advance = 17 as 18
     })
     expect(() => assertR13ConfirmControlFlowEvidence(terminalTamper)).toThrow(/summary/)
-  })
+  }, 30_000)
 })

@@ -6,6 +6,11 @@ import {
   loadProjectMigrationSnapshot,
 } from '../../migration-project-io.js'
 import type { MigrationFileSet } from '../../pal-migration.js'
+import {
+  rewindPublishedR13SourceSemanticsTransition,
+} from './published-r13-source-semantics-test-fixture.js'
+import { rewindPalR13SixBPublicationIfPresent } from '../../pal-r13-six-b-rewind.js'
+import { R13_SOURCE_SEMANTICS_SEAL_PATH } from './r13-source-semantics-mg2.js'
 import { stableJsonSha256 } from './stable-json.js'
 
 const C8_ITEM_USE_SEAL_PATH = '_transitions/c8-item-use-v5-v1.json'
@@ -226,10 +231,23 @@ export function reconstructPublishedV4TransitionSnapshots(
     repo,
     new Set([...publishedBaseline.managedFiles, ...migration.managedFiles]),
   )
-  const project = loadProjectMigrationSnapshot(repo, managed)
-  stripC8GeneratedAdditions(migration, publishedBaseline, project)
-  stripR13ConfirmGeneratedAdditions(publishedBaseline, project)
-  stripR13EnemyGeneratedAdditions(migration, publishedBaseline, project)
+  // P2-P4 author merge is defined against the historical v4 content surface. Strip the exact
+  // append-only R13-6B leaves first so its skill/schema additions cannot masquerade as author
+  // edits and perturb frozen shadow bundle digests.
+  const loadedProject = loadProjectMigrationSnapshot(repo, managed)
+  const sourceSemantics = publishedBaseline.files.has(R13_SOURCE_SEMANTICS_SEAL_PATH)
+    ? rewindPublishedR13SourceSemanticsTransition({
+        publishedBaseline,
+        publishedProject: loadedProject,
+      })
+    : {
+        baseline: rewindPalR13SixBPublicationIfPresent(publishedBaseline),
+        project: rewindPalR13SixBPublicationIfPresent(loadedProject),
+      }
+  const project = sourceSemantics.project
+  stripC8GeneratedAdditions(migration, sourceSemantics.baseline, project)
+  stripR13ConfirmGeneratedAdditions(sourceSemantics.baseline, project)
+  stripR13EnemyGeneratedAdditions(migration, sourceSemantics.baseline, project)
   for (const [path, value] of project.files)
     if (ours.files.has(path) && v4CompatibleAuthorPath(path))
       ours.files.set(path, structuredClone(value))
