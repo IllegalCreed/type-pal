@@ -7183,6 +7183,21 @@ digest 与 MG2 写集同时漂移；这不是生产迁移语义失败，而是�
 published source transition 仍报告约 `27,804` open sites / `7,237` open observations），
 并在不触碰 P0 digest 的前提下完成 runtime/save/browser/remigration gates。
 
+只读分组（由 source-backed canary authority 重建，未写入任何产物）进一步得到：
+
+- open sites 按批次：R13-0 `29,006`、R13-3 `320`、R13-5 `720`、R13-6 `373`；
+- 主要 source-site 原因：`candidate-only-canonical-body` `18,217`、
+  `unclassified-reachable-source-site` `4,825`、`candidate-only-domain-projection` `2,842`、
+  `item-scriptOnUse-pending` `1,502`、`item-pending-use-without-observation-closure` `1,439`；
+- 观察项按原因：`R13-0:candidate-only-domain-projection` `2,761`、
+  `R13-0:unclassified-reachable-source-site` `1,679`、`R13-0:item-scriptOnUse-pending`
+  `1,383`、`R13-0:candidate-only-canonical-body` `1,038`，其余为 R13-3/5/6 的 item、enemy、
+  skill 与表现债。
+
+这些 candidate/open 仍是**未落账证据**，不等同于“可安全视为已迁移”；R13-Z 的下一批实现必须
+为每类补 source-root、context、canonical target 和 runtime 等价/真实替代证据，并让
+`assertR13NoOpenSourceDebt` 在最终发布事务中真正通过。
+
 ##### R13-6B implementation review 交接提示词（下一位 Agent 可直接复制）
 
 ```text
