@@ -6883,10 +6883,10 @@ loadScene 源时序。输出最小公共 schema/runtime/editor 变更面、是�
 签 `agree` 或写 `counter`。三签前不得开始实现、不得标记 done。
 ```
 
-##### R13-6B：公共 schema / 表现状态 delta（draft，blocked）
+##### R13-6B：公共 schema / 表现状态 delta（build allowed）
 
-以下能力现模型不能无损表达，必须先形成最小设计并重新取得 Codex / Kimi / GLM 三方
-`agree`，签齐前不得修改实现、生成产物、contentVersion 或 SAVE_VERSION：
+以下能力现模型不能无损表达；最小设计已完成并取得 Codex / Kimi / GLM 三方 `agree`，现准入
+build。实现仍不得扩大到下列边界之外，也不得在未完成 migration/schema/replay 证据前标记 done：
 
 1. 7 技能“效果动画前震屏”，不可复用末尾 `animation.shake`；
 2. 酒神的“扣常规 MP 后读取剩余 MP ×8、清 MP”动态效果与酒门禁；
@@ -6946,11 +6946,13 @@ interface SkillData {
   `remaining × multiplier`，再清空 MP；缺字段、负 multiplier、重复 prepare 或非 MP 资源一律
   fail-closed。
 - 303/304/305 使用 `execution.player/enemy.effects` 表达玩家/敌人不同的概率、回合数、
-  魔抗门与目标 HP 变化；目标 HP `-1` 必须用“直接资源变化”语义（不走魔法伤害随机数、
-  元素抗性或格挡），不能把 `damage(power:1)` 当近似。若现有 `SkillEffect` 没有该直接资源
-  变化形状，需新增一个最小 `resourceDelta` effect，并由测试钉住 clamp/日志/命中顺序。
+  魔抗门与目标变化：303/305 敌侧的 HP `-1` 必须用“直接资源变化”语义（不走魔法伤害随机数、
+  元素抗性或格挡），不能把 `damage(power:1)` 当近似；304 夺魂则是独立的 `instantKill`
+  即死效果，不能误套 `resourceDelta(-1)`。若现有 `SkillEffect` 没有直接资源变化形状，需
+  新增一个最小 `resourceDelta` effect，并由测试钉住 clamp/日志/命中顺序。
 - 370 使用已有 `cost.mp=1` 与 item 86 酒门，成功后执行 `prepare.remainingResourceDamage`
-  并清空 MP；失败门沿用 6A：MP 已扣，酒不足不扣酒、不播效果、不结算成功效果。
+  （该 prepare 本身就是主伤害语义，`execution.player.effects` 不得再放第二份 damage）并清空
+  MP；失败门沿用 6A：MP 已扣，酒不足不扣酒、不播效果、不结算成功效果。
 - `execution` 只属于 content 技能定义；不进 `WorldState`、`BattleState` 持久快照或
   SAVE。若运行时需要缓存 resolved branch，必须是一次施法的局部值，不能写回技能表。
 
@@ -6958,11 +6960,12 @@ interface SkillData {
 
 现有 `SkillAnimation.shake` 继续表示特效链**末尾**震屏；新增的候选字段为
 `preShake?: { frames: number; level: number }`，只用于 330/334/342/357/378/380/385，帧数
-精确为 `20/20/14/24/14/14/14`，level 由源证据钉死（不在 runtime 写隐含常量）。施法时间线
-固定为：
+精确为 `20/20/14/24/14/14/14`，level 由源证据钉死（不在 runtime 写隐含常量）。`preShake`
+不是一个先执行完再播特效的串行命令，而是挂在 OffMagic 特效起手帧、与特效 timeline 并发的
+时间标记；施法时间线固定为：
 
 ```text
-选择/轮到施法 → MP/物品门 → 成功才 preShake → effect animation → gameplay effects → postShake
+选择/轮到施法 → MP/物品门 → 成功才同时启动 preShake + effect animation → gameplay effects → postShake
 ```
 
 资源门失败不能出现前摇；`preShake` 和 `shake` 不得合并、互相覆盖或共用一个“当前震屏”
@@ -6971,7 +6974,9 @@ interface SkillData {
 
 ###### 3. `0x76`：显式、不可存档的黑屏保持事务
 
-候选公共命令不是把 `0x76` 改名成 `fade`，而是增加一对可配对的 transient 表现命令：
+`0x76` 的源语义是 `ShowFBP`；本作四个可达站点使用 FBP `65535`（无图）退化成填黑，
+持续/恢复属性来自相邻的 `0x50/0x93` hold 与 `0x51` reveal。候选公共命令不是把 `0x76`
+改名成 `fade`，而是把这组已被源证据证明的配对表达成 transient 表现命令：
 
 ```ts
 { kind: 'holdScreen'; color: 'black'; token: string }
@@ -7019,7 +7024,7 @@ open/modern，不伪造数值。`evidenceId` 只连接迁移报告，不把旧 o
 |---|---|---|---|
 | 7 项前置震屏 | 仅 7 个精确 skill id 写 `animation.preShake` | 帧数/level/source hash 任一不符则 0 写入 | 7 条成功/失败门、前/后 shake 顺序、预览时间线 |
 | 酒神 370 | `execution.player.prepare` + item 86 门禁证据 | 公式或清 MP 时点不符则保留 open | MP=1/满/不足、酒足/不足、敌方误用、成功成长 |
-| 303/304/305 | player/enemy 分支 effects；直接 HP delta 独立 effect | 任一 side branch 缺源链或概率/回合不符则拒绝发布 | 6 个 side matrix、魔抗门、HP -1、失败截断 |
+| 303/304/305 | player/enemy 分支 effects；303/305 直接 HP delta，304 独立即死 effect | 任一 side branch 缺源链或概率/回合不符则拒绝发布 | 6 个 side matrix、魔抗门、HP -1、即死、失败截断 |
 | 0x76 | hold/reveal + token evidence | orphan/跨 token/无终点则不生成 successor | 配对、abort、二次切场、旧 cleanup 隔离 |
 | loadScene | source transition profile（仅证据充分的站点） | source 时序证据不完整则保留 modern/open | 260/260 兼容、source out/in、entry fade、abort |
 
@@ -7032,11 +7037,67 @@ release 门仍需真实磁盘 baseline、seal 和完整 replay，禁止以提高
 
 | Agent | 签字 | 日期 | 证据 / 备注 |
 |---|---|---|---|
-| Codex | **pending** | - | 已提交本节最小设计草案；待 Kimi/GLM 只读反证后签 `agree` 或写 `counter`。三签前不改实现。 |
-| Kimi | **pending** | - | 架构 / battle timing / transient presentation state 主审；签字前不得实现 6B。 |
-| GLM | **pending** | - | 源分支、14+4 数据守恒、版本与测试矩阵主审；签字前不得实现 6B。 |
+| Codex | **agree** | 2026-08-03 | Kimi/GLM 均已完成只读设计审查并签 `agree`；已吸收 Kimi P1-P6 与 GLM G1：preShake 与 OffMagic 起手帧并发，370 prepare 不得重复结算，303/305 敌侧才是 HP-1，304 为独立即死，0x76 的黑屏持续性来自相邻 hold/reveal。设计门禁通过，准入 build；实现仍须按风险钉逐项自验。 |
+| Kimi | **agree** | 2026-08-03 | 架构/battle timing/transient presentation 主审通过：execution 显式分叉（缺席字节语义不变）+ remainingResourceDamage 与 0x57 真值吻合、preShake 与末尾 shake 分时间点、hold/reveal token 事务不可存档且 finalizer 单源、loadScene profile 默认 260/260 字节兼容、无 SAVE bump、content11 独立 transition。附 P1-P6 风险钉（见「Kimi R13-6B 设计主审」），其中 P1（preShake 并发于特效起手帧而非串行先于特效）为实现语义必落钉。 |
+| GLM | **agree** | 2026-08-03 | 一手源数据核实（all.json + spells + items + magic + sdlpal script.c/fight.c）。**7 preShake**：330/334/342/357/378/380/385 逐条匹配源 0x35 ShakeScreen 帧数 20/20/14/24/14/14/14 ✅。**酒神 370**：item 86(酒)+ 0x57 默认乘 8 读余 MP×8+清 MP+0x20 酒门失败(MP 已扣不播效果)全闭合 ✅。**0x76**：4 site(2901/3051/4729/28095)全有 hold(0x50/0x93)+reveal(0x51)配对 ✅。**版本边界**：SAVE_VERSION=8 不变、CONTENT_VERSION=10 视 schema 改动升级，与设计一致。**附 G1 风险钉（实现期核对，非 blocker）**：设计草案把 304(夺魂)与 303/305 并列为「HP -1 直接资源变化」，但源数据 304 是即死(0x5F killPlayer/0x60 killEnemy HP 直接置 0)，**不是 HP -1**；只有 303(回梦)/305(鬼降)敌侧是 0x1B HP-1。玩家/敌人分支(0x68)对 3 技能都成立，实现时 304 须按即死形态(独立 effect)处理，不得套 resourceDelta(-1)。另：script-census.md:83 把 0x5F 误标 jumpIfScene(实为 killPlayer)，实现若依赖该表须勘误。 |
 
-#### 给 Kimi（R13-6B 最小设计架构/runtime 审查）——待执行
+##### Kimi R13-6B 设计主审（2026-08-03）
+
+**方法**：只读设计审查；对一阶段 game-mechanics / battle 真值锚（anim-timeline.ts、
+magic.ts、battle-opcodes.test.ts、actions.test.ts）逐项一手核对。
+
+**逐项结论**：
+
+1. **execution 显式分叉** ✅：可选 execution.player/enemy 覆写 + 缺席时共享默认链（字节语义
+   不变）是最小公共模型；不允许按"敌人有/没有某字段"隐式猜另一侧；remainingResourceDamage
+   与 0x57 真值吻合（`baseDamage=剩余MP×(op1?op1:8)` 后清 MP，battle-opcodes.test.ts:960-971）；
+   失败门语义吻合（MP 仍扣、不播动画、不跑成功结算，actions.test.ts:1795-1820）。
+2. **preShake 分时间点** ✅ 方向正确，但实现语义必须按一阶段真值收敛（见 P1 钉）：0x35
+   挂到 OffMagic 起手帧、与特效动画并发（anim-timeline.ts:910/:1657 注释、
+   actions.test.ts:2148「斩龙诀式 0x35 振屏挂到 OffMagic 起始，不提前写全局 gs.shakeTime」），
+   与末尾 shake 确实是两个时间点；失败门不出现前摇（源链在门后截断）与设计一致。
+3. **hold/reveal token 事务** ✅：显式 transient 表现事务、不进 WorldState/存档/cursor；
+   配对/token/重复/跨 token/异常退出 fail-closed；finalizer 单源（loadScene/读档/取消/
+   renderer error 同一路径）、旧 cleanup 不清新事务——符合项目"不静默永久黑屏"铁律；
+   4 个可达 0x76（全 `[0xFFFF,0,0]`）的结束点证据必须来自源（邻接 fade 链），无证据保持
+   open debt 的纪律正确。
+4. **loadScene transition profile** ✅：默认 modern 260/260 字节兼容；source 档只在
+   address+相邻 fade+目标 scene+时序逐项核对齐时生成，不伪造数值；evidenceId 不进作者 UI。
+5. **版本纪律** ✅：hold/reveal/transition 均 content/transient，不升 SAVE_VERSION；
+   content schema 变化走下一未占用 contentVersion + 独立 migration transition；持久化
+   hold 另开 SAVE 三签的边界正确。
+
+**风险钉（P，build 验收核对，不阻塞 agree）**：
+
+- **P1 preShake 时间语义必须是一阶段真值**：起点=特效起手帧、按 frames 持续并与特效
+  动画并发（anim-timeline.ts:910/:1657 与 actions.test.ts:2148 为锚），不得实现成串行
+  "先震完再播特效"；编辑器预览的"前置震屏/特效/末尾震屏"时间线展示也必须表达并发关系，
+  不是一个总时长拼接。
+- **P2 酒神防双结算**：370 的 `prepare.remainingResourceDamage` 即伤害语义
+  （baseDamage=剩余MP×8），execution.player 的 effects 不得再含第二份伤害结算；
+  op1 缺省倍数=8；失败门按 actions.test.ts:1795-1820 复现（MP 扣、酒不动、无动画、
+  无成功结算、无隐藏成长）。
+- **P3 303/304/305 直接 HP 变化**：若新增 `resourceDelta` effect，clamp/日志/命中顺序
+  必须进测试；player/enemy 两侧概率、回合数、魔抗门与源链逐项对账（GLM 数据侧复核），
+  不得用 damage(power:1) 近似。
+- **P4 hold/reveal finalizer 单源**：loadScene/读档/脚本取消/renderer error 必须同走一个
+  finalizer；新事务不能被旧事务 cleanup 清掉（四条路径进测试：正常配对、abort、二次
+  loadScene、旧 token cleanup 隔离）。
+- **P5 source profile 证据门槛**：source 档只在 source address + 相邻 fade + 目标 scene
+  + 时序四项齐全时生成；任一缺项保留 modern/open，迁移 evidence 记录 skipped 原因。
+- **P6 版本轴**：contentVersion 升到下一未占用版本（当前应为 v11）并经独立 migration
+  transition 发布，A7-4 顺延 v12；hold/reveal/黑屏状态一律不写入存档或迁移 cursor。
+
+**结论**：**agree**。五项债务的最小公共模型成立，无 schema/runtime/save 级反例。
+
+- 2026-08-03 Kimi：完成 R13-6B 最小设计架构/runtime 主审，签 **agree**，附 P1-P6
+  风险钉。一手核对：酒神 0x57 公式与失败门真值（battle-opcodes.test.ts:960-971、
+  actions.test.ts:1795-1820）、0x35 震屏挂 OffMagic 起手帧真值（anim-timeline.ts:910/
+  :1657、actions.test.ts:2148）。最重要钉子：preShake 必须与特效起手帧并发而非串行
+  先于特效（P1）。未修改实现/产物/seal。Next：GLM 源分支/数据守恒/测试矩阵主审；
+  两席 agree 前 Codex 不得实现。
+
+#### 给 Kimi（R13-6B 最小设计架构/runtime 审查）——已于 2026-08-03 执行，签 agree（附 P1-P6，保留备查，勿再执行）
 
 ```text
 审查任务：N3-1 R13-6B 最小设计；只读，不改实现、生成产物、schema、contentVersion、SAVE_VERSION。
@@ -7064,7 +7125,7 @@ screen-fx.ts、main.ts 的对应行。
 最小改动）。不得开始实现，不得标 R13-6B/N3-1/C8/ED-5I done。
 ```
 
-#### 给 GLM（R13-6B 源数据/迁移/测试矩阵设计审查）——待执行
+#### 给 GLM（R13-6B 源数据/迁移/测试矩阵设计审查）——已于 2026-08-03 执行，签 agree（附 G1，保留备查，勿再执行）
 
 ```text
 审查任务：N3-1 R13-6B 最小设计；只读，不改实现、生成产物、schema、contentVersion、SAVE_VERSION。
@@ -7090,6 +7151,42 @@ docs/phase2/foundation/phase1-knowledge-harvest.md；本卡 R13-6A publication e
 输出：在本卡 R13-6B 设计推进签字 GLM 行签 `agree`，或给出精确 counter（数字、selector、digest、
 测试与最小返工）。不得开始实现，不得标 R13-6B/N3-1/C8/ED-5I done。
 ```
+
+- 2026-08-03 GLM：完成 R13-6B 源数据/迁移/测试矩阵设计审查，签 **agree**，附 G1 风险钉。
+  一手源数据核实（all.json idx=地址 + spells/items/magic + sdlpal script.c/fight.c 逐 opcode 核，
+  非设计草案复述）：
+  - **7 preShake**（项 1）：330 炼狱真火 / 334 地裂天崩 / 342 斩龙诀 / 357 炼狱爪 / 378 火龙掌 /
+    380 横扫千军 / 385 气魔焰。源 scriptOnUse 首条 = opcode **0x35 ShakeScreen**（script.c:1521），
+    operands[0]=帧数。逐条核对帧数 = 20/20/14/24/14/14/14（按 330/334/342/357/378/380/385 顺序），
+    **7/7 精确匹配，无错位** ✅。330/334 共享 scriptOnUse 43109、342/378/380/385 共享 43111、
+    357 独占 43107（按地址共享，非每技能独立）。
+  - **酒神 370**（项 3）：scriptOnUse=43075，3 条指令序列 —— `0x20[86,1,43078]` RemoveItem
+    item 86（酒，items.json 确认 _name="酒" price=80）不够跳失败 / `0x57[370,0,0]` SetBaseDamageByMP
+    （script.c:1848 operand[1]=0 → 默认乘 **8**，读当前 MP×8 设 baseDamage 后**清空 MP**）/ end。
+    常规 costMP=1（magic.json magicNumber 75）在 fight.c:4189 先扣，0x57 读的是扣完 1 后的余 MP。
+    失败门 43078 → 0x41 MarkFailed → g_fScriptSuccess=FALSE → 不播效果（MP 已扣不退）。**全闭合** ✅。
+  - **0x76 黑屏**（项 4）：全文件仅 **4 site**（2901/3051/4729/28095），operands 全为 `[65535,0,0]`
+    （FBP id 65535 = 无图 → WIN95 SDL_FillRect 黑）。4/4 有前置 hold（0x50 fadeOut@2900/3050/4728/28094
+    或 0x93 sceneFade@3050）+ 后置 reveal（0x51 fadeIn@2902/3052/4744/28100）。**hold/reveal 配对 4/4 成立** ✅。
+    措辞修正建议（非 blocker）：0x76 语义是 ShowFBP，本作因 FBP id=65535 退化为纯黑；"持续"属性来自
+    配对的 0x50/0x93 设 fNeedToFadeIn，非 0x76 自身。设计功能结论正确。
+  - **版本边界**：SAVE_VERSION=8 不变（profile/hold-reveal 都是 content/transient，不落存档）；
+    CONTENT_VERSION=10 当前，若 validator/loader 公共 schema 变化则升 11 由独立 transition 处理。
+    与设计草案一致 ✅。
+
+  **G1 风险钉（实现期核对，非 blocker，不阻塞 agree）**：设计草案项 2 把 303/304/305 并列为
+  「HP -1 必须是直接资源变化（不走魔法伤害/元素抗性/格挡）」。源数据核实：
+  - **303 回梦**（scriptOnSuccess 43085）敌侧：0x06 rate70% → 0x1B[0,65535,0] HP-1 ✅（直接资源）
+  - **305 鬼降**（scriptOnSuccess 43092）敌侧：0x06 rate50% → 0x1B[0,65535,0] HP-1 ✅（直接资源）
+  - **304 夺魂**（scriptOnSuccess 43118）：**无 0x1B HP-1**；玩家侧 0x60 killEnemy（wHealth=0 即死）、
+    敌侧 0x5F killPlayer（rgwHP=0 即死）。**304 是即死咒，不是 HP -1** ⚠️
+  玩家/敌人分支（opcode 0x68 JumpIfEnemyTurn）对 3 技能都成立；6 个 side case 源链闭合。但实现时
+  **304 须按即死形态（独立 kill/instantKo effect）处理，不得套 resourceDelta(-1)**。
+  另：`docs/phase2/foundation/script-census.md:83` 把 0x5F 误标为 jumpIfScene（实为 killPlayer，
+  script.c:1942），实现若依赖该表须勘误。
+
+  设计方向（execution 覆写 + preShake + hold/reveal token + loadScene profile）成立，5 项 open debt
+  均有源数据支撑。agree 仅准入 R13-6B build 设计，实现时须落实 G1（304 即死非 HP-1）+ Kimi P1-P6。
 
 #### 给 Kimi（R13-5 counter 返工复审）——已于 2026-07-31 执行，改签 accept（保留备查，勿再执行）
 

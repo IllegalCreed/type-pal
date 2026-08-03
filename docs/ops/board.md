@@ -10,7 +10,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| N3-1 | 结构化控制流、实体具名行为与内部脚本退役 | build | 进入 R13-6B 最小设计并集齐 Codex/Kimi/GLM 三方 agree | R13-6A 已正式发布：17 个 owned 写入、append-only seal、独立进程 replay 0/0/0；R13-6B/R13-Z 仍未开始 |
+| N3-1 | 结构化控制流、实体具名行为与内部脚本退役 | build | Codex 开始实现 R13-6B，按 P1-P6/G1 风险钉逐项自验 | R13-6A 已正式发布；R13-6B 设计三方 agree 已齐，content11 独立 transition 预留、SAVE_VERSION 仍为 8；R13-Z 未开始 |
 | C8 | 物品用途机制、运行时与迁移闭环 | review | 等待 N3-1 完成后交用户联合验收 | `0d4aa48b` 三方最终 accept 已齐；100/0、20 件/21 根及引用反跳均通过审查 |
 | W9 | 实体暂离、重现与明雷逃跑冷却 | draft | 先冻结精确状态机，再由 Kimi / GLM 设计审查 | 18b 二次真值核对补入 0x4B 手动确认、0x52 toggle、world-update pause、敌逃/terminate success；Codex 签字撤回 pending，未准入 build |
 | B10-1 | 混乱敌人攻击同伴 | draft | 先冻结语义空槽 schema，再由三方设计签字 | 18a 二次真值核对补入 confused 前废弃玩家抽样；二阶段已压掉 68/380 队源空槽，不能用活目标分布冒充 RNG 忠实，Codex 签字 pending |
