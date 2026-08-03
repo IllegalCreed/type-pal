@@ -7314,7 +7314,7 @@ R13-5/R13-6A 报告、golden 或历史 transition seal。
 - `openDebtSites=5129 -> 4969`，`openObservations=4656 -> 4511`；raw 仍为 `7123` open，
   augmented/final 均降至 `4969` open；
 - 当前门控报告 digest：
-  `e591ee02c2704f98d8cabb3870b589aeb0700ef721c171933970974bf1a39027`；该 digest 仅是待纳入
+  `cd7b8585d132219195083a44eca5e3ca07e63644e28eda90a902f646f7bf6780`；该 digest 仅是待纳入
   新 R13-Z append-only transition 的实验结果，不能写回 R13-5/R13-6A 历史 seal。
 
 实现与防伪复核已通过 migrate typecheck；PAL oracle 只更新了 production source-tree
