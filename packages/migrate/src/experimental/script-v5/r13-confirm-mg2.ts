@@ -385,6 +385,7 @@ export function prepareR13ConfirmControlAuditAuthority(args: {
     ...args,
     generated: authorityGenerated,
     final,
+    bindIndirectEntityBodies: false,
   }
   const sourceDisposition = buildAndAssertR13SourceInstructionDispositionV3(sourceArgs)
   const runtimeCapability = auditHistoricalR13ConfirmRuntimeCapabilities(final)

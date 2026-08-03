@@ -7198,6 +7198,40 @@ published source transition 仍报告约 `27,804` open sites / `7,237` open obse
 为每类补 source-root、context、canonical target 和 runtime 等价/真实替代证据，并让
 `assertR13NoOpenSourceDebt` 在最终发布事务中真正通过。
 
+##### R13-Z source context→canonical body 精确绑定（2026-08-03，进行中）
+
+对 `candidate-only-canonical-body` 抽样后确认，旧 join 只接受
+`scene/<scene>/root/entity-<self>/...` 直接根正文，拒绝同一静态实体通过 legacy call 进入的
+`scene/<scene>/L-*/<self>/...` 正文。后者已经同时具备 P6 ledger、exact translation outcome、
+raw/augmented/final canonical target，只是 context join 没有把证明接起来；这不是可忽略的
+统计噪声。
+
+- `bodyMatchesContext` 新增显式 `bindIndirectEntityBodies` 权限；仅 R13-5/R13-6 authority 开启
+  “同场景 + 同实体”的间接正文，仍拒绝同地址的另一实体或另一场景借证。R13-4 confirm replay
+  明确关闭该权限，已发布 confirm seal 继续 byte-pin，动态 entity、scene hook 和 global domain 的
+  原规则不放宽。
+- R13-5 parent open sites 从 `27,826` 降至 `10,581`，其中
+  `candidate-only-canonical-body` 从 `18,217` 降至 `972`，关闭 `17,245` 个具备完整
+  ledger/outcome/target 的站点；6A successor 为 `10,559` open sites / `6,602` open
+  observations。没有把 candidate 改名成 accounted。
+- 当前剩余 source-site 原因：`unclassified-reachable-source-site` `4,825`、
+  `candidate-only-domain-projection` `2,842`、`item-scriptOnUse-pending` `1,502`、
+  `candidate-only-canonical-body` `972`、`item-scriptOnThrow-pending` `140`、
+  `skill-lossy-without-user-decision` `109`、`skill-pending` `76`、
+  `candidate-only-known-noop` `49`，以及 66 个缺目标/表现/历史层债务。
+- 防伪链按预期拒绝旧 parent pin；R13-5 source-ledger digest 更新为
+  `b7cabd35fa49bf94dbd59ef81b971803ad2c2616a4e3790a18a7a51898f52f2b`，6A
+  canary source disposition digest 更新为
+  `4dfefd0db1952ff2429ddec3a4df5d608af59c606156ef28b34d69d7e38b9487`。P0 frozen digest
+  `dd42217c87ece120140dd302e735460cc48b2570fd993e2c35d614bbc0303004` 保持不变。
+
+验证：最终 `test:canary` 2/2（241.04s）、`test:oracle:verify` 2/2、`check:fast`
+75 files / 558 passed / 5 skipped（21.33s）、release preflight+unit 71 files / 546 tests
+（16.74s）全绿；单独 `release-pal-shared r13-enemy-audits` 3/3（436.21s），证明 R13-5 使用
+新 source join 的同时，R13-4 已发布 confirm seal 仍能原样 replay。R13-Z 仍未关闭；下一步继续
+处理 dynamic binding 未物化正文、item use/domain projection 和其余显式债务，再执行
+runtime/save/browser/remigration 最终门禁。
+
 ##### R13-6B implementation review 交接提示词（下一位 Agent 可直接复制）
 
 ```text

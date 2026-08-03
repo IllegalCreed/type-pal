@@ -926,14 +926,25 @@ function domainProjectionEvidence(args: {
   return { projections, openRoots }
 }
 
-function bodyMatchesContext(body: ScriptBodyAudit, context: R13SourceExecutionContext): boolean {
+function bodyMatchesContext(
+  body: ScriptBodyAudit,
+  context: R13SourceExecutionContext,
+  options: Pick<R13SourceInstructionDispositionBuildArgs, 'bindIndirectEntityBodies'> = {},
+): boolean {
   const rootEntity = /^(s\d+)\/(e\d+)\/(trigger|auto)$/.exec(context.entrySiteId)
-  if (context.host.kind === 'entity-trigger' || context.host.kind === 'entity-auto')
-    return Boolean(
-      rootEntity &&
-        body.id.startsWith(`scene/${rootEntity[1]}/root/entity-${rootEntity[2]}/`) &&
-        body.id.includes(`/${rootEntity[3]}/`),
-    )
+  if (context.host.kind === 'entity-trigger' || context.host.kind === 'entity-auto') {
+    if (!rootEntity || !body.id.startsWith(`scene/${rootEntity[1]}/`)) return false
+    const directRoot =
+      body.id.startsWith(`scene/${rootEntity[1]}/root/entity-${rootEntity[2]}/`) &&
+      body.id.includes(`/${rootEntity[3]}/`)
+    if (!options.bindIndirectEntityBodies) return directRoot
+    // A static entity root may enter a separately materialized body through a legacy call.
+    // Those bodies are named `scene/<scene>/L-*/<self>/...`; binding only the direct root left
+    // their exact P6 ledger/outcome/target proofs stranded as candidates.  Keep the join strict
+    // on both scene and entity so a same-address body owned by another entity cannot lend proof.
+    const calledBody = body.id.includes(`/${rootEntity[2]}/`)
+    return directRoot || calledBody
+  }
   if (context.host.kind === 'scene-on-enter')
     return body.id.startsWith(`scene/${context.owner}/root/on-enter/`)
   if (context.host.kind === 'scene-on-teleport')
@@ -1373,6 +1384,7 @@ function canonicalSiteEvidence(args: {
   census: R13SourceExecutionCensusV1
   evidence: Map<string, R13DispositionEvidence>
   targetsByBody: ReadonlyMap<string, readonly CanonicalTargetIdentity[]>
+  bindIndirectEntityBodies?: boolean
 }): Map<string, ProjectionEvidence> {
   const bodiesByAddress = new Map<number, ScriptBodyAudit[]>()
   for (const body of args.audit.product.bodies)
@@ -1467,7 +1479,11 @@ function canonicalSiteEvidence(args: {
     const instruction = args.census.instructions[site.address]
     if (!context || !instruction) continue
     const bodies = (bodiesByAddress.get(site.address) ?? [])
-      .filter((body) => bodyMatchesContext(body, context))
+      .filter((body) =>
+        bodyMatchesContext(body, context, {
+          bindIndirectEntityBodies: args.bindIndirectEntityBodies,
+        }),
+      )
       .sort((left, right) => stableStringCompare(left.id, right.id))
     if (!bodies.length) continue
     const folded = bodies.every((body) => body.foldedFrom.length > 0)
@@ -3756,6 +3772,8 @@ export interface R13SourceInstructionDispositionBuildArgs {
   r13EnemyClosure?: R13EnemyClosureAuthority
   r13ExistingSchemaClosure?: R13ExistingSchemaClosureAuthority
   preparedSourceCensus?: PreparedR13SourceExecutionCensus
+  /** R13-5/R13-6 only: bind same-entity legacy-call bodies without altering R13-4 history. */
+  bindIndirectEntityBodies?: boolean
 }
 
 export function sealR13SourceInstructionDisposition(
@@ -3832,6 +3850,7 @@ function buildR13SourceInstructionDispositionInternal(
     census,
     evidence,
     targetsByBody,
+    bindIndirectEntityBodies: args.bindIndirectEntityBodies,
   })
   const c8Sites = c8SiteEvidence({
     generated: args.generated,
@@ -4353,7 +4372,7 @@ function assertR13SourceInstructionDispositionBacked(
     if (!site || !context || !instruction)
       throw new Error(`R13 disposition: source-backed canonical site 缺 identity ${proof.id}`)
     const resolvedBodies = (bodiesByAddress.get(site.address) ?? [])
-      .filter((body) => bodyMatchesContext(body, context))
+      .filter((body) => bodyMatchesContext(body, context, source))
       .sort((left, right) => stableStringCompare(left.id, right.id))
     if (!resolvedBodies.length)
       throw new Error(`R13 disposition: source-backed canonical site 缺 body ${proof.id}`)

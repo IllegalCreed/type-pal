@@ -307,8 +307,8 @@ describe.skipIf(!hasPalTestFixture())('R13-5 PAL full-path enemy audits', () => 
     })
     expect(first.enemyScriptSeal.audits.sourceControl.summary).toMatchObject({
       executionSites: 81_674,
-      openDebtSites: 27_826,
-      openObservations: 7_259,
+      openDebtSites: 10_581,
+      openObservations: 6_624,
       finalOpenR13_5Sites: 0,
       finalOpenR13_5Observations: 0,
       finalOpenR13_6Sites: 215,

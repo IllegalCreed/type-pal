@@ -320,8 +320,8 @@ function buildAuditSeal(
   const finalOpenR13_6Observations = finalOpenObservationsForBatch(sourceDisposition, 'R13-6')
   if (
     sourceDisposition.summary.executionSites !== 81_674 ||
-    sourceDisposition.summary.openDebtSites !== 27_826 ||
-    sourceDisposition.summary.openObservations !== 7_259 ||
+    sourceDisposition.summary.openDebtSites !== 10_581 ||
+    sourceDisposition.summary.openObservations !== 6_624 ||
     finalOpenR13_5Sites !== 0 ||
     finalOpenR13_5Observations !== 0 ||
     finalOpenR13_6Sites !== 215 ||
@@ -468,6 +468,7 @@ export function completeR13EnemyScriptSourceInputs<
     generated: args.successorGenerated,
     final: args.augmentation.snapshot,
     r13EnemyClosure,
+    bindIndirectEntityBodies: true,
     ...(args.preparedHistoricalSourceCensus
       ? { preparedSourceCensus: args.preparedHistoricalSourceCensus }
       : {}),
