@@ -233,7 +233,12 @@
           "effects": [
             {
               "kind": "gate",
-              "chance": 60
+              "chance": 70
+            },
+            {
+              "kind": "applyStatus",
+              "status": "sleep",
+              "turns": 3
             },
             {
               "kind": "resourceDelta",
@@ -283,7 +288,7 @@
           "effects": [
             {
               "kind": "gate",
-              "chance": 33
+              "chance": 30
             },
             {
               "kind": "instantKill"
@@ -329,7 +334,12 @@
           "effects": [
             {
               "kind": "gate",
-              "chance": 44
+              "chance": 50
+            },
+            {
+              "kind": "applyStatus",
+              "status": "confused",
+              "turns": 3
             },
             {
               "kind": "resourceDelta",
@@ -2883,7 +2893,7 @@
         "sound": "sound.pal.117",
         "preShake": {
           "frames": 20,
-          "level": 3
+          "level": 4
         }
       }
     },
@@ -2917,7 +2927,7 @@
         "keepEffect": true,
         "preShake": {
           "frames": 20,
-          "level": 3
+          "level": 4
         }
       }
     },
@@ -2951,7 +2961,7 @@
         "keepEffect": true,
         "preShake": {
           "frames": 14,
-          "level": 3
+          "level": 4
         }
       }
     },
@@ -2984,7 +2994,7 @@
         "sound": "sound.pal.152",
         "preShake": {
           "frames": 24,
-          "level": 3
+          "level": 4
         }
       }
     },
@@ -3018,7 +3028,7 @@
         "keepEffect": true,
         "preShake": {
           "frames": 14,
-          "level": 3
+          "level": 4
         }
       }
     },
@@ -3052,7 +3062,7 @@
         "keepEffect": true,
         "preShake": {
           "frames": 14,
-          "level": 3
+          "level": 4
         }
       }
     },
@@ -3086,7 +3096,7 @@
         "keepEffect": true,
         "preShake": {
           "frames": 14,
-          "level": 3
+          "level": 4
         }
       }
     },

@@ -109,6 +109,8 @@ export class Playback {
   private moves: MoveJob[] = []
   private fadeJob: { dir: 'in' | 'out'; ms: number; done: number; resolve: () => void } | null =
     null
+  /** 纯表现层的 0x76 黑幕事务；不进入 scratch world，更不会写回工程。 */
+  private screenHoldToken: string | null = null
   private gateQueue: (() => void)[] = []
   private timers: { left: number; resolve: () => void }[] = []
 
@@ -245,6 +247,7 @@ export class Playback {
         )
           return
         if (this.abort === ac) {
+          this.finalizeScreenHold()
           this.log(`⚠ 预览中断：${error instanceof Error ? error.message : String(error)}`)
           this.mode = 'done'
           this.activePath = null
@@ -402,6 +405,7 @@ export class Playback {
         )
           return
         if (this.abort === ac) {
+          this.finalizeScreenHold()
           this.log(`⚠ 预览中断：${error instanceof Error ? error.message : String(error)}`)
           this.mode = 'done'
           this.activePath = null
@@ -499,10 +503,21 @@ export class Playback {
     })
   }
 
+  /** 异常、切场景或停止预览时统一丢弃临时黑幕，避免污染下一次预览。 */
+  private finalizeScreenHold(): void {
+    if (this.screenHoldToken === null) return
+    this.screenHoldToken = null
+    this.fadeJob?.resolve()
+    this.fadeJob = null
+    this.view.fadeBlack = 0
+    this.onUi?.()
+  }
+
   /** 停止并丢弃演出态(overlay 清空 → 画布回编辑器静态)。 */
   stop(): void {
     this.abort?.abort()
     this.abort = null
+    this.finalizeScreenHold()
     for (const r of this.gateQueue.splice(0)) r()
     for (const m of this.moves.splice(0)) m.resolve()
     for (const t of this.timers.splice(0)) t.resolve()
@@ -602,6 +617,25 @@ export class Playback {
         this.fadeJob?.resolve()
         this.fadeJob = { dir, ms, done: 0, resolve }
       }),
+    holdScreen: async (color, token, signal) => {
+      if (signal?.aborted) throw new DOMException('preview aborted', 'AbortError')
+      this.fadeJob?.resolve()
+      this.fadeJob = null
+      this.screenHoldToken = token
+      this.view.fadeBlack = 1
+      this.log(`⬛ 保持${color === 'black' ? '黑屏' : color}（${token}）`)
+    },
+    revealScreen: (token, signal) => {
+      if (signal?.aborted) return Promise.reject(new DOMException('preview aborted', 'AbortError'))
+      if (this.screenHoldToken !== token)
+        return Promise.reject(new Error(`黑屏恢复 token 不匹配: ${token}`))
+      this.screenHoldToken = null
+      return new Promise<void>((resolve) => {
+        this.fadeJob?.resolve()
+        this.fadeJob = { dir: 'in', ms: 260, done: 0, resolve }
+        this.log(`🌅 恢复画面（${token}）`)
+      })
+    },
     ditherScreen: (ms) =>
       new Promise<void>((resolve) => {
         this.log(`逐像素渐变 ${ms}ms（编辑器预览只模拟时长）`)
@@ -635,8 +669,12 @@ export class Playback {
       if (fc) this.view.player.facing = fc
     },
     loadScene: async (sceneId) => {
+      this.finalizeScreenHold()
       this.log(`🚪 切场景 ${sceneId}(预览到此为止)`)
       this.abort?.abort() // 预览不跨场景:当作演出结束
+      this.mode = 'done'
+      this.activePath = null
+      this.onUi?.()
     },
     setPartyFacing: (fc, gesture, member) => {
       this.view.player.facing = fc

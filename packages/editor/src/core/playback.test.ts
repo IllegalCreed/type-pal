@@ -106,6 +106,88 @@ describe('Playback', () => {
     expect(playback.view.fadeBlack).toBe(0)
   })
 
+  test('canonical holdScreen 持有黑幕，匹配的 revealScreen 淡入恢复', async () => {
+    const playback = new Playback(scene)
+    const flow: ScriptFlowV5 = {
+      kind: 'stages',
+      initial: 'preview',
+      stages: [
+        {
+          id: 'preview',
+          body: [
+            { kind: 'holdScreen', color: 'black', token: 'pal-night' },
+            { kind: 'setPartyFacing', facing: 'right' },
+            { kind: 'revealScreen', token: 'pal-night' },
+          ],
+        },
+      ],
+    }
+
+    playback.playCanonical('canonical:screen-hold', flow, {
+      scene: canonicalScene,
+      sharedScripts: {},
+    })
+
+    await vi.waitFor(() => {
+      expect(playback.view.fadeBlack).toBe(1)
+      expect(playback.view.player.facing).toBe('right')
+    })
+    playback.tick(260)
+    await vi.waitFor(() => expect(playback.mode).toBe('done'))
+    expect(playback.view.fadeBlack).toBe(0)
+    expect(playback.view.logs).toEqual(['⬛ 保持黑屏（pal-night）', '🌅 恢复画面（pal-night）'])
+  })
+
+  test('停止预览会清理尚未恢复的临时黑幕', async () => {
+    const playback = new Playback(scene)
+    playback.play('canonical:screen-hold', [
+      {
+        body: [
+          { kind: 'holdScreen', color: 'black', token: 'pal-night' },
+          { kind: 'dialog', cue: { rows: [{ text: 'dlg.under-hold' }] } },
+        ],
+      },
+    ])
+
+    await vi.waitFor(() => expect(playback.view.dialog).not.toBeNull())
+    expect(playback.view.fadeBlack).toBe(1)
+    playback.stop()
+    expect(playback.mode).toBe('idle')
+    expect(playback.view.fadeBlack).toBe(0)
+  })
+
+  test('切场景会收尾临时黑幕并结束当前预览', async () => {
+    const playback = new Playback(scene)
+    playback.play('canonical:screen-hold', [
+      {
+        body: [
+          { kind: 'holdScreen', color: 'black', token: 'pal-night' },
+          { kind: 'loadScene', scene: 's002' },
+        ],
+      },
+    ])
+
+    await vi.waitFor(() => expect(playback.mode).toBe('done'))
+    expect(playback.view.fadeBlack).toBe(0)
+    expect(playback.view.logs.at(-1)).toContain('切场景 s002')
+  })
+
+  test('不匹配的 reveal token 会失败并由异常 finalizer 恢复画面', async () => {
+    const playback = new Playback(scene)
+    playback.play('canonical:screen-hold', [
+      {
+        body: [
+          { kind: 'holdScreen', color: 'black', token: 'pal-night' },
+          { kind: 'revealScreen', token: 'wrong-token' },
+        ],
+      },
+    ])
+
+    await vi.waitFor(() => expect(playback.mode).toBe('done'))
+    expect(playback.view.fadeBlack).toBe(0)
+    expect(playback.view.logs.at(-1)).toContain('黑屏恢复 token 不匹配')
+  })
+
   test.each([
     { accepted: false, facing: 'left' as const },
     { accepted: true, facing: 'right' as const },

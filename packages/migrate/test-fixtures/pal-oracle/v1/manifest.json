@@ -25,7 +25,7 @@
     {
       "path": "packages/migrate/baselines/pal/_state.json",
       "bytes": 73270,
-      "sha256": "db9b65ff3a3fa08d595a872b92abfb30be8a36acebe72d0776695bfb9ebf9be0"
+      "sha256": "f3c6dbfddc984bd66caf7f08d67af3ef84fc1e5d54fa1530f4fe3fe216d9d817"
     },
     {
       "path": "packages/migrate/baselines/pal/_transitions/c8-item-use-v5-v1.json",
@@ -122,16 +122,16 @@
       "root": "packages/migrate/baselines/pal",
       "selector": "all",
       "files": 322,
-      "bytes": 63826653,
-      "sha256": "7c0ceea8c192447bb18bb862d2512d5ed644dfd8736b26f1b36f6005116420b0"
+      "bytes": 63826904,
+      "sha256": "d1e50b4a25589127029e13bbdb7e2799fb6146f883f5a9e70e77707cba73c14d"
     },
     {
       "role": "project-prerequisite",
       "root": "projects/pal",
       "selector": "all",
       "files": 2418,
-      "bytes": 153829509,
-      "sha256": "81814e1016c979e6720fb7e9cffffb1778275774ed94c8b0299fdf0be467e793"
+      "bytes": 153829760,
+      "sha256": "6eaf515d71724bb13d4019b543c6e6862849fac0aa79c4b73f307aa549073180"
     },
     {
       "role": "generated-shadow",
@@ -146,8 +146,8 @@
       "root": "packages/migrate/src",
       "selector": "production-typescript",
       "files": 112,
-      "bytes": 2461158,
-      "sha256": "4612623f4375244feeece3baf19d01ec59bd0ba93ece8aec8926e966ac6e6071"
+      "bytes": 2461379,
+      "sha256": "45b94c40c12aadf561e12ac6677071ca17f890bd5a35ac08a0258bf2c1462704"
     },
     {
       "role": "producer-code",

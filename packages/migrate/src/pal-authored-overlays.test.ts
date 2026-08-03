@@ -61,6 +61,12 @@ describe('PAL 已审计内容 overlay', () => {
         effects: [{ kind: 'damage', power: 320, elemental: 4 }],
         animation: { effectSprite: 12 },
       },
+      ...['334', '342', '357', '378', '380', '385'].map((id) => ({
+        id,
+        name: `震屏技能 ${id}`,
+        effects: [{ kind: 'damage' as const, power: 1, elemental: 0 }],
+        animation: { effectSprite: 1 },
+      })),
       {
         id: '370',
         name: '酒神',
@@ -79,14 +85,35 @@ describe('PAL 已审计内容 overlay', () => {
 
     const out = applyPalSkillOverlays(source, { r13SixBExecution: true })
     const byId = new Map(out.map((skill) => [skill.id, skill]))
-    expect(byId.get('330')?.animation.preShake).toEqual({ frames: 20, level: 3 })
+    expect(
+      Object.fromEntries(
+        ['330', '334', '342', '357', '378', '380', '385'].map((id) => [
+          id,
+          byId.get(id)?.animation.preShake,
+        ]),
+      ),
+    ).toEqual({
+      '330': { frames: 20, level: 4 },
+      '334': { frames: 20, level: 4 },
+      '342': { frames: 14, level: 4 },
+      '357': { frames: 24, level: 4 },
+      '378': { frames: 14, level: 4 },
+      '380': { frames: 14, level: 4 },
+      '385': { frames: 14, level: 4 },
+    })
     expect(byId.get('303')?.execution?.enemy?.effects).toEqual([
-      { kind: 'gate', chance: 60 },
+      { kind: 'gate', chance: 70 },
+      { kind: 'applyStatus', status: 'sleep', turns: 3 },
       { kind: 'resourceDelta', resource: 'hp', delta: -1 },
     ])
     expect(byId.get('304')?.execution?.enemy?.effects).toEqual([
-      { kind: 'gate', chance: 33 },
+      { kind: 'gate', chance: 30 },
       { kind: 'instantKill' },
+    ])
+    expect(byId.get('305')?.execution?.enemy?.effects).toEqual([
+      { kind: 'gate', chance: 50 },
+      { kind: 'applyStatus', status: 'confused', turns: 3 },
+      { kind: 'resourceDelta', resource: 'hp', delta: -1 },
     ])
     expect(byId.get('370')?.cost.items).toEqual([{ itemId: '86', amount: 1 }])
     expect(byId.get('370')?.execution?.player?.prepare).toEqual([

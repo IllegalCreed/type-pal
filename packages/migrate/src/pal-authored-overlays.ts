@@ -18,20 +18,22 @@ type PalSkillExecutionOverlay = {
 
 const PAL_SKILL_EXECUTION_OVERLAYS: Readonly<Record<string, PalSkillExecutionOverlay>> = {
   // 0x35 ShakeScreen：施法特效开始时并发震屏，末尾 shake 仍由 MAGIC 表保留。
-  '330': { animation: { preShake: { frames: 20, level: 3 } } },
-  '334': { animation: { preShake: { frames: 20, level: 3 } } },
-  '342': { animation: { preShake: { frames: 14, level: 3 } } },
-  '357': { animation: { preShake: { frames: 24, level: 3 } } },
-  '378': { animation: { preShake: { frames: 14, level: 3 } } },
-  '380': { animation: { preShake: { frames: 14, level: 3 } } },
-  '385': { animation: { preShake: { frames: 14, level: 3 } } },
+  '330': { animation: { preShake: { frames: 20, level: 4 } } },
+  '334': { animation: { preShake: { frames: 20, level: 4 } } },
+  '342': { animation: { preShake: { frames: 14, level: 4 } } },
+  '357': { animation: { preShake: { frames: 24, level: 4 } } },
+  '378': { animation: { preShake: { frames: 14, level: 4 } } },
+  '380': { animation: { preShake: { frames: 14, level: 4 } } },
+  '385': { animation: { preShake: { frames: 14, level: 4 } } },
 
-  // 敌方分支的 303/304/305 不共享玩家分支：源脚本对敌方是直接改 HP/即死。
+  // 敌方分支的 303/304/305 不共享玩家分支：概率、状态回合和处决形态都来自
+  // events/all.json 的 0x68 敌方分支，不能复用玩家分支的 MAGIC 表结果。
   '303': {
     execution: {
       enemy: {
         effects: [
-          { kind: 'gate', chance: 60 },
+          { kind: 'gate', chance: 70 },
+          { kind: 'applyStatus', status: 'sleep', turns: 3 },
           { kind: 'resourceDelta', resource: 'hp', delta: -1 },
         ],
       },
@@ -40,7 +42,7 @@ const PAL_SKILL_EXECUTION_OVERLAYS: Readonly<Record<string, PalSkillExecutionOve
   '304': {
     execution: {
       enemy: {
-        effects: [{ kind: 'gate', chance: 33 }, { kind: 'instantKill' }],
+        effects: [{ kind: 'gate', chance: 30 }, { kind: 'instantKill' }],
       },
     },
   },
@@ -48,7 +50,8 @@ const PAL_SKILL_EXECUTION_OVERLAYS: Readonly<Record<string, PalSkillExecutionOve
     execution: {
       enemy: {
         effects: [
-          { kind: 'gate', chance: 44 },
+          { kind: 'gate', chance: 50 },
+          { kind: 'applyStatus', status: 'confused', turns: 3 },
           { kind: 'resourceDelta', resource: 'hp', delta: -1 },
         ],
       },
