@@ -7398,7 +7398,8 @@ canonical 重生成后 R13-Z 真实 dry-run 重跑仍 fail-closed 于 `208 / 208
   final `throw` capability 承载；6 个 item 站点（135 迷魂香 / 160 捆仙绳）闭合。
 - 剩余 110 sites 全部为 `unclassified-reachable-source-site`：actors 36/38
   scriptOnFriendDeath 各 29、37/38 scriptOnDying 各 26 —— 二阶段缺失战斗“队友阵亡
-  援护台词+增益 / 濒死对白”机制，需开新能力卡（用户裁决）。
+  援护台词+增益 / 濒死对白”机制，已开能力卡
+  `docs/ops/tasks/B11-1-player-casualty-scripts.md`（用户 2026-08-05 拍板，draft）。
 - 剩余 open observations=118：110 unclassified + 3 lossy（352/372/373 敌方 0x68 分支
   刻意保留）+ 4 known-deferred setPalette（Reforge 无逐场景调色板，Kimi 审计）+ 1
   引用目标含段转移审计池。后 8 条为观察级决策/审计条目，需用户裁决或明确排除口径。
