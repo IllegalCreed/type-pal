@@ -13,7 +13,7 @@ describe('PAL compact test oracle', () => {
         groups: 5_630,
         canonicalTargets: 8_271,
       },
-      content: { scenes: 294, items: 234, enemies: 153, localeKeys: 9_552 },
+      content: { scenes: 294, items: 234, enemies: 153, localeKeys: 9_588 },
     })
     expect(Object.keys(oracle.projection.transitions)).toEqual([
       'script-v4-v5',

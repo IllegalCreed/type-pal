@@ -32,6 +32,7 @@
         "296"
       ],
       "cooperativeMagicSkillId": "386",
+      "coveredBy": "lin-yueru",
       "leveling": {
         "expTable": [
           0,
@@ -145,6 +146,111 @@
         "cover": "sound.pal.015",
         "dying": "sound.pal.019",
         "death": "sound.pal.023"
+      },
+      "casualty": {
+        "friendDeath": {
+          "gates": [
+            {
+              "chance": 75,
+              "branch": {
+                "lines": [
+                  {
+                    "text": "dlg.13501",
+                    "style": "bottom"
+                  },
+                  {
+                    "text": "dlg.13502",
+                    "style": "narration"
+                  }
+                ],
+                "effects": [
+                  {
+                    "kind": "heal",
+                    "resource": "mp"
+                  },
+                  {
+                    "kind": "tempStatBuff",
+                    "stat": "magic",
+                    "percent": 10
+                  }
+                ]
+              }
+            },
+            {
+              "chance": 66,
+              "branch": {
+                "lines": [
+                  {
+                    "text": "dlg.13503",
+                    "style": "bottom"
+                  },
+                  {
+                    "text": "dlg.13504",
+                    "style": "narration"
+                  }
+                ],
+                "effects": [
+                  {
+                    "kind": "tempStatBuff",
+                    "stat": "attack",
+                    "percent": 25
+                  },
+                  {
+                    "kind": "tempStatBuff",
+                    "stat": "magic",
+                    "percent": 25
+                  }
+                ]
+              }
+            },
+            {
+              "chance": 50,
+              "branch": {
+                "lines": [
+                  {
+                    "text": "dlg.13505",
+                    "style": "bottom"
+                  }
+                ],
+                "effects": [
+                  {
+                    "kind": "tempStatBuff",
+                    "stat": "speed",
+                    "percent": 90
+                  },
+                  {
+                    "kind": "tempStatBuff",
+                    "stat": "luck",
+                    "percent": 90
+                  }
+                ]
+              }
+            }
+          ],
+          "fallback": {
+            "lines": [
+              {
+                "text": "dlg.13499",
+                "style": "bottom"
+              },
+              {
+                "text": "dlg.13500",
+                "style": "narration"
+              }
+            ],
+            "effects": [
+              {
+                "kind": "heal",
+                "resource": "hp"
+              },
+              {
+                "kind": "tempStatBuff",
+                "stat": "attack",
+                "percent": 5
+              }
+            ]
+          }
+        }
       }
     }
   },
@@ -189,6 +295,7 @@
         "307"
       ],
       "cooperativeMagicSkillId": "381",
+      "coveredBy": "li-xiaoyao",
       "leveling": {
         "expTable": [
           0,
@@ -302,6 +409,89 @@
         "cover": "sound.pal.016",
         "dying": "sound.pal.020",
         "death": "sound.pal.024"
+      },
+      "casualty": {
+        "dying": {
+          "gates": [
+            {
+              "chance": 75,
+              "branch": {
+                "lines": [
+                  {
+                    "text": "dlg.13471",
+                    "style": "bottom"
+                  },
+                  {
+                    "text": "dlg.13472",
+                    "style": "top"
+                  },
+                  {
+                    "text": "dlg.13473",
+                    "style": "top"
+                  }
+                ],
+                "effects": []
+              }
+            },
+            {
+              "chance": 66,
+              "branch": {
+                "lines": [
+                  {
+                    "text": "dlg.13474",
+                    "style": "bottom"
+                  },
+                  {
+                    "text": "dlg.13475",
+                    "style": "bottom"
+                  },
+                  {
+                    "text": "dlg.13476",
+                    "style": "top"
+                  },
+                  {
+                    "text": "dlg.13477",
+                    "style": "top"
+                  }
+                ],
+                "effects": []
+              }
+            },
+            {
+              "chance": 50,
+              "branch": {
+                "lines": [
+                  {
+                    "text": "dlg.13478",
+                    "style": "top"
+                  },
+                  {
+                    "text": "dlg.13479",
+                    "style": "top"
+                  },
+                  {
+                    "text": "dlg.13480",
+                    "style": "bottom"
+                  },
+                  {
+                    "text": "dlg.13481",
+                    "style": "bottom"
+                  }
+                ],
+                "effects": []
+              }
+            }
+          ],
+          "fallback": {
+            "lines": [
+              {
+                "text": "dlg.13470",
+                "style": "bottom"
+              }
+            ],
+            "effects": []
+          }
+        }
       }
     }
   },
@@ -339,6 +529,7 @@
         "337"
       ],
       "cooperativeMagicSkillId": "339",
+      "coveredBy": "li-xiaoyao",
       "leveling": {
         "expTable": [
           0,
@@ -452,6 +643,184 @@
         "cover": "sound.pal.017",
         "dying": "sound.pal.021",
         "death": "sound.pal.025"
+      },
+      "casualty": {
+        "friendDeath": {
+          "gates": [
+            {
+              "chance": 75,
+              "branch": {
+                "lines": [
+                  {
+                    "text": "dlg.13508",
+                    "style": "bottom"
+                  },
+                  {
+                    "text": "dlg.13509",
+                    "style": "narration"
+                  }
+                ],
+                "effects": [
+                  {
+                    "kind": "heal",
+                    "resource": "hp"
+                  },
+                  {
+                    "kind": "tempStatBuff",
+                    "stat": "attack",
+                    "percent": 5
+                  }
+                ]
+              }
+            },
+            {
+              "chance": 66,
+              "branch": {
+                "lines": [
+                  {
+                    "text": "dlg.13510",
+                    "style": "bottom"
+                  },
+                  {
+                    "text": "dlg.13511",
+                    "style": "narration"
+                  }
+                ],
+                "effects": [
+                  {
+                    "kind": "heal",
+                    "resource": "mp"
+                  },
+                  {
+                    "kind": "tempStatBuff",
+                    "stat": "magic",
+                    "percent": 9
+                  }
+                ]
+              }
+            },
+            {
+              "chance": 50,
+              "branch": {
+                "lines": [
+                  {
+                    "text": "dlg.13512",
+                    "style": "bottom"
+                  }
+                ],
+                "effects": [
+                  {
+                    "kind": "tempStatBuff",
+                    "stat": "speed",
+                    "percent": 50
+                  },
+                  {
+                    "kind": "tempStatBuff",
+                    "stat": "luck",
+                    "percent": 90
+                  }
+                ]
+              }
+            }
+          ],
+          "fallback": {
+            "lines": [
+              {
+                "text": "dlg.13506",
+                "style": "bottom"
+              },
+              {
+                "text": "dlg.13507",
+                "style": "narration"
+              }
+            ],
+            "effects": [
+              {
+                "kind": "tempStatBuff",
+                "stat": "attack",
+                "percent": 25
+              },
+              {
+                "kind": "tempStatBuff",
+                "stat": "magic",
+                "percent": 25
+              }
+            ]
+          }
+        },
+        "dying": {
+          "gates": [
+            {
+              "chance": 75,
+              "branch": {
+                "lines": [
+                  {
+                    "text": "dlg.13483",
+                    "style": "bottom"
+                  }
+                ],
+                "effects": []
+              }
+            },
+            {
+              "chance": 66,
+              "branch": {
+                "lines": [
+                  {
+                    "text": "dlg.13484",
+                    "style": "top"
+                  },
+                  {
+                    "text": "dlg.13485",
+                    "style": "top"
+                  },
+                  {
+                    "text": "dlg.13486",
+                    "style": "bottom"
+                  },
+                  {
+                    "text": "dlg.13487",
+                    "style": "top"
+                  },
+                  {
+                    "text": "dlg.13488",
+                    "style": "bottom"
+                  }
+                ],
+                "effects": []
+              }
+            },
+            {
+              "chance": 50,
+              "branch": {
+                "lines": [
+                  {
+                    "text": "dlg.13489",
+                    "style": "top"
+                  },
+                  {
+                    "text": "dlg.13490",
+                    "style": "top"
+                  },
+                  {
+                    "text": "dlg.13491",
+                    "style": "bottom"
+                  }
+                ],
+                "effects": []
+              }
+            }
+          ],
+          "fallback": {
+            "lines": [
+              {
+                "text": "dlg.13482",
+                "style": "top"
+              }
+            ],
+            "effects": []
+          }
+        }
       }
     }
   },
@@ -497,6 +866,7 @@
         "308"
       ],
       "cooperativeMagicSkillId": "374",
+      "coveredBy": "li-xiaoyao",
       "leveling": {
         "expTable": [
           0,
@@ -654,6 +1024,7 @@
         "304"
       ],
       "cooperativeMagicSkillId": "355",
+      "coveredBy": "li-xiaoyao",
       "leveling": {
         "expTable": [
           0,
@@ -809,6 +1180,7 @@
         "304"
       ],
       "cooperativeMagicSkillId": "381",
+      "coveredBy": "anu",
       "leveling": {
         "expTable": [
           0,

@@ -43,6 +43,7 @@ import {
   applyPalSkillOverlays,
   PAL_RESOLVED_SKILL_IDS,
 } from './pal-authored-overlays.js'
+import { applyPalCasualtyOverlays } from './pal-casualty-scripts.js'
 import { createPalBattleSpriteDefinitions } from './pal-battle-sprites.js'
 import { applyPalBossEncounterOverlay } from './pal-boss-overlay.js'
 import {
@@ -559,6 +560,11 @@ function buildPalMigrationWithEnemyAuthority(
       r13SixBExecution: options.r13SixBSourceSemantics,
     }),
   }
+  const casualtyOverlay = applyPalCasualtyOverlays(
+    migrated.actors,
+    sources.migrate.commands,
+    sources.objectPlayers,
+  )
   const globalRoots = makeGlobalScriptRoots({
     items: sources.migrate.items.flatMap((item) => [
       item.scriptOnUse,
@@ -709,7 +715,7 @@ function buildPalMigrationWithEnemyAuthority(
   const put = (path: string, value: unknown): void => {
     files.set(path, asJson(value))
   }
-  put('content/actors.json', migrated.actors)
+  put('content/actors.json', casualtyOverlay.actors)
   put('content/sprites.json', spriteActionMaterialization.sprites)
   put('content/battle-sprites.json', battleSprites)
   put('content/items.json', items)
@@ -741,7 +747,11 @@ function buildPalMigrationWithEnemyAuthority(
   put('content/skills.json', skills)
   put('content/enemies.json', boss.enemies)
   put('content/enemy-teams.json', migrated.enemyTeams)
-  put('content/locale.json', { ...migrated.localeNames, ...sceneOutput.scriptLocale })
+  put('content/locale.json', {
+    ...migrated.localeNames,
+    ...sceneOutput.scriptLocale,
+    ...casualtyOverlay.locale,
+  })
   put('assets/index.json', sources.assetCatalog)
   const battleFields = sources.battleFields.map((field) => ({
     ...structuredClone(field),

@@ -477,6 +477,23 @@ function buildR13SixBMigration(
     files.set(path, generated)
   }
   files.set('content/skills.json', skills)
+  // B11-1 casualty 数据面:actors.json(coveredBy + casualty)与 locale(伤亡台词
+  // dlg.13470-13512)是 R13-6B successor 新增的托管文件,必须随 6B 一起投影,
+  // 否则 canonical 运行时看不到伤亡脚本。
+  const casualtyActors = raw.files.get('content/actors.json')
+  const casualtyLocale = raw.files.get('content/locale.json')
+  if (casualtyActors === undefined || casualtyLocale === undefined)
+    throw new Error('R13-6B raw migration 缺 B11-1 casualty 内容文件')
+  files.set('content/actors.json', casualtyActors)
+  // locale 是 append-only:已发布 baseline 为准(authored/历史键),raw 只补新增的
+  // casualty 台词键(dlg.13470-13512),禁止用 raw 覆盖 baseline 键。
+  const baselineLocale = publishedBaseline.files.get('content/locale.json')
+  if (!baselineLocale)
+    throw new Error('R13-6B published baseline 缺 content/locale.json')
+  files.set('content/locale.json', {
+    ...(casualtyLocale as Record<string, unknown>),
+    ...(baselineLocale as Record<string, unknown>),
+  })
   const loadSceneProfiles = applyPalR13SixBLoadSceneTransitions(files, raw.files)
   files = loadSceneProfiles.files
   const summary = Object.fromEntries(

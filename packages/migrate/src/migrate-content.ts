@@ -62,6 +62,8 @@ export interface SourceRole {
   magic: number[]
   /** 合体技 obj-id(player-roles cooperativeMagic;0 = 无)。 */
   cooperativeMagic?: number
+  /** 援护关系(player-roles rgwCoveredBy;存角色 index,0 = 李逍遥,合法)。 */
+  coveredBy: number
   attackSound: number
   weaponSound: number
   criticalSound: number
@@ -308,6 +310,8 @@ export function mapActor(
       ...((role.cooperativeMagic ?? 0) > 0
         ? { cooperativeMagicSkillId: String(role.cooperativeMagic) }
         : {}),
+      // 援护关系(原版 player-roles rgwCoveredBy;B11-1 阵亡/濒死脚本与 B9 替挡都依赖它)
+      coveredBy: ROLE_SLUGS[role.coveredBy],
       leveling: { expTable: [...expTable] },
       battleSprite: palPlayerBattleSpriteDefinitionId(role.spriteNumInBattle),
       // 战斗音效七件套(rgw*Sound 全量;演出层经 session opts 消费)

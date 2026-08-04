@@ -10,7 +10,7 @@
     "current": "pal-v10-r13-6a"
   },
   "projection": "packages/migrate/test-fixtures/pal-oracle/v1/projection.json",
-  "projectionSha256": "ff2af4352caaf86b609a589670cac2d692fcbc2658d5d8b0069e3f0a56683779",
+  "projectionSha256": "5736a934e4b4e426d27ef35e674596ed165fd66072affb591834433247025af5",
   "inputs": [
     {
       "path": "data/extracted/events/all.json",
@@ -25,7 +25,7 @@
     {
       "path": "packages/migrate/baselines/pal/_state.json",
       "bytes": 73270,
-      "sha256": "1b67a02feb24ac34f3070ca733c2f8e6b2da4decbb511b7cb99426704f5d4080"
+      "sha256": "2f44e97a4d0e118cdf34c6607fe94a49c5f52e33acca9a9cca0695c1d676a236"
     },
     {
       "path": "packages/migrate/baselines/pal/_transitions/c8-item-use-v5-v1.json",
@@ -79,8 +79,8 @@
     },
     {
       "path": "packages/migrate/baselines/pal/content/locale.json",
-      "bytes": 452873,
-      "sha256": "556372f725714d154886956045aaa9ef5227407f16cb77aacf42d382f64b6107"
+      "bytes": 454649,
+      "sha256": "6311dca7d0d13ade88d93e7104a62251fd27d9a94772261fa7733b0b938ab08a"
     },
     {
       "path": "projects/pal/manifest.json",
@@ -122,16 +122,16 @@
       "root": "packages/migrate/baselines/pal",
       "selector": "all",
       "files": 322,
-      "bytes": 63826930,
-      "sha256": "14e203c2c9ce41d2323a49cbc8ba512ad108a4b3886cde4a0d5a92ce5fc5bc79"
+      "bytes": 63838305,
+      "sha256": "766dcaf0cab0253a380bd2d9bffa1e1314ced8c3a3ca28c049d77b4bd5235fd0"
     },
     {
       "role": "project-prerequisite",
       "root": "projects/pal",
       "selector": "all",
       "files": 2418,
-      "bytes": 153829786,
-      "sha256": "639b1679a6ece2872d20e189e60e1d82c7160e66b9cf82f19ebebe131e5c2ce0"
+      "bytes": 153841161,
+      "sha256": "f78868b53c3486fa107ba6ce127918fa320b99059c7ce61600121be8f57ab50b"
     },
     {
       "role": "generated-shadow",
@@ -145,17 +145,17 @@
       "role": "producer-code",
       "root": "packages/migrate/src",
       "selector": "production-typescript",
-      "files": 114,
-      "bytes": 2579131,
-      "sha256": "1e15006134cd9d7db2865a69d4a14562e621eed62099ebdbd06795139c550b11"
+      "files": 115,
+      "bytes": 2585899,
+      "sha256": "102341f27146af3e8850ccc6ba9b981ccf802e3c2d01bafc6f9afa39cd914b8a"
     },
     {
       "role": "producer-code",
       "root": "packages/content/src",
       "selector": "production-typescript",
       "files": 40,
-      "bytes": 576475,
-      "sha256": "33db120dc0d1ba2a698273098c4c04c570633895d02b0ea006b65439759cbaae"
+      "bytes": 577989,
+      "sha256": "818e2e8288bbd3dc86bb54891d2e375e9d764adf4dedd9f21f24b87b6aab1fa1"
     },
     {
       "role": "producer-code",

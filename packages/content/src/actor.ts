@@ -33,6 +33,37 @@ export interface BattlerSounds {
   death?: AssetId
 }
 
+/** 战斗伤亡脚本台词行(原版 showDialog;style = 原版 setDialogStyle*)。 */
+export interface CasualtyLine {
+  text: TextId
+  style: 'bottom' | 'top' | 'narration'
+}
+
+/** 伤亡脚本效果(0x1B/0x1C 回满 + 0x30 临时百分比 buff;战内有效,战后清空)。 */
+export type CasualtyEffect =
+  | { kind: 'heal'; resource: 'hp' | 'mp' }
+  | {
+      kind: 'tempStatBuff'
+      /** 原版 0x30 属性索引:17=attack、18=magic、20=speed、21=luck。 */
+      stat: 'attack' | 'magic' | 'speed' | 'luck'
+      /** 百分比(原版 operand[1]);delta = 未 buff 运行时值 × percent / 100。 */
+      percent: number
+    }
+
+/** 伤亡脚本分支(台词有序 + 效果有序)。 */
+export interface CasualtyBranch {
+  lines: CasualtyLine[]
+  effects: CasualtyEffect[]
+}
+
+/** 伤亡脚本(原版 OBJECT_PLAYER.scriptOnFriendDeath/scriptOnDying 结构化;无运行时代码特例)。 */
+export interface CasualtyScript {
+  /** 0x06 顺序概率门:依次掷 r∈[1,100],r ≥ chance 命中该分支(命中即停,不再掷后续门)。 */
+  gates: { chance: number; branch: CasualtyBranch }[]
+  /** 全部门未命中时的兜底分支。 */
+  fallback: CasualtyBranch
+}
+
 /** 可战斗数据(可入队/可参战的角色带;普通 NPC 不带)。 */
 export interface BattlerSpec {
   baseStats: {
@@ -55,6 +86,10 @@ export interface BattlerSpec {
   /** 守护关系(原版 player-roles rgwCoveredBy,**具名化**存 actor id 不存角色号):此角色
    *  濒死/失能被敌物攻且 7/17 掷中时,由该队友替挡(完全免伤;fight.c:4941-4968)。缺 = 无人护。 */
   coveredBy?: string
+  /** 战斗伤亡脚本(原版 OBJECT_PLAYER.scriptOnFriendDeath/scriptOnDying;B11-1)。
+   *  队友阵亡 → 死者 coveredBy 援护者跑 friendDeath(台词+临时增益);
+   *  自己跌入濒死 → 守护者在队且健康时跑 dying(纯对白)。 */
+  casualty?: { friendDeath?: CasualtyScript; dying?: CasualtyScript }
   /** 升级曲线槽位:expTable[i] = 从 level i 升 i+1 所需 exp。属性成长表迁移一阶段时定形。C0 不消费。 */
   leveling?: { expTable: number[] }
   /** 战斗精灵语义定义 id；二进制与动作 ABI 由 BattleSpriteDef 统一解析。 */
