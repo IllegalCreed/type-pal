@@ -29,7 +29,10 @@ const actor = (id: string): ActorDef => ({
   },
 })
 
-const cmd = (op: string, over: Partial<SourceCmd> = {}): SourceCmd => ({ op, ...over })
+const cmd = (
+  op: string,
+  over: Partial<SourceCmd> & { messageIndex?: number } = {},
+): SourceCmd => ({ op, ...over }) as SourceCmd
 
 describe('B11-1 伤亡脚本翻译', () => {
   test('顺序概率门 + 分支台词/回满/临时 buff 结构化翻译并落 locale', () => {

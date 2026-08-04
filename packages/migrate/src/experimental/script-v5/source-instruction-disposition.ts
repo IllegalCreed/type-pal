@@ -6433,6 +6433,7 @@ function assertR13SourceInstructionDispositionBacked(
         ? [
             `global/skills/${proof.objectId}/scriptOnSuccess`,
             `global/skills/${proof.objectId}/scriptOnUse`,
+            `global/skills/${proof.objectId}/scriptDesc`,
           ].sort(stableStringCompare)
         : [
             `global/items/${proof.objectId}/${
