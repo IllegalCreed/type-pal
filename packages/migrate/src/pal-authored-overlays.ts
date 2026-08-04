@@ -59,6 +59,34 @@ const PAL_SKILL_EXECUTION_OVERLAYS: Readonly<Record<string, PalSkillExecutionOve
     },
   },
 
+  // 三条蛊术敌方 0x68 分支(原始脚本解码 2026-08-05)。毒模型已结构化到
+  // PoisonDef counters/lethalWith,且原版实证「巫术下毒不带致死/相克检查」:
+  // 敌方施法 = 普通 0x29 下毒(lethalWith 仅投掷、counters 仅 use-on-self 触发)。
+  // - 352 三尸咒:scriptOnSuccess@43052 `0x68 → L_39419`(三尸蛊道具 use 链 555)。
+  // - 372 万蛊蚀天:scriptOnSuccess@43044 `0x68 → L_43047` = `0x29 [1,555]` 全队 555。
+  // - 373 毒吞天下:scriptOnSuccess@43036 `0x68 → L_43039` = `0x29 [1,560]` 全队 560。
+  '352': {
+    execution: {
+      enemy: {
+        effects: [{ kind: 'applyPoison', poisonId: '555' }],
+      },
+    },
+  },
+  '372': {
+    execution: {
+      enemy: {
+        effects: [{ kind: 'applyPoison', poisonId: '555' }],
+      },
+    },
+  },
+  '373': {
+    execution: {
+      enemy: {
+        effects: [{ kind: 'applyPoison', poisonId: '560' }],
+      },
+    },
+  },
+
   // 酒神：原版 scriptOnUse 先扣 1 个酒(0x20 RemoveItem)，再按剩余真气 × 8 直接扣敌方
   // HP(0x57 set magic damage by MP)并清空真气。一生只能使用 9 次：第 9 次成功后移除
   // 技能并提示“酒神咒使用次数已用尽”（原版脚本 0x56 RemoveMagic + dlg.13366）。

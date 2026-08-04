@@ -2328,6 +2328,9 @@ function applyEnemySkill(
         for (const ti of targets) {
           const t = s.players[ti]
           if (!t || t.hp <= 0) continue
+          // 结构化毒模型(editor PoisonTab):巫术下毒 = 普通 0x29,不带致死/相克检查
+          // (PoisonDef.lethalWith 仅投掷触发、counters 仅 use-on-self 触发,原版实证);
+          // 敌方施法(352/372/373 蛊术)同样走这条普通路径。
           if (1 + Math.floor(rng() * 100) > (t.poisonRes ?? 0)) {
             if (!t.poisons.some((x) => x.poisonId === pid))
               t.poisons.push({ poisonId: pid, tickIndex: 0 })

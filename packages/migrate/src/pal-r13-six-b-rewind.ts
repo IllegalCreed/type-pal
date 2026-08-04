@@ -14,7 +14,7 @@ import { PAL_CASUALTY_LOCALE_KEYS } from './pal-casualty-scripts.js'
  * 6B shape or an author edit must not be silently treated as the old authority.
  */
 
-const R13_SIX_B_EXECUTION_SKILLS = ['303', '304', '305', '370'] as const
+const R13_SIX_B_EXECUTION_SKILLS = ['303', '304', '305', '352', '370', '372', '373'] as const
 const R13_SIX_B_PRESHAKE_SKILLS = ['330', '334', '342', '357', '378', '380', '385'] as const
 const R13_SIX_B_REORDERED_SKILLS = ['352', '372', '373'] as const
 

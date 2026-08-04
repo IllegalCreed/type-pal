@@ -4987,6 +4987,9 @@ function reportObservations(args: {
       root('skills', objectId, 'scriptOnUse'),
       root('skills', objectId, 'scriptOnSuccess'),
     ]
+    // R13-6A seal 防洗钱钉:这三条 lossy 观察必须保持 open(敌方 0x68 分支债务
+    // 不得被 disposition 洗掉);闭合只能由新的 successor authority(R13-6C)
+    // 取代 6A seal 后实现 —— 见 N3-1 卡 R13-Z 节。
     addOpen({
       id: `skill:${objectId}:lossy`,
       domain: 'skill',

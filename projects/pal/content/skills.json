@@ -1628,6 +1628,16 @@
         "shake": 0,
         "wave": 0,
         "sound": "sound.pal.313"
+      },
+      "execution": {
+        "enemy": {
+          "effects": [
+            {
+              "kind": "applyPoison",
+              "poisonId": "555"
+            }
+          ]
+        }
       }
     },
     {
@@ -2223,6 +2233,16 @@
         "shake": 0,
         "wave": 0,
         "sound": "sound.pal.313"
+      },
+      "execution": {
+        "enemy": {
+          "effects": [
+            {
+              "kind": "applyPoison",
+              "poisonId": "555"
+            }
+          ]
+        }
       }
     },
     {
@@ -2257,6 +2277,16 @@
         "shake": 0,
         "wave": 0,
         "sound": "sound.pal.313"
+      },
+      "execution": {
+        "enemy": {
+          "effects": [
+            {
+              "kind": "applyPoison",
+              "poisonId": "560"
+            }
+          ]
+        }
       }
     },
     {

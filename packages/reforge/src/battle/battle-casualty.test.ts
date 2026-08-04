@@ -379,3 +379,74 @@ describe('B11-1 战斗伤亡 sweep', () => {
     expect(state.players[1]!.attackStrength).toBe(150)
   })
 })
+
+describe('敌方巫术下毒(结构化毒模型)', () => {
+  const poison = (id: number, over: Partial<import('@type-pal/content').PoisonDef> = {}) => ({
+    id,
+    name: `毒${id}`,
+    curability: 'severe' as const,
+    color: 0,
+    playerTicks: [{ hpDelta: -1 }],
+    enemyTicks: [{ hpDelta: -1 }],
+    ...over,
+  })
+
+  function enemyCastPoison(
+    playerOver: Partial<CreatePlayerInput> & { poisons?: { poisonId: number; tickIndex: number }[] },
+    poisonId = '555',
+  ) {
+    const attacker = enemy('caster', { dexterity: 999 })
+    attacker.ai = {
+      resistanceToSorcery: 0,
+      rules: [{ at: 'act', do: { kind: 'cast', skillId: 'gu', target: 'lowestHp' } }],
+    }
+    const state = createBattleState({
+      players: [player({ hp: 100, maxHp: 100, ...playerOver })],
+      enemies: [attacker],
+      skills: {
+        gu: {
+          id: 'gu',
+          name: '蛊术',
+          desc: '',
+          cost: {},
+          usableOutsideBattle: false,
+          target: 'oneEnemy',
+          effects: [{ kind: 'applyPoison', poisonId }],
+          animation: { effectSprite: 0 },
+          execution: {
+            enemy: { effects: [{ kind: 'applyPoison', poisonId }] },
+          },
+        },
+      },
+      poisonDefs: {
+        555: poison(555, { counters: 557, lethalWith: 558 }),
+        557: poison(557),
+        558: poison(558),
+      },
+    })
+    stepBattle(state, rng0)
+    state.pendingActions.set(0, { kind: 'defend' })
+    let guard = 0
+    do {
+      stepBattle(state, rng0)
+    } while (state.phase === 'performAction' && ++guard < 60)
+    return state
+  }
+
+  test('巫术下毒是普通 0x29:不触发 lethalWith 双毒暴毙', () => {
+    const state = enemyCastPoison({ poisons: [{ poisonId: 558, tickIndex: 0 }] })
+    // 无双毒暴毙(回合末 558 毒 tick 扣了 2 点,但远没到 0);新毒 555 叠上。
+    expect(state.players[0]!.hp).toBeGreaterThan(0)
+    expect(state.players[0]!.poisons.map((p) => p.poisonId)).toContain(555)
+  })
+
+  test('巫术下毒不触发 counters 相克解,直接叠新毒', () => {
+    const state = enemyCastPoison({ poisons: [{ poisonId: 557, tickIndex: 0 }] })
+    expect(state.players[0]!.poisons.map((p) => p.poisonId).sort()).toEqual([555, 557])
+  })
+
+  test('毒抗门:毒抗 ≥ R(1,100) 抵抗,不加毒', () => {
+    const state = enemyCastPoison({ poisonRes: 100 })
+    expect(state.players[0]!.poisons).toEqual([])
+  })
+})

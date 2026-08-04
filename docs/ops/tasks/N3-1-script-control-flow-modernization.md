@@ -7427,6 +7427,21 @@ ROLE_SLUGS），真实 PAL dry-run **open sites=0**：
 接受省略或补实现、段转移备注排除口径），之后才能跑 runtime/save/browser/remigration
 最终门禁。
 
+##### R13-6C 边界:敌方 0x68 分支与结构化毒模型(2026-08-05)
+
+按用户提醒,毒模型已在编辑器(PoisonTab)结构化到 `PoisonDef`
+(counters/lethalWith/ticks);原版实证「巫术下毒不带致死/相克检查」——
+lethalWith 仅投掷触发、counters 仅 use-on-self 触发。据此:
+
+- 352/372/373 敌方施法 overlay 已入 R13-6B 内容:`execution.enemy =
+  applyPoison(555/560)` 普通下毒(352 的 0x68→三尸蛊道具链按模型取普通语义,
+  不重实现 0x5D/0x2B/0x5F 链)。battle-core 敌方下毒保持普通 0x29(毒抗门),
+  测试钉住「巫术不致死/不相克」。
+- **R13-6A seal 防洗钱钉**:3 条 lossy(352/372/373)观察必须保持 open,disposition
+  不得闭合;关闭只能由新 successor authority(R13-6C)取代 6A seal 后实现。
+  当前 dry-run 仍 `open sites=0 / observations=8`(lossy=3 + setPalette=4 +
+  段转移备注=1),无回归。
+
 ##### R13-6B implementation review 交接提示词（下一位 Agent 可直接复制）
 
 ```text
