@@ -8,6 +8,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { isDeepStrictEqual } from 'node:util'
+import { PAL_CASUALTY_LOCALE_KEYS } from '../src/pal-casualty-scripts.js'
 import type {
   AssetCatalogV1,
   CurrentManifest,
@@ -485,15 +486,20 @@ function buildR13SixBMigration(
   if (casualtyActors === undefined || casualtyLocale === undefined)
     throw new Error('R13-6B raw migration 缺 B11-1 casualty 内容文件')
   files.set('content/actors.json', casualtyActors)
-  // locale 是 append-only:已发布 baseline 为准(authored/历史键),raw 只补新增的
-  // casualty 台词键(dlg.13470-13512),禁止用 raw 覆盖 baseline 键。
+  // locale 是 append-only:以已发布 baseline 的键序为底,只把 casualty 台词键
+  // (dlg.13470-13512)追加到末尾;禁止用 raw 覆盖/重排 baseline 键 —— rewind 才能
+  // 通过删除这 36 个键逐字节还原 6A locale。
   const baselineLocale = publishedBaseline.files.get('content/locale.json')
-  if (!baselineLocale)
+  if (!isRecord(baselineLocale) || !isRecord(casualtyLocale))
     throw new Error('R13-6B published baseline 缺 content/locale.json')
-  files.set('content/locale.json', {
-    ...(casualtyLocale as Record<string, unknown>),
-    ...(baselineLocale as Record<string, unknown>),
-  })
+  const mergedLocale: Record<string, unknown> = { ...baselineLocale }
+  for (const key of PAL_CASUALTY_LOCALE_KEYS) {
+    const value = casualtyLocale[key]
+    if (value === undefined)
+      throw new Error(`R13-6B raw migration 缺 casualty locale 键 ${key}`)
+    mergedLocale[key] = value
+  }
+  files.set('content/locale.json', mergedLocale)
   const loadSceneProfiles = applyPalR13SixBLoadSceneTransitions(files, raw.files)
   files = loadSceneProfiles.files
   const summary = Object.fromEntries(
@@ -531,6 +537,10 @@ function sameSnapshot(expected: MigrationSnapshot, actual: MigrationSnapshot, la
     )
       throw new Error(`${label}不符: ${path}`)
   }
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value)
 }
 
 interface R13ControlAuditSeal {

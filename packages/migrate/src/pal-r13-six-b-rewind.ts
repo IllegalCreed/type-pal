@@ -5,6 +5,7 @@ import {
 } from './migration-baseline.js'
 import type { MigrationJson } from './pal-migration.js'
 import { PAL_BLACK_SCREEN_TRANSACTION_EVIDENCE } from './pal-r13-six-b-overlays.js'
+import { PAL_CASUALTY_LOCALE_KEYS } from './pal-casualty-scripts.js'
 
 /**
  * R13-6B is an append-only successor, while the R13-6A source canary still needs to replay
@@ -222,6 +223,52 @@ function rewindSkillOverlay(snapshot: MigrationSnapshot): void {
   setRewoundFile(snapshot, 'content/skills.json', raw as MigrationJson)
 }
 
+/**
+ * B11-1 是 6B-owned 叶(actors.json + locale.json 增量)。把 content11 还原成 6A
+ * surface 时必须撤销:actors 删 coveredBy/casualty,locale 删 36 个 casualty 键。
+ * fail-closed:6B 形状漂移或作者编辑不得被静默当成旧权威。
+ */
+function rewindCasualtyOverlay(snapshot: MigrationSnapshot): void {
+  const actorsRaw = snapshot.files.get('content/actors.json')
+  const actors = structuredClone(actorsRaw)
+  if (!Array.isArray(actors))
+    throw new Error('R13-6B rewind: actors.json 形状无效')
+  let casualtyActors = 0
+  const byId = new Map<string, Record<string, unknown>>()
+  for (const entry of actors as unknown[]) {
+    if (!isRecord(entry)) throw new Error('R13-6B rewind: actors.json 条目无效')
+    if (typeof entry.id !== 'string') throw new Error('R13-6B rewind: actor id 非 string')
+    byId.set(entry.id, entry)
+  }
+  for (const actorId of ['li-xiaoyao', 'zhao-linger', 'lin-yueru', 'wu-hou', 'anu', 'gai-luojiao']) {
+    const actor = byId.get(actorId)
+    const battler = actor && isRecord(actor.battler) ? actor.battler : undefined
+    if (!battler) throw new Error(`R13-6B rewind: actor ${actorId} 缺 battler`)
+    if ('coveredBy' in battler) delete battler.coveredBy
+    if ('casualty' in battler) {
+      casualtyActors++
+      delete battler.casualty
+    }
+  }
+  const expectedCasualtyActors = 3 // 李逍遥/赵灵儿/林月如
+  if (casualtyActors !== expectedCasualtyActors)
+    throw new Error(`R13-6B rewind: casualty actor 命中 ${casualtyActors}，期望 ${expectedCasualtyActors}`)
+  setRewoundFile(snapshot, 'content/actors.json', actors as MigrationJson)
+
+  const localeRaw = snapshot.files.get('content/locale.json')
+  const locale = structuredClone(localeRaw)
+  if (!isRecord(locale)) throw new Error('R13-6B rewind: locale.json 形状无效')
+  let removed = 0
+  for (const key of PAL_CASUALTY_LOCALE_KEYS) {
+    if (!(key in locale)) throw new Error(`R13-6B rewind: 缺 casualty locale 键 ${key}`)
+    delete locale[key]
+    removed++
+  }
+  if (removed !== PAL_CASUALTY_LOCALE_KEYS.length)
+    throw new Error('R13-6B rewind: casualty locale 键数量漂移')
+  setRewoundFile(snapshot, 'content/locale.json', locale as MigrationJson)
+}
+
 export function rewindPalR13SixBPublication(source: MigrationSnapshot): MigrationSnapshot {
   const snapshot = cloneSnapshot(source)
   const transitions = rewindLoadSceneTransitions(snapshot)
@@ -232,6 +279,7 @@ export function rewindPalR13SixBPublication(source: MigrationSnapshot): Migratio
   for (const evidence of PAL_BLACK_SCREEN_TRANSACTION_EVIDENCE)
     rewindBlackScreenTransaction(snapshot, evidence.token, evidence.inMs)
   rewindSkillOverlay(snapshot)
+  rewindCasualtyOverlay(snapshot)
   return snapshot
 }
 

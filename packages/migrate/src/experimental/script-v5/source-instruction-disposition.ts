@@ -8,6 +8,7 @@ import type {
   ScriptIndexV1,
   SkillData,
 } from '@type-pal/content'
+import { ROLE_SLUGS } from '../../source-facts.js'
 import type { MigrationSnapshot } from '../../migration-baseline.js'
 import type { MigrationFileSet, MigrationJson, PalMigrationSources } from '../../pal-migration.js'
 import type { ScriptBodyAudit, ScriptControlFlowAuditV1 } from '../../script-control-flow-audit.js'
@@ -1479,6 +1480,28 @@ function successorDomainTarget(
     : exactSkillTarget(snapshot, objectId)
 }
 
+/** B11-1:final ActorDef.battler.casualty.<kind> 的精确 target(整个结构化脚本的 digest)。 */
+function exactActorCasualtyTarget(
+  snapshot: MigrationSnapshot,
+  actorId: string,
+  kind: 'friendDeath' | 'dying',
+): ExactLayerTargets | undefined {
+  // census 的 actor 根用源 OBJECT id(36..41 = 李逍遥..盖罗娇);final 用稳定 slug。
+  const roleIndex = Number(actorId) - 36
+  const slug =
+    Number.isInteger(roleIndex) && roleIndex >= 0 && roleIndex < ROLE_SLUGS.length
+      ? ROLE_SLUGS[roleIndex]
+      : undefined
+  if (!slug) return
+  const actors = value<import('@type-pal/content').ActorDef[]>(snapshot, 'content/actors.json')
+  const script = actors.find((actor) => actor.id === slug)?.battler?.casualty?.[kind]
+  if (!script) return
+  return {
+    selectors: [`content/actors.json#${slug}/casualty/${kind}`],
+    digests: [stableJsonSha256(script)],
+  }
+}
+
 function successorSourceRootDigest(
   census: R13SourceExecutionCensusV1,
   rootIds: readonly string[],
@@ -1531,6 +1554,14 @@ function r13SuccessorSourceEvidence(args: {
       if (target) domainRoots.get(`${domain}:${objectId}`)?.add(rootId)
       return target
     }
+    // B11-1:actor 伤亡脚本根(scriptOnFriendDeath/scriptOnDying)→ final casualty target。
+    const actorMatch = /^global\/actors\/([^/]+)\/(scriptOnFriendDeath|scriptOnDying)$/.exec(rootId)
+    if (actorMatch)
+      return exactActorCasualtyTarget(
+        args.successorFinal,
+        actorMatch[1]!,
+        actorMatch[2] === 'scriptOnFriendDeath' ? 'friendDeath' : 'dying',
+      )
     const sceneId = /^(s\d+)\//.exec(rootId)?.[1]
     const isBlackHold = command.op === 'raw' && command.opcode === 0x76
     const isGestureRedraw =

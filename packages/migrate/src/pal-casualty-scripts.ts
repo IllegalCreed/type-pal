@@ -31,6 +31,17 @@ const STAT_INDEX_TO_NAME = {
 
 type DialogStyle = CasualtyLine['style']
 
+/**
+ * B11-1 四个伤亡脚本的台词 messageIndex(P0 冻结;36 键)。
+ * 6A→6B rewind 靠它把 locale 精确还原成 6A surface;parse 结果必须与该集合逐键一致。
+ */
+export const PAL_CASUALTY_LOCALE_KEYS: readonly string[] = [
+  13470, 13471, 13472, 13473, 13474, 13475, 13476, 13477, 13478, 13479, 13480, 13481,
+  13482, 13483, 13484, 13485, 13486, 13487, 13488, 13489, 13490, 13491,
+  13499, 13500, 13501, 13502, 13503, 13504, 13505, 13506, 13507, 13508, 13509, 13510,
+  13511, 13512,
+].map((index) => `dlg.${index}`)
+
 function parseBranch(
   commands: readonly SourceCmd[],
   from: number,
@@ -158,5 +169,9 @@ export function applyPalCasualtyOverlays(
     casualty[kind] = script
     actor.battler = { ...actor.battler, casualty }
   }
+  const parsedKeys = Object.keys(locale).sort()
+  const expectedKeys = [...PAL_CASUALTY_LOCALE_KEYS].sort()
+  if (parsedKeys.length !== expectedKeys.length || parsedKeys.some((key, index) => key !== expectedKeys[index]))
+    throw new Error('B11-1 casualty: 台词 locale 键与 P0 冻结集合漂移')
   return { actors: output, locale }
 }

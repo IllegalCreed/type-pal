@@ -25,7 +25,7 @@
     {
       "path": "packages/migrate/baselines/pal/_state.json",
       "bytes": 73270,
-      "sha256": "2f44e97a4d0e118cdf34c6607fe94a49c5f52e33acca9a9cca0695c1d676a236"
+      "sha256": "b7cb41d370e174a77f389cd664fe917ebacb5a724014edf2b3644da1219498de"
     },
     {
       "path": "packages/migrate/baselines/pal/_transitions/c8-item-use-v5-v1.json",
@@ -80,7 +80,7 @@
     {
       "path": "packages/migrate/baselines/pal/content/locale.json",
       "bytes": 454649,
-      "sha256": "6311dca7d0d13ade88d93e7104a62251fd27d9a94772261fa7733b0b938ab08a"
+      "sha256": "97fe4c156763af3cc20d8ddf53f6cd346129633ed8388c461b07ac9c07638730"
     },
     {
       "path": "projects/pal/manifest.json",
@@ -123,7 +123,7 @@
       "selector": "all",
       "files": 322,
       "bytes": 63838305,
-      "sha256": "766dcaf0cab0253a380bd2d9bffa1e1314ced8c3a3ca28c049d77b4bd5235fd0"
+      "sha256": "517b0940e653c5b4ab102d7da1070c1dbb25b4b4b7b536e703f13f1e6684df96"
     },
     {
       "role": "project-prerequisite",
@@ -131,7 +131,7 @@
       "selector": "all",
       "files": 2418,
       "bytes": 153841161,
-      "sha256": "f78868b53c3486fa107ba6ce127918fa320b99059c7ce61600121be8f57ab50b"
+      "sha256": "b1fe8449e36cc6501941b8c76189f7d744f44d987dd59dd91673f981937eae19"
     },
     {
       "role": "generated-shadow",
@@ -146,8 +146,8 @@
       "root": "packages/migrate/src",
       "selector": "production-typescript",
       "files": 115,
-      "bytes": 2585899,
-      "sha256": "102341f27146af3e8850ccc6ba9b981ccf802e3c2d01bafc6f9afa39cd914b8a"
+      "bytes": 2591027,
+      "sha256": "115efd87205710981b4c1e9fe83e08c323c064747f214a262726ca78356de7f8"
     },
     {
       "role": "producer-code",

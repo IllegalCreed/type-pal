@@ -7408,6 +7408,25 @@ canonical 重生成后 R13-Z 真实 dry-run 重跑仍 fail-closed 于 `208 / 208
 source-backed trusted registry 对新证据族逐条对账通过；oracle 仅更新 migrate/src
 指纹。
 
+##### R13-Z actor-casualty 证据族（2026-08-05，B11-1 联动）
+
+B11-1 落地后新增 successor actor-casualty 证据（`global/actors/<objectId>/scriptOnFriendDeath|
+scriptOnDying` → final `ActorDef.battler.casualty.<kind>` target，objectId 36..41 映射
+ROLE_SLUGS），真实 PAL dry-run **open sites=0**：
+
+- 110 个 actor 站点全部闭合（36/38 friendDeath 各 29、37/38 dying 各 26）。
+- 剩余 open observations=8，全部为观察级决策/审计条目：
+  `lossy=3`（352/372/373 敌方 0x68 分支未表达）、`known-deferred:setPalette(0/2/5/6)`
+  ×4（Reforge 无逐场景调色板）、`引用目标含段转移` ×1（审计池备注）。
+- R13-6B rewind 同步撤销 B11-1 叶（actors coveredBy/casualty + locale 36 键），
+  6A parent content digest 保持；casualty overlay 与 coveredBy 迁移仅 6B successor
+  生成，历史/6A 生成保持发布形状。
+- locale 合并改为 append-only 键序（baseline 为底 + 36 键追加），rewind 可逐字节还原 6A。
+
+待办：8 条 observation 归零需用户裁决（敌方 0x68 分支实现或接受 lossy、setPalette
+接受省略或补实现、段转移备注排除口径），之后才能跑 runtime/save/browser/remigration
+最终门禁。
+
 ##### R13-6B implementation review 交接提示词（下一位 Agent 可直接复制）
 
 ```text

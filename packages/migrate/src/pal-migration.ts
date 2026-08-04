@@ -560,11 +560,24 @@ function buildPalMigrationWithEnemyAuthority(
       r13SixBExecution: options.r13SixBSourceSemantics,
     }),
   }
-  const casualtyOverlay = applyPalCasualtyOverlays(
-    migrated.actors,
-    sources.migrate.commands,
-    sources.objectPlayers,
-  )
+  // B11-1 casualty 是 6B successor 的叶:历史/6A 生成必须保持发布时形状,
+  // 否则 R13 enemy augmentation 的 parent content digest 会漂移。
+  const casualtyOverlay = options.r13SixBSourceSemantics
+    ? applyPalCasualtyOverlays(
+        migrated.actors,
+        sources.migrate.commands,
+        sources.objectPlayers,
+      )
+    : {
+        // coveredBy 是 B11-1 一起引入的 6B 叶;历史/6A 生成必须剥离,恢复发布时形状。
+        actors: migrated.actors.map((actor) => {
+          if (!actor.battler || actor.battler.coveredBy === undefined) return actor
+          const battler = { ...actor.battler }
+          delete battler.coveredBy
+          return { ...actor, battler }
+        }),
+        locale: {},
+      }
   const globalRoots = makeGlobalScriptRoots({
     items: sources.migrate.items.flatMap((item) => [
       item.scriptOnUse,
