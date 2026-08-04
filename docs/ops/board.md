@@ -15,7 +15,7 @@
 | W9 | 实体暂离、重现与明雷逃跑冷却 | draft | 先冻结精确状态机，再由 Kimi / GLM 设计审查 | 18b 二次真值核对补入 0x4B 手动确认、0x52 toggle、world-update pause、敌逃/terminate success；Codex 签字撤回 pending，未准入 build |
 | B10-1 | 混乱敌人攻击同伴 | draft | 先冻结语义空槽 schema，再由三方设计签字 | 18a 二次真值核对补入 confused 前废弃玩家抽样；二阶段已压掉 68/380 队源空槽，不能用活目标分布冒充 RNG 忠实，Codex 签字 pending |
 | JS1 | 酒神一生九次限用与移除（持久化计数器） | build | Codex 自验完成，交 Kimi / GLM 异步补审 | 用户 2026-08-04 拍板：扣 1 酒 + 剩余真气×8 清空 + 九次满移除并提示用尽；schema/save/战斗/迁移已落地，R13-Z 重跑仍 208/208 |
-| B11-1 | 队友阵亡/濒死战斗脚本（scriptOnFriendDeath/scriptOnDying） | draft | Codex 设计草案待 Kimi / GLM 三方签字 | 用户 2026-08-05 拍板按一阶段真值实现；同时补 coveredBy 迁移；R13-Z 剩余 110 actor 站点依赖此能力关闭 |
+| B11-1 | 队友阵亡/濒死战斗脚本（scriptOnFriendDeath/scriptOnDying） | build | Codex 实现（schema → 迁移 → battle-core → session → R13-Z 证据族），Kimi P1-P6 / GLM G1 为验收钉 | 2026-08-05 三方 agree 齐；按一阶段真值实现 + coveredBy 迁移；R13-Z 剩余 110 actor 站点依赖此能力关闭 |
 
 ## 阻塞
 
