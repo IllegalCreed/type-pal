@@ -1455,4 +1455,30 @@ describe('C8 战斗物品持久效果写回', () => {
     expect(world.skillUseCounts).toEqual({ li: { '370': 9 } })
     expect(world.learnedSkills.li).toEqual(['330'])
   })
+
+  test('B11-1 伤亡对话经横幅展示并暂停推进,空格后清除(P5)', () => {
+    const { session } = makeSession(mkEnemy('target'), {})
+    const internal = session as unknown as {
+      state: { casualtyDialogue?: { speakerRoleId: string; lines: { text: string; style: string }[] } }
+      choreoBanner: { name: string; text: string } | null
+    }
+    internal.state.casualtyDialogue = {
+      speakerRoleId: 'li',
+      lines: [
+        { text: 'dlg.13470', style: 'bottom' },
+        { text: 'dlg.13471', style: 'narration' },
+      ],
+    }
+    // 展示:横幅挂起,推进暂停
+    session.tick(16, new Set())
+    expect(internal.choreoBanner?.name).toBe('li')
+    expect(internal.choreoBanner?.text).toContain('dlg.13470')
+    expect(internal.state.casualtyDialogue).toBeDefined()
+    // 空格推进横幅
+    session.tick(16, new Set([' ']))
+    expect(internal.choreoBanner).toBeNull()
+    // 下一 tick 清引用,允许后续 sweep 再开
+    session.tick(16, new Set())
+    expect(internal.state.casualtyDialogue).toBeUndefined()
+  })
 })

@@ -315,6 +315,8 @@ export class BattleSession {
   private settleIdx = 0
   /** 胜利结算前与败/逃共路均会尝试写回；一次性门防止奖励结算后被旧快照覆盖。 */
   private persistentEffectsWritten = false
+  /** B11-1:当前伤亡对话是否已交给 dialogBox/横幅(防止同一 dialogue 反复重开)。 */
+  private casualtyDialogueShown = false
 
   constructor(
     players: CreatePlayerInput[],
@@ -629,6 +631,8 @@ export class BattleSession {
     this.pendingTerminal = null
     this.pendingHookActivations = []
     this.activeHook = null
+    this.state.casualtyDialogue = undefined
+    this.casualtyDialogueShown = false
     const abortError = new Error('BattleSession 已取消')
     abortError.name = 'AbortError'
     this.rejectDone(reason ?? abortError)
@@ -829,6 +833,9 @@ export class BattleSession {
       throw new Error('battle choreography 同一执行路径重复登记 terminal request')
     this.pendingTerminal = { phase, enemyFled }
     if (enemyFled) this.state.enemyFled = true
+    // B11-1 P5:终局不残留半段伤亡对话
+    this.state.casualtyDialogue = undefined
+    this.casualtyDialogueShown = false
     // 尚未激活的 hook 不属于当前 closure；terminal 后禁止新 activation。
     this.pendingHookActivations = []
   }
@@ -998,6 +1005,37 @@ export class BattleSession {
 
   private pumpScriptExecution(dtMs: number, pressed: ReadonlySet<string>): boolean {
     const box = this.assets.dialogBox
+    // B11-1:伤亡脚本台词经战斗内对话逐条展示,放完前暂停推进(P5)。
+    const casualty = this.state.casualtyDialogue
+    if (casualty && !this.casualtyDialogueShown) {
+      const speaker = this.nameOf(casualty.speakerRoleId)
+      if (box) {
+        box.open(
+          startDialogue({
+            id: '__casualty',
+            cues: casualty.lines.map((line) => ({
+              rows: [{ text: line.text }],
+              slot: line.style,
+            })),
+          }),
+          this.nowMs,
+        )
+      } else {
+        this.choreoBanner = {
+          name: speaker,
+          text: casualty.lines
+            .map((line) => lookupText(line.text, this.opts.locale ?? {}))
+            .join('\n'),
+        }
+      }
+      this.casualtyDialogueShown = true
+      return true
+    }
+    if (this.casualtyDialogueShown && !box?.active && !this.choreoBanner) {
+      // 对话放完(或横幅被空格清掉)→ 清引用,允许下一次 sweep 再开。
+      this.state.casualtyDialogue = undefined
+      this.casualtyDialogueShown = false
+    }
     if (box?.active) {
       if (pressed.has(' ') || pressed.has('Enter')) box.advance(this.nowMs)
       return true
