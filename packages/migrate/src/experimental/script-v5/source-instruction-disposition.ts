@@ -355,6 +355,18 @@ export type R13DispositionEvidence =
       >
     })
   | (SiteClosureEvidenceBase & {
+      kind: 'r13-item-unusable-use-site'
+      proves: 'structured'
+      itemId: string
+      channel: 'use'
+      sourceRootId: string
+      sourceClosureDigest: string
+      rawItemDigest: string
+      targetSelectors: string[]
+      targetDigests: string[]
+      layerTargets: { final: { selectors: string[]; digests: string[] } }
+    })
+  | (SiteClosureEvidenceBase & {
       kind: 'scene-semantic-repair'
       proves: 'structured'
       sceneId: string
@@ -524,6 +536,7 @@ export interface R13SourceInstructionDispositionV1 {
     finalDigest: string
     options?: {
       bindItemThrowSourceSites?: true
+      bindItemUnusableUseSourceSites?: true
       bindDomainProjectionSourceSites?: true
       bindOwnerSourceSites?: true
       bindSpriteActionSourceSites?: true
@@ -619,6 +632,7 @@ const EVIDENCE_KINDS: Record<
     'c8-site-repair',
     'c8-source-site',
     'r13-item-throw-site',
+    'r13-item-unusable-use-site',
     'scene-semantic-repair',
     'r13-cross-activation-site',
     'r13-confirm-site',
@@ -1438,12 +1452,16 @@ const R13_SUCCESSOR_SKILL_IDS = new Set([
   '303',
   '304',
   '305',
+  '314',
   '330',
   '334',
   '342',
   '344',
+  '352',
   '357',
   '370',
+  '372',
+  '373',
   '378',
   '380',
   '385',
@@ -1502,7 +1520,13 @@ function r13SuccessorSourceEvidence(args: {
       const field = domainMatch[3]!
       if (domain === 'item' && (objectId !== '141' || field !== 'scriptOnUse')) return
       if (domain === 'skill' && !R13_SUCCESSOR_SKILL_IDS.has(objectId)) return
-      if (domain === 'skill' && field !== 'scriptOnUse' && field !== 'scriptOnSuccess') return
+      if (
+        domain === 'skill' &&
+        field !== 'scriptOnUse' &&
+        field !== 'scriptOnSuccess' &&
+        field !== 'scriptDesc'
+      )
+        return
       const target = successorDomainTarget(args.successorFinal, domain, objectId)
       if (target) domainRoots.get(`${domain}:${objectId}`)?.add(rootId)
       return target
@@ -2329,6 +2353,107 @@ function r13ItemThrowSourceSiteEvidence(args: {
     }
   }
   for (const rootId of eligibleRootIds) args.openRoots.delete(rootId)
+  return result
+}
+
+/**
+ * R13-Z opt-in: `usable=false` 的投掷物,其 `scriptOnUse` 在运行时不可达 —— 使用菜单按
+ * `flags.usable` 过滤(battle-system.ts:1242 / item-select.ts),投掷只跑 `scriptOnThrow`
+ * (actions/throw-item.ts)。原版 use 脚本的效果语义由 C8/R13-3 折叠进 final `throw`
+ * capability(迷魂香/捆仙绳即此类)。证据绑定 raw item 身份 + final throw target;
+ * final 缺目标、目标漂移或 root 实际有 use capability 时 fail-closed。
+ */
+function r13ItemUnusableUseSourceSiteEvidence(args: {
+  sources: PalMigrationSources
+  final: MigrationSnapshot
+  census: R13SourceExecutionCensusV1
+  commands: readonly ExpandedSourceCmd[]
+  evidence: Map<string, R13DispositionEvidence>
+  openRoots: Map<string, OpenRoot>
+  excludedSiteIds: ReadonlySet<string>
+}): Map<string, ProjectionEvidence> {
+  const result = new Map<string, ProjectionEvidence>()
+  const contexts = contextById(args.census)
+  const rawItems = new Map(args.sources.migrate.items.map((item) => [String(item.id), item]))
+  const openRootEntries = [...args.openRoots.entries()].filter(
+    ([, root]) => root.reason === 'item-scriptOnUse-missing-final-target',
+  )
+  if (!openRootEntries.length) return result
+  for (const [sourceRootId, root] of openRootEntries) {
+    const parsed = sourceRootField(sourceRootId)
+    if (!parsed || parsed.domain !== 'items' || parsed.field !== 'scriptOnUse') continue
+    const rawItem = rawItems.get(parsed.objectId)
+    // 只有明确 usable=false 的投掷物才适用：use 路径被 flag 门关死，效果走 throw。
+    if (!rawItem || rawItem.flags.usable !== false || !rawItem.scriptOnUse) continue
+    const finalUse = exactItemCapabilityTarget(args.final, parsed.objectId, 'use')
+    const finalThrow = exactItemCapabilityTarget(args.final, parsed.objectId, 'throw')
+    if (finalUse || !finalThrow || finalThrow.digests.length !== 1) continue
+    const contextIds = new Set(
+      args.census.contexts
+        .filter((context) => context.entrySiteId === sourceRootId)
+        .map((context) => context.id),
+    )
+    if (!contextIds.size)
+      throw new Error(`R13 disposition: item unusable-use ${parsed.objectId} execution root 缺失`)
+    const sites = args.census.sites.filter(
+      (site) => contextIds.has(site.contextId) && !args.excludedSiteIds.has(site.id),
+    )
+    if (!sites.length) continue
+    const sourceDigest = sourceClosureDigest(args.census, sourceRootId)
+    const rawItemDigest = stableJsonSha256({
+      id: rawItem.id,
+      flags: rawItem.flags,
+      scriptOnUse: rawItem.scriptOnUse,
+    })
+    const remainingOpenRoots = new Map(
+      [...args.openRoots].filter(([rootId]) => rootId !== sourceRootId),
+    )
+    for (const site of sites) {
+      const context = contexts.get(site.contextId)
+      const instruction = args.census.instructions[site.address]
+      const command = args.commands[site.address]
+      if (!context || !instruction || !command || context.entrySiteId !== sourceRootId)
+        throw new Error(
+          `R13 disposition: item unusable-use ${parsed.objectId} site identity 缺失 ${site.id}`,
+        )
+      if (
+        openDebtForSite({
+          site,
+          context,
+          command,
+          openRoots: remainingOpenRoots,
+          exactClosures: new Set(),
+        })
+      )
+        continue
+      if (result.has(site.id))
+        throw new Error(`R13 disposition: item unusable-use site collision ${site.id}`)
+      const identity = {
+        siteId: site.id,
+        itemId: parsed.objectId,
+        channel: 'use' as const,
+        sourceRootId,
+        sourceClosureDigest: sourceDigest,
+        rawItemDigest,
+        targetSelectors: finalThrow.selectors,
+        targetDigests: finalThrow.digests,
+        appliesToLayers: ['final'] as R13DispositionLayer[],
+        layerTargets: { final: finalThrow },
+      }
+      const id = evidenceId('r13-item-unusable-use-site', identity)
+      addEvidence(args.evidence, {
+        id,
+        scope: 'site-closure',
+        kind: 'r13-item-unusable-use-site',
+        proves: 'structured',
+        contextId: site.contextId,
+        addresses: [site.address],
+        sourceCommandSha256: instruction.sourceCommandSha256,
+        ...identity,
+      })
+      result.set(site.id, { disposition: 'structured', evidenceId: id })
+    }
+  }
   return result
 }
 
@@ -4763,6 +4888,7 @@ function reportObservations(args: {
     const rootIds = [
       root('skills', objectId, 'scriptOnUse'),
       root('skills', objectId, 'scriptOnSuccess'),
+      root('skills', objectId, 'scriptDesc'),
     ]
     let proof = args.successorDomainObservations.get(`skill:${objectId}`)
     if (!postPendingSkills.has(objectId)) {
@@ -4796,6 +4922,7 @@ function reportObservations(args: {
     const rootIds = [
       root('skills', objectId, 'scriptOnUse'),
       root('skills', objectId, 'scriptOnSuccess'),
+      root('skills', objectId, 'scriptDesc'),
     ]
     const proof = args.successorDomainObservations.get(`skill:${objectId}`)
     if (proof) {
@@ -4986,6 +5113,8 @@ export interface R13SourceInstructionDispositionBuildArgs {
   bindIndirectEntityBodies?: boolean
   /** R13-Z opt-in: bind item scriptOnThrow sites to the audited R13-3 source roots. */
   bindItemThrowSourceSites?: boolean
+  /** R13-Z opt-in: bind usable=false item scriptOnUse sites to the final throw capability. */
+  bindItemUnusableUseSourceSites?: boolean
   /** R13-Z opt-in: bind non-pending global domain roots to their final domain target. */
   bindDomainProjectionSourceSites?: boolean
   /** R13-Z opt-in: bind scene/entity source roots to their IR owner allocations. */
@@ -5193,6 +5322,21 @@ function buildR13SourceInstructionDispositionInternal(
         excludedSiteIds: itemThrowExcludedSiteIds,
       })
     : new Map<string, ProjectionEvidence>()
+  const itemUnusableUseSourceSites = args.bindItemUnusableUseSourceSites
+    ? r13ItemUnusableUseSourceSiteEvidence({
+        sources: args.sources,
+        final: historicalFinal,
+        census,
+        commands: args.sources.migrate.commands as ExpandedSourceCmd[],
+        evidence,
+        openRoots: domain.openRoots,
+        excludedSiteIds: new Set([
+          ...c8ExcludedSiteIds,
+          ...c8SourceSites.keys(),
+          ...itemThrowSourceSites.keys(),
+        ]),
+      })
+    : new Map<string, ProjectionEvidence>()
   const domainSourceSites = args.bindDomainProjectionSourceSites
     ? r13DomainSourceSiteEvidence({
         projections: domain.projections,
@@ -5203,6 +5347,7 @@ function buildR13SourceInstructionDispositionInternal(
           ...c8ExcludedSiteIds,
           ...c8SourceSites.keys(),
           ...itemThrowSourceSites.keys(),
+          ...itemUnusableUseSourceSites.keys(),
           ...successorClosure.sites.keys(),
         ]),
       })
@@ -5217,6 +5362,7 @@ function buildR13SourceInstructionDispositionInternal(
           ...c8ExcludedSiteIds,
           ...c8SourceSites.keys(),
           ...itemThrowSourceSites.keys(),
+          ...itemUnusableUseSourceSites.keys(),
           ...successorClosure.sites.keys(),
           ...domainSourceSites.keys(),
         ]),
@@ -5235,6 +5381,7 @@ function buildR13SourceInstructionDispositionInternal(
           ...c8ExcludedSiteIds,
           ...c8SourceSites.keys(),
           ...itemThrowSourceSites.keys(),
+          ...itemUnusableUseSourceSites.keys(),
           ...domainSourceSites.keys(),
           ...inertTriggerSourceSites.keys(),
           ...successorClosure.sites.keys(),
@@ -5255,6 +5402,7 @@ function buildR13SourceInstructionDispositionInternal(
     callOwners,
     c8SourceSites,
     itemThrowSourceSites,
+    itemUnusableUseSourceSites,
     domainSourceSites,
     inertTriggerSourceSites,
     ownerSourceSites,
@@ -5486,12 +5634,16 @@ function buildR13SourceInstructionDispositionInternal(
       }),
       finalDigest: finalSnapshotDigest,
       ...(args.bindItemThrowSourceSites ||
+      args.bindItemUnusableUseSourceSites ||
       args.bindDomainProjectionSourceSites ||
       args.bindOwnerSourceSites ||
       args.bindSpriteActionSourceSites
         ? {
             options: {
               ...(args.bindItemThrowSourceSites ? { bindItemThrowSourceSites: true as const } : {}),
+              ...(args.bindItemUnusableUseSourceSites
+                ? { bindItemUnusableUseSourceSites: true as const }
+                : {}),
               ...(args.bindDomainProjectionSourceSites
                 ? { bindDomainProjectionSourceSites: true as const }
                 : {}),
@@ -5616,12 +5768,16 @@ function assertR13SourceInstructionDispositionBacked(
     }),
     finalDigest: finalSnapshotDigest,
     ...(source.bindItemThrowSourceSites ||
+    source.bindItemUnusableUseSourceSites ||
     source.bindDomainProjectionSourceSites ||
     source.bindOwnerSourceSites ||
     source.bindSpriteActionSourceSites
       ? {
           options: {
             ...(source.bindItemThrowSourceSites ? { bindItemThrowSourceSites: true as const } : {}),
+            ...(source.bindItemUnusableUseSourceSites
+              ? { bindItemUnusableUseSourceSites: true as const }
+              : {}),
             ...(source.bindDomainProjectionSourceSites
               ? { bindDomainProjectionSourceSites: true as const }
               : {}),
@@ -6035,6 +6191,20 @@ function assertR13SourceInstructionDispositionBacked(
           excludedSiteIds: new Set([...trustedBaseExcludedSiteIds, ...trustedC8SourceSites.keys()]),
         })
       : new Map<string, ProjectionEvidence>()
+    if (source.bindItemUnusableUseSourceSites)
+      r13ItemUnusableUseSourceSiteEvidence({
+        sources: source.sources,
+        final: historicalFinal,
+        census: report.census,
+        commands: source.sources.migrate.commands as ExpandedSourceCmd[],
+        evidence: trustedSiteEvidence,
+        openRoots: domain.openRoots,
+        excludedSiteIds: new Set([
+          ...trustedBaseExcludedSiteIds,
+          ...trustedC8SourceSites.keys(),
+          ...trustedItemThrowSites.keys(),
+        ]),
+      })
     r13DomainSourceSiteEvidence({
       projections: domain.projections,
       evidence: trustedSiteEvidence,
@@ -6064,6 +6234,42 @@ function assertR13SourceInstructionDispositionBacked(
       evidence: trustedSiteEvidence,
       openRoots: trustedDomain.openRoots,
       excludedSiteIds: new Set([...trustedBaseExcludedSiteIds, ...trustedC8SourceSites.keys()]),
+    })
+  }
+  if (source.bindItemUnusableUseSourceSites) {
+    const trustedDomain = domainProjectionEvidence({
+      sources: source.sources,
+      migration: source.migration,
+      final: historicalFinal,
+      census: report.census,
+      evidence: new Map(),
+    })
+    const trustedItemThrowSites = source.bindItemThrowSourceSites
+      ? r13ItemThrowSourceSiteEvidence({
+          generated: source.generated,
+          final: historicalFinal,
+          census: report.census,
+          commands: source.sources.migrate.commands as ExpandedSourceCmd[],
+          evidence: trustedSiteEvidence,
+          openRoots: trustedDomain.openRoots,
+          excludedSiteIds: new Set([
+            ...trustedBaseExcludedSiteIds,
+            ...trustedC8SourceSites.keys(),
+          ]),
+        })
+      : new Map<string, ProjectionEvidence>()
+    r13ItemUnusableUseSourceSiteEvidence({
+      sources: source.sources,
+      final: historicalFinal,
+      census: report.census,
+      commands: source.sources.migrate.commands as ExpandedSourceCmd[],
+      evidence: trustedSiteEvidence,
+      openRoots: trustedDomain.openRoots,
+      excludedSiteIds: new Set([
+        ...trustedBaseExcludedSiteIds,
+        ...trustedC8SourceSites.keys(),
+        ...trustedItemThrowSites.keys(),
+      ]),
     })
   }
   if (source.bindOwnerSourceSites) {
@@ -6323,6 +6529,7 @@ function assertR13SourceInstructionDispositionInternal(
       Object.keys(generatorOptions).some(
         (key) =>
           key !== 'bindItemThrowSourceSites' &&
+          key !== 'bindItemUnusableUseSourceSites' &&
           key !== 'bindDomainProjectionSourceSites' &&
           key !== 'bindOwnerSourceSites' &&
           key !== 'bindSpriteActionSourceSites',
@@ -6778,6 +6985,39 @@ function assertR13SourceInstructionDispositionInternal(
           throw new Error(`R13 disposition: evidence ${entry.id} target digest 无效`)
       if (!entry.layerTargets.final || !sameExactTargets(augmented, entry.layerTargets.final))
         throw new Error(`R13 disposition: evidence ${entry.id} final item throw target 漂移`)
+    }
+    if (entry.kind === 'r13-item-unusable-use-site') {
+      const site = sites.get(entry.siteId)
+      const context = site ? contexts.get(site.contextId) : undefined
+      const instruction = site ? report.census.instructions[site.address] : undefined
+      const finalTarget = entry.layerTargets.final
+      if (
+        !site ||
+        !context ||
+        !instruction ||
+        entry.contextId !== site.contextId ||
+        entry.addresses.length !== 1 ||
+        entry.addresses[0] !== site.address ||
+        entry.sourceCommandSha256 !== instruction.sourceCommandSha256 ||
+        entry.channel !== 'use' ||
+        !/^\d+$/.test(entry.itemId) ||
+        entry.sourceRootId !== `global/items/${entry.itemId}/scriptOnUse` ||
+        context.entrySiteId !== entry.sourceRootId ||
+        !/^[0-9a-f]{64}$/.test(entry.sourceClosureDigest) ||
+        !/^[0-9a-f]{64}$/.test(entry.rawItemDigest) ||
+        !entry.appliesToLayers.includes('final') ||
+        entry.appliesToLayers.includes('raw') ||
+        entry.appliesToLayers.includes('augmented') ||
+        entry.targetSelectors.length !== entry.targetDigests.length ||
+        !finalTarget ||
+        stableJsonSha256(finalTarget.selectors) !== stableJsonSha256(entry.targetSelectors) ||
+        stableJsonSha256(finalTarget.digests) !== stableJsonSha256(entry.targetDigests)
+      )
+        throw new Error(`R13 disposition: evidence ${entry.id} item unusable-use identity 漂移`)
+      assertSortedUniqueStrings(entry.targetSelectors, `evidence ${entry.id} selectors`)
+      for (const digest of entry.targetDigests)
+        if (!/^[0-9a-f]{64}$/.test(digest))
+          throw new Error(`R13 disposition: evidence ${entry.id} target digest 无效`)
     }
     if (entry.kind === 'folded-hostile-site') {
       const site = sites.get(entry.siteId)

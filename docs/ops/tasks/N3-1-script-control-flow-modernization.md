@@ -7385,6 +7385,28 @@ dry-run source=0 后再依次执行 runtime、save、browser、全量重迁双�
 canonical 重生成后 R13-Z 真实 dry-run 重跑仍 fail-closed 于 `208 / 208`，无回归；
 370 的 4 个 lossy 站点仍需 successor-domain 证据绑定，未随本次字段新增自动关闭。
 
+##### R13-Z skill/item 源债务闭包（2026-08-04，工作树未提交）
+
+新增/扩展两类证据后，真实 PAL dry-run 从 `208 sites / 208 observations` 降至
+**`110 sites / 118 observations`**：
+
+- `R13_SUCCESSOR_SKILL_IDS` 扩入 314/352/372/373，并把 R13-6B successor site evidence
+  放开到 `scriptDesc` 根：92 个 skill 站点（pending 62 + lossy 30）全部闭合。
+- 新增 `r13-item-unusable-use-site` 证据族（`bindItemUnusableUseSourceSites` 门控）：
+  `usable=false` 投掷物的 `scriptOnUse` 运行时不可达（菜单按 flags.usable 过滤，投掷跑
+  scriptOnThrow；一阶段 battle-system.ts:1242 / actions/throw-item.ts 真值），效果语义由
+  final `throw` capability 承载；6 个 item 站点（135 迷魂香 / 160 捆仙绳）闭合。
+- 剩余 110 sites 全部为 `unclassified-reachable-source-site`：actors 36/38
+  scriptOnFriendDeath 各 29、37/38 scriptOnDying 各 26 —— 二阶段缺失战斗“队友阵亡
+  援护台词+增益 / 濒死对白”机制，需开新能力卡（用户裁决）。
+- 剩余 open observations=118：110 unclassified + 3 lossy（352/372/373 敌方 0x68 分支
+  刻意保留）+ 4 known-deferred setPalette（Reforge 无逐场景调色板，Kimi 审计）+ 1
+  引用目标含段转移审计池。后 8 条为观察级决策/审计条目，需用户裁决或明确排除口径。
+
+验证：migrate typecheck + fast 76/562 全绿；r13-z authority 单测 4/4；
+source-backed trusted registry 对新证据族逐条对账通过；oracle 仅更新 migrate/src
+指纹。
+
 ##### R13-6B implementation review 交接提示词（下一位 Agent 可直接复制）
 
 ```text

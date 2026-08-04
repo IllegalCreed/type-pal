@@ -17,6 +17,7 @@ function buildArgs(
     final: undefined as never,
     bindIndirectEntityBodies: true,
     bindItemThrowSourceSites: false,
+    bindItemUnusableUseSourceSites: true,
     bindDomainProjectionSourceSites: true,
     bindOwnerSourceSites: true,
     bindSpriteActionSourceSites: true,
@@ -72,6 +73,7 @@ describe('R13-Z append-only publication authority', () => {
         finalDigest: 'e'.repeat(64),
         options: {
           bindItemThrowSourceSites: true as const,
+          bindItemUnusableUseSourceSites: true as const,
           bindDomainProjectionSourceSites: true as const,
           bindOwnerSourceSites: true as const,
           bindSpriteActionSourceSites: true as const,

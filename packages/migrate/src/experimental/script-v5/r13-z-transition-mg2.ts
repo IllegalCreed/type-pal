@@ -42,6 +42,7 @@ interface R13ZSourceControlV1 {
   finalDigest: string
   options: {
     bindItemThrowSourceSites: true
+    bindItemUnusableUseSourceSites: true
     bindDomainProjectionSourceSites: true
     bindOwnerSourceSites: true
     bindSpriteActionSourceSites: true
@@ -189,6 +190,7 @@ function sourceControl(
   const options = report.generator.options
   if (
     options?.bindItemThrowSourceSites !== true ||
+    options?.bindItemUnusableUseSourceSites !== true ||
     options?.bindDomainProjectionSourceSites !== true ||
     options?.bindOwnerSourceSites !== true ||
     options?.bindSpriteActionSourceSites !== true
@@ -208,6 +210,7 @@ function sourceControl(
     finalDigest: report.generator.finalDigest,
     options: {
       bindItemThrowSourceSites: true,
+      bindItemUnusableUseSourceSites: true,
       bindDomainProjectionSourceSites: true,
       bindOwnerSourceSites: true,
       bindSpriteActionSourceSites: true,
@@ -254,6 +257,8 @@ export function prepareR13ZAuthority(args: {
 }): PreparedR13ZAuthority {
   if (args.sourceDispositionBuild.bindItemThrowSourceSites !== true)
     throw new Error('R13-Z MG2: authority 必须显式开启 bindItemThrowSourceSites')
+  if (args.sourceDispositionBuild.bindItemUnusableUseSourceSites !== true)
+    throw new Error('R13-Z MG2: authority 必须显式开启 bindItemUnusableUseSourceSites')
   if (args.sourceDispositionBuild.bindDomainProjectionSourceSites !== true)
     throw new Error('R13-Z MG2: authority 必须显式开启 bindDomainProjectionSourceSites')
   if (args.sourceDispositionBuild.bindOwnerSourceSites !== true)
@@ -294,6 +299,7 @@ function assertPreparedAuthority(
     throw new Error('R13-Z MG2: prepared runtime 输入身份漂移')
   if (
     authority.sourceDisposition.generator.options?.bindItemThrowSourceSites !== true ||
+    authority.sourceDisposition.generator.options?.bindItemUnusableUseSourceSites !== true ||
     authority.sourceDisposition.generator.options?.bindDomainProjectionSourceSites !== true ||
     authority.sourceDisposition.generator.options?.bindOwnerSourceSites !== true ||
     authority.sourceDisposition.generator.options?.bindSpriteActionSourceSites !== true

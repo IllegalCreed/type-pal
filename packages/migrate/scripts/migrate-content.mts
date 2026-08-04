@@ -399,6 +399,7 @@ async function runR13ZTransition(manifestText: string, write: boolean): Promise<
     preparedSourceCensus: preparedHistoricalSourceCensus,
     bindIndirectEntityBodies: true,
     bindItemThrowSourceSites: true,
+    bindItemUnusableUseSourceSites: true,
     bindDomainProjectionSourceSites: true,
     bindOwnerSourceSites: true,
     bindSpriteActionSourceSites: true,
