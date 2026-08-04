@@ -1,6 +1,7 @@
 import type { EnemyDef, SkillData } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { type CreatePlayerInput, createBattleState, stepBattle } from './battle-core.js'
+import { expectDefined } from '../defined.js'
 
 const rng0 = () => 0
 
@@ -237,5 +238,72 @@ describe('R13-6B 酒神剩余真气结算', () => {
     expect(hostile.players[0]!.mp).toBe(30)
     expect(hostile.inventory).toEqual([{ itemId: '86', count: 1 }])
     expect(hostile.players[0]!.hp).toBeLessThan(100)
+  })
+})
+
+describe('酒神一生限用 9 次（满 9 移除技能 + 提示用尽）', () => {
+  const limited = skill('370', {
+    name: '酒神',
+    cost: { mp: 1, items: [{ itemId: '86', amount: 1 }] },
+    lifetimeLimit: 9,
+    target: 'allEnemies',
+    effects: [],
+    execution: {
+      player: {
+        prepare: [
+          { kind: 'remainingResourceDamage', resource: 'mp', multiplier: 8, consume: 'all' },
+        ],
+      },
+    },
+  })
+
+  function castWithCounts(counts: Record<string, number>, wine = 1, mp = 30) {
+    const state = createBattleState({
+      players: [player({ mp, maxMp: Math.max(100, mp), skills: [limited.id] })],
+      enemies: [enemy('target')],
+      skills: { [limited.id]: limited },
+      inventory: wine > 0 ? [{ itemId: '86', count: wine }] : [],
+      skillUseCounts: { hero: counts },
+    })
+    stepBattle(state, rng0)
+    state.pendingActions.set(0, { kind: 'cast', skillId: limited.id, targetEnemyIdx: 0 })
+    finishTurn(state)
+    return state
+  }
+
+  test('连续 9 次成功施放：第 9 次入账 usesAfter=9、removed=true 并提示用尽', () => {
+    let counts: Record<string, number> = {}
+    let final: ReturnType<typeof castWithCounts> | undefined
+    for (let i = 0; i < 9; i++) {
+      final = castWithCounts(counts)
+      counts = final.skillUseCounts.hero!
+    }
+    expect(counts['370']).toBe(9)
+    const skillUse = expectDefined(
+      final!.pendingWorldMutations.find((m) => m.kind === 'skillUse'),
+    )
+    expect(skillUse).toMatchObject({
+      kind: 'skillUse',
+      characterId: 'hero',
+      skillId: '370',
+      usesAfter: 9,
+      removed: true,
+    })
+    expect(final!.log.some((line) => line.includes('使用次数已用尽，技能已移除'))).toBe(true)
+    expect(final!.inventory).toEqual([{ itemId: '86', count: 0 }])
+  })
+
+  test('第 10 次（计数已满 9）在消耗前被拦截：不扣 MP/酒、无 mutation', () => {
+    const state = castWithCounts({ 370: 9 })
+    expect(state.players[0]!.mp).toBe(30)
+    expect(state.inventory).toEqual([{ itemId: '86', count: 1 }])
+    expect(state.pendingWorldMutations.some((m) => m.kind === 'skillUse')).toBe(false)
+    expect(state.log.some((line) => line.includes('使用次数已用尽'))).toBe(true)
+  })
+
+  test('酒不足的失败施放不计数', () => {
+    const state = castWithCounts({ 370: 8 }, 0)
+    expect(state.skillUseCounts.hero!['370']).toBe(8)
+    expect(state.pendingWorldMutations.some((m) => m.kind === 'skillUse')).toBe(false)
   })
 })

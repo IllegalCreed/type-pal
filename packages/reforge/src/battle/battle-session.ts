@@ -345,6 +345,8 @@ export class BattleSession {
       poisonDefs?: Record<number, import('@type-pal/content').PoisonDef>
       /** 入战金钱快照(乾坤一掷/铜钱镖消耗基数;缺省 0 = 金钱技选单置灰)。 */
       money?: number
+      /** 技能一生限用计数(characterId → skillId → 已用次数;缺省空 = 未用过)。 */
+      skillUseCounts?: Record<string, Record<string, number>>
       /** 自动战斗(0x8A;玩家侧 AI 代打,不出指令菜单 —— 石长老过场战)。 */
       auto?: boolean
       /** 首领战(原版 0x07 fIsBoss=!op2):不可逃;壳层另用于胜利曲 2/结算时长。 */
@@ -381,6 +383,7 @@ export class BattleSession {
       fieldEffect: opts.fieldEffect,
       poisonDefs: opts.poisonDefs,
       money: opts.money,
+      skillUseCounts: opts.skillUseCounts,
     })
     this.done = new Promise((res, rej) => {
       this.resolveDone = res
@@ -2392,6 +2395,20 @@ export class BattleSession {
         case 'hostileAwareness':
           world.hostileAwareness = { ...mutation.value }
           break
+        case 'skillUse': {
+          const counts = (world.skillUseCounts ??= {})
+          counts[mutation.characterId] ??= {}
+          counts[mutation.characterId]![mutation.skillId] = mutation.usesAfter
+          if (mutation.removed) {
+            const learned = world.learnedSkills[mutation.characterId]
+            if (learned) {
+              const next = learned.filter((id) => id !== mutation.skillId)
+              if (next.length !== learned.length)
+                world.learnedSkills[mutation.characterId] = next
+            }
+          }
+          break
+        }
       }
     }
   }

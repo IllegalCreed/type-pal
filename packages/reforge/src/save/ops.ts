@@ -120,6 +120,7 @@ export function normalizePayloadV4Envelope(
   w.party ??= []
   w.money ??= 0
   w.learnedSkills ??= {}
+  w.skillUseCounts ??= {}
   w.inventory ??= []
   normalizeAudioState(p, options)
   normalizeAppearancePortraits(p, options)

@@ -7357,6 +7357,34 @@ projection 未变；最终 `test:fast` 为 `76 files / 561 passed / 5 skipped`�
 均不得标记完成。下一步继续按 source report 原因分组，为剩余 4,947/4,489 补精确证据，直到
 dry-run source=0 后再依次执行 runtime、save、browser、全量重迁双跑门禁。
 
+##### R13-Z domain/owner/sprite-action 闭包 dry-run（2026-08-04，工作树未提交）
+
+对工作树新增的 `bindDomainProjectionSourceSites` / `bindOwnerSourceSites` /
+`bindSpriteActionSourceSites` 三类闭包跑真实 PAL dry-run（`migrate:content -- --r13-z`，
+无 `--write`，无写盘）：
+
+- open debt 从 `4,947 sites / 4,489 observations` 降至 **`208 / 208`**，本轮净关闭
+  `4,739 / 4,281`。
+- 剩余按 site reason：`unclassified-reachable-source-site=110`（actors 36/38
+  scriptOnFriendDeath 各 29、37/38 scriptOnDying 各 26）、`skill-pending=62`
+  （352/372/373/330/334）、`skill-lossy-without-user-decision=30`
+  （314/344/370/394 scriptDesc 各 4、303/304/305/392 scriptDesc 各 3）、
+  `item-scriptOnUse-missing-final-target=6`（items 135/160）。
+- observation 其余：`lossy=3`、`translation-note:known-deferred:setPalette(0/2/5/6)` 各 1、
+  `translation-note:引用目标含段转移(按 end 处理)` 1。
+- dry-run 按预期 fail-closed（exit 1），未写盘；CLI 起始 `[R13-6B loadScene profile]
+  applied=0 already=871 skipped=0` 正常。
+- 结论：source gate 仍未闭合，不能生成 R13-Z seal。剩余 208 中 skill-pending /
+  skill-lossy-without-user-decision 属决策型债务（含 352/372/373 的 enemy 0x68 分支未表达，
+  见 `source-instruction-disposition.ts:4790-4830`），需先补齐证据或请用户裁决；
+  unclassified 110 与 item missing-final-target 6 继续按 reason 分组销账。全部归零后再依次
+  执行 runtime、save、browser、全量重迁双跑门禁。
+
+追加（2026-08-04，用户拍板 JS1）：酒神 370 新增 `lifetimeLimit: 9` + 持久化
+`skillUseCounts` + 满 9 移除技能（见 `docs/ops/tasks/JS1-jiu-shen-nine-use-limit.md`）。
+canonical 重生成后 R13-Z 真实 dry-run 重跑仍 fail-closed 于 `208 / 208`，无回归；
+370 的 4 个 lossy 站点仍需 successor-domain 证据绑定，未随本次字段新增自动关闭。
+
 ##### R13-6B implementation review 交接提示词（下一位 Agent 可直接复制）
 
 ```text

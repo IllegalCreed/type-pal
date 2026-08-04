@@ -2451,6 +2451,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
           fieldEffect: fieldDef?.magicEffect,
           poisonDefs: project.poisonsById,
           money: world.money, // 乾坤一掷/铜钱镖消耗基数(战内 delta 战后统一入账)
+          skillUseCounts: world.skillUseCounts, // 一生限用计数(酒神 9 次;战后经 mutation 回写)
           // 战斗演出来源(二阶段 clean):遭遇专属(startBattle.choreography,boss 战剧情台词)优先;
           // 缺省回落敌种 def.choreography(随机遇敌固有台词 —— 无 scene 遭遇挂点的敌种)。
           // boss/杂兵混的敌种(胖苗)对话迁到 boss startBattle 且从 def 删,故杂兵场回落为空 = 不串戏。

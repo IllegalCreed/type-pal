@@ -130,6 +130,9 @@ export interface SkillData {
   target: SkillTarget
   effects: SkillEffect[] // 做什么(有序;核心)。元素属于 damage 效果,不放顶层
   animation: SkillAnimation
+  /** 一生/全周目限用次数(原版酒神 9 次):达到后从角色习得列表移除并提示次数用尽。
+   *  缺省 = 不限。计数器持久化在 WorldState.skillUseCounts。 */
+  lifetimeLimit?: number
   /** 施放者侧覆写；缺席时沿用顶层公共链。仅属于一次施法，不进入世界态/存档。 */
   execution?: {
     player?: SkillExecutionOverride

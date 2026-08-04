@@ -14,6 +14,7 @@ type PalSkillExecutionOverlay = {
   cost?: SkillData['cost']
   animation?: Partial<SkillData['animation']>
   execution?: SkillData['execution']
+  lifetimeLimit?: SkillData['lifetimeLimit']
 }
 
 const PAL_SKILL_EXECUTION_OVERLAYS: Readonly<Record<string, PalSkillExecutionOverlay>> = {
@@ -58,10 +59,13 @@ const PAL_SKILL_EXECUTION_OVERLAYS: Readonly<Record<string, PalSkillExecutionOve
     },
   },
 
-  // 酒神：原版 scriptOnUse 先扣 1 个酒，再按剩余酒量 × 8 直接扣敌方 HP。
+  // 酒神：原版 scriptOnUse 先扣 1 个酒(0x20 RemoveItem)，再按剩余真气 × 8 直接扣敌方
+  // HP(0x57 set magic damage by MP)并清空真气。一生只能使用 9 次：第 9 次成功后移除
+  // 技能并提示“酒神咒使用次数已用尽”（原版脚本 0x56 RemoveMagic + dlg.13366）。
   // summon 只保留在玩家分支的 effects，避免再叠加占位 damage=3。
   '370': {
     cost: { mp: 1, items: [{ itemId: '86', amount: 1 }] },
+    lifetimeLimit: 9,
     execution: {
       player: {
         prepare: [
@@ -186,6 +190,9 @@ export function applyPalSkillOverlays(
               ...structuredClone(executionOverlay.animation),
             },
           }
+        : {}),
+      ...(executionOverlay.lifetimeLimit !== undefined
+        ? { lifetimeLimit: executionOverlay.lifetimeLimit }
         : {}),
       ...(executionOverlay.execution
         ? {

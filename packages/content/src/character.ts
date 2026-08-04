@@ -23,6 +23,9 @@ export interface WorldState {
   money: number // 金钱(跟存档走;demo 内存构造 = 0)
   /** 习得仙术关系表:charInstanceId → skillId[]。独立表(非内嵌 CharacterInstance),解耦 + MMO 玩家私有留口。 */
   learnedSkills: Record<string, string[]>
+  /** 技能一生限用计数(如酒神 9 次):charInstanceId → skillId → 已用次数。
+   *  达到 SkillData.lifetimeLimit 后从 learnedSkills 移除该技能。旧档缺省 → 空。 */
+  skillUseCounts?: Record<string, Record<string, number>>
   /** 持有物品(跟存档):itemId → 数量。穿戴中的不在此(在 CharacterInstance.equipment)。 */
   inventory: { itemId: string; count: number }[]
   /** W6 氛围(昼夜):全局单值,照原版 fNightPalette 语义 —— 只被脚本 setAmbience 改、

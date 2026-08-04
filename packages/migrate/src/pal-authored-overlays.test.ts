@@ -82,6 +82,7 @@ describe('PAL 已审计内容 overlay', () => {
     expect(frozen.find((skill) => skill.id === '303')?.execution).toBeUndefined()
     expect(frozen.find((skill) => skill.id === '330')?.animation.preShake).toBeUndefined()
     expect(frozen.find((skill) => skill.id === '370')?.cost.items).toBeUndefined()
+    expect(frozen.find((skill) => skill.id === '370')?.lifetimeLimit).toBeUndefined()
 
     const out = applyPalSkillOverlays(source, { r13SixBExecution: true })
     const byId = new Map(out.map((skill) => [skill.id, skill]))
@@ -116,6 +117,7 @@ describe('PAL 已审计内容 overlay', () => {
       { kind: 'resourceDelta', resource: 'hp', delta: -1 },
     ])
     expect(byId.get('370')?.cost.items).toEqual([{ itemId: '86', amount: 1 }])
+    expect(byId.get('370')?.lifetimeLimit).toBe(9)
     expect(byId.get('370')?.execution?.player?.prepare).toEqual([
       { kind: 'remainingResourceDamage', resource: 'mp', multiplier: 8, consume: 'all' },
     ])

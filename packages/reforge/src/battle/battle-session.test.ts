@@ -1415,4 +1415,44 @@ describe('C8 战斗物品持久效果写回', () => {
     expect(character.exp).toBe(42)
     expect(character.maxHP).toBe(113)
   })
+
+  test('skillUse mutation 写回：计数持久化 + 满限从 learnedSkills 移除', () => {
+    const { session } = makeSession(mkEnemy('target'), {})
+    const internal = session as unknown as {
+      state: { pendingWorldMutations: BattleWorldMutation[] }
+    }
+    internal.state.pendingWorldMutations.push({
+      kind: 'skillUse',
+      characterId: 'li',
+      skillId: '370',
+      usesAfter: 9,
+      removed: true,
+    })
+    const character: CharacterInstance = {
+      id: 'li',
+      template: 'li',
+      level: 10,
+      exp: 0,
+      hp: 100,
+      maxHP: 100,
+      mp: 30,
+      maxMP: 30,
+      attack: 40,
+      defense: 30,
+      magicAttack: 20,
+      speed: 50,
+      luck: 20,
+      equipment: {},
+      tags: [],
+    }
+    const world: WorldState = {
+      party: [character],
+      money: 0,
+      learnedSkills: { li: ['370', '330'] },
+      inventory: [],
+    }
+    session.writeBackPersistentEffects(world)
+    expect(world.skillUseCounts).toEqual({ li: { '370': 9 } })
+    expect(world.learnedSkills.li).toEqual(['330'])
+  })
 })

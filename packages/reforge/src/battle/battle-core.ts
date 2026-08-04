@@ -139,6 +139,17 @@ export type BattleWorldMutation =
       kind: 'hostileAwareness'
       value: { rangeMultiplier: 0 | 3; remainingMs: number }
     }
+  | {
+      /**
+       * 技能一生限用计数(酒神 9 次):成功施放后入账;removed = 达到
+       * SkillData.lifetimeLimit,须从角色 learnedSkills 移除该技能。
+       */
+      kind: 'skillUse'
+      characterId: string
+      skillId: string
+      usesAfter: number
+      removed: boolean
+    }
 
 /** buffStat 可增益属性 → BattlePlayerState 字段映射(0x30;magic=法力,dexterity=身法)。 */
 const STAT_BUFF_FIELD = {
@@ -218,6 +229,8 @@ export interface BattleState {
   moneyDelta: number
   /** 建态金钱快照(乾坤一掷 min(钱,5000) 上限、铜钱镖 500 门槛;可用金 = money + moneyDelta)。 */
   money: number
+  /** 技能一生限用计数副本(characterId → skillId → 已用次数;入账经 skillUse mutation 回写)。 */
+  skillUseCounts: Record<string, Record<string, number>>
   /** 最近一步已结算的行动(表现层读:音效/动画时机;每次 perform*Action 覆写)。 */
   lastAction: {
     side: 'player' | 'enemy'
@@ -299,6 +312,8 @@ export interface CreateBattleInput {
   poisonDefs?: Record<number, PoisonDef>
   /** 入战金钱快照(乾坤一掷/铜钱镖消耗基数;缺省 0 = 金钱技放不出)。 */
   money?: number
+  /** 技能一生限用计数(characterId → skillId → 已用次数;缺省空 = 未用过)。 */
+  skillUseCounts?: Record<string, Record<string, number>>
 }
 
 export function createBattleState(input: CreateBattleInput): BattleState {
@@ -353,6 +368,7 @@ export function createBattleState(input: CreateBattleInput): BattleState {
     hidingTime: 0,
     moneyDelta: 0,
     money: input.money ?? 0,
+    skillUseCounts: structuredClone(input.skillUseCounts ?? {}),
     lastAction: null,
     pendingWorldMutations: [],
   }
@@ -981,6 +997,16 @@ function applyPlayerSkill(
     s.log.push(`${p.roleId} 施法 ${skillId} 缺技能数据`)
     return
   }
+  // 一生限用门(酒神 9 次):技能达到上限后原版直接从习得列表移除(0x56 RemoveMagic +
+  // dlg.13366)，正常不可达；此守卫只防旧档/计数漂移，失败不吃任何消耗。
+  const lifetimeLimit = skill.lifetimeLimit
+  const usedBefore =
+    lifetimeLimit === undefined ? 0 : (s.skillUseCounts[p.roleId]?.[skillId] ?? 0)
+  if (lifetimeLimit !== undefined && usedBefore >= lifetimeLimit) {
+    if (s.lastAction) s.lastAction.notice = '"酒神咒"使用次数已用尽'
+    s.log.push(`${p.roleId} 施展 ${skill.name} 失败：使用次数已用尽`)
+    return
+  }
   const mpCost = skill.cost.mp ?? 0
   if (p.mp < mpCost) {
     // 正常不可达:MP 不足在 validatePlayerAction 已降级普攻/防御(fight.c:3316)
@@ -1035,6 +1061,25 @@ function applyPlayerSkill(
     slot.count -= amount
   }
   if (moneyCost > 0) s.moneyDelta -= moneyCost
+  // 资源门全部通过 = 一次真实施放。一生限用计数入账；第 lifetimeLimit 次成功后
+  // 移除技能并提示“酒神咒使用次数已用尽”（原版 0x56 RemoveMagic + dlg.13366）。
+  if (lifetimeLimit !== undefined) {
+    const usesAfter = usedBefore + 1
+    const counts = (s.skillUseCounts[p.roleId] ??= {})
+    counts[skillId] = usesAfter
+    const removed = usesAfter >= lifetimeLimit
+    s.pendingWorldMutations.push({
+      kind: 'skillUse',
+      characterId: p.roleId,
+      skillId,
+      usesAfter,
+      removed,
+    })
+    if (removed) {
+      if (s.lastAction) s.lastAction.notice = '"酒神咒"使用次数已用尽'
+      s.log.push(`${p.roleId} 施展 ${skill.name}：使用次数已用尽，技能已移除`)
+    }
+  }
   // B7c:施法成功 → maxMP 池 +R(2,3)、magicAttack 池 +1(fight.c:4328-4329,序固定)
   p.hiddenCounts.maxMP = (p.hiddenCounts.maxMP ?? 0) + 2 + Math.floor(rng() * 2)
   p.hiddenCounts.magicAttack = (p.hiddenCounts.magicAttack ?? 0) + 1

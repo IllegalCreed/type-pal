@@ -644,12 +644,13 @@ export function mapSkills(
     if (m.type === 'summon') {
       // 战斗期已到(2026-07-05 召唤全链):summon = 神将演出(godId = wSummonEffect,F.MKF 神将
       // 精灵序 0-8:武神/天剑/雪妖/山神/风神/酒神/雷神/剑神/火神)+ 正常伤害结算(打全体)。
-      // 酒神 baseDamage=3 是动态公式(按酒计)占位 → lossy 记账,待机制格。
+      // 酒神 baseDamage=3 是动态公式(原版 0x57:按剩余真气×8 并清空真气;R13-6B overlay
+      // 已结构化落地)占位 → 历史源账 lossy 记账,待 R13-Z 证据绑定 successor target。
       if (s._name === '酒神')
         lossy.push({
           id: s.id,
           name: s._name,
-          notes: ['summon 伤害=按饮酒动态(原版公式);暂按 baseDamage=3 直译'],
+          notes: ['summon 伤害=按剩余真气×8 动态(原版 0x57 清空真气);暂按 baseDamage=3 直译'],
         })
       if (m.special === undefined)
         throw new Error(`召唤技能 ${s.id}(${s._name}) 缺 magic.special(godId)`)

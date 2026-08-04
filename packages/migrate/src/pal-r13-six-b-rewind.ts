@@ -204,6 +204,9 @@ function rewindSkillOverlay(snapshot: MigrationSnapshot): void {
   if (!alcoholCost || !Object.hasOwn(alcoholCost, 'items'))
     throw new Error('R13-6B rewind: 缺酒神 item cost overlay')
   delete alcoholCost.items
+  if (!alcohol || !Object.hasOwn(alcohol, 'lifetimeLimit'))
+    throw new Error('R13-6B rewind: 缺酒神 lifetimeLimit overlay')
+  delete alcohol.lifetimeLimit
 
   const moved = new Set<string>(R13_SIX_B_REORDERED_SKILLS)
   const reordered = skills.filter((skill) => !moved.has(String(skill.id)))
