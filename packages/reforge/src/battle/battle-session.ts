@@ -345,6 +345,8 @@ export class BattleSession {
       poisonDefs?: Record<number, import('@type-pal/content').PoisonDef>
       /** 入战金钱快照(乾坤一掷/铜钱镖消耗基数;缺省 0 = 金钱技选单置灰)。 */
       money?: number
+      /** 角色表(actorTemplateId → ActorDef;伤亡脚本查 battler.casualty)。 */
+      actorsById?: Record<string, import('@type-pal/content').ActorDef>
       /** 技能一生限用计数(characterId → skillId → 已用次数;缺省空 = 未用过)。 */
       skillUseCounts?: Record<string, Record<string, number>>
       /** 自动战斗(0x8A;玩家侧 AI 代打,不出指令菜单 —— 石长老过场战)。 */
@@ -383,6 +385,8 @@ export class BattleSession {
       fieldEffect: opts.fieldEffect,
       poisonDefs: opts.poisonDefs,
       money: opts.money,
+      actorsById: opts.actorsById,
+      auto: opts.auto,
       skillUseCounts: opts.skillUseCounts,
     })
     this.done = new Promise((res, rej) => {

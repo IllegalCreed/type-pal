@@ -12,10 +12,13 @@
 
 import type {
   ActivePoison,
+  ActorDef,
   AiAction,
   AiBattleView,
   BattleStatus,
   CarriedStatus,
+  CasualtyLine,
+  CasualtyScript,
   ElementVec,
   EnemyDef,
   EnemyFallback,
@@ -79,6 +82,8 @@ export interface BattlePlayerState {
   /** 守护者 roleId(原版 rgwCoveredBy 具名化;main 从 actor.battler.coveredBy 解析成
    *  在场队员实例 id)。此角色濒死/失能被敌物攻且 7/17 掷中 → 守护者替挡(完全免伤)。 */
   coveredBy?: string
+  /** 上一 action 结算后的 HP(伤亡 sweep 的“本步刚死/刚跨濒死”比较基线;每 sweep 后刷新)。 */
+  prevHp: number
   /** 吉运(逃跑判定 str;含装备加成,派生时算好)。 */
   fleeRate: number
   /** 五灵抗(装备 live 派生;缺省全 0)。喂 calcMagicDamage.elemRes,减免元素仙术伤害。 */
@@ -157,8 +162,17 @@ const STAT_BUFF_FIELD = {
   defense: 'defense',
   magic: 'magicStrength',
   dexterity: 'baseDexterity',
+  luck: 'fleeRate',
 } as const
 type BuffableStat = keyof typeof STAT_BUFF_FIELD
+
+/** B11-1:结构化 casualty stat → 现有 buff 机制 stat 键(speed=身法=dexterity,luck=吉运)。 */
+const CASUALTY_STAT_TO_BUFF = {
+  attack: 'attack',
+  magic: 'magic',
+  speed: 'dexterity',
+  luck: 'luck',
+} as const
 
 /** 敌人战斗态（引 EnemyDef + 当前 HP/status）。 */
 export interface BattleEnemyState {
@@ -229,8 +243,14 @@ export interface BattleState {
   moneyDelta: number
   /** 建态金钱快照(乾坤一掷 min(钱,5000) 上限、铜钱镖 500 门槛;可用金 = money + moneyDelta)。 */
   money: number
+  /** 角色表(actorTemplateId → ActorDef;伤亡脚本查 battler.casualty)。 */
+  actorsById: Record<string, ActorDef>
+  /** 自动战斗(0x8A):伤亡脚本不触发(fight.c:775 fCheckPlayers=false)。 */
+  auto: boolean
   /** 技能一生限用计数副本(characterId → skillId → 已用次数;入账经 skillUse mutation 回写)。 */
   skillUseCounts: Record<string, Record<string, number>>
+  /** 最近一次伤亡脚本的台词(表现层展示;每次 sweep 覆写)。 */
+  casualtyDialogue?: { speakerRoleId: string; lines: CasualtyLine[] }
   /** 最近一步已结算的行动(表现层读:音效/动画时机;每次 perform*Action 覆写)。 */
   lastAction: {
     side: 'player' | 'enemy'
@@ -285,11 +305,13 @@ export type BattleAction =
  *  grantedStatuses 装备常驻状态(连击等,建态置 9999 不烙持久);carriedStatuses 大世界护体符定时状态。 */
 export type CreatePlayerInput = Omit<
   BattlePlayerState,
-  'status' | 'defending' | 'hiddenCounts' | 'poisons'
+  'status' | 'defending' | 'hiddenCounts' | 'poisons' | 'prevHp'
 > & {
   poisons?: ActivePoison[]
   grantedStatuses?: (keyof BattleStatus)[]
   carriedStatuses?: CarriedStatus[]
+  /** 入战前 HP 快照(伤亡 sweep 基线;缺省 = hp,建态时填充)。 */
+  prevHp?: number
 }
 
 export interface CreateBattleInput {
@@ -312,6 +334,10 @@ export interface CreateBattleInput {
   poisonDefs?: Record<number, PoisonDef>
   /** 入战金钱快照(乾坤一掷/铜钱镖消耗基数;缺省 0 = 金钱技放不出)。 */
   money?: number
+  /** 角色表(actorTemplateId → ActorDef;缺省空 = 无伤亡脚本)。 */
+  actorsById?: Record<string, ActorDef>
+  /** 自动战斗(0x8A):伤亡脚本不触发。缺省 false。 */
+  auto?: boolean
   /** 技能一生限用计数(characterId → skillId → 已用次数;缺省空 = 未用过)。 */
   skillUseCounts?: Record<string, Record<string, number>>
 }
@@ -329,6 +355,7 @@ export function createBattleState(input: CreateBattleInput): BattleState {
         status[cs.status] = Math.max(status[cs.status], cs.turns)
       return {
         ...p,
+        prevHp: p.prevHp ?? p.hp,
         ...(p.persistentProgress ? { persistentProgress: { ...p.persistentProgress } } : {}),
         status,
         defending: false,
@@ -368,7 +395,10 @@ export function createBattleState(input: CreateBattleInput): BattleState {
     hidingTime: 0,
     moneyDelta: 0,
     money: input.money ?? 0,
+    actorsById: input.actorsById ?? {},
+    auto: input.auto ?? false,
     skillUseCounts: structuredClone(input.skillUseCounts ?? {}),
+    casualtyDialogue: undefined,
     lastAction: null,
     pendingWorldMutations: [],
   }
@@ -616,6 +646,105 @@ function applyStatBuff(
   t.statBuffs ??= []
   t.statBuffs.push({ stat: eff.stat, delta, turnsLeft: eff.duration })
   return delta
+}
+
+/** 0x1B/0x1C 回满 + 0x30 临时百分比 buff(B11-1)。P3:0x30 基数 = 未 buff 运行时值
+ *  (含装备、不含既有 Extra;多次不叠加),delta = base × percent / 100 截断。 */
+function applyCasualtyBranchEffects(
+  target: BattlePlayerState,
+  branch: CasualtyScript['fallback'],
+): void {
+  for (const effect of branch.effects) {
+    if (effect.kind === 'heal') {
+      if (effect.resource === 'hp') target.hp = target.maxHp
+      else target.mp = target.maxMp
+      continue
+    }
+    const buffStat = CASUALTY_STAT_TO_BUFF[effect.stat]
+    const field = STAT_BUFF_FIELD[buffStat]
+    const buffed = (target.statBuffs ?? []).reduce(
+      (sum, buff) => (buff.stat === buffStat ? sum + buff.delta : sum),
+      0,
+    )
+    const base = target[field] - buffed
+    const delta = Math.trunc((base * effect.percent) / 100)
+    target[field] += delta
+    target.statBuffs ??= []
+    target.statBuffs.push({ stat: buffStat, delta, turnsLeft: 'battle' })
+  }
+}
+
+/** 命中一个伤亡脚本:顺序概率门(0x06 r≥阈值,命中即停)→ 台词记录 + 效果。 */
+function executeCasualtyScript(
+  s: BattleState,
+  target: BattlePlayerState,
+  script: CasualtyScript,
+  rng: () => number,
+): void {
+  let branch = script.fallback
+  for (const gate of script.gates)
+    if (1 + Math.floor(rng() * 100) >= gate.chance) {
+      branch = gate.branch
+      break
+    }
+  applyCasualtyBranchEffects(target, branch)
+  s.casualtyDialogue = { speakerRoleId: target.roleId, lines: branch.lines }
+  s.log.push(
+    `${target.roleId} 伤亡脚本:${branch.lines.map((line) => line.text).join(' / ') || '无台词'}`,
+  )
+}
+
+/** 援护者健康门(friendDeath 援护者 + dying 守护者:sleep/paralyzed/confused 三样全排)。 */
+function playerBadForCasualtyScript(p: BattlePlayerState): boolean {
+  return (
+    p.hp <= 0 ||
+    (p.status.sleep ?? 0) > 0 ||
+    (p.status.paralyzed ?? 0) > 0 ||
+    (p.status.confused ?? 0) > 0
+  )
+}
+
+function refreshCasualtyPrevHp(s: BattleState): void {
+  for (const p of s.players) p.prevHp = p.hp
+}
+
+/**
+ * B11-1:每个 action 后(及回合末毒 tick 后)的伤亡 sweep(fight.c:775-885 真值)。
+ * 1. 本步刚阵亡队员 → 死者 coveredBy 的健康援护者跑 friendDeath;
+ * 2. 本步刚跨入濒死的队员 → 守护者在队且健康时跑自己 dying(P1:self 只排 sleep/confused)。
+ * 一次 sweep 至多一个脚本(P6);prevHp 每次刷新防重入;auto battle 不触发。
+ */
+function runPlayerCasualtySweep(s: BattleState, rng: () => number): void {
+  if (s.auto) {
+    refreshCasualtyPrevHp(s)
+    return
+  }
+  for (const p of s.players) {
+    if (!(p.hp < p.prevHp && p.hp === 0)) continue
+    const cover = s.players.find((candidate) => candidate.roleId === p.coveredBy)
+    if (!cover || playerBadForCasualtyScript(cover)) continue
+    const script = s.actorsById[cover.actorTemplateId]?.battler?.casualty?.friendDeath
+    if (!script) continue
+    executeCasualtyScript(s, cover, script, rng)
+    refreshCasualtyPrevHp(s)
+    return
+  }
+  for (const p of s.players) {
+    const prevThreshold = Math.trunc(p.maxHp / 5)
+    if (
+      !(p.hp < p.prevHp && p.hp > 0 && isPlayerDying(p.hp, p.maxHp) && p.prevHp >= prevThreshold)
+    )
+      continue
+    if ((p.status.sleep ?? 0) > 0 || (p.status.confused ?? 0) > 0) continue
+    const cover = s.players.find((candidate) => candidate.roleId === p.coveredBy)
+    if (!cover || playerBadForCasualtyScript(cover)) continue
+    const script = s.actorsById[p.actorTemplateId]?.battler?.casualty?.dying
+    if (!script) continue
+    executeCasualtyScript(s, p, script, rng)
+    refreshCasualtyPrevHp(s)
+    return
+  }
+  refreshCasualtyPrevHp(s)
 }
 
 /** 物理攻击结算（攻方 atk vs 受方 def+物抗）。返回实际伤害。 */
@@ -924,6 +1053,8 @@ export function stepBattle(s: BattleState, rng: () => number): void {
           }
         for (const p of s.players) if (p.hp > 0) tickPoisons(s, p, 'player')
         for (const e of s.enemies) if (e.hp > 0) tickPoisons(s, e, 'enemy')
+        // B11-1:毒 tick 也可能当场致死/跨濒死(fight.c 回合末同扫)
+        runPlayerCasualtySweep(s, rng)
         for (const p of s.players) {
           p.defending = false
           tickBattleStatus(p.status)
@@ -953,6 +1084,8 @@ export function stepBattle(s: BattleState, rng: () => number): void {
         // 隐身期敌整轮跳过(fight.c:1716 ==0 才行动;连选目标都不做)
       } else if (item.isEnemy) performEnemyAction(s, item.idx, rng)
       else performPlayerAction(s, item.idx, rng)
+      // B11-1:每个 action 结算后扫阵亡/濒死(fight.c:775-885 PAL_BattlePostActionCheck)
+      runPlayerCasualtySweep(s, rng)
       // B7a 战果累计:本步新死敌 += exp/cash(只记一次;敌逃(enemyFled)清场不计)
       for (const e of s.enemies) {
         if (e.hp <= 0 && !e.rewardCounted) {
