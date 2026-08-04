@@ -63,11 +63,15 @@ import {
   digestR13SourceSemanticsMigrationInput,
   digestR13SourceSemanticsMigrationInputFast,
   projectR13SourceSemanticsGenerated,
-  registerR13SourceSemanticsMigrationInputDigest,
-  R13_SOURCE_SEMANTICS_TRANSITION_ID,
   type R13SourceSemanticsDispositionInput,
   type R13SourceSemanticsV5MigrationPlan,
+  registerR13SourceSemanticsMigrationInputDigest,
 } from '../src/experimental/script-v5/r13-source-semantics-mg2.js'
+import {
+  createR13ZMigrationPlan,
+  type R13ZMigrationPlan,
+  resolveR13ZSourceSemanticsClosure,
+} from '../src/experimental/script-v5/r13-z-transition-mg2.js'
 import {
   assertR13RuntimeCapabilityAudit,
   auditR13RuntimeCapabilities,
@@ -76,6 +80,7 @@ import { prepareR13SourceExecutionCensus } from '../src/experimental/script-v5/s
 import {
   assertR13SourceInstructionDispositionV3,
   buildR13SourceInstructionDispositionV3,
+  projectR13SourceDispositionGenerated,
   type R13SourceInstructionDispositionBuildArgs,
 } from '../src/experimental/script-v5/source-instruction-disposition.js'
 import {
@@ -121,8 +126,6 @@ import {
   type PalBinaryAssetSource,
 } from '../src/pal-assets.js'
 import { preparePalManifest } from '../src/pal-manifest.js'
-import { applyPalR13SixBSceneOverlays } from '../src/pal-r13-six-b-overlays.js'
-import { applyPalR13SixBLoadSceneTransitions } from '../src/pal-r13-six-b-load-scene.js'
 import {
   buildPalHistoricalR13_4V9Migration,
   buildPalHistoricalR13_5V10Migration,
@@ -134,12 +137,14 @@ import {
   palSoundAssetForSources,
 } from '../src/pal-migration.js'
 import { loadPalMigrationSources } from '../src/pal-migration-io.js'
+import { applyPalR13SixBLoadSceneTransitions } from '../src/pal-r13-six-b-load-scene.js'
+import { applyPalR13SixBSceneOverlays } from '../src/pal-r13-six-b-overlays.js'
+import { rewindPalR13SixBPublication } from '../src/pal-r13-six-b-rewind.js'
 import {
   assertScriptControlFlowAudit,
   auditPalScriptControlFlow,
   type ScriptControlFlowAuditV1,
 } from '../src/script-control-flow-audit.js'
-import { projectR13SourceDispositionGenerated } from '../src/experimental/script-v5/source-instruction-disposition.js'
 import { normalizeMigrationScriptFiles } from '../src/script-library-normalize.js'
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
@@ -187,7 +192,11 @@ function usage(): void {
 
   pnpm --filter @type-pal/migrate run migrate:content -- --repair-r13-confirm-seal
       只在已发布 state 仍完整、r13-confirm seal 正文单独缺失时，从 immutable
-      authority 双摘要重建，并以单项 baseline 事务补回正文。`)
+      authority 双摘要重建，并以单项 baseline 事务补回正文。
+
+  pnpm --filter @type-pal/migrate run migrate:content -- --r13-z [--write]
+      只运行 R13-Z source/runtime 发布闭包；默认只审计，--write 才向 baseline
+      append-only 追加 R13-Z seal，不改工程正文或 manifest。`)
 }
 
 async function runCanonicalV5Phase(
@@ -237,11 +246,8 @@ async function writeAndVerifyCanonicalV5Transition(
     [EXPECTED_TRANSITION_ENV]: transition,
   }
   const writeOutput = await runCanonicalV5Phase('--write-once', phaseEnv)
-  const evidence = /\[v5 首轮证据\] source=([0-9a-f]{64}) runtime=([0-9a-f]{64})/.exec(
-    writeOutput,
-  )
-  if (!evidence)
-    throw new Error(`canonical v5 ${transition} 写入子进程未返回首轮 R13 证据`)
+  const evidence = /\[v5 首轮证据\] source=([0-9a-f]{64}) runtime=([0-9a-f]{64})/.exec(writeOutput)
+  if (!evidence) throw new Error(`canonical v5 ${transition} 写入子进程未返回首轮 R13 证据`)
   await runCanonicalV5Phase('--verify-idempotence', {
     ...phaseEnv,
     [EXPECTED_SOURCE_DIGEST_ENV]: evidence[1]!,
@@ -262,7 +268,8 @@ async function runR13SixBTransition(
 ): Promise<void> {
   const sources = loadPalMigrationSources(repo)
   const baseline = loadPalBaseline(repo)
-  if (!baseline) throw new Error('R13-6B 缺 PAL baseline v2；不得绕过 baseline 写 generated content')
+  if (!baseline)
+    throw new Error('R13-6B 缺 PAL baseline v2；不得绕过 baseline 写 generated content')
   const theirs = buildR13SixBMigration(sources, baseline)
   reportGeneration(theirs)
   const seed = new Set([...baseline.managedFiles, ...theirs.managedFiles])
@@ -278,14 +285,12 @@ async function runR13SixBTransition(
     files: plan.target,
     managedFiles: new Set([...managed, ...plan.target.keys()]),
   }
-  const catalog = validateAssetCatalog(
+  validateAssetCatalog(
     target.files.get('assets/index.json') as unknown as AssetCatalogV1,
     'R13-6B target assets/index.json',
   )
   const nextManifest: CurrentManifest =
-    manifest.contentVersion === 10
-      ? upgradeManifestV10ToV11(manifest)
-      : structuredClone(manifest)
+    manifest.contentVersion === 10 ? upgradeManifestV10ToV11(manifest) : structuredClone(manifest)
   await validateP7V5Target(target, nextManifest)
   if (!write) {
     assertPalBaselineSnapshotCurrent(repo, baseline)
@@ -310,6 +315,134 @@ async function runR13SixBTransition(
     manifest.contentVersion === 10
       ? '[R13-6B publication] content10 → content11；SAVE_VERSION 保持 8'
       : '[R13-6B publication] content11 successor refresh；SAVE_VERSION 保持 8',
+  )
+}
+
+/**
+ * R13-Z is an evidence-only publication after the content11 successor.  Rebuild the source
+ * disposition from live extracted input with the explicit throw-site gate, then let the new
+ * authority append a seal to the baseline.  No project file or manifest is a publication target.
+ */
+async function runR13ZTransition(manifestText: string, write: boolean): Promise<void> {
+  const baseline = loadPalBaseline(repo)
+  if (!baseline) throw new Error('R13-Z 缺 PAL baseline v2')
+  const sources = loadPalMigrationSources(repo)
+  const currentMigration = buildR13SixBMigration(sources, baseline)
+  // R13 source semantics was published on the 6A surface. Rewind only the append-only 6B
+  // overlay before replaying its existing-schema authority; runtime is audited separately on
+  // the live content11 baseline below.
+  const sourceBaseline = rewindPalR13SixBPublication(baseline)
+  const currentManaged = discoverProjectManagedFiles(
+    repo,
+    new Set([...baseline.managedFiles, ...currentMigration.managedFiles]),
+  )
+  const ours = loadProjectMigrationSnapshot(repo, currentManaged)
+
+  // The source report deliberately uses the pre-R13-6B translation input; 6B is an
+  // append-only content successor and its runtime overlay is audited against the published
+  // baseline below. This keeps the historical R13-5/R13-6A source identity byte-stable.
+  const historicalSources = loadPalMigrationSources(repo)
+  const historicalRawMigration = buildPalHistoricalR13_4V9Migration(historicalSources)
+  const historicalMigration = projectMigrationV9ToLegacyV8(historicalRawMigration)
+  const historicalAudit = auditPalScriptControlFlow(historicalSources, historicalMigration)
+  assertScriptControlFlowAudit(historicalAudit)
+  const preparedHistoricalSourceCensus = prepareR13SourceExecutionCensus(historicalSources)
+  const frozenAudit = readJson<ScriptControlFlowAuditV1>(SCRIPT_AUDIT_BASELINE_REL)
+  const generated = buildP7GeneratedCanonical({
+    migration: historicalMigration,
+    currentAudit: historicalAudit,
+    frozenAudit,
+    sourceCommands: historicalSources.allJson.segments.flatMap((segment) => segment.commands),
+    itemSources: historicalSources.migrate.items,
+    magicSources: historicalSources.migrate.magic,
+    objectMagicSources: historicalSources.migrate.objectMagics ?? [],
+    sourceCensus: preparedHistoricalSourceCensus.census,
+    soundAssetForNum: palSoundAssetForSources(historicalSources),
+  })
+
+  const r13FiveSources = loadPalMigrationSources(repo)
+  const r13FiveMigration = buildPalHistoricalR13_5V10Migration(r13FiveSources)
+  const r13Five = prepareR13EnemyScriptSourceAugmentation({
+    generated,
+    historicalMigration,
+    currentSources: r13FiveSources,
+    currentMigration: r13FiveMigration,
+  })
+  const sourceMigration = buildPalMigration(sources)
+  const preparedCurrentSourceCensus = prepareR13SourceExecutionCensus(sources)
+  const sixAClosure = resolveR13ZSourceSemanticsClosure(sourceBaseline)
+
+  const sourceDispositionBuild: R13SourceInstructionDispositionBuildArgs = {
+    sources: historicalSources,
+    migration: historicalMigration,
+    audit: historicalAudit,
+    generated: projectR13SourceDispositionGenerated(r13Five.successorGenerated),
+    final: sixAClosure.augmentationSnapshot,
+    r13EnemyClosure: {
+      sourceDisposition: r13Five.augmentation.enemySourceDisposition,
+      currentSources: sources,
+      currentMigration: sourceMigration,
+      augmentationEvidence: r13Five.augmentation.evidence,
+    },
+    r13ExistingSchemaClosure: {
+      currentSources: sources,
+      currentMigration: sourceMigration,
+      augmentationEvidence: sixAClosure.augmentationEvidence,
+      augmentationSnapshot: sixAClosure.augmentationSnapshot,
+      preparedCurrentSourceCensus,
+    },
+    preparedSourceCensus: preparedHistoricalSourceCensus,
+    bindIndirectEntityBodies: true,
+    bindItemThrowSourceSites: true,
+  }
+  const r13z = createR13ZMigrationPlan({
+    base: baseline,
+    ours,
+    sourceDispositionBuild,
+    runtimeFinal: baseline,
+  })
+  reportR13ZPlan(r13z)
+  if (!write) {
+    assertPalBaselineSnapshotCurrent(repo, baseline)
+    assertProjectSnapshotCurrent(repo, ours, currentManaged)
+    if (readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8') !== manifestText)
+      throw new Error('R13-Z dry-run 期间 manifest.json 已变更')
+    console.log('[R13-Z dry-run] 未写盘；确认 authority 后加 --write')
+    return
+  }
+  const changes = buildMigrationTransactionChanges({
+    repo,
+    plan: r13z.plan,
+    previousBaseline: baseline,
+    nextBaseline: r13z.nextBaseline,
+  })
+  if (changes.length) commitMigrationTransaction(repo, changes)
+  const after = loadPalBaseline(repo)
+  if (!after) throw new Error('R13-Z 事务完成后 baseline 缺失')
+  sameSnapshot(r13z.nextBaseline, after, 'R13-Z baseline')
+  console.log(
+    `[R13-Z publication] mode=${r13z.sealMode} seal=${r13z.seal.digest} ` +
+      `writes=${r13z.plan.writes.size} deletes=${r13z.plan.deletes.length}`,
+  )
+}
+
+function reportR13ZPlan(result: R13ZMigrationPlan): void {
+  if (result.plan.writes.size || result.plan.deletes.length || result.plan.conflicts.length)
+    throw new Error(
+      `R13-Z 正式计划必须为空 writes=${result.plan.writes.size} ` +
+        `deletes=${result.plan.deletes.length} conflicts=${result.plan.conflicts.length}`,
+    )
+  const source = result.authority.sourceDisposition
+  const runtime = result.authority.runtimeCapability
+  console.log(
+    `[R13-Z 源指令账] sites=${source.summary.executionSites} ` +
+      `open=${source.summary.openDebtSites}/${source.summary.openObservations} ` +
+      `digest=${source.digest}`,
+  )
+  console.log(
+    `[R13-Z 运行时矩阵] cells=${runtime.summary.cells} uses=${runtime.summary.uses} ` +
+      `refused=${runtime.summary.refusedUses} issues=${runtime.summary.openIssues} ` +
+      `digest=${runtime.digest}`,
   )
 }
 
@@ -351,15 +484,6 @@ function buildR13SixBMigration(
   const successor = derivePalMigrationFileSet(raw, files, new Set(publishedBaseline.managedFiles))
   successor.baselineMetadata = publishedBaseline.baselineMetadata
   return successor
-}
-
-function forkPalMigrationSources(source: PalMigrationSources): PalMigrationSources {
-  return {
-    ...source,
-    migrate: { ...source.migrate },
-    allJson: { segments: source.allJson.segments },
-    eventsByScene: new Map(source.eventsByScene),
-  }
 }
 
 function sameSnapshot(expected: MigrationSnapshot, actual: MigrationSnapshot, label: string): void {
@@ -969,13 +1093,15 @@ async function main(): Promise<void> {
       flag !== '--bootstrap' &&
       flag !== '--write-once' &&
       flag !== '--verify-idempotence' &&
-      flag !== '--repair-r13-confirm-seal',
+      flag !== '--repair-r13-confirm-seal' &&
+      flag !== '--r13-z',
   )
   if (unknown.length) throw new Error(`未知参数: ${unknown.join(', ')}`)
   const writeRequested = flags.has('--write')
   const writeOnce = flags.has('--write-once')
   const verifyIdempotence = flags.has('--verify-idempotence')
   const repairR13ConfirmSeal = flags.has('--repair-r13-confirm-seal')
+  const publishR13Z = flags.has('--r13-z')
   if ((writeOnce || verifyIdempotence) && process.env[INTERNAL_PHASE_ENV] !== '1')
     throw new Error('内部迁移阶段不得直接调用')
   if (
@@ -984,7 +1110,9 @@ async function main(): Promise<void> {
       Number(verifyIdempotence) +
       Number(repairR13ConfirmSeal) >
       1 ||
-    (repairR13ConfirmSeal && flags.has('--bootstrap'))
+    (repairR13ConfirmSeal && flags.has('--bootstrap')) ||
+    (publishR13Z &&
+      (flags.has('--bootstrap') || writeOnce || verifyIdempotence || repairR13ConfirmSeal))
   )
     throw new Error('迁移写入/内部验证/显式修复阶段参数互斥')
   const write = writeRequested || writeOnce
@@ -1021,6 +1149,13 @@ async function main(): Promise<void> {
     contentVersion === 10
   if (repairR13ConfirmSeal && !canonicalV5)
     throw new Error('R13 confirm seal 显式修复只接受 canonical v5+ 工程')
+
+  if (publishR13Z) {
+    if (bootstrap || contentVersion !== 11)
+      throw new Error(`R13-Z 只接受已发布 content11 工程，收到 content${String(contentVersion)}`)
+    await runR13ZTransition(manifestText, writeRequested)
+    return
+  }
 
   // R13-6B 是 content10 → content11 的独立迁移边界。内部 v5 子进程仍由
   // EXPECTED_TRANSITION 驱动旧的 R13-5/R13-6A 事务；只有外层命令进入这里。
@@ -1248,7 +1383,10 @@ async function main(): Promise<void> {
               preparedHistoricalSourceCensus,
             }
             const projectPrerequisites = new Map<string, MigrationJson>([
-              ['content/ambiences.json', readJson<MigrationJson>('projects/pal/content/ambiences.json')],
+              [
+                'content/ambiences.json',
+                readJson<MigrationJson>('projects/pal/content/ambiences.json'),
+              ],
             ])
             return createR13SourceSemanticsV5MigrationPlan({
               base: baseline,
@@ -1261,32 +1399,32 @@ async function main(): Promise<void> {
           })()
         : canonicalTransition === 'r13-enemy'
           ? (() => {
-          const successorAudit = auditPalScriptControlFlow(sources, theirs)
-          assertScriptControlFlowAudit(successorAudit)
-          const preparedAuthority = prepareR13EnemyScriptAuthority({
-            generated,
-            historicalSources: parentSources,
-            historicalMigration: authorityMigration,
-            historicalAudit,
-            currentSources: sources,
-            currentMigration: theirs,
-            currentAudit: successorAudit,
-            preparedHistoricalSourceCensus,
-          })
-          return createR13EnemyScriptV5MigrationPlan({
-            base: baseline,
-            ours,
-            generated,
-            historicalSources: parentSources,
-            historicalMigration: authorityMigration,
-            historicalAudit,
-            currentSources: sources,
-            currentMigration: theirs,
-            currentAudit: successorAudit,
-            preparedHistoricalSourceCensus,
-            preparedAuthority,
-          })
-        })()
+              const successorAudit = auditPalScriptControlFlow(sources, theirs)
+              assertScriptControlFlowAudit(successorAudit)
+              const preparedAuthority = prepareR13EnemyScriptAuthority({
+                generated,
+                historicalSources: parentSources,
+                historicalMigration: authorityMigration,
+                historicalAudit,
+                currentSources: sources,
+                currentMigration: theirs,
+                currentAudit: successorAudit,
+                preparedHistoricalSourceCensus,
+              })
+              return createR13EnemyScriptV5MigrationPlan({
+                base: baseline,
+                ours,
+                generated,
+                historicalSources: parentSources,
+                historicalMigration: authorityMigration,
+                historicalAudit,
+                currentSources: sources,
+                currentMigration: theirs,
+                currentAudit: successorAudit,
+                preparedHistoricalSourceCensus,
+                preparedAuthority,
+              })
+            })()
           : createR13ConfirmV5MigrationPlan({
               base: baseline,
               ours,

@@ -7322,6 +7322,41 @@ fingerprint，projection/历史 transition 未漂移。下一步不是直接改�
 append-only transition authority，把该门控作为自描述的后续 source report 选项接入，再补
 runtime/save/browser/remigration 最终门禁；在此之前 N3-1 继续保持 `build`，不得标 done。
 
+##### R13-Z append-only transition authority 接入（2026-08-04，build；source gate 未闭合）
+
+本轮已把上述实验门控接入新的 `r13-z-source-closure-v1` authority，但没有发布 seal，也没有改写
+任何 PAL canonical content / manifest / 历史 transition：
+
+- 新增 `r13-z-transition-mg2.ts`，定义 `_transitions/r13-z-source-closure-v1.json` 四态
+  append-only seal。authority 强制 `bindIndirectEntityBodies=true` 与
+  `bindItemThrowSourceSites=true`，后者同时写入 source report / seal 自描述选项；任一 open site
+  或 observation 都由 `assertR13NoOpenSourceDebt` 在 runtime/build seal 之前 fail closed。
+- R13-Z source 与 runtime 使用两个显式快照边界：source 先用现有 fail-closed
+  `rewindPalR13SixBPublication` 把 content11 精确还原为 6A content surface，再从已验签
+  R13-6A seal 取 22-site/3-skill existing-schema bridge 并对 live source 逐项重建；runtime
+  独立审计当前 content11 baseline。transition 控制文件不进入 source content digest，6B 表现增量
+  也不会污染历史 6A authority。
+- CLI 新增 `migrate:content -- --r13-z [--write]`：默认只审计；只有 source=0、runtime=0、
+  project 三方计划严格 `writes/deletes/conflicts=0` 后，`--write` 才允许以 baseline-only 事务追加
+  seal。project/manifest 不是 R13-Z 写目标，历史 seal/metadata 逐项 byte-pin。
+- 为避免同轮重复构造 81,674-site graph，R13-Z 不再先完整重建一次 R13-6A source report；它只
+  解包并验证父 seal 的 existing-schema bridge，新的 source report 自身会重放全部 evidence。
+
+真实 PAL dry-run（无写盘）已经越过 6B→6A rewind、父 seal/envelope、enemy/existing-schema
+cross-bind 并抵达最终 source hard gate，耗时 `315.66s`，按预期拒绝发布：
+`open sites=4,947 / observations=4,489`。相较上一轮仅接 item-throw 的实验
+`4,969 / 4,511`，新增关闭的 `22 / 22` 正好来自已发布 R13-6A existing-schema bridge；其余
+4,947/4,489 仍是真实未闭合债务，不能生成 R13-Z seal，更不能启动最终 publication。
+
+轻量验证：migrate typecheck 通过；新增 authority 单测 `3/3`；test manifest 更新为 fast
+`76 files / 561 tests`、release `99 / 691`；PAL compact oracle 只更新 source-tree fingerprint，
+projection 未变；最终 `test:fast` 为 `76 files / 561 passed / 5 skipped`（21.87s）。
+
+当前结论：R13-Z authority 已接入但 source gate **未闭合**，因此 runtime/save/browser/remigration
+最终门禁尚未开始，R13-Z/N3-1 继续保持 `build`，C8 保持 `review`，ED-5I 保持 `blocked`；三者
+均不得标记完成。下一步继续按 source report 原因分组，为剩余 4,947/4,489 补精确证据，直到
+dry-run source=0 后再依次执行 runtime、save、browser、全量重迁双跑门禁。
+
 ##### R13-6B implementation review 交接提示词（下一位 Agent 可直接复制）
 
 ```text
