@@ -919,9 +919,14 @@ export function augmentR13ExistingSchemaAfterEnemy(args: {
 export function rewindR13ExistingSchemaAugmentation(
   successor: MigrationSnapshot,
   evidence: R13ExistingSchemaAugmentationEvidenceV1,
+  options: { allowAppendOnlySuccessor?: boolean } = {},
 ): MigrationSnapshot {
   assertR13ExistingSchemaAugmentationEvidence(evidence)
-  if (digestR13ExistingSchemaContentSnapshot(successor) !== evidence.successorContentDigest)
+  const allowAppendOnlySuccessor = options.allowAppendOnlySuccessor === true
+  if (
+    !allowAppendOnlySuccessor &&
+    digestR13ExistingSchemaContentSnapshot(successor) !== evidence.successorContentDigest
+  )
     throw new Error('R13 existing-schema augmentation: replay successor content digest 漂移')
 
   const parent = cloneSnapshot(successor)
@@ -940,12 +945,22 @@ export function rewindR13ExistingSchemaAugmentation(
     if (entries.length !== spec.insertions.length)
       throw new Error(`R13 existing-schema augmentation: replay site 数量漂移 ${spec.id}`)
     for (const entry of entries) {
-      const command = container[entry.finalIndex]
-      if (!command || stableJsonSha256(command) !== entry.commandDigest)
-        throw new Error(`R13 existing-schema augmentation: replay command 漂移 ${entry.siteId}`)
-      container.splice(entry.finalIndex, 1)
+      let index = entry.finalIndex
+      const command = container[index]
+      if (!command || stableJsonSha256(command) !== entry.commandDigest) {
+        if (!allowAppendOnlySuccessor) {
+          throw new Error(`R13 existing-schema augmentation: replay command 漂移 ${entry.siteId}`)
+        }
+        const matches = container
+          .map((candidate, candidateIndex) => ({ candidate, candidateIndex }))
+          .filter(({ candidate }) => stableJsonSha256(candidate) === entry.commandDigest)
+        if (matches.length !== 1)
+          throw new Error(`R13 existing-schema augmentation: successor command 不唯一 ${entry.siteId}`)
+        index = matches[0]!.candidateIndex
+      }
+      container.splice(index, 1)
     }
-    if (stableJsonSha256(container) !== entries[0]?.parentContainerDigest)
+    if (!allowAppendOnlySuccessor && stableJsonSha256(container) !== entries[0]?.parentContainerDigest)
       throw new Error(`R13 existing-schema augmentation: replay parent container 漂移 ${spec.id}`)
     parent.files.set(path, asMigrationJson(scene))
     parent.hashes?.delete(path)
@@ -974,7 +989,7 @@ export function rewindR13ExistingSchemaAugmentation(
   parent.files.set('content/skills.json', asMigrationJson(skills))
   parent.hashes?.delete('content/skills.json')
 
-  if (digestR13ExistingSchemaContentSnapshot(parent) !== evidence.parentContentDigest)
+  if (!allowAppendOnlySuccessor && digestR13ExistingSchemaContentSnapshot(parent) !== evidence.parentContentDigest)
     throw new Error('R13 existing-schema augmentation: replay parent content digest 漂移')
   // Keep the path set/managed set byte-for-byte stable; only the evidenced JSON
   // leaves and their cached hashes are intentionally changed.

@@ -338,9 +338,10 @@ async function runR13ZTransition(manifestText: string, write: boolean): Promise<
   )
   const ours = loadProjectMigrationSnapshot(repo, currentManaged)
 
-  // The source report deliberately uses the pre-R13-6B translation input; 6B is an
-  // append-only content successor and its runtime overlay is audited against the published
-  // baseline below. This keeps the historical R13-5/R13-6A source identity byte-stable.
+  // The source report deliberately keeps the pre-R13-6B translation input and generated
+  // projection, but its final target is the actual 6B successor. Existing-schema evidence
+  // rewinds only the published 6A-owned leaves for historical proofs; otherwise the source
+  // ledger would report every 6B-authored item/skill/scene target as "missing final target".
   const historicalSources = loadPalMigrationSources(repo)
   const historicalRawMigration = buildPalHistoricalR13_4V9Migration(historicalSources)
   const historicalMigration = projectMigrationV9ToLegacyV8(historicalRawMigration)
@@ -378,6 +379,10 @@ async function runR13ZTransition(manifestText: string, write: boolean): Promise<
     audit: historicalAudit,
     generated: projectR13SourceDispositionGenerated(r13Five.successorGenerated),
     final: sixAClosure.augmentationSnapshot,
+    successorFinal: {
+      files: currentMigration.files,
+      managedFiles: currentMigration.managedFiles,
+    },
     r13EnemyClosure: {
       sourceDisposition: r13Five.augmentation.enemySourceDisposition,
       currentSources: sources,
@@ -394,6 +399,9 @@ async function runR13ZTransition(manifestText: string, write: boolean): Promise<
     preparedSourceCensus: preparedHistoricalSourceCensus,
     bindIndirectEntityBodies: true,
     bindItemThrowSourceSites: true,
+    bindDomainProjectionSourceSites: true,
+    bindOwnerSourceSites: true,
+    bindSpriteActionSourceSites: true,
   }
   const r13z = createR13ZMigrationPlan({
     base: baseline,

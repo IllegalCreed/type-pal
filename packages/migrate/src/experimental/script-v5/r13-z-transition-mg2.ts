@@ -42,6 +42,9 @@ interface R13ZSourceControlV1 {
   finalDigest: string
   options: {
     bindItemThrowSourceSites: true
+    bindDomainProjectionSourceSites: true
+    bindOwnerSourceSites: true
+    bindSpriteActionSourceSites: true
   }
   summary: {
     executionSites: number
@@ -184,8 +187,13 @@ function sourceControl(
   build: R13SourceInstructionDispositionBuildArgs,
 ): R13ZSourceControlV1 {
   const options = report.generator.options
-  if (options?.bindItemThrowSourceSites !== true)
-    throw new Error('R13-Z MG2: source report 缺 bindItemThrowSourceSites 自描述选项')
+  if (
+    options?.bindItemThrowSourceSites !== true ||
+    options?.bindDomainProjectionSourceSites !== true ||
+    options?.bindOwnerSourceSites !== true ||
+    options?.bindSpriteActionSourceSites !== true
+  )
+    throw new Error('R13-Z MG2: source report 缺 R13-Z source-site 自描述选项')
   if (report.summary.openDebtSites !== 0 || report.summary.openObservations !== 0)
     throw new Error(
       `R13-Z MG2: source disposition 未闭合 ` +
@@ -198,7 +206,12 @@ function sourceControl(
     auditDigest: build.audit.digest,
     reportDigest: report.digest,
     finalDigest: report.generator.finalDigest,
-    options: { bindItemThrowSourceSites: true },
+    options: {
+      bindItemThrowSourceSites: true,
+      bindDomainProjectionSourceSites: true,
+      bindOwnerSourceSites: true,
+      bindSpriteActionSourceSites: true,
+    },
     summary: {
       executionSites: report.summary.executionSites,
       openDebtSites: 0,
@@ -241,6 +254,12 @@ export function prepareR13ZAuthority(args: {
 }): PreparedR13ZAuthority {
   if (args.sourceDispositionBuild.bindItemThrowSourceSites !== true)
     throw new Error('R13-Z MG2: authority 必须显式开启 bindItemThrowSourceSites')
+  if (args.sourceDispositionBuild.bindDomainProjectionSourceSites !== true)
+    throw new Error('R13-Z MG2: authority 必须显式开启 bindDomainProjectionSourceSites')
+  if (args.sourceDispositionBuild.bindOwnerSourceSites !== true)
+    throw new Error('R13-Z MG2: authority 必须显式开启 bindOwnerSourceSites')
+  if (args.sourceDispositionBuild.bindSpriteActionSourceSites !== true)
+    throw new Error('R13-Z MG2: authority 必须显式开启 bindSpriteActionSourceSites')
   if (args.sourceDispositionBuild.bindIndirectEntityBodies !== true)
     throw new Error('R13-Z MG2: authority 必须显式开启 bindIndirectEntityBodies')
   const sourceDisposition = buildAndAssertR13SourceInstructionDispositionV3(
@@ -273,7 +292,12 @@ function assertPreparedAuthority(
     throw new Error('R13-Z MG2: prepared authority 输入身份漂移')
   if (authority.runtimeFinal !== runtimeFinal)
     throw new Error('R13-Z MG2: prepared runtime 输入身份漂移')
-  if (authority.sourceDisposition.generator.options?.bindItemThrowSourceSites !== true)
+  if (
+    authority.sourceDisposition.generator.options?.bindItemThrowSourceSites !== true ||
+    authority.sourceDisposition.generator.options?.bindDomainProjectionSourceSites !== true ||
+    authority.sourceDisposition.generator.options?.bindOwnerSourceSites !== true ||
+    authority.sourceDisposition.generator.options?.bindSpriteActionSourceSites !== true
+  )
     throw new Error('R13-Z MG2: prepared source report 选项漂移')
   assertR13NoOpenSourceDebt(authority.sourceDisposition, sourceDispositionBuild)
   const expectedDigest = stableJsonSha256({

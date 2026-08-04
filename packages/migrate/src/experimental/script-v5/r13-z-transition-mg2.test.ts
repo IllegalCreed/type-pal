@@ -17,6 +17,9 @@ function buildArgs(
     final: undefined as never,
     bindIndirectEntityBodies: true,
     bindItemThrowSourceSites: false,
+    bindDomainProjectionSourceSites: true,
+    bindOwnerSourceSites: true,
+    bindSpriteActionSourceSites: true,
     ...overrides,
   }
 }
@@ -39,6 +42,17 @@ describe('R13-Z append-only publication authority', () => {
     ).toThrow('authority 必须显式开启 bindIndirectEntityBodies')
   })
 
+  test('requires folded sprite source binding to be explicit', () => {
+    expect(() =>
+      prepareR13ZAuthority({
+        sourceDispositionBuild: buildArgs({
+          bindItemThrowSourceSites: true,
+          bindSpriteActionSourceSites: false,
+        }),
+      }),
+    ).toThrow('authority 必须显式开启 bindSpriteActionSourceSites')
+  })
+
   test('rejects a self-consistent but different published seal', () => {
     const seal = {
       kind: 'r13-z-source-closure-transition' as const,
@@ -56,7 +70,12 @@ describe('R13-Z append-only publication authority', () => {
         auditDigest: 'c'.repeat(64),
         reportDigest: 'd'.repeat(64),
         finalDigest: 'e'.repeat(64),
-        options: { bindItemThrowSourceSites: true as const },
+        options: {
+          bindItemThrowSourceSites: true as const,
+          bindDomainProjectionSourceSites: true as const,
+          bindOwnerSourceSites: true as const,
+          bindSpriteActionSourceSites: true as const,
+        },
         summary: { executionSites: 1, openDebtSites: 0 as const, openObservations: 0 as const },
       },
       runtimeControl: {

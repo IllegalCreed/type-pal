@@ -8,15 +8,15 @@
   "gates": {
     "fast": {
       "files": 76,
-      "tests": 561,
-      "sha256": "342192e499b9ea52b74fe72208d7dd4a3276983ada6faeadc3a924244777136f",
-      "routeSha256": "c37def48aa769e33280173e5ad21cb125b114b50fb241010208730ba28fe8892"
+      "tests": 562,
+      "sha256": "78ba34ff841879800af06f5e33e0af31eabe4db0df1544f1fb1f73a29c7ccd68",
+      "routeSha256": "642a674b3a068b9dafc37f83173a826c90490747a5749cdae8f25f26adfc38fd"
     },
     "release": {
       "files": 99,
-      "tests": 691,
-      "sha256": "dfc2eb005d6a49f84790b5d61609b4b195803421307dc3a17fd4cb69b4ddd2e7",
-      "routeSha256": "fa084c17cd3f3ee103f6e6761724f6835c52e5d8495490fceee15feb1bdcde1a"
+      "tests": 692,
+      "sha256": "96f70b9177cf4396e57d396abf4b11a0ec89a2c4e869ab16c40c9d98eaf245be",
+      "routeSha256": "92fb804b2e62035534c36217b929fb0b59c1c032e14a7282d0f3547179be29cf"
     },
     "canary": {
       "files": 1,
