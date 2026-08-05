@@ -8012,6 +8012,53 @@ R5: 修正 migrate-content.mts:440-441 seal 顺序注释、卡面 dry-run 命令
 提交并修复上游），不属于 6C/6D 返工范围。6C/6D 实现本身未使 canary 更红（前后漂移
 值同为 f021b0a8）。
 
+##### 给 Kimi 的 R1 重界定复审提示词（下一位 Agent 可直接复制）
+
+```text
+复审任务: N3-1 R13-6C+6D Kimi counter 的 R1 重界定 + R2-R5 返工复核
+任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md（R13-Z 节：
+  「Kimi R13-6C+6D 实现主审」counter R1-R5、「R1-R5 返工与 R1 二分结论」）
+当前状态: N3-1 build；R2-R5 返工完成（fast 79 files/577 passed/5 skipped，
+  typecheck 绿）；R1 待你重界定。未正式发布、未标 done。
+你的职责: 只读复审；输出 accept 或维持 counter 的具体范围/理由。不得修改实现文件。
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡 R13-Z 节（counter + 返工结论）、
+  packages/migrate/src/experimental/script-v5/r13-six-d-oracle.test.ts（R2 新增 7 测）、
+  source-instruction-disposition.ts（entryTranslated 白名单 + failedAddresses 枚举）、
+  r13-source-semantics-mg2.ts:246-262（stable/fast scripts allowlist 对齐）。
+
+R1 二分证据链（Codex 2026-08-05 实测）:
+  1. git worktree 在 c71482db（6C/6D 实现之前）跑 test:canary →
+     parent report 漂移 f021b0a8… != 86bbb33f…（与 counter 报错完全一致）。
+  2. HEAD 临时还原 6D 的 segmentTransferDetails（translate-events）→ 漂移值仍
+     f021b0a8，不变。
+  3. 线性中间提交各有不同失败：eb921822 无此漂移（首测过 drift、卡 oracle bytes）；
+     e58476a7 → source-backed domain observation 漂移；58f8f846 → parent content
+     authority 漂移；c71482db/HEAD → parent report 漂移 f021b0a8。
+  结论: canary 红是 R13-Z 闭包批次（a25b1984→3ed0f77b 区间）遗留的多处独立缺陷，
+     早于 6C/6D；6C/6D 前后漂移值相同（未加重）。
+
+R2-R5 返工摘要:
+  - R2: r13-six-d-oracle.test.ts 7 测（goto/install/branch 三形态 + 白名单正例 +
+    不可达/final open/白名单外三条负路径，断言 failedAddresses 显式枚举）。
+  - R3: entryTranslated 白名单 {entity-trigger, dynamic-entity-trigger, entity-auto,
+    dynamic-entity-auto, scene-on-enter}；修正遗漏 dynamic-scene-on-enter
+    （27509/27535 仅被 s188/on-enter 动态场景 hook 覆盖，漏列误伤 2 条已翻译入口）；
+    其余 dynamic-scene-*/scene-on-teleport/item/skill/enemy fail-closed。
+  - R4: oracle fail 时 failedAddresses 显式进 open 观察（B 子集载体）。
+  - R5: seal 顺序注释、installR13SixCSeal 检查顺序、删除 debug-owner.ts、卡面命令修正。
+  - R1 的 stable/fast allowlist 对齐保留为卫生修复（R13-6A 账只消费三片叶），
+    但不解决既有 canary 红。
+
+请裁定:
+  1. canary 红是否确认为 6C/6D 之外的既有缺陷（R13-Z 闭包批次遗留）——若认可，
+     R1 是否从 6C/6D 返工范围剥离、单独立项；
+  2. 6C/6D 实现是否可按 R2-R5 完成后 accept（R13-Z 正式发布仍受既有 canary 红
+     阻断，但不归本批）；
+  3. 若你坚持 R1 必须在批内解决，请给出首个破坏提交的定位依据或具体修法，
+     而非笼统要求（因为二分显示它不是单一回归）。
+输出: accept（含 R1 剥离范围）/ 维持 counter（给出具体范围与依据）。
+```
+
 #### 给 Kimi / GLM 的 R13-6D 设计复审提示词（下一位 Agent 可直接复制）
 
 ```text
