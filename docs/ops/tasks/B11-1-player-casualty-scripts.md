@@ -1,6 +1,6 @@
 # B11-1 - 队友阵亡/濒死战斗脚本（scriptOnFriendDeath / scriptOnDying）
 
-Status: review（Codex 自验完成，交 Kimi / GLM 实现审查）
+Status: done（2026-08-05 Codex / Kimi / GLM 三方 accept 齐；视觉验证留用户补验）
 Phase: phase2
 Capability: B11（战斗伤亡脚本）+ B9 替挡依赖数据
 Coding Owner: Codex
@@ -92,10 +92,34 @@ Branch: chore/docs-migrate-cleanup
   门1 @43459-43460 为 0x1C MP 满 + 0x30[18,10]；实现一律以源 opcode 翻译为准，不用
   表格文字做语义来源）
 - Kimi: **agree**（2026-08-05，架构/schema/runtime 主审通过：濒死 paralyzed 语义、双阈值口径、casualty 结构、0x30 基数、coveredBy 迁移、sweep 挂点、R13-Z 证据族均对源核实；附 P1-P6 钉，见「Kimi B11-1 设计主审」）。
-- GLM: **agree**（2026-08-05，附 G1 记录项，见交接）
+- GLM: **agree**（设计准入 2026-08-05，附 G1 记录项）→ **accept**（implementation 审查 2026-08-05）。一手核实：
+  - **coveredBy 六条映射**：final actors.json 逐条确认 li-xiaoyao→lin-yueru、zhao-linger→li-xiaoyao、lin-yueru→li-xiaoyao、gai-luojiao→anu（源 0→2/1→0/2→0/3→0/4→0/5→4 精确匹配）✅
+  - **casualty 脚本精确对源**：李逍遥 friendDeath 三个 0x06 连续 fall-through 门（@43445 rate=75→跳@43455 / @43446 rate=66→跳@43462 / @43447 rate=50→跳@43469）+ fall-through body（@43452-43453 = fallback）。final 产物：gate1 chance=75 → `heal mp + tempStatBuff magic 10%`（= 源 @43459 0x1C MP回满 + @43460 0x30[18,10] magic+10%）；fallback → `heal hp + tempStatBuff attack 5%`（= 源 @43452 0x1B HP回满 + @43453 0x30[17,5] attack+5%）。**逐 opcode 精确匹配** ✅。
+  - **G1 记录项撤回**：设计审查时 G1 报"源 @43453 是 attack+5% 不是 magic+10%"，实际是我误把 fall-through body（fallback）当成"门1 body"。源门1 body 在跳转目标 @43455-43460（0x1C+0x30[18,10]）。final 产物正确，G1 不成立。
+  - **R13-Z 关闭**：110 actor site（36/38 scriptOnFriendDeath 各 29 + 37/38 scriptOnDying 各 26）已全部销账，dry-run open sites=0 ✅。
+  - **测试**：reforge battle 8 files / 198 tests 全绿（含 P1-P6 验收钉 + casualty 14 测）✅。
+  - **SAVE/持久化**：临时 buff 只活在 BattleState.statBuffs，writeBackPersistentEffects 无 buff 写回路径，不进存档 ✅。coveredBy/casualty 是 content 数据不是 save 字段。
+  未修改实现文件。accept 只收口 B11-1 implementation，不代表 R13-Z/N3-1/C8/ED-5I done。
 
 build 准入结论: **build allowed（2026-08-05；Codex / Kimi / GLM 三方 agree，无 counter；
 P1-P6 为 build 验收钉，G1 为措辞记录项）。**
+
+### 进入 done 前（review → done）
+
+- Codex: **accept**（2026-08-05，Coding Owner 实现与自验收口；实现提交
+  `58f8f846`/`e2fb035d`/`9bf68fe7`/`0ea144c2`/`d5c47a79`/`f0407264`，P1-P6/G1 全钉，
+  新增 P2/P4/P6 测试补齐；接受 Kimi/GLM 复审记录项：视觉验证留用户补验、
+  R13-Z 剩余 4 条 observations 归 N3-1 裁决）。
+- Kimi: **accept**（2026-08-05，架构/runtime 实现复审：P1-P6/G1 逐项一手核实，
+  聚焦测试 14/14 + 5/5 全绿；未做浏览器视觉验证，coveredBy 替挡/濒死演出留用户补验。
+  记录项：本 accept 不代替视觉级验收；R13-Z 剩余 4 条 observations 归 N3-1 裁决）。
+- GLM: **accept**（2026-08-05，implementation 审查，一手核实见上「进入 build 前」
+  GLM 行）：coveredBy 六条映射逐条匹配、casualty 脚本逐 opcode 对源、G1 撤回
+  （误把 fall-through body 当门1 body）、110 actor sites 销账、reforge battle
+  8 files / 198 tests 绿、SAVE 无 buff 持久。未修改实现文件。
+
+done 准入结论: **done allowed（2026-08-05；Codex / Kimi / GLM 三方 accept，无 counter；
+视觉验证未做，留用户补验；R13-Z 4 条 observations 归 N3-1 裁决，不随本卡关闭）。**
 
 ## 实现与自验（Codex，2026-08-05）
 
@@ -184,26 +208,42 @@ battle-system.ts:884-935（emitPlayerCasualtySounds）逐项一手核对。
 
 **结论**：**agree**。真值核对成立，无 schema/runtime/save 级反例。
 
-## 下一位 Agent 提示词（给 Kimi / GLM 实现复审）
+#### Kimi B11-1 实现复审（2026-08-05）
 
-```text
-复审任务: B11-1 队友阵亡/濒死战斗脚本实现审查（Kimi 架构/runtime 主审；GLM
-  数据/迁移/测试矩阵主审；可并行）
-任务卡: docs/ops/tasks/B11-1-player-casualty-scripts.md
-当前状态: review；Codex 自验完成，未标 done。
-你的职责: 只读审查；输出 accept 或 counter 的具体字段/反例。不得改实现文件。
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡（真值/范围/推进签字/实现与自验）、
-  docs/phase1/game-mechanics.md:352-403、reference/sdlpal/fight.c:775-885、
-  packages/content/src/actor.ts(casualty)、packages/reforge/src/battle/battle-core.ts
-  (runPlayerCasualtySweep/applyCasualtyBranchEffects)、battle-session.ts(伤亡对话)、
-  packages/migrate/src/pal-casualty-scripts.ts、source-instruction-disposition.ts
-  (actor-casualty 证据族)、pal-casualty-scripts.test.ts、battle-casualty.test.ts。
-验收钉: 卡内 P1-P6 与 G1 逐项核对（P2 maxHP>500 双阈值、P3 0x30 基数/战末清、
-  P4 六条 coveredBy oracle + 替挡回归、P5 对话暂停/清除、P6 防重入/至多一个）。
-重点风险: coveredBy 替挡在 PAL 数据上首次真正生效的行为变化回归；dying paralyzed
-  排除集不得被"修正"；R13-Z 110 actor 站点证据族与 successor/domain 模式一致性。
-输出: 签字 accept / counter 理由；是否需 Codex 补视觉验证。
-```
+**方法**：只读实现审查；一手核对 battle-core sweep、产物 actors.json、证据族注册与
+两组聚焦测试实跑。
+
+**逐项验收钉**：
+
+1. **P1** ✅：dying 自扫（battle-core.ts:731-737）只排 sleep/confused，paralyzed 不在
+   排除集（忠实原版）；`playerBadForCasualtyScript`（:697-706）对两个 coveredBy 三样
+   全排（hp>0 且 sleep/paralyzed/confused 均为 0）。
+2. **P2** ✅：`prevThreshold = Math.trunc(p.maxHp / 5)` 未钳（:731）与
+   `isPlayerDying(p.hp, p.maxHp)`（min(100) 钳）分两行；卡载 maxHP>500 三态测试在
+   battle-casualty 14 测内实跑通过。
+3. **P3** ✅：0x30 基数=未 buff 运行时值（:663-667 注释与实现一致，连续 buff 不叠加）；
+   战末清为结构性保证（statBuffs 只活 BattleState，writeBackPersistentEffects 无 buff
+   写回路径）。
+4. **P4** ✅：产物 actors.json 六条映射全部命中（li-xiaoyao→lin-yueru、zhao-linger→
+   li-xiaoyao、lin-yueru→li-xiaoyao、wu-hou→li-xiaoyao、anu→li-xiaoyao、
+   gai-luojiao→anu）；casualty 结构（75/66 门 → lines+heal mp/tempStatBuff magic 10%）
+   与源分支表一致；替挡完全免伤回归在 battle-core.test.ts。
+5. **P5** ✅：横幅逐条展示、放完前暂停推进、abort/结束清引用（14 测内实跑）。
+6. **P6** ✅：`refreshCasualtyPrevHp` 每 sweep 后刷新防重入；friendDeath/dying 命中即
+   return（至多一个脚本）。
+7. **G1** ✅：迁移自源 opcode（0x06 门、0x1B/0x1C、0x30），台词 36 键逐键校验。
+8. **R13-Z 证据族**：`source-instruction-disposition.ts:1576-1582` 注册
+   `global/actors/<id>/scriptOnFriendDeath|scriptOnDying → friendDeath|dying` 绑定，
+   与 successor/domain 模式一致；110 sites 销账（dry-run open sites=0/observations=4，
+   余 4 条归 N3-1 R13-Z 裁决，非本卡范围）。
+
+**复跑**：reforge battle-casualty **14/14**、migrate pal-casualty-scripts **5/5**。
+
+**结论**：**accept**。视觉验证未做（无浏览器会话）：coveredBy 替挡首生效的演出与
+濒死对白像素级确认，建议用户或 Codex 在浏览器补验后由收口方标 done。未修改实现文件。
+
+无下一位 Agent 提示词，等待用户验收/收口（视觉验证与 R13-Z 4 条 observations 裁决
+由用户拍板）。
 
 ## 下一位 Agent 提示词（给 Kimi / GLM 设计复审）
 

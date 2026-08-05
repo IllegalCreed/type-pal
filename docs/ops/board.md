@@ -14,7 +14,6 @@
 | C8 | 物品用途机制、运行时与迁移闭环 | review | 等待 N3-1 完成后交用户联合验收 | `0d4aa48b` 三方最终 accept 已齐；100/0、20 件/21 根及引用反跳均通过审查 |
 | W9 | 实体暂离、重现与明雷逃跑冷却 | draft | 先冻结精确状态机，再由 Kimi / GLM 设计审查 | 18b 二次真值核对补入 0x4B 手动确认、0x52 toggle、world-update pause、敌逃/terminate success；Codex 签字撤回 pending，未准入 build |
 | B10-1 | 混乱敌人攻击同伴 | draft | 先冻结语义空槽 schema，再由三方设计签字 | 18a 二次真值核对补入 confused 前废弃玩家抽样；二阶段已压掉 68/380 队源空槽，不能用活目标分布冒充 RNG 忠实，Codex 签字 pending |
-| B11-1 | 队友阵亡/濒死战斗脚本（scriptOnFriendDeath/scriptOnDying） | review | Codex 自验完成（P1-P6/G1 全钉），交 Kimi / GLM 实现审查 | 实现提交 58f8f846/e2fb035d/9bf68fe7/0ea144c2；R13-Z 110 actor 站点已销账，dry-run open=0/observations=4 |
 
 ## 阻塞
 
