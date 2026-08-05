@@ -7598,6 +7598,80 @@ Codex 分桶执行结果（临时插桩捕获 573 触发 + 引用形态标注，
 或单独 R13-6D successor 批次进三方设计签字；卡内注明「0x04 返回丢弃」仅作为方法学
 依据保留，不构成数值销账（call=0）。
 
+##### R13-6D 设计草案：段转移 oracle resolution evidence（2026-08-05，Codex，A′ 落实，待三方设计签字）
+
+用户裁决：按 A′ 推进（覆盖证明 + 分桶 + oracle；不重开全量 B）。
+
+**1. 上游修复：计数备注升级为结构化明细（先修上游原则）**
+
+- `translate-events.ts:360` 的 `note(ctx, '引用目标含段转移(按 end 处理)')` 升级为同时
+  追加 `report.scripts.segmentTransferDetails`（新增 append-only 确定性字段）：每条
+  `{ label, sourceAddress, refKind(call/goto/branch/install), term(advance/reset),
+  successor, owner, id, path }`。573 条从此机器可枚举、可复现，不再依赖插桩。
+- 历史 R13-4 v9 报告走同一 translate-events 路径，明细自动一致；R13-Z 权威输入即
+  历史报告，明细必须与插桩捕获的 573 条逐条 digest 一致（防漂移）。
+
+**2. oracle 逐条检查（覆盖全部 573 条，无桶①捷径）**
+
+- 原版 resume 语义：引用后宿主游标落点 = successor（advance = `sourceAddress+1`；
+  reset = `term.targetAddress`；0x03 goto / 0x24-0x25 安装 / 分支臂均经 play.c:153
+  回写宿主槽）。
+- final 再激活点：successor 段在最终内容中的 flow stage——复用 census site→context→
+  final target 绑定 + R13-2 `r13-trigger-activation-graph.ts`（checkpoint/restored
+  entity behavior 机制）定位「successor 段对应的最终 stage/再激活入口」。
+- 比对：原版 resume 落点语义 == final flow 再激活起点。逐条 pass/fail；fail 集合 =
+  **B 子集**（仅该子集修翻译 + 重迁，其余不动）；无 fail = 观察归零。
+- 每条生成机器可校验 digest：sourceCommandSha256 + successor + final target
+  selector/digest，source-backed 可重建，防手写映射表冒充。
+
+**3. 证据族与门禁**
+
+- 新证据族 `r13-segment-transfer-resume`（scope=observation-closure，
+  proves=structured，appliesToLayers=[final]），关闭
+  `source-note:引用目标含段转移(按 end 处理)` 观察。
+- R13-Z dry-run 路径：observations 4 → 1（R13-6C 关 lossy=3）→ 0（本 oracle 全过）。
+- fail 子集非空时：观察保持 open，子集转 B 并逐条登记；不得静默放行。
+
+**4. seal/rewind 与明确不做**
+
+- 作为 successor 批次（R13-6D；与 R13-6C 合并与否由三方设计复审裁定）；预期仅
+  report/evidence 层变更，无内容叶，contentVersion/SAVE 不 bump；rewind 保持
+  6A/6B surface 冻结（fail-closed 防洗钱语义不变）。
+- 明确不做：不重开 573 人工审计；不改已发布 content；call=0 不虚构恒等销账；
+  不顺手关闭 R13-6C 的 3 条 lossy（独立批次）。
+
+**风险钉（D，build 验收核对，不阻塞 agree）**：
+
+- **D1** segmentTransferDetails 与插桩捕获 573 条逐条 digest 一致（明细不漂移）。
+- **D2** oracle 的 final 再激活点绑定必须 source-backed 重建，不得手写映射。
+- **D3** fail 子集显式枚举并转 B；观察未归零前 R13-Z seal 不得生成。
+- **D4** 明细/证据不改变任何已发布内容叶；6A/6B surface dry-run 仍 fail-closed。
+
+**签字状态**：Codex design agree（本草案）；待 Kimi / GLM agree 后方可进入 build。
+
+#### 给 Kimi / GLM 的 R13-6D 设计复审提示词（下一位 Agent 可直接复制）
+
+```text
+复审任务: N3-1 R13-6D 设计复审（段转移 oracle resolution evidence）
+任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md（R13-Z 节：
+  「段转移备注定位」「段转移覆盖证明」「段转移分桶证明」「R13-6D 设计草案」）
+当前状态: N3-1 build；R13-6D 仅设计草案，未准入 build，未改实现文件。
+你的职责: 只读审查；输出 agree 或 counter 的具体字段/反例。不得开始实现。
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡 R13-Z 节、
+  packages/migrate/src/translate-events.ts（:315-407 registerTarget / :360 note）、
+  packages/migrate/src/experimental/script-v5/r13-trigger-activation-graph.ts
+  （checkpoint/restored behavior 机制）、source-execution-census.ts、
+  source-instruction-disposition.ts、pal-r13-six-b-rewind.ts。
+重点:
+  1. 计数备注升级为 segmentTransferDetails 明细的确定性（与插桩 573 逐条一致）；
+  2. oracle 的「原版 resume 地址 == final flow 再激活起点」判定是否可机器重建，
+     R13-2 激活图是否足以覆盖 goto/install/branch 三形态（437/111/25）；
+  3. fail 子集 → B 的边界是否清晰（仅该子集修翻译 + 重迁）；
+  4. 证据族 r13-segment-transfer-resume 与既有 successor/observation-closure
+     模式是否一致；6A/6B 面 fail-closed 是否保住（D1-D4）。
+输出: 签字 agree / counter 理由；是否需调整范围。
+```
+
 ##### 调色盘备注闭合(2026-08-05,用户拍板)
 
 用户拍板:调色盘系统已弃用,大部分用滤镜(ambience 全帧染色)解决,其余 RNG
