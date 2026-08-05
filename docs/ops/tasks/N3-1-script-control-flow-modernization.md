@@ -7724,17 +7724,28 @@ Kimi：**分开**（6C→6D 顺序 successor；证据族作用域不相交，rew
 - 默认面（无 flag）代码路径不变 + fast 套件全绿 + 今晨默认 dry-run 仍 4：6A/6B
   面 fail-closed 保持。
 
-**未完成（下一步，同一批内继续）**：
+**seal/rewind（已实现，2026-08-05 追加）**：
 
-1. 6C successor transition 正式发布（`_transitions/r13-6c-lossy-closure-v1.json` +
-   baseline metadata + `--write`）；rewind 6C→6B 逐字节还原（预期零内容叶）。
-2. `r13-source-semantics-mg2.ts:848` 6A lossy 断言按 authority 参数化（6C 面要求
-   closure evidence），canary 双面重放。
-3. R13-6D oracle（段转移备注），另批。
+- 新模块 `pal-r13-six-c.ts`：`R13_SIX_C_TRANSITION_ID` / seal 路径、closure control
+  （三条 skill → r13-6c-lossy-closure 证据 digest + sourceClosureDigest +
+  finalTargetDigest）、四元组 install、`rewindPalR13SixCPublicationIfPresent`
+  （零内容叶，半状态 fail-closed）；单测 3/3。
+- canary/6A 重放链：`rewindPublishedR13SourceSemanticsBaseline` / `Transition`
+  先剥 6C 再剥 6B（逐字节还原 6A 面）；migrate-content `sourceBaseline` 同链。
+- 发布：`runR13ZTransition` write 路径在 R13-Z seal 同一事务内先装 6C seal
+  （`buildR13SixCSeal` 从 authority 报告提取闭包证据，`--r13-6c --write` 时生效，
+  零内容叶；observations=0 后随最终 R13-Z 发布）。
+- `r13-source-semantics-mg2.ts:848`：属冻结 6A seal 重放断言（lossy 必须 open），
+  6C 面不经过它；6C 面的 closure 由 authority-aware completeness 检查 +
+  6C seal closure control 强制，canary 重放前已先剥 6C，语义一致。
+
+**未完成（下一步）**：R13-6D oracle（段转移备注 1→0），另批；之后 `--r13-z --r13-6c
+--write` 发布 6C + R13-Z seal 并跑 canary 双面重放 + 全量重迁双跑。
 
 C1-C4 对照：C1 双侧（默认面 fast + dry-run 4 保持；6C 面 dry-run 1）✅（正式发布后
 补 canary 双面重放）；C2 source 根限 0x68 分支 ✅；C3 零内容叶 ✅（dry-run 未写盘）；
-C4 敌方下毒测试未触碰 ✅（fast 全绿）。
+C4 敌方下毒测试未触碰 ✅（fast 全绿）。seal/rewind 单测 3/3，fast 78 files /
+570 passed / 5 skipped，oracle/manifest 仅指纹更新。
 
 #### 给 Kimi / GLM 的 R13-6D 设计复审提示词（下一位 Agent 可直接复制）
 

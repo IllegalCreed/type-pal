@@ -6,6 +6,7 @@ import {
 } from '../../migration-baseline.js'
 import type { MigrationJson } from '../../pal-migration.js'
 import { rewindPalR13SixBPublication } from '../../pal-r13-six-b-rewind.js'
+import { rewindPalR13SixCPublicationIfPresent } from '../../pal-r13-six-c.js'
 import {
   R13_EXISTING_SCHEMA_CHANGED_PATHS,
   type R13ExistingSchemaAugmentationEvidenceV1,
@@ -73,7 +74,10 @@ export function rewindPublishedR13SourceSemanticsBaseline(source: MigrationSnaps
   successor: MigrationSnapshot
   evidence: R13ExistingSchemaAugmentationEvidenceV1
 } {
-  const successor = rewindPalR13SixBPublication(source)
+  // R13-6C(零内容叶 successor)先剥离,再剥 6B —— 重放 6A 面。
+  const successor = rewindPalR13SixBPublication(
+    rewindPalR13SixCPublicationIfPresent(source),
+  )
   const seal = publishedSeal(successor)
   if (
     successor.baselineMetadata?.transitions[R13_SOURCE_SEMANTICS_TRANSITION_ID] === undefined ||
@@ -108,7 +112,9 @@ export function rewindPublishedR13SourceSemanticsTransition(args: {
   evidence: R13ExistingSchemaAugmentationEvidenceV1
 } {
   const rebuilt = rewindPublishedR13SourceSemanticsBaseline(args.publishedBaseline)
-  const successorProject = rewindPalR13SixBPublication(args.publishedProject)
+  const successorProject = rewindPalR13SixBPublication(
+    rewindPalR13SixCPublicationIfPresent(args.publishedProject),
+  )
   if (
     successorProject.files.has(R13_SOURCE_SEMANTICS_SEAL_PATH) ||
     successorProject.hashes?.has(R13_SOURCE_SEMANTICS_SEAL_PATH)

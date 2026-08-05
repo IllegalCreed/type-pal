@@ -142,6 +142,12 @@ import { applyPalR13SixBLoadSceneTransitions } from '../src/pal-r13-six-b-load-s
 import { applyPalR13SixBSceneOverlays } from '../src/pal-r13-six-b-overlays.js'
 import { rewindPalR13SixBPublication } from '../src/pal-r13-six-b-rewind.js'
 import {
+  buildR13SixCSeal,
+  installR13SixCSeal,
+  rewindPalR13SixCPublicationIfPresent,
+} from '../src/pal-r13-six-c.js'
+import { R13_SOURCE_SEMANTICS_TRANSITION_ID } from '../src/experimental/script-v5/r13-source-semantics-mg2.js'
+import {
   assertScriptControlFlowAudit,
   auditPalScriptControlFlow,
   type ScriptControlFlowAuditV1,
@@ -336,7 +342,10 @@ async function runR13ZTransition(
   // R13 source semantics was published on the 6A surface. Rewind only the append-only 6B
   // overlay before replaying its existing-schema authority; runtime is audited separately on
   // the live content11 baseline below.
-  const sourceBaseline = rewindPalR13SixBPublication(baseline)
+  // R13-6C(零内容叶 successor authority)先剥离,再剥 6B —— 逐字节还原 6A 面。
+  const sourceBaseline = rewindPalR13SixBPublication(
+    rewindPalR13SixCPublicationIfPresent(baseline),
+  )
   const currentManaged = discoverProjectManagedFiles(
     repo,
     new Set([...baseline.managedFiles, ...currentMigration.managedFiles]),
@@ -425,6 +434,15 @@ async function runR13ZTransition(
     sourceDispositionBuild,
     runtimeFinal: baseline,
   })
+  if (r13SixC) {
+    // R13-6C 与 R13-Z 同一事务发布:先装 6C seal(记录三条 lossy closure 账务,
+    // 零内容叶),再装 R13-Z seal;两 seal 独立 transition、独立 rewind。
+    const parentDigest = baseline.baselineMetadata?.transitions[R13_SOURCE_SEMANTICS_TRANSITION_ID]
+    if (!parentDigest) throw new Error('R13-6C publication: 缺 R13 source-semantics metadata')
+    const sixCSeal = buildR13SixCSeal(parentDigest, r13z.authority.sourceDisposition)
+    installR13SixCSeal(r13z.nextBaseline, sixCSeal)
+    console.log(`[R13-6C publication] seal=${sixCSeal.digest} lossyClosed=3`)
+  }
   reportR13ZPlan(r13z)
   if (!write) {
     assertPalBaselineSnapshotCurrent(repo, baseline)
