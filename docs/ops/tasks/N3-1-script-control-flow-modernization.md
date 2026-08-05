@@ -7549,6 +7549,29 @@ lossy 观察保持 open。当前 dry-run：`open sites=0 / observations=4`
 - **B**：全量 573 站点级审计 + 补实现（等价重开 R13-0 池）：逐站判定「按 end 停」是否
   与源一致、不一致的改翻译并全量重迁，代价大且需重新三方审查。
 
+##### 段转移覆盖证明（2026-08-05，Codex，应 GLM 咨询条件执行）
+
+GLM 咨询结论：A 成立但必须附机器可校验的覆盖证明——573 个引用目标的 advance/reset
+后续地址逐个验证都落在某个 trigger 入口的多段 stage 图范围内（不存在只靠 goto 可达、
+无入口覆盖的孤立段），否则等于 R13-0 设计门禁未闭合。
+
+Codex 执行证明（临时插桩捕获 573 触发 + `prepareR13SourceExecutionCensus` 可达集比对，
+插桩与临时脚本均已还原）：
+
+- 573 触发 = **advance 273 / reset 300**；advance 后续地址 = `sourceAddress + 1`，
+  reset 后续地址 = `term.targetAddress`（在已翻译目标 body 内，结构性覆盖）。
+- 覆盖比对：**573/573 后续地址全部在 census 可达集内，孤立段候选 = 0**。
+- 覆盖入口类型分布（同一地址可多上下文覆盖，计数>573）：entity-trigger 38、
+  dynamic-entity-trigger 63、entity-auto 438、dynamic-entity-auto 149、
+  scene-on-enter 1、dynamic-scene-on-enter 2——全部是落入最终结构化内容（具名行为槽/
+  hook）的入口种类，无「仅 goto 可达」的覆盖缺失。
+- 与既有门禁组合：R13-Z dry-run 已 `open sites=0`（82,953 站点全部 disposition 到
+  final），故「后续地址 ∈ 可达集」⟹「该段的执行站点已闭包进最终内容」。
+
+结论：GLM 条件已满足，A 口径可落成机器可校验 resolution evidence（覆盖证明 + 用户
+裁决），随下一 successor 批次（R13-6C 或单独 R13-6D）进三方设计签字；若后续发现
+任一孤立段，则该段单独走 B，不影响其余。
+
 ##### 调色盘备注闭合(2026-08-05,用户拍板)
 
 用户拍板:调色盘系统已弃用,大部分用滤镜(ambience 全帧染色)解决,其余 RNG
