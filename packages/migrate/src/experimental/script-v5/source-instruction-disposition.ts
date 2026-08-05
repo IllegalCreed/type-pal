@@ -9,6 +9,7 @@ import type {
   SkillData,
 } from '@type-pal/content'
 import { ROLE_SLUGS } from '../../source-facts.js'
+import { palPaletteSiteAt } from '../../pal-palette-sites.js'
 import type { MigrationSnapshot } from '../../migration-baseline.js'
 import type { MigrationFileSet, MigrationJson, PalMigrationSources } from '../../pal-migration.js'
 import type { ScriptBodyAudit, ScriptControlFlowAuditV1 } from '../../script-control-flow-audit.js'
@@ -248,6 +249,24 @@ export type R13DispositionEvidence =
       sourceRootIds: string[]
       sourceClosureDigest: string
       successorEvidenceDigest: string
+      layerTargets: { final: { selectors: string[]; digests: string[] } }
+      appliesToLayers: ['final']
+    })
+  | (EvidenceBase & {
+      scope: 'observation-closure'
+      kind: 'pal-palette-resolution'
+      paletteIndex: number
+      /**
+       * 每个源站点的当前裁决(用户拍板 2026-08-05:调色盘系统已弃用,
+       * 滤镜/烘焙替代):ambience = W6 氛围染色,asset-baked = RGBA 过场帧。
+       */
+      resolutions: {
+        address: number
+        treatment: 'ambience' | 'asset-baked'
+        ambience?: 'day' | 'warm'
+        assetId?: 'frame-animation.pal.003' | 'frame-animation.pal.007'
+      }[]
+      ambienceDefsDigest: string
       layerTargets: { final: { selectors: string[]; digests: string[] } }
       appliesToLayers: ['final']
     })
@@ -1654,6 +1673,107 @@ function r13SuccessorSourceEvidence(args: {
     domainObservations.set(key, id)
   }
   return { sites, domainObservations }
+}
+
+/**
+ * 用户拍板(2026-08-05):调色盘系统已弃用,滤镜/烘焙替代 —— 14 个原版 setPalette
+ * 站点全部有裁决(ambience day/warm 或 asset-baked 帧动画),canonical 不再有
+ * setPalette 概念。历史 6A 报告里的 known-deferred 备注据此用证据闭合。
+ *
+ * 只处理 census 可达的 setPalette 指令;每个地址必须命中 PAL_PALETTE_SITE_SPECS
+ * 且索引一致(fail-loud),并验证 successor 内容确实包含对应 ambience 定义与
+ * 烘焙资产。返回 paletteIndex → evidenceId。
+ */
+function palPaletteResolutionEvidence(args: {
+  sources: PalMigrationSources
+  census: R13SourceExecutionCensusV1
+  successorFinal: MigrationSnapshot
+  evidence: Map<string, R13DispositionEvidence>
+}): Map<string, string> {
+  const result = new Map<string, string>()
+  const byIndex = new Map<number, number[]>()
+  for (const instruction of args.census.instructions) {
+    if (instruction.op !== 'setPalette' || !instruction.reachable) continue
+    const command = args.sources.migrate.commands[instruction.address]
+    const paletteIndex = (command as { paletteIndex?: unknown } | undefined)?.paletteIndex
+    if (typeof paletteIndex !== 'number')
+      throw new Error(`R13 disposition: setPalette @${instruction.address} 缺 paletteIndex`)
+    const addresses = byIndex.get(paletteIndex) ?? []
+    addresses.push(instruction.address)
+    byIndex.set(paletteIndex, addresses)
+  }
+  const ambiences = value<{ id: string }[]>(args.successorFinal, 'content/ambiences.json')
+  const ambienceById = new Map(ambiences.map((def) => [def.id, def]))
+  const assetsIndex = JSON.stringify(
+    value<unknown>(args.successorFinal, 'assets/index.json'),
+  )
+  const ambienceDefsDigest = stableJsonSha256(
+    [...ambienceById.entries()].sort(([left], [right]) =>
+      stableStringCompare(left, right),
+    ),
+  )
+  for (const [paletteIndex, addresses] of [...byIndex.entries()].sort(
+    ([left], [right]) => left - right,
+  )) {
+    const sorted = [...addresses].sort((left, right) => left - right)
+    const resolutions = sorted.map((address) => {
+      const spec = palPaletteSiteAt(address)
+      if (!spec || spec.paletteIndex !== paletteIndex)
+        throw new Error(
+          `R13 disposition: setPalette(${paletteIndex}) @${address} 缺裁决或索引漂移`,
+        )
+      if (spec.treatment === 'ambience') {
+        if (!ambienceById.has(spec.ambience))
+          throw new Error(`R13 disposition: setPalette(${paletteIndex}) ambience 缺定义 ${spec.ambience}`)
+        return { address, treatment: 'ambience' as const, ambience: spec.ambience }
+      }
+      if (!assetsIndex.includes(spec.assetId))
+        throw new Error(`R13 disposition: setPalette(${paletteIndex}) 烘焙资产缺失 ${spec.assetId}`)
+      return { address, treatment: 'asset-baked' as const, assetId: spec.assetId }
+    })
+    const selectors = [
+      ...new Set([
+        ...(resolutions.some((resolution) => resolution.treatment === 'ambience')
+          ? ['content/ambiences.json']
+          : []),
+        ...(resolutions.some((resolution) => resolution.treatment === 'asset-baked')
+          ? ['assets/index.json']
+          : []),
+      ]),
+    ].sort(stableStringCompare)
+    const digests = selectors.map((selector) =>
+      selector === 'content/ambiences.json'
+        ? stableJsonSha256(
+            [...ambienceById.entries()].sort(([left], [right]) =>
+              stableStringCompare(left, right),
+            ),
+          )
+        : stableJsonSha256(value<unknown>(args.successorFinal, 'assets/index.json')),
+    )
+    const identity = {
+      paletteIndex,
+      sourceAddresses: sorted,
+      resolutions,
+      ambienceDefsDigest,
+      targetSelectors: selectors,
+      targetDigests: digests,
+      successor: 'pal-palette-resolution-v1',
+    }
+    const id = evidenceId('pal-palette-resolution', identity)
+    addEvidence(args.evidence, {
+      id,
+      scope: 'observation-closure',
+      kind: 'pal-palette-resolution',
+      addresses: sorted,
+      paletteIndex,
+      resolutions,
+      ambienceDefsDigest,
+      layerTargets: { final: { selectors, digests } },
+      appliesToLayers: ['final'],
+    })
+    result.set(String(paletteIndex), id)
+  }
+  return result
 }
 
 function layeredTargets(
@@ -4691,6 +4811,8 @@ function reportObservations(args: {
   r13ExistingSchemaSkillCosts: ReadonlyMap<'352' | '372' | '373', string>
   r13ExistingSchemaCurrentLossySkills: ReadonlyMap<string, string>
   successorDomainObservations: ReadonlyMap<string, string>
+  /** paletteIndex → pal-palette-resolution evidence(用户拍板:调色盘已弃用,滤镜/烘焙替代)。 */
+  paletteResolutions: ReadonlyMap<string, string>
 }): R13MigrationObservation[] {
   const observations = new Map<string, R13MigrationObservation>()
   const rawItems = new Map(args.migration.report.rawProjection.items.map((item) => [item.id, item]))
@@ -4744,12 +4866,14 @@ function reportObservations(args: {
     kind: string
     objectId: string
     rootIds: string[]
+    /** source-command 观察(无 root)时显式给源地址;缺省由 rootIds 派生。 */
+    addresses?: number[]
     batch: R13DebtBatch
     reason: string
     closureEvidenceId?: string
   }): void => {
     const rootIds = [...new Set(entry.rootIds)].sort(stableStringCompare)
-    const addresses = rootAddresses(rootIds)
+    const addresses = entry.addresses ?? rootAddresses(rootIds)
     const closure = entry.closureEvidenceId ? args.evidence.get(entry.closureEvidenceId) : undefined
     if (closure && closure.scope !== 'observation-closure')
       throw new Error(`R13 disposition: observation ${entry.id} closure scope 错误`)
@@ -5041,15 +5165,34 @@ function reportObservations(args: {
 
   for (const [key, count] of Object.entries(args.migration.report.scripts.notes)) {
     if (!count) continue
-    addOpen({
-      id: `source-note:${key}`,
-      domain: 'source-command',
-      kind: `translation-note:${key}`,
-      objectId: key,
-      rootIds: [],
-      batch: 'R13-0',
-      reason: `translation-note:${key}:${count}`,
-    })
+    // 用户拍板(2026-08-05):调色盘系统弃用 —— 历史 known-deferred:setPalette(N)
+    // 备注由 pal-palette-resolution 证据闭合(每个可达站点都有 ambience/烘焙裁决)。
+    const paletteMatch = /^known-deferred:setPalette\((\d+)\)$/.exec(key)
+    const paletteProofId = paletteMatch ? args.paletteResolutions.get(paletteMatch[1]!) : undefined
+    const paletteProof = paletteProofId ? args.evidence.get(paletteProofId) : undefined
+    if (paletteProof && paletteProof.kind === 'pal-palette-resolution') {
+      addLayered({
+        id: `source-note:${key}`,
+        domain: 'source-command',
+        kind: `translation-note:${key}`,
+        objectId: key,
+        rootIds: [],
+        addresses: paletteProof.addresses,
+        batch: 'R13-0',
+        reason: `translation-note:${key}:${count}`,
+        closureEvidenceId: paletteProof.id,
+      })
+    } else {
+      addOpen({
+        id: `source-note:${key}`,
+        domain: 'source-command',
+        kind: `translation-note:${key}`,
+        objectId: key,
+        rootIds: [],
+        batch: 'R13-0',
+        reason: `translation-note:${key}:${count}`,
+      })
+    }
   }
 
   const sites = new Map(args.census.sites.map((site) => [site.id, site]))
@@ -5201,6 +5344,14 @@ function buildR13SourceInstructionDispositionInternal(
         evidence,
       })
     : { sites: new Map<string, ProjectionEvidence>(), domainObservations: new Map<string, string>() }
+  const paletteResolutions = args.successorFinal
+    ? palPaletteResolutionEvidence({
+        sources: args.sources,
+        census,
+        successorFinal: args.successorFinal,
+        evidence,
+      })
+    : new Map<string, string>()
   // Historical R13-0…R13-5 proofs must see the target with the new 6A-owned
   // leaves rewound. Otherwise an inserted command would look like arbitrary
   // author drift in every neighbouring site. The new bridge itself is checked
@@ -5595,6 +5746,7 @@ function buildR13SourceInstructionDispositionInternal(
     r13ExistingSchemaSkillCosts: existingSchemaClosure?.skillCosts ?? new Map(),
     r13ExistingSchemaCurrentLossySkills: existingSchemaClosure?.currentLossySkills ?? new Map(),
     successorDomainObservations: successorClosure.domainObservations,
+    paletteResolutions,
   })
   const byDisposition = Object.fromEntries(
     DISPOSITIONS.map((disposition) => [disposition, 0]),
@@ -6082,6 +6234,13 @@ function assertR13SourceInstructionDispositionBacked(
         evidence: trustedSiteEvidence,
       })
     : undefined
+  if (source.successorFinal)
+    palPaletteResolutionEvidence({
+      sources: source.sources,
+      census: report.census,
+      successorFinal: source.successorFinal,
+      evidence: trustedSiteEvidence,
+    })
   const trustedC8Sites = c8SiteEvidence({
     generated: source.generated,
     final: historicalFinal,
@@ -6381,6 +6540,12 @@ function assertR13SourceInstructionDispositionBacked(
         throw new Error(`R13 disposition: source-backed successor observation 漂移 ${proof.id}`)
       continue
     }
+    if (proof.kind === 'pal-palette-resolution') {
+      const expected = trustedSiteEvidence.get(proof.id)
+      if (!expected || stableJsonSha256(expected) !== stableJsonSha256(proof))
+        throw new Error(`R13 disposition: source-backed palette resolution 漂移 ${proof.id}`)
+      continue
+    }
     if (proof.kind !== 'domain-augmentation') continue
     const rawPending =
       proof.domain === 'item'
@@ -6611,7 +6776,8 @@ function assertR13SourceInstructionDispositionInternal(
             entry.kind === 'domain-augmentation' ||
             entry.kind === 'r13-enemy-augmentation' ||
             entry.kind === 'r13-existing-schema-skill-cost' ||
-            entry.kind === 'r13-successor-domain'
+            entry.kind === 'r13-successor-domain' ||
+            entry.kind === 'pal-palette-resolution'
           ? 'observation-closure'
           : entry.kind === 'open-debt'
             ? 'open-debt'
@@ -7053,6 +7219,44 @@ function assertR13SourceInstructionDispositionInternal(
       for (const digest of entry.targetDigests)
         if (!/^[0-9a-f]{64}$/.test(digest))
           throw new Error(`R13 disposition: evidence ${entry.id} target digest 无效`)
+    }
+    if (entry.kind === 'pal-palette-resolution') {
+      const finalTarget = entry.layerTargets.final
+      if (
+        !Number.isSafeInteger(entry.paletteIndex) ||
+        entry.addresses.length === 0 ||
+        entry.resolutions.length === 0 ||
+        entry.addresses.length !== entry.resolutions.length ||
+        entry.appliesToLayers.length !== 1 ||
+        entry.appliesToLayers[0] !== 'final' ||
+        !finalTarget ||
+        finalTarget.selectors.length === 0 ||
+        finalTarget.selectors.length !== finalTarget.digests.length ||
+        !/^[0-9a-f]{64}$/.test(entry.ambienceDefsDigest)
+      )
+        throw new Error(`R13 disposition: evidence ${entry.id} palette resolution identity 漂移`)
+      for (let index = 0; index < entry.resolutions.length; index++) {
+        const resolution = entry.resolutions[index]!
+        if (resolution.address !== entry.addresses[index])
+          throw new Error(`R13 disposition: evidence ${entry.id} palette resolution 地址序漂移`)
+        const spec = palPaletteSiteAt(resolution.address)
+        if (
+          !spec ||
+          spec.paletteIndex !== entry.paletteIndex ||
+          spec.treatment !== resolution.treatment ||
+          (spec.treatment === 'ambience' &&
+            (spec.ambience !== resolution.ambience ||
+              !entry.layerTargets.final.selectors.includes('content/ambiences.json'))) ||
+          (spec.treatment === 'asset-baked' &&
+            (spec.assetId !== resolution.assetId ||
+              !entry.layerTargets.final.selectors.includes('assets/index.json')))
+        )
+          throw new Error(`R13 disposition: evidence ${entry.id} palette resolution 裁决漂移`)
+      }
+      assertSortedUniqueAddresses(entry.addresses, `evidence ${entry.id}`)
+      for (const digest of finalTarget.digests)
+        if (!/^[0-9a-f]{64}$/.test(digest))
+          throw new Error(`R13 disposition: evidence ${entry.id} palette target digest 无效`)
     }
     if (entry.kind === 'folded-hostile-site') {
       const site = sites.get(entry.siteId)

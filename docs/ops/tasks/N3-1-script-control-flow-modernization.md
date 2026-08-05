@@ -7442,6 +7442,18 @@ lethalWith 仅投掷触发、counters 仅 use-on-self 触发。据此:
   当前 dry-run 仍 `open sites=0 / observations=8`(lossy=3 + setPalette=4 +
   段转移备注=1),无回归。
 
+##### 调色盘备注闭合(2026-08-05,用户拍板)
+
+用户拍板:调色盘系统已弃用,大部分用滤镜(ambience 全帧染色)解决,其余 RNG
+专属调色盘已预先烘焙进过场 RGBA 帧 —— canonical 不再有 setPalette 概念。
+
+- 新增 `pal-palette-resolution` 观察证据:14 个源站点逐一绑定
+  `PAL_PALETTE_SITE_SPECS` 裁决(10× ambience day/warm + 4× asset-baked
+  frame-animation.pal.003/007),并验证 successor 内容确实含对应 ambience
+  定义与烘焙资产;缺裁决/索引漂移 fail-loud。
+- 历史 6A 报告的 4 条 `known-deferred:setPalette(0/2/5/6)` 备注随证据闭合。
+- dry-run:`open sites=0 / observations=8 → 4`(剩 lossy=3 + 段转移备注=1)。
+
 ##### R13-6B implementation review 交接提示词（下一位 Agent 可直接复制）
 
 ```text

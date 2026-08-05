@@ -374,6 +374,15 @@ async function runR13ZTransition(manifestText: string, write: boolean): Promise<
   const preparedCurrentSourceCensus = prepareR13SourceExecutionCensus(sources)
   const sixAClosure = resolveR13ZSourceSemanticsClosure(sourceBaseline)
 
+  // B11-1/pal-palette-resolution 证据需要引用当前 canonical 的氛围定义(day/warm),
+  // 但 ambiences.json 是 authored 文件、不在 baseline managedFiles。把它并入
+  // successorFinal 快照,证据才能绑定实际染色定义。
+  const successorFiles = new Map(currentMigration.files)
+  const ambienceDefsPath = resolve(repo, 'projects/pal/content/ambiences.json')
+  successorFiles.set(
+    'content/ambiences.json',
+    JSON.parse(readFileSync(ambienceDefsPath, 'utf8')) as MigrationJson,
+  )
   const sourceDispositionBuild: R13SourceInstructionDispositionBuildArgs = {
     sources: historicalSources,
     migration: historicalMigration,
@@ -381,7 +390,7 @@ async function runR13ZTransition(manifestText: string, write: boolean): Promise<
     generated: projectR13SourceDispositionGenerated(r13Five.successorGenerated),
     final: sixAClosure.augmentationSnapshot,
     successorFinal: {
-      files: currentMigration.files,
+      files: successorFiles,
       managedFiles: currentMigration.managedFiles,
     },
     r13EnemyClosure: {
