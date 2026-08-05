@@ -143,16 +143,25 @@
 
 ### Reforge 战斗引擎缺口（议题 18）
 
-> 2026-07-29 GLM 逐行代码审计 `packages/reforge/src/battle/` vs `docs/phase1/game-mechanics.md` 发现。
-> 35/37 项机制已实现,以下 2 项缺口需补齐。
+> 2026-07-29 GLM 逐行代码审计 `packages/reforge/src/battle/` vs `docs/phase1/game-mechanics.md`。
+> **2026-08-05 GLM 审计纠正**：初次审计有盲区——只看 reforge 代码有没有某机制，没检查
+> "一阶段已实现的机制，数据/字段有没有迁到二阶段"。系统性交叉核对（逐机制 × 一阶段代码 ×
+> 迁移覆盖 × reforge 代码 × content schema 四维）后，除原 18a/18b 外新发现 18c/18d 两项
+> 数据链断裂缺口。以下 4 项缺口需补齐。
 
 | # | 议题 | 当前缺口 | 方向 | 归属 | 状态 |
 |---|---|---|---|---|---|
-| 18a | 敌人混乱攻击同伴 | `battle-core.ts` 的 `decideEnemyAction` 无混乱分支，导致中了“乱”的敌人仍照常施法、变身、召唤、逃跑或攻击玩家。完整缺口还包括专用结算、lastAction、session 路由和 12 帧专用动画；严格 RNG 还要求保留 confused 前废弃玩家抽样和原始敌队空槽。 | 已开高风险 [B10-1 任务卡](../ops/tasks/B10-1-enemy-confused-attack.md)：二次真值核对发现当前 schema/migration 压掉 68/380 队的源空槽，先冻结语义槽位方案，再做全槽拒绝采样（含自身→Pass）、专用公式和演出；不改玩家混乱 | B4 / B5 / B10 | draft，Codex/Kimi/GLM 均待精确 schema 后签字 |
+| 18a | 敌人混乱攻击同伴 | `battle-core.ts` 的 `decideEnemyAction` 无混乱分支，导致中了"乱"的敌人仍照常施法、变身、召唤、逃跑或攻击玩家。完整缺口还包括专用结算、lastAction、session 路由和 12 帧专用动画；严格 RNG 还要求保留 confused 前废弃玩家抽样和原始敌队空槽。 | 已开高风险 [B10-1 任务卡](../ops/tasks/B10-1-enemy-confused-attack.md)：二次真值核对发现当前 schema/migration 压掉 68/380 队的源空槽，先冻结语义槽位方案，再做全槽拒绝采样（含自身→Pass）、专用公式和演出；不改玩家混乱 | B4 / B5 / B10 | draft，Codex/Kimi/GLM 均待精确 schema 后签字 |
 | 18b | 实体暂离、重现与明雷逃跑冷却 | `main.ts:3234-3263` 用 `respawnSeconds` + detached `host.wait`，且迁移把 `0x4B` / `0x52` 合并成 `vanishEntity`。缺口包括自动触碰冷却、手动确认保留、world-update pause、0x52 toggle、固定 320×320 当前坐标离屏门、跨场景/存档持久和战斗结果接续。 | 已开高风险 [W9 任务卡](../ops/tasks/W9-entity-lifecycle-respawn.md)：用稳定实体地址的语义生命周期状态 + 世界逻辑 reducer，拆分短暂停自动行为/隐藏待重现，区分普通胜利、玩家逃跑、敌逃与 terminate，修迁移上游并全量重生成 | W9 世界 / B8-B9 / X1 | draft，二次真值方案待三方设计签字 |
+| 18c | 队友阵亡/濒死战斗脚本（scriptOnFriendDeath/scriptOnDying） | ~~三层全断~~ **已由 B11-1 修复**（提交 `58f8f846`）：① battle-core.ts:717 `runPlayerCasualtySweep`（friendDeath + dying + 健康门 + 每 action/毒 tick 后调用）；② coveredBy 迁移落地（final actors.json 6 actor battler.coveredBy = 正确 slug）；③ BattlerSpec.casualty 结构化数据已生成（pal-casualty-scripts.ts 162 行翻译四个源脚本）。 | [B11-1 任务卡](../ops/tasks/B11-1-player-casualty-scripts.md) 已实现 coveredBy + casualty + sweep。 | B9 战斗 / R13-Z | **已修复**（B11-1 实现，待 R13-Z actor-casualty 证据族关闭 110 site） |
+| 18d | 援护（Cover）数据链断裂 | ~~数据没迁~~ **已由 B11-1 修复**：mapActor coveredBy（migrate-content.ts:314）产物已生效 —— final actors.json li-xiaoyao coveredBy=lin-yueru、gai-luojiao coveredBy=anu 等，main.ts:2239 → battle-core.ts:2341 数据链完整。 | 同 18c（B11-1 coveredBy 迁移）。 | B9 战斗 | **已修复**（B11-1 formal publication 落盘后 coveredBy 有值） |
+| 18e | 编辑器角色战斗字段缺失（coveredBy / casualty / cooperativeMagic） | ActorMode.tsx（480 行）只编辑 baseStats / battleSprite / sounds / initialEquipment / initialMagic，**不编辑 coveredBy、casualty（friendDeath/dying）、cooperativeMagicSkillId**。B11-1 已让 coveredBy + casualty 在数据层/runtime 完整工作，但编辑器无入口 → 作者不能查看/修改/为新角色配置 → **功能未闭环**。参照 SkillTab（R13-6B 已编辑 execution/preShake 结构化字段）可实现。 | 在 ActorMode 增 coveredBy 角色选择器 + casualty 脚本编辑器（gates/lines/effects 结构化，复用 SkillEffect 编辑组件）+ cooperativeMagic 选择器。优先级：coveredBy（简单下拉）> casualty（结构化脚本，较重）> cooperativeMagic。 | ED 编辑器 / B9 | 待立项 |
 
 边界:
 
-- 两项都不阻塞当前 N3-1 R13 批次或脚本系统稳定。
-- 18a 优先级高于 18b，但二次真值核对后已不是“纯 battle-core 小改”：要严格保留原始空槽 RNG，需先改 enemy-team schema/migration。18b 仍是 world/save/migration/editor 跨包任务。两者都在 R13-5 candidate 后推进，均不得以近似分布或 detached timer 冒充一阶段真值。
-- 一阶段引擎（`packages/game`）两项都有完整实现，可作为参照。
+- 18a 优先级高于 18b，但二次真值核对后已不是"纯 battle-core 小改"：要严格保留原始空槽 RNG，需先改 enemy-team schema/migration。18b 仍是 world/save/migration/editor 跨包任务。
+- **18c/18d 已由 B11-1（`58f8f846`）修复**：coveredBy 迁移落地 + casualty sweep 实现 + 结构化 casualty 数据生成。GLM 2026-08-05 重新审计时一度误报为"全 None / 三层全断"，实际是审计时工作树未含 B11-1 最新提交；纠正后确认数据链完整。
+- 剩余缺口仅 18a（敌人混乱）+ 18b（怪物刷新），均为纯代码缺口。
+- 一阶段引擎（`packages/game`）全部机制都有完整实现，可作为参照。
+
+**已覆盖确认（2026-08-05 抽样复核通过，非缺口）**：隐藏经验、伤害公式、暴击/会心、主动/自动防御、护体、群体递减、战后 HP/MP 恢复、战场五灵 fieldEffect（数据+注入双全）、合击、身法/出手顺序、吉运/逃跑、特殊技能成功率、紫金葫芦炼丹（Store[0] 九档完整迁移）、五灵/毒抗性、巫术 0x2E（含 ≥ 修复）、异常状态、毒系统（七大毒/相克/致死/无影毒）、大世界状态带入战斗、状态刷新/死亡/复活/梦蛇/明王觉醒、乾坤一掷、敌普攻附带 attackEquivItem。

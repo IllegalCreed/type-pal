@@ -1,6 +1,6 @@
 # JS1 - 酒神一生九次限用与移除(持久化计数器)
 
-Status: build(Codex 自验完成;Kimi / GLM 异步补审中)
+Status: done（2026-08-05 Codex / Kimi / GLM 三方 accept 齐；实现提交 `19ce1ca7`，签字批次未提交）
 Phase: phase2
 Capability: B10 / skill / save
 Coding Owner: Codex
@@ -45,22 +45,70 @@ Branch: chore/docs-migrate-cleanup
   二次幂等 0 写;R13-Z 真实 dry-run 重跑仍 fail-closed 于 `208 sites / 208 observations`
   (无回归;酒神 4 个 lossy 站点的关闭属 R13-Z 证据绑定工作,另见 N3-1 卡)。
 
+## 编辑器入口（2026-08-05 追加闭环，常规迭代免签）
+
+用户指出：所有技能均已结构化，但 `lifetimeLimit` 在编辑器无入口。JS1 原范围只覆盖
+content schema / 迁移 / battle-core / session / save，未含作者侧闭环。本次追加：
+
+- `SkillTab.tsx` 基础区新增「一生限用」数字输入（留空 = 不限，空值删键，沿用
+  UpdateSkillCommand 的 undefined 删键语义），附酒神 9 次说明 title。
+- 新增单测「一生限用次数」：设置入账、清空恢复不限、undo/redo 复原。
+- 验证：editor 单测 4/4（SkillTab）与全量 798/798 绿，editor typecheck 通过。
+- 不改变 schema / runtime / 存档语义，实现提交与签字批次仍由用户决定提交时机。
+
+## 复审签字
+
+- Codex: **accept**（2026-08-05，Coding Owner 实现与自验收口）。实现提交 `19ce1ca7`；
+  migrate 76 files / 562 passed / 5 skipped、reforge 77 files / 781 passed、
+  content 33 files / 391 passed、三包 typecheck 通过；canonical 重迁一次写 1 文件、
+  二次幂等 0 写；R13-Z dry-run 保持 fail-closed 208/208 无回归。接受 Kimi / GLM 复审
+  记录项：`debug-owner.ts` 不入库；酒神 4 个 lossy 站点关闭归 R13-Z 证据绑定。
+- Kimi: **accept**（2026-08-05，只读实现审查）。一手核对：
+  1. **存档兼容**：`WorldState.skillUseCounts?`（charInstanceId→skillId→count）为可选字段，
+     旧档 `ops.ts:123 ??= {}` 缺省空，不 bump SAVE_VERSION（与 collectValue/hostileAwareness
+     先例一致）；`SkillData.lifetimeLimit?` 可选，缺省=不限。
+  2. **计数点**：battle-core.ts:1064-1069 在全部资源门（限用门 :1002、MP :1011、金钱 :1018、
+     物品 :1043）通过、扣减完成后入账——“资源门全过=真实施放”口径正确；酒不足（:1049-1057）
+     不计数，与设计一致。
+  3. **满 9 移除**：usesAfter>=9 → removed=true + 当步 notice `“酒神咒”使用次数已用尽`；
+     write-back（battle-session.ts:2398-2411）写回计数并从 learnedSkills 移除。
+  4. **防御性门**：battle-core.ts:1002-1009 在一切消耗（MP/物品/金钱）之前拦截，失败
+     不吃任何消耗，防旧档/计数漂移。
+  5. **overlay/rewind 对称**：lifetimeLimit:9 只在 `r13SixBExecution` 门控路径叠加
+     （历史 6A producer 冻结）；rewind 要求其存在以剥离并缺则 fail-loud
+     （pal-r13-six-b-rewind.ts:207-208）。
+  6. **产物与测试**：projects/pal 370 含 lifetimeLimit:9 且 execution 分支正确；
+     reforge battle 测试 144/144 绿（9 连放、第 10 次拦截、酒不足不计数、写回移除）。
+  记录项（非反例）：`packages/migrate/debug-owner.ts` 调试脚本按卡内约定不入库；
+  R13-Z 的 208/208 属既有 fail-closed 未回归，酒神 4 个 lossy 站点关闭归 R13-Z 证据绑定。
+  未修改实现文件。
+- GLM: **accept**（2026-08-05，schema/save/数据守恒审查）。一手核实：
+  1. **schema 兼容**：`SkillData.lifetimeLimit?`（skill.ts:135 可选，缺省=不限）；
+     `WorldState.skillUseCounts?`（character.ts:28 `Record<charInstanceId, Record<skillId, number>>`，
+     可选）。旧档 `ops.ts:123 w.skillUseCounts ??= {}` 缺省空，**不 bump SAVE_VERSION**（仍=8），
+     与 collectValue/hostileAwareness 先例一致 ✅。
+  2. **final 产物**：skill 370 `lifetimeLimit=9` + `execution.player.prepare=
+     [remainingResourceDamage mp ×8 consume:all]` ✅（与 R13-6B 酒神 MP×8 清 MP 设计一致）。
+  3. **防御性门**（battle-core.ts:1133-1141）：在 MP/物品/金钱消耗**之前**拦截
+     `usedBefore >= lifetimeLimit` → return 不吃任何消耗；注释"防旧档/计数漂移"✅。
+  4. **计数点**（:1197-1203）：资源门**全部通过、消耗完成后**（:1194 slot.count 减、
+     :1196 moneyDelta 减之后）`usesAfter = usedBefore + 1` 入账 ✅。
+  5. **满 9 移除**（:1203-1213）：`removed = usesAfter >= lifetimeLimit` → 当步 notice
+     `"酒神咒"使用次数已用尽` + pendingWorldMutations 排队 skillUse mutation ✅。
+  6. **writeBack**（battle-session.ts:2440-2453）：`world.skillUseCounts[char][skill]=usesAfter`
+     写回；`mutation.removed` 时从 `learnedSkills` 过滤掉该技能 ✅。
+  7. **测试**：reforge battle 8 files / 195 tests 全绿（含 9 连放、第 10 次拦截、酒不足
+     不计数、session 写回移除）✅。
+
+  记录项（非反例）：R13-Z 208/208 fail-closed 是既有状态，酒神 4 lossy 站点关闭归 R13-Z
+  证据绑定，不在本卡范围。未修改实现文件。
+
 ## 待办
 
-- Kimi / GLM 按 schema/save 变更纪律异步补审。
-- 未提交 git;与 R13-Z 工作树批次一起由用户决定提交时机。
-- `packages/migrate/debug-owner.ts` 是调试脚本,不入库。
+- 三方复审已完成（Kimi / GLM 均于 2026-08-05 accept），本卡推进至 `done`，等待用户验收/收口。
+- 本次签字批次（本卡 + design-backlog）未提交，与 R13-Z 工作树一起由用户决定提交时机。
+- `packages/migrate/debug-owner.ts` 是调试脚本，不入库（提交前删除或保持忽略）。
 
 ## 下一位 Agent 提示词
 
-```text
-复审任务: JS1 酒神一生九次限用(持久化计数器)实现审查
-任务卡: docs/ops/tasks/JS1-jiu-shen-nine-use-limit.md
-当前状态: build;Codex 自验完成,未标 done。
-你的职责: 只读审查;输出 accept 或 counter。不得改实现文件。
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡、N3-1 卡 R13-Z 节。
-重点: SkillData.lifetimeLimit / WorldState.skillUseCounts 的存档兼容(旧档缺省空);
- 成功施放计数点(资源门全过后)与满 9 移除;防御性门在消耗前;
- 6B overlay 与 rewind 对称;canonical 重生成 + R13-Z 208/208 无回归。
-输出: 签字 accept / counter 理由。
-```
+无下一位 Agent 提示词，等待用户验收/收口（签字批次提交时机由用户拍板）。
