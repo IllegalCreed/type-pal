@@ -195,6 +195,19 @@ Branch: TBD
   - 修复方向（待三方设计裁定）：父账 digest 组成对”文档性 lossy 备注文本”
     不敏感（只取结构性字段），或 370 备注变更按 successor-only 门控，或经三方
     批准重算 pin（Kimi 明确禁止重写 86bbb33f，故优先前两者）。
+- 2026-08-05 Codex: **K2 贡献者枚举进度（逐提交回放 + 重生成 fixture）**：
+  - **19ce1ca7（JS1）= 首个破坏提交**：370 lossy 备注文本无条件改写 →
+    parent report pin 86bbb33f 漂移（1a823bc4）。需 face-gate（Kimi 方案 2）。
+  - **58f8f846（B11-1 coveredBy）→ parent content pin
+    （R13_ENEMY_SCRIPT_PARENT_CONTENT_DIGEST）漂移**：coveredBy 无条件进
+    actors.json → 生成的 content digest 变；**已被 0ea144c2 的 6B rewind 在父面
+    剥离 coveredBy/casualty 缓解**（HEAD 该检查已过，不再贡献）。
+  - **e58476a7 / 0ea144c2 区间新增独立失败形态**：`source-backed domain
+    observation 漂移 domain-augmentation:3895b908…`（disposition 重建校验，
+    先于 parent report 检查触发）——R13-Z 闭包批次的另一处断裂，需单列修复。
+  - parent report 漂移值 1a823bc4 → f021b0a8 的中间贡献者待继续二分
+    （候选 0ea144c2/d5c47a79/f0407264/3ed0f77b）。
+  - K2 未完成：完整贡献者清单 + 逐形态修复仍在进行；canary 2/2 绿前不得收口。
 - 2026-08-05 GLM：设计审查，签 **agree**。一手核实根因机制（非 Codex 摘要复述）：
   - **根因确认**：migrate-content.ts:647-650 JS1 把酒神 lossy 备注”按饮酒动态”改成
     “按剩余真气×8 动态”；该 notes 文本经 `lossy.push({notes:[...]})` →
