@@ -334,6 +334,7 @@ async function runR13ZTransition(
   manifestText: string,
   write: boolean,
   r13SixC: boolean,
+  r13SixD: boolean,
 ): Promise<void> {
   const baseline = loadPalBaseline(repo)
   if (!baseline) throw new Error('R13-Z 缺 PAL baseline v2')
@@ -427,6 +428,7 @@ async function runR13ZTransition(
     bindOwnerSourceSites: true,
     bindSpriteActionSourceSites: true,
     r13SixCLossyClosure: r13SixC,
+    r13SixDSegmentTransferOracle: r13SixD,
   }
   const r13z = createR13ZMigrationPlan({
     base: baseline,
@@ -1163,7 +1165,8 @@ async function main(): Promise<void> {
       flag !== '--verify-idempotence' &&
       flag !== '--repair-r13-confirm-seal' &&
       flag !== '--r13-z' &&
-      flag !== '--r13-6c',
+      flag !== '--r13-6c' &&
+      flag !== '--r13-6d',
   )
   if (unknown.length) throw new Error(`未知参数: ${unknown.join(', ')}`)
   const writeRequested = flags.has('--write')
@@ -1172,6 +1175,7 @@ async function main(): Promise<void> {
   const repairR13ConfirmSeal = flags.has('--repair-r13-confirm-seal')
   const publishR13Z = flags.has('--r13-z')
   const r13SixC = flags.has('--r13-6c')
+  const r13SixD = flags.has('--r13-6d')
   if ((writeOnce || verifyIdempotence) && process.env[INTERNAL_PHASE_ENV] !== '1')
     throw new Error('内部迁移阶段不得直接调用')
   if (
@@ -1183,7 +1187,8 @@ async function main(): Promise<void> {
     (repairR13ConfirmSeal && flags.has('--bootstrap')) ||
     (publishR13Z &&
       (flags.has('--bootstrap') || writeOnce || verifyIdempotence || repairR13ConfirmSeal)) ||
-    (r13SixC && !publishR13Z)
+    (r13SixC && !publishR13Z) ||
+    (r13SixD && !publishR13Z)
   )
     throw new Error('迁移写入/内部验证/显式修复阶段参数互斥')
   const write = writeRequested || writeOnce
@@ -1224,7 +1229,7 @@ async function main(): Promise<void> {
   if (publishR13Z) {
     if (bootstrap || contentVersion !== 11)
       throw new Error(`R13-Z 只接受已发布 content11 工程，收到 content${String(contentVersion)}`)
-    await runR13ZTransition(manifestText, writeRequested, r13SixC)
+    await runR13ZTransition(manifestText, writeRequested, r13SixC, r13SixD)
     return
   }
 

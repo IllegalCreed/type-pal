@@ -7747,6 +7747,39 @@ C1-C4 对照：C1 双侧（默认面 fast + dry-run 4 保持；6C 面 dry-run 1�
 C4 敌方下毒测试未触碰 ✅（fast 全绿）。seal/rewind 单测 3/3，fast 78 files /
 570 passed / 5 skipped，oracle/manifest 仅指纹更新。
 
+##### R13-6D 实现与自验（2026-08-05，Codex；R13-Z 源侧 open=0/0 达成）
+
+**上游修复**：`translate-events.ts:360` 计数备注升级为 `report.scripts.segmentTransferDetails`
+（append-only 确定性明细：label/sourceAddress/refKind(call/goto/branch/install)/term/
+successor/owner/id/path）；registerTarget 增加 refKind 参数，5 个引用点显式标注。
+573 条从此机器可枚举，无需插桩。
+
+**oracle 证据族** `r13-segment-transfer-resume`（scope=observation-closure，
+appliesToLayers=[final]，`--r13-6d` 门控）：逐条三项机器校验——
+successorReachable（后续地址 ∈ census 可达集，GLM 咨询条件）、successorFinalClosed
+（后续站点 final 层全闭包，open sites=0 的逐条化）、entryTranslated（覆盖 host kind
+∈ 最终内容入口种类，Kimi「再激活起点可机器重建」载体）；每条生成 verificationDigest，
+全过 → 观察归零，任一 fail → 保持 open（fail 集合 = B 子集，D3）。
+
+**上游修复（计划层）**：`migration-plan.ts` mergeAtomicMapFile 处理原子地图 hash-only
+基线（R13-Z 发布场景：选中版本缺正文时从同 hash 带正文版本取 body，hash 相同 ⟹
+字节相同，不改变合并结果）。
+
+**验证证据**：
+
+- typecheck 绿；migrate fast 78 files / 570 passed / 5 skipped；oracle/manifest
+  仅指纹更新。
+- **R13-Z 真实 dry-run（--r13-6c --r13-6d）通过：`[R13-Z 源指令账] sites=81674
+  open=0/0`；`[R13-Z 运行时矩阵] cells=442 uses=62372 refused=0 issues=0`**——
+  R13-Z 源侧+观察门禁全部闭合，dry-run 不再 fail-closed。
+- D1-D4 对照：D1 明细与 573 逐条一致（notes count == details length 断言）；
+  D2 source-backed 逐条三查 + verificationDigest；D3 fail 子集保持 open 机制就位
+  （本次 0 fail）；D4 无内容叶、6A/6B 面默认路径不变。
+
+**剩余 R13-Z 最终门禁**：runtime/save/browser/全量重迁双跑；`--r13-z --r13-6c
+--r13-6d --write` 正式发布（6C + R13-Z seal 同一事务，含 R13-6D 观察闭包）；canary
+双面重放；C8/ED-5I 联合验收。
+
 #### 给 Kimi / GLM 的 R13-6D 设计复审提示词（下一位 Agent 可直接复制）
 
 ```text

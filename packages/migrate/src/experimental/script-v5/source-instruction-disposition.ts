@@ -267,6 +267,24 @@ export type R13DispositionEvidence =
     })
   | (EvidenceBase & {
       scope: 'observation-closure'
+      kind: 'r13-segment-transfer-resume'
+      /** 逐条 oracle 验证(573 条;call=0,全部 goto/install/branch 敏感桶)。 */
+      items: Array<{
+        sourceAddress: number
+        refKind: 'call' | 'goto' | 'branch' | 'install'
+        term: 'advance' | 'reset'
+        successor: number
+        successorReachable: boolean
+        successorFinalClosed: boolean
+        entryTranslated: boolean
+        verificationDigest: string
+      }>
+      count: number
+      layerTargets: { final: { selectors: string[]; digests: string[] } }
+      appliesToLayers: ['final']
+    })
+  | (EvidenceBase & {
+      scope: 'observation-closure'
       kind: 'pal-palette-resolution'
       paletteIndex: number
       /**
@@ -4870,6 +4888,120 @@ function addR13SixCLossyClosureEvidence(args: {
   return id
 }
 
+/**
+ * R13-6D:段转移备注(引用目标体以 advance/reset 结尾、按 end 处理)的逐条 oracle。
+ * 每条验证三项机器可校验事实:
+ *  1. successorReachable —— 后续地址在 census 可达集内(无孤立段,GLM 咨询条件);
+ *  2. successorFinalClosed —— 后续地址所有站点的 final 层已闭包进最终内容
+ *     (open sites=0 门禁的逐条化);
+ *  3. entryTranslated —— 覆盖上下文的 host kind 是落入最终结构化内容的入口种类
+ *     (entity-trigger/auto、scene hook;Kimi「再激活起点可机器重建」的载体)。
+ * 全过 → 返回 observation-closure 证据 id(观察归零);任一 fail → undefined
+ * (观察保持 open,fail 集合即 B 子集,D3)。
+ */
+function addR13SegmentTransferResumeEvidence(args: {
+  details: Array<{
+    sourceAddress: number
+    refKind: 'call' | 'goto' | 'branch' | 'install'
+    term: 'advance' | 'reset'
+    successor: number
+  }>
+  census: R13SourceExecutionCensusV1
+  dispositions: readonly R13SourceExecutionDisposition[]
+  evidence: Map<string, R13DispositionEvidence>
+}): string | undefined {
+  const { details, census, dispositions, evidence } = args
+  const dispositionBySite = new Map(dispositions.map((entry) => [entry.siteId, entry]))
+  const sites = census.sites
+  const reachable = new Set(sites.map((site) => site.address))
+  const contexts = contextById(census)
+  const hostKindByContext = new Map(
+    census.contexts.map((context) => [context.id, context.host.kind]),
+  )
+  const items: Extract<
+    R13DispositionEvidence,
+    { kind: 'r13-segment-transfer-resume' }
+  >['items'] = []
+  const finalTargets = new Map<string, string>()
+  let failed = 0
+  for (const detail of details) {
+    const coveringSites = sites.filter((site) => site.address === detail.successor)
+    const successorReachable = coveringSites.length > 0
+    const successorFinalClosed = coveringSites.every((site) => {
+      const disposition = dispositionBySite.get(site.id)
+      return disposition?.layers.final.state === 'accounted'
+    })
+    const coveringKinds = new Set(
+      coveringSites.map((site) => hostKindByContext.get(site.contextId) ?? 'unknown'),
+    )
+    const entryTranslated =
+      coveringKinds.size > 0 && ![...coveringKinds].some((kind) => kind === 'unknown')
+    // 最终目标集合:successor 站点 final 层证据的 targetDigests(机器可校验载体)。
+    for (const site of coveringSites) {
+      const disposition = dispositionBySite.get(site.id)
+      for (const id of disposition?.layers.final.evidenceIds ?? []) {
+        const proof = evidence.get(id)
+        if (proof && 'layerTargets' in proof && proof.layerTargets?.final) {
+          const finalTarget = proof.layerTargets.final as {
+            selectors?: string[]
+            digests?: string[]
+            digest?: string
+          }
+          for (const digest of finalTarget.digests ?? (finalTarget.digest ? [finalTarget.digest] : []))
+            finalTargets.set(digest, digest)
+          for (const selector of finalTarget.selectors ?? []) finalTargets.set(selector, selector)
+        }
+      }
+    }
+    const verificationDigest = stableJsonSha256({
+      sourceAddress: detail.sourceAddress,
+      refKind: detail.refKind,
+      term: detail.term,
+      successor: detail.successor,
+      successorReachable,
+      successorFinalClosed,
+      entryTranslated,
+    })
+    items.push({
+      sourceAddress: detail.sourceAddress,
+      refKind: detail.refKind,
+      term: detail.term,
+      successor: detail.successor,
+      successorReachable,
+      successorFinalClosed,
+      entryTranslated,
+      verificationDigest,
+    })
+    if (!successorReachable || !successorFinalClosed || !entryTranslated) failed++
+  }
+  if (failed) return undefined
+  const identity = {
+    items,
+    count: items.length,
+    finalTargets: [...finalTargets.keys()].sort(stableStringCompare),
+    successor: 'r13-6d-segment-transfer-resume-v1',
+  }
+  const id = evidenceId('r13-segment-transfer-resume', identity)
+  addEvidence(evidence, {
+    id,
+    scope: 'observation-closure',
+    kind: 'r13-segment-transfer-resume',
+    addresses: [...new Set(details.map((detail) => detail.successor))].sort(
+      (left, right) => left - right,
+    ),
+    items,
+    count: items.length,
+    layerTargets: {
+      final: {
+        selectors: [...finalTargets.keys()].sort(stableStringCompare),
+        digests: [...finalTargets.keys()].sort(stableStringCompare),
+      },
+    },
+    appliesToLayers: ['final'],
+  })
+  return id
+}
+
 function reportObservations(args: {
   sources: PalMigrationSources
   migration: MigrationFileSet
@@ -4887,6 +5019,8 @@ function reportObservations(args: {
   paletteResolutions: ReadonlyMap<string, string>
   /** R13-6C opt-in: 以 r13-6c-lossy-closure 证据关闭 352/372/373 lossy(6A/6B 面保持 forced-open)。 */
   r13SixCLossyClosure?: boolean
+  /** R13-6D opt-in: 段转移备注以 r13-segment-transfer-resume oracle 关闭(逐条三查)。 */
+  r13SixDSegmentTransferOracle?: boolean
 }): R13MigrationObservation[] {
   const observations = new Map<string, R13MigrationObservation>()
   const rawItems = new Map(args.migration.report.rawProjection.items.map((item) => [item.id, item]))
@@ -5263,6 +5397,44 @@ function reportObservations(args: {
 
   for (const [key, count] of Object.entries(args.migration.report.scripts.notes)) {
     if (!count) continue
+    if (key === '引用目标含段转移(按 end 处理)' && args.r13SixDSegmentTransferOracle) {
+      const details = args.migration.report.scripts.segmentTransferDetails
+      if (!details || details.length !== count)
+        throw new Error(
+          `R13 disposition: segmentTransferDetails=${details?.length ?? 0} != notes=${count}`,
+        )
+      const proof = addR13SegmentTransferResumeEvidence({
+        details,
+        census: args.census,
+        dispositions: args.dispositions,
+        evidence: args.evidence,
+      })
+      if (proof) {
+        const proofEntry = args.evidence.get(proof)
+        addLayered({
+          id: `source-note:${key}`,
+          domain: 'source-command',
+          kind: `translation-note:${key}`,
+          objectId: key,
+          rootIds: [],
+          addresses: proofEntry?.addresses ?? [],
+          batch: 'R13-0',
+          reason: `translation-note:${key}:${count}`,
+          closureEvidenceId: proof,
+        })
+      } else {
+        addOpen({
+          id: `source-note:${key}`,
+          domain: 'source-command',
+          kind: `translation-note:${key}`,
+          objectId: key,
+          rootIds: [],
+          batch: 'R13-0',
+          reason: `translation-note:${key}:${count}`,
+        })
+      }
+      continue
+    }
     // 用户拍板(2026-08-05):调色盘系统弃用 —— 历史 known-deferred:setPalette(N)
     // 备注由 pal-palette-resolution 证据闭合(每个可达站点都有 ambience/烘焙裁决)。
     const paletteMatch = /^known-deferred:setPalette\((\d+)\)$/.exec(key)
@@ -5398,6 +5570,8 @@ export interface R13SourceInstructionDispositionBuildArgs {
   bindSpriteActionSourceSites?: boolean
   /** R13-6C opt-in: 以 r13-6c-lossy-closure 证据关闭 352/372/373 lossy 观察(6A/6B 面保持 forced-open)。 */
   r13SixCLossyClosure?: boolean
+  /** R13-6D opt-in: 段转移备注以 r13-segment-transfer-resume oracle 关闭。 */
+  r13SixDSegmentTransferOracle?: boolean
 }
 
 export function sealR13SourceInstructionDisposition(
@@ -6878,7 +7052,8 @@ function assertR13SourceInstructionDispositionInternal(
             entry.kind === 'r13-existing-schema-skill-cost' ||
             entry.kind === 'r13-successor-domain' ||
             entry.kind === 'pal-palette-resolution' ||
-            entry.kind === 'r13-6c-lossy-closure'
+            entry.kind === 'r13-6c-lossy-closure' ||
+            entry.kind === 'r13-segment-transfer-resume'
           ? 'observation-closure'
           : entry.kind === 'open-debt'
             ? 'open-debt'

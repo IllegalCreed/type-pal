@@ -86,6 +86,20 @@ export interface TranslateReport {
     path: string
   }>
   /**
+   * R13-6D:引用目标体以 advance/reset(段转移)结尾、按 end 处理的逐条明细。
+   * 计数备注的机器可枚举升级版 —— R13-0 审计池逐条处置的载体。
+   */
+  segmentTransferDetails: Array<{
+    label: string
+    sourceAddress: number
+    refKind: 'call' | 'goto' | 'branch' | 'install'
+    term: 'advance' | 'reset'
+    successor: number
+    owner?: string
+    id: string
+    path: string
+  }>
+  /**
    * R13-0 逐源站翻译轨迹。它只证明翻译器在本次纯生成中如何处置该站点；
    * 是否足以销账仍须与 source digest、body/product digest 和最终目标联合校验。
    */
@@ -135,6 +149,7 @@ export function emptyTranslateReport(): TranslateReport {
     notes: {},
     knownNoOps: {},
     knownNoOpDetails: [],
+    segmentTransferDetails: [],
     instructionOutcomes: [],
     resolved: {},
     resolvedAddressTargets: [],
@@ -317,6 +332,8 @@ export class ScriptRegistry {
     owner: string | undefined,
     state: DialogueEntryState,
     ctx: TranslateCtx,
+    /** R13-6D:引用形态(0x04 call / 0x03 goto / 分支臂 branch / 0x24-0x25 install)。 */
+    refKind: 'call' | 'goto' | 'branch' | 'install' = 'call',
   ): ScriptRef {
     const id = this.idFor(label, owner, state)
     const hit = this.scripts.get(id)
@@ -356,8 +373,22 @@ export class ScriptRegistry {
       ctx.sourceAddressAuditStack.push(sourceAddresses)
       try {
         const translated = walkBody(target.cmds, target.idx, owner, ctx, 0, state, id)
-        if (translated.term.kind === 'advance' || translated.term.kind === 'reset')
+        if (translated.term.kind === 'advance' || translated.term.kind === 'reset') {
           note(ctx, '引用目标含段转移(按 end 处理)')
+          ctx.report.segmentTransferDetails.push({
+            label,
+            sourceAddress: addressFromLabel(label) ?? -1,
+            refKind,
+            term: translated.term.kind,
+            successor:
+              translated.term.kind === 'advance'
+                ? translated.term.nextAddress
+                : translated.term.targetAddress,
+            ...(owner === undefined ? {} : { owner }),
+            id,
+            path: ctx.pathStack?.join(' > ') ?? '',
+          })
+        }
         record.body = foldBattleConfig(foldDoorPattern(translated.body))
         record.dialogueExit = translated.dialogueState
         const audit = this.audit.get(id)
@@ -404,7 +435,7 @@ export class ScriptRegistry {
     owner: string | undefined,
     ctx: TranslateCtx,
   ): ScriptRef {
-    const target = this.registerTarget(label, owner, {}, ctx)
+    const target = this.registerTarget(label, owner, {}, ctx, 'call')
     const ref = this.registerRoot(id, [{ kind: 'callScript', ref: target }])
     const sourceAddress = addressFromLabel(label)
     this.audit.set(id, {
@@ -1107,6 +1138,7 @@ function walkBody(
                 speed: dialogState.speed,
               },
               ctx,
+              'goto',
             )
             body.push({ kind: 'jumpScript', ref, ...(owner ? { self: owner } : {}) })
           }
@@ -1295,6 +1327,7 @@ function walkBody(
                 speed: dialogState.speed,
               },
               ctx,
+              'branch',
             )
             return [{ kind: 'jumpScript', ref, ...(owner ? { self: owner } : {}) }]
           }
@@ -1914,7 +1947,7 @@ function walkBody(
               dialogueState: callEntry,
             }
           if (ctx.registry) {
-            const ref = ctx.registry.registerTarget(`L_${o[0]}`, callOwner, callEntry, ctx)
+            const ref = ctx.registry.registerTarget(`L_${o[0]}`, callOwner, callEntry, ctx, 'call')
             body.push({ kind: 'callScript', ref, ...(callOwner ? { self: callOwner } : {}) })
             const exit = ctx.registry.dialogueExitFor(ref)
             if (exit) applyDialogueState(exit)
@@ -1967,7 +2000,7 @@ function walkBody(
               )
             } else {
               if (ctx.registry) {
-                const ref = ctx.registry.registerTarget(`L_${o[1]}`, ent, {}, ctx)
+                const ref = ctx.registry.registerTarget(`L_${o[1]}`, ent, {}, ctx, 'install')
                 body.push(
                   oc === 0x24
                     ? { kind: 'setEntityAuto', entity: ent, script: ref }
