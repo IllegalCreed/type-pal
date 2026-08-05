@@ -5037,6 +5037,13 @@ function reportObservations(args: {
   r13SixCLossyClosure?: boolean
   /** R13-6D opt-in: 段转移备注以 r13-segment-transfer-resume oracle 关闭(逐条三查)。 */
   r13SixDSegmentTransferOracle?: boolean
+  /**
+   * R13-CANARY 父面冻结:R13-6B successor 闭包(e58476a7)给 skill pending/lossy
+   * 观察无条件加了 scriptDesc 根,漂移 R13-5 父源账(pin 86bbb33f)。只有
+   * successor 面(successorFinal 存在)才带 scriptDesc 根;父面保持 pin 时代
+   * scriptOnUse/scriptOnSuccess 两根(Kimi K1 方案 2 face-gate)。
+   */
+  successorClosureActive?: boolean
 }): R13MigrationObservation[] {
   const observations = new Map<string, R13MigrationObservation>()
   const rawItems = new Map(args.migration.report.rawProjection.items.map((item) => [item.id, item]))
@@ -5267,7 +5274,7 @@ function reportObservations(args: {
     const rootIds = [
       root('skills', objectId, 'scriptOnUse'),
       root('skills', objectId, 'scriptOnSuccess'),
-      root('skills', objectId, 'scriptDesc'),
+      ...(args.successorClosureActive ? [root('skills', objectId, 'scriptDesc')] : []),
     ]
     let proof = args.successorDomainObservations.get(`skill:${objectId}`)
     if (!postPendingSkills.has(objectId)) {
@@ -5301,7 +5308,7 @@ function reportObservations(args: {
     const rootIds = [
       root('skills', objectId, 'scriptOnUse'),
       root('skills', objectId, 'scriptOnSuccess'),
-      root('skills', objectId, 'scriptDesc'),
+      ...(args.successorClosureActive ? [root('skills', objectId, 'scriptDesc')] : []),
     ]
     const proof = args.successorDomainObservations.get(`skill:${objectId}`)
     if (proof) {
@@ -6038,6 +6045,7 @@ function buildR13SourceInstructionDispositionInternal(
     r13ExistingSchemaSkillCosts: existingSchemaClosure?.skillCosts ?? new Map(),
     r13ExistingSchemaCurrentLossySkills: existingSchemaClosure?.currentLossySkills ?? new Map(),
     successorDomainObservations: successorClosure.domainObservations,
+    successorClosureActive: args.successorFinal !== undefined,
     paletteResolutions,
   })
   const byDisposition = Object.fromEntries(
@@ -6888,12 +6896,16 @@ function assertR13SourceInstructionDispositionBacked(
       throw new Error(
         `R13 disposition: source-backed domain augmentation 非 raw→post 消账 ${proof.id}`,
       )
+    // R13-CANARY 父面冻结:scriptDesc 根只在 successor 面出现(e58476a7 泄漏修复,
+    // 与 reportObservations 的 successorClosureActive 门一致)。
     const expectedRootIds =
       proof.domain === 'skill'
         ? [
             `global/skills/${proof.objectId}/scriptOnSuccess`,
             `global/skills/${proof.objectId}/scriptOnUse`,
-            `global/skills/${proof.objectId}/scriptDesc`,
+            ...(source.successorFinal !== undefined
+              ? [`global/skills/${proof.objectId}/scriptDesc`]
+              : []),
           ].sort(stableStringCompare)
         : [
             `global/items/${proof.objectId}/${

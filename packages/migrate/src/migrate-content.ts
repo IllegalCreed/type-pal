@@ -631,6 +631,14 @@ export function mapSkills(
   labelIndex: Map<string, number>,
   soundAssetForNum?: SoundAssetForNum,
   enableItemCosts = true,
+  /**
+   * R13-CANARY 父面冻结(R13-5 父源账 pin 86bbb33f 时代)酒神 lossy 备注文本。
+   * JS1(19ce1ca7)把该文本改为"按剩余真气×8";该文本无条件进入 compacted
+   * current migration 的 report.content.lossySkills → 父源账 digest 漂移。
+   * 修复:只有 current-r13-6b(successor 面)用新文案,6A/历史面保留冻结旧文案
+   * (Kimi K1 方案 2 face-gate / K4 冻结 artifact 不回填)。
+   */
+  palSemanticProfile?: 'historical-r13-4' | 'current-r13-6a' | 'current-r13-6b',
 ): SkillMigrationResult {
   const skills: SkillData[] = []
   const pending: SkillMigrationResult['pending'] = []
@@ -654,7 +662,10 @@ export function mapSkills(
         lossy.push({
           id: s.id,
           name: s._name,
-          notes: ['summon 伤害=按剩余真气×8 动态(原版 0x57 清空真气);暂按 baseDamage=3 直译'],
+          notes:
+            palSemanticProfile === 'current-r13-6b'
+              ? ['summon 伤害=按剩余真气×8 动态(原版 0x57 清空真气);暂按 baseDamage=3 直译']
+              : ['summon 伤害=按饮酒动态(原版公式);暂按 baseDamage=3 直译'],
         })
       if (m.special === undefined)
         throw new Error(`召唤技能 ${s.id}(${s._name}) 缺 magic.special(godId)`)
@@ -1457,6 +1468,7 @@ export function migrateAll(
     labelIndex,
     src.soundAssetForNum,
     options.skillItemCosts ?? true,
+    options.palSemanticProfile,
   )
   // 物品:表字段(M1a)+ 装备效果(M1b)+ 使用效果(M1d)
   const pendingEquip: MigrateOutput['report']['pendingEquip'] = []

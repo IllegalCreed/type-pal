@@ -157,8 +157,21 @@ Branch: TBD
 ## Build: 实现与自测
 
 - Coding Owner: Codex
-- 修改文件: TBD（定位后）
-- 实现摘要: 待填
+- 修改文件: `packages/migrate/src/migrate-content.ts`（mapSkills 370 备注按
+  palSemanticProfile face-gate）、`packages/migrate/src/experimental/script-v5/
+  source-instruction-disposition.ts`（reportObservations scriptDesc 根 +
+  source-backed 校验器按 successorClosureActive face-gate）
+- 实现摘要:
+  - Fix 1（JS1 370 备注文本）：仅 current-r13-6b 用新文案，6A/历史面保留
+    冻结旧文案。
+  - Fix 2（e58476a7 scriptDesc 根）：仅 successor 面（successorFinal 存在）
+    带 scriptDesc 根，父面恢复 pin 时代两根；校验器同步面感知。
+  - 结果：canary **父报告 pin 检查（86bbb33f）已恢复通过**；oracle 更新仅
+    指纹变化、golden 投影零变化；fast 79 files / 577 passed / 5 skipped 绿。
+  - **未完成**：canary 仍挂在 `fixture.first.authority.digest`
+    （HEAD=332370eb… vs 冻结 golden=193dfb2c…）——闭包批次还漂移了 R13-6A
+    后继构建的其他输入（候选：historical migration 报告其他叶 /
+    generated 快照 / auditSeal 组成），K2 继续枚举中；canary 2/2 绿前不收口。
 - 运行命令: `pnpm --filter @type-pal/migrate test:canary` /
   `test:fast` / `migrate:content -- --r13-z --r13-6c --r13-6d`（dry-run）
 - 浏览器 / 手工检查: N/A
