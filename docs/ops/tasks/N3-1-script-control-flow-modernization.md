@@ -7496,7 +7496,23 @@ lossy 观察保持 open。当前 dry-run：`open sites=0 / observations=4`
 - **S4** contentVersion/SAVE 不 bump 的验证；若 6C 需要内容叶必须显式走 schema/save 审批。
 - **S5** 段转移备注不随本批关闭；observations 4→1 后停在段转移裁决门禁。
 
-**签字状态**：Codex design agree（本草案）；待 Kimi / GLM agree 后方可进入 build。
+**签字状态**：Codex design agree（本草案）；GLM **agree**（2026-08-05，见下）；Kimi **agree**（2026-08-05，见下）；三签齐可进入 build。
+
+- 2026-08-05 Kimi R13-6C 设计主审：签 **agree**。逐项结论：账务口径成立——3 条 lossy 的关闭走证据层 successor（observation-closure 证据族），6A seal 历史不碰；`r13-source-semantics-mg2.ts:848` 的 6A lossy 断言改 authority-aware（6A/6B 面仍 forced-open、6C 面接受 closure evidence）是防反向吞掉防洗钱语义的正确改法。source 根粒度正确（限 scriptOnSuccess 0x68 分支 @43052/43044/43036 链，不用整技能根冒充）；final digest 须含 `execution.enemy.applyPoison 555/560 + cost.items 蛊 1` 且零内容叶；rewind 6C→6B 逐字节还原（预期零内容叶）。结构化毒模型（敌方=普通 applyPoison、lethalWith 仅投掷、counters 仅 use-on-self）已经用户拍板且在 R13-6B 落地，本批是给既有正确内容补闭包证据而非二次实现，成立。风险钉（build 验收核对）：**C1** authority-aware 断言双侧钉测试（6A/6B surface 重放仍 fail-closed）；**C2** source 根限分支地址 + sourceClosureDigest 逐站对账；**C3** final digest 与 R13-6B 已发布内容一致且零内容叶（有叶必须显式 schema/save 审批）；**C4** 敌方下毒行为层测试钉（巫术不致死/不相克）不得被本批改动。未修改实现文件。
+- 2026-08-05 GLM R13-6C 设计审查：签 **agree**。一手核实：
+  - **6B 内容已就绪**：final skills.json 352 三尸咒 `execution.enemy.applyPoison 555`、
+    372 万蛊蚀天 `applyPoison 555`、373 毒吞天下 `applyPoison 560` 确认存在（一手 python 读
+    actors.json/skills.json 核实）；敌方 0x68 分支已结构化表达。
+  - **6A 防洗钱钉属实**：source-instruction-disposition.ts:5109-5114 forced-addOpen +
+    r13-source-semantics-mg2.ts:830/852 6A lossy proof 断言强制三条 lossy 观察 open。6A seal
+    冻结时 352/372/373 敌方分支还没实现，标 lossy=open 诚实；6B 实现后 6A seal 不能改。
+  - **6C 新 successor authority 路径正确**：不改 6A seal，6C 面上 lossy→closure 绑定
+    `r13-6c-lossy-closure` 证据族（scope=observation-closure），模式与调色盘先例一致。
+  - **无内容叶**：6C 不新增内容（execution.enemy 已在 6B），只关观察。
+    contentVersion/SAVE 不 bump ✅。
+  - **附条件（S2 细化）**：闭包证据 source 根必须限定到 scriptOnSuccess 的 **0x68 分支地址**
+    （352@43086 / 372@43078 链 / 373@43070 链的 alt target），逐站 sourceClosureDigest 对账；
+    不得用整技能根冒充分支账。
 
 #### 给 Kimi / GLM 的 R13-6C 设计复审提示词（下一位 Agent 可直接复制）
 
@@ -7647,7 +7663,41 @@ Codex 分桶执行结果（临时插桩捕获 573 触发 + 引用形态标注，
 - **D3** fail 子集显式枚举并转 B；观察未归零前 R13-Z seal 不得生成。
 - **D4** 明细/证据不改变任何已发布内容叶；6A/6B surface dry-run 仍 fail-closed。
 
-**签字状态**：Codex design agree（本草案）；待 Kimi / GLM agree 后方可进入 build。
+**签字状态**：Codex design agree（本草案）；GLM **agree**（2026-08-05，见下）；Kimi **agree**（2026-08-05，见下）；三签齐可进入 build。
+
+- 2026-08-05 Kimi R13-6D 设计主审：签 **agree**。逐项结论：分桶实证（0x04 call=0、goto 25、install 111、branch 437，合计 573）说明恒等无损桶为空，本草案把 oracle 覆盖全部 573 且明示"无桶①捷径"、"0x04 返回丢弃仅作方法学依据不构成数值销账"——与本人 A′ 咨询意见的最低闭包形态逐项吻合（call=0 实证正是我建议保留的防重开记录）。明细升级（note → segmentTransferDetails）符合先修上游原则，D1 逐条 digest 一致防漂移；oracle 正确区分"可达 ≠ 再激活游标等价"（覆盖证明已证 573/573 可达、孤立段 0），原版 resume 落点 == final flow 再激活起点用 census+activation graph 机器重建不手写映射，成立；fail 子集显式枚举转 B、未归零前不得生成 R13-Z seal，边界干净；无内容叶、6A/6B surface 仍 fail-closed、rewind 对称、不顺手关 R13-6C lossy。合并裁定建议：**分开**（6C→6D 顺序 successor；两证据族作用域不相交，分开后 rewind/replay 归因清晰、可独立回滚，除非实现方证明合并简化 replay）。风险钉（build 验收核对）：**D1** 明细与插桩 573 逐条 digest 一致；**D2** oracle source-backed 重建且 branch/install/goto 三形态各有形态级样例进测试；**D3** fail 子集显式枚举转 B、全过则 observations 4→1→0 证据进卡；**D4** 无内容叶且 6A/6B dry-run 仍 fail-closed。未修改实现文件。
+- 2026-08-05 GLM R13-6D 设计审查：签 **agree**。一手核实 + 咨询条件落实确认：
+  - **GLM 咨询条件已满足**：本 GLM 在段转移咨询中要求「573 个引用目标的 advance/reset
+    后续地址逐个验证都落在某个 trigger 入口的多段 stage 图范围内（不存在孤立段）」。
+    Codex 执行覆盖证明：573/573 后续地址全部在 census 可达集内，孤立段候选=0；入口类型
+    分布（entity-trigger 38 / dynamic-entity-trigger 63 / entity-auto 438 /
+    dynamic-entity-auto 149 / scene-on-enter 3）全部是落入最终结构化内容的入口种类 ✅。
+  - **Kimi A' 分桶条件已满足**：Kimi 要求按引用形态分桶，桶①(0x04 call) 恒等销账、
+    桶②(goto/install/branch) 逐条 oracle。Codex 分桶：call=0 / goto=25 / install=111 /
+    branch=437，**全部落在敏感桶②**，oracle 必须覆盖全部 573 条——设计对此诚实（不虚构
+    call 恒等捷径）✅。
+  - **上游修复正确**：translate-events.ts:360 note 升级为 `segmentTransferDetails`（573 条
+    机器可枚举、确定性 append-only 字段），先修上游原则正确；历史 R13-4 v9 报告走同一
+    路径自动一致 ✅。
+  - **oracle 逐条检查设计成立**：原版 resume 落点（advance=sourceAddress+1 / reset=
+    term.targetAddress）vs final flow 再激活点（R13-2 TriggerActivationGraph cursor 机制），
+    逐条 pass/fail；fail 集合走 B 子集 ✅。
+  - **附条件（D2 细化）**：oracle 的 final 再激活点绑定必须用 TriggerActivationGraph 的
+    cursor 机制 **source-backed 重建**，不得手写映射表。每条生成 sourceCommandSha256 +
+    successor + final target selector/digest。
+  - **fail 子集处理**：fail 集合非空时观察保持 open，子集转 B（修翻译 + 重迁），不得静默
+    放行；无 fail = 观察归零。
+  - **6C/6D 合并建议**：两者都是 report/evidence 层变更、无内容叶、contentVersion/SAVE
+    不 bump、rewind 都保持 6A/6B surface 冻结。合并后 R13-Z dry-run observations 4→0
+    一步到位（6C 关 lossy=3 + 6D 关段转移=1），减少 formal publication + rewind 次数。
+    若 Kimi/Codex 有隔离理由可分开，GLM 不阻塞。
+
+##### R13-6C/6D 合并裁定（2026-08-05，Kimi 主裁定，GLM 不阻塞）
+
+Kimi：**分开**（6C→6D 顺序 successor；证据族作用域不相交，rewind/replay 归因清晰、
+可独立回滚），除非实现方证明合并简化 replay。GLM：可合并、不阻塞。裁定：**默认分开，
+执行顺序 6C → 6D**；Codex 若在实现中能证明合并简化 replay，可提请变更并回读 Kimi/GLM
+确认，未证明前不合并。两批均三签齐，build allowed。
 
 #### 给 Kimi / GLM 的 R13-6D 设计复审提示词（下一位 Agent 可直接复制）
 
