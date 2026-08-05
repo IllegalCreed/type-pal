@@ -1,10 +1,17 @@
 import type { ActorDef } from '@type-pal/content'
+import { readFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import { describe, expect, test } from 'vitest'
 import {
   applyPalCasualtyOverlays,
   translateCasualtyScript,
 } from './pal-casualty-scripts.js'
 import type { SourceCmd } from './source-facts.js'
+
+const repoRoot = fileURLToPath(new URL('../../../', import.meta.url))
+const palActors = JSON.parse(
+  readFileSync(repoRoot + 'projects/pal/content/actors.json', 'utf8'),
+) as ActorDef[]
 
 const actor = (id: string): ActorDef => ({
   id,
@@ -126,5 +133,30 @@ describe('B11-1 伤亡脚本翻译', () => {
         { scriptOnFriendDeath: 0, scriptOnDying: 0 },
       ]),
     ).toThrow('期望角色 0 friendDeath 入口缺失')
+  })
+})
+
+describe('B11-1 PAL canonical 产物', () => {
+  const byId = new Map(palActors.map((entry) => [entry.id, entry]))
+
+  test('P4:六条 coveredBy 映射进最终 actors.json', () => {
+    expect(byId.get('li-xiaoyao')!.battler!.coveredBy).toBe('lin-yueru')
+    expect(byId.get('zhao-linger')!.battler!.coveredBy).toBe('li-xiaoyao')
+    expect(byId.get('lin-yueru')!.battler!.coveredBy).toBe('li-xiaoyao')
+    expect(byId.get('wu-hou')!.battler!.coveredBy).toBe('li-xiaoyao')
+    expect(byId.get('anu')!.battler!.coveredBy).toBe('li-xiaoyao')
+    expect(byId.get('gai-luojiao')!.battler!.coveredBy).toBe('anu')
+  })
+
+  test('casualty 结构化脚本落位正确(friendDeath/dying 分配 + 概率门)', () => {
+    const li = byId.get('li-xiaoyao')!.battler!.casualty!
+    const zhao = byId.get('zhao-linger')!.battler!.casualty!
+    const yue = byId.get('lin-yueru')!.battler!.casualty!
+    expect(li.friendDeath?.gates.map((gate) => gate.chance)).toEqual([75, 66, 50])
+    expect(li.dying).toBeUndefined()
+    expect(zhao.dying?.gates.map((gate) => gate.chance)).toEqual([75, 66, 50])
+    expect(zhao.friendDeath).toBeUndefined()
+    expect(yue.friendDeath?.gates.map((gate) => gate.chance)).toEqual([75, 66, 50])
+    expect(yue.dying?.gates.map((gate) => gate.chance)).toEqual([75, 66, 50])
   })
 })

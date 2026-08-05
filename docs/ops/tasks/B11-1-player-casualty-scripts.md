@@ -1,6 +1,6 @@
 # B11-1 - 队友阵亡/濒死战斗脚本（scriptOnFriendDeath / scriptOnDying）
 
-Status: build
+Status: review（Codex 自验完成，交 Kimi / GLM 实现审查）
 Phase: phase2
 Capability: B11（战斗伤亡脚本）+ B9 替挡依赖数据
 Coding Owner: Codex
@@ -97,6 +97,47 @@ Branch: chore/docs-migrate-cleanup
 build 准入结论: **build allowed（2026-08-05；Codex / Kimi / GLM 三方 agree，无 counter；
 P1-P6 为 build 验收钉，G1 为措辞记录项）。**
 
+## 实现与自验（Codex，2026-08-05）
+
+实现提交：`58f8f846`（coveredBy 六条补迁移 + 四个伤亡脚本结构化 + locale 36 键）、
+`e2fb035d`（battle-core prevHp + 每 action/回合末毒 tick 后 sweep + 概率门/heal/临时 buff）、
+`9bf68fe7`（session 战斗内对话展示与暂停，P5）、`0ea144c2`（R13-Z actor-casualty
+证据族，110 sites 关闭）、`d5c47a79`（source-backed domain augmentation roots 对齐）、
+`f0407264`（敌侧巫术下毒结构化，随 R13-Z 证据族）。
+
+验收钉对照（P1-P6 / G1）：
+
+- **P1** ✅：dying 目标自扫只排 sleep/confused（battle-core.ts:735），两个 coveredBy
+  健康门三样全排（:697-706）；测试「P1:dying 目标被麻痹仍触发」。
+- **P2** ✅：prevHp 比较用未钳 `floor(maxHP/5)`、dying 钳 `min(100, floor(maxHP/5))`
+  分两行（:735-737）；新增测试「P2:maxHP>500 双阈值分叉各钉（600→钳 100 / 阈值 120）」，
+  三态（gap 不触发 / prevHp 未达不触发 / 双达标触发）。
+- **P3** ✅：0x30 基数 = 未 buff 运行时值（`base = field - 已有 statBuffs delta`，
+  :663-667），连续 buff 不叠加；测试「P3:同一 stat 连续 buff 以未 buff 基数为准
+  （100→150）」；战末清为结构性保证：statBuffs 只活在临时 BattleState，
+  `writeBackPersistentEffects` 无任何 buff 写回路径，存档不持久。
+- **P4** ✅：六条 coveredBy 映射（0→2、1→0、2→0、3→0、4→0、5→4）落最终 actors.json，
+  新增 canonical oracle 测试「P4:六条 coveredBy 映射进最终 actors.json」；替挡完全免伤
+  回归在 battle-core.test.ts:3218（濒死被攻守护者顶上免伤/失能退化/坏状态不许闪）。
+- **P5** ✅：session 走 dialogBox/横幅逐条展示、放完前暂停推进、abort/战斗结束清引用；
+  测试「B11-1 伤亡对话经横幅展示并暂停推进,空格后清除」。
+- **P6** ✅：prevHp 每次 sweep 后刷新防重入，命中一个脚本即 return；新增测试
+  「P6:prevHp 防重入:未再次受伤不得重放 dying」（四连击只触发一次）与
+  「P6:同一步至多一个脚本:两名队员同回合末毒死,只跑第一个的援护脚本」。
+- **G1** ✅：迁移器从源 opcode 翻译（0x06 顺序门、0x1B/0x1C 回满、0x30[17/18/20/21]），
+  未知 opcode/结构漂移 fail-closed，台词键与 P0 冻结 36 键逐键校验；不用草案文字做语义来源。
+
+验证证据：
+
+- reforge：78 files / 796 passed（battle-casualty 14，含新增 P2/P6 三测）。
+- migrate fast：77 files / 567 passed / 5 skipped（pal-casualty-scripts 5，含新增
+  canonical oracle 两测；test manifest 565→567 已显式 --write 并审 diff）。
+- content：33 files / 391 passed；三包 typecheck 绿。
+- R13-Z 真实 dry-run：`open sites=0 / observations=4`（lossy=3 + 段转移备注 1），
+  B11-1 110 actor 站点已全部销账，无回归；剩余 4 条观察归 N3-1 R13-Z 裁决，非本卡范围。
+
+未做视觉验证（无浏览器会话）：coveredBy 替挡/濒死演出的像素级确认留待 Kimi 或用户补验。
+
 #### Kimi B11-1 设计主审（2026-08-05）
 
 **方法**：只读设计审查；对 sdlpal fight.c:775-885、PAL_IsPlayerDying、phase-1
@@ -142,6 +183,27 @@ battle-system.ts:884-935（emitPlayerCasualtySounds）逐项一手核对。
 - **P6** prevHp 防重入：未再次受伤不得重放 dying/friendDeath；同一 sweep 至多一个脚本。
 
 **结论**：**agree**。真值核对成立，无 schema/runtime/save 级反例。
+
+## 下一位 Agent 提示词（给 Kimi / GLM 实现复审）
+
+```text
+复审任务: B11-1 队友阵亡/濒死战斗脚本实现审查（Kimi 架构/runtime 主审；GLM
+  数据/迁移/测试矩阵主审；可并行）
+任务卡: docs/ops/tasks/B11-1-player-casualty-scripts.md
+当前状态: review；Codex 自验完成，未标 done。
+你的职责: 只读审查；输出 accept 或 counter 的具体字段/反例。不得改实现文件。
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡（真值/范围/推进签字/实现与自验）、
+  docs/phase1/game-mechanics.md:352-403、reference/sdlpal/fight.c:775-885、
+  packages/content/src/actor.ts(casualty)、packages/reforge/src/battle/battle-core.ts
+  (runPlayerCasualtySweep/applyCasualtyBranchEffects)、battle-session.ts(伤亡对话)、
+  packages/migrate/src/pal-casualty-scripts.ts、source-instruction-disposition.ts
+  (actor-casualty 证据族)、pal-casualty-scripts.test.ts、battle-casualty.test.ts。
+验收钉: 卡内 P1-P6 与 G1 逐项核对（P2 maxHP>500 双阈值、P3 0x30 基数/战末清、
+  P4 六条 coveredBy oracle + 替挡回归、P5 对话暂停/清除、P6 防重入/至多一个）。
+重点风险: coveredBy 替挡在 PAL 数据上首次真正生效的行为变化回归；dying paralyzed
+  排除集不得被"修正"；R13-Z 110 actor 站点证据族与 successor/domain 模式一致性。
+输出: 签字 accept / counter 理由；是否需 Codex 补视觉验证。
+```
 
 ## 下一位 Agent 提示词（给 Kimi / GLM 设计复审）
 

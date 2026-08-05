@@ -279,6 +279,36 @@ describe('B11-1 战斗伤亡 sweep', () => {
     expect(zhao.prevHp).toBe(95)
   })
 
+  test('P2:maxHP>500 双阈值分叉各钉(600→dying 钳 100 / prevHp 阈值 120)', () => {
+    // (a) prevHp=125 ≥ 120 但 hp=115 落 100~119 区间(dying 钳未到)→ 不触发
+    const gap = runBattle(
+      [
+        player({ roleId: 'zhao', actorTemplateId: 'zhao', hp: 125, maxHp: 600, coveredBy: 'li' }),
+        player({ roleId: 'li', actorTemplateId: 'li', hp: 200, maxHp: 200 }),
+      ],
+      { delta: -10 },
+    )
+    expect(gap.casualtyDialogue).toBeUndefined()
+    // (b) prevHp=110 < 120(未钳 raw maxHP/5)但 hp=90 已 dying → 不触发
+    const rawPrev = runBattle(
+      [
+        player({ roleId: 'zhao', actorTemplateId: 'zhao', hp: 110, maxHp: 600, coveredBy: 'li' }),
+        player({ roleId: 'li', actorTemplateId: 'li', hp: 200, maxHp: 200 }),
+      ],
+      { delta: -20 },
+    )
+    expect(rawPrev.casualtyDialogue).toBeUndefined()
+    // (c) prevHp=125 ≥ 120 且 hp=95 < 100 → 触发
+    const hit = runBattle(
+      [
+        player({ roleId: 'zhao', actorTemplateId: 'zhao', hp: 125, maxHp: 600, coveredBy: 'li' }),
+        player({ roleId: 'li', actorTemplateId: 'li', hp: 200, maxHp: 200 }),
+      ],
+      { delta: -30 },
+    )
+    expect(hit.casualtyDialogue?.speakerRoleId).toBe('zhao')
+  })
+
   test('P1:dying 目标被麻痹仍触发(只排 sleep/confused)', () => {
     const state = runBattle(
       [
@@ -377,6 +407,103 @@ describe('B11-1 战斗伤亡 sweep', () => {
       },
     )
     expect(state.players[1]!.attackStrength).toBe(150)
+  })
+
+  test('P6:prevHp 防重入:未再次受伤不得重放 dying', () => {
+    const state = runBattle(
+      [
+        player({ roleId: 'zhao', actorTemplateId: 'zhao', hp: 125, maxHp: 500, coveredBy: 'li' }),
+        player({ roleId: 'li', actorTemplateId: 'li', hp: 200, maxHp: 200 }),
+      ],
+      { delta: -10 },
+    )
+    const zhao = state.players[0]!
+    const round = (): void => {
+      state.pendingActions.set(0, { kind: 'defend' })
+      state.pendingActions.set(1, { kind: 'defend' })
+      let guard = 0
+      do {
+        stepBattle(state, rng0)
+      } while (state.phase === 'performAction' && ++guard < 60)
+    }
+    const scriptLogs = (): number =>
+      state.log.filter((entry) => entry.includes('伤亡脚本')).length
+    // runBattle 只打一下:125→115(未到 dying 钳 100,不触发)
+    expect(zhao.hp).toBe(115)
+    expect(state.casualtyDialogue).toBeUndefined()
+    round() // 115→105 仍不触发
+    expect(zhao.hp).toBe(105)
+    expect(scriptLogs()).toBe(0)
+    round() // 105→95:触发一次
+    expect(zhao.hp).toBe(95)
+    expect(state.casualtyDialogue?.speakerRoleId).toBe('zhao')
+    expect(scriptLogs()).toBe(1)
+    round() // 95→85:prevHp 已刷新为 95(< 未钳阈值 100),不再重放
+    expect(zhao.hp).toBe(85)
+    expect(state.log.filter((entry) => entry.includes('伤亡脚本')).length).toBe(1)
+    expect(state.casualtyDialogue?.lines).toEqual([{ text: 'dlg.dying', style: 'top' }])
+  })
+
+  test('P6:同一步至多一个脚本:两名队员同回合末毒死,只跑第一个的援护脚本', () => {
+    const attacker = enemy('caster', { dexterity: 999 })
+    attacker.ai = {
+      resistanceToSorcery: 0,
+      rules: [{ at: 'act', do: { kind: 'cast', skillId: 'hit', target: 'lowestHp' } }],
+    }
+    const state = createBattleState({
+      players: [
+        player({
+          roleId: 'hero',
+          actorTemplateId: 'li',
+          hp: 2,
+          maxHp: 100,
+          coveredBy: 'yue',
+          poisons: [{ poisonId: 555, tickIndex: 0 }],
+        }),
+        player({
+          roleId: 'zhao',
+          actorTemplateId: 'zhao',
+          hp: 2,
+          maxHp: 100,
+          coveredBy: 'yue',
+          poisons: [{ poisonId: 555, tickIndex: 0 }],
+        }),
+        player({ roleId: 'li', actorTemplateId: 'li', hp: 50, maxHp: 100 }),
+        player({ roleId: 'yue', actorTemplateId: 'yue', hp: 50, maxHp: 100, attackStrength: 100 }),
+      ],
+      enemies: [attacker],
+      skills: { hit: skill('hit', [{ kind: 'resourceDelta', resource: 'hp', delta: 0 }]) },
+      poisonDefs: {
+        555: {
+          id: 555,
+          name: '毒555',
+          curability: 'severe',
+          color: 0,
+          playerTicks: [{ hpDelta: -2 }],
+          enemyTicks: [{ hpDelta: -1 }],
+        },
+      },
+      actorsById: {
+        li: actor('li'),
+        yue: actor('yue', { friendDeath: FRIEND_DEATH }),
+        zhao: actor('zhao'),
+        hero: actor('hero'),
+      },
+    })
+    stepBattle(state, rng0)
+    state.pendingActions.set(0, { kind: 'defend' })
+    state.pendingActions.set(1, { kind: 'defend' })
+    state.pendingActions.set(2, { kind: 'defend' })
+    state.pendingActions.set(3, { kind: 'defend' })
+    let guard = 0
+    do {
+      stepBattle(state, rng0)
+    } while (state.phase === 'performAction' && ++guard < 60)
+    expect(state.players[0]!.hp).toBe(0)
+    expect(state.players[1]!.hp).toBe(0)
+    // 只跑第一个阵亡者(hero)的援护者 yue;zhao 的援护脚本同一 sweep 不执行
+    expect(state.casualtyDialogue?.speakerRoleId).toBe('yue')
+    expect(state.log.filter((entry) => entry.includes('伤亡脚本')).length).toBe(1)
   })
 })
 
