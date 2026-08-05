@@ -160,18 +160,22 @@ Branch: TBD
 - 修改文件: `packages/migrate/src/migrate-content.ts`（mapSkills 370 备注按
   palSemanticProfile face-gate）、`packages/migrate/src/experimental/script-v5/
   source-instruction-disposition.ts`（reportObservations scriptDesc 根 +
-  source-backed 校验器按 successorClosureActive face-gate）
+  source-backed 校验器按 successorClosureActive face-gate）、
+  `packages/migrate/src/experimental/script-v5/r13-source-semantics-mg2.ts`
+  （stable scripts 排除 segmentTransferDetails、保留其余全字段）
 - 实现摘要:
   - Fix 1（JS1 370 备注文本）：仅 current-r13-6b 用新文案，6A/历史面保留
     冻结旧文案。
   - Fix 2（e58476a7 scriptDesc 根）：仅 successor 面（successorFinal 存在）
     带 scriptDesc 根，父面恢复 pin 时代两根；校验器同步面感知。
-  - 结果：canary **父报告 pin 检查（86bbb33f）已恢复通过**；oracle 更新仅
-    指纹变化、golden 投影零变化；fast 79 files / 577 passed / 5 skipped 绿。
-  - **未完成**：canary 仍挂在 `fixture.first.authority.digest`
-    （HEAD=332370eb… vs 冻结 golden=193dfb2c…）——闭包批次还漂移了 R13-6A
-    后继构建的其他输入（候选：historical migration 报告其他叶 /
-    generated 快照 / auditSeal 组成），K2 继续枚举中；canary 2/2 绿前不收口。
+  - Fix 3（R1 修复 revision）：stable scripts 改为“全字段排除
+    segmentTransferDetails”（Kimi R1 选项 b），而非三叶 allowlist——allowlist
+    改变 digest 组成、漂移 canary golden input digest（Codex 自批的第三漂移源）。
+  - 结果：**canary 2/2 绿**（frozen golden 逐字节还原）；fast 79 files /
+    577 passed / 5 skipped；默认 dry-run 0/0/0；R13-Z dry-run open=0/0 且
+    6C seal / 运行时 digest 不变；oracle 仅指纹更新、golden 零变化。
+  - 源账 digest 83f68115 → be069130 为历史面备注恢复的必然结果（见交接日志
+    K3 附注），待三方审查确认。
 - 运行命令: `pnpm --filter @type-pal/migrate test:canary` /
   `test:fast` / `migrate:content -- --r13-z --r13-6c --r13-6d`（dry-run）
 - 浏览器 / 手工检查: N/A
@@ -180,7 +184,7 @@ Branch: TBD
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
+- 审查结论: pending（实现完成待审，K1-K4 逐项核）
 - 必须返工项: N/A
 - Accept / rework: pending
 
@@ -221,6 +225,27 @@ Branch: TBD
   - parent report 漂移值 1a823bc4 → f021b0a8 的中间贡献者待继续二分
     （候选 0ea144c2/d5c47a79/f0407264/3ed0f77b）。
   - K2 未完成：完整贡献者清单 + 逐形态修复仍在进行；canary 2/2 绿前不得收口。
+- 2026-08-06 Codex: **R13-CANARY 修复完成，canary 2/2 绿**。
+  - 三个漂移源全部修复：
+    1. JS1（19ce1ca7）370 lossy 备注文本 → mapSkills 按 palSemanticProfile 门控
+       （6A/历史面旧文案、6B 面新文案）；
+    2. e58476a7 scriptDesc 根 → reportObservations + source-backed 校验器按
+       successorClosureActive 门控（父面两根、后继面三根）；
+    3. **Codex 自批 R1 allowlist 修复本身改变了 stable digest 组成**（685265ed
+       时代是全字段 scripts，allowlist 只取三叶）→ 改为排除 segmentTransferDetails
+       保留其余全字段（Kimi R1 选项 b），digest 组成还原 pin 时代。
+  - 验证：canary 2/2 绿（frozen golden 逐字节还原：seal f78b751e / authority
+    193dfb2c / sourceDispositionInput 0f0aa474 / 源账 b696c7bd）；fast 79 files /
+    577 passed / 5 skipped；默认 dry-run writes=0/deletes=0/conflicts=0；
+    `--r13-z --r13-6c --r13-6d` dry-run open=0/0、6C seal=82e9f8f3…/运行时
+    digest=0a67ee07… 不变；oracle 仅指纹更新、golden 投影零变化。
+  - **K3 附注（源账 digest 变化）**：R13-Z 源指令账 digest 83f68115… →
+    be069130…，系历史面 370 备注恢复旧文案的必然结果（R13-Z disposition 的
+    rawDigest 含历史迁移 rawContent.lossySkills）。R13-Z 源账非冻结 pin
+    （冻结门禁 = canary golden + 86bbb33f + 6C/6D 证据字节，三者均未变），
+    待 Kimi/GLM 审查确认。
+  - Next: 三方实现审查（K1-K4 逐项核），通过后 R13-Z 剩余门禁（全量重迁双跑、
+    browser、正式发布）。
 - 2026-08-05 GLM：设计审查，签 **agree**。一手核实根因机制（非 Codex 摘要复述）：
   - **根因确认**：migrate-content.ts:647-650 JS1 把酒神 lossy 备注”按饮酒动态”改成
     “按剩余真气×8 动态”；该 notes 文本经 `lossy.push({notes:[...]})` →

@@ -11,7 +11,7 @@
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | N3-1 | 结构化控制流、实体具名行为与内部脚本退役 | build | R13-6C+6D 实现审查三方 accept（Kimi R1 剥离 + R2-R5、GLM 返工 diff 确认）；剩余 R13-Z 门禁 blocked on canary 立项 | `--r13-6c --r13-6d` dry-run open=0/0；fast 79/577 绿；R13-Z 发布 blocked on R13-CANARY |
-| R13-CANARY | R13-Z 闭包批次 canary 父账重建漂移 | draft | 待 Kimi / GLM 设计签字；Codex 定位首个破坏提交后进 build | 二分证据：c71482db 起 parent report f021b0a8…；86bbb33f 不得重写、allowlist 卫生保留 |
+| R13-CANARY | R13-Z 闭包批次 canary 父账重建漂移 | review | 实现完成（canary 2/2 绿），待 Kimi / GLM 实现审查（K1-K4） | 三个漂移源已修复（JS1 备注 / scriptDesc 根 / R1 allowlist 组成）；golden 逐字节还原 |
 | C8 | 物品用途机制、运行时与迁移闭环 | review | 等待 N3-1 完成后交用户联合验收 | `0d4aa48b` 三方最终 accept 已齐；100/0、20 件/21 根及引用反跳均通过审查 |
 | W9 | 实体暂离、重现与明雷逃跑冷却 | draft | 先冻结精确状态机，再由 Kimi / GLM 设计审查 | 18b 二次真值核对补入 0x4B 手动确认、0x52 toggle、world-update pause、敌逃/terminate success；Codex 签字撤回 pending，未准入 build |
 | B10-1 | 混乱敌人攻击同伴 | draft | 先冻结语义空槽 schema，再由三方设计签字 | 18a 二次真值核对补入 confused 前废弃玩家抽样；二阶段已压掉 68/380 队源空槽，不能用活目标分布冒充 RNG 忠实，Codex 签字 pending |

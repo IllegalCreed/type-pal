@@ -256,14 +256,15 @@ function digestMigrationInput(
           rawProjection: migration.report.rawProjection,
           content: migration.report.content,
           enemies: migration.report.enemies,
-          // R13-6A source ledger 只消费这三片 report 叶(Kimi R1:segmentTransferDetails
-          // 是 6D append-only 字段,不得进入冻结 6A 父账 digest —— stable/fast 对齐
-          // allowlist,冻结 pin 86bbb33f 不重写)。
-          scripts: {
-            knownNoOpDetails: migration.report.scripts.knownNoOpDetails,
-            instructionOutcomes: migration.report.scripts.instructionOutcomes,
-            notes: migration.report.scripts.notes,
-          },
+          // R13-CANARY:6D 的 segmentTransferDetails 是 append-only 字段,不得进入
+          // 冻结 6A 父账 digest;其余 scripts 字段保持 pin(86bbb33f)时代组成
+          // (Kimi R1 选项 b:父账重建排除新 append-only 字段,而非改成三叶 allowlist
+          // —— allowlist 会改变 digest 组成,漂移 canary golden input digest)。
+          scripts: Object.fromEntries(
+            Object.entries(migration.report.scripts).filter(
+              ([key]) => key !== 'segmentTransferDetails',
+            ),
+          ),
           foldedHostileRoots: migration.report.foldedHostileRoots,
           spriteActionMaterialization: migration.report.spriteActionMaterialization,
         }
