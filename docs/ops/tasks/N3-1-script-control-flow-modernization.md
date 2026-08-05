@@ -8150,6 +8150,22 @@ Codex 开遗留 canary 立项（首个破坏提交定位 + 修复 + 双面重放
 输出: accept / counter 理由。
 ```
 
+##### GLM 返工 diff 确认（2026-08-05，用户转述）→ **accept**
+
+对 `36e17fb7`（含前序 `8c11533e`）补确认，三点核查：
+
+- R2 oracle 7 测（goto/install/branch + dynamic-scene-on-enter 正例 + 三条负路径
+  含 failedAddresses 枚举断言）与 R3 白名单六类存在语义落实，D2/D3 钉满足；
+- R4 fail 时 failedAddresses 显式进 open 观察（B 子集载体）落实；
+- R5 卫生（seal 顺序注释、install 检查顺序、debug-owner.ts 删除）落实；
+  返工后证据字节不变（dry-run 6C seal / 源账 / 运行时 digest 与返工前一致）。
+
+**R13-6C+6D implementation review 三方收口（2026-08-05）**：Codex 自验 + Kimi
+accept（R1 剥离单独立项，R2-R5 通过）+ GLM accept（返工 diff 确认）——本批实现
+审查终局。**不得标 R13-6C/6D/R13-Z/N3-1/C8/ED-5I done**：R13-Z 正式发布仍 blocked
+on 遗留 canary 红立项（单独立卡，86bbb33f 不得重写、allowlist 卫生不得回滚），
+且需跑剩余门禁（全量重迁双跑、browser、正式 --write 发布、canary 双面重放绿）。
+
 #### 给 Kimi / GLM 的 R13-6D 设计复审提示词（下一位 Agent 可直接复制）
 
 ```text
