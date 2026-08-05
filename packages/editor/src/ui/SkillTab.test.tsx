@@ -220,3 +220,27 @@ describe('SkillTab · 施法物品成本', () => {
     expect(session.getState().skills[0]!.cost.items).toBeUndefined()
   })
 })
+
+describe('SkillTab · 一生限用次数', () => {
+  test('设置入账、清空删键恢复不限、undo/redo 复原', async () => {
+    const session = new EditSession(state([skill()]))
+    await act(async () => root.render(<Harness session={session} />))
+    const input = host.querySelector<HTMLInputElement>('input[aria-label="一生限用次数"]')!
+    expect(input.value).toBe('')
+
+    await setInput(input, '9')
+    expect(session.getState().skills[0]!.lifetimeLimit).toBe(9)
+
+    await setInput(input, '')
+    expect(Object.hasOwn(session.getState().skills[0]!, 'lifetimeLimit')).toBe(false)
+
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
+    expect(session.getState().skills[0]!.lifetimeLimit).toBe(9)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
+    expect(Object.hasOwn(session.getState().skills[0]!, 'lifetimeLimit')).toBe(false)
+  })
+})

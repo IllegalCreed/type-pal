@@ -130,11 +130,13 @@ function N(props: {
   on: (n: number | undefined) => void
   ph?: string
   w?: number
+  ariaLabel?: string
 }) {
   return (
     <input
       className="in mono ef-num"
       type="number"
+      aria-label={props.ariaLabel}
       style={props.w ? { width: props.w } : undefined}
       value={props.v ?? ''}
       placeholder={props.ph}
@@ -792,6 +794,15 @@ export function SkillTab(props: {
                     v={skill.cost.money}
                     on={(n) => patch({ cost: { ...skill.cost, money: n } })}
                     ph="0"
+                  />
+                </label>
+                <label title="一生/全周目限用次数，达到后从角色习得列表移除并提示用尽；留空 = 不限（酒神 9 次）">
+                  <span className="lb">一生限用</span>{' '}
+                  <N
+                    v={skill.lifetimeLimit}
+                    on={(n) => patch({ lifetimeLimit: n })}
+                    ph="不限"
+                    ariaLabel="一生限用次数"
                   />
                 </label>
                 <label className="cf-inline">
