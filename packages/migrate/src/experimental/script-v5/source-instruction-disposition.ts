@@ -254,6 +254,19 @@ export type R13DispositionEvidence =
     })
   | (EvidenceBase & {
       scope: 'observation-closure'
+      kind: 'r13-6c-lossy-closure'
+      skillId: '352' | '372' | '373'
+      /** scriptOnSuccess 0x68 分支根(不用整技能根冒充分支账,Kimi C2)。 */
+      sourceRootIds: string[]
+      sourceClosureDigest: string
+      /** 0x68 分支站点地址(逐站 sourceCommandSha256 参与 digest)。 */
+      branchAddresses: number[]
+      lossyNotes: string
+      layerTargets: { final: { selectors: string[]; digests: string[] } }
+      appliesToLayers: ['final']
+    })
+  | (EvidenceBase & {
+      scope: 'observation-closure'
       kind: 'pal-palette-resolution'
       paletteIndex: number
       /**
@@ -4798,6 +4811,65 @@ function r13ExistingSchemaClosureEvidence(args: {
   return { projectedFinal, sites: projections, skillCosts, currentLossySkills }
 }
 
+/**
+ * R13-6C:352/372/373 敌方 0x68 分支的 successor closure 证据。
+ * source 根限定 scriptOnSuccess 的 0x68 分支站点(逐站 sourceCommandSha256 参与
+ * sourceClosureDigest,Kimi C2/GLM S2);final target = 整技能 digest(含
+ * execution.enemy.applyPoison 555/560 + cost.items 蛊 1,与 R13-6B 已发布内容一致,
+ * 零内容叶)。仅 R13-6C authority 面启用;6A/6B 面保持 forced-open。
+ */
+function addR13SixCLossyClosureEvidence(args: {
+  skillId: '352' | '372' | '373'
+  reason: string
+  census: R13SourceExecutionCensusV1
+  final: MigrationSnapshot
+  evidence: Map<string, R13DispositionEvidence>
+}): string {
+  const { skillId, reason, census, final, evidence } = args
+  const rootId = `global/skills/${skillId}/scriptOnSuccess`
+  const contexts = contextById(census)
+  const branchSites = census.sites.filter((site) => {
+    const context = contexts.get(site.contextId)
+    if (context?.entrySiteId !== rootId) return false
+    return census.instructions[site.address]?.opcode === 0x68
+  })
+  const branchAddresses = [...new Set(branchSites.map((site) => site.address))].sort(
+    (left, right) => left - right,
+  )
+  if (!branchAddresses.length)
+    throw new Error(`R13-6C closure: skill ${skillId} scriptOnSuccess 下缺 0x68 分支站点`)
+  const commands = branchAddresses.map(
+    (address) => census.instructions[address]?.sourceCommandSha256,
+  )
+  const sourceClosureDigest = stableJsonSha256({ rootId, branchAddresses, commands })
+  const target = exactSkillTarget(final, skillId)
+  if (!target) throw new Error(`R13-6C closure: skill ${skillId} final target 缺失`)
+  const identity = {
+    skillId,
+    sourceRootIds: [rootId],
+    sourceClosureDigest,
+    branchAddresses,
+    lossyNotes: reason,
+    target,
+    successor: 'r13-6c-lossy-closure-v1',
+  }
+  const id = evidenceId('r13-6c-lossy-closure', identity)
+  addEvidence(evidence, {
+    id,
+    scope: 'observation-closure',
+    kind: 'r13-6c-lossy-closure',
+    addresses: branchAddresses,
+    skillId,
+    sourceRootIds: [rootId],
+    sourceClosureDigest,
+    branchAddresses,
+    lossyNotes: reason,
+    layerTargets: { final: target },
+    appliesToLayers: ['final'],
+  })
+  return id
+}
+
 function reportObservations(args: {
   sources: PalMigrationSources
   migration: MigrationFileSet
@@ -4813,6 +4885,8 @@ function reportObservations(args: {
   successorDomainObservations: ReadonlyMap<string, string>
   /** paletteIndex → pal-palette-resolution evidence(用户拍板:调色盘已弃用,滤镜/烘焙替代)。 */
   paletteResolutions: ReadonlyMap<string, string>
+  /** R13-6C opt-in: 以 r13-6c-lossy-closure 证据关闭 352/372/373 lossy(6A/6B 面保持 forced-open)。 */
+  r13SixCLossyClosure?: boolean
 }): R13MigrationObservation[] {
   const observations = new Map<string, R13MigrationObservation>()
   const rawItems = new Map(args.migration.report.rawProjection.items.map((item) => [item.id, item]))
@@ -5111,18 +5185,42 @@ function reportObservations(args: {
       root('skills', objectId, 'scriptOnUse'),
       root('skills', objectId, 'scriptOnSuccess'),
     ]
-    // R13-6A seal 防洗钱钉:这三条 lossy 观察必须保持 open(敌方 0x68 分支债务
-    // 不得被 disposition 洗掉);闭合只能由新的 successor authority(R13-6C)
-    // 取代 6A seal 后实现 —— 见 N3-1 卡 R13-Z 节。
-    addOpen({
-      id: `skill:${objectId}:lossy`,
-      domain: 'skill',
-      kind: 'lossy',
-      objectId,
-      rootIds,
-      batch: 'R13-6',
-      reason,
-    })
+    if (args.r13SixCLossyClosure) {
+      // R13-6C:新 successor authority 取代 6A seal 的账务口径 —— 三条 lossy 以
+      // r13-6c-lossy-closure 证据闭合(source scriptOnSuccess 0x68 分支 → final
+      // 整技能 digest,含 execution.enemy + cost.items;零内容叶)。6A/6B surface
+      // 仍由本开关关闭时的 forced-open 分支保持 fail-closed(Kimi C1 双侧钉)。
+      const proof = addR13SixCLossyClosureEvidence({
+        skillId: objectId as '352' | '372' | '373',
+        reason,
+        census: args.census,
+        final: args.final,
+        evidence: args.evidence,
+      })
+      addLayered({
+        id: `skill:${objectId}:lossy`,
+        domain: 'skill',
+        kind: 'lossy',
+        objectId,
+        rootIds,
+        batch: 'R13-6',
+        reason,
+        closureEvidenceId: proof,
+      })
+    } else {
+      // R13-6A seal 防洗钱钉:这三条 lossy 观察必须保持 open(敌方 0x68 分支债务
+      // 不得被 disposition 洗掉);闭合只能由新的 successor authority(R13-6C)
+      // 取代 6A seal 后实现 —— 见 N3-1 卡 R13-Z 节。
+      addOpen({
+        id: `skill:${objectId}:lossy`,
+        domain: 'skill',
+        kind: 'lossy',
+        objectId,
+        rootIds,
+        batch: 'R13-6',
+        reason,
+      })
+    }
   }
   for (const [objectId, closureEvidenceId] of args.r13ExistingSchemaSkillCosts) {
     addLayered({
@@ -5298,6 +5396,8 @@ export interface R13SourceInstructionDispositionBuildArgs {
   bindOwnerSourceSites?: boolean
   /** R13-Z opt-in: bind sprite-action bodies folded into materialized animation/pose targets. */
   bindSpriteActionSourceSites?: boolean
+  /** R13-6C opt-in: 以 r13-6c-lossy-closure 证据关闭 352/372/373 lossy 观察(6A/6B 面保持 forced-open)。 */
+  r13SixCLossyClosure?: boolean
 }
 
 export function sealR13SourceInstructionDisposition(
@@ -6777,7 +6877,8 @@ function assertR13SourceInstructionDispositionInternal(
             entry.kind === 'r13-enemy-augmentation' ||
             entry.kind === 'r13-existing-schema-skill-cost' ||
             entry.kind === 'r13-successor-domain' ||
-            entry.kind === 'pal-palette-resolution'
+            entry.kind === 'pal-palette-resolution' ||
+            entry.kind === 'r13-6c-lossy-closure'
           ? 'observation-closure'
           : entry.kind === 'open-debt'
             ? 'open-debt'
@@ -7805,37 +7906,85 @@ function assertR13SourceInstructionDispositionInternal(
             stableJsonSha256(['raw', 'augmented'])
         )
       }) ||
-      expectedSkillIds.some((skillId) => {
-        const observation = lossyExisting.get(skillId)
-        const openProofs = observation?.evidenceIds
-          .map((id) => evidence.get(id))
-          .filter(
-            (entry): entry is Extract<R13DispositionEvidence, { kind: 'open-debt' }> =>
-              entry?.kind === 'open-debt',
-          )
-        const expectedRoots = [
-          `global/skills/${skillId}/scriptOnSuccess`,
-          `global/skills/${skillId}/scriptOnUse`,
-        ].sort(stableStringCompare)
-        return (
-          !observation ||
-          observation.id !== `skill:${skillId}:lossy` ||
-          observation.domain !== 'skill' ||
-          observation.raw !== 'open' ||
-          observation.augmented !== 'open' ||
-          observation.final !== 'open' ||
-          openProofs?.length !== 1 ||
-          openProofs[0]?.reason !==
-            `skill-lossy:${
-              R13_EXISTING_SCHEMA_SKILL_LOSSY_NOTES[
-                skillId as keyof typeof R13_EXISTING_SCHEMA_SKILL_LOSSY_NOTES
-              ]
-            }` ||
-          stableJsonSha256(openProofs[0]?.appliesToLayers) !==
-            stableJsonSha256(['raw', 'augmented', 'final']) ||
-          stableJsonSha256(observation.sourceRootIds) !== stableJsonSha256(expectedRoots)
-        )
-      }) ||
+      // authority-aware 双侧钉(Kimi C1):6A/6B 面 lossy 必须 forced-open(防洗钱);
+      // 6C 面必须 final accounted + r13-6c-lossy-closure 证据(raw/augmented 保持
+      // open,与调色盘 final-layer closure 先例一致)。
+      (source?.r13SixCLossyClosure
+        ? expectedSkillIds.some((skillId) => {
+            const observation = lossyExisting.get(skillId)
+            const closureProofs = observation?.evidenceIds
+              .map((id) => evidence.get(id))
+              .filter(
+                (
+                  entry,
+                ): entry is Extract<R13DispositionEvidence, { kind: 'r13-6c-lossy-closure' }> =>
+                  entry?.kind === 'r13-6c-lossy-closure',
+              )
+            const openProofs = observation?.evidenceIds
+              .map((id) => evidence.get(id))
+              .filter(
+                (entry): entry is Extract<R13DispositionEvidence, { kind: 'open-debt' }> =>
+                  entry?.kind === 'open-debt',
+              )
+            const expectedRoots = [
+              `global/skills/${skillId}/scriptOnSuccess`,
+              `global/skills/${skillId}/scriptOnUse`,
+            ].sort(stableStringCompare)
+            return (
+              !observation ||
+              observation.id !== `skill:${skillId}:lossy` ||
+              observation.domain !== 'skill' ||
+              observation.raw !== 'open' ||
+              observation.augmented !== 'open' ||
+              observation.final !== 'accounted' ||
+              closureProofs?.length !== 1 ||
+              closureProofs[0]?.skillId !== skillId ||
+              closureProofs[0]?.lossyNotes !==
+                `skill-lossy:${
+                  R13_EXISTING_SCHEMA_SKILL_LOSSY_NOTES[
+                    skillId as keyof typeof R13_EXISTING_SCHEMA_SKILL_LOSSY_NOTES
+                  ]
+                }` ||
+              stableJsonSha256(closureProofs[0]?.appliesToLayers) !==
+                stableJsonSha256(['final']) ||
+              openProofs?.length !== 1 ||
+              openProofs[0]?.batch !== 'R13-6' ||
+              stableJsonSha256(openProofs[0]?.appliesToLayers) !==
+                stableJsonSha256(['raw', 'augmented']) ||
+              stableJsonSha256(observation.sourceRootIds) !== stableJsonSha256(expectedRoots)
+            )
+          })
+        : expectedSkillIds.some((skillId) => {
+            const observation = lossyExisting.get(skillId)
+            const openProofs = observation?.evidenceIds
+              .map((id) => evidence.get(id))
+              .filter(
+                (entry): entry is Extract<R13DispositionEvidence, { kind: 'open-debt' }> =>
+                  entry?.kind === 'open-debt',
+              )
+            const expectedRoots = [
+              `global/skills/${skillId}/scriptOnSuccess`,
+              `global/skills/${skillId}/scriptOnUse`,
+            ].sort(stableStringCompare)
+            return (
+              !observation ||
+              observation.id !== `skill:${skillId}:lossy` ||
+              observation.domain !== 'skill' ||
+              observation.raw !== 'open' ||
+              observation.augmented !== 'open' ||
+              observation.final !== 'open' ||
+              openProofs?.length !== 1 ||
+              openProofs[0]?.reason !==
+                `skill-lossy:${
+                  R13_EXISTING_SCHEMA_SKILL_LOSSY_NOTES[
+                    skillId as keyof typeof R13_EXISTING_SCHEMA_SKILL_LOSSY_NOTES
+                  ]
+                }` ||
+              stableJsonSha256(openProofs[0]?.appliesToLayers) !==
+                stableJsonSha256(['raw', 'augmented', 'final']) ||
+              stableJsonSha256(observation.sourceRootIds) !== stableJsonSha256(expectedRoots)
+            )
+          })) ||
       report.observations.some(
         (observation) =>
           observation.domain === 'skill' &&

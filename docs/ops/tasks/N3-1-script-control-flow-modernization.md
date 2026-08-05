@@ -7699,6 +7699,43 @@ Kimi：**分开**（6C→6D 顺序 successor；证据族作用域不相交，rew
 执行顺序 6C → 6D**；Codex 若在实现中能证明合并简化 replay，可提请变更并回读 Kimi/GLM
 确认，未证明前不合并。两批均三签齐，build allowed。
 
+##### R13-6C 实现与自验（2026-08-05，Codex，证据层已完成；seal/rewind 待续）
+
+**已实现**：
+
+- `r13SixCLossyClosure` 开关（migrate-content `--r13-6c`）→ source-instruction-disposition：
+  - 新证据族 `r13-6c-lossy-closure`（scope=observation-closure，appliesToLayers=[final]）；
+    source 根限定 `scriptOnSuccess` 的 0x68 分支站点（逐站 sourceCommandSha256 参与
+    sourceClosureDigest，Kimi C2 / GLM S2），final target = 整技能 digest（含
+    `execution.enemy.applyPoison` + `cost.items`，与 R13-6B 已发布内容一致，零内容叶）。
+  - authority-aware 双侧（Kimi C1）：默认（6A/6B 面）三条 lossy 仍 forced-open
+    （防洗钱语义不变）；`--r13-6c`（6C 面）final accounted + closure evidence，
+    raw/augmented 保持 open（与调色盘 final-layer closure 先例同构）。
+  - 证据校验白名单 + `existing-schema 6A completeness/anti-laundering` 断言改为
+    authority-aware。
+
+**验证证据**：
+
+- typecheck 绿；migrate fast 77 files / 567 passed / 5 skipped；oracle 仅更新
+  source-tree fingerprint（无 golden 内容漂移）。
+- **R13-Z 真实 dry-run（--r13-6c）：`open sites=0 observations=1`**
+  （lossy=3 已闭，剩段转移备注）——observations 4→1 达成，按预期 fail-closed
+  （R13-Z seal 仍需 observations=0）。
+- 默认面（无 flag）代码路径不变 + fast 套件全绿 + 今晨默认 dry-run 仍 4：6A/6B
+  面 fail-closed 保持。
+
+**未完成（下一步，同一批内继续）**：
+
+1. 6C successor transition 正式发布（`_transitions/r13-6c-lossy-closure-v1.json` +
+   baseline metadata + `--write`）；rewind 6C→6B 逐字节还原（预期零内容叶）。
+2. `r13-source-semantics-mg2.ts:848` 6A lossy 断言按 authority 参数化（6C 面要求
+   closure evidence），canary 双面重放。
+3. R13-6D oracle（段转移备注），另批。
+
+C1-C4 对照：C1 双侧（默认面 fast + dry-run 4 保持；6C 面 dry-run 1）✅（正式发布后
+补 canary 双面重放）；C2 source 根限 0x68 分支 ✅；C3 零内容叶 ✅（dry-run 未写盘）；
+C4 敌方下毒测试未触碰 ✅（fast 全绿）。
+
 #### 给 Kimi / GLM 的 R13-6D 设计复审提示词（下一位 Agent 可直接复制）
 
 ```text

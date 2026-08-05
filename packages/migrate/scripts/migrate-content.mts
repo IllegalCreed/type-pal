@@ -324,7 +324,11 @@ async function runR13SixBTransition(
  * disposition from live extracted input with the explicit throw-site gate, then let the new
  * authority append a seal to the baseline.  No project file or manifest is a publication target.
  */
-async function runR13ZTransition(manifestText: string, write: boolean): Promise<void> {
+async function runR13ZTransition(
+  manifestText: string,
+  write: boolean,
+  r13SixC: boolean,
+): Promise<void> {
   const baseline = loadPalBaseline(repo)
   if (!baseline) throw new Error('R13-Z 缺 PAL baseline v2')
   const sources = loadPalMigrationSources(repo)
@@ -413,6 +417,7 @@ async function runR13ZTransition(manifestText: string, write: boolean): Promise<
     bindDomainProjectionSourceSites: true,
     bindOwnerSourceSites: true,
     bindSpriteActionSourceSites: true,
+    r13SixCLossyClosure: r13SixC,
   }
   const r13z = createR13ZMigrationPlan({
     base: baseline,
@@ -1139,7 +1144,8 @@ async function main(): Promise<void> {
       flag !== '--write-once' &&
       flag !== '--verify-idempotence' &&
       flag !== '--repair-r13-confirm-seal' &&
-      flag !== '--r13-z',
+      flag !== '--r13-z' &&
+      flag !== '--r13-6c',
   )
   if (unknown.length) throw new Error(`未知参数: ${unknown.join(', ')}`)
   const writeRequested = flags.has('--write')
@@ -1147,6 +1153,7 @@ async function main(): Promise<void> {
   const verifyIdempotence = flags.has('--verify-idempotence')
   const repairR13ConfirmSeal = flags.has('--repair-r13-confirm-seal')
   const publishR13Z = flags.has('--r13-z')
+  const r13SixC = flags.has('--r13-6c')
   if ((writeOnce || verifyIdempotence) && process.env[INTERNAL_PHASE_ENV] !== '1')
     throw new Error('内部迁移阶段不得直接调用')
   if (
@@ -1157,7 +1164,8 @@ async function main(): Promise<void> {
       1 ||
     (repairR13ConfirmSeal && flags.has('--bootstrap')) ||
     (publishR13Z &&
-      (flags.has('--bootstrap') || writeOnce || verifyIdempotence || repairR13ConfirmSeal))
+      (flags.has('--bootstrap') || writeOnce || verifyIdempotence || repairR13ConfirmSeal)) ||
+    (r13SixC && !publishR13Z)
   )
     throw new Error('迁移写入/内部验证/显式修复阶段参数互斥')
   const write = writeRequested || writeOnce
@@ -1198,7 +1206,7 @@ async function main(): Promise<void> {
   if (publishR13Z) {
     if (bootstrap || contentVersion !== 11)
       throw new Error(`R13-Z 只接受已发布 content11 工程，收到 content${String(contentVersion)}`)
-    await runR13ZTransition(manifestText, writeRequested)
+    await runR13ZTransition(manifestText, writeRequested, r13SixC)
     return
   }
 
