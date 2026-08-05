@@ -7442,6 +7442,88 @@ lethalWith 仅投掷触发、counters 仅 use-on-self 触发。据此:
   当前 dry-run 仍 `open sites=0 / observations=8`(lossy=3 + setPalette=4 +
   段转移备注=1),无回归。
 
+##### R13-6C 设计草案:敌方 0x68 分支 successor authority（2026-08-05，Codex，待三方设计签字）
+
+**现状**：352/372/373 的敌方 0x68 分支语义已按用户拍板的结构化毒模型落入 R13-6B
+内容（`execution.enemy = applyPoison 555/560`，projects/pal + baseline 一致），
+battle-core 敌方下毒走普通 0x29（毒抗门），测试钉住「巫术不致死/不相克」。
+但 6A seal 防洗钱钉（`source-instruction-disposition.ts:5109` forced-addOpen +
+`r13-source-semantics-mg2.ts:848` 断言 6A lossy proof 必须 open-debt）强制三条
+lossy 观察保持 open。当前 dry-run：`open sites=0 / observations=4`
+（lossy=3 + 段转移备注=1），无回归。
+
+**范围**：
+
+1. 新 successor authority：transition 追加 `r13-6c-lossy-closure-v1`，gated
+   `r13SixCSourceSemantics`（默认 build 保持 6B 冻结 profile；只有显式 6C 路径启用；
+   canary 回放前 fail-closed 6C→6B rewind，逐文件 COW，参照 6B→6A 先例）。
+2. 观察闭包：三条 `skill:<id>:lossy`（352/372/373）从 forced-open 改为
+   observation-closure，绑定新证据族 `r13-6c-lossy-closure`
+   （scope=observation-closure，proves=structured，appliesToLayers=[final]）：
+   - source 根限定 `global/skills/<id>/scriptOnSuccess` 的 0x68 分支地址
+     （@43052/43044/43036 链，对应 alt L_39419/L_43047/L_43039），sourceClosureDigest
+     逐站对账；不得用整技能根冒充分支账。
+   - final target：`content/skills.json#skill/<id>` 整技能 digest（含
+     `execution.enemy.applyPoison 555/560` + `cost.items` 蛊 1）——与 R13-6B 内容
+     一致，6C 预期**不新增内容叶**。
+   - 防洗钱语义：闭包证据显式引用 `R13_EXISTING_SCHEMA_SKILL_LOSSY_NOTES` 三条 reason
+     （「0x68 敌方施法分支(alt L_...)未表达 —— 战斗期」→ 现以 structured 模型表达）；
+     6A/6B 历史 surface 的 dry-run 必须仍 fail-closed，6A seal 不重写。
+3. seal/权威链：R13-6C 追加为 append-only successor（parent = 6B 权威）；6A seal
+   保持历史冻结；`r13-source-semantics-mg2.ts:848` 的 6A lossy proof 断言改为
+   authority-aware（6A/6B 面仍要求 open-debt，6C 面要求 closure evidence）。
+   6C 与最终 R13-Z seal 的层级关系（6C 直接作为 R13-Z parent，还是 R13-Z 在 6C
+   之上再叠一层）由设计复审裁定。
+4. rewind：`pal-r13-six-b-rewind.ts` 扩展 6C 叶；预期零内容叶回退，断言 6C→6B
+   逐字节还原、6B→6A 保持。
+5. 门禁：R13-Z dry-run observations 4→1（剩段转移备注，归用户裁决）；canonical
+   重迁一次写盘 + 二次幂等 0 写；fast/release 测试矩阵更新（r13-z authority 单测、
+   source semantics MG2 断言、disposition oracle）；contentVersion/SAVE 预期不 bump
+   （无 schema 变更，实现时验证，若需内容叶则显式走 schema/save 审批）。
+
+**明确不做**：
+
+- 不重写三尸蛊道具链（0x5D/0x2B/0x5F 等）——结构化毒模型已用户拍板：lethalWith
+  仅投掷、counters 仅 use-on-self；敌方施法 = 普通 applyPoison。
+- 不在 6A/6B surface 上改账（历史 seal 冻结，防洗钱语义不得被 6C 反向吞掉）。
+- 不顺手关闭段转移备注（观察第 4 条，归用户裁决）。
+
+**风险钉（S，build 验收核对，不阻塞 agree）**：
+
+- **S1** 6A/6B 历史面 dry-run 必须仍 fail-closed（防洗钱语义不能被 6C 反向吞掉）。
+- **S2** 闭包证据 source 根限定 scriptOnSuccess 0x68 分支地址，不得用整技能根冒充。
+- **S3** rewind 6C→6B 逐字节还原；canary 回放 golden 命中。
+- **S4** contentVersion/SAVE 不 bump 的验证；若 6C 需要内容叶必须显式走 schema/save 审批。
+- **S5** 段转移备注不随本批关闭；observations 4→1 后停在段转移裁决门禁。
+
+**签字状态**：Codex design agree（本草案）；待 Kimi / GLM agree 后方可进入 build。
+
+#### 给 Kimi / GLM 的 R13-6C 设计复审提示词（下一位 Agent 可直接复制）
+
+```text
+复审任务: N3-1 R13-6C 设计复审（敌方 0x68 分支 successor authority）
+任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md（R13-Z 节
+  「R13-6C 设计草案」）
+当前状态: N3-1 build；R13-6C 仅设计草案，未准入 build，未改实现文件。
+你的职责: 只读审查；输出 agree 或 counter 的具体字段/反例。不得开始实现。
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡 R13-Z 节（含 R13-6B 实现与
+  调色盘备注闭合先例）、packages/migrate/src/experimental/script-v5/
+  source-instruction-disposition.ts（r13ExistingSchemaCurrentLossySkills 钉、
+  r13SuccessorSiteEvidence 模式、R13_EXISTING_SCHEMA_SKILL_LOSSY_NOTES）、
+  r13-source-semantics-mg2.ts:840-870（6A lossy proof 断言）、
+  pal-r13-six-b-rewind.ts、r13-z-transition-mg2.ts（seal/authority 模型）。
+重点:
+  1. R13-6C 作为新 successor authority 取代 6A seal 的账务口径是否成立，
+     防洗钱语义（6A/6B 面仍 fail-closed）是否被保住；
+  2. 闭包证据 source 根限定 scriptOnSuccess 0x68 分支地址 + final 整技能 digest
+     是否足以证明「未表达 → 结构化表达」；
+  3. 6C 无内容叶的假设是否成立（execution.enemy 已在 6B），contentVersion/SAVE
+     不 bump 是否正确；
+  4. 6C 与最终 R13-Z seal 的层级（6C 直接作 R13-Z parent 还是再叠一层）；
+  5. rewind/canary/门禁矩阵是否完整（S1-S5）。
+输出: 签字 agree / counter 理由；是否需调整范围。
+```
+
 ##### 调色盘备注闭合(2026-08-05,用户拍板)
 
 用户拍板:调色盘系统已弃用,大部分用滤镜(ambience 全帧染色)解决,其余 RNG
