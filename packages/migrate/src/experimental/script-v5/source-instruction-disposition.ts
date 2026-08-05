@@ -4899,7 +4899,7 @@ function addR13SixCLossyClosureEvidence(args: {
  * 全过 → 返回 observation-closure 证据 id(观察归零);任一 fail → undefined
  * (观察保持 open,fail 集合即 B 子集,D3)。
  */
-function addR13SegmentTransferResumeEvidence(args: {
+export function addR13SegmentTransferResumeEvidence(args: {
   details: Array<{
     sourceAddress: number
     refKind: 'call' | 'goto' | 'branch' | 'install'
@@ -4909,7 +4909,7 @@ function addR13SegmentTransferResumeEvidence(args: {
   census: R13SourceExecutionCensusV1
   dispositions: readonly R13SourceExecutionDisposition[]
   evidence: Map<string, R13DispositionEvidence>
-}): string | undefined {
+}): { id?: string; failedAddresses: number[] } {
   const { details, census, dispositions, evidence } = args
   const dispositionBySite = new Map(dispositions.map((entry) => [entry.siteId, entry]))
   const sites = census.sites
@@ -4918,12 +4918,25 @@ function addR13SegmentTransferResumeEvidence(args: {
   const hostKindByContext = new Map(
     census.contexts.map((context) => [context.id, context.host.kind]),
   )
+  // Kimi R3:入口种类白名单(存在语义)——后续地址必须被至少一个白名单入口覆盖;
+  // 未来漂入 scene-on-teleport/item/skill/enemy/dynamic-scene-on-teleport 即 fail-closed。
+  // 注(2026-08-05 Codex 对 Kimi 列表的修正):含 dynamic-scene-on-enter —— 真实数据
+  // 27509/27535 仅被 s188/on-enter 动态安装场景 hook 覆盖,与 scene-on-enter 同类
+  // (GLM 覆盖证明枚举过),漏列会误伤 2 条已翻译入口;其余 dynamic-scene-* 仍排除。
+  const TRANSLATED_ENTRY_KINDS = new Set([
+    'entity-trigger',
+    'dynamic-entity-trigger',
+    'entity-auto',
+    'dynamic-entity-auto',
+    'scene-on-enter',
+    'dynamic-scene-on-enter',
+  ])
   const items: Extract<
     R13DispositionEvidence,
     { kind: 'r13-segment-transfer-resume' }
   >['items'] = []
   const finalTargets = new Map<string, string>()
-  let failed = 0
+  const failedAddresses = new Set<number>()
   for (const detail of details) {
     const coveringSites = sites.filter((site) => site.address === detail.successor)
     const successorReachable = coveringSites.length > 0
@@ -4935,7 +4948,8 @@ function addR13SegmentTransferResumeEvidence(args: {
       coveringSites.map((site) => hostKindByContext.get(site.contextId) ?? 'unknown'),
     )
     const entryTranslated =
-      coveringKinds.size > 0 && ![...coveringKinds].some((kind) => kind === 'unknown')
+      coveringKinds.size > 0 &&
+      [...coveringKinds].some((kind) => TRANSLATED_ENTRY_KINDS.has(kind))
     // 最终目标集合:successor 站点 final 层证据的 targetDigests(机器可校验载体)。
     for (const site of coveringSites) {
       const disposition = dispositionBySite.get(site.id)
@@ -4972,9 +4986,11 @@ function addR13SegmentTransferResumeEvidence(args: {
       entryTranslated,
       verificationDigest,
     })
-    if (!successorReachable || !successorFinalClosed || !entryTranslated) failed++
+    if (!successorReachable || !successorFinalClosed || !entryTranslated)
+      failedAddresses.add(detail.successor)
   }
-  if (failed) return undefined
+  if (failedAddresses.size)
+    return { failedAddresses: [...failedAddresses].sort((left, right) => left - right) }
   const identity = {
     items,
     count: items.length,
@@ -4999,7 +5015,7 @@ function addR13SegmentTransferResumeEvidence(args: {
     },
     appliesToLayers: ['final'],
   })
-  return id
+  return { id, failedAddresses: [] }
 }
 
 function reportObservations(args: {
@@ -5403,14 +5419,14 @@ function reportObservations(args: {
         throw new Error(
           `R13 disposition: segmentTransferDetails=${details?.length ?? 0} != notes=${count}`,
         )
-      const proof = addR13SegmentTransferResumeEvidence({
+      const oracle = addR13SegmentTransferResumeEvidence({
         details,
         census: args.census,
         dispositions: args.dispositions,
         evidence: args.evidence,
       })
-      if (proof) {
-        const proofEntry = args.evidence.get(proof)
+      if (oracle.id) {
+        const proofEntry = args.evidence.get(oracle.id)
         addLayered({
           id: `source-note:${key}`,
           domain: 'source-command',
@@ -5420,15 +5436,17 @@ function reportObservations(args: {
           addresses: proofEntry?.addresses ?? [],
           batch: 'R13-0',
           reason: `translation-note:${key}:${count}`,
-          closureEvidenceId: proof,
+          closureEvidenceId: oracle.id,
         })
       } else {
+        // Kimi R4/D3:fail 时显式枚举失败子集(B 子集),观察保持 open。
         addOpen({
           id: `source-note:${key}`,
           domain: 'source-command',
           kind: `translation-note:${key}`,
           objectId: key,
           rootIds: [],
+          addresses: oracle.failedAddresses,
           batch: 'R13-0',
           reason: `translation-note:${key}:${count}`,
         })

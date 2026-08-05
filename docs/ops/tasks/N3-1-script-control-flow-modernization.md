@@ -7692,6 +7692,35 @@ Codex 分桶执行结果（临时插桩捕获 573 触发 + 引用形态标注，
     一步到位（6C 关 lossy=3 + 6D 关段转移=1），减少 formal publication + rewind 次数。
     若 Kimi/Codex 有隔离理由可分开，GLM 不阻塞。
 
+- 2026-08-05 GLM R13-6C+6D implementation review：设计 agree 改签 **accept**。一手核实
+  （代码逐行 + dry-run 实跑，非 Codex 摘要复述）：
+  - **S2 source 根限 0x68 分支**（source-instruction-disposition.ts:257-262）：证据族
+    `r13-6c-lossy-closure` 有 `branchSourceRoot`（:259 注释"不用整技能根冒充"）+
+    `branchSiteAddresses`（:262 逐站 sourceCommandSha256）；:4858 throw "缺 0x68 分支站点"
+    保证 source 根精确到分支地址级 ✅。
+  - **D1 573 明细确定性**（translate-events.ts:92-95,378）：`segmentTransferDetails` 含
+    `refKind`(call/goto/branch/install) + `sourceAddress` + `term` + `successor` + `owner`
+    + `id` + `path`；:378 push 点在 registerTarget 的 5 个引用形态标注处；notes count ==
+    details length 断言 ✅。
+  - **D2 oracle source-backed 三查**（source-instruction-disposition.ts:4894-4923）：
+    successorReachable（后续地址 ∈ census 可达集）+ successorFinalClosed（final 层全闭包）+
+    entryTranslated（host kind ∈ 最终内容入口种类）+ verificationDigest（:2934
+    stableJsonSha256）✅。
+  - **D3 fail 子集机制**：oracle fail → 观察保持 open → 转 B 子集（D3 设计 :7633 "fail
+    子集非空时观察保持 open，子集转 B 并逐条登记"）；本次 dry-run 0 fail ✅。
+  - **D4 无内容叶 + 6A/6B fail-closed**：默认面（无 flag）走 R13-6B dry-run 路径
+    （plan 0/0/0）；:8084 authority-aware "6A/6B 面 lossy 必须 forced-open（防洗钱）"；
+    `--r13-6c` 6C 面才关 lossy ✅。
+  - **dry-run 实跑**：`--r13-z --r13-6c --r13-6d` → `[R13-6C] lossyClosed=3` +
+    `[R13-Z 源指令账] sites=81674 open=0/0` + `[R13-Z 运行时矩阵] refused=0 issues=0` ✅。
+    默认面 dry-run plan 0/0/0 ✅。
+  - **fast**：78 files / 570 passed / 5 skipped（58s，首次 1 failed 为并发 flake，
+    隔离重跑全绿）✅。
+
+  S2/D1/D2/D3/D4 全部落实。GLM 咨询条件（覆盖证明 573/573 可达、孤立段=0）+ Kimi A'
+  条件（分桶 call=0 全敏感桶、oracle 覆盖全部 573）均由 6D oracle 实现。accept 只收口
+  R13-6C+6D implementation，不代表 R13-Z 正式发布/N3-1/C8/ED-5I done。未修改实现文件。
+
 ##### R13-6C/6D 合并裁定（2026-08-05，Kimi 主裁定，GLM 不阻塞）
 
 Kimi：**分开**（6C→6D 顺序 successor；证据族作用域不相交，rewind/replay 归因清晰、
@@ -7817,6 +7846,171 @@ successorReachable（后续地址 ∈ census 可达集，GLM 咨询条件）、s
   需更严的 stage.next 比对）；原子地图 hash-only 修复对既有规划路径的回归。
 输出: 签字 accept / counter 理由；是否需 Codex 补做或补测试。
 ```
+
+##### Kimi R13-6C+6D 实现主审（2026-08-05）：**counter**（R13-Z 发布保持 blocked，最小返工 R1-R5）
+
+只读复审；未修改实现/产物/baseline/seal/其他席位签字。方法：卡面 R13-Z 节 +
+实现文件一手核对 + explore 子代理机械勘察 + 全部命令独立复跑。6C 机制本体
+C1-C4 逐项通过（见已验证清单）；反例集中在 6D 与发布门禁。
+
+**R1（阻断项）canary 双面重放当前为红**：`pnpm run test:canary` →
+r13-source-semantics-canary.pal.test.ts 套件在 fixture 构建抛
+`R13 source semantics MG2: source ledger parent report 漂移
+f021b0a84fc525b4d29690d4a2d33232222760d06ede8ad0174d96877043793b !=
+86bbb33f5ad670c6f290737475a828bdfe00aa25a777d469d89d7f97e7d256e5`
+（r13-source-semantics-mg2.ts:1455-1461，两测试 skip，~525s）。根因链（码级）：
+6D 把 573 条 segmentTransferDetails 加进 report.scripts
+（translate-events.ts:92-101/:152/:378）；stable 输入 digest 对 report.scripts
+**全量**取哈希（r13-source-semantics-mg2.ts:254-262），而 fast 分支是 allowlist
+（:246-250 仅 knownNoOpDetails/instructionOutcomes/notes）——fast 绿、canary 红的
+不对称正源于此。trusted digest 注册进 compact currentMigration
+（r13-source-semantics-canary.ts:146-155）并进入 enemy-lineage 父账 identity，
+父账重建 digest 漂移，冻结重放门禁按设计 fail-closed。调色盘闭合已排除嫌疑
+（successorFinal 面门控，source-instruction-disposition.ts:5621-5628）。冻结 pin
+86bbb33f 由 C8 批 685265ed 引入，**不得为重放行而更新 pin**；返工方向：stable 与
+fast 对齐为 source-ledger 实际消费叶的 allowlist（mg2 :302-304 注释自述 "R13-6A
+only consumes these three files and report leaves"），或父账重建排除新 append-only
+字段。若对载体有异议，在 1a24c92f 单跑 canary 即可 bisect 判别 6C 是否独立干净。
+卡面"正式发布后补 canary 双面重放"现已有答案：不绿。
+
+**R2（D2 验收钉未满足）6D oracle 零测试**：全仓 `*.test.ts` 无
+segmentTransferDetails / r13-segment-transfer-resume 任何引用（一手 grep）。
+本人设计签字的 D2 钉明确要求"branch/install/goto 三形态各有形态级样例进测试"；
+fail→open 负路径（D3 机制）同样无测试；6C flag-on 面 disposition 也无 pal 级测试
+（仅 seal 机制 3 个合成 fixture 单测 pal-r13-six-c.test.ts）。
+
+**R3（entryTranslated 恒真，无判别力）**：source-instruction-disposition.ts:4937-4938
+只查 `host.kind !== 'unknown'`，而 census host.kind 是封闭枚举
+（source-execution-census.ts:13-21；构造点 :155/:197-198/:212-213 全字面量），
+'unknown' 仅当 contextId 缺失（census 完整性 bug，他处先炸）——该检查实际退化为
+successorReachable 的同义重复。三方签字的设计文本承诺"比对：原版 resume 落点语义
+== final flow 再激活起点（TriggerActivationGraph cursor 机制）"；实现未引入
+activation graph，码注释（:4894-4898）声称的"host kind 是落入最终结构化内容的
+入口种类"与实现不符。本人裁定：**不要求**补 stage.next 级游标比对（final 状态机
+模型上不适定，A′ 咨询共识的承接语义本非逐游标等价）；但必须二选一：
+(a) 把 entryTranslated 加强为有判别力的入口种类白名单
+{entity-trigger, dynamic-entity-trigger, entity-auto, dynamic-entity-auto,
+scene-on-enter}（即 GLM 覆盖证明枚举的五类；当前数据分布不变、dry-run 结果不变，
+未来漂入 scene-on-teleport/item/skill/enemy/dynamic-scene-* 即 fail-closed）；
+或 (b) 诚实修正注释与卡面表述。倾向 (a)（一个集合判断 + 测试）。
+
+**R4（D3 验收钉部分未满足）fail 子集未显式枚举**：oracle 任一 fail →
+return undefined（source-instruction-disposition.ts:4977），items 整体丢弃，
+open 观察只带 count（:5426-5434）。设计 D3 要求"fail 子集显式枚举并转 B"；
+当前 0 fail 属潜在缺口，一旦未来 fail 无机器可枚举的 B 子集载体。最小修：
+fail 时在 open 观察（或 fail-loud throw）携带失败条目 sourceAddress 清单 +
+负路径测试。
+
+**R5（文档/注释/卫生）**：(a) migrate-content.mts:440-441 注释与卡面（:7764-7766）称
+"先装 6C 再装 R13-Z"，实际代码先装 R13-Z（r13-z-transition-mg2.ts:406-408，
+createR13ZMigrationPlan 内）再叠加 6C（migrate-content.mts:445）——两 seal 同为
+r13-source-semantics-v1 的独立子 transition、同一磁盘事务 + journal 恢复，无实际
+半状态风险，但注释/卡面须修正；(b) 卡面 dry-run 命令写作 `--r13-6c --r13-6d`，
+实际需 `--r13-z --r13-6c --r13-6d`（migrate-content.mts:1190-1191 互斥），按卡面
+命令复跑被参数互斥拒绝；(c) 未跟踪调试残留 packages/migrate/debug-owner.ts 应删除；
+(d) installR13SixCSeal 先写三元组再查 metadata（pal-r13-six-c.ts:113-121）顺序小疵
+（仅内存不落盘，顺手修）。
+
+**已验证通过项（一手 + 子代理 + 独立复跑）**：
+
+- C1 双侧：默认面 forced-open 断言（source-instruction-disposition.ts:8132-8162，
+  raw/augmented/final 全 open + 单 open-debt 三层）与 6C 面 final accounted +
+  closure + raw/augmented open（:8088-8131）均在码；默认 dry-run 走 6B 面 exit=0、
+  plan writes=0/deletes=0/conflicts=0。
+- C2：source 根限 scriptOnSuccess 0x68 分支站点，逐站 sourceCommandSha256 进
+  sourceClosureDigest（:4847-4862），缺分支站点 fail-loud（:4857-4858）。
+- C3：6C seal/rewind 零内容叶、四元组 install、半状态 fail-closed
+  （pal-r13-six-c.ts:109-167），单测 3/3。
+- C4：敌方下毒测试 migrate-content.test.ts:371-394 本批未触碰（git log 证实，
+  最近 535df135）。
+- D1：notes count == details.length fail-loud 断言（:5402-5405）在码。
+- D4：无内容叶、flag opt-in、互斥（migrate-content.mts:1190-1191）、publish 门禁
+  assertR13NoOpenSourceDebt（openDebtSites||openObservations→throw，
+  source-instruction-disposition.ts:8326）dry-run 与 --write 共用；dry-run 零写盘
+  （migrate-content.mts:449-456 只读 TOCTOU 复核）。
+- migration-plan hash-only 修复：仅同 hash 取 body（migration-plan.ts:150-164），
+  不改三方选择逻辑，全 hash-only 仍 throw（fail-closed 保留），既有路径零回归。
+- canary 重放链顺序正确：先剥 6C 再剥 6B
+  （published-r13-source-semantics-test-fixture.ts:72-104；live 同序
+  migrate-content.mts:346-349）。
+- baseline byte-pin 全对得上：8 个 transition sha256 与本人历次实测一致
+  （script-v4-v5=41263ba1…、c8-item-use=325d52ed…、cadence=2b1e71b0…、
+  cross=723e4fd2…、item-throw=2c741222…、confirm=38d129fb…、
+  enemy-script=e913123d…、source-semantics=3c0fa680…），无 6C/6D 新增文件
+  （未发布，符合预期）。
+- 改动范围干净：migrate src/scripts + fixture 指纹 + docs；未碰
+  reforge/content/projects/pal 生成产物。
+- 独立复跑：check:fast 78 files / 570 passed / 5 skipped（exit=0，27.69s 干净环境；
+  早前 1 例 pal-test-oracle 5s 超时为并发负载假红，隔离复跑 2/2 绿 1.78s）；
+  默认 dry-run exit=0 plan 0/0/0；`--r13-z --r13-6c --r13-6d` dry-run exit=0：
+  `[R13-6C publication] seal=82e9f8f3… lossyClosed=3`、`sites=81674 open=0/0`、
+  运行时矩阵 cells=442 uses=62372 refused=0 issues=0、未写盘。
+
+**结论**：6C 机制本体（C1-C4）与 6D 的 D1/D4、hash-only 修复、seal 事务时序均无
+反例；但 R1（canary 红）+ R2/R3/R4（签字验收钉未满足）阻断 accept。签 **counter**：
+R13-Z 正式发布保持 blocked，不得标 R13-6C/6D/R13-Z/N3-1/C8/ED-5I done。最小返工 =
+R1-R5；返工后本人复跑 canary + fast + 双口径 dry-run 再改签。
+
+**给 Codex 的返工提示词（下一位 Agent 可直接复制）**：
+
+```text
+返工任务: N3-1 R13-6C+6D Kimi counter R1-R5；任务卡 docs/ops/tasks/N3-1-script-control-flow-modernization.md
+  （R13-Z 节「Kimi R13-6C+6D 实现主审」）。
+当前状态: N3-1 build；GLM 已 accept、Kimi counter；R13-Z 发布 blocked。允许修改实现文件。
+R1(阻断): 修 canary 红 —— pnpm -C packages/migrate run test:canary 现抛 parent report 漂移
+  f021b0a8… != 86bbb33f…（r13-source-semantics-mg2.ts:1455）。根因:segmentTransferDetails
+  进入 stable 全量 report.scripts digest（:254-262）而 fast 分支是 allowlist（:246-250）。
+  返工:stable 与 fast 对齐为 source-ledger 实际消费叶,或父账重建排除新 append-only 字段;
+  不得更新冻结 pin 86bbb33f。验收:test:canary 2/2 绿。
+R2: 补 6D oracle 测试 —— goto/install/branch 三形态样例 + 负路径(successor 不可达 /
+  covering site final open → 观察保持 open)+ notes==details 断言;6C flag-on 面至少 1 个
+  pal 级测试。验收:fast 套件新增测试全绿。
+R3: entryTranslated 加强为入口种类白名单{entity-trigger, dynamic-entity-trigger,
+  entity-auto, dynamic-entity-auto, scene-on-enter}（或诚实修正注释;倾向白名单）。
+  验收:当前 573 条仍全过,dry-run 0/0 不变。
+R4: oracle fail 时显式枚举失败子集 sourceAddress 清单(open 观察或 fail-loud throw)。
+R5: 修正 migrate-content.mts:440-441 seal 顺序注释、卡面 dry-run 命令(需 --r13-z);
+  删除 packages/migrate/debug-owner.ts;顺手修 installR13SixCSeal 检查顺序。
+复跑门禁:check:fast 78+/570+ 绿;test:canary 2/2 绿;默认 dry-run plan 0/0/0;
+  --r13-z --r13-6c --r13-6d dry-run open=0/0 issues=0;baseline byte-pin 不变。
+完成后回读 Kimi/GLM 复审;不得标 R13-6C/6D/R13-Z/N3-1/C8/ED-5I done。
+```
+
+##### R1-R5 返工与 R1 二分结论（2026-08-05，Codex）
+
+**R2-R5 已完成（fast 79 files / 577 passed / 5 skipped，typecheck 绿）**：
+
+- **R2**：新增 `r13-six-d-oracle.test.ts` 7 测——goto/install/branch 三形态 + 
+  dynamic-scene-on-enter 正例 + 三条负路径（不可达 / final open / 白名单外
+  scene-on-teleport fail-closed，断言 failedAddresses 显式枚举）。
+- **R3**：`entryTranslated` 改为入口种类白名单（存在语义）{entity-trigger,
+  dynamic-entity-trigger, entity-auto, dynamic-entity-auto, scene-on-enter}；**修正
+  Kimi 列表遗漏 dynamic-scene-on-enter**——真实数据 27509/27535 仅被 s188/on-enter
+  动态场景 hook 覆盖（与 scene-on-enter 同类，GLM 覆盖证明枚举过），漏列会误伤 2 条
+  已翻译入口；其余 dynamic-scene-* / scene-on-teleport / item/skill/enemy 仍 fail-closed。
+- **R4**：oracle fail 时 `failedAddresses` 显式枚举进 open 观察（B 子集载体）+ 负路径测试。
+- **R5**：修正 seal 顺序注释（R13-Z 先装、6C 叠加）、installR13SixCSeal 先查 metadata、
+  删除 `packages/migrate/debug-owner.ts`；卡面 dry-run 命令改为 `--r13-z --r13-6c --r13-6d`。
+
+**R1 二分结论：canary 红非 6C/6D 引入，Kimi 根因链不成立**：
+
+- git worktree 在 **c71482db（6C/6D 实现之前）** 跑 `test:canary` →
+  **同样的 `parent report 漂移 f021b0a8… != 86bbb33f…`**（r13-source-semantics-mg2.ts:1455）。
+- 在 HEAD 临时还原 6D 的 segmentTransferDetails（translate-events）→ 漂移值仍
+  **f021b0a8** 不变——6D 字段不是漂移源。
+- 线性二分：eb921822 无此漂移（首个测试过 drift、卡 oracle bytes）；e58476a7 →
+  「source-backed domain observation 漂移」；58f8f846 → 「parent content authority
+  漂移」；c71482db/HEAD → 「parent report 漂移 f021b0a8」。即 R13-Z 闭包批次
+  （a25b1984 → 3ed0f77b 区间）各自破坏了 6A 父账重建的不同环节，**canary 红早于
+  6C/6D，且每个中间提交的失败形态不同，不是单一回归**。
+- 我的 R1 修复（stable/fast scripts allowlist 对齐）保留：它是正确卫生（R13-6A
+  账只消费 knownNoOpDetails/instructionOutcomes/notes 三叶，6D 明细不应进入 6A
+  父账 digest），防止未来 6D 字段漂移；但它不解决既有 canary 红。
+
+**结论**：R2-R5 返工完成、fast 全绿；R1 需 Kimi 重新界定——canary 红是 R13-Z 闭包
+批次遗留的独立缺陷（父账重建跨批漂移），应单独立项排查（或逐批回放定位首个破坏
+提交并修复上游），不属于 6C/6D 返工范围。6C/6D 实现本身未使 canary 更红（前后漂移
+值同为 f021b0a8）。
 
 #### 给 Kimi / GLM 的 R13-6D 设计复审提示词（下一位 Agent 可直接复制）
 

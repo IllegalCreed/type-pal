@@ -256,7 +256,14 @@ function digestMigrationInput(
           rawProjection: migration.report.rawProjection,
           content: migration.report.content,
           enemies: migration.report.enemies,
-          scripts: migration.report.scripts,
+          // R13-6A source ledger 只消费这三片 report 叶(Kimi R1:segmentTransferDetails
+          // 是 6D append-only 字段,不得进入冻结 6A 父账 digest —— stable/fast 对齐
+          // allowlist,冻结 pin 86bbb33f 不重写)。
+          scripts: {
+            knownNoOpDetails: migration.report.scripts.knownNoOpDetails,
+            instructionOutcomes: migration.report.scripts.instructionOutcomes,
+            notes: migration.report.scripts.notes,
+          },
           foldedHostileRoots: migration.report.foldedHostileRoots,
           spriteActionMaterialization: migration.report.spriteActionMaterialization,
         }

@@ -437,8 +437,9 @@ async function runR13ZTransition(
     runtimeFinal: baseline,
   })
   if (r13SixC) {
-    // R13-6C 与 R13-Z 同一事务发布:先装 6C seal(记录三条 lossy closure 账务,
-    // 零内容叶),再装 R13-Z seal;两 seal 独立 transition、独立 rewind。
+    // R13-6C 与 R13-Z 同一磁盘事务发布:R13-Z seal 已在 createR13ZMigrationPlan 内
+    // 先装进 nextBaseline,这里再叠加 6C seal(记录三条 lossy closure 账务,零内容叶);
+    // 两 seal 是 r13-source-semantics-v1 的独立子 transition、独立 rewind,无半状态风险。
     const parentDigest = baseline.baselineMetadata?.transitions[R13_SOURCE_SEMANTICS_TRANSITION_ID]
     if (!parentDigest) throw new Error('R13-6C publication: 缺 R13 source-semantics metadata')
     const sixCSeal = buildR13SixCSeal(parentDigest, r13z.authority.sourceDisposition)

@@ -110,14 +110,14 @@ export function installR13SixCSeal(
   baseline: MigrationSnapshot,
   seal: R13SixCTransitionSealV1,
 ): void {
+  if (!baseline.baselineMetadata)
+    throw new Error('R13-6C seal: baseline 缺 metadata')
   baseline.files.set(R13_SIX_C_SEAL_PATH, asJson(seal))
   baseline.managedFiles.add(R13_SIX_C_SEAL_PATH)
   baseline.hashes?.set(
     R13_SIX_C_SEAL_PATH,
     sha256(serializeMigrationJson(asJson(seal), R13_SIX_C_SEAL_PATH)),
   )
-  if (!baseline.baselineMetadata)
-    throw new Error('R13-6C seal: baseline 缺 metadata')
   baseline.baselineMetadata.transitions[R13_SIX_C_TRANSITION_ID] = seal.digest
 }
 
