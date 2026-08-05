@@ -8119,6 +8119,37 @@ sourceDigest/auditDigest/reportDigest/finalDigest/summary/parentReportDigest，
 Codex 开遗留 canary 立项（首个破坏提交定位 + 修复 + 双面重放绿），GLM 补确认
 返工 diff，均由用户转交，不走本席交接。
 
+##### 给 GLM 的返工 diff 确认提示词（下一位 Agent 可直接复制）
+
+```text
+复审任务: N3-1 R13-6C+6D Kimi counter 返工 diff（36e17fb7）补确认
+任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md（R13-Z 节：
+  「Kimi R13-6C+6D 实现主审」counter、「R1-R5 返工与 R1 二分结论」、
+  「Kimi R1 重界定 + R2-R5 返工复核」accept）
+当前状态: N3-1 build；Kimi 席位 accept（R1 剥离单独立项）；你的 accept 早于返工
+  diff，需对最终实现补确认（异步即可，R13-Z 发布前集齐三方 accept 即可）。
+你的职责: 只读复审 diff 36e17fb7（含前序 8c11533e 的实现主体）；输出 accept 或
+  counter 的具体字段/反例。不得修改实现文件。
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡 R13-Z 节（设计/实现/自验/counter/
+  返工结论）、`git show 36e17fb7`、`git show 8c11533e`、packages/migrate/src/
+  experimental/script-v5/r13-six-d-oracle.test.ts、source-instruction-disposition.ts
+  （entryTranslated 白名单 + failedAddresses 枚举）、r13-source-semantics-mg2.ts
+  （stable/fast scripts allowlist 对齐）、pal-r13-six-c.ts（seal 顺序）。
+重点核对:
+  1. R2 oracle 7 测（goto/install/branch + dynamic-scene-on-enter 正例 + 三条负路径）；
+  2. R3 白名单六类存在语义 + dynamic-scene-on-enter 修正（27509/27535 = s188/on-enter
+     动态场景 hook，Kimi 已实证认领）；
+  3. R4 fail 时 failedAddresses 显式进 open 观察；
+  4. R5 卫生（seal 顺序注释/install 检查顺序/debug-owner.ts 删除）；
+  5. 返工后证据字节不变：`--r13-z --r13-6c --r13-6d` dry-run 的 6C seal=
+     82e9f8f3…、源账 digest=83f68115…、运行时 digest=0a67ee07…（Kimi 实测与返工前
+     逐字节一致）。
+边界: 本确认只收口 R13-6C+6D implementation review（GLM 席）；R13-Z 正式发布仍
+  blocked on 遗留 canary 红立项（Kimi R1 剥离，86bbb33f 不得重写、allowlist 卫生
+  不得回滚），不得标 R13-6C/6D/R13-Z/N3-1/C8/ED-5I done。
+输出: accept / counter 理由。
+```
+
 #### 给 Kimi / GLM 的 R13-6D 设计复审提示词（下一位 Agent 可直接复制）
 
 ```text
