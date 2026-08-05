@@ -69,11 +69,13 @@ Branch: TBD
 ### 进入 build 前:设计签字
 
 - Codex: agree（本卡 draft 即实现方设计草案，含二分证据链）
-- Kimi: pending
-- GLM: pending
+- Kimi: agree（2026-08-05，绑定约束 K1-K4 见「主审立场」；K1 与 GLM 的方案 1
+  优先判断冲突，见「三方争议记录」）
+- GLM: **agree**（2026-08-05，见交接）
 - counter / 分歧处理: N/A
 - 缺签豁免: N/A
-- build 准入结论: blocked
+- build 准入结论: 三方 agree 齐，可进 build（必须遵守 Kimi K1-K4；canary 2/2
+  与 86bbb33f 不动是 K1 的自执行判据）
 
 ### 进入 done 前:审查签字
 
@@ -104,15 +106,52 @@ Branch: TBD
 ### 主审立场
 
 - Reviewer: Kimi（父账/重放语义）+ GLM（数据/测试矩阵）
-- 结论: pending
-- 必改项: N/A
-- 是否建议进入 build: pending
+- 结论: Kimi **agree**（2026-08-05，绑定约束 K1-K4）；GLM **agree**（2026-08-05）
+- 必改项: N/A（K1-K4 为选项空间收窄与记录义务，非返工）
+- 是否建议进入 build: 是（三方 agree 齐，遵守 K1-K4）
+
+- 2026-08-05 Kimi 设计主审：只读复审，签 **agree**（绑定约束 K1-K4）。一手核实：
+  19ce1ca7 diff 实证酒神 370 lossy 备注无条件改写（migrate-content.ts:647-653，
+  "按饮酒动态"→"按剩余真气×8 动态"）；机制链码级成立——父账重建以**当前代码**
+  跑历史迁移（r13-enemy-script-mg2.ts:466 `migration: args.historicalMigration`），
+  disposition 构建读取 report.content.lossySkills
+  （source-instruction-disposition.ts:4815+），生成器文档性字符串漂移必入父账字节。
+  架构根因：**父账面没有生成器级冻结**，任何备注/文案演进都会打破冻结重放——
+  本卡修复必须把这个面封死，不能只治 370 一处。二分证据链（eb921822 绿 /
+  19ce1ca7 首破 / 中间形态各异）未逐提交独立复跑，采信依据：首破提交的 diff 与
+  机制链均一手核实，且 canary 本身是 build 的终极判据——归因若错修复不会转绿，
+  build fail-closed，设计期复跑属冗余。
+
+  绑定约束（build 必须遵守）：
+
+  - **K1 修复选项空间收窄**：卡面方案 1「父账 digest 组成对文档性备注文本不敏感」
+    在「不重写 86bbb33f」前提下**逻辑不成立**——pin = 旧组成（含旧备注文本）的
+    digest，任何组成/归一化变化 ⇒ 计算值 ≠ 86bbb33f ⇒ 被迫重算 pin，与卡面自身
+    约束矛盾。可行空间 = **方案 2（逐贡献者 face-gate，父账面恢复历史字节；可复用
+    current-r13-6a profile 机制）**，或 **方案 3（贡献者级联深时为父账面 vendor
+    冻结生成器快照）**。方案 1 仅在与"三方批准重算 pin"组合时成立，而重算 pin
+    本席已否决。K1 由 canary 自执行：选方案 1 不重算 pin ⇒ 值永不匹配 ⇒ 保持红。
+  - **K2 完整贡献者枚举**：19ce1ca7→HEAD 全部贡献者逐一定位（commit/字段/机制/
+    门控方式）记入本卡；修一个跑一个，中间形态（oracle bytes / domain observation /
+    content authority / parent report）各自闭环，canary 2/2 绿才算完。
+  - **K3 当前面字节不变**：默认 dry-run writes=0/deletes=0/conflicts=0；
+    `--r13-z --r13-6c --r13-6d` dry-run 的 6C seal=82e9f8f3…/源账=83f68115…/
+    运行时=0a67ee07… 逐字节不变；pal-oracle 指纹除 producer-code 外不变；
+    86bbb33f 与 6D allowlist 卫生保留。
+  - **K4 回归测试与防回潮**：每个贡献者补回归测试；face-gate 处代码注释写明
+    "父账面保留历史文案是冻结 artifact，不得回填新文案"；若现有测试对面无差别
+    断言新备注文本，须改为面感知。
 
 ### 三方争议记录(按需)
 
 - Codex: canary 红系 R13-Z 闭包批次遗留（二分实证，早于 6C/6D）。
 - Kimi: 认领 R1 误判并剥离本卡（2026-08-05 accept）。
-- GLM: 对 6C/6D 返工 diff accept；本卡待审。
+- GLM: 对 6C/6D 返工 diff accept；本卡设计 agree（2026-08-05）。
+- **方案 1 可行性分歧（2026-08-05）**：GLM 设计意见偏好方案 1（digest 对文档性
+  备注不敏感）并认为其不重写 86bbb33f；Kimi K1 裁定方案 1 在不重算 pin 下逻辑
+  不成立（旧组成 digest ≠ 新组成 digest，除碰撞外必漂移），修复空间收窄为
+  方案 2（face-gate）/ 方案 3（vendored 冻结生成器）。该约束由 canary 自执行，
+  不阻塞 build；GLM 若坚持方案 1 须在 build 审查时给出不重算 pin 的成立证明。
 - 用户拍板: N/A
 
 ## Build: 实现与自测
@@ -150,12 +189,37 @@ Branch: TBD
     1a823bc4…**（首个破坏提交）。
   - c71482db / HEAD：漂移值进一步变为 f021b0a8…（B11-1/调色盘批次继续贡献）。
   - 根因机制（diff 实证）：JS1 在 migrate-content.ts:647-650 **无条件改写 370
-    lossy 备注文本**（“按饮酒动态”→“按剩余真气×8 动态”），该文本进入
+    lossy 备注文本**（”按饮酒动态”→”按剩余真气×8 动态”），该文本进入
     compacted current migration 的 report.content.lossySkills →
     R13-5 父源账 digest 漂移；B11-1/调色盘批次的 disposition/内容改动继续叠加。
-  - 修复方向（待三方设计裁定）：父账 digest 组成对“文档性 lossy 备注文本”
+  - 修复方向（待三方设计裁定）：父账 digest 组成对”文档性 lossy 备注文本”
     不敏感（只取结构性字段），或 370 备注变更按 successor-only 门控，或经三方
     批准重算 pin（Kimi 明确禁止重写 86bbb33f，故优先前两者）。
+- 2026-08-05 GLM：设计审查，签 **agree**。一手核实根因机制（非 Codex 摘要复述）：
+  - **根因确认**：migrate-content.ts:647-650 JS1 把酒神 lossy 备注”按饮酒动态”改成
+    “按剩余真气×8 动态”；该 notes 文本经 `lossy.push({notes:[...]})` →
+    source-instruction-disposition.ts:4824 `currentLossySkills.set(id, 'skill-lossy:'+notes)` →
+    r13-source-semantics-mg2.ts:243 `lossySkills: migration.report.content.lossySkills` 进入
+    compacted migration → parent source report digest → 冻结 pin `86bbb33f...`（:55）不匹配 →
+    canary 红。**根因链完整闭合** ✅。
+  - **二分证据可信**：eb921822（JS1 前）重生成 fixture 后 canary 2/2 绿（基线干净）→
+    19ce1ca7（JS1）红（首次破坏）。首个破坏提交定位成立 ✅。
+  - **修复方向判断**：**方案 1（digest 对文档性备注不敏感）优先于方案 2（successor-only 门控）**。
+    理由：lossy notes 是给人看的描述性注释，不是结构性数据。digest 应该只取 lossy 的
+    结构性标识（`id` + `name`），不应取 `notes` 文本。方案 2 只修 370 一个 case，未来
+    任何 lossy 备注文字改动都会再次漂移；方案 1 从根上消除”改注释导致 digest 漂移”的
+    脆弱性。两者都不重写 86bbb33f、不回滚 allowlist 卫生 ✅。
+  - **6C/6D 证据 pin 护栏**：修复后 `--r13-z --r13-6c --r13-6d` dry-run 的 6C seal
+    `82e9f8f3…` / 源账 `83f68115…` / 运行时 `0a67ee07…` 必须逐字节不变 ✅。
+  - **canary 2/2 是最终判据**：producer rebuild 命中 R13-6A golden + replay 零写。
+
+  agree 仅准入 build。修复时须保留 allowlist 卫生、不重写冻结 pin、6C/6D 证据字节不变。
+- 2026-08-05 Kimi：设计主审签 **agree**（绑定约束 K1-K4，见「主审立场」）。
+  一手核实 19ce1ca7 diff 与机制链（父账面以当前代码跑历史迁移，无生成器级冻结）。
+  K1 收窄修复空间：方案 1 在不重算 86bbb33f 下逻辑不成立，仅方案 2（face-gate
+  恢复历史字节）/ 方案 3（vendored 冻结生成器）可行。三方设计 agree 齐，
+  build 准入开放。Next: Codex 进 build（K2 逐贡献者定位 + 修复 + 每步 canary 判据）；
+  GLM 若对方案 1 裁定有异议，build 审查时举证。
 
 ## 下一位 Agent 提示词
 
