@@ -7572,6 +7572,32 @@ Codex 执行证明（临时插桩捕获 573 触发 + `prepareR13SourceExecutionC
 裁决），随下一 successor 批次（R13-6C 或单独 R13-6D）进三方设计签字；若后续发现
 任一孤立段，则该段单独走 B，不影响其余。
 
+##### 段转移分桶证明（2026-08-05，Codex，应 Kimi A′ 咨询条件执行）
+
+Kimi 咨询结论（A′）：不能一概而论——**0x04 callScript 引用为精确无损**（原版 0x04
+不保存被调方返回游标，script.c:3258-3265/3566-3572，被调方 advance/reset 与 plain
+end 对调用方语义相同）；**0x03 goto / 0x24-0x25 安装引用非无条件无损**（宿主游标被
+推进到目标体下一段，play.c:153 回写宿主槽；翻译成 jumpScript+cut 再按 end 停，再激活
+起点可能退化）。最低闭包形态 = **按引用形态机器分桶**：桶①(0x04 call) 逐条恒等销账；
+桶②(goto/安装) 逐条生成目标体级 oracle（原版 resume 地址 == final canonical flow
+再激活起点，复用 R13-2 TriggerActivationGraph/cursor 机制）；桶②为 0 或全过 → A 证据
+够格；失败子集仅该子集走 B，不必全量 B。
+
+Codex 分桶执行结果（临时插桩捕获 573 触发 + 引用形态标注，插桩已还原）：
+
+- **0x04 callScript = 0 条**；**goto = 25 条**；**0x24/0x25 install = 111 条**；
+  **分支臂（branch-target，goto 类）= 437 条**；合计 573。
+- 推论：Kimi 桶①（恒等无损自动销账）为空——**573 条全部落在敏感桶②**，
+  「A 的主体是无损恒等」在本数据上不成立；A′ 的 oracle 必须覆盖全部 573 条。
+- 与覆盖证明组合：573 后续地址均可达、无孤立段（已证），但**可达 ≠ 再激活游标语义
+  等价**——oracle 仍需逐条验证「原版 resume 地址 == final flow 再激活起点」。
+- 若 oracle 全过 → A′ 成立（resolution evidence = 覆盖证明 + 分桶 + oracle）；
+  失败子集 → 仅该子集走 B（修翻译并重迁），其余不动。
+
+下一步（待用户裁决 A′ 后）：把 oracle 设计成 resolution evidence 证据族，随 R13-6C
+或单独 R13-6D successor 批次进三方设计签字；卡内注明「0x04 返回丢弃」仅作为方法学
+依据保留，不构成数值销账（call=0）。
+
 ##### 调色盘备注闭合(2026-08-05,用户拍板)
 
 用户拍板:调色盘系统已弃用,大部分用滤镜(ambience 全帧染色)解决,其余 RNG
