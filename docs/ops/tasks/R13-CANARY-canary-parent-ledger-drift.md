@@ -88,9 +88,11 @@ Branch: TBD
 
 ### 设计结论
 
-先逐提交回放定位首个破坏提交，再按失败形态逐层修上游（父账重建 identity 的
-合法组成对齐冻结 pin 时代的构成）；修复后先跑 canary 2/2，再跑 fast + 双口径
-dry-run 确认 6C/6D 证据字节不变。
+首个破坏提交已定位（19ce1ca7 JS1，370 lossy 备注文本进入父账 digest；B11-1/
+调色盘批次继续叠加至 f021b0a8）。修复方向：父账 digest 组成对文档性 lossy 备注
+文本不敏感（只取结构性字段），或 370 备注变更按 successor-only 门控——两者都
+不重写 86bbb33f、不回滚 allowlist 卫生。修复后先跑 canary 2/2，再跑 fast +
+双口径 dry-run 确认 6C/6D 证据字节不变。
 
 ### 已知风险
 
@@ -141,6 +143,19 @@ dry-run 确认 6C/6D 证据字节不变。
 - 2026-08-05 Codex: 开卡（Kimi R1 剥离裁定指定）。Evidence: N3-1 卡
   「Kimi R1 重界定 + R2-R5 返工复核」accept、二分证据链。Next: 三方设计签字后
   进入 build（首个破坏提交定位）。
+- 2026-08-05 Codex: **首个破坏提交定位完成**。git worktree 逐提交回放
+  （含逐提交重新生成 oracle fixture 排除陈旧干扰）：
+  - **eb921822（JS1 之前）重新生成 fixture 后 canary 2/2 绿** —— 基线干净。
+  - **19ce1ca7（JS1）canary 红：parent report 漂移 86bbb33f… →
+    1a823bc4…**（首个破坏提交）。
+  - c71482db / HEAD：漂移值进一步变为 f021b0a8…（B11-1/调色盘批次继续贡献）。
+  - 根因机制（diff 实证）：JS1 在 migrate-content.ts:647-650 **无条件改写 370
+    lossy 备注文本**（“按饮酒动态”→“按剩余真气×8 动态”），该文本进入
+    compacted current migration 的 report.content.lossySkills →
+    R13-5 父源账 digest 漂移；B11-1/调色盘批次的 disposition/内容改动继续叠加。
+  - 修复方向（待三方设计裁定）：父账 digest 组成对“文档性 lossy 备注文本”
+    不敏感（只取结构性字段），或 370 备注变更按 successor-only 门控，或经三方
+    批准重算 pin（Kimi 明确禁止重写 86bbb33f，故优先前两者）。
 
 ## 下一位 Agent 提示词
 
