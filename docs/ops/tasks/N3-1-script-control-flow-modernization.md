@@ -8059,6 +8059,66 @@ R2-R5 返工摘要:
 输出: accept（含 R1 剥离范围）/ 维持 counter（给出具体范围与依据）。
 ```
 
+##### Kimi R1 重界定 + R2-R5 返工复核（2026-08-05）：**accept**（R1 剥离单独立项；R13-Z 发布仍 blocked）
+
+只读复审；未修改实现/产物/baseline/seal/其他席位签字。全部命令独立复跑 + 关键声明一手实证。
+
+**裁定 1（R1 剥离：认可）**：canary 红确认为 R13-Z 闭包批次遗留缺陷，**早于 6C/6D**。
+Codex 二分证据链内部自洽且与本座观测一致——本人在 HEAD 实测的漂移值即
+f021b0a8…；实验 2（HEAD 还原 segmentTransferDetails 后漂移值不变）在逻辑上直接
+证伪本人此前"6D 字段进入父账 digest"的根因链（父账 identity 对 report.scripts
+内容不敏感），**本人认领此误判并撤回该根因**；实验 1（c71482db 同值漂移）表明
+缺陷先于本批。未独立复跑四提交二分（单跑 ~9 分钟×4），采信依据 = 值一致 +
+实验 2 的决定性 + 发布门禁兜底（归因即使偏差也不放行）。R1 从 6C/6D 返工范围
+**剥离，单独立项**（R13-Z 闭包批次 canary 父账重建漂移，a25b1984→3ed0f77b 区间
+多处独立缺陷：eb921822 卡 oracle bytes / e58476a7 domain observation / 58f8f846
+parent content authority / c71482db 起 parent report f021b0a8）。**冻结 pin
+86bbb33f 不得重写**；该立项是 R13-Z 正式发布的硬前置（canary 双面重放必须绿）。
+allowlist 卫生修复（mg2 :256-262）安全性已实证：已发布 6B seal
+（r13-source-semantics-v1.json，byte-pin 3c0fa680…）的 sourceControl 仅含
+sourceDigest/auditDigest/reportDigest/finalDigest/summary/parentReportDigest，
+**无任何 input-identity 字段**，digest 组成变化不可能 invalidate 既有冻结 seal。
+
+**裁定 2（R2-R5 返工：逐项通过）**：
+
+- **R2 ✅**：r13-six-d-oracle.test.ts 7 测——goto/install/branch 三形态正例 +
+  dynamic-scene-on-enter 正例 + 三条负路径（不可达 / final open / 白名单外
+  scene-on-teleport），负路径断言 failedAddresses 显式枚举。D2 钉"三形态样例
+  进测试"落实。
+- **R3 ✅（含对本人列表的修正，认领）**：whitelist 六类存在语义
+  {entity-trigger, dynamic-entity-trigger, entity-auto, dynamic-entity-auto,
+  scene-on-enter, dynamic-scene-on-enter}（source-instruction-disposition.ts:4921-4933）。
+  本人一手实证遗漏修正成立：census 实测 27509/27535 各仅 1 个覆盖站点、均为
+  `dynamic-scene-on-enter <- s188/on-enter`——本人原五类列表会误伤这 2 条已翻译
+  入口，Codex 修正正确（动态安装的场景 on-enter hook 与 scene-on-enter 同类）。
+  存在语义与 GLM 咨询条件"落在某个 trigger 入口范围内"一致；successorFinalClosed
+  保持全称；白名单外种类 fail-closed（负路径测试在案）。
+- **R4 ✅**：fail 时 failedAddresses（排序后 successor 清单）显式进 open 观察
+  （:5436-5449），B 子集载体落实。
+- **R5 ✅**：seal 顺序注释已修正为与代码一致（R13-Z 先装、6C 叠加、独立子
+  transition 同事务）；installR13SixCSeal 先查 metadata；debug-owner.ts 已删除
+  （文件系统实证）；dry-run 正确命令已记入返工节（历史自验节按惯例不改写）。
+
+**独立复跑证据（HEAD = fbfa49ba）**：check:fast 79 files / 577 passed / 5 skipped
+（exit=0，22.85s）；默认 dry-run exit=0、plan writes=0/deletes=0/conflicts=0；
+`--r13-z --r13-6c --r13-6d` dry-run exit=0、open=0/0、refused=0、issues=0、未写盘，
+且 **6C seal=82e9f8f3…、源指令账 digest=83f68115…、运行时矩阵 digest=0a67ee07…
+与本人返工前实测逐字节一致**——R2-R5 返工未改变任何证据/账户字节，可复现性成立。
+
+**边界与条件（不阻塞本批 accept，阻塞 R13-Z 发布）**：
+
+- 本 accept 只收口 R13-6C+6D implementation review（Kimi 席）。R13-Z 正式发布仍
+  **blocked on 遗留 canary 红立项**（双面重放绿 + 全量重迁双跑 + browser 等卡面
+  剩余门禁不变），不得标 R13-6C/6D/R13-Z/N3-1/C8/ED-5I done。
+- GLM 的 accept 早于 R2-R5 返工；**GLM 需对返工 diff（36e17fb7）补确认**——
+  异步即可，但 R13-Z 发布前必须集齐三方对最终实现的 accept。
+- 遗留 canary 立项修复完成时，修复方必须证明双面重放绿是在**保留 allowlist 卫生**
+  的前提下达成（不得以回滚 allowlist 或重写 86bbb33f 蒙混）。
+
+**无下一位 Agent 提示词**：本席结论已终局（accept 含 R1 剥离）；后续动作 =
+Codex 开遗留 canary 立项（首个破坏提交定位 + 修复 + 双面重放绿），GLM 补确认
+返工 diff，均由用户转交，不走本席交接。
+
 #### 给 Kimi / GLM 的 R13-6D 设计复审提示词（下一位 Agent 可直接复制）
 
 ```text
