@@ -7780,6 +7780,44 @@ successorReachable（后续地址 ∈ census 可达集，GLM 咨询条件）、s
 --r13-6d --write` 正式发布（6C + R13-Z seal 同一事务，含 R13-6D 观察闭包）；canary
 双面重放；C8/ED-5I 联合验收。
 
+##### 给 Kimi / GLM 的 R13-6C+6D 实现复审提示词（下一位 Agent 可直接复制）
+
+```text
+复审任务: N3-1 R13-6C + R13-6D 实现审查
+任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md（R13-Z 节：
+  「R13-6C 设计草案」「R13-6C 实现与自验」「R13-6D 设计草案」「R13-6D 实现与自验」
+  「R13-6C/6D 合并裁定」）
+当前状态: N3-1 build；R13-6C+6D 实现与 Codex 自验完成，未正式发布、未标 done。
+你的职责: 只读实现审查；输出 accept 或 counter 的具体字段/反例。不得修改实现文件、
+  生成产物或签字以外的文件。
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡 R13-Z 节（设计草案 + 实现与自验 +
+  你的验收钉）、packages/migrate/src/experimental/script-v5/source-instruction-disposition.ts
+  （r13-6c-lossy-closure / r13-segment-transfer-resume 证据族、authority-aware
+  completeness 检查）、r13-source-semantics-mg2.ts:848（6A lossy 断言，冻结 6A 重放）、
+  packages/migrate/src/pal-r13-six-c.ts（6C seal/rewind）、r13-z-transition-mg2.ts、
+  packages/migrate/src/translate-events.ts（:315-407 registerTarget + segmentTransferDetails）、
+  packages/migrate/src/migration-plan.ts（原子地图 hash-only 修复）、migrate-content.mts
+  （--r13-6c / --r13-6d / 发布路径）。
+实现摘要:
+  - R13-6C: r13-6c-lossy-closure 观察闭包证据（source 限 scriptOnSuccess 0x68 分支
+    地址、逐站 sourceClosureDigest、final 整技能 digest 零内容叶）；authority-aware
+    双侧（默认 6A/6B forced-open、6C 面 final accounted + closure）；6C seal + rewind
+    （零内容叶，canary 链先剥 6C 再剥 6B）。
+  - R13-6D: 计数备注升级 segmentTransferDetails（573 条机器可枚举）；oracle 逐条三查
+    （successorReachable / successorFinalClosed / entryTranslated）+ verificationDigest；
+    migration-plan 原子地图 hash-only 基线修复。
+验证证据: R13-Z 真实 dry-run（--r13-6c --r13-6d）通过 —— 源账 open=0/0、运行时
+  0 issues；fast 78 files/570 passed/5 skipped；oracle/manifest 仅指纹更新；6C seal
+  单测 3/3。尚未跑: 正式 --write 发布、canary 双面重放、全量重迁双跑、browser。
+验收钉（逐项核对）: 6C C1-C4（双侧 fail-closed / 0x68 分支根 / 零内容叶 / 敌方下毒
+  测试不动）、GLM S2（source 根限分支地址）；6D D1-D4（明细与 573 一致 / oracle
+  source-backed 重建 + 三形态样例 / fail 子集转 B / 无内容叶 + 6A/6B 面 fail-closed）。
+重点风险: 6C seal 与 R13-Z seal 同一事务发布的时序；canary 双面重放（6A 面 lossy
+  仍 forced-open）；oracle 的 entryTranslated 是否足以代表「再激活游标等价」（是否
+  需更严的 stage.next 比对）；原子地图 hash-only 修复对既有规划路径的回归。
+输出: 签字 accept / counter 理由；是否需 Codex 补做或补测试。
+```
+
 #### 给 Kimi / GLM 的 R13-6D 设计复审提示词（下一位 Agent 可直接复制）
 
 ```text
