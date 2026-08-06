@@ -68,10 +68,12 @@ Branch: TBD
 ## 验收条件
 
 - 功能:
-  - 9111 行 PAL 对话在带头像/无头像两态下均按原版文本区语义显示，无 1-2 字孤儿折行。
+  - 11102 行 PAL 对话在 bottom/top × 带头像/无头像四态下按「冻结语义」表显示：
+    1074 行孤儿折行归零，仅 6 行超原版可视宽度继续折行，无 1-2 字孤儿行。
   - 头像/人名/翻页光标/上显/自动播放按原版外观呈现（Kimi 截图逐项验收）。
 - 测试:
-  - layout 单测：带头像/无头像/长行/rich-text/光标预留/上显，9111 行回归 0 意外折行。
+  - layout 单测：覆盖冻结语义 usable 矩阵（bottom/top × 头像 + center）、6 行超限样例、
+    25 行头像边缘样例、rich-text、上显；全量回归脚本（复用本次扫描方法）输出 0 意外折行。
   - 渲染/资产：RGM 头像、DATA chunk 12 光标、FONT 渲染（0x4F+shadow）。
 - 文档:
   - 更新 backlog 议题 14 子项状态；capability-map 文本呈现口径。
@@ -83,7 +85,7 @@ Branch: TBD
 
 ### 进入 build 前:设计签字
 
-- Codex: pending（首批版式对齐设计：先核实 sdlpal 长行与头像关系再冻结）
+- Codex: agree（2026-08-06 首批版式对齐设计冻结：sdlpal 全宽语义核实完毕，见「冻结设计」）
 - Kimi: pending
 - GLM: pending
 - counter / 分歧处理: N/A
@@ -103,19 +105,65 @@ Branch: TBD
 
 ### 设计结论
 
-首批版式对齐（待核实 sdlpal 长行与头像关系后冻结）：
+**首批版式对齐（2026-08-06 冻结）:文本区宽度语义 = 原版全宽（右缘 = 屏幕 320），
+不再按头像收窄、不再扣光标预留。**
 
-1. 冻结文本区语义：无头像 startX=44；带头像 bottom startX=20；右界 = 原版框宽语义
-   （若原版全宽渲染则到 320/框边，不在头像处收窄；若原版按框裁边则按框宽）。
-2. 光标预留：只影响末行尾部，不改变折行宽度（当前 CURSOR_RESERVE 让可用宽度再 -12，
-   是孤儿换行的放大因素之一；核实后并入）。
-3. 长行与头像重叠：按原版行为（若原版长行会延伸至头像区，则忠实保留或按原版框宽
-   裁边），不得自作主张收窄。
+sdlpal 真值核实结论（决定性，代码锚点）：
+
+1. sdlpal 对话**不自动折行**：`PAL_ShowDialogText` 每条脚本行在 `posDialogText` 起点
+   直绘（text.c:1645-1750）；`PAL_DrawTextUnescape` 只检查起点 `x<320`（text.c:1140），
+   逐字符绘制时超出 320 的像素由 `PAL_DrawCharOnSurface` 逐像素裁切（font.c:522-548）。
+2. 头像只改变文本起点，**无框宽裁边、无头像互斥**：bottom (20,126) vs 无头像 (44,126)、
+   top (96,26) vs (44,26)（text.c:1317/1341）；头像在 `PAL_StartDialog` 先画、文本后画，
+   长行可以画入头像区（与原版观感一致）。kDialogUpper/kDialogLower 不画 box。
+3. 姓名行（末字 `:`）画在 `posDialogTitle`，不计入正文行；光标 icon 画在
+   `posIcon = 末行文本末尾`（text.c:1745），接近屏边时本就会被裁。
+
+冻结语义（320×200 逻辑坐标，全部按真实字形宽：CJK/全宽标点 16px、ASCII 8px）：
+
+| slot | 有头像 | 无头像 |
+|---|---|---|
+| bottom 正文起点 | 20 | 44 |
+| top 正文起点 | 96 | 44 |
+| center 正文起点 | 80 | 80 |
+| maxRight（所有 top/bottom/center） | 320（屏幕右缘） | 320 |
+| usable = 320 − startX | bottom 300px / top 224px / center 240px | bottom 276px / top 276px / center 240px |
+
+- 超 usable 的行才折行（reforge 增强，替代原版裁边）。
+- CURSOR_RESERVE 不再从折行宽度扣除（原版无此预留；光标按 posIcon 语义画在末行末尾，
+  边缘行被裁为视觉验收项，见下）。
+- narration 独立框维持现状（实测 766 行 max 192px，无超宽）。
+
+全量回归数字（canonical `projects/pal/content/scenes` + `data/extracted/data/font/glyphs.json`
+真实字形宽扫描，2026-08-06）：
+
+- 对话行总数 11102（唯一文本 8841），分桶：bottom\|n 3063 / bottom\|p 2724 / top\|p 2381 /
+  top\|n 856 / center\|n 1312 / narration\|n 766。
+- 现行 reforge 语义下折行 1080 行；其中 **1074 行在原版 maxRight=320 下是单行显示**
+  （top\|p 534 + bottom\|p 530 + center\|n 7 + bottom\|n 2 + top\|n 1）→ 新语义下全部单行，
+  孤儿折行归零。
+- 真正超出原版最大可视宽度仅 **6 行**（top\|p 5：dlg.7569/8217/9198/10164/10208 +
+  center\|n 1：dlg.8565），继续折行（原版会裁边）。
+- bottom 带头像 2724 行中仅 **25 行**伸入头像左缘（231px）以内、**8 行**超过 245px；
+  这与原版行为一致（文本画入头像区），列入 Kimi 视觉抽查。
+
+**不改任何对话文本**（源行边界是作者数据，只改宽度语义）。
+
+### 冻结设计核对记录
+
+- Codex（2026-08-06）：根因定位 + sdlpal 代码级核实 + 全量行宽扫描；设计冻结——折行宽度
+  = 原版最大可视宽度（320 − startX），不按头像收窄、不扣光标预留；仅 6 行超限继续折行；
+  头像边缘 25 行与原版一致；cursor/阴影/头像资产接入留后续批。
 
 ### 已知风险
 
-- 风险: 原版长行是否与头像重叠未定（决定全宽 vs 框宽语义）。
-- 缓解: 先读 sdlpal text.c 对话框渲染与 phase-1 呈现，冻结语义再实现。
+- 风险: bottom 带头像 25 行长行会伸入头像左缘（其中 8 行 >245px），与原版一致但观感
+  需确认。
+- 缓解: 已冻结为原版行为（头像先画文本后画）；Kimi 视觉抽查这 25 行与原版并排对比，
+  若作者不满意再单独裁决（不动折行宽度）。
+- 风险: 接近 320 屏边的行（top 带头像 14 字、center 15 字）光标会被裁。
+- 缓解: 光标按原版 posIcon 语义（末行末尾）；Kimi 视觉验收边缘行，必要时后续批单独定
+  cursor 策略。
 - 风险: 头像/光标/字体资产接入涉及 asset pipeline。
 - 缓解: 复用 A7 资产闭包先例；资产接入走 Generation Owner（Codex）+ 三方审。
 
@@ -130,6 +178,8 @@ Branch: TBD
 
 - Codex: 孤儿换行根因 = 带头像文本区收窄至 ~13 字/行（原版 ~17-18 字）；≤39 行受影响；
   修复 = 文本区宽度对齐原版语义，不迁移期改文本。
+  2026-08-06 冻结更新：全量扫描精确化——11102 行中 1074 行误折行（top\|p 534 +
+  bottom\|p 530 为主），新语义全部单行；真正超原版宽度仅 6 行。
 - Kimi: pending
 - GLM: pending
 - 用户拍板: 2026-08-06 推进本卡；视觉验证 Kimi 承担。
@@ -168,20 +218,31 @@ Branch: TBD
   根因定位：reforge `dialog-box.ts` 带头像时 maxRight = 头像左缘 − 4 − 光标预留 → ~13 字/行；
   原版 text.c 全宽语义 ~17-18 字/行；9111 行中 ≤39 行受影响（>222px）。开本卡（版式对齐
   为首批），待设计冻结（先核实 sdlpal 长行/头像关系）后三方签字。
+- 2026-08-06 Codex: 设计冻结。sdlpal 核实：对话不折行、逐字符 320 裁边、头像只改起点、
+  无框无互斥、光标画末行末尾。冻结语义：maxRight=320，usable=320−startX（bottom 有头像
+  300px/top 有头像 224px/无头像 276px/center 240px），不扣光标预留。全量扫描 11102 行：
+  1074 行误折行归零、仅 6 行超原版宽度继续折行、bottom 头像边缘 25 行待 Kimi 视觉抽查。
+  Codex 签 design agree；Kimi/GLM 待压测签字。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: D14-1 对话系统外观继承（版式对齐首批）
+接手任务: D14-1 对话系统外观继承（首批版式对齐）
 任务卡: docs/ops/tasks/D14-1-dialogue-appearance-inheritance.md
-当前状态: draft（build 准入 blocked）
-你的角色: Kimi 视觉/UX 主审；GLM 数据/覆盖矩阵主审
+当前状态: draft（build 准入 blocked；Codex 设计冻结并签 agree，见「冻结设计」节）
+你的角色: Kimi 做版式/视觉/头像边缘 UX 压测；GLM 做全量覆盖矩阵/回归口径核对
 先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡、design-backlog「对话外观继承」表、
-  packages/reforge/src/dialog/{dialog-box,layout,slot,narration-scroll}.ts、
-  reference/sdlpal/text.c:1270-1360（对话框位置/文本区）、font.c（字模度量）
-已完成: Codex 根因定位（带头像收窄 ~13 字/行、原版 ~17-18 字、≤39 行受影响）
-请你做: 压测文本区宽度语义（原版长行是否与头像重叠/框宽裁边）、版式/光标/字体/自动播放
-  的继承口径；冻结方案后写 agree，或 counter + 必改理由
+  packages/reforge/src/dialog/{dialog-box,layout,slot}.ts、
+  reference/sdlpal/text.c:1140-1170（320 裁边）/1270-1360（对话框位置/文本起点）/1645-1750
+  （逐行直绘/姓名/光标 posIcon）、font.c:522-548（逐像素裁切）
+已完成: Codex 根因定位 + sdlpal 代码级核实 + 全量行宽扫描，设计冻结：
+  折行宽度 = 原版最大可视宽度（maxRight=320，usable=320−startX，bottom 有头像 300px /
+  top 有头像 224px / 无头像 276px / center 240px），不按头像收窄、不扣光标预留；
+  11102 行中 1074 行误折行归零，仅 6 行超原版宽度继续折行；bottom 头像边缘 25 行
+  （>245px 的 8 行）与原版一致地画入头像区
+请你做: Kimi 压测四态 usable 矩阵与 25 行头像边缘行、6 行超限行、屏边光标行的观感口径；
+  GLM 复核扫描方法（场景 JSON 提取 + 字形宽）与 1074/6/25 数字、验收矩阵、回归脚本
+  应覆盖的样例；冻结方案后写 agree，或 counter + 必改理由
 不要做: 不得修改实现文件；不得在迁移期改对话文本；不得把行为与外观耦合
 输出要求: 更新设计签字、主审立场、争议处理和下一位提示词
 ```
