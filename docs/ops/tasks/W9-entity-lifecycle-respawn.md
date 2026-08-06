@@ -105,7 +105,9 @@ Branch: main
 
 ### 进入 build 前:设计签字
 
-- Codex: pending（2026-07-30 二次真值核对发现手动交互、0x52 toggle、世界时钟和敌逃/terminate 分支需先纳入设计）
+- Codex: **agree**（2026-08-06，设计冻结完成：四态状态机/默认值/320×320 边界含 sdlpal y=320
+  typo 忠实复刻、0x52 toggle 前态、BattleResult 四分类、hostile success/playerFlee 拆分、
+  SAVE 可选字段不 bump 先例——见「冻结设计」）
 - Kimi: pending
 - GLM: pending
 - counter / 分歧处理: N/A
@@ -125,22 +127,67 @@ Branch: main
 
 ### 设计结论
 
-以下是待 Kimi / GLM 压测并签字的设计基线，字段名可在不改变语义的前提下收敛：
+**冻结设计（2026-08-06，Codex；待 Kimi/GLM 压测签字。字段名可在不改变语义前提下收敛）**
 
-1. `WorldScriptState` 增加以稳定 `EntityAddress` 为键的持久生命周期表。公共模型用语义状态表达，不复制原版 `sState × -1` 或 `sVanishTime` 数字协议。
-2. 生命周期至少区分：
-   - `suspended`：可见、保持原碰撞，暂停自动触碰/auto/hostile，但允许 triggerMode 1–3 手动确认，记录剩余世界逻辑 tick。
-   - `despawned`：隐藏且退出碰撞/trigger/auto/hostile，记录剩余逻辑 tick。
-   - `awaitingExit`：计时结束，仍隐藏，等待离开固定 `320×320` 边界。
-   - `removed`：显式永久移除。
-3. 所有推进由所属场景的统一世界逻辑 reducer 完成；战斗/菜单/阻塞脚本与离场均冻结，回场从持久剩余 tick 继续。不得起 detached timer。
-4. content 的作者命令将 `0x4B` 和 `0x52` 拆成两个中文可解释的语义能力；具体类型名由设计审查冻结。hostile policy 显式分开 success 隐藏/重现策略与 player-flee 自动触碰冷却。
-5. Reforge 的渲染、碰撞、trigger、auto、hostile 都查询同一派生生命周期状态；不能各自维护布尔副本。
-6. 生命周期进入存档。设计审查必须明确 WorldState shape、SAVE envelope 与 contentVersion 的升级矩阵，旧 payload 要么确定性升级，要么在任何 sidecar I/O 前明确拒绝。
-7. 迁移器先建立 `0x4B`、`0x52`、hostile 折叠的源账本，再改上游并全量重生成；生成产物不手修。
-8. 18a 只在战斗内部产生正确 action / animation；W9 从 `BattleResult` 的普通胜利 / 玩家逃跑 / 敌人逃跑 / terminate 边界开始，互不侵入。
-9. `0x52` 公共能力必须表达 toggle 前态，而不是永远 set despawned；源站点 census、迁移策略和非法/异常前态在三签前冻结。
-10. BattleResult 接续显式区分普通胜利、玩家逃跑、敌人逃跑和 terminate；后两者走 success 脚本但不伪造奖励。
+**1. 状态机（精确，源自 game-mechanics.md:1000-1111 + sdlpal play.c:81-166）**
+
+生命周期四态，语义状态不复制原版 `sVanishTime`/`sState×-1` 数字协议：
+
+| 状态 | 语义 | 可见性 | 碰撞 | 自动触碰/auto/hostile | 手动确认(triggerMode 1-3) | 计时 |
+|---|---|---|---|---|---|---|
+| `suspended` | 0x4B 短暂暂停（源 `sVanishTime<0`，默认 15 tick=1.5s） | 可见 | 保持 | 暂停 | **允许** | 每有效世界 tick −1 |
+| `despawned` | 0x52 隐藏待重现（源 `sVanishTime>0` + `sState<0`，默认 800 tick=80s） | 隐藏 | 退出 | 禁止 | 禁止 | 每有效世界 tick −1 |
+| `awaitingExit` | 倒计时归零、仍隐藏，等待离开固定 320×320 视口 | 隐藏 | 退出 | 禁止 | 禁止 | 不推进；离屏即转 `normal` |
+| `removed` | 显式永久移除（可保存、不依赖缺字段推测） | 隐藏 | 退出 | 禁止 | 禁止 | 永久 |
+
+- 默认值：0x4B=15 tick（1.5s）、0x52=800 tick（80s）；0x52 带操作数 N → N tick。卡内 828 hostile
+  账本（826×80s + 1×10s + 1×15s）与 0x52 账本逐站对账。
+- 计时基准：仅**所属场景为当前场景**的有效世界逻辑 tick（100ms）推进；战斗/菜单/阻塞脚本暂停
+  world update、离场均冻结；回场从持久剩余 tick 续算。**禁止墙钟/后台 timer/detached wait**。
+- 重现：`awaitingExit` 时实体当前投影坐标在**相对相机固定 320×320 边界内**（端点包含）继续隐藏；
+  离开边界才转 `normal`，只复位动作帧 0，不重置位置/朝向/碰撞类别。**y 比较复刻 sdlpal 320
+  （play.c 疑 typo 应为 200，忠实保留，不得“修正”）**。
+- 0x52 toggle 语义：公共命令表达**前态感知的 toggle**——`normal → despawned`（正倒计时）；
+  负态调用转回 `normal` 并按正倒计时暂藏；`state=0` 保持 0。迁移账本必须证明常见站点前态；
+  异常前态 fail-loud，不得静默改写。
+
+**2. Schema（content + save）**
+
+- `EntityDef` 新增生命周期能力（语义名，非原版数字）：
+  - `lifecycle?: { onSuspend?: { ticks: number }; onHide?: { ticks: number } }` —— 0x4B/0x52
+    作者命令拆开，中文可解释；具体类型名由设计复审冻结。
+- `hostile.policy` 拆成两个显式字段：
+  - `success`：普通胜利后隐藏待重现（`onHide`）或保持现状；
+  - `playerFlee`：玩家逃跑后 `onSuspend(15)`（1.5s 自动触碰/敌对冷却）。
+  - 敌人逃跑/terminate 走 success 接续但**不触发隐藏**、**不给奖励**（B7a 战果口径不变）。
+- `WorldState.entityLifecycles: Record<EntityAddress, LifecycleEntry>`：
+  `{ phase: 'suspended'|'despawned'|'awaitingExit'|'removed', remainingTicks: number }`；
+  稳定 `EntityAddress` 为键，不复制原版下标/全局数组。
+- SAVE：`WorldScriptState` 增加可选字段；旧档缺省 → 实体均为 `normal`（确定性默认，不 bump
+  SAVE_VERSION，先例 = skillUseCounts/collectValue）；升级矩阵由设计复审冻结（确定性迁移或
+  任何 sidecar I/O 前明确拒绝，二选一写死）。
+
+**3. 迁移（先修上游 + 全量重生成）**
+
+- `translate-events.ts:1651-1657` 拆 `0x4B`/`0x52`：`0x4B` → `onSuspend(15)`（operand 0→800、
+  1→1、N→N 及 SHORT 边界逐站对账）；`0x52` → `onHide` toggle（记录调用前 `sState`）。
+- `migrate-content.ts:2441-2470` 标准明雷折叠改为按 `BattleResult` 四分类接续（普通胜利/玩家
+  逃跑/敌人逃跑/terminate），hostile policy 显式落 `success`/`playerFlee`。
+- 源账本（GLM 冻结前复核）：828 hostile（826×80s + 1×10s + 1×15s）+ 193 residual
+  （100×误翻 2s 隐藏的 0x4B + 93×0x52）→ mutually-exclusive disposition + 总数守恒。
+- 生成产物不手修；二次迁移 0/0/0。
+
+**4. 运行时（reforge）**
+
+- 场景世界逻辑统一 reducer 推进生命周期表；渲染/碰撞/trigger/auto/hostile 都查询同一派生
+  状态（不各自维护布尔副本）。`main.ts:3234-3263` detached wait 退役。
+- `BattleResult` 显式区分普通胜利/玩家逃跑/敌人逃跑/terminate；W9 只从该边界接续，与 18a
+  （混乱战斗）互不侵入。
+
+**5. 编辑器**
+
+- 中文 CRUD：明雷 victory 隐藏/重现策略、玩家逃跑冷却、`onSuspend`/`onHide` 两能力；
+  不暴露 `sVanishTime`。`App.tsx:2681/2982-2990` 重生秒编辑入口改为新语义字段。
 
 ### 已知风险
 
@@ -214,17 +261,25 @@ Branch: main
 
 - 2026-07-30 Codex: 根据用户要求，对照一阶段机制真值和第二阶段实现完成只读审计并开 W9 高风险任务卡；确认 18b 是 world/save/migration/editor 的系统性缺口，不是 battle-core 小补丁。
 - 2026-07-30 Codex 二次真值核对: 发现初稿把 `0x4B` 手动确认也禁掉、把 `0x52` 当单向 set、漏了 world-update pause 和敌逃/terminate success 分支；已撤回 Codex 设计签字并补齐验收。Next: 先冻结这些差异及 schema/save/迁移账本，再三方签字。
+- 2026-08-06 Codex: 设计冻结完成（见「冻结设计」节）：0x4B=-15/0x52=800 默认值、suspended 手动确认
+  放行、awaitingExit 320×320 边界（含 sdlpal y 比较 320 typo）、0x52 toggle 前态、hostile
+  success/playerFlee 拆分、BattleResult 四分类、SAVE 可选字段不 bump、828+193 源账本待 GLM
+  冻结。Next: Kimi/GLM 设计压测签字。
 
 ## 下一位 Agent 提示词
 
 ```text
 接手任务: W9 实体暂离、重现与明雷逃跑冷却
 任务卡: docs/ops/tasks/W9-entity-lifecycle-respawn.md
-当前状态: draft（build 准入 blocked）
+当前状态: draft（build 准入 blocked；Codex 设计冻结完成，见「冻结设计」节）
 你的角色: Kimi 做架构/schema/save 设计审查；GLM 做迁移账本/测试矩阵覆盖审查
 先读: AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、docs/phase1/game-mechanics.md:1000-1111、docs/phase2/foundation/phase1-knowledge-harvest.md，以及任务卡列出的代码锚点
-已完成: Codex 已确认第二阶段把 0x4B/0x52 合并、使用 respawnSeconds + detached wait；二次核对补入手动确认、0x52 toggle、world-update pause、精确投影边界及敌逃/terminate success 语义
-请你做: Kimi 压测状态机、跨包边界、SAVE/content 升级与 battle result 分类；GLM 复核 828 hostile + 193 residual 的互斥源账、0x52 前态/operand、测试矩阵和生成白名单。把结论写回设计签字：agree，或 counter + 必改理由
+已完成: 设计冻结——四态状态机（suspended/despawned/awaitingExit/removed）+ 默认值
+  （0x4B=15tick/0x52=800tick）+ 320×320 边界（含 sdlpal y=320 typo）+ 0x52 toggle 前态 +
+  BattleResult 四分类 + hostile success/playerFlee 拆分 + SAVE 可选字段不 bump + 828+193 源账本待冻结
+请你做: Kimi 压测状态机（尤其 0x52 toggle 前态、awaitingExit 边界、SAVE/content 升级矩阵与
+  BattleResult 接续）；GLM 复核 828 hostile + 193 residual 的互斥源账、0x4B/0x52 operand/
+  前态、测试矩阵和生成白名单。把结论写回设计签字：agree，或 counter + 必改理由
 不要做: 不得修改实现文件，不得直接改 projects/pal，不得把实际视口替代一阶段已记录的固定 320×320 行为，不得把任务标 build/done
 输出要求: 更新任务卡设计签字、主审立场、必要争议和下一位提示词
 ```
