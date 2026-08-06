@@ -7865,6 +7865,98 @@ Codex 当前接入模型无视觉/多模态能力；三贤人中仅 Kimi 具备�
   accept / 具体返工项清单。签字性质: 视觉验证门禁结论（非推进签字）。
 ```
 
+##### Kimi R13-Z 浏览器金丝雀视觉验证结论（2026-08-06）：**accept（附 1 发现 + 1 疵点）**
+
+浏览器实测（chrome-devtools MCP，编辑器 6010 + 运行时 6051 真实 PAL 工程）。
+证据截图 21 张已归档 `output/playwright/r13z-*.png`。**签字性质：视觉验证门禁结论，
+非推进签字；不改实现/产物**（编辑器 CRUD 全程未点保存，结束 git status 干净）。
+
+**清单 1（编辑器 6010）全过**：
+
+- 行为槽：实体页触发/自动行为槽分离，槽列表渲染「具名标签 · id」
+  （默认触发行为 · default / 触发行为 1 · legacy-001，另有「显式无行为」选项）✓。
+- 切换指令：编辑表单按「标签 · id」下拉具名选择（触发行为 1 · legacy-001），
+  不再指向匿名内部块 ✓。**疵点（不阻塞）**：指令摘要行 cmd-detail 显示裸 id
+  `legacy-001` 而非行为标签「触发行为 1」（槽列表与编辑表单都显示标签）——建议
+  摘要行改显示标签，与槽列表一致。
+- 状态机：s001/e25 自动行为 1 渲染为「连续流程（高级）」21 状态 + 迁移标签
+  （下次激活/让步后同次继续/同步继续）✓（兼证 auto 自环 + 多状态 NPC 金丝雀）。
+- 共享脚本：剧情→脚本库可复用脚本 create（名称+稳定 ID+深链）/body 编辑器
+  （添加指令/调用共享脚本入口）/delete 归零 ✓；当前内容共享脚本为空系 N3-1
+  退役预期（shared-scripts.json={}），该项验的是能力。
+- 引用面板：e2495「触发行为 1」方案详情 → 使用位置精确到「场景 s154 / 实体
+  e2493 / 交互脚本『触发行为 1』/ 步骤 1 / 第 45 条指令」（与 canonical
+  body[44] 一致），受引用删除被守卫阻止，「打开 ↗」跳转落到 e2493 行为正文 ✓。
+- CRUD：方案新建（命名对话框）/改名/删除（「确认删除方案」显式确认）/undo 链
+  全部可用；实测删除行为不级联实体（一次脚本化误触删除实体已由 undo 完整恢复，
+  磁盘零写入）✓。
+- 720/900/1280 三宽度：无横向溢出（docScrollW==clientW）、无元素溢出/遮挡 ✓。
+- console：0 error / 0 warning（仅 1 条浏览器表单字段 a11y 提示，非应用错误）。
+
+**清单 2（运行时 6051，e2493/e2495 + 存档）全过**：
+
+- 初始触发 e2493 → 播 default 赶人短对白（r13z-e2493-default-trigger.png）✓。
+- 触发 e2495 → default 长对白（r13z-e2495-default-long-dialog.png），其首命令把
+  e2493 trigger 切到 legacy-001（dumpSave 实证 `selection: use legacy-001`）✓。
+- F5 quicksave（IndexedDB type-pal-saves quick 槽含该覆写）→ 页面重载 → F9
+  quickload → e2493 活动行为仍是 legacy-001 ✓（存档重载一致）。
+- 再触发 e2493 → legacy-001 长对白完整播放、得物品 290（天书）、e2493/e2494
+  entityState→0 消失（r13z-e2493-vanished-after-legacy001.png），末尾把 e2495
+  切到 legacy-001 ✓。
+- 再触发 e2495 → legacy-001 应答对白（r13z-e2495-legacy001-answer.png），
+  e2495 消失 ✓。
+- auto/trigger 分通道：全程 e2495 auto 游标停 default 未受影响（save 内
+  cursor 实证）✓。
+
+**清单 3（PAL 金丝雀）全过**：
+
+- e2493/e2495：见清单 2。
+- onTeleport 动态 hook：s006 用引路蜂（item 151）→ onTeleport hook 触发 →
+  渐变 → loadScene s004，消耗 5→4、menuAfterUse=close 关菜单
+  （r13z-onteleport-151-to-s004.png）✓。
+- auto 自环 + 多状态 NPC：s001/e25 的 21 状态 cycle-01/02 自环状态机（编辑器
+  渲染证据）✓。
+- item author root：物品 293 手卷（itemPrivateScript 手卷授艺）菜单使用 →
+  脚本对白播放 → learnSkill 377+307 进 learnedSkills、消耗 5→4
+  （r13z-item-293-script-dialog.png）✓。
+- 真正共享业务脚本：能力验证（创建/引用入口/删除）；当前内容零共享脚本系
+  退役预期，已注明 ✓。
+
+**清单 4（差集）**：
+
+- e796（s048 鹿）：逼近后 touch 触发，auto 切 legacy-001 逃跑 waypoint 链，
+  游标在案（save 实证；r13z-e796-before-approach.png）✓。
+- s048：onEnter 淡出→淡入→后续对白，fadeBlack=0 亮屏，无永久黑屏
+  （r13z-s048-after-fade-dialog.png）✓。
+- s093：命名落点 (82,31) 正常渲染客栈（r13z-s093-named-entry-ok.png）✓；
+  **发现（待 Codex 查，不回传修阻断本批）**：默认落点 (92,69) 落在地图外虚空，
+  `?scene=s093` 直达加载全黑（r13z-s093-default-entry-void.png；编辑器同场景
+  地图渲染正常 r13z-editor-s093-map-ok.png，证明内容无恙、纯默认落点问题）。
+  真实游玩从相邻场景经命名落点进入不受影响；请 Codex 核对原版默认落点与
+  落点归一化分配逻辑。
+- confirm 两臂：s118/e2165 情书链——确认框真实弹出、默认高亮「否」
+  （r13z-confirm-modal.png）；No 臂「那就算了..不过我还是要谢谢你们」
+  （r13z-confirm-no-arm.png）；Yes 臂（方向键切「是」）续播玉佩对白
+  （r13z-confirm-yes-arm.png）✓。
+- 投掷：battle 23 按 W 开投掷列表（r13z-throw-item-list.png），投长鞭命中
+  enemy-477 造成 108 伤害（battleLog 实证）✓。
+- enemy-483/519：battle 188 明王开场脚本对白逐页播放、战斗中施展「狂雷」
+  造成 150（battleLog 实证；r13z-enemy519-dialog.png）；battle 24 林月如二
+  脚本近战攻击（battleLog「enemy-483 的攻击」；r13z-enemy483-battle.png）✓。
+- palette：s141 onEnter `setAmbience warm`（tint [255,230,102]），画面暖色
+  cast + 像素采样 B/R≈0.22 与 B×0.4 一致（r13z-s141-warm-ambience.png）；
+  s140 onEnter 彩依化蝶演出播放（蓝蝶 + 粒子，r13z-s140-butterfly-performance.png）
+  日间色调正常 ✓。
+- console（运行时）：0 error；warning 仅 1 条 Canvas2D willReadFrequently
+  （系本人像素采样 getImageData 触发，非应用问题）。
+
+**总结论**：四项清单全过，视觉门禁 **accept**。两个记录项（非阻塞）：
+(1) s093 默认落点虚空，回传 Codex 核对；(2) 编辑器切换指令摘要行裸 id 显示疵点。
+B11-1 伤亡演出补验按其卡另行推进，不在本结论范围。
+
+证据：output/playwright/r13z-*.png（21 张）；状态证据经 `__tpE2e.dumpSave()` /
+`__reforge` debug API 逐项机读（文中已注）。
+
 ##### 给 Kimi / GLM 的 R13-6C+6D 实现复审提示词（下一位 Agent 可直接复制）
 
 ```text

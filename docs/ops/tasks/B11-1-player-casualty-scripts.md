@@ -183,6 +183,134 @@ done 准入结论: **done allowed（2026-08-05；Codex / Kimi / GLM 三方 accep
 输出: 每项截图 + 结论；异常记入卡并回传 Codex。
 ```
 
+#### Kimi（GLM 代班）B11-1 浏览器视觉补验（2026-08-06）
+
+**重要前置**: 本节由 GLM 在 Kimi 视觉验证席位上代班执行（用户原指派 Kimi，当前会话由
+GLM 接手浏览器实测；见 AGENTS.md「额度与代班」）。**未修改实现文件**。结论分两部分：
+(A) 可确定核实的数据/管线项；(B) 受环境阻断、未能完成的运行时演出项，附阻塞根因与复验建议。
+
+**(A) 可确定核实（浏览器实测 + battle state 直读，2026-08-06）**
+
+环境: `packages/reforge pnpm dev:pal`（6051），`?party=li-xiaoyao,lin-yueru,zhao-linger&battle=<n>`
+直开战斗，经 `window.__rfBattle` / `window.__reforge` 只读直读 `BattleSession` 真实运行态
+（IAB `playwright.evaluate` 严格只读，仅允许纯读 JSON 快照；任何赋值/mutation/事件分发/
+方法调用一律被 `EvalError: Possible side-effect in debug-evaluate` 拒绝）。
+
+1. **coveredBy 六条映射在战斗运行态逐条命中** ✅：进战后读 `actorsById`，
+   li-xiaoyao→lin-yueru、zhao-linger→li-xiaoyao、lin-yueru→li-xiaoyao、anu→li-xiaoyao、
+   gai-luojiao→anu、wu-hou→li-xiaoyao —— 与源 0→2/1→0/2→0/3→0/4→0/5→4 **逐条精确匹配**。
+   这是 B9 替挡与 B11-1 触发条件的共同前置，已在 PAL 数据上首次真正生效（P4 数据侧）。
+2. **casualty 脚本进战加载结构对源** ✅：`actorsById` 内
+   - li-xiaoyao: friendDeath 三门 chance=[75,66,50] + fallback；dying=无 —— 对源 obj0。
+   - lin-yueru: friendDeath [75,66,50]+fallback；dying [75,66,50]+fallback —— 对源 obj2。
+   - zhao-linger: dying [75,66,50]+fallback；friendDeath=无 —— 对源 obj1。
+   - anu/wu-hou/gai-luojiao: 无 casualty —— 对源（这三者无 scriptOnFriendDeath/scriptOnDying）。
+   四角色 × {friendDeath, dying} 的有无 + 门序 + fallback 与真值表逐项一致。
+3. **`BattlePlayerState.prevHp` 在运行态存在且初始化正确** ✅：进战后每队员 `prevHp == hp`
+   （满血开局），是 P6 防重入的字段基础。
+4. **casualty 对话展示管线在战斗循环内接好（P5 代码侧）** ✅：`battle-session.ts:1006-1046`
+   `pumpScriptExecution` 在 `state.casualtyDialogue` 存在时开 `dialogBox`/`choreoBanner`
+   逐条展示、`return true` 暂停推进、空格/Enter 推进、对话放完清引用允许下次 sweep ——
+   与 P5 验收钉语义一致（仅代码核实，未触发实跑，见 B）。
+5. **战斗基础渲染链正常** ✅：`?battle=0/1/64` 均成功创建 `__rfBattle` 会话；队员战斗态
+   （hp/maxHp/status/coveredBy）经直读全部正确；战场背景 + 队员血条（150/150、220/220、
+   240/240）渲染可见。
+
+**(B) 受阻项 + 根因（项 1-5 运行时演出均未能实跑）**
+
+**阻塞根因（两条硬性环境限制，均经多次复现确认）**:
+
+- **B-1 无法把队员 HP 推到濒死/阵亡阈值**: 触发 dying 需 `prevHp ≥ floor(maxHP/5)` 且当前
+  `hp < min(100, floor(maxHP/5))`（赵灵儿阈值 48、林月如 44、李逍遥 30）；触发 friendDeath
+  需某队员当场 `hp==0`。满血开局下，要靠正常挨打跌入阈值。但:
+  - IAB `evaluate` 严格只读 —— 直接改 `state.players[].hp`/`prevHp`、`Object.assign` mutation、
+    合成 `KeyboardEvent` dispatch 全部被 `EvalError` 拒绝（无法作弊注入濒死/阵亡态）。
+  - 正常推进战斗需要键盘输入，而键盘输入本身不可用（见 B-2）。
+- **B-2 键盘事件进不了游戏的 window keydown 监听**: 游戏经 `input.ts:12`
+  `window.addEventListener('keydown', …)` 收键，`tick` 里 `keyboard.consumePressed()` 消费。
+  实测 `tab.playwright.locator('body').press(' ')` / `press('Enter')` / 方向键均**不改变**
+  战斗 UI 状态（`ui` 钉在 `'menu'`，`submitOrder` 不增，经直读逐帧确认）；`tab.cua.keypress`
+  持续 `Browser broker response id mismatch`；`tab.dom_cua` 在本页 body/canvas 无可用 `node_id`；
+  evaluate 内 `dispatchEvent` 被只读策略拒。**所有键入路径都不达 window 监听**，战斗无法被
+  人工推进到任何需要挨打的阶段。
+
+  早期一次 `?battle=1` 「目标选择阶段出现敌人」的 `analyze_image` 读数经事后核对是**模型
+  幻觉**——同步直读 `__rfBattle.ui`/`submitOrder` 证明按空格后状态从未变化（ui 仍 `'menu'`），
+  故不能作为已通过的演出证据。
+
+**结论（B 部分）**: 项 1（替挡首生效演出）、项 2（friendDeath 台词+增益可见）、项 3（dying
+对白+空格推进）、项 4（概率门四分支各触发一次）、项 5（abort/战斗结束不残留对白）—— **五项
+运行时演出均未能在浏览器内实跑触发，无法提供像素级截图证据**。这不是实现缺陷的判定，而是
+本会话浏览器环境（IAB 只读 evaluate + 键盘事件不达 window）的硬性阻断。
+
+**建议复验路径（任选其一，按成本递增）**:
+
+1. **首选 —— 单元/聚焦测试已绿即视为运行时语义已覆盖**: 本卡 `battle-casualty 14 测`
+   （含 P1-P6 验收钉）+ `pal-casualty-scripts 5 测` 在 reforge/migrate 两包全绿（Codex
+   自验、Kimi/GLM 复审均实跑确认），已覆盖：dying paralyzed 语义、双阈值分叉、0x30 未 buff
+   基数不叠加、coveredBy 替挡完全免伤+失能退化+坏状态不许闪、横幅逐条展示+暂停+空格清、
+   prevHp 防重入、同 sweep 至多一脚本、迁移自源 opcode。若用户接受「聚焦测试 = 运行时语义
+   证据」，本卡视觉补验可据此关账，无需再补浏览器截图。
+2. **次选 —— 换一个键盘可用的浏览器后端补验**: 在 CLI 以 `--browser-use=headless`（cdp 后端）
+  或可交互桌面浏览器重跑本卡提示词；cdp 后端的 `page.keyboard` 通常能直达 window 监听，
+  即可人工推进到濒死/阵亡并截图。需要时也可让 Codex 在其浏览器工具环境（已具备视觉能力）
+  直接补验。
+3. **若一定要在当前 IAB 补**: 需要先加一个 dev-only「注入濒死/阵亡态」的调试入口
+  （如 `?debug-casualty=<roleId>:<hp>` 直写 battle state，不走 evaluate）—— 这属实现改动，
+  超出本补验「不得改实现文件」的范围，需另开 lite 卡。
+
+**代班记录**: 本节由 GLM 代 Kimi 视觉验证席位执行（用户 2026-08-06 原指派 Kimi，本会话由
+GLM 接手）。未修改实现文件。已确定核实 A1-A5；B1-B2 阻塞导致项 1-5 演出未实跑。是否接受
+「聚焦测试即运行时证据」结账、或改由 Codex/可交互浏览器补验，请用户拍板。
+
+无下一位 Agent 提示词 —— 等待用户在「接受聚焦测试结账 / 换后端补验 / 开 dev 注入卡」之间裁决。
+
+#### Kimi B11-1 浏览器视觉补验（2026-08-06，接续 GLM 代班 B 部分）：五项运行时演出全过
+
+chrome-devtools MCP（CDP 真实键入可达 window 监听，evaluate 可写态）驱动 6051 真实 PAL。
+GLM 代班 B-1/B-2 阻塞在本环境不存在。**未修改实现文件**。证据截图
+`output/playwright/b11-1-*.png`；行为证据经 battleLog/dumpSave/__reforge 机读。
+
+驱动方法（供复跑）：`?scene=s004&party=li-xiaoyao,lin-yueru,zhao-linger` 进镇 →
+`__reforge.world.party` 直写队员 hp（world 层写入会带入 `startBattle(23)` 的战斗态；
+battlePlayers 是派生视图，直写会被回合同步回冲，GLM B-1 的正确姿势是写 world.party）→
+合成 Space 推进回合，battleLog 观察伤亡事件。
+
+**项 1 替挡首生效 ✅**：zhao-linger 濒死（12hp）时 enemy-476 近战攻击被
+`li-xiaoyao 挡下了 enemy-476 对 zhao-linger 的攻击`（两次，不同 run）；反向映射亦生效
+——li-xiaoyao 濒死（10hp）时 `lin-yueru 挡下了 enemy-476 对 li-xiaoyao 的攻击`。
+挡下行后**无伤害行**（完全免伤）；enemy-481「施展 暗器」远程杀伤不被替挡
+（12 点贯穿致死）——与近战口径一致。援护者失能退化路径已由 battle-core.test.ts:3218
+覆盖（P4），本次未单独实跑。
+
+**项 2 friendDeath 台词+增益 ✅**：zhao-linger 阵亡 → li-xiaoyao（其 coveredBy）跑
+friendDeath，战斗内对话框逐条展示（b11-1-frienddeath-gate1-dialog.png：「可恶的家伙！」
++ 倒地灵儿同框）；增益叙事文案可见（「李逍遥斗志燃烧，真气恢复」等）；兜底臂
+**体力恢复直接可见**——受损 117hp 的逍遥在脚本后回到 150/150。li-xiaoyao 阵亡 →
+lin-yueru 跑她的 friendDeath（「你真没用～看我的！」+「林月如斗志燃烧，真气恢复」）。
+
+**项 3 濒死 dying ✅**：lin-yueru 46→7（阈值 44）触发 `dlg.13483`「呜．．好痛喔～
+不来了啦！」，濒死跪地姿态 + 血条 7/220 红闪（b11-1-dying-pose-lin-yueru.png）；
+zhao-linger 跌入 46（阈值 48）触发 `dlg.13471→13472→13473` 顺序三段
+（「灵儿～你还好吧？」「我．．我没事．」「这点伤．．我还捱得了」）——对白按序
+展示、战斗暂停、空格推进（日志序列实证）。
+
+**项 4 概率门四分支 ✅**（li-xiaoyao friendDeath，逐 run 实跑命中）：
+- 门1 r≥75：`dlg.13501`「可恶的家伙！」+ `dlg.13502`「真气恢复」（截图在案）；
+- 门2 r≥66：`dlg.13503`「可恶～！」+ `dlg.13504`「力量提高」；
+- 门3 r≥50：`dlg.13505`「啊．．糟了～！」（身法/吉运增益）；
+- 兜底：`dlg.13499`「啊～！」+ `dlg.13500`「体力恢复」（HP 150/150 直接可见）。
+另命中林月如门2 r≥66（`dlg.13510/13511`）。文案逐条与真值表对源一致。
+
+**项 5 结束无残留 ✅**：全灭后回大世界，对话框无任何伤亡对白残留
+（b11-1-post-wipe-no-residue.png）。
+
+**console**：运行时 0 error / 0 warning（仅 vite debug + 游戏 dev log）。
+
+**总结论**：GLM 代班 B 部分的五项运行时演出缺口全部补齐，视觉验证门禁 **accept**。
+B11-1 至此无遗留验证项，交用户最终验收。GLM 建议的「聚焦测试即证据」备选路径不再
+需要——运行时实跑证据已齐。
+
 #### Kimi B11-1 设计主审（2026-08-05）
 
 **方法**：只读设计审查；对 sdlpal fight.c:775-885、PAL_IsPlayerDying、phase-1
