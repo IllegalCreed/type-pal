@@ -67,7 +67,7 @@ Branch: TBD
 
 ### 进入 build 前:设计签字
 
-- Codex: pending
+- Codex: agree（2026-08-06 设计冻结，见「设计结论」）
 - Kimi: pending
 - GLM: pending
 - counter / 分歧处理: N/A
@@ -87,15 +87,43 @@ Branch: TBD
 
 ### 设计结论
 
-待冻结。方向：URL 参数拐杖升级为统一调试入口（console 命令解析 + overlay 面板），
-战斗态构建器复用 startBattle 数据路径做内存态覆写。
+**2026-08-06 冻结（Codex agree）**：
+
+1. **入口形态**：`?debug` 打开 DEV overlay 面板；现有 URL 参数（?scene/?pos/?battle/?skill/
+   ?give/?party/?collision）全部保持兼容。面板含五个区：命令输入（cheat console）、
+   世界变量树（只读检视）、脚本/触发器列表（一键触发）、战斗构建器表单、图层开关
+   （碰撞/触发区）。全部 `import.meta.env.DEV` guard，生产构建不含。
+2. **cheat console**：命令注册表模式（命令名 → 执行器），复用现有 host 能力
+   （giveItem/giveMoney/setAmbience/startBattle/脚本触发），不新建执行路径。
+   命令集：help / scene / pos / give / money / party / skill / battle / field /
+   run-script / run-trigger / state / var。
+3. **世界变量检视**：只读快照树（world 状态：money/inventory/party/entity 态），
+   overlay 树形展示；只读、不落档。
+4. **任意脚本/触发器触发**：枚举 canonical project 的 script refs（shared + scene）与
+   触发器，列表点击 → 走 `runSharedScript` / `runEntityBehavior` / `startScript`
+   同一执行器（main.ts:3715 先例）；主 runner 独占规则不变（有活跃演出时提示排队/拒绝）；
+   AbortSignal 可取消。
+5. **战斗态构建器**：表单 = 战场 field + 敌队（选现成 team 或从 enemiesById 自由多选组合）+
+   我方成员（从 actors 多选，逐成员设等级/HP/MP/装备/道具/异常状态）→ 生成 dev-only
+   battle opts（enemyOverride / partyPreset），走同一 `startBattle` 入口
+   （main.ts:2152 扩展可选参数），内存态不落档，结束回触发前世界。URL 兼容
+   （?battle 语义不变）。
+6. **触发区可视化**：在 ?collision 叠加层上扩展触发器范围框 + 标签；仅 DEV。
+7. **帧步进**：gameplay-clock 加 dev 暂停/单步（worldMoveAcc 暂停累积，按键强制一拍）；
+   放本卡尾段，若复杂度超标拆独立子项。
+
+范围边界重申：时间旅行/effect 回放不做（依赖 D14-2）；调试状态一律内存态；
+生产路径零调试分支。
 
 ### 已知风险
 
 - 风险: 战斗态构建器与 startBattle 正常路径分叉，行为漂移。
-- 缓解: 构建器只覆写参数，走同一 battle session 入口（复用 ?battle 现有路径）。
+- 缓解: 构建器只覆写参数（enemyOverride/partyPreset），走同一 battle session 入口
+  （复用 ?battle 现有路径）。
 - 风险: 调试分支进生产。
 - 缓解: DEV-only guard + 构建门禁。
+- 风险: 任意脚本触发与主脚本并发冲突。
+- 缓解: 复用独立 runner 先例（runDetachedV5ScriptChain）或活跃演出时拒绝并提示。
 
 ### 主审立场
 
@@ -107,6 +135,7 @@ Branch: TBD
 ### 三方争议记录(按需)
 
 - Codex: 2026-08-06 用户咨询议题 13 后开卡；首刀范围如上，时间旅行留 D14-2 之后。
+  同日冻结设计并签 agree（入口=DEV overlay + URL 兼容；战斗构建器=startBattle 参数扩展）。
 - Kimi: pending
 - GLM: pending
 
@@ -142,19 +171,24 @@ Branch: TBD
 
 - 2026-08-06 Codex: 开卡。现状：?scene/?battle/?skill/?give/?party/?collision 已有；
   缺 console/检视/任意触发/战斗态构建/触发区可视化/帧步进；时间旅行依赖 D14-2。
+- 2026-08-06 Codex: 设计冻结并签 agree。DEV overlay 五区 + 命令注册表 + 脚本/触发器
+  枚举触发 + startBattle 参数扩展（enemyOverride/partyPreset）+ 触发区可视化 + 帧步进；
+  时间旅行留 D14-2 之后；Kimi/GLM 待压测签字。
 
 ## 下一位 Agent 提示词
 
 ```text
 接手任务: D13-1 调试工具首刀
 任务卡: docs/ops/tasks/D13-1-debug-tools-first-batch.md
-当前状态: draft（build 准入 blocked）
-你的角色: Kimi 工具架构主审；GLM 覆盖矩阵主审
+当前状态: draft（build 准入 blocked；Codex 设计冻结并签 agree，见「设计结论」）
+你的角色: Kimi 工具架构/并发语义主审；GLM 覆盖矩阵主审
 先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡、main.ts:319/1099/4304/5090/4566、
   gameplay-clock.ts、编辑器 play.ts
-已完成: 开卡（首刀范围 = console/检视/任意触发/战斗构建器/触发区可视化/帧步进），设计未冻结
-请你做: 压测调试入口形态、战斗态构建器复用路径、DEV guard 边界；时间旅行为何留到 D14-2
-  之后的判定；冻结方案后 agree/counter
+已完成: Codex 设计冻结——DEV overlay 五区 + 命令注册表 + 脚本/触发器枚举触发 +
+  startBattle 参数扩展（enemyOverride/partyPreset）+ 触发区可视化 + 帧步进；全部 DEV-only
+请你做: Kimi 压测入口形态、战斗构建器与 startBattle 并发/取消语义、任意脚本触发的
+  runner 独占规则、DEV guard 边界；GLM 复核命令集/覆盖矩阵与验收样例；
+  冻结方案后写 agree，或 counter + 必改理由
 不要做: 不得修改实现文件；不得让调试状态落档/污染生产路径
 输出要求: 更新设计签字、主审立场、争议处理和下一位提示词
 ```
