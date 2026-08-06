@@ -1,6 +1,6 @@
 # R13-CANARY - R13-Z 闭包批次 canary 父账重建漂移（6A 冷 canary 恢复绿）
 
-Status: draft
+Status: done（2026-08-06 Codex / Kimi / GLM 三方 accept 齐；R13-Z 正式发布仍 blocked on 剩余门禁）
 Phase: phase2
 Capability: MG2 / R13 source semantics 父账 / canary 双面重放
 Coding Owner: Codex（Kimi R1 剥离裁定指定）
@@ -79,12 +79,16 @@ Branch: TBD
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
-- Kimi: pending
-- GLM: pending
+- Codex: **accept**（2026-08-06，Coding Owner 自验收口）：三个漂移源修复
+  （370 备注 face-gate / scriptDesc 根门控 / stable scripts 排除 6D 字段），
+  canary 2/2 绿（frozen golden 逐字节还原）、fast 79/577、默认 dry-run 0/0/0、
+  R13-Z dry-run open=0/0 且 6C/6D 证据字节不变。接受 Kimi K2/K4 记录性建议
+  （face-gate cheap 单测作为非阻塞后续项记入交接日志）。
+- Kimi: accept（2026-08-06，K1-K4 逐项核过 + canary 2/2 独立复现，见 Review 节与交接）
+- GLM: **accept**（2026-08-06，K1-K4 全部落实，canary 2/2 绿，6C/6D 证据字节不变，见交接）
 - counter / 返工处理: N/A
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **done allowed（2026-08-06；三方 accept，无 counter）**
 
 ## Draft: 设计与风险
 
@@ -184,9 +188,10 @@ Branch: TBD
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending（实现完成待审，K1-K4 逐项核）
+- 审查结论: Kimi **accept** + GLM **accept**（2026-08-06，均一手核实 + 独立复跑）；
+  Codex **accept**（2026-08-06 自验收口，见 done 前签字表）
 - 必须返工项: N/A
-- Accept / rework: pending
+- Accept / rework: accept（Kimi 附 K2/K4 记录性附注，不阻塞；见交接日志）
 
 ## 用户验收
 
@@ -246,6 +251,10 @@ Branch: TBD
     待 Kimi/GLM 审查确认。
   - Next: 三方实现审查（K1-K4 逐项核），通过后 R13-Z 剩余门禁（全量重迁双跑、
     browser、正式发布）。
+- 2026-08-06 Codex: 三方实现审查 accept 齐，R13-CANARY 收口 done。记录性后续
+  （Kimi K4 非阻塞建议）：补 face-gate cheap 单测作快速反馈层，随 R13-Z 剩余门禁
+  批次一并落地。Next: R13-Z 全量重迁双跑 + browser + 正式 --write 发布 +
+  C8/ED-5I 联合验收。
 - 2026-08-05 GLM：设计审查，签 **agree**。一手核实根因机制（非 Codex 摘要复述）：
   - **根因确认**：migrate-content.ts:647-650 JS1 把酒神 lossy 备注”按饮酒动态”改成
     “按剩余真气×8 动态”；该 notes 文本经 `lossy.push({notes:[...]})` →
@@ -271,6 +280,74 @@ Branch: TBD
   恢复历史字节）/ 方案 3（vendored 冻结生成器）可行。三方设计 agree 齐，
   build 准入开放。Next: Codex 进 build（K2 逐贡献者定位 + 修复 + 每步 canary 判据）；
   GLM 若对方案 1 裁定有异议，build 审查时举证。
+- 2026-08-06 GLM R13-CANARY 实现审查：签 **accept**。一手核实（代码逐行 + canary/fast/dry-run 实跑）：
+  - **K1 JS1 face-gate**（migrate-content.ts:641-666）：`palSemanticProfile` 门控 ——
+    `current-r13-6b`（successor 面）用新文案"按剩余真气×8"，6A/历史面（默认
+    `current-r13-6a`）保留冻结旧文案。Kimi K1 方案 2 落实 ✅。
+  - **K2 scriptDesc 根门控**（source-instruction-disposition.ts:5042-5277/5311）：
+    `successorClosureActive` 门控，父面不带 scriptDesc 根（保持 pin 时代两根），
+    后继面带三根 ✅。
+  - **K3 allowlist 排除 segmentTransferDetails**（r13-source-semantics-mg2.ts:259-265）：
+    compact 时 `[key] => key !== 'segmentTransferDetails'`，digest 组成还原 pin 时代 ✅。
+  - **K4 86bbb33f 不重写 + allowlist 卫生保留**：冻结 pin :55 仍为 `86bbb33f…`；
+    6D allowlist 6 类白名单保留 ✅。
+  - **canary 2/2 绿**（317s）：producer rebuild matches R13-6A golden + replays identical
+    seal zero writes ✅。
+  - **fast** 79 files / 577 passed / 5 skipped（22s）✅。
+  - **6C/6D 证据字节不变**：6C seal `82e9f8f3…`、运行时 `0a67ee07…`、open=0/0 均逐字节
+    不变 ✅。
+  - **源账 digest 变化（K3 附注）**：`83f68115…` → `be069130…`，系历史面 370 备注恢复
+    旧文案的必然结果（rawDigest 含历史 rawContent.lossySkills）。源账 digest 非冻结 pin
+    （冻结门禁 = canary golden + 86bbb33f + 6C/6D 证据字节，三者均未变），变化预期合理 ✅。
+  - **方案 1 异议裁定**：本 GLM 设计审查时建议方案 1（digest 对备注文本不敏感）。
+    Kimi K1 证明方案 1 在不重算 86bbb33f 下逻辑不成立（父账面用当前代码跑历史迁移，
+    lossySkills 文本无条件进 compacted migration）。Codex 采用 Kimi K1 方案 2（face-gate）
+    实现。GLM 接受 Kimi 的 K1 裁定 —— 方案 2 虽然是 workaround（逐备注文本门控而非从根
+    消除脆弱性），但在不重写冻结 pin 的约束下是唯一可行路径，且 face-gate 机制本身正确。
+
+  K1-K4 全部落实，canary 判据通过。accept 只收口 R13-CANARY implementation，
+  R13-Z 正式发布（--write + 全量重迁双跑 + browser）仍待后续。
+- 2026-08-06 Kimi R13-CANARY 实现主审：签 **accept**（HEAD=475210bd）。只读审查；
+  未修改实现/产物/baseline/seal/其他席位签字。逐项核实（一手 + 独立复跑）：
+  - **Fix 1（370 备注 face-gate）**：码级（migrate-content.ts:631-674 profile 参数、
+    :662-669 门控）+ 穿线（pal-migration.ts:524-529：r13SixBSourceSemantics→6b、
+    默认 6a、历史 r13-4）+ **一手实证 dump**：默认面 370 notes="按饮酒动态(原版公式)…"
+    （冻结旧文案）、6B 面="按剩余真气×8 动态(原版 0x57 清空真气)…"（新文案）。
+    K1 方案 2 落实，复用既有 profile 机制 ✅。
+  - **Fix 2（scriptDesc 根）**：`successorClosureActive = successorFinal !== undefined`
+    （:6048），pending/lossy 两循环同步门控（:5277/:5311），source-backed 校验器同条件
+    面感知（:6896-6908）；父构建不传 successorFinal（r13-enemy-script-mg2.ts:464-475）
+    → 父面恢复 pin 时代两根，6B 已发布面保持三根 ✅。
+  - **Fix 3（stable scripts 排除 segmentTransferDetails、保留其余全字段）**：
+    r13-source-semantics-mg2.ts:259-266 = 本人 R1 选项 b。**认领**：本人 R2-R5 复核时
+    以"6B seal 无 input-identity 字段"论证三叶 allowlist 安全——看错了面，canary
+    golden 钉的是 input identity digest，allowlist 改变组成即漂移（Codex 自批的第三
+    漂移源实为本人 R1 返工方向 a 引入）。Fix 3 还原 pin 时代组成、仅排除 6D 新字段，
+    正确 ✅。
+  - **独立复跑**：check:fast 79 files / 577 passed / 5 skipped（exit=0，24.96s）；
+    **test:canary 2/2（289.7s）**——producer rebuild 命中 R13-6A frozen golden 且
+    closure 保持、live authority 重放同 seal 零写，86bbb33f 未动 ✅；默认 dry-run
+    writes=0/deletes=0/conflicts=0；`--r13-z --r13-6c --r13-6d` dry-run open=0/0、
+    6C seal=82e9f8f3…/运行时=0a67ee07… 逐字节不变、未写盘 ✅。
+  - **K3 附注 adjudication：接受源账 digest 83f68115→be069130**。依据：(i) 该 digest
+    是 R13-Z authority disposition 报告体 digest（migrate-content.mts:485
+    `source.digest`），计算值非冻结 pin；(ii) 归因按构造唯一——Fix 2 successor 面
+    无变化（三根两侧一致）、Fix 3 只动 input identity（canary 侧）不进报告体，
+    唯一影响报告体的变更是 Fix 1 历史面备注恢复；(iii) canary 绿证明历史面已逐字节
+    还原 pin 时代（86bbb33f 复现），delta 恰为忠实恢复；(iv) 真实冻结门禁全未变
+    （6C seal/运行时/open=0/0/86bbb33f/canary golden）。
+  - **K2 附注**：贡献者实质枚举齐（JS1 / e58476a7 / 58f8f846 经 0ea144c2 rewind
+    既有缓解 / R1-allowlist 自批）；1a823bc4→f021b0a8 的逐提交中间值映射未落纸面，
+    但 canary 全量重建绿是完整性终极证明（侥幸补丁不可能逐字节复现 86bbb33f）。
+    K2 意图达成，纸面链留作记录性欠账，不阻塞。
+  - **K4 附注**：无新增 fast 测试（79/577 不变）；三贡献者的回归由恢复绿的 canary
+    承担（各形态均为 canary 失败形状，再漂移即 fail-closed）；face-gate 处注释在案。
+    建议（不阻塞）补 cheap face-gate 单测作快速反馈层。
+  - **方案 1 分歧关闭**：GLM 已接受 K1 裁定；build 以方案 2 + pin 不动取得成功，
+    经验上终结分歧。
+  结论：R13-CANARY implementation 本席 accept。R13-Z 正式发布的剩余门禁
+  （--write 发布 + 全量重迁双跑 + browser + C8/ED-5I 联合验收）不变，不得标
+  N3-1/C8/ED-5I done。done 准入 blocked on Codex 自签。
 
 ## 下一位 Agent 提示词
 
