@@ -8195,6 +8195,56 @@ oracle manifest 的 producer-code 指纹与 src 不符，导致 canary 1/2、fas
 输出: accept（含 B-1/B-2 闭环确认）或维持 counter 的具体理由。
 ```
 
+##### C8/ED-5I 联合验收回归清单 + 审查提示词（2026-08-06，Codex 拟）
+
+**背景**：N3-1 终态（R13-Z 发布批三方 accept）已达成；C8/ED-5I 是 N3-1 下游回归
+门禁——Codex 先跑回归并补记结论，Kimi/GLM 审查回归证据，之后交用户验收。视觉
+验证已由 Kimi 承担（R13-Z 金丝雀 accept；B11-1 补验已收口）。
+
+**回归清单（Codex 跑）**：
+
+- **A 物品用途（C8 oracle）**
+  - A1 267 土灵珠：面对 e4285 触发祭坛剧情、扣 1 珠、十个 0x94 条件守卫、淡出、
+    loadScene s227；编辑器显示「装备+使用」双能力。
+  - A2 268 炼蛊皿：按 [117,118,119,120,121] 顺序 first-match 扣 1 → 148×1；
+    编辑器配方卡（材料→产物）可读可改。
+  - A3 270 紫金葫芦：资源池炼化、随机规则、奖励表；编辑器结构卡。
+  - A4 20 件可用 + 14 件私有脚本统一编辑器 + 保存重开不丢；问题面板无物品用途
+    待迁移；四种通用效果/放置效果中文表单。
+- **B 脚本选择与反跳（N3-1 终态）**
+  - B1 canonical 脚本选择：e2493/e2495 具名行为切换按名选择、无裸内部 id、
+    切换不反跳（稳定 id 引用，二次触发不重复执行）。
+  - B2 剧情物品引用分组：collectItemReferences 覆盖全部来源、按来源分组、
+    可跳转；引用路径与 canonical 一致。
+  - B3 删除 fail-closed：有引用禁止删除并列出阻塞项；零引用行内二次确认 +
+    undo；删除不级联共享资源。
+- **C 保存/重开与 MG2**
+  - C1 编辑器新增/复制/编辑/删除 → 保存 → 重开 → 引用与资产闭包一致。
+  - C2 MG2 零计划：`migrate:content -- --write` 二跑 + 独立 dry-run
+    0/0/0（发布批已证，补记回归结论）。
+- **D 代表运行时流程**
+  - D1 PAL 运行时抽验：267/268/270 实机使用（祭坛/炼蛊/炼化）、投掷 cap、
+    剧情触发与战斗/对话表现。
+  - D2 console 零 error（Kimi R13-Z 金丝雀已覆盖编辑器/运行时，补记）。
+
+```text
+复审任务: C8/ED-5I 联合验收回归审查（N3-1 下游门禁）
+任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md（「C8/ED-5I 联合
+  验收回归清单」）、docs/ops/tasks/C8-item-use-mechanisms.md、
+  docs/ops/tasks/ED-5I-item-workbench.md
+当前状态: N3-1 终态达成（R13-Z 发布批三方 accept）；Codex 已跑回归并补记结论。
+你的职责: 只读核对回归证据（清单 A-D 每项）；补记回归结论 accept/counter。
+  不得修改实现/产物。
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡下游回归门禁、两张卡验收条件、
+  Codex 回归记录（含测试/editor/runtime 证据路径）。
+重点:
+  - 267/268/270 用途语义（祭坛/炼蛊 first-match/炼化）与源真值一致；
+  - canonical 脚本选择不反跳、稳定 id 引用；
+  - 引用分组/删除守卫/保存重开；
+  - MG2 零计划与运行时抽验。
+输出: 补记回归结论 accept / counter 理由；通过后交用户验收。
+```
+
 ##### GLM R13-Z 发布批 B-1 换签复审（2026-08-06）：**accept（B-1/B-2 闭环确认）**
 
 **方法**：只读复审；核 `143c65e3`（fix）+ `fc29b4fe`（docs）两提交 diff，并在当前提交态
