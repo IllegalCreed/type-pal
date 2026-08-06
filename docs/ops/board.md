@@ -10,7 +10,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| N3-1 | 结构化控制流、实体具名行为与内部脚本退役 | build | R13-Z 正式发布完成（seal e530e253），重放幂等 + canary 2/2 绿；待三方审查发布批 + browser 金丝雀；然后 C8/ED-5I 联合验收 | 6C+R13-Z seal 已入 baseline；源账 open=0/0、运行时 0 issues；fast 79/577 |
+| N3-1 | 结构化控制流、实体具名行为与内部脚本退役 | build | R13-Z 发布完成；待 Kimi 视觉金丝雀（用户 2026-08-06 拍板 Kimi 承担）+ 三方审查发布批，然后 C8/ED-5I 联合验收 | 6C+R13-Z seal 入 baseline；canary 2/2、fast 79/577；视觉提示词已入卡 |
 | R13-CANARY | R13-Z 闭包批次 canary 父账重建漂移 | done | 三方 accept 齐（2026-08-06）；face-gate cheap 单测为记录性后续 | canary 2/2 绿、frozen golden 逐字节还原；R13-Z 正式发布仍 blocked on 剩余门禁 |
 | C8 | 物品用途机制、运行时与迁移闭环 | review | 等待 N3-1 完成后交用户联合验收 | `0d4aa48b` 三方最终 accept 已齐；100/0、20 件/21 根及引用反跳均通过审查 |
 | W9 | 实体暂离、重现与明雷逃跑冷却 | draft | 先冻结精确状态机，再由 Kimi / GLM 设计审查 | 18b 二次真值核对补入 0x4B 手动确认、0x52 toggle、world-update pause、敌逃/terminate success；Codex 签字撤回 pending，未准入 build |

@@ -162,6 +162,27 @@ done 准入结论: **done allowed（2026-08-05；Codex / Kimi / GLM 三方 accep
 
 未做视觉验证（无浏览器会话）：coveredBy 替挡/濒死演出的像素级确认留待 Kimi 或用户补验。
 
+2026-08-06 用户拍板：视觉验证由 Kimi 承担（Codex 当前模型无视觉能力）。提示词：
+
+```text
+视觉验证任务: B11-1 coveredBy 替挡 + 濒死演出视觉确认（补验）
+任务卡: docs/ops/tasks/B11-1-player-casualty-scripts.md（真值表 + 范围）
+当前状态: B11-1 已三方 accept（done 待用户验收），视觉验证留补。
+你的职责: 浏览器实测 + 像素级确认；输出截图与结论；不得改实现文件。
+环境: packages/reforge `pnpm dev:pal`（6051）加载 PAL。
+先读: 本卡真值（阵亡→援护者 friendDeath 台词+增益；濒死→自己 dying 对白；
+  0x1B/0x1C 回满、0x30 临时%增益战内有效）、docs/phase1/game-mechanics.md:352-403。
+验证清单:
+  1. 替挡首生效：濒死队员被近战攻击 → 援护者顶上、完全免伤演出（近战/闪避/替挡
+     动作序列）；援护者失能/不在队时退化自挡。
+  2. 队友阵亡：援护者跑 friendDeath，台词逐条展示 + 临时增益（血/蓝/属性变化可见）。
+  3. 濒死：队员跌入濒死（hp < min(100, maxHP/5)）→ 自己 dying 对白顺序展示，
+     战斗推进暂停、空格推进。
+  4. 概率门各分支台词/增益（r≥75/66/50/兜底）至少各触发一次并截图。
+  5. 战斗结束/abort 不残留半段对白。
+输出: 每项截图 + 结论；异常记入卡并回传 Codex。
+```
+
 #### Kimi B11-1 设计主审（2026-08-05）
 
 **方法**：只读设计审查；对 sdlpal fight.c:775-885、PAL_IsPlayerDying、phase-1

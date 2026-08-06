@@ -7829,6 +7829,42 @@ successorReachable（后续地址 ∈ census 可达集，GLM 咨询条件）、s
 - **剩余门禁**：browser 金丝雀（本会话无浏览器，标记待补）；发布批三方审查
   （seal/重放修复属 migration 高风险）；之后 C8/ED-5I 联合验收。
 
+##### 视觉验证交接（2026-08-06，用户拍板：Kimi 承担）
+
+Codex 当前接入模型无视觉/多模态能力；三贤人中仅 Kimi 具备，故浏览器/视觉验证
+相关工作统一安排 Kimi。待办：
+
+- N3-1 R13-Z browser 金丝雀（最终门禁，提示词见下）。
+- B11-1 coveredBy 替挡/濒死演出视觉补验（B11-1 卡已记待补）。
+- C8/ED-5I 联合验收阶段的浏览器复验随各自卡推进。
+
+```text
+视觉验证任务: N3-1 R13-Z 浏览器金丝雀 + 运行时视觉确认（最终门禁）
+任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md（R13-Z 节 +
+  「视觉 / 手工验证」）
+当前状态: N3-1 build；R13-Z 源侧已发布（seal e530e253）、canary 2/2 绿；
+  browser 金丝雀是本批最后一个未跑门禁。用户 2026-08-06 裁决视觉验证由
+  Kimi 承担（Codex 当前模型无视觉能力）。
+你的职责: 浏览器实测 + 视觉确认；输出截图/像素证据与结论（accept 或具体问题）。
+  不得修改实现文件；发现问题记入卡并回传 Codex 修。
+环境: 编辑器 dev = packages/editor `pnpm dev`（6010）；PAL 游戏运行时 =
+  packages/reforge `pnpm dev:pal`（6051）。
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡 R13-Z 节（发布/重放/金丝雀清单）、
+  docs/ops/tasks/B11-1-player-casualty-scripts.md（伤亡演出真值）。
+验证清单:
+  1. 编辑器 6010：实体行为槽/切换指令/状态机/共享脚本/引用面板完整 CRUD，
+     无裸内部 id（e2493/e2495 切换按具名行为）；720/900/1280 宽度下列表/树/
+     检查器/跳转入口无横向溢出或遮挡；console 零新增错误。
+  2. 游戏运行时 6051：e2493/e2495 切换前后触发正确；auto/trigger 分通道独立；
+     存档重载后活动行为一致（保存→重开→触发验证）。
+  3. PAL 金丝雀清单：e2493/e2495、一个 onTeleport 动态 hook、一个 auto 自环、
+     一个多状态 NPC、一个 item author root、一个真正共享业务脚本。
+  4. 浏览器金丝雀差集：e796、s048、s093、confirm 两臂、投掷、enemy-483/519、
+     palette——历史批次已有截图证据的只补差集并注明。
+输出: 每项截图/像素检查路径 + 结论；console error/warning 计数；总体
+  accept / 具体返工项清单。签字性质: 视觉验证门禁结论（非推进签字）。
+```
+
 ##### 给 Kimi / GLM 的 R13-6C+6D 实现复审提示词（下一位 Agent 可直接复制）
 
 ```text
