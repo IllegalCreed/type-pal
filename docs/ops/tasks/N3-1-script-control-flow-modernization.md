@@ -7977,6 +7977,92 @@ B11-1 伤亡演出补验按其卡另行推进，不在本结论范围。
   「触发行为 1」。建议摘要行改显示标签与槽列表一致。登记为 UI polish 待办，
   随编辑器常规迭代处理，不阻塞 R13-Z。
 
+##### GLM R13-Z 发布批审查（2026-08-06）：**counter（1 个发布门禁回归 + 验证证据不实）**
+
+**方法**：只读审查；逐行核 `9b26d784` 全 diff（migrate-content.mts 的 stripR13ZPublishSeals/
+successorFiles 剥 seal、r13-z-transition-mg2.ts 的 seal 构造/重放断言、两 baseline seal 文件、
+oracle TRANSITION_IDS/projection/manifest），并**独立复跑** dry-run 重放 / canary / fast。
+
+**A. 通过项（发布内容与重放修复本身成立）**
+
+1. **6C seal 内容对源** ✅：`r13-6c-lossy-closure-v1.json` 三条 closure（skill 352/372/373 的
+   evidence/sourceClosure/finalTarget digest）+ `summary.lossyClosed=3/openObservations=0`，
+   digest `82e9f8f3…` 与 `_state.json` metadata 一致；parent=r13-source-semantics-v1
+   (0d52087b…)。
+2. **R13-Z seal 内容对源** ✅：`sourceControl`（reportDigest be069130…、executionSites=81674、
+   openDebtSites=0/openObservations=0、五个 bind 选项全 true）+ `runtimeControl`
+   （reportDigest 0a67ee07…、refusedUses=0/openIssues=0），digest `e530e253…` 与 metadata 一致。
+3. **事务边界 fail-closed** ✅：`createR13ZMigrationPlan` 用 `createMigrationPlan(base,ours,base)`
+   产空 plan + 严格 `writes.size||deletes.length` 断言；sealMode 经 `appendOnlyTransitionState`
+   判定；`assertHistoricalControlsPinned` 钉历史 transition；managedFiles 只 +R13-Z seal。
+4. **重放一致性修复正确且无更优替代** ✅：自引用根因（append-only seal 把自身计入自己的
+   runtime/successor 审计输入 → digest 随之变 → published 与 authority 必然不符）成立。
+   `stripR13ZPublishSeals`（rewind 6C + 删 R13-Z seal、保留历史 `_transitions`）给 runtimeFinal
+   造「发布前表面」；`successorFiles` 剥 6C+R13-Z 给 source disposition；init/replay 两侧 authority
+   输入逐字节相同 → `expectedSeal` 必然一致 → `isDeepStrictEqual` 过。粒度正确（只剥本事务新
+   seal、留历史 seal 作为 managed 工件）；替代方案（让 runtime 审计一律忽略 `_transitions/`）
+   会削弱「runtime 审 live baseline managed 内容」的本意，不可取。
+5. **dry-run 重放独立复跑通过** ✅（本会话实跑）：`--r13-z --r13-6c --r13-6d` →
+   6C seal=82e9f8f3… / source=be069130… / runtime=0a67ee07… / open=0/0 / refused=0 issues=0，
+   与已发布 seal 逐字节一致。
+6. **冻结门禁未动** ✅：`script-control-flow/pal-v1.json`（frozen audit）自 3a03bfdd 起未动，
+   9b26d784 未碰；6C/6D 证据源（pal-r13-six-c.ts、source-instruction-disposition.ts）本批未改；
+   86bbb33f pin 仍逐字在源。
+
+**B. counter 项（发布门禁回归 + 验证证据不实）**
+
+**B-1（硬 counter）oracle manifest 的 `producer-code`（packages/migrate/src）树指纹与实际 src 树不符 ——
+canary/fast 都红，不是自验所称的 2/2 与 79/577。**
+
+- `9b26d784` 同时改了 `packages/migrate/src`（pal-test-oracle.ts/test.ts 加两 TRANSITION_IDS）**和**
+  manifest 的 producer-code 指纹（`9eb8b9e6…/2626316` → `56822709…/2626381`）。但提交进 manifest
+  的值**从未与该提交自身的 src 树匹配**：
+  - 本会话按 `fingerprintPalTestOracleTree`（pal-test-oracle.ts:466-478）口径实测当前 src：
+    files=116 / **bytes=2626374** / **sha256=6d90a8e7…**
+  - 该提交树（`git ls-tree -r 9b26d784`）下同口径 src：files=116 / **bytes=2626374**（与当前一致，
+    因 9b26d784 之后 3 个 commit 全是 docs，未碰 src）。
+  - manifest 记的是 **bytes=2626381 / sha256=56822709…** —— 差 7 字节、sha256 不符。
+  → 即 manifest 的 producer-code 指纹是在 src **尚未最终落定**时写的（或没按提交态重算），提交态
+  自相矛盾。
+- 后果（本会话实跑）：
+  - **canary 1/2**（不是自验/提示词所称 2/2）：`r13-source-semantics-canary.pal.test.ts > R13-6A
+    source-backed cold canary` 在 `loadPalTestOracle` → `assertPalTestOracle` 抛
+    `packages/migrate/src tree fingerprint 漂移`。双面重放那条 ✓ 绿（与重放修复一致）。
+  - **fast 78 files passed / 1 failed（575/582，2 failed）**（不是自验所称 79/577）：
+    `pal-test-oracle.test.ts` 两条（`pins the published P7→R13 chain` + `rejects a self-edited
+    projection`）同样在 `loadPalTestOracle` 挂。
+  - `pal-release-preflight.test.ts:31` `expect(() => loadPalTestOracle()).not.toThrow()` 走同函数，
+    同因会挂（已确认其引用 loadPalTestOracle）。
+- 性质：oracle 是 R13-Z 的发布门禁之一（pin 住 P7→R13 链不漂）；manifest 自相矛盾 = 该门禁
+  **当前是红的**，不能作为「发布批通过」的证据。自验「canary 2/2 + fast 79/577」与本会话独立
+  复跑结果不符，**验证证据不实**。
+
+**B-2（记录项，不单独阻塞）** 提示词与本卡 R13-Z 节把 canary/fast 数字写成已绿（2/2、79/577），
+与提交态实际相悖。Codex 自验大概率是在「manifest 尚未改/或改完没重算 producer-code 指纹」的
+中间态跑的；发布提交落定后未再复跑 canary/fast 就报了绿。建议 Codex 复核：发布提交后是否真的
+跑过 `test:canary`/`test:fast`，还是沿用了改 manifest 前的绿。
+
+**C. 结论与最小返工**
+
+**counter**。发布内容（A1-A3）与重放修复（A4-A5）本身正确、冻结门禁（A6）未动；但 B-1 是硬回归：
+oracle manifest 的 producer-code 指纹与 src 不符，导致 canary 1/2、fast 78/79（2 测红），与自验
+声称的 2/2、79/577 矛盾。R13-Z 发布批**不得据此标通过**。
+
+最小返工（由 Codex 落，不改 seal/产物，只重算并提交正确指纹）：
+1. 在当前 src 态重跑 oracle 生成器，把 manifest 的 producer-code 指纹改回实测值
+   （files=116/bytes=2626374/sha256=6d90a8e7…）—— 或反之，若 Codex 认定 56822709… 才对，则
+   说明 src 在提交后被意外改动，须查清那 7 字节差来自哪个文件、还原到提交态。
+2. 同步 `projectionSha256`（manifest:480-481 也校验，须确认随 producer-code 变后仍自洽）。
+3. 重跑 `test:canary`（应回 2/2）与 `test:fast`（应回 79/577）确认全绿后，再回来换本卡 accept。
+4. 复盘：发布提交落定后必须用「提交态」重跑一次 canary/fast，不能沿用中间态的绿。
+
+**边界**：本 counter 只针对 R13-Z 发布批的「门禁未实绿」。A1-A6 的正面结论（seal 对源、重放修复
+正确、冻结未动、dry-run 重放绿）仍然成立，返工只是修 manifest 指纹 + 复跑，不需动 seal/runtime
+逻辑。**不得标 N3-1/C8/ED-5I done**；R13-Z 发布批在 B-1 闭环前仍 blocked。
+
+未修改实现/产物/baseline/seal。无下一位 Agent 提示词 —— 返工属 Codex（Coding Owner）职责，
+修完 manifest + 复跑绿后由 Codex 复提交、Kimi/GLM 再审。
+
 ##### 给 Kimi / GLM 的 R13-Z 发布批审查提示词（下一位 Agent 可直接复制）
 
 ```text
@@ -8013,6 +8099,69 @@ B11-1 伤亡演出补验按其卡另行推进，不在本结论范围。
   由用户验收）+ 编辑器摘要行 polish 待办。不得标 N3-1/C8/ED-5I done。
 输出: accept / counter 理由（具体字段/反例/替代方案）。
 ```
+
+##### Kimi R13-Z 发布批审查（2026-08-06）：**counter**（与 GLM 独立同结论；附一处实证差异）
+
+只读审查；未修改实现/产物/baseline/seal。方法：git show 9b26d784 全 diff + 两 seal
+文件逐字段核对 + r13-z-transition-mg2.ts / migrate-content.mts 审读 + 全部命令独立复跑。
+
+**通过项（与 GLM A1-A6 一致，均一手复核）**：
+
+- 6C seal 三条 closure 三层 digest + parent(0d52087b…)对源；`finalContentDigest=
+  d7defbb2…` 与 6B 已发布内容 digest 相同（零内容叶铁证）。
+- R13-Z seal sourceControl（reportDigest be069130…、81674 站点、open 0/0、五 bind
+  选项 true）+ runtimeControl（0a67ee07…、refused=0/issues=0）对源；parent 正确。
+- 事务边界：appendOnlyTransitionState 半状态 fail-closed、空 plan 断言、
+  assertHistoricalControlsPinned 钉历史 transition、managedFiles 仅 +R13-Z seal。
+- 重放一致性修复成立：stripR13ZPublishSeals + successorFiles 剥双 seal 构成
+  「发布前表面」；半态兜底由 appendOnlyTransitionState 在 unstripped base 上先行
+  fail-closed（我一度担心手工剥离无半态检查，核实后被该门禁覆盖，无缺口）。
+  替代方案评估同 GLM：digest 全排除 _transitions 会破坏全部历史 pin，不可取。
+- oracle 收口：TRANSITION_IDS +2、managedFiles 544→546、projection 双 entry
+  digest/sha 正确；_state.json 八个历史 transition byte-pin 全未动；
+  86bbb33f 未动。
+
+**counter 项（独立复跑实证）**：
+
+- **B-1 manifest 指纹失配（fast/canary 双红）——与 GLM 独立同结论**。本座实测：
+  项目自带 `fingerprintPalTestOracleTree` 复算当前 src 树 = files=116 /
+  bytes=**2626374** / sha256=**541ee36f…**（Python 独立实现同值复算一致）；
+  manifest pin = bytes=**2626381** / sha256=**56822709…**。git 树干净、
+  9b26d784 后无任何 src 提交（全 docs），失配生于该发布提交自身。
+  - 复跑 `test:fast`：pal-oracle 两测红（pins/rejects 均在 loadPalTestOracle 抛
+    「packages/migrate/src tree fingerprint 漂移」），79 files 1 failed、575/582。
+  - 复跑 `test:canary`：1 failed / 1 passed（269.9s）——test 1（producer rebuild
+    matches golden）挂在 loadPalTestOracle 同一指纹门；**test 2（live authority
+    replays identical seal + zero writes）绿**——即 seal/重放实质是好的，
+    只有 oracle 指纹门在拦。
+- **一处与 GLM 的实证差异（不影响结论）**：GLM 记录当前树 sha256=6d90a8e7…，
+  本座两次独立复算均为 541ee36f…（bytes 一致）。pin 失配结论双方一致；
+  返工时以 Codex 修复后实测为准，不以任何一侧记录值为准。
+- **B-2 验证证据不实**：发布自验「canary 2/2 + fast 79/577」与提交态不符——
+  同 GLM B-2，属「中间态的绿」沿用。附议其复盘建议：发布提交落定后必须以
+  提交态重跑 canary/fast。
+
+**结论**：发布内容、重放修复、oracle 结构收口、冻结 pin 均无反例；但发布批的
+自验证据不实、fast/canary 当前红，签 **counter**。最小返工（Codex）：当前 src 态
+重算 pal-oracle manifest 指纹（查清 7 字节差出处并说明）→ 确认 projectionSha256
+自洽 → test:fast 79/577 绿 + test:canary 2/2 绿（含双面重放）→ 回读 Kimi/GLM
+换签。不得标 N3-1/C8/ED-5I done；R13-Z 发布批在 B-1 闭环前保持 blocked。
+
+##### Codex B-1 返工（2026-08-06）：指纹重算 + 提交态复跑全绿
+
+- **7 字节差根因**：发布批最后一次 `test:oracle:update` 后，Codex 回退了
+  `r13-z-transition-mg2.ts` 的 `contentSnapshot` export（-7 字节 = "export "），
+  src 树变化但未重算指纹——正是 manifest 失配的出处（bytes 2626381→2626374、
+  sha256 56822709…→541ee36f…，与 Kimi 独立复算完全一致；GLM 记录值系其审阅时
+  工作树差异，以本实测为准）。
+- **修复**：提交态重跑 `test:oracle:update`，producer-code 指纹更新为实测值；
+  projection 未变（projectionSha256 自洽）；无其他 src/产物改动。
+- **提交态复跑全绿**：`test:fast` 79 files / 577 passed / 5 skipped；
+  `test:canary` 2/2（producer rebuild 命中 golden + live authority 重放同 seal
+  零写）；`--r13-z --r13-6c --r13-6d` dry-run 重放源账 be069130…/运行时
+  0a67ee07… 与已发布 seal 一致（B-1 闭环后补跑确认，见后）。
+- **过程教训（Kimi B-2 采纳）**：发布提交落定后必须以提交态重跑 canary/fast，
+  不沿用中间态绿；已写入本卡发布流程纪律。
 
 ##### 给 Kimi / GLM 的 R13-6C+6D 实现复审提示词（下一位 Agent 可直接复制）
 
