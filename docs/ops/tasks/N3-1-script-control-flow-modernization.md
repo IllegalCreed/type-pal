@@ -7977,6 +7977,43 @@ B11-1 伤亡演出补验按其卡另行推进，不在本结论范围。
   「触发行为 1」。建议摘要行改显示标签与槽列表一致。登记为 UI polish 待办，
   随编辑器常规迭代处理，不阻塞 R13-Z。
 
+##### 给 Kimi / GLM 的 R13-Z 发布批审查提示词（下一位 Agent 可直接复制）
+
+```text
+复审任务: N3-1 R13-Z 发布批审查（seal 发布 + 重放一致性修复）
+任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md（R13-Z 节：
+  「R13-Z 正式发布与重放验证」+ 视觉验证交接/记录项核查）
+当前状态: N3-1 build；R13-Z 已正式发布（6C seal=82e9f8f3… + R13-Z seal=e530e253…），
+  重放幂等 + canary 2/2 + fast 79/577 + 默认 dry-run 0/0/0；待三方审查发布批。
+你的职责: 只读审查提交 9b26d784（+ 相关前序）；输出 accept 或 counter 的具体字段/
+  反例。不得修改实现/产物/baseline/seal。
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡 R13-Z 节（R13-6C/6D 实现与自验、
+  R13-CANARY 结论、发布与重放验证）、`git show 9b26d784`、
+  packages/migrate/scripts/migrate-content.mts（stripR13ZPublishSeals +
+  successorFiles 剥 seal）、r13-z-transition-mg2.ts（seal 构造/重放断言）、
+  pal-test-oracle.ts（TRANSITION_IDS）、baselines/pal/_transitions/
+  r13-6c-lossy-closure-v1.json + r13-z-source-closure-v1.json。
+重点核对:
+  1. 发布内容正确性：6C seal（三条 lossy closure 账务）与 R13-Z seal
+     （sourceControl/runtimeControl）字段与摘要是否与 authority 一致；
+     sealMode=initialize、writes=0 的事务边界。
+  2. 重放一致性修复（发布后发现的缺口）：R13-Z authority 的 runtimeFinal 与
+     successorFinal 曾用带本事务新 seal 的 baseline（self-reference），导致重放
+     seal 不符；stripR13ZPublishSeals（剥 6C+R13-Z、保留历史 _transitions）与
+     successorFiles 剥两 seal 是否构成「发布前表面」，发布/重放两侧 final 内容
+     digest 是否确定一致；是否有更优替代。
+  3. oracle 收口：TRANSITION_IDS 加 6C/R13-Z、projection managedFiles 544→546、
+     pal-test-oracle.test 同步，是否只反映 seal 文件计数、无内容漂移。
+  4. 冻结门禁未变：86bbb33f、canary golden、6C/6D 证据字节（seal/runtime
+     digest/open=0/0）逐字节不变。
+验证证据（可独立复跑）: `--r13-z --r13-6c --r13-6d` dry-run（重放，源账
+  be069130…/运行时 0a67ee07… 与已发布 seal 一致）；`test:canary` 2/2；
+  `test:fast` 79 files/577 passed；`migrate:content -- --write` 两遍 0/0/0。
+边界: 本审查只收口 R13-Z 发布批；剩余 = C8/ED-5I 联合验收（N3-1 全部门禁通过后
+  由用户验收）+ 编辑器摘要行 polish 待办。不得标 N3-1/C8/ED-5I done。
+输出: accept / counter 理由（具体字段/反例/替代方案）。
+```
+
 ##### 给 Kimi / GLM 的 R13-6C+6D 实现复审提示词（下一位 Agent 可直接复制）
 
 ```text
