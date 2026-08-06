@@ -69,7 +69,7 @@ Capability: ED-5I / C8（依赖）
 ## 推进签字
 
 - build 准入: Kimi（Owner，本卡即实现方案） | Codex N/A | GLM 异步抽审 | 结论 allowed（常规迭代）
-- done 准入: Kimi **accept**（2026-08-06，实现 + 自验，证据见交接） | GLM pending（异步抽审） | 用户验收 pending | 结论 blocked on GLM 抽审/用户验收
+- done 准入: Kimi **accept**（2026-08-06，实现 + 自验，证据见交接） | GLM **accept**（2026-08-06，异步抽审，证据见交接） | 用户验收 pending | 结论 blocked on 用户验收
 
 ## 交接
 
@@ -109,6 +109,32 @@ Capability: ED-5I / C8（依赖）
     异常会出现单侧已提交的中间态（低概率，patchUse 为受控命令）；双 undo 栈语义
     已在卡内明示并由容错投影兜底。**Codex 抽查结论：实现通过**，等待 GLM 抽审 +
     用户验收后提交收口。
+- 2026-08-06 GLM（异步抽审，应用户「ED-5J 你不审核吗」追问补审）：
+  - 只读核 `74d4871b` 全 6 文件 diff + 独立复跑。未修改实现。
+  - **`AddItemPrivateScriptV5Command`** ✅：经 `SnapshotCommandV5` 先克隆后 transform
+    （无原地 mutate）；canonical `script.id` 恒字面量 `'use'`；重复新建按 `kind==='itemPrivateScript'
+    && script.id==='use'` 判重并 fail-loud（`${itemId}.use 已有私有脚本`）；单测覆盖
+    创建/重复 fail-loud/undo/redo。
+  - **双口径 mergeItemEffectsV5（最关键）** ✅：`tolerateMissingPrivateScript` 默认 `false`；
+    `mergeLegacyEditorShellIntoV5`（保存链）**不传此参** → 缺正文仍抛错 fail-loud，坏数据不落盘；
+    仅 `projectActiveScriptEditorStateV5`（渲染/扫描投影）显式传 `true`，丢弃 undo 中间态的
+    dangling ref 不炸渲染。flatMap 替代 map 后渲染期丢弃 dangling ref 不造成数据丢失
+    （保存链仍严格）。**这正好兜住 Codex 记录项的"单侧中间态"风险**——即便 patchUse 异常致
+    shell ref 已在但 canonical 正文未入，保存时必 fail-loud，非静默损坏。
+  - **`addPrivateScript` 双写** ✅：先 `dispatch(AddItemPrivateScriptV5Command)`（v5 会话入
+    canonical 正文）再 `patchUse`（shell 效果链入 `runScript(item:<id>:use)` ref），两笔各走各
+    undo 栈（测试实证：shell undo + v5 两笔 undo/redo 全链可回滚/恢复）；外层 try/catch 把
+    dispatch 抛错转成 `onStatusNotice error`，不炸 UI。
+  - **按钮禁用** ✅：`use.effects.some(isPrivateScriptEffect) || !compatibleChain([...probe...])`
+    ——已有私有脚本或加完后链不相容都禁用；`__probe__` id 仅用于 disabled 判断、不落盘；
+    `isPrivateScriptEffect` 按 `item:<itemId>:` 前缀识别，在 isExclusiveEffect/isSceneEffect 里
+    正确排除（不与结构化效果冲突）。
+  - **范围纪律** ✅：仅 editor 6 文件，无 content schema/SAVE/迁移/运行时改动，常规迭代定性成立。
+  - **复跑**：ED-5J 2 新测 + `project-io` 36 + `ItemUseEffectEditor` 9 = **47/47 绿**；
+    `script-v5-editor` 含 ED-5J 新测全过。
+  - **结论：accept**。shell/canonical 双层一致、undo/redo 双栈可回滚、保存重开 fail-loud、
+    无幽灵引用落盘。Codex 记录项已被保存链 fail-loud 兜住，不阻塞。本 accept 只收口 ED-5J
+    实现，用户验收后即可 done。
 
 ## 下一位 Agent 提示词
 
