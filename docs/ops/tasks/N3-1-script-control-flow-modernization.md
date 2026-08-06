@@ -7809,6 +7809,26 @@ successorReachable（后续地址 ∈ census 可达集，GLM 咨询条件）、s
 --r13-6d --write` 正式发布（6C + R13-Z seal 同一事务，含 R13-6D 观察闭包）；canary
 双面重放；C8/ED-5I 联合验收。
 
+##### R13-Z 正式发布与重放验证（2026-08-06，Codex，提交 9b26d784）
+
+- 全量重迁双跑：`migrate:content -- --write` 两遍 writes=0/deletes=0/conflicts=0
+  （幂等）✅。
+- 正式发布：`--r13-z --r13-6c --r13-6d --write` → 6C seal=82e9f8f3… +
+  R13-Z seal=e530e253…（mode=initialize，writes=0）入 baseline ✅。
+- **重放一致性修复（发布后发现的缺口）**：发布后重放曾报
+  「published seal 与 authority 不符」——根因是 R13-Z authority 的
+  `runtimeFinal` 与 `successorFinal` 用了带本事务新增 seal 的 baseline，
+  发布/重放两侧 final 内容 digest 不一致（self-reference）。修复：
+  `stripR13ZPublishSeals`（runtimeFinal 用发布前表面）+ successorFiles 剥
+  6C/R13-Z seal；重放后 source=be069130…/runtime=0a67ee07… 与已发布 seal
+  逐字节一致 ✅。
+- oracle 收口：`TRANSITION_IDS` 加 6C/R13-Z 两 transition，projection
+  managedFiles 544→546（seal 文件计数），pal-test-oracle.test 同步；
+  fast 79 files / 577 passed / 5 skipped ✅。
+- canary 双面重放：2/2 绿（带新 seal 的 baseline + 6C rewind 链正常）✅。
+- **剩余门禁**：browser 金丝雀（本会话无浏览器，标记待补）；发布批三方审查
+  （seal/重放修复属 migration 高风险）；之后 C8/ED-5I 联合验收。
+
 ##### 给 Kimi / GLM 的 R13-6C+6D 实现复审提示词（下一位 Agent 可直接复制）
 
 ```text
