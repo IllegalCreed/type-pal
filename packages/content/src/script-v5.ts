@@ -201,6 +201,16 @@ export type AuthorCommandV5 =
       fieldId?: number
       music?: AssetId | null
       choreography?: import('./enemy.js').BattleChoreography[]
+      /**
+       * dev-only 调试工具(D13-1):忽略 teamDef.members,按给定敌人定义 id 列表组敌队。
+       * 只进 battle session(战斗局部),不落任何持久态;普通脚本不得使用。
+       */
+      enemyOverride?: string[]
+      /**
+       * dev-only 调试工具(D13-1):忽略 world.party/inventory,用给定预设开战。
+       * 战斗结束/取消后由宿主恢复战前世界快照;普通脚本不得使用。
+       */
+      partyPreset?: { party: import('./character.js').CharacterInstance[]; inventory?: { itemId: string; count: number }[] }
     }
   | { kind: 'teleportOut'; onFail?: AuthorCommandV5[] }
   | { kind: 'confirm'; id?: CommandId; onNo: AuthorCommandV5[] }

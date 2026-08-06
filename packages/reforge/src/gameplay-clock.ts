@@ -12,15 +12,20 @@ export class GameplayClock {
   private lastReal = 0
   private now = 0
 
-  advance(realNow: number, frozen: boolean): GameplayClockFrame {
+  /**
+   * 推进时钟。frozen=true 时 gameplay 时间不随 real 时间走(实时时间仍被消费,不积压);
+   * stepMs>0 表示本帧手动单步:gameplay 时间精确推进 stepMs(与 frozen 组合用于调试帧步进)。
+   */
+  advance(realNow: number, frozen: boolean, stepMs = 0): GameplayClockFrame {
     const first = this.lastReal === 0
     const realDt = first ? 0 : Math.min(Math.max(0, realNow - this.lastReal), 100)
     this.lastReal = realNow
     if (first) this.now = realNow
+    else if (stepMs > 0) this.now += stepMs
     else if (!frozen) this.now += realDt
     return {
       realDt,
-      gameplayDt: frozen ? 0 : realDt,
+      gameplayDt: stepMs > 0 ? stepMs : frozen ? 0 : realDt,
       gameplayNow: this.now,
     }
   }

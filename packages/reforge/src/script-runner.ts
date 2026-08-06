@@ -139,6 +139,13 @@ export interface ScriptHost {
       music?: AssetId | null
       /** 遭遇专属战斗演出(startBattle.choreography;对话绑遭遇而非敌种)。 */
       choreography?: import('@type-pal/content').BattleChoreography[]
+      /** D13-1 dev-only:忽略 teamDef.members,按给定敌人定义 id 列表组敌队(战斗局部)。 */
+      enemyOverride?: string[]
+      /** D13-1 dev-only:忽略 world.party/inventory,用给定预设开战;战后由宿主恢复世界。 */
+      partyPreset?: {
+        party: import('@type-pal/content').CharacterInstance[]
+        inventory?: { itemId: string; count: number }[]
+      }
     },
     signal?: AbortSignal,
   ): Promise<'win' | 'lose' | 'flee'>
