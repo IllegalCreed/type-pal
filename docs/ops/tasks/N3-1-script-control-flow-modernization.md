@@ -8245,6 +8245,131 @@ oracle manifest 的 producer-code 指纹与 src 不符，导致 canary 1/2、fas
 输出: 补记回归结论 accept / counter 理由；通过后交用户验收。
 ```
 
+##### GLM C8/ED-5I 联合验收回归审查（2026-08-06）：**accept（下游门禁 A-D 全过）**
+
+**方法**：只读核对；清单 A-D 逐项实证。提示词称「Codex 已跑回归并补记结论」，但 N3-1/C8/ED-5I
+三卡与工作树均**无 Codex 回归记录**（543e1d29 只落了清单+提示词，未落回归跑证据）——故本审查
+独立复跑并补记结论。未修改实现/产物。当前提交态 HEAD=543e1d29，工作树干净。
+
+**A 物品用途（与源真值逐项对账 + 测试）** ✅
+
+- A1 267 土灵珠：canonical `use.effects[0]=itemPrivateScript`，body 分支 `not facingEntity(s241/e4285)`
+  → 非祭坛 `teleportOut`(失败提示 dlg.12538) / else 祭坛链（setEntityState…）；item 仍带 `equip`
+  （双身份）。与 C8 源真值「只有面对 e4285 才祭坛剧情…非祭坛走 teleportOut」一致。
+- A2 268 炼蛊皿：`craftRecipe` 五条配方，材料分别 [117]/[118]/[119]/[120]/[121] → 各产 148×1；
+  与源真值「[117,118,119,120,121] 顺序 first-match 扣 1 → 148×1」一致（ordered first-match）。
+- A3 270 紫金葫芦：`drawFromResourcePool` resource=collectValue、maxRoll=9、9 档奖励；与源真值
+  「资源池炼化、随机规则、九档奖励表」一致。
+- 测试实证：reforge `item-use-executor` 17 + `use-menu-state` 7 + `item-use-result` 2 = **26/26 绿**；
+  content `item` 50 + `validate` 62 + `validate-refs` 25 + `shop` 5 = **142/142 绿**。
+- A4（20 件可用 + 14 件私有脚本统一编辑器 + 保存重开 + 四种通用效果表单）：由 B/C 的 editor
+  96/96 + project-io 36 + ItemUseEffectEditor 9 覆盖。
+
+**B 脚本选择/反跳 + 引用 + 删除守卫** ✅
+
+- B1 canonical 选择稳定 id：s154 e2493 `behaviors.trigger.default` = stages 状态机（非裸内部块）；
+  e2495 default body 含 `selectEntityBehavior{target:e2493,channel:trigger}` —— 按**稳定实体+通道**
+  选、不指向匿名内部块；pages 用稳定 id(`default`)+initialPage，二次触发按选择解析不反跳。
+  （运行时层面 Kimi R13-Z 金丝雀已视觉确认：e2495 切 e2493→legacy-001、保存重载一致、再触发不重复执行。）
+- B2 引用分组：editor `item-references` **39/39** 绿（collectItemReferences 全来源覆盖 + 按来源分组）；
+  content `validate-refs` 25/25 含 ShopDef.items（ED-5I G3 必落项）。
+- B3 删除 fail-closed：editor `item-commands` 6/6（有引用 reject、零引用 delete+undo）+ `item-references`
+  39（守卫列出阻塞项）。
+- 编辑器合计 `item-references` 39 + `item-authoring` 2 + `item-commands` 6 + `ItemUseEffectEditor` 9
+  + `project-io` 36 + `ref-index` 4 = **96/96 绿**。
+
+**C 保存重开 + MG2 零计划** ✅
+
+- C1 保存重开：editor `project-io` **36/36** 绿（CRUD → 保存 → 重开 → 引用/资产闭包一致）。
+- C2 MG2 零计划：`migrate:content -- --write` 实跑 **writes=0 deletes=0 conflicts=0**（已处发布态），
+  内嵌「[幂等] 二次迁移 0/0/0」；R13-Z dry-run 重放亦 0/0/0（见本卡 R13-Z 节与 B-1 复审）。
+
+**D 运行时抽验 + console** ✅（D1 部分以测试 + Kimi 金丝雀代）
+
+- D1 运行时：本会话无浏览器，以 reforge `loader-v5.pal` 5 + `script-project-v5` 25 = **30/30 绿**
+  （loader 验 PAL contentVersion 11 + 全场景、script-project 加载并跑 canonical stages）为代证；
+  实机 267/268/270 使用、e2493/e2495 触发、投掷 cap、存档重载由 **Kimi R13-Z 金丝雀**（21 截图、
+  output/playwright/r13z-*.png、accept）视觉覆盖。
+- D2 console：Kimi R13-Z 金丝雀记编辑器/运行时 console **0 error / 0 warning**。
+
+**全包回归（本会话实跑，提交态）**：content **33/391**、editor **93/798**（高于 C8 卡记录的 766，
+测试净增无回归）、reforge **78/796**、migrate fast **79/577 + 5 skip**、canary **2/2**、MG2 **0/0/0**。
+
+**一处记录差（非阻塞）**：提示词与本卡「C8/ED-5I 联合验收回归清单」节称 Codex 已跑回归并补记，
+但三卡均无 Codex 回归跑证据（543e1d29 只落清单）。本 accept 的证据来自 GLM 独立复跑；建议 Codex
+补记其回归跑结论（测试数/路径/dry-run）以齐三签记录，但**不阻塞**——门禁本身已绿。
+
+**结论**：**accept**。C8/ED-5I 下游回归门禁 A-D 逐项实证通过：267/268/270 用途对源、canonical
+稳定 id 选择不反跳、引用分组 + 删除 fail-closed + 保存重开、MG2 零计划、运行时/console 经测试
++ Kimi 金丝雀覆盖。N3-1 下游门禁收口。
+
+**边界**：本 accept 只收口 N3-1 下游 C8/ED-5I 回归门禁。C8（review）/ED-5I（blocked）两张卡的
+**本卡 done 仍由各自验收流程**（C8：Kimi/GLM done 前 accept 齐；ED-5I：解除 blocked 后走 done 前
+签字）——本回归 accept 不替代那两张卡的 done 签字。**N3-1 全部门禁至此通过，可交用户验收。**
+
+无下一位 Agent 提示词——N3-1 全部门禁通过，交用户最终验收；C8/ED-5I 各自卡的 done 由其验收流程推进。
+
+##### Kimi C8/ED-5I 联合验收回归审查（2026-08-06）：**accept（下游门禁 A-D 全过，与 GLM 独立同结论）**
+
+只读核对；未修改实现/产物。方法：canonical 一手对源 + 四包独立复跑 + 编辑器物品工作台
+一手抽查（6010）。HEAD=543e1d29，工作树干净。GLM 已先 accept（:8248），本席证据独立取得，
+结论一致。另记录：提示词所称「Codex 已跑回归并补记结论」在三卡与工作树均无对应记录
+（543e1d29 只落清单），建议 Codex 补记其回归跑证据以齐三签记录——不阻塞，门禁本身已绿。
+
+**A 物品用途** ✅
+
+- A1 267 土灵珠：canonical `use.effects[0]=itemPrivateScript`，body 分支
+  `not facingEntity(s241/e4285)` → then `teleportOut`（带 dlg.12538 失败提示）/ else 祭坛链
+  （setEntityState 3 / facing down / frame 5 / loseItem 267）；equip 双身份在案（一手读
+  items.json 实证）。编辑器侧结构卡渲染「267 灵珠祭坛用途 · 归当前物品拥有 · 不进入共享
+  脚本库」，守卫分支（e4282/e4283 状态=0 → 终止脚本）、扣珠指令、传送出口逐项可见
+  （编辑器 6010 实证）。
+- A2 268 炼蛊皿：`craftRecipe` 五条 [117]/[118]/[119]/[120]/[121] → 各产 148×1，
+  ordered first-match（一手实证）。
+- A3 270 紫金葫芦：`drawFromResourcePool` collectValue / maxRoll=9 / 九档奖励
+  （100/105/95/112/72/131/97/102/111，一手实证）。
+- A4：编辑器物品工作台一手抽查——目录能力筛选（全部/装备/可使用/可投掷/有引用/
+  待迁移）+ 双身份徽标 + 引用计数；267「装备能力」结构卡（槽位/可装备角色/装备效果
+  类型全枚举 + 五灵/毒）与用途结构卡均可读可改 ✓。
+- 测试：GLM 记 reforge 26/26 + content 142/142；本席 editor 全包 798/798 绿
+  （高于 C8 卡记录的 766，净增无回归）。
+
+**B 脚本选择/引用/删除守卫** ✅
+
+- B1：本席 R13-Z 金丝雀已视觉闭环（e2495 切 e2493→legacy-001、F5/F9 重载一致、
+  再触发不重复执行、无反跳）；canonical 一手核：e2495 default body 首命令
+  `selectEntityBehavior{target:e2493, channel:trigger, use legacy-001}`——稳定实体+通道+
+  具名行为 id，无匿名内部块。
+- B2/B3：editor `item-references` 39/39、`item-commands` 6/6、`ItemUseEffectEditor` 9/9
+  （GLM 实跑）；本席 editor 全包 798/798 绿。
+
+**C 保存重开 + MG2** ✅
+
+- C1：editor `project-io` 36/36（GLM）+ 全包 798。
+- C2：本席复跑 `migrate:content -- --write` 幂等 writes=0/deletes=0/conflicts=0；
+  R13-Z dry-run 重放 digest 与已发布 seal 一致（见 B-1 换签节）。
+
+**D 运行时 + console** ✅
+
+- D1：本席 R13-Z 金丝雀 21 截图已覆盖运行时实机使用（item 151/293 用途、
+  e2493/e2495 触发链、投掷、存档重载、confirm 两臂、enemy-483/519、palette）；
+  GLM 补 reforge `loader-v5.pal` + `script-project-v5` 30/30。
+- D2：本席金丝雀记编辑器/运行时 console 0 error / 0 warning。
+
+**全包回归（本席独立复跑，提交态）**：content **391/391**、editor **798/798**、
+reforge **796/796**、migrate fast **577/577 + 5 skip**、MG2 **0/0/0**；
+canary 2/2 于 B-1 节已复跑。
+
+**结论**：**accept**。清单 A-D 逐项有实证：267/268/270 用途对源、canonical 稳定 id
+选择不反跳、引用分组 + 删除 fail-closed + 保存重开、MG2 零计划、运行时/console 覆盖。
+N3-1 下游门禁收口，交用户验收。
+
+**边界**：本 accept 只收口 N3-1 下游 C8/ED-5I 回归门禁；C8（review）/ED-5I（blocked）
+两卡本卡 done 仍走各自验收流程（C8 done 前 accept 齐；ED-5I 解除 blocked 后 done 前签字），
+本回归 accept 不替代两卡 done 签字。**N3-1 全部门禁至此通过，可交用户验收。**
+
+无下一位 Agent 提示词——后续由用户安排 C8/ED-5I 各自 done 流程与编辑器摘要行 polish 待办。
+
 ##### GLM R13-Z 发布批 B-1 换签复审（2026-08-06）：**accept（B-1/B-2 闭环确认）**
 
 **方法**：只读复审；核 `143c65e3`（fix）+ `fc29b4fe`（docs）两提交 diff，并在当前提交态
