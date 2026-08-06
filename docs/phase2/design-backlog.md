@@ -36,7 +36,7 @@
 
 | # | 议题 | 现状痛点（第一阶段引擎考古实证） | 第二阶段方向 | 归属 | 状态 |
 |---|---|---|---|---|---|
-| 14 | **场景事件 / 脚本系统重构 — 根治子系统共享可变状态** | 原版（及第一阶段忠实复刻）靠 `mode`（explore/event/battle/menu）+ `waiting`（undefined/frame-wait/dialog/fade-screen/scene-load/palette-fade/camera-pan）+ `sceneLoading` + `needToFadeIn` **四个全局标志位交织**，每帧靠 `shouldRunAutoScripts = !sceneLoading && mode==='event' && (w∈{undefined,frame-wait,scene-fade,camera-pan})` 这类组合条件决定跑什么（见 [mode.ts:38-43](../../packages/game/src/core/mode.ts)）。对话 / RNG / 淡入淡出 / 立绘 / 走位 / 跟随者 / 吞键 全共享这组状态 → 任何分支漏判即 bug | **子系统隔离 + 意图通信**：①对话（reforge 已示范纯状态机）；②演出/特效（fade/RNG/分镜）；③奖励/事件（物品获得、世界变量）；④跟随者/走位。各自封装状态，靠 D2 的「意图→纯函数判定→结果」消息通信，不再共享可变全局 | P1 引擎核心 | **方向已定**：架构根因明确（证据见下）；具体消息协议 / 调度模型待设计 |
+| 14 | **场景事件 / 脚本系统重构 — 根治子系统共享可变状态** | 原版（及第一阶段忠实复刻）靠 `mode`（explore/event/battle/menu）+ `waiting`（undefined/frame-wait/dialog/fade-screen/scene-load/palette-fade/camera-pan）+ `sceneLoading` + `needToFadeIn` **四个全局标志位交织**，每帧靠 `shouldRunAutoScripts = !sceneLoading && mode==='event' && (w∈{undefined,frame-wait,scene-fade,camera-pan})` 这类组合条件决定跑什么（见 [mode.ts:38-43](../../packages/game/src/core/mode.ts)）。对话 / RNG / 淡入淡出 / 立绘 / 走位 / 跟随者 / 吞键 全共享这组状态 → 任何分支漏判即 bug | **子系统隔离 + 意图通信**：①对话（纯状态机）；②演出/特效（fade/RNG/分镜）；③奖励/事件（物品获得、世界变量）；④跟随者/走位。各自封装状态，靠「意图→纯函数判定→结果」消息通信，不再共享可变全局 | P1 引擎核心 | **主体已落地（2026-08-06 核实）**：reforge 已隔离 dialogue/fade-driver/input/follower/gameplay-clock/async-intent，script-runner 无 waiting 枚举、AbortSignal 贯穿；N3-1 退役内部脚本。**剩余 = ①对话外观继承子项（见下，作者明确要求）+ ③奖励/事件总线统一收尾（物品提示两套 UI）+ ②演出意图协议完整性（分镜/RNG/镜头 pan）** |
 
 #### 议题 14 的真实 bug 证据（第一阶段 fix 记录考古）
 
