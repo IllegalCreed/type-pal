@@ -57,6 +57,7 @@ import { createScriptReferenceCatalog } from '../core/script-reference-catalog.j
 import {
   type ScriptEditorStateV5,
   type ScriptV5EditSession,
+  AddItemPrivateScriptV5Command,
   SetItemPrivateScriptBodyV5Command,
 } from '../core/script-v5-editor.js'
 import { createAuthoredScriptId } from '../core/shared-script.js'
@@ -952,6 +953,38 @@ export function ItemTab(props: {
     onStatusNotice?.({ kind: 'info', message: `已创建并绑定 ${id}。` })
     onOpenScript?.(id)
   }
+  /** ED-5J:新建物品私有脚本——v5 会话入 canonical 正文,shell 效果链入占位 ref;
+   *  两笔各走各的 undo 栈(撤销链与既有行为一致);每件物品至多一条(schema id='use')。 */
+  const addPrivateScript = (): void => {
+    if (!item || !scriptV5) return
+    const storedItem = scriptV5.session.getState().items.find((candidate) => candidate.id === item.id)
+    const exists = (storedItem?.use?.effects ?? []).some(
+      (effect) => effect.kind === 'itemPrivateScript',
+    )
+    if (exists) {
+      onStatusNotice?.({ kind: 'error', message: `${item.name} 已有私有脚本,每件物品至多一条。` })
+      return
+    }
+    try {
+      scriptV5.session.dispatch(new AddItemPrivateScriptV5Command(item.id, `${item.name}私有脚本`))
+      patchUse({
+        ...item.use!,
+        effects: [
+          ...item.use!.effects,
+          {
+            kind: 'runScript',
+            script: { chunk: '__script-v5-runtime', id: `item:${item.id}:use` },
+          },
+        ],
+      })
+      onStatusNotice?.({ kind: 'info', message: `已新建私有脚本「${item.name}私有脚本」,可直接编辑正文。` })
+    } catch (cause) {
+      onStatusNotice?.({
+        kind: 'error',
+        message: cause instanceof Error ? cause.message : String(cause),
+      })
+    }
+  }
   const importIcon = async (file: File): Promise<void> => {
     if (!item) return
     const targetId = item.id
@@ -1689,6 +1722,7 @@ export function ItemTab(props: {
                     }}
                     scenes={editorState.scenes as readonly SceneDef[]}
                     privateScriptsV5={privateScriptsV5('use')}
+                    onAddPrivateScript={scriptV5 ? addPrivateScript : undefined}
                   />
                 </div>
               ) : (

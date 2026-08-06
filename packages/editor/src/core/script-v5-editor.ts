@@ -1320,6 +1320,34 @@ export class SetItemPrivateScriptBodyV5Command extends SnapshotCommandV5 {
   }
 }
 
+/** ED-5J:新建物品私有脚本(use 槽内联正文,归当前物品拥有;不动共享库)。 */
+export class AddItemPrivateScriptV5Command extends SnapshotCommandV5 {
+  readonly label = '新建物品私有脚本'
+
+  constructor(
+    private readonly itemId: string,
+    private readonly scriptLabel: string,
+  ) {
+    super()
+  }
+
+  protected transform(state: ScriptEditorStateV5): void {
+    const item = state.items.find((candidate) => candidate.id === this.itemId)
+    if (!item) throw new Error(`物品不存在 ${this.itemId}`)
+    const use = item.use ?? { target: 'scene' as const, consuming: true, effects: [] }
+    use.effects ??= []
+    const duplicate = use.effects.some(
+      (effect) => effect.kind === 'itemPrivateScript' && effect.script.id === 'use',
+    )
+    if (duplicate) throw new Error(`${this.itemId}.use 已有私有脚本(每件物品至多一条)`)
+    use.effects.push({
+      kind: 'itemPrivateScript',
+      script: { id: 'use', label: this.scriptLabel, body: [] },
+    })
+    item.use = use
+  }
+}
+
 export class SetEntityHostileOnLoseV5Command extends SnapshotCommandV5 {
   readonly label = '编辑战败后脚本'
 

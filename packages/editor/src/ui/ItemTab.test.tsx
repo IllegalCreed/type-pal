@@ -708,6 +708,102 @@ describe('ItemTab', () => {
     expect(host.textContent).not.toContain('私有正文')
   })
 
+  test('ED-5J 新建私有脚本:按钮创建→双会话入帐→编辑正文→撤销重做→投影含 canonical 正文', async () => {
+    const initial = state([
+      {
+        ...item('private'),
+        name: '私有脚本物品',
+        use: {
+          target: 'scene',
+          consuming: true,
+          effects: [],
+        },
+      },
+    ])
+    initial.shops = []
+    const session = new EditSession(initial)
+    const canonical: ScriptEditorStateV5 = {
+      scenes: [],
+      items: [
+        {
+          id: 'private',
+          name: '私有脚本物品',
+          desc: [],
+          buyPrice: 0,
+          sellPrice: 0,
+          sellable: false,
+          use: {
+            target: 'scene',
+            consuming: true,
+            effects: [],
+          },
+        },
+      ],
+      sharedScripts: {},
+      migrationSidecars: [],
+    }
+    const scriptSession = new ScriptV5EditSession(canonical)
+    await act(async () =>
+      root.render(
+        <Harness session={session} scriptV5={{ state: canonical, session: scriptSession }} />,
+      ),
+    )
+
+    const chain = host.querySelector('.item-effect-chain')!
+    const addButton = button('添加私有脚本', chain)
+    expect(addButton.disabled).toBe(false)
+    await act(async () => addButton.click())
+
+    expect(session.getState().items[0]!.use!.effects).toMatchObject([
+      { kind: 'runScript', script: { chunk: '__script-v5-runtime', id: 'item:private:use' } },
+    ])
+    expect(scriptSession.getState().items[0]!.use!.effects).toMatchObject([
+      {
+        kind: 'itemPrivateScript',
+        script: { id: 'use', label: '私有脚本物品私有脚本', body: [] },
+      },
+    ])
+    expect(host.textContent).toContain('私有脚本物品私有脚本')
+    // 已存在一条后入口禁用(每件物品至多一条)
+    expect(button('添加私有脚本', chain).disabled).toBe(true)
+
+    // 编辑正文:添加一条指令
+    await act(async () => button('添加第一条指令', host).click())
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[data-command-kinds="setFlag"]')!.click(),
+    )
+    const stored = scriptSession.getState().items[0]!.use!.effects[0]
+    expect(stored?.kind).toBe('itemPrivateScript')
+    if (stored?.kind !== 'itemPrivateScript') throw new Error('新建行未绑定正文')
+    expect(stored.script.body).toHaveLength(1)
+
+    // 投影(保存链同构)应含 canonical 私有正文
+    expect(
+      projectActiveScriptEditorStateV5(scriptSession.getState(), session.getState().items).items[0]!
+        .use!.effects,
+    ).toMatchObject([{ kind: 'itemPrivateScript', script: { id: 'use' } }])
+
+    // 双会话各自撤销:shell 行与 canonical 正文都可回滚,重做均恢复
+    await act(async () => session.undo())
+    expect(session.getState().items[0]!.use!.effects).toHaveLength(0)
+    // v5 侧两笔(新建 + 正文编辑):第一笔 undo 回滚正文编辑,第二笔回滚新建
+    await act(async () => scriptSession.undo())
+    const afterBodyUndo = scriptSession.getState().items[0]!.use!.effects[0]
+    expect(afterBodyUndo?.kind).toBe('itemPrivateScript')
+    if (afterBodyUndo?.kind !== 'itemPrivateScript') throw new Error('正文编辑未回滚')
+    expect(afterBodyUndo.script.body).toHaveLength(0)
+    await act(async () => scriptSession.undo())
+    expect(scriptSession.getState().items[0]!.use!.effects).toHaveLength(0)
+    await act(async () => session.redo())
+    await act(async () => scriptSession.redo())
+    await act(async () => scriptSession.redo())
+    expect(session.getState().items[0]!.use!.effects).toMatchObject([{ kind: 'runScript' }])
+    const restored = scriptSession.getState().items[0]!.use!.effects[0]
+    expect(restored?.kind).toBe('itemPrivateScript')
+    if (restored?.kind !== 'itemPrivateScript') throw new Error('重做后正文丢失')
+    expect(restored.script.body).toHaveLength(1)
+  })
+
   test('同一物品的私有脚本引用可按 revision 重复定位并明显高亮目标指令', async () => {
     vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
       callback(0)

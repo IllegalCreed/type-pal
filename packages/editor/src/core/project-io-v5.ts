@@ -156,36 +156,51 @@ function mergeItemEffectsV5(
   slot: 'use',
   shellEffects: NonNullable<ItemData['use']>['effects'],
   canonical: ItemDataV5 | undefined,
+  /** 投影(渲染/扫描)容忍 undo 中间态:shell ref 尚在、正文刚被撤销时丢弃该 ref 而非抛错;
+   *  保存链不传此参,缺正文仍 fail-loud。 */
+  tolerateMissingPrivateScript = false,
 ): NonNullable<ItemDataV5['use']>['effects'] {
   const canonicalPrivateScripts = new Map(
     (canonical?.[slot]?.effects ?? []).flatMap((effect) =>
       effect.kind === 'itemPrivateScript' ? [[effect.script.id, effect] as const] : [],
     ),
   )
-  return shellEffects.map((effect, index) => {
-    if (effect.kind !== 'runScript') return structuredClone(effect)
+  return shellEffects.flatMap((effect, index): NonNullable<ItemDataV5['use']>['effects'] => {
+    if (effect.kind !== 'runScript') return [structuredClone(effect)]
     if (!isV5RuntimeScriptRef(effect.script))
       throw new Error(
         `mergeLegacyEditorShellIntoV5: ${itemId}.${slot}.effects[${index}] 是 legacy ScriptRef，v5 只接受稳定 shared script id`,
       )
     const privatePrefix = `item:${itemId}:`
     if (!effect.script.id.startsWith(privatePrefix))
-      return { kind: 'runScript', script: effect.script.id }
+      return [{ kind: 'runScript', script: effect.script.id }]
     const privateId = effect.script.id.slice(privatePrefix.length)
     const source = canonicalPrivateScripts.get(privateId as 'use')
-    if (!source)
+    if (!source) {
+      if (tolerateMissingPrivateScript) return []
       throw new Error(
         `mergeLegacyEditorShellIntoV5: ${itemId}.${slot}.effects[${index}] 的私有脚本 ${privateId} 不存在`,
       )
-    return structuredClone(source)
+    }
+    return [structuredClone(source)]
   })
 }
 
-function mergeItemShellV5(shell: ItemData, canonical: ItemDataV5 | undefined): ItemDataV5 {
+function mergeItemShellV5(
+  shell: ItemData,
+  canonical: ItemDataV5 | undefined,
+  tolerateMissingPrivateScript = false,
+): ItemDataV5 {
   const use: ItemDataV5['use'] = shell.use
     ? {
         ...structuredClone(shell.use),
-        effects: mergeItemEffectsV5(shell.id, 'use', shell.use.effects, canonical),
+        effects: mergeItemEffectsV5(
+          shell.id,
+          'use',
+          shell.use.effects,
+          canonical,
+          tolerateMissingPrivateScript,
+        ),
       }
     : undefined
   const thrown: ItemDataV5['throw'] = shell.throw ? structuredClone(shell.throw) : undefined
@@ -208,7 +223,9 @@ export function projectActiveScriptEditorStateV5(
   const canonicalItems = new Map(canonical.items.map((item) => [item.id, item]))
   return {
     ...structuredClone(canonical),
-    items: shellItems.map((item) => mergeItemShellV5(item, canonicalItems.get(item.id))),
+    // 渲染/扫描投影容忍 undo 中间态(正文刚撤、ref 尚在);保存链(mergeLegacyEditorShellIntoV5)
+    // 不传容忍参数,缺正文仍 fail-loud。
+    items: shellItems.map((item) => mergeItemShellV5(item, canonicalItems.get(item.id), true)),
   }
 }
 

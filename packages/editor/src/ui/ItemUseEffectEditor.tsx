@@ -1003,6 +1003,8 @@ interface ItemUseEffectChainEditorProps {
   onChange: (next: UseSpec) => void
   onOpenScript?: (id: string) => void
   onCreateAndBindScript?: () => void
+  /** ED-5J:新建物品私有脚本(use 槽);提供时在「添加效果」旁显示入口。 */
+  onAddPrivateScript?: () => void
   onError?: (message: string) => void
   worldResources?: Readonly<Record<string, number>>
   onSetWorldResource?: (resource: string, initialValue: number) => void
@@ -1291,6 +1293,25 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
       >
         ＋ 添加效果
       </button>
+      {props.onAddPrivateScript ? (
+        <button
+          type="button"
+          className="item-action-button item-add-effect item-add-private-script"
+          disabled={
+            use.effects.some(isPrivateScriptEffect) ||
+            !compatibleChain([
+              ...use.effects,
+              {
+                kind: 'runScript',
+                script: { chunk: '__script-v5-runtime', id: `item:${props.itemId ?? ''}:__probe__` },
+              },
+            ])
+          }
+          onClick={() => props.onAddPrivateScript?.()}
+        >
+          ＋ 添加私有脚本
+        </button>
+      ) : null}
     </div>
   )
 }

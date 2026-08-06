@@ -9,6 +9,7 @@ import type {
 import { describe, expect, test } from 'vitest'
 import {
   AddEntityBehaviorV5Command,
+  AddItemPrivateScriptV5Command,
   AddSceneHookV5Command,
   AddSharedScriptV5Command,
   behaviorReferencesV5,
@@ -655,6 +656,29 @@ describe('canonical script v5 editor commands', () => {
       script: {
         body: [{ kind: 'selectEntityBehavior' }],
       },
+    })
+  })
+
+  test('ED-5J: creates an item-private script, rejects a duplicate, undoes and redoes', () => {
+    const base = editorState()
+    base.items[0]!.use = { target: 'scene', consuming: true, effects: [] }
+    const session = new ScriptV5EditSession(base)
+    session.dispatch(new AddItemPrivateScriptV5Command('private', '私有脚本物品私有脚本'))
+    expect(session.getState().items[0]!.use!.effects).toMatchObject([
+      {
+        kind: 'itemPrivateScript',
+        script: { id: 'use', label: '私有脚本物品私有脚本', body: [] },
+      },
+    ])
+    expect(() =>
+      session.dispatch(new AddItemPrivateScriptV5Command('private', '再来一条')),
+    ).toThrow(/已有私有脚本/)
+    expect(session.undo()).toBe(true)
+    expect(session.getState().items[0]!.use!.effects).toHaveLength(0)
+    expect(session.redo()).toBe(true)
+    expect(session.getState().items[0]!.use!.effects[0]).toMatchObject({
+      kind: 'itemPrivateScript',
+      script: { id: 'use', label: '私有脚本物品私有脚本', body: [] },
     })
   })
 
