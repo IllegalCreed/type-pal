@@ -3,7 +3,7 @@
   "version": 1,
   "methodVersion": "migrate-pal-oracle-v1",
   "generatorEpoch": "n3-script-v5-p7-v1",
-  "managedFiles": 544,
+  "managedFiles": 546,
   "transitions": {
     "script-v4-v5": {
       "digest": "9b01dea89f4d567663ad64e03017d1ecdbdb01fb1540e6798a931f47900f4901",
@@ -59,6 +59,20 @@
       "fileSha256": "3c0fa680cfd9ebec377aa361721ce11dab34234bcb9c77932a3aff7d33e5d8da",
       "parentDigest": "54804a6c69e644e9c44fd98fd489d0f73eee6580c4ffc3c3753322074361fab6",
       "kind": "r13-source-semantics-transition",
+      "version": 1
+    },
+    "r13-6c-lossy-closure-v1": {
+      "digest": "82e9f8f343b946b6c313b9995b2588d4ee44484d5a3bfef8e36ba7c367db06a2",
+      "fileSha256": "177537fe1013aa30d518b855d4b189a7df618500f787edd25ce43e7cc430b280",
+      "parentDigest": "0d52087bfcd78265b01d8eee94a4ca5f089a709ebb76934c30845061e9e52567",
+      "kind": "r13-6c-lossy-closure-transition",
+      "version": 1
+    },
+    "r13-z-source-closure-v1": {
+      "digest": "e530e253387b04859db29fa979c493bb880f7cf80a4d26919c254290bdf674a0",
+      "fileSha256": "979cd4ea3a969d211114b35a95146642f5a39c4dcae33a28d8d265a2f8e7c25b",
+      "parentDigest": "0d52087bfcd78265b01d8eee94a4ca5f089a709ebb76934c30845061e9e52567",
+      "kind": "r13-z-source-closure-transition",
       "version": 1
     }
   },

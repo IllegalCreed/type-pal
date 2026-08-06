@@ -1,0 +1,40 @@
+{
+  "kind": "r13-6c-lossy-closure-transition",
+  "version": 1,
+  "projectId": "pal",
+  "transitionId": "r13-6c-lossy-closure-v1",
+  "parent": {
+    "transitionId": "r13-source-semantics-v1",
+    "digest": "0d52087bfcd78265b01d8eee94a4ca5f089a709ebb76934c30845061e9e52567"
+  },
+  "closure": {
+    "version": 1,
+    "methodVersion": "n3-p7-r13-6c-lossy-closure-v1",
+    "closures": [
+      {
+        "skillId": "352",
+        "evidenceDigest": "1b1c21f653a403f14cb833de74740618427166ca1a2afffbcfcb96ea062ec430",
+        "sourceClosureDigest": "b7ed950efa5e8b8925a72b181100055f3e28406f73b0a927cd5e520d4e9cd7b1",
+        "finalTargetDigest": "dc4adb0f105bed973c3f295bded63a1abf9dd281e9f7d68257f944f4446cbffe"
+      },
+      {
+        "skillId": "372",
+        "evidenceDigest": "318b9b8356ae63488560a88330584d142bd6dc14421c7399a0284f4b55238485",
+        "sourceClosureDigest": "792635d7c24f6e5d8d404b0767e346599866a67efaf335e5b985a737df20e9a2",
+        "finalTargetDigest": "ac3ea9d1fa740846ba4443e2b495d568e9efc2831bfe8b9a7c85d00101312c37"
+      },
+      {
+        "skillId": "373",
+        "evidenceDigest": "9961c7d49c41688bc34a05bf901a949cc192a11f802e32b79f2e17cc81fd1114",
+        "sourceClosureDigest": "b74c74182611c4342a99b02c2077bedc083c3149bd3879cd06adf4feb180431e",
+        "finalTargetDigest": "30d53f3d5fdac6b1f6828b4b1e869734e7a82e11ae99170c4fdcab66729f1119"
+      }
+    ],
+    "finalContentDigest": "d7defbb2b4416c915ebcf0f3b18120a8ae83cba011721248f921d1f1d808b654",
+    "summary": {
+      "lossyClosed": 3,
+      "openObservations": 0
+    }
+  },
+  "digest": "82e9f8f343b946b6c313b9995b2588d4ee44484d5a3bfef8e36ba7c367db06a2"
+}

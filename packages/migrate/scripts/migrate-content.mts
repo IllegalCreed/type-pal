@@ -71,6 +71,8 @@ import {
 import {
   createR13ZMigrationPlan,
   type R13ZMigrationPlan,
+  R13_Z_SEAL_PATH,
+  R13_Z_TRANSITION_ID,
   resolveR13ZSourceSemanticsClosure,
 } from '../src/experimental/script-v5/r13-z-transition-mg2.js'
 import {
@@ -144,6 +146,7 @@ import { rewindPalR13SixBPublication } from '../src/pal-r13-six-b-rewind.js'
 import {
   buildR13SixCSeal,
   installR13SixCSeal,
+  R13_SIX_C_SEAL_PATH,
   rewindPalR13SixCPublicationIfPresent,
 } from '../src/pal-r13-six-c.js'
 import { R13_SOURCE_SEMANTICS_TRANSITION_ID } from '../src/experimental/script-v5/r13-source-semantics-mg2.js'
@@ -330,6 +333,33 @@ async function runR13SixBTransition(
  * disposition from live extracted input with the explicit throw-site gate, then let the new
  * authority append a seal to the baseline.  No project file or manifest is a publication target.
  */
+/**
+ * runtime 审计用的"发布前表面":剥掉本事务新增的 6C + R13-Z seal(保留历史
+ * _transitions),避免 runtime content digest 自我引用——发布后重放若把新 seal
+ * 计入 digest,则 published seal 与 authority 必然不符。
+ */
+function stripR13ZPublishSeals(source: MigrationSnapshot): MigrationSnapshot {
+  const rewound = rewindPalR13SixCPublicationIfPresent(source)
+  const snapshot = {
+    files: new Map(rewound.files),
+    managedFiles: new Set(rewound.managedFiles),
+    ...(rewound.hashes ? { hashes: new Map(rewound.hashes) } : {}),
+    ...(rewound.baselineMetadata
+      ? {
+          baselineMetadata: {
+            ...rewound.baselineMetadata,
+            transitions: { ...rewound.baselineMetadata.transitions },
+          },
+        }
+      : {}),
+  }
+  snapshot.files.delete(R13_Z_SEAL_PATH)
+  snapshot.managedFiles.delete(R13_Z_SEAL_PATH)
+  snapshot.hashes?.delete(R13_Z_SEAL_PATH)
+  delete snapshot.baselineMetadata?.transitions[R13_Z_TRANSITION_ID]
+  return snapshot
+}
+
 async function runR13ZTransition(
   manifestText: string,
   write: boolean,
@@ -392,6 +422,10 @@ async function runR13ZTransition(
   // 但 ambiences.json 是 authored 文件、不在 baseline managedFiles。把它并入
   // successorFinal 快照,证据才能绑定实际染色定义。
   const successorFiles = new Map(currentMigration.files)
+  // R13-Z 发布后 baseline 携带本事务新增的 6C/R13-Z seal:source disposition 的
+  // successorFinal 必须用"发布前表面"(剥这两个 seal、保留历史 _transitions),
+  // 否则重放时 final 内容变化 → reportDigest 漂移 → published seal 不符。
+  for (const path of [R13_SIX_C_SEAL_PATH, R13_Z_SEAL_PATH]) successorFiles.delete(path)
   const ambienceDefsPath = resolve(repo, 'projects/pal/content/ambiences.json')
   successorFiles.set(
     'content/ambiences.json',
@@ -405,7 +439,11 @@ async function runR13ZTransition(
     final: sixAClosure.augmentationSnapshot,
     successorFinal: {
       files: successorFiles,
-      managedFiles: currentMigration.managedFiles,
+      managedFiles: new Set(
+        [...currentMigration.managedFiles].filter(
+          (path) => path !== R13_SIX_C_SEAL_PATH && path !== R13_Z_SEAL_PATH,
+        ),
+      ),
     },
     r13EnemyClosure: {
       sourceDisposition: r13Five.augmentation.enemySourceDisposition,
@@ -434,7 +472,10 @@ async function runR13ZTransition(
     base: baseline,
     ours,
     sourceDispositionBuild,
-    runtimeFinal: baseline,
+    // R13-Z 发布后 baseline 携带本事务新增的 6C/R13-Z seal:runtime 审计必须用
+    // "发布前表面"(剥 6C + R13-Z seal、保留历史 transitions),否则 runtime
+    // digest 自我引用(加 seal 即变),重放时 published seal 与 authority 不符。
+    runtimeFinal: stripR13ZPublishSeals(baseline),
   })
   if (r13SixC) {
     // R13-6C 与 R13-Z 同一磁盘事务发布:R13-Z seal 已在 createR13ZMigrationPlan 内
