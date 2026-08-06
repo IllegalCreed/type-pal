@@ -8195,6 +8195,83 @@ oracle manifest 的 producer-code 指纹与 src 不符，导致 canary 1/2、fas
 输出: accept（含 B-1/B-2 闭环确认）或维持 counter 的具体理由。
 ```
 
+##### GLM R13-Z 发布批 B-1 换签复审（2026-08-06）：**accept（B-1/B-2 闭环确认）**
+
+**方法**：只读复审；核 `143c65e3`（fix）+ `fc29b4fe`（docs）两提交 diff，并在当前提交态
+（HEAD=39f05003，工作树干净）独立复跑 pal-oracle / canary / fast / dry-run 重放。未修改
+实现/产物/baseline/seal（返工两提交确只动 manifest.json + 任务卡）。
+
+**B-1 闭环确认（独立复跑实证）**
+
+1. **返工范围正确** ✅：`143c65e3` 只改 `manifest.json` 的 producer-code 指纹
+   （bytes 2626381→**2626374**、sha256 56822709…→**541ee36f…**、files 116 不变）；
+   `fc29b4fe` 只改任务卡一行。**projection.json 未动、projectionSha256 未动**
+   （仍 fa0d3040…）、published-baseline 指纹未动（仍 8a1b1746…/324/63842717）。
+   即返工只修 B-1 失配的指纹本身，未触碰发布内容/seal/runtime 逻辑。
+2. **根因说明自洽** ✅：Codex 记「最后一次 test:oracle:update 后回退 r13-z-transition-mg2.ts
+   的 `contentSnapshot` export（-7 字节 = "export "），src 变但未重算指纹」——7 字节差与
+   "export " 前缀长度一致，方向自洽。本会话字节口径实测与 Codex/Kimi 一致（2626374）。
+3. **门禁实测全绿（本会话独立复跑，提交态）**：
+   - pal-oracle：`pal-test-oracle.test.ts` 2/2 ✓（pins P7→R13 链 + rejects self-edit；此前 B-1
+     两测红，现已过）。
+   - `test:canary` 2/2 ✓（producer rebuild 命中 R13-6A golden + live authority 重放同 seal
+     零写；此前 1/2，现已过）。
+   - `test:fast` **79 files / 577 passed / 5 skipped** ✓（此前 78/79、2 测红，现已过；与本卡
+     及换签提示词所称一致）。
+   - `--r13-z --r13-6c --r13-6d` dry-run 重放：6C seal=82e9f8f3… / source=be069130… /
+     runtime=0a67ee07… / open=0/0 / refused=0 issues=0，与已发布 seal 逐字节一致 ✓。
+4. **seal/baseline 未受返工影响** ✅：`_state.json` transitions 仍 6C=82e9f8f3… /
+   R13-Z=e530e253… / parent=0d52087b…，与发布提交 9b26d784 一致。
+
+**B-2 闭环确认**：自验「canary 2/2 + fast 79/577」现经提交态独立复跑为真，证据不实问题已消除；
+过程教训（发布提交落定后必须以提交态重跑 canary/fast、不沿用中间态绿）已写入卡内发布纪律。
+
+**关于 sha256 记录差（本席 vs Codex/Kimi）**：本席两轮手算当前 src 树 sha256=6d90a8e7…
+（与 Codex/Kimi 的 541ee36f… 不同，bytes 2626374 三方一致）。此差已在 Kimi counter 节与本卡
+「Codex B-1 返工」节记录并定性为「不影响结论的工作树差异」。**本 accept 不以任何一侧手算值为据，
+而以项目自带 `fingerprintPalTestOracleTree`（pal-test-oracle.ts:466-478）的生产实测为准**——
+pal-oracle/canary/fast 三处门禁全绿即证明 manifest pin 与项目自带的指纹算法自洽。手算值差异
+（疑似文件排序/枚举口径）属本席复算工具局限，非发布缺陷。
+
+**A1–A6 仍无反例**（此前审查已立）：6C/R13-Z seal 内容对源、事务边界 fail-closed、重放一致性
+修复正确且无更优替代、oracle 结构收口（TRANSITION_IDS/managedFiles 544→546/projection）、
+冻结门禁（frozen audit / 86bbb33f / 6C-6D 证据字节）未动。
+
+**结论**：**accept**。B-1（manifest 指纹失配）经 Codex 返工（143c65e3）+ 提交态复跑全绿闭环；
+B-2（自验不实）随之消除、纪律已入卡。R13-Z 发布批三方审查齐（Codex 自验 + Kimi/GLM 换签），
+**发布批本身通过**。
+
+**边界**：本 accept 只收口 R13-Z 发布批。**不得标 N3-1/C8/ED-5I done**——剩余 = C8/ED-5I
+联合验收（N3-1 全部门禁通过后由用户验收）+ 编辑器摘要行 polish 待办。
+
+无下一位 Agent 提示词——R13-Z 发布批已三方收口，后续 C8/ED-5I 联合验收由用户安排。
+
+##### Kimi R13-Z 发布批 B-1 换签复审（2026-08-06）：**accept（B-1/B-2 闭环确认）**
+
+只读复审；未修改实现/产物/baseline/seal。核 `143c65e3`+`fc29b4fe` diff（只动
+manifest.json 指纹与任务卡）+ 干净提交态（HEAD=39f05003）独立复跑。
+
+**闭环确认**：
+
+- **指纹 pin 与本座复算逐值一致** ✅：manifest producer-code = files=116 /
+  bytes=2626374 / sha256=**541ee36f…**——与本座 B-1 审查时的两次独立复算
+  （项目自带 `fingerprintPalTestOracleTree` + Python 独立实现）逐值一致。
+  GLM 手算差值（6d90a8e7…）经其自证为复算工具局限，三方以项目自带函数与
+  门禁绿为准，记录关闭。
+- **根因说明自洽** ✅：「回退 contentSnapshot export（-7 字节）后未重算指纹」
+  与本座实测的 pin>tree 7 字节方向一致。
+- **提交态独立复跑全绿** ✅：`test:fast` 79 files / 577 passed / 5 skipped
+  （31.72s，pal-oracle 两测恢复过）；`test:canary` **2/2**（290.99s——producer
+  rebuild 命中 R13-6A golden 且 closure 保持 + live authority 重放同 seal 零写）；
+  flagged dry-run exit=0。
+- **返工范围正确** ✅：两提交只动 manifest.json 指纹与任务卡；projection、
+  _state.json transitions（6C=82e9f8f3…、R13-Z=e530e253…）与 seal 文件未受触碰。
+
+**结论**：B-1 闭环、B-2 随「提交态复跑为真 + 纪律入卡」消除。本席 **counter 改签
+accept**——R13-Z 发布批三方审查齐（Codex 自验 + GLM/Kimi 换签），发布批通过。
+**不得标 N3-1/C8/ED-5I done**；剩余 = C8/ED-5I 联合验收 + 编辑器摘要行 polish 待办。
+无下一位 Agent 提示词——后续由用户安排。
+
 ##### 给 Kimi / GLM 的 R13-6C+6D 实现复审提示词（下一位 Agent 可直接复制）
 
 ```text
