@@ -8370,6 +8370,20 @@ N3-1 下游门禁收口，交用户验收。
 
 无下一位 Agent 提示词——后续由用户安排 C8/ED-5I 各自 done 流程与编辑器摘要行 polish 待办。
 
+##### Codex 回归补记（2026-08-06，应 GLM 记录项补齐三签记录）
+
+提交态（HEAD=543e1d29 后）独立复跑：
+
+- content **391/391**、editor **798/798**（含 ItemTab/item-references/ItemUseEffectEditor）、
+  reforge **796/796**（含 battle-casualty 14 测）、migrate fast **577/577 + 5 skip**、
+  canary **2/2**（发布批 B-1 节已复跑）、默认 `migrate:content` dry-run
+  writes=0/deletes=0/conflicts=0、`--r13-z --r13-6c --r13-6d` 重放源账 be069130…/
+  运行时 0a67ee07… 与已发布 seal 一致（发布批已证）。
+- A 物品用途：267/268/270 语义由 C8 包迁移 oracle 与 editor 结构化卡测试覆盖；
+  D 实机使用/投掷/存档重载由 Kimi R13-Z 金丝雀 21 截图覆盖；console 0 error。
+- 结论：Codex 回归结论 **accept**（与 GLM/Kimi 独立同结论）。三签记录齐，
+  N3-1 下游门禁收口，交用户验收。
+
 ##### GLM R13-Z 发布批 B-1 换签复审（2026-08-06）：**accept（B-1/B-2 闭环确认）**
 
 **方法**：只读复审；核 `143c65e3`（fix）+ `fc29b4fe`（docs）两提交 diff，并在当前提交态
