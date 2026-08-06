@@ -8159,7 +8159,7 @@ oracle manifest 的 producer-code 指纹与 src 不符，导致 canary 1/2、fas
 - **提交态复跑全绿**：`test:fast` 79 files / 577 passed / 5 skipped；
   `test:canary` 2/2（producer rebuild 命中 golden + live authority 重放同 seal
   零写）；`--r13-z --r13-6c --r13-6d` dry-run 重放源账 be069130…/运行时
-  0a67ee07… 与已发布 seal 一致（B-1 闭环后补跑确认，见后）。
+  0a67ee07… 与已发布 seal 一致（提交 143c65e3 后提交态补跑确认）✅。
 - **过程教训（Kimi B-2 采纳）**：发布提交落定后必须以提交态重跑 canary/fast，
   不沿用中间态绿；已写入本卡发布流程纪律。
 
