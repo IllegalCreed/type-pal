@@ -10,17 +10,8 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| N3-1 | 结构化控制流、实体具名行为与内部脚本退役 | review | R13-Z 发布批三方 accept 齐（B-1/B-2 闭环）；剩余 = C8/ED-5I 联合验收（下游回归门禁）+ 编辑器摘要行 polish | 6C+R13-Z seal 入 baseline；canary 2/2、fast 79/577、重放幂等；待用户安排联合验收 |
-| R13-CANARY | R13-Z 闭包批次 canary 父账重建漂移 | done | 三方 accept 齐（2026-08-06）；face-gate cheap 单测为记录性后续 | canary 2/2 绿、frozen golden 逐字节还原；R13-Z 正式发布仍 blocked on 剩余门禁 |
-| C8 | 物品用途机制、运行时与迁移闭环 | review | 等待 N3-1 完成后交用户联合验收 | `0d4aa48b` 三方最终 accept 已齐；100/0、20 件/21 根及引用反跳均通过审查 |
 | W9 | 实体暂离、重现与明雷逃跑冷却 | draft | 先冻结精确状态机，再由 Kimi / GLM 设计审查 | 18b 二次真值核对补入 0x4B 手动确认、0x52 toggle、world-update pause、敌逃/terminate success；Codex 签字撤回 pending，未准入 build |
 | B10-1 | 混乱敌人攻击同伴 | draft | 先冻结语义空槽 schema，再由三方设计签字 | 18a 二次真值核对补入 confused 前废弃玩家抽样；二阶段已压掉 68/380 队源空槽，不能用活目标分布冒充 RNG 忠实，Codex 签字 pending |
-
-## 阻塞
-
-| ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
-|---|---|---|---|---|
-| ED-5I | 物品工作台 CRUD、图标、用途与引用闭环 | blocked | N3-1 最终 accept 后 Codex 跑 canonical v5 回归并发起三方补签 | `0d4aa48b` 已关闭本次反跳反例；仍须按终态重验脚本选择/引用闭包/删除/保存 |
 
 ## 看板规则
 

@@ -1,6 +1,6 @@
 # C8 - 物品用途机制、运行时与迁移闭环
 
-Status: review
+Status: done（2026-08-06 用户联合验收确认 + N3-1 下游回归 accept；三方 done accept 齐）
 Phase: phase2
 Capability: C8（物品用途与机制）/ MG2
 Coding Owner: Codex
@@ -502,7 +502,10 @@ ledger 级反例；R1-R8 为 build 必落钉。
 | Kimi | **accept** | 2026-07-26 | 只读终审通过（父候选 `88277465` + editor delta `0d4aa48b`）：R1-R8 逐钉核实、事务/seal 抽查、100/0 与 dry-run 独立复算、P7 ledger/sidecar 哈希实测不变、运行时零 PAL id 特判；migrate 超时定性为 CPU 争用（限流复跑 33/33 绿）。证据与记录项见「Kimi C8-R2 done 审查」。 |
 | GLM | **accept（含 editor delta）** | 2026-07-26 | 已对父候选 `88277465` 的 100/0、20 件、C8 seal/MG2、content/reforge/editor 核心矩阵签 `accept`（证据完整保留在下节）；最终候选 `0d4aa48b` 的 editor 引用导航 delta 独立补审通过——同页重复定位（revision 奇偶 class）、场景跨页精确定位（scene+entity+drawer+command path）、目标滚入可视区（scrollIntoView center）、重渲染竞态（rAF revision guard 不取消帧）、reduced-motion（media query animation:none）五项逐项成立；editor 91 files / 766 tests passed，reference-navigation 25/25 isolated pass。 |
 
-- 当前 done 准入：**blocked on N3-1/用户联合验收**（Kimi + GLM 均已 accept，含 editor delta）。
+- 当前 done 准入：**done allowed（2026-08-06）**——三方 done accept 齐（Codex/Kimi/GLM
+  含 editor delta）；N3-1 终态 + 下游回归 accept（GLM/Kimi/Codex A-D，覆盖 267/268/270
+  用途、canonical 脚本选择不反跳、引用闭包/删除守卫/保存重开、MG2 零计划、运行时金丝雀）；
+  用户确认性验收通过。
 
 ### GLM C8-R2 core done 前复审（`88277465`，2026-07-26）
 

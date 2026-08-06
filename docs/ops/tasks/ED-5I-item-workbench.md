@@ -1,6 +1,6 @@
 # ED-5I - 物品工作台 CRUD、图标、用途与引用闭环
 
-Status: blocked
+Status: done（2026-08-06 N3-1 终态达成 + 下游回归三签 + 用户确认性验收）
 Phase: phase2
 Capability: ED-5 / C3 / C8（依赖）/ A4
 Coding Owner: Codex
@@ -169,11 +169,16 @@ Branch: main
   G1-G5 逐项通过(见「GLM done 审查」节)。无 counter/rework。
 - counter / 返工处理: N/A
 - 缺签豁免: N/A
-- done 准入结论: **blocked（2026-07-24 用户裁决）**。Codex/Kimi/GLM 于 2026-07-22
+- done 准入结论: **blocked（2026-07-24 用户裁决）→ done allowed（2026-08-06）**。
+  Codex/Kimi/GLM 于 2026-07-22
   完成的三方 `accept` 保留为 N3-1 前实现审查证据；N3-1 完成并落地后，必须按 canonical 作者
   脚本模型重新验证物品用途选择、具体脚本反跳、剧情引用闭包、删除 fail-closed 与保存重开，
   再由三方补记回归结论并交用户验收。
-- N3-1 后回归签字: Codex pending / Kimi pending / GLM pending。
+- N3-1 后回归签字: Codex **accept**（2026-08-06，提交态复跑 editor 798/798 含
+  ItemTab/item-references/item-commands/ItemUseEffectEditor/project-io）/
+  Kimi **accept**（2026-08-06 联合验收回归 B2/B3/C1/D 实证 + 编辑器 6010 一手抽查）/
+  GLM **accept**（2026-08-06 联合验收回归 A-D 全过，引用闭包/删除守卫/保存重开逐项）。
+  用户确认性验收通过（2026-08-06）。
 - 2026-07-26 局部回归证据（不替代上述三签）：候选 `0d4aa48b` 已修复物品引用“打开位置”
   缺少可感知反馈及跨场景目标未滚入可视区的问题；App 真实接缝、ItemTab、场景 Workspace 和
   统一正文编辑器均有回归，editor **91 files / 766 tests** 与 Playwright 场景/物品精确反跳、

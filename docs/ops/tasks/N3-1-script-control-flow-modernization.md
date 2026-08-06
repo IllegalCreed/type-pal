@@ -1,6 +1,6 @@
 # N3-1 - 结构化控制流、实体具名行为与内部脚本退役
 
-Status: build
+Status: done（2026-08-06 用户确认性验收通过；全部门禁 + 三方 accept 齐）
 Phase: phase2
 Capability: N2 / N3 / N6 / E2 / MG1 / MG2
 Coding Owner: Codex
@@ -8427,6 +8427,9 @@ migrate fast 577+5skip、canary 2/2。
 
 **用户结论**：pending → 用户确认性签字后，N3-1 收口；C8/ED-5I 卡级 done 由回归
 accept 后各自收口；编辑器摘要行 polish 待办。
+
+**用户结论（2026-08-06）**：用户基于本摘要确认性验收通过。N3-1 收口 done；
+C8/ED-5I 卡级 done 按回归 accept 各自收口；编辑器摘要行 polish 记为后续待办。
 
 ##### GLM R13-Z 发布批 B-1 换签复审（2026-08-06）：**accept（B-1/B-2 闭环确认）**
 
