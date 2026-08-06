@@ -1,6 +1,6 @@
 # ED-5J - 物品私有脚本新建入口（use 能力卡）
 
-Status: build
+Status: done（2026-08-06 用户验收通过；实现审查齐）
 Owner: Kimi
 Reviewer: GLM（异步抽审）
 Phase: phase2
@@ -69,7 +69,8 @@ Capability: ED-5I / C8（依赖）
 ## 推进签字
 
 - build 准入: Kimi（Owner，本卡即实现方案） | Codex N/A | GLM 异步抽审 | 结论 allowed（常规迭代）
-- done 准入: Kimi **accept**（2026-08-06，实现 + 自验，证据见交接） | GLM **accept**（2026-08-06，异步抽审，证据见交接） | 用户验收 pending | 结论 blocked on 用户验收
+- done 准入: Kimi **accept**（2026-08-06，实现 + 自验） | GLM **accept**（2026-08-06 异步抽审） |
+  Codex **accept**（2026-08-06 抽查） | 用户 **accept**（2026-08-06 认可） | 结论 **done allowed**
 
 ## 交接
 
