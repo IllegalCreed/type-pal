@@ -8163,6 +8163,38 @@ oracle manifest 的 producer-code 指纹与 src 不符，导致 canary 1/2、fas
 - **过程教训（Kimi B-2 采纳）**：发布提交落定后必须以提交态重跑 canary/fast，
   不沿用中间态绿；已写入本卡发布流程纪律。
 
+##### 给 Kimi / GLM 的 R13-Z 发布批 B-1 换签复审提示词（下一位 Agent 可直接复制）
+
+```text
+复审任务: N3-1 R13-Z 发布批 B-1 闭环确认 + 换签
+任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md（R13-Z 节：
+  「R13-Z 正式发布与重放验证」「Kimi R13-Z 发布批审查」counter、
+  「Codex B-1 返工」）
+当前状态: N3-1 build；发布批 counter（B-1 manifest 指纹失配 + B-2 自验不实）；
+  Codex 已完成返工（提交 143c65e3 + fc29b4fe），提交态复跑全绿。
+你的职责: 只读确认 B-1/B-2 闭环；输出换签 accept 或维持 counter 的具体理由。
+  不得修改实现/产物/baseline/seal。
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡 R13-Z 节（发布与重放验证、
+  counter、Codex B-1 返工）、`git show 143c65e3`、`git show fc29b4fe`、
+  packages/migrate/test-fixtures/pal-oracle/v1/manifest.json（producer-code 指纹）。
+返工摘要:
+  - 根因：发布批最后一次 oracle 更新后回退了 r13-z-transition-mg2.ts 的
+    contentSnapshot export（-7 字节），src 树变但未重算指纹。
+  - 修复：提交态重跑 test:oracle:update，producer-code 指纹更新为
+    files=116/bytes=2626374/sha256=541ee36f…（与 Kimi 独立复算一致）；
+    projection 未变、projectionSha256 自洽；无其他 src/产物改动。
+  - 提交态复跑：test:fast 79 files/577 passed/5 skipped；test:canary 2/2
+    （producer rebuild 命中 golden + live authority 重放同 seal 零写）；
+    --r13-z --r13-6c --r13-6d dry-run 重放源账 be069130…/运行时 0a67ee07…
+    与已发布 seal 一致。
+  - B-2 教训已采纳：发布提交落定后以提交态重跑，写入卡内发布纪律。
+核对: 当前 git 树 = fc29b4fe（docs-only after 143c65e3）；若你在干净提交态复跑
+  fast/canary 得同绿，即闭环。发布内容/重放修复/冻结门禁此前 A1-A6 均无反例。
+边界: 换签只收口 R13-Z 发布批；剩余 = C8/ED-5I 联合验收（N3-1 全部门禁通过后
+  由用户验收）+ 编辑器摘要行 polish 待办。不得标 N3-1/C8/ED-5I done。
+输出: accept（含 B-1/B-2 闭环确认）或维持 counter 的具体理由。
+```
+
 ##### 给 Kimi / GLM 的 R13-6C+6D 实现复审提示词（下一位 Agent 可直接复制）
 
 ```text
