@@ -8314,6 +8314,17 @@ oracle manifest 的 producer-code 指纹与 src 不符，导致 canary 1/2、fas
    当覆盖**——如实标 267/268/270 实机为留白（非 C8 验收硬条件），投掷/投掷 cap 仍按金丝雀+测试算覆盖。
    **这是对自验口径的一次校正，避免重蹈 R13-Z B-2「证据不实」覆辙。**
 
+**工作树状态披露（自审核加注）**：本审查全部测试在提交态 HEAD=543e1d29、工作树干净时跑（editor
+93/798 等结果落点 17:54-17:57）。**审查期间工作树新增了未提交的 ED-5J 编辑器改动**
+（`packages/editor/` 6 文件，物品私有脚本创建，mtime 19:07-19:08）——本审查**未跑这批改动后的 editor
+测试**（accept 证据是干净提交态的）。已确认这批改动**只动编辑器代码、不碰 `projects/pal/` canonical**
+（267/268/270 仍 itemPrivateScript/craftRecipe/drawFromResourcePool 未变），不影响 A-D 结论。若用户要把
+ED-5J 一并验，须在 ED-5J 落定后重跑 editor 测试——属 ED-5J 自己的门禁，不回溯阻塞本回归。
+
+**解决（2026-08-06 Codex）**：ED-5J 已提交（74d4871b），提交态重跑 editor **93 files / 800 passed**
+（含 ED-5J 2 新测），typecheck 绿；`projects/pal/` canonical 零改动已确认。本加注的复跑要求已满足，
+不影响本回归 A-D 结论。
+
 **结论**：**accept**。C8/ED-5I 下游回归门禁 A-C 逐项实证通过、D1 测试层过；**267/268/270 实机视觉**
 是唯一未跑留白，但按 C8 验收口径（迁移 oracle + 执行器/RNG 测试）不阻塞。投掷/cap、canonical 稳定
 id 选择不反跳、引用分组 + 删除 fail-closed + 保存重开、MG2 零计划、console 均有覆盖。N3-1 下游门禁
