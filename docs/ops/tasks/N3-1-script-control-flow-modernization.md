@@ -8384,6 +8384,50 @@ N3-1 下游门禁收口，交用户验收。
 - 结论：Codex 回归结论 **accept**（与 GLM/Kimi 独立同结论）。三签记录齐，
   N3-1 下游门禁收口，交用户验收。
 
+##### N3-1 用户验收证据摘要 + 验收口径（2026-08-06，Codex 拟，供用户确认性签字）
+
+**验收口径（用户拍板）**：N3-1 是 8 万+ 源执行站点的机械现代化改造，用户不做逐条
+人工核对；用户验收 = 基于「机器 fail-closed 门禁 + 三方 accept + Kimi 浏览器金丝雀」
+的**确认性签字**，覆盖产品层面的拍板是否忠实落地。本口径写入本卡作为该规模改造的
+验收定义。
+
+**一、机器门禁（全部 fail-closed，一项不过即拒发布）**
+
+| 门禁 | 结果 | 证据 |
+|---|---|---|
+| R13-Z 源指令账 | sites=81674，**open=0/0** | digest `be069130…` |
+| R13-Z 运行时矩阵 | cells=442 / uses=62372，refused=0 issues=0 | digest `0a67ee07…` |
+| 6C seal（lossy 闭包） | 已发布 | `82e9f8f3…` |
+| R13-Z seal | 已发布、重放逐字节一致 | `e530e253…` |
+| canary golden（冻结） | 2/2 绿、逐字节还原 | seal `f78b751e…` / authority `193dfb2c…` / input `0f0aa474…` / 源账 `b696c7bd…` |
+| 父账 pin | 未动 | `86bbb33f…` |
+| 冻结审计 | 未动 | `dd42217c…` |
+| 历史 transition byte-pin（8 项） | 未动 | Kimi R13-CANARY 审查已逐项核 |
+| MG2 零计划 | 二跑 + dry-run 0/0/0 | `migrate:content -- --write` 幂等 |
+
+**二、测试全量（提交态）**：content 391/391、editor 798/798、reforge 796/796、
+migrate fast 577+5skip、canary 2/2。
+
+**三、三方签字索引（每批均 Codex 自验 + Kimi/GLM 审查）**
+
+- R13-6C/6D（lossy 闭包 + 段转移 oracle）：设计三方 agree（08-05）→ 实现三方
+  accept（Kimi R1 剥离、GLM 返工确认）。
+- R13-CANARY（canary 父账漂移）：设计 agree（K1-K4）→ 实现 accept → done。
+- R13-Z 发布批：Kimi/GLM counter（B-1 指纹）→ Codex 返工 → 双方换签 accept。
+- 视觉：Kimi accept（21 张截图）。
+- C8/ED-5I 下游回归：GLM/Kimi/Codex 三方 accept（A-D）。
+
+**四、Kimi 浏览器金丝雀（21 张截图，`output/playwright/r13z-*.png`）**：e2493/e2495
+具名行为切换 + 存档重载、onTeleport 动态 hook（item 151）、auto 自环多状态 NPC
+（s001/e25 21 状态）、物品脚本（item 293）、e796/s048/s093、confirm 两臂、
+投掷 cap、enemy-483/519、palette ambience、console 0 error。
+
+**五、用户需确认的产品拍板落地清单**：酒神一生九次限用（JS1）、调色盘弃用由滤镜/
+烘焙替代、伤亡脚本按一阶段真值（B11-1）、混乱敌人/暂离等 draft 卡未在本批范围内。
+
+**用户结论**：pending → 用户确认性签字后，N3-1 收口；C8/ED-5I 卡级 done 由回归
+accept 后各自收口；编辑器摘要行 polish 待办。
+
 ##### GLM R13-Z 发布批 B-1 换签复审（2026-08-06）：**accept（B-1/B-2 闭环确认）**
 
 **方法**：只读复审；核 `143c65e3`（fix）+ `fc29b4fe`（docs）两提交 diff，并在当前提交态
