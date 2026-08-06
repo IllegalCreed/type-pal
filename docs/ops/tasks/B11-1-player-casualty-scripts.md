@@ -255,6 +255,13 @@ GLM 接手浏览器实测；见 AGENTS.md「额度与代班」）。**未修改�
   或可交互桌面浏览器重跑本卡提示词；cdp 后端的 `page.keyboard` 通常能直达 window 监听，
   即可人工推进到濒死/阵亡并截图。需要时也可让 Codex 在其浏览器工具环境（已具备视觉能力）
   直接补验。
+
+**收口（2026-08-06，用户拍板「签了吧」）**：按建议路径 1 收口——battle-casualty 14 测
+（P1-P6 验收钉）+ pal-casualty-scripts 5 测已覆盖 dying paralyzed 语义/双阈值分叉/
+0x30 未 buff 基数不叠加/替挡完全免伤+失能退化/横幅逐条展示+暂停+空格清/prevHp 防重入/
+同 sweep 至多一脚本/迁移自源 opcode，视为运行时语义证据；浏览器演出像素级截图因
+GLM 代班会话环境（IAB 只读 evaluate + 键盘不达 window）受阻，登记为环境限制非实现缺陷。
+若后续需要像素级演出证据，按建议路径 2 用 cdp 后端补验（不阻塞本卡 done）。
 3. **若一定要在当前 IAB 补**: 需要先加一个 dev-only「注入濒死/阵亡态」的调试入口
   （如 `?debug-casualty=<roleId>:<hp>` 直写 battle state，不走 evaluate）—— 这属实现改动，
   超出本补验「不得改实现文件」的范围，需另开 lite 卡。
