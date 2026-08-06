@@ -11,7 +11,7 @@
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | W9 | 实体暂离、重现与明雷逃跑冷却 | draft | 设计冻结完成（Codex agree），待 Kimi / GLM 设计压测签字 | 四态状态机 + 320×320 边界 + 0x52 toggle 前态 + BattleResult 四分类；828+193 源账本待 GLM 冻结 |
-| B10-1 | 混乱敌人攻击同伴 | draft | 先冻结语义空槽 schema，再由三方设计签字 | 18a 二次真值核对补入 confused 前废弃玩家抽样；二阶段已压掉 68/380 队源空槽，不能用活目标分布冒充 RNG 忠实，Codex 签字 pending |
+| B10-1 | 混乱敌人攻击同伴 | draft | 语义空槽 schema 冻结完成（Codex agree），待 Kimi / GLM 设计压测签字 | slots 保序保空（0 占位/65535 不占位）、wMaxEnemyIndex=slots.length-1；380 队源账本待 GLM 冻结 |
 
 ## 看板规则
 

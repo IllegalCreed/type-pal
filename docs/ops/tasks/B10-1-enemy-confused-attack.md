@@ -94,7 +94,8 @@ Branch: main
 
 ### 进入 build 前:设计签字
 
-- Codex: pending（2026-07-30 二次真值核对发现“废弃玩家抽样”与源空槽均不能省；需先冻结空槽 schema / migration 方案）
+- Codex: **agree**（2026-08-06，语义空槽 schema 冻结：0/65535 语义区分、slots 数组
+  保序保空、wMaxEnemyIndex=slots.length-1 全槽抽样、迁移 fail-loud——见设计结论 1）
 - Kimi: pending
 - GLM: pending
 - counter / 分歧处理: N/A
@@ -114,7 +115,21 @@ Branch: main
 
 ### 设计结论
 
-1. 先冻结 `EnemyTeamDef` 的语义槽位表示和迁移方式，确保原始 `0` 槽不会在 content 或 session 初始化时被压紧。不得只在 PAL 特例代码里回查源表。
+1. **冻结语义槽 schema（2026-08-06，源自 battle.c:1595-1658 + fight.c:4489-4517）**：
+   - **`0` 与 `65535` 语义不同**：battle 初始化 `if (w == 0xFFFF) continue`（65535 不占位）；
+     `0` 不满足 `w != 0` 不生成敌人，但 `rgEnemy[i++].wObjectID = w` **占位并计入
+     `wMaxEnemyIndex`**（`wMaxEnemyIndex = i - 1`，i = 非 65535 条目数）。混乱抽样
+     `RandomLong(0, wMaxEnemyIndex)` 在全槽范围迭代，`wObjectID==0`/死槽重抽。
+   - **schema**：`EnemyTeamDef.slots: Array<string | null>` —— 数组长度 = 源编队
+     非 65535 条目数（= wMaxEnemyIndex+1）；每个位置 = 敌人 slug（源有效值）或
+     `null`（源 `0` 空占位）；**顺序与空位保留，不得压紧**。淘汰旧
+     `members: string[]` 压缩列表（spawn 由 slots 派生）。
+   - **迁移**：`mapEnemyTeams` 逐源条目：`65535` → 跳过；`0` → `null` 占位；有效
+     值 → slug；未知 id fail-loud；**空位不压缩、顺序不变**。380 队全量源槽 census
+     （68 队含 `0` 槽、56 队 ≥2 有效敌、总槽数守恒）由 GLM 冻结。
+   - **runtime**：battle 敌槽与 `slots` 一一对应（含 null）；`wMaxEnemyIndex =
+     slots.length - 1`；混乱抽样在 `[0..slots.length-1]` 迭代，null/死重抽、自身 Pass、
+     64 次 failsafe。
 2. `EnemyDecision` 增加内部 `attackMate` 形态，携 `targetEnemyIdx`；runtime battle slots 与语义编队槽一一对应。
 3. `decideEnemyAction` 在无活玩家门之后，先完成一次玩家目标拒绝抽样，再判 sleep/paralyzed/confused；confused 在构建普通 AI view 之前处理。按完整敌槽拒绝空/死槽，64 次仅作异常 RNG fail-safe；抽到自身返回 Pass。
 4. `performEnemyAction` 为 `attackMate` 走独立 helper，使用局部 SHORT cast 与 `calcBaseDamage`；结算后把完整公式伤害写入内部 `lastAction.damage`。
@@ -171,17 +186,24 @@ Branch: main
 
 - 2026-07-30 Codex: 对照一阶段机制文档、实现与 SDLPal 完成只读审计；确认缺口覆盖 decision、结算、lastAction、session 路由和专用动画，而非单一 if 分支。
 - 2026-07-30 Codex 二次真值核对: 初稿漏了 confused 前废弃玩家目标抽样；同时发现二阶段已压掉 68/380 队的原始空槽。已撤回 Codex 设计签字并把 slot schema / migration 纳入门禁。Next: 先冻结精确槽位方案，再由三方设计签字。
+- 2026-08-06 Codex: 语义空槽 schema 冻结完成（battle.c:1595-1658 一手核实）：
+  `0` 占位计入 wMaxEnemyIndex、`65535` 不占位（`if (w == 0xFFFF) continue`）；
+  `EnemyTeamDef.slots: Array<string|null>` 保序保空，length = 非 65535 条目数；
+  迁移 65535→跳过/0→null/有效→slug，未知 id fail-loud；runtime wMaxEnemyIndex=
+  slots.length-1，混乱抽样全槽重抽。Next: Kimi/GLM 设计压测签字。
 
 ## 下一位 Agent 提示词
 
 ```text
 接手任务: B10-1 混乱敌人攻击同伴
 任务卡: docs/ops/tasks/B10-1-enemy-confused-attack.md
-当前状态: draft（build 准入 blocked）
+当前状态: draft（build 准入 blocked；Codex 语义空槽 schema 冻结完成，见设计结论 1）
 你的角色: Kimi 审战斗分层/表现路由；GLM 审公式真值/测试覆盖
 先读: AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、docs/phase1/game-mechanics.md:833-883，以及任务卡列出的一阶段实现和 fight.c 锚点
-已完成: Codex 已完成二次真值核对；明确必须保留 confused 前废弃玩家抽样，并发现当前 content/migration 压掉 68/380 队的源空槽
-请你做: 独立核对完整 RNG 顺序、EnemyTeam 语义槽 schema / migration、公式与表现；冻结方案后在任务卡写 agree，或 counter + 必改理由
+已完成: 二次真值核对（废弃玩家抽样 + 68/380 源空槽）+ 语义槽 schema 冻结
+  （0 占位/65535 不占位、slots 数组保序保空、wMaxEnemyIndex=slots.length-1）
+请你做: 独立核对完整 RNG 顺序、slots schema/migration 的 380 队源账本、
+  公式与表现；冻结方案后在任务卡写 agree，或 counter + 必改理由
 不要做: 不得修改实现文件，不得以“活目标分布相同”替代 RNG 忠实，不得改变玩家混乱或 W9 生命周期，不得在三签前标 build
 输出要求: 更新设计签字、主审立场、争议处理和下一位提示词
 ```
