@@ -8284,24 +8284,40 @@ oracle manifest 的 producer-code 指纹与 src 不符，导致 canary 1/2、fas
 - C2 MG2 零计划：`migrate:content -- --write` 实跑 **writes=0 deletes=0 conflicts=0**（已处发布态），
   内嵌「[幂等] 二次迁移 0/0/0」；R13-Z dry-run 重放亦 0/0/0（见本卡 R13-Z 节与 B-1 复审）。
 
-**D 运行时抽验 + console** ✅（D1 部分以测试 + Kimi 金丝雀代）
+**D 运行时抽验 + console**（D1 测试层过；**实机视觉有留白，非 C8/ED-5I 验收硬条件**）
 
-- D1 运行时：本会话无浏览器，以 reforge `loader-v5.pal` 5 + `script-project-v5` 25 = **30/30 绿**
-  （loader 验 PAL contentVersion 11 + 全场景、script-project 加载并跑 canonical stages）为代证；
-  实机 267/268/270 使用、e2493/e2495 触发、投掷 cap、存档重载由 **Kimi R13-Z 金丝雀**（21 截图、
-  output/playwright/r13z-*.png、accept）视觉覆盖。
-- D2 console：Kimi R13-Z 金丝雀记编辑器/运行时 console **0 error / 0 warning**。
+- D1 运行时（测试层）✅：reforge `loader-v5.pal` 5 + `script-project-v5` 25 = **30/30 绿**
+  （loader 验 PAL contentVersion 11 + 全场景、script-project 加载并跑 canonical stages）；A 段的
+  item-use-executor 17 + use-menu-state 7 + item-use-result 2 = 26/26 覆盖执行器语义。
+- D1 实机视觉（267/268/270 留白，如实标注）：**Kimi R13-Z 金丝雀清单 3/4 实际验了**引路蜂(151)
+  onTeleport、手卷(293) author root、e2493/e2495 触发切换 + 存档重载、投掷（battle 23 开投掷列表、
+  投长鞭命中 enemy-477 造 108、battleLog 实证，r13z-throw-item-list.png）、confirm 两臂、enemy-483/519、
+  palette（见本卡 R13-Z 金丝雀节，r13z-*.png 21 张）——**唯独未验 267/268/270 的实机使用演出
+  （祭坛链/炼蛊炼化/紫金葫芦炼化）**。本会话亦无浏览器，故 D1 的「267/268/270 实机」是**未跑留白**。
+  投掷 cap 的公式层由 battle-core 单元测试覆盖、投掷流程由金丝雀实机命中覆盖，不属留白。
+  - 不阻塞的依据：C8 卡验收条件（C8-item-use-mechanisms.md:640-656）对 267/268/270 的要求口径是
+    **迁移 oracle（deep-equal）+ reforge 执行器/RNG 单元测试**（"炼蛊皿至少复现…的 oracle"、"紫金
+    葫芦…的 oracle"、"reforge: 土灵珠有/无场景出口; 炼蛊皿材料充足/不足…; 紫金葫芦 value=0/1/9/>9
+    的确定性 RNG"），**未把浏览器实机视觉列为验收条件**。该项由 A 段 oracle 对源 + reforge 26/26 测试
+    覆盖；267/268/270 实机视觉属 N3-1 回归清单自加的抽验，留白不影响 C8/ED-5I 验收，但建议后续浏览器
+    可用时补（与 B11-1 视觉补验同类，不阻塞门禁）。
+- D2 console ✅：Kimi R13-Z 金丝雀记编辑器/运行时 console **0 error / 0 warning**（覆盖其所验范围）。
 
 **全包回归（本会话实跑，提交态）**：content **33/391**、editor **93/798**（高于 C8 卡记录的 766，
 测试净增无回归）、reforge **78/796**、migrate fast **79/577 + 5 skip**、canary **2/2**、MG2 **0/0/0**。
 
-**一处记录差（非阻塞）**：提示词与本卡「C8/ED-5I 联合验收回归清单」节称 Codex 已跑回归并补记，
-但三卡均无 Codex 回归跑证据（543e1d29 只落清单）。本 accept 的证据来自 GLM 独立复跑；建议 Codex
-补记其回归跑结论（测试数/路径/dry-run）以齐三签记录，但**不阻塞**——门禁本身已绿。
+**两处记录差（非阻塞，已如实标注）**：
+1. 提示词与本卡「回归清单」节称 Codex 已跑回归并补记，但三卡均无 Codex 回归跑证据（543e1d29 只落
+   清单）。本 accept 的证据来自 GLM 独立复跑；建议 Codex 补记其回归跑结论以齐三签。
+2. 本卡「回归清单」D1 与 Kimi 自验口径曾把「267/268/270 实机」混在「金丝雀已覆盖」里；实际 Kimi
+   金丝雀未验这三件物品的实机使用演出（验的是 151/293 + 投掷 + e2493/e2495 等）。本审查**不把留白
+   当覆盖**——如实标 267/268/270 实机为留白（非 C8 验收硬条件），投掷/投掷 cap 仍按金丝雀+测试算覆盖。
+   **这是对自验口径的一次校正，避免重蹈 R13-Z B-2「证据不实」覆辙。**
 
-**结论**：**accept**。C8/ED-5I 下游回归门禁 A-D 逐项实证通过：267/268/270 用途对源、canonical
-稳定 id 选择不反跳、引用分组 + 删除 fail-closed + 保存重开、MG2 零计划、运行时/console 经测试
-+ Kimi 金丝雀覆盖。N3-1 下游门禁收口。
+**结论**：**accept**。C8/ED-5I 下游回归门禁 A-C 逐项实证通过、D1 测试层过；**267/268/270 实机视觉**
+是唯一未跑留白，但按 C8 验收口径（迁移 oracle + 执行器/RNG 测试）不阻塞。投掷/cap、canonical 稳定
+id 选择不反跳、引用分组 + 删除 fail-closed + 保存重开、MG2 零计划、console 均有覆盖。N3-1 下游门禁
+收口（267/268/270 实机留白建议后续补，不阻塞 N3-1 交验）。
 
 **边界**：本 accept 只收口 N3-1 下游 C8/ED-5I 回归门禁。C8（review）/ED-5I（blocked）两张卡的
 **本卡 done 仍由各自验收流程**（C8：Kimi/GLM done 前 accept 齐；ED-5I：解除 blocked 后走 done 前
