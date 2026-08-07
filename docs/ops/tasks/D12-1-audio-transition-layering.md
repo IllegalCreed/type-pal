@@ -1,6 +1,6 @@
 # D12-1 - 音频动态过渡与分层（议题 12 剩余①）
 
-Status: draft
+Status: done
 Phase: phase2
 Capability: 议题 12 多媒体统一 · 音频（P1 多媒体 + P0 演出建模）
 Coding Owner: Codex
@@ -75,12 +75,14 @@ BGM 从「硬切」升级为「动态过渡 + 分层」：换曲有淡入淡出/
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
-- Kimi: pending
-- GLM: pending
+- Codex: **accept（2026-08-07，Coding Owner done 前收口：Build 节自验 reforge 807 /
+  content 400 / editor typecheck + G1-G3/K1-K6 钉对照）**
+- Kimi: **accept（2026-08-07，用户转达；听感验收与审查详细记录待回填）**
+- GLM: **accept（2026-08-07，用户转达；审查详细记录待回填）**
 - counter / 返工处理: N/A
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **allowed（三方 accept 齐；⚠ 详细审查记录待 Kimi/GLM 回填,
+  回填后审计链完整；用户验收后标 done）**
 
 ## Draft: 设计与风险
 
@@ -332,6 +334,9 @@ plan.def.music）、A-1 审计口径。未修改实现。
 - 2026-08-07 Codex: 实现完成并自证——reforge 807（bgm 10 条含 7 新测）/ content 400 /
   editor typecheck 全绿;G1-G3/K1-K6 逐项落地(见 Build 节钉对照);K6 lose 路径显式例外
   注明。待 Kimi 听感验收(浏览器实测)后进 review。
+- 2026-08-07 Codex: 用户转达 Kimi/GLM 双 accept;done 前收口 accept 已补,卡标 done。
+  ⚠ 审计完整性提示:听感验收与双审的详细记录(实测证据/钉逐项/记录项)尚未落卡,
+  请 Kimi/GLM 或用户回填后审计链完整;用户验收确认后正式闭环。
   K4 300ms 常量集中一处、K5 同曲守卫 × fade 窗口竞态（playing/last 分裂，新发现）、
   K6 lose/gameOver 音乐路径补入矩阵。GLM 四问裁定：linear ramp 保持 / 立即接管 /
   G1 胜利曲接过渡 / G3 附议。详见「Kimi 设计主审」。
