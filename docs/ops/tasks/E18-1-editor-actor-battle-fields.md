@@ -177,11 +177,15 @@ cooperativeMagic（合体技），数据/runtime 已就绪，编辑器补齐编�
 当前状态: draft（build 准入 blocked；Codex 设计冻结并签 agree，见「设计结论」）
 你的角色: GLM 表单/校验覆盖主审；Kimi 异步抽审
 先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡、content/src/actor.ts:83-92、
-  main.ts:2230/2368/2454、B11-1 卡、N6 共享脚本引用规则
+  main.ts:2230/2368/2454、B11-1 卡、N6 共享脚本引用规则、LevelCurveEditor.tsx（中区宽幅
+  编辑器交互先例）
 已完成: Codex 设计冻结——三字段落 actor.battler，ActorMode 战斗数据区 + UpdateActorCommand；
-  coveredBy/cooperativeMagic 下拉引用；casualty 两层结构直编（gates/fallback → lines/effects）；
-  校验复用 validate/validate-refs，B11-1 迁入数据作回归样例
-请你做: 压测三字段编辑/校验/引用语义与 casualty 表单层级；冻结方案后 agree/counter
+  coveredBy/cooperativeMagic 下拉引用；**casualty = 右栏摘要(状态 chip + 入口按钮) +
+  中区宽幅 CasualtyEditor(仿 LevelCurveEditor,与精灵帧/升级曲线互斥)**,master-detail
+  无钻取导航(左 gates/fallback、右分支 lines/effects);校验复用 validate/validate-refs,
+  B11-1 迁入数据作回归样例
+请你做: 压测三字段编辑/校验/引用语义、casualty 中区交互(与 LevelCurveEditor 同构性/
+  互斥状态/往返回显)、引用不存在与空态处理；冻结方案后 agree/counter
 不要做: 不得修改实现文件；不得改 content schema
 输出要求: 更新设计签字、主审立场、争议处理和下一位提示词
 ```
