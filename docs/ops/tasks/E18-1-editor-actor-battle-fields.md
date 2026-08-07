@@ -372,7 +372,7 @@ G1（中区互斥 state）、G2（校验新增 + 单测）、G3（空态 + 悬�
 ```text
 接手任务: E18-1 编辑器角色战斗字段——实现完成,交 Kimi/GLM review(当前生效)
 任务卡: docs/ops/tasks/E18-1-editor-actor-battle-fields.md
-当前状态: build(实现完成,提交 TBD;content 400 / reforge 800 / editor 809 全绿)。
+当前状态: build(实现完成,提交 `f67eaf97`;content 400 / reforge 800 / editor 809 全绿)。
 你的角色: Kimi + GLM——review 签字(审查/验收),不是再改实现。
 已实现(Codex): 战斗关系节(援护者/合体技下拉 + 伤亡 chip/移除/入口)+ 中区 CasualtyEditor
   (master-detail,单枚举三态互斥 centerEditor)+ validate.ts shape 校验 + validate-refs
