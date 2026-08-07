@@ -378,7 +378,7 @@ plan.def.music）、A-1 审计口径。未修改实现。
 ```text
 接手任务: D12-1 音频动态过渡与分层——实现完成,交 Kimi 听感验收 + 双审(当前生效)
 任务卡: docs/ops/tasks/D12-1-audio-transition-layering.md
-当前状态: build(实现完成,提交 TBD;reforge 807 / content 400 / editor typecheck 全绿)。
+当前状态: build(实现完成,提交 `0187ea76`;reforge 807 / content 400 / editor typecheck 全绿)。
 你的角色: Kimi 听感验收(浏览器实测)+ Kimi/GLM review 签字;不是再改实现。
 已实现(Codex): BgmPlayer play/stop fade 参数 + master GainNode 串行 crossfade;
   战斗全链(场景→战斗→胜利→场景)300ms 过渡;K1-K6/G1-G3 全落(见 Build 节钉对照)。
