@@ -123,7 +123,36 @@ Branch: TBD
 
 - Codex: 2026-08-06 用户咨询后开卡；缺口 = giveItem 无呈现 + 提示 UI 两套。
 - Kimi: pending
-- GLM: pending
+- GLM: **agree（2026-08-07，覆盖矩阵主审）**。详见「GLM 设计压测」。
+
+#### GLM 设计压测（2026-08-07，覆盖矩阵主审）：**agree（附 G1-G2 build 准入钉）**
+
+**方法**：只读设计压测；核实入账点现状（main.ts:2395 giveItem / :2413 giveMoney /
+battle-core.ts:284 偷窃横幅 / item-use-result.ts / buildSettlement）、设计冻结的 RewardEvent 通道 +
+统一 presenter + v1 范围。未修改实现。
+
+**设计核实（成立）** ✅：
+1. v1 范围诚实收敛：只统一**引擎自有呈现**（偷窃横幅 battle-core.ts:284 + item-use-result.ts →
+   新 reward-gain.ts），不动 content schema（giveItem 自动呈现需给脚本命令加 present 字段 = 跨包
+   公共接口变更，双审缺席下不动、留 v1.1）——范围纪律正确，不趁缺席塞 schema 改动。
+2. RewardEvent 通道（reforge 内部类型）：`{kind:'item'|'money', ...}`，入账点在原有意图边界
+   （worldMutationIntent/scriptMutationIntent）内发射、入账逻辑零改动——不破坏既有 async intent 纪律。
+3. 宝箱/剧情拾取保持内容驱动（作者脚本显式 narration，不走引擎 presenter）：幂等天然成立
+   （引擎不重复呈现脚本自写旁白）——这是"双 UI 并存"问题的正确解法（引擎只管自己的呈现，
+   脚本旁白归内容）。
+4. 结算屏不动（settlement.ts 结构保留，仅物品入账提示入口统一）——收敛到位。
+
+**G 钉（build 准入必落，非 agree 阻塞）**：
+- **G1（覆盖矩阵 5 路径逐条——GLM build 期冻结责任）**：giveItem / 宝箱旁白 / 偷窃 / 合成炼成 /
+  结算物品 五路径必须逐条核实：入账点发射 RewardEvent + 引擎自有呈现走 reward-gain + 脚本旁白不重复。
+  build 期 GLM 逐路径核对 + 单测。
+- **G2（双 UI 并存门禁——验收核心）**：实现后必须验证**无双 UI 并存残留**——偷窃横幅与 item-use-result
+  两处引擎自有呈现全部走 reward-gain，无 narration 卷轴与 item-use-result 同框；grep 确认旧呈现入口
+  已替换/移除（不残留死代码路径）。这是本卡存在的根本目的（消灭双 UI），验收门禁。
+
+**结论**：设计方向干净、v1 范围诚实（不动 schema）、RewardEvent 不破坏 intent 纪律、宝箱旁白幂等解法正确。
+**agree**。G1（5 路径覆盖矩阵）、G2（双 UI 并存门禁）为 build 准入必落钉——GLM 席位 build 期逐条核。
+giveItem 自动呈现留 v1.1 认可（待三贤恢复评审 present 字段 vs 去重启发式）。建议进入 build（blocked on Kimi）。
 
 ## Build: 实现与自测
 
