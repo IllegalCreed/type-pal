@@ -5,9 +5,10 @@ Phase: phase2
 Capability: 议题 5 演出/cutscene 建模 + 议题 12 统一控制器 + 议题 14 剩余②（P0 演出建模）
 Coding Owner: Codex
 Generation Owner: N/A
-Reviewer: Kimi（架构/演出建模主审）+ GLM（覆盖/协议词汇矩阵）
+Reviewer: Kimi（架构/演出建模主审）+ GLM（覆盖/协议词汇矩阵；⚠ 2026-08-07 额度耗尽缺席，
+  由 Kimi + Codex 临时代班，待补审）
 Visual Verification Owner: Kimi
-Unavailable Agents: none
+Unavailable Agents: GLM（2026-08-07 额度耗尽；代班=Kimi + Codex；恢复后补签）
 Branch: TBD
 
 ## 目标
@@ -77,9 +78,12 @@ Branch: TBD
 
 - Codex: agree（2026-08-07 设计冻结，见「设计结论」）
 - Kimi: pending
-- GLM: pending
+- GLM: **缺席（2026-08-07 额度耗尽；覆盖/矩阵审查由 Kimi + Codex 临时代班，
+  待额度恢复后补签补审）**
 - counter / 分歧处理: N/A
-- 缺签豁免: N/A
+- 缺签豁免: 用户已批准（2026-08-07：「glm额度耗尽了，只能kimi审核了」；缺席方=GLM，
+  原因=额度耗尽，代班方=Kimi（架构/演出建模）+ Codex（覆盖矩阵临时代班），
+  是否需补签=是（GLM 恢复后补审补签））
 - build 准入结论: blocked
 
 ### 进入 done 前:审查签字
@@ -178,14 +182,18 @@ Branch: TBD
   音频/SFX 不入协议)+ CutsceneController(统一取消 + busy() 单一占用句柄 +
   虚拟时钟注入)+ cameraPanFx 收口;接入 main.ts script host 五方法行为真值不变;
   不做新 DSL/编辑器时间线/触发器 schema/音频分层。
+- 2026-08-07 用户: GLM 额度耗尽「只能 kimi 审核了」——按 AGENTS.md 额度代班规则,
+  GLM 缺席(覆盖/矩阵审查由 Kimi + Codex 临时代班),缺签豁免用户批准,
+  GLM 恢复后补审补签。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: D14-2 演出意图协议 + CutsceneController
+接手任务: D14-2 演出意图协议 + CutsceneController——Kimi 单审(GLM 额度耗尽代班)
 任务卡: docs/ops/tasks/D14-2-presentation-intent-protocol.md
-当前状态: draft（build 准入 blocked；Codex 设计冻结并签 agree，见「设计结论」）
-你的角色: Kimi 架构/演出建模主审；GLM 协议词汇/覆盖矩阵主审
+当前状态: draft（build 准入 blocked；Codex 设计冻结并签 agree；GLM 额度耗尽缺席，
+  覆盖/矩阵由你 + Codex 临时代班，待 GLM 补审——见「推进签字·缺签豁免」）
+你的角色: Kimi 架构/演出建模主审 + GLM 覆盖矩阵的代班主审
 先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡、design-backlog 议题 5/12/14、
   engine-debt-audit §6、content-schema §6、main.ts:1286/1893/1938/2005/2565/2712/3012、
   frame-animation-presentation.ts、fade-driver.ts、dialogue.ts、async-intent.ts、D12-1 卡
@@ -193,8 +201,9 @@ Branch: TBD
   + CutsceneController.run(cutscene, signal) 统一取消 + busy() 单一呈现占用句柄
   (替代 runner/dialog/cameraPanFx 拼装判定);cameraPanFx 收口;虚拟时钟注入;
   接入 main.ts script host 五方法,行为真值不变;验证=开场/求雨/酒剑仙/锁妖塔/结局
-请你做: Kimi 压测 busy() 收口的消费点核对(输入路由/D13-1 徽标/X1 autosave)、取消无孤儿
-  语义、与编辑器时间线(P2)留口;GLM 复核词汇表对现存五能力的全量覆盖与回放矩阵;
+请你做: 压测 busy() 收口的消费点核对(输入路由/D13-1 徽标/X1 autosave)、取消无孤儿语义、
+  与编辑器时间线(P2)留口;**代班 GLM 覆盖矩阵**:复核词汇表对现存五能力的全量覆盖与回放
+  矩阵(开场/求雨/酒剑仙/锁妖塔/结局)——此部分同时标「待 GLM 补审」;
   冻结方案后 agree/counter
 不要做: 不得修改实现文件；不得为未来留过度设计
 输出要求: 更新设计签字、主审立场、争议处理和下一位提示词
