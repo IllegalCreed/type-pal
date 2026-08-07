@@ -44,6 +44,7 @@ import { drawNumber, type MenuAssets } from '../menu/menu-box.js'
 import { bakeFrame } from '../render.js'
 import { type ScreenShake, shakeOffsetY, WavedBgCache } from '../screen-fx.js'
 import { renderSpans } from '../text/text-render.js'
+import { drawRewardGainText } from '../menu/reward-gain.js'
 import {
   type AnimFrame,
   AnimPlayer,
@@ -2785,16 +2786,12 @@ export class BattleSession {
     if (this.itemBanner) {
       if (now >= this.itemBanner.untilMs) this.itemBanner = null
       else
-        renderSpans(
+        drawRewardGainText(
           ctx,
-          [{ text: this.itemBanner.text }],
+          g,
+          this.itemBanner.text,
           this.itemBanner.x ?? 210,
           this.itemBanner.y ?? 50,
-          {
-            glyphs: g,
-            shadow: true,
-            forceRgba: [255, 255, 255],
-          },
         )
     }
 

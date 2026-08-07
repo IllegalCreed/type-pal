@@ -1,6 +1,10 @@
 import type { ItemDataMap, WorldItemUsePresentation } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { buildItemUseResultEntries, itemUseResultLineLayout } from './item-use-result.js'
+import {
+  buildItemUseResultEntries,
+  itemUseResultText,
+  type ItemUseResultEntry,
+} from './item-use-result.js'
 
 describe('C8 · item use result presentation', () => {
   const items: ItemDataMap = {
@@ -45,8 +49,19 @@ describe('C8 · item use result presentation', () => {
     ])
   })
 
-  test('单双字节混排按 PAL 半角单位居中', () => {
-    expect(itemUseResultLineLayout('炼出')).toEqual({ boxX: 144, boxLen: 2, textX: 152 })
-    expect(itemUseResultLineLayout('丹 × 2')).toEqual({ boxX: 132, boxLen: 4, textX: 144 })
+  test('D14-3:reward-gain 单行文本(炼成/炼出 + 名 + 数量)', () => {
+    const entry: ItemUseResultEntry = {
+      itemId: 'a',
+      count: 2,
+      title: '炼出',
+      itemName: '赤血蚕',
+    }
+    expect(itemUseResultText(entry)).toBe('炼出 赤血蚕 × 2')
+    expect(itemUseResultText({ ...entry, count: 1 })).toBe('炼出 赤血蚕')
+    expect(
+      itemUseResultText({ ...entry, title: '炼成', itemName: '灵葫仙丹', count: 1 }),
+    ).toBe(
+      '炼成 灵葫仙丹',
+    )
   })
 })

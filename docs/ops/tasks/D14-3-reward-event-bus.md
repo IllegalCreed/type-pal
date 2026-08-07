@@ -194,11 +194,40 @@ giveItem 自动呈现留 v1.1 认可（待三贤恢复评审 present 字段 vs �
 ## Build: 实现与自测
 
 - Coding Owner: Codex
-- 修改文件: pending；设计三签前不得开始实现。
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending（Kimi 视觉验收）
-- 跳过的检查及原因: N/A
+- 修改文件:
+  - `packages/reforge/src/menu/reward-gain.ts`（新增:统一 presenter——drawRewardGainLine
+    横卷轴(0x3E 语义) + drawRewardGainText 文本变体(战斗横幅,K1)）
+  - `packages/reforge/src/menu/item-use-result.ts`（删 drawItemUseResult/盒+图标呈现;
+    保留 buildItemUseResultEntries;新增 itemUseResultText 单行文本「炼成/炼出 X × N」）
+  - `packages/reforge/src/main.ts`（itemUseResult 状态 → rewardGain 队列(逐条 1400ms);
+    渲染改 drawRewardGainLine(96);canActivateScriptConfirm/输入模态分支改 rewardGain）
+  - `packages/reforge/src/battle/battle-session.ts`（itemBanner 渲染改 drawRewardGainText
+    同组件文本变体,位置/时长(1200ms)不变,K1）
+  - `packages/reforge/src/menu/item-use-result.test.ts`（itemUseResultText 单测替换
+    itemUseResultLineLayout 测）
+- 实现摘要: 三方签后完成。RewardEvent 通道 v1 以「统一 presenter」形态落地——引擎自有
+  呈现(偷窃横幅 + 物品使用/炼成)全部走 reward-gain;giveItem/宝箱旁白保持内容驱动
+  (幂等天然);giveItem 自动呈现留 v1.1(K2 预裁定:显式 present 字段优先,不做启发式)。
+- 运行命令:
+  - `pnpm --filter @type-pal/reforge check`（821 通过）
+  - `pnpm --filter @type-pal/reforge build` 成功
+  - G2 门禁 grep:`drawItemUseResult|itemUseResultLineLayout` 非测试源码零命中(旧入口移除)
+- 浏览器 / 手工检查: pending（Kimi 视觉抽验——宝箱/偷窃/合成/结算提示一致截图 +
+  战斗内偷窃观感(K1)+ 连续入账排队(K3)）
+- 跳过的检查及原因: 视觉/手工按 D28 走分段 e2e + Kimi 抽验;Codex 自证到类型+单测+
+  构建+G2 grep 层。
+
+### 钉逐项对照(G1-G2/K1-K3)
+
+- G1 覆盖矩阵 5 路径: ✅ giveItem(静默,内容驱动,未动) / 宝箱旁白(内容驱动,未动) /
+  偷窃(battle itemBanner → drawRewardGainText) / 合成炼成(item-use-result →
+  drawRewardGainLine 逐条队列) / 结算物品(settlement 结构未动)。GLM build 期逐路径
+  核对待补(随 review)。
+- G2 双 UI 门禁: ✅ 旧入口 drawItemUseResult/itemUseResultLineLayout 源码零残留,
+  reward-gain 为唯一引擎自有呈现组件。
+- K1 战斗内观感: ✅ 同组件文本变体(drawRewardGainText),位置/时长不变,视觉验收定。
+- K2 v1.1 预裁定: ✅ 卡内记录——显式 present 字段优先,不做旁白去重启发式。
+- K3 连续入账排队: ✅ 逐条固定 1400ms 展示(不合并),按键跳过留视觉验收若需。
 
 ## 视觉验证记录(如适用)
 
@@ -226,6 +255,11 @@ giveItem 自动呈现留 v1.1 认可（待三贤恢复评审 present 字段 vs �
 - 2026-08-07 Codex: 设计冻结并签 agree。RewardEvent 内部通道 + 统一 reward-gain
   presenter（偷窃/炼成替换）;宝箱/剧情旁白内容驱动幂等天然;giveItem 自动呈现 v1.1
   留口（涉 content schema,双审缺席不动）;Kimi/GLM 缺席待补审,缺签豁免用户批准。
+- 2026-08-07 Kimi/GLM: 额度恢复补签——设计三方 agree 齐(G1-G2 + K1-K3 build 验收钉),
+  build 准入 allowed。
+- 2026-08-07 Codex: 实现完成并自证——reforge 821 + build + G2 grep 零残留;reward-gain
+  统一 presenter(世界卷轴 + 战斗文本变体);G1-G2/K1-K3 逐项落地(见 Build 节钉对照)。
+  待 Kimi 视觉抽验 + GLM build 期逐路径核对 + 双审 review。
 - 2026-08-07 GLM: 额度恢复补审,设计 agree（G1 五路径矩阵、G2 双 UI 并存门禁）。
 - 2026-08-07 Kimi: 额度恢复补审,视觉/UX 抽审 **agree（附 K1-K3）**——三方 agree 齐,
   **build 准入 allowed**。K1 战斗内 reward-gain 观感（违和备选=横幅形态同组件变体）、

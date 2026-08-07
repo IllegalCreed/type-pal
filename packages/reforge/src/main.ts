@@ -148,11 +148,12 @@ import {
 import { drawEquipMenu } from './menu/equip-box.js'
 import {
   buildItemUseResultEntries,
-  drawItemUseResult,
+  itemUseResultText,
   type ItemUseResultEntry,
 } from './menu/item-use-result.js'
 import { drawMagicMenu } from './menu/magic-box.js'
 import { drawConfirmBox, loadMenuAssets, MenuBox } from './menu/menu-box.js'
+import { drawRewardGainLine } from './menu/reward-gain.js'
 import { drawSaveBrowser } from './menu/save-browser-box.js'
 import { drawShop, openShopUi, type ShopUiState, shopInput } from './menu/shop-box.js'
 import { drawSystemMenu } from './menu/system-box.js'
@@ -1214,7 +1215,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     abort: () => void
   }[] = []
   const canActivateScriptConfirm = (): boolean =>
-    !shop && !menu.active && !itemUseResult && !activeBattle
+    !shop && !menu.active && !rewardGain && !activeBattle
   const activateScriptConfirm = (): void => {
     scriptConfirmModal.activateIfPossible(canActivateScriptConfirm(), () =>
       ctx.getImageData(0, 0, canvas.width, canvas.height),
@@ -3710,7 +3711,8 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
   let equipMenu: EquipMenuState = closeEquipMenu()
   let useMenu: UseMenuState = closeUseMenu()
   let itemUsePending = false
-  let itemUseResult: ItemUseResultEntry | undefined
+  /** D14-3 reward-gain 队列当前项(物品使用/炼成结果;逐条固定时长展示)。 */
+  let rewardGain: { text: string; untilMs: number } | undefined
   let lastUseCursor = 0 // 使用面板光标记忆(原版 iCurInvMenuItem;跨开关恢复)
   let lastMagicCaster = 0 // 仙术施法人光标记忆(原版 uigame.c:674 static w;确认时写,DL22)
   let lastMainCursor = 0 // 主菜单光标记忆(原版 iCurMainMenuItem;确认时写)
@@ -3744,7 +3746,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
   ): Promise<void> {
     try {
       for (const entry of entries) {
-        itemUseResult = entry
+        rewardGain = { text: itemUseResultText(entry), untilMs: performance.now() + 1400 }
         await awaitRunner(
           new Promise<void>((resolve) => setTimeout(resolve, 1400)),
           signal,
@@ -3752,7 +3754,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
         )
       }
     } finally {
-      itemUseResult = undefined
+      rewardGain = undefined
     }
   }
 
@@ -4496,11 +4498,11 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
       }
       ctx.restore()
     }
-    if (itemUseResult) {
+    if (rewardGain && performance.now() < rewardGain.untilMs) {
       ctx.save()
       ctx.scale(WORLD_SCALE, WORLD_SCALE)
       ctx.imageSmoothingEnabled = false
-      drawItemUseResult(ctx, itemUseResult, project.items, menuAssets, glyphs)
+      drawRewardGainLine(ctx, menuAssets, glyphs, rewardGain.text, 96)
       ctx.restore()
     }
     // 快速存读短提示(置顶,~1.5s)
@@ -4807,8 +4809,8 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
         shop.resolve()
         shop = null
       }
-    } else if (itemUseResult) {
-      // 结果框是真正模态表现：不允许移动、互动、开菜单或快速存读落回探索态。
+    } else if (rewardGain) {
+      // reward-gain 结果展示是模态表现：不允许移动、互动、开菜单或快速存读落回探索态。
     } else if (menu.active) {
       if (saveBrowser.active) {
         // 存档浏览界面(全屏,优先于菜单输入)
