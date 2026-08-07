@@ -61,7 +61,7 @@ import {
   SpriteAssetCache,
 } from './assets.js'
 import { AsyncIntentController, asyncIntentAbortError } from './async-intent.js'
-import { createBgmPlayer } from './audio/bgm.js'
+import { BATTLE_MUSIC_TRANSITION_MS, createBgmPlayer } from './audio/bgm.js'
 import { SfxPlayer, SfxReadinessCollectionError, SfxReadinessResourceError } from './audio/sfx.js'
 import {
   collectBattleBaseSounds,
@@ -1473,8 +1473,9 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
       const restoreSceneMusic = (): void => {
         if (battleTrack === undefined && !playedVictory) return
         const persistent = world.audio?.currentMusic
-        if (persistent === null) bgm.stop()
-        else if (persistent) bgm.play(persistent)
+        // D12-1:战斗出/胜利后回场景曲走过渡,消硬切爆音。
+        if (persistent === null) bgm.stop(BATTLE_MUSIC_TRANSITION_MS)
+        else if (persistent) bgm.play(persistent, true, BATTLE_MUSIC_TRANSITION_MS)
       }
       // 队员战斗态:CharacterInstance + 装备加成(effectiveStat)
       const itemsById = project.items
@@ -1684,8 +1685,9 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
         faces[c.id] = faceList[i]
       })
       // 战斗曲与 active session 同一原子提交拍；启动已失效时不得在新场景迟到播放旧曲。
-      if (battleTrack === null) bgm.stop()
-      else bgm.play(battleTrack)
+      // D12-1:战斗进出场走过渡(场景曲 fade-out → 战斗曲 fade-in)。
+      if (battleTrack === null) bgm.stop(BATTLE_MUSIC_TRANSITION_MS)
+      else bgm.play(battleTrack, true, BATTLE_MUSIC_TRANSITION_MS)
       const session = new BattleSession(
         players,
         enemyDefs,
@@ -1774,7 +1776,12 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
               const victoryRole = battleOpts?.boss
                 ? 'audio.bossVictoryMusic'
                 : 'audio.normalVictoryMusic'
-              bgm.play(project.assetResolver.assetForRole(victoryRole), false)
+              // G1/Kimi 裁定:战斗曲→胜利曲接同常量过渡(全链最刺耳一环)。
+              bgm.play(
+                project.assetResolver.assetForRole(victoryRole),
+                false,
+                BATTLE_MUSIC_TRANSITION_MS,
+              )
               playedVictory = true
             }
             world.money += r.cash

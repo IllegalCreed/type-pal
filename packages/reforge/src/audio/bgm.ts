@@ -21,9 +21,12 @@ export interface AudioAssetReader {
 export interface BgmPlayer {
   /**
    * 按稳定 AssetId 播放 catalog 中的 MIDI；loop 默认 true。同曲重复调用不重启。
+   * fadeInMs>0 = 换曲串行过渡(旧曲 fade-out 后新曲 fade-in,时长同 fadeInMs);
+   * 默认 0 = 现行为硬切(向后兼容)。
    */
-  play(asset: AssetId, loop?: boolean): void
-  stop(): void
+  play(asset: AssetId, loop?: boolean, fadeInMs?: number): void
+  /** fadeOutMs>0 = 淡出后停;默认 0 = 现行为立即停。 */
+  stop(fadeOutMs?: number): void
   /** 用户手势里调:解 autoplay 锁并补播当前曲。 */
   resume(): void
   /**
@@ -38,7 +41,14 @@ export interface BgmSequencerAdapter {
   loadNewSongList(songs: Array<{ binary: ArrayBuffer; fileName: string }>): void
   loopCount: number
   play(): void
+  /** D12-1:master gain 淡变(adapter 封装 AudioParam,player 层不碰)。 */
+  fadeTo(value: number, ms: number): void
+  /** D12-1:取消已调度 ramp 并从当前 gain 值锚定(K2b:接管时防爆音)。 */
+  cancelFade(): void
 }
+
+/** D12-1 战斗音乐过渡常量(K4:集中一处,听感验收可调;涉及 fade 的调用点统一引用)。 */
+export const BATTLE_MUSIC_TRANSITION_MS = 300
 
 export interface BgmRuntimeAdapter {
   context: {
@@ -73,7 +83,11 @@ function createBrowserBgmRuntime(resolver: AudioAssetReader): BgmRuntimeAdapter 
       }
       await ctx.audioWorklet.addModule('/spessasynth_processor.min.js')
       const synth = new WorkletSynthesizer(ctx)
-      synth.connect(ctx.destination)
+      // D12-1:master gain —— synth → gain → destination;fade 走 gain(adapter 封装)。
+      const gain = ctx.createGain()
+      gain.gain.value = 1
+      synth.connect(gain)
+      gain.connect(ctx.destination)
       const sfBytes = await resolver.readRoleBytes('audio.midiSoundfont')
       const magic = String.fromCharCode(...new Uint8Array(sfBytes.slice(0, 4)))
       if (magic !== 'RIFF') {
@@ -89,7 +103,29 @@ function createBrowserBgmRuntime(resolver: AudioAssetReader): BgmRuntimeAdapter 
         synth.controllerChange(ch, REVERB_CC, 0)
         synth.midiChannels[ch]?.lockController(REVERB_CC, true)
       }
-      return new Sequencer(synth, { skipToFirstNoteOn: false })
+      const seq = new Sequencer(synth, { skipToFirstNoteOn: false })
+      const fadeTo = (value: number, ms: number): void => {
+        gain.gain.cancelScheduledValues(ctx.currentTime)
+        gain.gain.setValueAtTime(gain.gain.value, ctx.currentTime)
+        if (ms > 0) gain.gain.linearRampToValueAtTime(value, ctx.currentTime + ms / 1000)
+        else gain.gain.setValueAtTime(value, ctx.currentTime)
+      }
+      return {
+        pause: () => seq.pause(),
+        loadNewSongList: (songs) => seq.loadNewSongList(songs),
+        get loopCount() {
+          return seq.loopCount
+        },
+        set loopCount(value: number) {
+          seq.loopCount = value
+        },
+        play: () => seq.play(),
+        fadeTo,
+        cancelFade: () => {
+          gain.gain.cancelScheduledValues(ctx.currentTime)
+          gain.gain.setValueAtTime(gain.gain.value, ctx.currentTime)
+        },
+      }
     },
   }
 }
@@ -104,24 +140,25 @@ export function createBgmPlayerWithRuntime(
   const ctx = runtime.context
   let seq: BgmSequencerAdapter | undefined
   let ready = false
-  let last: { asset: AssetId; loop: boolean } | undefined
+  let last: { asset: AssetId; loop: boolean; fadeInMs: number } | undefined
   let playing: AssetId | undefined
+  /** K5:进行中的换曲目标(readBytes/fade-out 窗口);同曲守卫命中时用于取消换向其他曲的请求。 */
+  let inflightTarget: AssetId | undefined
   let resuming = false
   let enabled = true // 音乐开关(系统菜单);关时 play 只记账不出声
   let requestSerial = 0
 
-  function stopPlayback(): void {
-    requestSerial++
-    seq?.pause()
-    last = undefined
-    playing = undefined
-  }
-
   const isCurrent = (serial: number, asset: AssetId, loop: boolean): boolean =>
     serial === requestSerial && enabled && last?.asset === asset && last.loop === loop
 
-  async function doPlay(asset: AssetId, loop: boolean, serial: number): Promise<void> {
+  async function doPlay(
+    asset: AssetId,
+    loop: boolean,
+    serial: number,
+    fadeInMs: number,
+  ): Promise<void> {
     if (!seq || !enabled) return
+    inflightTarget = asset
     if (ctx.state === 'suspended') await ctx.resume().catch(() => {})
     if (!isCurrent(serial, asset, loop)) return
     let binary: ArrayBuffer
@@ -132,17 +169,33 @@ export function createBgmPlayerWithRuntime(
       return
     }
     if (!isCurrent(serial, asset, loop)) return
-    seq.loadNewSongList([{ binary, fileName: asset }])
-    seq.loopCount = loop ? Infinity : 0
-    seq.play()
-    playing = asset
+    const swap = (): void => {
+      inflightTarget = undefined
+      seq!.loadNewSongList([{ binary, fileName: asset }])
+      seq!.loopCount = loop ? Infinity : 0
+      seq!.play()
+      playing = asset
+      // G3c 快捷路径:fadeInMs=0 也显式回全增益(此前 fade 可能把 gain 留在 0)。
+      seq!.fadeTo(1, fadeInMs)
+    }
+    // D12-1 串行近似换曲:旧曲 fade-out → 完成回调过 isCurrent 门(K2a)→ 换曲 + fade-in。
+    // 首播 / 同曲 / fadeInMs=0 时跳过 fade-out,直接换(硬切向后兼容)。
+    const needFadeOut = playing !== undefined && playing !== asset && fadeInMs > 0
+    if (!needFadeOut) {
+      swap()
+      return
+    }
+    seq.fadeTo(0, fadeInMs)
+    await new Promise<void>((resolve) => setTimeout(resolve, fadeInMs))
+    if (!isCurrent(serial, asset, loop)) return // 被新请求接管:放弃换曲(新请求自行处理)
+    swap()
   }
 
   function playCurrent(): void {
     if (!seq || !enabled || !last) return
     const current = last
     const serial = ++requestSerial
-    void doPlay(current.asset, current.loop, serial)
+    void doPlay(current.asset, current.loop, serial, current.fadeInMs)
   }
 
   // 懒初始化:首次真要播才拉合成器库 + worklet + soundfont(~6MB)——不放曲的工程(demo)
@@ -163,24 +216,45 @@ export function createBgmPlayerWithRuntime(
   }
 
   return {
-    play(asset, loop = true) {
+    play(asset, loop = true, fadeInMs = 0) {
       if (playing === asset && ctx.state === 'running') {
-        last = { asset, loop }
+        last = { asset, loop, fadeInMs }
+        // K5:守卫命中但存在换向其他曲的进行中请求 → serial++ 取消之(收敛「留在本曲」,
+        // 避免旧曲换走而记账分裂)。
+        if (inflightTarget !== undefined && inflightTarget !== asset) requestSerial++
         return // 同曲不重启(场景间共曲不打断)
       }
-      last = { asset, loop }
+      last = { asset, loop, fadeInMs }
       if (!enabled) return // 关着:只记账(开时重播记账曲),连 init 都不拉
       if (ready) playCurrent()
       else void ensureInit() // 懒初始化;init 尾部按 last 补播
     },
-    stop() {
-      stopPlayback()
+    stop(fadeOutMs = 0) {
+      const serial = ++requestSerial
+      inflightTarget = undefined
+      last = undefined
+      if (!seq || playing === undefined || fadeOutMs <= 0) {
+        if (seq) seq.pause()
+        playing = undefined
+        return
+      }
+      // 淡出后停;完成回调过 serial 门(K2a)——期间新 play 接管则不停旧曲。
+      seq.fadeTo(0, fadeOutMs)
+      void new Promise<void>((resolve) => setTimeout(resolve, fadeOutMs)).then(() => {
+        if (serial === requestSerial && seq && playing !== undefined) {
+          seq.pause()
+          playing = undefined
+        }
+      })
     },
     setEnabled(on) {
       if (on === enabled) return // 幂等:无变化不重启/不重停(一阶段同款守卫)
       enabled = on
       if (!on) {
         requestSerial++
+        inflightTarget = undefined
+        seq?.cancelFade() // G2:fade 期间关音乐不残留 ramp
+        seq?.fadeTo(0, 0)
         seq?.pause()
         playing = undefined // 停播;last 保留 → 重开续当前记账曲
       } else if (last) {
