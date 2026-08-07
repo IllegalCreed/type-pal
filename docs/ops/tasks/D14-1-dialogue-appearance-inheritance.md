@@ -86,21 +86,23 @@ Branch: TBD
 ### 进入 build 前:设计签字
 
 - Codex: agree（2026-08-06 首批版式对齐设计冻结：sdlpal 全宽语义核实完毕，见「冻结设计」）
-- Kimi: pending（视觉/版式主审,缺席待补）
+- Kimi: **agree**（2026-08-07，额度恢复补审，视觉/版式主审：冻结语义对源成立 +
+  四态矩阵与 25/6 行观感口径核实；见「Kimi 补审（设计+实现）」）
 - GLM: **agree（2026-08-07，额度恢复补审：maxRight=320 全宽语义对源 sdlpal text.c:1140/1173/1645-1750 核实成立；11102 行 audit 1074 误折行→0 仅 6 合法超限，设计目标可达成）**
 - counter / 分歧处理: 无 counter
 - 缺签豁免: 用户已批准（2026-08-07 双额度耗尽,Kimi + GLM 缺席;Codex 单 Agent 推进）;
-  GLM 补签后仅 blocked on Kimi
-- build 准入结论: **blocked on Kimi**（GLM agree 已落）
+  GLM/Kimi 已补签,豁免闭环
+- build 准入结论: **allowed（补签追溯生效；实现已在其前完成,见 Build 节）**
 
 ### 进入 done 前:审查签字
 
 - Codex: pending（Coding Owner done 前收口签字待补）
-- Kimi: pending（视觉验收:25 行屏边光标裁切 + 版式并排对比,缺席待补）
+- Kimi: **accept**（2026-08-07，额度恢复补审：9409c8d1 diff 核实 + layout 11 测/audit
+  11102 行 0 意外折行独立复跑 + 浏览器版式抽验;见「Kimi 补审（设计+实现）」）
 - GLM: **accept（2026-08-07，额度恢复补审：核 9409c8d1 dialog-box maxRight 308→320 全宽 + 移除头像收窄/光标预留；独立复跑 layout 11 测 + audit-dialog-wrap 11102 行 0 意外折行仅 6 合法超限。设计与 build 目标达成。见「GLM 实现/设计复审」）**
 - counter / 返工处理: 无 counter
 - 缺签豁免: N/A
-- done 准入结论: **blocked on Kimi 视觉 + Codex 收口 + 用户验收**（GLM accept 已落）
+- done 准入结论: **blocked on Codex 收口 + 用户验收**（GLM/Kimi accept 已落）
 
 ## Draft: 设计与风险
 
@@ -211,9 +213,11 @@ sdlpal 真值核实结论（决定性，代码锚点）：
 ## 视觉验证记录(如适用)
 
 - Visual Verification Owner: Kimi
-- 验证方式: pending
-- 截图 / 像素检查路径: pending
-- 结论: pending
+- 验证方式: 浏览器版式抽验（6051 PAL 开场带头像 bottom 对话）+ diff/audit 数字层复核;
+  D28 口径抽验非门禁,分段 e2e 为最终路径
+- 截图 / 像素检查路径: `output/playwright/d14-1-dialog-bottom-portrait.png`
+- 结论: **accept**——bottom 带头像全宽 17 字行无孤儿折行、文本入头像区观感与原版一致;
+  top 大字对白在 D14-2 s016 实测在案;屏边光标裁切为原版忠实行为(风险在卡,留后续批)
 
 ## Review: 审查与返工
 
@@ -251,6 +255,36 @@ sdlpal 真值核实结论（决定性，代码锚点）：
 audit 0 意外折行 + layout 矩阵测覆盖。补签设计 agree + done 前 accept；done 准入 blocked on
 Kimi 视觉 + Codex 收口 + 用户验收。
 
+### Kimi 补审（设计+实现，2026-08-07，额度恢复）：**agree（设计）+ accept（实现）**
+
+**方法**：只读补审 + 浏览器抽验。核 `9409c8d1` 全 diff（dialog-box.ts MAX_RIGHT 308→320 +
+删 CURSOR_RESERVE + 删头像收窄分支;audit-dialog-wrap.mts 新增;layout.test.ts +5 测）;
+独立复跑 dialog 24 测 + audit 全量扫描;6051 浏览器版式抽验。未修改实现。
+
+**设计压测（视觉/版式主审）**：
+
+- **冻结语义对源成立**：maxRight=320 全宽、usable=320−startX、不按头像收窄、不扣光标
+  预留——GLM 已对源核实（text.c:1140/1173/1645-1750、font.c:522-548），我复核 diff 与
+  冻结表逐行一致（bottom 有头像 300px/top 224px/无头像 276px/center 240px 四态）。
+- **版式观感口径**：原版「头像先画、文本后画、长行可画入头像区」是作者要的继承口径;
+  25 行头像边缘行（8 行 >245px）按原版行为保留,观感抽验见下。
+- **6 行超限行**：全是 top|p/center|n 长行（s100/s143/s151/s158/s193/s198),继续折行 =
+  reforge 增强替代原版裁边,合理;audit 输出与设计清单逐条一致。
+- **屏边光标**：原版 posIcon 画在末行末尾、近屏边本就裁——忠实行为,留后续批光标策略;
+  不属本卡修复范围,不挡签字。
+
+**build 复核**：diff 与冻结逐行一致;dialog 24 测全绿（layout 11 含 5 新测矩阵）;
+audit 独立复跑 11102 行 **0 意外折行、6 条合法超限** ✓。
+
+**浏览器版式抽验（D28 口径：抽验非门禁）**：6051 PAL 开场——bottom 带头像对话
+（李大娘）全宽 17 字行（「不这样叫得醒你吗？好歹你也」）无孤儿折行、人名绿色左上、
+文本延伸入头像区与原版观感一致（`output/playwright/d14-1-dialog-bottom-portrait.png`);
+top 大字对白在 D14-2 s016 实测已在案。屏边光标裁切行未逐条抽（原版裁切语义忠实,
+风险已记卡,留后续批）——分段 e2e 为最终路径。
+
+**结论**：**agree（设计）+ accept（实现）**。版式对齐目标决定性达成（1074 误折行归零,
+数字层 audit 断言 + 观感层抽验一致）。done 准入 blocked on Codex 收口 + 用户验收。
+
 ## 用户验收
 
 - 用户结论: pending
@@ -267,12 +301,26 @@ Kimi 视觉 + Codex 收口 + 用户验收。
   300px/top 有头像 224px/无头像 276px/center 240px），不扣光标预留。全量扫描 11102 行：
   1074 行误折行归零、仅 6 行超原版宽度继续折行、bottom 头像边缘 25 行待 Kimi 视觉抽查。
   Codex 签 design agree；Kimi/GLM 待压测签字。
+- 2026-08-07 GLM: 额度恢复补审,设计 agree + 实现 accept 双签(对源核实 + 9409c8d1 diff +
+  layout 11 测/audit 0 意外折行独立复跑)。详见「GLM 实现/设计复审」。
+- 2026-08-07 Kimi: 额度恢复补审,**设计 agree + 实现 accept 双签**。冻结语义对源成立;
+  diff 与冻结逐行一致;dialog 24 测/audit 11102 行 0 意外折行复跑;浏览器抽验 bottom
+  带头像全宽 17 字行无孤儿、文本入头像区观感原版一致(d14-1-dialog-bottom-portrait.png);
+  屏边光标裁切为原版忠实行为留后续批。done 准入 blocked on Codex 收口 + 用户验收。
+  详见「Kimi 补审(设计+实现)」。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: D14-1 对话系统外观继承（首批版式对齐）
-任务卡: docs/ops/tasks/D14-1-dialogue-appearance-inheritance.md
+无下一位 Agent——GLM/Kimi 双补签完成(设计 agree + 实现 accept),审计链完整。
+等待 Codex done 前收口签字 + 用户验收后标 done。
+```
+
+```text
+接手任务: D14-1 对话系统外观继承（首批版式对齐）——已执行完毕,勿再执行
+说明: 本提示词为历史记录,GLM/Kimi 已于 2026-08-07 额度恢复后完成补审并双签
+  (设计 agree + 实现 accept)。等待 Codex 收口 + 用户验收。
+```
 当前状态: draft（build 准入 blocked；Codex 设计冻结并签 agree，见「冻结设计」节）
 你的角色: Kimi 做版式/视觉/头像边缘 UX 压测；GLM 做全量覆盖矩阵/回归口径核对
 先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡、design-backlog「对话外观继承」表、

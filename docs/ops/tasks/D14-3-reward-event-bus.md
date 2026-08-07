@@ -66,11 +66,13 @@ Branch: TBD
 ### 进入 build 前:设计签字
 
 - Codex: agree（2026-08-07 设计冻结，见「设计结论」）
-- Kimi: **缺席（2026-08-07 额度耗尽,恢复后补审补签）**
+- Kimi: **agree**（2026-08-07，额度恢复补审，视觉/UX 抽审：reward-gain 统一观感口径 +
+  v1.1 giveItem 呈现预裁定 + 逐条排队观感，附 K1-K3 build 验收钉，见「Kimi 设计抽审」）
 - GLM: **agree（2026-08-07，额度恢复补审：v1 只统一引擎自有呈现（偷窃横幅 + item-use-result → reward-gain）、不动 content schema 的诚实范围认可；覆盖矩阵 5 路径（giveItem/宝箱旁白/偷窃/合成炼成/结算物品）明确。附 G1-G2 build 准入钉：5 路径逐条覆盖 + 双 UI 并存门禁（引擎自有呈现全走 reward-gain、无残留 narration 卷轴与 item-use-result 并存）。giveItem 自动呈现留 v1.1 认可。见「GLM 设计压测」）**
 - counter / 分歧处理: 无 counter
-- 缺签豁免: 用户已批准（2026-08-07 双额度耗尽）;GLM 补签后仅 blocked on Kimi
-- build 准入结论: **blocked on Kimi**（GLM agree 已落）
+- 缺签豁免: 用户已批准（2026-08-07 双额度耗尽）;GLM/Kimi 已补签,豁免闭环
+- build 准入结论: **allowed**（2026-08-07，三方 agree 齐；G1-G2 + K1-K3 为 build 验收钉，
+  不阻塞准入）
 
 ### 进入 done 前:审查签字
 
@@ -115,15 +117,50 @@ Branch: TBD
 ### 主审立场
 
 - Reviewer: GLM（覆盖主审）+ Kimi（视觉抽审）
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论: **GLM agree（附 G1-G2）+ Kimi agree（附 K1-K3）**
+- 必改项: 见 G1-G2 + K1-K3（build 准入钉）
+- 是否建议进入 build: **双方同意进入 build（钉子均为验收钉，不阻塞准入）**
 
 ### 三方争议记录(按需)
 
 - Codex: 2026-08-06 用户咨询后开卡；缺口 = giveItem 无呈现 + 提示 UI 两套。
-- Kimi: pending
+- Kimi: **agree（2026-08-07，视觉/UX 抽审）**。详见「Kimi 设计抽审」。
 - GLM: **agree（2026-08-07，覆盖矩阵主审）**。详见「GLM 设计压测」。
+
+#### Kimi 设计抽审（2026-08-07，视觉/UX，额度恢复补审）：**agree（附 K1-K3 build 准入钉）**
+
+**方法**：只读抽审；一手核现状两 UI 形态（battle-core.ts:284 notice 顶部居中横幅、
+item-use-result.ts 已是 narrationTextUnits/drawScroll 卷轴系且「多产物逐个展示不压一行」
+先例）、narration-scroll 样式基线。未修改实现。
+
+**观感口径核实**：
+
+1. **统一 presenter 观感成立**：被替换两处的现状已接近卷轴系——item-use-result 本就
+   用 drawScroll/narrationTextUnits;偷窃 notice 是顶部居中横幅（对齐原版对话框提示）。
+   统一为 reward-gain（narration-scroll 样式、原版 0x3E「获得 X」语义）是向原版标准
+   呈现收敛,观感方向正确 ✓。
+2. **v1 不动 schema 诚实** ✓（缺席不动跨包接口的纪律正确）。
+3. **幂等域分离**：引擎呈现（偷窃/炼成）vs 内容旁白（宝箱脚本 narration）分离,
+   重复不可能 ✓。
+
+**K 钉（build 准入必落,增量于 G1-G2,不阻塞 agree）**：
+
+- **K1（战斗内 reward-gain 观感）**：偷窃发生在战斗流程中——reward-gain 卷轴在战斗
+  画面的位置/时长须与战斗节奏合（不打断结算流、不挡战斗画面关键区）。若卷轴样式在
+  战斗中违和,备选 = 战斗内保留横幅形态但同组件（样式变体);视觉验收时战斗偷窃实测
+  截图定。
+- **K2（v1.1 giveItem 呈现口径预裁定）**：v1.1 评审时**优先显式 present 字段**
+  （默认不呈现 = 现行为不变,作者显式开）,**不做旁白去重启发式**——启发式是猜测
+  作者意图,双显/漏显风险不可控。UX 确定性原则。
+- **K3（连续入账排队观感）**：快速连续入账（开箱多件/结算物品+钱）逐条展示（对齐
+  item-use-result「逐个展示不压一行」先例 + 原版逐条 0x3E),不合并丢失;逐条固定
+  时长 + 可按键跳过,防结算后长串卷轴拖尾。实现期定,验收看。
+
+**结论**：**agree**。统一 presenter 观感口径正确;K1-K3 为 build 验收钉,不阻塞准入。
+视觉验收（本席,build 后）:宝箱/偷窃/合成/结算提示一致截图 + 战斗内偷窃观感(K1)+
+连续入账排队(K3)。
+
+**边界**：本 agree 只准入 D14-3 build,不代表 done;giveItem 自动呈现留 v1.1。
 
 #### GLM 设计压测（2026-08-07，覆盖矩阵主审）：**agree（附 G1-G2 build 准入钉）**
 
@@ -189,21 +226,40 @@ giveItem 自动呈现留 v1.1 认可（待三贤恢复评审 present 字段 vs �
 - 2026-08-07 Codex: 设计冻结并签 agree。RewardEvent 内部通道 + 统一 reward-gain
   presenter（偷窃/炼成替换）;宝箱/剧情旁白内容驱动幂等天然;giveItem 自动呈现 v1.1
   留口（涉 content schema,双审缺席不动）;Kimi/GLM 缺席待补审,缺签豁免用户批准。
+- 2026-08-07 GLM: 额度恢复补审,设计 agree（G1 五路径矩阵、G2 双 UI 并存门禁）。
+- 2026-08-07 Kimi: 额度恢复补审,视觉/UX 抽审 **agree（附 K1-K3）**——三方 agree 齐,
+  **build 准入 allowed**。K1 战斗内 reward-gain 观感（违和备选=横幅形态同组件变体）、
+  K2 v1.1 预裁定（显式 present 字段优先,不做去重启发式）、K3 连续入账逐条排队+
+  可跳过（对齐 item-use-result 逐个展示先例）。详见「Kimi 设计抽审」。Next: Codex build。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: D14-3 奖励/事件总线统一收尾
+接手任务: D14-3 奖励/事件总线统一收尾实现（三方 agree 齐,build allowed）
 任务卡: docs/ops/tasks/D14-3-reward-event-bus.md
-当前状态: draft（build 准入 blocked；Codex 设计冻结并签 agree，双审缺席待补审）
-你的角色: 待补审——GLM 覆盖矩阵主审；Kimi 视觉/UX 抽审（额度恢复后执行）
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡、main.ts:1811/2493/3645、
-  battle-core.ts:284、item-use-result.ts、dialog-box.ts:248、narration-scroll.ts
-已完成: Codex 设计冻结——RewardEvent 通道(reforge 内部类型,非 content schema);
-  统一 reward-gain presenter 替换偷窃横幅/炼成框;宝箱/剧情旁白保持内容驱动(幂等天然);
-  giveItem 自动呈现 = v1.1 留口(涉 schema,双审缺席不动);结算屏结构保留
-请你做(额度恢复后): GLM 压测覆盖矩阵(giveItem/宝箱/偷窃/合成/结算逐条)与无双 UI 并存
-  门禁;Kimi 抽验 reward-gain 观感与 v1.1 giveItem 呈现口径;agree/counter
-不要做: 不得修改实现文件；不得改变 giveItem 时序语义
-输出要求: 更新设计签字、主审立场、争议处理和下一位提示词
+当前状态: draft → build 准入 allowed(Codex/GLM/Kimi 三方 agree,2026-08-07)。
+你的角色: Coding Owner——build 阶段唯一实现文件修改者。
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文(设计结论 + GLM G1-G2 + Kimi K1-K3);
+  main.ts:1811/2493/3645、battle-core.ts:284(notice 横幅)、item-use-result.ts、
+  narration-scroll.ts、dialog-box.ts:248。
+必落钉(build 验收逐项核):
+  - G1(GLM build 期冻结): 五路径(giveItem/宝箱旁白/偷窃/合成炼成/结算物品)逐条
+    入账点发射 RewardEvent + 引擎呈现走 reward-gain + 脚本旁白不重复。
+  - G2: 双 UI 并存门禁——偷窃横幅/item-use-result 全走 reward-gain,grep 无旧入口
+    残留死代码。
+  - K1: 战斗内 reward-gain 位置/时长与战斗节奏合;违和则战斗内横幅形态同组件变体,
+    视觉验收定。
+  - K3: 连续入账逐条排队(不压一行)+ 固定时长 + 可按键跳过。
+  - 设计结论全项: RewardEvent 仅 reforge 内部类型(不动 content schema);入账逻辑零改动
+    只加发射;giveItem 保持静默(v1.1 留口);结算屏结构保留。
+纪律: 不改 giveItem 时序语义;不引入异步奖励队列改变时序;不第三套提示 UI;
+  不入账与呈现耦合(呈现器不写 world)。
+验收输出: 实现摘要 + G/K 钉逐项对照 + 测试证据;回卡交 GLM/Kimi review 签字;
+  Kimi 视觉验收(宝箱/偷窃/合成/结算提示一致 + 战斗偷窃观感 + 连续入账排队)。
+```
+
+```text
+接手任务: D14-3 奖励/事件总线统一收尾（设计补审）——已执行完毕,勿再执行
+说明: 本提示词为历史记录,GLM/Kimi 已于 2026-08-07 额度恢复后补审签 agree
+  (G1-G2 + K1-K3),三方 agree 齐,build 准入 allowed。请改用上方实现提示词。
 ```

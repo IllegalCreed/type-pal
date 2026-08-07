@@ -96,11 +96,14 @@ Branch: main
 
 - Codex: **agree**（2026-08-06，语义空槽 schema 冻结：0/65535 语义区分、slots 数组
   保序保空、wMaxEnemyIndex=slots.length-1 全槽抽样、迁移 fail-loud——见设计结论 1）
-- Kimi: pending（战斗分层/表现路由主审,缺席待补）
+- Kimi: **agree**（2026-08-07，额度恢复补审，战斗分层/表现路由主审：decision 截断/
+  独立 helper/session 路由/专用动画分层对源成立，附 K1-K4 build 准入钉——站位空槽
+  表现、召唤落槽规则、路由负测、lastAction 消费边界；见「Kimi 设计压测」）
 - GLM: **agree（2026-08-07，公式/覆盖矩阵主审：slots schema（0 占位 vs 65535 跳过、保序保空、wMaxEnemyIndex=slots.length-1）对源 battle.c:1595-1658 + fight.c:4489-4517 + game-mechanics.md:889 kBattleActionAttackMate 核实成立；attackMate 公式独立 helper + lastAction.damage 完整记录口径正确。附 G1 build 准入钉：380 队源槽 census（68 含 0 槽 / 56 多活敌 / 槽位守恒）由 build 期 GLM 冻结。见「GLM 设计压测」）**
 - counter / 分歧处理: 无 counter
-- 缺签豁免: N/A
-- build 准入结论: **blocked on Kimi**（GLM agree 已落）
+- 缺签豁免: N/A（Kimi/GLM 补签完成）
+- build 准入结论: **allowed**（2026-08-07，三方 agree 齐；G1 + K1-K4 为 build 验收钉，
+  不阻塞准入）
 
 ### 进入 done 前:审查签字
 
@@ -150,16 +153,56 @@ Branch: main
 ### 主审立场
 
 - Reviewer: Kimi（战斗分层/表现路由）+ GLM（公式/覆盖矩阵）
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论: **GLM agree（附 G1）+ Kimi agree（附 K1-K4）**
+- 必改项: 见 G1 + K1-K4（build 准入钉）
+- 是否建议进入 build: **双方同意进入 build（钉子均为验收钉，不阻塞准入）**
 
 ### 三方争议记录(按需)
 
 - Codex: 二次核对后撤回“省略废弃玩家抽签”的初稿；严格采用一阶段完整 RNG 顺序，并把源编队空槽保留纳入设计门禁。
-- Kimi: pending
+- Kimi: **agree（2026-08-07，战斗分层/表现路由主审）**。详见「Kimi 设计压测」。
 - GLM: **agree（2026-08-07，公式/覆盖矩阵主审）**。详见「GLM 设计压测」。
 - 用户拍板: 2026-07-30，一阶段游戏机制文档是真值，不得猜测。
+
+#### Kimi 设计压测（2026-08-07，战斗分层/表现路由，额度恢复补审）：**agree（附 K1-K4 build 准入钉）**
+
+**方法**：只读设计压测；一手核 battle-core.ts summon/敌行动现状（:288/:791/:856 召唤
+落槽引用、:2098 已有玩家 attackMate 路由先例）、enemies.json summon 使用面（32 处）、
+game-mechanics.md:833-883 真值段。未修改实现。
+
+**对源核实（战斗分层成立）**：
+
+1. **decision 截断分层**：无活玩家门 → 废弃玩家目标抽样（RNG 消耗不省）→
+   sleep/paralyzed/confused 判定 → confused 在构建普通 AI view 前截断——对源完整 RNG
+   顺序;cast/transform/summon/divide/flee/fallback 全表绕过证明进测试矩阵 ✓。
+2. **表现路由**：session 在通用非 attack 过滤前识别 `side=enemy && kind=attackMate`、
+   按敌槽解释 targetEnemyIdx;lastAction.damage 记完整公式值（不从 HP diff 推导）——
+   与现状 :2098 玩家 attackMate 路由并列同构,路由模式有先例 ✓。
+3. **独立 helper + 专用动画 12 帧**:SHORT cast + calcBaseDamage 独立 helper 不接普通
+   物理链;专用滑步/effect 9-11/抖动/复位时间线不复用普通攻击音帧——一阶段 UX 真值
+   移植口径正确 ✓。
+4. **dualMove 独立抽样、64 次 failsafe 有界** ✓。
+
+**K 钉（build 准入必落,增量于 G1,不阻塞 agree）**：
+
+- **K1（站位空槽表现）**:slots 保序保空后,spawn 派生的**战斗站位**必须写明规则——
+  空槽是否留站位空洞（源 rgEnemy 数组空槽不生成敌人,有效敌站位按槽位索引分布);
+  若压紧,68 队的站位观感偏移。build 前写明「站位按槽位索引派生（空槽留位）」或
+  用 census 证明原版站位不依赖空槽;68 队代表队进视觉验收。
+- **K2（召唤/分身落槽规则）**:battle-core 有 summon（enemies.json 32 处引用）——
+  原版召唤/分身写 `wObjectID==0` 空槽;slots null 槽可否被召唤填充必须写清
+  （可填 → 填充后参与混乱抽样,语义自洽;不可填 → 注明偏离与影响面,68 队中哪些
+  队含召唤敌进 census 交叉）。
+- **K3（路由负测）**:attackMate 路由 side/kind 双判据;普通敌物攻/法术/玩家 attackMate
+  （:2098 现状）路径零回归测试;session 不误把敌 attackMate 送进普通敌物攻时间线。
+- **K4（lastAction 消费边界）**:lastAction.target 语义分裂（玩家槽 vs 敌槽）已由显式
+  targetEnemyIdx 规避 ✓;钉:所有 lastAction 消费点（session 演出/日志/测试断言）按
+  kind 判据路由,类型层 union 收窄,防后续消费点误读 target。
+
+**结论**：**agree**。decision/结算/表现三层划分与一阶段真值对齐;K1-K4 为 build 验收钉,
+不阻塞准入。建议进入 build(G1 census 由 GLM build 期冻结)。
+
+**边界**：本 agree 只准入 B10-1 build,不代表 done。
 
 #### GLM 设计压测（2026-08-07，公式/覆盖矩阵）：**agree（附 G1 build 准入钉）**
 
@@ -215,19 +258,39 @@ G1（380 队源槽 census）为 build 准入必落钉——GLM 席位于 build �
   `EnemyTeamDef.slots: Array<string|null>` 保序保空，length = 非 65535 条目数；
   迁移 65535→跳过/0→null/有效→slug，未知 id fail-loud；runtime wMaxEnemyIndex=
   slots.length-1，混乱抽样全槽重抽。Next: Kimi/GLM 设计压测签字。
+- 2026-08-07 GLM: 设计压测 agree（G1 380 队源槽 census,build 期冻结）。
+- 2026-08-07 Kimi: 额度恢复补审,设计压测 **agree（附 K1-K4）**——三方 agree 齐,
+  **build 准入 allowed**。K1 站位空槽表现规则、K2 召唤/分身落槽规则（enemies.json
+  32 处 summon 引用的真实交叉点）、K3 路由负测（玩家 attackMate 现状零回归）、
+  K4 lastAction 消费边界 kind 判据收窄。详见「Kimi 设计压测」。Next: Codex build
+  （G1 census 由 GLM build 期冻结）。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: B10-1 混乱敌人攻击同伴
+接手任务: B10-1 混乱敌人攻击同伴实现（三方 agree 齐,build allowed）
 任务卡: docs/ops/tasks/B10-1-enemy-confused-attack.md
-当前状态: draft（build 准入 blocked；Codex 语义空槽 schema 冻结完成，见设计结论 1）
-你的角色: Kimi 审战斗分层/表现路由；GLM 审公式真值/测试覆盖
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、docs/phase1/game-mechanics.md:833-883，以及任务卡列出的一阶段实现和 fight.c 锚点
-已完成: 二次真值核对（废弃玩家抽样 + 68/380 源空槽）+ 语义槽 schema 冻结
-  （0 占位/65535 不占位、slots 数组保序保空、wMaxEnemyIndex=slots.length-1）
-请你做: 独立核对完整 RNG 顺序、slots schema/migration 的 380 队源账本、
-  公式与表现；冻结方案后在任务卡写 agree，或 counter + 必改理由
-不要做: 不得修改实现文件，不得以“活目标分布相同”替代 RNG 忠实，不得改变玩家混乱或 W9 生命周期，不得在三签前标 build
-输出要求: 更新设计签字、主审立场、争议处理和下一位提示词
+当前状态: draft → build 准入 allowed(Codex/GLM/Kimi 三方 agree,2026-08-07)。
+你的角色: Coding Owner——build 阶段唯一实现文件修改者。
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文(设计结论 + GLM G1 + Kimi K1-K4);
+  docs/phase1/game-mechanics.md:833-883、fight.c:4489-4517/4578-4654、
+  一阶段 enemy-ai.ts:68-117/attack.ts:464-524/anim-timeline.ts:1170-1240。
+必落钉(build 验收逐项核):
+  - G1(GLM build 期冻结): 380 队源槽 census(68 含 0 槽/56 多活敌/槽位守恒)。
+  - K1: spawn 站位按槽位索引派生(空槽留位)或 census 证原版站位不依赖空槽。
+  - K2: 召唤/分身落槽规则写清(null 槽可填则填充后参与抽样;不可填注明偏离与影响面)。
+  - K3: attackMate 路由 side/kind 双判据负测;玩家 attackMate/普通敌链零回归。
+  - K4: lastAction 消费点按 kind 收窄;targetEnemyIdx 显式不重用 target。
+  - 设计结论全项: 完整 RNG 顺序(含废弃玩家抽样)、confused 截断 AI rules/fallback、
+    专用公式(SHORT/calcBaseDamage/物抗 0 不除/保底 1)、12 帧专用动画无声音、
+    dualMove 独立抽样、64 次 failsafe、lastAction.damage 完整公式值。
+纪律: 不塞普通敌物攻链;不用「随机另一只」替代「含自己抽到 Pass」;不加 jitter/暴击/
+  格挡/援护/护体/附毒/攻击音;不改玩家混乱与全局 AI RNG 契约;不用 HP 差显示超杀。
+验收输出: 实现摘要 + G/K 钉逐项对照 + 测试证据;回卡交 Kimi/GLM review 签字。
+```
+
+```text
+接手任务: B10-1 混乱敌人攻击同伴（设计压测）——已执行完毕,勿再执行
+说明: 本提示词为历史记录,Kimi/GLM 已于 2026-08-07 签 agree(G1 + K1-K4),
+  三方 agree 齐,build 准入 allowed。请改用上方实现提示词。
 ```

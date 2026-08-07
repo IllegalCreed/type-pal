@@ -108,11 +108,14 @@ Branch: main
 - Codex: **agree**（2026-08-06，设计冻结完成：四态状态机/默认值/320×320 边界含 sdlpal y=320
   typo 忠实复刻、0x52 toggle 前态、BattleResult 四分类、hostile success/playerFlee 拆分、
   SAVE 可选字段不 bump 先例——见「冻结设计」）
-- Kimi: pending（架构/save/schema 主审,缺席待补）
+- Kimi: **agree**（2026-08-07，额度恢复补审，架构/save/schema 主审：四态/计时基准/toggle
+  前态/320×320 边界对源成立，附 K1-K4 build 准入钉——旧档 entityState 隐藏态映射规则、
+  content epoch 与 MG2 边界、BattleResult 公共接口边界、派生状态单一源；见「Kimi 设计压测」）
 - GLM: **agree（2026-08-07，迁移账本/测试矩阵主审：四态状态机 + 计时基准(有效世界 tick) + 320×320 边界 + 0x52 toggle 前态对源 game-mechanics.md:1060-1101 逐条核实成立；SAVE 可选字段不 bump 先例(skillUseCounts/collectValue)认可。附 G1-G2 build 准入钉：源账本 828+193 mutually-exclusive disposition + 总数守恒、SAVE 升级矩阵口径(确定性迁移 vs sidecar 前拒绝二选一)由 build 期 GLM 冻结。见「GLM 设计压测」）**
 - counter / 分歧处理: 无 counter
-- 缺签豁免: N/A
-- build 准入结论: **blocked on Kimi**（GLM agree 已落）
+- 缺签豁免: N/A（Kimi/GLM 补签完成）
+- build 准入结论: **allowed**（2026-08-07，三方 agree 齐；G1-G2 + K1-K4 为 build 验收钉，
+  不阻塞准入）
 
 ### 进入 done 前:审查签字
 
@@ -207,16 +210,60 @@ Branch: main
 ### 主审立场
 
 - Reviewer: Kimi（架构/save/schema）+ GLM（迁移账本/测试矩阵）
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论: **GLM agree（附 G1-G2）+ Kimi agree（附 K1-K4）**
+- 必改项: 见 G1-G2 + K1-K4（build 准入钉）
+- 是否建议进入 build: **双方同意进入 build（钉子均为验收钉，不阻塞准入）**
 
 ### 三方争议记录(按需)
 
 - Codex: 采用语义生命周期表、统一世界 reducer、固定 `320×320` 行为真值；二次核对后补入手动确认、0x52 toggle、world-update pause 与敌逃/terminate 成功分支，不复制原版数据结构。
-- Kimi: pending
+- Kimi: **agree（2026-08-07，架构/save/schema 主审）**。详见「Kimi 设计压测」。
 - GLM: **agree（2026-08-07，迁移账本/测试矩阵主审）**。详见「GLM 设计压测」。
 - 用户拍板: 2026-07-30，游戏机制以一阶段 `game-mechanics.md` 已核实真值为参考，不得猜测。
+
+#### Kimi 设计压测（2026-08-07，架构/save/schema，额度恢复补审）：**agree（附 K1-K4 build 准入钉）**
+
+**方法**：只读设计压测；一手核 game-mechanics.md:1000-1111 真值段、content/script-v5.ts:74-99
+（entityState 持久结构）、reforge save/migration.ts:657-713（旧档 entityState 迁移点）、
+save/ops.ts:123-131（可选字段缺省先例）。未修改实现。
+
+**对源核实（架构层成立，与 GLM 互补）**：
+
+1. **四态 + 计时基准**：suspended/despawned/awaitingExit/removed 与源 sVanishTime 正负语义
+   对齐;「仅所属场景为当前场景的有效世界 tick 推进」从架构上杜绝墙钟/detached wait——
+   这是本卡替代 `respawnSeconds + host.wait` 临时实现的核心收益,方向正确。
+2. **0x52 toggle 前态**:前态感知命令依赖运行时前态(normal→despawned / 负态→normal 暂藏 /
+   state=0 保持)——对回放确定性敏感但源语义如此(sState×=−1),保留正确;迁移账证明前态
+   (GLM G1)是正确兜底。
+3. **awaitingExit 320×320**:固定边界 + 端点包含 + y 比较复刻 320 typo——用户拍板真值,
+   「不得修正为自适应视口」纪律 + 边界回归测试正确。
+4. **BattleResult 四分类接续**:普通胜利/玩家逃跑/敌人逃跑/terminate 显式区分,敌逃/terminate
+   走 success 但不隐藏不奖励(B7a 口径不变)——接续边界干净。
+5. **不得重新引入清单逐条对**:EntityAddress 键(非下标)、WorldState 持久(非场景 clone)、
+   removed 显式(非缺字段推测)、success/playerFlee 拆(非共用消失策略)——全满足。
+
+**K 钉（build 准入必落,增量于 G1-G2,不阻塞 agree）**：
+
+- **K1（旧档 entityState 隐藏态映射规则——SAVE 兼容真实边界）**:现有 `world.script.entityState`
+  （Record<实体,数字表>,script-v5.ts:78）跟存档;旧档里被 vanishEntity 隐藏的实体在
+  entityState 有持久标记。新增 entityLifecycles 可选字段缺省 → 全 normal,意味着**旧档已隐藏
+  实体读档后复活**。build 前必须显式二选一写入 G2 升级矩阵：(a) 确定性映射（旧 entityState
+  隐藏标记 → despawned,remainingTicks 重计 800）;或 (b) 文档化「旧档复活」为一次性可接受
+  偏差（内容上这些实体 80s 后本就会重现）。**不得静默复活而不记录**。
+- **K2（content epoch 与 MG2 边界）**:EntityDef.lifecycle / hostile.policy 拆分是 content
+  schema 变化——走 contentVersion bump + MG2 append-only 迁移账(R13 批次先例);与 R13
+  串行不并行改 schema(卡内风险节已声明);版本矩阵 build 前冻结（与 GLM G2 合并冻结）。
+- **K3（BattleResult 公共接口边界）**:四分类是 battle-core 公共接口扩展——与 B11-1 casualty
+  sweep、18a 混乱(范围外)边界不互侵入;success 接续不得改变 B7a 战果/奖励口径(敌逃/
+  terminate 不给奖励=不发奖励事件);接口消费点(battle-session/main.ts 接续)逐项核。
+- **K4（派生状态单一源）**:reducer 输出统一派生(可见/可碰撞/可触发/auto 允许/hostile 允许);
+  渲染/碰撞/trigger/auto/hostile 全部消费同一派生——测试证明无第二布尔副本(防一阶段
+  「共享状态漏判」重演,议题 14 证据 A/B 的根因纪律)。
+
+**结论**：**agree**。架构方向(语义生命周期表 + 统一 reducer + 单一派生)正确;K1-K4 为
+build 验收钉,不阻塞准入。建议进入 build(G1 census 由 GLM build 期冻结)。
+
+**边界**：本 agree 只准入 W9 build,不代表 done。
 
 #### GLM 设计压测（2026-08-07，迁移账本/测试矩阵）：**agree（附 G1-G2 build 准入钉）**
 
@@ -295,21 +342,40 @@ Branch: main
   放行、awaitingExit 320×320 边界（含 sdlpal y 比较 320 typo）、0x52 toggle 前态、hostile
   success/playerFlee 拆分、BattleResult 四分类、SAVE 可选字段不 bump、828+193 源账本待 GLM
   冻结。Next: Kimi/GLM 设计压测签字。
+- 2026-08-07 GLM: 设计压测 agree（G1 源账本 census、G2 SAVE 升级矩阵二选一写死）。
+- 2026-08-07 Kimi: 额度恢复补审,设计压测 **agree（附 K1-K4）**——三方 agree 齐,**build 准入
+  allowed**。K1 旧档 entityState 隐藏态映射规则（不得静默复活不记录）、K2 content epoch +
+  MG2 append-only 边界、K3 BattleResult 公共接口边界（B11-1/18a 不互侵入、B7a 口径不变）、
+  K4 派生状态单一源（无第二布尔副本）。详见「Kimi 设计压测」。Next: Codex build
+  （G1 census 由 GLM build 期冻结）。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: W9 实体暂离、重现与明雷逃跑冷却
+接手任务: W9 实体暂离、重现与明雷逃跑冷却实现（三方 agree 齐,build allowed）
 任务卡: docs/ops/tasks/W9-entity-lifecycle-respawn.md
-当前状态: draft（build 准入 blocked；Codex 设计冻结完成，见「冻结设计」节）
-你的角色: Kimi 做架构/schema/save 设计审查；GLM 做迁移账本/测试矩阵覆盖审查
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、docs/phase1/game-mechanics.md:1000-1111、docs/phase2/foundation/phase1-knowledge-harvest.md，以及任务卡列出的代码锚点
-已完成: 设计冻结——四态状态机（suspended/despawned/awaitingExit/removed）+ 默认值
-  （0x4B=15tick/0x52=800tick）+ 320×320 边界（含 sdlpal y=320 typo）+ 0x52 toggle 前态 +
-  BattleResult 四分类 + hostile success/playerFlee 拆分 + SAVE 可选字段不 bump + 828+193 源账本待冻结
-请你做: Kimi 压测状态机（尤其 0x52 toggle 前态、awaitingExit 边界、SAVE/content 升级矩阵与
-  BattleResult 接续）；GLM 复核 828 hostile + 193 residual 的互斥源账、0x4B/0x52 operand/
-  前态、测试矩阵和生成白名单。把结论写回设计签字：agree，或 counter + 必改理由
-不要做: 不得修改实现文件，不得直接改 projects/pal，不得把实际视口替代一阶段已记录的固定 320×320 行为，不得把任务标 build/done
-输出要求: 更新任务卡设计签字、主审立场、必要争议和下一位提示词
+当前状态: draft → build 准入 allowed(Codex/GLM/Kimi 三方 agree,2026-08-07)。
+你的角色: Coding Owner——build 阶段唯一实现文件修改者。
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文(冻结设计 + GLM G1-G2 + Kimi K1-K4);
+  docs/phase1/game-mechanics.md:1000-1111、卡内全部代码锚点。
+必落钉(build 验收逐项核):
+  - G1(GLM build 期冻结): 源账本 828+193 mutually-exclusive disposition + 总数守恒 census。
+  - G2+K1: SAVE 升级矩阵写死——旧档缺省→normal 确定性 + entityState 隐藏态映射规则
+    (确定性映射 despawned 重计,或文档化一次性偏差)+ sidecar 拒绝路径单测。
+  - K2: content schema 变化走 contentVersion bump + MG2 append-only;与 R13 串行。
+  - K3: BattleResult 四分类公共接口边界;敌逃/terminate 走 success 不隐藏不奖励;
+    B7a 战果口径不变。
+  - K4: 统一 reducer 单一派生状态;渲染/碰撞/trigger/auto/hostile 同消费;测试证无第二
+    布尔副本。
+  - 冻结设计全部: 四态语义/默认值(15/800 tick)/320×320 边界(含 y=320 typo)/0x52 toggle
+    前态/手动确认放行/有效世界 tick 计时(禁墙钟/detached wait)。
+迁移: 拆 0x4B/0x52、明雷折叠四分类、全量重生成、二次迁移 0/0/0;不手修生成产物。
+编辑器: 中文 CRUD 两能力 + 明雷策略/逃跑冷却;不暴露 sVanishTime。
+验收输出: 实现摘要 + G/K 钉逐项对照 + 测试证据;回卡交 Kimi/GLM review 签字。
+```
+
+```text
+接手任务: W9 实体暂离、重现与明雷逃跑冷却（设计压测）——已执行完毕,勿再执行
+说明: 本提示词为历史记录,Kimi/GLM 已于 2026-08-07 签 agree(G1-G2 + K1-K4),
+  三方 agree 齐,build 准入 allowed。请改用上方实现提示词。
 ```
