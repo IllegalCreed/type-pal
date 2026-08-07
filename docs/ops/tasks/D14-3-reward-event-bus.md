@@ -7,7 +7,8 @@ Coding Owner: Codex
 Generation Owner: N/A
 Reviewer: GLM（覆盖矩阵主审）+ Kimi（视觉/UX 抽审）
 Visual Verification Owner: Kimi
-Unavailable Agents: Kimi + GLM（2026-08-07 双额度耗尽；Codex 单 Agent 推进需用户批准）
+Unavailable Agents: Kimi（2026-08-07 额度耗尽待补审）；GLM 已恢复（2026-08-07 可补审
+  设计压测 + 覆盖矩阵）
 Branch: TBD
 
 ## 目标

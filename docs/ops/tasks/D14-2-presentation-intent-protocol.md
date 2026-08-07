@@ -8,7 +8,7 @@ Generation Owner: N/A
 Reviewer: Kimi（架构/演出建模主审）+ GLM（覆盖/协议词汇矩阵；⚠ 2026-08-07 额度耗尽缺席，
   由 Kimi + Codex 临时代班，待补审）
 Visual Verification Owner: Kimi
-Unavailable Agents: GLM（2026-08-07 额度耗尽；代班=Kimi + Codex；恢复后补签）
+Unavailable Agents: Kimi（2026-08-07 额度耗尽待补审）；GLM 已恢复（2026-08-07 补审补签中）
 Branch: TBD
 
 ## 目标

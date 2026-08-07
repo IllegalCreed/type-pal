@@ -7,8 +7,8 @@ Coding Owner: Codex
 Generation Owner: Codex（涉及 RGM 头像 / 光标 sprite 资产接入时）
 Reviewer: Kimi（视觉/UX 主审）+ GLM（数据/覆盖矩阵）
 Visual Verification Owner: Kimi（用户 2026-08-06 拍板视觉验证由 Kimi 承担）
-Unavailable Agents: Kimi + GLM（2026-08-07 双额度耗尽；用户已批准 Codex 单 Agent 推进
-  D14-1 build（2026-08-07「按你推荐的顺序推进吧先」），设计签字待两席恢复后补审补签）
+Unavailable Agents: Kimi（2026-08-07 额度耗尽待补审）；GLM 已恢复（2026-08-07 可补审
+  设计 + build 复核）；Codex 单 Agent build 已完成（用户批准）
 Branch: TBD
 
 ## 目标
