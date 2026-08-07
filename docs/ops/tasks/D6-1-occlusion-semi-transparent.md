@@ -350,7 +350,7 @@ K1-K5 为 build 验收钉，不阻塞准入。
 ```text
 接手任务: D6-1 遮挡半透明——实现完成,交 Kimi 视觉验收 + 双审(当前生效)
 任务卡: docs/ops/tasks/D6-1-occlusion-semi-transparent.md
-当前状态: build(实现完成,提交 TBD;reforge 811 / content 400 / editor typecheck 全绿)。
+当前状态: build(实现完成,提交 `1b2b0645`;reforge 811 / content 400 / editor typecheck 全绿)。
 你的角色: Kimi 视觉验收(浏览器实测)+ Kimi/GLM review 签字;不是再改实现。
 已实现(Codex): occlusionTrigger 显式标记(actor 触发/prop 不触发)+ cover 瓦片跨 sprite
   按 tile key 去重合并 + OcclusionLatch 120ms 迟滞 + OCCLUSION_ALPHA=0.35 集中定义;
