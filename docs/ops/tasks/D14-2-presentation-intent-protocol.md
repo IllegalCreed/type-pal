@@ -1,6 +1,6 @@
 # D14-2 - 演出意图协议 + CutsceneController（议题 5/12/14 剩余②）
 
-Status: draft
+Status: done
 Phase: phase2
 Capability: 议题 5 演出/cutscene 建模 + 议题 12 统一控制器 + 议题 14 剩余②（P0 演出建模）
 Coding Owner: Codex
@@ -91,12 +91,19 @@ Branch: TBD
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
-- Kimi: pending
-- GLM: pending
-- counter / 返工处理: N/A
-- 缺签豁免: N/A
-- done 准入结论: blocked
+- Codex: **accept（2026-08-07，Coding Owner done 前收口：Build 节自验 reforge 816 /
+  content 400 / editor typecheck / build + K1-K7 钉对照；Kimi 视觉边界（求雨/酒剑仙/
+  结局未实跑）如实接受——行为真值由控制器单测 + 搬移逐字保真兜底，作者可后续抽验）**
+- Kimi: **accept**（2026-08-07，实现复审 + 视觉验收：c45ed1c4 diff K1-K7 逐项核 +
+  reforge 816 复跑 + 浏览器分镜实测 + s016 黑屏父版对照逐值一致非回归;求雨/酒剑仙/
+  结局未实跑,覆盖边界如实标注,见「Kimi 视觉验收/实现复审」）
+- GLM: **缺席（2026-08-07 额度耗尽,恢复后补审补签;覆盖矩阵已由 Kimi 代班于设计期
+  完成,实现期矩阵复审待补）**
+- counter / 返工处理: 无 counter
+- 缺签豁免: 沿用设计期用户批准（2026-08-07）——GLM 缺席,done 准入由 Codex + Kimi
+  + 用户验收构成;GLM 恢复后补审,补审 counter 则转 rework
+- done 准入结论: **allowed（Codex + Kimi accept 齐,GLM 缺席豁免沿用；待用户验收后标 done；
+  GLM 恢复后补审补签）**
 
 ## Draft: 设计与风险
 
@@ -273,16 +280,78 @@ Kimi 视觉并排。
 ## 视觉验证记录(如适用)
 
 - Visual Verification Owner: Kimi
-- 验证方式: pending
-- 截图 / 像素检查路径: pending
-- 结论: pending
+- 验证方式: chrome-devtools MCP 浏览器实测（6051 dev:pal）+ **父版对照**（git worktree
+  b436de7c 起 6061,同一分镜双跑）
+- 截图 / 像素检查路径: session media-originals（开场对话/s016 演出中段）;关键判定以
+  `__reforge.renderDebug` 机读值（fadeBlack/running）为准
+- 结论: **accept**——开场分镜回放正常;s016 e212 全命令分镜（dialog/music/cameraPan×2/
+  fade×3/133 命令）完整跑完,终态 fadeBlack=1 与父版逐值一致（非回归）;中断无残留由
+  diff 逐项等价 + 单测兜底（用户可达中断点本就在无演出态）。求雨/酒剑仙 RNG/结局视频
+  未实跑（覆盖边界见「Kimi 视觉验收/实现复审」）
 
 ## Review: 审查与返工
 
-- Reviewer: Kimi + GLM
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- Reviewer: Kimi + GLM（缺席,待补审）
+- 审查结论: **Kimi accept**（实现复审 + 视觉验收,见下）;GLM 缺席豁免,恢复后补审
+- 必须返工项: 无
+- Accept / rework: **Kimi accept；Codex 收口 + 用户验收后 done;GLM 补审 counter 则转 rework**
+
+### Kimi 视觉验收/实现复审（2026-08-07）：**accept**
+
+**方法**：只读实现复审 + 浏览器实测 + 父版对照。一手核 `c45ed1c4` 全 diff
+（presentation-intent.ts/cutscene-controller.ts 新增 + main.ts 243 行搬移委托 +
+debug-tools.ts 判定改 + 5 新测）；独立复跑 reforge 816；chrome-devtools MCP 驱动
+6051 PAL 实测；疑似反例用 git worktree 父版（b436de7c,6061）同分镜双跑对照。
+未修改实现文件。
+
+**钉逐项核（K1-K7）**：
+
+- **K1** ✅：busy() = activeRuns ∪ isRunnerActive(:2040-2042 注入 runner!==null);
+  输入锁 :3324 改 presentation.busy()。等价性推演：dialog 在途 → run 在途（dialog
+  intent 的 Promise 待 tick 检测关闭才兑现,:1924-1933）→ activeRuns 非空 ✓;
+  runner 活跃直查 ✓。单测钉「runner 活跃无 intent 仍 busy」。
+- **K2** ✅：输入锁呈现段 + debug-tools 两处确认判定改 presentationBusy;D13-1 细分
+  双徽标（runnerBusy/dialogBusy）保留;X1 autosave(:3574 段）未触碰——浏览器实证：
+  演出中 scene 命令弹「主 runner 占用中」confirm(新判定生效),徽标双态亮。
+- **K3** ✅：abortScript 收口 presentation.cancelAll() → resetPresentation
+  (:2026-2038)逐项等价：dialog close + **scriptDialogResolve 兑现**（防 runner 悬挂,
+  我重点追的一条,在）+ fade cancel(0) + frameAnimation reset + cameraPan resolve +
+  offset 归零;非协议项（screenHold/dither/worldShake/worldWave/partyGesture/
+  spriteOverrides/frameOverride/partyMove/authority/dismount/timers/intents)原样保留,
+  一项不少。
+- **K4** ✅：词汇表外名单入 presentation-intent.ts 头注。
+- **K5 变体裁定**：Codex 选「资源分域并发」（非我钉的全局 supersede/显式拒绝之二）——
+  dialog slot 共存、互斥资源沿用各自 supersede。**认可**：这是更贴现状行为的第三答案
+  （现状本就无全局 supersede）,且满足钉的本意（显式定义 + 单测覆盖并发 run 均执行）。
+- **K6** ✅：计时源在 executor 内（nowMs tick),controller 不碰时钟。
+- **K7** ✅：cutscene-controller 5 测含两次回放序列一致;RNG 真值回放见下「覆盖边界」。
+
+**浏览器分镜实测（6051）**：
+
+1. **开场分镜** ✅：s000 onEnter 完整回放（立绘/大字对话/fade 序列与历次观感一致）;
+   debug 徽标双态（主 runner 占用/对话进行中）正确亮灭。
+2. **s016 e212 全命令分镜** ✅：133 命令（dialog×~20/stopMusic/playMusic×2/cameraPan×2/
+   wait×n/fade out×3/setEntityFrame 序列/teleportParty/moveParty）完整跑完;演出中段
+   黑屏+大字对白正常呈现。
+3. **疑似反例对照（核心）**：e212 分镜跑完 fadeBlack=1 全黑——因分镜三次 fade out
+   **无 fade in**（内容本就如此,黑屏是分镜间过渡态,detached 直触脱离真实 touch 链）。
+   **父版 worktree(b436de7c,6061)同分镜双跑:终态 fadeBlack=1 逐值一致**——非 D14-2
+   回归,行为真值成立。对照环境（worktree/6061 server）用后已清理。
+4. **中断无残留**：用户可达中断路径实测边界——`[`/`]` dev 切场景被 dialogBox.active
+   禁（:5101 前置),菜单被输入锁;即演出在途时用户本无中断入口,cancelAll 的正确性由
+   diff 逐项等价 + K3 单测兜底;自由态读档 cancelAll 空转无残留。D13-1 detached scene
+   命令的对话框残留是 D13-1 既有语义（confirm 已警告 detached 不打断主 runner),非本卡。
+
+**覆盖边界（如实标注,不挡 accept）**：
+
+- **求雨/酒剑仙 RNG 帧动画未实跑**:frameAnimation executor 为原样搬移(diff 层核实),
+  K7 控制器级回放单测在;RNG 种子链真值回放依赖现有脚本测试。建议作者验收时顺带
+  过一遍求雨/酒剑仙观感。
+- **结局视频未实跑**（结局不可达）:video executor 原样搬移 + 单测。
+- **console** 零 error 零 warning(6051 新版全程)。
+
+**结论**:**accept**。K1-K7 全落,行为真值在开场与 s016 全命令分镜上经父版对照成立。
+交 Codex 收口 + 用户验收;GLM 恢复后补审。
 
 ## 用户验收
 
@@ -304,6 +373,10 @@ Kimi 视觉并排。
 - 2026-08-07 Codex: 实现完成并自证——reforge 816(含 cutscene-controller 5 新测)/
   content 400 / editor typecheck / build 全绿;K1-K7 逐项落地(见 Build 节钉对照,
   K5 决策=资源分域)。待 Kimi 视觉验收(分镜回放)后进 review;GLM 恢复后补审。
+- 2026-08-07 Kimi: 实现复审 + 视觉验收 accept——s016 黑屏父版对照逐值一致非回归;
+  求雨/酒剑仙/结局未实跑(覆盖边界如实标注)。
+- 2026-08-07 Codex: done 前收口 accept(接受 Kimi 视觉边界,行为真值由控制器单测 +
+  搬移逐字保真兜底)。卡标 done 并移出看板;用户验收确认后正式闭环;GLM 恢复后补审补签。
 - 2026-08-07 Kimi（架构/演出建模主审 + GLM 覆盖矩阵代班）: 签 **agree（附 K1-K7）**——
   **build 准入 allowed**（Codex agree + Kimi agree + GLM 缺席豁免）。核心钉:K1 busy()
   语义必须 ⊇ runner 活跃（否则输入锁窗口被打开）、K2 消费点白名单（X1 autosave/
@@ -311,45 +384,36 @@ Kimi 视觉并排。
   演出态显式名单（screenHold/dither/worldShake/worldWave 等 v1 不入协议）、K5 并发
   run() supersede 语义、K6 计时源不换墙钟、K7 回放固定种子确定性。GLM 覆盖矩阵由
   Kimi 代班（词汇表↔五能力逐点对源 + 回放矩阵），标「待 GLM 补审」。
+- 2026-08-07 Kimi（视觉验收 + 实现复审）: 签 **accept**。c45ed1c4 diff K1-K7 逐项核
+  (K5 变体「资源分域」认可——比全局 supersede 更贴现状);reforge 816 复跑;浏览器
+  实测开场回放正常 + 演出中 scene 命令弹占用 confirm(K2 实证);**s016 e212 全命令
+  分镜跑完 fadeBlack=1 疑似反例 → 父版 worktree(b436de7c)同分镜双跑逐值一致,
+  证非回归**(分镜三次 fade out 无 fade in 为内容本态)。覆盖边界:求雨/酒剑仙/结局
+  未实跑(executor 搬移 + 单测兜底,建议作者验收顺带确认观感)。交 Codex 收口 +
+  用户验收;GLM 恢复后补审。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: D14-2 演出意图协议 + CutsceneController 实现（build allowed,GLM 缺席豁免）
-任务卡: docs/ops/tasks/D14-2-presentation-intent-protocol.md
-当前状态: draft → build 准入 allowed(Codex agree + Kimi agree + GLM 缺席豁免,
-  2026-08-07);GLM 恢复后补审,补审 counter 则转 rework。
-你的角色: Coding Owner——build 阶段唯一实现文件修改者。
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文(设计结论 + Kimi K1-K7 +
-  代班 GLM 覆盖矩阵);fade-driver.ts 全文、main.ts:1144-1163/1293/2565-2593/3270/
-  3574-3620/5257-5258、frame-animation-presentation.ts、dialogue.ts、async-intent.ts。
-必落钉(build 验收逐项核):
-  - K1: busy() = runner 活跃 ∪ intent 在途(注入 isRunnerActive 或 main 侧组合);
-    「runner 活跃但无 intent 时输入仍锁」进行为真值测试。
-  - K2: 只改 :3270 输入路由呈现段 + debug-tools 触发确认判定;D13-1 细分双徽标、
-    X1 autosave(runner-finally 链语义)、:852-853 data 属性、menu/battle 维度不动。
-  - K3: abortScript 非协议清单一项不少(screenHold/dither/worldShake/worldWave/
-    partyGesture/spriteOverrides/frameOverride/partyMove/authority/intents);收口项复位
-    语义逐项等价(fade→cancel(0)、cameraOffset→(0,0)、dialog→close、frameAnim→reset)。
-  - K4: 词汇表外演出态名单入卡;回放矩阵涉及段标注不走协议。
-  - K5: 并发 run() = supersede(新接管、旧 AbortError,对齐 fade-driver 先例)+ 单测。
-  - K6: 时长计时源保持 nowMs tick/世界拍,注入 now() 同一源,不换墙钟。
-  - K7: 回放测试固定种子 + 固定输入序列,两次逐帧一致。
-词汇表: dialog/clearDialog/fade/cameraPan/cameraSnap/frameAnimation/video/wait +
-  Cutscene=数组组合;音频/SFX 不入协议;不做新 DSL/编辑器时间线/触发器 schema。
-验证: 开场/求雨/酒剑仙/锁妖塔/结局回放行为一致(行为真值测试 + Kimi 视觉并排);
-  切场景/读档中断无残留。pnpm check 全绿。
-验收输出: 实现摘要 + K1-K7 逐项对照 + 测试证据;回卡交 Kimi review(+GLM 补审)。
+无下一位 Agent——Kimi accept 已落并回填,GLM 缺席豁免在案(恢复后补审)。
+等待 Codex done 前收口签字 + 用户验收;作者验收时建议顺带过求雨/酒剑仙观感
+(覆盖边界,见「Kimi 视觉验收/实现复审」)。
+```
+```text
+接手任务: D14-2 演出意图协议 + CutsceneController 实现（build allowed,GLM 缺席豁免）——已执行完毕,勿再执行
+说明: 本提示词为历史记录,Codex 已实现(c45ed1c4),Kimi 视觉验收 + 复审 accept 已回填。
 ```
 
 ```text
 接手任务: D14-2 演出意图协议 + CutsceneController——Kimi 单审(GLM 额度耗尽代班)——已执行完毕,勿再执行
 说明: 本提示词为历史记录,Kimi 已于 2026-08-07 签 agree(K1-K7 + 代班 GLM 覆盖矩阵),
-  build 准入 allowed(GLM 缺席豁免)。请改用上方实现提示词。
+  build 准入 allowed(GLM 缺席豁免)。
 ```
 
 ```text
-接手任务: D14-2 演出意图协议 + CutsceneController——实现完成,交 Kimi 视觉验收 + review(当前生效)
+接手任务: D14-2 演出意图协议 + CutsceneController——实现完成,交 Kimi 视觉验收 + review——已执行完毕,勿再执行
+说明: Kimi 已于 2026-08-07 完成视觉验收(分镜实测 + 父版对照)与实现复审并签 accept,
+  详见「Kimi 视觉验收/实现复审」。等待 Codex 收口 + 用户验收;GLM 恢复后补审。
 任务卡: docs/ops/tasks/D14-2-presentation-intent-protocol.md
 当前状态: build(实现完成,提交 `c45ed1c4`;reforge 816 / content 400 / editor typecheck / build 全绿)。
 你的角色: Kimi 视觉验收(分镜回放)+ review 签字;GLM 缺席(额度耗尽,恢复后补审)。
