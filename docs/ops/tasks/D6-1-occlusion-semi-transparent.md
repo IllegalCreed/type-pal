@@ -62,7 +62,7 @@ schema 保证遮挡关系可判定。
 
 ### 进入 build 前:设计签字
 
-- Codex: pending
+- Codex: agree（2026-08-07 设计冻结，见「设计结论」）
 - Kimi: pending
 - GLM: pending
 - counter / 分歧处理: N/A
@@ -82,15 +82,34 @@ schema 保证遮挡关系可判定。
 
 ### 设计结论
 
-待冻结。方向：遮挡重叠检测（实体包围盒 vs occludesActors 瓦片）→ 命中区域 alpha 化；
-阈值/曲线随 Kimi 视觉验收调整。
+**2026-08-07 冻结（Codex agree）**：
+
+1. **复用现成遮挡关系，不新增检测算法**：render.ts 已按 `PAL_CalcCoverTiles` 逐 sprite
+   算「会被哪些 cover 瓦片遮挡」（`coverTileCandidates`，render.ts:191-199，输入
+   coverILayer/coverSortOffset），并在排序表里把那些瓦片画在 sprite 之后（正确遮挡）。
+   半透明 = 把这些「已判定遮挡该角色的 cover 瓦片」以低 alpha 绘制（方案 A，D27），
+   遮挡关系零新增计算。
+2. **触发对象**：仅「角色类 sprite」（玩家/队员/跟随者/NPC，即有 coverSortOffset 的
+   实体精灵）；纯静物 prop 的遮挡瓦片保持不透明（prop 被挡=正常遮挡，不触发前景透明）。
+   具体以 SpriteDraw 的 coverSortOffset/来源实体区分，build 时按 main.ts 精灵构造点确认。
+3. **呈现**：命中 cover 瓦片以常量 `OCCLUSION_ALPHA = 0.35` 绘制（集中一处定义，
+   Kimi 视觉验收可调）；整块瓦片半透明（不做区域遮罩，v1 范围），base/地板层不受影响。
+4. **迟滞防闪烁**：瓦片进出遮挡集合按 per-tile latch（进入后保持 alpha 120ms，
+   防角色贴墙边缘抖动闪烁）；alpha 变化本身是瞬时切换（无过渡动画，v1 简单化，
+   若视觉需要再加渐变）。
+5. **性能**：coverTileCandidates 已是每帧既有计算，半透明只改 drawTile 的 alpha 参数，
+   无新增每帧检测；迟滞用 Map<tileKey, untilMs>，规模=视口 cover 瓦片数，可忽略。
+6. **范围重申**：不做描边剪影（D27 已否）、不做全局半透明、不做遮挡对演出
+   （RNG/对话）的交互；`?collision`/debug 叠加层不受影响。
 
 ### 已知风险
 
 - 风险: alpha 化破坏原版像素观感。
 - 缓解: 透明度曲线可调 + Kimi/作者验收门禁。
-- 风险: 检测开销（每帧实体×瓦片）。
-- 缓解: 只在实体所在视口内检测 + 缓存/脏标记。
+- 风险: 贴墙边界闪烁。
+- 缓解: per-tile 120ms 迟滞 latch;Kimi 视觉验收实测边界场景。
+- 风险: 角色类与 prop 的区分误判（prop 也触发透明）。
+- 缓解: 以 coverSortOffset/实体来源为判据,build 时核对 main.ts 精灵构造点,视觉验收抽验。
 
 ### 主审立场
 
@@ -137,18 +156,25 @@ schema 保证遮挡关系可判定。
 
 - 2026-08-06 Codex: 用户拍板方案 A（D27）后开卡；reforge 深度排序/alpha 已具备，
   缺遮挡重叠检测与半透明实现。
+- 2026-08-07 Codex: 设计冻结并签 agree。复用 coverTileCandidates 现成遮挡关系,把
+  「已判定遮挡角色类的 cover 瓦片」以 OCCLUSION_ALPHA=0.35 绘制;仅角色类触发、prop
+  不触发;per-tile 120ms 迟滞防闪烁;无新增每帧检测;不做遮罩/渐变/演出交互。
 
 ## 下一位 Agent 提示词
 
 ```text
 接手任务: D6-1 遮挡半透明（方案 A）
 任务卡: docs/ops/tasks/D6-1-occlusion-semi-transparent.md
-当前状态: draft（build 准入 blocked）
+当前状态: draft（build 准入 blocked；Codex 设计冻结并签 agree，见「设计结论」）
 你的角色: Kimi 视觉/渲染主审；GLM 遮挡场景覆盖矩阵主审
 先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡、decisions.md D27、
-  render.ts:2/295-346、main.ts:4529、slice1-indoor spec occludesActors
-已完成: 开卡（审美已拍方案 A，实现未冻结）
-请你做: 压测遮挡重叠检测算法、alpha 阈值/曲线、迟滞防闪烁、性能方案；
+  render.ts:2/191-199/295-346、main.ts:4206（精灵 coverILayer 构造点）、
+  slice1-indoor spec occludesActors
+已完成: Codex 设计冻结——复用 coverTileCandidates（PAL_CalcCoverTiles 移植）现成遮挡
+  关系,把「已判定遮挡角色类的 cover 瓦片」以 OCCLUSION_ALPHA=0.35 绘制;仅角色类
+  sprite 触发(prop 不触发);per-tile 120ms 迟滞防闪烁;无新增每帧检测
+请你做: Kimi 压测触发对象判据(角色 vs prop)、alpha 常量与边界闪烁迟滞、整块瓦片
+  半透明的观感;GLM 复核遮挡场景覆盖矩阵与回归样例;
   冻结方案后 agree/counter
 不要做: 不得修改实现文件；不得重开方案 B；不得把半透明做成全局开关状态
 输出要求: 更新设计签字、主审立场、争议处理和下一位提示词

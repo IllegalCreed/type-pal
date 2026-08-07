@@ -16,7 +16,7 @@
 | D14-2 | 演出意图协议 + CutsceneController（议题 5/12/14 剩余②） | draft | 待设计冻结，三方签字 | effect 词汇表 + 统一控制器（独占画面/抢键/虚拟时钟）；收 cameraPan/fade/RNG/video/对话 |
 | D14-3 | 奖励/事件总线统一收尾（议题 14 剩余③） | draft | 待设计冻结，三方签字 | giveItem 无呈现 + 提示两套 UI（narration vs item-use-result）统一 |
 | D15-1 | NPC 移动补全：动态碰撞 + 互相让路 + 转向（议题 15） | draft | 待设计冻结，三方签字 | auto 巡逻已有；缺不穿墙/不互穿/让路滑步/转向动画 |
-| D6-1 | 遮挡半透明（议题 6，方案 A） | draft | 待设计冻结，三方签字 | D27 已拍方案 A；缺遮挡重叠检测 + 前景 alpha 化 |
+| D6-1 | 遮挡半透明（议题 6，方案 A） | draft | 设计冻结完成（Codex agree），待 Kimi / GLM 设计压测签字 | 复用 coverTileCandidates 现成遮挡关系；角色类 cover 瓦片 OCCLUSION_ALPHA=0.35；120ms 迟滞防闪烁 |
 
 ## 看板规则
 
