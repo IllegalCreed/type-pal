@@ -351,7 +351,7 @@ Kimi 视觉并排。
 ```text
 接手任务: D14-2 演出意图协议 + CutsceneController——实现完成,交 Kimi 视觉验收 + review(当前生效)
 任务卡: docs/ops/tasks/D14-2-presentation-intent-protocol.md
-当前状态: build(实现完成,提交 TBD;reforge 816 / content 400 / editor typecheck / build 全绿)。
+当前状态: build(实现完成,提交 `c45ed1c4`;reforge 816 / content 400 / editor typecheck / build 全绿)。
 你的角色: Kimi 视觉验收(分镜回放)+ review 签字;GLM 缺席(额度耗尽,恢复后补审)。
 已实现(Codex): PresentationIntent 词汇表 + CutsceneController(busy()/cancelAll()/
   资源分域并发);host 六方法经 controller 委托;abortScript 呈现项收口;K1-K7 全落
