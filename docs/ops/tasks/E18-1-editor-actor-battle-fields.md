@@ -59,7 +59,7 @@ cooperativeMagic（合体技），数据/runtime 已就绪，编辑器补齐编�
 
 ### 进入 build 前:设计签字
 
-- Codex: pending
+- Codex: agree（2026-08-07 设计冻结，见「设计结论」）
 - Kimi: pending
 - GLM: pending
 - counter / 分歧处理: N/A
@@ -79,12 +79,27 @@ cooperativeMagic（合体技），数据/runtime 已就绪，编辑器补齐编�
 
 ### 设计结论
 
-待冻结（轻量）。方向：actor 表单三字段 + 引用校验，复用现有字段编辑模式。
+**2026-08-07 冻结（Codex agree）**：
+
+1. 三字段全部落在 `actor.battler`（BattlerSpec），复用 ActorMode.tsx 现有「战斗数据」区 +
+   `UpdateActorCommand`（session.dispatch 原子合并，保存/重开闭环天然成立）。
+2. **coveredBy**：下拉选本工程 actors（有 battler 的角色）+「无」；存 actor id；校验引用存在
+   且有 battler。
+3. **cooperativeMagicSkillId**：下拉选 project.skills +「无」；存 skill id；校验引用存在。
+4. **casualty**：friendDeath / dying 两个可折叠子编辑器，各编辑 `CasualtyScript`：
+   - gates = 若干行 `chance(0-100) + branch`；fallback = 一个 branch。
+   - branch = lines（text id 选择器 + style 下拉 bottom/top/narration）+ effects
+     （kind 下拉 heal hp/mp 或 tempStatBuff stat 下拉 + percent 数字）。
+5. 校验走现有 validate/validate-refs 基建（coveredBy → actor、cooperativeMagic → skill、
+   line.text → text id）；B11-1 已迁入的 pal 数据作回归样例。
+6. 范围重申：不改 content schema（actor.ts 字段已定）、不改 runtime（B11-1 已 done）。
 
 ### 已知风险
 
 - 风险: 引用语义理解偏差（casualty 脚本作用域）。
-- 缓解: 以 B11-1 卡字段语义为准。
+- 缓解: 以 B11-1 卡字段语义为准；表单按 CasualtyScript 两层结构直编，不引入黑盒。
+- 风险: 表单层级深（gates→branch→lines/effects）拖慢编辑。
+- 缓解: 折叠面板 + 默认空分支；gates 单行 chance + branch 编辑在同一面板内嵌。
 
 ### 主审立场
 
@@ -136,12 +151,14 @@ cooperativeMagic（合体技），数据/runtime 已就绪，编辑器补齐编�
 ```text
 接手任务: E18-1 编辑器角色战斗字段
 任务卡: docs/ops/tasks/E18-1-editor-actor-battle-fields.md
-当前状态: draft（build 准入 blocked）
+当前状态: draft（build 准入 blocked；Codex 设计冻结并签 agree，见「设计结论」）
 你的角色: GLM 表单/校验覆盖主审；Kimi 异步抽审
 先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡、content/src/actor.ts:83-92、
   main.ts:2230/2368/2454、B11-1 卡、N6 共享脚本引用规则
-已完成: 开卡（数据/runtime 就绪，编辑器缺字段），设计未冻结
-请你做: 压测三字段的编辑/校验/引用语义；冻结方案后 agree/counter
+已完成: Codex 设计冻结——三字段落 actor.battler，ActorMode 战斗数据区 + UpdateActorCommand；
+  coveredBy/cooperativeMagic 下拉引用；casualty 两层结构直编（gates/fallback → lines/effects）；
+  校验复用 validate/validate-refs，B11-1 迁入数据作回归样例
+请你做: 压测三字段编辑/校验/引用语义与 casualty 表单层级；冻结方案后 agree/counter
 不要做: 不得修改实现文件；不得改 content schema
 输出要求: 更新设计签字、主审立场、争议处理和下一位提示词
 ```
