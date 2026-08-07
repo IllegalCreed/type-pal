@@ -5232,7 +5232,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
 
   // D13-1:?debug 打开 DEV overlay(K4——动态 import,主包静态链不触及 debug 模块;
   // 生产构建 vite 把 import.meta.env.DEV 换 false + tree-shake 掉本分支)。
-  if (import.meta.env.DEV && params.get('debug')) {
+  if (import.meta.env.DEV && params.has('debug')) {
     try {
       const { installDebugTools } = await import('./debug-tools.js')
       installDebugTools({

@@ -298,9 +298,117 @@ G1（构建产物验证）、G2（并发口径对齐）、G3（帧步进语义�
 ## 视觉验证记录(如适用)
 
 - Visual Verification Owner: Kimi
-- 验证方式: pending
-- 截图 / 像素检查路径: pending
-- 结论: pending
+- 验证方式: GLM 代班浏览器实测（reforge `dev:pal` 6051 + `?debug`，DOM locator 读取 + 截图）
+- 截图 / 像素检查路径: 见下「实测证据」
+- 结论: **counter（面板未渲染，验收①-⑤全部受阻）**——详见下
+
+### GLM 视觉验证（2026-08-07，代班）：**counter**
+
+**实测环境**: `pnpm dev:pal`（6051，Vite dev 模式，`import.meta.env.DEV=true` 确认），HEAD=`4ea77b20`，
+工作树干净。URL=`http://localhost:6051/?debug`，reload 后 waitForLoadState + 4s。
+
+**核心结果:DEV overlay 面板 `#tp-debug` 未渲染**。
+
+- `tab.playwright.locator('#tp-debug').count()` = **0**（reload + 长等待后仍 0）。
+- `document.body.children` = **`[CANVAS#screen, SCRIPT]`**——除画布与脚本外无任何节点，
+  overlay 从未 appendChild。
+- 页面**本身启动正常**:`window.__reforge` 存在(object)、title 正常、`#screen` 的
+  `data-rf-render` 显示 `scriptRunning:true/dialogActive:true`(s001 开场演出在跑)、
+  `data-rf-scene=s001`——即 bootGame 跑完、主循环 tick 在跑、开场演出在播,**只有 debug
+  overlay 没出现**。
+- 无可见 error overlay(getByText 错误模式 count=0)。
+
+**诊断(已尽力,定位到安装路径但未拿到精确抛点)**:
+
+- install 调用点可达:`main.ts:5235` `if (import.meta.env.DEV && params.get('debug'))` 在默认
+  boot 路径(无 bootLoadSlot/e2e-load 提前 return)、最终 `requestAnimationFrame(tick)`(5316)
+  之前——确认会执行。
+- DEV 标志成立:dev:pal 是 Vite dev,转换后 main.ts(:4453)`if (import.meta.env.DEV && ...)`
+  原样保留(dev 不替换 DEV),运行时为 true。
+- contentVersion 匹配:PAL manifest contentVersion=11 = `CONTENT_VERSION`(11),故
+  `canonicalProjectV5` 被设置、`ctx.canonicalProject` 是 LoadedProjectV5(已核 LoadedProjectV5
+  含 `sharedScripts/enemyTeamsById/enemiesById/battleFields` 全字段,battle/trigger 段不会因
+  shape 漂移抛)。
+- 模块能 transform:`curl /src/debug-tools.ts` 返回合法 JS(仅 type import 抹除),非 vite 编译错。
+- **installDebugTools 无任何集成测试**:`rg installDebugTools` 在 `*.test.ts` 零命中——dev-preset
+  /gameplay-clock 测试是纯逻辑,从未实跑 overlay DOM 构建;Codex 自验也标注「浏览器手工冒烟未跑」。
+  → overlay 的 `installDebugTools`(renderTriggerList/battle 段同步遍历 + appendChild)**首次实跑
+  即失败**,但失败被 `catch (error) { console.warn('[debug-tools] 安装失败:', error) }`(5311-5312)
+  静默吞掉。
+
+**未拿到精确抛点**:本会话 IAB `playwright.evaluate` 严格只读,无法读 console.warn 的错误文本;
+`installDebugTools` 体内 renderTriggerList(:361)/battle 段(:373+)在安装时同步遍历
+`ctx.canonicalProject`/`ctx.scene()`,任一 getter 抛即整体进 catch。无法排除是**代码 bug**
+(install 体内某访问抛)还是**IAB 环境限制**(动态 `import('./debug-tools.js')` 在该 webview 失败)。
+
+**验收逐项**:①-⑤**全部受阻**——面板不渲染,五区布局/输入隔离/战斗构建器/触发区/帧步进/占用徽标
+均无法观测。无 accept 依据。
+
+**返工项(交 Codex)**:
+
+1. **定位精确抛点**:在可看 console 的环境(本地 Chrome dev 或 `node --inspect`)打开 `?debug`,
+   读 `[debug-tools] 安装失败:` 的真实 error;或给 install 的 catch 临时把 error 写进 `#tp-debug`
+   之前的 body overlay,让错误可见。
+2. **加 installDebugTools 集成测试**:用 jsdom 或 reforge 现有 test harness 构造一个最小
+   `DebugToolsContext`(真 V5 project + scene),调 `installDebugTools(ctx)`,断言
+   `document.getElementById('tp-debug')` 存在 + 五区标题文本在——**这一条是 K1-K5/G1-G4 之外
+   本该有的覆盖**,补上后此类「单测绿但实跑炸」不会再漏。
+3. 排除 IAB 因素:若 Codex 本地 Chrome 能开 `?debug` 且面板正常,说明是 IAB 动态 import 限制,
+   需在卡内标注「IAB 不可用,视觉验收改在本地/编辑器试玩页」,并重新约定验收方;若本地也炸,
+   按代码 bug 修。
+
+**边界**:本 counter 只针对「?debug 面板未渲染、视觉验收无法进行」。content/reforge/editor
+单测全绿(391/800)、gameplay-clock step / dev-preset 回滚单测、G1 构建产物零 debug 符号等
+**纯逻辑层**结论仍成立——counter 不推翻它们,只说明 overlay 的 DOM 集成层缺验证且有实跑缺陷。
+K1-K5/G1-G4 的**实现是否真落**也因面板不渲染而**无法视觉证实**,须修好面板后复验。
+
+**签字**:`Review > 视觉验证` = **counter/rework**;done 准入维持 blocked。建议 Codex 先做返工项 2
+(集成测试)——它最可能直接暴露抛点,且是结构性补漏。
+
+### Kimi 视觉验证(2026-08-07,正式 Owner):**accept(①-⑤ 实测全过)+ C1 必改返工项**
+
+**实测环境**:`pnpm dev:pal`(6051,Vite dev);Chrome DevTools MCP 浏览器实测
+(真实 CDP 按键 + `window.__reforge` 机读双轨);入口 `?debug=1`(裸参问题见 C1)。
+
+**①-⑤ 逐项**:
+
+1. **面板五区 / 720px / Esc / 输入隔离 ✓**:五区齐全(`output/playwright/d13-1-panel-zones-badge.png`);
+   720px 视口面板自适应收窄至 676.8px、无 offscreen/内部横向溢出(document 级横向滚动来自
+   游戏 canvas 固定 1280px 既有行为,非面板);Esc 只关面板(`renderDebug.menuActive=false`、
+   演出 `script.running` 不被打断);console 输入框聚焦期真实 CDP 按键 Space/ArrowUp/Enter
+   全被 preventDefault——`scriptRunning` 不变、玩家不动、键入文本也不入(双向隔离)。
+2. **战斗构建器 ✓**:team-0 + li-xiaoyao HP=50/MP=30 预设开战,`battlePlayers` 机读 hp=50
+   预设生效;战后 world 逐值回滚(hp 150/150、mp 100/100、level 1、money 0、inventory []
+   零残留)——K2 内存态语义成立。
+3. **触发区可视化 + ?collision 叠加 ✓**:蓝框 + `e4/e9/e6/e31/e5 [interact]` 具名标签;
+   碰撞层绿(可走)/红(阻挡)点 + tile 网格;双开互不干扰
+   (`output/playwright/d13-1-trigger-collision-overlays.png`)。
+4. **帧步进 ✓**:勾选后墙钟冻结(按住 ArrowUp 600ms 玩家纹丝不动);10 次单步玩家
+   (60,-24)→(60,-26),一拍一进、只随单步推进(`output/playwright/d13-1-framestep-panel.png`)。
+5. **占用徽标 / 触发状态 ✓**:徽标两态实证(演出期「主 runner 占用中 / 对话进行中」橙标、
+   空闲期「空闲」);detached 触发 `[2] s000 onEnter → done` 状态上屏;占用期点触发弹
+   confirm「主 runner 占用中,仍要执行 s000 onEnter?(detached 并发不排 onEnter…)」✓;
+   抽验 `give 144 5` → inventory=[144×5] ✓。
+
+**C1 必改返工项(同时解释 GLM counter 根因)**:裸 `?debug` 不挂载 overlay——根因不是
+GLM 推断的「install 抛错被 catch 吞掉」,而是 `main.ts:5235` 的 `params.get('debug')` 对
+无值参数返回 `''`(falsy),install 根本未执行。证据:`?debug=1` 下五区全功能正常、console
+无 `[debug-tools] 安装失败` warn;GLM 观测的「页面正常 + body 仅 CANVAS/SCRIPT + 无 error」
+与「install 未被调用」完全吻合。本卡设计结论 1 与 dev-tools.md:12-13 冻结的入口形态正是
+裸 `?debug`,故属设计违反。修法:`params.get('debug')` → `params.has('debug')`(对齐
+main.ts:319 `?collision` 先例)。修后 GLM 的裸参复验路径自动恢复,无需重跑 ①-⑤。
+GLM 返工项 1/3 由本根因覆盖;返工项 2(installDebugTools jsdom 集成测试)转为**建议项**
+保留——防「单测绿但实跑炸」回归,不作为本次准入钉。
+
+**观察项(非准入钉)**:
+- O1:战斗构建器战后 world 数据零变化 ✓,但场景 onEnter 会重跑(开场演出完整重演一遍)。
+  K2 字面(金钱/物品/技能/状态零变化)已满足;请 Codex 确认回滚后重入 scene hook 是否预期。
+- O2:Esc 关闭即 `root.remove()` 销毁(debug-tools.ts:113-117),无重开热键,只能刷新页面。
+  建议补 F9 / 反引号重开(可用性建议,非缺陷)。
+- 未实测:运行中再点 = Abort 取消(debug-tools.ts:268-272,逻辑直观且有单测覆盖)。
+
+**签字**:`Review > 视觉验证` = **accept**(视觉门禁 ①-⑤ 通过);C1 为一行修必改项,
+Codex 修后裸 `?debug` 复验即闭环。
 
 ## Review: 审查与返工
 
@@ -324,35 +432,48 @@ G1（构建产物验证）、G2（并发口径对齐）、G3（帧步进语义�
 - 2026-08-06 Codex: 三方 agree 齐(build allowed),实现完成并自证——content 391 /
   reforge 800 / editor typecheck 全绿;生产构建零 debug 符号(G1);K1-K5/G1-G4 逐项落地
   (见 Build 节)。待 Kimi 浏览器视觉验收(战斗构建器 + 触发区可视化)后进 review。
+- 2026-08-07 GLM(代班视觉): 签 counter——裸 `?debug` 下 #tp-debug 未渲染,①-⑤ 全部
+  受阻;返工项 3 条(见「GLM 视觉验证」)。
+- 2026-08-07 Kimi(正式视觉 Owner): 签 **accept(①-⑤ 实测全过)+ C1 必改返工项**。
+  裸参不挂载根因坐实为 `main.ts:5235` `params.get('debug')` 对无值参数返回 ''(install
+  未执行,非 install 抛错),一行修 `params.has('debug')`;GLM 返工项 1/3 由该根因覆盖,
+  返工项 2(jsdom 集成测试)转建议项。观察项 O1(战后 onEnter 重演)/O2(Esc 销毁无重开)
+  非准入钉。详见「Kimi 视觉验证」。Codex 修 C1 后 GLM 裸参复验即闭环。
+- 2026-08-07 Codex: **C1 已修并自验闭环**。
+  - 修改: `main.ts:5235` `params.get('debug')` → `params.has('debug')`(对齐 :319
+    `?collision` 先例),仅此一处。
+  - 语义自验(URLSearchParams 机读):裸 `?debug` has=true / `?debug=1` has=true /
+    无参 has=false。注:`?debug=0` 亦 has=true(参数存在即开、值忽略)——与 `?collision=0`
+    同语义,按 Kimi C1 处方 `has()` 落,不按「?debug=0 不挂载」的宽松表述。
+  - 回归: reforge 800 测试通过 + typecheck 全绿;生产构建后 `rg 'tp-debug|installDebugTools'
+    dist/assets/*.js` 零命中(G1 复跑通过)。
+  - 建议项(jsdom 集成测试): 不落——workspace 未装 jsdom,为 DEV-only 面板新增依赖 +
+    vitest env 配置超出 C1 范围;该风险已由「裸参修复 + Kimi/GLM 浏览器实测」覆盖,
+    若后续要防回归再单独立项。
+  - O1 回复(战后 onEnter 重演): **预期,不修**。调试战斗为内存态(K2 字面已满足:
+    金钱/物品/技能/状态零变化);在开场演出进行中开调试战斗属边角用法,回滚后场景 hook
+    状态回到战前快照、onEnter 重演是该语义的自然结果。建议从稳定态发起调试战斗,
+    卡内已注明。
+  - O2 回复(Esc 销毁无重开热键): **不修**。DEV 面板刷新即重开,热键与游戏键位有冲突
+    风险;如后续需要另立可用性小项。
+  - 待办: GLM 复验裸 `?debug` ①-⑤ 原受阻项 + 确认 C1 闭环,补 done 前审查签字。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: D13-1 调试工具首刀实现（三方设计 agree 齐，build allowed）
+接手任务: D13-1 调试工具首刀——C1 返工(裸 ?debug 不挂载)+ GLM 复验
 任务卡: docs/ops/tasks/D13-1-debug-tools-first-batch.md
-当前状态: draft → build 准入 allowed（Codex/GLM/Kimi 三方 agree，2026-08-06）。
-你的角色: Coding Owner——build 阶段唯一实现文件修改者。
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文（设计结论、GLM G1-G4、Kimi K1-K5、
-  三方争议记录的 G2 裁定）；main.ts:319/1099-1125/2152-2158/3331-3369/3420/4486/
-  4556-4586/5089-5158、gameplay-clock.ts、editor/play.ts。
-必落钉（验收逐项核）:
-  - GLM G1+Kimi K4:DEV guard 硬化——debug 模块一律 `import.meta.env.DEV && params.get('debug')
-    ?debug` 动态 import;vite build 后 grep 主 bundle 无 debug 符号并记录残余 chunk 策略。
-  - GLM G2+Kimi K3:任意脚本/触发器触发走 detached(runDetachedV5ScriptChain 先例),禁用
-    startScript 静默丢;overlay 显示主 runner 占用徽标、触发状态(running/done/error/cancel)
-    上屏、场景切换类占用时先确认、AbortSignal 可取消。
-  - GLM G3+Kimi K5:帧步进 = 一个 gameplay tick 固定步长,作用域仅大世界 gameplay 相位;
-    GameplayClock frozen + 新增 step(),单测(冻结不积压 + 精确一拍)。复杂度超标按卡拆独立子项。
-  - GLM G4:命令集覆盖矩阵(每条命令→复用 host 能力/dev 参数→DEV-only 证明→e2e/手动路径),
-    money 为新增内存态 mutate;state/var 检视器只读。
-  - Kimi K1:console 输入框 stopPropagation,焦点期屏蔽游戏快捷键,Esc 只关 overlay;
-    720px 不横向溢出。
-  - Kimi K2:partyPreset 开战前 snapshot world.party+inventory,战后/取消/重开恢复,
-    测试证 world 深等于战前;enemyOverride 仅 battle session 局部。
-纪律:全部内存态不落档;生产路径零调试分支;时间旅行/effect 回放不做(留 D14-2);
-  dev-tools.md 速查 + backlog 议题 13 状态更新随实现落。
-验收输出: 实现摘要 + 钉逐项对照 + 测试/构建产物验证证据;Kimi 浏览器视觉验收(战斗构建器
-  与触发区可视化)在实现后另排。
+当前状态: build;C1 已修并自验闭环(Codex,2026-08-07),Kimi 视觉验收 accept(①-⑤),
+  GLM 前次 counter 根因已闭环;done 准入 blocked 维持至 GLM 复验。
+你的角色: GLM(覆盖/视觉复验)——复核 C1 修复,不再要求 Codex 改实现。
+已做(Codex): main.ts:5235 `params.get('debug')` → `params.has('debug')` 仅此一处;
+  800 测试 + typecheck 全绿;生产构建零 debug 符号(G1 复跑);
+  语义自验裸 ?debug / ?debug=1 has=true、无参 false(?debug=0 与 ?collision=0 同语义:
+  参数存在即开、值忽略)。
+请你做: 浏览器复验裸 `?debug` 下 #tp-debug 挂载 + ①-⑤ 原受阻项;确认 C1 闭环后
+  在「进入 done 前:审查签字」签 accept;连同 Kimi 视觉 accept 齐后交用户验收。
+不要做: 不得修改实现文件(有必改项以 counter + 返工项写卡)。
+输出要求: 更新审查签字、视觉验证记录补注和下一位提示词(无下一位则写「等待用户验收」)。
 ```
 
 ```text
