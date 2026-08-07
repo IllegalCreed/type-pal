@@ -94,12 +94,35 @@ cooperativeMagic（合体技），数据/runtime 已就绪，编辑器补齐编�
    line.text → text id）；B11-1 已迁入的 pal 数据作回归样例。
 6. 范围重申：不改 content schema（actor.ts 字段已定）、不改 runtime（B11-1 已 done）。
 
+**交互设计（2026-08-07 定稿，用户拍板「伤亡脚本走中区」）**：
+
+- **位置**：右栏 inspector 新增「战斗关系」小节，插在「战斗数据」之后、「战斗形象」之前，
+  与「战斗数据」同渲染条件（仅带 battler 角色）。
+- **coveredBy / cooperativeMagicSkillId**：各一行 `.field` + 原生 `<select>`（CommandForm
+  先例）；选项「（无）」+ 候选（显示名 + id 小字）；选择即 `UpdateActorCommand` 即时写回。
+- **casualty = 右栏摘要 + 中区宽幅编辑器**（仿 LevelCurveEditor 模式，作者反馈
+  「一大堆数没站在用户角度」重做同款）：
+  - 右栏「战斗关系」节内：friendDeath / dying 两个状态 chip（已配置/未配置）+ 移除按钮 +
+    「✎ 编辑伤亡脚本」入口按钮 → 展开中区 `CasualtyEditor`（与 SpriteFrames / LevelCurveEditor
+    互斥，打开时关掉另一个）。
+  - 中区 `CasualtyEditor`（宽幅 master-detail，无钻取导航）：
+    - 顶部 tab：friendDeath / dying + 「移除本槽」 + 「✓ 完成」。
+    - 左列：概率门 gates（chance 数字 + 分支行 + 删除，「＋ 加一扇门」）+ fallback 行；
+      点击任一行选中其分支。
+    - 右列：选中分支的编辑器——台词 lines（文本 id 输入 + 实时解析预览 + style 下拉 +
+      删除，「＋ 台词」）+ 效果 effects（kind 下拉 heal hp/mp / tempStatBuff stat 下拉 +
+      percent 数字 + 删除，「＋ 效果」）。
+  - 空态：槽未配置 → 右栏 chip 灰 + 中区「＋ 配置」创建默认空脚本。
+- **校验交互**：引用类错误（援护者角色不存在 / 技能不存在 / 文本 id 解析不到）行内红字 +
+  编辑器问题列表报错，不阻断保存（编辑器现有惯例）。
+
 ### 已知风险
 
 - 风险: 引用语义理解偏差（casualty 脚本作用域）。
 - 缓解: 以 B11-1 卡字段语义为准；表单按 CasualtyScript 两层结构直编，不引入黑盒。
 - 风险: 表单层级深（gates→branch→lines/effects）拖慢编辑。
-- 缓解: 折叠面板 + 默认空分支；gates 单行 chance + branch 编辑在同一面板内嵌。
+- 缓解: 中区宽幅 master-detail（左 gates/fallback、右分支编辑器），无钻取导航；与
+  LevelCurveEditor 同构,复用「右栏摘要 + 中区展开」交互语言。
 
 ### 主审立场
 
