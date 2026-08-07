@@ -1,6 +1,6 @@
 # D13-1 - 调试工具首刀（议题 13）
 
-Status: build
+Status: done
 Phase: phase2
 Capability: 议题 13 开发/调试工具（P1 工具层）
 Coding Owner: Codex
@@ -76,12 +76,13 @@ Branch: TBD
 
 ### 进入 done 前:审查签字
 
-- Codex: pending（Coding Owner 自验已在 Build 节;done 前收口签字待补）
+- Codex: **accept（2026-08-07，Coding Owner done 前收口：Build 节自验 800 测/typecheck/G1
+  构建产物零 debug 符号 + C1 修复 `2c3f3151` 闭环；O1/O2 已逐条回复见交接日志）**
 - Kimi: **accept（2026-08-07，视觉门禁 ①-⑤ 实测全过 + C1 必改项定位;见「Kimi 视觉验证」）**
 - GLM: **accept（2026-08-07，C1 闭环复验:裸 ?debug #tp-debug 挂载 + 五区/控件/数据/徽标/K5 作用域 DOM 可见正确、K1 720px 无溢出实测;②③④交互层采信 Kimi 验收。见「GLM C1 闭环复验」）**
 - counter / 返工处理: GLM 前次 counter(裸 ?debug 不挂载)→ Kimi 定位 C1 根因(get-vs-has)→ Codex 修(`2c3f3151`)→ GLM 复验闭环。已闭环。
 - 缺签豁免: N/A
-- done 准入结论: **blocked on Codex 自验收口签字 + 用户验收**（Kimi/GLM 审查 + 视觉双 accept 齐）
+- done 准入结论: **allowed（三方 accept 齐：Codex 自验收口 + Kimi/GLM 审查/视觉；待用户验收后标 done）**
 
 ## Draft: 设计与风险
 
@@ -456,8 +457,9 @@ Esc 销毁后无重开热键(可用性建议)。GLM 返工项 2(installDebugTool
 
 ## 用户验收
 
-- 用户结论: pending
-- 后续任务: pending
+- 用户结论: pending（2026-08-07 三方 accept 齐后已标 done;用户最终确认即闭环,
+  若有不满按 rework 重开）
+- 后续任务: 时间旅行/effect 回放留 D14-2 之后;jsdom 集成测试与 O1/O2 观察为建议项
 
 ## 交接日志
 
@@ -494,6 +496,12 @@ Esc 销毁后无重开热键(可用性建议)。GLM 返工项 2(installDebugTool
   - O2 回复(Esc 销毁无重开热键): **不修**。DEV 面板刷新即重开,热键与游戏键位有冲突
     风险;如后续需要另立可用性小项。
   - 待办: GLM 复验裸 `?debug` ①-⑤ 原受阻项 + 确认 C1 闭环,补 done 前审查签字。
+- 2026-08-07 GLM: C1 闭环复验 accept(裸 `?debug` 挂载 + 五区/控件/徽标/K5 作用域 DOM 可见、
+  K1 720px 无溢出;②③④交互层采信 Kimi 验收)。见「GLM C1 闭环复验」。
+- 2026-08-07 Codex: done 前收口 accept——三方 accept 齐(done 准入 allowed)。剩余 = 用户验收;
+  验收通过后标 done 并从看板移出。
+- 2026-08-07 Codex: 三方 accept 齐,Status 标 done,看板移出。用户最终验收确认即闭环;
+  后续建议项(jsdom 集成测试、O2 重开热键)不阻塞。
 - 2026-08-07 GLM(C1 闭环复验,代班): 签 **accept(C1 闭环)**。裸 `?debug` 下 `#tp-debug`
   count=1(前次 counter count=0);五区/控件/数据/占用徽标/K5 作用域 DOM 可见正确;K1 720px
   无溢出实测(677px/94vw 自适应)。②③④交互层因 IAB 点击 broker-mismatch + 键盘不达未复跑,
