@@ -21,6 +21,12 @@ type BranchTarget = { kind: 'gate'; index: number } | { kind: 'fallback' }
 const STYLES = ['bottom', 'top', 'narration'] as const
 const STATS = ['attack', 'magic', 'speed', 'luck'] as const
 
+/** 文本 id 预览:lookupText 缺键返回 id 本身,显式标「未找到文本」对齐 nm() 先例(R2)。 */
+function previewText(id: string, locale: Locale): string {
+  const resolved = lookupText(id, locale)
+  return resolved === id ? '未找到文本' : resolved
+}
+
 export function CasualtyEditor(props: {
   actor: ActorDef & { battler: NonNullable<ActorDef['battler']> }
   session: EditSession
@@ -259,7 +265,7 @@ function BranchEditor(props: {
             ))}
           </select>
           <span className="hint" style={{ flex: 1, minWidth: 160 }}>
-            {line.text ? lookupText(line.text, locale) || '未找到文本' : '（空）'}
+            {line.text ? previewText(line.text, locale) : '（空）'}
           </span>
           <button
             type="button"

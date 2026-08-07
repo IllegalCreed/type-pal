@@ -275,9 +275,9 @@ export function ActorMode(props: {
             </div>
             {actor.battler ? (
               <>
-            <div className="section">
-              <h4>
-                战斗数据 <span className="abadge">可入队</span>
+                <div className="section">
+                  <h4>
+                    战斗数据 <span className="abadge">可入队</span>
                   </h4>
                   <div className="statgrid">
                     <EditStat

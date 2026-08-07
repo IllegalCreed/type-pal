@@ -18,7 +18,6 @@
 | D14-3 | 奖励/事件总线统一收尾（议题 14 剩余③） | draft | 待设计冻结，三方签字 | giveItem 无呈现 + 提示两套 UI（narration vs item-use-result）统一 |
 | D15-1 | NPC 移动补全：动态碰撞 + 互相让路 + 转向（议题 15） | draft | 待设计冻结，三方签字 | auto 巡逻已有；缺不穿墙/不互穿/让路滑步/转向动画 |
 | D6-1 | 遮挡半透明（议题 6，方案 A） | draft | 待设计冻结，三方签字 | D27 已拍方案 A；缺遮挡重叠检测 + 前景 alpha 化 |
-| E18-1 | 编辑器角色战斗字段（coveredBy/casualty/cooperativeMagic） | build | 三方 agree 齐；实现完成自证通过（content 400 / reforge 800 / editor 809），待 Kimi/GLM review 签字 | 战斗关系节 + 中区 CasualtyEditor + validate shape/ref 新增规则；G1-G3/K1-K4 全落 |
 
 ## 看板规则
 
