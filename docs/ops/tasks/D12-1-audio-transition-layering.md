@@ -77,12 +77,14 @@ BGM 从「硬切」升级为「动态过渡 + 分层」：换曲有淡入淡出/
 
 - Codex: **accept（2026-08-07，Coding Owner done 前收口：Build 节自验 reforge 807 /
   content 400 / editor typecheck + G1-G3/K1-K6 钉对照）**
-- Kimi: **accept（2026-08-07，用户转达；听感验收与审查详细记录待回填）**
-- GLM: **accept（2026-08-07，用户转达；审查详细记录待回填）**
+- Kimi: **accept（2026-08-07，实现复审 + 听感验收回填：0187ea76 diff 逐项核 +
+  reforge 807/bgm 10 测复跑 + 浏览器 gain 采样过渡铁证 + 场景切曲默认 0 零 ramp;
+  附 R2 记录项，见「Kimi 听感验收/实现复审」)**
+- GLM: **accept（2026-08-07，场景曲目覆盖矩阵主审：核 0187ea76 全 diff + 独立复跑 bgm 10 测；G1 胜利曲漏接已闭环（战斗全链三处 300ms）、G2 fade 抢占单测覆盖、G3 GainNode/fade 生命周期正确、默认 0 兼容口径核实（其余接入点不改既有语义）。听感实测留 Kimi/作者。见「GLM 实现复审」）**
 - counter / 返工处理: N/A
 - 缺签豁免: N/A
-- done 准入结论: **allowed（三方 accept 齐；⚠ 详细审查记录待 Kimi/GLM 回填,
-  回填后审计链完整；用户验收后标 done）**
+- done 准入结论: **allowed（三方 accept 齐，详细审查记录已回填,审计链完整；
+  用户验收后标 done）**
 
 ## Draft: 设计与风险
 
@@ -304,15 +306,112 @@ plan.def.music）、A-1 审计口径。未修改实现。
 ## 视觉验证记录(如适用)
 
 - Visual Verification Owner: N/A（听感验收走作者 + Kimi）
-- 验证方式: pending
-- 结论: pending
+- 验证方式: GLM 矩阵复审 = bgm.test.ts 10 测独立复跑 + 0187ea76 全 diff 核实(战斗三处接入 +
+  其余默认 0);**Kimi 听感验收 = 浏览器实测(6051 PAL)initScript hook createGain 采样
+  gain.gain.value 时间序列:进战斗 fade-out 300ms→fade-in 300ms 无跳变、胜利曲抢占从当前值
+  续降、场景曲恢复 fade、场景切曲默认 0 恒 1 零 ramp、console 零错(见「Kimi 听感验收/
+  实现复审」);最终听感审美(300ms 长短)留作者**
+- 结论: **GLM accept(测试 + 接入矩阵层)+ Kimi accept(gain 采样数字域实证);作者审美验收留尾**
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: **GLM accept + Kimi accept**（双方回填完成:GLM 矩阵/测试层 + Kimi 架构
+  diff/浏览器 gain 采样听感层）
+- 必须返工项: 无；记录项 R2（Kimi:stop(fade) 期间同曲 play 被吞,现调用路径不可达,
+  供后续 polish）
+- Accept / rework: **accept（GLM + Kimi）；用户验收后正式闭环**
+
+### GLM 实现复审（2026-08-07，场景曲目覆盖矩阵）：**accept**
+
+**方法**:只读复审;核 `0187ea76` 全 diff(bgm.ts play/stop fade + GainNode + inflightTarget +
+doPlay 串行 crossfade + adapter fadeTo/cancelFade;main.ts 战斗三处接入 + 其他点默认 0);
+独立复跑 bgm.test.ts 10 测。未修改实现。
+
+**G1-G3/K1-K6 逐项核(对照 Build 节自验)**:
+
+- **G1 胜利曲过渡接入(本席设计审查点的覆盖缺口)** ✅ **已闭环**:main.ts:1777 胜利曲现
+  `bgm.play(victoryRole, false, BATTLE_MUSIC_TRANSITION_MS)`——战斗全链三处(1687 进战斗曲、
+  1777 胜利曲、1473 restoreSceneMusic 出)全部带 300ms 过渡,注释明引"G1/Kimi 裁定:全链最刺耳一环"。
+  我设计审查时指出的"只接两处漏了 1777"已被 Codex 接受并落齐。
+- **G2 fade 抢占单测** ✅:bgm.test.ts 10 测(7 新)覆盖——fade-out 期间新 play 取消旧 fade
+  (requestSerial ++ + isCurrent 门)、fade 期间 stop、同曲守卫 + inflightTarget 收敛、
+  fadeInMs=0 快捷路径。`needFadeOut`(playing 不同曲 + fadeInMs>0)→ fadeTo(0)+setTimeout →
+  isCurrent 门 → swap;被接管时 isCurrent false 直接放弃(K2a 防竞态)。
+- **G3 fade 时长/ctx 生命周期** ✅:adapter fadeTo = `cancelScheduledValues + setValueAtTime(当前值)`
+  锚定 + `linearRampToValueAtTime`(防爆音);G3c 快捷路径 fadeInMs=0 也显式 `fadeTo(1,0)` 回全增益
+  (防旧 fade 留 gain=0);GainNode 节点 synth→gain→destination 初始 gain=1(=现行为全增益)。
+- **K1-K6**(Codex 自验钉):fade 参数默认 0 向后兼容、串行近似 crossfade、master GainNode、
+  requestSerial 贯穿、inflightTarget 同曲守卫、BATTLE_MUSIC_TRANSITION_MS 集中常量——
+  逐项在 diff 与测试中核实,实现与自验一致。
+
+**默认 0 兼容口径(本席主审重点)** ✅:除战斗三处显式传 300ms,其余接入点全部保持默认 0——
+场景切曲(main.ts:1080-1081 `bgm.stop()`/`bgm.play(plan.def.music)` 无第三参)、playMusic 脚本指令
+(1758 `bgm.play(asset)`)、stopMusic(无参)、setScene music。即既有场景节奏与脚本语义零变化,
+仅战斗进出场 + 胜利曲三处有过渡。
+
+**独立复跑**:`bgm.test.ts` **10/10 绿**(7 新测)。与 Build 节自验 reforge 807 一致。
+
+**未实测(如实标注)**:浏览器听感实测(进出战斗无爆音/无半截曲、场景切曲/读档恢复零变化、
+开关即时、resume 守卫)本席未跑——本卡 Visual Verification Owner 标 N/A(听感走作者 + Kimi 代听),
+且本 IAB 环境音频输出受限。听感门禁留 Kimi/作者(300ms 常量听感验收可调,K4)。
+
+**结论**:**accept**。G1(胜利曲漏接)已闭环、G2(fade 抢占)10 测覆盖、G3(GainNode/fade 生命周期)
+实现正确、默认 0 兼容口径核实。战斗全链三处过渡接入齐 + 其余点默认 0 不改既有语义。
+听感实测留 Kimi/作者;本 accept 连同 Kimi 听感 + 用户验收后 done。
+
+### Kimi 听感验收/实现复审（2026-08-07，回填）：**accept**
+
+**方法**：只读实现复审 + 浏览器实测。一手核 `0187ea76` 全 diff（bgm.ts 120 行改动 +
+main.ts 三处接入 + bgm.test.ts 7 新测）；独立复跑 reforge 807 + bgm 10 测；
+chrome-devtools MCP 驱动 6051 PAL 实测——initScript hook `AudioContext.createGain`
+收集 BGM master GainNode（页面唯一 gain 节点，sfx 不用 gain），高频采样 `gain.gain.value`
+时间序列作 fade 的数字域直接证据。未修改实现文件。
+
+**钉逐项核（G1-G3/K1-K6，补 GLM 已核外的架构层推演）**：
+
+- **K1** ✅：fadeTo/cancelFade 挂 adapter，`cancelScheduledValues + setValueAtTime(当前值)`
+  封装在内；player 层不碰 AudioParam；GainNode 初值 1。
+- **K2** ✅：(a) doPlay 串行 fade-out → setTimeout → isCurrent 门 → swap；stop 淡出完成
+  回调同过 serial 门；(b) fadeTo 从当前 gain 值起 ramp（浏览器实测铁证见下）。
+- **K3** ✅：last 扩记 fadeInMs；playCurrent/补播带原 fade。
+- **K4** ✅：BATTLE_MUSIC_TRANSITION_MS=300 单处导出，main.ts 三调用点统一引用。
+- **K5** ✅：inflightTarget + 守卫命中时 serial++ 取消换向请求；单测覆盖。
+- **G1/G2/G3** ✅：与 GLM 结论一致（胜利曲三处全链接 300；7 新测；fadeInMs=0 显式
+  fadeTo(1,0) 回全增益防旧 fade 留 0——此细节我在 diff 层独立确认）。
+- **K6** ✅：lose → gameOver 渐红 → loadLastSave 硬切档内曲，读档=新语境硬切合理，
+  卡内显式注明例外。
+
+**浏览器听感实测（6051 dev:pal，`?debug=1`，gain 采样铁证）**：
+
+1. **进战斗过渡** ✅：debug console `battle 0`，50ms 采样——
+   `1,1,1 → 0.822,0.662,0.485,0.307,0.147,0 → 0.178,0.355,0.515,0.693,0.853,1 → 1…`
+   fade-out 300ms 线性至 0 → fade-in 300ms 线性回 1，采样无跳变（数字域无爆音点）。
+2. **胜利曲过渡 + 抢占续降（K2b 行为铁证）** ✅：战斗胜利链 100ms 采样——
+   战斗曲 fade-out → 胜利曲 fade-in（升至 0.515）→ 结算屏推进触发 restoreSceneMusic
+   抢占 → **从 0.515 续降**（0.367,0.192,0.012，无回跳 1 的突变）→ 场景曲 fade-in 回 1。
+   「从当前值起 ramp」在真实抢占路径上直接成立。
+3. **场景切曲默认 0 零变化** ✅：`scene s004`（031→049 换曲），30×100ms 采样恒 1——
+   硬切保持，无 ramp 调度。
+4. **读档恢复** ✅：diff 层确认 :4044-4052 未触碰（无 fade 参数），默认 0。
+5. **音乐开关/补播**：G2/K3 单测覆盖（cancelFade+归零、last 带 fadeInMs 补播）。
+6. console 零 error（仅既有 Canvas2D willReadFrequently 提示，与本卡无关）。
+
+**记录项（非反例，不阻塞）**：
+
+- **R2**：`stop(fadeOutMs>0)` 淡出期间 `play(同曲)` 会被吞——playing 未清（淡出完成回调
+  才清），守卫命中只改 last 不 serial++，淡出回调 serial 仍匹配 → 到点 pause。
+  触发窗：restoreSceneMusic(persistent=null→stop(300)) 或 startBattle(无战斗曲→stop(300))
+  后 300ms 内脚本播同曲——语义矛盾且窗窄，现调用路径不可达。修法（供后续 polish）：
+  守卫命中时无条件 serial++（经推演总是安全：守卫命中即 playing===asset 已播成，
+  不可能有同曲 doPlay 在途），一行改 + 一条单测。
+
+**复跑命令**：`pnpm --filter @type-pal/reforge exec vitest run audio/bgm`（10/10）；
+`pnpm --filter @type-pal/reforge check`（807/807）。
+
+**结论**:**accept**。实现与 K1-K6/G1-G3 逐项吻合；fade 行为经 gain 采样数字域实证，
+无爆音点、无半截曲；默认 0 路径零变化。听感最终审美确认（300ms 长短）留作者——
+常量集中一处，可调。本 accept 回填后审计链完整，交用户验收。
 
 ## 用户验收
 
@@ -331,57 +430,51 @@ plan.def.music）、A-1 审计口径。未修改实现。
 - 2026-08-07 Kimi（架构/听感主审）: 签 **agree（附 K1-K6）**——三方 agree 齐，
   **build 准入 allowed**。K1 fade 通道接口归属（adapter 封装 AudioParam）、K2 抢占补
   完成回调 isCurrent 门 + 当前值起 ramp、K3 last 记账带 fadeInMs（补播不丢 fade）、
+  K4 300ms 常量集中一处、K5 同曲守卫 × fade 窗口竞态（playing/last 分裂，新发现）、
+  K6 lose/gameOver 音乐路径补入矩阵。GLM 四问裁定：linear ramp 保持 / 立即接管 /
+  G1 胜利曲接过渡 / G3 附议。详见「Kimi 设计主审」。
 - 2026-08-07 Codex: 实现完成并自证——reforge 807（bgm 10 条含 7 新测）/ content 400 /
   editor typecheck 全绿;G1-G3/K1-K6 逐项落地(见 Build 节钉对照);K6 lose 路径显式例外
   注明。待 Kimi 听感验收(浏览器实测)后进 review。
 - 2026-08-07 Codex: 用户转达 Kimi/GLM 双 accept;done 前收口 accept 已补,卡标 done。
   ⚠ 审计完整性提示:听感验收与双审的详细记录(实测证据/钉逐项/记录项)尚未落卡,
   请 Kimi/GLM 或用户回填后审计链完整;用户验收确认后正式闭环。
-  K4 300ms 常量集中一处、K5 同曲守卫 × fade 窗口竞态（playing/last 分裂，新发现）、
-  K6 lose/gameOver 音乐路径补入矩阵。GLM 四问裁定：linear ramp 保持 / 立即接管 /
-  G1 胜利曲接过渡 / G3 附议。详见「Kimi 设计主审」。
+- 2026-08-07 GLM（场景曲目覆盖矩阵复审，回填）: 签 **accept**。核 0187ea76 全 diff +
+  独立复跑 bgm 10 测;**G1 胜利曲漏接已闭环**(战斗全链三处 1687/1777/1473 全带 300ms,
+  注释引"G1/Kimi 裁定")、G2 fade 抢占 10 测覆盖(requestSerial + isCurrent 门 + inflightTarget)、
+  G3 GainNode/fade 生命周期正确(cancelScheduledValues 锚定防爆音 + fadeInMs=0 快捷路径回全增益)。
+  默认 0 兼容口径核实(其余接入点不改既有场景节奏/脚本语义)。听感实测留 Kimi/作者(IAB 音频受限)。
+  done 前签字 GLM 行从「用户转达」改为本席签字;审计链回填。详见「GLM 实现复审」。
+- 2026-08-07 Kimi（架构/听感复审 + 听感验收，回填）: 签 **accept**。0187ea76 diff 逐项核
+  (K1-K6/G1-G3 全落)+ reforge 807/bgm 10 测复跑;浏览器实测(6051)initScript hook
+  createGain 采样 gain 时间序列——进战斗 fade-out/in 300ms 线性无跳变、胜利曲 fade-in 中途
+  被 restoreSceneMusic 抢占**从当前值 0.515 续降**(K2b 行为铁证)、场景曲恢复 fade ✓、
+  场景切曲默认 0 恒 1 零 ramp ✓、console 零错。附 R2 记录项(stop(fade) 期间同曲 play
+  被吞,现调用路径不可达,供 polish)。顺手修复交接日志 K1-K6 行并发错位。审计链回填
+  完整,交用户验收;300ms 审美确认留作者(常量集中可调)。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: D12-1 音频动态过渡与分层实现（三方 agree 齐,build allowed）
-任务卡: docs/ops/tasks/D12-1-audio-transition-layering.md
-当前状态: draft → build 准入 allowed(Codex/GLM/Kimi 三方 agree,2026-08-07)。
-你的角色: Coding Owner——build 阶段唯一实现文件修改者。
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文(设计结论 + GLM G1-G3 +
-  Kimi K1-K6 + 四问裁定);packages/reforge/src/audio/bgm.ts 全文、
-  main.ts:1076-1082/1470-1478/1686-1688/1774-1778/1881/4044-4052。
-必落钉(build 验收逐项核):
-  - K1: GainNode 由 runtime adapter initialize 建(synth→gain→destination);
-    fadeTo/cancelFade 挂 BgmSequencerAdapter;AudioParam 操作封装在 adapter 内;
-    gain 初值 1.0(默认 0 fade = 现行为零变化)。
-  - G2+K2: fade 抢占单测——fade 中新 play/stop/setEnabled(false) 各一条;
-    fade 完成回调过 isCurrent(serial);接管 ramp 从当前 gain 值起(cancelScheduledValues
-    + setValueAtTime),不得 0/1 突变。
-  - K3: last 扩记 fadeInMs(autoplay resume/懒初始化补播带原 fade),或显式注释
-    「补播一律硬切」——二选一,写清。
-  - K5: 同曲守卫 × fade 窗口——守卫命中且有异曲进行中请求时 serial++ 取消之;
-    单测:A→B fade 期间 play(A) → B 不播、A 续播、记账一致。
-  - G1(已裁定接)+K4: 战斗全链 300ms——startBattle(:1687)、胜利曲(:1777)、
-    restoreSceneMusic(:1473) 三处;常量集中一处定义。K6: lose/gameOver 音乐路径
-    列入矩阵并注明接/不接。
-  - G3: fade 中 ctx suspend 不卡死;fade-out 末尾 gain 归零后 pause synth;
-    fadeInMs=0 走快捷路径不调度 ramp。
-听感验收(Kimi 席,build 后): 浏览器实测战斗进出场无爆音/无半截曲;场景切曲与读档
-  恢复零变化;开关即时;补播行为符合 K3 定稿。
-纪律: 不换 synth/音色库;不破坏 autoplay/resume/懒初始化/开关记账/同曲不重启/CC91 锁;
-  环境音层/ducking/真并行不做(v1)。pnpm check 全绿 + bgm.test.ts 新测覆盖 G2/K5。
-验收输出: 实现摘要 + 钉逐项对照 + 测试证据;回卡交 GLM/Kimi review 签字。
+无下一位 Agent——GLM/Kimi 双 accept 已实签并回填详细记录,审计链完整。
+等待用户验收(可顺手做听感审美确认:进出战斗 300ms 过渡长短,BATTLE_MUSIC_TRANSITION_MS
+一处可调)。R2 记录项(stop(fade) 期间同曲 play 被吞)为可选 polish,不阻塞。
+```
+```text
+接手任务: D12-1 音频动态过渡与分层实现（三方 agree 齐,build allowed）——已执行完毕,勿再执行
+说明: 本提示词为历史记录,Codex 已实现(0187ea76),GLM/Kimi 双 accept 已回填。
 ```
 
 ```text
 接手任务: D12-1 音频动态过渡与分层（Kimi 架构/听感主审）——已执行完毕,勿再执行
 说明: 本提示词为历史记录,Kimi 已于 2026-08-07 签 agree(K1-K6 + 四问裁定),
-  三方 agree 齐,build 准入 allowed。请改用上方实现提示词。
+  三方 agree 齐,build 准入 allowed。
 ```
 
 ```text
-接手任务: D12-1 音频动态过渡与分层——实现完成,交 Kimi 听感验收 + 双审(当前生效)
+接手任务: D12-1 音频动态过渡与分层——实现完成,交 Kimi 听感验收 + 双审——已执行完毕,勿再执行
+说明: Kimi 已于 2026-08-07 完成实现复审 + 浏览器 gain 采样听感验收并签 accept
+  (附 R2 记录项),审计链回填完整。等待用户验收。
 任务卡: docs/ops/tasks/D12-1-audio-transition-layering.md
 当前状态: build(实现完成,提交 `0187ea76`;reforge 807 / content 400 / editor typecheck 全绿)。
 你的角色: Kimi 听感验收(浏览器实测)+ Kimi/GLM review 签字;不是再改实现。
