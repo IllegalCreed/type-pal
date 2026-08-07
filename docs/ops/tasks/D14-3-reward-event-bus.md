@@ -76,12 +76,12 @@ Branch: TBD
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
-- Kimi: pending
-- GLM: pending
-- counter / 返工处理: N/A
+- Codex: pending（Coding Owner done 前收口签字待补）
+- Kimi: pending（视觉抽验:四类提示一致 + 战斗偷窃 + 排队拖尾,缺席待补）
+- GLM: **accept（2026-08-07，覆盖矩阵 build 期核对：核 141d24e7 全 diff + G2 grep 零残留 + 独立复跑 item-use-result 2 测 + reforge 821 无回归；G1 五路径逐条核（giveItem/giveMoney/偷窃/合成炼成/结算）+ G2 无双 UI 并存门禁闭环。浏览器视觉留 Kimi。见「GLM 实现复审」）**
+- counter / 返工处理: 无 counter
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **blocked on Kimi 视觉 + Codex 收口 + 用户验收**（GLM accept 已落）
 
 ## Draft: 设计与风险
 
@@ -232,16 +232,54 @@ giveItem 自动呈现留 v1.1 认可（待三贤恢复评审 present 字段 vs �
 ## 视觉验证记录(如适用)
 
 - Visual Verification Owner: Kimi
-- 验证方式: pending
-- 截图 / 像素检查路径: pending
-- 结论: pending
+- 验证方式: GLM build 期核对 = 141d24e7 全 diff 核实 + G2 grep 零残留 + item-use-result 2 测 + reforge 821 无回归;浏览器视觉实测(四类提示一致 + 战斗偷窃观感 + 排队拖尾)留 Kimi(IAB 渲染交互受限)
+- 截图 / 像素检查路径: pending（Kimi 浏览器实测后补）
+- 结论: **GLM 席 accept(逻辑/单测层);浏览器观感门禁待 Kimi**
 
 ## Review: 审查与返工
 
 - Reviewer: GLM + Kimi
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: **GLM accept（G1 五路径逐条核 + G2 无双 UI 并存 grep 零残留,见下）;Kimi 视觉抽验待补**
+- 必须返工项: 无（GLM 席）;四类提示观感一致 + 战斗偷窃 + 排队拖尾留 Kimi
+- Accept / rework: **GLM accept;Kimi 视觉 + Codex 收口 + 用户验收后 done**
+
+### GLM 实现复审（2026-08-07，覆盖矩阵 build 期核对）：**accept**
+
+**方法**：只读复审;核 `141d24e7` 全 diff（reward-gain.ts 新 presenter + item-use-result.ts -61 旧呈现 +
+battle-session.ts 偷窃横幅 + main.ts giveItem/giveMoney 接入 + item-use-result.test）；
+G2 grep 残留检查;独立复跑 item-use-result 2 测 + reforge 全包 821 测。未修改实现。
+
+**G1 五路径逐条核（本席设计审查的覆盖矩阵钉）** ✅：
+- **giveItem/giveMoney**（世界路径）：main.ts 旧 `itemUseResult` 状态 → 新 `rewardGain`（:3715
+  `{text, untilMs}` + :3749 `itemUseResultText(entry)` 转 reward-gain 文本 + 1400ms 展示）；
+  canActivateScriptConfirm（:1218）+ 渲染分支（:4501-4505/4812）全改 rewardGain，旧状态零残留。
+- **偷窃**（战斗路径）：battle-session.ts:2786 偷窃横幅从内联 `renderSpans` 改 `drawRewardGainText`
+  （reward-gain 文本变体，战斗节奏位置/时长保留）。
+- **合成/炼成**：走同一 itemUseResultText → rewardGain 路径（item-use-result.ts 保留 text 构造、
+  仅删旧 draw/layout）。
+- **结算物品**：settlement.ts 不动（设计明确 v1 不改结算屏结构），仅物品入账提示入口统一。
+- **宝箱/剧情拾取**：保持内容驱动（作者脚本显式 narration，不走引擎 presenter）——幂等天然成立
+  （引擎不重复呈现脚本旁白）。
+
+**G2 无双 UI 并存门禁（验收核心）** ✅：
+- grep `itemUseResultLineLayout`/`drawItemUseResult`/旧 narration-item-use 卷轴 → **零命中**
+  （仅 reward-gain.ts 注释提到"消灭两套 UI"）。
+- item-use-result.ts -61 行：旧 `drawItemUseResult`/`itemUseResultLineLayout` 全删，只留
+  `itemUseResultText`/`buildItemUseResultEntries`（text 构造保留、呈现移除）。
+- 即引擎自有呈现（偷窃 + 物品使用/炼成）全部走 reward-gain，无 narration 卷轴与 item-use-result 同框残留。
+
+**reward-gain presenter 复用纪律** ✅：drawRewardGainLine 横卷轴（drawScroll + renderSpans，原版 0x3E 语义）
++ drawRewardGainText 文本变体（白字带影，fight.c:2316 color15 语义）——两变体同源、不引第二套样式。
+
+**独立复跑**：item-use-result 2/2 绿 + reforge 全包 **821/821 绿**（80 files，无回归）。与 Build 节自验一致。
+
+**未实测（如实标注）**：浏览器视觉实测（四类提示观感一致 + 战斗内偷窃观感 K1 + 连续入账排队拖尾 K3）
+本席未跑——本卡视觉抽验归 Kimi，IAB 渲染交互受限。五路径**入账/呈现逻辑层**已由代码核实 + 单测覆盖;
+观感门禁（卷轴样式一致性、战斗横幅节奏、排队无拖尾）留 Kimi。
+
+**结论**：**accept**。G1（五路径逐条）+ G2（无双 UI grep 零残留）闭环；reward-gain presenter 复用纪律对；
+reforge 821 无回归。giveItem 自动呈现留 v1.1（K2 预裁定已记）。浏览器视觉实测留 Kimi；
+本 accept 连同 Kimi 视觉 + Codex 收口 + 用户验收后 done。
 
 ## 用户验收
 
@@ -265,6 +303,16 @@ giveItem 自动呈现留 v1.1 认可（待三贤恢复评审 present 字段 vs �
   **build 准入 allowed**。K1 战斗内 reward-gain 观感（违和备选=横幅形态同组件变体）、
   K2 v1.1 预裁定（显式 present 字段优先,不做去重启发式）、K3 连续入账逐条排队+
   可跳过（对齐 item-use-result 逐个展示先例）。详见「Kimi 设计抽审」。Next: Codex build。
+- 2026-08-07 Codex: 实现完成并自证——reward-gain 统一 presenter(横卷轴 + 战斗文本变体);
+  偷窃横幅/炼成框旧呈现移除;giveItem 自动呈现 v1.1 留口(K2 预裁定已记);reforge 821 +
+  G2 grep 零残留。待 Kimi/GLM review 签字。
+- 2026-08-07 GLM（覆盖矩阵 build 期核对）: 签 **accept**。核 141d24e7 全 diff + G2 grep
+  零残留 + 独立复跑 item-use-result 2 测 + reforge 821 无回归;**G1 五路径逐条核**
+  （giveItem/giveMoney 走 rewardGain 状态、偷窃 drawRewardGainText、合成炼成同路径、结算屏不动、
+  宝箱内容驱动幂等）+ **G2 无双 UI 并存门禁**（旧 itemUseResultLineLayout/drawItemUseResult 零命中、
+  item-use-result -61 行旧呈现全删）。reward-gain presenter 复用纪律对（横卷轴 + 文本变体同源）。
+  浏览器视觉实测（四类提示观感 + 战斗偷窃 + 排队拖尾）留 Kimi。done 前签字 GLM 行补本席 accept。
+  详见「GLM 实现复审」。
 
 ## 下一位 Agent 提示词
 
@@ -293,7 +341,24 @@ giveItem 自动呈现留 v1.1 认可（待三贤恢复评审 present 字段 vs �
 ```
 
 ```text
-接手任务: D14-3 奖励/事件总线统一收尾（设计补审）——已执行完毕,勿再执行
-说明: 本提示词为历史记录,GLM/Kimi 已于 2026-08-07 额度恢复后补审签 agree
-  (G1-G2 + K1-K3),三方 agree 齐,build 准入 allowed。请改用上方实现提示词。
+接手任务: D14-3 奖励/事件总线——Kimi 视觉抽验 + Codex done 前收口
+任务卡: docs/ops/tasks/D14-3-reward-event-bus.md
+当前状态: build(实现完成,提交 141d24e7);GLM review accept 已落(G1 五路径逐条 +
+  G2 无双 UI grep 零残留,见「GLM 实现复审」);done 准入 blocked on Kimi 视觉 + Codex 收口 + 用户验收。
+你的角色: Kimi(视觉抽验:浏览器实测)。GLM 已覆盖五路径覆盖矩阵 + G2 门禁 + 单测复跑,
+  你聚焦浏览器观感门禁(GLM 因 IAB 渲染交互受限未跑)。
+先读: 本卡「GLM 实现复审」(G1/G2 核对结论) + Build 节钉逐项 + 设计结论;
+  **docs/ops/kimi-verification-manual.md**(游戏本体纯键盘,鼠标点画布无输入);
+  reward-gain.ts(drawRewardGainLine 横卷轴 + drawRewardGainText 战斗文本变体)、
+  main.ts:3715/3749/4501-4505(rewardGain 状态 + 呈现)、battle-session.ts:2786(偷窃横幅)、
+  item-use-result.ts(旧呈现已 -61 移除)。
+请你做:
+  1. 浏览器实测(PAL,6051)四类提示观感一致:宝箱拾取/剧情 giveItem 旁白、偷窃横幅、合成炼成框、
+     战斗结算物品 —— 引擎自有呈现全走 reward-gain(横卷轴/文本变体),无 narration 卷轴与 item-use-result
+     同框残留(G2 已 grep 证零残留,观感层再确认)。
+  2. 战斗内偷窃观感(K1:reward-gain 文本变体位置/时长与战斗节奏合)。
+  3. 连续入账排队(K3:逐条展示不压一行 + 固定时长 + 可按键跳过)。
+  4. 独立确认 G1 五路径(可复跑 reforge 测)。
+输出: 签 accept(附浏览器截图)或 counter(具体反例);更新 done 前 Kimi 签字 + 视觉验证记录。
+  GLM accept + Kimi 视觉 accept 齐 → 交 Codex done 前收口签字 + 用户验收。不得修改实现文件。
 ```
