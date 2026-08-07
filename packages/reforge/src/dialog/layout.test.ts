@@ -77,5 +77,65 @@ describe('layoutLines', () => {
   })
 })
 
+// D14-1 冻结语义:maxRight=320(屏幕右缘),usable=320−startX。
+// bottom 有头像 20→300px / 无头像 44→276px;top 有头像 96→224px / 无头像 44→276px;
+// center 80→240px。CJK 全宽 16px → 各态满行字数 = floor(usable/16)。
+describe('D14-1 冻结语义折行矩阵', () => {
+  const full = (n: number): string => '一'.repeat(n)
+
+  test('bottom 有头像(usable 300px=18 字):18 字单行、19 字折行', () => {
+    const maxRight = 320
+    const startX = 20
+    expect(layoutLines([{ text: full(18) }], glyphs, resolveText, maxRight, startX)).toHaveLength(1)
+    const two = layoutLines([{ text: full(19) }], glyphs, resolveText, maxRight, startX)
+    expect(two).toHaveLength(2)
+    expect(two[0]?.spans[0]?.text).toHaveLength(18)
+  })
+
+  test('top 有头像(usable 224px=14 字):14 字单行、15 字折行', () => {
+    const maxRight = 320
+    const startX = 96
+    expect(layoutLines([{ text: full(14) }], glyphs, resolveText, maxRight, startX)).toHaveLength(1)
+    const two = layoutLines([{ text: full(15) }], glyphs, resolveText, maxRight, startX)
+    expect(two).toHaveLength(2)
+    expect(two[0]?.spans[0]?.text).toHaveLength(14)
+  })
+
+  test('无头像 bottom/top(usable 276px=17 字):17 字单行、18 字折行', () => {
+    const maxRight = 320
+    const startX = 44
+    expect(layoutLines([{ text: full(17) }], glyphs, resolveText, maxRight, startX)).toHaveLength(1)
+    expect(layoutLines([{ text: full(18) }], glyphs, resolveText, maxRight, startX)).toHaveLength(2)
+  })
+
+  test('center(usable 240px=15 字):15 字单行、16 字折行', () => {
+    const maxRight = 320
+    const startX = 80
+    expect(layoutLines([{ text: full(15) }], glyphs, resolveText, maxRight, startX)).toHaveLength(1)
+    expect(layoutLines([{ text: full(16) }], glyphs, resolveText, maxRight, startX)).toHaveLength(2)
+  })
+
+  test('D14-1 用户报障样例:14-15 字带头像行不再折 1-2 字孤儿行', () => {
+    // dlg.1208「洪大叔最喜欢你们这样的年青人」14 字 bottom 有头像。
+    const bottomFace = layoutLines(
+      [{ text: '洪大叔最喜欢你们这样的年青人' }],
+      glyphs,
+      resolveText,
+      320,
+      20,
+    )
+    expect(bottomFace).toHaveLength(1)
+    // dlg.3828「那带头的人自称是拜月教的长老」14 字 top 有头像(恰满 224px)。
+    const topFace = layoutLines(
+      [{ text: '那带头的人自称是拜月教的长老' }],
+      glyphs,
+      resolveText,
+      320,
+      96,
+    )
+    expect(topFace).toHaveLength(1)
+  })
+})
+
 // 帮 TS 收窄类型(避免 unused)
 export type { DisplayLine }

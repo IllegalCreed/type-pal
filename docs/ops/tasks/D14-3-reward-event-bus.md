@@ -65,11 +65,11 @@ Branch: TBD
 
 ### 进入 build 前:设计签字
 
-- Codex: pending
-- Kimi: pending
-- GLM: pending
+- Codex: agree（2026-08-07 设计冻结，见「设计结论」）
+- Kimi: **缺席（2026-08-07 额度耗尽,恢复后补审补签）**
+- GLM: **缺席（2026-08-07 额度耗尽,恢复后补审补签；覆盖矩阵主审席位）**
 - counter / 分歧处理: N/A
-- 缺签豁免: N/A
+- 缺签豁免: 用户已批准（2026-08-07 双额度耗尽,Codex 单 Agent 推进,待两席恢复补审补签）
 - build 准入结论: blocked
 
 ### 进入 done 前:审查签字
@@ -85,15 +85,32 @@ Branch: TBD
 
 ### 设计结论
 
-待冻结。方向：奖励事件 = 数据（入账 + 呈现信息），入账命令统一发事件；一个 presenter
-消费所有「获得 X」。
+**2026-08-07 冻结（Codex agree）——v1 只统一引擎自有呈现,不碰 content schema**：
+
+1. **奖励事件通道（reforge 内部类型,非 content schema）**：`RewardEvent` =
+   `{ kind: 'item', itemId, count } | { kind: 'money', delta }`，入账点（giveItem/giveMoney
+   脚本命令、战斗偷窃 writeBackInventory、合成/使用结果、结算物品入账）在原有意图边界
+   （worldMutationIntent / scriptMutationIntent）内发射事件；入账逻辑零改动，只加发射。
+2. **统一 presenter 组件**：新 `reward-gain.ts`（「获得 X × N」横卷轴,基于 narration-scroll
+   样式,原版 0x3E 语义）,替换两处引擎自有呈现——偷窃横幅（battle-core.ts:284 结果横幅）
+   与物品使用/炼成框（item-use-result.ts）为同一组件;宝箱/剧情拾取保持内容驱动
+   （作者脚本显式 narration,不走引擎 presenter,幂等天然成立）。
+3. **giveItem 自动呈现 = v1.1 留口**（**诚实范围调整**）：giveItem 默认呈现需给脚本命令
+   加可选字段（content schema 变更,跨包公共接口）——双审缺席下不动 schema,卡内注明
+   「v1.1 待三贤恢复后评审:giveItem 显式 present 字段或旁白去重启发式」。
+4. **结算屏不动**：战斗胜利结算屏（settlement.ts）结构保留,仅物品入账提示入口统一。
+5. **覆盖矩阵（GLM 席位,待补审）**：giveItem / 宝箱旁白 / 偷窃 / 合成炼成 / 结算物品
+   路径逐条;验收 = 引擎自有呈现全部走 reward-gain,无双 UI 并存。
 
 ### 已知风险
 
 - 风险: 覆盖路径多，漏一条路径仍走旧 UI。
 - 缓解: GLM 覆盖矩阵 + 统一 presenter 后旧 UI 入口删除（fail-closed）。
 - 风险: 脚本旁白与自动提示重复。
-- 缓解: 事件幂等（脚本显式旁白时不再自动提示）。
+- 缓解: v1 引擎自有呈现与内容旁白域分离（giveItem 保持静默,重复不可能）;
+  v1.1 若做 giveItem 自动呈现再按幂等口径评审。
+- 风险: 双审缺席下动 content schema。
+- 缓解: v1 明确不碰 schema,涉及 schema 的 giveItem 呈现留 v1.1。
 
 ### 主审立场
 
@@ -140,19 +157,24 @@ Branch: TBD
 
 - 2026-08-06 Codex: 开卡。现状：giveItem 只入账不呈现；提示 UI 有 narration 卷轴 /
   item-use-result 框两套 + 战斗横幅 + toast。
+- 2026-08-07 Codex: 设计冻结并签 agree。RewardEvent 内部通道 + 统一 reward-gain
+  presenter（偷窃/炼成替换）;宝箱/剧情旁白内容驱动幂等天然;giveItem 自动呈现 v1.1
+  留口（涉 content schema,双审缺席不动）;Kimi/GLM 缺席待补审,缺签豁免用户批准。
 
 ## 下一位 Agent 提示词
 
 ```text
 接手任务: D14-3 奖励/事件总线统一收尾
 任务卡: docs/ops/tasks/D14-3-reward-event-bus.md
-当前状态: draft（build 准入 blocked）
-你的角色: GLM 覆盖矩阵主审；Kimi 视觉/UX 抽审
+当前状态: draft（build 准入 blocked；Codex 设计冻结并签 agree，双审缺席待补审）
+你的角色: 待补审——GLM 覆盖矩阵主审；Kimi 视觉/UX 抽审（额度恢复后执行）
 先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡、main.ts:1811/2493/3645、
   battle-core.ts:284、item-use-result.ts、dialog-box.ts:248、narration-scroll.ts
-已完成: 开卡（缺口=giveItem 无呈现 + 两套提示 UI），设计未冻结
-请你做: 压测奖励事件边界（入账/呈现解耦）、幂等策略、统一 presenter 取舍；
-  GLM 预列全游戏入账路径覆盖矩阵；冻结方案后 agree/counter
+已完成: Codex 设计冻结——RewardEvent 通道(reforge 内部类型,非 content schema);
+  统一 reward-gain presenter 替换偷窃横幅/炼成框;宝箱/剧情旁白保持内容驱动(幂等天然);
+  giveItem 自动呈现 = v1.1 留口(涉 schema,双审缺席不动);结算屏结构保留
+请你做(额度恢复后): GLM 压测覆盖矩阵(giveItem/宝箱/偷窃/合成/结算逐条)与无双 UI 并存
+  门禁;Kimi 抽验 reward-gain 观感与 v1.1 giveItem 呈现口径;agree/counter
 不要做: 不得修改实现文件；不得改变 giveItem 时序语义
 输出要求: 更新设计签字、主审立场、争议处理和下一位提示词
 ```

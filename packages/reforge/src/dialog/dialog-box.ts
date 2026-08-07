@@ -57,8 +57,10 @@ const POS = {
     portrait: { x: -100, y: -100 }, // 居中窗无头像
   },
 } as const
-const MAX_RIGHT = 308 // 正文右边距 → 每行可用 264px(无头像)
-const CURSOR_RESERVE = 12 // 末行末尾给光标留位,防顶出屏幕
+// D14-1:原版全宽语义——文本区右缘 = 屏幕 320(usable = 320 − startX)。原版 sdlpal
+// 对话逐行直绘、无自动折行、无框宽裁边,头像只改文本起点;折行只发生在超出
+// 原版最大可视宽度的行(全量 11102 行中仅 6 行)。
+const MAX_RIGHT = 320
 
 /** 单个 slot 的排版渲染态(slot.ts 管 cueIdx,这里管 cue 内 rows 的排版)。 */
 interface SlotRender {
@@ -103,13 +105,9 @@ export class DialogBox {
     const portraitImg = cue.portrait ? this.portraits.get(cue.portrait.asset) : undefined
     const hasPortrait = Boolean(portraitImg)
     const startX = hasPortrait ? POS[slot].textWithPortrait.x : POS[slot].text.x
-    // maxRight:头像在右(bottom)→ 正文右边收到头像左;头像在左(top)→ startX 已避开头像,maxRight 不变。
-    // 始终留 CURSOR_RESERVE 给末行光标,防顶出屏幕。
-    let maxRight = MAX_RIGHT - CURSOR_RESERVE
-    if (hasPortrait && portraitImg && POS[slot].portrait.x > 160) {
-      // bottom 头像在右(portrait.x=270),正文右边收到头像左边界
-      maxRight = POS[slot].portrait.x - portraitImg.width / 2 - 4
-    }
+    // D14-1:不再按头像收窄、不再扣光标预留;头像只改起点(startX 已处理)。
+    // 光标按原版 posIcon 语义画在末行末尾,接近屏边时本就会被裁(视觉验收项)。
+    const maxRight = MAX_RIGHT
     const displayLines = layoutLines(
       cue.rows,
       this.glyphs,

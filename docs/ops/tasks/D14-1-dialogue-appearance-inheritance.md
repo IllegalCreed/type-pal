@@ -7,8 +7,8 @@ Coding Owner: Codex
 Generation Owner: Codex（涉及 RGM 头像 / 光标 sprite 资产接入时）
 Reviewer: Kimi（视觉/UX 主审）+ GLM（数据/覆盖矩阵）
 Visual Verification Owner: Kimi（用户 2026-08-06 拍板视觉验证由 Kimi 承担）
-Unavailable Agents: Kimi + GLM（2026-08-07 双额度耗尽；Codex 单 Agent 推进需用户批准，
-  设计签字待两席恢复后补审补签）
+Unavailable Agents: Kimi + GLM（2026-08-07 双额度耗尽；用户已批准 Codex 单 Agent 推进
+  D14-1 build（2026-08-07「按你推荐的顺序推进吧先」），设计签字待两席恢复后补审补签）
 Branch: TBD
 
 ## 目标
@@ -90,7 +90,8 @@ Branch: TBD
 - Kimi: pending
 - GLM: pending
 - counter / 分歧处理: N/A
-- 缺签豁免: N/A
+- 缺签豁免: 用户已批准（2026-08-07 双额度耗尽,Kimi + GLM 缺席;Codex 单 Agent 推进,
+  设计签字待两席恢复后补审补签）
 - build 准入结论: blocked
 
 ### 进入 done 前:审查签字
@@ -188,11 +189,25 @@ sdlpal 真值核实结论（决定性，代码锚点）：
 ## Build: 实现与自测
 
 - Coding Owner: Codex
-- 修改文件: pending；设计三签前不得开始实现。
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending（Kimi 视觉验收）
-- 跳过的检查及原因: N/A
+- 修改文件:
+  - `packages/reforge/src/dialog/dialog-box.ts`（MAX_RIGHT 308→320,删 CURSOR_RESERVE;
+    layoutCueInto 不再按头像收窄/扣光标预留,maxRight=320 恒定——usable=320−startX）
+  - `packages/reforge/src/dialog/layout.test.ts`（+5 测:冻结语义矩阵 18/14/17/15 字满行 +
+    用户报障样例 dlg.1208/3828 单行）
+  - `packages/reforge/scripts/audit-dialog-wrap.mts`（新增:全量折行审计,断言 11102 行
+    中仅冻结设计的 6 条超限行折行、0 意外折行;`pnpm audit:dialog-wrap` 可挂 CI）
+  - `packages/reforge/package.json`（audit:dialog-wrap 脚本）
+- 实现摘要: 用户批准 Codex 单 Agent 推进(双额度耗尽,签字待补审)。宽度语义对齐冻结设计:
+  maxRight=320(屏幕右缘),usable=320−startX,头像只改起点、不参与裁宽,光标不预留。
+  全量审计 11102 行:6 条超限行(原版会裁边)合法折行,0 意外折行,孤儿换行归零。
+- 运行命令:
+  - `pnpm --filter @type-pal/reforge check`（821 通过,layout 11 条含 5 新测）
+  - `pnpm --filter @type-pal/reforge run audit:dialog-wrap`（11102 行,0 意外折行）
+  - `pnpm --filter @type-pal/reforge build` 成功
+- 浏览器 / 手工检查: pending（Kimi 视觉抽验——14 字带头像行、25 行头像边缘行、屏边
+  光标行;按 D28 视觉降级为抽验,分段 e2e 为最终路径）
+- 跳过的检查及原因: 视觉/浏览器验证按 D28 走分段 e2e + Kimi 抽验;Codex 自证到类型+
+  单测+全量审计+构建层。
 
 ## 视觉验证记录(如适用)
 
