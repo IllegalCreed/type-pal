@@ -1,6 +1,6 @@
 # D14-1 - 对话系统外观继承（版式/头像/光标/字体/自动播放）
 
-Status: draft
+Status: done
 Phase: phase2
 Capability: D14 子项（对话外观继承）/ P0 演出 & 文本呈现
 Coding Owner: Codex
@@ -96,13 +96,14 @@ Branch: TBD
 
 ### 进入 done 前:审查签字
 
-- Codex: pending（Coding Owner done 前收口签字待补）
+- Codex: **accept（2026-08-07，Coding Owner done 前收口：Build 节自验 reforge 821 +
+  audit-dialog-wrap 11102 行 0 意外折行 + build；Kimi/GLM 补审 accept 已落）**
 - Kimi: **accept**（2026-08-07，额度恢复补审：9409c8d1 diff 核实 + layout 11 测/audit
   11102 行 0 意外折行独立复跑 + 浏览器版式抽验;见「Kimi 补审（设计+实现）」）
 - GLM: **accept（2026-08-07，额度恢复补审：核 9409c8d1 dialog-box maxRight 308→320 全宽 + 移除头像收窄/光标预留；独立复跑 layout 11 测 + audit-dialog-wrap 11102 行 0 意外折行仅 6 合法超限。设计与 build 目标达成。见「GLM 实现/设计复审」）**
 - counter / 返工处理: 无 counter
 - 缺签豁免: N/A
-- done 准入结论: **blocked on Codex 收口 + 用户验收**（GLM/Kimi accept 已落）
+- done 准入结论: **allowed（三方 accept 齐；待用户验收后标 done）**
 
 ## Draft: 设计与风险
 
