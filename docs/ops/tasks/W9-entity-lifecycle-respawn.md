@@ -7,7 +7,7 @@ Coding Owner: Codex
 Generation Owner: N/A
 Reviewer: Kimi + GLM
 Visual Verification Owner: Codex + User
-Unavailable Agents: Kimi（2026-08-07 额度耗尽待补审）；GLM 已恢复（2026-08-07 可签设计压测）
+Unavailable Agents: none（2026-08-07 GLM/Kimi 均已恢复,补审中）
 Branch: main
 
 ## 目标
@@ -108,11 +108,11 @@ Branch: main
 - Codex: **agree**（2026-08-06，设计冻结完成：四态状态机/默认值/320×320 边界含 sdlpal y=320
   typo 忠实复刻、0x52 toggle 前态、BattleResult 四分类、hostile success/playerFlee 拆分、
   SAVE 可选字段不 bump 先例——见「冻结设计」）
-- Kimi: pending
-- GLM: pending
-- counter / 分歧处理: N/A
+- Kimi: pending（架构/save/schema 主审,缺席待补）
+- GLM: **agree（2026-08-07，迁移账本/测试矩阵主审：四态状态机 + 计时基准(有效世界 tick) + 320×320 边界 + 0x52 toggle 前态对源 game-mechanics.md:1060-1101 逐条核实成立；SAVE 可选字段不 bump 先例(skillUseCounts/collectValue)认可。附 G1-G2 build 准入钉：源账本 828+193 mutually-exclusive disposition + 总数守恒、SAVE 升级矩阵口径(确定性迁移 vs sidecar 前拒绝二选一)由 build 期 GLM 冻结。见「GLM 设计压测」）**
+- counter / 分歧处理: 无 counter
 - 缺签豁免: N/A
-- build 准入结论: blocked
+- build 准入结论: **blocked on Kimi**（GLM agree 已落）
 
 ### 进入 done 前:审查签字
 
@@ -215,8 +215,38 @@ Branch: main
 
 - Codex: 采用语义生命周期表、统一世界 reducer、固定 `320×320` 行为真值；二次核对后补入手动确认、0x52 toggle、world-update pause 与敌逃/terminate 成功分支，不复制原版数据结构。
 - Kimi: pending
-- GLM: pending
+- GLM: **agree（2026-08-07，迁移账本/测试矩阵主审）**。详见「GLM 设计压测」。
 - 用户拍板: 2026-07-30，游戏机制以一阶段 `game-mechanics.md` 已核实真值为参考，不得猜测。
+
+#### GLM 设计压测（2026-08-07，迁移账本/测试矩阵）：**agree（附 G1-G2 build 准入钉）**
+
+**方法**：只读设计压测；一手核实 game-mechanics.md:1060-1101（sVanishTime/sState 生命周期真值 +
+0x4B/0x52 默认值 + 320×320 视口外重现 + 跨场景持久）、sdlpal play.c 锚点（卡内引用）、
+设计冻结四态 + schema + SAVE 口径。未修改实现。
+
+**对源核实（设计成立）** ✅：
+1. 四态状态机对源：`suspended`(0x4B sVanishTime<0 可见暂停自动)、`despawned`(0x52 sVanishTime>0+sState<0
+   隐藏倒计时)、`awaitingExit`(倒计时归零仍隐藏等离屏)、`removed`(永久)——与 game-mechanics.md:1068-1101
+   的 sVanishTime 正负语义 + sState<0 隐藏待复活逐条吻合。默认值 0x4B=15tick(1.5s)/0x52=800tick(80s)对源。
+2. 计时基准：仅所属场景为当前场景的有效世界逻辑 tick(100ms)推进，战斗/菜单/阻塞脚本暂停——对源
+   game-mechanics.md:1060「切场景、战斗、菜单或阻塞脚本暂停世界更新时不会用墙钟偷跑」。禁止墙钟/detached wait 正确。
+3. 320×320 边界 + y 比较复刻 sdlpal 320(疑 typo 忠实保留)：用户拍板的一阶段机制真值，设计明确不"修正"，
+   写边界回归测试 + 注释——纪律正确。
+4. 0x52 toggle 前态语义(normal→despawned 正倒计时 / 负态→normal 暂藏 / state=0 保持)：迁移账本须证明
+   常见站点前态、异常 fail-loud——口径正确。
+5. hostile.policy 拆 success/playerFlee + 敌逃/terminate 走 success 但不触发隐藏/不给奖励(B7a 口径不变)：清晰。
+6. SAVE 可选字段不 bump SAVE_VERSION（先例 skillUseCounts/collectValue）：认可——旧档缺省→normal 确定性默认。
+
+**G 钉（build 准入必落，非 agree 阻塞）**：
+- **G1（源账本 828+193 守恒——GLM build 期冻结责任）**：828 hostile(826×80s+1×10s+1×15s) + 193 residual
+  (100×误翻 2s 隐藏的 0x4B + 93×0x52) 必须落 mutually-exclusive disposition + 总数守恒 census（build 期 GLM
+  逐站核对源 disposition，证明无重叠/已折叠/特殊编排漏计）。这是设计卡明确的 GLM 责任，build 前冻结。
+- **G2（SAVE 升级矩阵口径）**：设计写"确定性迁移或任何 sidecar I/O 前明确拒绝，二选一写死"——build 前
+  必须二选一并落测试（旧档缺省→normal 的确定性 + sidecar 拒绝路径单测）。不得留"二选一"悬空到实现。
+
+**结论**：设计方向干净、四态对源、计时/边界/toggle/SAVE 口径正确，无 schema 泄漏（不 bump SAVE_VERSION）。
+**agree**。G1（源账本守恒 census）、G2（SAVE 升级矩阵二选一写死）为 build 准入必落钉——GLM 席位于 build 期
+冻结 G1 census + 核 G2 落地。建议进入 build（blocked on Kimi 架构/save/schema 主审）。
 
 ## 额度 / 代班记录(如适用)
 

@@ -7,7 +7,7 @@ Coding Owner: Codex
 Generation Owner: N/A
 Reviewer: Kimi + GLM
 Visual Verification Owner: Codex
-Unavailable Agents: Kimi（2026-08-07 额度耗尽待补审）；GLM 已恢复（2026-08-07 可签设计压测）
+Unavailable Agents: none（2026-08-07 GLM/Kimi 均已恢复,补审中）
 Branch: main
 
 ## 目标
@@ -96,11 +96,11 @@ Branch: main
 
 - Codex: **agree**（2026-08-06，语义空槽 schema 冻结：0/65535 语义区分、slots 数组
   保序保空、wMaxEnemyIndex=slots.length-1 全槽抽样、迁移 fail-loud——见设计结论 1）
-- Kimi: pending
-- GLM: pending
-- counter / 分歧处理: N/A
+- Kimi: pending（战斗分层/表现路由主审,缺席待补）
+- GLM: **agree（2026-08-07，公式/覆盖矩阵主审：slots schema（0 占位 vs 65535 跳过、保序保空、wMaxEnemyIndex=slots.length-1）对源 battle.c:1595-1658 + fight.c:4489-4517 + game-mechanics.md:889 kBattleActionAttackMate 核实成立；attackMate 公式独立 helper + lastAction.damage 完整记录口径正确。附 G1 build 准入钉：380 队源槽 census（68 含 0 槽 / 56 多活敌 / 槽位守恒）由 build 期 GLM 冻结。见「GLM 设计压测」）**
+- counter / 分歧处理: 无 counter
 - 缺签豁免: N/A
-- build 准入结论: blocked
+- build 准入结论: **blocked on Kimi**（GLM agree 已落）
 
 ### 进入 done 前:审查签字
 
@@ -158,8 +158,32 @@ Branch: main
 
 - Codex: 二次核对后撤回“省略废弃玩家抽签”的初稿；严格采用一阶段完整 RNG 顺序，并把源编队空槽保留纳入设计门禁。
 - Kimi: pending
-- GLM: pending
+- GLM: **agree（2026-08-07，公式/覆盖矩阵主审）**。详见「GLM 设计压测」。
 - 用户拍板: 2026-07-30，一阶段游戏机制文档是真值，不得猜测。
+
+#### GLM 设计压测（2026-08-07，公式/覆盖矩阵）：**agree（附 G1 build 准入钉）**
+
+**方法**：只读设计压测；一手核实 game-mechanics.md:889（kBattleActionAttackMate 混乱攻击同伴真值）、
+battle.c:1595-1658 / fight.c:4489-4517 锚点（卡内引用）、slots schema + 迁移 + runtime 口径。未修改实现。
+
+**对源核实（设计成立）** ✅：
+1. slots schema（0 vs 65535 语义区分）：battle 初始化 `if (w==0xFFFF) continue`（65535 不占位）；
+   `0` 不满足 `w!=0` 不生成敌人但 `rgEnemy[i++].wObjectID=w` 占位并计入 wMaxEnemyIndex——与源逐条吻合。
+   `slots: Array<string|null>` 保序保空（null=源 0 空占位）、不压紧，spawn 由 slots 派生——正确。
+2. wMaxEnemyIndex = slots.length-1 + 混乱抽样在 [0..slots.length-1] 全槽迭代、null/死重抽、自身 Pass、
+   64 次 failsafe——对源完整 RNG 顺序（含废弃玩家抽样）。
+3. attackMate 公式独立 helper（局部 SHORT cast + calcBaseDamage）+ lastAction.damage 完整记录（不从
+   HP diff 推导）+ 不复用普通攻击音/帧/防御——公式隔离纪律正确。
+4. session 路由 `side=enemy && kind=attackMate` 按敌槽解释 targetEnemyIdx，负测防误接普通物理链——口径清晰。
+
+**G 钉（build 准入必落，非 agree 阻塞）**：
+- **G1（380 队源槽 census——GLM build 期冻结责任）**：380 队全量源槽 census 必须落——68 队含 0 槽、
+  56 队 ≥2 有效敌、总槽数守恒（生成前后槽位不漂）。这是设计卡明确的 GLM 责任，build 前冻结；
+  含空槽队伍的站位/召唤房间/随机流影响须在 census 里钉死。
+
+**结论**：设计方向干净、slots schema 对源、公式隔离纪律正确，RNG 顺序完整（含废弃抽样）。**agree**。
+G1（380 队源槽 census）为 build 准入必落钉——GLM 席位于 build 期冻结。建议进入 build（blocked on Kimi
+战斗分层/表现路由主审）。
 
 ## Build: 实现与自测
 

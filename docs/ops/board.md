@@ -2,9 +2,9 @@
 
 这张看板只记录当前进行中和阻塞任务。候选任务看 `docs/phase2/capability-map.md`（任务卡 `Capability` 字段对应地图格号；议题型卡 D6/D12/D13/D14/D15 落点见地图 §3.1「议题→格映射」），完成记录看 git log 和任务卡。
 
-> **⚠ 2026-08-07 额度状态：GLM 已恢复（可补审补签）；Kimi 仍缺席**（额度耗尽）。
-> GLM 恢复后优先补审：D14-2 覆盖矩阵实现期复审（+补签）、D14-1 设计复核（+build 复核）、
-> W9/B10-1 设计压测签字、D14-3 设计压测 + 覆盖矩阵。Kimi 席位项仍待 Kimi 恢复后补审。
+> **✅ 2026-08-07 额度状态：GLM 与 Kimi 均已恢复**——补审队列：D14-2（GLM 覆盖矩阵
+> 实现期复审 + 补签）、D14-1（双审设计复核 + build 复核 + Kimi 视觉抽验）、W9/B10-1
+> （双审设计压测签字）、D14-3（GLM 覆盖矩阵 + Kimi 视觉/UX 抽审）。
 
 工作流: [`agent-workflow.md`](agent-workflow.md)
 任务卡模板: [`tasks/TASK-template.md`](tasks/TASK-template.md)

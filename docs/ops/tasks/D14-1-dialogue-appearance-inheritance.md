@@ -7,8 +7,7 @@ Coding Owner: Codex
 Generation Owner: Codex（涉及 RGM 头像 / 光标 sprite 资产接入时）
 Reviewer: Kimi（视觉/UX 主审）+ GLM（数据/覆盖矩阵）
 Visual Verification Owner: Kimi（用户 2026-08-06 拍板视觉验证由 Kimi 承担）
-Unavailable Agents: Kimi（2026-08-07 额度耗尽待补审）；GLM 已恢复（2026-08-07 可补审
-  设计 + build 复核）；Codex 单 Agent build 已完成（用户批准）
+Unavailable Agents: none（2026-08-07 GLM/Kimi 均已恢复,补审中）
 Branch: TBD
 
 ## 目标
@@ -87,21 +86,21 @@ Branch: TBD
 ### 进入 build 前:设计签字
 
 - Codex: agree（2026-08-06 首批版式对齐设计冻结：sdlpal 全宽语义核实完毕，见「冻结设计」）
-- Kimi: pending
-- GLM: pending
-- counter / 分歧处理: N/A
-- 缺签豁免: 用户已批准（2026-08-07 双额度耗尽,Kimi + GLM 缺席;Codex 单 Agent 推进,
-  设计签字待两席恢复后补审补签）
-- build 准入结论: blocked
+- Kimi: pending（视觉/版式主审,缺席待补）
+- GLM: **agree（2026-08-07，额度恢复补审：maxRight=320 全宽语义对源 sdlpal text.c:1140/1173/1645-1750 核实成立；11102 行 audit 1074 误折行→0 仅 6 合法超限，设计目标可达成）**
+- counter / 分歧处理: 无 counter
+- 缺签豁免: 用户已批准（2026-08-07 双额度耗尽,Kimi + GLM 缺席;Codex 单 Agent 推进）;
+  GLM 补签后仅 blocked on Kimi
+- build 准入结论: **blocked on Kimi**（GLM agree 已落）
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
-- Kimi: pending
-- GLM: pending
-- counter / 返工处理: N/A
+- Codex: pending（Coding Owner done 前收口签字待补）
+- Kimi: pending（视觉验收:25 行屏边光标裁切 + 版式并排对比,缺席待补）
+- GLM: **accept（2026-08-07，额度恢复补审：核 9409c8d1 dialog-box maxRight 308→320 全宽 + 移除头像收窄/光标预留；独立复跑 layout 11 测 + audit-dialog-wrap 11102 行 0 意外折行仅 6 合法超限。设计与 build 目标达成。见「GLM 实现/设计复审」）**
+- counter / 返工处理: 无 counter
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **blocked on Kimi 视觉 + Codex 收口 + 用户验收**（GLM accept 已落）
 
 ## Draft: 设计与风险
 
@@ -219,9 +218,38 @@ sdlpal 真值核实结论（决定性，代码锚点）：
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: **GLM accept（设计 maxRight=320 全宽对源 + build 9409c8d1 核实 + audit 0 意外折行 + layout 11 测,见下）;Kimi 视觉待补**
+- 必须返工项: 无（GLM 席）;25 行屏边光标裁切留 Kimi 视觉抽查
+- Accept / rework: **GLM accept（设计 + done）;Kimi 视觉 + Codex 收口 + 用户验收后 done**
+
+### GLM 实现/设计复审（2026-08-07，额度恢复补审）：**accept（设计 + 实现）**
+
+**方法**：只读补审（额度恢复）。核 `9409c8d1` 全 diff（dialog-box.ts maxRight 308→320 +
+移除头像收窄/光标预留分支；audit-dialog-wrap.mts 新增脚本；layout.test.ts +60 矩阵测）；
+独立复跑 layout.test.ts 11 测 + audit-dialog-wrap.mts 全量扫描。未修改实现。
+
+**设计复核（maxRight=320 全宽语义）** ✅：对源 sdlpal text.c:1140（`PAL_DrawTextUnescape` 只查
+起点 x<320）/ :1173（320 裁边）/ :1645-1750（逐行直绘无自动折行）/ font.c:522-548（逐像素裁切）——
+原版文本区右缘 = 屏幕 320，头像只改起点不改右缘。设计冻结的"maxRight 恒 320、不按头像收窄、
+不扣光标预留"与源逐条吻合。CJK 16px / ASCII 8px 真实字形宽口径正确。
+
+**build 复核（9409c8d1）** ✅：
+- `dialog-box.ts`:MAX_RIGHT 308→320，移除 `let maxRight = MAX_RIGHT - CURSOR_RESERVE` + 头像收窄
+  分支（`portrait.x > 160` 收到头像左）；现 `const maxRight = MAX_RIGHT`（恒 320），头像只经 startX
+  避让。与冻结语义逐行一致。
+- **audit-dialog-wrap.mts 独立复跑**：11102 行 PAL 对话扫描 → **0 意外折行**，仅冻结设计的 6 条
+  超限行折行（s100/s143/s151/s158/s193/s198，均为 top/center 带头像长行）。设计目标"1074 行误折行
+  归零"**决定性达成**。
+- **layout.test.ts 独立复跑**：11/11 绿（含 bottom/top × 头像/无头像矩阵 + center + 6 行超限样例）。
+
+**独立复跑**：layout 11 测绿 + audit 0 意外折行——与 Build 节自验一致。
+
+**未实测（如实标注）**：25 行接近 320 屏边行的光标裁切（top 带头像 14 字/center 15 字）留 Kimi
+视觉抽查（设计已记为风险，原版本就裁、属忠实行为）；浏览器版式并排对比留 Kimi。
+
+**结论**：**accept（设计 + 实现）**。maxRight=320 全宽语义对源、dialog-box 改动与冻结一致、
+audit 0 意外折行 + layout 矩阵测覆盖。补签设计 agree + done 前 accept；done 准入 blocked on
+Kimi 视觉 + Codex 收口 + 用户验收。
 
 ## 用户验收
 

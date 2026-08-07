@@ -7,8 +7,7 @@ Coding Owner: Codex
 Generation Owner: N/A
 Reviewer: GLM（覆盖矩阵主审）+ Kimi（视觉/UX 抽审）
 Visual Verification Owner: Kimi
-Unavailable Agents: Kimi（2026-08-07 额度耗尽待补审）；GLM 已恢复（2026-08-07 可补审
-  设计压测 + 覆盖矩阵）
+Unavailable Agents: none（2026-08-07 GLM/Kimi 均已恢复,补审中）
 Branch: TBD
 
 ## 目标
@@ -68,10 +67,10 @@ Branch: TBD
 
 - Codex: agree（2026-08-07 设计冻结，见「设计结论」）
 - Kimi: **缺席（2026-08-07 额度耗尽,恢复后补审补签）**
-- GLM: **缺席（2026-08-07 额度耗尽,恢复后补审补签；覆盖矩阵主审席位）**
-- counter / 分歧处理: N/A
-- 缺签豁免: 用户已批准（2026-08-07 双额度耗尽,Codex 单 Agent 推进,待两席恢复补审补签）
-- build 准入结论: blocked
+- GLM: **agree（2026-08-07，额度恢复补审：v1 只统一引擎自有呈现（偷窃横幅 + item-use-result → reward-gain）、不动 content schema 的诚实范围认可；覆盖矩阵 5 路径（giveItem/宝箱旁白/偷窃/合成炼成/结算物品）明确。附 G1-G2 build 准入钉：5 路径逐条覆盖 + 双 UI 并存门禁（引擎自有呈现全走 reward-gain、无残留 narration 卷轴与 item-use-result 并存）。giveItem 自动呈现留 v1.1 认可。见「GLM 设计压测」）**
+- counter / 分歧处理: 无 counter
+- 缺签豁免: 用户已批准（2026-08-07 双额度耗尽）;GLM 补签后仅 blocked on Kimi
+- build 准入结论: **blocked on Kimi**（GLM agree 已落）
 
 ### 进入 done 前:审查签字
 

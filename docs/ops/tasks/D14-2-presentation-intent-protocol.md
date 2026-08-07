@@ -8,7 +8,7 @@ Generation Owner: N/A
 Reviewer: Kimi（架构/演出建模主审）+ GLM（覆盖/协议词汇矩阵；⚠ 2026-08-07 额度耗尽缺席，
   由 Kimi + Codex 临时代班，待补审）
 Visual Verification Owner: Kimi
-Unavailable Agents: Kimi（2026-08-07 额度耗尽待补审）；GLM 已恢复（2026-08-07 补审补签中）
+Unavailable Agents: none（2026-08-07 GLM/Kimi 均已恢复,补审中）
 Branch: TBD
 
 ## 目标
@@ -97,8 +97,7 @@ Branch: TBD
 - Kimi: **accept**（2026-08-07，实现复审 + 视觉验收：c45ed1c4 diff K1-K7 逐项核 +
   reforge 816 复跑 + 浏览器分镜实测 + s016 黑屏父版对照逐值一致非回归;求雨/酒剑仙/
   结局未实跑,覆盖边界如实标注,见「Kimi 视觉验收/实现复审」）
-- GLM: **缺席（2026-08-07 额度耗尽,恢复后补审补签;覆盖矩阵已由 Kimi 代班于设计期
-  完成,实现期矩阵复审待补）**
+- GLM: **accept（2026-08-07，额度恢复补审：核 c45ed1c4 全 diff + 独立复跑 controller 5 测；词汇表↔五能力对源 + 回放矩阵五场景承载 + K1-K7 单测覆盖成立。采纳 Kimi 代班结论。见「GLM 覆盖矩阵补审」）**
 - counter / 返工处理: 无 counter
 - 缺签豁免: 沿用设计期用户批准（2026-08-07）——GLM 缺席,done 准入由 Codex + Kimi
   + 用户验收构成;GLM 恢复后补审,补审 counter 则转 rework
@@ -299,10 +298,10 @@ Kimi 视觉并排。
 
 ## Review: 审查与返工
 
-- Reviewer: Kimi + GLM（缺席,待补审）
-- 审查结论: **Kimi accept**（实现复审 + 视觉验收,见下）;GLM 缺席豁免,恢复后补审
+- Reviewer: Kimi + GLM
+- 审查结论: **Kimi accept（实现复审 + 视觉验收）+ GLM accept（覆盖矩阵补审,见下）**
 - 必须返工项: 无
-- Accept / rework: **Kimi accept；Codex 收口 + 用户验收后 done;GLM 补审 counter 则转 rework**
+- Accept / rework: **Kimi + GLM accept;Codex 收口 + 用户验收后 done**
 
 ### Kimi 视觉验收/实现复审（2026-08-07）：**accept**
 
@@ -360,6 +359,34 @@ debug-tools.ts 判定改 + 5 新测）；独立复跑 reforge 816；chrome-devto
 
 **结论**:**accept**。K1-K7 全落,行为真值在开场与 s016 全命令分镜上经父版对照成立。
 交 Codex 收口 + 用户验收;GLM 恢复后补审。
+
+### GLM 覆盖矩阵补审（2026-08-07，额度恢复补审）：**accept**
+
+**方法**：只读补审（额度恢复后独立补 Kimi 代班的覆盖矩阵）。核 `c45ed1c4` 全 diff
+（presentation-intent.ts 词汇表 + cutscene-controller.ts + main.ts 接入 + 5 测）；
+独立复跑 cutscene-controller.test.ts 5 测。未修改实现。
+
+**词汇表 ↔ 五能力对源（覆盖矩阵核心）** ✅：PresentationIntent 词汇表 = dialog/clearDialog/
+fade/cameraPan/cameraSnap/frameAnimation/video/wait —— 覆盖现存五能力（dialog/fade/camera/
+frameAnimation/video）+ wait（编排间隙）；CutsceneExecutor 八方法与词汇表 1:1。K4 名单外项目
+（screenHold/dither/worldShake/worldWave/partyGesture/actorSpriteOverrides/entityFrameOverride）
+明确不入协议、由 abortScript 兜底——口径与 Build 节一致，词汇表边界干净。音频（playMusic/stopMusic）
+不入协议（世界态音频 + D12-1 边界），合理。
+
+**回放矩阵五场景覆盖** ✅（矩阵层）：开场（video+dialog）/求雨 RNG/酒剑仙 RNG/锁妖塔 cameraPan/
+结局视频——frameAnimation/video/cameraPan executor 均为原样搬移（行为真值），K7 控制器级回放
+序列一致单测在；RNG 真值回放走分段 e2e（D28 拍板）+ 现有脚本测试。覆盖矩阵层五场景均有承载机制，
+非悬空。
+
+**独立复跑**：cutscene-controller.test.ts **5/5 绿**（K1 busy×2、K3 取消+cancelAll、K5 并发资源分域、
+K7 回放一致）。与 Build 节自验 reforge 816 一致。
+
+**采纳 Kimi 代班结论**：设计期 GLM 缺席，Kimi 代班覆盖矩阵（词汇表↔五能力对源）已核，本席独立
+复核实成立、无反例；Kimi 实现复审 + 视觉验收（K1-K7 + 开场/s016 父版对照）一并采信。
+
+**结论**：**accept**（覆盖矩阵补审）。词汇表↔五能力对源、回放矩阵五场景承载、K1-K7 单测覆盖
+均成立。本 accept 补齐 done 前审查签字（此前 GLM 缺席豁免）；done 准入无 counter、不转 rework。
+求雨/酒剑仙/结局 RNG 真值回放属分段 e2e（D28），不阻塞本卡 done。
 
 ## 用户验收
 
