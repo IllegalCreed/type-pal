@@ -681,6 +681,106 @@ test('actor.battler.initialEquipment 指向不存在物品 → 报 warn', () => 
   b.actors[0]!.battler!.initialEquipment = { weapon: 'no-item' }
   expect(validateReferences(b).some((i) => /no-item/.test(i.where + i.message))).toBe(true)
 })
+
+test('E18-1:coveredBy 指向不存在角色 → error;指向纯 NPC → error', () => {
+  const b = clone(base)
+  ;(b.actors[0] as unknown as { battler: { coveredBy?: string } }).battler!.coveredBy = 'nobody'
+  expect(
+    validateReferences(b).some(
+      (i) => i.severity === 'error' && /coveredBy/.test(i.where) && /nobody/.test(i.message),
+    ),
+  ).toBe(true)
+  ;(b.actors[0] as unknown as { battler: { coveredBy?: string } }).battler!.coveredBy = 'npc'
+  b.actors.push({ id: 'npc', name: 'name.npc', spriteId: 'ghost' } as never)
+  expect(
+    validateReferences(b).some(
+      (i) => i.severity === 'error' && /coveredBy/.test(i.where) && /不是可战斗角色/.test(i.message),
+    ),
+  ).toBe(true)
+})
+
+test('E18-1:coveredBy 指向自己 → warn 不 error;互护合法零 issue', () => {
+  const b = clone(base)
+  b.actors.push({
+    id: 'hero2',
+    name: 'name.hero',
+    spriteId: 'hero-sprite',
+    battler: {
+      battleSprite: 'hero-battle-sprite',
+      baseStats: {} as never,
+      initialEquipment: {},
+      initialMagic: [],
+    },
+  })
+  ;(b.actors[0] as unknown as { battler: { coveredBy?: string } }).battler!.coveredBy = 'hero'
+  const self = validateReferences(b)
+  expect(self.some((i) => i.severity === 'error' && /coveredBy/.test(i.where))).toBe(false)
+  expect(self.some((i) => i.severity === 'warn' && /指向自己/.test(i.message))).toBe(true)
+  // 互护(0→1、1→0):合法形态,不得有 coveredBy 类 error/warn。
+  ;(b.actors[0] as unknown as { battler: { coveredBy?: string } }).battler!.coveredBy = 'hero2'
+  ;(
+    b.actors[1] as unknown as { battler: { coveredBy?: string } }
+  ).battler!.coveredBy = 'hero'
+  const mutual = validateReferences(b)
+  expect(mutual.some((i) => /coveredBy/.test(i.where))).toBe(false)
+})
+
+test('E18-1:cooperativeMagicSkillId 不在 skills → error', () => {
+  const b = clone(base)
+  ;(b.actors[0] as unknown as { battler: { cooperativeMagicSkillId?: string } }).battler!
+    .cooperativeMagicSkillId = 'no-such-skill'
+  expect(
+    validateReferences(b).some(
+      (i) => i.severity === 'error' && /cooperativeMagicSkillId/.test(i.where),
+    ),
+  ).toBe(true)
+})
+
+test('E18-1:casualty 台词文本 id 不在 locale → warn;空壳 → warn', () => {
+  const b = clone(base)
+  ;(b.actors[0] as unknown as { battler: { casualty?: unknown } }).battler!.casualty = {
+    friendDeath: {
+      gates: [],
+      fallback: { lines: [{ text: 'dlg.missing', style: 'bottom' }], effects: [] },
+    },
+  }
+  const issues = validateReferences(b)
+  expect(issues.some((i) => i.severity === 'warn' && /dlg.missing/.test(i.message))).toBe(true)
+  expect(issues.some((i) => i.severity === 'warn' && /空壳/.test(i.message))).toBe(false)
+  ;(b.actors[0] as unknown as { battler: { casualty?: unknown } }).battler!.casualty = {
+    dying: { gates: [], fallback: { lines: [], effects: [] } },
+  }
+  const shell = validateReferences(b)
+  expect(shell.some((i) => i.severity === 'warn' && /空壳/.test(i.message))).toBe(true)
+})
+
+test('E18-1:合法三字段(gates+fallback+互护)→ 零 issue', () => {
+  const b = clone(base)
+  b.actors.push({
+    id: 'hero2',
+    name: 'name.hero',
+    spriteId: 'hero-sprite',
+    battler: {
+      battleSprite: 'hero-battle-sprite',
+      baseStats: {} as never,
+      initialEquipment: {},
+      initialMagic: [],
+      coveredBy: 'hero',
+    },
+  })
+  const hero = b.actors[0] as unknown as {
+    battler: { coveredBy?: string; cooperativeMagicSkillId?: string; casualty?: unknown }
+  }
+  hero.battler!.coveredBy = 'hero2'
+  hero.battler!.cooperativeMagicSkillId = '1'
+  hero.battler!.casualty = {
+    friendDeath: {
+      gates: [{ chance: 75, branch: { lines: [{ text: 'dlg.talk.0', style: 'bottom' }], effects: [] } }],
+      fallback: { lines: [], effects: [{ kind: 'heal', resource: 'hp' }] },
+    },
+  }
+  expect(validateReferences(b)).toEqual([])
+})
 test('startWorld.party 指向不存在角色 → 报 error', () => {
   const b = clone(base)
   b.startWorld.party = ['nobody']

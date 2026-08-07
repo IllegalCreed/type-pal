@@ -31,6 +31,7 @@ import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
 import { BattleSpriteUploader } from './BattleSpriteUploader.js'
+import { CasualtyEditor } from './CasualtyEditor.js'
 import { ImageAssetPicker } from './ImageAssetPicker.js'
 import { LevelCurveEditor } from './LevelCurveEditor.js'
 import { LevelingEditor } from './LevelingEditor.js'
@@ -105,7 +106,8 @@ export function ActorMode(props: {
   } = props
   const [selId, setSelId] = useState(focusActorId ?? actors[0]?.id ?? '')
   const [battleUpload, setBattleUpload] = useState(false) // A4c 战斗形象上传器展开
-  const [editingCurve, setEditingCurve] = useState(false) // C6 中区升级曲线编辑器展开
+  // G1:中区编辑器三选一互斥(精灵帧 / 升级曲线 / 伤亡脚本);null = 精灵帧。
+  const [centerEditor, setCenterEditor] = useState<'curve' | 'casualty' | null>(null)
   const spriteById = useMemo(() => new Map(sprites.map((s) => [s.id, s])), [sprites])
   const actor = actors.find((a) => a.id === selId)
   const sprite = actor ? spriteById.get(actor.spriteId) : undefined
@@ -176,16 +178,24 @@ export function ActorMode(props: {
         </div>
       </div>
 
-      {/* 中:精灵帧标注(C1c)/ 升级曲线编辑器(C6,宽幅拖点)二选一 */}
+      {/* 中:精灵帧标注(C1c)/ 升级曲线编辑器(C6)/ 伤亡脚本编辑器(E18-1)三选一互斥 */}
       <div className="center actor-center">
-        {editingCurve && actor?.battler ? (
+        {centerEditor === 'casualty' && actor?.battler ? (
+          <CasualtyEditor
+            key={actor.id}
+            actor={actor as ActorDef & { battler: NonNullable<ActorDef['battler']> }}
+            session={session}
+            locale={locale}
+            onClose={() => setCenterEditor(null)}
+          />
+        ) : centerEditor === 'curve' && actor?.battler ? (
           <LevelCurveEditor
             key={actor.id}
             actor={actor as ActorDef & { battler: NonNullable<ActorDef['battler']> }}
             levelUpRows={levelUp[actor.id] ?? []}
             skills={skills}
             session={session}
-            onClose={() => setEditingCurve(false)}
+            onClose={() => setCenterEditor(null)}
           />
         ) : actor && sprite ? (
           <SpriteFrames
@@ -265,9 +275,9 @@ export function ActorMode(props: {
             </div>
             {actor.battler ? (
               <>
-                <div className="section">
-                  <h4>
-                    战斗数据 <span className="abadge">可入队</span>
+            <div className="section">
+              <h4>
+                战斗数据 <span className="abadge">可入队</span>
                   </h4>
                   <div className="statgrid">
                     <EditStat
@@ -310,6 +320,108 @@ export function ActorMode(props: {
                       v={actor.battler.baseStats.luck}
                       on={(x) => setStat('luck', x)}
                     />
+                  </div>
+                </div>
+                <div className="section">
+                  <h4>
+                    战斗关系 <span className="hint2">援护 / 合体技 / 伤亡脚本</span>
+                  </h4>
+                  <div className="field">
+                    <span className="field-label">援护者</span>
+                    <select
+                      className="in"
+                      value={actor.battler.coveredBy ?? ''}
+                      onChange={(e) => {
+                        const b = actor.battler
+                        if (!b) return
+                        session.dispatch(
+                          new UpdateActorCommand(actor.id, {
+                            battler: { ...b, coveredBy: e.target.value || undefined },
+                          }),
+                        )
+                      }}
+                    >
+                      <option value="">（无）</option>
+                      {actors
+                        .filter((a) => a.battler)
+                        .map((a) => (
+                          <option key={a.id} value={a.id}>
+                            {nm(a.name)} ({a.id})
+                          </option>
+                        ))}
+                    </select>
+                  </div>
+                  <div className="field">
+                    <span className="field-label">合体技</span>
+                    <select
+                      className="in"
+                      value={actor.battler.cooperativeMagicSkillId ?? ''}
+                      onChange={(e) => {
+                        const b = actor.battler
+                        if (!b) return
+                        session.dispatch(
+                          new UpdateActorCommand(actor.id, {
+                            battler: { ...b, cooperativeMagicSkillId: e.target.value || undefined },
+                          }),
+                        )
+                      }}
+                    >
+                      <option value="">（无）</option>
+                      {Object.entries(skills).map(([id, s]) => (
+                        <option key={id} value={id}>
+                          {s.name} ({id})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="field">
+                    <span className="field-label">伤亡脚本</span>
+                    <div className="chips">
+                      {(['friendDeath', 'dying'] as const).map((slot) => (
+                        <span
+                          key={slot}
+                          className={`chip2${actor.battler?.casualty?.[slot] ? '' : ' dim'}`}
+                        >
+                          {slot === 'friendDeath' ? '队友阵亡' : '自己濒死'}：
+                          {actor.battler?.casualty?.[slot] ? '已配置' : '未配置'}
+                        </span>
+                      ))}
+                    </div>
+                    <div style={{ display: 'flex', gap: 8, marginTop: 6, flexWrap: 'wrap' }}>
+                      <button
+                        type="button"
+                        className="tool"
+                        onClick={() => setCenterEditor('casualty')}
+                      >
+                        ✎ 编辑伤亡脚本
+                      </button>
+                      {(['friendDeath', 'dying'] as const).map((slot) =>
+                        actor.battler?.casualty?.[slot] ? (
+                          <button
+                            type="button"
+                            className="mini-txt"
+                            key={slot}
+                            onClick={() => {
+                              const b = actor.battler
+                              if (!b) return
+                              // K4:槽移除 = 键 undefined;两槽全移除 → casualty 整体 undefined。
+                              const cur = b.casualty
+                              const next: NonNullable<BattlerSpec['casualty']> = cur
+                                ? { ...cur }
+                                : {}
+                              delete next[slot]
+                              session.dispatch(
+                                new UpdateActorCommand(actor.id, {
+                                  battler: { ...b, casualty: next.friendDeath !== undefined || next.dying !== undefined ? next : undefined },
+                                }),
+                              )
+                            }}
+                          >
+                            移除{slot === 'friendDeath' ? '队友阵亡' : '濒死'}
+                          </button>
+                        ) : null,
+                      )}
+                    </div>
                   </div>
                 </div>
                 <div className="section">
@@ -446,7 +558,7 @@ export function ActorMode(props: {
                   levelUpRows={levelUp[actor.id] ?? []}
                   skills={skills}
                   session={session}
-                  onEditCurve={() => setEditingCurve(true)}
+                  onEditCurve={() => setCenterEditor('curve')}
                 />
               </>
             ) : (

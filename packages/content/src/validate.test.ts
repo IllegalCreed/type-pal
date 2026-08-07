@@ -46,6 +46,100 @@ describe('validateScenes · 实体 actor ⊕ sprite(C0)', () => {
   })
 })
 
+const mkBattlerActor = (battlerOver: Record<string, unknown>): unknown => ({
+  id: 'hero',
+  name: 'name.hero',
+  spriteId: 'hero-sprite',
+  battler: {
+    battleSprite: 'hero-battle-sprite',
+    baseStats: {} as never,
+    initialEquipment: {},
+    initialMagic: [],
+    ...battlerOver,
+  },
+})
+
+describe('validateActors · E18-1 三字段结构校验(K2)', () => {
+  const validCasualty = {
+    friendDeath: {
+      gates: [{ chance: 75, branch: { lines: [{ text: 'dlg.1', style: 'bottom' }], effects: [] } }],
+      fallback: { lines: [], effects: [{ kind: 'heal', resource: 'hp' }] },
+    },
+  }
+
+  test('合法三字段 → 通过', () => {
+    expect(() =>
+      validateActors([
+        mkBattlerActor({
+          coveredBy: 'hero2',
+          cooperativeMagicSkillId: '99',
+          casualty: validCasualty,
+        }),
+      ]),
+    ).not.toThrow()
+  })
+  test('coveredBy / cooperativeMagicSkillId 空串 → throw', () => {
+    expect(() => validateActors([mkBattlerActor({ coveredBy: '' })])).toThrow('coveredBy')
+    expect(() =>
+      validateActors([mkBattlerActor({ cooperativeMagicSkillId: '' })]),
+    ).toThrow('cooperativeMagicSkillId')
+  })
+  test('chance 越界(0 / 101 / 非整数)→ throw', () => {
+    for (const bad of [0, 101, 50.5]) {
+      expect(() =>
+        validateActors([
+          mkBattlerActor({
+            casualty: {
+              friendDeath: {
+                gates: [{ chance: bad, branch: { lines: [], effects: [] } }],
+                fallback: { lines: [], effects: [] },
+              },
+            },
+          }),
+        ]),
+      ).toThrow('chance')
+    }
+  })
+  test('style 非法 / effect kind 非法 / percent <1 → throw', () => {
+    expect(() =>
+      validateActors([
+        mkBattlerActor({
+          casualty: {
+            dying: {
+              gates: [],
+              fallback: { lines: [{ text: 'dlg.1', style: 'center' }], effects: [] },
+            },
+          },
+        }),
+      ]),
+    ).toThrow('style')
+    expect(() =>
+      validateActors([
+        mkBattlerActor({
+          casualty: {
+            dying: {
+              gates: [],
+              fallback: { lines: [], effects: [{ kind: 'nuke' }] },
+            },
+          },
+        }),
+      ]),
+    ).toThrow('kind')
+    expect(() =>
+      validateActors([
+        mkBattlerActor({
+          casualty: {
+            dying: {
+              gates: [],
+              fallback: { lines: [], effects: [{ kind: 'tempStatBuff', stat: 'attack', percent: 0 }] },
+            },
+          },
+        }),
+      ]),
+    ).toThrow('percent')
+  })
+})
+
 const layout = { kind: 'directional', framesPerDir: 3 }
 
 describe('validateSprites(含 layout,C0)', () => {

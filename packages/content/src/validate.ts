@@ -308,9 +308,67 @@ export function validateActors(json: unknown): ActorDef[] {
           ['attack', 'critical', 'weapon', 'magic', 'cover', 'dying', 'death'],
           `actors[${i}].battler.sounds`,
         )
+      // E18-1(K2):三字段结构校验——coveredBy/cooperativeMagic 非空字符串;casualty 两层形状。
+      if (bo.coveredBy !== undefined) {
+        if (typeof bo.coveredBy !== 'string' || bo.coveredBy.length === 0)
+          throw new Error(`actors[${i}].battler.coveredBy: 期望非空 actor id`)
+      }
+      if (bo.cooperativeMagicSkillId !== undefined) {
+        if (typeof bo.cooperativeMagicSkillId !== 'string' || bo.cooperativeMagicSkillId.length === 0)
+          throw new Error(`actors[${i}].battler.cooperativeMagicSkillId: 期望非空 skill id`)
+      }
+      if (bo.casualty !== undefined)
+        validateCasualtyShape(bo.casualty, `actors[${i}].battler.casualty`)
     }
   })
   return arr
+}
+
+/** E18-1(K2):casualty 结构校验(fail-closed)——gates 数组、chance∈[1,100] 整数、
+ *  style 枚举、effect kind 判别、tempStatBuff.percent 整数 ≥1。 */
+function validateCasualtyShape(json: unknown, path: string): void {
+  const o = assertObject(json, path) as Record<string, unknown>
+  for (const slot of ['friendDeath', 'dying'] as const) {
+    if (o[slot] === undefined) continue
+    const script = assertObject(o[slot], `${path}.${slot}`) as Record<string, unknown>
+    const gates = assertArray(script.gates, `${path}.${slot}.gates`)
+    gates.forEach((g, gi) => {
+      const gate = assertObject(g, `${path}.${slot}.gates[${gi}]`) as Record<string, unknown>
+      if (!Number.isInteger(gate.chance) || (gate.chance as number) < 1 || (gate.chance as number) > 100)
+        throw new Error(
+          `${path}.${slot}.gates[${gi}].chance: 期望整数 ∈[1,100]（原版 0x06 概率门 r∈[1,100] r≥chance）`,
+        )
+      validateCasualtyBranch(gate.branch, `${path}.${slot}.gates[${gi}].branch`)
+    })
+    validateCasualtyBranch(script.fallback, `${path}.${slot}.fallback`)
+  }
+}
+
+function validateCasualtyBranch(json: unknown, path: string): void {
+  const o = assertObject(json, path) as Record<string, unknown>
+  const lines = assertArray(o.lines, `${path}.lines`)
+  lines.forEach((line, li) => {
+    const lo = assertObject(line, `${path}.lines[${li}]`) as Record<string, unknown>
+    if (typeof lo.text !== 'string' || lo.text.length === 0)
+      throw new Error(`${path}.lines[${li}].text: 期望非空 TextId`)
+    if (lo.style !== 'bottom' && lo.style !== 'top' && lo.style !== 'narration')
+      throw new Error(`${path}.lines[${li}].style: 期望 bottom|top|narration`)
+  })
+  const effects = assertArray(o.effects, `${path}.effects`)
+  effects.forEach((eff, ei) => {
+    const eo = assertObject(eff, `${path}.effects[${ei}]`) as Record<string, unknown>
+    if (eo.kind === 'heal') {
+      if (eo.resource !== 'hp' && eo.resource !== 'mp')
+        throw new Error(`${path}.effects[${ei}].resource: 期望 hp|mp`)
+    } else if (eo.kind === 'tempStatBuff') {
+      if (eo.stat !== 'attack' && eo.stat !== 'magic' && eo.stat !== 'speed' && eo.stat !== 'luck')
+        throw new Error(`${path}.effects[${ei}].stat: 期望 attack|magic|speed|luck`)
+      if (!Number.isInteger(eo.percent) || (eo.percent as number) < 1)
+        throw new Error(`${path}.effects[${ei}].percent: 期望整数 ≥1`)
+    } else {
+      throw new Error(`${path}.effects[${ei}].kind: 期望 heal|tempStatBuff`)
+    }
+  })
 }
 
 export function validateSkills(json: unknown): {

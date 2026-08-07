@@ -1023,6 +1023,57 @@ export function validateReferences(b: ContentBundle): Issue[] {
             message: `初始仙术 "${skillId}" 不在 skills`,
           })
       })
+      // E18-1(G2/K2/K3):三字段引用校验。
+      // coveredBy → actor 存在且可战斗(error);指向自己 = warn(运行时死者 hp=0 天然不触发)。
+      if (battler.coveredBy !== undefined) {
+        validateBattleActor(battler.coveredBy, `${where}.battler.coveredBy`)
+        if (battler.coveredBy === a.id)
+          issues.push({
+            severity: 'warn',
+            where: `${where}.battler.coveredBy`,
+            message: `coveredBy 指向自己（运行时死者 hp=0 不满足援护前置，天然不触发）`,
+          })
+      }
+      // cooperativeMagicSkillId → skills(error:runtime expectDefined fail-loud)。
+      if (
+        battler.cooperativeMagicSkillId !== undefined &&
+        !skillIds.has(battler.cooperativeMagicSkillId)
+      )
+        issues.push({
+          severity: 'error',
+          where: `${where}.battler.cooperativeMagicSkillId`,
+          message: `合体技 "${battler.cooperativeMagicSkillId}" 不在 skills`,
+        })
+      // casualty 树:text id(warn);空壳(warn,K4)。
+      if (battler.casualty !== undefined) {
+        const walkBranch = (branch: import('./actor.js').CasualtyBranch, bw: string): void => {
+          branch.lines.forEach((line, li) => {
+            if (!localeKeys.has(line.text))
+              issues.push({
+                severity: 'warn',
+                where: `${bw}.lines[${li}].text`,
+                message: `文本 id "${line.text}" 不在 locale`,
+              })
+          })
+        }
+        for (const slot of ['friendDeath', 'dying'] as const) {
+          const script = battler.casualty[slot]
+          if (!script) continue
+          const sw = `${where}.battler.casualty.${slot}`
+          script.gates.forEach((gate, gi) =>
+            walkBranch(gate.branch, `${sw}.gates[${gi}].branch`),
+          )
+          walkBranch(script.fallback, `${sw}.fallback`)
+          const branchEmpty = (branch: import('./actor.js').CasualtyBranch): boolean =>
+            branch.lines.length === 0 && branch.effects.length === 0
+          if (script.gates.length === 0 && branchEmpty(script.fallback))
+            issues.push({
+              severity: 'warn',
+              where: sw,
+              message: '伤亡脚本为空壳（gates 空且 fallback 无台词/效果），疑误存',
+            })
+        }
+      }
     }
   })
 
