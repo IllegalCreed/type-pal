@@ -76,12 +76,12 @@ Branch: TBD
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
-- Kimi: pending
-- GLM: pending
-- counter / 返工处理: N/A
+- Codex: pending（Coding Owner 自验已在 Build 节;done 前收口签字待补）
+- Kimi: **accept（2026-08-07，视觉门禁 ①-⑤ 实测全过 + C1 必改项定位;见「Kimi 视觉验证」）**
+- GLM: **accept（2026-08-07，C1 闭环复验:裸 ?debug #tp-debug 挂载 + 五区/控件/数据/徽标/K5 作用域 DOM 可见正确、K1 720px 无溢出实测;②③④交互层采信 Kimi 验收。见「GLM C1 闭环复验」）**
+- counter / 返工处理: GLM 前次 counter(裸 ?debug 不挂载)→ Kimi 定位 C1 根因(get-vs-has)→ Codex 修(`2c3f3151`)→ GLM 复验闭环。已闭环。
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **blocked on Codex 自验收口签字 + 用户验收**（Kimi/GLM 审查 + 视觉双 accept 齐）
 
 ## Draft: 设计与风险
 
@@ -300,7 +300,7 @@ G1（构建产物验证）、G2（并发口径对齐）、G3（帧步进语义�
 - Visual Verification Owner: Kimi
 - 验证方式: GLM 代班浏览器实测（reforge `dev:pal` 6051 + `?debug`，DOM locator 读取 + 截图）
 - 截图 / 像素检查路径: 见下「实测证据」
-- 结论: **counter（面板未渲染，验收①-⑤全部受阻）**——详见下
+- 结论: **accept（C1 闭环;Kimi ①-⑤ 全过 + GLM 裸参复验挂载）**——前次 counter(裸 ?debug 不挂载)经 C1 修复(`params.has`)闭环,详见下
 
 ### GLM 视觉验证（2026-08-07，代班）：**counter**
 
@@ -410,12 +410,49 @@ GLM 返工项 1/3 由本根因覆盖;返工项 2(installDebugTools jsdom 集成�
 **签字**:`Review > 视觉验证` = **accept**(视觉门禁 ①-⑤ 通过);C1 为一行修必改项,
 Codex 修后裸 `?debug` 复验即闭环。
 
+### GLM C1 闭环复验（2026-08-07，代班）：**accept（C1 闭环）**
+
+**方法**:浏览器复验裸 `?debug`(C1 修复 `main.ts:5235` `params.get('debug')`→`params.has('debug')`,
+提交 `2c3f3151`)。HEAD=`2c3f3151`,工作树仅 docs。6051 dev:pal(Vite dev,DEV=true)。
+未修改实现。
+
+**C1 闭环确认(本席直接观测)**:
+
+- 裸 `?debug` 下 `#tp-debug` **count=1**(前次 counter 时 count=0)——overlay 正确挂载,
+  C1 根因(`params.get` 对无值参返回 falsy → install 不执行)已被 `params.has` 修复。
+- 前次 counter 的根因推断被 Kimi 纠正为更精确的 get-vs-has(本席原推断「install 抛错被
+  catch 吞」不成立——Kimi 证 `?debug=1` 下五区全功能正常、无 `[debug-tools] 安装失败` warn,
+  即 install 从未执行,非抛错)。本席接受该纠正:观测事实(面板不渲染、页面正常、body 仅
+  CANVAS/SCRIPT、无 error)与「install 未被调用」完全吻合,与「install 抛错被吞」不矛盾但
+  后者非真因。Kimi 的 get-vs-has 定位更简单且与 `?collision`(main.ts:319 `has`)先例一致。
+
+**面板五区 + 控件复验(DOM locator 读取,均渲染且数据真实)**:
+
+- 标题 `reforge dev tools · D13-1`;**⑤占用徽标**两态实证:演出期 `主 runner 占用中` + `对话进行中`(K3 落地)。
+- **① cheat console** + `[triggers] 1 项:shared 0 / 场景实体 / hooks`。
+- **② 世界变量检视(只读)**:money/party(li-xiaoyao level1 hp150/150 mp100/100 + 6 装备槽)/inventory/learnedSkills/flags/vars/entityStates 全量真实数据。
+- **③ 脚本/触发器**:`s000 onEnter hook` + `刷新列表`;**④ 战斗态构建器**:战场下拉(0-32 + battle-background 资源)、敌队(enemy-398..550 全枚举)、我方 6 角色(li-xiaoyao/zhao-linger/lin-yueru/wu-hou/anu/gai-luojiao)、道具预设、`⚔ 开战`/`清空表单` 按钮。
+- **⑤ 图层/帧步进**:`碰撞叠加层(?collision)` + `触发区叠加层` toggle + `帧步进(暂停墙钟,手动单步)` + `▶ 单步(一拍=100ms)` + **K5 作用域明示**「帧步进作用域 = 大世界 gameplay 相位;战斗/演出/对话推进不单步」上屏。
+- **K1 宽度**:720px 视口下面板 677px(94vw 自适应)、left35/right712,**无横向溢出**。
+
+**②③④交互层本会话未实测(环境限制,如实标注)**:本 IAB 环境点击按钮持续 `broker response id mismatch`(B11-1 同款)、游戏键盘不达 window 监听——故「点开战进战斗 + 战后 world 恢复」「切图层叠加」「单步推进」的**交互**未能由本席复跑。但:
+- 战前 world 快照读到了(money:0/party:[li-xiaoyao]/inv:0),开战未成功(world 未变)——非「战后恢复」证据,仅证 K2 快照读路径通。
+- ②③④的交互实测由 **Kimi 正式视觉 Owner** 在可交互环境(CDP 真实按键)完成并 accept(见上节:战斗构建器战后逐值回滚、帧步进单拍坐标推进、触发区蓝框叠加、占用 confirm、give 命令)——本席采信该验收(证据扎实、截图归档 output/playwright/d13-1-*.png)。
+
+**结论**:**accept**。C1(裸 `?debug` 不挂载)已闭环——`params.has` 修复后 `#tp-debug` 正确挂载,
+五区 + 控件 + 数据 + 占用徽标 + K5 作用域明示全部 DOM 可见且正确;K1 720px 无溢出实测通过。
+②③④交互层因 IAB 环境限制本席未复跑,采信 Kimi 正式视觉验收(①-⑤ 全过)。本 accept 连同
+Kimi 视觉 accept,视觉门禁齐;补 done 前审查签字 GLM 行。
+
+**观察项(非准入钉,沿用 Kimi O1/O2)**:战后 scene onEnter 重跑(Codex 确认是否预期);
+Esc 销毁后无重开热键(可用性建议)。GLM 返工项 2(installDebugTools jsdom 集成测试)转建议项保留。
+
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: **视觉门禁通过(Kimi ①-⑤ + GLM C1 闭环双 accept);实现层 Codex 自验绿(800 测/typecheck/G1 构建产物零 debug 符号)**
+- 必须返工项: 无(C1 已闭环);建议项 = installDebugTools jsdom 集成测试 + Kimi O1/O2 观察
+- Accept / rework: **accept(Kimi + GLM 审查/视觉双 accept;待 Codex done 前收口签字 + 用户验收)**
 
 ## 用户验收
 
@@ -457,23 +494,31 @@ Codex 修后裸 `?debug` 复验即闭环。
   - O2 回复(Esc 销毁无重开热键): **不修**。DEV 面板刷新即重开,热键与游戏键位有冲突
     风险;如后续需要另立可用性小项。
   - 待办: GLM 复验裸 `?debug` ①-⑤ 原受阻项 + 确认 C1 闭环,补 done 前审查签字。
+- 2026-08-07 GLM(C1 闭环复验,代班): 签 **accept(C1 闭环)**。裸 `?debug` 下 `#tp-debug`
+  count=1(前次 counter count=0);五区/控件/数据/占用徽标/K5 作用域 DOM 可见正确;K1 720px
+  无溢出实测(677px/94vw 自适应)。②③④交互层因 IAB 点击 broker-mismatch + 键盘不达未复跑,
+  采信 Kimi 正式视觉验收(①-⑤ 全过)。接受 Kimi 对前次 counter 根因的 get-vs-has 纠正
+  (本席原「install 抛错被吞」推断不成立)。补 done 前 GLM accept;done 准入 blocked 仅余
+  Codex 收口签字 + 用户验收。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: D13-1 调试工具首刀——C1 返工(裸 ?debug 不挂载)+ GLM 复验
+接手任务: D13-1 调试工具首刀——Codex done 前收口签字 + 交用户验收
 任务卡: docs/ops/tasks/D13-1-debug-tools-first-batch.md
-当前状态: build;C1 已修并自验闭环(Codex,2026-08-07),Kimi 视觉验收 accept(①-⑤),
-  GLM 前次 counter 根因已闭环;done 准入 blocked 维持至 GLM 复验。
-你的角色: GLM(覆盖/视觉复验)——复核 C1 修复,不再要求 Codex 改实现。
-已做(Codex): main.ts:5235 `params.get('debug')` → `params.has('debug')` 仅此一处;
-  800 测试 + typecheck 全绿;生产构建零 debug 符号(G1 复跑);
-  语义自验裸 ?debug / ?debug=1 has=true、无参 false(?debug=0 与 ?collision=0 同语义:
-  参数存在即开、值忽略)。
-请你做: 浏览器复验裸 `?debug` 下 #tp-debug 挂载 + ①-⑤ 原受阻项;确认 C1 闭环后
-  在「进入 done 前:审查签字」签 accept;连同 Kimi 视觉 accept 齐后交用户验收。
-不要做: 不得修改实现文件(有必改项以 counter + 返工项写卡)。
-输出要求: 更新审查签字、视觉验证记录补注和下一位提示词(无下一位则写「等待用户验收」)。
+当前状态: build → 待 done;C1 已闭环(`2c3f3151`)。Kimi 视觉 accept(①-⑤)+ GLM C1 闭环
+  accept 双签齐;done 准入 blocked 仅余 Codex done 前收口签字 + 用户验收。
+你的角色: Codex(Coding Owner)——补 done 前 Codex 收口签字,然后交用户最终验收。
+先读: 本卡「进入 done 前:审查签字」(Kimi/GLM 已 accept)、「Build 实现与自测」、
+  「Kimi 视觉验证」、「GLM C1 闭环复验」。
+请你做:
+  1. 复核 Build 节自验证据仍成立(800 测/typecheck/G1 构建产物零 debug 符号),补 done 前
+     Codex 收口签字(agree/accept)。
+  2. 三方签字齐(Codex/Kimi/GLM)后,把 Status 改 done、更新 board.md、交用户最终验收。
+  3. 建议项(不阻塞):installDebugTools jsdom 集成测试(防单测绿实跑炸回归)、Kimi O1/O2
+     观察(战后 onEnter 重演已回复为预期、Esc 无重开热键已回复不修)。
+不要做: 不改实现(C1 已闭环;jsdom 集成测试若做属新范围,单独立项)。
+输出要求: 补 Codex done 前签字 + 交接日志;无下一位 Agent(交用户验收)。
 ```
 
 ```text
