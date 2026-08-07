@@ -52,6 +52,8 @@ export interface DebugToolsContext {
   runtime(): ScriptProjectRuntimeV5 | undefined
   runnerBusy(): boolean
   dialogBusy(): boolean
+  /** D14-2(K2):呈现占用(intent 在途 ∪ runner 活跃)——触发确认判定用。 */
+  presentationBusy(): boolean
   runDetached<T>(
     signal: AbortSignal,
     invoke: (runtime: ScriptProjectRuntimeV5, signal: AbortSignal) => Promise<T>,
@@ -270,7 +272,7 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
       existing.abort()
       return
     }
-    if (ctx.runnerBusy() || ctx.dialogBusy()) {
+    if (ctx.presentationBusy()) {
       // K3：主 runner 占用时执行场景切换类脚本须先确认（detached 不排 onEnter）。
       if (!window.confirm(`主 runner 占用中，仍要执行 ${item.label}？\n(detached 并发不排 onEnter，场景入场脚本可能不跑)`))
         return
@@ -633,7 +635,7 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
       logLine('run-script <id> | run-trigger <entityId> | step | collision | triggers | state')
       return
     }
-    if (sceneSwitch() && (ctx.runnerBusy() || ctx.dialogBusy())) {
+    if (sceneSwitch() && ctx.presentationBusy()) {
       if (!window.confirm('主 runner 占用中，仍要执行？(detached 不排 onEnter)')) return
     }
     switch (cmd) {

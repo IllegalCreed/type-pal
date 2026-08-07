@@ -62,6 +62,7 @@ import {
 } from './assets.js'
 import { AsyncIntentController, asyncIntentAbortError } from './async-intent.js'
 import { BATTLE_MUSIC_TRANSITION_MS, createBgmPlayer } from './audio/bgm.js'
+import { CutsceneController, type CutsceneExecutor } from './cutscene-controller.js'
 import { SfxPlayer, SfxReadinessCollectionError, SfxReadinessResourceError } from './audio/sfx.js'
 import {
   collectBattleBaseSounds,
@@ -1889,8 +1890,11 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
       if (hasBattleEndError) throw battleEndError
       return result
   }
-  const host: ScriptHost = {
-    dialog: async (cue: DialogueCue, signal) => {
+  // ── D14-2 演出意图协议:presentationOps(执行器) + CutsceneController ──
+  // 行为真值 = 原 host 方法体原样搬移;host 方法改为经 controller.run 委托,统一
+  // busy()(K1:intent 在途 ∪ runner 活跃)与取消收口(K3:abortScript → cancelAll)。
+  const presentationOps: CutsceneExecutor = {
+    dialog: async (cue, signal) => {
       assertRunnerActive(signal, '对话所属 runner 已取消')
       const scriptMutationToken = scriptMutationIntent.capture()
       if (cue.portrait && !portraits.has(cue.portrait.asset))
@@ -1911,7 +1915,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
         const finish = (error?: Error): void => {
           if (settled) return
           settled = true
-          signal?.removeEventListener('abort', abort)
+          signal.removeEventListener('abort', abort)
           if (error) reject(error)
           else resolve()
         }
@@ -1927,8 +1931,8 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
         frameAnimationPresentation.enterDialogue()
         dialogBox.open(startDialogue({ id: '__script', cues: [cue] }), nowMs)
         scriptDialogResolve = settleDialog // tick 检测 dialogBox 关闭时兑现
-        signal?.addEventListener('abort', abort, { once: true })
-        if (signal?.aborted) abort()
+        signal.addEventListener('abort', abort, { once: true })
+        if (signal.aborted) abort()
       })
     },
     clearDialog: () => {
@@ -1936,6 +1940,115 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
       dialogBox.close()
     },
     fade: (dir, ms, color, signal) => hostFade(dir, ms, color, signal),
+    cameraPan: (dx, dy, frames, signal) =>
+      new Promise((resolve, reject) => {
+        assertRunnerActive(signal, '相机移动所属 runner 已取消')
+        let settled = false
+        // 每帧位移 (dx,dy),共 frames 帧,累积进 cameraOffset(不回正;走位期保留)
+        const entry = {
+          fromX: cameraOffset.x,
+          fromY: cameraOffset.y,
+          dx,
+          dy,
+          steps: frames,
+          done: 0,
+          resolve: (): void => {
+            if (settled) return
+            settled = true
+            signal.removeEventListener('abort', abort)
+            if (cameraPanFx === entry) cameraPanFx = null
+            resolve()
+          },
+        }
+        const abort = (): void => {
+          if (settled) return
+          settled = true
+          if (cameraPanFx === entry) cameraPanFx = null
+          signal.removeEventListener('abort', abort)
+          reject(asyncIntentAbortError('相机移动所属 runner 已取消'))
+        }
+        cameraPanFx?.resolve()
+        cameraPanFx = entry
+        signal.addEventListener('abort', abort, { once: true })
+        if (signal.aborted) abort()
+      }),
+    cameraSnap: (to) => {
+      if (to) {
+        const tp = gridToPixel(to)
+        const pp = gridToPixel(player.pos)
+        cameraOffset.x = tp.x - pp.x
+        cameraOffset.y = tp.y - pp.y
+      } else {
+        cameraOffset.x = 0
+        cameraOffset.y = 0
+      }
+      updateCamera()
+    },
+    frameAnimation: async (opts, signal) => {
+      assertRunnerActive(signal, `帧动画 ${opts.asset} 所属 runner 已取消`)
+      beginFrameAnimationPlayback()
+      try {
+        await playFrameAnimationOverlay({
+          reader: frameSequenceReader,
+          asset: opts.asset,
+          frameRate: opts.frameRate,
+          startFrame: opts.startFrame,
+          endFrame: opts.endFrame,
+          onFrame: presentFrameAnimationFrame,
+          signal,
+        })
+        assertRunnerActive(signal, `帧动画 ${opts.asset} 所属 runner 已取消`)
+      } finally {
+        frameAnimationPresentation.finishPlayback()
+      }
+    },
+    video: (asset, signal) => playVideoAsset(asset, signal),
+    wait: (ms, signal) =>
+      new Promise((resolve, reject) => {
+        let settled = false
+        const timer = {
+          deadline: nowMs + ms,
+          settle: (error?: Error): void => {
+            if (settled) return
+            settled = true
+            signal.removeEventListener('abort', abort)
+            const index = timers.indexOf(timer)
+            if (index >= 0) timers.splice(index, 1)
+            if (error) reject(error)
+            else resolve()
+          },
+        }
+        const abort = (): void => timer.settle(asyncIntentAbortError('脚本等待所属 runner 已取消'))
+        timers.push(timer)
+        signal.addEventListener('abort', abort, { once: true })
+        if (signal.aborted) abort()
+      }),
+    resetPresentation: () => {
+      // K3 复位语义逐项等价:fade→cancel(0) 回透明 / camera→(0,0) / dialog→close / 动画→reset。
+      if (dialogBox.active) dialogBox.close()
+      const r = scriptDialogResolve
+      scriptDialogResolve = null
+      r?.()
+      fadeDriver.cancel(0)
+      resetFrameAnimationPresentation()
+      cameraPanFx?.resolve()
+      cameraPanFx = null
+      cameraOffset.x = 0
+      cameraOffset.y = 0
+    },
+  }
+  const presentation = new CutsceneController(presentationOps, {
+    isRunnerActive: () => runner !== null,
+  })
+
+  const host: ScriptHost = {
+    dialog: async (cue, signal) =>
+      presentation.run([{ kind: 'dialog', cue }], signal ?? new AbortController().signal),
+    clearDialog: () => {
+      void presentation.run([{ kind: 'clearDialog' }], new AbortController().signal)
+    },
+    fade: (dir, ms, color, signal) =>
+      presentation.run([{ kind: 'fade', dir, ms, color }], signal ?? new AbortController().signal),
     revealSceneEntry: hostSceneEntryReveal,
     // ── B8 野外遇敌 ──
     chaseStep: async (entityId, range, speed, floating, signal) => {
@@ -2003,25 +2116,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
       await host.loadLastSave(signal)
     },
     wait: (ms, signal) =>
-      new Promise((resolve, reject) => {
-        let settled = false
-        const timer = {
-          deadline: nowMs + ms,
-          settle: (error?: Error): void => {
-            if (settled) return
-            settled = true
-            signal?.removeEventListener('abort', abort)
-            const index = timers.indexOf(timer)
-            if (index >= 0) timers.splice(index, 1)
-            if (error) reject(error)
-            else resolve()
-          },
-        }
-        const abort = (): void => timer.settle(asyncIntentAbortError('脚本等待所属 runner 已取消'))
-        timers.push(timer)
-        signal?.addEventListener('abort', abort, { once: true })
-        if (signal?.aborted) abort()
-      }),
+      presentation.run([{ kind: 'wait', ms }], signal ?? new AbortController().signal),
     teleportParty: (pos, fc) => {
       player.pos = { ...pos }
       if (fc) facing = fc
@@ -2563,49 +2658,15 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
       updateCamera()
     },
     cameraPan: (dx, dy, frames, signal) =>
-      new Promise((resolve, reject) => {
-        assertRunnerActive(signal, '相机移动所属 runner 已取消')
-        let settled = false
-        // 每帧位移 (dx,dy),共 frames 帧,累积进 cameraOffset(不回正;走位期保留)
-        const entry = {
-          fromX: cameraOffset.x,
-          fromY: cameraOffset.y,
-          dx,
-          dy,
-          steps: frames,
-          done: 0,
-          resolve: (): void => {
-            if (settled) return
-            settled = true
-            signal?.removeEventListener('abort', abort)
-            if (cameraPanFx === entry) cameraPanFx = null
-            resolve()
-          },
-        }
-        const abort = (): void => {
-          if (settled) return
-          settled = true
-          if (cameraPanFx === entry) cameraPanFx = null
-          signal?.removeEventListener('abort', abort)
-          reject(asyncIntentAbortError('相机移动所属 runner 已取消'))
-        }
-        cameraPanFx?.resolve()
-        cameraPanFx = entry
-        signal?.addEventListener('abort', abort, { once: true })
-        if (signal?.aborted) abort()
-      }),
+      presentation.run(
+        [{ kind: 'cameraPan', dx, dy, frames }],
+        signal ?? new AbortController().signal,
+      ),
     cameraSnap: (to) => {
-      if (to) {
-        // 绝对:相机跳到目标格居中,换算成相对玩家的偏移量持有(玩家世界坐标不变)
-        const tp = gridToPixel(to)
-        const pp = gridToPixel(player.pos)
-        cameraOffset.x = tp.x - pp.x
-        cameraOffset.y = tp.y - pp.y
-      } else {
-        cameraOffset.x = 0 // 回正:跟随玩家
-        cameraOffset.y = 0
-      }
-      updateCamera()
+      void presentation.run(
+        [{ kind: 'cameraSnap', ...(to ? { to } : {}) }],
+        new AbortController().signal,
+      )
     },
     setEntityAuto: (id, binding) => {
       const e = scene.entities.find((x) => x.id === id)
@@ -2709,27 +2770,23 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
       return true
     },
     // 演出期 runner 活跃 → 游戏循环吞输入；视频 URL 只经 catalog resolver 获得。
-    playVideo: async (asset, signal) => playVideoAsset(asset, signal),
+    playVideo: async (asset, signal) =>
+      presentation.run([{ kind: 'video', asset }], signal ?? new AbortController().signal),
     // 帧动画逐帧写 Cinematic Layer；
     // World Layer 在下、对话/UI 在上，播放与末帧保持共用同一条合成路径。
-    playFrameAnimation: async (asset, opts, signal) => {
-      assertRunnerActive(signal, `帧动画 ${asset} 所属 runner 已取消`)
-      beginFrameAnimationPlayback()
-      try {
-        await playFrameAnimationOverlay({
-          reader: frameSequenceReader,
-          asset,
-          frameRate: opts?.frameRate,
-          startFrame: opts?.startFrame,
-          endFrame: opts?.endFrame,
-          onFrame: presentFrameAnimationFrame,
-          signal,
-        })
-        assertRunnerActive(signal, `帧动画 ${asset} 所属 runner 已取消`)
-      } finally {
-        frameAnimationPresentation.finishPlayback()
-      }
-    },
+    playFrameAnimation: async (asset, opts, signal) =>
+      presentation.run(
+        [
+          {
+            kind: 'frameAnimation',
+            asset,
+            ...(opts?.frameRate !== undefined ? { frameRate: opts.frameRate } : {}),
+            ...(opts?.startFrame !== undefined ? { startFrame: opts.startFrame } : {}),
+            ...(opts?.endFrame !== undefined ? { endFrame: opts.endFrame } : {}),
+          },
+        ],
+        signal ?? new AbortController().signal,
+      ),
     confirm: async (signal) => {
       assertRunnerActive(signal, '确认框所属 runner 已取消')
       const heldFrame = ctx.getImageData(0, 0, canvas.width, canvas.height)
@@ -3267,7 +3324,9 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
   const hostileCd = new Map<string, number>() // 实体 → 追逐节流累计 ms
   let hostileBusy = false // 遇敌处理中(开战/演出),暂停所有 hostile 追逐
   function tickHostiles(dt: number): void {
-    if (hostileBusy || runner || dialogBox.active || menu !== CLOSED || activeBattle) return
+    // D14-2(K1/K2):呈现占用走 presentation.busy()(intent 在途 ∪ runner 活跃,
+    // 等价于原 runner || dialogBox.active)。
+    if (hostileBusy || presentation.busy() || menu !== CLOSED || activeBattle) return
     let awarenessMultiplier = 1
     const awareness = world.hostileAwareness
     if (awareness) {
@@ -3595,28 +3654,19 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     preserveClosedDialogFrame = false
     scriptConfirmModal.cancelAll('脚本会话已替换')
     resumeScriptExecutionGates()
-    if (dialogBox.active) dialogBox.close()
-    const r = scriptDialogResolve
-    scriptDialogResolve = null
-    r?.()
+    presentation.cancelAll() // D14-2(K3):呈现收口(fade→透明/camera→(0,0)/dialog→close/动画→reset)
     dismountParty() // E7:强停同样下筏(防跟随者漏挂)
     authority.clear() // E6a:强停演出同样归还全部实体
     for (const t of timers.splice(0)) t.settle()
-    fadeDriver.cancel(0)
     screenHold.cancel()
     ditherTransition.cancel()
     sceneEntrySession.cancel()
-    resetFrameAnimationPresentation()
     entityFrameOverride.clear()
     partyGesture = null // 演出态随脚本终止一并清(dev 强停/读档;正常流脚本自清)
     actorSpriteOverrides.clear()
     partyMove?.resolve()
     partyMove = null
     walking = false
-    cameraPanFx?.resolve()
-    cameraPanFx = null
-    cameraOffset.x = 0
-    cameraOffset.y = 0
   }
 
   /** 格距(切比雪夫)。 */
@@ -5256,6 +5306,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
         runtime: () => scriptRuntimeV5 ?? undefined,
         runnerBusy: () => runner !== null,
         dialogBusy: () => dialogBox.active,
+        presentationBusy: () => presentation.busy(),
         runDetached: (signal, invoke) => {
           if (!scriptRuntimeV5)
             return Promise.reject(new Error('非 canonical 工程(无 script v5 runtime)'))
