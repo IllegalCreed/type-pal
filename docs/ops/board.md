@@ -2,6 +2,10 @@
 
 这张看板只记录当前进行中和阻塞任务。候选任务看 `docs/phase2/capability-map.md`（任务卡 `Capability` 字段对应地图格号；议题型卡 D6/D12/D13/D14/D15 落点见地图 §3.1「议题→格映射」），完成记录看 git log 和任务卡。
 
+> **⚠ 2026-08-07 额度状态：Kimi + GLM 双双耗尽**（AGENTS.md 额度与代班）。Codex 可自行推进
+> **小改**；非平凡/高风险任务需用户确认单 Agent 推进。所有待签卡改挂「双缺席 + 待补审」，
+> 推进签字缺签豁免一律需用户明确批准；两席恢复后补审补签。
+
 工作流: [`agent-workflow.md`](agent-workflow.md)
 任务卡模板: [`tasks/TASK-template.md`](tasks/TASK-template.md)
 轻量模板: [`tasks/TASK-lite-template.md`](tasks/TASK-lite-template.md)
