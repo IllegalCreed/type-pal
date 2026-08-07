@@ -2,7 +2,7 @@
 
 Status: draft
 Phase: phase2
-Capability: 18e 编辑器角色战斗字段
+Capability: E18（编辑器角色战斗字段 coveredBy / casualty / cooperativeMagic）
 Coding Owner: Codex
 Generation Owner: N/A
 Reviewer: GLM（表单/校验覆盖）+ Kimi（异步抽审）

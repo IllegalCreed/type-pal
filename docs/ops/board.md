@@ -1,6 +1,6 @@
 # 三贤人系统任务看板
 
-这张看板只记录当前进行中和阻塞任务。候选任务看 `docs/phase2/capability-map.md`,完成记录看 git log 和任务卡。
+这张看板只记录当前进行中和阻塞任务。候选任务看 `docs/phase2/capability-map.md`（任务卡 `Capability` 字段对应地图格号；议题型卡 D6/D12/D13/D14/D15 落点见地图 §3.1「议题→格映射」），完成记录看 git log 和任务卡。
 
 工作流: [`agent-workflow.md`](agent-workflow.md)
 任务卡模板: [`tasks/TASK-template.md`](tasks/TASK-template.md)

@@ -14,7 +14,7 @@
 
 第二阶段的目标不是「复刻原版」,是**一个现代化引擎 + 一个能让人创作新游戏的编辑器**。原版仙剑降级为「试炼场 + 第一份内容包 + 迁移器练手对象」——**不再是验收标准**(见 [roadmap §8](roadmap.md))。
 
-这张地图把「第二阶段要做成什么」从一团迷雾变成 **8 领域、60 格** 的可数集合(活账,撞到新东西就长)。一格 done = 引擎能跑 AND 编辑器能编。原版撞到新东西就加格,地图会长大。
+这张地图把「第二阶段要做成什么」从一团迷雾变成 **8 领域、61 格** 的可数集合(活账,撞到新东西就长)。一格 done = 引擎能跑 AND 编辑器能编。原版撞到新东西就加格,地图会长大。
 
 ---
 
@@ -43,11 +43,11 @@
 
 ---
 
-## 3. 能力地图(8 领域 60 格)
+## 3. 能力地图(8 领域 61 格)
 
 > **格号 = 语义,不是顺序。** 格号按能力含义分配(W=世界/E=实体/C=角色/N=叙事/B=战斗/X=元层/MG=迁移器/A=资产分发),新格续号、表行可能不连续(如 B8 在 B7 前、C7 在 C6 前)——这是故意的,语义可读优先于行序整齐。
 
-### 世界/场景(World)— 8 格
+### 世界/场景(World)— 9 格
 
 | 格 | 名字 | 引擎 | 编辑器 | 原版考题 | 备注 |
 |---|---|---|---|---|---|
@@ -59,8 +59,9 @@
 | W6 | 时间/天气/昼夜 | ⚠️ | ⚠️ | 隐龙窟外夜景(0x54) | **昼夜切片 done(2026-07-10 W6)**:氛围系统 = 全帧 multiply 滤镜 + content 氛围表(`ambiences.json`,作者可自定义) —— 核心考证:**原版夜盘在数学上就是均匀乘法**(R×0.458/G×0.899/B×1.0 拟合自 palette 0),clean 版一条合成复现、零调色盘概念。`setAmbience` 指令(0x53/54 clean 表达,13 处挂账手补)/ 全局态随存档 / 夜战斗同染 / 编辑器「🌗 氛围」页+指令表单。s042 考题实测 A/B。⚠ 半done口径:**时间流逝/天气未做**(设计 §9 记录在案,有真内容需求再立项);夜色观感终审留用户(氛围页可直接调) |
 | W7 | 地图库与基础绘制 | ✅ | ✅ | W7F 地图库 + 图层/高度导航 | **W7F 基础闭环**：稳定 MapIndex、全量地图列表、CRUD、场景 mapId 换绑、未引用地图、懒加载/copy-through、N 视觉层、每格实例高度、独立碰撞、图层与高度组合聚焦、吸管和撤销均已接入。**W7G 组合地物增强 done（2026-07-18）**：作者可把单层/多层 tile、高度与独立 collision 保存成可搜索预览的组合模板，显式映射稳定 layerId 后原子放置；模板与运行矩阵正交，不引入第二地图格式。三方 `accept` 与性能/浏览器证据见 [W7G 任务卡](../ops/tasks/W7G-composite-tile-stamps.md)。随机笔刷/autotile 仍属后续增强 |
 | W8 | 地图内容选择与实例属性编辑 | — | ✅ | map-020 多图层/多高度：选中单格或多格，仅修改指定属性并撤销、保存重开 | **done（2026-07-18）**：专用选择工具、单/多格 Inspector、显隐/锁定/活动层命中、透明像素与 Alt 候选、分通道原子 patch、移动/复制/剪切/粘贴/重复/删除及 undo/save-reopen 闭环均已落地。Codex / Kimi / GLM 三方 `accept`；27%/103% 浏览器验证、Kimi map-031 Playwright 端到端复验与 Console 零新增错误通过。**W7G 持久组合增强同日 done**：点击任一成员可恢复跨层放置组，支持组内逐层编辑、整组 move/copy/repeat/delete、解组保留普通值、结构生命周期守卫及 undo/save-reopen；证据见 [W7G 任务卡](../ops/tasks/W7G-composite-tile-stamps.md)。W8 非阻塞后续观察仍保留在 [W8 任务卡](../ops/tasks/W8-map-content-selection-inspector.md)。 |
+| W9 | 实体暂离/重现/明雷逃跑冷却 | ❌ | — | vanishEntity 语义生命周期（暂停自动触碰 vs 隐藏待重现） | **draft（2026-08-06 开卡）**：替代当前 `respawnSeconds + host.wait` 临时实现，用稳定实体地址的语义生命周期状态 + 世界逻辑 reducer，承接原版两类语义——实体可见但暂停 autoScript/敌对触碰短冷却、实体隐藏所属场景 tick 计时并在离屏后重现；明雷战斗普通胜利/玩家逃跑/敌逃各走正确生命周期，切场景/存读档/盯实体都不能绕过。依赖 B8/B9/X1；[W9 任务卡](../ops/tasks/W9-entity-lifecycle-respawn.md)二次真值方案待三方设计签字。 |
 
-### 实体(Entity)— 9 格
+### 实体(Entity)— 10 格
 
 | 格 | 名字 | 引擎 | 编辑器 | 原版考题 | 备注 |
 |---|---|---|---|---|---|
@@ -73,6 +74,7 @@
 | E7 | 载具/挂载 | ✅ | ✅ | 试炼窟芦苇漂(共乘)/坐船 | done(2026-07-07):mount 权威 + **全员叠筏**(mountParty/ride 连跟随者一起挂;dismountParty 四路收口:显式/走位即下筏/脚本收尾/强停,零持久态)+ 大世界跟随者(见 E8)。骑乘 opcode 定向翻译(0xA1→mountParty/0x3F·44·97→ride,5 场景 160 处)。考题实测:s213 李逍遥+阿奴共乘逐帧重叠漂流(一阶段掉队闪现 bug 不存在)+ s017 仙灵岛筏;队长恒遮挡队员(z序平局偏置) |
 | E8 | 大世界跟随者(队伍展示) | ✅ | — | 三人队走位/拐弯甩尾 | 新格(2026-07-07):party[1..N] 渲染 + 原版 trail 槽 1:1(基点 slot2 校准=平铺→菱形 2× 粒度;**dir=离开该格方向**,拐弯甩尾逐行对齐原版 —— 8字双轨迹对比法定案,两引擎同场景同腿长无缝换向逐行全等)+ follow/mount/script 三权威。队长恒遮挡队员。编辑器无依赖 |
 | E9 | 商店/当铺(openShop) | ✅ | ✅ | s050 米铺买/s029 当铺卖 | **done(2026-07-11 E9)**:openShop 阻塞式全链 —— content ShopDef+纯结算(买 buyPrice/卖 sellPrice)、21 家店货单迁入 shops.json、买=红框紧凑列表(坐标 1:1 uigame.c,现有/金钱卷轴框、ITEMBOX 带影、确认默认否)、卖=全屏 picker(noDesc+金钱/售价框)。编辑器:ShopTab 货单上架下架 + openShop 表单店下拉。观感对照原版截图三轮校(红框/阴影/定高)。顺手根治 item-list ITEMBOX 缺影(装备/使用菜单同修) |
+| E18 | 编辑器角色战斗字段（coveredBy/casualty/cooperativeMagic） | — | ❌ | B11-1 三个战斗字段的编辑器编辑与校验 | **draft（2026-08-06 开卡）**：B11-1 已落地 `coveredBy`（援护者）/`casualty`（伤亡脚本 friendDeath/dying）/`cooperativeMagic`（合体技）的 content schema 与 runtime，数据侧就绪；编辑器 actor 表单缺这三个字段的结构化编辑、引用校验与保存闭环（属 ED-5I 创作七环的延伸）。依赖 B11-1（已 done）；[E18-1 任务卡](../ops/tasks/E18-1-editor-actor-battle-fields.md) draft。注：原卡 Capability 写「18e」，本格定为 **E18**（Entity 域续号），命名归一。 |
 
 ### 角色(Character)— 8 格
 
@@ -100,7 +102,7 @@
 | N7 | **演出接管** | ✅ | ✅ | 隐龙窟/试炼窟 | done(2026-07-07):显式 take/release(E6b)+ mount/follow 权威,非冻帧。两考题实测:隐龙窟门口演出全链(对话/转向/切场景/setParty)+ 试炼窟芦苇漂共乘 |
 | N8 | 过场编排(mp4/帧动画 CG) | ✅ | ✅ | 开场 CG/帧动画序列 | **done（A7-3，2026-07-17）**：视频与完整帧动画使用稳定 AssetId 和工程内文件；运行时支持全段/分段/帧率/显式预览跳过，剧情默认不可跳；编辑器支持双列表、内嵌视频、完整帧时间轴、导入/替换/量化/多选重排/时长/引用保护/保存重开。C1-C5 返工、LAN HTTPS/FSA、OPFS 真句柄 round-trip、三方审查与用户验收完成。BGM/SFX 仍由脚本编排，不绑素材 |
 
-### 战斗(Battle)— 10 格
+### 战斗(Battle)— 11 格
 
 | 格 | 名字 | 引擎 | 编辑器 | 原版考题 | 备注 |
 |---|---|---|---|---|---|
@@ -114,6 +116,7 @@
 | B9 | 数据驱动敌对行为 | ✅ | ✅ | 林天南撑7回合/原地怪/重生窗 | EntityDef.hostile{team,chase,respawnSeconds,onLose}——零脚本,引擎 tickHostiles 驱动;编辑器:实体检查器「敌对行为」区(敌队下拉/追逐参数/重生秒/战败 gameOver·自定义命令 JSON) |
 | B7 | 战斗结算 | ✅ | — | 经验/掉落 | B7a 入账/升级/学技能/半恢复 + B7b 忠实结算屏(经验金钱/升级8属性old→cur/练成) + B7c 隐藏经验(行为养成→属性提升弹窗)——原版 Phase A/B/D/E/F 全落 |
 | B10 | 状态/异常(毒·乱·定·眠·封) | ✅ | ✅ | 中毒 DoT/毒药相生相克 | 引擎(2026-07-06):中毒=数据化 tick 序列(非字节码)+ 毒抗门(巫抗致死门)+ 相生相克(致死对/相克环,bytecode 反汇编不硬码)+ 养蛊/下毒投掷 + 乱定眠封状态字 + 中毒头像染色 + 世界毒态携带桥(大世界毒带入战斗 + 战后三件套清)。**编辑器(2026-07-10 B10):数据模式「毒」页** —— 毒定义全字段结构化(可解度三档/染色/玩家·敌人双 tick 序列增删移/致死配对·所克下拉)+ 右栏关系总览数据推导(致死对对称性校验标 ⚠/相克链闭环 ⟲/点名跳转);poisons 入 EditorState+序列化(loader 暴露原序数组防数值键重排,round-trip 保序钉死)。乱定眠封无定义表,其配置本在技能/物品效果行(已可编) |
+| B11 | 队友阵亡/濒死战斗脚本（scriptOnFriendDeath / scriptOnDying） | ✅ | — | 阵亡→援护者 friendDeath 台词+增益；濒死→自己 dying 对白 | **done（2026-08-05）**：content schema `BattlerSpec.casualty?`（friendDeath/dying 结构化脚本，概率门 75/66/50 + 兜底、台词、heal、temp buff）+ `coveredBy` 六条补迁移（B9 替挡首次在 PAL 数据真正生效）；battle-core 每 action 后 casualty sweep（双阈值 prevHp 防重入、auto 门、0x30 未 buff 基数）；session 战斗内对话展示与暂停。三方 accept + 用户验收确认；视觉演出补验留 Kimi（环境受限，见卡）。编辑器侧编辑归 **E18**（draft）。证据见 [B11-1 任务卡](../ops/tasks/B11-1-player-casualty-scripts.md)。 |
 
 ### 元层(Meta)— 8 格
 
@@ -155,6 +158,22 @@
 | A7 | 工程资源闭包与稳定资源注册表 | ⚠️ | ⚠️ | **进行中（R3/R7）**：音乐/soundfont、SFX、视频/完整帧动画、四类静态图与 engine chrome 已闭包；A7-3T tileset、A7-3W world sprite 与 **A7-3B battle sprite 均已 done**。A7-3B 已完成三方审查和用户验收：172 records / 171 definitions / 179 refs / 171 used / 5 shared / 1 unused，900,973 gzip B / 775 帧 / 6 legacy 坏尾；定义/资产编辑、runtime active appearance、local/save/transport 单链已接通。**contentVersion 5～10 已由 N3-1 P7/R13 占用**，A7-4 的全 legacy 归零、catalog-only 总门禁与断外链收口因此顺延到下一未占用 epoch（当前候选 contentVersion 11）；A7 待办仍有 effect-sprite/image 两项，版本抬升本身不等于资源闭包。**A7 全部完成前不得标 ✅**。总设计见[资源闭包审计](foundation/a7-resource-closure-audit.md) |
 
 > A1-A6 是编辑器侧的素材与分发动作，故 `引擎—`；A7 是跨引擎、编辑器、内容 schema 与迁移器的工程资源闭包能力，因此两侧都按实际完成度记账。引擎只消费 manifest/catalog 指针与工程目录文件，不关心素材来源。未决子问题(A1 版权策略与素材规模 / A2 下载协议与进度 / A4 支持的素材格式)留「做 A 领域」那轮 brainstorm 细化。
+
+### 3.1 议题（backlog）→ 能力格 映射（2026-08-06 立）
+
+任务卡的 `Capability` 字段除了格号，还会引用 `design-backlog.md` 的**议题号**或 `P0/P1` 层（议题是设计专题，不是能力格）。本表把当前开卡的议题钉到它实际归属或裂变进的能力格，避免「卡引用议题、地图不认议题」的悬空。议题详情见 [design-backlog.md](design-backlog.md)。
+
+| 议题 | backlog 方向 | 落点（能力格 / 已落地模块） | 状态 |
+|---|---|---|---|
+| 议题 5（演出/cutscene 建模） | 统一 CutsceneController | **D14-2 卡**（P0 演出建模）；裂进 dialogue/fade-driver/async-intent（已落地）+ 剩余演出意图协议 | D14-2 draft |
+| 议题 6（遮挡现代化） | 遮挡半透明（方案 A） | **D6-1 卡**（渲染层，无独立格——归 W1 渲染增强） | D6-1 draft |
+| 议题 12（音视频多媒体统一） | 动态音乐过渡/分层 + 统一控制器 | **D12-1 卡**（音频侧，落 X2 增量）+ D14-2（控制器侧）；X2 基建已 done | D12-1 draft |
+| 议题 13（开发/调试工具） | cheat console / 检视 / 战斗构建器 / 触发区可视化 / 帧步进 | **D13-1 卡**（P1 工具层，无独立格——工具域，不进 8 领域格表） | D13-1 draft（GLM agree） |
+| 议题 14（脚本系统重构） | 子系统隔离 + 意图通信 | **主体已落地**（dialogue/fade-driver/input/follower/gameplay-clock/async-intent、AbortSignal 贯穿、N3-1 退役内部脚本）；剩余 = D14-1（对话外观）+ D14-2（演出意图协议）+ D14-3（奖励/事件总线） | D14-1/2/3 draft |
+| 议题 15（NPC 自主移动） | 动态碰撞 + 互相让路 + 转向动画 | **D15-1 卡**（落 E2 增量，无独立格） | D15-1 draft |
+| 议题 18（reforge 战斗引擎缺口） | 实体生命周期 / 战斗字段编辑等 | 18a 落 W9（实体暂离/重现，新格）；18b 同 W9；18e 落 E18（编辑器角色战斗字段，新格）；其余缺口「已覆盖确认」见 backlog | W9/E18 draft |
+
+> 纪律：议题型卡开建时，若产出新能力（而非既有格的增量），必须按 §8 发现协议**先在本地图开格**再开工（W9/B11/E18 就是这次补登的例）。纯增量（如 D6-1 渲染增强、D12-1 X2 增量）不必开新格，但本表要登记落点。
 
 ---
 
