@@ -4206,6 +4206,8 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
         coverILayer: effectiveLayer * 8 + 2,
         coverSortOffset: effectiveLayer * 8 + 9,
         baseYBias: effectiveLayer,
+        // D6-1(K1):actor 实体触发遮挡半透明;prop({sprite} 外观)不触发。
+        occlusionTrigger: 'actor' in e,
       })
     }
     // 玩家帧每帧按当前 world.party[0] 解析；0x65 临时换装 > 0x1A 持久形象 > Actor 本体。
@@ -4236,6 +4238,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
         coverILayer: partyLayer * 8 + 6,
         coverSortOffset: partyLayer * 8 + 10,
         baseYBias: partyLayer,
+        occlusionTrigger: true,
       })
     }
     // E7 跟随者(party[1..N]):照队长那套 push sprite;walk/idle 跟队长走态
@@ -4265,6 +4268,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
         // 队长永远遮挡队员(作者定调,骑乘重叠时尤其):同 Y 平局给队员微负深度,
         // 序号越大越靠后;偏置 -0.01×8=-0.08px 只破平局,不扰正常深度排序。
         baseYBias: partyLayer - 0.01 * m,
+        occlusionTrigger: true,
       })
     }
     // 0x98 编外跟随者：存档/脚本保存 SpriteDef.id；定义提供各自 AssetId 与 layout。
@@ -4298,6 +4302,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
         coverILayer: partyLayer * 8 + 6,
         coverSortOffset: partyLayer * 8 + 10,
         baseYBias: partyLayer - 0.01 * m,
+        occlusionTrigger: true,
       })
     }
     // 场景底图:clear + scale + renderScene + restore(抽成 renderSceneFrame,editor 复用同一绘制)。

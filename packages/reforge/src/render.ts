@@ -20,6 +20,11 @@ const TILE_H = 16
 const HALF_W = TILE_W / 2 // 16
 const SUBROW = TILE_H / 2 // 8
 
+/** D6-1 遮挡半透明常量(K5:集中一处,Kimi 视觉验收可调)。 */
+export const OCCLUSION_ALPHA = 0.35
+/** D6-1 贴墙边界迟滞(K3:进入遮挡集合后保持 alpha 的毫秒数,防闪烁)。 */
+export const OCCLUSION_LATCH_MS = 120
+
 /**
  * 索引帧 → RGBA canvas。colorShift ≠ 0 时做原版受击/演出染色
  * (一阶段 blitFrame / palcommon.c:398-411):每个像素低 4 位 + shift
@@ -84,6 +89,8 @@ export interface SpriteDraw {
   coverSortOffset?: number
   /** 不透明度(编辑器幽灵渲染等;缺省 1)。 */
   alpha?: number
+  /** D6-1(K1):是否触发遮挡半透明——角色类(玩家/队员/跟随者/actor 实体)true;prop false。 */
+  occlusionTrigger?: boolean
 }
 
 /**
@@ -111,6 +118,70 @@ export function spriteBlitRect(s: {
 interface DrawEntry {
   baseY: number
   draw: () => void
+}
+
+/**
+ * D6-1 遮挡半透明迟滞 latch(K3):进入遮挡集合后保持 alpha OCCLUSION_LATCH_MS,
+ * 防贴墙边界抖动闪烁。挂在 Renderer 实例(非模块级/全局);渲染器按场景重建
+ * (main.ts:2785-2791 nextRenderer),场景切换天然清空。
+ */
+export class OcclusionLatch {
+  private readonly until = new Map<string, number>()
+
+  constructor(private readonly now: () => number = () => performance.now()) {}
+
+  /** 该瓦片当前是否保持半透明(inSet=本帧仍在角色遮挡集合)。 */
+  active(key: string, inSet: boolean): boolean {
+    const t = this.now()
+    if (inSet) this.until.set(key, t + OCCLUSION_LATCH_MS)
+    const until = this.until.get(key)
+    if (until !== undefined && until <= t && !inSet) this.until.delete(key)
+    return until !== undefined && until > t
+  }
+
+  reset(): void {
+    this.until.clear()
+  }
+}
+
+/** cover 瓦片候选(已算遮挡关系的待画项)。 */
+export interface CoverCandidate {
+  tile: ProjectMapTileDraw
+  image: HTMLCanvasElement
+  baseY: number
+  /** 跨 sprite 去重键(同瓦片同 baseY)。 */
+  key: string
+}
+
+/** D6-1(K2):跨 sprite 合并 cover 瓦片候选 + 遮挡半透明迟滞,输出每个瓦片绘制 alpha。
+ *  纯函数(无 canvas/DOM),单测直接断言去重与 latch。 */
+export function mergeCoverCandidates(
+  perSprite: ReadonlyArray<{ trigger: boolean; candidates: readonly CoverCandidate[] }>,
+  opts: {
+    occlusionActive: boolean
+    tileAlpha: (tile: ProjectMapTileDraw) => number
+    latch: OcclusionLatch
+  },
+): Map<string, CoverCandidate & { alpha: number }> {
+  const merged = new Map<string, CoverCandidate & { alpha: number }>()
+  for (const { trigger, candidates } of perSprite) {
+    for (const candidate of candidates) {
+      const inOcclusionSet = opts.occlusionActive && trigger
+      if (inOcclusionSet) {
+        // 角色触发的遮挡瓦片:恒 OCCLUSION_ALPHA(覆盖同键早前的 tileAlpha,防迭代序影响)。
+        opts.latch.active(candidate.key, true)
+        merged.set(candidate.key, { ...candidate, alpha: OCCLUSION_ALPHA })
+      } else if (!merged.has(candidate.key)) {
+        merged.set(candidate.key, { ...candidate, alpha: opts.tileAlpha(candidate.tile) })
+      }
+    }
+  }
+  // 迟滞:已离开遮挡集合但 latch 未到期的瓦片保持半透明。
+  for (const [key, entry] of merged) {
+    if (entry.alpha === OCCLUSION_ALPHA) continue
+    if (opts.latch.active(key, false)) merged.set(key, { ...entry, alpha: OCCLUSION_ALPHA })
+  }
+  return merged
 }
 
 /** 渲染层开关(编辑器图层显隐;引擎不传 = 全画)。 */
@@ -152,15 +223,24 @@ export interface Renderer {
 export class Canvas2DRenderer implements Renderer {
   private readonly tileCache = new Map<number, HTMLCanvasElement>()
   private readonly frameCache = new WeakMap<RleFrame, HTMLCanvasElement>()
+  private readonly occlusionLatch: OcclusionLatch
 
   constructor(
     private readonly ctx: CanvasRenderingContext2D,
     private readonly palette: Palette,
     private readonly tiles: Map<number, RleFrame>,
-  ) {}
+    now: () => number = () => performance.now(),
+  ) {
+    this.occlusionLatch = new OcclusionLatch(now)
+  }
 
   get context(): CanvasRenderingContext2D {
     return this.ctx
+  }
+
+  /** D6-1(K3):清空遮挡迟滞 latch(渲染器按场景重建时天然清空,编辑器可显式调用)。 */
+  resetOcclusionLatch(): void {
+    this.occlusionLatch.reset()
   }
 
   private bake(frame: RleFrame): HTMLCanvasElement {
@@ -335,17 +415,28 @@ export class Canvas2DRenderer implements Renderer {
     }
 
     if (!opts?.skipCover) {
-      for (const sprite of sprites) {
-        for (const candidate of this.coverTileCandidates(tilesByLattice, sprite)) {
-          const { tile, image, baseY } = candidate
-          const x = tile.centerX - HALF_W + ox
-          const y = tile.centerY + 7 - image.height + oy
-          const alpha = tileAlpha(tile)
-          entries.push({
-            baseY,
-            draw: () => drawTile(image, x, y, alpha),
-          })
-        }
+      // D6-1(K2):跨 sprite 按瓦片键合并(同瓦片多角色候选只画一次,防 alpha 叠加变暗);
+      // 遮挡半透明仅 gameplay 态生效(K3:showAll/focusLayer 调试态所见即所得)。
+      const occlusionActive =
+        !opts?.showAll && opts?.focusLayerId === undefined && opts?.focusHeight === undefined
+      const perSprite = sprites.map((sprite) => ({
+        trigger: sprite.occlusionTrigger === true,
+        candidates: this.coverTileCandidates(tilesByLattice, sprite).map((c) => ({
+          ...c,
+          key: `${c.tile.layerIndex}:${c.tile.row}:${c.tile.col}:${c.baseY}`,
+        })),
+      }))
+      for (const { tile, image, baseY, alpha } of mergeCoverCandidates(perSprite, {
+        occlusionActive,
+        tileAlpha,
+        latch: this.occlusionLatch,
+      }).values()) {
+        const x = tile.centerX - HALF_W + ox
+        const y = tile.centerY + 7 - image.height + oy
+        entries.push({
+          baseY,
+          draw: () => drawTile(image, x, y, alpha),
+        })
       }
     }
 
