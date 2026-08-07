@@ -75,7 +75,7 @@ Branch: TBD
 
 ### 进入 build 前:设计签字
 
-- Codex: pending
+- Codex: agree（2026-08-07 设计冻结，见「设计结论」）
 - Kimi: pending
 - GLM: pending
 - counter / 分歧处理: N/A
@@ -95,8 +95,29 @@ Branch: TBD
 
 ### 设计结论
 
-待冻结。方向：effect 词汇表（声明式）+ CutsceneController（执行器）；现有 fade-driver 的
-owner/接管语义作为协议先例；cameraPanFx 收敛进 controller。
+**2026-08-07 冻结（Codex agree）——v1 只收现存能力，不扩新语法**：
+
+1. **意图词汇表**（新文件 `packages/reforge/src/presentation-intent.ts`）：`PresentationIntent`
+   union 只覆盖现存五能力 + wait——
+   `dialog(cue)` / `clearDialog` / `fade(dir,ms?,color?)` / `cameraPan(dx,dy,frames)` /
+   `cameraSnap(to?)` / `frameAnimation(asset,startFrame?,endFrame?,frameRate?)` /
+   `video(asset)` / `wait(ms)`。顺序组合 = `Cutscene = PresentationIntent[]`（编排单位）。
+   音频指令（playMusic/stopMusic）与 SFX **不进协议**（世界态音频 + D12-1 边界）。
+2. **CutsceneController**（新文件 `cutscene-controller.ts`）：
+   - `run(cutscene, signal)`：顺序执行 intents，任一 AbortSignal 取消 → 整条中止、无孤儿
+     状态（fade-driver owner 先例 + cameraPanFx 收口）。
+   - **单一呈现占用句柄**：`busy()` 统一「presentation 进行中」判定（替代现状
+     `runner !== null || dialogBox.active || cameraPanFx` 的拼装；D13-1 overlay 徽标、
+     X1 autosave 等消费点改走它）。
+   - 虚拟时钟：wait/时长用注入 `now()`（gameplay-clock 既有）。
+   - 输入屏蔽：演出期 `busy()` true 时按键路由不推进探索（现状已承担，收口到控制器判定）。
+3. **接入**：main.ts script host 的 dialog/fade/cameraPan/playFrameAnimation/playVideo/wait
+   （:1893/:1938/:2005/:2565/:2712/:3012）改为调用 controller 方法，行为真值不变；
+   `cameraPanFx` 裸状态收进 controller 生命周期（:1286/:3087 段）。
+4. **验证**：开场（video+dialog）/ 求雨 RNG / 酒剑仙 RNG / 锁妖塔 camera pan / 结局视频
+   回放行为与现状一致（行为真值测试 + Kimi 视觉）；切场景/读档中断不残留（统一取消）。
+5. **不做**：新脚本 DSL（复用现有 host 命令词，词汇表只是协议层定义）；编辑器时间线可视化
+   （P2 另立项）；触发器 schema 大改（协议层留口）；音频分层（D12-1 已收口）。
 
 ### 已知风险
 
@@ -104,6 +125,8 @@ owner/接管语义作为协议先例；cameraPanFx 收敛进 controller。
 - 缓解: 只覆盖现存五个能力 + 分镜组合，词汇表以真实场景为准。
 - 风险: 演出行为回归（求雨/酒剑仙）。
 - 缓解: 行为真值测试 + Kimi 视觉并排对比作为门禁。
+- 风险: busy() 收口误伤输入路由/自动存档判定。
+- 缓解: 消费点逐一核对（D13-1 徽标、X1 autosave、主循环输入段），行为真值测试兜底。
 
 ### 主审立场
 
@@ -151,20 +174,28 @@ owner/接管语义作为协议先例；cameraPanFx 收敛进 controller。
 
 - 2026-08-06 Codex: 用户咨询议题 5/12/14 剩余后拍板开卡。现状：fade 有 owner 协议先例，
   cameraPanFx 仍是裸状态；分镜=命令式 glue。本卡合并议题 12 剩余②，音频分层独立。
+- 2026-08-07 Codex: 设计冻结并签 agree。PresentationIntent 词汇表(现存五能力+wait,
+  音频/SFX 不入协议)+ CutsceneController(统一取消 + busy() 单一占用句柄 +
+  虚拟时钟注入)+ cameraPanFx 收口;接入 main.ts script host 五方法行为真值不变;
+  不做新 DSL/编辑器时间线/触发器 schema/音频分层。
 
 ## 下一位 Agent 提示词
 
 ```text
 接手任务: D14-2 演出意图协议 + CutsceneController
 任务卡: docs/ops/tasks/D14-2-presentation-intent-protocol.md
-当前状态: draft（build 准入 blocked）
+当前状态: draft（build 准入 blocked；Codex 设计冻结并签 agree，见「设计结论」）
 你的角色: Kimi 架构/演出建模主审；GLM 协议词汇/覆盖矩阵主审
 先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡、design-backlog 议题 5/12/14、
-  engine-debt-audit §6、content-schema §6、packages/reforge/src/main.ts:1286/1311/2673/2676、
-  frame-animation-presentation.ts、fade-driver.ts、dialogue.ts、async-intent.ts
-已完成: 开卡（范围/锚点/验收），设计未冻结
-请你做: 压测 effect 词汇表边界（五个现有能力 + 组合）、CutsceneController 的独占画面/抢键/
-  虚拟时钟/取消语义、与 D12-1 和编辑器时间线（P2）的接口留口；冻结方案后 agree/counter
+  engine-debt-audit §6、content-schema §6、main.ts:1286/1893/1938/2005/2565/2712/3012、
+  frame-animation-presentation.ts、fade-driver.ts、dialogue.ts、async-intent.ts、D12-1 卡
+已完成: Codex 设计冻结——PresentationIntent 词汇表(现存五能力+wait,音频/SFX 不入协议)
+  + CutsceneController.run(cutscene, signal) 统一取消 + busy() 单一呈现占用句柄
+  (替代 runner/dialog/cameraPanFx 拼装判定);cameraPanFx 收口;虚拟时钟注入;
+  接入 main.ts script host 五方法,行为真值不变;验证=开场/求雨/酒剑仙/锁妖塔/结局
+请你做: Kimi 压测 busy() 收口的消费点核对(输入路由/D13-1 徽标/X1 autosave)、取消无孤儿
+  语义、与编辑器时间线(P2)留口;GLM 复核词汇表对现存五能力的全量覆盖与回放矩阵;
+  冻结方案后 agree/counter
 不要做: 不得修改实现文件；不得为未来留过度设计
 输出要求: 更新设计签字、主审立场、争议处理和下一位提示词
 ```
