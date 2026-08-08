@@ -811,9 +811,7 @@ describe('M4b-3 玩家仙术', () => {
 
     expect(s.players.map((entry) => entry.mp)).toEqual([25, 25])
     expect(s.inventory).toEqual([{ itemId: '148', count: 0 }])
-    expect(
-      s.players.reduce((sum, entry) => sum + (entry.hiddenCounts.magicAttack ?? 0), 0),
-    ).toBe(1)
+    expect(s.players.reduce((sum, entry) => sum + (entry.hiddenCounts.magicAttack ?? 0), 0)).toBe(1)
     expect(s.lastAction).toMatchObject({
       side: 'player',
       idx: 1,
@@ -2233,6 +2231,55 @@ describe('R13-3 投掷专用效果链', () => {
     expect(s.enemies[1]!.hp).toBe(75)
     expect(s.lastAction?.notice).toBe('攻击无效')
     expect(calls).toBe(5)
+  })
+
+  test('全体多效果按 effect→targets 绑定 RNG，并保持魔伤、下毒、即时致死的目标顺序', () => {
+    const { s, calls } = runThrow(
+      {
+        target: 'allEnemies',
+        effects: [
+          {
+            kind: 'magicDamage',
+            baseDamage: 10,
+            element: 'none',
+            strength: { kind: 'fixed', value: 10 },
+          },
+          { kind: 'applyPoison', poisonId: '552' },
+          { kind: 'killIfHpAtMost', percent: 100 },
+        ],
+      },
+      {
+        enemies: [
+          mkEnemy('a', { health: 1000, dexterity: 0, attackStrength: -999 }),
+          mkEnemy('b', { health: 1000, dexterity: 0, attackStrength: -999 }),
+        ],
+        poisonDefs: {
+          552: { id: 552, name: '尸毒', curability: 'common', color: 0 },
+        },
+        // 建队列 3 掷；随后依次是两目标魔伤浮动、两目标下毒判定。
+        // a 的 0.4 被巫抗 5 挡，b 的 0.5 命中，明确区分旧 target→effects 绑定。
+        rng: [0, 0, 0, 0, 0.9, 0.4, 0.5],
+        prepare: (s) => {
+          s.enemies[0]!.def.ai.resistanceToSorcery = 5
+          s.enemies[1]!.def.ai.resistanceToSorcery = 5
+        },
+      },
+    )
+
+    expect(s.enemies[0]!.poisons).toEqual([])
+    expect(s.enemies[1]!.poisons).toEqual([{ poisonId: 552, tickIndex: 0 }])
+    expect(s.enemies.map((enemy) => enemy.hp)).toEqual([0, 0])
+    const effectLogs = s.log.filter(
+      (line) =>
+        line.includes('受到') ||
+        line.includes('抵抗了') ||
+        line.includes('中 尸毒') ||
+        line.includes('魂飞魄散'),
+    )
+    expect(
+      effectLogs.map((line) => line.match(/(?:,|^)(a|b)(?: | 受到| 抵抗| 中| 魂)/)?.[1]),
+    ).toEqual(['a', 'b', 'a', 'b', 'a', 'b'])
+    expect(calls).toBe(7)
   })
 
   test('applyStatus continue：抵抗后仍执行本目标后续效果', () => {

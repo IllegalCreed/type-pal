@@ -2,8 +2,8 @@ import type { ItemDataMap, WorldItemUsePresentation } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
   buildItemUseResultEntries,
-  itemUseResultText,
   type ItemUseResultEntry,
+  itemUseResultText,
 } from './item-use-result.js'
 
 describe('C8 · item use result presentation', () => {
@@ -58,9 +58,7 @@ describe('C8 · item use result presentation', () => {
     }
     expect(itemUseResultText(entry)).toBe('炼出 赤血蚕 × 2')
     expect(itemUseResultText({ ...entry, count: 1 })).toBe('炼出 赤血蚕')
-    expect(
-      itemUseResultText({ ...entry, title: '炼成', itemName: '灵葫仙丹', count: 1 }),
-    ).toBe(
+    expect(itemUseResultText({ ...entry, title: '炼成', itemName: '灵葫仙丹', count: 1 })).toBe(
       '炼成 灵葫仙丹',
     )
   })

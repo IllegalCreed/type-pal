@@ -108,8 +108,7 @@ export function rewindPublishedR13EnemyTransition(args: {
   const seal = publishedSeal(publishedBaseline)
   const changedPaths = seal.augmentation.files.changedPaths
   if (
-    publishedBaseline.baselineMetadata?.transitions[R13_ENEMY_SCRIPT_TRANSITION_ID] ===
-      undefined ||
+    publishedBaseline.baselineMetadata?.transitions[R13_ENEMY_SCRIPT_TRANSITION_ID] === undefined ||
     !publishedBaseline.managedFiles.has(R13_ENEMY_SCRIPT_SEAL_PATH) ||
     publishedBaseline.hashes?.has(R13_ENEMY_SCRIPT_SEAL_PATH) !== true
   )

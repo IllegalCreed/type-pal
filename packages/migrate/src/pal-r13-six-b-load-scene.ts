@@ -59,7 +59,9 @@ function atPath(root: unknown, path: JsonPath): unknown {
   return current
 }
 
-function parseSourceOwner(path: JsonPath): Pick<SourceCandidate, 'ownerEntity' | 'hook' | 'stageIndex' | 'pageIndex'> {
+function parseSourceOwner(
+  path: JsonPath,
+): Pick<SourceCandidate, 'ownerEntity' | 'hook' | 'stageIndex' | 'pageIndex'> {
   const text = path.map(String).join('/')
   const entity = /(?:^|\/)entity-(e\d+)(?:\/|$)/.exec(text) ?? /(?:^|\/)(e\d+)(?:\/|$)/.exec(text)
   const stage = /(?:^|\/)stage-(\d+)(?:\/|$)/.exec(text)
@@ -86,9 +88,9 @@ function collectSourceLoadScenes(
 ): void {
   if (Array.isArray(value)) {
     const commands = value.every(isRecord) ? value : undefined
-    value.forEach((entry, childIndex) =>
-      collectSourceLoadScenes(entry, [...path, childIndex], context, output, commands, childIndex),
-    )
+    value.forEach((entry, childIndex) => {
+      collectSourceLoadScenes(entry, [...path, childIndex], context, output, commands, childIndex)
+    })
     return
   }
   if (!isRecord(value)) return
@@ -115,11 +117,12 @@ function collectSourceLoadScenes(
 
 function commandSignature(command: Record<string, unknown>): string {
   const cue = isRecord(command.cue) ? command.cue : undefined
-  const rows = cue && Array.isArray(cue.rows)
-    ? cue.rows
-        .map((row) => (isRecord(row) && typeof row.text === 'string' ? row.text : ''))
-        .join('|')
-    : ''
+  const rows =
+    cue && Array.isArray(cue.rows)
+      ? cue.rows
+          .map((row) => (isRecord(row) && typeof row.text === 'string' ? row.text : ''))
+          .join('|')
+      : ''
   // transition/evidence is intentionally excluded: it is the field being projected.
   return JSON.stringify({
     kind: command.kind,
@@ -143,7 +146,11 @@ function collectCanonicalArrays(
   output: CanonicalArray[],
 ): void {
   if (Array.isArray(value)) {
-    if (value.length && value.every(isRecord) && value.some((entry) => typeof entry.kind === 'string'))
+    if (
+      value.length &&
+      value.every(isRecord) &&
+      value.some((entry) => typeof entry.kind === 'string')
+    )
       output.push({
         path,
         commands: value,
@@ -152,7 +159,9 @@ function collectCanonicalArrays(
         ...(owner.stage !== undefined ? { stageIndex: owner.stage } : {}),
         ...(owner.behaviorId ? { behaviorId: owner.behaviorId } : {}),
       })
-    value.forEach((entry, index) => collectCanonicalArrays(entry, [...path, index], owner, output))
+    value.forEach((entry, index) => {
+      collectCanonicalArrays(entry, [...path, index], owner, output)
+    })
     return
   }
   if (!isRecord(value)) return
@@ -172,7 +181,12 @@ function collectCanonicalArrays(
     collectCanonicalArrays(child, [...path, key], next, output)
 }
 
-function isSubsequence(source: string[], target: string[], sourceIndex: number, targetIndex: number): boolean {
+function isSubsequence(
+  source: string[],
+  target: string[],
+  sourceIndex: number,
+  targetIndex: number,
+): boolean {
   if (sourceIndex < 0 || targetIndex < 0 || targetIndex >= target.length) return false
   if (source[sourceIndex] !== target[targetIndex]) return false
   let left = sourceIndex - 1
@@ -211,29 +225,35 @@ function locateCanonicalTarget(
         ? entry.hook === candidate.hook
         : true,
   )
-  const pageScoped = candidate.pageIndex === undefined
-    ? scoped
-    : scoped.filter((entry) => entry.behaviorId === 'default')
+  const pageScoped =
+    candidate.pageIndex === undefined
+      ? scoped
+      : scoped.filter((entry) => entry.behaviorId === 'default')
   const candidates = pageScoped.length ? pageScoped : scoped
   const matches = candidates.flatMap((entry) =>
     entry.commands.flatMap((command, index) =>
       commandSignature(command) === targetSignature &&
-      (candidate.stageIndex === undefined || entry.stageIndex === undefined || entry.stageIndex === candidate.stageIndex) &&
+      (candidate.stageIndex === undefined ||
+        entry.stageIndex === undefined ||
+        entry.stageIndex === candidate.stageIndex) &&
       isSubsequence(sourceSignature, entry.commands.map(commandSignature), candidate.index, index)
         ? [{ entry, index, command }]
         : [],
     ),
   )
-  const unique = matches.length === 1
-    ? matches
-    : candidates.flatMap((entry) =>
-        entry.commands.flatMap((command, index) =>
-          commandSignature(command) === targetSignature &&
-          (candidate.stageIndex === undefined || entry.stageIndex === undefined || entry.stageIndex === candidate.stageIndex)
-            ? [{ entry, index, command }]
-            : [],
-      ),
-      )
+  const unique =
+    matches.length === 1
+      ? matches
+      : candidates.flatMap((entry) =>
+          entry.commands.flatMap((command, index) =>
+            commandSignature(command) === targetSignature &&
+            (candidate.stageIndex === undefined ||
+              entry.stageIndex === undefined ||
+              entry.stageIndex === candidate.stageIndex)
+              ? [{ entry, index, command }]
+              : [],
+          ),
+        )
   if (unique.length === 1) {
     const match = unique[0]!
     return { path: [...match.entry.path, match.index], command: match.command }
@@ -244,7 +264,9 @@ function locateCanonicalTarget(
   const targetMatches = candidates.flatMap((entry) =>
     entry.commands.flatMap((command, index) =>
       commandSignature(command) === targetSignature &&
-      (candidate.stageIndex === undefined || entry.stageIndex === undefined || entry.stageIndex === candidate.stageIndex)
+      (candidate.stageIndex === undefined ||
+        entry.stageIndex === undefined ||
+        entry.stageIndex === candidate.stageIndex)
         ? [{ entry, index, command }]
         : [],
     ),
@@ -259,28 +281,34 @@ function locateCanonicalTarget(
       const match = closest[0]!
       return { path: [...match.entry.path, match.index], command: match.command }
     }
-    if (candidate.parent.length === 1 && targetMatches.every((match) =>
-      sameLoadSceneTarget(match.command, targetMatches[0]!.command),
-    )) {
+    if (
+      candidate.parent.length === 1 &&
+      targetMatches.every((match) => sameLoadSceneTarget(match.command, targetMatches[0]!.command))
+    ) {
       const match = targetMatches[0]!
       return { path: [...match.entry.path, match.index], command: match.command }
     }
   }
   const sceneMatches = candidates.flatMap((entry) =>
     entry.commands.flatMap((command, index) =>
-      command.kind === 'loadScene' && command.scene === candidate.command.scene &&
-      (candidate.stageIndex === undefined || entry.stageIndex === undefined || entry.stageIndex === candidate.stageIndex)
+      command.kind === 'loadScene' &&
+      command.scene === candidate.command.scene &&
+      (candidate.stageIndex === undefined ||
+        entry.stageIndex === undefined ||
+        entry.stageIndex === candidate.stageIndex)
         ? [{ entry, index, command }]
         : [],
     ),
   )
-  const scenePool = sceneMatches.length ? sceneMatches : arrays.flatMap((entry) =>
-    entry.commands.flatMap((command, index) =>
-      command.kind === 'loadScene' && command.scene === candidate.command.scene
-        ? [{ entry, index, command }]
-        : [],
-    ),
-  )
+  const scenePool = sceneMatches.length
+    ? sceneMatches
+    : arrays.flatMap((entry) =>
+        entry.commands.flatMap((command, index) =>
+          command.kind === 'loadScene' && command.scene === candidate.command.scene
+            ? [{ entry, index, command }]
+            : [],
+        ),
+      )
   if (scenePool.length) {
     const distances = scenePool.map((match) =>
       Math.abs(match.entry.commands.length - candidate.parent.length),
@@ -295,7 +323,10 @@ function locateCanonicalTarget(
   return undefined
 }
 
-function sameLoadSceneTarget(left: Record<string, unknown>, right: Record<string, unknown>): boolean {
+function sameLoadSceneTarget(
+  left: Record<string, unknown>,
+  right: Record<string, unknown>,
+): boolean {
   const key = (value: Record<string, unknown>) =>
     JSON.stringify({
       kind: value.kind,
@@ -330,12 +361,7 @@ export function applyPalR13SixBLoadSceneTransitions(
       : sourceScenePath(sourceFile)
     if (!scenePath) continue
     const candidates: SourceCandidate[] = []
-    collectSourceLoadScenes(
-      sourceValue,
-      [],
-      { sourceFile, scenePath },
-      candidates,
-    )
+    collectSourceLoadScenes(sourceValue, [], { sourceFile, scenePath }, candidates)
     for (const candidate of candidates) {
       const transition = candidate.command.transition as Record<string, unknown>
       const evidenceId = String(transition.evidenceId)
@@ -357,16 +383,17 @@ export function applyPalR13SixBLoadSceneTransitions(
       const target = located.command
       const exactTarget = sameLoadSceneTarget(candidate.command, target)
       const sourceChunk = sourceFile.startsWith('content/scripts/chunks/scene/')
-      const looseTarget = sourceChunk &&
-        target.kind === 'loadScene' &&
-        target.scene === candidate.command.scene
+      const looseTarget =
+        sourceChunk && target.kind === 'loadScene' && target.scene === candidate.command.scene
       if (!exactTarget && !looseTarget) {
         dispositions.push({ ...common, status: 'skipped', reason: 'target-command-mismatch' })
         continue
       }
       if (target.transition !== undefined) {
         if (JSON.stringify(target.transition) !== JSON.stringify(transition))
-          throw new Error(`${scenePath}/${pathText(located.path)}: 已有 loadScene transition 与源证据冲突`)
+          throw new Error(
+            `${scenePath}/${pathText(located.path)}: 已有 loadScene transition 与源证据冲突`,
+          )
         dispositions.push({ ...common, status: 'already' })
         continue
       }

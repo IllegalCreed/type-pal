@@ -170,13 +170,15 @@ export function createBgmPlayerWithRuntime(
     }
     if (!isCurrent(serial, asset, loop)) return
     const swap = (): void => {
+      const sequencer = seq
+      if (!sequencer) return
       inflightTarget = undefined
-      seq!.loadNewSongList([{ binary, fileName: asset }])
-      seq!.loopCount = loop ? Infinity : 0
-      seq!.play()
+      sequencer.loadNewSongList([{ binary, fileName: asset }])
+      sequencer.loopCount = loop ? Infinity : 0
+      sequencer.play()
       playing = asset
       // G3c 快捷路径:fadeInMs=0 也显式回全增益(此前 fade 可能把 gain 留在 0)。
-      seq!.fadeTo(1, fadeInMs)
+      sequencer.fadeTo(1, fadeInMs)
     }
     // D12-1 串行近似换曲:旧曲 fade-out → 完成回调过 isCurrent 门(K2a)→ 换曲 + fade-in。
     // 首播 / 同曲 / fadeInMs=0 时跳过 fade-out,直接换(硬切向后兼容)。
@@ -219,9 +221,12 @@ export function createBgmPlayerWithRuntime(
     play(asset, loop = true, fadeInMs = 0) {
       if (playing === asset && ctx.state === 'running') {
         last = { asset, loop, fadeInMs }
-        // K5:守卫命中但存在换向其他曲的进行中请求 → serial++ 取消之(收敛「留在本曲」,
-        // 避免旧曲换走而记账分裂)。
-        if (inflightTarget !== undefined && inflightTarget !== asset) requestSerial++
+        // 同曲也是一次完整接管：取消换曲/stop 的旧 serial 与仍在 AudioParam 上的 ramp，
+        // 恢复全增益，但绝不 reload/restart 当前 MIDI。
+        requestSerial++
+        if (inflightTarget !== undefined) inflightTarget = undefined
+        seq?.cancelFade()
+        seq?.fadeTo(1, 0)
         return // 同曲不重启(场景间共曲不打断)
       }
       last = { asset, loop, fadeInMs }

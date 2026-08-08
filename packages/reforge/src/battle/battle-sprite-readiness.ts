@@ -6,14 +6,14 @@ import type {
   ItemData,
   SkillData,
 } from '@type-pal/content'
-import { effectiveBattleSpriteId } from '@type-pal/content'
+import { effectiveBattleSpriteId, resolveSkillExecution } from '@type-pal/content'
 import type {
   BattleSpriteAssetCache,
   BattleSpriteAssetReader,
   LoadedBattleSpriteDefinition,
 } from '../assets.js'
 import { loadBattleSpriteDefinition } from '../assets.js'
-import { collectReachableEnemyDefs } from './enemy-closure.js'
+import { collectReachableEnemyDefs, collectReachableEnemySkillIds } from './enemy-closure.js'
 
 export interface BattleSpriteReadinessInput {
   cache: BattleSpriteAssetCache
@@ -34,6 +34,27 @@ export interface BattleSpriteReadiness {
   byDefinitionId: ReadonlyMap<string, LoadedBattleSpriteDefinition>
   playerBaseDefinitionIds: readonly string[]
   reachableEnemyDefs: readonly EnemyDef[]
+  reachableEnemySkillIds: readonly string[]
+}
+
+export function collectBattleSkillFireChunks(input: {
+  playerSkillIds: readonly (readonly string[])[]
+  cooperativeSkillIds: readonly string[]
+  reachableEnemySkillIds: readonly string[]
+  skillsById: Readonly<Record<string, SkillData>>
+}): Set<number> {
+  const chunks = new Set<number>()
+  const include = (skillId: string, side: 'player' | 'enemy'): void => {
+    const skill = input.skillsById[skillId]
+    if (!skill) throw new Error(`FIRE readiness 缺 SkillData "${skillId}"`)
+    const chunk = resolveSkillExecution(skill, side).animation.effectSprite
+    if (chunk >= 0) chunks.add(chunk)
+  }
+  for (const skills of input.playerSkillIds)
+    for (const skillId of skills) include(skillId, 'player')
+  for (const skillId of input.cooperativeSkillIds) include(skillId, 'player')
+  for (const skillId of input.reachableEnemySkillIds) include(skillId, 'enemy')
+  return chunks
 }
 
 /** 战斗提交前一次性解析完整视觉闭包；任一缺失/错 profile/帧越界都会阻止开战。 */
@@ -54,18 +75,22 @@ export async function prepareBattleSpriteReadiness(
     include(id, 'player-fighter')
     return id
   })
-  const skillIds = new Set(input.cooperativeSkillIds)
-  for (const skills of input.playerSkillIds) for (const skillId of skills) skillIds.add(skillId)
-  for (const skillId of skillIds) {
+  const includeSkillEffects = (skillId: string, side: 'player' | 'enemy'): void => {
     const skill = input.skillsById[skillId]
     if (!skill) throw new Error(`战斗视觉 readiness 缺 SkillData "${skillId}"`)
-    for (const effect of skill.effects) {
+    for (const effect of resolveSkillExecution(skill, side).effects) {
       if (effect.kind === 'summon') include(effect.battleSprite, 'summon')
       if (effect.kind === 'trance') include(effect.battleSprite, 'player-fighter')
     }
   }
+  const playerSkillIds = new Set(input.cooperativeSkillIds)
+  for (const skills of input.playerSkillIds)
+    for (const skillId of skills) playerSkillIds.add(skillId)
+  for (const skillId of playerSkillIds) includeSkillEffects(skillId, 'player')
   const reachableEnemyDefs = collectReachableEnemyDefs(input.enemyDefs, input.enemiesById)
   for (const enemy of reachableEnemyDefs) include(enemy.battleSprite, 'enemy')
+  const reachableEnemySkillIds = collectReachableEnemySkillIds(input.enemyDefs, input.enemiesById)
+  for (const skillId of reachableEnemySkillIds) includeSkillEffects(skillId, 'enemy')
 
   const loaded = await Promise.all(
     [...requests].map(async ([id, expected]) => {
@@ -83,5 +108,6 @@ export async function prepareBattleSpriteReadiness(
     byDefinitionId: new Map(loaded),
     playerBaseDefinitionIds,
     reachableEnemyDefs,
+    reachableEnemySkillIds,
   }
 }

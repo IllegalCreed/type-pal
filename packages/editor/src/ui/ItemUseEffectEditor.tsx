@@ -1303,7 +1303,10 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
               ...use.effects,
               {
                 kind: 'runScript',
-                script: { chunk: '__script-v5-runtime', id: `item:${props.itemId ?? ''}:__probe__` },
+                script: {
+                  chunk: '__script-v5-runtime',
+                  id: `item:${props.itemId ?? ''}:__probe__`,
+                },
               },
             ])
           }

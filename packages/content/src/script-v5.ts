@@ -201,16 +201,6 @@ export type AuthorCommandV5 =
       fieldId?: number
       music?: AssetId | null
       choreography?: import('./enemy.js').BattleChoreography[]
-      /**
-       * dev-only 调试工具(D13-1):忽略 teamDef.members,按给定敌人定义 id 列表组敌队。
-       * 只进 battle session(战斗局部),不落任何持久态;普通脚本不得使用。
-       */
-      enemyOverride?: string[]
-      /**
-       * dev-only 调试工具(D13-1):忽略 world.party/inventory,用给定预设开战。
-       * 战斗结束/取消后由宿主恢复战前世界快照;普通脚本不得使用。
-       */
-      partyPreset?: { party: import('./character.js').CharacterInstance[]; inventory?: { itemId: string; count: number }[] }
     }
   | { kind: 'teleportOut'; onFail?: AuthorCommandV5[] }
   | { kind: 'confirm'; id?: CommandId; onNo: AuthorCommandV5[] }
@@ -563,6 +553,44 @@ export interface CheckAuthorCommandsV5Options {
   forbidLoadScene?: boolean
 }
 
+function checkFacingV5(value: unknown, path: string): void {
+  if (value !== 'up' && value !== 'down' && value !== 'left' && value !== 'right')
+    throw new Error(`${path}: 期望 up/down/left/right`)
+}
+
+function checkGridPosV5(value: unknown, path: string): void {
+  const pos = record(value, path)
+  exactKeys(pos, ['col', 'row', 'height'], path)
+  for (const key of ['col', 'row', 'height'] as const)
+    if (typeof pos[key] !== 'number' || !Number.isFinite(pos[key]))
+      throw new Error(`${path}.${key}: 期望有限数`)
+}
+
+function checkSceneTransitionV5(value: unknown, path: string): void {
+  const transition = record(value, path)
+  const kind = transition.kind
+  if (kind === 'modern') {
+    exactKeys(transition, ['kind', 'outMs', 'inMs', 'color'], path)
+    if (transition.outMs !== 260 || transition.inMs !== 260 || transition.color !== 'black')
+      throw new Error(`${path}: modern 必须是 260/260 black`)
+    return
+  }
+  if (kind === 'source') {
+    exactKeys(transition, ['kind', 'outMs', 'inMs', 'color', 'evidenceId'], path)
+    for (const key of ['outMs', 'inMs'] as const)
+      if (
+        typeof transition[key] !== 'number' ||
+        !Number.isFinite(transition[key]) ||
+        Number(transition[key]) < 0
+      )
+        throw new Error(`${path}.${key}: 期望非负有限数`)
+    if (transition.color !== 'black') throw new Error(`${path}.color: 只支持 black`)
+    nonEmptyString(transition.evidenceId, `${path}.evidenceId`)
+    return
+  }
+  throw new Error(`${path}.kind: 未知过渡类型`)
+}
+
 export function checkAuthorCommandsV5(
   value: unknown,
   path: string,
@@ -579,6 +607,26 @@ export function checkAuthorCommandsV5(
       throw new Error(`${commandPath}.kind: v5 已退役命令 ${kind}`)
     if (kind === 'loadScene' && options.forbidLoadScene)
       throw new Error(`${commandPath}: auto 行为禁止 loadScene`)
+    if (kind === 'loadScene') {
+      exactKeys(command, ['kind', 'scene', 'entryId', 'pos', 'facing', 'transition'], commandPath)
+      nonEmptyString(command.scene, `${commandPath}.scene`)
+      if (command.entryId !== undefined) nonEmptyString(command.entryId, `${commandPath}.entryId`)
+      if (command.entryId !== undefined && command.pos !== undefined)
+        throw new Error(`${commandPath}: entryId 与 pos 不能同时存在`)
+      if (command.pos !== undefined) checkGridPosV5(command.pos, `${commandPath}.pos`)
+      if (command.facing !== undefined) checkFacingV5(command.facing, `${commandPath}.facing`)
+      if (command.transition !== undefined)
+        checkSceneTransitionV5(command.transition, `${commandPath}.transition`)
+    }
+    if (kind === 'holdScreen') {
+      exactKeys(command, ['kind', 'color', 'token'], commandPath)
+      if (command.color !== 'black') throw new Error(`${commandPath}.color: 只支持 black`)
+      nonEmptyString(command.token, `${commandPath}.token`)
+    }
+    if (kind === 'revealScreen') {
+      exactKeys(command, ['kind', 'token'], commandPath)
+      nonEmptyString(command.token, `${commandPath}.token`)
+    }
     if (ENTITY_TARGET_KINDS.has(kind)) {
       if ('entity' in command) throw new Error(`${commandPath}.entity: v5 禁止裸实体 id`)
       checkEntityAddress(command.target, `${commandPath}.target`)
@@ -612,6 +660,27 @@ export function checkAuthorCommandsV5(
         throw new Error(`${commandPath}.maxIterations: 期望正整数`)
     }
     if (kind === 'startBattle') {
+      exactKeys(
+        command,
+        ['kind', 'team', 'onLose', 'onFlee', 'auto', 'boss', 'fieldId', 'music', 'choreography'],
+        commandPath,
+      )
+      if (!Number.isSafeInteger(command.team) || Number(command.team) < 0)
+        throw new Error(`${commandPath}.team: 期望非负安全整数`)
+      for (const key of ['auto', 'boss'] as const)
+        if (command[key] !== undefined && typeof command[key] !== 'boolean')
+          throw new Error(`${commandPath}.${key}: 期望 boolean`)
+      if (
+        command.fieldId !== undefined &&
+        (!Number.isSafeInteger(command.fieldId) || Number(command.fieldId) < 0)
+      )
+        throw new Error(`${commandPath}.fieldId: 期望非负安全整数`)
+      if (
+        command.music !== undefined &&
+        command.music !== null &&
+        (typeof command.music !== 'string' || command.music.length === 0)
+      )
+        throw new Error(`${commandPath}.music: 期望非空 AssetId|null`)
       if (command.onLose !== undefined)
         checkAuthorCommandsV5(command.onLose, `${commandPath}.onLose`, options)
       if (command.onFlee !== undefined)

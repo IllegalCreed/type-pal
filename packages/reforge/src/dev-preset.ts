@@ -23,6 +23,8 @@ export async function withWorldPreset<T>(
   try {
     return await fn()
   } finally {
+    const target = world as unknown as Record<string, unknown>
+    for (const key of Object.keys(target)) delete target[key]
     Object.assign(world, saved)
   }
 }

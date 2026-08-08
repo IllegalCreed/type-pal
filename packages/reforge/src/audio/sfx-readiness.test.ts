@@ -368,6 +368,14 @@ describe('SFX readiness 收集', () => {
     const attackEquiv = item('attack-equiv', 'sound.attack-equiv', { use: '702' })
     const aiGrant = item('ai-grant', 'sound.ai-grant')
     const equivGrant = item('equiv-grant', 'sound.equiv-grant')
+    const hookGrant = item('hook-grant', 'sound.hook-grant')
+    const hookFallbackSkill = skill('hook-fallback-skill', 'sound.hook-fallback-skill')
+    hookFallbackSkill.execution = {
+      enemy: {
+        effects: [{ kind: 'applyPoison', poisonId: '703' }],
+        animation: { effectSprite: 7, sound: 'sound.hook-fallback-branch' },
+      },
+    }
     const skills = {
       player: skill('player', 'sound.player-skill'),
       coop: skill('coop', 'sound.coop-skill'),
@@ -375,7 +383,7 @@ describe('SFX readiness 收集', () => {
         effects: [{ kind: 'applyPoison', poisonId: '701' }],
       }),
       'fallback-skill': skill('fallback-skill', 'sound.fallback-skill'),
-      'hook-fallback-skill': skill('hook-fallback-skill', 'sound.hook-fallback-skill'),
+      'hook-fallback-skill': hookFallbackSkill,
     }
     const sounds = await collectBattleBaseSounds({
       playerSounds: [{ attack: 'sound.actor' }],
@@ -388,6 +396,7 @@ describe('SFX readiness 收集', () => {
         'attack-equiv': attackEquiv,
         'ai-grant': aiGrant,
         'equiv-grant': equivGrant,
+        'hook-grant': hookGrant,
       },
       poisonDefs: {
         701: {
@@ -404,6 +413,13 @@ describe('SFX readiness 收集', () => {
           color: 0,
           playerTicks: [{ grantItem: 'equiv-grant' }],
         },
+        703: {
+          id: 703,
+          name: 'Hook 毒',
+          curability: 'common',
+          color: 0,
+          playerTicks: [{ grantItem: 'hook-grant' }],
+        },
       },
       roles: { 'audio.battleEscapeSound': 'sound.escape' },
       signal: new AbortController().signal,
@@ -414,7 +430,7 @@ describe('SFX readiness 收集', () => {
         'sound.coop-skill',
         'sound.enemy-skill',
         'sound.fallback-skill',
-        'sound.hook-fallback-skill',
+        'sound.hook-fallback-branch',
         'sound.hook',
         'sound.e1',
         'sound.e2',
@@ -427,8 +443,12 @@ describe('SFX readiness 收集', () => {
         'sound.ai-grant.throw',
         'sound.equiv-grant.use',
         'sound.equiv-grant.throw',
+        'sound.hook-grant.use',
+        'sound.hook-grant.throw',
       ]),
     )
+    expect(sounds.has('sound.hook-fallback-skill')).toBe(false)
+    expect(sounds.has('sound.hook-fallback-skill.summon')).toBe(false)
     expect(sounds.has('sound.player-skill')).toBe(false)
     expect(sounds.has('sound.attack-equiv.use')).toBe(false)
     expect(sounds.has('sound.attack-equiv.throw')).toBe(false)
@@ -450,6 +470,19 @@ describe('SFX readiness 收集', () => {
         { kind: 'applyPoison', poisonId: '801' },
       ],
     })
+    cast.execution = {
+      player: {
+        animation: { effectSprite: 8, sound: 'sound.cast.branch' },
+        effects: [
+          {
+            kind: 'summon',
+            battleSprite: 'battle-sprite.summon.002',
+            sound: 'sound.cast.branch-summon',
+          },
+          { kind: 'applyPoison', poisonId: '801' },
+        ],
+      },
+    }
     const pendingActions: BattleAction[] = [
       { kind: 'cast', skillId: cast.id, targetEnemyIdx: 0 },
       { kind: 'item', itemId: medicine.id },
@@ -497,8 +530,8 @@ describe('SFX readiness 收集', () => {
     )
     expect([...sounds]).toEqual(
       expect.arrayContaining([
-        'sound.cast',
-        'sound.cast.summon',
+        'sound.cast.branch',
+        'sound.cast.branch-summon',
         'sound.medicine.use',
         'sound.dart.throw',
         'sound.dart-fire',
@@ -512,6 +545,8 @@ describe('SFX readiness 收集', () => {
     )
     expect(sounds.has('sound.medicine.throw')).toBe(false)
     expect(sounds.has('sound.dart.use')).toBe(false)
+    expect(sounds.has('sound.cast')).toBe(false)
+    expect(sounds.has('sound.cast.summon')).toBe(false)
   })
 
   test('同一 poisonId 的玩家/敌人活跃毒保持两套 tick 身份，base 与 turn 结果一致', async () => {

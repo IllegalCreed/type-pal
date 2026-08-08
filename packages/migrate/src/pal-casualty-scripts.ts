@@ -36,10 +36,9 @@ type DialogStyle = CasualtyLine['style']
  * 6A→6B rewind 靠它把 locale 精确还原成 6A surface;parse 结果必须与该集合逐键一致。
  */
 export const PAL_CASUALTY_LOCALE_KEYS: readonly string[] = [
-  13470, 13471, 13472, 13473, 13474, 13475, 13476, 13477, 13478, 13479, 13480, 13481,
-  13482, 13483, 13484, 13485, 13486, 13487, 13488, 13489, 13490, 13491,
-  13499, 13500, 13501, 13502, 13503, 13504, 13505, 13506, 13507, 13508, 13509, 13510,
-  13511, 13512,
+  13470, 13471, 13472, 13473, 13474, 13475, 13476, 13477, 13478, 13479, 13480, 13481, 13482, 13483,
+  13484, 13485, 13486, 13487, 13488, 13489, 13490, 13491, 13499, 13500, 13501, 13502, 13503, 13504,
+  13505, 13506, 13507, 13508, 13509, 13510, 13511, 13512,
 ].map((index) => `dlg.${index}`)
 
 function parseBranch(
@@ -92,14 +91,18 @@ function parseBranch(
               !Number.isSafeInteger(percent) ||
               percent < 0
             )
-              throw new Error(`B11-1 casualty: branch @${from} 0x30 参数无效 ${JSON.stringify(operands)}`)
+              throw new Error(
+                `B11-1 casualty: branch @${from} 0x30 参数无效 ${JSON.stringify(operands)}`,
+              )
             effects.push({ kind: 'tempStatBuff', stat, percent })
             break
           }
           case 0x05:
             // 原版重绘红点帧 [0,0,0]：纯演出 no-op，结构化数据不保留。
             if ((operands[1] ?? 0) !== 0 || (operands[2] ?? 0) !== 0)
-              throw new Error(`B11-1 casualty: branch @${from} 0x05 参数非空 ${JSON.stringify(operands)}`)
+              throw new Error(
+                `B11-1 casualty: branch @${from} 0x05 参数非空 ${JSON.stringify(operands)}`,
+              )
             break
           default:
             throw new Error(
@@ -139,8 +142,7 @@ export function translateCasualtyScript(
     gates.push({ chance, branch: parseBranch(commands, target, locale) })
     ip++
   }
-  if (!gates.length)
-    throw new Error(`B11-1 casualty: entry @${entry} 缺 0x06 概率门`)
+  if (!gates.length) throw new Error(`B11-1 casualty: entry @${entry} 缺 0x06 概率门`)
   return { gates, fallback: parseBranch(commands, ip, locale) }
 }
 
@@ -151,9 +153,17 @@ export function applyPalCasualtyOverlays(
 ): { actors: ActorDef[]; locale: Record<string, string> } {
   // object-players 顺序 = player-roles 顺序（36..41 → 李逍遥/赵灵儿/林月如/巫后/阿奴/盖罗娇）。
   const expected = [
-    { roleIndex: 0, kind: 'friendDeath' as const, entry: objectPlayers[0]?.scriptOnFriendDeath ?? 0 },
+    {
+      roleIndex: 0,
+      kind: 'friendDeath' as const,
+      entry: objectPlayers[0]?.scriptOnFriendDeath ?? 0,
+    },
     { roleIndex: 1, kind: 'dying' as const, entry: objectPlayers[1]?.scriptOnDying ?? 0 },
-    { roleIndex: 2, kind: 'friendDeath' as const, entry: objectPlayers[2]?.scriptOnFriendDeath ?? 0 },
+    {
+      roleIndex: 2,
+      kind: 'friendDeath' as const,
+      entry: objectPlayers[2]?.scriptOnFriendDeath ?? 0,
+    },
     { roleIndex: 2, kind: 'dying' as const, entry: objectPlayers[2]?.scriptOnDying ?? 0 },
   ]
   const locale: Record<string, string> = {}
@@ -162,8 +172,7 @@ export function applyPalCasualtyOverlays(
     if (!Number.isSafeInteger(entry) || entry <= 0)
       throw new Error(`B11-1 casualty: 期望角色 ${roleIndex} ${kind} 入口缺失`)
     const actor = output[roleIndex]
-    if (!actor?.battler)
-      throw new Error(`B11-1 casualty: 角色 ${roleIndex} 缺 battler`)
+    if (!actor?.battler) throw new Error(`B11-1 casualty: 角色 ${roleIndex} 缺 battler`)
     const script = translateCasualtyScript(commands, entry, locale)
     const casualty = { ...(actor.battler.casualty ?? {}) }
     casualty[kind] = script
@@ -171,7 +180,10 @@ export function applyPalCasualtyOverlays(
   }
   const parsedKeys = Object.keys(locale).sort()
   const expectedKeys = [...PAL_CASUALTY_LOCALE_KEYS].sort()
-  if (parsedKeys.length !== expectedKeys.length || parsedKeys.some((key, index) => key !== expectedKeys[index]))
+  if (
+    parsedKeys.length !== expectedKeys.length ||
+    parsedKeys.some((key, index) => key !== expectedKeys[index])
+  )
     throw new Error('B11-1 casualty: 台词 locale 键与 P0 冻结集合漂移')
   return { actors: output, locale }
 }

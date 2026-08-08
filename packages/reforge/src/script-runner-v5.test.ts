@@ -609,10 +609,7 @@ describe('ScriptRunnerV5 flow semantics', () => {
           {
             id: 'initial',
             entry: {
-              prepare: [
-                { kind: 'clearDialog' },
-                { kind: 'wait', ms: 180 },
-              ],
+              prepare: [{ kind: 'clearDialog' }, { kind: 'wait', ms: 180 }],
               reveal: { kind: 'cut' },
             },
             body: [{ kind: 'setFlag', flag: 'body', value: true }],

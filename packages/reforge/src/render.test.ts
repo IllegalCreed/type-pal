@@ -118,9 +118,7 @@ describe('D6-1 遮挡半透明(方案 A)', () => {
   function occlusionHarness() {
     let map = buildBlankProjectMap(3, 3, 'tileset-test')
     map = insertProjectMapLayer(map, buildProjectMapLayer(map, 'cover', '高物'))
-    map = paintProjectMapTiles(map, [
-      { layerId: 'cover', col: 0, row: 3, tileId: 7, height: 2 },
-    ])
+    map = paintProjectMapTiles(map, [{ layerId: 'cover', col: 0, row: 3, tileId: 7, height: 2 }])
     const draws: Array<{ alpha: number; width: number }> = []
     let globalAlpha = 1
     const setGlobalAlpha = (value: number): void => {
@@ -167,9 +165,7 @@ describe('D6-1 遮挡半透明(方案 A)', () => {
     h.draws.length = 0
     // 新渲染器 = 全新 latch,隔离上一帧角色触发的迟滞。
     const propRenderer = new Canvas2DRenderer(h.ctx, h.palette, new Map([[7, frame(32, 16)]]))
-    propRenderer.renderScene(h.map, h.view, h.camera, [
-      { ...character, occlusionTrigger: false },
-    ])
+    propRenderer.renderScene(h.map, h.view, h.camera, [{ ...character, occlusionTrigger: false }])
     expect(h.draws.filter((d) => d.alpha === 0.35)).toHaveLength(0)
   })
 
@@ -183,21 +179,25 @@ describe('D6-1 遮挡半透明(方案 A)', () => {
   test('K3:latch 迟滞——角色离开后 120ms 内仍半透明,到期恢复不透明', () => {
     const h = occlusionHarness()
     let now = 0
-    const renderer = new Canvas2DRenderer(h.ctx, h.palette, new Map([[7, frame(32, 16)]]), () => now)
-    // 角色 + prop 同位置:角色触发半透明,prop 让瓦片后续仍被候选覆盖。
-    renderer.renderScene(h.map, h.view, h.camera, [character, { ...character, occlusionTrigger: false }])
+    const renderer = new Canvas2DRenderer(
+      h.ctx,
+      h.palette,
+      new Map([[7, frame(32, 16)]]),
+      () => now,
+    )
+    renderer.renderScene(h.map, h.view, h.camera, [character])
     expect(h.draws.filter((d) => d.alpha === 0.35)).toHaveLength(1)
 
-    // 角色离开(只剩 prop):latch 未到期仍半透明。
+    // 角色离开且本帧候选完全为空：latch payload 仍足以画出半透明瓦片。
     h.draws.length = 0
     now += 50
-    renderer.renderScene(h.map, h.view, h.camera, [{ ...character, occlusionTrigger: false }])
+    renderer.renderScene(h.map, h.view, h.camera, [])
     expect(h.draws.filter((d) => d.alpha === 0.35)).toHaveLength(1)
 
-    // latch 到期 → 恢复不透明。
+    // latch 到期 → 不再补画旧候选。
     h.draws.length = 0
     now += 200
-    renderer.renderScene(h.map, h.view, h.camera, [{ ...character, occlusionTrigger: false }])
+    renderer.renderScene(h.map, h.view, h.camera, [])
     expect(h.draws.filter((d) => d.alpha === 0.35)).toHaveLength(0)
   })
 

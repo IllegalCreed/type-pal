@@ -73,13 +73,11 @@ function collectDirectCommandArrays(
     for (const entry of value) collectDirectCommandArrays(entry, anchor, output)
     return
   }
-  if (isRecord(value)) for (const child of Object.values(value)) collectDirectCommandArrays(child, anchor, output)
+  if (isRecord(value))
+    for (const child of Object.values(value)) collectDirectCommandArrays(child, anchor, output)
 }
 
-function applyTransaction(
-  scene: MigrationJson,
-  evidence: PalBlackScreenTransactionEvidence,
-): void {
+function applyTransaction(scene: MigrationJson, evidence: PalBlackScreenTransactionEvidence): void {
   const candidates: Array<Array<Record<string, unknown>>> = []
   collectDirectCommandArrays(scene, evidence.dialogAnchor, candidates)
   if (candidates.length !== 1)
@@ -99,7 +97,9 @@ function applyTransaction(
       throw new Error(`R13-6B ${evidence.token}: 已迁移 transaction 不闭合`)
     return
   }
-  const dialogIndex = commands.findIndex((command) => isDialogAnchor(command, evidence.dialogAnchor))
+  const dialogIndex = commands.findIndex((command) =>
+    isDialogAnchor(command, evidence.dialogAnchor),
+  )
   const revealIndex = commands.findIndex(
     (command, index) =>
       index > 0 && command.kind === 'fade' && command.dir === 'in' && command.ms === evidence.inMs,

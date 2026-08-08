@@ -258,10 +258,7 @@ function writeFastJson(
     write('{')
     let written = 0
     for (const property of Object.keys(value)) {
-      const child = normalizeFastJsonValue(
-        (value as Record<string, unknown>)[property],
-        property,
-      )
+      const child = normalizeFastJsonValue((value as Record<string, unknown>)[property], property)
       if (child === undefined || typeof child === 'function' || typeof child === 'symbol') continue
       if (written++) write(',')
       write(JSON.stringify(property))

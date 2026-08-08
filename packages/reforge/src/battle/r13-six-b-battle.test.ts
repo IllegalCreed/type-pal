@@ -1,7 +1,7 @@
 import type { EnemyDef, SkillData } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { type CreatePlayerInput, createBattleState, stepBattle } from './battle-core.js'
 import { expectDefined } from '../defined.js'
+import { type CreatePlayerInput, createBattleState, stepBattle } from './battle-core.js'
 
 const rng0 = () => 0
 
@@ -279,9 +279,7 @@ describe('酒神一生限用 9 次（满 9 移除技能 + 提示用尽）', () =
       counts = final.skillUseCounts.hero!
     }
     expect(counts['370']).toBe(9)
-    const skillUse = expectDefined(
-      final!.pendingWorldMutations.find((m) => m.kind === 'skillUse'),
-    )
+    const skillUse = expectDefined(final!.pendingWorldMutations.find((m) => m.kind === 'skillUse'))
     expect(skillUse).toMatchObject({
       kind: 'skillUse',
       characterId: 'hero',
@@ -291,6 +289,7 @@ describe('酒神一生限用 9 次（满 9 移除技能 + 提示用尽）', () =
     })
     expect(final!.log.some((line) => line.includes('使用次数已用尽，技能已移除'))).toBe(true)
     expect(final!.inventory).toEqual([{ itemId: '86', count: 0 }])
+    expect(final!.players[0]!.skills).not.toContain('370')
   })
 
   test('第 10 次（计数已满 9）在消耗前被拦截：不扣 MP/酒、无 mutation', () => {

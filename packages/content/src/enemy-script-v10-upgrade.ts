@@ -1,4 +1,4 @@
-import type { LegacyManifestV10, LegacyManifestV9 } from './character.js'
+import type { LegacyManifestV9, LegacyManifestV10 } from './character.js'
 import type { EnemyDef } from './enemy.js'
 import { checkBattleChoreographyV10, checkEnemyOnDefeatedCommandsV10 } from './enemy-script-v10.js'
 import { validateEnemies } from './validate.js'

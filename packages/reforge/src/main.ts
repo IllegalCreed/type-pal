@@ -2,10 +2,10 @@ import {
   type AssetId,
   applySetParty,
   buildWorld,
+  type CharacterInstance,
   CONTENT_VERSION,
   canonicalScriptTransitionJson,
   collectCommandAssetReferences,
-  type DialogueCue,
   type EntityDef,
   type EntryPoint,
   type EquipDescribeCtx,
@@ -62,7 +62,6 @@ import {
 } from './assets.js'
 import { AsyncIntentController, asyncIntentAbortError } from './async-intent.js'
 import { BATTLE_MUSIC_TRANSITION_MS, createBgmPlayer } from './audio/bgm.js'
-import { CutsceneController, type CutsceneExecutor } from './cutscene-controller.js'
 import { SfxPlayer, SfxReadinessCollectionError, SfxReadinessResourceError } from './audio/sfx.js'
 import {
   collectBattleBaseSounds,
@@ -72,11 +71,16 @@ import {
 import { curePoisons } from './battle/battle-core.js'
 import { getEnemyBasePos, getPlayerBasePos } from './battle/battle-positions.js'
 import { BattleSession } from './battle/battle-session.js'
-import { prepareBattleSpriteReadiness } from './battle/battle-sprite-readiness.js'
+import {
+  collectBattleSkillFireChunks,
+  prepareBattleSpriteReadiness,
+} from './battle/battle-sprite-readiness.js'
 import { type BattleSpriteDraw, renderBattleScene } from './battle/present-battle.js'
 import { buildSettlementScreens } from './battle/settlement.js'
 import { isBlockedAt, sameGrid } from './collision.js'
+import { CutsceneController, type CutsceneExecutor } from './cutscene-controller.js'
 import { expectDefined } from './defined.js'
+import { withWorldPreset } from './dev-preset.js'
 import { loadCursorFrames } from './dialog/dialog-assets.js'
 import { DialogBox } from './dialog/dialog-box.js'
 import { startDialogue } from './dialogue.js'
@@ -130,10 +134,6 @@ import {
 import { type LoadedProject, loadSceneDef } from './loader.js'
 import { type LoadedProjectV5, loadSceneDefV5 } from './loader-v5.js'
 import {
-  runWithPresentationFinalizer,
-  ScreenHoldTransaction,
-} from './screen-hold-transaction.js'
-import {
   castOutdoorSkill,
   closeMagicMenu,
   type MagicMenuState,
@@ -148,12 +148,13 @@ import {
 import { drawEquipMenu } from './menu/equip-box.js'
 import {
   buildItemUseResultEntries,
-  itemUseResultText,
   type ItemUseResultEntry,
+  itemUseResultText,
 } from './menu/item-use-result.js'
 import { drawMagicMenu } from './menu/magic-box.js'
 import { drawConfirmBox, loadMenuAssets, MenuBox } from './menu/menu-box.js'
 import { drawRewardGainLine } from './menu/reward-gain.js'
+import { handleRewardGainInput, RewardGainQueue } from './menu/reward-gain-queue.js'
 import { drawSaveBrowser } from './menu/save-browser-box.js'
 import { drawShop, openShopUi, type ShopUiState, shopInput } from './menu/shop-box.js'
 import { drawSystemMenu } from './menu/system-box.js'
@@ -202,13 +203,13 @@ import {
   type SceneSwitchDependencies,
 } from './scene-switch-transaction.js'
 import { resolveSceneSpawn } from './scene-transition.js'
+import { runWithPresentationFinalizer, ScreenHoldTransaction } from './screen-hold-transaction.js'
 import { advanceWave, WorldWaveRenderer } from './screen-wave.js'
 import type { RuntimeLeafCommandV5 } from './script-compiler-v5.js'
 import { ScriptConfirmModalQueue } from './script-confirm-modal.js'
 import { executeLegacyScriptHostEffectV5 } from './script-host-adapter-v5.js'
 import { ScriptProjectRuntimeV5 } from './script-project-v5.js'
 import { type ScriptHost, ScriptRunner } from './script-runner.js'
-import { withWorldPreset } from './dev-preset.js'
 import {
   actualFrameIndex,
   animFrameIndex,
@@ -240,6 +241,15 @@ import {
   useMoveCursor,
 } from './use-menu-state.js'
 import { playVideo as playVideoOverlay } from './video-player.js'
+
+type ScriptBattleOptions = NonNullable<Parameters<ScriptHost['startBattle']>[1]>
+type DebugBattleOptions = ScriptBattleOptions & {
+  enemyOverride?: string[]
+  partyPreset?: {
+    party: CharacterInstance[]
+    inventory?: { itemId: string; count: number }[]
+  }
+}
 
 // 切片 1 · 第一步：把真实 map 56（黑水镇民居）整张渲染出来，看清里头几间民居、挑一间。
 // 下一步：定裁剪矩形（只取一间）+ 放李逍遥/鬼 + 走路/对话。
@@ -1215,7 +1225,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     abort: () => void
   }[] = []
   const canActivateScriptConfirm = (): boolean =>
-    !shop && !menu.active && !rewardGain && !activeBattle
+    !shop && !menu.active && !rewardGainQueue.active && !activeBattle
   const activateScriptConfirm = (): void => {
     scriptConfirmModal.activateIfPossible(canActivateScriptConfirm(), () =>
       ctx.getImageData(0, 0, canvas.width, canvas.height),
@@ -1410,12 +1420,12 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
   }
 
   /**
-   * D13-1:战斗主体拆出 startBattleBody,供 startBattle 的 partyPreset 快照回滚包裹(K2)。
+   * 战斗主体共享同一 intent / frame-step 守卫；DEV preset 只由私有 gateway 包裹。
    * 引用 host.wait/host.report 等闭包,调用时已初始化。
    */
   const startBattleBody = async (
     team: number,
-    battleOpts: Parameters<ScriptHost['startBattle']>[1],
+    battleOpts: DebugBattleOptions | undefined,
     runnerSignal: AbortSignal | undefined,
   ): Promise<'win' | 'lose' | 'flee'> => {
     assertRunnerActive(runnerSignal, `team-${team} 战斗所属 runner 已取消`)
@@ -1423,473 +1433,461 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     frameStepState.active = false
     frameStepState.stepRequested = false
     const launchToken = battleLaunchIntent.begin()
-      const scriptMutationToken = scriptMutationIntent.capture()
-      const launchWorld = world
-      // 敌对实体/dev 直开没有 runner；给它们独立的永不取消 signal，绝不借用主脚本 signal。
-      const launchSignal = runnerSignal ?? new AbortController().signal
-      const assertLaunchCurrent = (): void => {
-        assertRunnerActive(launchSignal, `team-${team} 战斗所属 runner 已取消`)
-        battleLaunchIntent.assertCurrent(launchToken, `team-${team} 战斗启动意图已失效`)
-        scriptMutationIntent.assertCurrent(scriptMutationToken, `team-${team} 战斗启动脚本已失效`)
-        if (world !== launchWorld)
-          throw asyncIntentAbortError(`team-${team} 战斗启动所属世界已失效`)
-      }
-      // D13-1 dev-only enemyOverride:忽略 teamDef.members,按给定敌人定义 id 组敌队。
-      const enemyDefs = battleOpts?.enemyOverride
-        ? battleOpts.enemyOverride
-            .map((id) => project.enemiesById[id])
-            .filter((e): e is NonNullable<typeof e> => !!e)
-        : (project.enemyTeamsById[`team-${team}`]?.members ?? [])
-            .map((id) => project.enemiesById[id])
-            .filter((e): e is NonNullable<typeof e> => !!e)
-      if (enemyDefs.length === 0) {
-        showToast(`遇敌 #${team} —— 敌队缺数据,桩胜(M4c)`)
-        await host.wait(400, launchSignal)
-        assertLaunchCurrent()
-        return 'win'
-      }
-      const encounterChoreo =
-        battleOpts?.choreography ?? enemyDefs.flatMap((enemy) => enemy.choreography ?? [])
-      const encounterPortraits = new Set(
-        collectCommandAssetReferences(encounterChoreo, 'battle.choreography')
-          .filter((reference) => reference.expectedKind === 'portrait')
-          .map((reference) => reference.asset),
-      )
-      await Promise.all(
-        [...encounterPortraits].map(async (asset) => {
-          if (!portraits.has(asset))
-            portraits.set(asset, await project.imageCache.load(asset, 'portrait'))
-        }),
-      )
+    const scriptMutationToken = scriptMutationIntent.capture()
+    const launchWorld = world
+    // 敌对实体/dev 直开没有 runner；给它们独立的永不取消 signal，绝不借用主脚本 signal。
+    const launchSignal = runnerSignal ?? new AbortController().signal
+    const assertLaunchCurrent = (): void => {
+      assertRunnerActive(launchSignal, `team-${team} 战斗所属 runner 已取消`)
+      battleLaunchIntent.assertCurrent(launchToken, `team-${team} 战斗启动意图已失效`)
+      scriptMutationIntent.assertCurrent(scriptMutationToken, `team-${team} 战斗启动脚本已失效`)
+      if (world !== launchWorld) throw asyncIntentAbortError(`team-${team} 战斗启动所属世界已失效`)
+    }
+    // D13-1 dev-only enemyOverride:忽略 teamDef.members,按给定敌人定义 id 组敌队。
+    const enemyDefs = battleOpts?.enemyOverride
+      ? battleOpts.enemyOverride
+          .map((id) => project.enemiesById[id])
+          .filter((e): e is NonNullable<typeof e> => !!e)
+      : (project.enemyTeamsById[`team-${team}`]?.members ?? [])
+          .map((id) => project.enemiesById[id])
+          .filter((e): e is NonNullable<typeof e> => !!e)
+    if (enemyDefs.length === 0) {
+      showToast(`遇敌 #${team} —— 敌队缺数据,桩胜(M4c)`)
+      await host.wait(400, launchSignal)
       assertLaunchCurrent()
-      // 战斗配置解析(无任何持久态):显式参数→场景默认→项目具名角色。
-      // 原版 0x4A/0x45 持久全局已退役:特殊战场/曲一次性绑 startBattle,打完自然回落场景默认,
-      // 不再有「剧情点覆写 + 随存档」这一档(那全是老全局年代手动清临时战场的产物)。
-      const battleTrack =
-        battleOpts?.music !== undefined
-          ? battleOpts.music
-          : scene.battleMusic !== undefined
-            ? scene.battleMusic
-            : project.assetResolver.assetForRole('audio.defaultBattleMusic')
-      let playedVictory = false
-      const restoreSceneMusic = (): void => {
-        if (battleTrack === undefined && !playedVictory) return
-        const persistent = world.audio?.currentMusic
-        // D12-1:战斗出/胜利后回场景曲走过渡,消硬切爆音。
-        if (persistent === null) bgm.stop(BATTLE_MUSIC_TRANSITION_MS)
-        else if (persistent) bgm.play(persistent, true, BATTLE_MUSIC_TRANSITION_MS)
-      }
-      // 队员战斗态:CharacterInstance + 装备加成(effectiveStat)
-      const itemsById = project.items
-      // dev:?dualattack / ?attackall 给队长强制连击/全体(验演出;无对应装备的默认档用)
-      const devParams = new URLSearchParams(location.search)
-      const devDualLeader = devParams.get('dualattack') !== null ? world.party[0]?.id : null
-      const devAllLeader = devParams.get('attackall') !== null ? world.party[0]?.id : null
-      const players = world.party.map((c) => {
-        const res = effectiveResistances(c, itemsById) // 五灵/毒抗 live 派生(红线:建态时算)
-        const regen = effectiveRegen(c, itemsById)
-        const granted = effectiveGrantedStatuses(c, itemsById)
-        return {
-          roleId: c.id,
-          actorTemplateId: c.template,
-          hp: c.hp,
-          maxHp: c.maxHP,
-          mp: c.mp,
-          maxMp: c.maxMP,
-          attackStrength: effectiveStat(c, 'attack', itemsById),
-          defense: effectiveStat(c, 'defense', itemsById),
-          magicStrength: effectiveStat(c, 'magicAttack', itemsById),
-          baseDexterity: effectiveStat(c, 'speed', itemsById),
-          // 仙术指令 = 已学 ∪ 装备授予(grantSkill 土灵珠/圣灵珠;红线 live 派生不烙)
-          skills: effectiveSkills(world.learnedSkills[c.id] ?? [], c, itemsById),
-          // 合体技(角色专属;发起合击用。取自 actor 模板 battler)
-          ...(project.actorsById[c.template]?.battler?.cooperativeMagicSkillId
-            ? {
-                cooperativeMagicSkillId: expectDefined(
-                  expectDefined(project.actorsById[c.template]).battler,
-                ).cooperativeMagicSkillId,
-              }
-            : {}),
-          // 守护关系(rgwCoveredBy 具名化):模板 → 在场队友实例 id;守护者不在队 = 无人护
-          ...(() => {
-            const gt = project.actorsById[c.template]?.battler?.coveredBy
-            const g = gt ? world.party.find((x) => x.template === gt) : undefined
-            return g ? { coveredBy: g.id } : {}
-          })(),
-          fleeRate: effectiveStat(c, 'luck', itemsById), // 逃跑判定 str
-          elemRes: res.elemRes,
-          // 毒抗 = 装备 live 派生 + 大世界大蒜临时 Extra(缩敌附毒门;战后三件套清 extraPoisonRes)
-          poisonRes: res.poisonRes + (c.extraPoisonRes ?? 0),
-          ...(c.extraPoisonRes ? { itemPoisonResBonus: c.extraPoisonRes } : {}),
-          // 大世界带入的毒(自毒食/装备咒;战斗内副本,战后三件套清)
-          ...(c.poisons?.length ? { poisons: c.poisons.map((x) => ({ ...x })) } : {}),
-          // 大世界护体符/金刚符定时状态(护体等;建态注入 status,战后三件套 ClearAllStatus 清)
-          ...(c.extraStatuses?.length
-            ? { carriedStatuses: c.extraStatuses.map((x) => ({ ...x })) }
-            : {}),
-          // 攻击全体(长鞭 attackAll;红线 live 派生;dev 参数强制)
-          attackAll: equipGrantsAttackAll(c, itemsById) || devAllLeader === c.id,
-          // 每回合回血/回蓝(寿葫芦等 regen 词条;红线 live 派生)
-          regenHp: regen.hp,
-          regenMp: regen.mp,
-          // 装备授予常驻状态(连击 dualAttack 仙女剑;红线 live 派生,建态置入不烙持久)
-          grantedStatuses:
-            devDualLeader === c.id && !granted.includes('dualAttack')
-              ? [...granted, 'dualAttack' as const]
-              : granted,
-          persistentProgress: {
-            level: c.level,
-            exp: c.exp,
-            maxHP: c.maxHP,
-            maxMP: c.maxMP,
-            attack: c.attack,
-            magicAttack: c.magicAttack,
-            defense: c.defense,
-            speed: c.speed,
-            luck: c.luck,
-          },
-        }
-      })
-      const playerSounds = world.party.map(
-        (character) => project.actorsById[character.template]?.battler?.sounds,
-      )
-      const cooperativeSkillIds = world.party.flatMap((character) => {
-        const skillId = project.actorsById[character.template]?.battler?.cooperativeMagicSkillId
-        return skillId ? [skillId] : []
-      })
-      const battleBaseSounds = await collectBattleBaseSounds({
-        playerSounds,
-        cooperativeSkillIds,
-        enemyDefs,
-        enemiesById: project.enemiesById,
-        skills: project.skills,
-        itemsById: project.items,
-        activePlayerPoisons: players.flatMap((player) => player.poisons ?? []),
-        activeEnemyPoisons: [],
-        poisonDefs: project.poisonsById,
-        roles: project.manifest.assets.roles,
-        encounterChoreography: encounterChoreo,
-        ...(project.scriptStore ? { resolver: project.scriptStore } : {}),
-        signal: launchSignal,
-      }).catch((error: unknown) => {
-        if (isAbortError(error)) throw error
-        throw new SfxReadinessCollectionError(`team-${team} battleBase 音效闭包收集失败`, {
-          cause: error,
-        })
-      })
-      assertLaunchCurrent()
-      await sfx.prepare(battleBaseSounds).catch((error: unknown) => {
-        if (!(error instanceof SfxReadinessResourceError)) throw error
-        reportBattleReadiness(team, 'battleBase', error, false)
-      })
-      assertLaunchCurrent()
-      // 视觉第一屏障：基础/装备/持久形象、effective skills、合击及敌 transform/summon BFS
-      // 全部在 session 提交前解析。动作期不得迟到写入或再发战斗精灵 IO。
-      const battleSpriteReadiness = await prepareBattleSpriteReadiness({
-        cache: project.battleSpriteCache,
-        reader: project.assetResolver,
-        definitionsById: project.battleSpritesById,
-        party: world.party,
-        actorsById: project.actorsById,
-        itemsById: project.items,
-        playerSkillIds: players.map((player) => player.skills),
-        cooperativeSkillIds,
-        skillsById: project.skills,
-        enemyDefs,
-        enemiesById: project.enemiesById,
-      })
-      assertLaunchCurrent()
-      const fieldId = battleOpts?.fieldId ?? scene.battleFieldId ?? 24
-      // 战场常驻波(battle.c:1559 进战斗设 field.screenWave;#18/22/32/35/50 水下/幻境)
-      // + 五灵加成(lprgBattleField.rgsMagicEffect,fight.c:244 双向乘入法术伤害)。
-      // 数据源:工程 content 战场表(D24 一等域,编辑器管) > assetBase 遗留回退(未收编工程)。
-      battleFieldsPromise ??= project.battleFields.length
-        ? Promise.resolve(
-            new Map(
-              project.battleFields.map((f) => [
-                Number(f.id),
-                {
-                  screenWave: f.screenWave ?? 0,
-                  ...(f.magicEffect ? { magicEffect: f.magicEffect } : {}),
-                  ...(f.background ? { background: f.background } : {}),
-                },
-              ]),
-            ),
-          )
-        : loadBattleFields(project.assetBase).catch(() => new Map<number, BattleFieldEntry>())
-      const fields = await battleFieldsPromise
-      assertLaunchCurrent()
-      const fieldDef = fields.get(Number(fieldId))
-      const fieldWave = fieldDef?.screenWave ?? 0
-      const [bgFull, faceList, effectSprite] = await Promise.all([
-        fieldDef?.background
-          ? loadBattleBgFull(project.assetBase, fieldDef.background, palette)
-          : Promise.resolve(undefined),
-        Promise.resolve(
-          world.party.map((character) => {
-            const asset = project.actorsById[character.template]?.face
-            return asset ? faceImages.get(asset) : undefined
-          }),
-        ),
-        loadEffectOnce(),
-      ])
-      assertLaunchCurrent()
-      // 本场可能施放的法术 → 预载 fire 特效精灵(玩家已学 + 敌 AI cast 规则;M4d-2b)
-      const fireChunks = new Set<number>()
-      for (const [index, c] of world.party.entries()) {
-        for (const sid of players[index]?.skills ?? []) {
-          const sp = project.skills[sid]?.animation.effectSprite
-          if (sp !== undefined && sp >= 0) fireChunks.add(sp)
-        }
-        // 合体技 fire 特效:coop 走 cooperativeMagicSkillId(不在 learnedSkills),漏载 → 合击无技能动画
-        const coopId = project.actorsById[c.template]?.battler?.cooperativeMagicSkillId
-        const coopSp = coopId ? project.skills[coopId]?.animation.effectSprite : undefined
-        if (coopSp !== undefined && coopSp >= 0) fireChunks.add(coopSp)
-      }
-      for (const e of battleSpriteReadiness.reachableEnemyDefs) {
-        for (const r of e.ai.rules ?? []) {
-          if (r.do.kind === 'cast') {
-            const sp = project.skills[r.do.skillId]?.animation.effectSprite
-            if (sp !== undefined && sp >= 0) fireChunks.add(sp)
-          }
-        }
-        // 偷到的物品可在后续回合投掷；与 SFX readiness 的 steal 闭包保持同一可达边界。
-        const stolenItem = e.steal ? project.items[e.steal.itemId] : undefined
-        const stolenFire =
-          stolenItem?.throw?.presentation?.kind === 'magic'
-            ? stolenItem.throw.presentation.animation.effectSprite
-            : undefined
-        if (stolenFire !== undefined && stolenFire >= 0) fireChunks.add(stolenFire)
-      }
-      // 战斗开始时实际背包中可投掷物品的 FIRE 演出；不扫描全项目，维持工作集边界。
-      for (const entry of world.inventory) {
-        if (entry.count <= 0) continue
-        const item = project.items[entry.itemId]
-        const sp =
-          item?.throw?.presentation?.kind === 'magic'
-            ? item.throw.presentation.animation.effectSprite
-            : undefined
-        if (sp !== undefined && sp >= 0) fireChunks.add(sp)
-      }
-      const fireSprites: Record<number, import('./assets.js').LoadedSprite> = {}
-      await Promise.all(
-        [...fireChunks].map((ch) =>
-          loadFireSprite(project.assetBase, ch)
-            .then((sp) => {
-              fireSprites[ch] = sp
-            })
-            .catch(() => undefined),
-        ),
-      )
-      assertLaunchCurrent()
-      const faces: Record<string, ImageBitmap | undefined> = {}
-      world.party.forEach((c, i) => {
-        faces[c.id] = faceList[i]
-      })
-      // 战斗曲与 active session 同一原子提交拍；启动已失效时不得在新场景迟到播放旧曲。
-      // D12-1:战斗进出场走过渡(场景曲 fade-out → 战斗曲 fade-in)。
-      if (battleTrack === null) bgm.stop(BATTLE_MUSIC_TRANSITION_MS)
-      else bgm.play(battleTrack, true, BATTLE_MUSIC_TRANSITION_MS)
-      const session = new BattleSession(
-        players,
-        enemyDefs,
-        {
-          bg: bgFull?.canvas,
-          // 召唤背景染色的索引源(调色板级 nibble 重烤,battle.c:62-80)
-          bgIndexed: bgFull ? { indices: bgFull.indices, w: bgFull.w, h: bgFull.h } : undefined,
-          palette,
-          glyphs,
-          battleSprites: battleSpriteReadiness.byDefinitionId,
-          playerBaseDefinitionIds: battleSpriteReadiness.playerBaseDefinitionIds,
-          ui: menuAssets,
-          faces,
-          battleIcons: menuAssets.battleIcons,
-          sfx,
-          effectSprite,
-          fireSprites,
-          dialogBox, // 战斗内对话 = 大世界同款对话框叠战斗上(一阶段真值)
-        },
-        (roleId) => {
-          const c = world.party.find((x) => x.id === roleId)
-          return c ? lookupText(`name.${c.template}`, project.locale) : roleId
-        },
-        Math.random,
-        // M4c:技能/敌人表 + 演出文本;难度预设(难度分级立项前恒 normal)
-        {
-          skills: project.skills,
-          enemiesById: project.enemiesById,
-          items: project.items,
-          inventory: world.inventory.map((x) => ({ ...x })), // 副本:战斗内扣,战后写回
-          difficulty: 'normal',
-          auto: battleOpts?.auto,
-          boss: battleOpts?.boss,
-          locale: project.locale,
-          fieldWave,
-          fieldEffect: fieldDef?.magicEffect,
-          poisonDefs: project.poisonsById,
-          money: world.money, // 乾坤一掷/铜钱镖消耗基数(战内 delta 战后统一入账)
-          actorsById: project.actorsById, // B11-1 伤亡脚本(actorTemplateId → battler.casualty)
-          skillUseCounts: world.skillUseCounts, // 一生限用计数(酒神 9 次;战后经 mutation 回写)
-          // 战斗演出来源(二阶段 clean):遭遇专属(startBattle.choreography,boss 战剧情台词)优先;
-          // 缺省回落敌种 def.choreography(随机遇敌固有台词 —— 无 scene 遭遇挂点的敌种)。
-          // boss/杂兵混的敌种(胖苗)对话迁到 boss startBattle 且从 def 删,故杂兵场回落为空 = 不串戏。
-          encounterChoreo,
-          // 战斗音效七件套(BattlerSpec.sounds;出招/挥击/吟唱已接,其余随对应演出落地)
-          playerSounds,
-          soundRoles: project.manifest.assets.roles,
-          prepareTurnSounds: async (snapshot) => {
-            let turnSounds: ReturnType<typeof collectTurnActionSounds>
-            try {
-              turnSounds = collectTurnActionSounds({
-                pendingActions: snapshot.actions.values(),
-                activePlayerPoisons: snapshot.activePlayerPoisons,
-                activeEnemyPoisons: snapshot.activeEnemyPoisons,
-                skills: project.skills,
-                itemsById: project.items,
-                poisonDefs: project.poisonsById,
-              })
-            } catch (error) {
-              throw new SfxReadinessCollectionError(
-                `team-${team} turn-${snapshot.turn} 音效闭包收集失败`,
-                { cause: error },
-              )
+      return 'win'
+    }
+    const encounterChoreo =
+      battleOpts?.choreography ?? enemyDefs.flatMap((enemy) => enemy.choreography ?? [])
+    const encounterPortraits = new Set(
+      collectCommandAssetReferences(encounterChoreo, 'battle.choreography')
+        .filter((reference) => reference.expectedKind === 'portrait')
+        .map((reference) => reference.asset),
+    )
+    await Promise.all(
+      [...encounterPortraits].map(async (asset) => {
+        if (!portraits.has(asset))
+          portraits.set(asset, await project.imageCache.load(asset, 'portrait'))
+      }),
+    )
+    assertLaunchCurrent()
+    // 战斗配置解析(无任何持久态):显式参数→场景默认→项目具名角色。
+    // 原版 0x4A/0x45 持久全局已退役:特殊战场/曲一次性绑 startBattle,打完自然回落场景默认,
+    // 不再有「剧情点覆写 + 随存档」这一档(那全是老全局年代手动清临时战场的产物)。
+    const battleTrack =
+      battleOpts?.music !== undefined
+        ? battleOpts.music
+        : scene.battleMusic !== undefined
+          ? scene.battleMusic
+          : project.assetResolver.assetForRole('audio.defaultBattleMusic')
+    let playedVictory = false
+    const restoreSceneMusic = (): void => {
+      if (battleTrack === undefined && !playedVictory) return
+      const persistent = world.audio?.currentMusic
+      // D12-1:战斗出/胜利后回场景曲走过渡,消硬切爆音。
+      if (persistent === null) bgm.stop(BATTLE_MUSIC_TRANSITION_MS)
+      else if (persistent) bgm.play(persistent, true, BATTLE_MUSIC_TRANSITION_MS)
+    }
+    // 队员战斗态:CharacterInstance + 装备加成(effectiveStat)
+    const itemsById = project.items
+    // dev:?dualattack / ?attackall 给队长强制连击/全体(验演出;无对应装备的默认档用)
+    const devParams = new URLSearchParams(location.search)
+    const devDualLeader = devParams.get('dualattack') !== null ? world.party[0]?.id : null
+    const devAllLeader = devParams.get('attackall') !== null ? world.party[0]?.id : null
+    const players = world.party.map((c) => {
+      const res = effectiveResistances(c, itemsById) // 五灵/毒抗 live 派生(红线:建态时算)
+      const regen = effectiveRegen(c, itemsById)
+      const granted = effectiveGrantedStatuses(c, itemsById)
+      return {
+        roleId: c.id,
+        actorTemplateId: c.template,
+        hp: c.hp,
+        maxHp: c.maxHP,
+        mp: c.mp,
+        maxMp: c.maxMP,
+        attackStrength: effectiveStat(c, 'attack', itemsById),
+        defense: effectiveStat(c, 'defense', itemsById),
+        magicStrength: effectiveStat(c, 'magicAttack', itemsById),
+        baseDexterity: effectiveStat(c, 'speed', itemsById),
+        // 仙术指令 = 已学 ∪ 装备授予(grantSkill 土灵珠/圣灵珠;红线 live 派生不烙)
+        skills: effectiveSkills(world.learnedSkills[c.id] ?? [], c, itemsById),
+        // 合体技(角色专属;发起合击用。取自 actor 模板 battler)
+        ...(project.actorsById[c.template]?.battler?.cooperativeMagicSkillId
+          ? {
+              cooperativeMagicSkillId: expectDefined(
+                expectDefined(project.actorsById[c.template]).battler,
+              ).cooperativeMagicSkillId,
             }
-            // 每轮重触整个 union，保证 LRU 中 battleBase 仍全部驻留，不能只准备增量。
-            await sfx.prepare(new Set([...battleBaseSounds, ...turnSounds]))
-          },
-          reportReadinessError: (error, context) =>
-            reportBattleReadiness(team, `turn-${context.turn}`, error, context.fatal),
-          playMusic: (asset) => bgm.play(asset),
-          stopMusic: () => bgm.stop(),
-          worldPartyIdentities: world.party.map(({ id, template }) => ({
-            id,
-            template,
-          })),
-          // B7b/B7c 胜利结算(会话 over 阶段调一次):HP 写回 + 入账 + 升级 + 隐藏经验 =
-          //   单次授予点,返回结算屏序列(经验金钱→升级→隐藏提升→练成)。原版 Phase A/B/E/D/F。
-          buildSettlement: () => {
-            assertLaunchCurrent()
-            sessionRef.writeBackPersistentEffects(world)
-            sessionRef.writeBackHp(world.party) // 先写回战斗末 HP(原版 exp 前)
-            const r = sessionRef.rewards()
-            if (r.exp > 0) {
-              // SDL PAL_BattleWon 在升级计算前按不可逃战标志选择胜利结算曲 002/003；
-              // 升级屏没有独立的 AUDIO_PlayMusic 调用，manifest role 保持兼容。
-              const victoryRole = battleOpts?.boss
-                ? 'audio.bossVictoryMusic'
-                : 'audio.normalVictoryMusic'
-              // G1/Kimi 裁定:战斗曲→胜利曲接同常量过渡(全链最刺耳一环)。
-              bgm.play(
-                project.assetResolver.assetForRole(victoryRole),
-                false,
-                BATTLE_MUSIC_TRANSITION_MS,
-              )
-              playedVictory = true
-            }
-            world.money += r.cash
-            const rep = grantBattleRewards(
-              world.party,
-              world.learnedSkills,
-              project.actorsById,
-              project.levelUp,
-              { ...r, hiddenCounts: sessionRef.hiddenCounts() },
-              Math.random,
-            )
-            return buildSettlementScreens(
-              rep.exp,
-              rep.cash,
-              rep.levelUps,
-              rep.hiddenUps,
-              (cid) => {
-                const tpl = world.party.find((c) => c.id === cid)?.template ?? ''
-                return lookupText(`name.${tpl}`, project.locale)
+          : {}),
+        // 守护关系(rgwCoveredBy 具名化):模板 → 在场队友实例 id;守护者不在队 = 无人护
+        ...(() => {
+          const gt = project.actorsById[c.template]?.battler?.coveredBy
+          const g = gt ? world.party.find((x) => x.template === gt) : undefined
+          return g ? { coveredBy: g.id } : {}
+        })(),
+        fleeRate: effectiveStat(c, 'luck', itemsById), // 逃跑判定 str
+        elemRes: res.elemRes,
+        // 毒抗 = 装备 live 派生 + 大世界大蒜临时 Extra(缩敌附毒门;战后三件套清 extraPoisonRes)
+        poisonRes: res.poisonRes + (c.extraPoisonRes ?? 0),
+        ...(c.extraPoisonRes ? { itemPoisonResBonus: c.extraPoisonRes } : {}),
+        // 大世界带入的毒(自毒食/装备咒;战斗内副本,战后三件套清)
+        ...(c.poisons?.length ? { poisons: c.poisons.map((x) => ({ ...x })) } : {}),
+        // 大世界护体符/金刚符定时状态(护体等;建态注入 status,战后三件套 ClearAllStatus 清)
+        ...(c.extraStatuses?.length
+          ? { carriedStatuses: c.extraStatuses.map((x) => ({ ...x })) }
+          : {}),
+        // 攻击全体(长鞭 attackAll;红线 live 派生;dev 参数强制)
+        attackAll: equipGrantsAttackAll(c, itemsById) || devAllLeader === c.id,
+        // 每回合回血/回蓝(寿葫芦等 regen 词条;红线 live 派生)
+        regenHp: regen.hp,
+        regenMp: regen.mp,
+        // 装备授予常驻状态(连击 dualAttack 仙女剑;红线 live 派生,建态置入不烙持久)
+        grantedStatuses:
+          devDualLeader === c.id && !granted.includes('dualAttack')
+            ? [...granted, 'dualAttack' as const]
+            : granted,
+        persistentProgress: {
+          level: c.level,
+          exp: c.exp,
+          maxHP: c.maxHP,
+          maxMP: c.maxMP,
+          attack: c.attack,
+          magicAttack: c.magicAttack,
+          defense: c.defense,
+          speed: c.speed,
+          luck: c.luck,
+        },
+      }
+    })
+    const playerSounds = world.party.map(
+      (character) => project.actorsById[character.template]?.battler?.sounds,
+    )
+    const cooperativeSkillIds = world.party.flatMap((character) => {
+      const skillId = project.actorsById[character.template]?.battler?.cooperativeMagicSkillId
+      return skillId ? [skillId] : []
+    })
+    const battleBaseSounds = await collectBattleBaseSounds({
+      playerSounds,
+      cooperativeSkillIds,
+      enemyDefs,
+      enemiesById: project.enemiesById,
+      skills: project.skills,
+      itemsById: project.items,
+      activePlayerPoisons: players.flatMap((player) => player.poisons ?? []),
+      activeEnemyPoisons: [],
+      poisonDefs: project.poisonsById,
+      roles: project.manifest.assets.roles,
+      encounterChoreography: encounterChoreo,
+      ...(project.scriptStore ? { resolver: project.scriptStore } : {}),
+      signal: launchSignal,
+    }).catch((error: unknown) => {
+      if (isAbortError(error)) throw error
+      throw new SfxReadinessCollectionError(`team-${team} battleBase 音效闭包收集失败`, {
+        cause: error,
+      })
+    })
+    assertLaunchCurrent()
+    await sfx.prepare(battleBaseSounds).catch((error: unknown) => {
+      if (!(error instanceof SfxReadinessResourceError)) throw error
+      reportBattleReadiness(team, 'battleBase', error, false)
+    })
+    assertLaunchCurrent()
+    // 视觉第一屏障：基础/装备/持久形象、effective skills、合击及敌 transform/summon BFS
+    // 全部在 session 提交前解析。动作期不得迟到写入或再发战斗精灵 IO。
+    const battleSpriteReadiness = await prepareBattleSpriteReadiness({
+      cache: project.battleSpriteCache,
+      reader: project.assetResolver,
+      definitionsById: project.battleSpritesById,
+      party: world.party,
+      actorsById: project.actorsById,
+      itemsById: project.items,
+      playerSkillIds: players.map((player) => player.skills),
+      cooperativeSkillIds,
+      skillsById: project.skills,
+      enemyDefs,
+      enemiesById: project.enemiesById,
+    })
+    assertLaunchCurrent()
+    const fieldId = battleOpts?.fieldId ?? scene.battleFieldId ?? 24
+    // 战场常驻波(battle.c:1559 进战斗设 field.screenWave;#18/22/32/35/50 水下/幻境)
+    // + 五灵加成(lprgBattleField.rgsMagicEffect,fight.c:244 双向乘入法术伤害)。
+    // 数据源:工程 content 战场表(D24 一等域,编辑器管) > assetBase 遗留回退(未收编工程)。
+    battleFieldsPromise ??= project.battleFields.length
+      ? Promise.resolve(
+          new Map(
+            project.battleFields.map((f) => [
+              Number(f.id),
+              {
+                screenWave: f.screenWave ?? 0,
+                ...(f.magicEffect ? { magicEffect: f.magicEffect } : {}),
+                ...(f.background ? { background: f.background } : {}),
               },
-              (sid) => project.skills[sid]?.name ?? sid,
+            ]),
+          ),
+        )
+      : loadBattleFields(project.assetBase).catch(() => new Map<number, BattleFieldEntry>())
+    const fields = await battleFieldsPromise
+    assertLaunchCurrent()
+    const fieldDef = fields.get(Number(fieldId))
+    const fieldWave = fieldDef?.screenWave ?? 0
+    const [bgFull, faceList, effectSprite] = await Promise.all([
+      fieldDef?.background
+        ? loadBattleBgFull(project.assetBase, fieldDef.background, palette)
+        : Promise.resolve(undefined),
+      Promise.resolve(
+        world.party.map((character) => {
+          const asset = project.actorsById[character.template]?.face
+          return asset ? faceImages.get(asset) : undefined
+        }),
+      ),
+      loadEffectOnce(),
+    ])
+    assertLaunchCurrent()
+    // 本场可能施放的法术 → 预载 fire 特效精灵(玩家已学 + 敌 AI cast 规则;M4d-2b)
+    const fireChunks = collectBattleSkillFireChunks({
+      playerSkillIds: players.map((player) => player.skills),
+      cooperativeSkillIds,
+      reachableEnemySkillIds: battleSpriteReadiness.reachableEnemySkillIds,
+      skillsById: project.skills,
+    })
+    for (const e of battleSpriteReadiness.reachableEnemyDefs) {
+      // 偷到的物品可在后续回合投掷；与 SFX readiness 的 steal 闭包保持同一可达边界。
+      const stolenItem = e.steal ? project.items[e.steal.itemId] : undefined
+      const stolenFire =
+        stolenItem?.throw?.presentation?.kind === 'magic'
+          ? stolenItem.throw.presentation.animation.effectSprite
+          : undefined
+      if (stolenFire !== undefined && stolenFire >= 0) fireChunks.add(stolenFire)
+    }
+    // 战斗开始时实际背包中可投掷物品的 FIRE 演出；不扫描全项目，维持工作集边界。
+    for (const entry of world.inventory) {
+      if (entry.count <= 0) continue
+      const item = project.items[entry.itemId]
+      const sp =
+        item?.throw?.presentation?.kind === 'magic'
+          ? item.throw.presentation.animation.effectSprite
+          : undefined
+      if (sp !== undefined && sp >= 0) fireChunks.add(sp)
+    }
+    const fireSprites: Record<number, import('./assets.js').LoadedSprite> = {}
+    await Promise.all(
+      [...fireChunks].map((ch) =>
+        loadFireSprite(project.assetBase, ch)
+          .then((sp) => {
+            fireSprites[ch] = sp
+          })
+          .catch(() => undefined),
+      ),
+    )
+    assertLaunchCurrent()
+    const faces: Record<string, ImageBitmap | undefined> = {}
+    world.party.forEach((c, i) => {
+      faces[c.id] = faceList[i]
+    })
+    // 战斗曲与 active session 同一原子提交拍；启动已失效时不得在新场景迟到播放旧曲。
+    // D12-1:战斗进出场走过渡(场景曲 fade-out → 战斗曲 fade-in)。
+    if (battleTrack === null) bgm.stop(BATTLE_MUSIC_TRANSITION_MS)
+    else bgm.play(battleTrack, true, BATTLE_MUSIC_TRANSITION_MS)
+    const session = new BattleSession(
+      players,
+      enemyDefs,
+      {
+        bg: bgFull?.canvas,
+        // 召唤背景染色的索引源(调色板级 nibble 重烤,battle.c:62-80)
+        bgIndexed: bgFull ? { indices: bgFull.indices, w: bgFull.w, h: bgFull.h } : undefined,
+        palette,
+        glyphs,
+        battleSprites: battleSpriteReadiness.byDefinitionId,
+        playerBaseDefinitionIds: battleSpriteReadiness.playerBaseDefinitionIds,
+        ui: menuAssets,
+        faces,
+        battleIcons: menuAssets.battleIcons,
+        sfx,
+        effectSprite,
+        fireSprites,
+        dialogBox, // 战斗内对话 = 大世界同款对话框叠战斗上(一阶段真值)
+      },
+      (roleId) => {
+        const c = world.party.find((x) => x.id === roleId)
+        return c ? lookupText(`name.${c.template}`, project.locale) : roleId
+      },
+      Math.random,
+      // M4c:技能/敌人表 + 演出文本;难度预设(难度分级立项前恒 normal)
+      {
+        skills: project.skills,
+        enemiesById: project.enemiesById,
+        items: project.items,
+        inventory: world.inventory.map((x) => ({ ...x })), // 副本:战斗内扣,战后写回
+        difficulty: 'normal',
+        auto: battleOpts?.auto,
+        boss: battleOpts?.boss,
+        locale: project.locale,
+        fieldWave,
+        fieldEffect: fieldDef?.magicEffect,
+        poisonDefs: project.poisonsById,
+        money: world.money, // 乾坤一掷/铜钱镖消耗基数(战内 delta 战后统一入账)
+        actorsById: project.actorsById, // B11-1 伤亡脚本(actorTemplateId → battler.casualty)
+        skillUseCounts: world.skillUseCounts, // 一生限用计数(酒神 9 次;战后经 mutation 回写)
+        // 战斗演出来源(二阶段 clean):遭遇专属(startBattle.choreography,boss 战剧情台词)优先;
+        // 缺省回落敌种 def.choreography(随机遇敌固有台词 —— 无 scene 遭遇挂点的敌种)。
+        // boss/杂兵混的敌种(胖苗)对话迁到 boss startBattle 且从 def 删,故杂兵场回落为空 = 不串戏。
+        encounterChoreo,
+        // 战斗音效七件套(BattlerSpec.sounds;出招/挥击/吟唱已接,其余随对应演出落地)
+        playerSounds,
+        soundRoles: project.manifest.assets.roles,
+        prepareTurnSounds: async (snapshot) => {
+          let turnSounds: ReturnType<typeof collectTurnActionSounds>
+          try {
+            turnSounds = collectTurnActionSounds({
+              pendingActions: snapshot.actions.values(),
+              activePlayerPoisons: snapshot.activePlayerPoisons,
+              activeEnemyPoisons: snapshot.activeEnemyPoisons,
+              skills: project.skills,
+              itemsById: project.items,
+              poisonDefs: project.poisonsById,
+            })
+          } catch (error) {
+            throw new SfxReadinessCollectionError(
+              `team-${team} turn-${snapshot.turn} 音效闭包收集失败`,
+              { cause: error },
             )
-          },
+          }
+          // 每轮重触整个 union，保证 LRU 中 battleBase 仍全部驻留，不能只准备增量。
+          await sfx.prepare(new Set([...battleBaseSounds, ...turnSounds]))
         },
-      )
-      const sessionRef = session
-      activeBattle = session
-      const abortBattle = (): void => {
-        if (activeBattle === session) session.cancel()
+        reportReadinessError: (error, context) =>
+          reportBattleReadiness(team, `turn-${context.turn}`, error, context.fatal),
+        playMusic: (asset) => bgm.play(asset),
+        stopMusic: () => bgm.stop(),
+        worldPartyIdentities: world.party.map(({ id, template }) => ({
+          id,
+          template,
+        })),
+        // B7b/B7c 胜利结算(会话 over 阶段调一次):HP 写回 + 入账 + 升级 + 隐藏经验 =
+        //   单次授予点,返回结算屏序列(经验金钱→升级→隐藏提升→练成)。原版 Phase A/B/E/D/F。
+        buildSettlement: () => {
+          assertLaunchCurrent()
+          sessionRef.writeBackPersistentEffects(world)
+          sessionRef.writeBackHp(world.party) // 先写回战斗末 HP(原版 exp 前)
+          const r = sessionRef.rewards()
+          if (r.exp > 0) {
+            // SDL PAL_BattleWon 在升级计算前按不可逃战标志选择胜利结算曲 002/003；
+            // 升级屏没有独立的 AUDIO_PlayMusic 调用，manifest role 保持兼容。
+            const victoryRole = battleOpts?.boss
+              ? 'audio.bossVictoryMusic'
+              : 'audio.normalVictoryMusic'
+            // G1/Kimi 裁定:战斗曲→胜利曲接同常量过渡(全链最刺耳一环)。
+            bgm.play(
+              project.assetResolver.assetForRole(victoryRole),
+              false,
+              BATTLE_MUSIC_TRANSITION_MS,
+            )
+            playedVictory = true
+          }
+          world.money += r.cash
+          const rep = grantBattleRewards(
+            world.party,
+            world.learnedSkills,
+            project.actorsById,
+            project.levelUp,
+            { ...r, hiddenCounts: sessionRef.hiddenCounts() },
+            Math.random,
+          )
+          return buildSettlementScreens(
+            rep.exp,
+            rep.cash,
+            rep.levelUps,
+            rep.hiddenUps,
+            (cid) => {
+              const tpl = world.party.find((c) => c.id === cid)?.template ?? ''
+              return lookupText(`name.${tpl}`, project.locale)
+            },
+            (sid) => project.skills[sid]?.name ?? sid,
+          )
+        },
+      },
+    )
+    const sessionRef = session
+    activeBattle = session
+    const abortBattle = (): void => {
+      if (activeBattle === session) session.cancel()
+    }
+    launchSignal.addEventListener('abort', abortBattle, { once: true })
+    if (launchSignal.aborted) abortBattle()
+    // DEV 调试口(一阶段 __tpgs 先例):验收/自动化直读战斗态(phase/ui/log)
+    if (import.meta.env.DEV) (window as { __rfBattle?: unknown }).__rfBattle = session
+    let result: 'win' | 'lose' | 'flee'
+    try {
+      result = await session.done
+    } catch (error) {
+      // readiness fatal 经可见错误态确认退出后，仍要归还场景工作集与曲目。
+      // AbortError 则由读档/切场景流程接管，避免与新场景准备互相覆盖。
+      if (!isAbortError(error)) {
+        await prepareSceneSounds(scene, world).catch((restoreError: unknown) => {
+          console.error('[sfx readiness] fatal 后恢复场景工作集失败', restoreError)
+        })
+        assertLaunchCurrent()
+        restoreSceneMusic()
       }
-      launchSignal.addEventListener('abort', abortBattle, { once: true })
-      if (launchSignal.aborted) abortBattle()
-      // DEV 调试口(一阶段 __tpgs 先例):验收/自动化直读战斗态(phase/ui/log)
-      if (import.meta.env.DEV) (window as { __rfBattle?: unknown }).__rfBattle = session
-      let result: 'win' | 'lose' | 'flee'
-      try {
-        result = await session.done
-      } catch (error) {
-        // readiness fatal 经可见错误态确认退出后，仍要归还场景工作集与曲目。
-        // AbortError 则由读档/切场景流程接管，避免与新场景准备互相覆盖。
-        if (!isAbortError(error)) {
-          await prepareSceneSounds(scene, world).catch((restoreError: unknown) => {
-            console.error('[sfx readiness] fatal 后恢复场景工作集失败', restoreError)
+      throw error
+    } finally {
+      launchSignal.removeEventListener('abort', abortBattle)
+      // 旧会话的异步收尾不得清掉后来启动的新会话。
+      if (activeBattle === session) {
+        if (import.meta.env.DEV) (window as { __rfBattle?: unknown }).__rfBattle = null
+        activeBattle = null
+      }
+    }
+    // done 与读档/切场景可落在相邻 microtask；任何战果写回前再次确认仍属于原世界。
+    assertLaunchCurrent()
+    session.writeBackPersistentEffects(world)
+    // 胜利结算路径已在 buildSettlement 里写回 HP + 入账;其余路径(败/逃/敌逃)此处写回 HP。
+    if (result !== 'win' || session.enemyFled()) session.writeBackHp(world.party)
+    session.writeBackInventory(world.inventory)
+    // 偷窃/金钱技消耗/收妖所得:**无条件**入账(原版 dwCash 即时加减 —— 逃跑也保留;
+    // 偷到的物品随 writeBackInventory 一并回世界)
+    if (session.moneyDelta() !== 0) world.money = Math.max(0, world.money + session.moneyDelta())
+    if (session.collectGained() > 0)
+      world.collectValue = (world.collectValue ?? 0) + session.collectGained()
+    // 战后「三件套」(battle.c:1822-1830):胜/败/逃无条件。① ClearAllStatus → 清大世界护体符定时状态
+    // (extraStatuses);② CurePoisonByLevel(3) → 世界毒态清 ≤severe(无影毒/寄生 incurable 留);
+    // ③ RemoveEquipExtra → 清大蒜临时毒抗 Extra(extraPoisonRes;装备本身 Extra 走 live 派生无持久)。
+    for (const c of world.party) {
+      if (c.extraStatuses?.length) c.extraStatuses = []
+      if (c.extraPoisonRes) c.extraPoisonRes = undefined
+      if (c.poisons?.length) curePoisons(c, project.poisonsById, 'severe')
+    }
+    // Phase E 战后脚本：逐槽按 scriptOwnerDef 跑 canonical V5 onDefeated。
+    // exact launchSignal 复用父 activity lineage；F5 已关 gate 时不得另开 transient 自锁。
+    // 非 abort 错误向外传播，禁止 console.error 后假装战斗成功。
+    let hasBattleEndError = false
+    let battleEndError: unknown
+    try {
+      if (result === 'win' && !session.enemyFled()) {
+        const runtime = scriptRuntimeV5
+        const scripted = session.enemySlotDefs().filter((def) => def.onDefeated?.length)
+        if (scripted.length && !runtime)
+          throw new Error('enemy onDefeated 需要 canonical script v5 runtime')
+        for (const def of scripted) {
+          await expectDefined(runtime).runCommands(expectDefined(def.onDefeated), {
+            signal: launchSignal,
+            timing: 'interactive',
           })
           assertLaunchCurrent()
-          restoreSceneMusic()
-        }
-        throw error
-      } finally {
-        launchSignal.removeEventListener('abort', abortBattle)
-        // 旧会话的异步收尾不得清掉后来启动的新会话。
-        if (activeBattle === session) {
-          if (import.meta.env.DEV) (window as { __rfBattle?: unknown }).__rfBattle = null
-          activeBattle = null
         }
       }
-      // done 与读档/切场景可落在相邻 microtask；任何战果写回前再次确认仍属于原世界。
-      assertLaunchCurrent()
-      session.writeBackPersistentEffects(world)
-      // 胜利结算路径已在 buildSettlement 里写回 HP + 入账;其余路径(败/逃/敌逃)此处写回 HP。
-      if (result !== 'win' || session.enemyFled()) session.writeBackHp(world.party)
-      session.writeBackInventory(world.inventory)
-      // 偷窃/金钱技消耗/收妖所得:**无条件**入账(原版 dwCash 即时加减 —— 逃跑也保留;
-      // 偷到的物品随 writeBackInventory 一并回世界)
-      if (session.moneyDelta() !== 0) world.money = Math.max(0, world.money + session.moneyDelta())
-      if (session.collectGained() > 0)
-        world.collectValue = (world.collectValue ?? 0) + session.collectGained()
-      // 战后「三件套」(battle.c:1822-1830):胜/败/逃无条件。① ClearAllStatus → 清大世界护体符定时状态
-      // (extraStatuses);② CurePoisonByLevel(3) → 世界毒态清 ≤severe(无影毒/寄生 incurable 留);
-      // ③ RemoveEquipExtra → 清大蒜临时毒抗 Extra(extraPoisonRes;装备本身 Extra 走 live 派生无持久)。
-      for (const c of world.party) {
-        if (c.extraStatuses?.length) c.extraStatuses = []
-        if (c.extraPoisonRes) c.extraPoisonRes = undefined
-        if (c.poisons?.length) curePoisons(c, project.poisonsById, 'severe')
-      }
-      // Phase E 战后脚本：逐槽按 scriptOwnerDef 跑 canonical V5 onDefeated。
-      // exact launchSignal 复用父 activity lineage；F5 已关 gate 时不得另开 transient 自锁。
-      // 非 abort 错误向外传播，禁止 console.error 后假装战斗成功。
-      let hasBattleEndError = false
-      let battleEndError: unknown
-      try {
-        if (result === 'win' && !session.enemyFled()) {
-          const runtime = scriptRuntimeV5
-          const scripted = session.enemySlotDefs().filter((def) => def.onDefeated?.length)
-          if (scripted.length && !runtime)
-            throw new Error('enemy onDefeated 需要 canonical script v5 runtime')
-          for (const def of scripted) {
-            await expectDefined(runtime).runCommands(expectDefined(def.onDefeated), {
-              signal: launchSignal,
-              timing: 'interactive',
-            })
-            assertLaunchCurrent()
-          }
-        }
-      } catch (error) {
-        if (isAbortError(error)) throw error
-        hasBattleEndError = true
-        battleEndError = error
-      }
-      // 战斗 readiness 可能淘汰场景 LRU；恢复当前（也可能被战后脚本切换过的）场景工作集。
-      await prepareSceneSounds(scene, world)
-      assertLaunchCurrent()
-      // 战斗内切过曲(战斗 BGM/胜利小调)→ 回场景曲;lose 进 gameOver 流程不回。
-      if (result !== 'lose') restoreSceneMusic()
-      if (hasBattleEndError) throw battleEndError
-      return result
+    } catch (error) {
+      if (isAbortError(error)) throw error
+      hasBattleEndError = true
+      battleEndError = error
+    }
+    // 战斗 readiness 可能淘汰场景 LRU；恢复当前（也可能被战后脚本切换过的）场景工作集。
+    await prepareSceneSounds(scene, world)
+    assertLaunchCurrent()
+    // 战斗内切过曲(战斗 BGM/胜利小调)→ 回场景曲;lose 进 gameOver 流程不回。
+    if (result !== 'lose') restoreSceneMusic()
+    if (hasBattleEndError) throw battleEndError
+    return result
   }
   // ── D14-2 演出意图协议:presentationOps(执行器) + CutsceneController ──
   // 行为真值 = 原 host 方法体原样搬移;host 方法改为经 controller.run 委托,统一
@@ -2700,16 +2698,8 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
         e.pages[0] = { ...e.pages[0], trigger: { ...e.pages[0].trigger, on, range } }
       }
     },
-    startBattle: async (team, battleOpts, runnerSignal) => {
-      // D13-1 dev-only partyPreset(K2):战前快照 world,战后/取消恢复「战前世界」;
-      // enemyOverride 只进 battle session(战斗局部,不回滚)。
-      const preset = battleOpts?.partyPreset
-      frameStepState.active = false // K5:帧步进作用域不含战斗
-      if (!preset) return await startBattleBody(team, battleOpts, runnerSignal)
-      return await withWorldPreset(world, preset, () =>
-        startBattleBody(team, battleOpts, runnerSignal),
-      )
-    },
+    startBattle: async (team, battleOpts, runnerSignal) =>
+      await startBattleBody(team, battleOpts, runnerSignal),
     openShop: (shopId, mode, signal) => {
       assertRunnerActive(signal, `商店 #${shopId} 所属 runner 已取消`)
       // 买 = 店铺货单;卖 = 背包可卖。店不存在 → 报错即回(脚本继续,不卡死)。
@@ -2866,6 +2856,34 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     },
   }
   const reportedOnce = new Set<string>()
+
+  /**
+   * DEV-only battle gateway. Debug-only overrides stay outside both author commands and
+   * the canonical v5 host, while sharing the production launch intent/frame-step guards.
+   */
+  const startBattleDev = (
+    request: {
+      team: number
+      enemyOverride?: string[]
+      partyPreset?: {
+        party: CharacterInstance[]
+        inventory?: { itemId: string; count: number }[]
+      }
+      fieldId?: number
+    },
+    signal: AbortSignal,
+  ): Promise<'win' | 'lose' | 'flee'> => {
+    const run = (): Promise<'win' | 'lose' | 'flee'> =>
+      startBattleBody(
+        request.team,
+        {
+          ...(request.enemyOverride ? { enemyOverride: request.enemyOverride } : {}),
+          ...(request.fieldId !== undefined ? { fieldId: request.fieldId } : {}),
+        },
+        signal,
+      )
+    return request.partyPreset ? withWorldPreset(world, request.partyPreset, run) : run()
+  }
 
   // ── E6a 权威视图:同一 host 原语,两个调用界面 ──
   // 主脚本视图:位移指令隐式接管目标(决策②:转向/定帧不接管);脚本链收尾统一归还。
@@ -3059,9 +3077,6 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
             fieldId: request.fieldId,
             ...(request.music !== undefined ? { music: request.music } : {}),
             ...(request.choreography ? { choreography: [...request.choreography] } : {}),
-            // D13-1 dev-only 调试战斗参数(战斗局部;partyPreset 快照回滚在 host.startBattle 内)。
-            ...(request.enemyOverride ? { enemyOverride: [...request.enemyOverride] } : {}),
-            ...(request.partyPreset ? { partyPreset: request.partyPreset } : {}),
           },
           signal,
         ),
@@ -3711,8 +3726,8 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
   let equipMenu: EquipMenuState = closeEquipMenu()
   let useMenu: UseMenuState = closeUseMenu()
   let itemUsePending = false
-  /** D14-3 reward-gain 队列当前项(物品使用/炼成结果;逐条固定时长展示)。 */
-  let rewardGain: { text: string; untilMs: number } | undefined
+  /** D14-3 reward-gain 队列：逐条固定时长，Enter / Space 可只跳当前条；Esc 留给外层菜单。 */
+  const rewardGainQueue = new RewardGainQueue()
   let lastUseCursor = 0 // 使用面板光标记忆(原版 iCurInvMenuItem;跨开关恢复)
   let lastMagicCaster = 0 // 仙术施法人光标记忆(原版 uigame.c:674 static w;确认时写,DL22)
   let lastMainCursor = 0 // 主菜单光标记忆(原版 iCurMainMenuItem;确认时写)
@@ -3744,18 +3759,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     entries: readonly ItemUseResultEntry[],
     signal: AbortSignal,
   ): Promise<void> {
-    try {
-      for (const entry of entries) {
-        rewardGain = { text: itemUseResultText(entry), untilMs: performance.now() + 1400 }
-        await awaitRunner(
-          new Promise<void>((resolve) => setTimeout(resolve, 1400)),
-          signal,
-          '物品结果框所属用途已取消',
-        )
-      }
-    } finally {
-      rewardGain = undefined
-    }
+    await rewardGainQueue.present(entries.map(itemUseResultText), signal)
   }
 
   const itemUseFailureText = (reason: string | undefined, message: string | undefined): string => {
@@ -4498,7 +4502,8 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
       }
       ctx.restore()
     }
-    if (rewardGain && performance.now() < rewardGain.untilMs) {
+    const rewardGain = rewardGainQueue.current
+    if (rewardGain) {
       ctx.save()
       ctx.scale(WORLD_SCALE, WORLD_SCALE)
       ctx.imageSmoothingEnabled = false
@@ -4809,8 +4814,8 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
         shop.resolve()
         shop = null
       }
-    } else if (rewardGain) {
-      // reward-gain 结果展示是模态表现：不允许移动、互动、开菜单或快速存读落回探索态。
+    } else if (handleRewardGainInput(rewardGainQueue, pressed)) {
+      // 模态层消费整帧输入；advance 只兑现当前条，同一按键不会漏入刚恢复的菜单。
     } else if (menu.active) {
       if (saveBrowser.active) {
         // 存档浏览界面(全屏,优先于菜单输入)
@@ -5303,8 +5308,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
         world: () => world,
         sceneId: () => scene.id,
         scene: () => canonicalSceneCacheV5.get(scene.id),
-        canonicalProject: (canonicalProjectV5 ??
-          (project as unknown as LoadedProjectV5)),
+        canonicalProject: canonicalProjectV5 ?? (project as unknown as LoadedProjectV5),
         runtime: () => scriptRuntimeV5 ?? undefined,
         runnerBusy: () => runner !== null,
         dialogBusy: () => dialogBox.active,
@@ -5314,23 +5318,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
             return Promise.reject(new Error('非 canonical 工程(无 script v5 runtime)'))
           return runDetachedV5ScriptChain(signal, invoke)
         },
-        startBattleDev: (request, signal) => {
-          if (scriptRuntimeV5)
-            return scriptRuntimeV5.host.startBattle(
-              {
-                team: request.team,
-                ...(request.enemyOverride ? { enemyOverride: request.enemyOverride } : {}),
-                ...(request.partyPreset ? { partyPreset: request.partyPreset } : {}),
-                ...(request.fieldId !== undefined ? { fieldId: request.fieldId } : {}),
-              },
-              signal,
-            )
-          return host.startBattle(
-            request.team,
-            { ...(request.fieldId !== undefined ? { fieldId: request.fieldId } : {}) },
-            signal,
-          )
-        },
+        startBattleDev,
         buildPresetParty: (actorIds, seedStats) =>
           buildWorld(
             { party: actorIds, money: 0, learnedSkills: {}, inventory: [], seedStats },
@@ -5365,9 +5353,14 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
           },
           setActive: (active: boolean) => {
             frameStepState.active = active
+            if (!active) frameStepState.stepRequested = false
           },
           requestStep: () => {
             frameStepState.stepRequested = true
+          },
+          reset: () => {
+            frameStepState.active = false
+            frameStepState.stepRequested = false
           },
         },
         layers: debugLayers,

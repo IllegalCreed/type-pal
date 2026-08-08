@@ -412,7 +412,13 @@ export function ActorMode(props: {
                               delete next[slot]
                               session.dispatch(
                                 new UpdateActorCommand(actor.id, {
-                                  battler: { ...b, casualty: next.friendDeath !== undefined || next.dying !== undefined ? next : undefined },
+                                  battler: {
+                                    ...b,
+                                    casualty:
+                                      next.friendDeath !== undefined || next.dying !== undefined
+                                        ? next
+                                        : undefined,
+                                  },
                                 }),
                               )
                             }}

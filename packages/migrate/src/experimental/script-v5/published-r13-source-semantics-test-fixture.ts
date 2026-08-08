@@ -1,12 +1,12 @@
 import { isDeepStrictEqual } from 'node:util'
-import {
-  type MigrationSnapshot,
-  serializeMigrationJson,
-  sha256,
-} from '../../migration-baseline.js'
+import { type MigrationSnapshot, serializeMigrationJson, sha256 } from '../../migration-baseline.js'
 import type { MigrationJson } from '../../pal-migration.js'
 import { rewindPalR13SixBPublication } from '../../pal-r13-six-b-rewind.js'
-import { rewindPalR13SixCPublicationIfPresent } from '../../pal-r13-six-c.js'
+import {
+  R13_SIX_C_SEAL_PATH,
+  R13_SIX_C_TRANSITION_ID,
+  rewindPalR13SixCPublicationIfPresent,
+} from '../../pal-r13-six-c.js'
 import {
   R13_EXISTING_SCHEMA_CHANGED_PATHS,
   type R13ExistingSchemaAugmentationEvidenceV1,
@@ -16,6 +16,11 @@ import {
   R13_SOURCE_SEMANTICS_SEAL_PATH,
   R13_SOURCE_SEMANTICS_TRANSITION_ID,
 } from './r13-source-semantics-mg2.js'
+import {
+  R13_Z_SEAL_PATH,
+  R13_Z_TRANSITION_ID,
+  rewindPublishedR13ZPublicationIfPresent,
+} from './r13-z-transition-mg2.js'
 
 interface PublishedR13SourceSemanticsSeal {
   kind: 'r13-source-semantics-transition'
@@ -34,11 +39,29 @@ function cloneSnapshot(source: MigrationSnapshot): MigrationSnapshot {
   }
 }
 
+/** Project snapshots inherit baseline managed paths although transition seal files never live there. */
+function stripProjectManagedPlaceholder(
+  source: MigrationSnapshot,
+  sealPath: string,
+  transitionId: string,
+): MigrationSnapshot {
+  if (
+    source.managedFiles.has(sealPath) &&
+    !source.files.has(sealPath) &&
+    !source.hashes?.has(sealPath) &&
+    source.baselineMetadata?.transitions[transitionId] === undefined
+  ) {
+    const snapshot = cloneSnapshot(source)
+    snapshot.managedFiles.delete(sealPath)
+    return snapshot
+  }
+  return source
+}
+
 function setSnapshotFile(snapshot: MigrationSnapshot, path: string, value: MigrationJson): void {
   const cloned = structuredClone(value)
   snapshot.files.set(path, cloned)
-  if (snapshot.hashes)
-    snapshot.hashes.set(path, sha256(serializeMigrationJson(cloned, path)))
+  if (snapshot.hashes) snapshot.hashes.set(path, sha256(serializeMigrationJson(cloned, path)))
 }
 
 function publishedSeal(snapshot: MigrationSnapshot): PublishedR13SourceSemanticsSeal {
@@ -76,7 +99,7 @@ export function rewindPublishedR13SourceSemanticsBaseline(source: MigrationSnaps
 } {
   // R13-6C(零内容叶 successor)先剥离,再剥 6B —— 重放 6A 面。
   const successor = rewindPalR13SixBPublication(
-    rewindPalR13SixCPublicationIfPresent(source),
+    rewindPalR13SixCPublicationIfPresent(rewindPublishedR13ZPublicationIfPresent(source)),
   )
   const seal = publishedSeal(successor)
   if (
@@ -112,8 +135,15 @@ export function rewindPublishedR13SourceSemanticsTransition(args: {
   evidence: R13ExistingSchemaAugmentationEvidenceV1
 } {
   const rebuilt = rewindPublishedR13SourceSemanticsBaseline(args.publishedBaseline)
+  const projectWithoutPlaceholders = stripProjectManagedPlaceholder(
+    stripProjectManagedPlaceholder(args.publishedProject, R13_Z_SEAL_PATH, R13_Z_TRANSITION_ID),
+    R13_SIX_C_SEAL_PATH,
+    R13_SIX_C_TRANSITION_ID,
+  )
   const successorProject = rewindPalR13SixBPublication(
-    rewindPalR13SixCPublicationIfPresent(args.publishedProject),
+    rewindPalR13SixCPublicationIfPresent(
+      rewindPublishedR13ZPublicationIfPresent(projectWithoutPlaceholders),
+    ),
   )
   if (
     successorProject.files.has(R13_SOURCE_SEMANTICS_SEAL_PATH) ||

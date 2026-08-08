@@ -1559,10 +1559,7 @@ export type P6TransformBuildArgs = Pick<
  */
 export interface P6ValidatedTransformOutput {
   readonly inputs: P6TransformBuildArgs
-  readonly p6: Pick<
-    ReturnType<typeof buildP6ScriptMigrationIR>,
-    'ir' | 'ledger'
-  >
+  readonly p6: Pick<ReturnType<typeof buildP6ScriptMigrationIR>, 'ir' | 'ledger'>
 }
 
 /**

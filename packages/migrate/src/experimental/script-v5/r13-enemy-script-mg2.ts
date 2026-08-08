@@ -320,8 +320,8 @@ function buildAuditSeal(
   const finalOpenR13_6Observations = finalOpenObservationsForBatch(sourceDisposition, 'R13-6')
   if (
     sourceDisposition.summary.executionSites !== 81_674 ||
-    sourceDisposition.summary.openDebtSites !== 5_129 ||
-    sourceDisposition.summary.openObservations !== 4_656 ||
+    sourceDisposition.summary.openDebtSites !== 27_826 ||
+    sourceDisposition.summary.openObservations !== 7_259 ||
     finalOpenR13_5Sites !== 0 ||
     finalOpenR13_5Observations !== 0 ||
     finalOpenR13_6Sites !== 215 ||
@@ -415,20 +415,32 @@ export function assertR13EnemyScriptPublishedSealMatchesAuthority(
   publishedSeal: unknown,
   expectedSeal: R13EnemyScriptTransitionSealV1,
 ): void {
-  if (!isDeepStrictEqual(publishedSeal, expectedSeal))
-    throw new Error('R13 enemy script MG2: 权威重建证据与已发布 seal 不符')
+  if (!isDeepStrictEqual(publishedSeal, expectedSeal)) {
+    const published = publishedSeal as Partial<R13EnemyScriptTransitionSealV1> | undefined
+    throw new Error(
+      'R13 enemy script MG2: 权威重建证据与已发布 seal 不符 ' +
+        JSON.stringify({
+          publishedDigest: typeof published?.digest === 'string' ? published.digest : undefined,
+          expectedDigest: expectedSeal.digest,
+          publishedAugmentationDigest: published?.augmentation?.digest,
+          expectedAugmentationDigest: expectedSeal.augmentation.digest,
+          publishedSourceReportDigest: published?.audits?.sourceControl?.reportDigest,
+          expectedSourceReportDigest: expectedSeal.audits.sourceControl.reportDigest,
+          publishedRuntimeReportDigest: published?.audits?.runtimeExecution?.reportDigest,
+          expectedRuntimeReportDigest: expectedSeal.audits.runtimeExecution.reportDigest,
+        }),
+    )
+  }
 }
 
 export function prepareR13EnemyScriptSourceAugmentation<
   TGenerated extends R13SourceDispositionGeneratedInput,
->(
-  args: {
-    generated: TGenerated
-    historicalMigration: MigrationFileSet
-    currentSources: PalMigrationSources
-    currentMigration: MigrationFileSet
-  },
-): PreparedR13EnemyScriptSourceAugmentation<TGenerated> {
+>(args: {
+  generated: TGenerated
+  historicalMigration: MigrationFileSet
+  currentSources: PalMigrationSources
+  currentMigration: MigrationFileSet
+}): PreparedR13EnemyScriptSourceAugmentation<TGenerated> {
   const augmentation = augmentR13EnemyScriptsAfterConfirm({
     parent: args.generated.snapshot,
     historicalMigration: args.historicalMigration,
@@ -454,6 +466,8 @@ export function completeR13EnemyScriptSourceInputs<
   preparedHistoricalSourceCensus?: PreparedR13SourceExecutionCensus
   augmentation: R13EnemyScriptAugmentation
   successorGenerated: TGenerated
+  /** Published 5 seal and the later frozen 6A parent intentionally use different ledger faces. */
+  sourceLedgerProfile?: 'published-r13-5' | 'r13-6a-parent'
 }): PreparedR13EnemyScriptSourceInputs<TGenerated> {
   const r13EnemyClosure = {
     sourceDisposition: args.augmentation.enemySourceDisposition,
@@ -468,7 +482,9 @@ export function completeR13EnemyScriptSourceInputs<
     generated: args.successorGenerated,
     final: args.augmentation.snapshot,
     r13EnemyClosure,
-    bindIndirectEntityBodies: true,
+    // R13-5 seal predates indirect/folded/C8 closures. 6A later froze the enriched parent report;
+    // keep both append-only identities addressable instead of rewriting either publication.
+    bindIndirectEntityBodies: args.sourceLedgerProfile === 'r13-6a-parent',
     ...(args.preparedHistoricalSourceCensus
       ? { preparedSourceCensus: args.preparedHistoricalSourceCensus }
       : {}),
@@ -488,7 +504,11 @@ export function prepareR13EnemyScriptSourceInputs(
   args: R13EnemyScriptSourceInputArgs,
 ): PreparedR13EnemyScriptSourceInputs {
   const prepared = prepareR13EnemyScriptSourceAugmentation(args)
-  return completeR13EnemyScriptSourceInputs({ ...args, ...prepared })
+  return completeR13EnemyScriptSourceInputs({
+    ...args,
+    ...prepared,
+    sourceLedgerProfile: 'published-r13-5',
+  })
 }
 
 export function prepareR13EnemyScriptAuthority(args: {

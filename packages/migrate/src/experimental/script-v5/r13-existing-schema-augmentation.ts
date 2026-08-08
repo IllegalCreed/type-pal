@@ -955,12 +955,17 @@ export function rewindR13ExistingSchemaAugmentation(
           .map((candidate, candidateIndex) => ({ candidate, candidateIndex }))
           .filter(({ candidate }) => stableJsonSha256(candidate) === entry.commandDigest)
         if (matches.length !== 1)
-          throw new Error(`R13 existing-schema augmentation: successor command 不唯一 ${entry.siteId}`)
+          throw new Error(
+            `R13 existing-schema augmentation: successor command 不唯一 ${entry.siteId}`,
+          )
         index = matches[0]!.candidateIndex
       }
       container.splice(index, 1)
     }
-    if (!allowAppendOnlySuccessor && stableJsonSha256(container) !== entries[0]?.parentContainerDigest)
+    if (
+      !allowAppendOnlySuccessor &&
+      stableJsonSha256(container) !== entries[0]?.parentContainerDigest
+    )
       throw new Error(`R13 existing-schema augmentation: replay parent container 漂移 ${spec.id}`)
     parent.files.set(path, asMigrationJson(scene))
     parent.hashes?.delete(path)
@@ -989,7 +994,10 @@ export function rewindR13ExistingSchemaAugmentation(
   parent.files.set('content/skills.json', asMigrationJson(skills))
   parent.hashes?.delete('content/skills.json')
 
-  if (!allowAppendOnlySuccessor && digestR13ExistingSchemaContentSnapshot(parent) !== evidence.parentContentDigest)
+  if (
+    !allowAppendOnlySuccessor &&
+    digestR13ExistingSchemaContentSnapshot(parent) !== evidence.parentContentDigest
+  )
     throw new Error('R13 existing-schema augmentation: replay parent content digest 漂移')
   // Keep the path set/managed set byte-for-byte stable; only the evidenced JSON
   // leaves and their cached hashes are intentionally changed.

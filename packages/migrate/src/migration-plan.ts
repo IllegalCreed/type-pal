@@ -147,18 +147,15 @@ function mergeAtomicMapFile(
       theirsSameBase,
     }
   }
-  if (selected.present && selected.value === undefined)
+  if (selected.present && selected.value === undefined) {
     // 原子地图可能以 hash-only 存于基线(如 R13-Z 发布场景):选中版本缺正文时,
     // 从同 hash 的带正文版本取 body —— hash 相同 ⟹ 字节相同,不改变合并结果。
-    {
-      const bodySource = [b, o, t].find(
-        (candidate) =>
-          candidate.present &&
-          candidate.value !== undefined &&
-          candidate.hash === selected!.hash,
-      )
-      if (bodySource) selected = bodySource
-    }
+    const bodySource = [b, o, t].find(
+      (candidate) =>
+        candidate.present && candidate.value !== undefined && candidate.hash === selected!.hash,
+    )
+    if (bodySource) selected = bodySource
+  }
   if (selected.present && selected.value === undefined)
     throw new Error(`原子地图 ${file} 选中版本只有 hash、缺正文`)
   return { value: selected.value, oursSameBase, theirsSameBase }

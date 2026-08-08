@@ -1,6 +1,7 @@
 import { expect, test } from 'vitest'
 import {
   type ContentBundle,
+  collectBattleSpriteDefinitionReferences,
   collectSpriteActionReferences,
   validateReferences,
 } from './validate-refs.js'
@@ -54,7 +55,18 @@ const base: ContentBundle = {
       },
     },
   ],
-  skills: [{ id: '1' } as never],
+  skills: [
+    {
+      id: '1',
+      name: 'skill.1',
+      desc: '',
+      cost: {},
+      usableOutsideBattle: false,
+      target: 'oneEnemy',
+      effects: [{ kind: 'damage', power: 1, elemental: 0 }],
+      animation: { effectSprite: 1 },
+    },
+  ],
   levelUp: {},
   items: [{ id: 'i1' } as never],
   locale: { 'dlg.talk.0': '…', 'name.hero': '主角' },
@@ -236,6 +248,50 @@ test('干净 bundle → 无 issue', () => {
 })
 test('敌 hook/fallback/演出/战后脚本的逻辑引用完整时无 issue', () => {
   expect(validateReferences(enemyReferenceBundle())).toEqual([])
+})
+test('敌方可达 cast 对有效 execution fail-closed，override 可隔离玩家专属公共效果', () => {
+  const b = enemyReferenceBundle()
+  b.skills[0]!.effects = [{ kind: 'healMp', amount: 1 }]
+  let issues = validateReferences(b).filter((issue) => issue.message.includes('敌方施法技能'))
+  expect(issues.map((issue) => issue.where)).toEqual(
+    expect.arrayContaining([
+      'enemies[0](enemy-source).ai.rules[0].do.skillId',
+      'enemies[0](enemy-source).ai.fallback.action.skillId',
+      'enemies[0](enemy-source).ai.hooks.ready.states["ready"].body[0].fallback.action.skillId',
+    ]),
+  )
+  expect(issues.every((issue) => issue.message.includes('healMp'))).toBe(true)
+
+  b.skills[0]!.execution = {
+    enemy: { effects: [{ kind: 'damage', power: 1, elemental: 0 }] },
+  }
+  issues = validateReferences(b).filter((issue) => issue.message.includes('敌方施法技能'))
+  expect(issues).toEqual([])
+})
+
+test('技能 execution 分支的 summon/trance 进入 BattleSpriteDef 静态引用闭包', () => {
+  const b = clone(base)
+  b.skills[0]!.execution = {
+    player: {
+      effects: [
+        { kind: 'summon', battleSprite: 'summon-only' },
+        { kind: 'trance', battleSprite: 'trance-only' },
+      ],
+    },
+  }
+  const references = collectBattleSpriteDefinitionReferences(b)
+  expect(references).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({
+        battleSprite: 'summon-only',
+        where: 'skills[0](1).execution.player.effects[0].battleSprite',
+      }),
+      expect.objectContaining({
+        battleSprite: 'trance-only',
+        where: 'skills[0](1).execution.player.effects[1].battleSprite',
+      }),
+    ]),
+  )
 })
 test('敌脚本逻辑引用递归保留精确路径并拒绝非战斗角色', () => {
   const b = enemyReferenceBundle()
@@ -694,7 +750,8 @@ test('E18-1:coveredBy 指向不存在角色 → error;指向纯 NPC → error', 
   b.actors.push({ id: 'npc', name: 'name.npc', spriteId: 'ghost' } as never)
   expect(
     validateReferences(b).some(
-      (i) => i.severity === 'error' && /coveredBy/.test(i.where) && /不是可战斗角色/.test(i.message),
+      (i) =>
+        i.severity === 'error' && /coveredBy/.test(i.where) && /不是可战斗角色/.test(i.message),
     ),
   ).toBe(true)
 })
@@ -718,17 +775,15 @@ test('E18-1:coveredBy 指向自己 → warn 不 error;互护合法零 issue', ()
   expect(self.some((i) => i.severity === 'warn' && /指向自己/.test(i.message))).toBe(true)
   // 互护(0→1、1→0):合法形态,不得有 coveredBy 类 error/warn。
   ;(b.actors[0] as unknown as { battler: { coveredBy?: string } }).battler!.coveredBy = 'hero2'
-  ;(
-    b.actors[1] as unknown as { battler: { coveredBy?: string } }
-  ).battler!.coveredBy = 'hero'
+  ;(b.actors[1] as unknown as { battler: { coveredBy?: string } }).battler!.coveredBy = 'hero'
   const mutual = validateReferences(b)
   expect(mutual.some((i) => /coveredBy/.test(i.where))).toBe(false)
 })
 
 test('E18-1:cooperativeMagicSkillId 不在 skills → error', () => {
   const b = clone(base)
-  ;(b.actors[0] as unknown as { battler: { cooperativeMagicSkillId?: string } }).battler!
-    .cooperativeMagicSkillId = 'no-such-skill'
+  ;(b.actors[0] as unknown as { battler: { cooperativeMagicSkillId?: string } })
+    .battler!.cooperativeMagicSkillId = 'no-such-skill'
   expect(
     validateReferences(b).some(
       (i) => i.severity === 'error' && /cooperativeMagicSkillId/.test(i.where),
@@ -775,7 +830,9 @@ test('E18-1:合法三字段(gates+fallback+互护)→ 零 issue', () => {
   hero.battler!.cooperativeMagicSkillId = '1'
   hero.battler!.casualty = {
     friendDeath: {
-      gates: [{ chance: 75, branch: { lines: [{ text: 'dlg.talk.0', style: 'bottom' }], effects: [] } }],
+      gates: [
+        { chance: 75, branch: { lines: [{ text: 'dlg.talk.0', style: 'bottom' }], effects: [] } },
+      ],
       fallback: { lines: [], effects: [{ kind: 'heal', resource: 'hp' }] },
     },
   }

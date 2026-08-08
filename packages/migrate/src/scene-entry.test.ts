@@ -64,7 +64,10 @@ describe('liftEarlyDitherSceneEntry', () => {
 
   test('current 迁移允许把 wait 留在隐藏画面的 prepare', () => {
     const stage: ScriptStage = {
-      body: [{ kind: 'wait', ms: 180 }, { kind: 'ditherScreen', ms: 720 }],
+      body: [
+        { kind: 'wait', ms: 180 },
+        { kind: 'ditherScreen', ms: 720 },
+      ],
     }
     expect(liftEarlyDitherSceneEntry(stage)).toEqual({
       kind: 'lifted',

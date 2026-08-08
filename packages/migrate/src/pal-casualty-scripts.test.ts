@@ -1,16 +1,13 @@
-import type { ActorDef } from '@type-pal/content'
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
+import type { ActorDef } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import {
-  applyPalCasualtyOverlays,
-  translateCasualtyScript,
-} from './pal-casualty-scripts.js'
+import { applyPalCasualtyOverlays, translateCasualtyScript } from './pal-casualty-scripts.js'
 import type { SourceCmd } from './source-facts.js'
 
 const repoRoot = fileURLToPath(new URL('../../../', import.meta.url))
 const palActors = JSON.parse(
-  readFileSync(repoRoot + 'projects/pal/content/actors.json', 'utf8'),
+  readFileSync(`${repoRoot}projects/pal/content/actors.json`, 'utf8'),
 ) as ActorDef[]
 
 const actor = (id: string): ActorDef => ({
@@ -36,10 +33,8 @@ const actor = (id: string): ActorDef => ({
   },
 })
 
-const cmd = (
-  op: string,
-  over: Partial<SourceCmd> & { messageIndex?: number } = {},
-): SourceCmd => ({ op, ...over }) as SourceCmd
+const cmd = (op: string, over: Partial<SourceCmd> & { messageIndex?: number } = {}): SourceCmd =>
+  ({ op, ...over }) as SourceCmd
 
 describe('B11-1 伤亡脚本翻译', () => {
   test('顺序概率门 + 分支台词/回满/临时 buff 结构化翻译并落 locale', () => {
@@ -76,9 +71,7 @@ describe('B11-1 伤亡脚本翻译', () => {
         {
           chance: 75,
           branch: {
-            lines: [
-              { text: 'dlg.13472', style: 'bottom' },
-            ],
+            lines: [{ text: 'dlg.13472', style: 'bottom' }],
             effects: [
               { kind: 'heal', resource: 'mp' },
               { kind: 'tempStatBuff', stat: 'magic', percent: 10 },
@@ -129,9 +122,7 @@ describe('B11-1 伤亡脚本翻译', () => {
 
   test('入口缺失 fail-closed', () => {
     expect(() =>
-      applyPalCasualtyOverlays([actor('a')], [], [
-        { scriptOnFriendDeath: 0, scriptOnDying: 0 },
-      ]),
+      applyPalCasualtyOverlays([actor('a')], [], [{ scriptOnFriendDeath: 0, scriptOnDying: 0 }]),
     ).toThrow('期望角色 0 friendDeath 入口缺失')
   })
 })

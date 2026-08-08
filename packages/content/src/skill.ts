@@ -120,6 +120,25 @@ export interface SkillExecutionOverride {
   prepare?: SkillPrepareEffect[]
 }
 
+/** 当前敌方施法结算真正实现的效果集合；作者边界不得超前于 runtime。 */
+export const ENEMY_RUNTIME_SKILL_EFFECT_KINDS = [
+  'damage',
+  'healHp',
+  'applyStatus',
+  'applyPoison',
+  'gate',
+  'instantKill',
+  'resourceDelta',
+] as const satisfies readonly SkillEffect['kind'][]
+
+const ENEMY_RUNTIME_SKILL_EFFECT_KIND_SET = new Set<SkillEffect['kind']>(
+  ENEMY_RUNTIME_SKILL_EFFECT_KINDS,
+)
+
+export function isEnemyRuntimeSkillEffect(effect: SkillEffect): boolean {
+  return ENEMY_RUNTIME_SKILL_EFFECT_KIND_SET.has(effect.kind)
+}
+
 /** 技能定义。自包含:存值,不存原版 magicNumber 子表下标。 */
 export interface SkillData {
   id: string // demo = 原版 oid 字符串;当不透明 string(勿 hardcode 语义/算偏移)
@@ -139,6 +158,46 @@ export interface SkillData {
     enemy?: SkillExecutionOverride
   }
   // 扩展口 phase3(注释留形):category/series(议题16 门派分类/体系,技能树 UI)
+}
+
+export type SkillExecutionSide = 'player' | 'enemy'
+
+export interface ResolvedSkillExecution {
+  effects: readonly SkillEffect[]
+  animation: SkillAnimation
+  prepare: readonly SkillPrepareEffect[]
+}
+
+/** runtime/readiness 共用的侧向解析；override 缺字段时逐字段回退公共定义。 */
+export function resolveSkillExecution(
+  skill: SkillData,
+  side: SkillExecutionSide,
+): ResolvedSkillExecution {
+  const override = skill.execution?.[side]
+  return {
+    effects: override?.effects ?? skill.effects,
+    animation: override?.animation ?? skill.animation,
+    prepare: override?.prepare ?? [],
+  }
+}
+
+export interface AuthoredSkillExecutionLayer {
+  side: 'base' | SkillExecutionSide
+  effects?: readonly SkillEffect[]
+  animation?: SkillAnimation
+  prepare?: readonly SkillPrepareEffect[]
+}
+
+/** 静态引用闭包必须看见公共层及两个显式 override，不能只看当前有效分支。 */
+export function authoredSkillExecutionLayers(skill: SkillData): AuthoredSkillExecutionLayer[] {
+  const layers: AuthoredSkillExecutionLayer[] = [
+    { side: 'base', effects: skill.effects, animation: skill.animation },
+  ]
+  for (const side of ['player', 'enemy'] as const) {
+    const override = skill.execution?.[side]
+    if (override) layers.push({ side, ...override })
+  }
+  return layers
 }
 
 /** 技能数据表(id → SkillData)。去全局化:操作技能的函数收这个类型(显式注入),不再默认吃 DEMO_SKILLS。 */

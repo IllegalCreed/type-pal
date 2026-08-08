@@ -33,6 +33,7 @@ import {
   checkEntityPagesV5,
   checkSceneHooksV5,
 } from './script-v5.js'
+import { ENEMY_RUNTIME_SKILL_EFFECT_KINDS } from './skill.js'
 
 /** 显式要求的对象键;缺任一 throw。 */
 function requireKeys(obj: object, keys: readonly string[], ctx: string): void {
@@ -314,7 +315,10 @@ export function validateActors(json: unknown): ActorDef[] {
           throw new Error(`actors[${i}].battler.coveredBy: 期望非空 actor id`)
       }
       if (bo.cooperativeMagicSkillId !== undefined) {
-        if (typeof bo.cooperativeMagicSkillId !== 'string' || bo.cooperativeMagicSkillId.length === 0)
+        if (
+          typeof bo.cooperativeMagicSkillId !== 'string' ||
+          bo.cooperativeMagicSkillId.length === 0
+        )
           throw new Error(`actors[${i}].battler.cooperativeMagicSkillId: 期望非空 skill id`)
       }
       if (bo.casualty !== undefined)
@@ -334,7 +338,11 @@ function validateCasualtyShape(json: unknown, path: string): void {
     const gates = assertArray(script.gates, `${path}.${slot}.gates`)
     gates.forEach((g, gi) => {
       const gate = assertObject(g, `${path}.${slot}.gates[${gi}]`) as Record<string, unknown>
-      if (!Number.isInteger(gate.chance) || (gate.chance as number) < 1 || (gate.chance as number) > 100)
+      if (
+        !Number.isInteger(gate.chance) ||
+        (gate.chance as number) < 1 ||
+        (gate.chance as number) > 100
+      )
         throw new Error(
           `${path}.${slot}.gates[${gi}].chance: 期望整数 ∈[1,100]（原版 0x06 概率门 r∈[1,100] r≥chance）`,
         )
@@ -375,12 +383,20 @@ export function validateSkills(json: unknown): {
   skills: SkillData[]
   levelUp: Record<string, unknown>
 } {
+  const enemyRuntimeEffectKinds = new Set<string>(ENEMY_RUNTIME_SKILL_EFFECT_KINDS)
   const o = assertObject(json, 'skills')
   requireKeys(o, ['skills', 'levelUp'], 'skills')
   const skills = assertArray<SkillData>((json as { skills: unknown }).skills, 'skills.skills')
   skills.forEach((s, i) => {
     const so = assertObject(s, `skills.skills[${i}]`) as Record<string, unknown>
     requireKeys(so, ['id', 'name', 'cost', 'target', 'effects', 'animation'], `skills.skills[${i}]`)
+    if (so.lifetimeLimit !== undefined) {
+      const lifetimeLimit = requireSafeInteger(
+        so.lifetimeLimit,
+        `skills.skills[${i}].lifetimeLimit`,
+      )
+      if (lifetimeLimit <= 0) throw new Error(`skills.skills[${i}].lifetimeLimit: 期望正整数`)
+    }
     const cost = assertObject(so.cost, `skills.skills[${i}].cost`) as Record<string, unknown>
     if (cost.items !== undefined) {
       const items = assertArray<Record<string, unknown>>(
@@ -404,15 +420,15 @@ export function validateSkills(json: unknown): {
     >
     validateSkillAnimation(animation, `skills.skills[${i}].animation`)
     const effects = assertArray<Record<string, unknown>>(so.effects, `skills.skills[${i}].effects`)
-    effects.forEach((effect, effectIndex) =>
+    effects.forEach((effect, effectIndex) => {
       validateSkillEffect(
         assertObject(effect, `skills.skills[${i}].effects[${effectIndex}]`) as Record<
           string,
           unknown
         >,
         `skills.skills[${i}].effects[${effectIndex}]`,
-      ),
-    )
+      )
+    })
     if (so.execution !== undefined) {
       const execution = assertObject(so.execution, `skills.skills[${i}].execution`) as Record<
         string,
@@ -426,21 +442,29 @@ export function validateSkills(json: unknown): {
           string,
           unknown
         >
-        requireOnlyKeys(override, ['effects', 'animation', 'prepare'], `skills.skills[${i}].execution.${side}`)
+        requireOnlyKeys(
+          override,
+          ['effects', 'animation', 'prepare'],
+          `skills.skills[${i}].execution.${side}`,
+        )
         if (override.effects !== undefined) {
           const branchEffects = assertArray<Record<string, unknown>>(
             override.effects,
             `skills.skills[${i}].execution.${side}.effects`,
           )
-          branchEffects.forEach((effect, effectIndex) =>
+          branchEffects.forEach((effect, effectIndex) => {
             validateSkillEffect(
               assertObject(
                 effect,
                 `skills.skills[${i}].execution.${side}.effects[${effectIndex}]`,
               ) as Record<string, unknown>,
               `skills.skills[${i}].execution.${side}.effects[${effectIndex}]`,
-            ),
-          )
+            )
+            if (side === 'enemy' && !enemyRuntimeEffectKinds.has(String(effect.kind)))
+              throw new Error(
+                `skills.skills[${i}].execution.enemy.effects[${effectIndex}].kind: 敌方 runtime 不支持 ${String(effect.kind)}`,
+              )
+          })
         }
         if (override.animation !== undefined)
           validateSkillAnimation(
@@ -451,6 +475,10 @@ export function validateSkills(json: unknown): {
             `skills.skills[${i}].execution.${side}.animation`,
           )
         if (override.prepare !== undefined) {
+          if (side === 'enemy')
+            throw new Error(
+              `skills.skills[${i}].execution.enemy.prepare: 敌方 runtime 不支持施法前置效果`,
+            )
           const prepares = assertArray<Record<string, unknown>>(
             override.prepare,
             `skills.skills[${i}].execution.${side}.prepare`,

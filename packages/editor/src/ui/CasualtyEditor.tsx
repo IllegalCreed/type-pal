@@ -159,21 +159,34 @@ export function CasualtyEditor(props: {
                 key={i}
                 className={`arow${target.kind === 'gate' && target.index === i ? ' sel' : ''}`}
                 style={{ display: 'flex', alignItems: 'center', gap: 6 }}
-                onClick={() => setTarget({ kind: 'gate', index: i })}
               >
+                <button
+                  type="button"
+                  className="mini-txt"
+                  data-gate-select="true"
+                  aria-pressed={target.kind === 'gate' && target.index === i}
+                  onClick={() => setTarget({ kind: 'gate', index: i })}
+                >
+                  门 {i + 1}
+                </button>
                 <input
                   type="number"
                   className="in mono"
                   style={{ width: 64 }}
                   min={1}
                   max={100}
+                  step={1}
                   value={g.chance}
-                  onClick={(e) => e.stopPropagation()}
-                  onChange={(e) => setGateChance(i, Math.max(1, Math.min(100, Number(e.target.value) || 1)))}
+                  onChange={(e) =>
+                    setGateChance(
+                      i,
+                      Math.max(1, Math.min(100, Math.trunc(Number(e.target.value) || 1))),
+                    )
+                  }
                 />
                 <span className="meta">%</span>
                 <span className="spacer" />
-                <button type="button" className="mini-txt" onClick={(e) => { e.stopPropagation(); removeGate(i) }}>
+                <button type="button" className="mini-txt" onClick={() => removeGate(i)}>
                   ✕
                 </button>
               </div>
@@ -181,24 +194,31 @@ export function CasualtyEditor(props: {
             <button type="button" className="tool" style={{ marginTop: 4 }} onClick={addGate}>
               ＋ 加一扇门
             </button>
-            <div
+            <button
+              type="button"
               className={`arow${target.kind === 'fallback' ? ' sel' : ''}`}
               style={{ marginTop: 6 }}
               onClick={() => setTarget({ kind: 'fallback' })}
+              aria-pressed={target.kind === 'fallback'}
             >
               兜底分支 (fallback)
-            </div>
+            </button>
           </div>
           {/* 右列:选中分支编辑器 */}
-          <div style={{ flex: 1, minWidth: 0, borderLeft: '1px solid var(--line, #2c3644)', paddingLeft: 12 }}>
+          <div
+            style={{
+              flex: 1,
+              minWidth: 0,
+              borderLeft: '1px solid var(--line, #2c3644)',
+              paddingLeft: 12,
+            }}
+          >
             {branch ? (
               <BranchEditor
                 branch={branch}
                 locale={locale}
                 onChange={setBranch}
-                header={
-                  target.kind === 'fallback' ? '兜底分支' : `第 ${target.index + 1} 扇门分支`
-                }
+                header={target.kind === 'fallback' ? '兜底分支' : `第 ${target.index + 1} 扇门分支`}
               />
             ) : (
               <div className="insp-empty">（该门已被删除，请选择其他分支）</div>
@@ -253,7 +273,9 @@ function BranchEditor(props: {
             onChange={(e) =>
               setLines(
                 branch.lines.map((l, i) =>
-                  i === li ? { ...l, style: e.target.value as CasualtyBranch['lines'][number]['style'] } : l,
+                  i === li
+                    ? { ...l, style: e.target.value as CasualtyBranch['lines'][number]['style'] }
+                    : l,
                 ),
               )
             }
@@ -333,9 +355,7 @@ function BranchEditor(props: {
                 onChange={(e) =>
                   setEffects(
                     branch.effects.map((x, i) =>
-                      i === ei
-                        ? { ...x, stat: e.target.value as (typeof STATS)[number] }
-                        : x,
+                      i === ei ? { ...x, stat: e.target.value as (typeof STATS)[number] } : x,
                     ),
                   )
                 }
@@ -351,11 +371,14 @@ function BranchEditor(props: {
                 className="in mono"
                 style={{ width: 64 }}
                 min={1}
+                step={1}
                 value={eff.percent}
                 onChange={(e) =>
                   setEffects(
                     branch.effects.map((x, i) =>
-                      i === ei ? { ...x, percent: Math.max(1, Number(e.target.value) || 1) } : x,
+                      i === ei
+                        ? { ...x, percent: Math.max(1, Math.trunc(Number(e.target.value) || 1)) }
+                        : x,
                     ),
                   )
                 }

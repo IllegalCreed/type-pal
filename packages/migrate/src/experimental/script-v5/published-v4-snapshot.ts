@@ -6,10 +6,8 @@ import {
   loadProjectMigrationSnapshot,
 } from '../../migration-project-io.js'
 import type { MigrationFileSet } from '../../pal-migration.js'
-import {
-  rewindPublishedR13SourceSemanticsTransition,
-} from './published-r13-source-semantics-test-fixture.js'
 import { rewindPalR13SixBPublicationIfPresent } from '../../pal-r13-six-b-rewind.js'
+import { rewindPublishedR13SourceSemanticsTransition } from './published-r13-source-semantics-test-fixture.js'
 import { R13_SOURCE_SEMANTICS_SEAL_PATH } from './r13-source-semantics-mg2.js'
 import { stableJsonSha256 } from './stable-json.js'
 

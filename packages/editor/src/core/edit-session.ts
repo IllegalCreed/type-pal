@@ -62,6 +62,11 @@ export interface EditSessionOptions {
   maxLoadedMaps?: number
 }
 
+export interface EditSessionTransactionReceipt {
+  /** 仅供跨 session coordinator 在同一同步事务失败时调用；不产生 redo 项。 */
+  rollback(): void
+}
+
 /** 编辑会话:不可变工作副本 + undo/redo 栈 + 订阅 + 脏标记。 */
 export class EditSession {
   private state: EditorState
@@ -129,6 +134,63 @@ export class EditSession {
     this.past.push(cmd)
     this.future = []
     this.dirty = true
+    this.historyVersion += 1
+    this.notify()
+    return true
+  }
+
+  /**
+   * 跨 session 原子操作专用：成功与普通 dispatch 同义；receipt 可精确恢复 dispatch 前
+   * state/history/future/dirty。rollback 不是用户 undo，绝不会留下可 redo 的半状态。
+   */
+  dispatchForTransaction(cmd: Command): EditSessionTransactionReceipt | undefined {
+    const before = {
+      state: this.state,
+      past: [...this.past],
+      future: [...this.future],
+      dirty: this.dirty,
+      dirtyMapIds: new Set(this.dirtyMapIds),
+      pinnedMapIds: new Set(this.pinnedMapIds),
+      mapRevisions: new Map(this.mapRevisions),
+      mapLru: [...this.mapLru],
+    }
+    if (!this.dispatch(cmd)) return undefined
+    let active = true
+    return {
+      rollback: (): void => {
+        if (!active) throw new Error('legacy transaction receipt 已失效')
+        if (this.past.at(-1) !== cmd)
+          throw new Error(`无法回滚事务：legacy history 顶部不是「${cmd.label}」`)
+        active = false
+        this.state = before.state
+        this.past = before.past
+        this.future = before.future
+        this.dirty = before.dirty
+        this.dirtyMapIds.clear()
+        for (const id of before.dirtyMapIds) this.dirtyMapIds.add(id)
+        this.pinnedMapIds.clear()
+        for (const id of before.pinnedMapIds) this.pinnedMapIds.add(id)
+        this.mapRevisions.clear()
+        for (const [id, revision] of before.mapRevisions) this.mapRevisions.set(id, revision)
+        this.mapLru = before.mapLru
+        this.historyVersion += 1
+        this.notify()
+      },
+    }
+  }
+
+  isUndoTop(cmd: Command): boolean {
+    return this.past.at(-1) === cmd
+  }
+
+  isRedoTop(cmd: Command): boolean {
+    return this.future.at(-1) === cmd
+  }
+
+  /** coordinator 清除已经失去另一半的 redo；不应用命令、不改内容。 */
+  discardRedo(cmd: Command): boolean {
+    if (!this.isRedoTop(cmd)) return false
+    this.future.pop()
     this.historyVersion += 1
     this.notify()
     return true

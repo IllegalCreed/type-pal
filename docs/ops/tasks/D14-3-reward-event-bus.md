@@ -1,14 +1,15 @@
 # D14-3 - 奖励/事件总线统一收尾（议题 14 剩余③）
 
-Status: draft
+Status: done
 Phase: phase2
 Capability: 议题 14 剩余③ 奖励/事件（物品提示两套 UI 统一）
 Coding Owner: Codex
 Generation Owner: N/A
 Reviewer: GLM（覆盖矩阵主审）+ Kimi（视觉/UX 抽审）
-Visual Verification Owner: Kimi
-Unavailable Agents: none（2026-08-07 GLM/Kimi 均已恢复,补审中）
-Branch: TBD
+Visual Verification Owner: Codex（K3 功能输入 + 代码冻结后剧情奖励集中 E2E）
+Visual Verification Timing: mixed（K3 功能性输入已在开发期最小验证；剧情奖励观感后续只进集中 E2E）
+Unavailable Agents: Kimi / GLM（仅 K3 最终增量 re-review；用户 2026-08-09 明确签字豁免）
+Branch: `chore/docs-migrate-cleanup`
 
 ## 目标
 
@@ -59,7 +60,10 @@ Branch: TBD
 - 文档:
   - backlog 议题 14 剩余③状态更新；capability-map 文本呈现口径。
 - 视觉 / 手工验证:
-  - Kimi 浏览器实测宝箱/偷窃/合成/战斗结算提示一致。
+  - 功能性 K3 输入可在开发期最小验证；宝箱/偷窃/合成/战斗结算等剧情/内容观感只登记并进入代码
+    冻结后的集中 E2E，不要求 build/review Agent 重复走剧情截图。
+  - 集中 E2E 登记：PAL；宝箱旁白、战斗偷窃、炼蛊皿合成、战斗结算四入口；预期引擎自有提示均走
+    reward-gain、无双 UI、固定时序后无残留；证据落 `output/playwright/d14-3/e2e-*`。
 
 ## 推进签字
 
@@ -76,12 +80,18 @@ Branch: TBD
 
 ### 进入 done 前:审查签字
 
-- Codex: pending（Coding Owner done 前收口签字待补）
-- Kimi: pending（视觉抽验:四类提示一致 + 战斗偷窃 + 排队拖尾,缺席待补）
-- GLM: **accept（2026-08-07，覆盖矩阵 build 期核对：核 141d24e7 全 diff + G2 grep 零残留 + 独立复跑 item-use-result 2 测 + reforge 821 无回归；G1 五路径逐条核（giveItem/giveMoney/偷窃/合成炼成/结算）+ G2 无双 UI 并存门禁闭环。浏览器视觉留 Kimi。见「GLM 实现复审」）**
-- counter / 返工处理: 无 counter
-- 缺签豁免: N/A
-- done 准入结论: **blocked on Kimi 视觉 + Codex 收口 + 用户验收**（GLM accept 已落）
+- Codex: **accept（2026-08-08，K3 rework + Kimi 键位裁决自验）**——timeout / advance / abort
+  竞争同一 settle；Enter / Space 只跳当前条并消费同帧输入；Esc 不推进且返回未消费，保留外层关闭 /
+  菜单语义。后续保序、timer/listener 清理不变。定向 5 测、Reforge 81 files / 826 tests、build 通过。
+- Kimi: **waived by user（2026-08-09）**——此前对 `141d24e7` 的 K1 / 合成卷轴视觉 accept 保留为
+  历史证据；K3 最终键位增量未由 Kimi re-review，本次豁免不得记为 Kimi 本人 re-accept。
+- GLM: **waived by user（2026-08-09）**——此前对 `141d24e7` 的 G1 / G2 accept 保留为历史证据；
+  K3 队列生命周期增量未由 GLM re-review，本次豁免不得记为 GLM 本人 re-accept。
+- counter / 返工处理: Codex 原 counter 已由 `RewardGainQueue` 收口；OPS-RW1 Kimi 对 Esc 的设计
+  counter 也已落实为“Enter/Space 跳过、Esc 外传”。rework diff 等待 Kimi / GLM 重新确认。
+- 缺签豁免: **用户明确批准（2026-08-09，“签了”）**；只豁免 Kimi / GLM 对 K3 最终增量的
+  re-review，不改写两席旧版 accept，也不豁免自动测试。
+- done 准入结论: **allowed（2026-08-09，Codex accept + 用户缺签豁免；OPS-RW1 全量集成复验通过）**
 
 ## Draft: 设计与风险
 
@@ -201,6 +211,9 @@ giveItem 自动呈现留 v1.1 认可（待三贤恢复评审 present 字段 vs �
     保留 buildItemUseResultEntries;新增 itemUseResultText 单行文本「炼成/炼出 X × N」）
   - `packages/reforge/src/main.ts`（itemUseResult 状态 → rewardGain 队列(逐条 1400ms);
     渲染改 drawRewardGainLine(96);canActivateScriptConfirm/输入模态分支改 rewardGain）
+  - `packages/reforge/src/menu/reward-gain-queue.ts`（K3 rework：单 owner 顺序队列；timeout / advance /
+    abort 单 settle；模态输入消费）
+  - `packages/reforge/src/menu/reward-gain-queue.test.ts`（K3 fake-timer / 键位 / 多条 / abort 回归）
   - `packages/reforge/src/battle/battle-session.ts`（itemBanner 渲染改 drawRewardGainText
     同组件文本变体,位置/时长(1200ms)不变,K1）
   - `packages/reforge/src/menu/item-use-result.test.ts`（itemUseResultText 单测替换
@@ -208,14 +221,28 @@ giveItem 自动呈现留 v1.1 认可（待三贤恢复评审 present 字段 vs �
 - 实现摘要: 三方签后完成。RewardEvent 通道 v1 以「统一 presenter」形态落地——引擎自有
   呈现(偷窃横幅 + 物品使用/炼成)全部走 reward-gain;giveItem/宝箱旁白保持内容驱动
   (幂等天然);giveItem 自动呈现留 v1.1(K2 预裁定:显式 present 字段优先,不做启发式)。
+  - 2026-08-08 K3 rework：移除 `showItemUseResults` 内不可跳过的裸 `setTimeout(1400)`；改由
+    `RewardGainQueue.present()` 保序展示。Enter / Space 调 `advance()` 仅 settle 当前条；Esc 不绑定
+    reward skip，外传给关闭 / 菜单；其它非跳过键仍被模态层消费。AbortSignal 清 timer / listener /
+    current。呈现器与入账逻辑未改。
 - 运行命令:
-  - `pnpm --filter @type-pal/reforge check`（821 通过）
+  - 红测：`pnpm --filter @type-pal/reforge exec vitest run src/menu/reward-gain-queue.test.ts` —— 模块
+    未存在，1 suite fail；落实现后 4/4 通过。
+  - `pnpm --filter @type-pal/reforge exec vitest run src/menu/reward-gain-queue.test.ts src/menu/item-use-result.test.ts`
+    —— 6/6 通过。
+  - `pnpm --filter @type-pal/reforge check`（81 files / 825 tests 通过）
   - `pnpm --filter @type-pal/reforge build` 成功
+  - Kimi 键位裁决后：`pnpm --filter @type-pal/reforge exec vitest run src/menu/reward-gain-queue.test.ts`
+    —— 5/5；`pnpm --filter @type-pal/reforge check` —— 81 files / 826 tests；build 成功。
+  - `pnpm exec biome check packages/reforge/src/menu/reward-gain-queue.ts packages/reforge/src/menu/reward-gain-queue.test.ts`
+    —— 2 files 无问题；`main.ts` 全文件仍有本卡前既存 import / format 债，留 OPS-RW1 统一收口，未做
+    大范围机械格式化。
   - G2 门禁 grep:`drawItemUseResult|itemUseResultLineLayout` 非测试源码零命中(旧入口移除)
-- 浏览器 / 手工检查: pending（Kimi 视觉抽验——宝箱/偷窃/合成/结算提示一致截图 +
-  战斗内偷窃观感(K1)+ 连续入账排队(K3)）
-- 跳过的检查及原因: 视觉/手工按 D28 走分段 e2e + Kimi 抽验;Codex 自证到类型+单测+
-  构建+G2 grep 层。
+- 浏览器 / 手工检查: 初版 Playwright 双条 harness 证明队列 advance 不漏菜单；其中 Escape 推进属于
+  Kimi 裁决前历史证据，现已由单测钉成 `handled=false` 且 current 不变。未为这一行键位调整重复启动
+  浏览器；功能合同由定向 5 测 + package check 闭环。
+- 跳过的检查及原因: 未重跑根 `pnpm lint`；当前已知 119 errors 属 OPS-RW1 门禁债，本增量新文件
+  局部 Biome 已绿，未格式化用户 dirty 文档或 `main.ts` 全文件。
 
 ### 钉逐项对照(G1-G2/K1-K3)
 
@@ -227,21 +254,33 @@ giveItem 自动呈现留 v1.1 认可（待三贤恢复评审 present 字段 vs �
   reward-gain 为唯一引擎自有呈现组件。
 - K1 战斗内观感: ✅ 同组件文本变体(drawRewardGainText),位置/时长不变,视觉验收定。
 - K2 v1.1 预裁定: ✅ 卡内记录——显式 present 字段优先,不做旁白去重启发式。
-- K3 连续入账排队: ✅ 逐条固定 1400ms 展示(不合并),按键跳过留视觉验收若需。
+- K3 连续入账排队: ✅ 逐条固定 1400ms 展示(不合并)；Enter / Space 只跳当前条并消费同帧输入；
+  Esc 不跳过且留给外层菜单；后续保序；abort 清理。fake-timer 5 测已钉。
 
 ## 视觉验证记录(如适用)
 
-- Visual Verification Owner: Kimi
-- 验证方式: GLM build 期核对 = 141d24e7 全 diff 核实 + G2 grep 零残留 + item-use-result 2 测 + reforge 821 无回归;浏览器视觉实测(四类提示一致 + 战斗偷窃观感 + 排队拖尾)留 Kimi(IAB 渲染交互受限)
-- 截图 / 像素检查路径: pending（Kimi 浏览器实测后补）
-- 结论: **GLM 席 accept(逻辑/单测层);浏览器观感门禁待 Kimi**
+- Visual Verification Owner: Codex（K3 功能输入 + 代码冻结后剧情奖励集中 E2E）
+- 验证方式: GLM build 期核对 = 141d24e7 全 diff 核实 + G2 grep 零残留 + item-use-result 2 测 + reforge 821 无回归；Kimi 浏览器实测（PAL dev server 6051,chrome-devtools MCP 驱动,纯键盘合成事件 + canvas 定时裁剪取证）
+- 截图 / 像素检查路径:
+  - `output/playwright/d14-3-steal-banner.png` —— 战斗内偷窃成功「获得 十里香」白字横幅（drawRewardGainText 同组件文本变体,位置/时长 1200ms 不变;K1 ✓,与战斗节奏合,不打断回合流）
+  - `output/playwright/d14-3-craft-scroll.png` —— 炼蛊皿合成「炼出 蛊」横卷轴（drawRewardGainLine,世界层 y=96,卷轴宽度随文字自适应,无截断;148 物品名即「蛊」）
+  - `output/playwright/d14-3/scroll-t500.jpg` / `scroll-t1200.jpg` / `scroll-t2100.jpg` / `scroll-t3200.jpg` —— 合成后卷轴时序四帧:t+500/t+1200 卷轴在干净世界层可见（dispatchItemUse 先 `useMenu = closeUseMenu()` + `menu = CLOSED`,main.ts:3797-3798,展示窗内无菜单遮挡）;t+2100/t+3200 useMenu 重开、卷轴已收,无残留
+  - `output/playwright/d14-3/k3-keyboard-queue-1280x720.png` —— Codex K3 rework 浏览器双条键盘
+    初版 trace（Enter 第一条、Escape 第二条）；Escape 行为已被后续 Kimi 裁决取代，仅作为队列初版
+    历史证据，不再作为当前键位验收证据。
+  - 机读验证:合成 117→148 inventory 计数两次复核（117 -1 / 148 +1）
+- 结论: 旧版 GLM 逻辑 accept + Kimi 视觉 accept 保留；Codex 已补 K3 输入闭环并落实最终键位。当前等待两席
+  对 rework 增量重新确认。2026-08-08 用户新规生效后，不再要求 reviewer 重跑剧情视觉；既有截图
+  作为历史证据复用，未来剧情观感统一进入集中 E2E。
 
 ## Review: 审查与返工
 
 - Reviewer: GLM + Kimi
-- 审查结论: **GLM accept（G1 五路径逐条核 + G2 无双 UI 并存 grep 零残留,见下）;Kimi 视觉抽验待补**
-- 必须返工项: 无（GLM 席）;四类提示观感一致 + 战斗偷窃 + 排队拖尾留 Kimi
-- Accept / rework: **GLM accept;Kimi 视觉 + Codex 收口 + 用户验收后 done**
+- 审查结论: Codex K3 rework 自验 accept；旧版 GLM / Kimi accept 仍是历史证据；最终增量双审由用户
+  明确签字豁免，不冒签两席。
+- 必须返工项: 无。OPS-RW1 集成后 Reforge 82 files / 842 tests、production build、根级检查与 Biome
+  全绿；queue 的 timeout / Enter / Space / Esc / abort / 多条保序合同由 fake-timer 测试覆盖。
+- Accept / rework: **done（2026-08-09，用户缺签豁免）**。
 
 ### GLM 实现复审（2026-08-07，覆盖矩阵 build 期核对）：**accept**
 
@@ -281,10 +320,46 @@ G2 grep 残留检查;独立复跑 item-use-result 2 测 + reforge 全包 821 测
 reforge 821 无回归。giveItem 自动呈现留 v1.1（K2 预裁定已记）。浏览器视觉实测留 Kimi；
 本 accept 连同 Kimi 视觉 + Codex 收口 + 用户验收后 done。
 
+### Kimi 视觉抽验与实现复审（2026-08-08，视觉/UX 席）：**accept**
+
+**方法**：只读复审 + 浏览器实测。diff 层独立核 141d24e7（reward-gain.ts 两函数、
+battle-session 偷窃横幅换同组件文本变体、main.ts rewardGain 队列 1400ms 逐条）；
+G2 grep 独立复跑零残留；reforge 821 复跑绿。浏览器实测走 chrome-devtools MCP
+（合成键盘事件 + canvas 定时裁剪;游戏本体纯键盘,鼠标点画布无输入——道具菜单无鼠标支持,
+已核 menu 源码确认;dev 面板开着时 Esc 被 capture 抢占只关面板,D13-1 既有语义,取证前须先关面板）。
+
+**K 钉逐项**：
+
+- **K1（战斗内偷窃观感）✓**：`?skill=377&battle=11` 飞龙探云手偷 enemy-400,成功横幅
+  「获得 十里香」白字带影居中(drawRewardGainText,fight.c:2316 color15 语义),位置/时长与旧
+  itemBanner 完全一致,不挡战斗关键区、不打断回合节奏。截图 `d14-3-steal-banner.png`。
+- **K2（v1.1 预裁定）✓**：卡内已记,实现未越界做 giveItem 自动呈现。
+- **K3（连续入账排队）△ 记录项**：1400ms 逐条常量与队列结构 diff 已核;
+  PAL 合成(117→148)与偷窃均为单产物,多入账排队拖尾无实机场景可验——观感留待首个
+  多产物内容出现时抽验,不阻塞本卡。
+
+**合成卷轴时序（本卡唯一新增世界层呈现路径,重点取证）**：
+
+- 实测:`?debug=1&give=268` + debug console `give 117`,菜单→物品→使用→炼蛊皿,
+  first-match 配方 117→148 合成成功(inventory 机读两次复核:117 -1 / 148 +1)。
+- 时序四帧:`scroll-t500/t1200` 卷轴「炼出 蛊」在干净世界层可见;t+2100/t+3200 useMenu
+  重开、卷轴已收。机制核实:dispatchItemUse 入口即 `closeUseMenu()` + `menu = CLOSED`
+  (main.ts:3797-3798),展示窗 1400ms 内无菜单遮挡;finishUseExecution 重开面板时卷轴
+  恰好到期收口。评审中曾怀疑「卷轴被 useMenu 盖住」——证伪,非缺陷。
+- 卷轴观感:横卷轴 + 黑字「炼出 蛊」,宽度 narrationTextUnits 自适应,无截断
+  (148 物品名即单字「蛊」)。截图 `d14-3-craft-scroll.png`。
+
+**一致性口径**：被统一的两处引擎自有呈现（偷窃横幅/使用炼成结果）实测均走 reward-gain,
+样式与 narration 卷轴系一致;宝箱/剧情旁白（内容驱动）与结算屏（结构未动）呈现路径未改,
+观感基线不变,不存在「双 UI 同框」场景。
+
+**结论**：**accept**。视觉观感门禁闭环;K3 留记录项。done 准入 blocked on Codex 收口 + 用户验收。
+
 ## 用户验收
 
-- 用户结论: pending
-- 后续任务: pending
+- 用户结论: 2026-08-09 明确“签了”，批准 D14-3 收口并豁免 Kimi / GLM 对 K3 最终增量的 re-review。
+- 后续任务: giveItem 自动呈现仍按既定范围留 v1.1（优先显式 `present` 字段）；宝箱 / 偷窃 / 合成 /
+  结算观感按新规进入代码冻结后的集中 E2E，不在开发期重复截图。
 
 ## 交接日志
 
@@ -313,52 +388,34 @@ reforge 821 无回归。giveItem 自动呈现留 v1.1（K2 预裁定已记）。
   item-use-result -61 行旧呈现全删）。reward-gain presenter 复用纪律对（横卷轴 + 文本变体同源）。
   浏览器视觉实测（四类提示观感 + 战斗偷窃 + 排队拖尾）留 Kimi。done 前签字 GLM 行补本席 accept。
   详见「GLM 实现复审」。
+- 2026-08-08 Kimi（视觉抽验）: 签 **accept**。浏览器实测闭环——K1 偷窃横幅
+  （`d14-3-steal-banner.png`,战斗白字同组件文本变体,位置/时长不变）;合成卷轴
+  （`d14-3-craft-scroll.png`「炼出 蛊」+ `d14-3/scroll-t500~t3200` 时序四帧,
+  证实 dispatchItemUse 先关菜单后展示、1400ms 窗内无遮挡、finishUseExecution 重开面板时
+  卷轴已收口,此前「卷轴被 useMenu 遮挡」疑点证伪非缺陷）;合成 inventory 机读两次复核。
+  K3 排队拖尾留记录项（PAL 单产物场景无实机可验,常量/结构 diff 已核,不阻塞）。
+  GLM + Kimi 双 accept 齐,done 准入 blocked on Codex 收口 + 用户验收。
+  详见「Kimi 视觉抽验与实现复审」。Next: Codex done 前收口签字。
+- 2026-08-08 Codex（done 前复核）: 签 **counter**。发现 K3 的“可按键跳过”未实现：展示循环只
+  `setTimeout(1400)`，输入分支只吞键；现有两席 accept 未覆盖真实多条 advance / abort 行为。
+  Status 转 rework。Next: Codex 在既有三方 agree 设计内补 K3 + targeted tests + 浏览器输入闭环，
+  再交 Kimi / GLM 复审增量；不得标 done。
+- 2026-08-08 Codex（K3 rework）: counter 已解决并签 **accept**。新增 `RewardGainQueue`，把 1400ms
+  timeout、Enter / Space / Esc advance、AbortSignal 合并为单 settle；跳过只推进当前条，模态 handler
+  同帧返回 handled 防菜单泄漏。Evidence: 红→绿 4 测；Reforge 81 files / 825 tests；build；Playwright
+  双条 trace `handled=true×2 / leaks=0 / done=true`，截图
+  `output/playwright/d14-3/k3-keyboard-queue-1280x720.png`。Status → review。Next: Kimi / GLM 只读
+  复审 K3 增量并签 re-accept 或 counter；不得标 done。
+- 2026-08-08 Codex（Kimi 键位裁决跟进）: OPS-RW1 Kimi 明确 Enter / Space 跳过、Esc 保留关闭 /
+  菜单语义。已从 advance keys 移除 Escape，handler 对 Esc 返回 false 且不 settle；新增 Esc 外传回归。
+  Evidence: queue 5/5，Reforge 81 files / 826 tests，build。旧 Escape 浏览器 trace 降为历史证据，未重复
+  启动浏览器。Next: Kimi / GLM 按最终两键合同 re-review；不得标 done。
+- 2026-08-09 Codex（OPS-RW1 集成复验）: D14-3 增量随 Reforge 全包 82 files / 842 tests、production
+  build、根级全包检查与 Biome 通过；剧情奖励视觉按用户新规未重复执行。Next: 用户决定是否批准
+  Kimi / GLM 最终增量 re-review 缺签豁免。
+- 2026-08-09 User: 明确“签了”，批准 D14-3 收口及 Kimi / GLM K3 增量 re-review 缺签豁免；不得
+  记作两席本人 re-accept。Status → done。Next: giveItem `present` 留 v1.1，剧情奖励观感进集中 E2E。
 
 ## 下一位 Agent 提示词
 
-```text
-接手任务: D14-3 奖励/事件总线统一收尾实现（三方 agree 齐,build allowed）
-任务卡: docs/ops/tasks/D14-3-reward-event-bus.md
-当前状态: draft → build 准入 allowed(Codex/GLM/Kimi 三方 agree,2026-08-07)。
-你的角色: Coding Owner——build 阶段唯一实现文件修改者。
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文(设计结论 + GLM G1-G2 + Kimi K1-K3);
-  main.ts:1811/2493/3645、battle-core.ts:284(notice 横幅)、item-use-result.ts、
-  narration-scroll.ts、dialog-box.ts:248。
-必落钉(build 验收逐项核):
-  - G1(GLM build 期冻结): 五路径(giveItem/宝箱旁白/偷窃/合成炼成/结算物品)逐条
-    入账点发射 RewardEvent + 引擎呈现走 reward-gain + 脚本旁白不重复。
-  - G2: 双 UI 并存门禁——偷窃横幅/item-use-result 全走 reward-gain,grep 无旧入口
-    残留死代码。
-  - K1: 战斗内 reward-gain 位置/时长与战斗节奏合;违和则战斗内横幅形态同组件变体,
-    视觉验收定。
-  - K3: 连续入账逐条排队(不压一行)+ 固定时长 + 可按键跳过。
-  - 设计结论全项: RewardEvent 仅 reforge 内部类型(不动 content schema);入账逻辑零改动
-    只加发射;giveItem 保持静默(v1.1 留口);结算屏结构保留。
-纪律: 不改 giveItem 时序语义;不引入异步奖励队列改变时序;不第三套提示 UI;
-  不入账与呈现耦合(呈现器不写 world)。
-验收输出: 实现摘要 + G/K 钉逐项对照 + 测试证据;回卡交 GLM/Kimi review 签字;
-  Kimi 视觉验收(宝箱/偷窃/合成/结算提示一致 + 战斗偷窃观感 + 连续入账排队)。
-```
-
-```text
-接手任务: D14-3 奖励/事件总线——Kimi 视觉抽验 + Codex done 前收口
-任务卡: docs/ops/tasks/D14-3-reward-event-bus.md
-当前状态: build(实现完成,提交 141d24e7);GLM review accept 已落(G1 五路径逐条 +
-  G2 无双 UI grep 零残留,见「GLM 实现复审」);done 准入 blocked on Kimi 视觉 + Codex 收口 + 用户验收。
-你的角色: Kimi(视觉抽验:浏览器实测)。GLM 已覆盖五路径覆盖矩阵 + G2 门禁 + 单测复跑,
-  你聚焦浏览器观感门禁(GLM 因 IAB 渲染交互受限未跑)。
-先读: 本卡「GLM 实现复审」(G1/G2 核对结论) + Build 节钉逐项 + 设计结论;
-  **docs/ops/kimi-verification-manual.md**(游戏本体纯键盘,鼠标点画布无输入);
-  reward-gain.ts(drawRewardGainLine 横卷轴 + drawRewardGainText 战斗文本变体)、
-  main.ts:3715/3749/4501-4505(rewardGain 状态 + 呈现)、battle-session.ts:2786(偷窃横幅)、
-  item-use-result.ts(旧呈现已 -61 移除)。
-请你做:
-  1. 浏览器实测(PAL,6051)四类提示观感一致:宝箱拾取/剧情 giveItem 旁白、偷窃横幅、合成炼成框、
-     战斗结算物品 —— 引擎自有呈现全走 reward-gain(横卷轴/文本变体),无 narration 卷轴与 item-use-result
-     同框残留(G2 已 grep 证零残留,观感层再确认)。
-  2. 战斗内偷窃观感(K1:reward-gain 文本变体位置/时长与战斗节奏合)。
-  3. 连续入账排队(K3:逐条展示不压一行 + 固定时长 + 可按键跳过)。
-  4. 独立确认 G1 五路径(可复跑 reforge 测)。
-输出: 签 accept(附浏览器截图)或 counter(具体反例);更新 done 前 Kimi 签字 + 视觉验证记录。
-  GLM accept + Kimi 视觉 accept 齐 → 交 Codex done 前收口签字 + 用户验收。不得修改实现文件。
-```
+无下一位 Agent 提示词；任务已按用户缺签豁免收口，等待集中 E2E / v1.1 另行开卡。

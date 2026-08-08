@@ -8,13 +8,12 @@ import type {
   ScriptIndexV1,
   SkillData,
 } from '@type-pal/content'
-import { ROLE_SLUGS } from '../../source-facts.js'
-import { palPaletteSiteAt } from '../../pal-palette-sites.js'
 import type { MigrationSnapshot } from '../../migration-baseline.js'
 import type { MigrationFileSet, MigrationJson, PalMigrationSources } from '../../pal-migration.js'
+import { palPaletteSiteAt } from '../../pal-palette-sites.js'
 import type { ScriptBodyAudit, ScriptControlFlowAuditV1 } from '../../script-control-flow-audit.js'
 import type { SourceCmd } from '../../source-facts.js'
-import { sceneSlug } from '../../source-facts.js'
+import { ROLE_SLUGS, sceneSlug } from '../../source-facts.js'
 import type { TranslateInstructionOutcome } from '../../translate-events.js'
 import type { P7GeneratedCanonical } from './p7-generated.js'
 import {
@@ -1557,9 +1556,10 @@ function successorSourceRootDigest(
   rootIds: readonly string[],
 ): string {
   return stableJsonSha256(
-    [...rootIds]
-      .sort(stableStringCompare)
-      .map((sourceRootId) => ({ sourceRootId, closure: sourceClosureDigest(census, sourceRootId) })),
+    [...rootIds].sort(stableStringCompare).map((sourceRootId) => ({
+      sourceRootId,
+      closure: sourceClosureDigest(census, sourceRootId),
+    })),
   )
 }
 
@@ -1689,9 +1689,9 @@ function r13SuccessorSourceEvidence(args: {
       id,
       scope: 'observation-closure',
       kind: 'r13-successor-domain',
-      addresses: [...new Set(sourceRootIds.flatMap((rootId) => addressesForRoot(args.census, rootId)))].sort(
-        (left, right) => left - right,
-      ),
+      addresses: [
+        ...new Set(sourceRootIds.flatMap((rootId) => addressesForRoot(args.census, rootId))),
+      ].sort((left, right) => left - right),
       domain,
       objectId,
       capability: domain === 'item' ? 'use' : 'skill',
@@ -1735,13 +1735,9 @@ function palPaletteResolutionEvidence(args: {
   }
   const ambiences = value<{ id: string }[]>(args.successorFinal, 'content/ambiences.json')
   const ambienceById = new Map(ambiences.map((def) => [def.id, def]))
-  const assetsIndex = JSON.stringify(
-    value<unknown>(args.successorFinal, 'assets/index.json'),
-  )
+  const assetsIndex = JSON.stringify(value<unknown>(args.successorFinal, 'assets/index.json'))
   const ambienceDefsDigest = stableJsonSha256(
-    [...ambienceById.entries()].sort(([left], [right]) =>
-      stableStringCompare(left, right),
-    ),
+    [...ambienceById.entries()].sort(([left], [right]) => stableStringCompare(left, right)),
   )
   for (const [paletteIndex, addresses] of [...byIndex.entries()].sort(
     ([left], [right]) => left - right,
@@ -1750,12 +1746,12 @@ function palPaletteResolutionEvidence(args: {
     const resolutions = sorted.map((address) => {
       const spec = palPaletteSiteAt(address)
       if (!spec || spec.paletteIndex !== paletteIndex)
-        throw new Error(
-          `R13 disposition: setPalette(${paletteIndex}) @${address} 缺裁决或索引漂移`,
-        )
+        throw new Error(`R13 disposition: setPalette(${paletteIndex}) @${address} 缺裁决或索引漂移`)
       if (spec.treatment === 'ambience') {
         if (!ambienceById.has(spec.ambience))
-          throw new Error(`R13 disposition: setPalette(${paletteIndex}) ambience 缺定义 ${spec.ambience}`)
+          throw new Error(
+            `R13 disposition: setPalette(${paletteIndex}) ambience 缺定义 ${spec.ambience}`,
+          )
         return { address, treatment: 'ambience' as const, ambience: spec.ambience }
       }
       if (!assetsIndex.includes(spec.assetId))
@@ -1775,9 +1771,7 @@ function palPaletteResolutionEvidence(args: {
     const digests = selectors.map((selector) =>
       selector === 'content/ambiences.json'
         ? stableJsonSha256(
-            [...ambienceById.entries()].sort(([left], [right]) =>
-              stableStringCompare(left, right),
-            ),
+            [...ambienceById.entries()].sort(([left], [right]) => stableStringCompare(left, right)),
           )
         : stableJsonSha256(value<unknown>(args.successorFinal, 'assets/index.json')),
     )
@@ -2561,7 +2555,7 @@ function r13ItemUnusableUseSourceSiteEvidence(args: {
     ([, root]) => root.reason === 'item-scriptOnUse-missing-final-target',
   )
   if (!openRootEntries.length) return result
-  for (const [sourceRootId, root] of openRootEntries) {
+  for (const [sourceRootId] of openRootEntries) {
     const parsed = sourceRootField(sourceRootId)
     if (!parsed || parsed.domain !== 'items' || parsed.field !== 'scriptOnUse') continue
     const rawItem = rawItems.get(parsed.objectId)
@@ -4913,8 +4907,6 @@ export function addR13SegmentTransferResumeEvidence(args: {
   const { details, census, dispositions, evidence } = args
   const dispositionBySite = new Map(dispositions.map((entry) => [entry.siteId, entry]))
   const sites = census.sites
-  const reachable = new Set(sites.map((site) => site.address))
-  const contexts = contextById(census)
   const hostKindByContext = new Map(
     census.contexts.map((context) => [context.id, context.host.kind]),
   )
@@ -4931,10 +4923,8 @@ export function addR13SegmentTransferResumeEvidence(args: {
     'scene-on-enter',
     'dynamic-scene-on-enter',
   ])
-  const items: Extract<
-    R13DispositionEvidence,
-    { kind: 'r13-segment-transfer-resume' }
-  >['items'] = []
+  const items: Extract<R13DispositionEvidence, { kind: 'r13-segment-transfer-resume' }>['items'] =
+    []
   const finalTargets = new Map<string, string>()
   const failedAddresses = new Set<number>()
   for (const detail of details) {
@@ -4948,8 +4938,7 @@ export function addR13SegmentTransferResumeEvidence(args: {
       coveringSites.map((site) => hostKindByContext.get(site.contextId) ?? 'unknown'),
     )
     const entryTranslated =
-      coveringKinds.size > 0 &&
-      [...coveringKinds].some((kind) => TRANSLATED_ENTRY_KINDS.has(kind))
+      coveringKinds.size > 0 && [...coveringKinds].some((kind) => TRANSLATED_ENTRY_KINDS.has(kind))
     // 最终目标集合:successor 站点 final 层证据的 targetDigests(机器可校验载体)。
     for (const site of coveringSites) {
       const disposition = dispositionBySite.get(site.id)
@@ -4961,7 +4950,8 @@ export function addR13SegmentTransferResumeEvidence(args: {
             digests?: string[]
             digest?: string
           }
-          for (const digest of finalTarget.digests ?? (finalTarget.digest ? [finalTarget.digest] : []))
+          for (const digest of finalTarget.digests ??
+            (finalTarget.digest ? [finalTarget.digest] : []))
             finalTargets.set(digest, digest)
           for (const selector of finalTarget.selectors ?? []) finalTargets.set(selector, selector)
         }
@@ -5281,16 +5271,18 @@ function reportObservations(args: {
       const augmented = exactSkillTarget(args.generated.snapshot, objectId)
       if (!augmented)
         throw new Error(`R13 disposition: skill ${objectId} overlay 已消账但缺 augmented target`)
-      proof = proof ?? addDomainAugmentationEvidence({
-        evidence: args.evidence,
-        census: args.census,
-        domain: 'skill',
-        objectId,
-        capability: 'skill',
-        sourceRootIds: rootIds,
-        augmentedTarget: augmented,
-        finalTarget: exactSkillTarget(args.final, objectId),
-      })
+      proof =
+        proof ??
+        addDomainAugmentationEvidence({
+          evidence: args.evidence,
+          census: args.census,
+          domain: 'skill',
+          objectId,
+          capability: 'skill',
+          sourceRootIds: rootIds,
+          augmentedTarget: augmented,
+          finalTarget: exactSkillTarget(args.final, objectId),
+        })
     }
     addLayered({
       id: `skill:${objectId}:pending`,
@@ -5581,7 +5573,7 @@ export interface R13SourceInstructionDispositionBuildArgs {
   r13EnemyClosure?: R13EnemyClosureAuthority
   r13ExistingSchemaClosure?: R13ExistingSchemaClosureAuthority
   preparedSourceCensus?: PreparedR13SourceExecutionCensus
-  /** R13-5/R13-6 only: bind same-entity legacy-call bodies without altering R13-4 history. */
+  /** Successor opt-in: bind same-entity legacy-call bodies; published R13-5 replay must remain false. */
   bindIndirectEntityBodies?: boolean
   /** R13-Z opt-in: bind item scriptOnThrow sites to the audited R13-3 source roots. */
   bindItemThrowSourceSites?: boolean
@@ -5642,7 +5634,10 @@ function buildR13SourceInstructionDispositionInternal(
         census,
         evidence,
       })
-    : { sites: new Map<string, ProjectionEvidence>(), domainObservations: new Map<string, string>() }
+    : {
+        sites: new Map<string, ProjectionEvidence>(),
+        domainObservations: new Map<string, string>(),
+      }
   const paletteResolutions = args.successorFinal
     ? palPaletteResolutionEvidence({
         sources: args.sources,
@@ -6246,8 +6241,11 @@ function assertR13SourceInstructionDispositionBacked(
         ? {
             successorFinal: {
               snapshotDigest: digestR13ContentSnapshot(source.successorFinal),
-              siteCount: report.evidence.filter((entry) => entry.kind === 'r13-successor-site').length,
-              observationCount: report.evidence.filter((entry) => entry.kind === 'r13-successor-domain').length,
+              siteCount: report.evidence.filter((entry) => entry.kind === 'r13-successor-site')
+                .length,
+              observationCount: report.evidence.filter(
+                (entry) => entry.kind === 'r13-successor-domain',
+              ).length,
             },
           }
         : {}),
@@ -6745,10 +6743,7 @@ function assertR13SourceInstructionDispositionBacked(
           commands: source.sources.migrate.commands as ExpandedSourceCmd[],
           evidence: trustedSiteEvidence,
           openRoots: trustedDomain.openRoots,
-          excludedSiteIds: new Set([
-            ...trustedBaseExcludedSiteIds,
-            ...trustedC8SourceSites.keys(),
-          ]),
+          excludedSiteIds: new Set([...trustedBaseExcludedSiteIds, ...trustedC8SourceSites.keys()]),
         })
       : new Map<string, ProjectionEvidence>()
     r13ItemUnusableUseSourceSiteEvidence({
@@ -6799,10 +6794,7 @@ function assertR13SourceInstructionDispositionBacked(
   }
   for (const proof of report.evidence) {
     if (proof.scope !== 'site-closure' || proof.kind === 'canonical-site') continue
-    if (
-      proof.kind === 'runtime-equivalent' ||
-      proof.kind === 'user-decision'
-    )
+    if (proof.kind === 'runtime-equivalent' || proof.kind === 'user-decision')
       throw new Error(`R13 disposition: source-backed ${proof.kind} 尚无 trusted registry`)
     const expected = trustedSiteEvidence.get(proof.id)
     if (!expected || stableJsonSha256(expected) !== stableJsonSha256(proof))
@@ -8150,8 +8142,7 @@ function assertR13SourceInstructionDispositionInternal(
                     skillId as keyof typeof R13_EXISTING_SCHEMA_SKILL_LOSSY_NOTES
                   ]
                 }` ||
-              stableJsonSha256(closureProofs[0]?.appliesToLayers) !==
-                stableJsonSha256(['final']) ||
+              stableJsonSha256(closureProofs[0]?.appliesToLayers) !== stableJsonSha256(['final']) ||
               openProofs?.length !== 1 ||
               openProofs[0]?.batch !== 'R13-6' ||
               stableJsonSha256(openProofs[0]?.appliesToLayers) !==
@@ -8201,19 +8192,17 @@ function assertR13SourceInstructionDispositionInternal(
 
     const stillOpenAddresses = new Set([16396, 21418, 21518, 29953, 2901, 3051, 4729, 28095])
     if (
-      report.census.sites.some(
-        (site) => {
-          if (!stillOpenAddresses.has(site.address)) return false
-          const disposition = dispositionBySite.get(site.id)
-          if (!disposition || disposition.layers.final.state === 'open') return false
-          const successorClosed = source?.successorFinal
-            ? disposition.layers.final.evidenceIds.some(
-                (evidenceIdValue) => evidence.get(evidenceIdValue)?.kind === 'r13-successor-site',
-              )
-            : false
-          return !successorClosed
-        },
-      )
+      report.census.sites.some((site) => {
+        if (!stillOpenAddresses.has(site.address)) return false
+        const disposition = dispositionBySite.get(site.id)
+        if (!disposition || disposition.layers.final.state === 'open') return false
+        const successorClosed = source?.successorFinal
+          ? disposition.layers.final.evidenceIds.some(
+              (evidenceIdValue) => evidence.get(evidenceIdValue)?.kind === 'r13-successor-site',
+            )
+          : false
+        return !successorClosed
+      })
     )
       throw new Error('R13 disposition: R13-6B gesture/0x76 被 6A 意外销账')
   } else if (

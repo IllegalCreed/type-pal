@@ -16,14 +16,12 @@ import {
   PAL_TEST_REPO,
   releasePalTestProducerCachesForCanary,
 } from './pal-test-fixture.js'
+import { rewindPublishedR13SourceSemanticsBaseline } from './published-r13-source-semantics-test-fixture.js'
 import {
   completeR13EnemyScriptSourceInputs,
   prepareR13EnemyScriptSourceAugmentation,
 } from './r13-enemy-script-mg2.js'
-import {
-  R13_EXISTING_SCHEMA_CHANGED_PATHS,
-} from './r13-existing-schema-augmentation.js'
-import { rewindPublishedR13SourceSemanticsBaseline } from './published-r13-source-semantics-test-fixture.js'
+import { R13_EXISTING_SCHEMA_CHANGED_PATHS } from './r13-existing-schema-augmentation.js'
 import {
   compactCurrentMigrationForR13SourceSemantics,
   createR13SourceSemanticsV5MigrationPlan,
@@ -152,6 +150,7 @@ export function buildR13SourceSemanticsCanaryFixture(): R13SourceSemanticsCanary
       ...prepared,
       currentSources: currentFull.sources,
       currentMigration,
+      sourceLedgerProfile: 'r13-6a-parent',
     })
     const sourceDispositionInput: R13SourceSemanticsDispositionInput = {
       historicalSources: prepared.historicalSources,

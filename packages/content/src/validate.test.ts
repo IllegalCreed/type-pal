@@ -80,9 +80,9 @@ describe('validateActors · E18-1 三字段结构校验(K2)', () => {
   })
   test('coveredBy / cooperativeMagicSkillId 空串 → throw', () => {
     expect(() => validateActors([mkBattlerActor({ coveredBy: '' })])).toThrow('coveredBy')
-    expect(() =>
-      validateActors([mkBattlerActor({ cooperativeMagicSkillId: '' })]),
-    ).toThrow('cooperativeMagicSkillId')
+    expect(() => validateActors([mkBattlerActor({ cooperativeMagicSkillId: '' })])).toThrow(
+      'cooperativeMagicSkillId',
+    )
   })
   test('chance 越界(0 / 101 / 非整数)→ throw', () => {
     for (const bad of [0, 101, 50.5]) {
@@ -131,7 +131,10 @@ describe('validateActors · E18-1 三字段结构校验(K2)', () => {
           casualty: {
             dying: {
               gates: [],
-              fallback: { lines: [], effects: [{ kind: 'tempStatBuff', stat: 'attack', percent: 0 }] },
+              fallback: {
+                lines: [],
+                effects: [{ kind: 'tempStatBuff', stat: 'attack', percent: 0 }],
+              },
             },
           },
         }),
@@ -438,7 +441,9 @@ test('技能执行分支、直接资源变化、前置震屏与剩余 MP 语义�
           animation: { effectSprite: 34, preShake: { frames: 20, level: 3 } },
           execution: {
             player: {
-              prepare: [{ kind: 'remainingResourceDamage', resource: 'mp', multiplier: 8, consume: 'all' }],
+              prepare: [
+                { kind: 'remainingResourceDamage', resource: 'mp', multiplier: 8, consume: 'all' },
+              ],
             },
             enemy: {
               effects: [{ kind: 'resourceDelta', resource: 'hp', delta: -1 }],
@@ -489,6 +494,38 @@ test('技能执行分支、直接资源变化、前置震屏与剩余 MP 语义�
   ).toThrow('只允许一个前置资源效果')
 })
 
+test('敌方 execution 只允许 runtime 已实现效果且拒绝 prepare', () => {
+  const bundle = (enemy: unknown) => ({
+    skills: [
+      {
+        id: 'x',
+        name: 'x',
+        cost: {},
+        target: 'oneEnemy',
+        effects: [{ kind: 'damage', power: 1, elemental: 0 }],
+        animation: { effectSprite: 1 },
+        execution: { enemy },
+      },
+    ],
+    levelUp: {},
+  })
+  expect(() =>
+    validateSkills(bundle({ effects: [{ kind: 'resourceDelta', resource: 'hp', delta: -1 }] })),
+  ).not.toThrow()
+  expect(() => validateSkills(bundle({ effects: [{ kind: 'healMp', amount: 1 }] }))).toThrow(
+    '敌方 runtime 不支持 healMp',
+  )
+  expect(() =>
+    validateSkills(
+      bundle({
+        prepare: [
+          { kind: 'remainingResourceDamage', resource: 'mp', multiplier: 8, consume: 'all' },
+        ],
+      }),
+    ),
+  ).toThrow('敌方 runtime 不支持施法前置效果')
+})
+
 test('SkillCost.items 只接受非空物品 ID 与正安全整数数量', () => {
   const bundle = (items: unknown) => ({
     skills: [
@@ -513,6 +550,27 @@ test('SkillCost.items 只接受非空物品 ID 与正安全整数数量', () => 
   expect(() => validateSkills(bundle([{ itemId: '148', amount: 1, extra: true }]))).toThrow(
     '未知字段',
   )
+})
+
+test('技能 lifetimeLimit 只接受正安全整数，缺席表示不限', () => {
+  const bundle = (lifetimeLimit?: unknown) => ({
+    skills: [
+      {
+        id: '370',
+        name: '酒神',
+        cost: {},
+        target: 'allEnemies',
+        effects: [],
+        animation: { effectSprite: 1 },
+        ...(lifetimeLimit === undefined ? {} : { lifetimeLimit }),
+      },
+    ],
+    levelUp: {},
+  })
+  expect(() => validateSkills(bundle())).not.toThrow()
+  expect(() => validateSkills(bundle(9))).not.toThrow()
+  for (const value of [0, -1, 1.5, '9', {}, Number.MAX_SAFE_INTEGER + 1])
+    expect(() => validateSkills(bundle(value))).toThrow(/lifetimeLimit/)
 })
 
 test('物品图标和战场背景拒绝旧数字/路径字段，缺席语义合法', () => {

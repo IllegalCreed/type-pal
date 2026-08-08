@@ -48,7 +48,15 @@ describe('PAL R13-6B loadScene baseline overlay', () => {
               default: {
                 flow: {
                   kind: 'stages',
-                  stages: [{ id: 'initial', body: [{ kind: 'wait', ms: 1 }, { kind: 'loadScene', scene: 's002' }] }],
+                  stages: [
+                    {
+                      id: 'initial',
+                      body: [
+                        { kind: 'wait', ms: 1 },
+                        { kind: 'loadScene', scene: 's002' },
+                      ],
+                    },
+                  ],
                 },
               },
             },
@@ -82,7 +90,13 @@ describe('PAL R13-6B loadScene baseline overlay', () => {
       }),
     ])
     expect(result.files.get('content/scenes/s001.json')).toMatchObject({
-      entities: [{ behaviors: { trigger: { default: { flow: { stages: [{ body: [{}, { transition }] }] } } } } }],
+      entities: [
+        {
+          behaviors: {
+            trigger: { default: { flow: { stages: [{ body: [{}, { transition }] }] } } },
+          },
+        },
+      ],
     })
     expect(result.files.has('content/scripts/chunks/scene/s001.json')).toBe(false)
   })
@@ -102,24 +116,24 @@ describe('PAL R13-6B loadScene baseline overlay', () => {
     expect(replay.dispositions[0]?.status).toBe('already')
 
     const published = new Map<string, MigrationJson>([
-        ['content/scenes/s001.json', applied],
-        [
-          'content/scenes/s002.json',
-          { id: 's002', hooks: { onEnter: [{ body: [{ kind: 'wait', ms: 10 }] }] } },
-        ],
-      ] as Array<[string, MigrationJson]>)
+      ['content/scenes/s001.json', applied],
+      [
+        'content/scenes/s002.json',
+        { id: 's002', hooks: { onEnter: [{ body: [{ kind: 'wait', ms: 10 }] }] } },
+      ],
+    ] as Array<[string, MigrationJson]>)
     const source = new Map<string, MigrationJson>([
-        ['content/scenes/s001.json', structuredClone(applied)],
-        [
-          'content/scenes/s002.json',
-          {
-            id: 's002',
-            hooks: {
-              onEnter: [{ body: [{ kind: 'loadScene', scene: 's003', transition }] }],
-            },
+      ['content/scenes/s001.json', structuredClone(applied)],
+      [
+        'content/scenes/s002.json',
+        {
+          id: 's002',
+          hooks: {
+            onEnter: [{ body: [{ kind: 'loadScene', scene: 's003', transition }] }],
           },
-        ],
-      ] as Array<[string, MigrationJson]>)
+        },
+      ],
+    ] as Array<[string, MigrationJson]>)
     const mismatch = applyPalR13SixBLoadSceneTransitions(published, source)
     expect(mismatch.dispositions).toContainEqual(
       expect.objectContaining({

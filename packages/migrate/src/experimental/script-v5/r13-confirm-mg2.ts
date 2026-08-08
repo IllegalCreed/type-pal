@@ -467,7 +467,8 @@ export function assertR13ConfirmPublishedSealMatchesAuthority(
         JSON.stringify({
           publishedDigest: typeof published?.digest === 'string' ? published.digest : undefined,
           expectedDigest: expectedSeal.digest,
-          publishedEvidenceDigest: (published?.evidence as { digest?: unknown } | undefined)?.digest,
+          publishedEvidenceDigest: (published?.evidence as { digest?: unknown } | undefined)
+            ?.digest,
           expectedEvidenceDigest: expectedSeal.evidence.digest,
           publishedAuditDigest:
             published?.audits === undefined ? undefined : stableJsonSha256(published.audits),

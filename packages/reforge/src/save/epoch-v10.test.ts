@@ -42,9 +42,7 @@ function payload11(over: Partial<SavePayloadV8> = {}): SavePayloadV8 {
   }
 }
 
-function payload10(
-  over: Partial<LegacySavePayloadV8Content10> = {},
-): LegacySavePayloadV8Content10 {
+function payload10(over: Partial<LegacySavePayloadV8Content10> = {}): LegacySavePayloadV8Content10 {
   return {
     ...payload11(),
     contentVersion: 10,
@@ -53,7 +51,7 @@ function payload10(
 }
 
 describe('SAVE8 / content11 current epoch', () => {
-  test('当前 8/11 只克隆并验证', async () => {
+  test('当前 8/11 克隆、补齐并验证持久技能计数', async () => {
     const raw = payload11()
     const resolver = await preflightSaveMigration({ manifest: manifest(), payload: raw })
     expect(resolver).toEqual({
@@ -63,12 +61,15 @@ describe('SAVE8 / content11 current epoch', () => {
       targetSaveVersion: 8,
     })
     const normalized = normalizePayloadV8(raw, resolver)
-    expect(normalized).toEqual(raw)
+    expect(normalized).toEqual({
+      ...raw,
+      world: { ...raw.world, skillUseCounts: {} },
+    })
     expect(normalized).not.toBe(raw)
     expect(normalized.world).not.toBe(raw.world)
   })
 
-  test('SAVE8/content10 纯 identity 到 content11，world/position 深相等且 sidecar I/O=0', async () => {
+  test('SAVE8/content10 到 content11 只补持久技能计数，position 不变且 sidecar I/O=0', async () => {
     const raw = payload10()
     const before = structuredClone(raw)
     let reads = 0
@@ -84,11 +85,40 @@ describe('SAVE8 / content11 current epoch', () => {
     expect(resolver.kind).toBe('content-v10-v11')
     const normalized = normalizePayloadV8(raw, resolver)
     expect(normalized.contentVersion).toBe(11)
-    expect(normalized.world).toEqual(before.world)
+    expect(normalized.world).toEqual({ ...before.world, skillUseCounts: {} })
     expect(normalized.position).toEqual(before.position)
     expect(normalized.projectId).toBe(before.projectId)
     expect(raw).toEqual(before)
     expect(reads).toBe(0)
+  })
+
+  test.each([
+    ['顶层不是对象', 42],
+    ['角色项不是对象', { hero: 42 }],
+    ['负数', { hero: { '370': -1 } }],
+    ['小数', { hero: { '370': 1.5 } }],
+    ['字符串', { hero: { '370': '8' } }],
+    ['超出安全整数', { hero: { '370': Number.MAX_SAFE_INTEGER + 1 } }],
+    ['空角色 ID', { '': { '370': 1 } }],
+    ['空技能 ID', { hero: { '': 1 } }],
+  ])('SAVE8/content10|11 拒绝畸形 skillUseCounts：%s', async (_label, skillUseCounts) => {
+    for (const raw of [payload10(), payload11()]) {
+      ;(raw.world as unknown as Record<string, unknown>).skillUseCounts = skillUseCounts
+      const resolver = await preflightSaveMigration({ manifest: manifest(), payload: raw })
+      expect(() => normalizePayloadV8(raw, resolver)).toThrow(/skillUseCounts/)
+    }
+  })
+
+  test('SAVE8/content10|11 接受零次和正安全整数且不修改输入', async () => {
+    for (const raw of [payload10(), payload11()]) {
+      raw.world.skillUseCounts = { hero: { '370': 0, '371': 9 } }
+      const before = structuredClone(raw)
+      const resolver = await preflightSaveMigration({ manifest: manifest(), payload: raw })
+      expect(normalizePayloadV8(raw, resolver).world.skillUseCounts).toEqual(
+        before.world.skillUseCounts,
+      )
+      expect(raw).toEqual(before)
+    }
   })
 
   test.each([

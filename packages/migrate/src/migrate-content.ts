@@ -597,11 +597,7 @@ function translateSkillItemCostScript(
   let cursor = labelIndex.get(`L_${entry}`)
   if (cursor === undefined) return undefined
   const first = commands[cursor]
-  if (
-    first?.op === 'raw' &&
-    first.opcode === 0x68 &&
-    (first.operands?.[0] ?? 0) === 0
-  ) {
+  if (first?.op === 'raw' && first.opcode === 0x68 && (first.operands?.[0] ?? 0) === 0) {
     cursor++
   }
   const remove = commands[cursor]

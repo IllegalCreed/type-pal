@@ -283,6 +283,63 @@ describe('script v5 canonical schema', () => {
     ).toThrow(/commands\[0\]\.choreography\[0\]\.body\[0\].*battle context/)
   })
 
+  test.each([
+    [{ kind: 'startBattle', team: 1, partyPreset: 42 }, /partyPreset: 未知字段/],
+    [{ kind: 'startBattle', team: 1, enemyOverride: ['enemy-1'] }, /enemyOverride: 未知字段/],
+    [{ kind: 'holdScreen', color: 'red', token: 'night' }, /color: 只支持 black/],
+    [{ kind: 'holdScreen', color: 'black', token: '' }, /token: 期望非空字符串/],
+    [{ kind: 'revealScreen', token: 123 }, /token: 期望非空字符串/],
+    [
+      {
+        kind: 'loadScene',
+        scene: 's002',
+        transition: {
+          kind: 'source',
+          outMs: -1,
+          inMs: 0,
+          color: 'black',
+          evidenceId: 'source-1',
+        },
+      },
+      /outMs: 期望非负有限数/,
+    ],
+    [
+      {
+        kind: 'loadScene',
+        scene: 's002',
+        transition: { kind: 'modern', outMs: 260, inMs: 260, color: 'black', extra: true },
+      },
+      /extra: 未知字段/,
+    ],
+  ])('canonical command unknown boundary rejects malformed control %j', (command, message) => {
+    expect(() => checkAuthorCommandsV5([command], 'commands')).toThrow(message)
+  })
+
+  test('canonical v5 accepts exact transient screen and source transition shapes', () => {
+    expect(() =>
+      checkAuthorCommandsV5(
+        [
+          { kind: 'holdScreen', color: 'black', token: 'night' },
+          { kind: 'revealScreen', token: 'night' },
+          {
+            kind: 'loadScene',
+            scene: 's002',
+            entryId: 'west',
+            facing: 'left',
+            transition: {
+              kind: 'source',
+              outMs: 0,
+              inMs: 120,
+              color: 'black',
+              evidenceId: 'source-1',
+            },
+          },
+        ],
+        'commands',
+      ),
+    ).not.toThrow()
+  })
+
   test('validates stable stage ids and slot-aware entry', () => {
     const flow = {
       kind: 'stages',

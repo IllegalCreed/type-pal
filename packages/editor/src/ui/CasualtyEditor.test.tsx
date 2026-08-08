@@ -20,9 +20,10 @@ afterEach(() => {
   host.remove()
 })
 
-function battlerActor(
-  casualty?: { friendDeath?: CasualtyScript; dying?: CasualtyScript },
-): ActorDef {
+function battlerActor(casualty?: {
+  friendDeath?: CasualtyScript
+  dying?: CasualtyScript
+}): ActorDef {
   return {
     id: 'hero',
     name: 'name.hero',
@@ -104,9 +105,13 @@ function button(text: string): HTMLButtonElement {
 }
 
 function gateRow(value: string): HTMLElement {
-  return [...host.querySelectorAll<HTMLElement>('.arow')].find((n) =>
-    (n.querySelector('input[type="number"]') as HTMLInputElement | null)?.value === value,
+  return [...host.querySelectorAll<HTMLElement>('.arow')].find(
+    (n) => (n.querySelector('input[type="number"]') as HTMLInputElement | null)?.value === value,
   )!
+}
+
+function gateSelect(value: string): HTMLButtonElement {
+  return gateRow(value).querySelector<HTMLButtonElement>('button[data-gate-select="true"]')!
 }
 
 const script: CasualtyScript = {
@@ -133,8 +138,7 @@ describe('CasualtyEditor (E18-1)', () => {
       root = createRoot(host)
       root.render(<Harness session={session} actor={session.getState().actors[0]!} />)
     })
-    const row = gateRow('75')
-    await act(async () => row.click())
+    await act(async () => gateSelect('75').click())
     const textInput = host.querySelector<HTMLInputElement>('input[placeholder^="文本 id"]')!
     expect(textInput.value).toBe('dlg.talk.0')
     expect(host.textContent).toContain('你好')
@@ -146,8 +150,7 @@ describe('CasualtyEditor (E18-1)', () => {
       root = createRoot(host)
       root.render(<Harness session={session} actor={session.getState().actors[0]!} />)
     })
-    const row = gateRow('75')
-    await act(async () => row.click())
+    await act(async () => gateSelect('75').click())
     const remove = [...host.querySelectorAll<HTMLButtonElement>('button')].find(
       (b) => b.textContent === '✕',
     )!
@@ -186,5 +189,48 @@ describe('CasualtyEditor (E18-1)', () => {
     const created = session.getState().actors[0]!.battler!.casualty!.friendDeath!
     expect(created.gates).toEqual([])
     expect(created.fallback).toEqual({ lines: [], effects: [] })
+  })
+
+  test('概率门可键盘选择，概率/增益输入只写入整数', async () => {
+    const withBuff: CasualtyScript = {
+      ...script,
+      fallback: {
+        lines: [],
+        effects: [{ kind: 'tempStatBuff', stat: 'attack', percent: 10 }],
+      },
+    }
+    const session = new EditSession(state(battlerActor({ friendDeath: withBuff })))
+    await act(async () => {
+      root = createRoot(host)
+      root.render(<Harness session={session} actor={session.getState().actors[0]!} />)
+    })
+    const row = gateRow('75')
+    const select = gateSelect('75')
+    expect(select.tagName).toBe('BUTTON')
+    expect(select.tabIndex).toBe(0)
+    await act(async () => select.click())
+    expect(select.getAttribute('aria-pressed')).toBe('true')
+    expect(host.querySelector<HTMLButtonElement>('button.arow')?.textContent).toContain('fallback')
+
+    const setNumber = async (input: HTMLInputElement, value: string): Promise<void> => {
+      const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
+      await act(async () => {
+        setter.call(input, value)
+        input.dispatchEvent(new Event('input', { bubbles: true }))
+      })
+    }
+    const chance = row.querySelector<HTMLInputElement>('input[type="number"]')!
+    expect(chance.step).toBe('1')
+    await setNumber(chance, '12.7')
+    expect(session.getState().actors[0]!.battler!.casualty!.friendDeath!.gates[0]!.chance).toBe(12)
+
+    await act(async () => host.querySelector<HTMLButtonElement>('button.arow')!.click())
+    const percent = [
+      ...host.querySelectorAll<HTMLInputElement>('input[type="number"][min="1"]'),
+    ].at(-1)!
+    expect(percent.step).toBe('1')
+    await setNumber(percent, '7.9')
+    const effect = session.getState().actors[0]!.battler!.casualty!.friendDeath!.fallback.effects[0]
+    expect(effect).toMatchObject({ kind: 'tempStatBuff', percent: 7 })
   })
 })

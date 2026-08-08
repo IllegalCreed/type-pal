@@ -22,7 +22,9 @@ afterEach(() => {
 })
 
 const script: CasualtyScript = {
-  gates: [{ chance: 75, branch: { lines: [{ text: 'dlg.talk.0', style: 'bottom' }], effects: [] } }],
+  gates: [
+    { chance: 75, branch: { lines: [{ text: 'dlg.talk.0', style: 'bottom' }], effects: [] } },
+  ],
   fallback: { lines: [], effects: [] },
 }
 

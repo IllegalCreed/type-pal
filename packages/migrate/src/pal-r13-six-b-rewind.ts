@@ -1,11 +1,7 @@
-import {
-  type MigrationSnapshot,
-  serializeMigrationJson,
-  sha256,
-} from './migration-baseline.js'
+import { type MigrationSnapshot, serializeMigrationJson, sha256 } from './migration-baseline.js'
+import { PAL_CASUALTY_LOCALE_KEYS } from './pal-casualty-scripts.js'
 import type { MigrationJson } from './pal-migration.js'
 import { PAL_BLACK_SCREEN_TRANSACTION_EVIDENCE } from './pal-r13-six-b-overlays.js'
-import { PAL_CASUALTY_LOCALE_KEYS } from './pal-casualty-scripts.js'
 
 /**
  * R13-6B is an append-only successor, while the R13-6A source canary still needs to replay
@@ -37,8 +33,7 @@ function cloneSnapshot(source: MigrationSnapshot): MigrationSnapshot {
 
 function setRewoundFile(snapshot: MigrationSnapshot, path: string, value: MigrationJson): void {
   snapshot.files.set(path, value)
-  if (snapshot.hashes)
-    snapshot.hashes.set(path, sha256(serializeMigrationJson(value, path)))
+  if (snapshot.hashes) snapshot.hashes.set(path, sha256(serializeMigrationJson(value, path)))
 }
 
 function sourceTransitionCount(value: unknown): number {
@@ -231,8 +226,7 @@ function rewindSkillOverlay(snapshot: MigrationSnapshot): void {
 function rewindCasualtyOverlay(snapshot: MigrationSnapshot): void {
   const actorsRaw = snapshot.files.get('content/actors.json')
   const actors = structuredClone(actorsRaw)
-  if (!Array.isArray(actors))
-    throw new Error('R13-6B rewind: actors.json 形状无效')
+  if (!Array.isArray(actors)) throw new Error('R13-6B rewind: actors.json 形状无效')
   let casualtyActors = 0
   const byId = new Map<string, Record<string, unknown>>()
   for (const entry of actors as unknown[]) {
@@ -240,7 +234,14 @@ function rewindCasualtyOverlay(snapshot: MigrationSnapshot): void {
     if (typeof entry.id !== 'string') throw new Error('R13-6B rewind: actor id 非 string')
     byId.set(entry.id, entry)
   }
-  for (const actorId of ['li-xiaoyao', 'zhao-linger', 'lin-yueru', 'wu-hou', 'anu', 'gai-luojiao']) {
+  for (const actorId of [
+    'li-xiaoyao',
+    'zhao-linger',
+    'lin-yueru',
+    'wu-hou',
+    'anu',
+    'gai-luojiao',
+  ]) {
     const actor = byId.get(actorId)
     const battler = actor && isRecord(actor.battler) ? actor.battler : undefined
     if (!battler) throw new Error(`R13-6B rewind: actor ${actorId} 缺 battler`)
@@ -252,7 +253,9 @@ function rewindCasualtyOverlay(snapshot: MigrationSnapshot): void {
   }
   const expectedCasualtyActors = 3 // 李逍遥/赵灵儿/林月如
   if (casualtyActors !== expectedCasualtyActors)
-    throw new Error(`R13-6B rewind: casualty actor 命中 ${casualtyActors}，期望 ${expectedCasualtyActors}`)
+    throw new Error(
+      `R13-6B rewind: casualty actor 命中 ${casualtyActors}，期望 ${expectedCasualtyActors}`,
+    )
   setRewoundFile(snapshot, 'content/actors.json', actors as MigrationJson)
 
   const localeRaw = snapshot.files.get('content/locale.json')
@@ -285,5 +288,7 @@ export function rewindPalR13SixBPublication(source: MigrationSnapshot): Migratio
 
 /** Synthetic v4/P7 fixtures predate R13-6B and must remain valid no-op inputs. */
 export function rewindPalR13SixBPublicationIfPresent(source: MigrationSnapshot): MigrationSnapshot {
-  return hasPublishedR13SixBMarker(source) ? rewindPalR13SixBPublication(source) : cloneSnapshot(source)
+  return hasPublishedR13SixBMarker(source)
+    ? rewindPalR13SixBPublication(source)
+    : cloneSnapshot(source)
 }

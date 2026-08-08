@@ -49,6 +49,7 @@ import {
   magicDefenseDivisor,
   pickAiTarget,
   poisonCurableBy,
+  resolveSkillExecution,
   tickBattleStatus,
 } from '@type-pal/content'
 import { expectDefined } from '../defined.js'
@@ -709,7 +710,7 @@ function refreshCasualtyPrevHp(s: BattleState): void {
 }
 
 /**
- * B11-1:每个 action 后(及回合末毒 tick 后)的伤亡 sweep(fight.c:775-885 真值)。
+ * B11-1:敌方有效物攻/施法结算后的伤亡 sweep(fight.c:775-885 迁入内容所需真值)。
  * 1. 本步刚阵亡队员 → 死者 coveredBy 的健康援护者跑 friendDeath;
  * 2. 本步刚跨入濒死的队员 → 守护者在队且健康时跑自己 dying(P1:self 只排 sleep/confused)。
  * 一次 sweep 至多一个脚本(P6);prevHp 每次刷新防重入;auto battle 不触发。
@@ -731,9 +732,7 @@ function runPlayerCasualtySweep(s: BattleState, rng: () => number): void {
   }
   for (const p of s.players) {
     const prevThreshold = Math.trunc(p.maxHp / 5)
-    if (
-      !(p.hp < p.prevHp && p.hp > 0 && isPlayerDying(p.hp, p.maxHp) && p.prevHp >= prevThreshold)
-    )
+    if (!(p.hp < p.prevHp && p.hp > 0 && isPlayerDying(p.hp, p.maxHp) && p.prevHp >= prevThreshold))
       continue
     if ((p.status.sleep ?? 0) > 0 || (p.status.confused ?? 0) > 0) continue
     const cover = s.players.find((candidate) => candidate.roleId === p.coveredBy)
@@ -745,6 +744,10 @@ function runPlayerCasualtySweep(s: BattleState, rng: () => number): void {
     return
   }
   refreshCasualtyPrevHp(s)
+}
+
+export function shouldCheckPlayerCasualties(action: BattleState['lastAction']): boolean {
+  return action?.side === 'enemy' && (action.kind === 'attack' || action.kind === 'cast')
 }
 
 /** 物理攻击结算（攻方 atk vs 受方 def+物抗）。返回实际伤害。 */
@@ -1053,8 +1056,8 @@ export function stepBattle(s: BattleState, rng: () => number): void {
           }
         for (const p of s.players) if (p.hp > 0) tickPoisons(s, p, 'player')
         for (const e of s.enemies) if (e.hp > 0) tickPoisons(s, e, 'enemy')
-        // B11-1:毒 tick 也可能当场致死/跨濒死(fight.c 回合末同扫)
-        runPlayerCasualtySweep(s, rng)
+        // 伤亡剧情只归敌方有效攻击/施法；毒 tick 更新基线但不得触发或消费剧情 RNG。
+        refreshCasualtyPrevHp(s)
         for (const p of s.players) {
           p.defending = false
           tickBattleStatus(p.status)
@@ -1080,12 +1083,13 @@ export function stepBattle(s: BattleState, rng: () => number): void {
       // 隐身激活(0x5C 负值 → 取反;一阶段 activateHidingEffect 在处理**每个动作前**,
       // 使同轮后续敌人动作立即被跳过 —— fight.c:3529)
       if (s.hidingTime < 0) s.hidingTime = -s.hidingTime
+      s.lastAction = null
       if (item.isEnemy && s.hidingTime > 0) {
         // 隐身期敌整轮跳过(fight.c:1716 ==0 才行动;连选目标都不做)
       } else if (item.isEnemy) performEnemyAction(s, item.idx, rng)
       else performPlayerAction(s, item.idx, rng)
-      // B11-1:每个 action 结算后扫阵亡/濒死(fight.c:775-885 PAL_BattlePostActionCheck)
-      runPlayerCasualtySweep(s, rng)
+      if (shouldCheckPlayerCasualties(s.lastAction)) runPlayerCasualtySweep(s, rng)
+      else refreshCasualtyPrevHp(s)
       // B7a 战果累计:本步新死敌 += exp/cash(只记一次;敌逃(enemyFled)清场不计)
       for (const e of s.enemies) {
         if (e.hp <= 0 && !e.rewardCounted) {
@@ -1133,8 +1137,7 @@ function applyPlayerSkill(
   // 一生限用门(酒神 9 次):技能达到上限后原版直接从习得列表移除(0x56 RemoveMagic +
   // dlg.13366)，正常不可达；此守卫只防旧档/计数漂移，失败不吃任何消耗。
   const lifetimeLimit = skill.lifetimeLimit
-  const usedBefore =
-    lifetimeLimit === undefined ? 0 : (s.skillUseCounts[p.roleId]?.[skillId] ?? 0)
+  const usedBefore = lifetimeLimit === undefined ? 0 : (s.skillUseCounts[p.roleId]?.[skillId] ?? 0)
   if (lifetimeLimit !== undefined && usedBefore >= lifetimeLimit) {
     if (s.lastAction) s.lastAction.notice = '"酒神咒"使用次数已用尽'
     s.log.push(`${p.roleId} 施展 ${skill.name} 失败：使用次数已用尽`)
@@ -1154,8 +1157,8 @@ function applyPlayerSkill(
     return
   }
   p.mp -= mpCost
-  const execution = skill.execution?.player
-  const effects = execution?.effects ?? skill.effects
+  const execution = resolveSkillExecution(skill, 'player')
+  const effects = execution.effects
   // scriptOnUse 物品门在原版总扣 MP 之后执行(fight.c:4190/4215)。不能放进
   // validatePlayerAction 提前降级，否则会改变“选得出、轮到时缺蛊仍扣 MP 并熄火”的真值。
   // 同一物品的多条成本先聚合，避免重复行逐条扣减导致半成功。
@@ -1198,7 +1201,8 @@ function applyPlayerSkill(
   // 移除技能并提示“酒神咒使用次数已用尽”（原版 0x56 RemoveMagic + dlg.13366）。
   if (lifetimeLimit !== undefined) {
     const usesAfter = usedBefore + 1
-    const counts = (s.skillUseCounts[p.roleId] ??= {})
+    s.skillUseCounts[p.roleId] ??= {}
+    const counts = expectDefined(s.skillUseCounts[p.roleId])
     counts[skillId] = usesAfter
     const removed = usesAfter >= lifetimeLimit
     s.pendingWorldMutations.push({
@@ -1209,6 +1213,7 @@ function applyPlayerSkill(
       removed,
     })
     if (removed) {
+      p.skills = p.skills.filter((knownSkillId) => knownSkillId !== skillId)
       if (s.lastAction) s.lastAction.notice = '"酒神咒"使用次数已用尽'
       s.log.push(`${p.roleId} 施展 ${skill.name}：使用次数已用尽，技能已移除`)
     }
@@ -1234,7 +1239,7 @@ function applyPlayerSkill(
         : []
   // 370 的 0x57：普通 MP 扣除与物品门成功后，读取**剩余** MP×8，再清空 MP；
   // prepare 本身就是主伤害语义，不能再在 effects 里补一份 damage。
-  for (const prepare of execution?.prepare ?? []) {
+  for (const prepare of execution.prepare) {
     if (prepare.kind !== 'remainingResourceDamage' || prepare.resource !== 'mp') continue
     const amount = Math.max(0, Math.trunc(p.mp * prepare.multiplier))
     p.mp = 0
@@ -1243,10 +1248,11 @@ function applyPlayerSkill(
       const enemy = expectDefined(s.enemies[ti])
       const dealt = Math.min(enemy.hp, amount)
       enemy.hp -= dealt
-      if (dealt > 0) s.log.push(`${p.roleId} 施展 ${skill.name},${enemy.def.id} 受到 ${dealt} 点伤害`)
+      if (dealt > 0)
+        s.log.push(`${p.roleId} 施展 ${skill.name},${enemy.def.id} 受到 ${dealt} 点伤害`)
     }
   }
-  effects: for (const eff of effects) {
+  applyEffects: for (const eff of effects) {
     switch (eff.kind) {
       case 'summon': // 纯演出效果(神将现身动画,battle-session 时间线):gameplay 由链上 damage 结算
         break
@@ -1265,7 +1271,7 @@ function applyPlayerSkill(
           pass = !!t && Math.floor(rng() * 10) >= t.def.ai.resistanceToSorcery
         if (!pass) {
           s.log.push(`${skill.name} 无任何效果`)
-          break effects
+          break applyEffects
         }
         break
       }
@@ -1351,7 +1357,7 @@ function applyPlayerSkill(
         if (spend <= 0) {
           s.log.push(`${p.roleId} 金钱不足,${skill.name} 无任何效果`)
           if (s.lastAction) s.lastAction.notice = '金钱不足'
-          break effects
+          break applyEffects
         }
         s.moneyDelta -= spend
         s.log.push(`${p.roleId} 掷出 ${spend} 文钱`)
@@ -1373,7 +1379,7 @@ function applyPlayerSkill(
           s.log.push(`${p.roleId} 施展 ${skill.name},全队脱离战斗`)
           if (s.lastAction) s.lastAction.fleeSuccess = true
         }
-        break effects
+        break applyEffects
       }
       case 'healHp': {
         // 0x1B 回血:PAL_IncreaseHPMP 仅活人(global.c:1287);目标按 skill.target 路由
@@ -2093,14 +2099,18 @@ function performThrow(
   }
 
   slot.count -= 1 // 投掷必消耗
-  const hits: { idx: number; value: number }[] = []
   const throwEffects: readonly ThrowEffect[] = item.throw.effects
-  for (const enemyIdx of targetIndices) {
-    const e = expectDefined(s.enemies[enemyIdx])
-    const hpBefore = e.hp
-    let stopTarget = false
-    for (let effectIndex = 0; effectIndex < throwEffects.length; effectIndex++) {
-      const eff: ThrowEffect = expectDefined(throwEffects[effectIndex])
+  const hpBeforeByTarget = new Map(
+    targetIndices.map((enemyIdx) => [enemyIdx, expectDefined(s.enemies[enemyIdx]).hp] as const),
+  )
+  const stoppedTargets = new Set<number>()
+  // PAL 的投掷脚本按 opcode/effect 推进；applyToAll 只把该 effect 扩展到稳定的目标序列。
+  // 因此 RNG 必须绑定为 effect → targets，不能把完整 effect 链逐目标跑完。
+  for (let effectIndex = 0; effectIndex < throwEffects.length; effectIndex++) {
+    const eff: ThrowEffect = expectDefined(throwEffects[effectIndex])
+    for (const enemyIdx of targetIndices) {
+      if (stoppedTargets.has(enemyIdx)) continue
+      const e = expectDefined(s.enemies[enemyIdx])
       switch (eff.kind) {
         case 'magicDamage': {
           const damage = Math.max(
@@ -2161,7 +2171,7 @@ function performThrow(
             if (eff.onResist === 'stopTarget') {
               s.log.push('攻击无效')
               if (s.lastAction) s.lastAction.notice = '攻击无效'
-              stopTarget = true
+              stoppedTargets.add(enemyIdx)
             } else s.log.push(`${e.def.id} 抵抗了 ${eff.status}`)
           }
           break
@@ -2184,10 +2194,15 @@ function performThrow(
         default:
           assertNever(eff, 'battle item throw')
       }
-      if (stopTarget) break
     }
-    hits.push({ idx: enemyIdx, value: Math.max(0, hpBefore - e.hp) })
   }
+  const hits = targetIndices.map((enemyIdx) => ({
+    idx: enemyIdx,
+    value: Math.max(
+      0,
+      expectDefined(hpBeforeByTarget.get(enemyIdx)) - expectDefined(s.enemies[enemyIdx]).hp,
+    ),
+  }))
   if (s.lastAction) s.lastAction.throwHits = hits
 }
 
@@ -2283,8 +2298,8 @@ function applyEnemySkill(
   // str = 魔强 + (级+6)×6,钳 ≥0(fight.c:4673-4678;物攻侧同构已带,此处曾漏级数项)
   let magStr = e.def.stats.magicStrength + (e.def.stats.level + 6) * 6
   if (magStr < 0) magStr = 0
-  const effects = skill.execution?.enemy?.effects ?? skill.effects
-  effects: for (const eff of effects) {
+  const effects = resolveSkillExecution(skill, 'enemy').effects
+  applyEnemyEffects: for (const eff of effects) {
     switch (eff.kind) {
       case 'gate': {
         // 顺序门(敌施法侧,夺魂/回梦/鬼降):概率门同 0x06;灵抗门对玩家**直通** ——
@@ -2297,7 +2312,7 @@ function applyEnemySkill(
           pass = !!t && t.hp * 100 <= t.maxHp * eff.hpAtMostPercent
         if (!pass) {
           s.log.push(`${skill.name} 无任何效果`)
-          break effects
+          break applyEnemyEffects
         }
         break
       }

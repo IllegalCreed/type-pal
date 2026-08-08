@@ -1459,7 +1459,9 @@ describe('C8 战斗物品持久效果写回', () => {
   test('B11-1 伤亡对话经横幅展示并暂停推进,空格后清除(P5)', () => {
     const { session } = makeSession(mkEnemy('target'), {})
     const internal = session as unknown as {
-      state: { casualtyDialogue?: { speakerRoleId: string; lines: { text: string; style: string }[] } }
+      state: {
+        casualtyDialogue?: { speakerRoleId: string; lines: { text: string; style: string }[] }
+      }
       choreoBanner: { name: string; text: string } | null
     }
     internal.state.casualtyDialogue = {

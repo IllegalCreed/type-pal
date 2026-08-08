@@ -130,7 +130,10 @@ export function SkillAnimationEditor(props: {
               'preShake',
               frames === undefined
                 ? undefined
-                : { frames: Math.max(1, Math.trunc(frames)), level: props.animation.preShake?.level ?? 3 },
+                : {
+                    frames: Math.max(1, Math.trunc(frames)),
+                    level: props.animation.preShake?.level ?? 3,
+                  },
             )
           }
         />

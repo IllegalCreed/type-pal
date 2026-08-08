@@ -74,8 +74,7 @@ export async function executeLegacyScriptHostEffectV5(
           ...(command.pos !== undefined ? { pos: command.pos } : {}),
           ...(command.facing !== undefined ? { facing: command.facing } : {}),
         } as SceneSpawn
-        if (command.transition === undefined)
-          await host.loadScene(command.scene, spawn, signal)
+        if (command.transition === undefined) await host.loadScene(command.scene, spawn, signal)
         else await host.loadScene(command.scene, spawn, signal, command.transition)
       }
       return

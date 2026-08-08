@@ -1,14 +1,15 @@
+import { isDeepStrictEqual } from 'node:util'
 import {
-  type MigrationSnapshot,
-  serializeMigrationJson,
-  sha256,
-} from './migration-baseline.js'
-import type { MigrationJson } from './pal-migration.js'
+  type AppendOnlyTransitionState,
+  appendOnlyTransitionState,
+} from './experimental/script-v5/append-only-transition-state.js'
 import type {
   R13DispositionEvidence,
   R13SourceInstructionDispositionV3,
 } from './experimental/script-v5/source-instruction-disposition.js'
 import { stableJsonSha256 } from './experimental/script-v5/stable-json.js'
+import { type MigrationSnapshot, serializeMigrationJson, sha256 } from './migration-baseline.js'
+import type { MigrationJson } from './pal-migration.js'
 
 /**
  * R13-6C:352/372/373 敌方 0x68 分支 lossy 观察的 successor authority seal。
@@ -56,6 +57,16 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 function asJson(value: R13SixCTransitionSealV1): MigrationJson {
   return JSON.parse(JSON.stringify(value)) as MigrationJson
+}
+
+function sealBodyDigest(value: R13SixCTransitionSealV1): string {
+  const { digest: _digest, ...body } = value
+  return stableJsonSha256(body)
+}
+
+function assertSealSelfConsistent(value: R13SixCTransitionSealV1, label: string): void {
+  const recomputed = sealBodyDigest(value)
+  if (value.digest !== recomputed) throw new Error(`${label}: seal body 重算 digest 与自摘要不符`)
 }
 
 /**
@@ -109,16 +120,38 @@ export function buildR13SixCSeal(
 export function installR13SixCSeal(
   baseline: MigrationSnapshot,
   seal: R13SixCTransitionSealV1,
-): void {
-  if (!baseline.baselineMetadata)
-    throw new Error('R13-6C seal: baseline 缺 metadata')
+): AppendOnlyTransitionState {
+  if (!baseline.baselineMetadata) throw new Error('R13-6C seal: baseline 缺 metadata')
+  if (!baseline.hashes) throw new Error('R13-6C seal: baseline 缺 hashes 四元组')
+  assertSealSelfConsistent(seal, 'R13-6C seal authority')
+  const mode = appendOnlyTransitionState(baseline, {
+    transitionId: R13_SIX_C_TRANSITION_ID,
+    sealPath: R13_SIX_C_SEAL_PATH,
+    errorPrefix: 'R13-6C seal',
+  })
+  if (mode === 'replay') {
+    const published = baseline.files.get(R13_SIX_C_SEAL_PATH)
+    if (!isRecord(published)) throw new Error('R13-6C seal: published seal 不是对象')
+    const publishedSeal = structuredClone(published) as unknown as R13SixCTransitionSealV1
+    assertSealSelfConsistent(publishedSeal, 'R13-6C seal published')
+    if (baseline.baselineMetadata.transitions[R13_SIX_C_TRANSITION_ID] !== publishedSeal.digest)
+      throw new Error('R13-6C seal: published seal 与 transition metadata 不符')
+    const publishedJson = asJson(publishedSeal)
+    const publishedHash = sha256(serializeMigrationJson(publishedJson, R13_SIX_C_SEAL_PATH))
+    if (baseline.hashes.get(R13_SIX_C_SEAL_PATH) !== publishedHash)
+      throw new Error('R13-6C seal: published seal 与文件 hash 不符')
+    if (!isDeepStrictEqual(publishedSeal, seal))
+      throw new Error('R13-6C seal: published seal 与重建 authority 不符')
+    return mode
+  }
   baseline.files.set(R13_SIX_C_SEAL_PATH, asJson(seal))
   baseline.managedFiles.add(R13_SIX_C_SEAL_PATH)
-  baseline.hashes?.set(
+  baseline.hashes.set(
     R13_SIX_C_SEAL_PATH,
     sha256(serializeMigrationJson(asJson(seal), R13_SIX_C_SEAL_PATH)),
   )
   baseline.baselineMetadata.transitions[R13_SIX_C_TRANSITION_ID] = seal.digest
+  return mode
 }
 
 function hasR13SixCMarker(source: MigrationSnapshot): boolean {
@@ -132,11 +165,10 @@ function hasR13SixCMarker(source: MigrationSnapshot): boolean {
  * 6C rewind:剥离 6C transition 四元组(零内容叶),其余文件逐字节不动。
  * 缺 marker 时 no-op(合成/历史 fixture 兼容);部分 marker 即 fail-closed。
  */
-export function rewindPalR13SixCPublicationIfPresent(
-  source: MigrationSnapshot,
-): MigrationSnapshot {
+export function rewindPalR13SixCPublicationIfPresent(source: MigrationSnapshot): MigrationSnapshot {
   if (!hasR13SixCMarker(source)) return source
-  const metadataPresent = source.baselineMetadata?.transitions?.[R13_SIX_C_TRANSITION_ID] !== undefined
+  const metadataPresent =
+    source.baselineMetadata?.transitions?.[R13_SIX_C_TRANSITION_ID] !== undefined
   const filePresent = source.files.has(R13_SIX_C_SEAL_PATH)
   const managedPresent = source.managedFiles.has(R13_SIX_C_SEAL_PATH)
   const hashPresent = source.hashes?.has(R13_SIX_C_SEAL_PATH) === true

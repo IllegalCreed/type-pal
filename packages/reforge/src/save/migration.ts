@@ -500,6 +500,22 @@ function validateHostileAwareness(world: unknown, path: string): void {
     throw new Error(`${path}.hostileAwareness.remainingMs: 期望正有限毫秒`)
 }
 
+function normalizeAndValidateSkillUseCounts(world: unknown, path: string): void {
+  const worldRecord = record(world, path)
+  worldRecord.skillUseCounts ??= {}
+  const actors = record(worldRecord.skillUseCounts, `${path}.skillUseCounts`)
+  for (const [actorId, rawSkills] of Object.entries(actors)) {
+    if (actorId.length === 0) throw new Error(`${path}.skillUseCounts: 角色 ID 不得为空`)
+    const skills = record(rawSkills, `${path}.skillUseCounts.${actorId}`)
+    for (const [skillId, rawCount] of Object.entries(skills)) {
+      if (skillId.length === 0)
+        throw new Error(`${path}.skillUseCounts.${actorId}: 技能 ID 不得为空`)
+      if (!Number.isSafeInteger(rawCount) || Number(rawCount) < 0)
+        throw new Error(`${path}.skillUseCounts.${actorId}.${skillId}: 期望非负安全整数`)
+    }
+  }
+}
+
 function aliasTargets(
   alias: ProjectMigrationSidecarV1['legacyEntities'][number],
 ): Array<{ scene: string; entity: string }> {
@@ -803,7 +819,7 @@ export function normalizeLegacyPayloadV8Content9(
   return payload
 }
 
-/** 当前 SAVE8/content11 或 historical content10 identity normalization；不读取 sidecar。 */
+/** 当前 SAVE8/content11 或 historical content10 normalization；补齐并校验持久技能计数，不读取 sidecar。 */
 export function normalizePayloadV8(
   input: LegacySavePayloadV8Content9 | LegacySavePayloadV8Content10 | SavePayloadV8,
   resolver: SaveMigrationResolver,
@@ -823,5 +839,6 @@ export function normalizePayloadV8(
   if (payload.world.script !== undefined)
     checkWorldScriptStateV5(payload.world.script, 'payload.world.script')
   validateHostileAwareness(payload.world, 'payload.world')
+  normalizeAndValidateSkillUseCounts(payload.world, 'payload.world')
   return payload
 }

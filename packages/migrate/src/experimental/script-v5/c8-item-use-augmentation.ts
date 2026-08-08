@@ -899,7 +899,11 @@ export function augmentC8ItemUsesAfterP7(args: {
 
   const sprite259 = ensureStorySprite(sprites, 259, { kind: 'static' })
   const spriteIdForNum = storySpriteResolver(sprites, actors)
-  const assets = required<{ assets?: Record<string, unknown> }>(snapshot, 'assets/index.json', false)
+  const assets = required<{ assets?: Record<string, unknown> }>(
+    snapshot,
+    'assets/index.json',
+    false,
+  )
   const soundAssetForNum = (sound: number) => {
     const id = palSoundAssetId(sound)
     return assets.assets?.[id] ? id : undefined

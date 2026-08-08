@@ -128,12 +128,12 @@ describe('SkillTab · 施法物品成本', () => {
     )
     await act(async () => root.render(<Harness session={session} />))
 
-    expect(
-      host.querySelector<HTMLInputElement>('input[aria-label^="物品（可按名称"]')?.value,
-    ).toBe('蛊（148）')
-    expect(
-      host.querySelector<HTMLInputElement>('input[aria-label="消耗物品数量 1"]')?.value,
-    ).toBe('1')
+    expect(host.querySelector<HTMLInputElement>('input[aria-label^="物品（可按名称"]')?.value).toBe(
+      '蛊（148）',
+    )
+    expect(host.querySelector<HTMLInputElement>('input[aria-label="消耗物品数量 1"]')?.value).toBe(
+      '1',
+    )
 
     await act(async () =>
       host.querySelector<HTMLButtonElement>('button[aria-label="添加消耗物品"]')!.click(),
@@ -143,10 +143,7 @@ describe('SkillTab · 施法物品成本', () => {
       { itemId: '86', amount: 1 },
     ])
 
-    await setInput(
-      host.querySelector<HTMLInputElement>('input[aria-label="消耗物品数量 2"]')!,
-      '3',
-    )
+    await setInput(host.querySelector<HTMLInputElement>('input[aria-label="消耗物品数量 2"]')!, '3')
     expect(session.getState().skills[0]!.cost).toEqual({
       mp: 22,
       stamina: 3,
@@ -197,9 +194,9 @@ describe('SkillTab · 施法物品成本', () => {
     const pickers = host.querySelectorAll<HTMLInputElement>('input[aria-label^="物品（可按名称"]')
     expect(pickers[0]!.value).toBe('未知物品（missing）')
     expect(pickers[0]!.classList.contains('missing')).toBe(true)
-    expect([...host.querySelectorAll('datalist')[0]!.options].map((option) => option.value)).toEqual([
-      '酒（86）',
-    ])
+    expect(
+      [...host.querySelectorAll('datalist')[0]!.options].map((option) => option.value),
+    ).toEqual(['酒（86）'])
 
     await setInput(pickers[0]!, namedIdChoiceLabel({ id: '86', name: '酒' }))
     expect(session.getState().skills[0]!.cost.items?.[0]).toEqual({
@@ -227,6 +224,8 @@ describe('SkillTab · 一生限用次数', () => {
     await act(async () => root.render(<Harness session={session} />))
     const input = host.querySelector<HTMLInputElement>('input[aria-label="一生限用次数"]')!
     expect(input.value).toBe('')
+    expect(input.min).toBe('1')
+    expect(input.step).toBe('1')
 
     await setInput(input, '9')
     expect(session.getState().skills[0]!.lifetimeLimit).toBe(9)
@@ -242,5 +241,36 @@ describe('SkillTab · 一生限用次数', () => {
       expect(session.undo()).toBe(true)
     })
     expect(Object.hasOwn(session.getState().skills[0]!, 'lifetimeLimit')).toBe(false)
+  })
+})
+
+describe('SkillTab · 敌方 execution 能力边界', () => {
+  test('敌方分支不显示 prepare，效果下拉只开放 runtime 已支持集合', async () => {
+    const value = skill()
+    value.execution = {
+      player: { effects: [{ kind: 'damage', power: 1, elemental: 0 }] },
+      enemy: { effects: [{ kind: 'damage', power: 1, elemental: 0 }] },
+    }
+    const session = new EditSession(state([value]))
+    await act(async () => root.render(<Harness session={session} />))
+
+    const player = host.querySelector<HTMLElement>('[data-side="player"]')!
+    const enemy = host.querySelector<HTMLElement>('[data-side="enemy"]')!
+    expect(player.textContent).toContain('施法前按剩余真气扣体力')
+    expect(enemy.textContent).not.toContain('施法前按剩余真气扣体力')
+    const enemyKinds = [...enemy.querySelector<HTMLSelectElement>('select.ef-kind')!.options].map(
+      (option) => option.value,
+    )
+    expect(enemyKinds).toEqual([
+      'damage',
+      'healHp',
+      'applyStatus',
+      'applyPoison',
+      'gate',
+      'instantKill',
+      'resourceDelta',
+    ])
+    expect(enemyKinds).not.toContain('summon')
+    expect(enemyKinds).not.toContain('healMp')
   })
 })

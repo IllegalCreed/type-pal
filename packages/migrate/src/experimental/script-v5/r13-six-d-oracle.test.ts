@@ -61,7 +61,10 @@ function censusWithKinds(kindsByAddress: Record<number, string>): R13SourceExecu
   } as unknown as R13SourceExecutionCensusV1
 }
 
-function disposition(siteId: string, finalState: 'accounted' | 'open'): R13SourceExecutionDisposition {
+function disposition(
+  siteId: string,
+  finalState: 'accounted' | 'open',
+): R13SourceExecutionDisposition {
   return {
     siteId,
     disposition: finalState === 'accounted' ? 'structured' : 'open-debt',

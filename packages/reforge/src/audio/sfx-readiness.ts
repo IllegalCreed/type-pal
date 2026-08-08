@@ -12,11 +12,15 @@ import type {
 } from '@type-pal/content'
 import {
   collectCommandAssetReferences,
+  resolveSkillExecution,
   SOUND_ASSET_ROLES,
   visitScriptRefs,
 } from '@type-pal/content'
 import type { BattleAction } from '../battle/battle-core.js'
-import { collectReachableEnemyDefs } from '../battle/enemy-closure.js'
+import {
+  collectReachableEnemyDefs,
+  collectReachableEnemySkillIds,
+} from '../battle/enemy-closure.js'
 import type { ScriptResolver } from '../script-chunk-store.js'
 
 function add(out: Set<AssetId>, asset: AssetId | undefined): void {
@@ -34,10 +38,15 @@ function addBattlerSounds(out: Set<AssetId>, sounds: BattlerSounds | undefined):
   add(out, sounds.death)
 }
 
-function addSkillSounds(out: Set<AssetId>, skill: SkillData | undefined): void {
+function addSkillSounds(
+  out: Set<AssetId>,
+  skill: SkillData | undefined,
+  side: 'player' | 'enemy',
+): void {
   if (!skill) return
-  add(out, skill.animation.sound)
-  for (const effect of skill.effects) if (effect.kind === 'summon') add(out, effect.sound)
+  const execution = resolveSkillExecution(skill, side)
+  add(out, execution.animation.sound)
+  for (const effect of execution.effects) if (effect.kind === 'summon') add(out, effect.sound)
 }
 
 function addItemSounds(out: Set<AssetId>, item: ItemData | undefined): void {
@@ -212,10 +221,14 @@ class BattleSoundClosure {
     this.poisonQueue.push(key)
   }
 
-  includeSkill(skill: SkillData | undefined, poisonSide?: PoisonSoundSide): void {
-    addSkillSounds(this.sounds, skill)
+  includeSkill(
+    skill: SkillData | undefined,
+    executionSide: 'player' | 'enemy',
+    poisonSide?: PoisonSoundSide,
+  ): void {
+    addSkillSounds(this.sounds, skill, executionSide)
     if (!poisonSide) return
-    for (const effect of skill?.effects ?? [])
+    for (const effect of skill ? resolveSkillExecution(skill, executionSide).effects : [])
       if (effect.kind === 'applyPoison') this.enqueuePoison(poisonSide, effect.poisonId)
   }
 
@@ -274,7 +287,7 @@ export async function collectBattleBaseSounds(input: BattleBaseSoundInput): Prom
   for (const player of input.playerSounds) addBattlerSounds(closure.sounds, player)
   for (const skillId of input.cooperativeSkillIds ?? []) {
     const skill = input.skills[skillId]
-    closure.includeSkill(skill, playerSkillPoisonSide(skill))
+    closure.includeSkill(skill, 'player', playerSkillPoisonSide(skill))
   }
   for (const poison of input.activePlayerPoisons ?? [])
     closure.enqueuePoison('player', poison.poisonId, poison.tickIndex)
@@ -284,15 +297,8 @@ export async function collectBattleBaseSounds(input: BattleBaseSoundInput): Prom
     add(closure.sounds, input.roles[role])
 
   const scriptRoots: unknown[] = [...(input.encounterChoreography ?? [])]
-  for (const enemy of collectReachableEnemyDefs(input.enemyDefs, input.enemiesById)) {
-    const includeEnemySkill = (skillId: string): void => {
-      const skill = input.skills[skillId]
-      // enemy oneEnemy/allEnemies 反转作用于玩家；其他目标的 applyPoison 在 core 中无目标。
-      closure.includeSkill(
-        skill,
-        skill?.target === 'oneEnemy' || skill?.target === 'allEnemies' ? 'player' : undefined,
-      )
-    }
+  const reachableEnemyDefs = collectReachableEnemyDefs(input.enemyDefs, input.enemiesById)
+  for (const enemy of reachableEnemyDefs) {
     add(closure.sounds, enemy.sounds.attack)
     add(closure.sounds, enemy.sounds.action)
     add(closure.sounds, enemy.sounds.magic)
@@ -307,16 +313,15 @@ export async function collectBattleBaseSounds(input: BattleBaseSoundInput): Prom
       false,
     )
     scriptRoots.push(enemy.choreography, enemy.onDefeated, enemy.ai.hooks)
-    for (const rule of enemy.ai.rules ?? []) {
-      if (rule.do.kind === 'cast') includeEnemySkill(rule.do.skillId)
-    }
-    if (enemy.ai.fallback?.action.kind === 'cast')
-      includeEnemySkill(enemy.ai.fallback.action.skillId)
-    for (const flow of Object.values(enemy.ai.hooks ?? {}))
-      for (const state of Object.values(flow.states))
-        for (const command of state.body)
-          if (command.kind === 'setFallback' && command.fallback?.action.kind === 'cast')
-            includeEnemySkill(command.fallback.action.skillId)
+  }
+  for (const skillId of collectReachableEnemySkillIds(input.enemyDefs, input.enemiesById)) {
+    const skill = input.skills[skillId]
+    // enemy oneEnemy/allEnemies 反转作用于玩家；其他目标的 applyPoison 在 core 中无目标。
+    closure.includeSkill(
+      skill,
+      'enemy',
+      skill?.target === 'oneEnemy' || skill?.target === 'allEnemies' ? 'player' : undefined,
+    )
   }
 
   closure.drainPoisons()
@@ -333,7 +338,7 @@ export function collectTurnActionSounds(input: TurnActionSoundInput): Set<AssetI
     switch (action.kind) {
       case 'cast': {
         const skill = input.skills[action.skillId]
-        closure.includeSkill(skill, playerSkillPoisonSide(skill))
+        closure.includeSkill(skill, 'player', playerSkillPoisonSide(skill))
         break
       }
       case 'item':

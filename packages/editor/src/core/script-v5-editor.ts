@@ -31,6 +31,11 @@ export interface ScriptEditorCommandV5 {
   invert(state: ScriptEditorStateV5): ScriptEditorStateV5
 }
 
+export interface ScriptV5TransactionReceipt {
+  /** 仅供跨 session coordinator 的同步失败回滚；不进入 redo。 */
+  rollback(): void
+}
+
 function clone<T>(value: T): T {
   return structuredClone(value)
 }
@@ -920,6 +925,47 @@ export class ScriptV5EditSession {
     this.past.push(command)
     this.future = []
     this.dirty = true
+    this.historyVersion += 1
+    this.notify()
+    return true
+  }
+
+  dispatchForTransaction(command: ScriptEditorCommandV5): ScriptV5TransactionReceipt {
+    const before = {
+      state: this.state,
+      past: [...this.past],
+      future: [...this.future],
+      dirty: this.dirty,
+    }
+    this.dispatch(command)
+    let active = true
+    return {
+      rollback: (): void => {
+        if (!active) throw new Error('script-v5 transaction receipt 已失效')
+        if (this.past.at(-1) !== command)
+          throw new Error(`无法回滚事务：script-v5 history 顶部不是「${command.label}」`)
+        active = false
+        this.state = before.state
+        this.past = before.past
+        this.future = before.future
+        this.dirty = before.dirty
+        this.historyVersion += 1
+        this.notify()
+      },
+    }
+  }
+
+  isUndoTop(command: ScriptEditorCommandV5): boolean {
+    return this.past.at(-1) === command
+  }
+
+  isRedoTop(command: ScriptEditorCommandV5): boolean {
+    return this.future.at(-1) === command
+  }
+
+  discardRedo(command: ScriptEditorCommandV5): boolean {
+    if (!this.isRedoTop(command)) return false
+    this.future.pop()
     this.historyVersion += 1
     this.notify()
     return true

@@ -15,7 +15,12 @@ import type { Cutscene, FadeColor, PresentationIntent } from './presentation-int
 export interface CutsceneExecutor {
   dialog(cue: DialogueCue, signal: AbortSignal): Promise<void>
   clearDialog(): void
-  fade(dir: 'in' | 'out', ms: number, color: FadeColor | undefined, signal: AbortSignal): Promise<void>
+  fade(
+    dir: 'in' | 'out',
+    ms: number,
+    color: FadeColor | undefined,
+    signal: AbortSignal,
+  ): Promise<void>
   cameraPan(dx: number, dy: number, frames: number, signal: AbortSignal): Promise<void>
   cameraSnap(to: GridPos | undefined): void
   frameAnimation(

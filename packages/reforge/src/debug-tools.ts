@@ -22,6 +22,7 @@ import type { ScriptProjectRuntimeV5 } from './script-project-v5.js'
 export interface DebugFrameStep {
   active: boolean
   requestStep(): void
+  reset(): void
   setActive(active: boolean): void
 }
 
@@ -85,38 +86,179 @@ interface TriggerItem {
   scene?: string
 }
 
-const PANEL_WIDTH = 720
+const ROOT_ID = 'tp-debug'
+const STYLE_ID = 'tp-reforge-debug-style'
+
+type DebugTabId = 'status' | 'commands' | 'triggers' | 'battle' | 'layers'
+
+const DEBUG_TABS: readonly { id: DebugTabId; label: string }[] = [
+  { id: 'status', label: '状态' },
+  { id: 'commands', label: '指令' },
+  { id: 'triggers', label: '触发' },
+  { id: 'battle', label: '战斗' },
+  { id: 'layers', label: '图层' },
+]
+
+let activeDebugCleanup: (() => void) | undefined
+
+/** Reforge 私有样式；复用一阶段视觉 token，但不建立跨包运行时依赖。 */
+export function injectDebugToolsStyles(): void {
+  if (typeof document === 'undefined' || document.getElementById(STYLE_ID)) return
+  const style = document.createElement('style')
+  style.id = STYLE_ID
+  style.textContent = `
+#${ROOT_ID} {
+  --tpd-gold:#d8b365; --tpd-cream:#f0e0b0; --tpd-crimson:#8a2a2a;
+  --tpd-crimson-dark:#5a1414; --tpd-slot:#2a1515; --tpd-border:#553322;
+  --tpd-text:#cbb890; --tpd-text-dim:#806f50; --tpd-error:#e06c5a;
+  --tpd-success:#7fc88a; --tpd-warn:#e0aa58; --tpd-info:#8dc5d8;
+  --tpd-glow:rgba(160,30,30,.5);
+  position:fixed; top:16px; left:16px; z-index:2147483000;
+  width:min(520px, calc(100vw - 32px)); height:min(720px, 84vh); max-height:84vh;
+  display:flex; overflow:hidden; color:var(--tpd-text);
+  background:rgba(17,17,17,.93); backdrop-filter:blur(7px);
+  border:1px solid var(--tpd-gold); border-radius:8px;
+  box-shadow:0 0 22px var(--tpd-glow),0 6px 26px rgba(0,0,0,.62);
+  font:14px/1.55 "Songti SC","SimSun",serif;
+  animation:tpd-panel-in .18s ease;
+}
+@keyframes tpd-panel-in { from{opacity:0;transform:scale(.97)} to{opacity:1;transform:scale(1)} }
+#${ROOT_ID} * { box-sizing:border-box; }
+#${ROOT_ID} .tpd-tabbar {
+  flex:0 0 88px; display:flex; flex-direction:column; padding:14px 0;
+  background:rgba(0,0,0,.25); border-right:1px solid var(--tpd-border);
+}
+#${ROOT_ID} .tpd-tab {
+  min-height:43px; padding:12px 0 12px 20px; border:0;
+  border-left:3px solid transparent; border-radius:0; box-shadow:none;
+  color:var(--tpd-text-dim); background:transparent; text-align:left;
+  font:16px/1 "Songti SC","SimSun",serif; letter-spacing:3px; cursor:pointer;
+  transition:color .12s,background .12s;
+}
+#${ROOT_ID} .tpd-tab:hover { color:var(--tpd-text); background:rgba(216,179,101,.07); transform:none; }
+#${ROOT_ID} .tpd-tab[aria-selected="true"] {
+  color:#1a140c; font-weight:700; border-left-color:var(--tpd-crimson);
+  background:linear-gradient(90deg,var(--tpd-gold),#c9a456);
+}
+#${ROOT_ID} .tpd-main { flex:1 1 auto; min-width:0; display:flex; flex-direction:column; }
+#${ROOT_ID} .tpd-header {
+  flex:0 0 auto; display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+  padding:12px 14px 10px; border-bottom:1px solid var(--tpd-border);
+}
+#${ROOT_ID} .tpd-title { color:var(--tpd-gold); font-size:17px; letter-spacing:4px; white-space:nowrap;
+  text-shadow:0 0 10px rgba(160,30,30,.45); }
+#${ROOT_ID} .tpd-header-meta { flex:1 1 auto; min-width:0; display:flex; flex-wrap:wrap;
+  align-items:center; justify-content:flex-end; gap:4px 6px; }
+#${ROOT_ID} .tpd-badge { padding:1px 6px; border:1px solid currentColor; border-radius:999px;
+  font:11px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace; white-space:nowrap; }
+#${ROOT_ID} .tpd-badge[data-state="idle"] { color:var(--tpd-success); }
+#${ROOT_ID} .tpd-badge[data-state="busy"] { color:var(--tpd-warn); }
+#${ROOT_ID} .tpd-status { flex:1 0 100%; min-height:1.4em; overflow:hidden; color:var(--tpd-text-dim);
+  font-size:12px; text-align:right; text-overflow:ellipsis; white-space:nowrap; }
+#${ROOT_ID} [data-tone="success"] { color:var(--tpd-success); }
+#${ROOT_ID} [data-tone="warn"] { color:var(--tpd-warn); }
+#${ROOT_ID} [data-tone="error"] { color:var(--tpd-error); }
+#${ROOT_ID} [data-tone="info"] { color:var(--tpd-info); }
+#${ROOT_ID} .tpd-close { flex:0 0 auto; min-width:30px; padding:2px 4px; border:0; box-shadow:none;
+  color:var(--tpd-text-dim); background:transparent; font:22px/1 system-ui,sans-serif; cursor:pointer; }
+#${ROOT_ID} .tpd-close:hover { color:var(--tpd-cream); transform:none; filter:none; }
+#${ROOT_ID} .tpd-body { flex:1 1 auto; min-height:0; }
+#${ROOT_ID} .tpd-panel { height:100%; overflow:auto; padding:6px 14px 16px; }
+#${ROOT_ID} .tpd-panel[hidden] { display:none; }
+#${ROOT_ID} .tpd-section { margin:0 0 12px; padding:0 0 10px;
+  border-bottom:1px solid rgba(85,51,34,.72); }
+#${ROOT_ID} .tpd-section:last-child { margin-bottom:0; border-bottom:0; }
+#${ROOT_ID} .tpd-section-title { margin:14px 0 9px; color:var(--tpd-cream);
+  font-size:15px; font-weight:400; letter-spacing:2px; }
+#${ROOT_ID} .tpd-section-title:first-child { margin-top:4px; }
+#${ROOT_ID} button:not(.tpd-tab):not(.tpd-close) {
+  border:1px solid var(--tpd-gold); border-radius:5px; padding:7px 13px;
+  color:var(--tpd-cream); background:linear-gradient(180deg,var(--tpd-crimson),var(--tpd-crimson-dark));
+  box-shadow:0 0 7px var(--tpd-glow); font:14px/1.1 "Songti SC","SimSun",serif;
+  letter-spacing:1px; cursor:pointer; transition:transform .1s,filter .1s;
+}
+#${ROOT_ID} button:not(.tpd-tab):not(.tpd-close):hover { transform:translateY(-1px); filter:brightness(1.12); }
+#${ROOT_ID} button:not(.tpd-tab):not(.tpd-close):active { transform:translateY(0); }
+#${ROOT_ID} input:not([type="checkbox"]):not([type="radio"]),
+#${ROOT_ID} select, #${ROOT_ID} textarea {
+  min-width:0; width:100%; border:1px solid var(--tpd-border); border-radius:5px; padding:7px 9px;
+  color:var(--tpd-cream); background:var(--tpd-slot); font:13px/1.35 ui-monospace,Menlo,monospace;
+}
+#${ROOT_ID} input::placeholder, #${ROOT_ID} textarea::placeholder { color:var(--tpd-text-dim); }
+#${ROOT_ID} input[type="checkbox"], #${ROOT_ID} input[type="radio"] { flex:0 0 auto; accent-color:var(--tpd-gold); }
+#${ROOT_ID} button:focus-visible, #${ROOT_ID} input:focus-visible, #${ROOT_ID} select:focus-visible,
+#${ROOT_ID} textarea:focus-visible, #${ROOT_ID} [role="tab"]:focus-visible,
+#${ROOT_ID} [role="tabpanel"]:focus-visible {
+  outline:2px solid var(--tpd-cream); outline-offset:2px; border-color:var(--tpd-gold);
+}
+#${ROOT_ID} .tpd-console, #${ROOT_ID} .tpd-inspector {
+  width:100%; margin:0 0 7px; padding:8px; overflow:auto; white-space:pre-wrap;
+  color:var(--tpd-text); background:#100c0b; border:1px solid var(--tpd-border); border-radius:5px;
+  font:12px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+#${ROOT_ID} .tpd-console { height:180px; }
+#${ROOT_ID} .tpd-inspector { height:420px; }
+#${ROOT_ID} .tpd-console-line { display:block; }
+#${ROOT_ID} .tpd-scrollbox { max-height:180px; overflow:auto; padding:6px;
+  background:rgba(0,0,0,.18); border:1px solid var(--tpd-border); border-radius:5px; }
+#${ROOT_ID} .tpd-scrollbox-compact { max-height:110px; }
+#${ROOT_ID} .tpd-scrollbox-tall { max-height:150px; }
+#${ROOT_ID} .tpd-option { display:flex; align-items:center; gap:5px; min-height:27px; white-space:nowrap; }
+#${ROOT_ID} .tpd-trigger-button { display:block; width:100%; margin:2px 0; text-align:left; }
+#${ROOT_ID} .tpd-trigger-kind { color:var(--tpd-info); }
+#${ROOT_ID} .tpd-row { display:flex; align-items:center; gap:7px; flex-wrap:wrap; margin:5px 0; }
+#${ROOT_ID} .tpd-row-label { flex:0 0 3.5em; color:var(--tpd-text-dim); }
+#${ROOT_ID} .tpd-row > :not(.tpd-row-label) { flex:1 1 140px; }
+#${ROOT_ID} .tpd-inline-options { display:flex; align-items:center; gap:7px 10px; flex-wrap:wrap; margin:5px 0; }
+#${ROOT_ID} .tpd-inline-label { display:inline-flex; align-items:center; gap:4px; }
+#${ROOT_ID} .tpd-member-row { display:grid; grid-template-columns:auto 48px 54px 54px minmax(100px,1fr);
+  align-items:center; gap:5px; margin:4px 0; }
+#${ROOT_ID} .tpd-member-extra { grid-column:2 / -1; display:grid;
+  grid-template-columns:minmax(105px,1.3fr) minmax(88px,1fr) minmax(72px,.8fr); gap:5px; }
+#${ROOT_ID} .tpd-actions { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:8px; }
+#${ROOT_ID} .tpd-note { margin-top:8px; color:var(--tpd-text-dim); font-size:12px; line-height:1.5; }
+#${ROOT_ID} .tpd-toggle { display:flex; align-items:center; gap:7px; padding:8px 2px;
+  border-bottom:1px solid rgba(85,51,34,.4); cursor:pointer; }
+#${ROOT_ID} .tpd-toggle input { width:16px; height:16px; }
+#${ROOT_ID} .tpd-panel, #${ROOT_ID} .tpd-scrollbox, #${ROOT_ID} pre { scrollbar-color:var(--tpd-crimson) var(--tpd-slot); }
+#${ROOT_ID} .tpd-panel::-webkit-scrollbar, #${ROOT_ID} .tpd-scrollbox::-webkit-scrollbar,
+#${ROOT_ID} pre::-webkit-scrollbar { width:8px; height:8px; }
+#${ROOT_ID} .tpd-panel::-webkit-scrollbar-track, #${ROOT_ID} .tpd-scrollbox::-webkit-scrollbar-track,
+#${ROOT_ID} pre::-webkit-scrollbar-track { background:var(--tpd-slot); }
+#${ROOT_ID} .tpd-panel::-webkit-scrollbar-thumb, #${ROOT_ID} .tpd-scrollbox::-webkit-scrollbar-thumb,
+#${ROOT_ID} pre::-webkit-scrollbar-thumb { background:linear-gradient(180deg,var(--tpd-crimson),var(--tpd-gold)); border-radius:4px; }
+@media (max-width:430px) {
+  #${ROOT_ID} .tpd-member-row { grid-template-columns:auto repeat(3, minmax(42px,1fr)); }
+  #${ROOT_ID} .tpd-member-row > input:nth-of-type(n+4) { grid-column:2 / -1; }
+}
+`
+  document.head.appendChild(style)
+}
 
 /**
  * 安装调试面板。只在 DEV 下由 bootGame 动态调用。
  */
 export function installDebugTools(ctx: DebugToolsContext): () => void {
+  activeDebugCleanup?.()
+  injectDebugToolsStyles()
+
   const root = document.createElement('div')
-  root.id = 'tp-debug'
-  root.style.cssText = [
-    'position:fixed',
-    'top:8px',
-    'right:8px',
-    `width:${PANEL_WIDTH}px`,
-    'max-width:94vw',
-    'height:calc(100vh - 16px)',
-    'overflow:auto',
-    'background:rgba(18,20,24,0.96)',
-    'color:#d8dee8',
-    'font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace',
-    'border:1px solid #3a4a5e',
-    'border-radius:6px',
-    'z-index:2147483000',
-    'padding:8px',
-    'box-sizing:border-box',
-    'box-shadow:0 6px 24px rgba(0,0,0,0.6)',
-  ].join(';')
+  root.id = ROOT_ID
+
+  let closed = false
+  let badgeTimer: ReturnType<typeof setInterval> | undefined
 
   const close = (): void => {
-    clearInterval(badgeTimer)
+    if (closed) return
+    closed = true
+    ctx.frameStep.reset()
+    if (badgeTimer !== undefined) clearInterval(badgeTimer)
     window.removeEventListener('keydown', closeOnEscCapture)
     root.remove()
+    document.getElementById(STYLE_ID)?.remove()
+    if (activeDebugCleanup === close) activeDebugCleanup = undefined
   }
+  activeDebugCleanup = close
   // K1：表单字段键入时屏蔽游戏快捷键；Esc 只关 overlay。其余按键透传（不吞游戏对话推进键）。
   root.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
@@ -126,11 +268,11 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
       return
     }
     const target = e.target as HTMLElement | null
-    if (target && target.matches('input, select, textarea')) e.stopPropagation()
+    if (target?.matches('input, select, textarea')) e.stopPropagation()
   })
   root.addEventListener('keyup', (e) => {
     const target = e.target as HTMLElement | null
-    if (target && target.matches('input, select, textarea')) e.stopPropagation()
+    if (target?.matches('input, select, textarea')) e.stopPropagation()
   })
   // 焦点不在面板内时 Esc 也关 overlay（不触游戏菜单：capture 早于游戏 bubble 监听，且 preventDefault）。
   const closeOnEscCapture = (e: KeyboardEvent): void => {
@@ -142,89 +284,146 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
   }
   window.addEventListener('keydown', closeOnEscCapture, { capture: true })
 
-  const statusEl = (): HTMLDivElement => el('div', { style: 'margin:4px 0;color:#9fb3c8' })
-
   function el<K extends keyof HTMLElementTagNameMap>(
     tag: K,
-    attrs: { style?: string; className?: string; html?: string } = {},
+    attrs: { className?: string; html?: string; text?: string } = {},
   ): HTMLElementTagNameMap[K] {
     const node = document.createElement(tag)
-    if (attrs.style) node.style.cssText = attrs.style
     if (attrs.className) node.className = attrs.className
     if (attrs.html !== undefined) node.innerHTML = attrs.html
+    if (attrs.text !== undefined) node.textContent = attrs.text
     return node
   }
 
-  const section = (title: string): HTMLDivElement => {
-    const box = el('div', { style: 'margin-bottom:10px;border-bottom:1px solid #2c3644;padding-bottom:8px' })
-    box.appendChild(el('div', { style: 'font-weight:bold;color:#8fd0ff;margin-bottom:4px', html: title }))
+  const section = (title: string): HTMLElement => {
+    const box = el('section', { className: 'tpd-section' })
+    box.appendChild(el('h2', { className: 'tpd-section-title', text: title }))
     return box
   }
 
-  const badge = (text: string, color: string): HTMLSpanElement => {
-    const b = el('span', {
-      style: `margin-left:8px;padding:0 6px;border-radius:3px;background:${color};color:#101318;font-weight:bold`,
-      html: text,
-    })
+  const badge = (text: string): HTMLSpanElement => {
+    const b = el('span', { className: 'tpd-badge', text })
+    b.dataset.state = 'idle'
     return b
   }
 
-  // ── 头部：标题 + 主 runner 占用徽标（K3） ──
-  const header = section('reforge dev tools · D13-1')
-  const runnerBadge = badge('主 runner 空闲', '#3ddc84')
-  header.appendChild(runnerBadge)
-  const dialogBadge = badge('对话空闲', '#3ddc84')
-  header.appendChild(dialogBadge)
-  header.appendChild(
-    el('button', {
-      style: 'float:right;cursor:pointer',
-      html: '✕ 关闭(Esc)',
-    }),
-  ).addEventListener('click', close)
+  const tabbar = el('div', { className: 'tpd-tabbar' })
+  tabbar.setAttribute('role', 'tablist')
+  tabbar.setAttribute('aria-label', '调试工具分类')
+  tabbar.setAttribute('aria-orientation', 'vertical')
+  const main = el('div', { className: 'tpd-main' })
+  const header = el('header', { className: 'tpd-header' })
+  const title = el('div', { className: 'tpd-title', text: '仙剑 · 调试' })
+  const headerMeta = el('div', { className: 'tpd-header-meta' })
+  const runnerBadge = badge('主 runner 空闲')
+  const dialogBadge = badge('对话空闲')
+  const status = el('div', { className: 'tpd-status' })
+  status.setAttribute('role', 'status')
+  status.setAttribute('aria-live', 'polite')
+  const closeButton = el('button', { className: 'tpd-close', text: '×' })
+  closeButton.type = 'button'
+  closeButton.setAttribute('aria-label', '关闭调试面板（Esc）')
+  closeButton.addEventListener('click', close)
+  headerMeta.append(runnerBadge, dialogBadge, status)
+  header.append(title, headerMeta, closeButton)
+
+  const body = el('div', { className: 'tpd-body' })
+  const panels = new Map<DebugTabId, HTMLDivElement>()
+  const tabButtons = new Map<DebugTabId, HTMLButtonElement>()
+  let activeTab: DebugTabId = 'status'
+  let onBattleTabActivated = (): void => undefined
+  const panelFor = (id: DebugTabId): HTMLDivElement => {
+    const panel = panels.get(id)
+    if (!panel) throw new Error(`调试面板 ${id} 尚未初始化`)
+    return panel
+  }
+
+  const activateTab = (id: DebugTabId, focus = false): void => {
+    activeTab = id
+    for (const [candidate, button] of tabButtons) {
+      const selected = candidate === id
+      button.setAttribute('aria-selected', String(selected))
+      button.tabIndex = selected ? 0 : -1
+      panelFor(candidate).hidden = !selected
+    }
+    if (id === 'battle') onBattleTabActivated()
+    if (focus) tabButtons.get(id)?.focus()
+  }
+
+  DEBUG_TABS.forEach(({ id, label }, index) => {
+    const tab = el('button', { className: 'tpd-tab', text: label })
+    tab.type = 'button'
+    tab.id = `tp-debug-tab-${id}`
+    tab.setAttribute('role', 'tab')
+    tab.setAttribute('aria-controls', `tp-debug-panel-${id}`)
+    tab.addEventListener('click', () => activateTab(id))
+    tab.addEventListener('keydown', (event) => {
+      const current = DEBUG_TABS.findIndex((entry) => entry.id === activeTab)
+      let next = current
+      if (event.key === 'ArrowDown' || event.key === 'ArrowRight')
+        next = (current + 1) % DEBUG_TABS.length
+      else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft')
+        next = (current - 1 + DEBUG_TABS.length) % DEBUG_TABS.length
+      else if (event.key === 'Home') next = 0
+      else if (event.key === 'End') next = DEBUG_TABS.length - 1
+      else return
+      event.preventDefault()
+      event.stopPropagation()
+      const nextTab = DEBUG_TABS[next]
+      if (nextTab) activateTab(nextTab.id, true)
+    })
+    tabButtons.set(id, tab)
+    tabbar.appendChild(tab)
+
+    const panel = el('div', { className: 'tpd-panel' })
+    panel.id = `tp-debug-panel-${id}`
+    panel.setAttribute('role', 'tabpanel')
+    panel.setAttribute('aria-labelledby', tab.id)
+    panel.tabIndex = 0
+    panel.hidden = index !== 0
+    panels.set(id, panel)
+    body.appendChild(panel)
+  })
+  activateTab(activeTab)
+  main.append(header, body)
+  root.append(tabbar, main)
 
   const refreshBadges = (): void => {
     const busy = ctx.runnerBusy()
     runnerBadge.textContent = busy ? '主 runner 占用中' : '主 runner 空闲'
-    runnerBadge.style.background = busy ? '#ffb020' : '#3ddc84'
+    runnerBadge.dataset.state = busy ? 'busy' : 'idle'
     const db = ctx.dialogBusy()
     dialogBadge.textContent = db ? '对话进行中' : '对话空闲'
-    dialogBadge.style.background = db ? '#ffb020' : '#3ddc84'
+    dialogBadge.dataset.state = db ? 'busy' : 'idle'
   }
   refreshBadges()
-  const badgeTimer = setInterval(refreshBadges, 500)
-  root.appendChild(header)
+  badgeTimer = setInterval(refreshBadges, 500)
 
   // ── 命令状态行（K3：触发状态上屏） ──
-  const status = statusEl()
   const setStatus = (text: string, color = '#9fb3c8'): void => {
     status.textContent = text
-    status.style.color = color
+    status.dataset.tone = debugTone(color)
   }
-  root.appendChild(status)
 
   // ── 1. cheat console（G4 命令集覆盖矩阵见 docs/phase2/dev-tools.md） ──
-  const consoleSection = section('① cheat console')
-  const output = el('pre', {
-    style:
-      'height:96px;overflow:auto;background:#0c0f13;border:1px solid #2c3644;padding:4px;margin:0 0 4px;white-space:pre-wrap',
-  })
+  const consoleSection = section('命令控制台')
+  const output = el('pre', { className: 'tpd-console' })
   const logLine = (text: string, color = '#c8d4e0'): void => {
-    output.textContent += `${text}\n`
+    const line = el('span', { className: 'tpd-console-line', text })
+    line.dataset.tone = debugTone(color)
+    output.appendChild(line)
     output.scrollTop = output.scrollHeight
   }
-  const input = el('input', {
-    style: 'width:100%;box-sizing:border-box;background:#0c0f13;border:1px solid #2c3644;color:#e8f0f8;padding:4px',
-  }) as HTMLInputElement
+  const input = el('input') as HTMLInputElement
+  input.setAttribute('aria-label', '调试命令')
   input.placeholder = 'help / scene s001 / give 144 5 / run-script shared/xx / battle 0 …'
   consoleSection.appendChild(output)
   consoleSection.appendChild(input)
-  root.appendChild(consoleSection)
+  panelFor('commands').appendChild(consoleSection)
 
   // ── 2. 世界变量检视（只读） ──
-  const inspectSection = section('② 世界变量检视（只读）')
-  const inspectEl = el('pre', {
-    style: 'height:120px;overflow:auto;background:#0c0f13;border:1px solid #2c3644;padding:4px;margin:0;white-space:pre-wrap',
-  })
+  const inspectSection = section('世界变量检视（只读）')
+  const inspectEl = el('pre', { className: 'tpd-inspector' })
   const refreshInspect = (): void => {
     const w = ctx.world()
     inspectEl.textContent = JSON.stringify(
@@ -251,17 +450,16 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
     )
   }
   refreshInspect()
-  const inspectBtn = el('button', { style: 'margin-top:4px;cursor:pointer', html: '刷新' })
+  const inspectBtn = el('button', { text: '刷新状态' })
+  inspectBtn.type = 'button'
   inspectBtn.addEventListener('click', refreshInspect)
   inspectSection.appendChild(inspectEl)
   inspectSection.appendChild(inspectBtn)
-  root.appendChild(inspectSection)
+  panelFor('status').appendChild(inspectSection)
 
   // ── 3. 脚本 / 触发器一键触发（K3：detached + 状态上屏 + 占用确认） ──
-  const triggerSection = section('③ 脚本 / 触发器（点击触发，AbortSignal 可取消）')
-  const triggerList = el('div', {
-    style: 'max-height:150px;overflow:auto;background:#0c0f13;border:1px solid #2c3644;padding:4px',
-  })
+  const triggerSection = section('脚本 / 触发器（再次点击可取消）')
+  const triggerList = el('div', { className: 'tpd-scrollbox tpd-scrollbox-tall' })
   const runningButtons = new Map<string, { abort(): void; text(): string }>()
   let triggerSeq = 0
 
@@ -274,16 +472,19 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
     }
     if (ctx.presentationBusy()) {
       // K3：主 runner 占用时执行场景切换类脚本须先确认（detached 不排 onEnter）。
-      if (!window.confirm(`主 runner 占用中，仍要执行 ${item.label}？\n(detached 并发不排 onEnter，场景入场脚本可能不跑)`))
+      if (
+        !window.confirm(
+          `主 runner 占用中，仍要执行 ${item.label}？\n(detached 并发不排 onEnter，场景入场脚本可能不跑)`,
+        )
+      )
         return
     }
     const ac = new AbortController()
     const runId = ++triggerSeq
     setStatus(`[${runId}] ${item.label} … running`, '#8fd0ff')
-    const button = el('button', {
-      style: 'cursor:pointer;margin:1px 0;text-align:left;width:100%',
-      html: `${item.label} <span style="color:#8fd0ff">${item.kind}</span>`,
-    })
+    const button = el('button', { className: 'tpd-trigger-button', text: `${item.label} ` })
+    button.type = 'button'
+    button.appendChild(el('span', { className: 'tpd-trigger-kind', text: item.kind }))
     const text = (): string => `${item.label}`
     runningButtons.set(key, { abort: () => ac.abort(), text })
     triggerList.appendChild(button)
@@ -306,11 +507,10 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
         case 'hook': {
           const scene = ctx.scene()
           if (!scene) throw new Error('hook 缺少场景定义')
-          return runtime.runSceneHook(
-            scene,
-            item.id as 'onEnter' | 'onTeleport',
-            { signal, runSceneEntry: true },
-          )
+          return runtime.runSceneHook(scene, item.id as 'onEnter' | 'onTeleport', {
+            signal,
+            runSceneEntry: true,
+          })
         }
       }
     }
@@ -318,7 +518,8 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
       .runDetached(ac.signal, (runtime, signal) => invoke(runtime, signal))
       .then(() => finish('done', '#3ddc84'))
       .catch((error: unknown) => {
-        if (error instanceof DOMException && error.name === 'AbortError') finish('cancel', '#ffb020')
+        if (error instanceof DOMException && error.name === 'AbortError')
+          finish('cancel', '#ffb020')
         else finish(`error: ${String(error).slice(0, 80)}`, '#ff5f56')
       })
   }
@@ -351,51 +552,64 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
         items.push({ kind: 'hook', id: 'onTeleport', label: `${scene.id} onTeleport` })
     }
     for (const item of items) {
-      const button = el('button', {
-        style: 'cursor:pointer;margin:1px 0;text-align:left;width:100%',
-        html: `${item.label} <span style="color:#8fd0ff">${item.kind}</span>`,
-      })
+      const button = el('button', { className: 'tpd-trigger-button', text: `${item.label} ` })
+      button.type = 'button'
+      button.appendChild(el('span', { className: 'tpd-trigger-kind', text: item.kind }))
       button.addEventListener('click', () => runTriggerItem(item))
       triggerList.appendChild(button)
     }
-    logLine(`[triggers] ${items.length} 项：shared ${Object.keys(p.sharedScripts ?? {}).length} / 场景实体 / hooks`)
+    logLine(
+      `[triggers] ${items.length} 项：shared ${Object.keys(p.sharedScripts ?? {}).length} / 场景实体 / hooks`,
+    )
   }
   renderTriggerList()
-  const refreshTriggers = el('button', { style: 'margin-top:4px;cursor:pointer', html: '刷新列表' })
+  const refreshTriggers = el('button', { text: '刷新列表' })
+  refreshTriggers.type = 'button'
   refreshTriggers.addEventListener('click', renderTriggerList)
   triggerSection.appendChild(triggerList)
-  triggerSection.appendChild(refreshTriggers)
-  root.appendChild(triggerSection)
+  const triggerActions = el('div', { className: 'tpd-actions' })
+  triggerActions.appendChild(refreshTriggers)
+  triggerSection.appendChild(triggerActions)
+  panelFor('triggers').appendChild(triggerSection)
 
   // ── 4. 战斗态构建器（K2：partyPreset 快照回滚在 startBattle 内；此处只组参数） ──
-  const battleSection = section('④ 战斗态构建器（内存态，结束后回战前世界）')
-  const battleForm = el('div')
+  const battleSection = section('战斗态构建器（内存态，结束后回战前世界）')
+  const battleForm = el('div', { className: 'tpd-battle-form' })
 
   const fieldSel = el('select') as HTMLSelectElement
+  fieldSel.setAttribute('aria-label', '战场')
   const fields = ctx.canonicalProject.battleFields ?? []
   if (fields.length) {
-    for (const f of fields) fieldSel.appendChild(el('option', { html: `${f.id} ${f.background ?? ''}` }))
+    for (const f of fields) {
+      const option = el('option', { text: `${f.id} ${f.background ?? ''}` })
+      option.value = String(f.id)
+      fieldSel.appendChild(option)
+    }
   } else {
-    fieldSel.appendChild(el('option', { html: '24 默认' }))
+    const option = el('option', { text: '24 默认' })
+    option.value = '24'
+    fieldSel.appendChild(option)
   }
 
   const enemyModeTeam = el('input', {}) as HTMLInputElement
   enemyModeTeam.type = 'radio'
   enemyModeTeam.name = 'enemy-mode'
+  enemyModeTeam.id = 'tp-debug-enemy-team'
   enemyModeTeam.checked = true
   const enemyModeCustom = el('input', {}) as HTMLInputElement
   enemyModeCustom.type = 'radio'
   enemyModeCustom.name = 'enemy-mode'
+  enemyModeCustom.id = 'tp-debug-enemy-custom'
   const teamSel = el('select') as HTMLSelectElement
+  teamSel.setAttribute('aria-label', '现成敌队')
   for (const id of Object.keys(ctx.canonicalProject.enemyTeamsById)) {
-    teamSel.appendChild(el('option', { html: id }))
+    teamSel.appendChild(el('option', { text: id }))
   }
-  const enemyList = el('div', {
-    style: 'max-height:90px;overflow:auto;border:1px solid #2c3644;padding:2px;display:none',
-  })
+  const enemyList = el('div', { className: 'tpd-scrollbox tpd-scrollbox-compact' })
+  enemyList.hidden = true
   const enemyChecks = new Map<string, HTMLInputElement>()
   for (const id of Object.keys(ctx.canonicalProject.enemiesById)) {
-    const row = el('label', { style: 'display:block;white-space:nowrap' })
+    const row = el('label', { className: 'tpd-option' })
     const cb = el('input', {}) as HTMLInputElement
     cb.type = 'checkbox'
     cb.value = id
@@ -405,20 +619,18 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
     enemyList.appendChild(row)
   }
   enemyModeCustom.addEventListener('change', () => {
-    enemyList.style.display = enemyModeCustom.checked ? 'block' : 'none'
+    enemyList.hidden = !enemyModeCustom.checked
     teamSel.disabled = enemyModeCustom.checked
   })
   enemyModeTeam.addEventListener('change', () => {
-    enemyList.style.display = 'none'
+    enemyList.hidden = true
     teamSel.disabled = false
   })
 
-  const partyList = el('div', {
-    style: 'max-height:90px;overflow:auto;border:1px solid #2c3644;padding:2px',
-  })
+  const partyList = el('div', { className: 'tpd-scrollbox tpd-scrollbox-compact' })
   const partyChecks = new Map<string, HTMLInputElement>()
   for (const id of Object.keys(ctx.canonicalProject.actorsById)) {
-    const row = el('label', { style: 'display:block;white-space:nowrap' })
+    const row = el('label', { className: 'tpd-option' })
     const cb = el('input', {}) as HTMLInputElement
     cb.type = 'checkbox'
     cb.value = id
@@ -428,67 +640,74 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
     partyList.appendChild(row)
   }
 
-  const memberOverrides = el('div', {
-    style: 'max-height:120px;overflow:auto;border:1px solid #2c3644;padding:2px',
-  })
+  const memberOverrides = el('div', { className: 'tpd-scrollbox tpd-scrollbox-tall' })
+  memberOverrides.hidden = true
   const renderMemberOverrides = (): void => {
     memberOverrides.textContent = ''
     for (const [id, cb] of partyChecks) {
       if (!cb.checked) continue
-      const row = el('label', { style: 'display:block;white-space:nowrap' })
-      row.appendChild(document.createTextNode(`${id}  Lv`))
+      const row = el('div', { className: 'tpd-member-row' })
+      row.appendChild(el('span', { text: id }))
       const lv = el('input', {}) as HTMLInputElement
       lv.type = 'number'
-      lv.style.width = '42px'
       lv.placeholder = '模板'
+      lv.setAttribute('aria-label', `${id} 等级`)
       const hp = el('input', {}) as HTMLInputElement
       hp.type = 'number'
-      hp.style.width = '46px'
       hp.placeholder = 'HP'
+      hp.setAttribute('aria-label', `${id} HP`)
       const mp = el('input', {}) as HTMLInputElement
       mp.type = 'number'
-      mp.style.width = '46px'
       mp.placeholder = 'MP'
+      mp.setAttribute('aria-label', `${id} MP`)
       const equip = el('input', {}) as HTMLInputElement
-      equip.style.width = '120px'
       equip.placeholder = '装:slot=item,..'
+      equip.setAttribute('aria-label', `${id} 装备`)
       const statuses = el('input', {}) as HTMLInputElement
-      statuses.style.width = '90px'
       statuses.placeholder = '态:protect,..'
+      statuses.setAttribute('aria-label', `${id} 状态`)
       const poisons = el('input', {}) as HTMLInputElement
-      poisons.style.width = '70px'
       poisons.placeholder = '毒:id,..'
+      poisons.setAttribute('aria-label', `${id} 中毒`)
       row.appendChild(lv)
       row.appendChild(hp)
       row.appendChild(mp)
-      row.appendChild(equip)
-      row.appendChild(statuses)
-      row.appendChild(poisons)
+      const extras = el('div', { className: 'tpd-member-extra' })
+      extras.append(equip, statuses, poisons)
+      row.appendChild(extras)
       const data = { lv, hp, mp, equip, statuses, poisons }
       row.dataset.member = id
-      ;(row as HTMLLabelElement & { _d?: typeof data })._d = data
+      ;(row as HTMLDivElement & { _d?: typeof data })._d = data
       memberOverrides.appendChild(row)
     }
+    memberOverrides.hidden = memberOverrides.childElementCount === 0
   }
   partyList.addEventListener('change', renderMemberOverrides)
 
-  const invInput = el('input', {
-    style: 'width:100%;box-sizing:border-box;background:#0c0f13;border:1px solid #2c3644;color:#e8f0f8;padding:4px',
-  }) as HTMLInputElement
+  const invInput = el('input') as HTMLInputElement
+  invInput.setAttribute('aria-label', '道具预设')
   invInput.placeholder = '道具预设 itemId×count,itemId×count'
 
-  const startBattleBtn = el('button', { style: 'cursor:pointer;margin-top:6px', html: '⚔ 开战' })
+  const startBattleBtn = el('button', { text: '⚔ 开战' })
+  startBattleBtn.type = 'button'
   startBattleBtn.addEventListener('click', () => {
     const customEnemies = enemyModeCustom.checked
-      ? [...enemyChecks.entries()]
-          .filter(([, cb]) => cb.checked)
-          .map(([id]) => id)
+      ? [...enemyChecks.entries()].filter(([, cb]) => cb.checked).map(([id]) => id)
       : undefined
     const actorIds = [...partyChecks.entries()].filter(([, cb]) => cb.checked).map(([id]) => id)
     const seedStats: Record<string, { hp?: number; mp?: number }> = {}
     const presetMembers: DebugPresetMember[] = []
     for (const row of memberOverrides.children) {
-      const label = row as HTMLLabelElement & { _d?: { lv: HTMLInputElement; hp: HTMLInputElement; mp: HTMLInputElement; equip: HTMLInputElement; statuses: HTMLInputElement; poisons: HTMLInputElement } }
+      const label = row as HTMLDivElement & {
+        _d?: {
+          lv: HTMLInputElement
+          hp: HTMLInputElement
+          mp: HTMLInputElement
+          equip: HTMLInputElement
+          statuses: HTMLInputElement
+          poisons: HTMLInputElement
+        }
+      }
       const d = label._d
       const id = label.dataset.member
       if (!d || !id) continue
@@ -505,6 +724,11 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
       })
     }
     const inventory = parseInventoryPreset(invInput.value)
+    const fieldId = Number(fieldSel.value)
+    if (!Number.isFinite(fieldId)) {
+      setStatus('战场 id 必须是有限数字', '#ff5f56')
+      return
+    }
     if (!actorIds.length) {
       setStatus('请至少选择一名我方成员', '#ff5f56')
       return
@@ -522,8 +746,10 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
         {
           team: customEnemies ? 0 : teamNumber(teamSel.value),
           ...(customEnemies ? { enemyOverride: customEnemies } : {}),
-          ...(inventory.length ? { partyPreset: { party, inventory } } : { partyPreset: { party } }),
-          ...(fields.length ? { fieldId: Number(fieldSel.value) } : {}),
+          ...(inventory.length
+            ? { partyPreset: { party, inventory } }
+            : { partyPreset: { party } }),
+          ...(fields.length ? { fieldId } : {}),
         },
         ac.signal,
       )
@@ -533,29 +759,30 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
       )
   })
 
-  const resetBtn = el('button', { style: 'cursor:pointer;margin:6px 0 0 8px', html: '清空表单' })
+  const resetBtn = el('button', { text: '清空表单' })
+  resetBtn.type = 'button'
   resetBtn.addEventListener('click', () => {
     for (const [, cb] of enemyChecks) cb.checked = false
     for (const [, cb] of partyChecks) cb.checked = false
     enemyModeTeam.checked = true
     teamSel.disabled = false
-    enemyList.style.display = 'none'
+    enemyList.hidden = true
     invInput.value = ''
     renderMemberOverrides()
   })
 
   const row = (label: string, node: HTMLElement): HTMLDivElement => {
-    const r = el('div', { style: 'margin:3px 0;display:flex;align-items:center;gap:6px;flex-wrap:wrap' })
-    r.appendChild(el('span', { html: label }))
+    const r = el('div', { className: 'tpd-row' })
+    r.appendChild(el('span', { className: 'tpd-row-label', text: label }))
     r.appendChild(node)
     return r
   }
   battleForm.appendChild(row('战场', fieldSel))
-  const enemyModeRow = el('div', { style: 'margin:3px 0;display:flex;gap:8px;flex-wrap:wrap' })
-  const teamLabel = el('label', { style: 'display:flex;align-items:center;gap:4px' })
+  const enemyModeRow = el('div', { className: 'tpd-inline-options' })
+  const teamLabel = el('label', { className: 'tpd-inline-label' })
   teamLabel.appendChild(enemyModeTeam)
   teamLabel.appendChild(document.createTextNode('现成敌队'))
-  const customLabel = el('label', { style: 'display:flex;align-items:center;gap:4px' })
+  const customLabel = el('label', { className: 'tpd-inline-label' })
   customLabel.appendChild(enemyModeCustom)
   customLabel.appendChild(document.createTextNode('自定义敌人'))
   enemyModeRow.appendChild(teamLabel)
@@ -566,15 +793,24 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
   battleForm.appendChild(row('我方', partyList))
   battleForm.appendChild(memberOverrides)
   battleForm.appendChild(row('道具', invInput))
-  const btnRow = el('div')
+  const btnRow = el('div', { className: 'tpd-actions' })
   btnRow.appendChild(startBattleBtn)
   btnRow.appendChild(resetBtn)
   battleForm.appendChild(btnRow)
   battleSection.appendChild(battleForm)
-  root.appendChild(battleSection)
+  panelFor('battle').appendChild(battleSection)
+  onBattleTabActivated = () => {
+    enemyList.hidden = !enemyModeCustom.checked
+    teamSel.disabled = enemyModeCustom.checked
+    if (
+      memberOverrides.childElementCount === 0 &&
+      [...partyChecks.values()].some((checkbox) => checkbox.checked)
+    )
+      renderMemberOverrides()
+  }
 
   // ── 5. 图层开关 + 帧步进（K5） ──
-  const layersSection = section('⑤ 图层 / 帧步进')
+  const layersSection = section('图层 / 帧步进')
   const collisionCb = el('input', {}) as HTMLInputElement
   collisionCb.type = 'checkbox'
   collisionCb.checked = ctx.layers.collision
@@ -593,29 +829,33 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
   stepCb.addEventListener('change', () => {
     ctx.frameStep.setActive(stepCb.checked)
   })
-  const stepBtn = el('button', { style: 'cursor:pointer', html: '▶ 单步(一拍=100ms)' })
+  const stepBtn = el('button', { text: '▶ 单步（一拍 = 100ms）' })
+  stepBtn.type = 'button'
   stepBtn.addEventListener('click', () => {
-    if (!ctx.frameStep.active) ctx.frameStep.setActive(true)
+    if (!ctx.frameStep.active) {
+      ctx.frameStep.setActive(true)
+      stepCb.checked = true
+    }
     ctx.frameStep.requestStep()
   })
   const note = el('div', {
-    style: 'color:#9fb3c8;margin-top:2px',
-    html: '帧步进作用域 = 大世界 gameplay 相位（移动/实体/auto 脚本）；战斗/演出/对话推进不单步。',
+    className: 'tpd-note',
+    text: '帧步进作用域 = 大世界 gameplay 相位（移动 / 实体 / auto 脚本）；战斗、演出、对话推进不单步。',
   })
-  const lrow = (label: string, cb: HTMLElement): HTMLDivElement => {
-    const r = el('div', { style: 'display:flex;align-items:center;gap:6px;margin:3px 0' })
+  const lrow = (label: string, cb: HTMLElement): HTMLLabelElement => {
+    const r = el('label', { className: 'tpd-toggle' })
     r.appendChild(cb)
-    r.appendChild(el('span', { html: label }))
+    r.appendChild(el('span', { text: label }))
     return r
   }
   layersSection.appendChild(lrow('碰撞叠加层(?collision)', collisionCb))
   layersSection.appendChild(lrow('触发区叠加层', triggerCb))
   layersSection.appendChild(lrow('帧步进（暂停墙钟，手动单步）', stepCb))
-  const stepRow = el('div', { style: 'margin-top:4px' })
+  const stepRow = el('div', { className: 'tpd-actions' })
   stepRow.appendChild(stepBtn)
   layersSection.appendChild(stepRow)
   layersSection.appendChild(note)
-  root.appendChild(layersSection)
+  panelFor('layers').appendChild(layersSection)
 
   // ── 命令解析（G4 覆盖矩阵见 docs/phase2/dev-tools.md） ──
   const runCommand = (line: string): void => {
@@ -641,12 +881,11 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
     switch (cmd) {
       case 'scene': {
         const id = arg(1)
-        if (!id) return logLine('用法: scene <sceneId> [col,row] [facing]', '#ffb020')
-        const posRaw = arg(2)?.split(',').map(Number)
-        const pos =
-          posRaw?.length === 2 && posRaw.every(Number.isFinite)
-            ? { col: posRaw[0]!, row: posRaw[1]!, height: 0 }
-            : undefined
+        if (!id) {
+          logLine('用法: scene <sceneId> [col,row] [facing]', '#ffb020')
+          return
+        }
+        const pos = parseDebugPosition(arg(2))
         const facing = arg(3) as 'up' | 'down' | 'left' | 'right' | undefined
         setStatus(`scene ${id} …`, '#8fd0ff')
         void detached((runtime, s) =>
@@ -669,13 +908,21 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
         return
       }
       case 'pos': {
-        const posRaw = arg(1)?.split(',').map(Number)
-        if (!posRaw || posRaw.length !== 2 || !posRaw.every(Number.isFinite))
-          return logLine('用法: pos <col,row> [facing]', '#ffb020')
+        const pos = parseDebugPosition(arg(1))
+        if (!pos) {
+          logLine('用法: pos <col,row> [facing]', '#ffb020')
+          return
+        }
         const facing = arg(2) as 'up' | 'down' | 'left' | 'right' | undefined
         void detached((runtime, s) =>
           runtime.runCommands(
-            [{ kind: 'teleportParty', pos: { col: posRaw[0]!, row: posRaw[1]!, height: 0 }, ...(facing ? { facing } : {}) }],
+            [
+              {
+                kind: 'teleportParty',
+                pos,
+                ...(facing ? { facing } : {}),
+              },
+            ],
             { signal: s },
           ),
         )
@@ -685,7 +932,10 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
       }
       case 'give': {
         const itemId = arg(1)
-        if (!itemId) return logLine('用法: give <itemId> [count]', '#ffb020')
+        if (!itemId) {
+          logLine('用法: give <itemId> [count]', '#ffb020')
+          return
+        }
         const count = Number(arg(2) ?? 1)
         void detached((runtime, s) =>
           runtime.runCommands([{ kind: 'giveItem', itemId, count }], { signal: s }),
@@ -696,7 +946,10 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
       }
       case 'money': {
         const n = Number(arg(1))
-        if (!Number.isFinite(n)) return logLine('用法: money <n>', '#ffb020')
+        if (!Number.isFinite(n)) {
+          logLine('用法: money <n>', '#ffb020')
+          return
+        }
         const delta = n - ctx.world().money
         void detached((runtime, s) =>
           runtime.runCommands([{ kind: 'giveMoney', delta }], { signal: s }),
@@ -706,8 +959,14 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
         return
       }
       case 'party': {
-        const members = (arg(1) ?? '').split(',').map((s) => s.trim()).filter(Boolean)
-        if (!members.length) return logLine('用法: party <actorId,actorId,…>', '#ffb020')
+        const members = (arg(1) ?? '')
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean)
+        if (!members.length) {
+          logLine('用法: party <actorId,actorId,…>', '#ffb020')
+          return
+        }
         ctx.setParty(members)
         setStatus(`party ${members.join(',')} done（内存态，满血满蓝）`, '#3ddc84')
         refreshInspect()
@@ -716,7 +975,10 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
       case 'skill': {
         const actorId = arg(1)
         const skillId = arg(2)
-        if (!actorId || !skillId) return logLine('用法: skill <actorId> <skillId>', '#ffb020')
+        if (!actorId || !skillId) {
+          logLine('用法: skill <actorId> <skillId>', '#ffb020')
+          return
+        }
         ctx.grantSkill(actorId, skillId)
         setStatus(`skill ${actorId} ← ${skillId} done（内存态）`, '#3ddc84')
         refreshInspect()
@@ -724,7 +986,10 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
       }
       case 'battle': {
         const team = Number(arg(1) ?? 0)
-        if (!Number.isFinite(team)) return logLine('用法: battle <team>', '#ffb020')
+        if (!Number.isFinite(team)) {
+          logLine('用法: battle <team>', '#ffb020')
+          return
+        }
         setStatus(`battle team ${team} …`, '#8fd0ff')
         void ctx
           .startBattleDev({ team }, new AbortController().signal)
@@ -734,7 +999,10 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
       }
       case 'run-script': {
         const id = arg(1)
-        if (!id) return logLine('用法: run-script <scriptId>', '#ffb020')
+        if (!id) {
+          logLine('用法: run-script <scriptId>', '#ffb020')
+          return
+        }
         setStatus(`run-script ${id} …`, '#8fd0ff')
         void detached((runtime, s) => runtime.runSharedScript(id, { signal: s }))
           .then(() => setStatus(`run-script ${id} done`, '#3ddc84'))
@@ -743,14 +1011,17 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
       }
       case 'run-trigger': {
         const id = arg(1)
-        if (!id) return logLine('用法: run-trigger <entityId>', '#ffb020')
+        if (!id) {
+          logLine('用法: run-trigger <entityId>', '#ffb020')
+          return
+        }
         setStatus(`run-trigger ${id} …`, '#8fd0ff')
         void detached((runtime, s) => {
           const scene = ctx.scene()
           if (!scene) return Promise.reject(new Error('当前场景无 canonical 定义'))
           return runtime.runEntityBehavior(scene, id, 'trigger', { signal: s })
         })
-          .then((ran) => setStatus(`run-trigger ${id} → ${ran ? 'ran' : '未命中' }`, '#3ddc84'))
+          .then((ran) => setStatus(`run-trigger ${id} → ${ran ? 'ran' : '未命中'}`, '#3ddc84'))
           .catch((e: unknown) => setStatus(`run-trigger: ${String(e).slice(0, 80)}`, '#ff5f56'))
         return
       }
@@ -793,9 +1064,36 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
   })
 
   document.body.appendChild(root)
-  input.focus()
+  tabButtons.get(activeTab)?.focus()
 
   return close
+}
+
+function debugTone(color: string): 'success' | 'warn' | 'error' | 'info' | '' {
+  switch (color.toLowerCase()) {
+    case '#3ddc84':
+      return 'success'
+    case '#ffb020':
+      return 'warn'
+    case '#ff5f56':
+      return 'error'
+    case '#8fd0ff':
+      return 'info'
+    default:
+      return ''
+  }
+}
+
+function parseDebugPosition(
+  raw: string | undefined,
+): { col: number; row: number; height: 0 } | undefined {
+  if (!raw) return undefined
+  const parts = raw.split(',').map(Number)
+  if (parts.length !== 2) return undefined
+  const [col, row] = parts
+  if (col === undefined || row === undefined || !Number.isFinite(col) || !Number.isFinite(row))
+    return undefined
+  return { col, row, height: 0 }
 }
 
 function teamNumber(id: string): number {
@@ -816,10 +1114,7 @@ function parseInventoryPreset(raw: string): { itemId: string; count: number }[] 
     .filter((x) => x.itemId)
 }
 
-function applyPresetOverrides(
-  party: CharacterInstance[],
-  members: DebugPresetMember[],
-): void {
+function applyPresetOverrides(party: CharacterInstance[], members: DebugPresetMember[]): void {
   for (const m of members) {
     const inst = party.find((c) => c.id === m.actorId || c.template === m.actorId)
     if (!inst) continue

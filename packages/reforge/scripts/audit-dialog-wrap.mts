@@ -7,7 +7,7 @@
  * 断言:11102 行中仅 6 行(原版会裁边的超限行)继续折行,其余 0 意外折行。
  * 失败即 exit 1(CI 门禁可挂)。
  */
-import { readFileSync, readdirSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
 const repo = resolve(import.meta.dirname, '../../..')
@@ -15,9 +15,11 @@ const scenesDir = resolve(repo, 'projects/pal/content/scenes')
 const strings = JSON.parse(
   readFileSync(resolve(repo, 'data/extracted/lookup/strings.json'), 'utf8'),
 ) as Record<string, string>
-const glyphs = (JSON.parse(
-  readFileSync(resolve(repo, 'data/extracted/data/font/glyphs.json'), 'utf8'),
-) as { glyphs: Array<{ codepoint: number; width: number }> }).glyphs
+const glyphs = (
+  JSON.parse(readFileSync(resolve(repo, 'data/extracted/data/font/glyphs.json'), 'utf8')) as {
+    glyphs: Array<{ codepoint: number; width: number }>
+  }
+).glyphs
 const wmap = new Map(glyphs.map((g) => [g.codepoint, g.width]))
 
 function widthOf(s: string): number {
@@ -37,7 +39,14 @@ const startX = (slot: string, hasPortrait: boolean): number => {
   return 60 // narration
 }
 
-type Row = { scene: string; id: string; text: string; width: number; slot: string; hasPortrait: boolean }
+type Row = {
+  scene: string
+  id: string
+  text: string
+  width: number
+  slot: string
+  hasPortrait: boolean
+}
 const rows: Row[] = []
 
 function walk(node: unknown, scene: string): void {
@@ -46,7 +55,10 @@ function walk(node: unknown, scene: string): void {
     for (const n of node) walk(n, scene)
     return
   }
-  const o = node as { kind?: string; cue?: { slot?: string; portrait?: unknown; rows?: Array<{ text: string }> } }
+  const o = node as {
+    kind?: string
+    cue?: { slot?: string; portrait?: unknown; rows?: Array<{ text: string }> }
+  }
   if (o.kind === 'dialog' && o.cue) {
     const cue = o.cue
     const slot = cue.slot ?? 'bottom'
@@ -70,12 +82,24 @@ for (const r of rows) {
 }
 
 // 2026-08-06 冻结设计时的 6 条超限行(原版会裁边,reforge 合法折行)。
-const EXPECTED_OVER = new Set(['dlg.7569', 'dlg.8217', 'dlg.9198', 'dlg.10164', 'dlg.10208', 'dlg.8565'])
+const EXPECTED_OVER = new Set([
+  'dlg.7569',
+  'dlg.8217',
+  'dlg.9198',
+  'dlg.10164',
+  'dlg.10208',
+  'dlg.8565',
+])
 const overIds = new Set(over.map((r) => r.id))
 
-console.log(`[audit-dialog-wrap] 对话行 ${rows.length}（唯一文本 ${new Set(rows.map((r) => r.id)).size}）`)
+console.log(
+  `[audit-dialog-wrap] 对话行 ${rows.length}（唯一文本 ${new Set(rows.map((r) => r.id)).size}）`,
+)
 console.log(`[audit-dialog-wrap] 超原版最大可视宽度(合法折行) ${over.length} 行`)
-for (const r of over) console.log(`  ${r.scene} ${r.id} slot=${r.slot} p=${r.hasPortrait ? 'y' : 'n'} w=${r.width} "${r.text}"`)
+for (const r of over)
+  console.log(
+    `  ${r.scene} ${r.id} slot=${r.slot} p=${r.hasPortrait ? 'y' : 'n'} w=${r.width} "${r.text}"`,
+  )
 
 const unexpected = over.filter((r) => !EXPECTED_OVER.has(r.id))
 const missing = [...EXPECTED_OVER].filter((id) => !overIds.has(id))

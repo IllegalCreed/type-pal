@@ -84,7 +84,10 @@ describe('CutsceneController (D14-2)', () => {
     const { calls, exec } = executor()
     const controller = new CutsceneController(exec, { isRunnerActive: () => false })
     await Promise.all([
-      controller.run([{ kind: 'dialog', cue: { rows: [] } as never }], new AbortController().signal),
+      controller.run(
+        [{ kind: 'dialog', cue: { rows: [] } as never }],
+        new AbortController().signal,
+      ),
       controller.run([{ kind: 'fade', dir: 'in', ms: 100 }], new AbortController().signal),
     ])
     expect(calls.filter((c) => c === 'dialog')).toHaveLength(1)

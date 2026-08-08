@@ -46,6 +46,7 @@ import {
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import type { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
 import { nextAuthoredImageId, prepareAuthoredImage } from '../core/image-import.js'
 import { cloneItemForAuthoring, createBlankItem } from '../core/item-authoring.js'
 import {
@@ -55,9 +56,9 @@ import {
 } from '../core/item-references.js'
 import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import {
+  AddItemPrivateScriptV5Command,
   type ScriptEditorStateV5,
   type ScriptV5EditSession,
-  AddItemPrivateScriptV5Command,
   SetItemPrivateScriptBodyV5Command,
 } from '../core/script-v5-editor.js'
 import { createAuthoredScriptId } from '../core/shared-script.js'
@@ -593,6 +594,7 @@ export function ItemTab(props: {
     state: ScriptEditorStateV5
     session: ScriptV5EditSession
   }
+  historyCoordinator?: EditorHistoryCoordinator
 }) {
   const {
     items,
@@ -618,6 +620,7 @@ export function ItemTab(props: {
     onStatusNotice,
     tabBar,
     scriptV5,
+    historyCoordinator,
   } = props
   const [filter, setFilter] = useState('')
   const [filterMode, setFilterMode] = useState<ItemFilter>('all')
@@ -953,11 +956,12 @@ export function ItemTab(props: {
     onStatusNotice?.({ kind: 'info', message: `已创建并绑定 ${id}。` })
     onOpenScript?.(id)
   }
-  /** ED-5J:新建物品私有脚本——v5 会话入 canonical 正文,shell 效果链入占位 ref;
-   *  两笔各走各的 undo 栈(撤销链与既有行为一致);每件物品至多一条(schema id='use')。 */
+  /** 新建私有脚本是一个跨 session 作者事务；正文与 shell ref 必须成对撤销/重做。 */
   const addPrivateScript = (): void => {
     if (!item || !scriptV5) return
-    const storedItem = scriptV5.session.getState().items.find((candidate) => candidate.id === item.id)
+    const storedItem = scriptV5.session
+      .getState()
+      .items.find((candidate) => candidate.id === item.id)
     const exists = (storedItem?.use?.effects ?? []).some(
       (effect) => effect.kind === 'itemPrivateScript',
     )
@@ -966,18 +970,28 @@ export function ItemTab(props: {
       return
     }
     try {
-      scriptV5.session.dispatch(new AddItemPrivateScriptV5Command(item.id, `${item.name}私有脚本`))
-      patchUse({
-        ...item.use!,
-        effects: [
-          ...item.use!.effects,
-          {
-            kind: 'runScript',
-            script: { chunk: '__script-v5-runtime', id: `item:${item.id}:use` },
+      if (!historyCoordinator) throw new Error('缺 EditorHistoryCoordinator，禁止拆分创建私有脚本')
+      const current = session.getState().items.find((candidate) => candidate.id === item.id)
+      if (!current?.use) throw new Error(`${item.id}.use 不存在，无法绑定私有脚本`)
+      historyCoordinator.dispatch(
+        new AddItemPrivateScriptV5Command(item.id, `${item.name}私有脚本`),
+        new UpdateItemCommand(item.id, {
+          use: {
+            ...current.use,
+            effects: [
+              ...current.use.effects,
+              {
+                kind: 'runScript',
+                script: { chunk: '__script-v5-runtime', id: `item:${item.id}:use` },
+              },
+            ],
           },
-        ],
+        }),
+      )
+      onStatusNotice?.({
+        kind: 'info',
+        message: `已新建私有脚本「${item.name}私有脚本」,可直接编辑正文。`,
       })
-      onStatusNotice?.({ kind: 'info', message: `已新建私有脚本「${item.name}私有脚本」,可直接编辑正文。` })
     } catch (cause) {
       onStatusNotice?.({
         kind: 'error',

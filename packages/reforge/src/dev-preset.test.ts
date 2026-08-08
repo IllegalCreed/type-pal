@@ -1,5 +1,5 @@
-import { describe, expect, test } from 'vitest'
 import type { WorldState } from '@type-pal/content'
+import { describe, expect, test } from 'vitest'
 import { withWorldPreset } from './dev-preset.js'
 
 function makeWorld(): WorldState {
@@ -61,10 +61,12 @@ describe('withWorldPreset (D13-1 K2)', () => {
       world.party[0]!.hp = 1
       world.party[0]!.level = 1
       world.money += 500
-      world.learnedSkills['hero'] = [...world.learnedSkills['hero']!, 'fire']
+      world.learnedSkills.hero = [...(world.learnedSkills.hero ?? []), 'fire']
       world.inventory.push({ itemId: 'elixir', count: 1 })
+      ;(world as unknown as Record<string, unknown>).debugBattleResidue = { leaked: true }
     })
     expect(world).toEqual(before)
+    expect(Object.hasOwn(world, 'debugBattleResidue')).toBe(false)
   })
 
   test('预设队伍/inventory 在战斗期间生效', async () => {

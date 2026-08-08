@@ -365,12 +365,7 @@ function mergeNode(base: Node, ours: Node, theirs: Node, path: string, ctx: Merg
   // Identity-bearing arrays (pages/stages/id lists) still need their order/identity validators,
   // even when two sides happen to be deeply equal; an equal-but-invalid insertion must remain a
   // fail-closed conflict. Object/primitive subtrees can take the whole-subtree shortcut safely.
-  if (
-    ctx.allowWholeSubtreeFastPath &&
-    !isArray(base) &&
-    !isArray(ours) &&
-    !isArray(theirs)
-  ) {
+  if (ctx.allowWholeSubtreeFastPath && !isArray(base) && !isArray(ours) && !isArray(theirs)) {
     if (same(ours, base)) return cloneNode(theirs)
     if (same(theirs, base) || same(ours, theirs)) return cloneNode(ours)
   }

@@ -30,8 +30,10 @@ describe('PAL R13-6B 黑屏 transaction overlay', () => {
     const once = applyPalR13SixBSceneOverlays(input)
     const serialized = JSON.stringify([...once.values()])
     for (const evidence of PAL_BLACK_SCREEN_TRANSACTION_EVIDENCE) {
-      expect(serialized).toContain(`\"kind\":\"holdScreen\",\"color\":\"black\",\"token\":\"${evidence.token}\"`)
-      expect(serialized).toContain(`\"kind\":\"revealScreen\",\"token\":\"${evidence.token}\"`)
+      expect(serialized).toContain(
+        `"kind":"holdScreen","color":"black","token":"${evidence.token}"`,
+      )
+      expect(serialized).toContain(`"kind":"revealScreen","token":"${evidence.token}"`)
     }
     expect(applyPalR13SixBSceneOverlays(once)).toEqual(once)
   })

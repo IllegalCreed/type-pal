@@ -17,7 +17,6 @@
 | W9 | 实体暂离、重现与明雷逃跑冷却 | draft | 设计冻结完成（Codex agree），待 Kimi / GLM 设计压测签字 | 四态状态机 + 320×320 边界 + 0x52 toggle 前态 + BattleResult 四分类；828+193 源账本待 GLM 冻结 |
 | B10-1 | 混乱敌人攻击同伴 | draft | 语义空槽 schema 冻结完成（Codex agree），待 Kimi / GLM 设计压测签字 | slots 保序保空（0 占位/65535 不占位）、wMaxEnemyIndex=slots.length-1；380 队源账本待 GLM 冻结 |
 | D14-1 | 对话系统外观继承（版式/头像/光标/字体/自动播放） | done | 三方 accept 齐（Kimi/GLM 补审闭环），待用户验收 | maxRight=320 全宽语义；11102 行 0 意外折行仅 6 合法超限；audit 脚本可挂 CI |
-| D14-3 | 奖励/事件总线统一收尾（议题 14 剩余③） | build | 三方 design agree 齐；实现完成自证通过（reforge 821 + G2 grep 零残留），待 Kimi 抽验 + 双审 | reward-gain 统一 presenter（偷窃横幅/炼成框替换）；giveItem 自动呈现 v1.1 留口 |
 | D15-1 | NPC 移动补全：动态碰撞 + 互相让路 + 转向（议题 15） | draft | 待设计冻结，三方签字 | auto 巡逻已有；缺不穿墙/不互穿/让路滑步/转向动画 |
 
 ## 看板规则

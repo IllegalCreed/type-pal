@@ -9,8 +9,11 @@ import type {
 import { effectiveSkills } from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
 import { BattleSpriteAssetCache, compressGzip } from '../assets.js'
-import { prepareBattleSpriteReadiness } from './battle-sprite-readiness.js'
-import { collectReachableEnemyDefs } from './enemy-closure.js'
+import {
+  collectBattleSkillFireChunks,
+  prepareBattleSpriteReadiness,
+} from './battle-sprite-readiness.js'
+import { collectReachableEnemyDefs, collectReachableEnemySkillIds } from './enemy-closure.js'
 
 const fighterProfile: BattleSpriteDef['profile'] = {
   kind: 'player-fighter',
@@ -64,6 +67,7 @@ const skill = (id: string, effects: SkillData['effects']): SkillData =>
     usableOutsideBattle: false,
     target: 'self',
     effects,
+    animation: { effectSprite: 1 },
   }) as SkillData
 
 describe('battle sprite readiness 完整闭包', () => {
@@ -132,9 +136,19 @@ describe('battle sprite readiness 完整闭包', () => {
         effects: [{ kind: 'grantSkill', skillId: '336' }],
       },
     } as unknown as ItemData
+    const tranceSkill = skill('trance', [])
+    tranceSkill.execution = {
+      player: { effects: [{ kind: 'trance', battleSprite: 'trance' }] },
+    }
+    const grantedSkill = skill('336', [])
+    grantedSkill.execution = {
+      player: {
+        effects: [{ kind: 'summon', battleSprite: 'player-summon-13' }],
+      },
+    }
     const skillsById = {
-      trance: skill('trance', [{ kind: 'trance', battleSprite: 'trance' }]),
-      '336': skill('336', [{ kind: 'summon', battleSprite: 'player-summon-13' }]),
+      trance: tranceSkill,
+      '336': grantedSkill,
       coop: skill('coop', [{ kind: 'summon', battleSprite: 'coop-summon' }]),
     }
     const e1 = enemy('e1', 'enemy-1', [{ at: 'act', do: { kind: 'transform', enemyId: 'e2' } }])
@@ -231,5 +245,81 @@ describe('battle sprite readiness 完整闭包', () => {
         summoned,
       }).map((definition) => definition.id),
     ).toEqual(['source', 'transformed', 'summoned'])
+  })
+
+  test('FIRE 与敌技能 reachability 覆盖 execution 动画、fallback、hook effect 闭包和 setFallback', () => {
+    const source = enemy('source', 'enemy-1', [
+      { at: 'act', do: { kind: 'cast', skillId: 'enemy-rule' } },
+    ])
+    source.ai.fallback = {
+      action: { kind: 'cast', skillId: 'enemy-fallback' },
+      chancePercent: 20,
+    }
+    source.ai.hooks = {
+      ready: {
+        initial: 'ready',
+        states: {
+          ready: {
+            body: [
+              {
+                kind: 'effect',
+                id: 'summon-caster',
+                effect: { kind: 'summon', enemyId: 'hook-caster', count: 1 },
+              },
+              {
+                kind: 'setFallback',
+                fallback: {
+                  action: { kind: 'cast', skillId: 'enemy-hook-fallback' },
+                  chancePercent: 30,
+                },
+              },
+            ],
+            next: { kind: 'stay' },
+          },
+        },
+      },
+    }
+    const hookCaster = enemy('hook-caster', 'enemy-2', [
+      { at: 'act', do: { kind: 'cast', skillId: 'enemy-hook' } },
+    ])
+    const branchSkill = (
+      id: string,
+      baseChunk: number,
+      side: 'player' | 'enemy',
+      chunk: number,
+    ) => {
+      const value = skill(id, [])
+      value.animation.effectSprite = baseChunk
+      value.execution = { [side]: { animation: { effectSprite: chunk } } }
+      return value
+    }
+    const skillsById = {
+      player: branchSkill('player', 1, 'player', 11),
+      coop: branchSkill('coop', 2, 'player', 12),
+      'enemy-rule': branchSkill('enemy-rule', 3, 'enemy', 13),
+      'enemy-fallback': branchSkill('enemy-fallback', 4, 'enemy', 14),
+      'enemy-hook': branchSkill('enemy-hook', 5, 'enemy', 15),
+      'enemy-hook-fallback': branchSkill('enemy-hook-fallback', 6, 'enemy', 16),
+    }
+    const reachableEnemySkillIds = collectReachableEnemySkillIds([source], {
+      source,
+      'hook-caster': hookCaster,
+    })
+    expect(reachableEnemySkillIds).toEqual([
+      'enemy-rule',
+      'enemy-fallback',
+      'enemy-hook-fallback',
+      'enemy-hook',
+    ])
+    expect(
+      [
+        ...collectBattleSkillFireChunks({
+          playerSkillIds: [['player']],
+          cooperativeSkillIds: ['coop'],
+          reachableEnemySkillIds,
+          skillsById,
+        }),
+      ].sort((left, right) => left - right),
+    ).toEqual([11, 12, 13, 14, 15, 16])
   })
 })

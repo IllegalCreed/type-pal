@@ -17,8 +17,8 @@ import type {
   GridPos,
   LoadSceneCommand,
   Locale,
-  SceneTransitionProfile,
   SceneDef,
+  SceneTransitionProfile,
   ScriptIndexV1,
   SharedScriptMetaV1,
   ShopDef,
@@ -855,8 +855,7 @@ export function CommandForm(props: {
                 onClick={() => {
                   const entryId =
                     cmd.entryId && target?.entries?.[cmd.entryId] ? cmd.entryId : entries[0]?.[0]
-                  if (entryId)
-                    onChange(rebuild({ mode: 'entry', entryId }))
+                  if (entryId) onChange(rebuild({ mode: 'entry', entryId }))
                 }}
               >
                 命名
@@ -866,12 +865,10 @@ export function CommandForm(props: {
                 className={mode === 'pos' ? 'active' : ''}
                 onClick={() =>
                   onChange(
-                    rebuild(
-                      {
-                        mode: 'pos',
-                        pos: { ...(target?.entry.pos ?? { col: 0, row: 0, height: 0 }) },
-                      },
-                    ),
+                    rebuild({
+                      mode: 'pos',
+                      pos: { ...(target?.entry.pos ?? { col: 0, row: 0, height: 0 }) },
+                    }),
                   )
                 }
               >
@@ -884,13 +881,7 @@ export function CommandForm(props: {
               <select
                 className="in"
                 value={cmd.entryId}
-                onChange={(e) =>
-                  onChange(
-                    rebuild(
-                      { mode: 'entry', entryId: e.target.value },
-                    ),
-                  )
-                }
+                onChange={(e) => onChange(rebuild({ mode: 'entry', entryId: e.target.value }))}
               >
                 {!target?.entries?.[cmd.entryId] && (
                   <option value={cmd.entryId}>{cmd.entryId} (缺失)</option>
@@ -908,32 +899,16 @@ export function CommandForm(props: {
             <Row label="col / row / h">
               <Num
                 value={cmd.pos.col}
-                onChange={(n) =>
-                  onChange(
-                    rebuild(
-                      { mode: 'pos', pos: { ...cmd.pos!, col: n } },
-                    ),
-                  )
-                }
+                onChange={(n) => onChange(rebuild({ mode: 'pos', pos: { ...cmd.pos!, col: n } }))}
               />
               <Num
                 value={cmd.pos.row}
-                onChange={(n) =>
-                  onChange(
-                    rebuild(
-                      { mode: 'pos', pos: { ...cmd.pos!, row: n } },
-                    ),
-                  )
-                }
+                onChange={(n) => onChange(rebuild({ mode: 'pos', pos: { ...cmd.pos!, row: n } }))}
               />
               <Num
                 value={cmd.pos.height ?? 0}
                 onChange={(n) =>
-                  onChange(
-                    rebuild(
-                      { mode: 'pos', pos: { ...cmd.pos!, height: n } },
-                    ),
-                  )
+                  onChange(rebuild({ mode: 'pos', pos: { ...cmd.pos!, height: n } }))
                 }
               />
             </Row>

@@ -14,6 +14,7 @@ import type {
   SkillExecutionOverride,
   StatusId,
 } from '@type-pal/content'
+import { ENEMY_RUNTIME_SKILL_EFFECT_KINDS } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { useEffect, useMemo, useState } from 'react'
 import { AddSkillCommand, UpdateSkillCommand } from '../core/commands.js'
@@ -131,12 +132,16 @@ function N(props: {
   ph?: string
   w?: number
   ariaLabel?: string
+  min?: number
+  step?: number
 }) {
   return (
     <input
       className="in mono ef-num"
       type="number"
       aria-label={props.ariaLabel}
+      min={props.min}
+      step={props.step}
       style={props.w ? { width: props.w } : undefined}
       value={props.v ?? ''}
       placeholder={props.ph}
@@ -191,9 +196,7 @@ function EffectFields(props: {
             <select
               className="in"
               value={e.resource}
-              onChange={(event) =>
-                on({ ...e, resource: event.target.value as 'hp' | 'mp' })
-              }
+              onChange={(event) => on({ ...e, resource: event.target.value as 'hp' | 'mp' })}
             >
               <option value="hp">体力</option>
               <option value="mp">真气</option>
@@ -465,6 +468,10 @@ function ExecutionOverrideEditor(props: {
     onOpenSound,
     onOpenBattleSprite,
   } = props
+  const availableEffectKinds =
+    side === 'enemy'
+      ? EFFECT_KINDS.filter((kind) => ENEMY_RUNTIME_SKILL_EFFECT_KINDS.includes(kind.v as never))
+      : EFFECT_KINDS
   const effects = override.effects ?? []
   const setEffects = (next: SkillEffect[]): void =>
     onChange({ ...override, effects: next.length ? next : undefined })
@@ -488,22 +495,24 @@ function ExecutionOverrideEditor(props: {
         <strong>{side === 'player' ? '玩家施法时' : '敌人施法时'}</strong>
         <span className="hint2">只覆盖本次施法；未设置的部分沿用上方公共定义</span>
       </div>
-      <div className="skill-execution-prepare">
-        <label className="cf-inline">
-          <input type="checkbox" checked={Boolean(prepare)} onChange={(event) => setPrepare(event.target.checked)} />
-          施法前按剩余真气扣体力
-        </label>
-        {prepare && (
-          <label>
-            <span>倍率</span>
-            <N
-              v={prepare.multiplier}
-              on={(value) => setPrepare(true, value ?? 0)}
-              ph="8"
+      {side === 'player' && (
+        <div className="skill-execution-prepare">
+          <label className="cf-inline">
+            <input
+              type="checkbox"
+              checked={Boolean(prepare)}
+              onChange={(event) => setPrepare(event.target.checked)}
             />
+            施法前按剩余真气扣体力
           </label>
-        )}
-      </div>
+          {prepare && (
+            <label>
+              <span>倍率</span>
+              <N v={prepare.multiplier} on={(value) => setPrepare(true, value ?? 0)} ph="8" />
+            </label>
+          )}
+        </div>
+      )}
       <div className="item-effect-subhead">
         <span>分支效果</span>
         <button
@@ -520,10 +529,13 @@ function ExecutionOverrideEditor(props: {
             className="in ef-kind"
             value={effect.kind}
             onChange={(event) =>
-              setEffect(index, defaultEffect(event.target.value as SkillEffect['kind'], battleSprites))
+              setEffect(
+                index,
+                defaultEffect(event.target.value as SkillEffect['kind'], battleSprites),
+              )
             }
           >
-            {EFFECT_KINDS.map((kind) => (
+            {availableEffectKinds.map((kind) => (
               <option key={kind.v} value={kind.v}>
                 {kind.label}
               </option>
@@ -803,6 +815,8 @@ export function SkillTab(props: {
                     on={(n) => patch({ lifetimeLimit: n })}
                     ph="不限"
                     ariaLabel="一生限用次数"
+                    min={1}
+                    step={1}
                   />
                 </label>
                 <label className="cf-inline">
@@ -823,7 +837,8 @@ export function SkillTab(props: {
                     aria-label="添加消耗物品"
                     disabled={
                       !items.some(
-                        (item) => !(skill.cost.items ?? []).some((entry) => entry.itemId === item.id),
+                        (item) =>
+                          !(skill.cost.items ?? []).some((entry) => entry.itemId === item.id),
                       )
                     }
                     onClick={() => {
@@ -873,8 +888,7 @@ export function SkillTab(props: {
                         onWheel={(event) => event.currentTarget.blur()}
                         onChange={(event) => {
                           const raw = event.currentTarget.valueAsNumber
-                          const amount =
-                            Number.isFinite(raw) && raw >= 1 ? Math.trunc(raw) : 1
+                          const amount = Number.isFinite(raw) && raw >= 1 ? Math.trunc(raw) : 1
                           const next = [...entries]
                           next[index] = { ...entry, amount }
                           setCostItems(next)
@@ -1039,7 +1053,8 @@ export function SkillTab(props: {
 
             <div className="section">
               <h4>
-                施法分支 <span className="hint2">仅用于区分玩家和敌人施法；不设置则沿用公共效果和动画</span>
+                施法分支{' '}
+                <span className="hint2">仅用于区分玩家和敌人施法；不设置则沿用公共效果和动画</span>
               </h4>
               {(['player', 'enemy'] as const).map((side) => {
                 const override = skill.execution?.[side]
@@ -1057,7 +1072,11 @@ export function SkillTab(props: {
                       onOpenSound={onOpenSound}
                       onOpenBattleSprite={onOpenBattleSprite}
                     />
-                    <button type="button" className="mini-txt danger" onClick={() => setExecution(side, undefined)}>
+                    <button
+                      type="button"
+                      className="mini-txt danger"
+                      onClick={() => setExecution(side, undefined)}
+                    >
                       删除{side === 'player' ? '玩家' : '敌人'}分支
                     </button>
                   </div>

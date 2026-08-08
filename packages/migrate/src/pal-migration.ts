@@ -43,9 +43,9 @@ import {
   applyPalSkillOverlays,
   PAL_RESOLVED_SKILL_IDS,
 } from './pal-authored-overlays.js'
-import { applyPalCasualtyOverlays } from './pal-casualty-scripts.js'
 import { createPalBattleSpriteDefinitions } from './pal-battle-sprites.js'
 import { applyPalBossEncounterOverlay } from './pal-boss-overlay.js'
+import { applyPalCasualtyOverlays } from './pal-casualty-scripts.js'
 import {
   migratePalPoisons,
   migratePalShops,
@@ -364,6 +364,7 @@ function assertPalBattleSpriteBaseline(args: {
   scenes: readonly SceneDef[]
   scriptChunks: Readonly<Record<string, import('@type-pal/content').ScriptChunkV1>>
   enemyAuthority: PalEnemyAuthorityKind
+  r13SixBSourceSemantics: boolean
 }): void {
   const { definitions, catalog } = args
   validateBattleSprites(definitions, catalog)
@@ -382,8 +383,12 @@ function assertPalBattleSpriteBaseline(args: {
     scenes: [...args.scenes],
     scriptChunks: args.scriptChunks,
   })
-  if (references.length !== 179)
-    throw new Error(`PAL BattleSpriteDef 直接引用期望 179，收到 ${references.length}`)
+  // 6B 后酒神同时保留公共 summon 叶与 player execution 覆盖叶；两条都是可寻址持久边。
+  const expectedReferenceCount = args.r13SixBSourceSemantics ? 180 : 179
+  if (references.length !== expectedReferenceCount)
+    throw new Error(
+      `PAL BattleSpriteDef 直接引用期望 ${expectedReferenceCount}，收到 ${references.length}`,
+    )
   const byId = new Map(definitions.map((definition) => [definition.id, definition]))
   const occurrences = new Map<string, number>()
   for (const reference of references) {
@@ -406,6 +411,7 @@ function assertPalBattleSpriteBaseline(args: {
     ['player-fighter-5', 2],
     ['player-fighter-6', 3],
     ['player-fighter-7', 4],
+    ...(args.r13SixBSourceSemantics ? ([['player-summon-15', 2]] as const) : []),
   ]
   if (JSON.stringify(shared) !== JSON.stringify(expectedShared))
     throw new Error(`PAL BattleSpriteDef 共享关系漂移: ${JSON.stringify(shared)}`)
@@ -563,11 +569,7 @@ function buildPalMigrationWithEnemyAuthority(
   // B11-1 casualty 是 6B successor 的叶:历史/6A 生成必须保持发布时形状,
   // 否则 R13 enemy augmentation 的 parent content digest 会漂移。
   const casualtyOverlay = options.r13SixBSourceSemantics
-    ? applyPalCasualtyOverlays(
-        migrated.actors,
-        sources.migrate.commands,
-        sources.objectPlayers,
-      )
+    ? applyPalCasualtyOverlays(migrated.actors, sources.migrate.commands, sources.objectPlayers)
     : {
         // coveredBy 是 B11-1 一起引入的 6B 叶;历史/6A 生成必须剥离,恢复发布时形状。
         actors: migrated.actors.map((actor) => {
@@ -712,6 +714,7 @@ function buildPalMigrationWithEnemyAuthority(
     scenes: spriteActionMaterialization.scenes,
     scriptChunks: scripts.chunks,
     enemyAuthority: enemyAuthority.kind,
+    r13SixBSourceSemantics: options.r13SixBSourceSemantics === true,
   })
   const audit = auditScriptLibrary({
     sourceJson: sources.allJson,

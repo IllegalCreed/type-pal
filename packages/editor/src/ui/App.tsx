@@ -63,6 +63,7 @@ import {
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import { createEditorAssetReader, type EditorAssetReader } from '../core/editor-asset-reader.js'
+import { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
 import {
   createPlacedEntity,
   DEFAULT_ZONE_RANGE,
@@ -238,6 +239,10 @@ export function App(props: {
   const getVersion = useMemo(() => () => session.getVersion(), [session])
   useSyncExternalStore(subscribe, getVersion) // 任一变化(含 markSaved / undo)都重渲染
   const scriptV5Session = props.scriptV5?.session
+  const historyCoordinator = useMemo(
+    () => (scriptV5Session ? new EditorHistoryCoordinator(session, scriptV5Session) : undefined),
+    [scriptV5Session, session],
+  )
   const subscribeScriptV5 = useMemo(
     () => (cb: () => void) => scriptV5Session?.subscribe(cb) ?? (() => undefined),
     [scriptV5Session],
@@ -1079,6 +1084,10 @@ export function App(props: {
     }
   }, [applyEditorLocation, scriptV5Session, session])
   const undo = useCallback((): void => {
+    if (historyCoordinator?.undo()) {
+      reconcileLocationAfterHistory()
+      return
+    }
     const preferred = historyOwnerRef.current
     if (preferred === 'v5' && scriptV5Session?.undo()) return
     if (session.undo()) {
@@ -1086,8 +1095,12 @@ export function App(props: {
       return
     }
     scriptV5Session?.undo()
-  }, [reconcileLocationAfterHistory, scriptV5Session, session])
+  }, [historyCoordinator, reconcileLocationAfterHistory, scriptV5Session, session])
   const redo = useCallback((): void => {
+    if (historyCoordinator?.redo()) {
+      reconcileLocationAfterHistory()
+      return
+    }
     const preferred = historyOwnerRef.current
     if (preferred === 'v5' && scriptV5Session?.redo()) return
     if (session.redo()) {
@@ -1095,7 +1108,7 @@ export function App(props: {
       return
     }
     scriptV5Session?.redo()
-  }, [reconcileLocationAfterHistory, scriptV5Session, session])
+  }, [historyCoordinator, reconcileLocationAfterHistory, scriptV5Session, session])
 
   const selEntity =
     selected.kind === 'entity' ? scene?.entities.find((e) => e.id === selected.id) : undefined
@@ -1600,6 +1613,7 @@ export function App(props: {
                 ? { state: scriptV5State, session: scriptV5Session }
                 : undefined
             }
+            historyCoordinator={historyCoordinator}
             battleFields={state.battleFields ?? []}
             poisons={state.poisons ?? []}
             ambiences={state.ambiences ?? []}

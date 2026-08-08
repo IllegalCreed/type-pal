@@ -1,6 +1,6 @@
 import {
-  emptyWorldScriptStateV5,
   type CurrentManifest,
+  emptyWorldScriptStateV5,
   type ProjectMigrationSidecarV1,
   type SceneDefV5,
 } from '@type-pal/content'
@@ -228,6 +228,82 @@ describe('canonical v5 editor project IO', () => {
     expect(output['content/shared-scripts.json']).toEqual(jsons.sharedScripts)
     expect(output['manifest.json']).toEqual(manifest())
     expect(Object.keys(output).some((path) => path.startsWith('content/scripts/'))).toBe(false)
+  })
+
+  test('actor casualty 保存门拒绝空 TextId/小数，合法值序列化后可等价重开', () => {
+    const project = assembleProjectV5(manifest(), jsons)
+    const validCasualty = {
+      friendDeath: {
+        gates: [
+          {
+            chance: 75,
+            branch: { lines: [{ text: 'dlg.friend', style: 'bottom' as const }], effects: [] },
+          },
+        ],
+        fallback: {
+          lines: [],
+          effects: [{ kind: 'tempStatBuff' as const, stat: 'attack' as const, percent: 10 }],
+        },
+      },
+    }
+    const makeState = () => {
+      const state = toEditorStateV5(project, [scene])
+      state.actors = [
+        {
+          ...structuredClone(battlerActor),
+          battler: {
+            ...structuredClone(battlerActor.battler),
+            casualty: structuredClone(validCasualty),
+          },
+        },
+      ]
+      state.battleSprites = [fighterSprite]
+      return state
+    }
+
+    const emptyText = makeState()
+    emptyText.actors[0]!.battler!.casualty!.friendDeath!.gates[0]!.branch.lines[0]!.text = ''
+    expect(() => serializeProjectV5(emptyText)).toThrow(/text.*非空 TextId/)
+    const fractionalChance = makeState()
+    fractionalChance.actors[0]!.battler!.casualty!.friendDeath!.gates[0]!.chance = 1.5
+    expect(() => serializeProjectV5(fractionalChance)).toThrow(/chance.*整数/)
+    const fractionalPercent = makeState()
+    const effect = fractionalPercent.actors[0]!.battler!.casualty!.friendDeath!.fallback.effects[0]
+    if (effect?.kind !== 'tempStatBuff') throw new Error('fixture effect 漂移')
+    effect.percent = 1.5
+    expect(() => serializeProjectV5(fractionalPercent)).toThrow(/percent.*整数/)
+
+    const valid = makeState()
+    const output = serializeProjectV5(valid)
+    const reopened = assembleProjectV5(manifest(), {
+      ...jsons,
+      actors: output['content/actors.json'] as typeof valid.actors,
+      battleSprites: [fighterSprite],
+      assetCatalog: {
+        version: 1,
+        assets: {
+          'battle-sprite.hero': {
+            kind: 'battle-sprite',
+            path: 'assets/generated/hero.rle',
+            mediaType: 'application/vnd.type-pal.rle',
+            bytes: 1,
+            sha256: 'a'.repeat(64),
+            origin: { kind: 'generated' },
+          },
+        },
+      },
+    })
+    expect(reopened.actorsById.hero!.battler!.casualty).toEqual(validCasualty)
+  })
+
+  test('shell 私有 ref 缺 canonical 正文时保存 fail-loud，不用投影容错吞掉', () => {
+    const project = assembleProjectV5(manifest(), jsons)
+    const canonical = toEditorStateV5(project, [scene])
+    const world = emptyWorldScriptStateV5()
+    const shellProject = legacyProjectShellFromV5(project as unknown as LoadedProjectV5, world)
+    const shell = toEditorState(shellProject, [legacySceneFromV5(scene, world)])
+    canonical.items[0]!.use!.effects = []
+    expect(() => mergeLegacyEditorShellIntoV5(canonical, shell)).toThrow(/私有脚本 use 不存在/)
   })
 
   test('round-trips per-actor battle sprite mappings and rejects a dangling mapping on save', () => {

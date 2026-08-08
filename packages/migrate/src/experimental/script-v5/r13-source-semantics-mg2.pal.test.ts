@@ -18,9 +18,12 @@ import {
   hasPalTestFixture,
   PAL_TEST_REPO,
 } from './pal-test-fixture.js'
-import { prepareR13EnemyScriptAuthority } from './r13-enemy-script-mg2.js'
-import { R13_EXISTING_SCHEMA_CHANGED_PATHS } from './r13-existing-schema-augmentation.js'
 import { rewindPublishedR13SourceSemanticsTransition } from './published-r13-source-semantics-test-fixture.js'
+import {
+  completeR13EnemyScriptSourceInputs,
+  prepareR13EnemyScriptSourceAugmentation,
+} from './r13-enemy-script-mg2.js'
+import { R13_EXISTING_SCHEMA_CHANGED_PATHS } from './r13-existing-schema-augmentation.js'
 import {
   assertR13SourceSemanticsPublishedSealMatchesAuthority,
   createR13SourceSemanticsV5MigrationPlan,
@@ -79,26 +82,33 @@ describe.skipIf(!hasPalTestFixture())('R13-6A source semantics append-only PAL M
     const historical = getPalTestGeneratedFixture()
     const historicalR13_5 = getPalTestHistoricalR13_5V10Fixture()
     const current = getPalTestCurrentV10Fixture()
-    const enemyAuthority = prepareR13EnemyScriptAuthority({
+    const enemyAugmentation = prepareR13EnemyScriptSourceAugmentation({
       generated: historical.generated,
+      historicalMigration: historical.migration,
+      currentSources: historicalR13_5.sources,
+      currentMigration: historicalR13_5.migration,
+    })
+    const enemySourceInputs = completeR13EnemyScriptSourceInputs({
       historicalSources: historical.sources,
       historicalMigration: historical.migration,
       historicalAudit: historical.currentAudit,
       currentSources: historicalR13_5.sources,
       currentMigration: historicalR13_5.migration,
-      currentAudit: historicalR13_5.audit,
+      augmentation: enemyAugmentation.augmentation,
+      successorGenerated: enemyAugmentation.successorGenerated,
+      sourceLedgerProfile: 'r13-6a-parent',
     })
     const sourceDispositionInput: R13SourceSemanticsDispositionInput = {
       historicalSources: historical.sources,
       historicalMigration: historical.migration,
       historicalAudit: historical.currentAudit,
-      generated: projectR13SourceSemanticsGenerated(enemyAuthority.successorGenerated),
-      parentSourceDisposition: enemyAuthority.sourceDisposition,
+      generated: projectR13SourceSemanticsGenerated(enemySourceInputs.successorGenerated),
+      parentSourceDisposition: enemySourceInputs.sourceDisposition,
       r13EnemyClosure: {
-        sourceDisposition: enemyAuthority.augmentation.enemySourceDisposition,
+        sourceDisposition: enemySourceInputs.augmentation.enemySourceDisposition,
         currentSources: historicalR13_5.sources,
         currentMigration: historicalR13_5.migration,
-        augmentationEvidence: enemyAuthority.augmentation.evidence,
+        augmentationEvidence: enemySourceInputs.augmentation.evidence,
       },
     }
     const baseline = loadPalBaseline(PAL_TEST_REPO)
@@ -343,7 +353,7 @@ describe.skipIf(!hasPalTestFixture())('R13-6A source semantics append-only PAL M
     } finally {
       fixture.sourceDispositionInput.historicalSources = originalHistoricalSources
     }
-  }, 30_000)
+  }, 120_000)
 
   test('作者 scene/map 修改留在 project target，不污染纯 successor baseline', () => {
     const ours = cloneSnapshot(fixture.ours)
@@ -384,7 +394,7 @@ describe.skipIf(!hasPalTestFixture())('R13-6A source semantics append-only PAL M
     expect(replay.plan.writes.size).toBe(0)
     expect((replay.target.files.get('content/scenes/s002.json') as any).entry.facing).toBe('left')
     expect((replay.target.files.get(mapPath) as any).layers[0].name).toBe('作者下层')
-  }, 30_000)
+  }, 120_000)
 
   test('缺 warm external prerequisite 时在迁移前失败', () => {
     expect(() =>

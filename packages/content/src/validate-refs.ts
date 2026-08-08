@@ -46,6 +46,11 @@ import type {
   TilesetDef,
   WorldState,
 } from './index.js'
+import {
+  authoredSkillExecutionLayers,
+  isEnemyRuntimeSkillEffect,
+  resolveSkillExecution,
+} from './skill.js'
 
 /** 一条校验问题。severity: error=会让游戏崩/逻辑错;warn=有降级(如显 id)但不崩。 */
 export interface Issue {
@@ -275,22 +280,30 @@ export function collectBattleSpriteDefinitionReferences(
     })
   })
   source.skills.forEach((skill, skillIndex) => {
-    ;(skill.effects ?? []).forEach((effect, effectIndex) => {
-      if (effect.kind === 'summon')
-        references.push({
-          battleSprite: effect.battleSprite,
-          expectedProfile: 'summon',
-          where: `skills[${skillIndex}](${skill.id}).effects[${effectIndex}].battleSprite`,
-          site: `skill:${skill.id}:effects`,
-        })
-      if (effect.kind === 'trance')
-        references.push({
-          battleSprite: effect.battleSprite,
-          expectedProfile: 'player-fighter',
-          where: `skills[${skillIndex}](${skill.id}).effects[${effectIndex}].battleSprite`,
-          site: `skill:${skill.id}:effects`,
-        })
-    })
+    for (const layer of authoredSkillExecutionLayers(skill))
+      (layer.effects ?? []).forEach((effect, effectIndex) => {
+        const layerPath = layer.side === 'base' ? 'effects' : `execution.${layer.side}.effects`
+        if (effect.kind === 'summon')
+          references.push({
+            battleSprite: effect.battleSprite,
+            expectedProfile: 'summon',
+            where: `skills[${skillIndex}](${skill.id}).${layerPath}[${effectIndex}].battleSprite`,
+            site:
+              layer.side === 'base'
+                ? `skill:${skill.id}:effects`
+                : `skill:${skill.id}:execution:${layer.side}:effects`,
+          })
+        if (effect.kind === 'trance')
+          references.push({
+            battleSprite: effect.battleSprite,
+            expectedProfile: 'player-fighter',
+            where: `skills[${skillIndex}](${skill.id}).${layerPath}[${effectIndex}].battleSprite`,
+            site:
+              layer.side === 'base'
+                ? `skill:${skill.id}:effects`
+                : `skill:${skill.id}:execution:${layer.side}:effects`,
+          })
+      })
   })
   source.scenes.forEach((scene, sceneIndex) => {
     collectCommandBattleSpriteReferences(
@@ -707,6 +720,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
 
   // id 集合(O(1) 查表)
   const skillIds = new Set(b.skills.map((s) => s.id))
+  const skillsById = new Map(b.skills.map((skill) => [skill.id, skill]))
   const itemIds = new Set(b.items.map((i) => i.id))
   const actorIds = new Set(b.actors.map((a) => a.id))
   const actorsById = Object.fromEntries(b.actors.map((a) => [a.id, a]))
@@ -756,12 +770,32 @@ export function validateReferences(b: ContentBundle): Issue[] {
   }
 
   const validateAiAction = (action: AiAction, where: string): void => {
-    if (action.kind === 'cast' && !skillIds.has(action.skillId))
-      issues.push({
-        severity: 'error',
-        where: `${where}.skillId`,
-        message: `施法技能 "${action.skillId}" 不在 skills`,
-      })
+    if (action.kind === 'cast') {
+      const skill = skillsById.get(action.skillId)
+      if (!skill)
+        issues.push({
+          severity: 'error',
+          where: `${where}.skillId`,
+          message: `施法技能 "${action.skillId}" 不在 skills`,
+        })
+      else {
+        const execution = resolveSkillExecution(skill, 'enemy')
+        if (execution.prepare.length > 0)
+          issues.push({
+            severity: 'error',
+            where: `${where}.skillId`,
+            message: `敌方施法技能 "${action.skillId}" 含 runtime 不支持的 prepare`,
+          })
+        execution.effects.forEach((effect, effectIndex) => {
+          if (!isEnemyRuntimeSkillEffect(effect))
+            issues.push({
+              severity: 'error',
+              where: `${where}.skillId`,
+              message: `敌方施法技能 "${action.skillId}" 的有效效果[${effectIndex}] "${effect.kind}" 不受 runtime 支持`,
+            })
+        })
+      }
+    }
     if (action.kind === 'transform' && !enemyIds.has(action.enemyId))
       issues.push({
         severity: 'error',
@@ -1060,9 +1094,9 @@ export function validateReferences(b: ContentBundle): Issue[] {
           const script = battler.casualty[slot]
           if (!script) continue
           const sw = `${where}.battler.casualty.${slot}`
-          script.gates.forEach((gate, gi) =>
-            walkBranch(gate.branch, `${sw}.gates[${gi}].branch`),
-          )
+          script.gates.forEach((gate, gi) => {
+            walkBranch(gate.branch, `${sw}.gates[${gi}].branch`)
+          })
           walkBranch(script.fallback, `${sw}.fallback`)
           const branchEmpty = (branch: import('./actor.js').CasualtyBranch): boolean =>
             branch.lines.length === 0 && branch.effects.length === 0

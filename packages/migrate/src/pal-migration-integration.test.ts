@@ -39,6 +39,7 @@ import { projectMigrationV9ToLegacyV8 } from './experimental/script-v5/equip-bat
 import { buildP7GeneratedCanonical } from './experimental/script-v5/p7-generated.js'
 import { PAL_TEST_FAST_GATE } from './experimental/script-v5/pal-test-fixture.js'
 import { rewindPublishedR13EnemyTransition } from './experimental/script-v5/published-r13-enemy-test-fixture.js'
+import { rewindPublishedR13SourceSemanticsTransition } from './experimental/script-v5/published-r13-source-semantics-test-fixture.js'
 import { augmentR13EnemyScriptsAfterConfirm } from './experimental/script-v5/r13-enemy-script-augmentation.js'
 import {
   createR13EnemyScriptV5MigrationPlan,
@@ -83,6 +84,7 @@ import {
 import { preparePalManifest } from './pal-manifest.js'
 import {
   buildPalHistoricalR13_4V9Migration,
+  buildPalHistoricalR13_5V10Migration,
   buildPalMigration,
   type MigrationJson,
   PAL_WORLD_SPRITE_UNUSED_NUMBERS,
@@ -674,8 +676,12 @@ function buildStrictPalMigrationFixture() {
   const parentAudit = auditPalScriptControlFlow(parentSources, authorityMigration)
   assertScriptControlFlowAudit(parentAudit)
   const preparedHistoricalSourceCensus = prepareR13SourceExecutionCensus(parentSources)
-  const currentAudit = PAL_TEST_FAST_GATE ? undefined : auditPalScriptControlFlow(sources, theirs)
-  if (currentAudit) assertScriptControlFlowAudit(currentAudit)
+  const r13FiveSources = structuredClone(sources)
+  const r13FiveMigration = buildPalHistoricalR13_5V10Migration(r13FiveSources)
+  const r13FiveAudit = PAL_TEST_FAST_GATE
+    ? undefined
+    : auditPalScriptControlFlow(r13FiveSources, r13FiveMigration)
+  if (r13FiveAudit) assertScriptControlFlowAudit(r13FiveAudit)
   const generatedResult = baseline.baselineMetadata
     ? buildP7GeneratedCanonical({
         migration: authorityMigration,
@@ -703,7 +709,9 @@ function buildStrictPalMigrationFixture() {
     authorityMigration,
     parentAudit,
     preparedHistoricalSourceCensus,
-    currentAudit,
+    r13FiveSources,
+    r13FiveMigration,
+    r13FiveAudit,
     generatedResult,
     generated,
     ours,
@@ -767,7 +775,9 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
       authorityMigration,
       parentAudit,
       preparedHistoricalSourceCensus,
-      currentAudit,
+      r13FiveSources,
+      r13FiveMigration,
+      r13FiveAudit,
       generatedResult,
       generated,
       ours,
@@ -806,8 +816,8 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
             const augmentation = augmentR13EnemyScriptsAfterConfirm({
               parent: generatedResult.snapshot,
               historicalMigration: authorityMigration,
-              currentSources: sources,
-              currentMigration: theirs,
+              currentSources: r13FiveSources,
+              currentMigration: r13FiveMigration,
             })
             const rewound = rewindPublishedR13EnemyTransition({
               publishedBaseline: baseline,
@@ -823,17 +833,21 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
             return ours
           })()
         : (() => {
-            if (!currentAudit) throw new Error('MG2 release replay 缺 current audit')
+            if (!r13FiveAudit) throw new Error('MG2 release replay 缺 R13-5 current audit')
+            const r13FivePublished = rewindPublishedR13SourceSemanticsTransition({
+              publishedBaseline: baseline,
+              publishedProject: ours,
+            })
             const result = createR13EnemyScriptV5MigrationPlan({
-              base: baseline,
-              ours,
+              base: r13FivePublished.baseline,
+              ours: r13FivePublished.project,
               generated: generatedResult,
               historicalSources: parentSources,
               historicalMigration: authorityMigration,
               historicalAudit: parentAudit,
-              currentSources: sources,
-              currentMigration: theirs,
-              currentAudit,
+              currentSources: r13FiveSources,
+              currentMigration: r13FiveMigration,
+              currentAudit: r13FiveAudit,
               preparedHistoricalSourceCensus,
             })
             expect(result.enemyScriptSealMode).toBe('replay')

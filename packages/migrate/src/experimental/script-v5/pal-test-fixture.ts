@@ -21,8 +21,8 @@ import { type PreparedP4ScriptTransition, prepareP4ScriptTransition } from './p4
 import { type PreparedP5ScriptTransition, prepareP5ScriptTransition } from './p5-transition-plan.js'
 import { type PreparedP6ScriptTransition, prepareP6ScriptTransition } from './p6-transition-plan.js'
 import {
-  buildP7SourceDispositionGeneratedFromValidatedOutput,
   buildP7GeneratedCanonicalFromValidatedChain,
+  buildP7SourceDispositionGeneratedFromValidatedOutput,
   type P7GeneratedCanonicalArgs,
 } from './p7-generated.js'
 import { reconstructPublishedV4TransitionSnapshots } from './published-v4-snapshot.js'

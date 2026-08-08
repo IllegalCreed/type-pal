@@ -8,7 +8,6 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { isDeepStrictEqual } from 'node:util'
-import { PAL_CASUALTY_LOCALE_KEYS } from '../src/pal-casualty-scripts.js'
 import type {
   AssetCatalogV1,
   CurrentManifest,
@@ -64,15 +63,16 @@ import {
   digestR13SourceSemanticsMigrationInput,
   digestR13SourceSemanticsMigrationInputFast,
   projectR13SourceSemanticsGenerated,
+  R13_SOURCE_SEMANTICS_TRANSITION_ID,
   type R13SourceSemanticsDispositionInput,
   type R13SourceSemanticsV5MigrationPlan,
   registerR13SourceSemanticsMigrationInputDigest,
 } from '../src/experimental/script-v5/r13-source-semantics-mg2.js'
 import {
   createR13ZMigrationPlan,
-  type R13ZMigrationPlan,
   R13_Z_SEAL_PATH,
   R13_Z_TRANSITION_ID,
+  type R13ZMigrationPlan,
   resolveR13ZSourceSemanticsClosure,
 } from '../src/experimental/script-v5/r13-z-transition-mg2.js'
 import {
@@ -128,6 +128,7 @@ import {
   materializePalAssets,
   type PalBinaryAssetSource,
 } from '../src/pal-assets.js'
+import { PAL_CASUALTY_LOCALE_KEYS } from '../src/pal-casualty-scripts.js'
 import { preparePalManifest } from '../src/pal-manifest.js'
 import {
   buildPalHistoricalR13_4V9Migration,
@@ -149,7 +150,6 @@ import {
   R13_SIX_C_SEAL_PATH,
   rewindPalR13SixCPublicationIfPresent,
 } from '../src/pal-r13-six-c.js'
-import { R13_SOURCE_SEMANTICS_TRANSITION_ID } from '../src/experimental/script-v5/r13-source-semantics-mg2.js'
 import {
   assertScriptControlFlowAudit,
   auditPalScriptControlFlow,
@@ -374,9 +374,7 @@ async function runR13ZTransition(
   // overlay before replaying its existing-schema authority; runtime is audited separately on
   // the live content11 baseline below.
   // R13-6C(零内容叶 successor authority)先剥离,再剥 6B —— 逐字节还原 6A 面。
-  const sourceBaseline = rewindPalR13SixBPublication(
-    rewindPalR13SixCPublicationIfPresent(baseline),
-  )
+  const sourceBaseline = rewindPalR13SixBPublication(rewindPalR13SixCPublicationIfPresent(baseline))
   const currentManaged = discoverProjectManagedFiles(
     repo,
     new Set([...baseline.managedFiles, ...currentMigration.managedFiles]),
@@ -571,8 +569,7 @@ function buildR13SixBMigration(
   const mergedLocale: Record<string, unknown> = { ...baselineLocale }
   for (const key of PAL_CASUALTY_LOCALE_KEYS) {
     const value = casualtyLocale[key]
-    if (value === undefined)
-      throw new Error(`R13-6B raw migration 缺 casualty locale 键 ${key}`)
+    if (value === undefined) throw new Error(`R13-6B raw migration 缺 casualty locale 键 ${key}`)
     mergedLocale[key] = value
   }
   files.set('content/locale.json', mergedLocale)
@@ -1483,6 +1480,7 @@ async function main(): Promise<void> {
               successorGenerated: projectR13SourceDispositionGenerated(
                 parentR13_5.successorGenerated,
               ),
+              sourceLedgerProfile: 'r13-6a-parent',
               currentSources: sources,
               currentMigration: theirs,
             })

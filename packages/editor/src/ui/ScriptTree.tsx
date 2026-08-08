@@ -152,9 +152,7 @@ export function describeScriptCommand(
       return {
         icon: '🚪',
         label: `切到场景 ${cmd.scene}`,
-        detail: `${detail} · ${
-          cmd.transition?.kind === 'source' ? '源时序' : '现代过渡'
-        }`,
+        detail: `${detail} · ${cmd.transition?.kind === 'source' ? '源时序' : '现代过渡'}`,
       }
     }
     case 'setPartyFacing':

@@ -18,6 +18,7 @@ import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
 import { type ReactNode, useEffect, useMemo, useState } from 'react'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import type { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
 import type { ItemReference } from '../core/item-references.js'
 import { buildRefIndex } from '../core/ref-index.js'
 import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
@@ -132,6 +133,7 @@ export function DataMode(props: {
     state: ScriptEditorStateV5
     session: ScriptV5EditSession
   }
+  historyCoordinator?: EditorHistoryCoordinator
 }) {
   const {
     sprites,
@@ -269,6 +271,7 @@ export function DataMode(props: {
         onOpenProjectIssues={onOpenProjectIssues}
         tabBar={tabBar}
         scriptV5={scriptV5}
+        historyCoordinator={props.historyCoordinator}
       />
     )
   }

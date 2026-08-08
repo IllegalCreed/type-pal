@@ -1,10 +1,15 @@
 import { describe, expect, test } from 'vitest'
+import { type MigrationSnapshot, serializeMigrationJson, sha256 } from '../../migration-baseline.js'
+import type { MigrationJson } from '../../pal-migration.js'
 import {
   assertR13ZPublishedSealMatchesAuthority,
   prepareR13ZAuthority,
+  R13_Z_SEAL_PATH,
   R13_Z_TRANSITION_ID,
+  rewindPublishedR13ZPublicationIfPresent,
 } from './r13-z-transition-mg2.js'
 import type { R13SourceInstructionDispositionBuildArgs } from './source-instruction-disposition.js'
+import { stableJsonSha256 } from './stable-json.js'
 
 function buildArgs(
   overrides: Partial<R13SourceInstructionDispositionBuildArgs> = {},
@@ -54,7 +59,7 @@ describe('R13-Z append-only publication authority', () => {
     ).toThrow('authority 必须显式开启 bindSpriteActionSourceSites')
   })
 
-  test('rejects a self-consistent but different published seal', () => {
+  test('rejects a different published seal and only rewinds a valid complete quartet', () => {
     const seal = {
       kind: 'r13-z-source-closure-transition' as const,
       version: 1 as const,
@@ -102,5 +107,37 @@ describe('R13-Z append-only publication authority', () => {
     expect(() =>
       assertR13ZPublishedSealMatchesAuthority({ ...seal, digest: '2'.repeat(64) }, seal),
     ).toThrow('published seal 与 authority 不符')
+
+    const { digest: _digest, ...body } = seal
+    const validSeal = { ...body, digest: stableJsonSha256(body) }
+    const value = JSON.parse(JSON.stringify(validSeal)) as MigrationJson
+    const snapshot: MigrationSnapshot = {
+      files: new Map([
+        [R13_Z_SEAL_PATH, value],
+        ['content/example.json', { value: 1 }],
+      ]),
+      managedFiles: new Set([R13_Z_SEAL_PATH, 'content/example.json']),
+      hashes: new Map([
+        [R13_Z_SEAL_PATH, sha256(serializeMigrationJson(value, R13_Z_SEAL_PATH))],
+        ['content/example.json', 'a'.repeat(64)],
+      ]),
+      baselineMetadata: {
+        generatorEpoch: 'test',
+        transitions: {
+          'r13-source-semantics-v1': validSeal.parent.digest,
+          [R13_Z_TRANSITION_ID]: validSeal.digest,
+        },
+      },
+    }
+    const rewound = rewindPublishedR13ZPublicationIfPresent(snapshot)
+    expect(rewound.files.has(R13_Z_SEAL_PATH)).toBe(false)
+    expect(rewound.managedFiles.has(R13_Z_SEAL_PATH)).toBe(false)
+    expect(rewound.hashes?.has(R13_Z_SEAL_PATH)).toBe(false)
+    expect(rewound.baselineMetadata?.transitions[R13_Z_TRANSITION_ID]).toBeUndefined()
+    expect(rewound.files.get('content/example.json')).toEqual({ value: 1 })
+
+    const half = { ...snapshot, hashes: new Map(snapshot.hashes) }
+    half.hashes.delete(R13_Z_SEAL_PATH)
+    expect(() => rewindPublishedR13ZPublicationIfPresent(half)).toThrow(/半状态/)
   })
 })

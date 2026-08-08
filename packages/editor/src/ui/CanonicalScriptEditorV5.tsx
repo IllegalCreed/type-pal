@@ -2811,10 +2811,7 @@ function insertionGroups(context?: CanonicalScriptEditorContextV5): InsertionGro
     ]),
   )
   const more = (Object.keys(AUTHOR_COMMAND_PRESENTATION_V5) as AuthorCommandV5['kind'][])
-    .filter(
-      (kind) =>
-        !represented.has(kind) && kind !== 'holdScreen' && kind !== 'revealScreen',
-    )
+    .filter((kind) => !represented.has(kind) && kind !== 'holdScreen' && kind !== 'revealScreen')
     .map((kind) => {
       const command = examples.get(kind)
       if (!command) return fallbackInsertionChoiceV5(kind, context, target)

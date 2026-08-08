@@ -108,9 +108,7 @@ describe('R13-0 逐指令翻译轨迹', () => {
 
 describe('PAL setPalette 14 站裁决', () => {
   const paletteCtx = (address: number, paletteIndex: number): TranslateCtx => {
-    const ctx = ctxOf([
-      { op: 'setPalette', paletteIndex } as SourceCmd & { paletteIndex: number },
-    ])
+    const ctx = ctxOf([{ op: 'setPalette', paletteIndex } as SourceCmd & { paletteIndex: number }])
     ctx.sourceAddressAt = () => address
     return ctx
   }
@@ -167,9 +165,9 @@ describe('PAL setPalette 14 站裁决', () => {
         (spec) => spec.treatment === 'ambience' && spec.ambience === 'warm',
       ),
     ).toHaveLength(5)
-    expect(
-      PAL_PALETTE_SITE_SPECS.filter((spec) => spec.treatment === 'asset-baked'),
-    ).toHaveLength(4)
+    expect(PAL_PALETTE_SITE_SPECS.filter((spec) => spec.treatment === 'asset-baked')).toHaveLength(
+      4,
+    )
   })
 
   test('current 未裁决地址 fail loud；historical profile 仍保持 deferred', () => {
@@ -313,10 +311,7 @@ describe('0x73 淡入场景(script.c: PAL_MakeScene + VIDEO_FadeScreen)', () => 
 describe('0x05/0x8E 对话重画', () => {
   test('0x05 非零 delay 保留为 clearDialog + operand[1]×60ms', () => {
     const ctx = ctxOf([{ opcode: 0x05, operands: [0, 3, 0] }])
-    expect(bodyOf(ctx)).toEqual([
-      { kind: 'clearDialog' },
-      { kind: 'wait', ms: 180 },
-    ])
+    expect(bodyOf(ctx)).toEqual([{ kind: 'clearDialog' }, { kind: 'wait', ms: 180 }])
     expect(ctx.report.instructionOutcomes[0]).toMatchObject({
       sourceOpcode: 0x05,
       outcome: 'emitted',

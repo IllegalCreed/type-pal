@@ -7,6 +7,7 @@ Coding Owner: Unassigned
 Generation Owner: Codex | N/A
 Reviewer: Kimi | GLM | both | TBD
 Visual Verification Owner: Codex | Kimi | User | N/A
+Visual Verification Timing: dev-functional | e2e-deferred | mixed | N/A
 Unavailable Agents: none | Codex | Kimi | GLM | multiple
 Branch: TBD
 
@@ -36,6 +37,7 @@ Branch: TBD
 - 测试:
 - 文档:
 - 视觉 / 手工验证:
+- E2E 用例登记（剧情 / 演出 / 内容观感必填：入口、准备数据、步骤、预期画面/时序、证据路径）:
 
 ## 推进签字
 
@@ -124,7 +126,9 @@ Branch: TBD
 ## 视觉验证记录(如适用)
 
 - Visual Verification Owner:
+- Visual Verification Timing:
 - 验证方式:
+- 集中 E2E 用例 / 批次:
 - 截图 / 像素检查路径:
 - 结论:
 - 未完成项:

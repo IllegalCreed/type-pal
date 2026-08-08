@@ -1,6 +1,11 @@
 import type { ActorDef, CasualtyScript, EnemyDef, SkillData } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { type CreatePlayerInput, createBattleState, stepBattle } from './battle-core.js'
+import {
+  type CreatePlayerInput,
+  createBattleState,
+  shouldCheckPlayerCasualties,
+  stepBattle,
+} from './battle-core.js'
 
 const rng0 = () => 0
 const rngGate1 = () => 0.75 // roll 76 ≥ 75 → 门1
@@ -157,7 +162,12 @@ const DYING: CasualtyScript = {
 
 function runBattle(
   players: CreatePlayerInput[],
-  options: { rng?: () => number; auto?: boolean; delta?: number; actorsById?: Record<string, ActorDef> } = {},
+  options: {
+    rng?: () => number
+    auto?: boolean
+    delta?: number
+    actorsById?: Record<string, ActorDef>
+  } = {},
 ): ReturnType<typeof createBattleState> {
   const rng = options.rng ?? rng0
   const attacker = enemy('caster', { dexterity: 999 })
@@ -170,9 +180,7 @@ function runBattle(
     players,
     enemies: [attacker],
     skills: {
-      hit: skill('hit', [
-        { kind: 'resourceDelta', resource: 'hp', delta: options.delta ?? -150 },
-      ]),
+      hit: skill('hit', [{ kind: 'resourceDelta', resource: 'hp', delta: options.delta ?? -150 }]),
     },
     actorsById: options.actorsById ?? {
       yue: actor('yue', { friendDeath: FRIEND_DEATH }),
@@ -426,8 +434,7 @@ describe('B11-1 战斗伤亡 sweep', () => {
         stepBattle(state, rng0)
       } while (state.phase === 'performAction' && ++guard < 60)
     }
-    const scriptLogs = (): number =>
-      state.log.filter((entry) => entry.includes('伤亡脚本')).length
+    const scriptLogs = (): number => state.log.filter((entry) => entry.includes('伤亡脚本')).length
     // runBattle 只打一下:125→115(未到 dying 钳 100,不触发)
     expect(zhao.hp).toBe(115)
     expect(state.casualtyDialogue).toBeUndefined()
@@ -444,7 +451,7 @@ describe('B11-1 战斗伤亡 sweep', () => {
     expect(state.casualtyDialogue?.lines).toEqual([{ text: 'dlg.dying', style: 'top' }])
   })
 
-  test('P6:同一步至多一个脚本:两名队员同回合末毒死,只跑第一个的援护脚本', () => {
+  test('回合末毒死只刷新 prevHp，不触发 casualty 或消费其概率门', () => {
     const attacker = enemy('caster', { dexterity: 999 })
     attacker.ai = {
       resistanceToSorcery: 0,
@@ -501,9 +508,48 @@ describe('B11-1 战斗伤亡 sweep', () => {
     } while (state.phase === 'performAction' && ++guard < 60)
     expect(state.players[0]!.hp).toBe(0)
     expect(state.players[1]!.hp).toBe(0)
-    // 只跑第一个阵亡者(hero)的援护者 yue;zhao 的援护脚本同一 sweep 不执行
-    expect(state.casualtyDialogue?.speakerRoleId).toBe('yue')
-    expect(state.log.filter((entry) => entry.includes('伤亡脚本')).length).toBe(1)
+    expect(state.casualtyDialogue).toBeUndefined()
+    expect(state.log.filter((entry) => entry.includes('伤亡脚本')).length).toBe(0)
+    expect(state.players[0]!.prevHp).toBe(0)
+    expect(state.players[1]!.prevHp).toBe(0)
+  })
+
+  test('玩家友伤致死不触发 casualty；只有敌方 attack/cast 是有效来源', () => {
+    expect(shouldCheckPlayerCasualties({ side: 'enemy', idx: 0, kind: 'attack' })).toBe(true)
+    expect(shouldCheckPlayerCasualties({ side: 'enemy', idx: 0, kind: 'cast' })).toBe(true)
+    expect(shouldCheckPlayerCasualties({ side: 'player', idx: 0, kind: 'attackMate' })).toBe(false)
+    expect(shouldCheckPlayerCasualties({ side: 'enemy', idx: 0, kind: 'transform' })).toBe(false)
+
+    const attacker = enemy('caster', { attackStrength: -999, dexterity: 0 })
+    const state = createBattleState({
+      players: [
+        player({
+          roleId: 'confused',
+          actorTemplateId: 'li',
+          attackStrength: 999,
+          baseDexterity: 999,
+          grantedStatuses: ['confused'],
+        }),
+        player({ roleId: 'victim', actorTemplateId: 'zhao', hp: 1, coveredBy: 'yue' }),
+        player({ roleId: 'yue', actorTemplateId: 'yue', hp: 100 }),
+      ],
+      enemies: [attacker],
+      actorsById: {
+        li: actor('li'),
+        zhao: actor('zhao'),
+        yue: actor('yue', { friendDeath: FRIEND_DEATH }),
+      },
+    })
+    stepBattle(state, () => 0.5)
+    state.pendingActions.set(1, { kind: 'defend' })
+    state.pendingActions.set(2, { kind: 'defend' })
+    let guard = 0
+    do {
+      stepBattle(state, () => 0.5)
+    } while (state.phase === 'performAction' && ++guard < 60)
+    expect(state.players[1]!.hp).toBe(0)
+    expect(state.casualtyDialogue).toBeUndefined()
+    expect(state.log.some((entry) => entry.includes('伤亡脚本'))).toBe(false)
   })
 })
 
@@ -519,7 +565,9 @@ describe('敌方巫术下毒(结构化毒模型)', () => {
   })
 
   function enemyCastPoison(
-    playerOver: Partial<CreatePlayerInput> & { poisons?: { poisonId: number; tickIndex: number }[] },
+    playerOver: Partial<CreatePlayerInput> & {
+      poisons?: { poisonId: number; tickIndex: number }[]
+    },
     poisonId = '555',
   ) {
     const attacker = enemy('caster', { dexterity: 999 })

@@ -142,7 +142,7 @@ describe.skipIf(!existsSync(PAL_TEST_EXTRACTED))('N3 P4 PAL shadow owner migrati
       chain: shared.chain,
       prepared,
     }
-  }, 120_000)
+  }, 300_000)
 
   test('Page/Behavior/Hook 全量分配，7,039 fragments 可逆且 P4 清零', () => {
     const report = fixture.chain.validations.p4

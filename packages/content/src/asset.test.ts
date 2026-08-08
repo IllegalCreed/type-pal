@@ -526,6 +526,18 @@ describe('typed 资源引用与文件闭包', () => {
           { kind: 'summon', battleSprite: 'player-summon-11', sound: 'sound.pal.301' },
         ],
         animation: { effectSprite: 1, sound: 'sound.pal.174' },
+        execution: {
+          player: {
+            effects: [
+              {
+                kind: 'summon',
+                battleSprite: 'player-summon-11',
+                sound: 'sound.pal.045',
+              },
+            ],
+            animation: { effectSprite: 2, sound: 'sound.pal.029' },
+          },
+        },
       },
     ]
     const items = [
@@ -616,6 +628,18 @@ describe('typed 资源引用与文件闭包', () => {
       expectedKind: 'sound',
       where: 'skills[0].effects[1].sound',
       site: 'skill:377:effects',
+    })
+    expect(refs).toContainEqual({
+      asset: 'sound.pal.029',
+      expectedKind: 'sound',
+      where: 'skills[0].execution.player.animation.sound',
+      site: 'skill:377:execution:player:animation',
+    })
+    expect(refs).toContainEqual({
+      asset: 'sound.pal.045',
+      expectedKind: 'sound',
+      where: 'skills[0].execution.player.effects[0].sound',
+      site: 'skill:377:execution:player:effects',
     })
     expect(refs).toContainEqual({
       asset: 'sound.pal.045',

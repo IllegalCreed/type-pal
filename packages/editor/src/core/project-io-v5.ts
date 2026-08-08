@@ -11,6 +11,7 @@ import {
   type ProjectMap,
   type SceneDefV5,
   type StampTemplateV1,
+  validateActors,
   validateAssetCatalog,
   validateEquipBattleSpriteReferences,
   validateItemsV5,
@@ -309,9 +310,10 @@ function validateEditorStateV5(state: EditorStateV5): void {
     throw new Error('serializeProjectV5: manifest 缺 canonical sharedScripts 路径')
   const scenes = validateScenesV5(state.scenes)
   const items = validateItemsV5(state.items)
+  const actors = validateActors(state.actors)
   const equipBattleSpriteIssue = validateEquipBattleSpriteReferences(
     items,
-    state.actors,
+    actors,
     state.battleSprites,
   )[0]
   if (equipBattleSpriteIssue)

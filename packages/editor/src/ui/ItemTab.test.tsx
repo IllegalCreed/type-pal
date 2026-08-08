@@ -7,6 +7,7 @@ import { UpdateItemCommand, UpsertAuthoredScriptCommand } from '../core/commands
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
 import type { ItemReference } from '../core/item-references.js'
 import { projectActiveScriptEditorStateV5 } from '../core/project-io-v5.js'
 import { type ScriptEditorStateV5, ScriptV5EditSession } from '../core/script-v5-editor.js'
@@ -79,6 +80,7 @@ function Harness(props: {
     state: ScriptEditorStateV5
     session: ScriptV5EditSession
   }
+  historyCoordinator?: EditorHistoryCoordinator
 }) {
   useSyncExternalStore(
     (callback) => props.session.subscribe(callback),
@@ -112,6 +114,7 @@ function Harness(props: {
           ? { state: activeScriptState, session: props.scriptV5.session }
           : undefined
       }
+      historyCoordinator={props.historyCoordinator}
     />
   )
 }
@@ -635,9 +638,14 @@ describe('ItemTab', () => {
       migrationSidecars: [],
     }
     const scriptSession = new ScriptV5EditSession(canonical)
+    const historyCoordinator = new EditorHistoryCoordinator(session, scriptSession)
     await act(async () =>
       root.render(
-        <Harness session={session} scriptV5={{ state: canonical, session: scriptSession }} />,
+        <Harness
+          session={session}
+          scriptV5={{ state: canonical, session: scriptSession }}
+          historyCoordinator={historyCoordinator}
+        />,
       ),
     )
 
@@ -708,7 +716,7 @@ describe('ItemTab', () => {
     expect(host.textContent).not.toContain('私有正文')
   })
 
-  test('ED-5J 新建私有脚本:按钮创建→双会话入帐→编辑正文→撤销重做→投影含 canonical 正文', async () => {
+  test('新建私有脚本:一次跨会话历史入帐→编辑正文→配对撤销重做→投影含正文', async () => {
     const initial = state([
       {
         ...item('private'),
@@ -743,9 +751,14 @@ describe('ItemTab', () => {
       migrationSidecars: [],
     }
     const scriptSession = new ScriptV5EditSession(canonical)
+    const historyCoordinator = new EditorHistoryCoordinator(session, scriptSession)
     await act(async () =>
       root.render(
-        <Harness session={session} scriptV5={{ state: canonical, session: scriptSession }} />,
+        <Harness
+          session={session}
+          scriptV5={{ state: canonical, session: scriptSession }}
+          historyCoordinator={historyCoordinator}
+        />,
       ),
     )
 
@@ -783,21 +796,22 @@ describe('ItemTab', () => {
         .use!.effects,
     ).toMatchObject([{ kind: 'itemPrivateScript', script: { id: 'use' } }])
 
-    // 双会话各自撤销:shell 行与 canonical 正文都可回滚,重做均恢复
-    await act(async () => session.undo())
-    expect(session.getState().items[0]!.use!.effects).toHaveLength(0)
-    // v5 侧两笔(新建 + 正文编辑):第一笔 undo 回滚正文编辑,第二笔回滚新建
+    // 正文编辑是后续独立动作，先撤它；随后一次 coordinator undo 成对撤 shell + canonical。
     await act(async () => scriptSession.undo())
     const afterBodyUndo = scriptSession.getState().items[0]!.use!.effects[0]
     expect(afterBodyUndo?.kind).toBe('itemPrivateScript')
     if (afterBodyUndo?.kind !== 'itemPrivateScript') throw new Error('正文编辑未回滚')
     expect(afterBodyUndo.script.body).toHaveLength(0)
-    await act(async () => scriptSession.undo())
+    await act(async () => historyCoordinator.undo())
+    expect(session.getState().items[0]!.use!.effects).toHaveLength(0)
     expect(scriptSession.getState().items[0]!.use!.effects).toHaveLength(0)
-    await act(async () => session.redo())
-    await act(async () => scriptSession.redo())
-    await act(async () => scriptSession.redo())
+    await act(async () => historyCoordinator.redo())
     expect(session.getState().items[0]!.use!.effects).toMatchObject([{ kind: 'runScript' }])
+    const restoredEmpty = scriptSession.getState().items[0]!.use!.effects[0]
+    expect(restoredEmpty?.kind).toBe('itemPrivateScript')
+    if (restoredEmpty?.kind !== 'itemPrivateScript') throw new Error('配对重做后正文壳丢失')
+    expect(restoredEmpty.script.body).toHaveLength(0)
+    await act(async () => scriptSession.redo())
     const restored = scriptSession.getState().items[0]!.use!.effects[0]
     expect(restored?.kind).toBe('itemPrivateScript')
     if (restored?.kind !== 'itemPrivateScript') throw new Error('重做后正文丢失')

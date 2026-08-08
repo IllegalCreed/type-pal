@@ -53,7 +53,10 @@ function digestSnapshot(snapshot: MigrationSnapshot): string {
   return stableJsonFramedSha256(
     (function* (): Iterable<unknown> {
       yield ['managed', [...snapshot.managedFiles].sort()]
-      yield ['hashes', [...(snapshot.hashes ?? new Map())].sort(([left], [right]) => left.localeCompare(right))]
+      yield [
+        'hashes',
+        [...(snapshot.hashes ?? new Map())].sort(([left], [right]) => left.localeCompare(right)),
+      ]
       yield ['metadata', snapshot.baselineMetadata ?? null]
       for (const path of paths) yield [path, snapshot.files.get(path)]
     })(),

@@ -887,10 +887,7 @@ export interface R13ConfirmControlFlowEvidenceV1 {
  * mutating a parent snapshot; reusing for the latter avoids materialising several 294-scene
  * copies solely to prove selectors and deltas.
  */
-function readScenes(
-  snapshot: MigrationSnapshot,
-  options: { clone?: boolean } = {},
-): SceneDefV5[] {
+function readScenes(snapshot: MigrationSnapshot, options: { clone?: boolean } = {}): SceneDefV5[] {
   const cloneScenes = options.clone ?? true
   const ids = snapshot.files.get('content/scenes/index.json')
   if (!Array.isArray(ids) || ids.some((id) => typeof id !== 'string'))

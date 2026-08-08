@@ -348,6 +348,51 @@ export function assertR13ZPublishedSealMatchesAuthority(
     throw new Error('R13-Z MG2: published seal 与 authority 不符')
 }
 
+function hasR13ZMarker(source: MigrationSnapshot): boolean {
+  return (
+    source.baselineMetadata?.transitions[R13_Z_TRANSITION_ID] !== undefined ||
+    source.files.has(R13_Z_SEAL_PATH) ||
+    source.managedFiles.has(R13_Z_SEAL_PATH) ||
+    source.hashes?.has(R13_Z_SEAL_PATH) === true
+  )
+}
+
+/** R13-Z 是零内容叶；历史回放只允许在完整校验四元组后剥离它。 */
+export function rewindPublishedR13ZPublicationIfPresent(
+  source: MigrationSnapshot,
+): MigrationSnapshot {
+  if (!hasR13ZMarker(source)) return source
+  const metadataDigest = source.baselineMetadata?.transitions[R13_Z_TRANSITION_ID]
+  const raw = source.files.get(R13_Z_SEAL_PATH)
+  const fileHash = source.hashes?.get(R13_Z_SEAL_PATH)
+  if (
+    metadataDigest === undefined ||
+    raw === undefined ||
+    !source.managedFiles.has(R13_Z_SEAL_PATH) ||
+    fileHash === undefined
+  )
+    throw new Error('R13-Z rewind: transition 半状态 metadata/file/managed/hash 不齐')
+  const digest = recordDigest(raw, R13_Z_SEAL_PATH)
+  const seal = raw as unknown as R13ZTransitionSealV1
+  const expectedParent = source.baselineMetadata?.transitions[R13_SOURCE_SEMANTICS_TRANSITION_ID]
+  if (
+    metadataDigest !== digest ||
+    seal.kind !== 'r13-z-source-closure-transition' ||
+    seal.transitionId !== R13_Z_TRANSITION_ID ||
+    seal.parent.transitionId !== R13_SOURCE_SEMANTICS_TRANSITION_ID ||
+    seal.parent.digest !== expectedParent
+  )
+    throw new Error('R13-Z rewind: seal/metadata/parent 不一致')
+  if (fileHash !== sha256(serializeMigrationJson(raw, R13_Z_SEAL_PATH)))
+    throw new Error('R13-Z rewind: seal 与文件 hash 不符')
+  const snapshot = cloneSnapshot(source)
+  snapshot.files.delete(R13_Z_SEAL_PATH)
+  snapshot.managedFiles.delete(R13_Z_SEAL_PATH)
+  snapshot.hashes?.delete(R13_Z_SEAL_PATH)
+  delete snapshot.baselineMetadata?.transitions[R13_Z_TRANSITION_ID]
+  return snapshot
+}
+
 /**
  * R13-Z is an evidence-only append-only publication. It never merges or rewrites project
  * content; a dirty project is rejected before the seal can be added to the baseline.

@@ -126,21 +126,33 @@ interface DrawEntry {
  * (main.ts:2785-2791 nextRenderer),场景切换天然清空。
  */
 export class OcclusionLatch {
-  private readonly until = new Map<string, number>()
+  private readonly entries = new Map<string, { until: number; candidate: CoverCandidate }>()
 
   constructor(private readonly now: () => number = () => performance.now()) {}
 
-  /** 该瓦片当前是否保持半透明(inSet=本帧仍在角色遮挡集合)。 */
-  active(key: string, inSet: boolean): boolean {
+  /** 记住进入遮挡集合的完整绘制载荷，候选暂时消失时仍可完成迟滞帧。 */
+  remember(candidate: CoverCandidate): void {
     const t = this.now()
-    if (inSet) this.until.set(key, t + OCCLUSION_LATCH_MS)
-    const until = this.until.get(key)
-    if (until !== undefined && until <= t && !inSet) this.until.delete(key)
-    return until !== undefined && until > t
+    this.entries.set(candidate.key, { until: t + OCCLUSION_LATCH_MS, candidate })
+  }
+
+  /** 返回尚在迟滞窗口内的载荷，并顺手清理到期项。 */
+  retained(): readonly CoverCandidate[] {
+    const t = this.now()
+    const retained: CoverCandidate[] = []
+    for (const [key, entry] of this.entries) {
+      if (entry.until <= t) this.entries.delete(key)
+      else retained.push(entry.candidate)
+    }
+    return retained
+  }
+
+  has(key: string): boolean {
+    return this.retained().some((candidate) => candidate.key === key)
   }
 
   reset(): void {
-    this.until.clear()
+    this.entries.clear()
   }
 }
 
@@ -169,17 +181,25 @@ export function mergeCoverCandidates(
       const inOcclusionSet = opts.occlusionActive && trigger
       if (inOcclusionSet) {
         // 角色触发的遮挡瓦片:恒 OCCLUSION_ALPHA(覆盖同键早前的 tileAlpha,防迭代序影响)。
-        opts.latch.active(candidate.key, true)
+        opts.latch.remember(candidate)
         merged.set(candidate.key, { ...candidate, alpha: OCCLUSION_ALPHA })
       } else if (!merged.has(candidate.key)) {
-        merged.set(candidate.key, { ...candidate, alpha: opts.tileAlpha(candidate.tile) })
+        merged.set(candidate.key, {
+          ...candidate,
+          alpha:
+            opts.occlusionActive && opts.latch.has(candidate.key)
+              ? OCCLUSION_ALPHA
+              : opts.tileAlpha(candidate.tile),
+        })
       }
     }
   }
-  // 迟滞:已离开遮挡集合但 latch 未到期的瓦片保持半透明。
-  for (const [key, entry] of merged) {
-    if (entry.alpha === OCCLUSION_ALPHA) continue
-    if (opts.latch.active(key, false)) merged.set(key, { ...entry, alpha: OCCLUSION_ALPHA })
+  // 本帧完全没有该候选时，也要用 latch 保存的 payload 画完 120ms 迟滞。
+  if (opts.occlusionActive) {
+    for (const candidate of opts.latch.retained()) {
+      if (!merged.has(candidate.key))
+        merged.set(candidate.key, { ...candidate, alpha: OCCLUSION_ALPHA })
+    }
   }
   return merged
 }

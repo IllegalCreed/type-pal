@@ -28,6 +28,7 @@ import {
   itemUseSupportsContext,
   lookupText,
   POISON_CURE_RANK,
+  resolveSkillExecution,
 } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
 import {
@@ -41,10 +42,10 @@ import { expectDefined } from '../defined.js'
 import type { DialogBox } from '../dialog/dialog-box.js'
 import { startDialogue } from '../dialogue.js'
 import { drawNumber, type MenuAssets } from '../menu/menu-box.js'
+import { drawRewardGainText } from '../menu/reward-gain.js'
 import { bakeFrame } from '../render.js'
 import { type ScreenShake, shakeOffsetY, WavedBgCache } from '../screen-fx.js'
 import { renderSpans } from '../text/text-render.js'
-import { drawRewardGainText } from '../menu/reward-gain.js'
 import {
   type AnimFrame,
   AnimPlayer,
@@ -1661,9 +1662,9 @@ export class BattleSession {
     const s = this.state
     const skill = la.skillId ? this.opts.skills?.[la.skillId] : undefined
     if (!skill) return null
-    const execution = skill.execution?.[la.side]
-    const a = execution?.animation ?? skill.animation
-    const skillEffects = execution?.effects ?? skill.effects
+    const execution = resolveSkillExecution(skill, la.side)
+    const a = execution.animation
+    const skillEffects = execution.effects
     const fire = this.assets.fireSprites?.[a.effectSprite]
     this.currentFire = la.fizzled ? null : (fire ?? null)
     // 召唤：effect 直接引用 summon profile 定义，资源已在进战 readiness 完整预载。
@@ -1704,8 +1705,7 @@ export class BattleSession {
         }))
       // 召唤背景染色量 = summon 效果自己的 tint(原召唤 magic 的 wEffectTimes SHORT,
       // fight.c:3145;⚠ animation.effectTimes 是二次法术循环数,与染色无关 —— 曾混淆)
-      this.summonTintShift =
-        !la.fizzled && summonEff?.kind === 'summon' ? (summonEff.tint ?? 0) : 0
+      this.summonTintShift = !la.fizzled && summonEff?.kind === 'summon' ? (summonEff.tint ?? 0) : 0
       // 合击(非召唤):走聚拢队形演出(贡献者靠拢→后→前依次施法→放技能)。
       // 召唤类合击照原版直接播召唤动画(落入下方 buildPlayerCast summon 段,不聚拢)。
       if (la.coopContributors && !summonSprite) {
@@ -1832,10 +1832,11 @@ export class BattleSession {
       const trance = la.skillId
         ? (() => {
             const castSkill = s.skills[la.skillId]
-            return (
-              castSkill?.execution?.[la.side]?.effects?.find((effect) => effect.kind === 'trance') ??
-              castSkill?.effects.find((effect) => effect.kind === 'trance')
-            )
+            return castSkill
+              ? resolveSkillExecution(castSkill, la.side).effects.find(
+                  (effect) => effect.kind === 'trance',
+                )
+              : undefined
           })()
         : undefined
       if (la.side === 'player' && trance?.kind === 'trance') {
@@ -1864,7 +1865,7 @@ export class BattleSession {
       // 偷窃技(飞龙探云手):专用冲刺时间线(一阶段 buildStealTimeline;技能 effectSprite=65535
       // 本就无特效,generic cast 会打空气)—— 冲到敌前 5 步滑步 + 敌闪白
       const sk = la.skillId ? s.skills[la.skillId] : undefined
-      const skEffects = sk?.execution?.[la.side]?.effects ?? sk?.effects ?? []
+      const skEffects = sk ? resolveSkillExecution(sk, la.side).effects : []
       if (
         la.side === 'player' &&
         la.target !== undefined &&
@@ -2439,15 +2440,17 @@ export class BattleSession {
           world.hostileAwareness = { ...mutation.value }
           break
         case 'skillUse': {
-          const counts = (world.skillUseCounts ??= {})
+          world.skillUseCounts ??= {}
+          const counts = world.skillUseCounts
           counts[mutation.characterId] ??= {}
-          counts[mutation.characterId]![mutation.skillId] = mutation.usesAfter
+          const characterCounts = counts[mutation.characterId]
+          if (!characterCounts) throw new Error(`skillUseCounts 缺角色 ${mutation.characterId}`)
+          characterCounts[mutation.skillId] = mutation.usesAfter
           if (mutation.removed) {
             const learned = world.learnedSkills[mutation.characterId]
             if (learned) {
               const next = learned.filter((id) => id !== mutation.skillId)
-              if (next.length !== learned.length)
-                world.learnedSkills[mutation.characterId] = next
+              if (next.length !== learned.length) world.learnedSkills[mutation.characterId] = next
             }
           }
           break

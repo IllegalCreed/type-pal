@@ -5,7 +5,7 @@ import type { BattleFieldDef, EnemyDef } from './enemy.js'
 import type { SceneDef } from './index.js'
 import type { ItemData } from './item.js'
 import type { ScriptChunkV1 } from './script-library.js'
-import type { SkillData } from './skill.js'
+import { authoredSkillExecutionLayers, type SkillData } from './skill.js'
 import type { SpriteDef } from './sprite.js'
 import type { TilesetDef } from './tileset.js'
 
@@ -684,22 +684,31 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
       })
   })
   source.skills?.forEach((skill, index) => {
-    if (typeof skill.animation.sound === 'string')
-      references.push({
-        asset: skill.animation.sound,
-        expectedKind: 'sound',
-        where: `skills[${index}].animation.sound`,
-        site: `skill:${skill.id}:animation`,
-      })
-    skill.effects.forEach((effect, effectIndex) => {
-      if (effect.kind === 'summon' && typeof effect.sound === 'string')
+    for (const layer of authoredSkillExecutionLayers(skill)) {
+      const layerPath = layer.side === 'base' ? '' : `execution.${layer.side}.`
+      if (typeof layer.animation?.sound === 'string')
         references.push({
-          asset: effect.sound,
+          asset: layer.animation.sound,
           expectedKind: 'sound',
-          where: `skills[${index}].effects[${effectIndex}].sound`,
-          site: `skill:${skill.id}:effects`,
+          where: `skills[${index}].${layerPath}animation.sound`,
+          site:
+            layer.side === 'base'
+              ? `skill:${skill.id}:animation`
+              : `skill:${skill.id}:execution:${layer.side}:animation`,
         })
-    })
+      ;(layer.effects ?? []).forEach((effect, effectIndex) => {
+        if (effect.kind === 'summon' && typeof effect.sound === 'string')
+          references.push({
+            asset: effect.sound,
+            expectedKind: 'sound',
+            where: `skills[${index}].${layerPath}effects[${effectIndex}].sound`,
+            site:
+              layer.side === 'base'
+                ? `skill:${skill.id}:effects`
+                : `skill:${skill.id}:execution:${layer.side}:effects`,
+          })
+      })
+    }
   })
   source.battleFields?.forEach((field, index) => {
     if (field.background)
