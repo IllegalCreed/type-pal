@@ -19,6 +19,7 @@ import {
   type LegacySavePayloadV7,
   type LegacySavePayloadV8Content9,
   type LegacySavePayloadV8Content10,
+  type LegacySavePayloadV8Content11,
   SAVE_VERSION,
   type SavePayload,
   type SavePayloadV5,
@@ -31,6 +32,7 @@ export type {
   LegacySavePayloadV7,
   LegacySavePayloadV8Content9,
   LegacySavePayloadV8Content10,
+  LegacySavePayloadV8Content11,
   SavePayloadV5,
   SavePayloadV6,
   SavePayloadV7,
@@ -85,15 +87,21 @@ export interface SaveMigrationResolverV7 {
 
 export type SaveMigrationResolver =
   | {
-      kind: 'current-v11'
+      kind: 'current-v12'
       projectId: string
-      targetContentVersion: 11
+      targetContentVersion: 12
       targetSaveVersion: 8
     }
   | {
-      kind: 'content-v10-v11'
+      kind: 'content-v11-v12'
       projectId: string
-      targetContentVersion: 11
+      targetContentVersion: 12
+      targetSaveVersion: 8
+    }
+  | {
+      kind: 'content-v10-v12'
+      projectId: string
+      targetContentVersion: 12
       targetSaveVersion: 8
     }
 
@@ -147,7 +155,7 @@ export type ValidatedProjectMigrationRegistryV1 = Readonly<
 >
 
 async function loadScriptV4V5MigrationBlob(args: {
-  manifest: ProjectManifest<5 | 6 | 7 | 8 | 9 | 10 | 11>
+  manifest: ProjectManifest<5 | 6 | 7 | 8 | 9 | 10 | 11 | 12>
   source: Pick<FileSource, 'readBytes'>
   descriptorValue: unknown
   signal?: AbortSignal
@@ -189,7 +197,7 @@ async function loadScriptV4V5MigrationBlob(args: {
  * 当前只定义 script-v4-v5；未知 transition 不允许被静默透传成“已验证”。
  */
 export async function loadProjectMigrationRegistryV5(args: {
-  manifest: ProjectManifest<5 | 6 | 7 | 8 | 9 | 10 | 11>
+  manifest: ProjectManifest<5 | 6 | 7 | 8 | 9 | 10 | 11 | 12>
   source: Pick<FileSource, 'readBytes'>
   signal?: AbortSignal
 }): Promise<ValidatedProjectMigrationRegistryV1> {
@@ -272,11 +280,11 @@ async function resolveSceneHookSelections(
 }
 
 /**
- * 当前工程是 content10/minimum8；接受 SAVE8/content10，或把已发布的 SAVE8/content9
- * 纯内存 identity normalization 到 content10。其它组合在任何兼容 IO 前拒绝。
+ * 当前工程是 content12/minimum8；接受 SAVE8/content10|11，或当前 12，均只做
+ * 纯内存 identity normalization。其它组合在任何兼容 IO 前拒绝。
  */
 export async function preflightSaveMigration(args: {
-  manifest: ProjectManifest<10 | 11>
+  manifest: ProjectManifest<12>
   payload: SavePayloadHeader
 }): Promise<SaveMigrationResolver> {
   const minimum = args.manifest.minimumSaveVersion
@@ -293,14 +301,22 @@ export async function preflightSaveMigration(args: {
     throw new Error(
       `工程 "${args.manifest.id}": 当前存档预检只接受 contentVersion ${CONTENT_VERSION}`,
     )
-  if (saveVersion !== SAVE_VERSION || (contentVersion !== CONTENT_VERSION && contentVersion !== 10))
+  if (
+    saveVersion !== SAVE_VERSION ||
+    !([10, 11, CONTENT_VERSION] as number[]).includes(contentVersion)
+  )
     throw new Error(
       `不支持的存档 epoch：收到 SAVE v${saveVersion} / contentVersion ${contentVersion}，` +
-        `当前只接受 SAVE v${SAVE_VERSION} / contentVersion 10|${CONTENT_VERSION}；` +
+        `当前只接受 SAVE v${SAVE_VERSION} / contentVersion 10|11|${CONTENT_VERSION}；` +
         '不会读取或重放历史兼容 sidecar',
     )
   return {
-    kind: contentVersion === 10 ? 'content-v10-v11' : 'current-v11',
+    kind:
+      contentVersion === 10
+        ? 'content-v10-v12'
+        : contentVersion === 11
+          ? 'content-v11-v12'
+          : 'current-v12',
     projectId: args.manifest.id,
     targetContentVersion: CONTENT_VERSION,
     targetSaveVersion: SAVE_VERSION,
@@ -502,7 +518,8 @@ function validateHostileAwareness(world: unknown, path: string): void {
 
 function normalizeAndValidateSkillUseCounts(world: unknown, path: string): void {
   const worldRecord = record(world, path)
-  worldRecord.skillUseCounts ??= {}
+  // 缺字段才补空容器；显式 null 是损坏存档，不能被 ??= 当作“缺省”吞掉。
+  if (!Object.hasOwn(worldRecord, 'skillUseCounts')) worldRecord.skillUseCounts = {}
   const actors = record(worldRecord.skillUseCounts, `${path}.skillUseCounts`)
   for (const [actorId, rawSkills] of Object.entries(actors)) {
     if (actorId.length === 0) throw new Error(`${path}.skillUseCounts: 角色 ID 不得为空`)
@@ -819,23 +836,24 @@ export function normalizeLegacyPayloadV8Content9(
   return payload
 }
 
-/** 当前 SAVE8/content11 或 historical content10 normalization；补齐并校验持久技能计数，不读取 sidecar。 */
+/** 当前 SAVE8/content12 或 historical content10/11 normalization；补齐并校验持久技能计数，不读取 sidecar。 */
 export function normalizePayloadV8(
-  input: LegacySavePayloadV8Content9 | LegacySavePayloadV8Content10 | SavePayloadV8,
+  input: LegacySavePayloadV8Content10 | LegacySavePayloadV8Content11 | SavePayloadV8,
   resolver: SaveMigrationResolver,
 ): SavePayloadV8 {
   if (input.projectId !== resolver.projectId)
     throw new Error(`存档工程 "${input.projectId}" 与 resolver "${resolver.projectId}" 不匹配`)
   if (
     input.version !== SAVE_VERSION ||
-    (resolver.kind === 'current-v11' && input.contentVersion !== 11) ||
-    (resolver.kind === 'content-v10-v11' && input.contentVersion !== 10)
+    (resolver.kind === 'current-v12' && input.contentVersion !== 12) ||
+    (resolver.kind === 'content-v11-v12' && input.contentVersion !== 11) ||
+    (resolver.kind === 'content-v10-v12' && input.contentVersion !== 10)
   )
     throw new Error(
       `${resolver.kind} resolver 与 SAVE${SAVE_VERSION}/contentVersion ${input.contentVersion} 不匹配`,
     )
   const payload = structuredClone(input) as SavePayloadV8
-  payload.contentVersion = 11
+  payload.contentVersion = 12
   if (payload.world.script !== undefined)
     checkWorldScriptStateV5(payload.world.script, 'payload.world.script')
   validateHostileAwareness(payload.world, 'payload.world')

@@ -56,7 +56,7 @@ function manifest(over: Partial<CurrentManifest> = {}): CurrentManifest {
   return {
     id: 'demo',
     name: 'Demo',
-    contentVersion: 11,
+    contentVersion: 12,
     minimumSaveVersion: 8,
     entryScene: 's001',
     content: {
@@ -456,7 +456,7 @@ describe('canonical v5 editor project IO', () => {
 
     const merged = mergeLegacyEditorShellIntoV5(canonical, shell)
     expect(merged.manifest).toMatchObject({
-      contentVersion: 11,
+      contentVersion: 12,
       minimumSaveVersion: 8,
       name: 'Renamed',
     })

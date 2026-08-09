@@ -1443,14 +1443,13 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
       scriptMutationIntent.assertCurrent(scriptMutationToken, `team-${team} 战斗启动脚本已失效`)
       if (world !== launchWorld) throw asyncIntentAbortError(`team-${team} 战斗启动所属世界已失效`)
     }
-    // D13-1 dev-only enemyOverride:忽略 teamDef.members,按给定敌人定义 id 组敌队。
-    const enemyDefs = battleOpts?.enemyOverride
-      ? battleOpts.enemyOverride
-          .map((id) => project.enemiesById[id])
-          .filter((e): e is NonNullable<typeof e> => !!e)
-      : (project.enemyTeamsById[`team-${team}`]?.members ?? [])
-          .map((id) => project.enemiesById[id])
-          .filter((e): e is NonNullable<typeof e> => !!e)
+    // D13-1 dev-only enemyOverride:显式 dense 组队只影响调试入口；canonical team 保留 slots 洞。
+    const enemySlots = battleOpts?.enemyOverride
+      ? battleOpts.enemyOverride.map((id) => project.enemiesById[id] ?? null).slice(0, 5)
+      : (project.enemyTeamsById[`team-${team}`]?.slots ?? []).map((id) =>
+          id === null ? null : (project.enemiesById[id] ?? null),
+        )
+    const enemyDefs = enemySlots.filter((e): e is NonNullable<typeof e> => !!e)
     if (enemyDefs.length === 0) {
       showToast(`遇敌 #${team} —— 敌队缺数据,桩胜(M4c)`)
       await host.wait(400, launchSignal)
@@ -1690,7 +1689,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     else bgm.play(battleTrack, true, BATTLE_MUSIC_TRANSITION_MS)
     const session = new BattleSession(
       players,
-      enemyDefs,
+      enemySlots,
       {
         bg: bgFull?.canvas,
         // 召唤背景染色的索引源(调色板级 nibble 重烤,battle.c:62-80)

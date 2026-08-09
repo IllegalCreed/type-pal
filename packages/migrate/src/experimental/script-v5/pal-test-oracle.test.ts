@@ -6,7 +6,7 @@ describe('PAL compact test oracle', () => {
     const oracle = loadPalTestOracle()
     expect(oracle.projection).toMatchObject({
       generatorEpoch: 'n3-script-v5-p7-v1',
-      managedFiles: 546,
+      managedFiles: 547,
       scriptV4V5: {
         entries: 18_383,
         evidence: 8_975,
@@ -26,6 +26,7 @@ describe('PAL compact test oracle', () => {
       'r13-source-semantics-v1',
       'r13-6c-lossy-closure-v1',
       'r13-z-source-closure-v1',
+      'b10-enemy-team-slots-v1',
     ])
     expect(
       oracle.manifest.inputTrees.map(({ role, root, selector }) => ({

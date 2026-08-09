@@ -14,8 +14,11 @@ function harness() {
   let frameActive = false
   let stepRequested = false
   const reset = vi.fn(() => {
-    frameActive = false
     stepRequested = false
+  })
+  const setActive = vi.fn((active: boolean) => {
+    frameActive = active
+    if (!active) stepRequested = false
   })
   const startBattleDev = vi.fn(async () => 'win' as const)
   const ctx = {
@@ -42,10 +45,7 @@ function harness() {
       get active() {
         return frameActive
       },
-      setActive(active: boolean) {
-        frameActive = active
-        if (!active) stepRequested = false
-      },
+      setActive,
       requestStep() {
         stepRequested = true
       },
@@ -57,6 +57,7 @@ function harness() {
   return {
     ctx,
     reset,
+    setActive,
     startBattleDev,
     frameState: () => ({ active: frameActive, requested: stepRequested }),
   }
@@ -74,16 +75,23 @@ describe('Reforge debug tools', () => {
     injectDebugToolsStyles()
     injectDebugToolsStyles()
     expect(document.querySelectorAll('#tp-reforge-debug-style')).toHaveLength(1)
+    const css = document.getElementById('tp-reforge-debug-style')!.textContent
+    expect(css).toContain('--tpd-bg:rgba(24,24,28,.96)')
+    expect(css).toContain('--tpd-accent:#6c8eef')
+    expect(css).not.toContain('Songti SC')
 
     const { ctx } = harness()
     const close = installDebugTools(ctx)
+    expect(document.querySelector('[role="tablist"]')?.getAttribute('aria-orientation')).toBe(
+      'horizontal',
+    )
     const tabs = [...document.querySelectorAll<HTMLButtonElement>('[role="tab"]')]
     const panels = [...document.querySelectorAll<HTMLElement>('[role="tabpanel"]')]
     expect(tabs.map((tab) => tab.textContent)).toEqual(['状态', '指令', '触发', '战斗', '图层'])
     expect(panels).toHaveLength(5)
     expect(tabs.map((tab) => tab.tabIndex)).toEqual([0, -1, -1, -1, -1])
 
-    tabs[0]!.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }))
+    tabs[0]!.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }))
     expect(tabs[1]!.getAttribute('aria-selected')).toBe('true')
     expect(tabs.map((tab) => tab.tabIndex)).toEqual([-1, 0, -1, -1, -1])
     const command = document.querySelector<HTMLInputElement>('[aria-label="调试命令"]')!
@@ -119,9 +127,9 @@ describe('Reforge debug tools', () => {
     close()
   })
 
-  test('关闭无条件 reset 帧步进并移除独立样式', () => {
+  test('关闭显式退出并 reset 帧步进，随后移除独立样式', () => {
     vi.useFakeTimers()
-    const { ctx, frameState, reset } = harness()
+    const { ctx, frameState, reset, setActive } = harness()
     installDebugTools(ctx)
     ;[...document.querySelectorAll<HTMLButtonElement>('[role="tab"]')]
       .find((tab) => tab.textContent === '图层')!
@@ -132,6 +140,7 @@ describe('Reforge debug tools', () => {
     expect(frameState()).toEqual({ active: true, requested: true })
 
     document.querySelector<HTMLButtonElement>('[aria-label^="关闭调试面板"]')!.click()
+    expect(setActive).toHaveBeenLastCalledWith(false)
     expect(reset).toHaveBeenCalledOnce()
     expect(frameState()).toEqual({ active: false, requested: false })
     expect(document.getElementById('tp-debug')).toBeNull()

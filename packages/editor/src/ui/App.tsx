@@ -2923,7 +2923,7 @@ function EntityInspector(props: {
                   .filter((x): x is { t: EnemyTeamDef; n: number } => x.n !== undefined)
                   .map(({ t, n }) => (
                     <option key={t.id} value={String(n)}>
-                      {t.id}({t.members.length} 敌)
+                      {t.id}({t.slots.length} 槽)
                     </option>
                   ))}
               </select>

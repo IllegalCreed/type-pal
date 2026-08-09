@@ -136,7 +136,9 @@ export function getPalTestCoreFixture(): PalTestCoreFixture {
 
 function loadCurrentV10Fixture() {
   const sources = loadPalMigrationSources(PAL_TEST_REPO)
-  const migration = buildPalMigration(sources)
+  // This fixture feeds historical R13-6A/R13-5 audits; keep its content<=11 enemy-team
+  // authority explicit. The B10 successor opts into semantic slots at its dedicated builder.
+  const migration = buildPalMigration(sources, { enemyTeamSchema: 'legacy-members' })
   const audit = auditPalScriptControlFlow(sources, migration)
   assertScriptControlFlowAudit(audit)
   return Object.freeze({

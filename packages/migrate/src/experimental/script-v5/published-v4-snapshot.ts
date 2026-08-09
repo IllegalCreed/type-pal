@@ -5,6 +5,10 @@ import {
   discoverProjectManagedFiles,
   loadProjectMigrationSnapshot,
 } from '../../migration-project-io.js'
+import {
+  rewindB10ProjectAgainstPublishedBaseline,
+  rewindB10PublicationIfPresent,
+} from '../../pal-b10-enemy-team-slots.js'
 import type { MigrationFileSet } from '../../pal-migration.js'
 import { rewindPalR13SixBPublicationIfPresent } from '../../pal-r13-six-b-rewind.js'
 import { rewindPublishedR13SourceSemanticsTransition } from './published-r13-source-semantics-test-fixture.js'
@@ -239,8 +243,12 @@ export function reconstructPublishedV4TransitionSnapshots(
         publishedProject: loadedProject,
       })
     : {
-        baseline: rewindPalR13SixBPublicationIfPresent(publishedBaseline),
-        project: rewindPalR13SixBPublicationIfPresent(loadedProject),
+        baseline: rewindPalR13SixBPublicationIfPresent(
+          rewindB10PublicationIfPresent(publishedBaseline),
+        ),
+        project: rewindPalR13SixBPublicationIfPresent(
+          rewindB10ProjectAgainstPublishedBaseline(loadedProject, publishedBaseline),
+        ),
       }
   const project = sourceSemantics.project
   stripC8GeneratedAdditions(migration, sourceSemantics.baseline, project)

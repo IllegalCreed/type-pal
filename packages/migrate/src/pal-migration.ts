@@ -520,6 +520,8 @@ function assertPalBattleSpriteBaseline(args: {
 export interface PalMigrationBuildOptions {
   /** 仅 R13-6B successor 启用技能语义和 loadScene 源证据；普通 build 必须保持冻结输出。 */
   r13SixBSourceSemantics?: boolean
+  /** 敌队输出形状；未指定时保持 content<=11 历史 authority 的压紧 members。 */
+  enemyTeamSchema?: 'legacy-members' | 'semantic-slots'
 }
 
 function buildPalMigrationWithEnemyAuthority(
@@ -762,7 +764,15 @@ function buildPalMigrationWithEnemyAuthority(
   put('content/migration-diagnostics.json', migrationDiagnostics)
   put('content/skills.json', skills)
   put('content/enemies.json', boss.enemies)
-  put('content/enemy-teams.json', migrated.enemyTeams)
+  put(
+    'content/enemy-teams.json',
+    (options.enemyTeamSchema ?? 'legacy-members') === 'legacy-members'
+      ? migrated.enemyTeams.map((team) => ({
+          id: team.id,
+          members: team.slots.filter((slot): slot is string => slot !== null),
+        }))
+      : migrated.enemyTeams,
+  )
   put('content/locale.json', {
     ...migrated.localeNames,
     ...sceneOutput.scriptLocale,
@@ -870,7 +880,9 @@ export function buildPalMigration(
  * 新迁移、CLI 与项目写入不得调用这个入口。
  */
 export function buildPalHistoricalR13_4V9Migration(sources: PalMigrationSources): MigrationFileSet {
-  return buildPalMigrationWithEnemyAuthority(sources, R13_CONFIRM_PARENT_ENEMY_AUTHORITY)
+  return buildPalMigrationWithEnemyAuthority(sources, R13_CONFIRM_PARENT_ENEMY_AUTHORITY, {
+    enemyTeamSchema: 'legacy-members',
+  })
 }
 
 /**
@@ -880,7 +892,9 @@ export function buildPalHistoricalR13_4V9Migration(sources: PalMigrationSources)
 export function buildPalHistoricalR13_5V10Migration(
   sources: PalMigrationSources,
 ): MigrationFileSet {
-  return buildPalMigrationWithEnemyAuthority(sources, R13_ENEMY_PARENT_AUTHORITY)
+  return buildPalMigrationWithEnemyAuthority(sources, R13_ENEMY_PARENT_AUTHORITY, {
+    enemyTeamSchema: 'legacy-members',
+  })
 }
 
 /** 审计与测试用：抽取纯文件集内的场景，不经 projects/pal 回读。 */

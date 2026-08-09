@@ -16,7 +16,9 @@ import type { GlyphTable, LoadedBattleSpriteDefinition } from '../assets.js'
 import { type SfxPlayer, SfxReadinessBudgetError, SfxReadinessResourceError } from '../audio/sfx.js'
 import { collectTurnActionSounds } from '../audio/sfx-readiness.js'
 import { expectDefined } from '../defined.js'
+import type { AnimFrame } from './battle-anim.js'
 import type { BattlePlayerState, BattleWorldMutation, CreatePlayerInput } from './battle-core.js'
+import type { BattleLastAction } from './battle-last-action.js'
 import {
   type BattleReadinessErrorContext,
   BattleSession,
@@ -212,6 +214,74 @@ async function flushPromises(): Promise<void> {
   await Promise.resolve()
   await Promise.resolve()
 }
+
+describe('B10 敌人混乱攻击同伴表现路由', () => {
+  test('读取 lastAction 完整 overkill 数字并走专用 12 段 timeline，不落普通敌物攻音', () => {
+    const attacker = mkEnemy('confused-attacker', {
+      health: 500,
+      attackStrength: 100,
+      dexterity: 999,
+    })
+    const target = mkEnemy('confused-target', { health: 30 })
+    const assets: BattleSessionAssets = {
+      palette: { colors: [], cycles: [] } as unknown as import('@type-pal/shared').Palette,
+      glyphs: stubGlyphs,
+      ...mockBattleAssets([attacker, target], 1),
+    }
+    const session = new BattleSession(
+      [player('hero')],
+      [attacker, null, target],
+      assets,
+      (id) => id,
+      () => 0,
+    )
+    const internal = session as unknown as {
+      state: {
+        players: Array<{ hp: number }>
+        enemies: Array<{ hp: number; def: EnemyDef } | null>
+      }
+      buildStepTimeline(
+        action: BattleLastAction | null,
+        playerHp: number[],
+        enemyHp: number[],
+        playerAppearances: readonly string[],
+        enemyAppearances: readonly string[],
+      ): AnimFrame[] | null
+    }
+    internal.state.enemies[2]!.hp = 0
+    const beforeEnemyHp = [attacker.stats.health, 0, target.stats.health, 0, 0]
+    const appearances = [attacker.battleSprite, '', target.battleSprite, '', '']
+    const attackMate = internal.buildStepTimeline(
+      {
+        side: 'enemy',
+        idx: 0,
+        kind: 'attackMate',
+        targetEnemyIdx: 2,
+        damage: 777,
+      },
+      [100],
+      beforeEnemyHp,
+      ['battle-sprite.player'],
+      appearances,
+    )
+    expect(attackMate).toHaveLength(12)
+    expect(attackMate?.[3]?.overlays?.[0]).toMatchObject({ sheet: 'effect', frameIdx: 9 })
+    expect(attackMate?.[6]?.damageNum).toEqual({
+      target: { side: 'enemy', idx: 2 },
+      value: 777,
+    })
+    expect(attackMate?.every((frame) => frame.sound === undefined)).toBe(true)
+
+    const ordinary = internal.buildStepTimeline(
+      { side: 'enemy', idx: 0, kind: 'attack', targetPlayerIdx: 0 },
+      [100],
+      beforeEnemyHp,
+      ['battle-sprite.player'],
+      appearances,
+    )
+    expect(ordinary?.some((frame) => frame.sound !== undefined)).toBe(true)
+  })
+})
 
 describe('梦蛇 active BattleSpriteDef 生命周期', () => {
   test('施放后图与 profile 同源，死亡→复活保持，新战斗恢复基础形象', async () => {

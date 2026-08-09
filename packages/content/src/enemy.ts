@@ -116,11 +116,21 @@ export interface LegacyEnemyDefV9 extends Omit<EnemyDef, 'choreography' | 'onDef
   onDefeated?: Command[]
 }
 
-/** 敌队（一场战斗的敌人组合;原版 enemy team 表,M4 迁移）。 */
+/** contentVersion 11 的历史敌队形状；只允许升级边界消费。 */
+export interface LegacyEnemyTeamDefV11 {
+  id: string
+  /** v11 压紧后的敌人 id 列表（最多 5）。 */
+  members: string[]
+}
+
+/** 敌队（contentVersion 12；保留原始语义槽与空洞）。 */
 export interface EnemyTeamDef {
   id: string
-  /** 敌人 id 列表（最多 5;落点由 formations[数量-1] 定）。 */
-  members: string[]
+  /**
+   * 源编队中除 0xFFFF 外的槽位，按原顺序保留；null 表示源 0 空占位。
+   * 运行时会把它映射到固定容量 5 的带洞敌槽数组。
+   */
+  slots: Array<string | null>
 }
 
 /** 战场（battle-fields.json;D24 三层化后为一等 content 域,编辑器战场页管理）。 */

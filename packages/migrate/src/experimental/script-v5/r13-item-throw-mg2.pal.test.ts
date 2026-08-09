@@ -8,6 +8,10 @@ import {
   discoverProjectManagedFiles,
   loadProjectMigrationSnapshot,
 } from '../../migration-project-io.js'
+import {
+  rewindB10ProjectAgainstPublishedBaseline,
+  rewindB10PublicationIfPresent,
+} from '../../pal-b10-enemy-team-slots.js'
 import type { MigrationJson } from '../../pal-migration.js'
 import { C8_ITEM_USE_SEAL_PATH } from './c8-item-use-mg2.js'
 import {
@@ -121,13 +125,18 @@ describe.skipIf(!existsSync(extracted))('R13-3 item throw append-only PAL MG2 se
 
   beforeAll(() => {
     const shared = getPalTestGeneratedFixture()
-    const base = historicalParent(shared.baseline, shared)
+    const publishedBaseline = shared.baseline
+    const base = historicalParent(rewindB10PublicationIfPresent(publishedBaseline), shared)
     hydrateControlHashes(base)
     const managed = discoverProjectManagedFiles(
       repo,
-      new Set([...base.managedFiles, ...shared.migration.managedFiles]),
+      new Set([...publishedBaseline.managedFiles, ...shared.migration.managedFiles]),
     )
-    const ours = historicalParent(loadProjectMigrationSnapshot(repo, managed), shared)
+    const publishedProject = loadProjectMigrationSnapshot(repo, managed)
+    const ours = historicalParent(
+      rewindB10ProjectAgainstPublishedBaseline(publishedProject, publishedBaseline),
+      shared,
+    )
     const preparedSourceCensus = PAL_TEST_SHARED_GATE
       ? getPalTestPreparedSourceExecutionCensus()
       : undefined

@@ -15,6 +15,7 @@ import {
   validateBattleFields,
   validateBattleSprites,
   validateEnemies,
+  validateEnemyTeamsV12,
   validateEquipBattleSpriteReferences,
   validateItemsV5,
   validateLocale,
@@ -153,7 +154,10 @@ export function assembleProjectV5(
   if (equipBattleSpriteIssue)
     throw new Error(`${equipBattleSpriteIssue.where}: ${equipBattleSpriteIssue.message}`)
   const enemies = jsons.enemies === undefined ? [] : validateEnemies(jsons.enemies)
-  const enemyTeams = Array.isArray(jsons.enemyTeams) ? jsons.enemyTeams : []
+  const enemyTeams =
+    jsons.enemyTeams === undefined
+      ? []
+      : validateEnemyTeamsV12(jsons.enemyTeams, new Set(enemies.map((enemy) => enemy.id)))
   const battleFields =
     jsons.battleFields === undefined ? [] : validateBattleFields(jsons.battleFields)
   if (!jsons.tilesets) throw new Error(`工程 "${manifest.id}": manifest 缺 tilesets 注册表`)

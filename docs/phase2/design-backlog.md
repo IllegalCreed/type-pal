@@ -151,7 +151,7 @@
 
 | # | 议题 | 当前缺口 | 方向 | 归属 | 状态 |
 |---|---|---|---|---|---|
-| 18a | 敌人混乱攻击同伴 | `battle-core.ts` 的 `decideEnemyAction` 无混乱分支，导致中了"乱"的敌人仍照常施法、变身、召唤、逃跑或攻击玩家。完整缺口还包括专用结算、lastAction、session 路由和 12 帧专用动画；严格 RNG 还要求保留 confused 前废弃玩家抽样和原始敌队空槽。 | 已开高风险 [B10-1 任务卡](../ops/tasks/B10-1-enemy-confused-attack.md)：v11 发布后禁止原地替换 `members`，当前先走 v11→v12 append-only successor（固定 5 槽 + 动态 wMaxEnemyIndex、召唤/分裂交叉账本、SAVE/editor/oracle 回放）；三方 v12 增补签字前不改实现 | B4 / B5 / B10 | draft，v12 Codex agree；Kimi/GLM pending |
+| 18a | 敌人混乱攻击同伴 | `battle-core.ts` 的 `decideEnemyAction` 无混乱分支，导致中了"乱"的敌人仍照常施法、变身、召唤、逃跑或攻击玩家。完整缺口还包括专用结算、lastAction、session 路由和 12 帧专用动画；严格 RNG 还要求保留 confused 前废弃玩家抽样和原始敌队空槽。 | [B10-1 任务卡](../ops/tasks/B10-1-enemy-confused-attack.md) 已完成实现：v11 发布后通过 v11→v12 append-only successor（固定 5 槽 + 动态 wMaxEnemyIndex、召唤/分裂交叉账本、SAVE/editor/oracle 回放）；确定性功能测试、迁移 release/oracle/canary 与编辑器最小功能视觉检查已完成，剧情/战斗演出视觉登记到冻结后的集中 E2E | B4 / B5 / B10 | **done（2026-08-10；三方 implementation accept + release/oracle/canary 全门禁通过）** |
 | 18b | 实体暂离、重现与明雷逃跑冷却 | `main.ts:3234-3263` 用 `respawnSeconds` + detached `host.wait`，且迁移把 `0x4B` / `0x52` 合并成 `vanishEntity`。缺口包括自动触碰冷却、手动确认保留、world-update pause、0x52 toggle、固定 320×320 当前坐标离屏门、跨场景/存档持久和战斗结果接续。 | 已开高风险 [W9 任务卡](../ops/tasks/W9-entity-lifecycle-respawn.md)：用稳定实体地址的语义生命周期状态 + 世界逻辑 reducer，拆分短暂停自动行为/隐藏待重现，区分普通胜利、玩家逃跑、敌逃与 terminate，修迁移上游并全量重生成 | W9 世界 / B8-B9 / X1 | draft，二次真值方案待三方设计签字 |
 | 18c | 队友阵亡/濒死战斗脚本（scriptOnFriendDeath/scriptOnDying） | ~~三层全断~~ **已由 B11-1 修复**（提交 `58f8f846`）：① battle-core.ts:717 `runPlayerCasualtySweep`（friendDeath + dying + 健康门 + 每 action/毒 tick 后调用）；② coveredBy 迁移落地（final actors.json 6 actor battler.coveredBy = 正确 slug）；③ BattlerSpec.casualty 结构化数据已生成（pal-casualty-scripts.ts 162 行翻译四个源脚本）。 | [B11-1 任务卡](../ops/tasks/B11-1-player-casualty-scripts.md) 三方实现 accept（2026-08-05）。 | B9 战斗 / R13-Z | **已修复**（B11-1 实现 + R13-Z actor-casualty 证据族关闭 110 site，三方 accept） |
 | 18d | 援护（Cover）数据链断裂 | ~~数据没迁~~ **已由 B11-1 修复**：mapActor coveredBy（migrate-content.ts:314）产物已生效 —— final actors.json li-xiaoyao coveredBy=lin-yueru、gai-luojiao coveredBy=anu 等，main.ts:2239 → battle-core.ts:2341 数据链完整。 | 同 18c（B11-1 coveredBy 迁移）。 | B9 战斗 | **已修复**（B11-1 formal publication 落盘后 coveredBy 有值） |
@@ -164,7 +164,7 @@
   coveredBy 迁移落地 + casualty sweep 实现 + 结构化 casualty 数据生成 + R13-Z
   actor-casualty 证据族关闭 110 site。GLM 2026-08-05 重新审计时一度误报为"全 None /
   三层全断"，实际是审计时工作树未含 B11-1 最新提交；纠正后确认数据链完整。
-- 剩余缺口仅 18a（敌人混乱）+ 18b（怪物刷新），均为纯代码缺口。
+- 剩余缺口仅 18b（怪物刷新）；18a 已由 B10-1 完成并关闭。
 - 一阶段引擎（`packages/game`）全部机制都有完整实现，可作为参照。
 
 **已覆盖确认（2026-08-05 抽样复核通过，非缺口）**：隐藏经验、伤害公式、暴击/会心、主动/自动防御、护体、群体递减、战后 HP/MP 恢复、战场五灵 fieldEffect（数据+注入双全）、合击、身法/出手顺序、吉运/逃跑、特殊技能成功率、紫金葫芦炼丹（Store[0] 九档完整迁移）、五灵/毒抗性、巫术 0x2E（含 ≥ 修复）、异常状态、毒系统（七大毒/相克/致死/无影毒）、大世界状态带入战斗、状态刷新/死亡/复活/梦蛇/明王觉醒、乾坤一掷、敌普攻附带 attackEquivItem。

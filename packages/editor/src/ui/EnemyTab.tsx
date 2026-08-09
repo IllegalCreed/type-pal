@@ -396,7 +396,7 @@ export function EnemyTab(props: {
   const enemy = enemies.find((e) => e.id === selId) ?? shown[0]
   const nameOf = (e: EnemyDef): string => lookupText(e.name, locale)
   const teamsOfSel = useMemo(
-    () => (enemy ? enemyTeams.filter((t) => t.members.includes(enemy.id)) : []),
+    () => (enemy ? enemyTeams.filter((t) => t.slots.includes(enemy.id)) : []),
     [enemyTeams, enemy],
   )
   const team = enemyTeams.find((t) => t.id === selTeam) ?? teamsOfSel[0]
@@ -710,7 +710,7 @@ export function EnemyTab(props: {
               >
                 {t.id}
               </button>
-              <span className="hint2">{t.members.length} 员</span>
+              <span className="hint2">{t.slots.length} 槽</span>
               <span className="spacer" />
               <button
                 type="button"
@@ -736,7 +736,7 @@ export function EnemyTab(props: {
                 let n = 1
                 while (enemyTeams.some((t) => t.id === `team-c${n}`)) n++
                 const id = `team-c${n}`
-                setTeams([...enemyTeams, { id, members: [enemy.id] }])
+                setTeams([...enemyTeams, { id, slots: [enemy.id] }])
                 setSelTeam(id)
               }}
             >
@@ -749,24 +749,28 @@ export function EnemyTab(props: {
             <h4>
               编辑 {team.id} <span className="hint2">≤5 员</span>
             </h4>
-            {team.members.map((m, mi) => (
-              <div key={mi} className="et-team-row">
+            {team.slots.map((slot, si) => (
+              <div key={si} className="et-team-row">
+                <span className="hint2" style={{ width: 42 }}>
+                  槽 {si + 1}
+                </span>
                 <select
                   className="in"
-                  value={m}
+                  value={slot ?? ''}
                   onChange={(e) =>
                     setTeams(
                       enemyTeams.map((t) =>
                         t.id === team.id
                           ? {
                               ...t,
-                              members: t.members.map((x, j) => (j === mi ? e.target.value : x)),
+                              slots: t.slots.map((x, j) => (j === si ? e.target.value || null : x)),
                             }
                           : t,
                       ),
                     )
                   }
                 >
+                  <option value="">空槽</option>
                   {enemies.map((en) => (
                     <option key={en.id} value={en.id}>
                       {nameOf(en)}({en.id})
@@ -779,9 +783,7 @@ export function EnemyTab(props: {
                   onClick={() =>
                     setTeams(
                       enemyTeams.map((t) =>
-                        t.id === team.id
-                          ? { ...t, members: t.members.filter((_, j) => j !== mi) }
-                          : t,
+                        t.id === team.id ? { ...t, slots: t.slots.filter((_, j) => j !== si) } : t,
                       ),
                     )
                   }
@@ -790,7 +792,7 @@ export function EnemyTab(props: {
                 </button>
               </div>
             ))}
-            {team.members.length < 5 ? (
+            {team.slots.length < 5 ? (
               <button
                 type="button"
                 className="pv-btn"
@@ -798,7 +800,7 @@ export function EnemyTab(props: {
                   enemy &&
                   setTeams(
                     enemyTeams.map((t) =>
-                      t.id === team.id ? { ...t, members: [...t.members, enemy.id] } : t,
+                      t.id === team.id ? { ...t, slots: [...t.slots, enemy.id] } : t,
                     ),
                   )
                 }

@@ -124,7 +124,7 @@ function currentManifest(): CurrentManifest {
   return {
     id: 'demo',
     name: 'Demo',
-    contentVersion: 11,
+    contentVersion: 12,
     minimumSaveVersion: 8,
     entryScene: 's001',
     content: {},

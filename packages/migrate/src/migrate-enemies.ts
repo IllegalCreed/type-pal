@@ -219,7 +219,7 @@ export function mapEnemies(
 
 export interface SourceEnemyTeam {
   id: number
-  /** 5 槽 enemyObjectIndexes;65535 = 空位。 */
+  /** 源 5 项：65535 不占语义槽；0 占空槽；其它值引用 enemy object。 */
   enemyObjectIndexes: number[]
   _names?: string[]
 }
@@ -238,17 +238,22 @@ export function mapEnemyTeams(
   const danglingMember: string[] = []
   const out: EnemyTeamDef[] = []
   for (const t of teams) {
-    const members: string[] = []
+    const slots: Array<string | null> = []
     for (const oi of t.enemyObjectIndexes) {
       if (oi === EMPTY_SLOT) continue
+      // 原版 0 是占位槽：它占 wMaxEnemyIndex/站位/RNG 范围，但不生成敌人。
+      if (oi === 0) {
+        slots.push(null)
+        continue
+      }
       const id = enemySlug(oi)
       if (!knownEnemyIds.has(id)) {
         danglingMember.push(`${teamSlug(t.id)}:${id}`)
-        continue
+        throw new Error(`enemy team ${teamSlug(t.id)}: 未知敌人槽 ${id}`)
       }
-      members.push(id)
+      slots.push(id)
     }
-    out.push({ id: teamSlug(t.id), members })
+    out.push({ id: teamSlug(t.id), slots })
   }
   return { teams: out, report: { total: out.length, danglingMember } }
 }

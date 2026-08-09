@@ -6,6 +6,7 @@ import {
   buildEnemyCast,
   buildEnemyDivide,
   buildEnemyEscape,
+  buildEnemyMateAttack,
   buildEnemyPhysical,
   buildEnemyTransform,
   buildFleeFail,
@@ -243,6 +244,48 @@ describe('M4d-2 战斗动画时间线', () => {
     expect(events).toContain('dmg:player1:5')
     expect(events).toContain('f:player0#0@200,170') // 攻击者复位
     expect(events).toContain('f:player1#0@240,190') // 队友复位站立(死则帧2)
+  })
+
+  test('敌疯魔打友:12 段递归中点→effect 9/10/11→抖动/完整数字→Delay5→复位，无声音', () => {
+    const frames = buildEnemyMateAttack({
+      attackerIdx: 0,
+      targetIdx: 2,
+      attackerPos: { x: 0, y: 0 },
+      targetPos: { x: 80, y: 40 },
+      targetHeight: 30,
+      anim: enemyProfile(),
+      damage: 777,
+      targetDied: true,
+    })
+    expect(frames).toHaveLength(12)
+    expect(frames.map((frame) => frame.durationMs)).toEqual([
+      40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 200, 80,
+    ])
+    expect(frames.slice(0, 3).map((frame) => frame.fighters?.[0]?.pos)).toEqual([
+      { x: 40, y: 20 },
+      { x: 60, y: 30 },
+      { x: 70, y: 35 },
+    ])
+    expect(frames.slice(3, 6).map((frame) => frame.overlays?.[0])).toEqual([
+      { sheet: 'effect', frameIdx: 9, x: 75, y: 40 },
+      { sheet: 'effect', frameIdx: 10, x: 75, y: 40 },
+      { sheet: 'effect', frameIdx: 11, x: 75, y: 40 },
+    ])
+    expect(frames.slice(6, 9).map((frame) => frame.fighters?.[0])).toEqual([
+      { side: 'enemy', idx: 2, pos: { x: 72, y: 40 }, colorShift: 0 },
+      { side: 'enemy', idx: 2, pos: { x: 76, y: 40 }, colorShift: 6 },
+      { side: 'enemy', idx: 2, pos: { x: 74, y: 40 }, colorShift: 0 },
+    ])
+    expect(frames[6]!.damageNum).toEqual({
+      target: { side: 'enemy', idx: 2 },
+      value: 777,
+    })
+    expect(frames[9]!.fighters).toEqual([
+      { side: 'enemy', idx: 2, frame: 0, pos: { x: 80, y: 40 }, colorShift: 0 },
+    ])
+    expect(frames[10]).toEqual({ durationMs: 200 })
+    expect(frames[11]!.fighters).toEqual([{ side: 'enemy', idx: 0, pos: { x: 0, y: 0 } }])
+    expect(frames.every((frame) => frame.sound === undefined)).toBe(true)
   })
 
   test('敌人物攻:action 音→冲至(−44,−16)→命中 frame4+call 音+数字→击退→双方复位', () => {

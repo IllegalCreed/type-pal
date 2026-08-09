@@ -6,14 +6,19 @@ import {
   type LegacyManifestV7,
   type LegacyManifestV8,
   type LegacyManifestV9,
+  type LegacyManifestV10,
+  type LegacyManifestV11,
   upgradeEmbeddedBattleChoreographyV9ToV10,
   upgradeEnemiesV9ToV10,
+  upgradeEnemyTeamsV11ToV12,
   upgradeItemsV7ToV8,
   upgradeItemsV8ToV9,
   upgradeManifestV7ToV8,
   upgradeManifestV8ToV9,
   upgradeManifestV9ToV10,
   upgradeManifestV10ToV11,
+  upgradeManifestV11ToV12,
+  validateEnemyTeamsV12,
   validateProjectRelativePath,
 } from '@type-pal/content'
 import {
@@ -106,7 +111,7 @@ function sceneIds(value: unknown): string[] {
 
 async function buildCurrentV10Upgrade(
   source: FileSource,
-  legacyManifest: LegacyManifestV9,
+  legacyManifest: LegacyManifestV9 | LegacyManifestV10 | LegacyManifestV11,
   itemsOverride?: unknown,
 ): Promise<{
   current: CurrentManifest
@@ -115,7 +120,12 @@ async function buildCurrentV10Upgrade(
 }> {
   const manifestRecordValue = manifestRecord(legacyManifest)
   if (!manifestRecordValue) throw new Error('manifest: 期望对象')
-  const current = upgradeManifestV10ToV11(upgradeManifestV9ToV10(legacyManifest))
+  const current =
+    legacyManifest.contentVersion === 9
+      ? upgradeManifestV11ToV12(upgradeManifestV10ToV11(upgradeManifestV9ToV10(legacyManifest)))
+      : legacyManifest.contentVersion === 10
+        ? upgradeManifestV11ToV12(upgradeManifestV10ToV11(legacyManifest))
+        : upgradeManifestV11ToV12(legacyManifest)
   const values = new Map<string, unknown>([['manifest.json', current]])
   const writes: Record<string, unknown> = { 'manifest.json': current }
   const upgrade = async (
@@ -144,6 +154,23 @@ async function buildCurrentV10Upgrade(
   const enemiesPath = contentPathOf(manifestRecordValue, 'enemies')
   if (enemiesPath) await upgrade(enemiesPath, upgradeEnemiesV9ToV10)
 
+  const enemyTeamsPath = contentPathOf(manifestRecordValue, 'enemyTeams')
+  if (enemyTeamsPath)
+    await upgrade(enemyTeamsPath, (value) => {
+      try {
+        return upgradeEnemyTeamsV11ToV12(value)
+      } catch (legacyError) {
+        // manifest-last close 失败时，敌队正文可能已是完整 v12 而 manifest 仍为 v11。
+        // 只接受严格 v12 结构作为可恢复半状态；混合 members/slots 或其它坏值仍
+        // 重新抛出原始 v11 错误并保持零写。引用闭包随后由 canonical loader 验证。
+        try {
+          return validateEnemyTeamsV12(value)
+        } catch {
+          throw legacyError
+        }
+      }
+    })
+
   const sceneDir = sceneDirectoryOf(manifestRecordValue)
   const ids = sceneIds(await source.readJson<unknown>(`${sceneDir}index.json`))
   for (const id of ids) {
@@ -160,7 +187,7 @@ async function buildCurrentV10Upgrade(
 async function preflightAndWriteCurrent(
   dir: FileSystemDirectoryHandle,
   source: FileSource,
-  legacyManifest: LegacyManifestV9,
+  legacyManifest: LegacyManifestV9 | LegacyManifestV10 | LegacyManifestV11,
   itemsOverride?: unknown,
 ): Promise<void> {
   const prepared = await buildCurrentV10Upgrade(source, legacyManifest, itemsOverride)
@@ -248,7 +275,7 @@ export async function upgradeLocalProjectV9EnemyScriptV10(
   return true
 }
 
-/** content 10 -> 11：技能执行分支/表现事务是可选字段，现有内容只做 manifest 原子晋升。 */
+/** content 10/11 -> 12：在同一 overlay 中完成 manifest + 敌队槽位原子晋升。 */
 export async function upgradeLocalProjectV10SkillExecutionV11(
   dir: FileSystemDirectoryHandle,
   source: FileSource,
@@ -256,10 +283,20 @@ export async function upgradeLocalProjectV10SkillExecutionV11(
 ): Promise<boolean> {
   const record = manifestRecord(rawManifest)
   if (record?.contentVersion !== 10) return false
-  const current = upgradeManifestV10ToV11(record)
-  const overlay = projectOverlay(source, new Map([['manifest.json', current]]))
-  const project = await loadProjectV5From(overlay)
-  await Promise.all([loadAllScenesV5(project), loadStampTemplatesV5(project)])
-  await writeProject(dir, { 'manifest.json': current })
+  const legacy = structuredClone(record) as unknown as LegacyManifestV10
+  await preflightAndWriteCurrent(dir, source, legacy)
+  return true
+}
+
+/** content 11 -> 12 公开入口；保留独立导出供 open-local 与测试调用。 */
+export async function upgradeLocalProjectV11EnemyTeamSlotsV12(
+  dir: FileSystemDirectoryHandle,
+  source: FileSource,
+  rawManifest: unknown,
+): Promise<boolean> {
+  const record = manifestRecord(rawManifest)
+  if (record?.contentVersion !== 11) return false
+  const legacy = structuredClone(record) as unknown as LegacyManifestV11
+  await preflightAndWriteCurrent(dir, source, legacy)
   return true
 }

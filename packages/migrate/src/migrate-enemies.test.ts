@@ -4,8 +4,10 @@ import { describe, expect, test } from 'vitest'
 import {
   enemySlug,
   mapEnemies,
+  mapEnemyTeams,
   type SourceEnemy,
   type SourceEnemyObject,
+  type SourceEnemyTeam,
 } from './migrate-enemies.js'
 
 const root = fileURLToPath(new URL('../../../', import.meta.url))
@@ -13,6 +15,7 @@ const readJson = <T>(rel: string): T => JSON.parse(readFileSync(root + rel, 'utf
 
 const enemies = readJson<SourceEnemy[]>('data/extracted/data/enemies.json')
 const enemyObjects = readJson<SourceEnemyObject[]>('data/extracted/data/enemy-objects.json')
+const enemyTeams = readJson<SourceEnemyTeam[]>('data/extracted/data/enemy-teams.json')
 const out = mapEnemies(enemies, enemyObjects)
 const byId = new Map(out.enemies.map((e) => [e.id, e]))
 
@@ -88,5 +91,39 @@ describe('M4a 敌人迁移(enemies + enemy-objects 合并)', () => {
       }
       expect(def.sounds.suppressMagicEffectSound).toBe(src.magicSound < 0 ? true : undefined)
     }
+  })
+})
+
+describe('B10 敌队语义槽迁移', () => {
+  test('65535 跳过、0 保留 null、有效敌保序，未知引用 fail-loud', () => {
+    expect(
+      mapEnemyTeams(
+        [{ id: 7, enemyObjectIndexes: [65535, 0, 398, 65535, 0] }],
+        new Set(['enemy-398']),
+      ).teams,
+    ).toEqual([{ id: 'team-7', slots: [null, 'enemy-398', null] }])
+    expect(() =>
+      mapEnemyTeams([{ id: 8, enemyObjectIndexes: [999] }], new Set(['enemy-398'])),
+    ).toThrow(/team-8.*enemy-999/)
+  })
+
+  test('PAL 全源 census：380/1900 → 861 语义槽（104 null + 757 敌），68/56 空槽队', () => {
+    const mapped = mapEnemyTeams(enemyTeams, new Set(out.enemies.map((entry) => entry.id))).teams
+    const sourceEntries = enemyTeams.flatMap((team) => team.enemyObjectIndexes)
+    const slots = mapped.flatMap((team) => team.slots)
+    const teamsWithEmpty = mapped.filter((team) => team.slots.includes(null))
+    const teamsWithEmptyAndTwoEnemies = teamsWithEmpty.filter(
+      (team) => team.slots.filter((slot) => slot !== null).length >= 2,
+    )
+
+    expect(enemyTeams).toHaveLength(380)
+    expect(sourceEntries).toHaveLength(1900)
+    expect(sourceEntries.filter((entry) => entry === 65535)).toHaveLength(1039)
+    expect(sourceEntries.filter((entry) => entry === 0)).toHaveLength(104)
+    expect(slots).toHaveLength(861)
+    expect(slots.filter((slot) => slot === null)).toHaveLength(104)
+    expect(slots.filter((slot) => slot !== null)).toHaveLength(757)
+    expect(teamsWithEmpty).toHaveLength(68)
+    expect(teamsWithEmptyAndTwoEnemies).toHaveLength(56)
   })
 })

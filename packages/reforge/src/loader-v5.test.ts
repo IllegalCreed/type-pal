@@ -30,11 +30,11 @@ const jsons = {
   assetCatalog: { version: 1, assets: {} },
 }
 
-function manifest(over: Partial<ProjectManifest<11>> = {}): ProjectManifest<11> {
+function manifest(over: Partial<ProjectManifest<12>> = {}): ProjectManifest<12> {
   return {
     id: 'demo',
     name: 'Demo',
-    contentVersion: 11,
+    contentVersion: 12,
     minimumSaveVersion: 8,
     entryScene: 's001',
     content: {
@@ -121,7 +121,7 @@ function memorySource(
   }
 }
 
-describe('canonical contentVersion 11 loader', () => {
+describe('canonical contentVersion 12 loader', () => {
   test('pure assembler accepts canonical scene/item schema and rejects legacy positional hooks', () => {
     expect(assembleProjectV5(manifest(), jsons).entryScene.id).toBe('s001')
     expect(() =>
@@ -176,7 +176,7 @@ describe('canonical contentVersion 11 loader', () => {
           {},
         ),
       ),
-    ).rejects.toThrow(/contentVersion 11/)
+    ).rejects.toThrow(/contentVersion 12/)
   })
 
   test.each([

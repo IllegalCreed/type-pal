@@ -171,6 +171,7 @@ const TRANSITION_IDS = [
   'r13-source-semantics-v1',
   'r13-6c-lossy-closure-v1',
   'r13-z-source-closure-v1',
+  'b10-enemy-team-slots-v1',
 ] as const
 
 function readJson<T>(path: string): T {
@@ -234,7 +235,7 @@ export function buildPalTestOracleManifest(
     version: 1,
     methodVersion: PAL_TEST_ORACLE_METHOD,
     cacheFormatVersion: 1,
-    producerContractVersion: 'p2-p7-r13-6a-v1',
+    producerContractVersion: 'p2-p7-r13-6a-b10-v1',
     profiles: {
       historicalR13_4: 'pal-v9-projected-v8',
       historicalR13_5: 'pal-v10-r13-5',

@@ -23,7 +23,8 @@ export function applyPalBossEncounterOverlay(
   const bossEnemies = new Set([...LEAD_BOSSES, ...Object.keys(EXPLICIT_BOSS_TEAMS)])
   const teamsOf = new Map<string, Set<number>>()
   for (const team of teams) {
-    const lead = team.members[0]
+    // 首槽是源语义，不得改成“第一个非 null”以免改变遭遇判定。
+    const lead = team.slots[0]
     if (!lead || !LEAD_BOSSES.has(lead)) continue
     const id = Number(team.id.replace('team-', ''))
     const set = teamsOf.get(lead) ?? new Set<number>()

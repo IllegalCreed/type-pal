@@ -14,9 +14,9 @@ describe('PAL boss encounter 纯 overlay', () => {
       { id: 'enemy-999', choreography: choreography('ordinary') },
     ] as unknown as EnemyDef[]
     const teams = [
-      { id: 'team-7', members: ['enemy-435'] },
-      { id: 'team-19', members: ['enemy-999', 'enemy-485'] },
-      { id: 'team-20', members: ['enemy-485'] },
+      { id: 'team-7', slots: ['enemy-435'] },
+      { id: 'team-19', slots: ['enemy-999', 'enemy-485'] },
+      { id: 'team-20', slots: ['enemy-485'] },
     ] as EnemyTeamDef[]
     const chunks = {
       test: {

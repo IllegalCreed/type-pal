@@ -1010,21 +1010,28 @@ export function validateReferences(b: ContentBundle): Issue[] {
         message: `普攻附带物品 "${e.attackEquivItem.itemId}" 不在 items`,
       })
   })
+  const seenEnemyTeams = new Set<string>()
   ;(b.enemyTeams ?? []).forEach((t, ti) => {
-    t.members.forEach((m, mi) => {
-      if (!enemyIds.has(m))
+    const where = `enemyTeams[${ti}](${t.id})`
+    if (seenEnemyTeams.has(t.id))
+      issues.push({ severity: 'error', where: `${where}.id`, message: `重复敌队 id "${t.id}"` })
+    seenEnemyTeams.add(t.id)
+    if (!Array.isArray(t.slots) || t.slots.length > 5) {
+      issues.push({
+        severity: 'error',
+        where: `${where}.slots`,
+        message: `敌队槽位数 ${Array.isArray(t.slots) ? t.slots.length : '非数组'} 超上限 5`,
+      })
+      return
+    }
+    t.slots.forEach((m, mi) => {
+      if (m !== null && !enemyIds.has(m))
         issues.push({
           severity: 'error',
-          where: `enemyTeams[${ti}](${t.id}).members[${mi}]`,
+          where: `${where}.slots[${mi}]`,
           message: `敌人 "${m}" 不在 enemies`,
         })
     })
-    if (t.members.length > 5)
-      issues.push({
-        severity: 'error',
-        where: `enemyTeams[${ti}](${t.id})`,
-        message: `敌队成员 ${t.members.length} 超上限 5`,
-      })
   })
 
   // ── actors ──────────────────────────────────────────────

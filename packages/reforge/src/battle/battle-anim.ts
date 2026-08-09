@@ -344,6 +344,88 @@ export function buildMateAttack(input: BuildMateAttackInput): AnimFrame[] {
   return frames
 }
 
+/** 敌混乱攻击同伴（fight.c:4596-4654）专用 12 段时间线；不带普通敌攻音。 */
+export interface BuildEnemyMateAttackInput {
+  attackerIdx: number
+  targetIdx: number
+  attackerPos: { x: number; y: number }
+  targetPos: { x: number; y: number }
+  targetHeight: number
+  anim: EnemyBattleSpriteProfile
+  damage: number
+  targetDied: boolean
+}
+
+export function buildEnemyMateAttack(input: BuildEnemyMateAttackInput): AnimFrame[] {
+  const frames: AnimFrame[] = []
+  let ax = input.attackerPos.x
+  let ay = input.attackerPos.y
+  // 3 帧递归中点滑步。
+  for (let i = 0; i < 3; i += 1) {
+    ax = Math.trunc((ax + input.targetPos.x) / 2)
+    ay = Math.trunc((ay + input.targetPos.y) / 2)
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [{ side: 'enemy', idx: input.attackerIdx, pos: { x: ax, y: ay } }],
+    })
+  }
+  // effect 9/10/11：缺 effect sprite 时 AnimPlayer 仍保留时长，只是不画 overlay。
+  const fxX = Math.trunc((ax + input.targetPos.x) / 2)
+  const fxY = input.targetPos.y - Math.floor(input.targetHeight / 3) + 10
+  for (let frameIdx = 9; frameIdx <= 11; frameIdx += 1) {
+    frames.push({
+      durationMs: delayMs(1),
+      overlays: [{ sheet: 'effect', frameIdx, x: fxX, y: fxY }],
+    })
+  }
+  // 目标抖动 3 帧 + 复位第 4 帧；数字挂首帧，数值使用完整公式伤害。
+  const shake = [-8, -4, -6]
+  for (const [i, offset] of shake.entries()) {
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [
+        {
+          side: 'enemy',
+          idx: input.targetIdx,
+          pos: { x: input.targetPos.x + offset, y: input.targetPos.y },
+          colorShift: i === 1 ? 6 : 0,
+        },
+      ],
+      ...(i === 0
+        ? {
+            damageNum: {
+              target: { side: 'enemy' as const, idx: input.targetIdx },
+              value: input.damage,
+            },
+          }
+        : {}),
+    })
+  }
+  frames.push({
+    durationMs: delayMs(1),
+    fighters: [
+      {
+        side: 'enemy',
+        idx: input.targetIdx,
+        frame: input.targetDied ? animIdleDeadFrame(input.anim) : input.anim.idle.start,
+        pos: { ...input.targetPos },
+        colorShift: 0,
+      },
+    ],
+  })
+  frames.push({ durationMs: delayMs(5) })
+  frames.push({
+    durationMs: delayMs(2),
+    fighters: [{ side: 'enemy', idx: input.attackerIdx, pos: { ...input.attackerPos } }],
+  })
+  return frames
+}
+
+function animIdleDeadFrame(anim: EnemyBattleSpriteProfile): number {
+  // 敌 profile 没有单独 dead frame；死亡淡出由 session 统一接管，收尾回 idle。
+  return anim.idle.start
+}
+
 export interface BuildUseItemInput {
   casterFrames: PlayerFighterFrames
   casterIdx: number

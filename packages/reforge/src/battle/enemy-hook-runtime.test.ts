@@ -110,7 +110,7 @@ describe('enemy hook runtime', () => {
     }
     const state = createBattleState({
       players: [player()],
-      enemies: [source],
+      enemySlots: [source, null],
       enemiesById: { minion },
     })
     const activation = beginEnemyHookActivation(state, 0, 'ready')!

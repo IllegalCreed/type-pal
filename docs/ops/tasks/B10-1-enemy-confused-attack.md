@@ -1,13 +1,13 @@
 # B10-1 - 混乱敌人攻击同伴
 
-Status: build
+Status: done
 Phase: phase2
 Capability: B4 / B5 / B10
 Coding Owner: Codex
 Generation Owner: N/A
 Reviewer: Kimi + GLM
 Visual Verification Owner: Codex
-Unavailable Agents: none（2026-08-07 GLM/Kimi 均已恢复,补审中）
+Unavailable Agents: none（2026-08-09 GLM/Kimi 均已恢复）
 Branch: `codex/b10-1-enemy-confused-attack`
 
 ## 目标
@@ -235,12 +235,19 @@ Branch: `codex/b10-1-enemy-confused-attack`
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
-- Kimi: pending
-- GLM: pending
-- counter / 返工处理: N/A
+- Codex: **accept（2026-08-09，返工验证闭环）**
+- Kimi: **accept（2026-08-09，返工 implementation re-review）**——summon 死槽已按新
+  `def.yPosOffset` 重算；`BattleLastAction` 已按 side+kind 收窄并强制关键字段；session attackMate
+  已移除静默 fallback；enemy attackMate casualty/prevHp 负测已补。独立复跑 typecheck、定向
+  5 files / 87 tests、含 battle-core 的 6 files / 198 tests 均通过；无新增阻塞项。
+- GLM: **accept（2026-08-09，B10-1 返工复审）**——content11 initialize 与 content12 current replay
+  统一走 B10 authority；builder/入口双层验签并强制 plan `0/0/0`，null-slot source drift fail-closed；
+  migrate typecheck、B10 8 tests、真实 current replay 通过，manifest12/min8、seal/metadata 与
+  enemy-team project/baseline hashes 未改写。
+- counter / 返工处理: 第一轮四项与第二轮 append-only counter 均已修复；Codex/Kimi/GLM 三方
+  implementation accept 齐全，无未决 counter。
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **allowed / done（2026-08-10；三方 implementation accept 齐全，最终门禁通过）**
 
 ## Draft: 设计与风险
 
@@ -545,23 +552,69 @@ G1（380 队源槽 census）为 build 准入必落钉——GLM 席位于 build �
 ## Build: 实现与自测
 
 - Coding Owner: Codex
-- 修改文件: pending（2026-08-09 三方 design agree 满签，build 准入 allowed，可按本卡合同开始实现）
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: 战斗剧情/演出视觉 deferred 到集中 E2E；编辑器功能页待 build 后最小验证。
-- 跳过的检查及原因: pending
+- 修改文件:
+  - `packages/content/src/**`：EnemyTeam `slots` schema、v11→v12 严格升级/引用校验、技能
+    `lifetimeLimit` 与 command dev-only 边界校验。
+  - `packages/migrate/src/**`：源槽位映射与 380 队 census、B10 append-only seal / initialize /
+    replay / rewind、历史 R13-6B/6C/Z/P4 路由、PAL producer/oracle/manifest 与 release fixture。
+  - `packages/reforge/src/battle/**`：固定五槽 + `maxEnemyIndex`、summon/divide 槽位语义、confused
+    RNG/专用结算/`lastAction` union/session 路由/12 帧动画及回归测试。
+  - `packages/reforge/src/save/**`、`loader-v5.ts`：SAVE8 content10/11→12 identity normalization、
+    `skillUseCounts` fail-closed 校验与 v12 loader 门。
+  - `packages/editor/src/**`：本地 v11→v12 原子 overlay 升级、EnemyTab 槽位编辑与 round-trip。
+  - PAL 生成产物（`projects/pal/**`、migration baselines）均由正式迁移命令重生成，未手改生成数据。
+- 实现摘要: 以 v11 immutable 为 parent 发布 contentVersion 12 successor；保留 `0` 空槽与
+  `65535` 跳过语义，动态 `maxEnemyIndex` 随 divide 扩展、summon 只填既有上限内空槽；confused
+  先消费废弃玩家抽样，再全槽拒绝空/死目标，抽到自己 Pass，专用公式写完整 overkill damage，
+  session 按 `side=enemy && kind=attackMate` 路由。补齐 B10 append-only 四态与历史回放 pinning、
+  SAVE/editor/oracle 闭环；Debug 面板的样式精修另按 D13-1 记录。剧情/战斗视觉只登记冻结后集中 E2E。
+- 运行命令:
+  - `pnpm --filter @type-pal/migrate run check:fast`（80 files / 590 passed，5 skipped）。
+  - `pnpm --filter @type-pal/migrate run test:manifest`（fast 80/590、release 103/720、canary 1/2）。
+  - `pnpm --filter @type-pal/migrate run test:oracle:verify`（1 file / 2 tests）。
+  - Reforge 全量 `check`：84 files / 861 tests；content `check`：34 files / 425 tests；editor
+    `check`：96 files / 820 tests；B10 authority：1 file / 8 tests；三包 typecheck 均通过。
+  - migration release：`pnpm --filter @type-pal/migrate run test:release`，103 files / 720 passed /
+    1 skipped（721 total），Duration 2595.54s；内置 cold canary 1 file / 2 tests（257.07s），另行
+    standalone cold canary 1 file / 2 tests（260.13s）。
+  - 当前 content12 `pnpm --filter @type-pal/migrate run migrate:content` 与正式
+    `migrate:content -- --r13-z --r13-6c --r13-6d` dry replay 均 exit 0；B10 current replay
+    `writes=0 / deletes=0 / conflicts=0`，R13 historical chain dry replay 通过。
+  - `pnpm lint`：Biome checked 1111 files，`git diff --check` 通过；oracle/manifest verify 与
+    producer fingerprints 已按最终源码重录并通过。
+- 浏览器 / 手工检查: Reforge `?debug` 1280×720 已检查紧凑暗底/金黄标题/蓝色 section、横向 tabs、
+  键盘 tab、关闭清 frame-step、console 0 error；Editor Enemy 页已检查最多 5 个保序槽、空槽显示、
+  add/remove 与 console 0 error。截图为 ignored `output/playwright/reforge-debug-panel*.png`、
+  `output/playwright/editor-enemy-slots.png`。剧情/战斗演出不在开发期重复走浏览器，集中 E2E 入口见下。
+- 跳过的检查及原因: 剧情/演出/奖励视觉实走按用户 2026-08-08 分层裁决延后到代码冻结后的集中
+  E2E；确定性脚本、迁移、状态机、数据与时序均已由单测/集成/oracle 覆盖。D14-3 用户 dirty 卡不触碰。
+
+## 集中 E2E 登记（代码冻结后执行）
+
+- 入口：`pnpm --filter @type-pal/reforge dev:pal`，打开 `http://localhost:6051/?battle=<68 队代表>`；
+  使用项目内已有 PAL battle fixture，不为开发期逐剧情卡启动浏览器。
+- 步骤：从含源 `0` 空槽且至少两名有效敌人的代表队进入战斗；施加 `confused`，记录敌方专用
+  attackMate 的滑步、effect 9/10/11、受击抖动、伤害数字和复位；再覆盖召唤填洞、divide 扩上限、
+  同伴被击杀后的死亡淡出/计赏与双动两次独立路由。
+- 预期：空槽保留站位洞且不生成 sprite；混乱敌只攻击同伴或抽到自己 Pass；专用 12 帧时间线无
+  普通攻击音/法术 sprite；击杀结算一次，`lastAction.damage` 与屏幕完整 overkill 数值一致，
+  回合/胜负接续无卡死。
+- 证据：集中批次保存 `output/playwright/e2e/b10-1-confused-attack-<case>.png` 与
+  `output/playwright/e2e/b10-1-confused-attack-report.json`（含 URL、commit、case、console）；
+  失败才回本卡开 rework，不由 Codex/Kimi/GLM 重复已有截图流程。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: 两轮返工均已闭环；Kimi/GLM 只读 implementation review 无剩余缺口。
+- 必须返工项: 无；content12 rebuilt==published、plan `0/0/0` fail-closed 与 null-slot drift 负测已落地。
+- Accept / rework: Codex **accept（2026-08-09）**；Kimi **accept**；GLM **accept**；最终门禁全部通过。
 
 ## 用户验收
 
-- 用户结论: pending
-- 后续任务: pending
+- 用户结论: **accepted（2026-08-10，用户已确认签字）**
+- 后续任务: 无下一位 Agent 提示词；本卡已 `done`。剧情/战斗演出按登记的集中 E2E 批次验收，
+  不在开发期或审查期重复截帧；下一项可行动任务为 W9 的三方设计重锁。
 
 ## 交接日志
 
@@ -642,7 +695,41 @@ G1（380 队源槽 census）为 build 准入必落钉——GLM 席位于 build �
   复核，未改实现文件。Next: Codex 作为唯一 Coding Owner 开工；build 期验收钉 G1-G4 + K1-K5（含
   null 安全扫尾、lastAction 单一具名 union、casualty prevHp 负测）；done 前三方审查 accept 另行集齐。
 
-## 下一位 Agent 提示词
+- 2026-08-09 Codex：build 实现与自验完成，Status 转 `review`。已落地 v11→v12 append-only 内容/迁移
+  successor、固定五槽与动态上限、confused decision/结算/session/动画、SAVE/editor/loader/oracle
+  闭环，以及上游审计发现的 strict validator/save/6C replay 返工；定向测试、oracle verify、冷 canary、
+  release 与 dry replay 证据待终端本轮收口后补全。功能性 Debug/Editor 页面各做一次最小浏览器检查；
+  剧情/战斗观感登记集中 E2E，不在 review 期重复走流程。Next: Kimi/GLM 只读 implementation review，
+  各自输出 `accept` / `rework` / `counter`；签字未齐不得标 `done`。
+- 2026-08-09 Kimi / GLM：implementation 终审均 `counter`。Kimi 指出 summon 死槽沿用旧
+  `basePos`、lastAction 关键字段可缺省、enemy attackMate casualty/prevHp 负测缺失；GLM 指出
+  content12 真实 CLI 未走 B10 replay（实证 `writes=609 deletes=3` 后 throw schema 失败）。
+  Next: Codex 修复四项并先跑真实 current replay 与定向测试；签字未齐不得标 `done`。
+- 2026-08-09 Codex：返工中。已将 B10 入口 predicate 同时覆盖 content11/content12、补 authority
+  route 回归；召唤死槽按新定义重算 yOffset；core/session 共用 side+kind union 并移除 attackMate
+  静默 `??`；新增 enemy attackMate casualty/prevHp 负测与 union 类型负测。证据：reforge 84 files /
+  861 tests、migrate B10 7 tests、三包 typecheck 通过；真实 `pnpm --filter @type-pal/migrate run migrate:content`
+  已返回 `writes=0 deletes=0 conflicts=0`、`[B10 v12 replay dry-run]`。Next: Kimi/GLM 只读复审并
+  各自输出 `accept` 或新的 `counter`；不得标 `done`。
+- 2026-08-09 Kimi：返工 implementation re-review **accept**。独立核对四项代码与负测并复跑
+  typecheck、5 files / 87 tests、含 battle-core 的 6 files / 198 tests；无新增阻塞，剧情/战斗视觉
+  按集中 E2E 未重复执行。
+- 2026-08-09 GLM：返工复审仍 **counter**。happy-path current replay 已 `0/0/0`，但 source null
+  槽换位可保持 parent/census 不变并重建新 seal/body；旧 runner 只拒 conflicts，`--write` 可改写
+  append-only authority。Codex 已新增 published/rebuilt authority+正文等值断言、content12 plan
+  严格 `0/0/0` 门及 null-slot drift 负测；migrate typecheck、B10 8 tests、真实 current replay
+  `0/0/0` 通过。Next: GLM 最终只读复审；其 accept 前不得标 `done`。
+- 2026-08-09 GLM：最终返工复审 **accept**。builder 与入口双层验证 published/rebuilt authority，
+  content12 任何非零 plan 在 commit 前 fail-closed；null-slot drift 负测通过。manifest12/min8、
+  seal/metadata 与 project/baseline enemy-team hashes 未改写。Next: Codex 执行 oracle/manifest/
+  canary/release 最终门禁，全部通过后将本卡与看板标 `done`。
+- 2026-08-10 Codex：最终门禁闭环——migrate fast 80/590（5 skipped）、oracle 1 file/2 tests、
+  canary 1 file/2 tests、release 103/720 passed + 1 skipped、Reforge 84/861、content 34/425、
+  editor 96/820、Biome 1111 files 与 diff check 全部通过；current content12 replay 与 R13 历史
+  dry replay 均 exit 0，B10 plan 保持 `0/0/0`。三方 implementation accept 已齐，本卡标 `done`；无下一位
+  Agent 提示词，剧情/战斗视觉继续按冻结后集中 E2E 规则执行。
+
+## 历史下一位 Agent 提示词（build 交接记录）
 
 ```text
 接手任务: B10-1 混乱敌人攻击同伴——build 实现
@@ -661,3 +748,27 @@ docs/ops/tasks/D14-3-reward-event-bus.md；战斗演出不逐卡截帧（登记�
 一次最小浏览器验证；不得标 done——done 前需 Codex / Kimi / GLM 三方审查 accept 另行集齐。
 输出要求: 修改文件、测试数字、迁移 diff、oracle 指纹、浏览器证据写回本卡 Build 节与交接日志。
 ```
+
+## 历史审查提示词（review 交接记录）
+
+```text
+接手任务: B10-1 混乱敌人攻击同伴——implementation review
+任务卡: docs/ops/tasks/B10-1-enemy-confused-attack.md
+当前状态: review（历史交接记录）；Codex/Kimi/GLM implementation accept 已齐。请只读核对最终门禁证据；若无新问题，
+可确认本卡进入 done。若发现问题，给出 `counter` 与 file:line；不得直接修改实现文件。
+你的角色: Kimi 或 GLM 只读审查方；不得直接修改实现文件。发现问题时在本卡写 `rework` 或 `counter`，并给出
+file:line、复现命令、影响和最小修复边界。
+先读: docs/phase2/READ-FIRST.md、本卡全文、docs/ops/audits/b10-1-source-slot-census-2026-08-09.md、
+docs/phase2/foundation/phase1-knowledge-harvest.md、docs/phase1/game-mechanics.md:833-883。
+审查范围: v11 immutable → v12 append-only successor；EnemyTeam slots 的 0/65535/wMaxEnemyIndex、
+summon/divide；confused RNG 顺序/64 次保护/专用公式/lastAction union/session 路由/12 帧动画；SAVE8
+identity + skillUseCounts、content lifetimeLimit、编辑器原子升级；6C/Z/B10 四条 replay/rewind、oracle
+fingerprint 与生成上游。已有证据写在 Build 节，先核对证据与当前 diff 一致性。
+视觉按用户分层裁决：不重复跑剧情/战斗视觉；只检查集中 E2E 登记是否可执行。若无缺口，输出明确 `accept`
+并列出抽查文件/命令；若有缺口，输出 `rework`/`counter`。两席签字齐前不得标 done。
+```
+
+## 当前交接状态
+
+无下一位 Agent 提示词，等待用户验收/收口；用户已确认签字，本卡已完成。后续仅按冻结批次执行集中
+E2E 视觉验收，或由用户拍板进入 W9 设计阶段；不得在本卡上重新开启剧情视觉巡检。

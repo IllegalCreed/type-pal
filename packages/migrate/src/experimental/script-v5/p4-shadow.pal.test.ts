@@ -320,7 +320,9 @@ describe.skipIf(!existsSync(PAL_TEST_EXTRACTED))('N3 P4 PAL shadow owner migrati
     expect(assertBundle).toThrow('bundle digest mismatch')
     mutableFiles.set('reports/p4-owner-inventory.json', inventory)
     assertBundle()
-  }, 360_000)
+    // The full release gate runs other migration projects alongside this live double-build.
+    // Keep enough headroom for a contended worker while retaining a finite hang detector.
+  }, 600_000)
 
   test('作者修改 owner fragment、Page 或 selection command 时整批零写', () => {
     const fragment = fixture.p4.ir.ownerFragments.find(

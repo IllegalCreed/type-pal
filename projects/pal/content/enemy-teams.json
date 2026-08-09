@@ -1,27 +1,27 @@
 [
   {
     "id": "team-0",
-    "members": [
+    "slots": [
       "enemy-398",
       "enemy-398"
     ]
   },
   {
     "id": "team-1",
-    "members": [
+    "slots": [
       "enemy-399"
     ]
   },
   {
     "id": "team-2",
-    "members": [
+    "slots": [
       "enemy-399",
       "enemy-399"
     ]
   },
   {
     "id": "team-3",
-    "members": [
+    "slots": [
       "enemy-399",
       "enemy-399",
       "enemy-399"
@@ -29,14 +29,14 @@
   },
   {
     "id": "team-4",
-    "members": [
+    "slots": [
       "enemy-403",
       "enemy-403"
     ]
   },
   {
     "id": "team-5",
-    "members": [
+    "slots": [
       "enemy-403",
       "enemy-404",
       "enemy-403"
@@ -44,7 +44,7 @@
   },
   {
     "id": "team-6",
-    "members": [
+    "slots": [
       "enemy-403",
       "enemy-403",
       "enemy-403"
@@ -52,7 +52,7 @@
   },
   {
     "id": "team-7",
-    "members": [
+    "slots": [
       "enemy-404",
       "enemy-403",
       "enemy-404",
@@ -62,20 +62,20 @@
   },
   {
     "id": "team-8",
-    "members": [
+    "slots": [
       "enemy-415"
     ]
   },
   {
     "id": "team-9",
-    "members": [
+    "slots": [
       "enemy-415",
       "enemy-415"
     ]
   },
   {
     "id": "team-10",
-    "members": [
+    "slots": [
       "enemy-415",
       "enemy-399",
       "enemy-415"
@@ -83,20 +83,20 @@
   },
   {
     "id": "team-11",
-    "members": [
+    "slots": [
       "enemy-400"
     ]
   },
   {
     "id": "team-12",
-    "members": [
+    "slots": [
       "enemy-400",
       "enemy-400"
     ]
   },
   {
     "id": "team-13",
-    "members": [
+    "slots": [
       "enemy-400",
       "enemy-423",
       "enemy-401"
@@ -104,7 +104,7 @@
   },
   {
     "id": "team-14",
-    "members": [
+    "slots": [
       "enemy-400",
       "enemy-400",
       "enemy-400"
@@ -112,20 +112,20 @@
   },
   {
     "id": "team-15",
-    "members": [
+    "slots": [
       "enemy-499"
     ]
   },
   {
     "id": "team-16",
-    "members": [
+    "slots": [
       "enemy-499",
       "enemy-499"
     ]
   },
   {
     "id": "team-17",
-    "members": [
+    "slots": [
       "enemy-499",
       "enemy-530",
       "enemy-499"
@@ -133,14 +133,14 @@
   },
   {
     "id": "team-18",
-    "members": [
+    "slots": [
       "enemy-495",
       "enemy-495"
     ]
   },
   {
     "id": "team-19",
-    "members": [
+    "slots": [
       "enemy-495",
       "enemy-485",
       "enemy-495"
@@ -148,26 +148,26 @@
   },
   {
     "id": "team-20",
-    "members": [
+    "slots": [
       "enemy-401"
     ]
   },
   {
     "id": "team-21",
-    "members": [
+    "slots": [
       "enemy-480"
     ]
   },
   {
     "id": "team-22",
-    "members": [
+    "slots": [
       "enemy-454",
       "enemy-443"
     ]
   },
   {
     "id": "team-23",
-    "members": [
+    "slots": [
       "enemy-477",
       "enemy-476",
       "enemy-481"
@@ -175,31 +175,33 @@
   },
   {
     "id": "team-24",
-    "members": [
+    "slots": [
       "enemy-483"
     ]
   },
   {
     "id": "team-25",
-    "members": [
+    "slots": [
       "enemy-502"
     ]
   },
   {
     "id": "team-26",
-    "members": [
+    "slots": [
       "enemy-472"
     ]
   },
   {
     "id": "team-27",
-    "members": [
-      "enemy-473"
+    "slots": [
+      null,
+      "enemy-473",
+      null
     ]
   },
   {
     "id": "team-28",
-    "members": [
+    "slots": [
       "enemy-451",
       "enemy-482",
       "enemy-453"
@@ -207,13 +209,13 @@
   },
   {
     "id": "team-29",
-    "members": [
+    "slots": [
       "enemy-478"
     ]
   },
   {
     "id": "team-30",
-    "members": [
+    "slots": [
       "enemy-526",
       "enemy-479",
       "enemy-526"
@@ -221,14 +223,14 @@
   },
   {
     "id": "team-31",
-    "members": [
+    "slots": [
       "enemy-526",
       "enemy-526"
     ]
   },
   {
     "id": "team-32",
-    "members": [
+    "slots": [
       "enemy-526",
       "enemy-526",
       "enemy-526"
@@ -236,14 +238,14 @@
   },
   {
     "id": "team-33",
-    "members": [
+    "slots": [
       "enemy-527",
       "enemy-454"
     ]
   },
   {
     "id": "team-34",
-    "members": [
+    "slots": [
       "enemy-527",
       "enemy-496",
       "enemy-527"
@@ -251,102 +253,109 @@
   },
   {
     "id": "team-35",
-    "members": [
-      "enemy-524"
+    "slots": [
+      null,
+      "enemy-524",
+      null
     ]
   },
   {
     "id": "team-36",
-    "members": [
+    "slots": [
       "enemy-500",
       "enemy-465"
     ]
   },
   {
     "id": "team-37",
-    "members": [
+    "slots": [
       "enemy-496"
     ]
   },
   {
     "id": "team-38",
-    "members": [
+    "slots": [
       "enemy-525"
     ]
   },
   {
     "id": "team-39",
-    "members": [
+    "slots": [
       "enemy-468"
     ]
   },
   {
     "id": "team-40",
-    "members": [
+    "slots": [
       "enemy-499",
       "enemy-530"
     ]
   },
   {
     "id": "team-41",
-    "members": [
+    "slots": [
       "enemy-530",
       "enemy-530"
     ]
   },
   {
     "id": "team-42",
-    "members": [
+    "slots": [
       "enemy-435"
     ]
   },
   {
     "id": "team-43",
-    "members": [
+    "slots": [
       "enemy-498"
     ]
   },
   {
     "id": "team-44",
-    "members": [
-      "enemy-469"
+    "slots": [
+      null,
+      "enemy-469",
+      null,
+      null,
+      null
     ]
   },
   {
     "id": "team-45",
-    "members": [
+    "slots": [
       "enemy-486"
     ]
   },
   {
     "id": "team-46",
-    "members": [
+    "slots": [
       "enemy-402",
+      null,
       "enemy-402"
     ]
   },
   {
     "id": "team-47",
-    "members": [
+    "slots": [
       "enemy-534"
     ]
   },
   {
     "id": "team-48",
-    "members": [
+    "slots": [
       "enemy-487"
     ]
   },
   {
     "id": "team-49",
-    "members": [
+    "slots": [
       "enemy-488",
       "enemy-487"
     ]
   },
   {
     "id": "team-50",
-    "members": [
+    "slots": [
       "enemy-534",
       "enemy-534",
       "enemy-534"
@@ -354,7 +363,7 @@
   },
   {
     "id": "team-51",
-    "members": [
+    "slots": [
       "enemy-488",
       "enemy-404",
       "enemy-488"
@@ -362,7 +371,7 @@
   },
   {
     "id": "team-52",
-    "members": [
+    "slots": [
       "enemy-534",
       "enemy-488",
       "enemy-534"
@@ -370,21 +379,21 @@
   },
   {
     "id": "team-53",
-    "members": [
+    "slots": [
       "enemy-487",
       "enemy-491"
     ]
   },
   {
     "id": "team-54",
-    "members": [
+    "slots": [
       "enemy-488",
       "enemy-491"
     ]
   },
   {
     "id": "team-55",
-    "members": [
+    "slots": [
       "enemy-488",
       "enemy-426",
       "enemy-487"
@@ -392,26 +401,26 @@
   },
   {
     "id": "team-56",
-    "members": [
+    "slots": [
       "enemy-426",
       "enemy-491"
     ]
   },
   {
     "id": "team-57",
-    "members": [
+    "slots": [
       "enemy-520"
     ]
   },
   {
     "id": "team-58",
-    "members": [
+    "slots": [
       "enemy-419"
     ]
   },
   {
     "id": "team-59",
-    "members": [
+    "slots": [
       "enemy-399",
       "enemy-419",
       "enemy-419"
@@ -419,7 +428,7 @@
   },
   {
     "id": "team-60",
-    "members": [
+    "slots": [
       "enemy-419",
       "enemy-419",
       "enemy-419"
@@ -427,21 +436,21 @@
   },
   {
     "id": "team-61",
-    "members": [
+    "slots": [
       "enemy-407",
       "enemy-419"
     ]
   },
   {
     "id": "team-62",
-    "members": [
+    "slots": [
       "enemy-407",
       "enemy-399"
     ]
   },
   {
     "id": "team-63",
-    "members": [
+    "slots": [
       "enemy-441",
       "enemy-441",
       "enemy-441"
@@ -449,64 +458,73 @@
   },
   {
     "id": "team-64",
-    "members": [
-      "enemy-409"
+    "slots": [
+      null,
+      "enemy-409",
+      null,
+      null,
+      null
     ]
   },
   {
     "id": "team-65",
-    "members": [
+    "slots": [
       "enemy-409",
-      "enemy-407"
+      "enemy-407",
+      null,
+      null,
+      null
     ]
   },
   {
     "id": "team-66",
-    "members": [
+    "slots": [
       "enemy-407",
       "enemy-409",
-      "enemy-407"
+      "enemy-407",
+      null,
+      null
     ]
   },
   {
     "id": "team-67",
-    "members": [
+    "slots": [
       "enemy-407"
     ]
   },
   {
     "id": "team-68",
-    "members": [
+    "slots": [
       "enemy-408"
     ]
   },
   {
     "id": "team-69",
-    "members": [
+    "slots": [
       "enemy-504"
     ]
   },
   {
     "id": "team-70",
-    "members": [
+    "slots": [
       "enemy-505"
     ]
   },
   {
     "id": "team-71",
-    "members": [
+    "slots": [
       "enemy-506"
     ]
   },
   {
     "id": "team-72",
-    "members": [
+    "slots": [
       "enemy-433"
     ]
   },
   {
     "id": "team-73",
-    "members": [
+    "slots": [
       "enemy-433",
       "enemy-433",
       "enemy-433"
@@ -514,7 +532,7 @@
   },
   {
     "id": "team-74",
-    "members": [
+    "slots": [
       "enemy-504",
       "enemy-505",
       "enemy-506"
@@ -522,7 +540,7 @@
   },
   {
     "id": "team-75",
-    "members": [
+    "slots": [
       "enemy-504",
       "enemy-505",
       "enemy-504"
@@ -530,41 +548,41 @@
   },
   {
     "id": "team-76",
-    "members": [
+    "slots": [
       "enemy-505",
       "enemy-505"
     ]
   },
   {
     "id": "team-77",
-    "members": [
+    "slots": [
       "enemy-506",
       "enemy-506"
     ]
   },
   {
     "id": "team-78",
-    "members": [
+    "slots": [
       "enemy-452"
     ]
   },
   {
     "id": "team-79",
-    "members": [
+    "slots": [
       "enemy-452",
       "enemy-452"
     ]
   },
   {
     "id": "team-80",
-    "members": [
+    "slots": [
       "enemy-452",
       "enemy-504"
     ]
   },
   {
     "id": "team-81",
-    "members": [
+    "slots": [
       "enemy-452",
       "enemy-452",
       "enemy-399"
@@ -572,45 +590,48 @@
   },
   {
     "id": "team-82",
-    "members": [
+    "slots": [
       "enemy-436",
       "enemy-436"
     ]
   },
   {
     "id": "team-83",
-    "members": [
+    "slots": [
       "enemy-436"
     ]
   },
   {
     "id": "team-84",
-    "members": [
-      "enemy-445"
+    "slots": [
+      null,
+      "enemy-445",
+      null
     ]
   },
   {
     "id": "team-85",
-    "members": [
+    "slots": [
       "enemy-425"
     ]
   },
   {
     "id": "team-86",
-    "members": [
+    "slots": [
       "enemy-427"
     ]
   },
   {
     "id": "team-87",
-    "members": [
+    "slots": [
+      null,
       "enemy-445",
       "enemy-427"
     ]
   },
   {
     "id": "team-88",
-    "members": [
+    "slots": [
       "enemy-427",
       "enemy-425",
       "enemy-427"
@@ -618,27 +639,27 @@
   },
   {
     "id": "team-89",
-    "members": [
+    "slots": [
       "enemy-439",
       "enemy-439"
     ]
   },
   {
     "id": "team-90",
-    "members": [
+    "slots": [
       "enemy-439"
     ]
   },
   {
     "id": "team-91",
-    "members": [
+    "slots": [
       "enemy-425",
       "enemy-425"
     ]
   },
   {
     "id": "team-92",
-    "members": [
+    "slots": [
       "enemy-425",
       "enemy-427",
       "enemy-439"
@@ -646,7 +667,7 @@
   },
   {
     "id": "team-93",
-    "members": [
+    "slots": [
       "enemy-537",
       "enemy-537",
       "enemy-537"
@@ -654,14 +675,14 @@
   },
   {
     "id": "team-94",
-    "members": [
+    "slots": [
       "enemy-537",
       "enemy-537"
     ]
   },
   {
     "id": "team-95",
-    "members": [
+    "slots": [
       "enemy-410",
       "enemy-410",
       "enemy-410"
@@ -669,14 +690,14 @@
   },
   {
     "id": "team-96",
-    "members": [
+    "slots": [
       "enemy-410",
       "enemy-410"
     ]
   },
   {
     "id": "team-97",
-    "members": [
+    "slots": [
       "enemy-410",
       "enemy-537",
       "enemy-410"
@@ -684,7 +705,7 @@
   },
   {
     "id": "team-98",
-    "members": [
+    "slots": [
       "enemy-410",
       "enemy-410",
       "enemy-491"
@@ -692,20 +713,20 @@
   },
   {
     "id": "team-99",
-    "members": [
+    "slots": [
       "enemy-537",
       "enemy-491"
     ]
   },
   {
     "id": "team-100",
-    "members": [
+    "slots": [
       "enemy-426"
     ]
   },
   {
     "id": "team-101",
-    "members": [
+    "slots": [
       "enemy-426",
       "enemy-537",
       "enemy-426"
@@ -713,14 +734,14 @@
   },
   {
     "id": "team-102",
-    "members": [
+    "slots": [
       "enemy-485",
       "enemy-485"
     ]
   },
   {
     "id": "team-103",
-    "members": [
+    "slots": [
       "enemy-454",
       "enemy-454",
       "enemy-454"
@@ -728,7 +749,7 @@
   },
   {
     "id": "team-104",
-    "members": [
+    "slots": [
       "enemy-475",
       "enemy-476",
       "enemy-481"
@@ -736,7 +757,7 @@
   },
   {
     "id": "team-105",
-    "members": [
+    "slots": [
       "enemy-477",
       "enemy-454",
       "enemy-443"
@@ -744,27 +765,27 @@
   },
   {
     "id": "team-106",
-    "members": [
+    "slots": [
       "enemy-443",
       "enemy-443"
     ]
   },
   {
     "id": "team-107",
-    "members": [
+    "slots": [
       "enemy-475",
       "enemy-475"
     ]
   },
   {
     "id": "team-108",
-    "members": [
+    "slots": [
       "enemy-450"
     ]
   },
   {
     "id": "team-109",
-    "members": [
+    "slots": [
       "enemy-450",
       "enemy-450",
       "enemy-450"
@@ -772,7 +793,7 @@
   },
   {
     "id": "team-110",
-    "members": [
+    "slots": [
       "enemy-476",
       "enemy-481",
       "enemy-476"
@@ -780,21 +801,21 @@
   },
   {
     "id": "team-111",
-    "members": [
+    "slots": [
       "enemy-454",
       "enemy-481"
     ]
   },
   {
     "id": "team-112",
-    "members": [
+    "slots": [
       "enemy-477",
       "enemy-450"
     ]
   },
   {
     "id": "team-113",
-    "members": [
+    "slots": [
       "enemy-527",
       "enemy-527",
       "enemy-527"
@@ -802,20 +823,20 @@
   },
   {
     "id": "team-114",
-    "members": [
+    "slots": [
       "enemy-485",
       "enemy-527"
     ]
   },
   {
     "id": "team-115",
-    "members": [
+    "slots": [
       "enemy-406"
     ]
   },
   {
     "id": "team-116",
-    "members": [
+    "slots": [
       "enemy-406",
       "enemy-406",
       "enemy-406"
@@ -823,7 +844,7 @@
   },
   {
     "id": "team-117",
-    "members": [
+    "slots": [
       "enemy-406",
       "enemy-426",
       "enemy-406"
@@ -831,7 +852,7 @@
   },
   {
     "id": "team-118",
-    "members": [
+    "slots": [
       "enemy-406",
       "enemy-537",
       "enemy-406"
@@ -839,25 +860,25 @@
   },
   {
     "id": "team-119",
-    "members": [
+    "slots": [
       "enemy-491"
     ]
   },
   {
     "id": "team-120",
-    "members": [
+    "slots": [
       "enemy-537"
     ]
   },
   {
     "id": "team-121",
-    "members": [
+    "slots": [
       "enemy-538"
     ]
   },
   {
     "id": "team-122",
-    "members": [
+    "slots": [
       "enemy-518",
       "enemy-537",
       "enemy-538"
@@ -865,41 +886,41 @@
   },
   {
     "id": "team-123",
-    "members": [
+    "slots": [
       "enemy-534",
       "enemy-534"
     ]
   },
   {
     "id": "team-124",
-    "members": [
+    "slots": [
       "enemy-488"
     ]
   },
   {
     "id": "team-125",
-    "members": [
+    "slots": [
       "enemy-518",
       "enemy-518"
     ]
   },
   {
     "id": "team-126",
-    "members": [
+    "slots": [
       "enemy-538",
       "enemy-538"
     ]
   },
   {
     "id": "team-127",
-    "members": [
+    "slots": [
       "enemy-500",
       "enemy-538"
     ]
   },
   {
     "id": "team-128",
-    "members": [
+    "slots": [
       "enemy-537",
       "enemy-500",
       "enemy-537"
@@ -907,33 +928,33 @@
   },
   {
     "id": "team-129",
-    "members": [
+    "slots": [
       "enemy-518",
       "enemy-537"
     ]
   },
   {
     "id": "team-130",
-    "members": [
+    "slots": [
       "enemy-518",
       "enemy-538"
     ]
   },
   {
     "id": "team-131",
-    "members": [
+    "slots": [
       "enemy-516"
     ]
   },
   {
     "id": "team-132",
-    "members": [
+    "slots": [
       "enemy-517"
     ]
   },
   {
     "id": "team-133",
-    "members": [
+    "slots": [
       "enemy-516",
       "enemy-516",
       "enemy-516"
@@ -941,14 +962,14 @@
   },
   {
     "id": "team-134",
-    "members": [
+    "slots": [
       "enemy-516",
       "enemy-516"
     ]
   },
   {
     "id": "team-135",
-    "members": [
+    "slots": [
       "enemy-517",
       "enemy-517",
       "enemy-517"
@@ -956,39 +977,39 @@
   },
   {
     "id": "team-136",
-    "members": [
+    "slots": [
       "enemy-517",
       "enemy-517"
     ]
   },
   {
     "id": "team-137",
-    "members": [
+    "slots": [
       "enemy-517",
       "enemy-516"
     ]
   },
   {
     "id": "team-138",
-    "members": [
+    "slots": [
       "enemy-500"
     ]
   },
   {
     "id": "team-139",
-    "members": [
+    "slots": [
       "enemy-411"
     ]
   },
   {
     "id": "team-140",
-    "members": [
+    "slots": [
       "enemy-412"
     ]
   },
   {
     "id": "team-141",
-    "members": [
+    "slots": [
       "enemy-411",
       "enemy-411",
       "enemy-411"
@@ -996,7 +1017,7 @@
   },
   {
     "id": "team-142",
-    "members": [
+    "slots": [
       "enemy-412",
       "enemy-412",
       "enemy-412"
@@ -1004,7 +1025,7 @@
   },
   {
     "id": "team-143",
-    "members": [
+    "slots": [
       "enemy-508",
       "enemy-508",
       "enemy-508"
@@ -1012,20 +1033,20 @@
   },
   {
     "id": "team-144",
-    "members": [
+    "slots": [
       "enemy-514"
     ]
   },
   {
     "id": "team-145",
-    "members": [
+    "slots": [
       "enemy-514",
       "enemy-514"
     ]
   },
   {
     "id": "team-146",
-    "members": [
+    "slots": [
       "enemy-412",
       "enemy-514",
       "enemy-412"
@@ -1033,7 +1054,7 @@
   },
   {
     "id": "team-147",
-    "members": [
+    "slots": [
       "enemy-508",
       "enemy-514",
       "enemy-508"
@@ -1041,7 +1062,7 @@
   },
   {
     "id": "team-148",
-    "members": [
+    "slots": [
       "enemy-412",
       "enemy-508",
       "enemy-412"
@@ -1049,37 +1070,37 @@
   },
   {
     "id": "team-149",
-    "members": [
+    "slots": [
       "enemy-444"
     ]
   },
   {
     "id": "team-150",
-    "members": [
+    "slots": [
       "enemy-446"
     ]
   },
   {
     "id": "team-151",
-    "members": [
+    "slots": [
       "enemy-447"
     ]
   },
   {
     "id": "team-152",
-    "members": [
+    "slots": [
       "enemy-448"
     ]
   },
   {
     "id": "team-153",
-    "members": [
+    "slots": [
       "enemy-449"
     ]
   },
   {
     "id": "team-154",
-    "members": [
+    "slots": [
       "enemy-448",
       "enemy-447",
       "enemy-449"
@@ -1087,7 +1108,7 @@
   },
   {
     "id": "team-155",
-    "members": [
+    "slots": [
       "enemy-446",
       "enemy-446",
       "enemy-446"
@@ -1095,7 +1116,7 @@
   },
   {
     "id": "team-156",
-    "members": [
+    "slots": [
       "enemy-418",
       "enemy-418",
       "enemy-418"
@@ -1103,81 +1124,81 @@
   },
   {
     "id": "team-157",
-    "members": [
+    "slots": [
       "enemy-444",
       "enemy-444"
     ]
   },
   {
     "id": "team-158",
-    "members": [
+    "slots": [
       "enemy-449",
       "enemy-449"
     ]
   },
   {
     "id": "team-159",
-    "members": [
+    "slots": [
       "enemy-447",
       "enemy-447"
     ]
   },
   {
     "id": "team-160",
-    "members": [
+    "slots": [
       "enemy-446",
       "enemy-418"
     ]
   },
   {
     "id": "team-161",
-    "members": [
+    "slots": [
       "enemy-448",
       "enemy-448"
     ]
   },
   {
     "id": "team-162",
-    "members": [
+    "slots": [
       "enemy-448",
       "enemy-447"
     ]
   },
   {
     "id": "team-163",
-    "members": [
+    "slots": [
       "enemy-494"
     ]
   },
   {
     "id": "team-164",
-    "members": [
+    "slots": [
       "enemy-532"
     ]
   },
   {
     "id": "team-165",
-    "members": [
+    "slots": [
       "enemy-440"
     ]
   },
   {
     "id": "team-166",
-    "members": [
+    "slots": [
       "enemy-440",
       "enemy-440"
     ]
   },
   {
     "id": "team-167",
-    "members": [
+    "slots": [
       "enemy-469",
       "enemy-440"
     ]
   },
   {
     "id": "team-168",
-    "members": [
+    "slots": [
       "enemy-428",
       "enemy-422",
       "enemy-428"
@@ -1185,7 +1206,7 @@
   },
   {
     "id": "team-169",
-    "members": [
+    "slots": [
       "enemy-422",
       "enemy-428",
       "enemy-422"
@@ -1193,78 +1214,85 @@
   },
   {
     "id": "team-170",
-    "members": [
+    "slots": [
       "enemy-422",
       "enemy-422"
     ]
   },
   {
     "id": "team-171",
-    "members": [
+    "slots": [
       "enemy-428",
       "enemy-428"
     ]
   },
   {
     "id": "team-172",
-    "members": [
+    "slots": [
       "enemy-428"
     ]
   },
   {
     "id": "team-173",
-    "members": [
+    "slots": [
       "enemy-441"
     ]
   },
   {
     "id": "team-174",
-    "members": [
+    "slots": [
       "enemy-441",
-      "enemy-421"
+      null,
+      "enemy-421",
+      null,
+      null
     ]
   },
   {
     "id": "team-175",
-    "members": [
-      "enemy-421"
+    "slots": [
+      null,
+      null,
+      "enemy-421",
+      null,
+      null
     ]
   },
   {
     "id": "team-176",
-    "members": [
+    "slots": [
       "enemy-422"
     ]
   },
   {
     "id": "team-177",
-    "members": [
+    "slots": [
       "enemy-535"
     ]
   },
   {
     "id": "team-178",
-    "members": [
+    "slots": [
       "enemy-535",
       "enemy-440"
     ]
   },
   {
     "id": "team-179",
-    "members": [
+    "slots": [
       "enemy-455"
     ]
   },
   {
     "id": "team-180",
-    "members": [
+    "slots": [
       "enemy-455",
       "enemy-455"
     ]
   },
   {
     "id": "team-181",
-    "members": [
+    "slots": [
       "enemy-452",
       "enemy-440",
       "enemy-455"
@@ -1272,124 +1300,126 @@
   },
   {
     "id": "team-182",
-    "members": [
+    "slots": [
       "enemy-535",
       "enemy-455"
     ]
   },
   {
     "id": "team-183",
-    "members": [
+    "slots": [
       "enemy-417",
       "enemy-434"
     ]
   },
   {
     "id": "team-184",
-    "members": [
+    "slots": [
       "enemy-434"
     ]
   },
   {
     "id": "team-185",
-    "members": [
+    "slots": [
       "enemy-417"
     ]
   },
   {
     "id": "team-186",
-    "members": [
+    "slots": [
       "enemy-418"
     ]
   },
   {
     "id": "team-187",
-    "members": [
+    "slots": [
       "enemy-416"
     ]
   },
   {
     "id": "team-188",
-    "members": [
-      "enemy-519"
+    "slots": [
+      null,
+      "enemy-519",
+      null
     ]
   },
   {
     "id": "team-189",
-    "members": [
+    "slots": [
       "enemy-533"
     ]
   },
   {
     "id": "team-190",
-    "members": [
+    "slots": [
       "enemy-503",
       "enemy-503"
     ]
   },
   {
     "id": "team-191",
-    "members": [
+    "slots": [
       "enemy-514",
       "enemy-503"
     ]
   },
   {
     "id": "team-192",
-    "members": [
+    "slots": [
       "enemy-456"
     ]
   },
   {
     "id": "team-193",
-    "members": [
+    "slots": [
       "enemy-513"
     ]
   },
   {
     "id": "team-194",
-    "members": [
+    "slots": [
       "enemy-456",
       "enemy-456"
     ]
   },
   {
     "id": "team-195",
-    "members": [
+    "slots": [
       "enemy-513",
       "enemy-513"
     ]
   },
   {
     "id": "team-196",
-    "members": [
+    "slots": [
       "enemy-513",
       "enemy-456"
     ]
   },
   {
     "id": "team-197",
-    "members": [
+    "slots": [
       "enemy-503"
     ]
   },
   {
     "id": "team-198",
-    "members": [
+    "slots": [
       "enemy-515",
       "enemy-503"
     ]
   },
   {
     "id": "team-199",
-    "members": [
+    "slots": [
       "enemy-515",
       "enemy-515"
     ]
   },
   {
     "id": "team-200",
-    "members": [
+    "slots": [
       "enemy-515",
       "enemy-514",
       "enemy-515"
@@ -1397,13 +1427,13 @@
   },
   {
     "id": "team-201",
-    "members": [
+    "slots": [
       "enemy-515"
     ]
   },
   {
     "id": "team-202",
-    "members": [
+    "slots": [
       "enemy-413",
       "enemy-413",
       "enemy-413"
@@ -1411,31 +1441,31 @@
   },
   {
     "id": "team-203",
-    "members": [
+    "slots": [
       "enemy-464"
     ]
   },
   {
     "id": "team-204",
-    "members": [
+    "slots": [
       "enemy-507"
     ]
   },
   {
     "id": "team-205",
-    "members": [
+    "slots": [
       "enemy-508"
     ]
   },
   {
     "id": "team-206",
-    "members": [
+    "slots": [
       "enemy-509"
     ]
   },
   {
     "id": "team-207",
-    "members": [
+    "slots": [
       "enemy-508",
       "enemy-507",
       "enemy-509"
@@ -1443,7 +1473,7 @@
   },
   {
     "id": "team-208",
-    "members": [
+    "slots": [
       "enemy-509",
       "enemy-508",
       "enemy-509"
@@ -1451,14 +1481,14 @@
   },
   {
     "id": "team-209",
-    "members": [
+    "slots": [
       "enemy-537",
       "enemy-509"
     ]
   },
   {
     "id": "team-210",
-    "members": [
+    "slots": [
       "enemy-509",
       "enemy-537",
       "enemy-509"
@@ -1466,42 +1496,42 @@
   },
   {
     "id": "team-211",
-    "members": [
+    "slots": [
       "enemy-507",
       "enemy-509"
     ]
   },
   {
     "id": "team-212",
-    "members": [
+    "slots": [
       "enemy-413",
       "enemy-413"
     ]
   },
   {
     "id": "team-213",
-    "members": [
+    "slots": [
       "enemy-469",
       "enemy-401"
     ]
   },
   {
     "id": "team-214",
-    "members": [
+    "slots": [
       "enemy-469",
       "enemy-508"
     ]
   },
   {
     "id": "team-215",
-    "members": [
+    "slots": [
       "enemy-469",
       "enemy-469"
     ]
   },
   {
     "id": "team-216",
-    "members": [
+    "slots": [
       "enemy-401",
       "enemy-401",
       "enemy-401"
@@ -1509,13 +1539,13 @@
   },
   {
     "id": "team-217",
-    "members": [
+    "slots": [
       "enemy-402"
     ]
   },
   {
     "id": "team-218",
-    "members": [
+    "slots": [
       "enemy-512",
       "enemy-512",
       "enemy-512"
@@ -1523,63 +1553,65 @@
   },
   {
     "id": "team-219",
-    "members": [
+    "slots": [
       "enemy-512",
       "enemy-512"
     ]
   },
   {
     "id": "team-220",
-    "members": [
+    "slots": [
       "enemy-512"
     ]
   },
   {
     "id": "team-221",
-    "members": [
-      "enemy-474"
+    "slots": [
+      null,
+      "enemy-474",
+      null
     ]
   },
   {
     "id": "team-222",
-    "members": [
+    "slots": [
       "enemy-462"
     ]
   },
   {
     "id": "team-223",
-    "members": [
+    "slots": [
       "enemy-501",
       "enemy-490"
     ]
   },
   {
     "id": "team-224",
-    "members": [
+    "slots": [
       "enemy-463"
     ]
   },
   {
     "id": "team-225",
-    "members": [
+    "slots": [
       "enemy-531"
     ]
   },
   {
     "id": "team-226",
-    "members": [
+    "slots": [
       "enemy-521"
     ]
   },
   {
     "id": "team-227",
-    "members": [
+    "slots": [
       "enemy-424"
     ]
   },
   {
     "id": "team-228",
-    "members": [
+    "slots": [
       "enemy-424",
       "enemy-518",
       "enemy-423"
@@ -1587,7 +1619,7 @@
   },
   {
     "id": "team-229",
-    "members": [
+    "slots": [
       "enemy-424",
       "enemy-424",
       "enemy-424"
@@ -1595,14 +1627,14 @@
   },
   {
     "id": "team-230",
-    "members": [
+    "slots": [
       "enemy-424",
       "enemy-424"
     ]
   },
   {
     "id": "team-231",
-    "members": [
+    "slots": [
       "enemy-423",
       "enemy-423",
       "enemy-423"
@@ -1610,14 +1642,14 @@
   },
   {
     "id": "team-232",
-    "members": [
+    "slots": [
       "enemy-423",
       "enemy-423"
     ]
   },
   {
     "id": "team-233",
-    "members": [
+    "slots": [
       "enemy-423",
       "enemy-518",
       "enemy-423"
@@ -1625,7 +1657,7 @@
   },
   {
     "id": "team-234",
-    "members": [
+    "slots": [
       "enemy-488",
       "enemy-487",
       "enemy-488",
@@ -1634,28 +1666,28 @@
   },
   {
     "id": "team-235",
-    "members": [
+    "slots": [
       "enemy-458",
       "enemy-458"
     ]
   },
   {
     "id": "team-236",
-    "members": [
+    "slots": [
       "enemy-460",
       "enemy-460"
     ]
   },
   {
     "id": "team-237",
-    "members": [
+    "slots": [
       "enemy-485",
       "enemy-460"
     ]
   },
   {
     "id": "team-238",
-    "members": [
+    "slots": [
       "enemy-458",
       "enemy-485",
       "enemy-458"
@@ -1663,7 +1695,7 @@
   },
   {
     "id": "team-239",
-    "members": [
+    "slots": [
       "enemy-549",
       "enemy-460",
       "enemy-549"
@@ -1671,31 +1703,31 @@
   },
   {
     "id": "team-240",
-    "members": [
+    "slots": [
       "enemy-457"
     ]
   },
   {
     "id": "team-241",
-    "members": [
+    "slots": [
       "enemy-458"
     ]
   },
   {
     "id": "team-242",
-    "members": [
+    "slots": [
       "enemy-459"
     ]
   },
   {
     "id": "team-243",
-    "members": [
+    "slots": [
       "enemy-460"
     ]
   },
   {
     "id": "team-244",
-    "members": [
+    "slots": [
       "enemy-405",
       "enemy-405",
       "enemy-405",
@@ -1705,7 +1737,7 @@
   },
   {
     "id": "team-245",
-    "members": [
+    "slots": [
       "enemy-405",
       "enemy-431",
       "enemy-405",
@@ -1714,7 +1746,7 @@
   },
   {
     "id": "team-246",
-    "members": [
+    "slots": [
       "enemy-405",
       "enemy-432",
       "enemy-405",
@@ -1723,27 +1755,27 @@
   },
   {
     "id": "team-247",
-    "members": [
+    "slots": [
       "enemy-437"
     ]
   },
   {
     "id": "team-248",
-    "members": [
+    "slots": [
       "enemy-437",
       "enemy-431"
     ]
   },
   {
     "id": "team-249",
-    "members": [
+    "slots": [
       "enemy-429",
       "enemy-430"
     ]
   },
   {
     "id": "team-250",
-    "members": [
+    "slots": [
       "enemy-405",
       "enemy-429",
       "enemy-405"
@@ -1751,7 +1783,7 @@
   },
   {
     "id": "team-251",
-    "members": [
+    "slots": [
       "enemy-431",
       "enemy-431",
       "enemy-431"
@@ -1759,14 +1791,14 @@
   },
   {
     "id": "team-252",
-    "members": [
+    "slots": [
       "enemy-431",
       "enemy-431"
     ]
   },
   {
     "id": "team-253",
-    "members": [
+    "slots": [
       "enemy-432",
       "enemy-432",
       "enemy-432"
@@ -1774,51 +1806,51 @@
   },
   {
     "id": "team-254",
-    "members": [
+    "slots": [
       "enemy-430",
       "enemy-430"
     ]
   },
   {
     "id": "team-255",
-    "members": [
+    "slots": [
       "enemy-429",
       "enemy-429"
     ]
   },
   {
     "id": "team-256",
-    "members": [
+    "slots": [
       "enemy-405"
     ]
   },
   {
     "id": "team-257",
-    "members": [
+    "slots": [
       "enemy-429"
     ]
   },
   {
     "id": "team-258",
-    "members": [
+    "slots": [
       "enemy-430"
     ]
   },
   {
     "id": "team-259",
-    "members": [
+    "slots": [
       "enemy-431"
     ]
   },
   {
     "id": "team-260",
-    "members": [
+    "slots": [
       "enemy-432"
     ]
   },
   {
     "id": "team-261",
-    "members": [
+    "slots": [
       "enemy-458",
       "enemy-457",
       "enemy-458"
@@ -1826,53 +1858,61 @@
   },
   {
     "id": "team-262",
-    "members": [
+    "slots": [
       "enemy-457",
       "enemy-457"
     ]
   },
   {
     "id": "team-263",
-    "members": [
+    "slots": [
       "enemy-457",
       "enemy-460"
     ]
   },
   {
     "id": "team-264",
-    "members": [
+    "slots": [
       "enemy-549",
       "enemy-457"
     ]
   },
   {
     "id": "team-265",
-    "members": [
+    "slots": [
       "enemy-457",
       "enemy-459"
     ]
   },
   {
     "id": "team-266",
-    "members": [
+    "slots": [
       "enemy-410"
     ]
   },
   {
     "id": "team-267",
-    "members": [
-      "enemy-522"
+    "slots": [
+      null,
+      "enemy-522",
+      null,
+      null,
+      null
     ]
   },
   {
     "id": "team-268",
-    "members": [
-      "enemy-523"
+    "slots": [
+      null,
+      null,
+      "enemy-523",
+      null,
+      null
     ]
   },
   {
     "id": "team-269",
-    "members": [
+    "slots": [
       "enemy-459",
       "enemy-459",
       "enemy-459"
@@ -1880,14 +1920,14 @@
   },
   {
     "id": "team-270",
-    "members": [
+    "slots": [
       "enemy-459",
       "enemy-459"
     ]
   },
   {
     "id": "team-271",
-    "members": [
+    "slots": [
       "enemy-458",
       "enemy-459",
       "enemy-458"
@@ -1895,65 +1935,65 @@
   },
   {
     "id": "team-272",
-    "members": [
+    "slots": [
       "enemy-460",
       "enemy-459"
     ]
   },
   {
     "id": "team-273",
-    "members": [
+    "slots": [
       "enemy-536"
     ]
   },
   {
     "id": "team-274",
-    "members": [
+    "slots": [
       "enemy-461"
     ]
   },
   {
     "id": "team-275",
-    "members": [
+    "slots": [
       "enemy-510"
     ]
   },
   {
     "id": "team-276",
-    "members": [
+    "slots": [
       "enemy-510",
       "enemy-511"
     ]
   },
   {
     "id": "team-277",
-    "members": [
+    "slots": [
       "enemy-511"
     ]
   },
   {
     "id": "team-278",
-    "members": [
+    "slots": [
       "enemy-493"
     ]
   },
   {
     "id": "team-279",
-    "members": [
+    "slots": [
       "enemy-484",
       "enemy-484"
     ]
   },
   {
     "id": "team-280",
-    "members": [
+    "slots": [
       "enemy-484",
       "enemy-493"
     ]
   },
   {
     "id": "team-281",
-    "members": [
+    "slots": [
       "enemy-484",
       "enemy-484",
       "enemy-484"
@@ -1961,133 +2001,140 @@
   },
   {
     "id": "team-282",
-    "members": [
+    "slots": [
       "enemy-493",
       "enemy-493"
     ]
   },
   {
     "id": "team-283",
-    "members": [
+    "slots": [
       "enemy-492"
     ]
   },
   {
     "id": "team-284",
-    "members": [
+    "slots": [
       "enemy-490"
     ]
   },
   {
     "id": "team-285",
-    "members": [
+    "slots": [
       "enemy-438"
     ]
   },
   {
     "id": "team-286",
-    "members": [
+    "slots": [
       "enemy-467"
     ]
   },
   {
     "id": "team-287",
-    "members": [
+    "slots": [
       "enemy-466"
     ]
   },
   {
     "id": "team-288",
-    "members": [
+    "slots": [
       "enemy-471"
     ]
   },
   {
     "id": "team-289",
-    "members": [
+    "slots": [
       "enemy-528",
       "enemy-528"
     ]
   },
   {
     "id": "team-290",
-    "members": [
+    "slots": [
       "enemy-522",
+      null,
+      null,
+      null,
       "enemy-522"
     ]
   },
   {
     "id": "team-291",
-    "members": [
+    "slots": [
       "enemy-522",
       "enemy-528"
     ]
   },
   {
     "id": "team-292",
-    "members": [
+    "slots": [
       "enemy-528"
     ]
   },
   {
     "id": "team-293",
-    "members": [
+    "slots": [
       "enemy-529"
     ]
   },
   {
     "id": "team-294",
-    "members": [
+    "slots": [
       "enemy-414"
     ]
   },
   {
     "id": "team-295",
-    "members": [
-      "enemy-420"
+    "slots": [
+      null,
+      "enemy-420",
+      null,
+      null,
+      null
     ]
   },
   {
     "id": "team-296",
-    "members": [
+    "slots": [
       "enemy-475",
       "enemy-476"
     ]
   },
   {
     "id": "team-297",
-    "members": [
+    "slots": [
       "enemy-476"
     ]
   },
   {
     "id": "team-298",
-    "members": [
+    "slots": [
       "enemy-477"
     ]
   },
   {
     "id": "team-299",
-    "members": [
+    "slots": [
       "enemy-481"
     ]
   },
   {
     "id": "team-300",
-    "members": [
+    "slots": [
       "enemy-489"
     ]
   },
   {
     "id": "team-301",
-    "members": [
+    "slots": [
       "enemy-488",
       "enemy-488"
     ]
   },
   {
     "id": "team-302",
-    "members": [
+    "slots": [
       "enemy-488",
       "enemy-488",
       "enemy-488",
@@ -2097,95 +2144,101 @@
   },
   {
     "id": "team-303",
-    "members": [
+    "slots": [
       "enemy-445",
-      "enemy-445"
+      "enemy-445",
+      null,
+      null,
+      null
     ]
   },
   {
     "id": "team-304",
-    "members": [
+    "slots": [
       "enemy-439",
+      null,
       "enemy-445"
     ]
   },
   {
     "id": "team-305",
-    "members": [
+    "slots": [
       "enemy-539"
     ]
   },
   {
     "id": "team-306",
-    "members": [
+    "slots": [
       "enemy-540"
     ]
   },
   {
     "id": "team-307",
-    "members": [
+    "slots": [
       "enemy-541"
     ]
   },
   {
     "id": "team-308",
-    "members": [
+    "slots": [
       "enemy-542"
     ]
   },
   {
     "id": "team-309",
-    "members": [
+    "slots": [
       "enemy-543"
     ]
   },
   {
     "id": "team-310",
-    "members": [
+    "slots": [
       "enemy-544"
     ]
   },
   {
     "id": "team-311",
-    "members": [
+    "slots": [
       "enemy-545"
     ]
   },
   {
     "id": "team-312",
-    "members": [
+    "slots": [
       "enemy-497"
     ]
   },
   {
     "id": "team-313",
-    "members": [
-      "enemy-546"
+    "slots": [
+      null,
+      "enemy-546",
+      null
     ]
   },
   {
     "id": "team-314",
-    "members": [
+    "slots": [
       "enemy-438",
       "enemy-440"
     ]
   },
   {
     "id": "team-315",
-    "members": [
+    "slots": [
       "enemy-547"
     ]
   },
   {
     "id": "team-316",
-    "members": [
+    "slots": [
       "enemy-548",
       "enemy-548"
     ]
   },
   {
     "id": "team-317",
-    "members": [
+    "slots": [
       "enemy-548",
       "enemy-485",
       "enemy-548"
@@ -2193,7 +2246,7 @@
   },
   {
     "id": "team-318",
-    "members": [
+    "slots": [
       "enemy-549",
       "enemy-549",
       "enemy-549"
@@ -2201,71 +2254,80 @@
   },
   {
     "id": "team-319",
-    "members": [
+    "slots": [
       "enemy-485",
       "enemy-549"
     ]
   },
   {
     "id": "team-320",
-    "members": [
+    "slots": [
       "enemy-492",
+      null,
       "enemy-492"
     ]
   },
   {
     "id": "team-321",
-    "members": [
+    "slots": [
       "enemy-490",
+      null,
       "enemy-490"
     ]
   },
   {
     "id": "team-322",
-    "members": [
+    "slots": [
       "enemy-492",
+      null,
       "enemy-490"
     ]
   },
   {
     "id": "team-323",
-    "members": [
+    "slots": [
       "enemy-490",
+      null,
       "enemy-516",
+      null,
       "enemy-492"
     ]
   },
   {
     "id": "team-324",
-    "members": [
+    "slots": [
       "enemy-465",
+      null,
       "enemy-492"
     ]
   },
   {
     "id": "team-325",
-    "members": [
+    "slots": [
       "enemy-465",
+      null,
       "enemy-490"
     ]
   },
   {
     "id": "team-326",
-    "members": [
+    "slots": [
       "enemy-490",
+      null,
       "enemy-465"
     ]
   },
   {
     "id": "team-327",
-    "members": [
+    "slots": [
       "enemy-492",
+      null,
       "enemy-465"
     ]
   },
   {
     "id": "team-328",
-    "members": [
+    "slots": [
       "enemy-516",
       "enemy-490",
       "enemy-516"
@@ -2273,7 +2335,7 @@
   },
   {
     "id": "team-329",
-    "members": [
+    "slots": [
       "enemy-517",
       "enemy-490",
       "enemy-517"
@@ -2281,35 +2343,39 @@
   },
   {
     "id": "team-330",
-    "members": [
+    "slots": [
       "enemy-498",
+      null,
       "enemy-514"
     ]
   },
   {
     "id": "team-331",
-    "members": [
+    "slots": [
       "enemy-536",
+      null,
       "enemy-514"
     ]
   },
   {
     "id": "team-332",
-    "members": [
+    "slots": [
       "enemy-498",
+      null,
       "enemy-412"
     ]
   },
   {
     "id": "team-333",
-    "members": [
+    "slots": [
       "enemy-536",
+      null,
       "enemy-412"
     ]
   },
   {
     "id": "team-334",
-    "members": [
+    "slots": [
       "enemy-412",
       "enemy-498",
       "enemy-412"
@@ -2317,122 +2383,137 @@
   },
   {
     "id": "team-335",
-    "members": [
+    "slots": [
       "enemy-498",
+      null,
       "enemy-498"
     ]
   },
   {
     "id": "team-336",
-    "members": [
+    "slots": [
       "enemy-498",
+      null,
       "enemy-536"
     ]
   },
   {
     "id": "team-337",
-    "members": [
+    "slots": [
       "enemy-465",
+      null,
       "enemy-536"
     ]
   },
   {
     "id": "team-338",
-    "members": [
+    "slots": [
       "enemy-536",
+      null,
       "enemy-490"
     ]
   },
   {
     "id": "team-339",
-    "members": [
+    "slots": [
       "enemy-492",
+      null,
       "enemy-536"
     ]
   },
   {
     "id": "team-340",
-    "members": [
+    "slots": [
       "enemy-491",
+      null,
       "enemy-520"
     ]
   },
   {
     "id": "team-341",
-    "members": [
+    "slots": [
       "enemy-491",
+      null,
       "enemy-550"
     ]
   },
   {
     "id": "team-342",
-    "members": [
+    "slots": [
       "enemy-518",
+      null,
       "enemy-465",
       "enemy-518"
     ]
   },
   {
     "id": "team-343",
-    "members": [
+    "slots": [
       "enemy-518",
+      null,
       "enemy-465"
     ]
   },
   {
     "id": "team-344",
-    "members": [
+    "slots": [
       "enemy-538",
+      null,
       "enemy-465",
       "enemy-537"
     ]
   },
   {
     "id": "team-345",
-    "members": [
+    "slots": [
       "enemy-537",
+      null,
       "enemy-465",
       "enemy-537"
     ]
   },
   {
     "id": "team-346",
-    "members": [
+    "slots": [
       "enemy-538",
+      null,
       "enemy-465",
       "enemy-538"
     ]
   },
   {
     "id": "team-347",
-    "members": [
+    "slots": [
       "enemy-465",
+      null,
       "enemy-465"
     ]
   },
   {
     "id": "team-348",
-    "members": [
+    "slots": [
       "enemy-550"
     ]
   },
   {
     "id": "team-349",
-    "members": [
+    "slots": [
       "enemy-520",
+      null,
       "enemy-520"
     ]
   },
   {
     "id": "team-350",
-    "members": [
+    "slots": [
       "enemy-550",
+      null,
       "enemy-550"
     ]
   },
   {
     "id": "team-351",
-    "members": [
+    "slots": [
       "enemy-492",
       "enemy-492",
       "enemy-492"
@@ -2440,16 +2521,17 @@
   },
   {
     "id": "team-352",
-    "members": [
+    "slots": [
       "enemy-516",
       "enemy-516",
       "enemy-516",
+      null,
       "enemy-490"
     ]
   },
   {
     "id": "team-353",
-    "members": [
+    "slots": [
       "enemy-514",
       "enemy-498",
       "enemy-514",
@@ -2458,7 +2540,7 @@
   },
   {
     "id": "team-354",
-    "members": [
+    "slots": [
       "enemy-514",
       "enemy-536",
       "enemy-514",
@@ -2467,67 +2549,75 @@
   },
   {
     "id": "team-355",
-    "members": [
+    "slots": [
       "enemy-412",
       "enemy-536",
       "enemy-412",
+      null,
       "enemy-514"
     ]
   },
   {
     "id": "team-356",
-    "members": [
+    "slots": [
       "enemy-516",
       "enemy-490",
       "enemy-516",
+      null,
       "enemy-516"
     ]
   },
   {
     "id": "team-357",
-    "members": [
+    "slots": [
       "enemy-520",
+      null,
       "enemy-550"
     ]
   },
   {
     "id": "team-358",
-    "members": [
+    "slots": [
       "enemy-536",
+      null,
       "enemy-550"
     ]
   },
   {
     "id": "team-359",
-    "members": [
+    "slots": [
       "enemy-490",
+      null,
       "enemy-550"
     ]
   },
   {
     "id": "team-360",
-    "members": [
+    "slots": [
       "enemy-492",
+      null,
       "enemy-550"
     ]
   },
   {
     "id": "team-361",
-    "members": [
+    "slots": [
       "enemy-465",
+      null,
       "enemy-550"
     ]
   },
   {
     "id": "team-362",
-    "members": [
+    "slots": [
       "enemy-550",
+      null,
       "enemy-465"
     ]
   },
   {
     "id": "team-363",
-    "members": [
+    "slots": [
       "enemy-517",
       "enemy-492",
       "enemy-517"
@@ -2535,7 +2625,7 @@
   },
   {
     "id": "team-364",
-    "members": [
+    "slots": [
       "enemy-516",
       "enemy-492",
       "enemy-516"
@@ -2543,114 +2633,128 @@
   },
   {
     "id": "team-365",
-    "members": [
+    "slots": [
       "enemy-490",
+      null,
       "enemy-490",
       "enemy-490"
     ]
   },
   {
     "id": "team-366",
-    "members": [
+    "slots": [
       "enemy-490",
+      null,
       "enemy-490",
+      null,
       "enemy-492"
     ]
   },
   {
     "id": "team-367",
-    "members": [
+    "slots": [
       "enemy-490",
+      null,
       "enemy-465",
       "enemy-490"
     ]
   },
   {
     "id": "team-368",
-    "members": [
+    "slots": [
       "enemy-492",
+      null,
       "enemy-465",
       "enemy-492"
     ]
   },
   {
     "id": "team-369",
-    "members": [
+    "slots": [
       "enemy-490",
+      null,
       "enemy-536",
       "enemy-492"
     ]
   },
   {
     "id": "team-370",
-    "members": [
+    "slots": [
       "enemy-490",
+      null,
       "enemy-492",
       "enemy-520"
     ]
   },
   {
     "id": "team-371",
-    "members": [
+    "slots": [
       "enemy-490",
+      null,
       "enemy-492",
       "enemy-550"
     ]
   },
   {
     "id": "team-372",
-    "members": [
+    "slots": [
       "enemy-536",
+      null,
       "enemy-536",
+      null,
       "enemy-492"
     ]
   },
   {
     "id": "team-373",
-    "members": [
+    "slots": [
       "enemy-492",
+      null,
       "enemy-550",
       "enemy-536"
     ]
   },
   {
     "id": "team-374",
-    "members": [
+    "slots": [
       "enemy-514",
       "enemy-470"
     ]
   },
   {
     "id": "team-375",
-    "members": [
+    "slots": [
       "enemy-514",
+      null,
       "enemy-470",
       "enemy-514"
     ]
   },
   {
     "id": "team-376",
-    "members": [
+    "slots": [
       "enemy-402",
+      null,
       "enemy-470"
     ]
   },
   {
     "id": "team-377",
-    "members": [
+    "slots": [
       "enemy-469",
+      null,
       "enemy-470"
     ]
   },
   {
     "id": "team-378",
-    "members": [
+    "slots": [
       "enemy-465"
     ]
   },
   {
     "id": "team-379",
-    "members": [
+    "slots": [
       "enemy-402",
       "enemy-402",
       "enemy-402"

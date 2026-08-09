@@ -386,14 +386,16 @@ describe('M4c-2 动作:变身/分裂/召唤/整场逃离', () => {
     })
     runOneTurn(s0)
     expect(s0.log.some((l) => l.includes('分裂失败'))).toBe(true)
-    expect(s0.enemies.length).toBe(2)
+    expect(s0.enemies.length).toBe(5)
+    expect(s0.maxEnemyIndex).toBe(1)
     // 单only:成功均分
     const s = createBattleState({
       players: [player('li', { hp: 500, maxHp: 500 })],
       enemies: [blob],
     })
     runOneTurn(s)
-    expect(s.enemies.length).toBe(2)
+    expect(s.enemies.length).toBe(5)
+    expect(s.maxEnemyIndex).toBe(1)
     expect(s.enemies[0]!.hp).toBe(45)
     expect(s.enemies[1]!.hp).toBe(45)
 
@@ -407,7 +409,8 @@ describe('M4c-2 动作:变身/分裂/召唤/整场逃离', () => {
       enemies: [caller],
     })
     runOneTurn(s2)
-    expect(s2.enemies.length).toBe(1) // 原版 0x9E:空槽不足时整次失败，不做部分召唤
+    expect(s2.enemies.length).toBe(5)
+    expect(s2.maxEnemyIndex).toBe(0) // 当前上限内无空槽，且 summon 不扩展上限
     expect(s2.log.some((l) => l.includes('召唤失败'))).toBe(true)
   })
 
@@ -431,7 +434,8 @@ describe('M4c-2 动作:变身/分裂/召唤/整场逃离', () => {
     }
     s.enemies[1] = { ...s.enemies[1]!, def: blob, firedRules: new Set() }
     runOneTurn(s)
-    expect(s.enemies.length).toBe(3) // 填槽不 push
+    expect(s.enemies.length).toBe(5) // 固定容量；填槽不扩展上限
+    expect(s.maxEnemyIndex).toBe(2)
     expect(s.enemies[0]!.hp).toBeGreaterThan(0) // 死槽被增援复活
     expect(s.enemies[0]!.basePos).toEqual(posA) // 继承槽位
     expect(s.enemies[0]!.rewardCounted).toBe(false) // 新怪再死重新计赏
@@ -580,7 +584,7 @@ describe('R13-5 敌实例脚本 owner / fallback / effect outcome', () => {
 
     const summonState = createBattleState({
       players: [player('hero')],
-      enemies: [source],
+      enemySlots: [source, null],
       enemiesById: { summoned },
     })
     const result = applyEnemyEffect(summonState, 0, {
@@ -604,7 +608,7 @@ describe('R13-5 敌实例脚本 owner / fallback / effect outcome', () => {
       enemies: [caller, mkEnemy('b'), mkEnemy('c'), mkEnemy('d')],
       enemiesById: { target },
     })
-    const before = state.enemies.map((enemy) => enemy.def.id)
+    const before = state.enemies.slice(0, 4).map((enemy) => enemy?.def.id)
     expect(
       applyEnemyEffect(state, 0, {
         kind: 'summon',
@@ -612,7 +616,7 @@ describe('R13-5 敌实例脚本 owner / fallback / effect outcome', () => {
         count: 2,
       }).outcome,
     ).toBe('failed')
-    expect(state.enemies.map((enemy) => enemy.def.id)).toEqual(before)
+    expect(state.enemies.slice(0, 4).map((enemy) => enemy?.def.id)).toEqual(before)
 
     state.enemies[0]!.status.sleep = 1
     expect(
@@ -927,8 +931,7 @@ describe('降级链:出手时刻验证(fight.c:3260-3506 PAL_BattlePlayerValidat
     stepBattle(s, rng0) // build queue
     s.enemies[0]!.hp = 0 // 出手前 a 已死(多队员抢死/毒杀场景的 headless 等价)
     stepBattle(s, rng0) // 玩家先手:环扫改选 → b
-    expect(s.lastAction?.kind).toBe('attack')
-    expect(s.lastAction?.target).toBe(1)
+    expect(s.lastAction).toMatchObject({ kind: 'attack', targetEnemyIdx: 1 })
     const base = calcPhysicalAttackDamage(40, 10 + (1 + 6) * 4, 0)
     expect(999 - s.enemies[1]!.hp).toBe((base + 1) * 3)
   })
@@ -1881,13 +1884,13 @@ describe('P2 长鞭攻全体(attackAll;fight.c:3683-3730)', () => {
       ],
     })
     stepBattle(s, rng0)
-    for (const e of s.enemies) e.status.sleep = 99 // 隔离敌回合
+    for (const e of s.enemies) if (e) e.status.sleep = 99 // 隔离敌回合
     s.pendingActions.set(0, { kind: 'attack', targetEnemyIdx: 0 })
     let g = 0
     do stepBattle(s, rng0)
     while (s.phase === 'performAction' && g++ < 40)
     // 3 敌都掉血;打击序 {2,1,0}(原版 index[])→ 敌2 division1 全额 > 敌1 half > 敌0 quarter
-    const dealt = s.enemies.map((e) => 9999 - e.hp)
+    const dealt = s.enemies.slice(0, 3).map((e) => 9999 - e!.hp)
     expect(dealt.every((d) => d > 0)).toBe(true) // 全都吃到
     expect(dealt[2]).toBeGreaterThan(dealt[1]!) // 敌2 首打 division1 最重
     expect(dealt[1]).toBeGreaterThan(dealt[0]!) // 敌1 次之 > 敌0 末打 division4
@@ -2268,7 +2271,7 @@ describe('R13-3 投掷专用效果链', () => {
 
     expect(s.enemies[0]!.poisons).toEqual([])
     expect(s.enemies[1]!.poisons).toEqual([{ poisonId: 552, tickIndex: 0 }])
-    expect(s.enemies.map((enemy) => enemy.hp)).toEqual([0, 0])
+    expect(s.enemies.slice(0, 2).map((enemy) => enemy!.hp)).toEqual([0, 0])
     const effectLogs = s.log.filter(
       (line) =>
         line.includes('受到') ||

@@ -135,7 +135,14 @@ export function buildR13SourceSemanticsCanaryFixture(): R13SourceSemanticsCanary
     })()
     releasePalTestProducerCachesForCanary()
     ;(globalThis as { gc?: () => void }).gc?.()
-    const currentFull = loadCanarySourcesMigration(prepared.historicalSources, buildPalMigration)
+    // R13-6A is an immutable content<=11 authority.  The current producer now defaults to the
+    // semantic-slots successor schema for B10/content12, so pin this historical canary to the
+    // published压紧 members surface instead of silently changing the old authority digest.
+    const currentFull = loadCanarySourcesMigration(
+      prepared.historicalSources,
+      (sources: PalMigrationSources) =>
+        buildPalMigration(sources, { enemyTeamSchema: 'legacy-members' }),
+    )
     const currentMigrationDigest = digestR13SourceSemanticsMigrationInput(currentFull.migration)
     const currentMigrationFastDigest = digestR13SourceSemanticsMigrationInputFast(
       currentFull.migration,

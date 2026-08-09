@@ -791,7 +791,7 @@ describe('openLocalProject', () => {
     expect(opened.kind).toBe('v5')
     if (opened.kind !== 'v5') throw new Error('没有进入 v5 loader')
     expect(opened.project.manifest).toMatchObject({
-      contentVersion: 11,
+      contentVersion: 12,
       minimumSaveVersion: 8,
     })
     expect(writes).toEqual(['manifest.json'])
@@ -834,7 +834,7 @@ describe('openLocalProject', () => {
     expect(opened.kind).toBe('v5')
     if (opened.kind !== 'v5') throw new Error('没有进入 v5 loader')
     expect(opened.project.manifest).toMatchObject({
-      contentVersion: 11,
+      contentVersion: 12,
       minimumSaveVersion: 8,
     })
     expect(opened.project.items.poison?.throw).toEqual({
@@ -884,7 +884,7 @@ describe('openLocalProject', () => {
     expect(opened.kind).toBe('v5')
     if (opened.kind !== 'v5') throw new Error('没有进入 v5 loader')
     expect(opened.project.manifest).toMatchObject({
-      contentVersion: 11,
+      contentVersion: 12,
       minimumSaveVersion: 8,
     })
     expect(opened.project.items['shared-weapon']?.equip?.effects).toEqual([
@@ -948,7 +948,7 @@ describe('openLocalProject', () => {
     const reopened = await openLocalProject(dir)
     expect(reopened.kind).toBe('v5')
     expect(reopened.project.manifest).toMatchObject({
-      contentVersion: 11,
+      contentVersion: 12,
       minimumSaveVersion: 8,
     })
     expect(writes.at(-1)).toBe('manifest.json')
@@ -1018,7 +1018,7 @@ describe('openLocalProject', () => {
     const opened = await openLocalProject(dir)
     expect(opened.kind).toBe('v5')
     expect(opened.project.manifest).toMatchObject({
-      contentVersion: 11,
+      contentVersion: 12,
       minimumSaveVersion: 8,
     })
     expect(writes).toEqual(['manifest.json'])
@@ -1029,6 +1029,129 @@ describe('openLocalProject', () => {
 
     writes.length = 0
     await openLocalProject(dir)
+    expect(writes).toEqual([])
+  })
+
+  test('content v11 敌队 members 在 overlay 校验后按 enemy-teams→manifest 原子晋升 v12', async () => {
+    const files = await blankCanonicalV5Files('Epoch V11 Enemy Slots')
+    const manifest = JSON.parse(String(files['manifest.json'])) as {
+      contentVersion: number
+      minimumSaveVersion?: number
+      content: Record<string, string>
+    }
+    manifest.contentVersion = 11
+    manifest.minimumSaveVersion = 8
+    manifest.content.enemies = 'content/enemies.json'
+    manifest.content.enemyTeams = 'content/enemy-teams.json'
+    files['manifest.json'] = J(manifest)
+    files['content/enemies.json'] = J([
+      {
+        id: 'enemy-a',
+        name: 'name.hero',
+        battleSprite: 'starter-fighter',
+        yPosOffset: 0,
+        stats: {},
+        ai: { resistanceToSorcery: 0 },
+        sounds: {},
+      },
+    ])
+    files['content/enemy-teams.json'] = J([{ id: 'team-1', members: ['enemy-a', 'enemy-a'] }])
+    const writes: string[] = []
+    const dir = mockDir('epoch-v11-enemy-slots', files, writes)
+
+    const opened = await openLocalProject(dir)
+    if (opened.kind !== 'v5') throw new Error('expected canonical v5 project')
+    expect(opened.project.manifest).toMatchObject({ contentVersion: 12, minimumSaveVersion: 8 })
+    expect(opened.canonicalV5.project.enemyTeamsById['team-1']).toEqual({
+      id: 'team-1',
+      slots: ['enemy-a', 'enemy-a'],
+    })
+    expect(writes).toEqual(['content/enemy-teams.json', 'manifest.json'])
+
+    writes.length = 0
+    await openLocalProject(dir)
+    expect(writes).toEqual([])
+  })
+
+  test('content v11 manifest-last 中断留下合法 slots 半状态，重试只提交 manifest', async () => {
+    const files = await blankCanonicalV5Files('Retry Epoch V11 Enemy Slots')
+    const manifest = JSON.parse(String(files['manifest.json'])) as {
+      contentVersion: number
+      minimumSaveVersion?: number
+      content: Record<string, string>
+    }
+    manifest.contentVersion = 11
+    manifest.minimumSaveVersion = 8
+    manifest.content.enemies = 'content/enemies.json'
+    manifest.content.enemyTeams = 'content/enemy-teams.json'
+    files['manifest.json'] = J(manifest)
+    files['content/enemies.json'] = J([
+      {
+        id: 'enemy-a',
+        name: 'name.hero',
+        battleSprite: 'starter-fighter',
+        yPosOffset: 0,
+        stats: {},
+        ai: { resistanceToSorcery: 0 },
+        sounds: {},
+      },
+    ])
+    files['content/enemy-teams.json'] = J([{ id: 'team-1', members: ['enemy-a'] }])
+    const writes: string[] = []
+    const dir = mockDir('retry-epoch-v11-enemy-slots', files, writes, {
+      failClose: (path, attempt) => path === 'manifest.json' && attempt === 1,
+    })
+
+    await expect(openLocalProject(dir)).rejects.toThrow('Injected close failure manifest.json')
+    expect(JSON.parse(String(files['content/enemy-teams.json']))).toEqual([
+      { id: 'team-1', slots: ['enemy-a'] },
+    ])
+    expect(JSON.parse(String(files['manifest.json']))).toMatchObject({ contentVersion: 11 })
+
+    const reopened = await openLocalProject(dir)
+    expect(reopened.project.manifest.contentVersion).toBe(12)
+    expect(writes).toEqual(['content/enemy-teams.json', 'manifest.json'])
+  })
+
+  test.each([
+    {
+      name: '未知敌引用',
+      teams: [{ id: 'team-1', members: ['missing'] }],
+      error: /missing.*不在 enemies/,
+    },
+    {
+      name: 'members/slots 混合半状态',
+      teams: [{ id: 'team-1', members: ['enemy-a'], slots: ['enemy-a'] }],
+      error: /未知字段/,
+    },
+  ])('content v11 敌队 $name 在写盘前 fail-closed', async ({ name, teams, error }) => {
+    const files = await blankCanonicalV5Files(`Invalid Epoch V11 ${name}`)
+    const manifest = JSON.parse(String(files['manifest.json'])) as {
+      contentVersion: number
+      minimumSaveVersion?: number
+      content: Record<string, string>
+    }
+    manifest.contentVersion = 11
+    manifest.minimumSaveVersion = 8
+    manifest.content.enemies = 'content/enemies.json'
+    manifest.content.enemyTeams = 'content/enemy-teams.json'
+    files['manifest.json'] = J(manifest)
+    files['content/enemies.json'] = J([
+      {
+        id: 'enemy-a',
+        name: 'name.hero',
+        battleSprite: 'starter-fighter',
+        yPosOffset: 0,
+        stats: {},
+        ai: { resistanceToSorcery: 0 },
+        sounds: {},
+      },
+    ])
+    files['content/enemy-teams.json'] = J(teams)
+    const writes: string[] = []
+    await expect(openLocalProject(mockDir(`invalid-v11-${name}`, files, writes))).rejects.toThrow(
+      error,
+    )
     expect(writes).toEqual([])
   })
 
@@ -1184,7 +1307,7 @@ describe('openLocalProject', () => {
         contentVersion: number
         minimumSaveVersion: number
       },
-    ).toMatchObject({ contentVersion: 11, minimumSaveVersion: 8 })
+    ).toMatchObject({ contentVersion: 12, minimumSaveVersion: 8 })
   })
 
   test('旧 v3 battle-sprite 全量登记、语义引用、manifest-last 与二次打开 no-op', async () => {
@@ -1883,7 +2006,7 @@ describe('openLocalProject', () => {
 
     const opened = await openLocalProject(dir)
     expect(opened.kind).toBe('v5')
-    expect(opened.project.manifest.contentVersion).toBe(11)
+    expect(opened.project.manifest.contentVersion).toBe(12)
     expect(opened.project.manifest.minimumSaveVersion).toBe(8)
     expect(writes.at(-1)).toBe('manifest.json')
     expect(files['content/shared-scripts.json']).toBeDefined()
@@ -1981,7 +2104,7 @@ describe('openLocalProject', () => {
     const opened = await openLocalProject(mockDir('v4-scalar-battle-sprite', files))
     expect(opened.kind).toBe('v5')
     expect(opened.project.manifest).toMatchObject({
-      contentVersion: 11,
+      contentVersion: 12,
       minimumSaveVersion: 8,
     })
     expect(opened.project.items.weapon?.equip?.effects).toEqual([
@@ -2004,7 +2127,7 @@ describe('openLocalProject', () => {
 
     const reopened = await openLocalProject(dir)
     expect(reopened.kind).toBe('v5')
-    expect(reopened.project.manifest.contentVersion).toBe(11)
+    expect(reopened.project.manifest.contentVersion).toBe(12)
     expect(reopened.project.manifest.minimumSaveVersion).toBe(8)
     expect(files['.type-pal/journals/script-v4-v5.json']).toBeUndefined()
   })
@@ -2107,7 +2230,7 @@ describe('openLocalProject', () => {
         contentVersion: number
         minimumSaveVersion: number
       },
-    ).toMatchObject({ contentVersion: 11, minimumSaveVersion: 8 })
+    ).toMatchObject({ contentVersion: 12, minimumSaveVersion: 8 })
   })
 
   test('旧 v3 sprite number/legacy-root/followers → catalog 单链，二次打开零写入', async () => {
@@ -2860,7 +2983,7 @@ describe('openLocalProject', () => {
     const dir = mockDir('old-v3', files, writes)
     const opened = await openLocalProject(dir)
     expect(opened.project.manifest.assets.roles['audio.openingMenuMusic']).toBe(expected)
-    expect(opened.project.manifest.contentVersion).toBe(11)
+    expect(opened.project.manifest.contentVersion).toBe(12)
     expect(writes.at(-1)).toBe('manifest.json')
 
     writes.length = 0
@@ -2873,14 +2996,14 @@ describe('openLocalProject', () => {
     const customWrites: string[] = []
     const opened = await openLocalProject(mockDir('custom-v3', custom, customWrites))
     expect(opened.project.manifest.assets.roles['audio.openingMenuMusic']).toBe('music.pal.009')
-    expect(opened.project.manifest.contentVersion).toBe(11)
+    expect(opened.project.manifest.contentVersion).toBe(12)
     expect(customWrites.at(-1)).toBe('manifest.json')
 
     const silentFiles = { ...fullProject }
     const silentWrites: string[] = []
     const silent = await openLocalProject(mockDir('silent-v3', silentFiles, silentWrites))
     expect(silent.project.manifest.assets.roles['audio.openingMenuMusic']).toBeUndefined()
-    expect(silent.project.manifest.contentVersion).toBe(11)
+    expect(silent.project.manifest.contentVersion).toBe(12)
     expect(silentWrites.at(-1)).toBe('manifest.json')
   })
 
@@ -3221,7 +3344,7 @@ describe('openLocalProject', () => {
       readSoundfont: async () => soundfont,
     })
 
-    expect(opened.project.manifest.contentVersion).toBe(11)
+    expect(opened.project.manifest.contentVersion).toBe(12)
     expect(opened.project.manifest.assets.legacy?.families).not.toContain('sound')
     expect(opened.scenes[0]?.music).toBe('music.pal.001')
     expect(canonicalHookBody(opened)).toEqual([{ kind: 'playSound', asset: 'sound.pal.045' }])

@@ -54,7 +54,7 @@ describe('save ops（纯）', () => {
     })
     expect(payload.world).toBe(world)
   })
-  test('buildPayloadV8：当前 canonical 存档固定写出 SAVE8/content11', () => {
+  test('buildPayloadV8：当前 canonical 存档固定写出 SAVE8/content12', () => {
     const world = { ...makeTestWorld(), script: emptyWorldScriptStateV5() }
     const position = {
       sceneId: 's',
@@ -64,7 +64,7 @@ describe('save ops（纯）', () => {
     const payload = buildPayloadV8(world, position, 'demo')
     expect(payload).toEqual({
       version: 8,
-      contentVersion: 11,
+      contentVersion: 12,
       projectId: 'demo',
       world,
       position,

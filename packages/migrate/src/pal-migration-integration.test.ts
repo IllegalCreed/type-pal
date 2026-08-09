@@ -77,6 +77,7 @@ import {
   PAL_WORLD_SPRITE_LEGACY_TAIL_ANOMALIES,
   PAL_WORLD_SPRITE_TUPLE_DIGEST,
 } from './pal-assets.js'
+import { assertB10PublishedAuthority } from './pal-b10-enemy-team-slots.js'
 import {
   PAL_ENEMY_BATTLE_SPRITE_FRAME_COUNTS,
   PAL_PLAYER_BATTLE_SPRITE_FRAME_COUNTS,
@@ -659,9 +660,11 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
 
 function buildStrictPalMigrationFixture() {
   const sources = loadPalMigrationSources(repo)
-  const theirs = buildPalMigration(sources)
   const baseline = loadPalBaseline(repo)
   if (!baseline) throw new Error('MG2 真实 PAL 回归缺已提交 baseline')
+  const theirs = buildPalMigration(sources, {
+    enemyTeamSchema: assertB10PublishedAuthority(baseline) ? 'semantic-slots' : 'legacy-members',
+  })
   const frozenAudit = JSON.parse(
     readFileSync(
       resolve(repo, 'packages/migrate/baselines/script-control-flow/pal-v1.json'),

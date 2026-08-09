@@ -17,6 +17,7 @@ import {
   upgradeItemsV8ToV9,
   upgradeManifestV9ToV10,
   upgradeManifestV10ToV11,
+  upgradeManifestV11ToV12,
   validateItemsV5,
   validateProjectMigrationSidecarV1,
   validateProjectRelativePath,
@@ -566,8 +567,8 @@ export async function upgradeLocalProjectV4ScriptV5(
       },
     },
   }
-  const manifestCurrent: CurrentManifest = upgradeManifestV10ToV11(
-    upgradeManifestV9ToV10(manifestV9),
+  const manifestCurrent: CurrentManifest = upgradeManifestV11ToV12(
+    upgradeManifestV10ToV11(upgradeManifestV9ToV10(manifestV9)),
   )
   const writes = new Map<string, Uint8Array>([
     ['content/shared-scripts.json', jsonBytes(upgradedSharedScripts)],

@@ -11,9 +11,11 @@
     "r13-enemy-script-v1": "54804a6c69e644e9c44fd98fd489d0f73eee6580c4ffc3c3753322074361fab6",
     "r13-source-semantics-v1": "0d52087bfcd78265b01d8eee94a4ca5f089a709ebb76934c30845061e9e52567",
     "r13-z-source-closure-v1": "e530e253387b04859db29fa979c493bb880f7cf80a4d26919c254290bdf674a0",
-    "r13-6c-lossy-closure-v1": "82e9f8f343b946b6c313b9995b2588d4ee44484d5a3bfef8e36ba7c367db06a2"
+    "r13-6c-lossy-closure-v1": "82e9f8f343b946b6c313b9995b2588d4ee44484d5a3bfef8e36ba7c367db06a2",
+    "b10-enemy-team-slots-v1": "24eeba234da2ee5dabd6128f42469aa61dabdf282536977de1447baeaad1bc01"
   },
   "managedFiles": [
+    "_transitions/b10-enemy-team-slots-v1.json",
     "_transitions/c8-item-use-v5-v1.json",
     "_transitions/r13-6c-lossy-closure-v1.json",
     "_transitions/r13-cadence-v1.json",
@@ -562,6 +564,7 @@
     "content/tilesets.json"
   ],
   "files": {
+    "_transitions/b10-enemy-team-slots-v1.json": "b3c811a0825b0f79fdbfe87f266a4463cfc8ab0c242536cb495dd92ee2899f6c",
     "_transitions/c8-item-use-v5-v1.json": "325d52ed750e29ab5757002821037a270498b2f8c3af5158a79d568a27df3a24",
     "_transitions/r13-6c-lossy-closure-v1.json": "177537fe1013aa30d518b855d4b189a7df618500f787edd25ce43e7cc430b280",
     "_transitions/r13-cadence-v1.json": "2b1e71b018ffba8aecd4adea628c325dd4f67e338508b22f6ed06f4517683453",
@@ -577,7 +580,7 @@
     "content/battle-fields.json": "98cd70b59117e045d9c10f1496f81ac3619c0457411c64400dcaff2efff6306e",
     "content/battle-sprites.json": "e381a8e963eb1f7cee4e0ffcd57609a68d7f1731146ecf0f08cff9fd7b1a5417",
     "content/enemies.json": "dbd7dc16aa2ba938d1afc253aa5155b7e34f631b67eac5392b5b3d1c3402c8f5",
-    "content/enemy-teams.json": "4e44f5b46b92943af33453840917087523cb7e12926d0056f6e13ca82e6fce7d",
+    "content/enemy-teams.json": "84817dfe160b42d63d57f0bae043b3d21407a97ad5a139b8aacade12092a19cb",
     "content/items.json": "936763bda29531498bafb9a2841535e9afec15ba4066aca77a7ec415c146aa5f",
     "content/locale.json": "97fe4c156763af3cc20d8ddf53f6cd346129633ed8388c461b07ac9c07638730",
     "content/maps/index.json": "ab70e6897dab4f166aad255c7f88d01072cf909bede05f0b2852d43ef3928dd1",

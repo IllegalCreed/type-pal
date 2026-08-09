@@ -1,5 +1,9 @@
 import { isDeepStrictEqual } from 'node:util'
 import { type MigrationSnapshot, serializeMigrationJson, sha256 } from '../../migration-baseline.js'
+import {
+  rewindB10ProjectAgainstPublishedBaseline,
+  rewindB10PublicationIfPresent,
+} from '../../pal-b10-enemy-team-slots.js'
 import type { MigrationJson } from '../../pal-migration.js'
 import { rewindPalR13SixBPublication } from '../../pal-r13-six-b-rewind.js'
 import {
@@ -97,9 +101,11 @@ export function rewindPublishedR13SourceSemanticsBaseline(source: MigrationSnaps
   successor: MigrationSnapshot
   evidence: R13ExistingSchemaAugmentationEvidenceV1
 } {
-  // R13-6C(零内容叶 successor)先剥离,再剥 6B —— 重放 6A 面。
+  // B10 是最外层 content successor；先验证并还原 v11 team 面，再剥 Z/6C/6B。
   const successor = rewindPalR13SixBPublication(
-    rewindPalR13SixCPublicationIfPresent(rewindPublishedR13ZPublicationIfPresent(source)),
+    rewindPalR13SixCPublicationIfPresent(
+      rewindPublishedR13ZPublicationIfPresent(rewindB10PublicationIfPresent(source)),
+    ),
   )
   const seal = publishedSeal(successor)
   if (
@@ -135,8 +141,12 @@ export function rewindPublishedR13SourceSemanticsTransition(args: {
   evidence: R13ExistingSchemaAugmentationEvidenceV1
 } {
   const rebuilt = rewindPublishedR13SourceSemanticsBaseline(args.publishedBaseline)
+  const b10Project = rewindB10ProjectAgainstPublishedBaseline(
+    args.publishedProject,
+    args.publishedBaseline,
+  )
   const projectWithoutPlaceholders = stripProjectManagedPlaceholder(
-    stripProjectManagedPlaceholder(args.publishedProject, R13_Z_SEAL_PATH, R13_Z_TRANSITION_ID),
+    stripProjectManagedPlaceholder(b10Project, R13_Z_SEAL_PATH, R13_Z_TRANSITION_ID),
     R13_SIX_C_SEAL_PATH,
     R13_SIX_C_TRANSITION_ID,
   )

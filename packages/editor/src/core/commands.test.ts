@@ -714,7 +714,7 @@ describe('M4c-3 敌人命令(不可变 + invert)', () => {
       enemyTeams: import('@type-pal/content').EnemyTeamDef[]
     }
     base.enemies = [mkE('enemy-1'), mkE('enemy-2')]
-    base.enemyTeams = [{ id: 'team-1', members: ['enemy-1'] }]
+    base.enemyTeams = [{ id: 'team-1', slots: ['enemy-1'] }]
     return base
   }
   test('UpdateEnemy:patch ai.rules,invert 还原;源不变', () => {
@@ -736,10 +736,10 @@ describe('M4c-3 敌人命令(不可变 + invert)', () => {
     const s2 = del.apply(s0)
     expect(s2.enemies![0]!.id).toBe('enemy-2')
     expect(del.invert(s2).enemies![0]!.id).toBe('enemy-1')
-    const t = new UpdateEnemyTeamsCommand([{ id: 'team-1', members: ['enemy-2'] }])
+    const t = new UpdateEnemyTeamsCommand([{ id: 'team-1', slots: ['enemy-2'] }])
     const s3 = t.apply(s0)
-    expect(s3.enemyTeams![0]!.members).toEqual(['enemy-2'])
-    expect(t.invert(s3).enemyTeams![0]!.members).toEqual(['enemy-1'])
+    expect(s3.enemyTeams![0]!.slots).toEqual(['enemy-2'])
+    expect(t.invert(s3).enemyTeams![0]!.slots).toEqual(['enemy-1'])
   })
 })
 

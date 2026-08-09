@@ -52,6 +52,7 @@ import {
   buildEnemyCast,
   buildEnemyDivide,
   buildEnemyEscape,
+  buildEnemyMateAttack,
   buildEnemyPhysical,
   buildEnemyTransform,
   buildFleeFail,
@@ -82,6 +83,7 @@ import {
   reviveBattlePlayer,
   stepBattle,
 } from './battle-core.js'
+import type { BattleLastAction } from './battle-last-action.js'
 import { getPlayerBasePos } from './battle-positions.js'
 import {
   type BattleMenuRow,
@@ -247,7 +249,7 @@ export class BattleSession {
   private floats: FloatNum[] = []
   private nowMs = 0
   // ── M4d-2 表现层:动画回放 + 死亡淡出 ──
-  private visual: { players: VisualFighter[]; enemies: VisualFighter[] } = {
+  private visual: { players: VisualFighter[]; enemies: Array<VisualFighter | null> } = {
     players: [],
     enemies: [],
   }
@@ -322,7 +324,7 @@ export class BattleSession {
 
   constructor(
     players: CreatePlayerInput[],
-    enemyDefs: EnemyDef[],
+    enemyDefs: Array<EnemyDef | null>,
     private readonly assets: BattleSessionAssets,
     private readonly nameOf: (roleId: string) => string,
     private readonly rng: () => number = Math.random,
@@ -379,7 +381,7 @@ export class BattleSession {
   ) {
     this.state = createBattleState({
       players,
-      enemies: enemyDefs,
+      enemySlots: enemyDefs,
       skills: opts.skills,
       enemiesById: opts.enemiesById,
       items: opts.items,
@@ -510,6 +512,7 @@ export class BattleSession {
     const s = this.state
     this.resetPlayersVisual()
     this.visual.enemies = s.enemies.map((e, i) => {
+      if (!e) return null
       const pos = e.basePos
       const prev = this.visual.enemies[i]
       const profile = this.enemyAppearance(i).definition.profile
@@ -595,7 +598,7 @@ export class BattleSession {
         player.poisons.map((poison) => ({ ...poison })),
       ),
       activeEnemyPoisons: this.state.enemies.flatMap((enemy) =>
-        enemy.poisons.map((poison) => ({ ...poison })),
+        enemy ? enemy.poisons.map((poison) => ({ ...poison })) : [],
       ),
     }
     const token = ++this.preparationSerial
@@ -641,7 +644,7 @@ export class BattleSession {
   }
 
   private aliveEnemyIdxs(): number[] {
-    return this.state.enemies.map((e, i) => (e.hp > 0 ? i : -1)).filter((i) => i >= 0)
+    return this.state.enemies.map((e, i) => (e && e.hp > 0 ? i : -1)).filter((i) => i >= 0)
   }
 
   /** 战斗可用物品(背包有货且带 use);数量已扣本回合预占(nAmountInUse 语义:
@@ -756,7 +759,7 @@ export class BattleSession {
     if (s.hidingTime > 0) return
     const rng = this.rng
     const list = this.opts.encounterChoreo ?? []
-    const primary = s.enemies.find((e) => e.hp > 0)
+    const primary = s.enemies.find((e): e is NonNullable<typeof e> => !!e && e.hp > 0)
     this.choreoName = primary ? lookupText(primary.def.name, this.opts.locale ?? {}) : ''
     list.forEach((c, ci) => {
       if (c.at !== 'turnStart' && !(c.at === 'battleStart' && s.turn === 1)) return
@@ -770,7 +773,8 @@ export class BattleSession {
   private queueTurnStartHooks(): void {
     if (this.state.hidingTime > 0 || this.pendingTerminal) return
     this.state.enemies.forEach((enemy, enemyIdx) => {
-      if (enemy.hp > 0) this.pendingHookActivations.push({ enemyIdx, channel: 'turnStart' })
+      if (enemy && enemy.hp > 0)
+        this.pendingHookActivations.push({ enemyIdx, channel: 'turnStart' })
     })
   }
 
@@ -844,16 +848,16 @@ export class BattleSession {
 
   private startEnemyFleePresentation(): void {
     const playerHp = this.state.players.map((player) => player.hp)
-    const enemyHp = this.state.enemies.map((enemy) => enemy.hp)
+    const enemyHp = this.state.enemies.map((enemy) => enemy?.hp ?? 0)
     const playerAppearances = this.state.players.map(
       (player, index) =>
         player.tranceBattleSprite ?? expectDefined(this.assets.playerBaseDefinitionIds[index]),
     )
-    const enemyAppearances = this.state.enemies.map((enemy) => enemy.def.battleSprite)
+    const enemyAppearances = this.state.enemies.map((enemy) => enemy?.def.battleSprite ?? '')
     const action = {
       side: 'enemy' as const,
       idx: 0,
-      kind: 'fleeAll',
+      kind: 'fleeAll' as const,
     }
     const timeline = this.buildStepTimeline(
       action,
@@ -1061,12 +1065,12 @@ export class BattleSession {
       const activation = this.activeHook
       const before = {
         playerHp: this.state.players.map((player) => player.hp),
-        enemyHp: this.state.enemies.map((enemy) => enemy.hp),
+        enemyHp: this.state.enemies.map((enemy) => enemy?.hp ?? 0),
         playerAppearances: this.state.players.map(
           (player, index) =>
             player.tranceBattleSprite ?? expectDefined(this.assets.playerBaseDefinitionIds[index]),
         ),
-        enemyAppearances: this.state.enemies.map((enemy) => enemy.def.battleSprite),
+        enemyAppearances: this.state.enemies.map((enemy) => enemy?.def.battleSprite ?? ''),
       }
       const step = nextEnemyHookStep(this.state, activation, this.rng)
       if (step.kind === 'complete') {
@@ -1139,7 +1143,7 @@ export class BattleSession {
 
   /** 战末敌槽 def 列表(按槽序,含 divide/summon 增员;Phase E 战后脚本逐槽跑,battle.c:1334)。 */
   enemySlotDefs(): EnemyDef[] {
-    return this.state.enemies.map((e) => e.scriptOwnerDef)
+    return this.state.enemies.flatMap((e) => (e ? [e.scriptOwnerDef] : []))
   }
 
   /** 战果(B7a;敌死累计,main 战后入账)。 */
@@ -1557,12 +1561,12 @@ export class BattleSession {
       // hp/mp 快照 → 走一步 → 物攻建时间线回放;其余动作即时反馈(cast/物品时间线后续刀)
       const pHp = s.players.map((p) => p.hp)
       const pMp = s.players.map((p) => p.mp)
-      const eHp = s.enemies.map((e) => e.hp)
+      const eHp = s.enemies.map((e) => e?.hp ?? 0)
       const playerAppearanceBefore = s.players.map(
         (player, index) =>
           player.tranceBattleSprite ?? expectDefined(this.assets.playerBaseDefinitionIds[index]),
       )
-      const enemyAppearanceBefore = s.enemies.map((enemy) => enemy.def.battleSprite)
+      const enemyAppearanceBefore = s.enemies.map((enemy) => enemy?.def.battleSprite ?? '')
       stepBattle(s, this.rng)
       const la = s.lastAction
       s.lastAction = null // 消费即清(回合末空步不重播)
@@ -1573,7 +1577,7 @@ export class BattleSession {
       // 本步死亡敌(动画收尾统一开淡出 + death 音;一阶段 diedFromAttack 语义)
       this.pendingDeaths = s.enemies
         .map((e, i) =>
-          i < eHp.length && expectDefined(eHp[i]) > 0 && e.hp <= 0 && !s.enemyFled ? i : -1,
+          i < eHp.length && e && expectDefined(eHp[i]) > 0 && e.hp <= 0 && !s.enemyFled ? i : -1,
         )
         .filter((i) => i >= 0)
       // 本步数值反馈：回血黄字/回 MP 青字；物品造成的自伤按原版
@@ -1590,6 +1594,7 @@ export class BattleSession {
           this.pendingGains.push({ target: { side: 'player', idx: i }, value: dm, tone: 'cyan' })
       })
       s.enemies.forEach((e, i) => {
+        if (!e) return
         const dh = e.hp - (eHp[i] ?? e.hp)
         if (dh > 0)
           this.pendingGains.push({ target: { side: 'enemy', idx: i }, value: dh, tone: 'yellow' })
@@ -1617,6 +1622,7 @@ export class BattleSession {
         if (v) v.displayHp = p.hp
       })
       s.enemies.forEach((e, i) => {
+        if (!e) return
         const d = (eHp[i] ?? e.hp) - e.hp
         if (d > 0) this.applyDamageFx({ side: 'enemy', idx: i }, d)
       })
@@ -1636,6 +1642,7 @@ export class BattleSession {
       if (d > 0) out.push({ target: { side: 'player', idx: i }, value: d })
     })
     s.enemies.forEach((e, i) => {
+      if (!e) return
       const d = (eHp[i] ?? e.hp) - e.hp
       if (d > 0) out.push({ target: { side: 'enemy', idx: i }, value: d })
     })
@@ -1644,23 +1651,12 @@ export class BattleSession {
 
   /** 施法动作 → 时间线(玩家/敌;fire sprite 由预载表取,设 currentFire)。 */
   private buildCastTimeline(
-    la: {
-      side: 'player' | 'enemy'
-      idx: number
-      target?: number
-      skillId?: string
-      /** 玩家 scriptOnUse 消耗门失败：只播放 PreMagic。 */
-      fizzled?: boolean
-      /** 敌施法被动格挡的队员(摆防御姿 frame3)。 */
-      autoDefend?: number[]
-      /** 合击贡献者 slot(有 = 走合击聚拢演出;非召唤合击才用)。 */
-      coopContributors?: number[]
-    },
+    la: Extract<BattleLastAction, { kind: 'cast' | 'coop' }>,
     pHp: number[],
     eHp: number[],
   ): AnimFrame[] | null {
     const s = this.state
-    const skill = la.skillId ? this.opts.skills?.[la.skillId] : undefined
+    const skill = this.opts.skills?.[la.skillId]
     if (!skill) return null
     const execution = resolveSkillExecution(skill, la.side)
     const a = execution.animation
@@ -1695,7 +1691,9 @@ export class BattleSession {
       if (!casterPos) return null
       // normal 落点:敌目标(攻击系)或施法者自身(heal/self)
       const targetPos =
-        la.target !== undefined ? (s.enemies[la.target]?.basePos ?? casterPos) : casterPos
+        la.targetEnemyIdx !== undefined
+          ? (s.enemies[la.targetEnemyIdx]?.basePos ?? casterPos)
+          : casterPos
       // PostMagic 受击目标:掉血的敌人(fight.c wPrevHP≠wHealth 语义 → damageNums 敌方项)
       const postTargets = damageNums
         .filter((d) => d.target.side === 'enemy')
@@ -1771,8 +1769,8 @@ export class BattleSession {
     if (!def) return null
     const enemyProfile = this.enemyAppearance(la.idx).definition.profile
     if (enemyProfile.kind !== 'enemy') throw new Error('enemy profile 漂移')
-    const targetPos =
-      la.target !== undefined ? getPlayerBasePos(s.players.length, la.target) : undefined
+    const targetPos = getPlayerBasePos(s.players.length, la.targetPlayerIdx)
+    if (!targetPos) return null
     const enemyFx = { ...fx }
     if (def.sounds.suppressMagicEffectSound) delete enemyFx.sound
     return buildEnemyCast({
@@ -1782,7 +1780,7 @@ export class BattleSession {
       magicSound: def.sounds.magic,
       fireFrames: fire?.frames.length ?? 0,
       fx: enemyFx,
-      targetPos: targetPos ?? undefined,
+      targetPos,
       damageNums,
       ...(a.keepEffect ? { keepEffect: true } : {}),
       // 被动格挡队员摆防御姿 frame3(除因子 +1 减伤;fight.c:4737/4755)
@@ -1799,25 +1797,7 @@ export class BattleSession {
 
   /** 物攻/施法动作 → 一阶段真值时间线;其余 null(fallback 即时反馈)。 */
   private buildStepTimeline(
-    la: {
-      side: 'player' | 'enemy'
-      idx: number
-      kind: string
-      target?: number
-      skillId?: string
-      fizzled?: boolean
-      itemId?: string
-      crit?: boolean
-      secondDamage?: number
-      attackAllHits?: { idx: number; value: number }[]
-      throwHits?: { idx: number; value: number }[]
-      blocked?: boolean
-      coverIdx?: number
-      autoDefend?: number[]
-      targetAllyIdx?: number
-      fleeSuccess?: boolean
-      spawnedIdxs?: number[]
-    } | null,
+    la: BattleLastAction | null,
     pHp: number[],
     eHp: number[],
     playerAppearanceBefore: readonly string[],
@@ -1868,15 +1848,15 @@ export class BattleSession {
       const skEffects = sk ? resolveSkillExecution(sk, la.side).effects : []
       if (
         la.side === 'player' &&
-        la.target !== undefined &&
+        la.targetEnemyIdx !== undefined &&
         skEffects.some((e) => e.kind === 'steal')
       ) {
-        const pos = s.enemies[la.target]?.basePos
+        const pos = s.enemies[la.targetEnemyIdx]?.basePos
         const stealFrame = this.playerFrames(la.idx).steal
         if (pos && stealFrame !== undefined)
           return buildSteal({
             casterIdx: la.idx,
-            targetIdx: la.target,
+            targetIdx: la.targetEnemyIdx,
             enemyPos: pos,
             stealFrame,
           })
@@ -1968,7 +1948,8 @@ export class BattleSession {
     if (la.kind === 'fleeAll' && la.side === 'enemy') {
       const fleeing = s.enemies
         .map((e, i) => ({ e, i }))
-        .filter(({ i }) => (eHp[i] ?? 0) > 0)
+        .filter(({ e, i }) => !!e && (eHp[i] ?? 0) > 0)
+        .filter((entry): entry is { e: NonNullable<typeof entry.e>; i: number } => !!entry.e)
         .map(({ e, i }) => ({
           idx: i,
           pos: e.basePos,
@@ -2097,20 +2078,20 @@ export class BattleSession {
       })
     }
     // 疯魔打友(fight.c:3790-3855):瞬移到队友旁挥兵器,数字/击退/红闪全套
-    if (la.kind === 'attackMate' && la.side === 'player' && la.target !== undefined) {
+    if (la.kind === 'attackMate' && la.side === 'player') {
       const attackerPos = getPlayerBasePos(s.players.length, la.idx)
-      const matePos = getPlayerBasePos(s.players.length, la.target)
+      const matePos = getPlayerBasePos(s.players.length, la.targetAllyIdx)
       if (!attackerPos || !matePos) return null
       return buildMateAttack({
         attackerFrames: this.playerFrames(la.idx),
-        mateFrames: this.playerFrames(la.target),
+        mateFrames: this.playerFrames(la.targetAllyIdx),
         attackerIdx: la.idx,
         attackerPos,
-        mateIdx: la.target,
+        mateIdx: la.targetAllyIdx,
         matePos,
         weaponSound: this.opts.playerSounds?.[la.idx]?.weapon,
-        damage: (pHp[la.target] ?? 0) - (s.players[la.target]?.hp ?? 0),
-        mateDied: (s.players[la.target]?.hp ?? 0) <= 0,
+        damage: la.damage,
+        mateDied: (s.players[la.targetAllyIdx]?.hp ?? 0) <= 0,
       })
     }
     // 长鞭攻全体(core 已逐敌减半结算;present 一挥扫全场)
@@ -2137,9 +2118,29 @@ export class BattleSession {
         attackSound: la.crit ? snd?.critical : snd?.attack,
       })
     }
-    if (la.kind !== 'attack' || la.target === undefined) return null
+    // 敌混乱打友敌必须在普通敌人物攻过滤前走专用时间线。
+    if (la.kind === 'attackMate' && la.side === 'enemy') {
+      const attacker = s.enemies[la.idx]
+      const target = s.enemies[la.targetEnemyIdx]
+      const attackerPos = attacker?.basePos
+      const targetPos = target?.basePos
+      if (!attacker || !target || !attackerPos || !targetPos) return null
+      const profile = this.enemyAppearance(la.idx).definition.profile
+      if (profile.kind !== 'enemy') throw new Error('enemy profile 漂移')
+      return buildEnemyMateAttack({
+        attackerIdx: la.idx,
+        targetIdx: la.targetEnemyIdx,
+        attackerPos,
+        targetPos,
+        targetHeight: this.enemyAppearance(la.targetEnemyIdx).sprite.frames[0]?.height ?? 40,
+        anim: profile,
+        damage: la.damage,
+        targetDied: target.hp <= 0,
+      })
+    }
+    if (la.kind !== 'attack') return null
     if (la.side === 'player') {
-      const t = la.target
+      const t = la.targetEnemyIdx
       if ((eHp[t] ?? 0) <= 0) return null // 目标已死 = core 空过,无动画
       const attackerPos = getPlayerBasePos(s.players.length, la.idx)
       const targetPos = s.enemies[t]?.basePos
@@ -2179,7 +2180,7 @@ export class BattleSession {
       return second === undefined ? t1 : [...t1, ...buildPlayerAttack(attackInput(second, false))]
     }
     // 敌物攻
-    const t = la.target
+    const t = la.targetPlayerIdx
     const enemyPos = s.enemies[la.idx]?.basePos
     const targetPos = getPlayerBasePos(s.players.length, t)
     const def = s.enemies[la.idx]?.def
@@ -2531,6 +2532,7 @@ export class BattleSession {
     // 场景(M4d-2:visual 层驱动 —— 动画位移/帧/受击染色;死亡 = 颗粒溶解)
     const enemies: BattleSpriteDraw[] = []
     s.enemies.forEach((e, i) => {
+      if (!e) return
       const appearance = this.enemyAppearance(i)
       const sprite = appearance.sprite
       const v = this.visual.enemies[i]

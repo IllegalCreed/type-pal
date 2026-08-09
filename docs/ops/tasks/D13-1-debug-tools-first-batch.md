@@ -289,12 +289,24 @@ G1（构建产物验证）、G2（并发口径对齐）、G3（帧步进语义�
   - `pnpm --filter @type-pal/editor typecheck` 通过
   - `pnpm --filter @type-pal/reforge build` + `rg 'tp-debug|installDebugTools' dist/assets/*.js`
     零命中（G1/K4 构建产物验证通过,不产出 debug chunk）
-- 浏览器 / 手工检查: pending（Kimi 视觉验收:战斗构建器 + 触发区可视化;Codex 本地 dev 冒烟未跑,
-  如实标注——见「跳过的检查」）
+- 浏览器 / 手工检查: 已完成（Kimi/GLM 原有五区验收 + 2026-08-09 Codex 视觉精修最小检查；
+  1280×720 无横向溢出，状态/战斗 tab、键盘导航与关闭清 frame-step 通过；见「视觉精修」）
 - 跳过的检查及原因:
   - 时间旅行回放（依赖 D14-2,明确跳过）。
-  - 浏览器手工冒烟（?debug 面板逐区操作）未在提交前执行——本卡手工/视觉验收按协议由
-    Kimi 承担,Codex 自证到「类型 + 单测 + 构建产物」层。
+  - 时间旅行/effect 回放仍未执行（依赖 D14-2，明确范围外）；剧情/战斗内容观感不在开发期重复
+    截图，按用户分层裁决登记到冻结后的集中 E2E。
+
+## 2026-08-09 视觉精修（常规迭代）
+
+- 用户要求按一阶段工具面板 `packages/game/src/tools/tools-panel.ts:74-195,909-1001` 的视觉语言
+  调整 Reforge Debug：紧凑暗底、金黄标题、蓝色 section 标题、等宽小字号、左上响应式窄面板、横向
+  五 tab；保留原五区功能、键盘焦点与 DEV-only 边界，不复制一阶段实现或改变调试语义。
+- 同步修复关闭路径：先显式 `setActive(false)` 再 reset frame-step，避免关闭面板后世界继续冻结；
+  单测锁定幂等 style token、横向 tab 键盘导航和关闭清理。
+- 开发期最小功能视觉证据：Reforge `?debug` 1280×720 状态/战斗页截图
+  `output/playwright/reforge-debug-panel.png`、`output/playwright/reforge-debug-panel-battle.png`，
+  console 0 error（1 条既有 warning）；截图均为 ignored 验收产物。该精修属于已完成 D13-1 的常规
+  UX 迭代，剧情/战斗观感仍遵守冻结后集中 E2E 规则。
 
 ## 视觉验证记录(如适用)
 

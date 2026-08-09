@@ -163,7 +163,7 @@ describe('buildBlankProject(W-blank:开箱即玩)', () => {
       content: Record<string, string>
     }
     expect(m.id).toBe('my-game')
-    expect(m.contentVersion).toBe(11)
+    expect(m.contentVersion).toBe(12)
     expect(m.minimumSaveVersion).toBe(8)
     expect(m.entryScene).toBe('start')
     // 队伍非空(空 party → 引擎 boot 崩);assets 指工程内(不再指原版 extracted)

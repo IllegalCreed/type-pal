@@ -515,9 +515,27 @@ describe('B11-1 战斗伤亡 sweep', () => {
   })
 
   test('玩家友伤致死不触发 casualty；只有敌方 attack/cast 是有效来源', () => {
-    expect(shouldCheckPlayerCasualties({ side: 'enemy', idx: 0, kind: 'attack' })).toBe(true)
-    expect(shouldCheckPlayerCasualties({ side: 'enemy', idx: 0, kind: 'cast' })).toBe(true)
-    expect(shouldCheckPlayerCasualties({ side: 'player', idx: 0, kind: 'attackMate' })).toBe(false)
+    expect(
+      shouldCheckPlayerCasualties({ side: 'enemy', idx: 0, kind: 'attack', targetPlayerIdx: 0 }),
+    ).toBe(true)
+    expect(
+      shouldCheckPlayerCasualties({
+        side: 'enemy',
+        idx: 0,
+        kind: 'cast',
+        skillId: 'hit',
+        targetPlayerIdx: 0,
+      }),
+    ).toBe(true)
+    expect(
+      shouldCheckPlayerCasualties({
+        side: 'player',
+        idx: 0,
+        kind: 'attackMate',
+        targetAllyIdx: 1,
+        damage: 1,
+      }),
+    ).toBe(false)
     expect(shouldCheckPlayerCasualties({ side: 'enemy', idx: 0, kind: 'transform' })).toBe(false)
 
     const attacker = enemy('caster', { attackStrength: -999, dexterity: 0 })
@@ -548,6 +566,40 @@ describe('B11-1 战斗伤亡 sweep', () => {
       stepBattle(state, () => 0.5)
     } while (state.phase === 'performAction' && ++guard < 60)
     expect(state.players[1]!.hp).toBe(0)
+    expect(state.casualtyDialogue).toBeUndefined()
+    expect(state.log.some((entry) => entry.includes('伤亡脚本'))).toBe(false)
+  })
+
+  test('敌方 attackMate 不触发 casualty，且只把玩家 prevHp 刷新为当前 HP', () => {
+    const attacker = enemy('confused-attacker', { attackStrength: 100, dexterity: 999 })
+    const mate = enemy('mate', { health: 999, defense: 0, physicalResistance: 1 })
+    const state = createBattleState({
+      players: [
+        player({ roleId: 'victim', actorTemplateId: 'zhao', hp: 50, maxHp: 100, coveredBy: 'yue' }),
+        player({ roleId: 'yue', actorTemplateId: 'yue', hp: 100, maxHp: 100 }),
+      ],
+      enemySlots: [attacker, mate],
+      actorsById: {
+        zhao: actor('zhao', { dying: DYING }),
+        yue: actor('yue', { friendDeath: FRIEND_DEATH }),
+      },
+    })
+    state.enemies[0]!.status.confused = 1
+
+    stepBattle(state, rng0)
+    state.pendingActions.set(0, { kind: 'defend' })
+    state.pendingActions.set(1, { kind: 'defend' })
+    stepBattle(state, rng0)
+    stepBattle(state, () => 0.9)
+
+    expect(state.lastAction).toMatchObject({
+      side: 'enemy',
+      kind: 'attackMate',
+      targetEnemyIdx: 1,
+    })
+    expect(state.players[0]!.hp).toBe(50)
+    expect(state.players[0]!.prevHp).toBe(50)
+    expect(state.players[1]!.prevHp).toBe(100)
     expect(state.casualtyDialogue).toBeUndefined()
     expect(state.log.some((entry) => entry.includes('伤亡脚本'))).toBe(false)
   })

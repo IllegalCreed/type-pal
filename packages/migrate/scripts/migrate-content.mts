@@ -17,13 +17,17 @@ import type {
 import {
   checkSharedScriptLibraryV5,
   mapAssetById,
+  upgradeEnemyTeamsV11ToV12,
   upgradeManifestV9ToV10,
   upgradeManifestV10ToV11,
+  upgradeManifestV11ToV12,
   validateActors,
   validateAssetCatalog,
   validateBattleFields,
   validateBattleSprites,
   validateEnemies,
+  validateEnemyTeamReferencesV12,
+  validateEnemyTeamsV12,
   validateItemsV5,
   validateLocale,
   validateManifestAssetConfigV3,
@@ -74,6 +78,7 @@ import {
   R13_Z_TRANSITION_ID,
   type R13ZMigrationPlan,
   resolveR13ZSourceSemanticsClosure,
+  rewindPublishedR13ZPublicationIfPresent,
 } from '../src/experimental/script-v5/r13-z-transition-mg2.js'
 import {
   assertR13RuntimeCapabilityAudit,
@@ -128,6 +133,17 @@ import {
   materializePalAssets,
   type PalBinaryAssetSource,
 } from '../src/pal-assets.js'
+import {
+  assertB10PublishedAuthority,
+  assertB10PublishedReplayUnchanged,
+  B10_ENEMY_TEAM_SLOTS_SEAL_PATH,
+  B10_ENEMY_TEAMS_PATH,
+  buildB10EnemyTeamSlotsSeal,
+  finalizeB10EnemyTeamSlotsSeal,
+  installB10EnemyTeamSlotsSeal,
+  rewindB10PublicationIfPresent,
+  shouldRunB10EnemyTeamSlotsTransition,
+} from '../src/pal-b10-enemy-team-slots.js'
 import { PAL_CASUALTY_LOCALE_KEYS } from '../src/pal-casualty-scripts.js'
 import { preparePalManifest } from '../src/pal-manifest.js'
 import {
@@ -174,7 +190,12 @@ type CanonicalV5InputManifest =
   | ProjectManifest<9>
   | ProjectManifest<10>
   | ProjectManifest<11>
-type P7V5TargetManifest = ProjectManifest<9> | ProjectManifest<10> | ProjectManifest<11>
+  | ProjectManifest<12>
+type P7V5TargetManifest =
+  | ProjectManifest<9>
+  | ProjectManifest<10>
+  | ProjectManifest<11>
+  | ProjectManifest<12>
 type CanonicalV5Transition = 'confirm' | 'r13-enemy' | 'r13-source'
 
 const readJson = <T,>(path: string): T => JSON.parse(readFileSync(resolve(repo, path), 'utf8')) as T
@@ -205,7 +226,7 @@ function usage(): void {
       authority 双摘要重建，并以单项 baseline 事务补回正文。
 
   pnpm --filter @type-pal/migrate run migrate:content -- --r13-z [--write]
-      只运行 R13-Z source/runtime 发布闭包；默认只审计，--write 才向 baseline
+      只在 B10 content12 已发布后运行 R13-Z source/runtime 发布闭包；默认只审计，--write 才向 baseline
       append-only 追加 R13-Z seal，不改工程正文或 manifest。`)
 }
 
@@ -328,6 +349,90 @@ async function runR13SixBTransition(
   )
 }
 
+/** content11 initialize / content12 replay for the B10 successor; v11 content is immutable parent. */
+async function runB10EnemyTeamSlotsTransition(
+  manifest: ProjectManifest<11> | ProjectManifest<12>,
+  manifestText: string,
+  write: boolean,
+): Promise<void> {
+  const sources = loadPalMigrationSources(repo)
+  const baseline = loadPalBaseline(repo)
+  if (!baseline)
+    throw new Error('B10 缺 PAL baseline v2；不得绕过 baseline 写 generated enemy-team slots')
+  if (manifest.contentVersion === 12 && !assertB10PublishedAuthority(baseline))
+    throw new Error('B10 content12 replay 缺 published authority')
+  const theirs = buildB10EnemyTeamSlotsMigration(sources, baseline)
+  if (manifest.contentVersion === 12)
+    assertB10PublishedReplayUnchanged(baseline, snapshotOf(theirs))
+  reportGeneration(theirs)
+  const seed = new Set([...baseline.managedFiles, ...theirs.managedFiles])
+  const managed = discoverProjectManagedFiles(repo, seed)
+  const ours = loadProjectMigrationSnapshot(repo, managed)
+  const plan = createMigrationPlan(baseline, ours, theirs)
+  reportPlan(plan)
+  if (
+    manifest.contentVersion === 12 &&
+    (plan.writes.size || plan.deletes.length || plan.conflicts.length)
+  ) {
+    if (plan.conflicts.length) writeConflictReport(plan)
+    throw new Error(
+      `B10 content12 replay 必须为 0/0/0: writes=${plan.writes.size} ` +
+        `deletes=${plan.deletes.length} conflicts=${plan.conflicts.length}`,
+    )
+  }
+  if (plan.conflicts.length) {
+    writeConflictReport(plan)
+    throw new Error(`B10 plan 存在 conflicts=${plan.conflicts.length}`)
+  }
+  const target: MigrationSnapshot = {
+    files: plan.target,
+    managedFiles: new Set([...managed, ...plan.target.keys()]),
+  }
+  validateAssetCatalog(
+    target.files.get('assets/index.json') as unknown as AssetCatalogV1,
+    'B10 target assets/index.json',
+  )
+  const nextManifest =
+    manifest.contentVersion === 11 ? upgradeManifestV11ToV12(manifest) : structuredClone(manifest)
+  await validateP7V5Target(target, nextManifest)
+  if (!write) {
+    assertPalBaselineSnapshotCurrent(repo, baseline)
+    assertProjectSnapshotCurrent(repo, ours, target.managedFiles)
+    if (readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8') !== manifestText)
+      throw new Error('B10 dry-run 期间 manifest.json 已变更')
+    console.log(
+      manifest.contentVersion === 11
+        ? '[B10 v12 dry-run] 未写盘；确认 plan 后加 --write'
+        : '[B10 v12 replay dry-run] 未写盘；确认 plan=0 后可安全重放',
+    )
+    return
+  }
+  await commitAndVerify({
+    ours,
+    target,
+    plan,
+    previousBaseline: baseline,
+    theirs,
+    binaryAssets: sources.binaryAssets,
+    currentManifestText: manifestText,
+    nextManifest,
+    rebuildTheirs: buildB10EnemyTeamSlotsMigration,
+  })
+  const publishedSeal = theirs.files.get(B10_ENEMY_TEAM_SLOTS_SEAL_PATH)
+  const digest =
+    publishedSeal &&
+    typeof publishedSeal === 'object' &&
+    !Array.isArray(publishedSeal) &&
+    typeof (publishedSeal as Record<string, unknown>).digest === 'string'
+      ? (publishedSeal as Record<string, string>).digest
+      : 'missing'
+  console.log(
+    manifest.contentVersion === 11
+      ? `[B10 publication] content11 → content12; seal=${digest}; SAVE_VERSION 保持 8`
+      : `[B10 replay] content12 authority unchanged; seal=${digest}; SAVE_VERSION 保持 8`,
+  )
+}
+
 /**
  * R13-Z is an evidence-only publication after the content11 successor.  Rebuild the source
  * disposition from live extracted input with the explicit throw-site gate, then let the new
@@ -339,7 +444,9 @@ async function runR13SixBTransition(
  * 计入 digest,则 published seal 与 authority 必然不符。
  */
 function stripR13ZPublishSeals(source: MigrationSnapshot): MigrationSnapshot {
-  const rewound = rewindPalR13SixCPublicationIfPresent(source)
+  // R13-Z is an older sibling authority.  A content12 invocation must first rewind the outer
+  // B10 successor so the immutable published R13-Z digest is rebuilt against its v11 surface.
+  const rewound = rewindPalR13SixCPublicationIfPresent(rewindB10PublicationIfPresent(source))
   const snapshot = {
     files: new Map(rewound.files),
     managedFiles: new Set(rewound.managedFiles),
@@ -369,12 +476,21 @@ async function runR13ZTransition(
   const baseline = loadPalBaseline(repo)
   if (!baseline) throw new Error('R13-Z 缺 PAL baseline v2')
   const sources = loadPalMigrationSources(repo)
-  const currentMigration = buildR13SixBMigration(sources, baseline)
+  if (!assertB10PublishedAuthority(baseline))
+    throw new Error('R13-Z current replay 要求先发布 B10 content12 successor')
+  // Rebuild the outer successor authority before entering the R13-Z planner.  This is a
+  // fail-closed replay check; it must never rewrite the published B10 tuple.
+  const rebuiltB10 = buildB10EnemyTeamSlotsMigration(sources, baseline)
+  sameSnapshot(snapshotOf(rebuiltB10), baseline, 'B10 replay before R13-Z')
+  const currentSurface = rewindB10PublicationIfPresent(baseline)
+  const currentMigration = buildR13SixBMigration(sources, currentSurface)
   // R13 source semantics was published on the 6A surface. Rewind only the append-only 6B
   // overlay before replaying its existing-schema authority; runtime is audited separately on
   // the live content11 baseline below.
   // R13-6C(零内容叶 successor authority)先剥离,再剥 6B —— 逐字节还原 6A 面。
-  const sourceBaseline = rewindPalR13SixBPublication(rewindPalR13SixCPublicationIfPresent(baseline))
+  const sourceBaseline = rewindPalR13SixBPublication(
+    rewindPalR13SixCPublicationIfPresent(rewindPublishedR13ZPublicationIfPresent(currentSurface)),
+  )
   const currentManaged = discoverProjectManagedFiles(
     repo,
     new Set([...baseline.managedFiles, ...currentMigration.managedFiles]),
@@ -412,7 +528,7 @@ async function runR13ZTransition(
     currentSources: r13FiveSources,
     currentMigration: r13FiveMigration,
   })
-  const sourceMigration = buildPalMigration(sources)
+  const sourceMigration = buildPalMigration(sources, { enemyTeamSchema: 'semantic-slots' })
   const preparedCurrentSourceCensus = prepareR13SourceExecutionCensus(sources)
   const sixAClosure = resolveR13ZSourceSemanticsClosure(sourceBaseline)
 
@@ -423,7 +539,8 @@ async function runR13ZTransition(
   // R13-Z 发布后 baseline 携带本事务新增的 6C/R13-Z seal:source disposition 的
   // successorFinal 必须用"发布前表面"(剥这两个 seal、保留历史 _transitions),
   // 否则重放时 final 内容变化 → reportDigest 漂移 → published seal 不符。
-  for (const path of [R13_SIX_C_SEAL_PATH, R13_Z_SEAL_PATH]) successorFiles.delete(path)
+  for (const path of [B10_ENEMY_TEAM_SLOTS_SEAL_PATH, R13_SIX_C_SEAL_PATH, R13_Z_SEAL_PATH])
+    successorFiles.delete(path)
   const ambienceDefsPath = resolve(repo, 'projects/pal/content/ambiences.json')
   successorFiles.set(
     'content/ambiences.json',
@@ -439,7 +556,10 @@ async function runR13ZTransition(
       files: successorFiles,
       managedFiles: new Set(
         [...currentMigration.managedFiles].filter(
-          (path) => path !== R13_SIX_C_SEAL_PATH && path !== R13_Z_SEAL_PATH,
+          (path) =>
+            path !== B10_ENEMY_TEAM_SLOTS_SEAL_PATH &&
+            path !== R13_SIX_C_SEAL_PATH &&
+            path !== R13_Z_SEAL_PATH,
         ),
       ),
     },
@@ -540,7 +660,10 @@ function buildR13SixBMigration(
   sources: PalMigrationSources,
   publishedBaseline: MigrationSnapshot,
 ): MigrationFileSet {
-  const raw = buildPalMigration(sources, { r13SixBSourceSemantics: true })
+  const raw = buildPalMigration(sources, {
+    r13SixBSourceSemantics: true,
+    enemyTeamSchema: 'semantic-slots',
+  })
   const skills = raw.files.get('content/skills.json')
   if (skills === undefined) throw new Error('R13-6B raw migration 缺 content/skills.json')
   let files = new Map(publishedBaseline.files)
@@ -589,6 +712,49 @@ function buildR13SixBMigration(
   const successor = derivePalMigrationFileSet(raw, files, new Set(publishedBaseline.managedFiles))
   successor.baselineMetadata = publishedBaseline.baselineMetadata
   return successor
+}
+
+/**
+ * B10 is the outer content successor after 6B.  Rebuild from a rewound v11 surface on every
+ * invocation so a published v12 authority is replayed, never overwritten from the live v12
+ * file.  Only enemy-teams.json and the B10 seal are owned by this transition; all other files
+ * inherit the already published 6B surface.
+ */
+function buildB10EnemyTeamSlotsMigration(
+  sources: PalMigrationSources,
+  publishedBaseline: MigrationSnapshot,
+): MigrationFileSet {
+  const parentBaseline = rewindB10PublicationIfPresent(publishedBaseline)
+  const sixB = buildR13SixBMigration(sources, parentBaseline)
+  const raw = buildPalMigration(sources, {
+    r13SixBSourceSemantics: true,
+    enemyTeamSchema: 'semantic-slots',
+  })
+  const successorTeams = raw.files.get(B10_ENEMY_TEAMS_PATH)
+  if (successorTeams === undefined) throw new Error('B10 migration 缺生成 enemy-teams.json')
+  validateEnemyTeamsV12(successorTeams)
+  const files = new Map(sixB.files)
+  files.set(B10_ENEMY_TEAMS_PATH, successorTeams)
+  const managed = new Set([...sixB.managedFiles, B10_ENEMY_TEAMS_PATH])
+  const successor = derivePalMigrationFileSet(sixB, files, managed)
+  const authority = buildB10EnemyTeamSlotsSeal({
+    baseline: parentBaseline,
+    sourceTeams: sources.migrate.enemyTeams ?? [],
+    successorTeams,
+  })
+  const nextBaseline = snapshotOf(successor)
+  const seal = finalizeB10EnemyTeamSlotsSeal(authority, nextBaseline)
+  installB10EnemyTeamSlotsSeal(nextBaseline, seal, {
+    parentContent: parentBaseline.files.get(B10_ENEMY_TEAMS_PATH),
+    successorContent: successorTeams,
+  })
+  const publishedFiles = new Map(nextBaseline.files)
+  const publishedManaged = new Set(nextBaseline.managedFiles)
+  const published = derivePalMigrationFileSet(sixB, publishedFiles, publishedManaged)
+  published.baselineMetadata = nextBaseline.baselineMetadata
+  if (assertB10PublishedAuthority(publishedBaseline))
+    assertB10PublishedReplayUnchanged(publishedBaseline, snapshotOf(published))
+  return published
 }
 
 function sameSnapshot(expected: MigrationSnapshot, actual: MigrationSnapshot, label: string): void {
@@ -844,7 +1010,8 @@ async function validateP7V5Target(
   if (
     (manifest.contentVersion !== 9 &&
       manifest.contentVersion !== 10 &&
-      manifest.contentVersion !== 11) ||
+      manifest.contentVersion !== 11 &&
+      manifest.contentVersion !== 12) ||
     manifest.minimumSaveVersion !== 8 ||
     manifest.content.scripts !== undefined
   )
@@ -883,7 +1050,24 @@ async function validateP7V5Target(
   validateLocale(value(manifest.content.locale as string), { allowLegacySoftWrap: true })
   validateSprites(value(manifest.content.sprites as string), catalog)
   validateBattleSprites(value(manifest.content.battleSprites as string), catalog)
-  if (manifest.content.enemies) validateEnemies(value(manifest.content.enemies))
+  const enemyIds = manifest.content.enemies
+    ? new Set(
+        (validateEnemies(value(manifest.content.enemies)) as Array<{ id: string }>).map(
+          (enemy) => enemy.id,
+        ),
+      )
+    : undefined
+  if (manifest.content.enemyTeams) {
+    const enemyTeams = value(manifest.content.enemyTeams)
+    // Historical v9–v11 targets are immutable members-shaped authorities.  Only the
+    // content12 successor is allowed to require semantic slots; upgrading in memory here
+    // keeps the P7 target validator version-aware without weakening the v12 loader boundary.
+    if (manifest.contentVersion === 12) validateEnemyTeamsV12(enemyTeams, enemyIds)
+    else {
+      const upgraded = upgradeEnemyTeamsV11ToV12(enemyTeams)
+      if (enemyIds) validateEnemyTeamReferencesV12(upgraded, enemyIds)
+    }
+  }
   if (manifest.content.battleFields) validateBattleFields(value(manifest.content.battleFields))
   if (manifest.content.tilesets) validateTilesets(value(manifest.content.tilesets), catalog)
   if (manifest.content.stamps) validateStampTemplates(value(manifest.content.stamps))
@@ -1250,10 +1434,11 @@ async function main(): Promise<void> {
       contentVersion !== 8 &&
       contentVersion !== 9 &&
       contentVersion !== 10 &&
-      contentVersion !== 11)
+      contentVersion !== 11 &&
+      contentVersion !== 12)
   )
     throw new Error(
-      `PAL migrate:content 只接受 contentVersion 4/5/6/7/8/9/10/11，收到 ${JSON.stringify(contentVersion)}`,
+      `PAL migrate:content 只接受 contentVersion 4/5/6/7/8/9/10/11/12，收到 ${JSON.stringify(contentVersion)}`,
     )
   const canonicalV5 =
     contentVersion === 5 ||
@@ -1266,8 +1451,10 @@ async function main(): Promise<void> {
     throw new Error('R13 confirm seal 显式修复只接受 canonical v5+ 工程')
 
   if (publishR13Z) {
-    if (bootstrap || contentVersion !== 11)
-      throw new Error(`R13-Z 只接受已发布 content11 工程，收到 content${String(contentVersion)}`)
+    if (bootstrap || contentVersion !== 12)
+      throw new Error(
+        `R13-Z current replay 只接受已发布 content12 工程，收到 content${String(contentVersion)}`,
+      )
     await runR13ZTransition(manifestText, writeRequested, r13SixC, r13SixD)
     return
   }
@@ -1275,7 +1462,7 @@ async function main(): Promise<void> {
   // R13-6B 是 content10 → content11 的独立迁移边界。内部 v5 子进程仍由
   // EXPECTED_TRANSITION 驱动旧的 R13-5/R13-6A 事务；只有外层命令进入这里。
   if (
-    (contentVersion === 10 || contentVersion === 11) &&
+    contentVersion === 10 &&
     !bootstrap &&
     process.env[EXPECTED_TRANSITION_ENV] === undefined &&
     !writeOnce &&
@@ -1284,6 +1471,25 @@ async function main(): Promise<void> {
   ) {
     await runR13SixBTransition(
       rawManifest as ProjectManifest<10> | ProjectManifest<11>,
+      manifestText,
+      writeRequested,
+    )
+    return
+  }
+  // B10 是冻结 content11 parent 之上的唯一 content12 successor；已发布 v12 也必须
+  // 走同一条 authority replay，不能回落到 legacy-members 普通 merge。
+  if (
+    shouldRunB10EnemyTeamSlotsTransition({
+      contentVersion,
+      bootstrap,
+      hasExpectedTransition: process.env[EXPECTED_TRANSITION_ENV] !== undefined,
+      writeOnce,
+      verifyIdempotence,
+      repairR13ConfirmSeal,
+    })
+  ) {
+    await runB10EnemyTeamSlotsTransition(
+      rawManifest as ProjectManifest<11> | ProjectManifest<12>,
       manifestText,
       writeRequested,
     )

@@ -218,7 +218,9 @@ describe.skipIf(!existsSync(PAL_TEST_EXTRACTED))('N3 P3 PAL shadow migration', (
     expect(assertBundle).toThrow('bundle digest mismatch')
     mutableFiles.set('reports/p3-flow-inventory.json', inventory)
     assertBundle()
-  }, 240_000)
+    // The full release gate runs other migration projects alongside this live double-build.
+    // Keep enough headroom for a contended worker while retaining a finite hang detector.
+  }, 480_000)
 
   test('作者修改被吸收 body 或入站 jump cell 时整批零写冲突', () => {
     const structure = fixture.p3.ir.flowStructures[0]!

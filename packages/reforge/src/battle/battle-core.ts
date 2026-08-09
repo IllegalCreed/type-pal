@@ -36,6 +36,7 @@ import {
   applyPlayerStatus,
   applyPoisonSelf,
   buildActionQueue,
+  calcBaseDamage,
   calcMagicDamage,
   calcPhysicalAttackDamage,
   canAct,
@@ -53,6 +54,7 @@ import {
   tickBattleStatus,
 } from '@type-pal/content'
 import { expectDefined } from '../defined.js'
+import type { BattleLastAction } from './battle-last-action.js'
 import { getEnemyBasePos } from './battle-positions.js'
 
 function assertNever(value: never, context: string): never {
@@ -60,6 +62,9 @@ function assertNever(value: never, context: string): never {
 }
 
 export type BattlePhase = 'preBattle' | 'selectAction' | 'performAction' | 'won' | 'lost' | 'fled'
+
+/** 战场固定容量（原版 formation 最多 5 槽）。 */
+const MAX_ENEMIES = 5
 
 /** 队员战斗态（属性由 createBattleState 从 world 派生;M4a 只用攻防/HP）。 */
 export interface BattlePlayerState {
@@ -205,7 +210,10 @@ export interface BattleState {
   phase: BattlePhase
   turn: number
   players: BattlePlayerState[]
-  enemies: BattleEnemyState[]
+  /** 固定容量 5 的带洞敌槽；数组下标是源语义 slotIndex。 */
+  enemies: Array<BattleEnemyState | null>
+  /** 当前源规则允许访问的最高槽下标（初始 = slots.length - 1）。 */
+  maxEnemyIndex: number
   /** 本轮各队员选的行动（selectAction 阶段 UI 填;headless 测直接填）。 */
   pendingActions: Map<number, BattleAction>
   /** 本回合有人合击(fight.c fThisTurnCoop):其余队员出手作废(HP 已在合击结算内扣);回合末清。 */
@@ -253,42 +261,7 @@ export interface BattleState {
   /** 最近一次伤亡脚本的台词(表现层展示;每次 sweep 覆写)。 */
   casualtyDialogue?: { speakerRoleId: string; lines: CasualtyLine[] }
   /** 最近一步已结算的行动(表现层读:音效/动画时机;每次 perform*Action 覆写)。 */
-  lastAction: {
-    side: 'player' | 'enemy'
-    idx: number
-    kind: string
-    target?: number
-    /** cast 动作的技能 id(表现层查 animation 播特效)。 */
-    skillId?: string
-    /** scriptOnUse 消耗门失败：保留玩家施法前摇，但跳过效果动画与 effects 结算。 */
-    fizzled?: boolean
-    /** item/throw 动作的物品 id(表现层显示物品名 + 查图标)。 */
-    itemId?: string
-    /** 物攻暴击(1/6 或狂暴;表现层取暴击音,fight.c:2065-2069)。 */
-    crit?: boolean
-    /** 连击第二击伤害(dualAttack;present 追加第二挥击,音效落不同帧)。 */
-    secondDamage?: number
-    /** 攻击全体各敌伤害(长鞭 attackAll;present 逐敌数字+染色+击退)。 */
-    attackAllHits?: { idx: number; value: number }[]
-    /** 投掷对各目标造成的实际 HP 变化；单体与全体表现共用。 */
-    throwHits?: { idx: number; value: number }[]
-    /** 敌物攻被格挡(7/17 被动「闪避」:免伤,演出格挡姿+coverSound+仍击退)。 */
-    blocked?: boolean
-    /** 替挡守护者 idx(coveredBy 关系;blocked 且此值在 → 守护者顶身前接刀演出)。 */
-    coverIdx?: number
-    /** 敌施法被动格挡的队员 idx(1/3 掷,除因子 +1 —— 减伤不免伤;演出摆防御姿 frame3)。 */
-    autoDefend?: number[]
-    /** 合击贡献者 slot(结算时 healthy 队员;演出层聚拢队形用,HP 已扣不能事后重算)。 */
-    coopContributors?: number[]
-    /** cast/item 的己方目标 idx(oneAlly 点名队友;演出层把举物/特效落到目标身上)。 */
-    targetAllyIdx?: number
-    /** 结果横幅(偷窃「获得 xx」/金蝉 boss「无法逃离!」/乾坤「金钱不足」;present 层顶部居中,对齐原版对话框提示)。 */
-    notice?: string
-    /** flee/金蝉脱壳 成败(演出分流:成功全队滑出屏 / 失败挪步或原地横幅;battle.c:1438 / fight.c:4152)。 */
-    fleeSuccess?: boolean
-    /** divide/summon 本步新占的敌槽(演出层:分身滑开起点/新怪精灵播种)。 */
-    spawnedIdxs?: number[]
-  } | null
+  lastAction: BattleLastAction | null
   /** 战斗用品产生、必须在任意终局按顺序写回大世界的通用 mutation 队列。 */
   pendingWorldMutations: BattleWorldMutation[]
 }
@@ -317,7 +290,10 @@ export type CreatePlayerInput = Omit<
 
 export interface CreateBattleInput {
   players: CreatePlayerInput[]
-  enemies: EnemyDef[]
+  /** v12 语义敌槽；null 保留源空洞。旧 callers 可暂时传 dense `enemies`。 */
+  enemySlots?: Array<EnemyDef | null>
+  /** @deprecated v11 dense 兼容入口；canonical main 必须传 enemySlots。 */
+  enemies?: EnemyDef[]
   /** 技能表(敌施法查 SkillData;缺省空 = cast 落普攻并 log)。 */
   skills?: Record<string, SkillData>
   /** 敌人表(transform/summon 查 EnemyDef;缺省空 = 动作落普攻并 log)。 */
@@ -344,6 +320,30 @@ export interface CreateBattleInput {
 }
 
 export function createBattleState(input: CreateBattleInput): BattleState {
+  const sourceSlots = input.enemySlots ?? input.enemies ?? []
+  if (sourceSlots.length > MAX_ENEMIES)
+    throw new Error(`battle enemySlots: 槽位数 ${sourceSlots.length} 超上限 ${MAX_ENEMIES}`)
+  const maxEnemyIndex = sourceSlots.length - 1
+  const enemies: Array<BattleEnemyState | null> = Array.from({ length: MAX_ENEMIES }, (_, i) => {
+    const def = sourceSlots[i]
+    if (!def) return null
+    return {
+      def,
+      scriptOwnerDef: def,
+      hookCursors: initialHookCursors(def),
+      ...(def.ai.fallback ? { fallback: cloneFallback(def.ai.fallback) } : {}),
+      hp: def.stats.health,
+      status: emptyBattleStatus(),
+      defending: false,
+      firedRules: new Set<number>(),
+      poisons: [],
+      // 空槽仍占布局列数；站位只按当前语义上限一次派生。
+      basePos: getEnemyBasePos(maxEnemyIndex + 1, i, def.yPosOffset) ?? {
+        x: 100,
+        y: 110,
+      },
+    } satisfies BattleEnemyState
+  })
   return {
     phase: 'preBattle',
     turn: 0,
@@ -364,19 +364,8 @@ export function createBattleState(input: CreateBattleInput): BattleState {
         poisons: p.poisons?.map((x) => ({ ...x })) ?? [], // 大世界带入的毒(副本;战后不回写)
       }
     }),
-    enemies: input.enemies.map((def, i) => ({
-      def,
-      scriptOwnerDef: def,
-      hookCursors: initialHookCursors(def),
-      ...(def.ai.fallback ? { fallback: cloneFallback(def.ai.fallback) } : {}),
-      hp: def.stats.health,
-      status: emptyBattleStatus(),
-      defending: false,
-      firedRules: new Set<number>(),
-      poisons: [],
-      // 站位一次定死(按开战敌数;yPosOffset 是敌种属性一并烙进)
-      basePos: getEnemyBasePos(input.enemies.length, i, def.yPosOffset) ?? { x: 100, y: 110 },
-    })),
+    enemies,
+    maxEnemyIndex,
     pendingActions: new Map(),
     coopThisTurn: false,
     actionQueue: [],
@@ -411,27 +400,57 @@ const battleMoney = (s: BattleState): number => Math.max(0, s.money + s.moneyDel
 const alivePlayers = (s: BattleState): number[] =>
   s.players.map((p, i) => (p.hp > 0 ? i : -1)).filter((i) => i >= 0)
 const aliveEnemies = (s: BattleState): number[] =>
-  s.enemies.map((e, i) => (e.hp > 0 ? i : -1)).filter((i) => i >= 0)
+  s.enemies.map((e, i) => (e && e.hp > 0 ? i : -1)).filter((i) => i >= 0)
 
-/** 增援落位:优先复用死槽(原版填空槽语义 —— 继承槽位 basePos,布局不换挡、在场怪不动);
- *  无死槽才追加(仅新怪落新位,既有怪 basePos 已定死不受影响)。
- *  rewardCounted 重置:复活槽的新怪再死要重新计赏(老怪死时已入账,不双计)。
- *  返回落位槽下标(演出层:分裂滑开/新怪精灵播种)。 */
-function spawnIntoSlot(s: BattleState, spawn: Omit<BattleEnemyState, 'basePos'>): number {
-  const slot = s.enemies.findIndex((x) => x.hp <= 0)
-  if (slot >= 0) {
-    const basePos = expectDefined(s.enemies[slot]).basePos
-    s.enemies[slot] = { ...spawn, basePos, rewardCounted: false }
-    return slot
+/** 复算当前 maxEnemyIndex 下的所有战斗站位；空槽只占列不生成 fighter。 */
+function recomputeEnemyPositions(s: BattleState): void {
+  const count = s.maxEnemyIndex + 1
+  for (let i = 0; i <= s.maxEnemyIndex; i += 1) {
+    const enemy = s.enemies[i]
+    if (!enemy) continue
+    enemy.basePos = getEnemyBasePos(count, i, enemy.def.yPosOffset) ?? { x: 100, y: 110 }
   }
-  s.enemies.push({
-    ...spawn,
-    basePos: getEnemyBasePos(s.enemies.length + 1, s.enemies.length, spawn.def.yPosOffset) ?? {
-      x: 100,
-      y: 110,
-    },
-  })
-  return s.enemies.length - 1
+}
+
+function emptyEnemySlotIndices(s: BattleState, endExclusive: number): number[] {
+  const end = Math.min(MAX_ENEMIES, Math.max(0, endExclusive))
+  const slots: number[] = []
+  for (let i = 0; i < end; i += 1) {
+    const enemy = s.enemies[i]
+    if (!enemy || enemy.hp <= 0) slots.push(i)
+  }
+  return slots
+}
+
+/** summon：只填当前 [0..maxEnemyIndex] 的洞，永不扩展上限。 */
+function spawnIntoSummonSlot(
+  s: BattleState,
+  spawn: Omit<BattleEnemyState, 'basePos'>,
+  slot: number,
+): number {
+  const previous = s.enemies[slot]
+  // A dead occupant preserves the formation column, but never its old enemy-specific
+  // yOffset.  PAL_LoadBattleSprites rebuilds the slot from the newly summoned definition;
+  // reusing previous.basePos would pin a replacement to the corpse's vertical offset.
+  const basePos = getEnemyBasePos(s.maxEnemyIndex + 1, slot, spawn.def.yPosOffset) ??
+    previous?.basePos ?? { x: 100, y: 110 }
+  s.enemies[slot] = { ...spawn, basePos, rewardCounted: false }
+  return slot
+}
+
+/** divide：可扫描固定 5 槽，并把 maxEnemyIndex 扩到最高新占用槽后重排站位。 */
+function spawnIntoDivideSlot(
+  s: BattleState,
+  spawn: Omit<BattleEnemyState, 'basePos'>,
+  slot: number,
+): number {
+  if (slot < 0 || slot >= MAX_ENEMIES) throw new Error(`divide 槽位越界: ${slot}`)
+  const previous = s.enemies[slot]
+  const basePos = previous?.basePos ?? { x: 100, y: 110 }
+  s.enemies[slot] = { ...spawn, basePos, rewardCounted: false }
+  if (slot > s.maxEnemyIndex) s.maxEnemyIndex = slot
+  recomputeEnemyPositions(s)
+  return slot
 }
 
 /** 傀儡续战(fight.c:1139/950/1739):死者 hp==0 但 puppet>0 仍出手(仅死人可设)。 */
@@ -762,7 +781,7 @@ export function resolveAttack(
 
 /** 组装 AI 求值视图(纯数据;设计 enemy-ai-design.md §2)。session 演出钩 when 求值共用。 */
 export function buildAiView(s: BattleState, self: BattleEnemyState): AiBattleView {
-  const firstIdx = s.enemies.findIndex((x) => x.hp > 0 && x.def.id === self.def.id)
+  const firstIdx = s.enemies.findIndex((x) => x !== null && x.hp > 0 && x.def.id === self.def.id)
   return {
     turn: s.turn,
     difficulty: s.difficulty,
@@ -788,6 +807,7 @@ export function buildAiView(s: BattleState, self: BattleEnemyState): AiBattleVie
 
 export type EnemyDecision =
   | { kind: 'attack'; targetPlayerIdx: number }
+  | { kind: 'attackMate'; targetEnemyIdx: number }
   | { kind: 'cast'; skill: SkillData; targetPlayerIdx: number }
   | { kind: 'transform'; def: EnemyDef }
   | { kind: 'divide'; copies: number }
@@ -811,10 +831,25 @@ function initialHookCursors(def: EnemyDef): Partial<Record<EnemyHookChannel, str
   )
 }
 
-function fallbackAttack(view: AiBattleView, rng: () => number): EnemyDecision {
+function chooseAiPlayerTarget(
+  strategy: Parameters<typeof pickAiTarget>[0],
+  view: AiBattleView,
+  rng: () => number,
+  preselected: number,
+): number {
+  // 原版先抽一次玩家目标；random/缺省直接复用该结果，避免重复消费 RNG。
+  if (strategy === undefined || strategy === 'random') return preselected
+  return pickAiTarget(strategy, view.players, rng)
+}
+
+function fallbackAttack(
+  view: AiBattleView,
+  rng: () => number,
+  preselectedTarget: number,
+): EnemyDecision {
   return {
     kind: 'attack',
-    targetPlayerIdx: pickAiTarget('random', view.players, rng),
+    targetPlayerIdx: chooseAiPlayerTarget('random', view, rng, preselectedTarget),
   }
 }
 
@@ -824,6 +859,7 @@ function resolveEnemyAiAction(
   action: AiAction,
   view: AiBattleView,
   rng: () => number,
+  preselectedTarget: number,
 ): EnemyDecision {
   switch (action.kind) {
     case 'pass':
@@ -831,26 +867,26 @@ function resolveEnemyAiAction(
     case 'attack':
       return {
         kind: 'attack',
-        targetPlayerIdx: pickAiTarget(action.target, view.players, rng),
+        targetPlayerIdx: chooseAiPlayerTarget(action.target, view, rng, preselectedTarget),
       }
     case 'cast': {
-      if (e.status.silence > 0) return fallbackAttack(view, rng)
+      if (e.status.silence > 0) return fallbackAttack(view, rng, preselectedTarget)
       const skill = s.skills[action.skillId]
       if (!skill) {
         s.log.push(`${e.def.id} 施法 ${action.skillId} 缺技能数据,落普攻`)
-        return fallbackAttack(view, rng)
+        return fallbackAttack(view, rng, preselectedTarget)
       }
       return {
         kind: 'cast',
         skill,
-        targetPlayerIdx: pickAiTarget(action.target, view.players, rng),
+        targetPlayerIdx: chooseAiPlayerTarget(action.target, view, rng, preselectedTarget),
       }
     }
     case 'transform': {
       const def = s.enemiesById[action.enemyId]
       if (!def) {
         s.log.push(`${e.def.id} 变身 ${action.enemyId} 缺敌人数据,落普攻`)
-        return fallbackAttack(view, rng)
+        return fallbackAttack(view, rng, preselectedTarget)
       }
       return { kind: 'transform', def }
     }
@@ -860,13 +896,25 @@ function resolveEnemyAiAction(
       const def = s.enemiesById[action.enemyId ?? e.def.id] ?? (action.enemyId ? undefined : e.def)
       if (!def) {
         s.log.push(`${e.def.id} 召唤 ${action.enemyId} 缺敌人数据,落普攻`)
-        return fallbackAttack(view, rng)
+        return fallbackAttack(view, rng, preselectedTarget)
       }
       return { kind: 'summon', def, count: action.count }
     }
     case 'flee':
       return { kind: 'fleeAll' }
   }
+}
+
+/** 按完整玩家槽拒绝死亡角色；保护上限只防止异常 RNG/全死状态死循环。 */
+function sampleLivePlayerSlot(s: BattleState, rng: () => number): number {
+  const upper = s.players.length - 1
+  if (upper < 0) return -1
+  let target = Math.floor(Math.max(0, Math.min(0.999999999, rng())) * (upper + 1))
+  let guard = 0
+  while ((s.players[target]?.hp ?? 0) <= 0 && guard++ < 64)
+    target = Math.floor(Math.max(0, Math.min(0.999999999, rng())) * (upper + 1))
+  if ((s.players[target]?.hp ?? 0) > 0) return target
+  return alivePlayers(s)[0] ?? target
 }
 
 /**
@@ -880,23 +928,38 @@ export function decideEnemyAction(
   rng: () => number,
 ): EnemyDecision {
   const targets = alivePlayers(s)
-  if (!canAct(e.status) || targets.length === 0) return { kind: 'pass' }
+  if (targets.length === 0) return { kind: 'pass' }
+  // SDL PAL 在 sleep/paralyzed/confused 分支前无条件按完整玩家槽抽一次目标；
+  // confused 会丢弃它，但不能省略这次 RNG 消耗。
+  const preselectedTarget = sampleLivePlayerSlot(s, rng)
+  // sleep/paralyzed 优先于 confused：带有任一抑制状态的敌人本回合不行动，
+  // 但仍保留上面的玩家目标抽样消耗。silence 不在 canAct 中，因此
+  // silence + confused 仍会落入专用攻击同伴分支。
+  if (!canAct(e.status)) return { kind: 'pass' }
+  if (e.status.confused > 0) {
+    const upper = Math.min(MAX_ENEMIES - 1, s.maxEnemyIndex)
+    if (upper < 0) return { kind: 'pass' }
+    let target = Math.floor(Math.max(0, Math.min(0.999999999, rng())) * (upper + 1))
+    let guard = 0
+    while ((s.enemies[target]?.hp ?? 0) <= 0 && guard++ < 64)
+      target = Math.floor(Math.max(0, Math.min(0.999999999, rng())) * (upper + 1))
+    const mate = s.enemies[target]
+    if (!mate || mate.hp <= 0 || target === s.enemies.indexOf(e)) return { kind: 'pass' }
+    return { kind: 'attackMate', targetEnemyIdx: target }
+  }
   const view = buildAiView(s, e)
   const rules = e.def.ai.rules
   if (rules?.length) {
     const decision = decideByRules(rules, view, rng, e.firedRules)
     if (decision) {
       if (rules[decision.ruleIdx]?.once) e.firedRules.add(decision.ruleIdx)
-      return resolveEnemyAiAction(s, e, decision.action, view, rng)
+      return resolveEnemyAiAction(s, e, decision.action, view, rng, preselectedTarget)
     }
   }
   if (e.fallback && rng() * 100 < e.fallback.chancePercent)
-    return resolveEnemyAiAction(s, e, e.fallback.action, view, rng)
-  return fallbackAttack(view, rng)
+    return resolveEnemyAiAction(s, e, e.fallback.action, view, rng, preselectedTarget)
+  return fallbackAttack(view, rng, preselectedTarget)
 }
-
-/** 战场敌槽上限(原版 formation 最多 5)。 */
-const MAX_ENEMIES = 5
 
 export type EnemyEffectAction = Extract<AiAction, { kind: 'summon' | 'transform' | 'divide' }>
 
@@ -939,26 +1002,30 @@ export function applyEnemyEffect(
   if (effect.kind === 'divide') {
     if (aliveEnemies(s).length !== 1 || enemy.hp <= 1)
       return { outcome: 'failed', kind: effect.kind }
-    const requested = effect.copies
-    const slots = MAX_ENEMIES - aliveEnemies(s).length
-    const count = Math.min(requested, slots)
-    if (count <= 0) return { outcome: 'failed', kind: effect.kind }
+    const requested =
+      Number.isFinite(effect.copies) && effect.copies > 0 ? Math.trunc(effect.copies) : 1
+    const available = emptyEnemySlotIndices(s, MAX_ENEMIES)
+    const spawnCount = Math.min(requested, available.length)
     const share = Math.max(1, Math.trunc((enemy.hp + requested) / (requested + 1)))
     enemy.hp = share
     const spawnedIdxs: number[] = []
-    for (let index = 0; index < count; index += 1)
+    for (let index = 0; index < spawnCount; index += 1)
       spawnedIdxs.push(
-        spawnIntoSlot(s, {
-          def: enemy.def,
-          scriptOwnerDef: enemy.scriptOwnerDef,
-          hookCursors: { ...enemy.hookCursors },
-          ...(enemy.fallback ? { fallback: cloneFallback(enemy.fallback) } : {}),
-          hp: share,
-          status: emptyBattleStatus(),
-          defending: false,
-          firedRules: new Set(enemy.firedRules),
-          poisons: enemy.poisons.map((poison) => ({ ...poison })),
-        }),
+        spawnIntoDivideSlot(
+          s,
+          {
+            def: enemy.def,
+            scriptOwnerDef: enemy.scriptOwnerDef,
+            hookCursors: { ...enemy.hookCursors },
+            ...(enemy.fallback ? { fallback: cloneFallback(enemy.fallback) } : {}),
+            hp: share,
+            status: emptyBattleStatus(),
+            defending: false,
+            firedRules: new Set(enemy.firedRules),
+            poisons: enemy.poisons.map((poison) => ({ ...poison })),
+          },
+          expectDefined(available[index]),
+        ),
       )
     return { outcome: 'succeeded', kind: effect.kind, spawnedIdxs }
   }
@@ -967,22 +1034,29 @@ export function applyEnemyEffect(
     resolvedTarget ??
     s.enemiesById[effect.enemyId ?? enemy.def.id] ??
     (effect.enemyId === undefined ? enemy.def : undefined)
-  const slots = MAX_ENEMIES - aliveEnemies(s).length
-  if (!target || effect.count > slots) return { outcome: 'failed', kind: effect.kind }
+  const count = Number.isFinite(effect.count) && effect.count > 0 ? Math.trunc(effect.count) : 1
+  const available = emptyEnemySlotIndices(s, s.maxEnemyIndex + 1)
+  // summon 的五类失败门：目标缺失、当前上限内空槽不足、隐身、眠、痹/乱。
+  if (!target || count > available.length || count <= 0)
+    return { outcome: 'failed', kind: effect.kind }
   const spawnedIdxs: number[] = []
-  for (let index = 0; index < effect.count; index += 1)
+  for (let index = 0; index < count; index += 1)
     spawnedIdxs.push(
-      spawnIntoSlot(s, {
-        def: target,
-        scriptOwnerDef: target,
-        hookCursors: initialHookCursors(target),
-        ...(target.ai.fallback ? { fallback: cloneFallback(target.ai.fallback) } : {}),
-        hp: target.stats.health,
-        status: emptyBattleStatus(),
-        defending: false,
-        firedRules: new Set(),
-        poisons: [],
-      }),
+      spawnIntoSummonSlot(
+        s,
+        {
+          def: target,
+          scriptOwnerDef: target,
+          hookCursors: initialHookCursors(target),
+          ...(target.ai.fallback ? { fallback: cloneFallback(target.ai.fallback) } : {}),
+          hp: target.stats.health,
+          status: emptyBattleStatus(),
+          defending: false,
+          firedRules: new Set(),
+          poisons: [],
+        },
+        expectDefined(available[index]),
+      ),
     )
   return { outcome: 'succeeded', kind: effect.kind, spawnedIdxs }
 }
@@ -1055,7 +1129,7 @@ export function stepBattle(s: BattleState, rng: () => number): void {
             if (p.regenMp) p.mp = Math.min(p.maxMp, p.mp + p.regenMp)
           }
         for (const p of s.players) if (p.hp > 0) tickPoisons(s, p, 'player')
-        for (const e of s.enemies) if (e.hp > 0) tickPoisons(s, e, 'enemy')
+        for (const e of s.enemies) if (e && e.hp > 0) tickPoisons(s, e, 'enemy')
         // 伤亡剧情只归敌方有效攻击/施法；毒 tick 更新基线但不得触发或消费剧情 RNG。
         refreshCasualtyPrevHp(s)
         for (const p of s.players) {
@@ -1071,7 +1145,7 @@ export function stepBattle(s: BattleState, rng: () => number): void {
               return false
             })
         }
-        for (const e of s.enemies) if (e.hp > 0) tickBattleStatus(e.status)
+        for (const e of s.enemies) if (e && e.hp > 0) tickBattleStatus(e.status)
         // 隐身每轮 −1(一阶段 decrementHidingEffect;CLASSIC 无条件,到 0 = 隐身结束)
         if (s.hidingTime > 0) s.hidingTime -= 1
         s.pendingActions.clear()
@@ -1092,6 +1166,7 @@ export function stepBattle(s: BattleState, rng: () => number): void {
       else refreshCasualtyPrevHp(s)
       // B7a 战果累计:本步新死敌 += exp/cash(只记一次;敌逃(enemyFled)清场不计)
       for (const e of s.enemies) {
+        if (!e) continue
         if (e.hp <= 0 && !e.rewardCounted) {
           e.rewardCounted = true
           if (!s.enemyFled) {
@@ -1511,6 +1586,12 @@ function performCoopMagic(
   const coopId = caster.cooperativeMagicSkillId
   const skill = coopId ? s.skills[coopId] : undefined
   if (!skill) {
+    s.lastAction = {
+      side: 'player',
+      idx: casterIdx,
+      kind: 'pass',
+      notice: '合击失败',
+    }
     s.log.push(`${caster.roleId} 无合体技,合击失败`)
     return
   }
@@ -1524,13 +1605,11 @@ function performCoopMagic(
         ? targetEnemyIdx
         : retargetEnemy(s, targetEnemyIdx ?? 0)
     const e = s.enemies[ti]
-    s.lastAction = {
-      side: 'player',
-      idx: casterIdx,
-      kind: 'attack',
-      ...(ti >= 0 ? { target: ti } : {}),
+    if (!e || e.hp <= 0) {
+      s.lastAction = { side: 'player', idx: casterIdx, kind: 'pass' }
+      return
     }
-    if (!e || e.hp <= 0) return
+    s.lastAction = { side: 'player', idx: casterIdx, kind: 'attack', targetEnemyIdx: ti }
     caster.hiddenCounts.attack = (caster.hiddenCounts.attack ?? 0) + 1
     caster.hiddenCounts.maxHP = (caster.hiddenCounts.maxHP ?? 0) + 2 + Math.floor(rng() * 2)
     const hit = resolvePlayerAttackHit(caster, e, rng)
@@ -1568,9 +1647,9 @@ function performCoopMagic(
     side: 'player',
     idx: casterIdx,
     kind: 'coop',
-    skillId: coopId,
+    skillId: skill.id,
     coopContributors: [...contributors],
-    ...(targets.length === 1 ? { target: targets[0] } : {}),
+    ...(targets.length === 1 ? { targetEnemyIdx: targets[0] } : {}),
   }
   const dmgEff = skill.effects.find((e) => e.kind === 'damage')
   if (!dmgEff || dmgEff.kind !== 'damage') {
@@ -1738,6 +1817,47 @@ function validatePlayerAction(s: BattleState, idx: number, act: BattleAction): B
   return a
 }
 
+function createPlayerLastAction(
+  idx: number,
+  action: Exclude<BattleAction, { kind: 'coop' }>,
+): BattleLastAction {
+  switch (action.kind) {
+    case 'attack':
+      return { side: 'player', idx, kind: 'attack', targetEnemyIdx: action.targetEnemyIdx }
+    case 'cast':
+      return {
+        side: 'player',
+        idx,
+        kind: 'cast',
+        skillId: action.skillId,
+        ...(action.targetEnemyIdx !== undefined ? { targetEnemyIdx: action.targetEnemyIdx } : {}),
+        ...(action.targetAllyIdx !== undefined ? { targetAllyIdx: action.targetAllyIdx } : {}),
+      }
+    case 'item':
+      return {
+        side: 'player',
+        idx,
+        kind: 'item',
+        itemId: action.itemId,
+        ...(action.targetAllyIdx !== undefined ? { targetAllyIdx: action.targetAllyIdx } : {}),
+      }
+    case 'throw':
+      return {
+        side: 'player',
+        idx,
+        kind: 'throw',
+        itemId: action.itemId,
+        ...(action.targetEnemyIdx !== undefined ? { targetEnemyIdx: action.targetEnemyIdx } : {}),
+      }
+    case 'defend':
+      return { side: 'player', idx, kind: 'defend' }
+    case 'flee':
+      return { side: 'player', idx, kind: 'flee' }
+    default:
+      throw new Error(`玩家 action 无法写入 lastAction: ${JSON.stringify(action)}`)
+  }
+}
+
 function performPlayerAction(s: BattleState, idx: number, _rng: () => number): void {
   const p = s.players[idx]
   if (!p) return
@@ -1776,27 +1896,19 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
       return // 理论不可达(无活敌已判胜)
     }
     if (pick.side === 'player') {
-      s.lastAction = { side: 'player', idx, kind: 'attackMate', target: pick.i }
-      attackMate(s, idx, pick.i)
+      const damage = attackMate(s, idx, pick.i)
+      s.lastAction = { side: 'player', idx, kind: 'attackMate', targetAllyIdx: pick.i, damage }
       return
     }
     act = { kind: 'attack', targetEnemyIdx: pick.i } // 活敌,无需再验证
   } else {
     act = validatePlayerAction(s, idx, queued)
   }
-  s.lastAction = {
-    side: 'player',
-    idx,
-    kind: act.kind,
-    ...('targetEnemyIdx' in act && act.targetEnemyIdx !== undefined
-      ? { target: act.targetEnemyIdx }
-      : {}),
-    ...('skillId' in act ? { skillId: act.skillId } : {}),
-    ...('itemId' in act ? { itemId: act.itemId } : {}),
-    ...('targetAllyIdx' in act && act.targetAllyIdx !== undefined
-      ? { targetAllyIdx: act.targetAllyIdx }
-      : {}),
+  if (act.kind === 'coop') {
+    performCoopMagic(s, idx, act.targetEnemyIdx, _rng)
+    return
   }
+  s.lastAction = createPlayerLastAction(idx, act)
   const addHidden = (k: string, n: number): void => {
     p.hiddenCounts[k] = (p.hiddenCounts[k] ?? 0) + n
   }
@@ -1813,6 +1925,7 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
     // roll ∈ [0,def] 闭区间,str >= roll 成功全队逃。失败 = 本次行动作废(原版失败动画 M4d)。
     let def = 0
     for (const e of s.enemies) {
+      if (!e) continue
       if (e.hp <= 0) continue
       def += e.def.stats.fleeRate + (e.def.stats.level + 6) * 4
     }
@@ -1993,10 +2106,6 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
   }
   if (act.kind === 'cast') {
     applyPlayerSkill(s, idx, act.skillId, act.targetEnemyIdx, _rng, act.targetAllyIdx)
-    return
-  }
-  if (act.kind === 'coop') {
-    performCoopMagic(s, idx, act.targetEnemyIdx, _rng)
     return
   }
   if (act.kind === 'attack') {
@@ -2261,7 +2370,7 @@ function resolvePlayerAttackHit(
  * 疯魔打友结算(fight.c:3812-3835):str = 攻,def = 对方防 ×(防御中?2),物抗恒 2;
  * **无噪声无暴击无闪避**(异于打敌全链);护体 /2 → 保底 1 → 钳余血,顺序照 C。
  */
-function attackMate(s: BattleState, idx: number, mateIdx: number): void {
+function attackMate(s: BattleState, idx: number, mateIdx: number): number {
   const p = expectDefined(s.players[idx])
   const m = expectDefined(s.players[mateIdx])
   const def = m.defense * (m.defending ? 2 : 1)
@@ -2271,6 +2380,26 @@ function attackMate(s: BattleState, idx: number, mateIdx: number): void {
   if (dmg > m.hp) dmg = m.hp
   m.hp -= dmg
   s.log.push(`${p.roleId} 神志不清,攻击了 ${m.roleId} 造成 ${dmg}`)
+  return dmg
+}
+
+function shortCast(value: number): number {
+  return (value << 16) >> 16
+}
+
+/** 混乱敌打友敌专用公式；不走普通敌人物攻 jitter/暴击/闪避链。 */
+function resolveEnemyAttackMateDamage(
+  attacker: BattleEnemyState,
+  target: BattleEnemyState,
+): number {
+  const str = shortCast(attacker.def.stats.attackStrength) + (attacker.def.stats.level + 6) * 6
+  const def = shortCast(target.def.stats.defense) + (target.def.stats.level + 6) * 4
+  const base2 = calcBaseDamage(str, def) * 2
+  const raw =
+    target.def.stats.physicalResistance !== 0
+      ? Math.trunc(base2 / target.def.stats.physicalResistance)
+      : base2
+  return raw <= 0 ? 1 : raw
 }
 
 /** 敌施法单目标结算(damage 走 calcMagicDamage;heal/status 直接应用;其余 log 跳过)。 */
@@ -2408,22 +2537,24 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
   const e = s.enemies[idx]
   if (!e || e.hp <= 0) return
   const decision = decideEnemyAction(s, e, rng)
-  s.lastAction = {
-    side: 'enemy',
-    idx,
-    kind: decision.kind,
-    ...('targetPlayerIdx' in decision ? { target: decision.targetPlayerIdx } : {}),
-    ...(decision.kind === 'cast' ? { skillId: decision.skill.id } : {}),
-  }
   if (decision.kind === 'pass') {
+    s.lastAction = { side: 'enemy', idx, kind: 'pass' }
     s.log.push(`${e.def.id} 无法行动`)
     return
   }
   if (decision.kind === 'cast') {
+    s.lastAction = {
+      side: 'enemy',
+      idx,
+      kind: 'cast',
+      skillId: decision.skill.id,
+      targetPlayerIdx: decision.targetPlayerIdx,
+    }
     applyEnemySkill(s, e, decision.skill, decision.targetPlayerIdx, rng)
     return
   }
   if (decision.kind === 'transform') {
+    s.lastAction = { side: 'enemy', idx, kind: 'transform' }
     const result = applyEnemyEffect(
       s,
       idx,
@@ -2437,6 +2568,7 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
     return
   }
   if (decision.kind === 'divide') {
+    s.lastAction = { side: 'enemy', idx, kind: 'divide' }
     const result = applyEnemyEffect(s, idx, {
       kind: 'divide',
       copies: decision.copies,
@@ -2450,6 +2582,7 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
     return
   }
   if (decision.kind === 'summon') {
+    s.lastAction = { side: 'enemy', idx, kind: 'summon' }
     const result = applyEnemyEffect(
       s,
       idx,
@@ -2469,11 +2602,36 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
     return
   }
   if (decision.kind === 'fleeAll') {
+    s.lastAction = { side: 'enemy', idx, kind: 'fleeAll' }
     // 原版 0x69:整场敌逃离,战斗终止无奖励(enemyFled 标记;奖励系统接入时读)
     s.enemyFled = true
-    for (const x of s.enemies) x.hp = 0
+    for (const x of s.enemies) if (x) x.hp = 0
     s.log.push(`${e.def.id} 逃走了`)
     return
+  }
+  if (decision.kind === 'attackMate') {
+    const target = s.enemies[decision.targetEnemyIdx]
+    if (!target || target.hp <= 0) {
+      s.lastAction = { side: 'enemy', idx, kind: 'pass', notice: '同伴目标已失效' }
+      return
+    }
+    const damage = resolveEnemyAttackMateDamage(e, target)
+    target.hp = Math.max(0, target.hp - damage)
+    s.lastAction = {
+      side: 'enemy',
+      idx,
+      kind: 'attackMate',
+      targetEnemyIdx: decision.targetEnemyIdx,
+      damage,
+    }
+    s.log.push(`${e.def.id} 神志不清,攻击 ${target.def.id} 造成 ${damage}`)
+    return
+  }
+  s.lastAction = {
+    side: 'enemy',
+    idx,
+    kind: 'attack',
+    targetPlayerIdx: decision.targetPlayerIdx,
   }
   const p = expectDefined(s.players[decision.targetPlayerIdx])
   // 敌物攻打玩家(fight.c:4917-5076 全链):
