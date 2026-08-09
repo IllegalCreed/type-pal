@@ -12,7 +12,8 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| W9 | 实体暂离、重现与明雷逃跑冷却 | draft | B10-1 v12 已完成；下一步重锁 content/save epoch，集齐三方 design agree 后由 Codex build | 四态状态机 + 320×320 边界 + 0x52 toggle 前态 + BattleResult 四分类；828+193 源账本待复审 |
+| W9 | 实体生命周期、重现与明雷逃跑冷却 | blocked | Codex 已按 B10 后 counter 修卡；待 Kimi/GLM 重新 design agree，期间不得实现 | content12→13/minSave8、顶层 nested lifecycle、五终态 BattleResult、1849-site ledger 与 SAVE/editor 升级边界已重锁 |
+| OPS-TST-PERF-RW | release worker 墙钟优化 | draft | Codex 已完成只读基线；待 Kimi/GLM 设计复核，期间不得改 release 编排 | shared 24 files/137 tests 是约 33 分钟主瓶颈；先做分段计时，再评估隔离并行/集中 determinism |
 | D14-1 | 对话系统外观继承（版式/头像/光标/字体/自动播放） | done | 三方 accept 齐（Kimi/GLM 补审闭环），待用户验收 | maxRight=320 全宽语义；11102 行 0 意外折行仅 6 合法超限；audit 脚本可挂 CI |
 | D15-1 | NPC 移动补全：动态碰撞 + 互相让路 + 转向（议题 15） | draft | 待设计冻结，三方签字 | auto 巡逻已有；缺不穿墙/不互穿/让路滑步/转向动画 |
 
