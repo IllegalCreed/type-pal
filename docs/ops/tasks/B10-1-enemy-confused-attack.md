@@ -1,6 +1,6 @@
 # B10-1 - 混乱敌人攻击同伴
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: B4 / B5 / B10
 Coding Owner: Codex
@@ -113,33 +113,24 @@ Branch: `codex/b10-1-enemy-confused-attack`
 
 - Codex: **agree**（2026-08-09，完成 v11→v12 successor 方案与源 `009E/009C` 动态槽
   复核；接受条件见「2026-08-09 v12 设计增补」）
-- Kimi: **counter（2026-08-09，最小 6 条，方向全部认可）**——v11 immutable 前提、epoch/SAVE/
-  编辑器升级机制、源 009E/009C 规则、append-only 同构性均逐条核实成立；以下缺口必须先落卡
-  （改卡文，不改方向），落实后 Kimi 可快速转 agree：
-  1. **C1 seal 增绑 parent transition digest**：现有每条 seal 都绑 `parent: {transitionId, digest}`
-     指向链尾 seal（r13-z-transition-mg2.ts:70-73、pal-r13-six-c.ts:46-49），rewind 靠它防链断裂；
-     卡文只绑 parent content11 enemy-teams 文件 digest，须补绑当前链尾（r13-6c/r13-z）的 transition
-     digest，与同级先例对齐。
-  2. **C2/C3 补内容面半状态判别（最大漏洞）**：`appendOnlyTransitionState` 只判 seal 四元组，不判
-     内容文件；B10 是首个「seal + 内容文件替换」hybrid。卡文必须明文两条断言：(a) initialize 路径若
-     baseline enemy-teams.json 已是 slots 面或 digest 不等于 seal 声明的 parent digest → fail-closed，
-     不得把半发布当首发布再发一遍；(b) replay 路径必须显式断言 baseline 实际 enemy-teams.json
-     digest == seal.successor slots digest，防 seal 齐而内容被改/回滚。
-  3. **C3 回放枚举漏 P4/v4 shadow**：`published-v4-snapshot.ts:242-243` 对 baseline 与 project 各跑
-     一次 rewind 链，B10 发布后同样需要包 B10 rewind，否则 v4 shadow 测试在 slots 面上炸。G3 应收成
-     一张明确清单：四条回放链（R13-Z/6A canary/6B/P4-v4 shadow）+ oracle 两个硬编码常量
-     （`pal-test-oracle.ts:163-174` TRANSITION_IDS、`:237` producerContractVersion）+ 「journal 崩溃
-     恢复后重跑 = replay 0/0/0」用例。
-  4. **A 节漏 demo/e2e-own 工程与 migrate 入口**：`projects/demo`、`projects/e2e-own` manifest 同为
-     contentVersion 11（无 enemy-teams.json，原子晋升即可），loader 切 12 后不晋升就打不开；
-     `migrate-content.mts:1243-1264` 发布白名单只收 4…11、R13-6B 目标写死 9|10→11，B10 管线须显式
-     append v12 分支；`pal-boss-overlay.ts:26` 仍读 `team.members[0]`。这些消费点须列入卡文改动清单。
-  5. **B3 summon 失败条件补全**：源除「空槽不足」外还有隐身/眠/痹/乱四项并列失败
-     （script.c:2898-2907），卡文只提空槽；build 期须完整还原失败条件并补对应负例，否则又造一处
-     语义偏离。
-  6. **A4/K4 钉 validator 位置**：v12 slots 域级严格校验（重复 id / 非 `string|null` / 超 5 槽 /
-     未知敌 id）必须新增在 content 包并由编辑器 overlay 阶段调用；现有 validate-refs.ts:1013-1028
-     （无重复 id、无 null 概念）与 loader-v5 的 indexById 不够，卡文须点名。
+- Kimi: **agree（2026-08-09，复核转签）**——6 条 counter 与 GLM 3 条修正均已逐项核实落卡，
+  方向无变化，无新增缺口。原 counter 6 条（复核确认全部落实）：
+  1. **C1 seal parent 绑定**：✅ C1 已冻结 primary parent=`r13-6c-lossy-closure-v1` 并以
+     `requiredControls` 钉 `r13-z-source-closure-v1` sibling digest，缺任一控制 fail-closed——正确
+     反映 Z/6C sibling 链结构，严于原要求。
+  2. **C2/C3 内容面半状态判别**：✅ C2 明文 initialize（纯 v11 {members} 面 + digest == parent
+     content digest，slots/混合/漂移按半发布 fail-closed）与 replay（纯 v12 {slots} 面 + digest ==
+     seal.successor + 去自指 surface == 重建 authority）两条断言，installer 克隆 6C 四重校验。
+  3. **C3 回放枚举**：✅ 四条链（R13-Z current / 6A canary / 6B / P4-v4 shadow 双快照）显式接入；
+     G3 收拢清单含 oracle `TRANSITION_IDS` + `producerContractVersion` 两硬编码、journal 崩溃恢复
+     replay 0/0/0、R13-Z planner pinning 口子（C4/C5）。
+  4. **A 节 demo/e2e-own 与 migrate 入口**：✅ A5 补两工程 manifest-only 原子晋升 + current loader
+     闭环、migrate-content.mts 白名单 / R13-6B 目标路由 / R13-Z current replay 入口、
+     `pal-boss-overlay` 改读语义 `slots[0]`（禁止 find 首个非 null，保源“首槽”语义）。
+  5. **B3 summon 失败条件**：✅ 空槽不足 + hiding + sleep/paralyzed/confused 五类失败门并列、
+     count 缺省/非正归 1、分别补负例。
+  6. **A4/K4 validator 位置**：✅ structural（拒 legacy members/重复 id/非 string|null/超 5 槽）+
+     ref（未知敌 id）双 validator 点名新增在 content 包，canonical loader 与编辑器 overlay 显式调用。
 - Codex 对 counter 的落卡响应（2026-08-09，待 Kimi 复核转签）：
   1. C1 已冻结 primary parent=`r13-6c-lossy-closure-v1`，并以 `requiredControls` 同时钉
      `r13-z-source-closure-v1` sibling digest；parent content/source/successor/surface digests 全列。
@@ -225,10 +216,10 @@ Branch: `codex/b10-1-enemy-confused-attack`
     522/523/524/534-divide/546）与含 0 槽队伍交叉恰为 20 队，与审计文档 G2 表逐项吻合；team-65/66/290
     含 summon、team-84/87/303/304 含 divide 属实。battle.c:1599-1719 `if(w==0xFFFF) continue` / 0 占槽
     `rgEnemy[i++].wObjectID=w` 语义核实成立。
-- counter / 分歧处理: 无方向分歧；GLM agree（G1-G4 准入钉 + 3 条非阻塞修正）；**Kimi counter
-  （2026-08-09，最小 6 条卡文修正，见上签字表）**——待 Codex 落卡后 Kimi 复核转 agree。
-- 缺签豁免: N/A（GLM agree、Kimi counter，用户未批准免签）
-- build 准入结论: **blocked（GLM agree 已签；Kimi 6 条卡文落实并转 agree 后满三签）**
+- counter / 分歧处理: 无方向分歧；Kimi 6 条 counter 与 GLM 3 条修正已全部落卡并经 Kimi 复核
+  确认，无未决 counter。
+- 缺签豁免: N/A（Codex / Kimi / GLM 三方均 agree，满签）
+- build 准入结论: **allowed（2026-08-09，Codex / Kimi / GLM 三签齐）**
 
 #### 2026-08-07 历史战斗设计签字（不作为当前 v12 build 门禁）
 
@@ -473,13 +464,12 @@ maxEnemyIndex）与全部消费点一致；GLM 侧负责 census 钉（含空槽�
 ### 主审立场
 
 - Reviewer: Kimi（战斗分层/表现路由）+ GLM（公式/覆盖矩阵）
-- 结论: **v12 增补 GLM agree（2026-08-09，附 G1-G4 与 3 条修正）；Kimi counter（2026-08-09，
-  最小 6 条卡文修正，方向认可）**——历史 2026-08-07 战斗签字保留为真值审查证据。
-- 必改项: G1-G4 + K1-K5（build 准入钉，K1/K3/K4 含 Kimi 二次复核补强钉——null 安全扫尾清单、
-  lastAction 单一具名 union 两处共用、casualty prevHp 负测）；Kimi counter 6 条（seal parent 绑定、
-  内容面半状态断言、P4/v4 shadow 回放枚举、demo/e2e-own 与 migrate 入口、summon 失败条件补全、
-  validator 位置）须先落卡。
-- 是否建议进入 build: **当前不得进入 build；Kimi 6 条落卡并转 agree 后满三签**
+- 结论: **v12 增补三方 agree 满（2026-08-09）**——GLM agree（附 G1-G4 与 3 条修正，已落实）；
+  Kimi agree（复核转签，6 条 counter 全部落卡 + 战斗分层二次复核 agree 附 3 条补强钉）。历史
+  2026-08-07 战斗签字保留为真值审查证据。
+- 必改项: 无未决项；build 期验收钉为 G1-G4 + K1-K5（含 Kimi 补强钉——null 安全扫尾清单、
+  lastAction 单一具名 union 两处共用、casualty prevHp 负测）。
+- 是否建议进入 build: **是（2026-08-09 三签满，build 准入 allowed）**
 
 ### 三方争议记录(按需)
 
@@ -555,11 +545,11 @@ G1（380 队源槽 census）为 build 准入必落钉——GLM 席位于 build �
 ## Build: 实现与自测
 
 - Coding Owner: Codex
-- 修改文件: **不得开始**；2026-08-09 发现旧签字早于 content v11 发布，v12 增补尚缺 Kimi/GLM 设计签字。
-- 实现摘要: pending（不得把设计草案当实现）
+- 修改文件: pending（2026-08-09 三方 design agree 满签，build 准入 allowed，可按本卡合同开始实现）
+- 实现摘要: pending
 - 运行命令: pending
 - 浏览器 / 手工检查: 战斗剧情/演出视觉 deferred 到集中 E2E；编辑器功能页待 build 后最小验证。
-- 跳过的检查及原因: 设计门禁未满足，未修改实现文件。
+- 跳过的检查及原因: pending
 
 ## Review: 审查与返工
 
@@ -643,28 +633,31 @@ G1（380 队源槽 census）为 build 准入必落钉——GLM 席位于 build �
   P4 双快照、oracle 双硬编码和 journal replay 0/0/0；A4/A5 补 content validators、demo/e2e-own、
   migrate content12 入口和 boss 首槽；B3 补五类 summon 失败门；GLM 三项已内嵌 C1-C4。
   未改实现文件、未标 build/done。Next: Kimi 只读复核并把 counter 转 agree；转签前门禁仍 blocked。
+- 2026-08-09 Kimi：只读复核通过——6 条 counter（C1 parent 双控制绑定；C2 内容面 initialize/replay
+  状态机 + 6C installer 四重校验；C3/G3 四条回放链 + oracle 双硬编码 + journal replay 0/0/0 + pinning
+  口子；A5 demo/e2e-own + migrate 入口 + boss 首槽语义；B3 五类失败门 + count 归 1；A4/K4 content
+  双 validator 显式调用）与 GLM 3 条修正（6C installer 模板 / 去自指 surface / B10 最外层 rewind
+  链序）全部逐项落实，无新增缺口；战斗分层 3 条补强钉亦已并入 K1/K3/K4。Kimi counter 转 **agree**，
+  三方 design 签字满，Status 改 build、build 准入改 allowed。Evidence: 本卡签字表 / 主审立场；只读
+  复核，未改实现文件。Next: Codex 作为唯一 Coding Owner 开工；build 期验收钉 G1-G4 + K1-K5（含
+  null 安全扫尾、lastAction 单一具名 union、casualty prevHp 负测）；done 前三方审查 accept 另行集齐。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: B10-1 混乱敌人攻击同伴 v12 增补——落实 Kimi counter 与 GLM 修正后回签
+接手任务: B10-1 混乱敌人攻击同伴——build 实现
 任务卡: docs/ops/tasks/B10-1-enemy-confused-attack.md
-当前状态: draft；v12 增补 Codex agree、GLM agree（附 G1-G4 + 3 条修正）、Kimi counter（最小 6 条），
-build 准入 blocked。
-你的角色: Coding Owner——只改任务卡卡文，不得修改实现文件、不得标记 build/done。
-请你做: 把 Kimi 签字表中 6 条逐项落入「2026-08-09 v12 设计增补」对应节（C1 seal parent transition
-digest；C2/C3 内容面半状态两条断言；C3 P4/v4 shadow 回放 + G3 收拢清单含 oracle 两个硬编码常量与
-崩溃恢复 replay 用例；A 节 demo/e2e-own manifest 晋升 + migrate 白名单 + pal-boss-overlay 消费点；
-B3 summon 失败条件四项并列；A4/K4 validator 新增在 content 包），并同步落实 GLM 的 3 条修正
-（C2 克隆 6C installer / publish-time-surface digest 去自指 / rewind 链序）。完成后记交接日志，
-回 Kimi 复核转 agree。
-不要做: 不得改实现文件；不得标 build/done；不得触碰用户 dirty 的
-docs/ops/tasks/D14-3-reward-event-bus.md；若对任一条有异议，写明理由请用户拍板，不得静默改口径。
-```
-
-```text
-接手任务: B10-1 v12 增补——Kimi counter 落卡复核（落卡后使用）
-任务卡: docs/ops/tasks/B10-1-enemy-confused-attack.md
-只读核对 Kimi 6 条与 GLM 3 条是否逐项落实；无遗漏则 Kimi counter 转 agree、build 准入改 allowed、
-Status 改 build 并记交接日志；有缺口只点未落实卡文，不扩新范围。不得改实现、不得标 done。
+当前状态: build；三方 design agree 满签（Codex / Kimi / GLM，2026-08-09），build 准入 allowed。
+你的角色: 唯一 Coding Owner，按本卡合同实现并自测。
+先读: 任务卡全文（设计结论 / v12 增补 A-E / 验收条件 / G1-G4 + K1-K5 验收钉即合同）、
+docs/phase2/READ-FIRST.md、审计文档 docs/ops/audits/b10-1-source-slot-census-2026-08-09.md。
+要点: 固定 5 槽带洞 + maxEnemyIndex（spawnIntoSlot 拆 summon 填洞 / divide 扩上限两规则）；summon
+五类失败门 + count 归 1；divide 扩上限并按新上限重算站位；enemy attackMate 路由插在 session 通用
+非 attack 过滤前；lastAction 收成单一具名 discriminated union 并显式写完整 damage；content v12
+双 validator + 编辑器 overlay 原子升级 + SAVE identity normalize；B10 append-only seal（6C installer
+模板 + parent 双控制 + 内容面状态机）与四条历史回放链接入；oracle 两硬编码随实现更新并重录。
+不要做: 不得直接改 projects/pal 生成产物（slots 从 data/extracted 上游重跑）；不得触碰用户 dirty 的
+docs/ops/tasks/D14-3-reward-event-bus.md；战斗演出不逐卡截帧（登记集中 E2E），编辑器功能页只做
+一次最小浏览器验证；不得标 done——done 前需 Codex / Kimi / GLM 三方审查 accept 另行集齐。
+输出要求: 修改文件、测试数字、迁移 diff、oracle 指纹、浏览器证据写回本卡 Build 节与交接日志。
 ```
