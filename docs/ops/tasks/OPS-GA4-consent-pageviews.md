@@ -206,6 +206,15 @@ Capability: production analytics
   `/assets/index-BZsZsNfF.js` 与本地构建 SHA-256 一致。HTML 不直载 Google script，
   bundle 包含独立 Measurement ID 与隐私设置 UI；入口经 CDN 返回
   `Cache-Control: no-cache`、`Age: 0`。未点击生产“允许”，没有制造测试 page_view。
+- 2026-08-01 Codex 生产回看：Owner 反馈新 property 无数据后，使用真实 Chromium 核对
+  `pal.illegalscreed.cn`。同意前 script=0；同意后插入任务卡一致的 `G-9Q2XJV7NJ6`，并排队
+  `js` / `config` / `event page_view`，但当前网络路径的 `gtag.js` 失败为
+  `ERR_CONNECTION_CLOSED`，没有 `g/collect`。同时发现控制器在 script 首次加载失败后会永久
+  保持 initialized，后续无法重试。按 TDD 新增两条回归：旧实现分别因“失败节点未替换”和
+  “命令队列仍为普通 Array”红灯；最小修复改为官方 `arguments` 队列，并在 script error 时
+  移除失败节点，使下一次 granted 活动可重试且不重复当前页。定向 8/8 已绿；改动只在第一阶段
+  `packages/game/src/analytics/` 与本卡，不触碰现有 reforge/migrate 脏改动，尚未提交或部署。
+  该韧性修复不等于解决国内 Google 采集端长期不可达，生产统计方案需 Owner 另行决策。
 
 ## 下一位 Agent 提示词
 

@@ -60,9 +60,9 @@ function createHarness(options?: {
 }
 
 function pageViewEvents(): unknown[][] {
-  return ((window as unknown as { dataLayer?: unknown[][] }).dataLayer ?? []).filter(
-    (entry) => entry[0] === 'event' && entry[1] === 'page_view',
-  )
+  return ((window as unknown as { dataLayer?: Array<ArrayLike<unknown>> }).dataLayer ?? [])
+    .map((entry) => Array.from(entry))
+    .filter((entry) => entry[0] === 'event' && entry[1] === 'page_view')
 }
 
 describe('minimal Google Analytics page view', () => {
@@ -140,5 +140,30 @@ describe('minimal Google Analytics page view', () => {
       'page_view',
       expect.objectContaining({ page_path: '/' }),
     )
+  })
+
+  it('标签加载失败后可重试且不重复排队当前页', () => {
+    const harness = createHarness()
+    harness.grant()
+    const failedScript = document.querySelector<HTMLScriptElement>(
+      'script[data-ga4-measurement-id]',
+    )
+
+    failedScript?.dispatchEvent(new Event('error'))
+    harness.grant()
+
+    const retryScript = document.querySelector<HTMLScriptElement>('script[data-ga4-measurement-id]')
+    expect(retryScript).not.toBe(failedScript)
+    expect(document.querySelectorAll('script[data-ga4-measurement-id]')).toHaveLength(1)
+    expect(pageViewEvents()).toHaveLength(1)
+  })
+
+  it('内建 gtag 使用官方 arguments 命令形态', () => {
+    createHarness({ consent: 'granted' })
+
+    const commands = (window as unknown as { dataLayer?: Array<ArrayLike<unknown>> }).dataLayer
+    expect(commands).toBeDefined()
+    expect(Array.isArray(commands?.[0])).toBe(false)
+    expect(Array.from(commands?.[1] ?? []).slice(0, 2)).toEqual(['config', 'G-TEST12345'])
   })
 })
