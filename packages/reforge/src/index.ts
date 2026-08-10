@@ -128,6 +128,15 @@ export type { Palette, RleFrame } from '@type-pal/shared'
 export { encodeSpriteChunk, parseSpriteChunk, parseSpriteChunkStrict } from '@type-pal/shared'
 export { AssetResolver } from './asset-resolver.js'
 export { tilesFromChunkBytes } from './assets.js'
+export {
+  type BattleResult,
+  battleResultHasVictoryRewards,
+  battleResultRunsOnFlee,
+  battleResultRunsOnLose,
+  isBattleResult,
+  type LegacyBattleResult,
+  normalizeLegacyBattleResult,
+} from './battle/battle-result.js'
 // 文件源抽象(内容 + 素材统一「从哪读」;httpSource=dev/种子,fsaSource=本地工程)
 export { type FileSource, httpSource } from './file-source.js'
 export { fsaSource } from './fsa-source.js'
