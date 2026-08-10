@@ -41,9 +41,9 @@ Branch: main
   - `packages/migrate/vitest.release.config.ts:45-65` 的 fresh isolate/timeout 配置。
   - `packages/migrate/src/experimental/script-v5/pal-test-fixture.ts:100-125,137-193,330-356`。
 - 已知坑 / 审计文档:
-  - 2026-08-10 profiler 记录 fresh 文件级失败；一次证据指向 `beforeAll` 约束（`:768-770`，
-    180s hook），另一次独立复现指向 `:772` 的 240s body timeout。两者尚未证明是同一根因，
-    本卡必须用 raw JSON、命令和进程/RSS 证据定性，不能预先写死结论。
+  - 2026-08-10 单文件 verbose cold 已定性：失败是 `beforeAll`（`:768`）180s hook timeout，
+    `:772` 的 240s body 被 skipped、未开始。同步 `buildStrictPalMigrationFixture()` 阻塞 event loop，
+    timeout 到点后不能立即中断，直至约 198s 返回才报告失败；不得再把它写成 body timeout。
   - `OPS-TST-PERF-release-wallclock.md` 的三次成功 full baseline 尚未完成。
 - 不得重新引入:
   - timeout/skip 放宽、静默串行回退、缺报告仍 success、预构建 authority 输入、共享可变临时目录。
@@ -94,6 +94,33 @@ Branch: main
 profiler；每次记录 monotonic wall、raw JSON、进程树 RSS、临时事务目录和 git/source digest。
 确认根因后只修上游冷链或 fixture 生命周期，避免在 runner 层掩盖问题。
 
+### 根因诊断（2026-08-10，只读）
+
+- 命令：`pnpm exec vitest run --config vitest.release.config.ts --project release-pal-fresh
+  src/pal-migration-integration.test.ts --reporter=verbose`。
+- 结果：real **199.74s** / user 151.84s / sys 26.82s；Vitest Duration 199.08s、tests 197.31s，
+  明确报 `Hook timed out in 180000ms`，定位 `pal-migration-integration.test.ts:768`；`:772` test body
+  skipped。
+- 既有 profiler full raw：fresh 362.589s、exit=1、signal=null、process-tree max RSS
+  2,068,217,856 bytes；integration file failed、目标 assertion skipped。故不是 OOM、signal 或磁盘事务。
+- 机制：`buildStrictPalMigrationFixture()` 在一个同步 `beforeAll` 内串行执行 source load、current build、
+  historical R13-4 build/audit/census、R13-5 build/audit、P7 canonical 等多套 source-backed authority；
+  同步 CPU 工作使 Vitest timer 无法在 180s 时抢占，函数返回后才结算 hook timeout。
+- 代码热点：fixture `pal-migration-integration.test.ts:661-700` 在 2026-08-09 后新增独立 R13-5
+  clone/build/audit（`:682-687`），随后 `buildP7GeneratedCanonical`（`:688-700`）经
+  `p7-generated.ts:420-422` 调用 `buildValidatedP6TransformChain`，同时保留 P2-P6 全部中间图；
+  采样显示 physical footprint 约 2.5GiB、peak 约 2.7GiB，并有大量 GC/StringAdd/ArrayMap。
+- 分段诊断（在进入第二个 R13-5 build 后即停止，未再跑完整长命令）：source load 13.9s、baseline
+  0.34s、current build 6.25s、parent clone/build/audit/census 累计至 33.18s、第二份 R13-5 source clone
+  累计至 34.82s；剩余主要成本位于 R13-5 全建/audit 与后续 P7 canonical 链。
+- 最小修复候选仍须真实 Kimi/GLM 先审：推广现有 `shadow-harness.ts:1571-1663`
+  `buildValidatedP6TransformOutput` 的逐阶段验证/释放模型，新增“从 validated final P6 output 构建完整
+  P7”的适配；先证明 full-chain 与 compact-chain 的 P6 IR/ledger、P7 snapshot/evidence digest
+  等价，再让 fresh final-consumer 使用 compact 输出。fresh 仍现场独立 source-backed 构建，不读取
+  shared/canary/prepared authority。可把 R13-5 build 排在 P7 之后进一步降低图同时存活峰值，但不能用
+  current `theirs` 冒充 historical R13-5。禁止提高 timeout、挪到 body/拆测试躲避、读取 golden
+  authority 或删除任何逐阶段验证。
+
 ### 已知风险
 
 - 根因可能是 180s `beforeAll`、240s body、资源竞争或隐藏的重复建链；错误归类会导致错误修复。
@@ -103,6 +130,9 @@ profiler；每次记录 monotonic wall、raw JSON、进程树 RSS、临时事务
 
 - 2026-08-10 Codex: 建卡。Evidence: OPS 主卡 profiler 失败摘要与 fresh 原始 JSON 路径。Next:
   先由真实 Kimi/GLM 对调查设计签 `agree`，之后 Codex 只做根因复现与最小修复。
+- 2026-08-10 Codex: 单文件 verbose cold 已确认 `beforeAll:768` 180s timeout；body `:772` skipped，
+  非 OOM/signal/disk。Evidence: real 199.74s、Vitest 199.08s；既有 full fresh 362.589s / peak RSS
+  2.07GB。Next: 真实 Kimi/GLM 审核“等强度冷链优化、不调 timeout/skip”的最小修复方向。
 
 ## 下一位 Agent 提示词
 
