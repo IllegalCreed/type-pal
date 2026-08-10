@@ -1,6 +1,7 @@
 import type { EntityRef } from './index.js'
 import type { EntityBaseV5, HostileBehaviorV5, SceneDefV5 } from './scene-v5.js'
 import type { EntityBehaviorsV5, EntityPageV5, SceneHooksV5 } from './script-v5.js'
+import { checkAuthorCommandsV13 } from './script-v13.js'
 
 /** JSON 仍以 number 表示；所有入口必须用 checkPositiveSafeIntV13 先验证。 */
 export type PositiveSafeInt = number
@@ -117,13 +118,8 @@ export function checkHostileBehaviorV13(
   )
     throw new Error(`${path}.battleFieldId: 期望非负安全整数`)
   if (hostile.chase !== undefined) checkChase(hostile.chase, `${path}.chase`)
-  if (hostile.onLose !== undefined) {
-    if (hostile.onLose !== 'gameOver') {
-      // Avoid importing a second canonical command vocabulary until script-v13 is installed.
-      if (!Array.isArray(hostile.onLose))
-        throw new Error(`${path}.onLose: 期望 gameOver|AuthorCommand[]`)
-    }
-  }
+  if (hostile.onLose !== undefined && hostile.onLose !== 'gameOver')
+    checkAuthorCommandsV13(hostile.onLose, `${path}.onLose`)
   if (hostile.onVictory === undefined) throw new Error(`${path}: 缺键 "onVictory"`)
   if (hostile.onPlayerFlee === undefined) throw new Error(`${path}: 缺键 "onPlayerFlee"`)
   checkVictoryPolicy(hostile.onVictory, `${path}.onVictory`)

@@ -44,4 +44,19 @@ describe('content13 hostile policy', () => {
       /chase.speed/,
     )
   })
+
+  test('recursively validates the defeat arm instead of accepting legacy vanish', () => {
+    expect(() =>
+      checkHostileBehaviorV13({
+        ...base,
+        onLose: [
+          {
+            kind: 'branch',
+            cond: { kind: 'flag', flag: 'x', is: true },
+            then: [{ kind: 'vanishEntity' }],
+          },
+        ],
+      }),
+    ).toThrow(/禁止 vanishEntity/)
+  })
 })
