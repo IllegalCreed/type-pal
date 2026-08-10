@@ -134,6 +134,11 @@ export {
   restoreAwaitingExitIfOutside,
   tickEntityLifecycles,
 } from './entity-lifecycle.js'
+export {
+  applyWorldEntityLifecycleCommandV13,
+  reduceEntityLifecycleCommandV13,
+  type RuntimeLifecycleCommandV13,
+} from './entity-lifecycle-command.js'
 export { tilesFromChunkBytes } from './assets.js'
 export {
   type BattleResult,
@@ -168,6 +173,16 @@ export {
   loadSceneDefV5,
   loadStampTemplatesV5,
 } from './loader-v5.js'
+export type { ContentJsonsV13, LoadedProjectV13, LoadedProjectV13Core } from './loader-v13.js'
+export {
+  assembleProjectV13,
+  loadAllProjectMapsV13,
+  loadAllScenesV13,
+  loadProjectV13,
+  loadProjectV13From,
+  loadSceneDefV13,
+  loadStampTemplatesV13,
+} from './loader-v13.js'
 export type {
   LatticePos,
   ProjectMapCollisionEdit,

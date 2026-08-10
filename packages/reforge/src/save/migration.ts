@@ -155,7 +155,9 @@ export type ValidatedProjectMigrationRegistryV1 = Readonly<
 >
 
 async function loadScriptV4V5MigrationBlob(args: {
-  manifest: ProjectManifest<5 | 6 | 7 | 8 | 9 | 10 | 11 | 12>
+  /** Only project identity is used to validate this historical sidecar. Keep the boundary
+   * structural so a successor manifest (for example content13) never needs an unsafe cast. */
+  manifest: Pick<ProjectManifest<number>, 'id'>
   source: Pick<FileSource, 'readBytes'>
   descriptorValue: unknown
   signal?: AbortSignal
@@ -197,7 +199,8 @@ async function loadScriptV4V5MigrationBlob(args: {
  * 当前只定义 script-v4-v5；未知 transition 不允许被静默透传成“已验证”。
  */
 export async function loadProjectMigrationRegistryV5(args: {
-  manifest: ProjectManifest<5 | 6 | 7 | 8 | 9 | 10 | 11 | 12>
+  /** The registry is a historical v4→v5 byte-pin; its loader only needs id + migrations. */
+  manifest: Pick<ProjectManifest<number>, 'id' | 'migrations'>
   source: Pick<FileSource, 'readBytes'>
   signal?: AbortSignal
 }): Promise<ValidatedProjectMigrationRegistryV1> {
