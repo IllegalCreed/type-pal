@@ -38,10 +38,10 @@ interface ExecutableCommandBaseV5 {
   after: readonly ExecutableCommandBoundaryV5[]
 }
 
-export type ExecutableCommandV5 =
+export type ExecutableCommandV5Like<RuntimeLeafCommand> =
   | (ExecutableCommandBaseV5 & {
       kind: 'leaf'
-      command: RuntimeLeafCommandV5
+      command: RuntimeLeafCommand
     })
   | (ExecutableCommandBaseV5 & {
       kind: 'stop'
@@ -49,30 +49,30 @@ export type ExecutableCommandV5 =
   | (ExecutableCommandBaseV5 & {
       kind: 'branch'
       cond: AuthorConditionV5
-      then: readonly ExecutableCommandV5[]
-      else: readonly ExecutableCommandV5[]
+      then: readonly ExecutableCommandV5Like<RuntimeLeafCommand>[]
+      else: readonly ExecutableCommandV5Like<RuntimeLeafCommand>[]
     })
   | (ExecutableCommandBaseV5 & {
       kind: 'loop'
       mode: 'while' | 'until'
       cond: AuthorConditionV5
-      body: readonly ExecutableCommandV5[]
+      body: readonly ExecutableCommandV5Like<RuntimeLeafCommand>[]
       maxIterations: number
     })
   | (ExecutableCommandBaseV5 & {
       kind: 'confirm'
       id?: string
-      onNo: readonly ExecutableCommandV5[]
+      onNo: readonly ExecutableCommandV5Like<RuntimeLeafCommand>[]
     })
   | (ExecutableCommandBaseV5 & {
       kind: 'startBattle'
       request: Omit<StartBattleCommandV5, 'kind' | 'onLose' | 'onFlee'>
-      onLose?: readonly ExecutableCommandV5[]
-      onFlee?: readonly ExecutableCommandV5[]
+      onLose?: readonly ExecutableCommandV5Like<RuntimeLeafCommand>[]
+      onFlee?: readonly ExecutableCommandV5Like<RuntimeLeafCommand>[]
     })
   | (ExecutableCommandBaseV5 & {
       kind: 'teleportOut'
-      onFail?: readonly ExecutableCommandV5[]
+      onFail?: readonly ExecutableCommandV5Like<RuntimeLeafCommand>[]
     })
   | (ExecutableCommandBaseV5 & {
       kind: 'callScript'
@@ -80,30 +80,38 @@ export type ExecutableCommandV5 =
       self?: EntityAddress
     })
 
-export interface ExecutableSceneEntryV5 {
-  prepare: readonly ExecutableCommandV5[]
+export type ExecutableCommandV5 = ExecutableCommandV5Like<RuntimeLeafCommandV5>
+
+export interface ExecutableSceneEntryV5Like<RuntimeLeafCommand> {
+  prepare: readonly ExecutableCommandV5Like<RuntimeLeafCommand>[]
   reveal: AuthorSceneEntryPresentationV5['reveal']
 }
 
-export interface ExecutableStageV5 {
+export type ExecutableSceneEntryV5 = ExecutableSceneEntryV5Like<RuntimeLeafCommandV5>
+
+export interface ExecutableStageV5Like<RuntimeLeafCommand> {
   id: string
-  entry?: ExecutableSceneEntryV5
-  body: readonly ExecutableCommandV5[]
+  entry?: ExecutableSceneEntryV5Like<RuntimeLeafCommand>
+  body: readonly ExecutableCommandV5Like<RuntimeLeafCommand>[]
   next?: string
 }
 
-export interface ExecutableStateV5 {
+export type ExecutableStageV5 = ExecutableStageV5Like<RuntimeLeafCommandV5>
+
+export interface ExecutableStateV5Like<RuntimeLeafCommand> {
   label: string
-  entry?: ExecutableSceneEntryV5
-  body: readonly ExecutableCommandV5[]
+  entry?: ExecutableSceneEntryV5Like<RuntimeLeafCommand>
+  body: readonly ExecutableCommandV5Like<RuntimeLeafCommand>[]
   next: StateTransitionV5
 }
 
-export type ExecutableScriptFlowBodyV5 =
+export type ExecutableStateV5 = ExecutableStateV5Like<RuntimeLeafCommandV5>
+
+export type ExecutableScriptFlowBodyV5Like<RuntimeLeafCommand> =
   | {
       kind: 'stages'
       initial: string
-      stages: readonly ExecutableStageV5[]
+      stages: readonly ExecutableStageV5Like<RuntimeLeafCommand>[]
     }
   | {
       kind: 'stateMachine'
@@ -111,19 +119,24 @@ export type ExecutableScriptFlowBodyV5 =
         id: string
         label: string
         initial: string
-        states: Readonly<Record<string, ExecutableStateV5>>
+        states: Readonly<Record<string, ExecutableStateV5Like<RuntimeLeafCommand>>>
       }
     }
 
-export interface ExecutableScriptFlowV5 {
+export type ExecutableScriptFlowBodyV5 =
+  ExecutableScriptFlowBodyV5Like<RuntimeLeafCommandV5>
+
+export interface ExecutableScriptFlowV5Like<RuntimeLeafCommand> {
   compilerVersion: typeof SCRIPT_COMPILER_V5_VERSION
   canonicalContentDigest: string
   timing: ScriptTimingV5
   boundaryPolicy: ScriptBoundaryPolicyV5
-  flow: ExecutableScriptFlowBodyV5
+  flow: ExecutableScriptFlowBodyV5Like<RuntimeLeafCommand>
 }
 
-export interface ExecutableSharedScriptV5 {
+export type ExecutableScriptFlowV5 = ExecutableScriptFlowV5Like<RuntimeLeafCommandV5>
+
+export interface ExecutableSharedScriptV5Like<RuntimeLeafCommand> {
   compilerVersion: typeof SCRIPT_COMPILER_V5_VERSION
   canonicalContentDigest: string
   timing: ScriptTimingV5
@@ -131,8 +144,10 @@ export interface ExecutableSharedScriptV5 {
   id: string
   name: string
   self: SharedAuthorScriptV5['self']
-  body: readonly ExecutableCommandV5[]
+  body: readonly ExecutableCommandV5Like<RuntimeLeafCommand>[]
 }
+
+export type ExecutableSharedScriptV5 = ExecutableSharedScriptV5Like<RuntimeLeafCommandV5>
 
 export interface CompileScriptFlowV5Options {
   canonicalContentDigest: string
@@ -162,7 +177,7 @@ function compileEntry(
   boundaryPolicy: ScriptBoundaryPolicyV5,
 ): ExecutableSceneEntryV5 {
   return {
-    prepare: compileAuthorCommandsV5Unchecked(entry.prepare, timing, boundaryPolicy),
+    prepare: compileAuthorCommandsV5UncheckedAfterValidation(entry.prepare, timing, boundaryPolicy),
     reveal: clone(entry.reveal),
   }
 }
@@ -180,8 +195,8 @@ function compileAuthorCommandV5(
       return {
         kind: 'branch',
         cond: clone(command.cond),
-        then: compileAuthorCommandsV5Unchecked(command.then, timing, boundaryPolicy),
-        else: compileAuthorCommandsV5Unchecked(command.else ?? [], timing, boundaryPolicy),
+        then: compileAuthorCommandsV5UncheckedAfterValidation(command.then, timing, boundaryPolicy),
+        else: compileAuthorCommandsV5UncheckedAfterValidation(command.else ?? [], timing, boundaryPolicy),
         after,
       }
     case 'loop':
@@ -189,7 +204,7 @@ function compileAuthorCommandV5(
         kind: 'loop',
         mode: command.mode,
         cond: clone(command.cond),
-        body: compileAuthorCommandsV5Unchecked(command.body, timing, boundaryPolicy),
+        body: compileAuthorCommandsV5UncheckedAfterValidation(command.body, timing, boundaryPolicy),
         maxIterations: command.maxIterations,
         after,
       }
@@ -197,7 +212,7 @@ function compileAuthorCommandV5(
       return {
         kind: 'confirm',
         ...(command.id === undefined ? {} : { id: command.id }),
-        onNo: compileAuthorCommandsV5Unchecked(command.onNo, timing, boundaryPolicy),
+        onNo: compileAuthorCommandsV5UncheckedAfterValidation(command.onNo, timing, boundaryPolicy),
         after,
       }
     case 'startBattle': {
@@ -207,10 +222,10 @@ function compileAuthorCommandV5(
         request: clone(request),
         ...(onLose === undefined
           ? {}
-          : { onLose: compileAuthorCommandsV5Unchecked(onLose, timing, boundaryPolicy) }),
+          : { onLose: compileAuthorCommandsV5UncheckedAfterValidation(onLose, timing, boundaryPolicy) }),
         ...(onFlee === undefined
           ? {}
-          : { onFlee: compileAuthorCommandsV5Unchecked(onFlee, timing, boundaryPolicy) }),
+          : { onFlee: compileAuthorCommandsV5UncheckedAfterValidation(onFlee, timing, boundaryPolicy) }),
         after,
       }
     }
@@ -220,7 +235,7 @@ function compileAuthorCommandV5(
         ...(command.onFail === undefined
           ? {}
           : {
-              onFail: compileAuthorCommandsV5Unchecked(command.onFail, timing, boundaryPolicy),
+              onFail: compileAuthorCommandsV5UncheckedAfterValidation(command.onFail, timing, boundaryPolicy),
             }),
         after,
       }
@@ -236,7 +251,11 @@ function compileAuthorCommandV5(
   }
 }
 
-function compileAuthorCommandsV5Unchecked(
+/**
+ * 已由方言 validator 校验后的共享控制流内核。仅供 v5 本入口与 v13 compatibility adapter；
+ * 调用方不得把未校验 JSON 送进这里。
+ */
+export function compileAuthorCommandsV5UncheckedAfterValidation(
   commands: readonly AuthorCommandV5[],
   timing: ScriptTimingV5,
   boundaryPolicy: ScriptBoundaryPolicyV5,
@@ -251,18 +270,26 @@ export function compileAuthorCommandsV5(
   boundaryPolicy: ScriptBoundaryPolicyV5 = 'perCommand',
 ): readonly ExecutableCommandV5[] {
   checkAuthorCommandsV5(commands, path)
-  return compileAuthorCommandsV5Unchecked(commands, timing, boundaryPolicy)
+  return compileAuthorCommandsV5UncheckedAfterValidation(commands, timing, boundaryPolicy)
 }
 
 export function compileScriptFlowV5(
   flow: ScriptFlowV5,
   options: CompileScriptFlowV5Options,
 ): ExecutableScriptFlowV5 {
-  checkDigest(options.canonicalContentDigest)
   checkScriptFlowV5(flow, 'flow', {
     allowSceneEntry: options.allowSceneEntry,
     forbidLoadScene: options.forbidLoadScene,
   })
+  return compileScriptFlowV5UncheckedAfterValidation(flow, options)
+}
+
+/** 与 author-command bridge 同纪律：schema 已由 v5/v13 方言入口校验后才可调用。 */
+export function compileScriptFlowV5UncheckedAfterValidation(
+  flow: ScriptFlowV5,
+  options: CompileScriptFlowV5Options,
+): ExecutableScriptFlowV5 {
+  checkDigest(options.canonicalContentDigest)
   const boundaryPolicy: ScriptBoundaryPolicyV5 =
     flow.kind === 'stateMachine' && flow.machine.cadence === 'transition'
       ? 'transition'
@@ -277,7 +304,11 @@ export function compileScriptFlowV5(
             ...(stage.entry === undefined
               ? {}
               : { entry: compileEntry(stage.entry, options.timing, boundaryPolicy) }),
-            body: compileAuthorCommandsV5Unchecked(stage.body, options.timing, boundaryPolicy),
+            body: compileAuthorCommandsV5UncheckedAfterValidation(
+              stage.body,
+              options.timing,
+              boundaryPolicy,
+            ),
             ...(stage.next === undefined ? {} : { next: stage.next }),
           })),
         }
@@ -295,7 +326,7 @@ export function compileScriptFlowV5(
                   ...(state.entry === undefined
                     ? {}
                     : { entry: compileEntry(state.entry, options.timing, boundaryPolicy) }),
-                  body: compileAuthorCommandsV5Unchecked(
+                  body: compileAuthorCommandsV5UncheckedAfterValidation(
                     state.body,
                     options.timing,
                     boundaryPolicy,
@@ -344,7 +375,11 @@ export class MemorySharedScriptResolverV5 {
       id,
       name: script.name,
       self: script.self,
-      body: compileAuthorCommandsV5Unchecked(script.body, timing, boundaryPolicy),
+      body: compileAuthorCommandsV5UncheckedAfterValidation(
+        script.body,
+        timing,
+        boundaryPolicy,
+      ),
     }
     this.cache.set(key, compiled)
     return compiled

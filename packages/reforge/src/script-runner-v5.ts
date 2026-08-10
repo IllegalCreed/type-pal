@@ -8,8 +8,9 @@ import type {
 import {
   type ExecutableCommandBoundaryV5,
   type ExecutableCommandV5,
-  type ExecutableScriptFlowV5,
-  type ExecutableSharedScriptV5,
+  type ExecutableCommandV5Like,
+  type ExecutableScriptFlowV5Like,
+  type ExecutableSharedScriptV5Like,
   type RuntimeLeafCommandV5,
   SCRIPT_COMPILER_V5_VERSION,
   type ScriptBoundaryPolicyV5,
@@ -24,14 +25,14 @@ export interface ScriptRuntimeContextV5 {
   timing?: ScriptTimingV5
 }
 
-export interface ScriptRuntimeHostV5 {
+export interface ScriptRuntimeHostV5Like<RuntimeLeafCommand> {
   /**
    * 宿主级执行门。中央 modal 可用它冻结所有 v5 runner（包括 auto、shared、
    * item-private），而不只暂停 main tick 的物理推进。
    */
   gate?(signal: AbortSignal): void | Promise<void>
   execute(
-    command: RuntimeLeafCommandV5,
+    command: RuntimeLeafCommand,
     context: Readonly<ScriptRuntimeContextV5>,
     signal: AbortSignal,
   ): void | Promise<void>
@@ -45,14 +46,20 @@ export interface ScriptRuntimeHostV5 {
   yieldMacroTask(signal: AbortSignal): Promise<void>
 }
 
-export interface SharedScriptResolverV5 {
+export type ScriptRuntimeHostV5 = ScriptRuntimeHostV5Like<RuntimeLeafCommandV5>
+
+export interface SharedScriptResolverV5Like<RuntimeLeafCommand> {
   resolve(
     id: string,
     timing: ScriptTimingV5,
     boundaryPolicy: ScriptBoundaryPolicyV5,
     signal: AbortSignal,
-  ): ExecutableSharedScriptV5 | Promise<ExecutableSharedScriptV5>
+  ):
+    | ExecutableSharedScriptV5Like<RuntimeLeafCommand>
+    | Promise<ExecutableSharedScriptV5Like<RuntimeLeafCommand>>
 }
+
+export type SharedScriptResolverV5 = SharedScriptResolverV5Like<RuntimeLeafCommandV5>
 
 export type SafePointDecisionV5 = 'continue' | 'stop'
 
@@ -65,10 +72,12 @@ export interface FlowCursorControllerV5 {
   reachSafePoint(cursor: FlowCursor): SafePointDecisionV5 | Promise<SafePointDecisionV5>
 }
 
-export interface ScriptStepEventV5 {
+export interface ScriptStepEventV5Like<RuntimeLeafCommand> {
   path: readonly (number | string)[]
-  command: ExecutableCommandV5
+  command: ExecutableCommandV5Like<RuntimeLeafCommand>
 }
+
+export type ScriptStepEventV5 = ScriptStepEventV5Like<RuntimeLeafCommandV5>
 
 export interface RunScriptFlowV5Options {
   cursor?: FlowCursor
@@ -92,22 +101,22 @@ function assertState(states: Readonly<Record<string, unknown>>, state: string, p
   if (!Object.hasOwn(states, state)) throw new Error(`${path}: state 不存在 ${state}`)
 }
 
-export class ScriptRunnerV5 {
+export class ScriptRunnerV5<RuntimeLeafCommand = RuntimeLeafCommandV5> {
   private static readonly MAX_CALL_DEPTH = 128
   private static readonly MAX_SYNCHRONOUS_STATE_TRANSITIONS = 4096
   private callDepth = 0
   private self?: EntityAddress
   running = false
-  onStep?: (event: ScriptStepEventV5) => void
+  onStep?: (event: ScriptStepEventV5Like<RuntimeLeafCommand>) => void
 
   constructor(
-    private readonly host: ScriptRuntimeHostV5,
+    private readonly host: ScriptRuntimeHostV5Like<RuntimeLeafCommand>,
     private readonly signal: AbortSignal,
-    private readonly resolver?: SharedScriptResolverV5,
+    private readonly resolver?: SharedScriptResolverV5Like<RuntimeLeafCommand>,
   ) {}
 
   async runFlow(
-    executable: ExecutableScriptFlowV5,
+    executable: ExecutableScriptFlowV5Like<RuntimeLeafCommand>,
     options: RunScriptFlowV5Options,
   ): Promise<void> {
     if (executable.compilerVersion !== SCRIPT_COMPILER_V5_VERSION)
@@ -138,7 +147,7 @@ export class ScriptRunnerV5 {
   }
 
   private async runStages(
-    executable: ExecutableScriptFlowV5,
+    executable: ExecutableScriptFlowV5Like<RuntimeLeafCommand>,
     options: RunScriptFlowV5Options,
   ): Promise<void> {
     if (executable.flow.kind !== 'stages') throw new Error('ScriptRunnerV5: 期望 stages flow')
@@ -178,7 +187,7 @@ export class ScriptRunnerV5 {
   }
 
   private async runStateMachine(
-    executable: ExecutableScriptFlowV5,
+    executable: ExecutableScriptFlowV5Like<RuntimeLeafCommand>,
     options: RunScriptFlowV5Options,
   ): Promise<void> {
     if (executable.flow.kind !== 'stateMachine')
@@ -285,7 +294,7 @@ export class ScriptRunnerV5 {
   }
 
   private async runCommands(
-    commands: readonly ExecutableCommandV5[],
+    commands: readonly ExecutableCommandV5Like<RuntimeLeafCommand>[],
     path: readonly (number | string)[],
     outcomes?: Map<string, { command: 'confirm'; no: boolean }>,
     recordTopLevelOutcomes = false,
@@ -302,7 +311,7 @@ export class ScriptRunnerV5 {
   }
 
   private async runCommand(
-    command: ExecutableCommandV5,
+    command: ExecutableCommandV5Like<RuntimeLeafCommand>,
     path: readonly (number | string)[],
     outcomes: Map<string, { command: 'confirm'; no: boolean }> | undefined,
     recordOutcome: boolean,
@@ -358,7 +367,7 @@ export class ScriptRunnerV5 {
   }
 
   private async runLoopCommand(
-    command: Extract<ExecutableCommandV5, { kind: 'loop' }>,
+    command: Extract<ExecutableCommandV5Like<RuntimeLeafCommand>, { kind: 'loop' }>,
     path: readonly (number | string)[],
     outcomes: Map<string, { command: 'confirm'; no: boolean }> | undefined,
   ): Promise<void> {
@@ -397,7 +406,7 @@ export class ScriptRunnerV5 {
   }
 
   private async callScript(
-    command: Extract<ExecutableCommandV5, { kind: 'callScript' }>,
+    command: Extract<ExecutableCommandV5Like<RuntimeLeafCommand>, { kind: 'callScript' }>,
     path: readonly (number | string)[],
     outcomes: Map<string, { command: 'confirm'; no: boolean }> | undefined,
   ): Promise<void> {

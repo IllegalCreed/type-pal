@@ -477,6 +477,13 @@ source provenance 和 BattleResult 终态不足以作为本轮 build 准入；�
   最后一拍与离屏重现严格分属两拍，回场后首个 eligible tick 会立即检查已持久化 awaitingExit。
   自动重现返回 `reappearedEntities`，手动 `restoreEntity` 返回 `resetFrameTarget`；caller 只据此把动作帧
   归零，不改位置、朝向、碰撞类别或 entityState。定向 2 files / 12 tests 与 Reforge typecheck 通过。
+- v13 script runtime boundary（2026-08-10）：新增 `script-compiler-v13.ts`、`script-runner-v13.ts`、
+  `script-project-v13.ts`。v13 validator 通过后复用 v5 的 branch/loop/callScript 内核；四个 lifecycle
+  leaf 在 `ProjectScriptRuntimeHostV13` 的单一 commit point 写入顶层 `world.entityLifecycles`，未知引用
+  在写入前拒绝，`world.script.entityState`/party/position 不变，abort-before-commit 不落盘且 commit 后
+  abort 不执行下一条叶命令。v5 compiler 仍拒绝新叶，v13 递归 `vanishEntity` 仍 fail-loud。v13 定向
+  4 tests、相关 v5 runner 25 tests，完整 Reforge 90 files / 900 tests 与 typecheck 全绿；尚未接 main
+  的 v12/v13 boot、统一 gates 或 PAL translator。
 - 剩余风险：尚未接入 main/typed v13 loader/runtime command adapter、PAL source ledger/translator
   与 editor 全链；在这些边界和 Kimi 7 条补钉完成前，不得把本内核或 SAVE 增量声明为 W9 全链闭环或
   标记 done。
