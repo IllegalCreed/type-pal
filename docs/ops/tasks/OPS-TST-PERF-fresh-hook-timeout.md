@@ -70,7 +70,10 @@ Branch: main
 
 ### 进入 build 前：设计签字
 
-- Codex: pending
+- Codex: **agree（2026-08-10）**——根因已由单文件 cold verbose 定性；设计只让 fresh final-consumer
+  使用逐阶段验证/释放的 compact P6 output，并新增 full-chain/compact-chain 的 P6 IR+ledger、P7
+  snapshot/evidence digest 等价门。shared/release 的完整 phase matrix、source-backed 独立构建、
+  180s/240s timeout、test identity 与磁盘事务均不改。
 - Kimi: pending（须用户转发真实席位）
 - GLM: pending（须用户转发真实席位）
 - counter / 分歧处理: 未集齐三方前保持 draft/blocked，不改实现。
@@ -93,6 +96,18 @@ Branch: main
 先做只读、可重复的最小复现矩阵：单 fresh 文件、只跑目标测试、完整 cold chain、带/不带
 profiler；每次记录 monotonic wall、raw JSON、进程树 RSS、临时事务目录和 git/source digest。
 确认根因后只修上游冷链或 fixture 生命周期，避免在 runner 层掩盖问题。
+
+冻结的候选实现边界：
+
+1. 在 P7 builder 增加接收 `P6ValidatedTransformOutput` 的窄入口；它必须复用同一 P7 后续生产逻辑，
+   不能维护第二份 P7 算法。
+2. 新增 full-chain vs compact-chain 定向测试，比较 P6 IR、ledger、P7 snapshot、C8/auto/scene/itemThrow/
+   confirm/cross-activation evidence digest；任一差异 fail-closed。
+3. 只有 `release-pal-fresh` 的 final-consumer 改用 compact 输入；`release-pal-shared` 中需要 P2-P6
+   中间矩阵的证明仍调用 `buildValidatedP6TransformChain`，不得删减。
+4. 可将独立 R13-5 build/audit 延后到 P7 compact 图释放之后，减少峰值重叠；其 source clone、historical
+   profile 和 audit 身份保持独立。
+5. package timeout、Vitest route/list、skipIf、baseline/project/authority 输入与默认 release 命令均不变。
 
 ### 根因诊断（2026-08-10，只读）
 
@@ -139,12 +154,14 @@ profiler；每次记录 monotonic wall、raw JSON、进程树 RSS、临时事务
 ```text
 接手任务：OPS-TST-PERF-FRESH release fresh hook/test 超时根因
 任务卡：docs/ops/tasks/OPS-TST-PERF-fresh-hook-timeout.md
-当前状态：draft，三方设计签字未齐；不得开始实现、不得调整 timeout/skip、不得标 done。
+当前状态：draft，Codex design agree；真实 Kimi/GLM 设计签字未齐。不得开始实现、不得调整
+timeout/skip、不得标 done。
 先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文、
 docs/ops/tasks/OPS-TST-PERF-release-wallclock.md、pal-migration-integration.test.ts、
 profile-release.mts、vitest.release.config.ts。
-职责：真实 Kimi/GLM 先只读审查调查矩阵并本人写 `agree` 或带 file:line 的 `counter`；
-签字齐后 Codex 复现并修复真实根因，保留 raw JSON/RSS/事务证据。
+职责：真实 Kimi 请审 compact P6→full P7 的算法单源、内存释放与 source-proof 独立性；真实 GLM
+请审 full/compact 的 IR/ledger/snapshot/evidence digest 等价矩阵与测试身份守恒。两席均须本人写
+`agree` 或带 file:line 的 `counter`；签字齐后 Codex 才能实现，并保留 raw JSON/RSS/事务证据。
 不要做：不增大 180s/240s timeout，不将失败转 skip，不复用 canary/prepared authority，不改默认串行路由。
 输出：根因分类（hook/body/process/disk）、最小 diff、连续三次 fresh 结果、命令/报告路径和是否建议 accept。
 ```
