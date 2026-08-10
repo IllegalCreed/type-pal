@@ -1,6 +1,11 @@
 import type { EntityRef } from './index.js'
 import type { EntityBaseV5, HostileBehaviorV5, SceneDefV5 } from './scene-v5.js'
-import type { EntityBehaviorsV5, EntityPageV5, SceneHooksV5 } from './script-v5.js'
+import type {
+  AuthorCommandV13,
+  EntityBehaviorsV13,
+  EntityPageV13,
+  SceneHooksV13,
+} from './script-v13.js'
 import { checkAuthorCommandsV13 } from './script-v13.js'
 
 /** JSON 仍以 number 表示；所有入口必须用 checkPositiveSafeIntV13 先验证。 */
@@ -16,23 +21,25 @@ export type HostilePlayerFleePolicyV13 =
   | { kind: 'remain' }
 
 /** v12 hostile 的旧 respawnSeconds 已在此边界被确定性替换。 */
-export interface HostileBehaviorV13 extends Omit<HostileBehaviorV5, 'respawnSeconds'> {
+export interface HostileBehaviorV13 extends Omit<HostileBehaviorV5, 'respawnSeconds' | 'onLose'> {
+  onLose?: 'gameOver' | AuthorCommandV13[]
   onVictory: HostileVictoryPolicyV13
   onPlayerFlee: HostilePlayerFleePolicyV13
 }
 
-export interface EntityBaseV13 extends Omit<EntityBaseV5, 'hostile'> {
-  behaviors?: EntityBehaviorsV5
-  pages?: EntityPageV5[]
+export interface EntityBaseV13
+  extends Omit<EntityBaseV5, 'hostile' | 'behaviors' | 'pages' | 'initialPage'> {
+  behaviors?: EntityBehaviorsV13
+  pages?: EntityPageV13[]
   initialPage?: string
   hostile?: HostileBehaviorV13
 }
 
 export type EntityDefV13 = EntityBaseV13 & EntityRef
 
-export interface SceneDefV13 extends Omit<SceneDefV5, 'entities'> {
+export interface SceneDefV13 extends Omit<SceneDefV5, 'entities' | 'hooks'> {
   entities: EntityDefV13[]
-  hooks?: SceneHooksV5
+  hooks?: SceneHooksV13
 }
 
 function record(value: unknown, path: string): Record<string, unknown> {

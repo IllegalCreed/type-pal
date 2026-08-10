@@ -1,5 +1,25 @@
-import type { AuthorCommandV5, CheckAuthorCommandsV5Options, EntityAddress } from './script-v5.js'
-import { AUTHOR_COMMAND_V5_KINDS, checkAuthorCommandsV5, checkEntityAddress } from './script-v5.js'
+import type { SceneReveal } from './script.js'
+import type {
+  AuthorCommandV5,
+  AuthorConditionV5,
+  AuthorStageV5,
+  CheckAuthorCommandsV5Options,
+  EntityAddress,
+  EntityPageV5,
+  NamedEntityBehaviorV5,
+  NamedSceneHookV5,
+  ScriptStateMachineV5,
+} from './script-v5.js'
+import {
+  AUTHOR_COMMAND_V5_KINDS,
+  checkAuthorCommandsV5,
+  checkEntityAddress,
+  checkEntityBehaviorsV5,
+  checkEntityPagesV5,
+  checkSceneHooksV5,
+  checkScriptFlowV5,
+  checkSharedScriptLibraryV5,
+} from './script-v5.js'
 
 export type LifecycleCommandV13 =
   | { kind: 'suspendEntity'; target: EntityAddress; ticks: number }
@@ -7,10 +27,112 @@ export type LifecycleCommandV13 =
   | { kind: 'restoreEntity'; target: EntityAddress }
   | { kind: 'removeEntity'; target: EntityAddress }
 
-/** 顶层 v13 command vocabulary；旧 v5 的 vanishEntity 只存在于历史输入端。 */
-export type AuthorCommandV13 =
-  | Exclude<AuthorCommandV5, { kind: 'vanishEntity' }>
-  | LifecycleCommandV13
+/** 将 v5 命令联合中所有递归 command[] arm 一并换成 v13，避免只收紧顶层。 */
+type RewriteCommandTreeV13<T> = T extends AuthorCommandV5[]
+  ? AuthorCommandV13[]
+  : T extends readonly (infer Item)[]
+    ? RewriteCommandTreeV13<Item>[]
+    : T extends object
+      ? { [Key in keyof T]: RewriteCommandTreeV13<T[Key]> }
+      : T
+
+type RetainedAuthorCommandV13 = RewriteCommandTreeV13<
+  Exclude<AuthorCommandV5, { kind: 'vanishEntity' }>
+>
+
+/** 顶层与递归 arm 的 v13 command vocabulary；旧 v5 的 vanishEntity 只存在于历史输入端。 */
+export type AuthorCommandV13 = RetainedAuthorCommandV13 | LifecycleCommandV13
+
+export interface AuthorSceneEntryPresentationV13 {
+  prepare: AuthorCommandV13[]
+  reveal: SceneReveal
+}
+
+export interface AuthorStageV13 {
+  id: AuthorStageV5['id']
+  entry?: AuthorSceneEntryPresentationV13
+  body: AuthorCommandV13[]
+  next?: AuthorStageV5['next']
+}
+
+export type StateTransitionV13 =
+  | { kind: 'stay' }
+  | { kind: 'restart' }
+  | { kind: 'continue'; state: string }
+  | { kind: 'advance'; state: string }
+  | { kind: 'to'; state: string; yield: 'macroTask' | 'worldTick' }
+  | {
+      kind: 'branch'
+      cond: AuthorConditionV5
+      then: StateTransitionV13
+      else: StateTransitionV13
+    }
+  | {
+      kind: 'commandOutcome'
+      commandId: string
+      command: 'confirm'
+      outcome: 'no'
+      then: StateTransitionV13
+      else: StateTransitionV13
+    }
+
+export interface ScriptStateMachineV13 {
+  id: ScriptStateMachineV5['id']
+  label: string
+  cadence?: 'transition'
+  initial: string
+  states: Record<
+    string,
+    {
+      label: string
+      entry?: AuthorSceneEntryPresentationV13
+      body: AuthorCommandV13[]
+      next: StateTransitionV13
+    }
+  >
+}
+
+export type ScriptFlowV13 =
+  | { kind: 'stages'; initial: string; stages: AuthorStageV13[] }
+  | { kind: 'stateMachine'; machine: ScriptStateMachineV13 }
+
+export interface NamedEntityBehaviorV13 {
+  label: NamedEntityBehaviorV5['label']
+  order: NamedEntityBehaviorV5['order']
+  flow: ScriptFlowV13
+}
+
+export interface EntityBehaviorsV13 {
+  trigger?: Record<string, NamedEntityBehaviorV13>
+  auto?: Record<string, NamedEntityBehaviorV13>
+}
+
+export interface EntityPageV13 extends Omit<EntityPageV5, 'trigger' | 'auto'> {
+  trigger?: string
+  auto?: string
+}
+
+export interface NamedSceneHookV13 {
+  label: NamedSceneHookV5['label']
+  order: NamedSceneHookV5['order']
+  flow: ScriptFlowV13
+}
+
+export interface SceneHookChannelV13 {
+  initial?: string
+  variants: Record<string, NamedSceneHookV13>
+}
+
+export type SceneHooksV13 = Partial<Record<'onEnter' | 'onTeleport', SceneHookChannelV13>>
+
+export interface SharedAuthorScriptV13 {
+  name: string
+  description?: string
+  self: 'none' | 'optional' | 'required'
+  body: AuthorCommandV13[]
+}
+
+export type SharedScriptLibraryV13 = Record<string, SharedAuthorScriptV13>
 
 export const AUTHOR_COMMAND_V13_KINDS: Readonly<Record<string, boolean>> = Object.freeze({
   // Keep the retained v5 leaf table as the compatibility baseline. Nested validation below
@@ -81,6 +203,51 @@ function sanitizeForV5(value: unknown, path: string): unknown {
   return Object.fromEntries(
     Object.entries(object).map(([key, child]) => [key, sanitizeForV5(child, `${path}.${key}`)]),
   )
+}
+
+export interface CheckScriptFlowV13Options {
+  allowSceneEntry?: boolean
+  forbidLoadScene?: boolean
+}
+
+export function checkScriptFlowV13(
+  value: unknown,
+  path: string,
+  options: CheckScriptFlowV13Options = {},
+): asserts value is ScriptFlowV13 {
+  checkScriptFlowV5(sanitizeForV5(value, path), path, options)
+}
+
+export function checkEntityBehaviorsV13(
+  value: unknown,
+  path: string,
+): asserts value is EntityBehaviorsV13 {
+  checkEntityBehaviorsV5(sanitizeForV5(value, path), path)
+}
+
+export function checkEntityPagesV13(
+  pages: unknown,
+  behaviors: unknown,
+  initialPage: unknown,
+  path: string,
+): asserts pages is EntityPageV13[] {
+  checkEntityPagesV5(
+    sanitizeForV5(pages, `${path}.pages`),
+    sanitizeForV5(behaviors, `${path}.behaviors`),
+    initialPage,
+    path,
+  )
+}
+
+export function checkSceneHooksV13(value: unknown, path: string): asserts value is SceneHooksV13 {
+  checkSceneHooksV5(sanitizeForV5(value, path), path)
+}
+
+export function checkSharedScriptLibraryV13(
+  value: unknown,
+  path = 'content/shared-scripts.json',
+): asserts value is SharedScriptLibraryV13 {
+  checkSharedScriptLibraryV5(sanitizeForV5(value, path), path)
 }
 
 export function checkAuthorCommandsV13(

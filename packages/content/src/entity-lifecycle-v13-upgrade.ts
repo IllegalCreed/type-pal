@@ -20,6 +20,21 @@ function exactKeys(value: Record<string, unknown>, keys: readonly string[], path
     if (!allowed.has(key)) throw new Error(`${path}.${key}: 未知字段`)
 }
 
+/** v12 → v13 尚无 owner/self 注入时，任何深层 legacy vanish 都必须停在写盘前。 */
+function rejectNestedLegacyVanish(value: unknown, path: string): void {
+  if (Array.isArray(value)) {
+    value.forEach((entry, index) => {
+      rejectNestedLegacyVanish(entry, `${path}[${index}]`)
+    })
+    return
+  }
+  if (!isRecord(value)) return
+  if (value.kind === 'vanishEntity')
+    throw new Error(`${path}.kind: v13 升级缺少 owner/self，禁止遗留 vanishEntity`)
+  for (const [key, child] of Object.entries(value))
+    rejectNestedLegacyVanish(child, `${path}.${key}`)
+}
+
 /**
  * v12 authored hostile → v13 policy. PAL-specific 15-tick flee behavior is deliberately not
  * invented here: authored input gets remain on flee, while a positive, exact decisecond
@@ -44,6 +59,8 @@ export function upgradeHostileBehaviorV12ToV13(
           )
             throw new Error(`${path}.respawnSeconds: 期望可精确换算的正秒数`)
           const ticks = value.respawnSeconds * 10
+          if (ticks / 10 !== value.respawnSeconds)
+            throw new Error(`${path}.respawnSeconds: 不能精确换算为 100ms tick`)
           checkPositiveSafeIntV13(ticks, `${path}.respawnSeconds*10`)
           return { kind: 'hide' as const, ticks }
         })()
@@ -61,6 +78,7 @@ export function upgradeHostileBehaviorV12ToV13(
 
 /** v12 scene input remains validated by the historical v5 guard before policy conversion. */
 export function upgradeScenesV12ToV13(value: unknown): SceneDefV13[] {
+  rejectNestedLegacyVanish(value, 'scenes')
   const scenes = validateScenesV5(value)
   return scenes.map((scene, sceneIndex) => ({
     ...clone(scene),

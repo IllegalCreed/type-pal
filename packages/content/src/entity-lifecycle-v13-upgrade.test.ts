@@ -2,6 +2,7 @@ import { describe, expect, test } from 'vitest'
 import {
   upgradeHostileBehaviorV12ToV13,
   upgradeManifestV12ToV13,
+  upgradeScenesV12ToV13,
 } from './entity-lifecycle-v13-upgrade.js'
 
 describe('content12 → content13 lifecycle upgrade', () => {
@@ -58,5 +59,39 @@ describe('content12 → content13 lifecycle upgrade', () => {
     expect(() => upgradeManifestV12ToV13({ contentVersion: 12, minimumSaveVersion: 7 })).toThrow(
       /期望 8/,
     )
+  })
+
+  test('fails before writing when legacy vanish is nested in a scene behavior', () => {
+    expect(() =>
+      upgradeScenesV12ToV13([
+        {
+          id: 's001',
+          mapId: 'map-001',
+          entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+          entities: [
+            {
+              id: 'e001',
+              sprite: 'npc',
+              pos: { col: 0, row: 0, height: 0 },
+              initialPage: 'default',
+              pages: [{ id: 'default', label: 'default', trigger: 'talk' }],
+              behaviors: {
+                trigger: {
+                  talk: {
+                    label: 'talk',
+                    order: 0,
+                    flow: {
+                      kind: 'stages',
+                      initial: 'start',
+                      stages: [{ id: 'start', body: [{ kind: 'vanishEntity' }] }],
+                    },
+                  },
+                },
+              },
+            },
+          ],
+        },
+      ]),
+    ).toThrow(/缺少 owner\/self/)
   })
 })
