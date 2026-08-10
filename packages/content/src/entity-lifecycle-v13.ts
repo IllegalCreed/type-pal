@@ -8,6 +8,10 @@ export type EntityLifecycleEntryV13 =
 /** sceneId -> entityId -> lifecycle。对象地址不得直接充当 JSON key。 */
 export type EntityLifecycleTableV13 = Record<string, Record<string, EntityLifecycleEntryV13>>
 
+/** W9 任务卡与运行时公共接口使用的无版本别名；V13 后续版本可显式再分叉。 */
+export type EntityLifecycleEntry = EntityLifecycleEntryV13
+export type EntityLifecycleTable = EntityLifecycleTableV13
+
 export type EntityLifecycleReferenceIndexV13 = ReadonlyMap<string, ReadonlySet<string>>
 
 export interface EntityLifecycleSceneReferenceV13 {
