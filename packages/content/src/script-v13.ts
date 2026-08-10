@@ -205,6 +205,11 @@ function sanitizeForV5(value: unknown, path: string): unknown {
   )
 }
 
+/** scene/editor validator 用的兼容形状副本；不会把生命周期叶命令暴露给 v5 调用方。 */
+export function sanitizeV13ForV5Shape(value: unknown, path = 'value'): unknown {
+  return sanitizeForV5(value, path)
+}
+
 export interface CheckScriptFlowV13Options {
   allowSceneEntry?: boolean
   forbidLoadScene?: boolean
