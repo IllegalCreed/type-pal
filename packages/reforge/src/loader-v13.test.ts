@@ -2,6 +2,7 @@ import type { ManifestV13 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import type { FileSource } from './file-source.js'
 import { assembleProjectV13, loadProjectV13From } from './loader-v13.js'
+import { loadRunnableProjectFrom } from './runnable-project-loader.js'
 
 const scene = {
   id: 's001',
@@ -205,6 +206,44 @@ describe('canonical contentVersion 13 loader boundary', () => {
     expect(loaded.manifest.contentVersion).toBe(13)
     expect(loaded.entryScene.id).toBe('s001')
     expect(loaded.migrationRegistry).toEqual({})
+  })
+
+  test('runtime dispatcher selects the native v13 loader from manifest version', async () => {
+    const projectManifest = manifest()
+    const content = projectManifest.content
+    const loaded = await loadRunnableProjectFrom(
+      memorySource({
+        'manifest.json': projectManifest,
+        [content.actors!]: baseJsons.actors,
+        [content.scenes! + 'index.json']: baseJsons.sceneIds,
+        [content.scenes! + 's001.json']: baseJsons.entryScene,
+        [content.skills!]: baseJsons.skills,
+        [content.items!]: baseJsons.items,
+        [content.locale!]: baseJsons.locale,
+        [content.sprites!]: baseJsons.sprites,
+        [content.battleSprites!]: baseJsons.battleSprites,
+        [content.tilesets!]: baseJsons.tilesets,
+        [content.maps!]: baseJsons.maps,
+        [content.sharedScripts!]: baseJsons.sharedScripts,
+        [projectManifest.assets.catalog]: baseJsons.assetCatalog,
+      }),
+    )
+    expect(loaded.manifest.contentVersion).toBe(13)
+    expect(loaded.entryScene).toEqual(baseJsons.entryScene)
+  })
+
+  test('runtime dispatcher fails closed before loading unsupported content', async () => {
+    let reads = 0
+    const source = memorySource({
+      'manifest.json': manifest({ contentVersion: 14 as 13 }),
+    })
+    const readJson = source.readJson.bind(source)
+    source.readJson = async (...args) => {
+      reads += 1
+      return readJson(...args)
+    }
+    await expect(loadRunnableProjectFrom(source)).rejects.toThrow(/只接受 contentVersion 12 或 13/)
+    expect(reads).toBe(1)
   })
 
   test('public loader rejects v12 before reading any content file', async () => {

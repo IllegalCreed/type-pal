@@ -3,12 +3,12 @@
  * (引擎本体在 main.ts 的 bootGame(project) —— 页面无关可复用;编辑器 play 页同源试玩
  * 走同一函数,传 FSA/HTTP source 装出的工程。)
  */
-import { loadProjectV5 } from './loader-v5.js'
 import { bootGame } from './main.js'
+import { loadRunnableProject } from './runnable-project-loader.js'
 
 async function boot(): Promise<void> {
   const PROJECT_ID = import.meta.env.VITE_PROJECT_ID ?? 'demo'
-  await bootGame(await loadProjectV5(PROJECT_ID))
+  await bootGame(await loadRunnableProject(PROJECT_ID))
 }
 
 boot().catch((e: unknown) => {

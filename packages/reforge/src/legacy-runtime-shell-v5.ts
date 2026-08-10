@@ -17,6 +17,7 @@ import type {
 } from '@type-pal/content'
 import type { LoadedProject } from './loader.js'
 import type { LoadedProjectV5 } from './loader-v5.js'
+import type { LoadedProjectV13 } from './loader-v13.js'
 import {
   resolveEntityBehaviorV5,
   resolveEntityPageV5,
@@ -193,6 +194,38 @@ export function legacyProjectShellFromV5(
     scriptIndex: undefined,
     scriptStore: undefined,
   } as LoadedProject
+}
+
+/**
+ * v13 的渲染/菜单投影。
+ *
+ * 这只是给尚未迁移的画面消费者使用的显式 view：canonical project 与 WorldStateV13
+ * 始终由 v13 runtime 单独持有，绝不通过 legacyProjectShellFromV5 或 v12 world cast。
+ */
+export function legacySceneViewFromV13(
+  scene: import('@type-pal/content').SceneDefV13,
+  world: WorldScriptStateV5,
+): SceneDef {
+  return legacySceneFromV5(
+    scene as unknown as SceneDefV5,
+    world,
+  )
+}
+
+export function legacyProjectViewFromV13(
+  project: LoadedProjectV13,
+  world: WorldScriptStateV5,
+): LoadedProject {
+  return {
+    ...project,
+    // Manifest is consumed here only for common display/start-world fields. The canonical v13
+    // manifest remains available on the original project passed to ScriptProjectRuntimeV13.
+    manifest: project.manifest as unknown as LoadedProject['manifest'],
+    entryScene: legacySceneViewFromV13(project.entryScene, world),
+    items: legacyItemsFromV5(project.items),
+    scriptIndex: undefined,
+    scriptStore: undefined,
+  } as unknown as LoadedProject
 }
 
 /** 把 canonical 嵌套世界态投影成当前场景宿主可消费的平面 scratch；绝不用于保存。 */

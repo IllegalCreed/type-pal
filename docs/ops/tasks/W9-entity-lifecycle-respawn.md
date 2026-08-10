@@ -496,9 +496,19 @@ source provenance 和 BattleResult 终态不足以作为本轮 build 准入；�
   冻结，并调用 `advanceEntityLifecycleWorldStep`（含 foot-anchor 重现与帧复位）；v12 无表路径保持旧行为。
   验证：Reforge `check` 90 files / 902 tests、tsc 通过。该切片仍未完成 typed v13 boot、hostile policy、
   SAVE 运行接线与 PAL/editor 全链，不能作为 W9 implementation accept。
-- 剩余风险：尚未接入 main/typed v13 loader/runtime command adapter、PAL source ledger/translator
-  与 editor 全链；在这些边界和 Kimi 7 条补钉完成前，不得把本内核或 SAVE 增量声明为 W9 全链闭环或
-  标记 done。
+- v13 runtime / SAVE 接线（2026-08-10，Codex）：`boot.ts` 改为 `loadRunnableProject()`，按 manifest
+  `contentVersion` 显式分流 `LoadedProjectV5 | LoadedProjectV13`；`main.ts` 保持 legacy `WorldState`
+  视图与 canonical `WorldStateV13` 分离，新增 `buildWorldV13` 快照、`worldV13` 原地替换、v13
+  lifecycle reference index、`ScriptProjectRuntimeV13`、`runDetachedV13ScriptChain`、content13 save
+  builder / `preflightSaveMigrationV13` / `normalizePayloadV13`，并把 hostile victory / playerFled
+  生命周期策略接到 canonical v13 表上，v13 路径不再写 `e.hidden` 或 detached `host.wait()`。
+  验证：`pnpm --filter @type-pal/content typecheck`、`pnpm --filter @type-pal/content test -- character entity-lifecycle-v13-upgrade script-v13 validate-v13`、
+  `pnpm --filter @type-pal/reforge typecheck`、`pnpm --filter @type-pal/reforge test -- loader-v13 save/epoch-v13 script-project-v13 entity-lifecycle entity-lifecycle-command battle/battle-result`
+  全绿。剩余风险仍是 PAL 上游 source ledger / editor v12→v13 overlay / manifest-last 原子升级与最终
+  生产器重录闭环，尚未接入。
+- 剩余风险：PAL source ledger / translator / append-only seal / 生产器重录链路，以及 editor
+  v12→v13 overlay + manifest-last 原子升级 / CRUD 还未落完；在这些边界完成并取得三方实现 `accept`
+  前，不得把本内核或 SAVE 增量声明为 W9 全链闭环或标记 done。
 
 ### Review（实现复审尚未开始）
 

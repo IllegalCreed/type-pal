@@ -3,7 +3,7 @@ import type { AssetId, ManifestAssetConfigV3 } from './asset.js'
 import type { EntityLifecycleTableV13 } from './entity-lifecycle-v13.js'
 import type { WorldScriptState } from './script.js'
 import type { ProjectMigrationDescriptorV1 } from './script-transition-v5.js'
-import type { WorldScriptStateV5 } from './script-v5.js'
+import { emptyWorldScriptStateV5, type WorldScriptStateV5 } from './script-v5.js'
 import type { StatusId } from './skill.js'
 
 /** 大世界带入战斗的临时状态(护体符/金刚符 = protect;加速符等)。原版全局 rgPlayerStatus 的一格:
@@ -304,5 +304,22 @@ export function buildWorld(
     ),
     inventory: startWorld.inventory.map((e) => ({ ...e })),
     ...(startWorld.resources ? { resources: { ...startWorld.resources } } : {}),
+  }
+}
+
+/**
+ * contentVersion 13 新档世界构造器。
+ *
+ * v13 的脚本态与实体生命周期态都在创建时显式落成各自的 canonical 容器；调用方无需、
+ * 也不得先构造 v12 世界再把它强转成 v13。生命周期空表严格表示所有实体均为 normal。
+ */
+export function buildWorldV13(
+  startWorld: StartWorld,
+  actorsById: Record<string, ActorDef>,
+): WorldStateV13 {
+  return {
+    ...buildWorld(startWorld, actorsById),
+    script: emptyWorldScriptStateV5(),
+    entityLifecycles: {},
   }
 }

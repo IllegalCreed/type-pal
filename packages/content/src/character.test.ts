@@ -3,6 +3,7 @@ import type { ActorDef } from './actor.js'
 import {
   applySetParty,
   buildWorld,
+  buildWorldV13,
   instantiate,
   type StartWorld,
   type WorldState,
@@ -94,6 +95,20 @@ describe('buildWorld(manifest.startWorld 数据化)', () => {
   test('party 引无 battler 的 actor → throw(经 instantiate)', () => {
     const sw: StartWorld = { party: ['villager'], money: 0, learnedSkills: {}, inventory: [] }
     expect(() => buildWorld(sw, { villager })).toThrow(/battler/)
+  })
+
+  test('content13 新档直接构造 canonical script 与 lifecycle 空容器', () => {
+    const sw: StartWorld = {
+      party: ['test-hero'],
+      money: 50,
+      learnedSkills: { 'test-hero': ['296'] },
+      inventory: [{ itemId: '267', count: 1 }],
+    }
+    const w = buildWorldV13(sw, { 'test-hero': hero })
+    expect(w.script).toEqual({ flags: {}, vars: {}, entityState: {}, behaviors: {} })
+    expect(w.entityLifecycles).toEqual({})
+    expect(w.party[0]?.template).toBe('test-hero')
+    expect(w.inventory).toEqual([{ itemId: '267', count: 1 }])
   })
 })
 
