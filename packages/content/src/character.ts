@@ -1,5 +1,6 @@
 import type { ActorDef } from './actor.js'
 import type { AssetId, ManifestAssetConfigV3 } from './asset.js'
+import type { EntityLifecycleTableV13 } from './entity-lifecycle-v13.js'
 import type { WorldScriptState } from './script.js'
 import type { ProjectMigrationDescriptorV1 } from './script-transition-v5.js'
 import type { WorldScriptStateV5 } from './script-v5.js'
@@ -70,6 +71,11 @@ export type WorldStateV10 = WorldStateV9
 export type WorldStateV11 = WorldStateV10
 /** contentVersion 12 只增加敌队语义槽位 schema，不复制世界态。 */
 export type WorldStateV12 = WorldStateV11
+/** contentVersion 13 增加独立于 script authority 的实体生命周期表。 */
+export interface WorldStateV13 extends WorldStateV12 {
+  /** 缺席或缺少具体实体条目均严格等价于 normal。 */
+  entityLifecycles?: EntityLifecycleTableV13
+}
 
 /** manifest.startWorld —— initialWorld() 的数据化(loader 从工程 JSON 读,buildWorld 组装)。 */
 export interface StartWorld {
@@ -148,6 +154,8 @@ export type LegacyManifestV9 = ProjectManifest<9>
 export type LegacyManifestV10 = ProjectManifest<10>
 /** contentVersion 11 只允许 B10 敌队槽位 successor 边界读取。 */
 export type LegacyManifestV11 = ProjectManifest<11>
+/** contentVersion 12 只允许 W9 生命周期 successor 边界读取。 */
+export type LegacyManifestV12 = ProjectManifest<12>
 
 /** canonical loader 解析、runtime/editor 消费的当前工程清单。 */
 export type CurrentManifest = ProjectManifest<typeof CONTENT_VERSION>
