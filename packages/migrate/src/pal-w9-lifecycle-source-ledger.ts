@@ -22,7 +22,7 @@ export const PAL_W9_PRESTATE_PROOF_METHOD = 'w9-entity-prestate-dataflow-v1' as 
 export const PAL_W9_BATTLE_PRESERVATION_METHOD =
   'w9-battle-start-target-preservation-v1' as const
 export const PAL_W9_GENERATION_COMMAND =
-  'pnpm --filter @type-pal/migrate run audit:w9-lifecycle-ledger' as const
+  'pnpm --filter @type-pal/migrate run migrate:content -- --w9' as const
 export const PAL_W9_PROOF_AFFECTED_FILE_ALLOWLIST = Object.freeze([
   '_transitions/w9-entity-lifecycle-v1.json',
   'content/scenes/index.json',
@@ -38,7 +38,7 @@ export const PAL_W9_EXPECTED_RUNTIME_ENTRY_FACTS_DIGEST =
 export const PAL_W9_EXPECTED_BATTLE_PRESERVATION_FACTS_DIGEST =
   '782d1b9472293d9c26ac52e8ddbaa11d67fa22fc103ab4390841fe36cc08f7c6' as const
 export const PAL_W9_EXPECTED_PROOF_LEDGER_DIGEST =
-  'd890b8af63bc91901cb2c15533febd71640df5449ca481109cf7d7ae3db7b621' as const
+  '82d55642c5b4d5c05089f4dc2bb71640bf6eb79c7102a1b6597195694052d631' as const
 
 export interface W9LifecycleSourceContractEntry {
   sourceAddress: number

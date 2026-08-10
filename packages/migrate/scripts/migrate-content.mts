@@ -157,6 +157,12 @@ import {
   palSoundAssetForSources,
 } from '../src/pal-migration.js'
 import { loadPalMigrationSources } from '../src/pal-migration-io.js'
+import {
+  buildPalW9LifecycleSourceLedger,
+  foldedHostileTargetsFromPublishedB10,
+  PAL_W9_EXPECTED_PROOF_LEDGER_DIGEST,
+  PAL_W9_PROOF_AFFECTED_FILE_ALLOWLIST,
+} from '../src/pal-w9-lifecycle-source-ledger.js'
 import { applyPalR13SixBLoadSceneTransitions } from '../src/pal-r13-six-b-load-scene.js'
 import { applyPalR13SixBSceneOverlays } from '../src/pal-r13-six-b-overlays.js'
 import { rewindPalR13SixBPublication } from '../src/pal-r13-six-b-rewind.js'
@@ -227,7 +233,11 @@ function usage(): void {
 
   pnpm --filter @type-pal/migrate run migrate:content -- --r13-z [--write]
       只在 B10 content12 已发布后运行 R13-Z source/runtime 发布闭包；默认只审计，--write 才向 baseline
-      append-only 追加 R13-Z seal，不改工程正文或 manifest。`)
+      append-only 追加 R13-Z seal，不改工程正文或 manifest。
+
+  pnpm --filter @type-pal/migrate run migrate:content -- --w9
+      只在 B10 content12 已发布后运行 W9 lifecycle source ledger 生产证明；当前入口只读，
+      不写工程、baseline、manifest、oracle 或 generated content。`)
 }
 
 async function runCanonicalV5Phase(
@@ -431,6 +441,63 @@ async function runB10EnemyTeamSlotsTransition(
       ? `[B10 publication] content11 → content12; seal=${digest}; SAVE_VERSION 保持 8`
       : `[B10 replay] content12 authority unchanged; seal=${digest}; SAVE_VERSION 保持 8`,
   )
+}
+
+/** W9 production gate: prove lifecycle source ledger before any content13 writer is allowed. */
+async function runW9EntityLifecycleTransition(
+  manifest: ProjectManifest<12>,
+  manifestText: string,
+  write: boolean,
+): Promise<void> {
+  if (manifest.contentVersion !== 12)
+    throw new Error(`W9 source ledger 只接受已发布 content12 工程，收到 content${manifest.contentVersion}`)
+  if (write)
+    throw new Error('W9 --write 尚未接入 content13 writer/seal；本入口当前只读，禁止写盘')
+  const sources = loadPalMigrationSources(repo)
+  const baseline = loadPalBaseline(repo)
+  if (!baseline) throw new Error('W9 缺 PAL baseline v2；不得绕过 baseline 写 generated content')
+  if (!assertB10PublishedAuthority(baseline))
+    throw new Error('W9 current replay 要求先发布 B10 content12 successor')
+
+  const rebuiltB10 = buildB10EnemyTeamSlotsMigration(sources, baseline)
+  sameSnapshot(snapshotOf(rebuiltB10), baseline, 'B10 replay before W9')
+  const foldedHostileTargets = foldedHostileTargetsFromPublishedB10(baseline)
+  const ledger = buildPalW9LifecycleSourceLedger({
+    sources,
+    preparedSourceCensus: prepareR13SourceExecutionCensus(sources),
+    foldedHostileTargets,
+    affectedFileAllowlist: PAL_W9_PROOF_AFFECTED_FILE_ALLOWLIST,
+  })
+  if (ledger.digest !== PAL_W9_EXPECTED_PROOF_LEDGER_DIGEST)
+    throw new Error(
+      `W9 lifecycle ledger proof digest 漂移: ${ledger.digest} != ${PAL_W9_EXPECTED_PROOF_LEDGER_DIGEST}`,
+    )
+
+  assertPalBaselineSnapshotCurrent(repo, baseline)
+  const managed = discoverProjectManagedFiles(
+    repo,
+    new Set([...baseline.managedFiles, ...rebuiltB10.managedFiles]),
+  )
+  const ours = loadProjectMigrationSnapshot(repo, managed)
+  assertProjectSnapshotCurrent(repo, ours, managed)
+  if (readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8') !== manifestText)
+    throw new Error('W9 dry-run 期间 manifest.json 已变更')
+
+  console.log(
+    JSON.stringify(
+      {
+        kind: ledger.kind,
+        transitionId: ledger.transitionId,
+        generator: ledger.generator,
+        summary: ledger.summary,
+        digest: ledger.digest,
+        writes: 0,
+      },
+      null,
+      2,
+    ),
+  )
+  console.log('[W9 lifecycle dry-run] source ledger verified; content13 writer/seal 未写盘')
 }
 
 /**
@@ -1389,7 +1456,8 @@ async function main(): Promise<void> {
       flag !== '--repair-r13-confirm-seal' &&
       flag !== '--r13-z' &&
       flag !== '--r13-6c' &&
-      flag !== '--r13-6d',
+      flag !== '--r13-6d' &&
+      flag !== '--w9',
   )
   if (unknown.length) throw new Error(`未知参数: ${unknown.join(', ')}`)
   const writeRequested = flags.has('--write')
@@ -1399,6 +1467,7 @@ async function main(): Promise<void> {
   const publishR13Z = flags.has('--r13-z')
   const r13SixC = flags.has('--r13-6c')
   const r13SixD = flags.has('--r13-6d')
+  const publishW9 = flags.has('--w9')
   if ((writeOnce || verifyIdempotence) && process.env[INTERNAL_PHASE_ENV] !== '1')
     throw new Error('内部迁移阶段不得直接调用')
   if (
@@ -1411,7 +1480,15 @@ async function main(): Promise<void> {
     (publishR13Z &&
       (flags.has('--bootstrap') || writeOnce || verifyIdempotence || repairR13ConfirmSeal)) ||
     (r13SixC && !publishR13Z) ||
-    (r13SixD && !publishR13Z)
+    (r13SixD && !publishR13Z) ||
+    (publishW9 &&
+      (flags.has('--bootstrap') ||
+        writeOnce ||
+        verifyIdempotence ||
+        repairR13ConfirmSeal ||
+        publishR13Z ||
+        r13SixC ||
+        r13SixD))
   )
     throw new Error('迁移写入/内部验证/显式修复阶段参数互斥')
   const write = writeRequested || writeOnce
@@ -1449,6 +1526,19 @@ async function main(): Promise<void> {
     contentVersion === 10
   if (repairR13ConfirmSeal && !canonicalV5)
     throw new Error('R13 confirm seal 显式修复只接受 canonical v5+ 工程')
+
+  if (publishW9) {
+    if (contentVersion !== 12)
+      throw new Error(
+        `W9 lifecycle source ledger 只接受已发布 content12 工程，收到 content${String(contentVersion)}`,
+      )
+    await runW9EntityLifecycleTransition(
+      rawManifest as ProjectManifest<12>,
+      manifestText,
+      writeRequested,
+    )
+    return
+  }
 
   if (publishR13Z) {
     if (bootstrap || contentVersion !== 12)

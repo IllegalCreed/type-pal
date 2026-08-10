@@ -520,6 +520,19 @@ source provenance 和 BattleResult 终态不足以作为本轮 build 准入；�
   → 2 tests passed；`pnpm --filter @type-pal/migrate typecheck` passed；`pnpm --filter @type-pal/migrate run test:manifest`
   verified fast 81/615、release 104/745、canary 1/2。该切片只完成可重放证明与 FRESH 路由覆盖，
   尚未写生产 content13、append-only seal、oracle/canary/baseline 重录或 implementation accept。
+- W9 production CLI proof gate（2026-08-10，Codex）：`migrate:content -- --w9` 已成为真实可执行
+  生产证明入口，替代此前只钉 `audit:w9-lifecycle-ledger` 的旁路命令；CLI 只接受已发布
+  content12 工程，先验 B10 published authority，再重放 B10 snapshot 不变，随后用 published B10
+  hostile target surface 构造 W9 source ledger。`--w9` 当前只读，`--write` 显式 fail-loud，避免在
+  content13 writer/seal 未接入时误写工程、baseline、manifest、oracle 或 generated content。
+  验证：`pnpm --filter @type-pal/migrate run migrate:content -- --w9` passed，输出
+  `writes: 0`、ledger digest `82d55642c5b4d5c05089f4dc2bb71640bf6eb79c7102a1b6597195694052d631`，
+  守恒仍为 1849 source sites / 1021 landings / 828 folded hostile / 93 residual paired /
+  7 4B-only；`pnpm --filter @type-pal/migrate typecheck` passed；
+  `pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --project unit src/pal-w9-lifecycle-source-ledger.test.ts`
+  → 25 tests passed；`pnpm --filter @type-pal/migrate run audit:w9-lifecycle-ledger` passed。
+  剩余风险不变：content13 writer/append-only W9 seal、translator landing、oracle/canary/baseline
+  重录仍未完成，不能申请 implementation accept。
 - editor v12→v13 typed load/save slice（2026-08-10，Codex）：`open-local.ts` / `main.tsx`
   显式分流 `LoadedProjectV5 | LoadedProjectV13`，v13 只在 manifest 已是 13 时走 typed loader；
   `toEditorState` 可接 `SceneDefV13[]`，`project-io.ts` 仅在 manifest 声明 sharedScripts 时写回 v13
