@@ -370,7 +370,10 @@ source provenance 和 BattleResult 终态不足以作为本轮 build 准入；�
 - 修改文件：`packages/reforge/src/entity-lifecycle.ts`、
   `packages/reforge/src/entity-lifecycle.test.ts`、`packages/reforge/src/index.ts`、
   `packages/reforge/src/save/types.ts`、`packages/reforge/src/save/ops.ts`、
-  `packages/reforge/src/save/migration-v13.ts`、`packages/reforge/src/save/epoch-v13.test.ts`
+  `packages/reforge/src/save/migration-v13.ts`、`packages/reforge/src/save/epoch-v13.test.ts`、
+  `packages/reforge/src/entity-lifecycle-command.ts`、`packages/reforge/src/entity-lifecycle-command.test.ts`、
+  `packages/reforge/src/loader-v13.ts`、`packages/reforge/src/loader-v13.test.ts`、
+  `packages/reforge/src/save/migration.ts`
 - 实现摘要：先落纯函数生命周期内核，不读取/改写静态 `EntityDef` 或 `world.script.entityState`；
   提供四态派生 gate、四个 mutation、当前 scene/eligible 世界拍递减、`despawned → awaitingExit`
   和 320×320 foot-anchor 离屏恢复边界。`awaitingExit` 不因 tick 自动清除。
