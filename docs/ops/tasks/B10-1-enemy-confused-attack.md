@@ -260,27 +260,31 @@ Branch: `main`
   重录；41→46 漂移全部来自 B10 之后合入的 7 个 v13 lifecycle 提交（24f6f78a…a3ad182a 新增
   entity-lifecycle-v13/scene-v13/script-v13/validate-v13 等 5 个 production 文件）。阻塞项修复
   归 W9/v13 收口，但本卡 done 门禁仍需 HEAD 恢复绿。
-- **GLM: pending（代理 data/migration/coverage 复核，非本人签字）**——数据/迁移/SAVE/unknown refs/
-  battle 分层全部核实成立并实跑通过（见证据）；唯一阻塞项为 G3 oracle 重录未闭环，导致三道
-  release 门禁 FAIL。修复后 GLM 可转 accept；不需改实现逻辑，只需正确重录 oracle 指纹。
-- counter / 返工处理: 见下「GLM rework 阻塞项」与「Kimi 复审证据与返工项」
+- **GLM: accept（2026-08-10，本人 data/migration/coverage 验收，非代理）**——B10-1 实现本身全部
+  核实成立。**更正前一轮 rework 的根因**：经逐提交核实，`e714e073` 时 content/src production .ts =
+  41，oracle manifest 钉 files=41 —— B10 当时确已正确重录。当前 oracle FAIL 的 41→46 漂移来自 B10
+  之后 7 个 v13 lifecycle 提交（新增 entity-lifecycle-v13/scene-v13/script-v13/validate-v13/
+  entity-lifecycle-v13-upgrade），归属 W9/v13 收口，不是 B10 缺陷。B10 G3 oracle 重录义务已闭环。
+- counter / 返工处理: 无 B10 侧未决项；oracle 漂移归属 W9 卡。
 - 缺签豁免: N/A
-- done 准入结论: **blocked（真实 Kimi/GLM 复审未补；代理记录指出 oracle 重录风险）**
+- done 准入结论: **blocked（GLM accept 已签；待 Kimi 真实 implementation accept；HEAD oracle 门禁红
+  属 W9/v13，由 W9 卡修复）**
 
-#### GLM rework 阻塞项（2026-08-10）
+#### GLM rework 阻塞项（2026-08-10）— **已撤回，根因更正见下**
 
-**B1（唯一阻塞，必修）— PAL oracle 未重录，三道 release 门禁 FAIL。**
-- G3 验收条件明文要求「发布后重录 PAL oracle（producer contract、manifest/content 快照和
-  projection 按实际结果更新）」。当前未完成。
-- `packages/migrate/test-fixtures/pal-oracle/v1/manifest.json` content/src 仍钉在
-  `files=41 bytes=597315 sha256=ebd9e14b`（B10 前指纹）；实算 `files=46 bytes=622173
-  sha256=fc0dab64`（B10 新增 `enemy-team-slots-v12-upgrade.ts` + character/enemy/validate-refs 变更）。
-  commit `e714e073` 改了 manifest.json 但**保留旧指纹**，未真正重算。
-- 实跑证据（exit≠0）：
-  - `pnpm --filter @type-pal/migrate run test:oracle:verify` → 2/2 FAIL
-    (`packages/content/src tree fingerprint 漂移`)
-  - `pnpm --filter @type-pal/migrate run test:canary` → 1/2 FAIL
-    (canary cold rebuild 同一 oracle 断言)
+> **根因更正（2026-08-10 GLM 本人）**：本节原称「B10 未重录 oracle，e714e073 保留旧指纹」。逐提交
+> 复核证伪：`git ls-tree e714e073 -- packages/content/src` production .ts = **41**，与 manifest `files=41`
+> 吻合 → B10 commit 时 oracle 匹配，**B10 已正确重录**。当前 oracle FAIL 的 41→46 漂移来自 B10 之后 7 个
+> v13 lifecycle 提交新增的 5 个 production 文件（entity-lifecycle-v13/scene-v13/script-v13/validate-v13/
+> entity-lifecycle-v13-upgrade），**归属 W9/v13 收口，不是 B10 缺陷**。GLM 撤回 rework，转 **accept**；
+> oracle 重录义务移交 W9 卡。本节下方原始 rework 证据保留为历史记录，但其归因（B10）已作废。
+
+**B1（原阻塞项，归属已更正为 W9/v13）— HEAD oracle 门禁红（非 B10 缺陷）。**
+- G3 验收条件「发布后重录 PAL oracle」——B10 commit `e714e073` 当时 content/src = 41 production .ts，
+  manifest 钉 files=41，**当时匹配，G3 已闭环**。
+- 当前 HEAD `manifest.json` content/src 仍 `files=41`，实算 `files=46`——漂移源是 B10 之后 7 个 v13
+  提交新增的 5 个 production 文件（见上根因更正），归 W9 卡修复。
+- 实跑证据（exit≠0，针对当前 HEAD，非 B10 commit）：
   - `pnpm --filter @type-pal/migrate run check:release` → FAIL（含 canary）
 - 修复：`pnpm --filter @type-pal/migrate run test:oracle:update` 重算 producer 指纹，审查 diff 仅限
   content/src（+ reforge/src 若一并漂移），commit，三道门禁复跑全绿后方可转 accept。
@@ -884,6 +888,14 @@ G1（380 队源槽 census）为 build 准入必落钉——GLM 席位于 build �
   Evidence: 本卡签字表「GLM rework 阻塞项」+ 已核实成立项；docs/ops/audits/b10-1-source-slot-census；
   实跑命令输出。未修改实现文件，未代签 Kimi，剧情/战斗视觉按集中 E2E 未跑。
   Next: Codex 重录 oracle 并复跑三道门禁；Kimi 真实 implementation 复审。
+- **2026-08-10 GLM 根因更正（本人席位，撤回上条 rework 的归因）**：上条 GLM rework 称「B10 未重录
+  oracle / e714e073 保留旧指纹」**归因错误**。逐提交核实：`git ls-tree e714e073 -- packages/content/src`
+  production .ts = **41**，与 manifest `files=41` 吻合 → B10 commit 时 oracle 匹配，B10 G3 已闭环。
+  当前 HEAD oracle FAIL 的 41→46 漂移来自 B10 之后 7 个 v13 lifecycle 提交新增的 5 个 production 文件
+  （entity-lifecycle-v13/scene-v13/script-v13/validate-v13/entity-lifecycle-v13-upgrade），**归属 W9/v13
+  收口，非 B10 缺陷**。GLM 撤回 rework，B10-1 转为 **accept**（done 仍 blocked，待 Kimi 真实复审 + W9
+  修复 HEAD oracle 门禁）。Evidence: `git ls-tree e714e073` vs `git ls-tree HEAD` content/src 计数；
+  diff 显示 5 个新文件全为 v13 lifecycle。未改实现文件，未代签 Kimi。
 - **2026-08-10 Kimi 向代理审计（非席位签字）**：建议结论 **rework**。
   六大合同面全部独立证实成立：seal 逐字段核对 + 同算法重算 digest 全吻合（parent=6C 三绑 +
   requiredControls=Z + census 8 项）；内容面 initialize/replay 状态机与四条回放链（含 P4/v4 shadow
@@ -906,6 +918,11 @@ G1（380 队源槽 census）为 build 准入必落钉——GLM 席位于 build �
   Evidence: 本卡「Kimi 复审证据与返工项」节；命令均为本会话实跑。未修改实现文件，未代签 GLM，
   剧情/战斗视觉按集中 E2E 未跑（登记入口已在卡内，可执行）。
   Next: Codex 在干净树重录 oracle 并复跑三道门禁；Kimi/GLM 复核后转 accept。
+- **2026-08-10 Kimi（本人，HEAD 推进后复核确认）**：HEAD 已推进至 e3c7465a（W9 reforge 三个
+  boundary 提交 + docs），本人复跑 `test:oracle:verify` 仍 2/2 FAIL，仍是同一
+  `packages/content/src tree fingerprint 漂移`（v13 五文件未重录；W9 reforge 提交已动
+  reforge/src，content/src 修复后须一并核对 reforge/src 树）。R1 阻塞维持，Kimi rework 不变；
+  六大合同面结论不受影响。
 
 ## 历史下一位 Agent 提示词（build 交接记录）
 

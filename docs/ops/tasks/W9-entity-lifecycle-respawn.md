@@ -1,6 +1,6 @@
 # W9 - 实体生命周期、重现与明雷逃跑冷却
 
-Status: blocked
+Status: build
 Phase: phase2
 Capability: W9 / B8 / B9 / X1
 Coding Owner: Codex
@@ -18,8 +18,9 @@ Branch: main
 
 本卡在 B10-1 发布完成后重新锁定。旧卡 2026-08-07 的 `agree/build allowed` 只作为历史记录，
 被本次 post-B10 设计复核 supersede。**治理修正（2026-08-10）：此前由 Codex 子代理生成并
-写成 Kimi/GLM 名义的文字不构成真实席位签字；下方对应段落仅保留为非门禁设计记录。须由用户
-转交真实 Kimi/GLM 后，在本卡写入本人只读复审签字，才能解除 build/review 门禁。**
+写成 Kimi/GLM 名义的文字不构成真实席位签字；那些历史段落仍保留但不具门禁效力。用户随后已将
+本卡交由真实 Kimi/GLM 复审，下面明确标注“本人”的 `agree` 才是当前有效设计签字；实现验收仍须
+另行取得三方 `accept`，不得由代理代签。**
 
 ## 范围与硬边界
 
@@ -261,22 +262,86 @@ respawn policy 的站点必须 fail-loud/列入显式例外，不得静默猜测
 - 仅对 editor/debug 功能面板做一次最小浏览器/截图证据。剧情/演出视觉统一登记冻结后的 E2E，
   不在开发期重复跑。
 
-## 推进签字（post-B10 重新锁定；真实席位待补）
+## 推进签字（post-B10 重新锁定；真实席位已补）
 
 旧签字保留在历史记录，但不再作为准入：
 
 - Codex：**agree（2026-08-10，修订设计）**。已按两席 counter 重写本卡；无实现修改。
-- Kimi：**pending（下方代理复核文字不具门禁效力）**：content13/minSave8、顶层 nested
-  判别联合、旧档缺省 normal 且不从 entityState 推断、0x52 正前态 fail-closed、五终态 BattleResult、
-  manual/touch 分离和独立 eligible tick gate 均已落卡；本次补钉要求正式 execution-site
-  ledger 证明 PAL 三个 0x52 站点 `preState > 0`，其余 `<=0/unknown` 一律 fail-loud 且零生成。
-- GLM：**pending（下方代理复核文字不具门禁效力）**：1849-site 守恒已独立复算；0x4B/0x52
+- Kimi：**agree（2026-08-10，本人设计签字；下方代理复核文字不具门禁效力，本条为本人独立
+  复审结论）**：content13/minSave8、顶层 nested 判别联合、旧档缺省 normal 且不从 entityState
+  推断、0x4B/0x52 正前态 fail-closed、五终态 BattleResult、manual/touch 分离和独立 eligible tick
+  gate 均已落卡；本次补钉要求正式 execution-site ledger 证明 PAL 三个 0x52 站点 `preState > 0`，
+  其余 `<=0/unknown` 一律 fail-loud 且零生成。**本人复审核实**（file:line 证据见交接日志）：
+  0x4B/0x52 三态语义与 320×320 foot-anchor 端点对源精确（script.c:1726-1731/:1794-1800、
+  scene.c:247-248、play.c:81-106）；已合入 content v13 schema 与 reforge draft（四态/exact keys/
+  六 gate 派生顺序/tick 门/四命令叶/SAVE 四路 identity/BattleResult 五态定义）与设计逐点自洽；
+  守恒数字独立复算成立（928 contexts / 1849 sites / 1021 landings）；B10 control graph 与实际
+  seal 一致。**附 7 条非门禁补钉（build 期落卡/验收，不阻塞 agree）**：
+  1. BattleResult 残留收窄清单补：battle-session.ts:210/620/1140（resolveDone/complete/enemyFled()
+     定义本体）、main.ts:1818 及 script-runner.test.ts:893、battle-session.test.ts:619/1098/1209；
+  2. §6 `LegacySavePayloadV8Content12` 命名与实现复用既有 `SavePayloadV8` 的等价说明补一句；
+  3. awaitingExit 离屏判定时机进验收矩阵：回场后首个 eligible tick 即判定（对源逐 tick 检查）；
+  4. restoreEntity 帧复位语义绑定「awaitingExit→normal 重现」路径写明（源先例仅 play.c:104），
+     手动 restore 是否复位由实现决定并记录；
+  5. `enemyFled` 验收按一阶段行为（win 无奖励不隐藏），sdlpal 仅四终态（battle.h:31-40），卡文注明；
+  6. `script-control-flow-audit.pal.test.ts`（含 hostileEntities:828 断言）当前不在任何 vitest
+     project 的 include 内——build 期必须挂到活跃 project，否则守恒回归是「有输出无 CI 证据」；
+  7. §1 末「content11 initialize、content12 W9 initialize、content13 current replay」措辞澄清为
+     「content12 initialize / W9 content13 initialize / content13 current replay」三入口。
+- GLM：**agree（2026-08-10，本人设计签字；下方代理复核文字不具门禁效力）**：1849-site 守恒已独立复算；0x4B/0x52
   均已冻结逐 execution-site `preState` 证明、非正/未知/source drift 写盘前 fail-loud 与零生成；
   B10 parent/requiredControls 控制图、固定 rewind 顺序及 BattleResult 跨包五终态闭包均已进入设计与
   验收矩阵。详细 counter 与闭环证据见下方。
-- counter / 分歧处理：设计 counter 的返工文字仍保留供真实席位核对；Kimi/GLM 真实签字未补，
-  Coding Owner 不得把卡转回 `build` 或开始下一段高风险 runtime/save/migration 接入。
-- 缺签豁免：N/A，用户尚未批准。
+- counter / 分歧处理：历史 counter/返工文字保留作审计轨迹；本轮真实 Kimi/GLM 均已对设计签
+  `agree`。Kimi 提出的 7 条补钉属于 build/验收要求，必须落地并逐项留证，不能省略后宣称实现完成。
+- 缺签豁免：N/A。
+- build 准入结论：**allowed（2026-08-10；Codex/Kimi/GLM 真实设计三签齐）**。
+
+#### GLM 数据/迁移/覆盖正式复审（2026-08-10，本人，非代理）：**agree（设计签字）**
+
+> 以下为本会话 GLM 席位亲自只读复审。此前本卡的「GLM counter / GLM agree」代理文字保留为设计背景，
+> 不构成本签字的前置。本 agree 只解除设计门禁，不修改卡头 Status，不构成 implementation accept。
+
+**独立复算（live extracted source，未改文件）**：
+- 1849 source sites / 1021 landing 守恒**逐项复现**：`buildR13SourceExecutionCensus`（source-execution-census.ts:258-380）
+  实跑 `instructions=43503`；0x4B 1 源命令 @41073 → 928 sites；0x52 3 源命令 @41127(919)+41176(1)+41180(1)
+  → 921 sites；contexts 928 = 921 paired + 7 4B-only；source sites `928+921=1849`；landing `828 hostile +
+  100 suspend + 93 hide = 1021`。828 folded hostile 由 `foldedHostileRoots`（migrate-content.ts:2607，
+  script-control-flow-audit.pal.test.ts:130-137 断言 hostileEntities=828 通过）实算命中。
+- **当前代码错误合并已确认**：translate-events.ts:1749-1754 把 0x4B/0x52 都翻译成同一 `vanishEntity`（0x4B
+  硬编码 seconds=2 丢弃 -15 语义；0x52 `Math.round((o[0]??0||800)/10)`）；migrate-content.ts:2513-2523
+  fold 时两者都喂 `hostile.respawnSeconds`。W9 拆分 + fail-closed 修复方向正确。
+
+**0x4B preState proof 是真实需求（非理论）**：s092/e1707-e1710 静态 `sState:0`（scene/92.json 核实），
+其共享 trigger L_41225（all.json#41225 = 0x07 startBattle，operands `[31,41075,41073]`，flee 分支 → L_41073
+即 0x4B 站点）→ 静态隐藏实体 flee 时执行到达 0x4B。**静态初值 ≠ 执行前态**，逐 site data-flow proof
+确实必要；§5 的「0x4B 逐 site preState/preStateProof + 负/零/unknown 零生成 + 对称 synthetic fixture」
+是闭合该边界的正确口径。
+
+**B10 control graph 递归绑定核实成立**：seal 链 `r13-source-semantics-v1`(digest 0d52087b) → {r13-6c(parent),
+r13-z(requiredControl)}（b10-enemy-team-slots-v1.json:7-19 parent=R13-6C 82e9f8f3、requiredControls=[R13-Z]
+e530e253；两子 seal 都绑同一 0d52087b 共同 parent digest）。§1「逐层四元组 metadata/file/managed/hash +
+非自指 surface + 半状态/漂移负测 + 固定 W9→B10→R13-Z→R13-6C→R13-6B rewind」方向正确。
+实现提醒：当前 B10 seal 存 parent/requiredControl 为 3-4 字段 digest 引用，非显式四元组分解；逐层
+四元组验签是 W9 verifier 须构造的义务，非 seal JSON 已有结构——卡文已写明要求，无歧义。
+
+**BattleResult 跨包漏项核实成立**：9 锚点逐一对拍——battle-session.ts:209、script-runner-v5.ts:39、
+script-runner.ts:144、script-project-v5.ts:247、debug-tools.ts:70、main.ts:1430/2874 均暴露
+`'win'|'lose'|'flee'` 字面串；main.ts:1844/1865 读 `session.enemyFled()` 布尔（:1844 把 `'win'` 串与
+`enemyFled()` 合进一个布尔判断）。§4 五终态 + session.done 唯一事实 + 旧串/布尔仅留唯一显式 adapter
+是真实的跨包公共接口改动。
+
+**v13 loader/command 草案隔离核实成立**：loader-v13.ts / entity-lifecycle-command.ts 存在（commit
+5f7c2796），但 CONTENT_VERSION 仍 12（character.ts:112），main.ts grep 零命中，未接 BattleResult session
+或 PAL translator——符合「draft boundary」描述。
+
+**剩余风险（GLM 标记，不阻塞设计 agree）**：(1) 0x4B/0x52 逐 site preState proof 的 data-flow 可行性
+须在 build 期以真实 928/921 site ledger 证明，不能只靠静态 sState 初值；(2) SAVE8/content9 历史链与
+W9 content10|11|12|13 resolver 的衔接须 build 期实测旧档归一不读 sidecar。
+
+Evidence: source-execution-census.ts:258 / translate-events.ts:1749 / scene/92.json e1707-1710 +
+all.json#41225 / b10-enemy-team-slots-v1.json:7-19 / 9 个 BattleResult 锚点 / character.ts:112。
+只读核查，未改实现文件，未代签 Kimi，未给 implementation accept。Kimi 真实架构复审仍 pending。
 
 #### Kimi 架构复审（2026-08-10，post-B10 修订后）：**agree（附 fail-closed 返工钉）**
 
@@ -364,9 +429,9 @@ source provenance 和 BattleResult 终态不足以作为本轮 build 准入；�
 
 ## 实现 / Review / 用户验收
 
-### Build（草案实现；门禁未解除）
+### Build（Codex 实现进行中；设计门禁已解除）
 
-- Coding Owner: Codex（已提交可独立审查的边界草案；真实 Kimi/GLM build 签字 pending）
+- Coding Owner: Codex（唯一实现方；先完成 Kimi 7 条 build/验收补钉，再申请实现复审）
 - 修改文件：`packages/reforge/src/entity-lifecycle.ts`、
   `packages/reforge/src/entity-lifecycle.test.ts`、`packages/reforge/src/index.ts`、
   `packages/reforge/src/save/types.ts`、`packages/reforge/src/save/ops.ts`、
@@ -387,13 +452,14 @@ source provenance 和 BattleResult 终态不足以作为本轮 build 准入；�
   `packages/reforge/src/loader-v13.ts`、`entity-lifecycle-command.ts`，不改当前 CONTENT_VERSION=12
   loader；loader/adapter 定向 32 tests + reforge typecheck 通过，content check 39 files/460 tests
   通过。该提交是 draft boundary，未接 `main.ts`、BattleResult session 或 PAL translator。
-- 剩余风险：尚未接入 main/typed v13 loader/runtime command adapter；在这些边界完成前，不得把本
-  内核或 SAVE 增量声明为 W9 全链闭环或标记 done。
+- 剩余风险：尚未接入 main/typed v13 loader/runtime command adapter、PAL source ledger/translator
+  与 editor 全链；在这些边界和 Kimi 7 条补钉完成前，不得把本内核或 SAVE 增量声明为 W9 全链闭环或
+  标记 done。
 
-### Review
+### Review（实现复审尚未开始）
 
-- Kimi：pending（需 `accept` 或列出返工）
-- GLM：pending（需 `accept` 或列出返工）
+- Kimi：pending（实现完成后由本人只读复审）
+- GLM：pending（实现完成后由本人只读复审）
 - Codex：pending
 - counter / 返工处理：pending
 
@@ -420,19 +486,44 @@ source provenance 和 BattleResult 终态不足以作为本轮 build 准入；�
 - 2026-08-10：Codex 完成纯函数生命周期内核与独立回归；审计确认 main 接入必须等待 v13 loader/save
   边界，避免把 `WorldStateV13` 强 cast 到当前 v12 canonical runtime。Next: 先补 typed v13 loader、
   SAVE resolver 与旧 v5 command adapter，再接 main 的统一 gate/tick/hostile policy。
+- **2026-08-10：Kimi 本人设计复审（真实席位，非代理）签 `agree`（附 7 条非门禁补钉，见签字表）。**
+  独立核实：源真值逐行对拍——0x4B（script.c:1726-1731，sVanishTime=-15）、0x52（:1794-1800，
+  sState*=-1 + op0||800，SHORT 越界会变 suspend 语义，fail-loud 覆盖正确）、三态语义
+  （sState>0 可见暂停自动类且手动可搜 play.c:467；sState<0+0x52 = 正倒计时隐藏到期立即可见
+  scene.c:247-248/play.c:96-106；sState=0 永静态隐藏）、320×320 foot-anchor 端点 0/320 隐藏、
+  -1/321 重现（play.c:96-106，OR 语义、y 轴 320 为忠实复刻）、重现仅复位 wCurrentFrameNum=0
+  （play.c:104）。已合入 draft 与设计自洽：content v13 四态/exact keys/tick 校验
+  （entity-lifecycle-v13.ts:2-13,32-68,94-116）、hostile 策略联合（scene-v13.ts:14-28,110-134）、
+  四命令叶且 vanishEntity 全深度拒绝（script-v13.ts:25-28,40,141-145,191-197）、CONTENT_VERSION
+  仍=12 未切（character.ts:112）+ upgradeManifestV12ToV13 钉 12→13/min8
+  （entity-lifecycle-v13-upgrade.ts:100-112）；reforge 六 gate 派生顺序 静态→entityState→lifecycle
+  （entity-lifecycle.ts:36-56）、tick 门（:112-135）、320×320 端点（:143-145）、SAVE 四路 identity
+  不读 sidecar（migration-v13.ts:39-125）、BattleResult 五态 + 唯一 legacy adapter
+  （battle-result.ts:2,18-26）。守恒独立复算：0x4B 源命令 1→928 contexts、0x52 源命令 3→921、
+  paired 921 + 4B-only 7、foldedHostileRoots=828（live 复算），1849 sites / 1021 landings 算术
+  闭合；s092/e1707-1710 静态 sState=0 抽查属实（event-objects.json）。B10 control graph 与实际
+  seal 逐字节一致；rewind 链序兼容外层 prepend W9（注意 published-v4-snapshot.ts:246-249 有
+  B10→6B 直连入口，实现时按入口区分）。Evidence: 本卡签字表；只读核查，未改实现文件，未代签
+  GLM。Next: GLM 真实席位设计复审；两席 agree 齐后 Coding Owner 方可转 build。
+
+- **2026-08-10：真实席位设计门禁收口。** 用户转交的 Kimi 与 GLM 本人复审均为 `agree`；卡头由
+  `blocked` 更正为 `build`。Kimi 的 7 条补钉（BattleResult 收窄、SAVE 命名说明、awaitingExit 首拍、
+  restore 帧语义、enemyFled 策略、control-flow audit 路由、三入口措辞）列为实现/验收钉；实现 review
+  仍须 Codex/Kimi/GLM 三方 `accept`，当前不得标记 done。
 
 ## 下一位 Agent 提示词
 
 ```text
 接手任务：W9 实体生命周期/重现/明雷逃跑冷却实现。
 任务卡：docs/ops/tasks/W9-entity-lifecycle-respawn.md
-当前状态：blocked；旧 2026-08-07 agree 已 supersede。当前仓库中的 Kimi/GLM 文字是 Codex
-子代理代理记录，只作设计背景，不是有效席位签字；不得据此解除门禁或标记 done。
+当前状态：build；旧 2026-08-07 agree 已 supersede。此前由 Codex 子代理代理生成的文字只作历史设计背景，
+不具席位门禁效力；本卡后续明确标注“本人”的 Kimi/GLM 设计 `agree` 已解除 build 门禁，但不等于
+implementation `accept`，不得标记 done。
 先读：AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡“上下文锚点/冻结设计/验收矩阵”，
 以及 docs/phase1/game-mechanics.md:1000-1111、B10-1 卡与 commit e714e073。
-你的职责：如果你是 Codex，先保持当前 draft boundary，不得开始下一段高风险 main/runtime/save/migrate
-接入；等待真实席位签字。若你是用户转交的真实 Kimi，请只读核对 loader/command/SAVE 边界并在本卡
-写入本人 `Kimi: accept` 或 `Kimi: counter/rework`；若你是 GLM，核对数据/迁移/覆盖并写入本人
-`GLM: accept` 或 `GLM: counter/rework`。任何子代理不得代签另一席。签字前不得标 `build allowed`；
-签字后仍需 Codex 自验、实现 review 三方 accept，才可标 done。
+你的职责：如果你是 Codex，按本卡 7 条 Kimi build 补钉推进 typed v13/runtime/ledger/translator/editor
+接入；只允许 Codex 修改实现文件，生成产物必须由生产器重建。若你是用户转交的真实 Kimi，请在实现
+冻结后只读核对并写入本人 `Kimi: accept` 或 `Kimi: counter/rework`；若你是 GLM，核对数据/迁移/覆盖
+并写入本人 `GLM: accept` 或 `GLM: counter/rework`。任何子代理不得代签另一席；实现 review 三方
+`accept` 未齐前不得标 done。
 ```

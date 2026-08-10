@@ -74,11 +74,72 @@ Branch: main
   使用逐阶段验证/释放的 compact P6 output，并新增 full-chain/compact-chain 的 P6 IR+ledger、P7
   snapshot/evidence digest 等价门。shared/release 的完整 phase matrix、source-backed 独立构建、
   180s/240s timeout、test identity 与磁盘事务均不改。
-- Kimi: pending（须用户转发真实席位）
-- GLM: pending（须用户转发真实席位）
+- Kimi: **counter（2026-08-10，本人真实席位设计复审；最小 3 条，方向认可）**——根因诊断的代码
+  事实已独立核实属实（fixture 链 pal-migration-integration.test.ts:661-700、beforeAll :768-770
+  显式 180_000、body :772-945 显式 240_000、同步阻塞机制成立）；compact P6→P7 窄入口机制可行
+  （P7 final-consumer 全链路只消费 chain.inputs 与 chain.p6.ir/ledger，从不碰 p2-p5，
+  p7-generated.ts:154-408 全部 chain.* 引用已核）；等价门工具现成（stableJsonSha256 等）。
+  但以下 3 条必须先闭合（前 2 条是方案成立性前提，第 3 条是卡文勘误）：
+  1. **收益假设未证明（最关键）**：卡文自己的数据显示 real 199.74s / user+sys 178.66s——compact
+     + 重排**不减少任何 CPU 工作**，只降内存/GC 压力；若 GC/缺页/调度开销 <18s（9%），改完照样
+     180s 超时。build 前必须先做一次带 `--cpu-prof` 或 GC trace 的冷跑，把 GC/wall 分解量化写进
+     卡，证明内存路径确实能拿回 ≥18s；若不能，须改案（例如论证后采用 worker 并行三条独立链——
+     卡文目前完全未讨论该替代，至少应论证为何不取）。
+  2. **窄出口形状与存量重复债**：fresh 的 release 分支需要 `generated.r13CadenceParentSnapshot`
+     （r13-cadence-mg2.ts:168）与 confirm parent/successor snapshots（r13-confirm-mg2.ts:213-242、
+     r13-item-throw-mg2.ts:131-140），canary 现有窄出口 `P7SourceDispositionGenerated`
+     （p7-generated.ts:82-95）恰好砍掉这三个 snapshot，**不能直接复用**；且 p7-generated.ts:275-403
+     已存在一份为 canary 整体复制的 P7 流水线（第二份算法），新窄入口必须顺手收敛这份存量重复，
+     不得叠加成第三份。卡文「不维护第二份 P7 算法」须改为面向存量的收敛承诺。
+  3. **卡文勘误**：180s/240s 在测试文件 :770/:945 的显式参数（覆盖 config），不在
+     vitest.release.config.ts:45-65（config 里 hookTimeout 实为 1_200_000，:52/:63）；「禁止拆
+     test 躲避」应扩写为「禁止拆 hook/test 分摊超时预算」，避免留出拆 beforeAll 的灰色通道。
+  设计点 3/4/5 核实无冲突：fresh 文件唯一消费 fixture 的 test（:772）不需要 P2-P6 中间矩阵
+  （fixture 返回对象不暴露 chain）；R13-5 与 parent 用独立 source clone，重排不违反隔离铁律；
+  「释放」只能靠不可达 + V8 GC（项目无 --expose-gc，pal-test-fixture.ts:399 的 globalThis.gc?.()
+  现是 no-op），卡文不要承诺手动 GC。
+- GLM: **agree（2026-08-10，本人数据/覆盖设计复审，附 2 条非阻塞卡文修正）**——根因诊断、
+  source-proof 独立性、full/compact digest 等价门方向均核实成立；compact-P6→full-P7 尚须新建
+  入口（非纯调用现有函数），卡文应把"minimal"口径写实。见下。
 - counter / 分歧处理: 未集齐三方前保持 draft/blocked，不改实现。
 - 缺签豁免: N/A
-- build 准入结论: blocked
+- build 准入结论: blocked（待 Kimi 真实复审）
+
+#### GLM 数据/覆盖设计复审（2026-08-10，本人，非代理）：**agree（附 2 条卡文修正）**
+
+**根因诊断核实成立**：`pal-migration-integration.test.ts:768-770` 的 `beforeAll(() => { fixture =
+buildStrictPalMigrationFixture() }, 180_000)` 是**内联** 180s hook（非 config 文件）；`:772` body 是独立
+240s 内联 timeout。`buildStrictPalMigrationFixture`（:661）同步串行 source load + current build + R13-4 +
+R13-5 clone/build/audit（:682-687）+ P7 canonical（:688-700 经 p7-generated.ts:420-422 的
+`buildValidatedP6TransformChain`），同步 CPU 阻断 timer 在 180s 抢占——诊断真实。
+
+**full/compact digest 等价门可构建**：full producer（p7-generated.ts:420 `buildP7GeneratedCanonical`）与
+compact subset producer（:275 `buildP7SourceDispositionGeneratedFromValidatedOutput`）计算同名字段
+（snapshot/ir/ledgerDraft/c8/auto/scene/itemThrow/confirm/crossActivation evidence），且两边都有
+`chain.inputs !== args.*` 身份守卫（:153-159 / :279-285）可作为 digest 前的输入等价断言点。single caller
+blast radius（buildP7GeneratedCanonical 仅 pal-migration-integration.test.ts:689 一处调用）→ fresh 换
+compact 输入不影响 release-pal-shared 的 full 矩阵。
+
+**source-proof 独立性核实成立**：buildValidatedP6TransformOutput（shadow-harness.ts:1571-1663）逐阶段
+验证 + 释放（p2=undefined@1606 … p5=undefined@1662），fresh 仍现场 source-backed 构建，不读
+shared/canary/prepared authority。设计 item 4（R13-5 build 排到 P7 之后降峰值）合理，且禁止用 current
+`theirs` 冒充 historical R13-5 的边界写明。
+
+**2 条卡文修正（非阻塞，build 前落卡文）**：
+1. **timeout 锚点修**：卡文「vitest.release.config.ts:45-65 的 fresh isolate/timeout 配置」误导——
+   实际 180s/240s ceiling 是 **pal-migration-integration.test.ts:770/:945 的内联 override**，config 里是
+   1_200_000 上限。范围外「不改变已有 timeout 数值」应同时点名这两处内联值，否则实现者可能漏改。
+2. **"minimal/推广现有"口径修**：buildValidatedP6TransformOutput（compact P6）存在且 canary-scoped，
+   但 compact-P6→**full P7GeneratedCanonical** 的入口**当前不存在**——现有 compact 产物是 11 字段 subset
+   （P7SourceDispositionGenerated），而 fresh final-consumer `createR13EnemyScriptV5MigrationPlan`
+   （r13-enemy-script-mg2.ts:639）与 `PreparedR13EnemyScriptAuthority.generated`（:164）硬钉 full 类型。
+   故设计 item 1「增加接收 P6ValidatedTransformOutput 的窄入口」是**净新建承重代码**（新 P7 入口 +
+   类型解钉），非"纯调用现有函数"。卡文「推广现有 buildValidatedP6TransformOutput」措辞偏轻，应写明
+   新入口 + 消费端类型解钉是必要新增，以保"minimal"诚实。
+
+Evidence: pal-migration-integration.test.ts:661-700,768,772 / shadow-harness.ts:1571-1663 /
+p7-generated.ts:275-285,420-422 / r13-enemy-script-mg2.ts:164,639。只读核查，未改实现文件，未代签 Kimi。
+Kimi 真实复审（算法单源/内存释放）仍 pending。
 
 ### 进入 done 前：实现签字
 
@@ -148,6 +209,16 @@ profiler；每次记录 monotonic wall、raw JSON、进程树 RSS、临时事务
 - 2026-08-10 Codex: 单文件 verbose cold 已确认 `beforeAll:768` 180s timeout；body `:772` skipped，
   非 OOM/signal/disk。Evidence: real 199.74s、Vitest 199.08s；既有 full fresh 362.589s / peak RSS
   2.07GB。Next: 真实 Kimi/GLM 审核“等强度冷链优化、不调 timeout/skip”的最小修复方向。
+- **2026-08-10 Kimi（本人真实席位设计复审）**：签 **counter（最小 3 条，方向认可）**。独立核实：
+  根因代码事实属实（fixture 链 :661-700、hook :768-770 180_000 与 body :772-945 240_000 均为测试
+  文件显式参数；同步阻塞机制成立）；P7 final-consumer 只消费 chain.inputs + chain.p6.ir/ledger
+  （p7-generated.ts:154-408 全部 chain.* 引用已核），compact 窄输入机制可行；等价门工具现成。
+  三条待闭合（见签字表）：①收益假设未证明——compact 不降 CPU，须先用 --cpu-prof/GC trace 冷跑
+  量化证明内存路径能拿回 ≥18s，否则照样超时；worker 并行替代方案须论证取舍；②窄出口不能复用
+  canary 的 P7SourceDispositionGenerated（缺 cadence/confirm parent snapshots），且须收敛
+  p7-generated.ts:275-403 的存量重复 P7 流水线，不得叠加第三份；③卡文勘误（timeout 在测试文件
+  非 config；禁止拆 hook/test 分摊预算）。Evidence: 本卡签字表；只读核查，未改实现文件。
+  Next: Codex 补 GC/wall 量化数据与窄出口收敛方案后回 Kimi/GLM 复签；签字齐前不得实现。
 
 ## 下一位 Agent 提示词
 
