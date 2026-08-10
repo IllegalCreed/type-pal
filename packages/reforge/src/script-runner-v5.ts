@@ -15,6 +15,7 @@ import {
   type ScriptBoundaryPolicyV5,
   type ScriptTimingV5,
 } from './script-compiler-v5.js'
+import type { BattleResult } from './battle/battle-result.js'
 
 type BattleRequestV5 = Extract<ExecutableCommandV5, { kind: 'startBattle' }>['request']
 
@@ -36,7 +37,7 @@ export interface ScriptRuntimeHostV5 {
   ): void | Promise<void>
   evalCondition(condition: AuthorConditionV5, context: Readonly<ScriptRuntimeContextV5>): boolean
   confirm(signal: AbortSignal): Promise<boolean>
-  startBattle(request: BattleRequestV5, signal: AbortSignal): Promise<'win' | 'lose' | 'flee'>
+  startBattle(request: BattleRequestV5, signal: AbortSignal): Promise<BattleResult>
   teleportOut(signal: AbortSignal): Promise<boolean>
   revealSceneEntry?(reveal: SceneReveal, signal: AbortSignal): Promise<void>
   wait(ms: number, signal: AbortSignal): Promise<void>
@@ -340,9 +341,9 @@ export class ScriptRunnerV5 {
       }
       case 'startBattle': {
         const result = await this.host.startBattle(command.request, this.signal)
-        if (result === 'lose' && command.onLose)
+        if (result === 'defeat' && command.onLose)
           await this.runCommands(command.onLose, [...path, 'onLose'], outcomes)
-        if (result === 'flee' && command.onFlee)
+        if (result === 'playerFled' && command.onFlee)
           await this.runCommands(command.onFlee, [...path, 'onFlee'], outcomes)
         return
       }

@@ -616,10 +616,10 @@ describe('A7-1 战斗回合 SFX readiness 屏障', () => {
     submitDefaultAttack(session)
     ;(
       session as unknown as {
-        complete(result: 'win' | 'lose' | 'flee'): void
+        complete(result: import('./battle-result.js').BattleResult): void
       }
-    ).complete('win')
-    await expect(session.done).resolves.toBe('win')
+    ).complete('victory')
+    await expect(session.done).resolves.toBe('victory')
 
     gate.resolve()
     await flushPromises()
@@ -1094,8 +1094,7 @@ describe('B9 特殊战斗形态', () => {
         pump()
       }),
     ])
-    expect(result).toBe('win') // terminate → done('win');enemyFled 标记免奖励
-    expect(session.enemyFled()).toBe(true) // terminate = 无奖励语义
+    expect(result).toBe('terminated') // terminate 是独立终态，不借 enemyFled 布尔
   })
 
   test('auto 战斗:无按键输入自动推进到出结果(石长老过场战)', async () => {
@@ -1113,7 +1112,7 @@ describe('B9 特殊战斗形态', () => {
         pump()
       }),
     ])
-    expect(result).toBe('win') // 玩家不出菜单,AI 代打秒杀
+    expect(result).toBe('victory') // 玩家不出菜单,AI 代打秒杀
   })
 })
 
@@ -1205,8 +1204,7 @@ describe('R13-5 enemy hook 会话接线', () => {
       session.done,
       new Promise<'timeout'>((resolve) => setTimeout(() => resolve('timeout'), 100)),
     ])
-    expect(result).toBe('win')
-    expect(session.enemyFled()).toBe(true)
+    expect(result).toBe('enemyFled')
     expect(plays).toContain('sound.after-flee')
   })
 

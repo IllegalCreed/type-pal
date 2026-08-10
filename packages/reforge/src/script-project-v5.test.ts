@@ -169,7 +169,7 @@ function host(
       facingEntity: () => false,
     },
     confirm: async () => true,
-    startBattle: async () => 'win',
+    startBattle: async () => 'victory',
     teleportOut: async () => false,
     wait: async () => {},
     waitWorldTick: async () => {},
@@ -674,7 +674,7 @@ describe('canonical script v5 project runtime', () => {
         await runtime.runCommands([{ kind: 'setFlag', flag: 'battle-end', value: true }], {
           signal,
         })
-        return 'win'
+        return 'victory'
       },
     })
     const signal = new AbortController().signal
@@ -714,7 +714,7 @@ describe('canonical script v5 project runtime', () => {
         await runtime.runCommands([{ kind: 'setFlag', flag: 'hostile-battle-end', value: true }], {
           signal,
         })
-        return 'win'
+        return 'victory'
       },
     })
     const running = runtime.host.startBattle({ team: 2 }, new AbortController().signal)
@@ -729,7 +729,7 @@ describe('canonical script v5 project runtime', () => {
     expect(snapshots).toBe(0)
 
     releaseBattle.resolve()
-    await expect(running).resolves.toBe('win')
+    await expect(running).resolves.toBe('victory')
     const snapshot = await save
     expect(snapshots).toBe(1)
     expect(snapshot.flags['hostile-battle-end']).toBe(true)
@@ -745,7 +745,7 @@ describe('canonical script v5 project runtime', () => {
       }),
       startBattle: async (_request, signal) => {
         await runtime.runCommands([{ kind: 'setFlag', flag: 'explode', value: true }], { signal })
-        return 'win'
+        return 'victory'
       },
     })
     await expect(

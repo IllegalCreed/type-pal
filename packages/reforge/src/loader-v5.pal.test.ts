@@ -78,7 +78,7 @@ function recordingHost(
       facingEntity: () => false,
     },
     confirm: async () => true,
-    startBattle: async () => 'win',
+    startBattle: async () => 'victory',
     teleportOut: async () => false,
     revealSceneEntry: async () => {},
     wait: async () => {},

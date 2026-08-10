@@ -74,7 +74,7 @@ function fakeHost(calls: string[]): ScriptHost {
     nudgeParty: log('nudgeParty'),
     startBattle: async (team: number) => {
       calls.push(`startBattle(${team})`)
-      return 'win' as const
+      return 'victory' as const
     },
     playVideo: alog('playVideo'),
     playFrameAnimation: alog('playFrameAnimation'),
@@ -887,10 +887,10 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
     ])
     expect(calls).toEqual(['playSound("sound.pal.002")', 'playSound("sound.pal.003")'])
   })
-  test('startBattle:win 直走;lose 走 onLose 臂', async () => {
+  test('startBattle:victory 直走;defeat 走 onLose 臂', async () => {
     const calls: string[] = []
     const host = fakeHost(calls)
-    let result: 'win' | 'lose' | 'flee' = 'lose'
+    let result: import('./battle/battle-result.js').BattleResult = 'defeat'
     host.startBattle = async () => result
     const r = new ScriptRunner(host, emptyWorldScriptState(), new AbortController().signal)
     const body: Command[] = [
@@ -900,7 +900,7 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
     await r.run(body)
     expect(calls).toEqual(['playSound("sound.pal.099")', 'playSound("sound.pal.001")']) // 败臂后仍续走(臂内自终结才会停)
     calls.length = 0
-    result = 'win'
+    result = 'victory'
     await r.run(body)
     expect(calls).toEqual(['playSound("sound.pal.001")'])
   })
@@ -909,7 +909,7 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
     const host = fakeHost(calls)
     host.startBattle = async (team, opts) => {
       calls.push(`battle(${team},f=${opts?.fieldId},m=${opts?.music})`)
-      return 'win'
+      return 'victory'
     }
     const r = new ScriptRunner(host, emptyWorldScriptState(), new AbortController().signal)
     await r.run([{ kind: 'startBattle', team: 27, fieldId: 22, music: 'music.pal.044' }])
@@ -921,7 +921,7 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
     let received: AbortSignal | undefined
     host.startBattle = async (_team, _opts, signal) => {
       received = signal
-      return 'win'
+      return 'victory'
     }
     await new ScriptRunner(host, emptyWorldScriptState(), controller.signal).run([
       { kind: 'startBattle', team: 9 },

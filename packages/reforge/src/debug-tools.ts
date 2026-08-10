@@ -18,6 +18,7 @@ import type {
 } from '@type-pal/content'
 import type { LoadedProjectV5 } from './loader-v5.js'
 import type { ScriptProjectRuntimeV5 } from './script-project-v5.js'
+import type { BattleResult } from './battle/battle-result.js'
 
 export interface DebugFrameStep {
   active: boolean
@@ -67,7 +68,7 @@ export interface DebugToolsContext {
       fieldId?: number
     },
     signal: AbortSignal,
-  ): Promise<'win' | 'lose' | 'flee'>
+  ): Promise<BattleResult>
   buildPresetParty(
     actorIds: string[],
     seedStats: Record<string, { hp?: number; mp?: number }>,

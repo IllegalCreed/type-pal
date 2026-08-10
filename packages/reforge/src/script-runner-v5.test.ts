@@ -47,7 +47,7 @@ function fakeHost(): FakeHost {
       calls.push('confirm')
       return confirmations.shift() ?? true
     }),
-    startBattle: vi.fn(async () => 'win' as const),
+    startBattle: vi.fn(async () => 'victory' as const),
     teleportOut: vi.fn(async () => true),
     revealSceneEntry: vi.fn(async (reveal) => {
       calls.push(`reveal:${reveal.kind}`)

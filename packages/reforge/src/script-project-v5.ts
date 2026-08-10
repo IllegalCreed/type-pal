@@ -16,6 +16,7 @@ import type { RuntimeLeafCommandV5 } from './script-compiler-v5.js'
 import { compileScriptFlowV5, MemorySharedScriptResolverV5 } from './script-compiler-v5.js'
 import type { ScriptRuntimeContextV5, ScriptRuntimeHostV5 } from './script-runner-v5.js'
 import { ScriptRunnerV5 } from './script-runner-v5.js'
+import type { BattleResult } from './battle/battle-result.js'
 import {
   evalAuthorConditionV5,
   FlowRuntimeCoordinatorV5,
@@ -244,7 +245,7 @@ export class ProjectScriptRuntimeHostV5 implements ScriptRuntimeHostV5 {
   async startBattle(
     request: Parameters<ScriptRuntimeHostV5['startBattle']>[0],
     signal: AbortSignal,
-  ): Promise<'win' | 'lose' | 'flee'> {
+  ): Promise<BattleResult> {
     return await withScriptActivityLineageV5(this, this.coordinator, signal, () =>
       this.options.startBattle(request, signal),
     )

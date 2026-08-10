@@ -1,6 +1,6 @@
 # OPS-TST-PERF-FRESH - release fresh hook/test 超时根因
 
-Status: draft
+Status: blocked
 Phase: ops
 Capability: test infrastructure / release gate
 Coding Owner: Codex
@@ -8,7 +8,7 @@ Generation Owner: N/A
 Reviewer: Kimi + GLM
 Visual Verification Owner: N/A
 Visual Verification Timing: N/A
-Unavailable Agents: none（2026-08-10；须由用户转发真实席位复审）
+Unavailable Agents: none（2026-08-10；真实 Kimi/GLM 已复审，Kimi counter 尚未闭合）
 Branch: main
 
 ## 目标
@@ -38,7 +38,8 @@ Branch: main
 - 代码锚点(`file:line`):
   - `packages/migrate/src/pal-migration-integration.test.ts:110-118,511,591-600,724,765,768-772`。
   - `packages/migrate/scripts/profile-release.mts` 的 fresh phase、raw JSON 保留和 fail-closed parser。
-  - `packages/migrate/vitest.release.config.ts:45-65` 的 fresh isolate/timeout 配置。
+  - `packages/migrate/vitest.release.config.ts:45-65` 的 fresh isolate 与 1_200_000ms 项目上限；实际
+    180s/240s ceiling 是 `pal-migration-integration.test.ts:768-770,945` 的内联 hook/body 参数。
   - `packages/migrate/src/experimental/script-v5/pal-test-fixture.ts:100-125,137-193,330-356`。
 - 已知坑 / 审计文档:
   - 2026-08-10 单文件 verbose cold 已定性：失败是 `beforeAll`（`:768`）180s hook timeout，
@@ -56,7 +57,8 @@ Branch: main
 - 功能:
   - 根因由可复现的 cold command、raw Vitest JSON、phase report、exit/signal、hook/body 状态和
     process-tree RSS 共同证明；报告中明确 `beforeAll` 与 test body 的边界。
-  - 最小修复保持原 timeout、listed test identity、source-backed fresh build 和磁盘事务隔离。
+  - 最小修复保持原 `pal-migration-integration.test.ts:768-770` 的 180s hook、`:945` 的 240s body、
+    listed test identity、source-backed fresh build 和磁盘事务隔离。
   - 连续三次独立 fresh run 成功，且不产生 baseline/project/authority 越界写入。
 - 测试:
   - fresh 单项目定向测试、migrate typecheck、manifest/list digest、profiler full 至少一次通过；
@@ -103,7 +105,7 @@ Branch: main
   入口（非纯调用现有函数），卡文应把"minimal"口径写实。见下。
 - counter / 分歧处理: 未集齐三方前保持 draft/blocked，不改实现。
 - 缺签豁免: N/A
-- build 准入结论: blocked（待 Kimi 真实复审）
+- build 准入结论: **blocked（Kimi counter 尚未闭合；profile 只能完成诊断，未证明收益门）**
 
 #### GLM 数据/覆盖设计复审（2026-08-10，本人，非代理）：**agree（附 2 条卡文修正）**
 
@@ -160,8 +162,9 @@ profiler；每次记录 monotonic wall、raw JSON、进程树 RSS、临时事务
 
 冻结的候选实现边界：
 
-1. 在 P7 builder 增加接收 `P6ValidatedTransformOutput` 的窄入口；它必须复用同一 P7 后续生产逻辑，
-   不能维护第二份 P7 算法。
+1. 在 P7 builder 增加接收 `P6ValidatedTransformOutput` 的窄入口，并解钉 fresh final-consumer 所需的
+   full snapshot 类型；它必须与 `p7-generated.ts:275-403,420-422` 的现有流水线收敛为单一后续生产逻辑，
+   不能再叠加第三份 P7 算法，也不能用 canary 的 11-field `P7SourceDispositionGenerated` 冒充 full 产物。
 2. 新增 full-chain vs compact-chain 定向测试，比较 P6 IR、ledger、P7 snapshot、C8/auto/scene/itemThrow/
    confirm/cross-activation evidence digest；任一差异 fail-closed。
 3. 只有 `release-pal-fresh` 的 final-consumer 改用 compact 输入；`release-pal-shared` 中需要 P2-P6
@@ -209,6 +212,20 @@ profiler；每次记录 monotonic wall、raw JSON、进程树 RSS、临时事务
 - 2026-08-10 Codex: 单文件 verbose cold 已确认 `beforeAll:768` 180s timeout；body `:772` skipped，
   非 OOM/signal/disk。Evidence: real 199.74s、Vitest 199.08s；既有 full fresh 362.589s / peak RSS
   2.07GB。Next: 真实 Kimi/GLM 审核“等强度冷链优化、不调 timeout/skip”的最小修复方向。
+- **2026-08-10 14:31 JST：Codex 一次性 CPU profile 诊断（不构成收益或签字证据）。**
+  命令为 `NODE_OPTIONS="--cpu-prof --cpu-prof-dir=/tmp/type-pal-fresh-cpu.eE4j3S" /usr/bin/time -l
+  pnpm exec vitest run --config vitest.release.config.ts --project release-pal-fresh
+  src/pal-migration-integration.test.ts --reporter=json --outputFile=/tmp/type-pal-fresh-cpu.eE4j3S/vitest.json`。
+  exit=1；instrumented wall **460.01s**、user=408.15s、sys=80.66s；`time -l` max RSS/rusage
+  **2,465,644,544 B**；page reclaims=5,540,133、page faults=818、swaps=0、involuntary context
+  switches=6,726,212、signals=1,063,447。Vitest JSON `/tmp/type-pal-fresh-cpu.eE4j3S/vitest.json`
+  为 1 suite/3 assertions（1 pass、1 fail、1 skip）；既有 verbose 证据仍把根因定性为
+  `beforeAll:768-770` 的 180s hook timeout，`:772` body 未形成成功证据。
+  `NODE_OPTIONS` 未让 Vitest fork worker 输出独立 profile；可解析的 parent GC 仅 0.274s/171 samples
+  （约 0.0596%，只是下界）。SIGPROF/上下文切换使 460s 不能与未插桩 199.74s 比较，也不能单凭这次
+  profile 宣称 compact 能省 ≥18s。**Kimi counter 的收益门仍未闭合**；若继续该方向，必须补不侵入的
+  worker-level GC/RSS instrumentation 或受控 full/compact A/B，并保留三次 fresh 门禁；不能借 profile
+  overhead 伪造收益。
 - **2026-08-10 Kimi（本人真实席位设计复审）**：签 **counter（最小 3 条，方向认可）**。独立核实：
   根因代码事实属实（fixture 链 :661-700、hook :768-770 180_000 与 body :772-945 240_000 均为测试
   文件显式参数；同步阻塞机制成立）；P7 final-consumer 只消费 chain.inputs + chain.p6.ir/ledger
@@ -225,14 +242,16 @@ profiler；每次记录 monotonic wall、raw JSON、进程树 RSS、临时事务
 ```text
 接手任务：OPS-TST-PERF-FRESH release fresh hook/test 超时根因
 任务卡：docs/ops/tasks/OPS-TST-PERF-fresh-hook-timeout.md
-当前状态：draft，Codex design agree；真实 Kimi/GLM 设计签字未齐。不得开始实现、不得调整
-timeout/skip、不得标 done。
+当前状态：draft/blocked，Codex design agree；真实 GLM design agree，真实 Kimi design counter。
+不得开始实现、不得调整 timeout/skip、不得标 done，直到收益门、窄出口单源收敛和 timeout 勘误均由
+Kimi 复签。
 先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文、
 docs/ops/tasks/OPS-TST-PERF-release-wallclock.md、pal-migration-integration.test.ts、
 profile-release.mts、vitest.release.config.ts。
-职责：真实 Kimi 请审 compact P6→full P7 的算法单源、内存释放与 source-proof 独立性；真实 GLM
-请审 full/compact 的 IR/ledger/snapshot/evidence digest 等价矩阵与测试身份守恒。两席均须本人写
-`agree` 或带 file:line 的 `counter`；签字齐后 Codex 才能实现，并保留 raw JSON/RSS/事务证据。
+职责：真实 Kimi 请复审本卡已补的 CPU/RSS 诊断、compact P6→full P7 算法单源与存量 P7 收敛；真实 GLM
+请复审 full/compact 的 IR/ledger/snapshot/evidence digest 等价矩阵与测试身份守恒。Kimi 必须本人写
+`agree` 或带 file:line 的 `counter`；counter 未闭合前 Codex 不得实现。实现后仍需 Codex/Kimi/GLM
+implementation `accept`，并保留 raw JSON/RSS/事务证据。
 不要做：不增大 180s/240s timeout，不将失败转 skip，不复用 canary/prepared authority，不改默认串行路由。
 输出：根因分类（hook/body/process/disk）、最小 diff、连续三次 fresh 结果、命令/报告路径和是否建议 accept。
 ```

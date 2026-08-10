@@ -71,6 +71,7 @@ import {
 import { curePoisons } from './battle/battle-core.js'
 import { getEnemyBasePos, getPlayerBasePos } from './battle/battle-positions.js'
 import { BattleSession } from './battle/battle-session.js'
+import type { BattleResult } from './battle/battle-result.js'
 import {
   collectBattleSkillFireChunks,
   prepareBattleSpriteReadiness,
@@ -1427,7 +1428,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     team: number,
     battleOpts: DebugBattleOptions | undefined,
     runnerSignal: AbortSignal | undefined,
-  ): Promise<'win' | 'lose' | 'flee'> => {
+  ): Promise<BattleResult> => {
     assertRunnerActive(runnerSignal, `team-${team} 战斗所属 runner 已取消`)
     // K5:帧步进作用域不含战斗——任何战斗启动即退出步进模式。
     frameStepState.active = false
@@ -1454,7 +1455,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
       showToast(`遇敌 #${team} —— 敌队缺数据,桩胜(M4c)`)
       await host.wait(400, launchSignal)
       assertLaunchCurrent()
-      return 'win'
+      return 'victory'
     }
     const encounterChoreo =
       battleOpts?.choreography ?? enemyDefs.flatMap((enemy) => enemy.choreography ?? [])
@@ -1815,7 +1816,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     if (launchSignal.aborted) abortBattle()
     // DEV 调试口(一阶段 __tpgs 先例):验收/自动化直读战斗态(phase/ui/log)
     if (import.meta.env.DEV) (window as { __rfBattle?: unknown }).__rfBattle = session
-    let result: 'win' | 'lose' | 'flee'
+    let result: BattleResult
     try {
       result = await session.done
     } catch (error) {
@@ -1841,7 +1842,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     assertLaunchCurrent()
     session.writeBackPersistentEffects(world)
     // 胜利结算路径已在 buildSettlement 里写回 HP + 入账;其余路径(败/逃/敌逃)此处写回 HP。
-    if (result !== 'win' || session.enemyFled()) session.writeBackHp(world.party)
+    if (result !== 'victory') session.writeBackHp(world.party)
     session.writeBackInventory(world.inventory)
     // 偷窃/金钱技消耗/收妖所得:**无条件**入账(原版 dwCash 即时加减 —— 逃跑也保留;
     // 偷到的物品随 writeBackInventory 一并回世界)
@@ -1862,7 +1863,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     let hasBattleEndError = false
     let battleEndError: unknown
     try {
-      if (result === 'win' && !session.enemyFled()) {
+      if (result === 'victory') {
         const runtime = scriptRuntimeV5
         const scripted = session.enemySlotDefs().filter((def) => def.onDefeated?.length)
         if (scripted.length && !runtime)
@@ -1884,7 +1885,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     await prepareSceneSounds(scene, world)
     assertLaunchCurrent()
     // 战斗内切过曲(战斗 BGM/胜利小调)→ 回场景曲;lose 进 gameOver 流程不回。
-    if (result !== 'lose') restoreSceneMusic()
+    if (result !== 'defeat') restoreSceneMusic()
     if (hasBattleEndError) throw battleEndError
     return result
   }
@@ -2871,8 +2872,8 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
       fieldId?: number
     },
     signal: AbortSignal,
-  ): Promise<'win' | 'lose' | 'flee'> => {
-    const run = (): Promise<'win' | 'lose' | 'flee'> =>
+  ): Promise<BattleResult> => {
+    const run = (): Promise<BattleResult> =>
       startBattleBody(
         request.team,
         {
@@ -3402,7 +3403,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
             h.team,
             h.battleFieldId !== undefined ? { fieldId: h.battleFieldId } : undefined,
           )
-      if (result === 'win') {
+      if (result === 'victory') {
         e.hidden = true // 消失
         if (h.respawnSeconds && h.respawnSeconds > 0) {
           const atScene = scene
@@ -3411,7 +3412,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
             if (scene === atScene) e.hidden = false // 重生
           })()
         }
-      } else if (result === 'lose') {
+      } else if (result === 'defeat') {
         if (h.onLose === 'gameOver' || h.onLose === undefined) await host.gameOver()
         else startScript(`hostile:${e.id}`, [{ body: h.onLose }], e.id)
       } // flee:回场景,怪留原地

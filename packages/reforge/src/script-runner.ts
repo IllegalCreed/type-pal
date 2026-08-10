@@ -26,6 +26,7 @@ import type {
 } from '@type-pal/content'
 import { applyStageNext, stageIndexFor } from '@type-pal/content'
 import { expectDefined } from './defined.js'
+import type { BattleResult } from './battle/battle-result.js'
 import type { ResolvedScript, ScriptResolver } from './script-chunk-store.js'
 
 export type ScriptBinding = RuntimeScriptBinding
@@ -141,7 +142,7 @@ export interface ScriptHost {
       choreography?: import('@type-pal/content').BattleChoreography[]
     },
     signal?: AbortSignal,
-  ): Promise<'win' | 'lose' | 'flee'>
+  ): Promise<BattleResult>
   /** 传送出口(0x38):跑当前场景 onTeleport;成功返回 true,场景无此槽返回 false(调用方走 onFail)。 */
   teleportOut(signal?: AbortSignal): Promise<boolean>
   /** 过场编排:按稳定 AssetId 播视频，阻塞至播完或跳过。 */
@@ -704,8 +705,9 @@ export class ScriptRunner {
           this.signal,
         )
         throwIfAborted(this.signal)
-        if (r === 'lose' && cmd.onLose) return this.runBody(cmd.onLose, [...path, 'onLose'])
-        if (r === 'flee' && cmd.onFlee) return this.runBody(cmd.onFlee, [...path, 'onFlee'])
+        if (r === 'defeat' && cmd.onLose) return this.runBody(cmd.onLose, [...path, 'onLose'])
+        if (r === 'playerFled' && cmd.onFlee)
+          return this.runBody(cmd.onFlee, [...path, 'onFlee'])
         return
       }
       case 'teleportOut': {

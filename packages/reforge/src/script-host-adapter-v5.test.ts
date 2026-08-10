@@ -50,7 +50,7 @@ function host(): ScriptHost {
     setEntityAuto: vi.fn(),
     setEntityTrigger: vi.fn(),
     setEntityTriggerMode: vi.fn(),
-    startBattle: vi.fn(async () => 'win' as const),
+    startBattle: vi.fn(async () => 'victory' as const),
     teleportOut: vi.fn(async () => false),
     playVideo: vi.fn(async () => undefined),
     playFrameAnimation: vi.fn(async () => undefined),

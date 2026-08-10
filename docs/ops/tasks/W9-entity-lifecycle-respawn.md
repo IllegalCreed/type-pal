@@ -452,6 +452,16 @@ source provenance 和 BattleResult 终态不足以作为本轮 build 准入；�
   `packages/reforge/src/loader-v13.ts`、`entity-lifecycle-command.ts`，不改当前 CONTENT_VERSION=12
   loader；loader/adapter 定向 32 tests + reforge typecheck 通过，content check 39 files/460 tests
   通过。该提交是 draft boundary，未接 `main.ts`、BattleResult session 或 PAL translator。
+- BattleResult build pin #1（2026-08-10，Codex）：将 `BattleSession.done`、旧 v5 `ScriptHost`、
+  `ScriptRuntimeHostV5`、project host、debug gateway 与 main battle gateway 收窄到同一个具名
+  `BattleResult = victory|defeat|playerFled|enemyFled|terminated`；action kind=`flee` 仍留在战斗
+  action union。session 以 `terminalResult` 区分 phase 相同的 victory/enemyFled/terminated，移除公开
+  `enemyFled()`；legacy `win/lose/flee` 只保留在 `battle-result.ts` 的显式 normalize adapter。主线
+  结算/奖励/onDefeated/hostile 分支均按五态判断，terminate 不伪装成 enemyFled，敌逃不进入 victory
+  奖励路径。
+- 验证（2026-08-10）：`pnpm --filter @type-pal/reforge exec tsc --noEmit --pretty false` 通过；
+  定向 7 files / 138 tests（battle-result/session、script runner/project/adapter、loader PAL）通过。
+  仍需补 playerFled/defeat 五态端到端矩阵与主循环/hostile lifecycle 接入，故未给 implementation accept。
 - 剩余风险：尚未接入 main/typed v13 loader/runtime command adapter、PAL source ledger/translator
   与 editor 全链；在这些边界和 Kimi 7 条补钉完成前，不得把本内核或 SAVE 增量声明为 W9 全链闭环或
   标记 done。

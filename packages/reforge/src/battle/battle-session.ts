@@ -83,6 +83,7 @@ import {
   reviveBattlePlayer,
   stepBattle,
 } from './battle-core.js'
+import type { BattleResult } from './battle-result.js'
 import type { BattleLastAction } from './battle-last-action.js'
 import { getPlayerBasePos } from './battle-positions.js'
 import {
@@ -206,8 +207,9 @@ interface VisualFighter {
 }
 
 export class BattleSession {
-  readonly done: Promise<'win' | 'lose' | 'flee'>
-  private resolveDone!: (r: 'win' | 'lose' | 'flee') => void
+  /** 唯一公共战斗总终态；action kind="flee" 仍是战斗内动作，不混入此类型。 */
+  readonly done: Promise<BattleResult>
+  private resolveDone!: (r: BattleResult) => void
   private rejectDone!: (reason?: unknown) => void
   private doneSettled = false
   private closed = false
@@ -303,9 +305,11 @@ export class BattleSession {
   private scriptAnimation = false
   /** terminal 立即登记、演出 closure 排净后才提交 state.phase。 */
   private pendingTerminal: {
-    phase: 'won' | 'lost'
-    enemyFled: boolean
+    phase: 'won' | 'lost' | 'fled'
+    result: BattleResult
   } | null = null
+  /** phase 不能区分 victory/ enemyFled/ terminated，故由此字段保留唯一总终态事实。 */
+  private terminalResult: BattleResult | null = null
   /** battle choreography 音乐请求序号；迟到 fade-stop 不得误停后播的新曲。 */
   private musicSerial = 0
   private scheduledMusicStop: { serial: number; deadline: number } | null = null
@@ -617,7 +621,7 @@ export class BattleSession {
     )
   }
 
-  private complete(result: 'win' | 'lose' | 'flee'): void {
+  private complete(result: BattleResult): void {
     if (this.doneSettled) return
     this.doneSettled = true
     this.closed = true
@@ -834,11 +838,12 @@ export class BattleSession {
     })
   }
 
-  private requestTerminal(phase: 'won' | 'lost', enemyFled: boolean): void {
+  private requestTerminal(result: BattleResult): void {
     if (this.pendingTerminal)
       throw new Error('battle choreography 同一执行路径重复登记 terminal request')
-    this.pendingTerminal = { phase, enemyFled }
-    if (enemyFled) this.state.enemyFled = true
+    const phase = result === 'defeat' ? 'lost' : result === 'playerFled' ? 'fled' : 'won'
+    this.pendingTerminal = { phase, result }
+    if (result === 'enemyFled') this.state.enemyFled = true
     // B11-1 P5:终局不残留半段伤亡对话
     this.state.casualtyDialogue = undefined
     this.casualtyDialogueShown = false
@@ -941,15 +946,18 @@ export class BattleSession {
         this.choreoWaitUntil = this.nowMs + action.ms
         return
       case 'fleeBattle': {
-        this.requestTerminal('won', true)
+        this.requestTerminal('enemyFled')
         this.state.log.push('敌人逃走了')
         this.startEnemyFleePresentation()
         return
       }
       case 'endBattle': {
         this.requestTerminal(
-          action.result === 'lost' ? 'lost' : 'won',
-          action.result === 'terminate',
+          action.result === 'lost'
+            ? 'defeat'
+            : action.result === 'terminate'
+              ? 'terminated'
+              : 'victory',
         )
         this.state.log.push(`战斗结束(${action.result})`)
         return
@@ -1105,7 +1113,7 @@ export class BattleSession {
       const terminal = this.pendingTerminal
       this.pendingTerminal = null
       this.state.phase = terminal.phase
-      if (terminal.enemyFled) this.state.enemyFled = true
+      this.terminalResult = terminal.result
       return true
     }
     return false
@@ -1134,11 +1142,6 @@ export class BattleSession {
       g.drawImage(bakeFrame(f, this.assets.palette), m.x - Math.floor(f.width / 2), m.y - f.height)
       this.burnCount++
     }
-  }
-
-  /** 敌逃离(无奖励语义;main 决定是否跑 onDefeated/给奖励)。 */
-  enemyFled(): boolean {
-    return this.state.enemyFled
   }
 
   /** 战末敌槽 def 列表(按槽序,含 divide/summon 增员;Phase E 战后脚本逐槽跑,battle.c:1334)。 */
@@ -1192,6 +1195,15 @@ export class BattleSession {
     }
 
     if (s.phase === 'won' || s.phase === 'lost' || s.phase === 'fled') {
+      if (!this.terminalResult)
+        this.terminalResult =
+          s.phase === 'lost'
+            ? 'defeat'
+            : s.phase === 'fled'
+              ? 'playerFled'
+              : s.enemyFled
+                ? 'enemyFled'
+                : 'victory'
       // 终态但收尾动画未播完(最后一击)→ 先播完(死亡淡出/死音在 finishStepVisuals)
       if (this.anim) {
         if (!this.anim.tick(dtMs)) return
@@ -1205,7 +1217,7 @@ export class BattleSession {
       // (作者报「结算画面这么快?」= 此 hold 缺失)。render 清过期项,空表 = 直接过。
       for (const t of this.deathFades.values()) if (this.nowMs < t + DEATH_FADE_MS + 240) return
       // B7b 胜利结算屏:win 且非敌逃 → 构建一次(回调内写回 HP + 入账 + 升级)→ 逐屏空格推进
-      if (s.phase === 'won' && !this.state.enemyFled && this.settlement === null) {
+      if (this.terminalResult === 'victory' && this.settlement === null) {
         this.settlement = this.opts.buildSettlement?.() ?? []
       }
       if (this.settlement?.length) {
@@ -1215,7 +1227,7 @@ export class BattleSession {
           this.settleIdx++
           this.overTimer = 0
           if (this.settleIdx >= this.settlement.length) {
-            this.complete('win')
+            this.complete(this.terminalResult)
           }
         }
         return
@@ -1223,7 +1235,7 @@ export class BattleSession {
       // 无结算屏(败/逃/敌逃):短暂停留自动收尾
       this.overTimer += dtMs
       if (this.overTimer >= OVER_MS) {
-        this.complete(s.phase === 'won' ? 'win' : s.phase === 'lost' ? 'lose' : 'flee')
+        this.complete(this.terminalResult)
       }
       return
     }
