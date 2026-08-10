@@ -9,6 +9,7 @@
     "test:fast": "pnpm run test:manifest && vitest run --config vitest.config.ts --project unit --project pal-lite --project pal-oracle",
     "test:canary": "vitest run --config vitest.canary.config.ts",
     "test:canary:update": "tsx scripts/build-pal-source-canary.mts --write",
+    "test:release:profile": "tsx scripts/profile-release.mts",
     "test:release:shuffle": "vitest run --config vitest.release.config.ts --project release-pal-shared --sequence.shuffle.files",
     "test:synthetic:shuffle": "vitest run --config vitest.shuffle.config.ts --sequence.shuffle.files",
     "test:release": "pnpm run test:manifest && pnpm run test:canary && vitest run --config vitest.release.config.ts",

@@ -1,6 +1,6 @@
 # OPS-TST-PERF-RW - release worker 墙钟优化
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: test infrastructure / release gate
 Coding Owner: Codex
@@ -19,7 +19,7 @@ authority 的前提下，缩短 `@type-pal/migrate` release gate 的墙钟时间
 
 ## 当前证据（只读基线）
 
-- `packages/migrate/package.json:14` 顺序执行 manifest → cold canary → release Vitest。
+- `packages/migrate/package.json:15` 顺序执行 manifest → cold canary → release Vitest；新增 profiler 是独立只读路径，不改变该顺序。
 - `packages/migrate/vitest.release.config.ts:19-68` 将 release 分成 preflight、unit、shared、fresh
   四组；`shared` 在 `pool=forks, isolate=false, fileParallelism=false` 下故意单 worker，才能复用
   `pal-test-fixture.ts` 的进程内真实 lease。
@@ -56,8 +56,12 @@ authority 的前提下，缩短 `@type-pal/migrate` release gate 的墙钟时间
 release-unit`、`release-pal-shared`、`release-pal-fresh` 五个明确阶段；默认 gate 行为不变。
 profiler 用 `performance.now()` 记录单调 `t0/t1`，以固定命令边界运行每个阶段，报告写到唯一
 run 目录（不在 baseline/project/authority 根下），失败也保留。每阶段必须产生稳定 JSON：
-`schemaVersion/runId/phase/command/startedAt/durationMs/exitCode/signal/files/tests/passed/
-skipped/failed/maxRssBytes/rssScope/logPath`；清单/路由 digest 必须与 `test:manifest` 一致。
+`schemaVersion/runId/phase/command/startedAt/durationMs/exitCode/signal/files/tests/assertions/
+passed/skipped/unlistedSkipped/failed/maxRssBytes/rssScope/logPath`，顶层 summary 另记录覆盖清单
+校验开销的单调 `durationMs`；清单/路由 digest 必须与 `test:manifest` 一致。`tests`
+指 `vitest list` 的 listed/runnable 身份，Vitest JSON reporter 额外包含的静态 `.skip`
+只允许以 `unlistedSkipped` 记录；未列入的 passed/failed 或已列入身份在执行期 skipped
+均必须 fail-closed。
 子进程树 RSS 不能采样、报告缺字段/缺阶段、源或 baseline 缺失、文件全被 `skipIf` 跳过，均以
 非零结束，不能把 `passWithNoTests:false` 当作覆盖证明。profiler 只读，不读取或修改 authority。
 
@@ -88,7 +92,9 @@ live-double-build；C 不在本卡当前 build 范围，另开卡后再三方签
 ## 验收条件
 
 - A：连续三次阶段报告可复现，且每次明确记录 manifest/canary/release 边界；报告 schema 完整，
-  `files=103/tests=720`（包含 `skipped`）与 manifest 路由 digest 相等；RSS/报告不可用、全跳过、
+  full 汇总的 listed/runnable 为 `files=103/tests=720`并与 manifest 路由 digest 相等；当前
+  reporter 真值另为 `assertions=721/unlistedSkipped=1`，不得冒充或减少 720 条可运行身份；RSS/
+  报告不可用、全跳过、
   失败或缺 source/baseline 均 fail-closed。
 - B（后续单独 build）：并行 runner 的 shared/fresh 进程、env、临时目录和报告完全隔离；任一
   failure/signal/OOM/timeout/缺报告/RSS 超 4.5/3.5/7.5 GiB 均终止 sibling 并非零；连续三次与
@@ -114,24 +120,25 @@ live-double-build；C 不在本卡当前 build 范围，另开卡后再三方签
 
 ### 进入 done 前：实现
 
-- Codex：pending
-- Kimi：pending
-- GLM：pending
+- Codex：**accept（A 实现自验，2026-08-10；三次 full 验收仍 pending）**
+- Kimi：**accept（A 实现，2026-08-10 最终复审；见下方）**
+- GLM：**accept（A 实现最终复审，2026-08-10；三次 full 验收仍 pending）**
 - done 准入结论：blocked
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务：OPS-TST-PERF-RW release worker 墙钟优化设计复审。
+接手任务：OPS-TST-PERF-RW release worker 墙钟优化 A 实现终审（当前 Status=build，done blocked）。
 任务卡：docs/ops/tasks/OPS-TST-PERF-release-wallclock.md
 只读先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文、
-docs/ops/tasks/OPS-TST-PERF-test-fixture-stratification.md、
-packages/migrate/vitest.release.config.ts、vitest.tests.ts、
-packages/migrate/src/experimental/script-v5/pal-test-fixture.ts。
-重点：确认 shared 单 worker 是为进程内 authority lease 而非误配置；审查阶段计时、显式 shared/fresh
-并行的隔离/RSS/fail-closed 条件；判断 P2-P4 consolidated determinism proof 是否能逐条保留
-source/anti-tamper 覆盖。不得修改实现文件。
-输出：在卡上签 `agree` 或给出带 file:line/验收钉的 `counter`；未三方 agree 前不得进入 build。
+packages/migrate/scripts/profile-release.mts、packages/migrate/vitest.release.config.ts、vitest.tests.ts。
+当前证据：最终 smoke 79ead15d PASS（manifest 103/720、preflight 1/1、complete=false）；full 09d35973
+已闭合 canary 1/2、unit 76/578、shared 24/137，但 fresh 因现有 integration hook/test 超时路径 fail-closed，
+不计三次成功 full。核对五阶段边界、listed/runnable 与 reporter-only skipped、逐文件/逐测试 identity、
+文件 status、RSS/signal/失败摘要、默认 test:release 和 authority/baseline 无变更。
+指定职责：只读实现复审并在卡上签 `accept` 或给出带 file:line 的 `counter`；不得修改实现文件、
+不得开始 B 并行或 C consolidated proof、不得调整现有 180s hook/240s test timeout。未三方 accept 和
+三次成功 full 前不得标记 done。
 ```
 
 ## Kimi 设计复审（2026-08-10）
@@ -218,3 +225,38 @@ source/anti-tamper 覆盖。不得修改实现文件。
   逐条 coverage map 机检及 source/baseline/route/schema/method/profile、IR/ledger/files、
   authority/seal、anti-tamper/half-state/historical-rewind/fresh-transaction 证据，不能以
   pinned bundle 自摘要或总测试数替代 source proof。
+
+## Codex A 实现进度（2026-08-10）
+
+- 新增 `packages/migrate/scripts/profile-release.mts` 和 `test:release:profile`。它按 manifest、canary、preflight+unit、shared、fresh 五阶段串行启动 detached child，保留每阶段 JSON/report/log、顶层单调墙钟、递归 process-tree RSS、signal/exit 和清单/路由 digest。
+- `tests` 指 listed/runnable 身份；Vitest JSON reporter 额外包含的静态 `.skip` 只允许是 skipped 并计入 `unlistedSkipped`；已列入身份在执行期 skipped、额外 passed/failed、文件 status 非 passed、报告/RSS 缺失均 fail-closed。
+- 最终 smoke：`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-release-profile-2026-08-10T020740513Z-79ead15d/summary.json`，PASS，manifest 103/720、preflight 1/1，顶层 94.71s，RSS 非空。
+- 完整 profiler 诊断：`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-release-profile-2026-08-10T005327089Z-09d35973/summary.json`。manifest 70.35s、canary 373.90s、preflight+unit 21.74s、shared 2625.08s，分别闭合 103/720、1/2、76/578、24/137；shared 进程树 RSS peak 3,218,849,792 bytes。fresh 按 fail-closed 停止：raw JSON 显示 integration 文件 `status=failed`，baseline listed test 因 `beforeAll` hook 失败而 skipped（hook 超时限制在 `:768-770`，180s）；单独 fresh 复跑又在 `:772` 复现 240s test-body timeout（冷链约 333s）。两者均是现有性能债，不是报告解析误判；应单独开返工卡复现根因，不在 profiler 里改超时或转 skip。
+- 这次只作诊断基线，不计入 A 的三次成功 full 验收；正式 `done` 仍需三次 full、与串行 control 清单闭合以及 Codex/Kimi/GLM 三方 accept。
+
+## Kimi A 实现复审（历史记录，已由下方最终复审取代；2026-08-10）
+
+- **Kimi: accept（A 实现）**。`profile-release.mts:351-474` 现在按每文件/每测试 identity
+  对照 Vitest JSON，核对 passed/failed/skipped 与总数，并对每文件无通过断言及全量 skipIf
+  fail-closed；`profile-release.mts:649-689` 重算 unit/shared/fresh stage union 的 test/file
+  identity、sha256 和 routeSha256，并与 release manifest pin 相等，避免漏跑阶段仍被标记完整；
+  manifest 读取/解析失败也由 `main` 保留 summary（`:573-647,692-805`）。
+- `runChild` 的 detached process-group、递归 descendants RSS（`:259-349`）和
+  SIGINT/SIGTERM 终止记录（`:39-60`）保留 exit/signal、peak RSS、日志与 JSON report；
+  smoke summary 明确 `mode=smoke` 且 `complete=false`，不能冒充 full。默认
+  `test:release` 命令（`packages/migrate/package.json:15`）、release config、PAL authority
+  与 baseline/project 均未改动。
+- 验证：`pnpm --filter @type-pal/migrate typecheck` 通过；Codex 提供的最新 smoke run
+  `7c5ce2de` 为 PASS。未运行长 canary/shared/fresh release；三次 full wall/RSS 基线仍属
+  A 的最终验收项，故本卡 done 准入继续等待 Codex/GLM。
+
+## Kimi A 最终实现复审（2026-08-10）
+
+- **Kimi: accept（A 实现）**。最终脚本同时校验文件级 `status=passed`、逐文件/逐测试 identity、listed test 执行期不得 skipped、unlisted assertion 只能 skipped，并强制 `assertions = tests + unlistedSkipped`；release manifest 与 unit/shared/fresh union 的 files/tests、`sha256`、`routeSha256` 闭合；递归 child process-tree RSS、SIGINT/SIGTERM、失败 summary、顶层单调 `durationMs` 均保留。默认 `test:release`、release config、authority、baseline/project 无改动。
+- 最终 smoke `2026-08-10T020740513Z-79ead15d` 通过：manifest 103/720、preflight 1/1、RSS 非空，`complete=false`。
+- 完整诊断的 fresh 失败是现有 integration 文件的 hook/test 超时路径（raw file status 失败，baseline listed test 被 hook failure 连带 skipped；单独复跑才在 `:772` 以 240s 超时），profiler 正确 fail-closed。该失败不能计入三次成功 full，也不能在 profiler 中改超时或转 skip；done 仍待独立返工卡复现根因、三次 full 与 GLM/Codex 验收。
+
+## GLM A 实现最终复审（2026-08-10）
+
+- **GLM: accept（A 实现）**。当前 schema、listed/runnable 与 reporter-only skip 口径、文件 status、identity、digest、RSS/signal 和失败摘要均 fail-closed。full 的 hook/file failure 与 standalone 240s test-body timeout 已分开记账，未把失败算作成功基线；下一位提示词已包含 build 状态、证据、只读职责及禁止调整 timeout。
+- 默认 `test:release` 未变，B/C 未越界；三次成功 full、串行 control 和 Codex 最终验收未完成前，本卡保持 `build` / `done blocked`。
