@@ -73,6 +73,24 @@ describe('entity lifecycle reducer and derived gates', () => {
     )
   })
 
+  test('explicit entityState overrides a static hidden/collision definition before lifecycle gates', () => {
+    expect(
+      deriveEntityLifecycleGates({
+        staticHidden: true,
+        staticCollide: true,
+        entityState: 1,
+      }),
+    ).toMatchObject({ visible: true, collidable: false })
+    expect(
+      deriveEntityLifecycleGates({
+        staticHidden: true,
+        staticCollide: false,
+        entityState: 2,
+        lifecycle: { phase: 'suspended', remainingTicks: 2 },
+      }),
+    ).toMatchObject({ visible: true, collidable: true, autoAllowed: false })
+  })
+
   test('eligible ticks freeze, decrement, and transition hide to awaitingExit', () => {
     const table = {
       s001: {

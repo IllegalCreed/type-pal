@@ -34,10 +34,12 @@ function lifecyclePhase(entry: EntityLifecycleEntry | undefined): LifecyclePhase
 
 /** 静态 def → entityState → lifecycle 的唯一 gate 派生顺序。 */
 export function deriveEntityLifecycleGates(input: EntityLifecycleGateInput): EntityLifecycleGates {
-  const stateHidden = input.entityState !== undefined && input.entityState <= 0
-  const visibleByStatic = input.staticHidden !== true && !stateHidden
-  const stateCollide = input.entityState !== undefined && input.entityState >= 2
-  const collidableByStatic = input.staticCollide === true || stateCollide
+  // An explicit entityState is a persisted script override of the static definition (the
+  // historical setEntityState command can reveal an initially hidden anchor). Only when the
+  // override is absent do we consult the pristine static flags. Lifecycle then gates the result.
+  const hasState = input.entityState !== undefined
+  const visibleByStatic = hasState ? input.entityState! > 0 : input.staticHidden !== true
+  const collidableByStatic = hasState ? input.entityState! >= 2 : input.staticCollide === true
   const phase = lifecyclePhase(input.lifecycle)
   const hiddenLifecycle = phase === 'despawned' || phase === 'awaitingExit' || phase === 'removed'
   const suspended = phase === 'suspended'

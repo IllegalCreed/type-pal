@@ -489,6 +489,13 @@ source provenance 和 BattleResult 终态不足以作为本轮 build 准入；�
   barrier 和 transient activity gate；loader fixture 经 `runCommands` 实际写入四态 lifecycle。完整
   Reforge 当前 90 files / 901 tests、typecheck 通过。main 的显式 v12/v13 boot 分流、统一 gate 投影、
   SAVE 运行入口、PAL source ledger/translator 与 editor pipeline 仍未接入。
+- main 生命周期投影切片（2026-08-10，Codex）：`main.ts` 在场景同步提交点捕获 pristine
+  `hidden/collide` 基线，`applyWorldToScene` 通过 `deriveEntityLifecycleGates` 投影，不再把已投影 live
+  flags 当作静态真值；query/chase/facing/auto/hostile/trigger/render/collision/action-frame 消费者改读
+  同一 gate。v13 表存在时，主 100ms 世界拍在 battle/menu/dialog/confirm/presentation/script 阻塞期间
+  冻结，并调用 `advanceEntityLifecycleWorldStep`（含 foot-anchor 重现与帧复位）；v12 无表路径保持旧行为。
+  验证：Reforge `check` 90 files / 902 tests、tsc 通过。该切片仍未完成 typed v13 boot、hostile policy、
+  SAVE 运行接线与 PAL/editor 全链，不能作为 W9 implementation accept。
 - 剩余风险：尚未接入 main/typed v13 loader/runtime command adapter、PAL source ledger/translator
   与 editor 全链；在这些边界和 Kimi 7 条补钉完成前，不得把本内核或 SAVE 增量声明为 W9 全链闭环或
   标记 done。

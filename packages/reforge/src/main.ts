@@ -3,10 +3,13 @@ import {
   applySetParty,
   buildWorld,
   type CharacterInstance,
+  checkEntityLifecycleTableV13,
   CONTENT_VERSION,
   canonicalScriptTransitionJson,
   collectCommandAssetReferences,
   type EntityDef,
+  type EntityLifecycleEntry,
+  type EntityLifecycleTable,
   type EntryPoint,
   type EquipDescribeCtx,
   effectiveGrantedStatuses,
@@ -72,6 +75,10 @@ import { curePoisons } from './battle/battle-core.js'
 import { getEnemyBasePos, getPlayerBasePos } from './battle/battle-positions.js'
 import { BattleSession } from './battle/battle-session.js'
 import type { BattleResult } from './battle/battle-result.js'
+import {
+  advanceEntityLifecycleWorldStep,
+  deriveEntityLifecycleGates,
+} from './entity-lifecycle.js'
 import {
   collectBattleSkillFireChunks,
   prepareBattleSpriteReadiness,
@@ -494,6 +501,13 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
   let viewMaxX = 0
   let viewMaxY = 0
   let entitySpriteDefs = new Map<string, SpriteDef>()
+  /**
+   * Pristine static entity flags. `applyWorldToScene` historically projects entityState into
+   * the live SceneDef, so reading `scene.entities[].hidden/collide` back as the static baseline
+   * would make a restore permanently inherit the old projection. Keep this side table separate
+   * until the full v13 scene projection replaces the legacy fields entirely.
+   */
+  const entityStaticBaseline = new Map<string, { hidden: boolean; collide: boolean }>()
   // 首次 switchScene 前建立，boot/重入/读档都由 commitSceneSwitch 原子重建页动作。
   const entityActions = new EntityActionPlayer((_entity, cue) => {
     if (cue.kind === 'sound') sfx.play(cue.asset)
@@ -1062,6 +1076,13 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     spriteCache.prune(plan.neededSprites)
     resetFrameAnimationPresentation()
     scene = plan.def
+    entityStaticBaseline.clear()
+    for (const entity of plan.def.entities) {
+      entityStaticBaseline.set(`${plan.sceneId}/${entity.id}`, {
+        hidden: entity.hidden === true,
+        collide: entity.collide === true,
+      })
+    }
     map = plan.assets.map
     tiles = plan.assets.tiles
     palette = plan.palette
@@ -1313,16 +1334,102 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     resolve: () => void
   } | null = null
 
+  function lifecycleTableForWorld(): EntityLifecycleTable | undefined {
+    if (!('entityLifecycles' in world)) return undefined
+    const table = world.entityLifecycles
+    if (table === undefined) return undefined
+    checkEntityLifecycleTableV13(table)
+    return table
+  }
+
+  function lifecycleEntryFor(entityId: string): EntityLifecycleEntry | undefined {
+    return lifecycleTableForWorld()?.[scene.id]?.[entityId]
+  }
+
+  function setLifecycleTableForWorld(table: EntityLifecycleTable): void {
+    if (!('entityLifecycles' in world)) return
+    checkEntityLifecycleTableV13(table)
+    world.entityLifecycles = table
+  }
+
+  function lifecycleFootAnchors(): Record<string, { x: number; y: number }> {
+    return Object.fromEntries(
+      scene.entities.map((entity) => {
+        const foot = gridToPixel(entity.pos)
+        return [entity.id, { x: foot.x - camera.x, y: foot.y - camera.y }]
+      }),
+    )
+  }
+
+  /**
+   * W9 world clock bridge. It intentionally consumes the already-issued single 100ms world step;
+   * no wall clock/timer is introduced. v12 worlds have no lifecycle table and take the exact old
+   * path. Blocking presentation, dialogue, menu, confirmation and script execution all freeze
+   * this table even though legacy NPC movement retains its historical independent cadence.
+   */
+  function advanceLifecycleWorldStepIfEligible(
+    gameplayFrozen: boolean,
+    stepActive: boolean,
+  ): void {
+    if (!worldTicksThisFrame || gameplayFrozen || stepActive || activeBattle || menu.active) return
+    if (dialogBox.active || presentation.busy() || scriptConfirmModal.active || runner || shop)
+      return
+    const table = lifecycleTableForWorld()
+    if (!table) return
+    const stepped = advanceEntityLifecycleWorldStep(table, {
+      currentScene: scene.id,
+      eligible: true,
+      footAnchors: lifecycleFootAnchors(),
+    })
+    if (!stepped.changed) return
+    setLifecycleTableForWorld(stepped.table)
+    applyWorldToScene()
+    for (const entityId of stepped.reappearedEntities) entityFrameOverride.delete(entityId)
+  }
+
+  function entityLifecycleGates(
+    entity: EntityDef,
+    options: {
+      triggerKind?: 'manual' | 'touch'
+      hasTrigger?: boolean
+      hasAuto?: boolean
+      hasHostile?: boolean
+    } = {},
+  ) {
+    const baseline = entityStaticBaseline.get(`${scene.id}/${entity.id}`) ?? {
+      hidden: entity.hidden === true,
+      collide: entity.collide === true,
+    }
+    return deriveEntityLifecycleGates({
+      staticHidden: baseline.hidden,
+      staticCollide: baseline.collide,
+      entityState: world.script?.entityState[entity.id],
+      lifecycle: lifecycleEntryFor(entity.id),
+      ...options,
+    })
+  }
+
   /** 世界脚本状态 → 场景实体(entityState:≤0 隐,≥2 挡路;entityPos:0x13 绝对定位覆写;
    *  进场/读档/设态后重放)。 */
   function applyWorldToScene(): void {
     syncLegacyScriptScratchV5(scene.id)
     for (const e of scene.entities) {
-      const st = world.script?.entityState[e.id]
-      if (st !== undefined) {
-        e.hidden = st <= 0
-        e.collide = st >= 2
+      const baseline = entityStaticBaseline.get(`${scene.id}/${e.id}`) ?? {
+        hidden: e.hidden === true,
+        collide: e.collide === true,
       }
+      const st = world.script?.entityState[e.id]
+      const lifecycle = lifecycleEntryFor(e.id)
+      const gates = deriveEntityLifecycleGates({
+        staticHidden: baseline.hidden,
+        staticCollide: baseline.collide,
+        entityState: st,
+        lifecycle,
+      })
+      // Transitional projection only: consumers below use the same gates, while these legacy
+      // fields remain a render-shell cache for code paths not yet moved to content13.
+      e.hidden = !gates.visible
+      e.collide = gates.collidable
       const pos = world.script?.entityPos?.[e.id]
       if (pos) e.pos = { ...pos }
     }
@@ -2053,7 +2160,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     chaseStep: async (entityId, range, speed, floating, signal) => {
       assertRunnerActive(signal, `追逐 ${entityId} 所属 runner 已取消`)
       const e = scene.entities.find((x) => x.id === entityId)
-      if (!e || e.hidden) {
+      if (!e || !entityLifecycleGates(e).visible) {
         await host.wait(200, signal)
         return
       }
@@ -2343,7 +2450,9 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
       const st = world.script?.entityState[id]
       if (st !== undefined) return st
       const e = scene.entities.find((x) => x.id === id)
-      return e ? (e.hidden ? 0 : e.collide ? 2 : 1) : undefined
+      if (!e) return undefined
+      const gates = entityLifecycleGates(e)
+      return gates.visible ? (gates.collidable ? 2 : 1) : 0
     },
     // 0x23 卸装:原版角色号 → 模板 → 实例;卸下退回背包(离队成员在 reserve 照卸)
     unequipRole: (roleIdx, slot) => {
@@ -2801,7 +2910,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
       entityInScene: (id) => scene.entities.some((x) => x.id === id),
       facingEntity: (id, range) => {
         const entity = scene.entities.find((candidate) => candidate.id === id)
-        if (!entity || entity.hidden) return false
+        if (!entity || !entityLifecycleGates(entity).visible) return false
         const step = WALK_STEP[facing]
         const front = {
           col: player.pos.col + step.dcol,
@@ -3280,7 +3389,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
       void (async () => {
         try {
           while (!ac.signal.aborted) {
-            if (e.hidden) {
+            if (!entityLifecycleGates(e, { hasAuto: true }).autoAllowed) {
               await host.wait(120, ac.signal)
               continue
             }
@@ -3316,7 +3425,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
         // auto 与主脚本并行(开场李大娘 setEntityState 显形后边对话边走位);仅 hidden
         // 挂起。设计裁决(2026-07-03 用户):不复刻原版"对话期冻结 NPC"的阻塞怪癖,
         // NPC 移动不感知对话系统。
-        if (e.hidden) {
+        if (!entityLifecycleGates(e, { hasAuto: true }).autoAllowed) {
           await host.wait(120)
           continue
         }
@@ -3352,7 +3461,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     }
     for (const e of scene.entities) {
       const h = e.hostile
-      if (!h || e.hidden) continue
+      if (!h || !entityLifecycleGates(e, { hasHostile: true }).hostileAllowed) continue
       const dc = player.pos.col - e.pos.col
       const dr = player.pos.row - e.pos.row
       const dist = Math.max(Math.abs(dc), Math.abs(dr))
@@ -3695,9 +3804,13 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     let best: EntityDef | undefined
     let bestD = Number.POSITIVE_INFINITY
     for (const e of scene.entities) {
-      if (e.hidden) continue
       const t = e.pages?.[0]?.trigger
       if (!t || t.on !== on) continue
+      const gates = entityLifecycleGates(e, {
+        hasTrigger: true,
+        triggerKind: on === 'touch' ? 'touch' : 'manual',
+      })
+      if (on === 'touch' ? !gates.touchTriggerable : !gates.manualInteractable) continue
       const range = Math.max(t.range ?? 0, on === 'interact' ? 1 : 0)
       const d = gridDist(player.pos, e.pos)
       if (d <= range && d < bestD) {
@@ -4219,7 +4332,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     const sprites: SpriteDraw[] = []
     // 实体站立帧(N 实体;hidden 跳过;zBias 进画序):布局数据化 idleFrameIndex
     for (const e of scene.entities) {
-      if (e.hidden) continue
+      if (!entityLifecycleGates(e).visible) continue
       const def = entitySpriteDefs.get(e.id)
       const sp = def ? spriteCache.get(project.assetResolver, def.asset) : undefined
       // 帧优先级:legacy 定帧 > 移动/legacy anim > 语义动作 > v3 layout.loop > 站立。
@@ -4627,9 +4740,13 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     // D13-1 触发区叠加层(?debug overlay 开关):实体 trigger 范围框 + 标签;auto 实体标签。
     if (debugLayers.triggers) {
       for (const e of scene.entities) {
-        if (e.hidden) continue
         const page = e.pages?.[0]
         const t = page?.trigger
+        const gates = entityLifecycleGates(e, {
+          hasTrigger: true,
+          triggerKind: t?.on === 'touch' ? 'touch' : 'manual',
+        })
+        if (!gates.visible) continue
         if (t && 'on' in t && t.on) {
           const range = Math.max(t.range ?? 0, t.on === 'interact' ? 1 : 0)
           const p = gridToPixel(e.pos)
@@ -4655,7 +4772,9 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
   // 闭包读 entities 当前 pos(将来移动 NPC 也自然生效;静态阶段 pos 不变)。
   const isBlocked = (pos: GridPos): boolean =>
     isBlockedAt(map, pos) ||
-    scene.entities.some((e) => !e.hidden && e.collide === true && sameGrid(pos, e.pos))
+    scene.entities.some(
+      (e) => entityLifecycleGates(e).collidable && sameGrid(pos, e.pos),
+    )
   const keyboard = new Keyboard()
 
   // 调试 / 验证：暴露活动态
@@ -4765,7 +4884,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
         const entity = scene.entities.find((candidate) => candidate.id === id)
         return (
           !entity ||
-          entity.hidden === true ||
+          !entityLifecycleGates(entity).visible ||
           entityFrameOverride.has(id) ||
           entityMoves.has(id) ||
           entityAnim.has(id)
@@ -4773,10 +4892,12 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
       })
       advanceMoves(gameplayDt) // M3b 走位驱动(实体巡逻/剧情走位;与输入无关,菜单/对话期照走)
       deriveMounts() // E7:挂载派生最后跑(位置=父+偏移,覆写一切 = 契约最高权威)
+      advanceLifecycleWorldStepIfEligible(gameplayFrozen, stepActive)
       tickHostiles(gameplayDt) // B9 野怪遇敌驱动(数据化;追逐→开战→胜负)
     } else if (stepRequested) {
       advanceMoves(gameplayDt)
       deriveMounts()
+      advanceLifecycleWorldStepIfEligible(gameplayFrozen, stepActive)
       tickHostiles(gameplayDt)
     } else {
       worldTicksThisFrame = 0
