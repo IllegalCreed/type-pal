@@ -22,6 +22,7 @@
     "check:release": "pnpm typecheck && pnpm test:release",
     "audit:maps": "tsx scripts/audit-project-maps.mts",
     "audit:script-control-flow": "tsx scripts/audit-script-control-flow.mts",
+    "audit:w9-lifecycle-ledger": "tsx scripts/audit-pal-w9-lifecycle-ledger.mts",
     "audit:sprite-actions": "tsx scripts/audit-pal-sprite-actions.mts",
     "audit:a7-sound-diff": "tsx scripts/audit-a7-sound-diff.mts",
     "audit:sounds": "tsx scripts/audit-pal-sounds.mts",

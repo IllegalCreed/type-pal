@@ -506,7 +506,21 @@ source provenance 和 BattleResult 终态不足以作为本轮 build 准入；�
   `pnpm --filter @type-pal/reforge typecheck`、`pnpm --filter @type-pal/reforge test -- loader-v13 save/epoch-v13 script-project-v13 entity-lifecycle entity-lifecycle-command battle/battle-result`
   全绿。剩余风险仍是 PAL 上游 source ledger / editor v12→v13 overlay / manifest-last 原子升级与最终
   生产器重录闭环，尚未接入。
-- 剩余风险：PAL source ledger / translator / append-only seal / 生产器重录链路，以及 editor
+- PAL source ledger proof slice（2026-08-10，Codex）：新增
+  `packages/migrate/src/pal-w9-lifecycle-source-ledger.ts`、定向单测和
+  `audit:w9-lifecycle-ledger`。ledger 钉住 PAL source digest、source census digest、B10 已发布
+  folded-hostile target set digest、runtime entry facts digest 与 0x07 battle preservation facts digest；
+  source contract 逐条硬钉 0x4B/0x52 的 address/opcode/operands/ticks/command hash，未知 raw opcode
+  默认 fail-closed，0x07 `startBattle` 只有在 battle-root writer 与 928 个 W9 target 零交集证明成立时
+  才允许保持 preState。守恒仍为 1849 source sites / 1021 landings / 828 folded hostile /
+  93 residual paired / 7 4B-only；audit 脚本只读且 `writes: 0`。
+  验证：`pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --project unit src/pal-w9-lifecycle-source-ledger.test.ts`
+  → 25 tests passed；`pnpm --filter @type-pal/migrate run audit:w9-lifecycle-ledger` passed；
+  `pnpm --filter @type-pal/migrate exec vitest run --config vitest.release.config.ts --project release-pal-fresh src/script-control-flow-audit.pal.test.ts`
+  → 2 tests passed；`pnpm --filter @type-pal/migrate typecheck` passed；`pnpm --filter @type-pal/migrate run test:manifest`
+  verified fast 81/615、release 104/745、canary 1/2。该切片只完成可重放证明与 FRESH 路由覆盖，
+  尚未写生产 content13、append-only seal、oracle/canary/baseline 重录或 implementation accept。
+- 剩余风险：PAL ledger writer integration / translator / append-only seal / 生产器重录链路，以及 editor
   v12→v13 overlay + manifest-last 原子升级 / CRUD 还未落完；在这些边界完成并取得三方实现 `accept`
   前，不得把本内核或 SAVE 增量声明为 W9 全链闭环或标记 done。
 

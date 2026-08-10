@@ -2,8 +2,17 @@ import { existsSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, test } from 'vitest'
+import { prepareR13SourceExecutionCensus } from './experimental/script-v5/source-execution-census.js'
+import { loadPalBaseline } from './migration-baseline.js'
 import { buildPalHistoricalR13_4V9Migration } from './pal-migration.js'
 import { loadPalMigrationSources } from './pal-migration-io.js'
+import {
+  buildPalW9LifecycleSourceLedger,
+  foldedHostileTargetsFromPublishedB10,
+  PAL_W9_EXPECTED_BATTLE_PRESERVATION_FACTS_DIGEST,
+  PAL_W9_EXPECTED_PROOF_LEDGER_DIGEST,
+  PAL_W9_PROOF_AFFECTED_FILE_ALLOWLIST,
+} from './pal-w9-lifecycle-source-ledger.js'
 import {
   assertScriptControlFlowAudit,
   auditPalScriptControlFlow,
@@ -19,6 +28,18 @@ describe.skipIf(!existsSync(extracted))('PAL script control flow audit golden', 
     const migration = buildPalHistoricalR13_4V9Migration(sources)
     const report = auditPalScriptControlFlow(sources, migration)
     assertScriptControlFlowAudit(report)
+    const publishedBaseline = loadPalBaseline(repo)
+    if (!publishedBaseline) throw new Error('W9 source ledger live test 缺 published PAL baseline')
+    const publishedFoldedHostiles = foldedHostileTargetsFromPublishedB10(publishedBaseline)
+    expect(
+      new Set(migration.report.foldedHostileRoots.map(({ sceneId, entityId }) => `${sceneId}/${entityId}`)),
+    ).toEqual(new Set(publishedFoldedHostiles.map(({ sceneId, entityId }) => `${sceneId}/${entityId}`)))
+    const w9LifecycleLedger = buildPalW9LifecycleSourceLedger({
+      sources,
+      preparedSourceCensus: prepareR13SourceExecutionCensus(sources),
+      foldedHostileTargets: publishedFoldedHostiles,
+      affectedFileAllowlist: PAL_W9_PROOF_AFFECTED_FILE_ALLOWLIST,
+    })
 
     expect(report.summary).toEqual({
       sourceCommands: 43_503,
@@ -135,6 +156,53 @@ describe.skipIf(!existsSync(extracted))('PAL script control flow audit golden', 
       overlap: 0,
       unknown: 0,
     })
+    expect(w9LifecycleLedger.summary).toEqual({
+      sourceInstructions: 4,
+      sourceSites: 1849,
+      executionContexts: 928,
+      opcode4bSites: 928,
+      opcode52Sites: 921,
+      pairedContexts: 921,
+      opcode4bOnlyContexts: 7,
+      opcode52OnlyContexts: 0,
+      foldedHostileContexts: 828,
+      residualPairedContexts: 93,
+      residualOpcode4bOnlyContexts: 7,
+      landings: {
+        hostilePolicies: 828,
+        suspendCommands: 100,
+        hideCommands: 93,
+        total: 1021,
+      },
+    })
+    const w9RuntimeProofByContext = new Map(
+      w9LifecycleLedger.entries.map((entry) => [entry.contextId, entry.preStateProof]),
+    )
+    const countProofBy = (field: 'triggerMode' | 'sourceInitialState') =>
+      Object.fromEntries(
+        [...w9RuntimeProofByContext.values()]
+          .reduce((counts, proof) => {
+            const value = proof[field]
+            const key = String(value)
+            counts.set(key, (counts.get(key) ?? 0) + 1)
+            return counts
+          }, new Map<string, number>())
+          .entries(),
+      )
+    expect(countProofBy('triggerMode')).toEqual({ 2: 7, 5: 882, 6: 39 })
+    expect(countProofBy('sourceInitialState')).toEqual({ 0: 4, 1: 253, 2: 671 })
+    expect(w9LifecycleLedger.entries.every((entry) => entry.preState.kind === 'positive')).toBe(
+      true,
+    )
+    expect(w9LifecycleLedger.generator.battleStartPreservationProof).toMatchObject({
+      targetEntityCount: 928,
+      targetEntityIdsSha256: '336a3977135f8de9cc552842219604ec2ece43877e939aa8673912dc71ce3e27',
+      battleContextCount: 743,
+      writerSiteCount: 86,
+      writerHitSiteCount: 0,
+      factsSha256: PAL_W9_EXPECTED_BATTLE_PRESERVATION_FACTS_DIGEST,
+    })
+    expect(w9LifecycleLedger.digest).toBe(PAL_W9_EXPECTED_PROOF_LEDGER_DIGEST)
     expect(report.product.dialogueStates).toMatchObject({
       bodies: 4_901,
       distinctHashes: 59,

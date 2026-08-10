@@ -157,26 +157,29 @@ function rootContext(site: SourceEntrySite): Omit<R13SourceExecutionContext, 'id
   }
 }
 
-function contextId(context: Omit<R13SourceExecutionContext, 'id'>): string {
+export function r13SourceExecutionContextId(
+  context: Omit<R13SourceExecutionContext, 'id'>,
+): string {
   return `ctx-${shortDigest(context)}`
 }
 
-function withDynamicContext(
-  state: TraversalState,
+export function advanceR13SourceExecutionContext(
+  context: Omit<R13SourceExecutionContext, 'id'>,
+  address: number,
   command: SourceCmd,
   edge: ScriptEdge,
 ): Omit<R13SourceExecutionContext, 'id'> {
-  if (command.op !== 'raw') return state.context
+  if (command.op !== 'raw') return context
   const operands = command.operands ?? []
   if (command.opcode === 0x04 && edge.reason === '0x4') {
     const explicitOwner = operands[1] ?? 0
-    const self = explicitOwner > 0 ? legacyEventObjectEntityId(explicitOwner) : state.context.self
+    const self = explicitOwner > 0 ? legacyEventObjectEntityId(explicitOwner) : context.self
     return {
-      ...state.context,
+      ...context,
       // SDLPal 的 0x04 即使从 auto runner 发起，也进入
       // PAL_RunTriggerScript；callee 不继承 caller 的 auto 语境。
       channel: 'trigger',
-      owner: self ?? state.context.owner,
+      owner: self ?? context.owner,
       ...(self ? { self } : {}),
     }
   }
@@ -184,19 +187,19 @@ function withDynamicContext(
     const entityWord = operands[0] ?? 0
     const entity =
       entityWord === 0xffff
-        ? state.context.self
+        ? context.self
         : entityWord > 0
           ? legacyEventObjectEntityId(entityWord)
           : undefined
-    if (!entity) return state.context
+    if (!entity) return context
     const channel = command.opcode === 0x24 ? 'auto' : 'trigger'
     return {
-      entrySiteId: state.context.entrySiteId,
+      entrySiteId: context.entrySiteId,
       channel,
       owner: entity,
       host: {
         kind: command.opcode === 0x24 ? 'dynamic-entity-auto' : 'dynamic-entity-trigger',
-        sourceId: `${state.context.entrySiteId}@${state.address}:${entity}:${channel}`,
+        sourceId: `${context.entrySiteId}@${address}:${entity}:${channel}`,
       },
       self: entity,
     }
@@ -206,19 +209,22 @@ function withDynamicContext(
     const scene = sceneWord > 0 ? sceneSlug(sceneWord - 1) : 'invalid-scene'
     const slot = edge.reason === '0x6d.onEnter' ? ('on-enter' as const) : ('on-teleport' as const)
     return {
-      entrySiteId: state.context.entrySiteId,
+      entrySiteId: context.entrySiteId,
       channel: 'trigger',
       owner: scene,
       host: {
         kind: slot === 'on-enter' ? 'dynamic-scene-on-enter' : 'dynamic-scene-on-teleport',
-        sourceId: `${state.context.entrySiteId}@${state.address}:${scene}:${slot}`,
+        sourceId: `${context.entrySiteId}@${address}:${scene}:${slot}`,
       },
     }
   }
-  return state.context
+  return context
 }
 
-function shouldFollow(command: SourceCmd, edge: ScriptEdge): boolean {
+export function shouldFollowR13SourceExecutionEdge(
+  command: SourceCmd,
+  edge: ScriptEdge,
+): boolean {
   if (command.op !== 'raw') return true
   const operands = command.operands ?? []
   if (
@@ -315,7 +321,7 @@ export function buildR13SourceExecutionCensusFromGraph(
   while (queue.length) {
     const state = queue.pop()!
     if (state.address < 0 || state.address >= commands.length) continue
-    const id = contextId(state.context)
+    const id = r13SourceExecutionContextId(state.context)
     const visitKey = `${id}:${state.address}`
     if (visited.has(visitKey)) continue
     visited.add(visitKey)
@@ -325,10 +331,10 @@ export function buildR13SourceExecutionCensusFromGraph(
     siteIdsByAddress[state.address]!.push(siteId)
     const command = commands[state.address]!
     for (const edge of outgoing.get(state.address) ?? []) {
-      if (!shouldFollow(command, edge)) continue
+      if (!shouldFollowR13SourceExecutionEdge(command, edge)) continue
       queue.push({
         address: edge.to,
-        context: withDynamicContext(state, command, edge),
+        context: advanceR13SourceExecutionContext(state.context, state.address, command, edge),
       })
     }
     addAutoZeroRateSelfLoop(queue, state, command)
@@ -414,7 +420,7 @@ export function assertR13SourceExecutionCensus(
   for (const [index, context] of census.contexts.entries()) {
     if (contexts.has(context.id)) throw new Error(`R13 source census: 重复 context ${context.id}`)
     const { id, ...payload } = context
-    if (contextId(payload) !== id)
+    if (r13SourceExecutionContextId(payload) !== id)
       throw new Error(`R13 source census: context id/payload 漂移 ${id}`)
     if (index > 0 && stableStringCompare(census.contexts[index - 1]!.id, context.id) >= 0)
       throw new Error('R13 source census: contexts 排序漂移')
