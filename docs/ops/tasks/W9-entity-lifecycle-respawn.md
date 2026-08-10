@@ -367,15 +367,20 @@ source provenance 和 BattleResult 终态不足以作为本轮 build 准入；�
 
 - Coding Owner: Codex（三方 post-B10 设计 `agree` 齐备，build allowed）
 - 修改文件：`packages/reforge/src/entity-lifecycle.ts`、
-  `packages/reforge/src/entity-lifecycle.test.ts`、`packages/reforge/src/index.ts`
+  `packages/reforge/src/entity-lifecycle.test.ts`、`packages/reforge/src/index.ts`、
+  `packages/reforge/src/save/types.ts`、`packages/reforge/src/save/ops.ts`、
+  `packages/reforge/src/save/migration-v13.ts`、`packages/reforge/src/save/epoch-v13.test.ts`
 - 实现摘要：先落纯函数生命周期内核，不读取/改写静态 `EntityDef` 或 `world.script.entityState`；
   提供四态派生 gate、四个 mutation、当前 scene/eligible 世界拍递减、`despawned → awaitingExit`
   和 320×320 foot-anchor 离屏恢复边界。`awaitingExit` 不因 tick 自动清除。
 - 验证（2026-08-10）：`pnpm --filter @type-pal/reforge exec vitest run
   src/entity-lifecycle.test.ts src/battle/battle-result.test.ts` → 2 files / 8 tests passed；
   `pnpm --filter @type-pal/reforge exec tsc --noEmit --pretty false` passed。
-- 剩余风险：尚未接入 main/save/loader；在 v13 typed loader、SAVE resolver 和 runtime command
-  adapter 完成前，不得把本内核声明为 W9 全链闭环或标记 done。
+- SAVE 增量验证（2026-08-10）：`src/save/epoch-v13.test.ts` + `src/save/epoch-v10.test.ts`
+  → 2 files / 33 tests passed；新增显式 `SavePayloadV8Content13`、无 sidecar 的
+  content10|11|12|13→13 归一和生命周期引用闭包校验；当前 v12 loader/runtime 未切换。
+- 剩余风险：尚未接入 main/typed v13 loader/runtime command adapter；在这些边界完成前，不得把本
+  内核或 SAVE 增量声明为 W9 全链闭环或标记 done。
 
 ### Review
 

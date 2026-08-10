@@ -10,6 +10,7 @@ import type {
   WorldStateV10,
   WorldStateV11,
   WorldStateV12,
+  WorldStateV13,
 } from '@type-pal/content'
 
 export type SlotKind = 'auto' | 'quick' | 'manual'
@@ -112,6 +113,14 @@ export interface SavePayloadV8 extends Omit<SavePayload, 'version' | 'contentVer
   world: WorldStateV12
 }
 
+/** W9 successor：SAVE8 格式不变，只把内容轴推进到 content13。 */
+export interface SavePayloadV8Content13
+  extends Omit<SavePayload, 'version' | 'contentVersion' | 'world'> {
+  version: 8
+  contentVersion: 13
+  world: WorldStateV13
+}
+
 export type StoredSavePayload =
   | SavePayload
   | SavePayloadV5
@@ -122,3 +131,4 @@ export type StoredSavePayload =
   | LegacySavePayloadV8Content10
   | LegacySavePayloadV8Content11
   | SavePayloadV8
+  | SavePayloadV8Content13
