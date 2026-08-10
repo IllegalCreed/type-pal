@@ -8,7 +8,7 @@ Generation Owner: N/A
 Reviewer: Kimi + GLM
 Visual Verification Owner: Codex + User
 Unavailable Agents: none（2026-08-10，Kimi/GLM 均可用）
-Branch: codex/w9-entity-lifecycle-respawn
+Branch: main
 
 ## 目标
 
@@ -252,6 +252,26 @@ fail-loud/列入显式例外，不得静默猜测。
   `agree` 后，Codex 才能将状态改为 `build`。
 - 缺签豁免：N/A，用户尚未批准。
 
+#### Kimi 架构复审（2026-08-10，post-B10 修订版）：**counter（精确返工钉）**
+
+复核 `docs/phase1/game-mechanics.md:1105-1119`、`reference/sdlpal/script.c:1794-1800` 与
+`reference/sdlpal/scene.c:247-249` 后，发现冻结设计 §5（本卡 `:175-176`）对已证明的
+`0x52` 负 `sState` 前态给出的“`suspend/restore`”落点不成立：源实现先执行
+`sState *= -1`，再写入正倒计时；正倒计时期间渲染层因 `sVanishTime > 0` 隐藏，倒计时归零后
+状态已为正，实体会**立即可见**，不再经过 `sState < 0` 的离屏门。因此它既不是
+`suspendEntity`（该命令保持可见并保留碰撞），也不是当前 `hideEntity`（倒计时后进入
+`awaitingExit`，仍要求离屏）。
+
+返工钉：在不恢复 public toggle、四态和“无墙钟”边界的前提下，二选一并写入冻结设计、source
+ledger disposition 与测试矩阵：
+
+1. 增加明确的“计时到期立即恢复”语义（例如 `hideEntity` 的显式 `reappear: 'immediate'`
+   变体或等价独立叶命令），并钉住“负前态 + N tick：N tick 内隐藏、在视口内也于到期点恢复”；或
+2. 若正式 census 证明不存在可迁移的负 `sState` 前态，明确把该 disposition 列为 fail-loud
+   例外（含 source site、原因和用户可接受的兼容边界），不得写成 `suspend/restore` 的隐式猜测。
+
+在该返工钉落卡并由两席复签前，Kimi 不允许将本轮设计签为 `agree`，build 准入继续 blocked。
+
 ### 历史签字（2026-08-07，已 supersede）
 
 Codex/Kimi/GLM 当时对四态、旧版 SAVE 可选字段、0x52 toggle 和 828+193 初步账本签 `agree`，
@@ -285,6 +305,8 @@ source provenance 和 BattleResult 终态不足以作为本轮 build 准入；�
 - 2026-08-09：B10-1 发布、content12 current replay 0/0/0，commit `e714e073`。
 - 2026-08-10：Kimi/GLM post-B10 只读复审均 counter；Codex 完成本修订卡，等待复签。剧情视觉按用户
   决策延后集中 E2E，功能性 editor/debug 视觉保留最小验证。
+- 2026-08-10：主分支收口——W9 工作分支已合并并删除，后续统一在 `main` 上开发；本卡保留
+  `blocked`/设计复审门禁，不代表已开始实现。
 
 ## 下一位 Agent 提示词
 
