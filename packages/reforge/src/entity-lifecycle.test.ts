@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import {
+  advanceEntityLifecycleWorldStep,
   applyEntityLifecycleMutation,
   deriveEntityLifecycleGates,
   footAnchorOutsideReappearRect,
@@ -108,5 +109,53 @@ describe('entity lifecycle reducer and derived gates', () => {
     const table = { s001: { e001: { phase: 'awaitingExit' as const } } }
     expect(restoreAwaitingExitIfOutside(table, 's001', 'e001', { x: 320, y: 0 })).toEqual(table)
     expect(restoreAwaitingExitIfOutside(table, 's001', 'e001', { x: 321, y: 0 })).toEqual({})
+  })
+
+  test('awaitingExit reappears on the first eligible return tick and reports a frame reset', () => {
+    const table = {
+      s001: { waiting: { phase: 'awaitingExit' as const } },
+      s002: { frozen: { phase: 'suspended' as const, remainingTicks: 2 } },
+    }
+    expect(
+      advanceEntityLifecycleWorldStep(table, {
+        currentScene: 's001',
+        eligible: false,
+        footAnchors: { waiting: { x: 321, y: 0 } },
+      }),
+    ).toEqual({ table, changed: false, reappearedEntities: [] })
+
+    const returned = advanceEntityLifecycleWorldStep(table, {
+      currentScene: 's001',
+      eligible: true,
+      footAnchors: { waiting: { x: 321, y: 0 } },
+    })
+    expect(returned).toEqual({
+      table: { s002: table.s002 },
+      changed: true,
+      reappearedEntities: ['waiting'],
+    })
+  })
+
+  test('despawn final countdown and off-screen restore occupy separate eligible ticks', () => {
+    const table = {
+      s001: { enemy: { phase: 'despawned' as const, remainingTicks: 1 } },
+    }
+    const countdown = advanceEntityLifecycleWorldStep(table, {
+      currentScene: 's001',
+      eligible: true,
+      footAnchors: { enemy: { x: -1, y: 0 } },
+    })
+    expect(countdown).toEqual({
+      table: { s001: { enemy: { phase: 'awaitingExit' } } },
+      changed: true,
+      reappearedEntities: [],
+    })
+
+    const restored = advanceEntityLifecycleWorldStep(countdown.table, {
+      currentScene: 's001',
+      eligible: true,
+      footAnchors: { enemy: { x: -1, y: 0 } },
+    })
+    expect(restored).toEqual({ table: {}, changed: true, reappearedEntities: ['enemy'] })
   })
 })

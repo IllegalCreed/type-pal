@@ -128,16 +128,23 @@ export type { Palette, RleFrame } from '@type-pal/shared'
 export { encodeSpriteChunk, parseSpriteChunk, parseSpriteChunkStrict } from '@type-pal/shared'
 export { AssetResolver } from './asset-resolver.js'
 export {
+  advanceEntityLifecycleWorldStep,
   applyEntityLifecycleMutation,
   deriveEntityLifecycleGates,
   footAnchorOutsideReappearRect,
   restoreAwaitingExitIfOutside,
   tickEntityLifecycles,
+  type EntityLifecycleWorldStepContext,
+  type EntityLifecycleWorldStepResult,
 } from './entity-lifecycle.js'
 export {
   applyWorldEntityLifecycleCommandV13,
+  commitEntityLifecycleCommandV13,
+  commitWorldEntityLifecycleCommandV13,
   reduceEntityLifecycleCommandV13,
+  type EntityLifecycleCommandCommitV13,
   type RuntimeLifecycleCommandV13,
+  type WorldEntityLifecycleCommandCommitV13,
 } from './entity-lifecycle-command.js'
 export { tilesFromChunkBytes } from './assets.js'
 export {

@@ -5,10 +5,24 @@ import type {
   LifecycleCommandV13,
   WorldStateV13,
 } from '@type-pal/content'
-import { applyEntityLifecycleMutation } from './entity-lifecycle.js'
+import {
+  applyEntityLifecycleMutation,
+  type EntityLifecycleMutation,
+} from './entity-lifecycle.js'
 
 /** v13 runtime command 的唯一窄边界；旧 v5 AuthorCommand/vanishEntity 不经过这里。 */
 export type RuntimeLifecycleCommandV13 = LifecycleCommandV13
+
+export interface EntityLifecycleCommandCommitV13 {
+  table: EntityLifecycleTable
+  /** manual restore 的 caller 可在当前场景把该实体动作帧复位为 0。 */
+  resetFrameTarget?: EntityAddress
+}
+
+export interface WorldEntityLifecycleCommandCommitV13 {
+  world: WorldStateV13
+  resetFrameTarget?: EntityAddress
+}
 
 function assertKnownTarget(
   target: EntityAddress,
@@ -29,12 +43,32 @@ export function reduceEntityLifecycleCommandV13(
   command: RuntimeLifecycleCommandV13,
   references: EntityLifecycleReferenceIndexV13,
 ): EntityLifecycleTable {
+  return commitEntityLifecycleCommandV13(table, command, references).table
+}
+
+/** 四叶命令的原子提交结果；只有显式 restore 产生帧复位通知。 */
+export function commitEntityLifecycleCommandV13(
+  table: EntityLifecycleTable | undefined,
+  command: RuntimeLifecycleCommandV13,
+  references: EntityLifecycleReferenceIndexV13,
+): EntityLifecycleCommandCommitV13 {
   assertKnownTarget(command.target, references)
-  const mutation =
+  const mutation: EntityLifecycleMutation =
     command.kind === 'suspendEntity' || command.kind === 'hideEntity'
-      ? { kind: command.kind, scene: command.target.scene, entity: command.target.entity, ticks: command.ticks }
+      ? {
+          kind: command.kind,
+          scene: command.target.scene,
+          entity: command.target.entity,
+          ticks: command.ticks,
+        }
       : { kind: command.kind, scene: command.target.scene, entity: command.target.entity }
-  return applyEntityLifecycleMutation(table ?? {}, mutation as Parameters<typeof applyEntityLifecycleMutation>[1])
+  const next = applyEntityLifecycleMutation(table ?? {}, mutation)
+  return {
+    table: next,
+    ...(command.kind === 'restoreEntity'
+      ? { resetFrameTarget: structuredClone(command.target) }
+      : {}),
+  }
 }
 
 /**
@@ -46,12 +80,26 @@ export function applyWorldEntityLifecycleCommandV13(
   command: RuntimeLifecycleCommandV13,
   references: EntityLifecycleReferenceIndexV13,
 ): WorldStateV13 {
+  return commitWorldEntityLifecycleCommandV13(world, command, references).world
+}
+
+export function commitWorldEntityLifecycleCommandV13(
+  world: WorldStateV13,
+  command: RuntimeLifecycleCommandV13,
+  references: EntityLifecycleReferenceIndexV13,
+): WorldEntityLifecycleCommandCommitV13 {
+  const committed = commitEntityLifecycleCommandV13(
+    world.entityLifecycles,
+    command,
+    references,
+  )
   return {
-    ...structuredClone(world),
-    entityLifecycles: reduceEntityLifecycleCommandV13(
-      world.entityLifecycles,
-      command,
-      references,
-    ),
+    world: {
+      ...structuredClone(world),
+      entityLifecycles: committed.table,
+    },
+    ...(committed.resetFrameTarget
+      ? { resetFrameTarget: structuredClone(committed.resetFrameTarget) }
+      : {}),
   }
 }

@@ -139,6 +139,18 @@ export interface FootAnchorOffset {
   y: number
 }
 
+export interface EntityLifecycleWorldStepContext {
+  currentScene: string
+  eligible: boolean
+  /** 当前场景实体 foot-anchor 相对相机的投影；缺项保持 awaitingExit。 */
+  footAnchors?: Readonly<Record<string, FootAnchorOffset>>
+}
+
+export interface EntityLifecycleWorldStepResult extends LifecycleTickResult {
+  /** caller 必须只把这些实体的动作帧复位为 0；位置、朝向与碰撞类别均不改。 */
+  reappearedEntities: readonly string[]
+}
+
 /** 320×320 端点包含：0/320 仍隐藏，-1/321 才允许重现。 */
 export function footAnchorOutsideReappearRect(offset: FootAnchorOffset): boolean {
   return offset.x < 0 || offset.x > 320 || offset.y < 0 || offset.y > 320
@@ -153,4 +165,43 @@ export function restoreAwaitingExitIfOutside(
   const entry = table[scene]?.[entity]
   if (entry?.phase !== 'awaitingExit' || !footAnchorOutsideReappearRect(offset)) return table
   return applyEntityLifecycleMutation(table, { kind: 'restoreEntity', scene, entity })
+}
+
+/**
+ * 一次 canonical 100ms lifecycle 世界步：先推进倒计时，再只检查本步开始前已处于
+ * awaitingExit 的实体。这样 despawned 的最后一拍仍遵守源 `continue`，下一次 eligible
+ * 世界步才离屏重现；离场/菜单/战斗/阻塞脚本期间两段都冻结。
+ */
+export function advanceEntityLifecycleWorldStep(
+  table: EntityLifecycleTable,
+  context: EntityLifecycleWorldStepContext,
+): EntityLifecycleWorldStepResult {
+  if (!context.eligible)
+    return { table, changed: false, reappearedEntities: [] }
+
+  const awaitingBefore = Object.entries(table[context.currentScene] ?? {})
+    .filter(([, entry]) => entry.phase === 'awaitingExit')
+    .map(([entity]) => entity)
+    .sort()
+  const ticked = tickEntityLifecycles(table, {
+    currentScene: context.currentScene,
+    eligible: true,
+  })
+  let next = ticked.table
+  const reappearedEntities: string[] = []
+  for (const entity of awaitingBefore) {
+    const offset = context.footAnchors?.[entity]
+    if (!offset || !footAnchorOutsideReappearRect(offset)) continue
+    next = applyEntityLifecycleMutation(next, {
+      kind: 'restoreEntity',
+      scene: context.currentScene,
+      entity,
+    })
+    reappearedEntities.push(entity)
+  }
+  return {
+    table: next,
+    changed: ticked.changed || reappearedEntities.length > 0,
+    reappearedEntities,
+  }
 }

@@ -5,6 +5,7 @@ import {
 import { describe, expect, test } from 'vitest'
 import {
   applyWorldEntityLifecycleCommandV13,
+  commitWorldEntityLifecycleCommandV13,
   reduceEntityLifecycleCommandV13,
 } from './entity-lifecycle-command.js'
 
@@ -58,6 +59,29 @@ describe('v13 lifecycle command adapter', () => {
       references,
     )
     expect(table.s001?.e001).toEqual({ phase: 'removed' })
+  })
+
+  test('manual restore emits the only explicit frame-reset notification', () => {
+    const hidden: WorldStateV13 = {
+      ...structuredClone(world),
+      entityLifecycles: {
+        s001: { e001: { phase: 'awaitingExit' } },
+      },
+    }
+    const restored = commitWorldEntityLifecycleCommandV13(
+      hidden,
+      { kind: 'restoreEntity', target: { scene: 's001', entity: 'e001' } },
+      references,
+    )
+    expect(restored.world.entityLifecycles).toEqual({})
+    expect(restored.resetFrameTarget).toEqual({ scene: 's001', entity: 'e001' })
+
+    const removed = commitWorldEntityLifecycleCommandV13(
+      world,
+      { kind: 'removeEntity', target: { scene: 's001', entity: 'e001' } },
+      references,
+    )
+    expect(removed.resetFrameTarget).toBeUndefined()
   })
 
   test.each([

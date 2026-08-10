@@ -472,6 +472,11 @@ source provenance 和 BattleResult 终态不足以作为本轮 build 准入；�
   envelope（因此保留无 `Content12` 后缀）；`SavePayloadV8Content13` 是显式 content13 successor
   envelope。`migration-v13.ts` 的输入 union 接受前者并只在归一输出返回后者，二者都保持
   `SAVE_VERSION=8`，命名差异表达内容 epoch，不代表新增存档 epoch。
+- Kimi pin #3/#4 纯 runtime-step（2026-08-10）：新增单一 `advanceEntityLifecycleWorldStep`，仅在
+  eligible 100ms 世界拍先递减倒计时，再检查“本拍开始前已经 awaitingExit”的实体；因此 despawned
+  最后一拍与离屏重现严格分属两拍，回场后首个 eligible tick 会立即检查已持久化 awaitingExit。
+  自动重现返回 `reappearedEntities`，手动 `restoreEntity` 返回 `resetFrameTarget`；caller 只据此把动作帧
+  归零，不改位置、朝向、碰撞类别或 entityState。定向 2 files / 12 tests 与 Reforge typecheck 通过。
 - 剩余风险：尚未接入 main/typed v13 loader/runtime command adapter、PAL source ledger/translator
   与 editor 全链；在这些边界和 Kimi 7 条补钉完成前，不得把本内核或 SAVE 增量声明为 W9 全链闭环或
   标记 done。
