@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| W9 | 实体生命周期、重现与明雷逃跑冷却 | blocked | Codex 已按 B10 后 counter 修卡；待 Kimi/GLM 重新 design agree，期间不得实现 | content12→13/minSave8、顶层 nested lifecycle、五终态 BattleResult、1849-site ledger 与 SAVE/editor 升级边界已重锁 |
+| W9 | 实体生命周期、重现与明雷逃跑冷却 | build | Codex 唯一 Coding Owner；先落 content13 基础与上游 translator/preState ledger，再推进 runtime/save/editor | 三方 post-B10 design agree 齐；B10 control graph、五终态 BattleResult、1849-site ledger 与 fail-closed 边界已重锁 |
 | OPS-TST-PERF-RW | release worker 墙钟优化 | build | Codex 实现 A 阶段 profiler；B 并行/C 集中 determinism 另开卡，期间不改 release 证明路由 | profiler 已钉住 shared 主瓶颈（本次 2625s/3.22GiB）；fresh 出现 hook/test 超时路径，待单独返工复现，默认 `test:release` 保持串行 |
 | D14-1 | 对话系统外观继承（版式/头像/光标/字体/自动播放） | done | 三方 accept 齐（Kimi/GLM 补审闭环），待用户验收 | maxRight=320 全宽语义；11102 行 0 意外折行仅 6 合法超限；audit 脚本可挂 CI |
 | D15-1 | NPC 移动补全：动态碰撞 + 互相让路 + 转向（议题 15） | draft | 待设计冻结，三方签字 | auto 巡逻已有；缺不穿墙/不互穿/让路滑步/转向动画 |

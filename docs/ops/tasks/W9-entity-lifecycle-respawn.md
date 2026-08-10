@@ -1,6 +1,6 @@
 # W9 - 实体生命周期、重现与明雷逃跑冷却
 
-Status: blocked
+Status: build
 Phase: phase2
 Capability: W9 / B8 / B9 / X1
 Coding Owner: Codex
@@ -17,7 +17,8 @@ Branch: main
 0x52 的倒计时隐藏并在离屏后重现；明雷战斗四种脚本接续必须与实体生命周期解耦且可审计。
 
 本卡在 B10-1 发布完成后重新锁定。旧卡 2026-08-07 的 `agree/build allowed` 只作为历史记录，
-被本次 post-B10 设计复核 supersede；在本卡三方重新签 `agree` 前不得修改实现文件或标记 build。
+被本次 post-B10 设计复核 supersede；本轮三方已于 2026-08-10 重新签 `agree`，当前 build
+准入以本卡最新冻结设计与验收矩阵为准。
 
 ## 范围与硬边界
 
@@ -77,10 +78,16 @@ Branch: main
 - 新 transition id 固定为 `w9-entity-lifecycle-v1`。seal 使用 metadata/file/managed/hash 四元组，
   至少绑定：B10/v12 published metadata、B10 seal 与 successor surface、正式 source ledger digest、
   affected-file allowlist、parent/successor/full publish-surface digest、`12→13`/`8→8` 版本对和 seal
-  自摘要。
-- 历史剥离顺序固定：`W9 → B10 → R13-6C/R13-Z → R13-6B → older`。content11 initialize、content12
+  自摘要。B10 control graph 也必须递归绑定：`parent` 恰为 `r13-6c-lossy-closure-v1`、
+  `requiredControls` 恰为单一 `r13-z-source-closure-v1`，二者再绑定同一个
+  `r13-source-semantics-v1` parent digest；每层 metadata/file/managed/hash 四元组与非自指 publish
+  surface 都须验签并纳入 W9 seal，不能只比较 B10 顶层 digest。
+- 历史剥离顺序固定：`W9 → B10 → R13-Z → R13-6C → R13-6B → older`，与生产 rewind
+  组合顺序一致；任一 control 半状态、缺失、额外 control、父摘要漂移或顺序错位均在 plan/写盘前
+  fail-loud。content11 initialize、content12
   W9 initialize、content13 current replay 是三个不同入口，不能把 current13 落入 generic merge。
-- content13 current replay 必须先完整验签 published/rebuilt W9 authority 和 successor surface，再强制
+- content13 current replay 必须先完整验签 published/rebuilt W9 authority、successor surface 与上述
+  B10 required-control graph，再强制
   migration plan `writes=0/deletes=0/conflicts=0`；任何 source drift、null 槽移动或非零计划都 fail-closed。
   content12 initialize 可写但只允许 W9 白名单；B10/v12 四元组永远只读。
 - manifest、oracle、canary、baseline 和 R13 shadow fixture 均由生产器重录，禁止手改 golden；W9
@@ -171,11 +178,18 @@ PAL 专属 15 tick，旧缺字段的公开“永杀”意图确定性映射为 `
 
 迁移必须先修 `translate-events.ts`/builder，再全量生成；不手改 `projects/pal`。真值不可串线：
 
-- `0x4B@41073`：固定 `sVanishTime=-15`，无 operand 映射；生成 `suspendEntity(15)`。
-- `0x52@41127/41176/41180`：`sVanishTime = op0 || 800`，按 SHORT 边界验证；生成 `hideEntity(N)`
-  或在已证明负前态时生成显式 suspend/restore 语义，绝不生成 public toggle。
+- `0x4B@41073`：固定 `sVanishTime=-15`，无 operand 映射；**只有已证明调用前 `sState>0` 时**才生成
+  `suspendEntity(15)`。调用前为 `sState<0` 时，源语义是隐藏倒计时后仍过离屏门；为 `sState=0`
+  时保持静态隐藏。正式 disposition 必须携带 `preState` 证明，无法证明则 fail-loud，不能把三者
+  统一猜成 visible suspend。
+- `0x52@41127/41176/41180`：`sVanishTime = op0 || 800`，按 SHORT 边界验证。正式
+  execution-site ledger 必须证明这三个 source address 的每个 reachable context 在调用前均为
+  `preState > 0`，只有证明通过才生成 `hideEntity(N)`（默认离屏重现）。任一 `preState <= 0`、
+  unknown、动态不可证明或 source drift 都必须在 output/manifest 写盘前 fail-loud，且不得生成
+  `hideEntity`、`suspendEntity` 或 public toggle；本轮 PAL W9 不扩充“到期立即恢复”schema。
 - 逐 site ledger 必须记录 `sourceAddress/opcode/operands/sourceCommandSha256/contextId/entrySite/
-  channel/owner/self/target/disposition`，并绑定上游输入 digest、生成命令 digest 和 allowlist。
+  channel/owner/self/target/disposition/preState/preStateProof`，并绑定上游输入 digest、生成命令
+  digest 和 allowlist；`preStateProof` 的可重放证据摘要必须进入 ledger seal。
 - GLM 已复算的守恒必须在正式 ledger 中逐 context 闭合：
 
 ```text
@@ -188,9 +202,9 @@ PAL 专属 15 tick，旧缺字段的公开“永杀”意图确定性映射为 `
 生成落点 = 828 hostile policies + 100 suspend + 93 hide = 1021
 ```
 
-每个 context 必须能回链 owner、target disposition 和 opcode；仅有 `828+193` aggregate 不得签
-build。无法证明 0x52 调用前态、非 100ms 秒值、SHORT 越界或 hostile respawn policy 的站点必须
-fail-loud/列入显式例外，不得静默猜测。
+每个 context 必须能回链 owner、target disposition、opcode 与 `preState` 证明；仅有 `828+193`
+aggregate 不得签 build。无法证明 0x4B/0x52 调用前态、非 100ms 秒值、SHORT 越界或 hostile
+respawn policy 的站点必须 fail-loud/列入显式例外，不得静默猜测。
 
 ### 6. SAVE、manifest 与 editor 升级矩阵
 
@@ -220,14 +234,23 @@ fail-loud/列入显式例外，不得静默猜测。
 - 15/800 tick、battle/menu/dialog/confirm/blocking script 冻结、场景往返、保存续算；
 - 320×320 foot-anchor 端点 0/320 与 -1/321、动作帧 0、位置/朝向保持；
 - 五种 BattleResult、session.done 唯一事实、敌逃/terminate 无奖励且不隐藏、playerFled 只走 onFlee；
+- `ScriptRuntimeHostV5`、legacy `ScriptHost`、`ScriptProjectRuntimeV5`、debug host 与 `main` caller
+  共用具名 `BattleResult`；若保留 legacy adapter，必须只在单一边界显式映射，源码中不得残留
+  并行 `enemyFled()`/`'win'|'lose'|'flee'` 终态判断；五种结果均需接续/奖励/hostile/abort 负测。
 - 旧 detached wait 完全删除，运行中的 auto/hostile 在生命周期变更后不再提交副作用。
 
 ### migrate / source ledger / append-only
 
-- 0x4B 固定 15、0x52 `op0||800`+SHORT 边界、前态静态折叠和无法证明 fail-loud；
+- 0x4B 固定 15 与逐 execution-site 前态证明；0x52 `op0||800`+SHORT 边界，三个 source address
+  的每个 reachable context 仅在 `preState>0` 时生成 hide；
+- 0x4B/0x52 synthetic positive/negative/zero/unknown：只有已证明正前态允许预期 landing，
+  `preState<=0`、unknown、动态不可证明或 source drift 均在 output/manifest 写盘前 fail-loud，
+  landing command 为 0；
 - 1849 source sites / 1021 landing points 逐 context ledger 与 828+93+7 守恒；
 - content12 initialize、content13 replay、重复 CLI 与 R13 历史 rewind；非白名单改动、source drift、
   B10 authority 变化均 fail-closed；
+- B10 `parent=R13-6C`、`requiredControls=[R13-Z]` 及共同 R13 source-semantics parent 的递归
+  metadata/file/managed/hash、半状态、额外/缺失 control、非自指 surface 和固定 rewind 顺序负测；
 - oracle/manifest/release/canary 全套重录，第二次迁移 writes/deletes/conflicts=0/0/0。
 
 ### editor / functional visual
@@ -242,35 +265,95 @@ fail-loud/列入显式例外，不得静默猜测。
 旧签字保留在历史记录，但不再作为准入：
 
 - Codex：**agree（2026-08-10，修订设计）**。已按两席 counter 重写本卡；无实现修改。
-- Kimi：**counter（2026-08-10，post-B10 设计复审）**：要求 content13/minSave8、顶层 nested
-  判别联合、旧档缺省 normal 且不从 entityState 推断、0x52 静态折叠、五终态 BattleResult、
-  manual/touch 分离和独立 eligible tick gate；修卡后复签。
-- GLM：**counter（2026-08-10，post-B10 迁移/SAVE/editor 复审）**：要求 W9→B10 append-only 链、
-  0x4B/0x52 文案纠正、1849-site ledger 守恒、SAVE8 content10/11/12/13→13、PAL/authored 分流、
-  editor 原子升级和 oracle/canary 重录；修卡后复签。
-- counter / 分歧处理：当前 build **blocked**；不得开始实现。待 Kimi/GLM 对本修订文本分别签
-  `agree` 后，Codex 才能将状态改为 `build`。
+- Kimi：**agree（2026-08-10，post-B10 修订后复审）**：content13/minSave8、顶层 nested
+  判别联合、旧档缺省 normal 且不从 entityState 推断、0x52 正前态 fail-closed、五终态 BattleResult、
+  manual/touch 分离和独立 eligible tick gate 均已落卡；本次补钉要求正式 execution-site
+  ledger 证明 PAL 三个 0x52 站点 `preState > 0`，其余 `<=0/unknown` 一律 fail-loud 且零生成。
+- GLM：**agree（2026-08-10，返工后迁移/覆盖复审）**：1849-site 守恒已独立复算；0x4B/0x52
+  均已冻结逐 execution-site `preState` 证明、非正/未知/source drift 写盘前 fail-loud 与零生成；
+  B10 parent/requiredControls 控制图、固定 rewind 顺序及 BattleResult 跨包五终态闭包均已进入设计与
+  验收矩阵。详细 counter 与闭环证据见下方。
+- counter / 分歧处理：Kimi、GLM 的 post-B10 counter 均已闭合，三方设计 `agree` 齐备；Coding
+  Owner 已按工作流将卡头转为 `build`，build 准入 **allowed**。
 - 缺签豁免：N/A，用户尚未批准。
 
-#### Kimi 架构复审（2026-08-10，post-B10 修订版）：**counter（精确返工钉）**
+#### Kimi 架构复审（2026-08-10，post-B10 修订后）：**agree（附 fail-closed 返工钉）**
 
 复核 `docs/phase1/game-mechanics.md:1105-1119`、`reference/sdlpal/script.c:1794-1800` 与
-`reference/sdlpal/scene.c:247-249` 后，发现冻结设计 §5（本卡 `:175-176`）对已证明的
-`0x52` 负 `sState` 前态给出的“`suspend/restore`”落点不成立：源实现先执行
-`sState *= -1`，再写入正倒计时；正倒计时期间渲染层因 `sVanishTime > 0` 隐藏，倒计时归零后
-状态已为正，实体会**立即可见**，不再经过 `sState < 0` 的离屏门。因此它既不是
-`suspendEntity`（该命令保持可见并保留碰撞），也不是当前 `hideEntity`（倒计时后进入
-`awaitingExit`，仍要求离屏）。
+`reference/sdlpal/scene.c:247-249` 后，确认若 `sState < 0`，源实现是“正倒计时期间隐藏、到期
+立即可见”，既不是 `suspendEntity`（可见）也不是当前 `hideEntity`（进入 `awaitingExit`）。
+本轮不为 PAL W9 扩充 immediate-reappear schema；改以**源站点 fail-closed 证明**闭合边界：
 
-返工钉：在不恢复 public toggle、四态和“无墙钟”边界的前提下，二选一并写入冻结设计、source
-ledger disposition 与测试矩阵：
+- 正式 execution-site ledger 必须为 `0x52@41127/41176/41180` 逐 context 记录
+  `preState`、证明链/摘要和 owner/self/target，并证明每个 reachable site 的 `preState > 0`；
+  ledger schema 与 digest 将 `preState` 证据纳入 seal，不能只写 aggregate。
+- 任一 `preState <= 0`、未知、动态不可证明或 source drift 的站点必须在生成写盘前 fail-loud，
+  不得发出 `hideEntity`、`suspendEntity` 或任何 public toggle；这也是 authored/PAL 分流的
+  明确兼容边界，不得把 `suspend/restore` 当作猜测替代。
+- 加入 synthetic negative-prestate fixture：构造 `0x52` 的负、零和 unknown 前态，断言迁移
+  在 output/manifest 写入前失败、landing command 数为 0；同时保留 PAL 正前态三站的成功断言。
 
-1. 增加明确的“计时到期立即恢复”语义（例如 `hideEntity` 的显式 `reappear: 'immediate'`
-   变体或等价独立叶命令），并钉住“负前态 + N tick：N tick 内隐藏、在视口内也于到期点恢复”；或
-2. 若正式 census 证明不存在可迁移的负 `sState` 前态，明确把该 disposition 列为 fail-loud
-   例外（含 source site、原因和用户可接受的兼容边界），不得写成 `suspend/restore` 的隐式猜测。
+该钉保留四态、无墙钟和 public 无 toggle 的边界；返工后 Kimi **agree**，但 GLM counter 尚在，
+build 准入仍 blocked。
 
-在该返工钉落卡并由两席复签前，Kimi 不允许将本轮设计签为 `agree`，build 准入继续 blocked。
+#### GLM 迁移 / 覆盖复审（2026-08-10，post-Kimi counter）：**counter（精确返工钉）**
+
+独立按 live extracted source 重建 `buildR13SourceExecutionCensus` 并按 `(owner,self)` 归并，结果为
+`commands=43503`、`0x4B` source command **1**（`41073`）→ **928 execution sites**、`0x52` source
+commands **3**（`41127/41176/41180`）→ **921 sites**；共 **928 contexts = 921 paired + 7
+4B-only**，源 sites `828×2 + 93×2 + 7 = 1849`。再以 `buildPalMigration` 的 live
+`foldedHostileRoots` 对照，`828/828` folded hostile 全部精确命中 paired context，剩余 paired
+`93`、4B-only `7`，故计数守恒成立；这不能替代逐 site ledger。
+
+当前设计对 `0x52` 已采用 Kimi 的正确 fail-closed 方案（正式 ledger 必须证明三个 source address
+的每个 reachable site `preState>0`；负/零/unknown 零生成），GLM 同意该边界。但同一证明尚未落到
+`0x4B`：live census 有 4 个 source context 的静态 `eventObject.sState=0`
+（`s092/e1707,e1708,e1709,e1710`）。静态初值不等于 execution-time 前态，故正式 ledger 必须对
+**每一个 0x4B site** 做可重放的 `sState` data-flow/pre-state proof（含 `0x49/0x6F/0x84/0x9A`
+等状态写入及跨 scene 目标），并将证据摘要纳入 ledger/seal：
+
+- `preState>0` 才允许当前 `suspendEntity(15)` landing；
+- `preState<=0`、unknown、动态不可证明或 source drift 必须在生成/写盘前 fail-loud，不能静默把
+  静态 hidden/负态映射为 visible suspend；若未来允许迁移这些语义，必须先扩充判别 disposition
+  与测试矩阵，而不是复用 `suspend`。
+
+至少加入与 Kimi `0x52` fixture 对称的 `0x4B` synthetic positive/negative/zero/unknown fixture：
+只有正前态产生一个 15-tick landing，其他三类在 output/manifest 写入前失败且 landing command
+数为 0；PAL live 928-site proof 通过后，`100 suspend + 93 hide` 的生成守恒才可进入 build。
+
+Append-only 还须把 B10 seal 的 `parent` 与 `requiredControls` 递归钉住：当前 B10
+`requiredControls` 为 `r13-z-source-closure-v1`，其 parent 链接 `r13-6c-lossy-closure-v1`。
+W9 installer/replay 不能只比较 B10 自身 metadata/seal/successor surface；必须验证这些 control
+seal 的 metadata/file/managed/hash 四元组、非自指 publish surface、W9→B10→6C/Z rewind 顺序，
+并在 current13 重复回放保持 `writes=0/deletes=0/conflicts=0`。否则 GLM 不签 `agree`，build 继续
+blocked。
+
+最后，`BattleResult` 不能只停留在卡内表格：当前 public 边界仍在
+`packages/reforge/src/battle/battle-session.ts:209`、`script-runner-v5.ts:39`、
+`script-runner.ts:133-144`、`script-project-v5.ts:244-252`、`debug-tools.ts:70` 和
+`main.ts:1430/2874` 暴露 `'win'|'lose'|'flee'`，并在 `main.ts:1844-1865` 读取
+`enemyFled()`。实现验收必须把这些 host/adapter/caller 一并收窄到同一个具名
+`BattleResult` union，或明确唯一的 legacy adapter（adapter 外不得残留旧字符串/布尔）；为
+`victory/defeat/playerFled/enemyFled/terminated` 各钉一次端到端接续、奖励、hostile policy 与
+abort/terminate 负测，禁止以 HP diff 或 `??0` 猜终态。否则设计仍有跨包公共接口漏项，GLM 不签
+`agree`。
+
+#### GLM 返工复审（2026-08-10）：**agree**
+
+只读复核本卡冻结设计与验收矩阵后，原 counter 的三项返工钉均已文字闭合：
+
+1. §5 已要求全部 `0x4B` execution site 携带可重放 `preState/preStateProof`，仅正前态允许
+   `suspendEntity(15)`；负、零、unknown、动态不可证明与 source drift 均在 output/manifest 写盘前
+   fail-loud、landing 为 0，并有对称 synthetic 矩阵。`0x52` 采用相同 fail-closed 边界。
+2. §1 已递归钉住 B10 `parent=R13-6C`、唯一 `requiredControls=[R13-Z]` 及二者共同的
+   R13 source-semantics parent，要求逐层四元组、非自指 surface、半状态/漂移负测与固定
+   `W9→B10→R13-Z→R13-6C→R13-6B` rewind 顺序。
+3. §4 与 reforge 验收矩阵已要求 `ScriptRuntimeHostV5`、legacy host、project/debug host 和 `main`
+   caller 共用具名 `BattleResult`，旧字符串/`enemyFled()` 仅可留在唯一显式 adapter 边界，并覆盖
+   五种终态的接续、奖励、hostile 与 abort/terminate 负测。
+
+未发现新的高置信设计缺口，GLM 对本轮设计签 `agree`。本签字只解除设计门禁，不修改卡头状态，
+也不构成实现或 `review→done` 验收。
 
 ### 历史签字（2026-08-07，已 supersede）
 
@@ -282,7 +365,7 @@ source provenance 和 BattleResult 终态不足以作为本轮 build 准入；�
 
 ### Build
 
-- Coding Owner: Codex（签字门禁满足前不得改实现文件）
+- Coding Owner: Codex（三方 post-B10 设计 `agree` 齐备，build allowed）
 - 修改文件：pending
 - 实现摘要、命令与测试：pending
 
@@ -307,19 +390,24 @@ source provenance 和 BattleResult 终态不足以作为本轮 build 准入；�
   决策延后集中 E2E，功能性 editor/debug 视觉保留最小验证。
 - 2026-08-10：主分支收口——W9 工作分支已合并并删除，后续统一在 `main` 上开发；本卡保留
   `blocked`/设计复审门禁，不代表已开始实现。
+- 2026-08-10：Kimi 接受“不扩 schema + 0x52 execution-site 正前态证明 + 非正/未知零生成”的
+  fail-closed 修订并签 `agree`；GLM counter 仍在，状态继续 `blocked`。
+- 2026-08-10：GLM 确认 0x4B 逐 site 前态证明、B10 required-control graph 与 BattleResult 跨包
+  验收三项 counter 均已闭合并签 `agree`；三方设计签字齐备，卡头状态仍由 Coding Owner 转换。
+- 2026-08-10：Codex 复核三方 post-B10 设计签字均为 `agree`，将任务 `blocked → build`；后续统一
+  在 `main` 上由 Codex 作为唯一 Coding Owner 实现，生成产物只允许由上游 builder 重建。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务：W9 实体生命周期/重现/明雷逃跑冷却设计复签。
+接手任务：W9 实体生命周期/重现/明雷逃跑冷却实现。
 任务卡：docs/ops/tasks/W9-entity-lifecycle-respawn.md
-当前状态：blocked；旧 2026-08-07 agree 已 supersede，Codex 已修订并签 agree。
+当前状态：build；旧 2026-08-07 agree 已 supersede，Codex/Kimi/GLM 的 post-B10 设计签字已齐，
+build 准入 allowed。
 先读：AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡“上下文锚点/冻结设计/验收矩阵”，
 以及 docs/phase1/game-mechanics.md:1000-1111、B10-1 卡与 commit e714e073。
-你的职责：只读设计复审，不得修改实现文件；检查 content12→13/minSave8、顶层 nested
-entityLifecycles 判别联合、旧档缺省 normal 且不推断 entityState、0x4B 固定 15 与 0x52 op0||800、
-1849-site ledger 守恒、PAL/authored 分流、SAVE/editor 原子升级、五态 BattleResult、统一派生 gate
-和独立 eligible tick gate。
-输出：在本卡签 `agree`，或写 `counter` 的精确 file:line/验收钉；未三方 agree 前不得开始实现、
-不得标记 build/done。若 agree，明确允许 Codex 进入 build，并给出下一位 Agent 提示词。
+你的职责：Coding Owner 严格按冻结设计实现 content13/SAVE/editor/reforge/migrate/append-only 全链，先修上游
+translator/builder 再全量生成，不得手改 `projects/pal`。
+输出：写回实现文件清单、逐项验证证据与剩余风险，并将任务转 `review` 交 Kimi/GLM 分别签
+`accept` 或给出精确返工项；三方验收签字未齐前不得标记 `done`。
 ```

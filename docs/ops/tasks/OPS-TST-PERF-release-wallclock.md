@@ -8,7 +8,7 @@ Generation Owner: N/A
 Reviewer: Kimi + GLM
 Visual Verification Owner: N/A
 Unavailable Agents: none（2026-08-10）
-Branch: codex/w9-entity-lifecycle-respawn
+Branch: main
 
 ## 目标
 
