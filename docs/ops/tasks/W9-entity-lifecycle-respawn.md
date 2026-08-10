@@ -462,6 +462,14 @@ source provenance 和 BattleResult 终态不足以作为本轮 build 准入；�
 - 验证（2026-08-10）：`pnpm --filter @type-pal/reforge exec tsc --noEmit --pretty false` 通过；
   定向 7 files / 138 tests（battle-result/session、script runner/project/adapter、loader PAL）通过。
   仍需补 playerFled/defeat 五态端到端矩阵与主循环/hostile lifecycle 接入，故未给 implementation accept。
+- Kimi pin #6 路由核验（2026-08-10）：`packages/migrate/vitest.tests.ts` 已将
+  `src/script-control-flow-audit.pal.test.ts` 纳入 `PAL_FRESH_TESTS`，release fresh `vitest list`
+  实测列出该文件的 2 个 assertions；后续只需在实现 review 中保留 `hostileEntities:828` 断言并核对
+  manifest/list identity，不再重复添加第三条 project 路由。
+- Kimi pin #2 命名说明（2026-08-10）：`SavePayloadV8` 是现有 content12/SAVE8 的 canonical 历史
+  envelope（因此保留无 `Content12` 后缀）；`SavePayloadV8Content13` 是显式 content13 successor
+  envelope。`migration-v13.ts` 的输入 union 接受前者并只在归一输出返回后者，二者都保持
+  `SAVE_VERSION=8`，命名差异表达内容 epoch，不代表新增存档 epoch。
 - 剩余风险：尚未接入 main/typed v13 loader/runtime command adapter、PAL source ledger/translator
   与 editor 全链；在这些边界和 Kimi 7 条补钉完成前，不得把本内核或 SAVE 增量声明为 W9 全链闭环或
   标记 done。
