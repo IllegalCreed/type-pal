@@ -484,6 +484,11 @@ source provenance 和 BattleResult 终态不足以作为本轮 build 准入；�
   abort 不执行下一条叶命令。v5 compiler 仍拒绝新叶，v13 递归 `vanishEntity` 仍 fail-loud。v13 定向
   4 tests、相关 v5 runner 25 tests，完整 Reforge 90 files / 900 tests 与 typecheck 全绿；尚未接 main
   的 v12/v13 boot、统一 gates 或 PAL translator。
+- v13 project runtime（2026-08-10）：`ScriptProjectRuntimeV13` 已可直接消费 `assembleProjectV13`/
+  `LoadedProjectV13Core` 的 scene 与 shared-script 数据，保留 entity behavior/scene hook 游标、save
+  barrier 和 transient activity gate；loader fixture 经 `runCommands` 实际写入四态 lifecycle。完整
+  Reforge 当前 90 files / 901 tests、typecheck 通过。main 的显式 v12/v13 boot 分流、统一 gate 投影、
+  SAVE 运行入口、PAL source ledger/translator 与 editor pipeline 仍未接入。
 - 剩余风险：尚未接入 main/typed v13 loader/runtime command adapter、PAL source ledger/translator
   与 editor 全链；在这些边界和 Kimi 7 条补钉完成前，不得把本内核或 SAVE 增量声明为 W9 全链闭环或
   标记 done。

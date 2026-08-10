@@ -1,6 +1,7 @@
 import {
   buildEntityLifecycleReferenceIndexV13,
   emptyWorldScriptStateV5,
+  type ManifestV13,
   type SceneDefV13,
   type WorldStateV13,
 } from '@type-pal/content'
@@ -14,8 +15,10 @@ import {
 import { compileAuthorCommandsV5 } from './script-compiler-v5.js'
 import {
   ProjectScriptRuntimeHostV13,
+  ScriptProjectRuntimeV13,
   type ProjectScriptHostOptionsV13,
 } from './script-project-v13.js'
+import { assembleProjectV13 } from './loader-v13.js'
 import { ScriptRunnerV13 } from './script-runner-v13.js'
 import { FlowRuntimeCoordinatorV5 } from './script-world-v5.js'
 
@@ -28,6 +31,47 @@ const scene: SceneDefV13 = {
   entities: [{ id: 'e001', pos: { col: 1, row: 1, height: 0 }, zone: true }],
 }
 const references = buildEntityLifecycleReferenceIndexV13([scene])
+
+function assembleProjectFixture() {
+  const manifest: ManifestV13 = {
+    id: 'v13-runtime-fixture',
+    name: 'v13 runtime fixture',
+    contentVersion: 13,
+    minimumSaveVersion: 8,
+    entryScene: 's001',
+    content: {
+      actors: 'content/actors.json',
+      scenes: 'content/scenes/',
+      skills: 'content/skills.json',
+      items: 'content/items.json',
+      locale: 'content/locale.json',
+      sprites: 'content/sprites.json',
+      battleSprites: 'content/battle-sprites.json',
+      tilesets: 'content/tilesets.json',
+      maps: 'content/maps/index.json',
+      sharedScripts: 'content/shared-scripts.json',
+    },
+    assets: { catalog: 'assets/index.json', roles: {} },
+    startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+  }
+  return assembleProjectV13(manifest, {
+    actors: [],
+    sceneIds: ['s001'],
+    entryScene: scene,
+    skills: { skills: [], levelUp: {} },
+    items: [],
+    locale: {},
+    sprites: [],
+    battleSprites: [],
+    tilesets: [],
+    maps: {
+      version: 1,
+      maps: [{ id: 'map-001', name: 'fixture map', path: 'content/maps/map-001.json' }],
+    },
+    assetCatalog: { version: 1, assets: {} },
+    sharedScripts: {},
+  })
+}
 
 function makeWorld(): WorldStateV13 {
   return {
@@ -227,5 +271,25 @@ describe('content13 script compiler/runtime host', () => {
         'interactive',
       ),
     ).toThrow(/禁止 vanishEntity/)
+  })
+
+  test('loaded v13 project can be handed directly to ScriptProjectRuntimeV13', async () => {
+    const world = makeWorld()
+    const project = assembleProjectFixture()
+    const effects: string[] = []
+    const runtime = new ScriptProjectRuntimeV13(
+      project,
+      world,
+      digest,
+      hostOptions(effects),
+    )
+    await runtime.runCommands(
+      [{ kind: 'hideEntity', target, ticks: 800 }],
+      { signal: new AbortController().signal },
+    )
+    expect(world.entityLifecycles).toEqual({
+      s001: { e001: { phase: 'despawned', remainingTicks: 800 } },
+    })
+    expect(effects).toEqual(['hideEntity'])
   })
 })
