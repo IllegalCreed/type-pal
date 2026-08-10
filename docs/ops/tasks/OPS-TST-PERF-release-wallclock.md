@@ -10,6 +10,11 @@ Visual Verification Owner: N/A
 Unavailable Agents: none（2026-08-10）
 Branch: main
 
+> **2026-08-10 治理记录**：本卡早期由 Codex 侧子代理生成的 Kimi/GLM 文字仅作历史审计材料，
+> 不等同真实席位签字。A 当前仍是诊断实现，三次成功 full baseline 未完成；B/C 与 fresh 根因已拆为
+> 独立任务卡，均须由用户转发给真实 Kimi/GLM 完成设计与实现复审后才能推进。默认 `test:release`
+> 保持串行，不能以并行或 pinned proof 先行替代门禁。
+
 ## 目标
 
 在不减少 source-backed 证明、不放宽 anti-tamper/append-only 断言、不跨 worker 共享可变
@@ -67,6 +72,9 @@ passed/skipped/unlistedSkipped/failed/maxRssBytes/rssScope/logPath`，顶层 sum
 
 ### B. 独立分组并行（中风险，A 完成后的单独 build）
 
+> 已拆卡：[`OPS-TST-PERF-parallel-gates.md`](OPS-TST-PERF-parallel-gates.md)。本节只保留冻结约束，
+> 不在本卡直接实现。
+
 提供显式 `test:release:parallel` runner：保持每组独立进程和原有清单/断言，manifest、canary、
 unit/preflight 仍按原顺序在并行组之前完成（canary 绝不与 PAL worker 同时运行），然后并行
 `release-pal-shared` 与 `release-pal-fresh`。每个 child 使用独立的
@@ -80,6 +88,9 @@ writes/deletes/conflicts 和 skipped 计数完全相同且 RSS/墙钟满足预�
 
 ### C. 集中 determinism proof（大收益，另行任务卡/三方设计）
 
+> 已拆卡：[`OPS-TST-PERF-consolidated-determinism.md`](OPS-TST-PERF-consolidated-determinism.md)。
+> 本卡不删除 source-backed 双建。
+
 评估将 P2/P3/P4 的第二次完整 reversed-input build 合并到一个 release-only consolidated
 probe；每阶段常规断言改消费已现场生成且 self-digest 验证的 pinned bundle，consolidated probe
 逐阶段用独立 fresh default/reversed 输入（不可同 lease reverse 或原地 mutate）重建，并比较
@@ -90,6 +101,9 @@ duplicate/orphan/missing；否则 C 不得 build，也不能只以总测试数�
 live-double-build；C 不在本卡当前 build 范围，另开卡后再三方签字。
 
 ## 验收条件
+
+> fresh hook/test 根因另见 [`OPS-TST-PERF-fresh-hook-timeout.md`](OPS-TST-PERF-fresh-hook-timeout.md)。
+> 在该卡根因闭环前，不能把 fresh 失败计入成功 baseline，也不能推进 B 的并行实现。
 
 - A：连续三次阶段报告可复现，且每次明确记录 manifest/canary/release 边界；报告 schema 完整，
   full 汇总的 listed/runnable 为 `files=103/tests=720`并与 manifest 路由 digest 相等；当前

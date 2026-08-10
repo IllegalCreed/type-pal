@@ -13,7 +13,11 @@
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | W9 | 实体生命周期、重现与明雷逃跑冷却 | build | Codex 唯一 Coding Owner；先落 content13 基础与上游 translator/preState ledger，再推进 runtime/save/editor | 三方 post-B10 design agree 齐；B10 control graph、五终态 BattleResult、1849-site ledger 与 fail-closed 边界已重锁 |
+| B10-1 | 混乱敌人攻击同伴 | blocked | 用户转发真实 Kimi/GLM implementation review；Codex 不得标 done | 2026-08-10 撤销此前子代理代写的 accept；本卡涉及 schema/SAVE/migration/editor/跨包公共接口，review→done 门禁重开 |
 | OPS-TST-PERF-RW | release worker 墙钟优化 | build | Codex 实现 A 阶段 profiler；B 并行/C 集中 determinism 另开卡，期间不改 release 证明路由 | profiler 已钉住 shared 主瓶颈（本次 2625s/3.22GiB）；fresh 出现 hook/test 超时路径，待单独返工复现，默认 `test:release` 保持串行 |
+| OPS-TST-PERF-FRESH | release fresh hook/test 超时根因 | draft | Codex 先做只读复现；真实 Kimi/GLM 设计签字后再实现 | 区分 beforeAll hook 与 test body；不调大 timeout、不改 skip、不复用预构建 authority |
+| OPS-TST-PERF-B | shared/fresh 隔离并行 runner | draft | Codex 起草 runner；真实 Kimi/GLM 设计签字后实现 | manifest→canary→unit/preflight 串行；shared/fresh 并行；RSS、路径隔离及三次串行对照为硬门禁 |
+| OPS-TST-PERF-C | P2/P3/P4 consolidated determinism proof | draft | Codex 起草逐标题 coverage map；真实 Kimi/GLM 设计签字后实现 | 保留每阶段独立 live default/reversed 双建；不得用 pinned bundle 或删 source-backed 双建冒充证明 |
 | D14-1 | 对话系统外观继承（版式/头像/光标/字体/自动播放） | done | 三方 accept 齐（Kimi/GLM 补审闭环），待用户验收 | maxRight=320 全宽语义；11102 行 0 意外折行仅 6 合法超限；audit 脚本可挂 CI |
 | D15-1 | NPC 移动补全：动态碰撞 + 互相让路 + 转向（议题 15） | draft | 待设计冻结，三方签字 | auto 巡逻已有；缺不穿墙/不互穿/让路滑步/转向动画 |
 
