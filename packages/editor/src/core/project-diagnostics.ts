@@ -7,14 +7,18 @@
  */
 import {
   type EntryPoint,
+  type CurrentManifest,
   type LoadedManifest,
+  type ManifestV13,
   type SceneDef,
+  checkSharedScriptLibraryV13,
   validateAssetCatalog,
   validateAssetReferenceClosure,
   validateItems,
   validateManifestAssetConfigV3,
   validateReferences,
   validateStartWorldResources,
+  validateScenesV13,
 } from '@type-pal/content'
 import { isV5RuntimeScriptRef } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
@@ -43,6 +47,8 @@ export type ProjectIssueCode =
   | 'invalid-item-data'
   | 'migration-pending'
 
+export type ManifestLike = LoadedManifest | CurrentManifest | ManifestV13
+
 export interface ProjectIssue {
   severity: ProjectIssueSeverity
   code: ProjectIssueCode
@@ -59,7 +65,7 @@ export interface ProjectIssue {
 }
 
 /** 缺省 entryPoints 只在 UI/runtime 中合成，绝不直接写回 manifest。 */
-export function resolveProjectEntryPoints(manifest: LoadedManifest): EntryPoint[] {
+export function resolveProjectEntryPoints(manifest: ManifestLike): EntryPoint[] {
   return manifest.entryPoints ?? [{ id: 'new-game', label: '开始游戏', scene: manifest.entryScene }]
 }
 
@@ -80,7 +86,7 @@ export function getRepairableEntryIndexes(entries: readonly EntryPoint[]): Set<n
 
 /** 入口点本地不变式；保存前和问题面板共用。 */
 export function validateManifestEntryPoints(
-  manifest: LoadedManifest,
+  manifest: ManifestLike,
   scenes: readonly SceneDef[],
 ): ProjectIssue[] {
   const issues: ProjectIssue[] = []
@@ -546,6 +552,26 @@ export function assertProjectSaveValid(state: EditorState): void {
     (issue) => issue.severity === 'error',
   )
   if (errors.length) throw new Error(`保存前工程校验失败：${errors[0]!.message}`)
+  if (state.manifest.contentVersion === 13) {
+    try {
+      validateScenesV13(state.scenes)
+    } catch (error) {
+      throw new Error(
+        `保存前场景数据校验失败：${error instanceof Error ? error.message : String(error)}`,
+      )
+    }
+    if (state.manifest.content.sharedScripts !== undefined) {
+      if (!state.sharedScripts)
+        throw new Error('保存前共享脚本校验失败：manifest 声明 sharedScripts 但工作副本缺失')
+      try {
+        checkSharedScriptLibraryV13(state.sharedScripts)
+      } catch (error) {
+        throw new Error(
+          `保存前共享脚本校验失败：${error instanceof Error ? error.message : String(error)}`,
+        )
+      }
+    }
+  }
 
   try {
     validateItems(state.items)

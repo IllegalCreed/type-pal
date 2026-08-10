@@ -33,6 +33,8 @@ import {
   buildBlankProjectMap,
   idleFrameIndex,
   type LoadedProject,
+  type LoadedProjectV5,
+  type LoadedProjectV13,
   type ProjectMap,
   type TilesetDef,
 } from '@type-pal/reforge'
@@ -222,7 +224,7 @@ function scrollKey(location: EditorLocation): string {
 
 export function App(props: {
   session: EditSession
-  project: LoadedProject
+  project: LoadedProject | LoadedProjectV5 | LoadedProjectV13
   scriptV5?: {
     baseState: EditorStateV5
     session: ScriptV5EditSession

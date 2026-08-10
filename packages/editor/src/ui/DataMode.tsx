@@ -20,6 +20,7 @@ import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
 import type { ItemReference } from '../core/item-references.js'
+import type { ManifestLike } from '../core/project-diagnostics.js'
 import { buildRefIndex } from '../core/ref-index.js'
 import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import type { ScriptEditorStateV5, ScriptV5EditSession } from '../core/script-v5-editor.js'
@@ -83,7 +84,7 @@ export function DataMode(props: {
   /** 全场景(N5 引用反向索引数据源;入口点场景下拉)。 */
   scenes: SceneDef[]
   /** 工程清单(入口点页编 manifest.entryPoints)。 */
-  manifest: import('@type-pal/content').LoadedManifest
+  manifest: ManifestLike
   /** 角色定义(入口点 startWorld 队伍选人)。 */
   actors: import('@type-pal/content').ActorDef[]
   /** 引用跳转:变量页/物品页点引用 → 事件模式定位。 */

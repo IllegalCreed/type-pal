@@ -17,9 +17,12 @@ import {
   type AssetCatalogV1,
   formatProjectMap,
   formatStampTemplates,
+  checkSharedScriptLibraryV13,
   type ProjectMap,
   type SceneDef,
+  type SceneDefV13,
   type ScriptChunkV1,
+  type SharedScriptLibraryV13,
   type StampTemplateV1,
   validateAssetCatalog,
   validateMapIndex,
@@ -30,6 +33,8 @@ import {
   decompressGzip,
   type FileSource,
   type LoadedProjectCore,
+  type LoadedProjectV13Core,
+  type LoadedProjectV5Core,
   parseSpriteChunkStrict,
 } from '@type-pal/reforge'
 import { binarySnapshotSignature, sha256Hex } from './binary-signature.js'
@@ -37,14 +42,16 @@ import type { EditorState } from './edit-session.js'
 import { assertProjectSaveValid } from './project-diagnostics.js'
 import { assertScriptProjectValid } from './script-references.js'
 
+type EditorSourceProject = LoadedProjectCore | LoadedProjectV5Core | LoadedProjectV13Core
+
 /**
  * 只读工程 → 可变工作副本。by-id Record 翻成数组(Object.values,保原数组序);
  * 数组/Record 直传;运行期派生物(entryScene/assetBase)丢弃。
  * 参数取数据核 LoadedProjectCore(不需 IO source;运行期 LoadedProject 是其子类型,照传)。
  */
 export function toEditorState(
-  project: LoadedProjectCore,
-  scenes: SceneDef[],
+  project: EditorSourceProject,
+  scenes: SceneDef[] | SceneDefV13[],
   projectMaps: Record<string, ProjectMap> = {}, // 键 = 稳定 map id；缺席 = 尚未按需加载
   scriptChunks: Record<string, ScriptChunkV1> = {},
   stamps?: StampTemplateV1[],
@@ -53,7 +60,7 @@ export function toEditorState(
     throw new Error('toEditorState: manifest.content.stamps 已登记但调用方未加载图章模板表')
   return {
     // M2a-2:场景懒加载后 LoadedProject 不再带全量 → 编辑器 loadAllScenes 拉齐后传入
-    scenes,
+    scenes: scenes as SceneDef[],
     assetCatalog: structuredClone(project.assetCatalog),
     assetBlobs: {},
     maps: projectMaps,
@@ -62,9 +69,12 @@ export function toEditorState(
     tilesets: project.tilesets ?? [],
     stamps: stamps ?? [],
     tilesetBlobs: {},
-    scriptIndex: project.scriptIndex,
+    scriptIndex: 'scriptIndex' in project ? project.scriptIndex : undefined,
     scriptChunks,
     migrationDiagnostics: structuredClone(project.migrationDiagnostics),
+    ...( 'sharedScripts' in project
+      ? { sharedScripts: structuredClone((project as { sharedScripts: SharedScriptLibraryV13 }).sharedScripts) }
+      : {}),
     // by-id Record → 数组(Object.values 保序:indexById 按原数组序插入)
     actors: Object.values(project.actorsById),
     skills: Object.values(project.skills),
@@ -211,6 +221,12 @@ export function serializeProject(
   for (const key of Object.keys(byKey) as ContentKey[]) {
     const rel = content[key]
     if (rel !== undefined) addFile(rel, byKey[key], `内容表 ${key}`)
+  }
+  if (content.sharedScripts !== undefined) {
+    if (!state.sharedScripts)
+      throw new Error('serializeProject: manifest 声明 sharedScripts 但 state.sharedScripts 缺失')
+    checkSharedScriptLibraryV13(state.sharedScripts)
+    addFile(content.sharedScripts, state.sharedScripts, '共享脚本')
   }
 
   for (const [rel, bytes] of Object.entries(state.assetBlobs)) {

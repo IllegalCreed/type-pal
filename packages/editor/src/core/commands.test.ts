@@ -2304,6 +2304,7 @@ describe('RenameProjectCommand', () => {
 describe('X7 manifest 命令', () => {
   test('entryScene / roles apply-invert 保留未知字段且源不变', () => {
     const s0 = st()
+    const originalManifest = s0.manifest
     s0.manifest = {
       ...s0.manifest,
       futureField: { keep: true },
@@ -2317,10 +2318,10 @@ describe('X7 manifest 命令', () => {
     expect(s2.manifest.assets.roles['audio.openingMenuMusic']).toBe('music.a')
     expect((s2.manifest as never as { futureField: unknown }).futureField).toEqual({ keep: true })
     expect((s2.manifest.assets as never as { futureRoleMeta: unknown }).futureRoleMeta).toBe('keep')
-    expect(s0.manifest.assets.roles['audio.openingMenuMusic']).toBeUndefined()
+    expect(originalManifest.assets.roles['audio.openingMenuMusic']).toBeUndefined()
     const backRoles = roleCmd.invert(s2)
     const backScene = sceneCmd.invert(backRoles)
-    expect(backScene.manifest.entryScene).toBe(s0.manifest.entryScene)
+    expect(backScene.manifest.entryScene).toBe(originalManifest.entryScene)
     expect(backScene.manifest.assets.roles['audio.openingMenuMusic']).toBeUndefined()
   })
 

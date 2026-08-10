@@ -10,7 +10,6 @@ import type {
   AssetRole,
   EntryPoint,
   ItemData,
-  LoadedManifest,
   Locale,
   SceneDef,
   SkillData,
@@ -36,6 +35,7 @@ import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import {
   collectProjectIssues,
   getRepairableEntryIndexes,
+  type ManifestLike,
   type ProjectIssue,
   resolveProjectEntryPoints,
 } from '../core/project-diagnostics.js'
@@ -46,7 +46,7 @@ export type ProjectWorkbenchPage = 'overview' | 'startup' | 'entrypoint' | 'adva
 
 export interface ProjectWorkbenchTabProps {
   page: ProjectWorkbenchPage
-  manifest: LoadedManifest
+  manifest: ManifestLike
   scenes: SceneDef[]
   actors: ActorDef[]
   items: ItemData[]
@@ -231,7 +231,7 @@ function PageHint({ children }: { children: ReactNode }) {
 }
 
 function RoleBindings(props: {
-  manifest: LoadedManifest
+  manifest: ManifestLike
   assetCatalog: AssetCatalogV1
   session: EditSession
   assetReader: EditorAssetReader

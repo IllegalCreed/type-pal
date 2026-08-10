@@ -468,7 +468,7 @@ test('X7 manifest 未知字段与入口继承字段缺席可逐层 round-trip', 
 test('X7 serializeProject 对损坏的显式入口 fail-loud', () => {
   const state = toEditorState(assembleProject(manifest, JSONS), SCENES)
   const broken: LoadedManifest = {
-    ...state.manifest,
+    ...(state.manifest as LoadedManifest),
     entryPoints: [{ id: 'missing-scene', label: '坏入口', scene: 'does-not-exist' }],
   }
   expect(() => serializeProject({ ...state, manifest: broken })).toThrow(/入口点.*指向不存在的场景/)
@@ -1071,7 +1071,7 @@ test('A7 资源注册表与待写二进制 round-trip，不再产出 content/mus
   const out = serializeProject({
     ...state,
     manifest: {
-      ...state.manifest,
+      ...(state.manifest as LoadedManifest),
       assets: {
         ...state.manifest.assets,
         roles: {

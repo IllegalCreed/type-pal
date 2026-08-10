@@ -24,7 +24,10 @@ import { collectCanonicalItemReferencesV5 } from './item-references.js'
 import { collectScriptV5ReferenceIssues, type ScriptEditorStateV5 } from './script-v5-editor.js'
 
 export interface EditorStateV5
-  extends Omit<EditorState, 'manifest' | 'scenes' | 'items' | 'scriptIndex' | 'scriptChunks'>,
+  extends Omit<
+      EditorState,
+      'manifest' | 'scenes' | 'items' | 'scriptIndex' | 'scriptChunks' | 'sharedScripts'
+    >,
     ScriptEditorStateV5 {
   manifest: CurrentManifest
   /** 已验签迁移原始字节；普通保存必须逐字节 copy-through。 */

@@ -485,7 +485,7 @@ export async function loadAllProjectMaps(
 
 /** 按稳定 id 懒加载一张地图。 */
 export async function loadProjectMapById(
-  project: LoadedProject,
+  project: Pick<LoadedProject, 'mapIndex' | 'assetBase'>,
   mapId: string,
 ): Promise<ProjectMap> {
   const asset = mapAssetById(project.mapIndex, mapId)

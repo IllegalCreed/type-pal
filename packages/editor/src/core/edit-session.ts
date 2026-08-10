@@ -10,6 +10,7 @@
 import type {
   AssetCatalogV1,
   ContentBundle,
+  CurrentManifest,
   LoadedManifest,
   MapIndexV1,
   ProjectMap,
@@ -17,6 +18,7 @@ import type {
   ScriptIndexV1,
   StampTemplateV1,
 } from '@type-pal/content'
+import type { ManifestV13 } from '@type-pal/content'
 import type { Command } from './commands.js'
 
 export type { Command } from './commands.js'
@@ -25,7 +27,7 @@ export { MoveEntityCommand } from './commands.js'
 
 /** 被编辑的内容工作副本(ContentBundle + manifest)。命令 apply/invert 收/返它(不可变)。 */
 export interface EditorState extends ContentBundle {
-  manifest: LoadedManifest
+  manifest: LoadedManifest | CurrentManifest | ManifestV13
   /** W7G 作者态图章模板表；旧工程加载时规范化为空数组。 */
   stamps: StampTemplateV1[]
   /**

@@ -520,6 +520,18 @@ source provenance 和 BattleResult 终态不足以作为本轮 build 准入；�
   → 2 tests passed；`pnpm --filter @type-pal/migrate typecheck` passed；`pnpm --filter @type-pal/migrate run test:manifest`
   verified fast 81/615、release 104/745、canary 1/2。该切片只完成可重放证明与 FRESH 路由覆盖，
   尚未写生产 content13、append-only seal、oracle/canary/baseline 重录或 implementation accept。
+- editor v12→v13 typed load/save slice（2026-08-10，Codex）：`open-local.ts` / `main.tsx`
+  显式分流 `LoadedProjectV5 | LoadedProjectV13`，v13 只在 manifest 已是 13 时走 typed loader；
+  `toEditorState` 可接 `SceneDefV13[]`，`project-io.ts` 仅在 manifest 声明 sharedScripts 时写回 v13
+  library，`ProjectWorkbenchTab` / `EntryPointTab` / `DataMode` / `project-diagnostics` 统一吃
+  `ManifestLike`，`loadProjectMapById` 收窄到 `mapIndex + assetBase`。验证：
+  `pnpm --filter @type-pal/editor typecheck`、`pnpm --filter @type-pal/editor exec vitest run
+  src/core/open-local.test.ts src/core/project-io.test.ts src/core/project-diagnostics.test.ts
+  src/core/project-io-v5.test.ts src/core/commands.test.ts`，
+  `pnpm --filter @type-pal/reforge exec vitest run src/loader-v13.test.ts src/script-project-v13.test.ts`，
+  `pnpm --filter @type-pal/content exec vitest run src/validate-refs.test.ts src/validate-v13.test.ts
+  src/entity-lifecycle-v13-upgrade.test.ts src/entity-lifecycle-v13.test.ts` 全绿。当前 open path 仍保留
+  canonical v5/v12 loader；`upgrade-local-v12-v13.ts` 作为显式迁移基础设施保留，尚未接到独立用户动作。
 - 剩余风险：PAL ledger writer integration / translator / append-only seal / 生产器重录链路，以及 editor
   v12→v13 overlay + manifest-last 原子升级 / CRUD 还未落完；在这些边界完成并取得三方实现 `accept`
   前，不得把本内核或 SAVE 增量声明为 W9 全链闭环或标记 done。

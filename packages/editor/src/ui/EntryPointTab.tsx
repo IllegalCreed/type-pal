@@ -7,7 +7,6 @@ import type {
   ActorDef,
   AssetCatalogV1,
   ItemData,
-  LoadedManifest,
   Locale,
   SceneDef,
   SkillData,
@@ -15,10 +14,11 @@ import type {
 import type { ReactNode } from 'react'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import type { ManifestLike } from '../core/project-diagnostics.js'
 import { ProjectWorkbenchTab } from './ProjectWorkbenchTab.js'
 
 export function EntryPointTab(props: {
-  manifest: LoadedManifest
+  manifest: ManifestLike
   scenes: SceneDef[]
   actors: ActorDef[]
   items: ItemData[]

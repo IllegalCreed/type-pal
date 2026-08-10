@@ -43,6 +43,7 @@ import type {
   SpriteDef,
   StampTemplateV1,
   StartWorld,
+  SharedScriptLibraryV13,
   TilesetDef,
   WorldState,
 } from './index.js'
@@ -93,6 +94,8 @@ export interface ContentBundle {
   scriptChunks?: Readonly<Record<string, ScriptChunkV1>>
   /** 作者共享脚本目录；仅登记项与 scene 私有根拥有可编辑的精确命令定位。 */
   scriptIndex?: ScriptIndexV1
+  /** v13 作者共享脚本正文；v5 工程可缺省。 */
+  sharedScripts?: SharedScriptLibraryV13
   /** 可见存档/运行态；删除保护可选传入，普通工程闭包可缺省。 */
   worlds?: readonly WorldState[]
   /** 迁移工具显式写出的作者待处理 sidecar；空白/纯作者工程缺省为空。 */

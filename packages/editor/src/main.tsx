@@ -11,12 +11,15 @@ import {
   legacySceneFromV5,
   loadAllScenes,
   loadAllScenesV5,
+  loadAllScenesV13,
   loadAllScriptChunks,
   loadProject,
   loadProjectMapById,
   loadProjectV5,
+  loadProjectV13From,
   loadStampTemplates,
   loadStampTemplatesV5,
+  loadStampTemplatesV13,
 } from '@type-pal/reforge'
 import { StrictMode, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
@@ -35,7 +38,7 @@ const DEV_AUTO = !!PROJECT_ID && !FORCE_PICKER
 
 interface Booted {
   session: EditSession
-  project: LoadedProject
+  project: LoadedProject | LoadedProjectV5 | Awaited<ReturnType<typeof loadProjectV13From>>
   scriptV5?: {
     baseState: EditorStateV5
     session: ScriptV5EditSession
@@ -56,6 +59,19 @@ function Root() {
     const loadDevProject = async (): Promise<Booted> => {
       const source = httpSource(`projects/${PROJECT_ID}`)
       const manifest = await source.readJson<{ contentVersion?: number }>('manifest.json')
+      if (manifest.contentVersion === 13) {
+        const project = await loadProjectV13From(source)
+        const [scenes, stamps] = await Promise.all([
+          loadAllScenesV13(project),
+          loadStampTemplatesV13(project),
+        ])
+        return {
+          session: new EditSession(toEditorState(project, scenes, {}, {}, stamps), {
+            loadMap: (mapId) => loadProjectMapById(project, mapId),
+          }),
+          project,
+        }
+      }
       if (manifest.contentVersion === CONTENT_VERSION) {
         const projectV5: LoadedProjectV5 = await loadProjectV5(PROJECT_ID)
         const [scenesV5, stamps] = await Promise.all([

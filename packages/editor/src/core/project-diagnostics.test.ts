@@ -50,7 +50,7 @@ const heroSprite = {
   layout: { kind: 'directional', framesPerDir: 3 },
 } as SpriteDef
 
-function state(overrides: Partial<EditorState> = {}): EditorState {
+function state(overrides: Partial<EditorState> = {}): EditorState & { manifest: LoadedManifest } {
   const manifest: LoadedManifest = {
     id: 'test',
     name: 'Test',
@@ -71,7 +71,7 @@ function state(overrides: Partial<EditorState> = {}): EditorState {
       entities: [],
     },
   ]
-  const base: EditorState = {
+  const base: EditorState & { manifest: LoadedManifest } = {
     manifest,
     scenes,
     actors: [hero],
@@ -136,7 +136,7 @@ function state(overrides: Partial<EditorState> = {}): EditorState {
     },
     assetBlobs: {},
   }
-  return { ...base, ...overrides }
+  return { ...base, ...overrides } as unknown as EditorState & { manifest: LoadedManifest }
 }
 
 function assetRecord(kind: AssetKind, stem: string): AssetRecordV1 {

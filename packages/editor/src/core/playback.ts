@@ -782,7 +782,7 @@ export class Playback {
       this.log(`🔗 ${id} 触发方式 ${on ?? '关'}${range ?? ''}`),
     startBattle: async (team) => {
       this.log(`⚔ 战斗 敌队 ${team} → 按胜利继续`)
-      return 'win'
+      return 'victory'
     },
     teleportOut: async () => {
       this.log('🌀 传送出口(引路蜂)→ 编辑器预览按「不灵」')
