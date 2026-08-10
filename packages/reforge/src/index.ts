@@ -127,6 +127,13 @@ export type { Palette, RleFrame } from '@type-pal/shared'
 // RLE 编码/解析转出口(W7B 上传管线;编辑器不直依赖 shared)
 export { encodeSpriteChunk, parseSpriteChunk, parseSpriteChunkStrict } from '@type-pal/shared'
 export { AssetResolver } from './asset-resolver.js'
+export {
+  applyEntityLifecycleMutation,
+  deriveEntityLifecycleGates,
+  footAnchorOutsideReappearRect,
+  restoreAwaitingExitIfOutside,
+  tickEntityLifecycles,
+} from './entity-lifecycle.js'
 export { tilesFromChunkBytes } from './assets.js'
 export {
   type BattleResult,

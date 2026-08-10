@@ -366,8 +366,16 @@ source provenance 和 BattleResult 终态不足以作为本轮 build 准入；�
 ### Build
 
 - Coding Owner: Codex（三方 post-B10 设计 `agree` 齐备，build allowed）
-- 修改文件：pending
-- 实现摘要、命令与测试：pending
+- 修改文件：`packages/reforge/src/entity-lifecycle.ts`、
+  `packages/reforge/src/entity-lifecycle.test.ts`、`packages/reforge/src/index.ts`
+- 实现摘要：先落纯函数生命周期内核，不读取/改写静态 `EntityDef` 或 `world.script.entityState`；
+  提供四态派生 gate、四个 mutation、当前 scene/eligible 世界拍递减、`despawned → awaitingExit`
+  和 320×320 foot-anchor 离屏恢复边界。`awaitingExit` 不因 tick 自动清除。
+- 验证（2026-08-10）：`pnpm --filter @type-pal/reforge exec vitest run
+  src/entity-lifecycle.test.ts src/battle/battle-result.test.ts` → 2 files / 8 tests passed；
+  `pnpm --filter @type-pal/reforge exec tsc --noEmit --pretty false` passed。
+- 剩余风险：尚未接入 main/save/loader；在 v13 typed loader、SAVE resolver 和 runtime command
+  adapter 完成前，不得把本内核声明为 W9 全链闭环或标记 done。
 
 ### Review
 
@@ -396,6 +404,9 @@ source provenance 和 BattleResult 终态不足以作为本轮 build 准入；�
   验收三项 counter 均已闭合并签 `agree`；三方设计签字齐备，卡头状态仍由 Coding Owner 转换。
 - 2026-08-10：Codex 复核三方 post-B10 设计签字均为 `agree`，将任务 `blocked → build`；后续统一
   在 `main` 上由 Codex 作为唯一 Coding Owner 实现，生成产物只允许由上游 builder 重建。
+- 2026-08-10：Codex 完成纯函数生命周期内核与独立回归；审计确认 main 接入必须等待 v13 loader/save
+  边界，避免把 `WorldStateV13` 强 cast 到当前 v12 canonical runtime。Next: 先补 typed v13 loader、
+  SAVE resolver 与旧 v5 command adapter，再接 main 的统一 gate/tick/hostile policy。
 
 ## 下一位 Agent 提示词
 
