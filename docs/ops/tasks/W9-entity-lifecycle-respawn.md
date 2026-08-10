@@ -460,8 +460,10 @@ source provenance 和 BattleResult 终态不足以作为本轮 build 准入；�
   结算/奖励/onDefeated/hostile 分支均按五态判断，terminate 不伪装成 enemyFled，敌逃不进入 victory
   奖励路径。
 - 验证（2026-08-10）：`pnpm --filter @type-pal/reforge exec tsc --noEmit --pretty false` 通过；
-  定向 7 files / 138 tests（battle-result/session、script runner/project/adapter、loader PAL）通过。
-  仍需补 playerFled/defeat 五态端到端矩阵与主循环/hostile lifecycle 接入，故未给 implementation accept。
+  定向 7 files / 138 tests（battle-result/session、script runner/project/adapter、loader PAL）通过；随后补齐
+  `playerFled`（玩家 `q` 逃跑）和 `defeat`（`endBattle lost`）经 `tick → done` 的端到端回归，并断言二者
+  都不构建胜利 settlement。完整 Reforge `check` 现为 89 files / 893 tests 通过。BattleResult 五个总终态
+  已有会话级落点，仍需主循环/hostile lifecycle 接入，故未给 implementation accept。
 - Kimi pin #6 路由核验（2026-08-10）：`packages/migrate/vitest.tests.ts` 已将
   `src/script-control-flow-audit.pal.test.ts` 纳入 `PAL_FRESH_TESTS`，release fresh `vitest list`
   实测列出该文件的 2 个 assertions；后续只需在实现 review 中保留 `hostileEntities:828` 断言并核对

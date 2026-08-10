@@ -1064,6 +1064,52 @@ describe('M4d-3/M4d-2 战斗音效接线(时间线帧挂载)', () => {
 })
 
 describe('B9 特殊战斗形态', () => {
+  test('玩家逃跑成功返回 playerFled，且不进入胜利结算', async () => {
+    const buildSettlementCalls: string[] = []
+    const { session } = makeSession(
+      mkEnemy('flee-target', { health: 9999, fleeRate: 0, attackStrength: 0 }),
+      { fleeRate: 9999, defense: 9999 },
+      {
+        buildSettlement: () => {
+          buildSettlementCalls.push('called')
+          return []
+        },
+      },
+    )
+
+    session.tick(16, new Set(['q']))
+    for (let index = 0; index < 40; index += 1) session.tick(1000, new Set())
+
+    await expect(session.done).resolves.toBe('playerFled')
+    expect(buildSettlementCalls).toEqual([])
+  })
+
+  test('endBattle lost 返回 defeat，且不进入胜利结算', async () => {
+    const buildSettlementCalls: string[] = []
+    const { session } = makeSession(
+      mkEnemy('forced-defeat', { health: 9999, attackStrength: 0 }),
+      { defense: 9999 },
+      {
+        encounterChoreo: [
+          {
+            at: 'turnStart',
+            once: true,
+            body: [{ kind: 'endBattle', result: 'lost' }],
+          },
+        ],
+        buildSettlement: () => {
+          buildSettlementCalls.push('called')
+          return []
+        },
+      },
+    )
+
+    for (let index = 0; index < 40; index += 1) session.tick(1000, new Set())
+
+    await expect(session.done).resolves.toBe('defeat')
+    expect(buildSettlementCalls).toEqual([])
+  })
+
   test('endBattle terminate:choreography 撑到 turn → 战斗终止无奖励(林天南 7 回合)', async () => {
     // 打不死的敌 + turn≥2 触发 endBattle terminate;不主动攻击也会终止
     const enemy = mkEnemy('lin', { health: 99999, defense: 99999, attackStrength: 0 })
