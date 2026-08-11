@@ -46,6 +46,7 @@ export const PAL_SHARED_ONLY_TESTS = PAL_SHARED_TESTS.filter(
 
 export const PAL_FRESH_TESTS = [
   'src/pal-migration-integration.test.ts',
+  'src/pal-current-content-replay.pal.test.ts',
   'src/pal-sprite-action-census.pal.test.ts',
   'src/script-control-flow-audit.pal.test.ts',
 ] as const

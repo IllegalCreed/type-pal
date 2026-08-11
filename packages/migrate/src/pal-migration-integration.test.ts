@@ -83,6 +83,7 @@ import {
   PAL_PLAYER_BATTLE_SPRITE_FRAME_COUNTS,
 } from './pal-battle-sprites.js'
 import { preparePalManifest } from './pal-manifest.js'
+import { rewindPublishedW9PublicationIfPresent } from './pal-w9-entity-lifecycle.js'
 import {
   buildPalHistoricalR13_4V9Migration,
   buildPalHistoricalR13_5V10Migration,
@@ -662,8 +663,11 @@ function buildStrictPalMigrationFixture() {
   const sources = loadPalMigrationSources(repo)
   const baseline = loadPalBaseline(repo)
   if (!baseline) throw new Error('MG2 真实 PAL 回归缺已提交 baseline')
+  const w9ParentBaseline = rewindPublishedW9PublicationIfPresent(baseline)
   const theirs = buildPalMigration(sources, {
-    enemyTeamSchema: assertB10PublishedAuthority(baseline) ? 'semantic-slots' : 'legacy-members',
+    enemyTeamSchema: assertB10PublishedAuthority(w9ParentBaseline)
+      ? 'semantic-slots'
+      : 'legacy-members',
   })
   const frozenAudit = JSON.parse(
     readFileSync(

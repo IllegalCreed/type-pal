@@ -1679,6 +1679,27 @@ async function main(): Promise<void> {
     return
   }
 
+  // W9 freezes content13 current replay as its own authority entrance.  A published v13
+  // project contains lifecycle-only commands that the historical generic/v5 merge cannot
+  // interpret, so the ordinary production command must rebuild and verify the W9 successor
+  // instead of falling through to that older pipeline.  Keep explicit internal phases out of
+  // this route; they remain valid only for their canonical historical versions.
+  if (
+    contentVersion === 13 &&
+    !bootstrap &&
+    process.env[EXPECTED_TRANSITION_ENV] === undefined &&
+    !writeOnce &&
+    !verifyIdempotence &&
+    !repairR13ConfirmSeal
+  ) {
+    await runW9EntityLifecycleTransition(
+      rawManifest as ProjectManifest<13>,
+      manifestText,
+      writeRequested,
+    )
+    return
+  }
+
   // R13-6B 是 content10 → content11 的独立迁移边界。内部 v5 子进程仍由
   // EXPECTED_TRANSITION 驱动旧的 R13-5/R13-6A 事务；只有外层命令进入这里。
   if (

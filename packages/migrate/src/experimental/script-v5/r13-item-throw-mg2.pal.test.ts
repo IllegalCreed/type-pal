@@ -13,6 +13,10 @@ import {
   rewindB10PublicationIfPresent,
 } from '../../pal-b10-enemy-team-slots.js'
 import type { MigrationJson } from '../../pal-migration.js'
+import {
+  rewindPublishedW9ProjectAgainstPublishedBaseline,
+  rewindPublishedW9PublicationIfPresent,
+} from '../../pal-w9-entity-lifecycle.js'
 import { C8_ITEM_USE_SEAL_PATH } from './c8-item-use-mg2.js'
 import {
   getPalTestGeneratedFixture,
@@ -126,7 +130,8 @@ describe.skipIf(!existsSync(extracted))('R13-3 item throw append-only PAL MG2 se
   beforeAll(() => {
     const shared = getPalTestGeneratedFixture()
     const publishedBaseline = shared.baseline
-    const base = historicalParent(rewindB10PublicationIfPresent(publishedBaseline), shared)
+    const w9ParentBaseline = rewindPublishedW9PublicationIfPresent(publishedBaseline)
+    const base = historicalParent(rewindB10PublicationIfPresent(w9ParentBaseline), shared)
     hydrateControlHashes(base)
     const managed = discoverProjectManagedFiles(
       repo,
@@ -134,7 +139,13 @@ describe.skipIf(!existsSync(extracted))('R13-3 item throw append-only PAL MG2 se
     )
     const publishedProject = loadProjectMigrationSnapshot(repo, managed)
     const ours = historicalParent(
-      rewindB10ProjectAgainstPublishedBaseline(publishedProject, publishedBaseline),
+      rewindB10ProjectAgainstPublishedBaseline(
+        rewindPublishedW9ProjectAgainstPublishedBaseline(
+          publishedProject,
+          publishedBaseline,
+        ),
+        w9ParentBaseline,
+      ),
       shared,
     )
     const preparedSourceCensus = PAL_TEST_SHARED_GATE

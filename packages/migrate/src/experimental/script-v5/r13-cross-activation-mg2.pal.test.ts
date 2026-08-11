@@ -8,6 +8,10 @@ import {
   loadProjectMigrationSnapshot,
 } from '../../migration-project-io.js'
 import type { MigrationJson } from '../../pal-migration.js'
+import {
+  rewindPublishedW9ProjectAgainstPublishedBaseline,
+  rewindPublishedW9PublicationIfPresent,
+} from '../../pal-w9-entity-lifecycle.js'
 import type { ScriptControlFlowAuditV1 } from '../../script-control-flow-audit.js'
 import { C8_ITEM_USE_SEAL_PATH } from './c8-item-use-mg2.js'
 import type { P7GeneratedCanonical } from './p7-generated.js'
@@ -125,14 +129,20 @@ describe.skipIf(!existsSync(extracted))('R13 cross activation append-only PAL MG
   beforeAll(() => {
     const shared = getPalTestGeneratedFixture()
     const { sources, migration, currentAudit: audit, generated } = shared
-    const loadedBase = shared.baseline
+    const publishedBaseline = shared.baseline
+    const loadedBase = rewindPublishedW9PublicationIfPresent(publishedBaseline)
     const base = withoutCross(loadedBase)
     hydrateControlHashes(base)
     const managed = discoverProjectManagedFiles(
       repo,
-      new Set([...base.managedFiles, ...migration.managedFiles]),
+      new Set([...publishedBaseline.managedFiles, ...migration.managedFiles]),
     )
-    const ours = withoutCross(loadProjectMigrationSnapshot(repo, managed))
+    const ours = withoutCross(
+      rewindPublishedW9ProjectAgainstPublishedBaseline(
+        loadProjectMigrationSnapshot(repo, managed),
+        publishedBaseline,
+      ),
+    )
     const preparedSourceCensus = PAL_TEST_SHARED_GATE
       ? getPalTestPreparedSourceExecutionCensus()
       : undefined

@@ -8,6 +8,10 @@ import {
   loadProjectMigrationSnapshot,
 } from '../../migration-project-io.js'
 import type { MigrationJson } from '../../pal-migration.js'
+import {
+  rewindPublishedW9ProjectAgainstPublishedBaseline,
+  rewindPublishedW9PublicationIfPresent,
+} from '../../pal-w9-entity-lifecycle.js'
 import { C8_ITEM_USE_SEAL_PATH } from './c8-item-use-mg2.js'
 import type { P7GeneratedCanonical } from './p7-generated.js'
 import {
@@ -91,14 +95,18 @@ describe.skipIf(!existsSync(extracted))('R13 cadence append-only PAL MG2 seal', 
   beforeAll(() => {
     const shared = getPalTestGeneratedFixture()
     const { migration, generated } = shared
-    const base = shared.baseline
+    const publishedBaseline = shared.baseline
+    const base = rewindPublishedW9PublicationIfPresent(publishedBaseline)
     const managed = discoverProjectManagedFiles(
       repo,
-      new Set([...base.managedFiles, ...migration.managedFiles]),
+      new Set([...publishedBaseline.managedFiles, ...migration.managedFiles]),
     )
+    const publishedProject = loadProjectMigrationSnapshot(repo, managed)
     const input = {
       base: withoutR13(base),
-      ours: withoutR13(loadProjectMigrationSnapshot(repo, managed)),
+      ours: withoutR13(
+        rewindPublishedW9ProjectAgainstPublishedBaseline(publishedProject, publishedBaseline),
+      ),
       generated,
       // Release prepares from this file's live generated input once; every plan
       // still revalidates identity, evidence digests, and canonical targets.
