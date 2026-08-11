@@ -574,31 +574,30 @@ source provenance 和 BattleResult 终态不足以作为本轮 build 准入；�
 - 冷 canary（2026-08-11，oracle 重录后）：`pnpm --filter @type-pal/migrate test:canary` →
   `1 file / 2 tests passed`，228.25s；随后 current13 再次 dry replay 仍为
   writes/deletes/conflicts=`0/0/0`，source ledger digest 与发布值一致。
-- 剩余治理门：W9 implementation review 的真实 Kimi/GLM `accept` 尚未取得；release A/FRESH 是
-  已开卡的外部性能门禁。两项均未豁免，因此 W9 不得标记 done，B10-1 也仍须真实 Kimi 在新 oracle
+- 剩余治理门：W9 implementation review 的真实 Kimi/GLM `accept` 已取得；release A/FRESH 是
+  已开卡且未豁免的外部性能门禁，因此 W9 仍不得标记 done。B10-1 也仍须真实 Kimi 在新 oracle
   上复审后才能恢复 done。
 
-### Review（Codex 自审完成；Kimi 本人已签，等待真实 GLM）
+### Review（三方 implementation accept 已齐；等待外部门禁与用户验收）
 
 - Kimi：**accept（2026-08-11，本人只读 implementation 复审，非代理）**——五大重点面全部独立
   证实成立，卡文声称的测试数字全部逐命令复跑一致。证据与三条非阻塞补测钉见下方「Kimi 复审证据」。
   **本 accept 只覆盖 W9 实现正确性；OPS-TST-PERF-FRESH/release A 是外部治理阻塞，未通过、未豁免，
   不构成本签字的一部分。**
-- GLM：**rework（2026-08-11，本人只读 implementation 复审，非代理）**——W9 专属实现（ledger/seal/
-  control graph/lifecycle 内核/editor v13/SAVE/BattleResult）**全部核实成立**（见下方「GLM 复审
-  证据」逐项 file:line + 实跑命令）；**唯一阻塞项 R1**：`migrate:content` 生产 CLI 在当前 HEAD 跑出
-  `writes=609 deletes=4 conflicts=0` 且随后在 `items[55].throw.target: 期望 oneEnemy/allEnemies` 崩溃
-  ——**current13 replay 不是 0/0/0**（违反标准 5 与冻结设计 §1）。published content13 的 item 116
-  throw 自身合法（`target:"oneEnemy"`），但 CLI 的 advance/merge 阶段产出畸形 item；fast/integration
-  测试因不走 advance/merge 路径而漏掉。修复后 GLM 可转 accept。
-- counter / 返工处理：**GLM rework R1（current13 replay 幂等性 + item-throw merge 畸形）**。done 仍需：
-  GLM 本人 accept + 外部 release A 门禁按 OPS-TST-PERF 卡闭环 + 用户验收。
+- GLM：**accept（2026-08-11 第二轮，本人只读 R1 复审，非代理；撤销前一轮 rework）**——前一轮 R1
+  阻塞项（普通 `migrate:content` writes=609/deletes=4 后崩 `items[55].throw.target` + release 3 FAIL
+  暴露 W9 v13 lifecycle 命令污染 B10/R13 replay 的 publish-time-surface）**已由 commit bb48dec4 修复并
+  本人逐命令复跑确认闭环**（见下方「GLM R1 复审证据」）。W9 实现本身（ledger/seal/control graph/
+  lifecycle 内核/editor v13/SAVE/BattleResult）此前已全部核实成立。**本 accept 只解除 W9 R1 实现门禁；
+  外部 OPS-TST-PERF-FRESH/release A 仍独立阻塞，未通过、未豁免，W9 done 不得在其闭环前标记。**
+- counter / 返工处理：R1 已闭环；无 W9 侧未决项。三方 implementation `accept` 已齐。
+  done 仍需：外部 release A 门禁按 OPS-TST-PERF 卡闭环 + 用户验收。
 - Codex：**accept（2026-08-11，自审）**。实现切片已冻结；content13 typed boot/SAVE/runtime、
   W9 producer/ledger/seal/recursive authority、editor manifest-last/CRUD/reference protection
   均有定向与全量证据；当前不把外部 OPS-TST-PERF-FRESH/release A 阻塞伪装成通过，也不把本卡
   标记 done。
-- counter / 返工处理：等待真实 GLM；任何一方 counter 都保持 review/rework，不由 Codex
-  或子代理代签。done 仍需：GLM 本人 accept + 外部 release A 门禁按 OPS-TST-PERF 卡闭环 +
+- counter / 返工处理：R1 已由真实 GLM 第二轮 `accept` 关闭；任何一方新的 counter 都保持
+  review/rework，不由 Codex 或子代理代签。done 仍需：外部 release A 门禁按 OPS-TST-PERF 卡闭环 +
   用户验收。
 
 #### Kimi 复审证据（2026-08-11，本人；命令均为本会话实跑）
@@ -778,6 +777,57 @@ full-CLI 回归测试 + current13 0/0/0）→ GLM 复跑 migrate:content 转 acc
 `Status=review`/“GLM rework”，等待用户将下方复审提示词转发后的真实 `GLM: accept`。
 OPS-TST-PERF-FRESH/release A 仍为独立外部阻塞，不在本切片伪设为通过。
 
+#### GLM R1 复审证据（2026-08-11 第二轮，HEAD 64d6b9d0，R1 提交 bb48dec4；本人实跑）
+
+**标准 1（普通 migrate:content 无 --w9）✓ PASS**：
+- `pnpm --filter @type-pal/migrate run migrate:content`（HEAD 64d6b9d0，无 `--w9`）exit 0；
+  `[迁移 plan] writes=0 deletes=0 conflicts=0`、`[合并分类] generated=0 kept=11 merged=0`，
+  并完成 `[W9 lifecycle dry-run] source ledger verified; content13 writer/seal 预检完成`，
+  ledger digest `05fd3623…`、守恒（828/93/7/100/93/1021）全部通过。前一轮的 `items[55].throw.target`
+  崩溃不再出现。
+
+**标准 2（content13 走独立 W9 replay，不入 generic/v5 merge）✓ PASS**：
+- 修复代码 `migrate-content.mts` bb48dec4 +21 行（main():1682-1701）：`contentVersion===13 &&
+  !bootstrap && !internal && !writeOnce && !verifyIdempotence && !repairR13ConfirmSeal` 时调用
+  `runW9EntityLifecycleTransition(...)` 并 return，**在旧 R13-6B 分支前拦截**，generic/v5 merge 在
+  content13 入口不可达。
+- B10/v12 authority 未被改写：b10 seal `parent=r13-6c-lossy-closure-v1 (82e9f8f3…)`、自身 digest
+  `24eeba23…`；`diff projects/pal/_transitions/b10-…json packages/migrate/baselines/pal/_transitions/b10-…json`
+  **零差异**（published == baseline）。item 116 throw.target 仍 `"oneEnemy"`（未手改）。
+
+**标准 3（历史 cadence/cross-activation/item-throw 反投影到 v12，v13 lifecycle 不泄漏 v5 validator）✓ PASS**：
+- bb48dec4 给 `r13-cross-activation-mg2.pal.test.ts` / `r13-item-throw-mg2.pal.test.ts` /
+  `r13-cadence-mg2.pal.test.ts` 加了 `rewindPublishedW9PublicationIfPresent` +
+  `rewindPublishedW9ProjectAgainstPublishedBaseline`：在调用旧 authority 前把 W9 baseline/project
+  反投影到 v12，使 `suspendEntity`/`hideEntity` 仅在 v13 路径可达。
+- s040 entities[6] onFlee[0] 在 v13 published 仍是 `{kind:'suspendEntity',target,ticks:15}`（v13 路径
+  正常产物），但 B10/R13 replay 已通过 rewind 剥离，v5 validator 不再看到——前一轮 release 的
+  `scenes[40].entities[6]...onFlee[0].kind: 未知或已退役的 v5 命令 suspendEntity` 与
+  `B10 authority: publish-time-surface digest 不符` 错误均消除。
+
+**4 套件复跑（命令均为本会话实跑，release vitest config）✓ 全绿，与验收口径逐字一致**：
+- `src/pal-current-content-replay.pal.test.ts`（release-pal-fresh）→ **1/1 passed**（84.53s，spawn
+  无 `--w9` 生产命令，断言 strict 0/0/0）—— 真正的 full-CLI 回归，填补了前一轮指出的覆盖漏洞。
+- `r13-cross-activation-mg2.pal.test.ts` + `r13-item-throw-mg2.pal.test.ts`（release-pal-shared）
+  → **19/19 passed**（含前一轮 FAIL 的 `rejects a self-consistent seal whose source authority evidence
+  changed` 与 item-throw B10 surface）。
+- `pal-migration-integration.test.ts`（release-pal-fresh）→ **2 passed + 1 skipped**（327s；240s body
+  timeout 未改、未用 compact fixture、未调 timeout）。
+- `r13-cadence-mg2.pal.test.ts`（release-pal-shared）→ **7/7 passed**。
+
+**回归确认 ✓**：`test:oracle:verify` 2/2；`migrate check:fast` 83 files / 626 tests passed（5 skipped）。
+R1 修复未引入回归。
+
+**OPS-TST-PERF-FRESH / release A（独立外部阻塞，明文记录，非本 accept 范围）**：release A 的 fresh
+beforeAll 180s hook timeout（OPS-TST-PERF-fresh-hook-timeout 卡，draft，GLM 已 agree 设计附 2 条修正，
+Kimi pending）仍阻塞 release **full** gate。本卡 4 套件复跑用的是定向 vitest 命令，不是完整
+`test:release`；完整 `test:release` 仍会因 release A 的 fresh hook timeout 失败——**那不是 W9 R1 问题**，
+是 OPS-TST-PERF 卡待闭环的外部门禁。W9 done 不得在该外部门禁闭环前标记。
+
+Evidence: 本节 file:line（migrate-content.mts bb48dec4 +21 / r13-* test rewind 调用）+ 实跑命令输出
+（migrate:content 0/0/0 + 4 套件全绿 + oracle/canary/fast 回归）。只读复审，未改实现文件，未代签 Kimi，
+未标 done。Next: W9 R1 闭环；done 待外部 release A 闭环 + 用户验收。
+
 ### 用户验收
 
 - 用户结论：pending
@@ -903,8 +953,25 @@ OPS-TST-PERF-FRESH/release A 仍为独立外部阻塞，不在本切片伪设为
   「GLM 复审证据与阻塞项」节 file:line + 实跑命令（含 release-out2 3 FAIL）。只读复审，未改实现文件，
   未代签 Kimi，未标 done。Next: Codex 修 R1（升级版）→ GLM 复跑普通 migrate:content + release 全绿转 accept。
 
+- **2026-08-11 GLM 本人 R1 复审（HEAD 64d6b9d0，R1 提交 bb48dec4；真实席位，非代理）：撤销前一轮
+  rework，签 `accept`（W9 R1 实现门禁）。** Codex R1 修复（commit bb48dec4，migrate-content.mts +21 行
+  把 content13 路由到 `runW9EntityLifecycleTransition` + r13 cadence/cross-activation/item-throw 测试加
+  rewind 反投影到 v12）**逐命令实跑闭环**：
+  - 普通 `pnpm --filter @type-pal/migrate run migrate:content`（无 `--w9`）exit 0，`[迁移 plan]
+    writes=0 deletes=0 conflicts=0` + W9 dry-run verified；前一轮 `items[55].throw.target` 崩溃消除。
+  - 4 套件复跑全绿：`pal-current-content-replay` 1/1（spawn 真生产 CLI，断言 0/0/0）、
+    `r13-cross-activation + r13-item-throw` 19/19（含前一轮 FAIL 的 surface digest + suspendEntity 泄漏）、
+    `pal-migration-integration` 2 passed + 1 skipped（240s timeout 未调）、`r13-cadence` 7/7。
+  - B10 authority 未改写（b10 seal digest 24eeba23、parent r13-6c 82e9f8f3，published==baseline 零差异）；
+    item 116 throw.target 仍 oneEnemy；s040 v13 suspendEntity 在 published 正常保留但 replay 已 rewind 剥离。
+  - 回归：oracle 2/2、migrate check:fast 83/626 全绿。
+  **OPS-TST-PERF-FRESH/release A 仍为独立外部阻塞**（fresh beforeAll 180s hook timeout，OPS-TST-PERF 卡
+  draft），完整 `test:release` 仍会因该外部 timeout 失败——**不是 W9 R1 问题**，不构成本 accept 的一部分。
+  W9 done 不得在该外部门禁闭环 + 用户验收前标记。Evidence: 本卡「GLM R1 复审证据」节 file:line + 实跑命令。
+  只读复审，未改实现文件，未代签 Kimi，未标 done。
+
 ```text
-【转发给真实 Kimi 的实现复审提示词】
+【历史：转发给真实 Kimi 的实现复审提示词】
 请只读复审 `/Users/zhangxu/illegal/type-pal` main 分支当前 W9 实现，不要修改实现文件、不要代替 GLM
 签字。先读 `AGENTS.md`、`CLAUDE.md`、`docs/phase2/READ-FIRST.md`、本卡的冻结设计/验收矩阵，以及
 `docs/ops/tasks/B10-1-enemy-confused-attack.md`。任务卡当前 `Status=review`，设计三方本人 agree 已齐，
