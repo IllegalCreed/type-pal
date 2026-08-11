@@ -119,7 +119,8 @@ Branch: `main`
 
 > 2026-08-10 进一步治理说明：下列 Kimi/GLM 文字来自此前 Codex 侧协作流程，未经过用户转发给
 > 真实席位的本人确认；因此全部保留为历史意见，不计入当前 `draft/build` 或 `review/done` 签字。
-> 当前有效的 Kimi/GLM 设计与实现签字均为 **pending**，请使用本卡末尾的正式提示词重新复审。
+> 2026-08-10 当时有效的 Kimi/GLM 设计与实现签字均为 **pending**；当前 implementation 门禁以
+> 下方「进入 done 前：审查签字」为准（GLM 本人已 accept，Kimi 本人仍 pending）。
 
 - Codex: **agree**（2026-08-09，完成 v11→v12 successor 方案与源 `009E/009C` 动态槽
   复核；接受条件见「2026-08-09 v12 设计增补」）
@@ -254,12 +255,13 @@ Branch: `main`
 
 - Codex: **accept（2026-08-09，返工验证闭环，自验）**——仅作实现方自验，不替代审查席。
 - Kimi: **pending（代理 architecture/implementation 复核，非本人签字）**——六大合同面全部
-  独立证实成立（file:line 与命令证据见交接日志）；唯一阻塞项与 GLM 一致：当前 HEAD 的
+  独立证实成立（file:line 与命令证据见交接日志）；此前唯一阻塞项是当时 HEAD 的
   oracle/release 门禁红。**归属修正**：oracle fixture `files=41` 与 B10 合入点 e714e073 的
   production .ts 计数逐字吻合（含 B10 新增的 enemy-team-slots-v12-upgrade.ts），B10 当时确已
   重录；41→46 漂移全部来自 B10 之后合入的 7 个 v13 lifecycle 提交（24f6f78a…a3ad182a 新增
   entity-lifecycle-v13/scene-v13/script-v13/validate-v13 等 5 个 production 文件）。阻塞项修复
-  归 W9/v13 收口，但本卡 done 门禁仍需 HEAD 恢复绿。
+  归 W9/v13 收口。该 oracle/current replay 阻塞已由 W9 上游重录与 R1 修复闭环；本行仍不是
+  Kimi 本人签字，本卡 done 门禁继续等待真实 Kimi implementation 复审。
 - **GLM: accept（2026-08-10，本人 data/migration/coverage 验收，非代理）**——B10-1 实现本身全部
   核实成立。**更正前一轮 rework 的根因**：经逐提交核实，`e714e073` 时 content/src production .ts =
   41，oracle manifest 钉 files=41 —— B10 当时确已正确重录。当前 oracle FAIL 的 41→46 漂移来自 B10
@@ -267,8 +269,20 @@ Branch: `main`
   entity-lifecycle-v13-upgrade），归属 W9/v13 收口，不是 B10 缺陷。B10 G3 oracle 重录义务已闭环。
 - counter / 返工处理: 无 B10 侧未决项；oracle 漂移归属 W9 卡。
 - 缺签豁免: N/A
-- done 准入结论: **blocked（GLM accept 已签；待 Kimi 真实 implementation accept；HEAD oracle 门禁红
-  属 W9/v13，由 W9 卡修复）**
+- done 准入结论: **blocked（GLM accept 已签；当前 HEAD oracle/current replay 已绿；待 Kimi 真实
+  implementation accept。全局 OPS-TST-PERF-FRESH/release A 仍按其独立任务卡阻塞，不在此伪装为通过）**
+
+#### 2026-08-11 当前 HEAD 门禁刷新（Codex；不代替 Kimi 签字）
+
+- HEAD `6d2e5157` 与 W9 R1 实现提交 `bb48dec4` 代码相同，仅追加任务卡签字/看板记录。
+- `pnpm --filter @type-pal/migrate run test:oracle:verify`：**1 file / 2 tests passed**。
+- `pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --project unit
+  src/pal-b10-enemy-team-slots.test.ts`：**1 file / 8 tests passed**。
+- 普通生产命令 `pnpm --filter @type-pal/migrate run migrate:content`（无 `--w9`）：exit 0，
+  `writes=0 deletes=0 conflicts=0`；W9 lifecycle source ledger 守恒与递归 authority 预检通过，
+  digest `05fd3623e887db9f78086596e044dc7717f9c27eec6183a306e9d003803f383e`。
+- W9 卡记录的 cold canary 2/2 与 GLM R1 指名的四组 release 定向回归均已绿；完整 release A 仍受
+  OPS-TST-PERF-FRESH 外部卡阻塞。现可把上述最新证据交真实 Kimi 复核，但 Codex 不据此代签。
 
 #### GLM rework 阻塞项（2026-08-10）— **已撤回，根因更正见下**
 
@@ -279,7 +293,7 @@ Branch: `main`
 > entity-lifecycle-v13-upgrade），**归属 W9/v13 收口，不是 B10 缺陷**。GLM 撤回 rework，转 **accept**；
 > oracle 重录义务移交 W9 卡。本节下方原始 rework 证据保留为历史记录，但其归因（B10）已作废。
 
-**B1（原阻塞项，归属已更正为 W9/v13）— HEAD oracle 门禁红（非 B10 缺陷）。**
+**B1（历史原阻塞项，归属已更正为 W9/v13；2026-08-11 已闭环）— 当时 HEAD oracle 门禁红（非 B10 缺陷）。**
 - G3 验收条件「发布后重录 PAL oracle」——B10 commit `e714e073` 当时 content/src = 41 production .ts，
   manifest 钉 files=41，**当时匹配，G3 已闭环**。
 - 当前 HEAD `manifest.json` content/src 仍 `files=41`，实算 `files=46`——漂移源是 B10 之后 7 个 v13
@@ -743,19 +757,18 @@ G1（380 队源槽 census）为 build 准入必落钉——GLM 席位于 build �
 - Reviewer: **真实 Kimi + 真实 GLM（用户转发后）**
 - 当前有效审查结论: **blocked**。此前由 Codex 子代理生成并写入的
   “Kimi: accept”“GLM: accept”仅是历史审计意见，不能作为席位签字，也不能推进 `review → done`。
-- Codex: **accept（自验，仅供参考）**；**Kimi: pending**、**GLM: pending**。两份代理审计均认为
-  六大合同面成立且指出 HEAD oracle/release 门禁红，但只能作为真实席位复审的输入，不能转记
-  `Kimi/GLM: rework` 或 `accept`。
-- 必须返工/核验项: **R1/B1**（同一项：干净树上重录 PAL oracle → oracle verify / canary / release
-  三道门禁全绿；重录 diff 须审查仅限 v13 lifecycle 漂移）。
-- done 准入结论: **blocked**——真实 Kimi + GLM 本人签字（或用户缺签豁免）前不得 done。
+- Codex: **accept（自验，仅供参考）**；**Kimi: pending**；**GLM: accept（2026-08-10，本人）**。
+  代理审计只能作为真实席位复审输入，不能转记为 Kimi 的 `rework` 或 `accept`。
+- 原必须返工/核验项 **R1/B1** 已由 W9 上游重录与 R1 修复关闭；当前 oracle 2/2、B10 unit 8/8、
+  生产 current13 replay 0/0/0。全局 release A/FRESH 仍是独立外部阻塞。
+- done 准入结论: **blocked**——真实 Kimi 本人 implementation `accept`（或用户明确缺签豁免）前不得 done。
 
 ## 用户验收
 
 - 用户治理裁决（2026-08-10）: **此前 `done` 无效，未验收**；伪造/代写的 Kimi、GLM
   implementation accept 不予认可。
-- 后续任务: 用户将本卡下方的正式复审提示词分别转发给真实 Kimi 与 GLM；在两席本人签字前不得标记
-  `done`。剧情/战斗视觉仍按集中 E2E 规则延后。
+- 后续任务: GLM 本人已签 `accept`；用户将本卡下方的正式复审提示词转发给真实 Kimi。Kimi 本人
+  签字前不得标记 `done`。剧情/战斗视觉仍按集中 E2E 规则延后。
 
 ## 交接日志
 
