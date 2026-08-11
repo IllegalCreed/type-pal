@@ -1,15 +1,26 @@
 import { existsSync } from 'node:fs'
 import { stableScriptHash, utf8ByteLength } from '@type-pal/content'
 import { beforeAll, describe, expect, test } from 'vitest'
-import type { MigrationFileSet, MigrationJson } from '../../pal-migration.js'
+import {
+  type MigrationFileSet,
+  type MigrationJson,
+  palSoundAssetForSources,
+} from '../../pal-migration.js'
+import {
+  buildP7GeneratedCanonicalFromValidatedOutput,
+  digestP7GeneratedCanonical,
+  type P7GeneratedCanonicalArgs,
+} from './p7-generated.js'
 import { planP6ScriptTransition, prepareP6ScriptTransition } from './p6-transition-plan.js'
 import { validateP6ScriptMigrationIR } from './p6-validate.js'
 import {
+  getPalTestGeneratedFixture,
   getPalTestPhaseFixture,
   getPalTestPreparedP6ScriptTransition,
   PAL_TEST_EXTRACTED,
   PAL_TEST_SHARED_GATE,
 } from './pal-test-fixture.js'
+import { buildValidatedP6TransformOutput } from './shadow-harness.js'
 import { stableJsonSha256 } from './stable-json.js'
 
 type P6Fixture = ReturnType<typeof loadP6Fixture>
@@ -206,6 +217,28 @@ describe.skipIf(!existsSync(PAL_TEST_EXTRACTED))(
         pendingUnknown: 0,
       })
     }, 180_000)
+
+    test('full-chain and final-output adapters have complete source-backed digest equivalence', () => {
+      const shared = getPalTestGeneratedFixture()
+      const compact = buildValidatedP6TransformOutput(shared.inputs)
+      expect(stableJsonSha256(compact.p6.ir)).toBe(stableJsonSha256(shared.chain.p6.ir))
+      expect(stableJsonSha256(compact.p6.ledger)).toBe(
+        stableJsonSha256(shared.chain.p6.ledger),
+      )
+
+      const args: P7GeneratedCanonicalArgs = {
+        ...shared.inputs,
+        itemSources: shared.sources.migrate.items,
+        magicSources: shared.sources.migrate.magic,
+        objectMagicSources: shared.sources.migrate.objectMagics ?? [],
+        sourceCensus: shared.sourceCensus,
+        soundAssetForNum: palSoundAssetForSources(shared.sources),
+      }
+      const finalOutput = buildP7GeneratedCanonicalFromValidatedOutput(args, compact)
+      expect(digestP7GeneratedCanonical(finalOutput)).toEqual(
+        digestP7GeneratedCanonical(shared.generated),
+      )
+    }, 240_000)
 
     test('shared means generic function: all six item roots remain item-private', () => {
       expect(fixture.p6.ir.sharedAuthorScripts).toEqual([])

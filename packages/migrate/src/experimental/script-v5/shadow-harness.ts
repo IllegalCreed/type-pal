@@ -1553,9 +1553,9 @@ export type P6TransformBuildArgs = Pick<
 >
 
 /**
- * The source-backed R13 canary only needs the final P6 IR/ledger and the input identities.
- * Keeping this compact shape separate from the full phase matrix prevents the producer from
- * retaining every P2-P5 intermediate until P7 has finished.
+ * Final-consumer producers only need the validated P6 IR/ledger and input identities. Keeping
+ * this compact shape separate from the full phase matrix lets the source-backed canary and the
+ * independent fresh release consumer drop every P2-P5 intermediate before P7 starts.
  */
 export interface P6ValidatedTransformOutput {
   readonly inputs: P6TransformBuildArgs
@@ -1564,9 +1564,9 @@ export interface P6ValidatedTransformOutput {
 
 /**
  * Build and validate the complete P2-P6 chain while releasing each prior phase as soon as the
- * next phase has been validated.  The existing `buildValidatedP6TransformChain` intentionally
- * returns the complete matrix for shadow/release tests; this compact variant is canary-only and
- * must not be used as a substitute for those phase artifacts.
+ * next phase has been validated. The existing `buildValidatedP6TransformChain` intentionally
+ * returns the complete matrix for shared/shadow tests. This compact variant is valid only for
+ * consumers that never inspect those intermediate phase artifacts.
  */
 export function buildValidatedP6TransformOutput(
   args: P6TransformBuildArgs,

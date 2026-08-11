@@ -36,7 +36,7 @@ import {
 } from '@type-pal/shared'
 import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 import { projectMigrationV9ToLegacyV8 } from './experimental/script-v5/equip-battle-sprite-v8-authority.js'
-import { buildP7GeneratedCanonical } from './experimental/script-v5/p7-generated.js'
+import { buildP7GeneratedCanonicalFromValidatedOutput } from './experimental/script-v5/p7-generated.js'
 import { PAL_TEST_FAST_GATE } from './experimental/script-v5/pal-test-fixture.js'
 import { rewindPublishedR13EnemyTransition } from './experimental/script-v5/published-r13-enemy-test-fixture.js'
 import { rewindPublishedR13SourceSemanticsTransition } from './experimental/script-v5/published-r13-source-semantics-test-fixture.js'
@@ -46,6 +46,7 @@ import {
   R13_ENEMY_SCRIPT_TRANSITION_ID,
 } from './experimental/script-v5/r13-enemy-script-mg2.js'
 import { prepareR13SourceExecutionCensus } from './experimental/script-v5/source-execution-census.js'
+import { buildValidatedP6TransformOutput } from './experimental/script-v5/shadow-harness.js'
 import { migratedItemUseScriptRef } from './migrate-content.js'
 import {
   isAtomicProjectMapPath,
@@ -89,6 +90,7 @@ import {
   buildPalHistoricalR13_5V10Migration,
   buildPalMigration,
   type MigrationJson,
+  type PalMigrationSources,
   PAL_WORLD_SPRITE_UNUSED_NUMBERS,
   palSoundAssetForSources,
 } from './pal-migration.js'
@@ -659,6 +661,21 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
   }, 60_000)
 })
 
+/**
+ * Historical builders need distinct source-container identities, not duplicate immutable source
+ * pages. This matches the source-backed canary isolation contract: each profile gets independent
+ * top-level/migrate/allJson/Map containers while the read-only extracted arrays and asset bytes
+ * remain shared. None of the PAL builders may mutate those source pages.
+ */
+function clonePalMigrationSourceContainer(source: PalMigrationSources): PalMigrationSources {
+  return {
+    ...source,
+    migrate: { ...source.migrate },
+    allJson: { segments: source.allJson.segments },
+    eventsByScene: new Map(source.eventsByScene),
+  }
+}
+
 function buildStrictPalMigrationFixture() {
   const sources = loadPalMigrationSources(repo)
   const baseline = loadPalBaseline(repo)
@@ -675,33 +692,46 @@ function buildStrictPalMigrationFixture() {
       'utf8',
     ),
   ) as ScriptControlFlowAuditV1
-  // historical/current authority 必须使用独立可变容器，但没有必要再次读取并解析同一份
-  // 2,000+ 资源源树；structuredClone 保持隔离，同时省去约 9s 重复 I/O。
-  const parentSources = structuredClone(sources)
+  // Historical/current authority use independent containers without duplicating immutable pages.
+  const parentSources = clonePalMigrationSourceContainer(sources)
   const parentRawMigration = buildPalHistoricalR13_4V9Migration(parentSources)
   const authorityMigration = projectMigrationV9ToLegacyV8(parentRawMigration)
   const parentAudit = auditPalScriptControlFlow(parentSources, authorityMigration)
   assertScriptControlFlowAudit(parentAudit)
   const preparedHistoricalSourceCensus = prepareR13SourceExecutionCensus(parentSources)
-  const r13FiveSources = structuredClone(sources)
+  const sourceCommands = parentSources.allJson.segments.flatMap((segment) => segment.commands)
+  const generatedResult = baseline.baselineMetadata
+    ? (() => {
+        const p6 = buildValidatedP6TransformOutput({
+          migration: authorityMigration,
+          currentAudit: parentAudit,
+          frozenAudit,
+          sourceCommands,
+        })
+        return buildP7GeneratedCanonicalFromValidatedOutput(
+          {
+            migration: authorityMigration,
+            currentAudit: parentAudit,
+            frozenAudit,
+            sourceCommands,
+            itemSources: parentSources.migrate.items,
+            magicSources: parentSources.migrate.magic,
+            objectMagicSources: parentSources.migrate.objectMagics ?? [],
+            soundAssetForNum: palSoundAssetForSources(parentSources),
+            sourceCensus: preparedHistoricalSourceCensus.census,
+          },
+          p6,
+        )
+      })()
+    : undefined
+  // R13-5 keeps its independent source clone and authority audit, but starts only after P7 has
+  // consumed the compact P6 output so the two large producer graphs do not overlap at P7 peak.
+  const r13FiveSources = clonePalMigrationSourceContainer(sources)
   const r13FiveMigration = buildPalHistoricalR13_5V10Migration(r13FiveSources)
   const r13FiveAudit = PAL_TEST_FAST_GATE
     ? undefined
     : auditPalScriptControlFlow(r13FiveSources, r13FiveMigration)
   if (r13FiveAudit) assertScriptControlFlowAudit(r13FiveAudit)
-  const generatedResult = baseline.baselineMetadata
-    ? buildP7GeneratedCanonical({
-        migration: authorityMigration,
-        currentAudit: parentAudit,
-        frozenAudit,
-        sourceCommands: parentSources.allJson.segments.flatMap((segment) => segment.commands),
-        itemSources: parentSources.migrate.items,
-        magicSources: parentSources.migrate.magic,
-        objectMagicSources: parentSources.migrate.objectMagics ?? [],
-        soundAssetForNum: palSoundAssetForSources(parentSources),
-        sourceCensus: preparedHistoricalSourceCensus.census,
-      })
-    : undefined
   const generated = generatedResult?.snapshot
   const managed = discoverProjectManagedFiles(
     repo,

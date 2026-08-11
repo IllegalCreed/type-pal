@@ -1,6 +1,6 @@
 # OPS-TST-PERF-FRESH - release fresh hook/test 超时根因
 
-Status: blocked
+Status: build
 Phase: ops
 Capability: test infrastructure / release gate
 Coding Owner: Codex
@@ -8,7 +8,7 @@ Generation Owner: N/A
 Reviewer: Kimi + GLM
 Visual Verification Owner: N/A
 Visual Verification Timing: N/A
-Unavailable Agents: none（2026-08-10；真实 Kimi/GLM 已复审，Kimi counter 尚未闭合）
+Unavailable Agents: none（2026-08-11；真实 Kimi/GLM design agree 已齐，implementation accept 尚未申请）
 Branch: main
 
 ## 目标
@@ -80,37 +80,47 @@ Branch: main
   full capture 返回 cadence/cross/confirm parents、project 与全部 evidence，source-disposition capture
   只裁剪返回引用，二者不得维护第二/第三份算法；新增 full-chain/final-output 的完整 digest 等价门。
   shared/release phase matrix、source-backed 独立构建、180s/240s timeout、test identity 与磁盘事务均不改。
-- Kimi: **counter（2026-08-10，本人真实席位设计复审；最小 3 条，方向认可）**——根因诊断的代码
-  事实已独立核实属实（fixture 链 pal-migration-integration.test.ts:661-700、beforeAll :768-770
-  显式 180_000、body :772-945 显式 240_000、同步阻塞机制成立）；compact P6→P7 窄入口机制可行
-  （P7 final-consumer 全链路只消费 chain.inputs 与 chain.p6.ir/ledger，从不碰 p2-p5，
-  p7-generated.ts:154-408 全部 chain.* 引用已核）；等价门工具现成（stableJsonSha256 等）。
-  但以下 3 条必须先闭合（前 2 条是方案成立性前提，第 3 条是卡文勘误）：
-  1. **收益假设未证明（最关键）**：卡文自己的数据显示 real 199.74s / user+sys 178.66s——compact
-     + 重排**不减少任何 CPU 工作**，只降内存/GC 压力；若 GC/缺页/调度开销 <18s（9%），改完照样
-     180s 超时。build 前必须先做一次带 `--cpu-prof` 或 GC trace 的冷跑，把 GC/wall 分解量化写进
-     卡，证明内存路径确实能拿回 ≥18s；若不能，须改案（例如论证后采用 worker 并行三条独立链——
-     卡文目前完全未讨论该替代，至少应论证为何不取）。
-  2. **窄出口形状与存量重复债**：fresh 的 release 分支需要 `generated.r13CadenceParentSnapshot`
-     （r13-cadence-mg2.ts:168）与 confirm parent/successor snapshots（r13-confirm-mg2.ts:213-242、
-     r13-item-throw-mg2.ts:131-140），canary 现有窄出口 `P7SourceDispositionGenerated`
-     （p7-generated.ts:82-95）恰好砍掉这三个 snapshot，**不能直接复用**；且 p7-generated.ts:275-403
-     已存在一份为 canary 整体复制的 P7 流水线（第二份算法），新窄入口必须顺手收敛这份存量重复，
-     不得叠加成第三份。卡文「不维护第二份 P7 算法」须改为面向存量的收敛承诺。
-  3. **卡文勘误**：180s/240s 在测试文件 :770/:945 的显式参数（覆盖 config），不在
-     vitest.release.config.ts:45-65（config 里 hookTimeout 实为 1_200_000，:52/:63）；「禁止拆
-     test 躲避」应扩写为「禁止拆 hook/test 分摊超时预算」，避免留出拆 beforeAll 的灰色通道。
-  设计点 3/4/5 核实无冲突：fresh 文件唯一消费 fixture 的 test（:772）不需要 P2-P6 中间矩阵
-  （fixture 返回对象不暴露 chain）；R13-5 与 parent 用独立 source clone，重排不违反隔离铁律；
-  「释放」只能靠不可达 + V8 GC（项目无 --expose-gc，pal-test-fixture.ts:399 的 globalThis.gc?.()
-  现是 no-op），卡文不要承诺手动 GC。
+- Kimi: **agree（2026-08-11，本人复签；取代 2026-08-10 counter）**——三条 counter 全部闭合，
+  收益门证据已由本人独立复跑确认（见下「Kimi 复签证据」）。**本 agree 只解除 build 准入，
+  不构成 implementation accept；实现验收以卡内后验门为准（连续三次独立 fresh 成功、full/final-output
+  完整 digest 等价、max RSS 不高于现 full control、180s/240s 原值不动），任一项不满足即返工并保持
+  blocked。**原 2026-08-10 counter 三条（全文见交接日志当日条目）：
+  1. ~~收益假设未证明~~ → **已闭合**：Codex 同 gate A/B（-31.2s/-26.9%）+ 本人独立复跑
+     （-48.6s/-42.6%）两轮均超过 18s 门；GC trace 已做且未被夸大（79.7ms、未覆盖 worker，卡文
+     明确不冒充收益证明）；worker 并行替代已论证不取（RSS 放大 + 越界 OPS-TST-PERF-B）。
+  2. ~~窄出口形状与存量重复债~~ → **已闭合**：返工方案冻结为单一私有 canonical pipeline
+     （project→C8→lifecycle→scene semantic→trigger/idle→item throw→confirm→equip），full-chain
+     与 final-output adapter 共享同一 pipeline；full capture 必须含 cadence/cross/confirm 四个
+     parent/successor snapshot + project + 全部 evidence；source-disposition 只在 pipeline 完成后
+     裁剪返回引用；**必须删除 p7-generated.ts:275-403 现有重复流水线**，禁止第二/第三份算法；
+     等价门覆盖 full snapshot、四个历史 snapshot、project、P6 IR/ledger 与全部 evidence digest。
+  3. ~~卡文勘误~~ → **已闭合**：180s/240s 锚点已更正为测试文件内联参数
+     （pal-migration-integration.test.ts:768-770,945；config 实为 1_200_000 上限）；「禁止拆
+     hook/test 分摊预算」已写入返工答复第 5 条。
 - GLM: **agree（2026-08-10，本人数据/覆盖设计复审，附 2 条非阻塞卡文修正）**——根因诊断、
   source-proof 独立性、full/compact digest 等价门方向均核实成立；compact-P6→full-P7 尚须新建
   入口（非纯调用现有函数），卡文应把"minimal"口径写实。见下。
-- counter / 分歧处理: Kimi 三项 counter 已由 2026-08-11 A/B、P7 单 pipeline/full capture 方案与
-  timeout 锚点勘误形成返工答复；**仍须 Kimi 本人复签**。复签前保持 blocked，不改实现。
+- counter / 分歧处理: 无未决项；Kimi 三条 counter 已由 2026-08-11 返工答复 + 本人复跑闭合，
+  GLM 2 条卡文修正已落入锚点与返工方案。
 - 缺签豁免: N/A
-- build 准入结论: **blocked（Codex 已补返工证据与方案；等待 Kimi 本人复签，未获 agree 前不实现）**
+- build 准入结论: **allowed（2026-08-11；Codex / Kimi / GLM 三方 design agree 齐）**
+
+#### Kimi 复签证据（2026-08-11，本人；命令均为本会话实跑）
+
+- **A/B 独立复跑**（同一 `TYPE_PAL_MIGRATE_TEST_GATE=canary`、串行独立冷进程、同 main HEAD）：
+  - full：`getPalTestGeneratedFixture()` → producer **113,335.42ms**、wall **114.10s**、
+    user+sys 121.96s、max RSS **1,730,412,544B**、snapshot files=535、cadence/confirm snapshots 在位。
+  - compact：`getPalTestSourceDispositionFixture()` → producer **64,908.92ms**、wall **65.54s**、
+    user+sys 72.06s、max RSS **1,503,232,000B**、11 keys。
+  - 本人实测墙钟收益 **-48.56s / -42.6%**（Codex 轮 -31.2s / -26.9%）——两轮独立测量同向且均
+    远超 18s 门。注意两轮 compact 均跑的是 narrow P7（11 字段），与最终方案「compact P6 + full P7」
+    存在收益归因残余（早期释放 vs 窄产出计算量差异未分离）；最终证明以后验门为准。
+  - Codex 轮 RSS 1.78x 异常（2.62GB）**在本人复跑中未重现**（1.50GB ≈ full 1.73GB）——RSS 高
+    方差证实，「不再声称 compact 省内存」与「max RSS ≤ full control 后验门」的处理正确。
+- **约束面核实**：180s/240s 内联参数未动（pal-migration-integration.test.ts:768-770,945）；
+  FRESH 保持单进程串行、不引入 worker；不复用 prepared authority；默认 release 路由未改。
+- **签名边界**：本 agree 只解除 build 准入；done 仍需实现后三方 implementation accept +
+  连续三次 fresh 成功 + OPS 主卡 full baseline。
 
 #### GLM 数据/覆盖设计复审（2026-08-10，本人，非代理）：**agree（附 2 条卡文修正）**
 
@@ -241,6 +251,17 @@ profiler；每次记录 monotonic wall、raw JSON、进程树 RSS、临时事务
   p7-generated.ts:275-403 的存量重复 P7 流水线，不得叠加第三份；③卡文勘误（timeout 在测试文件
   非 config；禁止拆 hook/test 分摊预算）。Evidence: 本卡签字表；只读核查，未改实现文件。
   Next: Codex 补 GC/wall 量化数据与窄出口收敛方案后回 Kimi/GLM 复签；签字齐前不得实现。
+- **2026-08-11 Kimi（本人复签）**：签 **agree（解除 build 准入）**。三条 counter 全部闭合：
+  ①收益门——本人独立复跑 A/B（同 gate=canary、串行冷进程、同 HEAD）：full producer 113,335ms /
+  wall 114.10s / RSS 1.73GB，compact producer 64,909ms / wall 65.54s / RSS 1.50GB，墙钟收益
+  **-48.6s / -42.6%**（Codex 轮 -31.2s / -26.9%），两轮同向且远超 18s 门；Codex 轮 RSS 1.78x
+  异常未在复跑中重现，证实 RSS 高方差，后验门（max RSS ≤ full control）才是约束。残余：两轮
+  compact 均为 narrow P7，与最终「compact P6 + full P7」的收益归因未完全分离，最终证明以后验门
+  为准。②P7 单源收敛方案（单一 pipeline + full capture 四 snapshot + 删除存量重复 + 完整等价
+  digest 矩阵）与 ③卡文勘误均已落卡。约束面核实未动：180s/240s 内联原值、单进程串行、无
+  prepared authority、默认路由。Evidence: 本卡「Kimi 复签证据」节；命令均为本会话实跑。未修改
+  实现文件，未标 done。Next: Codex 受控 build；实现后以连续三次 fresh + digest 等价 + RSS 后验
+  门申请三方 implementation accept。
 
 ### Codex counter 返工答复（2026-08-11；只读诊断，未改实现）
 
@@ -282,21 +303,55 @@ profiler；每次记录 monotonic wall、raw JSON、进程树 RSS、临时事务
 
 **Codex 结论：agree（返工设计），请求 Kimi 只读复签。** 本节不构成 Kimi/GLM 签字，不授权实现。
 
+### Codex 受控 build 实现证据（2026-08-11；未代签）
+
+- **P7 单管线收敛**：`p7-generated.ts` 已删除原 source-disposition 的第二份流水线，新增一个私有
+  `buildP7GeneratedCanonicalPipeline`；full-chain、validated-final-output 和 source-disposition 三个
+  适配器只调用该 pipeline。full capture 保留 cadence/cross/confirm 四个 snapshot、project、P6
+  IR/ledger 与全部 evidence；source-disposition 仅在 pipeline 完成后裁剪 11 个返回字段。
+- **Fresh final-consumer**：`pal-migration-integration.test.ts` 用逐阶段验证/释放的
+  `buildValidatedP6TransformOutput` 接入完整 P7 output；R13-5 独立 source container/build/audit
+  在 P7 后启动，仍不读取 prepared/canary authority。历史/current source 现在复制独立容器而共享
+  只读源页/asset bytes，沿用 canary 的 isolation contract，避免 `structuredClone` 重复整棵资源树。
+- **等价门**：`p6-shadow.pal.test.ts` 真实 PAL 源分别构建 full P2→P6 与 compact P2→P6，比较
+  IR/ledger，并用 `digestP7GeneratedCanonical` 比较 full/final-output 的 snapshot、四个历史
+  snapshot、project 及 C8/auto/scene/trigger/idle/itemThrow/confirm/equip 全部 evidence；通过耗时
+  146.649s，未改 source/baseline/project 真值。
+- **验证**：migrate typecheck 通过；fast gate `83 files / 626 tests` 全绿（5 个既有静态 skip）；
+  canary 重新生成 oracle fingerprint 后 `2/2` 通过；manifest generator 仅将 release tests
+  `757→758`（files 107 不变）并重算 sha/route digest。
+- **连续 fresh（独立冷进程、完整 release-pal-fresh 路由、原 180s/240s）**：
+  - `/tmp/type-pal-fresh-final-1.json` + `.log`：success，6 passed + 1 既有 unlisted static skip，
+    integration body 172.950s，process-tree RSS 2,892,922,880B。
+  - `/tmp/type-pal-fresh-final-2.json` + `.log`：success，6 passed + 1 既有 unlisted static skip，
+    integration body 205.175s，process-tree RSS 2,835,972,096B。
+  - `/tmp/type-pal-fresh-final-3.json` + `.log`：success，6 passed + 1 既有 unlisted static skip，
+    integration body 190.670s，process-tree RSS 2,844,229,632B。
+  三次均 exit 0、listed identity 无 skip/failure；RSS 最大约 2.694GiB，低于本卡记录的 full
+  control 约 2.7GiB 与 OPS fresh 3.5GiB hard budget。一次早期深拷贝对照（`run1`）不计入成功序列；
+  后续浅容器修复后的三次才是正式证据。
+- **已知残余门禁**：还需至少一次完整 `test:release:profile` full report 与 OPS 主卡要求的 serial
+  control/三次 full baseline；随后 Codex implementation self-review，并由用户转发真实 Kimi/GLM
+  implementation `accept`。本条不构成任何席位签字，任务保持 `Status: build`。
+
 ## 下一位 Agent 提示词
 
 ```text
-接手任务：OPS-TST-PERF-FRESH release fresh hook/test 超时根因
+接手任务：OPS-TST-PERF-FRESH 受控 build 实现
 任务卡：docs/ops/tasks/OPS-TST-PERF-fresh-hook-timeout.md
-当前状态：blocked；Codex 已提交 2026-08-11 counter 返工方案并 design agree，真实 GLM design agree，
-真实 Kimi 仍为 design counter。不得开始实现、不得调整 timeout/skip、不得标 done，直到 Kimi 本人
-复签 agree。
-先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文、
-docs/ops/tasks/OPS-TST-PERF-release-wallclock.md、pal-migration-integration.test.ts、
-profile-release.mts、vitest.release.config.ts。
-职责：真实 Kimi 请复审本卡「Codex counter 返工答复」：同 gate A/B 的 31.23s 墙钟收益与 compact
-RSS 1.78x 反证、P7 单一 canonical pipeline/full capture、拒绝在 FRESH 偷做并行、以及完整 digest
-等价矩阵和三次 fresh/RSS 后验门。必须本人写 `agree` 或带 file:line 的 `counter`；counter 未闭合前
-Codex 不得实现。实现后仍需 Codex/Kimi/GLM implementation `accept`，并保留 raw JSON/RSS/事务证据。
-不要做：不增大 180s/240s timeout，不将失败转 skip，不复用 canary/prepared authority，不改默认串行路由。
-输出：根因分类（hook/body/process/disk）、最小 diff、连续三次 fresh 结果、命令/报告路径和是否建议 accept。
+当前状态：build；三方 design agree 齐（Codex / GLM 2026-08-10、Kimi 2026-08-11 复签），build 准入
+allowed。
+你的角色：唯一 Coding Owner，按「Codex counter 返工答复」冻结方案实现。
+要点：P7 抽单一私有 canonical pipeline（project→C8→lifecycle→scene semantic→trigger/idle→
+item throw→confirm→equip），full-chain 与 final-output adapter 共享同一 pipeline；full capture 含
+四个历史 snapshot + project + 全部 evidence；删除 p7-generated.ts:275-403 存量重复流水线；
+source-disposition 只在 pipeline 完成后裁剪返回引用；新增 full/final-output 完整 digest 等价门；
+只让 release-pal-fresh final-consumer 改用 validated final P6 output；R13-5 build 可延到 P7 图
+释放之后但身份独立。
+不要做：不得调大 180s/240s（pal-migration-integration.test.ts:768-770,945 内联原值）、不得拆
+hook/test 分摊预算、不得 skip、不得复用 prepared/canary authority、不得引入 worker 并行（OPS-TST-PERF-B
+另卡）、不得改默认串行 release 路由、不得标 done。
+验收：连续三次独立 fresh 成功；任一次超时、RSS 不可采样、digest 不等或 max RSS 高于现 full
+control 即返工并保持 blocked；保留 raw JSON/RSS/事务证据写回本卡。done 仍需 Codex/Kimi/GLM 三方
+implementation accept。
 ```
