@@ -1,6 +1,6 @@
 # B10-1 - 混乱敌人攻击同伴
 
-Status: blocked
+Status: review
 Phase: phase2
 Capability: B4 / B5 / B10
 Coding Owner: Codex
@@ -120,7 +120,7 @@ Branch: `main`
 > 2026-08-10 进一步治理说明：下列 Kimi/GLM 文字来自此前 Codex 侧协作流程，未经过用户转发给
 > 真实席位的本人确认；因此全部保留为历史意见，不计入当前 `draft/build` 或 `review/done` 签字。
 > 2026-08-10 当时有效的 Kimi/GLM 设计与实现签字均为 **pending**；当前 implementation 门禁以
-> 下方「进入 done 前：审查签字」为准（GLM 本人已 accept，Kimi 本人仍 pending）。
+> 下方「进入 done 前：审查签字」为准（GLM、Kimi 本人现均已 accept）。
 
 - Codex: **agree**（2026-08-09，完成 v11→v12 successor 方案与源 `009E/009C` 动态槽
   复核；接受条件见「2026-08-09 v12 设计增补」）
@@ -254,14 +254,11 @@ Branch: `main`
 > 门禁（test:oracle:verify / test:canary / check:release）当前 FAIL。**done 准入仍 blocked。**
 
 - Codex: **accept（2026-08-09，返工验证闭环，自验）**——仅作实现方自验，不替代审查席。
-- Kimi: **pending（代理 architecture/implementation 复核，非本人签字）**——六大合同面全部
-  独立证实成立（file:line 与命令证据见交接日志）；此前唯一阻塞项是当时 HEAD 的
-  oracle/release 门禁红。**归属修正**：oracle fixture `files=41` 与 B10 合入点 e714e073 的
-  production .ts 计数逐字吻合（含 B10 新增的 enemy-team-slots-v12-upgrade.ts），B10 当时确已
-  重录；41→46 漂移全部来自 B10 之后合入的 7 个 v13 lifecycle 提交（24f6f78a…a3ad182a 新增
-  entity-lifecycle-v13/scene-v13/script-v13/validate-v13 等 5 个 production 文件）。阻塞项修复
-  归 W9/v13 收口。该 oracle/current replay 阻塞已由 W9 上游重录与 R1 修复闭环；本行仍不是
-  Kimi 本人签字，本卡 done 门禁继续等待真实 Kimi implementation 复审。
+- Kimi: **accept（2026-08-11，本人真实席位 implementation 复审，HEAD 42861caa）**——六大合同面
+  全部独立证实成立，此前 R1 阻塞项（oracle/release 门禁红）已由 W9 上游重录闭环。本人本轮实跑
+  证据见下「Kimi 本人复审证据（2026-08-11）」；代理时期的审计文字不作依据，全部结论由本轮
+  亲自复核得出。**外部边界**：完整 release A 仍受 OPS-TST-PERF-FRESH 独立任务卡阻塞——那是全局
+  性能治理门禁，不是 B10 缺陷，本 accept 不包含也不假装覆盖它。
 - **GLM: accept（2026-08-10，本人 data/migration/coverage 验收，非代理）**——B10-1 实现本身全部
   核实成立。**更正前一轮 rework 的根因**：经逐提交核实，`e714e073` 时 content/src production .ts =
   41，oracle manifest 钉 files=41 —— B10 当时确已正确重录。当前 oracle FAIL 的 41→46 漂移来自 B10
@@ -269,8 +266,42 @@ Branch: `main`
   entity-lifecycle-v13-upgrade），归属 W9/v13 收口，不是 B10 缺陷。B10 G3 oracle 重录义务已闭环。
 - counter / 返工处理: 无 B10 侧未决项；oracle 漂移归属 W9 卡。
 - 缺签豁免: N/A
-- done 准入结论: **blocked（GLM accept 已签；当前 HEAD oracle/current replay 已绿；待 Kimi 真实
-  implementation accept。全局 OPS-TST-PERF-FRESH/release A 仍按其独立任务卡阻塞，不在此伪装为通过）**
+- done 准入结论: **三方 implementation accept 齐（Codex 自验 + GLM 本人 + Kimi 本人，
+  2026-08-11）；Status 转换与用户验收由用户决定，本席不自行标记 done。** 全局
+  OPS-TST-PERF-FRESH/release A 仍按其独立任务卡阻塞，不在此伪装为通过。
+
+#### Kimi 本人复审证据（2026-08-11，HEAD 42861caa；命令均为本轮实跑）
+
+1. **append-only / control graph**：B10 seal 本人逐字段核对（parent=6C 三 digest、
+   requiredControls=[Z]、census 8 项、自 digest）；本轮复核 project/baseline 两侧 seal sha256 同为
+   `b3c811a0…`、digest 仍 `24eeba23…`——W9 发布后逐字节未改写。内容面 initialize/replay 状态机、
+   四重校验、rewind 链序（B10 最外层）、null-slot drift fail-closed 负测均由
+   pal-b10-enemy-team-slots.test.ts 覆盖，本轮复跑 **8/8 通过**。bb48dec4 的 content13 路由变更
+   本人读 diff 核实：content13 工程经普通生产命令走 W9 递归 authority（含 B10 层 sameSnapshot
+   重放），显式历史阶段（--r13-z 等）只对其 canonical 历史版本有效——`--r13-z --r13-6c --r13-6d`
+   对 content13 工程报「只接受已发布 content12 工程」是**正确的 fail-closed 拒绝**，历史回放覆盖
+   已迁到 MG2 pal 测试（check:fast/manifest 内绿）与 W9 control graph 递归验签，非静默跳过。
+2. **slots/summon/divide**：battle-core.ts 固定 5 槽带洞 + maxEnemyIndex、summon 五类失败门 +
+   count 归 1 + 不扩上限 + 死槽按新 yPosOffset 重算、divide 扩上限 + 全量重算站位——本轮复跑
+   战斗定向六文件 **200/200 通过**（battle-enemy-confused/battle-last-action/battle-casualty/
+   battle-anim/battle-session/battle-core）。
+3. **confused RNG**：本人逐行核 decideEnemyAction（battle-core.ts:925-962）——废弃玩家抽样先于
+   canAct/confused 分支、全槽拒绝采样、自身 Pass、64 guard、sleep/paralyzed 优先级；测试以精确
+   调用计数（0/1/4/66）钉死。
+4. **attackMate**：专用公式 + 完整 overkill damage 写 lastAction.damage；单一具名 side+kind
+   discriminated union（battle-last-action.ts:30-55）；session 路由在通用过滤前；casualty/prevHp
+   负测在位（battle-casualty.test.ts:573-605）。
+5. **SAVE/loader/editor**：SAVE8 content10|11→12 identity、拒绝矩阵不读 sidecar、loader/editor
+   manifest-last 原子升级——前期已核，本轮 check 全绿（见下）。
+6. **HEAD 门禁一致性（本轮实跑）**：`test:oracle:verify` **2/2 passed**；`check:fast` **83 files /
+   626 passed**（5 skipped）；普通 `migrate:content`（current13 回放）**exit 0、writes:0**、
+   ledger digest `05fd3623…` 与发布值一致（非零 plan 内部 throw，exit 0 即 0/0/0 强制成立）；
+   fresh 路由的 `pal-current-content-replay.pal.test.ts` **1/1 passed（72.95s）**；
+   `projects/pal/manifest.json` contentVersion=13/minSave=8。cold canary 2/2 已于 W9 复审时本人
+   复跑（228.59s）。
+7. **集中 E2E 登记**：卡内入口/步骤/预期/证据路径齐备可执行，剧情/战斗视觉按冻结规则未跑。
+
+结论：无 B10 自身阻塞项残留；R1 闭环。**Kimi: accept**。
 
 #### 2026-08-11 当前 HEAD 门禁刷新（Codex；不代替 Kimi 签字）
 
@@ -755,20 +786,25 @@ G1（380 队源槽 census）为 build 准入必落钉——GLM 席位于 build �
 ## Review: 审查与返工
 
 - Reviewer: **真实 Kimi + 真实 GLM（用户转发后）**
-- 当前有效审查结论: **blocked**。此前由 Codex 子代理生成并写入的
+- 当前有效审查结论: **review**。此前由 Codex 子代理生成并写入的
   “Kimi: accept”“GLM: accept”仅是历史审计意见，不能作为席位签字，也不能推进 `review → done`。
-- Codex: **accept（自验，仅供参考）**；**Kimi: pending**；**GLM: accept（2026-08-10，本人）**。
+- Codex: **accept（自验，仅供参考）**；**Kimi: accept（2026-08-11，本人，HEAD 42861caa）**；
+  **GLM: accept（2026-08-10，本人）**。
   代理审计只能作为真实席位复审输入，不能转记为 Kimi 的 `rework` 或 `accept`。
 - 原必须返工/核验项 **R1/B1** 已由 W9 上游重录与 R1 修复关闭；当前 oracle 2/2、B10 unit 8/8、
   生产 current13 replay 0/0/0。全局 release A/FRESH 仍是独立外部阻塞。
-- done 准入结论: **blocked**——真实 Kimi 本人 implementation `accept`（或用户明确缺签豁免）前不得 done。
+- done 准入结论: **三方 implementation accept 齐**——Status 转换与用户验收由用户决定；
+  全局 release A/FRESH 按其独立任务卡另行闭环，不阻塞本卡签字完整性，也不在此伪装为通过。
+- 当前状态保持 `review`，等待用户明确验收；Codex 不把三方 implementation `accept` 自动改写成
+  用户验收，也不在外部 release A/FRESH 未闭环时伪装全局 release 已通过。
 
 ## 用户验收
 
 - 用户治理裁决（2026-08-10）: **此前 `done` 无效，未验收**；伪造/代写的 Kimi、GLM
   implementation accept 不予认可。
-- 后续任务: GLM 本人已签 `accept`；用户将本卡下方的正式复审提示词转发给真实 Kimi。Kimi 本人
-  签字前不得标记 `done`。剧情/战斗视觉仍按集中 E2E 规则延后。
+- 后续任务: GLM 本人已签 `accept`；Kimi 本人已签 `accept`（2026-08-11，HEAD 42861caa，证据见
+  「进入 done 前：审查签字」）。两席签字齐备，是否标记 `done` 由用户验收决定。剧情/战斗视觉仍按
+  集中 E2E 规则延后。
 
 ## 交接日志
 
@@ -936,6 +972,19 @@ G1（380 队源槽 census）为 build 准入必落钉——GLM 席位于 build �
   `packages/content/src tree fingerprint 漂移`（v13 五文件未重录；W9 reforge 提交已动
   reforge/src，content/src 修复后须一并核对 reforge/src 树）。R1 阻塞维持，Kimi rework 不变；
   六大合同面结论不受影响。
+- **2026-08-11 Kimi（本人真实席位 implementation 复审，HEAD 42861caa）：签 `accept`。**
+  代理时期文字不作依据，全部结论由本轮亲自复核：B10 seal 两侧 sha256 同为 `b3c811a0…`、digest
+  `24eeba23…` 逐字节未改写；confused RNG 逐行核 battle-core.ts:925-962；lastAction 单一具名
+  union battle-last-action.ts:30-55；casualty/prevHp 负测在位。本轮实跑：`test:oracle:verify`
+  **2/2 passed**；B10 unit **8/8**；战斗定向六文件 **200/200**；`check:fast` **83/626**；
+  普通 `migrate:content`（current13 回放）**exit 0、writes:0**、ledger digest `05fd3623…` 与
+  发布值一致；fresh 路由 `pal-current-content-replay.pal.test.ts` **1/1（72.95s）**；manifest
+  13/8。bb48dec4 路由变更已读 diff 核实：`--r13-z --r13-6c --r13-6d` 对 content13 工程的拒绝是
+  正确 fail-closed（历史阶段只对 canonical 历史版本有效），历史回放覆盖迁至 MG2 pal 测试 +
+  W9 control graph 递归验签，非静默跳过。R1 阻塞已由 W9 上游重录闭环；无 B10 自身阻塞项残留。
+  **外部边界**：完整 release A 仍受 OPS-TST-PERF-FRESH 独立任务卡阻塞——全局性能治理门禁，
+  不是 B10 缺陷，本 accept 不包含它。剧情/战斗视觉按冻结规则未跑；集中 E2E 登记齐备可执行。
+  未修改实现文件，未代签 GLM，未标 done。Next: 用户验收并决定是否转 done。
 
 ## 历史下一位 Agent 提示词（build 交接记录）
 
@@ -978,7 +1027,8 @@ fingerprint 与生成上游。已有证据写在 Build 节，先核对证据与�
 
 ## 当前交接状态
 
-`Status: blocked` / `Branch: main` / `review → done` 等待真实 Kimi、GLM 席位复审。
+`Status: review` / `Branch: main` / 三方 implementation accept 已齐，等待用户验收；历史交接提示词
+中的 blocked/Kimi pending 仅保留作审计记录，不代表当前门禁。
 当前不得把历史子代理意见当作签字，不得标记 `done`；审查方只读，不得修改实现文件。剧情/战斗视觉
 按冻结后的集中 E2E 批次执行，不在本轮重复走剧情。
 
