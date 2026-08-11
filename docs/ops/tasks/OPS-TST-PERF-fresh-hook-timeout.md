@@ -72,10 +72,14 @@ Branch: main
 
 ### 进入 build 前：设计签字
 
-- Codex: **agree（2026-08-10）**——根因已由单文件 cold verbose 定性；设计只让 fresh final-consumer
-  使用逐阶段验证/释放的 compact P6 output，并新增 full-chain/compact-chain 的 P6 IR+ledger、P7
-  snapshot/evidence digest 等价门。shared/release 的完整 phase matrix、source-backed 独立构建、
-  180s/240s timeout、test identity 与磁盘事务均不改。
+- Codex: **agree（2026-08-11 返工方案；取代 2026-08-10 未证明收益的初稿）**——同一 `canary`
+  gate、独立冷进程的现有 source-backed producer A/B 显示 validated-output 路径相对 full-chain
+  路径墙钟减少 **31.23s / 26.9%**，超过 Kimi 要求的 18s 收益门；但峰值 RSS 反而为
+  **2.62GB vs 1.47GB（1.78x）**，因此返工方案明确不再声称“compact 必然省内存”。实现边界改为：
+  只让 fresh final-consumer 使用逐阶段验证/释放的 P6 final output；P7 必须抽成一条共同 pipeline，
+  full capture 返回 cadence/cross/confirm parents、project 与全部 evidence，source-disposition capture
+  只裁剪返回引用，二者不得维护第二/第三份算法；新增 full-chain/final-output 的完整 digest 等价门。
+  shared/release phase matrix、source-backed 独立构建、180s/240s timeout、test identity 与磁盘事务均不改。
 - Kimi: **counter（2026-08-10，本人真实席位设计复审；最小 3 条，方向认可）**——根因诊断的代码
   事实已独立核实属实（fixture 链 pal-migration-integration.test.ts:661-700、beforeAll :768-770
   显式 180_000、body :772-945 显式 240_000、同步阻塞机制成立）；compact P6→P7 窄入口机制可行
@@ -103,9 +107,10 @@ Branch: main
 - GLM: **agree（2026-08-10，本人数据/覆盖设计复审，附 2 条非阻塞卡文修正）**——根因诊断、
   source-proof 独立性、full/compact digest 等价门方向均核实成立；compact-P6→full-P7 尚须新建
   入口（非纯调用现有函数），卡文应把"minimal"口径写实。见下。
-- counter / 分歧处理: 未集齐三方前保持 draft/blocked，不改实现。
+- counter / 分歧处理: Kimi 三项 counter 已由 2026-08-11 A/B、P7 单 pipeline/full capture 方案与
+  timeout 锚点勘误形成返工答复；**仍须 Kimi 本人复签**。复签前保持 blocked，不改实现。
 - 缺签豁免: N/A
-- build 准入结论: **blocked（Kimi counter 尚未闭合；profile 只能完成诊断，未证明收益门）**
+- build 准入结论: **blocked（Codex 已补返工证据与方案；等待 Kimi 本人复签，未获 agree 前不实现）**
 
 #### GLM 数据/覆盖设计复审（2026-08-10，本人，非代理）：**agree（附 2 条卡文修正）**
 
@@ -237,21 +242,61 @@ profiler；每次记录 monotonic wall、raw JSON、进程树 RSS、临时事务
   非 config；禁止拆 hook/test 分摊预算）。Evidence: 本卡签字表；只读核查，未改实现文件。
   Next: Codex 补 GC/wall 量化数据与窄出口收敛方案后回 Kimi/GLM 复签；签字齐前不得实现。
 
+### Codex counter 返工答复（2026-08-11；只读诊断，未改实现）
+
+1. **收益门 A/B 已量化，但不把单样本冒充验收。** 两条命令都使用当前 main、独立冷进程、
+   `TYPE_PAL_MIGRATE_TEST_GATE=canary`，读取同一 PAL source/baseline；区别仅是仓库现有的
+   `getPalTestSourceDispositionFixture()`（validated P6 final output + narrow P7）与
+   `getPalTestGeneratedFixture()`（full P2-P6 chain + full P7）：
+   - compact probe：`/usr/bin/time -l pnpm exec tsx -e "...getPalTestSourceDispositionFixture()..."`
+     → producer **84,911.53ms**，wall **85.84s**，user/sys **102.06/9.72s**，max RSS
+     **2,621,784,064B**；snapshot files=535，IR/ledger 均存在。
+   - full probe：`/usr/bin/time -l pnpm exec tsx -e "...getPalTestGeneratedFixture()..."`
+     → producer **116,141.12ms**，wall **116.97s**，user/sys **116.55/8.97s**，max RSS
+     **1,473,691,648B**；snapshot files=535，cadence/confirm snapshots 均存在。原始 full 输出保存在
+     `/tmp/type-pal-full-canary-ab.log`。
+   - 同 gate 单样本差值：producer wall **-31,229.60ms / -26.9%**，超过 Kimi 要求的 18s；
+     user+sys 仅减少 **13.74s**，且 compact RSS **+1,148,092,416B / 1.78x**。因此本证据只支持
+     “final-output 路径有足够墙钟收益进入受控实现验证”，**不支持**“compact 省内存”或“已稳定通过”。
+2. **GC trace 未被夸大。** 直接以 Node `--trace-gc --trace-gc-nvp` 启动同一 fresh 文件，JSON 为
+   2 passed + 1 static skipped；目标 test body 215,873.81ms。日志只含 parent PID 的 61 个事件，
+   pause 合计 **79.7ms**、max 4.9ms，worker 没继承 trace；路径为
+   `/tmp/type-pal-fresh-gc.log` 与 `/tmp/type-pal-fresh-gc-vitest.json`。它既不能量化 worker GC，
+   也不计成功 release baseline；只用于否定“现有 parent GC 已证明 18s”这一错误结论。
+3. **P7 单源收敛（关闭 Kimi #2 / GLM correction #2）。** 若 Kimi 复签，build 只允许抽出一个私有
+   canonical pipeline，输入只依赖 `inputs + p6.ir + p6.ledger`，按现有唯一顺序执行 project→C8→
+   lifecycle→scene semantic→trigger/idle→item throw→confirm→equip。full-chain 与 final-output
+   两个 public adapter 只能把各自 validated P6 view 交给这同一 pipeline；full capture 必须返回
+   `r13CadenceParentSnapshot`、`r13CrossActivationParentSnapshot`、`r13ConfirmParentSnapshot`、
+   `r13ConfirmSuccessorSnapshot`、project 与全部 evidence，不能复用缺字段的 11-field canary 类型。
+   source-disposition adapter 只在 pipeline 完成后裁剪返回引用，不得保留现有第二份算法，更不得新增
+   第三份。等价测试须比较 full snapshot、四个 parent/successor snapshot、project、P6 IR/ledger 和
+   C8/auto/scene/trigger/idle/itemThrow/confirm/equip 全部 evidence digest；任一差异 fail-closed。
+4. **并行替代明确不取。** 本次 compact probe 已出现 2.62GB RSS；在未闭合单进程 RSS 前并行三条
+   source-backed 链会放大峰值，并越界进入尚未设计三签的 OPS-TST-PERF-B。FRESH 本卡保持串行；
+   不新增 worker 并行、不与 shared/canary 共享 authority、不改变默认 release 路由。
+5. **timeout/身份门保持原值。** 180s hook 与 240s body 是
+   `pal-migration-integration.test.ts` 的内联参数，不是 config；禁止拆 hook/test 分摊预算，禁止调大
+   timeout、skip、预构建 authority。实现后必须先连续三次独立 fresh 成功；若任一次超时、RSS 不可
+   采样、full/final-output digest 不等或 max RSS 高于现 full control，则返工失败并保持 blocked。
+
+**Codex 结论：agree（返工设计），请求 Kimi 只读复签。** 本节不构成 Kimi/GLM 签字，不授权实现。
+
 ## 下一位 Agent 提示词
 
 ```text
 接手任务：OPS-TST-PERF-FRESH release fresh hook/test 超时根因
 任务卡：docs/ops/tasks/OPS-TST-PERF-fresh-hook-timeout.md
-当前状态：draft/blocked，Codex design agree；真实 GLM design agree，真实 Kimi design counter。
-不得开始实现、不得调整 timeout/skip、不得标 done，直到收益门、窄出口单源收敛和 timeout 勘误均由
-Kimi 复签。
+当前状态：blocked；Codex 已提交 2026-08-11 counter 返工方案并 design agree，真实 GLM design agree，
+真实 Kimi 仍为 design counter。不得开始实现、不得调整 timeout/skip、不得标 done，直到 Kimi 本人
+复签 agree。
 先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文、
 docs/ops/tasks/OPS-TST-PERF-release-wallclock.md、pal-migration-integration.test.ts、
 profile-release.mts、vitest.release.config.ts。
-职责：真实 Kimi 请复审本卡已补的 CPU/RSS 诊断、compact P6→full P7 算法单源与存量 P7 收敛；真实 GLM
-请复审 full/compact 的 IR/ledger/snapshot/evidence digest 等价矩阵与测试身份守恒。Kimi 必须本人写
-`agree` 或带 file:line 的 `counter`；counter 未闭合前 Codex 不得实现。实现后仍需 Codex/Kimi/GLM
-implementation `accept`，并保留 raw JSON/RSS/事务证据。
+职责：真实 Kimi 请复审本卡「Codex counter 返工答复」：同 gate A/B 的 31.23s 墙钟收益与 compact
+RSS 1.78x 反证、P7 单一 canonical pipeline/full capture、拒绝在 FRESH 偷做并行、以及完整 digest
+等价矩阵和三次 fresh/RSS 后验门。必须本人写 `agree` 或带 file:line 的 `counter`；counter 未闭合前
+Codex 不得实现。实现后仍需 Codex/Kimi/GLM implementation `accept`，并保留 raw JSON/RSS/事务证据。
 不要做：不增大 180s/240s timeout，不将失败转 skip，不复用 canary/prepared authority，不改默认串行路由。
 输出：根因分类（hook/body/process/disk）、最小 diff、连续三次 fresh 结果、命令/报告路径和是否建议 accept。
 ```

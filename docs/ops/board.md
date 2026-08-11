@@ -15,7 +15,7 @@
 | W9 | 实体生命周期、重现与明雷逃跑冷却 | review | 三方 implementation accept 已齐；等待 OPS release A/FRESH 闭环与用户验收，Codex 不得标 done | content13 runtime/save/editor 与 PAL W9 发布已冻结；fast/oracle/canary/current replay 绿，release A/FRESH 外部门禁仍 blocked |
 | B10-1 | 混乱敌人攻击同伴 | review | 三方 implementation accept 已齐；等待用户验收，Codex 不得把签字自动改成 done | W9 R1 已修复并重录 current13/oracle；B10 本身无侧未决项，外部 release A/FRESH 另按 OPS 卡闭环 |
 | OPS-TST-PERF-RW | release worker 墙钟优化 | build | Codex 实现 A 阶段 profiler；B 并行/C 集中 determinism 另开卡，期间不改 release 证明路由 | profiler 已钉住 shared 主瓶颈（本次 2625s/3.22GiB）；fresh 出现 hook/test 超时路径，待单独返工复现，默认 `test:release` 保持串行 |
-| OPS-TST-PERF-FRESH | release fresh hook/test 超时根因 | draft | Codex 先做只读复现；真实 Kimi/GLM 设计签字后再实现 | 区分 beforeAll hook 与 test body；不调大 timeout、不改 skip、不复用预构建 authority |
+| OPS-TST-PERF-FRESH | release fresh hook/test 超时根因 | blocked | Codex 已补同 gate A/B 与 P7 单源返工方案；等待真实 Kimi design 复签，复签前不得实现 | A/B 墙钟 -31.23s 但 compact RSS 1.78x；不调 timeout/skip、不复用 authority、不在本卡偷做并行 |
 | OPS-TST-PERF-B | shared/fresh 隔离并行 runner | draft | Codex 起草 runner；真实 Kimi/GLM 设计签字后实现 | manifest→canary→unit/preflight 串行；shared/fresh 并行；RSS、路径隔离及三次串行对照为硬门禁 |
 | OPS-TST-PERF-C | P2/P3/P4 consolidated determinism proof | draft | Codex 起草逐标题 coverage map；真实 Kimi/GLM 设计签字后实现 | 保留每阶段独立 live default/reversed 双建；不得用 pinned bundle 或删 source-backed 双建冒充证明 |
 | D14-1 | 对话系统外观继承（版式/头像/光标/字体/自动播放） | done | 三方 accept 齐（Kimi/GLM 补审闭环），待用户验收 | maxRight=320 全宽语义；11102 行 0 意外折行仅 6 合法超限；audit 脚本可挂 CI |
