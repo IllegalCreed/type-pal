@@ -21,6 +21,7 @@ export const PAL_TEST_ORACLE_INPUT_PATHS = [
   'packages/migrate/baselines/pal/_transitions/r13-enemy-script-v1.json',
   'packages/migrate/baselines/pal/_transitions/r13-item-throw-v1.json',
   'packages/migrate/baselines/pal/_transitions/script-v4-v5.json',
+  'packages/migrate/baselines/pal/_transitions/w9-entity-lifecycle-v1.json',
   'packages/migrate/baselines/pal/content/scenes/index.json',
   'packages/migrate/baselines/pal/content/items.json',
   'packages/migrate/baselines/pal/content/enemies.json',
@@ -79,7 +80,7 @@ export interface PalTestOracleManifestV1 {
   profiles: {
     historicalR13_4: 'pal-v9-projected-v8'
     historicalR13_5: 'pal-v10-r13-5'
-    current: 'pal-v10-r13-6a'
+    current: 'pal-v13-w9'
   }
   projection: string
   projectionSha256: string
@@ -136,6 +137,12 @@ export interface PalTestOracleProjectionV1 {
     enemyDisposition: string
     enemyRuntime: string
     r13SourceSemantics: R13SourceSemanticsCanaryGoldenV1
+    w9: {
+      sourceLedger: string
+      controlGraph: string
+      successorSurface: string
+      affectedFileAllowlist: string
+    }
   }
   content: {
     scenes: number
@@ -172,6 +179,7 @@ const TRANSITION_IDS = [
   'r13-6c-lossy-closure-v1',
   'r13-z-source-closure-v1',
   'b10-enemy-team-slots-v1',
+  'w9-entity-lifecycle-v1',
 ] as const
 
 function readJson<T>(path: string): T {
@@ -235,11 +243,11 @@ export function buildPalTestOracleManifest(
     version: 1,
     methodVersion: PAL_TEST_ORACLE_METHOD,
     cacheFormatVersion: 1,
-    producerContractVersion: 'p2-p7-r13-6a-b10-v1',
+    producerContractVersion: 'p2-p7-r13-6a-b10-w9-v1',
     profiles: {
       historicalR13_4: 'pal-v9-projected-v8',
       historicalR13_5: 'pal-v10-r13-5',
-      current: 'pal-v10-r13-6a',
+      current: 'pal-v13-w9',
     },
     projection: 'packages/migrate/test-fixtures/pal-oracle/v1/projection.json',
     projectionSha256: stableJsonSha256(projection),
@@ -252,7 +260,7 @@ interface PublishedTransition {
   kind: string
   version: number
   digest: string
-  parent?: { digest?: string }
+  parent?: { digest?: string; sealDigest?: string }
   [key: string]: unknown
 }
 
@@ -310,6 +318,10 @@ export function buildPalTestOracleProjection(): PalTestOracleProjectionV1 {
   const enemyAudits = objectAt(enemy.audits, 'r13-enemy.audits')
   const enemySource = objectAt(enemyAudits.sourceControl, 'r13-enemy.sourceControl')
   const enemyRuntime = objectAt(enemyAudits.runtimeExecution, 'r13-enemy.runtime')
+  const w9 = published['w9-entity-lifecycle-v1']!
+  const w9Ledger = objectAt(w9.sourceLedger, 'w9.sourceLedger')
+  const w9ControlGraph = objectAt(w9.controlGraph, 'w9.controlGraph')
+  const w9Successor = objectAt(w9.successor, 'w9.successor')
   const r13SourceSemantics = readJson<R13SourceSemanticsCanaryGoldenV1>(
     'packages/migrate/test-fixtures/pal-oracle/v1/r13-source-semantics.json',
   )
@@ -340,7 +352,7 @@ export function buildPalTestOracleProjection(): PalTestOracleProjectionV1 {
             fileSha256: sha256(
               readFileSync(resolve(repo, `packages/migrate/baselines/pal/_transitions/${id}.json`)),
             ),
-            parentDigest: value.parent?.digest ?? null,
+            parentDigest: value.parent?.digest ?? value.parent?.sealDigest ?? null,
             kind: value.kind,
             version: value.version,
           },
@@ -380,6 +392,18 @@ export function buildPalTestOracleProjection(): PalTestOracleProjectionV1 {
       enemyDisposition: stringAt(enemySource.reportDigest, 'enemy.disposition'),
       enemyRuntime: stringAt(enemyRuntime.reportDigest, 'enemy.runtime'),
       r13SourceSemantics,
+      w9: {
+        sourceLedger: stringAt(w9Ledger.digest, 'w9.sourceLedger.digest'),
+        controlGraph: stringAt(w9ControlGraph.digest, 'w9.controlGraph.digest'),
+        successorSurface: stringAt(
+          w9Successor.publishTimeSurfaceDigest,
+          'w9.successor.publishTimeSurfaceDigest',
+        ),
+        affectedFileAllowlist: stringAt(
+          w9Ledger.affectedFileAllowlistSha256,
+          'w9.sourceLedger.affectedFileAllowlistSha256',
+        ),
+      },
     },
     content: {
       scenes: sceneIndex.length,
@@ -418,7 +442,7 @@ export function assertPalTestOracle(value: PalTestOracleV1): void {
   if (
     manifest.profiles.historicalR13_4 !== 'pal-v9-projected-v8' ||
     manifest.profiles.historicalR13_5 !== 'pal-v10-r13-5' ||
-    manifest.profiles.current !== 'pal-v10-r13-6a'
+    manifest.profiles.current !== 'pal-v13-w9'
   )
     throw new Error('PAL test oracle: profile 身份漂移')
   if (
@@ -449,6 +473,9 @@ export function assertPalTestOracle(value: PalTestOracleV1): void {
     throw new Error('PAL test oracle: R13-6A canary golden digest 漂移')
   for (const [label, value] of Object.entries(r13Golden)) {
     if (label.endsWith('Digest') && label !== 'digest') assertHexDigest(value, `r13-6a.${label}`)
+  }
+  for (const [label, value] of Object.entries(projection.proofs.w9)) {
+    if (typeof value === 'string') assertHexDigest(value, `w9.${label}`)
   }
 
   const inputPaths = manifest.inputs.map((input) => input.path)
@@ -507,13 +534,13 @@ export function assertPalTestOracle(value: PalTestOracleV1): void {
       kind: string
       version: number
       digest: string
-      parent?: { digest?: string }
+      parent?: { digest?: string; sealDigest?: string }
     }>(`packages/migrate/baselines/pal/_transitions/${transitionId}.json`)
     if (
       transition.kind !== expected.kind ||
       transition.version !== expected.version ||
       transition.digest !== expected.digest ||
-      (transition.parent?.digest ?? null) !== expected.parentDigest
+      (transition.parent?.digest ?? transition.parent?.sealDigest ?? null) !== expected.parentDigest
     )
       throw new Error(`PAL test oracle: ${transitionId} projection 漂移`)
   }

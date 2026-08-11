@@ -1,5 +1,5 @@
 import {
-  type CurrentManifest,
+  type LegacyManifestV12,
   emptyWorldScriptStateV5,
   type ProjectMigrationSidecarV1,
   type SceneDefV5,
@@ -52,7 +52,7 @@ const scene: SceneDefV5 = {
   ],
 }
 
-function manifest(over: Partial<CurrentManifest> = {}): CurrentManifest {
+function manifest(over: Partial<LegacyManifestV12> = {}): LegacyManifestV12 {
   return {
     id: 'demo',
     name: 'Demo',

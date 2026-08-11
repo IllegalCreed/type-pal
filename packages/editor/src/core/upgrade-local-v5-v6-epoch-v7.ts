@@ -1,6 +1,6 @@
 import {
   CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
-  type CurrentManifest,
+  type LegacyManifestV12,
   type LegacyManifestV5,
   type LegacyManifestV6,
   type LegacyManifestV7,
@@ -114,7 +114,7 @@ async function buildCurrentV10Upgrade(
   legacyManifest: LegacyManifestV9 | LegacyManifestV10 | LegacyManifestV11,
   itemsOverride?: unknown,
 ): Promise<{
-  current: CurrentManifest
+  current: LegacyManifestV12
   overlay: ReadonlyMap<string, unknown>
   writes: Record<string, unknown>
 }> {

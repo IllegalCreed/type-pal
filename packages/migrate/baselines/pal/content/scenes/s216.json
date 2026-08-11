@@ -388,7 +388,14 @@
           "range": 6,
           "speed": 2
         },
-        "respawnSeconds": 80
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 800
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        }
       }
     },
     {
@@ -406,7 +413,14 @@
           "speed": 4,
           "floating": true
         },
-        "respawnSeconds": 80
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 800
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        }
       }
     },
     {
@@ -446,8 +460,12 @@
                       "kind": "startBattle",
                       "onFlee": [
                         {
-                          "kind": "vanishEntity",
-                          "seconds": 2
+                          "kind": "suspendEntity",
+                          "target": {
+                            "scene": "s216",
+                            "entity": "e3680"
+                          },
+                          "ticks": 15
                         }
                       ],
                       "onLose": [
@@ -492,8 +510,12 @@
                       "team": 56
                     },
                     {
-                      "kind": "vanishEntity",
-                      "seconds": 80
+                      "kind": "hideEntity",
+                      "target": {
+                        "scene": "s216",
+                        "entity": "e3680"
+                      },
+                      "ticks": 800
                     },
                     {
                       "dir": "out",
@@ -546,7 +568,14 @@
           "range": 6,
           "speed": 2
         },
-        "respawnSeconds": 80
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 800
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        }
       }
     },
     {
@@ -564,7 +593,14 @@
           "speed": 4,
           "floating": true
         },
-        "respawnSeconds": 80
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 800
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        }
       }
     },
     {
@@ -577,7 +613,14 @@
       "sprite": "sprite-488",
       "hostile": {
         "team": 145,
-        "respawnSeconds": 80
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 800
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        }
       }
     },
     {
@@ -594,7 +637,14 @@
           "range": 6,
           "speed": 2
         },
-        "respawnSeconds": 80
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 800
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        }
       }
     },
     {
@@ -611,7 +661,14 @@
           "range": 6,
           "speed": 2
         },
-        "respawnSeconds": 80
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 800
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        }
       }
     },
     {
@@ -651,8 +708,12 @@
                       "kind": "startBattle",
                       "onFlee": [
                         {
-                          "kind": "vanishEntity",
-                          "seconds": 2
+                          "kind": "suspendEntity",
+                          "target": {
+                            "scene": "s216",
+                            "entity": "e3686"
+                          },
+                          "ticks": 15
                         }
                       ],
                       "onLose": [
@@ -697,8 +758,12 @@
                       "team": 133
                     },
                     {
-                      "kind": "vanishEntity",
-                      "seconds": 80
+                      "kind": "hideEntity",
+                      "target": {
+                        "scene": "s216",
+                        "entity": "e3686"
+                      },
+                      "ticks": 800
                     },
                     {
                       "dir": "out",

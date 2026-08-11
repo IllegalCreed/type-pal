@@ -1,6 +1,7 @@
 import type { PalMigrationSources } from './pal-migration.js'
 import { assertB10PublishedAuthority } from './pal-b10-enemy-team-slots.js'
 import type { MigrationSnapshot } from './migration-baseline.js'
+import { rewindPublishedW9PublicationIfPresent } from './pal-w9-entity-lifecycle.js'
 import { extractSourceScriptEdgesV2, type ScriptEdge } from './script-graph.js'
 import { sceneSlug, signExtendI16, type SourceCmd } from './source-facts.js'
 import {
@@ -25,7 +26,7 @@ export const PAL_W9_GENERATION_COMMAND =
   'pnpm --filter @type-pal/migrate run migrate:content -- --w9' as const
 export const PAL_W9_PROOF_AFFECTED_FILE_ALLOWLIST = Object.freeze([
   '_transitions/w9-entity-lifecycle-v1.json',
-  'content/scenes/index.json',
+  'manifest.json',
 ])
 export const PAL_W9_EXPECTED_SOURCE_DIGEST =
   '071fd1b359deb391a072c32f8bf72b86e9f0d9c2904893b35300998fd59c78c7' as const
@@ -38,7 +39,7 @@ export const PAL_W9_EXPECTED_RUNTIME_ENTRY_FACTS_DIGEST =
 export const PAL_W9_EXPECTED_BATTLE_PRESERVATION_FACTS_DIGEST =
   '782d1b9472293d9c26ac52e8ddbaa11d67fa22fc103ab4390841fe36cc08f7c6' as const
 export const PAL_W9_EXPECTED_PROOF_LEDGER_DIGEST =
-  '82d55642c5b4d5c05089f4dc2bb71640bf6eb79c7102a1b6597195694052d631' as const
+  '05fd3623e887db9f78086596e044dc7717f9c27eec6183a306e9d003803f383e' as const
 
 export interface W9LifecycleSourceContractEntry {
   sourceAddress: number
@@ -219,12 +220,27 @@ export interface BuildPalW9LifecycleSourceLedgerArgs {
   affectedFileAllowlist: readonly string[]
 }
 
+export type BuildPalW9LifecyclePublicationLedgerArgs = Omit<
+  BuildPalW9LifecycleSourceLedgerArgs,
+  'affectedFileAllowlist'
+>
+
+export function palW9PublicationAffectedFileAllowlist(
+  entries: readonly Pick<W9LifecycleSourceLedgerEntry, 'target'>[],
+): string[] {
+  return [
+    ...PAL_W9_PROOF_AFFECTED_FILE_ALLOWLIST,
+    ...new Set(entries.map((entry) => `content/scenes/${entry.target.sceneId}.json`)),
+  ].sort(stableStringCompare)
+}
+
 export function foldedHostileTargetsFromPublishedB10(
   snapshot: MigrationSnapshot,
 ): W9LifecycleTarget[] {
-  if (!assertB10PublishedAuthority(snapshot))
+  const publishedB10 = rewindPublishedW9PublicationIfPresent(snapshot)
+  if (!assertB10PublishedAuthority(publishedB10))
     throw new Error('W9 source ledger: 缺 published B10/content12 authority')
-  const sceneIds = snapshot.files.get('content/scenes/index.json')
+  const sceneIds = publishedB10.files.get('content/scenes/index.json')
   if (!Array.isArray(sceneIds)) throw new Error('W9 source ledger: published B10 scene index 非法')
   const validatedSceneIds = sceneIds.map((id) => {
     if (typeof id !== 'string' || !id)
@@ -233,7 +249,7 @@ export function foldedHostileTargetsFromPublishedB10(
   })
   const targets: W9LifecycleTarget[] = []
   for (const sceneId of validatedSceneIds) {
-    const scene = snapshot.files.get(`content/scenes/${sceneId}.json`)
+    const scene = publishedB10.files.get(`content/scenes/${sceneId}.json`)
     if (!scene || typeof scene !== 'object' || Array.isArray(scene))
       throw new Error(`W9 source ledger: published B10 缺 scene ${sceneId}`)
     const entities = (scene as Record<string, unknown>).entities
@@ -1192,4 +1208,21 @@ export function buildPalW9LifecycleSourceLedger(
     )
   assertPalConservation(ledger.summary)
   return ledger
+}
+
+/**
+ * 正式 publication ledger 的 affected-file allowlist 必须来自逐 site target，而不是手写场景清单。
+ * 首轮只生成 entries；第二轮把这些 target scene 加入 seal/manifest 基础白名单并重新摘要。
+ */
+export function buildPalW9LifecyclePublicationLedger(
+  args: BuildPalW9LifecyclePublicationLedgerArgs,
+): W9LifecycleSourceLedgerV1 {
+  const preliminary = buildPalW9LifecycleSourceLedger({
+    ...args,
+    affectedFileAllowlist: PAL_W9_PROOF_AFFECTED_FILE_ALLOWLIST,
+  })
+  return buildPalW9LifecycleSourceLedger({
+    ...args,
+    affectedFileAllowlist: palW9PublicationAffectedFileAllowlist(preliminary.entries),
+  })
 }

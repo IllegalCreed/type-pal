@@ -21,6 +21,8 @@ import {
   DEFAULT_SCRIPT_SHARDS,
   type DialogueCue,
   deriveScriptChunk,
+  type EntityAddress,
+  type LifecycleCommandV13,
   palFrameAnimationAssetId,
   palMusicAssetId,
   palPortraitAssetId,
@@ -53,6 +55,24 @@ import {
   sceneSlug,
   signExtendI16,
 } from './source-facts.js'
+
+/**
+ * W9/content13 的 PAL opcode landing。调用方必须先用逐 execution-site ledger 证明正前态；
+ * 本函数只做已经证明后的 0x4B/0x52 语义分流，绝不从旧 seconds 产物反推。
+ */
+export function translatePalW9LifecycleLanding(args: {
+  opcode: 0x4b | 0x52
+  ticks: number
+  target: EntityAddress
+}): LifecycleCommandV13 {
+  if (!Number.isSafeInteger(args.ticks) || args.ticks <= 0)
+    throw new Error('PAL W9 lifecycle landing ticks 必须为正安全整数')
+  if (args.opcode === 0x4b) {
+    if (args.ticks !== 15) throw new Error('PAL W9 0x4B 固定为 15 ticks')
+    return { kind: 'suspendEntity', target: { ...args.target }, ticks: args.ticks }
+  }
+  return { kind: 'hideEntity', target: { ...args.target }, ticks: args.ticks }
+}
 
 /** 提取 JSON 的宽字段(SourceCmd 之上,具名 op 的专有字段)。 */
 interface Cmd extends SourceCmd {
@@ -1747,10 +1767,11 @@ function walkBody(
           })
           return { body, term: { kind: 'end' }, dialogueState: dialogueSnapshot() }
         } else if (oc === 0x4b) {
-          // B8:实体短暂消失(原版 sVanishTime=-15 ≈ 1.5s;野怪战胜后的重生窗)
+          // content12 历史重放专用：已发布 P0/B10 authority 仍需逐字重建旧 vanish 形态。
+          // W9/content13 禁止消费此产物，必须走 translatePalW9LifecycleLanding + source ledger。
           push({ kind: 'vanishEntity', seconds: 2 })
         } else if (oc === 0x52) {
-          // B8:self 长消失(script.c:1794-1800 sVanishTime=op0||800 帧,10fps ≈ 80s;野怪重生主机制)
+          // content12 历史重放专用；W9/content13 由逐 site 正前态 proof 生成 hideEntity。
           push({ kind: 'vanishEntity', seconds: Math.round(((o[0] ?? 0) || 800) / 10) })
         } else if (oc === 0x4e) {
           push({ kind: 'loadLastSave' })

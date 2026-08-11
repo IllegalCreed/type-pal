@@ -1035,7 +1035,14 @@
           "range": 10,
           "speed": 8
         },
-        "respawnSeconds": 80
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 800
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        }
       }
     },
     {
@@ -1049,7 +1056,14 @@
       "collide": true,
       "hostile": {
         "team": 115,
-        "respawnSeconds": 80
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 800
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        }
       }
     },
     {
@@ -1090,8 +1104,12 @@
                       "kind": "startBattle",
                       "onFlee": [
                         {
-                          "kind": "vanishEntity",
-                          "seconds": 2
+                          "kind": "suspendEntity",
+                          "target": {
+                            "scene": "s101",
+                            "entity": "e1851"
+                          },
+                          "ticks": 15
                         }
                       ],
                       "onLose": [
@@ -1136,8 +1154,12 @@
                       "team": 133
                     },
                     {
-                      "kind": "vanishEntity",
-                      "seconds": 80
+                      "kind": "hideEntity",
+                      "target": {
+                        "scene": "s101",
+                        "entity": "e1851"
+                      },
+                      "ticks": 800
                     },
                     {
                       "dir": "out",
@@ -1191,7 +1213,14 @@
           "range": 6,
           "speed": 2
         },
-        "respawnSeconds": 80
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 800
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        }
       }
     },
     {
@@ -1209,7 +1238,14 @@
           "range": 9,
           "speed": 4
         },
-        "respawnSeconds": 80
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 800
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        }
       }
     },
     {
@@ -1227,7 +1263,14 @@
           "range": 10,
           "speed": 8
         },
-        "respawnSeconds": 80
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 800
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        }
       }
     },
     {
@@ -1245,7 +1288,14 @@
           "range": 9,
           "speed": 4
         },
-        "respawnSeconds": 80
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 800
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        }
       }
     },
     {
@@ -1259,7 +1309,14 @@
       "collide": true,
       "hostile": {
         "team": 118,
-        "respawnSeconds": 80
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 800
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        }
       }
     },
     {
@@ -1300,8 +1357,12 @@
                       "kind": "startBattle",
                       "onFlee": [
                         {
-                          "kind": "vanishEntity",
-                          "seconds": 2
+                          "kind": "suspendEntity",
+                          "target": {
+                            "scene": "s101",
+                            "entity": "e1857"
+                          },
+                          "ticks": 15
                         }
                       ],
                       "onLose": [
@@ -1346,8 +1407,12 @@
                       "team": 135
                     },
                     {
-                      "kind": "vanishEntity",
-                      "seconds": 80
+                      "kind": "hideEntity",
+                      "target": {
+                        "scene": "s101",
+                        "entity": "e1857"
+                      },
+                      "ticks": 800
                     },
                     {
                       "dir": "out",
@@ -1401,7 +1466,14 @@
           "range": 10,
           "speed": 8
         },
-        "respawnSeconds": 80
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 800
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        }
       }
     },
     {
@@ -1419,7 +1491,14 @@
           "range": 10,
           "speed": 8
         },
-        "respawnSeconds": 80
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 800
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        }
       }
     },
     {
@@ -1433,7 +1512,14 @@
       "collide": true,
       "hostile": {
         "team": 117,
-        "respawnSeconds": 80
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 800
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        }
       }
     },
     {
@@ -1447,7 +1533,14 @@
       "collide": true,
       "hostile": {
         "team": 126,
-        "respawnSeconds": 80
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 800
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        }
       }
     },
     {
@@ -1461,7 +1554,14 @@
       "collide": true,
       "hostile": {
         "team": 129,
-        "respawnSeconds": 80
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 800
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        }
       }
     },
     {
@@ -1479,7 +1579,14 @@
           "range": 10,
           "speed": 8
         },
-        "respawnSeconds": 80
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 800
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        }
       }
     },
     {
@@ -1497,7 +1604,14 @@
           "range": 10,
           "speed": 8
         },
-        "respawnSeconds": 80
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 800
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        }
       }
     },
     {
@@ -1515,7 +1629,14 @@
           "range": 10,
           "speed": 8
         },
-        "respawnSeconds": 80
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 800
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        }
       }
     },
     {
@@ -1529,7 +1650,14 @@
       "collide": true,
       "hostile": {
         "team": 94,
-        "respawnSeconds": 80
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 800
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        }
       }
     },
     {
@@ -1547,7 +1675,14 @@
           "range": 10,
           "speed": 8
         },
-        "respawnSeconds": 80
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 800
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        }
       }
     },
     {

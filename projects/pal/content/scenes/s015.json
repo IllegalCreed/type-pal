@@ -153,7 +153,14 @@
           "range": 6,
           "speed": 2
         },
-        "respawnSeconds": 10
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 100
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        }
       }
     },
     {
@@ -170,7 +177,14 @@
           "range": 6,
           "speed": 2
         },
-        "respawnSeconds": 15
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 150
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        }
       }
     },
     {
@@ -187,7 +201,14 @@
           "range": 6,
           "speed": 2
         },
-        "respawnSeconds": 80
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 800
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        }
       }
     },
     {
@@ -204,7 +225,14 @@
           "range": 6,
           "speed": 2
         },
-        "respawnSeconds": 80
+        "onVictory": {
+          "kind": "hide",
+          "ticks": 800
+        },
+        "onPlayerFlee": {
+          "kind": "suspend",
+          "ticks": 15
+        }
       }
     }
   ],

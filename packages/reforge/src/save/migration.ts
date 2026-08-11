@@ -1,5 +1,4 @@
 import {
-  CONTENT_VERSION,
   CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
   canonicalLegacyBindingV4,
   canonicalScriptTransitionJson,
@@ -283,7 +282,7 @@ async function resolveSceneHookSelections(
 }
 
 /**
- * 当前工程是 content12/minimum8；接受 SAVE8/content10|11，或当前 12，均只做
+ * 历史 canonical v5 工程是 content12/minimum8；接受 SAVE8/content10|11|12，均只做
  * 纯内存 identity normalization。其它组合在任何兼容 IO 前拒绝。
  */
 export async function preflightSaveMigration(args: {
@@ -293,24 +292,22 @@ export async function preflightSaveMigration(args: {
   const minimum = args.manifest.minimumSaveVersion
   if (minimum !== CURRENT_PROJECT_MINIMUM_SAVE_VERSION)
     throw new Error(
-      `manifest.minimumSaveVersion: contentVersion ${CONTENT_VERSION} 期望 ` +
+      `manifest.minimumSaveVersion: contentVersion 12 期望 ` +
         `${CURRENT_PROJECT_MINIMUM_SAVE_VERSION}，收到 ${String(minimum)}`,
     )
   const saveVersion = assertIntegerVersion(args.payload.version, 'payload.version')
   const contentVersion = assertIntegerVersion(args.payload.contentVersion, 'payload.contentVersion')
   if (args.payload.projectId !== args.manifest.id)
     throw new Error(`存档工程 "${args.payload.projectId}" 与当前工程 "${args.manifest.id}" 不匹配`)
-  if (args.manifest.contentVersion !== CONTENT_VERSION)
-    throw new Error(
-      `工程 "${args.manifest.id}": 当前存档预检只接受 contentVersion ${CONTENT_VERSION}`,
-    )
+  if (args.manifest.contentVersion !== 12)
+    throw new Error(`工程 "${args.manifest.id}": 历史 v5 存档预检只接受 contentVersion 12`)
   if (
     saveVersion !== SAVE_VERSION ||
-    !([10, 11, CONTENT_VERSION] as number[]).includes(contentVersion)
+    ![10, 11, 12].includes(contentVersion)
   )
     throw new Error(
       `不支持的存档 epoch：收到 SAVE v${saveVersion} / contentVersion ${contentVersion}，` +
-        `当前只接受 SAVE v${SAVE_VERSION} / contentVersion 10|11|${CONTENT_VERSION}；` +
+        `当前只接受 SAVE v${SAVE_VERSION} / contentVersion 10|11|12；` +
         '不会读取或重放历史兼容 sidecar',
     )
   return {
@@ -321,7 +318,7 @@ export async function preflightSaveMigration(args: {
           ? 'content-v11-v12'
           : 'current-v12',
     projectId: args.manifest.id,
-    targetContentVersion: CONTENT_VERSION,
+    targetContentVersion: 12,
     targetSaveVersion: SAVE_VERSION,
   }
 }

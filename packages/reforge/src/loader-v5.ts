@@ -1,12 +1,11 @@
 import type {
-  CurrentManifest,
   ItemDataMapV5,
+  LegacyManifestV12,
   ProjectMap,
   SceneDefV5,
   SharedScriptLibraryV5,
 } from '@type-pal/content'
 import {
-  CONTENT_VERSION,
   CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
   checkSharedScriptLibraryV5,
   mapAssetById,
@@ -47,7 +46,7 @@ export interface ContentJsonsV5 extends Omit<ContentJsons, 'entryScene' | 'items
 
 export interface LoadedProjectV5Core
   extends Omit<LoadedProjectCore, 'manifest' | 'entryScene' | 'items' | 'scriptIndex'> {
-  manifest: CurrentManifest
+  manifest: LegacyManifestV12
   entryScene: SceneDefV5
   items: ItemDataMapV5
   sharedScripts: SharedScriptLibraryV5
@@ -72,13 +71,13 @@ function sceneIds(value: unknown): string[] {
   return value as string[]
 }
 
-function scenesDir(manifest: CurrentManifest): string {
+function scenesDir(manifest: LegacyManifestV12): string {
   const dir = manifest.content.scenes ?? 'content/scenes/'
   return dir.endsWith('/') ? dir : `${dir}/`
 }
 
 function normalizeScene(
-  manifest: CurrentManifest,
+  manifest: LegacyManifestV12,
   value: unknown,
   mapIndex: LoadedProjectV5Core['mapIndex'],
 ): SceneDefV5 {
@@ -92,7 +91,7 @@ function normalizeScene(
 }
 
 function assertRegistryClosure(
-  manifest: CurrentManifest,
+  manifest: LegacyManifestV12,
   registry: ValidatedProjectMigrationRegistryV1,
 ): void {
   const declared = Object.keys(manifest.migrations ?? {}).sort()
@@ -102,7 +101,7 @@ function assertRegistryClosure(
 }
 
 export function assembleProjectV5(
-  manifest: CurrentManifest,
+  manifest: LegacyManifestV12,
   jsons: ContentJsonsV5,
   migrationRegistry: ValidatedProjectMigrationRegistryV1 = Object.freeze({}),
   legacyIo = projectRelativeLegacyAdapter({
@@ -120,10 +119,8 @@ export function assembleProjectV5(
     },
   }),
 ): LoadedProjectV5Core {
-  if (manifest.contentVersion !== CONTENT_VERSION)
-    throw new Error(
-      `工程 "${manifest.id}": canonical loader 只接受 contentVersion ${CONTENT_VERSION}`,
-    )
+  if (manifest.contentVersion !== 12)
+    throw new Error(`工程 "${manifest.id}": canonical v5 loader 只接受 contentVersion 12`)
   if (manifest.content.scripts !== undefined)
     throw new Error(`工程 "${manifest.id}": v5 禁止 legacy content.scripts`)
   if (!manifest.content.sharedScripts)
@@ -218,14 +215,12 @@ export function assembleProjectV5(
 }
 
 export async function loadProjectV5From(source: FileSource): Promise<LoadedProjectV5> {
-  const manifest = await source.readJson<CurrentManifest>('manifest.json')
-  if (manifest.contentVersion !== CONTENT_VERSION)
-    throw new Error(
-      `工程 "${manifest.id}": canonical loader 只接受 contentVersion ${CONTENT_VERSION}`,
-    )
+  const manifest = await source.readJson<LegacyManifestV12>('manifest.json')
+  if (manifest.contentVersion !== 12)
+    throw new Error(`工程 "${manifest.id}": canonical v5 loader 只接受 contentVersion 12`)
   if (manifest.minimumSaveVersion !== CURRENT_PROJECT_MINIMUM_SAVE_VERSION)
     throw new Error(
-      `工程 "${manifest.id}": contentVersion ${CONTENT_VERSION} 期望 minimumSaveVersion ` +
+      `工程 "${manifest.id}": contentVersion 12 期望 minimumSaveVersion ` +
         `${CURRENT_PROJECT_MINIMUM_SAVE_VERSION}，收到 ${String(manifest.minimumSaveVersion)}`,
     )
   validateManifestAssetConfigV3(manifest.assets)

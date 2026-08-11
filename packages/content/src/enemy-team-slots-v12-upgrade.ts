@@ -1,4 +1,4 @@
-import type { CurrentManifest, LegacyManifestV11 } from './character.js'
+import type { LegacyManifestV11, LegacyManifestV12 } from './character.js'
 import type { EnemyTeamDef, LegacyEnemyTeamDefV11 } from './enemy.js'
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -91,7 +91,7 @@ export function upgradeEnemyTeamsV11ToV12(value: unknown): EnemyTeamDef[] {
 }
 
 /** v11 manifest → v12：只升级内容 epoch，SAVE 门槛保持 8。 */
-export function upgradeManifestV11ToV12(value: unknown): CurrentManifest {
+export function upgradeManifestV11ToV12(value: unknown): LegacyManifestV12 {
   if (!isRecord(value)) throw new Error('manifest: 期望对象')
   if (value.contentVersion !== 11) throw new Error('manifest: 期望 contentVersion 11')
   if (value.minimumSaveVersion !== 8)

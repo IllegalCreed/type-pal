@@ -74,6 +74,7 @@ import {
   updateProjectMapLayer,
 } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
+import { collectEntityAddressReferencesV13 } from './entity-address-references-v13.js'
 import { createEmptyScriptStages } from './entity-placement.js'
 import { blockingItemReferences } from './item-references.js'
 import {
@@ -320,14 +321,28 @@ export class DeleteEntityCommand implements Command {
     if (!scene) return state
     const index = scene.entities.findIndex((e) => e.id === this.entityId)
     if (index === -1) return state
-    // 首次 apply 捕获被删实体(拷贝) + 原索引,供 invert 插回原位。
     const entity = scene.entities[index]!
-    if (!this.removed) this.removed = { entity: structuredClone(entity), index }
-    return withEntities(
+    const next = withEntities(
       state,
       this.sceneId,
       scene.entities.filter((_, i) => i !== index),
     )
+    const references = collectEntityAddressReferencesV13(next).filter(
+      (reference) =>
+        reference.sceneId === this.sceneId && reference.entityId === this.entityId,
+    )
+    if (references.length)
+      throw new Error(
+        '实体 "' +
+          this.sceneId +
+          '/' +
+          this.entityId +
+          '" 仍被引用：' +
+          references[0]!.path,
+      )
+    // 首次成功 apply 才捕获被删实体 + 原索引；失败的引用保护不得污染 undo 历史。
+    if (!this.removed) this.removed = { entity: structuredClone(entity), index }
+    return next
   }
 
   invert(state: EditorState): EditorState {

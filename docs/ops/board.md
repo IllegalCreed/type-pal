@@ -12,7 +12,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| W9 | 实体生命周期、重现与明雷逃跑冷却 | build | Codex 唯一 Coding Owner；先落 content13 基础与上游 translator/preState ledger，再推进 runtime/save/editor | 三方 post-B10 design agree 齐；B10 control graph、五终态 BattleResult、1849-site ledger 与 fail-closed 边界已重锁 |
+| W9 | 实体生命周期、重现与明雷逃跑冷却 | review | 用户转发真实 Kimi/GLM implementation review；Codex 不得代签或标 done | content13 runtime/save/editor 与 PAL W9 发布已冻结；fast/oracle/canary/current replay 绿，release A/FRESH 外部门禁仍 blocked |
 | B10-1 | 混乱敌人攻击同伴 | blocked | 用户转发真实 Kimi/GLM implementation review；Codex 不得标 done | 2026-08-10 撤销此前子代理代写的 accept；本卡涉及 schema/SAVE/migration/editor/跨包公共接口，review→done 门禁重开 |
 | OPS-TST-PERF-RW | release worker 墙钟优化 | build | Codex 实现 A 阶段 profiler；B 并行/C 集中 determinism 另开卡，期间不改 release 证明路由 | profiler 已钉住 shared 主瓶颈（本次 2625s/3.22GiB）；fresh 出现 hook/test 超时路径，待单独返工复现，默认 `test:release` 保持串行 |
 | OPS-TST-PERF-FRESH | release fresh hook/test 超时根因 | draft | Codex 先做只读复现；真实 Kimi/GLM 设计签字后再实现 | 区分 beforeAll hook 与 test body；不调大 timeout、不改 skip、不复用预构建 authority |

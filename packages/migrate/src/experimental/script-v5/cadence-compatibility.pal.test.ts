@@ -11,10 +11,11 @@ import type {
 } from '@type-pal/content'
 import { compileScriptFlowV5, type ExecutableCommandV5 } from '@type-pal/reforge/script-compiler-v5'
 import { describe, expect, test } from 'vitest'
+import { loadPalBaseline } from '../../migration-baseline.js'
+import { rewindPublishedW9PublicationIfPresent } from '../../pal-w9-entity-lifecycle.js'
 import { stableJson, stableJsonSha256 } from './stable-json.js'
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../../../..')
-const sceneRoot = resolve(repo, 'packages/migrate/baselines/pal/content/scenes')
 const r13OneSealPath = resolve(
   repo,
   'packages/migrate/baselines/pal/_transitions/r13-cadence-v1.json',
@@ -223,7 +224,12 @@ function assertTransitionYields(transition: StateTransitionV5, path: string): vo
 
 describe('R13-1 PAL cadence compatibility', () => {
   test('all cadence-omitted flows retain their complete lowered payload', () => {
-    const sceneIds = JSON.parse(readFileSync(resolve(sceneRoot, 'index.json'), 'utf8')) as string[]
+    const published = loadPalBaseline(repo)
+    if (!published) throw new Error('cadence compatibility: PAL baseline 缺失')
+    const historical = rewindPublishedW9PublicationIfPresent(published)
+    const sceneIds = historical.files.get('content/scenes/index.json')
+    if (!Array.isArray(sceneIds))
+      throw new Error('cadence compatibility: historical scene index 无效')
     const rows: Array<{
       key: string
       timing: 'auto' | 'interactive'
@@ -308,9 +314,12 @@ describe('R13-1 PAL cadence compatibility', () => {
     }
 
     for (const sceneId of sceneIds) {
-      const scene = JSON.parse(
-        readFileSync(resolve(sceneRoot, `${sceneId}.json`), 'utf8'),
-      ) as SceneDefV5
+      if (typeof sceneId !== 'string')
+        throw new Error('cadence compatibility: historical scene id 无效')
+      const scene = historical.files.get('content/scenes/' + sceneId + '.json') as
+        | SceneDefV5
+        | undefined
+      if (!scene) throw new Error('cadence compatibility: historical scene 缺失 ' + sceneId)
       for (const entity of scene.entities) {
         for (const channel of ['trigger', 'auto'] as const) {
           for (const [behaviorId, behavior] of Object.entries(entity.behaviors?.[channel] ?? {}))

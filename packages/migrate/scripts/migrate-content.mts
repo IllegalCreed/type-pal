@@ -18,6 +18,7 @@ import {
   checkSharedScriptLibraryV5,
   mapAssetById,
   upgradeEnemyTeamsV11ToV12,
+  upgradeManifestV12ToV13,
   upgradeManifestV9ToV10,
   upgradeManifestV10ToV11,
   upgradeManifestV11ToV12,
@@ -158,11 +159,17 @@ import {
 } from '../src/pal-migration.js'
 import { loadPalMigrationSources } from '../src/pal-migration-io.js'
 import {
-  buildPalW9LifecycleSourceLedger,
+  buildPalW9LifecyclePublicationLedger,
   foldedHostileTargetsFromPublishedB10,
   PAL_W9_EXPECTED_PROOF_LEDGER_DIGEST,
-  PAL_W9_PROOF_AFFECTED_FILE_ALLOWLIST,
 } from '../src/pal-w9-lifecycle-source-ledger.js'
+import { projectPalW9LifecycleSuccessor } from '../src/pal-w9-lifecycle-projector.js'
+import {
+  buildW9EntityLifecycleSeal,
+  installW9EntityLifecycleSeal,
+  rewindPublishedW9PublicationIfPresent,
+  validateW9ProjectV13Target,
+} from '../src/pal-w9-entity-lifecycle.js'
 import { applyPalR13SixBLoadSceneTransitions } from '../src/pal-r13-six-b-load-scene.js'
 import { applyPalR13SixBSceneOverlays } from '../src/pal-r13-six-b-overlays.js'
 import { rewindPalR13SixBPublication } from '../src/pal-r13-six-b-rewind.js'
@@ -443,61 +450,187 @@ async function runB10EnemyTeamSlotsTransition(
   )
 }
 
-/** W9 production gate: prove lifecycle source ledger before any content13 writer is allowed. */
-async function runW9EntityLifecycleTransition(
-  manifest: ProjectManifest<12>,
-  manifestText: string,
-  write: boolean,
-): Promise<void> {
-  if (manifest.contentVersion !== 12)
-    throw new Error(`W9 source ledger 只接受已发布 content12 工程，收到 content${manifest.contentVersion}`)
-  if (write)
-    throw new Error('W9 --write 尚未接入 content13 writer/seal；本入口当前只读，禁止写盘')
-  const sources = loadPalMigrationSources(repo)
-  const baseline = loadPalBaseline(repo)
-  if (!baseline) throw new Error('W9 缺 PAL baseline v2；不得绕过 baseline 写 generated content')
+function structuredCloneMigrationSnapshot(source: MigrationSnapshot): MigrationSnapshot {
+  return {
+    files: new Map([...source.files].map(([path, value]) => [path, structuredClone(value)])),
+    managedFiles: new Set(source.managedFiles),
+    ...(source.hashes ? { hashes: new Map(source.hashes) } : {}),
+    ...(source.baselineMetadata
+      ? { baselineMetadata: structuredClone(source.baselineMetadata) }
+      : {}),
+  }
+}
+
+function buildW9EntityLifecycleMigration(
+  sources: PalMigrationSources,
+  publishedBaseline: MigrationSnapshot,
+  nextManifest: ProjectManifest<13>,
+): { published: MigrationFileSet; ledger: ReturnType<typeof buildPalW9LifecycleSourceLedger> } {
+  // Historical builders use copy-on-write over JSON bodies. Freeze a deep parent copy before
+  // rebuilding B10 so the recursive W9 graph always sees the published v12 bytes, never a
+  // transient 6B/B10 overlay mutated by the replay builder.
+  const baseline = structuredCloneMigrationSnapshot(
+    rewindPublishedW9PublicationIfPresent(publishedBaseline),
+  )
+  // Keep a second immutable copy: the historical B10 builder is allowed to use copy-on-write
+  // helpers over its input, but W9's parent seal must be computed from the untouched v12 bytes.
+  const parentAuthority = structuredCloneMigrationSnapshot(baseline)
   if (!assertB10PublishedAuthority(baseline))
     throw new Error('W9 current replay 要求先发布 B10 content12 successor')
 
   const rebuiltB10 = buildB10EnemyTeamSlotsMigration(sources, baseline)
-  sameSnapshot(snapshotOf(rebuiltB10), baseline, 'B10 replay before W9')
-  const foldedHostileTargets = foldedHostileTargetsFromPublishedB10(baseline)
-  const ledger = buildPalW9LifecycleSourceLedger({
+  const rebuiltB10Snapshot = snapshotOf(rebuiltB10)
+  sameSnapshot(rebuiltB10Snapshot, parentAuthority, 'B10 replay before W9')
+
+  const ledger = buildPalW9LifecyclePublicationLedger({
     sources,
     preparedSourceCensus: prepareR13SourceExecutionCensus(sources),
-    foldedHostileTargets,
-    affectedFileAllowlist: PAL_W9_PROOF_AFFECTED_FILE_ALLOWLIST,
+    foldedHostileTargets: foldedHostileTargetsFromPublishedB10(baseline),
   })
   if (ledger.digest !== PAL_W9_EXPECTED_PROOF_LEDGER_DIGEST)
     throw new Error(
       `W9 lifecycle ledger proof digest 漂移: ${ledger.digest} != ${PAL_W9_EXPECTED_PROOF_LEDGER_DIGEST}`,
     )
 
-  assertPalBaselineSnapshotCurrent(repo, baseline)
-  const managed = discoverProjectManagedFiles(
-    repo,
-    new Set([...baseline.managedFiles, ...rebuiltB10.managedFiles]),
+  // Baseline stores atomic maps by hash only. The replayed B10 file set materializes their exact
+  // source bytes, while sameSnapshot above proves it is still the immutable parent authority.
+  const projection = projectPalW9LifecycleSuccessor(rebuiltB10Snapshot, ledger)
+  const expectedScenePaths = ledger.generator.affectedFileAllowlist.filter((path) =>
+    path.startsWith('content/scenes/'),
   )
-  const ours = loadProjectMigrationSnapshot(repo, managed)
-  assertProjectSnapshotCurrent(repo, ours, managed)
-  if (readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8') !== manifestText)
-    throw new Error('W9 dry-run 期间 manifest.json 已变更')
+  if (!isDeepStrictEqual(projection.changedScenePaths, expectedScenePaths))
+    throw new Error('W9 writer: 实际 scene 变化与 source-ledger affected-file allowlist 不符')
+  const successor = derivePalMigrationFileSet(
+    rebuiltB10,
+    projection.files,
+    new Set(baseline.managedFiles),
+  )
+  successor.baselineMetadata = baseline.baselineMetadata
 
-  console.log(
-    JSON.stringify(
-      {
-        kind: ledger.kind,
-        transitionId: ledger.transitionId,
-        generator: ledger.generator,
-        summary: ledger.summary,
-        digest: ledger.digest,
-        writes: 0,
-      },
-      null,
-      2,
-    ),
+  const nextBaseline = snapshotOf(successor)
+  const seal = buildW9EntityLifecycleSeal({
+    parentBaseline: parentAuthority,
+    successor: nextBaseline,
+    sourceLedgerDigest: ledger.digest,
+    affectedFileAllowlist: ledger.generator.affectedFileAllowlist,
+    nextManifest,
+  })
+  installW9EntityLifecycleSeal(nextBaseline, seal)
+  const published = derivePalMigrationFileSet(
+    successor,
+    new Map(nextBaseline.files),
+    new Set(nextBaseline.managedFiles),
   )
-  console.log('[W9 lifecycle dry-run] source ledger verified; content13 writer/seal 未写盘')
+  published.baselineMetadata = nextBaseline.baselineMetadata
+  return { published, ledger }
+}
+
+/** W9 production gate: prove lifecycle source ledger before any content13 writer is allowed. */
+async function runW9EntityLifecycleTransition(
+  manifest: ProjectManifest<12> | ProjectManifest<13>,
+  manifestText: string,
+  write: boolean,
+): Promise<void> {
+  if (manifest.contentVersion !== 12 && manifest.contentVersion !== 13)
+    throw new Error(
+      `W9 source ledger 只接受 content12/content13 工程，收到 content${manifest.contentVersion}`,
+    )
+  const sources = loadPalMigrationSources(repo)
+  const baseline = loadPalBaseline(repo)
+  if (!baseline) throw new Error('W9 缺 PAL baseline v2；不得绕过 baseline 写 generated content')
+  const nextManifest: ProjectManifest<13> =
+    manifest.contentVersion === 12
+      ? upgradeManifestV12ToV13(manifest)
+      : (structuredClone(manifest) as ProjectManifest<13>)
+
+  const { published, ledger } = buildW9EntityLifecycleMigration(sources, baseline, nextManifest)
+  if (manifest.contentVersion === 13) sameSnapshot(snapshotOf(published), baseline, 'W9 replay')
+
+  reportGeneration(published)
+  const seed = new Set([...baseline.managedFiles, ...published.managedFiles])
+  const managed = discoverProjectManagedFiles(repo, seed)
+  const ours = loadProjectMigrationSnapshot(repo, managed)
+  const plan = createMigrationPlan(baseline, ours, published)
+  reportPlan(plan)
+  if (
+    manifest.contentVersion === 13 &&
+    (plan.writes.size || plan.deletes.length || plan.conflicts.length)
+  )
+    throw new Error(
+      `W9 content13 replay 必须为 0/0/0: writes=${plan.writes.size} ` +
+        `deletes=${plan.deletes.length} conflicts=${plan.conflicts.length}`,
+    )
+  if (plan.conflicts.length) {
+    writeConflictReport(plan)
+    throw new Error(`W9 plan 存在 conflicts=${plan.conflicts.length}`)
+  }
+
+  const target: MigrationSnapshot = {
+    files: plan.target,
+    managedFiles: new Set([...managed, ...plan.target.keys()]),
+  }
+  const validationTarget: MigrationSnapshot = {
+    ...target,
+    files: new Map(target.files),
+  }
+  // ambiences is intentionally authored/unmanaged in PAL. The W9 plan must not claim it, but the
+  // complete v13 loader preflight still validates the live read-through value before publication.
+  for (const key of ['poisons', 'ambiences', 'shops'] as const) {
+    const path = nextManifest.content[key]
+    if (!path || validationTarget.files.has(path)) continue
+    if (
+      path.startsWith('/') ||
+      path.includes('\\') ||
+      path.split('/').some((part) => !part || part === '.' || part === '..')
+    )
+      throw new Error(`W9 v13 target: manifest.content.${key} 路径非法 ${path}`)
+    validationTarget.files.set(
+      path,
+      JSON.parse(readFileSync(resolve(repo, 'projects/pal', path), 'utf8')) as MigrationJson,
+    )
+  }
+  await validateW9ProjectV13Target({ target: validationTarget, manifest: nextManifest })
+
+  if (!write) {
+    assertPalBaselineSnapshotCurrent(repo, baseline)
+    assertProjectSnapshotCurrent(repo, ours, target.managedFiles)
+    if (readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8') !== manifestText)
+      throw new Error('W9 dry-run 期间 manifest.json 已变更')
+    console.log(
+      JSON.stringify(
+        {
+          kind: ledger.kind,
+          transitionId: ledger.transitionId,
+          generator: ledger.generator,
+          summary: ledger.summary,
+          digest: ledger.digest,
+          writes: 0,
+        },
+        null,
+        2,
+      ),
+    )
+    console.log('[W9 lifecycle dry-run] source ledger verified; content13 writer/seal 预检完成')
+    return
+  }
+
+  await commitAndVerify({
+    ours,
+    target,
+    plan,
+    previousBaseline: baseline,
+    theirs: published,
+    binaryAssets: sources.binaryAssets,
+    currentManifestText: manifestText,
+    nextManifest,
+    rebuildTheirs: (rebuiltSources, publishedBaseline) =>
+      buildW9EntityLifecycleMigration(rebuiltSources, publishedBaseline, nextManifest).published,
+  })
+  console.log(
+    manifest.contentVersion === 12
+      ? '[W9 publication] content12 → content13；SAVE_VERSION 保持 8'
+      : '[W9 replay] content13 authority unchanged；SAVE_VERSION 保持 8',
+  )
 }
 
 /**
@@ -1512,10 +1645,11 @@ async function main(): Promise<void> {
       contentVersion !== 9 &&
       contentVersion !== 10 &&
       contentVersion !== 11 &&
-      contentVersion !== 12)
+      contentVersion !== 12 &&
+      contentVersion !== 13)
   )
     throw new Error(
-      `PAL migrate:content 只接受 contentVersion 4/5/6/7/8/9/10/11/12，收到 ${JSON.stringify(contentVersion)}`,
+      `PAL migrate:content 只接受 contentVersion 4/5/6/7/8/9/10/11/12/13，收到 ${JSON.stringify(contentVersion)}`,
     )
   const canonicalV5 =
     contentVersion === 5 ||
@@ -1528,15 +1662,11 @@ async function main(): Promise<void> {
     throw new Error('R13 confirm seal 显式修复只接受 canonical v5+ 工程')
 
   if (publishW9) {
-    if (contentVersion !== 12)
+    if (contentVersion !== 12 && contentVersion !== 13)
       throw new Error(
-        `W9 lifecycle source ledger 只接受已发布 content12 工程，收到 content${String(contentVersion)}`,
+        `W9 lifecycle source ledger 只接受已发布 content12/content13 工程，收到 content${String(contentVersion)}`,
       )
-    await runW9EntityLifecycleTransition(
-      rawManifest as ProjectManifest<12>,
-      manifestText,
-      writeRequested,
-    )
+    await runW9EntityLifecycleTransition(rawManifest as ProjectManifest<12> | ProjectManifest<13>, manifestText, writeRequested)
     return
   }
 
@@ -2031,5 +2161,7 @@ async function main(): Promise<void> {
 
 main().catch((error: unknown) => {
   console.error(`[migrate:content] 失败: ${error instanceof Error ? error.message : String(error)}`)
+  if (process.env.W9_DEBUG === '1' && error instanceof Error && error.stack)
+    console.error(error.stack)
   process.exitCode = 1
 })

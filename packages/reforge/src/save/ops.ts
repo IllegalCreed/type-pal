@@ -2,7 +2,6 @@ import {
   type AssetId,
   type BattleSpriteDef,
   type CharacterInstance,
-  CONTENT_VERSION,
   checkStages,
   type Facing,
   type GridPos,
@@ -73,7 +72,7 @@ export function buildPayloadV8(
   position: { sceneId: string; pos: GridPos; facing: Facing },
   projectId: string,
 ): SavePayloadV8 {
-  return { version: SAVE_VERSION, projectId, contentVersion: CONTENT_VERSION, world, position }
+  return { version: SAVE_VERSION, projectId, contentVersion: 12, world, position }
 }
 
 /** W9 successor builder；显式写 content13，避免在当前 v12 builder 上做隐式 cast。 */

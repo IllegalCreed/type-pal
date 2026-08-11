@@ -25,6 +25,10 @@ import {
   R13_Z_TRANSITION_ID,
   rewindPublishedR13ZPublicationIfPresent,
 } from './r13-z-transition-mg2.js'
+import {
+  rewindPublishedW9ProjectAgainstPublishedBaseline,
+  rewindPublishedW9PublicationIfPresent,
+} from '../../pal-w9-entity-lifecycle.js'
 
 interface PublishedR13SourceSemanticsSeal {
   kind: 'r13-source-semantics-transition'
@@ -104,7 +108,9 @@ export function rewindPublishedR13SourceSemanticsBaseline(source: MigrationSnaps
   // B10 是最外层 content successor；先验证并还原 v11 team 面，再剥 Z/6C/6B。
   const successor = rewindPalR13SixBPublication(
     rewindPalR13SixCPublicationIfPresent(
-      rewindPublishedR13ZPublicationIfPresent(rewindB10PublicationIfPresent(source)),
+      rewindPublishedR13ZPublicationIfPresent(
+        rewindB10PublicationIfPresent(rewindPublishedW9PublicationIfPresent(source)),
+      ),
     ),
   )
   const seal = publishedSeal(successor)
@@ -141,9 +147,13 @@ export function rewindPublishedR13SourceSemanticsTransition(args: {
   evidence: R13ExistingSchemaAugmentationEvidenceV1
 } {
   const rebuilt = rewindPublishedR13SourceSemanticsBaseline(args.publishedBaseline)
+  const w9Baseline = rewindPublishedW9PublicationIfPresent(args.publishedBaseline)
   const b10Project = rewindB10ProjectAgainstPublishedBaseline(
-    args.publishedProject,
-    args.publishedBaseline,
+    rewindPublishedW9ProjectAgainstPublishedBaseline(
+      args.publishedProject,
+      args.publishedBaseline,
+    ),
+    w9Baseline,
   )
   const projectWithoutPlaceholders = stripProjectManagedPlaceholder(
     stripProjectManagedPlaceholder(b10Project, R13_Z_SEAL_PATH, R13_Z_TRANSITION_ID),

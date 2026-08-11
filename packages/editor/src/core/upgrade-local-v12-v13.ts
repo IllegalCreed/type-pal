@@ -11,6 +11,8 @@ import {
   upgradeManifestV12ToV13,
   upgradeScenesV12ToV13,
   validateProjectRelativePath,
+  validateScenesV13,
+  validateScenesV5,
 } from '@type-pal/content'
 import {
   type FileSource,
@@ -84,6 +86,25 @@ function sceneIds(value: unknown): string[] {
   return value as string[]
 }
 
+function normalizeSceneForV13(value: unknown, path: string): { scene: unknown; upgraded: boolean } {
+  try {
+    const [scene] = validateScenesV13([value])
+    if (!scene) throw new Error(`${path}: 场景为空`)
+    return { scene: structuredClone(scene), upgraded: false }
+  } catch (v13Error) {
+    let legacy
+    try {
+      ;[legacy] = validateScenesV5([value])
+    } catch {
+      throw v13Error
+    }
+    if (!legacy) throw new Error(`${path}: 场景为空`)
+    const [upgraded] = upgradeScenesV12ToV13([legacy])
+    if (!upgraded) throw new Error(`${path}: 场景为空`)
+    return { scene: upgraded, upgraded: true }
+  }
+}
+
 async function preflightAndWriteV13(
   dir: FileSystemDirectoryHandle,
   source: FileSource,
@@ -98,13 +119,14 @@ async function preflightAndWriteV13(
   const sceneDir = sceneDirectoryOf(manifestObject)
   const ids = sceneIds(await source.readJson<unknown>(`${sceneDir}index.json`))
   const scenes = await Promise.all(ids.map((id) => source.readJson<unknown>(`${sceneDir}${id}.json`)))
-  const upgradedScenes = upgradeScenesV12ToV13(scenes)
-  upgradedScenes.forEach((scene, index) => {
+  scenes.forEach((scene, index) => {
     const id = ids[index]
     if (!id) throw new Error('v13 upgrade: scene ids / scenes 长度不一致')
+    const normalized = normalizeSceneForV13(scene, `${sceneDir}${id}.json`)
     const path = validateProjectRelativePath(`${sceneDir}${id}.json`, `scenes[${JSON.stringify(id)}]`)
-    overlayValues.set(path, scene)
-    if (stableJson(scenes[index]) !== stableJson(scene)) writes[path] = scene
+    overlayValues.set(path, normalized.scene)
+    if (normalized.upgraded || stableJson(scenes[index]) !== stableJson(normalized.scene))
+      writes[path] = normalized.scene
   })
   overlayValues.set('manifest.json', current)
   const overlay = projectOverlay(source, overlayValues)

@@ -644,6 +644,99 @@ test('未登记的内部共享脚本动作引用保持只读，不伪造不可�
   expect(references).toEqual([expect.objectContaining({ action: 'idle' })])
   expect(references[0]?.locator).toBeUndefined()
 })
+test('canonical v13 行为、hooks 与共享脚本动作可校验且不会按旧 inline stages 崩溃', () => {
+  const b = clone(base)
+  b.scenes = [
+    {
+      id: 's',
+      mapId: 'map-001',
+      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+      entities: [
+        {
+          id: 'e',
+          pos: { col: 0, row: 0, height: 0 },
+          sprite: 'ghost',
+          pages: [{ id: 'default', trigger: 'main' }],
+          initialPage: 'default',
+          behaviors: {
+            trigger: {
+              main: {
+                label: 'main',
+                order: 0,
+                flow: {
+                  kind: 'stages',
+                  initial: 'main',
+                  stages: [
+                    {
+                      id: 'main',
+                      body: [
+                        {
+                          kind: 'playEntityAction',
+                          target: { scene: 's', entity: 'e' },
+                          sprite: 'ghost',
+                          action: 'behavior-action',
+                          loop: true,
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      ],
+      hooks: {
+        onEnter: {
+          initial: 'main',
+          variants: {
+            main: {
+              label: 'main',
+              order: 0,
+              flow: {
+                kind: 'stages',
+                initial: 'main',
+                stages: [
+                  {
+                    id: 'main',
+                    body: [
+                      {
+                        kind: 'playEntityAction',
+                        target: { scene: 's', entity: 'e' },
+                        sprite: 'ghost',
+                        action: 'hook-action',
+                        loop: false,
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          },
+        },
+      },
+    },
+  ] as unknown as ContentBundle['scenes']
+  b.sharedScripts = {
+    shared: {
+      name: 'shared',
+      self: 'none',
+      body: [
+        {
+          kind: 'playEntityAction',
+          target: { scene: 's', entity: 'e' },
+          sprite: 'ghost',
+          action: 'shared-action',
+          loop: false,
+        },
+      ],
+    },
+  }
+
+  expect(collectSpriteActionReferences(b).map((reference) => reference.action)).toEqual(
+    expect.arrayContaining(['behavior-action', 'hook-action', 'shared-action']),
+  )
+})
 test('动态脚本绑定内联 stages 的动作仍进入校验与删除保护，但不伪造 ScriptTree 路径', () => {
   const b = clone(base)
   b.scenes[0]!.onEnter = [

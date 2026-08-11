@@ -10,7 +10,7 @@
 import type {
   AssetCatalogV1,
   ContentBundle,
-  CurrentManifest,
+  LegacyManifestV12,
   LoadedManifest,
   MapIndexV1,
   ProjectMap,
@@ -27,7 +27,7 @@ export { MoveEntityCommand } from './commands.js'
 
 /** 被编辑的内容工作副本(ContentBundle + manifest)。命令 apply/invert 收/返它(不可变)。 */
 export interface EditorState extends ContentBundle {
-  manifest: LoadedManifest | CurrentManifest | ManifestV13
+  manifest: LoadedManifest | LegacyManifestV12 | ManifestV13
   /** W7G 作者态图章模板表；旧工程加载时规范化为空数组。 */
   stamps: StampTemplateV1[]
   /**

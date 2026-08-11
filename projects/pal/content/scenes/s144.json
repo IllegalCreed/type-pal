@@ -47,8 +47,12 @@
                       "kind": "startBattle",
                       "onFlee": [
                         {
-                          "kind": "vanishEntity",
-                          "seconds": 2
+                          "kind": "suspendEntity",
+                          "target": {
+                            "scene": "s144",
+                            "entity": "e2390"
+                          },
+                          "ticks": 15
                         }
                       ],
                       "onLose": [
@@ -492,8 +496,12 @@
                       "kind": "startBattle",
                       "onFlee": [
                         {
-                          "kind": "vanishEntity",
-                          "seconds": 2
+                          "kind": "suspendEntity",
+                          "target": {
+                            "scene": "s144",
+                            "entity": "e2391"
+                          },
+                          "ticks": 15
                         }
                       ],
                       "onLose": [
@@ -937,8 +945,12 @@
                       "kind": "startBattle",
                       "onFlee": [
                         {
-                          "kind": "vanishEntity",
-                          "seconds": 2
+                          "kind": "suspendEntity",
+                          "target": {
+                            "scene": "s144",
+                            "entity": "e2392"
+                          },
+                          "ticks": 15
                         }
                       ],
                       "onLose": [
@@ -1382,8 +1394,12 @@
                       "kind": "startBattle",
                       "onFlee": [
                         {
-                          "kind": "vanishEntity",
-                          "seconds": 2
+                          "kind": "suspendEntity",
+                          "target": {
+                            "scene": "s144",
+                            "entity": "e2393"
+                          },
+                          "ticks": 15
                         }
                       ],
                       "onLose": [
@@ -1827,8 +1843,12 @@
                       "kind": "startBattle",
                       "onFlee": [
                         {
-                          "kind": "vanishEntity",
-                          "seconds": 2
+                          "kind": "suspendEntity",
+                          "target": {
+                            "scene": "s144",
+                            "entity": "e2394"
+                          },
+                          "ticks": 15
                         }
                       ],
                       "onLose": [
@@ -2272,8 +2292,12 @@
                       "kind": "startBattle",
                       "onFlee": [
                         {
-                          "kind": "vanishEntity",
-                          "seconds": 2
+                          "kind": "suspendEntity",
+                          "target": {
+                            "scene": "s144",
+                            "entity": "e2395"
+                          },
+                          "ticks": 15
                         }
                       ],
                       "onLose": [
@@ -2717,8 +2741,12 @@
                       "kind": "startBattle",
                       "onFlee": [
                         {
-                          "kind": "vanishEntity",
-                          "seconds": 2
+                          "kind": "suspendEntity",
+                          "target": {
+                            "scene": "s144",
+                            "entity": "e2396"
+                          },
+                          "ticks": 15
                         }
                       ],
                       "onLose": [

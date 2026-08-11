@@ -6,7 +6,6 @@ import {
   buildEntityLifecycleReferenceIndexV13,
   type CharacterInstance,
   checkEntityLifecycleTableV13,
-  CONTENT_VERSION,
   canonicalScriptTransitionJson,
   collectCommandAssetReferences,
   type EntityDef,
@@ -64,7 +63,6 @@ import {
   loadBattleSpriteDefinition,
   loadEffectSprite,
   loadFireSprite,
-  loadGlyphs,
   loadSpriteAsset,
   loadStandardPalette,
   SpriteAssetCache,
@@ -106,6 +104,7 @@ import {
   DitherTransitionController,
 } from './dither-transition.js'
 import { assertEngineChromeComplete, loadEngineChromeImage } from './engine-chrome/registry.js'
+import { loadGlyphs } from './text/glyph.js'
 import {
   EntityActionPlayer,
   type EntityActionSeed,
@@ -340,7 +339,7 @@ export async function bootGame(
       ? (inputProject as LoadedProjectV13)
       : undefined
   const canonicalProjectV5 =
-    !canonicalProjectV13 && inputProject.manifest.contentVersion === CONTENT_VERSION
+    !canonicalProjectV13 && inputProject.manifest.contentVersion === 12
       ? (inputProject as LoadedProjectV5)
       : undefined
   let worldScriptV5: WorldScriptStateV5 | undefined

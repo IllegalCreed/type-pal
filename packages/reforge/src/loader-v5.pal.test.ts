@@ -1,12 +1,18 @@
-import { buildWorld, emptyWorldScriptStateV5, type WorldStateV8 } from '@type-pal/content'
+import {
+  buildEntityLifecycleReferenceIndexV13,
+  buildWorldV13,
+  type EntityLifecycleReferenceIndexV13,
+  type WorldStateV13,
+} from '@type-pal/content'
 import { expect, test } from 'vitest'
 import { SupersedingFadeDriver } from './fade-driver.js'
 import type { FileSource } from './file-source.js'
 import { loadAllScenesV5, loadProjectV5From, loadSceneDefV5 } from './loader-v5.js'
-import { normalizePayloadV8, preflightSaveMigration } from './save/migration.js'
-import { buildPayloadV8 } from './save/ops.js'
-import type { ProjectScriptHostOptionsV5 } from './script-project-v5.js'
-import { ScriptProjectRuntimeV5 } from './script-project-v5.js'
+import { loadAllScenesV13, loadProjectV13From, loadSceneDefV13 } from './loader-v13.js'
+import { normalizePayloadV13, preflightSaveMigrationV13 } from './save/migration-v13.js'
+import { buildPayloadV8Content13 } from './save/ops.js'
+import type { ProjectScriptHostOptionsV13 } from './script-project-v13.js'
+import { ScriptProjectRuntimeV13 } from './script-project-v13.js'
 
 const projectJson = import.meta.glob('../../../projects/{pal,demo,e2e-own}/**/*.json', {
   eager: true,
@@ -32,24 +38,20 @@ function projectFileSource(projectId: string): FileSource {
   }
 }
 
-type LoadedPalProject = Awaited<ReturnType<typeof loadProjectV5From>>
-type LoadedPalScene = Awaited<ReturnType<typeof loadSceneDefV5>>
+type LoadedPalProject = Awaited<ReturnType<typeof loadProjectV13From>>
+type LoadedPalScene = Awaited<ReturnType<typeof loadSceneDefV13>>
 
-function freshWorld(project: LoadedPalProject): WorldStateV8 {
-  const initialWorld = buildWorld(project.manifest.startWorld, project.actorsById)
-  const { script: _legacyScript, ...worldWithoutScript } = initialWorld
-  return {
-    ...worldWithoutScript,
-    script: emptyWorldScriptStateV5(),
-  }
+function freshWorld(project: LoadedPalProject): WorldStateV13 {
+  return buildWorldV13(project.manifest.startWorld, project.actorsById)
 }
 
 function recordingHost(
   project: LoadedPalProject,
   scene: LoadedPalScene,
+  lifecycleReferences: EntityLifecycleReferenceIndexV13,
   events: string[],
   fade: SupersedingFadeDriver,
-): ProjectScriptHostOptionsV5 {
+): ProjectScriptHostOptionsV13 {
   let now = 0
   return {
     executeEffect: async (command, _context, signal) => {
@@ -65,7 +67,8 @@ function recordingHost(
       else if (command.kind === 'dialog')
         events.push(`dialog:${command.cue.rows.map((row) => row.text).join(',')}`)
     },
-    scene: (sceneId) => loadSceneDefV5(project, sceneId),
+    lifecycleReferences,
+    scene: (sceneId) => loadSceneDefV13(project, sceneId),
     currentSceneId: () => scene.id,
     query: {
       hasItem: () => false,
@@ -87,11 +90,11 @@ function recordingHost(
   }
 }
 
-test('正式 PAL contentVersion 12 工程通过 loader、历史 sidecar 验签与全场景校验', async () => {
-  const project = await loadProjectV5From(projectFileSource('pal'))
-  const scenes = await loadAllScenesV5(project)
+test('正式 PAL contentVersion 13 工程通过 loader、历史 sidecar 验签与全场景校验', async () => {
+  const project = await loadProjectV13From(projectFileSource('pal'))
+  const scenes = await loadAllScenesV13(project)
 
-  expect(project.manifest.contentVersion).toBe(12)
+  expect(project.manifest.contentVersion).toBe(13)
   expect(project.manifest.minimumSaveVersion).toBe(8)
   expect(project.entryScene.id).toBe('s000')
   expect(scenes).toHaveLength(294)
@@ -100,17 +103,19 @@ test('正式 PAL contentVersion 12 工程通过 loader、历史 sidecar 验签�
 })
 
 test('PAL s048 进场演出恢复亮屏、保存完成步骤，读档重进不重播', async () => {
-  const project = await loadProjectV5From(projectFileSource('pal'))
-  const scene = await loadSceneDefV5(project, 's048')
+  const project = await loadProjectV13From(projectFileSource('pal'))
+  const scenes = await loadAllScenesV13(project)
+  const lifecycleReferences = buildEntityLifecycleReferenceIndexV13(scenes)
+  const scene = await loadSceneDefV13(project, 's048')
   const world = freshWorld(project)
 
   const firstEvents: string[] = []
   const firstFade = new SupersedingFadeDriver()
-  const runtime = new ScriptProjectRuntimeV5(
+  const runtime = new ScriptProjectRuntimeV13(
     project,
-    world.script!,
+    world,
     'c'.repeat(64),
-    recordingHost(project, scene, firstEvents, firstFade),
+    recordingHost(project, scene, lifecycleReferences, firstEvents, firstFade),
   )
   await expect(
     runtime.runSceneHook(scene, 'onEnter', {
@@ -132,7 +137,7 @@ test('PAL s048 进场演出恢复亮屏、保存完成步骤，读档重进不�
     at: { kind: 'stage', stage: 'completed' },
   })
 
-  const payload = buildPayloadV8(
+  const payload = buildPayloadV8Content13(
     world,
     {
       sceneId: scene.id,
@@ -141,18 +146,18 @@ test('PAL s048 进场演出恢复亮屏、保存完成步骤，读档重进不�
     },
     project.manifest.id,
   )
-  const resolver = await preflightSaveMigration({
+  const resolver = await preflightSaveMigrationV13({
     manifest: project.manifest,
     payload,
   })
-  const restored = normalizePayloadV8(payload, resolver)
+  const restored = normalizePayloadV13(payload, resolver, lifecycleReferences)
   const secondEvents: string[] = []
   const secondFade = new SupersedingFadeDriver()
-  const restoredRuntime = new ScriptProjectRuntimeV5(
+  const restoredRuntime = new ScriptProjectRuntimeV13(
     project,
-    restored.world.script!,
+    restored.world,
     'c'.repeat(64),
-    recordingHost(project, scene, secondEvents, secondFade),
+    recordingHost(project, scene, lifecycleReferences, secondEvents, secondFade),
   )
   await expect(
     restoredRuntime.runSceneHook(scene, 'onEnter', {
@@ -169,8 +174,10 @@ test('PAL s048 进场演出恢复亮屏、保存完成步骤，读档重进不�
 })
 
 test('PAL s110 的逐帧重画先等待一帧再淡入，并保留剩余 27 帧', async () => {
-  const project = await loadProjectV5From(projectFileSource('pal'))
-  const scene = await loadSceneDefV5(project, 's110')
+  const project = await loadProjectV13From(projectFileSource('pal'))
+  const scenes = await loadAllScenesV13(project)
+  const lifecycleReferences = buildEntityLifecycleReferenceIndexV13(scenes)
+  const scene = await loadSceneDefV13(project, 's110')
   const behavior = scene.entities.find((entity) => entity.id === 'e2061')?.behaviors?.trigger
     ?.default
   if (!behavior || behavior.flow.kind !== 'stages') throw new Error('s110/e2061/default 缺 stages')
@@ -189,11 +196,11 @@ test('PAL s110 的逐帧重画先等待一帧再淡入，并保留剩余 27 帧'
   const world = freshWorld(project)
   const events: string[] = []
   const fade = new SupersedingFadeDriver()
-  const runtime = new ScriptProjectRuntimeV5(
+  const runtime = new ScriptProjectRuntimeV13(
     project,
-    world.script!,
+    world,
     'c'.repeat(64),
-    recordingHost(project, scene, events, fade),
+    recordingHost(project, scene, lifecycleReferences, events, fade),
   )
   await runtime.runCommands(stage.body.slice(fadeOut, resumedDialogue + 1), {
     signal: new AbortController().signal,

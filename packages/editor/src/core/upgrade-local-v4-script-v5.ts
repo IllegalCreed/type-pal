@@ -1,6 +1,6 @@
 import {
   CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
-  type CurrentManifest,
+  type LegacyManifestV12,
   canonicalLegacyBindingV4,
   canonicalScriptTransitionJson,
   type LegacyManifestV4,
@@ -567,7 +567,7 @@ export async function upgradeLocalProjectV4ScriptV5(
       },
     },
   }
-  const manifestCurrent: CurrentManifest = upgradeManifestV11ToV12(
+  const manifestCurrent: LegacyManifestV12 = upgradeManifestV11ToV12(
     upgradeManifestV10ToV11(upgradeManifestV9ToV10(manifestV9)),
   )
   const writes = new Map<string, Uint8Array>([

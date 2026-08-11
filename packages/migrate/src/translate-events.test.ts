@@ -16,8 +16,35 @@ import {
   emptyTranslateReport,
   foldBattleConfig,
   ScriptRegistry,
+  translatePalW9LifecycleLanding,
   translateStages,
 } from './translate-events.js'
+
+describe('W9 0x4B/0x52 typed landing', () => {
+  const target = { scene: 's001', entity: 'e1' }
+
+  test('0x4B only emits the fixed 15-tick suspend command', () => {
+    expect(translatePalW9LifecycleLanding({ opcode: 0x4b, ticks: 15, target })).toEqual({
+      kind: 'suspendEntity',
+      target,
+      ticks: 15,
+    })
+    expect(() => translatePalW9LifecycleLanding({ opcode: 0x4b, ticks: 14, target })).toThrow(
+      /15 ticks/,
+    )
+  })
+
+  test('0x52 emits hide and rejects non-positive or unsafe ticks', () => {
+    expect(translatePalW9LifecycleLanding({ opcode: 0x52, ticks: 800, target })).toEqual({
+      kind: 'hideEntity',
+      target,
+      ticks: 800,
+    })
+    expect(() => translatePalW9LifecycleLanding({ opcode: 0x52, ticks: 0, target })).toThrow(
+      /正安全整数/,
+    )
+  })
+})
 
 /** 手搓链 → labelAt(单段,L_1 起步,end 收尾;raw 命令补 op:'raw' 判别)。 */
 function ctxOf(

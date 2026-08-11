@@ -484,12 +484,16 @@ function collectActionCommandBody(
 }
 
 function collectActionStages(
-  stages: readonly ScriptStage[],
+  stages: readonly ScriptStage[] | undefined,
   where: string,
   site: string,
   locator: ActionLocatorFactory,
   out: SpriteActionReference[],
 ): void {
+  // Canonical v5/v13 pages bind a behavior id string instead of embedding legacy
+  // `{ stages }`. Those flows are scanned below from `behaviors`; do not let the
+  // legacy exact-locator path crash while inspecting a canonical project.
+  if (!Array.isArray(stages)) return
   stages.forEach((stage, stageIndex) => {
     if (stage.entry?.prepare.length)
       collectActionCommandBody(
@@ -513,7 +517,10 @@ function collectActionStages(
 
 /** 收集场景页默认绑定和全部嵌套脚本中的 `(sprite, action)` 复合引用。 */
 export function collectSpriteActionReferences(
-  source: Pick<ContentBundle, 'scenes' | 'scriptChunks' | 'scriptIndex' | 'enemies' | 'worlds'>,
+  source: Pick<
+    ContentBundle,
+    'scenes' | 'scriptChunks' | 'scriptIndex' | 'sharedScripts' | 'enemies' | 'worlds'
+  >,
 ): SpriteActionReference[] {
   const references: SpriteActionReference[] = []
   source.scenes.forEach((scene, sceneIndex) => {
@@ -563,6 +570,14 @@ export function collectSpriteActionReferences(
             references,
           )
       })
+      const canonicalBehaviors = (entity as unknown as { behaviors?: unknown }).behaviors
+      if (canonicalBehaviors)
+        collectUnlocatedCommandSpriteActionReferences(
+          canonicalBehaviors,
+          `scenes[${sceneIndex}].entities[${entityIndex}].behaviors`,
+          `scene:${scene.id}:entity:${entity.id}:behaviors`,
+          references,
+        )
     })
     if (scene.onEnter)
       collectActionStages(
@@ -590,7 +605,22 @@ export function collectSpriteActionReferences(
         }),
         references,
       )
+    const canonicalHooks = (scene as unknown as { hooks?: unknown }).hooks
+    if (canonicalHooks)
+      collectUnlocatedCommandSpriteActionReferences(
+        canonicalHooks,
+        `scenes[${sceneIndex}].hooks`,
+        `scene:${scene.id}:hooks`,
+        references,
+      )
   })
+  for (const [scriptId, script] of Object.entries(source.sharedScripts ?? {}))
+    collectUnlocatedCommandSpriteActionReferences(
+      script.body,
+      `sharedScripts[${JSON.stringify(scriptId)}].body`,
+      `sharedScript:${scriptId}`,
+      references,
+    )
   for (const [chunkId, chunk] of Object.entries(source.scriptChunks ?? {}))
     for (const [scriptId, body] of Object.entries(chunk.scripts)) {
       const where = `scriptChunks[${JSON.stringify(chunkId)}].scripts[${JSON.stringify(scriptId)}]`

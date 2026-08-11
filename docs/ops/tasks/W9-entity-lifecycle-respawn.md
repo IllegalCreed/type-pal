@@ -1,6 +1,6 @@
 # W9 - 实体生命周期、重现与明雷逃跑冷却
 
-Status: build
+Status: review
 Phase: phase2
 Capability: W9 / B8 / B9 / X1
 Coding Owner: Codex
@@ -537,24 +537,57 @@ source provenance 和 BattleResult 终态不足以作为本轮 build 准入；�
   显式分流 `LoadedProjectV5 | LoadedProjectV13`，v13 只在 manifest 已是 13 时走 typed loader；
   `toEditorState` 可接 `SceneDefV13[]`，`project-io.ts` 仅在 manifest 声明 sharedScripts 时写回 v13
   library，`ProjectWorkbenchTab` / `EntryPointTab` / `DataMode` / `project-diagnostics` 统一吃
-  `ManifestLike`，`loadProjectMapById` 收窄到 `mapIndex + assetBase`。验证：
-  `pnpm --filter @type-pal/editor typecheck`、`pnpm --filter @type-pal/editor exec vitest run
-  src/core/open-local.test.ts src/core/project-io.test.ts src/core/project-diagnostics.test.ts
-  src/core/project-io-v5.test.ts src/core/commands.test.ts`，
-  `pnpm --filter @type-pal/reforge exec vitest run src/loader-v13.test.ts src/script-project-v13.test.ts`，
-  `pnpm --filter @type-pal/content exec vitest run src/validate-refs.test.ts src/validate-v13.test.ts
-  src/entity-lifecycle-v13-upgrade.test.ts src/entity-lifecycle-v13.test.ts` 全绿。当前 open path 仍保留
-  canonical v5/v12 loader；`upgrade-local-v12-v13.ts` 作为显式迁移基础设施保留，尚未接到独立用户动作。
-- 剩余风险：PAL ledger writer integration / translator / append-only seal / 生产器重录链路，以及 editor
-  v12→v13 overlay + manifest-last 原子升级 / CRUD 还未落完；在这些边界完成并取得三方实现 `accept`
-  前，不得把本内核或 SAVE 增量声明为 W9 全链闭环或标记 done。
+  `ManifestLike`，`loadProjectMapById` 收窄到 `mapIndex + assetBase`。新增显式工程菜单动作
+  `upgradeProjectToV13`，`upgrade-local-v12-v13.ts` 改成可重试的 manifest-last 原地升级器：
+  manifest close 失败后 scene 已升 v13 也能再次接续，v13 hostile inspector 已改成胜利后
+  `remove|hide|remain` 与逃跑后 `remain|suspend`，不再暴露 `respawnSeconds`。验证：
+  `pnpm --filter @type-pal/editor typecheck`、
+  `pnpm --filter @type-pal/editor exec vitest run src/core/open-local.test.ts
+  src/core/upgrade-local-v12-v13.test.ts src/ui/App.reference-navigation.test.tsx` passed。
+  当前 open path 仍保留 canonical v5/v12 loader；content13 走独立 typed 分支，不把 v13 scene/world
+  强转成 v12 壳。
+- W9 PAL 发布与递归 authority 闭环（2026-08-11，Codex）：生产器已将 PAL 与 baseline 发布为
+  content13/SAVE8，0x4B/0x52 translator landing 消费逐 execution-site ledger；新增
+  `pal-w9-control-graph.ts`，首次铸造、install、rewind、current replay 均逐层验证
+  B10→R13-6C/R13-Z→共同 source-semantics 的 exact envelope、自摘要、metadata/file/managed/hash
+  四元组与共同 parent，而非只信 B10 顶层引用。发布证据：transition digest
+  `34eb6098c47f6a5c61abe7cb8a2e0dc9893debf50af552139394027b3abd2c45`；control graph
+  `c89b152dc87551293c7f46ca99709a30cb0a23ac027e762ce574ab6f6ca8285b`；source ledger
+  `05fd3623e887db9f78086596e044dc7717f9c27eec6183a306e9d003803f383e`；successor surface
+  `06733240a5f8edd702ece67649c7d8d97d4f45e75fa8fbba0e4733de9cb32e83`；allowlist
+  `50b665446b7ebc55eeeae48093f1a89ea4ff66198185630e9ea4b1e00169c8e7`。守恒为 1849 source
+  sites / 1021 landings / 828 folded hostile / 93 residual paired / 7 4B-only；current13
+  `migrate:content -- --w9` 重放为 writes/deletes/conflicts=`0/0/0`，未改写 B10/v12 authority。
+- editor 作者态闭环（2026-08-11，Codex）：新增 v13 lifecycle leaf 的 insert/update/delete commands、
+  递归 behavior body 定位、EditSession undo/redo、unknown target 写入前拒绝、实体删除引用保护与保存门；
+  `LifecycleCommandPanelV13` 可编辑 suspend/hide/restore/remove、目标场景/实体与正安全整数 ticks，hostile
+  继续以 onVictory/onPlayerFlee 判别联合编辑。PAL v13 最小浏览器验证实际发现并修复旧
+  `validateReferences` 对 canonical page string 的崩溃，以及 EntityInspector 读取旧 inline stages 的崩溃；
+  新浏览器会话完成 s006/e148 添加生命周期命令，console errors=0，证据
+  `output/playwright/w9-editor-lifecycle-v13.png`。剧情/演出画面仍按铁律留到冻结后集中 E2E。
+- 冻结前验证（2026-08-11）：content `39 files / 462 tests`、reforge `90 / 904`、editor
+  `98 / 826` 与三包 typecheck 全绿；editor production build 通过；migrate manifest
+  `fast 83/626, release 106/756, canary 1/2`，fast 除生产器重录触发的预期 oracle 指纹门外均绿，
+  oracle 已由 `test:oracle:update` 重录并以 `test:oracle:verify` 2/2 通过。完整 release A 仍受
+  `OPS-TST-PERF-FRESH` 的真实 Kimi counter、serial control 与连续三次 full 成功要求阻塞；未制作
+  compact fixture、未调 timeout，也不把此前中止的 full release 冒充成功。
+- 冷 canary（2026-08-11，oracle 重录后）：`pnpm --filter @type-pal/migrate test:canary` →
+  `1 file / 2 tests passed`，228.25s；随后 current13 再次 dry replay 仍为
+  writes/deletes/conflicts=`0/0/0`，source ledger digest 与发布值一致。
+- 剩余治理门：W9 implementation review 的真实 Kimi/GLM `accept` 尚未取得；release A/FRESH 是
+  已开卡的外部性能门禁。两项均未豁免，因此 W9 不得标记 done，B10-1 也仍须真实 Kimi 在新 oracle
+  上复审后才能恢复 done。
 
-### Review（实现复审尚未开始）
+### Review（Codex 自审完成；等待真实席位）
 
 - Kimi：pending（实现完成后由本人只读复审）
 - GLM：pending（实现完成后由本人只读复审）
-- Codex：pending
-- counter / 返工处理：pending
+- Codex：**accept（2026-08-11，自审）**。实现切片已冻结；content13 typed boot/SAVE/runtime、
+  W9 producer/ledger/seal/recursive authority、editor manifest-last/CRUD/reference protection
+  均有定向与全量证据；当前不把外部 OPS-TST-PERF-FRESH/release A 阻塞伪装成通过，也不把本卡
+  标记 done。
+- counter / 返工处理：等待真实 Kimi/GLM；任何一方 counter 都保持 review/rework，不由 Codex
+  或子代理代签。
 
 ### 用户验收
 
@@ -604,19 +637,81 @@ source provenance 和 BattleResult 终态不足以作为本轮 build 准入；�
   restore 帧语义、enemyFled 策略、control-flow audit 路由、三入口措辞）列为实现/验收钉；实现 review
   仍须 Codex/Kimi/GLM 三方 `accept`，当前不得标记 done。
 
-## 下一位 Agent 提示词
+- **2026-08-11 GLM 实现产物只读审计（本人席位;用户裁决"只记录不动"）。** 针对 Codex 在 W9 期间提交的
+  7 个实现 commit（1795fb25 / e6f35214 / 272e86b0 / 5d17850f / a9bcf2c3 / a4d554df / 3034c476）做正确性
+  审计,不动 Status、不回退、不改实现。结论分三层:
+  - **代码正确性 — 未毁,质量高。** 生命周期内核 `entity-lifecycle.ts` 对设计忠实:四态 + remainingTicks
+    正安全整数守卫(`:75-78`)、派生 gate 单源 静态→entityState→lifecycle(`:36-58`,无第二份布尔副本)、
+    独立 tick gate 不复用 `worldTicksThisFrame`(main.ts:1466-1484 先确认 worldTicksThisFrame 再独立
+    重判 dialog/presentation/confirm/script)、320×320 foot-anchor 端点 0/320 隐藏 -1/321 重现
+    (`:157-159`)、restoreEntity 只复位动作帧不动位置/朝向、无墙钟/Promise/async。不写 EntityDef、不改
+    entityState。源账本 proof core 是真 data-flow(`proveContextPreStates` 在 `extractSourceScriptEdgesV2`
+    上做前向 worklist,跟踪 0x49/0x6f/84/9a/52),无静态 sState 兜底;s092/e1707-1710 静态 sState=0 不会
+    被误判正;fail-loud 在写盘前(pal-w9-lifecycle-source-ledger.ts:998 throw + migrate-content.mts:454
+    拒 --write);1849/1021 守恒由逐 site throw + digest pin 撑,非裸计数。content 461 / reforge 904 /
+    editor 821 全绿。
+  - **核心交付未完成 — proof 对了但接不通生产。** (1) `translate-events.ts:1749-1754` 的 vanishEntity
+    错误合并(0x4B 硬编码 seconds=2 丢 -15 语义、0x52 `Math.round((o[0]??0||800)/10)`)至今未修;
+    `migrate-content.ts:2513-2543` 仍把两 opcode 折进 `hostile.respawnSeconds`。账本算出正确 disposition
+    但无 translator 消费 → 生产 PAL 内容仍走 bug 路径(铁律 10 上游真源未修)。(2) W9 transition 未发布:
+    CONTENT_VERSION 仍 12(character.ts:112)、`_transitions/w9-entity-lifecycle-v1.json` 不存在、
+    `--w9` CLI 是只读 dry-run(产出 JSON shape/writes:0 与 audit:w9 脚本逐字一致)。(3) loader-v13/save-v13/
+    script-project-v13 仅在 `runnable-project-loader.ts:16` 的 `contentVersion===13` 分支可达,PAL 永远是 12
+    → v13 runtime/save/editor 边界当前是接不上生产内容的死代码(additive,不伤害 v12)。
+  - **治理可信度 — 正在被侵蚀。** (1) Status 被改 `build` 且 7 个实现 commit 时间早于本人 GLM agree 与
+    独立 Kimi 复审(重演 B10-1 越权推进)。(2) oracle 门禁红仍照常 commit:`migrate/src` 树指纹漂移,
+    `test:oracle:verify` 2/2 FAIL、`check:fast` exit 1。(3) commit message 用 "feat/wire/run" 让草案
+    听起来像已接通(卡文自己写了"未落完",但措辞误导)。
+  - **卡住的真实原因(诊断):** proof core 做对了,但接通要动 translate-events 上游合并 + 全量重生成 +
+    发 W9 seal + 切 CONTENT_VERSION=13 + 重录 oracle,是一次性大手术;Codex 表现为反复读文件/压缩上下文,
+    卡在"不敢动上游合并、又无法只靠 proof 闭环"的死结。
+  Evidence: 本条 + entity-lifecycle.ts:36-58,75-78,157-159 / pal-w9-lifecycle-source-ledger.ts:364-472,998 /
+    translate-events.ts:1749-1754 / migrate-content.ts:2513-2543 / character.ts:112 /
+    test:oracle:verify 2/2 FAIL。只读审计,未改实现文件,未改 Status,未回退 commit。
+  Next: 等用户裁决(回退越权 / 给接通清单 / 接管 / 继续冻结)。
+
+- **2026-08-11 Codex build freeze → review。** 完成 typed v13 boot/SAVE/runtime、PAL W9 生产发布与
+  递归 control graph、editor lifecycle CRUD/reference protection；生产器重录 oracle 后 fast、cold
+  canary 与 current13 0/0/0 均通过。Codex 写 self-review `accept`，任务转 `review`；真实 Kimi/GLM
+  implementation accept 仍 pending。OPS-TST-PERF-FRESH/release A 的外部性能门禁保持原样，不以
+  timeout/compact fixture 绕过，也不影响记录本卡当前实现证据。
 
 ```text
-接手任务：W9 实体生命周期/重现/明雷逃跑冷却实现。
-任务卡：docs/ops/tasks/W9-entity-lifecycle-respawn.md
-当前状态：build；旧 2026-08-07 agree 已 supersede。此前由 Codex 子代理代理生成的文字只作历史设计背景，
-不具席位门禁效力；本卡后续明确标注“本人”的 Kimi/GLM 设计 `agree` 已解除 build 门禁，但不等于
-implementation `accept`，不得标记 done。
-先读：AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡“上下文锚点/冻结设计/验收矩阵”，
-以及 docs/phase1/game-mechanics.md:1000-1111、B10-1 卡与 commit e714e073。
-你的职责：如果你是 Codex，按本卡 7 条 Kimi build 补钉推进 typed v13/runtime/ledger/translator/editor
-接入；只允许 Codex 修改实现文件，生成产物必须由生产器重建。若你是用户转交的真实 Kimi，请在实现
-冻结后只读核对并写入本人 `Kimi: accept` 或 `Kimi: counter/rework`；若你是 GLM，核对数据/迁移/覆盖
-并写入本人 `GLM: accept` 或 `GLM: counter/rework`。任何子代理不得代签另一席；实现 review 三方
-`accept` 未齐前不得标 done。
+【转发给真实 Kimi 的实现复审提示词】
+请只读复审 `/Users/zhangxu/illegal/type-pal` main 分支当前 W9 实现，不要修改实现文件、不要代替 GLM
+签字。先读 `AGENTS.md`、`CLAUDE.md`、`docs/phase2/READ-FIRST.md`、本卡的冻结设计/验收矩阵，以及
+`docs/ops/tasks/B10-1-enemy-confused-attack.md`。任务卡当前 `Status=review`，设计三方本人 agree 已齐，
+Codex 已写 implementation self-review；尚未取得你的 implementation accept，不能标 done。
+
+重点核对并给出 file:line/test 证据：
+1. `LoadedProjectV13`/`ScriptProjectRuntimeV13` 的 boot/main/save barrier 是否与 v12 明确分流，
+   SAVE_VERSION 是否仍为 8，旧 content10/11/12 是否只补 lifecycle `{}` 而不从 entityState 猜状态；
+2. hostile victory/playerFled 五终态接线是否只应用对应 policy，v13 路径是否没有 `e.hidden`、
+   `respawnSeconds` 或 detached `host.wait`；
+3. PAL 0x4B/0x52 producer、逐 execution-site preState proof、1849/1021/828/93/7 守恒、source drift
+   fail-loud，以及 W9 递归 B10→R13-Z/R13-6C→共同 source-semantics 四元组/共同 parent 验签和固定 rewind；
+4. editor v12→v13 manifest-last overlay、lifecycle leaf CRUD undo/redo、未知 target 删除保护与
+   hostile policy ticks 校验；
+5. 复核 evidence：content 39/462、reforge 90/904、editor 98/826、migrate fast 83/626、oracle 2/2、
+   cold canary 1/2、current13 0/0/0，以及 `output/playwright/w9-editor-lifecycle-v13.png`。
+
+请只输出明确结论：`Kimi: accept`，或 `Kimi: counter/rework`（逐项列出阻塞理由）。不要把 OPS-TST-PERF-FRESH
+尚未满足的外部 release A 门禁默认为通过；若它只影响全局 release，请明确区分 W9 实现正确性与外部治理阻塞。
+
+【转发给真实 GLM 的实现复审提示词】
+请只读复审 `/Users/zhangxu/illegal/type-pal` main 分支当前 W9 实现，专注数据/迁移/覆盖/生成物一致性，
+不要修改实现文件、不要代替 Kimi 签字。先读 `AGENTS.md`、`CLAUDE.md`、`docs/phase2/READ-FIRST.md`、
+本卡冻结设计/验收矩阵和 B10-1 卡。当前 `Status=review`；设计三方本人 agree 已齐，Codex self-review 已写，
+你的 implementation accept 仍 pending，不能标 done。
+
+请核对：source census/ledger 是否逐 site 绑定 exact operands、command hash、owner/self/target、preState
+proof 和 source/census/allowlist digest；0x07 battle preservation 是否是显式可重放 fact 而非默认 preserve；
+PAL 生成物与 baseline/manifest/oracle/canary 是否由生产器重录且 current13 `writes=0/deletes=0/conflicts=0`；
+W9 seal 是否递归验 B10 requiredControls、R13-Z/R13-6C 共同 source parent、metadata/file/managed/hash、
+非自指 surface、半状态与 drift 负例；editor v13 引用闭包和删除保护是否 fail-before-write。请复核并记录
+`1849 source / 1021 landing / 828 folded / 93 paired / 7 4B-only` 与测试清单，区分已绿 canary 和被
+真实 Kimi counter 的 OPS-TST-PERF-FRESH/release A 外部阻塞。
+
+请只输出明确结论：`GLM: accept`，或 `GLM: counter/rework`（逐项列出阻塞理由）。任何子代理文字都不算
+席位签字；三方 implementation accept 未齐前不得把 W9 标记 done，也不得恢复 B10-1 done。
 ```

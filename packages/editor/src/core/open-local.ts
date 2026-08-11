@@ -10,7 +10,6 @@ import type {
   StampTemplateV1,
 } from '@type-pal/content'
 import {
-  CONTENT_VERSION,
   emptyWorldScriptStateV5,
   ProjectScriptV4V5UpgradeError,
 } from '@type-pal/content'
@@ -215,7 +214,7 @@ export async function openLocalProject(
     rawManifest &&
     typeof rawManifest === 'object' &&
     'contentVersion' in rawManifest &&
-    rawManifest.contentVersion === CONTENT_VERSION
+    rawManifest.contentVersion === 12
   ) {
     let project: LoadedProjectV5
     try {

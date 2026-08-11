@@ -1,13 +1,12 @@
 import {
-  CONTENT_VERSION,
   CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
-  type CurrentManifest,
   checkSharedScriptLibraryV5,
   type EntityDefV5,
   formatProjectMap,
   formatStampTemplates,
   type ItemData,
   type ItemDataV5,
+  type LegacyManifestV12,
   type ProjectMap,
   type SceneDefV5,
   type StampTemplateV1,
@@ -29,7 +28,7 @@ export interface EditorStateV5
       'manifest' | 'scenes' | 'items' | 'scriptIndex' | 'scriptChunks' | 'sharedScripts'
     >,
     ScriptEditorStateV5 {
-  manifest: CurrentManifest
+  manifest: LegacyManifestV12
   /** 已验签迁移原始字节；普通保存必须逐字节 copy-through。 */
   migrationRegistry: LoadedProjectV5Core['migrationRegistry']
 }
@@ -242,11 +241,9 @@ export function mergeLegacyEditorShellIntoV5(
   canonical: EditorStateV5,
   shell: EditorState,
 ): EditorStateV5 {
-  const runtimeManifest = structuredClone(shell.manifest) as unknown as CurrentManifest
-  if (runtimeManifest.contentVersion !== CONTENT_VERSION)
-    throw new Error(
-      `mergeLegacyEditorShellIntoV5: shell 不是 contentVersion ${CONTENT_VERSION} 工程`,
-    )
+  const runtimeManifest = structuredClone(shell.manifest) as unknown as LegacyManifestV12
+  if (runtimeManifest.contentVersion !== 12)
+    throw new Error('mergeLegacyEditorShellIntoV5: shell 不是 contentVersion 12 工程')
   if (runtimeManifest.content.scripts !== undefined)
     throw new Error('mergeLegacyEditorShellIntoV5: v5 shell 不得重新引入 content.scripts')
   if (!runtimeManifest.content.sharedScripts)
@@ -300,8 +297,8 @@ function bytesBuffer(bytes: Uint8Array): ArrayBuffer {
 }
 
 function validateEditorStateV5(state: EditorStateV5): void {
-  if (state.manifest.contentVersion !== CONTENT_VERSION)
-    throw new Error(`serializeProjectV5: manifest 必须是 contentVersion ${CONTENT_VERSION}`)
+  if (state.manifest.contentVersion !== 12)
+    throw new Error('serializeProjectV5: manifest 必须是 contentVersion 12')
   if (state.manifest.minimumSaveVersion !== CURRENT_PROJECT_MINIMUM_SAVE_VERSION)
     throw new Error(
       `serializeProjectV5: manifest.minimumSaveVersion 必须是 ` +

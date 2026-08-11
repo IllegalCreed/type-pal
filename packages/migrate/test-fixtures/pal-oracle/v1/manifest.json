@@ -3,14 +3,14 @@
   "version": 1,
   "methodVersion": "migrate-pal-oracle-v1",
   "cacheFormatVersion": 1,
-  "producerContractVersion": "p2-p7-r13-6a-b10-v1",
+  "producerContractVersion": "p2-p7-r13-6a-b10-w9-v1",
   "profiles": {
     "historicalR13_4": "pal-v9-projected-v8",
     "historicalR13_5": "pal-v10-r13-5",
-    "current": "pal-v10-r13-6a"
+    "current": "pal-v13-w9"
   },
   "projection": "packages/migrate/test-fixtures/pal-oracle/v1/projection.json",
-  "projectionSha256": "ddde63e30aef8c03ff7b7623cd0749f4e0ae3b164ae5d1bd1e6b781743069f63",
+  "projectionSha256": "34ec9b0d2f0ccd751668b1c2741a976cdd4c3e9d3419251579e78dcae57a6514",
   "inputs": [
     {
       "path": "data/extracted/events/all.json",
@@ -24,8 +24,8 @@
     },
     {
       "path": "packages/migrate/baselines/pal/_state.json",
-      "bytes": 74065,
-      "sha256": "21c0005692a25e1b137c3bbd0c71cda7d6bbbbc79e54bc53ad2f9ba14fe8bfce"
+      "bytes": 74327,
+      "sha256": "6f3ee701b8d6aaa1d8510a138bbdc737c2e5dd13d48e319e9af3c5cb4b0a68d1"
     },
     {
       "path": "packages/migrate/baselines/pal/_transitions/c8-item-use-v5-v1.json",
@@ -63,6 +63,11 @@
       "sha256": "41263ba1fa216af014bf8b880405a587938be38938449f77ccec84ed40da6b12"
     },
     {
+      "path": "packages/migrate/baselines/pal/_transitions/w9-entity-lifecycle-v1.json",
+      "bytes": 6572,
+      "sha256": "ecb6bc5068c6bd075571c7c97041f1048b3e960a80b133e9e295a30b5c621655"
+    },
+    {
       "path": "packages/migrate/baselines/pal/content/scenes/index.json",
       "bytes": 2943,
       "sha256": "a487a112f8e07dbcc5b671f67c9777d75445ddb6acb4c3eadc30bf343ca5009c"
@@ -85,7 +90,7 @@
     {
       "path": "projects/pal/manifest.json",
       "bytes": 2349,
-      "sha256": "a1de294161ef4c5147e55c2d447962275e5f828fb3f5c8f919d6ef894dca9f07"
+      "sha256": "6d8b39dbbcdfdd15f76c3b1b2efa8b501875da0e4653255792d58f69350f2b6a"
     },
     {
       "path": "projects/pal/content/ambiences.json",
@@ -121,17 +126,17 @@
       "role": "published-baseline",
       "root": "packages/migrate/baselines/pal",
       "selector": "all",
-      "files": 325,
-      "bytes": 63845014,
-      "sha256": "6f56991ef86c517afebe878089150c5ab173d41567465609fa6ee5ecfa28902e"
+      "files": 326,
+      "bytes": 63997287,
+      "sha256": "76d43b8104e65c31830dffcb3f15ea7c4c2dc4f0e1a2a6ff460682d198e04356"
     },
     {
       "role": "project-prerequisite",
       "root": "projects/pal",
       "selector": "all",
-      "files": 2419,
-      "bytes": 153843766,
-      "sha256": "0833c5739014c0e17f7bc59534a6ca1a11ec1db05c5a2f7742641720d2b49e0e"
+      "files": 2420,
+      "bytes": 153995777,
+      "sha256": "79ae025add46c8b15cfa7bf1f99733db95a7775addd78d55f32bbf8e8ff1672d"
     },
     {
       "role": "generated-shadow",
@@ -145,25 +150,25 @@
       "role": "producer-code",
       "root": "packages/migrate/src",
       "selector": "production-typescript",
-      "files": 117,
-      "bytes": 2666085,
-      "sha256": "ce583dcd7a8eb191a02ea75c9aa8028c6db9d149e7d0bc487bf61e0865691da7"
+      "files": 121,
+      "bytes": 2782093,
+      "sha256": "fc8f4413002a1799175eb6632a6b41b40678aa5ecd6a95b103664ac2366b32e4"
     },
     {
       "role": "producer-code",
       "root": "packages/content/src",
       "selector": "production-typescript",
-      "files": 41,
-      "bytes": 597315,
-      "sha256": "ebd9e14b00165a6d3bda7428027d9634308b0a3c04886ab8f0ab2b72c1deb0c3"
+      "files": 46,
+      "bytes": 624092,
+      "sha256": "c8a4e94ca59975b25aa160f50cf341688c08155082aa81e983b26c85c0416852"
     },
     {
       "role": "producer-code",
       "root": "packages/reforge/src",
       "selector": "production-typescript",
-      "files": 100,
-      "bytes": 1222044,
-      "sha256": "d5e3c284a0d1dba48a4002420c03c7edac6e64a82c2c3c319ae18802e29404b9"
+      "files": 109,
+      "bytes": 1308794,
+      "sha256": "2bde5e3f779b130aa6e781b757692f5fec8e6a7606a362b2ae20c9df1af388fa"
     },
     {
       "role": "runtime-code",

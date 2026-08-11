@@ -14,6 +14,7 @@ import type {
   EntityDef,
   GridPos,
   HostileBehavior,
+  HostileBehaviorV13,
   Locale,
   MapAssetDefV1,
   SceneDef,
@@ -76,7 +77,13 @@ import {
 import { exportProjectZip } from '../core/export-zip.js'
 import { saveHandle } from '../core/handle-store.js'
 import type { ItemReference } from '../core/item-references.js'
-import { type Opened, openExistingProject, pickDir, saveProjectAs } from '../core/open-actions.js'
+import {
+  type Opened,
+  openExistingProject,
+  pickDir,
+  saveProjectAs,
+  upgradeProjectToV13,
+} from '../core/open-actions.js'
 import { collectEditorStatusIssues } from '../core/project-diagnostics.js'
 import { serializeProjectWithMapCopies, writeProject } from '../core/project-io.js'
 import {
@@ -123,6 +130,7 @@ import {
 } from './editor-navigation.js'
 import { editorObjectTargetMissing } from './editor-target.js'
 import { MapMode } from './MapMode.js'
+import { LifecycleCommandPanelV13 } from './LifecycleCommandPanelV13.js'
 import { ModuleNav, ModuleSubnav } from './ModuleNav.js'
 import { MusicPicker } from './MusicPicker.js'
 import {
@@ -1376,6 +1384,28 @@ export function App(props: {
     }
   }
 
+  const upgradeToV13 = async (): Promise<void> => {
+    if (saveInFlightRef.current || exporting) return
+    if (project.manifest.contentVersion !== 12) return
+    const dir = dirHandleRef.current
+    if (!dir) return
+    saveInFlightRef.current = true
+    setProjMenu(false)
+    setSaveErr('')
+    setSaveActivity({ phase: 'upgrading-v13' })
+    try {
+      await new Promise<void>((resolve) => window.setTimeout(resolve, 0))
+      const opened = await upgradeProjectToV13(dir, project)
+      props.onOpened?.(opened)
+    } catch (e) {
+      if (e instanceof DOMException && e.name === 'AbortError') return
+      setSaveErr(e instanceof Error ? e.message : String(e))
+    } finally {
+      saveInFlightRef.current = false
+      setSaveActivity(null)
+    }
+  }
+
   return (
     <div className="editor" aria-busy={saveActivity !== null ? true : undefined}>
       <div className="topbar" inert={saveActivity !== null ? true : undefined}>
@@ -1428,6 +1458,19 @@ export function App(props: {
                   onClick={() => void saveAs()}
                 >
                   📦 另存为…
+                </button>
+                <button
+                  type="button"
+                  disabled={
+                    !dirHandleRef.current ||
+                    project.manifest.contentVersion !== 12 ||
+                    exporting ||
+                    saveActivity !== null
+                  }
+                  title="把当前 contentVersion 12 工程原地升级为 contentVersion 13（manifest-last）"
+                  onClick={() => void upgradeToV13()}
+                >
+                  ⬆️ 升级到 v13…
                 </button>
                 <button
                   type="button"
@@ -2092,6 +2135,7 @@ export function App(props: {
                     assetBase={project.assetBase}
                     assetReader={assetReader}
                     canonicalScriptV5={!!scriptV5Session}
+                    isContentV13={state.manifest.contentVersion === 13}
                     onJumpToEvent={jumpToEvent}
                     focusPageIndex={
                       entityPageFocus?.sceneId === scene.id &&
@@ -2115,6 +2159,13 @@ export function App(props: {
                     }
                     onDelete={deleteSelected}
                   />
+                  {state.manifest.contentVersion === 13 ? (
+                    <LifecycleCommandPanelV13
+                      session={session}
+                      sceneId={scene.id}
+                      entityId={selEntity.id}
+                    />
+                  ) : null}
                   {scriptV5Session && scriptV5State && !drawer.open ? (
                     <div className="section script-v5-entity-section">
                       {canonicalEntityV5?.hostile ? (
@@ -2619,6 +2670,8 @@ function EntityInspector(props: {
   assetReader: EditorAssetReader
   /** v5 canonical 脚本由独立具名行为检查器编辑，禁止兼容壳重新创建 legacy stage。 */
   canonicalScriptV5?: boolean
+  /** contentVersion 13 才有的显式 hostile policy。 */
+  isContentV13?: boolean
   /** 跳事件模式定位此实体的触发/巡逻脚本(E2)。 */
   onJumpToEvent: (sceneId: string, srcKey: string) => void
   /** 从动作引用跳转时精确打开对应实体页。 */
@@ -2639,6 +2692,7 @@ function EntityInspector(props: {
     assetBase,
     assetReader,
     canonicalScriptV5,
+    isContentV13,
     onJumpToEvent,
     focusPageIndex,
     focusPageRevision,
@@ -2659,6 +2713,7 @@ function EntityInspector(props: {
   const spriteId = resolveEntitySpriteId(entity, actorsById)
   const spriteDef = spriteId ? sprites.find((sprite) => sprite.id === spriteId) : undefined
   const pageCount = Math.max(1, entity.pages?.length ?? 0)
+  const hostileV13 = entity.hostile as HostileBehaviorV13 | undefined
   useEffect(() => {
     if (!entity.id) return
     setPageIndex((current) =>
@@ -2686,16 +2741,16 @@ function EntityInspector(props: {
     session.dispatch(new UpdateEntityCommand(sceneId, entity.id, { pages: nextPages }))
   }
   const facing = entity.facing ?? 'down'
-  const dispatchHostile = (h: HostileBehavior | undefined): void => {
-    session.dispatch(new UpdateEntityCommand(sceneId, entity.id, { hostile: h }))
+  const dispatchHostile = (h: unknown): void => {
+    session.dispatch(new UpdateEntityCommand(sceneId, entity.id, { hostile: h as HostileBehavior }))
   }
   /** hostile 子字段更新(整对象替换;undefined 值的键显式删,保 JSON 落盘干净)。 */
-  const setHostile = (patch: Partial<HostileBehavior>): void => {
+  const setHostile = (patch: Record<string, unknown>): void => {
     if (!entity.hostile) return
-    const next: HostileBehavior = { ...entity.hostile, ...patch }
-    if (patch.chase === undefined && 'chase' in patch) delete next.chase
-    if (patch.respawnSeconds === undefined && 'respawnSeconds' in patch) delete next.respawnSeconds
-    if (patch.onLose === undefined && 'onLose' in patch) delete next.onLose
+    const next = { ...(entity.hostile as unknown as Record<string, unknown>), ...patch }
+    for (const [key, value] of Object.entries(patch)) {
+      if (value === undefined) delete next[key]
+    }
     dispatchHostile(next)
   }
   return (
@@ -2898,7 +2953,15 @@ function EntityInspector(props: {
               checked={!!entity.hostile}
               onChange={(e) =>
                 dispatchHostile(
-                  e.target.checked ? { team: parseTeamNum(enemyTeams[0]?.id) ?? 1 } : undefined,
+                  e.target.checked
+                    ? isContentV13
+                      ? {
+                          team: parseTeamNum(enemyTeams[0]?.id) ?? 1,
+                          onVictory: { kind: 'remove' },
+                          onPlayerFlee: { kind: 'remain' },
+                        }
+                      : { team: parseTeamNum(enemyTeams[0]?.id) ?? 1 }
+                    : undefined,
                 )
               }
             />{' '}
@@ -2989,22 +3052,110 @@ function EntityInspector(props: {
                 </div>
               </div>
             )}
-            <div className="field">
-              <span className="field-label">重生秒</span>
-              <input
-                className="in mono"
-                type="number"
-                placeholder="(空=不复活)"
-                value={entity.hostile.respawnSeconds ?? ''}
-                onChange={(e) =>
-                  setHostile({
-                    respawnSeconds: Number.isFinite(e.target.valueAsNumber)
-                      ? e.target.valueAsNumber
-                      : undefined,
-                  })
-                }
-              />
-            </div>
+            {isContentV13 ? (
+              <>
+                <div className="field">
+                  <span className="field-label">胜利后</span>
+                  <select
+                    className="in"
+                    value={hostileV13?.onVictory.kind ?? 'remove'}
+                    onChange={(e) => {
+                      const kind = e.target.value as HostileBehaviorV13['onVictory']['kind']
+                      if (kind === 'hide')
+                        setHostile({
+                          onVictory: {
+                            kind,
+                            ticks:
+                              hostileV13?.onVictory.kind === 'hide'
+                                ? hostileV13.onVictory.ticks
+                                : 800,
+                          },
+                        })
+                      else setHostile({ onVictory: { kind } })
+                    }}
+                  >
+                    <option value="remove">隐藏后从场景移除</option>
+                    <option value="hide">隐藏后离屏重现</option>
+                    <option value="remain">保持原样</option>
+                  </select>
+                </div>
+                {hostileV13?.onVictory.kind === 'hide' ? (
+                  <div className="field">
+                    <span className="field-label">胜利隐藏 ticks</span>
+                    <input
+                      className="in mono"
+                      type="number"
+                      min={1}
+                      step={1}
+                      value={hostileV13.onVictory.ticks}
+                      onChange={(e) => {
+                        const ticks = e.target.valueAsNumber
+                        if (Number.isSafeInteger(ticks) && ticks > 0)
+                          setHostile({ onVictory: { kind: 'hide', ticks } })
+                      }}
+                    />
+                  </div>
+                ) : null}
+                <div className="field">
+                  <span className="field-label">逃跑后</span>
+                  <select
+                    className="in"
+                    value={hostileV13?.onPlayerFlee.kind ?? 'remain'}
+                    onChange={(e) => {
+                      const kind = e.target.value as HostileBehaviorV13['onPlayerFlee']['kind']
+                      if (kind === 'suspend')
+                        setHostile({
+                          onPlayerFlee: {
+                            kind,
+                            ticks:
+                              hostileV13?.onPlayerFlee.kind === 'suspend'
+                                ? hostileV13.onPlayerFlee.ticks
+                                : 15,
+                          },
+                        })
+                      else setHostile({ onPlayerFlee: { kind } })
+                    }}
+                  >
+                    <option value="remain">保持原样</option>
+                    <option value="suspend">短暂暂停自动行为</option>
+                  </select>
+                </div>
+                {hostileV13?.onPlayerFlee.kind === 'suspend' ? (
+                  <div className="field">
+                    <span className="field-label">逃跑暂停 ticks</span>
+                    <input
+                      className="in mono"
+                      type="number"
+                      min={1}
+                      step={1}
+                      value={hostileV13.onPlayerFlee.ticks}
+                      onChange={(e) => {
+                        const ticks = e.target.valueAsNumber
+                        if (Number.isSafeInteger(ticks) && ticks > 0)
+                          setHostile({ onPlayerFlee: { kind: 'suspend', ticks } })
+                      }}
+                    />
+                  </div>
+                ) : null}
+              </>
+            ) : (
+              <div className="field">
+                <span className="field-label">重生秒</span>
+                <input
+                  className="in mono"
+                  type="number"
+                  placeholder="(空=不复活)"
+                  value={entity.hostile.respawnSeconds ?? ''}
+                  onChange={(e) =>
+                    setHostile({
+                      respawnSeconds: Number.isFinite(e.target.valueAsNumber)
+                        ? e.target.valueAsNumber
+                        : undefined,
+                    })
+                  }
+                />
+              </div>
+            )}
             {!canonicalScriptV5 ? (
               <>
                 <div className="field">
@@ -3042,7 +3193,7 @@ function EntityInspector(props: {
           </>
         )}
       </div>
-      {!canonicalScriptV5 ? (
+      {!canonicalScriptV5 && !isContentV13 ? (
         <div className="section">
           <h4>
             行为脚本 <span className="hint2">底部抽屉就地编(E2/E4)</span>

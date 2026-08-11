@@ -7,11 +7,10 @@ import { loadPalBaseline } from './migration-baseline.js'
 import { buildPalHistoricalR13_4V9Migration } from './pal-migration.js'
 import { loadPalMigrationSources } from './pal-migration-io.js'
 import {
-  buildPalW9LifecycleSourceLedger,
+  buildPalW9LifecyclePublicationLedger,
   foldedHostileTargetsFromPublishedB10,
   PAL_W9_EXPECTED_BATTLE_PRESERVATION_FACTS_DIGEST,
   PAL_W9_EXPECTED_PROOF_LEDGER_DIGEST,
-  PAL_W9_PROOF_AFFECTED_FILE_ALLOWLIST,
 } from './pal-w9-lifecycle-source-ledger.js'
 import {
   assertScriptControlFlowAudit,
@@ -34,11 +33,10 @@ describe.skipIf(!existsSync(extracted))('PAL script control flow audit golden', 
     expect(
       new Set(migration.report.foldedHostileRoots.map(({ sceneId, entityId }) => `${sceneId}/${entityId}`)),
     ).toEqual(new Set(publishedFoldedHostiles.map(({ sceneId, entityId }) => `${sceneId}/${entityId}`)))
-    const w9LifecycleLedger = buildPalW9LifecycleSourceLedger({
+    const w9LifecycleLedger = buildPalW9LifecyclePublicationLedger({
       sources,
       preparedSourceCensus: prepareR13SourceExecutionCensus(sources),
       foldedHostileTargets: publishedFoldedHostiles,
-      affectedFileAllowlist: PAL_W9_PROOF_AFFECTED_FILE_ALLOWLIST,
     })
 
     expect(report.summary).toEqual({

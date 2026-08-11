@@ -1,5 +1,5 @@
 import {
-  type CurrentManifest,
+  type LegacyManifestV12,
   emptyWorldScriptStateV5,
   type SceneDefV5,
   type WorldStateV7,
@@ -120,7 +120,7 @@ function project(): LoadedProjectV5Core {
   return { sharedScripts: {} } as unknown as LoadedProjectV5Core
 }
 
-function currentManifest(): CurrentManifest {
+function currentManifest(): LegacyManifestV12 {
   return {
     id: 'demo',
     name: 'Demo',

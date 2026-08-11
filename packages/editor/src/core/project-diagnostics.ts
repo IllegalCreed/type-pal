@@ -7,7 +7,7 @@
  */
 import {
   type EntryPoint,
-  type CurrentManifest,
+  type LegacyManifestV12,
   type LoadedManifest,
   type ManifestV13,
   type SceneDef,
@@ -23,6 +23,7 @@ import {
 import { isV5RuntimeScriptRef } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
 import { collectEditorAssetReferences } from './editor-asset-references.js'
+import { collectMissingEntityAddressReferencesV13 } from './entity-address-references-v13.js'
 import { collectScriptV5ReferenceIssues, type ScriptEditorStateV5 } from './script-v5-editor.js'
 
 export type ProjectIssueSeverity = 'error' | 'warn'
@@ -47,7 +48,7 @@ export type ProjectIssueCode =
   | 'invalid-item-data'
   | 'migration-pending'
 
-export type ManifestLike = LoadedManifest | CurrentManifest | ManifestV13
+export type ManifestLike = LoadedManifest | LegacyManifestV12 | ManifestV13
 
 export interface ProjectIssue {
   severity: ProjectIssueSeverity
@@ -534,13 +535,27 @@ export function collectEditorStatusIssues(
   const canonicalScriptIssues: EditorStatusIssue[] = canonicalV5
     ? collectScriptV5ReferenceIssues(canonicalV5)
     : []
+  const entityAddressIssues: EditorStatusIssue[] =
+    state.manifest.contentVersion === 13
+      ? collectMissingEntityAddressReferencesV13(state).map((reference) => ({
+          severity: 'error',
+          message:
+            '实体 "' + reference.sceneId + '/' + reference.entityId + '" 不在 scenes',
+          path: reference.path,
+        }))
+      : []
   const projectIssues: EditorStatusIssue[] = collectProjectIssues(state).map((issue) => ({
     severity: issue.severity,
     message: issue.message,
     path: issue.path,
   }))
   const unique = new Map<string, EditorStatusIssue>()
-  for (const issue of [...contentIssues, ...canonicalScriptIssues, ...projectIssues]) {
+  for (const issue of [
+    ...contentIssues,
+    ...canonicalScriptIssues,
+    ...entityAddressIssues,
+    ...projectIssues,
+  ]) {
     unique.set(`${issue.severity}:${issue.path}:${issue.message}`, issue)
   }
   return [...unique.values()]
@@ -571,6 +586,17 @@ export function assertProjectSaveValid(state: EditorState): void {
         )
       }
     }
+    const missingEntityAddress = collectMissingEntityAddressReferencesV13(state)[0]
+    if (missingEntityAddress)
+      throw new Error(
+        '保存前实体引用校验失败：' +
+          missingEntityAddress.path +
+          ' 指向不存在的实体 "' +
+          missingEntityAddress.sceneId +
+          '/' +
+          missingEntityAddress.entityId +
+          '"',
+      )
   }
 
   try {

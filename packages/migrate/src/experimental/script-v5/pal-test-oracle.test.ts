@@ -6,7 +6,7 @@ describe('PAL compact test oracle', () => {
     const oracle = loadPalTestOracle()
     expect(oracle.projection).toMatchObject({
       generatorEpoch: 'n3-script-v5-p7-v1',
-      managedFiles: 547,
+      managedFiles: 548,
       scriptV4V5: {
         entries: 18_383,
         evidence: 8_975,
@@ -27,6 +27,7 @@ describe('PAL compact test oracle', () => {
       'r13-6c-lossy-closure-v1',
       'r13-z-source-closure-v1',
       'b10-enemy-team-slots-v1',
+      'w9-entity-lifecycle-v1',
     ])
     expect(
       oracle.manifest.inputTrees.map(({ role, root, selector }) => ({
@@ -75,6 +76,12 @@ describe('PAL compact test oracle', () => {
       sourceCensus: expect.stringMatching(/^[0-9a-f]{64}$/),
       enemyDisposition: expect.stringMatching(/^[0-9a-f]{64}$/),
       enemyRuntime: expect.stringMatching(/^[0-9a-f]{64}$/),
+      w9: {
+        sourceLedger: expect.stringMatching(/^[0-9a-f]{64}$/),
+        controlGraph: expect.stringMatching(/^[0-9a-f]{64}$/),
+        successorSurface: expect.stringMatching(/^[0-9a-f]{64}$/),
+        affectedFileAllowlist: expect.stringMatching(/^[0-9a-f]{64}$/),
+      },
     })
     expect(oracle.projection.proofs.r13SourceSemantics).toMatchObject({
       transitionId: 'r13-source-semantics-v1',
