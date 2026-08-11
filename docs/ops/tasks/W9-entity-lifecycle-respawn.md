@@ -771,6 +771,8 @@ full-CLI 回归测试 + current13 0/0/0）→ GLM 复跑 migrate:content 转 acc
 - 其余收口：`migrate typecheck` 通过；`test:fast` 83 files / 626 tests passed（5 skipped）；
   `test:oracle:verify` 2/2；cold `test:canary` 1 file / 2 tests passed（249.49s）；
   `test:manifest --check` 通过。生成物、oracle、baseline 未被手改。
+- Git 收口：R1 实现与真实审查记录已以 `bb48dec4da26416c630d33f777a91fe21675160b`
+  提交并推送 `main`；该提交后 HEAD/origin 一致且工作树 clean。
 
 **现状与门禁**：Codex 认为 R1 实现修复已完成，但不代替 GLM 本人签字；本卡保持
 `Status=review`/“GLM rework”，等待用户将下方复审提示词转发后的真实 `GLM: accept`。

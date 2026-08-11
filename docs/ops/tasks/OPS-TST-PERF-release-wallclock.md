@@ -247,6 +247,12 @@ packages/migrate/scripts/profile-release.mts、packages/migrate/vitest.release.c
 - 最终 smoke：`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-release-profile-2026-08-10T020740513Z-79ead15d/summary.json`，PASS，manifest 103/720、preflight 1/1，顶层 94.71s，RSS 非空。
 - 完整 profiler 诊断：`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-release-profile-2026-08-10T005327089Z-09d35973/summary.json`。manifest 70.35s、canary 373.90s、preflight+unit 21.74s、shared 2625.08s，分别闭合 103/720、1/2、76/578、24/137；shared 进程树 RSS peak 3,218,849,792 bytes。fresh 按 fail-closed 停止：raw JSON 显示 integration 文件 `status=failed`，baseline listed test 因 `beforeAll` hook 失败而 skipped（hook 超时限制在 `:768-770`，180s）；单独 fresh 复跑又在 `:772` 复现 240s test-body timeout（冷链约 333s）。两者均是现有性能债，不是报告解析误判；应单独开返工卡复现根因，不在 profiler 里改超时或转 skip。
 - 这次只作诊断基线，不计入 A 的三次成功 full 验收；正式 `done` 仍需三次 full、与串行 control 清单闭合以及 Codex/Kimi/GLM 三方 accept。
+- 2026-08-11 W9 发布后重跑只读 smoke：
+  `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-release-profile-2026-08-11T081934648Z-49335190/summary.json`
+  为 PASS，顶层 71.86s，`complete=false`。manifest 严格闭合新清单 107 files / 757 tests，
+  digest `0ade1405…` / route `b7a8d9f6…`，进程树 RSS peak 1,022,689,280 bytes；preflight
+  1/1，RSS peak 810,778,624 bytes。本次仍只是 smoke，不计三次 full，不闭合 FRESH、
+  serial control 或 B/C 门禁。
 
 ## Kimi A 实现复审（历史记录，已由下方最终复审取代；2026-08-10）
 
