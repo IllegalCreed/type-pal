@@ -254,6 +254,24 @@ packages/migrate/scripts/profile-release.mts、packages/migrate/vitest.release.c
   1/1，RSS peak 810,778,624 bytes。本次仍只是 smoke，不计三次 full，不闭合 FRESH、
   serial control 或 B/C 门禁。
 
+### 2026-08-11 FRESH 返工闭环证据（Codex，未代签）
+
+- 提交 `88219e8cb2947c295cd45ad451e63321c9e7e252` 已推送 `main`：P7 改为单一 canonical pipeline，
+  fresh final-consumer 改消费逐阶段验证并释放的 P6 final output；R13-5 仍使用独立 source
+  container，未读取 prepared/canary authority，180s hook 与 240s body 原值未动。
+- 在同一 clean main、完整 `release-pal-fresh` 路由、独立冷进程下连续三次成功：
+  `/tmp/type-pal-fresh-final-1.json`（integration 172.950s，process-tree RSS
+  2,892,922,880B）、`/tmp/type-pal-fresh-final-2.json`（205.175s，2,835,972,096B）、
+  `/tmp/type-pal-fresh-final-3.json`（190.670s，2,844,229,632B）。每次均为 6 passed + 1
+  既有 unlisted static skip，listed identities 无 skip/failure；峰值约 2.694GiB，低于本卡记录
+  的 full control 约 2.7GiB 与 fresh 3.5GiB hard budget。
+- 真实 PAL `p6-shadow` 等价门、migrate typecheck、fast（83 files / 626 tests）、canary（2/2）
+  和 manifest generator/verify 均通过；manifest 当前为 107 files / 758 tests。oracle 仅因合法
+  上游源码变更重录 production-typescript fingerprint，未改 projection authority。
+- 这三次 fresh 关闭了 FRESH 卡的连续 fresh gate，但尚未替代本卡要求的官方 profiler full
+  报告、serial control 与连续三次 full baseline；本卡仍保持 `Status: build`，B/C 仍未进入实现。
+  这些是实现证据，不构成任何 Kimi/GLM implementation accept。
+
 ## Kimi A 实现复审（历史记录，已由下方最终复审取代；2026-08-10）
 
 - **Kimi: accept（A 实现）**。`profile-release.mts:351-474` 现在按每文件/每测试 identity
