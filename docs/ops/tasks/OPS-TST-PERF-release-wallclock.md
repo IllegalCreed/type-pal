@@ -1,18 +1,21 @@
 # OPS-TST-PERF-RW - release worker 墙钟优化
 
-Status: build
+Status: review
 Phase: phase2
 Capability: test infrastructure / release gate
 Coding Owner: Codex
 Generation Owner: N/A
 Reviewer: Kimi + GLM
 Visual Verification Owner: N/A
-Unavailable Agents: none（2026-08-10）
+Unavailable Agents: none（2026-08-12）
 Branch: main
 
-> **2026-08-10 治理记录**：本卡早期由 Codex 侧子代理生成的 Kimi/GLM 文字仅作历史审计材料，
-> 不等同真实席位签字。A 当前仍是诊断实现，三次成功 full baseline 未完成；B/C 与 fresh 根因已拆为
-> 独立任务卡，均须由用户转发给真实 Kimi/GLM 完成设计与实现复审后才能推进。默认 `test:release`
+> **2026-08-12 治理记录**：本卡早期由 Codex 侧子代理生成的 Kimi/GLM 文字仅作历史审计材料，
+> 不等同真实席位签字。A profiler 实现、真实席位实现复审与三次成功 full baseline 均已完成；
+> 三次 full 的原始临时报告已被系统清理，当前只保留用户确认与 profiler fail-closed 契约可核，
+> 具体 runId/耗时/RSS 无法追溯；另无独立 canonical `test:release` control 的存续原始报告。
+> 这两项必须由真实 Kimi/GLM 在 final evidence review 中明确 `accept` 或 `counter`，Codex 不代签。
+> B/C 与 fresh 根因均为独立任务卡；默认 `test:release`
 > 保持串行，不能以并行或 pinned proof 先行替代门禁。
 
 ## 目标
@@ -28,8 +31,9 @@ authority 的前提下，缩短 `@type-pal/migrate` release gate 的墙钟时间
 - `packages/migrate/vitest.release.config.ts:19-68` 将 release 分成 preflight、unit、shared、fresh
   四组；`shared` 在 `pool=forks, isolate=false, fileParallelism=false` 下故意单 worker，才能复用
   `pal-test-fixture.ts` 的进程内真实 lease。
-- 当前 release 清单：unit **75 files / 577 tests**，shared **24 / 137**，fresh **3 / 5**，
-  preflight **1 / 1**，总计 **103 / 720**。
+- 当前 release manifest（2026-08-12）：**107 files / 758 listed tests**，digest
+  `4e2d1fd8…`、route digest `03aed2db…`；阶段细分以每次 profiler 的现场 `vitest list` 为准，
+  不再沿用 W9/FRESH 发布前的 103/720 静态快照。
 - 2026-08-10 本机单阶段实测（Apple Silicon，`/usr/bin/time -p`，单次样本）：
   `release-preflight + release-unit` **18.55s**（76 files / 578 tests），单跑
   `p2-shadow.pal.test.ts` **175.24s**（首个 live-double-build 测试 86.829s），单跑
@@ -106,8 +110,9 @@ live-double-build；C 不在本卡当前 build 范围，另开卡后再三方签
 > 在该卡根因闭环前，不能把 fresh 失败计入成功 baseline，也不能推进 B 的并行实现。
 
 - A：连续三次阶段报告可复现，且每次明确记录 manifest/canary/release 边界；报告 schema 完整，
-  full 汇总的 listed/runnable 为 `files=103/tests=720`并与 manifest 路由 digest 相等；当前
-  reporter 真值另为 `assertions=721/unlistedSkipped=1`，不得冒充或减少 720 条可运行身份；RSS/
+  full 汇总的 listed/runnable 必须与运行时 release manifest 闭合（当前为
+  `files=107/tests=758`，digest `4e2d1fd8…`、route digest `03aed2db…`）；当前 reporter 另有
+  1 条既有 unlisted static skip，不得冒充 listed/runnable 身份；RSS/
   报告不可用、全跳过、
   失败或缺 source/baseline 均 fail-closed。
 - B（后续单独 build）：并行 runner 的 shared/fresh 进程、env、临时目录和报告完全隔离；任一
@@ -134,25 +139,32 @@ live-double-build；C 不在本卡当前 build 范围，另开卡后再三方签
 
 ### 进入 done 前：实现
 
-- Codex：**accept（A 实现自验，2026-08-10；三次 full 验收仍 pending）**
+- Codex：**accept（A 实现与 full baseline 自验，2026-08-12）**——用户确认 2026-08-11 连续
+  三次 `test:release:profile` full 均 PASS；Codex 核对 profiler 只有在五阶段齐全、manifest/list
+  digest 闭合、listed identity 无动态 skip/failure、报告/RSS 字段完整时才会打印 PASS。原始临时
+  报告已清理，具体 runId/耗时/RSS 不可追溯，已作为 final evidence review 的显式留存风险。
 - Kimi：**accept（A 实现，2026-08-10 最终复审；见下方）**
-- GLM：**accept（A 实现最终复审，2026-08-10；三次 full 验收仍 pending）**
-- done 准入结论：blocked
+- GLM：**accept（A 实现最终复审，2026-08-10；见下方）**
+- done 准入结论：**blocked（等待真实 Kimi/GLM 对 2026-08-11 三次 full 的留存缺口、以及是否仍需
+  独立 canonical `test:release` control 作 final evidence `accept/counter`；不得把其 2026-08-10
+  的实现 accept 改写成对新证据的签字）**
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务：OPS-TST-PERF-RW release worker 墙钟优化 A 实现终审（当前 Status=build，done blocked）。
+接手任务：OPS-TST-PERF-RW release worker 墙钟优化 A final evidence review（当前 Status=review）。
 任务卡：docs/ops/tasks/OPS-TST-PERF-release-wallclock.md
 只读先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文、
 packages/migrate/scripts/profile-release.mts、packages/migrate/vitest.release.config.ts、vitest.tests.ts。
-当前证据：最终 smoke 79ead15d PASS（manifest 103/720、preflight 1/1、complete=false）；full 09d35973
-已闭合 canary 1/2、unit 76/578、shared 24/137，但 fresh 因现有 integration hook/test 超时路径 fail-closed，
-不计三次成功 full。核对五阶段边界、listed/runnable 与 reporter-only skipped、逐文件/逐测试 identity、
-文件 status、RSS/signal/失败摘要、默认 test:release 和 authority/baseline 无变更。
-指定职责：只读实现复审并在卡上签 `accept` 或给出带 file:line 的 `counter`；不得修改实现文件、
-不得开始 B 并行或 C consolidated proof、不得调整现有 180s hook/240s test timeout。未三方 accept 和
-三次成功 full 前不得标记 done。
+当前证据：FRESH 修复提交 88219e8c 后，用户确认 2026-08-11 连续三次
+`pnpm --filter @type-pal/migrate test:release:profile` full 均 PASS；当前 manifest 为 107 files /
+758 listed tests，digest 4e2d1fd8…、route digest 03aed2db…。临时 run 目录已被系统清理，具体
+runId/phase wall/RSS 原值不可恢复；只能核 profiler 源码的 PASS fail-closed 契约与用户确认。
+指定职责：Kimi/GLM 各自只读核对 profiler 是否确实只在五阶段齐全、manifest/list digest、listed
+identity、报告/RSS 全闭合时 PASS，并明确写本人 `accept`（接受该留存缺口）或 `counter`（说明必须
+补跑的最小证据）；同时裁决三次 sequential full profiler 是否足以闭合 A 的 serial control，还是
+仍须一次 canonical `test:release`。不得修改实现文件、不得代签、不得开始 B/C、不得调整
+timeout/skip。两席 final evidence 结论前不得标 done。
 ```
 
 ## Kimi 设计复审（2026-08-10）
@@ -271,6 +283,24 @@ packages/migrate/scripts/profile-release.mts、packages/migrate/vitest.release.c
 - 这三次 fresh 关闭了 FRESH 卡的连续 fresh gate，但尚未替代本卡要求的官方 profiler full
   报告、serial control 与连续三次 full baseline；本卡仍保持 `Status: build`，B/C 仍未进入实现。
   这些是实现证据，不构成任何 Kimi/GLM implementation accept。
+
+### 2026-08-12 三次 full baseline 回填（用户确认 + Codex 契约核对）
+
+- 用户确认：2026-08-11 已连续运行三次 `test:release:profile` full，三次均 PASS；本轮明确要求
+  不再重复执行三轮长测试。
+- 当前系统临时目录中已找不到对应 `type-pal-release-profile-*` run 目录，仓库与本地 Codex 会话记录
+  也没有保存 runId、逐阶段 wall/RSS 或 summary JSON。因此本卡不虚构 median/max，也不把已清理的
+  临时路径写成仍可访问证据。
+- Codex 只读核对 `profile-release.mts`：full 只有在 manifest、canary、preflight+unit、shared、fresh
+  五份报告齐全，所有 phase 无 error，release/canary 的 file/test identity 与 manifest
+  `sha256/routeSha256` 闭合，listed test 无执行期 skip/failure，RSS/报告字段可用时才输出
+  `PASS mode=full`。因此用户确认的三次 PASS 足以证明执行结果；但无法满足“独立复算具体 run 数值”
+  的证据留存强度。
+- 当前 manifest 真值为 107 files / 758 listed tests（`4e2d1fd8…` / `03aed2db…`）。本节取代卡头
+  “三次 full 未完成”旧口径，任务转 `review`；是否接受原始报告已过期的留存缺口，必须由真实
+  Kimi/GLM final evidence review 明确签字。当前没有独立 canonical `test:release` control 的存续
+  原始报告；两席还须明确 sequential full profiler 是否足以闭合该项，或给出一次最小补跑要求。
+  默认串行 `test:release` 未改，B/C 仍未进入实现。
 
 ## Kimi A 实现复审（历史记录，已由下方最终复审取代；2026-08-10）
 

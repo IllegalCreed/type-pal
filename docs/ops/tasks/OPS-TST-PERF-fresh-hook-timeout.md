@@ -1,6 +1,6 @@
 # OPS-TST-PERF-FRESH - release fresh hook/test 超时根因
 
-Status: build
+Status: review
 Phase: ops
 Capability: test infrastructure / release gate
 Coding Owner: Codex
@@ -8,7 +8,7 @@ Generation Owner: N/A
 Reviewer: Kimi + GLM
 Visual Verification Owner: N/A
 Visual Verification Timing: N/A
-Unavailable Agents: none（2026-08-11；真实 Kimi/GLM design agree 已齐，implementation accept 尚未申请）
+Unavailable Agents: none（2026-08-12；真实 Kimi/GLM design agree 已齐，implementation review 待两席本人结论）
 Branch: main
 
 ## 目标
@@ -45,7 +45,8 @@ Branch: main
   - 2026-08-10 单文件 verbose cold 已定性：失败是 `beforeAll`（`:768`）180s hook timeout，
     `:772` 的 240s body 被 skipped、未开始。同步 `buildStrictPalMigrationFixture()` 阻塞 event loop，
     timeout 到点后不能立即中断，直至约 198s 返回才报告失败；不得再把它写成 body timeout。
-  - `OPS-TST-PERF-release-wallclock.md` 的三次成功 full baseline 尚未完成。
+  - `OPS-TST-PERF-release-wallclock.md` 的三次成功 full baseline 已由用户确认完成；原始临时报告
+    已被系统清理，具体 runId/wall/RSS 不可追溯，留存缺口待真实 Kimi/GLM final evidence review。
 - 不得重新引入:
   - timeout/skip 放宽、静默串行回退、缺报告仍 success、预构建 authority 输入、共享可变临时目录。
 - 相关测试:
@@ -160,12 +161,15 @@ Kimi 真实复审（算法单源/内存释放）仍 pending。
 
 ### 进入 done 前：实现签字
 
-- Codex: pending
+- Codex: **accept（2026-08-12，implementation self-review）**——P7 单一 canonical pipeline、
+  validated final P6 consumer、full/final-output digest 等价门与三次独立 fresh 已闭合；用户另确认
+  2026-08-11 三次 full profiler 均 PASS。Codex 核对 profiler 的 PASS fail-closed 契约，但对应
+  临时 summary 已清理，不能提供具体 runId/wall/RSS；该留存缺口不由 Codex 替两席裁决。
 - Kimi: pending
 - GLM: pending
 - counter / 返工处理: N/A
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **blocked（等待真实 Kimi/GLM implementation `accept/counter`）**
 
 ## Draft: 设计与风险
 
@@ -330,28 +334,28 @@ profiler；每次记录 monotonic wall、raw JSON、进程树 RSS、临时事务
   三次均 exit 0、listed identity 无 skip/failure；RSS 最大约 2.694GiB，低于本卡记录的 full
   control 约 2.7GiB 与 OPS fresh 3.5GiB hard budget。一次早期深拷贝对照（`run1`）不计入成功序列；
   后续浅容器修复后的三次才是正式证据。
-- **已知残余门禁**：还需至少一次完整 `test:release:profile` full report 与 OPS 主卡要求的 serial
-  control/三次 full baseline；随后 Codex implementation self-review，并由用户转发真实 Kimi/GLM
-  implementation `accept`。本条不构成任何席位签字，任务保持 `Status: build`。
+- **2026-08-12 残余门禁更新**：用户确认 2026-08-11 三次完整 `test:release:profile` full 均
+  PASS，已满足本卡“至少一次 full”及 OPS 主卡“三次 full baseline”的执行结果；临时 summary
+  已被系统清理，具体 runId/wall/RSS 不可追溯。Codex 已完成 implementation self-review 并签
+  `accept`，任务转 `review`；仍须真实 Kimi/GLM 各自复核实现与证据留存缺口并签
+  implementation `accept/counter`。本条不构成 Kimi/GLM 席位签字。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务：OPS-TST-PERF-FRESH 受控 build 实现
+接手任务：OPS-TST-PERF-FRESH implementation review
 任务卡：docs/ops/tasks/OPS-TST-PERF-fresh-hook-timeout.md
-当前状态：build；三方 design agree 齐（Codex / GLM 2026-08-10、Kimi 2026-08-11 复签），build 准入
-allowed。
-你的角色：唯一 Coding Owner，按「Codex counter 返工答复」冻结方案实现。
-要点：P7 抽单一私有 canonical pipeline（project→C8→lifecycle→scene semantic→trigger/idle→
-item throw→confirm→equip），full-chain 与 final-output adapter 共享同一 pipeline；full capture 含
-四个历史 snapshot + project + 全部 evidence；删除 p7-generated.ts:275-403 存量重复流水线；
-source-disposition 只在 pipeline 完成后裁剪返回引用；新增 full/final-output 完整 digest 等价门；
-只让 release-pal-fresh final-consumer 改用 validated final P6 output；R13-5 build 可延到 P7 图
-释放之后但身份独立。
-不要做：不得调大 180s/240s（pal-migration-integration.test.ts:768-770,945 内联原值）、不得拆
-hook/test 分摊预算、不得 skip、不得复用 prepared/canary authority、不得引入 worker 并行（OPS-TST-PERF-B
-另卡）、不得改默认串行 release 路由、不得标 done。
-验收：连续三次独立 fresh 成功；任一次超时、RSS 不可采样、digest 不等或 max RSS 高于现 full
-control 即返工并保持 blocked；保留 raw JSON/RSS/事务证据写回本卡。done 仍需 Codex/Kimi/GLM 三方
-implementation accept。
+当前状态：review；Codex implementation self-review `accept`，Kimi/GLM implementation 结论 pending。
+你的角色：真实 Kimi（架构/算法单源/内存与 authority）或真实 GLM（数据/覆盖/manifest 与事务）
+只读复审方；不得修改实现文件、不得代签另一席。
+先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文、OPS-TST-PERF-release-wallclock.md、提交
+88219e8c 及当前 main；重点核对 P7 单一 canonical pipeline、full/final-output 全 digest 等价、
+fresh final-consumer 使用 validated P6 final output、R13-5 独立 source container、180s/240s 未改、
+无 skip/prepared authority/worker 并行/默认路由变化。
+证据：三次独立 fresh 原值已落卡（172.950s/205.175s/190.670s，峰值约 2.694GiB）；用户确认另有
+三次 full profiler PASS。full 的临时 summary 已被系统清理，runId/逐阶段 wall/RSS 不可恢复；
+profiler 源码只有在五阶段、manifest/list digest、listed identity、报告/RSS 全闭合时才会 PASS。
+输出：本人明确写 `Kimi: accept/counter` 或 `GLM: accept/counter`，并说明是否接受 full 原始报告过期
+这一留存缺口；若 counter，给出必须补跑的最小命令与证据边界。两席 accept 前不得标 done，
+不得开始 OPS-TST-PERF-B/C。
 ```
