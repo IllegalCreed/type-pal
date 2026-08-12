@@ -103,7 +103,7 @@ Branch: TBD
 - GLM: **accept（2026-08-07，额度恢复补审：核 9409c8d1 dialog-box maxRight 308→320 全宽 + 移除头像收窄/光标预留；独立复跑 layout 11 测 + audit-dialog-wrap 11102 行 0 意外折行仅 6 合法超限。设计与 build 目标达成。见「GLM 实现/设计复审」）**
 - counter / 返工处理: 无 counter
 - 缺签豁免: N/A
-- done 准入结论: **allowed（三方 accept 齐；待用户验收后标 done）**
+- done 准入结论: **allowed（三方 accept 齐；2026-08-12 用户验收通过，任务 done）**
 
 ## Draft: 设计与风险
 
@@ -223,9 +223,9 @@ sdlpal 真值核实结论（决定性，代码锚点）：
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: **GLM accept（设计 maxRight=320 全宽对源 + build 9409c8d1 核实 + audit 0 意外折行 + layout 11 测,见下）;Kimi 视觉待补**
-- 必须返工项: 无（GLM 席）;25 行屏边光标裁切留 Kimi 视觉抽查
-- Accept / rework: **GLM accept（设计 + done）;Kimi 视觉 + Codex 收口 + 用户验收后 done**
+- 审查结论: **Codex/Kimi/GLM 三方 accept；Kimi 已完成浏览器版式抽验，见下**
+- 必须返工项: 无；屏边光标裁切为原版忠实行为，留后续独立策略批次
+- Accept / rework: **accept；2026-08-12 用户验收通过，任务 done**
 
 ### GLM 实现/设计复审（2026-08-07，额度恢复补审）：**accept（设计 + 实现）**
 
@@ -288,8 +288,10 @@ top 大字对白在 D14-2 s016 实测已在案。屏边光标裁切行未逐条�
 
 ## 用户验收
 
-- 用户结论: pending
-- 后续任务: pending
+- 用户结论: **accept（2026-08-12，用户在 `?scene=s001` 实测李大娘右侧头像对白，确认 D14-1 通过）**
+- 验收口径: 「不这样叫得醒你吗？好歹你也」等三条原始长句保持整行，无 1–2 字孤儿行；
+  绿色人名、右侧头像和原版全宽文本区观感正常。
+- 后续任务: 本卡无；议题 14 的 D14-2（演出意图协议）与 D14-3（奖励/事件总线）另卡推进。
 
 ## 交接日志
 
@@ -309,33 +311,11 @@ top 大字对白在 D14-2 s016 实测已在案。屏边光标裁切行未逐条�
   带头像全宽 17 字行无孤儿、文本入头像区观感原版一致(d14-1-dialog-bottom-portrait.png);
   屏边光标裁切为原版忠实行为留后续批。done 准入 blocked on Codex 收口 + 用户验收。
   详见「Kimi 补审(设计+实现)」。
+- 2026-08-12 User: 在 `http://localhost:6051/?scene=s001` 实测目标对白并确认
+  **“D14-1 通过”**。三方审查与用户验收均闭环，任务正式收口。
 
 ## 下一位 Agent 提示词
 
 ```text
-无下一位 Agent——GLM/Kimi 双补签完成(设计 agree + 实现 accept),审计链完整。
-等待 Codex done 前收口签字 + 用户验收后标 done。
-```
-
-```text
-接手任务: D14-1 对话系统外观继承（首批版式对齐）——已执行完毕,勿再执行
-说明: 本提示词为历史记录,GLM/Kimi 已于 2026-08-07 额度恢复后完成补审并双签
-  (设计 agree + 实现 accept)。等待 Codex 收口 + 用户验收。
-```
-当前状态: draft（build 准入 blocked；Codex 设计冻结并签 agree，见「冻结设计」节）
-你的角色: Kimi 做版式/视觉/头像边缘 UX 压测；GLM 做全量覆盖矩阵/回归口径核对
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡、design-backlog「对话外观继承」表、
-  packages/reforge/src/dialog/{dialog-box,layout,slot}.ts、
-  reference/sdlpal/text.c:1140-1170（320 裁边）/1270-1360（对话框位置/文本起点）/1645-1750
-  （逐行直绘/姓名/光标 posIcon）、font.c:522-548（逐像素裁切）
-已完成: Codex 根因定位 + sdlpal 代码级核实 + 全量行宽扫描，设计冻结：
-  折行宽度 = 原版最大可视宽度（maxRight=320，usable=320−startX，bottom 有头像 300px /
-  top 有头像 224px / 无头像 276px / center 240px），不按头像收窄、不扣光标预留；
-  11102 行中 1074 行误折行归零，仅 6 行超原版宽度继续折行；bottom 头像边缘 25 行
-  （>245px 的 8 行）与原版一致地画入头像区
-请你做: Kimi 压测四态 usable 矩阵与 25 行头像边缘行、6 行超限行、屏边光标行的观感口径；
-  GLM 复核扫描方法（场景 JSON 提取 + 字形宽）与 1074/6/25 数字、验收矩阵、回归脚本
-  应覆盖的样例；冻结方案后写 agree，或 counter + 必改理由
-不要做: 不得修改实现文件；不得在迁移期改对话文本；不得把行为与外观耦合
-输出要求: 更新设计签字、主审立场、争议处理和下一位提示词
+无下一位 Agent——Codex/Kimi/GLM 三方 accept 与用户验收均已完成，D14-1 已 done。
 ```

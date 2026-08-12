@@ -85,13 +85,13 @@
 
 | 子项 | 原版外观（第一阶段已忠实复刻，可作真值） | reforge 现状 | 待办 |
 |---|---|---|---|
-| 头像（portrait） | RGM.MKF RLE，左右位置由 `setDialogStyleX` 决定，随 0x09/0x7F 清除 | ❌ 无 | 移植 |
-| 人名 / 正文分行 | setDialogStyleX arg0/arg1（portrait/fontColor） | ⚠️ 有但简陋 | 对齐版式 |
-| 翻页 | 4 行/屏，key icon（DATA chunk 12 sprite）结尾光标 | ⚠️ 自绘"继续"文字 | 换原版光标 sprite |
-| 光标形式 | typing animation + 不同 wait 光标形态 | ❌ 无 | 移植 |
-| 上/下显示 | setDialogStyleTop（求雨 RNG / 结局用） | ❌ 无 | 移植 |
-| 字体 | 原版字模（FONT_COLOR_DEFAULT 0x4F + shadow） | ❌ 用系统宋体 | 移植字模 |
-| 自动播放 vs 交互 | 0x09 wait（自动延时）vs wait-key | ❌ 仅交互 | 加自动播放 |
+| 头像（portrait） | RGM.MKF RLE，左右位置由 `setDialogStyleX` 决定，随 0x09/0x7F 清除 | ✅ 已继承 | D14-1 done |
+| 人名 / 正文分行 | setDialogStyleX arg0/arg1（portrait/fontColor） | ✅ 已对齐原版全宽语义 | D14-1 done |
+| 翻页 | 4 行/屏，key icon（DATA chunk 12 sprite）结尾光标 | ✅ 已继承 | D14-1 done |
+| 光标形式 | typing animation + 不同 wait 光标形态 | ✅ 已继承 | D14-1 done |
+| 上/下显示 | setDialogStyleTop（求雨 RNG / 结局用） | ✅ 已继承 | D14-1 done |
+| 字体 | 原版字模（FONT_COLOR_DEFAULT 0x4F + shadow） | ✅ 已继承 | D14-1 done |
+| 自动播放 vs 交互 | 0x09 wait（自动延时）vs wait-key | ✅ 已区分 | D14-1 done |
 | 物品提示 UI | **独立 UI**（非 dialog）— 见议题 14 解法 ③ | ❌ 未涉及 | 随事件系统设计 |
 
 > **原则**：对话**行为/状态**重构（议题 14 主体），对话**外观/资产**继承原版（本子项）。两者解耦 —— 外观是数据 + sprite 资产，行为是纯状态机。
