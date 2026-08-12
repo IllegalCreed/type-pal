@@ -5,74 +5,187 @@ Phase: phase2
 Capability: 议题 15 NPC 自主移动（P1 引擎移动/碰撞/实体行为）
 Coding Owner: Codex
 Generation Owner: N/A
-Reviewer: Kimi（移动/碰撞架构主审）+ GLM（实体行为覆盖矩阵）
+Reviewer: Kimi（移动/碰撞架构主审）+ GLM（实体行为/测试覆盖主审）
 Visual Verification Owner: Kimi
-Unavailable Agents: Kimi + GLM（2026-08-07 双额度耗尽；Codex 单 Agent 推进需用户批准）
-Branch: TBD
+Visual Verification Timing: mixed（自主移动/追逐属功能性行为，build 期最小验证；开场走位与载具演出只登记到集中 E2E）
+Unavailable Agents: none（2026-08-12 看板确认 Kimi / GLM 均可用）
+Branch: `main`
 
 ## 目标
 
-在已有 auto 巡逻基础上补全议题 15 剩余：NPC 移动不穿墙、不穿彼此（每帧动态碰撞），
-玩家↔NPC 互相让路/错位避让（滑步而非硬卡），转向动画对齐原版手感。clean rewrite——
-拿原版当手感灵感、不逐帧复刻。
+在已有 auto 巡逻基础上补全议题 15：自主地面移动不穿墙，可碰撞实体不互穿；玩家与
+移动 NPC 在有空间时确定性错位让路；成功移动、受阻转向和停步站立的动画状态一致。
+这是 clean rewrite 新机制，只借原版错位观感，不复制旧引擎的阻塞循环或全局冻帧。
 
 ## 范围
 
 - 范围内:
-  - 移动子系统碰撞校验：stepEntity / moveEntity / hostile chase 的每一步查墙 + 查实体
-    （NPC 不重叠）。
-  - 玩家↔NPC 互相让路：碰撞时滑步/错位避让而非硬挡（现状 main.ts:4529 硬挡）。
-  - 转向动画与游走节奏（原版手感灵感）。
-  - 与主脚本接管语义兼容（被接管实体暂停 auto 的既有规则不变）。
+  - 每个 100ms 世界拍统一规划玩家、auto locomotion、脚本 `chaseStep` 与引擎 hostile 的
+    dynamic movement；地图、连续实体 footprint、同目标 reservation、对穿 / swap 一次判定。
+  - auto `moveEntity` / `stepEntity` 按 source 进入动态碰撞；pending move 被主脚本接管时暂停并
+    在归还后从真实位置续走；one-shot step 在注册或提交前发现 authority 时丢该步并完成 ack。
+  - 玩家↔正在自主移动的普通 NPC、NPC↔NPC 的确定性侧移 / 让路；无合法侧位时停步。
+  - movement-owned gait 与 legacy `animEntity` / 定帧状态分离，补齐转向、走帧、停步。
 - 范围外:
   - auto 巡逻脚本模板（E2 已 done）、auto runner（M3b 已 done）。
-  - hostile 明雷追逐引擎能力（已有，只补碰撞校验）。
+  - hostile 感知、香效果、遇敌结算等既有能力；本卡只统一追逐位移和贴近开战仲裁。
+  - 主脚本 `moveEntity` / `stepEntity` 的 authored endpoint、`nudgeEntity` 像素演出、
+    `setPos` / `moveParty` / `ride` / mount / follower 派生的碰撞重写。
 - 明确不做:
-  - 不逐帧复刻原版 NPCWalkOneStep 的全部细节；碰撞/避让以手感与不穿模为准。
-  - 不改对话冻结 NPC 的既有拍板（2026-07-03：NPC 不感知对话）。
+  - 不做 A*、navmesh、全局寻路或 60fps 物理 / 插值；墙挡住 authored auto waypoint 时不猜路。
+  - 不改 content schema、save、migration、editor 或公开 `ScriptHost` 契约。
+  - 不把 `collide:false` 的氛围 / 演出对象变成动态 blocker，不拆 follower / mount 的有意重叠。
+  - 不把普通静态 NPC、script-owned NPC 或 hostile 当成可由玩家推走的对象。
+  - 不改 2026-07-03 拍板：NPC 移动不感知对话，不因对白全局冻结。
 
 ## 上下文锚点
 
 - 已拍板决策 / 铁律:
-  - 2026-07-03：NPC 移动与对话系统解耦（不复刻原版冻结怪癖）。
-  - 议题 15 backlog 方向（动态碰撞 + 互相让路 + 转向动画；切片 1 不做、有巡逻场景再立项）。
-- 代码锚点:
-  - `packages/reforge/src/main.ts:2018`（stepEntity 无条件移 0.25 格）、`:1985-2015`
-    （moveEntity 不校验可走性）、`:3262`（hostile chase 只查地图）、`:4529-4531`
-    （玩家硬挡 collide 实体）。
-  - `packages/reforge/src/collision.ts`（isBlockedAt / sameGrid）。
-  - E2 卡（巡逻模板）、M3b auto runner（main.ts:3155）。
-- 已知坑 / 审计文档:
-  - 一阶段跟随者/走位演出期反复修（议题 14 证据 C）：碰撞改动不得破坏走位演出。
+  - `docs/phase2/READ-FIRST.md`：clean rewrite、架构先行、一阶段仅作 UX 真值；本卡不向
+    PAL 生成内容追加运行时特判。
+  - 2026-07-03：auto 与主脚本按实体权威并行；只有被接管实体暂停，NPC 与对话解耦。
+  - `docs/phase2/foundation/e6-position-authority-design.md:41-72`：world / script / mount
+    单写者矩阵；mount 位置由父实体派生。
+  - `docs/phase2/foundation/n-event-script-audit.md:580-589`：mountParty / ride 已有语义。
+- 一阶段 / 原版 UX 真值（只借观感，不照搬算法）:
+  - `reference/sdlpal/scene.c:512-635`：event-object 足点菱形距离碰撞。
+  - `reference/sdlpal/play.c:180-235`：auto 后 blocker 压到队伍时，按固定四向顺序把玩家
+    推开一整步；一阶段对应 `packages/game/src/core/scene-system.ts:279-307` 与
+    `packages/game/src/core/scene-system.test.ts:799-883`。
+  - `reference/sdlpal/scene.c:785-902`：玩家撞墙停；NPCWalkOneStep 不查墙或实体；
+    `reference/sdlpal/script.c:31-98` 的 NPCWalkTo 同样只调用普通步进。
+    `reference/sdlpal/script.c:311-500` 只有怪物追逐查 map / blocker。
+  - 因此“不穿墙、主动让路、批量仲裁”是 Reforge 新机制，不能声称为逐帧忠实复刻。
+- 当前代码锚点:
+  - `packages/reforge/src/main.ts:2262-2292`（脚本 chase）、`:2775-2831`
+    （move / step / nudge）、`:3108-3155`（scriptHost / autoHost 权威视图）。
+  - `packages/reforge/src/main.ts:3603-3698`（walkTick + entityMoves 顺序提交）、
+    `:3795-3843`（hostile 顺序直写）、`:5356-5363` 与 `:5843-5869`
+    （玩家实体硬挡与输入提交）。
+  - `packages/reforge/src/collision.ts:6-28`：地图 lattice 与 exact `sameGrid`；后者不能处理
+    0.25 / 0.375 / 0.5 分数步。
+  - `packages/reforge/src/entity-lifecycle.ts:35-57`：visible / collidable / autoAllowed /
+    hostileAllowed 唯一 gate。
+  - `packages/reforge/src/sprite-anim.ts:18-21,62-92` 与
+    `packages/reforge/src/main.ts:4924-4945`：方向帧、现有 `entityAnim` 渲染优先级。
+- 已知坑 / 数据审计:
+  - `entityMoves` 当前按 `Map` 插入顺序写，hostile 按 scene 数组顺序写，玩家随后直写；逐处
+    加 `isBlocked` 会产生同目标抢占、A↔B 对穿、数组顺序偏差和饥饿。
+  - 当前 `entityAnim` 同时承载 walking gait 与 legacy `0x87 animEntity`；受阻时直接 delete
+    会误清演出帧，不清又会永远停在抬腿帧。
+  - PAL 294 场景只读 census（口径：实体任一页启用 auto，且其 behavior registry 任一可选择候选含
+    move / step / nudge / chase）：989 个 auto 实体中 333 个潜在 mover，但只有 65 个
+    `collide:true`；不能把 268 个 non-solid 演出对象一刀切进实体互撞。只数当前 page 引用则为
+    311 mover / 60 solid / 251 non-solid；registry 行为仍可在 runtime 被选择，故设计取较宽口径。
+  - auto `moveEntity` Promise 只有真到 endpoint 后才能让 runtime 持久化位置；未到点 resolve
+    会制造假存档，替换时 Abort 又可能杀死整条 auto runner。
 - 不得重新引入:
-  - 走位演出（moveEntity/stepEntity 的脚本语义）被碰撞校验误挡而卡死——脚本走位与
-    自主移动的碰撞语义要分开定义。
+  - 脚本 authored move 被墙 / NPC 误挡而永不收尾；auto 接管后 stale endpoint 迟到提交。
+  - dialogue / menu 与无关 NPC 移动耦合；scene 数组顺序或 `Math.random` 决定碰撞结果。
+  - mount / follower 的有意重叠被“NPC 不重叠”规则拆散。
 - 相关测试:
-  - script-runner / collision / follower 现有单测。
+  - `collision.test.ts`、`movement.test.ts`、`sprite-anim.test.ts`、
+    `entity-lifecycle.test.ts`、`follower.test.ts`。
+  - `script-project-v5.test.ts` endpoint / replace / abort 用例；`script-runner.test.ts`
+    auto signal 隔离与 authority dispatch 用例。
 
 ## 验收条件
 
-- 功能:
-  - 巡逻/游走 NPC 不穿墙、不穿彼此（多 NPC 场景实测）。
-  - 玩家撞移动 NPC 滑步错开；NPC 主动让路（或按冻结方案定义的避让规则）。
-  - 转向动画/游走节奏手感对齐原版（Kimi 并排对比）。
-- 测试:
-  - 碰撞单测（穿墙/互穿/让路矩阵）；脚本走位演出回归（不卡死）。
-- 文档:
-  - backlog 议题 15 状态更新；capability-map 实体行为口径。
-- 视觉 / 手工验证:
-  - Kimi 浏览器实测多 NPC 巡逻场景 + 玩家穿插手感。
+### 功能不变量
+
+- 物理只在合格 100ms 世界拍提交；同一拍读取同一 snapshot，规划完成后一次性 commit。
+- 本卡的 **motion tick** 是现有 100ms movement tick：dialogue 不冻结，menu / battle / gameplay
+  freeze 按现主循环 gate；它不是 W9 `lifecycle eligible tick`。hostile 另叠加 presentation / menu /
+  battle eligibility，auto 另叠加 authority / lifecycle gate，三者不得混用。
+- 所有 dynamic ground intent 查地图 / 界外；`floating` 只绕过 terrain。只有 lifecycle
+  `collidable` actor 参与实体 footprint / reservation；这叫 `hasBody`。只有 active autonomous
+  ordinary solid NPC 叫 `yieldable`；hostile sensor 不等于 collision body。suspended solid 仍占位但
+  无 autonomous intent，interactive scriptedBypass 仍可写；hidden / awaitingExit / removed 不占位。
+- 任意输入顺序下，同目标、swept crossing、A↔B swap 均不产生新重叠；结果不依赖 scene / Map
+  顺序，不使用随机数。存在合法侧路时不得固定饿死同一 mover。
+- 玩家撞正在自主移动的普通 solid NPC 时先让 NPC 按自身步进量侧移、玩家本拍等待；NPC 无侧路
+  时玩家可侧移；都无路则停。静态 / script-owned / mounted / hostile 仍是硬 blocker。
+- auto / hostile 遇玩家时先尝试自身侧移；仍冲突时可按冻结候选原子让玩家一格。任何玩家
+  被动位移都更新 trail / camera，并只对最终落点执行一次 touch scan。
+- 主脚本 `moveEntity` / `stepEntity` 保留 authored bypass 并真到 endpoint；auto 途中被 take
+  时暂停而非 abort，release 后从真实位置恢复；scene / abort / removed 不得迟到写。
+- 只有成功 commit 才推进 gait；受阻可面向意图方向但显示站立帧；侧移朝实际位移方向；到点
+  回站立。被拒移动不得误清 legacy explicit animation / frame override。
+- hostile 贴近仍只开一场战斗；presentation / menu / battle gate、香效果与 floating 语义不回归。
+
+### 最低自动测试矩阵
+
+- 几何：0.25 / 0.375 / 0.5 / 1 四步距、snap segment、边界、凹角、双墙夹角；height
+  忽略；floating 穿 terrain 但 solid floating 不穿 actor。
+- 生命周期 / solid：collidable / non-collidable / self / hidden / suspended / removed；
+  script / mount cluster 的有意重叠豁免。
+- 仲裁：两 NPC 同目标、迎面 swap、跟随进入已腾空位置、三实体链、最多 4 实体十字交会；打乱
+  输入 100 次轨迹一致。公平 fixture 中 mover 持续有 intent、除 contender reservation 外至少一个
+  候选在整个窗口持续合法，且 slow 空拍不计 eligible tick；此条件下 8 个 eligible ticks 内每个
+  mover 至少推进一次。
+- 玩家 / NPC：左右各单侧开放、双侧全堵；auto NPC 主动让、静态 / script / hostile 不被推；
+  玩家侧移后保持输入朝向且仍可面向 NPC 交互。
+- 脚本：script move / step 穿过动态占位仍按既有 timing 到点；auto move take→script
+  move→release 后续走；auto step 在 authority 下继续保持既有“丢该单步”语义；suspend / scene
+  switch / abort / remove 清理；未到点绝不持久化 endpoint。
+- lifecycle / cancellation matrix：suspend pause auto activation / motion 且 script 可写；hide /
+  awaitingExit cancel auto 并在重现后从 canonical behavior cursor 重启；remove / scene switch 取消
+  script + auto；script runner abort 只取消 script slot 并归还 authority；auto controller / behavior
+  replace 只取消 auto slot。每格测试 Promise、cursor 与 stale endpoint。
+- hostile：多敌贴近只触发一次、普通 solid 挡路时侧移 / 等待、floating 只穿墙不穿 solid。
+- auto chase：PAL current13 的 7 个 `chasePlayer` site（s003/e60,e61；s049/e831；s250/e4409,
+  e4410；s252/e4440 两条）都保持 pre-close / accepted-to-close / blocked 后下一次尝试的
+  `fireTrigger(self)` 一次性终端语义；不得被 engine-hostile encounter scan 吞掉。
+- overlap escape：初始 penetration 为 1 / 0.5、步进 0.25 / 0.375 的组合能逐拍单调脱离；
+  同向等距不算 escape，且不得制造新 overlap。
+- trigger / effect order：拍初 hostile contact、拍中新 contact + 玩家外移、final contact 与 touch
+  同格、被动推到门格、touch loadScene 与 auto endpoint 同拍完成；任一 scene token 失效后零
+  encounter、零旧场景迟到 callback。
+- 动画：moved / sidestepped / blocked / arrived 四态；slow 隔拍与首步≤100ms；像素轴四象限
+  朝向；walk state 与 `0x87` / frame override 所有权不串；active / passive sidestep 下 visual
+  facing 与 trail 实际离格方向分离，两名 follower 路径不跳格。
+- PAL fixture contract：s004 的移动 solid NPC、s006 的 non-solid / floating hostile、s060 的
+  多 solid hostile 验收入口存在且仍满足 lifecycle 前提，防测试链接随内容漂移。
+
+### 文档与视觉 / 手工验证
+
+- done 前更新 capability-map / 议题 15 口径；明确“不互穿”只保证 dynamic locomotion，
+  authored nudge / mount / follower overlap 属例外。
+- build/review 前跑 PAL-wide dry simulation / diagnostic census：遍历 333 个潜在 mover 的所有可选
+  behavior，记录 terrain-blocked waypoint、永久等待、初始 overlap 和调用域；与基线审计，任何新增
+  永久 blocked route 必须修上游迁移 / 内容源或登记明确例外，不能仅凭 s004/s006/s060 三入口
+  宣称全 PAL 不回归。
+- build 期功能性最小验证:
+  - `http://localhost:6051/?scene=s004&pos=139,59&collision`：在 e76 附近反复沿其前进方向和
+    垂直方向穿插，连续观察至少 10 秒，验证单 NPC↔玩家让路、无穿墙 / 左右逐拍抖、转向与停步。
+    证据登记 `output/playwright/d15-1/s004-motion.webm` 与
+    `output/playwright/d15-1/s004-positions.json`；trace 每条按 stable actor key / worldTick 排序并
+    记录 from / proposed / outcome / to / blockReason，才可作确定性证据。
+  - `http://localhost:6051/?scene=s006&pos=102,50&collision`：复验本场 non-solid / floating 明雷
+    仍能追逐、贴近并恰好开战一次；它不是 solid 互撞样例。证据登记
+    `output/playwright/d15-1/s006-hostile.webm`。
+  - `http://localhost:6051/?scene=s060&pos=148,54&collision`：多名 solid hostile 同时接近时
+    不抢同格 / 对穿，只由 stable-id 首个贴近者开战。证据登记
+    `output/playwright/d15-1/s060-solid-hostiles.webm`。
+- 集中 E2E 登记（剧情 / 演出观感延后，不在 build 期重复走）:
+  - `http://localhost:6051/?scene=s001`：只验证开场 authored script movement 照常完成；
+    “对白不冻无关 auto”由 synthetic integration test 证明，s001 本身没有适合观测的 locomotion
+    auto NPC。证据 `output/playwright/d15-1/e2e-s001-script-motion.webm`。
+  - `http://localhost:6051/?scene=s213&pos=114,80&facing=down&party=li-xiaoyao,anu`：按一次下
+    触发 e3613，队伍 / 跟随者与筏保持 authored 重叠漂行，不被 arbiter 拆散；证据
+    `output/playwright/d15-1/e2e-s213-mount.webm`。
 
 ## 推进签字
 
 ### 进入 build 前:设计签字
 
-- Codex: pending
-- Kimi: pending
-- GLM: pending
+- Codex: **agree（2026-08-12；冻结 snapshot→intent→reservation→atomic commit、source
+  分层、连续 footprint、take/release 与 gait 所有权，见「设计结论」）**
+- Kimi: pending（需真实席位审签；本会话只读子审计不代签）
+- GLM: pending（需真实席位审签；本会话只读子审计不代签）
 - counter / 分歧处理: N/A
 - 缺签豁免: N/A
-- build 准入结论: blocked
+- build 准入结论: **blocked（等待 Kimi + GLM 真实设计签字；不得修改实现文件）**
 
 ### 进入 done 前:审查签字
 
@@ -87,28 +200,225 @@ Branch: TBD
 
 ### 设计结论
 
-待冻结。方向：自主移动与脚本走位分层——脚本走位保语义（不误挡），自主移动（auto/追逐）
-逐帧动态碰撞；玩家↔NPC 避让按手感定算法。
+**2026-08-12 Codex 冻结 v1（不改 public schema / ScriptHost）**。
+
+#### 1. 内部边界与世界拍数据流
+
+新增 Reforge 内部纯模块 `entity-motion.ts`（最终命名可等价调整），`main.ts` 只负责快照、
+intent 适配和结果提交：
+
+```text
+eligible 100ms motion tick（不是 lifecycle tick）
+  → snapshot(map, actor positions, lifecycle, authority, active producers)
+  → collect one intent per actor
+  → pure plan(terrain + swept footprint + reservations + yielding)
+  → atomic commit accepted outcomes
+  → one player trail/camera/touch update
+  → render movement-owned gait
+```
+
+actor key 使用 `{kind:'party'} | {kind:'entity', id}` 判别联合，不能用可能与 entity id 冲突的
+魔法字符串。内部 intent 至少携带 `actor / source(player|auto|hostile|script) / from / desired /
+desiredFacing / collision(dynamic|scriptedBypass) / floating`；outcome 为 moved / sidestepped /
+blocked，并带最终位置、朝向和阻挡原因。它们不是 content schema，也不进入 save。
+
+同一实体同拍只允许一个 locomotion producer：script authority > engine hostile > auto。player
+独立参与批次。`entityMoves`（或替代容器）必须保存 `source`；script 与 suspended auto move
+不能再挤在一个会互相 cancel 的槽里。
+
+#### 2. 调用域冻结
+
+- interactive 主脚本 `moveEntity` / `stepEntity`：`scriptedBypass`，保留现有墙 / actor 均不挡的
+  authored timing；脚本 actor 到达后的 committed position 仍作为 solid snapshot blocker。
+- `nudgeEntity`（包括 auto 内的像素 nudge）、绝对 setPos、`moveParty`、ride / mount、follower
+  派生：保持编排 / 派生直写，不交给 dynamic planner，也不承诺消除其 authored overlap。
+- auto `moveEntity` / `stepEntity`：`dynamic`。所有地面 mover 查 terrain；只有自身和对方均为
+  solid footprint 参与 actor 互斥。non-solid auto 仍查墙，但不阻挡 / 不被 actor reservation 阻挡。
+- `chaseStep`（auto 或 interactive script）与引擎 hostile：`dynamic`。scriptHost chase 仍可 take
+  目标实体，但碰撞语义保持行为型 chase，不等同 authored endpoint move。
+- floating 只跳过 terrain，绝不自动跳过 solid actor；非-solid floating 才因本身不占空间而
+  可穿 actor。
+
+#### 3. 连续 footprint 与 swept 规则
+
+- actor footprint 以足点 GridPos 定义，height 不参与；相邻中心正好一格允许并列。固定
+  `COLLISION_EPSILON = 1e-6`，`max(abs(Δcol), abs(Δrow)) < 1 - COLLISION_EPSILON`
+  视为重叠；禁止复用 exact `sameGrid` 或含糊使用 `Number.EPSILON`。
+- proposal 的 actor swept 检查按同一归一化时刻比较两条轨迹 `pA(t)` / `pB(t)`，任一时刻均
+  不得 footprint overlap；静止 blocker 视为常量轨迹。同拍 A↔B swap、相交 crossing 也算冲突，
+  但同速 convoy 进入已腾空位置不会因“路径集合相交”被误拒。walkTick 的 snap proposal 同样
+  走 swept 检查，不能只验 endpoint。
+- terrain 对 proposal 按不大于 0.25 格的确定性采样检查（含 endpoint），避免 run / snap
+  穿过窄墙；地图边界 fail-closed。
+- occupancy 只消费 `entityLifecycleGates(...).collidable`。suspended 保持可见 / 占位但无
+  autonomous intent；interactive scriptedBypass 仍可写，否则 runner 与冻结的 lifecycle clock 会
+  相互死锁。despawned / awaitingExit / removed 无 body。player 永远是 body；mount parent + party /
+  followers 是一个允许内部重叠的 compound cluster，对外以成员 footprint 的 union 参与碰撞，
+  内部成员互不阻挡。
+- 既有 scripted bypass 造成的重叠不由 planner 反向传送修复。定义 penetration =
+  `max(0, 1 - max(abs(Δcol), abs(Δrow)))`：escape proposal 对每个既有冲突在整个子相位内不得
+  增加 penetration、拍末至少一个严格下降，且不得制造新 overlap；允许 0.25 / 0.375 步进用
+  多拍逐步脱离，不要求第一拍就完全合法。同向等距移动不算 escape。
+
+#### 4. 确定性仲裁与让路
+
+- snapshot actor / intent 先按 stable id 归一化，不能依赖 scene 数组、Map 插入顺序或 Promise
+  恢复顺序。player 的有效输入优先尝试；world actors 用 stable-id 环形顺序并以 `worldTickNum`
+  轮转起点，避免固定 id 饥饿；禁止 `Math.random`。
+- 进入已确认腾空的 footprint 时建立“谁先腾位”的依赖图；无环链按拓扑顺序拆成逻辑子相位，
+  先验证 / 腾位者、后验证跟随者，每个子相位内才按同步 `pA(t)` / `pB(t)` 做 swept 检查。全部
+  子相位验证成功后仍只做一次 atomic commit；两者 swap 和任意 cycle 均拒绝。多者抢同一
+  destination 只接受一个，其余尝试侧位或等待。
+- 只有 actor footprint 阻挡时尝试侧位；墙 / 界外仍硬停，不把全局 player `resolveMove` 改成
+  撞墙滑行。侧位沿当前意图的两个垂直方向，单拍位移不超过该 mover 原本的移动量子；需要多拍
+  才清出 footprint 时，runtime-only side-stick 固定同一侧最多 4 个 eligible ticks。偏好由
+  stable id 决定；stick 绑定 command / endpoint epoch，而非每拍重算出的 desiredFacing。前进
+  成功 / command epoch 改变 / authority 或 lifecycle 改变 / 切场时清除，防止绕行变向误清、
+  左右逐拍抖动和慢速 NPC 瞬移一整格。
+- 玩家前方是有 active autonomous intent 且 `hasBody` 的 ordinary NPC（唯一 `yieldable` 类）：
+  NPC 先沿合法侧路推进本拍量子，
+  玩家本拍等待，直至目标 footprint 真正腾空；若首拍两侧都无合法 proposal，玩家再试左右一格
+  并保持输入朝向；全堵则双方停。静态、script-owned、mounted、hostile 不可被推离 authored
+  位置，继续硬挡。
+- 每拍 player 最多一个 outcome。先规划玩家自身 active intent；若已安全腾位，不再接受任何被动
+  push。只有无输入或 active intent 被拒时才汇总 passive-yield requests；多 mover 请求不同落点
+  时按同一 stable-id 轮转只选一个，其余重规划 / 停步。mover 自己的 primary intent 若本来安全，
+  不得为了“让路”强制改侧位。
+- autonomous NPC / hostile 的目标是玩家：mover 先侧位；无位时才提出 passive-yield request，
+  候选按“相对 mover 前进方向的右侧→前方→左侧→后方”固定四邻让一整格。候选必须同时通过
+  terrain、body、reservation；无合法位则 mover 停。玩家被动让位保留原 facing。
+- 所有 player position commit（主动前进、主动侧移、NPC 请求导致的被动位移）在 batch 后统一
+  更新 camera；trail 每拍只 push 一次并使用实际 displacement direction，不能复用 visual facing。
+  active sidestep 保留输入 facing 并按该 facing 播 player gait（横滑观感）；passive yield 保留原
+  facing 且不推进 player gait。NPC sidestep 始终面向实际位移方向。
+
+#### 5. 世界拍后置副作用顺序
+
+同一拍只允许一个世界接管结果，顺序冻结为：
+
+1. snapshot 时若已有 eligible hostile 与玩家距离 `<=1`，按 stable id 建立 pre-contact encounter
+   claim；该拍不再接受 player / dynamic world movement，直接启动一次 encounter。
+2. 没有 pre-contact claim 才 plan / atomic commit。accepted endpoint 的 live position、canonical
+   `world.entityPos` 与 command-completion record 在 touch 前同一线性化点原子落地，再更新 trail /
+   camera。之后只把“从下一 safe-point 继续执行后续脚本命令”排队；encounter 另带本拍
+   post-contact claim token，二者不能复用一个过宽 token。
+3. 对最终玩家落点做一次 touch scan。touch 若启动 runner / presentation / battle 或切场景，立即
+   invalidate post-contact claim，因此本拍不再开第二个 encounter。同场景 runner / presentation /
+   battle 不取消已经 commit 的 movement settlement；只有 scene / world / session 替换才取消全部旧
+   continuation。touch 对同 actor 的 take 只暂停**下一 safe-point**，不能撤销已 commit settlement；
+   replace / remove 只取消尚未 commit proposal / slot 和后续执行。若 touch 随后写同 actor 新位置，
+   顺序固定为旧 endpoint 先 commit、新 mutation 后 commit 并成为最终真值。
+4. touch 未接管才按 post-commit 距离做一次 hostile scan；新贴近者按 stable id 只启动首场战斗。
+
+这保留“拍初已经贴脸不能临帧逃跑”，同时延续现有“本拍新贴近时，玩家最终落入门 / touch 可先
+接管”的时序。NPC intent 本身不触发门；只有最终 player outcome 触发一次 scan。
+
+#### 6. 阻塞、接管、lifecycle 与 Promise 语义
+
+- auto `moveEntity` 只有真到 endpoint 才 resolve / 持久化。actor 临时阻挡时侧移或等待；terrain
+  / 永久阻挡时低频等待，不做路径猜测，也不虚假完成。等待只挂起该实体 runner，不忙循环；
+  20 个实际尝试且 blocked 的 ticks 后报告一次诊断，此后节流；slow 空拍、authority / suspend
+  暂停不计数，不污染内容 / save。
+- auto `stepEntity` / `chaseStep` 是单次尝试：blocked 时只转向、不走帧，然后按既有 pacing 完成；
+  引擎 hostile 留到后续 eligible tick 重试。
+- public `stepEntity(): void` 不变；interactive step 仍立即 scriptedBypass。auto adapter 使用内部
+  one-shot ack bridge，在下一 motion tick 的 outcome 确定后才让该 leaf 到达 safe-point；不能让
+  v5 / v13 cursor 在 commit 前越过命令。auto step 注册时或已经 enqueue 但提交前一旦发现 script
+  authority，统一产出 `droppedByAuthority` outcome、resolve ack 且不留 stale step；它不暂停续走。
+  该 ack 是内部 timing 适配，不扩 public `ScriptHost`。
+- auto move 途中被 script take：保留其 Promise 与 endpoint 为 paused slot，不 reject；script move
+  使用独立 slot 并拥有提交权。release 后 auto 从当时真实坐标重新计算 proposal，不能提交 take
+  前缓存的位置。
+- source / owner cancellation matrix 冻结为：
+
+  | 事件 | script slot | auto slot / activation | authority |
+  |---|---|---|---|
+  | script runner abort / script move replace | 取消本 script slot | 保留 / paused 继续 | 归还后恢复 auto |
+  | auto controller abort / behavior replace | 不动 | 只取消 auto slot / activation | 不动 |
+  | `suspendEntity` | scriptedBypass 仍可执行 | activation gate + pending motion pause，cursor 不前进 | 不动 |
+  | `hideEntity` / `awaitingExit` | 当前脚本可写但不可成为 body | 取消 activation / auto slot；重现后由 canonical cursor 重启 | 按既有脚本收尾 |
+  | `removeEntity` / scene switch / entity replacement | 取消 | 取消 | 清理 |
+
+  pause auto 不能只停 motion Promise、放任同一 flow 执行后续命令；必须在每个 auto leaf / safe-point
+  走 per-activation lifecycle gate。auto `stepEntity` 在 authority 已持有时沿用现状：该单步丢弃并
+  到达 safe-point，不为它创建 pending slot。新 script move 只替换同 source 的旧 script move；
+  不得再通过取消 auto promise 杀死 auto runner。公开 `ScriptHost` 返回类型不变。
+- motion endpoint 的线性化点同时提交 live position、canonical `world.entityPos` 与 command-completion
+  record；这三者一旦 accepted 不可回滚。Promise resolution 只唤醒后续 command execution，排入
+  scene/world/session + activation gate 队列：同场景 touch / presentation / battle 以及同 actor
+  take 都不得取消已 commit settlement，take 只暂停下一 safe-point；scene/world/session 替换、
+  behavior replace / remove 可取消尚未 commit proposal 和后续执行。touch 后同 actor 新 mutation
+  服从“旧 endpoint 先、新 mutation 后胜”。此顺序必须用同拍 endpoint + 同场景 touch、同 actor
+  take-only、同 actor replace/new-position、touch loadScene 五条集成测试钉死。
+
+#### 7. hostile 收口
+
+- hostile cooldown / awareness / presentation / menu / battle gate 保持；到期意图只在下一个合格
+  world tick 进入 planner。encounter 严格服从上一节 pre-contact→touch→post-contact 的唯一顺序，
+  首个命中设置 busy，其他 hostile 本拍不得重复开战。
+- ordinary solid actor 可使 hostile 侧移或等待；floating 只越 terrain。抵近阈值和战斗结果后的
+  disappear / respawn policy 不在本卡重写。
+- `chaseStep` 是脚本 / auto behavior，不走 engine-hostile scan：leaf 开始的 snapshot `dist<=1`
+  时直接对 self `fireTrigger` 一次并按既有 wait resolve；accepted movement 本拍新到 `<=1` 不抢跑，
+  仍在既有 pacing 后的下一次 chase leaf 才触发；blocked 且仍 `>1` 同样留到下一次 leaf 重试。
+  current13 的 7 个 PAL auto `chasePlayer` site 必须有 fixture / integration coverage。
+
+#### 8. 动画所有权
+
+- 将 locomotion gait 从 legacy `entityAnim` 拆为 runtime-only `entityWalkPhase`（或等价状态）和
+  `lastMovedWorldTick`。渲染优先级冻结为：frame override > active locomotion gait > explicit
+  `animEntity` > semantic action > loop > idle。
+- accepted locomotion 首拍清与行走互斥的旧 frame override / explicit anim，并按实际位移方向推进
+  gait；sidestep 同理。rejected intent 只更新 facing，不清旧演出状态、不推进 gait；若无更高优先
+  状态则显示该方向站立帧。
+- 每个 motion tick 没有 accepted outcome 就清上一 locomotion gait，唯一例外是同一 pending slow
+  move 的 scheduled-rest tick：保持当前 gait frame、不推进 phase。hostile cooldown / chase pacing /
+  command 到点的后续空拍均回 idle；authority take、suspend / hide / remove 立即清 gait，但不清
+  frame override / explicit anim。endpoint 当拍回方向组第 0 帧。`walkTick` 像素轴四象限和
+  `[0,1,0,2]` 步序继续复用，不新增 animation schema。
+- player active sidestep 以保留的 visual facing 播 gait，但 trail 记真实位移方向；passive yield 是
+  不推 gait 的滑移。两者都只能提交一次位置 / trail 更新，followers 继续从真实 trail 派生。
+- blocked pending 本身不算 gait / presentation owner。entity semantic action 只有被 frame override、
+  active locomotion gait 或 explicit anim 等更高 presentation owner **实际遮住**时才暂停自己的时钟；
+  slow scheduled-rest 仍属 active gait，blocked idle 不暂停 action。补 once-action Promise / SFX 不得
+  在被遮住时提前完成、也不得因永久 blocked 永久冻结的回归。
 
 ### 已知风险
 
-- 风险: 碰撞改动破坏脚本走位演出（切场景/演出期）。
-- 缓解: 脚本走位与自主移动碰撞语义分离 + 演出回归测试。
-- 风险: 避让手感难量化。
-- 缓解: Kimi 并排对比 + 作者试玩反馈作为门禁。
+- 风险: script / auto 共用 host 原语，source 分层不完整会让剧情卡死或 auto runner 被 Abort 杀死。
+- 缓解: 内部 source slot + script bypass / auto dynamic 调用域表；take→release 与 endpoint 持久化
+  集成测试是 build 硬钉。
+- 风险: 分数步和 snap 只查 endpoint 仍会穿 actor / 窄墙。
+- 缓解: 连续 footprint + swept segment + terrain 0.25 格采样的纯函数测试。
+- 风险: 多实体仲裁按遍历顺序会不确定或长期偏袒同一 NPC。
+- 缓解: snapshot、stable-id 归一化、tick 轮转、公平上限与 shuffled-input determinism 测试。
+- 风险: side-step 逐拍左右抖或把 shopkeeper / hostile 推走。
+- 缓解: 4-tick side-stick；只有 active ordinary autonomous NPC 可被动让路，其余硬挡。
+- 风险: gait 拆分误清 0x87、定帧、semantic action。
+- 缓解: 明确渲染优先级和 rejected-move 不清理规则，补 legacy animation ownership 回归。
+- 风险: 现有 PAL authored auto waypoint 穿墙，收紧后某实体永久等待。
+- 缓解: 不假 resolve、不阻塞全局；blocked 诊断 + PAL fixture / 浏览器巡检，若是内容迁移缺陷则按
+  上游铁律另开卡修迁移源，不在 runtime 放特判；done 前交 PAL-wide dry simulation census。
+- 设计主动偏离原版: 原版 hostile 受阻仍会调用 speed=0 step 并推进腿帧，Reforge 冻结为 blocked
+  站立不踏步；原版推离玩家不更新 trail，Reforge 为 follower 路径一致性主动记录真实离格方向；
+  `<1` Chebyshev 对称 footprint 也比原版约 `<0.5` 的点对 blocker 更保守。三项均是 clean rewrite
+  产品选择，验收不得倒称为原版距离 / 帧级复刻。
 
 ### 主审立场
 
-- Reviewer: Kimi（移动/碰撞架构）+ GLM（实体覆盖）
-- 结论: pending
+- Reviewer: Kimi（架构 / 权威 / 动画）+ GLM（实体分类 / 测试矩阵）
+- 结论: pending（Codex 设计已冻结，等待真实两席审签）
 - 必改项: pending
-- 是否建议进入 build: pending
+- 是否建议进入 build: pending；三签前不得进入
 
 ### 三方争议记录(按需)
 
-- Codex: 2026-08-06 用户咨询议题 15 后开卡；auto 巡逻已有，缺口 = 动态碰撞/让路/转向。
+- Codex: 2026-08-12 **agree**。选择内部 pure arbiter，不扩 schema / public API；脚本 authored
+  move 保 bypass，dynamic locomotion 才保证不互穿；player / active-auto mutual yield 按上述
+  确定性规则冻结。
 - Kimi: pending
 - GLM: pending
+- 用户拍板: pending（当前无分歧待裁决）
 
 ## Build: 实现与自测
 
@@ -116,15 +426,18 @@ Branch: TBD
 - 修改文件: pending；设计三签前不得开始实现。
 - 实现摘要: pending
 - 运行命令: pending
-- 浏览器 / 手工检查: pending（Kimi 视觉验收）
+- 浏览器 / 手工检查: pending
 - 跳过的检查及原因: N/A
 
 ## 视觉验证记录(如适用)
 
 - Visual Verification Owner: Kimi
-- 验证方式: pending
-- 截图 / 像素检查路径: pending
+- Visual Verification Timing: mixed
+- 验证方式: build 期 s004 / s006 / s060 功能性最小验证；代码冻结后 s001 / s213 集中 E2E。
+- 集中 E2E 用例 / 批次: 见「验收条件」。
+- 截图 / 像素检查路径: pending（预登记 `output/playwright/d15-1/`）。
 - 结论: pending
+- 未完成项: 全部；当前仍为 draft。
 
 ## Review: 审查与返工
 
@@ -140,21 +453,32 @@ Branch: TBD
 
 ## 交接日志
 
-- 2026-08-06 Codex: 开卡。现状：auto 巡逻（M3b/E2）done；stepEntity/moveEntity/chase
-  无动态碰撞；玩家撞 NPC 硬挡。
+- 2026-08-06 Codex: 开卡。auto 巡逻已有；缺口为动态碰撞、让路和转向。
+- 2026-08-12 Codex: 完成三路只读压力审计并冻结 v1 设计；审计不构成 Kimi / GLM 席位签字，
+  未改实现。Evidence: 当前链路 / 原版 UX / 294 场景 auto census / 自动测试矩阵均已落本卡；
+  advisory 复审发现的 source、swept、lifecycle、touch token、chase terminal、gait blocker 已逐项
+  修订后清零。Next: Kimi 架构审签，随后 GLM 覆盖审签；两席 agree 前保持 draft。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: D15-1 NPC 移动补全
+接手任务: D15-1 NPC 移动补全——设计审签
 任务卡: docs/ops/tasks/D15-1-npc-movement-dynamic-collision.md
-当前状态: draft（build 准入 blocked）
-你的角色: Kimi 移动/碰撞架构主审；GLM 实体行为覆盖矩阵主审
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡、main.ts:1985/2018/3262/4529、
-  collision.ts、E2 卡、M3b auto runner
-已完成: 开卡（缺口=动态碰撞/让路/转向；auto 巡逻已有），设计未冻结
-请你做: 压测脚本走位 vs 自主移动的碰撞语义分离、避让算法、转向动画口径；
-  冻结方案后 agree/counter
-不要做: 不得修改实现文件；不得破坏脚本走位演出；不得改对话冻结拍板
-输出要求: 更新设计签字、主审立场、争议处理和下一位提示词
+当前状态: draft；Codex agree；build 准入 blocked，真实 Kimi / GLM 签字均 pending
+你的角色: 先由 Kimi 审 movement / authority / animation 架构；Kimi 落签后由 GLM 审实体分类与测试矩阵
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡、
+  docs/phase2/foundation/e6-position-authority-design.md、
+  docs/phase2/foundation/n-event-script-audit.md:580-589、
+  packages/reforge/src/main.ts:2262-2292,2775-2831,3108-3155,3603-3698,3795-3843,4924-4945,5356-5363,5843-5869、
+  collision.ts、entity-lifecycle.ts、sprite-anim.ts，以及本卡列出的一阶段/SDLPal UX 锚点
+已完成: Codex 已冻结 pure snapshot→intent→reservation→atomic commit；script authored bypass / auto dynamic
+  调用域、continuous footprint / swept collision、玩家/NPC mutual yield、take/release pending slot、
+  hostile/touch 后置顺序、chase terminal、gait ownership 和自动/E2E 验收矩阵已写入；三轮只读
+  advisory 反例均已收敛，未改实现文件
+请你做: 逐条压力测试设计。Kimi 重点核 source/authority、脚本不卡死、side-yield、公平性、动画所有权；
+  GLM 重点核 65 solid vs 268 non-solid 边界、lifecycle/mount/hostile/trigger/abort 覆盖与机检矩阵。
+  无 blocker 则在本卡真实签 agree 并更新主审立场/交接日志；有 blocker 则签 counter，写最小反例和冻结修订
+不要做: 不得修改实现文件；不得把只读子 Agent 建议冒充 Kimi/GLM 签字；不得改 content schema/save/migration/
+  public ScriptHost；不得重新引入 dialogue 全局冻 NPC 或让 script authored move 被动态碰撞卡死
+输出要求: 明确 agree/counter、必改项是否阻塞 build、验证锚点；两席签齐前不得把 Status 改 build
 ```
