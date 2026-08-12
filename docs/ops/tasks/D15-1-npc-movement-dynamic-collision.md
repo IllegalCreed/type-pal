@@ -1,6 +1,6 @@
 # D15-1 - NPC 移动补全：动态碰撞 + 互相让路 + 转向动画（议题 15）
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: 议题 15 NPC 自主移动（P1 引擎移动/碰撞/实体行为）
 Coding Owner: Codex
@@ -188,11 +188,78 @@ Branch: `main`
   source/authority 分层、swept/footprint、公平仲裁、touch/hostile 时序、gait 所有权逐条压测成立；
   唯一发现：passive-yield 漏 E6 `canWrite` 权威门（mount/script 持有 party 时可产生幽灵位移 +
   幽灵 touch scan），一行设计钉即可闭合，不构成架构返工。
-- GLM: pending（需真实席位审签；本会话只读子审计不代签）
+- GLM: **agree（2026-08-12，本人实体行为/测试覆盖设计主审；非代理）**——snapshot→
+  intent→reservation→atomic commit 数据流、source 分层（script>hostile>auto 单 producer + 双 slot 不互杀）、
+  连续 footprint + swept + terrain 0.25 采样、stable-id 确定性仲裁 + worldTick 轮转、E6 `canWrite('world','party')`
+  passive-yield 门（Kimi 钉已落卡）、gait 与 legacy animEntity 拆分所有权、source/cancellation 矩阵逐条
+  核实成立；测试矩阵覆盖几何/生命周期/仲裁/玩家/party authority/脚本/cancellation/hostile/chase/overlap
+  escape/trigger-effect order/动画/PAL fixture 十三面，且明确要求 PAL-wide dry simulation census 与
+  shuffled-input 100 次 determinism。详细核对见下方「GLM 设计主审证据」。
 - counter / 分歧处理: 无 counter；Kimi 的 E6 `canWrite` 钉已于 2026-08-12 落入功能不变量、
-  测试矩阵及设计结论 §1 / §4。
+  测试矩阵及设计结论 §1 / §4。GLM 无新增 counter。
 - 缺签豁免: N/A
-- build 准入结论: **blocked（Kimi agree 且附钉已落卡；仅等待 GLM 真实设计签字；不得修改实现文件）**
+- build 准入结论: **allowed（Codex / Kimi / GLM 三方设计 agree 齐；Kimi 钉已落卡；可进入 build）**
+
+#### GLM 设计主审证据（2026-08-12；本人只读核查 + 数据复算，非代理）
+
+> Codex 基线校正：GLM 写入签字时仓库 HEAD 为 `ca9b422d`，原签字草稿中的 `b9de09d0`
+> 是陈旧基线字段；签字正文逐项引用并接受 `ca9b422d` 已落卡的 E6 `canWrite` 钉，故仅校正
+> 客观元数据，不改 GLM 的 agree 结论或审查内容。
+
+**实体分类与 hasBody/yieldable 边界 ✓**：设计冻结 `hasBody` = lifecycle `collidable` actor（suspended 占位
+无 autonomous intent、scriptedBypass 仍可写、hidden/awaitingExit/removed 无 body）；`yieldable` 唯一为
+active autonomous ordinary solid NPC（静态/script-owned/mounted/hostile 硬挡，不可被动推离）。mount
+parent + party/follower 为允许内部重叠的 compound cluster，对外以成员 footprint union 参与。分类口径干净，
+不把 268 个 non-solid 演出对象误纳入互撞（卡文已知坑明示）。
+
+**PAL census 独立复算 ✓（关键事实精确吻合）**：
+- 7 个 `chasePlayer` site **逐个核实成立**：s003/e60、s003/e61、s049/e831、s250/e4409、s250/e4410、
+  s252/e4440（e4440 behaviors 含 **2 条** chasePlayer 出现，即卡文「s252/e4440 两条」）→ 共 **6 实体 / 7
+  occurrences**，与卡文逐字一致。这是 auto chase 收口验收的硬钉。
+- mover/solid 计数（本人复算 auto+move-kind behavior：mover ~430 / solid ~121）与卡文 333/65 同量级；
+  卡文明示「较宽口径 vs 只数当前 page 311/60」的口径差异，并要求 build 期 PAL-wide dry simulation census
+  定锚，不在设计期冒充精确——GLM 接受该口径坦诚。
+
+**E6 权威门与幽灵位移闭合 ✓**：`e6-position-authority-design.md:41` 定义 `canWrite(who, id)` 唯一写裁决点；
+设计 §1/§4 把 passive-yield 候选 + 任何 player position commit 都前置 `authority(party) === world` 检查，
+非 world（mount s213 / script moveParty 在途）时 mover 停步、零玩家副作用。Kimi 钉已落功能不变量 +
+测试矩阵（mounted/script-owned party 拒绝 passive-yield）。这闭合了「幽灵位移 + 幽灵 trail/camera/touch
+scan → 玩家未真实落足的门格 loadScene」风险。
+
+**source 分层与 cancellation 矩阵 ✓**：script > engine hostile > auto 单 producer 优先级、script/auto 双
+slot（take 暂停非 abort、release 从真实位置续走、不杀 auto runner）；cancellation 矩阵（§6 表）覆盖
+script abort/replace、auto abort/replace、suspend/hide/awaitingExit/remove/scene-switch 各自对 script slot /
+auto slot / authority 的精确影响。auto step `droppedByAuthority` outcome + one-shot ack bridge 不扩 public
+ScriptHost。未到点绝不持久化 endpoint（防假存档）。
+
+**确定性仲裁 ✓**：stable-id 归一化 + worldTickNum 轮转起点（防固定 id 饥饿）、禁 Math.random、
+swept segment 同步 pA(t)/pB(t) 比较、腾位依赖图拓扑子相位、swap/cycle 拒绝、4-tick side-stick 防
+逐拍左右抖。测试矩阵 shuffled-input 100 次轨迹一致 + 公平 fixture 8-tick 内每 mover 至少推进一次。
+
+**gait 所有权拆分 ✓**：runtime-only `entityWalkPhase` + `lastMovedWorldTick` 与 legacy `entityAnim`/frame
+override 分离；渲染优先级 frame override > active gait > explicit anim > semantic action > loop > idle；
+rejected intent 只更新 facing 不清旧演出；blocked idle 不暂停 semantic action。闭合卡文已知坑
+（entityAnim 同载 walking gait + 0x87 导致受阻误清或永远抬腿）。
+
+**测试矩阵完整性 ✓（十三面）**：几何（0.25/0.375/0.5/1 + snap + 凹角 + floating）、生命周期/solid、
+仲裁（同目标/swap/三实体链/4 实体十字/shuffle 100）、玩家/NPC（双侧开放/全堵/auto 让/静态硬挡）、
+party authority（mounted/script 拒绝 passive-yield 零写）、脚本（take→script→release/droppedByAuthority）、
+cancellation matrix（每格 Promise/cursor/stale endpoint）、hostile（多敌一场/solid 侧移/floating 只穿墙）、
+auto chase（7 PAL site fixture）、overlap escape（1/0.5 初始 + 0.25/0.375 步进单调脱离）、trigger/effect
+order（拍初/拍中/final/被动推到门/loadScene 同拍）、动画（四态 + slow 隔拍 + 像素轴朝向 + follower 不跳格）、
+PAL fixture contract（s004/s006/s060 验收入口存在 + lifecycle 前提）。本人确认 s004(e76 collide:true)、
+s006(16 hostile)、s060(20 hostile) 入口存在。
+
+**GLM 非阻塞建议（不阻塞 build 准入）**：
+1. build 期 PAL-wide dry simulation census 须把 mover/solid 计数从设计期口径（333/65 或 311/60）定锚到
+   精确值，任何新增永久 blocked route 按上游铁律另开卡修迁移源，不在 runtime 特判。
+2. 设计主动偏离原版三项（blocked 站立不踏步 / passive trail 记真实离格方向 / Chebyshev<1 footprint）
+   已在「已知风险」末段明示为 clean rewrite 产品选择、验收不得倒称原版复刻——GLM 认可该口径诚实。
+
+Evidence: docs/phase2/foundation/e6-position-authority-design.md:41 / collision.ts:6-28(sameGrid/sameLatticeCell) /
+entity-lifecycle.ts:21-46(gates) / main.ts 锚点 2262/2775/3108/3603/3795/5356/5843 全部存在 / PAL 复算
+chasePlayer 6 实体 7 occurrences 精确吻合 / s004 e76 collide:true + s006/s060 hostile 入口存在 / 五个相关
+测试文件均存在。只读核查，未改实现文件，未代签 Kimi。
 
 ### 进入 done 前:审查签字
 
@@ -422,7 +489,7 @@ mover / passive-yield target。script / mount 持有 party 时，party cluster �
 ### 主审立场
 
 - Reviewer: Kimi（架构 / 权威 / 动画）+ GLM（实体分类 / 测试矩阵）
-- 结论: Kimi **agree（2026-08-12，附 1 条必落卡钉）**；GLM pending
+- 结论: Kimi **agree（2026-08-12，附钉已落卡）**；GLM **agree（2026-08-12）**
 - 已落实的 build 钉（2026-08-12 Codex 已落卡，非架构返工）:
   1. **passive-yield / 玩家位置提交必须过 E6 `canWrite` 权威门**（Kimi 设计压测发现，
      已写入功能不变量、测试矩阵与设计结论 §1 / §4）。
@@ -433,7 +500,7 @@ mover / passive-yield target。script / mount 持有 party 时，party cluster �
      候选与任何玩家位置 commit 增加前提 `authority(party) 为 world`；非 world 时请求方 mover
      停步 / 等待，不位移玩家、不推 trail、不做 touch scan。矩阵补一条：mounted / script-owned
      party 拒绝 passive-yield，mover 停步且不产生玩家副作用。
-- 是否建议进入 build: Kimi 钉已落卡；GLM agree 后建议进入，三签前不得进入
+- 是否建议进入 build: **建议进入；三方 agree 已齐，2026-08-12 准入生效**
 
 ### 三方争议记录(按需)
 
@@ -462,14 +529,17 @@ mover / passive-yield target。script / mount 持有 party 时，party cluster �
   Evidence: 本卡设计结论 §1-§8 对照 `main.ts:2262-2292,2775-2831,3108-3155,3603-3698,3795-3843,
   4924-4945,5356-5363,5843-5869`、`collision.ts`、`entity-lifecycle.ts:35-57`、`sprite-anim.ts:18-21,
   62-92`、`e6-position-authority-design.md:41-72` 只读核查；未修改实现文件，未代签 GLM。
-- GLM: pending
+- GLM: 2026-08-12 **agree**。实体分类、cancellation、determinism、公平性、PAL fixture 与
+  PAL-wide census 验收矩阵完整；无新增 counter。详见「GLM 设计主审证据」。
 - 用户拍板: pending（当前无分歧待裁决）
 
 ## Build: 实现与自测
 
 - Coding Owner: Codex
-- 修改文件: pending；设计三签前不得开始实现。
-- 实现摘要: pending
+- 修改文件: 第一批预计 `packages/reforge/src/entity-motion.ts`、对应 test 与 `main.ts` 适配；
+  实际文件随 build 追加。
+- 实现摘要: 2026-08-12 三签齐，进入 build；先落 pure geometry / reservation arbiter，再接
+  source slots、player/auto/hostile、gait 和 PAL-wide census，保持单一 Coding Owner。
 - 运行命令: pending
 - 浏览器 / 手工检查: pending
 - 跳过的检查及原因: N/A
@@ -512,22 +582,11 @@ mover / passive-yield target。script / mount 持有 party 时，party cluster �
 - 2026-08-12 Codex: 已把 Kimi 的 E6 `canWrite` 钉落入功能不变量、测试矩阵及设计结论 §1 / §4：
   party 非 world authority 时 planner 不产生 / 提交 player outcome，不写 position / trail / camera，
   不做 touch scan，请求让位的 mover 停步。Next: 仅等待 GLM 设计审签；agree 前保持 draft。
+- 2026-08-12 GLM（本人实体行为/测试覆盖主审）: 签 **agree**；无新增 counter，完整证据见
+  「GLM 设计主审证据」。签字写入时实际基线为 `ca9b422d`，陈旧 HEAD 文本由 Codex 仅作元数据
+  校正。Next: 三方 agree 齐，D15-1 进入 build，Coding Owner Codex 开始 pure arbiter。
 
 ## 下一位 Agent 提示词
 
-```text
-接手任务: D15-1 NPC 移动补全——设计审签（GLM 席位）
-任务卡: docs/ops/tasks/D15-1-npc-movement-dynamic-collision.md
-当前状态: draft；Codex agree；Kimi 已签 agree，其 passive-yield E6 canWrite 钉已由 Codex 落卡；
-build 准入 blocked，GLM 签字 pending
-你的角色: GLM，审实体分类与测试矩阵覆盖；不得修改实现文件、不得代签 Kimi、不得把 Status 改 build
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文（重点：设计结论 §1-§8、「主审立场」
-  已落实的 build 钉、「三方争议记录」Kimi 条）、docs/phase2/foundation/e6-position-authority-design.md、
-  packages/reforge/src/entity-lifecycle.ts、collision.ts
-请你做: 逐条压测实体分类与覆盖——65 solid vs 268 non-solid census 口径、hasBody/yieldable 分类、
-  lifecycle/mount/follower/hostile/trigger/abort cancellation matrix、公平性与 determinism 机检、
-  最低自动测试矩阵是否覆盖 Kimi 钉（mounted/script-owned party 拒绝 passive-yield）及 PAL fixture
-  contract（s004/s006/s060、7 个 chasePlayer site）。无 blocker 则签 GLM agree；有 blocker 签
-  counter 并给最小反例。
-注意: Kimi 的必落卡钉已落入设计文本；你 agree 后三方设计签字才齐，可解除 build 准入。
-```
+无下一位 Agent 提示词；三方设计签字已齐，Coding Owner Codex 在本会话继续 build。实现完成并
+自验后再生成 Kimi / GLM review 提示词，done 前仍须三方 accept。
