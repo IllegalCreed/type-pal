@@ -62,6 +62,11 @@ const POS = {
 // 原版最大可视宽度的行(全量 11102 行中仅 6 行)。
 const MAX_RIGHT = 320
 
+/** center 是无框剧情字幕；narration 自带卷轴，只有上下普通对话显示等键箭头。 */
+export function dialogSlotShowsCursor(slotId: SlotId): boolean {
+  return slotId === 'top' || slotId === 'bottom'
+}
+
 /** 单个 slot 的排版渲染态(slot.ts 管 cueIdx,这里管 cue 内 rows 的排版)。 */
 interface SlotRender {
   displayLines: DisplayLine[]
@@ -295,9 +300,16 @@ export class DialogBox {
     }
     if (isActive && allDone && !this.pageDone) this.pageDone = true
 
-    // 光标:仅活跃槽 + 全显 + 非 autoAdvance,末显示行末尾。形态取该段 cursorFrame(默认 0)。
+    // 光标:仅普通上下对话槽 + 全显 + 非 autoAdvance。center 是无框剧情字幕，
+    // 即使等键也不画箭头；narration 已在上方走专用卷轴并提前返回。
     const lastDl = page[page.length - 1]
-    if (isActive && this.pageDone && r.autoAdvance === undefined && lastDl) {
+    if (
+      dialogSlotShowsCursor(slotId) &&
+      isActive &&
+      this.pageDone &&
+      r.autoAdvance === undefined &&
+      lastDl
+    ) {
       this.drawCursor(
         nowMs,
         lastDl.spans,

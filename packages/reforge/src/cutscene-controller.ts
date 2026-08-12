@@ -63,6 +63,17 @@ export class CutsceneController {
   }
 
   /**
+   * 后台逻辑等待共用同一个 gameplay-clock executor 和 AbortSignal，但不声明呈现占用。
+   *
+   * auto 实体、重生计时等都会走宿主 wait；若把纯等待加入 activeRuns，任一常驻 auto
+   * 脚本就会永久冻结明雷追逐与生命周期世界拍。交互脚本仍由 isRunnerActive() 保持 busy，
+   * 真正的 cutscene wait 仍应通过 run([{ kind: 'wait', ... }]) 计入呈现占用。
+   */
+  waitPassive(ms: number, signal: AbortSignal): Promise<void> {
+    return this.exec.wait(ms, signal)
+  }
+
+  /**
    * K3:abortScript 呈现收口——调用方已中止在途 run 的信号(scriptAbort 链),此处执行
    * 呈现复位(幂等);非协议演出态(screenHold/dither/worldShake 等)由 abortScript 兜底。
    */

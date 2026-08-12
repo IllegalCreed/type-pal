@@ -61,6 +61,26 @@ describe('CutsceneController (D14-2)', () => {
     expect(controller.busy()).toBe(true)
   })
 
+  test('后台 wait 不占用呈现锁，auto 环境脚本不会冻结明雷与生命周期世界拍', async () => {
+    const { exec } = executor()
+    let releaseWait!: () => void
+    exec.wait = vi.fn(
+      () =>
+        new Promise<void>((resolve) => {
+          releaseWait = resolve
+        }),
+    )
+    const controller = new CutsceneController(exec, { isRunnerActive: () => false })
+
+    const waiting = controller.waitPassive(320, new AbortController().signal)
+    expect(exec.wait).toHaveBeenCalledTimes(1)
+    expect(controller.busy()).toBe(false)
+
+    releaseWait()
+    await waiting
+    expect(controller.busy()).toBe(false)
+  })
+
   test('K3:取消 → 中止后续 intent 且 activeRuns 清理;cancelAll 调 resetPresentation', async () => {
     const { calls, exec } = executor()
     const controller = new CutsceneController(exec, { isRunnerActive: () => false })

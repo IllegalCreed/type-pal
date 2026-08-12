@@ -133,6 +133,7 @@ import {
   playFrameAnimation as playFrameAnimationOverlay,
 } from './frame-animation-player.js'
 import { FrameAnimationPresentationState } from './frame-animation-presentation.js'
+import { createGameOverDialogueCue } from './game-over-dialog.js'
 import { GameplayClock } from './gameplay-clock.js'
 import { Keyboard } from './input.js'
 import { executeWorldItemUse } from './item-use-executor.js'
@@ -2316,14 +2317,14 @@ export async function bootGame(
       // 原版 GameOver 枢纽(L_41075)一等化:渐红 + 经典文案 + 读最近档
       await hostFade('out', 900, 'red', signal)
       assertRunnerActive(signal, '战败流程所属 runner 已取消')
-      await host.dialog({ slot: 'narration', rows: [{ text: 'gameover.1' }] }, signal)
-      assertRunnerActive(signal, '战败流程所属 runner 已取消')
-      await host.dialog({ slot: 'narration', rows: [{ text: 'gameover.2' }] }, signal)
+      await host.dialog(createGameOverDialogueCue(), signal)
       assertRunnerActive(signal, '战败流程所属 runner 已取消')
       await host.loadLastSave(signal)
     },
+    // auto 实体、明雷重生等后台逻辑也复用 host.wait；它们只需要 gameplay-clock 计时和
+    // AbortSignal，不得占用全局呈现锁。交互脚本仍由 presentation.busy() 的 runner 分量锁住。
     wait: (ms, signal) =>
-      presentation.run([{ kind: 'wait', ms }], signal ?? new AbortController().signal),
+      presentation.waitPassive(ms, signal ?? new AbortController().signal),
     teleportParty: (pos, fc) => {
       player.pos = { ...pos }
       if (fc) facing = fc

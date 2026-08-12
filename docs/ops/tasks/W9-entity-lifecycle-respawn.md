@@ -1,6 +1,6 @@
 # W9 - 实体生命周期、重现与明雷逃跑冷却
 
-Status: review
+Status: done
 Phase: phase2
 Capability: W9 / B8 / B9 / X1
 Coding Owner: Codex
@@ -578,8 +578,58 @@ source provenance 和 BattleResult 终态不足以作为本轮 build 准入；�
   `done`；canonical `test:release` 为 107 files / 758 passed + 1 既有 skipped、exit 0。此前本卡
   关于 release A/FRESH “仍阻塞”的文字保留为当时历史事实，不再代表当前门禁。W9 三方
   implementation `accept` 已齐，当前只待用户验收，不再有外部 release 阻塞。
+- **2026-08-12 用户验收返工（Codex）**：用户在 s006 发现“全场敌人不追逐、不触发战斗”。浏览器
+  独立复现：玩家 `(102,50)` 位于 e154 蜜蜂 5 格内仍不追逐；运行态 `(73,31)` 距 e159 2 格也不
+  开战。根因是 D14-2 将通用 `host.wait()` 作为 blocking presentation intent：s006/e168 常驻 auto
+  环境音脚本反复 wait，使 `presentation.busy()` 长期为 true；`tickHostiles` 与 W9 lifecycle world
+  clock 因同一 gate 同时冻结。修复为 `CutsceneController.waitPassive()`：继续复用 gameplay-clock
+  executor 与 AbortSignal，但后台纯等待不加入 activeRuns；真实 cutscene wait 仍走 `run()`，交互脚本
+  仍由 runner 分量保持 busy。回归证据：定向 2 files / 14 tests、typecheck、全量 reforge
+  92 files / 907 tests、production build 全绿；浏览器验证“蜜蜂主动追逐→开战→金蝉脱壳→返回场景
+  暂停→约 15 世界拍后恢复追逐→再次开战”闭环。修改锚点：`cutscene-controller.ts`、
+  `cutscene-controller.test.ts`、`main.ts`。Codex 对本返工签 `accept`；此前 Kimi/GLM accept 是返工前
+  历史结论，不自动覆盖本 diff，当前保持 `review` 等待两方补审与用户复验。
+- **2026-08-12 用户复验细节返工（Codex）**：用户确认完整生命周期流程正确，同时发现两处战斗
+  表现偏差：金蝉脱壳逃跑最后一帧额外停留约 1.2s；提交指令后中央闪一帧“音效准备中…”。对照
+  第一阶段 `battle-system.ts`：玩家 16 步逃跑动画完成后下一拍直接 finalize。Reforge 根因是
+  `BattleSession` 把无结算屏的所有终态统一套用 `OVER_MS=1200`，并把内部 SFX readiness pending
+  状态画成可见遮罩。修复为 playerFled/enemyFled/terminated 在自身时间线完成后的下一拍直接 complete
+  （胜/败原 1.2s 语义不动）；normal readiness 仅冻结当前战场帧、不绘制技术文案，fatal 错误态仍
+  显示“音效工作集错误”与退出提示。新增两条回归测试钉住 overlay policy 与逃跑下一拍完成。
+  证据：定向 2 files / 61 tests、typecheck、全量 reforge 92 files / 909 tests、production build 全绿；
+  浏览器在指令提交后 20ms 首帧无准备提示，金蝉脱壳约 1.07s 已退出战斗，不再追加 1.2s hold。
+  Codex 对本次细节返工补签 `accept`；Kimi、GLM 均已于下方补审 `accept`。三方累计返工补审已齐，
+  用户已于 2026-08-12 通过十里坡与战斗直达链接完成最终复验并确认“没问题了”。当前只待 git
+  收口；不得在返工提交前标记 done。
 
-### Review（三方 implementation accept 已齐；外部门禁已闭环，等待用户验收）
+### Review（用户验收返工后：三方 re-accept + 用户最终验收已齐；已收口）
+
+- User（2026-08-12 最终验收）：**accept**——通过
+  `?scene=s006&pos=102,50&skill=392` 与 `?battle=4&skill=392` 复验后确认“没问题了”。
+  功能与表现验收完成，并已授权 Codex 提交收口。
+
+- **2026-08-12 收口结论**：用户明确授权“提交收口”；Codex/Kimi/GLM 累计返工 accept 与用户最终
+  验收均已齐，自动化、类型、构建和浏览器证据完整，W9 转 `done`。无下一位 Agent 提示词。
+
+- Kimi（2026-08-12 用户验收累计返工补审，本人只读 + 复跑，非代理）：**accept**——
+  1. **waitPassive ✓**：`cutscene-controller.ts:72-74` 复用 gameplay-clock executor 与
+     AbortSignal、不进 `activeRuns`；`host.wait`（`main.ts:2326-2327`）全部改走 waitPassive，
+     真实 cutscene wait 仍经 `run()` 计入呈现占用，交互脚本由 `isRunnerActive`
+     （`runner !== null`，`main.ts:2249`）保持 busy；auto runner 用独立 ScriptRunner
+     （`main.ts:3782`）本就不占 runner 分量。`tickHostiles`（`main.ts:3803`）与 lifecycle
+     world step（`main.ts:1471`）的 busy gate 不再被常驻 auto wait 冻结。
+  2. **逃跑下一拍完成 ✓**：playerFled/enemyFled/terminated 在自身时间线完成后下一拍
+     `complete`（`battle-session.ts:1248-1255`）；胜/败无结算屏仍 `OVER_MS=1200`
+     （`:1256-1261`），victory 结算屏逐屏推进不动。回归测试
+     `battle-session.test.ts:1093` 钉住 16 帧滑出后下一拍 `doneSettled`、不追加 1.2s。
+  3. **SFX readiness ✓**：`battleReadinessOverlayText`（`battle-session.ts:161-165`）
+     preparing→null、readinessError→「音效工作集错误」；render `:2850-2870` 仅 fatal 画
+     错误 + 「按 Enter 或 Esc 返回」，tick `:1200-1204` preparing 锁全部输入（屏障保留）、
+     fatal Enter/Esc 可退出。回归测试 `battle-session.test.ts:389` 钉住 overlay policy。
+  4. **证据复跑一致 ✓**：本人实跑 reforge `check`（typecheck + **92 files / 909 tests**
+     全绿）与 production `build` 通过，与卡文数字逐项一致。浏览器细则（提交后 20ms 无准备
+     提示、金蝉脱壳约 1.07s 退出、暂停后恢复追逐闭环）按集中 E2E 纪律以 Codex 已登记证据
+     为准，本人未重复跑。未修改实现文件，未代签 GLM，未标 done。
 
 - Kimi：**accept（2026-08-11，本人只读 implementation 复审，非代理）**——五大重点面全部独立
   证实成立，卡文声称的测试数字全部逐命令复跑一致。证据与三条非阻塞补测钉见下方「Kimi 复审证据」。
@@ -593,6 +643,41 @@ source provenance 和 BattleResult 终态不足以作为本轮 build 准入；�
   外部 OPS-TST-PERF-FRESH/release A 仍独立阻塞，未通过、未豁免，W9 done 不得在其闭环前标记。**
 - counter / 返工处理：R1 已闭环；无 W9 侧未决项。三方 implementation `accept` 已齐。
   外部 release A 门禁已于 2026-08-12 闭环；done 仅待用户验收。
+
+#### GLM 用户验收累计返工补审（2026-08-12，HEAD 642cea44；本人只读 + 复跑，非代理）
+
+- **GLM: accept（用户验收累计返工 diff；两项返工均核实成立，附 file:line + 实跑证据）。**
+
+**返工 1（waitPassive）✓**：`cutscene-controller.ts:72-74` `waitPassive(ms, signal)` 直接调
+`this.exec.wait(ms, signal)`——**复用同一 gameplay-clock executor 与 AbortSignal，但不进 `activeRuns`**
+（对比 `run()` 的 `activeRuns.add/delete` in try/finally）；`main.ts:2326-2327` `host.wait` 全部改走
+`waitPassive`。`presentation.busy()`（`:3803` tickHostiles gate、`:1471` lifecycle world step gate）仍含
+`activeRuns` 判定，故常驻 auto 环境音 wait 不再污染 busy；交互脚本仍由 `isRunnerActive()`（`:2249`
+`runner !== null`）保持 busy。s006 敌人追逐/开战冻结的根因（D14-2 `host.wait` → activeRuns 污染）已解除。
+
+**返工 2（三种逃跑终态 + SFX readiness）✓**：
+- `battle-session.ts:1247-1255`：`playerFled`/`enemyFled`/`terminated` 在自身时间线完成后**下一拍**
+  `this.complete()`，无 OVER_MS hold；`:1256-1261` 胜/败无结算屏仍 `OVER_MS=1200`（victory 结算屏逐屏推进
+  不动）。回归测试 `battle-session.test.ts:1093` 钉 16 帧滑出后下一拍 `doneSettled=true`，不追加 1.2s。
+- `battleReadinessOverlayText`（`battle-session.ts:161-165`）：`preparing`→`null`（不画技术文案遮罩）、
+  `readinessError`→`'音效工作集错误'`；tick `:1200-1204` preparing 锁全部输入（屏障保留），fatal 态
+  Enter/Escape 可退出。回归测试 `battle-session.test.ts:389` 钉 overlay policy。
+
+**门禁复跑（本人实跑，与 Kimi 数字逐项一致）✓**：
+- `pnpm --filter @type-pal/reforge check` → **92 files / 909 tests passed**。
+- `pnpm --filter @type-pal/reforge build` → exit 0（built in 143ms，仅 chunk-size 提醒，非错误）。
+
+**浏览器细则**（提交后 20ms 无准备提示、金蝉脱壳约 1.07s 退出、暂停后恢复追逐闭环）按集中 E2E 纪律以
+Codex 已登记证据为准，本人未重复跑。本次复审未修改任何实现文件，未代签 Kimi，未标 done。
+
+**⚠ 留存注意（GLM 注明）**：本次返工 diff（cutscene-controller.ts waitPassive、battle-session.ts 终态/
+readiness、main.ts host.wait 路由、dialog-box.ts、battle-session.test.ts、cutscene-controller.test.ts）当前
+**仅在 working-tree，未提交 HEAD**（`git show HEAD:cutscene-controller.ts` 无 waitPassive）。本人 check/build
+跑的是 working-tree 版本（含返工），故核对的是实际返工代码、accept 有效。但 Codex 须把返工提交到 main 后
+W9 才能转 done；本 accept 以「返工代码已核实正确」为准，不授权跳过提交步骤。
+
+Evidence: cutscene-controller.ts:60-74 / main.ts:2249,2326-2327,3803 / battle-session.ts:161-165,1195-1261 /
+battle-session.test.ts:389,1093 / reforge check 92/909 + build exit 0（working-tree）。
 - Codex：**accept（2026-08-11，自审）**。实现切片已冻结；content13 typed boot/SAVE/runtime、
   W9 producer/ledger/seal/recursive authority、editor manifest-last/CRUD/reference protection
   均有定向与全量证据；当前不把外部 OPS-TST-PERF-FRESH/release A 阻塞伪装成通过，也不把本卡
@@ -1020,4 +1105,39 @@ Kimi 本人已 `accept`，你的真实结论仍为 `rework`；本次是专门复
 请明确区分 W9 R1 实现正确性与仍未闭环的外部 OPS-TST-PERF-FRESH/release A 治理门禁。
 只输出 `GLM: accept`，或 `GLM: counter/rework`（逐项列出可复现阻塞和 file:line/test 证据）。任何
 子代理文字都不算席位签字；GLM 本人 accept 前不得把 W9 标记 done。
+```
+
+```text
+【2026-08-12 用户验收累计返工：转发给真实 Kimi 的补审提示词】
+请只读复审 `/Users/zhangxu/illegal/type-pal` 当前 W9 用户验收累计返工，不要修改实现文件、不要代替
+GLM 签字、不要标记 done。先读 `AGENTS.md`、`docs/phase2/READ-FIRST.md`、
+`docs/ops/tasks/W9-entity-lifecycle-respawn.md` 的两条“用户验收返工”记录。重点检查：
+1. `CutsceneController.waitPassive` 是否保持 gameplay-clock/AbortSignal，同时避免常驻 auto wait 冻结
+   `presentation.busy()`、hostile 与 lifecycle tick；交互 runner/真正 cutscene intent 是否仍保持锁；
+2. `BattleSession` 的 playerFled/enemyFled/terminated 是否仅去掉通用 1.2s hold，保留各自完整逃跑
+   时间线，并且 victory/defeat 停留语义不变；
+3. 正常 SFX readiness 是否仅隐藏内部“音效准备中…”遮罩而保留输入/行动屏障，fatal 错误仍可见可退；
+4. 复核证据：reforge 92 files / 909 tests、typecheck、production build；浏览器“提交后 20ms 无准备
+   提示、金蝉脱壳约 1.07s 已退出战斗、生命周期暂停后恢复追逐”。
+只输出 `Kimi: accept`，或 `Kimi: counter/rework`（给出 file:line/test 证据）。
+```
+
+```text
+【2026-08-12 用户验收累计返工：转发给真实 GLM 的补审提示词】
+请只读复审 `/Users/zhangxu/illegal/type-pal` 当前 W9 用户验收累计返工，不要修改实现文件、不要代替
+Kimi 签字、不要标记 done。先读 `AGENTS.md`、`docs/phase2/READ-FIRST.md`、
+`docs/ops/tasks/W9-entity-lifecycle-respawn.md` 的两条“用户验收返工”记录和最新 Kimi 补审 accept。
+当前 `Status=review`；Codex re-accept、Kimi 补审 accept 已齐，只差你的真实补审结论。
+
+重点核对并给出 file:line/test 证据：
+1. `CutsceneController.waitPassive` 是否只解除后台 auto wait 对 presentation busy 的污染，同时保持
+   gameplay-clock、AbortSignal、交互 runner 与真正 cutscene intent 的冻结语义；
+2. `BattleSession` 是否只让 playerFled/enemyFled/terminated 在各自时间线结束后下一拍完成，且
+   victory/defeat 的结算与 1.2s 停留行为不变；
+3. 正常 SFX readiness 是否仍锁输入/行动但不显示内部“音效准备中…”，fatal 错误是否仍可见可退出；
+4. 复跑 `pnpm --filter @type-pal/reforge check` 与 `pnpm --filter @type-pal/reforge build`，预期
+   92 files / 909 tests、typecheck、build 全绿；核对任务卡已登记的浏览器证据链。
+
+只输出 `GLM: accept`，或 `GLM: counter/rework`（列明阻塞理由和证据）。若 accept，也请把结论同步
+写入任务卡；不得代替用户完成最终验收，签字后仍保持 review，等待用户最终确认。
 ```

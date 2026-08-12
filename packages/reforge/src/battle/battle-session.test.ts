@@ -20,6 +20,7 @@ import type { AnimFrame } from './battle-anim.js'
 import type { BattlePlayerState, BattleWorldMutation, CreatePlayerInput } from './battle-core.js'
 import type { BattleLastAction } from './battle-last-action.js'
 import {
+  battleReadinessOverlayText,
   type BattleReadinessErrorContext,
   BattleSession,
   type BattleSessionAssets,
@@ -385,6 +386,11 @@ function submitDefaultAttack(session: BattleSession): void {
 }
 
 describe('A7-1 战斗回合 SFX readiness 屏障', () => {
+  test('正常 pending 只冻结战场帧，不闪现内部“准备中”；fatal 才显示错误', () => {
+    expect(battleReadinessOverlayText('preparing')).toBeNull()
+    expect(battleReadinessOverlayText('readinessError')).toBe('音效工作集错误')
+  })
+
   test('全员交招后只准备一次；pending 锁住 Enter/Escape，resolve 后才进入行动', async () => {
     const gate = deferred<void>()
     const snapshots: BattleTurnReadinessSnapshot[] = []
@@ -1082,6 +1088,31 @@ describe('B9 特殊战斗形态', () => {
 
     await expect(session.done).resolves.toBe('playerFled')
     expect(buildSettlementCalls).toEqual([])
+  })
+
+  test('玩家逃跑 16 帧滑出屏后下一拍完成，不追加通用 1.2s 终态停留', async () => {
+    const { session } = makeSession(
+      mkEnemy('flee-timing', { health: 9999, fleeRate: 0, attackStrength: 0 }),
+      { fleeRate: 9999, defense: 9999 },
+    )
+    const internal = session as unknown as {
+      state: { phase: string }
+      anim: unknown
+      doneSettled: boolean
+    }
+
+    session.tick(16, new Set(['q']))
+    for (let index = 0; index < 80; index += 1) {
+      session.tick(40, new Set())
+      if (internal.state.phase === 'fled' && internal.anim === null) break
+    }
+    expect(internal.state.phase).toBe('fled')
+    expect(internal.anim).toBeNull()
+    expect(internal.doneSettled).toBe(false)
+
+    session.tick(16, new Set())
+    expect(internal.doneSettled).toBe(true)
+    await expect(session.done).resolves.toBe('playerFled')
   })
 
   test('endBattle lost 返回 defeat，且不进入胜利结算', async () => {

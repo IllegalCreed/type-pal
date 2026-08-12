@@ -122,7 +122,7 @@ const MISC_LABELS = ['围攻', '道具', '防御', '逃跑', '状态'] as const
 const FALLBACK_MENU = ['攻击', '仙术', '物品', '防御', '逃跑'] as const
 /** 每个 action 结算间隔(节奏;一帧全算看不清)。 */
 const ACT_MS = 240
-/** 胜负停留展示时长。 */
+/** 胜/败结果停留展示时长；逃跑自身的滑出屏动画已经承担完整收尾，不再追加。 */
 const OVER_MS = 1200
 /** 敌人死亡淡出时长(一阶段 PAL_BattleFadeScene 12×6 步 ≈ 900ms;RGBA 用 alpha 渐隐等价)。 */
 // 死亡溶解时长 = 原版 72 步 × 16ms(PAL_BattleFadeScene,battle.c:608-682;曾 900ms alpha
@@ -153,6 +153,16 @@ type UiPhase =
   | 'readinessError'
   | 'acting'
   | 'over'
+
+/**
+ * 正常 SFX readiness 是一条内部异步屏障，保持当前战场帧即可，不应向玩家闪现技术文案。
+ * 只有 fail-loud 错误态才显示可操作提示。
+ */
+export function battleReadinessOverlayText(
+  phase: 'preparing' | 'readinessError',
+): string | null {
+  return phase === 'readinessError' ? '音效工作集错误' : null
+}
 
 /** 最后一名队员交招后、core 建行动队列前冻结的音效工作集输入。 */
 export interface BattleTurnReadinessSnapshot {
@@ -1232,7 +1242,18 @@ export class BattleSession {
         }
         return
       }
-      // 无结算屏(败/逃/敌逃):短暂停留自动收尾
+      // 第一阶段 / 原版：玩家逃跑在 16 步滑出屏后的下一拍直接 finalize；敌逃时间线
+      // 自带出屏后约 500ms hold，terminated 也没有通用结果屏。不能复用胜败的 1.2s 停留，
+      // 否则最后一帧会像卡住一样悬停。
+      if (
+        this.terminalResult === 'playerFled' ||
+        this.terminalResult === 'enemyFled' ||
+        this.terminalResult === 'terminated'
+      ) {
+        this.complete(this.terminalResult)
+        return
+      }
+      // 无结算屏的胜/败仍短暂停留自动收尾。
       this.overTimer += dtMs
       if (this.overTimer >= OVER_MS) {
         this.complete(this.terminalResult)
@@ -2826,23 +2847,27 @@ export class BattleSession {
       renderSpans(ctx, [{ text: this.choreoBanner.text }], 10, 24, { glyphs: g, shadow: true })
     }
 
-    // 第二级音效屏障：战场保持可见、人物不动、菜单与所有输入锁住。
-    if (!dialogActive && (this.ui === 'preparing' || this.ui === 'readinessError')) {
+    // 第二级音效屏障：pending 时只冻结当前战场帧，不显示内部技术提示；真正 fatal 才
+    // 显示错误与退出操作。这样缓存命中的 Promise 微任务不会在屏幕中央闪一帧“准备中”。
+    const readinessOverlayText =
+      this.ui === 'preparing' || this.ui === 'readinessError'
+        ? battleReadinessOverlayText(this.ui)
+        : null
+    if (!dialogActive && readinessOverlayText) {
       ctx.fillStyle = 'rgba(0, 0, 0, 0.72)'
-      ctx.fillRect(48, 76, 224, this.ui === 'preparing' ? 42 : 58)
+      ctx.fillRect(48, 76, 224, 58)
       renderSpans(
         ctx,
-        [{ text: this.ui === 'preparing' ? '音效准备中…' : '音效工作集错误' }],
-        this.ui === 'preparing' ? 112 : 104,
+        [{ text: readinessOverlayText }],
+        104,
         88,
         { glyphs: g, shadow: true, forceRgba: [255, 255, 255] },
       )
-      if (this.ui === 'readinessError')
-        renderSpans(ctx, [{ text: '按 Enter 或 Esc 返回' }], 80, 109, {
-          glyphs: g,
-          shadow: true,
-          forceRgba: [226, 179, 64],
-        })
+      renderSpans(ctx, [{ text: '按 Enter 或 Esc 返回' }], 80, 109, {
+        glyphs: g,
+        shadow: true,
+        forceRgba: [226, 179, 64],
+      })
     }
 
     // 指令菜单(一阶段原版形态:4 图标 + 杂项盒 + 3 列网格)。选敌态不画(一阶段 DL30);对话期全隐。

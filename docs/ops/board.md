@@ -12,7 +12,6 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| W9 | 实体生命周期、重现与明雷逃跑冷却 | review | 三方 implementation accept 与外部 release 门禁均已齐；等待用户验收 | content13 runtime/save/editor 与 PAL W9 发布已冻结；FRESH/RW 均 done，canonical release 107/758 + 1 skip、exit 0 |
 | B10-1 | 混乱敌人攻击同伴 | review | 三方 implementation accept 已齐；等待用户验收，Codex 不得把签字自动改成 done | W9 R1 已修复并重录 current13/oracle；B10 本身无侧未决项，外部 release A/FRESH 另按 OPS 卡闭环 |
 | OPS-TST-PERF-B | shared/fresh 隔离并行 runner | draft | Codex 起草 runner；真实 Kimi/GLM 设计签字后实现 | manifest→canary→unit/preflight 串行；shared/fresh 并行；RSS、路径隔离及三次串行对照为硬门禁 |
 | OPS-TST-PERF-C | P2/P3/P4 consolidated determinism proof | draft | Codex 起草逐标题 coverage map；真实 Kimi/GLM 设计签字后实现 | 保留每阶段独立 live default/reversed 双建；不得用 pinned bundle 或删 source-backed 双建冒充证明 |
