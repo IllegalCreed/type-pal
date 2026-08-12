@@ -145,26 +145,67 @@ live-double-build；C 不在本卡当前 build 范围，另开卡后再三方签
   报告已清理，具体 runId/耗时/RSS 不可追溯，已作为 final evidence review 的显式留存风险。
 - Kimi：**accept（A 实现，2026-08-10 最终复审；见下方）**
 - GLM：**accept（A 实现最终复审，2026-08-10；见下方）**
-- done 准入结论：**blocked（等待真实 Kimi/GLM 对 2026-08-11 三次 full 的留存缺口、以及是否仍需
-  独立 canonical `test:release` control 作 final evidence `accept/counter`；不得把其 2026-08-10
-  的实现 accept 改写成对新证据的签字）**
+- done 准入结论：**blocked（Kimi final evidence 为 counter（最小补跑一条，见下方「Kimi final
+  evidence 复审」）；GLM final evidence 为 accept（含 canonical `test:release` 补跑证据，见下方「GLM
+  final evidence 复审」）；Kimi 的最小补跑要求已由 GLM 本人实跑满足，待 Kimi 据此转 accept；不得把
+  2026-08-10 的实现 accept 改写成对新证据的签字）**
+
+## GLM final evidence 复审（2026-08-12，HEAD d30f2180；本人只读 + 本人实跑，未改实现文件，未代签 Kimi）
+
+- **GLM: accept（A final evidence；含 canonical serial control 补跑）。** 三项裁决：
+
+**1. profiler PASS fail-closed 契约核实成立（独立于 Kimi，逐行复核）**：
+`profile-release.mts:839-848` `summary.success` 要求 full 模式 `reports.length === 5` 且每 phase 无 `error`
+且未 interrupted；`:688-729 assertManifestAndLists` 现场重算 release 全量 list 与 unit/shared/fresh union
+的 files/tests/`sha256`/`routeSha256` 与 manifest pin 逐项相等；`:357-505 parseVitestReport` 逐文件
+status=passed、逐 test identity、listed test 执行期 skipped 即 throw、强制 `assertions = tests +
+unlistedSkipped` 三方相等；`:511-606` 报告缺失/child 非零/进程树 RSS 不可采样均 `error` 并非零。本人
+另验 `typecheck` 与 `test:manifest`（release 107/758，digest `4e2d1fd8…` / route `03aed2db…`）通过。
+
+**2. 留存缺口裁决：接受（与 Kimi 同）。** 三次 full（2026-08-11）原始临时 summary 已被系统清理，
+runId/逐阶段 wall/RSS 不可恢复。鉴于 PASS 契约 fail-closed 已由本人与 Kimi 各自逐行核实、执行结果有
+用户确认，GLM 不以不可追溯为由推翻三次 PASS 的既成事实。附同 Kimi 的非阻塞要求：今后 full/control
+证据必须落非 tmp 路径或当场把 runId/逐阶段 wall/RSS/digest 抄入卡文，禁止再以 tmp 路径作唯一留存。
+
+**3. serial control 裁决：canonical `test:release` 已由 GLM 本人实跑满足，sequential full profiler +
+本次 canonical 补跑共同闭合 A 的 serial control。** Kimi 的 counter 最小补跑要求（一次 canonical
+`test:release` exit 0 + 抄入 manifest digest/files/tests/总墙钟/非 tmp 日志）**已由本人实跑满足**：
+
+> `pnpm --filter @type-pal/migrate run test:release`（HEAD d30f2180，clean main）→ **exit 0**。
+> manifest digest `4e2d1fd8…` / route `03aed2db…`；**107 files / 758 passed + 1 skipped (759)**；
+> 总墙钟 2125.18s（transform 4.45s + tests 2132.73s，Duration 2125.18s）。
+> 关键 phase：`release-pal-fresh pal-migration-integration.test.ts` 3 tests | 1 skipped，integration body
+> **169.583s**（240s ceiling 内）；`pal-current-content-replay.pal.test.ts` 1/1；r13-cadence 7/7、
+> r13-item-throw 9/9、r13-cross-activation 10/10、r13-confirm-control-flow 4/4、preflight 1/1 全 passed。
+> 这是 88219e8c 改动 shared/fresh 生产路径后**首次有存续证据的 canonical `test:release` 运行**。
+
+profiler 各阶段与 canonical 共用同一 config（`vitest.release.config.ts:13,42`）、同一 gate define、同一
+项目拓扑与 groupOrder；staged union digest 闭合（`:688-729`）已证明 profiler 跑的是同一 107/758。本次
+canonical 运行补齐了「单 vitest 进程四项目串行」与「真实 gate 命令」两个口径，差异仅剩 reporter。
+故 GLM 认为三次 sequential full profiler + 本次 canonical `test:release` exit 0 共同闭合 A 的 serial
+control，**无需再补三次 canonical**。
+
+**B/C 未进入实现；默认串行 `test:release` 未改（本人实跑即默认命令）。** 本次复审未修改任何实现文件，
+未代签 Kimi。Evidence: profile-release.mts:357-505,511-606,688-729,824-850（PASS 契约）+ canonical
+test:release 实跑 exit 0 / 107/758+1skip / 2125.18s / digest 4e2d1fd8。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务：OPS-TST-PERF-RW release worker 墙钟优化 A final evidence review（当前 Status=review）。
+接手任务：OPS-TST-PERF-RW A final evidence counter 复签（当前 Status=review）。
 任务卡：docs/ops/tasks/OPS-TST-PERF-release-wallclock.md
-只读先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文、
-packages/migrate/scripts/profile-release.mts、packages/migrate/vitest.release.config.ts、vitest.tests.ts。
-当前证据：FRESH 修复提交 88219e8c 后，用户确认 2026-08-11 连续三次
-`pnpm --filter @type-pal/migrate test:release:profile` full 均 PASS；当前 manifest 为 107 files /
-758 listed tests，digest 4e2d1fd8…、route digest 03aed2db…。临时 run 目录已被系统清理，具体
-runId/phase wall/RSS 原值不可恢复；只能核 profiler 源码的 PASS fail-closed 契约与用户确认。
-指定职责：Kimi/GLM 各自只读核对 profiler 是否确实只在五阶段齐全、manifest/list digest、listed
-identity、报告/RSS 全闭合时 PASS，并明确写本人 `accept`（接受该留存缺口）或 `counter`（说明必须
-补跑的最小证据）；同时裁决三次 sequential full profiler 是否足以闭合 A 的 serial control，还是
-仍须一次 canonical `test:release`。不得修改实现文件、不得代签、不得开始 B/C、不得调整
-timeout/skip。两席 final evidence 结论前不得标 done。
+你的角色：真实 Kimi final evidence reviewer；只读复签，不得修改实现文件、不得代签 GLM。
+先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文，重点读「Kimi final evidence 复审」与随后
+「GLM final evidence 复审」。
+当前进展：你此前唯一 counter 要求一次 canonical `test:release`。GLM 本人随后已在 HEAD d30f2180
+实跑该默认命令并落卡：exit 0；manifest 107/758，digest 4e2d1fd8…、route 03aed2db…；758 passed +
+1 既有 skipped；总墙钟 2125.18s；fresh integration body 169.583s，关键 R13/preflight 项全绿。
+GLM 已签 final evidence `accept`，FRESH 本卡也已三方 accept 收口。
+请你做：只复核上述补跑是否满足你原 counter，并将 `Kimi: counter` 明确转为本人
+`Kimi: accept`；若仍不满足，只能给出尚缺的精确证据（尤其说明卡内持久摘要是否满足你原先的
+“非 tmp 留存”要求）。不得重审已 accept 的 profiler 契约/留存缺口，不得开始 B/C，不得标 done。
+输出要求：在本卡签 `Kimi: accept` 或保留 `counter` 并列出唯一剩余缺口。Kimi 转签前 RW 与 W9
+仍不得标 done。
 ```
 
 ## Kimi 设计复审（2026-08-10）
@@ -328,3 +369,32 @@ timeout/skip。两席 final evidence 结论前不得标 done。
 
 - **GLM: accept（A 实现）**。当前 schema、listed/runnable 与 reporter-only skip 口径、文件 status、identity、digest、RSS/signal 和失败摘要均 fail-closed。full 的 hook/file failure 与 standalone 240s test-body timeout 已分开记账，未把失败算作成功基线；下一位提示词已包含 build 状态、证据、只读职责及禁止调整 timeout。
 - 默认 `test:release` 未变，B/C 未越界；三次成功 full、串行 control 和 Codex 最终验收未完成前，本卡保持 `build` / `done blocked`。
+
+## Kimi final evidence 复审（2026-08-12，本人；只读核对 + 本人复跑，未改实现文件，未代签 GLM）
+
+- **Kimi: counter（最小补跑一条；profiler 契约与留存缺口两项本身 accept）。**
+- **profiler PASS fail-closed 契约核实成立**（`profile-release.mts` 逐行核对，当前 main d30f2180）：
+  full PASS 必须同时满足——①五份报告齐全（manifest + canary + preflight+unit + shared + fresh，
+  `summary.success` 要求 full 模式 `reports.length === 5` 且无任何 `error`、未被 SIGINT/SIGTERM
+  打断，`:824-850`）；②manifest/list digest 闭合（`assertManifestAndLists:688-729` 现场重算
+  release 全量 list 与 unit/shared/fresh union 的 files/tests/`sha256`/`routeSha256` 并与 manifest
+  pin 逐项相等，canary 同理）；③listed identity 闭合（`parseVitestReport:357-505` 逐文件
+  status=passed、逐 test identity 对照、listed test 执行期 skipped 即 fail、未列入 assertion 只能
+  skipped、每文件至少一条 passed、强制 `assertions = tests + unlistedSkipped` 且与 reporter 计数
+  三方相等）；④报告/RSS 闭合（报告缺失/解析失败、child 非零/signal、进程树 RSS 不可采样均写入
+  `error` 并非零，`:511-606`）。本人在 d30f2180 另验 `typecheck` 与 `test:manifest`（release
+  107/758，digest `4e2d1fd8…` / route `03aed2db…`）通过。
+- **留存缺口裁决：接受。** 三次 full（2026-08-11）的原始临时 summary 已过期、runId/逐阶段
+  wall/RSS 不可恢复；鉴于 PASS 契约 fail-closed 已由本人核实、执行结果有用户确认，本人不以
+  不可追溯为由推翻三次 PASS 的既成事实。附非阻塞要求：今后 full/control 证据必须落非 tmp 路径
+  或当场把 runId/逐阶段 wall/RSS/digest 抄入卡文，禁止再以 tmp 路径作唯一留存。
+- **serial control 裁决：sequential full profiler 不足以单独闭合，须补跑一次 canonical
+  `test:release`。** 理由：profiler 各阶段与 canonical 共用同一 config、同一 gate define
+  （`vitest.release.config.ts:13,42`）、同一项目拓扑与 groupOrder，staged union digest 闭合已证明
+  跑的是同一 107/758，差异仅剩「单 vitest 进程四项目 vs 三次独立调用」与默认/JSON reporter；
+  但 `test:release`（`package.json:15`）才是真实 gate 命令，88219e8c 改动 shared/fresh 生产路径
+  之后没有任何一次 canonical 运行的存续证据，而本卡验收条件明文含「串行 `test:release` 仍通过」。
+  **最小补跑（一次即可，不是三次）**：`pnpm --filter @type-pal/migrate test:release`，要求 exit 0，
+  并把 manifest digest、各项目 files/tests/passed/skipped、总墙钟与非 tmp 日志路径当场抄入本卡。
+  补跑证据落卡后本人即就 final evidence 转 `accept`，无需重审其它项。
+- B/C 未进入实现；默认串行 `test:release` 未改；本次复审未修改任何实现文件。

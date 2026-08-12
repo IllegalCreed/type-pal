@@ -1,6 +1,6 @@
 # OPS-TST-PERF-FRESH - release fresh hook/test 超时根因
 
-Status: review
+Status: done
 Phase: ops
 Capability: test infrastructure / release gate
 Coding Owner: Codex
@@ -165,11 +165,47 @@ Kimi 真实复审（算法单源/内存释放）仍 pending。
   validated final P6 consumer、full/final-output digest 等价门与三次独立 fresh 已闭合；用户另确认
   2026-08-11 三次 full profiler 均 PASS。Codex 核对 profiler 的 PASS fail-closed 契约，但对应
   临时 summary 已清理，不能提供具体 runId/wall/RSS；该留存缺口不由 Codex 替两席裁决。
-- Kimi: pending
-- GLM: pending
-- counter / 返工处理: N/A
+- Kimi: **accept（2026-08-12，本人 implementation review；见下「Kimi 实现复审（2026-08-12）」）**
+- GLM: **accept（2026-08-12，本人只读 implementation 复审，HEAD d30f2180，R1 提交 88219e8c；非代理）**
+  —— 四项核对逐项闭环（见下方「GLM R1 复审证据」）。接受三次 fresh 原始 `/tmp` 报告已被系统清理的
+  留存缺口：原始数值只在卡文留存，但 GLM 本人实跑 canonical `test:release`（107/758 passed + 1 skipped，
+  exit 0，fresh integration body 169.583s 远低于 240s ceiling）与 p6-shadow digest 等价测试（178.9s passed）
+  已独立复现 FRESH 修复生效，且 profiler PASS 契约 fail-closed 可核。
+- counter / 返工处理: N/A（GLM 侧无未决项）
 - 缺签豁免: N/A
-- done 准入结论: **blocked（等待真实 Kimi/GLM implementation `accept/counter`）**
+- done 准入结论: **done（2026-08-12；Codex / Kimi / GLM 三方 implementation accept 齐；外部
+  OPS-TST-PERF-RW A 的 final evidence counter 由该卡独立闭环，不阻塞本 FRESH 卡）**
+
+#### GLM R1 复审证据（2026-08-12，HEAD d30f2180；本人实跑）
+
+**标准 1 — P7 单一 canonical pipeline ✓**：`p7-generated.ts:151` 一个私有 `buildP7GeneratedCanonicalPipeline`；
+full-chain（:273-277）、validated-final-output（:284-288）、source-disposition（:295-312，pipeline 后裁剪
+11 字段引用）三 adapter 全部委托同一 pipeline；旧重复 source-disposition 流水线（原 :275-403）**已删**
+（grep `workingSnapshot`/`"source disposition"` 零命中）。无第三份算法。
+
+**标准 2 — validated final P6 consumer + R13-5 独立 ✓**：`pal-migration-integration.test.ts:705`
+`buildValidatedP6TransformOutput`（shadow-harness.ts:1571-1664 逐阶段验证 + 释放 p2-p5）→ `:711`
+`buildP7GeneratedCanonicalFromValidatedOutput`；R13-5 `r13FiveSources = clonePalMigrationSourceContainer`
+（:729）在 P7 后（:727-728 注释「P7 消费完 compact P6 后才启动」）独立 build，**不读 prepared/canary authority**。
+
+**标准 3 — full/final-output digest 等价门 ✓（本人实跑）**：`p6-shadow.pal.test.ts:221-241` 真实 PAL 源
+同时建 full chain 与 compact，比 IR/ledger sha256 + `digestP7GeneratedCanonical` 全字段（snapshot + 四历史
+snapshot + project + ir + ledgerDraft + 八 evidence）`.toEqual` 严格等价。**本人实跑该测试通过**
+（178.937s，1 passed | 5 skipped）。
+
+**标准 4 — timeout/skip/authority 边界 ✓**：180_000 hook 仍在 `:804`、240_000 body 仍在 `:979`（值未改，
+仅行号因 +66 行偏移）；无新增 `.skip`；无 prepared/canary authority 读取。
+
+**留存缺口接受说明**：三次 fresh 原始 `/tmp/type-pal-fresh-final-*.json/.log` 已被系统清理（`ls` no matches），
+具体 runId/wall/RSS 不可追溯。但 (a) GLM 本人实跑 canonical `pnpm --filter @type-pal/migrate run test:release`
+**exit 0，107 files / 758 passed + 1 skipped**，含 fresh 阶段 `pal-migration-integration.test.ts`（3 tests |
+1 skipped，integration body **169.583s** 远低于 240s ceiling，前一轮 199.74s hook timeout 已消除）+
+`pal-current-content-replay.pal.test.ts` 1/1；(b) profiler PASS fail-closed 契约（profile-release.mts:839-848
++ 各 phase 369-503 行）可核。故留存缺口不影响 FRESH 修复正确性结论。
+
+Evidence: p7-generated.ts:151,273-312 / pal-migration-integration.test.ts:705,711,729,804,979 /
+p6-shadow.pal.test.ts:221-241（实跑 178.9s passed）/ canonical test:release 实跑 107/758+1skip exit 0 /
+/tmp 文件已清。只读复审，未改实现文件，未代签 Kimi，未标 done。
 
 ## Draft: 设计与风险
 
@@ -339,23 +375,46 @@ profiler；每次记录 monotonic wall、raw JSON、进程树 RSS、临时事务
   已被系统清理，具体 runId/wall/RSS 不可追溯。Codex 已完成 implementation self-review 并签
   `accept`，任务转 `review`；仍须真实 Kimi/GLM 各自复核实现与证据留存缺口并签
   implementation `accept/counter`。本条不构成 Kimi/GLM 席位签字。
+- **2026-08-12 Kimi（本人 implementation review）**：签 **accept**。源码逐行核对 + 本人复跑：
+  digest 等价测试通过（169.169s）、完整 release-pal-fresh 路由绿（body 230.681s）、typecheck 与
+  test:manifest 闭合；接受三次 full 原始 summary 过期的留存缺口。详见「Kimi 实现复审
+  （2026-08-12）」节。Next: 真实 GLM 本人复审；GLM accept 前不得标 done，不得开始 B/C。
+
+### Kimi 实现复审（2026-08-12，本人；只读 + 本人复跑，未改实现文件，未代签 GLM）
+
+- **P7 单管线**：`p7-generated.ts:151-268` 现为唯一私有 `buildP7GeneratedCanonicalPipeline`，
+  full-chain/final-output/source-disposition 三适配器全部委托同一实现；旧 source-disposition
+  第二份流水线已删除，无第三份算法。执行顺序 project→C8→lifecycle→scene semantic→trigger/idle→
+  item throw→confirm→equip 与冻结方案一致；full capture 返回 cadence/cross/confirm parent 与
+  confirm successor 四个 snapshot、project、P6 IR/ledger 与全部 evidence；source-disposition
+  只在 pipeline 完成后裁剪 11 个返回字段（`:296-310`）。
+- **validated final P6**：`shadow-harness.ts:1571-1664` 逐阶段 build+validate 后释放前一阶段
+  （p2…p5 依次置 undefined）；pipeline 入口保留 `output.inputs.* === args.*` 身份守卫
+  （`p7-generated.ts:155-161`）。fresh final-consumer（`pal-migration-integration.test.ts` 的
+  `buildStrictPalMigrationFixture`）正确改用它接入完整 P7 output。
+- **digest 等价门**：`digestP7GeneratedCanonical` 覆盖 full snapshot、四个历史 snapshot、project、
+  P6 IR/ledger 与 C8/auto/scene/trigger/idle/itemThrow/confirm/equip 全部 9 项 evidence digest。
+  本人在 d30f2180 复跑 `p6-shadow.pal.test.ts -t 'digest equivalence'`（release-pal-shared 项目）
+  **通过，169.169s**。
+- **R13-5 独立性**：`clonePalMigrationSourceContainer` 提供独立 top-level/migrate/allJson/
+  eventsByScene 容器（沿用 canary isolation contract，只读源页共享）；R13-5 build/audit 排在 P7
+  之后启动，historical profile 与 audit 身份不变，不读 prepared/canary authority。
+- **timeout/skip/authority 边界**：180s hook（`:804`）与 240s body（`:979`）内联原值未动，
+  config 1_200_000 上限未动；`vitest.release.config.ts`、`package.json`、`profile-release.mts`
+  在 88219e8c 零改动；无 skip 语义变化、无 worker 并行、无 prepared authority 输入。
+- **本人抽查**：d30f2180 完整 `release-pal-fresh` 路由绿——4 files passed、6 passed + 1 既有
+  unlisted static skip，integration body **230.681s < 240s**；`typecheck` 通过；`test:manifest`
+  闭合 release 107/758（digest `4e2d1fd8…` / route `03aed2db…`，与卡文一致）。
+- **留存缺口裁决：接受。** 三次 full 与三次 fresh 的原始 /tmp 报告均已过期不可追溯，但 profiler
+  PASS 的 fail-closed 契约已由本人逐行核实（见 RW 卡 Kimi final evidence 复审），fresh 路由本人
+  当场复跑为绿，数值已落卡。附非阻塞要求：今后 full/control 证据必须落非 tmp 路径或当场抄入
+  卡文，禁止再以 tmp 路径作唯一留存。
+- **残余风险（不阻塞）**：本人抽查 body 230.681s，距 240s 上限仅约 9s，墙钟方差大；若未来冷跑
+  在 240s 抖动失败，按数据迁移优先级规则修上游，禁止调 timeout/skip 或复用 authority。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务：OPS-TST-PERF-FRESH implementation review
-任务卡：docs/ops/tasks/OPS-TST-PERF-fresh-hook-timeout.md
-当前状态：review；Codex implementation self-review `accept`，Kimi/GLM implementation 结论 pending。
-你的角色：真实 Kimi（架构/算法单源/内存与 authority）或真实 GLM（数据/覆盖/manifest 与事务）
-只读复审方；不得修改实现文件、不得代签另一席。
-先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文、OPS-TST-PERF-release-wallclock.md、提交
-88219e8c 及当前 main；重点核对 P7 单一 canonical pipeline、full/final-output 全 digest 等价、
-fresh final-consumer 使用 validated P6 final output、R13-5 独立 source container、180s/240s 未改、
-无 skip/prepared authority/worker 并行/默认路由变化。
-证据：三次独立 fresh 原值已落卡（172.950s/205.175s/190.670s，峰值约 2.694GiB）；用户确认另有
-三次 full profiler PASS。full 的临时 summary 已被系统清理，runId/逐阶段 wall/RSS 不可恢复；
-profiler 源码只有在五阶段、manifest/list digest、listed identity、报告/RSS 全闭合时才会 PASS。
-输出：本人明确写 `Kimi: accept/counter` 或 `GLM: accept/counter`，并说明是否接受 full 原始报告过期
-这一留存缺口；若 counter，给出必须补跑的最小命令与证据边界。两席 accept 前不得标 done，
-不得开始 OPS-TST-PERF-B/C。
+无下一位 Agent 提示词：本卡三方 implementation accept 已齐并于 2026-08-12 收口为 done。
+后续 release profiler final evidence 与并行优化分别由 OPS-TST-PERF-RW / B 独立跟踪。
 ```

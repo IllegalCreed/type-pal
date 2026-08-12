@@ -2,8 +2,8 @@
 
 这张看板只记录当前进行中和阻塞任务。候选任务看 `docs/phase2/capability-map.md`（任务卡 `Capability` 字段对应地图格号；议题型卡 D6/D12/D13/D14/D15 落点见地图 §3.1「议题→格映射」），完成记录看 git log 和任务卡。
 
-> **✅ 2026-08-12 额度状态：GLM 与 Kimi 均可用**——当前补审队列：OPS-TST-PERF-FRESH
-> implementation review、OPS-TST-PERF-RW final evidence review。
+> **✅ 2026-08-12 额度状态：GLM 与 Kimi 均可用**——当前补审队列：OPS-TST-PERF-RW
+> final evidence counter 复签（仅 Kimi）。
 
 工作流: [`agent-workflow.md`](agent-workflow.md)
 任务卡模板: [`tasks/TASK-template.md`](tasks/TASK-template.md)
@@ -13,10 +13,9 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| W9 | 实体生命周期、重现与明雷逃跑冷却 | review | 三方 implementation accept 已齐；等待 OPS release A/FRESH 复审收口与用户验收，Codex 不得标 done | content13 runtime/save/editor 与 PAL W9 发布已冻结；fast/oracle/canary/current replay 绿，release A/FRESH 已转 review |
+| W9 | 实体生命周期、重现与明雷逃跑冷却 | review | 三方 implementation accept 已齐；等待 OPS release A 的 Kimi final evidence 转签与用户验收，Codex 不得标 done | content13 runtime/save/editor 与 PAL W9 发布已冻结；FRESH 已 done，RW canonical control 已绿但 Kimi counter 尚未转 accept |
 | B10-1 | 混乱敌人攻击同伴 | review | 三方 implementation accept 已齐；等待用户验收，Codex 不得把签字自动改成 done | W9 R1 已修复并重录 current13/oracle；B10 本身无侧未决项，外部 release A/FRESH 另按 OPS 卡闭环 |
-| OPS-TST-PERF-RW | release worker 墙钟优化 | review | 三次 full profiler 已由用户确认 PASS；真实 Kimi/GLM final evidence review 后收口 | profiler A 实现三方复审已齐；当前 manifest 107/758；临时 full summary 与独立 canonical control 证据缺口已明示，默认 `test:release` 保持串行 |
-| OPS-TST-PERF-FRESH | release fresh hook/test 超时根因 | review | Codex implementation accept 已写；等待真实 Kimi/GLM implementation accept/counter | P7 单管线 + validated final P6 已落地；三次 fresh 与三次 full PASS，full 临时 summary 留存缺口待两席裁决 |
+| OPS-TST-PERF-RW | release worker 墙钟优化 | review | GLM 已补跑 canonical control 并 accept；等待 Kimi 将唯一 counter 转 accept | 三次 full PASS；canonical `test:release` 107/758 + 1 skip、2125.18s、exit 0；默认串行路由未改 |
 | OPS-TST-PERF-B | shared/fresh 隔离并行 runner | draft | Codex 起草 runner；真实 Kimi/GLM 设计签字后实现 | manifest→canary→unit/preflight 串行；shared/fresh 并行；RSS、路径隔离及三次串行对照为硬门禁 |
 | OPS-TST-PERF-C | P2/P3/P4 consolidated determinism proof | draft | Codex 起草逐标题 coverage map；真实 Kimi/GLM 设计签字后实现 | 保留每阶段独立 live default/reversed 双建；不得用 pinned bundle 或删 source-backed 双建冒充证明 |
 | D14-1 | 对话系统外观继承（版式/头像/光标/字体/自动播放） | done | 三方 accept 齐（Kimi/GLM 补审闭环），待用户验收 | maxRight=320 全宽语义；11102 行 0 意外折行仅 6 合法超限；audit 脚本可挂 CI |
