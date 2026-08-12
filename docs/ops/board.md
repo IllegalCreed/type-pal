@@ -15,7 +15,7 @@
 |---|---|---|---|---|
 | OPS-TST-PERF-B | shared/fresh 隔离并行 runner | draft | Codex 起草 runner；真实 Kimi/GLM 设计签字后实现 | manifest→canary→unit/preflight 串行；shared/fresh 并行；RSS、路径隔离及三次串行对照为硬门禁 |
 | OPS-TST-PERF-C | P2/P3/P4 consolidated determinism proof | draft | Codex 起草逐标题 coverage map；真实 Kimi/GLM 设计签字后实现 | 保留每阶段独立 live default/reversed 双建；不得用 pinned bundle 或删 source-backed 双建冒充证明 |
-| D15-1 | NPC 移动补全：动态碰撞 + 互相让路 + 转向（议题 15） | draft | Codex 设计已冻结；待真实 Kimi/GLM 设计审签 | pure 世界拍仲裁 + source 分层已定；三签前不得改实现 |
+| D15-1 | NPC 移动补全：动态碰撞 + 互相让路 + 转向（议题 15） | draft | Codex/Kimi agree；待真实 GLM 设计审签 | Kimi E6 canWrite 钉已落卡；GLM 签前不得改实现 |
 
 ## 看板规则
 

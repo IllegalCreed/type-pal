@@ -106,7 +106,8 @@ Branch: `main`
 - 玩家撞正在自主移动的普通 solid NPC 时先让 NPC 按自身步进量侧移、玩家本拍等待；NPC 无侧路
   时玩家可侧移；都无路则停。静态 / script-owned / mounted / hostile 仍是硬 blocker。
 - auto / hostile 遇玩家时先尝试自身侧移；仍冲突时可按冻结候选原子让玩家一格。任何玩家
-  被动位移都更新 trail / camera，并只对最终落点执行一次 touch scan。
+  被动位移都必须先通过 E6 `canWrite('world', 'party')`；通过后才更新 trail / camera，并只对最终
+  落点执行一次 touch scan。party 被 script / mount 持有时请求方停步，零玩家副作用。
 - 主脚本 `moveEntity` / `stepEntity` 保留 authored bypass 并真到 endpoint；auto 途中被 take
   时暂停而非 abort，release 后从真实位置恢复；scene / abort / removed 不得迟到写。
 - 只有成功 commit 才推进 gait；受阻可面向意图方向但显示站立帧；侧移朝实际位移方向；到点
@@ -125,6 +126,8 @@ Branch: `main`
   mover 至少推进一次。
 - 玩家 / NPC：左右各单侧开放、双侧全堵；auto NPC 主动让、静态 / script / hostile 不被推；
   玩家侧移后保持输入朝向且仍可面向 NPC 交互。
+- party authority：world 下 active / passive player outcome 正常提交；mounted 与 script-owned party
+  均拒绝 passive-yield，mover 停步，且 player position / trail / camera / touch scan 全部零写。
 - 脚本：script move / step 穿过动态占位仍按既有 timing 到点；auto move take→script
   move→release 后续走；auto step 在 authority 下继续保持既有“丢该单步”语义；suspend / scene
   switch / abort / remove 清理；未到点绝不持久化 endpoint。
@@ -181,11 +184,15 @@ Branch: `main`
 
 - Codex: **agree（2026-08-12；冻结 snapshot→intent→reservation→atomic commit、source
   分层、连续 footprint、take/release 与 gait 所有权，见「设计结论」）**
-- Kimi: pending（需真实席位审签；本会话只读子审计不代签）
+- Kimi: **agree（2026-08-12，本人架构主审；附 1 条 build 前必落卡钉，见「主审立场」）**——
+  source/authority 分层、swept/footprint、公平仲裁、touch/hostile 时序、gait 所有权逐条压测成立；
+  唯一发现：passive-yield 漏 E6 `canWrite` 权威门（mount/script 持有 party 时可产生幽灵位移 +
+  幽灵 touch scan），一行设计钉即可闭合，不构成架构返工。
 - GLM: pending（需真实席位审签；本会话只读子审计不代签）
-- counter / 分歧处理: N/A
+- counter / 分歧处理: 无 counter；Kimi 的 E6 `canWrite` 钉已于 2026-08-12 落入功能不变量、
+  测试矩阵及设计结论 §1 / §4。
 - 缺签豁免: N/A
-- build 准入结论: **blocked（等待 Kimi + GLM 真实设计签字；不得修改实现文件）**
+- build 准入结论: **blocked（Kimi agree 且附钉已落卡；仅等待 GLM 真实设计签字；不得修改实现文件）**
 
 ### 进入 done 前:审查签字
 
@@ -221,6 +228,11 @@ actor key 使用 `{kind:'party'} | {kind:'entity', id}` 判别联合，不能用
 魔法字符串。内部 intent 至少携带 `actor / source(player|auto|hostile|script) / from / desired /
 desiredFacing / collision(dynamic|scriptedBypass) / floating`；outcome 为 moved / sidestepped /
 blocked，并带最终位置、朝向和阻挡原因。它们不是 content schema，也不进入 save。
+
+planner 收集或提交任何 player outcome 前必须过 E6 唯一写权限：只有
+`canWrite('world', 'party')`（等价于 party authority 缺省为 world）才能把 party 作为 dynamic
+mover / passive-yield target。script / mount 持有 party 时，party cluster 仍作为 protected body，
+但 planner 不得改 player position、trail、camera 或执行该幽灵候选的 touch scan。
 
 同一实体同拍只允许一个 locomotion producer：script authority > engine hostile > auto。player
 独立参与批次。`entityMoves`（或替代容器）必须保存 `source`；script 与 suspended auto move
@@ -286,9 +298,12 @@ blocked，并带最终位置、朝向和阻挡原因。它们不是 content sche
   不得为了“让路”强制改侧位。
 - autonomous NPC / hostile 的目标是玩家：mover 先侧位；无位时才提出 passive-yield request，
   候选按“相对 mover 前进方向的右侧→前方→左侧→后方”固定四邻让一整格。候选必须同时通过
-  terrain、body、reservation；无合法位则 mover 停。玩家被动让位保留原 facing。
+  terrain、body、reservation 和 E6 `canWrite('world', 'party')`；无合法位或 party 非 world authority
+  则 mover 停。玩家被动让位保留原 facing。
 - 所有 player position commit（主动前进、主动侧移、NPC 请求导致的被动位移）在 batch 后统一
-  更新 camera；trail 每拍只 push 一次并使用实际 displacement direction，不能复用 visual facing。
+  再检查一次同一 authority epoch 的 `canWrite('world', 'party')` 后更新 camera；trail 每拍只 push 一次
+  并使用实际 displacement direction，不能复用 visual facing。若 snapshot 后 authority 已变化，
+  整个 player outcome fail-closed，零 position / trail / camera / touch 副作用。
   active sidestep 保留输入 facing 并按该 facing 播 player gait（横滑观感）；passive yield 保留原
   facing 且不推进 player gait。NPC sidestep 始终面向实际位移方向。
 
@@ -407,16 +422,46 @@ blocked，并带最终位置、朝向和阻挡原因。它们不是 content sche
 ### 主审立场
 
 - Reviewer: Kimi（架构 / 权威 / 动画）+ GLM（实体分类 / 测试矩阵）
-- 结论: pending（Codex 设计已冻结，等待真实两席审签）
-- 必改项: pending
-- 是否建议进入 build: pending；三签前不得进入
+- 结论: Kimi **agree（2026-08-12，附 1 条必落卡钉）**；GLM pending
+- 已落实的 build 钉（2026-08-12 Codex 已落卡，非架构返工）:
+  1. **passive-yield / 玩家位置提交必须过 E6 `canWrite` 权威门**（Kimi 设计压测发现，
+     已写入功能不变量、测试矩阵与设计结论 §1 / §4）。
+     §4 的 passive-yield 候选当前只要求 terrain / body / reservation。反例：party authority 为
+     `mount`（s213 乘筏）或 script `moveParty` 在途时，party 位置唯一写者是 mount 派生 / 脚本；
+     此时 arbiter 接受被动让路会写入一拍即被派生覆盖的幽灵位移，但 trail push、camera 与该
+     幽灵落点的 touch scan 已生效，可在玩家并未真实落足的门格上触发 loadScene。修订：passive-yield
+     候选与任何玩家位置 commit 增加前提 `authority(party) 为 world`；非 world 时请求方 mover
+     停步 / 等待，不位移玩家、不推 trail、不做 touch scan。矩阵补一条：mounted / script-owned
+     party 拒绝 passive-yield，mover 停步且不产生玩家副作用。
+- 是否建议进入 build: Kimi 钉已落卡；GLM agree 后建议进入，三签前不得进入
 
 ### 三方争议记录(按需)
 
 - Codex: 2026-08-12 **agree**。选择内部 pure arbiter，不扩 schema / public API；脚本 authored
   move 保 bypass，dynamic locomotion 才保证不互穿；player / active-auto mutual yield 按上述
   确定性规则冻结。
-- Kimi: pending
+- Kimi: 2026-08-12 **agree（附 1 条必落卡钉：passive-yield 过 E6 canWrite 门）**。逐条压测记录：
+  - source 分层：script > engine hostile > auto 单 producer、script/auto 双 slot 不互杀、take 暂停
+    而非 abort、release 从真实坐标续走、auto move 真到 endpoint 才 resolve/持久化——逐一封住卡内
+    已知坑；interactive `moveEntity`/`stepEntity` 保 scriptedBypass，剧情走位不会被动态碰撞卡死。
+  - 几何：Chebyshev `<1−ε` 连续 footprint、归一化时刻双轨迹 swept、腾位依赖图子相位 + cycle/swap
+    拒绝、terrain ≤0.25 格采样、penetration 单调脱离规则，覆盖 0.25/0.375/0.5 分数步与 convoy
+    误拒两类经典反例；static/suspended/script-owned/mounted/hostile 的 body 与 yieldable 分类与
+    `entity-lifecycle.ts:35-57` gate 派生一致。
+  - 公平：stable-id 归一化 + `worldTickNum` 轮转起点、禁 Math.random、8 eligible-tick 推进上界入矩阵。
+  - 时序：pre-contact claim（snapshot 贴脸不可逃）→ 线性化 commit → 最终落点单次 touch scan →
+    post-contact 首贴近者，token 分离、scene 失效零迟到回调，与现行 `main.ts:5849-5865` /
+    `tickHostiles` 语义一致且更严。
+  - gait：从 `entityAnim` 拆出独立 walk phase、渲染优先级 frame override > gait > explicit anim >
+    semantic action > loop > idle、rejected 只转朝向不清演出帧——精确对应 `main.ts:4924-4945`
+    现行双计数混用与「误清 0x87 / 永停抬腿帧」两坑；slow 隔拍空拍保 gait 帧的例外已写明。
+  - 红线复核：未复引对白全局冻结；未改 content schema/save/migration/public ScriptHost；mount/
+    follower 有意重叠豁免在案；65 solid / 268 non-solid census 口径被尊重，未一刀切。
+  - 唯一缺口即上方 E6 `canWrite` 钉（mount/script 持有 party 时的幽灵位移 + 幽灵 touch scan；
+    现已由 Codex 落卡）。
+  Evidence: 本卡设计结论 §1-§8 对照 `main.ts:2262-2292,2775-2831,3108-3155,3603-3698,3795-3843,
+  4924-4945,5356-5363,5843-5869`、`collision.ts`、`entity-lifecycle.ts:35-57`、`sprite-anim.ts:18-21,
+  62-92`、`e6-position-authority-design.md:41-72` 只读核查；未修改实现文件，未代签 GLM。
 - GLM: pending
 - 用户拍板: pending（当前无分歧待裁决）
 
@@ -458,27 +503,31 @@ blocked，并带最终位置、朝向和阻挡原因。它们不是 content sche
   未改实现。Evidence: 当前链路 / 原版 UX / 294 场景 auto census / 自动测试矩阵均已落本卡；
   advisory 复审发现的 source、swept、lifecycle、touch token、chase terminal、gait blocker 已逐项
   修订后清零。Next: Kimi 架构审签，随后 GLM 覆盖审签；两席 agree 前保持 draft。
+- 2026-08-12 Kimi（本人架构主审）: 签 **agree（附 1 条 build 前必落卡钉）**。逐条压测记录见
+  「三方争议记录」Kimi 条。唯一缺口：passive-yield / 玩家位置 commit 未过 E6 `canWrite` 门，
+  mount / script 持有 party 时可产生幽灵位移 + 幽灵 touch scan（可能误触门格 loadScene）；
+  修订为一行规则 + 一条矩阵用例，见「主审立场」必改项 1。Next: Codex 把该钉落入设计文本
+  （可同 GLM 复审并行），GLM 审实体分类与测试矩阵；钉落卡 + GLM agree 前保持 draft，不得
+  修改实现文件。
+- 2026-08-12 Codex: 已把 Kimi 的 E6 `canWrite` 钉落入功能不变量、测试矩阵及设计结论 §1 / §4：
+  party 非 world authority 时 planner 不产生 / 提交 player outcome，不写 position / trail / camera，
+  不做 touch scan，请求让位的 mover 停步。Next: 仅等待 GLM 设计审签；agree 前保持 draft。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: D15-1 NPC 移动补全——设计审签
+接手任务: D15-1 NPC 移动补全——设计审签（GLM 席位）
 任务卡: docs/ops/tasks/D15-1-npc-movement-dynamic-collision.md
-当前状态: draft；Codex agree；build 准入 blocked，真实 Kimi / GLM 签字均 pending
-你的角色: 先由 Kimi 审 movement / authority / animation 架构；Kimi 落签后由 GLM 审实体分类与测试矩阵
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡、
-  docs/phase2/foundation/e6-position-authority-design.md、
-  docs/phase2/foundation/n-event-script-audit.md:580-589、
-  packages/reforge/src/main.ts:2262-2292,2775-2831,3108-3155,3603-3698,3795-3843,4924-4945,5356-5363,5843-5869、
-  collision.ts、entity-lifecycle.ts、sprite-anim.ts，以及本卡列出的一阶段/SDLPal UX 锚点
-已完成: Codex 已冻结 pure snapshot→intent→reservation→atomic commit；script authored bypass / auto dynamic
-  调用域、continuous footprint / swept collision、玩家/NPC mutual yield、take/release pending slot、
-  hostile/touch 后置顺序、chase terminal、gait ownership 和自动/E2E 验收矩阵已写入；三轮只读
-  advisory 反例均已收敛，未改实现文件
-请你做: 逐条压力测试设计。Kimi 重点核 source/authority、脚本不卡死、side-yield、公平性、动画所有权；
-  GLM 重点核 65 solid vs 268 non-solid 边界、lifecycle/mount/hostile/trigger/abort 覆盖与机检矩阵。
-  无 blocker 则在本卡真实签 agree 并更新主审立场/交接日志；有 blocker 则签 counter，写最小反例和冻结修订
-不要做: 不得修改实现文件；不得把只读子 Agent 建议冒充 Kimi/GLM 签字；不得改 content schema/save/migration/
-  public ScriptHost；不得重新引入 dialogue 全局冻 NPC 或让 script authored move 被动态碰撞卡死
-输出要求: 明确 agree/counter、必改项是否阻塞 build、验证锚点；两席签齐前不得把 Status 改 build
+当前状态: draft；Codex agree；Kimi 已签 agree，其 passive-yield E6 canWrite 钉已由 Codex 落卡；
+build 准入 blocked，GLM 签字 pending
+你的角色: GLM，审实体分类与测试矩阵覆盖；不得修改实现文件、不得代签 Kimi、不得把 Status 改 build
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文（重点：设计结论 §1-§8、「主审立场」
+  已落实的 build 钉、「三方争议记录」Kimi 条）、docs/phase2/foundation/e6-position-authority-design.md、
+  packages/reforge/src/entity-lifecycle.ts、collision.ts
+请你做: 逐条压测实体分类与覆盖——65 solid vs 268 non-solid census 口径、hasBody/yieldable 分类、
+  lifecycle/mount/follower/hostile/trigger/abort cancellation matrix、公平性与 determinism 机检、
+  最低自动测试矩阵是否覆盖 Kimi 钉（mounted/script-owned party 拒绝 passive-yield）及 PAL fixture
+  contract（s004/s006/s060、7 个 chasePlayer site）。无 blocker 则签 GLM agree；有 blocker 签
+  counter 并给最小反例。
+注意: Kimi 的必落卡钉已落入设计文本；你 agree 后三方设计签字才齐，可解除 build 准入。
 ```
