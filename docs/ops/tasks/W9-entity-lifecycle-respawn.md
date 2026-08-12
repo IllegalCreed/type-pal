@@ -574,11 +574,12 @@ source provenance 和 BattleResult 终态不足以作为本轮 build 准入；�
 - 冷 canary（2026-08-11，oracle 重录后）：`pnpm --filter @type-pal/migrate test:canary` →
   `1 file / 2 tests passed`，228.25s；随后 current13 再次 dry replay 仍为
   writes/deletes/conflicts=`0/0/0`，source ledger digest 与发布值一致。
-- 剩余治理门：W9 implementation review 的真实 Kimi/GLM `accept` 已取得；release A/FRESH 是
-  已开卡且未豁免的外部性能门禁，因此 W9 仍不得标记 done。B10-1 也仍须真实 Kimi 在新 oracle
-  上复审后才能恢复 done。
+- **2026-08-12 外部门禁更新**：OPS-TST-PERF-FRESH 与 OPS-TST-PERF-RW 均已三方签字并收口
+  `done`；canonical `test:release` 为 107 files / 758 passed + 1 既有 skipped、exit 0。此前本卡
+  关于 release A/FRESH “仍阻塞”的文字保留为当时历史事实，不再代表当前门禁。W9 三方
+  implementation `accept` 已齐，当前只待用户验收，不再有外部 release 阻塞。
 
-### Review（三方 implementation accept 已齐；等待外部门禁与用户验收）
+### Review（三方 implementation accept 已齐；外部门禁已闭环，等待用户验收）
 
 - Kimi：**accept（2026-08-11，本人只读 implementation 复审，非代理）**——五大重点面全部独立
   证实成立，卡文声称的测试数字全部逐命令复跑一致。证据与三条非阻塞补测钉见下方「Kimi 复审证据」。
@@ -591,14 +592,13 @@ source provenance 和 BattleResult 终态不足以作为本轮 build 准入；�
   lifecycle 内核/editor v13/SAVE/BattleResult）此前已全部核实成立。**本 accept 只解除 W9 R1 实现门禁；
   外部 OPS-TST-PERF-FRESH/release A 仍独立阻塞，未通过、未豁免，W9 done 不得在其闭环前标记。**
 - counter / 返工处理：R1 已闭环；无 W9 侧未决项。三方 implementation `accept` 已齐。
-  done 仍需：外部 release A 门禁按 OPS-TST-PERF 卡闭环 + 用户验收。
+  外部 release A 门禁已于 2026-08-12 闭环；done 仅待用户验收。
 - Codex：**accept（2026-08-11，自审）**。实现切片已冻结；content13 typed boot/SAVE/runtime、
   W9 producer/ledger/seal/recursive authority、editor manifest-last/CRUD/reference protection
   均有定向与全量证据；当前不把外部 OPS-TST-PERF-FRESH/release A 阻塞伪装成通过，也不把本卡
   标记 done。
 - counter / 返工处理：R1 已由真实 GLM 第二轮 `accept` 关闭；任何一方新的 counter 都保持
-  review/rework，不由 Codex 或子代理代签。done 仍需：外部 release A 门禁按 OPS-TST-PERF 卡闭环 +
-  用户验收。
+  review/rework，不由 Codex 或子代理代签。外部 release A 已闭环；done 仅待用户验收。
 
 #### Kimi 复审证据（2026-08-11，本人；命令均为本会话实跑）
 
@@ -831,7 +831,15 @@ Evidence: 本节 file:line（migrate-content.mts bb48dec4 +21 / r13-* test rewin
 ### 用户验收
 
 - 用户结论：pending
-- 后续任务：pending
+- 后续任务：用户验收通过后由 Codex 将 W9 转 `done` 并同步看板；若有问题则按用户反馈转
+  `rework`，不得自动开始新实现。
+
+### 当前下一位 Agent 提示词（2026-08-12）
+
+```text
+无下一位 Agent 提示词：W9 三方 implementation accept 与外部 release A/FRESH 门禁均已闭环，
+当前只等待用户验收。用户明确接受前不得标 done；历史 Kimi/GLM 复审提示词仅保留作审计记录。
+```
 
 ## 交接日志
 
