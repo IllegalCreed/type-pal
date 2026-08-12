@@ -1327,7 +1327,10 @@ function applyPlayerSkill(
         s.log.push(`${p.roleId} 施展 ${skill.name},${enemy.def.id} 受到 ${dealt} 点伤害`)
     }
   }
-  applyEffects: for (const eff of effects) {
+  let enemyStatusAttempted = false
+  let anyEnemyStatusApplied = false
+  applyEffects: for (let effectIdx = 0; effectIdx < effects.length; effectIdx++) {
+    const eff = expectDefined(effects[effectIdx])
     switch (eff.kind) {
       case 'summon': // 纯演出效果(神将现身动画,battle-session 时间线):gameplay 由链上 damage 结算
         break
@@ -1346,6 +1349,14 @@ function applyPlayerSkill(
           pass = !!t && Math.floor(rng() * 10) >= t.def.ai.resistanceToSorcery
         if (!pass) {
           s.log.push(`${skill.name} 无任何效果`)
+          // 回梦/鬼降等状态术的失败分支是战斗旁白“攻击无效”。按 effect 语义派生，
+          // 不把 PAL 技能 ID 或源脚本 label 泄漏进 clean runtime。
+          if (
+            onEnemies &&
+            enemyTargets.length > 0 &&
+            effects.slice(effectIdx + 1).some((later) => later.kind === 'applyStatus')
+          )
+            enemyStatusAttempted = true
           break applyEffects
         }
         break
@@ -1477,12 +1488,14 @@ function applyPlayerSkill(
       }
       case 'applyStatus': {
         if (onEnemies) {
+          if (enemyTargets.length > 0) enemyStatusAttempted = true
           for (const ti of enemyTargets) {
             const e = expectDefined(s.enemies[ti])
             // 命中判定:rng(0,9) >= resistanceToSorcery(原版后期修复语义,enemy.ts 注)
             if (Math.floor(rng() * 10) >= e.def.ai.resistanceToSorcery) {
               // 直接赋值(script.c:1391;曾 Math.max = 短回合无法覆写长回合,偏离原版)
               applyEnemyStatus(e.status, eff.status, eff.turns)
+              anyEnemyStatusApplied = true
               s.log.push(`${e.def.id} 陷入 ${eff.status}`)
             } else s.log.push(`${e.def.id} 抵抗了 ${eff.status}`)
           }
@@ -1523,6 +1536,9 @@ function applyPlayerSkill(
         s.log.push(`技能效果 ${(eff as { kind: string }).kind} 未接(战斗期陆续)`)
     }
   }
+  // 以整次 action 聚合：任一敌方状态成功即不报失败；友方状态链不走此旁白。
+  if (enemyStatusAttempted && !anyEnemyStatusApplied && s.lastAction)
+    s.lastAction.failureFeedback = 'statusIneffective'
 }
 
 /** 玩家法术伤害单敌结算(damage/moneyDamage 共用):魔强+抗性+战场五灵,防御姿减半,保底 1。 */

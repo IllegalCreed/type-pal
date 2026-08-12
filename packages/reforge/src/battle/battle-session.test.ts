@@ -9,15 +9,22 @@ import type {
   EnemyBattleSpriteProfile,
   EnemyDef,
   PlayerFighterBattleSpriteProfile,
+  SkillData,
   WorldState,
 } from '@type-pal/content'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import type { GlyphTable, LoadedBattleSpriteDefinition } from '../assets.js'
 import { type SfxPlayer, SfxReadinessBudgetError, SfxReadinessResourceError } from '../audio/sfx.js'
 import { collectTurnActionSounds } from '../audio/sfx-readiness.js'
 import { expectDefined } from '../defined.js'
 import type { AnimFrame } from './battle-anim.js'
-import type { BattlePlayerState, BattleWorldMutation, CreatePlayerInput } from './battle-core.js'
+import {
+  type BattlePlayerState,
+  type BattleState,
+  type BattleWorldMutation,
+  type CreatePlayerInput,
+  stepBattle,
+} from './battle-core.js'
 import type { BattleLastAction } from './battle-last-action.js'
 import {
   battleReadinessOverlayText,
@@ -281,6 +288,139 @@ describe('B10 敌人混乱攻击同伴表现路由', () => {
       appearances,
     )
     expect(ordinary?.some((frame) => frame.sound !== undefined)).toBe(true)
+  })
+})
+
+describe('B10-1-R2 鬼降成败反馈', () => {
+  const ghostDescent: SkillData = {
+    id: '305',
+    name: '鬼降',
+    desc: '敌方单人疯魔四回合。',
+    cost: { mp: 25 },
+    usableOutsideBattle: false,
+    target: 'oneEnemy',
+    effects: [
+      { kind: 'gate', chance: 44 },
+      { kind: 'applyStatus', status: 'confused', turns: 4 },
+    ],
+    animation: { effectSprite: 0 },
+  }
+
+  function startCast(session: BattleSession): BattleState {
+    const state = (session as unknown as { state: BattleState }).state
+    state.pendingActions.set(0, { kind: 'cast', skillId: '305', targetEnemyIdx: 0 })
+    stepBattle(state, () => 0) // selectAction → performAction，玩家高 dex 在队首
+    expect(state.actionQueue[0]?.isEnemy).toBe(false)
+    session.tick(500, new Set()) // core 结算并启动 cast timeline
+    return state
+  }
+
+  test('失败 narration 在施法时间线收尾后才出现，文案/槽位/自动关闭时长对齐源分支', () => {
+    const opened: unknown[] = []
+    let active = false
+    const dialogBox = {
+      get active() {
+        return active
+      },
+      open(state: unknown, _nowMs: number) {
+        active = true
+        opened.push(state)
+      },
+      advance(_nowMs: number) {
+        active = false
+      },
+      render(_nowMs: number) {},
+    } as unknown as NonNullable<BattleSessionAssets['dialogBox']>
+    const lantern = mkEnemy('lantern', {}, { ai: { resistanceToSorcery: 10 } })
+    const { session } = makeSession(
+      lantern,
+      { skills: ['305'], baseDexterity: 500 },
+      { skills: { '305': ghostDescent } },
+      { dialogBox },
+    )
+    startCast(session)
+    const internal = session as unknown as { anim: unknown | null }
+    expect(internal.anim).not.toBeNull()
+    expect(opened).toHaveLength(0)
+    session.tick(1, new Set())
+    expect(opened).toHaveLength(0)
+
+    let guard = 0
+    while (internal.anim && guard++ < 40) session.tick(100, new Set())
+    expect(guard).toBeLessThan(40)
+    expect(opened).toHaveLength(1)
+    const dialogue = opened[0] as {
+      dialogue: {
+        cues: Array<{
+          rows: Array<{ text: string }>
+          slot?: string
+          autoAdvance?: number
+        }>
+      }
+    }
+    expect(dialogue.dialogue.cues[0]).toMatchObject({
+      rows: [{ text: '攻击无效' }],
+      slot: 'narration',
+      autoAdvance: 1400,
+    })
+  })
+
+  test('成功状态在 cast 收尾前不抖，收尾后恢复 ±1 px 快速抖动', () => {
+    const bee = mkEnemy('bee', {}, { ai: { resistanceToSorcery: 0 } })
+    const { session } = makeSession(
+      bee,
+      { skills: ['305'], baseDexterity: 500 },
+      { skills: { '305': ghostDescent } },
+    )
+    const state = startCast(session)
+    const internal = session as unknown as {
+      anim: unknown | null
+      pendingConfusedReveal: Set<number>
+      enemyConfusedJitterX(
+        enemyIdx: number,
+        enemy: NonNullable<BattleState['enemies'][number]>,
+      ): number
+    }
+    const target = expectDefined(state.enemies[0])
+    expect(target.status.confused).toBe(4)
+    expect(internal.pendingConfusedReveal.has(0)).toBe(true)
+    const random = vi.spyOn(Math, 'random').mockReturnValue(0.99)
+    expect(internal.enemyConfusedJitterX(0, target)).toBe(0)
+
+    let guard = 0
+    while (internal.anim && guard++ < 40) session.tick(100, new Set())
+    expect(guard).toBeLessThan(40)
+    expect(internal.pendingConfusedReveal.has(0)).toBe(false)
+    expect(internal.enemyConfusedJitterX(0, target)).toBe(1)
+    random.mockRestore()
+  })
+
+  test('终态也会等待动作收尾新开的 narration 关闭后再完成', () => {
+    let active = true
+    const dialogBox = {
+      get active() {
+        return active
+      },
+      advance() {
+        active = false
+      },
+      open() {
+        active = true
+      },
+      render() {},
+    } as unknown as NonNullable<BattleSessionAssets['dialogBox']>
+    const { session } = makeSession(mkEnemy('terminal-dialog'), {}, {}, { dialogBox })
+    const internal = session as unknown as {
+      state: BattleState
+      doneSettled: boolean
+    }
+    internal.state.phase = 'fled'
+    session.tick(16, new Set())
+    expect(internal.doneSettled).toBe(false)
+    session.tick(16, new Set(['Enter']))
+    expect(internal.doneSettled).toBe(false)
+    session.tick(16, new Set())
+    expect(internal.doneSettled).toBe(true)
   })
 })
 

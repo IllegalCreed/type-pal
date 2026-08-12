@@ -1,6 +1,6 @@
 # B10-1 - 混乱敌人攻击同伴
 
-Status: review
+Status: done
 Phase: phase2
 Capability: B4 / B5 / B10
 Coding Owner: Codex
@@ -9,6 +9,16 @@ Reviewer: Kimi + GLM
 Visual Verification Owner: Codex
 Unavailable Agents: none（2026-08-09 GLM/Kimi 均已恢复）
 Branch: `main`
+
+> **2026-08-12 用户验收返工（B10-1-R2）**：用户在 `?battle=3&skill=305` 验收鬼降时无法辨认
+> 成败。只读复核确认该入口是三只 `enemy-399` 灯笼，巫抗均为 10；Reforge 命中掷值只有 0..9，
+> 因而此入口必定失败，蜜蜂正证入口应为 `?battle=4&skill=305`（`enemy-403`，巫抗 0）。入口选错
+> 不是唯一问题：chance gate 与 `applyStatus` 抵抗目前只写内部日志，没有把源失败分支
+> `L_38783` 的“攻击无效”交给表现层；成功时混乱状态又在施法时间线开始前已写入，敌人可能从
+> OffMagic 之前就抖。故用户验收不通过，卡从 `review` 退回 `rework`。本轮兼容性修复不改已封存
+> contentVersion 13、不重写迁移产物、不对 skill 305 写 ID 特判：core 按“状态效果未落地”输出内部
+> 结构化失败结果；session 在施法时间线收尾后用 narration 显示“攻击无效”并自动关闭，同时把本步
+> 新增 confused 的抖动可见性延后到收尾。既有混乱攻击同伴、content seal、SAVE/schema 均不得改变。
 
 > **2026-08-10 治理纠正（用户裁决）**：本卡此前把 Codex 子代理产出的审计文字误记成 Kimi/GLM 正式
 > review→done 签字。那些内容保留为历史审计材料，**不构成 Kimi/GLM 席位签名**，也不能作为 build/done
@@ -1027,10 +1037,12 @@ fingerprint 与生成上游。已有证据写在 Build 节，先核对证据与�
 
 ## 当前交接状态
 
-`Status: review` / `Branch: main` / 三方 implementation accept 已齐，等待用户验收；历史交接提示词
-中的 blocked/Kimi pending 仅保留作审计记录，不代表当前门禁。
-当前不得把历史子代理意见当作签字，不得标记 `done`；审查方只读，不得修改实现文件。剧情/战斗视觉
-按冻结后的集中 E2E 批次执行，不在本轮重复走剧情。
+> 本节为 2026-08-11 R1 闭环后的历史状态；最新状态以文末「B10-1-R2 用户验收返工」为准。
+
+`Status: review` / `Branch: main` / 当时三方 implementation accept 已齐，等待用户验收；历史交接提示词
+中的 blocked/Kimi pending 仅保留作审计记录，不代表当时门禁。
+不得把历史子代理意见当作签字；审查方只读，不得修改实现文件。剧情/战斗视觉按冻结后的集中 E2E
+批次执行，不在本轮重复走剧情。
 
 ## 有效复审提示词（2026-08-10，用户转发给真实席位）
 
@@ -1093,3 +1105,91 @@ docs/ops/audits/b10-1-source-slot-census-2026-08-09.md、content/migrate/editor/
 并附最小返工范围。不得把 Codex、Kimi、或任何子代理文字当作你的签名；只有你本人明确写
 `GLM: accept`，才算 GLM 席位通过。
 ```
+
+## B10-1-R2 用户验收返工（2026-08-12）
+
+### 根因与实现
+
+- 原验收入口 `?battle=3&skill=305` 是三只 `enemy-399` 灯笼，巫抗均为 10；Reforge 状态命中掷值
+  只有 0..9，因此必定抵抗。成功正证入口改为 `?battle=4&skill=305`：两只 `enemy-403` 蜜蜂，巫抗 0。
+- `battle-core.ts` 不再让状态术概率门失败/全目标抵抗只留在 debug log：按整次敌方状态 action 聚合
+  `attempted/applied`，一个目标或一个状态成功就不误报；全未落地才写内部结构化
+  `failureFeedback: statusIneffective`。友方 gate 不走该反馈，也没有 skill 305 ID 特判。
+- `battle-session.ts` 消费结构化结果后，等当前 cast timeline 收尾才打开 narration 卷轴“攻击无效”，
+  `autoAdvance=1400ms`；终态同样等待 narration 关闭再 finalize。
+- core 即时结算新增 confused 时，session 暂时遮蔽该敌的 idle jitter，OffMagic 收尾后才恢复原有
+  `x=-1/0/+1` 每帧抖动；已在此前回合 confused 的敌人不受遮蔽，sleep/paralyzed 仍压制抖动。
+- 兼容边界：未改 contentVersion 13、SAVE、migration、`projects/pal` 生成物或跨包内容 schema；未改
+  B10 敌混乱攻击同伴、slots/content seal 等已验收合同。
+
+### 验证证据
+
+- 定向：`pnpm --filter @type-pal/reforge exec vitest run src/battle/battle-core.test.ts src/battle/battle-session.test.ts`
+  → **2 files / 156 tests passed**。覆盖 chance fail、巫抗 fail、success、友方 gate 负证、多状态部分成功、
+  cast 前后 jitter 边界、narration payload/时序与终态 hold。
+- 全量：`pnpm --filter @type-pal/reforge test` → **92 files / 914 tests passed**。
+- `pnpm --filter @type-pal/reforge typecheck`、`git diff --check` 均通过。
+- Browser 实走（本地 6051）：
+  - `?battle=3&skill=305`：灯笼抵抗；施法特效全部结束后才出现 narration 卷轴“攻击无效”，随后自动关闭。
+  - `?battle=4&skill=305`：随机门命中后，施法特效结束才开始蜜蜂逐帧左右抖；后续敌方行动仍按
+    confused 路径推进。随机 44% 门若失败则同样显示“攻击无效”，刷新重试即可覆盖成功。
+- 只读泛化复审先发现“友方 gate / 多 applyStatus 可能误报”，已按 action 聚合修复并补负测；复审未
+  发现 `pendingConfusedReveal` 正常链泄漏或抑制既有 confused。
+
+### R2 审查签字
+
+| Agent | 结论 | 日期 | 说明 |
+|---|---|---|---|
+| Codex | **accept** | 2026-08-12 | 实现、自测、全量回归与两条真实浏览器入口实走完成。 |
+| Kimi | **accept** | 2026-08-12 | 本人只读复审 R2 diff + 复跑：failureFeedback 整 action 聚合（`battle-core.ts:1489-1511,1539-1541`，友方 gate 不触碰聚合标志、无 skill 305 特判）；「攻击无效」在时间线收尾 `finishStepVisuals`→`presentPendingFailureFeedback` 才开 narration（`battle-session.ts:2375-2392`，autoAdvance=1400），终态等 narration 关闭再 finalize（`:1228-1230`）；新 confused 以 pre-step 快照 `eConfused`（`:1608`）判定并入 `pendingConfusedReveal`，收尾（`:2412`）后才恢复抖动，既有 confused/sleep/paralyzed 边界（`:2570-2577`）不变；diff 仅触 battle 三文件 + 测试 + docs，未碰 content13/SAVE/migration/projects/pal/schema/seal。复跑：定向 2 files/156 tests、typecheck、全量 **92 files / 914 tests** 全绿，`git diff --check` 通过。未代签 GLM，未标 done。 |
+| GLM | **accept** | 2026-08-12 | 本人只读复审 R2 覆盖与兼容边界（HEAD b9de09d0 + working-tree R2 diff），四项核对逐项成立，见下方「GLM R2 补审证据」。 |
+
+**用户验收：accept（2026-08-12）**——已实测灯笼失败提示与蜜蜂成功抖动，结论“应该是对的”。
+
+#### GLM R2 补审证据（2026-08-12，HEAD b9de09d0；本人只读 + 复跑，非代理）
+
+**标准 1 — failureFeedback 聚合 ✓**：`battle-core.ts:1540-1541` `if (enemyStatusAttempted && !anyEnemyStatusApplied
+&& s.lastAction) s.lastAction.failureFeedback = 'statusIneffective'`。`enemyStatusAttempted` 仅在 `onEnemies`
+（`:1490` applyStatus + `:1359` 概率门 fail 分支）置位 → **友方 gate 不误报**；`anyEnemyStatusApplied`
+（`:1498` 任一目标命中）置位 → **多状态/群体任一成功即不报**。`BattleFailureFeedback`（`battle-last-action.ts:10`）
+为 `'statusIneffective'` 单值联合；session（`:1617`）消费即清。无 skill 305 ID 特判、无源脚本 label 泄漏。
+
+**标准 2 — 动画结束后“攻击无效”narration ✓**：`battle-session.ts:2375-2391 presentPendingFailureFeedback`
+打开 narration（`slot:'narration'`、`autoAdvance:1400`、文案 `'攻击无效'`），仅在 `pendingFailureFeedback`
+非 null 时；`:287-288` 注释 + `:1228` 终态等待 narration 关闭再 finalize。headless 兜底走 itemBanner
+（`:2390-2391`）。回归测试 `battle-session.test.ts` 钉：cast 期间 `opened.toHaveLength(0)`、收尾后 `1`、
+cues 匹配 `{rows:[{text:'攻击无效'}], slot:'narration', autoAdvance:1400}`。
+
+**标准 3 — 混乱抖动生效时序 ✓**：`battle-session.ts:2567-2573 enemyConfusedJitterX` 在
+`pendingConfusedReveal.has(enemyIdx) || hp<=0 || confused<=0 || sleep>0 || paralyzed>0` 时返回 0（静止）；
+`:1654-1657` 仅对 `eConfused[index] <= 0 && enemy.status.confused > 0`（本步**新**获得 confused）add；
+`:2412` OffMagic/时间线收尾 `clear()`。→ 新 confused 在 cast 期间遮蔽、收尾后抖；既有 confused 不进集合、
+抖动不受影响；sleep/paralyzed 仍压制。回归测试钉 pendingConfusedReveal 边界 + 收尾后 ±1px 抖动。
+
+**标准 4 — 兼容边界无范围蔓延 ✓**：R2 diff 仅动 reforge battle 五文件（battle-core.ts/test、
+battle-session.ts/test、battle-last-action.ts）+ 任务卡 + board；**未碰 content13、SAVE、migration、
+projects/pal 生成物、跨包 schema、B10 slots/seal 合同**（`git status` 确认 content/migrate/save/projects
+零改动）。
+
+**门禁复跑（本人实跑，与卡文数字逐项一致）✓**：
+- 定向 `battle-core.test.ts + battle-session.test.ts` → **2 files / 156 tests passed**。
+- 全量 `pnpm --filter @type-pal/reforge test` → **92 files / 914 tests passed**。
+- `pnpm --filter @type-pal/reforge typecheck` 通过；`git diff --check` clean。
+- 回归矩阵覆盖：chance fail / 巫抗 fail / success / 友方 gate 负证 / 多状态部分成功 / 全抵抗 /
+  cast 期间不开 narration / 收尾 autoAdvance 1400 / 新 confused 抖动延后 + 既有不抑制。
+
+**⚠ 留存注意（与 W9 返工同模式）**：R2 diff 当前**仅在 working-tree，未提交 HEAD**（`git show HEAD:battle-core.ts`
+无 `failureFeedback`/`enemyStatusAttempted`）。本人 check/test 跑的是 working-tree 版本（含 R2），故核对的是
+实际 R2 代码、accept 有效。但 Codex 须把 R2 提交到 main 后 B10-1 才能转 done；本 accept 以「R2 代码已核实正确」
+为准，不授权跳过提交步骤。
+
+Evidence: battle-core.ts:1330-1331,1359,1490-1498,1540-1541 / battle-session.ts:286-288,1228,1617,1654-1657,
+2375-2391,2412,2567-2573 / battle-last-action.ts:10,25 / battle-core.test.ts:2985-3060 / battle-session.test.ts
+新增 narration+jitter 回归 / reforge test 92/914 + typecheck + git diff --check clean。只读复审，未改实现文件，
+未代签 Kimi，未标 done。
+
+当前状态：`done`。Codex / Kimi / GLM 对 R2 均已本人 `accept`，用户验收通过；门禁齐备，进入提交收口。
+
+### R2 收口
+
+无下一位 Agent 提示词；三方复审与用户验收均已完成，由 Codex 提交收口。

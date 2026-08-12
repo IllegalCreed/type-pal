@@ -84,7 +84,7 @@ import {
   stepBattle,
 } from './battle-core.js'
 import type { BattleResult } from './battle-result.js'
-import type { BattleLastAction } from './battle-last-action.js'
+import type { BattleFailureFeedback, BattleLastAction } from './battle-last-action.js'
 import { getPlayerBasePos } from './battle-positions.js'
 import {
   type BattleMenuRow,
@@ -282,6 +282,10 @@ export class BattleSession {
   private deathFades = new Map<number, number>()
   /** 本步结算中死掉的敌槽(动画播完后统一开淡出 + death 音)。 */
   private pendingDeaths: number[] = []
+  /** 本步刚获得 confused 的敌槽；core 已结算，但 OffMagic 收尾前不得提前抖动。 */
+  private readonly pendingConfusedReveal = new Set<number>()
+  /** 状态术失败反馈；等当前动作时间线收尾后再进入 narration。 */
+  private pendingFailureFeedback: BattleFailureFeedback | null = null
   /** 梦蛇/敌变身的旧→新 dither 状态；动作收尾统一清除。 */
   private appearanceTransitions = new Map<string, NonNullable<AnimFrame['appearanceTransition']>>()
   // ── 屏幕级特效(演出审计 §2-1;screen-fx 引擎模块)──
@@ -1221,6 +1225,12 @@ export class BattleSession {
         this.finishStepVisuals()
         return
       }
+      // 动作收尾可能刚打开失败 narration；终态也必须等它自动/手动关闭后再 finalize。
+      const terminalDialog = this.assets.dialogBox
+      if (terminalDialog?.active) {
+        if (pressed.has(' ') || pressed.has('Enter')) terminalDialog.advance(this.nowMs)
+        return
+      }
       this.ui = 'over'
       // 死亡溶解 hold:最后一敌的溶解播完 + 短拍(240ms)才起胜利乐/结算屏 —— 原版
       // PostActionCheck 的 FadeScene 是阻塞式(fight.c:889-894),溶解期间什么都不发生
@@ -1595,6 +1605,7 @@ export class BattleSession {
       const pHp = s.players.map((p) => p.hp)
       const pMp = s.players.map((p) => p.mp)
       const eHp = s.enemies.map((e) => e?.hp ?? 0)
+      const eConfused = s.enemies.map((e) => e?.status.confused ?? 0)
       const playerAppearanceBefore = s.players.map(
         (player, index) =>
           player.tranceBattleSprite ?? expectDefined(this.assets.playerBaseDefinitionIds[index]),
@@ -1603,6 +1614,7 @@ export class BattleSession {
       stepBattle(s, this.rng)
       const la = s.lastAction
       s.lastAction = null // 消费即清(回合末空步不重播)
+      this.pendingFailureFeedback = la?.failureFeedback ?? null
       // 结果横幅(偷窃「获得 …」/金蝉 boss「无法逃离!」/乾坤「金钱不足」;fight.c:5288 CLASSIC
       // 居中对话框,一阶段 narration 同款):战斗标签位 (130,75),1.2s 自清(时间线播完后仍显示)
       if (la?.notice)
@@ -1640,6 +1652,10 @@ export class BattleSession {
         enemyAppearanceBefore,
       )
       if (timeline) {
+        s.enemies.forEach((enemy, index) => {
+          if (enemy && (eConfused[index] ?? 0) <= 0 && enemy.status.confused > 0)
+            this.pendingConfusedReveal.add(index)
+        })
         this.startTimeline(timeline)
         return
       }
@@ -2356,6 +2372,26 @@ export class BattleSession {
     tone: 'blue' | 'yellow' | 'cyan'
   }> = []
 
+  private presentPendingFailureFeedback(): void {
+    const feedback = this.pendingFailureFeedback
+    this.pendingFailureFeedback = null
+    if (!feedback) return
+    const text = feedback === 'statusIneffective' ? '攻击无效' : assertNever(feedback, '战斗失败反馈')
+    const box = this.assets.dialogBox
+    if (box) {
+      box.open(
+        startDialogue({
+          id: '__battle_action_failure',
+          cues: [{ rows: [{ text }], slot: 'narration', autoAdvance: 1400 }],
+        }),
+        this.nowMs,
+      )
+    } else {
+      // headless/资源缺失兜底；真实游戏路径始终使用 narration 卷轴。
+      this.itemBanner = { text, untilMs: this.nowMs + 1400, x: 130, y: 75 }
+    }
+  }
+
   /** 每步收尾:表现层复位 + 死亡淡出登记(death 音)+ displayHp 兜底同步。 */
   private finishStepVisuals(): void {
     if (this.skipNextReset) this.skipNextReset = false
@@ -2373,10 +2409,12 @@ export class BattleSession {
       if (e?.def.sounds.death) this.assets.sfx?.play(e.def.sounds.death)
     }
     this.pendingDeaths = []
+    this.pendingConfusedReveal.clear()
     this.state.players.forEach((p, i) => {
       const v = this.visual.players[i]
       if (v) v.displayHp = p.hp
     })
+    this.presentPendingFailureFeedback()
   }
 
   /** dev:战斗日志只读视图(M4c 验证)。 */
@@ -2524,6 +2562,22 @@ export class BattleSession {
     }
   }
 
+  /** confused idle 抖动只属于已完成生效的状态；本步新状态在 OffMagic 收尾前保持静止。 */
+  private enemyConfusedJitterX(
+    enemyIdx: number,
+    enemy: { hp: number; status: BattleStatus },
+  ): number {
+    if (
+      this.pendingConfusedReveal.has(enemyIdx) ||
+      enemy.hp <= 0 ||
+      enemy.status.confused <= 0 ||
+      enemy.status.sleep > 0 ||
+      enemy.status.paralyzed > 0
+    )
+      return 0
+    return Math.floor(Math.random() * 3) - 1
+  }
+
   private renderInner(ctx: CanvasRenderingContext2D, worldScale: number): void {
     const s = this.state
     const now = this.nowMs
@@ -2594,10 +2648,7 @@ export class BattleSession {
           ? anim.idle.start + (Math.floor(now / (anim.idleTicksPerFrame * 40)) % anim.idle.count)
           : v.frame
       // 疯魔抖动(battle.c:114-121):敌 X 轴 ±1/帧;眠/定压制不抖(死亡淡出 hp≤0 自然排除)
-      const jx =
-        e.hp > 0 && e.status.confused > 0 && e.status.sleep <= 0 && e.status.paralyzed <= 0
-          ? Math.floor(Math.random() * 3) - 1
-          : 0
+      const jx = this.enemyConfusedJitterX(i, e)
       const transition = this.appearanceTransitions.get(`enemy:${i}`)
       if (transition) {
         const progress = transition.step / transition.total

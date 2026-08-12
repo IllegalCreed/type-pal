@@ -2965,6 +2965,99 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
     expect(block.enemies[0]!.hp).toBe(9999)
   })
 
+  test('状态术把概率门失败/全目标抵抗写成结构化失败反馈，成功不误报', () => {
+    const statusSkill = mkSkill('status-feedback', {
+      effects: [
+        { kind: 'gate', chance: 44 },
+        { kind: 'applyStatus', status: 'confused', turns: 4 },
+      ],
+    })
+    const castOnce = (resistanceToSorcery: number, rng: () => number) => {
+      const s = createBattleState({
+        players: [player('li', { skills: [statusSkill.id], baseDexterity: 500 })],
+        enemies: [
+          {
+            ...dummy(),
+            ai: { resistanceToSorcery },
+          },
+        ],
+        skills: { [statusSkill.id]: statusSkill },
+      })
+      stepBattle(s, rng)
+      s.pendingActions.set(0, {
+        kind: 'cast',
+        skillId: statusSkill.id,
+        targetEnemyIdx: 0,
+      })
+      stepBattle(s, rng)
+      expect(s.actionQueue[0]?.isEnemy).toBe(false)
+      stepBattle(s, rng)
+      expect(s.lastAction?.kind).toBe('cast')
+      return s
+    }
+
+    const chanceFailed = castOnce(0, () => 0.99)
+    expect(chanceFailed.enemies[0]!.status.confused).toBe(0)
+    expect(chanceFailed.lastAction?.failureFeedback).toBe('statusIneffective')
+
+    const resisted = castOnce(10, rng0)
+    expect(resisted.enemies[0]!.status.confused).toBe(0)
+    expect(resisted.lastAction?.failureFeedback).toBe('statusIneffective')
+
+    const succeeded = castOnce(0, rng0)
+    expect(succeeded.enemies[0]!.status.confused).toBe(4)
+    expect(succeeded.lastAction?.failureFeedback).toBeUndefined()
+  })
+
+  test('状态失败反馈按整次敌方 action 聚合：友方 gate 不误报，多状态任一成功即不报', () => {
+    const castOnce = (definition: SkillData, enemyResistance: number, rolls: number[]) => {
+      let ri = 0
+      const rng = () => rolls[ri++] ?? 0
+      const s = createBattleState({
+        players: [player('li', { skills: [definition.id], baseDexterity: 500 })],
+        enemies: [{ ...dummy(), ai: { resistanceToSorcery: enemyResistance } }],
+        skills: { [definition.id]: definition },
+      })
+      stepBattle(s, rng)
+      s.pendingActions.set(0, {
+        kind: 'cast',
+        skillId: definition.id,
+        ...(definition.target === 'oneEnemy'
+          ? { targetEnemyIdx: 0 }
+          : { targetAllyIdx: 0 }),
+      })
+      stepBattle(s, rng)
+      expect(s.actionQueue[0]?.isEnemy).toBe(false)
+      stepBattle(s, rng)
+      return s
+    }
+
+    const ally = mkSkill('ally-gated-status', {
+      target: 'oneAlly',
+      effects: [
+        { kind: 'gate', chance: 44 },
+        { kind: 'applyStatus', status: 'haste', turns: 4 },
+      ],
+    })
+    const allyFailed = castOnce(ally, 10, [0, 0, 0, 0.99])
+    expect(allyFailed.lastAction?.failureFeedback).toBeUndefined()
+
+    const twoStatuses = mkSkill('two-enemy-statuses', {
+      effects: [
+        { kind: 'applyStatus', status: 'sleep', turns: 2 },
+        { kind: 'applyStatus', status: 'confused', turns: 4 },
+      ],
+    })
+    // queue 两掷 + hidden exp 一掷 + sleep 抵抗(0) + confused 命中(9)。
+    const partiallyApplied = castOnce(twoStatuses, 5, [0, 0, 0, 0, 0.99])
+    expect(partiallyApplied.enemies[0]!.status.sleep).toBe(0)
+    expect(partiallyApplied.enemies[0]!.status.confused).toBe(4)
+    expect(partiallyApplied.lastAction?.failureFeedback).toBeUndefined()
+
+    const fullyResisted = castOnce(twoStatuses, 10, [0, 0, 0, 0, 0])
+    expect(fullyResisted.lastAction?.failureFeedback).toBe('statusIneffective')
+  })
+
   test('偷窃(fight.c:5193):偷物入包、余量递减、偷光一无所获;偷钱敌走 moneyDelta', () => {
     const st6 = mkSkill('steal6', { effects: [{ kind: 'steal', rate: 6 }] })
     const s = createBattleState({
