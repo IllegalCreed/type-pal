@@ -1,6 +1,6 @@
 # E18-1 - 编辑器角色战斗字段（coveredBy / casualty / cooperativeMagic）
 
-Status: done
+Status: review
 Phase: phase2
 Capability: E18（编辑器角色战斗字段 coveredBy / casualty / cooperativeMagic）
 Coding Owner: Codex
@@ -80,7 +80,7 @@ cooperativeMagic（合体技），数据/runtime 已就绪，编辑器补齐编�
 - GLM: **accept（2026-08-07，G1-G3/K1-K4 逐项核 + 校验新增规则核实 + PAL 真值回归零漂;见「GLM 实现复审」）**
 - counter / 返工处理: 无 counter
 - 缺签豁免: N/A
-- done 准入结论: **allowed（三方 accept 齐；Codex 收口含 R2/R3 处理；待用户验收后标 done）**
+- done 准入结论: **blocked（三方 accept 齐；仍待用户验收，用户明确通过前不得标 `done`）**
 
 ## Draft: 设计与风险
 
@@ -404,8 +404,13 @@ loader-v5.pal 5/5。
 
 ## 用户验收
 
+- 设计确认: **agree（2026-08-13）**。用户在听取三字段与中区伤亡脚本编辑器说明后明确回复
+  “E18-1 就这样做”，确认保持当前方案；该回复不是编辑器实际操作后的产品验收。
 - 用户结论: pending
-- 后续任务: pending
+- 后续任务: 等待用户验收 E18-1 的三字段编辑、引用校验与保存重开；通过后再转 `done` 并同步能力地图。
+
+> 2026-08-13 OPS-MAP-1 四证对账：提交 `9952aa53` 只证明三方技术 `accept`，不等于用户验收；
+> 因此将误写的卡头 `done` 退回 `review`，未代签用户结论。
 
 ## 交接日志
 
@@ -443,6 +448,8 @@ loader-v5.pal 5/5。
   未点保存 git 零改动。附 R1-R4 记录项(空 text 行落盘→加载 throw 属既有系统性窗口;
   lookupText 预览死代码;无关缩进;dirty 基线),非阻塞。详见「Kimi 实现复审」。
   done 准入 blocked on Codex 收口 + 用户验收。
+- 2026-08-13 User: 听取 E18-1 最终设计与验收路径后确认“E18-1 就这样做”。记录为设计确认；
+  因未明确回复产品验收通过，本卡继续保持 `review`，不代签用户产品验收。
 
 ## 下一位 Agent 提示词
 

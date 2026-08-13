@@ -59,7 +59,7 @@
 | W6 | 时间/天气/昼夜 | ⚠️ | ⚠️ | 隐龙窟外夜景(0x54) | **昼夜切片 done(2026-07-10 W6)**:氛围系统 = 全帧 multiply 滤镜 + content 氛围表(`ambiences.json`,作者可自定义) —— 核心考证:**原版夜盘在数学上就是均匀乘法**(R×0.458/G×0.899/B×1.0 拟合自 palette 0),clean 版一条合成复现、零调色盘概念。`setAmbience` 指令(0x53/54 clean 表达,13 处挂账手补)/ 全局态随存档 / 夜战斗同染 / 编辑器「🌗 氛围」页+指令表单。s042 考题实测 A/B。⚠ 半done口径:**时间流逝/天气未做**(设计 §9 记录在案,有真内容需求再立项);夜色观感终审留用户(氛围页可直接调) |
 | W7 | 地图库与基础绘制 | ✅ | ✅ | W7F 地图库 + 图层/高度导航 | **W7F 基础闭环**：稳定 MapIndex、全量地图列表、CRUD、场景 mapId 换绑、未引用地图、懒加载/copy-through、N 视觉层、每格实例高度、独立碰撞、图层与高度组合聚焦、吸管和撤销均已接入。**W7G 组合地物增强 done（2026-07-18）**：作者可把单层/多层 tile、高度与独立 collision 保存成可搜索预览的组合模板，显式映射稳定 layerId 后原子放置；模板与运行矩阵正交，不引入第二地图格式。三方 `accept` 与性能/浏览器证据见 [W7G 任务卡](../ops/tasks/W7G-composite-tile-stamps.md)。随机笔刷/autotile 仍属后续增强 |
 | W8 | 地图内容选择与实例属性编辑 | — | ✅ | map-020 多图层/多高度：选中单格或多格，仅修改指定属性并撤销、保存重开 | **done（2026-07-18）**：专用选择工具、单/多格 Inspector、显隐/锁定/活动层命中、透明像素与 Alt 候选、分通道原子 patch、移动/复制/剪切/粘贴/重复/删除及 undo/save-reopen 闭环均已落地。Codex / Kimi / GLM 三方 `accept`；27%/103% 浏览器验证、Kimi map-031 Playwright 端到端复验与 Console 零新增错误通过。**W7G 持久组合增强同日 done**：点击任一成员可恢复跨层放置组，支持组内逐层编辑、整组 move/copy/repeat/delete、解组保留普通值、结构生命周期守卫及 undo/save-reopen；证据见 [W7G 任务卡](../ops/tasks/W7G-composite-tile-stamps.md)。W8 非阻塞后续观察仍保留在 [W8 任务卡](../ops/tasks/W8-map-content-selection-inspector.md)。 |
-| W9 | 实体暂离/重现/明雷逃跑冷却 | ❌ | — | vanishEntity 语义生命周期（暂停自动触碰 vs 隐藏待重现） | **draft（2026-08-06 开卡）**：替代当前 `respawnSeconds + host.wait` 临时实现，用稳定实体地址的语义生命周期状态 + 世界逻辑 reducer，承接原版两类语义——实体可见但暂停 autoScript/敌对触碰短冷却、实体隐藏所属场景 tick 计时并在离屏后重现；明雷战斗普通胜利/玩家逃跑/敌逃各走正确生命周期，切场景/存读档/盯实体都不能绕过。依赖 B8/B9/X1；[W9 任务卡](../ops/tasks/W9-entity-lifecycle-respawn.md)二次真值方案待三方设计签字。 |
+| W9 | 实体暂离/重现/明雷逃跑冷却 | ✅ | ✅ | vanishEntity 语义生命周期（暂停自动触碰 vs 隐藏待重现） | **done（2026-08-12）**：稳定实体地址的四态生命周期与世界 reducer 已替代 `respawnSeconds + host.wait` 临时实现；明雷胜利/玩家逃跑/敌逃走具名 BattleResult 与对应生命周期，SAVE8/content13、迁移 ledger/seal/replay、递归 authority 均闭合。编辑器独立 v12→v13 manifest-last overlay、生命周期命令 CRUD、undo/redo、引用保护、保存/重开和 hostile 胜利/逃跑策略编辑均已完成。三方 implementation `accept`、用户最终复验“没问题了”及提交 `b9de09d0` 四证齐；见 [W9 任务卡](../ops/tasks/W9-entity-lifecycle-respawn.md)。 |
 
 ### 实体(Entity)— 10 格
 
@@ -74,7 +74,7 @@
 | E7 | 载具/挂载 | ✅ | ✅ | 试炼窟芦苇漂(共乘)/坐船 | done(2026-07-07):mount 权威 + **全员叠筏**(mountParty/ride 连跟随者一起挂;dismountParty 四路收口:显式/走位即下筏/脚本收尾/强停,零持久态)+ 大世界跟随者(见 E8)。骑乘 opcode 定向翻译(0xA1→mountParty/0x3F·44·97→ride,5 场景 160 处)。考题实测:s213 李逍遥+阿奴共乘逐帧重叠漂流(一阶段掉队闪现 bug 不存在)+ s017 仙灵岛筏;队长恒遮挡队员(z序平局偏置) |
 | E8 | 大世界跟随者(队伍展示) | ✅ | — | 三人队走位/拐弯甩尾 | 新格(2026-07-07):party[1..N] 渲染 + 原版 trail 槽 1:1(基点 slot2 校准=平铺→菱形 2× 粒度;**dir=离开该格方向**,拐弯甩尾逐行对齐原版 —— 8字双轨迹对比法定案,两引擎同场景同腿长无缝换向逐行全等)+ follow/mount/script 三权威。队长恒遮挡队员。编辑器无依赖 |
 | E9 | 商店/当铺(openShop) | ✅ | ✅ | s050 米铺买/s029 当铺卖 | **done(2026-07-11 E9)**:openShop 阻塞式全链 —— content ShopDef+纯结算(买 buyPrice/卖 sellPrice)、21 家店货单迁入 shops.json、买=红框紧凑列表(坐标 1:1 uigame.c,现有/金钱卷轴框、ITEMBOX 带影、确认默认否)、卖=全屏 picker(noDesc+金钱/售价框)。编辑器:ShopTab 货单上架下架 + openShop 表单店下拉。观感对照原版截图三轮校(红框/阴影/定高)。顺手根治 item-list ITEMBOX 缺影(装备/使用菜单同修) |
-| E18 | 编辑器角色战斗字段（coveredBy/casualty/cooperativeMagic） | — | ❌ | B11-1 三个战斗字段的编辑器编辑与校验 | **draft（2026-08-06 开卡）**：B11-1 已落地 `coveredBy`（援护者）/`casualty`（伤亡脚本 friendDeath/dying）/`cooperativeMagic`（合体技）的 content schema 与 runtime，数据侧就绪；编辑器 actor 表单缺这三个字段的结构化编辑、引用校验与保存闭环（属 ED-5I 创作七环的延伸）。依赖 B11-1（已 done）；[E18-1 任务卡](../ops/tasks/E18-1-editor-actor-battle-fields.md) draft。注：原卡 Capability 写「18e」，本格定为 **E18**（Entity 域续号），命名归一。 |
+| E18 | 编辑器角色战斗字段（coveredBy/casualty/cooperativeMagic） | — | ❌ | B11-1 三个战斗字段的编辑器编辑与校验 | **review（等待用户验收）**：`coveredBy`（援护者）/`casualty`（伤亡脚本 friendDeath/dying）/`cooperativeMagic`（合体技）的结构化编辑、引用校验与保存闭环已有三方技术 `accept`，但没有直接用户验收记录；提交 `9952aa53` 的 three accepts 不能代替用户产品验收，故能力格 fail-closed 保持未完成。依赖 B11-1 已 done；见 [E18-1 任务卡](../ops/tasks/E18-1-editor-actor-battle-fields.md)。注：原卡 Capability 写「18e」，本格定为 **E18**（Entity 域续号）。 |
 
 ### 角色(Character)— 8 格
 
@@ -87,18 +87,18 @@
 | C5 | 技能持有 | ✅ | ✅ | 仙术菜单 | 引擎 done(learnedSkills);编辑器(2026-07-05):SkillTab(90 技能列表/名字·说明·战外可用/消耗·目标·效果·动画 JSON 兜底,UpdateSkillCommand 可 undo) |
 | C7 | 队伍管理(入队/离队) | ✅ | ✅ | 0x75 setParty(隐龙窟门口) | done(2026-07-07,D22 reserve 方案):applySetParty 纯函数(在队保留原实例/reserve 搬回带状态/新人实例化/落选不清数据)+ setParty 指令 + 队伍精灵动态解析/懒加载/LRU 保护;reserve 随存档(旧档兜底)。迁移 0x75→setParty(102 处/63 场景)。编辑器:指令表单(中文名下拉有序表)。真机:隐龙窟门口全链 |
 | C6 | 成长/升级 | ✅ | ✅ | 升级 | 引擎:B7a 战后 exp/升级成长/学技能/半恢复(原版公式,实测);编辑器(2026-07-05):角色模式「升级」区(expTable 曲线 textarea 失焦提交·非法数字拦截 + 升级学技能行:等级/技能下拉/增删,UpdateLevelUpCommand 可 undo) |
-| C8 | 物品用途与机制 | ⚠️ | ⚠️ | 土灵珠/炼蛊皿/紫金葫芦 | **review（2026-07-27）**：实现候选 `0d4aa48b` 已获 Codex/Kimi/GLM 三方最终 accept；100 个源 usable ID = 100 个可运行 use ID、item-use diagnostics=0，剩余 20 件/21 个源根及无影毒 throw 已由上游迁移闭合。当前 ⚠️ 不是仍有 80/20 缺口，而是用户已裁决必须等待 N3-1 终态后再做 C8/ED-5I 联合回归与最终验收；依赖解除前不得标 ✅。证据见 [C8](../ops/tasks/C8-item-use-mechanisms.md)、[ED-5I](../ops/tasks/ED-5I-item-workbench.md) 与 [N3-1](../ops/tasks/N3-1-script-control-flow-modernization.md) 任务卡。 |
+| C8 | 物品用途与机制 | ✅ | ✅ | 土灵珠/炼蛊皿/紫金葫芦 | **done（2026-08-06 联合验收）**：100 个源 usable ID = 100 个可运行 use ID，item-use diagnostics=0；剩余 20 件/21 个源根、无影毒 throw、物品私有脚本创作闭环与工作台回归均已完成。N3-1 终态依赖解除后，Codex/Kimi/GLM 三方 `accept` 与用户对 C8/ED-5I 的联合验收齐；提交 `e70987d6` 已收口。证据见 [C8](../ops/tasks/C8-item-use-mechanisms.md)、[ED-5I](../ops/tasks/ED-5I-item-workbench.md) 与 [N3-1](../ops/tasks/N3-1-script-control-flow-modernization.md)。 |
 
 ### 叙事(Narrative)— 8 格
 
 | 格 | 名字 | 引擎 | 编辑器 | 原版考题 | 备注 |
 |---|---|---|---|---|---|
 | N1 | 对话播放 | ✅ | ✅ | 客栈开场李大娘 | done(N1-1,2026-07-15):唯一 `DialogueCue + rows` 模型、旧码只在 migrate、全量 PAL 重生成、MG2 零计划、三方复验与用户验收完成 |
-| N2 | 事件触发 | ✅ | ✅ | onEnter/物品触发 | done；N3-1 P7 已把实体 Page、trigger/auto Behavior 与 onEnter/onTeleport Hook variant 发布为 stable-id canonical V5，编辑器可选择、引用和回链。N3-1 R13 仍在逐批关闭源语义缺口，最终验收未完成 |
-| N3 | 脚本演出 | ✅ | ✅ | 客栈开场自动演出 | done;async 解释器+预览。**R2 done(2026-07-15)**：可执行 `unmigrated` 与旧 opcode 第二解释器(`runLegacyOp`)已退役。**N3-1 R13 build（2026-07-31）**：canonical script schema 仍为 V5；R13-4 已发布 contentVersion 9 / SAVE 8 的确认分支与装备形象 epoch，R13-5 已形成 contentVersion 10 / SAVE 8 敌人脚本 formal candidate，当前仍在 counter 返工后的三方实现复审；R13-6～R13-Z 尚未完成，不得把 N3-1 标 done |
+| N2 | 事件触发 | ✅ | ✅ | onEnter/物品触发 | done；N3-1 已把实体 Page、trigger/auto Behavior 与 onEnter/onTeleport Hook variant 发布为 stable-id canonical V5，编辑器可选择、引用和回链；R13 全链已于 2026-08-06 完成用户确认性验收。 |
+| N3 | 脚本演出 | ✅ | ✅ | 客栈开场自动演出 | done;async 解释器+预览。**R2 done（2026-07-15）**：可执行 `unmigrated` 与旧 opcode 第二解释器（`runLegacyOp`）已退役。**N3-1 done（2026-08-06）**：canonical script schema 保持 V5，P7/R13 append-only 发布、源语义 closure、迁移 replay、编辑器与下游 C8/ED-5I 回归均完成三方 `accept` 和用户确认性验收；提交 `e70987d6` 已收口。 |
 | N4 | 事件模板库 | — | ✅ | — | done;编辑器产物,引擎无依赖 |
 | N5 | 条件/变量/flag | ✅ | ✅ | 全局 flag | 引擎 done;编辑器(2026-07-05):数据模式「变量」页(flag/var 总览+读写明细)+ 物品页「被事件引用」区(737 处),点引用跳事件模式定位源(ref-index 全脚本递归扫描,含 branch/confirm/startBattle 子命令与 hostile.onLose) |
-| N6 | 共享脚本/子程序 | ✅ | ✅ | s001+s002 双调用方 | **done(2026-07-15；canonical V5 发布 2026-07-25)**：作者库 CRUD/稳定 id/callScript/引用安全/保存重开/MG2 保留均已落地；canonical 库现为 `content/shared-scripts.json`，调用只存 ScriptId+可选 EntityAddress self，不再保存 chunk；作者界面隐藏“迁移内部实现”，物品私有脚本归物品内联拥有。N3-1 R13 的全局源语义闭包仍在 build |
+| N6 | 共享脚本/子程序 | ✅ | ✅ | s001+s002 双调用方 | **done(2026-07-15；canonical V5 发布 2026-07-25；R13 收口 2026-08-06)**：作者库 CRUD/稳定 id/callScript/引用安全/保存重开/MG2 保留均已落地；canonical 库现为 `content/shared-scripts.json`，调用只存 ScriptId+可选 EntityAddress self，不再保存 chunk；作者界面隐藏“迁移内部实现”，物品私有脚本归物品内联拥有；N3-1 R13 全局源语义闭包已完成用户确认性验收。 |
 | N7 | **演出接管** | ✅ | ✅ | 隐龙窟/试炼窟 | done(2026-07-07):显式 take/release(E6b)+ mount/follow 权威,非冻帧。两考题实测:隐龙窟门口演出全链(对话/转向/切场景/setParty)+ 试炼窟芦苇漂共乘 |
 | N8 | 过场编排(mp4/帧动画 CG) | ✅ | ✅ | 开场 CG/帧动画序列 | **done（A7-3，2026-07-17）**：视频与完整帧动画使用稳定 AssetId 和工程内文件；运行时支持全段/分段/帧率/显式预览跳过，剧情默认不可跳；编辑器支持双列表、内嵌视频、完整帧时间轴、导入/替换/量化/多选重排/时长/引用保护/保存重开。C1-C5 返工、LAN HTTPS/FSA、OPFS 真句柄 round-trip、三方审查与用户验收完成。BGM/SFX 仍由脚本编排，不绑素材 |
 
@@ -125,7 +125,7 @@
 | 格 | 名字 | 引擎 | 编辑器 | 原版考题 | 备注 |
 |---|---|---|---|---|---|
 | X0 | 主菜单四项 | ✅ | — | 状态/装备/术/系统 | done;引擎 UI |
-| X1 | **存档/读档+状态快照** | ✅ | — | 存档 | 完整流程实测(quick/manual 30 槽/位置+world 快照/同场景实体复位/跨刷新持久)。当前 epoch 为 SAVE 8 / contentVersion 10 / minimumSaveVersion 8；已发布的 SAVE8/content9 只做无 sidecar identity normalization，SAVE 1..7 在历史 sidecar I/O 前早失败。canonical Page/Behavior/Hook cursor 和 WorldScriptStateV5 保持唯一真值；历史 4→5 sidecar 只留作 byte-pin 迁移证明 |
+| X1 | **存档/读档+状态快照** | ✅ | — | 存档 | 完整流程实测(quick/manual 30 槽/位置+world 快照/同场景实体复位/跨刷新持久)。当前 epoch 为 **SAVE 8 / contentVersion 13 / minimumSaveVersion 8**；contentVersion 9→10→11→12→13 的 append-only 历史链均保持 SAVE8 identity，SAVE 1..7 在历史 sidecar I/O 前早失败。canonical Page/Behavior/Hook cursor、WorldScriptStateV5 与 entity lifecycle 保持唯一真值；历史 4→5 sidecar 只留作 byte-pin 迁移证明。 |
 | X2 | 音频(BGM/SFX) | ✅ | ✅ | 场景音乐 | **done（A7-0/A7-0A + A7-1，2026-07-18）**：MIDI、soundfont 与 SFX 均为稳定 AssetId 和工程资产，运行与编辑试听只经 AssetResolver/FileSource；标题菜单曲、战斗提示音、角色/敌人/技能/召唤音效全部数据化。编辑器支持音乐/音效导入、替换、改名、试听、选择、引用保护删除、保存重开与旧工程一次性升级；数字文件名、应用根 soundfont、`legacy.sounds` 和运行时音效字面量已退役。边界:X2=音频基建与资源生命周期，W5=场景侧引用与切换；未实现的战斗表现事件继续记 B5，不反向降级 X2 |
 | X3 | 标题/流程/结局 | ⚠️ | — | 新游戏/通关 | 引擎(2026-07-06):主菜单标题屏(FBP2 底图 + entryPoints 竖排)+「新的故事」新游戏流 +「旧的回忆」读档(→存档浏览→doLoad 跳开场);**X3-1 done(2026-07-15)**：场景入场呈现事务(Prepare→Reveal→Body 显式元数据取代运行时命令前瞻,SceneEntrySession 生命周期,编辑器三区编辑)；缺通关/结局流转(❌)。开局数据侧见 X7 |
 | X4 | 资源管线(RGBA 化) | ⚠️ | — | — | A7-2 已退役 `data/baked`：立绘/头像/物品图标由 migrate 确定性物化进工程 catalog，战场背景保留索引 PNG 与标准色量化；85 个默认 UI slot、标题、字形和光标进入 bundler-owned engine chrome。A7-3T tileset、A7-3W world sprite 与 A7-3B battle sprite 均保持 gzip indexed RLE 且已 done；当前只余 effect-sprite/image 两项，不能提前把 X4/A7 标 done |
@@ -155,7 +155,7 @@
 | A4 | 用户上传自有素材 | — | ✅ | **已覆盖精灵、瓦片集、角色/敌人战斗外观、音乐、SFX、视频、完整帧动画及四类静态图**：A7-2 图像工作台支持立绘/头像/物品图标导入替换，战场真彩图在导入边界确定性量化并预览工程效果；引用保护、undo/redo、pending blob 与保存重开共用 catalog 链。默认字体/UI 属引擎，不是工程上传能力 |
 | A5 | 工程自包含分发(打包导出) | — | ✅ | **done(2026-07-10 A5)**:工程菜单「🗜 导出 zip」= FSA 目录递归原样打包下载(零依赖 zip 器:原生 deflate/CRC32/UTF-8 名/时间恒1980 可复现;读磁盘,dirty 提醒先保存;dev 种子工程禁用)。「另存为」丢磁盘素材债已修(整树拷贝+覆写,见 A5 卡) |
 | A6 | 预制库主动更新检查(可选) | — | ❌ | 用户显式触发:检查服务器新版 → 选择是否拉取覆盖。非自动;非 MVP |
-| A7 | 工程资源闭包与稳定资源注册表 | ⚠️ | ⚠️ | **进行中（R3/R7）**：音乐/soundfont、SFX、视频/完整帧动画、四类静态图与 engine chrome 已闭包；A7-3T tileset、A7-3W world sprite 与 **A7-3B battle sprite 均已 done**。A7-3B 已完成三方审查和用户验收：172 records / 171 definitions / 179 refs / 171 used / 5 shared / 1 unused，900,973 gzip B / 775 帧 / 6 legacy 坏尾；定义/资产编辑、runtime active appearance、local/save/transport 单链已接通。**contentVersion 5～10 已由 N3-1 P7/R13 占用**，A7-4 的全 legacy 归零、catalog-only 总门禁与断外链收口因此顺延到下一未占用 epoch（当前候选 contentVersion 11）；A7 待办仍有 effect-sprite/image 两项，版本抬升本身不等于资源闭包。**A7 全部完成前不得标 ✅**。总设计见[资源闭包审计](foundation/a7-resource-closure-audit.md) |
+| A7 | 工程资源闭包与稳定资源注册表 | ⚠️ | ⚠️ | **进行中（R3/R7）**：音乐/soundfont、SFX、视频/完整帧动画、四类静态图与 engine chrome 已闭包；A7-3T tileset、A7-3W world sprite 与 **A7-3B battle sprite 均已 done**。A7-3B 已完成三方审查和用户验收：172 records / 171 definitions / 179 refs / 171 used / 5 shared / 1 unused，900,973 gzip B / 775 帧 / 6 legacy 坏尾；定义/资产编辑、runtime active appearance、local/save/transport 单链已接通。当前已发布链占用 contentVersion 11（N3 后续）、12（B10-1）、13（W9）；A7-4 启动时必须重新核定**下一未占用 epoch**，本地图不预先承诺固定版本号。A7 待办仍有 effect-sprite/image 两项，版本抬升本身不等于资源闭包。**A7 全部完成前不得标 ✅**。总设计见[资源闭包审计](foundation/a7-resource-closure-audit.md) |
 
 > A1-A6 是编辑器侧的素材与分发动作，故 `引擎—`；A7 是跨引擎、编辑器、内容 schema 与迁移器的工程资源闭包能力，因此两侧都按实际完成度记账。引擎只消费 manifest/catalog 指针与工程目录文件，不关心素材来源。未决子问题(A1 版权策略与素材规模 / A2 下载协议与进度 / A4 支持的素材格式)留「做 A 领域」那轮 brainstorm 细化。
 
@@ -171,7 +171,7 @@
 | 议题 13（开发/调试工具） | cheat console / 检视 / 战斗构建器 / 触发区可视化 / 帧步进 | **D13-1 卡**（P1 工具层，无独立格——工具域，不进 8 领域格表） | D13-1 draft（GLM agree） |
 | 议题 14（脚本系统重构） | 子系统隔离 + 意图通信 | **主体已落地**（dialogue/fade-driver/input/follower/gameplay-clock/async-intent、AbortSignal 贯穿、N3-1 退役内部脚本）；D14-1 对话外观已完成，剩余 = D14-2（演出意图协议）+ D14-3（奖励/事件总线） | D14-1 done；D14-2/3 draft |
 | 议题 15（NPC 自主移动） | 动态碰撞 + 互相让路 + 转向动画 | **D15-1 done**（落 E2 增量，无独立格）；D15-2 已取消 | authored 巡逻/演出穿墙；地面敌人追击碰撞，floating 追击跳过地形与阻挡实体 |
-| 议题 18（reforge 战斗引擎缺口） | 实体生命周期 / 战斗字段编辑等 | 18a 已由 B10-1 关闭；18b 落 W9（实体暂离/重现，新格）；18e 落 E18（编辑器角色战斗字段，新格）；其余缺口「已覆盖确认」见 backlog | W9/E18 draft |
+| 议题 18（reforge 战斗引擎缺口） | 实体生命周期 / 战斗字段编辑等 | 18a 已由 B10-1 关闭；18b 落 W9（实体暂离/重现，新格）；18e 落 E18（编辑器角色战斗字段，新格）；其余缺口「已覆盖确认」见 backlog | **W9 done；E18 review（待用户验收）** |
 
 > 纪律：议题型卡开建时，若产出新能力（而非既有格的增量），必须按 §8 发现协议**先在本地图开格**再开工（W9/B11/E18 就是这次补登的例）。纯增量（如 D6-1 渲染增强、D12-1 X2 增量）不必开新格，但本表要登记落点。
 
@@ -180,23 +180,25 @@
 ## 4. 阶梯依赖图(决定先做谁)
 
 ```
-   ✅ E6→E7/E8→N7→C7 地基链全部收官(2026-07-07):
-   实体定位权威(引擎)→ 载具挂载/大世界跟随者 → 演出接管两考题 → 队伍管理。
-   残留:E6 编辑器侧(authority 可视化)❌ —— 非阻塞,排编辑器 breadth 轮。
+   ✅ 已完成的地基链:
+   - E6(引擎) → E7/E8 → N7 → C7：定位权威、载具/跟随、演出接管、队伍管理
+   - W1/W7/W8：单一地图格式、基础绘制、内容选择与实例属性编辑
+   - B8/B9/W9：明雷追击、战斗回流、语义生命周期与编辑器策略闭环
+   - X1 → X5：SAVE8/content13 与跳转预览
 
-   ✅ 已完成的高优先链:
-   - B8 + B9 —— 战斗接入大世界全链 done(追逐/开战/胜负 + 零脚本数据声明)
-   - X1 → X5 —— 跳转预览 done(验证痛点已解,编辑器「引擎试玩」跳到事件现场)
+   当前 ⚠️ 候选池（不是已承诺任务）:
+   - X3：标题/新游戏/读档已有，只缺通关/结局流转
+   - C1、B2：分别缺角色与战场条目的完整编辑器 CRUD 七环
+   - X4/A7：只余 effect-sprite/image 与 catalog-only 总门禁，但属于高风险资源管线
+   - B5：战斗表现仍有精调与未落演出
 
-   顺带待闭合的半done格(2026-07-07 刷新):
-   W1 地图瓦片绘制(实体摆放✅/地图绘制❌) / E2 巡逻模板级编辑
-   C3 装备观感验收+结构化编辑 / B10 状态系统结构化 UI / N7 依赖 E6
+   明确低优先/按需:
+   - E6 编辑器侧仅缺 authority 运行态可视化（调试器增强）
+   - W6 的时间流逝/天气等待真实内容需求
 ```
 
-**剩余高优先级地基链**(2026-07-05 三次刷新,X5 已 done):
-1. **E6 → E7/N7** —— 解队形vs演出vs载具打架(核心痛点)。E6 是地基,**当前唯一最高优先**。
-
-> 下一轮选择器推荐:W1 编辑器侧(地图瓦片绘制)是阶梯上较大的缺口——一个不能画地图的 RPG 编辑器谈不上"能造新游戏"。E6 完成前若想换换节奏,W1 是合理穿插。
+> 以上只表达当前依赖与候选池。W1、E2、C3、B10、N7 的旧“待闭合”文字已随对应能力完成而移除；
+> E6 调试可视化不再冒充唯一最高优先级。
 
 ---
 
@@ -222,6 +224,16 @@
 ### 纪律:一轮一承诺
 
 选择器这一轮给出的格,**钉死做完(或明确判定不做)才进下一轮**。不允许「做一半又怀疑该不该做」——否则又陷入「是不是该做 E6 而不是 B1」的无限纠结。选择器是承诺机制,不只是建议。
+
+### 2026-08-13 对账后重跑（候选，不是承诺）
+
+- 扫描结果：W9、C8、N3 已从陈旧状态恢复真实完成；E18 因缺用户验收继续 fail-closed；剩余
+  `⚠️` 为 W6、E6、C1、B2、B5、X3、X4/A7。
+- 本轮**首选候选为 X3（通关/结局流转）**：标题、新游戏、读档和场景入场事务均已完成，只补一条
+  用户可感知的游戏闭环即可关闭该格；相较之下 W6/E6 明确低优先，X4/A7 是更大的高风险资源任务，
+  C1/B2 是完整 CRUD 七环，范围更宽。
+- 这只是选择器输出，不等于已开卡或已承诺。若用户选择 X3，仍须另开任务卡，先过原版/第一阶段/
+  当前引擎的前提真值门与三方设计签字，再进入实现。
 
 ---
 

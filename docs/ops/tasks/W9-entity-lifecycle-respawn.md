@@ -915,9 +915,10 @@ Evidence: 本节 file:line（migrate-content.mts bb48dec4 +21 / r13-* test rewin
 
 ### 用户验收
 
-- 用户结论：pending
-- 后续任务：用户验收通过后由 Codex 将 W9 转 `done` 并同步看板；若有问题则按用户反馈转
-  `rework`，不得自动开始新实现。
+- 用户结论：**accept（2026-08-12）**。用户通过
+  `?scene=s006&pos=102,50&skill=392` 与 `?battle=4&skill=392` 复验后确认“没问题了”，并授权
+  Codex 提交收口；与上方 Review 记录及提交 `b9de09d0` 一致。
+- 后续任务：无。W9 已 `done`；能力地图状态由 OPS-MAP-1 同步。
 
 ### 当前下一位 Agent 提示词（2026-08-12）
 
