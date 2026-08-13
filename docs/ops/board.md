@@ -13,6 +13,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| OPS-MAP-1 | 能力地图真值对账与选择器校准 | draft | Kimi / GLM 独立核任务卡、三签、用户验收、git 四证 | W9/E18/C8/N3 与地图/源卡冲突；fail-closed 对账后才选下一产品任务 |
 | OPS-TST-PERF-B | shared/fresh 隔离并行 runner | draft | Codex 起草 runner；真实 Kimi/GLM 设计签字后实现 | manifest→canary→unit/preflight 串行；shared/fresh 并行；RSS、路径隔离及三次串行对照为硬门禁 |
 | OPS-TST-PERF-C | P2/P3/P4 consolidated determinism proof | draft | Codex 起草逐标题 coverage map；真实 Kimi/GLM 设计签字后实现 | 保留每阶段独立 live default/reversed 双建；不得用 pinned bundle 或删 source-backed 双建冒充证明 |
 | D15-1 | NPC 移动补全：动态碰撞 + 互相让路 + 转向（议题 15） | done | 无 | 三方 review + 用户验收通过；authored 巡逻/演出穿墙，ground 追击查障碍，floating 追击跳过全部障碍；D15-2 已取消 |
