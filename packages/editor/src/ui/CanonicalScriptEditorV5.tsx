@@ -1365,7 +1365,7 @@ const PRIMITIVE_FIELD_LABELS: Readonly<Record<string, string>> = {
   var: '数值名称',
   delta: '增减量',
   range: '生效距离',
-  floating: '无视碰撞',
+  floating: '追击时忽略地形与阻挡实体',
   asset: '资源',
   startFrame: '起始帧',
   endFrame: '结束帧',
@@ -1800,7 +1800,7 @@ function CanonicalCommandFormV5(props: {
               props.onChange({ ...command, floating: event.target.checked || undefined })
             }
           />
-          无视地图碰撞
+          追击时忽略地形与阻挡实体
         </label>
       </div>
     )

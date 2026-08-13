@@ -478,6 +478,43 @@ describe('演出预览钩子(编辑器):onStep 路径上报 + 单步门', () => 
     ])
     expect(gated).toBe(3) // clearDialog + branch + then 臂内 playSound
   })
+
+  test('宿主提交门在 void 命令后阻止下一命令与 stage cursor 提前推进', async () => {
+    const calls: string[] = []
+    const world = emptyWorldScriptState()
+    const attempt = deferred<void>()
+    let pending: Promise<void> | undefined
+    const host = fakeHost(calls)
+    host.stepEntity = (id, dir) => {
+      calls.push(`step:${id}:${dir}`)
+      pending = attempt.promise
+    }
+    const r = new ScriptRunner(host, world, new AbortController().signal, () => 0)
+    r.afterCommand = async () => {
+      const current = pending
+      pending = undefined
+      if (current) await current
+    }
+    const running = r.runStages('auto:e1', [
+      {
+        body: [
+          { kind: 'stepEntity', entity: 'e1', dir: 'right' },
+          { kind: 'giveMoney', delta: 2 },
+        ],
+        next: 'advance',
+      },
+      { body: [] },
+    ])
+
+    await Promise.resolve()
+    expect(calls).toEqual(['step:e1:right'])
+    expect(world.entityStage['auto:e1']).toBeUndefined()
+
+    attempt.resolve()
+    await running
+    expect(calls).toEqual(['step:e1:right', 'giveMoney(2)'])
+    expect(world.entityStage['auto:e1']).toBe(1)
+  })
 })
 
 test('0x15/0x65 演出命令分发:姿势帧透传 gesture/member,换装走 setActorSprite', async () => {

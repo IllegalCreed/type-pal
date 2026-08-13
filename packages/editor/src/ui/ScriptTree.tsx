@@ -90,7 +90,7 @@ export function describeScriptCommand(
     case 'chasePlayer':
       return {
         icon: '👣',
-        label: `追逐玩家(范围 ${cmd.range ?? 8} 格 · 速度 ${cmd.speed ?? 4}${cmd.floating ? ' · 穿障' : ''})`,
+        label: `追逐玩家(范围 ${cmd.range ?? 8} 格 · 速度 ${cmd.speed ?? 4}${cmd.floating ? ' · 忽略障碍' : ''})`,
       }
     case 'vanishEntity':
       return { icon: '⊘', label: `${cmd.entity ?? '自身'} 消失 ${cmd.seconds ?? 2}s(重生)` }

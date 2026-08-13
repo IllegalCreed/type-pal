@@ -402,7 +402,7 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
     params: [
       ['range', '追逐格半径'],
       ['speed', '快慢'],
-      ['floating', '穿障'],
+      ['floating', '追击时忽略地形与阻挡实体'],
     ],
     desc: '放 auto 里=持续追逐(野怪);数据化版本用实体 hostile 字段。',
     origin: '0x4C 拆解',

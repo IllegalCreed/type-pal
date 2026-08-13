@@ -15,6 +15,7 @@
     "build": "vite build",
     "audit:sfx-readiness": "tsx scripts/audit-sfx-readiness.mts",
     "audit:dialog-wrap": "tsx scripts/audit-dialog-wrap.mts",
+    "audit:entity-motion": "tsx scripts/audit-entity-motion.mts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests",
     "check": "pnpm typecheck && pnpm test",

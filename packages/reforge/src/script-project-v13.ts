@@ -1,14 +1,13 @@
 import {
-  emptyWorldScriptStateV5,
-  type AuthorCommandV5,
   type AuthorCommandV13,
   type EntityBaseV5,
   type EntityDefV13,
+  type EntityLifecycleReferenceIndexV13,
+  emptyWorldScriptStateV5,
   type ItemDataMapV5,
+  type LifecycleCommandV13,
   type NamedEntityBehaviorV13,
   type NamedSceneHookV13,
-  type EntityLifecycleReferenceIndexV13,
-  type LifecycleCommandV13,
   type SceneDefV5,
   type SceneDefV13,
   type WorldScriptStateV5,
@@ -19,25 +18,23 @@ import {
   commitEntityLifecycleCommandV13,
   type EntityLifecycleCommandCommitV13,
 } from './entity-lifecycle-command.js'
-import type { RuntimeLeafCommandV13 } from './script-compiler-v13.js'
-import type { RuntimeLeafCommandV5 } from './script-compiler-v5.js'
-import {
-  ProjectScriptRuntimeHostV5,
-  type ProjectScriptHostOptionsV5,
-} from './script-project-v5.js'
 import type { LoadedProjectV13Core } from './loader-v13.js'
 import {
   withRegisteredScriptActivityLineageV5,
   withScriptActivityLineageV5,
 } from './script-activity-lineage-v5.js'
+import type { RuntimeLeafCommandV5 } from './script-compiler-v5.js'
+import type { RuntimeLeafCommandV13 } from './script-compiler-v13.js'
+import { compileScriptFlowV13, MemorySharedScriptResolverV13 } from './script-compiler-v13.js'
 import {
-  compileScriptFlowV13,
-  MemorySharedScriptResolverV13,
-} from './script-compiler-v13.js'
+  type ProjectScriptHostOptionsV5,
+  ProjectScriptRuntimeHostV5,
+  type ScriptEffectCommitControlV5,
+} from './script-project-v5.js'
 import type { ScriptRuntimeContextV5 } from './script-runner-v5.js'
 import { ScriptRunnerV13, type ScriptRuntimeHostV13 } from './script-runner-v13.js'
-import { FlowRuntimeCoordinatorV5 } from './script-world-v5.js'
 import {
+  FlowRuntimeCoordinatorV5,
   resolveEntityBehaviorV5,
   resolveSceneHookV5,
 } from './script-world-v5.js'
@@ -49,6 +46,7 @@ export interface ProjectScriptHostOptionsV13
     command: RuntimeLeafCommandV13,
     context: Readonly<ScriptRuntimeContextV5>,
     signal: AbortSignal,
+    commitControl?: ScriptEffectCommitControlV5,
   ): void | Promise<void>
   worldChanged?(
     command: RuntimeLeafCommandV13,
@@ -97,7 +95,8 @@ export class ProjectScriptRuntimeHostV13 implements ScriptRuntimeHostV13 {
     coordinator: FlowRuntimeCoordinatorV5,
     private readonly options: ProjectScriptHostOptionsV13,
   ) {
-    const script = (world.script ??= emptyWorldScriptStateV5())
+    if (!world.script) world.script = emptyWorldScriptStateV5()
+    const script = world.script
     const {
       lifecycleReferences: _lifecycleReferences,
       executeEffect: _executeEffect,
@@ -108,8 +107,8 @@ export class ProjectScriptRuntimeHostV13 implements ScriptRuntimeHostV13 {
     this.retainedHost = new ProjectScriptRuntimeHostV5(script, coordinator, {
       ...retainedOptions,
       scene: async (sceneId) => validatedSceneAsV5(await scene(sceneId)),
-      executeEffect: (command, context, signal) =>
-        options.executeEffect(retainedCommandAsV13(command), context, signal),
+      executeEffect: (command, context, signal, commitControl) =>
+        options.executeEffect(retainedCommandAsV13(command), context, signal, commitControl),
       ...(worldChanged
         ? {
             worldChanged: (command, context) =>
@@ -147,9 +146,14 @@ export class ProjectScriptRuntimeHostV13 implements ScriptRuntimeHostV13 {
       this.options.lifecycleReferences,
     )
     this.world.entityLifecycles = committed.table
-    await this.options.executeEffect(command, context, signal)
+    // Canonical lifecycle state is already durable. Its live projection is the other half of the
+    // same commit and must run even when executeEffect observes a post-commit abort/rejection.
+    try {
+      await this.options.executeEffect(command, context, signal)
+    } finally {
+      await this.options.worldChanged?.(command, context, committed)
+    }
     signal.throwIfAborted()
-    await this.options.worldChanged?.(command, context, committed)
   }
 
   evalCondition(
@@ -259,6 +263,7 @@ export class ScriptProjectRuntimeV13 {
   readonly coordinator = new FlowRuntimeCoordinatorV5()
   readonly host: ProjectScriptRuntimeHostV13
   private readonly shared: MemorySharedScriptResolverV13
+  private readonly script: WorldScriptStateV5
 
   constructor(
     readonly project: LoadedProjectV13Core,
@@ -268,6 +273,8 @@ export class ScriptProjectRuntimeV13 {
   ) {
     if (!/^[a-f0-9]{64}$/.test(canonicalContentDigest))
       throw new Error('ScriptProjectRuntimeV13: canonicalContentDigest 非法')
+    if (!world.script) world.script = emptyWorldScriptStateV5()
+    this.script = world.script
     this.host = new ProjectScriptRuntimeHostV13(world, this.coordinator, host)
     this.shared = new MemorySharedScriptResolverV13(project.sharedScripts, canonicalContentDigest)
   }
@@ -282,9 +289,9 @@ export class ScriptProjectRuntimeV13 {
     const entity = entityAtV13(scene, target)
     const sceneSessionId = this.host.currentSceneSessionId()
     if (this.host.currentSceneId() !== scene.id) return false
-    if (!resolveEntityBehaviorV13(entity, this.world.script!, target, channel)) return false
+    if (!resolveEntityBehaviorV13(entity, this.script, target, channel)) return false
     let active = this.coordinator.beginEntityBehavior(
-      this.world.script!,
+      this.script,
       entity as unknown as EntityBaseV5,
       target,
       channel,
@@ -298,14 +305,14 @@ export class ScriptProjectRuntimeV13 {
       )
         return false
       active = this.coordinator.beginEntityBehavior(
-        this.world.script!,
+        this.script,
         entity as unknown as EntityBaseV5,
         target,
         channel,
       )
     }
     if (!active) return false
-    const resolved = resolveEntityBehaviorV13(entity, this.world.script!, target, channel)
+    const resolved = resolveEntityBehaviorV13(entity, this.script, target, channel)
     if (!resolved) {
       active.lease.close()
       throw new Error(`script v13 behavior 在激活后消失: ${scene.id}/${entityId}/${channel}`)
@@ -338,9 +345,9 @@ export class ScriptProjectRuntimeV13 {
   ): Promise<boolean> {
     const sceneSessionId = this.host.currentSceneSessionId()
     if (this.host.currentSceneId() !== scene.id) return false
-    if (!resolveSceneHookV13(scene, this.world.script!, slot)) return false
+    if (!resolveSceneHookV13(scene, this.script, slot)) return false
     let active = this.coordinator.beginSceneHook(
-      this.world.script!,
+      this.script,
       scene as unknown as import('@type-pal/content').SceneDefV5,
       slot,
     )
@@ -353,13 +360,13 @@ export class ScriptProjectRuntimeV13 {
       )
         return false
       active = this.coordinator.beginSceneHook(
-        this.world.script!,
+        this.script,
         scene as unknown as import('@type-pal/content').SceneDefV5,
         slot,
       )
     }
     if (!active) return false
-    const resolved = resolveSceneHookV13(scene, this.world.script!, slot)
+    const resolved = resolveSceneHookV13(scene, this.script, slot)
     if (!resolved) {
       active.lease.close()
       throw new Error(`script v13 scene hook 在激活后消失: ${scene.id}/${slot}`)

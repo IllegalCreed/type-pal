@@ -6,19 +6,19 @@ import {
   type WorldStateV13,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
+import { assembleProjectV13 } from './loader-v13.js'
+import { compileAuthorCommandsV5 } from './script-compiler-v5.js'
 import {
   compileAuthorCommandsV13,
   compileScriptFlowV13,
   MemorySharedScriptResolverV13,
   type RuntimeLeafCommandV13,
 } from './script-compiler-v13.js'
-import { compileAuthorCommandsV5 } from './script-compiler-v5.js'
 import {
+  type ProjectScriptHostOptionsV13,
   ProjectScriptRuntimeHostV13,
   ScriptProjectRuntimeV13,
-  type ProjectScriptHostOptionsV13,
 } from './script-project-v13.js'
-import { assembleProjectV13 } from './loader-v13.js'
 import { ScriptRunnerV13 } from './script-runner-v13.js'
 import { FlowRuntimeCoordinatorV5 } from './script-world-v5.js'
 
@@ -94,9 +94,7 @@ function hostOptions(
       effects.push(command.kind)
     },
     worldChanged: (command, _context, commit) => {
-      changes.push(
-        `${command.kind}:${commit?.resetFrameTarget ? 'reset-frame' : 'committed'}`,
-      )
+      changes.push(`${command.kind}:${commit?.resetFrameTarget ? 'reset-frame' : 'committed'}`)
     },
     scene: () => scene,
     currentSceneId: () => scene.id,
@@ -127,11 +125,7 @@ async function run(
   signal = new AbortController().signal,
   shared?: MemorySharedScriptResolverV13,
 ): Promise<void> {
-  const host = new ProjectScriptRuntimeHostV13(
-    world,
-    new FlowRuntimeCoordinatorV5(),
-    options,
-  )
+  const host = new ProjectScriptRuntimeHostV13(world, new FlowRuntimeCoordinatorV5(), options)
   const executable = compileScriptFlowV13(
     {
       kind: 'stages',
@@ -147,6 +141,26 @@ async function run(
 }
 
 describe('content13 script compiler/runtime host', () => {
+  test('retained moveEntity forwards the endpoint commit control through the v13 host', async () => {
+    const world = makeWorld()
+    const endpoint = { col: 7, row: 9, height: 0 }
+    let committedInEffect = false
+    await run(
+      world,
+      [{ kind: 'moveEntity', target, to: endpoint, speed: 'normal' }],
+      hostOptions([], [], {
+        executeEffect: (command, _context, _signal, control) => {
+          if (command.kind !== 'moveEntity') return
+          expect(control?.moveEntityEndpointCommitted).toBe(false)
+          control?.commitMoveEntityEndpoint()
+          committedInEffect = control?.moveEntityEndpointCommitted === true
+        },
+      }),
+    )
+    expect(committedInEffect).toBe(true)
+    expect(world.script?.entityPos?.[target.scene]?.[target.entity]).toEqual(endpoint)
+  })
+
   test('preserves lifecycle leaves through branch, loop, and shared-script control flow', async () => {
     const world = makeWorld()
     world.script!.flags.branch = true
@@ -236,6 +250,7 @@ describe('content13 script compiler/runtime host', () => {
     const afterCommit = makeWorld()
     const controller = new AbortController()
     const effects: string[] = []
+    const changes: string[] = []
     await expect(
       run(
         afterCommit,
@@ -243,7 +258,7 @@ describe('content13 script compiler/runtime host', () => {
           { kind: 'hideEntity', target, ticks: 2 },
           { kind: 'removeEntity', target },
         ],
-        hostOptions(effects, [], {
+        hostOptions(effects, changes, {
           executeEffect(command: RuntimeLeafCommandV13) {
             effects.push(command.kind)
             controller.abort()
@@ -256,14 +271,12 @@ describe('content13 script compiler/runtime host', () => {
       s001: { e001: { phase: 'despawned', remainingTicks: 2 } },
     })
     expect(effects).toEqual(['hideEntity'])
+    expect(changes).toEqual(['hideEntity:committed'])
   })
 
   test('v5 entry remains closed while v13 rejects legacy vanishEntity', () => {
     expect(() =>
-      compileAuthorCommandsV5(
-        [{ kind: 'hideEntity', target, ticks: 2 }] as never,
-        'interactive',
-      ),
+      compileAuthorCommandsV5([{ kind: 'hideEntity', target, ticks: 2 }] as never, 'interactive'),
     ).toThrow(/未知|hideEntity/)
     expect(() =>
       compileAuthorCommandsV13(
@@ -277,16 +290,10 @@ describe('content13 script compiler/runtime host', () => {
     const world = makeWorld()
     const project = assembleProjectFixture()
     const effects: string[] = []
-    const runtime = new ScriptProjectRuntimeV13(
-      project,
-      world,
-      digest,
-      hostOptions(effects),
-    )
-    await runtime.runCommands(
-      [{ kind: 'hideEntity', target, ticks: 800 }],
-      { signal: new AbortController().signal },
-    )
+    const runtime = new ScriptProjectRuntimeV13(project, world, digest, hostOptions(effects))
+    await runtime.runCommands([{ kind: 'hideEntity', target, ticks: 800 }], {
+      signal: new AbortController().signal,
+    })
     expect(world.entityLifecycles).toEqual({
       s001: { e001: { phase: 'despawned', remainingTicks: 800 } },
     })

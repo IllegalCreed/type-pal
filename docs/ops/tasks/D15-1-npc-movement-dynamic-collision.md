@@ -1,6 +1,6 @@
 # D15-1 - NPC 移动补全：动态碰撞 + 互相让路 + 转向动画（议题 15）
 
-Status: build
+Status: done
 Phase: phase2
 Capability: 议题 15 NPC 自主移动（P1 引擎移动/碰撞/实体行为）
 Coding Owner: Codex
@@ -13,16 +13,25 @@ Branch: `main`
 
 ## 目标
 
-在已有 auto 巡逻基础上补全议题 15：自主地面移动不穿墙，可碰撞实体不互穿；玩家与
-移动 NPC 在有空间时确定性错位让路；成功移动、受阻转向和停步站立的动画状态一致。
-这是 clean rewrite 新机制，只借原版错位观感，不复制旧引擎的阻塞循环或全局冻帧。
+在保留 PAL authored 巡逻 / 演出穿墙语义的前提下补全议题 15：玩家与敌人追击使用动态碰撞，
+可碰撞实体不互穿；玩家与移动 NPC 在有空间时确定性错位让路；成功移动、受阻转向和停步站立
+的动画状态一致。普通敌人追击查地形与阻挡实体，`floating` 敌人追击跳过全部障碍；authored `moveEntity` /
+`stepEntity`（无论 interactive 或 auto）继续绕过地形与实体阻挡。
+
+## 2026-08-13 用户裁决（覆盖旧冻结设计）
+
+- PAL 的 NPC 巡逻与演出走位本来就允许穿墙；不能把 auto authored movement 改成 dynamic terrain。
+- 敌人追击分地面 / `floating` 两类：地面追击查地形与阻挡实体，`floating` 追击跳过原版整段
+  obstacle check，因此同时穿过地形与阻挡实体。
+- 因此前文历史签字中“auto move/step = dynamic”的部分失效，D15-1 转 `rework`；D15-2 路线迁移
+  前提失效并取消。其余批量仲裁、追击碰撞、authority、lifecycle、动画与测试设计继续有效。
 
 ## 范围
 
 - 范围内:
-  - 每个 100ms 世界拍统一规划玩家、auto locomotion、脚本 `chaseStep` 与引擎 hostile 的
-    dynamic movement；地图、连续实体 footprint、同目标 reservation、对穿 / swap 一次判定。
-  - auto `moveEntity` / `stepEntity` 按 source 进入动态碰撞；pending move 被主脚本接管时暂停并
+  - 每个 100ms 世界拍统一收集玩家、authored auto locomotion、脚本 `chaseStep` 与引擎 hostile；
+    authored movement 以 `scriptedBypass` 显式进入批次，dynamic chase 才查地图 / footprint。
+  - auto `moveEntity` / `stepEntity` 保持 authored bypass；pending move 被主脚本接管时暂停并
     在归还后从真实位置续走；one-shot step 在注册或提交前发现 authority 时丢该步并完成 ack。
   - 玩家↔正在自主移动的普通 NPC、NPC↔NPC 的确定性侧移 / 让路；无合法侧位时停步。
   - movement-owned gait 与 legacy `animEntity` / 定帧状态分离，补齐转向、走帧、停步。
@@ -32,7 +41,7 @@ Branch: `main`
   - 主脚本 `moveEntity` / `stepEntity` 的 authored endpoint、`nudgeEntity` 像素演出、
     `setPos` / `moveParty` / `ride` / mount / follower 派生的碰撞重写。
 - 明确不做:
-  - 不做 A*、navmesh、全局寻路或 60fps 物理 / 插值；墙挡住 authored auto waypoint 时不猜路。
+  - 不做 A*、navmesh、全局寻路或 60fps 物理 / 插值；authored auto waypoint 不应被墙阻挡。
   - 不改 content schema、save、migration、editor 或公开 `ScriptHost` 契约。
   - 不把 `collide:false` 的氛围 / 演出对象变成动态 blocker，不拆 follower / mount 的有意重叠。
   - 不把普通静态 NPC、script-owned NPC 或 hostile 当成可由玩家推走的对象。
@@ -73,10 +82,10 @@ Branch: `main`
     加 `isBlocked` 会产生同目标抢占、A↔B 对穿、数组顺序偏差和饥饿。
   - 当前 `entityAnim` 同时承载 walking gait 与 legacy `0x87 animEntity`；受阻时直接 delete
     会误清演出帧，不清又会永远停在抬腿帧。
-  - PAL 294 场景只读 census（口径：实体任一页启用 auto，且其 behavior registry 任一可选择候选含
-    move / step / nudge / chase）：989 个 auto 实体中 333 个潜在 mover，但只有 65 个
-    `collide:true`；不能把 268 个 non-solid 演出对象一刀切进实体互撞。只数当前 page 引用则为
-    311 mover / 60 solid / 251 non-solid；registry 行为仍可在 runtime 被选择，故设计取较宽口径。
+  - PAL 294 场景只读 census：registry-wide 可选 motion behavior 为 426 mover / 117 solid；其中
+    page-enabled 为 333 / 65，当前初始页为 311 / 60。registry-only 的 93 个 mover 均有
+    `selectEntityBehavior(channel:auto,use)` 引用，不是 dormant；不能把 non-solid 演出对象一刀切
+    进实体互撞，也不能用 333 的窄口径冒充全 registry 覆盖。
   - auto `moveEntity` Promise 只有真到 endpoint 后才能让 runtime 持久化位置；未到点 resolve
     会制造假存档，替换时 Abort 又可能杀死整条 auto runner。
 - 不得重新引入:
@@ -97,7 +106,8 @@ Branch: `main`
 - 本卡的 **motion tick** 是现有 100ms movement tick：dialogue 不冻结，menu / battle / gameplay
   freeze 按现主循环 gate；它不是 W9 `lifecycle eligible tick`。hostile 另叠加 presentation / menu /
   battle eligibility，auto 另叠加 authority / lifecycle gate，三者不得混用。
-- 所有 dynamic ground intent 查地图 / 界外；`floating` 只绕过 terrain。只有 lifecycle
+- 所有 dynamic ground chase intent 查地图 / 界外与实体；`floating` 绕过 terrain 和 actor obstacle。authored move / step
+  一律 `scriptedBypass`。只有 lifecycle
   `collidable` actor 参与实体 footprint / reservation；这叫 `hasBody`。只有 active autonomous
   ordinary solid NPC 叫 `yieldable`；hostile sensor 不等于 collision body。suspended solid 仍占位但
   无 autonomous intent，interactive scriptedBypass 仍可写；hidden / awaitingExit / removed 不占位。
@@ -108,7 +118,7 @@ Branch: `main`
 - auto / hostile 遇玩家时先尝试自身侧移；仍冲突时可按冻结候选原子让玩家一格。任何玩家
   被动位移都必须先通过 E6 `canWrite('world', 'party')`；通过后才更新 trail / camera，并只对最终
   落点执行一次 touch scan。party 被 script / mount 持有时请求方停步，零玩家副作用。
-- 主脚本 `moveEntity` / `stepEntity` 保留 authored bypass 并真到 endpoint；auto 途中被 take
+- 主脚本及 auto `moveEntity` / `stepEntity` 都保留 authored bypass 并真到 endpoint；auto 途中被 take
   时暂停而非 abort，release 后从真实位置恢复；scene / abort / removed 不得迟到写。
 - 只有成功 commit 才推进 gait；受阻可面向意图方向但显示站立帧；侧移朝实际位移方向；到点
   回站立。被拒移动不得误清 legacy explicit animation / frame override。
@@ -117,7 +127,7 @@ Branch: `main`
 ### 最低自动测试矩阵
 
 - 几何：0.25 / 0.375 / 0.5 / 1 四步距、snap segment、边界、凹角、双墙夹角；height
-  忽略；floating 穿 terrain 但 solid floating 不穿 actor。
+  忽略；floating 同时穿 terrain 与 solid actor。
 - 生命周期 / solid：collidable / non-collidable / self / hidden / suspended / removed；
   script / mount cluster 的有意重叠豁免。
 - 仲裁：两 NPC 同目标、迎面 swap、跟随进入已腾空位置、三实体链、最多 4 实体十字交会；打乱
@@ -135,7 +145,7 @@ Branch: `main`
   awaitingExit cancel auto 并在重现后从 canonical behavior cursor 重启；remove / scene switch 取消
   script + auto；script runner abort 只取消 script slot 并归还 authority；auto controller / behavior
   replace 只取消 auto slot。每格测试 Promise、cursor 与 stale endpoint。
-- hostile：多敌贴近只触发一次、普通 solid 挡路时侧移 / 等待、floating 只穿墙不穿 solid。
+- hostile：多敌贴近只触发一次、普通 solid 挡路时侧移 / 等待、floating 穿过 terrain 与 solid。
 - auto chase：PAL current13 的 7 个 `chasePlayer` site（s003/e60,e61；s049/e831；s250/e4409,
   e4410；s252/e4440 两条）都保持 pre-close / accepted-to-close / blocked 后下一次尝试的
   `fireTrigger(self)` 一次性终端语义；不得被 engine-hostile encounter scan 吞掉。
@@ -154,20 +164,21 @@ Branch: `main`
 
 - done 前更新 capability-map / 议题 15 口径；明确“不互穿”只保证 dynamic locomotion，
   authored nudge / mount / follower overlap 属例外。
-- build/review 前跑 PAL-wide dry simulation / diagnostic census：遍历 333 个潜在 mover 的所有可选
+- build/review 前跑 PAL-wide dry simulation / diagnostic census：遍历 426 个 registry-wide mover 的所有可选
   behavior，记录 terrain-blocked waypoint、永久等待、初始 overlap 和调用域；与基线审计，任何新增
   永久 blocked route 必须修上游迁移 / 内容源或登记明确例外，不能仅凭 s004/s006/s060 三入口
   宣称全 PAL 不回归。
 - build 期功能性最小验证:
-  - `http://localhost:6051/?scene=s004&pos=139,59&collision`：在 e76 附近反复沿其前进方向和
-    垂直方向穿插，连续观察至少 10 秒，验证单 NPC↔玩家让路、无穿墙 / 左右逐拍抖、转向与停步。
+  - `http://localhost:6051/?scene=s004&pos=139,59&collision`：此入口已成为 D15-2 红色 canary；
+    连续观察至少 15 秒 / 一整圈，必须确认 e76 不再在 `(136.375,50)` 永久等待后，才可用于
+    NPC↔玩家让路、无穿墙 / 左右逐拍抖、转向与停步验收。
     证据登记 `output/playwright/d15-1/s004-motion.webm` 与
     `output/playwright/d15-1/s004-positions.json`；trace 每条按 stable actor key / worldTick 排序并
     记录 from / proposed / outcome / to / blockReason，才可作确定性证据。
   - `http://localhost:6051/?scene=s006&pos=102,50&collision`：复验本场 non-solid / floating 明雷
     仍能追逐、贴近并恰好开战一次；它不是 solid 互撞样例。证据登记
     `output/playwright/d15-1/s006-hostile.webm`。
-  - `http://localhost:6051/?scene=s060&pos=148,54&collision`：多名 solid hostile 同时接近时
+  - `http://localhost:6051/?scene=s060&pos=155,47&collision`：多名 solid hostile 同时接近时
     不抢同格 / 对穿，只由 stable-id 首个贴近者开战。证据登记
     `output/playwright/d15-1/s060-solid-hostiles.webm`。
 - 集中 E2E 登记（剧情 / 演出观感延后，不在 build 期重复走）:
@@ -244,7 +255,7 @@ rejected intent 只更新 facing 不清旧演出；blocked idle 不暂停 semant
 **测试矩阵完整性 ✓（十三面）**：几何（0.25/0.375/0.5/1 + snap + 凹角 + floating）、生命周期/solid、
 仲裁（同目标/swap/三实体链/4 实体十字/shuffle 100）、玩家/NPC（双侧开放/全堵/auto 让/静态硬挡）、
 party authority（mounted/script 拒绝 passive-yield 零写）、脚本（take→script→release/droppedByAuthority）、
-cancellation matrix（每格 Promise/cursor/stale endpoint）、hostile（多敌一场/solid 侧移/floating 只穿墙）、
+cancellation matrix（每格 Promise/cursor/stale endpoint）、hostile（多敌一场/solid 侧移/floating 穿全部障碍）、
 auto chase（7 PAL site fixture）、overlap escape（1/0.5 初始 + 0.25/0.375 步进单调脱离）、trigger/effect
 order（拍初/拍中/final/被动推到门/loadScene 同拍）、动画（四态 + slow 隔拍 + 像素轴朝向 + follower 不跳格）、
 PAL fixture contract（s004/s006/s060 验收入口存在 + lifecycle 前提）。本人确认 s004(e76 collide:true)、
@@ -263,12 +274,61 @@ chasePlayer 6 实体 7 occurrences 精确吻合 / s004 e76 collide:true + s006/s
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
-- Kimi: pending
-- GLM: pending
-- counter / 返工处理: N/A
+- Codex: **accept（2026-08-13；实现、自验与 Kimi P2 收口完成）**
+- Kimi: **accept（2026-08-13，本人 rework 实现复审；证据见「Kimi rework 复审证据」）**
+- GLM: **accept（2026-08-13，本人 rework 真值/覆盖复审；证据见「GLM rework 复审证据」）**
+- counter / 返工处理: 无 counter；Kimi 3 条 P2 已收口：删除未消费的 D15-2
+  `entity-motion-contract` 导出/文件/测试、校正 D15-2 取消卡 floating 口径、补 bypass endpoint
+  同拍阻挡 ground pursuit 的 authored/floating 双例测试。
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **通过**。Codex / Kimi / GLM review accept 已齐，用户于 2026-08-13 最终验收通过。
+
+#### Kimi rework 复审证据（2026-08-13，本人；只读核查 + 复跑，未改实现，未代签 GLM）
+
+**真值复核 ✓**：原版 `PAL_MonsterChasePlayer` 的 `fFloating` 分支（`reference/sdlpal/script.c:436-483`）
+直接 `wMonsterSpeed = wSpeed`，跳过整段 `PAL_CheckObstacle`（含 :442 的 tile+event-object 检查与
+:452-482 的四向避障微调）；obstacle 组成（`scene.c:512-633`）= 地图 tile + `sState >= 2` event
+object；`PAL_NPCWalkTo`/`PAL_NPCWalkOneStep`（`script.c:31-98`、`scene.c:851-903`）无 obstacle
+check。一阶段移植忠实（`event-system.ts:5649-5678` 同构分支、`bootstrap.ts:929-932` 注入 tile+
+event object checker）；新回归（`event-system.test.ts:2208-2240`）用同一个恒阻挡 checker 钉死
+ground 必查 / floating 完全不查且仍位移，非文案测试。
+
+**entity-motion.ts ✓**：`intentBypassesCollision`（:525-527）= `scriptedBypass | floating`；bypass
+先线性化且 committed endpoint 经 `basePositions`（:1053-1067）成为其他 mover 的正常 solid
+snapshot；`candidateTerrainBlocked` 对 floating 短路（:519-522）；party yield 的 side-only 强制
+排除 floating（:1120-1128）；动态解算经 `dynamicExcluded` 排除 bypass，floating 因此不可能侧移
+或等待；escape 聚合、vacate 子相位、cycle 拒绝、fail-closed phase replay（:682-888）、side-stick
+epoch 绑定与 4-tick 上限（:1345-1380）、party 三分支（NPC 让 / 玩家侧移 / 双停，:1080-1206）
+与 passive yield 单一落点重规划（:1208-1292）逐分支核完，未发现漏分支。
+
+**production wiring ✓**：`runtimeMotionCollision`（`motion-runtime-wiring.ts:13-17`）move/step→
+`scriptedBypass`、chase/hostile→`dynamic`；`main.ts` hostile 取 `chase.floating`（:4702）、chase slot
+取 `slot.floating`（:4761）、`allowSidestep = dynamic && !floating`（:4788）；party intent 仅在
+`canWriteParty` 时提交（:4801-4802），`partyCanYield = canWriteParty && !pendingTouchTrigger.pending`
+（:4894）——E6 canWrite 钉已落实到 production 路径。
+
+**测试钉 ✓**：floating 对恒阻挡 terrain + 落点 solid body 仍 moved（`entity-motion.test.ts:441-458`）；
+authored script/auto 双 source 对恒阻挡 terrain + body 仍 moved（:470-486）；ground dynamic 仍
+terrain 硬停 / actor 可侧移（:420-439）；非 body mover 查 terrain 不穿规则（:460-468）均在。
+
+**D15-2 残留 ✓**：`packages/migrate` 在当前 working tree 零改动（`git status` 全量核对）；仓内
+`d15` 命中均为决策 D15（资产管线）引用，非路线迁移残留；D15-2 卡已标 `cancelled`。
+
+**P2 非阻塞清理项（不构成 counter）**：
+1. `packages/reforge/src/entity-motion-contract.ts` + 其 test + `package.json` 的
+   `./entity-motion-contract` 导出是 D15-2 预期残留：注释仍声称服务「PAL migration dry executor」，
+   但实际无任何生产消费方（`audit-entity-motion.mts` 直接引用底层模块）。建议删除三件套或改写
+   注释归属；不影响运行正确性，不恢复路线迁移。
+2. D15-2 卡取消通告末行仍写「floating 只跳过 terrain」的旧窄口径，与最终裁决（跳过整段
+   obstacle check，含阻挡实体）不一致；建议 Codex 顺手校正该历史卡文案。
+3. 「bypass mover 的 committed endpoint 同拍仍挡 dynamic mover」目前由 `basePositions` 结构保证，
+   无直接单测；建议补一条小钉（floating/authored 落点阻挡 ground chase）。
+
+**复跑**：`pnpm --filter @type-pal/reforge typecheck` 通过；`pnpm --filter @type-pal/reforge test`
+**99 files / 1013 tests** 全绿；`pnpm --filter @type-pal/game exec vitest run
+src/core/event-system.test.ts` **326 tests** 全绿；`git diff --check` 通过。浏览器 s004/s006/s060
+复验采用 Codex 2026-08-13 已登记探针证据（tick 级坐标），本人未重复跑；剧情/载具观感按集中
+E2E 纪律延后。
 
 ## Draft: 设计与风险
 
@@ -311,12 +371,13 @@ mover / passive-yield target。script / mount 持有 party 时，party cluster �
   authored timing；脚本 actor 到达后的 committed position 仍作为 solid snapshot blocker。
 - `nudgeEntity`（包括 auto 内的像素 nudge）、绝对 setPos、`moveParty`、ride / mount、follower
   派生：保持编排 / 派生直写，不交给 dynamic planner，也不承诺消除其 authored overlap。
-- auto `moveEntity` / `stepEntity`：`dynamic`。所有地面 mover 查 terrain；只有自身和对方均为
-  solid footprint 参与 actor 互斥。non-solid auto 仍查墙，但不阻挡 / 不被 actor reservation 阻挡。
+- auto `moveEntity` / `stepEntity`：`scriptedBypass`。它们是 authored 巡逻 / 演出，与 interactive
+  authored movement 同域，不查 terrain 或 actor reservation；仍参与同拍线性化、authority 与
+  endpoint durability，但不因动态 blocker 永久等待。
 - `chaseStep`（auto 或 interactive script）与引擎 hostile：`dynamic`。scriptHost chase 仍可 take
   目标实体，但碰撞语义保持行为型 chase，不等同 authored endpoint move。
-- floating 只跳过 terrain，绝不自动跳过 solid actor；非-solid floating 才因本身不占空间而
-  可穿 actor。
+- floating 跳过 terrain 与 solid actor obstacle；这与原版 `PAL_MonsterChasePlayer` 在
+  `fFloating` 分支直接跳过整段 `PAL_CheckObstacle` 一致。
 
 #### 3. 连续 footprint 与 swept 规则
 
@@ -397,13 +458,12 @@ mover / passive-yield target。script / mount 持有 party 时，party cluster �
 
 #### 6. 阻塞、接管、lifecycle 与 Promise 语义
 
-- auto `moveEntity` 只有真到 endpoint 才 resolve / 持久化。actor 临时阻挡时侧移或等待；terrain
-  / 永久阻挡时低频等待，不做路径猜测，也不虚假完成。等待只挂起该实体 runner，不忙循环；
-  20 个实际尝试且 blocked 的 ticks 后报告一次诊断，此后节流；slow 空拍、authority / suspend
-  暂停不计数，不污染内容 / save。
-- auto `stepEntity` / `chaseStep` 是单次尝试：blocked 时只转向、不走帧，然后按既有 pacing 完成；
+- auto `moveEntity` 只有真到 endpoint 才 resolve / 持久化，但作为 authored bypass 不受 terrain / actor
+  阻挡；等待只来自 cadence、authority、lifecycle 或取消边界，不做路线猜测。
+- auto `stepEntity` 同为 authored bypass 单次走位；`chaseStep` 才是 dynamic 单次尝试，blocked 时只
+  转向、不走帧，然后按既有 pacing 完成；
   引擎 hostile 留到后续 eligible tick 重试。
-- public `stepEntity(): void` 不变；interactive step 仍立即 scriptedBypass。auto adapter 使用内部
+- public `stepEntity(): void` 不变；interactive / auto step 都是 scriptedBypass。auto adapter 使用内部
   one-shot ack bridge，在下一 motion tick 的 outcome 确定后才让该 leaf 到达 safe-point；不能让
   v5 / v13 cursor 在 commit 前越过命令。auto step 注册时或已经 enqueue 但提交前一旦发现 script
   authority，统一产出 `droppedByAuthority` outcome、resolve ack 且不留 stale step；它不暂停续走。
@@ -438,7 +498,7 @@ mover / passive-yield target。script / mount 持有 party 时，party cluster �
 - hostile cooldown / awareness / presentation / menu / battle gate 保持；到期意图只在下一个合格
   world tick 进入 planner。encounter 严格服从上一节 pre-contact→touch→post-contact 的唯一顺序，
   首个命中设置 busy，其他 hostile 本拍不得重复开战。
-- ordinary solid actor 可使 hostile 侧移或等待；floating 只越 terrain。抵近阈值和战斗结果后的
+- ordinary solid actor 可使 ground hostile 侧移或等待；floating 越过 terrain 与 solid actor。抵近阈值和战斗结果后的
   disappear / respawn policy 不在本卡重写。
 - `chaseStep` 是脚本 / auto behavior，不走 engine-hostile scan：leaf 开始的 snapshot `dist<=1`
   时直接对 self `fireTrigger` 一次并按既有 wait resolve；accepted movement 本拍新到 `<=1` 不抢跑，
@@ -468,7 +528,7 @@ mover / passive-yield target。script / mount 持有 party 时，party cluster �
 ### 已知风险
 
 - 风险: script / auto 共用 host 原语，source 分层不完整会让剧情卡死或 auto runner 被 Abort 杀死。
-- 缓解: 内部 source slot + script bypass / auto dynamic 调用域表；take→release 与 endpoint 持久化
+- 缓解: 内部 source slot + authored bypass / chase dynamic 调用域表；take→release 与 endpoint 持久化
   集成测试是 build 硬钉。
 - 风险: 分数步和 snap 只查 endpoint 仍会穿 actor / 窄墙。
 - 缓解: 连续 footprint + swept segment + terrain 0.25 格采样的纯函数测试。
@@ -478,9 +538,9 @@ mover / passive-yield target。script / mount 持有 party 时，party cluster �
 - 缓解: 4-tick side-stick；只有 active ordinary autonomous NPC 可被动让路，其余硬挡。
 - 风险: gait 拆分误清 0x87、定帧、semantic action。
 - 缓解: 明确渲染优先级和 rejected-move 不清理规则，补 legacy animation ownership 回归。
-- 风险: 现有 PAL authored auto waypoint 穿墙，收紧后某实体永久等待。
-- 缓解: 不假 resolve、不阻塞全局；blocked 诊断 + PAL fixture / 浏览器巡检，若是内容迁移缺陷则按
-  上游铁律另开卡修迁移源，不在 runtime 放特判；done 前交 PAL-wide dry simulation census。
+- 风险: 把 PAL authored auto waypoint 错归为 dynamic 会让合法穿墙演出永久等待。
+- 缓解: production collision-domain 单测冻结 move/step=`scriptedBypass`、chase/hostile=`dynamic`；
+  floating 另由 planner 跳过 terrain 与 actor obstacle。不得再以路线迁移补偿错误运行时分类。
 - 设计主动偏离原版: 原版 hostile 受阻仍会调用 speed=0 step 并推进腿帧，Reforge 冻结为 blocked
   站立不踏步；原版推离玩家不更新 trail，Reforge 为 follower 路径一致性主动记录真实离格方向；
   `<1` Chebyshev 对称 footprint 也比原版约 `<0.5` 的点对 blocker 更保守。三项均是 clean rewrite
@@ -536,13 +596,46 @@ mover / passive-yield target。script / mount 持有 party 时，party cluster �
 ## Build: 实现与自测
 
 - Coding Owner: Codex
-- 修改文件: 第一批预计 `packages/reforge/src/entity-motion.ts`、对应 test 与 `main.ts` 适配；
-  实际文件随 build 追加。
-- 实现摘要: 2026-08-12 三签齐，进入 build；先落 pure geometry / reservation arbiter，再接
-  source slots、player/auto/hostile、gait 和 PAL-wide census，保持单一 Coding Owner。
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: N/A
+- 修改文件: `packages/reforge/src/entity-motion.ts`、`entity-walk.ts`、`motion-batch.ts`、
+  `motion-runtime-coordinator.ts`、`deferred-trigger.ts` 与对应 tests；`main.ts`、v5/v13/legacy
+  script runtime 适配；`scripts/audit-entity-motion.mts` 与 package script。
+- 实现摘要: 已落 pure continuous-footprint / swept arbiter、stable component fairness、side-stick、
+  player mutual/passive yield、scriptedBypass；main 已统一 player/authored-auto/script-chase/hostile 100ms
+  snapshot→plan→atomic commit，拆分 gait 与 explicit animation，加入 source 双 slot、activation /
+  authority epoch、lifecycle hide/suspend/restore、deferred touch 与 chase terminal、endpoint durability
+  顺序。move/step/chase attempted 统一走 target-scoped continuation gate（目标/owner lifecycle、目标
+  authority、deferred-touch delivery fence）；accepted move/step 的 exact activation lineage 保留到该
+  safe-point 真正放行，cross-target hide/remove 可正确 abort + canonical restart。`MotionRuntimeCoordinator`
+  是 production main 真正持有的 authority、双 slot、scene session、
+  hidden-target restart 与 committed-continuation lineage，定向集成测不再复制旁路状态机。
+- 运行命令（2026-08-13）:
+  - `pnpm --filter @type-pal/reforge typecheck`：通过。
+  - `pnpm --filter @type-pal/reforge test`：98 files / 1014 tests 通过（collision-domain 修正、
+    浏览器验收探针与 Kimi P2 清理后重跑）。
+  - `pnpm --filter @type-pal/game typecheck`：通过；`pnpm --filter @type-pal/game test`：
+    123 files / 2306 tests 通过，包含新增的 `0x4C floating` 完整绕过 obstacle checker 回归。
+  - `pnpm --filter @type-pal/editor test`：98 files / 826 tests 通过；
+    `pnpm --filter @type-pal/content test`：39 files / 462 tests 通过。
+  - `pnpm --filter @type-pal/reforge audit:entity-motion`：294 scenes；registry 426/117、
+    page-enabled 333/65、current 311/60；33 blocked endpoints、88 confirmed sequential segment
+    hits、237 unresolved origins、10 initial solid overlaps。该结果是 discovery red，不是 PAL-wide green。
+- 浏览器 / 手工检查（2026-08-13）:
+  - s077：多名 solid NPC 实际移动并停步；s060 `pos=155,47`：多 hostile 追逐且只进入一场战斗；
+    s006：non-solid/floating 蜜蜂仍追逐并开战。
+  - s004 e76 曾在 auto 被错误归类为 dynamic 时约 11.6 秒命中 terrain 并永久等待；用户确认该
+    authored 巡逻应穿墙，现已以调用域修正而不是内容改线。
+- 用户裁决后的 collision-domain 复验（2026-08-13，`?collision&motion-entity=...`）:
+  - s004/e76 authored auto：tick 117 到达旧卡死采样点 `(136.375,50)`，tick 128 到达原 endpoint
+    `(132,50)`，随后继续 `(132,46.625) → (126,45) → (124,50) → (122,67.25)`；证明未改路线、
+    terrain 不阻挡 authored move、runner 未永久等待。
+  - s006/e154 floating hostile：离开 `(102,45)` 的右侧第一格由 `isBlockedAt(map-004)` 证明为
+    collision；实际 tick 2 已到 `(104,45)`、tick 3 到 `(105,45)` 并贴近玩家，证明 floating chase
+    跳过 terrain。
+  - s060/e1150 ground hostile：`isBlockedAt(map-055)` 证明上下左右四邻均 collision；玩家在
+    `(127,53)` 时，world tick 0→65 始终停在 `(124,53)`，仅朝向变为 right、gait 始终 null，证明
+    ground chase 被 terrain 阻挡且不会播放假走帧。
+- 跳过的检查及原因: s004 / s006 / s060 的本轮 collision-domain 验收已跑；仅剧情/载具集中 E2E
+  暂未跑，按项目视觉验证纪律在代码冻结后集中执行。
 
 ## 视觉验证记录(如适用)
 
@@ -551,20 +644,72 @@ mover / passive-yield target。script / mount 持有 party 时，party cluster �
 - 验证方式: build 期 s004 / s006 / s060 功能性最小验证；代码冻结后 s001 / s213 集中 E2E。
 - 集中 E2E 用例 / 批次: 见「验收条件」。
 - 截图 / 像素检查路径: pending（预登记 `output/playwright/d15-1/`）。
-- 结论: pending
-- 未完成项: 全部；当前仍为 draft。
+- 结论: collision-domain 功能性验收通过：s004 authored 巡逻穿过旧阻点并继续，s006 floating
+  hostile 穿障，s060 ground hostile 被 terrain 阻挡；三方 review 与用户最终验收均通过。
+- 未完成项: 无 D15-1 单卡 blocker；s001 / s213 剧情与载具观感仍按仓库视觉纪律登记在后续集中
+  E2E 批次，不重开本卡。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: 旧设计的 auto dynamic 部分被用户裁决推翻；rework collision-domain 修正后 GLM 复审
+  **accept**（见下方「GLM rework 复审证据」）；Kimi 复审 **accept**（2026-08-13，见上方
+  「Kimi rework 复审证据」，含 3 条 P2 非阻塞清理项）。
+- 必须返工项: authored auto move/step 恢复 scriptedBypass ✓；撤销 D15-2 路线迁移 ✓（Status=cancelled）；
+  Kimi 3 条 P2 清理 ✓。
+- Accept / rework: **Codex + Kimi + GLM 均 accept；用户最终验收通过，整卡 done**。
+
+### GLM rework 复审证据（2026-08-13，本人数据/真值/覆盖审查席；非代理）
+
+- **GLM: accept**（D15-1 rework collision-domain 修正）。五项标准逐项核实成立：
+
+**标准 1 — event-system.test.ts floating 回归 ✓**：`event-system.test.ts:2208-2240` 使用**同一个
+  永远阻挡 checker** `vi.fn(() => true)`：
+  - ground chase（operands `[0,0,0]`, floating=0）→ `expect(obstacle).toHaveBeenCalled()`（:2222）
+  - floating chase（operands `[0,0,1]`, floating=1）→ `expect(obstacle).not.toHaveBeenCalled()`（:2235）
+  - floating 确实移动 → `expect(npcs[0]).toMatchObject({ x:124, y:54 })`（:2236，从 (132,50) 移到 (124,54)）
+  对应实现 `event-system.ts:5649-5650` floating 分支直接 `wMonsterSpeed = wSpeed`、不调 `isObstacle`；
+  `:5651-5678` ground 分支调 `isObstacle(cx,cy,true,npc.id)` + 四向微调。`isObstacle`（:5702）经
+  `_obstacleChecker` 注入。与 sdlpal `PAL_MonsterChasePlayer` 的 `fFloating` 分支一致。
+
+**标准 2 — entity-motion.test.ts 覆盖 ✓**：
+  - floating 穿 terrain + solid actor（`:441-458`）：`terrainBlocked:()=>true` + 目标位 `body('b',pos(1))`
+    → floating outcome `moved`，证明同时穿 terrain 与 solid body。
+  - authored script/auto 穿 terrain + bodies（`:470-486`）：`test.each(['script','auto'])` +
+    `collision:'scriptedBypass'` + `terrainBlocked:()=>true` + 目标 body → `moved`，证明 authored 穿全部。
+  - ground dynamic 受阻（`:420-437`）：actor 侧位允许，但 terrain 阻挡 → `blocked, reason:{kind:'terrain'}`。
+
+**标准 3 — 文案统一，无残留"floating 只忽略地形" ✓**：全部六处文案一致表述"忽略地形**与阻挡实体**"：
+  - `content/src/index.ts:98` `floating 忽略地形与阻挡实体`
+  - `content/src/script.ts:95` 同上
+  - `editor App.tsx:3042` / `CanonicalScriptEditorV5.tsx:1368,1803` / `command-catalog.ts:405` 追击时忽略地形与阻挡实体
+  - `editor ScriptTree.tsx:93` `忽略障碍`（通用）
+  - `capability-map.md:173` `floating 追击跳过地形与阻挡实体`
+  - D15-1 卡文 :18/:109/:130/:148/:258/:330/:452/:494 全部 `跳过全部障碍` 或 `穿 terrain 与 solid actor`
+  grep 无"只忽略地形"残留。
+
+**标准 4 — 测试证据闭合 ✓（本人实跑）**：
+  - Game `check` → **123 files / 2306 tests passed**
+  - Reforge `check` → **99 files / 1013 tests passed**
+  - Editor `check` → **98 files / 826 tests passed**
+  - Content `check` → **39 files / 462 tests passed**
+  - `git diff --check` clean
+
+**标准 5 — D15-2 取消 + migrate clean ✓**：D15-2 卡 `Status: cancelled`；
+  `ls packages/migrate/src/pal-d15*.ts` 零命中（D15-2 实现已全部撤销）；
+  `git status packages/migrate/` 零改动（migrate clean）。旧 route audit（33 endpoint / 88 segment）
+  未被当成内容缺陷复活。
+
+Evidence: event-system.test.ts:2208-2240 / event-system.ts:5649-5678,5702 /
+  entity-motion.test.ts:441-486,420-437 / content/src/index.ts:98, script.ts:95 /
+  editor App.tsx:3042, CanonicalScriptEditorV5.tsx:1368,1803, command-catalog.ts:405 /
+  capability-map.md:173 / 四包 check 实跑全绿 / D15-2 cancelled + migrate clean。
+  只读复审，未改实现文件，未代签 Kimi，未标 done。
 
 ## 用户验收
 
-- 用户结论: pending
-- 后续任务: pending
+- 用户结论: **通过（2026-08-13）**。
+- 后续任务: 无；D15-2 保持 cancelled，不恢复 PAL 路线迁移。
 
 ## 交接日志
 
@@ -585,8 +730,92 @@ mover / passive-yield target。script / mount 持有 party 时，party cluster �
 - 2026-08-12 GLM（本人实体行为/测试覆盖主审）: 签 **agree**；无新增 counter，完整证据见
   「GLM 设计主审证据」。签字写入时实际基线为 `ca9b422d`，陈旧 HEAD 文本由 Codex 仅作元数据
   校正。Next: 三方 agree 齐，D15-1 进入 build，Coding Owner Codex 开始 pure arbiter。
+- 2026-08-13 Codex: runtime build 主体完成并自验；production coordinator、production wiring 与全 Reforge
+  98/1006 测试通过。PAL-wide audit 把原 333 窄口径校正为 registry 426，并发现 33 endpoint /
+  88 sequential segment terrain blocker；s004/e76 已浏览器实证永久等待。按上游铁律开 D15-2，
+  D15-1 保持 build，不进入 review/done，直到 D15-2 完成并重跑 PAL-wide census。
+- 2026-08-13 User: 明确裁决 authored NPC 巡逻 / 演出走位允许穿墙；普通敌人追击查碰撞，
+  `floating` 敌人追击穿墙。Codex 将 D15-1 转 rework，修正 production collision domain，
+  D15-2 因前提错误取消。
+- 2026-08-13 Codex: 已按用户裁决完成 collision-domain 返工并自验；真实浏览器验收分别证明
+  s004/e76 authored auto 穿过旧阻点并继续巡逻、s006/e154 floating hostile 穿过 terrain、
+  s060/e1150 ground hostile 被四邻 terrain 阻挡。Reforge 全量 99 files / 1013 tests 通过，
+  D15-2 实现已全部撤销且 `packages/migrate` 无改动。任务仍保持 rework，等待 Kimi / GLM 复审及
+  用户最终验收，不由 Codex 单方面标记 done。
+- 2026-08-13 Codex: 按用户要求重新逐行核对原版与第一阶段；`PAL_MonsterChasePlayer` 的
+  `fFloating` 分支直接跳过含地图与 event-object 的整段 `PAL_CheckObstacle`，第一阶段移植相同。
+  据此纠正先前“只跳过 terrain”的过窄解释：Reforge planner、回归测试、editor/content 文案均改为
+  floating 跳过 terrain 与阻挡实体。
+- 2026-08-13 User: 最终验收 **通过**。Codex / Kimi / GLM review accept 已齐，D15-1 标记 done；
+  D15-2 继续保持 cancelled。
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词；三方设计签字已齐，Coding Owner Codex 在本会话继续 build。实现完成并
-自验后再生成 Kimi / GLM review 提示词，done 前仍须三方 accept。
+无下一位 Agent 提示词：Codex / Kimi / GLM review accept 与用户最终验收均已完成，以下两份提示词
+已经执行，仅保留为历史交接证据。
+
+### 给 Kimi（架构 / 代码复审，可直接复制）
+
+你是 type-pal 三贤人系统的 Kimi 架构审查席。请对任务卡
+`docs/ops/tasks/D15-1-npc-movement-dynamic-collision.md` 当前 rework 实现做只读复审。先完整阅读
+`AGENTS.md`、`CLAUDE.md`、`docs/phase2/READ-FIRST.md`、该任务卡，以及以下真值锚点：
+
+- 原版 authored 走位：`reference/sdlpal/script.c:31-98`、`reference/sdlpal/scene.c:851-903`；
+  `PAL_NPCWalkTo/PAL_NPCWalkOneStep` 不调用 obstacle check。
+- 原版追击：`reference/sdlpal/script.c:310-500`；ground 分支调用
+  `PAL_CheckObstacle(..., TRUE, self)`，`fFloating` 分支直接跳过整段 obstacle check。
+- obstacle 组成：`reference/sdlpal/scene.c:512-633`，包括地图 tile 与 `sState >= 2` event object。
+- 第一阶段忠实移植：`packages/game/src/core/event-system.ts:5373-5428,5590-5703`、
+  `packages/game/src/shell/bootstrap.ts:925-932`，新增回归在
+  `packages/game/src/core/event-system.test.ts` 的“0x4C floating 跳过整段障碍检查”。
+
+重点审查当前实现：
+
+1. `packages/reforge/src/entity-motion.ts`：authored `scriptedBypass` 与 `floating` 是否都绕过 terrain、
+   solid body、reservation；ground dynamic 是否仍完整参与仲裁；floating 落点之后是否仍作为正常
+   solid snapshot 供其他 mover 判断；是否存在 side-stick / party-yield / assignment 漏分支。
+2. `packages/reforge/src/main.ts` 与 `motion-runtime-wiring.ts`：move/step、ground chase/hostile、floating
+   chase/hostile 的 production wiring 是否准确；floating 是否不会错误侧移或等待。
+3. `packages/reforge/src/entity-motion.test.ts`：是否真正钉住 terrain + solid actor 两类绕过，而非只测
+   文案或 terrain。
+4. D15-2 已因错误前提取消；确认 `packages/migrate` 无 D15-2 实现残留，不得恢复路线迁移。
+5. 不重复跑已有 s004/s006/s060 浏览器流程，除非发现仅靠代码与自动测试无法判断的新缺陷。
+
+可复跑：
+
+`pnpm --filter @type-pal/reforge typecheck`
+`pnpm --filter @type-pal/reforge test`
+`pnpm --filter @type-pal/game exec vitest run src/core/event-system.test.ts`
+`git diff --check`
+
+请输出明确结论 `accept` 或 `counter`。若 `counter`，按 P0/P1/P2 给出文件、行号、失败机制和最小
+返工项；若 `accept`，把 Kimi review 签字与验证证据写入本任务卡。不得改实现文件、不得代替用户
+做最终验收、不得标记 done。
+
+### 给 GLM（真值 / 覆盖复审，可直接复制）
+
+你是 type-pal 三贤人系统的 GLM 数据、真值与测试覆盖审查席。请对任务卡
+`docs/ops/tasks/D15-1-npc-movement-dynamic-collision.md` 当前 rework 做只读覆盖审查。先完整阅读
+`AGENTS.md`、`CLAUDE.md`、`docs/phase2/READ-FIRST.md`、该任务卡；再独立对照：
+
+- `reference/sdlpal/script.c:31-98,310-500`
+- `reference/sdlpal/scene.c:512-633,851-903`
+- `packages/game/src/core/event-system.ts:5373-5428,5590-5703`
+- `packages/game/src/shell/bootstrap.ts:925-932`
+
+必须独立确认三类语义：authored move/step 忽略全部碰撞；ground chase/hostile 检查 terrain 与阻挡
+实体；floating chase/hostile 跳过完整 obstacle check，因此同时穿 terrain 与阻挡实体。重点检查：
+
+1. `packages/game/src/core/event-system.test.ts` 新回归是否用同一个永远阻挡 checker 证明 ground 会查、
+   floating 完全不查，并验证 floating 确实移动。
+2. `packages/reforge/src/entity-motion.test.ts` 是否覆盖 floating 穿 terrain + solid actor，authored
+   script/auto 穿 terrain + bodies，以及 ground dynamic 仍受阻。
+3. `packages/content/src/index.ts`、`packages/content/src/script.ts`、editor 四处字段/表单/树文案、
+   `docs/phase2/capability-map.md` 与任务卡是否统一，没有残留“floating 只忽略地形”的错误描述。
+4. 测试证据是否闭合：Game 123 files / 2306 tests；Reforge 99 / 1013；Editor 98 / 826；
+   Content 39 / 462；四包 typecheck 与 `git diff --check` 通过。
+5. D15-2 取消边界与 `packages/migrate` clean 是否属实；不得把旧 route audit 当成内容缺陷复活。
+
+请输出明确结论 `accept` 或 `counter`。若发现漏项，给出精确文件/行号、漏掉的语义组合与应补测试；
+若 `accept`，把 GLM review 签字和覆盖证据写入本任务卡。不得改实现文件、不得代替用户最终验收、
+不得标记 done。

@@ -25,8 +25,8 @@ import type {
   WorldScriptState,
 } from '@type-pal/content'
 import { applyStageNext, stageIndexFor } from '@type-pal/content'
-import { expectDefined } from './defined.js'
 import type { BattleResult } from './battle/battle-result.js'
+import { expectDefined } from './defined.js'
 import type { ResolvedScript, ScriptResolver } from './script-chunk-store.js'
 
 export type ScriptBinding = RuntimeScriptBinding
@@ -312,6 +312,11 @@ export class ScriptRunner {
   onStep?: (ev: StepEvent) => void
   /** 演出预览(编辑器):单步门 —— 设置后每条命令执行前 await(实现方自行响应 abort)。 */
   gate?: () => Promise<void>
+  /**
+   * 宿主私有提交门：命令返回后、cursor/pace 推进前等待其内部异步副作用线性化。
+   * 例如 public `stepEntity(): void` 保持不变，而 auto runtime 可在这里等待下一 world tick ack。
+   */
+  afterCommand?: () => Promise<void>
 
   constructor(
     private readonly host: ScriptHost,
@@ -336,6 +341,10 @@ export class ScriptRunner {
       this.onStep?.({ path: cur, cmd })
       await this.exec(cmd, cur)
       throwIfAborted(this.signal)
+      if (this.afterCommand) {
+        await this.afterCommand()
+        throwIfAborted(this.signal)
+      }
       if (this.paceMs > 0) {
         await this.host.wait(this.paceMs, this.signal)
         throwIfAborted(this.signal)
@@ -706,8 +715,7 @@ export class ScriptRunner {
         )
         throwIfAborted(this.signal)
         if (r === 'defeat' && cmd.onLose) return this.runBody(cmd.onLose, [...path, 'onLose'])
-        if (r === 'playerFled' && cmd.onFlee)
-          return this.runBody(cmd.onFlee, [...path, 'onFlee'])
+        if (r === 'playerFled' && cmd.onFlee) return this.runBody(cmd.onFlee, [...path, 'onFlee'])
         return
       }
       case 'teleportOut': {

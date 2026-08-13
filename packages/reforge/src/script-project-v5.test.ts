@@ -1,6 +1,6 @@
 import {
-  type LegacyManifestV12,
   emptyWorldScriptStateV5,
+  type LegacyManifestV12,
   type SceneDefV5,
   type WorldStateV7,
 } from '@type-pal/content'
@@ -204,6 +204,65 @@ describe('canonical script v5 project runtime', () => {
     await moving
     expect(world.entityPos?.s001?.e1).toEqual(command.to)
     expect(changed).toEqual(['moveEntity'])
+  })
+
+  test('moveEntity commit control linearizes canonical endpoint before later same-actor writes', async () => {
+    const world = emptyWorldScriptStateV5()
+    const effectDone = deferred<void>()
+    const changed: string[] = []
+    const runtimeHost = new ProjectScriptRuntimeHostV5(world, new FlowRuntimeCoordinatorV5(), {
+      ...host(async (command, _context, _signal, control) => {
+        if (command.kind !== 'moveEntity') return
+        expect(control?.moveEntityEndpointCommitted).toBe(false)
+        control?.commitMoveEntityEndpoint()
+        expect(control?.moveEntityEndpointCommitted).toBe(true)
+        await effectDone.promise
+      }),
+      worldChanged: (command) => {
+        changed.push(command.kind)
+      },
+    })
+    const command = {
+      kind: 'moveEntity' as const,
+      target: { scene: 's001', entity: 'e1' },
+      to: { col: 7, row: 9, height: 0 },
+      speed: 'normal' as const,
+    }
+    const moving = runtimeHost.execute(command, {}, new AbortController().signal)
+
+    await Promise.resolve()
+    expect(world.entityPos?.s001?.e1).toEqual(command.to)
+    // Models a touch script mutation that runs after the endpoint commit but before the old leaf
+    // continuation resumes. The runtime must not replay the old endpoint over this newer truth.
+    world.entityPos!.s001!.e1 = { col: 11, row: 12, height: 0 }
+    effectDone.resolve()
+    await moving
+    expect(world.entityPos?.s001?.e1).toEqual({ col: 11, row: 12, height: 0 })
+    expect(changed).toEqual(['moveEntity'])
+  })
+
+  test('post-commit abort stops continuation without rolling back the endpoint', async () => {
+    const world = emptyWorldScriptStateV5()
+    const abort = new AbortController()
+    const runtimeHost = new ProjectScriptRuntimeHostV5(
+      world,
+      new FlowRuntimeCoordinatorV5(),
+      host((command, _context, _signal, control) => {
+        if (command.kind !== 'moveEntity') return
+        control?.commitMoveEntityEndpoint()
+        abort.abort()
+      }),
+    )
+    const command = {
+      kind: 'moveEntity' as const,
+      target: { scene: 's001', entity: 'e1' },
+      to: { col: 7, row: 9, height: 0 },
+      speed: 'normal' as const,
+    }
+    await expect(runtimeHost.execute(command, {}, abort.signal)).rejects.toMatchObject({
+      name: 'AbortError',
+    })
+    expect(world.entityPos?.s001?.e1).toEqual(command.to)
   })
 
   test('a superseding move commits only the latest endpoint', async () => {

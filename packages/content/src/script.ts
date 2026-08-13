@@ -92,7 +92,7 @@ export type Command =
       frameRate?: number
     }
   // ── B8 野外遇敌(原版 0x4C/0x4B/0x4E + GameOver 枢纽的干净表达)──
-  /** 向玩家追一步(auto 脚本里即持续追逐——auto runner 天然循环)。range 格内才追(切比雪夫);floating 无视碰撞。 */
+  /** 向玩家追一步(auto 脚本里即持续追逐——auto runner 天然循环)。range 格内才追(切比雪夫);floating 忽略地形与阻挡实体。 */
   | { kind: 'chasePlayer'; range?: number; speed?: number; floating?: boolean }
   /** 实体消失 seconds 秒后重现(野怪被打败的重生窗;临时态不进存档)。缺 entity = 触发者自身。 */
   | { kind: 'vanishEntity'; entity?: string; seconds?: number }

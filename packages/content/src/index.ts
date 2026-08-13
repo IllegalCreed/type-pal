@@ -95,7 +95,7 @@ export interface HostileBehavior {
   team: number
   /** 此怪专属战场(优先于场景默认;水怪上岸打水下场地这类)。 */
   battleFieldId?: number
-  /** 追逐参数(缺省 = 原地不追)。range = 切比雪夫格内才追;speed 越大越快;floating 穿障。 */
+  /** 追逐参数(缺省 = 原地不追)。range = 切比雪夫格内才追;speed 越大越快;floating 忽略地形与阻挡实体。 */
   chase?: { range: number; speed: number; floating?: boolean }
   /** 战败后重生秒数(缺省 = 死了不复活)。 */
   respawnSeconds?: number

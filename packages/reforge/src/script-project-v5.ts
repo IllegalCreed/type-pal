@@ -7,6 +7,7 @@ import type {
   SceneDefV5,
   WorldScriptStateV5,
 } from '@type-pal/content'
+import type { BattleResult } from './battle/battle-result.js'
 import type { LoadedProjectV5Core } from './loader-v5.js'
 import {
   withRegisteredScriptActivityLineageV5,
@@ -16,7 +17,6 @@ import type { RuntimeLeafCommandV5 } from './script-compiler-v5.js'
 import { compileScriptFlowV5, MemorySharedScriptResolverV5 } from './script-compiler-v5.js'
 import type { ScriptRuntimeContextV5, ScriptRuntimeHostV5 } from './script-runner-v5.js'
 import { ScriptRunnerV5 } from './script-runner-v5.js'
-import type { BattleResult } from './battle/battle-result.js'
 import {
   evalAuthorConditionV5,
   FlowRuntimeCoordinatorV5,
@@ -30,12 +30,22 @@ import {
 
 type RuntimeHostServicesV5 = Omit<ScriptRuntimeHostV5, 'execute' | 'evalCondition'>
 
+/**
+ * Private host/runtime handshake for moveEntity's linearization point. The scene adapter invokes
+ * this only after the live endpoint is accepted, before touch/encounter side effects run.
+ */
+export interface ScriptEffectCommitControlV5 {
+  commitMoveEntityEndpoint(): void
+  readonly moveEntityEndpointCommitted: boolean
+}
+
 export interface ProjectScriptHostOptionsV5 extends RuntimeHostServicesV5 {
   /** 画面/音频/战斗等宿主副作用；world script 真值由本层先行维护。 */
   executeEffect(
     command: RuntimeLeafCommandV5,
     context: Readonly<ScriptRuntimeContextV5>,
     signal: AbortSignal,
+    commitControl?: ScriptEffectCommitControlV5,
   ): void | Promise<void>
   /** canonical 写入和宿主 effect 均成功后的投影刷新点。 */
   worldChanged?(
@@ -137,16 +147,31 @@ export class ProjectScriptRuntimeHostV5 implements ScriptRuntimeHostV5 {
         break
       case 'moveEntity': {
         const sceneSessionId = this.currentSceneSessionId()
-        await this.options.executeEffect(command, context, signal)
+        let committed = false
+        let projection = Promise.resolve()
+        const commitControl: ScriptEffectCommitControlV5 = {
+          commitMoveEntityEndpoint: (): void => {
+            if (committed) return
+            signal.throwIfAborted()
+            if (
+              this.options.currentSceneId() !== command.target.scene ||
+              this.currentSceneSessionId() !== sceneSessionId
+            )
+              throw new DOMException('moveEntity scene session changed', 'AbortError')
+            this.world.entityPos ??= {}
+            writeEntityValue(this.world.entityPos, command.target, command.to)
+            committed = true
+            projection = Promise.resolve(this.options.worldChanged?.(command, context))
+          },
+          get moveEntityEndpointCommitted(): boolean {
+            return committed
+          },
+        }
+        await this.options.executeEffect(command, context, signal, commitControl)
+        if (!committed) commitControl.commitMoveEntityEndpoint()
+        await projection
+        // A post-commit abort stops subsequent commands but cannot roll back the accepted endpoint.
         signal.throwIfAborted()
-        if (
-          this.options.currentSceneId() !== command.target.scene ||
-          this.currentSceneSessionId() !== sceneSessionId
-        )
-          throw new DOMException('moveEntity scene session changed', 'AbortError')
-        this.world.entityPos ??= {}
-        writeEntityValue(this.world.entityPos, command.target, command.to)
-        await this.options.worldChanged?.(command, context)
         return
       }
       case 'setEntityPosRelParty': {

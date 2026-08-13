@@ -2205,6 +2205,40 @@ describe('B 类移动 opcode(sdlpal script.c 真值)', () => {
     expect(gs.npcs[0]?.y).toBe(54) // 50 + (1 * speed4)
   })
 
+  it('0x4C floating 跳过整段障碍检查（地图 + event object），与原版分支一致', () => {
+    const obstacle = vi.fn(() => true)
+    setObstacleChecker(obstacle)
+    try {
+      const ground = setup([{ id: 4, x: 132, y: 50, spriteNum: 1, facing: 'up' }])
+      ground.gs.party.x = 100
+      ground.gs.party.y = 60
+      ground.gs.wChaseRange = 1
+      loadEvent(ground.gs, [
+        { op: 'raw', opcode: OP_MONSTER_CHASE, operands: [0, 0, 0] },
+        { op: 'end' },
+      ])
+      cursorOf(ground.gs).currentEventObjectId = 4
+      tickEventSystem(ground.gs, snap(), ground.bus)
+      expect(obstacle).toHaveBeenCalled()
+
+      obstacle.mockClear()
+      const floating = setup([{ id: 4, x: 132, y: 50, spriteNum: 1, facing: 'up' }])
+      floating.gs.party.x = 100
+      floating.gs.party.y = 60
+      floating.gs.wChaseRange = 1
+      loadEvent(floating.gs, [
+        { op: 'raw', opcode: OP_MONSTER_CHASE, operands: [0, 0, 1] },
+        { op: 'end' },
+      ])
+      cursorOf(floating.gs).currentEventObjectId = 4
+      tickEventSystem(floating.gs, snap(), floating.bus)
+      expect(obstacle).not.toHaveBeenCalled()
+      expect(floating.gs.npcs[0]).toMatchObject({ x: 124, y: 54 })
+    } finally {
+      setObstacleChecker(null)
+    }
+  })
+
   it('0x4C monsterChase:wChaseRange==0(驱魔香)→ 原地打转换向,不位移', () => {
     setObstacleChecker(null)
     const { gs, bus } = setup([{ id: 4, x: 132, y: 50, spriteNum: 1, facing: 'down' }])

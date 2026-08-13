@@ -3039,7 +3039,7 @@ function EntityInspector(props: {
                   />
                 </div>
                 <div className="cell">
-                  <span>穿障</span>
+                  <span>追击时忽略地形与阻挡实体</span>
                   <input
                     type="checkbox"
                     checked={entity.hostile.chase.floating === true}
