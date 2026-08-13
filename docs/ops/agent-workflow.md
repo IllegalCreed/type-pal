@@ -37,19 +37,67 @@ draft -> build -> review -> done
 - `rework`: 审核后需要返工,通常回到 `build`。
 - `cancelled`: 用户或审查结论决定不继续。
 
+## Step 0:前提真值门
+
+前提真值门位于方案设计和三方 build 签字之前。适用范围是所有不可逆/高风险任务、会改变既有用户可感知
+行为的任务,以及涉及原版/第一阶段机制真值或碰撞/移动语义的任务。目的不是增加一轮投票,而是防止三位
+Agent 在同一个错误问题上分别做出高质量工作。
+
+### Coding Owner 先交付什么
+
+1. 用一句话写清用户可见行为或工程前提。
+2. 填写原版/primary source、第一阶段、当前二阶段、任务目标四向真值矩阵。每格附 `file:line`、
+   reference 路径或等价一手证据;`N/A` 必须解释。
+3. 写出最强替代解释和“什么观察会推翻当前前提”。决定修复层或用户行为的关键项为 `unknown` 时,
+   任务直接 `blocked`,不得边实现边猜。
+4. 若有大规模 audit 红项,先把结论限制为“存在 mismatch”,再分别排查:
+   - runtime 语义/命令分类是否错;
+   - 原版或第一阶段行为是否被误读;
+   - extractor、地图或数据解码是否错;
+   - audit/test model 是否错。
+5. 若目标主动偏离已核实行为,给用户一句 `before -> after` 和一个代表场景作产品裁决。事实考证由 Agent
+   完成;保持既有真值的普通修复不需要反复找用户批准。
+
+### 审查方如何独立反证
+
+- Kimi 独立核行为/架构前提和端到端调用域,不得只依据 Coding Owner 的方案摘要。
+- GLM 独立核数据口径、红项归因、遗漏假设和测试能否证伪前提。
+- 至少一位非 Coding Owner 必须直接读取 primary source / 第一阶段证据,在任务卡写出自己的证据锚点、
+  利益/参与申报(如适用)和可证伪观察。复制任务卡结论不构成独立审查。
+- 审查输出分成两项:`premise verified | counter | N/A(说明)` 与 `design agree | counter`。
+  `premise verified` 没有直接证据锚点时无效;前提未通过时不审“怎么实现得更完整”。
+
+### 停线与签字失效
+
+- 证据与目标矛盾、替代根因未排除、或用户指出与原版/第一阶段/产品意图冲突时,立即停止实现并把任务置为
+  `blocked/rework`。先核一手证据和端到端调用域,不得从一个相邻猜测跳到另一个猜测。
+- 核心前提或用户可见 `before -> after` 变化后,已有 premise/design 签字只保留为历史,不再提供 build 准入;
+  更新真值矩阵后重新走三签。
+- 已 `done/cancelled` 的历史任务不因本规则追溯重开;现有 `draft/build/review` 高风险任务在下一次状态迁移前
+  补齐前提门,新任务立即使用新版模板。
+
+通用反例:当大量原有演出路线在新碰撞模型下同时报错,这首先证明“旧内容与新模型不一致”。如果原版和
+第一阶段本来允许该类演出穿墙,根因就在 runtime 命令分类,不能用红项数量直接推出“应批量迁移路线”。
+
 ## 推进签字
 
 推进签字是三贤人系统的硬门禁,**跟任务卡走**(用户拍板,2026-07-09):只要建立了任务卡,就必须维护签字表;聊天中的“我觉得可以”不等于签字。换手或跨会话接手的非小改任务必须开卡(见上下文锚点节)→ 必然三签;同一 Coding Owner 同会话连续推进的常规迭代可不开卡、免签,但触碰「必须三方参与」清单的必须开卡。
 
 ### 进入 build 前:设计签字
 
-`draft -> build` 前必须集齐三方设计签字:
+`draft -> build` 前必须集齐三方前提与设计签字:
 
-- Codex: 对实现可行性、验证方案、资源/工具能力签 `agree` 或 `counter`。
-- Kimi: 对架构、边界、视觉/UX 风险签 `agree` 或 `counter`。
-- GLM: 对覆盖清单、测试矩阵、文档/数据风险签 `agree` 或 `counter`。
+- Codex: 对前提、实现可行性、验证方案、资源/工具能力分别签 `premise verified/counter` 和
+  `design agree/counter`。
+- Kimi: 对独立行为真值、架构、边界、视觉/UX 风险分别签 `premise verified/counter` 和
+  `design agree/counter`。
+- GLM: 对独立数据/归因真值、覆盖清单、测试矩阵、文档风险分别签 `premise verified/counter` 和
+  `design agree/counter`。
 
-三方均为 `agree` 时,`build 准入结论` 才能写 `build allowed`。只要存在 `pending` 或 `counter`,Coding Owner 不得修改实现文件,任务留在 `draft` 或转 `blocked`。
+三方均已完成 premise 表态（关键前提为带直接证据的 `premise verified`;确实不适用者可有理由地签
+`premise N/A`）并签 `design agree`,且至少一位非 Coding Owner 已完成独立反证时,`build 准入结论`
+才能写 `build allowed`。只要存在 `pending`、无证据 `verified`、无理由 `N/A` 或 `counter`,Coding Owner
+不得修改实现文件,任务留在 `draft` 或转 `blocked`。
 
 ### 进入 done 前:审查签字
 
@@ -111,7 +159,7 @@ draft -> build -> review -> done
 |---|---|---|
 | 小改 | 单文件、低风险、不碰 schema、不改公共接口、不改变用户可感知行为(纯重构/文档/注释;行为修正类 bug 修属常规迭代) | 可 `build -> done`;Coding Owner 自测后提交。 |
 | 常规迭代 | 已定 schema/架构上的编辑器、UX、渲染、普通 bug 修 | Coding Owner 自测 + 提交说明写清验证;可事后异步抽审。 |
-| 不可逆/高风险 | schema/save/migration/asset pipeline、跨包公共接口、新能力格、capability-map 状态变化、关键公式/存档/资源管线 | 必须开任务卡并走 `draft -> build -> review -> done`。 |
+| 不可逆/高风险 | schema/save/migration/asset pipeline、跨包公共接口、新能力格、capability-map 状态变化、关键公式/存档/资源管线、涉及原版/第一阶段机制真值或碰撞/移动语义 | 必须用完整任务卡,先过前提真值门,再走 `draft -> build -> review -> done`。 |
 
 拿不准时按高一档处理。
 
@@ -119,6 +167,9 @@ draft -> build -> review -> done
 
 用户于 2026-07-13 拍板:所有数据迁移类问题必须优先修复。判定与完成口径如下:
 
+- 上游优先规则只在直接证据已经把根因定位到迁移链后触发。audit 红项、generated diff 或“新 runtime
+  拒绝大量旧内容”只证明 mismatch,不得单独作为 migration successor、schema 变化或批量 generated rewrite
+  的依据。若原版/第一阶段可以正常消费同类内容,默认先复核 runtime 语义与 audit model。
 - 根因位于提取器、迁移器、数据映射、生成脚本、overlay 或写盘流程时,先修上游真源,再处理依赖该产物的演出/UI/内容微调。
 - 禁止把直接修改 `projects/pal` 生成文件当作正式修复;确需临时改产物做诊断时,必须标明“临时诊断补丁”,并在提交前把等价修复落回迁移器或纯函数 overlay。
 - 迁移缺陷未修复会覆盖已有手工修正时,相关下游任务暂停或转 `blocked`,不得继续积累必然丢失的修改。
@@ -139,6 +190,9 @@ draft -> build -> review -> done
 - 架构、schema、跨包边界、引擎抽象、公共接口、视觉级高风险任务:优先 Kimi。
 - 覆盖清单、数据迁移、测试矩阵、中文文档:优先 GLM。
 - UI/UX 形态争议:优先 Kimi;必要时 GLM 补清单,用户拍板。
+
+审查分工不允许形成共同锚定:前提门阶段至少一位非 Coding Owner 必须先直接读一手证据并形成独立判断,
+再评价方案。三位 Agent 分别证明实现、架构和覆盖都正确,仍不能替代“这个问题确实存在且修复层选对了”。
 
 必须三方参与的情况:
 
@@ -183,6 +237,9 @@ draft -> build -> review -> done
 - 编辑器命令:命令系统是不可变 `apply/invert` 模式。
 
 无上下文锚点的非小改任务不得进入 `build`。
+
+上下文锚点只是证据目录。触发前提真值门时,必须把关键锚点放入四向真值矩阵并显式对照任务目标;
+同一张卡同时列出正确 source 锚点和与之矛盾的目标,不能因“链接已经写了”而通过。
 
 锚点的载体按是否换手区分:
 
@@ -277,6 +334,7 @@ Codex 可在本仓库中通过本地 dev server、Playwright/浏览器工具和�
 不可逆/高风险任务必须有任务卡。任务卡至少记录:
 
 - 目标和范围。
+- 前提真值门:一句话行为、四向真值矩阵、逐项直接证据、最强替代解释、可证伪观察、用户可见偏离与裁决。
 - 上下文锚点。
 - 验收条件。
 - 推进签字:进入 build 前的三方设计签字、进入 done 前的三方审查签字、缺签豁免。
@@ -288,7 +346,9 @@ Codex 可在本仓库中通过本地 dev server、Playwright/浏览器工具和�
 - 下一位 Agent 提示词。
 - 用户验收或拍板结果。
 
-中等任务可用 [`tasks/TASK-lite-template.md`](tasks/TASK-lite-template.md)。小改可以不建任务卡,但提交说明或最终回复必须写清楚验证结果。
+中等任务可用 [`tasks/TASK-lite-template.md`](tasks/TASK-lite-template.md)。涉及原版/第一阶段机制真值、
+碰撞/移动语义、migration/schema/save/asset pipeline、大规模 generated rewrite 或主动改变既有用户行为时,
+必须升级完整任务卡。小改可以不建任务卡,但提交说明或最终回复必须写清楚验证结果。
 
 ## 阶段纪律
 
@@ -304,6 +364,7 @@ Codex 可在本仓库中通过本地 dev server、Playwright/浏览器工具和�
 任务只有同时满足以下条件才能进 `done`:
 
 - 验收条件已满足,或已被明确修改。
+- build 前核实的核心前提在实现后仍成立;如前提或用户可见 before/after 曾变化,相关签字已重开并重新集齐。
 - 必要测试/检查已运行,或未运行原因已记录。
 - 需要更新的文档和能力地图已更新。
 - 用户验收通过,或用户明确授权收口。

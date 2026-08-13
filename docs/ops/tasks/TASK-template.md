@@ -21,6 +21,44 @@ Branch: TBD
 - 范围外:
 - 明确不做:
 
+## 前提真值门
+
+不可逆/高风险、用户可见行为变化、涉及原版/第一阶段机制真值或碰撞/移动语义的任务必填。必须先完成本节,
+再写详细方案。决定修复层或用户行为的关键项为 `unknown` 时,任务保持 `blocked`,不得用推断补齐。
+
+### 一句话行为 / 工程前提
+
+-
+
+### 真值矩阵
+
+直接证据必须是 `file:line`、reference 路径或等价一手来源;无证据的 `verified` 无效。确实不适用可写
+`N/A（原因）`,不得只写裸 `N/A`。
+
+| 维度 | 当前真值 | 直接证据 |
+|---|---|---|
+| 原版 / primary source | | |
+| 第一阶段 | | |
+| 当前二阶段 | | |
+| 本任务目标 | | |
+
+### 反证与替代解释
+
+- 最强替代解释:
+- 什么观察会推翻当前前提:
+- audit 红项如适用，已排查的替代根因:
+  - runtime 语义 / 命令分类:
+  - 原版 / 第一阶段理解:
+  - extractor / 地图 / 数据解码:
+  - audit / test model:
+
+### 用户可见偏离
+
+- 是否主动偏离已核真值: no | yes | N/A（原因）
+- `before -> after` 一句话:
+- 代表场景:
+- 用户裁决: N/A | pending | YYYY-MM-DD 用户已批准/否决
+
 ## 上下文锚点
 
 所有非小改任务必填;无锚点不得进入 `build`。第一阶段任务至少锚定 `CLAUDE.md`、相关 engineering-notes / game-mechanics / 状态表 / 审计或测试;第二阶段任务至少锚定 `docs/phase2/READ-FIRST.md` 和相关设计/审计文档。
@@ -45,9 +83,19 @@ Branch: TBD
 
 ### 进入 build 前:设计签字
 
-- Codex: pending | agree | counter
-- Kimi: pending | agree | counter
-- GLM: pending | agree | counter
+- Codex:
+  - premise: pending | verified（必附直接证据 `file:line` / reference） | counter | N/A（须说明）
+  - design: pending | agree | counter
+- Kimi:
+  - premise: pending | verified（必附直接证据 `file:line` / reference） | counter | N/A（须说明）
+  - design: pending | agree | counter
+- GLM:
+  - premise: pending | verified（必附直接证据 `file:line` / reference） | counter | N/A（须说明）
+  - design: pending | agree | counter
+- 独立反证审查（至少一位非 Coding Owner 必填）:
+  - 审查者:
+  - 独立证据锚点:
+  - 可证伪观察:
 - counter / 分歧处理:
 - 缺签豁免: N/A | 用户已批准(写明缺席方、原因、代班方、是否需补签)
 - build 准入结论: blocked | build allowed
