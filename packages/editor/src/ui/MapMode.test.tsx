@@ -16,6 +16,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { UpdateProjectMapLayerCommand } from '../core/commands.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 import { MapMode } from './MapMode.js'
 
 const stampMiniPreviewRender = vi.hoisted(() => vi.fn())
@@ -228,7 +229,9 @@ function transformButton(host: HTMLElement, text: string): HTMLButtonElement {
 
 function inspectorTab(host: HTMLElement, text: string): HTMLButtonElement {
   const result = [
-    ...host.querySelectorAll<HTMLButtonElement>('.map-inspector-tabs [role="tab"]'),
+    ...host.querySelectorAll<HTMLButtonElement>(
+      '[role="tablist"][aria-label="地图右侧面板"] [role="tab"]',
+    ),
   ].find((candidate) => candidate.textContent?.trim() === text)
   if (!result) throw new Error(`未找到地图右栏 Tab: ${text}`)
   return result
@@ -444,11 +447,22 @@ afterEach(async () => {
 })
 
 describe('MapMode 地图内容选择交互', () => {
+  test('共享 Inspector Tab 完整键盘合同仍触发原有打开与组合按需访问副作用', async () => {
+    const { host, onRequestInspectorOpen } = await mountMapMode({ stamps: [stampTemplate()] })
+    await verifyInspectorTabs(host, '地图右侧面板', ['属性', '瓦片', '组合'])
+    expect(onRequestInspectorOpen).toHaveBeenCalled()
+    expect(host.querySelector('[aria-label="搜索地图组合"]')).not.toBeNull()
+  })
+
   test('右栏三 Tab 关联完整且键盘循环，切换不改地图、选区或组合筛选状态', async () => {
     const { host, canvas, session } = await mountMapMode({ stamps: [stampTemplate()] })
     await selectFloor(host, canvas)
     const beforeMap = session.getState().maps['map-a']
-    const tabs = [...host.querySelectorAll<HTMLButtonElement>('.map-inspector-tabs [role="tab"]')]
+    const tabs = [
+      ...host.querySelectorAll<HTMLButtonElement>(
+        '[role="tablist"][aria-label="地图右侧面板"] [role="tab"]',
+      ),
+    ]
     expect(tabs.map((tab) => tab.textContent?.trim())).toEqual(['属性', '瓦片', '组合'])
     expect(tabs.map((tab) => tab.tabIndex)).toEqual([0, -1, -1])
     for (const tab of tabs) {

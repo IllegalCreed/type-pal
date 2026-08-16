@@ -6,6 +6,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { BattleDataReference } from '../core/battle-data-references.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 import { PoisonTab } from './PoisonTab.js'
 
 const poisons: PoisonDef[] = [
@@ -95,6 +96,12 @@ afterEach(async () => {
 })
 
 describe('PoisonTab shared workbench', () => {
+  test('检查器使用共享引用/关系/说明 Tab 完整键盘与 ARIA 合同', async () => {
+    const session = new EditSession(state())
+    await act(async () => root.render(<Harness session={session} />))
+    await verifyInspectorTabs(host, '毒检查器', [/^引用 \d+$/, '关系', '说明'])
+  })
+
   test('可新建、编辑，并由数值 object 深链精确定位', async () => {
     vi.spyOn(window, 'prompt').mockReturnValue('新毒')
     const session = new EditSession(state())

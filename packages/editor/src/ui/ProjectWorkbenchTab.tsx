@@ -41,6 +41,7 @@ import {
 } from '../core/project-diagnostics.js'
 import {
   DsCatalogRow,
+  DsInspectorTabs,
   DsListHeader,
   DsObjectHero,
   DsSequenceIndex,
@@ -814,36 +815,59 @@ export function StartWorldFields(props: {
   )
 }
 
-function ProjectIssuesAside(props: {
+function ProjectInspector(props: {
+  id: string
+  title: string
+  name: string
   issues: ProjectIssue[]
+  contextLabel: string
+  context: ReactNode
   onOpenLocation?: (location: EditorLocation) => void
 }) {
+  const [activeId, setActiveId] = useState<'issues' | 'context'>('issues')
   return (
-    <>
+    <div className="inspector inspector--tabbed project-inspector">
       <div className="insp-head">
-        <div className="what">工程诊断</div>
-        <div className="who">
-          {props.issues.length ? `${props.issues.length} 项需要处理` : '配置健康'}
-        </div>
+        <div className="what">{props.title}</div>
+        <div className="who">{props.name}</div>
       </div>
-      <div className="section">
-        <h4>问题与跳转</h4>
-        <IssueList
-          issues={props.issues}
-          onOpenLocation={props.onOpenLocation}
-          compact
-          onViewAll={
-            props.onOpenLocation
-              ? () =>
-                  props.onOpenLocation?.({
-                    module: 'project',
-                    subpage: 'advanced',
-                  } as EditorLocation)
-              : undefined
-          }
-        />
-      </div>
-    </>
+      <DsInspectorTabs
+        id={props.id}
+        label={`${props.title}检查器`}
+        activeId={activeId}
+        onChange={(id) => setActiveId(id as 'issues' | 'context')}
+        items={[
+          {
+            id: 'issues',
+            label: '问题',
+            count: props.issues.length,
+            panel: (
+              <div className="section">
+                <IssueList
+                  issues={props.issues}
+                  onOpenLocation={props.onOpenLocation}
+                  compact
+                  onViewAll={
+                    props.onOpenLocation
+                      ? () =>
+                          props.onOpenLocation?.({
+                            module: 'project',
+                            subpage: 'advanced',
+                          } as EditorLocation)
+                      : undefined
+                  }
+                />
+              </div>
+            ),
+          },
+          {
+            id: 'context',
+            label: props.contextLabel,
+            panel: props.context,
+          },
+        ]}
+      />
+    </div>
   )
 }
 
@@ -963,9 +987,21 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
             <PageHint>应用时会自动去掉首尾空格；普通状态下 id 继续只读。</PageHint>
           </section>
         </ProjectPageWorkspace>
-        <div className="inspector project-inspector">
-          <ProjectIssuesAside issues={issues} onOpenLocation={onOpenLocation} />
-        </div>
+        <ProjectInspector
+          id="project-entry-repair-inspector"
+          title="入口修复"
+          name={`${identityIssues.length} 项需要处理`}
+          issues={issues}
+          onOpenLocation={onOpenLocation}
+          contextLabel="修复说明"
+          context={
+            <div className="section">
+              <p className="project-copy">
+                先恢复稳定且唯一的入口 id；修复完成后才能继续编辑入口字段和开局覆盖。
+              </p>
+            </div>
+          }
+        />
       </>
     )
   }
@@ -1240,16 +1276,22 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
           </>
         )}
       </ProjectPageWorkspace>
-      <div className="inspector project-inspector">
-        <ProjectIssuesAside issues={issues} onOpenLocation={onOpenLocation} />
-        <div className="section">
-          <h4>字段归属</h4>
-          <p className="project-copy">
-            开局设置跟随当前入口编辑。入口视频只属于菜单入口；场景 onEnter 的 video/RNG/BGM
-            仍归脚本页。
-          </p>
-        </div>
-      </div>
+      <ProjectInspector
+        id="project-entrypoint-inspector"
+        title="工程入口"
+        name={selected?.label ?? '默认入口'}
+        issues={issues}
+        onOpenLocation={onOpenLocation}
+        contextLabel="字段归属"
+        context={
+          <div className="section">
+            <p className="project-copy">
+              开局设置跟随当前入口编辑。入口视频只属于菜单入口；场景 onEnter 的 video/RNG/BGM
+              仍归脚本页。
+            </p>
+          </div>
+        }
+      />
     </>
   )
 }
@@ -1439,23 +1481,29 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
             </div>
           </section>
         </ProjectPageWorkspace>
-        <div className="inspector project-inspector">
-          <ProjectIssuesAside issues={issues} onOpenLocation={onOpenLocation} />
-          <div className="section">
-            <h4>编辑边界</h4>
-            <p className="project-copy">
-              manifest 全局角色和入口视频由工程页编辑；场景 onEnter 内的剧情视频、RNG、BGM
-              仍由脚本模块拥有。
-            </p>
-            <button
-              type="button"
-              className="btn"
-              onClick={() => openProjectPage('entrypoint', firstEntry?.id)}
-            >
-              编辑入口点
-            </button>
-          </div>
-        </div>
+        <ProjectInspector
+          id="project-startup-inspector"
+          title="全局启动"
+          name={manifest.name}
+          issues={issues}
+          onOpenLocation={onOpenLocation}
+          contextLabel="编辑边界"
+          context={
+            <div className="section">
+              <p className="project-copy">
+                manifest 全局角色和入口视频由工程页编辑；场景 onEnter 内的剧情视频、RNG、BGM
+                仍由脚本模块拥有。
+              </p>
+              <button
+                type="button"
+                className="btn"
+                onClick={() => openProjectPage('entrypoint', firstEntry?.id)}
+              >
+                编辑入口点
+              </button>
+            </div>
+          }
+        />
       </>
     )
   }
@@ -1663,33 +1711,38 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
           </>
         )}
       </ProjectPageWorkspace>
-      <div className="inspector project-inspector">
-        <ProjectIssuesAside issues={issues} onOpenLocation={onOpenLocation} />
-        {page === 'overview' ? (
-          <div className="section">
-            <h4>下一步</h4>
-            <button type="button" className="btn" onClick={() => openProjectPage('startup')}>
-              编辑全局资源
-            </button>
-            <button
-              type="button"
-              className="btn"
-              onClick={() => openProjectPage('entrypoint')}
-              style={{ marginLeft: 6 }}
-            >
-              编辑入口与开局
-            </button>
-          </div>
-        ) : (
-          <div className="section">
-            <h4>保存契约</h4>
-            <p className="project-copy">
-              保存会整体写回 manifest；所有未编辑字段（包括未知顶层字段）保持原对象，不提供裸 JSON
-              编辑。
-            </p>
-          </div>
-        )}
-      </div>
+      <ProjectInspector
+        id={`project-${page}-inspector`}
+        title={page === 'overview' ? '工程概览' : '问题与高级'}
+        name={manifest.name}
+        issues={issues}
+        onOpenLocation={onOpenLocation}
+        contextLabel={page === 'overview' ? '下一步' : '保存契约'}
+        context={
+          page === 'overview' ? (
+            <div className="section">
+              <button type="button" className="btn" onClick={() => openProjectPage('startup')}>
+                编辑全局资源
+              </button>
+              <button
+                type="button"
+                className="btn"
+                onClick={() => openProjectPage('entrypoint')}
+                style={{ marginLeft: 6 }}
+              >
+                编辑入口与开局
+              </button>
+            </div>
+          ) : (
+            <div className="section">
+              <p className="project-copy">
+                保存会整体写回 manifest；所有未编辑字段（包括未知顶层字段）保持原对象，不提供裸 JSON
+                编辑。
+              </p>
+            </div>
+          )
+        }
+      />
     </>
   )
 }

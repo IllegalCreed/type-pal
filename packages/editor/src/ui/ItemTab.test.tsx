@@ -12,6 +12,7 @@ import type { ItemReference } from '../core/item-references.js'
 import { projectActiveScriptEditorStateV5 } from '../core/project-io-v5.js'
 import { type ScriptEditorStateV5, ScriptV5EditSession } from '../core/script-v5-editor.js'
 import { ItemTab } from './ItemTab.js'
+import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 
 function item(id = 'item-a'): ItemData {
   return {
@@ -1118,6 +1119,8 @@ describe('ItemTab', () => {
   test('检查器支持方向键切换，删除后撤销会恢复原选择', async () => {
     const session = new EditSession(state([item('item-a'), item('item-b')]))
     await act(async () => root.render(<Harness session={session} />))
+
+    await verifyInspectorTabs(host, '物品检查器', ['概览', /^引用 \d+$/, '资源'])
 
     const referenceTab = button(
       '引用',

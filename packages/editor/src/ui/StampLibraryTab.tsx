@@ -10,7 +10,7 @@ import {
 } from '../core/stamp-commands.js'
 import type { StampSelectionSource } from '../core/stamp-template.js'
 import { collectStampTemplateUsage, nextStampTemplateId } from '../core/stamp-template.js'
-import { DsListHeader, DsSequenceIndex } from './design-system/index.js'
+import { DsInspectorTabs, DsListHeader, DsSequenceIndex } from './design-system/index.js'
 import { StampMiniPreview, StampPreviewCanvas } from './StampPreviewCanvas.js'
 import { StampTemplateDialog } from './StampTemplateDialog.js'
 
@@ -24,6 +24,8 @@ interface UsageScan {
 
 const EMPTY_SCAN: UsageScan = { maps: {}, completed: 0, total: 0, failures: [], done: false }
 const STAMP_PAGE_SIZE = 100
+
+type StampInspectorTab = 'properties' | 'references' | 'actions'
 
 export function StampLibraryTab(props: {
   stamps: readonly StampTemplateV1[]
@@ -58,6 +60,7 @@ export function StampLibraryTab(props: {
     onStatusNotice,
   } = props
   const [selectedId, setSelectedId] = useState(focusObjectId ?? stamps[0]?.id ?? '')
+  const [inspectorTab, setInspectorTab] = useState<StampInspectorTab>('properties')
   const [query, setQuery] = useState('')
   const [categoryFilter, setCategoryFilter] = useState('all')
   const [originFilter, setOriginFilter] = useState<'all' | StampTemplateV1['origin']>('all')
@@ -518,216 +521,254 @@ export function StampLibraryTab(props: {
         )}
       </main>
 
-      <aside className="inspector stamp-inspector">
+      <aside className="inspector inspector--tabbed stamp-inspector">
+        <div className="insp-head">
+          <div className="what">组合模板</div>
+          <div className="who">{selected?.name ?? selected?.id ?? '未选择'}</div>
+        </div>
         {selected ? (
-          <>
-            <div className="insp-head">
-              <div className="what">模板属性</div>
-              <div className="who">{selected.id}</div>
-            </div>
-            <section className="section">
-              <h4>登记</h4>
-              <label className="field">
-                <span className="field-label">名称</span>
-                <input
-                  className="in"
-                  name="stamp-name"
-                  autoComplete="off"
-                  value={draftName}
-                  onChange={(event) => setDraftName(event.target.value)}
-                />
-              </label>
-              <label className="field">
-                <span className="field-label">分类</span>
-                <input
-                  className="in"
-                  name="stamp-category"
-                  autoComplete="off"
-                  value={draftCategory}
-                  placeholder="未分类"
-                  onChange={(event) => setDraftCategory(event.target.value)}
-                />
-              </label>
-              <div className="field">
-                <span className="field-label">ID</span>
-                <div className="in mono stamp-readonly" title={selected.id}>
-                  {selected.id}
-                </div>
-              </div>
-              <div className="field">
-                <span className="field-label">瓦片集</span>
-                <button
-                  type="button"
-                  className="in mono stamp-readonly stamp-resource-link"
-                  title={`打开瓦片集 ${selected.tilesetId}`}
-                  onClick={() => onOpenTileset?.(selected.tilesetId)}
-                >
-                  {selected.tilesetId}
-                  <span aria-hidden="true">↗</span>
-                </button>
-              </div>
-              <div className="field">
-                <span className="field-label">来源</span>
-                <span>{selected.origin === 'migrated' ? '迁移预置（只读）' : '作者内容'}</span>
-              </div>
-              <button
-                ref={metadataSaveRef}
-                type="button"
-                className="stamp-primary-action"
-                disabled={!metadataChanged || !draftName.trim()}
-                onClick={() => saveMetadata(false)}
-              >
-                保存名称与分类
-              </button>
-              <button
-                type="button"
-                className="stamp-secondary-action"
-                disabled={!selectionSource || selectionLoading}
-                title={
-                  selectionSource
-                    ? `使用地图 ${selectionSource.mapId} 的暂存选区`
-                    : '先到地图编辑中建立一个选区'
-                }
-                onClick={() => void updateFromSelection()}
-              >
-                {selectionLoading ? '正在读取地图…' : '用当前地图选区更新…'}
-              </button>
-              <p className="stamp-selection-source-note">
-                {selectionSource
-                  ? `会话选区：${mapIndex.maps.find((asset) => asset.id === selectionSource.mapId)?.name ?? selectionSource.mapId}`
-                  : '尚无会话选区；到地图编辑中选择内容后再返回。'}
-              </p>
-              {confirmAction === 'takeover' ? (
-                <div className="stamp-inline-confirm warning">
-                  <strong>接管预置组合？</strong>
-                  <p>整项转为作者内容，迁移不再覆盖；撤销可恢复。</p>
-                  <div>
-                    <button
-                      ref={takeoverCancelRef}
-                      type="button"
-                      onKeyDown={(event) => {
-                        if (event.key !== 'Escape') return
-                        setConfirmAction(undefined)
-                        window.setTimeout(() => metadataSaveRef.current?.focus(), 0)
-                      }}
-                      onClick={() => {
-                        setConfirmAction(undefined)
-                        metadataSaveRef.current?.focus()
-                      }}
-                    >
-                      取消
-                    </button>
-                    <button
-                      type="button"
-                      className="primary"
-                      onKeyDown={(event) => {
-                        if (event.key !== 'Escape') return
-                        setConfirmAction(undefined)
-                        window.setTimeout(() => metadataSaveRef.current?.focus(), 0)
-                      }}
-                      onClick={() => saveMetadata(true)}
-                    >
-                      确认接管
-                    </button>
-                  </div>
-                </div>
-              ) : null}
-            </section>
-            <section className="section stamp-usage-section">
-              <h4>
-                来源引用 <span className="b2">已放置组</span>
-              </h4>
-              <div className="stamp-scan-status">
-                <span className={scanComplete ? 'done' : scan.done ? 'failed' : ''} />
-                {scanComplete
-                  ? `已扫描 ${scan.completed}/${scan.total} 张地图`
-                  : scan.done
-                    ? `扫描不完整：${scan.failures.length} 张读取失败`
-                    : `正在扫描 ${scan.completed}/${scan.total} 张地图…`}
-              </div>
-              {scan.failures.length ? (
-                <p className="stamp-scan-error">
-                  引用数未知；当前仅发现 {selectedUsage?.placementCount ?? 0} 处。
-                  <button type="button" onClick={() => setScanRevision((value) => value + 1)}>
-                    重试扫描
-                  </button>
-                </p>
-              ) : null}
-              <strong className="stamp-usage-count">
-                {scanComplete
-                  ? (selectedUsage?.placementCount ?? 0)
-                  : `≥${selectedUsage?.placementCount ?? 0}`}
-                <small> 处来源引用</small>
-              </strong>
-              <div className="stamp-usage-maps">
-                {(selectedUsage?.mapIds ?? []).map((mapId) => (
-                  <button key={mapId} type="button" onClick={() => onOpenMap?.(mapId)}>
-                    {mapIndex.maps.find((asset) => asset.id === mapId)?.name ?? mapId}
-                    <span>打开地图 ↗</span>
-                  </button>
-                ))}
-              </div>
-              <p className="stamp-usage-note">删除或修改模板不会改动这些已放置内容。</p>
-            </section>
-            <section className="section stamp-inspector-actions">
-              <button type="button" className="stamp-secondary-action" onClick={duplicate}>
-                复制为作者模板
-              </button>
-              <button
-                ref={deleteTriggerRef}
-                type="button"
-                className="stamp-danger-action"
-                onClick={() => setConfirmAction('delete')}
-              >
-                删除模板…
-              </button>
-              {confirmAction === 'delete' ? (
-                <div className="stamp-inline-confirm danger">
-                  <strong>只删除模板？</strong>
-                  <p>
-                    {scanComplete
-                      ? `检测到 ${selectedUsage?.placementCount ?? 0} 处来源引用；`
-                      : '完整来源数量仍未知；'}
-                    已放置地图值和组身份都会保留。
-                  </p>
-                  <div>
-                    <button
-                      ref={deleteCancelRef}
-                      type="button"
-                      onKeyDown={(event) => {
-                        if (event.key !== 'Escape') return
-                        setConfirmAction(undefined)
-                        window.setTimeout(() => deleteTriggerRef.current?.focus(), 0)
-                      }}
-                      onClick={() => {
-                        setConfirmAction(undefined)
-                        deleteTriggerRef.current?.focus()
-                      }}
-                    >
-                      取消
-                    </button>
-                    <button
-                      type="button"
-                      className="danger"
-                      disabled={!scanComplete}
-                      onKeyDown={(event) => {
-                        if (event.key !== 'Escape') return
-                        setConfirmAction(undefined)
-                        window.setTimeout(() => deleteTriggerRef.current?.focus(), 0)
-                      }}
-                      onClick={remove}
-                    >
-                      确认删除
-                    </button>
-                  </div>
-                </div>
-              ) : null}
-            </section>
-          </>
+          <DsInspectorTabs
+            id="stamp-inspector"
+            label="组合模板检查器"
+            activeId={inspectorTab}
+            onChange={(id) => setInspectorTab(id as StampInspectorTab)}
+            items={[
+              {
+                id: 'properties',
+                label: '属性',
+                panel: (
+                  <>
+                    {error ? <div className="stamp-error">{error}</div> : null}
+                    <section className="section">
+                      <h4>登记</h4>
+                      <label className="field">
+                        <span className="field-label">名称</span>
+                        <input
+                          className="in"
+                          name="stamp-name"
+                          autoComplete="off"
+                          value={draftName}
+                          onChange={(event) => setDraftName(event.target.value)}
+                        />
+                      </label>
+                      <label className="field">
+                        <span className="field-label">分类</span>
+                        <input
+                          className="in"
+                          name="stamp-category"
+                          autoComplete="off"
+                          value={draftCategory}
+                          placeholder="未分类"
+                          onChange={(event) => setDraftCategory(event.target.value)}
+                        />
+                      </label>
+                      <div className="field">
+                        <span className="field-label">ID</span>
+                        <div className="in mono stamp-readonly" title={selected.id}>
+                          {selected.id}
+                        </div>
+                      </div>
+                      <div className="field">
+                        <span className="field-label">瓦片集</span>
+                        <button
+                          type="button"
+                          className="in mono stamp-readonly stamp-resource-link"
+                          title={`打开瓦片集 ${selected.tilesetId}`}
+                          onClick={() => onOpenTileset?.(selected.tilesetId)}
+                        >
+                          {selected.tilesetId}
+                          <span aria-hidden="true">↗</span>
+                        </button>
+                      </div>
+                      <div className="field">
+                        <span className="field-label">来源</span>
+                        <span>
+                          {selected.origin === 'migrated' ? '迁移预置（只读）' : '作者内容'}
+                        </span>
+                      </div>
+                      <button
+                        ref={metadataSaveRef}
+                        type="button"
+                        className="stamp-primary-action"
+                        disabled={!metadataChanged || !draftName.trim()}
+                        onClick={() => saveMetadata(false)}
+                      >
+                        保存名称与分类
+                      </button>
+                      <button
+                        type="button"
+                        className="stamp-secondary-action"
+                        disabled={!selectionSource || selectionLoading}
+                        title={
+                          selectionSource
+                            ? `使用地图 ${selectionSource.mapId} 的暂存选区`
+                            : '先到地图编辑中建立一个选区'
+                        }
+                        onClick={() => void updateFromSelection()}
+                      >
+                        {selectionLoading ? '正在读取地图…' : '用当前地图选区更新…'}
+                      </button>
+                      <p className="stamp-selection-source-note">
+                        {selectionSource
+                          ? `会话选区：${mapIndex.maps.find((asset) => asset.id === selectionSource.mapId)?.name ?? selectionSource.mapId}`
+                          : '尚无会话选区；到地图编辑中选择内容后再返回。'}
+                      </p>
+                      {confirmAction === 'takeover' ? (
+                        <div className="stamp-inline-confirm warning">
+                          <strong>接管预置组合？</strong>
+                          <p>整项转为作者内容，迁移不再覆盖；撤销可恢复。</p>
+                          <div>
+                            <button
+                              ref={takeoverCancelRef}
+                              type="button"
+                              onKeyDown={(event) => {
+                                if (event.key !== 'Escape') return
+                                setConfirmAction(undefined)
+                                window.setTimeout(() => metadataSaveRef.current?.focus(), 0)
+                              }}
+                              onClick={() => {
+                                setConfirmAction(undefined)
+                                metadataSaveRef.current?.focus()
+                              }}
+                            >
+                              取消
+                            </button>
+                            <button
+                              type="button"
+                              className="primary"
+                              onKeyDown={(event) => {
+                                if (event.key !== 'Escape') return
+                                setConfirmAction(undefined)
+                                window.setTimeout(() => metadataSaveRef.current?.focus(), 0)
+                              }}
+                              onClick={() => saveMetadata(true)}
+                            >
+                              确认接管
+                            </button>
+                          </div>
+                        </div>
+                      ) : null}
+                    </section>
+                  </>
+                ),
+              },
+              {
+                id: 'references',
+                label: '引用',
+                count: selectedUsage?.placementCount ?? 0,
+                panel: (
+                  <>
+                    {error ? <div className="stamp-error">{error}</div> : null}
+                    <section className="section stamp-usage-section">
+                      <h4>
+                        来源引用 <span className="b2">已放置组</span>
+                      </h4>
+                      <div className="stamp-scan-status">
+                        <span className={scanComplete ? 'done' : scan.done ? 'failed' : ''} />
+                        {scanComplete
+                          ? `已扫描 ${scan.completed}/${scan.total} 张地图`
+                          : scan.done
+                            ? `扫描不完整：${scan.failures.length} 张读取失败`
+                            : `正在扫描 ${scan.completed}/${scan.total} 张地图…`}
+                      </div>
+                      {scan.failures.length ? (
+                        <p className="stamp-scan-error">
+                          引用数未知；当前仅发现 {selectedUsage?.placementCount ?? 0} 处。
+                          <button
+                            type="button"
+                            onClick={() => setScanRevision((value) => value + 1)}
+                          >
+                            重试扫描
+                          </button>
+                        </p>
+                      ) : null}
+                      <strong className="stamp-usage-count">
+                        {scanComplete
+                          ? (selectedUsage?.placementCount ?? 0)
+                          : `≥${selectedUsage?.placementCount ?? 0}`}
+                        <small> 处来源引用</small>
+                      </strong>
+                      <div className="stamp-usage-maps">
+                        {(selectedUsage?.mapIds ?? []).map((mapId) => (
+                          <button key={mapId} type="button" onClick={() => onOpenMap?.(mapId)}>
+                            {mapIndex.maps.find((asset) => asset.id === mapId)?.name ?? mapId}
+                            <span>打开地图 ↗</span>
+                          </button>
+                        ))}
+                      </div>
+                      <p className="stamp-usage-note">删除或修改模板不会改动这些已放置内容。</p>
+                    </section>
+                  </>
+                ),
+              },
+              {
+                id: 'actions',
+                label: '动作',
+                panel: (
+                  <>
+                    {error ? <div className="stamp-error">{error}</div> : null}
+                    <section className="section stamp-inspector-actions">
+                      <button type="button" className="stamp-secondary-action" onClick={duplicate}>
+                        复制为作者模板
+                      </button>
+                      <button
+                        ref={deleteTriggerRef}
+                        type="button"
+                        className="stamp-danger-action"
+                        onClick={() => setConfirmAction('delete')}
+                      >
+                        删除模板…
+                      </button>
+                      {confirmAction === 'delete' ? (
+                        <div className="stamp-inline-confirm danger">
+                          <strong>只删除模板？</strong>
+                          <p>
+                            {scanComplete
+                              ? `检测到 ${selectedUsage?.placementCount ?? 0} 处来源引用；`
+                              : '完整来源数量仍未知；'}
+                            已放置地图值和组身份都会保留。
+                          </p>
+                          <div>
+                            <button
+                              ref={deleteCancelRef}
+                              type="button"
+                              onKeyDown={(event) => {
+                                if (event.key !== 'Escape') return
+                                setConfirmAction(undefined)
+                                window.setTimeout(() => deleteTriggerRef.current?.focus(), 0)
+                              }}
+                              onClick={() => {
+                                setConfirmAction(undefined)
+                                deleteTriggerRef.current?.focus()
+                              }}
+                            >
+                              取消
+                            </button>
+                            <button
+                              type="button"
+                              className="danger"
+                              disabled={!scanComplete}
+                              onKeyDown={(event) => {
+                                if (event.key !== 'Escape') return
+                                setConfirmAction(undefined)
+                                window.setTimeout(() => deleteTriggerRef.current?.focus(), 0)
+                              }}
+                              onClick={remove}
+                            >
+                              确认删除
+                            </button>
+                          </div>
+                        </div>
+                      ) : null}
+                    </section>
+                  </>
+                ),
+              },
+            ]}
+          />
         ) : (
           <div className="insp-empty">选择组合后编辑属性和查看来源引用。</div>
         )}
-        {error ? <div className="stamp-error">{error}</div> : null}
       </aside>
       {selectionDialogMap && selectionSource && selected ? (
         <StampTemplateDialog

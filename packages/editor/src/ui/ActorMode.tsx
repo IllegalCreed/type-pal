@@ -19,6 +19,7 @@ import type {
 import { lookupText } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { type ReactNode, useEffect, useMemo, useState } from 'react'
+import { type ActorReference, blockingActorReferences } from '../core/actor-references.js'
 import { prepareBattleSpriteImport } from '../core/battle-sprite-import.js'
 import {
   AddActorCommand,
@@ -30,18 +31,11 @@ import {
   UpdateActorCommand,
   UpdateLocaleCommand,
 } from '../core/commands.js'
-import { blockingActorReferences, type ActorReference } from '../core/actor-references.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
 import { BattleSpriteUploader } from './BattleSpriteUploader.js'
 import { CasualtyEditor } from './CasualtyEditor.js'
-import { ImageAssetPicker } from './ImageAssetPicker.js'
-import { LevelCurveEditor } from './LevelCurveEditor.js'
-import { LevelingEditor } from './LevelingEditor.js'
-import { PortraitEditor } from './PortraitEditor.js'
-import { SoundPicker } from './SoundPicker.js'
-import { SpriteFrames } from './SpriteFrames.js'
 import {
   DsButton,
   DsField,
@@ -55,12 +49,21 @@ import {
 } from './design-system/controls.js'
 import {
   DsCatalogRow,
+  DsInspectorTabs,
   DsObjectHero,
   DsReferenceList,
   DsReferenceRow,
   DsWorkbenchSection,
 } from './design-system/recipes.js'
 import { ACTOR_WORKSPACE_SECTIONS, type ActorWorkspaceSection } from './editor-navigation.js'
+import { ImageAssetPicker } from './ImageAssetPicker.js'
+import { LevelCurveEditor } from './LevelCurveEditor.js'
+import { LevelingEditor } from './LevelingEditor.js'
+import { PortraitEditor } from './PortraitEditor.js'
+import { SoundPicker } from './SoundPicker.js'
+import { SpriteFrames } from './SpriteFrames.js'
+
+type ActorInspectorTab = 'summary' | 'references'
 
 const SLOT_LABEL: Record<string, string> = {
   weapon: '武器',
@@ -146,6 +149,7 @@ export function ActorMode(props: {
   } = props
   const [selId, setSelId] = useState(focusActorId ?? actors[0]?.id ?? '')
   const [section, setSection] = useState<ActorWorkspaceSection>(() => actorSection(focusSection))
+  const [inspectorTab, setInspectorTab] = useState<ActorInspectorTab>('summary')
   const [battleUpload, setBattleUpload] = useState(false)
   const [centerEditor, setCenterEditor] = useState<'curve' | 'casualty' | null>(null)
   const [actorDraft, setActorDraft] = useState<
@@ -1057,117 +1061,139 @@ export function ActorMode(props: {
         )}
       </main>
 
-      <aside className="inspector actor-summary-panel">
+      <aside className="inspector inspector--tabbed actor-summary-panel">
+        <div className="insp-head actor-summary-head">
+          <div className="what">角色</div>
+          <div className="who">{actor ? nm(actor.name) : '未选择'}</div>
+          {actor ? <code translate="no">{actor.id}</code> : null}
+        </div>
         {actor ? (
-          <>
-            <div className="insp-head actor-summary-head">
-              <div className="what">角色摘要</div>
-              <div className="who">{nm(actor.name)}</div>
-              <code translate="no">{actor.id}</code>
-            </div>
-            <section className="section actor-quick-profile">
-              <h4>身份与资源</h4>
-              <div className="actor-quick-row">
-                <span>类型</span>
-                <strong>{battler ? '可入队 / 可参战' : 'NPC / 剧情角色'}</strong>
-              </div>
-              <div className="actor-quick-row">
-                <span>名称 ID</span>
-                <code translate="no">{actor.name}</code>
-              </div>
-              <div className="actor-quick-row actor-quick-resource">
-                <span>大世界精灵</span>
-                <strong>{sprite?.label ?? actor.spriteId}</strong>
-                <DsIconButton
-                  size="compact"
-                  variant="secondary"
-                  icon="open"
-                  label={`在资源库打开精灵 ${actor.spriteId}`}
-                  onClick={() => onOpenSprite?.(actor.spriteId)}
-                />
-              </div>
-            </section>
+          <DsInspectorTabs
+            id="actor-inspector"
+            label="角色检查器"
+            activeId={inspectorTab}
+            onChange={(id) => setInspectorTab(id as ActorInspectorTab)}
+            items={[
+              {
+                id: 'summary',
+                label: '摘要',
+                panel: (
+                  <>
+                    <section className="section actor-quick-profile">
+                      <h4>身份与资源</h4>
+                      <div className="actor-quick-row">
+                        <span>类型</span>
+                        <strong>{battler ? '可入队 / 可参战' : 'NPC / 剧情角色'}</strong>
+                      </div>
+                      <div className="actor-quick-row">
+                        <span>名称 ID</span>
+                        <code translate="no">{actor.name}</code>
+                      </div>
+                      <div className="actor-quick-row actor-quick-resource">
+                        <span>大世界精灵</span>
+                        <strong>{sprite?.label ?? actor.spriteId}</strong>
+                        <DsIconButton
+                          size="compact"
+                          variant="secondary"
+                          icon="open"
+                          label={`在资源库打开精灵 ${actor.spriteId}`}
+                          onClick={() => onOpenSprite?.(actor.spriteId)}
+                        />
+                      </div>
+                    </section>
 
-            <section className="section">
-              <h4>编辑分区</h4>
-              <div className="actor-side-nav">
-                {ACTOR_WORKSPACE_SECTIONS.map((candidate) => (
-                  <button
-                    type="button"
-                    key={candidate}
-                    className={section === candidate ? 'active' : ''}
-                    aria-pressed={section === candidate}
-                    onClick={() => openSection(candidate)}
-                  >
-                    <span>{SECTION_LABEL[candidate]}</span>
-                    <small>
-                      {candidate === 'overview'
-                        ? '身份与全局摘要'
-                        : candidate === 'battle'
-                          ? '属性、装备、成长、音效'
-                          : candidate === 'relationships'
-                            ? '援护、合体技、伤亡脚本'
-                            : '行走图、立绘、小头像'}
-                    </small>
-                  </button>
-                ))}
-              </div>
-            </section>
+                    <section className="section">
+                      <h4>编辑分区</h4>
+                      <div className="actor-side-nav">
+                        {ACTOR_WORKSPACE_SECTIONS.map((candidate) => (
+                          <button
+                            type="button"
+                            key={candidate}
+                            className={section === candidate ? 'active' : ''}
+                            aria-pressed={section === candidate}
+                            onClick={() => openSection(candidate)}
+                          >
+                            <span>{SECTION_LABEL[candidate]}</span>
+                            <small>
+                              {candidate === 'overview'
+                                ? '身份与全局摘要'
+                                : candidate === 'battle'
+                                  ? '属性、装备、成长、音效'
+                                  : candidate === 'relationships'
+                                    ? '援护、合体技、伤亡脚本'
+                                    : '行走图、立绘、小头像'}
+                            </small>
+                          </button>
+                        ))}
+                      </div>
+                    </section>
 
-            {battler ? (
-              <section className="section actor-side-facts">
-                <h4>当前摘要</h4>
-                <div className="actor-quick-row">
-                  <span>等级</span>
-                  <strong>{battler.baseStats.level}</strong>
-                </div>
-                <div className="actor-quick-row">
-                  <span>体力 / 真气</span>
-                  <strong>
-                    {battler.baseStats.maxHP} / {battler.baseStats.maxMP}
-                  </strong>
-                </div>
-                <div className="actor-quick-row">
-                  <span>装备 / 仙术</span>
-                  <strong>
-                    {Object.keys(battler.initialEquipment).length} / {battler.initialMagic.length}
-                  </strong>
-                </div>
-                <div className="actor-quick-row">
-                  <span>立绘 / 表情</span>
-                  <strong>
-                    {actor.portraits
-                      ? 1 + Object.keys(actor.portraits.expressions ?? {}).length
-                      : 0}
-                  </strong>
-                </div>
-              </section>
-            ) : null}
-
-            <section className="section actor-reference-section">
-              <h4>引用</h4>
-              {actorReferences.length ? (
-                <>
-                  <p className="hint">
-                    当前有 {actorReferences.length} 处外部引用，解除前不能删除。
-                  </p>
-                  <DsReferenceList className="actor-reference-list">
-                    {actorReferences.slice(0, 12).map((reference) => (
-                      <DsReferenceRow
-                        key={`${reference.kind}:${reference.where}`}
-                        title={reference.label}
-                        path={reference.where}
-                        disabled={!reference.locator || !onOpenActorReference}
-                        onClick={() => onOpenActorReference?.(reference)}
-                      />
-                    ))}
-                  </DsReferenceList>
-                </>
-              ) : (
-                <p className="hint">没有外部引用；删除不会回收共享精灵、立绘或 locale 文本。</p>
-              )}
-            </section>
-          </>
+                    {battler ? (
+                      <section className="section actor-side-facts">
+                        <h4>当前摘要</h4>
+                        <div className="actor-quick-row">
+                          <span>等级</span>
+                          <strong>{battler.baseStats.level}</strong>
+                        </div>
+                        <div className="actor-quick-row">
+                          <span>体力 / 真气</span>
+                          <strong>
+                            {battler.baseStats.maxHP} / {battler.baseStats.maxMP}
+                          </strong>
+                        </div>
+                        <div className="actor-quick-row">
+                          <span>装备 / 仙术</span>
+                          <strong>
+                            {Object.keys(battler.initialEquipment).length} /{' '}
+                            {battler.initialMagic.length}
+                          </strong>
+                        </div>
+                        <div className="actor-quick-row">
+                          <span>立绘 / 表情</span>
+                          <strong>
+                            {actor.portraits
+                              ? 1 + Object.keys(actor.portraits.expressions ?? {}).length
+                              : 0}
+                          </strong>
+                        </div>
+                      </section>
+                    ) : null}
+                  </>
+                ),
+              },
+              {
+                id: 'references',
+                label: '引用',
+                count: actorReferences.length,
+                panel: (
+                  <section className="section actor-reference-section">
+                    {actorReferences.length ? (
+                      <>
+                        <p className="hint">
+                          当前有 {actorReferences.length} 处外部引用，解除前不能删除。
+                        </p>
+                        <DsReferenceList className="actor-reference-list">
+                          {actorReferences.slice(0, 12).map((reference) => (
+                            <DsReferenceRow
+                              key={`${reference.kind}:${reference.where}`}
+                              title={reference.label}
+                              path={reference.where}
+                              disabled={!reference.locator || !onOpenActorReference}
+                              onClick={() => onOpenActorReference?.(reference)}
+                            />
+                          ))}
+                        </DsReferenceList>
+                      </>
+                    ) : (
+                      <p className="hint">
+                        没有外部引用；删除不会回收共享精灵、立绘或 locale 文本。
+                      </p>
+                    )}
+                  </section>
+                ),
+              },
+            ]}
+          />
         ) : (
           <div className="insp-empty">无角色</div>
         )}

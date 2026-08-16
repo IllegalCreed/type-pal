@@ -190,6 +190,52 @@ describe('editor design-system static boundary', () => {
     expect(businessCss).not.toMatch(/\.map-search\b/)
   })
 
+  test('keeps every migrated inspector on the canonical shared tab contract', () => {
+    const uiRoot = dirname(here)
+    const migratedInspectors = [
+      'ItemTab.tsx',
+      'MapMode.tsx',
+      'WorldSpriteLibrary.tsx',
+      'BattleSpriteLibrary.tsx',
+      'SkillTab.tsx',
+      'PoisonTab.tsx',
+      'ImageTab.tsx',
+      'MusicTab.tsx',
+      'SoundTab.tsx',
+      'CutsceneTab.tsx',
+      'ActorMode.tsx',
+      'ShopTab.tsx',
+      'TilesetTab.tsx',
+      'StampLibraryTab.tsx',
+      'ProjectWorkbenchTab.tsx',
+    ]
+
+    for (const file of migratedInspectors) {
+      const source = readFileSync(join(uiRoot, file), 'utf8')
+      expect(source, file).toMatch(/<DsInspectorTabs\b/)
+      expect(source, `${file} private inspector key handler`).not.toMatch(
+        /onInspectorTabKeyDown|inspectorTabRefs/,
+      )
+      expect(source, `${file} manual inspector tablist`).not.toMatch(
+        /role=["']tablist["'][^>]*aria-label=["'][^"']*(?:检查器|右侧面板)/,
+      )
+      expect(source, `${file} manual inspector tab id`).not.toMatch(
+        /id=(?:["'][^"']*inspector-tab-|\{`[^`]*inspector-tab-)/,
+      )
+      expect(source, `${file} count embedded in inspector tab label`).not.toMatch(
+        /label:\s*`(?:引用|问题|诊断)\s+\$\{/,
+      )
+    }
+
+    const allUiSource = filesUnder(uiRoot)
+      .filter((path) => /\.(?:css|ts|tsx)$/.test(path))
+      .map((path) => readFileSync(path, 'utf8'))
+      .join('\n')
+    expect(allUiSource).not.toMatch(
+      /\.(?:item-inspector-tabs|map-inspector-tabs|battle-inspector-tabs)\b/,
+    )
+  })
+
   test('keeps shared reference pickers on canonical form controls', () => {
     const uiRoot = dirname(here)
     const pickerContracts = [

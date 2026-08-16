@@ -15,7 +15,7 @@ import {
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { collectEditorAssetReferences } from '../core/editor-asset-references.js'
-import { DsListHeader } from './design-system/index.js'
+import { DsInspectorTabs, DsListHeader } from './design-system/index.js'
 import { SoundPreviewButton, soundAssets } from './SoundPicker.js'
 
 const ORIGIN_LABELS: Readonly<Record<AssetRecordV1['origin']['kind'], string>> = {
@@ -24,6 +24,8 @@ const ORIGIN_LABELS: Readonly<Record<AssetRecordV1['origin']['kind'], string>> =
   generated: '生成资源',
   licensed: '授权资源',
 }
+
+type SoundInspectorTab = 'resource' | 'references'
 
 function formatBytes(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`
@@ -132,6 +134,7 @@ export function SoundTab(props: {
   const { catalog, reader, session, tabBar, focusObjectId, onObjectFocus } = props
   const [filter, setFilter] = useState('')
   const [error, setError] = useState('')
+  const [inspectorTab, setInspectorTab] = useState<SoundInspectorTab>('resource')
   const importRef = useRef<HTMLInputElement>(null)
   const entries = useMemo(() => soundAssets(catalog), [catalog])
   const state = session.getState()
@@ -195,12 +198,14 @@ export function SoundTab(props: {
           title="音效"
           count={shown.length}
           unit="项"
-          actions={[{
-            id: 'import-sound',
-            label: '导入 WAV',
-            icon: '＋',
-            onClick: () => importRef.current?.click(),
-          }]}
+          actions={[
+            {
+              id: 'import-sound',
+              label: '导入 WAV',
+              icon: '＋',
+              onClick: () => importRef.current?.click(),
+            },
+          ]}
         />
         <div className="music-library-tools">
           <div className="music-search-field">
@@ -306,58 +311,75 @@ export function SoundTab(props: {
           )}
         </div>
       </div>
-      <div className="inspector music-inspector">
+      <div className="inspector inspector--tabbed music-inspector sound-inspector">
         {selected ? (
           <>
             <div className="insp-head">
               <div className="what">选中音效</div>
               <div className="who">{selected.record.label || '未命名'}</div>
             </div>
-            <div className="section">
-              <h4>资源</h4>
-              <div className="music-meta-row">
-                <span>AssetId</span>
-                <code>{selected.id}</code>
-              </div>
-              <div className="music-meta-row">
-                <span>文件</span>
-                <code>{selected.record.path}</code>
-              </div>
-              <div className="music-meta-row">
-                <span>来源</span>
-                <strong>{ORIGIN_LABELS[selected.record.origin.kind]}</strong>
-              </div>
-              <div className="music-meta-row">
-                <span>大小</span>
-                <strong>{formatBytes(selected.record.bytes)}</strong>
-              </div>
-            </div>
-            <div className="section music-reference-section">
-              <h4>
-                引用 <span className="hint2">{selectedReferences.length} 处</span>
-              </h4>
-              {selectedReferences.length ? (
-                <div className="music-reference-list">
-                  {selectedReferences.map((reference) => (
-                    <div
-                      className="music-reference-item"
-                      key={`${reference.site}:${reference.asset}`}
-                    >
-                      <strong>{reference.site}</strong>
-                      <span>{reference.occurrences} 次</span>
-                      <code title={reference.where}>{reference.where}</code>
+            <DsInspectorTabs
+              id="sound-inspector"
+              label="音效检查器"
+              activeId={inspectorTab}
+              onChange={(id) => setInspectorTab(id as SoundInspectorTab)}
+              items={[
+                {
+                  id: 'resource',
+                  label: '资源',
+                  panel: (
+                    <div className="section">
+                      <div className="music-meta-row">
+                        <span>AssetId</span>
+                        <code>{selected.id}</code>
+                      </div>
+                      <div className="music-meta-row">
+                        <span>文件</span>
+                        <code>{selected.record.path}</code>
+                      </div>
+                      <div className="music-meta-row">
+                        <span>来源</span>
+                        <strong>{ORIGIN_LABELS[selected.record.origin.kind]}</strong>
+                      </div>
+                      <div className="music-meta-row">
+                        <span>大小</span>
+                        <strong>{formatBytes(selected.record.bytes)}</strong>
+                      </div>
                     </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="music-reference-empty">当前工程没有引用这个音效。</div>
-              )}
-              {selectedIssues.map((issue) => (
-                <div className="cf-err" key={`${issue.code}:${issue.where}`}>
-                  {issue.message}
-                </div>
-              ))}
-            </div>
+                  ),
+                },
+                {
+                  id: 'references',
+                  label: '引用',
+                  count: selectedReferences.length,
+                  panel: (
+                    <div className="section music-reference-section">
+                      {selectedReferences.length ? (
+                        <div className="music-reference-list">
+                          {selectedReferences.map((reference) => (
+                            <div
+                              className="music-reference-item"
+                              key={`${reference.site}:${reference.asset}`}
+                            >
+                              <strong>{reference.site}</strong>
+                              <span>{reference.occurrences} 次</span>
+                              <code title={reference.where}>{reference.where}</code>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="music-reference-empty">当前工程没有引用这个音效。</div>
+                      )}
+                      {selectedIssues.map((issue) => (
+                        <div className="cf-err" key={`${issue.code}:${issue.where}`}>
+                          {issue.message}
+                        </div>
+                      ))}
+                    </div>
+                  ),
+                },
+              ]}
+            />
           </>
         ) : (
           <div className="insp-empty">选择一个音效查看资源与引用。</div>

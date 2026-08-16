@@ -27,7 +27,7 @@ function InspectorTabsHarness() {
       onChange={setActiveId}
       items={[
         { id: 'properties', label: '属性', panel: <span>属性内容</span> },
-        { id: 'lifecycle', label: '生命周期', panel: <span>生命周期内容</span> },
+        { id: 'lifecycle', label: '生命周期', count: 79, panel: <span>生命周期内容</span> },
         { id: 'behavior', label: '行为', panel: <span>行为内容</span> },
       ]}
     />
@@ -134,8 +134,15 @@ describe('object workbench recipes', () => {
     await act(async () => root.render(<InspectorTabsHarness />))
     const tabs = [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')]
     expect(tabs).toHaveLength(3)
+    expect(tabs[1]?.querySelector('.ds-tab__label')?.textContent).toBe('生命周期')
+    expect(tabs[1]?.querySelector('.ds-tab__count')?.textContent).toBe('79')
+    expect(tabs[1]?.textContent).toBe('生命周期 79')
     expect(tabs[0]?.getAttribute('aria-controls')).toBe('entity-inspector-panel-properties')
+    expect(
+      host.querySelector('#entity-inspector-panel-properties')?.getAttribute('aria-labelledby'),
+    ).toBe('entity-inspector-tab-properties')
     expect(host.querySelectorAll('[role="tabpanel"]:not([hidden])')).toHaveLength(1)
+    expect(host.querySelectorAll('[role="tabpanel"][hidden]')).toHaveLength(2)
     expect(host.querySelector('[role="tabpanel"]:not([hidden])')?.textContent).toBe('属性内容')
 
     await act(async () => tabs[1]!.click())
@@ -147,6 +154,22 @@ describe('object workbench recipes', () => {
     )
     expect(tabs[2]?.getAttribute('aria-selected')).toBe('true')
     expect(document.activeElement).toBe(tabs[2])
+
+    await act(async () =>
+      tabs[2]!.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true })),
+    )
+    expect(document.activeElement).toBe(tabs[0])
+    expect(tabs[0]?.getAttribute('aria-selected')).toBe('true')
+
+    await act(async () =>
+      tabs[0]!.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true })),
+    )
+    expect(document.activeElement).toBe(tabs[2])
+
+    await act(async () =>
+      tabs[2]!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Home', bubbles: true })),
+    )
+    expect(document.activeElement).toBe(tabs[0])
   })
 
   test('workbench section owns one header, action, description, and content contract', async () => {

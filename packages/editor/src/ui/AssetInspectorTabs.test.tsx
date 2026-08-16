@@ -1,0 +1,181 @@
+// @vitest-environment jsdom
+import type { AssetCatalogV1 } from '@type-pal/content'
+import { act } from 'react'
+import { createRoot, type Root } from 'react-dom/client'
+import { afterEach, beforeEach, describe, test, vi } from 'vitest'
+import type { EditorState } from '../core/edit-session.js'
+import { EditSession } from '../core/edit-session.js'
+import { CutsceneTab } from './CutsceneTab.js'
+import { ImageTab } from './ImageTab.js'
+import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
+import { MusicTab } from './MusicTab.js'
+import { SoundTab } from './SoundTab.js'
+
+const catalog: AssetCatalogV1 = {
+  version: 1,
+  assets: {
+    'music.test': {
+      kind: 'music',
+      path: 'assets/music/test.mid',
+      mediaType: 'audio/midi',
+      bytes: 4,
+      sha256: '1'.repeat(64),
+      label: '测试音乐',
+      origin: { kind: 'authored' },
+    },
+    'sound.test': {
+      kind: 'sound',
+      path: 'assets/sound/test.wav',
+      mediaType: 'audio/wav',
+      bytes: 4,
+      sha256: '2'.repeat(64),
+      label: '测试音效',
+      origin: { kind: 'authored' },
+    },
+    'portrait.test': {
+      kind: 'portrait',
+      path: 'assets/images/test.png',
+      mediaType: 'image/png',
+      bytes: 4,
+      sha256: '3'.repeat(64),
+      label: '测试立绘',
+      origin: { kind: 'authored' },
+    },
+    'video.test': {
+      kind: 'video',
+      path: 'assets/video/test.mp4',
+      mediaType: 'video/mp4',
+      bytes: 12,
+      sha256: '4'.repeat(64),
+      label: '测试视频',
+      origin: { kind: 'authored' },
+    },
+  },
+}
+
+function state(): EditorState {
+  return {
+    manifest: {
+      id: 'test',
+      name: '测试工程',
+      contentVersion: 14,
+      minEngineVersion: '2.0.0',
+      entryScene: 's001',
+      startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+      assets: { catalog: 'assets/index.json', roles: {} },
+    },
+    scenes: [],
+    actors: [],
+    levelUp: {},
+    skills: [],
+    items: [],
+    enemies: [],
+    enemyTeams: [],
+    poisons: [],
+    shops: [],
+    locale: {},
+    sprites: [],
+    battleSprites: [],
+    startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+    maps: {},
+    mapIndex: { version: 1, maps: [] },
+    tilesets: [],
+    tilesetBlobs: {},
+    assetCatalog: catalog,
+    assetBlobs: {},
+    scriptChunks: {},
+    stamps: [],
+  } as unknown as EditorState
+}
+
+const reader = {
+  projectId: 'test',
+  record: (id: keyof typeof catalog.assets) => catalog.assets[id],
+  readBytes: vi.fn(async () => {
+    throw new Error('测试不加载媒体正文')
+  }),
+  readRoleBytes: vi.fn(async () => new ArrayBuffer(0)),
+  urlFor: vi.fn(async () => ''),
+}
+
+let root: Root
+let host: HTMLDivElement
+
+beforeEach(() => {
+  ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+  host = document.createElement('div')
+  document.body.append(host)
+  root = createRoot(host)
+})
+
+afterEach(async () => {
+  await act(async () => root.unmount())
+  host.remove()
+  vi.clearAllMocks()
+})
+
+describe('asset inspectors shared tabs', () => {
+  test('ImageTab 使用资源/引用 canonical Inspector', async () => {
+    const session = new EditSession(state())
+    await act(async () => {
+      root.render(
+        <ImageTab
+          assetBase={{} as never}
+          catalog={catalog}
+          reader={reader as never}
+          session={session}
+          focusObjectId="portrait.test"
+        />,
+      )
+      await Promise.resolve()
+    })
+    await verifyInspectorTabs(host, '图片检查器', ['资源', /^引用 \d+$/])
+  })
+
+  test('MusicTab 使用资源/引用 canonical Inspector', async () => {
+    const session = new EditSession(state())
+    await act(async () =>
+      root.render(
+        <MusicTab
+          catalog={catalog}
+          resolver={reader as never}
+          session={session}
+          focusObjectId="music.test"
+        />,
+      ),
+    )
+    await verifyInspectorTabs(host, '音乐检查器', ['资源', /^引用 \d+$/])
+  })
+
+  test('SoundTab 使用资源/引用 canonical Inspector', async () => {
+    const session = new EditSession(state())
+    await act(async () =>
+      root.render(
+        <SoundTab
+          catalog={catalog}
+          reader={reader as never}
+          session={session}
+          focusObjectId="sound.test"
+        />,
+      ),
+    )
+    await verifyInspectorTabs(host, '音效检查器', ['资源', /^引用 \d+$/])
+  })
+
+  test('CutsceneTab 使用资源/引用/诊断 canonical Inspector', async () => {
+    const session = new EditSession(state())
+    await act(async () => {
+      root.render(
+        <CutsceneTab
+          assetBase={{} as never}
+          catalog={catalog}
+          reader={reader as never}
+          session={session}
+          focusObjectId="video.test"
+        />,
+      )
+      await Promise.resolve()
+    })
+    await verifyInspectorTabs(host, '过场资源检查器', ['资源', /^引用 \d+$/, /^诊断 \d+$/])
+  })
+})

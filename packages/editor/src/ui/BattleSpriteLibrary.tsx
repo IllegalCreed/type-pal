@@ -46,7 +46,13 @@ import {
   type BattleSpriteResourceSnapshot,
 } from './BattleSpriteInlinePreview.js'
 import { BattleSpriteUploader } from './BattleSpriteUploader.js'
-import { DsListHeader, DsObjectHero, DsSequenceIndex, DsTag } from './design-system/index.js'
+import {
+  DsInspectorTabs,
+  DsListHeader,
+  DsObjectHero,
+  DsSequenceIndex,
+  DsTag,
+} from './design-system/index.js'
 import { type SemanticFrameGroup, SpriteFrameCanvas } from './SpriteFrameWorkbench.js'
 
 const PROFILE_LABEL: Record<BattleSpriteProfileKind, string> = {
@@ -121,12 +127,6 @@ const PLAYER_ACTIONS: readonly PlayerActionSpec[] = [
     frameMs: 160,
     timing: '专属姿势；实战还包含冲刺与敌方闪白',
   },
-]
-
-const INSPECTOR_TABS: readonly { id: InspectorTab; label: string }[] = [
-  { id: 'actions', label: '动作' },
-  { id: 'references', label: '引用' },
-  { id: 'source', label: '源文件' },
 ]
 
 function actionsForProfile(
@@ -1132,22 +1132,6 @@ export function BattleSpriteLibrary(props: {
     </div>
   ) : null
 
-  const selectInspectorTab = (tab: InspectorTab): void => setInspectorTab(tab)
-  const onInspectorTabKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>): void => {
-    const current = INSPECTOR_TABS.findIndex((tab) => tab.id === inspectorTab)
-    let next = current
-    if (event.key === 'ArrowRight') next = (current + 1) % INSPECTOR_TABS.length
-    else if (event.key === 'ArrowLeft')
-      next = (current - 1 + INSPECTOR_TABS.length) % INSPECTOR_TABS.length
-    else if (event.key === 'Home') next = 0
-    else if (event.key === 'End') next = INSPECTOR_TABS.length - 1
-    else return
-    event.preventDefault()
-    const tab = INSPECTOR_TABS[next]!
-    setInspectorTab(tab.id)
-    document.getElementById(`battle-sprite-tab-${tab.id}`)?.focus()
-  }
-
   return (
     <>
       <div className="outliner data-outliner battle-sprite-outliner">
@@ -1386,384 +1370,388 @@ export function BattleSpriteLibrary(props: {
         </div>
       </div>
 
-      <div className="inspector battle-sprite-inspector">
+      <div className="inspector inspector--tabbed battle-sprite-inspector">
         <div className="insp-head">
           <div className="what">战斗精灵</div>
           <div className="who">{displayLabel || '未选择'}</div>
         </div>
-        <div className="battle-inspector-tabs" role="tablist" aria-label="战斗精灵检查器">
-          {INSPECTOR_TABS.map((tab) => (
-            <button
-              type="button"
-              id={`battle-sprite-tab-${tab.id}`}
-              key={tab.id}
-              role="tab"
-              aria-selected={inspectorTab === tab.id}
-              aria-controls={`battle-sprite-panel-${tab.id}`}
-              className={inspectorTab === tab.id ? 'on' : ''}
-              onClick={() => selectInspectorTab(tab.id)}
-              onKeyDown={onInspectorTabKeyDown}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
-
-        {inspectorTab === 'actions' ? (
-          <div
-            id="battle-sprite-panel-actions"
-            role="tabpanel"
-            aria-labelledby="battle-sprite-tab-actions"
-          >
-            <div className="section battle-usage-section">
-              <div className="battle-section-head">
-                <h4>用途</h4>
-                <button
-                  type="button"
-                  className="tool"
-                  onClick={() => setShowUsageMenu((value) => !value)}
-                >
-                  ＋ 新增用途
-                </button>
-              </div>
-              {consumers.length > 1 && !creatingUsage ? (
-                <fieldset className="battle-usage-switch" aria-label="切换用途">
-                  {consumers.map((entry) => (
-                    <button
-                      type="button"
-                      key={entry.id}
-                      className={entry.id === definition?.id ? 'on' : ''}
-                      aria-pressed={entry.id === definition?.id}
-                      onClick={() => focusDefinition(entry)}
-                    >
-                      {entry.label}
-                    </button>
-                  ))}
-                </fieldset>
-              ) : null}
-              {showUsageMenu ? (
-                <fieldset className="battle-new-usage-menu" aria-label="新增用途类型">
-                  {(['player-fighter', 'enemy', 'summon'] as const).map((entry) => (
-                    <button type="button" key={entry} onClick={() => beginUsage(entry)}>
-                      {PROFILE_LABEL[entry]}
-                    </button>
-                  ))}
-                </fieldset>
-              ) : null}
-              {creatingUsage ? (
-                <p className="hint2">新用途尚未写入工程；应用后才会成为一次可撤销修改。</p>
-              ) : null}
-              {!definition && !creatingUsage ? (
-                <p className="hint2">这组源帧尚未设置用途。点击“新增用途”开始配置。</p>
-              ) : null}
-            </div>
-
-            {draftProfile ? (
-              <>
-                <div className="section">
-                  <label className="battle-usage-label-field">
-                    <span>名称</span>
-                    <input
-                      className="in"
-                      aria-label="战斗精灵用途名称"
-                      value={draftLabel}
-                      onChange={(event) => setDraftLabel(event.target.value)}
-                    />
-                  </label>
-                  <div className="hint2">
-                    {PROFILE_LABEL[draftProfile.kind]} · <code>{draftDefinitionId}</code>
-                  </div>
-                </div>
-                <div className="section">
-                  <h4>动作</h4>
-                  <fieldset className="battle-action-list" aria-label="动作列表">
-                    {namedActions.map((action) => (
+        <DsInspectorTabs
+          id="battle-sprite-inspector"
+          label="战斗精灵检查器"
+          activeId={inspectorTab}
+          onChange={(id) => setInspectorTab(id as InspectorTab)}
+          items={[
+            {
+              id: 'actions',
+              label: '动作',
+              panel: (
+                <div>
+                  <div className="section battle-usage-section">
+                    <div className="battle-section-head">
+                      <h4>用途</h4>
                       <button
                         type="button"
-                        key={action.key}
-                        className={effectiveAction === action.key ? 'on' : ''}
-                        aria-pressed={effectiveAction === action.key}
-                        onClick={() => {
-                          setSelectedAction(action.key)
-                          setDragOverPlayerSlot(undefined)
-                          const spec = PLAYER_ACTIONS.find((entry) => entry.key === action.key)
-                          setSelectedPlayerSlot(spec?.slots[0]?.key)
-                        }}
+                        className="tool"
+                        onClick={() => setShowUsageMenu((value) => !value)}
                       >
-                        <b>{action.label}</b>
-                        <span>
-                          {action.frames.length
-                            ? action.frames.map((frame) => `#${frame}`).join(' → ')
-                            : '未设置'}
-                        </span>
+                        ＋ 新增用途
                       </button>
-                    ))}
-                  </fieldset>
+                    </div>
+                    {consumers.length > 1 && !creatingUsage ? (
+                      <fieldset className="battle-usage-switch" aria-label="切换用途">
+                        {consumers.map((entry) => (
+                          <button
+                            type="button"
+                            key={entry.id}
+                            className={entry.id === definition?.id ? 'on' : ''}
+                            aria-pressed={entry.id === definition?.id}
+                            onClick={() => focusDefinition(entry)}
+                          >
+                            {entry.label}
+                          </button>
+                        ))}
+                      </fieldset>
+                    ) : null}
+                    {showUsageMenu ? (
+                      <fieldset className="battle-new-usage-menu" aria-label="新增用途类型">
+                        {(['player-fighter', 'enemy', 'summon'] as const).map((entry) => (
+                          <button type="button" key={entry} onClick={() => beginUsage(entry)}>
+                            {PROFILE_LABEL[entry]}
+                          </button>
+                        ))}
+                      </fieldset>
+                    ) : null}
+                    {creatingUsage ? (
+                      <p className="hint2">新用途尚未写入工程；应用后才会成为一次可撤销修改。</p>
+                    ) : null}
+                    {!definition && !creatingUsage ? (
+                      <p className="hint2">这组源帧尚未设置用途。点击“新增用途”开始配置。</p>
+                    ) : null}
+                  </div>
 
-                  {actionProfile?.kind === 'player-fighter' && activePlayerSpec ? (
-                    <div className="battle-action-stage-editor">
-                      <div className="battle-action-stage-head">
-                        <div>
-                          <h5>{activeAction?.label} · 原版动作阶段</h5>
-                          <p className="hint2">
-                            阶段顺序与行为由 PAL
-                            战斗逻辑固定。将中间的原始帧拖到某个阶段，只会替换该阶段姿势。
-                          </p>
+                  {draftProfile ? (
+                    <>
+                      <div className="section">
+                        <label className="battle-usage-label-field">
+                          <span>名称</span>
+                          <input
+                            className="in"
+                            aria-label="战斗精灵用途名称"
+                            value={draftLabel}
+                            onChange={(event) => setDraftLabel(event.target.value)}
+                          />
+                        </label>
+                        <div className="hint2">
+                          {PROFILE_LABEL[draftProfile.kind]} · <code>{draftDefinitionId}</code>
                         </div>
-                        <span className="battle-action-stage-mode">
-                          原版兼容 · 固定 {activePlayerSpec.slots.length} 槽
-                        </span>
                       </div>
-                      <ol className="battle-action-stage-list" aria-label="原版动作阶段">
-                        {activePlayerSpec.slots.map((slot, index) => {
-                          const frame = actionProfile.frames[slot.key]
-                          const selected = slot.key === effectivePlayerSlot
-                          const dropTarget = slot.key === dragOverPlayerSlot
-                          return (
-                            <li
-                              key={`${slot.key}:${index}`}
-                              className={`${selected ? 'selected' : ''}${dropTarget ? ' drop-target' : ''}`}
-                              onDragEnter={(event) => {
-                                if (!Array.from(event.dataTransfer.types).includes(RAW_FRAME_MIME))
-                                  return
-                                setDragOverPlayerSlot(slot.key)
-                              }}
-                              onDragLeave={(event) => {
-                                const related = event.relatedTarget
-                                if (
-                                  related instanceof Node &&
-                                  event.currentTarget.contains(related)
+                      <div className="section">
+                        <h4>动作</h4>
+                        <fieldset className="battle-action-list" aria-label="动作列表">
+                          {namedActions.map((action) => (
+                            <button
+                              type="button"
+                              key={action.key}
+                              className={effectiveAction === action.key ? 'on' : ''}
+                              aria-pressed={effectiveAction === action.key}
+                              onClick={() => {
+                                setSelectedAction(action.key)
+                                setDragOverPlayerSlot(undefined)
+                                const spec = PLAYER_ACTIONS.find(
+                                  (entry) => entry.key === action.key,
                                 )
-                                  return
-                                if (dragOverPlayerSlot === slot.key)
-                                  setDragOverPlayerSlot(undefined)
-                              }}
-                              onDragOver={(event) => {
-                                if (!Array.from(event.dataTransfer.types).includes(RAW_FRAME_MIME))
-                                  return
-                                event.preventDefault()
-                                event.dataTransfer.dropEffect = 'copy'
-                                setDragOverPlayerSlot(slot.key)
-                              }}
-                              onDrop={(event) => {
-                                event.stopPropagation()
-                                onPlayerStageDrop(event, slot.key)
+                                setSelectedPlayerSlot(spec?.slots[0]?.key)
                               }}
                             >
-                              <button
-                                type="button"
-                                className="battle-action-stage-select"
-                                aria-pressed={selected}
-                                aria-label={
-                                  frame === undefined
-                                    ? `选中${slot.label}，当前未设置`
-                                    : `选中${slot.label}，当前为原始帧 ${frame}`
-                                }
-                                onClick={() => setSelectedPlayerSlot(slot.key)}
-                              >
-                                <DsSequenceIndex value={index + 1} decorative />
+                              <b>{action.label}</b>
+                              <span>
+                                {action.frames.length
+                                  ? action.frames.map((frame) => `#${frame}`).join(' → ')
+                                  : '未设置'}
+                              </span>
+                            </button>
+                          ))}
+                        </fieldset>
+
+                        {actionProfile?.kind === 'player-fighter' && activePlayerSpec ? (
+                          <div className="battle-action-stage-editor">
+                            <div className="battle-action-stage-head">
+                              <div>
+                                <h5>{activeAction?.label} · 原版动作阶段</h5>
+                                <p className="hint2">
+                                  阶段顺序与行为由 PAL
+                                  战斗逻辑固定。将中间的原始帧拖到某个阶段，只会替换该阶段姿势。
+                                </p>
+                              </div>
+                              <span className="battle-action-stage-mode">
+                                原版兼容 · 固定 {activePlayerSpec.slots.length} 槽
+                              </span>
+                            </div>
+                            <ol className="battle-action-stage-list" aria-label="原版动作阶段">
+                              {activePlayerSpec.slots.map((slot, index) => {
+                                const frame = actionProfile.frames[slot.key]
+                                const selected = slot.key === effectivePlayerSlot
+                                const dropTarget = slot.key === dragOverPlayerSlot
+                                return (
+                                  <li
+                                    key={`${slot.key}:${index}`}
+                                    className={`${selected ? 'selected' : ''}${dropTarget ? ' drop-target' : ''}`}
+                                    onDragEnter={(event) => {
+                                      if (
+                                        !Array.from(event.dataTransfer.types).includes(
+                                          RAW_FRAME_MIME,
+                                        )
+                                      )
+                                        return
+                                      setDragOverPlayerSlot(slot.key)
+                                    }}
+                                    onDragLeave={(event) => {
+                                      const related = event.relatedTarget
+                                      if (
+                                        related instanceof Node &&
+                                        event.currentTarget.contains(related)
+                                      )
+                                        return
+                                      if (dragOverPlayerSlot === slot.key)
+                                        setDragOverPlayerSlot(undefined)
+                                    }}
+                                    onDragOver={(event) => {
+                                      if (
+                                        !Array.from(event.dataTransfer.types).includes(
+                                          RAW_FRAME_MIME,
+                                        )
+                                      )
+                                        return
+                                      event.preventDefault()
+                                      event.dataTransfer.dropEffect = 'copy'
+                                      setDragOverPlayerSlot(slot.key)
+                                    }}
+                                    onDrop={(event) => {
+                                      event.stopPropagation()
+                                      onPlayerStageDrop(event, slot.key)
+                                    }}
+                                  >
+                                    <button
+                                      type="button"
+                                      className="battle-action-stage-select"
+                                      aria-pressed={selected}
+                                      aria-label={
+                                        frame === undefined
+                                          ? `选中${slot.label}，当前未设置`
+                                          : `选中${slot.label}，当前为原始帧 ${frame}`
+                                      }
+                                      onClick={() => setSelectedPlayerSlot(slot.key)}
+                                    >
+                                      <DsSequenceIndex value={index + 1} decorative />
+                                      <SpriteFrameCanvas
+                                        source={
+                                          frame === undefined
+                                            ? undefined
+                                            : resourceSnapshot?.baked[frame]
+                                        }
+                                        width={54}
+                                        height={54}
+                                        maxScale={2}
+                                      />
+                                      <span className="battle-action-stage-meta">
+                                        <b>{slot.label}</b>
+                                        {frame === undefined ? (
+                                          <small>未设置</small>
+                                        ) : (
+                                          <code>#{frame}</code>
+                                        )}
+                                      </span>
+                                    </button>
+                                    <span className="battle-action-stage-controls">
+                                      <button
+                                        type="button"
+                                        aria-label={`用已选 #${selectedRawFrame} 替换${slot.label}`}
+                                        onClick={() =>
+                                          assignPlayerStage(slot.key, selectedRawFrame)
+                                        }
+                                      >
+                                        用已选 #{selectedRawFrame}
+                                      </button>
+                                      {slot.optional && frame !== undefined ? (
+                                        <button
+                                          type="button"
+                                          aria-label={`清除${slot.label}`}
+                                          onClick={() => clearOptionalPlayerStage(slot.key)}
+                                        >
+                                          清除
+                                        </button>
+                                      ) : null}
+                                    </span>
+                                    {dropTarget ? (
+                                      <span className="battle-action-stage-drop-hint">
+                                        释放以将“{slot.label}”替换为 #{selectedRawFrame}
+                                      </span>
+                                    ) : null}
+                                  </li>
+                                )
+                              })}
+                            </ol>
+                            {activePlayerSpec.returnToIdle ? (
+                              <div className="battle-action-end-behavior">
+                                <span className="battle-action-end-lock" aria-hidden="true">
+                                  🔒
+                                </span>
                                 <SpriteFrameCanvas
-                                  source={
-                                    frame === undefined ? undefined : resourceSnapshot?.baked[frame]
-                                  }
+                                  source={resourceSnapshot?.baked[actionProfile.frames.idle]}
                                   width={54}
                                   height={54}
                                   maxScale={2}
                                 />
                                 <span className="battle-action-stage-meta">
-                                  <b>{slot.label}</b>
-                                  {frame === undefined ? (
-                                    <small>未设置</small>
-                                  ) : (
-                                    <code>#{frame}</code>
-                                  )}
+                                  <b>结束行为：回到待机</b>
+                                  <code>#{actionProfile.frames.idle}</code>
+                                  <small>由待机动作派生，不占用当前动作槽位</small>
                                 </span>
-                              </button>
-                              <span className="battle-action-stage-controls">
-                                <button
-                                  type="button"
-                                  aria-label={`用已选 #${selectedRawFrame} 替换${slot.label}`}
-                                  onClick={() => assignPlayerStage(slot.key, selectedRawFrame)}
-                                >
-                                  用已选 #{selectedRawFrame}
-                                </button>
-                                {slot.optional && frame !== undefined ? (
-                                  <button
-                                    type="button"
-                                    aria-label={`清除${slot.label}`}
-                                    onClick={() => clearOptionalPlayerStage(slot.key)}
-                                  >
-                                    清除
-                                  </button>
-                                ) : null}
-                              </span>
-                              {dropTarget ? (
-                                <span className="battle-action-stage-drop-hint">
-                                  释放以将“{slot.label}”替换为 #{selectedRawFrame}
-                                </span>
-                              ) : null}
-                            </li>
-                          )
-                        })}
-                      </ol>
-                      {activePlayerSpec.returnToIdle ? (
-                        <div className="battle-action-end-behavior">
-                          <span className="battle-action-end-lock" aria-hidden="true">
-                            🔒
-                          </span>
-                          <SpriteFrameCanvas
-                            source={resourceSnapshot?.baked[actionProfile.frames.idle]}
-                            width={54}
-                            height={54}
-                            maxScale={2}
-                          />
-                          <span className="battle-action-stage-meta">
-                            <b>结束行为：回到待机</b>
-                            <code>#{actionProfile.frames.idle}</code>
-                            <small>由待机动作派生，不占用当前动作槽位</small>
-                          </span>
+                              </div>
+                            ) : null}
+                          </div>
+                        ) : null}
+
+                        <ProfileEditor
+                          profile={draftProfile}
+                          actualFrameCount={actualFrameCount}
+                          onChange={setDraftProfile}
+                        />
+                      </div>
+                      <div className="section battle-draft-actions">
+                        <button type="button" className="tool" onClick={discardDraft}>
+                          放弃修改
+                        </button>
+                        <button
+                          type="button"
+                          className="tool primary"
+                          disabled={!proofReady || !draftLabel.trim() || !draftChanged}
+                          onClick={() => void applyDefinitionDraft()}
+                        >
+                          应用修改
+                        </button>
+                      </div>
+                    </>
+                  ) : null}
+                </div>
+              ),
+            },
+            {
+              id: 'references',
+              label: '引用',
+              panel: (
+                <div>
+                  <div className="section sprite-definition-lifecycle">
+                    <h4>引用 · {references.length}</h4>
+                    {!definition ? <p className="hint2">尚无用途，因此没有内容引用。</p> : null}
+                    {definition && !references.length ? (
+                      <p className="hint2">当前用途尚未被使用。</p>
+                    ) : null}
+                    {references.slice(0, showAllReferences ? undefined : 12).map((reference) => (
+                      <button
+                        type="button"
+                        className="sprite-reference-link"
+                        key={`${reference.site}:${reference.where}`}
+                        disabled={!props.onJumpReference}
+                        onClick={() => props.onJumpReference?.(reference)}
+                      >
+                        <span>
+                          <b>{referenceLabel(reference)}</b>
+                          <code>{reference.where}</code>
+                        </span>
+                        <span>打开 ↗</span>
+                      </button>
+                    ))}
+                    {references.length > 12 ? (
+                      <button
+                        type="button"
+                        className="tool"
+                        onClick={() => setShowAllReferences((value) => !value)}
+                      >
+                        {showAllReferences
+                          ? '收起引用'
+                          : `展开其余 ${references.length - 12} 处引用`}
+                      </button>
+                    ) : null}
+                    {definition ? (
+                      <button
+                        type="button"
+                        className="tool danger-action"
+                        disabled={references.length > 0}
+                        onClick={deleteDefinition}
+                      >
+                        删除用途（保留源文件）
+                      </button>
+                    ) : null}
+                  </div>
+                </div>
+              ),
+            },
+            {
+              id: 'source',
+              label: '源文件',
+              panel: (
+                <div>
+                  {record?.kind === 'battle-sprite' ? (
+                    <>
+                      <div className="section sprite-resource-meta">
+                        <h4>源文件</h4>
+                        <div className="field">
+                          <span className="field-label">AssetId</span>
+                          <div className="in mono">{selectedAsset}</div>
                         </div>
-                      ) : null}
-                    </div>
-                  ) : null}
-
-                  <ProfileEditor
-                    profile={draftProfile}
-                    actualFrameCount={actualFrameCount}
-                    onChange={setDraftProfile}
-                  />
+                        <div className="field">
+                          <span className="field-label">路径</span>
+                          <div className="in mono">{record.path}</div>
+                        </div>
+                        <div className="field">
+                          <span className="field-label">实际帧数</span>
+                          <div className="in mono">{actualFrameCount || '读取中…'}</div>
+                        </div>
+                        <div className="field">
+                          <span className="field-label">字节</span>
+                          <div className="in mono">{record.bytes.toLocaleString()}</div>
+                        </div>
+                        <div className="field">
+                          <span className="field-label">SHA-256</span>
+                          <div className="in mono" title={record.sha256}>
+                            {record.sha256.slice(0, 16)}…
+                          </div>
+                        </div>
+                        <div className="field">
+                          <span className="field-label">来源</span>
+                          <div className="in mono">{record.origin.kind}</div>
+                        </div>
+                      </div>
+                      <div className="section battle-source-actions">
+                        {consumers.length ? (
+                          <button
+                            type="button"
+                            className="tool"
+                            disabled={!proofReady}
+                            onClick={() => setReplacing(true)}
+                          >
+                            替换共享源文件…
+                          </button>
+                        ) : null}
+                        <button
+                          type="button"
+                          className="tool danger-action"
+                          disabled={consumers.length > 0}
+                          onClick={() => void deleteAsset()}
+                        >
+                          删除未使用源文件
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="insp-empty">未选择源文件。</div>
+                  )}
                 </div>
-                <div className="section battle-draft-actions">
-                  <button type="button" className="tool" onClick={discardDraft}>
-                    放弃修改
-                  </button>
-                  <button
-                    type="button"
-                    className="tool primary"
-                    disabled={!proofReady || !draftLabel.trim() || !draftChanged}
-                    onClick={() => void applyDefinitionDraft()}
-                  >
-                    应用修改
-                  </button>
-                </div>
-              </>
-            ) : null}
-          </div>
-        ) : null}
-
-        {inspectorTab === 'references' ? (
-          <div
-            id="battle-sprite-panel-references"
-            role="tabpanel"
-            aria-labelledby="battle-sprite-tab-references"
-          >
-            <div className="section sprite-definition-lifecycle">
-              <h4>引用 · {references.length}</h4>
-              {!definition ? <p className="hint2">尚无用途，因此没有内容引用。</p> : null}
-              {definition && !references.length ? (
-                <p className="hint2">当前用途尚未被使用。</p>
-              ) : null}
-              {references.slice(0, showAllReferences ? undefined : 12).map((reference) => (
-                <button
-                  type="button"
-                  className="sprite-reference-link"
-                  key={`${reference.site}:${reference.where}`}
-                  disabled={!props.onJumpReference}
-                  onClick={() => props.onJumpReference?.(reference)}
-                >
-                  <span>
-                    <b>{referenceLabel(reference)}</b>
-                    <code>{reference.where}</code>
-                  </span>
-                  <span>打开 ↗</span>
-                </button>
-              ))}
-              {references.length > 12 ? (
-                <button
-                  type="button"
-                  className="tool"
-                  onClick={() => setShowAllReferences((value) => !value)}
-                >
-                  {showAllReferences ? '收起引用' : `展开其余 ${references.length - 12} 处引用`}
-                </button>
-              ) : null}
-              {definition ? (
-                <button
-                  type="button"
-                  className="tool danger-action"
-                  disabled={references.length > 0}
-                  onClick={deleteDefinition}
-                >
-                  删除用途（保留源文件）
-                </button>
-              ) : null}
-            </div>
-          </div>
-        ) : null}
-
-        {inspectorTab === 'source' ? (
-          <div
-            id="battle-sprite-panel-source"
-            role="tabpanel"
-            aria-labelledby="battle-sprite-tab-source"
-          >
-            {record?.kind === 'battle-sprite' ? (
-              <>
-                <div className="section sprite-resource-meta">
-                  <h4>源文件</h4>
-                  <div className="field">
-                    <span className="field-label">AssetId</span>
-                    <div className="in mono">{selectedAsset}</div>
-                  </div>
-                  <div className="field">
-                    <span className="field-label">路径</span>
-                    <div className="in mono">{record.path}</div>
-                  </div>
-                  <div className="field">
-                    <span className="field-label">实际帧数</span>
-                    <div className="in mono">{actualFrameCount || '读取中…'}</div>
-                  </div>
-                  <div className="field">
-                    <span className="field-label">字节</span>
-                    <div className="in mono">{record.bytes.toLocaleString()}</div>
-                  </div>
-                  <div className="field">
-                    <span className="field-label">SHA-256</span>
-                    <div className="in mono" title={record.sha256}>
-                      {record.sha256.slice(0, 16)}…
-                    </div>
-                  </div>
-                  <div className="field">
-                    <span className="field-label">来源</span>
-                    <div className="in mono">{record.origin.kind}</div>
-                  </div>
-                </div>
-                <div className="section battle-source-actions">
-                  {consumers.length ? (
-                    <button
-                      type="button"
-                      className="tool"
-                      disabled={!proofReady}
-                      onClick={() => setReplacing(true)}
-                    >
-                      替换共享源文件…
-                    </button>
-                  ) : null}
-                  <button
-                    type="button"
-                    className="tool danger-action"
-                    disabled={consumers.length > 0}
-                    onClick={() => void deleteAsset()}
-                  >
-                    删除未使用源文件
-                  </button>
-                </div>
-              </>
-            ) : (
-              <div className="insp-empty">未选择源文件。</div>
-            )}
-          </div>
-        ) : null}
+              ),
+            },
+          ]}
+        />
       </div>
     </>
   )

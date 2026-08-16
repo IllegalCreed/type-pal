@@ -7,6 +7,7 @@ import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { ActorMode } from './ActorMode.js'
+import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 
 let host: HTMLDivElement
 let root: Root
@@ -160,6 +161,16 @@ function setInputValue(input: HTMLInputElement, value: string): void {
 }
 
 describe('ActorMode 战斗关系节 (E18-1)', () => {
+  test('角色检查器保留编辑分区导航并使用共享摘要/引用 Tab', async () => {
+    const session = new EditSession(state(actors()))
+    await act(async () => {
+      root = createRoot(host)
+      root.render(<Harness session={session} />)
+    })
+    await verifyInspectorTabs(host, '角色检查器', ['摘要', /^引用 \d+$/])
+    expect(host.querySelector('.actor-side-nav')).not.toBeNull()
+  })
+
   test('默认主工作区是角色总览；行走帧只在外观资源分区出现', async () => {
     const session = new EditSession(state(actors()))
     await act(async () => {

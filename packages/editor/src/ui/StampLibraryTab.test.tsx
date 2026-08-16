@@ -7,6 +7,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import type { StampSelectionSource } from '../core/stamp-template.js'
+import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 import { StampLibraryTab } from './StampLibraryTab.js'
 
 function template(id = 'tree', tilesetId = 'tiles-a'): StampTemplateV1 {
@@ -132,6 +133,15 @@ afterEach(async () => {
 })
 
 describe('StampLibraryTab', () => {
+  test('检查器使用共享属性/引用/动作 Tab 完整键盘与 ARIA 合同', async () => {
+    const session = new EditSession(state([template()], {}))
+    await act(async () => {
+      root.render(<Harness session={session} />)
+      await Promise.resolve()
+    })
+    await verifyInspectorTabs(host, '组合模板检查器', ['属性', /^引用 \d+$/, '动作'])
+  })
+
   test('改名/分类/复制/删除均走 undo，删除模板不改 placement 且库级显示悬空来源', async () => {
     const map = placedMap('tree')
     const session = new EditSession(state([template()], { 'map-a': map }))

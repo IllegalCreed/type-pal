@@ -429,7 +429,7 @@ describe('editor design-system controls', () => {
           activeId="overview"
           items={[
             { id: 'overview', label: '总览' },
-            { id: 'growth', label: '战斗与成长' },
+            { id: 'growth', label: '战斗与成长', count: 8 },
           ]}
           onChange={onChange}
         />,
@@ -438,6 +438,8 @@ describe('editor design-system controls', () => {
     const tabs = [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')]
     expect(tabs.map((tab) => tab.tabIndex)).toEqual([0, -1])
     expect(tabs[0]?.classList).toContain('ds-tab--compact')
+    expect(tabs[1]?.querySelector('.ds-tab__label')?.textContent).toBe('战斗与成长')
+    expect(tabs[1]?.querySelector('.ds-tab__count')?.textContent).toBe('8')
     await act(async () =>
       tabs[0]!.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true })),
     )

@@ -33,9 +33,11 @@ import {
   TilesetRemovalProof,
   TilesetReplacementProof,
 } from '../core/tileset-references.js'
-import { DsListHeader } from './design-system/index.js'
+import { DsInspectorTabs, DsListHeader } from './design-system/index.js'
 
 const FRAME_PAGE_SIZE = 128
+
+type TilesetInspectorTab = 'resource' | 'references'
 
 const CATEGORY_LABELS: Readonly<Record<string, string>> = {
   builtin: '内置',
@@ -181,6 +183,7 @@ export function TilesetTab(props: {
     focusObjectId ?? tilesets[0]?.id ?? null,
   )
   const [uploading, setUploading] = useState(false)
+  const [inspectorTab, setInspectorTab] = useState<TilesetInspectorTab>('resource')
   const [replaceTargetId, setReplaceTargetId] = useState<string>()
   const [filter, setFilter] = useState('')
   const [categoryFilter, setCategoryFilter] = useState('all')
@@ -468,18 +471,20 @@ export function TilesetTab(props: {
           title="瓦片集"
           count={tilesets.length}
           unit="项"
-          actions={[{
-            id: 'upload-tileset',
-            label: '上传 PNG、WebP 或 GIF 图集',
-            icon: '＋',
-            onClick: () => {
-              setUploading(true)
-              setReplaceTargetId(undefined)
-              setReplacementScan(undefined)
-              setDraft(null)
-              setErr('')
+          actions={[
+            {
+              id: 'upload-tileset',
+              label: '上传 PNG、WebP 或 GIF 图集',
+              icon: '＋',
+              onClick: () => {
+                setUploading(true)
+                setReplaceTargetId(undefined)
+                setReplacementScan(undefined)
+                setDraft(null)
+                setErr('')
+              },
             },
-          }]}
+          ]}
         />
         <div className="tileset-library-tools">
           <label className="tileset-search-field" htmlFor={searchId}>
@@ -630,7 +635,11 @@ export function TilesetTab(props: {
         )}
       </div>
 
-      <aside className="inspector tileset-inspector">
+      <aside
+        className={`inspector tileset-inspector${
+          !uploading && selected ? ' inspector--tabbed' : ''
+        }`}
+      >
         {uploading ? (
           <>
             <div className="insp-head">
@@ -801,178 +810,206 @@ export function TilesetTab(props: {
               <div className="what">选中瓦片集</div>
               <div className="who">{selected.name}</div>
             </div>
-            <section className="section">
-              <h4>登记信息</h4>
-              <div className="field">
-                <span className="field-label">ID</span>
-                <div className="in mono tileset-readonly">{selected.id}</div>
-              </div>
-              <div className="field">
-                <span className="field-label">名称</span>
-                <input
-                  className="in"
-                  value={editName}
-                  onChange={(event) => setEditName(event.target.value)}
-                />
-              </div>
-              <div className="field">
-                <span className="field-label">分类</span>
-                <input
-                  className="in"
-                  value={editCategory}
-                  onChange={(event) => setEditCategory(event.target.value)}
-                />
-              </div>
-              <div className="field tileset-path-field">
-                <span className="field-label">文件</span>
-                <div className="in mono tileset-readonly" title={selectedRecord?.path}>
-                  {selectedRecord?.path ?? 'catalog 缺失'}
-                </div>
-              </div>
-              {selectedRecord && session.getState().assetBlobs[selectedRecord.path] && (
-                <div className="tileset-source-note">尚未保存；保存工程后写入资产目录。</div>
-              )}
-              <button
-                type="button"
-                className="tileset-secondary-action"
-                disabled={!editName.trim() || !editCategory.trim()}
-                onClick={() =>
-                  session.dispatch(
-                    new UpdateTilesetMetadataCommand(selected.id, {
-                      name: editName.trim(),
-                      category: editCategory.trim(),
-                    }),
-                  )
-                }
-              >
-                保存名称与分类
-              </button>
-            </section>
-            <section className="section">
-              <h4>组合地物</h4>
-              <p className="tileset-inspector-copy">
-                此处管理原始瓦片素材。组合模板由地图工作区的独立组合库管理，不写入瓦片图像文件。
-              </p>
-            </section>
-            <section className="section tileset-inspector-actions">
-              <button
-                type="button"
-                className="tileset-secondary-action"
-                disabled={!selectedRecord}
-                onClick={() => {
-                  if (
-                    sharedDefinitions.length > 1 &&
-                    !window.confirm(
-                      `这份图像由 ${sharedDefinitions.map((entry) => entry.name).join('、')} 共同使用。替换会同时更新全部定义，是否继续？`,
-                    )
-                  )
-                    return
-                  setReplaceTargetId(selected.id)
-                  setReplacementScan(undefined)
-                  setUploading(true)
-                  setDraft(null)
-                  setNewId(selected.id)
-                  setNewName(selected.name)
-                  setNewCategory(selected.category)
-                  setErr('')
-                }}
-              >
-                替换图像
-                {sharedDefinitions.length > 1 ? `（影响 ${sharedDefinitions.length} 个定义）` : ''}
-              </button>
-              {removalScan ? (
-                <div className="tileset-removal-check" aria-live="off">
-                  <div className="tileset-removal-progress">
-                    <strong>工程引用检查</strong>
-                    <span className="mono">
-                      {removalScan.completed}/{removalScan.total}
-                    </span>
-                  </div>
-                  {removalScan.failures.length > 0 ? (
-                    <div className="tileset-removal-warning" role="alert">
-                      引用数未知：{removalScan.failures.length} 张地图读取失败，已禁止移除。
-                    </div>
-                  ) : null}
-                  {removalScan.mapReferences.length > 0 ? (
-                    <div className="tileset-removal-refs">
-                      <span>引用地图</span>
-                      {removalScan.mapReferences.map((reference) => (
+            <DsInspectorTabs
+              id="tileset-inspector"
+              label="瓦片集检查器"
+              activeId={inspectorTab}
+              onChange={(id) => setInspectorTab(id as TilesetInspectorTab)}
+              items={[
+                {
+                  id: 'resource',
+                  label: '资源',
+                  panel: (
+                    <>
+                      <section className="section">
+                        <h4>登记信息</h4>
+                        <div className="field">
+                          <span className="field-label">ID</span>
+                          <div className="in mono tileset-readonly">{selected.id}</div>
+                        </div>
+                        <div className="field">
+                          <span className="field-label">名称</span>
+                          <input
+                            className="in"
+                            value={editName}
+                            onChange={(event) => setEditName(event.target.value)}
+                          />
+                        </div>
+                        <div className="field">
+                          <span className="field-label">分类</span>
+                          <input
+                            className="in"
+                            value={editCategory}
+                            onChange={(event) => setEditCategory(event.target.value)}
+                          />
+                        </div>
+                        <div className="field tileset-path-field">
+                          <span className="field-label">文件</span>
+                          <div className="in mono tileset-readonly" title={selectedRecord?.path}>
+                            {selectedRecord?.path ?? 'catalog 缺失'}
+                          </div>
+                        </div>
+                        {selectedRecord && session.getState().assetBlobs[selectedRecord.path] && (
+                          <div className="tileset-source-note">
+                            尚未保存；保存工程后写入资产目录。
+                          </div>
+                        )}
                         <button
                           type="button"
-                          key={reference.mapId}
-                          onClick={() => onOpenMap?.(reference.mapId)}
-                          disabled={!onOpenMap}
-                          title={`打开地图 ${reference.mapId}`}
+                          className="tileset-secondary-action"
+                          disabled={!editName.trim() || !editCategory.trim()}
+                          onClick={() =>
+                            session.dispatch(
+                              new UpdateTilesetMetadataCommand(selected.id, {
+                                name: editName.trim(),
+                                category: editCategory.trim(),
+                              }),
+                            )
+                          }
                         >
-                          <strong>{reference.mapName}</strong>
-                          <span className="mono">{reference.mapId}</span>
+                          保存名称与分类
                         </button>
-                      ))}
-                    </div>
-                  ) : null}
-                  {removalScan.stampReferences.length > 0 ? (
-                    <div className="tileset-removal-refs">
-                      <span>引用组合模板</span>
-                      {removalScan.stampReferences.map((reference) => (
+                      </section>
+                      <section className="section">
+                        <h4>组合地物</h4>
+                        <p className="tileset-inspector-copy">
+                          此处管理原始瓦片素材。组合模板由地图工作区的独立组合库管理，不写入瓦片图像文件。
+                        </p>
+                      </section>
+                      <section className="section tileset-inspector-actions">
                         <button
                           type="button"
-                          key={reference.id}
-                          onClick={() => onOpenStamp?.(reference.id)}
-                          disabled={!onOpenStamp}
-                          title={`打开组合 ${reference.id}`}
+                          className="tileset-secondary-action"
+                          disabled={!selectedRecord}
+                          onClick={() => {
+                            if (
+                              sharedDefinitions.length > 1 &&
+                              !window.confirm(
+                                `这份图像由 ${sharedDefinitions.map((entry) => entry.name).join('、')} 共同使用。替换会同时更新全部定义，是否继续？`,
+                              )
+                            )
+                              return
+                            setReplaceTargetId(selected.id)
+                            setReplacementScan(undefined)
+                            setUploading(true)
+                            setDraft(null)
+                            setNewId(selected.id)
+                            setNewName(selected.name)
+                            setNewCategory(selected.category)
+                            setErr('')
+                          }}
                         >
-                          <strong>{reference.name}</strong>
-                          <span className="mono">{reference.id}</span>
+                          替换图像
+                          {sharedDefinitions.length > 1
+                            ? `（影响 ${sharedDefinitions.length} 个定义）`
+                            : ''}
                         </button>
-                      ))}
-                    </div>
-                  ) : null}
-                  {removalComplete && !removalHasReferences ? (
-                    <p className="tileset-removal-safe">
-                      全部地图与组合模板均未引用此瓦片集。若没有其它定义共享其资源，将同时删除
-                      catalog 记录和工程文件；操作可撤销。
-                    </p>
-                  ) : null}
-                </div>
-              ) : (
-                <p className="tileset-inspector-copy">
-                  移除前必须检查全部已加载和未加载地图，以及组合模板的硬引用。
-                </p>
-              )}
-              <button
-                type="button"
-                className="tileset-danger-action"
-                title="检查全工程引用后从注册表移除；操作可撤销"
-                disabled={removalScanning}
-                onClick={() =>
-                  removalComplete && !removalHasReferences
-                    ? void removeSelected()
-                    : void scanRemovalReferences()
-                }
-              >
-                {removalScanning
-                  ? `正在检查 ${removalScan?.completed ?? 0}/${removalScan?.total ?? mapIndex.maps.length}`
-                  : removalComplete && !removalHasReferences
-                    ? '确认移除未引用条目'
-                    : removalScan
-                      ? '重新检查引用'
-                      : '检查引用后移除'}
-              </button>
-              {removalScan ? (
-                <button
-                  type="button"
-                  className="tileset-secondary-action"
-                  onClick={() => {
-                    removalScanTokenRef.current += 1
-                    setRemovalScan(undefined)
-                    setRemovalScanning(false)
-                    setErr('')
-                  }}
-                >
-                  取消移除
-                </button>
-              ) : null}
-            </section>
+                      </section>
+                    </>
+                  ),
+                },
+                {
+                  id: 'references',
+                  label: '引用',
+                  panel: (
+                    <section className="section tileset-inspector-actions">
+                      {removalScan ? (
+                        <div className="tileset-removal-check" aria-live="off">
+                          <div className="tileset-removal-progress">
+                            <strong>工程引用检查</strong>
+                            <span className="mono">
+                              {removalScan.completed}/{removalScan.total}
+                            </span>
+                          </div>
+                          {removalScan.failures.length > 0 ? (
+                            <div className="tileset-removal-warning" role="alert">
+                              引用数未知：{removalScan.failures.length} 张地图读取失败，已禁止移除。
+                            </div>
+                          ) : null}
+                          {removalScan.mapReferences.length > 0 ? (
+                            <div className="tileset-removal-refs">
+                              <span>引用地图</span>
+                              {removalScan.mapReferences.map((reference) => (
+                                <button
+                                  type="button"
+                                  key={reference.mapId}
+                                  onClick={() => onOpenMap?.(reference.mapId)}
+                                  disabled={!onOpenMap}
+                                  title={`打开地图 ${reference.mapId}`}
+                                >
+                                  <strong>{reference.mapName}</strong>
+                                  <span className="mono">{reference.mapId}</span>
+                                </button>
+                              ))}
+                            </div>
+                          ) : null}
+                          {removalScan.stampReferences.length > 0 ? (
+                            <div className="tileset-removal-refs">
+                              <span>引用组合模板</span>
+                              {removalScan.stampReferences.map((reference) => (
+                                <button
+                                  type="button"
+                                  key={reference.id}
+                                  onClick={() => onOpenStamp?.(reference.id)}
+                                  disabled={!onOpenStamp}
+                                  title={`打开组合 ${reference.id}`}
+                                >
+                                  <strong>{reference.name}</strong>
+                                  <span className="mono">{reference.id}</span>
+                                </button>
+                              ))}
+                            </div>
+                          ) : null}
+                          {removalComplete && !removalHasReferences ? (
+                            <p className="tileset-removal-safe">
+                              全部地图与组合模板均未引用此瓦片集。若没有其它定义共享其资源，将同时删除
+                              catalog 记录和工程文件；操作可撤销。
+                            </p>
+                          ) : null}
+                        </div>
+                      ) : (
+                        <p className="tileset-inspector-copy">
+                          移除前必须检查全部已加载和未加载地图，以及组合模板的硬引用。
+                        </p>
+                      )}
+                      <button
+                        type="button"
+                        className="tileset-danger-action"
+                        title="检查全工程引用后从注册表移除；操作可撤销"
+                        disabled={removalScanning}
+                        onClick={() =>
+                          removalComplete && !removalHasReferences
+                            ? void removeSelected()
+                            : void scanRemovalReferences()
+                        }
+                      >
+                        {removalScanning
+                          ? `正在检查 ${removalScan?.completed ?? 0}/${removalScan?.total ?? mapIndex.maps.length}`
+                          : removalComplete && !removalHasReferences
+                            ? '确认移除未引用条目'
+                            : removalScan
+                              ? '重新检查引用'
+                              : '检查引用后移除'}
+                      </button>
+                      {removalScan ? (
+                        <button
+                          type="button"
+                          className="tileset-secondary-action"
+                          onClick={() => {
+                            removalScanTokenRef.current += 1
+                            setRemovalScan(undefined)
+                            setRemovalScanning(false)
+                            setErr('')
+                          }}
+                        >
+                          取消移除
+                        </button>
+                      ) : null}
+                    </section>
+                  ),
+                },
+              ]}
+            />
           </>
         ) : (
           <div className="insp-empty">选择瓦片集后查看登记信息。</div>

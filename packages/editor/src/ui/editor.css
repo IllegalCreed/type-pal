@@ -2625,6 +2625,11 @@ html[data-panel-resize="horizontal"] * {
 .actor-quick-resource strong {
   text-align: right;
 }
+.actor-quick-resource .ds-tooltip__bubble {
+  right: 0;
+  left: auto;
+  transform: none;
+}
 .actor-side-nav {
   display: grid;
   gap: 7px;
@@ -3553,14 +3558,7 @@ html[data-panel-resize="horizontal"] * {
   margin: 0;
 }
 .shop-inspector {
-  display: flex;
-  flex-direction: column;
   overflow: hidden;
-}
-.shop-inspector > .pane-h {
-  min-height: 46px;
-  flex: 0 0 auto;
-  padding: 9px 14px;
 }
 .shop-inspector-body {
   display: grid;
@@ -3568,7 +3566,6 @@ html[data-panel-resize="horizontal"] * {
   align-content: start;
   gap: 12px;
   padding: 16px;
-  overflow-y: auto;
 }
 .shop-inspector-card {
   padding: 14px;
@@ -5969,33 +5966,6 @@ html[data-panel-resize="horizontal"] * {
   color: var(--faint);
   font-size: 10px;
 }
-.battle-inspector-tabs {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 2px;
-  padding: 7px 8px;
-  border-bottom: 1px solid var(--line);
-  background: var(--panel2);
-}
-.battle-inspector-tabs button {
-  min-width: 0;
-  padding: 6px 4px;
-  overflow: hidden;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  background: transparent;
-  color: var(--dim);
-  cursor: pointer;
-  font: inherit;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.battle-inspector-tabs button.on {
-  border-color: color-mix(in srgb, var(--accent) 58%, var(--line));
-  background: color-mix(in srgb, var(--accent) 13%, var(--panel));
-  color: var(--fg);
-}
-.battle-inspector-tabs button:focus-visible,
 .battle-sprite-resource-row:focus-visible,
 .battle-action-list button:focus-visible,
 .battle-action-slots button:focus-visible,
@@ -11386,34 +11356,9 @@ button.sprite-frame-cell[draggable="true"]:active {
 .project-resource-create {
   grid-template-columns: minmax(180px, 1fr) auto;
 }
-.item-inspector-tabs {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 4px;
-  padding: 8px;
-  border-bottom: 1px solid var(--line);
-}
-.item-inspector-tabs > button {
-  min-width: 0;
-  padding: 7px 5px;
-  overflow: hidden;
-  border: 1px solid transparent;
-  border-radius: 5px;
-  background: transparent;
-  color: var(--dim);
-  font: 600 10px / 1 var(--sans);
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.item-inspector-tabs > button:hover,
-.item-inspector-tabs > button.active {
-  border-color: color-mix(in srgb, var(--accent) 48%, var(--line));
-  background: color-mix(in srgb, var(--accent) 10%, var(--panel2));
-  color: var(--fg);
-}
 .item-inspector-scroll {
+  min-width: 0;
   min-height: 0;
-  overflow: auto;
 }
 .item-inspector-section,
 .item-reference-group {
@@ -11823,7 +11768,7 @@ button.sprite-frame-cell[draggable="true"]:active {
   display: flex;
   align-items: center;
 }
-.battle-data-inspector {
+.battle-data-inspector:not(.inspector--tabbed) {
   overflow-y: auto;
 }
 @container (max-width: 560px) {
@@ -13204,69 +13149,23 @@ button.sprite-frame-cell[draggable="true"]:active {
 
 /* 地图右栏：属性 / 瓦片 / 组合。中央 viewport 不再承载 DOM 浮层。 */
 .map-inspector {
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
   min-width: 0;
   min-height: 0;
   overflow: hidden;
-}
-.map-inspector-tabs {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 2px;
-  padding: 6px;
-  border-bottom: 1px solid var(--line);
-  background: var(--panel2);
-}
-.map-inspector-tabs button {
-  min-width: 0;
-  min-height: 31px;
-  padding: 5px 4px;
-  overflow: hidden;
-  border: 1px solid transparent;
-  border-radius: 5px;
-  background: transparent;
-  color: var(--faint);
-  cursor: pointer;
-  font: inherit;
-  font-size: 11px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.map-inspector-tabs button:hover {
-  background: var(--panel3);
-  color: var(--fg);
-}
-.map-inspector-tabs button[aria-selected="true"] {
-  border-color: color-mix(in srgb, var(--accent) 56%, var(--line));
-  background: color-mix(in srgb, var(--accent) 16%, var(--panel3));
-  color: #b9d8ff;
-}
-.map-inspector-tabs button:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 1px;
 }
 .map-inspector-panel {
   min-width: 0;
   min-height: 0;
-  overflow-y: auto;
-}
-.map-inspector-panel[hidden] {
-  display: none;
 }
 .map-tiles-panel {
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
-  overflow: hidden;
+  display: block;
 }
 .map-panel-empty {
   padding: 18px 12px;
   text-align: center;
 }
 .map-combination-panel {
-  display: grid;
-  grid-template-rows: minmax(0, 1fr);
-  overflow: hidden;
+  display: block;
 }
 .map-combination-panel.has-details {
   grid-template-rows: minmax(180px, 0.8fr) minmax(220px, 1.2fr);

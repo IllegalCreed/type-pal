@@ -4,6 +4,7 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 import { ShopTab } from './ShopTab.js'
 
 let root: Root
@@ -48,5 +49,6 @@ describe('ShopTab shared object workspace', () => {
     expect(hero!.querySelector('.ds-object-hero__id')?.textContent).toBe('#0')
     expect(hero!.querySelector('.ds-tag')?.textContent).toBe('2 种货')
     expect(host.querySelectorAll('h1')).toHaveLength(1)
+    await verifyInspectorTabs(host, '商店检查器', ['摘要', '说明'])
   })
 })

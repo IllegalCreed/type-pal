@@ -9,7 +9,7 @@ import {
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import { collectEditorAssetReferences } from '../core/editor-asset-references.js'
-import { DsListHeader } from './design-system/index.js'
+import { DsInspectorTabs, DsListHeader } from './design-system/index.js'
 import { musicAssets, PreviewButton } from './MusicPicker.js'
 
 const ROLE_LABELS: Readonly<Record<string, string>> = {
@@ -25,6 +25,8 @@ const ORIGIN_LABELS: Readonly<Record<AssetRecordV1['origin']['kind'], string>> =
   generated: '生成资源',
   licensed: '授权资源',
 }
+
+type MusicInspectorTab = 'resource' | 'references'
 
 function formatBytes(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`
@@ -104,6 +106,7 @@ export function MusicTab(props: {
   const { catalog, resolver, session, tabBar, focusObjectId, onObjectFocus } = props
   const [filter, setFilter] = useState('')
   const [error, setError] = useState('')
+  const [inspectorTab, setInspectorTab] = useState<MusicInspectorTab>('resource')
   const importRef = useRef<HTMLInputElement>(null)
   const entries = useMemo(() => musicAssets(catalog), [catalog])
   const state = session.getState()
@@ -188,12 +191,14 @@ export function MusicTab(props: {
           title="音乐"
           count={shown.length}
           unit="首"
-          actions={[{
-            id: 'import-music',
-            label: '导入 MIDI',
-            icon: '＋',
-            onClick: () => importRef.current?.click(),
-          }]}
+          actions={[
+            {
+              id: 'import-music',
+              label: '导入 MIDI',
+              icon: '＋',
+              onClick: () => importRef.current?.click(),
+            },
+          ]}
         />
         <div className="music-library-tools">
           <div className="music-search-field">
@@ -310,53 +315,70 @@ export function MusicTab(props: {
           )}
         </div>
       </div>
-      <div className="inspector music-inspector">
+      <div className="inspector inspector--tabbed music-inspector">
         {selected ? (
           <>
             <div className="insp-head">
               <div className="what">选中音乐</div>
               <div className="who">{selected.record.label || '未命名'}</div>
             </div>
-            <div className="section">
-              <h4>资源</h4>
-              <div className="music-meta-row">
-                <span>AssetId</span>
-                <code title={selected.id}>{selected.id}</code>
-              </div>
-              <div className="music-meta-row">
-                <span>文件</span>
-                <code title={selected.record.path}>{selected.record.path}</code>
-              </div>
-              <div className="music-meta-row">
-                <span>来源</span>
-                <strong>{ORIGIN_LABELS[selected.record.origin.kind]}</strong>
-              </div>
-              <div className="music-meta-row">
-                <span>大小</span>
-                <strong>{formatBytes(selected.record.bytes)}</strong>
-              </div>
-            </div>
-            <div className="section music-reference-section">
-              <h4>
-                引用 <span className="hint2">{selectedReferences.length} 处</span>
-              </h4>
-              {selectedReferences.length ? (
-                <div className="music-reference-list">
-                  {selectedReferences.map((where, index) => {
-                    const description = describeReference(where)
-                    return (
-                      <div className="music-reference-item" key={`${where}-${index}`}>
-                        <strong>{description.kind}</strong>
-                        <span>{description.owner}</span>
-                        <code title={where}>{where}</code>
+            <DsInspectorTabs
+              id="music-inspector"
+              label="音乐检查器"
+              activeId={inspectorTab}
+              onChange={(id) => setInspectorTab(id as MusicInspectorTab)}
+              items={[
+                {
+                  id: 'resource',
+                  label: '资源',
+                  panel: (
+                    <div className="section">
+                      <div className="music-meta-row">
+                        <span>AssetId</span>
+                        <code title={selected.id}>{selected.id}</code>
                       </div>
-                    )
-                  })}
-                </div>
-              ) : (
-                <div className="music-reference-empty">当前工程没有引用这首音乐。</div>
-              )}
-            </div>
+                      <div className="music-meta-row">
+                        <span>文件</span>
+                        <code title={selected.record.path}>{selected.record.path}</code>
+                      </div>
+                      <div className="music-meta-row">
+                        <span>来源</span>
+                        <strong>{ORIGIN_LABELS[selected.record.origin.kind]}</strong>
+                      </div>
+                      <div className="music-meta-row">
+                        <span>大小</span>
+                        <strong>{formatBytes(selected.record.bytes)}</strong>
+                      </div>
+                    </div>
+                  ),
+                },
+                {
+                  id: 'references',
+                  label: '引用',
+                  count: selectedReferences.length,
+                  panel: (
+                    <div className="section music-reference-section">
+                      {selectedReferences.length ? (
+                        <div className="music-reference-list">
+                          {selectedReferences.map((where, index) => {
+                            const description = describeReference(where)
+                            return (
+                              <div className="music-reference-item" key={`${where}-${index}`}>
+                                <strong>{description.kind}</strong>
+                                <span>{description.owner}</span>
+                                <code title={where}>{where}</code>
+                              </div>
+                            )
+                          })}
+                        </div>
+                      ) : (
+                        <div className="music-reference-empty">当前工程没有引用这首音乐。</div>
+                      )}
+                    </div>
+                  ),
+                },
+              ]}
+            />
           </>
         ) : (
           <div className="insp-empty">选择一首音乐查看资源与引用。</div>

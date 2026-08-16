@@ -1857,122 +1857,129 @@ export function ItemTab(props: {
                 label: '概览',
                 panel: (
                   <div className="item-inspector-scroll">
-            <section className="item-inspector-section">
-              <h4>能力摘要</h4>
-              <div className="item-summary-line">
-                <span>装备</span>
-                <strong>
-                  {item.equip
-                    ? `${SLOTS.find((slot) => slot.v === item.equip?.slot)?.label} · ${item.equip.effects.length} 个效果`
-                    : '未启用'}
-                </strong>
-              </div>
-              <div className="item-summary-line">
-                <span>使用</span>
-                <strong>{item.use ? `${item.use.effects.length} 个效果` : '未启用'}</strong>
-              </div>
-              <div className="item-summary-line">
-                <span>投掷</span>
-                <strong>{item.throw ? `${item.throw.effects.length} 个效果` : '未启用'}</strong>
-              </div>
-            </section>
-            {item.use ? (
-              <section className="item-inspector-section">
-                <h4>使用时发生什么</h4>
-                <ul className="item-summary-list">
-                  {summarizeUse(item, items).map((line) => (
-                    <li key={line}>{line}</li>
-                  ))}
-                </ul>
-              </section>
-            ) : null}
-            {itemDiagnostics.length ? (
-              <section className="item-inspector-section warning">
-                <h4>待迁移来源</h4>
-                {itemDiagnostics.map((diagnostic) => (
-                  <div className="item-diagnostic" key={diagnostic.id}>
-                    <strong>{diagnostic.target.label}</strong>
-                    <span>{diagnostic.reason}</span>
-                    <code>
-                      {diagnostic.source.label} · 0x{diagnostic.source.address.toString(16)}
-                    </code>
-                    {onOpenProjectIssues ? (
-                      <button
-                        type="button"
-                        className="item-action-button item-action-button-compact"
-                        onClick={onOpenProjectIssues}
-                      >
-                        在问题面板查看 ↗
-                      </button>
-                    ) : (
-                      <small>旧版脚本源只读且未载入编辑器；请在工程问题面板核对诊断。</small>
-                    )}
-                  </div>
-                ))}
-              </section>
-            ) : null}
-            <section className="item-inspector-section">
-              <h4>删除安全</h4>
-              <p>
-                {blockers.length
-                  ? `仍有 ${blockers.length} 处外部引用，删除会被阻止。`
-                  : '没有外部引用，可安全删除；删除后仍可撤销。'}
-              </p>
-              {blockers.length ? (
-                <button
-                  type="button"
-                  className="tool"
-                  onClick={() => setInspectorTab('references')}
-                >
-                  查看阻塞引用
-                </button>
-              ) : null}
-            </section>
+                    <section className="item-inspector-section">
+                      <h4>能力摘要</h4>
+                      <div className="item-summary-line">
+                        <span>装备</span>
+                        <strong>
+                          {item.equip
+                            ? `${SLOTS.find((slot) => slot.v === item.equip?.slot)?.label} · ${item.equip.effects.length} 个效果`
+                            : '未启用'}
+                        </strong>
+                      </div>
+                      <div className="item-summary-line">
+                        <span>使用</span>
+                        <strong>{item.use ? `${item.use.effects.length} 个效果` : '未启用'}</strong>
+                      </div>
+                      <div className="item-summary-line">
+                        <span>投掷</span>
+                        <strong>
+                          {item.throw ? `${item.throw.effects.length} 个效果` : '未启用'}
+                        </strong>
+                      </div>
+                    </section>
+                    {item.use ? (
+                      <section className="item-inspector-section">
+                        <h4>使用时发生什么</h4>
+                        <ul className="item-summary-list">
+                          {summarizeUse(item, items).map((line) => (
+                            <li key={line}>{line}</li>
+                          ))}
+                        </ul>
+                      </section>
+                    ) : null}
+                    {itemDiagnostics.length ? (
+                      <section className="item-inspector-section warning">
+                        <h4>待迁移来源</h4>
+                        {itemDiagnostics.map((diagnostic) => (
+                          <div className="item-diagnostic" key={diagnostic.id}>
+                            <strong>{diagnostic.target.label}</strong>
+                            <span>{diagnostic.reason}</span>
+                            <code>
+                              {diagnostic.source.label} · 0x{diagnostic.source.address.toString(16)}
+                            </code>
+                            {onOpenProjectIssues ? (
+                              <button
+                                type="button"
+                                className="item-action-button item-action-button-compact"
+                                onClick={onOpenProjectIssues}
+                              >
+                                在问题面板查看 ↗
+                              </button>
+                            ) : (
+                              <small>
+                                旧版脚本源只读且未载入编辑器；请在工程问题面板核对诊断。
+                              </small>
+                            )}
+                          </div>
+                        ))}
+                      </section>
+                    ) : null}
+                    <section className="item-inspector-section">
+                      <h4>删除安全</h4>
+                      <p>
+                        {blockers.length
+                          ? `仍有 ${blockers.length} 处外部引用，删除会被阻止。`
+                          : '没有外部引用，可安全删除；删除后仍可撤销。'}
+                      </p>
+                      {blockers.length ? (
+                        <button
+                          type="button"
+                          className="tool"
+                          onClick={() => setInspectorTab('references')}
+                        >
+                          查看阻塞引用
+                        </button>
+                      ) : null}
+                    </section>
                   </div>
                 ),
               },
               {
                 id: 'references',
-                label: `引用 ${itemReferences.length}`,
+                label: '引用',
+                count: itemReferences.length,
                 panel: (
                   <div className="item-inspector-scroll">
-            {groupReferences(itemReferences).map((group) => (
-              <section className="item-reference-group" key={group.source}>
-                <h4>
-                  {SOURCE_LABEL[group.source]}
-                  <span>{group.entries.length}</span>
-                </h4>
-                {group.entries.map((reference) => (
-                  <article
-                    className="item-reference-card"
-                    key={`${reference.where}:${reference.detail}`}
-                  >
-                    <div className="item-reference-title">
-                      <strong>{reference.label}</strong>
-                      <span className={`item-access ${reference.access}`}>
-                        {ACCESS_LABEL[reference.access]}
-                      </span>
-                    </div>
-                    <p>{reference.detail}</p>
-                    <code>{reference.where}</code>
-                    {reference.locator && onOpenItemReference ? (
-                      <button
-                        type="button"
-                        className="mini"
-                        onClick={() => onOpenItemReference(reference)}
-                      >
-                        打开位置 ↗
-                      </button>
-                    ) : reference.unavailableReason ? (
-                      <small>{reference.unavailableReason}</small>
+                    {groupReferences(itemReferences).map((group) => (
+                      <section className="item-reference-group" key={group.source}>
+                        <h4>
+                          {SOURCE_LABEL[group.source]}
+                          <span>{group.entries.length}</span>
+                        </h4>
+                        {group.entries.map((reference) => (
+                          <article
+                            className="item-reference-card"
+                            key={`${reference.where}:${reference.detail}`}
+                          >
+                            <div className="item-reference-title">
+                              <strong>{reference.label}</strong>
+                              <span className={`item-access ${reference.access}`}>
+                                {ACCESS_LABEL[reference.access]}
+                              </span>
+                            </div>
+                            <p>{reference.detail}</p>
+                            <code>{reference.where}</code>
+                            {reference.locator && onOpenItemReference ? (
+                              <button
+                                type="button"
+                                className="mini"
+                                onClick={() => onOpenItemReference(reference)}
+                              >
+                                打开位置 ↗
+                              </button>
+                            ) : reference.unavailableReason ? (
+                              <small>{reference.unavailableReason}</small>
+                            ) : null}
+                          </article>
+                        ))}
+                      </section>
+                    ))}
+                    {!itemReferences.length ? (
+                      <div className="insp-empty">
+                        全工程没有判断、获得、失去、消耗、持有或配置此物品。
+                      </div>
                     ) : null}
-                  </article>
-                ))}
-              </section>
-            ))}
-            {!itemReferences.length ? (
-              <div className="insp-empty">全工程没有判断、获得、失去、消耗、持有或配置此物品。</div>
-            ) : null}
                   </div>
                 ),
               },
@@ -1981,49 +1988,53 @@ export function ItemTab(props: {
                 label: '资源',
                 panel: (
                   <div className="item-inspector-scroll">
-            <section className="item-inspector-section">
-              <h4>图标资源</h4>
-              {item.icon && assetCatalog.assets[item.icon] ? (
-                <>
-                  <ImageAssetThumbnail
-                    asset={item.icon}
-                    kind="item-icon"
-                    reader={assetReader}
-                    revision={assetCatalog.assets[item.icon]?.sha256}
-                    className="item-resource-preview"
-                    alt={`${item.name}图标资源`}
-                  />
-                  <dl className="item-resource-meta">
-                    <dt>AssetId</dt>
-                    <dd>{item.icon}</dd>
-                    <dt>路径</dt>
-                    <dd>{assetCatalog.assets[item.icon]!.path}</dd>
-                    <dt>来源</dt>
-                    <dd>{assetCatalog.assets[item.icon]!.origin.kind}</dd>
-                    <dt>大小</dt>
-                    <dd>{assetCatalog.assets[item.icon]!.bytes.toLocaleString()} bytes</dd>
-                    <dt>物品引用</dt>
-                    <dd>{items.filter((candidate) => candidate.icon === item.icon).length} 项</dd>
-                  </dl>
-                  <div className="item-resource-actions">
-                    {onOpenImage ? (
-                      <DsButton
-                        variant="secondary"
-                        icon="open"
-                        onClick={() => onOpenImage(item.icon!)}
-                      >
-                        在图像库打开
-                      </DsButton>
-                    ) : null}
-                    <DsButton variant="danger" onClick={() => patch({ icon: undefined })}>
-                      解除绑定
-                    </DsButton>
-                  </div>
-                </>
-              ) : (
-                <div className="insp-empty">尚未绑定物品图标。可在中央选择现有资源或导入 PNG。</div>
-              )}
-            </section>
+                    <section className="item-inspector-section">
+                      <h4>图标资源</h4>
+                      {item.icon && assetCatalog.assets[item.icon] ? (
+                        <>
+                          <ImageAssetThumbnail
+                            asset={item.icon}
+                            kind="item-icon"
+                            reader={assetReader}
+                            revision={assetCatalog.assets[item.icon]?.sha256}
+                            className="item-resource-preview"
+                            alt={`${item.name}图标资源`}
+                          />
+                          <dl className="item-resource-meta">
+                            <dt>AssetId</dt>
+                            <dd>{item.icon}</dd>
+                            <dt>路径</dt>
+                            <dd>{assetCatalog.assets[item.icon]!.path}</dd>
+                            <dt>来源</dt>
+                            <dd>{assetCatalog.assets[item.icon]!.origin.kind}</dd>
+                            <dt>大小</dt>
+                            <dd>{assetCatalog.assets[item.icon]!.bytes.toLocaleString()} bytes</dd>
+                            <dt>物品引用</dt>
+                            <dd>
+                              {items.filter((candidate) => candidate.icon === item.icon).length} 项
+                            </dd>
+                          </dl>
+                          <div className="item-resource-actions">
+                            {onOpenImage ? (
+                              <DsButton
+                                variant="secondary"
+                                icon="open"
+                                onClick={() => onOpenImage(item.icon!)}
+                              >
+                                在图像库打开
+                              </DsButton>
+                            ) : null}
+                            <DsButton variant="danger" onClick={() => patch({ icon: undefined })}>
+                              解除绑定
+                            </DsButton>
+                          </div>
+                        </>
+                      ) : (
+                        <div className="insp-empty">
+                          尚未绑定物品图标。可在中央选择现有资源或导入 PNG。
+                        </div>
+                      )}
+                    </section>
                   </div>
                 ),
               },

@@ -1211,6 +1211,8 @@ export function DsListHeader(props: {
 export interface DsTabItem {
   id: string
   label: string
+  /** Optional numeric metadata rendered as a visually separate shared badge. */
+  count?: number
   disabled?: boolean
 }
 
@@ -1280,7 +1282,13 @@ export function DsTabs(props: {
               event.preventDefault()
             }}
           >
-            {item.label}
+            <span className="ds-tab__label">{item.label}</span>
+            {typeof item.count === 'number' ? (
+              <>
+                {' '}
+                <span className="ds-tab__count">{item.count}</span>
+              </>
+            ) : null}
           </button>
         )
       })}

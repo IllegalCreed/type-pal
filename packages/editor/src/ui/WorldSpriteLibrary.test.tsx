@@ -14,6 +14,7 @@ import type {
   SpriteAutomaticScriptBehaviorSummary,
   SpriteAutomaticScriptInstanceSite,
 } from '../core/world-sprite-behavior.js'
+import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 import { WorldSpriteLibrary } from './WorldSpriteLibrary.js'
 
 vi.mock('./SpriteResourceViewer.js', async () => {
@@ -292,16 +293,16 @@ describe('WorldSpriteLibrary', () => {
     await act(async () => button('引用').click())
     const usageButtons = [
       ...host.querySelectorAll<HTMLButtonElement>(
-        '#world-sprite-panel-references .battle-usage-switch button',
+        '#world-sprite-inspector-panel-references .battle-usage-switch button',
       ),
     ]
     expect(usageButtons).toHaveLength(2)
     await act(async () =>
       usageButtons.find((candidate) => candidate.textContent?.includes('主角静止'))?.click(),
     )
-    expect(host.querySelector('#world-sprite-panel-references')?.textContent).not.toContain(
-      '先选择一个用途定义',
-    )
+    expect(
+      host.querySelector('#world-sprite-inspector-panel-references')?.textContent,
+    ).not.toContain('先选择一个用途定义')
   })
 
   test('受控地址回灌后仍停留在引用，不跳回动作', async () => {
@@ -323,30 +324,24 @@ describe('WorldSpriteLibrary', () => {
     await act(async () => button('引用').click())
     const usage = [
       ...host.querySelectorAll<HTMLButtonElement>(
-        '#world-sprite-panel-references .battle-usage-switch button',
+        '#world-sprite-inspector-panel-references .battle-usage-switch button',
       ),
     ].find((candidate) => candidate.textContent?.includes('主角静止'))!
     await act(async () => usage.click())
 
     expect(button('引用').getAttribute('aria-selected')).toBe('true')
-    expect(host.querySelector('#world-sprite-panel-references')).not.toBeNull()
-    expect(host.querySelector('#world-sprite-panel-layout')).toBeNull()
+    expect(
+      host.querySelector('#world-sprite-inspector-panel-references')?.hasAttribute('hidden'),
+    ).toBe(false)
+    expect(host.querySelector('#world-sprite-inspector-panel-layout')?.hasAttribute('hidden')).toBe(
+      true,
+    )
   })
 
   test('检查器 tab 使用单一 Tab 停靠点并支持方向键切换', async () => {
     const session = new EditSession(editorState(definitions))
     await act(async () => root.render(library(definitions, session)))
-
-    expect(button('动作').tabIndex).toBe(0)
-    expect(button('引用').tabIndex).toBe(-1)
-    expect(button('源资源').tabIndex).toBe(-1)
-    await act(async () =>
-      button('动作').dispatchEvent(
-        new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }),
-      ),
-    )
-    expect(button('动作').tabIndex).toBe(-1)
-    expect(button('引用').tabIndex).toBe(0)
+    await verifyInspectorTabs(host, '大世界精灵检查器', ['动作', '引用', '源资源'])
   })
 
   test('世界状态外观、跟随队列和脚本覆写分别说明其引用角色', async () => {
@@ -391,7 +386,7 @@ describe('WorldSpriteLibrary', () => {
     )
 
     await act(async () => button('引用').click())
-    const text = host.querySelector('#world-sprite-panel-references')?.textContent ?? ''
+    const text = host.querySelector('#world-sprite-inspector-panel-references')?.textContent ?? ''
     expect(text).toContain('世界状态 0 · 角色 hero-save 外观')
     expect(text).toContain('角色运行态外观')
     expect(text).toContain('世界状态 0 · 跟随者队列')
@@ -532,7 +527,9 @@ describe('WorldSpriteLibrary', () => {
     await act(async () => waveButton.click())
 
     expect(onActionFocus).not.toHaveBeenCalled()
-    expect(host.querySelector('#world-sprite-panel-references')).not.toBeNull()
+    expect(
+      host.querySelector('#world-sprite-inspector-panel-references')?.hasAttribute('hidden'),
+    ).toBe(false)
     expect(host.querySelector('.sprite-action-reference-section h4')?.textContent).toContain(
       '动作引用 · 1',
     )

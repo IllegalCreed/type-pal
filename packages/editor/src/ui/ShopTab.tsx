@@ -9,7 +9,14 @@ import { useEffect, useMemo, useState } from 'react'
 import { AddShopCommand, UpdateShopCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import { DsListHeader, DsTag } from './design-system/controls.js'
-import { DsCatalogRow, DsObjectHero, DsSequenceIndex } from './design-system/recipes.js'
+import {
+  DsCatalogRow,
+  DsInspectorTabs,
+  DsObjectHero,
+  DsSequenceIndex,
+} from './design-system/recipes.js'
+
+type ShopInspectorTab = 'summary' | 'help'
 
 export function ShopTab(props: {
   shops: ShopDef[]
@@ -22,6 +29,7 @@ export function ShopTab(props: {
   const { shops, items, session, focusObjectId, onObjectFocus, tabBar } = props
   const [selId, setSelId] = useState<number>(shops[0]?.id ?? 0)
   const [pick, setPick] = useState('')
+  const [inspectorTab, setInspectorTab] = useState<ShopInspectorTab>('summary')
   const shop = shops.find((x) => x.id === selId) ?? shops[0]
   const itemsById = useMemo(() => new Map(items.map((i) => [i.id, i])), [items])
   const selectShop = (id: number): void => {
@@ -205,46 +213,72 @@ export function ShopTab(props: {
         )}
       </div>
 
-      <aside className="inspector shop-inspector">
-        <div className="pane-h">
-          <span className="t">商店摘要</span>
+      <aside className="inspector inspector--tabbed shop-inspector">
+        <div className="insp-head">
+          <div className="what">商店</div>
+          <div className="who">{shop ? `店 ${shop.id}` : '未选择'}</div>
         </div>
-        <div className="shop-inspector-body">
-          {shop ? (
-            <section className="shop-inspector-card">
-              <p className="eyebrow">当前店铺</p>
-              <h3>店 {shop.id}</h3>
-              <dl className="shop-summary-list">
-                <div>
-                  <dt>在售物品</dt>
-                  <dd>{shop.items.length} 种</dd>
+        <DsInspectorTabs
+          id="shop-inspector"
+          label="商店检查器"
+          activeId={inspectorTab}
+          onChange={(id) => setInspectorTab(id as ShopInspectorTab)}
+          items={[
+            {
+              id: 'summary',
+              label: '摘要',
+              panel: (
+                <div className="shop-inspector-body">
+                  {shop ? (
+                    <section className="shop-inspector-card">
+                      <p className="eyebrow">当前店铺</p>
+                      <h3>店 {shop.id}</h3>
+                      <dl className="shop-summary-list">
+                        <div>
+                          <dt>在售物品</dt>
+                          <dd>{shop.items.length} 种</dd>
+                        </div>
+                        <div>
+                          <dt>引用编号</dt>
+                          <dd>#{shop.id}</dd>
+                        </div>
+                      </dl>
+                    </section>
+                  ) : (
+                    <div className="insp-empty">还没有商店。</div>
+                  )}
                 </div>
-                <div>
-                  <dt>引用编号</dt>
-                  <dd>#{shop.id}</dd>
+              ),
+            },
+            {
+              id: 'help',
+              label: '说明',
+              panel: (
+                <div className="shop-inspector-body">
+                  <section className="shop-inspector-card">
+                    <p className="eyebrow">定价规则</p>
+                    <h3>价格来自物品数据</h3>
+                    <p>
+                      买价读取物品的 buyPrice；当铺按 sellPrice 收购所有可出售物品，不需要逐店配置。
+                    </p>
+                  </section>
+
+                  <section className="shop-inspector-card">
+                    <p className="eyebrow">剧情调用</p>
+                    <h3>通过“商店”指令开店</h3>
+                    <ol>
+                      <li>打开掌柜 NPC 的触发脚本。</li>
+                      <li>插入“商店”指令并选择买入或卖出模式。</li>
+                      <li>买入模式引用当前店铺编号 #{shop?.id ?? '—'}。</li>
+                    </ol>
+                  </section>
+
+                  <p className="shop-undo-note">货单改动即时生效，可使用 ⌘Z 撤销。</p>
                 </div>
-              </dl>
-            </section>
-          ) : null}
-
-          <section className="shop-inspector-card">
-            <p className="eyebrow">定价规则</p>
-            <h3>价格来自物品数据</h3>
-            <p>买价读取物品的 buyPrice；当铺按 sellPrice 收购所有可出售物品，不需要逐店配置。</p>
-          </section>
-
-          <section className="shop-inspector-card">
-            <p className="eyebrow">剧情调用</p>
-            <h3>通过“商店”指令开店</h3>
-            <ol>
-              <li>打开掌柜 NPC 的触发脚本。</li>
-              <li>插入“商店”指令并选择买入或卖出模式。</li>
-              <li>买入模式引用当前店铺编号 #{shop?.id ?? '—'}。</li>
-            </ol>
-          </section>
-
-          <p className="shop-undo-note">货单改动即时生效，可使用 ⌘Z 撤销。</p>
-        </div>
+              ),
+            },
+          ]}
+        />
       </aside>
     </>
   )

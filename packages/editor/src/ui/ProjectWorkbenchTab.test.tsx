@@ -3,13 +3,14 @@ import type { StartWorld } from '@type-pal/content'
 import { act, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import type { ProjectIssue } from '../core/project-diagnostics.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import type { ProjectIssue } from '../core/project-diagnostics.js'
+import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 import {
   IssueList,
-  ProjectWorkbenchTab,
   type ProjectWorkbenchPage,
+  ProjectWorkbenchTab,
   StartWorldFields,
 } from './ProjectWorkbenchTab.js'
 
@@ -213,5 +214,13 @@ describe('项目设置工作区', () => {
     expect(workspace.querySelectorAll('h1')).toHaveLength(1)
     expect(content.contains(hero)).toBe(false)
     expect(content.classList.contains('ds-object-workspace__content')).toBe(true)
+    const inspectorContract = {
+      overview: ['工程概览检查器', '下一步'],
+      startup: ['全局启动检查器', '编辑边界'],
+      entrypoint: ['工程入口检查器', '字段归属'],
+      advanced: ['问题与高级检查器', '保存契约'],
+    } as const
+    const [label, contextLabel] = inspectorContract[page]
+    await verifyInspectorTabs(host, label, [/^问题 \d+$/, contextLabel])
   })
 })

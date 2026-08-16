@@ -34,7 +34,7 @@ import {
   quantizeFrameAnimationInWorker,
 } from '../core/frame-animation-worker-client.js'
 import { mp4HasAudioTrack } from '../core/video-metadata.js'
-import { DsIconButton, DsListHeader, DsTag } from './design-system/index.js'
+import { DsIconButton, DsInspectorTabs, DsListHeader, DsTag } from './design-system/index.js'
 import { FrameAnimationEditor, type FrameAnimationMetadata } from './FrameAnimationEditor.js'
 
 interface AssetEntry {
@@ -53,6 +53,8 @@ interface PendingFrameImport {
   files: File[]
   replaceId?: AssetId
 }
+
+type CutsceneInspectorTab = 'resource' | 'references' | 'diagnostics'
 
 const ORIGIN_LABELS: Readonly<Record<AssetRecordV1['origin']['kind'], string>> = {
   'legacy-migrated': '原版迁移',
@@ -342,6 +344,7 @@ export function CutsceneTab(props: {
   const [filter, setFilter] = useState('')
   const [error, setError] = useState('')
   const [busy, setBusy] = useState('')
+  const [inspectorTab, setInspectorTab] = useState<CutsceneInspectorTab>('resource')
   const [videoMetadata, setVideoMetadata] = useState<VideoMetadata>()
   const [frameMetadata, setFrameMetadata] = useState<FrameAnimationMetadata>()
   const [frameEditorDirty, setFrameEditorDirty] = useState(false)
@@ -640,7 +643,7 @@ export function CutsceneTab(props: {
         )}
       </div>
 
-      <div className="inspector cutscene-inspector">
+      <div className="inspector inspector--tabbed cutscene-inspector">
         {selected ? (
           <>
             <div className="insp-head">
@@ -649,177 +652,212 @@ export function CutsceneTab(props: {
               </div>
               <EditableAssetName asset={selected} session={session} />
             </div>
-            <div className="section">
-              <h4>资源</h4>
-              <div className="music-meta-row">
-                <span>AssetId</span>
-                <code title={selected.id}>{selected.id}</code>
-              </div>
-              <div className="music-meta-row">
-                <span>来源</span>
-                <strong>{ORIGIN_LABELS[selected.record.origin.kind]}</strong>
-              </div>
-              <div className="music-meta-row">
-                <span>文件</span>
-                <code title={selected.record.path}>{selected.record.path}</code>
-              </div>
-              <div className="music-meta-row">
-                <span>格式</span>
-                <strong>{selected.record.mediaType}</strong>
-              </div>
-              <div className="music-meta-row">
-                <span>大小</span>
-                <strong>{formatBytes(selected.record.bytes)}</strong>
-              </div>
-            </div>
-            {selected.record.kind === 'video' ? (
-              <div className="section">
-                <h4>媒体</h4>
-                <div className="music-meta-row">
-                  <span>分辨率</span>
-                  <strong>
-                    {videoMetadata ? `${videoMetadata.width} × ${videoMetadata.height}` : '读取中'}
-                  </strong>
-                </div>
-                <div className="music-meta-row">
-                  <span>时长</span>
-                  <strong>
-                    {videoMetadata ? formatDuration(videoMetadata.duration) : '读取中'}
-                  </strong>
-                </div>
-                <div className="music-meta-row">
-                  <span>音轨</span>
-                  <strong>
-                    {videoMetadata?.audio === 'yes'
-                      ? '有'
-                      : videoMetadata?.audio === 'no'
-                        ? '无'
-                        : '浏览器未报告'}
-                  </strong>
-                </div>
-              </div>
-            ) : (
-              <div className="section">
-                <h4>动画</h4>
-                <div className="music-meta-row">
-                  <span>画布</span>
-                  <strong>
-                    {frameMetadata ? `${frameMetadata.width} × ${frameMetadata.height}` : '读取中'}
-                  </strong>
-                </div>
-                <div className="music-meta-row">
-                  <span>帧数</span>
-                  <strong>{frameMetadata?.frameCount ?? '读取中'}</strong>
-                </div>
-                <div className="music-meta-row">
-                  <span>时长</span>
-                  <strong>
-                    {frameMetadata ? formatDuration(frameMetadata.durationMs / 1000) : '读取中'}
-                  </strong>
-                </div>
-                <div className="music-meta-row">
-                  <span>色彩</span>
-                  <strong>
-                    {frameMetadata?.colorTreatment === 'project-standard'
-                      ? '工程标准色彩'
-                      : '保留原色'}
-                  </strong>
-                </div>
-              </div>
-            )}
-            <div className="section cutscene-actions-section">
-              <h4>内容</h4>
-              {selected.record.kind === 'video' ? (
-                <button
-                  type="button"
-                  className="btn"
-                  onClick={() => videoReplaceRef.current?.click()}
-                >
-                  替换视频
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  className="btn"
-                  onClick={() => frameReplaceRef.current?.click()}
-                >
-                  用图片序列替换
-                </button>
-              )}
-              <button
-                type="button"
-                className="btn danger"
-                disabled={selectedReferences.length > 0}
-                title={
-                  selectedReferences.length
-                    ? `有 ${selectedReferences.length} 处引用，不能删除`
-                    : '删除资源'
-                }
-                onClick={() => void deleteSelected()}
-              >
-                删除资源
-              </button>
-              <input
-                ref={videoReplaceRef}
-                hidden
-                type="file"
-                accept="video/mp4,video/webm"
-                onChange={(event) => {
-                  const file = event.target.files?.[0]
-                  if (file) void importVideo(file, selected.id)
-                  event.target.value = ''
-                }}
-              />
-              <input
-                ref={frameReplaceRef}
-                hidden
-                multiple
-                type="file"
-                accept="image/png,image/jpeg,image/webp"
-                onChange={(event) => onFrameFiles(event, selected.id)}
-              />
-            </div>
-            <div className="section music-reference-section">
-              <h4>
-                引用 <span className="hint2">{selectedReferences.length} 处</span>
-              </h4>
-              {selectedReferences.length ? (
-                <div className="music-reference-list">
-                  {selectedReferences.map((reference, index) => {
-                    const description = describeReference(reference, state)
-                    return (
-                      <div className="music-reference-item" key={`${reference.site}-${index}`}>
-                        <strong>{description.kind}</strong>
-                        <span>
-                          {description.owner}
-                          {reference.occurrences > 1
-                            ? ` · 本处调用 ${reference.occurrences} 次`
-                            : ''}
-                        </span>
-                        <code title={reference.where}>{reference.where}</code>
+            <DsInspectorTabs
+              id="cutscene-inspector"
+              label="过场资源检查器"
+              activeId={inspectorTab}
+              onChange={(id) => setInspectorTab(id as CutsceneInspectorTab)}
+              items={[
+                {
+                  id: 'resource',
+                  label: '资源',
+                  panel: (
+                    <>
+                      <div className="section">
+                        <h4>资源</h4>
+                        <div className="music-meta-row">
+                          <span>AssetId</span>
+                          <code title={selected.id}>{selected.id}</code>
+                        </div>
+                        <div className="music-meta-row">
+                          <span>来源</span>
+                          <strong>{ORIGIN_LABELS[selected.record.origin.kind]}</strong>
+                        </div>
+                        <div className="music-meta-row">
+                          <span>文件</span>
+                          <code title={selected.record.path}>{selected.record.path}</code>
+                        </div>
+                        <div className="music-meta-row">
+                          <span>格式</span>
+                          <strong>{selected.record.mediaType}</strong>
+                        </div>
+                        <div className="music-meta-row">
+                          <span>大小</span>
+                          <strong>{formatBytes(selected.record.bytes)}</strong>
+                        </div>
                       </div>
-                    )
-                  })}
-                </div>
-              ) : (
-                <div className="music-reference-empty">当前工程没有引用此资源。</div>
-              )}
-            </div>
-            <div className="section">
-              <h4>诊断</h4>
-              {selectedIssues.length ? (
-                selectedIssues.map((issue) => (
-                  <div
-                    className={`cutscene-diagnostic ${issue.severity}`}
-                    key={`${issue.code}-${issue.where}`}
-                  >
-                    {issue.message}
-                  </div>
-                ))
-              ) : (
-                <div className="cutscene-diagnostic ok">资源类型与引用闭包正常</div>
-              )}
-            </div>
+                      {selected.record.kind === 'video' ? (
+                        <div className="section">
+                          <h4>媒体</h4>
+                          <div className="music-meta-row">
+                            <span>分辨率</span>
+                            <strong>
+                              {videoMetadata
+                                ? `${videoMetadata.width} × ${videoMetadata.height}`
+                                : '读取中'}
+                            </strong>
+                          </div>
+                          <div className="music-meta-row">
+                            <span>时长</span>
+                            <strong>
+                              {videoMetadata ? formatDuration(videoMetadata.duration) : '读取中'}
+                            </strong>
+                          </div>
+                          <div className="music-meta-row">
+                            <span>音轨</span>
+                            <strong>
+                              {videoMetadata?.audio === 'yes'
+                                ? '有'
+                                : videoMetadata?.audio === 'no'
+                                  ? '无'
+                                  : '浏览器未报告'}
+                            </strong>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="section">
+                          <h4>动画</h4>
+                          <div className="music-meta-row">
+                            <span>画布</span>
+                            <strong>
+                              {frameMetadata
+                                ? `${frameMetadata.width} × ${frameMetadata.height}`
+                                : '读取中'}
+                            </strong>
+                          </div>
+                          <div className="music-meta-row">
+                            <span>帧数</span>
+                            <strong>{frameMetadata?.frameCount ?? '读取中'}</strong>
+                          </div>
+                          <div className="music-meta-row">
+                            <span>时长</span>
+                            <strong>
+                              {frameMetadata
+                                ? formatDuration(frameMetadata.durationMs / 1000)
+                                : '读取中'}
+                            </strong>
+                          </div>
+                          <div className="music-meta-row">
+                            <span>色彩</span>
+                            <strong>
+                              {frameMetadata?.colorTreatment === 'project-standard'
+                                ? '工程标准色彩'
+                                : '保留原色'}
+                            </strong>
+                          </div>
+                        </div>
+                      )}
+                      <div className="section cutscene-actions-section">
+                        <h4>内容</h4>
+                        {selected.record.kind === 'video' ? (
+                          <button
+                            type="button"
+                            className="btn"
+                            onClick={() => videoReplaceRef.current?.click()}
+                          >
+                            替换视频
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            className="btn"
+                            onClick={() => frameReplaceRef.current?.click()}
+                          >
+                            用图片序列替换
+                          </button>
+                        )}
+                        <button
+                          type="button"
+                          className="btn danger"
+                          disabled={selectedReferences.length > 0}
+                          title={
+                            selectedReferences.length
+                              ? `有 ${selectedReferences.length} 处引用，不能删除`
+                              : '删除资源'
+                          }
+                          onClick={() => void deleteSelected()}
+                        >
+                          删除资源
+                        </button>
+                        <input
+                          ref={videoReplaceRef}
+                          hidden
+                          type="file"
+                          accept="video/mp4,video/webm"
+                          onChange={(event) => {
+                            const file = event.target.files?.[0]
+                            if (file) void importVideo(file, selected.id)
+                            event.target.value = ''
+                          }}
+                        />
+                        <input
+                          ref={frameReplaceRef}
+                          hidden
+                          multiple
+                          type="file"
+                          accept="image/png,image/jpeg,image/webp"
+                          onChange={(event) => onFrameFiles(event, selected.id)}
+                        />
+                      </div>
+                    </>
+                  ),
+                },
+                {
+                  id: 'references',
+                  label: '引用',
+                  count: selectedReferences.length,
+                  panel: (
+                    <div className="section music-reference-section">
+                      {selectedReferences.length ? (
+                        <div className="music-reference-list">
+                          {selectedReferences.map((reference, index) => {
+                            const description = describeReference(reference, state)
+                            return (
+                              <div
+                                className="music-reference-item"
+                                key={`${reference.site}-${index}`}
+                              >
+                                <strong>{description.kind}</strong>
+                                <span>
+                                  {description.owner}
+                                  {reference.occurrences > 1
+                                    ? ` · 本处调用 ${reference.occurrences} 次`
+                                    : ''}
+                                </span>
+                                <code title={reference.where}>{reference.where}</code>
+                              </div>
+                            )
+                          })}
+                        </div>
+                      ) : (
+                        <div className="music-reference-empty">当前工程没有引用此资源。</div>
+                      )}
+                    </div>
+                  ),
+                },
+                {
+                  id: 'diagnostics',
+                  label: '诊断',
+                  count: selectedIssues.length,
+                  panel: (
+                    <div className="section">
+                      {selectedIssues.length ? (
+                        selectedIssues.map((issue) => (
+                          <div
+                            className={`cutscene-diagnostic ${issue.severity}`}
+                            key={`${issue.code}-${issue.where}`}
+                          >
+                            {issue.message}
+                          </div>
+                        ))
+                      ) : (
+                        <div className="cutscene-diagnostic ok">资源类型与引用闭包正常</div>
+                      )}
+                    </div>
+                  ),
+                },
+              ]}
+            />
           </>
         ) : (
           <div className="insp-empty">选择一个过场资源查看属性与引用。</div>

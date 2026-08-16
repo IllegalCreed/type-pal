@@ -687,7 +687,9 @@ export function ImageTab(props: {
                             if (!window.confirm(`确认删除未被引用的图片 ${selected.id}？`)) return
                             void reader.readBytes(selected.id, kind).then(
                               (previousBytes) =>
-                                session.dispatch(new DeleteAssetCommand(selected.id, previousBytes)),
+                                session.dispatch(
+                                  new DeleteAssetCommand(selected.id, previousBytes),
+                                ),
                               (cause: unknown) =>
                                 setError(cause instanceof Error ? cause.message : String(cause)),
                             )
@@ -701,7 +703,8 @@ export function ImageTab(props: {
                 },
                 {
                   id: 'references',
-                  label: `引用 ${selectedReferences.length}`,
+                  label: '引用',
+                  count: selectedReferences.length,
                   panel: (
                     <div className="section music-reference-section">
                       {selectedReferences.length ? (

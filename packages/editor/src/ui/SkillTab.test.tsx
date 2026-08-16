@@ -5,6 +5,7 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 import { namedIdChoiceLabel } from './NamedIdPicker.js'
 import { SkillTab } from './SkillTab.js'
 
@@ -134,6 +135,12 @@ function controlByLabel<T extends HTMLElement>(text: string): T {
 }
 
 describe('SkillTab · 施法物品成本', () => {
+  test('检查器使用共享引用/说明 Tab 完整键盘与 ARIA 合同', async () => {
+    const session = new EditSession(state())
+    await act(async () => root.render(<Harness session={session} />))
+    await verifyInspectorTabs(host, '技能检查器', [/^引用 \d+$/, '说明'])
+  })
+
   test('可新建、编辑，并由 object 深链精确定位', async () => {
     vi.spyOn(window, 'prompt').mockReturnValue('新技能')
     const session = new EditSession(state([skill(), skill({ mp: 8 }, '353', '另一技能')]))

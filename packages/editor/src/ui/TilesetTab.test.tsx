@@ -6,6 +6,7 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 import { TilesetTab } from './TilesetTab.js'
 
 vi.mock('@type-pal/reforge', async (importOriginal) => {
@@ -174,6 +175,15 @@ afterEach(async () => {
 })
 
 describe('TilesetTab 全工程引用删除', () => {
+  test('选中态使用共享资源/引用 Tab，上传工作流不虚构 Tab', async () => {
+    const mounted = await mountTilesetTab({ mapB: buildBlankProjectMap(1, 1, 'tiles-b') })
+    await verifyInspectorTabs(mounted.host, '瓦片集检查器', ['资源', '引用'])
+    await act(async () =>
+      mounted.host.querySelector<HTMLButtonElement>('[aria-label^="上传 PNG"]')!.click(),
+    )
+    expect(mounted.host.querySelector('[role="tablist"][aria-label="瓦片集检查器"]')).toBeNull()
+  })
+
   test('同 AssetId/path 但 record sha 改变时重新载入工作台预览', async () => {
     const mounted = await mountTilesetTab({ mapB: buildBlankProjectMap(1, 1, 'tiles-b') })
     await act(async () => new Promise((resolve) => window.setTimeout(resolve, 0)))

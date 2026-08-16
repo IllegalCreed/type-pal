@@ -1292,7 +1292,8 @@ export function SkillTab(props: {
           items={[
             {
               id: 'references',
-              label: `引用 ${references.length}`,
+              label: '引用',
+              count: references.length,
               panel: (
                 <DsInspectorSection
                   title="引用"
