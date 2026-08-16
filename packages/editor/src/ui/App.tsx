@@ -2074,6 +2074,14 @@ export function App(props: {
                       setCanvasLayers({ ...canvasLayers, entities: event.currentTarget.checked })
                     }
                   />
+                  <DsCheckbox
+                    size="compact"
+                    label="禁入"
+                    checked={canvasLayers.blocked}
+                    onChange={(event) =>
+                      setCanvasLayers({ ...canvasLayers, blocked: event.currentTarget.checked })
+                    }
+                  />
                   <div title="初始隐藏的实体（剧情后期才出场）画成半透明幽灵，可点选编排；游戏内不渲染">
                     <DsCheckbox
                       size="compact"
@@ -2090,14 +2098,6 @@ export function App(props: {
                     checked={canvasLayers.grid}
                     onChange={(event) =>
                       setCanvasLayers({ ...canvasLayers, grid: event.currentTarget.checked })
-                    }
-                  />
-                  <DsCheckbox
-                    size="compact"
-                    label="禁入"
-                    checked={canvasLayers.blocked}
-                    onChange={(event) =>
-                      setCanvasLayers({ ...canvasLayers, blocked: event.currentTarget.checked })
                     }
                   />
                 </div>
