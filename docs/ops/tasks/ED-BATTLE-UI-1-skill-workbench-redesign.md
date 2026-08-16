@@ -1,12 +1,12 @@
 # ED-BATTLE-UI-1 - 战斗数据工作台族与共享对象 Hero
 
-Status: review
+Status: done
 Phase: phase2
 Capability: Editor / Actor shell / Battle data（不改变能力状态）
 Coding Owner: Codex
 Reviewer: Kimi（架构/视觉）+ GLM（覆盖/测试）
 Visual Verification Owner: Codex + User
-Blocked by: Kimi / GLM done 前独立复审 + 用户实机验收
+Blocked by: none
 
 ## 用户裁决与目标
 
@@ -259,9 +259,105 @@ design-system/recipes.tsx:5-18 / App.tsx:1822。只读审查，未改实现文�
 
 - Codex: **accept（2026-08-15）**。共享 recipe、五页迁移、Skill/Enemy/Poison typed 引用阻断与可逆删除、
   深链一次性消费、试玩 href、保存重开均已实现并验证；完整证据见下方「build 实现与自验证证据」。
-- Kimi: pending
-- GLM: pending
-- done 准入: blocked
+- Kimi: **accept（2026-08-16；先 counter 仅 RK1，RK1 经提交 68af86c8 落地后按预审承诺转 accept）**。
+  done 前架构/视觉复审（本人一手读码 + Chromium 实机，详见下方「Kimi 独立复审（done 前）」）：共享
+  合同唯一性、BK1-BK3、N4/N5、删除阻断、响应式、console 全部通过；唯一返工 RK1（死 CSS 清除）经
+  Codex 提交 68af86c8 落地，本席轻量复核：`.skill-form .sk-grid > .sound-effect-field`、
+  `.skill-form`/`.skill-form .sk-grid`/`.skill-form .field textarea.cf-ta` 及段头注释、`.sk-anim`/
+  `.sk-anim .sk-grid` 三块删除与 diff 逐行吻合，`.v-field` 过时注释已修正；`.skill-cost-*`/
+  `.skill-effect-card*`（SkillTab.tsx:567-574 仍在用，editor.css 25 条规则）保留未误删；生产 src 对
+  `skill-form|sk-grid|sk-anim` rg 零命中（仅 PoisonTab.test.tsx:163-164 守护断言）；本席复跑
+  `pnpm --filter @type-pal/editor typecheck` passed、editor test **124 files / 912 passed** 全绿。
+  RK1 闭环，转 accept。
+- GLM: **accept（2026-08-16 done 前覆盖/测试复审，本人一手读码 + 当前树独立复跑，非代理）**。
+  本卡 build（2026-08-15）后历经 ED-INSPECTOR-TABS-1 / ED-REFERENCE-UI-1 / ED-CATALOG-CONTROLS-1
+  三卡叠改同批文件，以下全部钉子在**当前工作树**复核仍成立：
+  - **N1（删除/阻断环新建）✓**：`DeleteSkillCommand`（commands.ts:3152）/`DeleteEnemyCommand`
+    （:2650）/`DeletePoisonCommand`（:4303）三命令齐；三页均经 typed collector 计算阻断
+    （SkillTab:825 / EnemyTab:601 / PoisonTab:322 `blockingXxxReferences`）；`blocking()` 内建
+    `ownerId !== targetId` 自引用排除（battle-data-references.ts:236-247）——无假阳性 owner self-ref。
+  - **N1 collector 覆盖 ✓**：skill 六类消费者（actor initialMagic/cooperativeMagic、levelUp 行、
+    startWorld.learnedSkills、manifest entryPoints、item equip effects、enemy cast）；enemy（敌队
+    slots——B10 五槽模型、transform、summon）；poison（applyPoison/curePoison）——全部显式
+    command arm / 字段位，无 blind 递归。
+  - **N2（测试从零新建）✓**：EnemyTab.test（15.5KB / 6 tests）+ PoisonTab.test（7.5KB / 5 tests）
+    + battle-data-references.test（3）+ battle-data-delete-commands.test（2）；断言含 undo（:222/:147）、
+    引用时删除阻断（:244/:167）、**无引用可删除并精确撤销**（:179）、共享 Hero/目录行/试打 URL/
+    引用跳转闭环（:226）。
+  - **N3（深链一次性消费）✓**：`appliedFocusObjectId.current !== focusObjectId` 守卫
+    （SkillTab:812-816）——外部 focus 每值只消费一次，本地创建不被旧 query 拉回。
+  - **N4（试玩协议字节）✓**：Skill `play.html?project=…&scene=s001&battle=0&skill=<id>`
+    （SkillTab:939）与 Enemy `play.html?project=…&battle=<n>`（EnemyTab:739,1175）逐字节保留；
+    **且被契约测试钉死**（EnemyTab.test:257 断言 `play.html?project=test-project&battle=7`）。
+  - **N5（Poison 私有类）✓**：`skill-form|sk-grid` 在 PoisonTab 零命中（本人 rg 复跑）。
+  - **N6（零 schema/runtime）✓**：content 41 files/481 tests、reforge 100 files/1023 tests 当前树
+    本人独立复跑**全绿且计数与 build 时声明一致**——两包未被本卡及后续编辑器卡改动。
+  - **BK1/BK2 ✓**：五页均消费 DsObjectHero（各 2 处引用），Hero 20px/token 归一（build 记录 +
+    后续 TABS/REFERENCE 卡的 verifyInspectorTabs/领域测试持续通过为佐证）。
+  - **BK3 ✓**：DataMode 四分支（EnemyTab:236/SkillTab:292/PoisonTab:313/BattleFieldTab:452）均不传
+    tabBar；其余页面 tabBar 保留符合"ED-DS-2 收口"边界，未越界。
+  - **回归独立复跑**：本卡 focused 6 files/38 tests、editor typecheck、editor 全量 124 files/910
+    tests 全绿（910 > build 时 815，增量为后续三卡新测试；当前树无 CATALOG WIP 噪声）。
+  - 备注（不阻塞）：本卡实现已作为 TABS/REFERENCE 两卡的基座被叠改（Inspector 引用/Tab 部分），
+    本 accept 仅覆盖本卡 scope（Hero/工作台/sections/删除阻断闭环）在当前复合树中的存活与回归。
+- done 准入: **allowed（2026-08-16）——Codex + GLM + Kimi 三方 accept 齐；用户在 1280×720
+  最小实机复核证据后明确回复“验收通过”。任务转 done。**
+
+### Kimi 独立复审（done 前，2026-08-16；本人一手读码 + Chromium 实机）
+
+**逐项核验（除 RK1 外全部通过）：**
+
+1. **共享合同唯一性 ✓**：`DsObjectHero`/`DsCatalogRow`/`DsWorkbenchSection`/`DsInspectorSection` 唯一
+   定义于 `design-system/recipes.tsx:46-76,79-107,461-489,492-511`；五页唯一入口——
+   `ActorMode.tsx:426`、`BattleFieldTab.tsx:327`、`SkillTab.tsx:923`、`EnemyTab.tsx:726`、
+   `PoisonTab.tsx:410`；`editor.css` 对 `ds-object-hero`/`ds-catalog-row`/`actor-hero`/`kicker`
+   零命中（无私有结构覆写）；五页 TSX 无 `arow`/`.sel` 行残留（旧类仅剩 CasualtyEditor/
+   WorldSpriteLibrary 等非本批页面）。
+2. **BK1 ✓**：Hero 标题 = `--ds-font-title-lg` = `700 20px/28px`（tokens.css:25，DS-F.3 阶梯）；
+   BattleField 原 25px 已归一（实机 battlefield 页 title computed 20px/28px）；recipes.css 全
+   token，无硬编码 hex/gradient/shadow；旧 Actor 紧凑 hero CSS 已删（editor.css diff -325 行）。
+3. **BK2 ✓**：Hero props 全为 slot（eyebrow/title/objectId/summary/media/meta/actions），零布尔
+   变体；领域差异走 slot（Actor emoji avatar、Enemy 👹 media、Poison curability tag meta）。
+4. **BK3 ✓**：DataMode 的 Enemy/Skill/Poison/BattleField 分支（:236-253、:292-307、:313-321、
+   :452-463）不再传 `tabBar`；ActorMode 无 tabBar 残留；其余页面保留符合 ED-DS-2 边界。
+5. **N4 试玩协议字节 ✓**：`git diff HEAD` 对 Skill/Enemy trial href 零变化；实机读取
+   `play.html?project=pal&scene=s001&battle=0&skill=295` 与 `play.html?project=pal&battle=0`
+   逐字节一致，且被契约测试钉死（EnemyTab.test:257）。
+6. **N5 ✓（PoisonTab 范围）**：Poison 页实机 DOM `.skill-form`/`.sk-grid` 零命中；
+   PoisonTab.test.tsx:163-164 有断言。
+7. **删除阻断 ✓**：`DeleteEnemyCommand`（commands.ts:2661-2662）、`DeleteSkillCommand`
+   （:3161-3162）apply 内抛 `BattleDataInUseError`；collector 与 content validate-refs 消费端逐类
+   对齐（skill：enemy cast/initialMagic/cooperativeMagic/learnedSkills/grantSkill/levelUp；enemy：
+   team slots/transform/summon；poison：skill/item applyPoison/curePoison/lethalWith/counters）；
+   BattleField 保留 B2-1 confirm + `BattleFieldInUseError` 阻断（BattleFieldTab.tsx:216-227）。
+8. **自动化复跑 ✓**（本席 2026-08-16 实测）：editor typecheck passed；editor test 124 files / 910
+   passed（较 build 时 815 的增量来自后续 TABS/REFERENCE/CATALOG 三卡）；content check 481 passed；
+   reforge check 1023 passed；工作树 content/reforge 无未提交改动，N6 边界成立。
+9. **浏览器实机 ✓**（Chromium，pal 工程）：五页各恰 1 个 `.ds-object-hero` + 1 个 selected
+   `.ds-catalog-row`；1280×720 / 900×720 / 720×720 无横向溢出；Inspector section padding 16px；
+   Enemy Inspector 为敌队/引用/说明三 tab（敌队+试打归 Inspector，符合冻结设计 §3）；640px（200%
+   等效）Hero 标题 148×28 单行、tab 40px 高横排、action 92×32 横排；页面级横滚源于既有
+   `editor.css:25 .editor{min-width:720px}` app-shell 下限（注释自述 VS Code 式行为），非本卡
+   recipe 回归；全程 console error/warn 为 0。
+
+**返工项：**
+
+- **RK1（唯一，死 CSS 清除）**：删除 `.skill-form .sk-grid > .sound-effect-field`
+  （editor.css:7749-7754）、`.skill-form`/`.skill-form .sk-grid`/`.skill-form .field textarea.cf-ta`
+  及其段头注释（editor.css:9488-9503）、`.sk-anim`/`.sk-anim .sk-grid`（editor.css:9700-9708），并
+  修正 editor.css:9935 引用 sk-grid 的过时注释。上述选择器全仓 TSX 零引用（`.skill-cost-*`/
+  `.skill-effect-card*` 仍被 SkillTab 领域编辑器使用，不在删除范围）。落地后复跑
+  `pnpm --filter @type-pal/editor test` 全绿即闭环，本席转 accept。
+
+**附记（不阻塞，留用户实机验收裁决）**：Hero 实测高 149px，略超冻结设计目标带 104–144px（该带为
+"目标"且高度由内容决定，五页一致）；Enemy Hero media 用 emoji 👹 而非战斗精灵缩略图（冻结设计原文为
+"可"）。
+
+Evidence: recipes.tsx:46-511 / recipes.css:77-166 / tokens.css:25 / ActorMode.tsx:426 /
+BattleFieldTab.tsx:327,216-227 / SkillTab.tsx:923,939 / EnemyTab.tsx:726,739 / PoisonTab.tsx:410 /
+DataMode.tsx:236-463 / commands.ts:2650-2672,3152-3175 / battle-data-references.ts:49-254 /
+validate-refs.ts:819-854,1109,1140-1162,1258-1298,1335-1341,1400-1404 / editor.css:25,7749-7754,
+9488-9503,9700-9708,9935 / Chromium 五页实机 + 截图。只读审查，未改实现文件，未代签 GLM，未标 done。
 
 ## build 实现与自验证证据（Codex，2026-08-15）
 
@@ -322,46 +418,37 @@ design-system/recipes.tsx:5-18 / App.tsx:1822。只读审查，未改实现文�
 - 2026-08-15 Codex: build 完成并自验 accept。共享 Hero/row/section/Inspector 已迁入五页；N1-N6 与
   BK1-BK3 均落地；Editor 815、Content 481、Reforge 1023 tests 全绿，typecheck/build/浏览器巡检通过。
   任务转 review，等待 Kimi/GLM done 前独立复审与用户实机验收，不得标 done。
+- 2026-08-16 GLM（覆盖/测试）: done 前复审完成并签 **accept**。在经历 TABS/REFERENCE/CATALOG 三卡
+  叠改后的当前树复核全部钉子：N1 三个删除命令 + typed 阻断 collector（六类 skill 消费者/敌队五槽/
+  transform/summon/applyPoison-curePoison，内建自引用排除）；N2 EnemyTab/PoisonTab 测试从零建成含
+  七环断言；N3 深链一次性消费守卫；N4 trial href 字节保留且被契约测试钉死；N5 私有类零残留；N6
+  content 481 / reforge 1023 当前树复跑计数与 build 时一致；BK1-BK3 全部成立。focused 38 tests +
+  editor 910 + typecheck 本人独立复跑全绿。未修改实现文件，未代签 Kimi，未标 done。
+  Next: Kimi done 前 accept + 用户实机验收后关卡。
+- 2026-08-16 Kimi（架构/视觉）: done 前复审完成，签 **counter（仅 RK1 一项）**。共享合同唯一性、
+  BK1-BK3、N4/N5、删除阻断、Editor 910/Content 481/Reforge 1023 复跑、Chromium 五页实机与响应式
+  全部通过；唯一返工项 RK1：`.skill-form`/`.sk-grid`/`.sk-anim` 死 CSS 残留（editor.css:7749-7754、
+  9488-9503、9700-9708、9935 注释），全仓 TSX 零引用，属范围内"删除被替代私有 CSS"漏项。RK1 纯死码
+  删除，落地 + editor test 全绿后 Kimi 直接转 accept，无需重新全面复审。未改实现文件，未代签，未标 done。
+  Next: Codex 落 RK1 并复跑 editor test；之后 Kimi 转 accept，再等用户实机验收关卡。
+- 2026-08-16 Codex: **RK1 已完成**。按 Kimi 精确清单删除 `editor.css` 中
+  `.skill-form .sk-grid > .sound-effect-field`、`.skill-form`/`.skill-form .sk-grid`/
+  `.skill-form .field textarea.cf-ta`、`.sk-anim`/`.sk-anim .sk-grid` 及段头，修正 `.v-field`
+  过时注释；保留仍在生产使用的 `.skill-cost-*`/`.skill-effect-card*`。生产 `packages/editor/src`
+  （排除测试）`rg 'skill-form|sk-grid|sk-anim'` 零命中；`pnpm --filter @type-pal/editor test`
+  124 files / 912 tests 全绿，`pnpm --filter @type-pal/editor typecheck` 全绿。未代签 Kimi，未标 done。
+  Next: Kimi 按承诺核验 RK1 证据并将 counter 转 accept；随后用户实机验收。
+- 2026-08-16 Kimi（RK1 复签）: 轻量复核 68af86c8——editor.css 三块删除与 RK1 清单逐行吻合、
+  `.v-field` 注释已修正、`.skill-cost-*`/`.skill-effect-card*` 保留未误删（SkillTab.tsx:567-574 仍在用）、
+  生产 src `rg 'skill-form|sk-grid|sk-anim'` 零命中（仅 PoisonTab.test.tsx:163-164 守护断言）、
+  本席复跑 typecheck + editor 124 files / 912 tests 全绿。RK1 闭环，本席 counter 转 **accept**。
+  至此 Codex + GLM + Kimi 三方 accept 齐，仅剩用户实机验收。只读复核，未改实现文件，未标 done。
+- 2026-08-16 Codex + User: Codex 在当前 RK1 树以 Chromium 1280×720 复核 Skill 工作台：页面
+  `bodyScrollWidth === bodyClientWidth === 1280`、共享 Hero / selected row 各 1、Inspector padding
+  16px、`.skill-form|.sk-grid|.sk-anim` DOM 零命中、console warning/error 0；用户随后明确回复
+  **“验收通过”**。三方 accept + 用户验收齐，任务转 `done`。
 
 
 ## 下一位 Agent 提示词
 
-### 给 Kimi（done 前架构/视觉复审，可直接复制）
-
-```text
-接手任务: ED-BATTLE-UI-1 战斗数据工作台族与共享对象 Hero done 前复审
-任务卡: docs/ops/tasks/ED-BATTLE-UI-1-skill-workbench-redesign.md
-状态: review；Codex build 与自验已完成，Kimi/GLM accept 未齐，不得标 done
-角色: Kimi，架构/视觉主审。只读审实现与浏览器，不修改生产实现。
-先读: 本卡冻结设计、Kimi build 前 BK1-BK3、build 实现与自验证证据；
-  docs/phase2/editor/editor-design-system-v1.md；packages/editor/src/ui/design-system/recipes.tsx/.css。
-重点核验:
-1. DsObjectHero/DsCatalogRow/DsWorkbenchSection/DsInspectorSection 是唯一共享合同，领域差异走 slot，
-   五页无私有 hero/selected-row 结构覆写；BK1 20px/token、BK2 无 mega-props、BK3 四分支死 tabBar 清理。
-2. Actor/BattleField/Skill/Enemy/Poison 的主次层级、中央深色 canvas、Inspector 16px、Medium/Narrow 降级；
-   200% 下标题/tab/action 不纵排。全局 min-width:720 的既有 640px 横滚请区分为 app-shell 后续项。
-3. Skill/Enemy/Poison 领域字段、试玩入口与引用/危险操作没有因视觉迁移降级；console 零 error。
-输出: 在本卡 review -> done 的 Kimi 行签 accept（附一手 file:line/浏览器证据），或 counter + 精确返工项；
-不得代签 GLM，不得在三签和用户验收前标 done。
-```
-
-### 给 GLM（done 前覆盖/测试复审，可直接复制）
-
-```text
-接手任务: ED-BATTLE-UI-1 战斗数据工作台族与共享对象 Hero done 前复审
-任务卡: docs/ops/tasks/ED-BATTLE-UI-1-skill-workbench-redesign.md
-状态: review；Codex build 与自验已完成，Kimi/GLM accept 未齐，不得标 done
-角色: GLM，覆盖/数据/测试主审。只读审实现与测试，不修改生产实现。
-先读: 本卡 GLM build 前 N1-N6 与 build 实现/证据；
-  packages/editor/src/core/battle-data-references.ts；commands.ts 的 DeleteSkill/Enemy/Poison；
-  battle-data-references.test.ts、battle-data-delete-commands.test.ts、SkillTab/EnemyTab/PoisonTab tests、project-io.test.ts。
-重点核验:
-1. typed collector 覆盖 canonical Skill/Enemy/Poison consumer，显式 command arm、无假阳性 owner self-ref；
-   引用阻断、可跳转、exact invert、删除/undo/save-reopen 无悬空。
-2. 五页 ?object 深链；Skill/Enemy trial href 字节；Poison skill-form|sk-grid 零残留；Enemy/Poison 新测试存在。
-3. ED-1 创建/编辑/保存/重开/深链/引用/删除或阻断七环及 undo/redo；Editor 815、Content 481、
-   Reforge 1023 tests、typecheck/build 证据可复跑。
-4. 本卡 diff 不引入 content/reforge 变更；工作树内两目录已有改动必须按任务边界区分，不把它们误归本卡。
-输出: 在本卡 review -> done 的 GLM 行签 accept（附一手 file:line/测试证据），或 counter + 精确返工项；
-不得代签 Kimi，不得在三签和用户验收前标 done。
-```
+无下一位 Agent 提示词；三方 accept 与用户验收均已完成，等待 git 收口后进入下一张独立任务卡。

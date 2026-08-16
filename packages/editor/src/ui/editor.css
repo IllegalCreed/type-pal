@@ -7753,13 +7753,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   align-items: center;
   gap: 6px;
 }
-.skill-form .sk-grid > .sound-effect-field {
-  flex-direction: column;
-  align-items: stretch;
-  gap: 4px;
-  color: var(--dim);
-  font-size: 12px;
-}
 .ef-fields .sound-effect-field {
   flex: 1 1 320px;
 }
@@ -9494,19 +9487,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   align-self: end;
 }
 
-/* ── 技能编辑(结构化表单 + 特效预览;沿用 .form-grid 规格) ── */
-.skill-form {
-  max-width: none;
-}
-.skill-form .sk-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
-  gap: 10px 24px;
-  align-items: end;
-}
-.skill-form .field textarea.cf-ta {
-  max-width: none;
-}
 .skill-cost-items {
   max-width: none;
   margin-top: 12px;
@@ -9703,15 +9683,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   .skill-effect-card__fields {
     grid-template-columns: minmax(0, 1fr);
   }
-}
-.sk-anim {
-  display: flex;
-  gap: 24px;
-  align-items: flex-start;
-}
-.sk-anim .sk-grid {
-  flex: none;
-  grid-template-columns: repeat(2, 200px);
 }
 .skill-animation-editor {
   container: skill-animation / inline-size;
@@ -9939,7 +9910,7 @@ button.sprite-frame-cell[draggable="true"]:active {
   align-items: flex-start;
 }
 
-/* 垂直字段(sk-grid 体系外的单字段,同视觉) */
+/* 垂直字段（独立单字段） */
 .v-field {
   display: flex;
   flex-direction: column;
