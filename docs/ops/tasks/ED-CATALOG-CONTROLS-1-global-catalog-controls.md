@@ -1,6 +1,6 @@
 # ED-CATALOG-CONTROLS-1 - 编辑器全局目录筛选区统一
 
-Status: review
+Status: done
 Owner: Codex
 Reviewer: Kimi（架构 / 视觉）+ GLM（覆盖 / 测试）
 Phase: phase2
@@ -490,8 +490,8 @@ ls 17 测试文件（5 无 + Sound 38 行）。只读审查,未改实现文件,�
     补录，不涉及实现；本席 accept 不受其影响，但 done 关卡在 Kimi 转 accept（RK-A 落地后）+ 用户
     验收前保持 blocked。
   - 用户豁免: N/A
-  - 结论: **blocked——Codex + GLM + Kimi 三方 accept 齐（2026-08-16）；仅剩用户实机验收，
-    验收前不得标 done。**
+  - 用户验收: **accept（2026-08-16）**。用户明确回复“验收通过”。
+  - 结论: **done 准入满足——Codex + GLM + Kimi 三方 accept 与用户验收齐（2026-08-16）。**
 
 #### Kimi 独立复审（done 前，2026-08-16；本人一手读码 + Chromium 实机）
 
@@ -599,6 +599,9 @@ domain round trip、Event 手册）+ /tmp 截图文件清单。只读审查，�
   条目（draft/待排期、范围表述与 CK1 一致）、本卡「邻接控制」段已关联该 ID、build 日志失实表述已修正
   并指向补录条目——全部属实，RK-A 闭环，按预审承诺将本席 counter 转 **accept**。至此 Codex + GLM +
   Kimi 三方 accept 齐，仅剩用户实机验收。未改实现文件，未代签用户验收，未标 done。
+- 2026-08-16 User + Codex（验收 / 收口）: 用户明确回复“验收通过”；Codex 复核三方 done 前 accept
+  与 RK-A/CK1 闭环记录齐全，将任务从 review 转 done。实现验证沿用已独立复跑的 editor 124 files / 912
+  tests、typecheck、production build 与浏览器矩阵；本次仅更新验收文档。Next: 合并 main、删除完成分支。
 
 ## 下一位 Agent 提示词
 
@@ -663,4 +666,4 @@ Kimi 已核对 `0817317a` 的看板条目、任务卡关联和日志修正，确
 Codex 已完成 RK-A 文档返工；GLM 已完成 done 前覆盖/测试复审并签 accept；Kimi 已完成 RK-A 复核并
 将 counter 转为 accept。三方 done 前签字齐。
 
-无下一位 Agent 提示词，等待用户实机验收/收口；用户验收前不得标 done。
+无下一位 Agent 提示词；三方 accept 与用户验收齐，执行 git 收口。
