@@ -6,6 +6,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { BattleDataReference } from '../core/battle-data-references.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { EnemyTab } from './EnemyTab.js'
 
 function enemy(id: string, ruleTarget?: string): EnemyDef {
@@ -177,6 +178,26 @@ afterEach(async () => {
 })
 
 describe('EnemyTab shared workbench', () => {
+  test('目录搜索覆盖命中、空结果与清空恢复，且不会偷换深链选择', async () => {
+    const session = new EditSession(state())
+    await act(async () => root.render(<Harness session={session} focusObjectId="enemy-b" />))
+    const search = host.querySelector<HTMLInputElement>('input[aria-label="过滤敌人"]')!
+    expect(host.querySelectorAll('.ds-catalog-row')).toHaveLength(2)
+
+    await setCatalogSearch(search, '赤鬼王')
+    expect(host.querySelectorAll('.ds-catalog-row')).toHaveLength(1)
+    expect(host.querySelector('.ds-catalog-row[data-selected="true"]')).toBeNull()
+    expect(host.querySelector('h1')?.textContent).toBe('变身者')
+
+    await setCatalogSearch(search, '不存在')
+    expect(host.querySelectorAll('.ds-catalog-row')).toHaveLength(0)
+    await setCatalogSearch(search, '')
+    expect(host.querySelectorAll('.ds-catalog-row')).toHaveLength(2)
+    expect(host.querySelector('.ds-catalog-row[data-selected="true"]')?.textContent).toContain(
+      '变身者',
+    )
+  })
+
   test('可新建、编辑，并由 object 深链精确定位', async () => {
     const session = new EditSession(state())
     await act(async () => root.render(<Harness session={session} focusObjectId="enemy-b" />))

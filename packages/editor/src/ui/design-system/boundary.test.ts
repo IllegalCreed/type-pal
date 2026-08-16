@@ -81,8 +81,15 @@ describe('editor design-system static boundary', () => {
 
   test('keeps trailing catalog action tooltips inside narrow scrolling lists', () => {
     const primitives = readFileSync(join(here, 'primitives.css'), 'utf8')
+    const businessCss = readFileSync(join(dirname(here), 'editor.css'), 'utf8')
     expect(primitives).toMatch(
       /\.ds-catalog-group-header__actions \.ds-tooltip__bubble\s*\{[\s\S]*?right:\s*0;[\s\S]*?left:\s*auto;[\s\S]*?transform:\s*none;/,
+    )
+    expect(businessCss).toMatch(
+      /\.map-layer-panel__header > \.ds-tooltip \.ds-tooltip__bubble,[\s\S]*?\.map-layer-row \.layer-order \.ds-tooltip__bubble\s*\{[\s\S]*?right:\s*0;[\s\S]*?left:\s*auto;[\s\S]*?transform:\s*none;/,
+    )
+    expect(businessCss).toMatch(
+      /\.map-layer-row > \.ds-tooltip \.ds-tooltip__bubble\s*\{[\s\S]*?right:\s*auto;[\s\S]*?left:\s*0;[\s\S]*?transform:\s*none;/,
     )
   })
 
@@ -132,10 +139,10 @@ describe('editor design-system static boundary', () => {
         path.endsWith('.tsx') && !path.endsWith('.test.tsx') && !path.includes('/design-system/'),
     )
     const ceilings = {
-      input: 212,
-      select: 128,
+      input: 199,
+      select: 123,
       textarea: 8,
-      label: 211,
+      label: 205,
     } as const
 
     for (const [tag, ceiling] of Object.entries(ceilings)) {
@@ -144,7 +151,7 @@ describe('editor design-system static boundary', () => {
         (total, path) => total + (readFileSync(path, 'utf8').match(pattern)?.length ?? 0),
         0,
       )
-      expect(count, `raw <${tag}> occurrences`).toBeLessThanOrEqual(ceiling)
+      expect(count, `raw <${tag}> occurrences`).toBe(ceiling)
     }
   })
 
@@ -164,30 +171,78 @@ describe('editor design-system static boundary', () => {
     }
   })
 
-  test('keeps catalog searches on the focus-safe shared filter shell', () => {
+  test('keeps every canonical catalog on the shared controls recipe', () => {
     const uiRoot = dirname(here)
     const catalogFiles = [
       'MapMode.tsx',
+      'TilesetTab.tsx',
+      'StampLibraryTab.tsx',
+      'CanonicalSharedScriptTabV5.tsx',
+      'VarsTab.tsx',
+      'EventLibTab.tsx',
+      'ItemTab.tsx',
       'SkillTab.tsx',
       'EnemyTab.tsx',
       'PoisonTab.tsx',
       'BattleFieldTab.tsx',
+      'WorldSpriteLibrary.tsx',
+      'BattleSpriteLibrary.tsx',
+      'ImageTab.tsx',
+      'MusicTab.tsx',
+      'SoundTab.tsx',
+      'CutsceneTab.tsx',
     ]
 
     for (const file of catalogFiles) {
       const source = readFileSync(join(uiRoot, file), 'utf8')
-      expect(source, file).toMatch(/<DsCatalogFilter\b/)
+      expect(source, file).toMatch(/<DsCatalogControls\b/)
+      expect(source, file).not.toMatch(/<DsCatalogFilter\b/)
+      expect(source, file).not.toMatch(/<DsListHeader\b/)
       expect(source, file).not.toMatch(/className=["']ds-catalog-filter["']/)
       expect(source, file).not.toMatch(/\bmap-search\b/)
+      expect(source, file).not.toMatch(/type=["']search["']/)
+
+      const start = source.indexOf('<DsCatalogControls')
+      const lineStart = source.lastIndexOf('\n', start) + 1
+      const indent = source.slice(lineStart, start)
+      const closing = source.slice(start).match(new RegExp(`^${indent.replace(/ /g, '\\s')}\\/>`, 'm'))
+      expect(closing, `${file} DsCatalogControls closing boundary`).not.toBeNull()
+      const controlsSource = source.slice(start, start + (closing?.index ?? 0) + closing![0].length)
+      expect(controlsSource, `${file} raw catalog control`).not.toMatch(/<(?:input|select)\b/)
     }
 
     const recipes = readFileSync(join(here, 'recipes.css'), 'utf8')
     expect(recipes).toMatch(
-      /\.ds-catalog-filter\s*\{[\s\S]*?width:\s*100%;[\s\S]*?min-width:\s*0;[\s\S]*?box-sizing:\s*border-box;[\s\S]*?padding:/,
+      /\.ds-catalog-controls__body\s*\{[\s\S]*?width:\s*100%;[\s\S]*?min-width:\s*0;[\s\S]*?box-sizing:\s*border-box;[\s\S]*?padding:/,
+    )
+    expect(recipes).toMatch(
+      /\.ds-catalog-controls__filters\s*\{[\s\S]*?grid-template-columns:\s*repeat\(auto-fit,\s*minmax\(min\(100%,\s*9rem\),\s*1fr\)\);/,
     )
 
     const businessCss = readFileSync(join(uiRoot, 'editor.css'), 'utf8')
     expect(businessCss).not.toMatch(/\.map-search\b/)
+    for (const selector of [
+      'tileset-library-tools',
+      'tileset-search-field',
+      'tileset-search-icon',
+      'tileset-category-filter',
+      'stamp-library-tools',
+      'stamp-search-field',
+      'stamp-search-icon',
+      'stamp-filter-grid',
+      'battle-sprite-filter',
+      'kind-filter',
+      'kchip',
+      'sprite-domain-switch',
+      'music-library-tools',
+      'music-search-field',
+      'music-search-icon',
+      'cutscene-search',
+      'image-kind-tabs',
+      'item-catalog-tools',
+      'item-filter-chips',
+    ])
+      expect(businessCss, selector).not.toContain(`.${selector}`)
   })
 
   test('keeps every migrated inspector on the canonical shared tab contract', () => {

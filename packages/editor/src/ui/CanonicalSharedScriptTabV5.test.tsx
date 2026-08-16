@@ -6,6 +6,7 @@ import { createRoot, type Root } from 'react-dom/client'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { type ScriptEditorStateV5, ScriptV5EditSession } from '../core/script-v5-editor.js'
+import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import type { CanonicalScriptEditorContextV5 } from './CanonicalScriptEditorV5.js'
 import { CanonicalSharedScriptTabV5 } from './CanonicalSharedScriptTabV5.js'
 
@@ -92,6 +93,42 @@ describe('CanonicalSharedScriptTabV5', () => {
     expect(html).toContain('canonical-script-editor')
     expect(html).not.toContain('迁移内部实现')
     expect(html).not.toContain('Canonical ScriptFlow JSON')
+  })
+
+  test('目录搜索覆盖命中、空结果与清空恢复，且不偷换被过滤的脚本', async () => {
+    const searchState: ScriptEditorStateV5 = {
+      ...state,
+      sharedScripts: {
+        ...state.sharedScripts,
+        'shared/user/opening': { name: '序章', self: 'none', body: [] },
+      },
+    }
+    const session = new ScriptV5EditSession(searchState)
+    await act(async () =>
+      root.render(
+        <CanonicalSharedScriptTabV5
+          tabBar={null}
+          state={searchState}
+          session={session}
+          context={{ ...context, state: searchState }}
+          {...projectProps}
+        />,
+      ),
+    )
+    const search = host.querySelector<HTMLInputElement>('input[aria-label="搜索可复用脚本"]')!
+    expect(host.querySelectorAll('.shared-list > button')).toHaveLength(2)
+
+    await setCatalogSearch(search, '序章')
+    expect(host.querySelectorAll('.shared-list > button')).toHaveLength(1)
+    expect(host.querySelector('.shared-list > button.active')).toBeNull()
+    expect(host.querySelector('.canonical-shared-script-main')?.textContent).toContain('读天书')
+
+    await setCatalogSearch(search, '不存在')
+    expect(host.querySelectorAll('.shared-list > button')).toHaveLength(0)
+    expect(host.textContent).toContain('没有匹配的可复用脚本')
+    await setCatalogSearch(search, '')
+    expect(host.querySelectorAll('.shared-list > button')).toHaveLength(2)
+    expect(host.querySelector('.shared-list > button.active')?.textContent).toContain('读天书')
   })
 
   test('opens creation from the list header and creates through a dedicated dialog', async () => {

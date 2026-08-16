@@ -1,8 +1,8 @@
 # Type-Pal 编辑器设计系统与交互规范 v1
 
-Status: draft v2.3.0 reference contract implemented, pending review（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
+Status: draft v2.4.0 catalog controls contract implemented, pending review（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
 
-Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）
+Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）
 
 Applies to: `packages/editor` 的全部功能性界面
 
@@ -346,7 +346,22 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - 搜索框有可见或 accessible label、清除按钮和结果计数。
 - 文本过滤默认不区分大小写并搜索名称/id；领域额外字段必须在提示中说明。
 - 过滤不改变底层选择；当前选择被隐藏时明确提示，不可偷选第一项。
-- 多过滤器使用可移除 chips，并提供“一键清除”。
+- 可叠加的多选过滤状态使用可移除 chips，并提供“一键清除”；固定单值枚举使用统一 Select，不能自画 button chips。
+
+#### DS-C.4a 目录控制区合同（v2.4.0）
+
+- 当前 canonical 的正式左侧目录统一使用 `DsCatalogControls` 组合列表标题、计数、标题动作、可选 scope、搜索与
+  筛选器；业务页只持有查询、筛选、选择和深链状态，不复制标题后 padding、border、focus 或响应式布局。
+- DOM 顺序固定为 header → optional scope → optional search → optional filter grid → list body。没有 scope、搜索或
+  筛选器时不得渲染空 body；单个筛选器占满可用宽度，多个筛选器用纯 CSS `auto-fit/minmax` 自适应换行。
+- 搜索只允许通过 recipe 的 `search` props 渲染 compact `DsCatalogFilter`；scope 和 filters slots 只能消费已批准的
+  design-system controls。业务目录禁止 raw search/select、自画 button chips、页面私有搜索图标和 focus 皮肤。
+- 控制区、搜索和筛选 slot 根必须满足 `box-sizing:border-box; width:100%; min-width:0`；窄侧栏不得横向滚动，
+  不得用 JavaScript 测量或 `overflow-x:hidden` 掩盖溢出，focus ring 必须保持完整可见。
+- recipe 只拥有结构和布局，不读取或改写筛选结果、当前选择、URL 深链、创建/导入、引用、撤销重做或计数口径。
+  图像类型、精灵领域等结构切换属于 scope；缺失警告、错误和领域提示留在列表正文或既有状态位，不扩 notice variant。
+- v2.4.0 的正式采用域为 8 模块 / 24 个 current-canonical 路由页，其中 17 个生产组件消费该 recipe；
+  `MapStampPalette` 等主工作区临时 palette 与非 canonical fallback 不冒充正式左侧目录，也不得新增长期兼容皮肤。
 
 ### DS-C.5 表单字段
 

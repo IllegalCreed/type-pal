@@ -15,7 +15,7 @@ import {
   CanonicalScriptDialogV5,
   type CanonicalScriptEditorContextV5,
 } from './CanonicalScriptEditorV5.js'
-import { DsListHeader } from './design-system/index.js'
+import { DsCatalogControls } from './design-system/index.js'
 import { PreviewCanvas } from './PreviewCanvas.js'
 
 const EMPTY_STAGES: readonly ScriptStage[] = []
@@ -263,26 +263,26 @@ export function CanonicalSharedScriptTabV5(props: {
     <>
       <div className="outliner shared-script-outliner canonical-shared-script-outliner">
         {props.tabBar}
-        <DsListHeader
+        <DsCatalogControls
           title="可复用脚本"
           count={ids.length}
           unit="项"
-          actions={[{
-            id: 'create-shared-script',
-            label: '新建可复用脚本',
-            icon: '＋',
-            buttonRef: createButtonRef,
-            onClick: openCreate,
-          }]}
+          actions={[
+            {
+              id: 'create-shared-script',
+              label: '新建可复用脚本',
+              icon: '＋',
+              buttonRef: createButtonRef,
+              onClick: openCreate,
+            },
+          ]}
+          search={{
+            'aria-label': '搜索可复用脚本',
+            placeholder: '搜索名称或稳定 id…',
+            value: filter,
+            onChange: (event) => setFilter(event.target.value),
+          }}
         />
-        <div className="shared-toolbar">
-          <input
-            className="in"
-            placeholder="搜索名称或稳定 id…"
-            value={filter}
-            onChange={(event) => setFilter(event.target.value)}
-          />
-        </div>
         <div className="shared-list">
           {shown.map((id) => {
             const script = props.state.sharedScripts[id]!

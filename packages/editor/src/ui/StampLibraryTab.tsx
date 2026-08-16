@@ -1,6 +1,6 @@
 import type { AssetCatalogV1, MapIndexV1, ProjectMap, StampTemplateV1 } from '@type-pal/content'
 import type { AssetBase, TilesetDef } from '@type-pal/reforge'
-import { useEffect, useId, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import {
@@ -12,12 +12,13 @@ import type { StampSelectionSource } from '../core/stamp-template.js'
 import { collectStampTemplateUsage, nextStampTemplateId } from '../core/stamp-template.js'
 import {
   DsButton,
+  DsCatalogControls,
   DsInspectorTabs,
-  DsListHeader,
   DsReferenceGroup,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
+  DsSelect,
   DsSequenceIndex,
 } from './design-system/index.js'
 import { StampMiniPreview, StampPreviewCanvas } from './StampPreviewCanvas.js'
@@ -85,9 +86,6 @@ export function StampLibraryTab(props: {
   const [error, setError] = useState('')
   const [selectionDialogMap, setSelectionDialogMap] = useState<ProjectMap>()
   const [selectionLoading, setSelectionLoading] = useState(false)
-  const searchId = useId()
-  const categoryId = useId()
-  const originId = useId()
   const metadataSaveRef = useRef<HTMLButtonElement>(null)
   const takeoverCancelRef = useRef<HTMLButtonElement>(null)
   const deleteTriggerRef = useRef<HTMLButtonElement>(null)
@@ -308,53 +306,43 @@ export function StampLibraryTab(props: {
     <>
       <div className="outliner data-outliner stamp-outliner">
         {tabBar}
-        <DsListHeader title="组合库" count={stamps.length} unit="项" />
-        <div className="stamp-library-tools">
-          <label className="stamp-search-field" htmlFor={searchId}>
-            <span className="stamp-search-icon" aria-hidden="true" />
-            <input
-              id={searchId}
-              className="in"
-              type="search"
-              aria-label="搜索组合模板"
-              value={query}
-              autoComplete="off"
-              placeholder="搜索名称、ID 或瓦片集…"
-              onChange={(event) => setQuery(event.target.value)}
-            />
-          </label>
-          <div className="stamp-filter-grid">
-            <label htmlFor={categoryId}>
-              <span>分类</span>
-              <select
-                id={categoryId}
-                className="in"
-                value={categoryFilter}
-                onChange={(event) => setCategoryFilter(event.target.value)}
-              >
-                <option value="all">全部</option>
-                {categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label htmlFor={originId}>
-              <span>来源</span>
-              <select
-                id={originId}
-                className="in"
-                value={originFilter}
-                onChange={(event) => setOriginFilter(event.target.value as typeof originFilter)}
-              >
-                <option value="all">全部</option>
-                <option value="authored">作者</option>
-                <option value="migrated">预置</option>
-              </select>
-            </label>
-          </div>
-        </div>
+        <DsCatalogControls
+          title="组合库"
+          count={stamps.length}
+          unit="项"
+          search={{
+            'aria-label': '搜索组合模板',
+            value: query,
+            autoComplete: 'off',
+            placeholder: '搜索名称、ID 或瓦片集…',
+            onChange: (event) => setQuery(event.target.value),
+          }}
+          filters={[
+            <DsSelect
+              key="category"
+              size="compact"
+              aria-label="筛选组合分类"
+              value={categoryFilter}
+              onValueChange={setCategoryFilter}
+              options={[
+                { value: 'all', label: '全部分类' },
+                ...categories.map((category) => ({ value: category, label: category })),
+              ]}
+            />,
+            <DsSelect
+              key="origin"
+              size="compact"
+              aria-label="筛选组合来源"
+              value={originFilter}
+              onValueChange={(value) => setOriginFilter(value as typeof originFilter)}
+              options={[
+                { value: 'all', label: '全部来源' },
+                { value: 'authored', label: '作者' },
+                { value: 'migrated', label: '预置' },
+              ]}
+            />,
+          ]}
+        />
         <section className="stamp-library-list" aria-label="组合模板列表">
           {stamps.length === 0 ? (
             <div className="stamp-list-empty">

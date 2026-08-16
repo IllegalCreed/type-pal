@@ -67,15 +67,16 @@ import { BattleSpritePicker } from './BattleSpritePicker.js'
 import type { CanonicalScriptEditorContextV5 } from './CanonicalScriptEditorV5.js'
 import {
   DsButton,
+  DsCatalogControls,
   DsCatalogRow,
   DsIconButton,
   DsInspectorTabs,
-  DsListHeader,
   DsObjectHero,
   DsReferenceGroup,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
+  DsSelect,
   DsTag,
   DsWorkbenchSection,
 } from './design-system/index.js'
@@ -1075,37 +1076,32 @@ export function ItemTab(props: {
     <>
       <div className="outliner data-outliner item-catalog">
         {tabBar}
-        <DsListHeader
+        <DsCatalogControls
           title="物品"
           count={items.length}
           unit="项"
           actions={[{ id: 'create-item', label: '新建物品', icon: '＋', onClick: createItem }]}
+          search={{
+            'aria-label': '搜索物品名称或稳定 ID',
+            placeholder: '搜索名称或 id…',
+            name: 'item-search',
+            autoComplete: 'off',
+            value: filter,
+            onChange: (event) => setFilter(event.target.value),
+          }}
+          filters={
+            <DsSelect
+              size="compact"
+              aria-label="按物品能力筛选"
+              value={filterMode}
+              onValueChange={(value) => setFilterMode(value as ItemFilter)}
+              options={ITEM_FILTERS.map((entry) => ({
+                value: entry.value,
+                label: entry.label,
+              }))}
+            />
+          }
         />
-        <div className="item-catalog-tools">
-          <input
-            aria-label="搜索物品名称或稳定 ID"
-            className="in"
-            placeholder="搜索名称或 id…"
-            name="item-search"
-            autoComplete="off"
-            value={filter}
-            onChange={(event) => setFilter(event.target.value)}
-          />
-          <fieldset className="item-filter-chips">
-            <legend className="visually-hidden">按物品能力筛选</legend>
-            {ITEM_FILTERS.map((entry) => (
-              <button
-                key={entry.value}
-                type="button"
-                className={filterMode === entry.value ? 'active' : undefined}
-                aria-pressed={filterMode === entry.value}
-                onClick={() => setFilterMode(entry.value)}
-              >
-                {entry.label}
-              </button>
-            ))}
-          </fieldset>
-        </div>
         <div className="sprite-list item-catalog-list">
           {shown.map((candidate) => {
             const tags = abilityTags(candidate)

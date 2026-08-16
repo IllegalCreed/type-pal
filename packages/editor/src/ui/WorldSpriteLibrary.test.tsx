@@ -10,6 +10,7 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import type {
   SpriteAutomaticScriptBehaviorSummary,
   SpriteAutomaticScriptInstanceSite,
@@ -151,6 +152,18 @@ function button(text: string): HTMLButtonElement {
   )!
 }
 
+async function chooseSelectOption(label: string, optionText: string): Promise<void> {
+  const trigger = document.querySelector<HTMLButtonElement>(
+    `[role="combobox"][aria-label="${label}"]`,
+  )!
+  await act(async () => trigger.click())
+  const listbox = document.getElementById(trigger.getAttribute('aria-controls')!)!
+  const option = [...listbox.querySelectorAll<HTMLElement>('[role="option"]')].find((candidate) =>
+    candidate.textContent?.includes(optionText),
+  )!
+  await act(async () => option.click())
+}
+
 let root: Root
 let host: HTMLDivElement
 
@@ -177,6 +190,7 @@ function library(
     onJumpActionReference?: (reference: SpriteActionReference) => void
     onJumpAutomaticScriptInstance?: (site: SpriteAutomaticScriptInstanceSite) => void
     onViewChange?: (view: 'definition' | 'asset', objectId?: string) => void
+    onBattleDomain?: () => void
   } = {},
 ) {
   return (
@@ -190,7 +204,7 @@ function library(
       view={options.view ?? 'definition'}
       focusObjectId={options.focusObjectId}
       onViewChange={options.onViewChange ?? vi.fn()}
-      onBattleDomain={vi.fn()}
+      onBattleDomain={options.onBattleDomain ?? vi.fn()}
       onActionFocus={options.onActionFocus}
       onJumpReference={options.onJumpReference}
       onJumpActionReference={options.onJumpActionReference}
@@ -200,6 +214,42 @@ function library(
 }
 
 describe('WorldSpriteLibrary', () => {
+  test('领域深链、搜索和全部用途筛选覆盖组合、空结果与清空恢复，且不偷换选择', async () => {
+    const onBattleDomain = vi.fn()
+    const session = new EditSession(editorState(definitions))
+    await act(async () => root.render(library(definitions, session, { onBattleDomain })))
+    const rows = () => host.querySelectorAll('.world-sprite-outliner .battle-sprite-resource-row')
+    const search = host.querySelector<HTMLInputElement>('input[aria-label="过滤大世界精灵库"]')!
+    expect(rows()).toHaveLength(2)
+
+    await act(async () => button('战斗').click())
+    expect(onBattleDomain).toHaveBeenCalledTimes(1)
+    await chooseSelectOption('按用途与实例行为筛选源帧资源', '含四向')
+    expect(rows()).toHaveLength(1)
+    await chooseSelectOption('按用途与实例行为筛选源帧资源', '含默认定格')
+    expect(rows()).toHaveLength(1)
+    await chooseSelectOption('按用途与实例行为筛选源帧资源', '含预制动作')
+    expect(rows()).toHaveLength(0)
+    await chooseSelectOption('按用途与实例行为筛选源帧资源', '含循环动作')
+    expect(rows()).toHaveLength(0)
+    await chooseSelectOption('按用途与实例行为筛选源帧资源', '含自动脚本')
+    expect(rows()).toHaveLength(0)
+    await chooseSelectOption('按用途与实例行为筛选源帧资源', '无用途')
+    expect(rows()).toHaveLength(1)
+    expect(rows()[0]?.getAttribute('aria-pressed')).toBe('false')
+
+    await setCatalogSearch(search, '共享')
+    expect(rows()).toHaveLength(0)
+    await chooseSelectOption('按用途与实例行为筛选源帧资源', '含四向')
+    expect(rows()).toHaveLength(1)
+    await setCatalogSearch(search, '不存在')
+    expect(rows()).toHaveLength(0)
+    await setCatalogSearch(search, '')
+    await chooseSelectOption('按用途与实例行为筛选源帧资源', '全部')
+    expect(rows()).toHaveLength(2)
+    expect(host.querySelector('[aria-pressed="true"]')?.textContent).toContain('共享精灵帧')
+  })
+
   test('按源文件只列一项，导入入口在筛选器上方且列表不暴露技术元数据', async () => {
     const session = new EditSession(editorState(definitions))
     await act(async () => root.render(library(definitions, session)))
@@ -214,14 +264,16 @@ describe('WorldSpriteLibrary', () => {
     expect(host.querySelector('.sprite-list')?.textContent).toContain('四向')
     expect(host.querySelector('.sprite-list')?.textContent).toContain('默认定格')
     expect(host.querySelector('.sprite-list')?.textContent).toContain('待定义')
-    expect(host.querySelector('.kind-filter')?.textContent).toContain('按用途与实例行为筛选')
+    expect(
+      host.querySelector('[role="combobox"][aria-label="按用途与实例行为筛选源帧资源"]'),
+    ).not.toBeNull()
     expect(
       [...host.querySelectorAll('.sprite-resource-tags em')].filter(
         (tag) => tag.textContent === '四向',
       ),
     ).toHaveLength(1)
     const upload = host.querySelector('.ds-list-header__action[aria-label="导入源帧资源"]')!
-    const filter = host.querySelector('.battle-sprite-filter')!
+    const filter = host.querySelector('input[aria-label="过滤大世界精灵库"]')!
     expect(upload.compareDocumentPosition(filter) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
   })
 
@@ -605,7 +657,7 @@ describe('WorldSpriteLibrary', () => {
 
     expect(host.querySelector('.sprite-list')?.textContent).toContain('自动脚本')
     expect(host.querySelector('[data-world-resource]')?.textContent).not.toContain('自动脚本切帧')
-    await act(async () => button('含自动脚本').click())
+    await chooseSelectOption('按用途与实例行为筛选源帧资源', '含自动脚本')
     expect(
       host.querySelectorAll('.world-sprite-outliner .battle-sprite-resource-row'),
     ).toHaveLength(1)
@@ -649,13 +701,13 @@ describe('WorldSpriteLibrary', () => {
     const session = new EditSession(editorState(entries))
     await act(async () => root.render(library(entries, session)))
 
-    await act(async () => button('含循环动作').click())
+    await chooseSelectOption('按用途与实例行为筛选源帧资源', '含循环动作')
     expect(
       host.querySelectorAll('.world-sprite-outliner .battle-sprite-resource-row'),
     ).toHaveLength(1)
     expect(host.querySelector('.sprite-list')?.textContent).toContain('未配置精灵帧')
 
-    await act(async () => button('含自动脚本').click())
+    await chooseSelectOption('按用途与实例行为筛选源帧资源', '含自动脚本')
     expect(
       host.querySelectorAll('.world-sprite-outliner .battle-sprite-resource-row'),
     ).toHaveLength(0)
@@ -691,7 +743,7 @@ describe('WorldSpriteLibrary', () => {
     )
     await act(async () => root.render(library(definitions, session)))
 
-    await act(async () => button('含自动脚本').click())
+    await chooseSelectOption('按用途与实例行为筛选源帧资源', '含自动脚本')
     expect(
       host.querySelectorAll('.world-sprite-outliner .battle-sprite-resource-row'),
     ).toHaveLength(1)

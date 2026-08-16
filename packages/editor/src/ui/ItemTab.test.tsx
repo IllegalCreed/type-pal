@@ -270,7 +270,7 @@ describe('ItemTab', () => {
     expect(host.textContent).toContain('商店 7')
   })
 
-  test('目录搜索和能力筛选各自收敛结果，清空后恢复全部物品', async () => {
+  test('目录搜索和全部能力筛选覆盖组合、空结果与清空恢复，且不偷换选择', async () => {
     const equipItem: ItemData = {
       ...item('equip-item'),
       name: '青锋剑',
@@ -291,14 +291,32 @@ describe('ItemTab', () => {
     const session = new EditSession(initial)
     await act(async () => root.render(<Harness session={session} />))
 
-    await act(async () => button('可使用', host.querySelector('.item-filter-chips')!).click())
+    expect(host.querySelectorAll('.ds-catalog-row')).toHaveLength(3)
+
+    await chooseComboboxOption(combobox('按物品能力筛选', host), '可使用')
     expect([...host.querySelectorAll('.ds-catalog-row')].map((row) => row.textContent)).toEqual([
       expect.stringContaining('还魂香'),
     ])
+    expect(host.querySelector('.ds-catalog-row[data-selected="true"]')).toBeNull()
+    expect(host.querySelector('h1')?.textContent).toBe('青锋剑')
+
+    await chooseComboboxOption(combobox('按物品能力筛选', host), '可投掷')
+    expect(host.querySelector('.ds-catalog-row')?.textContent).toContain('赤蝎粉')
+    await chooseComboboxOption(combobox('按物品能力筛选', host), '装备')
+    expect(host.querySelector('.ds-catalog-row')?.textContent).toContain('青锋剑')
+    await chooseComboboxOption(combobox('按物品能力筛选', host), '有引用')
+    expect(host.querySelectorAll('.ds-catalog-row')).toHaveLength(0)
+    await chooseComboboxOption(combobox('按物品能力筛选', host), '待迁移')
+    expect(host.querySelectorAll('.ds-catalog-row')).toHaveLength(0)
+    await chooseComboboxOption(combobox('按物品能力筛选', host), '可使用')
 
     const search = host.querySelector<HTMLInputElement>(
       'input[aria-label="搜索物品名称或稳定 ID"]',
     )!
+    await setInput(search, '赤蝎')
+    expect(host.querySelectorAll('.ds-catalog-row')).toHaveLength(0)
+    await setInput(search, '还魂')
+    expect(host.querySelectorAll('.ds-catalog-row')).toHaveLength(1)
     await act(async () => {
       const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
       setter.call(search, '不存在')
@@ -307,6 +325,9 @@ describe('ItemTab', () => {
     expect(host.textContent).toContain('没有匹配项')
     await act(async () => button('清除筛选', host).click())
     expect(host.querySelectorAll('.ds-catalog-row')).toHaveLength(3)
+    expect(host.querySelector('.ds-catalog-row[data-selected="true"]')?.textContent).toContain(
+      '青锋剑',
+    )
   })
 
   test('图标浏览器使用可聚焦原生按钮组并正确绑定选择', async () => {

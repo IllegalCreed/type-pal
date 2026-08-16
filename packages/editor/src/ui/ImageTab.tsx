@@ -31,9 +31,9 @@ import {
 import { STATIC_IMAGE_KINDS, type StaticImageKind } from '../core/static-image.js'
 import {
   DsButton,
+  DsCatalogControls,
   DsCatalogRow,
   DsInspectorTabs,
-  DsListHeader,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
@@ -530,7 +530,7 @@ export function ImageTab(props: {
     <>
       <div className="outliner data-outliner image-library-outliner">
         {tabBar}
-        <DsListHeader
+        <DsCatalogControls
           title="图像"
           count={shown.length}
           unit="项"
@@ -542,28 +542,26 @@ export function ImageTab(props: {
               onClick: () => inputRef.current?.click(),
             },
           ]}
+          scope={
+            <DsTabs
+              size="compact"
+              label="图像类型"
+              items={STATIC_IMAGE_KINDS.map((value) => ({ id: value, label: KIND_LABEL[value] }))}
+              activeId={kind}
+              onChange={(value) => {
+                setKind(value as StaticImageKind)
+                setSelectedId(null)
+              }}
+            />
+          }
+          search={{
+            'aria-label': '搜索图像',
+            placeholder: '搜索名称或 AssetId',
+            value: filter,
+            onChange: (event) => setFilter(event.target.value),
+          }}
         />
-        <div className="image-kind-tabs">
-          <DsTabs
-            label="图像类型"
-            items={STATIC_IMAGE_KINDS.map((value) => ({ id: value, label: KIND_LABEL[value] }))}
-            activeId={kind}
-            onChange={(value) => {
-              setKind(value as StaticImageKind)
-              setSelectedId(null)
-            }}
-          />
-        </div>
-        <div className="music-library-tools">
-          <DsTextInput
-            size="compact"
-            aria-label="搜索图像"
-            placeholder="搜索名称或 AssetId"
-            value={filter}
-            onChange={(event) => setFilter(event.target.value)}
-          />
-          {error ? <div className="cf-err">{error}</div> : null}
-        </div>
+        {error ? <div className="cf-err">{error}</div> : null}
         <input
           ref={inputRef}
           type="file"

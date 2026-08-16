@@ -7,6 +7,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import type { StampSelectionSource } from '../core/stamp-template.js'
+import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 import { StampLibraryTab } from './StampLibraryTab.js'
 
@@ -117,10 +118,21 @@ async function input(element: HTMLInputElement, value: string): Promise<void> {
   })
 }
 
+async function chooseSelectOption(label: string, optionText: string): Promise<void> {
+  const trigger = host.querySelector<HTMLButtonElement>(`[role="combobox"][aria-label="${label}"]`)!
+  await act(async () => trigger.click())
+  const listbox = document.getElementById(trigger.getAttribute('aria-controls')!)!
+  const option = [...listbox.querySelectorAll<HTMLElement>('[role="option"]')].find((candidate) =>
+    candidate.textContent?.includes(optionText),
+  )!
+  await act(async () => option.click())
+}
+
 let root: Root
 let host: HTMLDivElement
 
 beforeEach(() => {
+  ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
   document.body.innerHTML = ''
   host = document.createElement('div')
   document.body.append(host)
@@ -133,6 +145,46 @@ afterEach(async () => {
 })
 
 describe('StampLibraryTab', () => {
+  test('搜索、分类和来源覆盖各值、组合、空结果和清空恢复，且不偷换选择', async () => {
+    const authoredTree = template('tree', 'tiles-a')
+    const authoredShrub = { ...template('shrub', 'tiles-b'), name: '灌木' }
+    const migratedRock = {
+      ...template('rock', 'tiles-b'),
+      name: '岩石',
+      category: '地貌',
+      origin: 'migrated' as const,
+    }
+    const session = new EditSession(state([authoredTree, authoredShrub, migratedRock], {}))
+    await act(async () => {
+      root.render(<Harness session={session} />)
+      await Promise.resolve()
+    })
+    const rows = () => host.querySelectorAll('.stamp-library-row')
+    const search = host.querySelector<HTMLInputElement>('input[aria-label="搜索组合模板"]')!
+    expect(rows()).toHaveLength(3)
+
+    await chooseSelectOption('筛选组合分类', '地貌')
+    await chooseSelectOption('筛选组合来源', '预置')
+    expect(rows()).toHaveLength(1)
+    expect(rows()[0]?.textContent).toContain('岩石')
+    expect(host.querySelector('.stamp-library-row.selected')).toBeNull()
+
+    await setCatalogSearch(search, 'tree')
+    expect(rows()).toHaveLength(0)
+    await chooseSelectOption('筛选组合分类', '植被')
+    await chooseSelectOption('筛选组合来源', '作者')
+    expect(rows()).toHaveLength(1)
+    expect(rows()[0]?.textContent).toContain('tree')
+
+    await setCatalogSearch(search, '不存在')
+    expect(rows()).toHaveLength(0)
+    await setCatalogSearch(search, '')
+    await chooseSelectOption('筛选组合分类', '全部分类')
+    await chooseSelectOption('筛选组合来源', '全部来源')
+    expect(rows()).toHaveLength(3)
+    expect(host.querySelector('.stamp-library-row.selected')?.textContent).toContain('tree')
+  })
+
   test('检查器使用共享属性/引用/动作 Tab 完整键盘与 ARIA 合同', async () => {
     const session = new EditSession(state([template()], {}))
     await act(async () => {

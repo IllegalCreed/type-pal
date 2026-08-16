@@ -1,5 +1,16 @@
-import { describe, expect, test } from 'vitest'
-import { assertWave, authoredSoundId, authoredWaveRecord } from './SoundTab.js'
+// @vitest-environment jsdom
+
+import { act, createElement } from 'react'
+import { createRoot } from 'react-dom/client'
+import { describe, expect, test, vi } from 'vitest'
+import { EditSession } from '../core/edit-session.js'
+import {
+  catalogControlsAssetCatalog,
+  catalogControlsEditorState,
+  catalogControlsReader,
+  setCatalogSearch,
+} from './catalog-controls-test-utils.js'
+import { assertWave, authoredSoundId, authoredWaveRecord, SoundTab } from './SoundTab.js'
 
 function waveBytes(): ArrayBuffer {
   const bytes = new Uint8Array(44)
@@ -34,5 +45,60 @@ describe('A7-1 SoundTab WAV 导入', () => {
   test('扩展名和 RIFF/WAVE 双魔数都必须正确', () => {
     expect(() => assertWave({ name: 'hit.mp3' }, waveBytes())).toThrow('只允许导入 .wav')
     expect(() => assertWave({ name: 'hit.wav' }, new Uint8Array(44).buffer)).toThrow('不是有效 WAV')
+  })
+
+  test('共享目录搜索会同步筛选结果数，且保留导入入口', async () => {
+    ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+    const host = document.createElement('div')
+    document.body.append(host)
+    const root = createRoot(host)
+    const session = new EditSession(catalogControlsEditorState())
+
+    try {
+      await act(async () => {
+        root.render(
+          createElement(SoundTab, {
+            catalog: catalogControlsAssetCatalog,
+            reader: catalogControlsReader,
+            session,
+            focusObjectId: 'sound.hit',
+          }),
+        )
+      })
+
+      const search = host.querySelector<HTMLInputElement>('input[aria-label="搜索音效"]')
+      expect(search).not.toBeNull()
+      expect(host.querySelector('.ds-list-header__count')?.textContent).toContain('2')
+      expect(host.querySelectorAll('.asset-music-table tbody tr')).toHaveLength(2)
+
+      await setCatalogSearch(search!, 'heal')
+      expect(host.querySelector('.ds-list-header__count')?.textContent).toContain('1')
+      expect(host.querySelectorAll('.asset-music-table tbody tr')).toHaveLength(1)
+      expect(host.querySelector<HTMLInputElement>('.asset-music-table tbody tr input')?.value).toBe(
+        '治疗音效',
+      )
+      expect(host.querySelector('.asset-music-table tbody tr.selected')).toBeNull()
+      expect(host.querySelector('.inspector .who')?.textContent).toBe('命中音效')
+
+      const importButton = host.querySelector<HTMLButtonElement>('button[aria-label="导入 WAV"]')
+      const importInput = host.querySelector<HTMLInputElement>('input[type="file"]')
+      const onImportWav = vi.fn()
+      importInput?.addEventListener('click', onImportWav)
+      expect(importButton).not.toBeNull()
+      await act(async () => importButton!.click())
+      expect(onImportWav).toHaveBeenCalledTimes(1)
+
+      await setCatalogSearch(search!, '不存在')
+      expect(host.querySelector('.ds-list-header__count')?.textContent).toContain('0')
+      expect(host.querySelectorAll('.asset-music-table tbody tr')).toHaveLength(0)
+      await setCatalogSearch(search!, '')
+      expect(host.querySelectorAll('.asset-music-table tbody tr')).toHaveLength(2)
+      expect(
+        host.querySelector<HTMLInputElement>('.asset-music-table tbody tr.selected input')?.value,
+      ).toBe('命中音效')
+    } finally {
+      await act(async () => root.unmount())
+      host.remove()
+    }
   })
 })

@@ -7,7 +7,7 @@
  */
 import { useMemo, useState } from 'react'
 import { COMMAND_CATALOG } from '../core/command-catalog.js'
-import { DsListHeader } from './design-system/index.js'
+import { DsCatalogControls } from './design-system/index.js'
 
 export function EventLibTab(props: { tabBar?: React.ReactNode }) {
   const { tabBar } = props
@@ -32,12 +32,16 @@ export function EventLibTab(props: { tabBar?: React.ReactNode }) {
     <>
       <div className="outliner data-outliner">
         {tabBar}
-        <DsListHeader title="指令手册" count={COMMAND_CATALOG.length} unit="条" />
-        <input
-          className="in"
-          placeholder="搜指令 名/kind/原版op…"
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
+        <DsCatalogControls
+          title="指令手册"
+          count={COMMAND_CATALOG.length}
+          unit="条"
+          search={{
+            'aria-label': '搜索指令手册',
+            placeholder: '搜指令 名/kind/原版op…',
+            value: filter,
+            onChange: (event) => setFilter(event.target.value),
+          }}
         />
         <div className="insp-empty" style={{ marginTop: 8 }}>
           全部可用脚本指令的参考手册(参数/语义/原版 opcode 对照);在事件模式「插入」

@@ -6,6 +6,7 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 import { TilesetTab } from './TilesetTab.js'
 
@@ -23,7 +24,7 @@ vi.mock('@type-pal/reforge', async (importOriginal) => {
 
 const tilesets: TilesetDef[] = [
   { id: 'tiles-a', name: '待删瓦片', category: 'test', asset: 'tileset.a' },
-  { id: 'tiles-b', name: '保留瓦片', category: 'test', asset: 'tileset.b' },
+  { id: 'tiles-b', name: '保留瓦片', category: 'production', asset: 'tileset.b' },
 ]
 
 const assetCatalog = {
@@ -147,6 +148,16 @@ function button(host: HTMLElement, text: string): HTMLButtonElement {
   return result
 }
 
+async function chooseSelectOption(host: HTMLElement, label: string, optionText: string) {
+  const trigger = host.querySelector<HTMLButtonElement>(`[role="combobox"][aria-label="${label}"]`)!
+  await act(async () => trigger.click())
+  const listbox = document.getElementById(trigger.getAttribute('aria-controls')!)!
+  const option = [...listbox.querySelectorAll<HTMLElement>('[role="option"]')].find((candidate) =>
+    candidate.textContent?.includes(optionText),
+  )!
+  await act(async () => option.click())
+}
+
 async function runReferenceScan(host: HTMLElement): Promise<void> {
   await act(async () => {
     button(host, '检查引用后移除').click()
@@ -175,6 +186,31 @@ afterEach(async () => {
 })
 
 describe('TilesetTab 全工程引用删除', () => {
+  test('搜索与分类覆盖各值、组合、空结果和清空恢复，且不偷换选择', async () => {
+    const { host } = await mountTilesetTab({ mapB: buildBlankProjectMap(1, 1, 'tiles-b') })
+    const rows = () => host.querySelectorAll('.tileset-library-row')
+    const search = host.querySelector<HTMLInputElement>('input[aria-label="搜索瓦片集"]')!
+    expect(rows()).toHaveLength(2)
+
+    await chooseSelectOption(host, '筛选瓦片集分类', 'production')
+    expect(rows()).toHaveLength(1)
+    expect(rows()[0]?.textContent).toContain('保留瓦片')
+    expect(host.querySelector('.tileset-library-row.selected')).toBeNull()
+
+    await setCatalogSearch(search, '待删')
+    expect(rows()).toHaveLength(0)
+    await chooseSelectOption(host, '筛选瓦片集分类', 'test')
+    expect(rows()).toHaveLength(1)
+    expect(rows()[0]?.textContent).toContain('待删瓦片')
+
+    await setCatalogSearch(search, '不存在')
+    expect(rows()).toHaveLength(0)
+    await setCatalogSearch(search, '')
+    await chooseSelectOption(host, '筛选瓦片集分类', '全部分类')
+    expect(rows()).toHaveLength(2)
+    expect(host.querySelector('.tileset-library-row.selected')?.textContent).toContain('待删瓦片')
+  })
+
   test('选中态使用共享资源/引用 Tab，上传工作流不虚构 Tab', async () => {
     const mounted = await mountTilesetTab({ mapB: buildBlankProjectMap(1, 1, 'tiles-b') })
     await verifyInspectorTabs(mounted.host, '瓦片集检查器', ['资源', '引用'])

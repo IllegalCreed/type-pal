@@ -5,6 +5,7 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import type { BattleSpriteResourceSnapshot } from './BattleSpriteInlinePreview.js'
 import { BattleSpriteLibrary } from './BattleSpriteLibrary.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
@@ -190,6 +191,18 @@ async function changeInput(element: HTMLInputElement, value: string): Promise<vo
   })
 }
 
+async function chooseSelectOption(label: string, optionText: string): Promise<void> {
+  const trigger = document.querySelector<HTMLButtonElement>(
+    `[role="combobox"][aria-label="${label}"]`,
+  )!
+  await act(async () => trigger.click())
+  const listbox = document.getElementById(trigger.getAttribute('aria-controls')!)!
+  const option = [...listbox.querySelectorAll<HTMLElement>('[role="option"]')].find((candidate) =>
+    candidate.textContent?.includes(optionText),
+  )!
+  await act(async () => option.click())
+}
+
 let root: Root
 let host: HTMLDivElement
 
@@ -214,6 +227,7 @@ function library(
     focusObjectId?: string
     onViewChange?: (view: 'definition' | 'asset', objectId?: string) => void
     onObjectFocus?: (objectId: string | undefined) => void
+    onWorldDomain?: () => void
   } = {},
 ) {
   return (
@@ -228,12 +242,45 @@ function library(
       focusObjectId={options.focusObjectId}
       onViewChange={options.onViewChange ?? vi.fn()}
       onObjectFocus={options.onObjectFocus}
-      onWorldDomain={vi.fn()}
+      onWorldDomain={options.onWorldDomain ?? vi.fn()}
     />
   )
 }
 
 describe('BattleSpriteLibrary', () => {
+  test('领域深链、搜索和全部用途筛选覆盖组合、空结果与清空恢复，且不偷换选择', async () => {
+    const onWorldDomain = vi.fn()
+    await act(async () => root.render(library(definitions, { onWorldDomain })))
+    const rows = () => host.querySelectorAll('.battle-sprite-outliner .battle-sprite-resource-row')
+    const search = host.querySelector<HTMLInputElement>('input[aria-label="过滤战斗精灵库"]')!
+    expect(rows()).toHaveLength(2)
+
+    await act(async () => button('大世界').click())
+    expect(onWorldDomain).toHaveBeenCalledTimes(1)
+    await chooseSelectOption('用途筛选', '玩家战斗')
+    expect(rows()).toHaveLength(1)
+    await chooseSelectOption('用途筛选', '敌人')
+    expect(rows()).toHaveLength(0)
+    await chooseSelectOption('用途筛选', '召唤')
+    expect(rows()).toHaveLength(0)
+    await chooseSelectOption('用途筛选', '未配置')
+    expect(rows()).toHaveLength(1)
+    expect(rows()[0]?.getAttribute('aria-pressed')).toBe('false')
+
+    await setCatalogSearch(search, '共享')
+    expect(rows()).toHaveLength(0)
+    await chooseSelectOption('用途筛选', '玩家战斗')
+    expect(rows()).toHaveLength(1)
+    await setCatalogSearch(search, '不存在')
+    expect(rows()).toHaveLength(0)
+    await setCatalogSearch(search, '')
+    await chooseSelectOption('用途筛选', '全部')
+    expect(rows()).toHaveLength(2)
+    expect(host.querySelector('.battle-sprite-resource-row[aria-pressed="true"]')?.textContent).toContain(
+      '共享战斗帧',
+    )
+  })
+
   test('检查器使用共享动作/引用/源文件 Tab 完整键盘与 ARIA 合同', async () => {
     await act(async () => root.render(library(definitions)))
     await verifyInspectorTabs(host, '战斗精灵检查器', ['动作', /^引用 \d+$/, '源文件'])
@@ -258,7 +305,7 @@ describe('BattleSpriteLibrary', () => {
     const upload = host.querySelector<HTMLButtonElement>(
       '.ds-list-header__action[aria-label="导入战斗精灵"]',
     )!
-    const filter = host.querySelector('.battle-sprite-filter')!
+    const filter = host.querySelector('input[aria-label="过滤战斗精灵库"]')!
     expect(upload.compareDocumentPosition(filter) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
 
     const workspace = host.querySelector('.battle-sprite-center.ds-object-workspace')!
