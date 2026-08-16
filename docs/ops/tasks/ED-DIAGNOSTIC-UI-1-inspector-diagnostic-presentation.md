@@ -696,3 +696,27 @@ Kimi 已于 2026-08-16 完成 DK2 轻量确认并签字（DK2 lightweight confir
 你需要输出: 一手证据 + accept；或明确 counter/返工项。只允许更新任务卡审查记录，不得修改实现文件，
   不得标记 done；Kimi accept 后交 GLM 覆盖/测试终审。
 ```
+
+### 给 GLM（done 前覆盖 / 测试终审；Kimi accept 后使用，可直接复制）
+
+```text
+接手任务: ED-DIAGNOSTIC-UI-1 done 前覆盖/测试终审
+任务卡: docs/ops/tasks/ED-DIAGNOSTIC-UI-1-inspector-diagnostic-presentation.md
+当前状态: review；Codex build/自审完成，须先确认任务卡中 Kimi done 前 accept 已落
+分支: codex/ed-diagnostic-ui-1
+实现提交: eabb2c23（后续仅允许任务卡审查记录提交）
+你的职责: 直接读取实现与测试，独立复核 GLM DK2 和验收矩阵：
+  1) 六面 Project/Cutscene/Image/Sound/Item/Stamp 是否全部使用 DsDiagnosticPanel/List/Row，collector、
+     severity、stable key、EditorLocation、migration sidecar、Stamp overwrite 行为不变；
+  2) Project 0/1/30/80/81/152/303、compact/full、jump/static、mixed severity 与长 path 是否有直接测试；
+  3) Image/Sound static/clear/reference coexist/selection 是否冻结双 Tab，Cutscene static/clear，Item callback/
+     无 callback/source-address/sidecar，Stamp issue/conflict/count/diff/行外 overwrite 是否有直接测试；
+  4) boundary 是否只禁止 Image/Sound closureIssues 继续用 cf-err，而未全仓禁用 cf-err；是否禁止领域类型进入
+     recipes、Reference diagnostic variant、逐行 alert 与旧私有 diagnostic CSS；
+  5) 单 live owner、30/80 分页 handler、Design Lab RF-17、DS-C.8a 与 v2.5.0 是否一致。
+已有验证: editor check 124 files/927 tests；专项 7 files/137 tests；四档 viewport 无横滚；分页
+  30→110→152→30；console clean。pnpm check 的 content oracle fingerprint 与全仓 lint 失败均为 main
+  既有基线，本分支对 packages/content 和 packages/migrate 零 diff。
+你需要输出: 一手证据 + accept；或明确 counter/返工项。只允许更新任务卡审查记录，不得修改实现文件，
+  不得自行标记 done；Codex/Kimi/GLM 三方 accept 齐后交用户验收。
+```
