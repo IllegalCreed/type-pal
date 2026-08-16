@@ -1,6 +1,6 @@
 # ED-DS-2 - 编辑器设计系统代码基础与 Design Lab
 
-Status: build
+Status: done
 Phase: phase2
 Capability: Editor cross-cutting（本卡不改变 capability-map 状态）
 Coding Owner: Codex
@@ -1061,11 +1061,62 @@ GLM，未标 build/done。
 
 - Codex: **accept（v2.2 correction 自验通过，2026-08-15）**。四入口同源、非场景禁用、错误 diagnostics
   删除、水平 sash 收起按钮删除边界、WK2 focus 语义和全量 editor 回归均通过；不代签 Kimi / GLM。
-- Kimi: pending
-- GLM: pending
-- counter / 返工处理: pending
-- 缺签豁免: pending
-- done 准入结论: blocked
+- Kimi: **accept（2026-08-16 done 前架构/视觉复审，本人一手读码，非代理）**。
+  只审 v2.2 correction，逐项复核：
+  - **四入口同一 handler ✓**：View 菜单（App.tsx:1670）、Header 布局组（:1705）、⌘⌥B
+    （app-layout-commands.ts:110）、场景工具栏 📜（App.tsx:2128）全部收敛到同一
+    `toggleScriptPanel` useCallback（:1069-1072），唯一开关变换为
+    `setDrawer(toggleSceneScriptPanelState)`；抽查其余 setDrawer 调用点（:535-541 落点选择关闭、
+    :559-565 引用跳转带上下文打开）均为显式开合，无第二套 bottom authority。
+  - **WK2 ✓**：`toggleSceneScriptPanelState`（app-layout-commands.ts:26-36）保 `src`/
+    `focusRevision`、清 `internalScriptId`/`commandPath`，与旧 📜 按钮语义逐字一致；
+    `resetLayout` 经 `closeSceneScriptPanelState`（App.tsx:1078）同样保 src。
+  - **sash 边界 ✓**：canonical（CanonicalSceneScriptWorkspaceV5.tsx:251-262）与 legacy
+    （ScriptDrawer.tsx:1002-1014）水平 sash 仅剩 resize/Home，无 toggle props；legacy 侧栏内部
+    toggle（ScriptDrawer.tsx:1298-1314）完整；`.panel-resizer-toggle` CSS 16 处与共享 API 保留。
+  - **非场景禁用与壳 ✓**：`scriptPanelAvailable` 按 location 推导（App.tsx:1060），命令
+    disabled+reason（app-layout-commands.ts:71-73）、handler 双保险（:1070）；
+    `.editor` grid 回三行（editor.css:21 `auto minmax(0,1fr) auto`）；diagnostics DOM/CSS/state
+    rg 零命中（本人复跑）；状态栏恢复纯摘要 pill（App.tsx:2534-2537）。
+  - **VK1 附验 ✓**：toolbar `aria-pressed`（navigation.tsx:278）、菜单 `menuitemcheckbox` +
+    `aria-checked`（:337-338）。
+  - 视觉/实机：采用 Codex Chromium 1280×720 四入口证据 + 用户实机验收 + GLM 独立复跑
+    （118 files/872 tests），不重复跑已有证据的同一视觉流程（AGENTS.md 分层）。
+  - 范围纪律：ED-INSPECTOR-TABS-1/ED-CATALOG-CONTROLS-1 进行中改动未计入本卡结论。
+- GLM: **accept（2026-08-16 done 前覆盖/测试复审，本人一手读码 + 独立复跑，非代理）**。
+  v2.2 correction 全部必落钉独立验证通过：
+  - **G13/G12 零残留门本人 rg 复跑**：`EditorDiagnosticsDrawer|diagnosticsVisible|diagnosticsHeight|
+    toggleDiagnostics|toggle-diagnostics|valbar-diagnostics|layout-v2:diagnostics|DIAGNOSTICS_` 与
+    `bottomVisible|bottomHeight` 在 packages/editor/src 均零命中；两把既有 storage key 原名未动
+    （ScriptDrawer.tsx:600 / CanonicalSceneScriptWorkspaceV5.tsx:68）；`.editor` grid 回到三行
+    （editor.css `.editor` auto/minmax(0,1fr)/auto）。
+  - **G10 单 toggle 审计**：全部 `setDrawer(` 调用点逐一核对——唯一开关变换是 App.tsx:1071
+    `setDrawer(toggleSceneScriptPanelState)`；其余 10 处（:535,:559,:600,:635,:686,:752,:769,:819,:833
+    及 resetLayout :1078）均为切场景/引用定位的显式开合（带明确字段值），非第二套 toggle。四入口
+    （视图菜单 App.tsx:1670 / Header 布局组 :1705 / ⌘⌥B app-layout-commands.ts:110 / 场景工具栏 📜
+    App.tsx:2128）收敛到同一 `toggleScriptPanel` useCallback（:1069-1072）。
+  - **WK2 字段语义**：`toggleSceneScriptPanelState`（app-layout-commands.ts:26-36）保 `src`+
+    `focusRevision`、清 `internalScriptId`/`commandPath`，逐字落地；契约测试
+    `pure panel toggles preserve source context and clear stale internal focus`（test:67-85）覆盖
+    关→开往返。
+  - **G11 非场景禁用**：`enabled: scriptPanelAvailable` + `disabledReason:'当前页面没有底部脚本面板'` +
+    pressed 门控（app-layout-commands.ts:71-73）+ handler 守卫（App.tsx:1070）+ 专项测试（test:52-65）。
+  - **G14 sash 边界**：canonical（:251）与 legacy 高度 sash（:1002-1004）均无 toggle props 仅 resize；
+    ScriptDrawer 侧栏内部 resizer（:1298-1308 toggleDirection/onToggle）完整保留；PanelResizeHandle
+    共享 toggle API（:81-,:116-,:170-）与 `.panel-resizer-toggle` CSS（editor.css 16 处）未误删。
+  - **VK1 附验**：toolbar 命令 `aria-pressed`（navigation.tsx:278）、菜单 pressed 命令渲染为
+    menuitemcheckbox + aria-checked（:337-338）。
+  - **回归本人独立复跑**：focused 2 files/7 tests、typecheck、全量 118 files/872 tests 全绿；v2.2
+    核心文件（App.tsx/app-layout-commands/CanonicalSceneScriptWorkspaceV5/ScriptDrawer/PanelResizeHandle/
+    editor.css/EditorAppHeader）git status 干净、已提交。备注：复跑中途曾抓到 ProjectWorkbenchTab
+    `ProjectIssuesAside` 瞬时类型错误，属 ED-INSPECTOR-TABS-1/ED-CATALOG-CONTROLS-1 进行中工作树的
+    并行编辑（数分钟后自愈、与 v2.2 改动面无关），已如实记录。
+  - **遗留如实登记**：原验收清单中 900/720/zoom/Design Lab RF fixture 完整截图矩阵卡内未单独留证
+    （Codex 记录"后续收口"）。用户已于 2026-08-16 明确验收通过（见用户验收节），该矩阵按用户裁决
+    不再阻断 done；如需补证属收口动作。
+- counter / 返工处理: 无（Kimi 侧亦无返工项）
+- 缺签豁免: N/A
+- done 准入结论: **met（2026-08-16）——Codex + GLM + Kimi 三方 accept 齐，用户已验收；整卡 done。**
 
 ## 额度 / 代班记录
 
@@ -1121,13 +1172,17 @@ N/A：本卡使用 CSS、React 和 code-native SVG，不生成位图资产。
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: v2.2 Coding Owner 自验通过；等待 Kimi（架构/视觉）与 GLM（覆盖/测试）done 前复审。
-- 必须返工项: pending reviewer findings。
-- Accept / rework: **review pending**
+- 审查结论: v2.2 Coding Owner 自验通过；GLM done 前覆盖/测试复审 accept（2026-08-16）；
+  Kimi done 前架构/视觉复审 accept（2026-08-16，四入口单 handler/WK2/sash 边界/非场景禁用/
+  零残留/VK1 逐项一手复核，见推进签字 Kimi 条目）。
+- 必须返工项: 无。
+- Accept / rework: Codex accept + GLM accept + Kimi accept——三方齐，整卡收口。
 
 ## 用户验收
 
-- 用户结论: pending
+- 用户结论: **通过（2026-08-16）**。用户明确表示"我本人已经通过了"，覆盖 ED-DS-2 当前实现状态
+  （v2.2 单行 Header + 布局控制 + 底部面板接场景既有脚本面板的形态）。原验收清单中 900/720/zoom/
+  Design Lab 完整截图矩阵未单独留证，按用户本次验收裁决不再阻断 done。
 - 后续任务: ED-AUDIT-2 全编辑器三线审计；随后资源图像、战斗等模块按优先矩阵迁移。
 
 ## 交接日志
@@ -1201,36 +1256,32 @@ N/A：本卡使用 CSS、React 和 code-native SVG，不生成位图资产。
   保留。editor typecheck、109 files / 798 tests、三入口 build 与 diff-check 全绿；Chromium 实测四入口、
   战斗技能页 disabled reason、无空底行/diagnostics、console error 0。Codex 对 v2.2 slice 签 accept，
   Next: Kimi / GLM done 前独立复审；不得据此提前标整卡 done。
+- 2026-08-16 User: 明确表示"我本人已经通过了"——用户验收通过，覆盖当前 v2.2 形态；900/zoom/
+  Design Lab 截图矩阵按本次裁决不再阻断 done。已回填用户验收节。
+- 2026-08-16 GLM（覆盖/测试）: done 前复审完成并签 **accept**。G10-G14 + WK2 全部必落钉一手
+  独立验证：零残留门 rg 复跑双零命中；全仓 setDrawer 调用点审计确认唯一 toggle（App.tsx:1071），
+  四入口收敛同一 useCallback；WK2 字段语义与 G11/G14/VK1 逐项属实；focused 7 tests、typecheck、
+  全量 118/872 全部本人独立复跑通过；v2.2 核心文件已提交干净。备注：复跑期间工作树含
+  ED-INSPECTOR-TABS-1/ED-CATALOG-CONTROLS-1 进行中改动（曾抓到一次瞬时类型错误后自愈），
+  与 v2.2 改动面无关。未修改实现文件，未代签 Kimi。Next: Kimi done 前 accept；签齐即关卡。
+- 2026-08-16 Kimi（架构/视觉）: done 前复审完成并签 **accept**。一手读码逐项复核：四入口
+  （View/Header/⌘⌥B/场景 📜）收敛同一 `toggleScriptPanel`（App.tsx:1069-1072），抽查其余
+  setDrawer 调用点均为显式开合；WK2 字段语义逐字落地（app-layout-commands.ts:26-36）；canonical/
+  legacy 水平 sash 仅 resize/Home（:251-262 / :1002-1014），legacy 侧栏 toggle 完整
+  （:1298-1314）；非场景 disabled+reason 双保险；`.editor` 三行 grid、diagnostics 零命中、
+  状态栏纯摘要、VK1 pressed 合同（navigation.tsx:278,337-338）全部属实。视觉采信 Codex
+  Chromium 证据 + 用户实机验收 + GLM 独立复跑，不重复跑已有证据流程。并行卡改动未计入结论。
+  三方 accept + 用户验收齐，整卡 Status → done。无下一位 Agent 提示词——ED-DS-2 收口，
+  后续按用户验收节：ED-AUDIT-2 三线审计与模块迁移批次。
 
 
 
 ## 下一位 Agent 提示词
 
-### 给 Kimi（v2.2 实现架构/视觉验收，可直接复制）
+### 给 Kimi（v2.2 实现架构/视觉验收——已完成）
 
-```text
-接手任务: ED-DS-2 v2.2 Bottom panel correction done 前架构/视觉复审
-任务卡: docs/ops/tasks/ED-DS-2-editor-design-system-foundation.md
-当前状态: build；Codex 已完成 v2.2 correction 并自验 accept，Kimi/GLM accept 未齐，不得标 done
-你的角色: Kimi，架构/视觉主审；只读实现 diff，可更新任务卡 Kimi 审查签字，不得修改实现文件
-先读:
-- AGENTS.md
-- docs/phase2/editor/editor-design-system-v1.md：DS-L.6、RF-15、附录 F
-- 任务卡 v2.2 签字、Build、视觉验证与交接日志
-- packages/editor/src/ui/App.tsx
-- packages/editor/src/ui/app-layout-commands.ts + test
-- packages/editor/src/ui/CanonicalSceneScriptWorkspaceV5.tsx
-- packages/editor/src/ui/ScriptDrawer.tsx
-- packages/editor/src/ui/editor.css
-必须核对:
-1. Header / View / 场景工具栏 / ⌘⌥B 是否真正同一 handler、只改 App.drawer；无第二套 bottom authority。
-2. WK2：开关保 src/focusRevision，清 internalScriptId/commandPath；引用跳转后关开不恢复陈旧焦点。
-3. canonical/legacy 水平 sash 只删 toggle、保 resize/Home；legacy 内部侧栏 toggle 未误删。
-4. 非场景 disabled、scene 开合视觉；无 diagnostics DOM、状态栏摘要与三行 editor grid 正常。
-5. 只审 v2.2 correction；若通过签 accept，若不通过给 counter + 精确 file:line 返工项。
-验证证据: editor typecheck；109/798 tests；Vite build；Chromium 四入口与非场景烟测、console error 0。
-输出: 独立证据 + accept，或 counter；不得代签 GLM，不得标整卡 done。
-```
+Kimi 已于 2026-08-16 完成 done 前复审并签 accept；三方 accept + 用户验收齐，整卡已 done。
+无下一位 Agent 提示词——ED-DS-2 收口，等待用户安排 ED-AUDIT-2 / 模块迁移批次。
 
 ### 给 GLM（v2.2 实现覆盖/测试验收，可直接复制）
 

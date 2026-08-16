@@ -13,7 +13,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| ED-DS-2 | 编辑器设计系统代码基础与 Design Lab | build | v2.2 Codex 自验通过；Kimi/GLM done 前复审 | 四入口已接场景既有脚本面板；错误 diagnostics 已删除 |
+| ED-DS-2 | 编辑器设计系统代码基础与 Design Lab | done | 三方 accept + 用户验收齐，整卡收口 | 四入口同源、WK2 与 sash 边界复审通过；全量 118/872 独立复跑全绿 |
 | ED-AUDIT-2 | 编辑器全页面视觉、闭环与代码质量审计 | draft | 首轮巡检完成；连续迁移批次已冻结，补全矩阵并交 Kimi/GLM 抽审 | 8 模块/24 二级页主动审查，不再等待用户逐页指出 |
 | ED-BATTLE-UI-1 | 战斗数据工作台族与共享对象 Hero | review | Kimi/GLM done 前复审 + 用户实机验收 | 五页共享工作台、引用阻断与七环已实现；Codex 自验 accept |
 | ED-ENEMY-1 | 敌人、敌队预制与结算/偷取编辑闭环 | draft | Codex 已完成前提核对；交 Kimi/GLM build 前独立签字 | 敌人拥有奖励/偷取，敌队只编组，场景只引用预制敌队 |
