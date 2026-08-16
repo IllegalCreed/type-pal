@@ -19,7 +19,9 @@
 | ED-ENEMY-1 | 敌人、敌队预制与结算/偷取编辑闭环 | draft | Codex 已完成前提核对；交 Kimi/GLM build 前独立签字 | 敌人拥有奖励/偷取，敌队只编组，场景只引用预制敌队 |
 | ED-SCENE-UX-1 | 场景画布直接操作与取消选择 | draft | Codex 已核实现状；交 Kimi/GLM build 前独立签字 | 删除“选择/移动”伪模式；补空白/Esc 取消与临时放置态 |
 | ED-INSPECTOR-TABS-1 | 属性面板共享 Tab 全局统一 | done | 三方 accept 齐，整卡收口 | 24 页审计无漏项；GT1-GT5+IK1、共享计数徽标、浏览器矩阵与 885 项全测通过 |
-| ED-CATALOG-CONTROLS-1 | 编辑器全局目录筛选区统一 | draft | Codex 已完成 24 页 inventory；交 Kimi/GLM build 前独立签字 | 新建唯一 DsCatalogControls，迁 17 个 canonical 目录；签字前不得改实现 |
+| ED-REFERENCE-UI-1 | 属性面板引用呈现全局统一 | done | 三方 accept + 用户确认齐，整卡收口 | 16 面统一；RK1-RK2/GN1-GN4 逐钉通过；当前 editor 892/892 全绿 |
+| ED-DIAGNOSTIC-UI-1 | 属性面板问题与诊断呈现统一 | draft | 三签齐（DK1+DK2）；Codex 先落 DK2 扩面（Image/Sound 第 5/6 面）→ Kimi 确认后转 build | GLM 发现 Image/Sound closureIssues 漏网；呈现建议内联引用 panel；cf-err 不全仓禁 |
+| ED-CATALOG-CONTROLS-1 | 编辑器全局目录筛选区统一 | draft | 三方 build 签字齐；前置已完成，下一步 Codex 进入 build | 新建唯一 DsCatalogControls，迁 17 个 canonical 目录；不与引用卡并行改重叠文件 |
 | OPS-TST-PERF-B | shared/fresh 隔离并行 runner | draft | Codex 起草 runner；真实 Kimi/GLM 设计签字后实现 | manifest→canary→unit/preflight 串行；shared/fresh 并行；RSS、路径隔离及三次串行对照为硬门禁 |
 | OPS-TST-PERF-C | P2/P3/P4 consolidated determinism proof | draft | Codex 起草逐标题 coverage map；真实 Kimi/GLM 设计签字后实现 | 保留每阶段独立 live default/reversed 双建；不得用 pinned bundle 或删 source-backed 双建冒充证明 |
 
