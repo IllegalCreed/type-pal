@@ -18,6 +18,10 @@ import {
   DsNumberInput,
   type DsOption,
   DsRadioGroup,
+  DsReferenceGroup,
+  DsReferenceList,
+  DsReferencePanel,
+  DsReferenceRow,
   DsSelect,
   DsStatus,
   DsSwitch,
@@ -32,7 +36,7 @@ import {
 } from '../ui/design-system/index.js'
 
 const FIXTURES = Array.from(
-  { length: 15 },
+  { length: 16 },
   (_, index) => `RF-${String(index + 1).padStart(2, '0')}`,
 )
 const FORM_OPTIONS: DsOption[] = [
@@ -449,6 +453,107 @@ function OverlayFixture() {
   )
 }
 
+function ReferenceFixture() {
+  const longPath = `scenes[12].${'entities[7].pages[3].trigger.stages[0].body[4].'.repeat(2)}itemId`
+  return (
+    <div className="lab-reference-grid">
+      <DsCard title="Simple · blocking">
+        <DsReferencePanel
+          state="ready"
+          count={{ kind: 'exact', value: 2 }}
+          impact={{ kind: 'blocking', description: '解除敌队槽位引用后才能删除敌人。' }}
+        >
+          <DsReferenceList>
+            <DsReferenceRow
+              title="敌队 team-0"
+              detail="敌队槽位 1"
+              path="enemyTeams[0](team-0).slots[0]"
+              labels={[{ label: '敌队' }]}
+              action={{ label: '打开 ↗', onActivate: () => {} }}
+            />
+            <DsReferenceRow
+              title="敌队 team-0"
+              detail="敌队槽位 2"
+              path="enemyTeams[0](team-0).slots[1]"
+              labels={[{ label: '敌队' }]}
+              action={{ label: '打开 ↗', onActivate: () => {} }}
+            />
+          </DsReferenceList>
+        </DsReferencePanel>
+      </DsCard>
+      <DsCard title="Grouped · occurrences">
+        <DsReferencePanel
+          state="ready"
+          count={{ kind: 'exact', value: 6 }}
+          impact={{ kind: 'blocking', description: '按来源分组，组计数与总 occurrence 加和一致。' }}
+        >
+          <DsReferenceGroup title="场景" count={4}>
+            <DsReferenceList>
+              <DsReferenceRow
+                title="场景 s151"
+                detail="获得物品"
+                path="scenes[151].hooks.onEnter"
+                occurrenceCount={4}
+                labels={[{ label: '获得' }]}
+                action={{ label: '打开 ↗', onActivate: () => {} }}
+              />
+            </DsReferenceList>
+          </DsReferenceGroup>
+          <DsReferenceGroup title="商店" count={2}>
+            <DsReferenceList>
+              <DsReferenceRow
+                title="商店 #7"
+                detail="货架配置"
+                path="shops[7].stock"
+                occurrenceCount={2}
+                action={{ label: '打开 ↗', onActivate: () => {} }}
+              />
+            </DsReferenceList>
+          </DsReferenceGroup>
+        </DsReferencePanel>
+      </DsCard>
+      <DsCard title="Static · long content">
+        <DsReferencePanel
+          state="ready"
+          count={{ kind: 'exact', value: 1 }}
+          impact={{ kind: 'informational', description: '静态来源不会伪装成 disabled button。' }}
+        >
+          <DsReferenceList>
+            <DsReferenceRow
+              title="一段超过二十个汉字的只读兼容引用对象名称用于检验省略与完整值可达"
+              detail="本处调用 3 次；当前资源页没有可编辑的精确落点。"
+              path={longPath}
+              occurrenceCount={3}
+              labels={[{ label: '只读兼容来源' }]}
+              status={{ label: '只读', reason: '没有可编辑的精确位置。' }}
+            />
+          </DsReferenceList>
+        </DsReferencePanel>
+      </DsCard>
+      <DsCard title="Loading">
+        <DsReferencePanel
+          state="loading"
+          count={{ kind: 'at-least', value: 3 }}
+          impact={{ kind: 'blocking', description: '正在扫描 8/24 张地图；危险动作保持禁用。' }}
+        />
+      </DsCard>
+      <DsCard title="Partial / error">
+        <DsReferencePanel
+          state="partial"
+          count={{ kind: 'at-least', value: 5 }}
+          impact={{ kind: 'blocking', description: '2 张地图读取失败；当前结果只是下界。' }}
+          action={<DsButton size="compact">重试扫描</DsButton>}
+        />
+        <DsReferencePanel
+          state="error"
+          count={{ kind: 'unknown' }}
+          impact={{ kind: 'blocking', description: '无法读取引用索引，请修复错误后重试。' }}
+        />
+      </DsCard>
+    </div>
+  )
+}
+
 function FixtureBody(props: { fixture: string }) {
   switch (props.fixture) {
     case 'RF-01':
@@ -496,6 +601,8 @@ function FixtureBody(props: { fixture: string }) {
           <ShellFixture kind="object" />
         </>
       )
+    case 'RF-16':
+      return <ReferenceFixture />
     default:
       return null
   }
@@ -507,7 +614,7 @@ export function DesignLab() {
     return (
       <main className="lab-error">
         <DsStatus tone="error" action={<a href="?fixture=RF-01">返回 RF-01</a>}>
-          未知 fixture。请使用 RF-01～RF-15。
+          未知 fixture。请使用 RF-01～RF-16。
         </DsStatus>
       </main>
     )

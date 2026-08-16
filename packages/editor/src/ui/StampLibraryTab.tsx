@@ -10,7 +10,16 @@ import {
 } from '../core/stamp-commands.js'
 import type { StampSelectionSource } from '../core/stamp-template.js'
 import { collectStampTemplateUsage, nextStampTemplateId } from '../core/stamp-template.js'
-import { DsInspectorTabs, DsListHeader, DsSequenceIndex } from './design-system/index.js'
+import {
+  DsButton,
+  DsInspectorTabs,
+  DsListHeader,
+  DsReferenceGroup,
+  DsReferenceList,
+  DsReferencePanel,
+  DsReferenceRow,
+  DsSequenceIndex,
+} from './design-system/index.js'
 import { StampMiniPreview, StampPreviewCanvas } from './StampPreviewCanvas.js'
 import { StampTemplateDialog } from './StampTemplateDialog.js'
 
@@ -655,48 +664,84 @@ export function StampLibraryTab(props: {
               {
                 id: 'references',
                 label: '引用',
-                count: selectedUsage?.placementCount ?? 0,
+                count: scanComplete ? (selectedUsage?.placementCount ?? 0) : undefined,
                 panel: (
                   <>
                     {error ? <div className="stamp-error">{error}</div> : null}
                     <section className="section stamp-usage-section">
-                      <h4>
-                        来源引用 <span className="b2">已放置组</span>
-                      </h4>
-                      <div className="stamp-scan-status">
-                        <span className={scanComplete ? 'done' : scan.done ? 'failed' : ''} />
-                        {scanComplete
-                          ? `已扫描 ${scan.completed}/${scan.total} 张地图`
-                          : scan.done
-                            ? `扫描不完整：${scan.failures.length} 张读取失败`
-                            : `正在扫描 ${scan.completed}/${scan.total} 张地图…`}
-                      </div>
-                      {scan.failures.length ? (
-                        <p className="stamp-scan-error">
-                          引用数未知；当前仅发现 {selectedUsage?.placementCount ?? 0} 处。
-                          <button
-                            type="button"
-                            onClick={() => setScanRevision((value) => value + 1)}
+                      <DsReferencePanel
+                        state={
+                          scanComplete
+                            ? (selectedUsage?.placementCount ?? 0) > 0
+                              ? 'ready'
+                              : 'empty'
+                            : scan.done
+                              ? 'partial'
+                              : 'loading'
+                        }
+                        count={
+                          scanComplete
+                            ? { kind: 'exact', value: selectedUsage?.placementCount ?? 0 }
+                            : { kind: 'at-least', value: selectedUsage?.placementCount ?? 0 }
+                        }
+                        impact={{
+                          kind: 'informational',
+                          label: '来源快照',
+                          description: scanComplete
+                            ? `已扫描 ${scan.completed}/${scan.total} 张地图；删除或修改模板不会改动这些已放置内容。`
+                            : scan.done
+                              ? `扫描不完整：${scan.failures.length} 张地图读取失败；引用数未知，当前结果只是下界。`
+                              : `正在扫描 ${scan.completed}/${scan.total} 张地图；当前结果只是下界。`,
+                        }}
+                        action={
+                          scan.failures.length ? (
+                            <DsButton
+                              size="compact"
+                              variant="secondary"
+                              onClick={() => setScanRevision((value) => value + 1)}
+                            >
+                              重试扫描
+                            </DsButton>
+                          ) : undefined
+                        }
+                      >
+                        {(selectedUsage?.mapIds.length ?? 0) > 0 ? (
+                          <DsReferenceGroup
+                            title="已放置地图"
+                            count={selectedUsage?.placementCount ?? 0}
                           >
-                            重试扫描
-                          </button>
-                        </p>
-                      ) : null}
-                      <strong className="stamp-usage-count">
-                        {scanComplete
-                          ? (selectedUsage?.placementCount ?? 0)
-                          : `≥${selectedUsage?.placementCount ?? 0}`}
-                        <small> 处来源引用</small>
-                      </strong>
-                      <div className="stamp-usage-maps">
-                        {(selectedUsage?.mapIds ?? []).map((mapId) => (
-                          <button key={mapId} type="button" onClick={() => onOpenMap?.(mapId)}>
-                            {mapIndex.maps.find((asset) => asset.id === mapId)?.name ?? mapId}
-                            <span>打开地图 ↗</span>
-                          </button>
-                        ))}
-                      </div>
-                      <p className="stamp-usage-note">删除或修改模板不会改动这些已放置内容。</p>
+                            <DsReferenceList>
+                              {(selectedUsage?.mapIds ?? []).map((mapId) => (
+                                <DsReferenceRow
+                                  key={mapId}
+                                  title={
+                                    mapIndex.maps.find((asset) => asset.id === mapId)?.name ?? mapId
+                                  }
+                                  detail={mapId}
+                                  labels={[{ label: '来源快照' }]}
+                                  action={
+                                    onOpenMap
+                                      ? {
+                                          label: '打开地图 ↗',
+                                          onActivate: () => onOpenMap(mapId),
+                                        }
+                                      : undefined
+                                  }
+                                  status={
+                                    onOpenMap
+                                      ? undefined
+                                      : {
+                                          label: '暂不可定位',
+                                          reason: '当前宿主没有提供地图定位能力。',
+                                          tone: 'warning',
+                                        }
+                                  }
+                                />
+                              ))}
+                            </DsReferenceList>
+                          </DsReferenceGroup>
+                        ) : null}
+                      </DsReferencePanel>
                     </section>
                   </>
                 ),

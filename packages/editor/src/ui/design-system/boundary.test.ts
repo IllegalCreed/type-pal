@@ -236,6 +236,56 @@ describe('editor design-system static boundary', () => {
     )
   })
 
+  test('keeps all audited Inspector reference faces on the canonical panel, list, and row contract', () => {
+    const uiRoot = dirname(here)
+    const referenceFaces = [
+      'App.tsx',
+      'MapMode.tsx',
+      'TilesetTab.tsx',
+      'StampLibraryTab.tsx',
+      'ActorMode.tsx',
+      'ItemTab.tsx',
+      'SkillTab.tsx',
+      'EnemyTab.tsx',
+      'PoisonTab.tsx',
+      'BattleFieldTab.tsx',
+      'WorldSpriteLibrary.tsx',
+      'BattleSpriteLibrary.tsx',
+      'ImageTab.tsx',
+      'MusicTab.tsx',
+      'SoundTab.tsx',
+      'CutsceneTab.tsx',
+    ]
+
+    for (const file of referenceFaces) {
+      const source = readFileSync(join(uiRoot, file), 'utf8')
+      expect(source, `${file} reference panel`).toMatch(/<DsReferencePanel\b/)
+      expect(source, `${file} reference row`).toMatch(/<DsReferenceRow\b/)
+      for (const row of source.match(/<DsReferenceRow\b[\s\S]*?\/>/g) ?? [])
+        expect(row, `${file} disabled fake reference action`).not.toMatch(/\bdisabled\s*=/)
+    }
+
+    const productionSource = referenceFaces
+      .map((file) => readFileSync(join(uiRoot, file), 'utf8'))
+      .join('\n')
+    expect(productionSource).not.toMatch(
+      /\b(?:actor-reference-list|battle-data-reference-list|item-reference-card|tileset-removal-refs|stamp-usage-maps|sprite-reference-link|world-sprite-reference-link|music-reference-item|entry-reference-list|bf-reference-list|map-reference-list)\b/,
+    )
+
+    const businessCss = readFileSync(join(uiRoot, 'editor.css'), 'utf8')
+    expect(businessCss).not.toMatch(
+      /\.(?:actor-reference-list|item-reference-card|tileset-removal-refs|stamp-usage-maps|sprite-reference-link|world-sprite-reference-link|music-reference-item|entry-reference-list|bf-reference-list|map-reference-list)\b/,
+    )
+
+    const vars = readFileSync(join(uiRoot, 'VarsTab.tsx'), 'utf8')
+    expect(vars).toMatch(/\bref-row\b/)
+    expect(vars).not.toMatch(/<DsReferencePanel\b/)
+
+    const recipes = readFileSync(join(here, 'recipes.tsx'), 'utf8')
+    expect(recipes).not.toMatch(/from ['"]\.\.\/core\//)
+    expect(recipes).not.toMatch(/EditorState|EditorLocation|collector|Command/)
+  })
+
   test('keeps shared reference pickers on canonical form controls', () => {
     const uiRoot = dirname(here)
     const pickerContracts = [

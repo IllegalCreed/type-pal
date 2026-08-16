@@ -236,7 +236,7 @@ function library(
 describe('BattleSpriteLibrary', () => {
   test('检查器使用共享动作/引用/源文件 Tab 完整键盘与 ARIA 合同', async () => {
     await act(async () => root.render(library(definitions)))
-    await verifyInspectorTabs(host, '战斗精灵检查器', ['动作', '引用', '源文件'])
+    await verifyInspectorTabs(host, '战斗精灵检查器', ['动作', /^引用 \d+$/, '源文件'])
   })
 
   test('源文件和用途合并为一份资源列表，导入入口位于筛选器上方', async () => {

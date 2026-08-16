@@ -14,7 +14,9 @@ textarea {
 }
 .lab-app {
   display: grid;
+  width: 100%;
   height: 100%;
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto minmax(0, 1fr);
   overflow: hidden;
 }
@@ -125,6 +127,16 @@ textarea {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: var(--ds-space-6);
   padding: var(--ds-space-6);
+}
+.lab-reference-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+  align-items: start;
+  gap: var(--ds-space-6);
+  padding: var(--ds-space-6);
+}
+.lab-reference-grid > .ds-card {
+  min-width: 0;
 }
 .lab-form-grid,
 .lab-stack {

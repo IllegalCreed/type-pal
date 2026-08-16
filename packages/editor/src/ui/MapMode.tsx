@@ -118,6 +118,9 @@ import {
   DsIconButton,
   DsInspectorTabs,
   DsListHeader,
+  DsReferenceList,
+  DsReferencePanel,
+  DsReferenceRow,
   DsTag,
 } from './design-system/index.js'
 import { MapSelectionInspector } from './MapSelectionInspector.js'
@@ -3727,24 +3730,33 @@ export function MapMode(props: {
                             </>
                           ) : null}
                           <h4>使用场景</h4>
-                          {selectedReferences.length ? (
-                            <div className="map-reference-list">
-                              {selectedReferences.map((sceneId) => (
-                                <button
-                                  type="button"
-                                  key={sceneId}
-                                  className="linked-value-open map-reference"
-                                  onClick={() => onOpenScene(sceneId)}
-                                  title={`打开场景 ${sceneId}`}
-                                >
-                                  <span>{sceneId}</span>
-                                  <span>↗</span>
-                                </button>
-                              ))}
-                            </div>
-                          ) : (
-                            <p className="hint2">尚未绑定场景，保存重开后仍会保留。</p>
-                          )}
+                          <DsReferencePanel
+                            state={selectedReferences.length ? 'ready' : 'empty'}
+                            count={{ kind: 'exact', value: selectedReferences.length }}
+                            impact={{
+                              kind: 'blocking',
+                              description: selectedReferences.length
+                                ? '这些场景绑定了当前地图；先处理绑定关系再移除地图。'
+                                : '尚未绑定场景，地图保存并重开后仍会保留。',
+                            }}
+                          >
+                            {selectedReferences.length ? (
+                              <DsReferenceList>
+                                {selectedReferences.map((sceneId) => (
+                                  <DsReferenceRow
+                                    key={sceneId}
+                                    title={`场景 ${sceneId}`}
+                                    detail="使用当前地图"
+                                    action={{
+                                      label: '打开 ↗',
+                                      ariaLabel: `打开场景 ${sceneId}`,
+                                      onActivate: () => onOpenScene(sceneId),
+                                    }}
+                                  />
+                                ))}
+                              </DsReferenceList>
+                            ) : null}
+                          </DsReferencePanel>
                         </>
                       ) : (
                         <>

@@ -1,5 +1,11 @@
 /** A7 音乐资源工作台：catalog CRUD、引用保护、MIDI 替换与同 resolver 试听。 */
-import type { AssetCatalogV1, AssetId, AssetRecordV1 } from '@type-pal/content'
+import {
+  type AssetCatalogV1,
+  type AssetId,
+  type AssetRecordV1,
+  type AssetReferenceSite,
+  groupAssetReferencesBySite,
+} from '@type-pal/content'
 import type { AudioAssetReader } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import {
@@ -9,7 +15,13 @@ import {
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import { collectEditorAssetReferences } from '../core/editor-asset-references.js'
-import { DsInspectorTabs, DsListHeader } from './design-system/index.js'
+import {
+  DsInspectorTabs,
+  DsListHeader,
+  DsReferenceList,
+  DsReferencePanel,
+  DsReferenceRow,
+} from './design-system/index.js'
 import { musicAssets, PreviewButton } from './MusicPicker.js'
 
 const ROLE_LABELS: Readonly<Record<string, string>> = {
@@ -111,10 +123,10 @@ export function MusicTab(props: {
   const entries = useMemo(() => musicAssets(catalog), [catalog])
   const state = session.getState()
   const references = useMemo(() => {
-    const byAsset = new Map<AssetId, string[]>()
-    for (const reference of collectEditorAssetReferences(state)) {
+    const byAsset = new Map<AssetId, AssetReferenceSite[]>()
+    for (const reference of groupAssetReferencesBySite(collectEditorAssetReferences(state))) {
       const list = byAsset.get(reference.asset) ?? []
-      list.push(reference.where)
+      list.push(reference)
       byAsset.set(reference.asset, list)
     }
     return byAsset
@@ -136,6 +148,10 @@ export function MusicTab(props: {
   }, [entries, focusObjectId])
   const selected = entries.find((entry) => entry.id === selectedId) ?? shown[0] ?? entries[0]
   const selectedReferences = selected ? (references.get(selected.id) ?? []) : []
+  const selectedReferenceCount = selectedReferences.reduce(
+    (total, reference) => total + reference.occurrences,
+    0,
+  )
   const scriptChunkIds = Object.keys(state.scriptChunks)
 
   const describeReference = (where: string): { kind: string; owner: string } => {
@@ -355,25 +371,40 @@ export function MusicTab(props: {
                 {
                   id: 'references',
                   label: '引用',
-                  count: selectedReferences.length,
+                  count: selectedReferenceCount,
                   panel: (
-                    <div className="section music-reference-section">
-                      {selectedReferences.length ? (
-                        <div className="music-reference-list">
-                          {selectedReferences.map((where, index) => {
-                            const description = describeReference(where)
-                            return (
-                              <div className="music-reference-item" key={`${where}-${index}`}>
-                                <strong>{description.kind}</strong>
-                                <span>{description.owner}</span>
-                                <code title={where}>{where}</code>
-                              </div>
-                            )
-                          })}
-                        </div>
-                      ) : (
-                        <div className="music-reference-empty">当前工程没有引用这首音乐。</div>
-                      )}
+                    <div className="section asset-reference-section">
+                      <DsReferencePanel
+                        state={selectedReferenceCount ? 'ready' : 'empty'}
+                        count={{ kind: 'exact', value: selectedReferenceCount }}
+                        impact={{
+                          kind: 'blocking',
+                          description: selectedReferenceCount
+                            ? '替换音乐会保留这些引用；解除全部引用后才能删除。'
+                            : '当前工程没有引用这首音乐。',
+                        }}
+                      >
+                        {selectedReferences.length ? (
+                          <DsReferenceList>
+                            {selectedReferences.map((reference) => {
+                              const description = describeReference(reference.where)
+                              return (
+                                <DsReferenceRow
+                                  key={`${reference.site}:${reference.where}`}
+                                  title={description.owner}
+                                  path={reference.where}
+                                  labels={[{ label: description.kind }]}
+                                  occurrenceCount={reference.occurrences}
+                                  status={{
+                                    label: '只读',
+                                    reason: '音乐引用暂不支持从资源页精确定位。',
+                                  }}
+                                />
+                              )
+                            })}
+                          </DsReferenceList>
+                        ) : null}
+                      </DsReferencePanel>
                     </div>
                   ),
                 },

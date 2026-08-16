@@ -50,6 +50,9 @@ import {
   DsInspectorTabs,
   DsListHeader,
   DsObjectHero,
+  DsReferenceList,
+  DsReferencePanel,
+  DsReferenceRow,
   DsSequenceIndex,
   DsTag,
 } from './design-system/index.js'
@@ -520,7 +523,6 @@ export function BattleSpriteLibrary(props: {
   const [draftDefinitionId, setDraftDefinitionId] = useState<string>()
   const [creatingUsage, setCreatingUsage] = useState(false)
   const [showUsageMenu, setShowUsageMenu] = useState(false)
-  const [showAllReferences, setShowAllReferences] = useState(false)
   const [selectedAction, setSelectedAction] = useState<string>()
   const [selectedPlayerSlot, setSelectedPlayerSlot] = useState<keyof PlayerFighterFrames>()
   const [dragOverPlayerSlot, setDragOverPlayerSlot] = useState<keyof PlayerFighterFrames>()
@@ -577,7 +579,6 @@ export function BattleSpriteLibrary(props: {
     setDraftDefinitionId(definition?.id)
     setDraftLabel(definition?.label ?? '')
     setDraftProfile(definition ? structuredClone(definition.profile) : undefined)
-    setShowAllReferences(false)
   }, [creatingUsage, definition])
 
   useEffect(() => {
@@ -1639,40 +1640,52 @@ export function BattleSpriteLibrary(props: {
             {
               id: 'references',
               label: '引用',
+              count: references.length,
               panel: (
                 <div>
                   <div className="section sprite-definition-lifecycle">
-                    <h4>引用 · {references.length}</h4>
-                    {!definition ? <p className="hint2">尚无用途，因此没有内容引用。</p> : null}
-                    {definition && !references.length ? (
-                      <p className="hint2">当前用途尚未被使用。</p>
-                    ) : null}
-                    {references.slice(0, showAllReferences ? undefined : 12).map((reference) => (
-                      <button
-                        type="button"
-                        className="sprite-reference-link"
-                        key={`${reference.site}:${reference.where}`}
-                        disabled={!props.onJumpReference}
-                        onClick={() => props.onJumpReference?.(reference)}
-                      >
-                        <span>
-                          <b>{referenceLabel(reference)}</b>
-                          <code>{reference.where}</code>
-                        </span>
-                        <span>打开 ↗</span>
-                      </button>
-                    ))}
-                    {references.length > 12 ? (
-                      <button
-                        type="button"
-                        className="tool"
-                        onClick={() => setShowAllReferences((value) => !value)}
-                      >
-                        {showAllReferences
-                          ? '收起引用'
-                          : `展开其余 ${references.length - 12} 处引用`}
-                      </button>
-                    ) : null}
+                    <DsReferencePanel
+                      state={references.length ? 'ready' : 'empty'}
+                      count={{ kind: 'exact', value: references.length }}
+                      impact={{
+                        kind: 'blocking',
+                        description: !definition
+                          ? '尚无用途定义，因此没有内容引用。'
+                          : references.length
+                            ? '先处理所有用途引用，才能删除战斗精灵用途定义。'
+                            : '当前用途尚未被使用。',
+                      }}
+                    >
+                      {references.length ? (
+                        <DsReferenceList>
+                          {references.map((reference) => (
+                            <DsReferenceRow
+                              key={`${reference.site}:${reference.where}`}
+                              title={referenceLabel(reference)}
+                              path={reference.where}
+                              labels={[{ label: PROFILE_LABEL[reference.expectedProfile] }]}
+                              action={
+                                props.onJumpReference
+                                  ? {
+                                      label: '打开 ↗',
+                                      onActivate: () => props.onJumpReference?.(reference),
+                                    }
+                                  : undefined
+                              }
+                              status={
+                                props.onJumpReference
+                                  ? undefined
+                                  : {
+                                      label: '暂不可定位',
+                                      reason: '当前宿主没有提供战斗精灵引用定位能力。',
+                                      tone: 'warning',
+                                    }
+                              }
+                            />
+                          ))}
+                        </DsReferenceList>
+                      ) : null}
+                    </DsReferencePanel>
                     {definition ? (
                       <button
                         type="button"

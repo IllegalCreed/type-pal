@@ -40,10 +40,13 @@ import {
   resolveProjectEntryPoints,
 } from '../core/project-diagnostics.js'
 import {
+  DsButton,
   DsCatalogRow,
+  DsControlGroup,
   DsInspectorTabs,
   DsListHeader,
   DsObjectHero,
+  DsSelect,
   DsSequenceIndex,
   DsTag,
 } from './design-system/index.js'
@@ -311,18 +314,41 @@ function RoleBindings(props: {
           role === 'audio.bossVictoryMusic'
             ? '不可逃战胜利后播放；若随后升级，升级屏继续沿用此曲。可自由绑定音乐资源。'
             : undefined
+        const controlId = `project-role-${role.replaceAll('.', '-')}`
+        const labelId = `${controlId}-label`
+        const descriptionId = `${controlId}-description`
+        const selectionOptions = [
+          { value: '', label: '未绑定' },
+          ...(current && !currentRecord ? [{ value: current, label: `${current}（缺失）` }] : []),
+          ...(currentRecord && currentRecord.kind !== expected
+            ? [
+                {
+                  value: current,
+                  label: `${current}（类型 ${currentRecord.kind}，需要 ${expected}）`,
+                },
+              ]
+            : []),
+          ...candidates.map(([id, record]) => ({
+            value: id,
+            label: record.label ? `${record.label} · ${id}` : id,
+          })),
+        ]
         return (
           <div className="project-role-row" key={role}>
-            <span className="project-role-label">
-              <strong>{ROLE_LABELS[role]}</strong>
+            <div className="project-role-label">
+              <div className="project-role-label-head">
+                <strong id={labelId}>{ROLE_LABELS[role]}</strong>
+                <DsTag tone={required ? 'accent' : 'neutral'}>{required ? '必选' : '可选'}</DsTag>
+              </div>
               <small>
-                {role} · 期望 {expected} · {required ? '必选' : '可选'}
+                <code translate="no">{role}</code> · 期望 {expected}
               </small>
               {roleHint ? <small className="project-role-hint">{roleHint}</small> : null}
-            </span>
-            <span className="project-role-control">
+            </div>
+            <div className="project-role-binding">
               {expected === 'sound' ? (
                 <SoundPicker
+                  id={controlId}
                   value={current || undefined}
                   onChange={(asset) =>
                     session.dispatch(new UpdateManifestAssetRolesCommand({ [role]: asset }))
@@ -330,71 +356,73 @@ function RoleBindings(props: {
                   catalog={assetCatalog}
                   reader={assetReader}
                   allowUnset
+                  ariaLabel={`${ROLE_LABELS[role]}资源`}
                   onOpenAsset={(asset) =>
                     onOpenLocation?.({ module: 'asset', subpage: 'sound', objectId: asset })
                   }
                 />
               ) : (
-                <select
-                  className="in"
-                  value={current}
-                  onChange={(event) =>
-                    session.dispatch(
-                      new UpdateManifestAssetRolesCommand({
-                        [role]: event.target.value || undefined,
-                      }),
-                    )
+                <DsControlGroup
+                  className="project-role-binding-control"
+                  control={
+                    <DsSelect
+                      id={controlId}
+                      aria-labelledby={labelId}
+                      aria-describedby={bindingError || validRecord ? descriptionId : undefined}
+                      value={current}
+                      required={required}
+                      invalid={Boolean(bindingError)}
+                      searchable="auto"
+                      options={selectionOptions}
+                      onValueChange={(value) =>
+                        session.dispatch(
+                          new UpdateManifestAssetRolesCommand({
+                            [role]: value || undefined,
+                          }),
+                        )
+                      }
+                    />
                   }
-                >
-                  <option value="">未绑定</option>
-                  {current && !currentRecord ? (
-                    <option value={current}>{current}（缺失）</option>
-                  ) : null}
-                  {currentRecord && currentRecord.kind !== expected ? (
-                    <option value={current}>
-                      {current}（类型 {currentRecord.kind}）
-                    </option>
-                  ) : null}
-                  {candidates.map(([id, record]) => (
-                    <option value={id} key={id}>
-                      {record.label ? `${record.label} · ` : ''}
-                      {id}
-                    </option>
-                  ))}
-                </select>
+                  actions={
+                    onOpenLocation && targetSubpage ? (
+                      <DsButton
+                        variant="secondary"
+                        icon="open"
+                        title={validRecord ? `查看资源 ${current}` : `打开${libraryLabel}`}
+                        onClick={() =>
+                          onOpenLocation({
+                            module: 'asset',
+                            subpage: targetSubpage,
+                            ...(validRecord ? { objectId: current } : {}),
+                          })
+                        }
+                      >
+                        {validRecord
+                          ? '前往预览'
+                          : candidates.length
+                            ? `打开${libraryLabel}`
+                            : `前往${libraryLabel}导入`}
+                      </DsButton>
+                    ) : undefined
+                  }
+                />
               )}
               {bindingError ? (
-                <span className="project-role-error">{bindingError}</span>
+                <span id={descriptionId} className="project-role-error">
+                  {bindingError}
+                </span>
               ) : validRecord ? (
-                <span className="project-role-preview" title={validRecord.path}>
-                  {validRecord.kind} · {validRecord.path}
+                <span id={descriptionId} className="project-role-resource" title={validRecord.path}>
+                  <DsTag tone="neutral">{validRecord.kind}</DsTag>
+                  <code translate="no">{validRecord.path}</code>
                 </span>
               ) : null}
-              {expected !== 'sound' && onOpenLocation && targetSubpage ? (
-                <button
-                  type="button"
-                  className="btn"
-                  title={validRecord ? `查看资源 ${current}` : `打开${libraryLabel}`}
-                  onClick={() =>
-                    onOpenLocation({
-                      module: 'asset',
-                      subpage: targetSubpage,
-                      ...(validRecord ? { objectId: current } : {}),
-                    })
-                  }
-                >
-                  {validRecord
-                    ? '预览 ↗'
-                    : candidates.length
-                      ? `打开${libraryLabel} ↗`
-                      : `前往${libraryLabel}导入 ↗`}
-                </button>
-              ) : (
+              {expected !== 'sound' && !(onOpenLocation && targetSubpage) ? (
                 <span className="project-role-no-preview">
                   当前没有 {expected} 专用资源页；这里只能绑定 catalog 中已有项。
                 </span>
-              )}
-            </span>
+              ) : null}
+            </div>
           </div>
         )
       })}

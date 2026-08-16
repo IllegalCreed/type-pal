@@ -52,6 +52,7 @@ import {
   DsInspectorTabs,
   DsObjectHero,
   DsReferenceList,
+  DsReferencePanel,
   DsReferenceRow,
   DsWorkbenchSection,
 } from './design-system/recipes.js'
@@ -1167,28 +1168,47 @@ export function ActorMode(props: {
                 count: actorReferences.length,
                 panel: (
                   <section className="section actor-reference-section">
-                    {actorReferences.length ? (
-                      <>
-                        <p className="hint">
-                          当前有 {actorReferences.length} 处外部引用，解除前不能删除。
-                        </p>
-                        <DsReferenceList className="actor-reference-list">
-                          {actorReferences.slice(0, 12).map((reference) => (
+                    <DsReferencePanel
+                      state={actorReferences.length ? 'ready' : 'empty'}
+                      count={{ kind: 'exact', value: actorReferences.length }}
+                      impact={{
+                        kind: 'blocking',
+                        description: actorReferences.length
+                          ? '解除外部引用后才能删除人物。'
+                          : '删除人物不会回收共享精灵、立绘或 locale 文本。',
+                      }}
+                    >
+                      {actorReferences.length ? (
+                        <DsReferenceList>
+                          {actorReferences.map((reference) => (
                             <DsReferenceRow
                               key={`${reference.kind}:${reference.where}`}
                               title={reference.label}
+                              detail={reference.detail}
                               path={reference.where}
-                              disabled={!reference.locator || !onOpenActorReference}
-                              onClick={() => onOpenActorReference?.(reference)}
+                              action={
+                                reference.locator && onOpenActorReference
+                                  ? {
+                                      label: '打开 ↗',
+                                      onActivate: () => onOpenActorReference(reference),
+                                    }
+                                  : undefined
+                              }
+                              status={
+                                reference.locator && onOpenActorReference
+                                  ? undefined
+                                  : {
+                                      label: '暂不可定位',
+                                      reason:
+                                        reference.unavailableReason ?? '当前没有可编辑的精确位置。',
+                                      tone: 'warning',
+                                    }
+                              }
                             />
                           ))}
                         </DsReferenceList>
-                      </>
-                    ) : (
-                      <p className="hint">
-                        没有外部引用；删除不会回收共享精灵、立绘或 locale 文本。
-                      </p>
-                    )}
+                      ) : null}
+                    </DsReferencePanel>
                   </section>
                 ),
               },

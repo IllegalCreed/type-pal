@@ -72,6 +72,10 @@ import {
   DsInspectorTabs,
   DsListHeader,
   DsObjectHero,
+  DsReferenceGroup,
+  DsReferenceList,
+  DsReferencePanel,
+  DsReferenceRow,
   DsTag,
   DsWorkbenchSection,
 } from './design-system/index.js'
@@ -1956,46 +1960,76 @@ export function ItemTab(props: {
                 count: itemReferences.length,
                 panel: (
                   <div className="item-inspector-scroll">
-                    {groupReferences(itemReferences).map((group) => (
-                      <section className="item-reference-group" key={group.source}>
-                        <h4>
-                          {SOURCE_LABEL[group.source]}
-                          <span>{group.entries.length}</span>
-                        </h4>
-                        {group.entries.map((reference) => (
-                          <article
-                            className="item-reference-card"
-                            key={`${reference.where}:${reference.detail}`}
-                          >
-                            <div className="item-reference-title">
-                              <strong>{reference.label}</strong>
-                              <span className={`item-access ${reference.access}`}>
-                                {ACCESS_LABEL[reference.access]}
-                              </span>
-                            </div>
-                            <p>{reference.detail}</p>
-                            <code>{reference.where}</code>
-                            {reference.locator && onOpenItemReference ? (
-                              <DsButton
-                                size="compact"
-                                variant="secondary"
-                                icon="open"
-                                onClick={() => onOpenItemReference(reference)}
-                              >
-                                打开位置
-                              </DsButton>
-                            ) : reference.unavailableReason ? (
-                              <small>{reference.unavailableReason}</small>
-                            ) : null}
-                          </article>
-                        ))}
-                      </section>
-                    ))}
-                    {!itemReferences.length ? (
-                      <div className="insp-empty">
-                        全工程没有判断、获得、失去、消耗、持有或配置此物品。
-                      </div>
-                    ) : null}
+                    <DsReferencePanel
+                      state={itemReferences.length ? 'ready' : 'empty'}
+                      count={{ kind: 'exact', value: itemReferences.length }}
+                      impact={{
+                        kind: blockers.length ? 'blocking' : 'informational',
+                        label: blockers.length ? '阻断删除' : '仅信息',
+                        description: itemReferences.length
+                          ? '保留来源分组与判断、获得、失去、消耗、持有或配置语义。'
+                          : '全工程没有判断、获得、失去、消耗、持有或配置此物品。',
+                      }}
+                      summary={
+                        blockers.length
+                          ? `${blockers.length} 处会阻断删除 · 共 ${itemReferences.length} 处引用`
+                          : undefined
+                      }
+                    >
+                      {itemReferences.length
+                        ? groupReferences(itemReferences).map((group) => (
+                            <DsReferenceGroup
+                              key={group.source}
+                              title={SOURCE_LABEL[group.source]}
+                              count={group.entries.length}
+                            >
+                              <DsReferenceList>
+                                {group.entries.map((reference) => {
+                                  const blocksDelete = reference.ownerItemId !== item?.id
+                                  return (
+                                    <DsReferenceRow
+                                      key={`${reference.where}:${reference.detail}`}
+                                      title={reference.label}
+                                      detail={reference.detail}
+                                      path={reference.where}
+                                      labels={[
+                                        { label: ACCESS_LABEL[reference.access] },
+                                        {
+                                          label: blocksDelete ? '阻断删除' : '内部引用',
+                                          tone: blocksDelete ? 'warning' : 'neutral',
+                                        },
+                                      ]}
+                                      action={
+                                        reference.locator && onOpenItemReference
+                                          ? {
+                                              label: '打开 ↗',
+                                              onActivate: () => onOpenItemReference(reference),
+                                            }
+                                          : undefined
+                                      }
+                                      status={
+                                        reference.locator && onOpenItemReference
+                                          ? undefined
+                                          : {
+                                              label: reference.unavailableReason
+                                                ? '暂不可定位'
+                                                : '只读',
+                                              reason:
+                                                reference.unavailableReason ??
+                                                '当前来源没有可编辑的精确位置。',
+                                              tone: reference.unavailableReason
+                                                ? 'warning'
+                                                : 'neutral',
+                                            }
+                                      }
+                                    />
+                                  )
+                                })}
+                              </DsReferenceList>
+                            </DsReferenceGroup>
+                          ))
+                        : null}
+                    </DsReferencePanel>
                   </div>
                 ),
               },

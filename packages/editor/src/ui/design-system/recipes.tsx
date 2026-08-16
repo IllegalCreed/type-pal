@@ -1,10 +1,23 @@
 import {
   type ButtonHTMLAttributes,
+  Children,
   type ComponentPropsWithoutRef,
   forwardRef,
+  isValidElement,
   type ReactNode,
+  useState,
 } from 'react'
-import { type DsControlSize, type DsTabItem, DsTabs, DsTextInput, dsClasses } from './controls.js'
+import {
+  DsButton,
+  type DsControlSize,
+  DsStatus,
+  type DsTabItem,
+  DsTabs,
+  DsTag,
+  type DsTagTone,
+  DsTextInput,
+  dsClasses,
+} from './controls.js'
 
 export type DsWorkbenchKind = 'object' | 'media' | 'script' | 'table'
 
@@ -142,35 +155,241 @@ export const DsCatalogFilter = forwardRef<
   )
 })
 
-/**
- * Inspector 中可跳转的引用行。领域页面只提供标题、说明与定位路径，
- * hover / focus / disabled 等交互状态由设计系统统一负责。
- */
-export const DsReferenceRow = forwardRef<
-  HTMLButtonElement,
-  Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'title'> & {
-    title: ReactNode
-    detail?: ReactNode
-    path?: ReactNode
-  }
->(function DsReferenceRow(props, ref) {
-  const { title, detail, path, className, ...buttonProps } = props
-  return (
-    <button
-      type="button"
-      {...buttonProps}
-      ref={ref}
-      className={dsClasses('ds-reference-row', className)}
-    >
-      <strong className="ds-reference-row__title">{title}</strong>
-      {detail ? <span className="ds-reference-row__detail">{detail}</span> : null}
-      {path ? <code className="ds-reference-row__path">{path}</code> : null}
-    </button>
-  )
-})
+export type DsReferenceCount =
+  | { kind: 'exact'; value: number }
+  | { kind: 'at-least'; value: number }
+  | { kind: 'unknown' }
 
-export function DsReferenceList(props: { children: ReactNode; className?: string }) {
-  return <div className={dsClasses('ds-reference-list', props.className)}>{props.children}</div>
+export type DsReferencePanelState = 'ready' | 'empty' | 'loading' | 'partial' | 'error'
+
+export interface DsReferenceImpact {
+  kind: 'blocking' | 'informational'
+  description: ReactNode
+  label?: string
+}
+
+function referenceCountLabel(count: DsReferenceCount | undefined): string {
+  if (!count || count.kind === 'unknown') return '数量未知'
+  return count.kind === 'at-least' ? `至少 ${count.value} 处` : `${count.value} 处`
+}
+
+function referencePanelSummary(
+  state: DsReferencePanelState,
+  count: DsReferenceCount | undefined,
+  impact: DsReferenceImpact,
+): string {
+  if (state === 'empty') return '未发现引用'
+  if (state === 'loading') return `正在检查引用 · ${referenceCountLabel(count)}`
+  if (state === 'partial') return `引用结果不完整 · ${referenceCountLabel(count)}`
+  if (state === 'error') return '无法完成引用检查'
+  const countLabel = referenceCountLabel(count)
+  return impact.kind === 'blocking'
+    ? `${countLabel}引用会阻断删除`
+    : `${countLabel}使用位置，仅供定位`
+}
+
+/** Inspector 引用面的唯一状态与影响摘要。业务删除、扫描和定位命令仍由领域页面持有。 */
+export function DsReferencePanel(props: {
+  state: DsReferencePanelState
+  count?: DsReferenceCount
+  impact: DsReferenceImpact
+  summary?: ReactNode
+  action?: ReactNode
+  children?: ReactNode
+  className?: string
+}) {
+  const tone =
+    props.state === 'error'
+      ? 'error'
+      : props.state === 'partial' ||
+          (props.state === 'ready' &&
+            props.impact.kind === 'blocking' &&
+            props.count?.kind !== 'exact')
+        ? 'warning'
+        : props.state === 'empty'
+          ? 'success'
+          : props.state === 'ready' && props.impact.kind === 'blocking'
+            ? 'warning'
+            : 'neutral'
+  const impactLabel =
+    props.impact.label ?? (props.impact.kind === 'blocking' ? '阻断删除' : '仅供定位')
+  return (
+    <section className={dsClasses('ds-reference-panel', props.className)} data-state={props.state}>
+      <DsStatus tone={tone} action={props.action}>
+        <span className="ds-reference-panel__status">
+          <span className="ds-reference-panel__meta">
+            <DsTag tone={props.impact.kind === 'blocking' ? 'warning' : 'neutral'}>
+              {impactLabel}
+            </DsTag>
+            <span className="ds-reference-panel__count">{referenceCountLabel(props.count)}</span>
+          </span>
+          <strong className="ds-reference-panel__summary">
+            {props.summary ?? referencePanelSummary(props.state, props.count, props.impact)}
+          </strong>
+          <span className="ds-reference-panel__description">{props.impact.description}</span>
+        </span>
+      </DsStatus>
+      {props.children ? <div className="ds-reference-panel__body">{props.children}</div> : null}
+    </section>
+  )
+}
+
+/** 仅在来源、影响或操作确实不同时分组；count 一律为该组 occurrence 总和。 */
+export function DsReferenceGroup(props: {
+  title: ReactNode
+  count: number
+  children: ReactNode
+  className?: string
+}) {
+  return (
+    <section className={dsClasses('ds-reference-group', props.className)}>
+      <header className="ds-reference-group__header">
+        <h4 className="ds-reference-group__title">{props.title}</h4>
+        <span className="ds-reference-group__count">{props.count}</span>
+      </header>
+      {props.children}
+    </section>
+  )
+}
+
+export type DsReferenceRowAction =
+  | {
+      href: string
+      label?: ReactNode
+      ariaLabel?: string
+      target?: string
+      rel?: string
+      onActivate?: never
+    }
+  | {
+      onActivate: () => void
+      label?: ReactNode
+      ariaLabel?: string
+      href?: never
+      target?: never
+      rel?: never
+    }
+
+export interface DsReferenceRowStatus {
+  label: ReactNode
+  reason?: ReactNode
+  tone?: 'neutral' | 'warning'
+}
+
+export interface DsReferenceRowLabel {
+  label: ReactNode
+  tone?: DsTagTone
+}
+
+/**
+ * Inspector 引用面的唯一行。可定位行使用真实 link/button；只读与不可定位行使用静态 article，
+ * 禁止用 disabled button 伪装成状态。
+ */
+export function DsReferenceRow(props: {
+  title: ReactNode
+  detail?: ReactNode
+  path?: ReactNode
+  labels?: readonly DsReferenceRowLabel[]
+  occurrenceCount?: number
+  action?: DsReferenceRowAction
+  status?: DsReferenceRowStatus
+  className?: string
+}) {
+  const content = (
+    <>
+      <span className="ds-reference-row__content">
+        {props.labels?.length ? (
+          <span className="ds-reference-row__labels">
+            {props.labels.map((entry, index) => (
+              <DsTag key={index} tone={entry.tone ?? 'neutral'}>
+                {entry.label}
+              </DsTag>
+            ))}
+          </span>
+        ) : null}
+        <strong
+          className="ds-reference-row__title"
+          title={typeof props.title === 'string' ? props.title : undefined}
+        >
+          {props.title}
+        </strong>
+        {props.detail ? <span className="ds-reference-row__detail">{props.detail}</span> : null}
+        {props.path ? (
+          <code
+            className="ds-reference-row__path"
+            title={typeof props.path === 'string' ? props.path : undefined}
+          >
+            {props.path}
+          </code>
+        ) : null}
+        {props.status?.reason ? (
+          <span className="ds-reference-row__reason">{props.status.reason}</span>
+        ) : null}
+      </span>
+      <span className="ds-reference-row__trailing" data-tone={props.status?.tone ?? 'neutral'}>
+        {props.occurrenceCount && props.occurrenceCount > 1
+          ? `${props.occurrenceCount} 次 · `
+          : null}
+        {props.action?.label ?? props.status?.label ?? '只读'}
+      </span>
+    </>
+  )
+  const className = dsClasses('ds-reference-row', props.className)
+  if (props.action && 'href' in props.action)
+    return (
+      <a
+        className={className}
+        data-actionable="true"
+        href={props.action.href}
+        target={props.action.target}
+        rel={props.action.rel}
+        aria-label={props.action.ariaLabel}
+      >
+        {content}
+      </a>
+    )
+  if (props.action)
+    return (
+      <button
+        type="button"
+        className={className}
+        data-actionable="true"
+        aria-label={props.action.ariaLabel}
+        onClick={props.action.onActivate}
+      >
+        {content}
+      </button>
+    )
+  return <article className={className}>{content}</article>
+}
+
+export function DsReferenceList(props: {
+  children: ReactNode
+  className?: string
+  initialVisibleCount?: number
+}) {
+  const entries = Children.toArray(props.children)
+  const initialVisibleCount = props.initialVisibleCount ?? 12
+  const identity = entries.map((entry) => (isValidElement(entry) ? entry.key : null)).join('\0')
+  const [expansion, setExpansion] = useState({ identity, expanded: false })
+  const expanded = expansion.identity === identity && expansion.expanded
+  const visible = expanded ? entries : entries.slice(0, initialVisibleCount)
+  const hiddenCount = Math.max(0, entries.length - initialVisibleCount)
+  return (
+    <div className={dsClasses('ds-reference-list', props.className)}>
+      {visible}
+      {hiddenCount ? (
+        <DsButton
+          className="ds-reference-list__toggle"
+          variant="quiet"
+          size="compact"
+          onClick={() => setExpansion({ identity, expanded: !expanded })}
+        >
+          {expanded ? '收起' : `显示其余 ${hiddenCount} 条`}
+        </DsButton>
+      ) : null}
+    </div>
+  )
 }
 
 /**

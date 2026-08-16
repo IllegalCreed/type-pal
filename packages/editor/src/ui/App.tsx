@@ -147,6 +147,9 @@ import {
   DsIconButton,
   DsInspectorTabs,
   DsListHeader,
+  DsReferenceList,
+  DsReferencePanel,
+  DsReferenceRow,
   DsSelect,
 } from './design-system/index.js'
 import { MapMode } from './MapMode.js'
@@ -3738,8 +3741,15 @@ function SceneInspector(props: {
   )
 }
 
-function sceneEntryReferenceLabel(reference: SceneEntryReferenceEntry): string {
-  return `${reference.caller.label}${reference.path || '/'}`
+function sceneEntryReferenceIdentity(reference: SceneEntryReferenceEntry): string {
+  const caller = reference.caller
+  const owner =
+    caller.type === 'scene'
+      ? `${caller.sceneId}:${caller.sourceKey}`
+      : caller.type === 'script'
+        ? caller.scriptId
+        : caller.sourceKey
+  return `${caller.type}:${owner}:${reference.path}`
 }
 
 function NamedEntryInspector(props: {
@@ -3840,34 +3850,54 @@ function NamedEntryInspector(props: {
         </div>
       </div>
       <div className="section">
-        <h4>脚本引用 ({references.length})</h4>
-        {references.length ? (
-          <div className="entry-reference-list">
-            {references.map((reference, index) => {
-              const canOpen = reference.caller.type !== 'global'
-              return (
-                <button
-                  type="button"
-                  className="ref-row"
-                  key={`${sceneEntryReferenceLabel(reference)}:${index}`}
-                  disabled={!canOpen}
-                  onClick={() => {
-                    if (reference.caller.type === 'scene')
-                      onJumpToEvent(reference.caller.sceneId, reference.caller.sourceKey)
-                    else if (reference.caller.type === 'script')
-                      onOpenScript(reference.caller.scriptId)
-                  }}
-                >
-                  <span className="rw read">引用</span>
-                  <span className="src">{sceneEntryReferenceLabel(reference)}</span>
-                  <span className="det">打开</span>
-                </button>
-              )
-            })}
-          </div>
-        ) : (
-          <div className="hint2">当前没有脚本引用此落点。</div>
-        )}
+        <h4>脚本引用</h4>
+        <DsReferencePanel
+          state={references.length ? 'ready' : 'empty'}
+          count={{ kind: 'exact', value: references.length }}
+          impact={{
+            kind: 'blocking',
+            description: references.length
+              ? '先处理全部脚本引用，才能删除此命名落点。'
+              : '当前没有脚本引用此落点。',
+          }}
+        >
+          {references.length ? (
+            <DsReferenceList>
+              {references.map((reference) => {
+                const canOpen = reference.caller.type !== 'global'
+                return (
+                  <DsReferenceRow
+                    key={sceneEntryReferenceIdentity(reference)}
+                    title={reference.caller.label}
+                    detail={reference.path || '/'}
+                    labels={[{ label: '脚本引用' }]}
+                    action={
+                      canOpen
+                        ? {
+                            label: '打开 ↗',
+                            onActivate: () => {
+                              if (reference.caller.type === 'scene')
+                                onJumpToEvent(reference.caller.sceneId, reference.caller.sourceKey)
+                              else if (reference.caller.type === 'script')
+                                onOpenScript(reference.caller.scriptId)
+                            },
+                          }
+                        : undefined
+                    }
+                    status={
+                      canOpen
+                        ? undefined
+                        : {
+                            label: '只读',
+                            reason: '全局调用当前没有可编辑的持久内容页。',
+                          }
+                    }
+                  />
+                )
+              })}
+            </DsReferenceList>
+          ) : null}
+        </DsReferencePanel>
       </div>
       <div className="section" style={{ borderBottom: 0 }}>
         <button

@@ -288,8 +288,94 @@
   align-items: center;
 }
 
+.ds-reference-panel,
+.ds-reference-panel__body,
+.ds-reference-group,
 .ds-reference-list {
   display: grid;
+  min-width: 0;
+}
+
+.ds-reference-panel {
+  gap: var(--ds-space-5);
+}
+
+.ds-reference-panel__body,
+.ds-reference-group {
+  gap: var(--ds-space-4);
+}
+
+.ds-reference-panel .ds-status {
+  padding: var(--ds-space-5);
+}
+
+.ds-reference-panel__status,
+.ds-reference-panel__meta {
+  display: flex;
+  min-width: 0;
+}
+
+.ds-reference-panel__status {
+  flex-direction: column;
+  gap: var(--ds-space-2);
+}
+
+.ds-reference-panel__meta {
+  align-items: center;
+  gap: var(--ds-space-2);
+}
+
+.ds-reference-panel__count {
+  color: var(--ds-text-secondary);
+  font: var(--ds-font-caption);
+  font-variant-numeric: tabular-nums;
+}
+
+.ds-reference-panel__summary {
+  color: var(--ds-text-primary);
+  font: var(--ds-font-body);
+  font-weight: 700;
+}
+
+.ds-reference-panel__description {
+  overflow-wrap: anywhere;
+  color: var(--ds-text-secondary);
+  font: var(--ds-font-caption);
+}
+
+.ds-reference-group__header {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: var(--ds-space-3);
+  padding-block-end: var(--ds-space-2);
+  border-bottom: 1px solid var(--ds-border-subtle);
+}
+
+.ds-reference-group__title {
+  min-width: 0;
+  margin: 0;
+  color: var(--ds-text-primary);
+  font: var(--ds-font-body);
+  font-weight: 650;
+}
+
+.ds-reference-group__count {
+  display: inline-grid;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  box-sizing: border-box;
+  place-items: center;
+  padding-inline: var(--ds-space-2);
+  border: 1px solid var(--ds-border-subtle);
+  border-radius: 999px;
+  color: var(--ds-text-secondary);
+  background: var(--ds-surface-raised);
+  font: var(--ds-font-caption);
+  font-variant-numeric: tabular-nums;
+}
+
+.ds-reference-list {
   gap: var(--ds-space-3);
 }
 
@@ -297,29 +383,48 @@
   display: grid;
   width: 100%;
   min-width: 0;
-  gap: var(--ds-space-2);
+  box-sizing: border-box;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: var(--ds-space-4);
   padding: var(--ds-space-5);
   border: 1px solid var(--ds-border-subtle);
   border-radius: var(--ds-radius-control);
   color: var(--ds-text-primary);
   background: var(--ds-surface-raised);
+  font: inherit;
   text-align: start;
+  text-decoration: none;
+}
+
+.ds-reference-row[data-actionable="true"] {
   cursor: pointer;
 }
 
-.ds-reference-row:hover:not(:disabled) {
+.ds-reference-row[data-actionable="true"]:hover {
   border-color: var(--ds-border-control);
   background: var(--ds-surface-hover);
 }
 
-.ds-reference-row:focus-visible {
+.ds-reference-row[data-actionable="true"]:focus-visible {
   outline: 2px solid var(--ds-focus-ring);
   outline-offset: 2px;
 }
 
-.ds-reference-row:disabled {
-  cursor: default;
-  opacity: 0.72;
+.ds-reference-row__content,
+.ds-reference-row__labels {
+  display: flex;
+  min-width: 0;
+}
+
+.ds-reference-row__content {
+  flex-direction: column;
+  gap: var(--ds-space-2);
+}
+
+.ds-reference-row__labels {
+  flex-wrap: wrap;
+  gap: var(--ds-space-2);
 }
 
 .ds-reference-row__title {
@@ -332,10 +437,48 @@
 }
 
 .ds-reference-row__detail,
-.ds-reference-row__path {
+.ds-reference-row__path,
+.ds-reference-row__reason,
+.ds-reference-row__trailing {
   overflow-wrap: anywhere;
   color: var(--ds-text-secondary);
   font: var(--ds-font-caption);
+}
+
+.ds-reference-row__path {
+  min-width: 0;
+  user-select: text;
+}
+
+.ds-reference-row__reason,
+.ds-reference-row__trailing[data-tone="warning"] {
+  color: var(--ds-status-warning);
+}
+
+.ds-reference-row__trailing {
+  max-width: 8.5rem;
+  color: var(--ds-action-primary);
+  font-weight: 650;
+  text-align: end;
+}
+
+.ds-reference-row:not([data-actionable="true"]) .ds-reference-row__trailing {
+  color: var(--ds-text-muted);
+}
+
+.ds-reference-list__toggle {
+  justify-self: start;
+}
+
+@media (max-width: 900px) {
+  .ds-reference-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ds-reference-row__trailing {
+    max-width: none;
+    text-align: start;
+  }
 }
 
 .ds-sequence-index {

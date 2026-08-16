@@ -249,11 +249,13 @@ describe('EnemyTab shared workbench', () => {
     expect(inspector.querySelector(':scope > .insp-head')).not.toBeNull()
     const inspectorTabs = inspector.querySelector<HTMLElement>('[aria-label="敌人属性分区"]')!
     const tabs = [...inspectorTabs.querySelectorAll<HTMLButtonElement>('[role="tab"]')]
-    expect(tabs.map((tab) => tab.textContent)).toEqual(['敌队', '引用', '说明'])
+    expect(tabs.map((tab) => tab.textContent)).toEqual(['敌队', '引用 2', '说明'])
     expect(inspector.querySelectorAll('[role="tabpanel"]:not([hidden])')).toHaveLength(1)
-    await act(async () => tabs.find((tab) => tab.textContent === '引用')!.click())
+    await act(async () =>
+      tabs.find((tab) => tab.querySelector('.ds-tab__label')?.textContent === '引用')!.click(),
+    )
     const reference = [
-      ...host.querySelectorAll<HTMLButtonElement>('.battle-data-reference-list button'),
+      ...host.querySelectorAll<HTMLButtonElement>('.ds-reference-list .ds-reference-row'),
     ].find((button) => button.textContent?.includes('enemy-b'))
     expect(reference).toBeDefined()
     await act(async () => reference!.click())

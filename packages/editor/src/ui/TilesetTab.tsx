@@ -33,7 +33,14 @@ import {
   TilesetRemovalProof,
   TilesetReplacementProof,
 } from '../core/tileset-references.js'
-import { DsInspectorTabs, DsListHeader } from './design-system/index.js'
+import {
+  DsInspectorTabs,
+  DsListHeader,
+  DsReferenceGroup,
+  DsReferenceList,
+  DsReferencePanel,
+  DsReferenceRow,
+} from './design-system/index.js'
 
 const FRAME_PAGE_SIZE = 128
 
@@ -462,6 +469,18 @@ export function TilesetTab(props: {
   const removalHasReferences = Boolean(
     removalScan && (removalScan.mapReferences.length > 0 || removalScan.stampReferences.length > 0),
   )
+  const removalReferenceCount = removalScan
+    ? removalScan.mapReferences.length + removalScan.stampReferences.length
+    : 0
+  const removalPanelState = !removalScan
+    ? 'partial'
+    : removalScanning
+      ? 'loading'
+      : removalScan.failures.length
+        ? 'partial'
+        : removalComplete && removalReferenceCount === 0
+          ? 'empty'
+          : 'ready'
 
   return (
     <>
@@ -699,40 +718,64 @@ export function TilesetTab(props: {
                   新图集只有 {quantized.length} 帧。以下对象仍引用更大的瓦片编号，请先修正后重试。
                 </p>
                 {replacementOutOfRangeMaps.length > 0 ? (
-                  <div className="tileset-removal-refs">
-                    <span>引用地图</span>
-                    {replacementOutOfRangeMaps.map((reference) => (
-                      <button
-                        type="button"
-                        key={reference.mapId}
-                        onClick={() => onOpenMap?.(reference.mapId)}
-                        disabled={!onOpenMap}
-                      >
-                        <strong>{reference.mapName}</strong>
-                        <span className="mono">
-                          {reference.mapId} · #{reference.maxTileId}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
+                  <DsReferenceGroup title="引用地图" count={replacementOutOfRangeMaps.length}>
+                    <DsReferenceList>
+                      {replacementOutOfRangeMaps.map((reference) => (
+                        <DsReferenceRow
+                          key={reference.mapId}
+                          title={reference.mapName}
+                          detail={`${reference.mapId} · #${reference.maxTileId}`}
+                          action={
+                            onOpenMap
+                              ? {
+                                  label: '打开 ↗',
+                                  onActivate: () => onOpenMap(reference.mapId),
+                                }
+                              : undefined
+                          }
+                          status={
+                            onOpenMap
+                              ? undefined
+                              : {
+                                  label: '暂不可定位',
+                                  reason: '当前宿主没有提供地图定位能力。',
+                                  tone: 'warning',
+                                }
+                          }
+                        />
+                      ))}
+                    </DsReferenceList>
+                  </DsReferenceGroup>
                 ) : null}
                 {replacementOutOfRangeStamps.length > 0 ? (
-                  <div className="tileset-removal-refs">
-                    <span>引用组合模板</span>
-                    {replacementOutOfRangeStamps.map((reference) => (
-                      <button
-                        type="button"
-                        key={reference.id}
-                        onClick={() => onOpenStamp?.(reference.id)}
-                        disabled={!onOpenStamp}
-                      >
-                        <strong>{reference.name}</strong>
-                        <span className="mono">
-                          {reference.id} · #{reference.maxTileId}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
+                  <DsReferenceGroup title="引用组合模板" count={replacementOutOfRangeStamps.length}>
+                    <DsReferenceList>
+                      {replacementOutOfRangeStamps.map((reference) => (
+                        <DsReferenceRow
+                          key={reference.id}
+                          title={reference.name}
+                          detail={`${reference.id} · #${reference.maxTileId}`}
+                          action={
+                            onOpenStamp
+                              ? {
+                                  label: '打开 ↗',
+                                  onActivate: () => onOpenStamp(reference.id),
+                                }
+                              : undefined
+                          }
+                          status={
+                            onOpenStamp
+                              ? undefined
+                              : {
+                                  label: '暂不可定位',
+                                  reason: '当前宿主没有提供组合模板定位能力。',
+                                  tone: 'warning',
+                                }
+                          }
+                        />
+                      ))}
+                    </DsReferenceList>
+                  </DsReferenceGroup>
                 ) : null}
               </section>
             ) : null}
@@ -911,67 +954,101 @@ export function TilesetTab(props: {
                 {
                   id: 'references',
                   label: '引用',
+                  count: removalComplete ? removalReferenceCount : undefined,
                   panel: (
                     <section className="section tileset-inspector-actions">
-                      {removalScan ? (
-                        <div className="tileset-removal-check" aria-live="off">
-                          <div className="tileset-removal-progress">
-                            <strong>工程引用检查</strong>
-                            <span className="mono">
-                              {removalScan.completed}/{removalScan.total}
-                            </span>
-                          </div>
-                          {removalScan.failures.length > 0 ? (
-                            <div className="tileset-removal-warning" role="alert">
-                              引用数未知：{removalScan.failures.length} 张地图读取失败，已禁止移除。
-                            </div>
-                          ) : null}
-                          {removalScan.mapReferences.length > 0 ? (
-                            <div className="tileset-removal-refs">
-                              <span>引用地图</span>
+                      <DsReferencePanel
+                        state={removalPanelState}
+                        count={
+                          removalComplete
+                            ? { kind: 'exact', value: removalReferenceCount }
+                            : removalScan
+                              ? { kind: 'at-least', value: removalReferenceCount }
+                              : { kind: 'unknown' }
+                        }
+                        impact={{
+                          kind: 'blocking',
+                          description: !removalScan
+                            ? '移除前必须检查全部已加载和未加载地图，以及组合模板的硬引用。'
+                            : removalScan.failures.length
+                              ? `${removalScan.failures.length} 张地图读取失败，已保守禁止移除。`
+                              : removalScanning
+                                ? `已检查 ${removalScan.completed}/${removalScan.total} 张地图。`
+                                : removalReferenceCount
+                                  ? '先处理地图和组合模板中的引用，再重新检查。'
+                                  : '全部地图与组合模板均未引用此瓦片集。',
+                        }}
+                      >
+                        {removalScan?.mapReferences.length ? (
+                          <DsReferenceGroup
+                            title="引用地图"
+                            count={removalScan.mapReferences.length}
+                          >
+                            <DsReferenceList>
                               {removalScan.mapReferences.map((reference) => (
-                                <button
-                                  type="button"
+                                <DsReferenceRow
                                   key={reference.mapId}
-                                  onClick={() => onOpenMap?.(reference.mapId)}
-                                  disabled={!onOpenMap}
-                                  title={`打开地图 ${reference.mapId}`}
-                                >
-                                  <strong>{reference.mapName}</strong>
-                                  <span className="mono">{reference.mapId}</span>
-                                </button>
+                                  title={reference.mapName}
+                                  detail={reference.mapId}
+                                  path={reference.path}
+                                  action={
+                                    onOpenMap
+                                      ? {
+                                          label: '打开 ↗',
+                                          ariaLabel: `打开地图 ${reference.mapId}`,
+                                          onActivate: () => onOpenMap(reference.mapId),
+                                        }
+                                      : undefined
+                                  }
+                                  status={
+                                    onOpenMap
+                                      ? undefined
+                                      : {
+                                          label: '暂不可定位',
+                                          reason: '当前宿主没有提供地图定位能力。',
+                                          tone: 'warning',
+                                        }
+                                  }
+                                />
                               ))}
-                            </div>
-                          ) : null}
-                          {removalScan.stampReferences.length > 0 ? (
-                            <div className="tileset-removal-refs">
-                              <span>引用组合模板</span>
+                            </DsReferenceList>
+                          </DsReferenceGroup>
+                        ) : null}
+                        {removalScan?.stampReferences.length ? (
+                          <DsReferenceGroup
+                            title="引用组合模板"
+                            count={removalScan.stampReferences.length}
+                          >
+                            <DsReferenceList>
                               {removalScan.stampReferences.map((reference) => (
-                                <button
-                                  type="button"
+                                <DsReferenceRow
                                   key={reference.id}
-                                  onClick={() => onOpenStamp?.(reference.id)}
-                                  disabled={!onOpenStamp}
-                                  title={`打开组合 ${reference.id}`}
-                                >
-                                  <strong>{reference.name}</strong>
-                                  <span className="mono">{reference.id}</span>
-                                </button>
+                                  title={reference.name}
+                                  path={reference.id}
+                                  action={
+                                    onOpenStamp
+                                      ? {
+                                          label: '打开 ↗',
+                                          ariaLabel: `打开组合 ${reference.id}`,
+                                          onActivate: () => onOpenStamp(reference.id),
+                                        }
+                                      : undefined
+                                  }
+                                  status={
+                                    onOpenStamp
+                                      ? undefined
+                                      : {
+                                          label: '暂不可定位',
+                                          reason: '当前宿主没有提供组合模板定位能力。',
+                                          tone: 'warning',
+                                        }
+                                  }
+                                />
                               ))}
-                            </div>
-                          ) : null}
-                          {removalComplete && !removalHasReferences ? (
-                            <p className="tileset-removal-safe">
-                              全部地图与组合模板均未引用此瓦片集。若没有其它定义共享其资源，将同时删除
-                              catalog 记录和工程文件；操作可撤销。
-                            </p>
-                          ) : null}
-                        </div>
-                      ) : (
-                        <p className="tileset-inspector-copy">
-                          移除前必须检查全部已加载和未加载地图，以及组合模板的硬引用。
-                        </p>
-                      )}
+                            </DsReferenceList>
+                          </DsReferenceGroup>
+                        ) : null}
+                      </DsReferencePanel>
                       <button
                         type="button"
                         className="tileset-danger-action"

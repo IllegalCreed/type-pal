@@ -1,12 +1,12 @@
 # Type-Pal 编辑器设计系统与交互规范 v1
 
-Status: draft v2.2.0 correction pending review（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
+Status: draft v2.3.0 reference contract implemented, pending review（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
 
-Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）
+Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）
 
 Applies to: `packages/editor` 的全部功能性界面
 
-Last updated: 2026-08-15
+Last updated: 2026-08-16
 
 > 本文是后续编辑器界面实施和验收的唯一规范入口。它定义产品语言、可复用合同和验收方法，不定义
 > content schema、业务命令、存档或运行时规则。角色模块与 B2 战场工作台是参考输入，不是自动正确的模板；
@@ -375,6 +375,26 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - 引用选择不能退化成任意字符串输入。未知值保留并显示 `缺失引用`，不得静默清空。
 - 具有权威编辑页的引用必须提供统一“打开”动作；成功跳转给出定位回执，失效 locator 明确报错。
 - 引用卡按来源类型、名称、位置、状态组织；危险删除前复用同一 typed reference 数据，不写第二套统计。
+
+#### DS-C.6a Inspector 反向引用合同（v2.3.0）
+
+- Inspector 中的反向引用只允许使用 `DsReferencePanel → DsReferenceGroup/DsReferenceList →
+  DsReferenceRow` 三层合同。Panel 拥有完整性与影响，Group/List 拥有组织、occurrence 计数和 12 条展开，Row
+  拥有名称、说明、路径、状态与定位语义；领域页面不得复制卡面、hover/focus、展开按钮或另一套空态。
+- Panel 状态固定为 `ready / empty / loading / partial / error`。扫描未完成或失败时必须显示
+  `at-least / unknown`，不得把当前下界传成精确 Tab 数字；只有完整结果才向 Inspector Tab 提供 number count。
+- Panel 总数和 Group 数均使用 occurrence 语义；同一稳定 site 的重复调用聚合为一行并显示 `N 次`，所有
+  Group count 加和必须等于 Panel/Tab 的精确总数。React identity 使用稳定 `site/where/id`，禁止数组下标 key。
+- 引用行只能有三种原生根：可分享定位用 `<a>`，命令式精确定位用 `<button>`，只读或不可定位用
+  `<article>`。禁止用 disabled button 表达“只读 / 暂不可定位”；静态行必须写出状态和原因。
+- 行内顺序固定为：来源/访问/影响标签 → 可读名称 → detail/occurrence → 等宽 path → 尾部打开动作或静态状态。
+  颜色之外必须有文字；`打开 ↗`、`只读`、`暂不可定位` 占同一尾部位置。
+- 标题可单行省略但完整值必须通过 title/详情可达；path 必须 `overflow-wrap:anywhere` 且可选中复制。120 字符
+  路径、200% zoom 和窄 Inspector 不得产生横向页面滚动或第二个无边界滚动 owner。
+- design-system 只接收展示值、状态、callback/href，不读取 EditorState、collector、locator 类型或 Command。
+  引用收集、删除/移除守卫、重试、资源替换和跳转命令继续由领域 owner 持有，并与列表复用同一 typed 数据。
+- 诊断、删除按钮、筛选器和重试命令不是引用行。它们放在 Panel status/action 或领域 section，不得塞进 Row
+  制造第二套行变体。Design Lab `RF-16` 是 simple/grouped/static/loading/partial/error/long-content 基准。
 
 ### DS-C.7 卡片、分组和折叠
 

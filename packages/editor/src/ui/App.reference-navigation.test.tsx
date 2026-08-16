@@ -468,6 +468,34 @@ describe('App item reference navigation', () => {
     expect(host.querySelector('.insp-head .what')?.textContent).toBe('添加实体')
   })
 
+  test('命名落点引用使用 canonical 面板与真实按钮语义', async () => {
+    window.history.replaceState({}, '', '/?module=scene&page=workspace&object=s047')
+    const shell = shellState()
+    const scene = shell.scenes[0]!
+    scene.entries = {
+      'door-west': {
+        label: '西门',
+        pos: { col: 4, row: 5, height: 0 },
+        facing: 'left',
+      },
+    }
+    scene.onEnter = [
+      {
+        body: [{ kind: 'loadScene', scene: 's047', entryId: 'door-west' }],
+      },
+    ] as typeof scene.onEnter
+
+    await renderApp(shell)
+    await act(async () => button('西门', host.querySelector('.outliner')!).click())
+
+    const panel = host.querySelector<HTMLElement>('.ds-reference-panel')!
+    const row = panel.querySelector<HTMLElement>('.ds-reference-row')!
+    expect(panel.textContent).toContain('1 处引用')
+    expect(row.tagName).toBe('BUTTON')
+    expect(row.getAttribute('aria-disabled')).toBeNull()
+    expect(row.textContent).toContain('s047 进场脚本')
+  })
+
   test('content14 场景脚本进入 canonical 工作区而不是 legacy stages 抽屉', async () => {
     window.history.replaceState({}, '', '/?module=scene&page=workspace&object=s047')
     const canonical = canonicalState()

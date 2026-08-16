@@ -145,7 +145,9 @@ function editorState(
 
 function button(text: string): HTMLButtonElement {
   return [...document.querySelectorAll<HTMLButtonElement>('button')].find(
-    (candidate) => candidate.textContent?.trim() === text,
+    (candidate) =>
+      candidate.textContent?.trim() === text ||
+      candidate.querySelector('.ds-tab__label')?.textContent?.trim() === text,
   )!
 }
 
@@ -341,7 +343,7 @@ describe('WorldSpriteLibrary', () => {
   test('检查器 tab 使用单一 Tab 停靠点并支持方向键切换', async () => {
     const session = new EditSession(editorState(definitions))
     await act(async () => root.render(library(definitions, session)))
-    await verifyInspectorTabs(host, '大世界精灵检查器', ['动作', '引用', '源资源'])
+    await verifyInspectorTabs(host, '大世界精灵检查器', ['动作', /^引用 \d+$/, '源资源'])
   })
 
   test('世界状态外观、跟随队列和脚本覆写分别说明其引用角色', async () => {
@@ -446,10 +448,14 @@ describe('WorldSpriteLibrary', () => {
     )
 
     await act(async () => button('引用').click())
-    const actionReference = host.querySelector<HTMLButtonElement>(
-      '.sprite-action-reference-section .world-sprite-reference-link',
+    const actionGroup = host
+      .querySelector('[aria-label="选择动作查看引用"]')
+      ?.closest('.ds-reference-group')
+    expect(actionGroup).not.toBeNull()
+    const actionReference = actionGroup!.querySelector<HTMLButtonElement>(
+      '.ds-reference-row[data-actionable="true"]',
     )!
-    expect(actionReference.disabled).toBe(false)
+    expect(actionReference.tagName).toBe('BUTTON')
     await act(async () => actionReference.click())
     expect(onJumpActionReference).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -530,14 +536,15 @@ describe('WorldSpriteLibrary', () => {
     expect(
       host.querySelector('#world-sprite-inspector-panel-references')?.hasAttribute('hidden'),
     ).toBe(false)
-    expect(host.querySelector('.sprite-action-reference-section h4')?.textContent).toContain(
-      '动作引用 · 1',
-    )
+    const actionGroup = host
+      .querySelector('[aria-label="选择动作查看引用"]')
+      ?.closest('.ds-reference-group')
+    expect(actionGroup?.querySelector('.ds-reference-group__title')?.textContent).toBe('动作引用')
+    expect(actionGroup?.querySelector('.ds-reference-group__count')?.textContent).toBe('2')
     expect(waveButton.getAttribute('aria-pressed')).toBe('true')
-    expect(
-      host.querySelector('.sprite-action-reference-section .world-sprite-reference-link')
-        ?.textContent,
-    ).toContain('pages[1].animation.action')
+    expect(actionGroup?.querySelector('.ds-reference-row')?.textContent).toContain(
+      'pages[1].animation.action',
+    )
   })
 
   test('PAL 兼容实例脚本只在引用页展示，不与中心动作重复', async () => {
@@ -608,11 +615,9 @@ describe('WorldSpriteLibrary', () => {
     expect(host.querySelector('.world-sprite-inspector')?.textContent).toContain(
       '场景 s020 · 实体 e364',
     )
-    expect(host.querySelector('.world-sprite-inspector')?.textContent).toContain(
-      '实例行为脚本（PAL 兼容 / 高级）',
-    )
+    expect(host.querySelector('.world-sprite-inspector')?.textContent).toContain('实例行为脚本')
     const referenceButton = [
-      ...host.querySelectorAll<HTMLButtonElement>('.world-sprite-reference-link'),
+      ...host.querySelectorAll<HTMLButtonElement>('.ds-reference-row[data-actionable="true"]'),
     ].find((candidate) => candidate.textContent?.includes('编辑自动脚本'))!
     await act(async () => referenceButton.click())
     expect(onJumpAutomaticScriptInstance).toHaveBeenCalledWith(

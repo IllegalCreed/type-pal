@@ -15,7 +15,13 @@ import {
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { collectEditorAssetReferences } from '../core/editor-asset-references.js'
-import { DsInspectorTabs, DsListHeader } from './design-system/index.js'
+import {
+  DsInspectorTabs,
+  DsListHeader,
+  DsReferenceList,
+  DsReferencePanel,
+  DsReferenceRow,
+} from './design-system/index.js'
 import { SoundPreviewButton, soundAssets } from './SoundPicker.js'
 
 const ORIGIN_LABELS: Readonly<Record<AssetRecordV1['origin']['kind'], string>> = {
@@ -171,6 +177,10 @@ export function SoundTab(props: {
   }, [entries, selectedId])
   const selected = entries.find((entry) => entry.id === selectedId) ?? shown[0] ?? entries[0]
   const selectedReferences = selected ? (references.get(selected.id) ?? []) : []
+  const selectedReferenceCount = selectedReferences.reduce(
+    (total, reference) => total + reference.occurrences,
+    0,
+  )
   const selectedIssues = selected
     ? closureIssues.filter((issue) => issue.message.includes(`"${selected.id}"`))
     : []
@@ -351,25 +361,36 @@ export function SoundTab(props: {
                 {
                   id: 'references',
                   label: '引用',
-                  count: selectedReferences.length,
+                  count: selectedReferenceCount,
                   panel: (
-                    <div className="section music-reference-section">
-                      {selectedReferences.length ? (
-                        <div className="music-reference-list">
-                          {selectedReferences.map((reference) => (
-                            <div
-                              className="music-reference-item"
-                              key={`${reference.site}:${reference.asset}`}
-                            >
-                              <strong>{reference.site}</strong>
-                              <span>{reference.occurrences} 次</span>
-                              <code title={reference.where}>{reference.where}</code>
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="music-reference-empty">当前工程没有引用这个音效。</div>
-                      )}
+                    <div className="section asset-reference-section">
+                      <DsReferencePanel
+                        state={selectedReferenceCount ? 'ready' : 'empty'}
+                        count={{ kind: 'exact', value: selectedReferenceCount }}
+                        impact={{
+                          kind: 'blocking',
+                          description: selectedReferenceCount
+                            ? '替换音效会保留这些引用；解除全部引用后才能删除。'
+                            : '当前工程没有引用这个音效。',
+                        }}
+                      >
+                        {selectedReferences.length ? (
+                          <DsReferenceList>
+                            {selectedReferences.map((reference) => (
+                              <DsReferenceRow
+                                key={`${reference.site}:${reference.where}`}
+                                title={reference.site}
+                                path={reference.where}
+                                occurrenceCount={reference.occurrences}
+                                status={{
+                                  label: '只读',
+                                  reason: '音效引用暂不支持从资源页精确定位。',
+                                }}
+                              />
+                            ))}
+                          </DsReferenceList>
+                        ) : null}
+                      </DsReferencePanel>
                       {selectedIssues.map((issue) => (
                         <div className="cf-err" key={`${issue.code}:${issue.where}`}>
                           {issue.message}

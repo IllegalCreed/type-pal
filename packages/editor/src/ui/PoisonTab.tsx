@@ -31,10 +31,11 @@ import {
 import {
   DsCatalogFilter,
   DsCatalogRow,
-  DsInspectorTabs,
   DsInspectorSection,
+  DsInspectorTabs,
   DsObjectHero,
   DsReferenceList,
+  DsReferencePanel,
   DsReferenceRow,
   DsSequenceIndex,
   DsWorkbenchSection,
@@ -553,22 +554,46 @@ export function PoisonTab(props: {
                   title="引用"
                   description="技能、物品和其他毒定义中的关系边会阻断删除。"
                 >
-                  {references.length ? (
-                    <DsReferenceList className="battle-data-reference-list">
-                      {references.map((reference) => (
-                        <DsReferenceRow
-                          key={`${reference.where}:${reference.kind}`}
-                          title={reference.label}
-                          detail={reference.detail}
-                          path={reference.where}
-                          disabled={!reference.locator || !onOpenReference}
-                          onClick={() => onOpenReference?.(reference)}
-                        />
-                      ))}
-                    </DsReferenceList>
-                  ) : (
-                    <p className="hint">没有引用，可以安全删除。</p>
-                  )}
+                  <DsReferencePanel
+                    state={references.length ? 'ready' : 'empty'}
+                    count={{ kind: 'exact', value: references.length }}
+                    impact={{
+                      kind: 'blocking',
+                      description: references.length
+                        ? '解除技能、物品或其他毒定义中的关系边后才能删除。'
+                        : '当前毒定义可以安全删除。',
+                    }}
+                  >
+                    {references.length ? (
+                      <DsReferenceList>
+                        {references.map((reference) => (
+                          <DsReferenceRow
+                            key={`${reference.where}:${reference.kind}`}
+                            title={reference.label}
+                            detail={reference.detail}
+                            path={reference.where}
+                            action={
+                              reference.locator && onOpenReference
+                                ? {
+                                    label: '打开 ↗',
+                                    onActivate: () => onOpenReference(reference),
+                                  }
+                                : undefined
+                            }
+                            status={
+                              reference.locator && onOpenReference
+                                ? undefined
+                                : {
+                                    label: '暂不可定位',
+                                    reason: '当前没有可编辑的精确位置。',
+                                    tone: 'warning',
+                                  }
+                            }
+                          />
+                        ))}
+                      </DsReferenceList>
+                    ) : null}
+                  </DsReferencePanel>
                 </DsInspectorSection>
               ),
             },

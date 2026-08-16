@@ -578,7 +578,7 @@ describe('ItemTab', () => {
     await act(async () =>
       button('引用', host.querySelector('[role="tablist"][aria-label="物品检查器"]')!).click(),
     )
-    await act(async () => button('打开位置', host).click())
+    await act(async () => button('打开 ↗', host).click())
     expect(onOpenItemReference).toHaveBeenCalledWith(
       expect.objectContaining({ locator: { kind: 'shop', shopId: 7 } }),
     )
@@ -1103,8 +1103,14 @@ describe('ItemTab', () => {
     expect(host.textContent).toContain(
       '场景 s154 / 实体 e2493 / 交互脚本“触发行为 1” / 步骤 1 / 脚本正文 / 第 1 条指令',
     )
+    const groupOccurrenceCounts = [
+      ...host.querySelectorAll<HTMLElement>('.ds-reference-group__count'),
+    ].map((node) => Number.parseInt(node.textContent ?? '0', 10))
+    expect(groupOccurrenceCounts.reduce((sum, count) => sum + count, 0)).toBe(2)
 
-    const openButtons = [...host.querySelectorAll<HTMLButtonElement>('.item-reference-card button')]
+    const openButtons = [
+      ...host.querySelectorAll<HTMLButtonElement>('.ds-reference-row[data-actionable="true"]'),
+    ]
     expect(openButtons).toHaveLength(2)
     await act(async () => openButtons[0]!.click())
     expect(onOpenItemReference).toHaveBeenCalledWith(

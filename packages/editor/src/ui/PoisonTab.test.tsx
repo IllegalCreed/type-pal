@@ -148,7 +148,9 @@ describe('PoisonTab shared workbench', () => {
         (button) => button.textContent === '删除毒',
       )?.disabled,
     ).toBe(true)
-    const reference = host.querySelector<HTMLButtonElement>('.battle-data-reference-list button')!
+    const reference = host.querySelector<HTMLButtonElement>(
+      '.ds-reference-list .ds-reference-row[data-actionable="true"]',
+    )!
     await act(async () => reference.click())
     expect(open).toHaveBeenCalledWith(
       expect.objectContaining({ locator: { kind: 'skill', skillId: 'skill-poison' } }),

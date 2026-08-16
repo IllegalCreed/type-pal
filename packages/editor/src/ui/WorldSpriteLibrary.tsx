@@ -25,7 +25,14 @@ import {
   projectCanonicalSpritePreviewStateV5,
   type SpriteAutomaticScriptInstanceSite,
 } from '../core/world-sprite-behavior.js'
-import { DsInspectorTabs, DsListHeader } from './design-system/index.js'
+import {
+  DsInspectorTabs,
+  DsListHeader,
+  DsReferenceGroup,
+  DsReferenceList,
+  DsReferencePanel,
+  DsReferenceRow,
+} from './design-system/index.js'
 import { SpriteActionEditor } from './SpriteActionEditor.js'
 import type { SpriteFrameView } from './SpriteFrameWorkbench.js'
 import { type SpriteResourceLoadProof, SpriteResourceViewer } from './SpriteResourceViewer.js'
@@ -164,7 +171,6 @@ export function WorldSpriteLibrary(props: {
   const [sourceFrames, setSourceFrames] = useState<readonly SpriteFrameView[]>([])
   const [selectedSourceFrame, setSelectedSourceFrame] = useState(0)
   const [showUsageMenu, setShowUsageMenu] = useState(false)
-  const [showAllReferences, setShowAllReferences] = useState(false)
   const [creatingUsage, setCreatingUsage] = useState(false)
   const [draftId, setDraftId] = useState('')
   const [draftLabel, setDraftLabel] = useState('')
@@ -225,6 +231,10 @@ export function WorldSpriteLibrary(props: {
   const nonAutomaticReferences = references.filter(
     (reference) => !automaticSiteKeys.has(reference.site),
   )
+  const selectedActionReferences = selectedActionId
+    ? actionReferences.filter((reference) => reference.action === selectedActionId)
+    : []
+  const totalReferenceCount = references.length + actionReferences.length
   const loadedProof = useMemo<SpriteLayoutEditProof | undefined>(() => {
     if (record?.kind !== 'sprite') return undefined
     if (resourceProof?.asset === selectedAsset && resourceProof.revision === record.sha256)
@@ -808,196 +818,222 @@ export function WorldSpriteLibrary(props: {
             {
               id: 'references',
               label: '引用',
+              count: totalReferenceCount,
               panel: (
                 <div>
                   <div className="section sprite-definition-lifecycle">
-                    {definition && Object.keys(definition.poses ?? {}).length ? (
-                      <div className="sprite-action-reference-section">
-                        <h4>
-                          动作引用 ·{' '}
-                          {
-                            actionReferences.filter(
-                              (reference) => reference.action === selectedActionId,
-                            ).length
-                          }
-                        </h4>
-                        <fieldset className="sprite-action-switch" aria-label="选择动作查看引用">
-                          {Object.entries(definition.poses ?? {})
-                            .sort(
-                              ([leftId, left], [rightId, right]) =>
-                                (left.order ?? Number.MAX_SAFE_INTEGER) -
-                                  (right.order ?? Number.MAX_SAFE_INTEGER) ||
-                                leftId.localeCompare(rightId),
-                            )
-                            .map(([actionId, action], index) => (
-                              <button
-                                type="button"
-                                key={actionId}
-                                className={selectedActionId === actionId ? 'on' : ''}
-                                aria-pressed={selectedActionId === actionId}
-                                onClick={() => setSelectedActionId(actionId)}
-                              >
-                                <span>
-                                  #{index} · {action.label}
-                                </span>
-                                <small>{actionId}</small>
-                              </button>
-                            ))}
-                        </fieldset>
-                        {selectedActionId ? (
-                          actionReferences.filter(
-                            (reference) => reference.action === selectedActionId,
-                          ).length ? (
-                            actionReferences
-                              .filter((reference) => reference.action === selectedActionId)
-                              .map((reference) => (
+                    <DsReferencePanel
+                      state={totalReferenceCount ? 'ready' : 'empty'}
+                      count={{ kind: 'exact', value: totalReferenceCount }}
+                      impact={{
+                        kind: references.length ? 'blocking' : 'informational',
+                        description: !definition
+                          ? consumers.length
+                            ? '选择一个用途定义，查看它的引用与场景实例。'
+                            : '这个源资源尚无用途定义，因此没有可追踪的使用位置。'
+                          : references.length
+                            ? '用途引用会阻断删除；动作与实例行为仍按各自定位能力呈现。'
+                            : '当前用途定义尚未被任何内容使用。',
+                      }}
+                      summary={
+                        references.length
+                          ? `${references.length} 处用途引用会阻断删除 · 共 ${totalReferenceCount} 处引用`
+                          : undefined
+                      }
+                    >
+                      {definition && Object.keys(definition.poses ?? {}).length ? (
+                        <DsReferenceGroup title="动作引用" count={actionReferences.length}>
+                          <fieldset className="sprite-action-switch" aria-label="选择动作查看引用">
+                            {Object.entries(definition.poses ?? {})
+                              .sort(
+                                ([leftId, left], [rightId, right]) =>
+                                  (left.order ?? Number.MAX_SAFE_INTEGER) -
+                                    (right.order ?? Number.MAX_SAFE_INTEGER) ||
+                                  leftId.localeCompare(rightId),
+                              )
+                              .map(([actionId, action], index) => (
                                 <button
                                   type="button"
-                                  className="sprite-reference-link world-sprite-reference-link"
-                                  key={`action:${reference.site}:${reference.where}`}
-                                  disabled={!props.onJumpActionReference || !reference.locator}
-                                  title={
-                                    reference.locator
-                                      ? '打开精确引用位置'
-                                      : '该兼容引用没有可编辑的精确位置'
-                                  }
-                                  onClick={() => props.onJumpActionReference?.(reference)}
+                                  key={actionId}
+                                  className={selectedActionId === actionId ? 'on' : ''}
+                                  aria-pressed={selectedActionId === actionId}
+                                  onClick={() => setSelectedActionId(actionId)}
                                 >
                                   <span>
-                                    <b>{referenceLabel(reference.site)}</b>
-                                    <code>{reference.where}</code>
+                                    #{index} · {action.label}
                                   </span>
-                                  <span>{reference.locator ? '打开引用 ↗' : '只读引用'}</span>
+                                  <small>{actionId}</small>
                                 </button>
-                              ))
+                              ))}
+                          </fieldset>
+                          {selectedActionId ? (
+                            selectedActionReferences.length ? (
+                              <DsReferenceList>
+                                {selectedActionReferences.map((reference) => (
+                                  <DsReferenceRow
+                                    key={`action:${reference.site}:${reference.where}`}
+                                    title={referenceLabel(reference.site)}
+                                    path={reference.where}
+                                    labels={[
+                                      {
+                                        label:
+                                          definition.poses?.[reference.action]?.label ??
+                                          reference.action,
+                                      },
+                                    ]}
+                                    action={
+                                      props.onJumpActionReference && reference.locator
+                                        ? {
+                                            label: '打开引用 ↗',
+                                            onActivate: () =>
+                                              props.onJumpActionReference?.(reference),
+                                          }
+                                        : undefined
+                                    }
+                                    status={
+                                      props.onJumpActionReference && reference.locator
+                                        ? undefined
+                                        : {
+                                            label: reference.locator ? '暂不可定位' : '只读',
+                                            reason: reference.locator
+                                              ? '当前宿主没有提供动作引用定位能力。'
+                                              : '兼容引用没有可编辑的精确位置。',
+                                            tone: reference.locator ? 'warning' : 'neutral',
+                                          }
+                                    }
+                                  />
+                                ))}
+                              </DsReferenceList>
+                            ) : (
+                              <p className="hint2">当前动作尚未被场景页或脚本命令引用。</p>
+                            )
                           ) : (
-                            <p className="hint2">当前动作尚未被场景页或脚本命令引用。</p>
-                          )
-                        ) : (
-                          <p className="hint2">选择一个动作查看精确引用。</p>
-                        )}
-                      </div>
-                    ) : null}
-                    <h4>用途定义引用 · {nonAutomaticReferences.length}</h4>
-                    {consumers.length ? (
-                      <fieldset className="battle-usage-switch" aria-label="选择要查看的用途定义">
-                        {consumers.map((entry) => (
-                          <button
-                            type="button"
-                            key={entry.id}
-                            className={entry.id === definition?.id ? 'on' : ''}
-                            aria-pressed={entry.id === definition?.id}
-                            onClick={() => {
-                              pendingInspectorTab.current = {
-                                view: 'definition',
-                                objectId: entry.id,
-                                tab: 'references',
-                              }
-                              setSelectedId(entry.id)
-                              setCreatingUsage(false)
-                              setShowUsageMenu(false)
-                              props.onViewChange('definition', entry.id)
-                              props.onObjectFocus?.(entry.id)
-                            }}
-                          >
-                            <span>{entry.label}</span>
-                            <small>{KIND_LABEL[entry.layout.kind]}</small>
-                          </button>
-                        ))}
-                      </fieldset>
-                    ) : null}
-                    {!definition ? (
-                      <p className="hint2">
-                        {consumers.length
-                          ? '选择上方某个用途定义，查看它的引用与场景实例。'
-                          : '这个源资源尚无用途定义，因此也没有可追踪的使用位置。'}
-                      </p>
-                    ) : null}
-                    {definition && !references.length && !automaticSitesForDefinition.length ? (
-                      <p className="hint2">当前用途定义尚未被任何内容使用。</p>
-                    ) : null}
-                    {definition && automaticSitesForDefinition.length ? (
-                      <h4>
-                        实例行为脚本（PAL 兼容 / 高级） · {automaticSitesForDefinition.length}
-                      </h4>
-                    ) : null}
-                    {definition ? (
-                      <p className="hint2">
-                        未迁移的移动、随机、状态或逐帧命令仍可打开真实脚本；已动作化的场景只显示上方动作引用。
-                      </p>
-                    ) : null}
-                    {definition
-                      ? automaticSitesForDefinition.map((site) => (
-                          <button
-                            type="button"
-                            className="sprite-reference-link world-sprite-reference-link"
-                            key={`automatic:${site.site}`}
-                            disabled={!props.onJumpAutomaticScriptInstance}
-                            onClick={() => props.onJumpAutomaticScriptInstance?.(site)}
-                          >
-                            <span>
-                              <b>{referenceLabel(site.site)}</b>
-                              <span className="world-sprite-reference-behavior">
-                                <em data-kind="script">实例行为脚本</em>
-                                <small>保留的真实场景脚本；可继续查看和编辑</small>
-                              </span>
-                              <code>{site.where}</code>
-                            </span>
-                            <span>编辑自动脚本 ↗</span>
-                          </button>
-                        ))
-                      : null}
-                    {definition
-                      ? nonAutomaticReferences
-                          .slice(0, showAllReferences ? undefined : 12)
-                          .map((reference) => {
-                            const behavior = describeSpriteReferenceBehavior(
-                              spritePreviewState,
-                              reference,
-                              definition,
-                              actualFrameCount,
-                            )
-                            const automaticSite = automaticScriptSiteIndex.get(
-                              `${definition.id}\0${reference.site}`,
-                            )
-                            const canOpenAutomatic =
-                              !!automaticSite && !!props.onJumpAutomaticScriptInstance
-                            return (
-                              <button
-                                type="button"
-                                className="sprite-reference-link world-sprite-reference-link"
-                                key={`${reference.site}:${reference.where}`}
-                                disabled={!props.onJumpReference && !canOpenAutomatic}
-                                onClick={() => {
-                                  if (automaticSite && props.onJumpAutomaticScriptInstance)
-                                    props.onJumpAutomaticScriptInstance(automaticSite)
-                                  else props.onJumpReference?.(reference)
-                                }}
-                              >
-                                <span>
-                                  <b>{referenceLabel(reference.site)}</b>
-                                  <span className="world-sprite-reference-behavior">
-                                    <em data-kind={behavior.kind}>{behavior.label}</em>
-                                    <small>{behavior.detail}</small>
-                                  </span>
-                                  <code>{reference.where}</code>
-                                </span>
-                                <span>{canOpenAutomatic ? '编辑自动脚本 ↗' : '打开 ↗'}</span>
-                              </button>
-                            )
-                          })
-                      : null}
-                    {nonAutomaticReferences.length > 12 ? (
-                      <button
-                        type="button"
-                        className="tool"
-                        onClick={() => setShowAllReferences((value) => !value)}
-                      >
-                        {showAllReferences
-                          ? '收起使用位置'
-                          : `展开其余 ${nonAutomaticReferences.length - 12} 处`}
-                      </button>
-                    ) : null}
+                            <p className="hint2">选择一个动作查看精确引用。</p>
+                          )}
+                        </DsReferenceGroup>
+                      ) : null}
+                      {definition || consumers.length ? (
+                        <DsReferenceGroup title="用途定义引用" count={references.length}>
+                          {consumers.length ? (
+                            <fieldset
+                              className="battle-usage-switch"
+                              aria-label="选择要查看的用途定义"
+                            >
+                              {consumers.map((entry) => (
+                                <button
+                                  type="button"
+                                  key={entry.id}
+                                  className={entry.id === definition?.id ? 'on' : ''}
+                                  aria-pressed={entry.id === definition?.id}
+                                  onClick={() => {
+                                    pendingInspectorTab.current = {
+                                      view: 'definition',
+                                      objectId: entry.id,
+                                      tab: 'references',
+                                    }
+                                    setSelectedId(entry.id)
+                                    setCreatingUsage(false)
+                                    setShowUsageMenu(false)
+                                    props.onViewChange('definition', entry.id)
+                                    props.onObjectFocus?.(entry.id)
+                                  }}
+                                >
+                                  <span>{entry.label}</span>
+                                  <small>{KIND_LABEL[entry.layout.kind]}</small>
+                                </button>
+                              ))}
+                            </fieldset>
+                          ) : null}
+                          {definition ? (
+                            <p className="hint2">
+                              未迁移的移动、随机、状态或逐帧命令仍可打开真实脚本；已动作化的场景显示在动作引用组。
+                            </p>
+                          ) : (
+                            <p className="hint2">选择上方某个用途定义，查看它的引用与场景实例。</p>
+                          )}
+                          {definition && references.length ? (
+                            <DsReferenceList>
+                              {automaticSitesForDefinition.map((site) => (
+                                <DsReferenceRow
+                                  key={`automatic:${site.site}`}
+                                  title={referenceLabel(site.site)}
+                                  detail="保留的真实场景脚本；可继续查看和编辑"
+                                  path={site.where}
+                                  labels={[{ label: '实例行为脚本' }]}
+                                  action={
+                                    props.onJumpAutomaticScriptInstance
+                                      ? {
+                                          label: '编辑自动脚本 ↗',
+                                          onActivate: () =>
+                                            props.onJumpAutomaticScriptInstance?.(site),
+                                        }
+                                      : undefined
+                                  }
+                                  status={
+                                    props.onJumpAutomaticScriptInstance
+                                      ? undefined
+                                      : {
+                                          label: '暂不可定位',
+                                          reason: '当前宿主没有提供自动脚本定位能力。',
+                                          tone: 'warning',
+                                        }
+                                  }
+                                />
+                              ))}
+                              {nonAutomaticReferences.map((reference) => {
+                                const behavior = describeSpriteReferenceBehavior(
+                                  spritePreviewState,
+                                  reference,
+                                  definition,
+                                  actualFrameCount,
+                                )
+                                const automaticSite = automaticScriptSiteIndex.get(
+                                  `${definition.id}\0${reference.site}`,
+                                )
+                                const canOpenAutomatic =
+                                  !!automaticSite && !!props.onJumpAutomaticScriptInstance
+                                const canOpen = canOpenAutomatic || !!props.onJumpReference
+                                return (
+                                  <DsReferenceRow
+                                    key={`${reference.site}:${reference.where}`}
+                                    title={referenceLabel(reference.site)}
+                                    detail={behavior.detail}
+                                    path={reference.where}
+                                    labels={[{ label: behavior.label }]}
+                                    action={
+                                      canOpen
+                                        ? {
+                                            label: canOpenAutomatic ? '编辑自动脚本 ↗' : '打开 ↗',
+                                            onActivate: () => {
+                                              if (
+                                                automaticSite &&
+                                                props.onJumpAutomaticScriptInstance
+                                              )
+                                                props.onJumpAutomaticScriptInstance(automaticSite)
+                                              else props.onJumpReference?.(reference)
+                                            },
+                                          }
+                                        : undefined
+                                    }
+                                    status={
+                                      canOpen
+                                        ? undefined
+                                        : {
+                                            label: '暂不可定位',
+                                            reason: '当前宿主没有提供用途引用定位能力。',
+                                            tone: 'warning',
+                                          }
+                                    }
+                                  />
+                                )
+                              })}
+                            </DsReferenceList>
+                          ) : definition ? (
+                            <p className="hint2">当前用途定义尚未被任何内容使用。</p>
+                          ) : null}
+                        </DsReferenceGroup>
+                      ) : null}
+                    </DsReferencePanel>
                     {definition ? (
                       <button
                         type="button"

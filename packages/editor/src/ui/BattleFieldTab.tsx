@@ -36,6 +36,9 @@ import {
   DsCatalogFilter,
   DsCatalogRow,
   DsObjectHero,
+  DsReferenceList,
+  DsReferencePanel,
+  DsReferenceRow,
   DsWorkbenchSection,
 } from './design-system/recipes.js'
 import { ImageAssetPicker } from './ImageAssetPicker.js'
@@ -439,37 +442,63 @@ export function BattleFieldTab(props: {
       <aside className="inspector bf-reference-panel">
         <header>
           <p className="eyebrow">引用</p>
-          <h3>{field ? `${references.length} 处正在使用` : '选择一个战场'}</h3>
+          <h3>{field ? fieldTitle(field) : '选择一个战场'}</h3>
         </header>
-        {field && references.length === 0 ? (
-          <div className="bf-reference-empty">没有引用，可以安全删除。</div>
-        ) : null}
-        <div className="bf-reference-list">
-          {references.map((reference, index) => (
-            <button
-              type="button"
-              key={`${reference.kind}:${reference.where}:${index}`}
-              disabled={!reference.locator || !onOpenBattleFieldReference}
-              onClick={() => onOpenBattleFieldReference?.(reference)}
-            >
-              <span className="bf-reference-kind">
-                {reference.kind === 'project-default'
-                  ? '系统默认'
-                  : reference.kind === 'scene-default'
-                    ? '场景默认'
-                    : reference.kind === 'hostile'
-                      ? '敌对实体'
-                      : '剧情开战'}
-              </span>
-              <strong>{reference.label}</strong>
-              <code>{reference.where}</code>
-              {reference.locator ? <span className="bf-reference-open">打开 ↗</span> : null}
-            </button>
-          ))}
-        </div>
-        <p className="bf-reference-footnote">
-          删除会被以上任意引用阻断；先跳转处理，再回到这里删除。
-        </p>
+        {field ? (
+          <DsReferencePanel
+            state={references.length ? 'ready' : 'empty'}
+            count={{ kind: 'exact', value: references.length }}
+            impact={{
+              kind: 'blocking',
+              description: references.length
+                ? '删除会被任意引用阻断；先跳转处理，再回到这里删除。'
+                : '当前战场可以安全删除。',
+            }}
+          >
+            {references.length ? (
+              <DsReferenceList>
+                {references.map((reference) => (
+                  <DsReferenceRow
+                    key={`${reference.kind}:${reference.where}`}
+                    title={reference.label}
+                    path={reference.where}
+                    labels={[
+                      {
+                        label:
+                          reference.kind === 'project-default'
+                            ? '系统默认'
+                            : reference.kind === 'scene-default'
+                              ? '场景默认'
+                              : reference.kind === 'hostile'
+                                ? '敌对实体'
+                                : '剧情开战',
+                      },
+                    ]}
+                    action={
+                      reference.locator && onOpenBattleFieldReference
+                        ? {
+                            label: '打开 ↗',
+                            onActivate: () => onOpenBattleFieldReference(reference),
+                          }
+                        : undefined
+                    }
+                    status={
+                      reference.locator && onOpenBattleFieldReference
+                        ? undefined
+                        : {
+                            label: '暂不可定位',
+                            reason: '当前没有可编辑的精确位置。',
+                            tone: 'warning',
+                          }
+                    }
+                  />
+                ))}
+              </DsReferenceList>
+            ) : null}
+          </DsReferencePanel>
+        ) : (
+          <div className="insp-empty">选择一个战场查看引用。</div>
+        )}
       </aside>
     </>
   )

@@ -176,7 +176,7 @@ describe('BattleFieldTab B2-1 authoring closure', () => {
     const open = vi.fn()
     const session = new EditSession(state([field(24, '默认战场')]))
     await act(async () => root.render(<Harness session={session} onOpenReference={open} />))
-    expect(host.textContent).toContain('2 处正在使用')
+    expect(host.textContent).toContain('2 处引用会阻断删除')
     expect(host.textContent).toContain('系统默认')
     expect(host.textContent).toContain('场景 s001 的默认战场')
     await act(async () => button('场景 s001 的默认战场').click())

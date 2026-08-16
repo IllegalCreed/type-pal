@@ -200,7 +200,10 @@ describe('StampLibraryTab', () => {
     })
     expect(host.textContent).toContain('扫描不完整')
     expect(host.textContent).toContain('引用数未知')
-    expect(host.textContent).toContain('≥0')
+    expect(host.textContent).toContain('至少 0 处')
+    expect(
+      host.querySelector('[role="tablist"][aria-label="组合模板检查器"] .ds-tab__count'),
+    ).toBeNull()
     await act(async () => button('删除模板', host).click())
     expect(button('确认删除', host).disabled).toBe(true)
   })

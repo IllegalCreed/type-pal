@@ -211,8 +211,8 @@ describe('TilesetTab 全工程引用删除', () => {
     await runReferenceScan(host)
 
     expect(loadMap).toHaveBeenCalledOnce()
-    expect(host.querySelector('.tileset-removal-check')?.textContent).toContain('地图 B')
-    expect(host.querySelector('.tileset-removal-check')?.textContent).toContain('树木组合')
+    expect(host.querySelector('.ds-reference-panel')?.textContent).toContain('地图 B')
+    expect(host.querySelector('.ds-reference-panel')?.textContent).toContain('树木组合')
     expect(button(host, '重新检查引用')).toBeDefined()
     expect(session.getState().tilesets?.map(({ id }) => id)).toEqual(['tiles-a', 'tiles-b'])
 
@@ -233,7 +233,10 @@ describe('TilesetTab 全工程引用删除', () => {
       },
     })
     await runReferenceScan(host)
-    expect(host.querySelector('.tileset-removal-warning')?.textContent).toContain('已禁止移除')
+    expect(host.querySelector('.ds-reference-panel')?.textContent).toContain('已保守禁止移除')
+    expect(
+      host.querySelector('[role="tablist"][aria-label="瓦片集检查器"] .ds-tab__count'),
+    ).toBeNull()
     expect(session.isDirty()).toBe(false)
     expect(session.getState().tilesets?.map(({ id }) => id)).toEqual(['tiles-a', 'tiles-b'])
 
@@ -242,7 +245,7 @@ describe('TilesetTab 全工程引用删除', () => {
       await new Promise((resolve) => window.setTimeout(resolve, 0))
       await new Promise((resolve) => window.setTimeout(resolve, 0))
     })
-    expect(host.querySelector('.tileset-removal-safe')?.textContent).toContain('均未引用')
+    expect(host.querySelector('.ds-reference-panel')?.textContent).toContain('均未引用')
 
     await act(async () => button(host, '确认移除未引用条目').click())
     expect(session.getState().tilesets?.map(({ id }) => id)).toEqual(['tiles-b'])

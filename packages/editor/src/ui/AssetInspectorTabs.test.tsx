@@ -2,7 +2,7 @@
 import type { AssetCatalogV1 } from '@type-pal/content'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
-import { afterEach, beforeEach, describe, test, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import { CutsceneTab } from './CutsceneTab.js'
@@ -64,7 +64,40 @@ function state(): EditorState {
       startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
       assets: { catalog: 'assets/index.json', roles: {} },
     },
-    scenes: [],
+    scenes: [
+      {
+        id: 's001',
+        mapId: 'map.test',
+        entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+        entities: [],
+        onEnter: [
+          {
+            body: [
+              { kind: 'playMusic', asset: 'music.test' },
+              { kind: 'playMusic', asset: 'music.test' },
+              { kind: 'playSound', asset: 'sound.test' },
+              { kind: 'playSound', asset: 'sound.test' },
+              {
+                kind: 'dialog',
+                cue: {
+                  rows: [{ text: 'dialog.test' }],
+                  portrait: { asset: 'portrait.test', side: 'left' },
+                },
+              },
+              {
+                kind: 'dialog',
+                cue: {
+                  rows: [{ text: 'dialog.test' }],
+                  portrait: { asset: 'portrait.test', side: 'left' },
+                },
+              },
+              { kind: 'playVideo', asset: 'video.test' },
+              { kind: 'playVideo', asset: 'video.test' },
+            ],
+          },
+        ],
+      },
+    ],
     actors: [],
     levelUp: {},
     skills: [],
@@ -129,7 +162,10 @@ describe('asset inspectors shared tabs', () => {
       )
       await Promise.resolve()
     })
-    await verifyInspectorTabs(host, '图片检查器', ['资源', /^引用 \d+$/])
+    await verifyInspectorTabs(host, '图片检查器', ['资源', '引用 2'])
+    expect(host.querySelectorAll('.ds-reference-row')).toHaveLength(1)
+    expect(host.querySelector('.ds-reference-row')?.tagName).toBe('ARTICLE')
+    expect(host.querySelector('.ds-reference-row__trailing')?.textContent).toContain('2 次')
   })
 
   test('MusicTab 使用资源/引用 canonical Inspector', async () => {
@@ -144,7 +180,9 @@ describe('asset inspectors shared tabs', () => {
         />,
       ),
     )
-    await verifyInspectorTabs(host, '音乐检查器', ['资源', /^引用 \d+$/])
+    await verifyInspectorTabs(host, '音乐检查器', ['资源', '引用 2'])
+    expect(host.querySelectorAll('.ds-reference-row')).toHaveLength(1)
+    expect(host.querySelector('.ds-reference-row__trailing')?.textContent).toContain('2 次')
   })
 
   test('SoundTab 使用资源/引用 canonical Inspector', async () => {
@@ -159,7 +197,9 @@ describe('asset inspectors shared tabs', () => {
         />,
       ),
     )
-    await verifyInspectorTabs(host, '音效检查器', ['资源', /^引用 \d+$/])
+    await verifyInspectorTabs(host, '音效检查器', ['资源', '引用 2'])
+    expect(host.querySelectorAll('.ds-reference-row')).toHaveLength(1)
+    expect(host.querySelector('.ds-reference-row__trailing')?.textContent).toContain('2 次')
   })
 
   test('CutsceneTab 使用资源/引用/诊断 canonical Inspector', async () => {
@@ -176,6 +216,8 @@ describe('asset inspectors shared tabs', () => {
       )
       await Promise.resolve()
     })
-    await verifyInspectorTabs(host, '过场资源检查器', ['资源', /^引用 \d+$/, /^诊断 \d+$/])
+    await verifyInspectorTabs(host, '过场资源检查器', ['资源', '引用 2', /^诊断 \d+$/])
+    expect(host.querySelectorAll('.ds-reference-row')).toHaveLength(1)
+    expect(host.querySelector('.ds-reference-row__trailing')?.textContent).toContain('2 次')
   })
 })

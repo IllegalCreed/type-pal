@@ -34,7 +34,15 @@ import {
   quantizeFrameAnimationInWorker,
 } from '../core/frame-animation-worker-client.js'
 import { mp4HasAudioTrack } from '../core/video-metadata.js'
-import { DsIconButton, DsInspectorTabs, DsListHeader, DsTag } from './design-system/index.js'
+import {
+  DsIconButton,
+  DsInspectorTabs,
+  DsListHeader,
+  DsReferenceList,
+  DsReferencePanel,
+  DsReferenceRow,
+  DsTag,
+} from './design-system/index.js'
 import { FrameAnimationEditor, type FrameAnimationMetadata } from './FrameAnimationEditor.js'
 
 interface AssetEntry {
@@ -407,6 +415,10 @@ export function CutsceneTab(props: {
     [catalog, state],
   )
   const selectedReferences = selected ? (references.get(selected.id) ?? []) : []
+  const selectedReferenceCount = selectedReferences.reduce(
+    (total, reference) => total + reference.occurrences,
+    0,
+  )
   const selectedIssues = selected
     ? closureIssues.filter(
         (issue) =>
@@ -805,33 +817,40 @@ export function CutsceneTab(props: {
                 {
                   id: 'references',
                   label: '引用',
-                  count: selectedReferences.length,
+                  count: selectedReferenceCount,
                   panel: (
-                    <div className="section music-reference-section">
-                      {selectedReferences.length ? (
-                        <div className="music-reference-list">
-                          {selectedReferences.map((reference, index) => {
-                            const description = describeReference(reference, state)
-                            return (
-                              <div
-                                className="music-reference-item"
-                                key={`${reference.site}-${index}`}
-                              >
-                                <strong>{description.kind}</strong>
-                                <span>
-                                  {description.owner}
-                                  {reference.occurrences > 1
-                                    ? ` · 本处调用 ${reference.occurrences} 次`
-                                    : ''}
-                                </span>
-                                <code title={reference.where}>{reference.where}</code>
-                              </div>
-                            )
-                          })}
-                        </div>
-                      ) : (
-                        <div className="music-reference-empty">当前工程没有引用此资源。</div>
-                      )}
+                    <div className="section asset-reference-section">
+                      <DsReferencePanel
+                        state={selectedReferenceCount ? 'ready' : 'empty'}
+                        count={{ kind: 'exact', value: selectedReferenceCount }}
+                        impact={{
+                          kind: 'blocking',
+                          description: selectedReferenceCount
+                            ? '替换资源会保留这些引用；解除全部引用后才能删除。'
+                            : '当前工程没有引用此资源。',
+                        }}
+                      >
+                        {selectedReferences.length ? (
+                          <DsReferenceList>
+                            {selectedReferences.map((reference) => {
+                              const description = describeReference(reference, state)
+                              return (
+                                <DsReferenceRow
+                                  key={`${reference.site}:${reference.where}`}
+                                  title={description.owner}
+                                  path={reference.where}
+                                  labels={[{ label: description.kind }]}
+                                  occurrenceCount={reference.occurrences}
+                                  status={{
+                                    label: '只读',
+                                    reason: '过场引用暂不支持从资源页精确定位。',
+                                  }}
+                                />
+                              )
+                            })}
+                          </DsReferenceList>
+                        ) : null}
+                      </DsReferencePanel>
                     </div>
                   ),
                 },

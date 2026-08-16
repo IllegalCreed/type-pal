@@ -10,7 +10,9 @@ import {
   DsInspectorSection,
   DsInspectorTabs,
   DsObjectHero,
+  DsReferenceGroup,
   DsReferenceList,
+  DsReferencePanel,
   DsReferenceRow,
   DsSequenceIndex,
   DsTag,
@@ -208,7 +210,7 @@ describe('object workbench recipes', () => {
             title="人物 wu-hou"
             detail="初始仙术"
             path="actors[3].battler.initialMagic[0]"
-            onClick={onClick}
+            action={{ label: '打开 ↗', onActivate: onClick }}
           />
         </DsReferenceList>,
       ),
@@ -221,6 +223,113 @@ describe('object workbench recipes', () => {
     )
     await act(async () => row.click())
     expect(onClick).toHaveBeenCalledOnce()
+  })
+
+  test('reference panels expose the complete state and count contract without inventing exact counts', async () => {
+    const states = [
+      ['ready', { kind: 'exact', value: 3 }],
+      ['empty', { kind: 'exact', value: 0 }],
+      ['loading', { kind: 'at-least', value: 1 }],
+      ['partial', { kind: 'at-least', value: 2 }],
+      ['error', { kind: 'unknown' }],
+    ] as const
+    await act(async () =>
+      root.render(
+        states.map(([state, count]) => (
+          <DsReferencePanel
+            key={state}
+            state={state}
+            count={count}
+            impact={{ kind: 'blocking', description: `${state} description` }}
+          />
+        )),
+      ),
+    )
+    expect(host.querySelectorAll('.ds-reference-panel')).toHaveLength(5)
+    expect(host.querySelector('[data-state="ready"]')?.textContent).toContain('3 处引用会阻断删除')
+    expect(host.querySelector('[data-state="empty"]')?.textContent).toContain('未发现引用')
+    expect(host.querySelector('[data-state="loading"]')?.textContent).toContain('至少 1 处')
+    expect(host.querySelector('[data-state="partial"]')?.textContent).toContain('结果不完整')
+    expect(host.querySelector('[data-state="error"] [role="alert"]')).not.toBeNull()
+    expect(host.querySelector('[data-state="error"]')?.textContent).toContain('数量未知')
+  })
+
+  test('reference rows use button, link, or article semantics instead of disabled fake actions', async () => {
+    const onActivate = vi.fn()
+    await act(async () =>
+      root.render(
+        <DsReferenceList>
+          <DsReferenceRow
+            key="button"
+            title="可定位命令"
+            labels={[{ label: '阻断删除', tone: 'warning' }]}
+            action={{ label: '打开 ↗', onActivate }}
+          />
+          <DsReferenceRow
+            key="link"
+            title="可分享位置"
+            action={{ label: '在新页打开 ↗', href: '/editor?module=scene' }}
+          />
+          <DsReferenceRow
+            key="static"
+            title="只读兼容来源"
+            status={{ label: '只读', reason: '没有可编辑的精确位置。' }}
+          />
+        </DsReferenceList>,
+      ),
+    )
+    const rows = host.querySelectorAll<HTMLElement>('.ds-reference-row')
+    expect([...rows].map((row) => row.tagName)).toEqual(['BUTTON', 'A', 'ARTICLE'])
+    expect(host.querySelector('.ds-reference-row[disabled]')).toBeNull()
+    expect(rows[1]?.getAttribute('href')).toBe('/editor?module=scene')
+    expect(rows[2]?.textContent).toContain('没有可编辑的精确位置')
+    await act(async () => rows[0]?.click())
+    expect(onActivate).toHaveBeenCalledOnce()
+  })
+
+  test('reference groups count occurrences while the shared list owns 12-row expansion', async () => {
+    await act(async () =>
+      root.render(
+        <DsReferencePanel
+          state="ready"
+          count={{ kind: 'exact', value: 14 }}
+          impact={{ kind: 'informational', description: '仅供定位。' }}
+        >
+          <DsReferenceGroup title="场景" count={14}>
+            <DsReferenceList>
+              {Array.from({ length: 13 }, (_, index) => (
+                <DsReferenceRow
+                  key={`scene-${index}`}
+                  title={`场景 ${index}`}
+                  occurrenceCount={index === 0 ? 2 : 1}
+                />
+              ))}
+            </DsReferenceList>
+          </DsReferenceGroup>
+        </DsReferencePanel>,
+      ),
+    )
+    expect(host.querySelector('.ds-reference-group__count')?.textContent).toBe('14')
+    expect(host.querySelectorAll('.ds-reference-row')).toHaveLength(12)
+    expect(host.textContent).toContain('2 次')
+    await act(async () =>
+      [...host.querySelectorAll<HTMLButtonElement>('button')]
+        .find((button) => button.textContent?.includes('显示其余 1 条'))
+        ?.click(),
+    )
+    expect(host.querySelectorAll('.ds-reference-row')).toHaveLength(13)
+    expect(host.textContent).toContain('收起')
+  })
+
+  test('reference rows keep long ids and paths reachable without using them as identity', async () => {
+    const longTitle = '一段超过二十个汉字的引用对象名称用于验证完整标题仍然可达'
+    const longPath = `scenes[0].${'nested.path.'.repeat(12)}command`
+    await act(async () =>
+      root.render(<DsReferenceRow title={longTitle} path={longPath} status={{ label: '只读' }} />),
+    )
+    expect(host.querySelector('.ds-reference-row__title')?.getAttribute('title')).toBe(longTitle)
+    expect(host.querySelector('.ds-reference-row__path')?.getAttribute('title')).toBe(longPath)
+    expect(host.querySelector('.ds-reference-row__path')?.textContent).toBe(longPath)
   })
 
   test('sequence index gives ordered rows a centered numeric marker and accessible label', async () => {

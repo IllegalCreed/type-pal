@@ -34,6 +34,9 @@ import {
   DsCatalogRow,
   DsInspectorTabs,
   DsListHeader,
+  DsReferenceList,
+  DsReferencePanel,
+  DsReferenceRow,
   DsTabs,
   DsTextInput,
   DsZoomToolbar,
@@ -515,6 +518,10 @@ export function ImageTab(props: {
   }
 
   const selectedReferences = selected ? (references.get(selected.id) ?? []) : []
+  const selectedReferenceCount = selectedReferences.reduce(
+    (total, reference) => total + reference.occurrences,
+    0,
+  )
   const selectedIssues = selected
     ? closureIssues.filter((issue) => issue.message.includes(`"${selected.id}"`))
     : []
@@ -704,25 +711,36 @@ export function ImageTab(props: {
                 {
                   id: 'references',
                   label: '引用',
-                  count: selectedReferences.length,
+                  count: selectedReferenceCount,
                   panel: (
-                    <div className="section music-reference-section">
-                      {selectedReferences.length ? (
-                        <div className="music-reference-list">
-                          {selectedReferences.map((reference) => (
-                            <div
-                              className="music-reference-item"
-                              key={`${reference.site}:${reference.asset}`}
-                            >
-                              <strong>{reference.site}</strong>
-                              <span>{reference.occurrences} 次</span>
-                              <code title={reference.where}>{reference.where}</code>
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="music-reference-empty">当前工程没有引用这张图片。</div>
-                      )}
+                    <div className="section asset-reference-section">
+                      <DsReferencePanel
+                        state={selectedReferenceCount ? 'ready' : 'empty'}
+                        count={{ kind: 'exact', value: selectedReferenceCount }}
+                        impact={{
+                          kind: 'blocking',
+                          description: selectedReferenceCount
+                            ? '替换图片会保留这些引用；解除全部引用后才能删除。'
+                            : '当前工程没有引用这张图片。',
+                        }}
+                      >
+                        {selectedReferences.length ? (
+                          <DsReferenceList>
+                            {selectedReferences.map((reference) => (
+                              <DsReferenceRow
+                                key={`${reference.site}:${reference.where}`}
+                                title={reference.site}
+                                path={reference.where}
+                                occurrenceCount={reference.occurrences}
+                                status={{
+                                  label: '只读',
+                                  reason: '图片引用暂不支持从资源页精确定位。',
+                                }}
+                              />
+                            ))}
+                          </DsReferenceList>
+                        ) : null}
+                      </DsReferencePanel>
                       {selectedIssues.map((issue) => (
                         <div className="cf-err" key={`${issue.code}:${issue.where}`}>
                           {issue.message}

@@ -195,6 +195,61 @@ describe('入口开局世界资源', () => {
 })
 
 describe('项目设置工作区', () => {
+  test('全局资源绑定行使用共享选择器和打开动作，并保持资源信息属于同一行', async () => {
+    const state = projectState()
+    state.manifest.assets.roles['video.startupTrademark'] = 'video.test'
+    state.assetCatalog.assets['video.test'] = {
+      kind: 'video',
+      path: 'assets/video/test.mp4',
+      mediaType: 'video/mp4',
+      bytes: 12,
+      sha256: '4'.repeat(64),
+      label: '测试视频',
+      origin: { kind: 'authored' },
+    }
+    const session = new EditSession(state)
+    const onOpenLocation = vi.fn()
+
+    await act(async () =>
+      root.render(
+        <ProjectWorkbenchTab
+          page="startup"
+          manifest={state.manifest as never}
+          scenes={state.scenes}
+          actors={state.actors}
+          items={state.items}
+          skills={state.skills}
+          locale={state.locale}
+          assetCatalog={state.assetCatalog}
+          session={session}
+          editorState={state}
+          assetReader={{} as never}
+          onOpenLocation={onOpenLocation}
+        />,
+      ),
+    )
+
+    const row = [...host.querySelectorAll<HTMLElement>('.project-role-row')].find((candidate) =>
+      candidate.textContent?.includes('启动商标视频'),
+    )!
+    const select = row.querySelector<HTMLButtonElement>('.ds-select')!
+    expect(select.getAttribute('aria-labelledby')).toBe('project-role-video-startupTrademark-label')
+    expect(row.querySelector('select.in')).toBeNull()
+    expect(row.querySelector('.project-role-resource')?.textContent).toContain(
+      'assets/video/test.mp4',
+    )
+
+    const preview = button(row, '前往预览')
+    expect(preview.classList.contains('ds-button')).toBe(true)
+    expect(preview.classList.contains('btn')).toBe(false)
+    await act(async () => preview.click())
+    expect(onOpenLocation).toHaveBeenCalledWith({
+      module: 'asset',
+      subpage: 'cutscene',
+      objectId: 'video.test',
+    })
+  })
+
   test.each([
     ['overview', '测试工程'],
     ['startup', '全局资源设置'],

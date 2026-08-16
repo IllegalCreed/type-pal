@@ -331,7 +331,10 @@ describe('ActorMode 人物预制 CRUD', () => {
       root = createRoot(host)
       root.render(<Harness session={session} />)
     })
-    expect(host.textContent).toContain('当前有 1 处外部引用')
+    expect(host.textContent).toContain('1 处引用会阻断删除')
+    expect(host.querySelector('.actor-reference-section .ds-reference-row')?.tagName).toBe(
+      'ARTICLE',
+    )
     expect(host.textContent).toContain('scenes[0](scene-a).entities[0](hero-instance).actor')
     expect(button('删除人物').disabled).toBe(true)
     expect(button('删除人物').title).toBe('仍有 1 处引用，请先从右侧处理')
