@@ -457,12 +457,13 @@ ls 17 测试文件（5 无 + Sound 38 行）。只读审查,未改实现文件,�
     current-canonical 目录全部迁入，GC1-GC5、CK1-CK2 均落地；筛选状态/选择/深链/计数继续由领域持有。
     Evidence: focused 19 files / 184 tests、editor full 124 files / 912 tests、typecheck、Vite production build、
     `git diff --check` 全绿；浏览器 1920/1280/min-193px 几何与交互通过，console warning/error 0。
-  - Kimi: **counter（2026-08-16 done 前架构/视觉复审，本人一手读码 + Chromium 实机；仅一项精确返工
-    RK-A）**。DsCatalogControls 唯一合同、17 页消费、CK2、sprite URL 深链、GC3/GC4/GC5 boundary 形态、
-    typecheck/912 tests 复跑与浏览器几何全部一手复核通过（见下方「Kimi 独立复审（done 前）」）；唯一
-    问题是 **CK1 未落地**：MapStampPalette control debt 未写入 board.md、也无后续任务卡号，只存在于本卡
-    文字（build 日志"已落看板"与实际不符）。RK-A 为纯文档补录，落地后本席直接改 accept，不需要重新
-    全面复审。
+  - Kimi: **accept（2026-08-16；先 counter 仅 RK-A，RK-A 经提交 0817317a 闭环后按预审承诺转 accept）**。
+    done 前架构/视觉复审（本人一手读码 + Chromium 实机，见下方「Kimi 独立复审（done 前）」）：
+    DsCatalogControls 唯一合同、17 页消费、CK2、sprite URL 深链、GC3/GC4/GC5 boundary 形态、
+    typecheck/912 tests 复跑与浏览器几何全部通过；唯一返工 RK-A（CK1 看板补录）经 Codex 提交 0817317a
+    落地——board.md:25 新增 ED-MAP-PALETTE-CONTROLS-1（draft/待排期、范围表述正确）、本卡「邻接控制」
+    段已关联该 ID、build 日志失实表述已修正并追记 RK-A 闭环记录。本席 2026-08-16 复核上述三处属实，
+    RK-A 闭环，转 accept。
   - GLM: **accept（2026-08-16 done 前覆盖/测试复审，本人一手读码 + 独立复跑，非代理；基于实现提交
     bb89c95e + follow-up 6f9d6379/0d7d875f）**。GC1-GC5 逐钉在当前树独立验证通过：
     - **GC1（5 新建 + 1 补齐）✓**：VarsTab.test（52 行）/ EventLibTab.test（41）/ ImageTab.test
@@ -489,8 +490,8 @@ ls 17 测试文件（5 无 + Sound 38 行）。只读审查,未改实现文件,�
     补录，不涉及实现；本席 accept 不受其影响，但 done 关卡在 Kimi 转 accept（RK-A 落地后）+ 用户
     验收前保持 blocked。
   - 用户豁免: N/A
-  - 结论: **blocked——Codex + GLM accept 齐；Kimi counter 的 RK-A 已落地，等待 Kimi 将本席结论转为
-    accept，再 + 用户验收方可关卡。**
+  - 结论: **blocked——Codex + GLM + Kimi 三方 accept 齐（2026-08-16）；仅剩用户实机验收，
+    验收前不得标 done。**
 
 #### Kimi 独立复审（done 前，2026-08-16；本人一手读码 + Chromium 实机）
 
@@ -594,6 +595,10 @@ domain round trip、Event 手册）+ /tmp 截图文件清单。只读审查，�
   `MapStampPalette` 的 raw search/select 后续迁入共享控件，但不得混入带 `DsListHeader` 的目录 recipe；同时
   修正 build 交接日志的失实表述。RK-A/CK1 已闭环，未改实现文件。Next: Kimi 只核对看板条目与本记录后
   直接将 counter 转 accept；无需重新全面复审，任务仍不得标 done，等待 Kimi accept + 用户验收。
+- 2026-08-16 Kimi（RK-A 复核）: 逐项核对 0817317a 三处——board.md:25 `ED-MAP-PALETTE-CONTROLS-1`
+  条目（draft/待排期、范围表述与 CK1 一致）、本卡「邻接控制」段已关联该 ID、build 日志失实表述已修正
+  并指向补录条目——全部属实，RK-A 闭环，按预审承诺将本席 counter 转 **accept**。至此 Codex + GLM +
+  Kimi 三方 accept 齐，仅剩用户实机验收。未改实现文件，未代签用户验收，未标 done。
 
 ## 下一位 Agent 提示词
 
@@ -649,23 +654,13 @@ editor-navigation.ts:67-268、DataMode.tsx:234-654、design-system recipes/contr
   不 reset/checkout 用户脏树文件。
 ```
 
-### 给 Kimi（RK-A 复核，可直接复制）
+### Kimi（RK-A 复核——已完成）
 
-```text
-接手任务: ED-CATALOG-CONTROLS-1 编辑器全局目录筛选区统一——RK-A 复核
-任务卡: docs/ops/tasks/ED-CATALOG-CONTROLS-1-global-catalog-controls.md
-当前状态: review；Codex + GLM accept；Kimi counter 仅剩 RK-A；不得标 done
-分支: codex/ed-catalog-controls-1
-你的角色: Kimi，仅核对 RK-A/CK1 文档闭环并更新签字，不重新全面复审。
-已落地:
-1. docs/ops/board.md 新增 ED-MAP-PALETTE-CONTROLS-1，明确 MapStampPalette raw search/select
-   后续迁入共享控件，且不得混入带 DsListHeader 的目录 recipe。
-2. 本卡“邻接控制”已关联该 ID；Codex build 日志的“已落看板”失实表述已修正；交接日志已追记 RK-A 证据。
-请直接核对上述三处。若 RK-A 满足，将 done 准入表的 Kimi counter 改为 accept，并更新结论/看板下一步；
-若仍不同意，只列 RK-A 的精确缺口。不得改实现文件、不得代签用户验收、不得在用户验收前标 done。
-```
+Kimi 已核对 `0817317a` 的看板条目、任务卡关联和日志修正，确认 RK-A 闭环并将 counter 转为 accept。
 
 ### Codex / GLM（本阶段已完成）
 
-Codex 已完成 RK-A 文档返工；GLM 已完成 done 前覆盖/测试复审并签 accept。当前只需按上方提示词交 Kimi
-核对 RK-A，仍不得在 Kimi accept 与用户验收前标 done。
+Codex 已完成 RK-A 文档返工；GLM 已完成 done 前覆盖/测试复审并签 accept；Kimi 已完成 RK-A 复核并
+将 counter 转为 accept。三方 done 前签字齐。
+
+无下一位 Agent 提示词，等待用户实机验收/收口；用户验收前不得标 done。
