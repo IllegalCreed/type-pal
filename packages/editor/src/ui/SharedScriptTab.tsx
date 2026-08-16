@@ -3,6 +3,7 @@ import {
   type AssetCatalogV1,
   type BattleSpriteDef,
   type Command,
+  type DialogueCueV14,
   getScriptBody,
   type Locale,
   type MapIndexV1,
@@ -12,6 +13,7 @@ import {
   type ScriptStage,
   type SharedScriptMetaV1,
   type SpriteDef,
+  upgradeDialogueTreeV13ToV14,
 } from '@type-pal/content'
 import {
   type AssetBase,
@@ -22,7 +24,9 @@ import {
 } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import {
+  CompositeCommand,
   DeleteAuthoredScriptCommand,
+  UpdateLocaleCommand,
   UpdateScriptBodyCommand,
   UpsertAuthoredScriptCommand,
 } from '../core/commands.js'
@@ -48,6 +52,7 @@ import { buildScriptReferenceIndex, type ScriptReferenceEntry } from '../core/sc
 import { createAuthoredScriptCall, createAuthoredScriptId } from '../core/shared-script.js'
 import { defaultActionTargetForEntity } from '../core/sprite-actions.js'
 import { CommandForm } from './CommandForm.js'
+import { DsListHeader } from './design-system/index.js'
 import { PreviewCanvas } from './PreviewCanvas.js'
 import { type RowAction, ScriptTree } from './ScriptTree.js'
 import { soundAssets } from './SoundPicker.js'
@@ -374,7 +379,11 @@ export function SharedScriptTab(props: {
     if (!insertFor || !editingScriptId) return
     let next = stages
     let at = parsePath(insertFor)
-    for (const command of commands) {
+    const authoredCommands =
+      editorState.manifest.contentVersion === 14
+        ? (upgradeDialogueTreeV13ToV14(commands) as unknown as readonly Command[])
+        : commands
+    for (const command of authoredCommands) {
       const last = at[at.length - 1] as number
       if (last === -1) {
         next = insertAtHead(next, at[0] as number, command)
@@ -452,20 +461,19 @@ export function SharedScriptTab(props: {
     <>
       <div className="outliner data-outliner shared-outliner">
         {tabBar}
-        <div className="pane-h">
-          <span className="t">脚本库</span>
-          <span className="spacer" />
-          {catalogMode === 'authored' ? (
-            <button
-              type="button"
-              className="mini"
-              title="新建可复用脚本"
-              onClick={() => createScript()}
-            >
-              ＋
-            </button>
-          ) : null}
-        </div>
+        <DsListHeader
+          title="脚本库"
+          count={catalogMode === 'authored' ? authoredIds.length : internalCatalog.length}
+          unit="项"
+          actions={catalogMode === 'authored'
+            ? [{
+                id: 'create-shared-script',
+                label: '新建可复用脚本',
+                icon: '＋',
+                onClick: () => createScript(),
+              }]
+            : undefined}
+        />
         <div className="shared-catalog-tabs" role="tablist" aria-label="脚本类型">
           <button
             type="button"
@@ -653,6 +661,7 @@ export function SharedScriptTab(props: {
                   stages={stages}
                   locale={locale}
                   scenes={scenes}
+                  actors={actorsById}
                   references={scriptReferences}
                   activePath={playback?.activePath ?? null}
                   selectedPath={selectedPath}
@@ -794,6 +803,36 @@ export function SharedScriptTab(props: {
                       onOpenImage={onOpenImage}
                       onOpenBattleSprite={props.onOpenBattleSprite}
                       onOpenSpriteAction={props.onOpenSpriteAction}
+                      onDialogueSpeakerOverrideChange={(text) => {
+                        const path = parsePath(selectedPath)
+                        const cue = (selectedCommand as { cue?: DialogueCueV14 }).cue
+                        if (!cue || !('identity' in cue) || cue.identity.kind !== 'actor') return
+                        const currentKey = cue.identity.speakerOverride
+                        const scriptKey = editingScriptId.replace(/[^A-Za-z0-9_-]+/g, '-')
+                        const pathKey = selectedPath.replace(/[^A-Za-z0-9_-]+/g, '-')
+                        const localeKey = currentKey ?? `dlg.actor.shared.${scriptKey}.${pathKey}`
+                        const identity = { ...cue.identity }
+                        if (text) identity.speakerOverride = localeKey
+                        else delete identity.speakerOverride
+                        const nextCommand = {
+                          ...(selectedCommand as object),
+                          cue: { ...cue, identity },
+                        } as unknown as Command
+                        const out = updateCommandAt(stages, path, nextCommand)
+                        if (out === stages) return
+                        const edit = new UpdateScriptBodyCommand(
+                          editingScriptId,
+                          out[0]?.body ?? [],
+                        )
+                        session.dispatch(
+                          text
+                            ? new CompositeCommand('修改人物称谓', [
+                                new UpdateLocaleCommand(localeKey, text),
+                                edit,
+                              ])
+                            : edit,
+                        )
+                      }}
                       onChange={(next) => {
                         const out = updateCommandAt(stages, parsePath(selectedPath), next)
                         if (out !== stages) dispatchBody(out)

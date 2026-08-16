@@ -39,6 +39,13 @@ import {
   type ProjectIssue,
   resolveProjectEntryPoints,
 } from '../core/project-diagnostics.js'
+import {
+  DsCatalogRow,
+  DsListHeader,
+  DsObjectHero,
+  DsSequenceIndex,
+  DsTag,
+} from './design-system/index.js'
 import type { EditorLocation } from './editor-navigation.js'
 import { SoundPicker } from './SoundPicker.js'
 
@@ -228,6 +235,28 @@ export function IssueList(props: {
 
 function PageHint({ children }: { children: ReactNode }) {
   return <div className="project-hint">{children}</div>
+}
+
+function ProjectPageWorkspace(props: {
+  eyebrow: ReactNode
+  title: ReactNode
+  objectId?: ReactNode
+  summary?: ReactNode
+  meta?: ReactNode
+  children: ReactNode
+}) {
+  return (
+    <main className="canvas-wrap data-body project-center ds-object-workspace">
+      <DsObjectHero
+        eyebrow={props.eyebrow}
+        title={props.title}
+        objectId={props.objectId}
+        summary={props.summary}
+        meta={props.meta}
+      />
+      <div className="project-scroll ds-object-workspace__content">{props.children}</div>
+    </main>
+  )
 }
 
 function RoleBindings(props: {
@@ -461,7 +490,7 @@ export function StartWorldFields(props: {
             const actor = actors.find((candidate) => candidate.id === actorId)
             return (
               <div className="project-party-row" key={`${actorId}:${index}`}>
-                <span className="project-party-index">{index + 1}</span>
+                <DsSequenceIndex value={index + 1} accessibleLabel={`初始队伍第 ${index + 1} 位`} />
                 <span className="project-party-name">
                   {actor ? lookupText(actor.name, locale) : `${actorId}（缺失）`}
                 </span>
@@ -876,71 +905,64 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
       <>
         <div className="outliner project-outliner">
           {tabBar}
-          <div className="pane-h">
-            <span className="t">入口与开局</span>
-            <span className="spacer" />
-            <span className="k">修复模式</span>
-          </div>
+          <DsListHeader title="入口修复" count={identityIssues.length} unit="项" />
           <PageHint>入口 id 损坏时不再按该 id 选中或深链，先修复稳定身份再继续编辑。</PageHint>
           <IssueList issues={identityIssues} />
         </div>
-        <div className="canvas-wrap data-body project-center">
-          <div className="project-scroll">
-            <div className="project-title-row">
-              <div>
-                <h2>修复入口 id</h2>
-                <span className="project-copy">id 必须非空、无首尾空格且彼此唯一</span>
-              </div>
-              <span className="project-badge warning">阻止保存</span>
+        <ProjectPageWorkspace
+          eyebrow="项目设置 · 入口点"
+          title="修复入口 id"
+          objectId="manifest.entryPoints"
+          summary="id 必须非空、无首尾空格且彼此唯一。"
+          meta={<DsTag tone="warning">阻止保存</DsTag>}
+        >
+          <section className="project-card">
+            <div className="project-form-stack">
+              {entryPoints.map((entry, index) => (
+                <label className="field" key={`repair:${index}`}>
+                  <span className="field-label">入口 {index + 1}</span>
+                  <input
+                    className="in"
+                    aria-label={`入口 ${index + 1} id`}
+                    value={repairIds[index] ?? ''}
+                    disabled={!repairableEntryIndexes.has(index)}
+                    onChange={(event) =>
+                      setRepairIds((current) =>
+                        current.map((id, itemIndex) =>
+                          itemIndex === index ? event.target.value : id,
+                        ),
+                      )
+                    }
+                  />
+                  <span className="project-copy">
+                    {entry.label || '未命名入口'} ·{' '}
+                    {repairableEntryIndexes.has(index) ? '需要修复' : '稳定 id（只读）'}
+                  </span>
+                </label>
+              ))}
             </div>
-            <section className="project-card">
-              <div className="project-form-stack">
-                {entryPoints.map((entry, index) => (
-                  <label className="field" key={`repair:${index}`}>
-                    <span className="field-label">入口 {index + 1}</span>
-                    <input
-                      className="in"
-                      aria-label={`入口 ${index + 1} id`}
-                      value={repairIds[index] ?? ''}
-                      disabled={!repairableEntryIndexes.has(index)}
-                      onChange={(event) =>
-                        setRepairIds((current) =>
-                          current.map((id, itemIndex) =>
-                            itemIndex === index ? event.target.value : id,
-                          ),
-                        )
-                      }
-                    />
-                    <span className="project-copy">
-                      {entry.label || '未命名入口'} ·{' '}
-                      {repairableEntryIndexes.has(index) ? '需要修复' : '稳定 id（只读）'}
-                    </span>
-                  </label>
-                ))}
-              </div>
-              <div className="project-button-row">
-                <button
-                  type="button"
-                  className="btn"
-                  disabled={!repairReady}
-                  onClick={() => {
-                    commit(
-                      entryPoints.map((entry, index) => ({
-                        ...entry,
-                        id: normalizedRepairIds[index]!,
-                      })),
-                    )
-                    setSelectedId(undefined)
-                    onObjectFocus?.(undefined)
-                  }}
-                >
-                  应用 id 修复
-                </button>
-              </div>
-              <PageHint>应用时会自动去掉首尾空格；普通状态下 id 继续只读。</PageHint>
-            </section>
-          </div>
-        </div>
+            <div className="project-button-row">
+              <button
+                type="button"
+                className="btn"
+                disabled={!repairReady}
+                onClick={() => {
+                  commit(
+                    entryPoints.map((entry, index) => ({
+                      ...entry,
+                      id: normalizedRepairIds[index]!,
+                    })),
+                  )
+                  setSelectedId(undefined)
+                  onObjectFocus?.(undefined)
+                }}
+              >
+                应用 id 修复
+              </button>
+            </div>
+            <PageHint>应用时会自动去掉首尾空格；普通状态下 id 继续只读。</PageHint>
+          </section>
+        </ProjectPageWorkspace>
         <div className="inspector project-inspector">
           <ProjectIssuesAside issues={issues} onOpenLocation={onOpenLocation} />
         </div>
@@ -1002,238 +1024,222 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
     <>
       <div className="outliner project-outliner">
         {tabBar}
-        <div className="pane-h">
-          <span className="t">入口点与开局</span>
-          <span className="spacer" />
-          <span className="k">1 默认 + {entryPoints.length} 菜单</span>
-        </div>
+        <DsListHeader
+          title="入口点"
+          count={entryPoints.length + 1}
+          unit="项"
+          actions={[{ id: 'create-entry', label: '新增入口', icon: '＋', onClick: addEntry }]}
+          overflowActions={[
+            { id: 'clone-entry', label: '复制当前入口', onClick: cloneEntry },
+            {
+              id: 'remove-entry',
+              label: '删除当前入口',
+              danger: true,
+              disabled: !selected || entryPoints.length <= 1,
+              onClick: removeEntry,
+            },
+          ]}
+        />
         <PageHint>
           每个入口都在这里对应一套实际开局设置；菜单入口可以跟随默认入口，也可以保存本入口自己的整套设置。
         </PageHint>
         <div className="project-entry-list">
-          <button
-            type="button"
-            className={`node${selectedId === undefined ? ' sel' : ''}`}
+          <DsCatalogRow
+            leading="🧭"
+            title="默认入口"
+            meta={manifest.entryScene}
+            selected={selectedId === undefined}
             onClick={chooseDefault}
-          >
-            <span className="ico">🧭</span>
-            <span className="node-label">默认入口</span>
-            <code>{manifest.entryScene}</code>
-          </button>
+          />
           <div className="project-entry-divider">标题菜单入口（各自带开局）</div>
           {entryPoints.map((entry) => (
-            <button
-              type="button"
-              className={`node${entry.id === selected?.id ? ' sel' : ''}`}
+            <DsCatalogRow
               key={entry.id}
+              leading="🚪"
+              title={entry.label}
+              meta={entry.id}
+              selected={entry.id === selected?.id}
               onClick={() => chooseEntry(entry.id)}
-            >
-              <span className="ico">🚪</span>
-              <span className="node-label">{entry.label}</span>
-              <code>{entry.id}</code>
-            </button>
+            />
           ))}
         </div>
-        <div className="project-button-row">
-          <button type="button" className="btn" onClick={addEntry}>
-            ＋ 新增
-          </button>
-          <button type="button" className="btn" onClick={cloneEntry}>
-            复制当前
-          </button>
-          <button
-            type="button"
-            className="btn"
-            onClick={removeEntry}
-            disabled={!selected || entryPoints.length <= 1}
-          >
-            删除入口
-          </button>
-        </div>
       </div>
-      <div className="canvas-wrap data-body project-center">
-        <div className="project-scroll">
-          {selected ? (
-            <>
-              <div className="project-title-row">
-                <div>
-                  <h2>{selected.label}</h2>
-                  <code>{selected.id}</code>
-                </div>
-                <span className="project-badge">菜单入口 · 稳定 id</span>
-              </div>
-              <section className="project-card">
-                <h4>入口信息</h4>
-                <label className="field">
-                  <span className="field-label">标签</span>
-                  <input
-                    className="in"
-                    value={selected.label}
-                    onChange={(event) => patchEntry(selected.id, { label: event.target.value })}
-                  />
-                </label>
-                <label className="field">
-                  <span className="field-label">起始场景</span>
+      <ProjectPageWorkspace
+        eyebrow="项目设置 · 入口点"
+        title={selected ? selected.label : '默认入口'}
+        objectId={selected ? selected.id : 'manifest.entryScene + manifest.startWorld'}
+        summary={
+          selected
+            ? '为标题菜单入口配置场景、入口视频与独立开局状态。'
+            : '不经过标题菜单时使用的默认场景与开局状态。'
+        }
+        meta={<DsTag tone="neutral">{selected ? '菜单入口 · 稳定 id' : '不经过标题菜单'}</DsTag>}
+      >
+        {selected ? (
+          <>
+            <section className="project-card">
+              <h4>入口信息</h4>
+              <label className="field">
+                <span className="field-label">标签</span>
+                <input
+                  className="in"
+                  value={selected.label}
+                  onChange={(event) => patchEntry(selected.id, { label: event.target.value })}
+                />
+              </label>
+              <label className="field">
+                <span className="field-label">起始场景</span>
+                <select
+                  className="in"
+                  value={selected.scene}
+                  onChange={(event) => patchEntry(selected.id, { scene: event.target.value })}
+                >
+                  {!sceneIds.includes(selected.scene) ? (
+                    <option value={selected.scene}>{selected.scene}（缺失）</option>
+                  ) : null}
+                  {sceneIds.map((id) => (
+                    <option value={id} key={id}>
+                      {id}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="field">
+                <span className="field-label">入口视频</span>
+                <span className="project-entry-video-control">
                   <select
                     className="in"
-                    value={selected.scene}
-                    onChange={(event) => patchEntry(selected.id, { scene: event.target.value })}
+                    value={selected.introVideo ?? ''}
+                    onChange={(event) =>
+                      patchEntry(selected.id, { introVideo: event.target.value || undefined })
+                    }
                   >
-                    {!sceneIds.includes(selected.scene) ? (
-                      <option value={selected.scene}>{selected.scene}（缺失）</option>
+                    <option value="">无（由场景脚本负责叙事）</option>
+                    {selected.introVideo && !assetCatalog.assets[selected.introVideo] ? (
+                      <option value={selected.introVideo}>{selected.introVideo}（缺失）</option>
                     ) : null}
-                    {sceneIds.map((id) => (
+                    {selected.introVideo &&
+                    assetCatalog.assets[selected.introVideo]?.kind !== 'video' ? (
+                      <option value={selected.introVideo}>
+                        {selected.introVideo}（类型 {assetCatalog.assets[selected.introVideo]?.kind}
+                        ）
+                      </option>
+                    ) : null}
+                    {videoAssets.map(([id, asset]) => (
                       <option value={id} key={id}>
+                        {asset.label ? `${asset.label} · ` : ''}
                         {id}
                       </option>
                     ))}
                   </select>
-                </label>
-                <label className="field">
-                  <span className="field-label">入口视频</span>
-                  <span className="project-entry-video-control">
-                    <select
-                      className="in"
-                      value={selected.introVideo ?? ''}
-                      onChange={(event) =>
-                        patchEntry(selected.id, { introVideo: event.target.value || undefined })
-                      }
-                    >
-                      <option value="">无（由场景脚本负责叙事）</option>
-                      {selected.introVideo && !assetCatalog.assets[selected.introVideo] ? (
-                        <option value={selected.introVideo}>{selected.introVideo}（缺失）</option>
-                      ) : null}
-                      {selected.introVideo &&
-                      assetCatalog.assets[selected.introVideo]?.kind !== 'video' ? (
-                        <option value={selected.introVideo}>
-                          {selected.introVideo}（类型{' '}
-                          {assetCatalog.assets[selected.introVideo]?.kind}）
-                        </option>
-                      ) : null}
-                      {videoAssets.map(([id, asset]) => (
-                        <option value={id} key={id}>
-                          {asset.label ? `${asset.label} · ` : ''}
-                          {id}
-                        </option>
-                      ))}
-                    </select>
-                    {selected.introVideo && onOpenLocation ? (
-                      <button
-                        type="button"
-                        className="btn"
-                        title={`查看入口视频 ${selected.introVideo}`}
-                        onClick={() =>
-                          onOpenLocation({
-                            module: 'asset',
-                            subpage: 'cutscene',
-                            objectId: selected.introVideo!,
-                          })
-                        }
-                      >
-                        预览 ↗
-                      </button>
-                    ) : null}
-                  </span>
-                </label>
-              </section>
-              <section className="project-card">
-                <div className="project-title-row">
-                  <h4>这个入口的开局设置</h4>
-                  <span className={`project-badge ${selected.startWorld ? 'custom' : ''}`}>
-                    {selected.startWorld ? '本入口独立设置' : '跟随默认入口'}
-                  </span>
-                </div>
-                <p className="project-copy">
-                  下方始终展示这个入口实际会使用的完整开局。跟随默认时，这些控件只读，默认入口的修改会同步影响它；
-                  需要不同队伍或道具时，再复制一份作为本入口独立设置。
-                </p>
-                <div className="project-button-row">
-                  {!selected.startWorld ? (
+                  {selected.introVideo && onOpenLocation ? (
                     <button
                       type="button"
                       className="btn"
+                      title={`查看入口视频 ${selected.introVideo}`}
                       onClick={() =>
-                        patchEntry(selected.id, {
-                          startWorld: structuredClone(manifest.startWorld),
+                        onOpenLocation({
+                          module: 'asset',
+                          subpage: 'cutscene',
+                          objectId: selected.introVideo!,
                         })
                       }
                     >
-                      复制默认为本入口设置
+                      预览 ↗
                     </button>
-                  ) : (
-                    <button
-                      type="button"
-                      className="btn"
-                      onClick={() => patchEntry(selected.id, { startWorld: undefined })}
-                    >
-                      改为跟随默认入口
-                    </button>
-                  )}
-                </div>
-                <StartWorldFields
-                  value={selected.startWorld ?? manifest.startWorld}
-                  actors={actors}
-                  items={items}
-                  skills={skills}
-                  locale={locale}
-                  readOnly={!selected.startWorld}
-                  onChange={updateOverride}
-                />
-              </section>
-            </>
-          ) : (
-            <>
+                  ) : null}
+                </span>
+              </label>
+            </section>
+            <section className="project-card">
               <div className="project-title-row">
-                <div>
-                  <h2>默认入口</h2>
-                  <code>manifest.entryScene + manifest.startWorld</code>
-                </div>
-                <span className="project-badge">不经过标题菜单</span>
+                <h4>这个入口的开局设置</h4>
+                <span className={`project-badge ${selected.startWorld ? 'custom' : ''}`}>
+                  {selected.startWorld ? '本入口独立设置' : '跟随默认入口'}
+                </span>
               </div>
-              <section className="project-card">
-                <h4>入口信息</h4>
-                <label className="field">
-                  <span className="field-label">起始场景</span>
-                  <select
-                    className="in"
-                    value={manifest.entryScene}
-                    onChange={(event) =>
-                      session.dispatch(new UpdateEntrySceneCommand(event.target.value))
+              <p className="project-copy">
+                下方始终展示这个入口实际会使用的完整开局。跟随默认时，这些控件只读，默认入口的修改会同步影响它；
+                需要不同队伍或道具时，再复制一份作为本入口独立设置。
+              </p>
+              <div className="project-button-row">
+                {!selected.startWorld ? (
+                  <button
+                    type="button"
+                    className="btn"
+                    onClick={() =>
+                      patchEntry(selected.id, {
+                        startWorld: structuredClone(manifest.startWorld),
+                      })
                     }
                   >
-                    {!sceneIds.includes(manifest.entryScene) ? (
-                      <option value={manifest.entryScene}>{manifest.entryScene}（缺失）</option>
-                    ) : null}
-                    {sceneIds.map((id) => (
-                      <option value={id} key={id}>
-                        {id}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <PageHint>
-                  这是无 menu / entry 参数时使用的入口；没有 introVideo，叙事由入口场景 onEnter
-                  负责。
-                </PageHint>
-              </section>
-              <section className="project-card">
-                <div className="project-title-row">
-                  <h4>这个入口的开局设置</h4>
-                  <span className="project-badge custom">默认真源</span>
-                </div>
-                <StartWorldFields
-                  value={manifest.startWorld}
-                  actors={actors}
-                  items={items}
-                  skills={skills}
-                  locale={locale}
-                  onChange={updateDefault}
-                />
-              </section>
-            </>
-          )}
-        </div>
-      </div>
+                    复制默认为本入口设置
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className="btn"
+                    onClick={() => patchEntry(selected.id, { startWorld: undefined })}
+                  >
+                    改为跟随默认入口
+                  </button>
+                )}
+              </div>
+              <StartWorldFields
+                value={selected.startWorld ?? manifest.startWorld}
+                actors={actors}
+                items={items}
+                skills={skills}
+                locale={locale}
+                readOnly={!selected.startWorld}
+                onChange={updateOverride}
+              />
+            </section>
+          </>
+        ) : (
+          <>
+            <section className="project-card">
+              <h4>入口信息</h4>
+              <label className="field">
+                <span className="field-label">起始场景</span>
+                <select
+                  className="in"
+                  value={manifest.entryScene}
+                  onChange={(event) =>
+                    session.dispatch(new UpdateEntrySceneCommand(event.target.value))
+                  }
+                >
+                  {!sceneIds.includes(manifest.entryScene) ? (
+                    <option value={manifest.entryScene}>{manifest.entryScene}（缺失）</option>
+                  ) : null}
+                  {sceneIds.map((id) => (
+                    <option value={id} key={id}>
+                      {id}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <PageHint>
+                这是无 menu / entry 参数时使用的入口；没有 introVideo，叙事由入口场景 onEnter 负责。
+              </PageHint>
+            </section>
+            <section className="project-card">
+              <div className="project-title-row">
+                <h4>这个入口的开局设置</h4>
+                <span className="project-badge custom">默认真源</span>
+              </div>
+              <StartWorldFields
+                value={manifest.startWorld}
+                actors={actors}
+                items={items}
+                skills={skills}
+                locale={locale}
+                onChange={updateDefault}
+              />
+            </section>
+          </>
+        )}
+      </ProjectPageWorkspace>
       <div className="inspector project-inspector">
         <ProjectIssuesAside issues={issues} onOpenLocation={onOpenLocation} />
         <div className="section">
@@ -1279,9 +1285,7 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
       <>
         <div className="outliner project-outliner">
           {tabBar}
-          <div className="pane-h">
-            <span className="t">全局资源与启动</span>
-          </div>
+          <DsListHeader title="全局资源" count={boundRoleCount} unit="项已绑定" />
           <PageHint>
             manifest.assets.roles 的 {ASSET_ROLES.length}{' '}
             项设置都在本页，按用途分组；启动链放在设置之后解释实际消费顺序。
@@ -1308,141 +1312,133 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
             </div>
           </div>
         </div>
-        <div className="canvas-wrap data-body project-center">
-          <div className="project-scroll">
-            <div className="project-title-row">
-              <div>
-                <h2>全局资源设置</h2>
-                <code>manifest.assets.roles</code>
+        <ProjectPageWorkspace
+          eyebrow="项目设置"
+          title="全局资源设置"
+          objectId="manifest.assets.roles"
+          summary="选择工程运行时使用的稳定 AssetId；资源文件的导入、替换和预览仍在“资源”模块完成。"
+          meta={
+            <DsTag tone="neutral">
+              {boundRoleCount}/{ASSET_ROLES.length} 已绑定
+            </DsTag>
+          }
+        >
+          {PROJECT_ASSET_ROLE_GROUPS.map((group) => {
+            const groupBoundCount = group.roles.filter((role) => manifest.assets.roles[role]).length
+            return (
+              <section className="project-card" key={group.id}>
+                <div className="project-role-group-head">
+                  <div>
+                    <h4>{group.title}</h4>
+                    <p className="project-copy">{group.description}</p>
+                  </div>
+                  <span className="project-badge">
+                    {groupBoundCount}/{group.roles.length} 已绑定
+                  </span>
+                </div>
+                <RoleBindings
+                  manifest={manifest}
+                  assetCatalog={assetCatalog}
+                  assetReader={assetReader}
+                  session={session}
+                  roles={group.roles}
+                  onOpenLocation={onOpenLocation}
+                />
+              </section>
+            )
+          })}
+          <div className="project-section-heading">
+            <div>
+              <h2>启动链</h2>
+              <span className="project-copy">只读解释层 · 与当前运行时分支一致</span>
+            </div>
+          </div>
+          <section className="project-card">
+            <h4>默认入口（不经过标题菜单）</h4>
+            <div className="project-flow">
+              <div className="project-flow-step">
+                <DsSequenceIndex value={1} accessibleLabel="第 1 步" />
+                <div>
+                  <strong>创建默认世界</strong>
+                  <p>读取 manifest.startWorld，不选择任何入口点。</p>
+                </div>
               </div>
-              <span className="project-badge">
-                {boundRoleCount}/{ASSET_ROLES.length} 已绑定
-              </span>
+              <div className="project-flow-step">
+                <DsSequenceIndex value={2} accessibleLabel="第 2 步" />
+                <div>
+                  <strong>进入默认场景</strong>
+                  <p>{manifest.entryScene}</p>
+                </div>
+              </div>
+              <div className="project-flow-step">
+                <DsSequenceIndex value={3} accessibleLabel="第 3 步" />
+                <div>
+                  <strong>执行场景 onEnter</strong>
+                  <p>{defaultScene ? '脚本模块所有；video/RNG/BGM 只读展示。' : '入口场景缺失'}</p>
+                </div>
+              </div>
             </div>
             <PageHint>
-              这里选择工程运行时使用的稳定 AssetId；资源文件的导入、替换和预览仍在“资源”模块完成。
+              使用 entry 参数属于开发直达：选择入口的场景/开局数据，但同样跳过启动视频、菜单和
+              introVideo。
             </PageHint>
-            {PROJECT_ASSET_ROLE_GROUPS.map((group) => {
-              const groupBoundCount = group.roles.filter(
-                (role) => manifest.assets.roles[role],
-              ).length
-              return (
-                <section className="project-card" key={group.id}>
-                  <div className="project-role-group-head">
-                    <div>
-                      <h4>{group.title}</h4>
-                      <p className="project-copy">{group.description}</p>
-                    </div>
-                    <span className="project-badge">
-                      {groupBoundCount}/{group.roles.length} 已绑定
-                    </span>
-                  </div>
-                  <RoleBindings
-                    manifest={manifest}
-                    assetCatalog={assetCatalog}
-                    assetReader={assetReader}
-                    session={session}
-                    roles={group.roles}
-                    onOpenLocation={onOpenLocation}
-                  />
-                </section>
-              )
-            })}
-            <div className="project-section-heading">
-              <div>
-                <h2>启动链</h2>
-                <span className="project-copy">只读解释层 · 与当前运行时分支一致</span>
-              </div>
-            </div>
-            <section className="project-card">
-              <h4>默认入口（不经过标题菜单）</h4>
-              <div className="project-flow">
-                <div className="project-flow-step">
-                  <span className="project-flow-number">1</span>
+          </section>
+          <section className="project-card">
+            <h4>标题菜单分支（menu）</h4>
+            <div className="project-flow">
+              {STARTUP_ROLES.map((role, index) => (
+                <div className="project-flow-step" key={role}>
+                  <DsSequenceIndex value={index + 1} accessibleLabel={`第 ${index + 1} 步`} />
                   <div>
-                    <strong>创建默认世界</strong>
-                    <p>读取 manifest.startWorld，不选择任何入口点。</p>
-                  </div>
-                </div>
-                <div className="project-flow-step">
-                  <span className="project-flow-number">2</span>
-                  <div>
-                    <strong>进入默认场景</strong>
-                    <p>{manifest.entryScene}</p>
-                  </div>
-                </div>
-                <div className="project-flow-step">
-                  <span className="project-flow-number">3</span>
-                  <div>
-                    <strong>执行场景 onEnter</strong>
+                    <strong>{ROLE_LABELS[role]}</strong>
                     <p>
-                      {defaultScene ? '脚本模块所有；video/RNG/BGM 只读展示。' : '入口场景缺失'}
+                      {manifest.assets.roles[role]
+                        ? `AssetId ${manifest.assets.roles[role]}`
+                        : '未绑定'}
                     </p>
                   </div>
                 </div>
-              </div>
-              <PageHint>
-                使用 entry 参数属于开发直达：选择入口的场景/开局数据，但同样跳过启动视频、菜单和
-                introVideo。
-              </PageHint>
-            </section>
-            <section className="project-card">
-              <h4>标题菜单分支（menu）</h4>
-              <div className="project-flow">
-                {STARTUP_ROLES.map((role, index) => (
-                  <div className="project-flow-step" key={role}>
-                    <span className="project-flow-number">{index + 1}</span>
-                    <div>
-                      <strong>{ROLE_LABELS[role]}</strong>
-                      <p>
-                        {manifest.assets.roles[role]
-                          ? `AssetId ${manifest.assets.roles[role]}`
-                          : '未绑定'}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-                <div className="project-flow-step">
-                  <span className="project-flow-number">4</span>
-                  <div>
-                    <strong>选择入口点</strong>
-                    <p>播放该入口的 introVideo，再使用其完整开局（跟随默认或本入口独立设置）。</p>
-                  </div>
-                </div>
-                <div className="project-flow-step">
-                  <span className="project-flow-number">5</span>
-                  <div>
-                    <strong>进入入口场景</strong>
-                    <p>随后执行该场景 onEnter；脚本内容仍由剧情/场景模块编辑。</p>
-                  </div>
+              ))}
+              <div className="project-flow-step">
+                <DsSequenceIndex value={4} accessibleLabel="第 4 步" />
+                <div>
+                  <strong>选择入口点</strong>
+                  <p>播放该入口的 introVideo，再使用其完整开局（跟随默认或本入口独立设置）。</p>
                 </div>
               </div>
-            </section>
-            <section className="project-card">
-              <h4>标题菜单入口点</h4>
-              <div className="project-entry-summary-list">
-                {effectiveEntries.map((entry) => (
-                  <div className="project-entry-summary" key={entry.id}>
-                    <span>菜单项</span>
-                    <strong>{entry.label}</strong>
-                    <code>{entry.scene}</code>
-                    <small>
-                      {entry.introVideo ?? '无入口视频'} ·{' '}
-                      {entry.startWorld ? '本入口独立设置' : '跟随默认入口'}
-                    </small>
-                    <button
-                      type="button"
-                      className="btn"
-                      onClick={() => openProjectPage('entrypoint', entry.id)}
-                    >
-                      编辑
-                    </button>
-                  </div>
-                ))}
+              <div className="project-flow-step">
+                <DsSequenceIndex value={5} accessibleLabel="第 5 步" />
+                <div>
+                  <strong>进入入口场景</strong>
+                  <p>随后执行该场景 onEnter；脚本内容仍由剧情/场景模块编辑。</p>
+                </div>
               </div>
-            </section>
-          </div>
-        </div>
+            </div>
+          </section>
+          <section className="project-card">
+            <h4>标题菜单入口点</h4>
+            <div className="project-entry-summary-list">
+              {effectiveEntries.map((entry) => (
+                <div className="project-entry-summary" key={entry.id}>
+                  <span>菜单项</span>
+                  <strong>{entry.label}</strong>
+                  <code>{entry.scene}</code>
+                  <small>
+                    {entry.introVideo ?? '无入口视频'} ·{' '}
+                    {entry.startWorld ? '本入口独立设置' : '跟随默认入口'}
+                  </small>
+                  <button
+                    type="button"
+                    className="btn"
+                    onClick={() => openProjectPage('entrypoint', entry.id)}
+                  >
+                    编辑
+                  </button>
+                </div>
+              ))}
+            </div>
+          </section>
+        </ProjectPageWorkspace>
         <div className="inspector project-inspector">
           <ProjectIssuesAside issues={issues} onOpenLocation={onOpenLocation} />
           <div className="section">
@@ -1492,9 +1488,11 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
     <>
       <div className="outliner project-outliner">
         {tabBar}
-        <div className="pane-h">
-          <span className="t">{page === 'overview' ? '工程概览' : '问题与高级'}</span>
-        </div>
+        <DsListHeader
+          title={page === 'overview' ? '工程概览' : '问题与高级'}
+          count={page === 'overview' ? scenes.length : referenceCount}
+          unit={page === 'overview' ? '个场景' : '项问题'}
+        />
         {page === 'overview' ? (
           <>
             <PageHint>
@@ -1535,139 +1533,136 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
           </>
         )}
       </div>
-      <div className="canvas-wrap data-body project-center">
-        <div className="project-scroll">
-          {page === 'overview' ? (
-            <>
-              <div className="project-title-row">
-                <div>
-                  <h2>{manifest.name}</h2>
-                  <code>{manifest.id}</code>
-                </div>
-                <span className={`project-badge ${issues.length ? 'warning' : 'ok'}`}>
-                  {issues.length ? `${issues.length} 项问题` : '配置健康'}
-                </span>
-              </div>
-              <section className="project-card">
-                <h4>工程身份</h4>
-                <label className="field">
-                  <span className="field-label">显示名</span>
-                  <input
-                    className="in"
-                    value={manifest.name}
-                    onChange={(event) =>
-                      session.dispatch(new RenameProjectCommand(event.target.value))
-                    }
-                  />
-                </label>
-              </section>
-              <section className="project-card">
-                <h4>启动摘要</h4>
-                <div className="project-flow-mini">
-                  <span>默认入口</span>
-                  <strong>
-                    {manifest.startWorld.party.length} 名队员 · {manifest.startWorld.money} 金钱
-                  </strong>
-                  <code>{manifest.entryScene}</code>
-                  <button
-                    type="button"
-                    className="btn"
-                    onClick={() => openProjectPage('entrypoint')}
-                  >
-                    编辑入口与开局
-                  </button>
-                </div>
-                <div className="project-flow-mini">
-                  <span>标题菜单</span>
-                  <strong>{effectiveEntries.length} 个入口点</strong>
-                  <button
-                    type="button"
-                    className="btn"
-                    onClick={() => openProjectPage('entrypoint', firstEntry?.id)}
-                  >
-                    编辑入口
-                  </button>
-                </div>
-                <div className="project-flow-mini">
-                  <span>全局资源</span>
-                  <strong>
-                    {boundRoleCount}/{ASSET_ROLES.length} 项已绑定
-                  </strong>
-                  <code>assets.roles</code>
-                  <button type="button" className="btn" onClick={() => openProjectPage('startup')}>
-                    编辑 8 项设置
-                  </button>
-                </div>
-                <div className="project-flow-mini">
-                  <span>启动分支</span>
-                  <strong>默认入口 / 标题菜单入口</strong>
-                  <button type="button" className="btn" onClick={() => openProjectPage('startup')}>
-                    查看链路
-                  </button>
-                </div>
-              </section>
-              <section className="project-card">
-                <h4>未解决问题</h4>
-                <IssueList issues={issues} onOpenLocation={onOpenLocation} />
-              </section>
-            </>
+      <ProjectPageWorkspace
+        eyebrow={page === 'overview' ? '项目设置 · 工程概览' : '项目设置'}
+        title={page === 'overview' ? manifest.name : '问题与高级'}
+        objectId={page === 'overview' ? manifest.id : 'manifest'}
+        summary={
+          page === 'overview'
+            ? '管理工程身份，并查看入口、全局资源与诊断摘要。'
+            : '统一查看引用与 validator 诊断，以及只读工程元数据。'
+        }
+        meta={
+          page === 'overview' ? (
+            <DsTag tone={issues.length ? 'warning' : 'neutral'}>
+              {issues.length ? `${issues.length} 项问题` : '配置健康'}
+            </DsTag>
           ) : (
-            <>
-              <div className="project-title-row">
-                <div>
-                  <h2>问题与高级</h2>
-                  <span className="project-copy">统一引用/validator 诊断</span>
-                </div>
+            <DsTag tone={referenceCount ? 'warning' : 'neutral'}>{referenceCount} 项问题</DsTag>
+          )
+        }
+      >
+        {page === 'overview' ? (
+          <>
+            <section className="project-card">
+              <h4>工程身份</h4>
+              <label className="field">
+                <span className="field-label">显示名</span>
+                <input
+                  className="in"
+                  value={manifest.name}
+                  onChange={(event) =>
+                    session.dispatch(new RenameProjectCommand(event.target.value))
+                  }
+                />
+              </label>
+            </section>
+            <section className="project-card">
+              <h4>启动摘要</h4>
+              <div className="project-flow-mini">
+                <span>默认入口</span>
+                <strong>
+                  {manifest.startWorld.party.length} 名队员 · {manifest.startWorld.money} 金钱
+                </strong>
+                <code>{manifest.entryScene}</code>
+                <button type="button" className="btn" onClick={() => openProjectPage('entrypoint')}>
+                  编辑入口与开局
+                </button>
               </div>
-              <section className="project-card">
-                <h4>问题面板</h4>
-                <IssueList issues={issues} onOpenLocation={onOpenLocation} />
-              </section>
-              <section className="project-card">
-                <h4>工程元数据（只读）</h4>
-                <dl className="project-meta">
-                  <dt>id</dt>
-                  <dd>
-                    <code>{manifest.id}</code>
-                  </dd>
-                  <dt>contentVersion</dt>
-                  <dd>{manifest.contentVersion}</dd>
-                  <dt>content</dt>
-                  <dd>
-                    <code>{JSON.stringify(manifest.content)}</code>
-                  </dd>
-                  <dt>资源 catalog</dt>
-                  <dd>
-                    <code>{manifest.assets.catalog}</code>
-                  </dd>
-                  <dt>catalog 校验</dt>
-                  <dd>
-                    {catalogStatus.valid ? (
-                      <span className="project-status-ok">✓ 有效</span>
-                    ) : (
-                      <span className="project-status-error">✕ {catalogStatus.message}</span>
-                    )}
-                  </dd>
-                  <dt>legacy families</dt>
-                  <dd>
-                    <code>{manifest.assets.legacy?.families.join(', ') || '无'}</code>
-                  </dd>
-                  <dt>未知顶层字段</dt>
-                  <dd>
-                    <code>{unknownManifestKeys.join(', ') || '无'}</code>
-                  </dd>
-                </dl>
-              </section>
-              <section className="project-card">
-                <h4>locale 归属</h4>
-                <PageHint>
-                  locale 编辑不属于本卡四页，延后到独立内容/本地化任务；这里仅展示当前 locale。
-                </PageHint>
-              </section>
-            </>
-          )}
-        </div>
-      </div>
+              <div className="project-flow-mini">
+                <span>标题菜单</span>
+                <strong>{effectiveEntries.length} 个入口点</strong>
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => openProjectPage('entrypoint', firstEntry?.id)}
+                >
+                  编辑入口
+                </button>
+              </div>
+              <div className="project-flow-mini">
+                <span>全局资源</span>
+                <strong>
+                  {boundRoleCount}/{ASSET_ROLES.length} 项已绑定
+                </strong>
+                <code>assets.roles</code>
+                <button type="button" className="btn" onClick={() => openProjectPage('startup')}>
+                  编辑 8 项设置
+                </button>
+              </div>
+              <div className="project-flow-mini">
+                <span>启动分支</span>
+                <strong>默认入口 / 标题菜单入口</strong>
+                <button type="button" className="btn" onClick={() => openProjectPage('startup')}>
+                  查看链路
+                </button>
+              </div>
+            </section>
+            <section className="project-card">
+              <h4>未解决问题</h4>
+              <IssueList issues={issues} onOpenLocation={onOpenLocation} />
+            </section>
+          </>
+        ) : (
+          <>
+            <section className="project-card">
+              <h4>问题面板</h4>
+              <IssueList issues={issues} onOpenLocation={onOpenLocation} />
+            </section>
+            <section className="project-card">
+              <h4>工程元数据（只读）</h4>
+              <dl className="project-meta">
+                <dt>id</dt>
+                <dd>
+                  <code>{manifest.id}</code>
+                </dd>
+                <dt>contentVersion</dt>
+                <dd>{manifest.contentVersion}</dd>
+                <dt>content</dt>
+                <dd>
+                  <code>{JSON.stringify(manifest.content)}</code>
+                </dd>
+                <dt>资源 catalog</dt>
+                <dd>
+                  <code>{manifest.assets.catalog}</code>
+                </dd>
+                <dt>catalog 校验</dt>
+                <dd>
+                  {catalogStatus.valid ? (
+                    <span className="project-status-ok">✓ 有效</span>
+                  ) : (
+                    <span className="project-status-error">✕ {catalogStatus.message}</span>
+                  )}
+                </dd>
+                <dt>legacy families</dt>
+                <dd>
+                  <code>{manifest.assets.legacy?.families.join(', ') || '无'}</code>
+                </dd>
+                <dt>未知顶层字段</dt>
+                <dd>
+                  <code>{unknownManifestKeys.join(', ') || '无'}</code>
+                </dd>
+              </dl>
+            </section>
+            <section className="project-card">
+              <h4>locale 归属</h4>
+              <PageHint>
+                locale 编辑不属于本卡四页，延后到独立内容/本地化任务；这里仅展示当前 locale。
+              </PageHint>
+            </section>
+          </>
+        )}
+      </ProjectPageWorkspace>
       <div className="inspector project-inspector">
         <ProjectIssuesAside issues={issues} onOpenLocation={onOpenLocation} />
         {page === 'overview' ? (

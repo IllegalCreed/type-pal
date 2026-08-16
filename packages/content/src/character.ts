@@ -76,6 +76,8 @@ export interface WorldStateV13 extends WorldStateV12 {
   /** 缺席或缺少具体实体条目均严格等价于 normal。 */
   entityLifecycles?: EntityLifecycleTableV13
 }
+/** contentVersion 14 只升级作者对话身份，运行世界形状与 W9/content13 完全相同。 */
+export type WorldStateV14 = WorldStateV13
 
 /** manifest.startWorld —— initialWorld() 的数据化(loader 从工程 JSON 读,buildWorld 组装)。 */
 export interface StartWorld {
@@ -109,7 +111,7 @@ export interface EntryPoint {
 }
 
 /** 工程内容 schema 版本；与存档 SAVE_VERSION 是两个独立的版本轴。 */
-export const CONTENT_VERSION = 13 as const
+export const CONTENT_VERSION = 14 as const
 /** 当前工程仍允许读取的最早 SAVE envelope；不得从 CONTENT_VERSION 推导。 */
 export const CURRENT_PROJECT_MINIMUM_SAVE_VERSION = 8 as const
 
@@ -156,6 +158,12 @@ export type LegacyManifestV10 = ProjectManifest<10>
 export type LegacyManifestV11 = ProjectManifest<11>
 /** contentVersion 12 只允许 W9 生命周期 successor 边界读取。 */
 export type LegacyManifestV12 = ProjectManifest<12>
+
+/** contentVersion 13 只允许 C1-2 对话身份 successor 边界读取。 */
+export type LegacyManifestV13 = ProjectManifest<13>
+
+/** contentVersion 14 当前工程清单。 */
+export type ManifestV14 = ProjectManifest<14>
 
 /** canonical loader 解析、runtime/editor 消费的当前工程清单。 */
 export type CurrentManifest = ProjectManifest<typeof CONTENT_VERSION>

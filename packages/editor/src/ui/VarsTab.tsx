@@ -5,6 +5,7 @@
  */
 import { useMemo, useState } from 'react'
 import type { RefEntry, RefIndex } from '../core/ref-index.js'
+import { DsListHeader } from './design-system/index.js'
 
 /** 引用明细列表(变量页/物品页共用):读写徽标 · 场景 · 源 · 形态,点击跳事件模式。 */
 export function RefList(props: {
@@ -93,13 +94,11 @@ export function VarsTab(props: {
     <>
       <div className="outliner data-outliner">
         {tabBar}
-        <div className="pane-h">
-          <span className="t">变量</span>
-          <span className="spacer" />
-          <span className="k">
-            {refIndex.flags.size} flag · {refIndex.vars.size} var
-          </span>
-        </div>
+        <DsListHeader
+          title="变量"
+          count={refIndex.flags.size + refIndex.vars.size}
+          unit="项"
+        />
         <input
           className="in"
           placeholder="过滤名字"

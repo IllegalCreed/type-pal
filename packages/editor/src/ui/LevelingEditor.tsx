@@ -5,7 +5,6 @@
  * - 升级学技能行(skills.json 的 levelUp[actorId];level + 技能下拉,UpdateLevelUpCommand)
  */
 import type { ActorDef, LevelUpSkill, SkillDataMap } from '@type-pal/content'
-import { useState } from 'react'
 import { UpdateLevelUpCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 
@@ -17,7 +16,6 @@ export function LevelingEditor(props: {
   onEditCurve: () => void
 }) {
   const { actor, levelUpRows, skills, session, onEditCurve } = props
-  const [open, setOpen] = useState(false)
   const expTable = actor.battler.leveling?.expTable ?? []
   const skillIds = Object.keys(skills)
 
@@ -30,25 +28,8 @@ export function LevelingEditor(props: {
     )
   }
 
-  if (!open) {
-    return (
-      <div className="section">
-        <button type="button" className="collapsed as-btn" onClick={() => setOpen(true)}>
-          ▸ 升级{' '}
-          <span style={{ color: 'var(--faint)' }}>
-            {expTable.length ? `expTable ${expTable.length} 级` : '无曲线'} · 学技能{' '}
-            {levelUpRows.length} 行
-          </span>
-        </button>
-      </div>
-    )
-  }
-
   return (
-    <div className="section">
-      <button type="button" className="collapsed as-btn" onClick={() => setOpen(false)}>
-        ▾ 升级
-      </button>
+    <div className="actor-leveling-editor">
       <div className="field">
         <span className="field-label">经验曲线</span>
         <span className="hint2">

@@ -2,6 +2,7 @@ import type {
   ActorDef,
   AmbienceDef,
   AssetCatalogV1,
+  BattleFieldDef,
   AuthorCommandV5,
   AuthorConditionV5,
   BattleSpriteDef,
@@ -39,6 +40,7 @@ import type {
 } from '../core/script-v5-editor.js'
 import { stateTransitionExecutionLabelV5 } from '../core/script-v5-editor.js'
 import { CommandForm } from './CommandForm.js'
+import { BattleFieldPicker } from './BattleFieldPicker.js'
 import { musicAssets } from './MusicPicker.js'
 import { describeScriptCommand } from './ScriptTree.js'
 import { soundAssets } from './SoundPicker.js'
@@ -55,6 +57,7 @@ export interface CanonicalScriptEditorContextV5 {
   assetBase?: AssetBase
   actors?: Record<string, ActorDef>
   battleSprites: readonly BattleSpriteDef[]
+  battleFields?: readonly BattleFieldDef[]
   sprites?: readonly SpriteDef[]
   ambiences?: AmbienceDef[]
   shops?: ShopDef[]
@@ -64,6 +67,7 @@ export interface CanonicalScriptEditorContextV5 {
   onOpenSound?: (id: string) => void
   onOpenImage?: (id: string) => void
   onOpenBattleSprite?: (id: string) => void
+  onOpenBattleField?: (id: number) => void
   onOpenSpriteAction?: (spriteId: string, actionId: string) => void
 }
 
@@ -792,6 +796,7 @@ function describeCommand(
         has: () => false,
         label: (_kind, id) => id,
       },
+      context?.actors,
     )
     return {
       icon: description.icon,
@@ -2290,6 +2295,17 @@ function CanonicalCommandFormV5(props: {
             type="number"
             value={command.team}
             onChange={(event) => props.onChange({ ...command, team: Number(event.target.value) })}
+          />
+        </label>
+        <label>
+          <span>战场</span>
+          <BattleFieldPicker
+            value={command.fieldId}
+            fields={props.context?.battleFields ?? []}
+            unsetLabel="跟随当前场景默认战场"
+            ariaLabel="开战指令战场"
+            onOpen={props.context?.onOpenBattleField}
+            onChange={(fieldId) => props.onChange({ ...command, fieldId })}
           />
         </label>
         <label>

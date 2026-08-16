@@ -9,8 +9,9 @@
  * (读已保存内容,未保存改动不可见);② 无句柄 = 回退 dev 种子 http(projects/<id>,pal 走这)。
  * 其余 URL 参数(scene/pos/facing/battle/skill…)由 bootGame 自己读 location.search,原样生效。
  */
-import { bootGame, fsaSource, loadProjectV5, loadProjectV5From } from '@type-pal/reforge'
+import { bootGame } from '@type-pal/reforge'
 import { ensurePermission, loadHandle } from './core/handle-store.js'
+import { loadPlayProject } from './core/load-play-project.js'
 
 const gate = document.getElementById('gate') as HTMLDivElement
 const gateBtn = document.getElementById('gate-btn') as HTMLButtonElement
@@ -25,8 +26,7 @@ function fail(msg: string): void {
 }
 
 async function bootFromDir(dir: FileSystemDirectoryHandle): Promise<void> {
-  const project = await loadProjectV5From(fsaSource(dir))
-  await bootGame(project)
+  await bootGame(await loadPlayProject('', dir))
 }
 
 async function main(): Promise<void> {
@@ -36,7 +36,7 @@ async function main(): Promise<void> {
   const dir = await loadHandle(projectId).catch(() => null)
   if (!dir) {
     // 无句柄 → dev 种子回退(pal / demo 等仓库内工程,editor dev 服务 /projects)
-    await bootGame(await loadProjectV5(projectId))
+    await bootGame(await loadPlayProject(projectId))
     return
   }
   // 本地工程:授权门。已 granted 直接起;否则要用户手势(浏览器安全要求)。

@@ -13,6 +13,7 @@ import {
   sliceAtlasGrid,
 } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { DsButton } from './design-system/controls.js'
 
 function FrameThumb(props: { frame: RleFrame; palette: Palette; idx: number }) {
   const { frame, palette, idx } = props
@@ -177,18 +178,18 @@ export function BattleSpriteUploader(props: {
       )}
       <div className="field bsu-actions">
         {rgba && (
-          <button
-            type="button"
-            className="tool"
+          <DsButton
+            variant="primary"
             disabled={quantized.length === 0 || submitting}
+            busy={submitting}
             onClick={() => void apply()}
           >
-            {submitting ? '处理中…' : '✓ 应用外观'}
-          </button>
+            应用外观
+          </DsButton>
         )}
-        <button type="button" className="tool" disabled={submitting} onClick={onCancel}>
+        <DsButton variant="secondary" disabled={submitting} onClick={onCancel}>
           取消
-        </button>
+        </DsButton>
       </div>
       {err && (
         <div className="err" aria-live="polite">

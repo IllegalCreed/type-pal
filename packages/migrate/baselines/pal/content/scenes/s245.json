@@ -1116,7 +1116,10 @@
                           "text": "dlg.11117"
                         }
                       ],
-                      "speaker": "spk.白苗族长"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.白苗族长"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -1226,7 +1229,10 @@
                           "text": "dlg.11120"
                         }
                       ],
-                      "speaker": "spk.士兵"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.士兵"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -1269,17 +1275,20 @@
                   {
                     "cue": {
                       "autoAdvance": 571,
-                      "portrait": {
-                        "asset": "portrait.pal.081",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.081",
+                          "side": "right"
+                        },
+                        "speaker": "spk.拜月教主"
                       },
                       "rows": [
                         {
                           "speed": 0,
                           "text": "dlg.11122"
                         }
-                      ],
-                      "speaker": "spk.拜月教主"
+                      ]
                     },
                     "kind": "dialog"
                   },

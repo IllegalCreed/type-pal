@@ -11,6 +11,8 @@
  * 见 docs/phase2/editor/editor-design.md §6。
  */
 import { isActorEntity } from './actor.js'
+import { ACTOR_REFERENCE_POLICIES, collectActorTaggedReferences } from './actor-reference.js'
+import { collectBattleFieldTaggedReferences } from './battle-field-reference.js'
 import type {
   ActorDef,
   AiAction,
@@ -766,6 +768,16 @@ export function validateReferences(b: ContentBundle): Issue[] {
   const mapIds = new Set(b.mapIndex.maps.map((asset) => asset.id))
   const tilesetIds = new Set((b.tilesets ?? []).map((tileset) => tileset.id))
   const poisonIds = new Set((b.poisons ?? []).map((poison) => String(poison.id)))
+  const battleFieldIds = new Set((b.battleFields ?? []).map((field) => field.id))
+
+  const validateBattleField = (fieldId: number, where: string): void => {
+    if (!battleFieldIds.has(fieldId))
+      issues.push({
+        severity: 'error',
+        where,
+        message: `战场 ${fieldId} 不在 battleFields`,
+      })
+  }
 
   const validateBattleActor = (actorId: string, where: string): void => {
     const actor = actorsById[actorId]
@@ -983,6 +995,8 @@ export function validateReferences(b: ContentBundle): Issue[] {
 
   // ── scenes ──────────────────────────────────────────────
   b.scenes.forEach((scene, si) => {
+    if (scene.battleFieldId !== undefined)
+      validateBattleField(scene.battleFieldId, `scenes[${si}].battleFieldId`)
     if (!mapIds.has(scene.mapId))
       issues.push({
         severity: 'error',
@@ -991,6 +1005,8 @@ export function validateReferences(b: ContentBundle): Issue[] {
       })
     scene.entities.forEach((e, ei) => {
       const where = `scenes[${si}].entities[${ei}]`
+      if (e.hostile?.battleFieldId !== undefined)
+        validateBattleField(e.hostile.battleFieldId, `${where}.hostile.battleFieldId`)
       if (isActorEntity(e)) {
         // actor → actors 表(缺 = error:引擎解析精灵会 throw)
         if (!actorIds.has(e.actor))
@@ -1002,6 +1018,38 @@ export function validateReferences(b: ContentBundle): Issue[] {
       } // zone:true 无视觉引用,无需校验；prop sprite 由统一语义引用表校验
     })
   })
+
+  // ── startBattle.fieldId ─────────────────────────────────
+  // 叶扫描器覆盖当前 content12/13/14 的 stages、machine states、entry.prepare 与全部递归 command arm。
+  // enemy ai hooks/choreography/onDefeated 当前命令闭集不含 startBattle；仍扫描完整 enemy 对象，未来若
+  // schema 扩集也会立刻进入同一引用门，而不是静默漏掉。
+  const battleFieldTagged = [
+    ...b.scenes.flatMap((scene, index) =>
+      collectBattleFieldTaggedReferences(scene, `scenes[${index}](${scene.id})`),
+    ),
+    ...b.items.flatMap((item, index) =>
+      collectBattleFieldTaggedReferences(item, `items[${index}](${item.id})`),
+    ),
+    ...Object.entries(b.scriptChunks ?? {}).flatMap(([chunkId, chunk]) =>
+      Object.entries(chunk.scripts).flatMap(([scriptId, body]) =>
+        collectBattleFieldTaggedReferences(
+          body,
+          `scriptChunks[${JSON.stringify(chunkId)}].scripts[${JSON.stringify(scriptId)}]`,
+        ),
+      ),
+    ),
+    ...Object.entries(b.sharedScripts ?? {}).flatMap(([scriptId, script]) =>
+      collectBattleFieldTaggedReferences(
+        script.body,
+        `sharedScripts[${JSON.stringify(scriptId)}].body`,
+      ),
+    ),
+    ...(b.enemies ?? []).flatMap((enemy, index) =>
+      collectBattleFieldTaggedReferences(enemy, `enemies[${index}](${enemy.id})`),
+    ),
+  ]
+  for (const reference of battleFieldTagged)
+    validateBattleField(reference.fieldId, reference.where)
 
   // ── enemies / enemyTeams(M4c-3)────────────────────────
   ;(b.enemies ?? []).forEach((e, ei) => {
@@ -1342,6 +1390,12 @@ export function validateReferences(b: ContentBundle): Issue[] {
 
   // ── levelUp ─────────────────────────────────────────────
   for (const [cid, list] of Object.entries(b.levelUp)) {
+    if (!actorIds.has(cid))
+      issues.push({
+        severity: ACTOR_REFERENCE_POLICIES['level-up-owner'].danglingSeverity,
+        where: `levelUp[${cid}]`,
+        message: `升级习得伴随表角色 "${cid}" 不在 actors`,
+      })
     list.forEach((lu, li) => {
       if (!skillIds.has(lu.skillId))
         issues.push({
@@ -1350,6 +1404,47 @@ export function validateReferences(b: ContentBundle): Issue[] {
           message: `升级习得 "${lu.skillId}" 不在 skills`,
         })
     })
+  }
+
+  // ── Actor command/condition leaves ─────────────────────
+  // 共享 typed 扫描器补齐 setParty / setActorSprite / setActorAppearance 等历史漏口。
+  const tagged = [
+    ...b.scenes.flatMap((scene, index) =>
+      collectActorTaggedReferences(scene, `scenes[${index}](${scene.id})`),
+    ),
+    ...Object.entries(b.scriptChunks ?? {}).flatMap(([chunkId, chunk]) =>
+      Object.entries(chunk.scripts).flatMap(([scriptId, body]) =>
+        collectActorTaggedReferences(
+          body,
+          `scriptChunks[${JSON.stringify(chunkId)}].scripts[${JSON.stringify(scriptId)}]`,
+        ),
+      ),
+    ),
+    ...Object.entries(b.sharedScripts ?? {}).flatMap(([scriptId, script]) =>
+      collectActorTaggedReferences(script.body, `sharedScripts[${JSON.stringify(scriptId)}].body`),
+    ),
+    ...(b.enemies ?? []).flatMap((enemy, index) =>
+      collectActorTaggedReferences(enemy, `enemies[${index}](${enemy.id})`),
+    ),
+  ]
+  const existingActorIssuePaths = new Set(issues.map((issue) => issue.where))
+  for (const reference of tagged) {
+    if (actorIds.has(reference.actorId) || existingActorIssuePaths.has(reference.where)) continue
+    issues.push({
+      severity: ACTOR_REFERENCE_POLICIES[reference.kind].danglingSeverity,
+      where: reference.where,
+      message: `角色 "${reference.actorId}" 不在 actors`,
+    })
+    existingActorIssuePaths.add(reference.where)
+  }
+  for (const actorId of Object.keys(b.startWorld.learnedSkills)) {
+    const where = `startWorld.learnedSkills[${actorId}]`
+    if (!actorIds.has(actorId) && !existingActorIssuePaths.has(where))
+      issues.push({
+        severity: ACTOR_REFERENCE_POLICIES['manifest-learned-skills'].danglingSeverity,
+        where,
+        message: `已学技能所属角色 "${actorId}" 不在 actors`,
+      })
   }
 
   return issues

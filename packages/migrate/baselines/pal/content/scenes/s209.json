@@ -312,7 +312,10 @@
                             "text": "dlg.10608"
                           }
                         ],
-                        "speaker": "spk.当铺老板"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.当铺老板"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -337,7 +340,10 @@
                             "text": "dlg.10611"
                           }
                         ],
-                        "speaker": "spk.当铺老板"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.当铺老板"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -392,7 +398,10 @@
                             "text": "dlg.10614"
                           }
                         ],
-                        "speaker": "spk.老板"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.老板"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -452,7 +461,10 @@
                             "text": "dlg.10616"
                           }
                         ],
-                        "speaker": "spk.药铺老板"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.药铺老板"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -477,7 +489,10 @@
                             "text": "dlg.10619"
                           }
                         ],
-                        "speaker": "spk.药铺老板"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.药铺老板"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -533,7 +548,10 @@
                             "text": "dlg.10622"
                           }
                         ],
-                        "speaker": "spk.顾客"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.顾客"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -600,7 +618,10 @@
                             "text": "dlg.10627"
                           }
                         ],
-                        "speaker": "spk.妻"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.妻"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -626,7 +647,10 @@
                             "text": "dlg.10633"
                           }
                         ],
-                        "speaker": "spk.夫"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.夫"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -726,7 +750,10 @@
                             "text": "dlg.10627"
                           }
                         ],
-                        "speaker": "spk.妻"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.妻"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -752,7 +779,10 @@
                             "text": "dlg.10633"
                           }
                         ],
-                        "speaker": "spk.夫"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.夫"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -835,6 +865,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12496"
@@ -902,6 +935,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12495"
@@ -969,6 +1005,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12469"
@@ -1036,6 +1075,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12513"

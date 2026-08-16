@@ -7,7 +7,7 @@ import {
   loadBattleSpriteDefinition,
   loadStandardPalette,
 } from '@type-pal/reforge'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import { prepareBattleSpriteImport } from '../core/battle-sprite-import.js'
 import {
   AddBattleSpriteCommand,
@@ -20,6 +20,7 @@ import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
 import { BattleSpriteUploader } from './BattleSpriteUploader.js'
+import { DsButton, DsField, DsNumberInput, DsTag } from './design-system/controls.js'
 
 type Mode = 'idle' | 'magic' | 'attack'
 const MODES: readonly { id: Mode; label: string }[] = [
@@ -67,18 +68,20 @@ function frameSequence(
 }
 
 function NumberInput(props: {
+  id: string
   value: number
   min?: number
   max?: number
   onChange: (value: number) => void
 }) {
   return (
-    <input
-      className="in mono"
-      type="number"
+    <DsNumberInput
+      id={props.id}
+      monospace
       value={props.value}
       min={props.min ?? 0}
       max={props.max}
+      autoComplete="off"
       onWheel={(event) => event.currentTarget.blur()}
       onChange={(event) => props.onChange(Math.floor(event.target.valueAsNumber || 0))}
     />
@@ -94,6 +97,7 @@ export function EnemyAnimPreview(props: {
   onOpenDefinition?: (id: string) => void
 }) {
   const { enemy, definitions, assetBase, assetReader, session } = props
+  const fieldIdPrefix = useId()
   const definition = definitions.find((entry) => entry.id === enemy.battleSprite)
   const profile = definition?.profile.kind === 'enemy' ? definition.profile : undefined
   const cacheRef = useRef(new BattleSpriteAssetCache(12))
@@ -240,20 +244,30 @@ export function EnemyAnimPreview(props: {
   return (
     <div className="enemy-anim">
       <div className="ea-head">
-        <span className="t">外观 · 战斗精灵</span>
-        <BattleSpritePicker
-          value={enemy.battleSprite}
-          definitions={definitions}
-          kind="enemy"
-          onChange={(id) => session.dispatch(new SetEnemyBattleSpriteCommand(enemy.id, id))}
-          onOpenDefinition={props.onOpenDefinition}
-          ariaLabel="敌人战斗精灵"
-        />
-        <span className="hint">{frames.length ? `${frames.length} 帧` : ''}</span>
-        {referenceCount > 1 && <span className="hint2">共享定义 · {referenceCount} 处引用</span>}
-        <button type="button" className="mini-txt" onClick={() => setUploading((value) => !value)}>
-          ⬆ 上传新定义
-        </button>
+        <div className="ea-heading">
+          <h4>外观 · 战斗精灵</h4>
+          <p>选择共享精灵定义，并配置动作帧、播放节奏与战场位置。</p>
+        </div>
+        <div className="ea-binding">
+          <BattleSpritePicker
+            value={enemy.battleSprite}
+            definitions={definitions}
+            kind="enemy"
+            onChange={(id) => session.dispatch(new SetEnemyBattleSpriteCommand(enemy.id, id))}
+            onOpenDefinition={props.onOpenDefinition}
+            ariaLabel="敌人战斗精灵"
+          />
+          {frames.length ? <DsTag tone="neutral">{frames.length} 帧</DsTag> : null}
+          {referenceCount > 1 ? <DsTag tone="neutral">共享 {referenceCount} 处</DsTag> : null}
+          <DsButton
+            variant="secondary"
+            icon="upload"
+            onClick={() => setUploading((value) => !value)}
+            aria-expanded={uploading}
+          >
+            {uploading ? '收起上传' : '上传新定义'}
+          </DsButton>
+        </div>
       </div>
       {uploading && (
         <BattleSpriteUploader
@@ -289,80 +303,97 @@ export function EnemyAnimPreview(props: {
         </div>
       )}
       <div className="ea-body">
-        <div className="ea-stage">
+        <section className="ea-stage" aria-label="战斗精灵动作预览">
           <canvas
             ref={canvasRef}
             style={{ imageRendering: 'pixelated' }}
             role="img"
             aria-label={`${enemy.id}敌人战斗动画预览`}
           />
-          <div className="ea-modes">
+          <fieldset className="ea-modes">
+            <legend className="ds-visually-hidden">预览动作</legend>
             {MODES.map((entry) => (
-              <button
+              <DsButton
                 key={entry.id}
-                type="button"
-                className={`tool${mode === entry.id ? ' active' : ''}`}
+                size="compact"
+                variant={mode === entry.id ? 'primary' : 'quiet'}
+                aria-pressed={mode === entry.id}
                 onClick={() => setMode(entry.id)}
               >
                 {entry.label}
-              </button>
+              </DsButton>
             ))}
-          </div>
+          </fieldset>
           {mode === 'magic' && profile?.magic.count === 0 && (
             <span className="hint">（该定义无施法帧）</span>
           )}
           {mode !== 'idle' && profile?.actTicksPerFrame === 0 && (
             <span className="hint">（0 tick：瞬时显示该动作末帧）</span>
           )}
-        </div>
+        </section>
         {profile && (
-          <div className="ea-fields">
-            <div className="ea-field">
-              <span>待机帧</span>
-              <NumberInput
-                value={profile.idle.count}
-                min={1}
-                onChange={(n) => patchCounts('idle', n)}
-              />
-            </div>
-            <div className="ea-field">
-              <span>施法帧</span>
-              <NumberInput value={profile.magic.count} onChange={(n) => patchCounts('magic', n)} />
-            </div>
-            <div className="ea-field">
-              <span>攻击帧</span>
-              <NumberInput
-                value={profile.attack.count}
-                onChange={(n) => patchCounts('attack', n)}
-              />
-            </div>
-            <div className="ea-field">
-              <span>待机速</span>
-              <NumberInput
-                value={profile.idleTicksPerFrame}
-                min={1}
-                onChange={(idleTicksPerFrame) => patchProfile({ ...profile, idleTicksPerFrame })}
-              />
-            </div>
-            <div className="ea-field">
-              <span>行动速</span>
-              <NumberInput
-                value={profile.actTicksPerFrame}
-                onChange={(actTicksPerFrame) => patchProfile({ ...profile, actTicksPerFrame })}
-              />
-            </div>
-            <div className="ea-field">
-              <span>Y 偏移</span>
-              <NumberInput
-                value={enemy.yPosOffset}
-                min={-200}
-                onChange={(yPosOffset) =>
-                  session.dispatch(new UpdateEnemyCommand(enemy.id, { yPosOffset }))
-                }
-              />
-            </div>
+          <div className="ea-settings">
+            <fieldset className="ea-field-group" data-enemy-animation-group="frames">
+              <legend>动作帧</legend>
+              <div className="ea-field-grid ea-field-grid--frames">
+                <DsField id={`${fieldIdPrefix}-idle-count`} label="待机帧">
+                  <NumberInput
+                    id={`${fieldIdPrefix}-idle-count`}
+                    value={profile.idle.count}
+                    min={1}
+                    onChange={(n) => patchCounts('idle', n)}
+                  />
+                </DsField>
+                <DsField id={`${fieldIdPrefix}-magic-count`} label="施法帧">
+                  <NumberInput
+                    id={`${fieldIdPrefix}-magic-count`}
+                    value={profile.magic.count}
+                    onChange={(n) => patchCounts('magic', n)}
+                  />
+                </DsField>
+                <DsField id={`${fieldIdPrefix}-attack-count`} label="攻击帧">
+                  <NumberInput
+                    id={`${fieldIdPrefix}-attack-count`}
+                    value={profile.attack.count}
+                    onChange={(n) => patchCounts('attack', n)}
+                  />
+                </DsField>
+              </div>
+            </fieldset>
+            <fieldset className="ea-field-group" data-enemy-animation-group="timing">
+              <legend>节奏与位置</legend>
+              <div className="ea-field-grid">
+                <DsField id={`${fieldIdPrefix}-idle-speed`} label="待机速度">
+                  <NumberInput
+                    id={`${fieldIdPrefix}-idle-speed`}
+                    value={profile.idleTicksPerFrame}
+                    min={1}
+                    onChange={(idleTicksPerFrame) =>
+                      patchProfile({ ...profile, idleTicksPerFrame })
+                    }
+                  />
+                </DsField>
+                <DsField id={`${fieldIdPrefix}-action-speed`} label="行动速度">
+                  <NumberInput
+                    id={`${fieldIdPrefix}-action-speed`}
+                    value={profile.actTicksPerFrame}
+                    onChange={(actTicksPerFrame) => patchProfile({ ...profile, actTicksPerFrame })}
+                  />
+                </DsField>
+                <DsField id={`${fieldIdPrefix}-y-offset`} label="Y 偏移">
+                  <NumberInput
+                    id={`${fieldIdPrefix}-y-offset`}
+                    value={enemy.yPosOffset}
+                    min={-200}
+                    onChange={(yPosOffset) =>
+                      session.dispatch(new UpdateEnemyCommand(enemy.id, { yPosOffset }))
+                    }
+                  />
+                </DsField>
+              </div>
+            </fieldset>
             {editError && (
-              <div className="err" aria-live="polite">
+              <div className="err ea-settings__error" aria-live="polite">
                 {editError}
               </div>
             )}

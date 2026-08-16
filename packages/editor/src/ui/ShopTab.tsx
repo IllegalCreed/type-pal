@@ -8,6 +8,8 @@ import type { ItemData, ShopDef } from '@type-pal/content'
 import { useEffect, useMemo, useState } from 'react'
 import { AddShopCommand, UpdateShopCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import { DsListHeader, DsTag } from './design-system/controls.js'
+import { DsCatalogRow, DsObjectHero, DsSequenceIndex } from './design-system/recipes.js'
 
 export function ShopTab(props: {
   shops: ShopDef[]
@@ -39,146 +41,211 @@ export function ShopTab(props: {
 
   return (
     <>
-      <div className="outliner data-outliner">
+      <div className="outliner data-outliner shop-outliner">
         {tabBar}
-        <div className="pane-h">
-          <span className="t">商店</span>
-          <span className="spacer" />
-          <span className="k">{shops.length} 家</span>
-        </div>
-        <div className="sprite-list">
+        <DsListHeader
+          title="商店"
+          count={shops.length}
+          unit="家"
+          actions={[
+            {
+              id: 'create-shop',
+              label: '新建店铺',
+              icon: '＋',
+              onClick: () => {
+                const id =
+                  shops.reduce((maximum, candidate) => Math.max(maximum, candidate.id), -1) + 1
+                session.dispatch(new AddShopCommand(id))
+                selectShop(id)
+              },
+            },
+          ]}
+        />
+        <div className="sprite-list shop-catalog">
           {shops.map((x) => (
-            <button
-              type="button"
+            <DsCatalogRow
               key={x.id}
-              className={`arow${x.id === shop?.id ? ' sel' : ''}`}
+              selected={x.id === shop?.id}
+              title={`店 ${x.id}`}
+              meta={`${x.items.length} 种货`}
               onClick={() => selectShop(x.id)}
-            >
-              <span className="nm">
-                店 {x.id}
-                <small>{x.items.length} 种货</small>
-              </span>
-            </button>
+            />
           ))}
         </div>
-        <button
-          type="button"
-          className="tool"
-          style={{ margin: '6px 10px 8px', justifyContent: 'center' }}
-          onClick={() => {
-            const id = shops.reduce((m, x) => Math.max(m, x.id), -1) + 1
-            session.dispatch(new AddShopCommand(id))
-            selectShop(id)
-          }}
-        >
-          ＋ 新建店铺
-        </button>
       </div>
 
-      <div className="canvas-wrap data-body">
+      <div className="canvas-wrap data-body shop-workbench">
         {shop ? (
-          <div className="et-scroll">
-            <div className="section">
-              <h4>
-                店 {shop.id} · 货单
-                <span className="hint2">买价随物品表 buyPrice;脚本「商店」指令按店号引用</span>
-              </h4>
-              {shop.items.map((id, i) => {
-                const it = itemsById.get(id)
-                return (
-                  <div className="ef-row" key={`${shop.id}-${i}-${id}`}>
-                    <span className="nm" style={{ flex: 1 }}>
-                      {it?.name ?? `?${id}`}
-                      <small style={{ marginLeft: 8 }}>
-                        {id}
-                        {it ? ` · ${it.buyPrice} 文` : '(不在物品表)'}
-                      </small>
-                    </span>
-                    <span className="ef-ops">
-                      <button
-                        type="button"
-                        className="mini"
-                        title="上移"
-                        disabled={i === 0}
-                        onClick={() => {
-                          const a = [...shop.items]
-                          const t = a[i - 1]!
-                          a[i - 1] = a[i]!
-                          a[i] = t
-                          setItems(a)
-                        }}
-                      >
-                        ↑
-                      </button>
-                      <button
-                        type="button"
-                        className="mini"
-                        title="下移"
-                        disabled={i === shop.items.length - 1}
-                        onClick={() => {
-                          const a = [...shop.items]
-                          const t = a[i + 1]!
-                          a[i + 1] = a[i]!
-                          a[i] = t
-                          setItems(a)
-                        }}
-                      >
-                        ↓
-                      </button>
-                      <button
-                        type="button"
-                        className="mini"
-                        title="下架"
-                        onClick={() => setItems(shop.items.filter((_, j) => j !== i))}
-                      >
-                        ✕
-                      </button>
-                    </span>
+          <main className="shop-main ds-object-workspace">
+            <DsObjectHero
+              eyebrow="店铺"
+              title="货单"
+              objectId={`#${shop.id}`}
+              summary="配置这家店出售的物品及展示顺序；售价直接引用物品数据。"
+              meta={<DsTag tone="neutral">{shop.items.length} 种货</DsTag>}
+            />
+
+            <div className="shop-main-inner ds-object-workspace__content">
+              <section className="shop-stock-card" aria-labelledby="shop-stock-title">
+                <header className="shop-card-head">
+                  <div>
+                    <p className="eyebrow">在售物品</p>
+                    <h3 id="shop-stock-title">当前货单</h3>
                   </div>
-                )
-              })}
-              <div className="ef-row" style={{ marginTop: 8 }}>
-                <select className="in" value={pick} onChange={(e) => setPick(e.target.value)}>
-                  <option value="">(选要上架的物品)</option>
-                  {items
-                    .filter((it) => !shop.items.includes(it.id))
-                    .map((it) => (
-                      <option key={it.id} value={it.id}>
-                        {it.name}({it.buyPrice} 文)
-                      </option>
-                    ))}
-                </select>
-                <button
-                  type="button"
-                  className="tool"
-                  disabled={!pick}
-                  onClick={() => {
-                    if (!pick) return
-                    setItems([...shop.items, pick])
-                    setPick('')
-                  }}
-                >
-                  ＋ 上架
-                </button>
-              </div>
+                  <span className="shop-card-note">使用右侧按钮调整顺序</span>
+                </header>
+
+                <div className="shop-stock-list">
+                  {shop.items.map((id, i) => {
+                    const it = itemsById.get(id)
+                    const itemName = it?.name ?? `未知物品 ${id}`
+                    return (
+                      <div className="shop-stock-row" key={`${shop.id}-${i}-${id}`}>
+                        <DsSequenceIndex value={i + 1} accessibleLabel={`第 ${i + 1} 项`} />
+                        <span className="shop-stock-identity">
+                          <strong>{itemName}</strong>
+                          <span>
+                            <code>{id}</code>
+                            {it ? ` · 买价 ${it.buyPrice} 文` : ' · 不在物品表'}
+                          </span>
+                        </span>
+                        <span className="shop-stock-actions">
+                          <button
+                            type="button"
+                            className="mini"
+                            aria-label={`上移 ${itemName}`}
+                            title="上移"
+                            disabled={i === 0}
+                            onClick={() => {
+                              const a = [...shop.items]
+                              const t = a[i - 1]!
+                              a[i - 1] = a[i]!
+                              a[i] = t
+                              setItems(a)
+                            }}
+                          >
+                            ↑
+                          </button>
+                          <button
+                            type="button"
+                            className="mini"
+                            aria-label={`下移 ${itemName}`}
+                            title="下移"
+                            disabled={i === shop.items.length - 1}
+                            onClick={() => {
+                              const a = [...shop.items]
+                              const t = a[i + 1]!
+                              a[i + 1] = a[i]!
+                              a[i] = t
+                              setItems(a)
+                            }}
+                          >
+                            ↓
+                          </button>
+                          <button
+                            type="button"
+                            className="mini shop-stock-remove"
+                            aria-label={`下架 ${itemName}`}
+                            title="下架"
+                            onClick={() => setItems(shop.items.filter((_, j) => j !== i))}
+                          >
+                            ✕
+                          </button>
+                        </span>
+                      </div>
+                    )
+                  })}
+                  {shop.items.length === 0 ? (
+                    <div className="shop-stock-empty">这家店还没有在售物品。</div>
+                  ) : null}
+                </div>
+
+                <div className="shop-add-stock">
+                  <label>
+                    <span>上架物品</span>
+                    <select
+                      className="in"
+                      name="shop-stock-item"
+                      autoComplete="off"
+                      value={pick}
+                      onChange={(e) => setPick(e.target.value)}
+                    >
+                      <option value="">选择物品…</option>
+                      {items
+                        .filter((it) => !shop.items.includes(it.id))
+                        .map((it) => (
+                          <option key={it.id} value={it.id}>
+                            {it.name}（{it.buyPrice} 文）
+                          </option>
+                        ))}
+                    </select>
+                  </label>
+                  <button
+                    type="button"
+                    className="tool shop-add-stock-button"
+                    disabled={!pick}
+                    onClick={() => {
+                      if (!pick) return
+                      setItems([...shop.items, pick])
+                      setPick('')
+                    }}
+                  >
+                    ＋ 上架
+                  </button>
+                </div>
+              </section>
             </div>
-          </div>
+          </main>
         ) : (
-          <div className="insp-empty" style={{ padding: 40 }}>
-            无店铺;「＋ 新建店铺」开一家。
+          <div className="shop-empty-state">
+            <span aria-hidden="true">🏪</span>
+            <h2>还没有商店</h2>
+            <p>点击左侧“新建店铺”创建第一份货单。</p>
           </div>
         )}
       </div>
 
-      <div className="inspector">
+      <aside className="inspector shop-inspector">
         <div className="pane-h">
-          <span className="t">商店 · 编辑</span>
+          <span className="t">商店摘要</span>
         </div>
-        <div className="insp-hint">
-          货单即改即生效(⌘Z 可回)。买价 = 物品表 buyPrice(物品页改);当铺(卖)不需要 配置 —— 收购一切
-          sellable 物品,按 sellPrice。把「商店」指令(买/卖模式)插进 掌柜 NPC 的触发脚本即开店。
+        <div className="shop-inspector-body">
+          {shop ? (
+            <section className="shop-inspector-card">
+              <p className="eyebrow">当前店铺</p>
+              <h3>店 {shop.id}</h3>
+              <dl className="shop-summary-list">
+                <div>
+                  <dt>在售物品</dt>
+                  <dd>{shop.items.length} 种</dd>
+                </div>
+                <div>
+                  <dt>引用编号</dt>
+                  <dd>#{shop.id}</dd>
+                </div>
+              </dl>
+            </section>
+          ) : null}
+
+          <section className="shop-inspector-card">
+            <p className="eyebrow">定价规则</p>
+            <h3>价格来自物品数据</h3>
+            <p>买价读取物品的 buyPrice；当铺按 sellPrice 收购所有可出售物品，不需要逐店配置。</p>
+          </section>
+
+          <section className="shop-inspector-card">
+            <p className="eyebrow">剧情调用</p>
+            <h3>通过“商店”指令开店</h3>
+            <ol>
+              <li>打开掌柜 NPC 的触发脚本。</li>
+              <li>插入“商店”指令并选择买入或卖出模式。</li>
+              <li>买入模式引用当前店铺编号 #{shop?.id ?? '—'}。</li>
+            </ol>
+          </section>
+
+          <p className="shop-undo-note">货单改动即时生效，可使用 ⌘Z 撤销。</p>
         </div>
-      </div>
+      </aside>
     </>
   )
 }

@@ -372,6 +372,9 @@
                         },
                         {
                           "cue": {
+                            "identity": {
+                              "kind": "narration"
+                            },
                             "rows": [
                               {
                                 "speed": 0,
@@ -815,6 +818,9 @@
                         },
                         {
                           "cue": {
+                            "identity": {
+                              "kind": "narration"
+                            },
                             "rows": [
                               {
                                 "speed": 0,

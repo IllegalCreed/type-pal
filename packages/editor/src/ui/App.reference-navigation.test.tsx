@@ -1,13 +1,13 @@
 // @vitest-environment jsdom
 
 import type { ItemData, SceneDef } from '@type-pal/content'
-import type { LoadedProject } from '@type-pal/reforge'
+import type { LoadedProjectV14 } from '@type-pal/reforge'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { type EditorState, EditSession } from '../core/edit-session.js'
 import type { ItemReference } from '../core/item-references.js'
-import type { EditorStateV5 } from '../core/project-io-v5.js'
+import { mergeEditorShellWithCurrentCanonicalScripts } from '../core/project-io-v5.js'
 import {
   type CanonicalScriptReferenceV5,
   type ScriptEditorStateV5,
@@ -19,6 +19,7 @@ const probes = vi.hoisted(() => ({
   dataMode: vi.fn(),
   sceneWorkspace: vi.fn(),
 }))
+const nativeScrollIntoView = HTMLElement.prototype.scrollIntoView
 
 vi.mock('./DataMode.js', () => ({
   DataMode: (props: unknown) => {
@@ -241,6 +242,14 @@ type SceneWorkspaceProbe = {
   focusReference?: { reference: CanonicalScriptReferenceV5; revision: number }
 }
 
+function button(text: string, root: ParentNode = document): HTMLButtonElement {
+  const match = [...root.querySelectorAll<HTMLButtonElement>('button')].find((candidate) =>
+    candidate.textContent?.includes(text),
+  )
+  if (!match) throw new Error(`button not found: ${text}`)
+  return match
+}
+
 describe('App item reference navigation', () => {
   let host: HTMLDivElement
   let root: Root
@@ -263,6 +272,11 @@ describe('App item reference navigation', () => {
       callback(0)
       return 1
     })
+    Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', {
+      configurable: true,
+      writable: true,
+      value: vi.fn(),
+    })
     host = document.createElement('div')
     document.body.append(host)
     root = createRoot(host)
@@ -271,13 +285,27 @@ describe('App item reference navigation', () => {
   afterEach(async () => {
     await act(async () => root.unmount())
     host.remove()
+    if (nativeScrollIntoView) {
+      Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', {
+        configurable: true,
+        writable: true,
+        value: nativeScrollIntoView,
+      })
+    } else {
+      Reflect.deleteProperty(HTMLElement.prototype, 'scrollIntoView')
+    }
     vi.unstubAllGlobals()
     vi.restoreAllMocks()
   })
 
-  const renderApp = async (): Promise<void> => {
-    const shell = shellState()
+  const renderApp = async (shell = shellState()): Promise<EditSession> => {
     const canonical = canonicalState()
+    shell.manifest = {
+      ...shell.manifest,
+      contentVersion: 14,
+      minimumSaveVersion: 8,
+    } as EditorState['manifest']
+    canonical.contentVersion = 14
     const source = {
       readText: vi.fn(async () => ''),
       readJson: vi.fn(async () => ({})),
@@ -287,26 +315,21 @@ describe('App item reference navigation', () => {
     const project = {
       source,
       assetBase: {},
-    } as unknown as LoadedProject
-    const baseState = {
-      ...shell,
-      manifest: {
-        ...shell.manifest,
-        contentVersion: 10,
-        minimumSaveVersion: 8,
-      },
-      ...canonical,
+      manifest: shell.manifest,
+      authorContent: { items: canonical.items, sharedScripts: canonical.sharedScripts },
       migrationRegistry: {},
-    } as unknown as EditorStateV5
+    } as unknown as LoadedProjectV14
+    const session = new EditSession(shell)
     await act(async () =>
       root.render(
         <App
-          session={new EditSession(shell)}
+          session={session}
           project={project}
-          scriptV5={{ baseState, session: new ScriptV5EditSession(canonical) }}
+          scriptV5={{ session: new ScriptV5EditSession(canonical) }}
         />,
       ),
     )
+    return session
   }
 
   test('当前物品的私有引用可重复产生新定位令牌并显示成功位置', async () => {
@@ -349,5 +372,231 @@ describe('App item reference navigation', () => {
     expect(host.querySelector('[role="status"]')?.textContent).toContain(
       '场景 s047 / 实体 e760 / 交互脚本“默认触发行为” / 步骤 1 / 脚本正文 / 第 2 条指令',
     )
+  })
+
+  test('场景地图控件标明缺失引用并可换绑、启用复制与打开新地图', async () => {
+    window.history.replaceState({}, '', '/?module=scene&page=workspace&object=s047')
+    const shell = shellState()
+    shell.mapIndex.maps = [{ id: 'm048', name: '测试地图 48', path: 'content/maps/m048.json' }]
+    const session = await renderApp(shell)
+    const field = host.querySelector<HTMLElement>('.scene-map-field')!
+    const trigger = field.querySelector<HTMLButtonElement>('[role="combobox"]')!
+    const openMap = field.querySelector<HTMLButtonElement>('[aria-label="打开地图 m047"]')!
+    const copyAndBind = button('复制并绑定', field)
+
+    expect(trigger.classList).toContain('ds-select')
+    expect(trigger.getAttribute('aria-invalid')).toBe('true')
+    expect(trigger.textContent).toContain('m047 (缺失)')
+    expect(openMap.classList).toContain('ds-icon-button--secondary')
+    expect(copyAndBind.disabled).toBe(true)
+
+    await act(async () => trigger.click())
+    const listbox = document.getElementById(trigger.getAttribute('aria-controls')!)!
+    const replacement = [...listbox.querySelectorAll<HTMLElement>('[role="option"]')].find(
+      (option) => option.textContent?.includes('测试地图 48'),
+    )!
+    await act(async () => replacement.click())
+
+    expect(session.getState().scenes[0]?.mapId).toBe('m048')
+    const reboundTrigger = field.querySelector<HTMLButtonElement>('[role="combobox"]')!
+    expect(reboundTrigger.getAttribute('aria-invalid')).toBeNull()
+    expect(button('复制并绑定', field).disabled).toBe(false)
+
+    const reboundOpen = field.querySelector<HTMLButtonElement>('[aria-label="打开地图 m048"]')!
+    await act(async () => reboundOpen.click())
+    expect(window.location.search).toContain('module=map')
+    expect(window.location.search).toContain('object=m048')
+  })
+
+  test('场景目录按落点和实体类型分组，并只从各组标题新增对象', async () => {
+    window.history.replaceState({}, '', '/?module=scene&page=workspace&object=s047')
+    const shell = shellState()
+    const scene = shell.scenes[0]!
+    scene.entities.push(
+      {
+        id: 'e-actor',
+        actor: 'li-xiaoyao',
+        pos: { col: 2, row: 2, height: 0 },
+        facing: 'down',
+        pages: [],
+      } as (typeof scene.entities)[number],
+      {
+        id: 'e-zone',
+        zone: true,
+        pos: { col: 3, row: 3, height: 0 },
+        facing: 'down',
+        pages: [],
+      } as (typeof scene.entities)[number],
+    )
+    const session = await renderApp(shell)
+    const tree = host.querySelector<HTMLElement>('.outliner .tree')!
+    const headers = [...tree.querySelectorAll<HTMLElement>('.ds-catalog-group-header')]
+    const headerByTitle = (title: string) =>
+      headers.find(
+        (header) => header.querySelector('.ds-catalog-group-header__title')?.textContent === title,
+      )!
+
+    expect(headerByTitle('落点').dataset.level).toBe('primary')
+    expect(headerByTitle('实体').dataset.level).toBe('primary')
+    expect(
+      headerByTitle('实体').querySelector('.ds-catalog-group-header__count')?.textContent,
+    ).toBe('3')
+    for (const title of ['预制人物', '自定义实体', '触发区']) {
+      expect(headerByTitle(title).dataset.level).toBe('secondary')
+      expect(
+        headerByTitle(title).querySelector('.ds-catalog-group-header__count')?.textContent,
+      ).toBe('1')
+    }
+
+    const addEntry = headerByTitle('落点').querySelector<HTMLButtonElement>(
+      '[aria-label="新建命名落点"]',
+    )!
+    const addEntity =
+      headerByTitle('实体').querySelector<HTMLButtonElement>('[aria-label="添加实体"]')!
+    expect(addEntry.classList).toContain('ds-icon-button--secondary')
+    expect(addEntity.classList).toContain('ds-icon-button--secondary')
+    expect(addEntry.className).toBe(addEntity.className)
+    expect(addEntry.getAttribute('aria-pressed')).toBeNull()
+    expect(addEntity.getAttribute('aria-pressed')).toBeNull()
+    expect(host.querySelector('.toolbar [aria-label="添加实体"]')).toBeNull()
+
+    await act(async () => addEntry.click())
+    expect(Object.keys(session.getState().scenes[0]?.entries ?? {})).toHaveLength(1)
+
+    await act(async () => addEntity.click())
+    expect(addEntity.getAttribute('aria-pressed')).toBeNull()
+    expect(host.querySelector('.insp-head .what')?.textContent).toBe('添加实体')
+  })
+
+  test('content14 场景脚本进入 canonical 工作区而不是 legacy stages 抽屉', async () => {
+    window.history.replaceState({}, '', '/?module=scene&page=workspace&object=s047')
+    const canonical = canonicalState()
+    canonical.contentVersion = 14
+    canonical.scenes[0]!.entities[0]!.behaviors!.trigger!.default!.flow = {
+      kind: 'stages',
+      initial: 'initial',
+      stages: [
+        {
+          id: 'initial',
+          body: [
+            {
+              kind: 'dialog',
+              cue: {
+                identity: { kind: 'narration' },
+                rows: [{ text: '新的身份化对话' }],
+              },
+            } as never,
+          ],
+        },
+      ],
+    }
+    const shell = shellState()
+    shell.manifest = {
+      ...shell.manifest,
+      contentVersion: 14,
+      minimumSaveVersion: 8,
+      content: { ...shell.manifest.content, sharedScripts: 'content/shared-scripts.json' },
+    } as EditorState['manifest']
+    shell.scenes = structuredClone(canonical.scenes) as unknown as EditorState['scenes']
+    shell.items = structuredClone(canonical.items) as unknown as EditorState['items']
+    shell.sharedScripts = structuredClone(
+      canonical.sharedScripts,
+    ) as unknown as EditorState['sharedScripts']
+    const project = {
+      source: {
+        readText: vi.fn(async () => ''),
+        readJson: vi.fn(async () => ({})),
+        readBytes: vi.fn(async () => new ArrayBuffer(0)),
+        urlFor: vi.fn(async () => 'about:blank'),
+      },
+      assetBase: {},
+      manifest: shell.manifest,
+      authorContent: { items: canonical.items, sharedScripts: canonical.sharedScripts },
+      migrationRegistry: {},
+    } as unknown as LoadedProjectV14
+
+    await act(async () =>
+      root.render(
+        <App
+          session={new EditSession(shell)}
+          project={project}
+          scriptV5={{ session: new ScriptV5EditSession(canonical) }}
+        />,
+      ),
+    )
+    const openScript = [...host.querySelectorAll('button')].find((button) =>
+      button.textContent?.includes('脚本'),
+    )
+    expect(openScript).toBeDefined()
+    await act(async () => openScript!.click())
+
+    expect(probes.sceneWorkspace).toHaveBeenCalled()
+    const workspace = probes.sceneWorkspace.mock.calls.at(-1)?.[0] as {
+      state: ScriptEditorStateV5
+    }
+    expect(workspace.state.contentVersion).toBe(14)
+    expect(workspace.state.scenes[0]!.entities[0]!.behaviors!.trigger!.default!.flow).toMatchObject(
+      {
+        kind: 'stages',
+        stages: [{ body: [{ kind: 'dialog', cue: { identity: { kind: 'narration' } } }] }],
+      },
+    )
+  })
+
+  test('content14 保存合并保留 shell 空间改动与 canonical 身份对话', () => {
+    const canonical = canonicalState()
+    canonical.contentVersion = 14
+    canonical.scenes[0]!.entities[0]!.behaviors!.trigger!.default!.flow = {
+      kind: 'stages',
+      initial: 'initial',
+      stages: [
+        {
+          id: 'initial',
+          body: [
+            {
+              kind: 'dialog',
+              cue: {
+                identity: { kind: 'unbound', speaker: '掌柜' },
+                rows: [{ text: '客官请进' }],
+              },
+            } as never,
+          ],
+        },
+      ],
+    }
+    const shell = shellState()
+    shell.manifest = {
+      ...shell.manifest,
+      contentVersion: 14,
+      minimumSaveVersion: 8,
+    } as EditorState['manifest']
+    shell.scenes = structuredClone(canonical.scenes) as unknown as EditorState['scenes']
+    shell.scenes[0]!.entry.pos = { col: 9, row: 8, height: 0 }
+    const shellBehavior = (shell.scenes[0] as unknown as ScriptEditorStateV5['scenes'][number])
+      .entities[0]!.behaviors!.trigger!.default!
+    shellBehavior.flow = {
+      kind: 'stages',
+      initial: 'initial',
+      stages: [{ id: 'initial', body: [] }],
+    }
+
+    const merged = mergeEditorShellWithCurrentCanonicalScripts(canonical, shell)
+    expect(merged.manifest.contentVersion).toBe(14)
+    expect(merged.scenes[0]!.entry.pos).toEqual({ col: 9, row: 8, height: 0 })
+    expect(
+      (merged.scenes[0] as unknown as ScriptEditorStateV5['scenes'][number]).entities[0]!.behaviors!
+        .trigger!.default!.flow,
+    ).toMatchObject({
+      stages: [
+        {
+          body: [
+            {
+              kind: 'dialog',
+              cue: { identity: { kind: 'unbound', speaker: '掌柜' } },
+            },
+          ],
+        },
+      ],
+    })
   })
 })

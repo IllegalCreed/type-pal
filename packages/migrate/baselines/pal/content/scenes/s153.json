@@ -1440,16 +1440,19 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.023",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.023",
+                          "side": "right"
+                        },
+                        "speaker": "spk.林月如"
                       },
                       "rows": [
                         {
                           "text": "dlg.8951"
                         }
-                      ],
-                      "speaker": "spk.林月如"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -1771,9 +1774,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.005",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.005",
+                          "side": "right"
+                        },
+                        "speaker": "spk.李逍遥"
                       },
                       "rows": [
                         {
@@ -1782,8 +1789,7 @@
                         {
                           "text": "dlg.8954"
                         }
-                      ],
-                      "speaker": "spk.李逍遥"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -1792,9 +1798,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.043",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.043",
+                          "side": "left"
+                        },
+                        "speaker": "spk.天鬼皇"
                       },
                       "rows": [
                         {
@@ -1807,8 +1817,7 @@
                           "text": "dlg.8958"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.天鬼皇"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -1830,9 +1839,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.043",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.043",
+                          "side": "left"
+                        },
+                        "speaker": "spk.天鬼皇"
                       },
                       "rows": [
                         {
@@ -1845,8 +1858,7 @@
                           "text": "dlg.8962"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.天鬼皇"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -1868,9 +1880,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.091",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.091",
+                          "side": "right"
+                        },
+                        "speaker": "spk.赵灵儿"
                       },
                       "rows": [
                         {
@@ -1879,8 +1895,7 @@
                         {
                           "text": "dlg.8965"
                         }
-                      ],
-                      "speaker": "spk.赵灵儿"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -1889,9 +1904,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.043",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.043",
+                          "side": "left"
+                        },
+                        "speaker": "spk.天鬼皇"
                       },
                       "rows": [
                         {
@@ -1901,8 +1920,7 @@
                           "text": "dlg.8968"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.天鬼皇"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -2303,16 +2321,19 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.091",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.091",
+                          "side": "right"
+                        },
+                        "speaker": "spk.赵灵儿"
                       },
                       "rows": [
                         {
                           "text": "dlg.8970"
                         }
-                      ],
-                      "speaker": "spk.赵灵儿"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -2517,9 +2538,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.043",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.043",
+                          "side": "left"
+                        },
+                        "speaker": "spk.天鬼皇"
                       },
                       "rows": [
                         {
@@ -2532,8 +2557,7 @@
                           "text": "dlg.8974"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.天鬼皇"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -2542,9 +2566,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.043",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.043",
+                          "side": "left"
+                        },
+                        "speaker": "spk.天鬼皇"
                       },
                       "rows": [
                         {
@@ -2560,8 +2588,7 @@
                           "text": "dlg.8978"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.天鬼皇"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -2570,9 +2597,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.091",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.091",
+                          "side": "right"
+                        },
+                        "speaker": "spk.赵灵儿"
                       },
                       "rows": [
                         {
@@ -2581,8 +2612,7 @@
                         {
                           "text": "dlg.8981"
                         }
-                      ],
-                      "speaker": "spk.赵灵儿"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -2591,9 +2621,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.091",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.091",
+                          "side": "right"
+                        },
+                        "speaker": "spk.赵灵儿"
                       },
                       "rows": [
                         {
@@ -2608,24 +2642,26 @@
                         {
                           "text": "dlg.8985"
                         }
-                      ],
-                      "speaker": "spk.赵灵儿"
+                      ]
                     },
                     "kind": "dialog"
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.043",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.043",
+                          "side": "left"
+                        },
+                        "speaker": "spk.天鬼皇"
                       },
                       "rows": [
                         {
                           "text": "dlg.8987"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.天鬼皇"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -2634,9 +2670,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.091",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.091",
+                          "side": "right"
+                        },
+                        "speaker": "spk.赵灵儿"
                       },
                       "rows": [
                         {
@@ -2645,8 +2685,7 @@
                         {
                           "text": "dlg.8990"
                         }
-                      ],
-                      "speaker": "spk.赵灵儿"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -2655,9 +2694,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.091",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.091",
+                          "side": "right"
+                        },
+                        "speaker": "spk.赵灵儿"
                       },
                       "rows": [
                         {
@@ -2684,8 +2727,7 @@
                         {
                           "text": "dlg.8998"
                         }
-                      ],
-                      "speaker": "spk.赵灵儿"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -2694,17 +2736,20 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.043",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.043",
+                          "side": "left"
+                        },
+                        "speaker": "spk.天鬼皇"
                       },
                       "rows": [
                         {
                           "text": "dlg.9000"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.天鬼皇"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -2750,9 +2795,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.043",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.043",
+                          "side": "right"
+                        },
+                        "speaker": "spk.天鬼皇"
                       },
                       "rows": [
                         {
@@ -2770,8 +2819,7 @@
                         {
                           "text": "dlg.9006"
                         }
-                      ],
-                      "speaker": "spk.天鬼皇"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -2786,7 +2834,10 @@
                         }
                       ],
                       "slot": "top",
-                      "speaker": "spk.众妖答道"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.众妖答道"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -2811,9 +2862,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.043",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.043",
+                          "side": "right"
+                        },
+                        "speaker": "spk.天鬼皇"
                       },
                       "rows": [
                         {
@@ -2825,8 +2880,7 @@
                         {
                           "text": "dlg.9012"
                         }
-                      ],
-                      "speaker": "spk.天鬼皇"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -3207,16 +3261,19 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.043",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.043",
+                          "side": "right"
+                        },
+                        "speaker": "spk.天鬼皇"
                       },
                       "rows": [
                         {
                           "text": "dlg.9014"
                         }
-                      ],
-                      "speaker": "spk.天鬼皇"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -3257,9 +3314,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.069",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.069",
+                          "side": "right"
+                        },
+                        "speaker": "spk.书中仙"
                       },
                       "rows": [
                         {
@@ -3268,8 +3329,7 @@
                         {
                           "text": "dlg.9017"
                         }
-                      ],
-                      "speaker": "spk.书中仙"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -3319,9 +3379,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.069",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.069",
+                          "side": "right"
+                        },
+                        "speaker": "spk.书中仙"
                       },
                       "rows": [
                         {
@@ -3330,8 +3394,7 @@
                         {
                           "text": "dlg.9020"
                         }
-                      ],
-                      "speaker": "spk.书中仙"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -3519,25 +3582,32 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.043",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.043",
+                          "side": "left"
+                        },
+                        "speaker": "spk.天鬼皇"
                       },
                       "rows": [
                         {
                           "text": "dlg.9022"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.天鬼皇"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.069",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.069",
+                          "side": "right"
+                        },
+                        "speaker": "spk.书中仙"
                       },
                       "rows": [
                         {
@@ -3546,8 +3616,7 @@
                         {
                           "text": "dlg.9025"
                         }
-                      ],
-                      "speaker": "spk.书中仙"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -3556,9 +3625,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.043",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.043",
+                          "side": "left"
+                        },
+                        "speaker": "spk.天鬼皇"
                       },
                       "rows": [
                         {
@@ -3571,8 +3644,7 @@
                           "text": "dlg.9029"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.天鬼皇"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -3581,9 +3653,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.069",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.069",
+                          "side": "right"
+                        },
+                        "speaker": "spk.书中仙"
                       },
                       "rows": [
                         {
@@ -3595,8 +3671,7 @@
                         {
                           "text": "dlg.9033"
                         }
-                      ],
-                      "speaker": "spk.书中仙"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -3605,16 +3680,19 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.010",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.010",
+                          "side": "right"
+                        },
+                        "speaker": "spk.李逍遥"
                       },
                       "rows": [
                         {
                           "text": "dlg.9035"
                         }
-                      ],
-                      "speaker": "spk.李逍遥"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -3639,17 +3717,20 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.043",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.043",
+                          "side": "left"
+                        },
+                        "speaker": "spk.天鬼皇"
                       },
                       "rows": [
                         {
                           "text": "dlg.9037"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.天鬼皇"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -3662,9 +3743,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.069",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.069",
+                          "side": "right"
+                        },
+                        "speaker": "spk.书中仙"
                       },
                       "rows": [
                         {
@@ -3676,8 +3761,7 @@
                         {
                           "text": "dlg.9041"
                         }
-                      ],
-                      "speaker": "spk.书中仙"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -3690,17 +3774,20 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.003",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.003",
+                          "side": "left"
+                        },
+                        "speaker": "spk.李逍遥"
                       },
                       "rows": [
                         {
                           "text": "dlg.9043"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.李逍遥"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -3726,9 +3813,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.043",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.043",
+                          "side": "left"
+                        },
+                        "speaker": "spk.天鬼皇"
                       },
                       "rows": [
                         {
@@ -3741,16 +3832,19 @@
                           "text": "dlg.9047"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.天鬼皇"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.069",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.069",
+                          "side": "right"
+                        },
+                        "speaker": "spk.书中仙"
                       },
                       "rows": [
                         {
@@ -3759,8 +3853,7 @@
                         {
                           "text": "dlg.9050"
                         }
-                      ],
-                      "speaker": "spk.书中仙"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -3769,9 +3862,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.043",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.043",
+                          "side": "left"
+                        },
+                        "speaker": "spk.天鬼皇"
                       },
                       "rows": [
                         {
@@ -3784,8 +3881,7 @@
                           "text": "dlg.9054"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.天鬼皇"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -3794,9 +3890,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.043",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.043",
+                          "side": "left"
+                        },
+                        "speaker": "spk.天鬼皇"
                       },
                       "rows": [
                         {
@@ -3806,16 +3906,19 @@
                           "text": "dlg.9056"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.天鬼皇"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.069",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.069",
+                          "side": "right"
+                        },
+                        "speaker": "spk.书中仙"
                       },
                       "rows": [
                         {
@@ -3824,8 +3927,7 @@
                         {
                           "text": "dlg.9059"
                         }
-                      ],
-                      "speaker": "spk.书中仙"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -3834,17 +3936,20 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.043",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.043",
+                          "side": "left"
+                        },
+                        "speaker": "spk.天鬼皇"
                       },
                       "rows": [
                         {
                           "text": "dlg.9061"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.天鬼皇"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -3869,9 +3974,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.091",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.091",
+                          "side": "right"
+                        },
+                        "speaker": "spk.赵灵儿"
                       },
                       "rows": [
                         {
@@ -3883,8 +3992,7 @@
                         {
                           "text": "dlg.9065"
                         }
-                      ],
-                      "speaker": "spk.赵灵儿"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -3909,9 +4017,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.069",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.069",
+                          "side": "right"
+                        },
+                        "speaker": "spk.书中仙"
                       },
                       "rows": [
                         {
@@ -3923,8 +4035,7 @@
                         {
                           "text": "dlg.9069"
                         }
-                      ],
-                      "speaker": "spk.书中仙"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -3933,9 +4044,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.069",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.069",
+                          "side": "right"
+                        },
+                        "speaker": "spk.书中仙"
                       },
                       "rows": [
                         {
@@ -3980,8 +4095,7 @@
                         {
                           "text": "dlg.9083"
                         }
-                      ],
-                      "speaker": "spk.书中仙"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -3990,17 +4104,20 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.091",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.091",
+                          "side": "left"
+                        },
+                        "speaker": "spk.赵灵儿"
                       },
                       "rows": [
                         {
                           "text": "dlg.9085"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.赵灵儿"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -4009,9 +4126,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.069",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.069",
+                          "side": "right"
+                        },
+                        "speaker": "spk.书中仙"
                       },
                       "rows": [
                         {
@@ -4020,8 +4141,7 @@
                         {
                           "text": "dlg.9088"
                         }
-                      ],
-                      "speaker": "spk.书中仙"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -4030,9 +4150,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.069",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.069",
+                          "side": "right"
+                        },
+                        "speaker": "spk.书中仙"
                       },
                       "rows": [
                         {
@@ -4059,8 +4183,7 @@
                         {
                           "text": "dlg.9096"
                         }
-                      ],
-                      "speaker": "spk.书中仙"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -4069,9 +4192,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.069",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.069",
+                          "side": "right"
+                        },
+                        "speaker": "spk.书中仙"
                       },
                       "rows": [
                         {
@@ -4083,8 +4210,7 @@
                         {
                           "text": "dlg.9099"
                         }
-                      ],
-                      "speaker": "spk.书中仙"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -4093,9 +4219,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.043",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.043",
+                          "side": "left"
+                        },
+                        "speaker": "spk.天鬼皇"
                       },
                       "rows": [
                         {
@@ -4105,8 +4235,7 @@
                           "text": "dlg.9102"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.天鬼皇"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -4115,9 +4244,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.069",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.069",
+                          "side": "right"
+                        },
+                        "speaker": "spk.书中仙"
                       },
                       "rows": [
                         {
@@ -4132,24 +4265,26 @@
                         {
                           "text": "dlg.9107"
                         }
-                      ],
-                      "speaker": "spk.书中仙"
+                      ]
                     },
                     "kind": "dialog"
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.043",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.043",
+                          "side": "left"
+                        },
+                        "speaker": "spk.天鬼皇"
                       },
                       "rows": [
                         {
                           "text": "dlg.9109"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.天鬼皇"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -4158,9 +4293,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.069",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.069",
+                          "side": "right"
+                        },
+                        "speaker": "spk.书中仙"
                       },
                       "rows": [
                         {
@@ -4169,8 +4308,7 @@
                         {
                           "text": "dlg.9112"
                         }
-                      ],
-                      "speaker": "spk.书中仙"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -4179,9 +4317,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.069",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.069",
+                          "side": "right"
+                        },
+                        "speaker": "spk.书中仙"
                       },
                       "rows": [
                         {
@@ -4193,8 +4335,7 @@
                         {
                           "text": "dlg.9115"
                         }
-                      ],
-                      "speaker": "spk.书中仙"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -4203,9 +4344,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.043",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.043",
+                          "side": "left"
+                        },
+                        "speaker": "spk.天鬼皇"
                       },
                       "rows": [
                         {
@@ -4221,8 +4366,7 @@
                           "text": "dlg.9120"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.天鬼皇"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -4231,9 +4375,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.069",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.069",
+                          "side": "right"
+                        },
+                        "speaker": "spk.书中仙"
                       },
                       "rows": [
                         {
@@ -4257,24 +4405,26 @@
                         {
                           "text": "dlg.9128"
                         }
-                      ],
-                      "speaker": "spk.书中仙"
+                      ]
                     },
                     "kind": "dialog"
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.002",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.002",
+                          "side": "left"
+                        },
+                        "speaker": "spk.李逍遥"
                       },
                       "rows": [
                         {
                           "text": "dlg.9130"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.李逍遥"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -4283,9 +4433,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.069",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.069",
+                          "side": "right"
+                        },
+                        "speaker": "spk.书中仙"
                       },
                       "rows": [
                         {
@@ -4294,8 +4448,7 @@
                         {
                           "text": "dlg.9133"
                         }
-                      ],
-                      "speaker": "spk.书中仙"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -4330,16 +4483,19 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.021",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.021",
+                          "side": "right"
+                        },
+                        "speaker": "spk.林月如"
                       },
                       "rows": [
                         {
                           "text": "dlg.9135"
                         }
-                      ],
-                      "speaker": "spk.林月如"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -4348,9 +4504,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.069",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.069",
+                          "side": "right"
+                        },
+                        "speaker": "spk.书中仙"
                       },
                       "rows": [
                         {
@@ -4362,8 +4522,7 @@
                         {
                           "text": "dlg.9139"
                         }
-                      ],
-                      "speaker": "spk.书中仙"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -4372,9 +4531,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.069",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.069",
+                          "side": "right"
+                        },
+                        "speaker": "spk.书中仙"
                       },
                       "rows": [
                         {
@@ -4389,8 +4552,7 @@
                         {
                           "text": "dlg.9143"
                         }
-                      ],
-                      "speaker": "spk.书中仙"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -4415,16 +4577,19 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.021",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.021",
+                          "side": "right"
+                        },
+                        "speaker": "spk.林月如"
                       },
                       "rows": [
                         {
                           "text": "dlg.9145"
                         }
-                      ],
-                      "speaker": "spk.林月如"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -4433,9 +4598,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.069",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.069",
+                          "side": "right"
+                        },
+                        "speaker": "spk.书中仙"
                       },
                       "rows": [
                         {
@@ -4447,8 +4616,7 @@
                         {
                           "text": "dlg.9149"
                         }
-                      ],
-                      "speaker": "spk.书中仙"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -4457,9 +4625,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.069",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.069",
+                          "side": "right"
+                        },
+                        "speaker": "spk.书中仙"
                       },
                       "rows": [
                         {
@@ -4471,8 +4643,7 @@
                         {
                           "text": "dlg.9152"
                         }
-                      ],
-                      "speaker": "spk.书中仙"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -4516,16 +4687,19 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.003",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.003",
+                          "side": "right"
+                        },
+                        "speaker": "spk.李逍遥"
                       },
                       "rows": [
                         {
                           "text": "dlg.9154"
                         }
-                      ],
-                      "speaker": "spk.李逍遥"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -4573,9 +4747,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.009",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.009",
+                          "side": "right"
+                        },
+                        "speaker": "spk.李逍遥"
                       },
                       "rows": [
                         {
@@ -4590,24 +4768,26 @@
                         {
                           "text": "dlg.9159"
                         }
-                      ],
-                      "speaker": "spk.李逍遥"
+                      ]
                     },
                     "kind": "dialog"
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.043",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.043",
+                          "side": "left"
+                        },
+                        "speaker": "spk.天鬼皇"
                       },
                       "rows": [
                         {
                           "text": "dlg.9161"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.天鬼皇"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -4632,9 +4812,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.043",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.043",
+                          "side": "left"
+                        },
+                        "speaker": "spk.天鬼皇"
                       },
                       "rows": [
                         {
@@ -4650,8 +4834,7 @@
                           "text": "dlg.9166"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.天鬼皇"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -4828,17 +5011,20 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.043",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.043",
+                          "side": "left"
+                        },
+                        "speaker": "spk.天鬼皇"
                       },
                       "rows": [
                         {
                           "text": "dlg.9168"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.天鬼皇"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -4876,16 +5062,19 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.009",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.009",
+                          "side": "right"
+                        },
+                        "speaker": "spk.李逍遥"
                       },
                       "rows": [
                         {
                           "text": "dlg.9170"
                         }
-                      ],
-                      "speaker": "spk.李逍遥"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -4910,16 +5099,19 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.091",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.091",
+                          "side": "right"
+                        },
+                        "speaker": "spk.赵灵儿"
                       },
                       "rows": [
                         {
                           "text": "dlg.9172"
                         }
-                      ],
-                      "speaker": "spk.赵灵儿"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -4948,17 +5140,20 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.024",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.024",
+                          "side": "left"
+                        },
+                        "speaker": "spk.林月如"
                       },
                       "rows": [
                         {
                           "text": "dlg.9174"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.林月如"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -4983,16 +5178,19 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.091",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.091",
+                          "side": "right"
+                        },
+                        "speaker": "spk.赵灵儿"
                       },
                       "rows": [
                         {
                           "text": "dlg.9176"
                         }
-                      ],
-                      "speaker": "spk.赵灵儿"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -5001,9 +5199,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.091",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.091",
+                          "side": "right"
+                        },
+                        "speaker": "spk.赵灵儿"
                       },
                       "rows": [
                         {
@@ -5018,8 +5220,7 @@
                         {
                           "text": "dlg.9180"
                         }
-                      ],
-                      "speaker": "spk.赵灵儿"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -5029,9 +5230,13 @@
                   {
                     "cue": {
                       "cursorFrame": 1,
-                      "portrait": {
-                        "asset": "portrait.pal.003",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.003",
+                          "side": "left"
+                        },
+                        "speaker": "spk.李逍遥"
                       },
                       "rows": [
                         {
@@ -5041,8 +5246,7 @@
                           "text": "dlg.9183"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.李逍遥"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },

@@ -1150,15 +1150,21 @@ export function validateItemsV5(json: unknown): ItemDataV5[] {
 /** 战场定义 guard；背景只接受稳定 AssetId，缺席明确表示黑底。 */
 export function validateBattleFields(json: unknown): BattleFieldDef[] {
   const arr = assertArray<BattleFieldDef>(json, 'battleFields')
+  const ids = new Set<number>()
   arr.forEach((field, index) => {
     const ctx = `battleFields[${index}]`
     const record = assertObject(field, ctx) as Record<string, unknown>
     requireKeys(record, ['id', 'screenWave', 'magicEffect'], ctx)
-    if (!Number.isInteger(record.id) || (record.id as number) < 0)
-      throw new Error(`${ctx}.id: 期望非负整数`)
+    // 保留旧字段的专用升级诊断，再进入严格 unknown-key 门。
+    if ('bg' in record) throw new Error(`${ctx}.bg: 旧路径字段已退役，请升级为 background AssetId`)
+    requireOnlyKeys(record, ['id', 'name', 'background', 'screenWave', 'magicEffect'], ctx)
+    if (!Number.isSafeInteger(record.id) || Number(record.id) < 0)
+      throw new Error(`${ctx}.id: 期望非负安全整数`)
+    const id = Number(record.id)
+    if (ids.has(id)) throw new Error(`${ctx}.id: 重复战场 id ${id}`)
+    ids.add(id)
     if (record.name !== undefined && typeof record.name !== 'string')
       throw new Error(`${ctx}.name: 期望 string`)
-    if ('bg' in record) throw new Error(`${ctx}.bg: 旧路径字段已退役，请升级为 background AssetId`)
     validateOptionalAssetId(record, 'background', ctx)
     if (typeof record.screenWave !== 'number' || !Number.isFinite(record.screenWave))
       throw new Error(`${ctx}.screenWave: 期望有限数`)
@@ -1166,7 +1172,10 @@ export function validateBattleFields(json: unknown): BattleFieldDef[] {
       string,
       unknown
     >
-    for (const element of ['wind', 'thunder', 'water', 'fire', 'earth'] as const) {
+    const elements = ['wind', 'thunder', 'water', 'fire', 'earth'] as const
+    requireKeys(magicEffect, elements, `${ctx}.magicEffect`)
+    requireOnlyKeys(magicEffect, elements, `${ctx}.magicEffect`)
+    for (const element of elements) {
       if (typeof magicEffect[element] !== 'number' || !Number.isFinite(magicEffect[element]))
         throw new Error(`${ctx}.magicEffect.${element}: 期望有限数`)
     }

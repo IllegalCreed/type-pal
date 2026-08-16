@@ -1,5 +1,10 @@
 import type { ActorDef, AssetCatalogV1, AssetId, PortraitSet } from '@type-pal/content'
 import { useState } from 'react'
+import {
+  RemoveActorPortraitExpressionCommand,
+  RemoveActorPortraitSetCommand,
+  RenameActorPortraitExpressionCommand,
+} from '../core/actor-dialogue-commands.js'
 import { UpdateActorCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
@@ -59,12 +64,30 @@ export function PortraitEditor(props: {
   onOpenAsset?: (asset: AssetId) => void
 }) {
   const { actor, session, catalog, reader, onOpenAsset } = props
+  const [error, setError] = useState('')
   const portraits = actor.portraits
   const available = Object.entries(catalog.assets).find(
     ([, record]) => record.kind === 'portrait',
   )?.[0]
   const dispatch = (next: PortraitSet | undefined): void => {
-    session.dispatch(new UpdateActorCommand(actor.id, { portraits: next }))
+    try {
+      session.dispatch(new UpdateActorCommand(actor.id, { portraits: next }))
+      setError('')
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : String(cause))
+    }
+  }
+  const dispatchPortraitCommand = (command: {
+    apply: (state: ReturnType<EditSession['getState']>) => ReturnType<EditSession['getState']>
+    invert: (state: ReturnType<EditSession['getState']>) => ReturnType<EditSession['getState']>
+    readonly label: string
+  }): void => {
+    try {
+      session.dispatch(command)
+      setError('')
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : String(cause))
+    }
   }
   const setExpressions = (expressions: Record<string, AssetId>): void => {
     if (!portraits) return
@@ -86,9 +109,10 @@ export function PortraitEditor(props: {
       <h4>
         对话立绘 <span className="hint2">主立绘 + 命名表情 · 均引用工程图片</span>
       </h4>
+      {error ? <div className="cf-warn">{error}</div> : null}
       {portraits ? (
         <>
-          <div className="pt-row">
+          <div className="pt-row portrait-main-row">
             <span className="pt-name pt-main">主（默认）</span>
             <ImageAssetPicker
               value={portraits.default}
@@ -105,7 +129,7 @@ export function PortraitEditor(props: {
               type="button"
               className="mini"
               title="删除整个立绘组"
-              onClick={() => dispatch(undefined)}
+              onClick={() => dispatchPortraitCommand(new RemoveActorPortraitSetCommand(actor.id))}
             >
               ✕
             </button>
@@ -119,21 +143,18 @@ export function PortraitEditor(props: {
               reader={reader}
               onOpenAsset={onOpenAsset}
               onRename={(from, to) => {
-                const expressions = { ...(portraits.expressions ?? {}) }
-                if (to in expressions) return
-                const value = expressions[from]!
-                delete expressions[from]
-                expressions[to] = value
-                setExpressions(expressions)
+                dispatchPortraitCommand(
+                  new RenameActorPortraitExpressionCommand(actor.id, from, to),
+                )
               }}
               onSetAsset={(expression, assetId) =>
                 setExpressions({ ...(portraits.expressions ?? {}), [expression]: assetId })
               }
-              onRemove={(expression) => {
-                const expressions = { ...(portraits.expressions ?? {}) }
-                delete expressions[expression]
-                setExpressions(expressions)
-              }}
+              onRemove={(expression) =>
+                dispatchPortraitCommand(
+                  new RemoveActorPortraitExpressionCommand(actor.id, expression),
+                )
+              }
             />
           ))}
           <button

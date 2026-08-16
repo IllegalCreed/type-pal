@@ -281,16 +281,19 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.024",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.024",
+                          "side": "right"
+                        },
+                        "speaker": "spk.林月如"
                       },
                       "rows": [
                         {
                           "text": "dlg.6410"
                         }
-                      ],
-                      "speaker": "spk.林月如"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -299,9 +302,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.001",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.001",
+                          "side": "left"
+                        },
+                        "speaker": "spk.李逍遥"
                       },
                       "rows": [
                         {
@@ -311,8 +318,7 @@
                           "text": "dlg.6413"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.李逍遥"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -321,9 +327,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.001",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.001",
+                          "side": "left"
+                        },
+                        "speaker": "spk.李逍遥"
                       },
                       "rows": [
                         {
@@ -336,8 +346,7 @@
                           "text": "dlg.6416"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.李逍遥"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -350,9 +359,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.022",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.022",
+                          "side": "right"
+                        },
+                        "speaker": "spk.林月如"
                       },
                       "rows": [
                         {
@@ -361,16 +374,19 @@
                         {
                           "text": "dlg.6419"
                         }
-                      ],
-                      "speaker": "spk.林月如"
+                      ]
                     },
                     "kind": "dialog"
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.006",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.006",
+                          "side": "left"
+                        },
+                        "speaker": "spk.李逍遥"
                       },
                       "rows": [
                         {
@@ -380,8 +396,7 @@
                           "text": "dlg.6422"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.李逍遥"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -394,16 +409,19 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.022",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.022",
+                          "side": "right"
+                        },
+                        "speaker": "spk.林月如"
                       },
                       "rows": [
                         {
                           "text": "dlg.6424"
                         }
-                      ],
-                      "speaker": "spk.林月如"
+                      ]
                     },
                     "kind": "dialog"
                   }

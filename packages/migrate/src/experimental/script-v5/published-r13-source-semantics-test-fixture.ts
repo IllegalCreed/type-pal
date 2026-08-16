@@ -1,10 +1,18 @@
 import { isDeepStrictEqual } from 'node:util'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import type { ManifestV14 } from '@type-pal/content'
 import { type MigrationSnapshot, serializeMigrationJson, sha256 } from '../../migration-baseline.js'
 import {
   rewindB10ProjectAgainstPublishedBaseline,
   rewindB10PublicationIfPresent,
 } from '../../pal-b10-enemy-team-slots.js'
 import type { MigrationJson } from '../../pal-migration.js'
+import {
+  rewindCurrentC1ProjectToW9,
+  rewindCurrentC1PublicationToW9,
+} from '../../pal-current-c1-rewind.js'
 import { rewindPalR13SixBPublication } from '../../pal-r13-six-b-rewind.js'
 import {
   R13_SIX_C_SEAL_PATH,
@@ -34,6 +42,13 @@ interface PublishedR13SourceSemanticsSeal {
   kind: 'r13-source-semantics-transition'
   transitionId: typeof R13_SOURCE_SEMANTICS_TRANSITION_ID
   augmentation: R13ExistingSchemaAugmentationEvidenceV1
+}
+
+const repo = fileURLToPath(new URL('../../../../..', import.meta.url))
+
+function currentManifest(): { manifest: ManifestV14; manifestRawText: string } {
+  const manifestRawText = readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8')
+  return { manifest: JSON.parse(manifestRawText) as ManifestV14, manifestRawText }
 }
 
 function cloneSnapshot(source: MigrationSnapshot): MigrationSnapshot {
@@ -105,11 +120,16 @@ export function rewindPublishedR13SourceSemanticsBaseline(source: MigrationSnaps
   successor: MigrationSnapshot
   evidence: R13ExistingSchemaAugmentationEvidenceV1
 } {
+  const manifestAuthority = currentManifest()
   // B10 是最外层 content successor；先验证并还原 v11 team 面，再剥 Z/6C/6B。
   const successor = rewindPalR13SixBPublication(
     rewindPalR13SixCPublicationIfPresent(
       rewindPublishedR13ZPublicationIfPresent(
-        rewindB10PublicationIfPresent(rewindPublishedW9PublicationIfPresent(source)),
+        rewindB10PublicationIfPresent(
+          rewindPublishedW9PublicationIfPresent(
+            rewindCurrentC1PublicationToW9({ source, ...manifestAuthority }),
+          ),
+        ),
       ),
     ),
   )
@@ -147,11 +167,20 @@ export function rewindPublishedR13SourceSemanticsTransition(args: {
   evidence: R13ExistingSchemaAugmentationEvidenceV1
 } {
   const rebuilt = rewindPublishedR13SourceSemanticsBaseline(args.publishedBaseline)
-  const w9Baseline = rewindPublishedW9PublicationIfPresent(args.publishedBaseline)
+  const manifestAuthority = currentManifest()
+  const c1Baseline = rewindCurrentC1PublicationToW9({
+    source: args.publishedBaseline,
+    ...manifestAuthority,
+  })
+  const w9Baseline = rewindPublishedW9PublicationIfPresent(c1Baseline)
   const b10Project = rewindB10ProjectAgainstPublishedBaseline(
     rewindPublishedW9ProjectAgainstPublishedBaseline(
-      args.publishedProject,
-      args.publishedBaseline,
+      rewindCurrentC1ProjectToW9({
+        project: args.publishedProject,
+        publishedBaseline: args.publishedBaseline,
+        ...manifestAuthority,
+      }),
+      c1Baseline,
     ),
     w9Baseline,
   )

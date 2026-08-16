@@ -111,6 +111,15 @@ import {
   type StampPlacementConflictPolicy,
 } from '../core/stamp-placement.js'
 import { PlaceStampCommand } from '../core/stamp-placement-command.js'
+import {
+  DsButton,
+  DsCatalogFilter,
+  DsCatalogRow,
+  DsCheckbox,
+  DsIconButton,
+  DsListHeader,
+  DsTag,
+} from './design-system/index.js'
 import { MapSelectionInspector } from './MapSelectionInspector.js'
 import { MapStampPalette } from './MapStampPalette.js'
 import { drawMapSelectionOverlay } from './map-selection-overlay.js'
@@ -570,8 +579,6 @@ export function MapMode(props: {
       for (const row of layer.heights ?? []) for (const height of row) max = Math.max(max, height)
     return Math.max(15, max + 1, currentHeight)
   }, [liveMap, currentHeight])
-
-  const activeLayerIndex = liveMap?.layers.findIndex((layer) => layer.id === activeLayerId) ?? -1
 
   useEffect(() => {
     if (!mapId) return
@@ -2786,57 +2793,40 @@ export function MapMode(props: {
     <>
       <div className="outliner map-outliner">
         {navigation}
-        <div className="pane-h map-assets-head">
-          <span className="t">地图</span>
-          <span className="spacer" />
-          <button
-            type="button"
-            className="mini"
-            onClick={createMap}
-            title="新建地图"
-            aria-label="新建地图"
-          >
-            ＋
-          </button>
-          <button
-            type="button"
-            className="mini"
-            onClick={duplicateMap}
-            disabled={!selectedAsset || !liveMap}
-            title="复制地图"
-            aria-label="复制地图"
-          >
-            ⧉
-          </button>
-          <button
-            type="button"
-            className="mini"
-            onClick={renameMap}
-            disabled={!selectedAsset}
-            title="重命名地图"
-            aria-label="重命名地图"
-          >
-            ✎
-          </button>
-          <button
-            type="button"
-            className="mini danger"
-            onClick={deleteMap}
-            disabled={!selectedAsset || !liveMap || selectedReferences.length > 0}
-            title={
-              selectedReferences.length > 0
-                ? `仍被 ${selectedReferences.length} 个场景使用，不能删除`
-                : pendingDeleteId === selectedAsset?.id
-                  ? '再次点击确认删除'
-                  : '删除地图'
-            }
-            aria-label={pendingDeleteId === selectedAsset?.id ? '确认删除地图' : '删除地图'}
-          >
-            {pendingDeleteId === selectedAsset?.id ? '✓' : '−'}
-          </button>
-        </div>
-        <input
-          className="in map-search"
+        <DsListHeader
+          title="地图"
+          count={mapIndex.maps.length}
+          unit="张"
+          actions={[{ id: 'create-map', label: '新建地图', icon: '＋', onClick: createMap }]}
+          overflowActions={[
+            {
+              id: 'duplicate-map',
+              label: '复制地图',
+              disabled: !selectedAsset || !liveMap,
+              onClick: duplicateMap,
+            },
+            {
+              id: 'rename-map',
+              label: '重命名地图',
+              disabled: !selectedAsset,
+              onClick: renameMap,
+            },
+            {
+              id: 'delete-map',
+              label: pendingDeleteId === selectedAsset?.id ? '确认删除地图' : '删除地图',
+              title:
+                selectedReferences.length > 0
+                  ? `仍被 ${selectedReferences.length} 个场景使用，不能删除`
+                  : pendingDeleteId === selectedAsset?.id
+                    ? '再次点击确认删除'
+                    : '删除地图',
+              danger: true,
+              disabled: !selectedAsset || !liveMap || selectedReferences.length > 0,
+              onClick: deleteMap,
+            },
+          ]}
+        />
+        <DsCatalogFilter
           value={mapQuery}
           onChange={(event) => setMapQuery(event.target.value)}
           placeholder="搜索名称或 ID"
@@ -2846,18 +2836,14 @@ export function MapMode(props: {
           {filteredAssets.map((asset) => {
             const references = mapAssetSceneReferences(scenes, asset.id)
             return (
-              <button
-                type="button"
+              <DsCatalogRow
                 key={asset.id}
                 ref={asset.id === selectedAsset?.id ? selectedMapRowRef : undefined}
-                className={`map-asset-row${asset.id === selectedAsset?.id ? ' sel' : ''}`}
+                title={asset.name}
+                meta={`${asset.id} · ${references.length} 处使用`}
+                selected={asset.id === selectedAsset?.id}
                 onClick={() => onSelectMap(asset.id)}
-                title={`${asset.name} (${asset.id})`}
-              >
-                <span className="map-asset-name">{asset.name}</span>
-                <span className="map-asset-id">{asset.id}</span>
-                <span className="map-asset-uses">{references.length}</span>
-              </button>
+              />
             )
           })}
           {filteredAssets.length === 0 ? (
@@ -2866,30 +2852,27 @@ export function MapMode(props: {
             </div>
           ) : null}
         </div>
-        <div className="pane-h">
+        <div className="pane-h map-layer-panel__header">
           <span className="t">图层</span>
+          {liveMap ? <DsTag tone="neutral">{liveMap.layers.length} 层</DsTag> : null}
           <span className="spacer" />
           {liveMap ? (
             <>
-              <button
-                type="button"
-                className="mini"
+              <DsIconButton
+                size="compact"
+                variant="secondary"
+                icon="add"
                 onClick={addLayer}
-                title="新增图层"
-                aria-label="新增图层"
-              >
-                ＋
-              </button>
-              <button
-                type="button"
-                className="mini"
+                label="新增图层"
+              />
+              <DsIconButton
+                size="compact"
+                variant="danger"
+                icon="delete"
                 onClick={removeLayer}
                 disabled={liveMap.layers.length <= 1 || activeLayerReadOnly}
-                title="删除选中图层"
-                aria-label="删除选中图层"
-              >
-                −
-              </button>
+                label="删除选中图层"
+              />
             </>
           ) : null}
         </div>
@@ -2902,58 +2885,49 @@ export function MapMode(props: {
                   key={layer.id}
                   className={`map-layer-row${layer.id === activeLayerId ? ' sel' : ''}`}
                 >
-                  <button
-                    type="button"
-                    className={`layer-eye${hiddenLayerIds.has(layer.id) ? ' off' : ''}`}
+                  <DsIconButton
+                    size="compact"
+                    variant="quiet"
+                    icon={hiddenLayerIds.has(layer.id) ? 'eye-off' : 'eye'}
                     onClick={() => toggleLayerVisible(layer.id)}
-                    title={hiddenLayerIds.has(layer.id) ? '显示图层' : '隐藏图层'}
-                    aria-label={hiddenLayerIds.has(layer.id) ? '显示图层' : '隐藏图层'}
-                  >
-                    👁
-                  </button>
-                  <button
-                    type="button"
-                    className={`layer-lock${lockedLayerIds.has(layer.id) ? ' on' : ''}`}
+                    label={hiddenLayerIds.has(layer.id) ? '显示图层' : '隐藏图层'}
+                    aria-pressed={!hiddenLayerIds.has(layer.id)}
+                  />
+                  <DsIconButton
+                    size="compact"
+                    variant="quiet"
+                    icon={lockedLayerIds.has(layer.id) ? 'lock' : 'unlock'}
                     onClick={() => toggleLayerLocked(layer.id)}
-                    title={lockedLayerIds.has(layer.id) ? '解锁图层' : '锁定图层'}
-                    aria-label={lockedLayerIds.has(layer.id) ? '解锁图层' : '锁定图层'}
+                    label={lockedLayerIds.has(layer.id) ? '解锁图层' : '锁定图层'}
                     aria-pressed={lockedLayerIds.has(layer.id)}
-                  >
-                    {lockedLayerIds.has(layer.id) ? '🔒' : '◇'}
-                  </button>
+                  />
                   <button
                     type="button"
                     className="layer-name"
                     onClick={() => setActiveLayerId(layer.id)}
                     title={`${layer.name} (${layer.id})`}
+                    aria-pressed={layer.id === activeLayerId}
                   >
                     <span>{layer.name}</span>
-                    <span className="layer-badge">
-                      {layer.depthMode === 'height' ? '高度' : '平面'}
-                    </span>
                   </button>
                   {layer.id === activeLayerId ? (
                     <span className="layer-order">
-                      <button
-                        type="button"
-                        className="mini"
+                      <DsIconButton
+                        size="compact"
+                        variant="secondary"
+                        icon="chevron-up"
                         onClick={() => moveLayer(1)}
                         disabled={activeLayerReadOnly || index === liveMap.layers.length - 1}
-                        title="上移图层"
-                        aria-label="上移图层"
-                      >
-                        ↑
-                      </button>
-                      <button
-                        type="button"
-                        className="mini"
+                        label="上移图层"
+                      />
+                      <DsIconButton
+                        size="compact"
+                        variant="secondary"
+                        icon="chevron-down"
                         onClick={() => moveLayer(-1)}
                         disabled={activeLayerReadOnly || index === 0}
-                        title="下移图层"
-                        aria-label="下移图层"
-                      >
-                        ↓
-                      </button>
+                        label="下移图层"
+                      />
                     </span>
                   ) : null}
                 </div>
@@ -2964,63 +2938,38 @@ export function MapMode(props: {
           <p className="hint2 map-readonly-hint">正在载入可编辑地图…</p>
         )}
         {liveMap && activeLayer ? (
-          <section className="map-focus-nav" aria-label="视图与笔刷高度">
-            <div className="map-focus-head">
-              <span className="t">视图与笔刷</span>
-              <span className="map-focus-layer-name" title={activeLayer.name}>
-                {activeLayer.name}
-              </span>
-              <button
-                type="button"
-                className={`map-focus-toggle${focusEnabled ? ' active' : ''}`}
+          <section className="map-paint-context" aria-label="绘制层级">
+            <div className="map-paint-context__head">
+              <div className="map-paint-context__title">
+                <span className="t">绘制层级</span>
+                <span title={activeLayer.name}>{activeLayer.name}</span>
+              </div>
+              <DsButton
+                size="compact"
+                variant="quiet"
                 onClick={() => setFocusEnabled((enabled) => !enabled)}
                 title={focusEnabled ? '关闭聚焦，全部正常显示' : '开启聚焦，其他瓦片变暗'}
                 aria-label={focusEnabled ? '关闭其他图层聚焦' : '聚焦当前图层和高度'}
                 aria-pressed={focusEnabled}
               >
-                <span aria-hidden="true">◉</span>
-                {focusEnabled ? '聚焦中' : '聚焦'}
-              </button>
+                {focusEnabled ? '只看当前' : '聚焦当前'}
+              </DsButton>
             </div>
-            <div className="map-focus-controls">
-              <label className="map-focus-axis">
-                <span>图层</span>
-                <input
-                  type="range"
-                  min={0}
-                  max={Math.max(0, liveMap.layers.length - 1)}
-                  step={1}
-                  value={Math.max(0, activeLayerIndex)}
-                  aria-label="当前图层"
-                  aria-valuetext={`${activeLayerIndex + 1}：${activeLayer.name}`}
-                  onChange={(event) => {
-                    const layer = liveMap.layers[Number(event.target.value)]
-                    if (layer) setActiveLayerId(layer.id)
-                  }}
-                  title={`当前图层：${activeLayer.name}`}
-                />
-                <output title={activeLayer.name}>{activeLayerIndex + 1}</output>
-              </label>
-              <label className="map-focus-axis">
-                <span>高度</span>
-                <input
-                  type="range"
-                  min={0}
-                  max={maxMapHeight}
-                  step={1}
-                  value={activePaintHeight}
-                  disabled={activeLayer.depthMode === 'flat'}
-                  aria-label="观察与笔刷高度"
-                  aria-valuetext={`高度 ${activePaintHeight}`}
-                  onChange={(event) => setCurrentHeight(Number(event.target.value))}
-                  title={
-                    activeLayer.depthMode === 'flat'
-                      ? '平面图层的实例高度固定为 0'
-                      : `观察并写入实例高度：${activePaintHeight}`
-                  }
-                />
-                <output>{activePaintHeight}</output>
-              </label>
+            <div className="map-paint-context__control">
+              <label htmlFor="map-paint-height">绘制高度</label>
+              <input
+                id="map-paint-height"
+                type="range"
+                min={0}
+                max={maxMapHeight}
+                step={1}
+                value={activePaintHeight}
+                onChange={(event) => setCurrentHeight(Number(event.currentTarget.value))}
+                disabled={activeLayer.depthMode === 'flat'}
+              />
+              <output htmlFor="map-paint-height" aria-live="polite">
+                {activePaintHeight}
+              </output>
             </div>
           </section>
         ) : null}
@@ -3029,17 +2978,18 @@ export function MapMode(props: {
       <div className="center map-center">
         <div className="toolbar map-toolbar">
           <div className="tool-group">
-            <button
-              type="button"
-              className={`tool${activeTool === 'pan' ? ' active' : ''}`}
+            <DsButton
+              size="compact"
+              variant="quiet"
+              aria-pressed={activeTool === 'pan'}
               onClick={() => activateMapTool('pan')}
               title="平移画布"
             >
               ✋ 平移
-            </button>
-            <button
-              type="button"
-              className={`tool${activeTool === 'select' ? ' active' : ''}`}
+            </DsButton>
+            <DsButton
+              size="compact"
+              variant="quiet"
               onClick={() => {
                 activateMapTool('select')
               }}
@@ -3049,10 +2999,10 @@ export function MapMode(props: {
               aria-pressed={activeTool === 'select'}
             >
               ⛶ 选择
-            </button>
-            <button
-              type="button"
-              className={`tool${activeTool === 'stamp' ? ' active' : ''}`}
+            </DsButton>
+            <DsButton
+              size="compact"
+              variant="quiet"
               onClick={() => {
                 if (stampGroupEditPlacementId) {
                   notifyWorkspace('error', '当前正在组合内编辑；请先按 Esc 退出，再放置新组合。')
@@ -3077,49 +3027,41 @@ export function MapMode(props: {
               aria-pressed={activeTool === 'stamp'}
             >
               ◆ 放置组合
-            </button>
+            </DsButton>
           </div>
           <div className="tool-group">
-            <label
-              className={`vtog${workspaceMap.hitScope === 'visible-unlocked-layers' ? ' on' : ''}`}
+            <DsCheckbox
+              size="compact"
+              label="跨层选择"
               title="开启后，下一次点击/框选作用于所有可见且未锁图层；已有选区保持不变"
-            >
-              <input
-                type="checkbox"
-                checked={workspaceMap.hitScope === 'visible-unlocked-layers'}
-                onChange={(event) => {
-                  dispatchWorkspace({
-                    type: 'set-hit-scope',
-                    mapId,
-                    hitScope: event.target.checked ? 'visible-unlocked-layers' : 'active-layer',
-                  })
-                  notifyWorkspace(
-                    'info',
-                    event.target.checked
-                      ? '已启用跨层选择；已有选区保持不变。'
-                      : '已切回活动层选择；已有选区保持不变。',
-                  )
-                }}
-              />
-              跨层选择
-            </label>
-            <label
-              className={`vtog${transformIncludesCollision ? ' on' : ''}`}
+              checked={workspaceMap.hitScope === 'visible-unlocked-layers'}
+              onChange={(event) => {
+                dispatchWorkspace({
+                  type: 'set-hit-scope',
+                  mapId,
+                  hitScope: event.target.checked ? 'visible-unlocked-layers' : 'active-layer',
+                })
+                notifyWorkspace(
+                  'info',
+                  event.target.checked
+                    ? '已启用跨层选择；已有选区保持不变。'
+                    : '已切回活动层选择；已有选区保持不变。',
+                )
+              }}
+            />
+            <DsCheckbox
+              size="compact"
+              label={selection.kind === 'stamp-placements' ? '组合始终含碰撞' : '变换含碰撞'}
               title="移动、复制、剪切、粘贴、重复、删除时显式包含独立碰撞通道"
-            >
-              <input
-                type="checkbox"
-                checked={transformIncludesCollision}
-                disabled={Boolean(transformIntent) || selection.kind === 'stamp-placements'}
-                onChange={(event) => setIncludeCollision(event.target.checked)}
-              />
-              {selection.kind === 'stamp-placements' ? '组合始终含碰撞' : '变换含碰撞'}
-            </label>
+              checked={transformIncludesCollision}
+              disabled={Boolean(transformIntent) || selection.kind === 'stamp-placements'}
+              onChange={(event) => setIncludeCollision(event.target.checked)}
+            />
           </div>
           <div className="tool-group map-transform-tools">
-            <button
-              type="button"
-              className="tool"
+            <DsButton
+              size="compact"
+              variant="quiet"
               disabled={
                 selection.kind === 'none' ||
                 Boolean(transformIntent) ||
@@ -3129,10 +3071,10 @@ export function MapMode(props: {
               title="复制选区 (Ctrl/⌘+C)"
             >
               复制
-            </button>
-            <button
-              type="button"
-              className="tool"
+            </DsButton>
+            <DsButton
+              size="compact"
+              variant="quiet"
               disabled={
                 selection.kind === 'none' ||
                 (selection.kind === 'cells' &&
@@ -3144,10 +3086,10 @@ export function MapMode(props: {
               title="剪切选区 (Ctrl/⌘+X)"
             >
               剪切
-            </button>
-            <button
-              type="button"
-              className="tool"
+            </DsButton>
+            <DsButton
+              size="compact"
+              variant="quiet"
               disabled={
                 !clipboard ||
                 (clipboard.kind === 'cells' && activeLayerReadOnly) ||
@@ -3158,10 +3100,10 @@ export function MapMode(props: {
               title="粘贴预览 (Ctrl/⌘+V)"
             >
               粘贴
-            </button>
-            <button
-              type="button"
-              className="tool"
+            </DsButton>
+            <DsButton
+              size="compact"
+              variant="quiet"
               disabled={
                 selection.kind === 'none' ||
                 (selection.kind === 'cells' &&
@@ -3173,10 +3115,10 @@ export function MapMode(props: {
               title="移动选区；通过鼠标或方向键定位"
             >
               移动…
-            </button>
-            <button
-              type="button"
-              className="tool"
+            </DsButton>
+            <DsButton
+              size="compact"
+              variant="quiet"
               disabled={
                 (selection.kind === 'none' && !clipboard) ||
                 ((selection.kind === 'cells' ||
@@ -3190,10 +3132,10 @@ export function MapMode(props: {
               title="重复选区到相邻位置"
             >
               重复
-            </button>
-            <button
-              type="button"
-              className="tool danger"
+            </DsButton>
+            <DsButton
+              size="compact"
+              variant="danger"
               disabled={
                 selection.kind === 'none' ||
                 (selection.kind === 'cells' &&
@@ -3205,68 +3147,75 @@ export function MapMode(props: {
               title="删除选区 (Delete)"
             >
               删除
-            </button>
+            </DsButton>
           </div>
           <div className="tool-group">
-            <button
-              type="button"
-              className={`tool${activeTool === 'eyedropper' ? ' active' : ''}`}
+            <DsButton
+              size="compact"
+              variant="quiet"
+              aria-pressed={activeTool === 'eyedropper'}
               onClick={() => activateMapTool('eyedropper')}
               disabled={!liveMap || activeLayerReadOnly}
               title="从当前图层取样瓦片与实例高度"
             >
               ◉ 取样
-            </button>
-            <button
-              type="button"
-              className={`tool${activeTool === 'brush' ? ' active' : ''}`}
+            </DsButton>
+            <DsButton
+              size="compact"
+              variant="quiet"
+              aria-pressed={activeTool === 'brush'}
               onClick={() => activateMapTool('brush')}
               disabled={!liveMap || activeLayerReadOnly}
               title="画选中瓦片"
             >
               🖌 笔刷
-            </button>
-            <button
-              type="button"
-              className={`tool${activeTool === 'rect' ? ' active' : ''}`}
+            </DsButton>
+            <DsButton
+              size="compact"
+              variant="quiet"
+              aria-pressed={activeTool === 'rect'}
               onClick={() => activateMapTool('rect')}
               disabled={!liveMap || activeLayerReadOnly}
               title="矩形铺瓦"
             >
               ▭ 矩形
-            </button>
-            <button
-              type="button"
-              className={`tool${activeTool === 'fill' ? ' active' : ''}`}
+            </DsButton>
+            <DsButton
+              size="compact"
+              variant="quiet"
+              aria-pressed={activeTool === 'fill'}
               onClick={() => activateMapTool('fill')}
               disabled={!liveMap || activeLayerReadOnly}
               title="填充连通区域"
             >
               🪣 填充
-            </button>
-            <button
-              type="button"
-              className={`tool${activeTool === 'erase' ? ' active' : ''}`}
+            </DsButton>
+            <DsButton
+              size="compact"
+              variant="quiet"
+              aria-pressed={activeTool === 'erase'}
               onClick={() => activateMapTool('erase')}
               disabled={!liveMap || activeLayerReadOnly}
               title="擦除瓦片"
             >
               ⌫ 擦除
-            </button>
+            </DsButton>
           </div>
           <div className="tool-group">
-            <button
-              type="button"
-              className={`tool${activeTool === 'collision' ? ' active' : ''}`}
+            <DsButton
+              size="compact"
+              variant="quiet"
+              aria-pressed={activeTool === 'collision'}
               onClick={() => activateMapTool('collision')}
               disabled={!liveMap || activeLayerReadOnly}
               title="绘制独立碰撞层"
             >
               ⛔ 碰撞
-            </button>
-            <button
-              type="button"
-              className={`tool${activeTool === 'collision' && collisionPaint === 'set' ? ' active' : ''}`}
+            </DsButton>
+            <DsButton
+              size="compact"
+              variant="quiet"
+              aria-pressed={activeTool === 'collision' && collisionPaint === 'set'}
               onClick={() => {
                 setCollisionPaint('set')
                 activateMapTool('collision')
@@ -3275,10 +3224,11 @@ export function MapMode(props: {
               title="标记阻挡"
             >
               标记
-            </button>
-            <button
-              type="button"
-              className={`tool${activeTool === 'collision' && collisionPaint === 'clear' ? ' active' : ''}`}
+            </DsButton>
+            <DsButton
+              size="compact"
+              variant="quiet"
+              aria-pressed={activeTool === 'collision' && collisionPaint === 'clear'}
               onClick={() => {
                 setCollisionPaint('clear')
                 activateMapTool('collision')
@@ -3287,31 +3237,22 @@ export function MapMode(props: {
               title="清除阻挡"
             >
               清除
-            </button>
+            </DsButton>
           </div>
           <div className="tool-group">
-            <label className={`vtog${showGrid ? ' on' : ''}`}>
-              <input
-                type="checkbox"
-                checked={showGrid}
-                onChange={(event) => setShowGrid(event.target.checked)}
-              />{' '}
-              网格
-            </label>
-            <label className={`vtog${showCollision ? ' on' : ''}`}>
-              <input
-                type="checkbox"
-                checked={showCollision}
-                onChange={(event) => setShowCollision(event.target.checked)}
-              />{' '}
-              碰撞
-            </label>
+            <DsCheckbox
+              size="compact"
+              label="网格"
+              checked={showGrid}
+              onChange={(event) => setShowGrid(event.target.checked)}
+            />
+            <DsCheckbox
+              size="compact"
+              label="碰撞"
+              checked={showCollision}
+              onChange={(event) => setShowCollision(event.target.checked)}
+            />
           </div>
-          <span className="spacer" />
-          <span className="map-toolbar-hint">{toolbarHint}</span>
-          <span className="map-toolbar-zoom" title="画布缩放">
-            {Math.round(view.zoom * 100)}%{status === 'loading' ? ' · 载入中…' : ''}
-          </span>
         </div>
         <div className="viewport" ref={wrapRef}>
           {status === 'error' && (
@@ -3362,6 +3303,10 @@ export function MapMode(props: {
             }}
           />
         </div>
+        <span className="map-viewport-status map-viewport-status--context">{toolbarHint}</span>
+        <span className="map-viewport-status map-viewport-status--zoom" title="画布缩放">
+          {Math.round(view.zoom * 100)}%{status === 'loading' ? ' · 载入中…' : ''}
+        </span>
       </div>
 
       <div className="inspector map-inspector">

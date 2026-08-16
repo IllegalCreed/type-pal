@@ -211,7 +211,10 @@
                             "text": "dlg.12041"
                           }
                         ],
-                        "speaker": "spk.老王"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.老王"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -302,7 +305,10 @@
                             "text": "dlg.12045"
                           }
                         ],
-                        "speaker": "spk.王婶"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.王婶"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -355,7 +361,10 @@
                             "text": "dlg.12047"
                           }
                         ],
-                        "speaker": "spk.来福伯"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.来福伯"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -369,7 +378,10 @@
                             "text": "dlg.12048"
                           }
                         ],
-                        "speaker": "spk.来福伯"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.来福伯"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -392,7 +404,10 @@
                             "text": "dlg.12052"
                           }
                         ],
-                        "speaker": "spk.来福伯"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.来福伯"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -415,7 +430,10 @@
                             "text": "dlg.12056"
                           }
                         ],
-                        "speaker": "spk.来福伯"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.来福伯"
+                        }
                       },
                       "kind": "dialog"
                     }

@@ -16,16 +16,53 @@ import type {
 } from '@type-pal/content'
 import { ENEMY_RUNTIME_SKILL_EFFECT_KINDS } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
-import { useEffect, useMemo, useState } from 'react'
-import { AddSkillCommand, UpdateSkillCommand } from '../core/commands.js'
+import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  type BattleDataReference,
+  blockingSkillReferences,
+} from '../core/battle-data-references.js'
+import {
+  AddSkillCommand,
+  BattleDataInUseError,
+  DeleteSkillCommand,
+  UpdateSkillCommand,
+} from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
+import {
+  DsActionLink,
+  DsButton,
+  DsCheckbox,
+  DsField,
+  DsIconButton,
+  DsListHeader,
+  DsNumberField,
+  DsNumberInput,
+  DsSelect,
+  DsSelectField,
+  DsTag,
+  DsTextAreaField,
+  DsTextField,
+  DsTextInput,
+} from './design-system/controls.js'
+import {
+  DsCatalogFilter,
+  DsCatalogRow,
+  DsInspectorTabs,
+  DsInspectorSection,
+  DsObjectHero,
+  DsReferenceList,
+  DsReferenceRow,
+  DsWorkbenchSection,
+} from './design-system/recipes.js'
 import { NamedIdPicker } from './NamedIdPicker.js'
 import { SkillAnimationEditor } from './SkillAnimationEditor.js'
 import { SoundPicker } from './SoundPicker.js'
 import { SummonPreview } from './SummonPreview.js'
 import { TrancePreview } from './TrancePreview.js'
+
+type SkillInspectorTab = 'references' | 'help'
 
 const TARGETS: { v: SkillData['target']; label: string }[] = [
   { v: 'oneEnemy', label: '单敌' },
@@ -127,6 +164,7 @@ function defaultEffect(
 }
 
 function N(props: {
+  id?: string
   v: number | undefined
   on: (n: number | undefined) => void
   ph?: string
@@ -136,20 +174,30 @@ function N(props: {
   step?: number
 }) {
   return (
-    <input
-      className="in mono ef-num"
-      type="number"
-      aria-label={props.ariaLabel}
-      min={props.min}
-      step={props.step}
-      style={props.w ? { width: props.w } : undefined}
-      value={props.v ?? ''}
-      placeholder={props.ph}
-      onChange={(e) =>
-        props.on(Number.isFinite(e.target.valueAsNumber) ? e.target.valueAsNumber : undefined)
-      }
-      onWheel={(e) => e.currentTarget.blur()}
-    />
+    <span className="skill-number-control" style={props.w ? { width: props.w } : undefined}>
+      <DsNumberInput
+        id={props.id}
+        size="compact"
+        monospace
+        aria-label={props.ariaLabel}
+        min={props.min}
+        step={props.step}
+        value={props.v ?? ''}
+        placeholder={props.ph}
+        onChange={(e) =>
+          props.on(Number.isFinite(e.target.valueAsNumber) ? e.target.valueAsNumber : undefined)
+        }
+        onWheel={(e) => e.currentTarget.blur()}
+      />
+    </span>
+  )
+}
+
+function EffectField(props: { label: string; help?: string; children: (id: string) => ReactNode }) {
+  return (
+    <DsField label={props.label} help={props.help} className="skill-effect-field">
+      {({ id }) => props.children(id)}
+    </DsField>
   )
 }
 
@@ -168,280 +216,410 @@ function EffectFields(props: {
     case 'damage':
       return (
         <>
-          <label>
-            <span>威力</span>
-            <N v={e.power} on={(n) => on({ ...e, power: n ?? 0 })} />
-          </label>
-          <label>
-            <span>五行</span>
-            <select
-              className="in"
-              value={e.elemental}
-              onChange={(ev) => on({ ...e, elemental: Number(ev.target.value) })}
-            >
-              {ELEMENTS.map((nm, i) => (
-                <option key={nm} value={i === 6 ? 6 : i}>
-                  {nm}
-                </option>
-              ))}
-            </select>
-          </label>
+          <EffectField label="威力">
+            {(id) => <N id={id} v={e.power} on={(n) => on({ ...e, power: n ?? 0 })} />}
+          </EffectField>
+          <EffectField label="五行">
+            {(id) => (
+              <DsSelect
+                id={id}
+                size="compact"
+                value={String(e.elemental)}
+                onValueChange={(value) => on({ ...e, elemental: Number(value) })}
+                options={ELEMENTS.map((label, index) => ({
+                  value: String(index === 6 ? 6 : index),
+                  label,
+                }))}
+              />
+            )}
+          </EffectField>
         </>
       )
     case 'resourceDelta':
       return (
         <>
-          <label>
-            <span>资源</span>
-            <select
-              className="in"
-              value={e.resource}
-              onChange={(event) => on({ ...e, resource: event.target.value as 'hp' | 'mp' })}
-            >
-              <option value="hp">体力</option>
-              <option value="mp">真气</option>
-            </select>
-          </label>
-          <label>
-            <span>增减</span>
-            <N v={e.delta} on={(delta) => on({ ...e, delta: delta ?? 0 })} />
-          </label>
+          <EffectField label="资源">
+            {(id) => (
+              <DsSelect
+                id={id}
+                size="compact"
+                value={e.resource}
+                onValueChange={(resource) => on({ ...e, resource: resource as 'hp' | 'mp' })}
+                options={[
+                  { value: 'hp', label: '体力' },
+                  { value: 'mp', label: '真气' },
+                ]}
+              />
+            )}
+          </EffectField>
+          <EffectField label="增减">
+            {(id) => <N id={id} v={e.delta} on={(delta) => on({ ...e, delta: delta ?? 0 })} />}
+          </EffectField>
         </>
       )
     case 'healHp':
     case 'healMp':
       return (
-        <label>
-          <span>量</span>
-          <N v={e.amount} on={(n) => on({ ...e, amount: n ?? 0 })} />
-        </label>
+        <EffectField label="量">
+          {(id) => <N id={id} v={e.amount} on={(n) => on({ ...e, amount: n ?? 0 })} />}
+        </EffectField>
       )
     case 'revive':
       return (
-        <label>
-          <span>回 max%</span>
-          <N v={e.hpPercent} on={(n) => on({ ...e, hpPercent: n ?? 0 })} />
-        </label>
+        <EffectField label="回 max%">
+          {(id) => <N id={id} v={e.hpPercent} on={(n) => on({ ...e, hpPercent: n ?? 0 })} />}
+        </EffectField>
       )
     case 'applyStatus':
       return (
         <>
-          <label>
-            <span>状态</span>
-            <select
-              className="in"
-              value={e.status}
-              onChange={(ev) => on({ ...e, status: ev.target.value as StatusId })}
-            >
-              {STATUS.map((s) => (
-                <option key={s.v} value={s.v}>
-                  {s.label}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>
-            <span>回合</span>
-            <N v={e.turns} on={(n) => on({ ...e, turns: n ?? 1 })} />
-          </label>
+          <EffectField label="状态">
+            {(id) => (
+              <DsSelect
+                id={id}
+                size="compact"
+                value={e.status}
+                onValueChange={(status) => on({ ...e, status: status as StatusId })}
+                options={STATUS.map((status) => ({ value: status.v, label: status.label }))}
+              />
+            )}
+          </EffectField>
+          <EffectField label="回合">
+            {(id) => <N id={id} v={e.turns} on={(n) => on({ ...e, turns: n ?? 1 })} />}
+          </EffectField>
         </>
       )
     case 'removeStatus':
       return (
         <span className="ef-status-set">
           {STATUS.map((s) => (
-            <label key={s.v} className="cf-inline">
-              <input
-                type="checkbox"
-                checked={e.statuses.includes(s.v)}
-                onChange={(ev) =>
-                  on({
-                    ...e,
-                    statuses: ev.target.checked
-                      ? [...e.statuses, s.v]
-                      : e.statuses.filter((x) => x !== s.v),
-                  })
-                }
-              />
-              {s.label}
-            </label>
+            <DsCheckbox
+              key={s.v}
+              size="compact"
+              label={s.label}
+              checked={e.statuses.includes(s.v)}
+              onChange={(ev) =>
+                on({
+                  ...e,
+                  statuses: ev.target.checked
+                    ? [...e.statuses, s.v]
+                    : e.statuses.filter((x) => x !== s.v),
+                })
+              }
+            />
           ))}
         </span>
       )
     case 'applyPoison':
       return (
-        <label>
-          <span>毒 id</span>
-          <input
-            className="in ef-num"
-            value={e.poisonId}
-            onChange={(ev) => on({ ...e, poisonId: ev.target.value })}
-          />
-        </label>
+        <EffectField label="毒 id">
+          {(id) => (
+            <DsTextInput
+              id={id}
+              size="compact"
+              value={e.poisonId}
+              onChange={(ev) => on({ ...e, poisonId: ev.target.value })}
+            />
+          )}
+        </EffectField>
       )
     case 'curePoison':
       return (
         <>
-          <label>
-            <span>可解度</span>
-            <select
-              className="in"
-              value={e.curesTier ?? ''}
-              onChange={(ev) =>
-                on({ ...e, curesTier: (ev.target.value || undefined) as typeof e.curesTier })
-              }
-            >
-              <option value="">(按毒 id)</option>
-              <option value="common">常规(灵血咒)</option>
-              <option value="severe">六大毒(复活类)</option>
-            </select>
-          </label>
-          <label>
-            <span>指定毒</span>
-            <input
-              className="in ef-num"
-              value={e.poisonId ?? ''}
-              placeholder="(任意)"
-              onChange={(ev) => on({ ...e, poisonId: ev.target.value || undefined })}
-            />
-          </label>
+          <EffectField label="可解度">
+            {(id) => (
+              <DsSelect
+                id={id}
+                size="compact"
+                value={e.curesTier ?? ''}
+                onValueChange={(curesTier) =>
+                  on({ ...e, curesTier: (curesTier || undefined) as typeof e.curesTier })
+                }
+                options={[
+                  { value: '', label: '(按毒 id)' },
+                  { value: 'common', label: '常规(灵血咒)' },
+                  { value: 'severe', label: '六大毒(复活类)' },
+                ]}
+              />
+            )}
+          </EffectField>
+          <EffectField label="指定毒">
+            {(id) => (
+              <DsTextInput
+                id={id}
+                size="compact"
+                value={e.poisonId ?? ''}
+                placeholder="(任意)"
+                onChange={(ev) => on({ ...e, poisonId: ev.target.value || undefined })}
+              />
+            )}
+          </EffectField>
         </>
       )
     case 'buffStat':
       return (
         <>
-          <label>
-            <span>属性</span>
-            <select
-              className="in"
-              value={e.stat}
-              onChange={(ev) => on({ ...e, stat: ev.target.value as typeof e.stat })}
-            >
-              <option value="attack">武术</option>
-              <option value="defense">防御</option>
-              <option value="magic">灵力</option>
-              <option value="dexterity">身法</option>
-            </select>
-          </label>
-          <label>
-            <span>+%</span>
-            <N v={e.percent} on={(n) => on({ ...e, percent: n ?? 0 })} />
-          </label>
-          <label>
-            <span>持续</span>
-            <select
-              className="in"
-              value={e.duration === 'battle' ? 'battle' : 'turns'}
-              onChange={(ev) => on({ ...e, duration: ev.target.value === 'battle' ? 'battle' : 3 })}
-            >
-              <option value="battle">整场</option>
-              <option value="turns">N 回合</option>
-            </select>
-          </label>
+          <EffectField label="属性">
+            {(id) => (
+              <DsSelect
+                id={id}
+                size="compact"
+                value={e.stat}
+                onValueChange={(stat) => on({ ...e, stat: stat as typeof e.stat })}
+                options={[
+                  { value: 'attack', label: '武术' },
+                  { value: 'defense', label: '防御' },
+                  { value: 'magic', label: '灵力' },
+                  { value: 'dexterity', label: '身法' },
+                ]}
+              />
+            )}
+          </EffectField>
+          <EffectField label="+%">
+            {(id) => <N id={id} v={e.percent} on={(n) => on({ ...e, percent: n ?? 0 })} />}
+          </EffectField>
+          <EffectField label="持续">
+            {(id) => (
+              <DsSelect
+                id={id}
+                size="compact"
+                value={e.duration === 'battle' ? 'battle' : 'turns'}
+                onValueChange={(duration) =>
+                  on({ ...e, duration: duration === 'battle' ? 'battle' : 3 })
+                }
+                options={[
+                  { value: 'battle', label: '整场' },
+                  { value: 'turns', label: 'N 回合' },
+                ]}
+              />
+            )}
+          </EffectField>
           {e.duration !== 'battle' && (
-            <N v={e.duration} on={(n) => on({ ...e, duration: n ?? 3 })} />
+            <N v={e.duration} ariaLabel="持续回合数" on={(n) => on({ ...e, duration: n ?? 3 })} />
           )}
         </>
       )
     case 'gate':
       return (
         <>
-          <label>
-            <span>概率%</span>
-            <N v={e.chance} on={(n) => on({ ...e, chance: n })} ph="(无)" />
-          </label>
-          <label>
-            <span>HP≤%</span>
-            <N v={e.hpAtMostPercent} on={(n) => on({ ...e, hpAtMostPercent: n })} ph="(无)" />
-          </label>
-          <label className="cf-inline">
-            <input
-              type="checkbox"
-              checked={e.magicResist === true}
-              onChange={(ev) => on({ ...e, magicResist: ev.target.checked || undefined })}
-            />
-            灵抗掷
-          </label>
+          <EffectField label="概率%">
+            {(id) => <N id={id} v={e.chance} on={(n) => on({ ...e, chance: n })} ph="(无)" />}
+          </EffectField>
+          <EffectField label="HP≤%">
+            {(id) => (
+              <N
+                id={id}
+                v={e.hpAtMostPercent}
+                on={(n) => on({ ...e, hpAtMostPercent: n })}
+                ph="(无)"
+              />
+            )}
+          </EffectField>
+          <DsCheckbox
+            size="compact"
+            label="灵抗掷"
+            checked={e.magicResist === true}
+            onChange={(ev) => on({ ...e, magicResist: ev.target.checked || undefined })}
+          />
         </>
       )
     case 'steal':
       return (
-        <label>
-          <span>成功率</span>
-          <N v={e.rate} on={(n) => on({ ...e, rate: n ?? 0 })} />
-        </label>
+        <EffectField label="成功率">
+          {(id) => <N id={id} v={e.rate} on={(n) => on({ ...e, rate: n ?? 0 })} />}
+        </EffectField>
       )
     case 'summon':
       return (
         <>
-          <div className="sound-effect-field">
-            <span>召唤形象</span>
-            <BattleSpritePicker
-              value={e.battleSprite}
-              definitions={battleSprites}
-              kind="summon"
-              onChange={(battleSprite) => on({ ...e, battleSprite })}
-              onOpenDefinition={onOpenBattleSprite}
-            />
-          </div>
-          <label>
-            <span>现身帧速</span>
-            <N v={e.speed} on={(n) => on({ ...e, speed: n ?? undefined })} ph="0" />
-          </label>
-          <label title="背景染色量(原版召唤自身 wEffectTimes,fight.c:3145):负=调暗(武神-2/风神-1),正=调亮(雪妖/火神+5),0=不染">
-            <span>背景染色</span>
-            <N v={e.tint} on={(n) => on({ ...e, tint: n ?? undefined })} ph="0" />
-          </label>
-          <div className="sound-effect-field">
-            <span>现身音效</span>
-            <SoundPicker
-              value={e.sound}
-              onChange={(sound) => on({ ...e, sound })}
-              catalog={assetCatalog}
-              reader={assetReader}
-              allowUnset
-              onOpenAsset={onOpenSound}
-            />
-          </div>
+          <EffectField label="召唤形象">
+            {(id) => (
+              <BattleSpritePicker
+                id={id}
+                size="compact"
+                value={e.battleSprite}
+                definitions={battleSprites}
+                kind="summon"
+                onChange={(battleSprite) => on({ ...e, battleSprite })}
+                onOpenDefinition={onOpenBattleSprite}
+              />
+            )}
+          </EffectField>
+          <EffectField label="现身帧速">
+            {(id) => (
+              <N id={id} v={e.speed} on={(n) => on({ ...e, speed: n ?? undefined })} ph="0" />
+            )}
+          </EffectField>
+          <EffectField label="背景染色" help="负数调暗，正数调亮，0 表示不染色">
+            {(id) => <N id={id} v={e.tint} on={(n) => on({ ...e, tint: n ?? undefined })} ph="0" />}
+          </EffectField>
+          <EffectField label="现身音效">
+            {(id) => (
+              <SoundPicker
+                id={id}
+                size="compact"
+                value={e.sound}
+                onChange={(sound) => on({ ...e, sound })}
+                catalog={assetCatalog}
+                reader={assetReader}
+                allowUnset
+                onOpenAsset={onOpenSound}
+              />
+            )}
+          </EffectField>
         </>
       )
     case 'trance':
       return (
-        <div className="sound-effect-field">
-          <span>变身形象</span>
-          <BattleSpritePicker
-            value={e.battleSprite}
-            definitions={battleSprites}
-            kind="player-fighter"
-            onChange={(battleSprite) => on({ ...e, battleSprite })}
-            onOpenDefinition={onOpenBattleSprite}
-          />
-        </div>
+        <EffectField label="变身形象">
+          {(id) => (
+            <BattleSpritePicker
+              id={id}
+              size="compact"
+              value={e.battleSprite}
+              definitions={battleSprites}
+              kind="player-fighter"
+              onChange={(battleSprite) => on({ ...e, battleSprite })}
+              onOpenDefinition={onOpenBattleSprite}
+            />
+          )}
+        </EffectField>
       )
     case 'moneyDamage':
       return (
         <>
-          <label title="消耗 = min(当前金钱, 此上限);乾坤一掷 5000">
-            <span>消耗上限</span>
-            <N v={e.maxSpend} on={(n) => on({ ...e, maxSpend: n ?? 5000 })} />
-          </label>
-          <label title="基伤 = 消耗 × 分子/分母(乾坤一掷 2/5)">
-            <span>分子</span>
-            <N v={e.num} on={(n) => on({ ...e, num: n ?? 1 })} w={48} />
-          </label>
-          <label>
-            <span>分母</span>
-            <N v={e.den} on={(n) => on({ ...e, den: n ?? 1 })} w={48} />
-          </label>
-          <label>
-            <span>五灵</span>
-            <N v={e.elemental} on={(n) => on({ ...e, elemental: n ?? 0 })} w={48} />
-          </label>
+          <EffectField label="消耗上限" help="消耗为当前金钱与此上限的较小值">
+            {(id) => <N id={id} v={e.maxSpend} on={(n) => on({ ...e, maxSpend: n ?? 5000 })} />}
+          </EffectField>
+          <EffectField label="分子" help="基伤 = 消耗 × 分子 ÷ 分母">
+            {(id) => <N id={id} v={e.num} on={(n) => on({ ...e, num: n ?? 1 })} w={48} />}
+          </EffectField>
+          <EffectField label="分母">
+            {(id) => <N id={id} v={e.den} on={(n) => on({ ...e, den: n ?? 1 })} w={48} />}
+          </EffectField>
+          <EffectField label="五灵">
+            {(id) => (
+              <N id={id} v={e.elemental} on={(n) => on({ ...e, elemental: n ?? 0 })} w={48} />
+            )}
+          </EffectField>
         </>
       )
     default:
       return <span className="hint2">(无参数)</span>
   }
+}
+
+type SkillEffectPreview = {
+  label: string
+  content: ReactNode
+}
+
+function effectPreview(props: {
+  effect: SkillEffect
+  assetBase: AssetBase
+  assetReader: EditorAssetReader
+  battleSprites: readonly BattleSpriteDef[]
+}): SkillEffectPreview | undefined {
+  const { effect, assetBase, assetReader, battleSprites } = props
+  if (effect.kind === 'summon') {
+    return {
+      label: '召唤形象预览',
+      content: (
+        <SummonPreview
+          assetBase={assetBase}
+          definition={battleSprites.find((entry) => entry.id === effect.battleSprite)}
+          assetReader={assetReader}
+          speed={effect.speed}
+        />
+      ),
+    }
+  }
+  if (effect.kind === 'trance') {
+    return {
+      label: '变身形象预览',
+      content: (
+        <TrancePreview
+          assetBase={assetBase}
+          definition={battleSprites.find((entry) => entry.id === effect.battleSprite)}
+          assetReader={assetReader}
+        />
+      ),
+    }
+  }
+  return undefined
+}
+
+function SkillEffectCard(props: {
+  index: number
+  total: number
+  effect: SkillEffect
+  kindOptions: readonly { v: SkillEffect['kind']; label: string }[]
+  preview?: SkillEffectPreview
+  children: ReactNode
+  onKindChange: (kind: SkillEffect['kind']) => void
+  onMoveUp: () => void
+  onMoveDown: () => void
+  onRemove: () => void
+}) {
+  const effectNumber = props.index + 1
+  return (
+    <li
+      className={`skill-effect-card${props.preview ? ' skill-effect-card--with-preview' : ''}`}
+      data-effect-kind={props.effect.kind}
+      data-has-preview={props.preview ? 'true' : 'false'}
+      aria-label={`效果 ${effectNumber}`}
+    >
+      <div className="skill-effect-card__editor">
+        <header className="skill-effect-card__header">
+          <span className="skill-effect-card__index">效果 {effectNumber}</span>
+          <DsSelect
+            size="compact"
+            aria-label={`效果 ${effectNumber} 类型`}
+            value={props.effect.kind}
+            onValueChange={(kind) => props.onKindChange(kind as SkillEffect['kind'])}
+            options={props.kindOptions.map((kind) => ({ value: kind.v, label: kind.label }))}
+          />
+          <span className="skill-effect-card__spacer" />
+          <span
+            className="skill-effect-card__actions"
+            role="group"
+            aria-label={`效果 ${effectNumber} 排序与删除`}
+          >
+            <DsIconButton
+              size="compact"
+              variant="secondary"
+              icon="chevron-up"
+              label={`上移效果 ${effectNumber}`}
+              disabled={props.index === 0}
+              onClick={props.onMoveUp}
+            />
+            <DsIconButton
+              size="compact"
+              variant="secondary"
+              icon="chevron-down"
+              label={`下移效果 ${effectNumber}`}
+              disabled={props.index === props.total - 1}
+              onClick={props.onMoveDown}
+            />
+            <DsIconButton
+              size="compact"
+              variant="danger"
+              icon="delete"
+              label={`删除效果 ${effectNumber}`}
+              onClick={props.onRemove}
+            />
+          </span>
+        </header>
+        <div className="ef-fields skill-effect-card__fields">{props.children}</div>
+      </div>
+      {props.preview && (
+        <figure className="skill-effect-card__preview" data-effect-preview>
+          <figcaption>{props.preview.label}</figcaption>
+          {props.preview.content}
+        </figure>
+      )}
+    </li>
+  )
 }
 
 function ExecutionOverrideEditor(props: {
@@ -497,113 +675,86 @@ function ExecutionOverrideEditor(props: {
       </div>
       {side === 'player' && (
         <div className="skill-execution-prepare">
-          <label className="cf-inline">
-            <input
-              type="checkbox"
-              checked={Boolean(prepare)}
-              onChange={(event) => setPrepare(event.target.checked)}
-            />
-            施法前按剩余真气扣体力
-          </label>
+          <DsCheckbox
+            size="compact"
+            label="施法前按剩余真气扣体力"
+            checked={Boolean(prepare)}
+            onChange={(event) => setPrepare(event.target.checked)}
+          />
           {prepare && (
-            <label>
-              <span>倍率</span>
-              <N v={prepare.multiplier} on={(value) => setPrepare(true, value ?? 0)} ph="8" />
-            </label>
+            <EffectField label="倍率">
+              {(id) => (
+                <N
+                  id={id}
+                  v={prepare.multiplier}
+                  on={(value) => setPrepare(true, value ?? 0)}
+                  ph="8"
+                />
+              )}
+            </EffectField>
           )}
         </div>
       )}
       <div className="item-effect-subhead">
         <span>分支效果</span>
-        <button
-          type="button"
-          className="mini-txt item-effect-add-button"
+        <DsButton
+          variant="secondary"
+          icon="add"
           onClick={() => setEffects([...effects, defaultEffect('damage', battleSprites)])}
         >
-          ＋ 添加分支效果
-        </button>
+          添加分支效果
+        </DsButton>
       </div>
-      {effects.map((effect, index) => (
-        <div className="ef-row" key={`${side}-execution-${index}`}>
-          <select
-            className="in ef-kind"
-            value={effect.kind}
-            onChange={(event) =>
-              setEffect(
-                index,
-                defaultEffect(event.target.value as SkillEffect['kind'], battleSprites),
-              )
-            }
-          >
-            {availableEffectKinds.map((kind) => (
-              <option key={kind.v} value={kind.v}>
-                {kind.label}
-              </option>
-            ))}
-          </select>
-          <div className="ef-fields">
-            <EffectFields
-              e={effect}
-              on={(next) => setEffect(index, next)}
-              assetCatalog={assetCatalog}
-              assetReader={assetReader}
-              battleSprites={battleSprites}
-              onOpenSound={onOpenSound}
-              onOpenBattleSprite={onOpenBattleSprite}
-            />
-          </div>
-          <span className="ef-ops">
-            <button
-              type="button"
-              className="mini"
-              title="上移"
-              disabled={index === 0}
-              onClick={() => {
+      {effects.length > 0 ? (
+        <ol className="skill-effect-chain" data-skill-effect-chain={side}>
+          {effects.map((effect, index) => (
+            <SkillEffectCard
+              key={`${side}-execution-${index}`}
+              index={index}
+              total={effects.length}
+              effect={effect}
+              kindOptions={availableEffectKinds}
+              preview={effectPreview({ effect, assetBase, assetReader, battleSprites })}
+              onKindChange={(kind) => setEffect(index, defaultEffect(kind, battleSprites))}
+              onMoveUp={() => {
                 const next = [...effects]
                 ;[next[index - 1], next[index]] = [next[index]!, next[index - 1]!]
                 setEffects(next)
               }}
-            >
-              ↑
-            </button>
-            <button
-              type="button"
-              className="mini"
-              title="下移"
-              disabled={index === effects.length - 1}
-              onClick={() => {
+              onMoveDown={() => {
                 const next = [...effects]
                 ;[next[index], next[index + 1]] = [next[index + 1]!, next[index]!]
                 setEffects(next)
               }}
+              onRemove={() => setEffects(effects.filter((_, row) => row !== index))}
             >
-              ↓
-            </button>
-            <button
-              type="button"
-              className="mini"
-              title="删除"
-              onClick={() => setEffects(effects.filter((_, row) => row !== index))}
-            >
-              ✕
-            </button>
-          </span>
-        </div>
-      ))}
+              <EffectFields
+                e={effect}
+                on={(next) => setEffect(index, next)}
+                assetCatalog={assetCatalog}
+                assetReader={assetReader}
+                battleSprites={battleSprites}
+                onOpenSound={onOpenSound}
+                onOpenBattleSprite={onOpenBattleSprite}
+              />
+            </SkillEffectCard>
+          ))}
+        </ol>
+      ) : (
+        <div className="skill-effect-empty">尚未配置分支效果。</div>
+      )}
       <div className="item-effect-subhead">
-        <label className="cf-inline">
-          <input
-            type="checkbox"
-            checked={Boolean(override.animation)}
-            onChange={(event) =>
-              onChange({
-                ...override,
-                animation: event.target.checked ? structuredClone(fallbackAnimation) : undefined,
-              })
-            }
-          />
-          覆写这次施法动画
-        </label>
+        <DsCheckbox
+          size="compact"
+          label="覆写这次施法动画"
+          checked={Boolean(override.animation)}
+          onChange={(event) =>
+            onChange({
+              ...override,
+              animation: event.target.checked ? structuredClone(fallbackAnimation) : undefined,
+            })
+          }
+        />
       </div>
       {override.animation && (
         <SkillAnimationEditor
@@ -632,9 +783,9 @@ export function SkillTab(props: {
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
   onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
+  onOpenReference?: (reference: BattleDataReference) => void
   /** 工程 id(同源试玩页;缺省 pal 兼容旧调用)。 */
   projectId?: string
-  tabBar?: React.ReactNode
 }) {
   const {
     skills,
@@ -649,19 +800,29 @@ export function SkillTab(props: {
     focusObjectId,
     onObjectFocus,
     onStatusNotice,
+    onOpenReference,
     projectId = 'pal',
-    tabBar,
   } = props
   const [filter, setFilter] = useState('')
   const [selId, setSelId] = useState(skills[0]?.id ?? '')
+  const [inspectorTab, setInspectorTab] = useState<SkillInspectorTab>('references')
+  const appliedFocusObjectId = useRef<string | undefined>(undefined)
   useEffect(() => {
-    if (focusObjectId && skills.some((entry) => entry.id === focusObjectId)) setSelId(focusObjectId)
+    if (
+      focusObjectId &&
+      appliedFocusObjectId.current !== focusObjectId &&
+      skills.some((entry) => entry.id === focusObjectId)
+    ) {
+      setSelId(focusObjectId)
+      appliedFocusObjectId.current = focusObjectId
+    }
   }, [focusObjectId, skills])
   const shown = useMemo(
     () => skills.filter((s) => !filter || s.id.includes(filter) || s.name.includes(filter)),
     [skills, filter],
   )
   const skill = skills.find((s) => s.id === selId) ?? shown[0]
+  const references = skill ? blockingSkillReferences(session.getState(), skill.id) : []
   const patch = (p: Partial<Omit<SkillData, 'id'>>): void => {
     if (skill) session.dispatch(new UpdateSkillCommand(skill.id, p))
   }
@@ -688,229 +849,290 @@ export function SkillTab(props: {
     else delete execution[side]
     patch({ execution: Object.keys(execution).length ? execution : undefined })
   }
+  const removeSkill = (): void => {
+    if (!skill) return
+    if (references.length) {
+      onStatusNotice?.({
+        kind: 'error',
+        message: `仍有 ${references.length} 处引用，请先从右侧引用列表处理。`,
+      })
+      return
+    }
+    if (!window.confirm(`删除技能 ${skill.name}(${skill.id})？此操作可以撤销。`)) return
+    const index = skills.findIndex((entry) => entry.id === skill.id)
+    const next = skills[index + 1] ?? skills[index - 1]
+    try {
+      session.dispatch(new DeleteSkillCommand(skill.id))
+      setSelId(next?.id ?? '')
+      onObjectFocus?.(next?.id)
+      onStatusNotice?.(undefined)
+    } catch (error) {
+      onStatusNotice?.({
+        kind: 'error',
+        message:
+          error instanceof BattleDataInUseError
+            ? `仍有 ${error.references.length} 处引用，无法删除。`
+            : error instanceof Error
+              ? error.message
+              : String(error),
+      })
+    }
+  }
+  const addSkill = (): void => {
+    const name = window.prompt('新技能名字:', '')?.trim()
+    if (!name) return
+    let n = 1000
+    while (skills.some((entry) => entry.id === String(n))) n++
+    session.dispatch(new AddSkillCommand(String(n), name))
+    setSelId(String(n))
+    onObjectFocus?.(String(n))
+  }
   return (
     <>
       <div className="outliner data-outliner">
-        {tabBar}
-        <div className="pane-h">
-          <span className="t">技能</span>
-          <span className="spacer" />
-          <span className="k">
-            {shown.length}/{skills.length}
-          </span>
-        </div>
-        <input
-          className="in"
+        <DsListHeader
+          title="技能"
+          count={skills.length}
+          unit="项"
+          actions={[{ id: 'create-skill', label: '新建技能', icon: '＋', onClick: addSkill }]}
+        />
+        <DsCatalogFilter
+          aria-label="过滤技能"
           placeholder="过滤 id/名…"
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
         />
         <div className="sprite-list">
           {shown.map((s) => (
-            <button
-              type="button"
+            <DsCatalogRow
               key={s.id}
-              className={`arow${s.id === skill?.id ? ' sel' : ''}`}
+              selected={s.id === skill?.id}
+              title={s.name}
+              meta={s.id}
               onClick={() => {
                 setSelId(s.id)
                 onObjectFocus?.(s.id)
               }}
-            >
-              <span className="nm">
-                {s.name}
-                <span className="meta"> {s.id}</span>
-              </span>
-            </button>
+            />
           ))}
         </div>
-        <button
-          type="button"
-          className="tool"
-          style={{ margin: '6px 10px 8px', justifyContent: 'center' }}
-          onClick={() => {
-            const name = window.prompt('新技能名字:', '')?.trim()
-            if (!name) return
-            let n = 1000
-            while (skills.some((s) => s.id === String(n))) n++
-            session.dispatch(new AddSkillCommand(String(n), name))
-            setSelId(String(n))
-            onObjectFocus?.(String(n))
-          }}
-        >
-          ＋ 新建技能
-        </button>
       </div>
-      <div className="canvas-wrap data-body">
+      <div className="canvas-wrap data-body ds-object-workspace">
         {skill ? (
-          <div className="et-scroll skill-form">
-            <div className="section">
-              <h4>
-                基础
-                <button
-                  type="button"
-                  className="mini"
-                  style={{ width: 'auto', padding: '0 10px', marginLeft: 12 }}
-                  title="开真实战斗临时授此技试放(完整语境预览;不改存档/工程数据)"
-                  onClick={() =>
-                    window.open(
-                      `play.html?project=${projectId}&scene=s001&battle=0&skill=${skill.id}`,
-                      '_blank',
-                    )
-                  }
-                >
-                  ⚔ 战斗中试放
-                </button>
-              </h4>
-              <div className="sk-grid">
-                <label>
-                  <span className="lb">名字</span>{' '}
-                  <input
-                    className="in"
+          <>
+            <DsObjectHero
+              eyebrow="技能"
+              title={skill.name}
+              objectId={skill.id}
+              summary="管理施法目标、消耗、有序效果链、动画与玩家/敌人施法分支。"
+              meta={
+                <DsTag tone="neutral">
+                  {TARGETS.find((target) => target.v === skill.target)?.label ?? skill.target}
+                </DsTag>
+              }
+              actions={
+                <>
+                  <DsActionLink
+                    variant="secondary"
+                    icon="open"
+                    title="开真实战斗临时授此技试放（不改存档/工程数据）"
+                    href={`play.html?project=${projectId}&scene=s001&battle=0&skill=${skill.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    战斗中试放
+                  </DsActionLink>
+                  <DsButton
+                    variant="danger"
+                    icon="delete"
+                    disabled={references.length > 0}
+                    title={
+                      references.length
+                        ? `仍有 ${references.length} 处引用，请先从右侧处理`
+                        : '删除技能'
+                    }
+                    onClick={removeSkill}
+                  >
+                    删除技能
+                  </DsButton>
+                </>
+              }
+            />
+            <div className="et-scroll battle-data-form ds-object-workspace__content">
+              <DsWorkbenchSection
+                title="基础"
+                description="配置施法目标、资源消耗、战外可用性与玩家可见说明。"
+              >
+                <div className="battle-data-grid">
+                  <DsTextField
+                    label="名字"
                     value={skill.name}
                     onChange={(e) => patch({ name: e.target.value })}
                   />
-                </label>
-                <label>
-                  <span className="lb">目标</span>
-                  <select
-                    className="in"
+                  <DsSelectField
+                    label="目标"
                     value={skill.target}
-                    onChange={(e) => patch({ target: e.target.value as SkillData['target'] })}
-                  >
-                    {TARGETS.map((t) => (
-                      <option key={t.v} value={t.v}>
-                        {t.label}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label>
-                  <span className="lb">耗真气</span>{' '}
-                  <N
-                    v={skill.cost.mp}
-                    on={(n) => patch({ cost: { ...skill.cost, mp: n } })}
-                    ph="0"
+                    onValueChange={(target) => patch({ target: target as SkillData['target'] })}
+                    options={TARGETS.map((target) => ({
+                      value: target.v,
+                      label: target.label,
+                    }))}
                   />
-                </label>
-                <label>
-                  <span className="lb">耗体力</span>{' '}
-                  <N
-                    v={skill.cost.stamina}
-                    on={(n) => patch({ cost: { ...skill.cost, stamina: n } })}
-                    ph="0"
+                  <DsNumberField
+                    label="耗真气"
+                    monospace
+                    value={skill.cost.mp ?? ''}
+                    placeholder="0"
+                    onWheel={(event) => event.currentTarget.blur()}
+                    onChange={(event) =>
+                      patch({
+                        cost: {
+                          ...skill.cost,
+                          mp: Number.isFinite(event.currentTarget.valueAsNumber)
+                            ? event.currentTarget.valueAsNumber
+                            : undefined,
+                        },
+                      })
+                    }
                   />
-                </label>
-                <label>
-                  <span className="lb">耗金钱</span>{' '}
-                  <N
-                    v={skill.cost.money}
-                    on={(n) => patch({ cost: { ...skill.cost, money: n } })}
-                    ph="0"
+                  <DsNumberField
+                    label="耗体力"
+                    monospace
+                    value={skill.cost.stamina ?? ''}
+                    placeholder="0"
+                    onWheel={(event) => event.currentTarget.blur()}
+                    onChange={(event) =>
+                      patch({
+                        cost: {
+                          ...skill.cost,
+                          stamina: Number.isFinite(event.currentTarget.valueAsNumber)
+                            ? event.currentTarget.valueAsNumber
+                            : undefined,
+                        },
+                      })
+                    }
                   />
-                </label>
-                <label title="一生/全周目限用次数，达到后从角色习得列表移除并提示用尽；留空 = 不限（酒神 9 次）">
-                  <span className="lb">一生限用</span>{' '}
-                  <N
-                    v={skill.lifetimeLimit}
-                    on={(n) => patch({ lifetimeLimit: n })}
-                    ph="不限"
-                    ariaLabel="一生限用次数"
+                  <DsNumberField
+                    label="耗金钱"
+                    monospace
+                    value={skill.cost.money ?? ''}
+                    placeholder="0"
+                    onWheel={(event) => event.currentTarget.blur()}
+                    onChange={(event) =>
+                      patch({
+                        cost: {
+                          ...skill.cost,
+                          money: Number.isFinite(event.currentTarget.valueAsNumber)
+                            ? event.currentTarget.valueAsNumber
+                            : undefined,
+                        },
+                      })
+                    }
+                  />
+                  <DsNumberField
+                    label="一生限用"
+                    title="一生/全周目限用次数，达到后从角色习得列表移除并提示用尽；留空 = 不限（酒神 9 次）"
+                    monospace
                     min={1}
                     step={1}
+                    value={skill.lifetimeLimit ?? ''}
+                    placeholder="不限"
+                    onWheel={(event) => event.currentTarget.blur()}
+                    onChange={(event) =>
+                      patch({
+                        lifetimeLimit: Number.isFinite(event.currentTarget.valueAsNumber)
+                          ? event.currentTarget.valueAsNumber
+                          : undefined,
+                      })
+                    }
                   />
-                </label>
-                <label className="cf-inline">
-                  <input
-                    type="checkbox"
+                  <DsCheckbox
+                    label="战外可用"
                     checked={skill.usableOutsideBattle}
                     onChange={(e) => patch({ usableOutsideBattle: e.target.checked })}
                   />
-                  战外可用
-                </label>
-              </div>
-              <div className="skill-cost-items item-amount-list">
-                <div className="item-effect-subhead">
-                  <span>消耗物品</span>
-                  <button
-                    type="button"
-                    className="mini-txt item-effect-add-button"
-                    aria-label="添加消耗物品"
-                    disabled={
-                      !items.some(
-                        (item) =>
-                          !(skill.cost.items ?? []).some((entry) => entry.itemId === item.id),
-                      )
-                    }
-                    onClick={() => {
-                      const current = skill.cost.items ?? []
-                      const firstUnused = items.find(
-                        (item) => !current.some((entry) => entry.itemId === item.id),
-                      )
-                      if (firstUnused)
-                        setCostItems([...current, { itemId: firstUnused.id, amount: 1 }])
-                    }}
-                  >
-                    ＋ 添加消耗物品
-                  </button>
                 </div>
-                {(skill.cost.items ?? []).map((entry, index, entries) => {
-                  const usedByOtherRows = new Set(
-                    entries
-                      .filter((_, otherIndex) => otherIndex !== index)
-                      .map((other) => other.itemId),
-                  )
-                  const choices = items.filter(
-                    (item) => item.id === entry.itemId || !usedByOtherRows.has(item.id),
-                  )
-                  return (
-                    <div
-                      className="item-amount-row skill-cost-item-row"
-                      key={`${skill.id}-${entry.itemId}-${index}`}
+                <div className="skill-cost-items item-amount-list">
+                  <div className="item-effect-subhead">
+                    <span>消耗物品</span>
+                    <DsButton
+                      variant="secondary"
+                      icon="add"
+                      aria-label="添加消耗物品"
+                      disabled={
+                        !items.some(
+                          (item) =>
+                            !(skill.cost.items ?? []).some((entry) => entry.itemId === item.id),
+                        )
+                      }
+                      onClick={() => {
+                        const current = skill.cost.items ?? []
+                        const firstUnused = items.find(
+                          (item) => !current.some((entry) => entry.itemId === item.id),
+                        )
+                        if (firstUnused)
+                          setCostItems([...current, { itemId: firstUnused.id, amount: 1 }])
+                      }}
                     >
-                      <NamedIdPicker
-                        value={entry.itemId}
-                        choices={choices}
-                        kindLabel="物品"
-                        inputName={`skill-${skill.id}-cost-item-${index}`}
-                        onChange={(itemId) => {
-                          const next = [...entries]
-                          next[index] = { ...entry, itemId }
-                          setCostItems(next)
-                        }}
-                      />
-                      <input
-                        className="in item-amount-count"
-                        type="number"
-                        min={1}
-                        step={1}
-                        aria-label={`消耗物品数量 ${index + 1}`}
-                        value={entry.amount}
-                        onWheel={(event) => event.currentTarget.blur()}
-                        onChange={(event) => {
-                          const raw = event.currentTarget.valueAsNumber
-                          const amount = Number.isFinite(raw) && raw >= 1 ? Math.trunc(raw) : 1
-                          const next = [...entries]
-                          next[index] = { ...entry, amount }
-                          setCostItems(next)
-                        }}
-                      />
-                      <button
-                        type="button"
-                        className="mini"
-                        aria-label={`删除消耗物品 ${index + 1}`}
-                        title="删除"
-                        onClick={() => setCostItems(entries.filter((_, row) => row !== index))}
+                      添加消耗物品
+                    </DsButton>
+                  </div>
+                  {(skill.cost.items ?? []).map((entry, index, entries) => {
+                    const usedByOtherRows = new Set(
+                      entries
+                        .filter((_, otherIndex) => otherIndex !== index)
+                        .map((other) => other.itemId),
+                    )
+                    const choices = items.filter(
+                      (item) => item.id === entry.itemId || !usedByOtherRows.has(item.id),
+                    )
+                    return (
+                      <div
+                        className="item-amount-row skill-cost-item-row"
+                        key={`${skill.id}-${entry.itemId}-${index}`}
                       >
-                        ✕
-                      </button>
-                    </div>
-                  )
-                })}
-              </div>
-              <div className="v-field" style={{ marginTop: 10 }}>
-                <span className="lb">说明</span>
-                <textarea
-                  className="in cf-ta"
+                        <NamedIdPicker
+                          size="compact"
+                          value={entry.itemId}
+                          choices={choices}
+                          kindLabel="物品"
+                          inputName={`skill-${skill.id}-cost-item-${index}`}
+                          onChange={(itemId) => {
+                            const next = [...entries]
+                            next[index] = { ...entry, itemId }
+                            setCostItems(next)
+                          }}
+                        />
+                        <DsNumberInput
+                          size="compact"
+                          monospace
+                          min={1}
+                          step={1}
+                          aria-label={`消耗物品数量 ${index + 1}`}
+                          value={entry.amount}
+                          onWheel={(event) => event.currentTarget.blur()}
+                          onChange={(event) => {
+                            const raw = event.currentTarget.valueAsNumber
+                            const amount = Number.isFinite(raw) && raw >= 1 ? Math.trunc(raw) : 1
+                            const next = [...entries]
+                            next[index] = { ...entry, amount }
+                            setCostItems(next)
+                          }}
+                        />
+                        <DsIconButton
+                          size="compact"
+                          variant="danger"
+                          icon="delete"
+                          label={`删除消耗物品 ${index + 1}`}
+                          onClick={() => setCostItems(entries.filter((_, row) => row !== index))}
+                        />
+                      </div>
+                    )
+                  })}
+                </div>
+                <DsTextAreaField
+                  fieldClassName="skill-description-field"
+                  label="说明"
                   key={`${skill.id}-desc`}
                   defaultValue={skill.desc}
                   onBlur={(e) => {
@@ -918,196 +1140,197 @@ export function SkillTab(props: {
                   }}
                   spellCheck={false}
                 />
-              </div>
-            </div>
+              </DsWorkbenchSection>
 
-            <div className="section">
-              <h4>
-                效果链{' '}
-                <span className="hint2">有序;「条件门」失败截断其后(原版 jump-on-fail 同构)</span>
-              </h4>
-              {skill.effects.map((e, i) => (
-                <div key={`${skill.id}-${i}`}>
-                  <div className="ef-row">
-                    <select
-                      className="in ef-kind"
-                      value={e.kind}
-                      onChange={(ev) => {
-                        try {
-                          setEffect(
-                            i,
-                            defaultEffect(ev.target.value as SkillEffect['kind'], battleSprites),
-                          )
-                          onStatusNotice?.(undefined)
-                        } catch (reason) {
-                          onStatusNotice?.({
-                            kind: 'error',
-                            message: reason instanceof Error ? reason.message : String(reason),
-                          })
+              <DsWorkbenchSection
+                title="效果链"
+                description="效果按顺序执行；「条件门」失败会截断其后的效果（与原版 jump-on-fail 同构）。"
+              >
+                {skill.effects.length > 0 ? (
+                  <ol className="skill-effect-chain" data-skill-effect-chain="base">
+                    {skill.effects.map((e, i) => (
+                      <SkillEffectCard
+                        key={`${skill.id}-${i}`}
+                        index={i}
+                        total={skill.effects.length}
+                        effect={e}
+                        kindOptions={EFFECT_KINDS}
+                        preview={effectPreview({
+                          effect: e,
+                          assetBase,
+                          assetReader,
+                          battleSprites,
+                        })}
+                        onKindChange={(kind) => {
+                          try {
+                            setEffect(i, defaultEffect(kind, battleSprites))
+                            onStatusNotice?.(undefined)
+                          } catch (reason) {
+                            onStatusNotice?.({
+                              kind: 'error',
+                              message: reason instanceof Error ? reason.message : String(reason),
+                            })
+                          }
+                        }}
+                        onMoveUp={() => {
+                          const effects = [...skill.effects]
+                          const previous = effects[i - 1]!
+                          effects[i - 1] = effects[i]!
+                          effects[i] = previous
+                          patch({ effects })
+                        }}
+                        onMoveDown={() => {
+                          const effects = [...skill.effects]
+                          const next = effects[i + 1]!
+                          effects[i + 1] = effects[i]!
+                          effects[i] = next
+                          patch({ effects })
+                        }}
+                        onRemove={() =>
+                          patch({ effects: skill.effects.filter((_, index) => index !== i) })
                         }
-                      }}
-                    >
-                      {EFFECT_KINDS.map((k) => (
-                        <option key={k.v} value={k.v}>
-                          {k.label}
-                        </option>
-                      ))}
-                    </select>
-                    <div className="ef-fields">
-                      <EffectFields
-                        e={e}
-                        on={(next) => setEffect(i, next)}
+                      >
+                        <EffectFields
+                          e={e}
+                          on={(next) => setEffect(i, next)}
+                          assetCatalog={assetCatalog}
+                          assetReader={assetReader}
+                          battleSprites={battleSprites}
+                          onOpenSound={onOpenSound}
+                          onOpenBattleSprite={onOpenBattleSprite}
+                        />
+                      </SkillEffectCard>
+                    ))}
+                  </ol>
+                ) : (
+                  <div className="skill-effect-empty">尚未配置技能效果。</div>
+                )}
+                <DsButton
+                  variant="secondary"
+                  icon="add"
+                  className="skill-effect-chain__add"
+                  onClick={() =>
+                    patch({ effects: [...skill.effects, defaultEffect('damage', battleSprites)] })
+                  }
+                >
+                  添加效果
+                </DsButton>
+              </DsWorkbenchSection>
+
+              <DsWorkbenchSection
+                title="动画"
+                description="配置 FIRE 特效参数；右侧预览会随参数实时更新。"
+              >
+                <SkillAnimationEditor
+                  animation={skill.animation}
+                  onChange={(animation) => patch({ animation })}
+                  assetCatalog={assetCatalog}
+                  assetReader={assetReader}
+                  assetBase={assetBase}
+                  onOpenSound={onOpenSound}
+                />
+              </DsWorkbenchSection>
+
+              <DsWorkbenchSection
+                title="施法分支"
+                description="仅用于区分玩家和敌人施法；不设置时沿用公共效果和动画。"
+              >
+                {(['player', 'enemy'] as const).map((side) => {
+                  const override = skill.execution?.[side]
+                  return override ? (
+                    <div key={side} className="section-subpanel">
+                      <ExecutionOverrideEditor
+                        side={side}
+                        override={override}
+                        fallbackAnimation={skill.animation}
+                        onChange={(next) => setExecution(side, next)}
                         assetCatalog={assetCatalog}
                         assetReader={assetReader}
+                        assetBase={assetBase}
                         battleSprites={battleSprites}
                         onOpenSound={onOpenSound}
                         onOpenBattleSprite={onOpenBattleSprite}
                       />
-                    </div>
-                    <span className="ef-ops">
-                      <button
-                        type="button"
-                        className="mini"
-                        title="上移"
-                        disabled={i === 0}
-                        onClick={() => {
-                          const ef = [...skill.effects]
-                          const t = ef[i - 1]!
-                          ef[i - 1] = ef[i]!
-                          ef[i] = t
-                          patch({ effects: ef })
-                        }}
+                      <DsButton
+                        variant="danger"
+                        icon="delete"
+                        onClick={() => setExecution(side, undefined)}
                       >
-                        ↑
-                      </button>
-                      <button
-                        type="button"
-                        className="mini"
-                        title="下移"
-                        disabled={i === skill.effects.length - 1}
-                        onClick={() => {
-                          const ef = [...skill.effects]
-                          const t = ef[i + 1]!
-                          ef[i + 1] = ef[i]!
-                          ef[i] = t
-                          patch({ effects: ef })
-                        }}
-                      >
-                        ↓
-                      </button>
-                      <button
-                        type="button"
-                        className="mini"
-                        title="删除"
-                        onClick={() => patch({ effects: skill.effects.filter((_, j) => j !== i) })}
-                      >
-                        ✕
-                      </button>
-                    </span>
-                  </div>
-                  {e.kind === 'summon' && (
-                    <div className="ef-preview-row">
-                      <SummonPreview
-                        assetBase={assetBase}
-                        definition={battleSprites.find((entry) => entry.id === e.battleSprite)}
-                        assetReader={assetReader}
-                        speed={e.speed}
-                      />
+                        删除{side === 'player' ? '玩家' : '敌人'}分支
+                      </DsButton>
                     </div>
-                  )}
-                  {e.kind === 'trance' && (
-                    <div className="ef-preview-row">
-                      <TrancePreview
-                        assetBase={assetBase}
-                        definition={battleSprites.find((entry) => entry.id === e.battleSprite)}
-                        assetReader={assetReader}
-                      />
-                    </div>
-                  )}
-                </div>
-              ))}
-              <button
-                type="button"
-                className="tool"
-                onClick={() =>
-                  patch({ effects: [...skill.effects, defaultEffect('damage', battleSprites)] })
-                }
-              >
-                ＋ 添加效果
-              </button>
-            </div>
-
-            <div className="section">
-              <h4>
-                动画 <span className="hint2">FIRE 特效参数;右侧预览实时反映</span>
-              </h4>
-              <SkillAnimationEditor
-                animation={skill.animation}
-                onChange={(animation) => patch({ animation })}
-                assetCatalog={assetCatalog}
-                assetReader={assetReader}
-                assetBase={assetBase}
-                onOpenSound={onOpenSound}
-              />
-            </div>
-
-            <div className="section">
-              <h4>
-                施法分支{' '}
-                <span className="hint2">仅用于区分玩家和敌人施法；不设置则沿用公共效果和动画</span>
-              </h4>
-              {(['player', 'enemy'] as const).map((side) => {
-                const override = skill.execution?.[side]
-                return override ? (
-                  <div key={side} className="section-subpanel">
-                    <ExecutionOverrideEditor
-                      side={side}
-                      override={override}
-                      fallbackAnimation={skill.animation}
-                      onChange={(next) => setExecution(side, next)}
-                      assetCatalog={assetCatalog}
-                      assetReader={assetReader}
-                      assetBase={assetBase}
-                      battleSprites={battleSprites}
-                      onOpenSound={onOpenSound}
-                      onOpenBattleSprite={onOpenBattleSprite}
-                    />
-                    <button
-                      type="button"
-                      className="mini-txt danger"
-                      onClick={() => setExecution(side, undefined)}
+                  ) : (
+                    <DsButton
+                      key={side}
+                      variant="secondary"
+                      icon="add"
+                      onClick={() => setExecution(side, { effects: [] })}
                     >
-                      删除{side === 'player' ? '玩家' : '敌人'}分支
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    key={side}
-                    type="button"
-                    className="tool"
-                    onClick={() => setExecution(side, { effects: [] })}
-                  >
-                    ＋ 添加{side === 'player' ? '玩家' : '敌人'}施法分支
-                  </button>
-                )
-              })}
+                      添加{side === 'player' ? '玩家' : '敌人'}施法分支
+                    </DsButton>
+                  )
+                })}
+              </DsWorkbenchSection>
             </div>
-          </div>
+          </>
         ) : (
           <div className="insp-empty" style={{ padding: 40 }}>
             无技能
           </div>
         )}
       </div>
-      <div className="inspector">
-        <div className="pane-h">
-          <span className="t">技能 · 编辑</span>
+      <div className="inspector inspector--tabbed battle-data-inspector">
+        <div className="insp-head">
+          <div className="what">技能</div>
+          <div className="who">{skill?.name ?? '未选择'}</div>
         </div>
-        <div className="insp-hint">
-          全字段即改即生效(⌘Z 可回)。效果链有序:「条件门」失败截断其后。动画预览 = FIRE
-          特效帧循环(速度/起点/音效实时反映);完整战斗语境预览待引擎召唤/变身
-          动画(B5)补齐后上。升级学技能在「角色」模式;敌人技能在「敌人」页。
-        </div>
+        <DsInspectorTabs
+          id="skill-inspector"
+          label="技能检查器"
+          activeId={inspectorTab}
+          onChange={(id) => setInspectorTab(id as SkillInspectorTab)}
+          items={[
+            {
+              id: 'references',
+              label: `引用 ${references.length}`,
+              panel: (
+                <DsInspectorSection
+                  title="引用"
+                  description="删除会被任何角色、道具、敌人或开局配置中的引用阻断。"
+                >
+                  {references.length ? (
+                    <DsReferenceList className="battle-data-reference-list">
+                      {references.map((reference) => (
+                        <DsReferenceRow
+                          key={`${reference.where}:${reference.kind}`}
+                          title={reference.label}
+                          detail={reference.detail}
+                          path={reference.where}
+                          disabled={!reference.locator || !onOpenReference}
+                          onClick={() => onOpenReference?.(reference)}
+                        />
+                      ))}
+                    </DsReferenceList>
+                  ) : (
+                    <p className="hint">没有引用，可以安全删除。</p>
+                  )}
+                </DsInspectorSection>
+              ),
+            },
+            {
+              id: 'help',
+              label: '说明',
+              panel: (
+                <DsInspectorSection title="编辑说明">
+                  <p className="insp-hint">
+                    全字段即改即生效（⌘Z 可回）。效果链有序，「条件门」失败会截断其后。
+                    升级习得在「角色」页管理，敌人施法在「敌人」页管理。
+                  </p>
+                </DsInspectorSection>
+              ),
+            },
+          ]}
+        />
       </div>
     </>
   )

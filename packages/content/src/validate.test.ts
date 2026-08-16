@@ -606,6 +606,43 @@ test('物品图标和战场背景拒绝旧数字/路径字段，缺席语义合�
   ).toThrow('期望非空 AssetId')
 })
 
+describe('validateBattleFields · 持久表严格边界', () => {
+  const field = (id: number): Record<string, unknown> => ({
+    id,
+    name: `战场 ${id}`,
+    screenWave: 0,
+    magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+  })
+
+  test('id 必须是唯一的非负安全整数', () => {
+    expect(() => validateBattleFields([field(24), field(24)])).toThrow('重复战场 id 24')
+    for (const id of [-1, 1.5, Number.MAX_SAFE_INTEGER + 1])
+      expect(() => validateBattleFields([field(id)])).toThrow('非负安全整数')
+  })
+
+  test('顶层与五行效果都拒绝未知/缺失字段', () => {
+    expect(() => validateBattleFields([{ ...field(24), typo: true }])).toThrow('typo: 未知字段')
+    const missing = field(24)
+    delete (missing.magicEffect as Record<string, unknown>).earth
+    expect(() => validateBattleFields([missing])).toThrow('缺键 "earth"')
+    expect(() =>
+      validateBattleFields([
+        {
+          ...field(24),
+          magicEffect: {
+            wind: 0,
+            thunder: 0,
+            water: 0,
+            fire: 0,
+            earth: 0,
+            metal: 0,
+          },
+        },
+      ]),
+    ).toThrow('metal: 未知字段')
+  })
+})
+
 describe('validateItems · 装备战斗形象按角色覆写', () => {
   const item = (effects: unknown[]) => ({
     id: 'weapon',

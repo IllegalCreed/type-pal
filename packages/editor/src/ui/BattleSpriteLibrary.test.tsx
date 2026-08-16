@@ -249,9 +249,18 @@ describe('BattleSpriteLibrary', () => {
       ),
     ).toHaveLength(1)
 
-    const upload = host.querySelector('.sprite-upload-action')!
+    const upload = host.querySelector<HTMLButtonElement>(
+      '.ds-list-header__action[aria-label="导入战斗精灵"]',
+    )!
     const filter = host.querySelector('.battle-sprite-filter')!
     expect(upload.compareDocumentPosition(filter) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+
+    const workspace = host.querySelector('.battle-sprite-center.ds-object-workspace')!
+    const hero = workspace.querySelector(':scope > .ds-object-hero')!
+    const content = workspace.querySelector(':scope > .ds-object-workspace__content')!
+    expect(hero).not.toBeNull()
+    expect(content).not.toBeNull()
+    expect(content.contains(hero)).toBe(false)
 
     await act(async () => button('源文件').click())
     expect(host.querySelector('.inspector')?.textContent).toContain('battle-sprite.shared')

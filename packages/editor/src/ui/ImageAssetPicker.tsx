@@ -2,6 +2,7 @@ import type { AssetCatalogV1, AssetId, AssetRecordV1 } from '@type-pal/content'
 import { useEffect, useMemo, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { StaticImageKind } from '../core/static-image.js'
+import { DsControlGroup, DsIconButton, DsSelect } from './design-system/controls.js'
 
 const UNSET = '__unset__'
 
@@ -149,50 +150,51 @@ export function ImageAssetPicker(props: {
   const currentValid = current?.kind === props.kind
   const selected = props.value ?? UNSET
   return (
-    <span className="image-asset-picker">
-      {props.showThumbnail !== false ? (
-        <ImageAssetThumbnail
-          asset={props.value && currentValid ? props.value : undefined}
-          kind={props.kind}
-          reader={props.reader}
-          revision={currentValid ? current?.sha256 : undefined}
+    <DsControlGroup
+      className="image-asset-picker"
+      leading={
+        props.showThumbnail !== false ? (
+          <ImageAssetThumbnail
+            asset={props.value && currentValid ? props.value : undefined}
+            kind={props.kind}
+            reader={props.reader}
+            revision={currentValid ? current?.sha256 : undefined}
+          />
+        ) : undefined
+      }
+      control={
+        <DsSelect
+          id={props.id}
+          aria-label={props.ariaLabel ?? `${props.kind} 图片`}
+          invalid={!!props.value && !currentValid}
+          value={selected}
+          onValueChange={(value) =>
+            props.onChange(value === UNSET ? undefined : value)
+          }
+          options={[
+            ...(props.allowUnset ? [{ value: UNSET, label: '(无)' }] : []),
+            ...(props.value && !currentValid
+              ? [{ value: props.value, label: `⚠ ${props.value}（缺失或类型错误）` }]
+              : []),
+            ...options.map((asset) => ({ value: asset.id, label: imageAssetLabel(asset) })),
+            ...(!options.length && !props.allowUnset
+              ? [{ value: UNSET, label: '工程没有可用图片' }]
+              : []),
+          ]}
         />
-      ) : null}
-      <select
-        id={props.id}
-        className="in"
-        aria-label={props.ariaLabel ?? `${props.kind} 图片`}
-        value={selected}
-        onChange={(event) =>
-          props.onChange(event.target.value === UNSET ? undefined : event.target.value)
-        }
-      >
-        {props.allowUnset ? <option value={UNSET}>(无)</option> : null}
-        {props.value && !currentValid ? (
-          <option value={props.value}>⚠ {props.value}（缺失或类型错误）</option>
-        ) : null}
-        {options.map((asset) => (
-          <option key={asset.id} value={asset.id}>
-            {imageAssetLabel(asset)}
-          </option>
-        ))}
-        {!options.length && !props.allowUnset ? (
-          <option value={UNSET}>工程没有可用图片</option>
-        ) : null}
-      </select>
-      {props.value && props.onOpenAsset ? (
-        <button
-          type="button"
-          className="linked-value-open"
-          title={`在图片库打开 ${props.value}`}
-          aria-label={`在图片库打开 ${props.value}`}
-          onClick={() => {
-            if (props.value) props.onOpenAsset?.(props.value)
-          }}
-        >
-          ↗
-        </button>
-      ) : null}
-    </span>
+      }
+      actions={
+        props.value && props.onOpenAsset ? (
+          <DsIconButton
+            variant="secondary"
+            icon="open"
+            label={`在图片库打开 ${props.value}`}
+            onClick={() => {
+              if (props.value) props.onOpenAsset?.(props.value)
+            }}
+          />
+        ) : undefined
+      }
+    />
   )
 }

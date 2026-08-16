@@ -6,7 +6,6 @@ export type ProjectSaveActivity =
   | { phase: 'preparing' }
   | { phase: 'writing'; completed: number; total: number }
   | { phase: 'saving-as' }
-  | { phase: 'upgrading-v13' }
 
 function formatBytes(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`
@@ -49,16 +48,12 @@ export function ProjectSaveDialog(props: {
   const title =
     activity.phase === 'saving-as'
       ? '正在另存工程…'
-      : activity.phase === 'upgrading-v13'
-        ? '正在升级到 v13…'
-        : '正在保存工程…'
+      : '正在保存工程…'
   const detail =
     activity.phase === 'preparing'
       ? '正在整理并校验工程内容，请勿关闭页面。'
       : activity.phase === 'saving-as'
         ? '正在复制素材并写入新目录，请勿关闭页面。'
-        : activity.phase === 'upgrading-v13'
-          ? '正在原地重写 contentVersion 13 与生命周期策略，请勿关闭页面。'
         : '正在写入工程文件，请勿关闭页面。'
 
   return createPortal(

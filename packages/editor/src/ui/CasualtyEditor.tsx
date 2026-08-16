@@ -13,13 +13,37 @@ import { lookupText } from '@type-pal/content'
 import { useState } from 'react'
 import { UpdateActorCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import { DsSequenceIndex } from './design-system/index.js'
 
 export type CasualtySlot = 'friendDeath' | 'dying'
 
 type BranchTarget = { kind: 'gate'; index: number } | { kind: 'fallback' }
 
-const STYLES = ['bottom', 'top', 'narration'] as const
-const STATS = ['attack', 'magic', 'speed', 'luck'] as const
+const STYLE_OPTIONS = [
+  { value: 'bottom', label: '底部对话' },
+  { value: 'top', label: '顶部对话' },
+  { value: 'narration', label: '旁白' },
+] as const
+const STAT_OPTIONS = [
+  { value: 'attack', label: '武术' },
+  { value: 'magic', label: '灵力' },
+  { value: 'speed', label: '身法' },
+  { value: 'luck', label: '吉运' },
+] as const
+
+const SLOT_META: Record<
+  CasualtySlot,
+  { label: string; description: string }
+> = {
+  friendDeath: {
+    label: '队友阵亡时',
+    description: '队伍中其他角色阵亡后触发',
+  },
+  dying: {
+    label: '自己濒死时',
+    description: '该角色进入濒死状态时触发',
+  },
+}
 
 /** 文本 id 预览:lookupText 缺键返回 id 本身,显式标「未找到文本」对齐 nm() 先例(R2)。 */
 function previewText(id: string, locale: Locale): string {
@@ -88,6 +112,10 @@ export function CasualtyEditor(props: {
     }))
 
   const branch = target.kind === 'fallback' ? script?.fallback : script?.gates[target.index]?.branch
+  const selectSlot = (next: CasualtySlot): void => {
+    setSlot(next)
+    setTarget({ kind: 'fallback' })
+  }
 
   const setBranch = (next: CasualtyBranch): void =>
     setScript((s) =>
@@ -100,130 +128,167 @@ export function CasualtyEditor(props: {
     )
 
   return (
-    <div className="dscroll" style={{ padding: '12px 16px', minWidth: 0 }}>
-      <div className="toolbar" style={{ marginBottom: 6, gap: 8 }}>
-        <span className="hint">伤亡脚本 · {actor.id}</span>
-        <button
-          type="button"
-          className={`tool${slot === 'friendDeath' ? ' on' : ''}`}
-          onClick={() => setSlot('friendDeath')}
-        >
-          队友阵亡时 (friendDeath)
-        </button>
-        <button
-          type="button"
-          className={`tool${slot === 'dying' ? ' on' : ''}`}
-          onClick={() => setSlot('dying')}
-        >
-          自己濒死时 (dying)
-        </button>
-        <span className="spacer" />
-        {script ? (
-          <button
-            type="button"
-            className="tool"
-            title="移除本槽（两槽全移除后 casualty 整体清除）"
-            onClick={() => dispatchCasualty(undefined)}
-          >
-            移除本槽
+    <div className="casualty-editor">
+      <header className="casualty-editor-head">
+        <div className="casualty-editor-title">
+          <span>角色反应脚本</span>
+          <h2>伤亡脚本 · {actor.id}</h2>
+          <p>按顺序判定概率分支；全部未命中时执行兜底分支。</p>
+        </div>
+        <div className="casualty-editor-actions">
+          {script ? (
+            <button
+              type="button"
+              className="mini-txt casualty-remove-slot"
+              title="移除当前事件配置；两个事件都移除后会清除整个伤亡脚本"
+              onClick={() => dispatchCasualty(undefined)}
+            >
+              移除当前事件
+            </button>
+          ) : null}
+          <button type="button" className="tool casualty-done" onClick={onClose}>
+            ✓ 完成
           </button>
-        ) : null}
-        <button type="button" className="tool" onClick={onClose}>
-          ✓ 完成
-        </button>
+        </div>
+      </header>
+
+      <div className="casualty-slot-tabs" role="tablist" aria-label="伤亡事件类型">
+        {(Object.keys(SLOT_META) as CasualtySlot[]).map((candidate) => {
+          const meta = SLOT_META[candidate]
+          const configured = actor.battler.casualty?.[candidate] !== undefined
+          return (
+            <button
+              key={candidate}
+              type="button"
+              role="tab"
+              aria-selected={slot === candidate}
+              className={slot === candidate ? 'active' : ''}
+              onClick={() => selectSlot(candidate)}
+            >
+              <span>{meta.label}</span>
+              <small>{meta.description}</small>
+              <em>{configured ? '已配置' : '未配置'}</em>
+            </button>
+          )
+        })}
       </div>
 
       {!script ? (
-        <div className="field" style={{ padding: 24 }}>
-          <span className="hint">
-            本槽未配置 —— {slot === 'friendDeath' ? '队友阵亡' : '自己濒死'}时不触发额外脚本。
-          </span>
+        <div className="casualty-unconfigured">
+          <span aria-hidden="true">◇</span>
+          <h3>{SLOT_META[slot].label}尚未配置</h3>
+          <p>{SLOT_META[slot].description}，目前不会播放额外台词或施加效果。</p>
           <button
             type="button"
             className="tool"
             onClick={() => dispatchCasualty({ gates: [], fallback: emptyBranch() })}
           >
-            ＋ 配置
+            ＋ 配置此事件
           </button>
         </div>
       ) : (
-        <div style={{ display: 'flex', gap: 12, minWidth: 0 }}>
-          {/* 左列:概率门 + 兜底分支 */}
-          <div style={{ flex: '0 0 300px', minWidth: 0 }}>
-            <div className="pane-h">
-              <span className="t">概率门</span>
-              <span className="hint">r∈[1,100]，r≥chance 命中即停</span>
-            </div>
-            {script.gates.map((g, i) => (
-              <div
-                key={i}
-                className={`arow${target.kind === 'gate' && target.index === i ? ' sel' : ''}`}
-                style={{ display: 'flex', alignItems: 'center', gap: 6 }}
-              >
-                <button
-                  type="button"
-                  className="mini-txt"
-                  data-gate-select="true"
-                  aria-pressed={target.kind === 'gate' && target.index === i}
-                  onClick={() => setTarget({ kind: 'gate', index: i })}
-                >
-                  门 {i + 1}
-                </button>
-                <input
-                  type="number"
-                  className="in mono"
-                  style={{ width: 64 }}
-                  min={1}
-                  max={100}
-                  step={1}
-                  value={g.chance}
-                  onChange={(e) =>
-                    setGateChance(
-                      i,
-                      Math.max(1, Math.min(100, Math.trunc(Number(e.target.value) || 1))),
-                    )
-                  }
-                />
-                <span className="meta">%</span>
-                <span className="spacer" />
-                <button type="button" className="mini-txt" onClick={() => removeGate(i)}>
-                  ✕
-                </button>
+        <div className="casualty-workbench">
+          <aside className="casualty-branch-panel" aria-label="概率分支列表">
+            <div className="casualty-panel-head">
+              <div>
+                <span>执行顺序</span>
+                <h3>概率分支</h3>
               </div>
-            ))}
-            <button type="button" className="tool" style={{ marginTop: 4 }} onClick={addGate}>
-              ＋ 加一扇门
+              <strong>{script.gates.length + 1}</strong>
+            </div>
+            <p className="casualty-probability-note">
+              从上到下判定；随机数达到阈值时执行该分支并停止。
+            </p>
+            <div className="casualty-branch-list">
+              {script.gates.map((gate, index) => {
+                const selected = target.kind === 'gate' && target.index === index
+                return (
+                  <div key={index} className={`arow casualty-gate-row${selected ? ' sel' : ''}`}>
+                    <button
+                      type="button"
+                      className="casualty-branch-select"
+                      data-gate-select="true"
+                      aria-pressed={selected}
+                      onClick={() => setTarget({ kind: 'gate', index })}
+                    >
+                      <DsSequenceIndex
+                        value={index + 1}
+                        accessibleLabel={`第 ${index + 1} 个概率分支`}
+                      />
+                      <span>
+                        <strong>概率分支</strong>
+                        <small>
+                          {gate.branch.lines.length} 条台词 · {gate.branch.effects.length} 个效果
+                        </small>
+                      </span>
+                    </button>
+                    <label className="casualty-chance-field">
+                      <span>阈值</span>
+                      <input
+                        type="number"
+                        className="in mono"
+                        min={1}
+                        max={100}
+                        step={1}
+                        aria-label={`第 ${index + 1} 个概率分支阈值`}
+                        value={gate.chance}
+                        onChange={(event) =>
+                          setGateChance(
+                            index,
+                            Math.max(
+                              1,
+                              Math.min(100, Math.trunc(Number(event.target.value) || 1)),
+                            ),
+                          )
+                        }
+                      />
+                      <span>%</span>
+                    </label>
+                    <button
+                      type="button"
+                      className="mini-txt casualty-delete-branch"
+                      aria-label={`删除第 ${index + 1} 个概率分支`}
+                      title="删除概率分支"
+                      onClick={() => removeGate(index)}
+                    >
+                      ✕
+                    </button>
+                  </div>
+                )
+              })}
+            </div>
+            <button type="button" className="tool casualty-add-branch" onClick={addGate}>
+              ＋ 添加概率分支
             </button>
             <button
               type="button"
-              className={`arow${target.kind === 'fallback' ? ' sel' : ''}`}
-              style={{ marginTop: 6 }}
+              className={`arow casualty-fallback-row${target.kind === 'fallback' ? ' sel' : ''}`}
               onClick={() => setTarget({ kind: 'fallback' })}
               aria-pressed={target.kind === 'fallback'}
             >
-              兜底分支 (fallback)
+              <DsSequenceIndex value="末" accessibleLabel="兜底分支" />
+              <span>
+                <strong>兜底分支</strong>
+                <small>
+                  {script.fallback.lines.length} 条台词 · {script.fallback.effects.length} 个效果
+                </small>
+              </span>
+              <em>必定执行</em>
             </button>
-          </div>
-          {/* 右列:选中分支编辑器 */}
-          <div
-            style={{
-              flex: 1,
-              minWidth: 0,
-              borderLeft: '1px solid var(--line, #2c3644)',
-              paddingLeft: 12,
-            }}
-          >
+          </aside>
+
+          <main className="casualty-branch-editor">
             {branch ? (
               <BranchEditor
                 branch={branch}
                 locale={locale}
                 onChange={setBranch}
-                header={target.kind === 'fallback' ? '兜底分支' : `第 ${target.index + 1} 扇门分支`}
+                header={target.kind === 'fallback' ? '兜底分支' : `概率分支 ${target.index + 1}`}
               />
             ) : (
-              <div className="insp-empty">（该门已被删除，请选择其他分支）</div>
+              <div className="casualty-empty-state">该分支已删除，请在左侧选择其他分支。</div>
             )}
-          </div>
+          </main>
         </div>
       )}
     </div>
@@ -241,13 +306,21 @@ function BranchEditor(props: {
   const setEffects = (effects: CasualtyBranch['effects']): void => onChange({ ...branch, effects })
 
   return (
-    <div>
-      <div className="pane-h">
-        <span className="t">{header}</span>
-      </div>
-      <div className="pane-h" style={{ marginTop: 4 }}>
-        <span className="t">台词</span>
-        <span className="spacer" />
+    <div className="casualty-branch-content">
+      <header className="casualty-branch-head">
+        <div>
+          <span>当前编辑</span>
+          <h3>{header}</h3>
+        </div>
+        <p>{branch.lines.length} 条台词 · {branch.effects.length} 个效果</p>
+      </header>
+
+      <section className="casualty-content-section">
+        <header>
+          <div>
+            <span>演出内容</span>
+            <h4>台词</h4>
+          </div>
         <button
           type="button"
           className="mini-txt"
@@ -255,54 +328,82 @@ function BranchEditor(props: {
         >
           ＋ 台词
         </button>
-      </div>
-      {branch.lines.map((line, li) => (
-        <div key={li} className="field" style={{ flexWrap: 'wrap', gap: 6 }}>
-          <input
-            className="in mono"
-            style={{ width: 180 }}
-            placeholder="文本 id（如 dlg.1208）"
-            value={line.text}
-            onChange={(e) =>
-              setLines(branch.lines.map((l, i) => (i === li ? { ...l, text: e.target.value } : l)))
-            }
-          />
-          <select
-            className="in"
-            value={line.style}
-            onChange={(e) =>
-              setLines(
-                branch.lines.map((l, i) =>
-                  i === li
-                    ? { ...l, style: e.target.value as CasualtyBranch['lines'][number]['style'] }
-                    : l,
-                ),
-              )
-            }
-          >
-            {STYLES.map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </select>
-          <span className="hint" style={{ flex: 1, minWidth: 160 }}>
-            {line.text ? previewText(line.text, locale) : '（空）'}
-          </span>
-          <button
-            type="button"
-            className="mini-txt"
-            onClick={() => setLines(branch.lines.filter((_, i) => i !== li))}
-          >
-            ✕
-          </button>
+        </header>
+        <div className="casualty-item-list">
+          {branch.lines.map((line, index) => (
+            <article key={index} className="casualty-item-card">
+              <header>
+                <strong>台词 {index + 1}</strong>
+                <button
+                  type="button"
+                  className="mini-txt"
+                  aria-label={`删除台词 ${index + 1}`}
+                  onClick={() => setLines(branch.lines.filter((_, i) => i !== index))}
+                >
+                  ✕
+                </button>
+              </header>
+              <div className="casualty-line-fields">
+                <label>
+                  <span>文本 ID</span>
+                  <input
+                    className="in mono"
+                    placeholder="文本 id（如 dlg.1208）"
+                    value={line.text}
+                    onChange={(event) =>
+                      setLines(
+                        branch.lines.map((item, i) =>
+                          i === index ? { ...item, text: event.target.value } : item,
+                        ),
+                      )
+                    }
+                  />
+                </label>
+                <label>
+                  <span>显示方式</span>
+                  <select
+                    className="in"
+                    value={line.style}
+                    onChange={(event) =>
+                      setLines(
+                        branch.lines.map((item, i) =>
+                          i === index
+                            ? {
+                                ...item,
+                                style: event.target
+                                  .value as CasualtyBranch['lines'][number]['style'],
+                              }
+                            : item,
+                        ),
+                      )
+                    }
+                  >
+                    {STYLE_OPTIONS.map((style) => (
+                      <option key={style.value} value={style.value}>
+                        {style.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+              <div className="casualty-dialog-preview">
+                <span>预览</span>
+                <p>{line.text ? previewText(line.text, locale) : '尚未选择文本'}</p>
+              </div>
+            </article>
+          ))}
+          {branch.lines.length === 0 ? (
+            <div className="casualty-empty-state">这个分支没有台词。</div>
+          ) : null}
         </div>
-      ))}
-      {branch.lines.length === 0 ? <span className="hint">（无台词）</span> : null}
+      </section>
 
-      <div className="pane-h" style={{ marginTop: 10 }}>
-        <span className="t">效果</span>
-        <span className="spacer" />
+      <section className="casualty-content-section">
+        <header>
+          <div>
+            <span>状态变化</span>
+            <h4>效果</h4>
+          </div>
         <button
           type="button"
           className="mini-txt"
@@ -310,92 +411,129 @@ function BranchEditor(props: {
         >
           ＋ 效果
         </button>
-      </div>
-      {branch.effects.map((eff, ei) => (
-        <div key={ei} className="field" style={{ flexWrap: 'wrap', gap: 6 }}>
-          <select
-            className="in"
-            value={eff.kind}
-            onChange={(e) => {
-              const kind = e.target.value
-              setEffects(
-                branch.effects.map((x, i) =>
-                  i === ei
-                    ? kind === 'heal'
-                      ? { kind: 'heal', resource: 'hp' }
-                      : { kind: 'tempStatBuff', stat: 'attack', percent: 10 }
-                    : x,
-                ),
-              )
-            }}
-          >
-            <option value="heal">回血 / 回蓝</option>
-            <option value="tempStatBuff">临时增益</option>
-          </select>
-          {eff.kind === 'heal' ? (
-            <select
-              className="in"
-              value={eff.resource}
-              onChange={(e) =>
-                setEffects(
-                  branch.effects.map((x, i) =>
-                    i === ei ? { ...x, resource: e.target.value as 'hp' | 'mp' } : x,
-                  ),
-                )
-              }
-            >
-              <option value="hp">体力</option>
-              <option value="mp">真气</option>
-            </select>
-          ) : (
-            <>
-              <select
-                className="in"
-                value={eff.stat}
-                onChange={(e) =>
-                  setEffects(
-                    branch.effects.map((x, i) =>
-                      i === ei ? { ...x, stat: e.target.value as (typeof STATS)[number] } : x,
-                    ),
-                  )
-                }
-              >
-                {STATS.map((s) => (
-                  <option key={s} value={s}>
-                    {s}
-                  </option>
-                ))}
-              </select>
-              <input
-                type="number"
-                className="in mono"
-                style={{ width: 64 }}
-                min={1}
-                step={1}
-                value={eff.percent}
-                onChange={(e) =>
-                  setEffects(
-                    branch.effects.map((x, i) =>
-                      i === ei
-                        ? { ...x, percent: Math.max(1, Math.trunc(Number(e.target.value) || 1)) }
-                        : x,
-                    ),
-                  )
-                }
-              />
-              <span className="hint">%</span>
-            </>
-          )}
-          <button
-            type="button"
-            className="mini-txt"
-            onClick={() => setEffects(branch.effects.filter((_, i) => i !== ei))}
-          >
-            ✕
-          </button>
+        </header>
+        <div className="casualty-item-list">
+          {branch.effects.map((effect, index) => (
+            <article key={index} className="casualty-item-card casualty-effect-card">
+              <header>
+                <strong>效果 {index + 1}</strong>
+                <button
+                  type="button"
+                  className="mini-txt"
+                  aria-label={`删除效果 ${index + 1}`}
+                  onClick={() => setEffects(branch.effects.filter((_, i) => i !== index))}
+                >
+                  ✕
+                </button>
+              </header>
+              <div className="casualty-effect-fields">
+                <label>
+                  <span>效果类型</span>
+                  <select
+                    className="in"
+                    value={effect.kind}
+                    onChange={(event) => {
+                      const kind = event.target.value
+                      setEffects(
+                        branch.effects.map((item, i) =>
+                          i === index
+                            ? kind === 'heal'
+                              ? { kind: 'heal', resource: 'hp' }
+                              : { kind: 'tempStatBuff', stat: 'attack', percent: 10 }
+                            : item,
+                        ),
+                      )
+                    }}
+                  >
+                    <option value="heal">恢复资源</option>
+                    <option value="tempStatBuff">临时属性增益</option>
+                  </select>
+                </label>
+                {effect.kind === 'heal' ? (
+                  <label>
+                    <span>恢复对象</span>
+                    <select
+                      className="in"
+                      value={effect.resource}
+                      onChange={(event) =>
+                        setEffects(
+                          branch.effects.map((item, i) =>
+                            i === index
+                              ? { ...item, resource: event.target.value as 'hp' | 'mp' }
+                              : item,
+                          ),
+                        )
+                      }
+                    >
+                      <option value="hp">体力</option>
+                      <option value="mp">真气</option>
+                    </select>
+                  </label>
+                ) : (
+                  <>
+                    <label>
+                      <span>增益属性</span>
+                      <select
+                        className="in"
+                        value={effect.stat}
+                        onChange={(event) =>
+                          setEffects(
+                            branch.effects.map((item, i) =>
+                              i === index
+                                ? {
+                                    ...item,
+                                    stat: event.target.value as (typeof STAT_OPTIONS)[number]['value'],
+                                  }
+                                : item,
+                            ),
+                          )
+                        }
+                      >
+                        {STAT_OPTIONS.map((stat) => (
+                          <option key={stat.value} value={stat.value}>
+                            {stat.label}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <label>
+                      <span>提升比例</span>
+                      <span className="casualty-percent-input">
+                        <input
+                          type="number"
+                          className="in mono"
+                          min={1}
+                          step={1}
+                          value={effect.percent}
+                          onChange={(event) =>
+                            setEffects(
+                              branch.effects.map((item, i) =>
+                                i === index
+                                  ? {
+                                      ...item,
+                                      percent: Math.max(
+                                        1,
+                                        Math.trunc(Number(event.target.value) || 1),
+                                      ),
+                                    }
+                                  : item,
+                              ),
+                            )
+                          }
+                        />
+                        <span>%</span>
+                      </span>
+                    </label>
+                  </>
+                )}
+              </div>
+            </article>
+          ))}
+          {branch.effects.length === 0 ? (
+            <div className="casualty-empty-state">这个分支没有附加效果。</div>
+          ) : null}
         </div>
-      ))}
-      {branch.effects.length === 0 ? <span className="hint">（无效果）</span> : null}
+      </section>
     </div>
   )
 }

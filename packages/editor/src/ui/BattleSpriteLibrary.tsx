@@ -46,6 +46,7 @@ import {
   type BattleSpriteResourceSnapshot,
 } from './BattleSpriteInlinePreview.js'
 import { BattleSpriteUploader } from './BattleSpriteUploader.js'
+import { DsListHeader, DsObjectHero, DsSequenceIndex, DsTag } from './design-system/index.js'
 import { type SemanticFrameGroup, SpriteFrameCanvas } from './SpriteFrameWorkbench.js'
 
 const PROFILE_LABEL: Record<BattleSpriteProfileKind, string> = {
@@ -1151,13 +1152,19 @@ export function BattleSpriteLibrary(props: {
     <>
       <div className="outliner data-outliner battle-sprite-outliner">
         {props.tabBar}
-        <div className="pane-h">
-          <span className="t">精灵库</span>
-          <span className="spacer" />
-          <span className="k">
-            {shownAssets.length}/{assets.length}
-          </span>
-        </div>
+        <DsListHeader
+          title="精灵库"
+          count={assets.length}
+          unit="项"
+          actions={[
+            {
+              id: 'import-battle-sprite',
+              label: '导入战斗精灵',
+              icon: '＋',
+              onClick: () => setUploading(true),
+            },
+          ]}
+        />
         <fieldset className="sprite-domain-switch" aria-label="精灵资源域">
           <button type="button" onClick={props.onWorldDomain}>
             大世界
@@ -1166,9 +1173,6 @@ export function BattleSpriteLibrary(props: {
             战斗
           </button>
         </fieldset>
-        <button type="button" className="sprite-upload-action" onClick={() => setUploading(true)}>
-          ＋ 导入精灵
-        </button>
         <input
           className="in battle-sprite-filter"
           aria-label="过滤战斗精灵库"
@@ -1225,8 +1229,21 @@ export function BattleSpriteLibrary(props: {
         </div>
       </div>
 
-      <div className="center actor-center battle-sprite-center">
-        <div className="battle-sprite-workspace-scroll">
+      <div className="center actor-center battle-sprite-center ds-object-workspace">
+        <DsObjectHero
+          eyebrow="战斗精灵"
+          title={uploading ? '导入战斗精灵' : displayLabel || '未选择资源'}
+          objectId={uploading ? undefined : selectedAsset}
+          summary="集中管理共享源帧、战斗用途与动作语义。"
+          meta={
+            uploading ? null : (
+              <DsTag tone="neutral">
+                {actualFrameCount} 帧 · {consumers.length} 个用途定义
+              </DsTag>
+            )
+          }
+        />
+        <div className="battle-sprite-workspace-scroll ds-object-workspace__content">
           {uploading ? (
             <div className="battle-sprite-upload-panel">
               <h3>导入战斗精灵</h3>
@@ -1350,6 +1367,7 @@ export function BattleSpriteLibrary(props: {
                 rawEditorMessage={rawEditorMessage}
                 rawEditorMessageKind={rawEditorMessageKind}
                 rawEditorPanel={rawAppendPanel}
+                showHero={false}
               />
               {replacing ? (
                 <div className="battle-replace-panel">
@@ -1543,9 +1561,7 @@ export function BattleSpriteLibrary(props: {
                                 }
                                 onClick={() => setSelectedPlayerSlot(slot.key)}
                               >
-                                <span className="battle-action-stage-number" aria-hidden="true">
-                                  {index + 1}
-                                </span>
+                                <DsSequenceIndex value={index + 1} decorative />
                                 <SpriteFrameCanvas
                                   source={
                                     frame === undefined ? undefined : resourceSnapshot?.baked[frame]

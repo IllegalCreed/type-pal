@@ -6,7 +6,15 @@ import {
   validateAssetReferenceClosure,
 } from '@type-pal/content'
 import { type AssetBase, loadStandardPalette } from '@type-pal/reforge'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import {
+  type KeyboardEvent,
+  type PointerEvent,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type WheelEvent,
+} from 'react'
 import {
   DeleteAssetCommand,
   UpdateAssetLabelCommand,
@@ -21,7 +29,23 @@ import {
   prepareAuthoredImage,
 } from '../core/image-import.js'
 import { STATIC_IMAGE_KINDS, type StaticImageKind } from '../core/static-image.js'
+import {
+  DsButton,
+  DsCatalogRow,
+  DsInspectorTabs,
+  DsListHeader,
+  DsTabs,
+  DsTextInput,
+  DsZoomToolbar,
+} from './design-system/index.js'
 import { ImageAssetThumbnail, imageAssets } from './ImageAssetPicker.js'
+import {
+  clampMediaPreviewZoom,
+  fitMediaPreviewZoom,
+  MEDIA_PREVIEW_MAX_ZOOM,
+  MEDIA_PREVIEW_MIN_ZOOM,
+  stepMediaPreviewZoom,
+} from './media-preview-viewport.js'
 
 const KIND_LABEL: Record<StaticImageKind, string> = {
   portrait: '立绘',
@@ -37,6 +61,8 @@ const ORIGIN_LABEL: Readonly<Record<AssetRecordV1['origin']['kind'], string>> = 
   licensed: '授权资源',
 }
 
+type ImageInspectorTab = 'resource' | 'references'
+
 function formatBytes(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
@@ -46,8 +72,7 @@ function formatBytes(bytes: number): string {
 function EditableName(props: { assetId: AssetId; label?: string; session: EditSession }) {
   const [draft, setDraft] = useState<string | null>(null)
   return (
-    <input
-      className="in"
+    <DsTextInput
       value={draft ?? props.label ?? ''}
       placeholder="未命名"
       onChange={(event) => setDraft(event.target.value)}
@@ -70,12 +95,24 @@ function ImageWorkspacePreview(props: {
   assetBase: AssetBase
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const stageRef = useRef<HTMLDivElement>(null)
+  const panGesture = useRef<{
+    pointerId: number
+    clientX: number
+    clientY: number
+    scrollLeft: number
+    scrollTop: number
+  } | null>(null)
   const [error, setError] = useState('')
-  const [size, setSize] = useState('')
+  const [size, setSize] = useState<{ width: number; height: number }>()
+  const [fit, setFit] = useState(true)
+  const [fitZoom, setFitZoom] = useState(1)
+  const [zoom, setZoom] = useState(1)
+  const [panning, setPanning] = useState(false)
   useEffect(() => {
     let alive = true
     setError('')
-    setSize('')
+    setSize(undefined)
     void Promise.all([
       props.reader.readBytes(props.assetId, props.kind),
       props.kind === 'battle-background' ? loadStandardPalette(props.assetBase) : undefined,
@@ -125,7 +162,7 @@ function ImageWorkspacePreview(props: {
           }
           context.putImageData(image, 0, 0)
         }
-        setSize(`${canvas.width} × ${canvas.height}`)
+        setSize({ width: canvas.width, height: canvas.height })
       })
       .catch((cause: unknown) => {
         if (alive) setError(cause instanceof Error ? cause.message : String(cause))
@@ -134,11 +171,163 @@ function ImageWorkspacePreview(props: {
       alive = false
     }
   }, [props.assetBase, props.assetId, props.kind, props.reader])
+
+  useEffect(() => {
+    const stage = stageRef.current
+    if (!stage || !size) return
+    const update = (): void => {
+      setFitZoom(
+        fitMediaPreviewZoom({
+          viewportWidth: stage.clientWidth,
+          viewportHeight: stage.clientHeight,
+          mediaWidth: size.width,
+          mediaHeight: size.height,
+        }),
+      )
+    }
+    update()
+    if (typeof ResizeObserver === 'undefined') return
+    const observer = new ResizeObserver(update)
+    observer.observe(stage)
+    return () => observer.disconnect()
+  }, [size])
+
+  const renderedZoom = fit ? fitZoom : zoom
+
+  const applyZoom = (value: number, anchor?: { clientX: number; clientY: number }): void => {
+    const next = clampMediaPreviewZoom(value)
+    const stage = stageRef.current
+    const canvas = canvasRef.current
+    const stageRect = stage?.getBoundingClientRect()
+    const canvasRect = canvas?.getBoundingClientRect()
+    const clientX = anchor?.clientX ?? (stageRect ? stageRect.left + stageRect.width / 2 : 0)
+    const clientY = anchor?.clientY ?? (stageRect ? stageRect.top + stageRect.height / 2 : 0)
+    const relativeX = canvasRect?.width ? (clientX - canvasRect.left) / canvasRect.width : 0.5
+    const relativeY = canvasRect?.height ? (clientY - canvasRect.top) / canvasRect.height : 0.5
+    setFit(false)
+    setZoom(next)
+    if (!stage || !canvas) return
+    window.requestAnimationFrame(() => {
+      const nextCanvasRect = canvas.getBoundingClientRect()
+      stage.scrollLeft += nextCanvasRect.left + relativeX * nextCanvasRect.width - clientX
+      stage.scrollTop += nextCanvasRect.top + relativeY * nextCanvasRect.height - clientY
+    })
+  }
+
+  const fitPreview = (): void => {
+    setFit(true)
+    window.requestAnimationFrame(() => stageRef.current?.scrollTo({ left: 0, top: 0 }))
+  }
+
+  const onWheel = (event: WheelEvent<HTMLDivElement>): void => {
+    event.preventDefault()
+    applyZoom(renderedZoom * Math.exp(-event.deltaY * 0.0015), {
+      clientX: event.clientX,
+      clientY: event.clientY,
+    })
+  }
+
+  const onKeyDown = (event: KeyboardEvent<HTMLDivElement>): void => {
+    if (event.key === '+' || event.key === '=') {
+      event.preventDefault()
+      applyZoom(stepMediaPreviewZoom(renderedZoom, 1))
+    } else if (event.key === '-') {
+      event.preventDefault()
+      applyZoom(stepMediaPreviewZoom(renderedZoom, -1))
+    } else if (event.key === '0') {
+      event.preventDefault()
+      applyZoom(1)
+    } else if (event.key.toLowerCase() === 'f') {
+      event.preventDefault()
+      fitPreview()
+    }
+  }
+
+  const onPointerDown = (event: PointerEvent<HTMLDivElement>): void => {
+    if (fit || event.button !== 0) return
+    panGesture.current = {
+      pointerId: event.pointerId,
+      clientX: event.clientX,
+      clientY: event.clientY,
+      scrollLeft: event.currentTarget.scrollLeft,
+      scrollTop: event.currentTarget.scrollTop,
+    }
+    event.currentTarget.setPointerCapture(event.pointerId)
+    setPanning(true)
+  }
+
+  const onPointerMove = (event: PointerEvent<HTMLDivElement>): void => {
+    const gesture = panGesture.current
+    if (!gesture || gesture.pointerId !== event.pointerId) return
+    event.currentTarget.scrollLeft = gesture.scrollLeft - (event.clientX - gesture.clientX)
+    event.currentTarget.scrollTop = gesture.scrollTop - (event.clientY - gesture.clientY)
+  }
+
+  const endPan = (event: PointerEvent<HTMLDivElement>): void => {
+    if (panGesture.current?.pointerId !== event.pointerId) return
+    panGesture.current = null
+    if (event.currentTarget.hasPointerCapture(event.pointerId))
+      event.currentTarget.releasePointerCapture(event.pointerId)
+    setPanning(false)
+  }
+
   return (
     <div className="image-workspace-preview">
-      <canvas ref={canvasRef} className={error ? 'hidden' : undefined} />
-      {error ? <div className="cf-err">{error}</div> : null}
-      {size ? <span className="image-preview-size">{size}</span> : null}
+      <div className="image-preview-toolbar">
+        <span className="image-preview-size">
+          {size ? `${size.width} × ${size.height}` : '读取图片…'}
+        </span>
+        <span className="spacer" />
+        <DsZoomToolbar
+          label="图片预览缩放"
+          value={clampMediaPreviewZoom(renderedZoom)}
+          fitted={fit}
+          min={MEDIA_PREVIEW_MIN_ZOOM}
+          max={MEDIA_PREVIEW_MAX_ZOOM}
+          onChange={applyZoom}
+          onStep={(direction) => applyZoom(stepMediaPreviewZoom(renderedZoom, direction))}
+          onFit={fitPreview}
+          onActualSize={() => applyZoom(1)}
+        />
+      </div>
+      <div
+        ref={stageRef}
+        className={`image-preview-stage${fit ? ' fit' : ' zoomed'}${panning ? ' panning' : ''}`}
+        tabIndex={0}
+        aria-label="图片预览；滚轮缩放，放大后拖拽平移，按 F 适合窗口，按 0 恢复原始大小"
+        onWheel={onWheel}
+        onKeyDown={onKeyDown}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={endPan}
+        onPointerCancel={endPan}
+      >
+        <div
+          className="image-preview-surface"
+          style={
+            size
+              ? {
+                  width: `max(100%, ${size.width * renderedZoom + 48}px)`,
+                  height: `max(100%, ${size.height * renderedZoom + 48}px)`,
+                }
+              : undefined
+          }
+        >
+          <canvas
+            ref={canvasRef}
+            className={!size || error ? 'hidden' : undefined}
+            style={
+              size
+                ? {
+                    width: `${size.width * renderedZoom}px`,
+                    height: `${size.height * renderedZoom}px`,
+                  }
+                : undefined
+            }
+          />
+        </div>
+        {error ? <div className="cf-err image-preview-error">{error}</div> : null}
+      </div>
     </div>
   )
 }
@@ -187,12 +376,12 @@ function BattleImportReview(props: {
         </figure>
       </div>
       <div className="image-import-review-actions">
-        <button type="button" className="btn" onClick={props.onCancel}>
+        <DsButton variant="secondary" onClick={props.onCancel}>
           取消
-        </button>
-        <button type="button" className="btn primary" onClick={props.onConfirm}>
+        </DsButton>
+        <DsButton variant="primary" onClick={props.onConfirm}>
           使用适配结果
-        </button>
+        </DsButton>
       </div>
     </div>
   )
@@ -220,6 +409,7 @@ export function ImageTab(props: {
     focusedKind && STATIC_IMAGE_KINDS.includes(focusedKind) ? focusedKind : 'portrait',
   )
   const [filter, setFilter] = useState('')
+  const [inspectorTab, setInspectorTab] = useState<ImageInspectorTab>('resource')
   const [error, setError] = useState('')
   const [selectedId, setSelectedId] = useState<AssetId | null>(focusObjectId ?? null)
   const [replaceId, setReplaceId] = useState<AssetId | undefined>()
@@ -333,38 +523,33 @@ export function ImageTab(props: {
     <>
       <div className="outliner data-outliner image-library-outliner">
         {tabBar}
-        <div className="pane-h">
-          <span className="t">图像</span>
-          <span className="spacer" />
-          <span className="k">{shown.length} 项</span>
-        </div>
-        <div className="image-kind-tabs" role="tablist" aria-label="图像类型">
-          {STATIC_IMAGE_KINDS.map((value) => (
-            <button
-              key={value}
-              type="button"
-              role="tab"
-              aria-selected={kind === value}
-              className={kind === value ? 'active' : undefined}
-              onClick={() => {
-                setKind(value)
-                setSelectedId(null)
-              }}
-            >
-              {KIND_LABEL[value]}
-            </button>
-          ))}
+        <DsListHeader
+          title="图像"
+          count={shown.length}
+          unit="项"
+          actions={[
+            {
+              id: 'import-image',
+              label: '导入 PNG',
+              icon: '＋',
+              onClick: () => inputRef.current?.click(),
+            },
+          ]}
+        />
+        <div className="image-kind-tabs">
+          <DsTabs
+            label="图像类型"
+            items={STATIC_IMAGE_KINDS.map((value) => ({ id: value, label: KIND_LABEL[value] }))}
+            activeId={kind}
+            onChange={(value) => {
+              setKind(value as StaticImageKind)
+              setSelectedId(null)
+            }}
+          />
         </div>
         <div className="music-library-tools">
-          <button
-            type="button"
-            className="music-import-button"
-            onClick={() => inputRef.current?.click()}
-          >
-            ＋ 导入 PNG
-          </button>
-          <input
-            className="in"
+          <DsTextInput
+            size="compact"
             aria-label="搜索图像"
             placeholder="搜索名称或 AssetId"
             value={filter}
@@ -386,27 +571,25 @@ export function ImageTab(props: {
         />
         <div className="image-asset-list">
           {shown.map((entry) => (
-            <button
-              type="button"
+            <DsCatalogRow
               key={entry.id}
-              className={`image-asset-row${selected?.id === entry.id ? ' selected' : ''}`}
+              selected={selected?.id === entry.id}
+              leading={
+                <ImageAssetThumbnail
+                  asset={entry.id}
+                  kind={kind}
+                  reader={reader}
+                  revision={entry.record.sha256}
+                  paletteColors={battlePaletteColors}
+                />
+              }
+              title={entry.record.label || entry.id}
+              meta={entry.id}
               onClick={() => {
                 setSelectedId(entry.id)
                 onObjectFocus?.(entry.id)
               }}
-            >
-              <ImageAssetThumbnail
-                asset={entry.id}
-                kind={kind}
-                reader={reader}
-                revision={entry.record.sha256}
-                paletteColors={battlePaletteColors}
-              />
-              <span>
-                <strong>{entry.record.label || entry.id}</strong>
-                <small>{entry.id}</small>
-              </span>
-            </button>
+            />
           ))}
           {!shown.length ? <div className="insp-empty">此类型还没有图片。</div> : null}
         </div>
@@ -434,7 +617,7 @@ export function ImageTab(props: {
           <div className="insp-empty">导入或选择一张{KIND_LABEL[kind]}。</div>
         )}
       </div>
-      <div className="inspector music-inspector image-inspector">
+      <div className="inspector inspector--tabbed music-inspector image-inspector">
         {missingFocusedId ? (
           <div className="section">
             <h4>缺失资源</h4>
@@ -449,85 +632,104 @@ export function ImageTab(props: {
               <div className="what">选中{KIND_LABEL[kind]}</div>
               <div className="who">{selected.record.label || '未命名'}</div>
             </div>
-            <div className="section">
-              <h4>资源</h4>
-              <EditableName assetId={selected.id} label={selected.record.label} session={session} />
-              <div className="music-meta-row">
-                <span>AssetId</span>
-                <code>{selected.id}</code>
-              </div>
-              <div className="music-meta-row">
-                <span>文件</span>
-                <code>{selected.record.path}</code>
-              </div>
-              <div className="music-meta-row">
-                <span>来源</span>
-                <strong>{ORIGIN_LABEL[selected.record.origin.kind]}</strong>
-              </div>
-              <div className="music-meta-row">
-                <span>大小</span>
-                <strong>{formatBytes(selected.record.bytes)}</strong>
-              </div>
-              <div className="image-resource-actions">
-                <button
-                  type="button"
-                  className="btn"
-                  onClick={() => {
-                    setReplaceId(selected.id)
-                    inputRef.current?.click()
-                  }}
-                >
-                  替换（保持引用）
-                </button>
-                <button
-                  type="button"
-                  className="btn danger"
-                  disabled={selectedReferences.length > 0}
-                  title={
-                    selectedReferences.length
-                      ? `仍有 ${selectedReferences.length} 处引用`
-                      : '删除图片'
-                  }
-                  onClick={() => {
-                    if (!window.confirm(`确认删除未被引用的图片 ${selected.id}？`)) return
-                    void reader.readBytes(selected.id, kind).then(
-                      (previousBytes) =>
-                        session.dispatch(new DeleteAssetCommand(selected.id, previousBytes)),
-                      (cause: unknown) =>
-                        setError(cause instanceof Error ? cause.message : String(cause)),
-                    )
-                  }}
-                >
-                  删除
-                </button>
-              </div>
-            </div>
-            <div className="section music-reference-section">
-              <h4>
-                引用 <span className="hint2">{selectedReferences.length} 处</span>
-              </h4>
-              {selectedReferences.length ? (
-                <div className="music-reference-list">
-                  {selectedReferences.map((reference) => (
-                    <div
-                      className="music-reference-item"
-                      key={`${reference.site}:${reference.asset}`}
-                    >
-                      <strong>{reference.site}</strong>
-                      <span>{reference.occurrences} 次</span>
-                      <code title={reference.where}>{reference.where}</code>
+            <DsInspectorTabs
+              id="image-inspector"
+              label="图片检查器"
+              activeId={inspectorTab}
+              onChange={(id) => setInspectorTab(id as ImageInspectorTab)}
+              items={[
+                {
+                  id: 'resource',
+                  label: '资源',
+                  panel: (
+                    <div className="section">
+                      <EditableName
+                        assetId={selected.id}
+                        label={selected.record.label}
+                        session={session}
+                      />
+                      <div className="music-meta-row">
+                        <span>AssetId</span>
+                        <code>{selected.id}</code>
+                      </div>
+                      <div className="music-meta-row">
+                        <span>文件</span>
+                        <code>{selected.record.path}</code>
+                      </div>
+                      <div className="music-meta-row">
+                        <span>来源</span>
+                        <strong>{ORIGIN_LABEL[selected.record.origin.kind]}</strong>
+                      </div>
+                      <div className="music-meta-row">
+                        <span>大小</span>
+                        <strong>{formatBytes(selected.record.bytes)}</strong>
+                      </div>
+                      <div className="image-resource-actions">
+                        <DsButton
+                          variant="secondary"
+                          onClick={() => {
+                            setReplaceId(selected.id)
+                            inputRef.current?.click()
+                          }}
+                        >
+                          替换（保持引用）
+                        </DsButton>
+                        <DsButton
+                          variant="danger"
+                          icon="delete"
+                          disabled={selectedReferences.length > 0}
+                          title={
+                            selectedReferences.length
+                              ? `仍有 ${selectedReferences.length} 处引用`
+                              : '删除图片'
+                          }
+                          onClick={() => {
+                            if (!window.confirm(`确认删除未被引用的图片 ${selected.id}？`)) return
+                            void reader.readBytes(selected.id, kind).then(
+                              (previousBytes) =>
+                                session.dispatch(new DeleteAssetCommand(selected.id, previousBytes)),
+                              (cause: unknown) =>
+                                setError(cause instanceof Error ? cause.message : String(cause)),
+                            )
+                          }}
+                        >
+                          删除
+                        </DsButton>
+                      </div>
                     </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="music-reference-empty">当前工程没有引用这张图片。</div>
-              )}
-              {selectedIssues.map((issue) => (
-                <div className="cf-err" key={`${issue.code}:${issue.where}`}>
-                  {issue.message}
-                </div>
-              ))}
-            </div>
+                  ),
+                },
+                {
+                  id: 'references',
+                  label: `引用 ${selectedReferences.length}`,
+                  panel: (
+                    <div className="section music-reference-section">
+                      {selectedReferences.length ? (
+                        <div className="music-reference-list">
+                          {selectedReferences.map((reference) => (
+                            <div
+                              className="music-reference-item"
+                              key={`${reference.site}:${reference.asset}`}
+                            >
+                              <strong>{reference.site}</strong>
+                              <span>{reference.occurrences} 次</span>
+                              <code title={reference.where}>{reference.where}</code>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="music-reference-empty">当前工程没有引用这张图片。</div>
+                      )}
+                      {selectedIssues.map((issue) => (
+                        <div className="cf-err" key={`${issue.code}:${issue.where}`}>
+                          {issue.message}
+                        </div>
+                      ))}
+                    </div>
+                  ),
+                },
+              ]}
+            />
           </>
         ) : (
           <div className="insp-empty">选择一张图片查看资源与引用。</div>

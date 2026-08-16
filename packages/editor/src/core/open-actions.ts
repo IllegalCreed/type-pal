@@ -3,17 +3,14 @@
  * 每个动作 = 拿本地目录句柄(原生选夹,须用户手势)→ 操作 → openLocalProject 装配 → Opened。
  * 用户取消选夹 → 返回 null(调用方静默忽略)。
  */
-import { httpSource, type LoadedProject, type LoadedProjectV13, type LoadedProjectV5 } from '@type-pal/reforge'
+import { httpSource } from '@type-pal/reforge'
 import { cloneFromPal } from './clone.js'
 import { currentDirectoryPickerAvailability } from './file-system-access.js'
 import { copyDirRecursive } from './fsa-copy.js'
 import { saveHandle } from './handle-store.js'
 import { type OpenedProject, openLocalProject } from './open-local.js'
 import { preflightProjectWriteSet, writeProject } from './project-io.js'
-import { upgradeLocalProjectV12V13 } from './upgrade-local-v12-v13.js'
 import { buildBlankProject } from './seed.js'
-import type { SoundUpgradeProgress } from './upgrade-local-v2.js'
-import type { UpgradeLocalProjectV4ScriptV5Options } from './upgrade-local-v4-script-v5.js'
 
 export type Opened = OpenedProject & { dir: FileSystemDirectoryHandle }
 
@@ -32,23 +29,16 @@ export async function pickDir(): Promise<FileSystemDirectoryHandle | null> {
 /** 目录句柄 → 装配 Opened + 记入 IndexedDB(最近工程 / 重连)。 */
 export async function finishOpen(
   dir: FileSystemDirectoryHandle,
-  onSoundUpgradeProgress?: (progress: SoundUpgradeProgress) => void,
-  scriptV4V5Options: UpgradeLocalProjectV4ScriptV5Options = {},
 ): Promise<Opened> {
-  const opened = await openLocalProject(dir, {
-    ...(onSoundUpgradeProgress ? { onSoundUpgradeProgress } : {}),
-    ...scriptV4V5Options,
-  })
+  const opened = await openLocalProject(dir)
   await saveHandle(opened.project.manifest.id, dir.name, dir)
   return { ...opened, dir }
 }
 
 /** 打开已有本地工程。取消 → null。 */
-export async function openExistingProject(
-  onSoundUpgradeProgress?: (progress: SoundUpgradeProgress) => void,
-): Promise<Opened | null> {
+export async function openExistingProject(): Promise<Opened | null> {
   const dir = await pickDir()
-  return dir ? finishOpen(dir, onSoundUpgradeProgress) : null
+  return dir ? finishOpen(dir) : null
 }
 
 /** 新建空白工程(选空夹 → 写骨架 → 打开)。取消 → null。 */
@@ -87,16 +77,5 @@ export async function saveProjectAs(
   // 曾被另存为静默丢掉),再 writeProject 覆写内容文件(当前编辑赢)。选同一目录跳过拷贝。
   if (srcDir && !(await dir.isSameEntry(srcDir))) await copyDirRecursive(srcDir, dir)
   await writeProject(dir, files, { removePaths })
-  return finishOpen(dir)
-}
-
-/** 显式 content12 → content13 原地升级。只对已打开的本地 v12 工程开放。 */
-export async function upgradeProjectToV13(
-  dir: FileSystemDirectoryHandle,
-  project: LoadedProject | LoadedProjectV5 | LoadedProjectV13,
-): Promise<Opened> {
-  if (project.manifest.contentVersion !== 12)
-    throw new Error('upgradeProjectToV13: 当前工程不是 contentVersion 12')
-  await upgradeLocalProjectV12V13(dir, project.source, project.manifest)
   return finishOpen(dir)
 }

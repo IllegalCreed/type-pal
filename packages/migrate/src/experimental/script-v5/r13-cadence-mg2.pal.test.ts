@@ -1,8 +1,13 @@
-import { existsSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { beforeAll, describe, expect, test } from 'vitest'
+import type { ManifestV14 } from '@type-pal/content'
 import { type MigrationSnapshot, serializeMigrationJson, sha256 } from '../../migration-baseline.js'
+import {
+  rewindCurrentC1ProjectToW9,
+  rewindCurrentC1PublicationToW9,
+} from '../../pal-current-c1-rewind.js'
 import {
   discoverProjectManagedFiles,
   loadProjectMigrationSnapshot,
@@ -96,7 +101,14 @@ describe.skipIf(!existsSync(extracted))('R13 cadence append-only PAL MG2 seal', 
     const shared = getPalTestGeneratedFixture()
     const { migration, generated } = shared
     const publishedBaseline = shared.baseline
-    const base = rewindPublishedW9PublicationIfPresent(publishedBaseline)
+    const manifestRawText = readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8')
+    const manifest = JSON.parse(manifestRawText) as ManifestV14
+    const w9Baseline = rewindCurrentC1PublicationToW9({
+      source: publishedBaseline,
+      manifest,
+      manifestRawText,
+    })
+    const base = rewindPublishedW9PublicationIfPresent(w9Baseline)
     const managed = discoverProjectManagedFiles(
       repo,
       new Set([...publishedBaseline.managedFiles, ...migration.managedFiles]),
@@ -105,7 +117,15 @@ describe.skipIf(!existsSync(extracted))('R13 cadence append-only PAL MG2 seal', 
     const input = {
       base: withoutR13(base),
       ours: withoutR13(
-        rewindPublishedW9ProjectAgainstPublishedBaseline(publishedProject, publishedBaseline),
+        rewindPublishedW9ProjectAgainstPublishedBaseline(
+          rewindCurrentC1ProjectToW9({
+            project: publishedProject,
+            publishedBaseline,
+            manifest,
+            manifestRawText,
+          }),
+          w9Baseline,
+        ),
       ),
       generated,
       // Release prepares from this file's live generated input once; every plan

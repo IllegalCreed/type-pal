@@ -4,6 +4,10 @@
 > **本文件 = 整个编辑器的架构设计(防返工用),非某一期实现。** 先读 [READ-FIRST](../READ-FIRST.md);工程地基见 [project-design.md](project-design.md)。
 > 状态:设计(待用户审)。分工:核心/地基(非视觉)可交 GLM,壳+模式(canvas 视觉)Claude 做。
 
+> 2026-08-15：本文件继续负责编辑器产品/数据/模式架构；视觉、组件、响应式、媒体、无障碍和验收的
+> normative candidate 已迁到 [`editor-design-system-v1.md`](editor-design-system-v1.md)。两者冲突时，
+> 先判断是产品架构还是界面合同；界面合同以新规范为准。
+
 ## 0. 这是什么 / 不是什么
 
 **是**:一个网页版可视化内容编辑器(独立 vite app,`packages/editor`),把 `projects/<id>/` 的工程 JSON 变成「可视化编辑 → 落盘 → 游戏生效」。编辑器按业务域组织为八个一级模块;场景、地图等画布型模块保留中心画布和工具模式,表格型模块使用各自的权威编辑页。

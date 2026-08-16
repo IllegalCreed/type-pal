@@ -6,19 +6,25 @@
  * UI、保存前校验和测试都消费同一组纯函数。
  */
 import {
+  ACTOR_REFERENCE_POLICIES,
   type EntryPoint,
   type LegacyManifestV12,
   type LoadedManifest,
   type ManifestV13,
+  type ManifestV14,
   type SceneDef,
-  checkSharedScriptLibraryV13,
+  validateDialogueIdentityReferencesV14,
+  validateEnemiesV14,
   validateAssetCatalog,
   validateAssetReferenceClosure,
+  validateBattleFields,
   validateItems,
+  validateItemsV14,
   validateManifestAssetConfigV3,
   validateReferences,
   validateStartWorldResources,
-  validateScenesV13,
+  validateScenesV14,
+  validateSharedScriptsV14,
 } from '@type-pal/content'
 import { isV5RuntimeScriptRef } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
@@ -48,7 +54,7 @@ export type ProjectIssueCode =
   | 'invalid-item-data'
   | 'migration-pending'
 
-export type ManifestLike = LoadedManifest | LegacyManifestV12 | ManifestV13
+export type ManifestLike = LoadedManifest | LegacyManifestV12 | ManifestV13 | ManifestV14
 
 export interface ProjectIssue {
   severity: ProjectIssueSeverity
@@ -174,12 +180,15 @@ function validateSeedStats(
 ): ProjectIssue[] {
   const issues: ProjectIssue[] = []
   const actorIds = new Set(actors.map((actor) => actor.id))
+  const actorReferencePolicy = ACTOR_REFERENCE_POLICIES[
+    pathPrefix.startsWith('entryPoints[') ? 'entry-point-seed-stats' : 'manifest-seed-stats'
+  ]
   for (const [actorId, stats] of Object.entries(startWorld.seedStats ?? {})) {
     if (!actorIds.has(actorId)) {
       issues.push({
-        severity: 'error',
+        severity: actorReferencePolicy.danglingSeverity,
         code: 'invalid-start-world',
-        message: `seedStats 角色 "${actorId}" 不在 actors 表`,
+        message: `${actorReferencePolicy.label}角色 "${actorId}" 不在 actors 表`,
         path: `${pathPrefix}.seedStats.${actorId}`,
         target,
       })
@@ -278,7 +287,8 @@ export function collectProjectIssues(state: EditorState): ProjectIssue[] {
   const issues = validateManifestEntryPoints(state.manifest, state.scenes)
   let catalogValid = true
   try {
-    validateItems(state.items)
+    if (state.manifest.contentVersion === 14) validateItemsV14(state.items)
+    else validateItems(state.items)
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error)
     const itemIndex = Number(/^items\[(\d+)\]/.exec(message)?.[1])
@@ -506,6 +516,7 @@ export interface EditorStatusIssue {
   severity: ProjectIssueSeverity
   message: string
   path: string
+  target?: ProjectIssue['target']
 }
 
 function v5RuntimeItemScriptPaths(state: EditorState): Set<string> {
@@ -536,7 +547,7 @@ export function collectEditorStatusIssues(
     ? collectScriptV5ReferenceIssues(canonicalV5)
     : []
   const entityAddressIssues: EditorStatusIssue[] =
-    state.manifest.contentVersion === 13
+    state.manifest.contentVersion === 14
       ? collectMissingEntityAddressReferencesV13(state).map((reference) => ({
           severity: 'error',
           message:
@@ -548,13 +559,26 @@ export function collectEditorStatusIssues(
     severity: issue.severity,
     message: issue.message,
     path: issue.path,
+    ...(issue.target ? { target: issue.target } : {}),
   }))
+  const battleFieldIssues: EditorStatusIssue[] =
+    (state.manifest.content.battleFields !== undefined || (state.battleFields?.length ?? 0) > 0) &&
+    !(state.battleFields ?? []).some((field) => field.id === 24)
+      ? [
+          {
+            severity: 'warn',
+            message: '项目默认战场 #24 缺失；未显式指定战场的战斗会回落到黑底。',
+            path: 'battleFields[24]',
+          },
+        ]
+      : []
   const unique = new Map<string, EditorStatusIssue>()
   for (const issue of [
     ...contentIssues,
     ...canonicalScriptIssues,
     ...entityAddressIssues,
     ...projectIssues,
+    ...battleFieldIssues,
   ]) {
     unique.set(`${issue.severity}:${issue.path}:${issue.message}`, issue)
   }
@@ -567,24 +591,33 @@ export function assertProjectSaveValid(state: EditorState): void {
     (issue) => issue.severity === 'error',
   )
   if (errors.length) throw new Error(`保存前工程校验失败：${errors[0]!.message}`)
-  if (state.manifest.contentVersion === 13) {
+  if (state.manifest.content.battleFields !== undefined || state.battleFields !== undefined) {
     try {
-      validateScenesV13(state.scenes)
+      validateBattleFields(state.battleFields ?? [])
     } catch (error) {
       throw new Error(
-        `保存前场景数据校验失败：${error instanceof Error ? error.message : String(error)}`,
+        `保存前战场数据校验失败：${error instanceof Error ? error.message : String(error)}`,
       )
     }
-    if (state.manifest.content.sharedScripts !== undefined) {
-      if (!state.sharedScripts)
-        throw new Error('保存前共享脚本校验失败：manifest 声明 sharedScripts 但工作副本缺失')
-      try {
-        checkSharedScriptLibraryV13(state.sharedScripts)
-      } catch (error) {
-        throw new Error(
-          `保存前共享脚本校验失败：${error instanceof Error ? error.message : String(error)}`,
-        )
-      }
+  }
+  if (state.manifest.contentVersion === 14) {
+    try {
+      validateScenesV14(state.scenes)
+      validateItemsV14(state.items)
+      validateEnemiesV14(state.enemies ?? [])
+      const sharedScripts = state.sharedScripts ?? {}
+      validateSharedScriptsV14(sharedScripts)
+      validateDialogueIdentityReferencesV14({
+        scenes: state.scenes as never,
+        items: state.items as never,
+        sharedScripts: sharedScripts as never,
+        enemies: (state.enemies ?? []) as never,
+        actors: state.actors,
+      })
+    } catch (error) {
+      throw new Error(
+        `保存前 content14 对话身份校验失败：${error instanceof Error ? error.message : String(error)}`,
+      )
     }
     const missingEntityAddress = collectMissingEntityAddressReferencesV13(state)[0]
     if (missingEntityAddress)
@@ -600,7 +633,8 @@ export function assertProjectSaveValid(state: EditorState): void {
   }
 
   try {
-    validateItems(state.items)
+    if (state.manifest.contentVersion === 14) validateItemsV14(state.items)
+    else validateItems(state.items)
   } catch (error) {
     throw new Error(
       `保存前物品数据校验失败：${error instanceof Error ? error.message : String(error)}`,

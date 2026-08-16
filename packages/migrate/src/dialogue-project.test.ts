@@ -118,21 +118,22 @@ describe('PAL 对话迁移产物', () => {
 
     expect(dialogs.map((command) => command.cue)).toEqual([
       {
+        identity: { kind: 'narration' },
         rows: [{ text: 'dlg.0', speed: 112 }],
         slot: 'center',
         autoAdvance: 342,
       },
       {
+        identity: { kind: 'unbound', speaker: 'spk.李逍遥' },
         rows: [{ text: 'dlg.2', speed: 16 }],
-        speaker: 'spk.李逍遥',
         autoAdvance: 457,
       },
       {
+        identity: { kind: 'unbound', speaker: 'spk.李逍遥' },
         rows: [
           { text: 'dlg.3', speed: 16 },
           { text: 'dlg.4', speed: 16 },
         ],
-        speaker: 'spk.李逍遥',
         autoAdvance: 685,
       },
     ])

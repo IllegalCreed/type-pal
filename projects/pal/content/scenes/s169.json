@@ -85,6 +85,9 @@
                   },
                   {
                     "cue": {
+                      "identity": {
+                        "kind": "narration"
+                      },
                       "autoAdvance": 800,
                       "rows": [
                         {
@@ -160,6 +163,9 @@
                   },
                   {
                     "cue": {
+                      "identity": {
+                        "kind": "narration"
+                      },
                       "autoAdvance": 800,
                       "rows": [
                         {

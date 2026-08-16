@@ -52,6 +52,9 @@
                   },
                   {
                     "cue": {
+                      "identity": {
+                        "kind": "narration"
+                      },
                       "autoAdvance": 342,
                       "rows": [
                         {
@@ -75,7 +78,10 @@
                           "text": "dlg.2"
                         }
                       ],
-                      "speaker": "spk.李逍遥"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.李逍遥"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -95,7 +101,10 @@
                           "text": "dlg.4"
                         }
                       ],
-                      "speaker": "spk.李逍遥"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.李逍遥"
+                      }
                     },
                     "kind": "dialog"
                   },

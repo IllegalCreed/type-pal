@@ -33,6 +33,7 @@ import {
   projectCanonicalSpritePreviewStateV5,
   type SpriteAutomaticScriptInstanceSite,
 } from '../core/world-sprite-behavior.js'
+import { DsListHeader } from './design-system/index.js'
 import { SpriteActionEditor } from './SpriteActionEditor.js'
 import type { SpriteFrameView } from './SpriteFrameWorkbench.js'
 import { type SpriteResourceLoadProof, SpriteResourceViewer } from './SpriteResourceViewer.js'
@@ -494,13 +495,19 @@ export function WorldSpriteLibrary(props: {
     <>
       <div className="outliner data-outliner battle-sprite-outliner world-sprite-outliner">
         {props.tabBar}
-        <div className="pane-h">
-          <span className="t">源帧资源</span>
-          <span className="spacer" />
-          <span className="k">
-            {shownAssets.length}/{assets.length}
-          </span>
-        </div>
+        <DsListHeader
+          title="精灵库"
+          count={assets.length}
+          unit="项"
+          actions={[
+            {
+              id: 'import-world-sprite',
+              label: '导入源帧资源',
+              icon: '＋',
+              onClick: () => setUploading(true),
+            },
+          ]}
+        />
         <fieldset className="sprite-domain-switch" aria-label="精灵资源域">
           <button type="button" className="on" aria-pressed="true">
             大世界
@@ -509,9 +516,6 @@ export function WorldSpriteLibrary(props: {
             战斗
           </button>
         </fieldset>
-        <button type="button" className="sprite-upload-action" onClick={() => setUploading(true)}>
-          ＋ 导入源帧资源
-        </button>
         <input
           className="in battle-sprite-filter"
           aria-label="过滤大世界精灵库"

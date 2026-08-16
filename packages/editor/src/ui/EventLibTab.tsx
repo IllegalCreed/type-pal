@@ -7,6 +7,7 @@
  */
 import { useMemo, useState } from 'react'
 import { COMMAND_CATALOG } from '../core/command-catalog.js'
+import { DsListHeader } from './design-system/index.js'
 
 export function EventLibTab(props: { tabBar?: React.ReactNode }) {
   const { tabBar } = props
@@ -31,11 +32,7 @@ export function EventLibTab(props: { tabBar?: React.ReactNode }) {
     <>
       <div className="outliner data-outliner">
         {tabBar}
-        <div className="pane-h">
-          <span className="t">指令手册</span>
-          <span className="spacer" />
-          <span className="k">{COMMAND_CATALOG.length} 指令</span>
-        </div>
+        <DsListHeader title="指令手册" count={COMMAND_CATALOG.length} unit="条" />
         <input
           className="in"
           placeholder="搜指令 名/kind/原版op…"

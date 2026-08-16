@@ -12,6 +12,7 @@ import { describe, expect, test } from 'vitest'
 import {
   AddAmbienceCommand,
   AddBattleSpriteCommand,
+  AddBattleFieldCommand,
   AddEnemyCommand,
   AddEntityCommand,
   AddPoisonCommand,
@@ -19,14 +20,17 @@ import {
   AddSceneCommand,
   AddSpriteCommand,
   AddSpriteDefinitionCommand,
+  BattleDataInUseError,
   BindSceneMapCommand,
   CompositeCommand,
+  CopyBattleFieldCommand,
   CreateMapAssetCommand,
   CreateProjectMapCommand,
   CreateScriptSourceCommand,
   DeleteAssetCommand,
   DeleteAuthoredScriptCommand,
   DeleteEnemyCommand,
+  DeleteBattleFieldCommand,
   DeleteEntityCommand,
   DeleteMapAssetCommand,
   DeleteSceneEntryCommand,
@@ -71,6 +75,9 @@ import {
   UpsertAssetCommand,
   UpsertAuthoredScriptCommand,
   UpsertSceneEntryCommand,
+  BattleFieldInUseError,
+  BATTLE_FIELDS_PATH,
+  nextBattleFieldId,
 } from './commands.js'
 import { type EditorState, EditSession } from './edit-session.js'
 import { createPlacedEntity, type EntityPlacement } from './entity-placement.js'
@@ -136,6 +143,27 @@ function st(): EditorState {
 
 function stActor(): EditorState {
   const base = st() as EditorState & { actors: ActorDef[] }
+  base.assetCatalog = {
+    version: 1,
+    assets: {
+      'portrait.test.001': {
+        kind: 'portrait',
+        path: 'assets/portraits/001.png',
+        mediaType: 'image/png',
+        bytes: 1,
+        sha256: '1'.repeat(64),
+        origin: { kind: 'authored' },
+      },
+      'portrait.test.055': {
+        kind: 'portrait',
+        path: 'assets/portraits/055.png',
+        mediaType: 'image/png',
+        bytes: 1,
+        sha256: '2'.repeat(64),
+        origin: { kind: 'authored' },
+      },
+    },
+  }
   base.actors = [
     {
       id: 'li',
@@ -294,6 +322,19 @@ describe('布置命令集 · 不可变 + invert', () => {
 
     expect(s1.scenes[0]!.music).toBe('music.pal.003')
     expect(cmd.invert(s1).scenes[0]!.music).toBe('music.pal.001')
+  })
+
+  test('UpdateScene:battleFieldId 可设/清且 undo 恢复缺席语义', () => {
+    const s0 = st()
+    const set = new UpdateSceneCommand('s', { battleFieldId: 25 })
+    const s1 = set.apply(s0)
+    expect(s1.scenes[0]!.battleFieldId).toBe(25)
+    expect(set.invert(s1).scenes[0]!.battleFieldId).toBeUndefined()
+
+    const clear = new UpdateSceneCommand('s', { battleFieldId: undefined })
+    const s2 = clear.apply(s1)
+    expect(s2.scenes[0]!.battleFieldId).toBeUndefined()
+    expect(clear.invert(s2).scenes[0]!.battleFieldId).toBe(25)
   })
 
   test('UpdateScene:改 entry;invert 还原旧 entry(深比较)', () => {
@@ -733,7 +774,9 @@ describe('M4c-3 敌人命令(不可变 + invert)', () => {
     expect(s1.enemies!.map((e) => e.id)).toEqual(['enemy-1', 'enemy-2', 'enemy-9'])
     expect(add.invert(s1).enemies!.length).toBe(2)
     const del = new DeleteEnemyCommand('enemy-1')
-    const s2 = del.apply(s0)
+    expect(() => del.apply(s0)).toThrow(BattleDataInUseError)
+    const unreferenced = { ...s0, enemyTeams: [] }
+    const s2 = del.apply(unreferenced)
     expect(s2.enemies![0]!.id).toBe('enemy-2')
     expect(del.invert(s2).enemies![0]!.id).toBe('enemy-1')
     const t = new UpdateEnemyTeamsCommand([{ id: 'team-1', slots: ['enemy-2'] }])
@@ -766,6 +809,129 @@ describe('D24 战场命令(不可变 + invert)', () => {
     const back = cmd.invert(s1)
     expect(back.battleFields![0]!.name).toBeUndefined() // name 清回未设
     expect(back.battleFields![0]!.magicEffect.fire).toBe(0)
+  })
+
+  test('first-create 原子登记 manifest，undo 精确恢复整个表与路径', () => {
+    const s0 = st()
+    const field = {
+      id: 24,
+      screenWave: 0,
+      magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+    }
+    expect(nextBattleFieldId([])).toBe(24)
+    const cmd = new AddBattleFieldCommand(field)
+    const s1 = cmd.apply(s0)
+    expect(s1.battleFields).toEqual([field])
+    expect(s1.manifest.content.battleFields).toBe(BATTLE_FIELDS_PATH)
+    expect(s0.battleFields).toBeUndefined()
+    expect(s0.manifest.content.battleFields).toBeUndefined()
+    const back = cmd.invert(s1)
+    expect(back.battleFields).toBeUndefined()
+    expect(back.manifest).toEqual(s0.manifest)
+  })
+
+  test('新建/复制拒绝 id 冲突，复制共享资源引用且整体可逆', () => {
+    const s0 = stF()
+    s0.manifest.content.battleFields = BATTLE_FIELDS_PATH
+    s0.battleFields![0] = {
+      ...s0.battleFields![0]!,
+      name: '原战场',
+      background: 'battle-field.bg.24',
+    }
+    expect(nextBattleFieldId(s0.battleFields!)).toBe(25)
+    expect(() => new AddBattleFieldCommand(s0.battleFields![0]!).apply(s0)).toThrow('id 已存在')
+    const copy = new CopyBattleFieldCommand(24, 25)
+    const s1 = copy.apply(s0)
+    expect(s1.battleFields![1]).toEqual({ ...s0.battleFields![0], id: 25 })
+    expect(copy.invert(s1).battleFields).toEqual(s0.battleFields)
+    expect(() => new CopyBattleFieldCommand(24, 25).apply(s1)).toThrow('id 已存在')
+  })
+
+  test('未引用条目可删，删最后一项保留已声明空表；undo 恢复原位', () => {
+    const s0 = stF()
+    s0.manifest.content.battleFields = BATTLE_FIELDS_PATH
+    s0.battleFields = [
+      ...s0.battleFields!,
+      {
+        id: 25,
+        name: '可删除',
+        screenWave: 1,
+        magicEffect: { wind: 1, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
+    ]
+    const remove25 = new DeleteBattleFieldCommand(25)
+    const s1 = remove25.apply(s0)
+    expect(s1.battleFields!.map((field) => field.id)).toEqual([24])
+    expect(remove25.invert(s1).battleFields).toEqual(s0.battleFields)
+
+    const only25 = { ...s0, battleFields: [s0.battleFields[1]!] }
+    const empty = new DeleteBattleFieldCommand(25).apply(only25)
+    expect(empty.battleFields).toEqual([])
+    expect(empty.manifest.content.battleFields).toBe(BATTLE_FIELDS_PATH)
+  })
+
+  test('系统默认、场景默认、hostile 与嵌套 startBattle 都会阻断删除', () => {
+    const system = stF()
+    expect(() => new DeleteBattleFieldCommand(24).apply(system)).toThrow(BattleFieldInUseError)
+
+    const referenced = stF()
+    referenced.battleFields!.push(
+      {
+        id: 25,
+        screenWave: 0,
+        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
+      {
+        id: 26,
+        screenWave: 0,
+        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
+      {
+        id: 27,
+        screenWave: 0,
+        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
+    )
+    referenced.scenes[0] = {
+      ...referenced.scenes[0]!,
+      battleFieldId: 25,
+      entities: [
+        {
+          ...referenced.scenes[0]!.entities[0]!,
+          hostile: { battleFieldId: 26 } as never,
+        },
+      ],
+      onEnter: [
+        {
+          body: [
+            {
+              kind: 'branch',
+              cond: { kind: 'flag', flag: 'battle', is: true },
+              then: [{ kind: 'startBattle', team: 1, fieldId: 27 }],
+              else: [],
+            },
+          ],
+        },
+      ],
+    }
+    for (const id of [25, 26, 27]) {
+      try {
+        new DeleteBattleFieldCommand(id).apply(referenced)
+        throw new Error('预期引用阻断')
+      } catch (error) {
+        expect(error).toBeInstanceOf(BattleFieldInUseError)
+        expect((error as BattleFieldInUseError).references.length).toBeGreaterThan(0)
+      }
+    }
+  })
+
+  test('UpdateBattleField 在命令边界拒绝非法五行结构', () => {
+    const s0 = stF()
+    expect(() =>
+      new UpdateBattleFieldCommand(24, {
+        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0 } as never,
+      }).apply(s0),
+    ).toThrow('缺键 "earth"')
   })
 })
 

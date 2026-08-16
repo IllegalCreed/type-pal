@@ -109,7 +109,10 @@
                             "text": "dlg.5653"
                           }
                         ],
-                        "speaker": "spk.老板"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.老板"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -131,7 +134,10 @@
                             "text": "dlg.5655"
                           }
                         ],
-                        "speaker": "spk.老板"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.老板"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -188,7 +194,10 @@
                             "text": "dlg.5658"
                           }
                         ],
-                        "speaker": "spk.顾客"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.顾客"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -277,7 +286,10 @@
                             "text": "dlg.5661"
                           }
                         ],
-                        "speaker": "spk.顾客"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.顾客"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -333,7 +345,10 @@
                             "text": "dlg.7121"
                           }
                         ],
-                        "speaker": "spk.茅山道士"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.茅山道士"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -353,7 +368,10 @@
                             "text": "dlg.7124"
                           }
                         ],
-                        "speaker": "spk.茅山道士"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.茅山道士"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -370,7 +388,10 @@
                             "text": "dlg.7126"
                           }
                         ],
-                        "speaker": "spk.茅山道士"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.茅山道士"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -390,7 +411,10 @@
                             "text": "dlg.7129"
                           }
                         ],
-                        "speaker": "spk.茅山道士"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.茅山道士"
+                        }
                       },
                       "kind": "dialog"
                     }

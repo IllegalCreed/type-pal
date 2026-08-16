@@ -9,9 +9,9 @@ import {
   effectiveStat,
   validateActors,
   validateAssetCatalog,
-  validateItemsV5,
+  validateItemsV14,
   validateLocale,
-  validateScenesV5,
+  validateScenesV14,
   validateSkills,
   validateSprites,
 } from '@type-pal/content'
@@ -28,12 +28,12 @@ const manifest = read('manifest.json') as {
   startWorld: StartWorld
 }
 const sceneIds = read('content/scenes/index.json') as string[]
-const scenes = validateScenesV5(sceneIds.map((id) => read(`content/scenes/${id}.json`)))
+const scenes = validateScenesV14(sceneIds.map((id) => read(`content/scenes/${id}.json`)))
 const actors = validateActors(read('content/actors.json'))
 const assetCatalog = validateAssetCatalog(read('assets/index.json'))
 const sprites = validateSprites(read('content/sprites.json'), assetCatalog)
 const { skills } = validateSkills(read('content/skills.json'))
-const items = validateItemsV5(read('content/items.json'))
+const items = validateItemsV14(read('content/items.json'))
 const locale = validateLocale(read('content/locale.json'))
 
 const byId = <T extends { id: string }>(a: T[]): Record<string, T> =>
@@ -46,7 +46,7 @@ const spritesById = byId(sprites)
 describe('demo 工程:真实 JSON 迁移保真 + buildWorld 端到端', () => {
   test('数据关键值:入口场景 / 技能 MP / 物品装备槽 / locale', () => {
     expect(manifest.id).toBe('demo')
-    expect(manifest.contentVersion).toBe(12)
+    expect(manifest.contentVersion).toBe(14)
     expect(manifest.minimumSaveVersion).toBe(8)
     expect(scenes.find((s) => s.id === manifest.entryScene)).toBeDefined() // 入口场景可解析
     expect(skillsById['296']?.name).toBe('气疗术')

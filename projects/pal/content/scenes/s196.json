@@ -181,7 +181,10 @@
                         }
                       ],
                       "slot": "top",
-                      "speaker": "spk.李逍遥"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.李逍遥"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -218,7 +221,10 @@
                           "text": "dlg.10192"
                         }
                       ],
-                      "speaker": "spk.林月如"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.林月如"
+                      }
                     },
                     "kind": "dialog"
                   },

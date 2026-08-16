@@ -7,16 +7,16 @@
   },
   "gates": {
     "fast": {
-      "files": 83,
-      "tests": 626,
-      "sha256": "045b3459ca3a630896de69746d22a94c9081cb48bc03383b153ccb63591002fb",
-      "routeSha256": "6245e1ba0f41725aeb8748b1ecad529d66ec7304e4a79b22f76b5ac74aeb17aa"
+      "files": 89,
+      "tests": 649,
+      "sha256": "5489e6b83ec476f6043f883f2fee889419e07f4f1a809ae2f8489a62ffb4998e",
+      "routeSha256": "3eded99627d0c32f2b8d5a21336cb395a3a95a2d54edbd4223cd7a4245ea47bc"
     },
     "release": {
-      "files": 107,
-      "tests": 758,
-      "sha256": "4e2d1fd898a7a9290b1ede6cf9460ef7205ce6abaaebaa2033f7aa316dd960be",
-      "routeSha256": "03aed2db20e53fe95ebe38a9c6620aa6a4bba0c270586c59ee39aaf6ae769434"
+      "files": 113,
+      "tests": 781,
+      "sha256": "14ff5dbee81de56f03ca6a00c684f51c9b6d203886e8903c71956f49695b3e02",
+      "routeSha256": "35d8e22a4b992944c8d595b6214751451124e6b96a9ca570f8efa38829e14203"
     },
     "canary": {
       "files": 1,

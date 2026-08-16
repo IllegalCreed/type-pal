@@ -384,6 +384,8 @@ export interface AssetReferenceSource {
   entryPoints?: readonly EntryPoint[]
   scenes?: readonly SceneDef[]
   scriptChunks?: Readonly<Record<string, ScriptChunkV1>> | readonly ScriptChunkV1[]
+  /** content13/14 作者共享脚本库；unknown 由 typed command walker 精确识别 AssetId 叶。 */
+  sharedScripts?: unknown
   actors?: readonly ActorDef[]
   enemies?: readonly EnemyDef[]
   items?: readonly ItemData[]
@@ -474,6 +476,25 @@ function collectCommandAssets(
             { asset, expectedKind: 'portrait', where: `${where}.cue.portrait.asset` },
             site,
           )
+      }
+      const identity = (cue as Record<string, unknown>).identity
+      if (identity && typeof identity === 'object' && !Array.isArray(identity)) {
+        const identityRecord = identity as Record<string, unknown>
+        const directPortrait = identityRecord.portrait
+        if (
+          identityRecord.kind === 'unbound' &&
+          directPortrait &&
+          typeof directPortrait === 'object' &&
+          !Array.isArray(directPortrait)
+        ) {
+          const asset = (directPortrait as Record<string, unknown>).asset
+          if (typeof asset === 'string')
+            pushAssetReference(
+              out,
+              { asset, expectedKind: 'portrait', where: `${where}.cue.identity.portrait.asset` },
+              site,
+            )
+        }
       }
     }
   }
@@ -588,6 +609,13 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
       )
     }
   })
+  if (source.sharedScripts)
+    appendCommandAssetReferences(
+      references,
+      source.sharedScripts,
+      'sharedScripts',
+      'sharedScripts',
+    )
   source.actors?.forEach((actor, index) => {
     if (actor.portraits) {
       references.push({
@@ -657,6 +685,12 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
     }
   })
   source.items?.forEach((item, index) => {
+    appendCommandAssetReferences(
+      references,
+      item,
+      `items[${index}]`,
+      `item:${item.id}`,
+    )
     if (item.icon)
       references.push({
         asset: item.icon,

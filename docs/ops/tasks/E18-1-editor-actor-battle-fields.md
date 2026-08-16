@@ -1,6 +1,6 @@
 # E18-1 - 编辑器角色战斗字段（coveredBy / casualty / cooperativeMagic）
 
-Status: review
+Status: done
 Phase: phase2
 Capability: E18（编辑器角色战斗字段 coveredBy / casualty / cooperativeMagic）
 Coding Owner: Codex
@@ -80,7 +80,7 @@ cooperativeMagic（合体技），数据/runtime 已就绪，编辑器补齐编�
 - GLM: **accept（2026-08-07，G1-G3/K1-K4 逐项核 + 校验新增规则核实 + PAL 真值回归零漂;见「GLM 实现复审」）**
 - counter / 返工处理: 无 counter
 - 缺签豁免: N/A
-- done 准入结论: **blocked（三方 accept 齐；仍待用户验收，用户明确通过前不得标 `done`）**
+- done 准入结论: **allowed（三方 accept + 用户验收 2026-08-14 齐；已转 done）**
 
 ## Draft: 设计与风险
 
@@ -406,11 +406,14 @@ loader-v5.pal 5/5。
 
 - 设计确认: **agree（2026-08-13）**。用户在听取三字段与中区伤亡脚本编辑器说明后明确回复
   “E18-1 就这样做”，确认保持当前方案；该回复不是编辑器实际操作后的产品验收。
-- 用户结论: pending
-- 后续任务: 等待用户验收 E18-1 的三字段编辑、引用校验与保存重开；通过后再转 `done` 并同步能力地图。
+- 用户结论: **通过（2026-08-14）**。用户在本会话明确回复“E18 C1-3 C1-2 这三个我已经验收了”，
+  覆盖 E18-1 的三字段编辑、引用校验与保存重开。三方技术 accept（Codex :74 / Kimi :77 /
+  GLM :80，2026-08-07）+ 本用户验收齐，E18-1 转 `done`。
+- 后续任务: 同步能力地图 E18 格为 `— / ✅`。
 
 > 2026-08-13 OPS-MAP-1 四证对账：提交 `9952aa53` 只证明三方技术 `accept`，不等于用户验收；
 > 因此将误写的卡头 `done` 退回 `review`，未代签用户结论。
+> 2026-08-14 补记：用户验收由用户本人在会话中直接给出（见上），四证补齐，恢复 done。
 
 ## 交接日志
 

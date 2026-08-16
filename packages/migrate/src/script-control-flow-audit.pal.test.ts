@@ -2,10 +2,12 @@ import { existsSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, test } from 'vitest'
+import type { ManifestV14 } from '@type-pal/content'
 import { prepareR13SourceExecutionCensus } from './experimental/script-v5/source-execution-census.js'
 import { loadPalBaseline } from './migration-baseline.js'
 import { buildPalHistoricalR13_4V9Migration } from './pal-migration.js'
 import { loadPalMigrationSources } from './pal-migration-io.js'
+import { rewindCurrentC1PublicationToW9 } from './pal-current-c1-rewind.js'
 import {
   buildPalW9LifecyclePublicationLedger,
   foldedHostileTargetsFromPublishedB10,
@@ -29,7 +31,14 @@ describe.skipIf(!existsSync(extracted))('PAL script control flow audit golden', 
     assertScriptControlFlowAudit(report)
     const publishedBaseline = loadPalBaseline(repo)
     if (!publishedBaseline) throw new Error('W9 source ledger live test 缺 published PAL baseline')
-    const publishedFoldedHostiles = foldedHostileTargetsFromPublishedB10(publishedBaseline)
+    const manifestRawText = readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8')
+    const publishedFoldedHostiles = foldedHostileTargetsFromPublishedB10(
+      rewindCurrentC1PublicationToW9({
+        source: publishedBaseline,
+        manifest: JSON.parse(manifestRawText) as ManifestV14,
+        manifestRawText,
+      }),
+    )
     expect(
       new Set(migration.report.foldedHostileRoots.map(({ sceneId, entityId }) => `${sceneId}/${entityId}`)),
     ).toEqual(new Set(publishedFoldedHostiles.map(({ sceneId, entityId }) => `${sceneId}/${entityId}`)))

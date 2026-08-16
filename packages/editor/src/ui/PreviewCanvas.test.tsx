@@ -45,6 +45,73 @@ describe('PreviewCanvas confirm controls', () => {
     host.remove()
   })
 
+  test('预览控制使用单行共享工具栏并保持播放、单步与倍速行为', async () => {
+    const startPlayback = vi.fn()
+    const playback = {
+      view: { dialog: null, heldDialog: null, confirm: null },
+      mode: 'idle',
+      speed: 1,
+      pause: vi.fn(),
+      resume: vi.fn(),
+      play: vi.fn(),
+      step: vi.fn(),
+      stop: vi.fn(),
+      confirmDialog: vi.fn(),
+    } as unknown as Playback
+
+    await act(async () => {
+      root.render(
+        <PreviewCanvas
+          scene={scene}
+          stages={[]}
+          sourceKey="scene:preview-confirm:onEnter:default"
+          projectId="demo"
+          focusEntityId={undefined}
+          sprites={[]}
+          actorsById={{}}
+          leaderSpriteId={undefined}
+          assetBase={{} as never}
+          assetCatalog={{ version: 1, assets: {} }}
+          assetReader={{} as never}
+          projectMaps={{}}
+          mapIndex={{ version: 1, maps: [] }}
+          tilesets={[]}
+          locale={{}}
+          playback={playback}
+          startPlayback={startPlayback}
+        />,
+      )
+      await Promise.resolve()
+    })
+
+    const toolbar = host.querySelector<HTMLElement>('[role="toolbar"][aria-label="演出预览控制"]')
+    expect(toolbar).not.toBeNull()
+    expect(toolbar?.querySelector('.pv-btn, .pv-speed')).toBeNull()
+    expect(toolbar?.querySelectorAll('.ds-toolbar__group')).toHaveLength(1)
+    expect(toolbar?.querySelector('.preview-toolbar__trailing')).not.toBeNull()
+
+    await act(async () => {
+      toolbar?.querySelector<HTMLButtonElement>('button[aria-label="播放"]')?.click()
+      toolbar?.querySelector<HTMLButtonElement>('button[aria-label="单步"]')?.click()
+    })
+    expect(startPlayback).toHaveBeenNthCalledWith(1, false)
+    expect(startPlayback).toHaveBeenNthCalledWith(2, true)
+    expect(toolbar?.querySelector<HTMLButtonElement>('button[aria-label="重置"]')?.disabled).toBe(
+      true,
+    )
+
+    const speed = toolbar?.querySelector<HTMLButtonElement>(
+      '[role="combobox"][aria-label="预览速度"]',
+    )
+    expect(speed?.classList.contains('ds-select--compact')).toBe(true)
+    await act(async () => speed?.click())
+    const twice = [...document.body.querySelectorAll<HTMLElement>('[role="option"]')].find(
+      (option) => option.textContent === '2×',
+    )
+    await act(async () => twice?.click())
+    expect(playback.speed).toBe(2)
+  })
+
   test('默认聚焦否，方向/提交/Escape 与按钮都走同一 playback API', async () => {
     const toggleConfirm = vi.fn()
     const submitConfirm = vi.fn()
@@ -99,6 +166,7 @@ describe('PreviewCanvas confirm controls', () => {
     const [noButton, yesButton] = buttons
     expect(noButton?.textContent).toBe('否')
     expect(yesButton?.textContent).toBe('是')
+    expect(buttons.every((button) => button.classList.contains('ds-button'))).toBe(true)
     expect(document.activeElement).toBe(noButton)
 
     await act(async () => {

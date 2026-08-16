@@ -7,6 +7,8 @@ import {
   useRef,
   useState,
 } from 'react'
+import { DsButton, DsIconButton, DsTag } from './design-system/controls.js'
+import { DsObjectHero } from './design-system/recipes.js'
 
 export interface SpriteFrameView {
   canvas: HTMLCanvasElement | undefined
@@ -214,6 +216,7 @@ export function RawFrameInspector(props: {
   editorMessage?: string
   editorMessageKind?: 'info' | 'error'
   editorPanel?: React.ReactNode
+  showHero?: boolean
   onFrameDragStart?: (event: ReactDragEvent<HTMLButtonElement>, index: number) => void
 }) {
   const listId = useId()
@@ -222,37 +225,43 @@ export function RawFrameInspector(props: {
   const frame = props.frames[safeFrame]
   return (
     <section className="sprite-raw-inspector" aria-label="源帧检查器">
-      <header className="sprite-resource-viewer-head">
-        <div>
-          <strong>{props.label}</strong>
-          <code>{props.asset}</code>
-        </div>
-        <span className="sprite-resource-frame-count">源帧容器 · {total} 帧</span>
-      </header>
+      {props.showHero === false ? null : (
+        <DsObjectHero
+          eyebrow="源帧资源"
+          title={props.label}
+          objectId={props.asset}
+          meta={
+            <DsTag tone="neutral">
+              {total} 帧 · {props.consumerCount} 个用途定义
+            </DsTag>
+          }
+        />
+      )}
       <div className="sprite-raw-toolbar" role="toolbar" aria-label="源帧编辑">
         <span>
           当前帧 <b>#{safeFrame}</b>
         </span>
         <span className="spacer" />
         {props.onAppend ? (
-          <button type="button" className="tool" disabled={props.busy} onClick={props.onAppend}>
-            ＋ 追加帧…
-          </button>
+          <DsButton variant="secondary" icon="add" disabled={props.busy} onClick={props.onAppend}>
+            追加帧…
+          </DsButton>
         ) : null}
         {props.onReplace ? (
-          <button type="button" className="tool" disabled={props.busy} onClick={props.onReplace}>
+          <DsButton variant="secondary" disabled={props.busy} onClick={props.onReplace}>
             替换当前帧…
-          </button>
+          </DsButton>
         ) : null}
         {props.onDelete ? (
-          <button
-            type="button"
-            className="tool danger-action"
+          <DsButton
+            variant="danger"
+            icon="delete"
             disabled={props.busy || total <= 1}
+            title={total <= 1 ? '源帧至少保留一帧' : '删除当前帧'}
             onClick={props.onDelete}
           >
             删除当前帧
-          </button>
+          </DsButton>
         ) : null}
       </div>
       {props.editorMessage ? (
@@ -282,25 +291,23 @@ export function RawFrameInspector(props: {
             </div>
             <fieldset className="sprite-resource-frame-nav">
               <legend className="sprite-image-viewer-tools-label">切换当前帧</legend>
-              <button
-                type="button"
+              <DsIconButton
+                variant="secondary"
+                icon="chevron-left"
+                label="上一帧"
                 disabled={safeFrame <= 0}
-                aria-label="上一帧"
                 onClick={() => props.onSelect(Math.max(0, safeFrame - 1))}
-              >
-                ‹
-              </button>
+              />
               <output aria-live="polite">
                 {safeFrame + 1} / {total}
               </output>
-              <button
-                type="button"
+              <DsIconButton
+                variant="secondary"
+                icon="chevron-right"
+                label="下一帧"
                 disabled={safeFrame >= total - 1}
-                aria-label="下一帧"
                 onClick={() => props.onSelect(Math.min(total - 1, safeFrame + 1))}
-              >
-                ›
-              </button>
+              />
             </fieldset>
           </div>
           <p>

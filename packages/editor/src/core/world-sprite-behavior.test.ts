@@ -309,6 +309,16 @@ describe('collectAutomaticScriptSpriteDefinitionIds', () => {
       { spriteId: 'hero-walk', via: 'actor' },
     ])
   })
+
+  test('忽略尚未投影的 canonical 行为 id，不让资源库跳转白屏', () => {
+    const editorState = state([{ body: [] }])
+    editorState.scenes[0]!.entities[0]!.pages = [{ auto: 'default' }] as never
+
+    expect(collectAutomaticScriptSpriteInstanceSites(editorState)).toEqual([])
+    expect(
+      describeSpriteReferenceBehavior(editorState, reference, definition, 16),
+    ).toMatchObject({ kind: 'default', label: '默认定格' })
+  })
 })
 
 describe('collectSpriteAutomaticScriptBehaviors', () => {

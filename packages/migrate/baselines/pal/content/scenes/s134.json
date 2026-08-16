@@ -101,7 +101,10 @@
                             "text": "dlg.5433"
                           }
                         ],
-                        "speaker": "spk.妓　女"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.妓　女"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -148,6 +151,9 @@
                       {
                         "kind": "dialog",
                         "cue": {
+                          "identity": {
+                            "kind": "narration"
+                          },
                           "rows": [
                             {
                               "text": "dlg.6172"
@@ -164,6 +170,9 @@
                       {
                         "kind": "dialog",
                         "cue": {
+                          "identity": {
+                            "kind": "narration"
+                          },
                           "rows": [
                             {
                               "text": "dlg.6174"
@@ -191,9 +200,12 @@
                               "text": "dlg.6178"
                             }
                           ],
-                          "portrait": {
-                            "asset": "portrait.pal.001",
-                            "side": "right"
+                          "identity": {
+                            "kind": "unbound",
+                            "portrait": {
+                              "asset": "portrait.pal.001",
+                              "side": "right"
+                            }
                           }
                         }
                       },
@@ -203,6 +215,9 @@
                       {
                         "kind": "dialog",
                         "cue": {
+                          "identity": {
+                            "kind": "narration"
+                          },
                           "rows": [
                             {
                               "text": "dlg.6179"
@@ -214,6 +229,9 @@
                       {
                         "kind": "dialog",
                         "cue": {
+                          "identity": {
+                            "kind": "narration"
+                          },
                           "rows": [
                             {
                               "text": "dlg.6180"
@@ -237,6 +255,9 @@
                       {
                         "kind": "dialog",
                         "cue": {
+                          "identity": {
+                            "kind": "narration"
+                          },
                           "rows": [
                             {
                               "text": "dlg.6180"
@@ -305,7 +326,10 @@
                             "text": "dlg.5442"
                           }
                         ],
-                        "speaker": "spk.嫖　客"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.嫖　客"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -336,6 +360,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.6249"
@@ -352,6 +379,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.6250"
@@ -377,6 +407,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.6182"
@@ -461,9 +494,13 @@
                   "body": [
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.056",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.056",
+                            "side": "left"
+                          },
+                          "speaker": "spk.莺莺夫人"
                         },
                         "rows": [
                           {
@@ -476,8 +513,7 @@
                             "text": "dlg.6254"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.莺莺夫人"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     }
@@ -494,7 +530,10 @@
                             "text": "dlg.6256"
                           }
                         ],
-                        "speaker": "spk.莺莺夫人"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.莺莺夫人"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -561,6 +600,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.6249"
@@ -577,6 +619,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.6250"

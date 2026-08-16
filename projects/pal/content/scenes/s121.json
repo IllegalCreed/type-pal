@@ -105,7 +105,10 @@
                             "text": "dlg.6489"
                           }
                         ],
-                        "speaker": "spk.刘夫人"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.刘夫人"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -163,7 +166,10 @@
                             "text": "dlg.6491"
                           }
                         ],
-                        "speaker": "spk.婢　女"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.婢　女"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -243,6 +249,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.7266"
@@ -303,9 +312,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.021",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.021",
+                          "side": "right"
+                        },
+                        "speaker": "spk.林月如"
                       },
                       "rows": [
                         {
@@ -317,8 +330,7 @@
                         {
                           "text": "dlg.6483"
                         }
-                      ],
-                      "speaker": "spk.林月如"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -327,9 +339,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.067",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.067",
+                          "side": "left"
+                        },
+                        "speaker": "spk.刘夫人"
                       },
                       "rows": [
                         {
@@ -339,8 +355,7 @@
                           "text": "dlg.6486"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.刘夫人"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },

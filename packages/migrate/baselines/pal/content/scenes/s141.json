@@ -710,7 +710,10 @@
                           "text": "dlg.8208"
                         }
                       ],
-                      "speaker": "spk.刘晋元"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.刘晋元"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -743,7 +746,10 @@
                           "text": "dlg.8210"
                         }
                       ],
-                      "speaker": "spk.刘晋元"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.刘晋元"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -759,7 +765,10 @@
                           "text": "dlg.8211"
                         }
                       ],
-                      "speaker": "spk.刘晋元"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.刘晋元"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -886,7 +895,10 @@
                           "text": "dlg.8214"
                         }
                       ],
-                      "speaker": "spk.刘晋元"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.刘晋元"
+                      }
                     },
                     "kind": "dialog"
                   },

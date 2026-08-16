@@ -7,8 +7,9 @@
 import type { AssetId, SkillAnimation } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { bakeFrame, loadFireSprite, loadStandardPalette, type SfxPlayer } from '@type-pal/reforge'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { DsButton, DsField, DsSelect } from './design-system/controls.js'
 import { prepareSoundPreview } from './SoundPicker.js'
 
 const fireCache = new Map<number, Promise<HTMLCanvasElement[] | null>>()
@@ -36,12 +37,22 @@ function loadFrames(assetBase: AssetBase, chunk: number): Promise<HTMLCanvasElem
 const W = 200
 const H = 170
 
+function drawPreviewFrame(context: CanvasRenderingContext2D, image: HTMLCanvasElement): void {
+  context.clearRect(0, 0, W, H)
+  context.imageSmoothingEnabled = false
+  const scale = Math.min((W - 8) / image.width, (H - 8) / image.height, 3)
+  const width = image.width * scale
+  const height = image.height * scale
+  context.drawImage(image, (W - width) / 2, (H - height) / 2, width, height)
+}
+
 export function FireEffectPreview(props: {
   assetBase: AssetBase
   anim: SkillAnimation
   assetReader: EditorAssetReader
 }) {
   const { assetBase, anim, assetReader } = props
+  const rateId = useId()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [frames, setFrames] = useState<HTMLCanvasElement[] | null | 'loading'>('loading')
   // 音效准备必须发生在用户手势中；准备完成后才起动动画，不做迟到补播。
@@ -74,12 +85,7 @@ export function FireEffectPreview(props: {
     let disposed = false
     const draw = (): void => {
       const img = frames[idx]!
-      ctx.clearRect(0, 0, W, H)
-      ctx.imageSmoothingEnabled = false
-      const scale = Math.min((W - 8) / img.width, (H - 8) / img.height, 3)
-      const w = img.width * scale
-      const h = img.height * scale
-      ctx.drawImage(img, (W - w) / 2, (H - h) / 2, w, h)
+      drawPreviewFrame(ctx, img)
     }
     const tick = (): void => {
       if (disposed) return
@@ -108,6 +114,13 @@ export function FireEffectPreview(props: {
     }
   }, [frames, anim.speed, anim.fireDelay, anim.sound, assetReader, rate, playing])
 
+  useEffect(() => {
+    if (!Array.isArray(frames) || !frames.length || playing) return
+    const context = canvasRef.current?.getContext('2d')
+    const firstFrame = frames[0]
+    if (context && firstFrame) drawPreviewFrame(context, firstFrame)
+  }, [frames, playing])
+
   const togglePlayback = async (): Promise<void> => {
     if (playing) {
       setPlaying(false)
@@ -125,38 +138,62 @@ export function FireEffectPreview(props: {
   }
 
   return (
-    <div className="fire-preview">
-      <canvas ref={canvasRef} width={W} height={H} />
-      {frames === 'loading' && <div className="hint2">加载特效…</div>}
-      {frames === null && <div className="hint2">无特效资产(#{anim.effectSprite})</div>}
+    <figure className="fire-preview">
+      <div className="fire-preview__viewport">
+        {frames === 'loading' ? (
+          <div className="fire-preview__state" role="status" aria-live="polite">
+            正在加载 FIRE #{anim.effectSprite}…
+          </div>
+        ) : null}
+        {frames === null ? (
+          <div className="fire-preview__state" role="status">
+            <strong>无法加载 FIRE #{anim.effectSprite}</strong>
+            <span>请修改特效号或检查工程资源。</span>
+          </div>
+        ) : null}
+        {Array.isArray(frames) ? (
+          <canvas
+            ref={canvasRef}
+            width={W}
+            height={H}
+            role="img"
+            aria-label={`FIRE ${anim.effectSprite} 特效预览`}
+          />
+        ) : null}
+      </div>
       {Array.isArray(frames) && (
         <>
-          <div className="fp-controls">
-            <button
-              type="button"
-              className="mini"
-              title={playing ? '暂停' : '播放'}
+          <fieldset className="fp-controls">
+            <legend className="ds-visually-hidden">特效预览控制</legend>
+            <DsButton
+              size="compact"
+              variant={playing ? 'primary' : 'secondary'}
+              aria-label={playing ? '暂停 FIRE 特效预览' : '播放 FIRE 特效预览'}
               onClick={() => void togglePlayback()}
             >
-              {playing ? '⏸' : '▶'}
-            </button>
-            <select
-              className="in fp-rate"
-              title="预览倍速(引擎实速 = 1×)"
-              value={String(rate)}
-              onChange={(e) => setRate(Number(e.target.value))}
-            >
-              <option value="0.25">0.25×</option>
-              <option value="0.5">0.5×</option>
-              <option value="1">1×</option>
-            </select>
-          </div>
+              {playing ? '暂停' : '播放'}
+            </DsButton>
+            <DsField id={rateId} label="速度" layout="inline" className="fp-rate-field">
+              <DsSelect
+                id={rateId}
+                size="compact"
+                aria-label="FIRE 特效预览倍速"
+                value={String(rate)}
+                options={[
+                  { value: '0.25', label: '0.25×' },
+                  { value: '0.5', label: '0.5×' },
+                  { value: '1', label: '1×' },
+                ]}
+                onValueChange={(value) => setRate(Number(value))}
+              />
+            </DsField>
+          </fieldset>
           {audioError ? <div className="cf-err">{audioError}</div> : null}
-          <div className="hint2">
+          <figcaption className="hint2">
             #{anim.effectSprite} · {frames.length} 帧 · 实速 {((anim.speed ?? 0) + 5) * 10}ms/帧
-          </div>
+          </figcaption>
         </>
       )}
-    </div>
+    </figure>
   )
 }

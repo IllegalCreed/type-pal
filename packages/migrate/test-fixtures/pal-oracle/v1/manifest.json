@@ -3,14 +3,14 @@
   "version": 1,
   "methodVersion": "migrate-pal-oracle-v1",
   "cacheFormatVersion": 1,
-  "producerContractVersion": "p2-p7-r13-6a-b10-w9-v1",
+  "producerContractVersion": "p2-p7-r13-6a-b10-w9-c1-b2-v1",
   "profiles": {
     "historicalR13_4": "pal-v9-projected-v8",
     "historicalR13_5": "pal-v10-r13-5",
-    "current": "pal-v13-w9"
+    "current": "pal-v14-c1-b2"
   },
   "projection": "packages/migrate/test-fixtures/pal-oracle/v1/projection.json",
-  "projectionSha256": "34ec9b0d2f0ccd751668b1c2741a976cdd4c3e9d3419251579e78dcae57a6514",
+  "projectionSha256": "09f171254746923e7b1c7813d788125ea63aa28f0137638375c4557d8484d556",
   "inputs": [
     {
       "path": "data/extracted/events/all.json",
@@ -24,8 +24,23 @@
     },
     {
       "path": "packages/migrate/baselines/pal/_state.json",
-      "bytes": 74327,
-      "sha256": "6f3ee701b8d6aaa1d8510a138bbdc737c2e5dd13d48e319e9af3c5cb4b0a68d1"
+      "bytes": 75113,
+      "sha256": "c770034e2c49c6ee40d8df414604c6d6e904c3b264535c434a341e1095aa1408"
+    },
+    {
+      "path": "packages/migrate/baselines/pal/_transitions/b2-battle-field-domain-v1.json",
+      "bytes": 3161,
+      "sha256": "23e86533e2bbc8b4bea389cc2a7ddc771b509a08181b8df2ada9198da77f3543"
+    },
+    {
+      "path": "packages/migrate/baselines/pal/_transitions/c1-dialogue-identity-v1.json",
+      "bytes": 598226,
+      "sha256": "c2ff646817e00b041dfab2d41fdf7ac42b051066ba2c635ef6cd39b320c324d7"
+    },
+    {
+      "path": "packages/migrate/baselines/pal/_transitions/c1-npc-curation-v1.json",
+      "bytes": 212198,
+      "sha256": "44e1515db11f13cb872071babb9bb97cf7f7eeeb01cec1eb625f19627244a92d"
     },
     {
       "path": "packages/migrate/baselines/pal/_transitions/c8-item-use-v5-v1.json",
@@ -74,23 +89,23 @@
     },
     {
       "path": "packages/migrate/baselines/pal/content/items.json",
-      "bytes": 249823,
-      "sha256": "936763bda29531498bafb9a2841535e9afec15ba4066aca77a7ec415c146aa5f"
+      "bytes": 252292,
+      "sha256": "aad0ba5b57aae56441abe94e8421827c971cc1914d4593b9de21f47359d622fb"
     },
     {
       "path": "packages/migrate/baselines/pal/content/enemies.json",
-      "bytes": 383888,
-      "sha256": "dbd7dc16aa2ba938d1afc253aa5155b7e34f631b67eac5392b5b3d1c3402c8f5"
+      "bytes": 404921,
+      "sha256": "c082eb15f80dcbd484d409043f761655ad1de82b04c45f31780436b9459401b9"
     },
     {
       "path": "packages/migrate/baselines/pal/content/locale.json",
-      "bytes": 454649,
-      "sha256": "97fe4c156763af3cc20d8ddf53f6cd346129633ed8388c461b07ac9c07638730"
+      "bytes": 454719,
+      "sha256": "f7d00347d90cc78137dc3adf6416ca03b93df5d2c65fc34f61a5044bf5638c61"
     },
     {
       "path": "projects/pal/manifest.json",
       "bytes": 2349,
-      "sha256": "6d8b39dbbcdfdd15f76c3b1b2efa8b501875da0e4653255792d58f69350f2b6a"
+      "sha256": "166df8c29e3fb6597f2d50bc7657c7cf8fabb7c997ab4b7b54427fe1e3af91e8"
     },
     {
       "path": "projects/pal/content/ambiences.json",
@@ -126,17 +141,17 @@
       "role": "published-baseline",
       "root": "packages/migrate/baselines/pal",
       "selector": "all",
-      "files": 326,
-      "bytes": 63997287,
-      "sha256": "76d43b8104e65c31830dffcb3f15ea7c4c2dc4f0e1a2a6ff460682d198e04356"
+      "files": 329,
+      "bytes": 65517368,
+      "sha256": "24fe5ae059adf834bab7daddb51f0516198c6af322f5f85b5e9db043ce14457f"
     },
     {
       "role": "project-prerequisite",
       "root": "projects/pal",
       "selector": "all",
-      "files": 2420,
-      "bytes": 153995777,
-      "sha256": "79ae025add46c8b15cfa7bf1f99733db95a7775addd78d55f32bbf8e8ff1672d"
+      "files": 2423,
+      "bytes": 155515072,
+      "sha256": "42c2fe7403fab5aec66c2550d1975a45677bbc8f5a884a6b807cfc2fa4b30ce3"
     },
     {
       "role": "generated-shadow",
@@ -150,25 +165,25 @@
       "role": "producer-code",
       "root": "packages/migrate/src",
       "selector": "production-typescript",
-      "files": 121,
-      "bytes": 2780098,
-      "sha256": "534fceda5c48936fa45a133edd8f22a6f197eeed9eaf96e2a556eab92f1968b2"
+      "files": 129,
+      "bytes": 2939922,
+      "sha256": "99e44b25b4cc8f815e94a74409957279469f63da3a6160e38ae484c3f12a71e4"
     },
     {
       "role": "producer-code",
       "root": "packages/content/src",
       "selector": "production-typescript",
-      "files": 46,
-      "bytes": 624092,
-      "sha256": "c8a4e94ca59975b25aa160f50cf341688c08155082aa81e983b26c85c0416852"
+      "files": 55,
+      "bytes": 670322,
+      "sha256": "c0916b13a3d9f9b91ee4a65bfcd440c803788f13a80001b96b3167306c42ed97"
     },
     {
       "role": "producer-code",
       "root": "packages/reforge/src",
       "selector": "production-typescript",
-      "files": 109,
-      "bytes": 1308794,
-      "sha256": "2bde5e3f779b130aa6e781b757692f5fec8e6a7606a362b2ae20c9df1af388fa"
+      "files": 118,
+      "bytes": 1473587,
+      "sha256": "d5aaad0aea4f09bdb364ff3b2500956c7a6f264ad805bdb840bb2d18ee4e5d1b"
     },
     {
       "role": "runtime-code",

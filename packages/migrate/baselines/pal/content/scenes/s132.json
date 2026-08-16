@@ -513,6 +513,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.5434"
@@ -566,6 +569,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.5445"
@@ -664,7 +670,10 @@
                             "text": "dlg.5448"
                           }
                         ],
-                        "speaker": "spk.嫖客"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.嫖客"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -681,7 +690,10 @@
                             "text": "dlg.5450"
                           }
                         ],
-                        "speaker": "spk.嫖客"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.嫖客"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -734,7 +746,10 @@
                             "text": "dlg.5436"
                           }
                         ],
-                        "speaker": "spk.妓　女"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.妓　女"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -787,7 +802,10 @@
                             "text": "dlg.5436"
                           }
                         ],
-                        "speaker": "spk.妓　女"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.妓　女"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -841,7 +859,10 @@
                             "text": "dlg.5444"
                           }
                         ],
-                        "speaker": "spk.嫖客"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.嫖客"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -926,7 +947,10 @@
                             "text": "dlg.5436"
                           }
                         ],
-                        "speaker": "spk.妓　女"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.妓　女"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -984,7 +1008,10 @@
                             "text": "dlg.5444"
                           }
                         ],
-                        "speaker": "spk.嫖客"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.嫖客"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1040,7 +1067,10 @@
                             "text": "dlg.5501"
                           }
                         ],
-                        "speaker": "spk.小雪"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.小雪"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1095,7 +1125,10 @@
                             "text": "dlg.5439"
                           }
                         ],
-                        "speaker": "spk.胖妓女"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.胖妓女"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1124,7 +1157,10 @@
                             "text": "dlg.7284"
                           }
                         ],
-                        "speaker": "spk.胖妓女"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.胖妓女"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -1133,16 +1169,19 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.010",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.010",
+                            "side": "right"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
                             "text": "dlg.7286"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -1154,7 +1193,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.胖妓女"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.胖妓女"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -1163,16 +1205,19 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.010",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.010",
+                            "side": "right"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
                             "text": "dlg.7290"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        ]
                       },
                       "kind": "dialog"
                     }

@@ -467,7 +467,10 @@
                             "text": "dlg.5173"
                           }
                         ],
-                        "speaker": "spk.大宝"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.大宝"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -478,7 +481,10 @@
                             "text": "dlg.5175"
                           }
                         ],
-                        "speaker": "spk.二宝"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.二宝"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -652,7 +658,10 @@
                             "text": "dlg.5173"
                           }
                         ],
-                        "speaker": "spk.大宝"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.大宝"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -663,7 +672,10 @@
                             "text": "dlg.5175"
                           }
                         ],
-                        "speaker": "spk.二宝"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.二宝"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -814,7 +826,10 @@
                             "text": "dlg.5234"
                           }
                         ],
-                        "speaker": "spk.居民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.居民"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1070,7 +1085,10 @@
                             "text": "dlg.5191"
                           }
                         ],
-                        "speaker": "spk.路人"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.路人"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1165,7 +1183,10 @@
                             "text": "dlg.5196"
                           }
                         ],
-                        "speaker": "spk.路人"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.路人"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1245,7 +1266,10 @@
                             "text": "dlg.5178"
                           }
                         ],
-                        "speaker": "spk.巡捕"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.巡捕"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -1262,7 +1286,10 @@
                             "text": "dlg.5181"
                           }
                         ],
-                        "speaker": "spk.李逍遥"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1509,7 +1536,10 @@
                             "text": "dlg.5184"
                           }
                         ],
-                        "speaker": "spk.官差"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.官差"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1717,7 +1747,10 @@
                             "text": "dlg.5187"
                           }
                         ],
-                        "speaker": "spk.官差"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.官差"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -2117,7 +2150,10 @@
                             "text": "dlg.4749.v-ebbe2d88"
                           }
                         ],
-                        "speaker": "spk.告示"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.告示"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -2168,7 +2204,10 @@
                             "text": "dlg.5168"
                           }
                         ],
-                        "speaker": "spk.少女"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.少女"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -2230,7 +2269,10 @@
                             "text": "dlg.5171"
                           }
                         ],
-                        "speaker": "spk.当铺老板"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.当铺老板"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -2459,7 +2501,10 @@
                             "text": "dlg.4520"
                           }
                         ],
-                        "speaker": "spk.醉鬼"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.醉鬼"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -3537,7 +3582,10 @@
                             "text": "dlg.4522"
                           }
                         ],
-                        "speaker": "spk.醉鬼"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.醉鬼"
+                        }
                       },
                       "kind": "dialog"
                     },

@@ -178,17 +178,20 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.053",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.053",
+                            "side": "left"
+                          },
+                          "speaker": "spk.毒娘子"
                         },
                         "rows": [
                           {
                             "text": "dlg.8033"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.毒娘子"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
@@ -197,16 +200,19 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.048",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.048",
+                            "side": "right"
+                          },
+                          "speaker": "spk.彩　依"
                         },
                         "rows": [
                           {
                             "text": "dlg.8035"
                           }
-                        ],
-                        "speaker": "spk.彩　依"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -215,9 +221,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.053",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.053",
+                            "side": "left"
+                          },
+                          "speaker": "spk.毒娘子"
                         },
                         "rows": [
                           {
@@ -230,8 +240,7 @@
                             "text": "dlg.8039"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.毒娘子"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
@@ -240,9 +249,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.053",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.053",
+                            "side": "left"
+                          },
+                          "speaker": "spk.毒娘子"
                         },
                         "rows": [
                           {
@@ -255,8 +268,7 @@
                             "text": "dlg.8042"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.毒娘子"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
@@ -265,9 +277,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.053",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.053",
+                            "side": "left"
+                          },
+                          "speaker": "spk.毒娘子"
                         },
                         "rows": [
                           {
@@ -277,8 +293,7 @@
                             "text": "dlg.8044"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.毒娘子"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
@@ -287,9 +302,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.053",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.053",
+                            "side": "left"
+                          },
+                          "speaker": "spk.毒娘子"
                         },
                         "rows": [
                           {
@@ -302,8 +321,7 @@
                             "text": "dlg.8047"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.毒娘子"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
@@ -312,16 +330,19 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.048",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.048",
+                            "side": "right"
+                          },
+                          "speaker": "spk.彩　依"
                         },
                         "rows": [
                           {
                             "text": "dlg.8049"
                           }
-                        ],
-                        "speaker": "spk.彩　依"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -330,9 +351,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.053",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.053",
+                            "side": "left"
+                          },
+                          "speaker": "spk.毒娘子"
                         },
                         "rows": [
                           {
@@ -342,8 +367,7 @@
                             "text": "dlg.8052"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.毒娘子"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
@@ -352,9 +376,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.053",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.053",
+                            "side": "left"
+                          },
+                          "speaker": "spk.毒娘子"
                         },
                         "rows": [
                           {
@@ -367,8 +395,7 @@
                             "text": "dlg.8055"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.毒娘子"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
@@ -377,9 +404,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.048",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.048",
+                            "side": "right"
+                          },
+                          "speaker": "spk.彩　依"
                         },
                         "rows": [
                           {
@@ -388,8 +419,7 @@
                           {
                             "text": "dlg.8058"
                           }
-                        ],
-                        "speaker": "spk.彩　依"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -398,9 +428,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.048",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.048",
+                            "side": "right"
+                          },
+                          "speaker": "spk.彩　依"
                         },
                         "rows": [
                           {
@@ -412,8 +446,7 @@
                           {
                             "text": "dlg.8061"
                           }
-                        ],
-                        "speaker": "spk.彩　依"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -422,9 +455,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.053",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.053",
+                            "side": "left"
+                          },
+                          "speaker": "spk.毒娘子"
                         },
                         "rows": [
                           {
@@ -434,8 +471,7 @@
                             "text": "dlg.8064"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.毒娘子"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
@@ -444,16 +480,19 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.048",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.048",
+                            "side": "right"
+                          },
+                          "speaker": "spk.彩　依"
                         },
                         "rows": [
                           {
                             "text": "dlg.8066"
                           }
-                        ],
-                        "speaker": "spk.彩　依"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -462,9 +501,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.053",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.053",
+                            "side": "left"
+                          },
+                          "speaker": "spk.毒娘子"
                         },
                         "rows": [
                           {
@@ -480,8 +523,7 @@
                             "text": "dlg.8071"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.毒娘子"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
@@ -533,9 +575,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.053",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.053",
+                            "side": "left"
+                          },
+                          "speaker": "spk.蜘蛛精"
                         },
                         "rows": [
                           {
@@ -545,8 +591,7 @@
                             "text": "dlg.8074"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.蜘蛛精"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
@@ -555,9 +600,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.053",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.053",
+                            "side": "left"
+                          },
+                          "speaker": "spk.蜘蛛精"
                         },
                         "rows": [
                           {
@@ -567,8 +616,7 @@
                             "text": "dlg.8076"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.蜘蛛精"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
@@ -585,7 +633,10 @@
                             "text": "dlg.8078"
                           }
                         ],
-                        "speaker": "spk.二人齐声道"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.二人齐声道"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -635,7 +686,10 @@
                             "text": "dlg.8080"
                           }
                         ],
-                        "speaker": "spk.林月如"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.林月如"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -653,7 +707,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.蜘蛛精"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.蜘蛛精"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -792,7 +849,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.空中传来宏亮的声音"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.空中传来宏亮的声音"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -956,7 +1016,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.酒剑仙"
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "jiu-jianxian"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -968,16 +1031,19 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.003",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.003",
+                            "side": "right"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
                             "text": "dlg.8090"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -1021,9 +1087,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.037",
-                          "side": "left"
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "jiu-jianxian",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "left"
+                          }
                         },
                         "rows": [
                           {
@@ -1039,8 +1109,7 @@
                             "text": "dlg.8095"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.酒剑仙"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
@@ -1049,16 +1118,19 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.024",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.024",
+                            "side": "right"
+                          },
+                          "speaker": "spk.林月如"
                         },
                         "rows": [
                           {
                             "text": "dlg.8097"
                           }
-                        ],
-                        "speaker": "spk.林月如"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -1067,9 +1139,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.037",
-                          "side": "left"
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "jiu-jianxian",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "left"
+                          }
                         },
                         "rows": [
                           {
@@ -1085,23 +1161,25 @@
                             "text": "dlg.8102"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.酒剑仙"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.024",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.024",
+                            "side": "right"
+                          },
+                          "speaker": "spk.林月如"
                         },
                         "rows": [
                           {
                             "text": "dlg.8104"
                           }
-                        ],
-                        "speaker": "spk.林月如"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -1110,24 +1188,31 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.003",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.003",
+                            "side": "right"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
                             "text": "dlg.8106"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        ]
                       },
                       "kind": "dialog"
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.037",
-                          "side": "left"
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "jiu-jianxian",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "left"
+                          }
                         },
                         "rows": [
                           {
@@ -1137,8 +1222,7 @@
                             "text": "dlg.8109"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.酒剑仙"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },

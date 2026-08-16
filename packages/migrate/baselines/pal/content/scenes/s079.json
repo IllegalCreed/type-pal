@@ -141,7 +141,10 @@
                             "text": "dlg.4509"
                           }
                         ],
-                        "speaker": "spk.巡捕"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.巡捕"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -511,7 +514,10 @@
                             "text": "dlg.4503"
                           }
                         ],
-                        "speaker": "spk.官差"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.官差"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -598,7 +604,10 @@
                             "text": "dlg.4505"
                           }
                         ],
-                        "speaker": "spk.官差"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.官差"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -688,7 +697,10 @@
                             "text": "dlg.4744.v-37210b10"
                           }
                         ],
-                        "speaker": "spk.告示上写着"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.告示上写着"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -751,7 +763,10 @@
                             "text": "dlg.5166"
                           }
                         ],
-                        "speaker": "spk.路人"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.路人"
+                        }
                       },
                       "kind": "dialog"
                     }

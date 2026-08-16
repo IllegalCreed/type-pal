@@ -1296,5 +1296,21 @@
         "death": "sound.pal.025"
       }
     }
+  },
+  {
+    "id": "jiu-jianxian",
+    "name": "name.jiu-jianxian",
+    "spriteId": "sprite-16",
+    "portraits": {
+      "default": "portrait.pal.037"
+    }
+  },
+  {
+    "id": "li-daniang",
+    "name": "name.li-daniang",
+    "spriteId": "sprite-21",
+    "portraits": {
+      "default": "portrait.pal.055"
+    }
   }
 ]

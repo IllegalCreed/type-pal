@@ -5,6 +5,7 @@ import { isDeepStrictEqual } from 'node:util'
 import type {
   AuthorCommandV5,
   AuthorSceneEntryPresentationV5,
+  ManifestV14,
   SceneDefV5,
   ScriptFlowV5,
   StateTransitionV5,
@@ -12,6 +13,7 @@ import type {
 import { compileScriptFlowV5, type ExecutableCommandV5 } from '@type-pal/reforge/script-compiler-v5'
 import { describe, expect, test } from 'vitest'
 import { loadPalBaseline } from '../../migration-baseline.js'
+import { rewindCurrentC1PublicationToW9 } from '../../pal-current-c1-rewind.js'
 import { rewindPublishedW9PublicationIfPresent } from '../../pal-w9-entity-lifecycle.js'
 import { stableJson, stableJsonSha256 } from './stable-json.js'
 
@@ -226,7 +228,12 @@ describe('R13-1 PAL cadence compatibility', () => {
   test('all cadence-omitted flows retain their complete lowered payload', () => {
     const published = loadPalBaseline(repo)
     if (!published) throw new Error('cadence compatibility: PAL baseline 缺失')
-    const historical = rewindPublishedW9PublicationIfPresent(published)
+    const manifestRawText = readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8')
+    const historical = rewindPublishedW9PublicationIfPresent(rewindCurrentC1PublicationToW9({
+      source: published,
+      manifest: JSON.parse(manifestRawText) as ManifestV14,
+      manifestRawText,
+    }))
     const sceneIds = historical.files.get('content/scenes/index.json')
     if (!Array.isArray(sceneIds))
       throw new Error('cadence compatibility: historical scene index 无效')

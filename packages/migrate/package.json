@@ -25,6 +25,8 @@
     "audit:w9-lifecycle-ledger": "tsx scripts/audit-pal-w9-lifecycle-ledger.mts",
     "audit:sprite-actions": "tsx scripts/audit-pal-sprite-actions.mts",
     "audit:a7-sound-diff": "tsx scripts/audit-a7-sound-diff.mts",
+    "audit:c1-npc-candidates": "tsx scripts/audit-pal-c1-npc-candidates.mts",
+    "audit:c1-npc-first-batch": "tsx scripts/draft-pal-c1-npc-first-batch.mts",
     "audit:sounds": "tsx scripts/audit-pal-sounds.mts",
     "bake": "tsx scripts/bake-assets.mts",
     "migrate:script-v5:shadow": "tsx scripts/migrate-script-v5-shadow.mts",

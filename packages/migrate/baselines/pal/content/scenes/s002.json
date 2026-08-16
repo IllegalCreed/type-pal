@@ -100,6 +100,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.693"
@@ -182,7 +185,10 @@
                               "text": "dlg.135"
                             }
                           ],
-                          "speaker": "spk.李逍遥"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.李逍遥"
+                          }
                         }
                       },
                       {
@@ -196,7 +202,10 @@
                               "text": "dlg.137"
                             }
                           ],
-                          "speaker": "spk.李逍遥"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.李逍遥"
+                          }
                         }
                       }
                     ],
@@ -219,7 +228,10 @@
                               "text": "dlg.137"
                             }
                           ],
-                          "speaker": "spk.李逍遥"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.李逍遥"
+                          }
                         }
                       }
                     ],
@@ -243,6 +255,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.609"
@@ -658,6 +673,9 @@
                     {
                       "kind": "dialog",
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.610"
@@ -681,7 +699,10 @@
                             "text": "dlg.612"
                           }
                         ],
-                        "speaker": "spk.李逍遥"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥"
+                        }
                       }
                     },
                     {
@@ -804,6 +825,9 @@
                     {
                       "kind": "dialog",
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.613"
@@ -870,6 +894,9 @@
                     {
                       "kind": "dialog",
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.615"
@@ -892,10 +919,13 @@
                             "text": "dlg.618"
                           }
                         ],
-                        "speaker": "spk.李大娘",
-                        "portrait": {
-                          "asset": "portrait.pal.055",
-                          "side": "right"
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "right"
+                          }
                         }
                       }
                     },
@@ -910,12 +940,15 @@
                             "text": "dlg.620"
                           }
                         ],
-                        "speaker": "spk.李逍遥",
-                        "slot": "top",
-                        "portrait": {
-                          "asset": "portrait.pal.010",
-                          "side": "left"
-                        }
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.010",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
                       }
                     },
                     {
@@ -941,12 +974,15 @@
                             "text": "dlg.623"
                           }
                         ],
-                        "speaker": "spk.李逍遥",
-                        "slot": "top",
-                        "portrait": {
-                          "asset": "portrait.pal.003",
-                          "side": "left"
-                        }
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.003",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
                       }
                     },
                     {
@@ -957,9 +993,12 @@
                             "text": "dlg.624"
                           }
                         ],
-                        "portrait": {
-                          "asset": "portrait.pal.055",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.055",
+                            "side": "right"
+                          }
                         }
                       }
                     },
@@ -980,12 +1019,15 @@
                             "text": "dlg.628"
                           }
                         ],
-                        "speaker": "spk.李逍遥",
-                        "slot": "top",
-                        "portrait": {
-                          "asset": "portrait.pal.010",
-                          "side": "left"
-                        }
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.010",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
                       }
                     },
                     {
@@ -1002,12 +1044,15 @@
                             "text": "dlg.630"
                           }
                         ],
-                        "speaker": "spk.李逍遥",
-                        "slot": "top",
-                        "portrait": {
-                          "asset": "portrait.pal.010",
-                          "side": "left"
-                        }
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.010",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
                       }
                     },
                     {
@@ -1024,10 +1069,13 @@
                             "text": "dlg.633"
                           }
                         ],
-                        "speaker": "spk.李大娘",
-                        "portrait": {
-                          "asset": "portrait.pal.055",
-                          "side": "right"
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "right"
+                          }
                         }
                       }
                     },
@@ -1171,7 +1219,10 @@
                             "text": "dlg.343"
                           }
                         ],
-                        "speaker": "spk.洪大夫"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.洪大夫"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -1180,9 +1231,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.004",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.004",
+                            "side": "right"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
@@ -1194,8 +1249,7 @@
                           {
                             "text": "dlg.347"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -1213,15 +1267,22 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.洪大夫"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.洪大夫"
+                        }
                       },
                       "kind": "dialog"
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.004",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.004",
+                            "side": "right"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
@@ -1233,8 +1294,7 @@
                           {
                             "text": "dlg.354"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -1252,7 +1312,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.洪大夫"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.洪大夫"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -1261,9 +1324,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.002",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.002",
+                            "side": "right"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
@@ -1272,8 +1339,7 @@
                           {
                             "text": "dlg.360"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -1291,7 +1357,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.洪大夫"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.洪大夫"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -1482,9 +1551,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.010",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.010",
+                            "side": "right"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
@@ -1493,8 +1566,7 @@
                           {
                             "text": "dlg.308"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -1503,9 +1575,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.087",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.087",
+                            "side": "left"
+                          },
+                          "speaker": "spk.王小虎"
                         },
                         "rows": [
                           {
@@ -1518,23 +1594,25 @@
                             "text": "dlg.312"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.王小虎"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.006",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.006",
+                            "side": "right"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
                             "text": "dlg.314"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -1543,25 +1621,32 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.087",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.087",
+                            "side": "left"
+                          },
+                          "speaker": "spk.王小虎"
                         },
                         "rows": [
                           {
                             "text": "dlg.316"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.王小虎"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.001",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
@@ -1570,8 +1655,7 @@
                           {
                             "text": "dlg.319"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -1580,9 +1664,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.087",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.087",
+                            "side": "left"
+                          },
+                          "speaker": "spk.王小虎"
                         },
                         "rows": [
                           {
@@ -1595,8 +1683,7 @@
                             "text": "dlg.323"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.王小虎"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
@@ -1605,24 +1692,31 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.001",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
                             "text": "dlg.325"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        ]
                       },
                       "kind": "dialog"
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.087",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.087",
+                            "side": "left"
+                          },
+                          "speaker": "spk.王小虎"
                         },
                         "rows": [
                           {
@@ -1632,8 +1726,7 @@
                             "text": "dlg.328"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.王小虎"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
@@ -1642,9 +1735,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.009",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.009",
+                            "side": "right"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
@@ -1656,8 +1753,7 @@
                           {
                             "text": "dlg.332"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -1666,17 +1762,20 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.087",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.087",
+                            "side": "left"
+                          },
+                          "speaker": "spk.王小虎"
                         },
                         "rows": [
                           {
                             "text": "dlg.334"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.王小虎"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     }
@@ -1688,9 +1787,13 @@
                   "body": [
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.087",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.087",
+                            "side": "left"
+                          },
+                          "speaker": "spk.王小虎"
                         },
                         "rows": [
                           {
@@ -1700,8 +1803,7 @@
                             "text": "dlg.337"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.王小虎"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     }
@@ -1713,9 +1815,13 @@
                   "body": [
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.087",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.087",
+                            "side": "left"
+                          },
+                          "speaker": "spk.王小虎"
                         },
                         "rows": [
                           {
@@ -1725,8 +1831,7 @@
                             "text": "dlg.340"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.王小虎"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     }
@@ -1795,32 +1900,38 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.009",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.009",
+                            "side": "right"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
                             "text": "dlg.1137"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        ]
                       },
                       "kind": "dialog"
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.011",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.011",
+                            "side": "left"
+                          },
+                          "speaker": "spk.赵灵儿"
                         },
                         "rows": [
                           {
                             "text": "dlg.1139"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.赵灵儿"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
@@ -1854,7 +1965,7 @@
         "row": 1,
         "height": 0
       },
-      "sprite": "sprite-21",
+      "actor": "li-daniang",
       "facing": "up",
       "hidden": true,
       "pages": [
@@ -1897,16 +2008,19 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.055",
-                          "side": "right"
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "right"
+                          }
                         },
                         "rows": [
                           {
                             "text": "dlg.1078"
                           }
-                        ],
-                        "speaker": "spk.李大娘"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -1915,17 +2029,20 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.001",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "left"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
                             "text": "dlg.1080"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.李逍遥"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
@@ -2013,9 +2130,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.055",
-                          "side": "right"
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "right"
+                          }
                         },
                         "rows": [
                           {
@@ -2024,24 +2145,26 @@
                           {
                             "text": "dlg.1083"
                           }
-                        ],
-                        "speaker": "spk.李大娘"
+                        ]
                       },
                       "kind": "dialog"
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.002",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.002",
+                            "side": "left"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
                             "text": "dlg.1085"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.李逍遥"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
@@ -2050,9 +2173,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.055",
-                          "side": "right"
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "right"
+                          }
                         },
                         "rows": [
                           {
@@ -2061,8 +2188,7 @@
                           {
                             "text": "dlg.1088"
                           }
-                        ],
-                        "speaker": "spk.李大娘"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -2071,17 +2197,20 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.004",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.004",
+                            "side": "left"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
                             "text": "dlg.1090"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.李逍遥"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
@@ -2129,9 +2258,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.055",
-                          "side": "right"
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "right"
+                          }
                         },
                         "rows": [
                           {
@@ -2140,8 +2273,7 @@
                           {
                             "text": "dlg.1093"
                           }
-                        ],
-                        "speaker": "spk.李大娘"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -2150,9 +2282,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.001",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "left"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
@@ -2165,16 +2301,19 @@
                             "text": "dlg.1097"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.李逍遥"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.055",
-                          "side": "right"
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "right"
+                          }
                         },
                         "rows": [
                           {
@@ -2189,8 +2328,7 @@
                           {
                             "text": "dlg.1102"
                           }
-                        ],
-                        "speaker": "spk.李大娘"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -2199,17 +2337,20 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.003",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.003",
+                            "side": "left"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
                             "text": "dlg.1104"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.李逍遥"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
@@ -2218,9 +2359,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.055",
-                          "side": "right"
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "right"
+                          }
                         },
                         "rows": [
                           {
@@ -2229,24 +2374,26 @@
                           {
                             "text": "dlg.1107"
                           }
-                        ],
-                        "speaker": "spk.李大娘"
+                        ]
                       },
                       "kind": "dialog"
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.003",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.003",
+                            "side": "left"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
                             "text": "dlg.1109"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.李逍遥"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
@@ -2255,9 +2402,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.055",
-                          "side": "right"
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "right"
+                          }
                         },
                         "rows": [
                           {
@@ -2269,24 +2420,26 @@
                           {
                             "text": "dlg.1113"
                           }
-                        ],
-                        "speaker": "spk.李大娘"
+                        ]
                       },
                       "kind": "dialog"
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.010",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.010",
+                            "side": "left"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
                             "text": "dlg.1115"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.李逍遥"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
@@ -2295,9 +2448,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.055",
-                          "side": "right"
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "right"
+                          }
                         },
                         "rows": [
                           {
@@ -2312,8 +2469,7 @@
                           {
                             "text": "dlg.1120"
                           }
-                        ],
-                        "speaker": "spk.李大娘"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -2322,25 +2478,32 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.010",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.010",
+                            "side": "left"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
                             "text": "dlg.1122"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.李逍遥"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.055",
-                          "side": "right"
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "right"
+                          }
                         },
                         "rows": [
                           {
@@ -2349,8 +2512,7 @@
                           {
                             "text": "dlg.1125"
                           }
-                        ],
-                        "speaker": "spk.李大娘"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -2359,17 +2521,20 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.010",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.010",
+                            "side": "left"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
                             "text": "dlg.1127"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.李逍遥"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
@@ -2391,16 +2556,19 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.055",
-                          "side": "right"
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "right"
+                          }
                         },
                         "rows": [
                           {
                             "text": "dlg.1129"
                           }
-                        ],
-                        "speaker": "spk.李大娘"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -2409,32 +2577,38 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.001",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "left"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
                             "text": "dlg.1131"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.李逍遥"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.055",
-                          "side": "right"
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "right"
+                          }
                         },
                         "rows": [
                           {
                             "text": "dlg.1133"
                           }
-                        ],
-                        "speaker": "spk.李大娘"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -2486,16 +2660,19 @@
                   "body": [
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.055",
-                          "side": "right"
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang",
+                          "portrait": {
+                            "kind": "default",
+                            "side": "right"
+                          }
                         },
                         "rows": [
                           {
                             "text": "dlg.1135"
                           }
-                        ],
-                        "speaker": "spk.李大娘"
+                        ]
                       },
                       "kind": "dialog"
                     }
@@ -2614,6 +2791,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12466"
@@ -2681,6 +2861,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12490"
@@ -2748,6 +2931,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12500"

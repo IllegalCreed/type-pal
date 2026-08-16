@@ -114,7 +114,10 @@
                               "text": "dlg.2428"
                             }
                           ],
-                          "speaker": "spk.铁铺老板"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.铁铺老板"
+                          }
                         }
                       },
                       {
@@ -232,7 +235,10 @@
                             "text": "dlg.2610"
                           }
                         ],
-                        "speaker": "spk.居民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.居民"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -273,7 +279,10 @@
                             "text": "dlg.2620"
                           }
                         ],
-                        "speaker": "spk.居民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.居民"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -296,7 +305,10 @@
                             "text": "dlg.2624"
                           }
                         ],
-                        "speaker": "spk.居民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.居民"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -386,7 +398,10 @@
                             "text": "dlg.2597"
                           }
                         ],
-                        "speaker": "spk.顾客"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.顾客"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -415,7 +430,10 @@
                             "text": "dlg.2603"
                           }
                         ],
-                        "speaker": "spk.顾客"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.顾客"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -435,7 +453,10 @@
                             "text": "dlg.2606"
                           }
                         ],
-                        "speaker": "spk.顾客"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.顾客"
+                        }
                       },
                       "kind": "dialog"
                     }

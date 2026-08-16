@@ -21,6 +21,13 @@ import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { loadEditorSprite } from '../core/sprite-assets.js'
 import {
+  DsButton,
+  DsField,
+  DsNumberInput,
+  DsObjectHero,
+  DsTag,
+} from './design-system/index.js'
+import {
   RawFrameInspector,
   type SemanticFrameGroup,
   type SemanticFrameRow,
@@ -487,16 +494,44 @@ export function SpriteResourceViewer(props: {
     }
   }
 
+  const resourceHero = (
+    <DsObjectHero
+      eyebrow="大世界精灵"
+      title={props.label}
+      objectId={props.asset}
+      summary="集中管理共享源帧、用途定义与预制动作。"
+      meta={
+        <DsTag tone={error ? 'danger' : 'neutral'}>
+          {loaded
+            ? `${loaded.frames.length} 帧 · ${props.consumers.length} 个用途定义`
+            : error
+              ? '加载失败'
+              : '正在解析'}
+        </DsTag>
+      }
+    />
+  )
+
   if (error)
     return (
-      <div className="insp-empty sprite-resource-load-state error" role="alert">
-        帧资源加载失败：{error}
+      <div className="sprite-resource-viewer ds-object-workspace">
+        {resourceHero}
+        <div className="sprite-resource-viewer-scroll ds-object-workspace__content">
+          <div className="insp-empty sprite-resource-load-state error" role="alert">
+            帧资源加载失败：{error}
+          </div>
+        </div>
       </div>
     )
   if (!loaded)
     return (
-      <div className="insp-empty sprite-resource-load-state" role="status">
-        正在解析帧资源 {props.asset}…
+      <div className="sprite-resource-viewer ds-object-workspace">
+        {resourceHero}
+        <div className="sprite-resource-viewer-scroll ds-object-workspace__content">
+          <div className="insp-empty sprite-resource-load-state" role="status">
+            正在解析帧资源 {props.asset}…
+          </div>
+        </div>
       </div>
     )
 
@@ -505,117 +540,122 @@ export function SpriteResourceViewer(props: {
       <span>
         将 {appendDraft.w}×{appendDraft.h} 图片切为
       </span>
-      <label>
-        列
-        <input
-          className="in mono"
-          type="number"
-          min={1}
-          max={16}
-          value={appendDraft.cols}
-          onChange={(event) =>
-            setAppendDraft({
-              ...appendDraft,
-              cols: Math.max(1, Math.floor(event.target.valueAsNumber) || 1),
-            })
-          }
-        />
-      </label>
+      <DsField label="列" className="sprite-raw-append-panel__field">
+        {(field) => (
+          <DsNumberInput
+            {...field}
+            size="compact"
+            min={1}
+            max={16}
+            value={appendDraft.cols}
+            onChange={(event) =>
+              setAppendDraft({
+                ...appendDraft,
+                cols: Math.max(1, Math.floor(event.target.valueAsNumber) || 1),
+              })
+            }
+          />
+        )}
+      </DsField>
       <span>×</span>
-      <label>
-        行
-        <input
-          className="in mono"
-          type="number"
-          min={1}
-          max={16}
-          value={appendDraft.rows}
-          onChange={(event) =>
-            setAppendDraft({
-              ...appendDraft,
-              rows: Math.max(1, Math.floor(event.target.valueAsNumber) || 1),
-            })
-          }
-        />
-      </label>
+      <DsField label="行" className="sprite-raw-append-panel__field">
+        {(field) => (
+          <DsNumberInput
+            {...field}
+            size="compact"
+            min={1}
+            max={16}
+            value={appendDraft.rows}
+            onChange={(event) =>
+              setAppendDraft({
+                ...appendDraft,
+                rows: Math.max(1, Math.floor(event.target.valueAsNumber) || 1),
+              })
+            }
+          />
+        )}
+      </DsField>
       <span className="hint2">
         {appendDraft.w % appendDraft.cols === 0 && appendDraft.h % appendDraft.rows === 0
           ? `${appendDraft.cols * appendDraft.rows} 帧，每帧 ${appendDraft.w / appendDraft.cols}×${appendDraft.h / appendDraft.rows}`
           : '图片宽高必须能被行列整除'}
       </span>
       <span className="spacer" />
-      <button type="button" className="tool" onClick={() => setAppendDraft(undefined)}>
+      <DsButton variant="secondary" onClick={() => setAppendDraft(undefined)}>
         取消
-      </button>
-      <button
-        type="button"
-        className="tool primary"
+      </DsButton>
+      <DsButton
+        variant="primary"
         disabled={
           busy || appendDraft.w % appendDraft.cols !== 0 || appendDraft.h % appendDraft.rows !== 0
         }
         onClick={() => void appendFrames()}
       >
         确认追加
-      </button>
+      </DsButton>
     </div>
   ) : null
 
   return (
-    <div className="sprite-resource-viewer sprite-workbench-scroll">
-      <input
-        ref={replaceFileRef}
-        className="sprite-hidden-file-input"
-        type="file"
-        accept="image/png,image/webp,image/gif"
-        onChange={(event) => {
-          const file = event.target.files?.[0]
-          event.target.value = ''
-          if (file) void replaceSelected(file)
-        }}
-      />
-      <input
-        ref={appendFileRef}
-        className="sprite-hidden-file-input"
-        type="file"
-        accept="image/png,image/webp,image/gif"
-        onChange={(event) => {
-          const file = event.target.files?.[0]
-          event.target.value = ''
-          if (!file) return
-          void fileToRgba(file)
-            .then((image) => setAppendDraft({ ...image, cols: 1, rows: 1 }))
-            .catch(reportError)
-        }}
-      />
-      <RawFrameInspector
-        label={props.label}
-        asset={props.asset}
-        frames={loaded.frames}
-        selectedFrame={selectedFrame}
-        consumerCount={props.consumers.length}
-        onSelect={setSelectedFrame}
-        onAppend={() => appendFileRef.current?.click()}
-        onReplace={() => replaceFileRef.current?.click()}
-        onDelete={() => void deleteSelected()}
-        onFrameDragStart={(event, frame) => {
-          event.dataTransfer.effectAllowed = 'copy'
-          event.dataTransfer.setData(
-            SPRITE_FRAME_DRAG_MIME,
-            JSON.stringify({ asset: props.asset, frame }),
-          )
-        }}
-        busy={busy}
-        editorMessage={editorMessage}
-        editorMessageKind={editorMessageKind}
-        editorPanel={appendPanel}
-      />
-      <SemanticFrameShelf
-        frames={loaded.frames}
-        groups={groups}
-        onGroupSelect={props.onDefinitionSelect}
-        onActionSelect={props.onActionSelect}
-        onFrameSelect={setSelectedFrame}
-      />
+    <div className="sprite-resource-viewer ds-object-workspace">
+      {resourceHero}
+      <div className="sprite-resource-viewer-scroll ds-object-workspace__content">
+        <input
+          ref={replaceFileRef}
+          className="sprite-hidden-file-input"
+          type="file"
+          accept="image/png,image/webp,image/gif"
+          onChange={(event) => {
+            const file = event.target.files?.[0]
+            event.target.value = ''
+            if (file) void replaceSelected(file)
+          }}
+        />
+        <input
+          ref={appendFileRef}
+          className="sprite-hidden-file-input"
+          type="file"
+          accept="image/png,image/webp,image/gif"
+          onChange={(event) => {
+            const file = event.target.files?.[0]
+            event.target.value = ''
+            if (!file) return
+            void fileToRgba(file)
+              .then((image) => setAppendDraft({ ...image, cols: 1, rows: 1 }))
+              .catch(reportError)
+          }}
+        />
+        <RawFrameInspector
+          label={props.label}
+          asset={props.asset}
+          frames={loaded.frames}
+          selectedFrame={selectedFrame}
+          consumerCount={props.consumers.length}
+          onSelect={setSelectedFrame}
+          onAppend={() => appendFileRef.current?.click()}
+          onReplace={() => replaceFileRef.current?.click()}
+          onDelete={() => void deleteSelected()}
+          onFrameDragStart={(event, frame) => {
+            event.dataTransfer.effectAllowed = 'copy'
+            event.dataTransfer.setData(
+              SPRITE_FRAME_DRAG_MIME,
+              JSON.stringify({ asset: props.asset, frame }),
+            )
+          }}
+          busy={busy}
+          editorMessage={editorMessage}
+          editorMessageKind={editorMessageKind}
+          editorPanel={appendPanel}
+          showHero={false}
+        />
+        <SemanticFrameShelf
+          frames={loaded.frames}
+          groups={groups}
+          onGroupSelect={props.onDefinitionSelect}
+          onActionSelect={props.onActionSelect}
+          onFrameSelect={setSelectedFrame}
+        />
+      </div>
     </div>
   )
 }

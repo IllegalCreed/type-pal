@@ -20,6 +20,8 @@ import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
 import type { ItemReference } from '../core/item-references.js'
+import type { BattleDataReference } from '../core/battle-data-references.js'
+import type { BlockingBattleFieldReference } from '../core/battle-field-references.js'
 import type { ManifestLike } from '../core/project-diagnostics.js'
 import { buildRefIndex } from '../core/ref-index.js'
 import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
@@ -120,8 +122,11 @@ export function DataMode(props: {
   onOpenTileset?: (id: string) => void
   onOpenStamp?: (id: string) => void
   onOpenBattleSprite?: (id: string) => void
+  onOpenBattleField?: (id: number) => void
+  onOpenBattleFieldReference?: (reference: BlockingBattleFieldReference) => void
   onOpenScript?: (id: string) => void
   onOpenItemReference?: (reference: ItemReference) => void
+  onOpenBattleDataReference?: (reference: BattleDataReference) => void
   onOpenProjectIssues?: () => void
   onJumpWorldSpriteReference?: (reference: SpriteDefinitionReference) => void
   onJumpWorldSpriteActionReference?: (
@@ -180,6 +185,8 @@ export function DataMode(props: {
     onOpenTileset,
     onOpenStamp,
     onOpenBattleSprite,
+    onOpenBattleField,
+    onOpenBattleFieldReference,
     onOpenScript,
     onOpenItemReference,
     onOpenProjectIssues,
@@ -232,6 +239,7 @@ export function DataMode(props: {
         enemies={enemies}
         enemyTeams={enemyTeams}
         skills={Object.values(skills)}
+        items={itemList}
         locale={locale}
         session={session}
         assetCatalog={assetCatalog}
@@ -241,7 +249,7 @@ export function DataMode(props: {
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}
         onOpenSound={onOpenSound}
-        tabBar={tabBar}
+        onOpenReference={props.onOpenBattleDataReference}
       />
     )
   }
@@ -260,7 +268,9 @@ export function DataMode(props: {
         assetBase={assetBase}
         audioResolver={audioResolver}
         battleSprites={battleSprites}
+        battleFields={battleFields}
         onOpenBattleSprite={onOpenBattleSprite}
+        onOpenBattleField={onOpenBattleField}
         focusObjectId={focusObjectId}
         focusPrivateScript={focusItemPrivateScript}
         onObjectFocus={onObjectFocus}
@@ -293,7 +303,7 @@ export function DataMode(props: {
         onObjectFocus={onObjectFocus}
         onStatusNotice={onStatusNotice}
         onOpenSound={onOpenSound}
-        tabBar={tabBar}
+        onOpenReference={props.onOpenBattleDataReference}
       />
     )
   }
@@ -306,7 +316,7 @@ export function DataMode(props: {
         session={session}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}
-        tabBar={tabBar}
+        onOpenReference={props.onOpenBattleDataReference}
       />
     )
   }
@@ -446,7 +456,10 @@ export function DataMode(props: {
         assetCatalog={assetCatalog}
         assetReader={assetReader}
         onOpenImage={onOpenImage}
-        tabBar={tabBar}
+        onOpenBattleFieldReference={onOpenBattleFieldReference}
+        focusObjectId={focusObjectId}
+        onObjectFocus={onObjectFocus}
+        scriptState={scriptV5?.state}
       />
     )
   }
@@ -504,6 +517,7 @@ export function DataMode(props: {
             assetBase,
             actors: Object.fromEntries(actors.map((actor) => [actor.id, actor])),
             battleSprites,
+            battleFields,
             sprites,
             ambiences,
             shops,
@@ -512,6 +526,7 @@ export function DataMode(props: {
             onOpenSound,
             onOpenImage,
             onOpenBattleSprite,
+            onOpenBattleField,
             onOpenSpriteAction: (spriteId, actionId) =>
               onSpriteLocation?.('world', 'definition', spriteId, actionId),
           }}

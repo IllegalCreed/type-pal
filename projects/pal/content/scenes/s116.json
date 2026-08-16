@@ -158,7 +158,10 @@
                             "text": "dlg.6496"
                           }
                         ],
-                        "speaker": "spk.婢　女"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.婢　女"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -178,7 +181,10 @@
                             "text": "dlg.6499"
                           }
                         ],
-                        "speaker": "spk.婢　女"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.婢　女"
+                        }
                       },
                       "kind": "dialog"
                     }

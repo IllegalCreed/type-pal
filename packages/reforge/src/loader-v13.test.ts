@@ -235,14 +235,14 @@ describe('canonical contentVersion 13 loader boundary', () => {
   test('runtime dispatcher fails closed before loading unsupported content', async () => {
     let reads = 0
     const source = memorySource({
-      'manifest.json': manifest({ contentVersion: 14 as 13 }),
+      'manifest.json': manifest({ contentVersion: 15 as 13 }),
     })
     const readJson = source.readJson.bind(source)
     source.readJson = async (...args) => {
       reads += 1
       return readJson(...args)
     }
-    await expect(loadRunnableProjectFrom(source)).rejects.toThrow(/只接受 contentVersion 12 或 13/)
+    await expect(loadRunnableProjectFrom(source)).rejects.toThrow(/contentVersion 12、13 或 14/)
     expect(reads).toBe(1)
   })
 

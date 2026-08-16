@@ -10,6 +10,7 @@ import {
   upgradeLegacyItemImages,
   upgradeLegacyItemSounds,
   upgradeLegacyPalBattleFields,
+  separateLegacyPalBattleFieldDomain,
   upgradeLegacySkillSounds,
   upgradeLegacySoundCommands,
   upgradeLegacyStaticImageCommands,
@@ -68,6 +69,36 @@ describe('旧静态图引用单向升级', () => {
       { id: 58 },
     ])
     expect(fields[1]).toEqual({ id: 6 })
+  })
+
+  test('完整 PAL 旧表只移除已证实的 0-5 占位，不把编号阈值变成通用规则', () => {
+    const field = (id: number) => ({
+      id,
+      screenWave: 0,
+      magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+    })
+    const legacy = Array.from({ length: 58 }, (_, id) => field(id))
+    const upgraded = separateLegacyPalBattleFieldDomain(legacy)
+    expect(upgraded).toHaveLength(52)
+    expect(upgraded.map(({ id }) => id)).toEqual(Array.from({ length: 52 }, (_, index) => index + 6))
+    expect(upgraded[0]).toEqual({ ...field(6), background: 'battle-background.pal.006' })
+    expect(upgraded.at(-1)).toEqual({ ...field(57), background: 'battle-background.pal.057' })
+    expect(legacy).toHaveLength(58)
+
+    expect(separateLegacyPalBattleFieldDomain([field(0)])).toEqual([field(0)])
+    expect(upgradeLegacyPalBattleFields(legacy)).toHaveLength(58)
+  })
+
+  test('完整 PAL 旧表的 0-5 若已承载内容则 fail-loud，不静默删除', () => {
+    const legacy = Array.from({ length: 58 }, (_, id) => ({
+      id,
+      screenWave: 0,
+      magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+    }))
+    legacy[3]!.screenWave = 1
+    expect(() => separateLegacyPalBattleFieldDomain(legacy)).toThrow(
+      'battleFields[3].screenWave: PAL 非战场占位必须为 0',
+    )
   })
 
   test('命令树覆盖 dialog/setActorAppearance，0 删除且不保留空命令', () => {

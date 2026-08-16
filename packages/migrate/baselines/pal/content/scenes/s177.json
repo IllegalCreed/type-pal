@@ -197,6 +197,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.9222.v-7da7ed7b"
@@ -272,17 +275,20 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.063",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.063",
+                          "side": "left"
+                        },
+                        "speaker": "spk.剑圣"
                       },
                       "rows": [
                         {
                           "text": "dlg.9905"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.剑圣"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -291,9 +297,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.082",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.082",
+                          "side": "right"
+                        },
+                        "speaker": "spk.老婆婆"
                       },
                       "rows": [
                         {
@@ -302,8 +312,7 @@
                         {
                           "text": "dlg.9908"
                         }
-                      ],
-                      "speaker": "spk.老婆婆"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -312,9 +321,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.082",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.082",
+                          "side": "right"
+                        },
+                        "speaker": "spk.老婆婆"
                       },
                       "rows": [
                         {
@@ -329,8 +342,7 @@
                         {
                           "text": "dlg.9912"
                         }
-                      ],
-                      "speaker": "spk.老婆婆"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -339,9 +351,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.063",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.063",
+                          "side": "left"
+                        },
+                        "speaker": "spk.剑圣"
                       },
                       "rows": [
                         {
@@ -354,8 +370,7 @@
                           "text": "dlg.9916"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.剑圣"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -364,9 +379,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.082",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.082",
+                          "side": "right"
+                        },
+                        "speaker": "spk.老婆婆"
                       },
                       "rows": [
                         {
@@ -375,8 +394,7 @@
                         {
                           "text": "dlg.9919"
                         }
-                      ],
-                      "speaker": "spk.老婆婆"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -385,17 +403,20 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.063",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.063",
+                          "side": "left"
+                        },
+                        "speaker": "spk.剑圣"
                       },
                       "rows": [
                         {
                           "text": "dlg.9921"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.剑圣"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -404,9 +425,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.082",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.082",
+                          "side": "right"
+                        },
+                        "speaker": "spk.老婆婆"
                       },
                       "rows": [
                         {
@@ -415,8 +440,7 @@
                         {
                           "text": "dlg.9924"
                         }
-                      ],
-                      "speaker": "spk.老婆婆"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -425,9 +449,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.063",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.063",
+                          "side": "left"
+                        },
+                        "speaker": "spk.剑圣"
                       },
                       "rows": [
                         {
@@ -437,8 +465,7 @@
                           "text": "dlg.9927"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.剑圣"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -483,9 +510,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.063",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.063",
+                          "side": "left"
+                        },
+                        "speaker": "spk.剑圣"
                       },
                       "rows": [
                         {
@@ -495,8 +526,7 @@
                           "text": "dlg.9930"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.剑圣"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },

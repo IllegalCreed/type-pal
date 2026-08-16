@@ -1598,9 +1598,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.006",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.006",
+                          "side": "left"
+                        },
+                        "speaker": "spk.李逍遥"
                       },
                       "rows": [
                         {
@@ -1616,8 +1620,7 @@
                           "text": "dlg.8114"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.李逍遥"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -1626,9 +1629,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.049",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.049",
+                          "side": "right"
+                        },
+                        "speaker": "spk.彩　依"
                       },
                       "rows": [
                         {
@@ -1637,8 +1644,7 @@
                         {
                           "text": "dlg.8117"
                         }
-                      ],
-                      "speaker": "spk.彩　依"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -1647,9 +1653,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.049",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.049",
+                          "side": "right"
+                        },
+                        "speaker": "spk.彩　依"
                       },
                       "rows": [
                         {
@@ -1658,8 +1668,7 @@
                         {
                           "text": "dlg.8119"
                         }
-                      ],
-                      "speaker": "spk.彩　依"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -1668,9 +1677,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.037",
-                        "side": "left"
+                      "identity": {
+                        "kind": "actor",
+                        "actor": "jiu-jianxian",
+                        "portrait": {
+                          "kind": "default",
+                          "side": "left"
+                        }
                       },
                       "rows": [
                         {
@@ -1683,8 +1696,7 @@
                           "text": "dlg.8123"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.酒剑仙"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -1693,9 +1705,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.049",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.049",
+                          "side": "right"
+                        },
+                        "speaker": "spk.彩　依"
                       },
                       "rows": [
                         {
@@ -1704,8 +1720,7 @@
                         {
                           "text": "dlg.8126"
                         }
-                      ],
-                      "speaker": "spk.彩　依"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -1714,16 +1729,19 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.049",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.049",
+                          "side": "right"
+                        },
+                        "speaker": "spk.彩　依"
                       },
                       "rows": [
                         {
                           "text": "dlg.8127"
                         }
-                      ],
-                      "speaker": "spk.彩　依"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -1753,7 +1771,10 @@
                           "text": "dlg.8130"
                         }
                       ],
-                      "speaker": "spk.酒剑仙"
+                      "identity": {
+                        "kind": "actor",
+                        "actor": "jiu-jianxian"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -1771,7 +1792,10 @@
                           "text": "dlg.8133"
                         }
                       ],
-                      "speaker": "spk.彩　依"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.彩　依"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -1788,7 +1812,10 @@
                           "text": "dlg.8136"
                         }
                       ],
-                      "speaker": "spk.酒剑仙"
+                      "identity": {
+                        "kind": "actor",
+                        "actor": "jiu-jianxian"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -1805,7 +1832,10 @@
                           "text": "dlg.8139"
                         }
                       ],
-                      "speaker": "spk.彩　依"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.彩　依"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -1843,9 +1873,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.049",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.049",
+                          "side": "right"
+                        },
+                        "speaker": "spk.彩　依"
                       },
                       "rows": [
                         {
@@ -1854,16 +1888,19 @@
                         {
                           "text": "dlg.8142"
                         }
-                      ],
-                      "speaker": "spk.彩　依"
+                      ]
                     },
                     "kind": "dialog"
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.024",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.024",
+                          "side": "left"
+                        },
+                        "speaker": "spk.林月如"
                       },
                       "rows": [
                         {
@@ -1873,8 +1910,7 @@
                           "text": "dlg.8145"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.林月如"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -1883,9 +1919,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.049",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.049",
+                          "side": "right"
+                        },
+                        "speaker": "spk.彩　依"
                       },
                       "rows": [
                         {
@@ -1894,8 +1934,7 @@
                         {
                           "text": "dlg.8148"
                         }
-                      ],
-                      "speaker": "spk.彩　依"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -1904,9 +1943,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.049",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.049",
+                          "side": "right"
+                        },
+                        "speaker": "spk.彩　依"
                       },
                       "rows": [
                         {
@@ -1915,8 +1958,7 @@
                         {
                           "text": "dlg.8150"
                         }
-                      ],
-                      "speaker": "spk.彩　依"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -2175,9 +2217,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.037",
-                        "side": "left"
+                      "identity": {
+                        "kind": "actor",
+                        "actor": "jiu-jianxian",
+                        "portrait": {
+                          "kind": "default",
+                          "side": "left"
+                        }
                       },
                       "rows": [
                         {
@@ -2189,8 +2235,7 @@
                           "text": "dlg.8153"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.酒剑仙"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -2199,9 +2244,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.037",
-                        "side": "left"
+                      "identity": {
+                        "kind": "actor",
+                        "actor": "jiu-jianxian",
+                        "portrait": {
+                          "kind": "default",
+                          "side": "left"
+                        }
                       },
                       "rows": [
                         {
@@ -2213,8 +2262,7 @@
                           "text": "dlg.8155"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.酒剑仙"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -2223,9 +2271,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.037",
-                        "side": "left"
+                      "identity": {
+                        "kind": "actor",
+                        "actor": "jiu-jianxian",
+                        "portrait": {
+                          "kind": "default",
+                          "side": "left"
+                        }
                       },
                       "rows": [
                         {
@@ -2241,8 +2293,7 @@
                           "text": "dlg.8158"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.酒剑仙"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -2251,9 +2302,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.037",
-                        "side": "left"
+                      "identity": {
+                        "kind": "actor",
+                        "actor": "jiu-jianxian",
+                        "portrait": {
+                          "kind": "default",
+                          "side": "left"
+                        }
                       },
                       "rows": [
                         {
@@ -2269,8 +2324,7 @@
                           "text": "dlg.8161"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.酒剑仙"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -2299,9 +2353,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.024",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.024",
+                          "side": "right"
+                        },
+                        "speaker": "spk.林月如"
                       },
                       "rows": [
                         {
@@ -2316,8 +2374,7 @@
                           "speed": 40,
                           "text": "dlg.8165"
                         }
-                      ],
-                      "speaker": "spk.林月如"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -2330,17 +2387,20 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.005",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.005",
+                          "side": "right"
+                        },
+                        "speaker": "spk.李逍遥"
                       },
                       "rows": [
                         {
                           "speed": 16,
                           "text": "dlg.8167"
                         }
-                      ],
-                      "speaker": "spk.李逍遥"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -2349,9 +2409,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.021",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.021",
+                          "side": "right"
+                        },
+                        "speaker": "spk.林月如"
                       },
                       "rows": [
                         {
@@ -2386,8 +2450,7 @@
                           "speed": 16,
                           "text": "dlg.8176"
                         }
-                      ],
-                      "speaker": "spk.林月如"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -2396,9 +2459,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.006",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.006",
+                          "side": "right"
+                        },
+                        "speaker": "spk.李逍遥"
                       },
                       "rows": [
                         {
@@ -2409,8 +2476,7 @@
                           "speed": 16,
                           "text": "dlg.8179"
                         }
-                      ],
-                      "speaker": "spk.李逍遥"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -2419,17 +2485,20 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.021",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.021",
+                          "side": "right"
+                        },
+                        "speaker": "spk.林月如"
                       },
                       "rows": [
                         {
                           "speed": 16,
                           "text": "dlg.8181"
                         }
-                      ],
-                      "speaker": "spk.林月如"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -2438,17 +2507,20 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.009",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.009",
+                          "side": "right"
+                        },
+                        "speaker": "spk.李逍遥"
                       },
                       "rows": [
                         {
                           "speed": 16,
                           "text": "dlg.8183"
                         }
-                      ],
-                      "speaker": "spk.李逍遥"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -2457,17 +2529,20 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.022",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.022",
+                          "side": "right"
+                        },
+                        "speaker": "spk.林月如"
                       },
                       "rows": [
                         {
                           "speed": 16,
                           "text": "dlg.8185"
                         }
-                      ],
-                      "speaker": "spk.林月如"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -2512,9 +2587,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.037",
-                        "side": "left"
+                      "identity": {
+                        "kind": "actor",
+                        "actor": "jiu-jianxian",
+                        "portrait": {
+                          "kind": "default",
+                          "side": "left"
+                        }
                       },
                       "rows": [
                         {
@@ -2522,8 +2601,7 @@
                           "text": "dlg.8187"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.酒剑仙"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -2536,25 +2614,32 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.001",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.001",
+                          "side": "right"
+                        },
+                        "speaker": "spk.李逍遥"
                       },
                       "rows": [
                         {
                           "speed": 16,
                           "text": "dlg.8189"
                         }
-                      ],
-                      "speaker": "spk.李逍遥"
+                      ]
                     },
                     "kind": "dialog"
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.037",
-                        "side": "left"
+                      "identity": {
+                        "kind": "actor",
+                        "actor": "jiu-jianxian",
+                        "portrait": {
+                          "kind": "default",
+                          "side": "left"
+                        }
                       },
                       "rows": [
                         {
@@ -2562,8 +2647,7 @@
                           "text": "dlg.8191"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.酒剑仙"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -2597,9 +2681,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.003",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.003",
+                          "side": "right"
+                        },
+                        "speaker": "spk.李逍遥"
                       },
                       "rows": [
                         {
@@ -2610,8 +2698,7 @@
                           "speed": 16,
                           "text": "dlg.8194"
                         }
-                      ],
-                      "speaker": "spk.李逍遥"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -2636,9 +2723,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.037",
-                        "side": "left"
+                      "identity": {
+                        "kind": "actor",
+                        "actor": "jiu-jianxian",
+                        "portrait": {
+                          "kind": "default",
+                          "side": "left"
+                        }
                       },
                       "rows": [
                         {
@@ -2646,8 +2737,7 @@
                           "text": "dlg.8196"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.酒剑仙"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -2656,9 +2746,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.003",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.003",
+                          "side": "right"
+                        },
+                        "speaker": "spk.李逍遥"
                       },
                       "rows": [
                         {
@@ -2673,8 +2767,7 @@
                           "speed": 16,
                           "text": "dlg.8200"
                         }
-                      ],
-                      "speaker": "spk.李逍遥"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -2683,9 +2776,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.037",
-                        "side": "left"
+                      "identity": {
+                        "kind": "actor",
+                        "actor": "jiu-jianxian",
+                        "portrait": {
+                          "kind": "default",
+                          "side": "left"
+                        }
                       },
                       "rows": [
                         {
@@ -2697,8 +2794,7 @@
                           "text": "dlg.8203"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.酒剑仙"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -2723,9 +2819,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.037",
-                        "side": "left"
+                      "identity": {
+                        "kind": "actor",
+                        "actor": "jiu-jianxian",
+                        "portrait": {
+                          "kind": "default",
+                          "side": "left"
+                        }
                       },
                       "rows": [
                         {
@@ -2733,8 +2833,7 @@
                           "text": "dlg.8205"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.酒剑仙"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },

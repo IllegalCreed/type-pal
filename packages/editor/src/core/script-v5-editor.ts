@@ -14,10 +14,22 @@ import type {
   SharedScriptLibraryV5,
   StateTransitionV5,
 } from '@type-pal/content'
-import { checkSharedScriptLibraryV5, validateItemsV5, validateScenesV5 } from '@type-pal/content'
+import {
+  checkSharedScriptLibraryV14,
+  checkSharedScriptLibraryV5,
+  validateItemsV14,
+  validateItemsV5,
+  validateScenesV14,
+  validateScenesV5,
+} from '@type-pal/content'
 import { getAuthorCommandAtV5, parseAuthorCommandPathV5 } from './author-command-edit-v5.js'
 
 export interface ScriptEditorStateV5 {
+  /**
+   * 产品路径只传当前 content14；缺省 12 仅供尚未拆出的 v5 纯函数 fixture 使用，
+   * 不代表编辑器仍可打开旧工程。
+   */
+  contentVersion?: 12 | 14
   scenes: SceneDefV5[]
   items: ItemDataV5[]
   sharedScripts: SharedScriptLibraryV5
@@ -842,9 +854,15 @@ export function describeCanonicalScriptReferenceV5(
 }
 
 function validateState(state: ScriptEditorStateV5): void {
-  validateScenesV5(state.scenes)
-  validateItemsV5(state.items)
-  checkSharedScriptLibraryV5(state.sharedScripts)
+  if (state.contentVersion === 14) {
+    validateScenesV14(state.scenes)
+    validateItemsV14(state.items)
+    checkSharedScriptLibraryV14(state.sharedScripts)
+  } else {
+    validateScenesV5(state.scenes)
+    validateItemsV5(state.items)
+    checkSharedScriptLibraryV5(state.sharedScripts)
+  }
   const issue = collectScriptV5ReferenceIssues(state)[0]
   if (issue) throw new Error(`${issue.path}: ${issue.message}`)
 }

@@ -1,4 +1,4 @@
-import { expect, test } from 'vitest'
+import { describe, expect, test } from 'vitest'
 import {
   type ContentBundle,
   collectBattleSpriteDefinitionReferences,
@@ -1144,4 +1144,110 @@ test('迁移诊断 target.item 也必须存在', () => {
       }),
     ]),
   )
+})
+
+test('Actor typed 引用补齐 setActorSprite/setActorAppearance/setParty 并保留精确路径', () => {
+  const b = clone(base)
+  b.scenes[0]!.onEnter = [
+    {
+      body: [
+        { kind: 'setActorSprite', actor: 'ghost-actor', sprite: 'ghost' },
+        { kind: 'setActorAppearance', actor: 'ghost-actor', portrait: 'portrait.none' },
+        { kind: 'setParty', members: ['hero', 'ghost-actor'] },
+      ],
+    },
+  ]
+  const issues = validateReferences(b).filter((issue) => /ghost-actor/.test(issue.message))
+  expect(issues).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({ severity: 'error', where: expect.stringContaining('[0].actor') }),
+      expect.objectContaining({ severity: 'error', where: expect.stringContaining('[1].actor') }),
+      expect.objectContaining({ severity: 'error', where: expect.stringContaining('[2].members[1]') }),
+    ]),
+  )
+})
+
+test('悬空 learnedSkills/levelUp actor 键是 warn，且 levelUp 技能校验仍保留', () => {
+  const b = clone(base)
+  b.startWorld.learnedSkills = { ghost: ['1'] }
+  b.levelUp = { ghost: [{ level: 2, skillId: 'missing-skill' }] }
+  const issues = validateReferences(b)
+  expect(issues).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({
+        severity: 'warn',
+        where: 'startWorld.learnedSkills[ghost]',
+      }),
+      expect.objectContaining({ severity: 'warn', where: 'levelUp[ghost]' }),
+      expect.objectContaining({ severity: 'warn', where: 'levelUp[ghost][0].skillId' }),
+    ]),
+  )
+})
+
+describe('validateReferences · battleField 三层引用(B2-1)', () => {
+  const field = (id: number) => ({
+    id,
+    screenWave: 0,
+    magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+  })
+
+  function battleFieldBundle(): ContentBundle {
+    const bundle = clone(base)
+    bundle.battleFields = [field(24)]
+    const scene = bundle.scenes[0]!
+    scene.battleFieldId = 24
+    scene.entities[0]!.hostile = { battleFieldId: 25 } as never
+    ;(scene as unknown as Record<string, unknown>).hooks = {
+      onEnter: {
+        initial: 'default',
+        variants: {
+          default: {
+            flow: {
+              kind: 'stages',
+              initial: 'start',
+              stages: [
+                {
+                  id: 'start',
+                  body: [
+                    {
+                      kind: 'branch',
+                      when: { kind: 'flag', key: 'battle' },
+                      then: [{ kind: 'startBattle', teamId: 'team', fieldId: 26 }],
+                      else: [],
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      },
+    }
+    return bundle
+  }
+
+  test('场景默认、hostile 与递归 startBattle 都会拒绝 dangling id', () => {
+    const issues = validateReferences(battleFieldBundle()).filter((issue) =>
+      issue.message.startsWith('战场 '),
+    )
+    expect(issues).toEqual([
+      expect.objectContaining({
+        severity: 'error',
+        where: 'scenes[0].entities[0].hostile.battleFieldId',
+        message: '战场 25 不在 battleFields',
+      }),
+      expect.objectContaining({
+        severity: 'error',
+        message: '战场 26 不在 battleFields',
+      }),
+    ])
+  })
+
+  test('三层引用全部命中已声明表时不产生战场问题', () => {
+    const bundle = battleFieldBundle()
+    bundle.battleFields = [field(24), field(25), field(26)]
+    expect(
+      validateReferences(bundle).filter((issue) => issue.message.startsWith('战场 ')),
+    ).toEqual([])
+  })
 })

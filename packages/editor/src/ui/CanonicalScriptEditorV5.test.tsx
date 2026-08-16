@@ -20,6 +20,32 @@ import {
   removeTriggerStageV5,
 } from './CanonicalScriptEditorV5.js'
 
+function combobox(ariaLabel: string): HTMLButtonElement {
+  const control = document.querySelector<HTMLButtonElement>(
+    `button[role="combobox"][aria-label="${ariaLabel}"]`,
+  )
+  expect(control, `combobox ${ariaLabel}`).not.toBeNull()
+  return control!
+}
+
+async function openCombobox(ariaLabel: string): Promise<HTMLElement> {
+  const control = combobox(ariaLabel)
+  await act(async () => control.click())
+  const listbox = document.getElementById(control.getAttribute('aria-controls')!)
+  expect(listbox?.getAttribute('role'), `listbox ${ariaLabel}`).toBe('listbox')
+  return listbox!
+}
+
+async function changeNativeSelect(ariaLabel: string, value: string): Promise<void> {
+  const select = document.querySelector<HTMLSelectElement>(`select[aria-label="${ariaLabel}"]`)
+  expect(select, `select ${ariaLabel}`).not.toBeNull()
+  await act(async () => {
+    const setter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')!.set!
+    setter.call(select, value)
+    select!.dispatchEvent(new Event('change', { bubbles: true }))
+  })
+}
+
 describe('CanonicalScriptEditorV5 author presentation', () => {
   let host: HTMLDivElement
   let root: Root
@@ -328,12 +354,7 @@ describe('CanonicalScriptEditorV5 author presentation', () => {
         .find((candidate) => candidate.textContent === '完成')!
         .click(),
     )
-    const mode = host.querySelector<HTMLSelectElement>('[aria-label="战败后的处理"]')!
-    await act(async () => {
-      const setter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')!.set!
-      setter.call(mode, 'gameOver')
-      mode.dispatchEvent(new Event('change', { bubbles: true }))
-    })
+    await changeNativeSelect('战败后的处理', 'gameOver')
     expect(onChange).toHaveBeenLastCalledWith('gameOver')
     expect(host.querySelector('[role="dialog"]')).toBeNull()
     expect(
@@ -342,11 +363,7 @@ describe('CanonicalScriptEditorV5 author presentation', () => {
       )?.disabled,
     ).toBe(true)
 
-    await act(async () => {
-      const setter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')!.set!
-      setter.call(mode, 'custom')
-      mode.dispatchEvent(new Event('change', { bubbles: true }))
-    })
+    await changeNativeSelect('战败后的处理', 'custom')
     expect(onChange).toHaveBeenLastCalledWith([])
     expect(host.querySelector('[role="dialog"]')?.getAttribute('aria-label')).toBe('战败后脚本')
     expect(host.textContent).toContain('添加第一条指令')
@@ -397,6 +414,125 @@ describe('CanonicalScriptEditorV5 author presentation', () => {
     )
     expect(host.textContent).toContain('镜头位置')
     expect(host.textContent).not.toContain('JSON')
+  })
+
+  test('startBattle 只能从项目战场表选择 fieldId，并可跳转打开定义', async () => {
+    const onChange = vi.fn()
+    const onOpenBattleField = vi.fn()
+    const context: CanonicalScriptEditorContextV5 = {
+      state: { scenes: [], items: [], sharedScripts: {}, migrationSidecars: [] },
+      currentSceneId: 's001',
+      shellScenes: [{ id: 's001', entities: [] } as unknown as SceneDef],
+      locale: {},
+      assetCatalog: { version: 1, assets: {} },
+      audioResolver: {} as CanonicalScriptEditorContextV5['audioResolver'],
+      assetReader: {} as CanonicalScriptEditorContextV5['assetReader'],
+      references: { choices: () => [], has: () => false, label: (_kind, id) => id },
+      battleSprites: [],
+      battleFields: [
+        {
+          id: 24,
+          name: '默认战场',
+          screenWave: 0,
+          magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+        },
+        {
+          id: 25,
+          name: '竹林',
+          screenWave: 0,
+          magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+        },
+      ],
+      onOpenBattleField,
+    }
+    await act(async () =>
+      root.render(
+        <CanonicalScriptBodyEditorV5
+          body={[{ kind: 'startBattle', team: 1, fieldId: 24 }]}
+          context={context}
+          onChange={onChange}
+        />,
+      ),
+    )
+    await act(async () =>
+      host
+        .querySelector<HTMLElement>('.cmd-row')!
+        .dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true })),
+    )
+    const listbox = await openCombobox('开战指令战场')
+    expect(
+      [...listbox.querySelectorAll<HTMLElement>('[role="option"]')].map((option) =>
+        option.textContent?.trim(),
+      ),
+    ).toEqual(['跟随当前场景默认战场', '默认战场 · #024 · 项目默认', '竹林 · #025'])
+    const bambooOption = [...listbox.querySelectorAll<HTMLElement>('[role="option"]')].find(
+      (option) => option.textContent?.trim() === '竹林 · #025',
+    )
+    expect(bambooOption).toBeDefined()
+    await act(async () => bambooOption!.click())
+    expect(onChange).toHaveBeenLastCalledWith([
+      expect.objectContaining({ kind: 'startBattle', team: 1, fieldId: 25 }),
+    ])
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label="打开战场 24"]')!.click(),
+    )
+    expect(onOpenBattleField).toHaveBeenCalledWith(24)
+  })
+
+  test('resolves content14 actor identity in canonical command summaries', async () => {
+    const context: CanonicalScriptEditorContextV5 = {
+      state: {
+        contentVersion: 14,
+        scenes: [],
+        items: [],
+        sharedScripts: {},
+        migrationSidecars: [],
+      },
+      currentSceneId: 's001',
+      shellScenes: [{ id: 's001', entities: [] } as unknown as SceneDef],
+      locale: { 'name.hero': '李逍遥', 'dialog.hero': '出发吧！' },
+      assetCatalog: { version: 1, assets: {} },
+      audioResolver: {} as CanonicalScriptEditorContextV5['audioResolver'],
+      assetReader: {} as CanonicalScriptEditorContextV5['assetReader'],
+      references: {
+        choices: () => [],
+        has: () => false,
+        label: (_kind, id) => id,
+      },
+      actors: {
+        hero: {
+          id: 'hero',
+          name: 'name.hero',
+          spriteId: 'sprite.hero',
+          portraits: { default: 'portrait.hero', expressions: {} },
+        },
+      },
+      battleSprites: [],
+    }
+    await act(async () =>
+      root.render(
+        <CanonicalScriptBodyEditorV5
+          body={[
+            {
+              kind: 'dialog',
+              cue: {
+                identity: {
+                  kind: 'actor',
+                  actor: 'hero',
+                  portrait: { kind: 'default', side: 'left' },
+                },
+                rows: [{ text: 'dialog.hero' }],
+              },
+            } as never,
+          ]}
+          context={context}
+          onChange={() => {}}
+        />,
+      ),
+    )
+
+    expect(host.textContent).toContain('李逍遥: 出发吧！')
+    expect(host.textContent).toContain('立绘 portrait.hero')
   })
 
   test('separates trigger-stage creation, details, and deletion while preserving body tabs', async () => {

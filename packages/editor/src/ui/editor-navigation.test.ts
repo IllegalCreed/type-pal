@@ -143,6 +143,22 @@ describe('EditorLocation URL 契约', () => {
     expect(href).toContain('action=whip%2Floop+%231')
   })
 
+  it('角色工作区分区深链往返并拒绝未知分区', () => {
+    const location = editorLinks.actor('li-xiaoyao', 'relationships')
+    const href = editorLocationHref(location, 'http://localhost:6010/editor?project=pal')
+
+    expect(decodeEditorLocation(new URL(href, 'http://localhost:6010').search)).toEqual(location)
+    expect(href).toContain('action=relationships')
+    expect(
+      normalizeEditorLocation({
+        module: 'actor',
+        subpage: 'workspace',
+        objectId: 'li-xiaoyao',
+        actionId: 'unknown-section',
+      }),
+    ).toEqual(editorLinks.actor('li-xiaoyao'))
+  })
+
   it('动作深链只属于大世界定义视图，并参与位置比较', () => {
     expect(
       normalizeEditorLocation({
@@ -264,6 +280,11 @@ describe('跨模块唯一链接', () => {
       module: 'battle',
       subpage: 'poison',
       objectId: '13',
+    })
+    expect(editorLinks.battleField(24)).toEqual({
+      module: 'battle',
+      subpage: 'battlefield',
+      objectId: '24',
     })
     expect(editorLinks.entryPoint('chapter-2')).toEqual({
       module: 'project',

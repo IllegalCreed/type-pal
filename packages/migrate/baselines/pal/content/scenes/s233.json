@@ -188,17 +188,20 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.011",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.011",
+                          "side": "right"
+                        },
+                        "speaker": "spk.赵灵儿"
                       },
                       "rows": [
                         {
                           "speed": 88,
                           "text": "dlg.11094"
                         }
-                      ],
-                      "speaker": "spk.赵灵儿"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -223,9 +226,12 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.073",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.073",
+                          "side": "right"
+                        }
                       },
                       "rows": [
                         {
@@ -249,9 +255,12 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.073",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.073",
+                          "side": "right"
+                        }
                       },
                       "rows": [
                         {
@@ -291,9 +300,12 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.073",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.073",
+                          "side": "right"
+                        }
                       },
                       "rows": [
                         {
@@ -337,17 +349,20 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.011",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.011",
+                          "side": "right"
+                        },
+                        "speaker": "spk.赵灵儿"
                       },
                       "rows": [
                         {
                           "speed": 88,
                           "text": "dlg.11109"
                         }
-                      ],
-                      "speaker": "spk.赵灵儿"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -526,9 +541,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.088",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.088",
+                          "side": "right"
+                        },
+                        "speaker": "spk.赵灵儿"
                       },
                       "rows": [
                         {
@@ -547,8 +566,7 @@
                           "speed": 16,
                           "text": "dlg.11114"
                         }
-                      ],
-                      "speaker": "spk.赵灵儿"
+                      ]
                     },
                     "kind": "dialog"
                   },

@@ -2,18 +2,18 @@ import { describe, expect, test } from 'vitest'
 import { assertPalTestOracle, loadPalTestOracle } from './pal-test-oracle.js'
 
 describe('PAL compact test oracle', () => {
-  test('pins the published P7→R13 chain without constructing the 81k source graph', () => {
+  test('pins the published P7→B2 chain without constructing the 81k source graph', () => {
     const oracle = loadPalTestOracle()
     expect(oracle.projection).toMatchObject({
       generatorEpoch: 'n3-script-v5-p7-v1',
-      managedFiles: 548,
+      managedFiles: 551,
       scriptV4V5: {
         entries: 18_383,
         evidence: 8_975,
         groups: 5_630,
         canonicalTargets: 8_271,
       },
-      content: { scenes: 294, items: 234, enemies: 153, localeKeys: 9_588 },
+      content: { scenes: 294, items: 234, enemies: 153, localeKeys: 9_590 },
     })
     expect(Object.keys(oracle.projection.transitions)).toEqual([
       'script-v4-v5',
@@ -28,6 +28,9 @@ describe('PAL compact test oracle', () => {
       'r13-z-source-closure-v1',
       'b10-enemy-team-slots-v1',
       'w9-entity-lifecycle-v1',
+      'c1-dialogue-identity-v1',
+      'c1-npc-curation-v1',
+      'b2-battle-field-domain-v1',
     ])
     expect(
       oracle.manifest.inputTrees.map(({ role, root, selector }) => ({

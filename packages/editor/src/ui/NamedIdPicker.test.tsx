@@ -87,6 +87,6 @@ describe('NamedIdPicker', () => {
 
     const input = host.querySelector('input')!
     expect(input.value).toBe('未知仙术（missing）')
-    expect(input.classList.contains('missing')).toBe(true)
+    expect(input.getAttribute('aria-invalid')).toBe('true')
   })
 })

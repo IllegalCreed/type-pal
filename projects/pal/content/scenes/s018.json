@@ -112,12 +112,15 @@
                               "text": "dlg.1897"
                             }
                           ],
-                          "speaker": "spk.李逍遥",
-                          "slot": "top",
-                          "portrait": {
-                            "asset": "portrait.pal.001",
-                            "side": "left"
-                          }
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.李逍遥",
+                            "portrait": {
+                              "asset": "portrait.pal.001",
+                              "side": "left"
+                            }
+                          },
+                          "slot": "top"
                         }
                       },
                       {
@@ -265,17 +268,20 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.001",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.001",
+                          "side": "left"
+                        },
+                        "speaker": "spk.李逍遥"
                       },
                       "rows": [
                         {
                           "text": "dlg.1897"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.李逍遥"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },

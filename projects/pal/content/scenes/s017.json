@@ -97,6 +97,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.1574"
@@ -118,6 +121,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.1575"
@@ -175,7 +181,10 @@
                             "text": "dlg.1786"
                           }
                         ],
-                        "speaker": "spk.观音像上刻着一行字"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.观音像上刻着一行字"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -2653,6 +2662,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.1895"
@@ -2690,6 +2702,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12222"

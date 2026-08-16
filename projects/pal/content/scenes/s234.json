@@ -1889,9 +1889,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.045",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.045",
+                            "side": "left"
+                          },
+                          "speaker": "spk.白苗族长"
                         },
                         "rows": [
                           {
@@ -1901,8 +1905,7 @@
                             "text": "dlg.11171"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.白苗族长"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
@@ -1911,9 +1914,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.045",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.045",
+                            "side": "left"
+                          },
+                          "speaker": "spk.白苗族长"
                         },
                         "rows": [
                           {
@@ -1923,8 +1930,7 @@
                             "text": "dlg.11173"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.白苗族长"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     }
@@ -1945,9 +1951,13 @@
                   "body": [
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.045",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.045",
+                            "side": "left"
+                          },
+                          "speaker": "spk.白苗族长"
                         },
                         "rows": [
                           {
@@ -1957,8 +1967,7 @@
                             "text": "dlg.11176"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.白苗族长"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
@@ -1967,9 +1976,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.088",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.088",
+                            "side": "right"
+                          },
+                          "speaker": "spk.赵灵儿"
                         },
                         "rows": [
                           {
@@ -1978,8 +1991,7 @@
                           {
                             "text": "dlg.11179"
                           }
-                        ],
-                        "speaker": "spk.赵灵儿"
+                        ]
                       },
                       "kind": "dialog"
                     }
@@ -2032,7 +2044,10 @@
                             "text": "dlg.11183"
                           }
                         ],
-                        "speaker": "spk.侍卫"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.侍卫"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -2118,7 +2133,10 @@
                             "text": "dlg.11185"
                           }
                         ],
-                        "speaker": "spk.侍卫"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.侍卫"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -2211,7 +2229,10 @@
                             "text": "dlg.10957"
                           }
                         ],
-                        "speaker": "spk.守卫"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.守卫"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -2231,7 +2252,10 @@
                             "text": "dlg.10960"
                           }
                         ],
-                        "speaker": "spk.守卫"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.守卫"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -2321,7 +2345,10 @@
                             "text": "dlg.11188"
                           }
                         ],
-                        "speaker": "spk.唐钰"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.唐钰"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -2411,7 +2438,10 @@
                             "text": "dlg.11191"
                           }
                         ],
-                        "speaker": "spk.汉人"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.汉人"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -2505,7 +2535,10 @@
                             "text": "dlg.11196"
                           }
                         ],
-                        "speaker": "spk.汉族妇女"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.汉族妇女"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -2561,7 +2594,10 @@
                             "text": "dlg.11199"
                           }
                         ],
-                        "speaker": "spk.小孩"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.小孩"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -2617,7 +2653,10 @@
                             "text": "dlg.11202"
                           }
                         ],
-                        "speaker": "spk.苗女"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.苗女"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -2702,7 +2741,10 @@
                             "text": "dlg.11204"
                           }
                         ],
-                        "speaker": "spk.小孩"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.小孩"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -2808,6 +2850,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.11168"

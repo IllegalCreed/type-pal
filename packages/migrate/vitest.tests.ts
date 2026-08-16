@@ -64,6 +64,9 @@ export const PAL_FAST_EXCLUDED_TESTS = [...PAL_SHARED_ONLY_TESTS, ...PAL_FRESH_T
 export const PAL_LITE_TESTS = [
   // These consume real extracted data but do not construct the P2→P7 authority chain. Keeping
   // them explicit prevents a future real-source unit test from silently consuming unit workers.
+  'src/pal-c1-dialogue-identity.pal.test.ts',
+  'src/pal-c1-npc-candidate-report.pal.test.ts',
+  'src/pal-c1-npc-curation-transition.pal.test.ts',
   'src/migrate-content.test.ts',
   'src/migrate-enemies.test.ts',
   'src/script-library-audit.test.ts',

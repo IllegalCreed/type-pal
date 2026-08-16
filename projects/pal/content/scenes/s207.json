@@ -469,7 +469,10 @@
                             "text": "dlg.10581"
                           }
                         ],
-                        "speaker": "spk.店家"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.店家"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -570,7 +573,10 @@
                             "text": "dlg.10585"
                           }
                         ],
-                        "speaker": "spk.顾客"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.顾客"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -708,7 +714,10 @@
                             "text": "dlg.10588"
                           }
                         ],
-                        "speaker": "spk.小孩"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.小孩"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -725,7 +734,10 @@
                             "text": "dlg.10591"
                           }
                         ],
-                        "speaker": "spk.白苗妇女"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.白苗妇女"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -818,7 +830,10 @@
                             "text": "dlg.10588"
                           }
                         ],
-                        "speaker": "spk.小孩"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.小孩"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -835,7 +850,10 @@
                             "text": "dlg.10591"
                           }
                         ],
-                        "speaker": "spk.白苗妇女"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.白苗妇女"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -924,7 +942,10 @@
                             "text": "dlg.10594"
                           }
                         ],
-                        "speaker": "spk.店主"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.店主"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -1039,7 +1060,10 @@
                             "text": "dlg.10599"
                           }
                         ],
-                        "speaker": "spk.居民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.居民"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1133,7 +1157,10 @@
                             "text": "dlg.10602"
                           }
                         ],
-                        "speaker": "spk.居民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.居民"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -1150,7 +1177,10 @@
                             "text": "dlg.10605"
                           }
                         ],
-                        "speaker": "spk.阿宝"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.阿宝"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1243,6 +1273,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12477"
@@ -1310,6 +1343,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12477"
@@ -1377,6 +1413,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12477"
@@ -1444,6 +1483,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12477"
@@ -1511,6 +1553,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12472"
@@ -1578,6 +1623,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12506"
@@ -1645,6 +1693,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12514"
@@ -1712,6 +1763,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12473"
@@ -1779,6 +1833,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12523"
@@ -1846,6 +1903,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12505"
@@ -1913,6 +1973,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12524"
@@ -1980,6 +2043,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12472"
@@ -2047,6 +2113,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12503"
@@ -2114,6 +2183,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12515"
@@ -2181,6 +2253,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12506"
@@ -2248,6 +2323,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12525"
@@ -2315,6 +2393,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12498"
@@ -2382,6 +2463,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12472"
@@ -2449,6 +2533,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12468"
@@ -2516,6 +2603,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12502"
@@ -2583,6 +2673,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12493"
@@ -2650,6 +2743,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12483"
@@ -2717,6 +2813,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12495"
@@ -2784,6 +2883,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12504"
@@ -2851,6 +2953,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12520"
@@ -2918,6 +3023,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12473"
@@ -2985,6 +3093,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12501"
@@ -3052,6 +3163,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12506"
@@ -3119,6 +3233,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12480"
@@ -3186,6 +3303,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12495"
@@ -3253,6 +3373,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12486"
@@ -3320,6 +3443,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12487"
@@ -3387,6 +3513,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12505"
@@ -3454,6 +3583,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12466"

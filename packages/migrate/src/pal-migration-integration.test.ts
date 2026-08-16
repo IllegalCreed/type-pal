@@ -6,12 +6,14 @@ import { isDeepStrictEqual } from 'node:util'
 import { gunzipSync, inflateSync } from 'node:zlib'
 import {
   type AssetCatalogV1,
+  type BattleFieldDef,
   type Command,
   decodeFrameSequenceBlock,
   decodeFrameSequenceFrame,
   type ItemData,
   itemUseSupportsContextV5,
   type LoadedManifest,
+  type ManifestV14,
   type MigrationDiagnosticsV1,
   palFrameAnimationAssetId,
   palSpriteAssetId,
@@ -79,6 +81,7 @@ import {
   PAL_WORLD_SPRITE_TUPLE_DIGEST,
 } from './pal-assets.js'
 import { assertB10PublishedAuthority } from './pal-b10-enemy-team-slots.js'
+import { rewindCurrentC1PublicationToW9 } from './pal-current-c1-rewind.js'
 import {
   PAL_ENEMY_BATTLE_SPRITE_FRAME_COUNTS,
   PAL_PLAYER_BATTLE_SPRITE_FRAME_COUNTS,
@@ -507,6 +510,21 @@ function assertItemUseCensus(migration: ReturnType<typeof buildPalMigration>): v
   )
 }
 
+function assertBattleFieldDomainSeparation(
+  snapshot: Pick<MigrationSnapshot, 'files'>,
+): void {
+  const fields = snapshot.files.get('content/battle-fields.json') as
+    | BattleFieldDef[]
+    | undefined
+  expect(fields).toBeDefined()
+  expect(fields).toHaveLength(52)
+  expect(fields?.map(({ id }) => id)).toEqual(Array.from({ length: 52 }, (_, index) => index + 6))
+  for (const field of fields ?? [])
+    expect(field.background, `battle field ${field.id}`).toBe(
+      `battle-background.pal.${String(field.id).padStart(3, '0')}`,
+    )
+}
+
 afterAll(() => {
   for (const root of tempRoots) rmSync(root, { recursive: true, force: true })
 })
@@ -680,7 +698,14 @@ function buildStrictPalMigrationFixture() {
   const sources = loadPalMigrationSources(repo)
   const baseline = loadPalBaseline(repo)
   if (!baseline) throw new Error('MG2 真实 PAL 回归缺已提交 baseline')
-  const w9ParentBaseline = rewindPublishedW9PublicationIfPresent(baseline)
+  const manifestRawText = readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8')
+  const w9ParentBaseline = rewindPublishedW9PublicationIfPresent(
+    rewindCurrentC1PublicationToW9({
+      source: baseline,
+      manifest: JSON.parse(manifestRawText) as ManifestV14,
+      manifestRawText,
+    }),
+  )
   const theirs = buildPalMigration(sources, {
     enemyTeamSchema: assertB10PublishedAuthority(w9ParentBaseline)
       ? 'semantic-slots'
@@ -822,6 +847,7 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
     assertWorldSpriteGraph(theirs, sources)
     assertEarthPearlSummonChain(theirs)
     assertItemUseCensus(theirs)
+    assertBattleFieldDomainSeparation(baseline)
     expect(theirs.report.assets).toEqual(expectedPalAssetReport)
     await assertFrameAnimationsMatchSource(sources)
     expect(auditMusicReferences(theirs.files)).toEqual({
@@ -889,7 +915,7 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
             })
             expect(result.enemyScriptSealMode).toBe('replay')
             expect(result.plan.conflicts).toEqual([])
-            expect(result.plan.writes.size).toBe(0)
+            expect([...result.plan.writes.keys()]).toEqual([])
             expect(result.plan.deletes).toEqual([])
             return result.target
           })()

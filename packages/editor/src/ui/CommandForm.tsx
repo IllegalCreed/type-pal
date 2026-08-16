@@ -13,6 +13,9 @@ import type {
   AssetCatalogV1,
   BattleSpriteDef,
   Command,
+  DialogueCue,
+  DialogueCueV14,
+  DialogueIdentityV14,
   Facing,
   GridPos,
   LoadSceneCommand,
@@ -217,6 +220,8 @@ export function CommandForm(props: {
   onOpenImage?: (id: string) => void
   onOpenBattleSprite?: (id: string) => void
   onOpenSpriteAction?: (spriteId: string, actionId: string) => void
+  /** K2：新建/更新称谓 locale 与 cue 更新由调用方合成一次 undo。 */
+  onDialogueSpeakerOverrideChange?: (text: string) => void
   /** Legacy editors keep the escape-hatch JSON editor; canonical v5 authoring hides it. */
   showRawJson?: boolean
   onChange: (next: Command) => void
@@ -242,6 +247,7 @@ export function CommandForm(props: {
     onOpenImage,
     onOpenBattleSprite,
     onOpenSpriteAction,
+    onDialogueSpeakerOverrideChange,
     showRawJson = true,
     onChange,
   } = props
@@ -251,7 +257,10 @@ export function CommandForm(props: {
 
   switch (cmd.kind) {
     case 'dialog': {
-      const cue = cmd.cue
+      const cue = cmd.cue as DialogueCue | DialogueCueV14
+      const cueV14 = 'identity' in cue ? cue : undefined
+      const cueLegacy = cueV14 ? undefined : (cue as DialogueCue)
+      const identity = cueV14?.identity
       const firstPortrait = Object.entries(assetCatalog.assets).find(
         ([, record]) => record.kind === 'portrait',
       )?.[0]
@@ -262,13 +271,104 @@ export function CommandForm(props: {
         })
       return (
         <>
-          <Row label="说话人">
-            <Txt
-              value={cue.speaker ? lookupText(cue.speaker, locale) : ''}
-              onChange={(s) => setCue({ speaker: s || undefined })}
-              placeholder="(旁白)"
-            />
-          </Row>
+          {cueV14 && identity ? (
+            <>
+              <Row label="身份">
+                <Sel
+                  value={identity.kind}
+                  options={['narration', 'actor', 'unbound'] as const}
+                  labels={['旁白 / 无人物', '预制人物', '未绑定称谓 / 旧内容']}
+                  onChange={(kind) => {
+                    const next: DialogueIdentityV14 =
+                      kind === 'narration'
+                        ? { kind: 'narration' }
+                        : kind === 'actor'
+                          ? {
+                              kind: 'actor',
+                              actor: Object.keys(actors ?? {})[0] ?? '',
+                            }
+                          : { kind: 'unbound', speaker: '(说话人)' }
+                    if (next.kind === 'actor' && !next.actor) return
+                    setCue({ identity: next })
+                  }}
+                />
+              </Row>
+              {identity.kind === 'actor' ? (
+                <>
+                  <Row label="人物">
+                    <select
+                      className="in"
+                      value={identity.actor}
+                      onChange={(event) =>
+                        setCue({
+                          identity: {
+                            kind: 'actor',
+                            actor: event.target.value,
+                            ...(identity.speakerOverride
+                              ? { speakerOverride: identity.speakerOverride }
+                              : {}),
+                          },
+                        })
+                      }
+                    >
+                      {Object.values(actors ?? {}).map((actor) => (
+                        <option key={actor.id} value={actor.id}>
+                          {lookupText(actor.name, locale)} ({actor.id})
+                        </option>
+                      ))}
+                    </select>
+                  </Row>
+                  <Row label="显示称谓">
+                    <Txt
+                      value={
+                        identity.speakerOverride
+                          ? lookupText(identity.speakerOverride, locale)
+                          : ''
+                      }
+                      onChange={(text) => {
+                        if (onDialogueSpeakerOverrideChange)
+                          onDialogueSpeakerOverrideChange(text)
+                        else
+                          setCue({
+                            identity: {
+                              ...identity,
+                              speakerOverride: text || undefined,
+                            },
+                          })
+                      }}
+                      placeholder={
+                        actors?.[identity.actor]
+                          ? lookupText(actors[identity.actor]!.name, locale)
+                          : '(使用人物姓名)'
+                      }
+                    />
+                  </Row>
+                </>
+              ) : identity.kind === 'unbound' ? (
+                <Row label="说话人">
+                  <Txt
+                    value={identity.speaker ? lookupText(identity.speaker, locale) : ''}
+                    onChange={(speaker) => {
+                      if (!speaker && !identity.portrait) {
+                        setCue({ identity: { kind: 'narration' } })
+                        return
+                      }
+                      setCue({ identity: { ...identity, speaker: speaker || undefined } })
+                    }}
+                    placeholder="(可只用立绘)"
+                  />
+                </Row>
+              ) : null}
+            </>
+          ) : (
+            <Row label="说话人">
+              <Txt
+                value={cueLegacy?.speaker ? lookupText(cueLegacy.speaker, locale) : ''}
+                onChange={(s) => setCue({ speaker: s || undefined })}
+                placeholder="(旁白)"
+              />
+            </Row>
+          )}
           {cue.rows.map((row, index) => (
             <div className="cf-dialog-row" key={index}>
               <Row label={`第 ${index + 1} 行`}>
@@ -350,50 +450,167 @@ export function CommandForm(props: {
               }}
             />
           </Row>
-          <Row label="立绘">
-            <label className="cf-inline">
-              <input
-                type="checkbox"
-                checked={cue.portrait !== undefined}
-                disabled={!cue.portrait && !firstPortrait}
-                onChange={(e) =>
-                  setCue({
-                    portrait:
-                      e.target.checked && firstPortrait
-                        ? { asset: firstPortrait, side: 'right' as const }
-                        : undefined,
-                  })
-                }
-              />
-              启用
-            </label>
-            {cue.portrait ? (
-              <>
-                <ImageAssetPicker
-                  value={cue.portrait.asset}
-                  kind="portrait"
-                  catalog={assetCatalog}
-                  reader={assetReader}
-                  showThumbnail={false}
-                  ariaLabel="对话立绘"
-                  onOpenAsset={onOpenImage}
-                  onChange={(asset) => {
-                    if (asset) setCue({ portrait: { asset, side: cue.portrait?.side ?? 'right' } })
-                  }}
-                />
-                <Sel
-                  value={cue.portrait.side}
-                  options={['left', 'right'] as const}
-                  labels={['左', '右']}
-                  onChange={(side) =>
+          {cueV14 && identity?.kind === 'actor' ? (
+            <Row label="人物立绘">
+              <label className="cf-inline">
+                <input
+                  type="checkbox"
+                  checked={identity.portrait !== undefined}
+                  disabled={!actors?.[identity.actor]?.portraits?.default}
+                  onChange={(event) =>
                     setCue({
-                      portrait: { asset: cue.portrait?.asset ?? firstPortrait ?? '', side },
+                      identity: {
+                        ...identity,
+                        portrait: event.target.checked
+                          ? { kind: 'default', side: 'right' as const }
+                          : undefined,
+                      },
                     })
                   }
                 />
-              </>
-            ) : null}
-          </Row>
+                启用
+              </label>
+              {identity.portrait ? (
+                <>
+                  <select
+                    className="in"
+                    value={
+                      identity.portrait.kind === 'default'
+                        ? 'default'
+                        : `expression:${identity.portrait.expression}`
+                    }
+                    onChange={(event) => {
+                      const value = event.target.value
+                      setCue({
+                        identity: {
+                          ...identity,
+                          portrait:
+                            value === 'default'
+                              ? { kind: 'default', side: identity.portrait?.side ?? 'right' }
+                              : {
+                                  kind: 'expression',
+                                  expression: value.slice('expression:'.length),
+                                  side: identity.portrait?.side ?? 'right',
+                                },
+                        },
+                      })
+                    }}
+                  >
+                    <option value="default">主立绘</option>
+                    {Object.keys(actors?.[identity.actor]?.portraits?.expressions ?? {}).map(
+                      (expression) => (
+                        <option key={expression} value={`expression:${expression}`}>
+                          {expression}
+                        </option>
+                      ),
+                    )}
+                  </select>
+                  <Sel
+                    value={identity.portrait.side}
+                    options={['left', 'right'] as const}
+                    labels={['左', '右']}
+                    onChange={(side) =>
+                      setCue({ identity: { ...identity, portrait: { ...identity.portrait!, side } } })
+                    }
+                  />
+                </>
+              ) : null}
+            </Row>
+          ) : cueV14 && identity?.kind === 'narration' ? null : (
+            <Row label="立绘">
+              <label className="cf-inline">
+                <input
+                  type="checkbox"
+                  checked={
+                    cueV14
+                      ? identity?.kind === 'unbound' && !!identity.portrait
+                      : cueLegacy?.portrait !== undefined
+                  }
+                  disabled={
+                    cueV14
+                      ? identity?.kind !== 'unbound' || (!identity.portrait && !firstPortrait)
+                      : !cueLegacy?.portrait && !firstPortrait
+                  }
+                  onChange={(event) => {
+                    if (cueV14 && identity?.kind === 'unbound')
+                      setCue({
+                        identity: {
+                          ...identity,
+                          portrait:
+                            event.target.checked && firstPortrait
+                              ? { asset: firstPortrait, side: 'right' as const }
+                              : undefined,
+                        },
+                      })
+                    else
+                      setCue({
+                        portrait:
+                          event.target.checked && firstPortrait
+                            ? { asset: firstPortrait, side: 'right' as const }
+                            : undefined,
+                      })
+                  }}
+                />
+                启用
+              </label>
+              {(
+                cueV14 && identity?.kind === 'unbound' ? identity.portrait : cueLegacy?.portrait
+              ) ? (
+                <>
+                  <ImageAssetPicker
+                    value={
+                      (cueV14 && identity?.kind === 'unbound'
+                        ? identity.portrait
+                        : cueLegacy?.portrait)!.asset
+                    }
+                    kind="portrait"
+                    catalog={assetCatalog}
+                    reader={assetReader}
+                    showThumbnail={false}
+                    ariaLabel="对话立绘"
+                    onOpenAsset={onOpenImage}
+                    onChange={(asset) => {
+                      if (!asset) return
+                      if (cueV14 && identity?.kind === 'unbound')
+                        setCue({
+                          identity: {
+                            ...identity,
+                            portrait: { asset, side: identity.portrait?.side ?? 'right' },
+                          },
+                        })
+                      else
+                        setCue({ portrait: { asset, side: cueLegacy?.portrait?.side ?? 'right' } })
+                    }}
+                  />
+                  <Sel
+                    value={
+                      (cueV14 && identity?.kind === 'unbound'
+                        ? identity.portrait
+                        : cueLegacy?.portrait)!.side
+                    }
+                    options={['left', 'right'] as const}
+                    labels={['左', '右']}
+                    onChange={(side) => {
+                      if (cueV14 && identity?.kind === 'unbound')
+                        setCue({
+                          identity: {
+                            ...identity,
+                            portrait: { asset: identity.portrait?.asset ?? firstPortrait ?? '', side },
+                          },
+                        })
+                      else
+                        setCue({
+                          portrait: {
+                            asset: cueLegacy?.portrait?.asset ?? firstPortrait ?? '',
+                            side,
+                          },
+                        })
+                    }}
+                  />
+                </>
+              ) : null}
+            </Row>
+          )}
           {showRawJson ? <JsonForm cmd={cmd} onChange={onChange} /> : null}
         </>
       )

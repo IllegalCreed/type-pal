@@ -200,6 +200,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.2553"
@@ -221,6 +224,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.2554"
@@ -285,7 +291,10 @@
                             "text": "dlg.2558"
                           }
                         ],
-                        "speaker": "spk.书生"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.书生"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -349,7 +358,10 @@
                             "text": "dlg.2562"
                           }
                         ],
-                        "speaker": "spk.刘楚香"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.刘楚香"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -363,7 +375,10 @@
                             "text": "dlg.2563"
                           }
                         ],
-                        "speaker": "spk.刘楚香"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.刘楚香"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -418,7 +433,10 @@
                             "text": "dlg.2566"
                           }
                         ],
-                        "speaker": "spk.拳师"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.拳师"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -477,7 +495,10 @@
                             "text": "dlg.2570"
                           }
                         ],
-                        "speaker": "spk.护院"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.护院"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -535,7 +556,10 @@
                             "text": "dlg.2574"
                           }
                         ],
-                        "speaker": "spk.小厮"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.小厮"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -595,7 +619,10 @@
                             "text": "dlg.2578"
                           }
                         ],
-                        "speaker": "spk.铁面煞星"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.铁面煞星"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -765,7 +792,10 @@
                             "text": "dlg.2582"
                           }
                         ],
-                        "speaker": "spk.剑客"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.剑客"
+                        }
                       },
                       "kind": "dialog"
                     }

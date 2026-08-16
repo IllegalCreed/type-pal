@@ -276,7 +276,10 @@
                             "text": "dlg.5578"
                           }
                         ],
-                        "speaker": "spk.小二"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.小二"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -508,7 +511,10 @@
                               "text": "dlg.5581"
                             }
                           ],
-                          "speaker": "spk.酒馆老板"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.酒馆老板"
+                          }
                         }
                       },
                       {
@@ -575,7 +581,10 @@
                               "text": "dlg.5583"
                             }
                           ],
-                          "speaker": "spk.酒馆老板"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.酒馆老板"
+                          }
                         }
                       }
                     ],
@@ -638,7 +647,10 @@
                             "text": "dlg.5587"
                           }
                         ],
-                        "speaker": "spk.小二"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.小二"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -725,7 +737,10 @@
                             "text": "dlg.7438"
                           }
                         ],
-                        "speaker": "spk.客人甲"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.客人甲"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -745,7 +760,10 @@
                             "text": "dlg.7442"
                           }
                         ],
-                        "speaker": "spk.客人乙"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.客人乙"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -799,7 +817,10 @@
                             "text": "dlg.7438"
                           }
                         ],
-                        "speaker": "spk.客人甲"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.客人甲"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -819,7 +840,10 @@
                             "text": "dlg.7442"
                           }
                         ],
-                        "speaker": "spk.客人乙"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.客人乙"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -871,7 +895,10 @@
                             "text": "dlg.7297"
                           }
                         ],
-                        "speaker": "spk.算命仙"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.算命仙"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -880,16 +907,19 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.001",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
                             "text": "dlg.7299"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -904,7 +934,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.算命仙"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.算命仙"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -919,7 +952,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.算命仙"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.算命仙"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -934,15 +970,22 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.小姑娘看过相。结果公子说"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.小姑娘看过相。结果公子说"
+                        }
                       },
                       "kind": "dialog"
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.003",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.003",
+                            "side": "right"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
@@ -951,8 +994,7 @@
                           {
                             "text": "dlg.7308"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -973,7 +1015,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.算命仙"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.算命仙"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -982,9 +1027,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.006",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.006",
+                            "side": "right"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
@@ -993,8 +1042,7 @@
                           {
                             "text": "dlg.7315"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -1003,9 +1051,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.006",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.006",
+                            "side": "right"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
@@ -1014,8 +1066,7 @@
                           {
                             "text": "dlg.7317"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -1030,7 +1081,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.算命仙"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.算命仙"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1058,7 +1112,10 @@
                               }
                             ],
                             "slot": "top",
-                            "speaker": "spk.算命仙"
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.算命仙"
+                            }
                           },
                           "kind": "dialog"
                         }
@@ -1070,9 +1127,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.006",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.006",
+                            "side": "right"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
@@ -1081,13 +1142,15 @@
                           {
                             "text": "dlg.7322"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        ]
                       },
                       "kind": "dialog"
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.7323"
@@ -1117,22 +1180,28 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.算命仙"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.算命仙"
+                        }
                       },
                       "kind": "dialog"
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.001",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
                             "text": "dlg.7330"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -1147,7 +1216,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.算命仙"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.算命仙"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1171,7 +1243,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.算命仙"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.算命仙"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1229,7 +1304,10 @@
                             "text": "dlg.7367"
                           }
                         ],
-                        "speaker": "spk.醉汉甲"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.醉汉甲"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -1246,7 +1324,10 @@
                             "text": "dlg.7370"
                           }
                         ],
-                        "speaker": "spk.醉汉乙"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.醉汉乙"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -1269,7 +1350,10 @@
                             "text": "dlg.7375"
                           }
                         ],
-                        "speaker": "spk.醉汉甲"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.醉汉甲"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -1283,7 +1367,10 @@
                             "text": "dlg.7377"
                           }
                         ],
-                        "speaker": "spk.醉汉乙"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.醉汉乙"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -1300,7 +1387,10 @@
                             "text": "dlg.7380"
                           }
                         ],
-                        "speaker": "spk.醉汉甲"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.醉汉甲"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -1323,7 +1413,10 @@
                             "text": "dlg.7384"
                           }
                         ],
-                        "speaker": "spk.醉汉甲"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.醉汉甲"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -1346,7 +1439,10 @@
                             "text": "dlg.7389"
                           }
                         ],
-                        "speaker": "spk.醉汉乙"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.醉汉乙"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -1363,7 +1459,10 @@
                             "text": "dlg.7392"
                           }
                         ],
-                        "speaker": "spk.醉汉甲"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.醉汉甲"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -1383,7 +1482,10 @@
                             "text": "dlg.7396"
                           }
                         ],
-                        "speaker": "spk.醉汉乙"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.醉汉乙"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1400,7 +1502,10 @@
                             "text": "dlg.7398"
                           }
                         ],
-                        "speaker": "spk.醉汉"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.醉汉"
+                        }
                       },
                       "kind": "dialog"
                     }

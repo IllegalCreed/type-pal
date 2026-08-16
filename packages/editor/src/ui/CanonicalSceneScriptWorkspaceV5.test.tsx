@@ -195,7 +195,6 @@ describe('CanonicalSceneScriptWorkspaceV5', () => {
           projectId="test"
           onDispatch={() => {}}
           focusReference={options?.focusReference}
-          onClose={() => {}}
         />,
       ),
     )
@@ -241,6 +240,26 @@ describe('CanonicalSceneScriptWorkspaceV5', () => {
     await renderWorkspace(sceneA, 'e1')
     expect(scriptTab('交互脚本').getAttribute('aria-selected')).toBe('true')
     expect(host.textContent).toContain('A 交互方案')
+  })
+
+  test('only exposes entity script tabs while an entity is selected', async () => {
+    await renderWorkspace(sceneA, null)
+    expect([...host.querySelectorAll('[role="tab"]')].map((tab) => tab.textContent)).toEqual([
+      '进场脚本',
+      '传送出口',
+    ])
+
+    await renderWorkspace(sceneA, 'e1')
+    expect([...host.querySelectorAll('[role="tab"]')].map((tab) => tab.textContent)).toEqual([
+      '进场脚本',
+      '传送出口',
+      '交互脚本',
+      '自动行为',
+    ])
+
+    await renderWorkspace(sceneA, null)
+    expect(host.textContent).not.toContain('交互脚本')
+    expect(host.textContent).not.toContain('自动行为')
   })
 
   test('引用定位会联动到目标实体方案、步骤和具体指令', async () => {

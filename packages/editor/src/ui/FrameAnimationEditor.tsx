@@ -1,6 +1,16 @@
 import { type AssetId, type AssetRecordV1, FRAME_SEQUENCE_MEDIA_TYPE } from '@type-pal/content'
 import { type AssetBase, FrameSequenceReader, loadStandardPalette } from '@type-pal/reforge'
-import { type ChangeEvent, type DragEvent, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  type ChangeEvent,
+  type DragEvent,
+  type KeyboardEvent,
+  type PointerEvent,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type WheelEvent,
+} from 'react'
 import { UpsertAssetCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
@@ -32,6 +42,21 @@ import {
   encodeFrameAnimationInWorker,
   quantizeFrameAnimationInWorker,
 } from '../core/frame-animation-worker-client.js'
+import {
+  DsButton,
+  DsCheckbox,
+  DsField,
+  DsIconButton,
+  DsNumberInput,
+  DsSelect,
+  DsZoomToolbar,
+} from './design-system/index.js'
+import {
+  clampMediaPreviewZoom,
+  MEDIA_PREVIEW_MAX_ZOOM,
+  MEDIA_PREVIEW_MIN_ZOOM,
+  stepMediaPreviewZoom,
+} from './media-preview-viewport.js'
 
 export interface FrameAnimationMetadata {
   width: number
@@ -109,6 +134,7 @@ function FrameThumbnail(props: {
       style={{ left: index * TIMELINE_ITEM_WIDTH }}
       draggable
       aria-label={`第 ${index + 1} 帧`}
+      aria-pressed={selected}
       onClick={onSelect}
       onDragStart={onDragStart}
       onDragOver={(event) => event.preventDefault()}
@@ -137,15 +163,26 @@ export function FrameAnimationEditor(props: {
   const [playing, setPlaying] = useState(false)
   const [loop, setLoop] = useState(true)
   const [fit, setFit] = useState(true)
+  const [zoom, setZoom] = useState(1)
+  const [renderedZoom, setRenderedZoom] = useState(1)
+  const [panning, setPanning] = useState(false)
   const [busy, setBusy] = useState('')
   const [error, setError] = useState('')
   const [quantization, setQuantization] = useState<FrameQuantization>('nearest')
   const [viewport, setViewport] = useState({ left: 0, width: 600 })
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const previewStageRef = useRef<HTMLDivElement>(null)
   const timelineRef = useRef<HTMLDivElement>(null)
   const insertRef = useRef<HTMLInputElement>(null)
   const replaceRef = useRef<HTMLInputElement>(null)
   const dragIndex = useRef<number | null>(null)
+  const panGesture = useRef<{
+    pointerId: number
+    clientX: number
+    clientY: number
+    scrollLeft: number
+    scrollTop: number
+  } | null>(null)
   const selectionAnchor = useRef(0)
 
   const draft = history?.present
@@ -165,6 +202,11 @@ export function FrameAnimationEditor(props: {
     setSelectedFrameIds(new Set())
     selectionAnchor.current = 0
     setPlaying(false)
+    setFit(true)
+    setZoom(1)
+    setRenderedZoom(1)
+    setPanning(false)
+    panGesture.current = null
     setError('')
     const expectedRevision = asset.record.sha256
     sequenceReader.invalidate(asset.id)
@@ -240,6 +282,22 @@ export function FrameAnimationEditor(props: {
   }, [draft, selectedIndex, sequenceReader])
 
   useEffect(() => {
+    if (!draft) return
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const update = (): void => {
+      const next = canvas.getBoundingClientRect().width / draft.width
+      if (Number.isFinite(next) && next > 0)
+        setRenderedZoom((current) => (Math.abs(current - next) < 0.001 ? current : next))
+    }
+    update()
+    if (typeof ResizeObserver === 'undefined') return
+    const observer = new ResizeObserver(update)
+    observer.observe(canvas)
+    return () => observer.disconnect()
+  }, [draft, fit, zoom])
+
+  useEffect(() => {
     if (!playing || !draft) return
     const timer = window.setTimeout(
       () => {
@@ -272,6 +330,85 @@ export function FrameAnimationEditor(props: {
 
   const commit = (next: FrameAnimationDraft): void => {
     setHistory((current) => (current ? commitDraftHistory(current, next) : current))
+  }
+
+  const applyPreviewZoom = (value: number, anchor?: { clientX: number; clientY: number }): void => {
+    const next = clampMediaPreviewZoom(value)
+    const stage = previewStageRef.current
+    const canvas = canvasRef.current
+    const stageRect = stage?.getBoundingClientRect()
+    const canvasRect = canvas?.getBoundingClientRect()
+    const clientX = anchor?.clientX ?? (stageRect ? stageRect.left + stageRect.width / 2 : 0)
+    const clientY = anchor?.clientY ?? (stageRect ? stageRect.top + stageRect.height / 2 : 0)
+    const relativeX = canvasRect?.width ? (clientX - canvasRect.left) / canvasRect.width : 0.5
+    const relativeY = canvasRect?.height ? (clientY - canvasRect.top) / canvasRect.height : 0.5
+    setFit(false)
+    setZoom(next)
+    if (!stage || !canvas || !stageRect) return
+    window.requestAnimationFrame(() => {
+      const nextCanvasRect = canvas.getBoundingClientRect()
+      stage.scrollLeft += nextCanvasRect.left + relativeX * nextCanvasRect.width - clientX
+      stage.scrollTop += nextCanvasRect.top + relativeY * nextCanvasRect.height - clientY
+    })
+  }
+
+  const fitPreview = (): void => {
+    setFit(true)
+    window.requestAnimationFrame(() => {
+      previewStageRef.current?.scrollTo({ left: 0, top: 0 })
+    })
+  }
+
+  const onPreviewWheel = (event: WheelEvent<HTMLDivElement>): void => {
+    event.preventDefault()
+    const current = fit ? renderedZoom : zoom
+    const factor = Math.exp(-event.deltaY * 0.0015)
+    applyPreviewZoom(current * factor, { clientX: event.clientX, clientY: event.clientY })
+  }
+
+  const onPreviewKeyDown = (event: KeyboardEvent<HTMLDivElement>): void => {
+    const current = fit ? renderedZoom : zoom
+    if (event.key === '+' || event.key === '=') {
+      event.preventDefault()
+      applyPreviewZoom(stepMediaPreviewZoom(current, 1))
+    } else if (event.key === '-') {
+      event.preventDefault()
+      applyPreviewZoom(stepMediaPreviewZoom(current, -1))
+    } else if (event.key === '0') {
+      event.preventDefault()
+      applyPreviewZoom(1)
+    } else if (event.key.toLowerCase() === 'f') {
+      event.preventDefault()
+      fitPreview()
+    }
+  }
+
+  const onPreviewPointerDown = (event: PointerEvent<HTMLDivElement>): void => {
+    if (fit || event.button !== 0) return
+    panGesture.current = {
+      pointerId: event.pointerId,
+      clientX: event.clientX,
+      clientY: event.clientY,
+      scrollLeft: event.currentTarget.scrollLeft,
+      scrollTop: event.currentTarget.scrollTop,
+    }
+    event.currentTarget.setPointerCapture(event.pointerId)
+    setPanning(true)
+  }
+
+  const onPreviewPointerMove = (event: PointerEvent<HTMLDivElement>): void => {
+    const gesture = panGesture.current
+    if (!gesture || gesture.pointerId !== event.pointerId) return
+    event.currentTarget.scrollLeft = gesture.scrollLeft - (event.clientX - gesture.clientX)
+    event.currentTarget.scrollTop = gesture.scrollTop - (event.clientY - gesture.clientY)
+  }
+
+  const endPreviewPan = (event: PointerEvent<HTMLDivElement>): void => {
+    if (panGesture.current?.pointerId !== event.pointerId) return
+    panGesture.current = null
+    if (event.currentTarget.hasPointerCapture(event.pointerId))
+      event.currentTarget.releasePointerCapture(event.pointerId)
+    setPanning(false)
   }
 
   const activateFrame = (index: number): void => {
@@ -440,102 +577,130 @@ export function FrameAnimationEditor(props: {
   return (
     <div className="fa-editor">
       <div className="fa-toolbar">
-        <button
-          type="button"
-          className="btn icon-btn"
-          title="第一帧"
+        <DsIconButton
+          label="第一帧"
+          icon="skip-back"
+          variant="secondary"
           onClick={() => activateFrame(0)}
-        >
-          |◀
-        </button>
-        <button
-          type="button"
-          className="btn icon-btn"
-          title="上一帧"
+        />
+        <DsIconButton
+          label="上一帧"
+          icon="chevron-left"
+          variant="secondary"
           onClick={() => activateFrame(Math.max(0, selectedIndex - 1))}
-        >
-          ◀
-        </button>
-        <button
-          type="button"
-          className={`btn icon-btn${playing ? ' on' : ''}`}
-          title={playing ? '暂停' : '播放'}
+        />
+        <DsIconButton
+          label={playing ? '暂停' : '播放'}
+          icon={playing ? 'pause' : 'play'}
+          variant="secondary"
+          aria-pressed={playing}
           onClick={() => setPlaying((value) => !value)}
-        >
-          {playing ? 'Ⅱ' : '▶'}
-        </button>
-        <button
-          type="button"
-          className="btn icon-btn"
-          title="下一帧"
+        />
+        <DsIconButton
+          label="下一帧"
+          icon="chevron-right"
+          variant="secondary"
           onClick={() => activateFrame(Math.min(draft.frames.length - 1, selectedIndex + 1))}
-        >
-          ▶
-        </button>
-        <button
-          type="button"
-          className="btn icon-btn"
-          title="最后一帧"
+        />
+        <DsIconButton
+          label="最后一帧"
+          icon="skip-forward"
+          variant="secondary"
           onClick={() => activateFrame(draft.frames.length - 1)}
-        >
-          ▶|
-        </button>
-        <label className="fa-toggle">
-          <input
-            type="checkbox"
-            checked={loop}
-            onChange={(event) => setLoop(event.target.checked)}
-          />
-          循环
-        </label>
+        />
+        <DsCheckbox
+          label="循环"
+          checked={loop}
+          onChange={(event) => setLoop(event.target.checked)}
+        />
         <span className="fa-counter">
           {selectedIndex + 1} / {draft.frames.length}
           {selectedFrameIds.size > 1 ? ` · 已选 ${selectedFrameIds.size}` : ''}
         </span>
         <span className="spacer" />
-        <button type="button" className="btn" onClick={() => setFit((value) => !value)}>
-          {fit ? '适合窗口' : '100%'}
-        </button>
-        <button
-          type="button"
-          className="btn"
+        <DsZoomToolbar
+          label="预览缩放"
+          value={clampMediaPreviewZoom(fit ? renderedZoom : zoom)}
+          fitted={fit}
+          min={MEDIA_PREVIEW_MIN_ZOOM}
+          max={MEDIA_PREVIEW_MAX_ZOOM}
+          onChange={applyPreviewZoom}
+          onStep={(direction) =>
+            applyPreviewZoom(stepMediaPreviewZoom(fit ? renderedZoom : zoom, direction))
+          }
+          onFit={fitPreview}
+          onActualSize={() => applyPreviewZoom(1)}
+        />
+        <DsIconButton
+          label="撤销帧编辑"
+          icon="undo"
+          variant="secondary"
           disabled={!history.past.length || Boolean(busy)}
           onClick={() => setHistory((current) => (current ? undoDraftHistory(current) : current))}
-        >
-          撤销帧编辑
-        </button>
-        <button
-          type="button"
-          className="btn"
+        />
+        <DsIconButton
+          label="重做帧编辑"
+          icon="redo"
+          variant="secondary"
           disabled={!history.future.length || Boolean(busy)}
           onClick={() => setHistory((current) => (current ? redoDraftHistory(current) : current))}
-        >
-          重做帧编辑
-        </button>
-        <button
-          type="button"
-          className="btn primary"
-          disabled={!dirty || Boolean(busy)}
+        />
+        <DsButton
+          variant="primary"
+          icon="save"
+          disabled={!dirty}
+          busy={Boolean(busy)}
           onClick={() => void save()}
         >
           保存动画
-        </button>
+        </DsButton>
       </div>
 
-      <div className="fa-preview-stage">
-        <canvas ref={canvasRef} className={fit ? 'fit' : 'actual'} />
+      <div
+        ref={previewStageRef}
+        className={`fa-preview-stage${fit ? ' fit' : ' zoomed'}${panning ? ' panning' : ''}`}
+        tabIndex={0}
+        aria-label="帧动画预览；滚轮缩放，放大后拖拽平移，按 F 适合窗口，按 0 恢复原始大小"
+        onWheel={onPreviewWheel}
+        onKeyDown={onPreviewKeyDown}
+        onPointerDown={onPreviewPointerDown}
+        onPointerMove={onPreviewPointerMove}
+        onPointerUp={endPreviewPan}
+        onPointerCancel={endPreviewPan}
+      >
+        <div
+          className="fa-preview-surface"
+          style={
+            fit
+              ? undefined
+              : {
+                  width: `${draft.width * zoom + 32}px`,
+                  height: `${draft.height * zoom + 32}px`,
+                }
+          }
+        >
+          <canvas
+            ref={canvasRef}
+            className={fit ? 'fit' : 'manual'}
+            style={
+              fit
+                ? undefined
+                : { width: `${draft.width * zoom}px`, height: `${draft.height * zoom}px` }
+            }
+          />
+        </div>
       </div>
 
       <div className="fa-edit-bar">
-        <button type="button" className="btn" onClick={() => insertRef.current?.click()}>
+        <DsButton variant="secondary" icon="add" onClick={() => insertRef.current?.click()}>
           插入图片
-        </button>
-        <button type="button" className="btn" onClick={() => replaceRef.current?.click()}>
+        </DsButton>
+        <DsButton variant="secondary" onClick={() => replaceRef.current?.click()}>
           替换当前帧
-        </button>
-        <button
-          type="button"
-          className="btn"
+        </DsButton>
+        <DsButton
+          variant="secondary"
+          icon="copy"
           onClick={() => {
             const copies = actionIndices.map((index) => ({
               ...draft.frames[index]!,
@@ -549,10 +714,10 @@ export function FrameAnimationEditor(props: {
           }}
         >
           复制选中帧
-        </button>
-        <button
-          type="button"
-          className="btn danger"
+        </DsButton>
+        <DsButton
+          variant="danger"
+          icon="delete"
           disabled={draft.frames.length <= actionIndices.length}
           onClick={() => {
             const next = deleteDraftFrames(draft, actionIndices)
@@ -564,67 +729,65 @@ export function FrameAnimationEditor(props: {
           }}
         >
           删除选中帧
-        </button>
+        </DsButton>
         <span className="fa-divider" />
-        <label>
-          全局帧率
-          <input
-            className="in compact"
-            type="number"
-            min="0.1"
-            step="0.1"
-            defaultValue={(1000 / draft.defaultFrameMs).toFixed(2)}
-            key={`fps-${draft.defaultFrameMs}`}
-            onBlur={(event) => {
-              const fps = Number(event.target.value)
-              if (Number.isFinite(fps) && fps > 0) commit(setDraftDefaultFrameMs(draft, 1000 / fps))
-            }}
-          />
-        </label>
-        <label>
-          当前帧时长
-          <input
-            className="in compact"
-            type="number"
-            min="1"
-            placeholder={`${Math.round(draft.defaultFrameMs)} 默认`}
-            value={draft.frames[selectedIndex]?.durationMs ?? ''}
-            onChange={(event) => {
-              const value = event.target.value
-              const duration = Number(value)
-              if (!value) commit(setDraftFrameDuration(draft, selectedIndex, undefined))
-              else if (Number.isFinite(duration) && duration > 0)
-                commit(setDraftFrameDuration(draft, selectedIndex, duration))
-            }}
-          />
-          ms
-        </label>
+        <DsField label="全局帧率" layout="inline" className="fa-edit-bar__field">
+          {(field) => (
+            <DsNumberInput
+              {...field}
+              min="0.1"
+              step="0.1"
+              defaultValue={(1000 / draft.defaultFrameMs).toFixed(2)}
+              key={`fps-${draft.defaultFrameMs}`}
+              onBlur={(event) => {
+                const fps = Number(event.target.value)
+                if (Number.isFinite(fps) && fps > 0)
+                  commit(setDraftDefaultFrameMs(draft, 1000 / fps))
+              }}
+            />
+          )}
+        </DsField>
+        <DsField label="当前帧时长（ms）" layout="inline" className="fa-edit-bar__field">
+          {(field) => (
+            <DsNumberInput
+              {...field}
+              min="1"
+              placeholder={`${Math.round(draft.defaultFrameMs)} 默认`}
+              value={draft.frames[selectedIndex]?.durationMs ?? ''}
+              onChange={(event) => {
+                const value = event.target.value
+                const duration = Number(value)
+                if (!value) commit(setDraftFrameDuration(draft, selectedIndex, undefined))
+                else if (Number.isFinite(duration) && duration > 0)
+                  commit(setDraftFrameDuration(draft, selectedIndex, duration))
+              }}
+            />
+          )}
+        </DsField>
         <span className="fa-divider" />
-        <select
-          className="sel compact"
+        <DsSelect
           aria-label="颜色转换方式"
           value={quantization}
-          onChange={(event) => setQuantization(event.target.value as FrameQuantization)}
-        >
-          <option value="nearest">最近色</option>
-          <option value="floyd-steinberg">误差扩散</option>
-        </select>
-        <button
-          type="button"
-          className="btn"
+          onValueChange={(value) => setQuantization(value as FrameQuantization)}
+          options={[
+            { value: 'nearest', label: '最近色' },
+            { value: 'floyd-steinberg', label: '误差扩散' },
+          ]}
+        />
+        <DsButton
+          variant="secondary"
           disabled={Boolean(busy)}
           onClick={() => void quantizeFrames(false)}
         >
           当前帧贴合标准色彩
-        </button>
-        <button
-          type="button"
-          className="btn"
+        </DsButton>
+        <DsButton
+          variant="secondary"
           disabled={Boolean(busy)}
           onClick={() => void quantizeFrames(true)}
         >
           全部贴合
-        </button>
+        </DsButton>
         {busy ? <span className="fa-status">{busy}</span> : null}
       </div>
 

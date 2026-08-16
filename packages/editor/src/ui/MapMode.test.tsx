@@ -220,6 +220,12 @@ function button(host: HTMLElement, text: string): HTMLButtonElement {
   return result
 }
 
+function transformButton(host: HTMLElement, text: string): HTMLButtonElement {
+  const tools = host.querySelector<HTMLElement>('.map-transform-tools')
+  if (!tools) throw new Error('未找到地图选区变换工具栏')
+  return button(tools, text)
+}
+
 function inspectorTab(host: HTMLElement, text: string): HTMLButtonElement {
   const result = [
     ...host.querySelectorAll<HTMLButtonElement>('.map-inspector-tabs [role="tab"]'),
@@ -477,7 +483,7 @@ describe('MapMode 地图内容选择交互', () => {
     expect(session.getState().maps['map-a']).toBe(beforeMap)
     expect(session.getMapRevision('map-a')).toBe(0)
     expect(session.isDirty()).toBe(false)
-    expect(button(host, '选择').classList).toContain('active')
+    expect(button(host, '选择').getAttribute('aria-pressed')).toBe('true')
   })
 
   test('组合工具只负责放置已选模板，不冒充右栏组合 Tab', async () => {
@@ -492,7 +498,7 @@ describe('MapMode 地图内容选择交互', () => {
     await act(async () => inspectorTab(host, '属性').click())
     await act(async () => placeStamp.click())
 
-    expect(placeStamp.classList).toContain('active')
+    expect(placeStamp.getAttribute('aria-pressed')).toBe('true')
     expect(inspectorTab(host, '属性').getAttribute('aria-selected')).toBe('true')
     expect(inspectorTab(host, '组合').getAttribute('aria-selected')).toBe('false')
   })
@@ -548,9 +554,12 @@ describe('MapMode 地图内容选择交互', () => {
   test('左侧承载层高控件，瓦片/组合在右栏按需挂载，中央画布无 DOM 遮挡', async () => {
     const { host } = await mountMapMode({ stamps: [stampTemplate()] })
     const viewport = host.querySelector<HTMLElement>('.viewport')!
-    const focusNav = host.querySelector<HTMLElement>('.map-focus-nav')!
-    expect(focusNav.closest('.map-outliner')).not.toBeNull()
-    expect(viewport.querySelector('.map-focus-nav')).toBeNull()
+    const paintContext = host.querySelector<HTMLElement>('.map-paint-context')!
+    const outliner = paintContext.closest<HTMLElement>('.map-outliner')!
+    expect(outliner).not.toBeNull()
+    expect(outliner.lastElementChild).toBe(paintContext)
+    expect(paintContext.textContent).toContain('绘制层级')
+    expect(viewport.querySelector('.map-paint-context')).toBeNull()
     expect(viewport.querySelector('.canvas-note')).toBeNull()
     expect(viewport.querySelector('.map-transform-bar')).toBeNull()
     expect(viewport.querySelector('.map-candidate-menu')).toBeNull()
@@ -568,18 +577,22 @@ describe('MapMode 地图内容选择交互', () => {
 
   test('高度层切到平面层后视图、输出与实际笔刷都强制使用高度 0', async () => {
     const { host, canvas, session } = await mountMapMode()
-    const layer = host.querySelector<HTMLInputElement>('[aria-label="当前图层"]')!
-    const height = host.querySelector<HTMLInputElement>('[aria-label="观察与笔刷高度"]')!
+    const layerRows = [...host.querySelectorAll<HTMLElement>('.map-layer-row')]
+    const objectLayer = layerRows.find((row) => row.textContent?.includes('上层'))!
+    const floorLayer = layerRows.find((row) => row.textContent?.includes('地板'))!
+    const height = host.querySelector<HTMLInputElement>('#map-paint-height')!
+    const heightOutput = host.querySelector<HTMLOutputElement>('output[for="map-paint-height"]')!
 
-    await setInputValue(layer, '1')
+    await act(async () => objectLayer.querySelector<HTMLButtonElement>('.layer-name')!.click())
     expect(height.disabled).toBe(false)
     await setInputValue(height, '7')
     expect(height.value).toBe('7')
+    expect(heightOutput.textContent).toBe('7')
 
-    await setInputValue(layer, '0')
+    await act(async () => floorLayer.querySelector<HTMLButtonElement>('.layer-name')!.click())
     expect(height.disabled).toBe(true)
     expect(height.value).toBe('0')
-    expect(height.closest('.map-focus-axis')?.querySelector('output')?.textContent).toBe('0')
+    expect(heightOutput.textContent).toBe('0')
 
     await act(async () => button(host, '笔刷').click())
     await act(async () => {
@@ -589,6 +602,16 @@ describe('MapMode 地图内容选择交互', () => {
     const changed = session.getState().maps['map-a']!
     expect(changed.layers[0]?.tiles[0]?.[0]).toBe(0)
     expect(changed.layers[0]).not.toHaveProperty('heights')
+  })
+
+  test('图层管理统一使用共享控件，不在列表重复暴露内部深度类型', async () => {
+    const { host } = await mountMapMode()
+    const layerPanel = host.querySelector<HTMLElement>('.map-layer-list')!
+    expect(layerPanel.querySelectorAll('.ds-icon-button')).toHaveLength(6)
+    expect(layerPanel.querySelector('.mini')).toBeNull()
+    expect(layerPanel.textContent).not.toContain('高度层')
+    expect(layerPanel.textContent).not.toContain('平面层')
+    expect(host.querySelector('.map-layer-panel__header .ds-tag')?.textContent).toBe('2 层')
   })
 
   test('600 个组合只挂载首批 60 个，真实画布 hover 不重渲染缩略图', async () => {
@@ -614,8 +637,8 @@ describe('MapMode 地图内容选择交互', () => {
     const { host, canvas, onRequestInspectorOpen } = await mountMapMode()
     await act(async () => inspectorTab(host, '瓦片').click())
     await selectFloor(host, canvas)
-    await act(async () => button(host, '复制').click())
-    await act(async () => button(host, '粘贴').click())
+    await act(async () => transformButton(host, '复制').click())
+    await act(async () => transformButton(host, '粘贴').click())
     expect(inspectorTab(host, '属性').getAttribute('aria-selected')).toBe('true')
     expect(host.querySelector('.map-properties-panel .map-transform-bar')).not.toBeNull()
     expect(host.querySelector('.viewport .map-transform-bar')).toBeNull()
@@ -700,7 +723,7 @@ describe('MapMode 地图内容选择交互', () => {
     const before = session.getState().maps['map-a']!
     await act(async () => button(host, '选择').click())
     await act(async () => pointer(canvas, 'pointerdown'))
-    await act(async () => button(host, '移动…').click())
+    await act(async () => transformButton(host, '移动…').click())
     expect(button(host.querySelector('.map-transform-bar')!, '确认位置').disabled).toBe(true)
     await act(async () => button(host.querySelector('.map-transform-nudge')!, '↘').click())
     await act(async () => button(host.querySelector('.map-transform-bar')!, '确认位置').click())
@@ -728,7 +751,7 @@ describe('MapMode 地图内容选择交互', () => {
     const { host, canvas, session } = await mountMapMode({ map: placementMap() })
     await act(async () => button(host, '选择').click())
     await act(async () => pointer(canvas, 'pointerdown'))
-    await act(async () => button(host, '移动…').click())
+    await act(async () => transformButton(host, '移动…').click())
     await act(async () => pointer(canvas, 'pointermove', { clientX: 17, clientY: 1 }))
 
     expect(host.querySelector('.map-transform-bar')?.textContent).toContain('锚点 r1:c0')
@@ -753,7 +776,7 @@ describe('MapMode 地图内容选择交互', () => {
     const before = session.getState().maps['map-a']!
     await act(async () => button(host, '选择').click())
     await act(async () => pointer(canvas, 'pointerdown'))
-    await act(async () => button(host, '移动…').click())
+    await act(async () => transformButton(host, '移动…').click())
     await act(async () => pointer(canvas, 'pointerdown', { clientX: 33, clientY: 17 }))
 
     let dialog = host.querySelector<HTMLElement>('[role="alertdialog"]')!
@@ -789,8 +812,8 @@ describe('MapMode 地图内容选择交互', () => {
     const { host, canvas, session } = await mountMapMode({ map })
     await act(async () => button(host, '选择').click())
     await act(async () => pointer(canvas, 'pointerdown'))
-    await act(async () => button(host, '复制').click())
-    await act(async () => button(host, '粘贴').click())
+    await act(async () => transformButton(host, '复制').click())
+    await act(async () => transformButton(host, '粘贴').click())
     await act(async () =>
       canvas.dispatchEvent(
         new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true, cancelable: true }),
@@ -814,7 +837,7 @@ describe('MapMode 地图内容选择交互', () => {
     const before = session.getState().maps['map-a']!
     await act(async () => button(host, '选择').click())
     await act(async () => pointer(canvas, 'pointerdown'))
-    await act(async () => button(host, '重复').click())
+    await act(async () => transformButton(host, '重复').click())
 
     const bar = host.querySelector<HTMLElement>('.map-transform-bar')!
     expect(bar.textContent).toContain('锚点 r0:c1 · 含碰撞')
@@ -844,14 +867,14 @@ describe('MapMode 地图内容选择交互', () => {
     const before = session.getState().maps['map-a']!
     await act(async () => button(host, '选择').click())
     await act(async () => pointer(canvas, 'pointerdown'))
-    await act(async () => button(host, '剪切').click())
+    await act(async () => transformButton(host, '剪切').click())
     expect(session.getState().maps['map-a']).toBe(before)
     expect(session.getMapRevision('map-a')).toBe(0)
     expect(onWorkspaceNotice).toHaveBeenLastCalledWith(
       expect.objectContaining({ kind: 'error', message: expect.stringContaining('请使用“移动…') }),
     )
 
-    await act(async () => button(host, '删除').click())
+    await act(async () => transformButton(host, '删除').click())
     const deleted = session.getState().maps['map-a']!
     expect(session.getMapRevision('map-a')).toBe(1)
     expect(projectMapStampPlacements(deleted)).toEqual([])
@@ -867,7 +890,7 @@ describe('MapMode 地图内容选择交互', () => {
     const { host, canvas, session } = await mountMapMode({ map: placementMap(true) })
     await act(async () => button(host, '选择').click())
     await act(async () => pointer(canvas, 'pointerdown', { clientX: 1, clientY: 1 }))
-    await act(async () => button(host, '移动…').click())
+    await act(async () => transformButton(host, '移动…').click())
     await act(async () => button(host.querySelector('.map-transform-nudge')!, '↘').click())
     await act(async () => button(host.querySelector('.map-transform-nudge')!, '↙').click())
     const bar = host.querySelector<HTMLElement>('.map-transform-bar')!
@@ -885,11 +908,11 @@ describe('MapMode 地图内容选择交互', () => {
     await act(async () => button(host, '进入组内编辑').click())
 
     for (const label of ['复制', '剪切', '移动…', '重复', '删除'])
-      expect(button(host, label).disabled).toBe(true)
+      expect(transformButton(host, label).disabled).toBe(true)
     expect(session.getState().maps['map-a']).toBe(before)
 
     await act(async () => button(host, '退出组内').click())
-    await act(async () => button(host, '移动…').click())
+    await act(async () => transformButton(host, '移动…').click())
     expect(button(host, '进入组内编辑').disabled).toBe(true)
     expect(button(host, '解组（保留地图内容）').disabled).toBe(true)
     expect(host.querySelector('.map-selection-warning')?.textContent).toContain('正在预览组合变换')
@@ -1189,8 +1212,8 @@ describe('MapMode 地图内容选择交互', () => {
     const nextSession = new EditSession(editorState(fixtureMap()))
     await rerenderWithSession(nextSession)
     expect(host.querySelector('.map-transform-bar')).toBeNull()
-    expect(button(host, '平移').classList).toContain('active')
-    expect(button(host, '粘贴').disabled).toBe(true)
+    expect(button(host, '平移').getAttribute('aria-pressed')).toBe('true')
+    expect(transformButton(host, '粘贴').disabled).toBe(true)
   })
 
   test('切换同 mapId 的 EditSession 会清掉旧工程删除二次确认', async () => {
@@ -1344,7 +1367,7 @@ describe('MapMode 地图内容选择交互', () => {
     await act(async () => button(host, '取样').click())
     await act(async () => pointer(canvas, 'pointerdown'))
     expect(host.querySelector('.map-selection-head')?.textContent).toContain('1 个视觉实例')
-    expect(button(host, '笔刷').classList).toContain('active')
+    expect(button(host, '笔刷').getAttribute('aria-pressed')).toBe('true')
     await act(async () => inspectorTab(host, '瓦片').click())
     expect(host.querySelector('.map-tiles-head .hint2')?.textContent).toContain('#1')
   })
@@ -1395,7 +1418,9 @@ describe('MapMode 地图内容选择交互', () => {
     expect(button(host, '笔刷').disabled).toBe(true)
     expect(host.querySelector<HTMLInputElement>('[aria-label="选区 tileId"]')?.disabled).toBe(true)
 
-    await act(async () => floorRow.querySelector<HTMLButtonElement>('.layer-lock')?.click())
+    await act(async () =>
+      floorRow.querySelector<HTMLButtonElement>('[aria-label="解锁图层"]')?.click(),
+    )
     await act(async () =>
       floorRow.querySelector<HTMLButtonElement>('[aria-label="隐藏图层"]')?.click(),
     )
@@ -1407,8 +1432,8 @@ describe('MapMode 地图内容选择交互', () => {
   test('变换预览锁定 Inspector，切换工具取消后恢复并替换过期错误消息', async () => {
     const { host, canvas, onWorkspaceNotice } = await mountMapMode()
     await selectFloor(host, canvas)
-    await act(async () => button(host, '复制').click())
-    await act(async () => button(host, '粘贴').click())
+    await act(async () => transformButton(host, '复制').click())
+    await act(async () => transformButton(host, '粘贴').click())
     expect(host.querySelector('.map-transform-bar')).not.toBeNull()
     expect(host.querySelector<HTMLInputElement>('[aria-label="选区 tileId"]')?.disabled).toBe(true)
 
@@ -1426,7 +1451,7 @@ describe('MapMode 地图内容选择交互', () => {
     await selectFloor(host, canvas)
     await activateStamp(host)
 
-    expect(button(host, '◆ 放置组合').classList).toContain('active')
+    expect(button(host, '◆ 放置组合').getAttribute('aria-pressed')).toBe('true')
     const mappings = [...host.querySelectorAll<HTMLSelectElement>('.stamp-mapping-list select')]
     expect(mappings).toHaveLength(2)
     expect(mappings.map((select) => select.value)).toEqual(['', ''])
@@ -1434,7 +1459,7 @@ describe('MapMode 地图内容选择交互', () => {
 
     await act(async () => button(host, '退出组合工具').click())
     expect(host.querySelector('.map-selection-head')?.textContent).toContain('1 个视觉实例')
-    expect(button(host, '笔刷').classList).not.toContain('active')
+    expect(button(host, '笔刷').getAttribute('aria-pressed')).toBe('false')
   })
 
   test('同 ID 工程更换 EditSession 时清空图章工具、显式映射与最近使用', async () => {
@@ -1444,11 +1469,11 @@ describe('MapMode 地图内容选择交互', () => {
     await mapStampSlots(host)
     await act(async () => pointer(canvas, 'pointerdown', { clientX: 33, clientY: 17 }))
     expect(host.querySelector('.map-stamp-recent')).not.toBeNull()
-    expect(button(host, '◆ 放置组合').classList).toContain('active')
+    expect(button(host, '◆ 放置组合').getAttribute('aria-pressed')).toBe('true')
 
     const nextSession = new EditSession(editorState(fixtureMap(), [template]))
     await rerenderWithSession(nextSession, [template])
-    expect(button(host, '◆ 放置组合').classList).not.toContain('active')
+    expect(button(host, '◆ 放置组合').getAttribute('aria-pressed')).toBe('false')
     expect(host.querySelector('.stamp-placement-inspector')).toBeNull()
     expect(
       [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(
@@ -1524,7 +1549,7 @@ describe('MapMode 地图内容选择交互', () => {
   test('删层影响放置组时先零写确认；取消零变化，解组与删层只占一步撤销', async () => {
     const { host, session } = await mountMapMode({ map: placementMap() })
     const before = session.getState().maps['map-a']!
-    const removeLayer = host.querySelector<HTMLButtonElement>('[title="删除选中图层"]')!
+    const removeLayer = host.querySelector<HTMLButtonElement>('[aria-label="删除选中图层"]')!
 
     await act(async () => removeLayer.click())
     let dialog = host.querySelector<HTMLElement>('.stamp-lifecycle-dialog')!
@@ -1556,7 +1581,9 @@ describe('MapMode 地图内容选择交互', () => {
     const map = paintProjectMapCollision(placementMap(), [{ row: 0, col: 0, value: 5 }])
     const { host, session } = await mountMapMode({ map })
     const before = session.getState().maps['map-a']!
-    await act(async () => host.querySelector<HTMLButtonElement>('[title="删除选中图层"]')?.click())
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label="删除选中图层"]')?.click(),
+    )
     const dialog = host.querySelector<HTMLElement>('.stamp-lifecycle-dialog')!
     await act(async () => button(dialog, '删除 1 个组合并继续').click())
     const changed = session.getState().maps['map-a']!
@@ -1605,7 +1632,9 @@ describe('MapMode 地图内容选择交互', () => {
 
   test('确认期间地图变化会刷新影响清单，第一次过期确认绝不执行', async () => {
     const { host, session, onWorkspaceNotice } = await mountMapMode({ map: placementMap() })
-    await act(async () => host.querySelector<HTMLButtonElement>('[title="删除选中图层"]')?.click())
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label="删除选中图层"]')?.click(),
+    )
     await act(async () =>
       session.dispatch(new UpdateProjectMapLayerCommand('map-a', 'floor', { name: '改名后地板' })),
     )
@@ -1634,7 +1663,9 @@ describe('MapMode 地图内容选择交互', () => {
     await act(async () =>
       objectRow.querySelector<HTMLButtonElement>('[aria-label="锁定图层"]')?.click(),
     )
-    await act(async () => host.querySelector<HTMLButtonElement>('[title="删除选中图层"]')?.click())
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label="删除选中图层"]')?.click(),
+    )
     const dialog = host.querySelector<HTMLElement>('.stamp-lifecycle-dialog')!
     await act(async () => button(dialog, '先解组 1 个组合并继续').click())
     expect(session.getMapRevision('map-a')).toBe(0)

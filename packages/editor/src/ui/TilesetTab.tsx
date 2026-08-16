@@ -33,6 +33,7 @@ import {
   TilesetRemovalProof,
   TilesetReplacementProof,
 } from '../core/tileset-references.js'
+import { DsListHeader } from './design-system/index.js'
 
 const FRAME_PAGE_SIZE = 128
 
@@ -463,27 +464,23 @@ export function TilesetTab(props: {
     <>
       <div className="outliner data-outliner tileset-outliner">
         {tabBar}
-        <div className="pane-h tileset-library-head">
-          <span className="t">瓦片集</span>
-          <span className="spacer" />
-          <span className="tileset-library-count">
-            {shownTilesets.length}/{tilesets.length}
-          </span>
-          <button
-            type="button"
-            className="mini-txt"
-            title="上传 PNG、WebP 或 GIF 图集"
-            onClick={() => {
+        <DsListHeader
+          title="瓦片集"
+          count={tilesets.length}
+          unit="项"
+          actions={[{
+            id: 'upload-tileset',
+            label: '上传 PNG、WebP 或 GIF 图集',
+            icon: '＋',
+            onClick: () => {
               setUploading(true)
               setReplaceTargetId(undefined)
               setReplacementScan(undefined)
               setDraft(null)
               setErr('')
-            }}
-          >
-            ＋ 上传图集
-          </button>
-        </div>
+            },
+          }]}
+        />
         <div className="tileset-library-tools">
           <label className="tileset-search-field" htmlFor={searchId}>
             <span className="tileset-search-icon" aria-hidden="true" />

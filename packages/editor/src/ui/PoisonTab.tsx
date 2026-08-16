@@ -5,9 +5,42 @@
  * 序列/关系);右侧全局关系总览(致死对对称性校验 + 相克链推导,数据错一眼看出)。
  */
 import type { ItemData, PoisonCurability, PoisonDef, PoisonTick } from '@type-pal/content'
-import { useEffect, useMemo, useState } from 'react'
-import { AddPoisonCommand, UpdatePoisonCommand } from '../core/commands.js'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import {
+  type BattleDataReference,
+  blockingPoisonReferences,
+} from '../core/battle-data-references.js'
+import {
+  AddPoisonCommand,
+  BattleDataInUseError,
+  DeletePoisonCommand,
+  UpdatePoisonCommand,
+} from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import {
+  DsButton,
+  DsCheckbox,
+  DsField,
+  DsIconButton,
+  DsListHeader,
+  DsNumberInput,
+  DsSelect,
+  DsTag,
+  DsTextInput,
+} from './design-system/controls.js'
+import {
+  DsCatalogFilter,
+  DsCatalogRow,
+  DsInspectorTabs,
+  DsInspectorSection,
+  DsObjectHero,
+  DsReferenceList,
+  DsReferenceRow,
+  DsSequenceIndex,
+  DsWorkbenchSection,
+} from './design-system/recipes.js'
+
+type PoisonInspectorTab = 'references' | 'relations' | 'help'
 
 const CURABILITY: { v: PoisonCurability; label: string; hint: string }[] = [
   { v: 'common', label: '常规', hint: '常规解毒(灵血咒/九节菖蒲)即解' },
@@ -24,13 +57,12 @@ function Num(props: {
   v: number | undefined
   on: (n: number | undefined) => void
   ph?: string
-  w?: number
+  size?: 'default' | 'compact'
 }) {
   return (
-    <input
-      className="in mono ef-num"
-      type="number"
-      style={props.w ? { width: props.w } : undefined}
+    <DsNumberInput
+      size={props.size}
+      monospace
       value={props.v ?? ''}
       placeholder={props.ph}
       onChange={(e) =>
@@ -61,62 +93,60 @@ function TickRow(props: {
   }
   return (
     <div className="ef-row">
-      <span className="tick-no mono">{idx + 1}</span>
+      <DsSequenceIndex value={idx + 1} accessibleLabel={`第 ${idx + 1} 回合`} />
       <div className="ef-fields">
-        <label>
-          <span>扣血</span>
-          <Num v={tick.hpDelta} on={(n) => set({ hpDelta: n })} />
-        </label>
-        <label title="无影毒式一次性半血:实扣 = min(此值, 当前HP/2+1);留空 = 无">
-          <span>半血上限</span>
-          <Num v={tick.halveHp} on={(n) => set({ halveHp: n })} />
-        </label>
-        <label title="到期给玩家一件道具(养蛊寄生产出);留空 = 无">
-          <span>产道具</span>
-          <select
-            className="in"
-            value={tick.grantItem ?? ''}
-            onChange={(e) => set({ grantItem: e.target.value || undefined })}
-          >
-            <option value="">(无)</option>
-            {items.map((it) => (
-              <option key={it.id} value={it.id}>
-                {it.name}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="cf-inline" title="本回合跑完自动移除此毒(暴扣后自除/寄生到期)">
-          <input
-            type="checkbox"
-            checked={tick.selfCure === true}
-            onChange={(e) => set({ selfCure: e.target.checked || undefined })}
-          />
-          自解
-        </label>
+        <DsField label="扣血">
+          <Num size="compact" v={tick.hpDelta} on={(n) => set({ hpDelta: n })} />
+        </DsField>
+        <DsField label="半血上限">
+          <Num size="compact" v={tick.halveHp} ph="留空 = 无" on={(n) => set({ halveHp: n })} />
+        </DsField>
+        <DsField label="产道具">
+          {(field) => (
+            <DsSelect
+              size="compact"
+              {...field}
+              value={tick.grantItem ?? ''}
+              options={[
+                { value: '', label: '(无)' },
+                ...items.map((item) => ({ value: String(item.id), label: item.name })),
+              ]}
+              onValueChange={(grantItem) => set({ grantItem: grantItem || undefined })}
+            />
+          )}
+        </DsField>
+        <DsCheckbox
+          size="compact"
+          label="自解"
+          checked={tick.selfCure === true}
+          title="本回合跑完自动移除此毒"
+          onChange={(e) => set({ selfCure: e.target.checked || undefined })}
+        />
       </div>
       <span className="ef-ops">
-        <button
-          type="button"
-          className="mini"
-          title="上移"
+        <DsIconButton
+          size="compact"
+          variant="secondary"
+          icon="chevron-up"
+          label={`上移回合 ${idx + 1}`}
           disabled={first}
           onClick={() => onMove(-1)}
-        >
-          ↑
-        </button>
-        <button
-          type="button"
-          className="mini"
-          title="下移"
+        />
+        <DsIconButton
+          size="compact"
+          variant="secondary"
+          icon="chevron-down"
+          label={`下移回合 ${idx + 1}`}
           disabled={last}
           onClick={() => onMove(1)}
-        >
-          ↓
-        </button>
-        <button type="button" className="mini" title="删除" onClick={onRemove}>
-          ✕
-        </button>
+        />
+        <DsIconButton
+          size="compact"
+          variant="danger"
+          icon="delete"
+          label={`删除回合 ${idx + 1}`}
+          onClick={onRemove}
+        />
       </span>
     </div>
   )
@@ -138,10 +168,7 @@ function TicksEditor(props: {
     onChange(arr)
   }
   return (
-    <div className="section">
-      <h4>
-        {title} <span className="hint2">{hint}</span>
-      </h4>
+    <DsWorkbenchSection title={title} description={hint}>
       {list.map((t, i) => (
         <TickRow
           key={`t${i}-${list.length}`}
@@ -165,10 +192,14 @@ function TicksEditor(props: {
           }}
         />
       ))}
-      <button type="button" className="tool" onClick={() => onChange([...list, { hpDelta: -10 }])}>
-        ＋ 添加回合
-      </button>
-    </div>
+      <DsButton
+        variant="secondary"
+        icon="add"
+        onClick={() => onChange([...list, { hpDelta: -10 }])}
+      >
+        添加回合
+      </DsButton>
+    </DsWorkbenchSection>
   )
 }
 
@@ -275,17 +306,20 @@ export function PoisonTab(props: {
   session: EditSession
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
-  tabBar?: React.ReactNode
+  onOpenReference?: (reference: BattleDataReference) => void
 }) {
-  const { poisons, items, session, focusObjectId, onObjectFocus, tabBar } = props
+  const { poisons, items, session, focusObjectId, onObjectFocus, onOpenReference } = props
   const [filter, setFilter] = useState('')
   const [selId, setSelId] = useState<number>(poisons[0]?.id ?? 0)
+  const [inspectorTab, setInspectorTab] = useState<PoisonInspectorTab>('references')
+  const appliedFocusObjectId = useRef<string | undefined>(undefined)
   const shown = useMemo(
     () =>
       poisons.filter((p) => !filter || String(p.id).includes(filter) || p.name.includes(filter)),
     [poisons, filter],
   )
   const poison = poisons.find((p) => p.id === selId) ?? shown[0]
+  const references = poison ? blockingPoisonReferences(session.getState(), poison.id) : []
   const others = poisons.filter((p) => p.id !== poison?.id)
   const selectPoison = (id: number): void => {
     setSelId(id)
@@ -294,54 +328,63 @@ export function PoisonTab(props: {
 
   useEffect(() => {
     const id = Number(focusObjectId)
-    if (focusObjectId && Number.isInteger(id) && poisons.some((candidate) => candidate.id === id))
+    if (
+      focusObjectId &&
+      appliedFocusObjectId.current !== focusObjectId &&
+      Number.isInteger(id) &&
+      poisons.some((candidate) => candidate.id === id)
+    ) {
       setSelId(id)
+      appliedFocusObjectId.current = focusObjectId
+    }
   }, [focusObjectId, poisons])
 
   const patch = (p: Partial<Omit<PoisonDef, 'id'>>): void => {
     if (poison) session.dispatch(new UpdatePoisonCommand(poison.id, p))
+  }
+  const removePoison = (): void => {
+    if (!poison || references.length) return
+    if (!window.confirm(`删除毒 ${poison.name}(${poison.id})？此操作可以撤销。`)) return
+    const index = poisons.findIndex((entry) => entry.id === poison.id)
+    const next = poisons[index + 1] ?? poisons[index - 1]
+    try {
+      session.dispatch(new DeletePoisonCommand(poison.id))
+      if (next) selectPoison(next.id)
+      else {
+        setSelId(0)
+        onObjectFocus?.(undefined)
+      }
+    } catch (error) {
+      if (!(error instanceof BattleDataInUseError)) throw error
+    }
   }
 
   return (
     <>
       {/* 左:标签栏 + 毒列表 */}
       <div className="outliner data-outliner">
-        {tabBar}
-        <div className="pane-h">
-          <span className="t">毒</span>
-          <span className="spacer" />
-          <span className="k">
-            {shown.length}/{poisons.length}
-          </span>
-        </div>
-        <input
-          className="in"
+        <DsListHeader title="毒" count={poisons.length} unit="种" />
+        <DsCatalogFilter
+          aria-label="过滤毒"
           placeholder="过滤 id/名…"
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
-          style={{ margin: '0 8px 6px' }}
         />
         <div className="sprite-list">
           {shown.map((p) => (
-            <button
-              type="button"
+            <DsCatalogRow
               key={p.id}
-              className={`arow${p.id === poison?.id ? ' sel' : ''}`}
+              selected={p.id === poison?.id}
+              title={p.name}
+              meta={p.id}
+              trailing={<DsTag tone="neutral">{CURABILITY_BADGE[p.curability]}</DsTag>}
               onClick={() => selectPoison(p.id)}
-            >
-              <span className="nm">
-                {p.name}
-                <small>
-                  {p.id} · {CURABILITY_BADGE[p.curability]}
-                </small>
-              </span>
-            </button>
+            />
           ))}
         </div>
-        <button
-          type="button"
-          className="tool"
-          style={{ margin: '6px 10px 8px', justifyContent: 'center' }}
+        <DsButton
+          variant="secondary"
+          icon="add"
           onClick={() => {
             const name = window.prompt('新毒名字:', '')?.trim()
             if (!name) return
@@ -351,110 +394,137 @@ export function PoisonTab(props: {
             selectPoison(n)
           }}
         >
-          ＋ 新建毒
-        </button>
+          新建毒
+        </DsButton>
       </div>
 
-      {/* 中:结构化表单(skill-form:复用技能页的 .sk-grid 紧凑网格) */}
-      <div className="canvas-wrap data-body">
+      {/* 中：独立的毒编辑表单，不复用技能页私有样式。 */}
+      <div className="canvas-wrap data-body ds-object-workspace">
         {poison ? (
-          <div className="et-scroll skill-form">
-            <div className="section">
-              <h4>基础</h4>
-              <div className="sk-grid">
-                <label>
-                  <span className="lb">名字</span>
-                  <input
-                    className="in"
-                    value={poison.name}
-                    onChange={(e) => patch({ name: e.target.value })}
-                  />
-                </label>
-                <label title={CURABILITY.find((c) => c.v === poison.curability)?.hint}>
-                  <span className="lb">可解度</span>
-                  <select
-                    className="in"
-                    value={poison.curability}
-                    onChange={(e) => patch({ curability: e.target.value as PoisonCurability })}
-                  >
-                    {CURABILITY.map((c) => (
-                      <option key={c.v} value={c.v} title={c.hint}>
-                        {c.label}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label title="状态页头像染色的调色板色号;0 = 不染">
-                  <span className="lb">染色#</span>
-                  <Num v={poison.color} on={(n) => patch({ color: n ?? 0 })} />
-                </label>
-              </div>
-            </div>
-
-            <TicksEditor
-              title="玩家中毒 · 逐回合"
-              hint="每回合跑一格、指针前进;到尾重复末格(勾「自解」则移除)"
-              ticks={poison.playerTicks}
-              items={items}
-              onChange={(ticks) => patch({ playerTicks: ticks })}
+          <>
+            <DsObjectHero
+              eyebrow="毒"
+              title={poison.name}
+              objectId={String(poison.id)}
+              summary="管理玩家/敌人逐回合效果、可解度、致死配对与相克关系。"
+              meta={<DsTag tone="neutral">{CURABILITY_BADGE[poison.curability]}</DsTag>}
+              actions={
+                <DsButton
+                  variant="danger"
+                  icon="delete"
+                  disabled={references.length > 0}
+                  title={
+                    references.length
+                      ? `仍有 ${references.length} 处引用，请先从右侧处理`
+                      : '删除毒'
+                  }
+                  onClick={removePoison}
+                >
+                  删除毒
+                </DsButton>
+              }
             />
-            <TicksEditor
-              title="敌人中毒 · 逐回合"
-              hint="同毒对敌通常更狠(原版双档);留空 = 对敌无 DoT"
-              ticks={poison.enemyTicks}
-              items={items}
-              onChange={(ticks) => patch({ enemyTicks: ticks })}
-            />
+            <div className="et-scroll battle-data-form ds-object-workspace__content">
+              <DsWorkbenchSection title="基础" description="定义显示名称、可解度与状态头像染色。">
+                <div className="battle-data-grid">
+                  <DsField label="名字">
+                    {(field) => (
+                      <DsTextInput
+                        {...field}
+                        value={poison.name}
+                        onChange={(e) => patch({ name: e.target.value })}
+                      />
+                    )}
+                  </DsField>
+                  <DsField
+                    label="可解度"
+                    help={CURABILITY.find((c) => c.v === poison.curability)?.hint}
+                  >
+                    {(field) => (
+                      <DsSelect
+                        {...field}
+                        value={poison.curability}
+                        options={CURABILITY.map((curability) => ({
+                          value: curability.v,
+                          label: curability.label,
+                          description: curability.hint,
+                        }))}
+                        onValueChange={(curability) =>
+                          patch({ curability: curability as PoisonCurability })
+                        }
+                      />
+                    )}
+                  </DsField>
+                  <DsField label="染色#" help="状态页头像染色的调色板色号；0 = 不染">
+                    <Num v={poison.color} on={(n) => patch({ color: n ?? 0 })} />
+                  </DsField>
+                </div>
+              </DsWorkbenchSection>
 
-            <div className="section">
-              <h4>
-                关系{' '}
-                <span className="hint2">
-                  致死 = 投掷到已中配对毒者当场暴毙;相克 = 对己服毒解掉所克之毒
-                </span>
-              </h4>
-              <div className="sk-grid">
-                <label>
-                  <span className="lb">致死配对</span>
-                  <select
-                    className="in"
-                    value={poison.lethalWith ?? ''}
-                    onChange={(e) =>
-                      patch({
-                        lethalWith: e.target.value === '' ? undefined : Number(e.target.value),
-                      })
-                    }
-                  >
-                    <option value="">(无)</option>
-                    {others.map((p) => (
-                      <option key={p.id} value={p.id}>
-                        {p.name}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label>
-                  <span className="lb">所克之毒</span>
-                  <select
-                    className="in"
-                    value={poison.counters ?? ''}
-                    onChange={(e) =>
-                      patch({
-                        counters: e.target.value === '' ? undefined : Number(e.target.value),
-                      })
-                    }
-                  >
-                    <option value="">(无)</option>
-                    {others.map((p) => (
-                      <option key={p.id} value={p.id}>
-                        {p.name}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              </div>
+              <TicksEditor
+                title="玩家中毒 · 逐回合"
+                hint="每回合跑一格、指针前进;到尾重复末格(勾「自解」则移除)"
+                ticks={poison.playerTicks}
+                items={items}
+                onChange={(ticks) => patch({ playerTicks: ticks })}
+              />
+              <TicksEditor
+                title="敌人中毒 · 逐回合"
+                hint="同毒对敌通常更狠(原版双档);留空 = 对敌无 DoT"
+                ticks={poison.enemyTicks}
+                items={items}
+                onChange={(ticks) => patch({ enemyTicks: ticks })}
+              />
+
+              <DsWorkbenchSection
+                title="关系"
+                description="致死表示投掷到已中配对毒者当场暴毙；相克表示对己服毒解掉所克之毒。"
+              >
+                <div className="battle-data-grid">
+                  <DsField label="致死配对">
+                    {(field) => (
+                      <DsSelect
+                        {...field}
+                        value={poison.lethalWith == null ? '' : String(poison.lethalWith)}
+                        options={[
+                          { value: '', label: '(无)' },
+                          ...others.map((other) => ({
+                            value: String(other.id),
+                            label: other.name,
+                          })),
+                        ]}
+                        onValueChange={(lethalWith) =>
+                          patch({
+                            lethalWith: lethalWith === '' ? undefined : Number(lethalWith),
+                          })
+                        }
+                      />
+                    )}
+                  </DsField>
+                  <DsField label="所克之毒">
+                    {(field) => (
+                      <DsSelect
+                        {...field}
+                        value={poison.counters == null ? '' : String(poison.counters)}
+                        options={[
+                          { value: '', label: '(无)' },
+                          ...others.map((other) => ({
+                            value: String(other.id),
+                            label: other.name,
+                          })),
+                        ]}
+                        onValueChange={(counters) =>
+                          patch({
+                            counters: counters === '' ? undefined : Number(counters),
+                          })
+                        }
+                      />
+                    )}
+                  </DsField>
+                </div>
+              </DsWorkbenchSection>
             </div>
-          </div>
+          </>
         ) : (
           <div className="insp-empty" style={{ padding: 40 }}>
             无毒定义
@@ -463,16 +533,62 @@ export function PoisonTab(props: {
       </div>
 
       {/* 右:提示 + 关系总览 */}
-      <div className="inspector">
-        <div className="pane-h">
-          <span className="t">毒 · 编辑</span>
+      <div className="inspector inspector--tabbed battle-data-inspector poison-inspector">
+        <div className="insp-head">
+          <div className="what">毒</div>
+          <div className="who">{poison?.name ?? '未选择'}</div>
         </div>
-        <div className="insp-hint">
-          全字段即改即生效(⌘Z 可回)。逐回合序列 = 指针推进:固定毒一格即可(到尾重复),
-          递进毒多格递增,末格勾「自解」= 暴扣后自除/寄生到期。致死/相克吃数据,改完立即
-          反映到右下总览 —— 致死对不对称会标 ⚠。
-        </div>
-        <RelationOverview poisons={poisons} onPick={selectPoison} />
+        <DsInspectorTabs
+          id="poison-inspector"
+          label="毒检查器"
+          activeId={inspectorTab}
+          onChange={(id) => setInspectorTab(id as PoisonInspectorTab)}
+          items={[
+            {
+              id: 'references',
+              label: `引用 ${references.length}`,
+              panel: (
+                <DsInspectorSection
+                  title="引用"
+                  description="技能、物品和其他毒定义中的关系边会阻断删除。"
+                >
+                  {references.length ? (
+                    <DsReferenceList className="battle-data-reference-list">
+                      {references.map((reference) => (
+                        <DsReferenceRow
+                          key={`${reference.where}:${reference.kind}`}
+                          title={reference.label}
+                          detail={reference.detail}
+                          path={reference.where}
+                          disabled={!reference.locator || !onOpenReference}
+                          onClick={() => onOpenReference?.(reference)}
+                        />
+                      ))}
+                    </DsReferenceList>
+                  ) : (
+                    <p className="hint">没有引用，可以安全删除。</p>
+                  )}
+                </DsInspectorSection>
+              ),
+            },
+            {
+              id: 'relations',
+              label: '关系',
+              panel: <RelationOverview poisons={poisons} onPick={selectPoison} />,
+            },
+            {
+              id: 'help',
+              label: '说明',
+              panel: (
+                <DsInspectorSection title="编辑说明">
+                  <p className="insp-hint">
+                    逐回合序列会按指针推进，到尾重复；末格「自解」用于暴扣后自除或寄生到期。
+                  </p>
+                </DsInspectorSection>
+              ),
+            },
+          ]}
+        />
       </div>
     </>
   )

@@ -156,7 +156,10 @@
                             "text": "dlg.8400"
                           }
                         ],
-                        "speaker": "spk.青衣弟子"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.青衣弟子"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -176,7 +179,10 @@
                             "text": "dlg.8403"
                           }
                         ],
-                        "speaker": "spk.青衣弟子"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.青衣弟子"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -196,7 +202,10 @@
                             "text": "dlg.8406"
                           }
                         ],
-                        "speaker": "spk.青衣弟子"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.青衣弟子"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -283,7 +292,10 @@
                             "text": "dlg.8408"
                           }
                         ],
-                        "speaker": "spk.青衣弟子"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.青衣弟子"
+                        }
                       },
                       "kind": "dialog"
                     }

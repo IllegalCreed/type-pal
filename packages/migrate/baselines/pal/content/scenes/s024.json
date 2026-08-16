@@ -264,7 +264,10 @@
                             "text": "dlg.2660"
                           }
                         ],
-                        "speaker": "spk.居民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.居民"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -311,6 +314,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.2667"
@@ -541,6 +547,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.2668"
@@ -771,7 +780,10 @@
                             "text": "dlg.2664"
                           }
                         ],
-                        "speaker": "spk.居民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.居民"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -857,7 +869,10 @@
                             "text": "dlg.2666"
                           }
                         ],
-                        "speaker": "spk.少女"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.少女"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -909,7 +924,10 @@
                             "text": "dlg.2670"
                           }
                         ],
-                        "speaker": "spk.居民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.居民"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -964,7 +982,10 @@
                             "text": "dlg.2673"
                           }
                         ],
-                        "speaker": "spk.居民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.居民"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1016,7 +1037,10 @@
                             "text": "dlg.2675"
                           }
                         ],
-                        "speaker": "spk.夫"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.夫"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1073,7 +1097,10 @@
                             "text": "dlg.2678"
                           }
                         ],
-                        "speaker": "spk.妻"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.妻"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1156,6 +1183,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12530"
@@ -1223,6 +1253,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12482"
@@ -1290,6 +1323,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12524"
@@ -1357,6 +1393,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12534"

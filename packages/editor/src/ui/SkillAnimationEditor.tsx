@@ -1,37 +1,57 @@
 import type { AssetCatalogV1, AssetId, SkillAnimation } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
+import { useId } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { DsCheckbox, DsField, DsNumberInput, DsSelect } from './design-system/controls.js'
 import { FireEffectPreview } from './FireEffectPreview.js'
 import { SoundPicker } from './SoundPicker.js'
 
+const NO_FIRE_EFFECT_SPRITE = 0xffff
+
 function AnimationNumberField(props: {
+  id: string
   label: string
   value: number | undefined
   placeholder?: string
   required?: boolean
+  help?: string
   min?: number
+  max?: number
+  emptyValue?: number
   onChange: (value: number | undefined) => void
 }) {
   return (
-    <label className="skill-animation-field">
-      <span className="lb">{props.label}</span>
-      <input
-        className="in mono ef-num"
-        type="number"
-        min={props.min}
-        value={props.value ?? ''}
-        placeholder={props.placeholder}
-        onWheel={(event) => event.currentTarget.blur()}
-        onChange={(event) => {
-          const raw = event.currentTarget.valueAsNumber
-          if (!Number.isFinite(raw)) {
-            props.onChange(props.required ? (props.min ?? 0) : undefined)
-            return
-          }
-          props.onChange(props.required ? Math.max(props.min ?? raw, Math.trunc(raw)) : raw)
-        }}
-      />
-    </label>
+    <DsField
+      id={props.id}
+      label={props.label}
+      required={props.required}
+      help={props.help}
+      className="skill-animation-field"
+    >
+      {(control) => (
+        <DsNumberInput
+          {...control}
+          monospace
+          name={props.id}
+          autoComplete="off"
+          min={props.min}
+          max={props.max}
+          value={props.value === props.emptyValue ? '' : (props.value ?? '')}
+          placeholder={props.placeholder}
+          onWheel={(event) => event.currentTarget.blur()}
+          onChange={(event) => {
+            const raw = event.currentTarget.valueAsNumber
+            if (!Number.isFinite(raw)) {
+              props.onChange(props.emptyValue ?? (props.required ? (props.min ?? 0) : undefined))
+              return
+            }
+            const integral = Math.trunc(raw)
+            const lowerBounded = Math.max(props.min ?? integral, integral)
+            props.onChange(Math.min(props.max ?? lowerBounded, lowerBounded))
+          }}
+        />
+      )}
+    </DsField>
   )
 }
 
@@ -43,6 +63,9 @@ export function SkillAnimationEditor(props: {
   assetBase?: AssetBase
   onOpenSound?: (id: AssetId) => void
 }) {
+  const fieldPrefix = useId()
+  const fieldId = (name: string): string => `${fieldPrefix}-${name}`
+  const hasFireEffect = props.animation.effectSprite !== NO_FIRE_EFFECT_SPRITE
   const patch = <K extends keyof SkillAnimation>(
     key: K,
     value: SkillAnimation[K] | undefined,
@@ -55,135 +78,188 @@ export function SkillAnimationEditor(props: {
 
   return (
     <div className="skill-animation-editor">
-      <div className="skill-animation-fields">
-        <AnimationNumberField
-          label="特效号"
-          value={props.animation.effectSprite}
-          required
-          min={0}
-          onChange={(effectSprite) => patch('effectSprite', effectSprite ?? 0)}
-        />
-        <label className="skill-animation-field">
-          <span className="lb">落点</span>
-          <select
-            className="in"
-            value={props.animation.placement ?? 'normal'}
-            onChange={(event) =>
-              patch('placement', event.target.value as SkillAnimation['placement'])
-            }
-          >
-            <option value="normal">目标点</option>
-            <option value="attackAll">逐敌各放</option>
-            <option value="attackWhole">敌群中心</option>
-            <option value="attackField">全屏</option>
-          </select>
-        </label>
-        <AnimationNumberField
-          label="X 偏移"
-          value={props.animation.xOffset}
-          placeholder="0"
-          onChange={(value) => patch('xOffset', value)}
-        />
-        <AnimationNumberField
-          label="Y 偏移"
-          value={props.animation.yOffset}
-          placeholder="0"
-          onChange={(value) => patch('yOffset', value)}
-        />
-        <AnimationNumberField
-          label="层级偏移"
-          value={props.animation.layerOffset}
-          placeholder="0"
-          onChange={(value) => patch('layerOffset', value)}
-        />
-        <AnimationNumberField
-          label="速度"
-          value={props.animation.speed}
-          placeholder="0"
-          onChange={(value) => patch('speed', value)}
-        />
-        <AnimationNumberField
-          label="循环起点"
-          value={props.animation.fireDelay}
-          placeholder="0"
-          onChange={(value) => patch('fireDelay', value)}
-        />
-        <AnimationNumberField
-          label="循环次数"
-          value={props.animation.effectTimes}
-          placeholder="1"
-          onChange={(value) => patch('effectTimes', value)}
-        />
-        <AnimationNumberField
-          label="震屏帧"
-          value={props.animation.shake}
-          placeholder="0"
-          onChange={(value) => patch('shake', value)}
-        />
-        <AnimationNumberField
-          label="前置震屏帧"
-          value={props.animation.preShake?.frames}
-          placeholder="关闭"
-          min={1}
-          onChange={(frames) =>
-            patch(
-              'preShake',
-              frames === undefined
-                ? undefined
-                : {
-                    frames: Math.max(1, Math.trunc(frames)),
-                    level: props.animation.preShake?.level ?? 3,
-                  },
-            )
-          }
-        />
-        {props.animation.preShake && (
-          <AnimationNumberField
-            label="前置震屏强度"
-            value={props.animation.preShake.level}
-            required
-            min={1}
-            onChange={(level) =>
-              patch('preShake', {
-                ...props.animation.preShake!,
-                level: Math.max(1, Math.trunc(level ?? 1)),
-              })
-            }
-          />
-        )}
-        <AnimationNumberField
-          label="屏波"
-          value={props.animation.wave}
-          placeholder="0"
-          onChange={(value) => patch('wave', value)}
-        />
-        <div className="skill-animation-field">
-          <span className="lb">特效音</span>
-          <SoundPicker
-            value={props.animation.sound}
-            onChange={(sound) => patch('sound', sound)}
-            catalog={props.assetCatalog}
-            reader={props.assetReader}
-            allowUnset
-            onOpenAsset={props.onOpenSound}
-          />
+      <div className="skill-animation-layout">
+        <div className="skill-animation-groups">
+          <fieldset className="skill-animation-group" data-animation-group="placement">
+            <legend>素材与落点</legend>
+            <div className="skill-animation-group__grid">
+              <AnimationNumberField
+                id={fieldId('effect-sprite')}
+                label="特效号"
+                value={props.animation.effectSprite}
+                placeholder="无特效"
+                help="填写 FIRE 特效编号；留空表示无特效。"
+                min={0}
+                max={NO_FIRE_EFFECT_SPRITE - 1}
+                emptyValue={NO_FIRE_EFFECT_SPRITE}
+                onChange={(effectSprite) =>
+                  patch('effectSprite', effectSprite ?? NO_FIRE_EFFECT_SPRITE)
+                }
+              />
+              <DsField id={fieldId('placement')} label="落点" className="skill-animation-field">
+                <DsSelect
+                  id={fieldId('placement')}
+                  value={props.animation.placement ?? 'normal'}
+                  options={[
+                    { value: 'normal', label: '目标点' },
+                    { value: 'attackAll', label: '逐敌各放' },
+                    { value: 'attackWhole', label: '敌群中心' },
+                    { value: 'attackField', label: '全屏' },
+                  ]}
+                  onValueChange={(value) =>
+                    patch('placement', value as SkillAnimation['placement'])
+                  }
+                />
+              </DsField>
+              <AnimationNumberField
+                id={fieldId('x-offset')}
+                label="X 偏移"
+                value={props.animation.xOffset}
+                placeholder="0"
+                onChange={(value) => patch('xOffset', value)}
+              />
+              <AnimationNumberField
+                id={fieldId('y-offset')}
+                label="Y 偏移"
+                value={props.animation.yOffset}
+                placeholder="0"
+                onChange={(value) => patch('yOffset', value)}
+              />
+              <AnimationNumberField
+                id={fieldId('layer-offset')}
+                label="层级偏移"
+                value={props.animation.layerOffset}
+                placeholder="0"
+                onChange={(value) => patch('layerOffset', value)}
+              />
+            </div>
+          </fieldset>
+
+          <fieldset className="skill-animation-group" data-animation-group="playback">
+            <legend>播放与循环</legend>
+            <div className="skill-animation-group__grid">
+              <AnimationNumberField
+                id={fieldId('speed')}
+                label="速度"
+                value={props.animation.speed}
+                placeholder="0"
+                onChange={(value) => patch('speed', value)}
+              />
+              <AnimationNumberField
+                id={fieldId('fire-delay')}
+                label="循环起点"
+                value={props.animation.fireDelay}
+                placeholder="0"
+                onChange={(value) => patch('fireDelay', value)}
+              />
+              <AnimationNumberField
+                id={fieldId('effect-times')}
+                label="循环次数"
+                value={props.animation.effectTimes}
+                placeholder="1"
+                onChange={(value) => patch('effectTimes', value)}
+              />
+            </div>
+          </fieldset>
+
+          <fieldset className="skill-animation-group" data-animation-group="feedback">
+            <legend>画面与声音</legend>
+            <div className="skill-animation-group__grid">
+              <AnimationNumberField
+                id={fieldId('shake')}
+                label="震屏帧"
+                value={props.animation.shake}
+                placeholder="0"
+                onChange={(value) => patch('shake', value)}
+              />
+              <AnimationNumberField
+                id={fieldId('pre-shake-frames')}
+                label="前置震屏帧"
+                value={props.animation.preShake?.frames}
+                placeholder="关闭"
+                min={1}
+                onChange={(frames) =>
+                  patch(
+                    'preShake',
+                    frames === undefined
+                      ? undefined
+                      : {
+                          frames: Math.max(1, Math.trunc(frames)),
+                          level: props.animation.preShake?.level ?? 3,
+                        },
+                  )
+                }
+              />
+              {props.animation.preShake && (
+                <AnimationNumberField
+                  id={fieldId('pre-shake-level')}
+                  label="前置震屏强度"
+                  value={props.animation.preShake.level}
+                  required
+                  min={1}
+                  onChange={(level) =>
+                    patch('preShake', {
+                      ...props.animation.preShake!,
+                      level: Math.max(1, Math.trunc(level ?? 1)),
+                    })
+                  }
+                />
+              )}
+              <AnimationNumberField
+                id={fieldId('wave')}
+                label="屏波"
+                value={props.animation.wave}
+                placeholder="0"
+                onChange={(value) => patch('wave', value)}
+              />
+              <DsField
+                id={fieldId('sound')}
+                label="特效音"
+                className="skill-animation-field skill-animation-field--wide"
+              >
+                <SoundPicker
+                  id={fieldId('sound')}
+                  value={props.animation.sound}
+                  onChange={(sound) => patch('sound', sound)}
+                  catalog={props.assetCatalog}
+                  reader={props.assetReader}
+                  allowUnset
+                  onOpenAsset={props.onOpenSound}
+                />
+              </DsField>
+              <div className="skill-animation-check skill-animation-field--wide">
+                <DsCheckbox
+                  checked={props.animation.keepEffect === true}
+                  onChange={(event) => patch('keepEffect', event.target.checked || undefined)}
+                  label="保留特效末帧"
+                />
+              </div>
+            </div>
+          </fieldset>
         </div>
-        <label className="skill-animation-check">
-          <input
-            type="checkbox"
-            checked={props.animation.keepEffect === true}
-            onChange={(event) => patch('keepEffect', event.target.checked || undefined)}
-          />
-          保留特效末帧
-        </label>
+
+        <aside className="skill-animation-preview-panel" aria-label="FIRE 特效预览">
+          <header className="skill-animation-preview-panel__header">
+            <strong>实时预览</strong>
+            <span>{hasFireEffect ? `FIRE #${props.animation.effectSprite}` : '无特效'}</span>
+          </header>
+          {!hasFireEffect ? (
+            <div className="skill-animation-preview-panel__empty" role="status">
+              该技能不播放 FIRE 特效。
+            </div>
+          ) : props.assetBase ? (
+            <FireEffectPreview
+              assetBase={props.assetBase}
+              anim={props.animation}
+              assetReader={props.assetReader}
+            />
+          ) : (
+            <div className="skill-animation-preview-panel__empty" role="status">
+              当前环境未载入 FIRE 资源；参数仍可编辑和保存。
+            </div>
+          )}
+        </aside>
       </div>
-      {props.assetBase ? (
-        <FireEffectPreview
-          assetBase={props.assetBase}
-          anim={props.animation}
-          assetReader={props.assetReader}
-        />
-      ) : null}
     </div>
   )
 }

@@ -370,7 +370,10 @@
                             "text": "dlg.12059"
                           }
                         ],
-                        "speaker": "spk.丁大伯"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.丁大伯"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -390,7 +393,10 @@
                             "text": "dlg.12062"
                           }
                         ],
-                        "speaker": "spk.丁大伯"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.丁大伯"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -450,7 +456,10 @@
                             "text": "dlg.12008"
                           }
                         ],
-                        "speaker": "spk.旺财嫂"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.旺财嫂"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -467,7 +476,10 @@
                             "text": "dlg.12011"
                           }
                         ],
-                        "speaker": "spk.来福婶"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.来福婶"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -485,7 +497,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.旺财嫂"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.旺财嫂"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -503,7 +518,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.来福婶"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.来福婶"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -527,7 +545,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.旺财嫂"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.旺财嫂"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -545,7 +566,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.旺财嫂"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.旺财嫂"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -803,7 +827,10 @@
                             "text": "dlg.12028"
                           }
                         ],
-                        "speaker": "spk.来福婶"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.来福婶"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -827,7 +854,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.旺财嫂"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.旺财嫂"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -847,7 +877,10 @@
                             "text": "dlg.12036"
                           }
                         ],
-                        "speaker": "spk.来福婶"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.来福婶"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -862,7 +895,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.旺财嫂"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.旺财嫂"
+                        }
                       },
                       "kind": "dialog"
                     }

@@ -71,7 +71,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.张老头"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.张老头"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -88,7 +91,10 @@
                             "text": "dlg.3317"
                           }
                         ],
-                        "speaker": "spk.李逍遥"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -103,7 +109,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.张老头"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.张老头"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -124,7 +133,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.张老头"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.张老头"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -144,7 +156,10 @@
                             "text": "dlg.3326"
                           }
                         ],
-                        "speaker": "spk.李逍遥"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -159,7 +174,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.张老头"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.张老头"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -183,7 +201,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.张老头"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.张老头"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -204,7 +225,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.张老头"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.张老头"
+                        }
                       },
                       "kind": "dialog"
                     }

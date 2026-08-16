@@ -67,7 +67,10 @@
                                 "text": "dlg.710"
                               }
                             ],
-                            "speaker": "spk.洪大夫"
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.洪大夫"
+                            }
                           },
                           "kind": "dialog"
                         },
@@ -90,7 +93,10 @@
                                 "text": "dlg.712"
                               }
                             ],
-                            "speaker": "spk.洪大夫"
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.洪大夫"
+                            }
                           },
                           "kind": "dialog"
                         }
@@ -106,7 +112,10 @@
                             "text": "dlg.706"
                           }
                         ],
-                        "speaker": "spk.洪大夫"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.洪大夫"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -141,7 +150,10 @@
                             "text": "dlg.717"
                           }
                         ],
-                        "speaker": "spk.洪大夫"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.洪大夫"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -175,7 +187,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.洪大夫"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.洪大夫"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -216,7 +231,10 @@
                                 "text": "dlg.1205"
                               }
                             ],
-                            "speaker": "spk.洪大夫"
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.洪大夫"
+                            }
                           },
                           "kind": "dialog"
                         },
@@ -246,7 +264,10 @@
                                 "text": "dlg.1208"
                               }
                             ],
-                            "speaker": "spk.洪大夫"
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.洪大夫"
+                            }
                           },
                           "kind": "dialog"
                         }
@@ -265,7 +286,10 @@
                             "text": "dlg.1198"
                           }
                         ],
-                        "speaker": "spk.洪大夫"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.洪大夫"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -285,7 +309,10 @@
                             "text": "dlg.1201"
                           }
                         ],
-                        "speaker": "spk.洪大夫"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.洪大夫"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -431,7 +458,10 @@
                             "text": "dlg.1448"
                           }
                         ],
-                        "speaker": "spk.居民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.居民"
+                        }
                       },
                       "kind": "dialog"
                     }

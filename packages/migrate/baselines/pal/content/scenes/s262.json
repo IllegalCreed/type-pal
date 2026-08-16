@@ -159,7 +159,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.石长老"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.石长老"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -225,7 +228,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.石长老"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.石长老"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -234,16 +240,19 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.001",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
                             "text": "dlg.11775"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -258,7 +267,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.石长老"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.石长老"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -267,16 +279,19 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.001",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
                             "text": "dlg.11779"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -291,7 +306,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.石长老"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.石长老"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -342,7 +360,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.石长老"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.石长老"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -351,9 +372,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.001",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
@@ -362,8 +387,7 @@
                           {
                             "text": "dlg.11786"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -397,7 +421,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.石长老"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.石长老"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -748,6 +775,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12232"
@@ -769,6 +799,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12222"
@@ -844,6 +877,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12233"
@@ -865,6 +901,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12222"
@@ -940,6 +979,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12229"
@@ -961,6 +1003,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12222"
@@ -1036,6 +1081,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12234"
@@ -1057,6 +1105,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12222"
@@ -1132,6 +1183,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12232"
@@ -1153,6 +1207,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12222"
@@ -1228,6 +1285,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12236"
@@ -1249,6 +1309,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12222"
@@ -1324,6 +1387,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12231"
@@ -1345,6 +1411,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12222"

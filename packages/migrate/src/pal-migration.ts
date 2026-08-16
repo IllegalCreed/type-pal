@@ -779,6 +779,8 @@ function buildPalMigrationWithEnemyAuthority(
     ...casualtyOverlay.locale,
   })
   put('assets/index.json', sources.assetCatalog)
+  // Historical MG2/R13 parent surface remains byte-stable at the original 58-slot table.
+  // The current B2 successor performs the source-backed 0-5 domain separation append-only.
   const battleFields = sources.battleFields.map((field) => ({
     ...structuredClone(field),
     ...(field.id >= 6 && field.id <= 57

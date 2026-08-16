@@ -3,7 +3,7 @@
   "version": 1,
   "methodVersion": "migrate-pal-oracle-v1",
   "generatorEpoch": "n3-script-v5-p7-v1",
-  "managedFiles": 548,
+  "managedFiles": 551,
   "transitions": {
     "script-v4-v5": {
       "digest": "9b01dea89f4d567663ad64e03017d1ecdbdb01fb1540e6798a931f47900f4901",
@@ -88,6 +88,27 @@
       "parentDigest": "24eeba234da2ee5dabd6128f42469aa61dabdf282536977de1447baeaad1bc01",
       "kind": "w9-entity-lifecycle-transition",
       "version": 1
+    },
+    "c1-dialogue-identity-v1": {
+      "digest": "106f57a090e9cda612938540e63f796e3d69574a7b2035cdaf0b70a64508ad62",
+      "fileSha256": "c2ff646817e00b041dfab2d41fdf7ac42b051066ba2c635ef6cd39b320c324d7",
+      "parentDigest": "34eb6098c47f6a5c61abe7cb8a2e0dc9893debf50af552139394027b3abd2c45",
+      "kind": "c1-dialogue-identity-transition",
+      "version": 1
+    },
+    "c1-npc-curation-v1": {
+      "digest": "03f51faa6610afd439c0f5cbcc86b5c5ad52a74b88113de0a276246cb745e5c0",
+      "fileSha256": "44e1515db11f13cb872071babb9bb97cf7f7eeeb01cec1eb625f19627244a92d",
+      "parentDigest": "106f57a090e9cda612938540e63f796e3d69574a7b2035cdaf0b70a64508ad62",
+      "kind": "c1-npc-curation-transition",
+      "version": 1
+    },
+    "b2-battle-field-domain-v1": {
+      "digest": "d65e5c9c6c9abe98c151c32e18bc486df988cfa541ae443041475583f3939ed7",
+      "fileSha256": "23e86533e2bbc8b4bea389cc2a7ddc771b509a08181b8df2ada9198da77f3543",
+      "parentDigest": "03f51faa6610afd439c0f5cbcc86b5c5ad52a74b88113de0a276246cb745e5c0",
+      "kind": "b2-battle-field-domain-transition",
+      "version": 1
     }
   },
   "scriptV4V5": {
@@ -156,6 +177,6 @@
     "scenes": 294,
     "items": 234,
     "enemies": 153,
-    "localeKeys": 9588
+    "localeKeys": 9590
   }
 }

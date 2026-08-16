@@ -67,6 +67,7 @@ function Harness(props: {
   session: EditSession
   focusObjectId?: string
   onOpenScript?: (id: string) => void
+  onOpenImage?: (id: string) => void
   onOpenItemReference?: (reference: ItemReference) => void
   focusPrivateScript?: {
     itemId: string
@@ -108,6 +109,7 @@ function Harness(props: {
       focusObjectId={props.focusObjectId}
       focusPrivateScript={props.focusPrivateScript}
       onOpenScript={props.onOpenScript}
+      onOpenImage={props.onOpenImage}
       onOpenItemReference={props.onOpenItemReference}
       scriptV5={
         props.scriptV5 && activeScriptState
@@ -123,6 +125,33 @@ function button(text: string, root: ParentNode = document): HTMLButtonElement {
   return [...root.querySelectorAll<HTMLButtonElement>('button')].find((candidate) =>
     candidate.textContent?.includes(text),
   )!
+}
+
+function combobox(ariaLabel: string, root: ParentNode = document): HTMLButtonElement {
+  const trigger = [...root.querySelectorAll<HTMLButtonElement>('[role="combobox"]')].find(
+    (candidate) => candidate.getAttribute('aria-label') === ariaLabel,
+  )
+  if (!trigger) throw new Error(`combobox not found: ${ariaLabel}`)
+  return trigger
+}
+
+function comboboxListbox(trigger: HTMLButtonElement): HTMLElement {
+  const listboxId = trigger.getAttribute('aria-controls')
+  const listbox = listboxId ? document.getElementById(listboxId) : null
+  if (!listbox)
+    throw new Error(`listbox not found for: ${trigger.getAttribute('aria-label') ?? trigger.id}`)
+  return listbox
+}
+
+async function chooseComboboxOption(trigger: HTMLButtonElement, optionText: string): Promise<void> {
+  if (trigger.getAttribute('aria-expanded') !== 'true') {
+    await act(async () => trigger.click())
+  }
+  const option = [
+    ...comboboxListbox(trigger).querySelectorAll<HTMLElement>('[role="option"]'),
+  ].find((candidate) => candidate.textContent?.includes(optionText))
+  if (!option) throw new Error(`option not found: ${optionText}`)
+  await act(async () => option.click())
 }
 
 async function setInput(element: HTMLInputElement, value: string): Promise<void> {
@@ -163,18 +192,35 @@ describe('ItemTab', () => {
 
     expect(session.getState().items).toHaveLength(1)
     expect(session.getState().items[0]).toMatchObject({ id: 'item-001', name: '新物品' })
-    expect(host.querySelector('.item-workbench-title code')?.textContent).toBe('item-001')
+    expect(host.querySelector('.ds-object-hero__id')?.textContent).toBe('item-001')
+    const workspace = host.querySelector('.item-workbench')!
+    const hero = workspace.querySelector(':scope > .ds-object-hero')!
+    const content = workspace.querySelector(':scope > .ds-object-workspace__content')!
+    expect(hero).not.toBeNull()
+    expect(content).not.toBeNull()
+    expect(content.contains(hero)).toBe(false)
     expect(host.textContent).toContain('基础信息')
+    expect(host.querySelector('.item-base-card')?.classList.contains('ds-workbench-section')).toBe(
+      true,
+    )
+    expect(
+      [...host.querySelectorAll('.item-capability-card')].every((section) =>
+        section.classList.contains('ds-workbench-section'),
+      ),
+    ).toBe(true)
+    expect(host.querySelector('.item-card-heading')).toBeNull()
     expect(
       [...host.querySelectorAll('.item-base-section-heading h4')].map(
         (heading) => heading.textContent,
       ),
     ).toEqual(['图标资源', '身份信息', '交易信息', '显示文本'])
-    expect(host.querySelector('.item-catalog-head')?.textContent).not.toContain('复制')
+    expect(host.querySelector('.ds-list-header')?.textContent).not.toContain('复制')
     expect(
       [...host.querySelectorAll<HTMLButtonElement>('.item-icon-actions button')].every(
         (action) =>
-          action.classList.contains('item-action-button') && !action.classList.contains('mini'),
+          action.classList.contains('ds-button') &&
+          !action.classList.contains('item-action-button') &&
+          !action.classList.contains('mini'),
       ),
     ).toBe(true)
   })
@@ -183,18 +229,34 @@ describe('ItemTab', () => {
     const session = new EditSession(state())
     await act(async () => root.render(<Harness session={session} />))
 
-    await act(async () => button('＋', host.querySelector('.item-catalog-head')!).click())
-    expect(session.getState().items.map((entry) => entry.id)).toEqual(['item-a', 'item-001'])
-    expect(host.querySelector('.item-workbench-title code')?.textContent).toBe('item-001')
+    const initialHero = host.querySelector('.ds-object-hero')!
+    const heroTags = [...initialHero.querySelectorAll('.ds-object-hero__meta .ds-tag')]
+    expect(heroTags.map((tag) => tag.textContent)).toEqual(['引用 1'])
+    const heroActions = [
+      ...initialHero.querySelectorAll<HTMLButtonElement>('.ds-object-hero__actions button'),
+    ]
+    expect(heroActions.map((action) => action.textContent)).toEqual(['复制', '删除'])
+    expect(
+      heroActions.every(
+        (action) =>
+          action.classList.contains('ds-button') &&
+          !action.classList.contains('item-action-button'),
+      ),
+    ).toBe(true)
+    expect(button('删除', initialHero).classList).toContain('ds-button--danger')
 
-    await act(async () => button('复制', host.querySelector('.item-workbench-title')!).click())
+    await act(async () => button('＋', host.querySelector('.ds-list-header')!).click())
+    expect(session.getState().items.map((entry) => entry.id)).toEqual(['item-a', 'item-001'])
+    expect(host.querySelector('.ds-object-hero__id')?.textContent).toBe('item-001')
+
+    await act(async () => button('复制', host.querySelector('.ds-object-hero')!).click())
     expect(session.getState().items.map((entry) => entry.id)).toEqual([
       'item-a',
       'item-001',
       'item-001-copy',
     ])
 
-    const original = [...host.querySelectorAll<HTMLButtonElement>('.item-catalog-row')].find(
+    const original = [...host.querySelectorAll<HTMLButtonElement>('.ds-catalog-row')].find(
       (candidate) => candidate.textContent?.includes('剧情钥匙'),
     )!
     await act(async () => original.click())
@@ -228,7 +290,7 @@ describe('ItemTab', () => {
     await act(async () => root.render(<Harness session={session} />))
 
     await act(async () => button('可使用', host.querySelector('.item-filter-chips')!).click())
-    expect([...host.querySelectorAll('.item-catalog-row')].map((row) => row.textContent)).toEqual([
+    expect([...host.querySelectorAll('.ds-catalog-row')].map((row) => row.textContent)).toEqual([
       expect.stringContaining('还魂香'),
     ])
 
@@ -242,7 +304,7 @@ describe('ItemTab', () => {
     })
     expect(host.textContent).toContain('没有匹配项')
     await act(async () => button('清除筛选', host).click())
-    expect(host.querySelectorAll('.item-catalog-row')).toHaveLength(3)
+    expect(host.querySelectorAll('.ds-catalog-row')).toHaveLength(3)
   })
 
   test('图标浏览器使用可聚焦原生按钮组并正确绑定选择', async () => {
@@ -272,7 +334,10 @@ describe('ItemTab', () => {
       urlFor: () => new Promise<string>(() => undefined),
     } as EditorAssetReader
     const session = new EditSession(initial)
-    await act(async () => root.render(<Harness session={session} assetReader={reader} />))
+    const onOpenImage = vi.fn()
+    await act(async () =>
+      root.render(<Harness session={session} assetReader={reader} onOpenImage={onOpenImage} />),
+    )
 
     expect(host.querySelectorAll('.item-capability-card.enabled')).toHaveLength(3)
     const addEquipEffect = button('添加效果', host.querySelector('.item-equip-effects')!)
@@ -307,6 +372,27 @@ describe('ItemTab', () => {
     await act(async () => iconButton.click())
     expect(session.getState().items[0]?.icon).toBe('item-icon.test')
     expect(document.activeElement).toBe(iconTrigger)
+
+    const editorActions = host.querySelector('.item-icon-actions')!
+    const editorOpen = button('在图像库打开', editorActions)
+    const editorUnbind = button('解除绑定', editorActions)
+    expect(editorOpen.classList).toContain('ds-button--secondary')
+    expect(editorUnbind.classList).toContain('ds-button--danger')
+    await act(async () => editorOpen.click())
+    expect(onOpenImage).toHaveBeenLastCalledWith('item-icon.test')
+
+    await act(async () =>
+      button('资源', host.querySelector('[role="tablist"][aria-label="物品检查器"]')!).click(),
+    )
+    const inspectorActions = host.querySelector('.item-resource-actions')!
+    const inspectorOpen = button('在图像库打开', inspectorActions)
+    const inspectorUnbind = button('解除绑定', inspectorActions)
+    expect(inspectorOpen.classList).toContain('ds-button--secondary')
+    expect(inspectorUnbind.classList).toContain('ds-button--danger')
+    await act(async () => inspectorOpen.click())
+    expect(onOpenImage).toHaveBeenCalledTimes(2)
+    await act(async () => inspectorUnbind.click())
+    expect(session.getState().items[0]?.icon).toBeUndefined()
   })
 
   test('战斗形象覆写按可装备角色逐行编辑，新勾选保持空映射，取消角色同命令剪枝并可撤销', async () => {
@@ -360,14 +446,10 @@ describe('ItemTab', () => {
     const session = new EditSession(initial)
     await act(async () => root.render(<Harness session={session} />))
 
-    const heroPicker = host.querySelector<HTMLSelectElement>(
-      'select[aria-label="李逍遥的战斗形象覆写"]',
-    )!
-    const magePicker = host.querySelector<HTMLSelectElement>(
-      'select[aria-label="赵灵儿的战斗形象覆写"]',
-    )!
-    expect(heroPicker.value).toBe('fighter-hero')
-    expect(magePicker.value).toBe('fighter-mage')
+    const heroPicker = combobox('李逍遥的战斗形象覆写', host)
+    const magePicker = combobox('赵灵儿的战斗形象覆写', host)
+    expect(heroPicker.textContent).toContain('逍遥战斗形象 · fighter-hero')
+    expect(magePicker.textContent).toContain('灵儿战斗形象 · fighter-mage')
     expect(
       host
         .querySelector('[aria-label="装备效果 1 类型"]')
@@ -382,23 +464,22 @@ describe('ItemTab', () => {
     ).toBe(false)
     expect(host.querySelector('.item-effect-no-params')?.textContent).toBe('(无参数)')
     expect(
-      host.querySelectorAll<HTMLSelectElement>(
-        '.item-battle-sprite-row select[aria-label$="的战斗形象覆写"]',
+      host.querySelectorAll<HTMLButtonElement>(
+        '.item-battle-sprite-row [role="combobox"][aria-label$="的战斗形象覆写"]',
       ),
     ).toHaveLength(2)
-    expect([...heroPicker.options].find((option) => option.value === '')?.textContent).toBe(
-      '不覆写',
-    )
+    await act(async () => heroPicker.click())
+    expect(
+      [...comboboxListbox(heroPicker).querySelectorAll('[role="option"]')].find(
+        (option) => option.textContent === '不覆写',
+      ),
+    ).toBeDefined()
     const otherEffectKind = host.querySelectorAll<HTMLSelectElement>('.ef-kind')[1]!
     expect(
       [...otherEffectKind.options].find((option) => option.value === 'battleSprite')?.disabled,
     ).toBe(true)
 
-    await act(async () => {
-      const setter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')!.set!
-      setter.call(heroPicker, 'fighter-mage')
-      heroPicker.dispatchEvent(new Event('change', { bubbles: true }))
-    })
+    await chooseComboboxOption(heroPicker, '灵儿战斗形象 · fighter-mage')
     expect(session.getState().items[0]?.equip?.effects[0]).toEqual({
       kind: 'battleSprite',
       byActor: { hero: 'fighter-mage', mage: 'fighter-mage' },
@@ -414,12 +495,10 @@ describe('ItemTab', () => {
       kind: 'battleSprite',
       byActor: { hero: 'fighter-mage', mage: 'fighter-mage' },
     })
+    expect(combobox('阿奴的战斗形象覆写', host).textContent).toContain('不覆写')
     expect(
-      host.querySelector<HTMLSelectElement>('select[aria-label="阿奴的战斗形象覆写"]')?.value,
-    ).toBe('')
-    expect(
-      host.querySelectorAll<HTMLSelectElement>(
-        '.item-battle-sprite-row select[aria-label$="的战斗形象覆写"]',
+      host.querySelectorAll<HTMLButtonElement>(
+        '.item-battle-sprite-row [role="combobox"][aria-label$="的战斗形象覆写"]',
       ),
     ).toHaveLength(3)
 
@@ -486,7 +565,9 @@ describe('ItemTab', () => {
     expect(session.getState().scriptIndex?.library?.[nextEffect.script.id]).toBeDefined()
     expect(onOpenScript).toHaveBeenCalledWith(nextEffect.script.id)
 
-    await act(async () => button('引用', host.querySelector('.item-inspector-tabs')!).click())
+    await act(async () =>
+      button('引用', host.querySelector('[role="tablist"][aria-label="物品检查器"]')!).click(),
+    )
     await act(async () => button('打开位置', host).click())
     expect(onOpenItemReference).toHaveBeenCalledWith(
       expect.objectContaining({ locator: { kind: 'shop', shopId: 7 } }),
@@ -537,28 +618,20 @@ describe('ItemTab', () => {
     })
 
     const presentation = host.querySelector('.item-throw-presentation')!
-    const numberField = (label: string): HTMLInputElement =>
-      [...presentation.querySelectorAll<HTMLInputElement>('input[type="number"]')].find(
-        (candidate) => candidate.closest('label')?.textContent?.includes(label),
+    const field = (label: string): HTMLElement =>
+      [...presentation.querySelectorAll<HTMLElement>('.ds-field')].find((candidate) =>
+        candidate.querySelector('.ds-field__label')?.textContent?.includes(label),
       )!
+    const numberField = (label: string): HTMLInputElement =>
+      field(label).querySelector<HTMLInputElement>('input[type="number"]')!
     await setInput(numberField('特效号'), '24')
     await setInput(numberField('X 偏移'), '-12')
     await setInput(numberField('层级偏移'), '1')
     await setInput(numberField('速度'), '-1')
-    const placement = [...presentation.querySelectorAll<HTMLSelectElement>('select')].find(
-      (candidate) => candidate.closest('label')?.textContent?.includes('落点'),
-    )!
-    await act(async () => {
-      const setter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')!.set!
-      setter.call(placement, 'attackWhole')
-      placement.dispatchEvent(new Event('change', { bubbles: true }))
-    })
-    const sound = presentation.querySelector<HTMLSelectElement>('select[aria-label="音效"]')!
-    await act(async () => {
-      const setter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')!.set!
-      setter.call(sound, 'sound.pal.157')
-      sound.dispatchEvent(new Event('change', { bubbles: true }))
-    })
+    const placement = field('落点').querySelector<HTMLButtonElement>('[role="combobox"]')!
+    await chooseComboboxOption(placement, '敌群中心')
+    const sound = combobox('音效', presentation)
+    await chooseComboboxOption(sound, 'sound.pal.157')
     await act(async () =>
       [...presentation.querySelectorAll<HTMLInputElement>('input[type="checkbox"]')]
         .find((candidate) => candidate.closest('label')?.textContent?.includes('保留特效末帧'))!
@@ -1010,8 +1083,10 @@ describe('ItemTab', () => {
       ),
     )
 
-    expect(host.querySelector('.item-catalog-row')?.textContent).toContain('引用 2')
-    await act(async () => button('引用 2', host.querySelector('.item-inspector-tabs')!).click())
+    expect(host.querySelector('.ds-catalog-row')?.textContent).toContain('引用 2')
+    await act(async () =>
+      button('引用 2', host.querySelector('[role="tablist"][aria-label="物品检查器"]')!).click(),
+    )
     expect(host.textContent).toContain(
       '场景 s151 / 进场脚本“默认进场行为” / 步骤 1 / 脚本正文 / 第 1 条指令',
     )
@@ -1044,7 +1119,10 @@ describe('ItemTab', () => {
     const session = new EditSession(state([item('item-a'), item('item-b')]))
     await act(async () => root.render(<Harness session={session} />))
 
-    const referenceTab = button('引用', host.querySelector('.item-inspector-tabs')!)
+    const referenceTab = button(
+      '引用',
+      host.querySelector('[role="tablist"][aria-label="物品检查器"]')!,
+    )
     referenceTab.focus()
     await act(async () =>
       referenceTab.dispatchEvent(
@@ -1052,9 +1130,11 @@ describe('ItemTab', () => {
       ),
     )
     expect(host.querySelector('[role="tab"][aria-selected="true"]')?.textContent).toContain('资源')
-    expect(host.querySelector('[role="tabpanel"]')?.id).toBe('item-inspector-panel-resource')
+    expect(host.querySelector('[role="tabpanel"]:not([hidden])')?.id).toBe(
+      'item-inspector-panel-resource',
+    )
 
-    const second = [...host.querySelectorAll<HTMLButtonElement>('.item-catalog-row')].find(
+    const second = [...host.querySelectorAll<HTMLButtonElement>('.ds-catalog-row')].find(
       (candidate) => candidate.textContent?.includes('item-b'),
     )!
     await act(async () => second.click())
@@ -1064,6 +1144,6 @@ describe('ItemTab', () => {
 
     await act(async () => session.undo())
     expect(session.getState().items.map((entry) => entry.id)).toEqual(['item-a', 'item-b'])
-    expect(host.querySelector('.item-workbench-title code')?.textContent).toBe('item-b')
+    expect(host.querySelector('.ds-object-hero__id')?.textContent).toBe('item-b')
   })
 })

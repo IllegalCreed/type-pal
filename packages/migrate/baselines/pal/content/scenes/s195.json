@@ -382,7 +382,10 @@
                         }
                       ],
                       "slot": "top",
-                      "speaker": "spk.丫鬟"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.丫鬟"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -425,7 +428,10 @@
                           "text": "dlg.10188"
                         }
                       ],
-                      "speaker": "spk.林月如"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.林月如"
+                      }
                     },
                     "kind": "dialog"
                   },

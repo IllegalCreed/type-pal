@@ -53,6 +53,9 @@ export interface DialogueCue {
   cursorFrame?: 0 | 1 | 2
 }
 
+/** contentVersion <=13 的冻结对话 cue；历史 script.ts/v5/v13 继续引用原 DialogueCue。 */
+export type DialogueCueV13 = DialogueCue
+
 export interface Dialogue {
   id: string
   cues: DialogueCue[]
@@ -149,13 +152,18 @@ export interface SceneDef {
 }
 
 export * from './actor.js'
+export * from './actor-reference.js'
 export * from './ambience.js'
 export * from './asset.js'
 export * from './battle-formulas.js'
+export * from './battle-field-reference.js'
 export * from './battle-sprite.js'
 export * from './character.js'
 export * from './dialogue-upgrade.js'
+export * from './dialogue-v14.js'
+export * from './dialogue-identity-v14-upgrade.js'
 export * from './enemy.js'
+export * from './enemy-v14.js'
 export * from './enemy-ai.js'
 export * from './enemy-script-v10.js'
 export * from './enemy-script-v10-upgrade.js'
@@ -168,6 +176,7 @@ export * from './grid.js'
 export * from './item.js'
 export * from './item-throw-v8-upgrade.js'
 export * from './item-v5.js'
+export * from './item-v14.js'
 export * from './locale.js'
 export * from './map-index.js'
 export * from './migration-diagnostic.js'
@@ -179,11 +188,13 @@ export * from './rewards.js'
 export * from './rich-text.js'
 export * from './scene-v5.js'
 export * from './scene-v13.js'
+export * from './scene-v14.js'
 export * from './script.js'
 export * from './script-library.js'
 export * from './script-transition-v5.js'
 export * from './script-v5.js'
 export * from './script-v13.js'
+export * from './script-v14.js'
 export * from './shop.js'
 export * from './skill.js'
 export * from './skill-execution-v11-upgrade.js'
@@ -193,3 +204,4 @@ export * from './tileset.js'
 export * from './validate.js'
 export * from './validate-refs.js'
 export * from './validate-v13.js'
+export * from './validate-v14.js'

@@ -726,7 +726,10 @@
                             "text": "dlg.11867"
                           }
                         ],
-                        "speaker": "spk.李逍遥"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -741,7 +744,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.小女孩"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.小女孩"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -755,7 +761,10 @@
                             "text": "dlg.11871"
                           }
                         ],
-                        "speaker": "spk.李逍遥"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -770,7 +779,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.小女孩"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.小女孩"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -791,7 +803,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.小女孩"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.小女孩"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -962,7 +977,10 @@
                           "text": "dlg.11855"
                         }
                       ],
-                      "speaker": "spk.小女孩"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.小女孩"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -992,7 +1010,10 @@
                           "text": "dlg.11858"
                         }
                       ],
-                      "speaker": "spk.小女孩"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.小女孩"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -1001,9 +1022,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.001",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.001",
+                          "side": "right"
+                        },
+                        "speaker": "spk.李逍遥"
                       },
                       "rows": [
                         {
@@ -1012,8 +1037,7 @@
                         {
                           "text": "dlg.11861"
                         }
-                      ],
-                      "speaker": "spk.李逍遥"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -1034,7 +1058,10 @@
                         }
                       ],
                       "slot": "top",
-                      "speaker": "spk.小女孩"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.小女孩"
+                      }
                     },
                     "kind": "dialog"
                   }

@@ -15,6 +15,7 @@ import {
   CanonicalScriptDialogV5,
   type CanonicalScriptEditorContextV5,
 } from './CanonicalScriptEditorV5.js'
+import { DsListHeader } from './design-system/index.js'
 import { PreviewCanvas } from './PreviewCanvas.js'
 
 const EMPTY_STAGES: readonly ScriptStage[] = []
@@ -262,21 +263,18 @@ export function CanonicalSharedScriptTabV5(props: {
     <>
       <div className="outliner shared-script-outliner canonical-shared-script-outliner">
         {props.tabBar}
-        <div className="pane-h">
-          <span className="t">可复用脚本</span>
-          <span className="count">{ids.length}</span>
-          <span className="spacer" />
-          <button
-            ref={createButtonRef}
-            type="button"
-            className="mini"
-            aria-label="新建可复用脚本"
-            title="新建可复用脚本"
-            onClick={openCreate}
-          >
-            ＋
-          </button>
-        </div>
+        <DsListHeader
+          title="可复用脚本"
+          count={ids.length}
+          unit="项"
+          actions={[{
+            id: 'create-shared-script',
+            label: '新建可复用脚本',
+            icon: '＋',
+            buttonRef: createButtonRef,
+            onClick: openCreate,
+          }]}
+        />
         <div className="shared-toolbar">
           <input
             className="in"

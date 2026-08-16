@@ -138,6 +138,9 @@
                   },
                   {
                     "cue": {
+                      "identity": {
+                        "kind": "narration"
+                      },
                       "autoAdvance": 685,
                       "rows": [
                         {
@@ -246,6 +249,9 @@
                   },
                   {
                     "cue": {
+                      "identity": {
+                        "kind": "narration"
+                      },
                       "autoAdvance": 1028,
                       "rows": [
                         {
@@ -298,7 +304,10 @@
                         }
                       ],
                       "slot": "top",
-                      "speaker": "spk.赵灵儿"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.赵灵儿"
+                      }
                     },
                     "kind": "dialog"
                   },

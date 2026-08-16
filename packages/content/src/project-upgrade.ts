@@ -234,11 +234,31 @@ export function upgradeLegacyStaticImageCommands<T>(input: T): T {
   return upgraded as T
 }
 
-/** PAL battle-fields 旧表的确定性规范化；0-5 仍为无背景占位，6-57 才是真实战场。 */
-export function upgradeLegacyPalBattleFields<T>(input: T): T {
+const PAL_LEGACY_BATTLE_FIELD_COUNT = 58
+const PAL_FIRST_REAL_BATTLE_FIELD_ID = 6
+const PAL_LAST_REAL_BATTLE_FIELD_ID = 57
+const PAL_BATTLE_FIELD_ELEMENTS = ['wind', 'thunder', 'water', 'fire', 'earth'] as const
+
+function assertLegacyPalBattleFieldPlaceholders(fields: Record<string, unknown>[]): void {
+  for (let id = 0; id < PAL_FIRST_REAL_BATTLE_FIELD_ID; id++) {
+    const where = `battleFields[${id}]`
+    const field = fields[id]
+    if (!field) throw new Error(`${where}: 缺 PAL 非战场占位`)
+    exactKeys(field, ['id', 'screenWave', 'magicEffect'], where)
+    if (field.screenWave !== 0) throw new Error(`${where}.screenWave: PAL 非战场占位必须为 0`)
+    const magicEffect = object(field.magicEffect, `${where}.magicEffect`)
+    exactKeys(magicEffect, PAL_BATTLE_FIELD_ELEMENTS, `${where}.magicEffect`)
+    for (const element of PAL_BATTLE_FIELD_ELEMENTS) {
+      if (magicEffect[element] !== 0)
+        throw new Error(`${where}.magicEffect.${element}: PAL 非战场占位必须为 0`)
+    }
+  }
+}
+
+function normalizeLegacyPalBattleFields<T>(input: T, separateDomain: boolean): T {
   const fields = cloneJson(input) as unknown
   if (!Array.isArray(fields)) throw new Error('battleFields: 期望数组')
-  fields.forEach((raw, index) => {
+  const records = fields.map((raw, index) => {
     const field = object(raw, `battleFields[${index}]`)
     if (!Number.isInteger(field.id) || (field.id as number) < 0)
       throw new Error(`battleFields[${index}].id: 期望非负整数`)
@@ -251,10 +271,41 @@ export function upgradeLegacyPalBattleFields<T>(input: T): T {
       (typeof field.background !== 'string' || field.background.length === 0)
     )
       throw new Error(`battleFields[${index}].background: 期望非空 AssetId`)
-    if (field.background === undefined && (field.id as number) >= 6 && (field.id as number) <= 57)
+    if (
+      field.background === undefined &&
+      (field.id as number) >= PAL_FIRST_REAL_BATTLE_FIELD_ID &&
+      (field.id as number) <= PAL_LAST_REAL_BATTLE_FIELD_ID
+    )
       field.background = palBattleBackgroundAssetId(field.id as number)
+    return field
   })
+  const isCompleteLegacyPalTable =
+    records.length === PAL_LEGACY_BATTLE_FIELD_COUNT &&
+    records.every((field, index) => field.id === index)
+  if (separateDomain && isCompleteLegacyPalTable) {
+    assertLegacyPalBattleFieldPlaceholders(records)
+    fields.splice(0, PAL_FIRST_REAL_BATTLE_FIELD_ID)
+  }
   return fields as T
+}
+
+/**
+ * PAL battle-fields 历史 canonicalizer：补齐 6-57 背景但保留原 58 槽父表。
+ *
+ * R13/C1 历史三值合并依赖这条 byte-stable 语义；当前领域分离必须显式调用下方 successor API。
+ */
+export function upgradeLegacyPalBattleFields<T>(input: T): T {
+  return normalizeLegacyPalBattleFields(input, false)
+}
+
+/**
+ * PAL 旧表到现代 Battlefield 域的单向分离。
+ *
+ * 只有完整的 PAL 58 槽旧表才会剔除已经由资产域分离的 0-5 非战场占位；任意现代/局部列表都保留
+ * 显式 id（包括 id 0），避免把 PAL 的历史编号规则泄漏成通用 schema 规则。
+ */
+export function separateLegacyPalBattleFieldDomain<T>(input: T): T {
+  return normalizeLegacyPalBattleFields(input, true)
 }
 
 /** 旧存档世界态立绘规范化；party 与 reserve 共用同一规则。 */

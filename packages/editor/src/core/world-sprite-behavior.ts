@@ -533,7 +533,9 @@ export function collectAutomaticScriptSpriteInstanceSites(
   const sites: SpriteAutomaticScriptInstanceSite[] = []
   state.scenes.forEach((scene, sceneIndex) => {
     scene.entities.forEach((entity, entityIndex) => {
-      if ((entity.pages?.[0]?.auto?.stages.length ?? 0) === 0) return
+      // EditorState 的壳层场景在 canonical v5 投影前后可能短暂保留
+      // `page.auto = behaviorId`。只有旧壳层 `{ stages }` 才能作为预览脚本读取。
+      if ((entity.pages?.[0]?.auto?.stages?.length ?? 0) === 0) return
       const sprite = resolveEntitySpriteId(entity, actors)
       if (!sprite) return
       sites.push({
@@ -1042,7 +1044,7 @@ function describeAutomaticEntityBehavior(
   actualFrameCount?: number,
 ): SpriteReferenceBehavior | undefined {
   const auto = entity.pages?.[0]?.auto
-  if (!auto?.stages.length) return undefined
+  if (!auto?.stages?.length) return undefined
   const canResolvePhysicalFrames =
     definition.layout.kind !== 'directional' &&
     actualFrameCount !== undefined &&

@@ -127,9 +127,12 @@
                             "text": "dlg.4344"
                           }
                         ],
-                        "portrait": {
-                          "asset": "portrait.pal.002",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.002",
+                            "side": "right"
+                          }
                         }
                       }
                     },

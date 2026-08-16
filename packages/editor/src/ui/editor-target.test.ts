@@ -147,6 +147,32 @@ describe('editorObjectTargetMissing', () => {
     ).toBe(true)
   })
 
+  test('战场深链以显式数值 id 判断存在与撤销残留', () => {
+    const state = makeState({
+      battleFields: [
+        {
+          id: 24,
+          screenWave: 0,
+          magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+        },
+      ],
+    })
+    expect(
+      editorObjectTargetMissing(state, {
+        module: 'battle',
+        subpage: 'battlefield',
+        objectId: '24',
+      }),
+    ).toBe(false)
+    expect(
+      editorObjectTargetMissing(state, {
+        module: 'battle',
+        subpage: 'battlefield',
+        objectId: '25',
+      }),
+    ).toBe(true)
+  })
+
   test('脚本库深链同时识别 canonical v5 与旧版作者脚本', () => {
     const state = makeState({
       scriptIndex: {

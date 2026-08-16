@@ -1,0 +1,91 @@
+:root {
+  color-scheme: dark;
+
+  --ds-version: "2.2.0";
+  --ds-surface-canvas: #1b1d23;
+  --ds-surface-panel: #232732;
+  --ds-surface-raised: #2b303c;
+  --ds-surface-overlay: #2f3542;
+  --ds-surface-selection: #2d3852;
+  --ds-media-black: #050608;
+  --ds-border-subtle: #3b4251;
+  --ds-border-control: #66728a;
+  --ds-text-primary: #edf1f7;
+  --ds-text-secondary: #aeb7c7;
+  --ds-text-muted: #96a1b3;
+  --ds-action-primary: #5aa2ff;
+  --ds-action-primary-soft: color-mix(in srgb, var(--ds-action-primary) 15%, transparent);
+  --ds-status-success: #63c786;
+  --ds-status-warning: #e2b340;
+  --ds-status-danger: #f27d84;
+  --ds-focus-ring: #83b8ff;
+
+  --ds-font-sans: system-ui, "PingFang SC", "Microsoft YaHei", sans-serif;
+  --ds-font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --ds-font-title-lg: 700 20px / 28px var(--ds-font-sans);
+  --ds-font-title-md: 650 16px / 24px var(--ds-font-sans);
+  --ds-font-title-sm: 650 14px / 20px var(--ds-font-sans);
+  --ds-font-body: 400 14px / 20px var(--ds-font-sans);
+  --ds-font-label: 600 12px / 18px var(--ds-font-sans);
+  --ds-font-caption: 400 12px / 18px var(--ds-font-sans);
+  --ds-font-tag: 500 10px / 14px var(--ds-font-sans);
+  --ds-font-object-action: 500 11px / 16px var(--ds-font-sans);
+  --ds-font-code: 400 12px / 18px var(--ds-font-mono);
+
+  --ds-space-1: 2px;
+  --ds-space-2: 4px;
+  --ds-space-3: 6px;
+  --ds-space-4: 8px;
+  --ds-space-5: 12px;
+  --ds-space-6: 16px;
+  --ds-space-7: 20px;
+  --ds-space-8: 24px;
+  --ds-space-9: 32px;
+  --ds-space-10: 40px;
+  --ds-space-11: 48px;
+
+  --ds-control-height: 36px;
+  --ds-control-height-compact: 30px;
+  --ds-control-height-object-action: 32px;
+  --ds-toolbar-height: 40px;
+  --ds-radius-control: 6px;
+  --ds-radius-card: 10px;
+  --ds-radius-overlay: 12px;
+  --ds-motion-fast: 100ms;
+  --ds-motion-normal: 160ms;
+  --ds-motion-overlay: 220ms;
+  --ds-elevation-popover: 0 18px 48px color-mix(in srgb, var(--ds-media-black) 62%, transparent);
+
+  --ds-z-base: 0;
+  --ds-z-sticky: 10;
+  --ds-z-popover: 30;
+  --ds-z-app-header: 35;
+  --ds-z-drawer: 40;
+  --ds-z-modal: 50;
+  --ds-z-toast: 60;
+
+  /* N1: editor.css 历史根变量的完整兼容表。新组件不得消费这些别名。 */
+  --bg: var(--ds-surface-canvas);
+  --panel: var(--ds-surface-panel);
+  --panel2: var(--ds-surface-raised);
+  --panel3: var(--ds-surface-overlay);
+  --line: var(--ds-border-subtle);
+  --fg: var(--ds-text-primary);
+  --dim: var(--ds-text-secondary);
+  --faint: var(--ds-text-muted);
+  --accent: var(--ds-action-primary);
+  --acc: var(--ds-action-primary);
+  --warn: var(--ds-status-warning);
+  --err: var(--ds-status-danger);
+  --ok: var(--ds-status-success);
+  --mono: var(--ds-font-mono);
+  --sans: var(--ds-font-sans);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --ds-motion-fast: 0ms;
+    --ds-motion-normal: 0ms;
+    --ds-motion-overlay: 0ms;
+  }
+}

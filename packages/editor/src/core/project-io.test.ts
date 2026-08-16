@@ -19,11 +19,22 @@ import {
 import { describe, expect, test } from 'vitest'
 import { binarySnapshotSignature, sha256Hex } from './binary-signature.js'
 import {
+  AddActorCommand,
+  AddBattleFieldCommand,
+  AddEntityCommand,
   AddItemCommand,
   CompositeCommand,
+  DeleteActorCommand,
+  DeleteBattleFieldCommand,
   DeleteItemCommand,
   DeleteMapAssetCommand,
+  DetachActorEntityCommand,
   UpdateItemCommand,
+  UpdateActorCommand,
+  UpdateEnemyCommand,
+  UpdateLocaleCommand,
+  UpdatePoisonCommand,
+  UpdateSkillCommand,
   UpsertAssetCommand,
 } from './commands.js'
 import { EditSession } from './edit-session.js'
@@ -292,6 +303,115 @@ test('round-trip:toEditorState → serializeProject 还原各 content JSON', () 
   expect(out['manifest.json']).toEqual(manifest)
 })
 
+test('B2-1 战场 CRUD 保存重开保持完整，空表仍写已声明文件', () => {
+  const initial = toEditorState(assembleProject(manifest, JSONS), SCENES)
+  const session = new EditSession(initial)
+  session.dispatch(new DeleteBattleFieldCommand(22))
+  session.dispatch(
+    new AddBattleFieldCommand({
+      id: 30,
+      name: '云海',
+      screenWave: 2,
+      magicEffect: { wind: 1, thunder: 2, water: 3, fire: 4, earth: 5 },
+    }),
+  )
+  const saved = serializeProject(session.getState())
+  const reopened = toEditorState(
+    assembleProject(saved['manifest.json'] as LoadedManifest, {
+      ...JSONS,
+      battleFields: saved['content/battle-fields.json'],
+    }),
+    SCENES,
+  )
+  expect(reopened.battleFields).toEqual(session.getState().battleFields)
+
+  const onlyUnused = { ...initial, battleFields: [battleFieldsJson[1]!] }
+  const empty = new DeleteBattleFieldCommand(22).apply(onlyUnused)
+  expect(serializeProject(empty)['content/battle-fields.json']).toEqual([])
+})
+
+test('ED-BATTLE-UI-1 技能/敌人/毒编辑保存重开保持对象值与稳定 id', () => {
+  const initial = toEditorState(assembleProject(manifest, JSONS), SCENES)
+  const enemy = {
+    id: 'enemy-editor-roundtrip',
+    name: 'name.enemy-editor-roundtrip',
+    battleSprite: 'battle-sprite.test.enemy',
+    yPosOffset: 0,
+    stats: {
+      health: 50,
+      level: 1,
+      exp: 2,
+      cash: 3,
+      attackStrength: 4,
+      magicStrength: 5,
+      defense: 6,
+      dexterity: 7,
+      fleeRate: 8,
+      physicalResistance: 0,
+      poisonResistance: 0,
+      elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      dualMove: false,
+      collectValue: 0,
+    },
+    ai: { resistanceToSorcery: 0 },
+    sounds: {},
+  } as const
+  const session = new EditSession({
+    ...initial,
+    manifest: {
+      ...initial.manifest,
+      content: {
+        ...initial.manifest.content,
+        enemies: 'content/enemies.json',
+        enemyTeams: 'content/enemy-teams.json',
+        poisons: 'content/poisons.json',
+      },
+    },
+    locale: { ...initial.locale, [enemy.name]: '测试敌人' },
+    battleSprites: [
+      ...initial.battleSprites,
+      {
+        id: enemy.battleSprite,
+        label: '测试敌人精灵',
+        asset: 'battle-sprite.test.hero',
+        profile: {
+          kind: 'enemy',
+          idle: { start: 0, count: 1 },
+          magic: { start: 1, count: 0 },
+          attack: { start: 1, count: 0 },
+          idleTicksPerFrame: 1,
+          actTicksPerFrame: 0,
+        },
+      },
+    ],
+    enemies: [enemy],
+    enemyTeams: [{ id: 'team-editor-roundtrip', slots: [enemy.id] }],
+    poisons: [{ id: 901, name: '测试毒', curability: 'common', color: 0 }],
+  } as unknown as import('./edit-session.js').EditorState)
+
+  session.dispatch(new UpdateSkillCommand('296', { name: '气疗术·已编辑' }))
+  session.dispatch(new UpdateEnemyCommand(enemy.id, { yPosOffset: 9 }))
+  session.dispatch(new UpdatePoisonCommand(901, { name: '测试毒·已编辑' }))
+
+  const saved = serializeProject(session.getState())
+  const reopened = toEditorState(
+    assembleProject(saved['manifest.json'] as LoadedManifest, {
+      ...JSONS,
+      skills: saved['content/skills.json'],
+      locale: saved['content/locale.json'],
+      battleSprites: saved['content/battle-sprites.json'],
+      enemies: saved['content/enemies.json'],
+      enemyTeams: saved['content/enemy-teams.json'],
+      poisons: saved['content/poisons.json'],
+    }),
+    SCENES,
+  )
+  expect(reopened.skills.find((entry) => entry.id === '296')?.name).toBe('气疗术·已编辑')
+  expect(reopened.enemies?.find((entry) => entry.id === enemy.id)?.yPosOffset).toBe(9)
+  expect(reopened.enemyTeams?.[0]?.slots).toEqual([enemy.id])
+  expect(reopened.poisons?.find((entry) => entry.id === 901)?.name).toBe('测试毒·已编辑')
+})
+
 test('C8 迁移诊断 sidecar 保存重开；能力补齐后自动消解旧诊断', () => {
   const withDiagnostics: LoadedManifest = {
     ...manifest,
@@ -552,6 +672,107 @@ test('ED-4A actor/sprite/touch zone/interact zone 保存重开保持引用与空
     range: 2,
     stages: [{ body: [] }],
   })
+})
+
+test('C1-1 空人物库创建预制人物、跨场景复用、保存重开、解除关联与删除约束闭环', () => {
+  const authorManifest: LoadedManifest = {
+    ...manifest,
+    entryScene: 'scene-a',
+    startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+  }
+  const sceneA: SceneDef = {
+    id: 'scene-a',
+    mapId: 'map-056',
+    entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+    entities: [],
+  }
+  const sceneB: SceneDef = {
+    ...sceneA,
+    id: 'scene-b',
+    entry: { pos: { col: 8, row: 8, height: 0 }, facing: 'left' },
+  }
+  const authorJson = {
+    ...JSONS,
+    actors: [],
+    sceneIds: ['scene-a', 'scene-b'],
+    entryScene: sceneA,
+    skills: { skills: [], levelUp: {} },
+    items: [],
+    locale: {},
+  }
+  const session = new EditSession(
+    toEditorState(assembleProject(authorManifest, authorJson), [sceneA, sceneB]),
+  )
+  session.dispatch(
+    new CompositeCommand('创建预制人物', [
+      new UpdateLocaleCommand('name.npc-guide', '引路人'),
+      new AddActorCommand({
+        id: 'npc-guide',
+        name: 'name.npc-guide',
+        spriteId: 'ghost',
+      }),
+    ]),
+  )
+  session.dispatch(
+    new AddEntityCommand(
+      'scene-a',
+      createPlacedEntity('guide-a', { col: 1, row: 2, height: 0 }, {
+        mode: 'actor',
+        actorId: 'npc-guide',
+      }),
+    ),
+  )
+  session.dispatch(
+    new AddEntityCommand(
+      'scene-b',
+      createPlacedEntity('guide-b', { col: 6, row: 7, height: 0 }, {
+        mode: 'actor',
+        actorId: 'npc-guide',
+      }),
+    ),
+  )
+  session.dispatch(new UpdateActorCommand('npc-guide', { spriteId: 'li-xiaoyao' }))
+
+  const saved = serializeProject(session.getState())
+  const savedSceneA = saved['content/scenes/scene-a.json'] as SceneDef
+  const savedSceneB = saved['content/scenes/scene-b.json'] as SceneDef
+  const reopened = toEditorState(
+    assembleProject(saved['manifest.json'] as LoadedManifest, {
+      ...authorJson,
+      actors: saved['content/actors.json'],
+      sceneIds: saved['content/scenes/index.json'],
+      entryScene: savedSceneA,
+      skills: saved['content/skills.json'],
+      locale: saved['content/locale.json'],
+    }),
+    [savedSceneA, savedSceneB],
+  )
+  expect(reopened.actors).toEqual([
+    { id: 'npc-guide', name: 'name.npc-guide', spriteId: 'li-xiaoyao' },
+  ])
+  expect(reopened.locale['name.npc-guide']).toBe('引路人')
+  expect(reopened.scenes.map((scene) => scene.entities[0])).toEqual([
+    expect.objectContaining({ id: 'guide-a', actor: 'npc-guide', pos: { col: 1, row: 2, height: 0 } }),
+    expect.objectContaining({ id: 'guide-b', actor: 'npc-guide', pos: { col: 6, row: 7, height: 0 } }),
+  ])
+
+  const reopenedSession = new EditSession(reopened)
+  expect(() => reopenedSession.dispatch(new DeleteActorCommand('npc-guide'))).toThrow(/仍被 2 处引用/)
+  reopenedSession.dispatch(new DetachActorEntityCommand('scene-a', 'guide-a'))
+  expect(() => reopenedSession.dispatch(new DeleteActorCommand('npc-guide'))).toThrow(/仍被 1 处引用/)
+  reopenedSession.dispatch(new DetachActorEntityCommand('scene-b', 'guide-b'))
+  reopenedSession.dispatch(new DeleteActorCommand('npc-guide'))
+  expect(reopenedSession.getState().actors).toEqual([])
+  expect(reopenedSession.getState().scenes.map((scene) => scene.entities[0])).toEqual([
+    expect.objectContaining({ id: 'guide-a', sprite: 'li-xiaoyao' }),
+    expect.objectContaining({ id: 'guide-b', sprite: 'li-xiaoyao' }),
+  ])
+  expect(reopenedSession.getState().sprites.map((sprite) => sprite.id)).toEqual(
+    expect.arrayContaining(['ghost', 'li-xiaoyao']),
+  )
+  expect(reopenedSession.getState().locale['name.npc-guide']).toBe('引路人')
+  expect(reopenedSession.undo()).toBe(true)
+  expect(reopenedSession.getState().actors[0]?.id).toBe('npc-guide')
 })
 
 test('ProjectMapV2 round-trip 使用共享确定性格式化器', () => {

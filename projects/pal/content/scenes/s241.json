@@ -96,6 +96,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.11128"
@@ -128,7 +131,10 @@
                           }
                         ],
                         "slot": "center",
-                        "speaker": "spk.碑文记载"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.碑文记载"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -190,7 +196,10 @@
                             "text": "dlg.11134"
                           }
                         ],
-                        "speaker": "spk.碑文记载"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.碑文记载"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -237,6 +246,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.11115"
@@ -289,6 +301,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.11115"
@@ -341,6 +356,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.11115"
@@ -393,6 +411,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.11115"
@@ -445,6 +466,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.11115"

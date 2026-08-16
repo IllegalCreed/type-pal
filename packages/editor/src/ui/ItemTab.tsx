@@ -6,6 +6,7 @@ import type {
   ActorDef,
   AssetCatalogV1,
   AssetId,
+  BattleFieldDef,
   BattleSpriteDef,
   CombatStat,
   EquipEffect,
@@ -64,6 +65,15 @@ import {
 import { createAuthoredScriptId } from '../core/shared-script.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
 import type { CanonicalScriptEditorContextV5 } from './CanonicalScriptEditorV5.js'
+import {
+  DsButton,
+  DsCatalogRow,
+  DsInspectorTabs,
+  DsListHeader,
+  DsObjectHero,
+  DsTag,
+  DsWorkbenchSection,
+} from './design-system/index.js'
 import { ImageAssetThumbnail, imageAssetLabel, imageAssets } from './ImageAssetPicker.js'
 import {
   defaultItemUseEffect,
@@ -326,15 +336,6 @@ function EquipEffectFields(props: {
 type ItemFilter = 'all' | 'equip' | 'use' | 'throw' | 'referenced' | 'pending'
 type ItemInspectorTab = 'overview' | 'references' | 'resource'
 
-const ITEM_INSPECTOR_TABS: readonly {
-  value: ItemInspectorTab
-  label: (referenceCount: number) => string
-}[] = [
-  { value: 'overview', label: () => '概览' },
-  { value: 'references', label: (count) => `引用 ${count}` },
-  { value: 'resource', label: () => '资源' },
-]
-
 const ITEM_FILTERS: { value: ItemFilter; label: string }[] = [
   { value: 'all', label: '全部' },
   { value: 'equip', label: '装备' },
@@ -480,16 +481,16 @@ function ItemIconBrowser(props: {
 
   return (
     <div className="item-icon-browser">
-      <button
+      <DsButton
         ref={triggerRef}
-        type="button"
-        className="item-action-button item-action-button-primary"
+        variant="primary"
+        aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls="item-icon-browser-panel"
         onClick={() => setOpen((value) => !value)}
       >
-        🖼️ 选择已有图标…
-      </button>
+        选择已有图标…
+      </DsButton>
       {open ? (
         <div
           id="item-icon-browser-panel"
@@ -573,10 +574,12 @@ export function ItemTab(props: {
   assetBase?: AssetBase
   audioResolver?: AudioAssetReader
   battleSprites: readonly BattleSpriteDef[]
+  battleFields?: readonly BattleFieldDef[]
   onOpenSound?: (id: string) => void
   onOpenImage?: (id: string) => void
   onOpenScript?: (id: string) => void
   onOpenBattleSprite?: (id: string) => void
+  onOpenBattleField?: (id: number) => void
   onOpenItemReference?: (reference: ItemReference) => void
   onOpenProjectIssues?: () => void
   focusObjectId?: string
@@ -608,10 +611,12 @@ export function ItemTab(props: {
     assetBase,
     audioResolver,
     battleSprites,
+    battleFields = [],
     onOpenSound,
     onOpenImage,
     onOpenScript,
     onOpenBattleSprite,
+    onOpenBattleField,
     onOpenItemReference,
     onOpenProjectIssues,
     focusObjectId,
@@ -763,6 +768,7 @@ export function ItemTab(props: {
       onOpenSound,
       onOpenImage,
       onOpenBattleSprite,
+      onOpenBattleField,
     }
   }, [
     actors,
@@ -774,6 +780,7 @@ export function ItemTab(props: {
     items,
     locale,
     onOpenBattleSprite,
+    onOpenBattleField,
     onOpenImage,
     onOpenScript,
     onOpenSound,
@@ -1062,22 +1069,12 @@ export function ItemTab(props: {
     <>
       <div className="outliner data-outliner item-catalog">
         {tabBar}
-        <div className="pane-h item-catalog-head">
-          <span className="t">物品</span>
-          <span className="spacer" />
-          <span className="k">
-            {shown.length}/{items.length}
-          </span>
-          <span className="item-catalog-actions">
-            <button
-              type="button"
-              className="item-action-button item-action-button-primary item-catalog-create"
-              onClick={createItem}
-            >
-              ＋ 新建
-            </button>
-          </span>
-        </div>
+        <DsListHeader
+          title="物品"
+          count={items.length}
+          unit="项"
+          actions={[{ id: 'create-item', label: '新建物品', icon: '＋', onClick: createItem }]}
+        />
         <div className="item-catalog-tools">
           <input
             aria-label="搜索物品名称或稳定 ID"
@@ -1108,13 +1105,10 @@ export function ItemTab(props: {
             const tags = abilityTags(candidate)
             const refs = referenceMap.get(candidate.id)?.length ?? 0
             return (
-              <button
-                type="button"
+              <DsCatalogRow
                 key={candidate.id}
-                className={`arow item-catalog-row${candidate.id === item?.id ? ' sel' : ''}`}
-                onClick={() => selectItem(candidate.id)}
-              >
-                <span className="face">
+                selected={candidate.id === item?.id}
+                leading={
                   <ImageAssetThumbnail
                     asset={candidate.icon}
                     kind="item-icon"
@@ -1124,23 +1118,18 @@ export function ItemTab(props: {
                     }
                     className="item-list-icon"
                   />
-                </span>
-                <span className="nm">
-                  <span className="item-row-title">{candidate.name}</span>
-                  <small className="mono">{candidate.id}</small>
-                  <span className="item-row-badges">
-                    {tags.map((tag) => (
-                      <span className="item-badge" key={tag}>
-                        {tag}
-                      </span>
-                    ))}
-                    {refs ? <span className="item-badge muted">引用 {refs}</span> : null}
-                    {pendingIds.has(candidate.id) ? (
-                      <span className="item-badge warn">待迁移</span>
-                    ) : null}
-                  </span>
-                </span>
-              </button>
+                }
+                title={candidate.name}
+                meta={[
+                  candidate.id,
+                  ...tags,
+                  refs ? `引用 ${refs}` : undefined,
+                  pendingIds.has(candidate.id) ? '待迁移' : undefined,
+                ]
+                  .filter(Boolean)
+                  .join(' · ')}
+                onClick={() => selectItem(candidate.id)}
+              />
             )
           })}
           {!items.length ? (
@@ -1172,100 +1161,88 @@ export function ItemTab(props: {
         </div>
       </div>
 
-      <div className="canvas-wrap data-body item-workbench">
+      <div className="canvas-wrap data-body item-workbench ds-object-workspace">
         {item ? (
-          <div className="et-scroll item-workbench-scroll">
-            <header className="item-workbench-title">
-              <div className="item-identity-main">
+          <>
+            <DsObjectHero
+              media={
                 <ImageAssetThumbnail
                   asset={item.icon}
                   kind="item-icon"
                   reader={assetReader}
                   revision={item.icon ? assetCatalog.assets[item.icon]?.sha256 : undefined}
-                  className="item-identity-icon"
+                  className="item-object-hero-icon"
                   alt={`${item.name}图标`}
                 />
-                <div>
-                  <span className="item-kicker">物品定义</span>
-                  <h2>{item.name}</h2>
-                  <code>{item.id}</code>
-                  <div className="item-identity-badges">
-                    {abilityTags(item).map((tag) => (
-                      <span className="item-badge" key={tag}>
-                        {tag}
-                      </span>
-                    ))}
-                    <span className="item-badge muted">引用 {itemReferences.length}</span>
-                    {itemDiagnostics.length ? (
-                      <span className="item-badge warn">待迁移 {itemDiagnostics.length}</span>
-                    ) : null}
-                  </div>
+              }
+              eyebrow="物品"
+              title={item.name}
+              objectId={item.id}
+              summary="统一管理身份、交易、装备、使用与投掷能力。"
+              meta={
+                <div className="item-identity-badges">
+                  {abilityTags(item).map((tag) => (
+                    <DsTag key={tag}>{tag}</DsTag>
+                  ))}
+                  <DsTag tone="neutral">引用 {itemReferences.length}</DsTag>
+                  {itemDiagnostics.length ? (
+                    <DsTag tone="warning">待迁移 {itemDiagnostics.length}</DsTag>
+                  ) : null}
                 </div>
-              </div>
-              <div className="item-title-actions">
-                <button
-                  type="button"
-                  className="item-action-button item-action-button-compact"
-                  onClick={duplicateItem}
-                >
-                  ⧉ 复制
-                </button>
-                {confirmDeleteId === item.id ? (
-                  <span className="item-delete-confirm">
-                    <span>确定删除？</span>
-                    <button
-                      type="button"
-                      className="item-action-button item-action-button-danger item-action-button-compact"
-                      onClick={deleteItem}
+              }
+              actions={
+                <div className="item-title-actions">
+                  <DsButton icon="copy" onClick={duplicateItem}>
+                    复制
+                  </DsButton>
+                  {confirmDeleteId === item.id ? (
+                    <span className="item-delete-confirm">
+                      <span>确定删除？</span>
+                      <DsButton variant="danger" icon="delete" onClick={deleteItem}>
+                        确认
+                      </DsButton>
+                      <DsButton variant="secondary" onClick={() => setConfirmDeleteId(undefined)}>
+                        取消
+                      </DsButton>
+                    </span>
+                  ) : (
+                    <DsButton
+                      variant="danger"
+                      icon="delete"
+                      onClick={() => setConfirmDeleteId(item.id)}
                     >
-                      确认
-                    </button>
-                    <button
-                      type="button"
-                      className="item-action-button item-action-button-compact"
-                      onClick={() => setConfirmDeleteId(undefined)}
-                    >
-                      取消
-                    </button>
-                  </span>
-                ) : (
+                      删除
+                    </DsButton>
+                  )}
+                </div>
+              }
+            />
+
+            <div className="et-scroll item-workbench-scroll ds-object-workspace__content">
+              {itemDiagnostics.length ? (
+                <section className="item-migration-alert" aria-label="待迁移能力">
+                  <div>
+                    <strong>有 {itemDiagnostics.length} 项旧版能力尚未结构化</strong>
+                    <span>
+                      {itemDiagnostics[0]?.target.label}：{itemDiagnostics[0]?.reason}
+                    </span>
+                  </div>
                   <button
                     type="button"
-                    className="item-action-button item-action-button-danger item-action-button-compact"
-                    onClick={() => setConfirmDeleteId(item.id)}
+                    className="item-action-button item-action-button-warning item-action-button-compact"
+                    onClick={() => setInspectorTab('overview')}
                   >
-                    删除
+                    查看迁移来源 ↗
                   </button>
-                )}
-              </div>
-            </header>
+                </section>
+              ) : null}
 
-            {itemDiagnostics.length ? (
-              <section className="item-migration-alert" aria-label="待迁移能力">
-                <div>
-                  <strong>有 {itemDiagnostics.length} 项旧版能力尚未结构化</strong>
-                  <span>
-                    {itemDiagnostics[0]?.target.label}：{itemDiagnostics[0]?.reason}
-                  </span>
-                </div>
-                <button
-                  type="button"
-                  className="item-action-button item-action-button-warning item-action-button-compact"
-                  onClick={() => setInspectorTab('overview')}
-                >
-                  查看迁移来源 ↗
-                </button>
-              </section>
-            ) : null}
-
-            <section className="item-card item-base-card">
-              <div className="item-card-heading">
-                <div>
-                  <h3>基础信息</h3>
-                  <p>名称、价格与图标会直接出现在游戏菜单；稳定 ID 创建后不随改名变化。</p>
-                </div>
-              </div>
-              <div className="item-base-layout">
+              <DsWorkbenchSection
+                className="item-base-card"
+                contentClassName="item-base-layout"
+                title="基础信息"
+                description="名称、价格与图标会直接出现在游戏菜单；稳定 ID 创建后不随改名变化。"
+              >
                 <section className="item-base-section item-icon-section">
                   <div className="item-base-section-heading">
                     <div>
@@ -1301,30 +1278,26 @@ export function ItemTab(props: {
                           if (file) void importIcon(file)
                         }}
                       />
-                      <button
-                        type="button"
-                        className="item-action-button"
+                      <DsButton
+                        variant="secondary"
+                        icon="upload"
                         onClick={() => iconInputRef.current?.click()}
                       >
                         导入 PNG…
-                      </button>
+                      </DsButton>
                       {item.icon && onOpenImage ? (
-                        <button
-                          type="button"
-                          className="item-action-button"
+                        <DsButton
+                          variant="secondary"
+                          icon="open"
                           onClick={() => onOpenImage(item.icon!)}
                         >
-                          在图像库打开 ↗
-                        </button>
+                          在图像库打开
+                        </DsButton>
                       ) : null}
                       {item.icon ? (
-                        <button
-                          type="button"
-                          className="item-action-button item-action-button-danger"
-                          onClick={() => patch({ icon: undefined })}
-                        >
+                        <DsButton variant="danger" onClick={() => patch({ icon: undefined })}>
                           解除绑定
-                        </button>
+                        </DsButton>
                       ) : null}
                     </div>
                   </div>
@@ -1437,412 +1410,424 @@ export function ItemTab(props: {
                     />
                   </label>
                 </section>
-              </div>
-            </section>
+              </DsWorkbenchSection>
 
-            <section className={`item-card item-capability-card${equip ? ' enabled' : ''}`}>
-              <div className="item-card-heading">
-                <div>
-                  <h3>装备能力</h3>
-                  <p>决定装备槽、可装备角色及实时派生效果。</p>
-                </div>
-                <label className="item-capability-toggle">
-                  <input
-                    type="checkbox"
-                    checked={!!equip}
-                    onChange={(event) =>
-                      patchEquip(
-                        event.target.checked
-                          ? { slot: 'weapon', equipableBy: [], effects: [] }
-                          : undefined,
-                      )
-                    }
-                  />
-                  {equip ? '已启用' : '启用装备'}
-                </label>
-              </div>
-              {equip ? (
-                <div className="item-capability-body">
-                  <div className="item-equip-options">
-                    <label className="item-field">
-                      <span>槽位</span>
-                      <select
-                        className="in"
-                        value={equip.slot}
-                        onChange={(event) =>
-                          patchEquip({ ...equip, slot: event.target.value as EquipSlot })
-                        }
-                      >
-                        {SLOTS.map((slot) => (
-                          <option key={slot.v} value={slot.v}>
-                            {slot.label}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                    <fieldset className="item-character-checks">
-                      <legend>可装备角色</legend>
-                      {actors
-                        .filter((actor) => actor.battler)
-                        .map((actor) => (
-                          <label key={actor.id}>
-                            <input
-                              type="checkbox"
-                              checked={equip.equipableBy.includes(actor.id)}
-                              onChange={(event) => {
-                                const checked = event.target.checked
-                                const effects = checked
-                                  ? equip.effects
-                                  : equip.effects.map((effect) => {
-                                      if (effect.kind !== 'battleSprite') return effect
-                                      const byActor = { ...effect.byActor }
-                                      delete byActor[actor.id]
-                                      return { ...effect, byActor }
-                                    })
-                                patchEquip({
-                                  ...equip,
-                                  equipableBy: checked
-                                    ? [...equip.equipableBy, actor.id]
-                                    : equip.equipableBy.filter((id) => id !== actor.id),
-                                  effects,
-                                })
-                              }}
-                            />
-                            {lookupText(actor.name, locale)}
-                          </label>
-                        ))}
-                    </fieldset>
-                  </div>
-                  <div className="item-equip-effects">
-                    <div className="item-effect-subhead">
-                      <strong>装备效果</strong>
-                      <button
-                        type="button"
-                        className="item-action-button item-action-button-compact item-effect-add-button"
-                        onClick={() =>
-                          patchEquip({
-                            ...equip,
-                            effects: [...equip.effects, defaultEquipEffect('statBonus')],
-                          })
-                        }
-                      >
-                        ＋ 添加效果
-                      </button>
-                    </div>
-                    {equip.effects.map((effect, index) => (
-                      <div
-                        className={`ef-row item-equip-effect-row${
-                          effect.kind === 'battleSprite'
-                            ? ' item-equip-effect-row-battle-sprite'
-                            : ''
-                        }`}
-                        key={`${item.id}-equip-${index}`}
-                      >
+              <DsWorkbenchSection
+                className={`item-capability-card${equip ? ' enabled' : ''}`}
+                contentClassName="item-capability-content"
+                title="装备能力"
+                description="决定装备槽、可装备角色及实时派生效果。"
+                actions={
+                  <label className="item-capability-toggle">
+                    <input
+                      type="checkbox"
+                      checked={!!equip}
+                      onChange={(event) =>
+                        patchEquip(
+                          event.target.checked
+                            ? { slot: 'weapon', equipableBy: [], effects: [] }
+                            : undefined,
+                        )
+                      }
+                    />
+                    {equip ? '已启用' : '启用装备'}
+                  </label>
+                }
+              >
+                {equip ? (
+                  <div className="item-capability-body">
+                    <div className="item-equip-options">
+                      <label className="item-field">
+                        <span>槽位</span>
                         <select
-                          className="in ef-kind"
-                          aria-label={`装备效果 ${index + 1} 类型`}
-                          value={effect.kind}
-                          onChange={(event) => {
-                            try {
-                              setEquipEffect(
-                                index,
-                                defaultEquipEffect(event.target.value as EquipEffect['kind']),
-                              )
-                              onStatusNotice?.(undefined)
-                            } catch (cause) {
-                              onStatusNotice?.({
-                                kind: 'error',
-                                message: cause instanceof Error ? cause.message : String(cause),
-                              })
-                            }
-                          }}
+                          className="in"
+                          value={equip.slot}
+                          onChange={(event) =>
+                            patchEquip({ ...equip, slot: event.target.value as EquipSlot })
+                          }
                         >
-                          {EFFECT_KINDS.map((kind) => (
-                            <option
-                              key={kind.v}
-                              value={kind.v}
-                              disabled={
-                                kind.v === 'battleSprite' &&
-                                effect.kind !== 'battleSprite' &&
-                                equip.effects.some((candidate) => candidate.kind === 'battleSprite')
-                              }
-                            >
-                              {kind.label}
+                          {SLOTS.map((slot) => (
+                            <option key={slot.v} value={slot.v}>
+                              {slot.label}
                             </option>
                           ))}
                         </select>
-                        <div className="ef-fields">
-                          <EquipEffectFields
-                            e={effect}
-                            skills={skills}
-                            battleSprites={battleSprites}
-                            actors={actors}
-                            equipableBy={equip.equipableBy}
-                            locale={locale}
-                            on={(next) => setEquipEffect(index, next)}
-                            onOpenBattleSprite={onOpenBattleSprite}
-                          />
-                        </div>
-                        <span className="ef-ops">
-                          <button
-                            type="button"
-                            className="mini"
-                            disabled={index === 0}
-                            aria-label={`上移装备效果 ${index + 1}`}
-                            onClick={() => {
-                              const effects = [...equip.effects]
-                              ;[effects[index - 1], effects[index]] = [
-                                effects[index]!,
-                                effects[index - 1]!,
-                              ]
-                              patchEquip({ ...equip, effects })
-                            }}
-                          >
-                            ↑
-                          </button>
-                          <button
-                            type="button"
-                            className="mini"
-                            disabled={index === equip.effects.length - 1}
-                            aria-label={`下移装备效果 ${index + 1}`}
-                            onClick={() => {
-                              const effects = [...equip.effects]
-                              ;[effects[index], effects[index + 1]] = [
-                                effects[index + 1]!,
-                                effects[index]!,
-                              ]
-                              patchEquip({ ...equip, effects })
-                            }}
-                          >
-                            ↓
-                          </button>
-                          <button
-                            type="button"
-                            className="mini danger"
-                            aria-label={`删除装备效果 ${index + 1}`}
-                            onClick={() =>
-                              patchEquip({
-                                ...equip,
-                                effects: equip.effects.filter((_, at) => at !== index),
-                              })
-                            }
-                          >
-                            ×
-                          </button>
-                        </span>
-                      </div>
-                    ))}
-                    {!equip.effects.length ? (
-                      <div className="item-capability-note">
-                        当前是纯剧情/风味装备，没有数值效果。
-                      </div>
-                    ) : null}
-                    <div className="eq-derived">
-                      <span className="lb">玩家看到</span>
-                      {derived.length ? (
-                        <div className="eq-derived-lines">
-                          {derived.map((line, index) => (
-                            <div key={`${item.id}-derived-${index}`}>{line}</div>
+                      </label>
+                      <fieldset className="item-character-checks">
+                        <legend>可装备角色</legend>
+                        {actors
+                          .filter((actor) => actor.battler)
+                          .map((actor) => (
+                            <label key={actor.id}>
+                              <input
+                                type="checkbox"
+                                checked={equip.equipableBy.includes(actor.id)}
+                                onChange={(event) => {
+                                  const checked = event.target.checked
+                                  const effects = checked
+                                    ? equip.effects
+                                    : equip.effects.map((effect) => {
+                                        if (effect.kind !== 'battleSprite') return effect
+                                        const byActor = { ...effect.byActor }
+                                        delete byActor[actor.id]
+                                        return { ...effect, byActor }
+                                      })
+                                  patchEquip({
+                                    ...equip,
+                                    equipableBy: checked
+                                      ? [...equip.equipableBy, actor.id]
+                                      : equip.equipableBy.filter((id) => id !== actor.id),
+                                    effects,
+                                  })
+                                }}
+                              />
+                              {lookupText(actor.name, locale)}
+                            </label>
                           ))}
-                        </div>
-                      ) : (
-                        <span className="hint2">(无机制效果)</span>
-                      )}
+                      </fieldset>
                     </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="item-capability-empty">开启后可配置槽位、角色和装备效果。</div>
-              )}
-            </section>
-
-            <section className={`item-card item-capability-card${item.use ? ' enabled' : ''}`}>
-              <div className="item-card-heading">
-                <div>
-                  <h3>使用能力</h3>
-                  <p>可组合回复、状态、剧情脚本、场景出口、合成和资源池等现代化效果。</p>
-                </div>
-                <label className="item-capability-toggle">
-                  <input
-                    type="checkbox"
-                    checked={!!item.use}
-                    onChange={(event) =>
-                      event.target.checked ? enableUse() : patch({ use: undefined })
-                    }
-                  />
-                  {item.use ? '已启用' : '启用使用'}
-                </label>
-              </div>
-              {item.use ? (
-                <div className="item-capability-body">
-                  <div className="item-sound-row">
-                    <span>使用音效</span>
-                    <SoundPicker
-                      value={item.use.sound}
-                      onChange={(sound) => patch({ use: withSound(item.use!, sound) })}
-                      catalog={assetCatalog}
-                      reader={assetReader}
-                      allowUnset
-                      onOpenAsset={onOpenSound}
-                    />
-                  </div>
-                  <div className="item-script-authoring">
-                    {confirmScriptReplaceId === item.id ? (
-                      <div className="item-script-replace-confirm" role="alert">
-                        <span>
-                          新脚本会成为唯一用途，当前 {item.use.effects.length} 个效果将被替换。
-                        </span>
+                    <div className="item-equip-effects">
+                      <div className="item-effect-subhead">
+                        <strong>装备效果</strong>
                         <button
                           type="button"
-                          className="tool primary"
-                          onClick={() => createAndBindScript(true)}
-                        >
-                          确认新建并替换
-                        </button>
-                        <button
-                          type="button"
-                          className="tool"
-                          onClick={() => setConfirmScriptReplaceId(undefined)}
-                        >
-                          取消
-                        </button>
-                      </div>
-                    ) : (
-                      <button type="button" className="tool" onClick={() => createAndBindScript()}>
-                        ＋ 新建剧情脚本并绑定…
-                      </button>
-                    )}
-                  </div>
-                  <ItemEffectChainEditor
-                    ability="use"
-                    spec={item.use}
-                    items={items}
-                    poisons={poisons}
-                    scripts={scriptOptions}
-                    onChange={(next) => patchUse(next as UseSpec)}
-                    onOpenScript={onOpenScript}
-                    onCreateAndBindScript={createAndBindScript}
-                    onError={(message) => onStatusNotice?.({ kind: 'error', message })}
-                    itemId={item.id}
-                    worldResources={session.getState().manifest.startWorld.resources}
-                    onSetWorldResource={(resource, initialValue) => {
-                      const startWorld = session.getState().manifest.startWorld
-                      session.dispatch(
-                        new UpdateStartWorldCommand({
-                          ...startWorld,
-                          resources: { ...(startWorld.resources ?? {}), [resource]: initialValue },
-                        }),
-                      )
-                    }}
-                    scenes={editorState.scenes as readonly SceneDef[]}
-                    privateScriptsV5={privateScriptsV5('use')}
-                    onAddPrivateScript={scriptV5 ? addPrivateScript : undefined}
-                  />
-                </div>
-              ) : (
-                <div className="item-capability-empty">
-                  开启后可定义目标、消耗规则和结构化效果链。
-                </div>
-              )}
-            </section>
-
-            <section className={`item-card item-capability-card${item.throw ? ' enabled' : ''}`}>
-              <div className="item-card-heading">
-                <div>
-                  <h3>投掷能力</h3>
-                  <p>用于战斗中的投掷效果与命中特效；与“使用”能力可同时存在。</p>
-                </div>
-                <label className="item-capability-toggle">
-                  <input
-                    type="checkbox"
-                    checked={!!item.throw}
-                    onChange={(event) =>
-                      event.target.checked ? enableThrow() : patch({ throw: undefined })
-                    }
-                  />
-                  {item.throw ? '已启用' : '启用投掷'}
-                </label>
-              </div>
-              {item.throw ? (
-                <div className="item-capability-body">
-                  <div className="item-sound-row">
-                    <span>投掷音效</span>
-                    <SoundPicker
-                      value={item.throw.sound}
-                      onChange={(sound) => patch({ throw: withSound(item.throw!, sound) })}
-                      catalog={assetCatalog}
-                      reader={assetReader}
-                      allowUnset
-                      onOpenAsset={onOpenSound}
-                    />
-                  </div>
-                  <div className="item-throw-presentation">
-                    <div className="item-effect-subhead">
-                      <strong>法术特效演出</strong>
-                      {item.throw.presentation ? (
-                        <button
-                          type="button"
-                          className="item-action-button item-action-button-danger item-action-button-compact"
-                          onClick={() => {
-                            const next = { ...item.throw! }
-                            delete next.presentation
-                            patchThrow(next)
-                          }}
-                        >
-                          移除演出
-                        </button>
-                      ) : (
-                        <button
-                          type="button"
-                          className="item-action-button item-action-button-compact"
+                          className="item-action-button item-action-button-compact item-effect-add-button"
                           onClick={() =>
-                            patchThrow({
-                              ...item.throw!,
-                              presentation: {
-                                kind: 'magic',
-                                animation: { effectSprite: 0, placement: 'normal' },
-                              },
+                            patchEquip({
+                              ...equip,
+                              effects: [...equip.effects, defaultEquipEffect('statBonus')],
                             })
                           }
                         >
-                          ＋ 添加法术特效
+                          ＋ 添加效果
+                        </button>
+                      </div>
+                      {equip.effects.map((effect, index) => (
+                        <div
+                          className={`ef-row item-equip-effect-row${
+                            effect.kind === 'battleSprite'
+                              ? ' item-equip-effect-row-battle-sprite'
+                              : ''
+                          }`}
+                          key={`${item.id}-equip-${index}`}
+                        >
+                          <select
+                            className="in ef-kind"
+                            aria-label={`装备效果 ${index + 1} 类型`}
+                            value={effect.kind}
+                            onChange={(event) => {
+                              try {
+                                setEquipEffect(
+                                  index,
+                                  defaultEquipEffect(event.target.value as EquipEffect['kind']),
+                                )
+                                onStatusNotice?.(undefined)
+                              } catch (cause) {
+                                onStatusNotice?.({
+                                  kind: 'error',
+                                  message: cause instanceof Error ? cause.message : String(cause),
+                                })
+                              }
+                            }}
+                          >
+                            {EFFECT_KINDS.map((kind) => (
+                              <option
+                                key={kind.v}
+                                value={kind.v}
+                                disabled={
+                                  kind.v === 'battleSprite' &&
+                                  effect.kind !== 'battleSprite' &&
+                                  equip.effects.some(
+                                    (candidate) => candidate.kind === 'battleSprite',
+                                  )
+                                }
+                              >
+                                {kind.label}
+                              </option>
+                            ))}
+                          </select>
+                          <div className="ef-fields">
+                            <EquipEffectFields
+                              e={effect}
+                              skills={skills}
+                              battleSprites={battleSprites}
+                              actors={actors}
+                              equipableBy={equip.equipableBy}
+                              locale={locale}
+                              on={(next) => setEquipEffect(index, next)}
+                              onOpenBattleSprite={onOpenBattleSprite}
+                            />
+                          </div>
+                          <span className="ef-ops">
+                            <button
+                              type="button"
+                              className="mini"
+                              disabled={index === 0}
+                              aria-label={`上移装备效果 ${index + 1}`}
+                              onClick={() => {
+                                const effects = [...equip.effects]
+                                ;[effects[index - 1], effects[index]] = [
+                                  effects[index]!,
+                                  effects[index - 1]!,
+                                ]
+                                patchEquip({ ...equip, effects })
+                              }}
+                            >
+                              ↑
+                            </button>
+                            <button
+                              type="button"
+                              className="mini"
+                              disabled={index === equip.effects.length - 1}
+                              aria-label={`下移装备效果 ${index + 1}`}
+                              onClick={() => {
+                                const effects = [...equip.effects]
+                                ;[effects[index], effects[index + 1]] = [
+                                  effects[index + 1]!,
+                                  effects[index]!,
+                                ]
+                                patchEquip({ ...equip, effects })
+                              }}
+                            >
+                              ↓
+                            </button>
+                            <button
+                              type="button"
+                              className="mini danger"
+                              aria-label={`删除装备效果 ${index + 1}`}
+                              onClick={() =>
+                                patchEquip({
+                                  ...equip,
+                                  effects: equip.effects.filter((_, at) => at !== index),
+                                })
+                              }
+                            >
+                              ×
+                            </button>
+                          </span>
+                        </div>
+                      ))}
+                      {!equip.effects.length ? (
+                        <div className="item-capability-note">
+                          当前是纯剧情/风味装备，没有数值效果。
+                        </div>
+                      ) : null}
+                      <div className="eq-derived">
+                        <span className="lb">玩家看到</span>
+                        {derived.length ? (
+                          <div className="eq-derived-lines">
+                            {derived.map((line, index) => (
+                              <div key={`${item.id}-derived-${index}`}>{line}</div>
+                            ))}
+                          </div>
+                        ) : (
+                          <span className="hint2">(无机制效果)</span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="item-capability-empty">开启后可配置槽位、角色和装备效果。</div>
+                )}
+              </DsWorkbenchSection>
+
+              <DsWorkbenchSection
+                className={`item-capability-card${item.use ? ' enabled' : ''}`}
+                contentClassName="item-capability-content"
+                title="使用能力"
+                description="可组合回复、状态、剧情脚本、场景出口、合成和资源池等现代化效果。"
+                actions={
+                  <label className="item-capability-toggle">
+                    <input
+                      type="checkbox"
+                      checked={!!item.use}
+                      onChange={(event) =>
+                        event.target.checked ? enableUse() : patch({ use: undefined })
+                      }
+                    />
+                    {item.use ? '已启用' : '启用使用'}
+                  </label>
+                }
+              >
+                {item.use ? (
+                  <div className="item-capability-body">
+                    <div className="item-sound-row">
+                      <span>使用音效</span>
+                      <SoundPicker
+                        value={item.use.sound}
+                        onChange={(sound) => patch({ use: withSound(item.use!, sound) })}
+                        catalog={assetCatalog}
+                        reader={assetReader}
+                        allowUnset
+                        onOpenAsset={onOpenSound}
+                      />
+                    </div>
+                    <div className="item-script-authoring">
+                      {confirmScriptReplaceId === item.id ? (
+                        <div className="item-script-replace-confirm" role="alert">
+                          <span>
+                            新脚本会成为唯一用途，当前 {item.use.effects.length} 个效果将被替换。
+                          </span>
+                          <button
+                            type="button"
+                            className="tool primary"
+                            onClick={() => createAndBindScript(true)}
+                          >
+                            确认新建并替换
+                          </button>
+                          <button
+                            type="button"
+                            className="tool"
+                            onClick={() => setConfirmScriptReplaceId(undefined)}
+                          >
+                            取消
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          type="button"
+                          className="tool"
+                          onClick={() => createAndBindScript()}
+                        >
+                          ＋ 新建剧情脚本并绑定…
                         </button>
                       )}
                     </div>
-                    {item.throw.presentation ? (
-                      <SkillAnimationEditor
-                        animation={item.throw.presentation.animation}
-                        onChange={(animation) =>
-                          patchThrow({
-                            ...item.throw!,
-                            presentation: { kind: 'magic', animation },
-                          })
-                        }
-                        assetCatalog={assetCatalog}
-                        assetReader={assetReader}
-                        assetBase={assetBase}
-                        onOpenSound={onOpenSound}
-                      />
-                    ) : (
-                      <p className="item-effect-help">
-                        可选。用于配置与伤害、施毒相互独立的 FIRE 命中特效。
-                      </p>
-                    )}
+                    <ItemEffectChainEditor
+                      ability="use"
+                      spec={item.use}
+                      items={items}
+                      poisons={poisons}
+                      scripts={scriptOptions}
+                      onChange={(next) => patchUse(next as UseSpec)}
+                      onOpenScript={onOpenScript}
+                      onCreateAndBindScript={createAndBindScript}
+                      onError={(message) => onStatusNotice?.({ kind: 'error', message })}
+                      itemId={item.id}
+                      worldResources={session.getState().manifest.startWorld.resources}
+                      onSetWorldResource={(resource, initialValue) => {
+                        const startWorld = session.getState().manifest.startWorld
+                        session.dispatch(
+                          new UpdateStartWorldCommand({
+                            ...startWorld,
+                            resources: {
+                              ...(startWorld.resources ?? {}),
+                              [resource]: initialValue,
+                            },
+                          }),
+                        )
+                      }}
+                      scenes={editorState.scenes as readonly SceneDef[]}
+                      privateScriptsV5={privateScriptsV5('use')}
+                      onAddPrivateScript={scriptV5 ? addPrivateScript : undefined}
+                    />
                   </div>
-                  <ThrowEffectChainEditor
-                    spec={item.throw}
-                    poisons={poisons}
-                    onChange={patchThrow}
-                    onError={(message) => onStatusNotice?.({ kind: 'error', message })}
-                  />
-                </div>
-              ) : (
-                <div className="item-capability-empty">
-                  开启后可配置单体或全体目标，以及完整的结构化投掷效果链。
-                </div>
-              )}
-            </section>
-          </div>
+                ) : (
+                  <div className="item-capability-empty">
+                    开启后可定义目标、消耗规则和结构化效果链。
+                  </div>
+                )}
+              </DsWorkbenchSection>
+
+              <DsWorkbenchSection
+                className={`item-capability-card${item.throw ? ' enabled' : ''}`}
+                contentClassName="item-capability-content"
+                title="投掷能力"
+                description="用于战斗中的投掷效果与命中特效；与“使用”能力可同时存在。"
+                actions={
+                  <label className="item-capability-toggle">
+                    <input
+                      type="checkbox"
+                      checked={!!item.throw}
+                      onChange={(event) =>
+                        event.target.checked ? enableThrow() : patch({ throw: undefined })
+                      }
+                    />
+                    {item.throw ? '已启用' : '启用投掷'}
+                  </label>
+                }
+              >
+                {item.throw ? (
+                  <div className="item-capability-body">
+                    <div className="item-sound-row">
+                      <span>投掷音效</span>
+                      <SoundPicker
+                        value={item.throw.sound}
+                        onChange={(sound) => patch({ throw: withSound(item.throw!, sound) })}
+                        catalog={assetCatalog}
+                        reader={assetReader}
+                        allowUnset
+                        onOpenAsset={onOpenSound}
+                      />
+                    </div>
+                    <div className="item-throw-presentation">
+                      <div className="item-effect-subhead">
+                        <strong>法术特效演出</strong>
+                        {item.throw.presentation ? (
+                          <button
+                            type="button"
+                            className="item-action-button item-action-button-danger item-action-button-compact"
+                            onClick={() => {
+                              const next = { ...item.throw! }
+                              delete next.presentation
+                              patchThrow(next)
+                            }}
+                          >
+                            移除演出
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            className="item-action-button item-action-button-compact"
+                            onClick={() =>
+                              patchThrow({
+                                ...item.throw!,
+                                presentation: {
+                                  kind: 'magic',
+                                  animation: { effectSprite: 0, placement: 'normal' },
+                                },
+                              })
+                            }
+                          >
+                            ＋ 添加法术特效
+                          </button>
+                        )}
+                      </div>
+                      {item.throw.presentation ? (
+                        <SkillAnimationEditor
+                          animation={item.throw.presentation.animation}
+                          onChange={(animation) =>
+                            patchThrow({
+                              ...item.throw!,
+                              presentation: { kind: 'magic', animation },
+                            })
+                          }
+                          assetCatalog={assetCatalog}
+                          assetReader={assetReader}
+                          assetBase={assetBase}
+                          onOpenSound={onOpenSound}
+                        />
+                      ) : (
+                        <p className="item-effect-help">
+                          可选。用于配置与伤害、施毒相互独立的 FIRE 命中特效。
+                        </p>
+                      )}
+                    </div>
+                    <ThrowEffectChainEditor
+                      spec={item.throw}
+                      poisons={poisons}
+                      onChange={patchThrow}
+                      onError={(message) => onStatusNotice?.({ kind: 'error', message })}
+                    />
+                  </div>
+                ) : (
+                  <div className="item-capability-empty">
+                    开启后可配置单体或全体目标，以及完整的结构化投掷效果链。
+                  </div>
+                )}
+              </DsWorkbenchSection>
+            </div>
+          </>
         ) : (
           <div className="item-workbench-empty">
             <strong>{items.length ? '当前筛选没有可编辑项' : '创建第一个物品开始编辑'}</strong>
@@ -1853,57 +1838,25 @@ export function ItemTab(props: {
         )}
       </div>
 
-      <aside className="inspector item-inspector">
-        <div className="pane-h">
-          <span className="t">{item ? item.name : '物品检查器'}</span>
-        </div>
-        <div className="item-inspector-tabs" role="tablist" aria-label="物品检查器">
-          {ITEM_INSPECTOR_TABS.map(({ value, label }) => (
-            <button
-              key={value}
-              id={`item-inspector-tab-${value}`}
-              type="button"
-              role="tab"
-              aria-selected={inspectorTab === value}
-              aria-controls={`item-inspector-panel-${value}`}
-              tabIndex={inspectorTab === value ? 0 : -1}
-              className={inspectorTab === value ? 'active' : undefined}
-              onClick={() => setInspectorTab(value)}
-              onKeyDown={(event) => {
-                const currentIndex = ITEM_INSPECTOR_TABS.findIndex(
-                  (candidate) => candidate.value === value,
-                )
-                const targetIndex =
-                  event.key === 'Home'
-                    ? 0
-                    : event.key === 'End'
-                      ? ITEM_INSPECTOR_TABS.length - 1
-                      : event.key === 'ArrowLeft'
-                        ? (currentIndex - 1 + ITEM_INSPECTOR_TABS.length) %
-                          ITEM_INSPECTOR_TABS.length
-                        : event.key === 'ArrowRight'
-                          ? (currentIndex + 1) % ITEM_INSPECTOR_TABS.length
-                          : -1
-                if (targetIndex < 0) return
-                event.preventDefault()
-                const next = ITEM_INSPECTOR_TABS[targetIndex]!
-                setInspectorTab(next.value)
-                document.getElementById(`item-inspector-tab-${next.value}`)?.focus()
-              }}
-            >
-              {label(itemReferences.length)}
-            </button>
-          ))}
+      <aside className="inspector inspector--tabbed item-inspector">
+        <div className="insp-head">
+          <div className="what">物品</div>
+          <div className="who">{item?.name ?? '未选择'}</div>
         </div>
         {!item ? (
           <div className="insp-empty">选择或新建一个物品。</div>
-        ) : inspectorTab === 'overview' ? (
-          <div
-            id="item-inspector-panel-overview"
-            className="item-inspector-scroll"
-            role="tabpanel"
-            aria-labelledby="item-inspector-tab-overview"
-          >
+        ) : (
+          <DsInspectorTabs
+            id="item-inspector"
+            label="物品检查器"
+            activeId={inspectorTab}
+            onChange={(id) => setInspectorTab(id as ItemInspectorTab)}
+            items={[
+              {
+                id: 'overview',
+                label: '概览',
+                panel: (
+                  <div className="item-inspector-scroll">
             <section className="item-inspector-section">
               <h4>能力摘要</h4>
               <div className="item-summary-line">
@@ -1975,14 +1928,14 @@ export function ItemTab(props: {
                 </button>
               ) : null}
             </section>
-          </div>
-        ) : inspectorTab === 'references' ? (
-          <div
-            id="item-inspector-panel-references"
-            className="item-inspector-scroll"
-            role="tabpanel"
-            aria-labelledby="item-inspector-tab-references"
-          >
+                  </div>
+                ),
+              },
+              {
+                id: 'references',
+                label: `引用 ${itemReferences.length}`,
+                panel: (
+                  <div className="item-inspector-scroll">
             {groupReferences(itemReferences).map((group) => (
               <section className="item-reference-group" key={group.source}>
                 <h4>
@@ -2020,14 +1973,14 @@ export function ItemTab(props: {
             {!itemReferences.length ? (
               <div className="insp-empty">全工程没有判断、获得、失去、消耗、持有或配置此物品。</div>
             ) : null}
-          </div>
-        ) : (
-          <div
-            id="item-inspector-panel-resource"
-            className="item-inspector-scroll"
-            role="tabpanel"
-            aria-labelledby="item-inspector-tab-resource"
-          >
+                  </div>
+                ),
+              },
+              {
+                id: 'resource',
+                label: '资源',
+                panel: (
+                  <div className="item-inspector-scroll">
             <section className="item-inspector-section">
               <h4>图标资源</h4>
               {item.icon && assetCatalog.assets[item.icon] ? (
@@ -2053,27 +2006,29 @@ export function ItemTab(props: {
                     <dd>{items.filter((candidate) => candidate.icon === item.icon).length} 项</dd>
                   </dl>
                   <div className="item-resource-actions">
-                    <button
-                      type="button"
-                      className="tool"
-                      onClick={() => onOpenImage?.(item.icon!)}
-                    >
-                      在图像库打开 ↗
-                    </button>
-                    <button
-                      type="button"
-                      className="tool"
-                      onClick={() => patch({ icon: undefined })}
-                    >
+                    {onOpenImage ? (
+                      <DsButton
+                        variant="secondary"
+                        icon="open"
+                        onClick={() => onOpenImage(item.icon!)}
+                      >
+                        在图像库打开
+                      </DsButton>
+                    ) : null}
+                    <DsButton variant="danger" onClick={() => patch({ icon: undefined })}>
                       解除绑定
-                    </button>
+                    </DsButton>
                   </div>
                 </>
               ) : (
                 <div className="insp-empty">尚未绑定物品图标。可在中央选择现有资源或导入 PNG。</div>
               )}
             </section>
-          </div>
+                  </div>
+                ),
+              },
+            ]}
+          />
         )}
       </aside>
     </>

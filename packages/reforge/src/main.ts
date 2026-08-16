@@ -171,6 +171,7 @@ import {
 import { type LoadedProject, loadSceneDef } from './loader.js'
 import { type LoadedProjectV5, loadSceneDefV5 } from './loader-v5.js'
 import { type LoadedProjectV13, loadAllScenesV13, loadSceneDefV13 } from './loader-v13.js'
+import { type LoadedProjectV14, loadAllScenesV14, loadSceneDefV14 } from './loader-v14.js'
 import {
   castOutdoorSkill,
   closeMagicMenu,
@@ -230,10 +231,16 @@ import {
   type SavePayloadV13Input,
 } from './save/migration-v13.js'
 import {
+  normalizePayloadV14,
+  preflightSaveMigrationV14,
+  type SavePayloadV14Input,
+} from './save/migration-v14.js'
+import {
   buildMeta,
   buildPayload,
   buildPayloadV8,
   buildPayloadV8Content13,
+  buildPayloadV8Content14,
   captureThumbnail,
   normalizePayload,
   resolveLegacyFollowerSpriteId,
@@ -247,6 +254,7 @@ import {
   type SavePayload,
   type SavePayloadV8,
   type SavePayloadV8Content13,
+  type SavePayloadV8Content14,
   type SlotId,
   type StoredSavePayload,
 } from './save/types.js'
@@ -358,10 +366,16 @@ let ctx!: CanvasRenderingContext2D
  * ⚠ 模块级严禁碰 DOM/location:barrel 导出后,node 测试环境 import 本模块即执行模块级代码。
  */
 export async function bootGame(
-  inputProject: LoadedProject | LoadedProjectV5 | LoadedProjectV13,
+  inputProject: LoadedProject | LoadedProjectV5 | LoadedProjectV13 | LoadedProjectV14,
 ): Promise<void> {
-  const canonicalProjectV13 =
-    inputProject.manifest.contentVersion === 13 ? (inputProject as LoadedProjectV13) : undefined
+  const canonicalProjectV14 =
+    inputProject.manifest.contentVersion === 14 ? (inputProject as LoadedProjectV14) : undefined
+  // content14 loader 已经通过唯一 resolver 产出冻结 v13 runtime view；历史 runner 不读 authorContent。
+  const canonicalProjectV13 = canonicalProjectV14
+    ? (canonicalProjectV14 as unknown as LoadedProjectV13)
+    : inputProject.manifest.contentVersion === 13
+      ? (inputProject as LoadedProjectV13)
+      : undefined
   const canonicalProjectV5 =
     !canonicalProjectV13 && inputProject.manifest.contentVersion === 12
       ? (inputProject as LoadedProjectV5)
@@ -514,14 +528,20 @@ export async function bootGame(
     if (!canonicalProjectV13) throw new Error('canonical v13 scene loader 未启用')
     const hit = canonicalSceneCacheV13.get(id)
     if (hit) return hit
-    const def = await loadSceneDefV13(canonicalProjectV13, id)
+    const def = canonicalProjectV14
+      ? await loadSceneDefV14(canonicalProjectV14, id)
+      : await loadSceneDefV13(canonicalProjectV13, id)
     canonicalSceneCacheV13.set(id, def)
     return def
   }
   let lifecycleReferencesV13Promise: Promise<EntityLifecycleReferenceIndexV13> | undefined
   function getLifecycleReferencesV13(): Promise<EntityLifecycleReferenceIndexV13> {
     if (!canonicalProjectV13) throw new Error('content13 lifecycle references 未启用')
-    lifecycleReferencesV13Promise ??= loadAllScenesV13(canonicalProjectV13).then((scenes) => {
+    lifecycleReferencesV13Promise ??= (
+      canonicalProjectV14
+        ? loadAllScenesV14(canonicalProjectV14)
+        : loadAllScenesV13(canonicalProjectV13)
+    ).then((scenes) => {
       for (const def of scenes) canonicalSceneCacheV13.set(def.id, def)
       return buildEntityLifecycleReferenceIndexV13(scenes)
     })
@@ -6198,6 +6218,13 @@ export async function bootGame(
       pos: structuredClone(player.pos),
       facing,
     }
+    if (canonicalProjectV14) {
+      return buildPayloadV8Content14(
+        currentWorldV13Snapshot(),
+        position,
+        canonicalProjectV14.manifest.id,
+      )
+    }
     if (canonicalProjectV13) {
       return buildPayloadV8Content13(
         currentWorldV13Snapshot(),
@@ -6314,6 +6341,17 @@ export async function bootGame(
     where: string,
     _signal?: AbortSignal,
   ): Promise<StoredSavePayload> {
+    if (canonicalProjectV14) {
+      const resolver = await preflightSaveMigrationV14({
+        manifest: canonicalProjectV14.manifest,
+        payload: raw,
+      })
+      return normalizePayloadV14(
+        raw as SavePayloadV14Input,
+        resolver,
+        await getLifecycleReferencesV13(),
+      )
+    }
     if (canonicalProjectV13) {
       const resolver = await preflightSaveMigrationV13({
         manifest: canonicalProjectV13.manifest,
@@ -6352,9 +6390,11 @@ export async function bootGame(
     let canonicalScriptCandidate: WorldScriptStateV5 | undefined
     let canonicalWorldCandidateV13: WorldStateV13 | undefined
     const candidate =
-      canonicalProjectV13 && p.version === 8 && p.contentVersion === 13
+      canonicalProjectV13 &&
+      p.version === 8 &&
+      (p.contentVersion === 13 || p.contentVersion === 14)
         ? (() => {
-            const payload = p as SavePayloadV8Content13
+            const payload = p as SavePayloadV8Content13 | SavePayloadV8Content14
             canonicalScriptCandidate = structuredClone(
               payload.world.script ?? emptyWorldScriptStateV5(),
             )

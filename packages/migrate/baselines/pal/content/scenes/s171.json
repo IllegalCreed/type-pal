@@ -75,6 +75,9 @@
                   },
                   {
                     "cue": {
+                      "identity": {
+                        "kind": "narration"
+                      },
                       "autoAdvance": 800,
                       "rows": [
                         {

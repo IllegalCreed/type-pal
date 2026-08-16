@@ -158,7 +158,10 @@
                             "text": "dlg.5199"
                           }
                         ],
-                        "speaker": "spk.煮饭婆"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.煮饭婆"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -208,6 +211,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12471"
@@ -275,6 +281,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12482"

@@ -4,7 +4,14 @@ import { act, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { ProjectIssue } from '../core/project-diagnostics.js'
-import { IssueList, StartWorldFields } from './ProjectWorkbenchTab.js'
+import type { EditorState } from '../core/edit-session.js'
+import { EditSession } from '../core/edit-session.js'
+import {
+  IssueList,
+  ProjectWorkbenchTab,
+  type ProjectWorkbenchPage,
+  StartWorldFields,
+} from './ProjectWorkbenchTab.js'
 
 function issues(count: number): ProjectIssue[] {
   return Array.from({ length: count }, (_, index) => ({
@@ -44,6 +51,65 @@ function ResourceHarness() {
       skills={[]}
       locale={{}}
       onChange={setValue}
+    />
+  )
+}
+
+function projectState(): EditorState {
+  const startWorld: StartWorld = {
+    party: [],
+    money: 0,
+    learnedSkills: {},
+    inventory: [],
+  }
+  return {
+    manifest: {
+      id: 'project-test',
+      name: '测试工程',
+      contentVersion: 13,
+      minEngineVersion: '2.0.0',
+      entryScene: 's000',
+      startWorld,
+      assets: { catalog: 'assets/index.json', roles: {} },
+    },
+    scenes: [],
+    actors: [],
+    levelUp: {},
+    skills: [],
+    items: [],
+    enemies: [],
+    enemyTeams: [],
+    locale: {},
+    sprites: [],
+    battleSprites: [],
+    startWorld,
+    maps: {},
+    mapIndex: { version: 1, maps: [] },
+    tilesets: [],
+    tilesetBlobs: {},
+    assetCatalog: { version: 1, assets: {} },
+    assetBlobs: {},
+    scriptChunks: {},
+    stamps: [],
+    poisons: [],
+  } as unknown as EditorState
+}
+
+function projectTab(page: ProjectWorkbenchPage, session: EditSession) {
+  const state = session.getState()
+  return (
+    <ProjectWorkbenchTab
+      page={page}
+      manifest={state.manifest as never}
+      scenes={state.scenes}
+      actors={state.actors}
+      items={state.items}
+      skills={state.skills}
+      locale={state.locale}
+      assetCatalog={state.assetCatalog}
+      session={session}
+      editorState={state}
+      assetReader={{} as never}
     />
   )
 }
@@ -124,5 +190,28 @@ describe('入口开局世界资源', () => {
 
     await input(keyInput, 'collectValue')
     expect(addButton.disabled).toBe(true)
+  })
+})
+
+describe('项目设置工作区', () => {
+  test.each([
+    ['overview', '测试工程'],
+    ['startup', '全局资源设置'],
+    ['entrypoint', '默认入口'],
+    ['advanced', '问题与高级'],
+  ] as const)('%s 使用固定共享标题和独立正文滚动层', async (page, title) => {
+    const session = new EditSession(projectState())
+    await act(async () => root.render(projectTab(page, session)))
+
+    const workspace = host.querySelector<HTMLElement>('.project-center')!
+    const hero = workspace.querySelector<HTMLElement>(':scope > .ds-object-hero')!
+    const content = workspace.querySelector<HTMLElement>(':scope > .project-scroll')!
+
+    expect(hero).not.toBeNull()
+    expect(content).not.toBeNull()
+    expect(hero.querySelector('h1')?.textContent).toBe(title)
+    expect(workspace.querySelectorAll('h1')).toHaveLength(1)
+    expect(content.contains(hero)).toBe(false)
+    expect(content.classList.contains('ds-object-workspace__content')).toBe(true)
   })
 })

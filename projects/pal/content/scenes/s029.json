@@ -113,7 +113,10 @@
                               "text": "dlg.2424"
                             }
                           ],
-                          "speaker": "spk.当铺老板"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.当铺老板"
+                          }
                         }
                       },
                       {
@@ -227,7 +230,10 @@
                               "text": "dlg.2647"
                             }
                           ],
-                          "speaker": "spk.赌鬼"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.赌鬼"
+                          }
                         }
                       },
                       {
@@ -262,10 +268,13 @@
                               "text": "dlg.2648"
                             }
                           ],
-                          "speaker": "spk.赌鬼",
-                          "portrait": {
-                            "asset": "portrait.pal.001",
-                            "side": "right"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.赌鬼",
+                            "portrait": {
+                              "asset": "portrait.pal.001",
+                              "side": "right"
+                            }
                           }
                         }
                       }
@@ -285,7 +294,10 @@
                               "text": "dlg.2648"
                             }
                           ],
-                          "speaker": "spk.赌鬼"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.赌鬼"
+                          }
                         }
                       }
                     ],
@@ -335,7 +347,10 @@
                               "text": "dlg.2648"
                             }
                           ],
-                          "speaker": "spk.赌鬼"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.赌鬼"
+                          }
                         }
                       }
                     ],
@@ -386,10 +401,13 @@
                               "text": "dlg.2648"
                             }
                           ],
-                          "speaker": "spk.赌鬼",
-                          "portrait": {
-                            "asset": "portrait.pal.001",
-                            "side": "right"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.赌鬼",
+                            "portrait": {
+                              "asset": "portrait.pal.001",
+                              "side": "right"
+                            }
                           }
                         }
                       }
@@ -413,10 +431,13 @@
                               "text": "dlg.2645"
                             }
                           ],
-                          "speaker": "spk.李逍遥",
-                          "portrait": {
-                            "asset": "portrait.pal.001",
-                            "side": "right"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.李逍遥",
+                            "portrait": {
+                              "asset": "portrait.pal.001",
+                              "side": "right"
+                            }
                           }
                         }
                       }
@@ -440,10 +461,13 @@
                               "text": "dlg.2645"
                             }
                           ],
-                          "speaker": "spk.李逍遥",
-                          "portrait": {
-                            "asset": "portrait.pal.001",
-                            "side": "right"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.李逍遥",
+                            "portrait": {
+                              "asset": "portrait.pal.001",
+                              "side": "right"
+                            }
                           }
                         }
                       }
@@ -463,10 +487,13 @@
                               "text": "dlg.2647"
                             }
                           ],
-                          "speaker": "spk.赌鬼",
-                          "portrait": {
-                            "asset": "portrait.pal.001",
-                            "side": "right"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.赌鬼",
+                            "portrait": {
+                              "asset": "portrait.pal.001",
+                              "side": "right"
+                            }
                           }
                         }
                       },
@@ -614,7 +641,10 @@
                             "text": "dlg.2652"
                           }
                         ],
-                        "speaker": "spk.居民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.居民"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -646,7 +676,10 @@
                             "text": "dlg.2656"
                           }
                         ],
-                        "speaker": "spk.居民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.居民"
+                        }
                       },
                       "kind": "dialog"
                     }

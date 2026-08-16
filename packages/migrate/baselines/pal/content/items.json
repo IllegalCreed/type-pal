@@ -7681,6 +7681,9 @@
                   {
                     "kind": "dialog",
                     "cue": {
+                      "identity": {
+                        "kind": "narration"
+                      },
                       "rows": [
                         {
                           "text": "dlg.12538"
@@ -7938,6 +7941,9 @@
                   {
                     "kind": "dialog",
                     "cue": {
+                      "identity": {
+                        "kind": "narration"
+                      },
                       "rows": [
                         {
                           "text": "dlg.12538"
@@ -8213,6 +8219,9 @@
                   {
                     "kind": "dialog",
                     "cue": {
+                      "identity": {
+                        "kind": "narration"
+                      },
                       "rows": [
                         {
                           "text": "dlg.12538"
@@ -8487,6 +8496,9 @@
                 "then": [
                   {
                     "cue": {
+                      "identity": {
+                        "kind": "narration"
+                      },
                       "rows": [
                         {
                           "text": "dlg.12538"
@@ -8760,6 +8772,9 @@
                 "then": [
                   {
                     "cue": {
+                      "identity": {
+                        "kind": "narration"
+                      },
                       "rows": [
                         {
                           "text": "dlg.12538"
@@ -9039,6 +9054,9 @@
                     "onFail": [
                       {
                         "cue": {
+                          "identity": {
+                            "kind": "narration"
+                          },
                           "rows": [
                             {
                               "text": "dlg.12538"
@@ -9497,6 +9515,9 @@
                       {
                         "kind": "dialog",
                         "cue": {
+                          "identity": {
+                            "kind": "narration"
+                          },
                           "rows": [
                             {
                               "text": "dlg.12538"
@@ -9618,6 +9639,9 @@
                   {
                     "kind": "dialog",
                     "cue": {
+                      "identity": {
+                        "kind": "narration"
+                      },
                       "rows": [
                         {
                           "text": "dlg.12538"
@@ -9701,6 +9725,9 @@
                   {
                     "kind": "dialog",
                     "cue": {
+                      "identity": {
+                        "kind": "narration"
+                      },
                       "rows": [
                         {
                           "text": "dlg.12538"
@@ -9950,6 +9977,9 @@
                                       {
                                         "kind": "dialog",
                                         "cue": {
+                                          "identity": {
+                                            "kind": "narration"
+                                          },
                                           "rows": [
                                             {
                                               "text": "dlg.12538"
@@ -10104,6 +10134,9 @@
               },
               {
                 "cue": {
+                  "identity": {
+                    "kind": "narration"
+                  },
                   "rows": [
                     {
                       "text": "dlg.12543"
@@ -10157,6 +10190,9 @@
               },
               {
                 "cue": {
+                  "identity": {
+                    "kind": "narration"
+                  },
                   "rows": [
                     {
                       "text": "dlg.12547"
@@ -10247,6 +10283,9 @@
                   {
                     "kind": "dialog",
                     "cue": {
+                      "identity": {
+                        "kind": "narration"
+                      },
                       "rows": [
                         {
                           "text": "dlg.12538"
@@ -10357,6 +10396,9 @@
                   {
                     "kind": "dialog",
                     "cue": {
+                      "identity": {
+                        "kind": "narration"
+                      },
                       "rows": [
                         {
                           "text": "dlg.12538"
@@ -10471,7 +10513,10 @@
                               "text": "dlg.12555.v-68bb8f5d"
                             }
                           ],
-                          "speaker": "spk.书信上写著"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.书信上写著"
+                          }
                         }
                       },
                       {
@@ -10598,6 +10643,9 @@
                       {
                         "kind": "dialog",
                         "cue": {
+                          "identity": {
+                            "kind": "narration"
+                          },
                           "rows": [
                             {
                               "text": "dlg.12538"
@@ -10716,6 +10764,9 @@
                   {
                     "kind": "dialog",
                     "cue": {
+                      "identity": {
+                        "kind": "narration"
+                      },
                       "rows": [
                         {
                           "text": "dlg.12538"
@@ -10791,9 +10842,12 @@
               },
               {
                 "cue": {
-                  "portrait": {
-                    "asset": "portrait.pal.069",
-                    "side": "right"
+                  "identity": {
+                    "kind": "unbound",
+                    "portrait": {
+                      "asset": "portrait.pal.069",
+                      "side": "right"
+                    }
                   },
                   "rows": [
                     {
@@ -10860,6 +10914,9 @@
                       {
                         "kind": "dialog",
                         "cue": {
+                          "identity": {
+                            "kind": "narration"
+                          },
                           "rows": [
                             {
                               "text": "dlg.12538"
@@ -10982,6 +11039,9 @@
                   {
                     "kind": "dialog",
                     "cue": {
+                      "identity": {
+                        "kind": "narration"
+                      },
                       "rows": [
                         {
                           "text": "dlg.12538"
@@ -11066,7 +11126,10 @@
                       "text": "dlg.12561"
                     }
                   ],
-                  "speaker": "spk.手卷上记载著"
+                  "identity": {
+                    "kind": "unbound",
+                    "speaker": "spk.手卷上记载著"
+                  }
                 },
                 "kind": "dialog"
               },
@@ -11092,7 +11155,10 @@
                       "text": "dlg.12567"
                     }
                   ],
-                  "speaker": "spk.信上写著"
+                  "identity": {
+                    "kind": "unbound",
+                    "speaker": "spk.信上写著"
+                  }
                 },
                 "kind": "dialog"
               },
@@ -11111,6 +11177,9 @@
               },
               {
                 "cue": {
+                  "identity": {
+                    "kind": "narration"
+                  },
                   "rows": [
                     {
                       "text": "dlg.12568"

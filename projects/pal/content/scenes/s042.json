@@ -105,10 +105,13 @@
                               "text": "dlg.3247"
                             }
                           ],
-                          "speaker": "spk.李逍遥",
-                          "portrait": {
-                            "asset": "portrait.pal.001",
-                            "side": "right"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.李逍遥",
+                            "portrait": {
+                              "asset": "portrait.pal.001",
+                              "side": "right"
+                            }
                           }
                         }
                       },
@@ -127,12 +130,15 @@
                               "text": "dlg.3249"
                             }
                           ],
-                          "speaker": "spk.林月如",
-                          "slot": "top",
-                          "portrait": {
-                            "asset": "portrait.pal.021",
-                            "side": "left"
-                          }
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.林月如",
+                            "portrait": {
+                              "asset": "portrait.pal.021",
+                              "side": "left"
+                            }
+                          },
+                          "slot": "top"
                         }
                       },
                       {
@@ -146,10 +152,13 @@
                               "text": "dlg.3251"
                             }
                           ],
-                          "speaker": "spk.李逍遥",
-                          "portrait": {
-                            "asset": "portrait.pal.009",
-                            "side": "right"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.李逍遥",
+                            "portrait": {
+                              "asset": "portrait.pal.009",
+                              "side": "right"
+                            }
                           }
                         }
                       },
@@ -161,12 +170,15 @@
                               "text": "dlg.3253"
                             }
                           ],
-                          "speaker": "spk.林月如",
-                          "slot": "top",
-                          "portrait": {
-                            "asset": "portrait.pal.022",
-                            "side": "left"
-                          }
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.林月如",
+                            "portrait": {
+                              "asset": "portrait.pal.022",
+                              "side": "left"
+                            }
+                          },
+                          "slot": "top"
                         }
                       },
                       {
@@ -183,10 +195,13 @@
                               "text": "dlg.3256"
                             }
                           ],
-                          "speaker": "spk.李逍遥",
-                          "portrait": {
-                            "asset": "portrait.pal.001",
-                            "side": "right"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.李逍遥",
+                            "portrait": {
+                              "asset": "portrait.pal.001",
+                              "side": "right"
+                            }
                           }
                         }
                       },
@@ -204,12 +219,15 @@
                               "text": "dlg.3259"
                             }
                           ],
-                          "speaker": "spk.林月如",
-                          "slot": "top",
-                          "portrait": {
-                            "asset": "portrait.pal.021",
-                            "side": "left"
-                          }
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.林月如",
+                            "portrait": {
+                              "asset": "portrait.pal.021",
+                              "side": "left"
+                            }
+                          },
+                          "slot": "top"
                         }
                       },
                       {
@@ -223,10 +241,13 @@
                               "text": "dlg.3261"
                             }
                           ],
-                          "speaker": "spk.李逍遥",
-                          "portrait": {
-                            "asset": "portrait.pal.001",
-                            "side": "right"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.李逍遥",
+                            "portrait": {
+                              "asset": "portrait.pal.001",
+                              "side": "right"
+                            }
                           }
                         }
                       },
@@ -244,12 +265,15 @@
                               "text": "dlg.3264"
                             }
                           ],
-                          "speaker": "spk.林月如",
-                          "slot": "top",
-                          "portrait": {
-                            "asset": "portrait.pal.021",
-                            "side": "left"
-                          }
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.林月如",
+                            "portrait": {
+                              "asset": "portrait.pal.021",
+                              "side": "left"
+                            }
+                          },
+                          "slot": "top"
                         }
                       },
                       {

@@ -15,6 +15,7 @@ import {
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { collectEditorAssetReferences } from '../core/editor-asset-references.js'
+import { DsListHeader } from './design-system/index.js'
 import { SoundPreviewButton, soundAssets } from './SoundPicker.js'
 
 const ORIGIN_LABELS: Readonly<Record<AssetRecordV1['origin']['kind'], string>> = {
@@ -190,20 +191,18 @@ export function SoundTab(props: {
     <>
       <div className="outliner data-outliner">
         {tabBar}
-        <div className="pane-h">
-          <span className="t">音效</span>
-          <span className="spacer" />
-          <span className="k">{shown.length} 项</span>
-        </div>
+        <DsListHeader
+          title="音效"
+          count={shown.length}
+          unit="项"
+          actions={[{
+            id: 'import-sound',
+            label: '导入 WAV',
+            icon: '＋',
+            onClick: () => importRef.current?.click(),
+          }]}
+        />
         <div className="music-library-tools">
-          <button
-            type="button"
-            className="music-import-button"
-            onClick={() => importRef.current?.click()}
-          >
-            <span className="music-import-icon" aria-hidden="true" />
-            导入 WAV
-          </button>
           <div className="music-search-field">
             <span className="music-search-icon" aria-hidden="true" />
             <input

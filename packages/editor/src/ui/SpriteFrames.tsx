@@ -27,6 +27,7 @@ import {
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { loadEditorSprite } from '../core/sprite-assets.js'
+import { DsButton } from './design-system/controls.js'
 
 /** 读用户选图 → RGBA(量化/切帧的公共前置)。 */
 async function fileToRgba(file: File): Promise<{ rgba: Uint8Array; w: number; h: number }> {
@@ -440,12 +441,12 @@ export function SpriteFrames(props: {
           <>
             <span className="spacer" />
             <span className="hint">点任意帧可替换</span>
-            <button type="button" className="tool" onClick={() => appendFileRef.current?.click()}>
-              ＋ 追加帧
-            </button>
-            <button
-              type="button"
-              className="tool danger-action"
+            <DsButton variant="secondary" icon="add" onClick={() => appendFileRef.current?.click()}>
+              追加帧
+            </DsButton>
+            <DsButton
+              variant="danger"
+              icon="delete"
               disabled={
                 total <= 1 ||
                 consumers.some(
@@ -456,8 +457,8 @@ export function SpriteFrames(props: {
               title="删除末帧，并原子修复所有共享定义的布局与姿势"
               onClick={() => void doRemoveLast()}
             >
-              － 删除末帧
-            </button>
+              删除末帧
+            </DsButton>
             <input
               ref={appendFileRef}
               type="file"
@@ -491,16 +492,12 @@ export function SpriteFrames(props: {
           <span>
             替换帧 <b>#{replaceIdx}</b>:选一张图(整图作为该帧,自动贴合工程主色)
           </span>
-          <button
-            type="button"
-            className="tool active"
-            onClick={() => replaceFileRef.current?.click()}
-          >
+          <DsButton variant="primary" onClick={() => replaceFileRef.current?.click()}>
             选图替换…
-          </button>
-          <button type="button" className="tool" onClick={() => setReplaceIdx(null)}>
+          </DsButton>
+          <DsButton variant="secondary" onClick={() => setReplaceIdx(null)}>
             取消
-          </button>
+          </DsButton>
         </div>
       )}
       {appendDraft && (
@@ -546,19 +543,18 @@ export function SpriteFrames(props: {
           ) : (
             <span style={{ color: 'var(--err)' }}>切不开:宽高须整除列/行</span>
           )}
-          <button
-            type="button"
-            className="tool active"
+          <DsButton
+            variant="primary"
             disabled={
               appendDraft.w % appendDraft.cols !== 0 || appendDraft.h % appendDraft.rows !== 0
             }
             onClick={() => void doAppend()}
           >
-            ✓ 追加
-          </button>
-          <button type="button" className="tool" onClick={() => setAppendDraft(null)}>
+            追加
+          </DsButton>
+          <DsButton variant="secondary" onClick={() => setAppendDraft(null)}>
             取消
-          </button>
+          </DsButton>
         </div>
       )}
       <div className="frames-scroll">
@@ -798,17 +794,12 @@ export function SpriteFrames(props: {
                 <option value="once">单次</option>
                 <option value="loop">循环</option>
               </select>
-              <button
-                type="button"
-                className="tool active"
-                onClick={createPose}
-                disabled={!poseName.trim()}
-              >
+              <DsButton variant="primary" onClick={createPose} disabled={!poseName.trim()}>
                 建姿势 · 帧 {[...selFrames].sort((a, b) => a - b).join(',')}
-              </button>
-              <button type="button" className="tool" onClick={() => setSelFrames(new Set())}>
+              </DsButton>
+              <DsButton variant="secondary" onClick={() => setSelFrames(new Set())}>
                 取消
-              </button>
+              </DsButton>
             </div>
           ) : null}
         </div>

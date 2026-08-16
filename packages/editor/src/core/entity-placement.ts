@@ -49,7 +49,8 @@ export function createPlacedEntity(
   }
 }
 
-/** 实体树只展示稳定表现形态；玩法职责不从资源 id 推断。 */
-export function entityShapeLabel(entity: EntityDef): '精灵' | '触发区' {
-  return 'zone' in entity ? '触发区' : '精灵'
+/** 实体树展示作者来源；玩法职责仍不得从 actor/sprite/zone 推断。 */
+export function entityShapeLabel(entity: EntityDef): '预制人物' | '自定义实体' | '触发区' {
+  if ('actor' in entity) return '预制人物'
+  return 'zone' in entity ? '触发区' : '自定义实体'
 }

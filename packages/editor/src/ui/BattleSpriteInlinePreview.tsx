@@ -136,6 +136,8 @@ export function BattleSpriteInlinePreview(props: {
   rawEditorMessage?: string
   rawEditorMessageKind?: 'info' | 'error'
   rawEditorPanel?: React.ReactNode
+  /** 资源库外层已经提供固定标题时，内部只渲染可滚动的帧编辑内容。 */
+  showHero?: boolean
 }) {
   const cacheRef = useRef(new BattleSpriteAssetCache(4))
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -293,6 +295,7 @@ export function BattleSpriteInlinePreview(props: {
           editorMessage={props.rawEditorMessage}
           editorMessageKind={props.rawEditorMessageKind}
           editorPanel={props.rawEditorPanel}
+          showHero={props.showHero}
         />
         <SemanticFrameShelf
           frames={frameViews}

@@ -13,6 +13,7 @@ import {
   type AssetId,
   type BattleSpriteDef,
   type Command,
+  type DialogueCueV14,
   type Facing,
   getScriptBody,
   type Locale,
@@ -26,6 +27,7 @@ import {
   type ShopDef,
   type SpriteDef,
   sceneEntryPrepareSafety,
+  upgradeDialogueTreeV13ToV14,
 } from '@type-pal/content'
 import {
   type AssetBase,
@@ -35,11 +37,13 @@ import {
 } from '@type-pal/reforge'
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react'
 import {
+  CompositeCommand,
   CreateScriptSourceCommand,
   DeleteScriptSourceCommand,
   type ScriptSourceRef,
   UpdateScriptBodyCommand,
   UpdateScriptCommand,
+  UpdateLocaleCommand,
   UpdateTriggerModeCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
@@ -556,7 +560,6 @@ export function ScriptDrawer(props: {
   onOpenImage?: (id: string) => void
   onOpenBattleSprite?: (id: string) => void
   onOpenSpriteAction?: (spriteId: string, actionId: string) => void
-  onClose: () => void
 }) {
   const {
     scene,
@@ -588,7 +591,6 @@ export function ScriptDrawer(props: {
     onOpenImage,
     onOpenBattleSprite,
     onOpenSpriteAction,
-    onClose,
   } = props
   const scriptWorkRef = useRef<HTMLDivElement>(null)
   const drawerBodyRef = useRef<HTMLDivElement>(null)
@@ -754,15 +756,15 @@ export function ScriptDrawer(props: {
     internalScriptId,
   ])
 
-  const dispatchEdited = (
+  const editedCommand = (
     stages: readonly ScriptStage[],
     stageIndex: number,
     entryEdit = false,
-  ): void => {
+  ) => {
     const stage = stages[stageIndex]
-    if (!stage) return
+    if (!stage) return undefined
     if (entryEdit) {
-      if (internalScriptId || !active) return
+      if (internalScriptId || !active) return undefined
       const rawStages = active.rawStages.map((raw, index) => {
         if (index !== stageIndex) return raw
         const next = { ...raw } as ScriptStage
@@ -770,23 +772,28 @@ export function ScriptDrawer(props: {
         else delete next.entry
         return next
       })
-      session.dispatch(new UpdateScriptCommand(scene.id, sourceRefOf(active.key), rawStages))
-      return
+      return new UpdateScriptCommand(scene.id, sourceRefOf(active.key), rawStages)
     }
     if (internalScriptId) {
-      session.dispatch(new UpdateScriptBodyCommand(internalScriptId, stage.body))
-      return
+      return new UpdateScriptBodyCommand(internalScriptId, stage.body)
     }
-    if (!active) return
+    if (!active) return undefined
     const binding = active.bindings[stageIndex]
     if (binding) {
-      session.dispatch(new UpdateScriptBodyCommand(binding.id, stage.body))
-      return
+      return new UpdateScriptBodyCommand(binding.id, stage.body)
     }
     const rawStages = active.rawStages.map((raw, index) =>
       index === stageIndex ? { ...raw, body: stage.body } : raw,
     )
-    session.dispatch(new UpdateScriptCommand(scene.id, sourceRefOf(active.key), rawStages))
+    return new UpdateScriptCommand(scene.id, sourceRefOf(active.key), rawStages)
+  }
+  const dispatchEdited = (
+    stages: readonly ScriptStage[],
+    stageIndex: number,
+    entryEdit = false,
+  ): void => {
+    const command = editedCommand(stages, stageIndex, entryEdit)
+    if (command) session.dispatch(command)
   }
   const selCmd = selPath ? getCommandAt(editingStages, parsePath(selPath)) : undefined
 
@@ -846,7 +853,11 @@ export function ScriptDrawer(props: {
       console.warn('[editor] entry.prepare 拒绝非安全命令')
       return
     }
-    for (const command of commands) {
+    const authoredCommands =
+      editorState.manifest.contentVersion === 14
+        ? (upgradeDialogueTreeV13ToV14(commands) as unknown as readonly Command[])
+        : commands
+    for (const command of authoredCommands) {
       const last = at[at.length - 1] as number
       if (last === -1) {
         const entryPrepare = at[1] === 'entry' && at[2] === 'prepare'
@@ -995,9 +1006,6 @@ export function ScriptDrawer(props: {
         min={DRAWER_MIN_HEIGHT}
         max={drawerMaxHeight}
         resizeLabel="调整脚本面板高度"
-        toggleDirection="down"
-        toggleLabel="收起脚本面板"
-        onToggle={onClose}
         onReset={() => setDrawerHeight(DRAWER_DEFAULT_HEIGHT)}
         onResize={(delta) =>
           setDrawerHeight((current) =>
@@ -1232,6 +1240,7 @@ export function ScriptDrawer(props: {
                 stages={editingStages}
                 locale={locale}
                 scenes={scenes}
+                actors={actorsById}
                 references={scriptReferences}
                 activePath={playback.activePath ?? null}
                 selectedPath={selPath}
@@ -1384,6 +1393,40 @@ export function ScriptDrawer(props: {
                     onOpenImage={onOpenImage}
                     onOpenBattleSprite={onOpenBattleSprite}
                     onOpenSpriteAction={onOpenSpriteAction}
+                    onDialogueSpeakerOverrideChange={(text) => {
+                      const path = parsePath(selPath)
+                      const stageIndex = path[0]
+                      if (typeof stageIndex !== 'number') return
+                      const cue = (selCmd as { cue?: DialogueCueV14 }).cue
+                      if (!cue || !('identity' in cue) || cue.identity.kind !== 'actor') return
+                      const currentKey = cue.identity.speakerOverride
+                      const sourceKey = (internalScriptId ?? active?.key ?? 'script').replace(
+                        /[^A-Za-z0-9_-]+/g,
+                        '-',
+                      )
+                      const pathKey = selPath.replace(/[^A-Za-z0-9_-]+/g, '-')
+                      const localeKey =
+                        currentKey ?? `dlg.actor.${scene.id}.${sourceKey}.${pathKey}`
+                      const identity = { ...cue.identity }
+                      if (text) identity.speakerOverride = localeKey
+                      else delete identity.speakerOverride
+                      const next = {
+                        ...(selCmd as object),
+                        cue: { ...cue, identity },
+                      } as unknown as Command
+                      const out = updateCommandAt(editingStages, path, next)
+                      if (out === editingStages) return
+                      const edit = editedCommand(out, stageIndex, path[1] === 'entry')
+                      if (!edit) return
+                      session.dispatch(
+                        text
+                          ? new CompositeCommand('修改人物称谓', [
+                              new UpdateLocaleCommand(localeKey, text),
+                              edit,
+                            ])
+                          : edit,
+                      )
+                    }}
                     onChange={(next) => {
                       const path = parsePath(selPath)
                       const stageIndex = path[0]

@@ -60,7 +60,7 @@ export function LifecycleCommandPanelV13(props: {
     <div className="section lifecycle-command-v13-editor">
       <h3>实体生命周期命令</h3>
       <p className="hint">
-        content13 明确区分暂停、隐藏后离屏重现、立即恢复和永久移除；全局撤销/重做同样适用。
+        当前模型明确区分暂停、隐藏后离屏重现、立即恢复和永久移除；全局撤销/重做同样适用。
       </p>
       {bodies.length === 0 ? (
         <p className="hint">此实体还没有可编辑的具名行为正文；先创建触发或自动行为后再添加。</p>

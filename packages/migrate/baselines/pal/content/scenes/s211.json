@@ -163,7 +163,10 @@
                             "text": "dlg.10575"
                           }
                         ],
-                        "speaker": "spk.守卫"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.守卫"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -189,7 +192,10 @@
                             "text": "dlg.10796"
                           }
                         ],
-                        "speaker": "spk.守卫"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.守卫"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -279,7 +285,10 @@
                             "text": "dlg.10578"
                           }
                         ],
-                        "speaker": "spk.守卫"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.守卫"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -305,7 +314,10 @@
                             "text": "dlg.10796"
                           }
                         ],
-                        "speaker": "spk.守卫"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.守卫"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -408,7 +420,10 @@
                             "text": "dlg.10559"
                           }
                         ],
-                        "speaker": "spk.守卫"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.守卫"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -417,16 +432,19 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.027",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.027",
+                            "side": "right"
+                          },
+                          "speaker": "spk.阿奴"
                         },
                         "rows": [
                           {
                             "text": "dlg.10561"
                           }
-                        ],
-                        "speaker": "spk.阿奴"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -444,7 +462,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.守卫"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.守卫"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -453,9 +474,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.030",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.030",
+                            "side": "right"
+                          },
+                          "speaker": "spk.阿奴"
                         },
                         "rows": [
                           {
@@ -464,8 +489,7 @@
                           {
                             "text": "dlg.10567"
                           }
-                        ],
-                        "speaker": "spk.阿奴"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -480,7 +504,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.守卫"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.守卫"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -497,7 +524,10 @@
                             "text": "dlg.10571"
                           }
                         ],
-                        "speaker": "spk.守卫"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.守卫"
+                        }
                       },
                       "kind": "dialog"
                     }

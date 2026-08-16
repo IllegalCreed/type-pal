@@ -43,6 +43,7 @@ import {
   collectSpriteActionReferences,
   collectSpriteDefinitionReferences,
   createScriptIndex,
+  DEFAULT_BATTLE_FIELD_ID,
   findScriptOwnerChunk,
   MAP_INDEX_PATH,
   mapIdStem,
@@ -54,6 +55,8 @@ import {
   spriteDefinitionFrameIndices,
   upsertAuthoredScript,
   validateBattleSprites,
+  validateBattleFields,
+  validateActors,
   validateMapIndex,
   validateProjectRelativePath,
   validateSprites,
@@ -74,6 +77,17 @@ import {
   updateProjectMapLayer,
 } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
+import {
+  blockingEnemyReferences,
+  blockingPoisonReferences,
+  blockingSkillReferences,
+  type BattleDataReference,
+} from './battle-data-references.js'
+import { blockingActorReferences } from './actor-references.js'
+import {
+  blockingBattleFieldReferences,
+  type BlockingBattleFieldReference,
+} from './battle-field-references.js'
 import { collectEntityAddressReferencesV13 } from './entity-address-references-v13.js'
 import { createEmptyScriptStages } from './entity-placement.js'
 import { blockingItemReferences } from './item-references.js'
@@ -424,8 +438,10 @@ export class UpdateEntityCommand implements Command {
   }
 }
 
-/** UpdateScene 的 patch 范围(entry / music / entries / mapId)。 */
-export type ScenePatch = Partial<Pick<SceneDef, 'entry' | 'music' | 'entries' | 'mapId'>>
+/** UpdateScene 的 patch 范围(entry / music / entries / mapId / battleFieldId)。 */
+export type ScenePatch = Partial<
+  Pick<SceneDef, 'entry' | 'music' | 'entries' | 'mapId' | 'battleFieldId'>
+>
 
 /**
  * 改场景字段(mapId/entry/music)。apply 记下旧值,invert 还原。语义同 UpdateEntityCommand。
@@ -465,6 +481,7 @@ export class UpdateSceneCommand implements Command {
     if ('entries' in this.patch)
       old.entries = scene.entries ? structuredClone(scene.entries) : undefined
     if ('mapId' in this.patch) old.mapId = scene.mapId
+    if ('battleFieldId' in this.patch) old.battleFieldId = scene.battleFieldId
     return old
   }
 
@@ -1899,6 +1916,256 @@ function withActor(state: EditorState, actorId: string, newActor: ActorDef): Edi
   return hit ? { ...state, actors } : state
 }
 
+function assertActorCanBeAdded(state: EditorState, actor: ActorDef): void {
+  validateActors([actor])
+  for (const [field, value] of [
+    ['id', actor.id],
+    ['name', actor.name],
+    ['spriteId', actor.spriteId],
+  ] as const)
+    if (!value.trim() || value !== value.trim()) throw new Error(`人物 ${field} 必须是无首尾空格的非空字符串`)
+  if (state.actors.some((candidate) => candidate.id === actor.id))
+    throw new Error(`人物 id 已存在：${actor.id}`)
+  if (!state.sprites.some((sprite) => sprite.id === actor.spriteId))
+    throw new Error(`人物 ${actor.id} 的默认精灵不存在：${actor.spriteId}`)
+  if (!(actor.name in state.locale) || !state.locale[actor.name]?.trim())
+    throw new Error(`人物 ${actor.id} 的名称文本不存在或为空：${actor.name}`)
+  const assertAsset = (id: AssetId | undefined, kind: 'portrait' | 'face', field: string): void => {
+    if (!id) return
+    const record = state.assetCatalog.assets[id]
+    if (!record || record.kind !== kind)
+      throw new Error(`人物 ${actor.id} 的${field}资源不存在或类型错误：${id}`)
+  }
+  assertAsset(actor.portraits?.default, 'portrait', '默认立绘')
+  for (const [expression, id] of Object.entries(actor.portraits?.expressions ?? {}))
+    assertAsset(id, 'portrait', `立绘“${expression}”`)
+  assertAsset(actor.face, 'face', '小头像')
+  if (
+    actor.battler &&
+    !state.battleSprites.some((battleSprite) => battleSprite.id === actor.battler!.battleSprite)
+  )
+    throw new Error(`人物 ${actor.id} 的战斗精灵不存在：${actor.battler.battleSprite}`)
+  if (
+    actor.battler?.coveredBy &&
+    !state.actors.some((candidate) => candidate.id === actor.battler!.coveredBy)
+  )
+    throw new Error(`人物 ${actor.id} 的援护者不存在：${actor.battler.coveredBy}`)
+}
+
+function assertActorPatchCanBeApplied(
+  state: EditorState,
+  previous: ActorDef,
+  actor: ActorDef,
+  patch: ActorPatch,
+): void {
+  if (
+    'spriteId' in patch && actor.spriteId !== previous.spriteId &&
+    !state.sprites.some((sprite) => sprite.id === actor.spriteId)
+  )
+    throw new Error(`人物 ${actor.id} 的默认精灵不存在：${actor.spriteId}`)
+  const assertAsset = (id: AssetId | undefined, kind: 'portrait' | 'face', field: string): void => {
+    if (!id) return
+    const record = state.assetCatalog.assets[id]
+    if (!record || record.kind !== kind)
+      throw new Error(`人物 ${actor.id} 的${field}资源不存在或类型错误：${id}`)
+  }
+  if ('portraits' in patch) {
+    const previousPortraits = new Set([
+      ...(previous.portraits?.default ? [previous.portraits.default] : []),
+      ...Object.values(previous.portraits?.expressions ?? {}),
+    ])
+    if (!previousPortraits.has(actor.portraits?.default ?? ''))
+      assertAsset(actor.portraits?.default, 'portrait', '默认立绘')
+    for (const [expression, id] of Object.entries(actor.portraits?.expressions ?? {}))
+      if (!previousPortraits.has(id)) assertAsset(id, 'portrait', `立绘“${expression}”`)
+  }
+  if ('face' in patch && actor.face !== previous.face)
+    assertAsset(actor.face, 'face', '小头像')
+  if ('battler' in patch && actor.battler) {
+    if (
+      actor.battler.battleSprite !== previous.battler?.battleSprite &&
+      !state.battleSprites.some((battleSprite) => battleSprite.id === actor.battler!.battleSprite)
+    )
+      throw new Error(`人物 ${actor.id} 的战斗精灵不存在：${actor.battler.battleSprite}`)
+    if (
+      actor.battler.coveredBy &&
+      actor.battler.coveredBy !== previous.battler?.coveredBy &&
+      !state.actors.some((candidate) => candidate.id === actor.battler!.coveredBy)
+    )
+      throw new Error(`人物 ${actor.id} 的援护者不存在：${actor.battler.coveredBy}`)
+  }
+}
+
+/** 新建人物定义；locale 文本应由同一 CompositeCommand 在本命令前写入。 */
+export class AddActorCommand implements Command {
+  readonly label = '新增人物'
+  private readonly actor: ActorDef
+  private readonly requestedIndex: number | undefined
+  private insertedIndex = -1
+
+  constructor(actor: ActorDef, index?: number) {
+    this.actor = structuredClone(actor)
+    this.requestedIndex = index
+  }
+
+  apply(state: EditorState): EditorState {
+    assertActorCanBeAdded(state, this.actor)
+    const actors = [...state.actors]
+    const index = Math.min(Math.max(0, this.requestedIndex ?? actors.length), actors.length)
+    this.insertedIndex = index
+    actors.splice(index, 0, structuredClone(this.actor))
+    return { ...state, actors }
+  }
+
+  invert(state: EditorState): EditorState {
+    const index = state.actors.findIndex((actor) => actor.id === this.actor.id)
+    if (index < 0) return state
+    return { ...state, actors: state.actors.filter((actor) => actor.id !== this.actor.id) }
+  }
+}
+
+/** 复制人物定义及其 levelUp 伴随表；共享资源仍按 id 引用，不复制资产。 */
+export class CopyActorCommand implements Command {
+  readonly label = '复制人物'
+  private copied = false
+  private copiedActor: ActorDef | undefined
+  private copiedLevelUp: LevelUpSkill[] | undefined
+
+  constructor(
+    private readonly sourceActorId: string,
+    private readonly nextActorId: string,
+    private readonly nextNameId: string,
+  ) {}
+
+  apply(state: EditorState): EditorState {
+    if (!this.copiedActor) {
+      const source = state.actors.find((actor) => actor.id === this.sourceActorId)
+      if (!source) throw new Error(`复制来源人物不存在：${this.sourceActorId}`)
+      this.copiedActor = structuredClone(source)
+      this.copiedActor.id = this.nextActorId
+      this.copiedActor.name = this.nextNameId
+      this.copiedLevelUp = state.levelUp[this.sourceActorId]
+        ? structuredClone(state.levelUp[this.sourceActorId])
+        : undefined
+    }
+    const actor = structuredClone(this.copiedActor)
+    assertActorCanBeAdded(state, actor)
+    this.copied = true
+    return {
+      ...state,
+      actors: [...state.actors, actor],
+      levelUp: this.copiedLevelUp
+        ? { ...state.levelUp, [this.nextActorId]: structuredClone(this.copiedLevelUp) }
+        : state.levelUp,
+    }
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.copied) return state
+    const levelUp = { ...state.levelUp }
+    delete levelUp[this.nextActorId]
+    return {
+      ...state,
+      actors: state.actors.filter((actor) => actor.id !== this.nextActorId),
+      levelUp,
+    }
+  }
+}
+
+/** 删除前重算 Actor 全引用闭包；levelUp 是伴随数据，随人物同事务清理与恢复。 */
+export class DeleteActorCommand implements Command {
+  readonly label = '删除人物'
+  private removed: ActorDef | undefined
+  private removedLevelUp: LevelUpSkill[] | undefined
+  private hadLevelUp = false
+  private index = -1
+
+  constructor(private readonly actorId: string) {}
+
+  apply(state: EditorState): EditorState {
+    const index = state.actors.findIndex((actor) => actor.id === this.actorId)
+    if (index < 0) return state
+    const blockers = blockingActorReferences(state, this.actorId)
+    if (blockers.length)
+      throw new Error(
+        `人物 ${this.actorId} 仍被 ${blockers.length} 处引用：\n${blockers
+          .slice(0, 20)
+          .map((reference) => `${reference.label} · ${reference.where}`)
+          .join('\n')}`,
+      )
+    if (!this.removed) {
+      this.removed = structuredClone(state.actors[index]!)
+      this.index = index
+      this.hadLevelUp = Object.hasOwn(state.levelUp, this.actorId)
+      this.removedLevelUp = state.levelUp[this.actorId]
+        ? structuredClone(state.levelUp[this.actorId])
+        : undefined
+    }
+    const levelUp = { ...state.levelUp }
+    delete levelUp[this.actorId]
+    return {
+      ...state,
+      actors: state.actors.filter((actor) => actor.id !== this.actorId),
+      levelUp,
+    }
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.removed) return state
+    if (state.actors.some((actor) => actor.id === this.actorId))
+      throw new Error(`无法撤销删除：人物 id 已被占用 ${this.actorId}`)
+    const actors = [...state.actors]
+    actors.splice(Math.min(Math.max(0, this.index), actors.length), 0, structuredClone(this.removed))
+    const levelUp = { ...state.levelUp }
+    if (this.hadLevelUp && this.removedLevelUp)
+      levelUp[this.actorId] = structuredClone(this.removedLevelUp)
+    else delete levelUp[this.actorId]
+    return { ...state, actors, levelUp }
+  }
+}
+
+/** actor 实例解除关联为当前默认 sprite；除判别字段外逐字段原样保留。 */
+export class DetachActorEntityCommand implements Command {
+  readonly label = '解除人物关联'
+  private original: EntityDef | undefined
+
+  constructor(
+    private readonly sceneId: string,
+    private readonly entityId: string,
+  ) {}
+
+  apply(state: EditorState): EditorState {
+    const scene = findScene(state, this.sceneId)
+    const entity = scene?.entities.find((candidate) => candidate.id === this.entityId)
+    if (!scene || !entity || !('actor' in entity)) return state
+    const actor = state.actors.find((candidate) => candidate.id === entity.actor)
+    if (!actor) throw new Error(`实体 ${this.sceneId}/${this.entityId} 的人物不存在：${entity.actor}`)
+    if (!state.sprites.some((sprite) => sprite.id === actor.spriteId))
+      throw new Error(`人物 ${actor.id} 的默认精灵不存在：${actor.spriteId}`)
+    if (!this.original) this.original = structuredClone(entity)
+    const { actor: _actor, ...instance } = entity
+    const detached: EntityDef = { ...instance, sprite: actor.spriteId }
+    return withEntities(
+      state,
+      this.sceneId,
+      scene.entities.map((candidate) => (candidate.id === this.entityId ? detached : candidate)),
+    )
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.original) return state
+    const scene = findScene(state, this.sceneId)
+    if (!scene) return state
+    return withEntities(
+      state,
+      this.sceneId,
+      scene.entities.map((candidate) =>
+        candidate.id === this.entityId ? structuredClone(this.original!) : candidate,
+      ),
+    )
+  }
+}
+
 /** UpdateActor 的 patch 范围(名字 / 头像组 / 小头像 / 战斗数据 / 精灵引用)。 */
 export type ActorPatch = Partial<
   Pick<ActorDef, 'name' | 'portraits' | 'face' | 'battler' | 'spriteId'>
@@ -1920,7 +2187,9 @@ export class UpdateActorCommand implements Command {
     const a = state.actors.find((x) => x.id === this.actorId)
     if (!a) return state
     if (!this.oldPatch) this.oldPatch = this.captureOld(a)
-    return withActor(state, this.actorId, { ...a, ...this.patch })
+    const next = { ...a, ...this.patch }
+    assertActorPatchCanBeApplied(state, a, next, this.patch)
+    return withActor(state, this.actorId, next)
   }
 
   private captureOld(a: ActorDef): ActorPatch {
@@ -2104,6 +2373,147 @@ function withBattleField(state: EditorState, fieldId: number, next: BattleFieldD
   return hit ? { ...state, battleFields } : state
 }
 
+export const BATTLE_FIELDS_PATH = 'content/battle-fields.json'
+
+export function nextBattleFieldId(fields: readonly BattleFieldDef[]): number {
+  if (fields.length === 0) return DEFAULT_BATTLE_FIELD_ID
+  const next = Math.max(...fields.map((field) => field.id)) + 1
+  if (!Number.isSafeInteger(next)) throw new Error('无法分配新的战场 id：已超出安全整数范围')
+  return next
+}
+
+interface BattleFieldTableSnapshot {
+  manifest: EditorState['manifest']
+  battleFields: BattleFieldDef[] | undefined
+}
+
+function captureBattleFieldTable(state: EditorState): BattleFieldTableSnapshot {
+  return {
+    manifest: structuredClone(state.manifest),
+    battleFields:
+      state.battleFields === undefined ? undefined : structuredClone(state.battleFields),
+  }
+}
+
+function restoreBattleFieldTable(
+  state: EditorState,
+  snapshot: BattleFieldTableSnapshot | undefined,
+): EditorState {
+  if (!snapshot) return state
+  return {
+    ...state,
+    manifest: structuredClone(snapshot.manifest),
+    battleFields:
+      snapshot.battleFields === undefined ? undefined : structuredClone(snapshot.battleFields),
+  }
+}
+
+function appendBattleField(state: EditorState, field: BattleFieldDef): EditorState {
+  const battleFields = [...(state.battleFields ?? []), structuredClone(field)]
+  validateBattleFields(battleFields)
+  return {
+    ...state,
+    manifest: {
+      ...state.manifest,
+      content: {
+        ...state.manifest.content,
+        battleFields: state.manifest.content.battleFields ?? BATTLE_FIELDS_PATH,
+      },
+    },
+    battleFields,
+  }
+}
+
+/** 新建战场；首次创建时与 manifest.content.battleFields 原子登记并整体可撤销。 */
+export class AddBattleFieldCommand implements Command {
+  readonly label = '新建战场'
+  private readonly field: BattleFieldDef
+  private before: BattleFieldTableSnapshot | undefined
+
+  constructor(field: BattleFieldDef) {
+    this.field = structuredClone(field)
+    validateBattleFields([this.field])
+  }
+
+  apply(state: EditorState): EditorState {
+    if ((state.battleFields ?? []).some((field) => field.id === this.field.id))
+      throw new Error(`战场 id 已存在：${this.field.id}`)
+    this.before ??= captureBattleFieldTable(state)
+    return appendBattleField(state, this.field)
+  }
+
+  invert(state: EditorState): EditorState {
+    return restoreBattleFieldTable(state, this.before)
+  }
+}
+
+/** 复制战场定义到新稳定 id；资源引用保持共享，不复制资源文件。 */
+export class CopyBattleFieldCommand implements Command {
+  readonly label = '复制战场'
+  private readonly sourceId: number
+  private readonly nextId: number
+  private before: BattleFieldTableSnapshot | undefined
+  private copy: BattleFieldDef | undefined
+
+  constructor(sourceId: number, nextId: number) {
+    this.sourceId = sourceId
+    this.nextId = nextId
+  }
+
+  apply(state: EditorState): EditorState {
+    const source = (state.battleFields ?? []).find((field) => field.id === this.sourceId)
+    if (!source) throw new Error(`复制失败：找不到战场 ${this.sourceId}`)
+    if ((state.battleFields ?? []).some((field) => field.id === this.nextId))
+      throw new Error(`战场 id 已存在：${this.nextId}`)
+    this.before ??= captureBattleFieldTable(state)
+    this.copy ??= { ...structuredClone(source), id: this.nextId }
+    return appendBattleField(state, this.copy)
+  }
+
+  invert(state: EditorState): EditorState {
+    return restoreBattleFieldTable(state, this.before)
+  }
+}
+
+export class BattleFieldInUseError extends Error {
+  readonly fieldId: number
+  readonly references: readonly BlockingBattleFieldReference[]
+
+  constructor(fieldId: number, references: readonly BlockingBattleFieldReference[]) {
+    super(`战场 ${fieldId} 仍被 ${references.length} 处引用，不能删除`)
+    this.name = 'BattleFieldInUseError'
+    this.fieldId = fieldId
+    this.references = references
+  }
+}
+
+/** 删除未使用战场；最后一项删除后仍保留已声明的空表文件。 */
+export class DeleteBattleFieldCommand implements Command {
+  readonly label = '删除战场'
+  private readonly fieldId: number
+  private before: BattleFieldTableSnapshot | undefined
+
+  constructor(fieldId: number) {
+    this.fieldId = fieldId
+  }
+
+  apply(state: EditorState): EditorState {
+    const index = (state.battleFields ?? []).findIndex((field) => field.id === this.fieldId)
+    if (index < 0) return state
+    const references = blockingBattleFieldReferences(state, this.fieldId)
+    if (references.length > 0) throw new BattleFieldInUseError(this.fieldId, references)
+    this.before ??= captureBattleFieldTable(state)
+    return {
+      ...state,
+      battleFields: (state.battleFields ?? []).filter((field) => field.id !== this.fieldId),
+    }
+  }
+
+  invert(state: EditorState): EditorState {
+    return restoreBattleFieldTable(state, this.before)
+  }
+}
+
 /** UpdateBattleField 的 patch 范围(id 不可改 —— 数字稳定身份被场景/脚本引用)。 */
 export type BattleFieldPatch = Partial<
   Pick<BattleFieldDef, 'name' | 'background' | 'screenWave' | 'magicEffect'>
@@ -2132,6 +2542,11 @@ export class UpdateBattleFieldCommand implements Command {
     }
     const next = { ...f, ...this.patch } as Record<string, unknown>
     for (const [k, v] of Object.entries(this.patch)) if (v === undefined) delete next[k]
+    validateBattleFields(
+      (state.battleFields ?? []).map((field) =>
+        field.id === this.fieldId ? (next as unknown as BattleFieldDef) : field,
+      ),
+    )
     return withBattleField(state, this.fieldId, next as unknown as BattleFieldDef)
   }
 
@@ -2222,6 +2637,16 @@ export class AddEnemyCommand implements Command {
 }
 
 /** 删除敌人。apply 记原索引,invert 插回原位。 */
+export class BattleDataInUseError extends Error {
+  readonly references: readonly BattleDataReference[]
+
+  constructor(kind: string, id: string, references: readonly BattleDataReference[]) {
+    super(`${kind} ${id} 仍被 ${references.length} 处引用`)
+    this.name = 'BattleDataInUseError'
+    this.references = references
+  }
+}
+
 export class DeleteEnemyCommand implements Command {
   readonly label = '删除敌人'
   private readonly enemyId: string
@@ -2233,6 +2658,8 @@ export class DeleteEnemyCommand implements Command {
     const list = state.enemies ?? []
     const index = list.findIndex((e) => e.id === this.enemyId)
     if (index === -1) return state
+    const references = blockingEnemyReferences(state, this.enemyId)
+    if (references.length) throw new BattleDataInUseError('敌人', this.enemyId, references)
     if (!this.removed) this.removed = { enemy: structuredClone(list[index]!), index }
     return { ...state, enemies: list.filter((_, i) => i !== index) }
   }
@@ -2718,6 +3145,32 @@ export class AddSkillCommand implements Command {
   invert(state: EditorState): EditorState {
     if (!this.added) return state
     return { ...state, skills: state.skills.filter((s) => s.id !== this.skill.id) }
+  }
+}
+
+/** 删除技能；任何作者态引用仍存在时 fail closed，invert 按原索引恢复。 */
+export class DeleteSkillCommand implements Command {
+  readonly label = '删除技能'
+  private removed: { skill: SkillData; index: number } | undefined
+
+  constructor(private readonly skillId: string) {}
+
+  apply(state: EditorState): EditorState {
+    const index = state.skills.findIndex((skill) => skill.id === this.skillId)
+    if (index < 0) return state
+    const references = blockingSkillReferences(state, this.skillId)
+    if (references.length) throw new BattleDataInUseError('技能', this.skillId, references)
+    if (!this.removed) this.removed = { skill: structuredClone(state.skills[index]!), index }
+    return { ...state, skills: state.skills.filter((skill) => skill.id !== this.skillId) }
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.removed) return state
+    if (state.skills.some((skill) => skill.id === this.skillId))
+      throw new Error(`无法撤销删除：技能 id 已被占用 ${this.skillId}`)
+    const skills = [...state.skills]
+    skills.splice(this.removed.index, 0, structuredClone(this.removed.skill))
+    return { ...state, skills }
   }
 }
 
@@ -3843,5 +4296,32 @@ export class AddPoisonCommand implements Command {
   invert(state: EditorState): EditorState {
     if (!this.added) return state
     return { ...state, poisons: (state.poisons ?? []).filter((p) => p.id !== this.poison.id) }
+  }
+}
+
+/** 删除毒定义；技能、物品与其他毒的关系边必须先解除。 */
+export class DeletePoisonCommand implements Command {
+  readonly label = '删除毒'
+  private removed: { poison: PoisonDef; index: number } | undefined
+
+  constructor(private readonly poisonId: number) {}
+
+  apply(state: EditorState): EditorState {
+    const list = state.poisons ?? []
+    const index = list.findIndex((poison) => poison.id === this.poisonId)
+    if (index < 0) return state
+    const references = blockingPoisonReferences(state, this.poisonId)
+    if (references.length) throw new BattleDataInUseError('毒', String(this.poisonId), references)
+    if (!this.removed) this.removed = { poison: structuredClone(list[index]!), index }
+    return { ...state, poisons: list.filter((poison) => poison.id !== this.poisonId) }
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.removed) return state
+    if ((state.poisons ?? []).some((poison) => poison.id === this.poisonId))
+      throw new Error(`无法撤销删除：毒 id 已被占用 ${this.poisonId}`)
+    const poisons = [...(state.poisons ?? [])]
+    poisons.splice(this.removed.index, 0, structuredClone(this.removed.poison))
+    return { ...state, poisons }
   }
 }

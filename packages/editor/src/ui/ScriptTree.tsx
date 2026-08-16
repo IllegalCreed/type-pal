@@ -6,7 +6,9 @@
  */
 
 import type {
+  ActorDef,
   Command,
+  DialogueCueV14,
   Locale,
   SceneDef,
   SceneEntryPresentation,
@@ -14,7 +16,7 @@ import type {
   ScriptCondition,
   ScriptStage,
 } from '@type-pal/content'
-import { lookupText, parseRichText } from '@type-pal/content'
+import { lookupText, parseRichText, resolveDialogueIdentityV14 } from '@type-pal/content'
 import { useEffect, useRef } from 'react'
 import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 
@@ -85,6 +87,7 @@ export function describeScriptCommand(
   locale: Locale,
   scenes: readonly SceneDef[] | undefined,
   references: ScriptReferenceCatalog,
+  actors?: Readonly<Record<string, ActorDef>>,
 ): ScriptCommandDescription {
   switch (cmd.kind) {
     case 'chasePlayer':
@@ -99,7 +102,16 @@ export function describeScriptCommand(
     case 'gameOver':
       return { icon: '💀', label: '战败流程(渐红 + 文案 + 读档)' }
     case 'dialog': {
-      const who = cmd.cue.speaker ? `${scriptTreeText(cmd.cue.speaker, locale)}: ` : ''
+      const cue = cmd.cue as typeof cmd.cue | DialogueCueV14
+      const resolved =
+        'identity' in cue
+          ? resolveDialogueIdentityV14(
+              cue.identity,
+              actors ?? {},
+              'editor.scriptTree.dialogue.identity',
+            )
+          : cue
+      const who = resolved.speaker ? `${scriptTreeText(resolved.speaker, locale)}: ` : ''
       const slot =
         cmd.cue.slot === 'top'
           ? '上'
@@ -108,12 +120,12 @@ export function describeScriptCommand(
             : cmd.cue.slot === 'center'
               ? '中央'
               : '下'
-      const text = cmd.cue.rows.map((row) => scriptTreeText(row.text, locale)).join(' / ')
+      const text = cue.rows.map((row) => scriptTreeText(row.text, locale)).join(' / ')
       return {
         icon: '💬',
         label: `${who}${text}`,
-        detail: cmd.cue.portrait
-          ? `${slot}·立绘 ${references.label('asset', cmd.cue.portrait.asset)}`
+        detail: resolved.portrait
+          ? `${slot}·立绘 ${references.label('asset', resolved.portrait.asset)}`
           : slot,
       }
     }
@@ -441,6 +453,7 @@ export type StageAction =
 interface RowCtx {
   locale: Locale
   scenes?: readonly SceneDef[]
+  actors?: Readonly<Record<string, ActorDef>>
   references: ScriptReferenceCatalog
   activePath: string | null
   selectedPath: string | null
@@ -453,7 +466,7 @@ interface RowCtx {
 
 function CommandRow(props: { cmd: Command; depth: number; path: string; ctx: RowCtx }) {
   const { cmd, depth, path, ctx } = props
-  const d = describeScriptCommand(cmd, ctx.locale, ctx.scenes, ctx.references)
+  const d = describeScriptCommand(cmd, ctx.locale, ctx.scenes, ctx.references, ctx.actors)
   const active = ctx.activePath === path
   const selected = ctx.selectedPath === path
   const rowRef = useRef<HTMLDivElement>(null)
@@ -696,6 +709,7 @@ export function ScriptTree(props: {
   stages: readonly ScriptStage[]
   locale: Locale
   scenes?: readonly SceneDef[]
+  actors?: Readonly<Record<string, ActorDef>>
   references: ScriptReferenceCatalog
   activePath?: string | null
   selectedPath?: string | null
@@ -711,6 +725,7 @@ export function ScriptTree(props: {
     stages,
     locale,
     scenes,
+    actors,
     references,
     activePath = null,
     selectedPath = null,
@@ -724,6 +739,7 @@ export function ScriptTree(props: {
   const ctx: RowCtx = {
     locale,
     scenes,
+    actors,
     references,
     activePath,
     selectedPath,

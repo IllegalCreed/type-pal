@@ -8,6 +8,7 @@ import type { AmbienceDef } from '@type-pal/content'
 import { useState } from 'react'
 import { AddAmbienceCommand, UpdateAmbienceCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import { DsListHeader } from './design-system/index.js'
 
 const toHex = (t: readonly [number, number, number]): string =>
   `#${t.map((c) => Math.max(0, Math.min(255, c)).toString(16).padStart(2, '0')).join('')}`
@@ -47,32 +48,30 @@ export function AmbienceTab(props: {
     <>
       <div className="outliner data-outliner">
         {tabBar}
-        <div className="pane-h">
-          <span className="t">氛围</span>
-          <span className="spacer" />
-          <span className="k">{ambiences.length} 条</span>
-        </div>
+        <DsListHeader
+          title="氛围"
+          count={ambiences.length}
+          unit="条"
+          actions={[{
+            id: 'create-ambience',
+            label: '新建氛围',
+            icon: '＋',
+            onClick: () => {
+              const id = window.prompt('新氛围 id(英文,脚本引用):', '')?.trim()
+              if (!id) return
+              if (ambiences.some((a) => a.id === id)) {
+                window.alert(`氛围 "${id}" 已存在`)
+                return
+              }
+              const name = window.prompt('显示名:', id)?.trim() || id
+              session.dispatch(new AddAmbienceCommand(id, name))
+            },
+          }]}
+        />
         <div className="insp-empty" style={{ marginTop: 8 }}>
           全局昼夜色调(全帧乘法滤镜):脚本「切氛围」指令引用这里的 id,跨场景持续、随存档。 白 =
           不染;夜晚缺省值拟合自原版夜盘。改色即改玩家看到的夜(引擎试玩验)。
         </div>
-        <button
-          type="button"
-          className="tool"
-          style={{ margin: '6px 10px 8px', justifyContent: 'center' }}
-          onClick={() => {
-            const id = window.prompt('新氛围 id(英文,脚本引用):', '')?.trim()
-            if (!id) return
-            if (ambiences.some((a) => a.id === id)) {
-              window.alert(`氛围 "${id}" 已存在`)
-              return
-            }
-            const name = window.prompt('显示名:', id)?.trim() || id
-            session.dispatch(new AddAmbienceCommand(id, name))
-          }}
-        >
-          ＋ 新建氛围
-        </button>
       </div>
       <div className="canvas-wrap data-body">
         <div className="et-scroll">

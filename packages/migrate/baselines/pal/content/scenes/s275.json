@@ -119,7 +119,10 @@
                             "text": "dlg.11997"
                           }
                         ],
-                        "speaker": "spk.铁匠"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.铁匠"
+                        }
                       },
                       "kind": "dialog"
                     },

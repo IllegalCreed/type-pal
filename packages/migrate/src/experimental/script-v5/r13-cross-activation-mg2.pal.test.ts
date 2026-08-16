@@ -1,8 +1,13 @@
-import { existsSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { beforeAll, describe, expect, test } from 'vitest'
+import type { ManifestV14 } from '@type-pal/content'
 import { type MigrationSnapshot, serializeMigrationJson, sha256 } from '../../migration-baseline.js'
+import {
+  rewindCurrentC1ProjectToW9,
+  rewindCurrentC1PublicationToW9,
+} from '../../pal-current-c1-rewind.js'
 import {
   discoverProjectManagedFiles,
   loadProjectMigrationSnapshot,
@@ -130,7 +135,14 @@ describe.skipIf(!existsSync(extracted))('R13 cross activation append-only PAL MG
     const shared = getPalTestGeneratedFixture()
     const { sources, migration, currentAudit: audit, generated } = shared
     const publishedBaseline = shared.baseline
-    const loadedBase = rewindPublishedW9PublicationIfPresent(publishedBaseline)
+    const manifestRawText = readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8')
+    const manifest = JSON.parse(manifestRawText) as ManifestV14
+    const w9Baseline = rewindCurrentC1PublicationToW9({
+      source: publishedBaseline,
+      manifest,
+      manifestRawText,
+    })
+    const loadedBase = rewindPublishedW9PublicationIfPresent(w9Baseline)
     const base = withoutCross(loadedBase)
     hydrateControlHashes(base)
     const managed = discoverProjectManagedFiles(
@@ -139,8 +151,13 @@ describe.skipIf(!existsSync(extracted))('R13 cross activation append-only PAL MG
     )
     const ours = withoutCross(
       rewindPublishedW9ProjectAgainstPublishedBaseline(
-        loadProjectMigrationSnapshot(repo, managed),
-        publishedBaseline,
+        rewindCurrentC1ProjectToW9({
+          project: loadProjectMigrationSnapshot(repo, managed),
+          publishedBaseline,
+          manifest,
+          manifestRawText,
+        }),
+        w9Baseline,
       ),
     )
     const preparedSourceCensus = PAL_TEST_SHARED_GATE

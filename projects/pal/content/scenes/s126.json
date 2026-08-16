@@ -644,7 +644,10 @@
                           "text": "dlg.7064"
                         }
                       ],
-                      "speaker": "spk.茅山道士"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.茅山道士"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -659,7 +662,10 @@
                         }
                       ],
                       "slot": "top",
-                      "speaker": "spk.刘夫人"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.刘夫人"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -692,7 +698,10 @@
                           "text": "dlg.7069"
                         }
                       ],
-                      "speaker": "spk.茅山道士"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.茅山道士"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -717,6 +726,9 @@
                   },
                   {
                     "cue": {
+                      "identity": {
+                        "kind": "narration"
+                      },
                       "rows": [
                         {
                           "text": "dlg.7070"
@@ -739,7 +751,10 @@
                           "text": "dlg.7073"
                         }
                       ],
-                      "speaker": "spk.茅山道士"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.茅山道士"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -764,6 +779,9 @@
                   },
                   {
                     "cue": {
+                      "identity": {
+                        "kind": "narration"
+                      },
                       "rows": [
                         {
                           "text": "dlg.7074"
@@ -799,7 +817,10 @@
                           "text": "dlg.7076"
                         }
                       ],
-                      "speaker": "spk.茅山道士"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.茅山道士"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -811,7 +832,10 @@
                         }
                       ],
                       "slot": "top",
-                      "speaker": "spk.刘夫人"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.刘夫人"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -844,7 +868,10 @@
                           "text": "dlg.7080"
                         }
                       ],
-                      "speaker": "spk.茅山道士"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.茅山道士"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -975,7 +1002,10 @@
                           "text": "dlg.7082"
                         }
                       ],
-                      "speaker": "spk.茅山道士"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.茅山道士"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -1004,6 +1034,9 @@
                   },
                   {
                     "cue": {
+                      "identity": {
+                        "kind": "narration"
+                      },
                       "rows": [
                         {
                           "text": "dlg.7083"
@@ -1135,7 +1168,10 @@
                           "text": "dlg.7086"
                         }
                       ],
-                      "speaker": "spk.茅山道士"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.茅山道士"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -1150,7 +1186,10 @@
                           "text": "dlg.7088"
                         }
                       ],
-                      "speaker": "spk.茅山道士"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.茅山道士"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -1276,7 +1315,10 @@
                           "text": "dlg.7090"
                         }
                       ],
-                      "speaker": "spk.茅山道士"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.茅山道士"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -1293,7 +1335,10 @@
                           "text": "dlg.7092"
                         }
                       ],
-                      "speaker": "spk.茅山道士"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.茅山道士"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -1330,6 +1375,9 @@
                   },
                   {
                     "cue": {
+                      "identity": {
+                        "kind": "narration"
+                      },
                       "rows": [
                         {
                           "text": "dlg.7093"
@@ -1395,7 +1443,10 @@
                         }
                       ],
                       "slot": "top",
-                      "speaker": "spk.刘夫人"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.刘夫人"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -1412,7 +1463,10 @@
                           "text": "dlg.7098"
                         }
                       ],
-                      "speaker": "spk.茅山道士"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.茅山道士"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -1480,7 +1534,10 @@
                           "text": "dlg.7102"
                         }
                       ],
-                      "speaker": "spk.刘夫人"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.刘夫人"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -1528,9 +1585,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.023",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.023",
+                          "side": "left"
+                        },
+                        "speaker": "spk.林月如"
                       },
                       "rows": [
                         {
@@ -1540,8 +1601,7 @@
                           "text": "dlg.7105"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.林月如"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -1566,9 +1626,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.001",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.001",
+                          "side": "right"
+                        },
+                        "speaker": "spk.李逍遥"
                       },
                       "rows": [
                         {
@@ -1580,8 +1644,7 @@
                         {
                           "text": "dlg.7109"
                         }
-                      ],
-                      "speaker": "spk.李逍遥"
+                      ]
                     },
                     "kind": "dialog"
                   },

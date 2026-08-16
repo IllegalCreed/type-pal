@@ -130,6 +130,9 @@ describe('CasualtyEditor (E18-1)', () => {
     })
     expect(gateRow('75').textContent).toContain('%')
     expect(host.textContent).toContain('兜底分支')
+    expect(host.querySelector('[role="tablist"][aria-label="伤亡事件类型"]')).not.toBeNull()
+    expect(host.querySelector('.casualty-branch-panel')).not.toBeNull()
+    expect(host.querySelector('.casualty-branch-editor')).not.toBeNull()
   })
 
   test('选中概率门 → 右列显示该分支台词;台词预览解析 locale', async () => {
@@ -157,8 +160,8 @@ describe('CasualtyEditor (E18-1)', () => {
     await act(async () => remove.click())
     const after = session.getState().actors[0]!.battler!.casualty!.friendDeath!
     expect(after.gates).toEqual([])
-    // 右列应显示 fallback 分支(回血效果)。
-    expect(host.textContent).toContain('回血 / 回蓝')
+    // 内容区应显示 fallback 分支的资源恢复效果。
+    expect(host.textContent).toContain('恢复资源')
   })
 
   test('＋台词 → 即时写回 session;移除本槽 → 键删除;两槽全移除 → casualty undefined(K4)', async () => {
@@ -170,11 +173,11 @@ describe('CasualtyEditor (E18-1)', () => {
     await act(async () => button('＋ 台词').click())
     const addLine = session.getState().actors[0]!.battler!.casualty!.friendDeath!.fallback
     expect(addLine.lines.length).toBe(1)
-    await act(async () => button('移除本槽').click())
+    await act(async () => button('移除当前事件').click())
     expect(session.getState().actors[0]!.battler!.casualty!.friendDeath).toBeUndefined()
     expect(session.getState().actors[0]!.battler!.casualty!.dying).toBeDefined()
-    await act(async () => button('自己濒死时 (dying)').click())
-    await act(async () => button('移除本槽').click())
+    await act(async () => button('自己濒死时').click())
+    await act(async () => button('移除当前事件').click())
     expect(session.getState().actors[0]!.battler!.casualty).toBeUndefined()
   })
 
@@ -184,7 +187,7 @@ describe('CasualtyEditor (E18-1)', () => {
       root = createRoot(host)
       root.render(<Harness session={session} actor={session.getState().actors[0]!} />)
     })
-    expect(host.textContent).toContain('本槽未配置')
+    expect(host.textContent).toContain('尚未配置')
     await act(async () => button('＋ 配置').click())
     const created = session.getState().actors[0]!.battler!.casualty!.friendDeath!
     expect(created.gates).toEqual([])
@@ -210,7 +213,7 @@ describe('CasualtyEditor (E18-1)', () => {
     expect(select.tabIndex).toBe(0)
     await act(async () => select.click())
     expect(select.getAttribute('aria-pressed')).toBe('true')
-    expect(host.querySelector<HTMLButtonElement>('button.arow')?.textContent).toContain('fallback')
+    expect(host.querySelector<HTMLButtonElement>('button.arow')?.textContent).toContain('兜底分支')
 
     const setNumber = async (input: HTMLInputElement, value: string): Promise<void> => {
       const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!

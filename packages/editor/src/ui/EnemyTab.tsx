@@ -1,10 +1,10 @@
 /**
  * 敌人工作台(M4c-3)—— 数据模式「敌人」标签:从头造新敌人的生产线。
- * 左:敌人列表(过滤/➕新建);中:数值 + AI 规则表格 + 掉落;右:敌队(⚔ 一键试打 =
+ * 左:敌人列表(过滤/➕新建);中:数值 + AI 规则表格 + 物品交互;右:敌队(⚔ 一键试打 =
  * 同源试玩页 ?battle=<team>,复用真实引擎零仿真偏差(本地工程 FSA 句柄跨不了源)。
  *
- * AI 规则表格:常见条件/动作下拉行编;复杂条件(all/any/not)与 choreography/onDefeated
- * 走 JSON 兜底(同 CommandForm 哲学:全数据可编不留死角)。
+ * AI 规则表格:常见条件/动作下拉行编;物品交互与常用战败奖励均提供结构化编辑。
+ * 未识别的高级 choreography/onDefeated 指令只读保留,编辑常用奖励时不得覆盖。
  */
 import type {
   AiAction,
@@ -15,15 +15,22 @@ import type {
   AssetId,
   BattleSpriteDef,
   EnemyDef,
+  EnemyOnDefeatedCommandV10,
   EnemySounds,
   EnemyTeamDef,
+  ItemData,
   Locale,
   SkillData,
 } from '@type-pal/content'
 import { lookupText } from '@type-pal/content'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useId, useMemo, useRef, useState } from 'react'
+import {
+  type BattleDataReference,
+  blockingEnemyReferences,
+} from '../core/battle-data-references.js'
 import {
   AddEnemyCommand,
+  BattleDataInUseError,
   CompositeCommand,
   DeleteEnemyCommand,
   UpdateEnemyCommand,
@@ -32,18 +39,99 @@ import {
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import {
+  DsActionLink,
+  DsButton,
+  DsCheckbox,
+  DsField,
+  DsIconButton,
+  DsListHeader,
+  DsNumberInput,
+  DsSelect,
+  DsTag,
+  DsTextInput,
+} from './design-system/controls.js'
+import {
+  DsCatalogFilter,
+  DsCatalogRow,
+  DsInspectorSection,
+  DsInspectorTabs,
+  DsObjectHero,
+  DsReferenceList,
+  DsReferenceRow,
+  DsWorkbenchSection,
+} from './design-system/recipes.js'
 import { EnemyAnimPreview } from './EnemyAnimPreview.js'
 import { SoundPicker } from './SoundPicker.js'
 
-const ENEMY_SOUND_FIELDS: readonly {
-  key: Exclude<keyof EnemySounds, 'suppressMagicEffectSound'>
+type NumericEnemyStatKey =
+  | 'health'
+  | 'level'
+  | 'attackStrength'
+  | 'magicStrength'
+  | 'defense'
+  | 'dexterity'
+  | 'fleeRate'
+  | 'physicalResistance'
+  | 'exp'
+  | 'cash'
+  | 'collectValue'
+
+const ENEMY_STAT_GROUPS: readonly {
+  id: string
   label: string
+  fields: readonly { key: NumericEnemyStatKey; label: string }[]
 }[] = [
-  { key: 'attack', label: '普攻' },
-  { key: 'action', label: '行动' },
-  { key: 'magic', label: '施法' },
-  { key: 'death', label: '死亡' },
-  { key: 'call', label: '呼叫' },
+  {
+    id: 'combat',
+    label: '战斗能力',
+    fields: [
+      { key: 'health', label: 'HP' },
+      { key: 'level', label: '等级' },
+      { key: 'attackStrength', label: '武术' },
+      { key: 'magicStrength', label: '灵力' },
+      { key: 'defense', label: '防御' },
+      { key: 'dexterity', label: '身法' },
+      { key: 'fleeRate', label: '吉运（难逃）' },
+      { key: 'physicalResistance', label: '物抗' },
+    ],
+  },
+  {
+    id: 'rewards',
+    label: '战后结算',
+    fields: [
+      { key: 'exp', label: '经验' },
+      { key: 'cash', label: '金钱' },
+      { key: 'collectValue', label: '收妖值' },
+    ],
+  },
+]
+
+const ENEMY_SOUND_GROUPS: readonly {
+  id: string
+  label: string
+  fields: readonly {
+    key: Exclude<keyof EnemySounds, 'suppressMagicEffectSound'>
+    label: string
+  }[]
+}[] = [
+  {
+    id: 'actions',
+    label: '动作声音',
+    fields: [
+      { key: 'attack', label: '普攻' },
+      { key: 'action', label: '行动' },
+      { key: 'magic', label: '施法' },
+    ],
+  },
+  {
+    id: 'states',
+    label: '状态声音',
+    fields: [
+      { key: 'death', label: '死亡' },
+      { key: 'call', label: '呼叫' },
+    ],
+  },
 ]
 
 /** reforge(pal)地址:主机跟随编辑器访问地址(局域网/同事机不再错跳 localhost),端口按 dev-servers.md。 */
@@ -75,6 +163,80 @@ function newEnemy(id: string, battleSprite: string): EnemyDef {
     ai: { resistanceToSorcery: 5 },
     sounds: {},
   }
+}
+
+type DefeatedGiveItemCommand = Extract<EnemyOnDefeatedCommandV10, { kind: 'giveItem' }>
+type DefeatedDialogCommand = Extract<EnemyOnDefeatedCommandV10, { kind: 'dialog' }>
+
+interface DefeatedItemReward {
+  startIndex: number
+  endIndex: number
+  itemId: string
+  count: number
+  probability: number
+  dialog?: DefeatedDialogCommand
+}
+
+function integerInRange(value: number, min: number, max: number, fallback: number): number {
+  if (!Number.isFinite(value)) return fallback
+  return Math.min(max, Math.max(min, Math.floor(value)))
+}
+
+function rewardSkipPercent(command: EnemyOnDefeatedCommandV10 | undefined): number | undefined {
+  if (
+    command?.kind !== 'branch' ||
+    command.cond.kind !== 'chance' ||
+    command.then.length !== 1 ||
+    command.then[0]?.kind !== 'stopScript' ||
+    (command.else?.length ?? 0) !== 0
+  )
+    return undefined
+  return command.cond.percent
+}
+
+function findDefeatedItemReward(
+  commands: readonly EnemyOnDefeatedCommandV10[] | undefined,
+): DefeatedItemReward | undefined {
+  if (!commands) return undefined
+  const giveIndex = commands.findIndex((command) => command.kind === 'giveItem')
+  if (giveIndex < 0) return undefined
+  const give = commands[giveIndex] as DefeatedGiveItemCommand
+  const skipPercent = rewardSkipPercent(commands[giveIndex - 1])
+  const startIndex = skipPercent === undefined ? giveIndex : giveIndex - 1
+  const following = commands[giveIndex + 1]
+  const dialog = following?.kind === 'dialog' ? following : undefined
+  return {
+    startIndex,
+    endIndex: giveIndex + (dialog ? 2 : 1),
+    itemId: give.itemId,
+    count: give.count ?? 1,
+    probability: skipPercent === undefined ? 100 : 100 - skipPercent,
+    dialog,
+  }
+}
+
+function replaceDefeatedItemReward(
+  commands: readonly EnemyOnDefeatedCommandV10[] | undefined,
+  current: DefeatedItemReward | undefined,
+  next: { itemId: string; count: number; probability: number } | undefined,
+): EnemyOnDefeatedCommandV10[] | undefined {
+  const result = [...(commands ?? [])]
+  const replacement: EnemyOnDefeatedCommandV10[] = []
+  if (next) {
+    if (next.probability < 100) {
+      replacement.push({
+        kind: 'branch',
+        cond: { kind: 'chance', percent: 100 - next.probability },
+        then: [{ kind: 'stopScript' }],
+      })
+    }
+    replacement.push({ kind: 'giveItem', itemId: next.itemId, count: next.count })
+    if (current?.dialog) replacement.push(current.dialog)
+  }
+  if (current)
+    result.splice(current.startIndex, current.endIndex - current.startIndex, ...replacement)
+  else result.push(...replacement)
+  return result.length ? result : undefined
 }
 
 // ── 条件/动作 表格化词汇(常见形;复杂形 JSON)──
@@ -186,155 +348,178 @@ function RuleRow(props: {
   }
   return (
     <div className="rule-row">
-      <select
-        className="in rr-at"
-        value={rule.at}
-        onChange={(e) => onChange({ ...rule, at: e.target.value as AiRule['at'] })}
-      >
-        <option value="act">行动</option>
-        <option value="turnStart">轮起手</option>
-      </select>
-      <select
-        className="in rr-cond"
-        value={ck}
-        disabled={ck === 'complex'}
-        onChange={(e) =>
-          onChange({ ...rule, when: makeCond(e.target.value as CondKind, condValueOf(rule.when)) })
-        }
-      >
-        {(Object.keys(COND_LABEL) as CondKind[]).map((k) => (
-          <option key={k} value={k} disabled={k === 'complex'}>
-            {COND_LABEL[k]}
-          </option>
-        ))}
-      </select>
-      {ck === 'hpBelow' || ck === 'hpAbove' || ck === 'turnGte' || ck === 'chance' ? (
-        <input
-          className="in rr-num"
-          type="number"
-          value={condValueOf(rule.when)}
-          onWheel={(e) => e.currentTarget.blur()}
-          onChange={(e) => onChange({ ...rule, when: makeCond(ck, Number(e.target.value)) })}
+      <span className="rr-at">
+        <DsSelect
+          size="compact"
+          aria-label="触发时机"
+          value={rule.at}
+          options={[
+            { value: 'act', label: '行动' },
+            { value: 'turnStart', label: '轮起手' },
+          ]}
+          onValueChange={(at) => onChange({ ...rule, at: at as AiRule['at'] })}
         />
+      </span>
+      <span className="rr-cond">
+        <DsSelect
+          size="compact"
+          aria-label="触发条件"
+          value={ck}
+          disabled={ck === 'complex'}
+          options={(Object.keys(COND_LABEL) as CondKind[]).map((kind) => ({
+            value: kind,
+            label: COND_LABEL[kind],
+            disabled: kind === 'complex',
+          }))}
+          onValueChange={(condition) =>
+            onChange({
+              ...rule,
+              when: makeCond(condition as CondKind, condValueOf(rule.when)),
+            })
+          }
+        />
+      </span>
+      {ck === 'hpBelow' || ck === 'hpAbove' || ck === 'turnGte' || ck === 'chance' ? (
+        <span className="rr-num">
+          <DsNumberInput
+            size="compact"
+            aria-label="条件数值"
+            value={condValueOf(rule.when)}
+            onWheel={(e) => e.currentTarget.blur()}
+            onChange={(e) => onChange({ ...rule, when: makeCond(ck, Number(e.target.value)) })}
+          />
+        </span>
       ) : (
         <span className="rr-num" />
       )}
-      <select
-        className="in rr-act"
-        value={a.kind}
-        onChange={(e) => switchAction(e.target.value as AiAction['kind'])}
-      >
-        {(Object.keys(ACTION_LABEL) as AiAction['kind'][]).map((k) => (
-          <option key={k} value={k}>
-            {ACTION_LABEL[k]}
-          </option>
-        ))}
-      </select>
+      <span className="rr-act">
+        <DsSelect
+          size="compact"
+          aria-label="执行动作"
+          value={a.kind}
+          options={(Object.keys(ACTION_LABEL) as AiAction['kind'][]).map((kind) => ({
+            value: kind,
+            label: ACTION_LABEL[kind],
+          }))}
+          onValueChange={(action) => switchAction(action as AiAction['kind'])}
+        />
+      </span>
       {a.kind === 'cast' ? (
-        <select
-          className="in rr-p1"
-          value={a.skillId}
-          onChange={(e) => setAction({ skillId: e.target.value })}
-        >
-          {skills.map((s) => (
-            <option key={s.id} value={s.id}>
-              {s.name}({s.id})
-            </option>
-          ))}
-        </select>
+        <span className="rr-p1">
+          <DsSelect
+            size="compact"
+            aria-label="施放技能"
+            value={a.skillId}
+            options={skills.map((skill) => ({
+              value: skill.id,
+              label: `${skill.name}(${skill.id})`,
+            }))}
+            onValueChange={(skillId) => setAction({ skillId })}
+          />
+        </span>
       ) : a.kind === 'transform' ? (
-        <select
-          className="in rr-p1"
-          value={a.enemyId}
-          onChange={(e) => setAction({ enemyId: e.target.value })}
-        >
-          {enemies.map((en) => (
-            <option key={en.id} value={en.id}>
-              {lookupText(en.name, locale)}({en.id})
-            </option>
-          ))}
-        </select>
+        <span className="rr-p1">
+          <DsSelect
+            size="compact"
+            aria-label="变身敌人"
+            value={a.enemyId}
+            options={enemies.map((enemy) => ({
+              value: enemy.id,
+              label: `${lookupText(enemy.name, locale)}(${enemy.id})`,
+            }))}
+            onValueChange={(enemyId) => setAction({ enemyId })}
+          />
+        </span>
       ) : a.kind === 'summon' ? (
         <>
-          <select
-            className="in rr-p1"
-            value={a.enemyId ?? ''}
-            onChange={(e) => setAction({ enemyId: e.target.value || undefined })}
-          >
-            <option value="">同种</option>
-            {enemies.map((en) => (
-              <option key={en.id} value={en.id}>
-                {lookupText(en.name, locale)}
-              </option>
-            ))}
-          </select>
-          <input
-            className="in rr-num"
-            type="number"
-            min={1}
-            value={a.count}
-            onWheel={(e) => e.currentTarget.blur()}
-            onChange={(e) => setAction({ count: Math.max(1, Number(e.target.value)) })}
-          />
+          <span className="rr-p1">
+            <DsSelect
+              size="compact"
+              aria-label="召唤敌人"
+              value={a.enemyId ?? ''}
+              options={[
+                { value: '', label: '同种' },
+                ...enemies.map((enemy) => ({
+                  value: enemy.id,
+                  label: lookupText(enemy.name, locale),
+                })),
+              ]}
+              onValueChange={(enemyId) => setAction({ enemyId: enemyId || undefined })}
+            />
+          </span>
+          <span className="rr-num">
+            <DsNumberInput
+              size="compact"
+              aria-label="召唤数量"
+              min={1}
+              value={a.count}
+              onWheel={(e) => e.currentTarget.blur()}
+              onChange={(e) => setAction({ count: Math.max(1, Number(e.target.value)) })}
+            />
+          </span>
         </>
       ) : a.kind === 'divide' ? (
-        <input
-          className="in rr-num"
-          type="number"
-          min={1}
-          value={a.copies}
-          onWheel={(e) => e.currentTarget.blur()}
-          onChange={(e) => setAction({ copies: Math.max(1, Number(e.target.value)) })}
-        />
+        <span className="rr-num">
+          <DsNumberInput
+            size="compact"
+            aria-label="分裂数量"
+            min={1}
+            value={a.copies}
+            onWheel={(e) => e.currentTarget.blur()}
+            onChange={(e) => setAction({ copies: Math.max(1, Number(e.target.value)) })}
+          />
+        </span>
       ) : (
         <span className="rr-p1" />
       )}
       {a.kind === 'attack' || a.kind === 'cast' ? (
-        <select
-          className="in rr-tgt"
-          value={a.target ?? 'random'}
-          onChange={(e) =>
-            setAction({
-              target: e.target.value === 'random' ? undefined : (e.target.value as AiTarget),
-            })
-          }
-        >
-          {TARGETS.map((t) => (
-            <option key={t.v} value={t.v}>
-              {t.l}
-            </option>
-          ))}
-        </select>
+        <span className="rr-tgt">
+          <DsSelect
+            size="compact"
+            aria-label="动作目标"
+            value={a.target ?? 'random'}
+            options={TARGETS.map((target) => ({ value: target.v, label: target.l }))}
+            onValueChange={(target) =>
+              setAction({
+                target: target === 'random' ? undefined : (target as AiTarget),
+              })
+            }
+          />
+        </span>
       ) : (
         <span className="rr-tgt" />
       )}
-      <label className="rr-once" title="整场只触发一次">
-        <input
-          type="checkbox"
+      <span className="rr-once">
+        <DsCheckbox
+          size="compact"
+          label="1次"
+          title="整场只触发一次"
           checked={!!rule.once}
           onChange={(e) => onChange({ ...rule, once: e.target.checked || undefined })}
         />
-        1次
-      </label>
-      <span
-        className="cmd-ops"
-        style={{
-          position: 'static',
-          opacity: 1,
-          pointerEvents: 'auto',
-          background: 'none',
-          padding: 0,
-        }}
-      >
-        <button type="button" title="上移" onClick={() => onOp('up')}>
-          ↑
-        </button>
-        <button type="button" title="下移" onClick={() => onOp('down')}>
-          ↓
-        </button>
-        <button type="button" className="del" title="删除" onClick={() => onOp('del')}>
-          ✕
-        </button>
+      </span>
+      <span className="rule-row-actions">
+        <DsIconButton
+          size="compact"
+          variant="secondary"
+          icon="chevron-up"
+          label="上移 AI 规则"
+          onClick={() => onOp('up')}
+        />
+        <DsIconButton
+          size="compact"
+          variant="secondary"
+          icon="chevron-down"
+          label="下移 AI 规则"
+          onClick={() => onOp('down')}
+        />
+        <DsIconButton
+          size="compact"
+          variant="danger"
+          icon="delete"
+          label="删除 AI 规则"
+          onClick={() => onOp('del')}
+        />
       </span>
     </div>
   )
@@ -344,6 +529,7 @@ export function EnemyTab(props: {
   enemies: EnemyDef[]
   enemyTeams: EnemyTeamDef[]
   skills: SkillData[]
+  items: readonly ItemData[]
   locale: Locale
   session: EditSession
   assetCatalog: AssetCatalogV1
@@ -357,33 +543,42 @@ export function EnemyTab(props: {
   onOpenBattleSprite?: (id: string) => void
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
-  /** DataMode 的标签栏(渲染在左栏顶部,保持标签切换)。 */
-  tabBar?: React.ReactNode
+  onOpenReference?: (reference: BattleDataReference) => void
 }) {
   const {
     enemies,
     enemyTeams,
     skills,
+    items,
     locale,
     session,
     assetCatalog,
     assetReader,
     battleSprites,
     onOpenSound,
-    tabBar,
     assetBase,
     projectId = 'pal',
     onOpenBattleSprite,
     focusObjectId,
     onObjectFocus,
+    onOpenReference,
   } = props
   const [filter, setFilter] = useState('')
   const [selId, setSelId] = useState(enemies[0]?.id ?? '')
   const [selTeam, setSelTeam] = useState<string | null>(null)
+  const [inspectorTab, setInspectorTab] = useState('teams')
+  const fieldPrefix = useId()
+  const appliedFocusObjectId = useRef<string | undefined>(undefined)
 
   useEffect(() => {
-    if (focusObjectId && enemies.some((entry) => entry.id === focusObjectId))
+    if (
+      focusObjectId &&
+      appliedFocusObjectId.current !== focusObjectId &&
+      enemies.some((entry) => entry.id === focusObjectId)
+    ) {
       setSelId(focusObjectId)
+      appliedFocusObjectId.current = focusObjectId
+    }
   }, [enemies, focusObjectId])
 
   const shown = useMemo(
@@ -393,13 +588,27 @@ export function EnemyTab(props: {
       ),
     [enemies, filter, locale],
   )
+  const itemOptions = useMemo(
+    () =>
+      items.map((item) => ({
+        value: item.id,
+        label: lookupText(item.name, locale),
+        description: item.id,
+      })),
+    [items, locale],
+  )
   const enemy = enemies.find((e) => e.id === selId) ?? shown[0]
+  const references = enemy ? blockingEnemyReferences(session.getState(), enemy.id) : []
   const nameOf = (e: EnemyDef): string => lookupText(e.name, locale)
   const teamsOfSel = useMemo(
     () => (enemy ? enemyTeams.filter((t) => t.slots.includes(enemy.id)) : []),
     [enemyTeams, enemy],
   )
   const team = enemyTeams.find((t) => t.id === selTeam) ?? teamsOfSel[0]
+  const defeatedReward = findDefeatedItemReward(enemy?.onDefeated)
+  const preservedDefeatedCommandCount =
+    (enemy?.onDefeated?.length ?? 0) -
+    (defeatedReward ? defeatedReward.endIndex - defeatedReward.startIndex : 0)
 
   const patchStats = (k: keyof EnemyDef['stats'], v: number | boolean): void => {
     if (!enemy) return
@@ -422,6 +631,16 @@ export function EnemyTab(props: {
     if (value === undefined || value === false) delete sounds[key]
     session.dispatch(new UpdateEnemyCommand(enemy.id, { sounds }))
   }
+  const setDefeatedReward = (
+    next: { itemId: string; count: number; probability: number } | undefined,
+  ): void => {
+    if (!enemy) return
+    session.dispatch(
+      new UpdateEnemyCommand(enemy.id, {
+        onDefeated: replaceDefeatedItemReward(enemy.onDefeated, defeatedReward, next),
+      }),
+    )
+  }
 
   const addEnemy = (): void => {
     const defaultBattleSprite = battleSprites.find((entry) => entry.profile.kind === 'enemy')?.id
@@ -438,249 +657,474 @@ export function EnemyTab(props: {
     setSelId(id)
     onObjectFocus?.(id)
   }
+  const removeEnemy = (): void => {
+    if (!enemy) return
+    if (references.length) return
+    if (!window.confirm(`删除敌人 ${nameOf(enemy)}(${enemy.id})？此操作可以撤销。`)) return
+    const index = enemies.findIndex((entry) => entry.id === enemy.id)
+    const next = enemies[index + 1] ?? enemies[index - 1]
+    try {
+      session.dispatch(new DeleteEnemyCommand(enemy.id))
+      setSelId(next?.id ?? '')
+      onObjectFocus?.(next?.id)
+    } catch (error) {
+      if (!(error instanceof BattleDataInUseError)) throw error
+    }
+  }
 
   const rules = enemy?.ai.rules ?? []
-  const statFields: { k: keyof EnemyDef['stats']; l: string }[] = [
-    { k: 'health', l: 'HP' },
-    { k: 'level', l: '等级' },
-    { k: 'attackStrength', l: '武术' },
-    { k: 'magicStrength', l: '灵力' },
-    { k: 'defense', l: '防御' },
-    { k: 'dexterity', l: '身法' },
-    { k: 'fleeRate', l: '吉运(难逃)' },
-    { k: 'physicalResistance', l: '物抗' },
-    { k: 'exp', l: '经验' },
-    { k: 'cash', l: '金钱' },
-    { k: 'collectValue', l: '收妖值' },
-  ]
-
   return (
     <>
       {/* 左:标签栏 + 敌人列表 */}
       <div className="outliner data-outliner">
-        {tabBar}
-        <div className="pane-h">
-          <span className="t">敌人</span>
-          <span className="spacer" />
-          <span className="k">
-            {shown.length}/{enemies.length}
-          </span>
-          <button
-            type="button"
-            className="pv-btn"
-            title={
-              battleSprites.some((entry) => entry.profile.kind === 'enemy')
+        <DsListHeader
+          title="敌人"
+          count={enemies.length}
+          unit="个"
+          actions={[
+            {
+              id: 'create-enemy',
+              label: battleSprites.some((entry) => entry.profile.kind === 'enemy')
                 ? '新建敌人'
-                : '请先在战斗精灵库创建 enemy 定义'
-            }
-            disabled={!battleSprites.some((entry) => entry.profile.kind === 'enemy')}
-            onClick={addEnemy}
-          >
-            ＋
-          </button>
-        </div>
-        <input
-          className="in"
+                : '请先在战斗精灵库创建 enemy 定义',
+              icon: '＋',
+              disabled: !battleSprites.some((entry) => entry.profile.kind === 'enemy'),
+              onClick: addEnemy,
+            },
+          ]}
+        />
+        <DsCatalogFilter
+          aria-label="过滤敌人"
           placeholder="过滤 id/名…"
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
-          style={{ margin: '0 8px 6px' }}
         />
         <div className="sprite-list">
           {shown.map((e) => (
-            <button
-              type="button"
+            <DsCatalogRow
               key={e.id}
-              className={`arow${e.id === enemy?.id ? ' sel' : ''}`}
+              selected={e.id === enemy?.id}
+              leading={<span className="face">👹</span>}
+              title={nameOf(e)}
+              meta={`${e.id} · ${e.battleSprite}`}
+              trailing={
+                e.ai.rules?.length ? <DsTag tone="neutral">{e.ai.rules.length} 规则</DsTag> : null
+              }
               onClick={() => {
                 setSelId(e.id)
                 onObjectFocus?.(e.id)
               }}
-            >
-              <span className="face">👹</span>
-              <span className="nm">
-                <b>{nameOf(e)}</b>
-                <span>
-                  {e.id} · {e.battleSprite}
-                </span>
-              </span>
-              {e.ai.rules?.length ? (
-                <span className="abadge npc">{e.ai.rules.length} 规则</span>
-              ) : null}
-            </button>
+            />
           ))}
         </div>
       </div>
 
       {/* 中:敌人编辑 */}
-      <div className="center et-center">
+      <div className="center canvas-wrap data-body ds-object-workspace">
         {enemy ? (
-          <div className="et-form">
-            <div className="section">
-              <h4>基础</h4>
-              <div className="form-grid">
-                <label>
-                  <span className="lb">名字</span>
-                  <input
-                    className="in"
-                    value={nameOf(enemy)}
-                    onChange={(e) =>
-                      session.dispatch(new UpdateLocaleCommand(enemy.name, e.target.value))
+          <>
+            <DsObjectHero
+              media={<span aria-hidden="true">👹</span>}
+              eyebrow="敌人"
+              title={nameOf(enemy)}
+              objectId={enemy.id}
+              summary="统一管理战斗数值、行动规则、视觉音效、物品交互与敌队试打。"
+              meta={<DsTag tone="neutral">{enemy.ai.rules?.length ?? 0} 条 AI 规则</DsTag>}
+              actions={
+                <>
+                  {team ? (
+                    <DsActionLink
+                      variant="secondary"
+                      icon="open"
+                      href={`play.html?project=${projectId}&battle=${team.id.replace('team-', '')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="读磁盘工程：改动须先保存"
+                    >
+                      试打
+                    </DsActionLink>
+                  ) : null}
+                  <DsButton
+                    variant="danger"
+                    icon="delete"
+                    disabled={references.length > 0}
+                    title={
+                      references.length
+                        ? `仍有 ${references.length} 处引用，请先从右侧处理`
+                        : '删除敌人'
                     }
-                  />
-                </label>
-                <label className="cf-inline">
-                  <input
-                    type="checkbox"
+                    onClick={removeEnemy}
+                  >
+                    删除敌人
+                  </DsButton>
+                </>
+              }
+            />
+            <div className="et-scroll battle-data-form ds-object-workspace__content">
+              <DsWorkbenchSection title="基础" description="配置敌人的显示名称与每回合行动次数。">
+                <div className="form-grid">
+                  <DsField label="名字">
+                    {({ id }) => (
+                      <DsTextInput
+                        id={id}
+                        value={nameOf(enemy)}
+                        onChange={(e) =>
+                          session.dispatch(new UpdateLocaleCommand(enemy.name, e.target.value))
+                        }
+                      />
+                    )}
+                  </DsField>
+                  <DsCheckbox
+                    label="二动（一回合行动两次）"
                     checked={enemy.stats.dualMove}
                     onChange={(e) => patchStats('dualMove', e.target.checked)}
                   />
-                  二动(一回合两次)
-                </label>
-              </div>
-            </div>
-            {assetBase ? (
-              <div className="section">
-                <EnemyAnimPreview
-                  enemy={enemy}
-                  definitions={battleSprites}
-                  assetBase={assetBase}
-                  assetReader={assetReader}
-                  session={session}
-                  onOpenDefinition={onOpenBattleSprite}
-                />
-              </div>
-            ) : null}
-            <div className="section">
-              <h4>数值</h4>
-              <div className="et-stats">
-                {statFields.map(({ k, l }) => (
-                  <label key={k} className="et-stat">
-                    <span>{l}</span>
-                    <input
-                      className="in mono"
-                      type="number"
-                      value={enemy.stats[k] as number}
-                      onWheel={(e) => e.currentTarget.blur()}
-                      onChange={(e) => patchStats(k, Math.floor(e.target.valueAsNumber || 0))}
-                    />
-                  </label>
-                ))}
-              </div>
-            </div>
-            <div className="section">
-              <h4>战斗音效</h4>
-              <div className="sound-field-list">
-                {ENEMY_SOUND_FIELDS.map(({ key, label }) => (
-                  <div className="field" key={key}>
-                    <span className="field-label">{label}</span>
-                    <SoundPicker
-                      value={enemy.sounds[key]}
-                      onChange={(value) => setSound(key, value)}
-                      catalog={assetCatalog}
-                      reader={assetReader}
-                      allowUnset
-                      ariaLabel={`${label}音效`}
-                      onOpenAsset={onOpenSound}
-                    />
-                  </div>
-                ))}
-                <label className="cf-inline sound-suppress-toggle">
-                  <input
-                    type="checkbox"
-                    checked={enemy.sounds.suppressMagicEffectSound === true}
-                    onChange={(event) =>
-                      setSound('suppressMagicEffectSound', event.target.checked || undefined)
-                    }
-                  />
-                  播放施法音，但抑制本次技能特效音
-                </label>
-              </div>
-            </div>
-            <div className="section">
-              <h4>
-                AI 规则 <span className="hint2">从上到下首条命中;无命中 = 普攻</span>
-              </h4>
-              {rules.map((r, i) => (
-                <RuleRow
-                  key={i}
-                  rule={r}
-                  enemies={enemies}
-                  skills={skills}
-                  locale={locale}
-                  onChange={(nr) => setRules(rules.map((x, j) => (j === i ? nr : x)))}
-                  onOp={(op) => {
-                    if (op === 'del') return setRules(rules.filter((_, j) => j !== i))
-                    const j = op === 'up' ? i - 1 : i + 1
-                    if (j < 0 || j >= rules.length) return
-                    const next = [...rules]
-                    ;[next[i], next[j]] = [next[j]!, next[i]!]
-                    setRules(next)
-                  }}
-                />
-              ))}
-              <button
-                type="button"
-                className="pv-btn"
-                onClick={() => setRules([...rules, { at: 'act', do: { kind: 'attack' } }])}
-              >
-                ＋ 加规则
-              </button>
-            </div>
-            <div className="section">
-              <h4>掉落 / 演出(JSON 兜底)</h4>
-              <textarea
-                className="in cf-ta"
-                key={`${enemy.id}-extra`}
-                defaultValue={JSON.stringify(
-                  {
-                    steal: enemy.steal,
-                    attackEquivItem: enemy.attackEquivItem,
-                    choreography: enemy.choreography,
-                    onDefeated: enemy.onDefeated,
-                  },
-                  null,
-                  2,
-                )}
-                onBlur={(e) => {
-                  try {
-                    const v = JSON.parse(e.target.value) as Pick<
-                      EnemyDef,
-                      'steal' | 'attackEquivItem' | 'choreography' | 'onDefeated'
-                    >
-                    session.dispatch(
-                      new UpdateEnemyCommand(enemy.id, {
-                        steal: v.steal,
-                        attackEquivItem: v.attackEquivItem,
-                        choreography: v.choreography,
-                        onDefeated: v.onDefeated,
-                      }),
-                    )
-                  } catch {
-                    /* 解析失败不落盘;失焦保持原文供修 */
-                  }
-                }}
-                spellCheck={false}
-              />
-              <div className="cf-insert" style={{ marginTop: 6 }}>
-                <button
-                  type="button"
-                  className="pv-btn del"
-                  onClick={() => {
-                    if (confirm(`删除敌人 ${nameOf(enemy)}(${enemy.id})?`)) {
-                      const index = enemies.findIndex((entry) => entry.id === enemy.id)
-                      const next = enemies[index + 1] ?? enemies[index - 1]
-                      session.dispatch(new DeleteEnemyCommand(enemy.id))
-                      setSelId(next?.id ?? '')
-                      onObjectFocus?.(next?.id)
-                    }
-                  }}
+                </div>
+              </DsWorkbenchSection>
+              {assetBase ? (
+                <DsWorkbenchSection
+                  title="外观与战斗精灵"
+                  description="选择敌方战斗精灵并配置待机、施法和攻击帧。"
                 >
-                  🗑 删除此敌
-                </button>
-              </div>
+                  <EnemyAnimPreview
+                    enemy={enemy}
+                    definitions={battleSprites}
+                    assetBase={assetBase}
+                    assetReader={assetReader}
+                    session={session}
+                    onOpenDefinition={onOpenBattleSprite}
+                  />
+                </DsWorkbenchSection>
+              ) : null}
+              <DsWorkbenchSection title="数值" description="分别配置战斗能力与战后结算奖励。">
+                <div className="enemy-stat-layout">
+                  {ENEMY_STAT_GROUPS.map((group) => (
+                    <fieldset
+                      className={`enemy-stat-group enemy-stat-group--${group.id}`}
+                      data-enemy-stat-group={group.id}
+                      key={group.id}
+                    >
+                      <legend>{group.label}</legend>
+                      <div className="enemy-stat-grid">
+                        {group.fields.map(({ key, label }) => {
+                          const id = `${fieldPrefix}-stat-${key}`
+                          return (
+                            <DsField id={id} label={label} key={key}>
+                              <DsNumberInput
+                                id={id}
+                                name={`enemy.${enemy.id}.stats.${key}`}
+                                autoComplete="off"
+                                monospace
+                                value={enemy.stats[key]}
+                                onWheel={(event) => event.currentTarget.blur()}
+                                onChange={(event) =>
+                                  patchStats(key, Math.floor(event.target.valueAsNumber || 0))
+                                }
+                              />
+                            </DsField>
+                          )
+                        })}
+                      </div>
+                    </fieldset>
+                  ))}
+                </div>
+              </DsWorkbenchSection>
+              <DsWorkbenchSection
+                title="战斗音效"
+                description="配置动作声音、状态声音及施法音优先策略。"
+              >
+                <div className="enemy-sound-layout">
+                  {ENEMY_SOUND_GROUPS.map((group) => (
+                    <fieldset
+                      className={`enemy-sound-group enemy-sound-group--${group.id}`}
+                      data-enemy-sound-group={group.id}
+                      key={group.id}
+                    >
+                      <legend>{group.label}</legend>
+                      <div className="enemy-sound-grid">
+                        {group.fields.map(({ key, label }) => {
+                          const id = `${fieldPrefix}-sound-${key}`
+                          return (
+                            <DsField id={id} label={label} key={key}>
+                              <SoundPicker
+                                id={id}
+                                value={enemy.sounds[key]}
+                                onChange={(value) => setSound(key, value)}
+                                catalog={assetCatalog}
+                                reader={assetReader}
+                                allowUnset
+                                ariaLabel={`${label}音效`}
+                                onOpenAsset={onOpenSound}
+                              />
+                            </DsField>
+                          )
+                        })}
+                      </div>
+                    </fieldset>
+                  ))}
+                  <div className="enemy-sound-option">
+                    <DsCheckbox
+                      checked={enemy.sounds.suppressMagicEffectSound === true}
+                      onChange={(event) =>
+                        setSound('suppressMagicEffectSound', event.target.checked || undefined)
+                      }
+                      label="施法音优先"
+                    />
+                    <p>播放施法音，并抑制本次技能特效音，避免两段音效重叠。</p>
+                  </div>
+                </div>
+              </DsWorkbenchSection>
+              <DsWorkbenchSection
+                title="AI 规则"
+                description="规则从上到下匹配首条命中项；没有命中时执行普攻。"
+              >
+                {rules.map((r, i) => (
+                  <RuleRow
+                    key={i}
+                    rule={r}
+                    enemies={enemies}
+                    skills={skills}
+                    locale={locale}
+                    onChange={(nr) => setRules(rules.map((x, j) => (j === i ? nr : x)))}
+                    onOp={(op) => {
+                      if (op === 'del') return setRules(rules.filter((_, j) => j !== i))
+                      const j = op === 'up' ? i - 1 : i + 1
+                      if (j < 0 || j >= rules.length) return
+                      const next = [...rules]
+                      ;[next[i], next[j]] = [next[j]!, next[i]!]
+                      setRules(next)
+                    }}
+                  />
+                ))}
+                <DsButton
+                  variant="secondary"
+                  icon="add"
+                  onClick={() => setRules([...rules, { at: 'act', do: { kind: 'attack' } }])}
+                >
+                  加规则
+                </DsButton>
+              </DsWorkbenchSection>
+              <DsWorkbenchSection
+                title="物品交互"
+                description="分别配置玩家可偷取的物品，以及敌人普攻附带的物品效果。"
+              >
+                <div className="enemy-item-layout">
+                  <fieldset className="enemy-item-group" data-enemy-item-group="steal">
+                    <legend>可偷取物品</legend>
+                    <p>战斗中成功偷取时，获得这里配置的物品和数量。</p>
+                    <DsCheckbox
+                      label="允许偷取"
+                      checked={!!enemy.steal}
+                      disabled={!enemy.steal && itemOptions.length === 0}
+                      title={itemOptions.length ? undefined : '工程中没有可选物品'}
+                      onChange={(event) =>
+                        session.dispatch(
+                          new UpdateEnemyCommand(enemy.id, {
+                            steal: event.target.checked
+                              ? { itemId: itemOptions[0]?.value ?? '', count: 1 }
+                              : undefined,
+                          }),
+                        )
+                      }
+                    />
+                    {enemy.steal ? (
+                      <div className="enemy-item-fields">
+                        <DsField label="物品">
+                          {({ id }) => (
+                            <DsSelect
+                              id={id}
+                              value={enemy.steal?.itemId ?? ''}
+                              options={itemOptions}
+                              invalid={!items.some((item) => item.id === enemy.steal?.itemId)}
+                              onValueChange={(itemId) =>
+                                session.dispatch(
+                                  new UpdateEnemyCommand(enemy.id, {
+                                    steal: { ...enemy.steal!, itemId },
+                                  }),
+                                )
+                              }
+                            />
+                          )}
+                        </DsField>
+                        <DsField label="数量">
+                          {({ id }) => (
+                            <DsNumberInput
+                              id={id}
+                              name={`enemy.${enemy.id}.steal.count`}
+                              min={1}
+                              max={999}
+                              monospace
+                              value={enemy.steal?.count ?? 1}
+                              onWheel={(event) => event.currentTarget.blur()}
+                              onChange={(event) =>
+                                session.dispatch(
+                                  new UpdateEnemyCommand(enemy.id, {
+                                    steal: {
+                                      ...enemy.steal!,
+                                      count: integerInRange(event.target.valueAsNumber, 1, 999, 1),
+                                    },
+                                  }),
+                                )
+                              }
+                            />
+                          )}
+                        </DsField>
+                      </div>
+                    ) : null}
+                  </fieldset>
+                  <fieldset className="enemy-item-group" data-enemy-item-group="attack-effect">
+                    <legend>普攻附带物品效果</legend>
+                    <p>普攻命中时按物品效果结算；触发率沿用原版 1–10 判定。</p>
+                    <DsCheckbox
+                      label="启用附带效果"
+                      checked={!!enemy.attackEquivItem}
+                      disabled={!enemy.attackEquivItem && itemOptions.length === 0}
+                      title={itemOptions.length ? undefined : '工程中没有可选物品'}
+                      onChange={(event) =>
+                        session.dispatch(
+                          new UpdateEnemyCommand(enemy.id, {
+                            attackEquivItem: event.target.checked
+                              ? { itemId: itemOptions[0]?.value ?? '', rate: 1 }
+                              : undefined,
+                          }),
+                        )
+                      }
+                    />
+                    {enemy.attackEquivItem ? (
+                      <div className="enemy-item-fields">
+                        <DsField label="物品效果">
+                          {({ id }) => (
+                            <DsSelect
+                              id={id}
+                              value={enemy.attackEquivItem?.itemId ?? ''}
+                              options={itemOptions}
+                              invalid={
+                                !items.some((item) => item.id === enemy.attackEquivItem?.itemId)
+                              }
+                              onValueChange={(itemId) =>
+                                session.dispatch(
+                                  new UpdateEnemyCommand(enemy.id, {
+                                    attackEquivItem: { ...enemy.attackEquivItem!, itemId },
+                                  }),
+                                )
+                              }
+                            />
+                          )}
+                        </DsField>
+                        <DsField label="触发率（1–10）">
+                          {({ id }) => (
+                            <DsNumberInput
+                              id={id}
+                              name={`enemy.${enemy.id}.attackEquivItem.rate`}
+                              min={1}
+                              max={10}
+                              monospace
+                              value={enemy.attackEquivItem?.rate ?? 1}
+                              onWheel={(event) => event.currentTarget.blur()}
+                              onChange={(event) =>
+                                session.dispatch(
+                                  new UpdateEnemyCommand(enemy.id, {
+                                    attackEquivItem: {
+                                      ...enemy.attackEquivItem!,
+                                      rate: integerInRange(event.target.valueAsNumber, 1, 10, 1),
+                                    },
+                                  }),
+                                )
+                              }
+                            />
+                          )}
+                        </DsField>
+                      </div>
+                    ) : null}
+                  </fieldset>
+                </div>
+              </DsWorkbenchSection>
+              <DsWorkbenchSection
+                title="战败奖励"
+                description="经验、金钱和收妖值在“数值”面板配置；这里管理额外物品奖励。"
+              >
+                <DsCheckbox
+                  label="战败后发放物品"
+                  checked={!!defeatedReward}
+                  disabled={!defeatedReward && itemOptions.length === 0}
+                  title={itemOptions.length ? undefined : '工程中没有可选物品'}
+                  onChange={(event) =>
+                    setDefeatedReward(
+                      event.target.checked
+                        ? { itemId: itemOptions[0]?.value ?? '', count: 1, probability: 100 }
+                        : undefined,
+                    )
+                  }
+                />
+                {defeatedReward ? (
+                  <div className="enemy-reward-grid">
+                    <DsField label="奖励物品">
+                      {({ id }) => (
+                        <DsSelect
+                          id={id}
+                          value={defeatedReward.itemId}
+                          options={itemOptions}
+                          invalid={!items.some((item) => item.id === defeatedReward.itemId)}
+                          onValueChange={(itemId) =>
+                            setDefeatedReward({ ...defeatedReward, itemId })
+                          }
+                        />
+                      )}
+                    </DsField>
+                    <DsField label="数量">
+                      {({ id }) => (
+                        <DsNumberInput
+                          id={id}
+                          name={`enemy.${enemy.id}.onDefeated.count`}
+                          min={1}
+                          max={999}
+                          monospace
+                          value={defeatedReward.count}
+                          onWheel={(event) => event.currentTarget.blur()}
+                          onChange={(event) =>
+                            setDefeatedReward({
+                              ...defeatedReward,
+                              count: integerInRange(event.target.valueAsNumber, 1, 999, 1),
+                            })
+                          }
+                        />
+                      )}
+                    </DsField>
+                    <DsField
+                      label="获得概率（%）"
+                      help="100 表示必定获得；较低数值会保留原版的失败跳过逻辑。"
+                    >
+                      {({ id }) => (
+                        <DsNumberInput
+                          id={id}
+                          name={`enemy.${enemy.id}.onDefeated.probability`}
+                          min={0}
+                          max={100}
+                          monospace
+                          value={defeatedReward.probability}
+                          onWheel={(event) => event.currentTarget.blur()}
+                          onChange={(event) =>
+                            setDefeatedReward({
+                              ...defeatedReward,
+                              probability: integerInRange(event.target.valueAsNumber, 0, 100, 100),
+                            })
+                          }
+                        />
+                      )}
+                    </DsField>
+                  </div>
+                ) : (
+                  <p className="enemy-reward-empty">当前敌人没有额外物品奖励。</p>
+                )}
+                {preservedDefeatedCommandCount || enemy.choreography?.length ? (
+                  <p className="enemy-preserved-note">
+                    另有 {preservedDefeatedCommandCount} 条高级战败指令、
+                    {enemy.choreography?.length ?? 0} 段战斗演出，编辑奖励时会原样保留。
+                  </p>
+                ) : null}
+              </DsWorkbenchSection>
             </div>
-          </div>
+          </>
         ) : (
           <div className="insp-empty" style={{ padding: 40 }}>
             无敌人;点 ＋ 新建。
@@ -688,135 +1132,190 @@ export function EnemyTab(props: {
         )}
       </div>
 
-      {/* 右:敌队 + 试打 */}
-      <div className="inspector">
+      {/* 右:敌队 / 引用 / 说明 */}
+      <div className="inspector inspector--tabbed">
         <div className="insp-head">
-          <div className="what">敌队 · 试打</div>
+          <div className="what">敌人</div>
           <div className="who">{enemy ? nameOf(enemy) : '—'}</div>
         </div>
-        <div className="section">
-          <h4>
-            所在敌队 <span className="hint2">⚔ 同源试玩页试打</span>
-          </h4>
-          {teamsOfSel.length === 0 ? (
-            <p className="hint">不在任何敌队。加入或新建一队才能被遭遇/试打。</p>
-          ) : null}
-          {teamsOfSel.map((t) => (
-            <div key={t.id} className="et-team-row">
-              <button
-                type="button"
-                className={`pv-btn${team?.id === t.id ? ' sel' : ''}`}
-                onClick={() => setSelTeam(t.id)}
-              >
-                {t.id}
-              </button>
-              <span className="hint2">{t.slots.length} 槽</span>
-              <span className="spacer" />
-              <button
-                type="button"
-                className="pv-btn"
-                title="读磁盘工程:改动须先 💾 保存"
-                onClick={() =>
-                  window.open(
-                    `play.html?project=${projectId}&battle=${t.id.replace('team-', '')}`,
-                    '_blank',
-                  )
-                }
-              >
-                ⚔ 试打
-              </button>
-            </div>
-          ))}
-          <div className="cf-insert" style={{ marginTop: 6 }}>
-            <button
-              type="button"
-              className="pv-btn"
-              onClick={() => {
-                if (!enemy) return
-                let n = 1
-                while (enemyTeams.some((t) => t.id === `team-c${n}`)) n++
-                const id = `team-c${n}`
-                setTeams([...enemyTeams, { id, slots: [enemy.id] }])
-                setSelTeam(id)
-              }}
-            >
-              ＋ 新建敌队(含此敌)
-            </button>
-          </div>
-        </div>
-        {team ? (
-          <div className="section">
-            <h4>
-              编辑 {team.id} <span className="hint2">≤5 员</span>
-            </h4>
-            {team.slots.map((slot, si) => (
-              <div key={si} className="et-team-row">
-                <span className="hint2" style={{ width: 42 }}>
-                  槽 {si + 1}
-                </span>
-                <select
-                  className="in"
-                  value={slot ?? ''}
-                  onChange={(e) =>
-                    setTeams(
-                      enemyTeams.map((t) =>
-                        t.id === team.id
-                          ? {
-                              ...t,
-                              slots: t.slots.map((x, j) => (j === si ? e.target.value || null : x)),
+        <DsInspectorTabs
+          id={`${fieldPrefix}-enemy-inspector`}
+          label="敌人属性分区"
+          activeId={inspectorTab}
+          onChange={setInspectorTab}
+          items={[
+            {
+              id: 'teams',
+              label: '敌队',
+              panel: (
+                <>
+                  <div className="section">
+                    <h4>
+                      所在敌队 <span className="hint2">⚔ 同源试玩页试打</span>
+                    </h4>
+                    {teamsOfSel.length === 0 ? (
+                      <p className="hint">不在任何敌队。加入或新建一队才能被遭遇/试打。</p>
+                    ) : null}
+                    {teamsOfSel.map((t) => (
+                      <div key={t.id} className="et-team-row">
+                        <DsButton
+                          size="compact"
+                          variant={team?.id === t.id ? 'primary' : 'secondary'}
+                          aria-pressed={team?.id === t.id}
+                          onClick={() => setSelTeam(t.id)}
+                        >
+                          {t.id}
+                        </DsButton>
+                        <span className="hint2">{t.slots.length} 槽</span>
+                        <span className="spacer" />
+                        <DsActionLink
+                          size="compact"
+                          variant="secondary"
+                          icon="open"
+                          href={`play.html?project=${projectId}&battle=${t.id.replace('team-', '')}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="读磁盘工程:改动须先 💾 保存"
+                        >
+                          试打
+                        </DsActionLink>
+                      </div>
+                    ))}
+                    <div className="cf-insert" style={{ marginTop: 6 }}>
+                      <DsButton
+                        size="compact"
+                        variant="secondary"
+                        icon="add"
+                        onClick={() => {
+                          if (!enemy) return
+                          let n = 1
+                          while (enemyTeams.some((t) => t.id === `team-c${n}`)) n++
+                          const id = `team-c${n}`
+                          setTeams([...enemyTeams, { id, slots: [enemy.id] }])
+                          setSelTeam(id)
+                        }}
+                      >
+                        新建敌队(含此敌)
+                      </DsButton>
+                    </div>
+                  </div>
+                  {team ? (
+                    <div className="section">
+                      <h4>
+                        编辑 {team.id} <span className="hint2">≤5 员</span>
+                      </h4>
+                      {team.slots.map((slot, si) => (
+                        <div key={si} className="et-team-row">
+                          <span className="hint2" style={{ width: 42 }}>
+                            槽 {si + 1}
+                          </span>
+                          <DsSelect
+                            size="compact"
+                            aria-label={`${team.id} 槽 ${si + 1} 敌人`}
+                            value={slot ?? ''}
+                            options={[
+                              { value: '', label: '空槽' },
+                              ...enemies.map((candidate) => ({
+                                value: candidate.id,
+                                label: `${nameOf(candidate)}(${candidate.id})`,
+                              })),
+                            ]}
+                            onValueChange={(enemyId) =>
+                              setTeams(
+                                enemyTeams.map((t) =>
+                                  t.id === team.id
+                                    ? {
+                                        ...t,
+                                        slots: t.slots.map((x, j) =>
+                                          j === si ? enemyId || null : x,
+                                        ),
+                                      }
+                                    : t,
+                                ),
+                              )
                             }
-                          : t,
-                      ),
-                    )
-                  }
+                          />
+                          <DsIconButton
+                            size="compact"
+                            variant="danger"
+                            icon="delete"
+                            label={`删除 ${team.id} 槽 ${si + 1}`}
+                            onClick={() =>
+                              setTeams(
+                                enemyTeams.map((t) =>
+                                  t.id === team.id
+                                    ? { ...t, slots: t.slots.filter((_, j) => j !== si) }
+                                    : t,
+                                ),
+                              )
+                            }
+                          />
+                        </div>
+                      ))}
+                      {team.slots.length < 5 ? (
+                        <DsButton
+                          size="compact"
+                          variant="secondary"
+                          icon="add"
+                          onClick={() =>
+                            enemy &&
+                            setTeams(
+                              enemyTeams.map((t) =>
+                                t.id === team.id ? { ...t, slots: [...t.slots, enemy.id] } : t,
+                              ),
+                            )
+                          }
+                        >
+                          加一员
+                        </DsButton>
+                      ) : null}
+                    </div>
+                  ) : null}
+                </>
+              ),
+            },
+            {
+              id: 'references',
+              label: '引用',
+              panel: (
+                <DsInspectorSection
+                  title={enemy ? `引用 · ${references.length} 处` : '引用'}
+                  description="敌队槽位、其他敌人的变身或召唤目标都会阻断删除。"
                 >
-                  <option value="">空槽</option>
-                  {enemies.map((en) => (
-                    <option key={en.id} value={en.id}>
-                      {nameOf(en)}({en.id})
-                    </option>
-                  ))}
-                </select>
-                <button
-                  type="button"
-                  className="pv-btn del"
-                  onClick={() =>
-                    setTeams(
-                      enemyTeams.map((t) =>
-                        t.id === team.id ? { ...t, slots: t.slots.filter((_, j) => j !== si) } : t,
-                      ),
-                    )
-                  }
-                >
-                  ✕
-                </button>
-              </div>
-            ))}
-            {team.slots.length < 5 ? (
-              <button
-                type="button"
-                className="pv-btn"
-                onClick={() =>
-                  enemy &&
-                  setTeams(
-                    enemyTeams.map((t) =>
-                      t.id === team.id ? { ...t, slots: [...t.slots, enemy.id] } : t,
-                    ),
-                  )
-                }
-              >
-                ＋ 加一员
-              </button>
-            ) : null}
-          </div>
-        ) : null}
-        <div className="section">
-          <h4>从头造新敌人</h4>
-          <p className="hint">
-            ＋ 新建 → 改名/数值 → 配 AI 规则(变身/施法/集火都在下拉里)→ 建敌队 → **💾 保存** → ⚔
-            试打(试打读磁盘工程;需 reforge dev:pal 在跑,见 docs/dev-servers.md)。
-          </p>
-        </div>
+                  {references.length ? (
+                    <DsReferenceList className="battle-data-reference-list">
+                      {references.map((reference) => (
+                        <DsReferenceRow
+                          key={`${reference.where}:${reference.kind}`}
+                          title={reference.label}
+                          detail={reference.detail}
+                          path={reference.where}
+                          disabled={!reference.locator || !onOpenReference}
+                          onClick={() => onOpenReference?.(reference)}
+                        />
+                      ))}
+                    </DsReferenceList>
+                  ) : (
+                    <p className="hint">没有引用，可以安全删除。</p>
+                  )}
+                </DsInspectorSection>
+              ),
+            },
+            {
+              id: 'help',
+              label: '说明',
+              panel: (
+                <div className="section">
+                  <h4>从头造新敌人</h4>
+                  <p className="hint">
+                    ＋ 新建 → 改名/数值 → 配 AI 规则(变身/施法/集火都在下拉里)→ 建敌队 → **💾 保存**
+                    → ⚔ 试打(试打读磁盘工程;需 reforge dev:pal 在跑,见 docs/dev-servers.md)。
+                  </p>
+                </div>
+              ),
+            },
+          ]}
+        />
       </div>
     </>
   )

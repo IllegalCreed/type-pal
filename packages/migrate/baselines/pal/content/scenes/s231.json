@@ -6716,12 +6716,15 @@
                             "text": "dlg.11137"
                           }
                         ],
-                        "speaker": "spk.白苗族长",
-                        "slot": "top",
-                        "portrait": {
-                          "asset": "portrait.pal.045",
-                          "side": "left"
-                        }
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.白苗族长",
+                          "portrait": {
+                            "asset": "portrait.pal.045",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
                       }
                     },
                     {
@@ -6738,10 +6741,13 @@
                             "text": "dlg.11140"
                           }
                         ],
-                        "speaker": "spk.赵灵儿",
-                        "portrait": {
-                          "asset": "portrait.pal.089",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.赵灵儿",
+                          "portrait": {
+                            "asset": "portrait.pal.089",
+                            "side": "right"
+                          }
                         }
                       }
                     },
@@ -6762,12 +6768,15 @@
                             "text": "dlg.11144"
                           }
                         ],
-                        "speaker": "spk.白苗族长",
-                        "slot": "top",
-                        "portrait": {
-                          "asset": "portrait.pal.045",
-                          "side": "left"
-                        }
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.白苗族长",
+                          "portrait": {
+                            "asset": "portrait.pal.045",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
                       }
                     },
                     {
@@ -6781,10 +6790,13 @@
                             "text": "dlg.11146"
                           }
                         ],
-                        "speaker": "spk.赵灵儿",
-                        "portrait": {
-                          "asset": "portrait.pal.089",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.赵灵儿",
+                          "portrait": {
+                            "asset": "portrait.pal.089",
+                            "side": "right"
+                          }
                         }
                       }
                     },
@@ -6805,12 +6817,15 @@
                             "text": "dlg.11150"
                           }
                         ],
-                        "speaker": "spk.白苗族长",
-                        "slot": "top",
-                        "portrait": {
-                          "asset": "portrait.pal.045",
-                          "side": "left"
-                        }
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.白苗族长",
+                          "portrait": {
+                            "asset": "portrait.pal.045",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
                       }
                     },
                     {
@@ -9610,10 +9625,13 @@
                             "text": "dlg.11153"
                           }
                         ],
-                        "speaker": "spk.白苗族长",
-                        "portrait": {
-                          "asset": "portrait.pal.045",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.白苗族长",
+                          "portrait": {
+                            "asset": "portrait.pal.045",
+                            "side": "right"
+                          }
                         }
                       }
                     },
@@ -9631,10 +9649,13 @@
                             "text": "dlg.11156"
                           }
                         ],
-                        "speaker": "spk.赵灵儿",
-                        "portrait": {
-                          "asset": "portrait.pal.088",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.赵灵儿",
+                          "portrait": {
+                            "asset": "portrait.pal.088",
+                            "side": "right"
+                          }
                         }
                       }
                     },
@@ -9690,6 +9711,9 @@
                         {
                           "kind": "dialog",
                           "cue": {
+                            "identity": {
+                              "kind": "narration"
+                            },
                             "rows": [
                               {
                                 "text": "dlg.13135",
@@ -9741,12 +9765,15 @@
                             "text": "dlg.11159"
                           }
                         ],
-                        "speaker": "spk.阿奴",
-                        "slot": "top",
-                        "portrait": {
-                          "asset": "portrait.pal.027",
-                          "side": "left"
-                        }
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.阿奴",
+                          "portrait": {
+                            "asset": "portrait.pal.027",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
                       }
                     },
                     {
@@ -9760,10 +9787,13 @@
                             "text": "dlg.11161"
                           }
                         ],
-                        "speaker": "spk.赵灵儿",
-                        "portrait": {
-                          "asset": "portrait.pal.088",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.赵灵儿",
+                          "portrait": {
+                            "asset": "portrait.pal.088",
+                            "side": "right"
+                          }
                         }
                       }
                     },
@@ -9778,12 +9808,15 @@
                             "text": "dlg.11163"
                           }
                         ],
-                        "speaker": "spk.李逍遥",
-                        "slot": "top",
-                        "portrait": {
-                          "asset": "portrait.pal.004",
-                          "side": "left"
-                        }
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.004",
+                            "side": "left"
+                          }
+                        },
+                        "slot": "top"
                       }
                     },
                     {
@@ -9797,10 +9830,13 @@
                             "text": "dlg.11165"
                           }
                         ],
-                        "speaker": "spk.赵灵儿",
-                        "portrait": {
-                          "asset": "portrait.pal.088",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.赵灵儿",
+                          "portrait": {
+                            "asset": "portrait.pal.088",
+                            "side": "right"
+                          }
                         }
                       }
                     },
@@ -9815,10 +9851,13 @@
                             "text": "dlg.11166"
                           }
                         ],
-                        "speaker": "spk.赵灵儿",
-                        "portrait": {
-                          "asset": "portrait.pal.088",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.赵灵儿",
+                          "portrait": {
+                            "asset": "portrait.pal.088",
+                            "side": "right"
+                          }
                         }
                       }
                     },
@@ -9833,10 +9872,13 @@
                             "text": "dlg.11167"
                           }
                         ],
-                        "speaker": "spk.赵灵儿",
-                        "portrait": {
-                          "asset": "portrait.pal.088",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.赵灵儿",
+                          "portrait": {
+                            "asset": "portrait.pal.088",
+                            "side": "right"
+                          }
                         }
                       }
                     },

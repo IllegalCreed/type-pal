@@ -155,7 +155,10 @@
                             "text": "dlg.1455"
                           }
                         ],
-                        "speaker": "spk.居民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.居民"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -212,7 +215,10 @@
                               "text": "dlg.1457"
                             }
                           ],
-                          "speaker": "spk.居民"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.居民"
+                          }
                         }
                       },
                       {
@@ -250,7 +256,10 @@
                               "text": "dlg.1506"
                             }
                           ],
-                          "speaker": "spk.中年人"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.中年人"
+                          }
                         }
                       }
                     ],
@@ -278,7 +287,10 @@
                               "text": "dlg.1461"
                             }
                           ],
-                          "speaker": "spk.中年人"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.中年人"
+                          }
                         }
                       },
                       {
@@ -316,7 +328,10 @@
                               "text": "dlg.1506"
                             }
                           ],
-                          "speaker": "spk.中年人"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.中年人"
+                          }
                         }
                       }
                     ],
@@ -341,7 +356,10 @@
                               "text": "dlg.1464"
                             }
                           ],
-                          "speaker": "spk.中年人"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.中年人"
+                          }
                         }
                       },
                       {
@@ -370,7 +388,10 @@
                               "text": "dlg.1470"
                             }
                           ],
-                          "speaker": "spk.中年人"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.中年人"
+                          }
                         }
                       },
                       {
@@ -393,7 +414,10 @@
                               "text": "dlg.1474"
                             }
                           ],
-                          "speaker": "spk.中年人"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.中年人"
+                          }
                         }
                       },
                       {
@@ -407,10 +431,13 @@
                               "text": "dlg.1476"
                             }
                           ],
-                          "speaker": "spk.李逍遥",
-                          "portrait": {
-                            "asset": "portrait.pal.001",
-                            "side": "right"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.李逍遥",
+                            "portrait": {
+                              "asset": "portrait.pal.001",
+                              "side": "right"
+                            }
                           }
                         }
                       },
@@ -431,10 +458,13 @@
                               "text": "dlg.1480"
                             }
                           ],
-                          "speaker": "spk.中年人",
-                          "portrait": {
-                            "asset": "portrait.pal.001",
-                            "side": "right"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.中年人",
+                            "portrait": {
+                              "asset": "portrait.pal.001",
+                              "side": "right"
+                            }
                           }
                         }
                       },
@@ -455,10 +485,13 @@
                               "text": "dlg.1483"
                             }
                           ],
-                          "speaker": "spk.中年人",
-                          "portrait": {
-                            "asset": "portrait.pal.001",
-                            "side": "right"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.中年人",
+                            "portrait": {
+                              "asset": "portrait.pal.001",
+                              "side": "right"
+                            }
                           }
                         }
                       },
@@ -488,10 +521,13 @@
                               "text": "dlg.1489"
                             }
                           ],
-                          "speaker": "spk.中年人",
-                          "portrait": {
-                            "asset": "portrait.pal.001",
-                            "side": "right"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.中年人",
+                            "portrait": {
+                              "asset": "portrait.pal.001",
+                              "side": "right"
+                            }
                           }
                         }
                       },
@@ -512,10 +548,13 @@
                               "text": "dlg.1492"
                             }
                           ],
-                          "speaker": "spk.中年人",
-                          "portrait": {
-                            "asset": "portrait.pal.001",
-                            "side": "right"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.中年人",
+                            "portrait": {
+                              "asset": "portrait.pal.001",
+                              "side": "right"
+                            }
                           }
                         }
                       },
@@ -536,10 +575,13 @@
                               "text": "dlg.1495"
                             }
                           ],
-                          "speaker": "spk.中年人",
-                          "portrait": {
-                            "asset": "portrait.pal.001",
-                            "side": "right"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.中年人",
+                            "portrait": {
+                              "asset": "portrait.pal.001",
+                              "side": "right"
+                            }
                           }
                         }
                       }
@@ -566,7 +608,10 @@
                               "text": "dlg.1499"
                             }
                           ],
-                          "speaker": "spk.中年人"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.中年人"
+                          }
                         }
                       }
                     ],
@@ -595,7 +640,10 @@
                               "text": "dlg.1504"
                             }
                           ],
-                          "speaker": "spk.中年人"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.中年人"
+                          }
                         }
                       }
                     ],
@@ -648,6 +696,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12481"
@@ -715,6 +766,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12471"

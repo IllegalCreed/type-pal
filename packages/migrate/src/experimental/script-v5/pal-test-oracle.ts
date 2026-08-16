@@ -14,6 +14,9 @@ export const PAL_TEST_ORACLE_INPUT_PATHS = [
   'data/extracted/events/all.json',
   'packages/migrate/baselines/script-control-flow/pal-v1.json',
   'packages/migrate/baselines/pal/_state.json',
+  'packages/migrate/baselines/pal/_transitions/b2-battle-field-domain-v1.json',
+  'packages/migrate/baselines/pal/_transitions/c1-dialogue-identity-v1.json',
+  'packages/migrate/baselines/pal/_transitions/c1-npc-curation-v1.json',
   'packages/migrate/baselines/pal/_transitions/c8-item-use-v5-v1.json',
   'packages/migrate/baselines/pal/_transitions/r13-cadence-v1.json',
   'packages/migrate/baselines/pal/_transitions/r13-confirm-v1.json',
@@ -80,7 +83,7 @@ export interface PalTestOracleManifestV1 {
   profiles: {
     historicalR13_4: 'pal-v9-projected-v8'
     historicalR13_5: 'pal-v10-r13-5'
-    current: 'pal-v13-w9'
+    current: 'pal-v14-c1-b2'
   }
   projection: string
   projectionSha256: string
@@ -180,6 +183,9 @@ const TRANSITION_IDS = [
   'r13-z-source-closure-v1',
   'b10-enemy-team-slots-v1',
   'w9-entity-lifecycle-v1',
+  'c1-dialogue-identity-v1',
+  'c1-npc-curation-v1',
+  'b2-battle-field-domain-v1',
 ] as const
 
 function readJson<T>(path: string): T {
@@ -243,11 +249,11 @@ export function buildPalTestOracleManifest(
     version: 1,
     methodVersion: PAL_TEST_ORACLE_METHOD,
     cacheFormatVersion: 1,
-    producerContractVersion: 'p2-p7-r13-6a-b10-w9-v1',
+    producerContractVersion: 'p2-p7-r13-6a-b10-w9-c1-b2-v1',
     profiles: {
       historicalR13_4: 'pal-v9-projected-v8',
       historicalR13_5: 'pal-v10-r13-5',
-      current: 'pal-v13-w9',
+      current: 'pal-v14-c1-b2',
     },
     projection: 'packages/migrate/test-fixtures/pal-oracle/v1/projection.json',
     projectionSha256: stableJsonSha256(projection),
@@ -438,11 +444,12 @@ export function assertPalTestOracle(value: PalTestOracleV1): void {
     projection.methodVersion !== PAL_TEST_ORACLE_METHOD
   )
     throw new Error('PAL test oracle: header 漂移')
-  if (!manifest.producerContractVersion) throw new Error('PAL test oracle: producer contract 缺失')
+  if (manifest.producerContractVersion !== 'p2-p7-r13-6a-b10-w9-c1-b2-v1')
+    throw new Error('PAL test oracle: producer contract 漂移')
   if (
     manifest.profiles.historicalR13_4 !== 'pal-v9-projected-v8' ||
     manifest.profiles.historicalR13_5 !== 'pal-v10-r13-5' ||
-    manifest.profiles.current !== 'pal-v13-w9'
+    manifest.profiles.current !== 'pal-v14-c1-b2'
   )
     throw new Error('PAL test oracle: profile 身份漂移')
   if (

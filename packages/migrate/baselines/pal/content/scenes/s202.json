@@ -214,7 +214,10 @@
                             "text": "dlg.10249"
                           }
                         ],
-                        "speaker": "spk.守门士兵"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.守门士兵"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -304,7 +307,10 @@
                             "text": "dlg.10252"
                           }
                         ],
-                        "speaker": "spk.守门士兵"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.守门士兵"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -396,7 +402,10 @@
                             "text": "dlg.10256"
                           }
                         ],
-                        "speaker": "spk.守门士兵"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.守门士兵"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -488,7 +497,10 @@
                             "text": "dlg.10260"
                           }
                         ],
-                        "speaker": "spk.守门士兵"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.守门士兵"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -645,7 +657,10 @@
                               }
                             ],
                             "slot": "top",
-                            "speaker": "spk.士兵"
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.士兵"
+                            }
                           },
                           "kind": "dialog"
                         },
@@ -654,9 +669,13 @@
                         },
                         {
                           "cue": {
-                            "portrait": {
-                              "asset": "portrait.pal.027",
-                              "side": "right"
+                            "identity": {
+                              "kind": "unbound",
+                              "portrait": {
+                                "asset": "portrait.pal.027",
+                                "side": "right"
+                              },
+                              "speaker": "spk.阿奴"
                             },
                             "rows": [
                               {
@@ -665,8 +684,7 @@
                               {
                                 "text": "dlg.10228"
                               }
-                            ],
-                            "speaker": "spk.阿奴"
+                            ]
                           },
                           "kind": "dialog"
                         },
@@ -690,7 +708,10 @@
                               }
                             ],
                             "slot": "top",
-                            "speaker": "spk.士兵"
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.士兵"
+                            }
                           },
                           "kind": "dialog"
                         },
@@ -699,16 +720,19 @@
                         },
                         {
                           "cue": {
-                            "portrait": {
-                              "asset": "portrait.pal.027",
-                              "side": "right"
+                            "identity": {
+                              "kind": "unbound",
+                              "portrait": {
+                                "asset": "portrait.pal.027",
+                                "side": "right"
+                              },
+                              "speaker": "spk.阿奴"
                             },
                             "rows": [
                               {
                                 "text": "dlg.10235"
                               }
-                            ],
-                            "speaker": "spk.阿奴"
+                            ]
                           },
                           "kind": "dialog"
                         },
@@ -723,7 +747,10 @@
                               }
                             ],
                             "slot": "top",
-                            "speaker": "spk.士兵"
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.士兵"
+                            }
                           },
                           "kind": "dialog"
                         },
@@ -733,9 +760,13 @@
                         {
                           "cue": {
                             "cursorFrame": 1,
-                            "portrait": {
-                              "asset": "portrait.pal.029",
-                              "side": "right"
+                            "identity": {
+                              "kind": "unbound",
+                              "portrait": {
+                                "asset": "portrait.pal.029",
+                                "side": "right"
+                              },
+                              "speaker": "spk.阿奴"
                             },
                             "rows": [
                               {
@@ -744,8 +775,7 @@
                               {
                                 "text": "dlg.10241"
                               }
-                            ],
-                            "speaker": "spk.阿奴"
+                            ]
                           },
                           "kind": "dialog"
                         },
@@ -770,7 +800,10 @@
                             "text": "dlg.10220"
                           }
                         ],
-                        "speaker": "spk.士兵"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.士兵"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -833,7 +866,10 @@
                               }
                             ],
                             "slot": "top",
-                            "speaker": "spk.士兵"
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.士兵"
+                            }
                           },
                           "kind": "dialog"
                         },
@@ -842,9 +878,13 @@
                         },
                         {
                           "cue": {
-                            "portrait": {
-                              "asset": "portrait.pal.027",
-                              "side": "right"
+                            "identity": {
+                              "kind": "unbound",
+                              "portrait": {
+                                "asset": "portrait.pal.027",
+                                "side": "right"
+                              },
+                              "speaker": "spk.阿奴"
                             },
                             "rows": [
                               {
@@ -853,8 +893,7 @@
                               {
                                 "text": "dlg.10228"
                               }
-                            ],
-                            "speaker": "spk.阿奴"
+                            ]
                           },
                           "kind": "dialog"
                         },
@@ -878,7 +917,10 @@
                               }
                             ],
                             "slot": "top",
-                            "speaker": "spk.士兵"
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.士兵"
+                            }
                           },
                           "kind": "dialog"
                         },
@@ -887,16 +929,19 @@
                         },
                         {
                           "cue": {
-                            "portrait": {
-                              "asset": "portrait.pal.027",
-                              "side": "right"
+                            "identity": {
+                              "kind": "unbound",
+                              "portrait": {
+                                "asset": "portrait.pal.027",
+                                "side": "right"
+                              },
+                              "speaker": "spk.阿奴"
                             },
                             "rows": [
                               {
                                 "text": "dlg.10235"
                               }
-                            ],
-                            "speaker": "spk.阿奴"
+                            ]
                           },
                           "kind": "dialog"
                         },
@@ -911,7 +956,10 @@
                               }
                             ],
                             "slot": "top",
-                            "speaker": "spk.士兵"
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.士兵"
+                            }
                           },
                           "kind": "dialog"
                         },
@@ -921,9 +969,13 @@
                         {
                           "cue": {
                             "cursorFrame": 1,
-                            "portrait": {
-                              "asset": "portrait.pal.029",
-                              "side": "right"
+                            "identity": {
+                              "kind": "unbound",
+                              "portrait": {
+                                "asset": "portrait.pal.029",
+                                "side": "right"
+                              },
+                              "speaker": "spk.阿奴"
                             },
                             "rows": [
                               {
@@ -932,8 +984,7 @@
                               {
                                 "text": "dlg.10241"
                               }
-                            ],
-                            "speaker": "spk.阿奴"
+                            ]
                           },
                           "kind": "dialog"
                         },
@@ -961,7 +1012,10 @@
                             "text": "dlg.10223"
                           }
                         ],
-                        "speaker": "spk.士兵"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.士兵"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -992,7 +1046,10 @@
                             "text": "dlg.10245"
                           }
                         ],
-                        "speaker": "spk.士兵"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.士兵"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1090,6 +1147,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.10261"
@@ -1142,6 +1202,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.10261"
@@ -1194,6 +1257,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.10261"
@@ -1246,6 +1312,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.10261"
@@ -1298,6 +1367,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.10261"
@@ -1350,6 +1422,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.10261"
@@ -1402,6 +1477,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.10261"
@@ -1454,6 +1532,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.10261"
@@ -1506,6 +1587,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.10261"

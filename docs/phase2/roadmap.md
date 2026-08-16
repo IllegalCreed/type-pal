@@ -87,7 +87,14 @@
 
 - **A 期工程化落地**：壳/肉分离（`projects/<id>/` 工程 = manifest + content JSON + assets 自包含），reforge 零具体游戏 import（[project-design](editor/project-design.md)）。
 - **编辑器 B1 布置模式 MVP 落地**：模式壳 + 画布复用 reforge 渲染 + command/undo + 选/拖/增删/FSA 保存（[editor-design](editor/editor-design.md)）。
-- **角色/精灵动画模型设计定稿**：统一 ActorDef + SpriteLayout（[actor-model-design](foundation/actor-model-design.md)），C0/C1 待实施。
+- **角色/精灵动画模型与创作闭环已落**：统一 ActorDef + SpriteLayout（[actor-model-design](foundation/actor-model-design.md)）；C1-1 已于 2026-08-14 完成角色 CRUD、预制人物/自定义实体双轨、引用处置和用户验收；C1-2 完成 content14 结构化对话人物身份；C1-3 第一批经用户 exact digest 审批后发布李大娘/酒剑仙 2 个 NPC Actor、6 个 entity 与 163 个 cue，三方审查和用户验收均完成。未批准候选继续保持 deferred。
+- **编辑器后续整体审查方向已记录（2026-08-14，2026-08-15 用户补充拍板）**：B2 完成后先冻结一份
+  完整、可执行、可验收的编辑器设计规范，再以该规范为尺分三线审查全编辑器——视觉/交互统一、ED-1
+  七环创作闭环、Reforge/Editor 代码质量与重构。角色模块与战场模块是参考输入，不是两套各自扩张的
+  局部标准；资源图像预览（当前挤在上方且不能缩放）和战斗模块布局是首批反例。规范未冻结前不得逐模块
+  凭感觉翻新；B2 与 ED-DS-1 已于 2026-08-15 用户验收 done，设计规范 v1.0.0 已冻结。下一步为
+  ED-DS-2 代码化 tokens、shared primitives 与 Design Lab。见
+  [editor-modernization-follow-up](editor/editor-modernization-follow-up-2026-08-14.md)。
 - **脚本兼容决策拍死（原 content-schema §6 待定项）**：迁移器把原版脚本**翻译**成结构化脚本（[script-system-design](foundation/script-system-design.md) 的 AST），**不建永久 opcode 兼容执行器** —— 双解释器 = [engine-debt-audit](foundation/engine-debt-audit.md) P0-5/P0-6 的债重生。翻不净的意大利面脚本（有限集）迁移器标注 + 编辑器手修。
 
 **进展（2026-07-04 更新）**
@@ -173,15 +180,15 @@
 | R2 | 迁移残余收口 | 单一 clean 脚本模型、全地址索引、阻塞式迁移诊断、场景脚本三态覆写 | PAL 产物零可执行 `unmigrated`，运行时零第二解释器；未知可达命令写盘前失败；双跑零计划与 M3 体积门禁继续成立 |
 | R3 | **A7 工程资源闭包** | 资产引用审计器、统一 `FileSource + manifest` 加载链、资源闭包报告 | 工程内容只经 catalog/FileSource，engine chrome 只经 bundler registry；断开仓库外部素材目录后两条链仍分别完整 |
 | R4 | **Q1 剧情 E2E 地基 + 前 10 段** | 分段格式、runner、检查点存档链、流程战斗速胜模式、前 10 段脚本 | 001 从新游戏起；002-010 均可由前段真实结束档独立启动并通过；失败能定位到具体段 |
-| R5 | **Q1 全流程扩展到数百段** | 全剧情碎片脚本、连续检查点、覆盖报告 | 从开场到结局无断链；任意一段可单跑；相邻段存档来源可追溯 |
-| R6 | 剩余引擎/编辑器能力收口 | X3 结局流、半完成格、创作工作流缺口 | 能力地图中第二阶段目标格按用户裁决收口，编辑器与引擎两侧同时满足 done |
+| R5 | **Q1 全流程扩展到数百段** | 全剧情碎片脚本、连续检查点、覆盖报告；最终段覆盖 s281 最终战→结局演出→`quitToTitle` 回标题 | 从开场到结局无断链；任意一段可单跑；相邻段存档来源可追溯；最终段到 `?menu` |
+| R6 | 剩余引擎/编辑器能力收口 | 半完成格与创作工作流缺口（X3 结局流已由 R2 完成，不再列为产品缺口） | 能力地图中第二阶段目标格按用户裁决收口，编辑器与引擎两侧同时满足 done |
 | R7 | 资源注册表整理 | 音乐等资源改成“稳定语义 id -> 明确资产路径/元数据”，清理隐式文件名索引 | `music.json` 等不再靠读者猜 id 与文件名关系；迁移兼容、编辑器引用与运行时解析全链通过 |
 | R8 | 自有资源替换 | 完整资源盘点、批次生成/导入、替换登记、视觉回归 | 发布目标范围内不再依赖原版受保护表达；每批有可追踪验收 |
 | R9 | **A8 独立可玩发行包** | 运行壳 + 工程内容/资产 + 构建/校验命令 | 在不依赖本仓库源码、`data/`、`projects/` 外部目录的干净环境中可启动并完成代表性 E2E |
 
 R1 的 N6 已完成。R6 的 ED-2 与 W7F 也已完成，其中 W7E 双格式方案被取消，W7F 已把迁移图和作者图统一为
-ProjectMapV2。[R2 事件脚本单一模型与 unmigrated 退役](../ops/tasks/R2-script-single-model.md) 已完成 build 与自测，
-当前等待三方复验；
+ProjectMapV2。[R2 事件脚本单一模型与 unmigrated 退役](../ops/tasks/R2-script-single-model.md) 已于 2026-07-14 完成
+三方复验与用户验收；其 s281 代表 E2E 已证明结局流实现，后续全流程持续回归归 Q1；
 任何 E2E 暴露的迁移器根因仍遵守“先修上游、再重生成”的最高优先级规则。
 
 ### 10.3.1 当前复核与推荐顺序（2026-07-14）
@@ -190,8 +197,8 @@ ProjectMapV2。[R2 事件脚本单一模型与 unmigrated 退役](../ops/tasks/R
 
 | 顺序 | 工作 | 已确认的问题 | 完成后进入 |
 |---:|---|---|---|
-| 1 | **R2 脚本单一模型** | **build 已完成，待复验**：原 66 个残余全部归类收口；17 个假缺失改按数组地址解析；产物零可执行 `unmigrated`，旧 opcode 第二解释器已删除 | R3/R7 |
-| 2 | **R3/A7 + R7 资源闭包/注册表** | 音乐、SFX、视频/帧动画及四类静态图已闭包，engine chrome 已自包含；C2-ACT 精灵预制动作消费闭环已 done；A7-3T tileset、A7-3W world sprite 与 **A7-3B battle sprite 均已 done**；A7-3B 已完成三方审查和用户验收（172 records / 171 definitions / 179 refs，900,973 B / 775 帧 / 6 legacy 坏尾）。当前 legacy 候选只余 effect-sprite/image；C2-ACT 占用 contentVersion 4，N3-1 P7/R13 已占用 5～10，A7-4 的 catalog-only 总门禁与 legacy 归零收口顺延到下一未占用 epoch（当前候选 v11） | ED-3；同时具备启动 Q1 的资源前提 |
+| 1 | **R2 脚本单一模型** | **done（2026-07-14，三方复验 + 用户验收）**：原 66 个残余全部归类收口；17 个假缺失改按数组地址解析；产物零可执行 `unmigrated`，旧 opcode 第二解释器已删除 | R3/R7 |
+| 2 | **R3/A7 + R7 资源闭包/注册表** | 音乐、SFX、视频/帧动画及四类静态图已闭包，engine chrome 已自包含；C2-ACT 精灵预制动作消费闭环已 done；A7-3T tileset、A7-3W world sprite 与 **A7-3B battle sprite 均已 done**；A7-3B 已完成三方审查和用户验收（172 records / 171 definitions / 179 refs，900,973 B / 775 帧 / 6 legacy 坏尾）。当前 legacy 候选只余 effect-sprite/image；当前发布链已占用 contentVersion 11/12/13，A7-4 的 catalog-only 总门禁与 legacy 归零收口开卡时必须重新核定下一未占用 epoch，不预先承诺固定版本号 | ED-3；同时具备启动 Q1 的资源前提 |
 | 3 | **ED-3 工程引用图** | 地图删除仍靠临时 `mapAssetSceneReferences`，各资源删除/替换策略没有统一引用真值 | ED-4/ED-5 |
 | 4 | **ED-4/ED-5 创作生命周期** | 场景/实体以及角色、物品、技能、毒、商店等 CRUD 仍未全部形成创建→引用→修改→删除→运行闭环 | W8/W7G/ED-6 与能力复核 |
 | 5 | **W8 地图内容选择与属性编辑 → W7G 组合地物图章 + ED-6 效率层** | 地图能逐格画，但不能选中已有单格/多格只改高度等指定属性；图层重叠缺少稳定命中规则；树、桌椅、屋顶等多格结构仍要手找碎片并逐格重设高度/碰撞 | 大规模内容生产与 Q1 扩展 |

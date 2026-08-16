@@ -107,7 +107,10 @@
                             "text": "dlg.1231"
                           }
                         ],
-                        "speaker": "spk.林木匠"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.林木匠"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -130,7 +133,10 @@
                             "text": "dlg.1235"
                           }
                         ],
-                        "speaker": "spk.林木匠"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.林木匠"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -142,6 +148,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.1236"
@@ -243,7 +252,10 @@
                             "text": "dlg.1451"
                           }
                         ],
-                        "speaker": "spk.学徒"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.学徒"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -270,7 +282,10 @@
                             "text": "dlg.1453"
                           }
                         ],
-                        "speaker": "spk.学徒"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.学徒"
+                        }
                       }
                     }
                   ]

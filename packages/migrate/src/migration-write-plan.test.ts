@@ -114,4 +114,26 @@ describe('migration transaction change list', () => {
     expect(changes.some((item) => item.target.endsWith(`/baselines/pal/${path}`))).toBe(false)
     expect(changes.at(-1)?.content).toContain(path)
   })
+
+  test('same-version successor 保持 manifest raw bytes 且不生成 manifest change', () => {
+    const repo = tempRepo()
+    const raw = '{\r\n  "contentVersion": 14\r\n}\r\n'
+    put(repo, 'projects/pal/manifest.json', raw)
+    const changes = buildMigrationTransactionChanges({
+      repo,
+      plan: { writes: new Map(), deletes: [] },
+      nextBaseline: snapshot({ 'content/items.json': [] }),
+      preserveManifestRawText: raw,
+    })
+    expect(changes.some((item) => item.scope === 'manifest')).toBe(false)
+    expect(changes.some((item) => item.target === 'projects/pal/manifest.json')).toBe(false)
+    expect(() =>
+      buildMigrationTransactionChanges({
+        repo,
+        plan: { writes: new Map(), deletes: [] },
+        nextBaseline: snapshot({ 'content/items.json': [] }),
+        preserveManifestRawText: `${raw}\n`,
+      }),
+    ).toThrow(/manifest raw bytes 漂移/)
+  })
 })

@@ -2,6 +2,12 @@ import type { AssetCatalogV1, AssetId, AssetRecordV1 } from '@type-pal/content'
 import { SfxPlayer } from '@type-pal/reforge'
 import { useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import {
+  DsControlGroup,
+  type DsControlSize,
+  DsIconButton,
+  DsSelect,
+} from './design-system/controls.js'
 
 export interface SoundAsset {
   id: AssetId
@@ -68,15 +74,16 @@ export function SoundPreviewButton(props: {
   asset?: AssetId
   reader: EditorAssetReader
   disabled?: boolean
+  size?: DsControlSize
 }) {
   const [error, setError] = useState('')
   return (
     <span className="sound-preview-control">
-      <button
-        type="button"
-        className="btn mp-play"
-        title={props.asset ? `试听 ${props.asset}` : '未选择音效'}
-        aria-label={props.asset ? `试听 ${props.asset}` : '未选择音效'}
+      <DsIconButton
+        variant="secondary"
+        size={props.size}
+        icon="play"
+        label={props.asset ? `试听 ${props.asset}` : '未选择音效'}
         disabled={props.disabled || !props.asset}
         onClick={() => {
           if (!props.asset) return
@@ -85,9 +92,7 @@ export function SoundPreviewButton(props: {
             setError(cause instanceof Error ? cause.message : String(cause))
           })
         }}
-      >
-        <span className="mp-play-icon" aria-hidden="true" />
-      </button>
+      />
       {error ? <span className="sound-preview-error">{error}</span> : null}
     </span>
   )
@@ -102,52 +107,54 @@ export function SoundPicker(props: {
   allowUnset?: boolean
   ariaLabel?: string
   onOpenAsset?: (asset: AssetId) => void
+  size?: DsControlSize
 }) {
   const options = soundAssets(props.catalog)
   const current = props.value ? props.catalog.assets[props.value] : undefined
   const currentValid = current?.kind === 'sound'
   const selected = props.value ?? UNSET
   return (
-    <span className="music-picker sound-picker">
-      <select
-        id={props.id}
-        className="in"
-        aria-label={props.ariaLabel ?? '音效'}
-        value={selected}
-        onChange={(event) =>
-          props.onChange(event.target.value === UNSET ? undefined : event.target.value)
-        }
-      >
-        {props.allowUnset ? <option value={UNSET}>(无音效)</option> : null}
-        {props.value && !currentValid ? (
-          <option value={props.value}>⚠ {props.value}（缺失或类型错误）</option>
-        ) : null}
-        {options.map((asset) => (
-          <option key={asset.id} value={asset.id}>
-            {soundLabel(asset)}
-          </option>
-        ))}
-        {!options.length && !props.allowUnset ? (
-          <option value={UNSET}>工程没有可用音效</option>
-        ) : null}
-      </select>
-      <SoundPreviewButton
-        asset={props.value && currentValid ? props.value : undefined}
-        reader={props.reader}
-      />
-      {props.value && props.onOpenAsset ? (
-        <button
-          type="button"
-          className="linked-value-open"
-          title={`在音效库打开 ${props.value}`}
-          aria-label={`在音效库打开 ${props.value}`}
-          onClick={() => {
-            if (props.value) props.onOpenAsset?.(props.value)
-          }}
-        >
-          ↗
-        </button>
-      ) : null}
-    </span>
+    <DsControlGroup
+      className="music-picker sound-picker"
+      control={
+        <DsSelect
+          id={props.id}
+          size={props.size}
+          aria-label={props.ariaLabel ?? '音效'}
+          value={selected}
+          onValueChange={(value) => props.onChange(value === UNSET ? undefined : value)}
+          options={[
+            ...(props.allowUnset ? [{ value: UNSET, label: '(无音效)' }] : []),
+            ...(props.value && !currentValid
+              ? [{ value: props.value, label: `⚠ ${props.value}（缺失或类型错误）` }]
+              : []),
+            ...options.map((asset) => ({ value: asset.id, label: soundLabel(asset) })),
+            ...(!options.length && !props.allowUnset
+              ? [{ value: UNSET, label: '工程没有可用音效' }]
+              : []),
+          ]}
+        />
+      }
+      actions={
+        <>
+          <SoundPreviewButton
+            asset={props.value && currentValid ? props.value : undefined}
+            reader={props.reader}
+            size={props.size}
+          />
+          {props.value && props.onOpenAsset ? (
+            <DsIconButton
+              variant="secondary"
+              size={props.size}
+              icon="open"
+              label={`在音效库打开 ${props.value}`}
+              onClick={() => {
+                if (props.value) props.onOpenAsset?.(props.value)
+              }}
+            />
+          ) : null}
+        </>
+      }
+    />
   )
 }

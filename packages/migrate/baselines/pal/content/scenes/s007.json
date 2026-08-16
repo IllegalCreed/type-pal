@@ -183,7 +183,10 @@
                             "text": "dlg.1509"
                           }
                         ],
-                        "speaker": "spk.白苗使者"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.白苗使者"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -196,9 +199,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.001",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "left"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
@@ -208,8 +215,7 @@
                             "text": "dlg.1512"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.李逍遥"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
@@ -223,7 +229,10 @@
                             "text": "dlg.1514"
                           }
                         ],
-                        "speaker": "spk.白苗使者"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.白苗使者"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -304,7 +313,10 @@
                             "text": "dlg.1517"
                           }
                         ],
-                        "speaker": "spk.白苗使者"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.白苗使者"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -313,9 +325,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.001",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "left"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
@@ -328,8 +344,7 @@
                             "text": "dlg.1521"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.李逍遥"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     },
@@ -346,7 +361,10 @@
                             "text": "dlg.1524"
                           }
                         ],
-                        "speaker": "spk.白苗使者"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.白苗使者"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -903,9 +921,12 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.010",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.010",
+                          "side": "right"
+                        }
                       },
                       "rows": [
                         {

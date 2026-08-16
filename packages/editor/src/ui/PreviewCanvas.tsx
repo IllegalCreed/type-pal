@@ -27,6 +27,7 @@ import {
 } from '@type-pal/reforge'
 import { type KeyboardEvent, useEffect, useMemo, useRef } from 'react'
 import type { Playback } from '../core/playback.js'
+import { DsButton, DsSelect, DsTag, DsToolbar } from './design-system/index.js'
 import {
   drawGridBlocked,
   drawTriggerHighlight,
@@ -413,81 +414,91 @@ export function PreviewCanvas(props: {
       playback.answerConfirm(false)
     }
   }
+  const openEngineTrial = (): void => {
+    // 落点:触发实体邻格(下方一格 —— touch range≥1 走近即触发,interact 面对面按空格);
+    // onEnter 源无实体 → 不带 pos,走场景入口。
+    const entity = focusEntityId
+      ? scene.entities.find((candidate) => candidate.id === focusEntityId)
+      : undefined
+    const pos = entity ? `&pos=${entity.pos.col},${entity.pos.row + 1}&facing=up` : ''
+    window.open(`play.html?project=${projectId}&scene=${scene.id}${pos}`, '_blank')
+  }
 
   return (
     <div className="preview-wrap">
-      <div className="preview-bar">
-        <span className="t">▶ 演出预览</span>
-        <button
-          type="button"
-          className="pv-btn"
-          onClick={() => {
-            if (mode === 'running') playback.pause()
-            else if (mode === 'paused') playback.resume()
-            else if (startPlayback) startPlayback(false)
-            else playback.play(sourceKey, stages, { ownerId: focusEntityId })
-          }}
-        >
-          {mode === 'running' ? '⏸ 暂停' : mode === 'paused' ? '▶ 继续' : '▶ 播放'}
-        </button>
-        <button
-          type="button"
-          className="pv-btn"
-          onClick={() =>
-            mode === 'idle' || mode === 'done'
-              ? startPlayback
-                ? startPlayback(true)
-                : playback.play(sourceKey, stages, { paused: true })
-              : playback.step()
-          }
-        >
-          ⏭ 单步
-        </button>
-        <button
-          type="button"
-          className="pv-btn"
-          onClick={() => playback.stop()}
-          disabled={mode === 'idle'}
-        >
-          ⏹ 重置
-        </button>
-        <select
-          className="pv-speed"
-          value={String(playback.speed)}
-          onChange={(e) => {
-            playback.speed = Number(e.target.value)
-          }}
-        >
-          <option value="0.5">0.5×</option>
-          <option value="1">1×</option>
-          <option value="2">2×</option>
-          <option value="4">4×</option>
-        </select>
-        <button
-          type="button"
-          className="pv-btn"
-          title="真引擎里跳到事件现场试玩(X5;读磁盘工程,改动须先 💾 保存)"
-          onClick={() => {
-            // 落点:触发实体邻格(下方一格 —— touch range≥1 走近即触发,interact 面对面按空格);
-            // onEnter 源无实体 → 不带 pos,走场景入口。
-            const e = focusEntityId ? scene.entities.find((x) => x.id === focusEntityId) : undefined
-            const pos = e ? `&pos=${e.pos.col},${e.pos.row + 1}&facing=up` : ''
-            window.open(`play.html?project=${projectId}&scene=${scene.id}${pos}`, '_blank')
-          }}
-        >
-          🎮 引擎试玩
-        </button>
-        <span className="spacer" />
-        <span className="pv-mode">
-          {mode === 'running'
-            ? '播放中'
-            : mode === 'paused'
-              ? '已暂停(单步可用)'
-              : mode === 'done'
-                ? '播放完毕'
-                : '就绪'}
-        </span>
-      </div>
+      <DsToolbar
+        label="演出预览控制"
+        size="compact"
+        groups={[
+          [
+            {
+              id: 'preview-play',
+              label: mode === 'running' ? '暂停' : mode === 'paused' ? '继续' : '播放',
+              icon: mode === 'running' ? 'pause' : 'play',
+              execute: () => {
+                if (mode === 'running') playback.pause()
+                else if (mode === 'paused') playback.resume()
+                else if (startPlayback) startPlayback(false)
+                else playback.play(sourceKey, stages, { ownerId: focusEntityId })
+              },
+            },
+            {
+              id: 'preview-step',
+              label: '单步',
+              icon: 'skip-forward',
+              execute: () => {
+                if (mode === 'idle' || mode === 'done') {
+                  if (startPlayback) startPlayback(true)
+                  else playback.play(sourceKey, stages, { paused: true })
+                } else playback.step()
+              },
+            },
+            {
+              id: 'preview-reset',
+              label: '重置',
+              icon: 'stop',
+              disabled: mode === 'idle',
+              disabledReason: mode === 'idle' ? '尚未开始播放' : undefined,
+              execute: () => playback.stop(),
+            },
+            {
+              id: 'preview-engine-trial',
+              label: '引擎试玩',
+              icon: 'open',
+              execute: openEngineTrial,
+            },
+          ],
+        ]}
+        trailing={
+          <div className="preview-toolbar__trailing">
+            <div className="preview-toolbar__speed">
+              <DsSelect
+                aria-label="预览速度"
+                size="compact"
+                value={String(playback.speed)}
+                options={[
+                  { value: '0.5', label: '0.5×' },
+                  { value: '1', label: '1×' },
+                  { value: '2', label: '2×' },
+                  { value: '4', label: '4×' },
+                ]}
+                onValueChange={(value) => {
+                  playback.speed = Number(value)
+                }}
+              />
+            </div>
+            <DsTag tone="neutral">
+              {mode === 'running'
+                ? '播放中'
+                : mode === 'paused'
+                  ? '已暂停'
+                  : mode === 'done'
+                    ? '播放完毕'
+                    : '就绪'}
+            </DsTag>
+          </div>
+        }
+      />
       <div ref={wrapRef} className="preview-stage">
         <canvas
           ref={canvasRef}
@@ -522,14 +533,15 @@ export function PreviewCanvas(props: {
           }}
         />
         {view.zoom !== DEFAULT_ZOOM || view.panX !== 0 || view.panY !== 0 ? (
-          <button
-            type="button"
-            className="mini-txt preview-recenter"
+          <DsButton
+            size="compact"
+            variant="secondary"
+            className="preview-recenter"
             title="回正:恢复跟随镜头与默认缩放"
             onClick={() => setView({ zoom: DEFAULT_ZOOM, panX: 0, panY: 0 })}
           >
             ⌖ 回正 {Math.round((view.zoom / DEFAULT_ZOOM) * 100)}%
-          </button>
+          </DsButton>
         ) : null}
         {status === 'loading' ? <div className="preview-tip">加载资产…</div> : null}
         {status === 'error' ? <div className="preview-tip err">{err}</div> : null}
@@ -541,28 +553,28 @@ export function PreviewCanvas(props: {
             {v.confirm ? (
               <fieldset className="preview-confirm-actions">
                 <legend className="visually-hidden">脚本二选一</legend>
-                <button
+                <DsButton
                   ref={confirmNoRef}
-                  type="button"
-                  className={`pv-btn${v.confirm.selectedYes ? '' : ' selected'}`}
+                  size="compact"
+                  variant={v.confirm.selectedYes ? 'secondary' : 'primary'}
                   onKeyDown={handleConfirmKeyDown}
                   onClick={() => playback.answerConfirm(false)}
                 >
                   否
-                </button>
-                <button
-                  type="button"
-                  className={`pv-btn${v.confirm.selectedYes ? ' selected' : ''}`}
+                </DsButton>
+                <DsButton
+                  size="compact"
+                  variant={v.confirm.selectedYes ? 'primary' : 'secondary'}
                   onKeyDown={handleConfirmKeyDown}
                   onClick={() => playback.answerConfirm(true)}
                 >
                   是
-                </button>
+                </DsButton>
               </fieldset>
             ) : (
-              <button type="button" className="pv-btn" onClick={() => playback.confirmDialog()}>
+              <DsButton size="compact" variant="secondary" onClick={() => playback.confirmDialog()}>
                 继续 ▾
-              </button>
+              </DsButton>
             )}
           </div>
         ) : null}

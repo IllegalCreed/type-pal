@@ -1,9 +1,13 @@
-import { existsSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import type { ItemDataV5 } from '@type-pal/content'
+import type { ItemDataV5, ManifestV14 } from '@type-pal/content'
 import { beforeAll, describe, expect, test } from 'vitest'
 import { type MigrationSnapshot, serializeMigrationJson, sha256 } from '../../migration-baseline.js'
+import {
+  rewindCurrentC1ProjectToW9,
+  rewindCurrentC1PublicationToW9,
+} from '../../pal-current-c1-rewind.js'
 import {
   discoverProjectManagedFiles,
   loadProjectMigrationSnapshot,
@@ -130,7 +134,14 @@ describe.skipIf(!existsSync(extracted))('R13-3 item throw append-only PAL MG2 se
   beforeAll(() => {
     const shared = getPalTestGeneratedFixture()
     const publishedBaseline = shared.baseline
-    const w9ParentBaseline = rewindPublishedW9PublicationIfPresent(publishedBaseline)
+    const manifestRawText = readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8')
+    const manifest = JSON.parse(manifestRawText) as ManifestV14
+    const c1ParentBaseline = rewindCurrentC1PublicationToW9({
+      source: publishedBaseline,
+      manifest,
+      manifestRawText,
+    })
+    const w9ParentBaseline = rewindPublishedW9PublicationIfPresent(c1ParentBaseline)
     const base = historicalParent(rewindB10PublicationIfPresent(w9ParentBaseline), shared)
     hydrateControlHashes(base)
     const managed = discoverProjectManagedFiles(
@@ -141,8 +152,13 @@ describe.skipIf(!existsSync(extracted))('R13-3 item throw append-only PAL MG2 se
     const ours = historicalParent(
       rewindB10ProjectAgainstPublishedBaseline(
         rewindPublishedW9ProjectAgainstPublishedBaseline(
-          publishedProject,
-          publishedBaseline,
+          rewindCurrentC1ProjectToW9({
+            project: publishedProject,
+            publishedBaseline,
+            manifest,
+            manifestRawText,
+          }),
+          c1ParentBaseline,
         ),
         w9ParentBaseline,
       ),

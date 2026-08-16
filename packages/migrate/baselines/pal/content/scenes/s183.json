@@ -306,9 +306,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.006",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.006",
+                          "side": "right"
+                        },
+                        "speaker": "spk.李逍遥"
                       },
                       "rows": [
                         {
@@ -317,8 +321,7 @@
                         {
                           "text": "dlg.9779"
                         }
-                      ],
-                      "speaker": "spk.李逍遥"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -336,7 +339,10 @@
                         }
                       ],
                       "slot": "top",
-                      "speaker": "spk.老村长"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.老村长"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -346,16 +352,19 @@
                   {
                     "cue": {
                       "cursorFrame": 1,
-                      "portrait": {
-                        "asset": "portrait.pal.027",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.027",
+                          "side": "right"
+                        },
+                        "speaker": "spk.阿奴"
                       },
                       "rows": [
                         {
                           "text": "dlg.9784"
                         }
-                      ],
-                      "speaker": "spk.阿奴"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -373,7 +382,10 @@
                         }
                       ],
                       "slot": "top",
-                      "speaker": "spk.老村长"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.老村长"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -415,9 +427,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.028",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.028",
+                          "side": "right"
+                        },
+                        "speaker": "spk.阿奴"
                       },
                       "rows": [
                         {
@@ -426,8 +442,7 @@
                         {
                           "text": "dlg.9790"
                         }
-                      ],
-                      "speaker": "spk.阿奴"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -440,9 +455,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.001",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.001",
+                          "side": "right"
+                        },
+                        "speaker": "spk.李逍遥"
                       },
                       "rows": [
                         {
@@ -451,8 +470,7 @@
                         {
                           "text": "dlg.9793"
                         }
-                      ],
-                      "speaker": "spk.李逍遥"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -497,9 +515,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.030",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.030",
+                          "side": "right"
+                        },
+                        "speaker": "spk.阿奴"
                       },
                       "rows": [
                         {
@@ -511,8 +533,7 @@
                         {
                           "text": "dlg.9797"
                         }
-                      ],
-                      "speaker": "spk.阿奴"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -533,7 +554,10 @@
                         }
                       ],
                       "slot": "top",
-                      "speaker": "spk.老村长"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.老村长"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -554,7 +578,10 @@
                         }
                       ],
                       "slot": "top",
-                      "speaker": "spk.老村长"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.老村长"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -575,7 +602,10 @@
                         }
                       ],
                       "slot": "top",
-                      "speaker": "spk.老村长"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.老村长"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -584,16 +614,19 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.001",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.001",
+                          "side": "right"
+                        },
+                        "speaker": "spk.李逍遥"
                       },
                       "rows": [
                         {
                           "text": "dlg.9809"
                         }
-                      ],
-                      "speaker": "spk.李逍遥"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -611,7 +644,10 @@
                         }
                       ],
                       "slot": "top",
-                      "speaker": "spk.老村长"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.老村长"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -636,9 +672,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.027",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.027",
+                          "side": "right"
+                        },
+                        "speaker": "spk.阿奴"
                       },
                       "rows": [
                         {
@@ -647,8 +687,7 @@
                         {
                           "text": "dlg.9815"
                         }
-                      ],
-                      "speaker": "spk.阿奴"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -666,7 +705,10 @@
                         }
                       ],
                       "slot": "top",
-                      "speaker": "spk.老村长"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.老村长"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -690,7 +732,10 @@
                         }
                       ],
                       "slot": "top",
-                      "speaker": "spk.老村长"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.老村长"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -841,9 +886,13 @@
                   },
                   {
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.010",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.010",
+                          "side": "right"
+                        },
+                        "speaker": "spk.李逍遥"
                       },
                       "rows": [
                         {
@@ -852,8 +901,7 @@
                         {
                           "text": "dlg.9825"
                         }
-                      ],
-                      "speaker": "spk.李逍遥"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -914,6 +962,9 @@
                   },
                   {
                     "cue": {
+                      "identity": {
+                        "kind": "narration"
+                      },
                       "rows": [
                         {
                           "text": "dlg.9826"

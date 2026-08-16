@@ -1,6 +1,6 @@
 # 对话系统结构化数据模型 · 设计
 
-> 状态:done(2026-07-15,N1-1 三方复验与用户验收完成)。第二阶段铁律见 [READ-FIRST.md](../READ-FIRST.md);内容总 schema 见 [content-schema.md](../foundation/content-schema.md);本次决策记录见 [decisions.md](../decisions.md) D11。
+> 状态:N1-1 done（2026-07-15）；C1-2 content14 人物身份 successor 已实现并处于 review（2026-08-14）。第二阶段铁律见 [READ-FIRST.md](../READ-FIRST.md);内容总 schema 见 [content-schema.md](../foundation/content-schema.md);本次决策记录见 [decisions.md](../decisions.md) D11。
 > **承接** [visual-spec.md](visual-spec.md)(GLM 写的对话框**外观**继承清单)——本文定**数据格式**,那份定**外观真值**;两件正交的事,本文把它们在架构里安顿到一起。
 
 ## 0. 这份文档解决什么(大白话)
@@ -59,6 +59,46 @@ interface Dialogue {
 
 type DialogCommand = { kind: 'dialog'; cue: DialogueCue }
 ```
+
+### 3.1 content14：人物身份与立绘归属
+
+上面的 `speaker?/portrait?` 是已发布 content13 及更早历史输入，不能原地改写。C1-2 在 current
+content14 增加必填判别联合，把“谁在说话”提升为作者语义真值：
+
+```ts
+type DialogueIdentityV14 =
+  | { kind: 'narration' }
+  | {
+      kind: 'actor'
+      actor: string
+      speakerOverride?: TextId
+      portrait?:
+        | { kind: 'default'; side: 'left' | 'right' }
+        | { kind: 'expression'; expression: string; side: 'left' | 'right' }
+    }
+  | ({ kind: 'unbound' } & (
+      | { speaker: TextId; portrait?: { asset: AssetId; side: 'left' | 'right' } }
+      | { portrait: { asset: AssetId; side: 'left' | 'right' }; speaker?: never }
+    ))
+
+interface DialogueCueV14 {
+  identity: DialogueIdentityV14
+  rows: DialogueRow[]
+  autoAdvance?: number
+  slot?: 'top' | 'bottom' | 'narration' | 'center'
+  cursorFrame?: 0 | 1 | 2
+}
+```
+
+- `actor` 引用稳定 `ActorDef.id`；缺省姓名来自 `ActorDef.name`，`speakerOverride` 只表达伪装名、称谓
+  等本次显示差异。人物立绘只能选该 Actor 的 default 或命名 expression，缺引用立即报错，不回退全局图。
+- `narration` 明确表示无人物姓名/立绘；它与对话框位置 `slot` 正交。
+- `unbound` 保留旁白以外、尚未归档的人名/泛称/portrait-only 历史内容。它不是失败状态，而是明确的
+  非 Actor 作者通道。
+- v13→v14 不按显示名、sprite、portrait 或 hash 猜人物：neither→narration，其余旧组合→unbound，
+  rows/slot/timing/cursor/显示结果无损。PAL NPC 人工归档另由 C1-3 提供可审计映射。
+- runtime、预览和脚本树只调用同一个 resolver，把 identity + Actor 表解析成历史显示投影；content14
+  作者数据不泄漏给冻结的历史 runner。SAVE schema 仍为 8，content identity 单独推进到 14。
 
 **locale 表**(每语言一份):`textId → 富文本字符串`。单色 = 纯文本(零标记);少数多色强调行 = 带**有语义、成对闭合**的颜色标记(仅样式,功能符已出文本):
 

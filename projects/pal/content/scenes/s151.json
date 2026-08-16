@@ -274,9 +274,13 @@
                   {
                     "cue": {
                       "autoAdvance": 628,
-                      "portrait": {
-                        "asset": "portrait.pal.043",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.043",
+                          "side": "left"
+                        },
+                        "speaker": "spk.天鬼皇"
                       },
                       "rows": [
                         {
@@ -284,8 +288,7 @@
                           "text": "dlg.9194"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.天鬼皇"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -333,7 +336,10 @@
                           "text": "dlg.9196"
                         }
                       ],
-                      "speaker": "spk.小妖"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.小妖"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -343,9 +349,13 @@
                   {
                     "cue": {
                       "autoAdvance": 800,
-                      "portrait": {
-                        "asset": "portrait.pal.043",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.043",
+                          "side": "left"
+                        },
+                        "speaker": "spk.天鬼皇"
                       },
                       "rows": [
                         {
@@ -357,8 +367,7 @@
                           "text": "dlg.9199"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.天鬼皇"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -464,17 +473,20 @@
                   {
                     "cue": {
                       "autoAdvance": 685,
-                      "portrait": {
-                        "asset": "portrait.pal.043",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.043",
+                          "side": "right"
+                        },
+                        "speaker": "spk.天鬼皇"
                       },
                       "rows": [
                         {
                           "speed": 16,
                           "text": "dlg.9201"
                         }
-                      ],
-                      "speaker": "spk.天鬼皇"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -548,7 +560,10 @@
                         }
                       ],
                       "slot": "top",
-                      "speaker": "spk.小妖"
+                      "identity": {
+                        "kind": "unbound",
+                        "speaker": "spk.小妖"
+                      }
                     },
                     "kind": "dialog"
                   },
@@ -574,9 +589,13 @@
                   {
                     "cue": {
                       "autoAdvance": 685,
-                      "portrait": {
-                        "asset": "portrait.pal.043",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.043",
+                          "side": "right"
+                        },
+                        "speaker": "spk.天鬼皇"
                       },
                       "rows": [
                         {
@@ -587,8 +606,7 @@
                           "speed": 16,
                           "text": "dlg.9206"
                         }
-                      ],
-                      "speaker": "spk.天鬼皇"
+                      ]
                     },
                     "kind": "dialog"
                   },

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="type-pal 编辑器">
+  <defs>
+    <linearGradient id="surface" x1="12" y1="8" x2="54" y2="58" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1f2d46"/>
+      <stop offset="1" stop-color="#151a27"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="14" y1="14" x2="51" y2="52" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#68c7ff"/>
+      <stop offset="0.5" stop-color="#4c8dff"/>
+      <stop offset="1" stop-color="#946dff"/>
+    </linearGradient>
+  </defs>
+  <rect x="3" y="3" width="58" height="58" rx="15" fill="url(#surface)"/>
+  <rect x="3.75" y="3.75" width="56.5" height="56.5" rx="14.25" fill="none" stroke="#a9c9ff" stroke-opacity=".2" stroke-width="1.5"/>
+  <path fill="url(#mark)" fill-rule="evenodd" d="M31.5 9 55 32.5 31.5 56 8 32.5 31.5 9Zm0 13.2L21.2 32.5l10.3 10.3 10.3-10.3L31.5 22.2Z"/>
+  <path d="m13.5 32.5 18 18 18-18" fill="none" stroke="#d7e7ff" stroke-opacity=".22" stroke-width="2"/>
+  <rect x="45" y="10" width="10" height="10" rx="3" fill="#7ef0d3" stroke="#172033" stroke-width="2"/>
+</svg>

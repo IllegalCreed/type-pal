@@ -479,7 +479,10 @@
                             "text": "dlg.6493"
                           }
                         ],
-                        "speaker": "spk.婢　女"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.婢　女"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -566,7 +569,10 @@
                             "text": "dlg.6493"
                           }
                         ],
-                        "speaker": "spk.婢　女"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.婢　女"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -646,6 +652,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.7266"
@@ -698,6 +707,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.7266"

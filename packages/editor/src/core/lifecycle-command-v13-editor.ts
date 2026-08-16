@@ -1,11 +1,11 @@
 import {
-  type AuthorCommandV13,
-  checkAuthorCommandsV13,
-  checkSharedScriptLibraryV13,
-  type EntityDefV13,
+  type AuthorCommandV14,
+  checkAuthorCommandsV14,
+  checkSharedScriptLibraryV14,
   type LifecycleCommandV13,
-  type ScriptFlowV13,
-  validateScenesV13,
+  type SceneDefV14,
+  type ScriptFlowV14,
+  validateScenesV14,
 } from '@type-pal/content'
 import type { Command } from './commands.js'
 import type { EditorState } from './edit-session.js'
@@ -18,11 +18,11 @@ export type LifecycleCommandBodyLocationV13 =
 export interface LifecycleCommandBodyV13 {
   label: string
   location: LifecycleCommandBodyLocationV13
-  commands: readonly AuthorCommandV13[]
+  commands: readonly AuthorCommandV14[]
 }
 
 function nestedCommandBodies(
-  commands: readonly AuthorCommandV13[],
+  commands: readonly AuthorCommandV14[],
   path: readonly (string | number)[],
   label: string,
   result: LifecycleCommandBodyV13[],
@@ -75,7 +75,7 @@ function nestedCommandBodies(
 }
 
 function flowBodies(
-  flow: ScriptFlowV13,
+  flow: ScriptFlowV14,
   path: readonly (string | number)[],
   label: string,
   result: LifecycleCommandBodyV13[],
@@ -120,13 +120,13 @@ export function collectEntityLifecycleCommandBodiesV13(
   sceneId: string,
   entityId: string,
 ): LifecycleCommandBodyV13[] {
-  if (state.manifest.contentVersion !== 13) return []
+  if (state.manifest.contentVersion !== 14) return []
   const sceneIndex = state.scenes.findIndex((scene) => scene.id === sceneId)
   if (sceneIndex < 0) return []
   const scene = state.scenes[sceneIndex]!
   const entityIndex = scene.entities.findIndex((entity) => entity.id === entityId)
   if (entityIndex < 0) return []
-  const entity = scene.entities[entityIndex] as unknown as EntityDefV13
+  const entity = scene.entities[entityIndex] as unknown as SceneDefV14['entities'][number]
   const result: LifecycleCommandBodyV13[] = []
   const base = [sceneIndex, 'entities', entityIndex] as const
   for (const channel of ['trigger', 'auto'] as const) {
@@ -160,9 +160,9 @@ function isLifecycleCommand(value: unknown): value is LifecycleCommandV13 {
 }
 
 function assertLifecycleCommand(value: unknown): asserts value is LifecycleCommandV13 {
-  checkAuthorCommandsV13([value], 'lifecycle command')
+  checkAuthorCommandsV14([value], 'lifecycle command')
   if (!isLifecycleCommand(value))
-    throw new Error('content13 lifecycle editor 只接受四种 lifecycle leaf')
+    throw new Error('当前 lifecycle editor 只接受四种 lifecycle leaf')
 }
 
 function cloneRoot(
@@ -171,7 +171,7 @@ function cloneRoot(
 ): unknown {
   if (location.root === 'scenes') return structuredClone(state.scenes)
   if (!state.sharedScripts)
-    throw new Error('content13 lifecycle editor: sharedScripts 工作副本缺失')
+    throw new Error('当前 lifecycle editor: sharedScripts 工作副本缺失')
   return structuredClone(state.sharedScripts)
 }
 
@@ -180,18 +180,18 @@ function commandBodyAt(root: unknown, path: readonly (string | number)[]): unkno
   for (const segment of path) {
     if (typeof segment === 'number') {
       if (!Array.isArray(current) || current[segment] === undefined)
-        throw new Error('content13 lifecycle editor: command body path 数组段不存在')
+        throw new Error('当前 lifecycle editor: command body path 数组段不存在')
       current = current[segment]
       continue
     }
     if (!current || typeof current !== 'object' || Array.isArray(current))
-      throw new Error('content13 lifecycle editor: command body path 对象段不存在')
+      throw new Error('当前 lifecycle editor: command body path 对象段不存在')
     if (!Object.hasOwn(current, segment))
-      throw new Error('content13 lifecycle editor: command body path 字段不存在 ' + segment)
+      throw new Error('当前 lifecycle editor: command body path 字段不存在 ' + segment)
     current = (current as Record<string, unknown>)[segment]
   }
   if (!Array.isArray(current))
-    throw new Error('content13 lifecycle editor: location 未指向 command[]')
+    throw new Error('当前 lifecycle editor: location 未指向 command[]')
   return current
 }
 
@@ -200,8 +200,8 @@ function withValidatedRoot(
   location: LifecycleCommandBodyLocationV13,
   root: unknown,
 ): EditorState {
-  if (state.manifest.contentVersion !== 13)
-    throw new Error('content13 lifecycle editor 不允许修改历史 content 工程')
+  if (state.manifest.contentVersion !== 14)
+    throw new Error('当前 lifecycle editor 只允许修改 content14 工程')
   const next: EditorState =
     location.root === 'scenes'
       ? { ...state, scenes: root as EditorState['scenes'] }
@@ -209,12 +209,12 @@ function withValidatedRoot(
           ...state,
           sharedScripts: root as NonNullable<EditorState['sharedScripts']>,
         }
-  validateScenesV13(next.scenes)
-  if (next.sharedScripts) checkSharedScriptLibraryV13(next.sharedScripts)
+  validateScenesV14(next.scenes)
+  if (next.sharedScripts) checkSharedScriptLibraryV14(next.sharedScripts)
   const missing = collectMissingEntityAddressReferencesV13(next)[0]
   if (missing)
     throw new Error(
-      'content13 lifecycle editor: ' +
+      '当前 lifecycle editor: ' +
         missing.path +
         ' 指向未知实体 ' +
         missing.sceneId +
@@ -238,15 +238,15 @@ abstract class LifecycleEditCommandV13 implements Command {
     protected readonly index: number,
   ) {
     if (!Number.isSafeInteger(index) || index < 0)
-      throw new Error('content13 lifecycle editor: index 期望非负安全整数')
+      throw new Error('当前 lifecycle editor: index 期望非负安全整数')
   }
 
   protected mutate(
     state: EditorState,
     edit: (body: unknown[]) => void,
   ): EditorState {
-    if (state.manifest.contentVersion !== 13)
-      throw new Error('content13 lifecycle editor 不允许修改历史 content 工程')
+    if (state.manifest.contentVersion !== 14)
+      throw new Error('当前 lifecycle editor 只允许修改 content14 工程')
     const root = cloneRoot(state, this.location)
     const body = commandBodyAt(root, this.location.path)
     edit(body)
@@ -271,7 +271,7 @@ export class InsertLifecycleCommandV13 extends LifecycleEditCommandV13 {
   apply(state: EditorState): EditorState {
     return this.mutate(state, (body) => {
       if (this.index > body.length)
-        throw new Error('content13 lifecycle editor: insert index 越界')
+        throw new Error('当前 lifecycle editor: insert index 越界')
       body.splice(this.index, 0, structuredClone(this.command))
     })
   }
@@ -279,7 +279,7 @@ export class InsertLifecycleCommandV13 extends LifecycleEditCommandV13 {
   invert(state: EditorState): EditorState {
     return this.mutate(state, (body) => {
       if (!sameCommand(body[this.index], this.command))
-        throw new Error('content13 lifecycle editor: undo insert 目标漂移')
+        throw new Error('当前 lifecycle editor: undo insert 目标漂移')
       body.splice(this.index, 1)
     })
   }
@@ -313,7 +313,7 @@ export class UpdateLifecycleCommandV13 extends LifecycleEditCommandV13 {
     if (!this.previous) return state
     return this.mutate(state, (body) => {
       if (!sameCommand(body[this.index], this.command))
-        throw new Error('content13 lifecycle editor: undo update 目标漂移')
+        throw new Error('当前 lifecycle editor: undo update 目标漂移')
       body[this.index] = structuredClone(this.previous)
     })
   }
@@ -329,7 +329,7 @@ export class DeleteLifecycleCommandV13 extends LifecycleEditCommandV13 {
       assertLifecycleCommand(current)
       if (!this.removed) this.removed = structuredClone(current)
       else if (!sameCommand(current, this.removed))
-        throw new Error('content13 lifecycle editor: redo delete 目标漂移')
+        throw new Error('当前 lifecycle editor: redo delete 目标漂移')
       body.splice(this.index, 1)
     })
   }
@@ -338,7 +338,7 @@ export class DeleteLifecycleCommandV13 extends LifecycleEditCommandV13 {
     if (!this.removed) return state
     return this.mutate(state, (body) => {
       if (this.index > body.length)
-        throw new Error('content13 lifecycle editor: undo delete index 越界')
+        throw new Error('当前 lifecycle editor: undo delete index 越界')
       body.splice(this.index, 0, structuredClone(this.removed))
     })
   }

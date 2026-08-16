@@ -9,6 +9,7 @@
 import type {
   ActorDef,
   AssetCatalogV1,
+  BattleFieldDef,
   BattleSpriteDefinitionReference,
   EnemyTeamDef,
   EntityDef,
@@ -33,16 +34,16 @@ import {
   type AssetBase,
   buildBlankProjectMap,
   idleFrameIndex,
-  type LoadedProject,
-  type LoadedProjectV5,
-  type LoadedProjectV13,
+  type LoadedProjectV14,
   type ProjectMap,
   type TilesetDef,
 } from '@type-pal/reforge'
 import {
   type CSSProperties,
+  type ReactNode,
   useCallback,
   useEffect,
+  useId,
   useMemo,
   useRef,
   useState,
@@ -56,6 +57,7 @@ import {
   CreateScriptSourceCommand,
   DeleteEntityCommand,
   DeleteSceneEntryCommand,
+  DetachActorEntityCommand,
   DuplicateMapAssetCommand,
   MoveEntityCommand,
   RenameProjectCommand,
@@ -65,6 +67,9 @@ import {
   UpsertSceneEntryCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import type { ActorReference } from '../core/actor-references.js'
+import type { BlockingBattleFieldReference } from '../core/battle-field-references.js'
+import type { BattleDataReference } from '../core/battle-data-references.js'
 import { createEditorAssetReader, type EditorAssetReader } from '../core/editor-asset-reader.js'
 import { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
 import {
@@ -77,20 +82,12 @@ import {
 import { exportProjectZip } from '../core/export-zip.js'
 import { saveHandle } from '../core/handle-store.js'
 import type { ItemReference } from '../core/item-references.js'
-import {
-  type Opened,
-  openExistingProject,
-  pickDir,
-  saveProjectAs,
-  upgradeProjectToV13,
-} from '../core/open-actions.js'
+import { type Opened, openExistingProject, pickDir, saveProjectAs } from '../core/open-actions.js'
 import { collectEditorStatusIssues } from '../core/project-diagnostics.js'
 import { serializeProjectWithMapCopies, writeProject } from '../core/project-io.js'
 import {
-  type EditorStateV5,
-  mergeLegacyEditorShellIntoV5,
+  mergeEditorShellWithCurrentCanonicalScripts,
   projectActiveScriptEditorStateV5,
-  serializeProjectV5WithCopies,
 } from '../core/project-io-v5.js'
 import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import {
@@ -109,6 +106,7 @@ import {
 import type { StampSelectionSource } from '../core/stamp-template.js'
 import type { SpriteAutomaticScriptInstanceSite } from '../core/world-sprite-behavior.js'
 import { ActorMode } from './ActorMode.js'
+import { BattleFieldPicker } from './BattleFieldPicker.js'
 import { CanonicalSceneScriptWorkspaceV5 } from './CanonicalSceneScriptWorkspaceV5.js'
 import {
   CanonicalHostileOnLoseEditorV5,
@@ -119,6 +117,7 @@ import { EntityPageAnimationEditor } from './EntityPageAnimationEditor.js'
 import {
   decodeEditorLocation,
   defaultEditorLocation,
+  EDITOR_MODULES,
   type EditorLocation,
   type EditorModuleId,
   editorLinks,
@@ -129,9 +128,29 @@ import {
   sameEditorLocation,
 } from './editor-navigation.js'
 import { editorObjectTargetMissing } from './editor-target.js'
+import { EditorAppHeader } from './EditorAppHeader.js'
+import {
+  closeSceneScriptPanelState,
+  createEditorLayoutCommands,
+  executeEditorLayoutShortcut,
+  type EditorLayoutCommandHandlers,
+  toggleSceneScriptPanelState,
+} from './app-layout-commands.js'
+import { createEditorAppCommandRegistry, requireEditorAppCommand } from './app-command-registry.js'
+import type { DsMenuDefinition } from './design-system/index.js'
+import {
+  DsButton,
+  DsCatalogGroupHeader,
+  DsCatalogRow,
+  DsCheckbox,
+  DsControlGroup,
+  DsIconButton,
+  DsInspectorTabs,
+  DsListHeader,
+  DsSelect,
+} from './design-system/index.js'
 import { MapMode } from './MapMode.js'
 import { LifecycleCommandPanelV13 } from './LifecycleCommandPanelV13.js'
-import { ModuleNav, ModuleSubnav } from './ModuleNav.js'
 import { MusicPicker } from './MusicPicker.js'
 import {
   PanelResizeHandle,
@@ -157,9 +176,6 @@ const SCENE_SELECTION: SceneSelection = { kind: 'scene' }
 const DEFAULT_ENTRY_SELECTION: Extract<SceneSelection, { kind: 'default-entry' }> = {
   kind: 'default-entry',
 }
-const MODULE_NAV_COLLAPSED_WIDTH = 52
-const MODULE_NAV_EXPANDED_WIDTH = 136
-const MODULE_NAV_COMPACT_BREAKPOINT = 860
 const CENTER_MIN_WIDTH = 260
 const OUTLINER_DEFAULT_WIDTH = 194
 const OUTLINER_MIN_WIDTH = 140
@@ -167,7 +183,6 @@ const OUTLINER_MAX_WIDTH = 420
 const INSPECTOR_DEFAULT_WIDTH = 290
 const INSPECTOR_MIN_WIDTH = 220
 const INSPECTOR_MAX_WIDTH = 620
-
 function sceneEntryOutlineLabel(entry: SceneEntryPoint): string {
   const label = entry.label?.trim()
   if (!label) return '未命名落点'
@@ -232,9 +247,8 @@ function scrollKey(location: EditorLocation): string {
 
 export function App(props: {
   session: EditSession
-  project: LoadedProject | LoadedProjectV5 | LoadedProjectV13
+  project: LoadedProjectV14
   scriptV5?: {
-    baseState: EditorStateV5
     session: ScriptV5EditSession
   }
   /** 启动屏打开/克隆得到的工程目录句柄(P4):保存直接写回此夹,不再首存选夹。 */
@@ -867,6 +881,90 @@ export function App(props: {
         return
     }
   }
+  const openActorReference = (reference: ActorReference): void => {
+    const locator = reference.locator
+    if (!locator) {
+      setWorkspaceNotice({
+        kind: 'info',
+        message: reference.unavailableReason ?? `${reference.where} 当前没有可编辑的精确位置。`,
+      })
+      return
+    }
+    switch (locator.kind) {
+      case 'scene-entity':
+        setPlaceSceneId(locator.sceneId)
+        setSelected({ kind: 'entity', id: locator.entityId })
+        applyEditorLocation(editorLinks.scene(locator.sceneId))
+        return
+      case 'scene':
+        setPlaceSceneId(locator.sceneId)
+        applyEditorLocation(editorLinks.scene(locator.sceneId))
+        return
+      case 'shared-script':
+        openScriptReference(locator.scriptId)
+        return
+      case 'entry-point':
+        applyEditorLocation(editorLinks.entryPoint(locator.entryPointId))
+        return
+      case 'actor':
+        applyEditorLocation(editorLinks.actor(locator.actorId))
+        return
+      case 'item':
+        applyEditorLocation(editorLinks.item(locator.itemId))
+        return
+      case 'enemy':
+        applyEditorLocation(editorLinks.enemy(locator.enemyId))
+        return
+    }
+  }
+  const openBattleDataReference = (reference: BattleDataReference): void => {
+    const locator = reference.locator
+    if (!locator) {
+      setWorkspaceNotice({
+        kind: 'info',
+        message: `${reference.where} 当前没有可编辑的精确位置。`,
+      })
+      return
+    }
+    switch (locator.kind) {
+      case 'actor':
+        applyEditorLocation(editorLinks.actor(locator.actorId))
+        return
+      case 'entry-point':
+        applyEditorLocation(editorLinks.entryPoint(locator.entryPointId))
+        return
+      case 'item':
+        applyEditorLocation(editorLinks.item(locator.itemId))
+        return
+      case 'skill':
+        applyEditorLocation(editorLinks.skill(locator.skillId))
+        return
+      case 'enemy':
+        applyEditorLocation(editorLinks.enemy(locator.enemyId))
+        return
+      case 'poison':
+        applyEditorLocation(editorLinks.poison(locator.poisonId))
+        return
+    }
+  }
+  const openBattleFieldReference = (reference: BlockingBattleFieldReference): void => {
+    const locator = reference.locator
+    if (!locator) {
+      setWorkspaceNotice({ kind: 'info', message: reference.label })
+      return
+    }
+    if (locator.kind === 'canonical-script') {
+      openCanonicalReference(locator.reference)
+      return
+    }
+    setPlaceSceneId(locator.sceneId)
+    applyEditorLocation(editorLinks.scene(locator.sceneId))
+    setTool('select')
+    setSelected(
+      locator.kind === 'scene-entity' ? { kind: 'entity', id: locator.entityId } : SCENE_SELECTION,
+    )
+    setInspectorCollapsed(false)
+  }
   const statusIssues = useMemo(
     () => collectEditorStatusIssues(state, scriptV5State),
     [scriptV5State, state],
@@ -889,6 +987,7 @@ export function App(props: {
       assetBase: project.assetBase,
       actors: actorsById,
       battleSprites: state.battleSprites,
+      battleFields: state.battleFields ?? [],
       sprites: state.sprites,
       ambiences: state.ambiences ?? [],
       shops: state.shops ?? [],
@@ -912,6 +1011,7 @@ export function App(props: {
       onOpenSound: (id) => applyEditorLocation(editorLinks.sound(id)),
       onOpenImage: (id) => applyEditorLocation(editorLinks.image(id)),
       onOpenBattleSprite: (id) => applyEditorLocation(editorLinks.battleSprite(id)),
+      onOpenBattleField: (id) => applyEditorLocation(editorLinks.battleField(id)),
       onOpenSpriteAction: (spriteId, actionId) =>
         applyEditorLocation(editorLinks.worldSpriteAction(spriteId, actionId)),
     }
@@ -926,6 +1026,7 @@ export function App(props: {
     state.ambiences,
     state.assetCatalog,
     state.battleSprites,
+    state.battleFields,
     state.items,
     state.locale,
     state.mapIndex,
@@ -937,27 +1038,53 @@ export function App(props: {
     openSharedScript,
   ])
   const leaderSpriteId = actorsById[state.manifest.startWorld.party[0] ?? '']?.spriteId
-  const [projMenu, setProjMenu] = useState(false)
   const [bodyWidth, setBodyWidth] = useState(0)
-  const [moduleNavCollapsed, setModuleNavCollapsed] = useStoredPanelBoolean(
-    'type-pal:editor:module-nav-collapsed',
-    false,
-  )
   const [outlinerWidth, setOutlinerWidth] = useStoredPanelNumber(
-    'type-pal:editor:outliner-width',
+    'type-pal:editor:layout-v2:outliner-width',
     OUTLINER_DEFAULT_WIDTH,
+    { min: OUTLINER_MIN_WIDTH, max: OUTLINER_MAX_WIDTH },
   )
   const [inspectorWidth, setInspectorWidth] = useStoredPanelNumber(
-    'type-pal:editor:inspector-width',
+    'type-pal:editor:layout-v2:inspector-width',
     INSPECTOR_DEFAULT_WIDTH,
+    { min: INSPECTOR_MIN_WIDTH, max: INSPECTOR_MAX_WIDTH },
   )
   const [outlinerCollapsed, setOutlinerCollapsed] = useStoredPanelBoolean(
-    'type-pal:editor:outliner-collapsed',
+    'type-pal:editor:layout-v2:outliner-collapsed',
     false,
   )
   const [inspectorCollapsed, setInspectorCollapsed] = useStoredPanelBoolean(
-    'type-pal:editor:inspector-collapsed',
+    'type-pal:editor:layout-v2:inspector-collapsed',
     false,
+  )
+  const scriptPanelAvailable = location.module === 'scene' && location.subpage === 'workspace'
+  const toggleOutliner = useCallback(
+    () => setOutlinerCollapsed((collapsed) => !collapsed),
+    [setOutlinerCollapsed],
+  )
+  const toggleInspector = useCallback(
+    () => setInspectorCollapsed((collapsed) => !collapsed),
+    [setInspectorCollapsed],
+  )
+  const toggleScriptPanel = useCallback(() => {
+    if (!scriptPanelAvailable) return
+    setDrawer(toggleSceneScriptPanelState)
+  }, [scriptPanelAvailable])
+  const resetPanelLayout = useCallback(() => {
+    setOutlinerWidth(OUTLINER_DEFAULT_WIDTH)
+    setInspectorWidth(INSPECTOR_DEFAULT_WIDTH)
+    setOutlinerCollapsed(false)
+    setInspectorCollapsed(false)
+    setDrawer(closeSceneScriptPanelState)
+  }, [setInspectorCollapsed, setInspectorWidth, setOutlinerCollapsed, setOutlinerWidth])
+  const layoutCommandHandlers = useMemo<EditorLayoutCommandHandlers>(
+    () => ({
+      toggleOutliner,
+      toggleScriptPanel,
+      toggleInspector,
+      resetLayout: resetPanelLayout,
+    }),
+    [resetPanelLayout, toggleInspector, toggleOutliner, toggleScriptPanel],
   )
 
   useEffect(() => {
@@ -971,9 +1098,6 @@ export function App(props: {
   }, [])
 
   const layoutWidth = bodyWidth || 1280
-  const moduleNavForcedCompact = layoutWidth < MODULE_NAV_COMPACT_BREAKPOINT
-  const moduleNavCompact = moduleNavCollapsed || moduleNavForcedCompact
-  const moduleNavWidth = moduleNavCompact ? MODULE_NAV_COLLAPSED_WIDTH : MODULE_NAV_EXPANDED_WIDTH
   const requestedOutlinerWidth = outlinerCollapsed
     ? 0
     : clampPanelSize(outlinerWidth, OUTLINER_MIN_WIDTH, OUTLINER_MAX_WIDTH)
@@ -981,7 +1105,7 @@ export function App(props: {
     ? 0
     : clampPanelSize(inspectorWidth, INSPECTOR_MIN_WIDTH, INSPECTOR_MAX_WIDTH)
   const fittedPanels = fitSidePanelWidths({
-    available: layoutWidth - moduleNavWidth - CENTER_MIN_WIDTH,
+    available: layoutWidth - CENTER_MIN_WIDTH,
     left: requestedOutlinerWidth,
     right: requestedInspectorWidth,
     leftMin: outlinerCollapsed ? 0 : OUTLINER_MIN_WIDTH,
@@ -991,20 +1115,13 @@ export function App(props: {
   const visibleInspectorWidth = fittedPanels.right
   const outlinerResizeMax = Math.min(
     OUTLINER_MAX_WIDTH,
-    Math.max(
-      OUTLINER_MIN_WIDTH,
-      layoutWidth - moduleNavWidth - CENTER_MIN_WIDTH - visibleInspectorWidth,
-    ),
+    Math.max(OUTLINER_MIN_WIDTH, layoutWidth - CENTER_MIN_WIDTH - visibleInspectorWidth),
   )
   const inspectorResizeMax = Math.min(
     INSPECTOR_MAX_WIDTH,
-    Math.max(
-      INSPECTOR_MIN_WIDTH,
-      layoutWidth - moduleNavWidth - CENTER_MIN_WIDTH - visibleOutlinerWidth,
-    ),
+    Math.max(INSPECTOR_MIN_WIDTH, layoutWidth - CENTER_MIN_WIDTH - visibleOutlinerWidth),
   )
   const bodyStyle = {
-    '--module-nav-width': `${moduleNavWidth}px`,
     '--outliner-width': `${visibleOutlinerWidth}px`,
     '--inspector-width': `${visibleInspectorWidth}px`,
   } as CSSProperties
@@ -1026,17 +1143,6 @@ export function App(props: {
     if (location.module === 'map' && location.objectId) ids.add(location.objectId)
     for (const id of ids) void session.ensureMapLoaded(id).catch(() => undefined)
   }, [location.module, location.objectId, scene?.mapId, session])
-  const openEditorModule = (moduleId: EditorModuleId): void => {
-    const remembered = moduleLocations[moduleId] ?? defaultEditorLocation(moduleId)
-    const subpage = editorSubpage(remembered)
-    const next =
-      subpage.kind === 'scene'
-        ? { ...remembered, objectId: placeSceneId }
-        : subpage.kind === 'map'
-          ? { ...remembered, ...(defaultMapId ? { objectId: defaultMapId } : {}) }
-          : remembered
-    applyEditorLocation(next)
-  }
   const openEditorSubpage = (next: EditorLocation): void => {
     const subpage = editorSubpage(next)
     applyEditorLocation(
@@ -1054,7 +1160,6 @@ export function App(props: {
     else delete next.objectId
     applyEditorLocation(next, 'replace')
   }
-  const moduleSubnav = <ModuleSubnav location={location} onNavigate={openEditorSubpage} />
   const objectTargetMissing = editorObjectTargetMissing(
     state,
     location,
@@ -1186,11 +1291,15 @@ export function App(props: {
         e.preventDefault()
         if (e.shiftKey) redo()
         else undo()
+        return
+      }
+      if (!typing && executeEditorLayoutShortcut(e, layoutCommandHandlers)) {
+        e.preventDefault()
       }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [session, scene, selEntity, activeSubpage.kind, redo, undo])
+  }, [session, scene, selEntity, activeSubpage.kind, layoutCommandHandlers, redo, undo])
 
   if (!scene && activeSubpage.kind !== 'project') {
     return (
@@ -1198,15 +1307,14 @@ export function App(props: {
         <div className="boot-entry-error">
           <div className="err">入口场景 "{state.manifest.entryScene}" 不在 scenes</div>
           <p>工程仍可修复；请重新选择默认入口（不经过标题菜单）的起始场景。</p>
-          <button
-            type="button"
-            className="tool"
+          <DsButton
+            variant="secondary"
             onClick={() =>
               applyEditorLocation({ module: 'project', subpage: 'entrypoint' }, 'replace')
             }
           >
             打开“入口与开局”修复
-          </button>
+          </DsButton>
         </div>
       </div>
     )
@@ -1252,6 +1360,10 @@ export function App(props: {
     session.dispatch(new DeleteEntityCommand(scene.id, selEntity.id))
     setSelected(SCENE_SELECTION)
   }
+  const sceneEntityGroups = (['预制人物', '自定义实体', '触发区'] as const).map((title) => ({
+    title,
+    entities: scene.entities.filter((entity) => entityShapeLabel(entity) === title),
+  }))
   const serializeEditorSnapshot = (
     shellState: ReturnType<EditSession['getState']>,
     scriptState: ScriptEditorStateV5 | undefined,
@@ -1261,12 +1373,8 @@ export function App(props: {
       return serializeProjectWithMapCopies(shellState, project.source, {
         includeAssetCopies,
       })
-    const canonicalState: EditorStateV5 = {
-      ...props.scriptV5.baseState,
-      ...scriptState,
-    }
-    return serializeProjectV5WithCopies(
-      mergeLegacyEditorShellIntoV5(canonicalState, shellState),
+    return serializeProjectWithMapCopies(
+      mergeEditorShellWithCurrentCanonicalScripts(scriptState, shellState),
       project.source,
       { includeAssetCopies },
     )
@@ -1347,7 +1455,6 @@ export function App(props: {
 
   // 「工程」菜单(P4 native-app 手感:新建 / 打开别的 / 另存为)。切工程 → 上抛 main 重建 session。
   const runProj = async (fn: () => Promise<Opened | null>): Promise<void> => {
-    setProjMenu(false)
     try {
       const o = await fn()
       if (o) props.onOpened?.(o)
@@ -1360,7 +1467,6 @@ export function App(props: {
   const saveAs = async (): Promise<void> => {
     if (saveInFlightRef.current || exporting) return
     saveInFlightRef.current = true
-    setProjMenu(false)
     setSaveActivity({ phase: 'saving-as' })
     try {
       const savedState = session.getState()
@@ -1384,180 +1490,236 @@ export function App(props: {
     }
   }
 
-  const upgradeToV13 = async (): Promise<void> => {
-    if (saveInFlightRef.current || exporting) return
-    if (project.manifest.contentVersion !== 12) return
-    const dir = dirHandleRef.current
-    if (!dir) return
-    saveInFlightRef.current = true
-    setProjMenu(false)
-    setSaveErr('')
-    setSaveActivity({ phase: 'upgrading-v13' })
-    try {
-      await new Promise<void>((resolve) => window.setTimeout(resolve, 0))
-      const opened = await upgradeProjectToV13(dir, project)
-      props.onOpened?.(opened)
-    } catch (e) {
-      if (e instanceof DOMException && e.name === 'AbortError') return
-      setSaveErr(e instanceof Error ? e.message : String(e))
-    } finally {
-      saveInFlightRef.current = false
-      setSaveActivity(null)
-    }
+  const renameProject = (): void => {
+    const current = state.manifest.name
+    const next = window.prompt('工程名称（文件夹与 id 不变）：', current)?.trim()
+    if (next && next !== current) session.dispatch(new RenameProjectCommand(next))
   }
 
+  const exportZip = (): void => {
+    const dir = dirHandleRef.current
+    if (!dir) return
+    if (
+      editorDirty &&
+      !window.confirm('有未保存改动，导出只读取磁盘内容。仍要导出吗？（建议先保存）')
+    )
+      return
+    setExporting(true)
+    setSaveErr('')
+    void exportProjectZip(dir, state.manifest.id)
+      .catch((error: unknown) => setSaveErr(error instanceof Error ? error.message : String(error)))
+      .finally(() => setExporting(false))
+  }
+
+  const commands = createEditorAppCommandRegistry([
+    {
+      id: 'file.new',
+      label: '新建工程…',
+      icon: 'open',
+      enabled: props.onBackToPicker !== undefined,
+      scope: 'global',
+      defaultPlacement: 'common',
+      execute: () => props.onBackToPicker?.(),
+    },
+    {
+      id: 'file.open',
+      label: '打开工程…',
+      icon: 'open',
+      enabled: saveActivity === null,
+      scope: 'global',
+      defaultPlacement: 'common',
+      execute: () => void runProj(openExistingProject),
+    },
+    {
+      id: 'file.rename',
+      label: '重命名工程…',
+      icon: 'more',
+      enabled: saveActivity === null,
+      scope: 'global',
+      execute: renameProject,
+    },
+    {
+      id: 'file.save-as',
+      label: '另存为…',
+      icon: 'save',
+      enabled: saveActivity === null && !exporting,
+      scope: 'global',
+      execute: () => void saveAs(),
+    },
+    {
+      id: 'file.export',
+      label: exporting ? '正在导出…' : '导出 ZIP…',
+      icon: 'copy',
+      enabled: Boolean(dirHandleRef.current) && saveActivity === null && !exporting,
+      disabledReason: dirHandleRef.current ? undefined : '请先打开或保存本地工程',
+      busy: exporting,
+      scope: 'global',
+      execute: exportZip,
+    },
+    {
+      id: 'edit.undo',
+      label: '撤销',
+      icon: 'undo',
+      shortcut: '⌘Z',
+      enabled: session.canUndo() || (scriptV5Session?.canUndo() ?? false),
+      scope: 'global',
+      defaultPlacement: 'fixed',
+      execute: undo,
+    },
+    {
+      id: 'edit.redo',
+      label: '重做',
+      icon: 'redo',
+      shortcut: '⇧⌘Z',
+      enabled: session.canRedo() || (scriptV5Session?.canRedo() ?? false),
+      scope: 'global',
+      defaultPlacement: 'fixed',
+      execute: redo,
+    },
+    {
+      id: 'file.save',
+      label: saveActivity ? '正在保存…' : '保存',
+      icon: 'save',
+      shortcut: '⌘S',
+      enabled: editorDirty && saveActivity === null && !exporting,
+      busy: saveActivity !== null,
+      scope: 'global',
+      defaultPlacement: 'fixed',
+      execute: () => void save(),
+    },
+    ...createEditorLayoutCommands(layoutCommandHandlers, {
+      outlinerVisible: !outlinerCollapsed,
+      scriptPanelAvailable,
+      scriptPanelVisible: drawer.open,
+      inspectorVisible: !inspectorCollapsed,
+    }),
+  ])
+
+  const commandItem = (id: string) => {
+    const command = requireEditorAppCommand(commands, id)
+    return {
+      id: command.id,
+      label: command.label,
+      shortcut: command.shortcut,
+      disabled: !command.enabled || command.busy,
+      icon: command.id.startsWith('view.') ? command.icon : undefined,
+      checked: command.pressed,
+      onSelect: command.execute,
+    }
+  }
+  const moduleMenus: DsMenuDefinition[] = EDITOR_MODULES.map((module) => ({
+    id: `module.${module.id}`,
+    label: module.id === 'project' ? '项目设置' : module.label,
+    visibility: 'wide-medium',
+    items: module.subpages.map((subpage) => {
+      const next: EditorLocation =
+        location.module === module.id && location.subpage === subpage.id
+          ? location
+          : { module: module.id, subpage: subpage.id }
+      return {
+        id: `${module.id}.${subpage.id}`,
+        label: subpage.label,
+        href: editorLocationHref(next, window.location.href),
+        current: location.module === module.id && location.subpage === subpage.id,
+      }
+    }),
+  }))
+  const navigationMenu: DsMenuDefinition = {
+    id: 'navigation',
+    label: '导航',
+    visibility: 'narrow',
+    layout: 'section-grid',
+    items: EDITOR_MODULES.flatMap((module) =>
+      module.subpages.map((subpage) => ({
+        id: `navigation.${module.id}.${subpage.id}`,
+        label: subpage.label,
+        section: module.id === 'project' ? '项目设置' : module.label,
+        href: editorLocationHref(
+          location.module === module.id && location.subpage === subpage.id
+            ? location
+            : { module: module.id, subpage: subpage.id },
+          window.location.href,
+        ),
+        current: location.module === module.id && location.subpage === subpage.id,
+      })),
+    ),
+  }
+  const menus: DsMenuDefinition[] = [
+    {
+      id: 'file',
+      label: '文件',
+      items: [
+        commandItem('file.new'),
+        commandItem('file.open'),
+        commandItem('file.rename'),
+        commandItem('file.save'),
+        commandItem('file.save-as'),
+        commandItem('file.export'),
+      ],
+    },
+    {
+      id: 'edit',
+      label: '编辑',
+      items: [commandItem('edit.undo'), commandItem('edit.redo')],
+    },
+    {
+      id: 'view',
+      label: '视图',
+      items: [
+        commandItem('view.toggle-outliner'),
+        commandItem('view.toggle-script-panel'),
+        commandItem('view.toggle-inspector'),
+        commandItem('view.reset-layout'),
+      ],
+    },
+    ...moduleMenus,
+    navigationMenu,
+  ]
+
+  const onHeaderNavigate = (event: React.MouseEvent<HTMLAnchorElement>, href: string): void => {
+    if (
+      event.defaultPrevented ||
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    )
+      return
+    event.preventDefault()
+    const url = new URL(href, window.location.href)
+    openEditorSubpage(decodeEditorLocation(url.search))
+  }
+
+  useEffect(() => {
+    document.title = `${state.manifest.name} · type-pal 编辑器`
+  }, [state.manifest.name])
+
   return (
-    <div className="editor" aria-busy={saveActivity !== null ? true : undefined}>
-      <div className="topbar" inert={saveActivity !== null ? true : undefined}>
-        <div className="proj-menu-wrap">
-          <button
-            type="button"
-            className="tbtn"
-            onClick={() => setProjMenu((v) => !v)}
-            title="工程"
-          >
-            📁 工程 ▾
-          </button>
-          {projMenu && (
-            <>
-              <button
-                type="button"
-                className="proj-menu-scrim"
-                aria-label="关闭工程菜单"
-                onClick={() => setProjMenu(false)}
-              />
-              <div className="proj-menu">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setProjMenu(false)
-                    props.onBackToPicker?.()
-                  }}
-                >
-                  ✨ 新建工程…
-                </button>
-                <button type="button" onClick={() => void runProj(openExistingProject)}>
-                  📂 打开工程…
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setProjMenu(false)
-                    const cur = state.manifest.name
-                    const next = window
-                      .prompt('工程名称(标题显示名;文件夹与 id 不变):', cur)
-                      ?.trim()
-                    if (next && next !== cur) session.dispatch(new RenameProjectCommand(next))
-                  }}
-                >
-                  ✏️ 重命名工程…
-                </button>
-                <button
-                  type="button"
-                  disabled={exporting || saveActivity !== null}
-                  onClick={() => void saveAs()}
-                >
-                  📦 另存为…
-                </button>
-                <button
-                  type="button"
-                  disabled={
-                    !dirHandleRef.current ||
-                    project.manifest.contentVersion !== 12 ||
-                    exporting ||
-                    saveActivity !== null
-                  }
-                  title="把当前 contentVersion 12 工程原地升级为 contentVersion 13（manifest-last）"
-                  onClick={() => void upgradeToV13()}
-                >
-                  ⬆️ 升级到 v13…
-                </button>
-                <button
-                  type="button"
-                  disabled={!dirHandleRef.current || exporting || saveActivity !== null}
-                  title={
-                    dirHandleRef.current
-                      ? '把工程文件夹原样打包下载(读磁盘;未保存改动不入包)'
-                      : '需先打开/保存本地工程(dev 种子工程无文件夹)'
-                  }
-                  onClick={() => {
-                    setProjMenu(false)
-                    const dir = dirHandleRef.current
-                    if (!dir) return
-                    if (
-                      editorDirty &&
-                      !window.confirm(
-                        '有未保存改动 —— 导出读的是磁盘,这些改动不会进 zip。仍要导出吗?(建议先 💾 保存)',
-                      )
-                    )
-                      return
-                    setExporting(true)
-                    setSaveErr('')
-                    void exportProjectZip(dir, state.manifest.id)
-                      .catch((e: unknown) => setSaveErr(e instanceof Error ? e.message : String(e)))
-                      .finally(() => setExporting(false))
-                  }}
-                >
-                  {exporting ? '🗜 打包中…' : '🗜 导出 zip…'}
-                </button>
-              </div>
-            </>
-          )}
-        </div>
-        <div className="proj">
-          {state.manifest.name}
-          <span className="kind">{state.manifest.id}</span>
-        </div>
-        <div className="spacer" />
-        <button
-          type="button"
-          className="tbtn"
-          disabled={!session.canUndo() && !(scriptV5Session?.canUndo() ?? false)}
-          onClick={undo}
-          title="撤销"
-        >
-          ↺ 撤销
-        </button>
-        <button
-          type="button"
-          className="tbtn"
-          disabled={!session.canRedo() && !(scriptV5Session?.canRedo() ?? false)}
-          onClick={redo}
-          title="重做"
-        >
-          ↻ 重做
-        </button>
-        <button
-          type="button"
-          className="save"
-          disabled={!editorDirty || saveActivity !== null || exporting}
-          onClick={() => void save()}
-          title="保存改动到工程文件夹(增量,只写变化;打开工程后直接写回,不再选路径)"
-        >
-          {saveActivity ? '💾 保存中…' : '💾 保存'}
-          {editorDirty && !saveActivity ? <span className="dot">●</span> : null}
-        </button>
-      </div>
+    <div className="editor ds-form-scope" aria-busy={saveActivity !== null ? true : undefined}>
+      <EditorAppHeader
+        projectName={state.manifest.name}
+        menus={menus}
+        commands={commands}
+        toolbarCommandGroups={[
+          ['view.toggle-outliner', 'view.toggle-script-panel', 'view.toggle-inspector'],
+          ['edit.undo', 'edit.redo', 'file.save'],
+        ]}
+        onNavigate={onHeaderNavigate}
+      />
 
       <div
         ref={bodyRef}
+        tabIndex={-1}
+        aria-label={`${activeSubpage.label}工作区`}
         inert={saveActivity !== null ? true : undefined}
-        className={`body${moduleNavCompact ? ' module-nav-compact' : ''}${outlinerCollapsed ? ' outliner-collapsed' : ''}${inspectorCollapsed ? ' inspector-collapsed' : ''}`}
+        className={`body${outlinerCollapsed ? ' outliner-collapsed' : ''}${inspectorCollapsed ? ' inspector-collapsed' : ''}`}
         style={bodyStyle}
       >
-        <ModuleNav
-          activeModule={location.module}
-          compact={moduleNavCompact}
-          forcedCompact={moduleNavForcedCompact}
-          onModule={openEditorModule}
-          onToggle={() => setModuleNavCollapsed((value) => !value)}
-        />
-
         {objectTargetMissing ? (
           <MissingEditorTarget
             moduleLabel={activeModule.label}
             objectId={location.objectId!}
-            navigation={moduleSubnav}
             onClear={() => focusCurrentObject(undefined)}
           />
         ) : activeSubpage.kind === 'map' ? (
@@ -1585,7 +1747,6 @@ export function App(props: {
             stamps={state.stamps}
             onOpenStampLibrary={(id) => applyEditorLocation(editorLinks.stamp(id))}
             onStampSelectionChange={captureStampSelection}
-            navigation={moduleSubnav}
             onRequestInspectorOpen={() => setInspectorCollapsed(false)}
             onWorkspaceNotice={setWorkspaceNotice}
           />
@@ -1601,9 +1762,13 @@ export function App(props: {
             session={session}
             levelUp={state.levelUp}
             startSkills={state.manifest.startWorld.learnedSkills}
-            navigation={moduleSubnav}
             focusActorId={location.objectId}
+            focusSection={location.actionId}
             onActorFocus={(id) => focusCurrentObject(id)}
+            onSectionChange={(section) => {
+              const actorId = location.objectId ?? state.actors[0]?.id
+              if (actorId) applyEditorLocation(editorLinks.actor(actorId, section), 'replace')
+            }}
             onOpenSprite={(id) => applyEditorLocation(editorLinks.actorSprite(id))}
             onOpenBattleSprite={(id) => applyEditorLocation(editorLinks.battleSprite(id))}
             assetCatalog={state.assetCatalog}
@@ -1613,6 +1778,7 @@ export function App(props: {
             onOpenStartSettings={() =>
               applyEditorLocation({ module: 'project', subpage: 'entrypoint' })
             }
+            onOpenActorReference={openActorReference}
           />
         ) : activeSubpage.kind === 'project' && activeSubpage.projectPage ? (
           <ProjectWorkbenchTab
@@ -1626,7 +1792,6 @@ export function App(props: {
             assetCatalog={state.assetCatalog}
             session={session}
             editorState={state}
-            tabBar={moduleSubnav}
             focusObjectId={location.objectId}
             onObjectFocus={focusCurrentObject}
             onOpenLocation={applyEditorLocation}
@@ -1679,7 +1844,7 @@ export function App(props: {
                 ? sharedScriptFocus.path
                 : undefined
             }
-            tabBar={moduleSubnav}
+            tabBar={null}
             tab={activeSubpage.dataPage}
             focusObjectId={location.objectId}
             focusItemPrivateScript={
@@ -1710,6 +1875,9 @@ export function App(props: {
             onOpenTileset={(id) => applyEditorLocation(editorLinks.tileset(id))}
             onOpenStamp={(id) => applyEditorLocation(editorLinks.stamp(id))}
             onOpenBattleSprite={(id) => applyEditorLocation(editorLinks.battleSprite(id))}
+            onOpenBattleField={(id) => applyEditorLocation(editorLinks.battleField(id))}
+            onOpenBattleFieldReference={openBattleFieldReference}
+            onOpenBattleDataReference={openBattleDataReference}
             onOpenScript={openScriptReference}
             onOpenItemReference={openItemReference}
             onOpenProjectIssues={() =>
@@ -1723,80 +1891,75 @@ export function App(props: {
         ) : (
           <>
             <div className="outliner">
-              {moduleSubnav}
-              <div className="pane-h">
-                <span className="t">场景</span>
-                <span className="spacer" />
-                <button
-                  type="button"
-                  className="mini"
-                  title="在进场点添加实体"
-                  onClick={() => addAt({ col: scene.entry.pos.col, row: scene.entry.pos.row })}
-                >
-                  ＋
-                </button>
+              <DsListHeader
+                title="场景"
+                count={state.scenes.length}
+                unit="个"
+                actions={[
+                  {
+                    id: 'create-scene',
+                    label: '新建场景',
+                    icon: '＋',
+                    onClick: () => {
+                      const id = window.prompt('新场景 id(kebab-case):', '')?.trim()
+                      if (!id) return
+                      if (state.scenes.some((candidate) => candidate.id === id)) {
+                        window.alert(`场景 "${id}" 已存在`)
+                        return
+                      }
+                      session.dispatch(new AddSceneCommand(id, scene.mapId, scene.entry))
+                      switchPlaceScene(id)
+                    },
+                  },
+                ]}
+              />
+              <div className="scene-switch">
+                <DsSelect
+                  size="compact"
+                  value={placeSceneId}
+                  options={state.scenes.map((candidate) => ({
+                    value: candidate.id,
+                    label: `${candidate.id}${
+                      candidate.id === state.manifest.entryScene ? '(入口)' : ''
+                    } · ${candidate.entities.length} 实体`,
+                  }))}
+                  aria-label="切换编辑场景"
+                  title="切换编辑场景"
+                  searchable
+                  onValueChange={switchPlaceScene}
+                />
               </div>
-              <select
-                className="in scene-switch"
-                value={placeSceneId}
-                onChange={(e) => switchPlaceScene(e.target.value)}
-                title="切换编辑场景"
-              >
-                {state.scenes.map((s) => (
-                  <option key={s.id} value={s.id}>
-                    {s.id}
-                    {s.id === state.manifest.entryScene ? '(入口)' : ''} · {s.entities.length} 实体
-                  </option>
-                ))}
-              </select>
-              <button
-                type="button"
-                className="tool"
-                title="新建场景(复用当前场景的地图与进场点起步,建后在属性里改)"
-                onClick={() => {
-                  const id = window.prompt('新场景 id(kebab-case):', '')?.trim()
-                  if (!id) return
-                  if (state.scenes.some((sc) => sc.id === id)) {
-                    window.alert(`场景 "${id}" 已存在`)
-                    return
-                  }
-                  session.dispatch(new AddSceneCommand(id, scene.mapId, scene.entry))
-                  switchPlaceScene(id)
-                }}
-              >
-                ＋ 新建场景
-              </button>
               <div className="tree">
-                <button
-                  type="button"
-                  className={`node${selected.kind === 'scene' ? ' sel' : ''}`}
+                <DsCatalogRow
+                  selected={selected.kind === 'scene'}
+                  leading={<span aria-hidden="true">🗺️</span>}
+                  title={scene.id}
+                  meta={`${scene.entities.length} 个实体`}
                   onClick={() => setSelected(SCENE_SELECTION)}
-                >
-                  <span className="ico">🗺️</span>
-                  <span>{scene.id}</span>
-                </button>
-                <div className="node-group-head">
-                  <span>落点</span>
-                  <button
-                    type="button"
-                    className="mini"
-                    title="新建命名落点"
-                    aria-label="新建命名落点"
-                    onClick={() => {
-                      const id = newSceneEntryId(scene)
-                      session.dispatch(
-                        new UpsertSceneEntryCommand(scene.id, id, {
-                          label: `落点 ${Object.keys(scene.entries ?? {}).length + 1}`,
-                          pos: { ...scene.entry.pos },
-                          facing: scene.entry.facing,
-                        }),
-                      )
-                      selectSceneEntry({ kind: 'named-entry', id })
-                    }}
-                  >
-                    ＋
-                  </button>
-                </div>
+                />
+                <DsCatalogGroupHeader
+                  title="落点"
+                  count={1 + Object.keys(scene.entries ?? {}).length}
+                  actions={
+                    <DsIconButton
+                      size="compact"
+                      variant="secondary"
+                      icon="add"
+                      label="新建命名落点"
+                      onClick={() => {
+                        const id = newSceneEntryId(scene)
+                        session.dispatch(
+                          new UpsertSceneEntryCommand(scene.id, id, {
+                            label: `落点 ${Object.keys(scene.entries ?? {}).length + 1}`,
+                            pos: { ...scene.entry.pos },
+                            facing: scene.entry.facing,
+                          }),
+                        )
+                        selectSceneEntry({ kind: 'named-entry', id })
+                      }}
+                    />
+                  }
+                />
                 <button
                   type="button"
                   className={`node child${selected.kind === 'default-entry' ? ' sel' : ''}`}
@@ -1820,151 +1983,153 @@ export function App(props: {
                     <span className="k">落点</span>
                   </button>
                 ))}
-                {scene.entities.map((e) => (
-                  <button
-                    type="button"
-                    key={e.id}
-                    className={`node child${
-                      selected.kind === 'entity' && selected.id === e.id ? ' sel' : ''
-                    }`}
-                    onClick={() => setSelected({ kind: 'entity', id: e.id })}
-                  >
-                    <span className="ico">
-                      {isActorEntity(e) ? '👤' : 'sprite' in e ? '📦' : '⬚'}
-                    </span>
-                    <span>{e.id}</span>
-                    <span
-                      className="k"
-                      title={
-                        isActorEntity(e)
-                          ? `角色来源：${actorsById[e.actor] ? lookupText(actorsById[e.actor]!.name, state.locale) : e.actor}`
-                          : 'sprite' in e
-                            ? `资源来源：${state.sprites.find((sprite) => sprite.id === e.sprite)?.label || e.sprite}`
-                            : '无外观触发区'
-                      }
-                    >
-                      {entityShapeLabel(e)}
-                    </span>
-                  </button>
-                ))}
+                <DsCatalogGroupHeader
+                  title="实体"
+                  count={scene.entities.length}
+                  actions={
+                    <DsIconButton
+                      size="compact"
+                      variant="secondary"
+                      icon="add"
+                      label="添加实体"
+                      disabled={drawer.open}
+                      onClick={() => setTool('add')}
+                    />
+                  }
+                />
+                {sceneEntityGroups.map((group) =>
+                  group.entities.length === 0 ? null : (
+                    <div className="scene-entity-group" key={group.title}>
+                      <DsCatalogGroupHeader
+                        title={group.title}
+                        count={group.entities.length}
+                        level="secondary"
+                      />
+                      {group.entities.map((e) => (
+                        <button
+                          type="button"
+                          key={e.id}
+                          className={`node child${
+                            selected.kind === 'entity' && selected.id === e.id ? ' sel' : ''
+                          }`}
+                          onClick={() => setSelected({ kind: 'entity', id: e.id })}
+                        >
+                          <span className="ico">
+                            {isActorEntity(e) ? '👤' : 'sprite' in e ? '📦' : '⬚'}
+                          </span>
+                          <span>{e.id}</span>
+                          <span
+                            className="k"
+                            title={
+                              isActorEntity(e)
+                                ? `角色来源：${actorsById[e.actor] ? lookupText(actorsById[e.actor]!.name, state.locale) : e.actor}`
+                                : 'sprite' in e
+                                  ? `资源来源：${state.sprites.find((sprite) => sprite.id === e.sprite)?.label || e.sprite}`
+                                  : '无外观触发区'
+                            }
+                          >
+                            {entityShapeLabel(e)}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  ),
+                )}
               </div>
               <div className="layers">
                 <div className="t">图层 / 显隐</div>
-                <label className="lrow">
-                  <input
-                    type="checkbox"
-                    checked={canvasLayers.base}
-                    onChange={(e) => setCanvasLayers({ ...canvasLayers, base: e.target.checked })}
-                  />{' '}
-                  地板
-                </label>
-                <label className="lrow">
-                  <input
-                    type="checkbox"
-                    checked={canvasLayers.cover}
-                    onChange={(e) => setCanvasLayers({ ...canvasLayers, cover: e.target.checked })}
-                  />{' '}
-                  高物(墙·家具)
-                </label>
-                <label className="lrow">
-                  <input
-                    type="checkbox"
-                    checked={canvasLayers.entries}
-                    onChange={(e) =>
-                      setCanvasLayers({ ...canvasLayers, entries: e.target.checked })
-                    }
-                  />{' '}
-                  落点
-                </label>
-                <label className="lrow">
-                  <input
-                    type="checkbox"
-                    checked={canvasLayers.entities}
-                    onChange={(e) =>
-                      setCanvasLayers({ ...canvasLayers, entities: e.target.checked })
-                    }
-                  />{' '}
-                  实体
-                </label>
-                <label
-                  className="lrow"
-                  title="初始隐藏的实体(剧情后期才出场)画成半透明幽灵,可点选编排;游戏内不渲染"
-                >
-                  <input
-                    type="checkbox"
+                <DsCheckbox
+                  size="compact"
+                  label="地板"
+                  checked={canvasLayers.base}
+                  onChange={(event) =>
+                    setCanvasLayers({ ...canvasLayers, base: event.currentTarget.checked })
+                  }
+                />
+                <DsCheckbox
+                  size="compact"
+                  label="高物（墙、家具）"
+                  checked={canvasLayers.cover}
+                  onChange={(event) =>
+                    setCanvasLayers({ ...canvasLayers, cover: event.currentTarget.checked })
+                  }
+                />
+                <DsCheckbox
+                  size="compact"
+                  label="落点"
+                  checked={canvasLayers.entries}
+                  onChange={(event) =>
+                    setCanvasLayers({ ...canvasLayers, entries: event.currentTarget.checked })
+                  }
+                />
+                <DsCheckbox
+                  size="compact"
+                  label="实体"
+                  checked={canvasLayers.entities}
+                  onChange={(event) =>
+                    setCanvasLayers({ ...canvasLayers, entities: event.currentTarget.checked })
+                  }
+                />
+                <div title="初始隐藏的实体（剧情后期才出场）画成半透明幽灵，可点选编排；游戏内不渲染">
+                  <DsCheckbox
+                    size="compact"
+                    label="隐藏实体（透视）"
                     checked={canvasLayers.ghosts}
-                    onChange={(e) => setCanvasLayers({ ...canvasLayers, ghosts: e.target.checked })}
-                  />{' '}
-                  隐藏实体(透视)
-                </label>
-                <label className="lrow">
-                  <input
-                    type="checkbox"
-                    checked={canvasLayers.grid}
-                    onChange={(e) => setCanvasLayers({ ...canvasLayers, grid: e.target.checked })}
-                  />{' '}
-                  网格
-                </label>
-                <label className="lrow">
-                  <input
-                    type="checkbox"
-                    checked={canvasLayers.blocked}
-                    onChange={(e) =>
-                      setCanvasLayers({ ...canvasLayers, blocked: e.target.checked })
+                    onChange={(event) =>
+                      setCanvasLayers({ ...canvasLayers, ghosts: event.currentTarget.checked })
                     }
-                  />{' '}
-                  禁入
-                </label>
+                  />
+                </div>
+                <DsCheckbox
+                  size="compact"
+                  label="网格"
+                  checked={canvasLayers.grid}
+                  onChange={(event) =>
+                    setCanvasLayers({ ...canvasLayers, grid: event.currentTarget.checked })
+                  }
+                />
+                <DsCheckbox
+                  size="compact"
+                  label="禁入"
+                  checked={canvasLayers.blocked}
+                  onChange={(event) =>
+                    setCanvasLayers({ ...canvasLayers, blocked: event.currentTarget.checked })
+                  }
+                />
               </div>
             </div>
 
             <div className="center">
               <div className="toolbar">
-                <button
-                  type="button"
-                  className={`tool${tool === 'select' ? ' active' : ''}`}
+                <DsButton
+                  size="compact"
+                  variant="quiet"
+                  aria-pressed={tool === 'select'}
                   onClick={() => setTool('select')}
                   disabled={drawer.open}
                   title="选择 / 拖动移位"
                 >
                   ↖ 选择/移动
-                </button>
-                <button
-                  type="button"
-                  className={`tool${tool === 'add' ? ' active' : ''}`}
-                  onClick={() => setTool('add')}
-                  disabled={drawer.open}
-                  title="点画布放新实体"
-                >
-                  ＋ 添加实体
-                </button>
-                <button
-                  type="button"
-                  className="tool"
+                </DsButton>
+                <DsButton
+                  size="compact"
+                  variant="danger"
                   onClick={deleteSelected}
                   disabled={!selEntity}
                   title="删除选中(Del)"
                 >
                   🗑 删除
-                </button>
+                </DsButton>
                 <span className="sep" />
-                <button
-                  type="button"
-                  className={`tool${drawer.open ? ' active' : ''}`}
-                  onClick={() =>
-                    setDrawer((drawerState) => ({
-                      open: !drawerState.open,
-                      src: drawerState.src,
-                      internalScriptId: null,
-                      commandPath: null,
-                      focusRevision: drawerState.focusRevision,
-                    }))
-                  }
+                <DsButton
+                  size="compact"
+                  variant="quiet"
+                  aria-pressed={drawer.open}
+                  onClick={toggleScriptPanel}
                   title="底部脚本抽屉:本场景 onEnter/实体触发/巡逻 就地编 + 预览"
                 >
                   📜 脚本
-                </button>
-                <span className="spacer" />
+                </DsButton>
                 <span className="toolbar-hint">
                   {tool === 'add' ? '点画布放实体' : '拖动移位 · Del 删除'}
                 </span>
@@ -2043,15 +2208,6 @@ export function App(props: {
                   onOpenReference={openCanonicalReference}
                   focusReference={canonicalReferenceFocus}
                   onError={(message) => setWorkspaceNotice({ kind: 'error', message })}
-                  onClose={() =>
-                    setDrawer({
-                      open: false,
-                      src: null,
-                      internalScriptId: null,
-                      commandPath: null,
-                      focusRevision: drawer.focusRevision,
-                    })
-                  }
                 />
               ) : (
                 <ScriptDrawer
@@ -2090,20 +2246,11 @@ export function App(props: {
                   onOpenSpriteAction={(spriteId, actionId) =>
                     applyEditorLocation(editorLinks.worldSpriteAction(spriteId, actionId))
                   }
-                  onClose={() =>
-                    setDrawer({
-                      open: false,
-                      src: null,
-                      internalScriptId: null,
-                      commandPath: null,
-                      focusRevision: drawer.focusRevision,
-                    })
-                  }
                 />
               )}
             </div>
 
-            <div className="inspector">
+            <div className={`inspector${tool !== 'add' && selEntity ? ' inspector--tabbed' : ''}`}>
               {tool === 'add' ? (
                 <PlacePalette
                   actors={state.actors}
@@ -2123,177 +2270,194 @@ export function App(props: {
                   }
                 />
               ) : selEntity ? (
-                <>
-                  <EntityInspector
-                    entity={selEntity}
-                    session={session}
-                    sceneId={scene.id}
-                    locale={state.locale}
-                    actorsById={actorsById}
-                    enemyTeams={state.enemyTeams ?? []}
-                    sprites={state.sprites}
-                    assetBase={project.assetBase}
-                    assetReader={assetReader}
-                    canonicalScriptV5={!!scriptV5Session}
-                    isContentV13={state.manifest.contentVersion === 13}
-                    onJumpToEvent={jumpToEvent}
-                    focusPageIndex={
-                      entityPageFocus?.sceneId === scene.id &&
-                      entityPageFocus.entityId === selEntity.id
-                        ? entityPageFocus.pageIndex
-                        : undefined
-                    }
-                    focusPageRevision={
-                      entityPageFocus?.sceneId === scene.id &&
-                      entityPageFocus.entityId === selEntity.id
-                        ? entityPageFocus.revision
-                        : undefined
-                    }
-                    onPageFocusConsumed={(revision) =>
-                      setEntityPageFocus((current) =>
-                        current?.revision === revision ? undefined : current,
-                      )
-                    }
-                    onOpenSpriteAction={(spriteId, actionId) =>
-                      applyEditorLocation(editorLinks.worldSpriteAction(spriteId, actionId))
-                    }
-                    onDelete={deleteSelected}
-                  />
-                  {state.manifest.contentVersion === 13 ? (
+                <SceneEntityInspectorTabs
+                  key={`${scene.id}:${selEntity.id}`}
+                  entity={selEntity}
+                  locale={state.locale}
+                  actorsById={actorsById}
+                  properties={
+                    <EntityInspector
+                      entity={selEntity}
+                      session={session}
+                      sceneId={scene.id}
+                      locale={state.locale}
+                      actorsById={actorsById}
+                      enemyTeams={state.enemyTeams ?? []}
+                      battleFields={state.battleFields ?? []}
+                      sprites={state.sprites}
+                      assetBase={project.assetBase}
+                      assetReader={assetReader}
+                      canonicalScriptV5={!!scriptV5Session}
+                      onJumpToEvent={jumpToEvent}
+                      focusPageIndex={
+                        entityPageFocus?.sceneId === scene.id &&
+                        entityPageFocus.entityId === selEntity.id
+                          ? entityPageFocus.pageIndex
+                          : undefined
+                      }
+                      focusPageRevision={
+                        entityPageFocus?.sceneId === scene.id &&
+                        entityPageFocus.entityId === selEntity.id
+                          ? entityPageFocus.revision
+                          : undefined
+                      }
+                      onPageFocusConsumed={(revision) =>
+                        setEntityPageFocus((current) =>
+                          current?.revision === revision ? undefined : current,
+                        )
+                      }
+                      onOpenSpriteAction={(spriteId, actionId) =>
+                        applyEditorLocation(editorLinks.worldSpriteAction(spriteId, actionId))
+                      }
+                      onOpenActor={(actorId) => applyEditorLocation(editorLinks.actor(actorId))}
+                      onOpenBattleField={(fieldId) =>
+                        applyEditorLocation(editorLinks.battleField(fieldId))
+                      }
+                      onDelete={deleteSelected}
+                      showHeader={false}
+                    />
+                  }
+                  lifecycle={
                     <LifecycleCommandPanelV13
                       session={session}
                       sceneId={scene.id}
                       entityId={selEntity.id}
                     />
-                  ) : null}
-                  {scriptV5Session && scriptV5State && !drawer.open ? (
-                    <div className="section script-v5-entity-section">
-                      {canonicalEntityV5?.hostile ? (
-                        <CanonicalHostileOnLoseEditorV5
-                          value={canonicalEntityV5.hostile.onLose}
-                          context={
-                            canonicalScriptEditorContextV5
-                              ? {
-                                  ...canonicalScriptEditorContextV5,
-                                  currentEntityId: selEntity.id,
-                                }
-                              : undefined
-                          }
-                          focusCommandPath={
-                            entityHostileFocus?.sceneId === scene.id &&
-                            entityHostileFocus.entityId === selEntity.id
-                              ? entityHostileFocus.commandPath
-                              : undefined
-                          }
-                          focusRevision={
-                            entityHostileFocus?.sceneId === scene.id &&
-                            entityHostileFocus.entityId === selEntity.id
-                              ? entityHostileFocus.revision
-                              : undefined
-                          }
-                          onChange={(onLose) =>
-                            scriptV5Session.dispatch(
-                              new SetEntityHostileOnLoseV5Command(
-                                { scene: scene.id, entity: selEntity.id },
-                                onLose,
-                              ),
-                            )
+                  }
+                  behavior={
+                    scriptV5Session && scriptV5State && !drawer.open ? (
+                      <div className="section script-v5-entity-section">
+                        {canonicalEntityV5?.hostile ? (
+                          <CanonicalHostileOnLoseEditorV5
+                            value={canonicalEntityV5.hostile.onLose}
+                            context={
+                              canonicalScriptEditorContextV5
+                                ? {
+                                    ...canonicalScriptEditorContextV5,
+                                    currentEntityId: selEntity.id,
+                                  }
+                                : undefined
+                            }
+                            focusCommandPath={
+                              entityHostileFocus?.sceneId === scene.id &&
+                              entityHostileFocus.entityId === selEntity.id
+                                ? entityHostileFocus.commandPath
+                                : undefined
+                            }
+                            focusRevision={
+                              entityHostileFocus?.sceneId === scene.id &&
+                              entityHostileFocus.entityId === selEntity.id
+                                ? entityHostileFocus.revision
+                                : undefined
+                            }
+                            onChange={(onLose) =>
+                              scriptV5Session.dispatch(
+                                new SetEntityHostileOnLoseV5Command(
+                                  { scene: scene.id, entity: selEntity.id },
+                                  onLose,
+                                ),
+                              )
+                            }
+                            onError={(message) => setWorkspaceNotice({ kind: 'error', message })}
+                          />
+                        ) : null}
+                        {canonicalEntityV5 && canonicalPageV5 ? (
+                          <div className="script-v5-page-binding">
+                            <label>
+                              <span className="field-label">实体页</span>
+                              <select
+                                className="in"
+                                value={canonicalPageV5.id}
+                                onChange={(event) => setSelectedPageV5(event.target.value)}
+                              >
+                                {(canonicalEntityV5.pages ?? []).map((page) => (
+                                  <option key={page.id} value={page.id}>
+                                    {page.label} · {page.id}
+                                    {page.id === canonicalEntityV5.initialPage ? '（初始）' : ''}
+                                  </option>
+                                ))}
+                              </select>
+                            </label>
+                            {(['trigger', 'auto'] as const).map((channel) => {
+                              const registry = canonicalEntityV5.behaviors?.[channel] ?? {}
+                              return (
+                                <label key={channel}>
+                                  <span className="field-label">
+                                    {channel === 'trigger' ? '触发行为槽' : '自动行为槽'}
+                                  </span>
+                                  <select
+                                    className="in"
+                                    value={canonicalPageV5[channel] ?? ''}
+                                    onChange={(event) =>
+                                      scriptV5Session.dispatch(
+                                        new SetEntityPageBehaviorV5Command(
+                                          { scene: scene.id, entity: selEntity.id },
+                                          canonicalPageV5.id,
+                                          channel,
+                                          event.target.value || undefined,
+                                        ),
+                                      )
+                                    }
+                                  >
+                                    <option value="">显式无行为</option>
+                                    {Object.entries(registry)
+                                      .sort(
+                                        ([leftId, left], [rightId, right]) =>
+                                          left.order - right.order || leftId.localeCompare(rightId),
+                                      )
+                                      .map(([id, behavior]) => (
+                                        <option key={id} value={id}>
+                                          {behavior.label} · {id}
+                                        </option>
+                                      ))}
+                                  </select>
+                                </label>
+                              )
+                            })}
+                          </div>
+                        ) : null}
+                        <div
+                          className="script-v5-channel-tabs"
+                          role="tablist"
+                          aria-label="行为通道"
+                        >
+                          {(['trigger', 'auto'] as const).map((channel) => (
+                            <button
+                              key={channel}
+                              type="button"
+                              role="tab"
+                              aria-selected={scriptV5Channel === channel}
+                              className={scriptV5Channel === channel ? 'active' : ''}
+                              onClick={() => {
+                                setScriptV5Channel(channel)
+                                setSelectedBehaviorV5(undefined)
+                              }}
+                            >
+                              {channel === 'trigger' ? '触发行为' : '自动行为'}
+                            </button>
+                          ))}
+                        </div>
+                        <ScriptV5BehaviorInspector
+                          state={scriptV5State}
+                          target={{ scene: scene.id, entity: selEntity.id }}
+                          channel={scriptV5Channel}
+                          selectedBehaviorId={selectedBehaviorV5}
+                          onSelectBehavior={setSelectedBehaviorV5}
+                          onDispatch={(command) => scriptV5Session.dispatch(command)}
+                          editorContext={canonicalScriptEditorContextV5}
+                          onOpenReference={openCanonicalReference}
+                          onOpenFlow={(behaviorId) =>
+                            setWorkspaceNotice({
+                              kind: 'info',
+                              message: `已选择 ${scriptV5Channel} 行为 ${behaviorId}；正文编辑器将在此 canonical 槽内打开。`,
+                            })
                           }
                           onError={(message) => setWorkspaceNotice({ kind: 'error', message })}
                         />
-                      ) : null}
-                      {canonicalEntityV5 && canonicalPageV5 ? (
-                        <div className="script-v5-page-binding">
-                          <label>
-                            <span className="field-label">实体页</span>
-                            <select
-                              className="in"
-                              value={canonicalPageV5.id}
-                              onChange={(event) => setSelectedPageV5(event.target.value)}
-                            >
-                              {(canonicalEntityV5.pages ?? []).map((page) => (
-                                <option key={page.id} value={page.id}>
-                                  {page.label} · {page.id}
-                                  {page.id === canonicalEntityV5.initialPage ? '（初始）' : ''}
-                                </option>
-                              ))}
-                            </select>
-                          </label>
-                          {(['trigger', 'auto'] as const).map((channel) => {
-                            const registry = canonicalEntityV5.behaviors?.[channel] ?? {}
-                            return (
-                              <label key={channel}>
-                                <span className="field-label">
-                                  {channel === 'trigger' ? '触发行为槽' : '自动行为槽'}
-                                </span>
-                                <select
-                                  className="in"
-                                  value={canonicalPageV5[channel] ?? ''}
-                                  onChange={(event) =>
-                                    scriptV5Session.dispatch(
-                                      new SetEntityPageBehaviorV5Command(
-                                        { scene: scene.id, entity: selEntity.id },
-                                        canonicalPageV5.id,
-                                        channel,
-                                        event.target.value || undefined,
-                                      ),
-                                    )
-                                  }
-                                >
-                                  <option value="">显式无行为</option>
-                                  {Object.entries(registry)
-                                    .sort(
-                                      ([leftId, left], [rightId, right]) =>
-                                        left.order - right.order || leftId.localeCompare(rightId),
-                                    )
-                                    .map(([id, behavior]) => (
-                                      <option key={id} value={id}>
-                                        {behavior.label} · {id}
-                                      </option>
-                                    ))}
-                                </select>
-                              </label>
-                            )
-                          })}
-                        </div>
-                      ) : null}
-                      <div className="script-v5-channel-tabs" role="tablist" aria-label="行为通道">
-                        {(['trigger', 'auto'] as const).map((channel) => (
-                          <button
-                            key={channel}
-                            type="button"
-                            role="tab"
-                            aria-selected={scriptV5Channel === channel}
-                            className={scriptV5Channel === channel ? 'active' : ''}
-                            onClick={() => {
-                              setScriptV5Channel(channel)
-                              setSelectedBehaviorV5(undefined)
-                            }}
-                          >
-                            {channel === 'trigger' ? '触发行为' : '自动行为'}
-                          </button>
-                        ))}
                       </div>
-                      <ScriptV5BehaviorInspector
-                        state={scriptV5State}
-                        target={{ scene: scene.id, entity: selEntity.id }}
-                        channel={scriptV5Channel}
-                        selectedBehaviorId={selectedBehaviorV5}
-                        onSelectBehavior={setSelectedBehaviorV5}
-                        onDispatch={(command) => scriptV5Session.dispatch(command)}
-                        editorContext={canonicalScriptEditorContextV5}
-                        onOpenReference={openCanonicalReference}
-                        onOpenFlow={(behaviorId) =>
-                          setWorkspaceNotice({
-                            kind: 'info',
-                            message: `已选择 ${scriptV5Channel} 行为 ${behaviorId}；正文编辑器将在此 canonical 槽内打开。`,
-                          })
-                        }
-                        onError={(message) => setWorkspaceNotice({ kind: 'error', message })}
-                      />
-                    </div>
-                  ) : null}
-                </>
+                    ) : undefined
+                  }
+                />
               ) : selected.kind === 'default-entry' ? (
                 <EntryInspector scene={scene} session={session} />
               ) : selected.kind === 'named-entry' && scene.entries?.[selected.id] ? (
@@ -2324,7 +2488,11 @@ export function App(props: {
                   maps={state.mapIndex.maps}
                   projectMaps={state.maps}
                   tilesets={state.tilesets ?? []}
+                  battleFields={state.battleFields ?? []}
                   onOpenMap={(mapId) => applyEditorLocation(editorLinks.map(mapId))}
+                  onOpenBattleField={(fieldId) =>
+                    applyEditorLocation(editorLinks.battleField(fieldId))
+                  }
                 />
               )}
             </div>
@@ -2339,9 +2507,6 @@ export function App(props: {
           max={outlinerCollapsed ? 0 : outlinerResizeMax}
           resizeLabel="调整左侧面板宽度"
           disabled={outlinerCollapsed}
-          toggleDirection={outlinerCollapsed ? 'right' : 'left'}
-          toggleLabel={outlinerCollapsed ? '展开左侧面板' : '收起左侧面板'}
-          onToggle={() => setOutlinerCollapsed((value) => !value)}
           onReset={() => setOutlinerWidth(OUTLINER_DEFAULT_WIDTH)}
           onResize={(delta) =>
             setOutlinerWidth((current) =>
@@ -2357,9 +2522,6 @@ export function App(props: {
           max={inspectorCollapsed ? 0 : inspectorResizeMax}
           resizeLabel="调整右侧面板宽度"
           disabled={inspectorCollapsed}
-          toggleDirection={inspectorCollapsed ? 'left' : 'right'}
-          toggleLabel={inspectorCollapsed ? '展开右侧面板' : '收起右侧面板'}
-          onToggle={() => setInspectorCollapsed((value) => !value)}
           onReset={() => setInspectorWidth(INSPECTOR_DEFAULT_WIDTH)}
           onResize={(delta) =>
             setInspectorWidth((current) =>
@@ -2412,13 +2574,11 @@ export function App(props: {
 function MissingEditorTarget(props: {
   moduleLabel: string
   objectId: string
-  navigation: React.ReactNode
   onClear: () => void
 }) {
   return (
     <>
       <div className="outliner">
-        {props.navigation}
         <div className="pane-h">
           <span className="t">{props.moduleLabel}</span>
         </div>
@@ -2492,10 +2652,10 @@ function PlacePalette(props: {
   })
   const summary =
     mode === 'actor'
-      ? `角色 · ${selectedActor ? lookupText(selectedActor.name, locale) : '未选择'}`
+      ? `预制人物 · ${selectedActor ? lookupText(selectedActor.name, locale) : '未选择'}`
       : mode === 'sprite'
-        ? `资源 · ${selectedSprite?.label || selectedSprite?.id || '未选择'}`
-        : `${triggerOn === 'touch' ? '触碰' : '交互'} · ${zoneRanges[triggerOn]} 格`
+        ? `自定义实体 · ${selectedSprite?.label || selectedSprite?.id || '未选择'}`
+        : `触发区 · ${triggerOn === 'touch' ? '触碰' : '交互'} · ${zoneRanges[triggerOn]} 格`
   return (
     <>
       <div className="insp-head">
@@ -2504,14 +2664,22 @@ function PlacePalette(props: {
       </div>
       <div className="section">
         <fieldset className="place-segments">
-          <legend className="place-control-legend">实体形态</legend>
+          <legend className="place-control-legend">创建方式</legend>
           <button
             type="button"
-            className={visibleMode ? 'active' : ''}
-            aria-pressed={visibleMode}
-            onClick={() => onModeChange(mode === 'actor' ? 'actor' : 'sprite')}
+            className={mode === 'actor' ? 'active' : ''}
+            aria-pressed={mode === 'actor'}
+            onClick={() => onModeChange('actor')}
           >
-            精灵
+            预制人物
+          </button>
+          <button
+            type="button"
+            className={mode === 'sprite' ? 'active' : ''}
+            aria-pressed={mode === 'sprite'}
+            onClick={() => onModeChange('sprite')}
+          >
+            自定义实体
           </button>
           <button
             type="button"
@@ -2525,25 +2693,6 @@ function PlacePalette(props: {
 
         {visibleMode ? (
           <>
-            <fieldset className="place-segments secondary">
-              <legend className="place-control-legend">精灵来源</legend>
-              <button
-                type="button"
-                className={mode === 'actor' ? 'active' : ''}
-                aria-pressed={mode === 'actor'}
-                onClick={() => onModeChange('actor')}
-              >
-                角色
-              </button>
-              <button
-                type="button"
-                className={mode === 'sprite' ? 'active' : ''}
-                aria-pressed={mode === 'sprite'}
-                onClick={() => onModeChange('sprite')}
-              >
-                精灵资源
-              </button>
-            </fieldset>
             <input
               className="in"
               aria-label="过滤可见实体来源"
@@ -2615,7 +2764,7 @@ function PlacePalette(props: {
                   )}
                   <span className="nm">
                     {lookupText(actor.name, locale)}
-                    <span className="sub">角色 · {actor.id}</span>
+                    <span className="sub">预制人物 · {actor.id}</span>
                   </span>
                 </button>
               )
@@ -2643,7 +2792,7 @@ function PlacePalette(props: {
                 <span className="nm">
                   {s.label || s.id}
                   <span className="sub">
-                    资源 · {KIND_ICON[s.layout.kind] ?? ''} {s.asset}
+                    自定义实体 · {KIND_ICON[s.layout.kind] ?? ''} {s.asset}
                   </span>
                 </span>
               </button>
@@ -2656,6 +2805,50 @@ function PlacePalette(props: {
   )
 }
 
+function SceneEntityInspectorTabs(props: {
+  entity: EntityDef
+  locale: Locale
+  actorsById: Record<string, ActorDef>
+  properties: ReactNode
+  lifecycle: ReactNode
+  behavior?: ReactNode
+}) {
+  const id = useId()
+  const [activeId, setActiveId] = useState('properties')
+  const actorName =
+    isActorEntity(props.entity) && props.actorsById[props.entity.actor]
+      ? lookupText(props.actorsById[props.entity.actor]!.name, props.locale)
+      : undefined
+  const items = [
+    { id: 'properties', label: '属性', panel: props.properties },
+    { id: 'lifecycle', label: '生命周期', panel: props.lifecycle },
+    ...(props.behavior ? [{ id: 'behavior', label: '行为', panel: props.behavior }] : []),
+  ]
+
+  useEffect(() => {
+    if (activeId === 'behavior' && !props.behavior) setActiveId('properties')
+  }, [activeId, props.behavior])
+
+  return (
+    <div className="scene-entity-inspector">
+      <div className="insp-head">
+        <div className="what">选中实体</div>
+        <div className="who">
+          {actorName ?? props.entity.id}
+          {actorName ? <code> {props.entity.id}</code> : null}
+        </div>
+      </div>
+      <DsInspectorTabs
+        id={`${id}-scene-entity`}
+        label="实体属性分区"
+        items={items}
+        activeId={activeId}
+        onChange={setActiveId}
+      />
+    </div>
+  )
+}
+
 function EntityInspector(props: {
   entity: EntityDef
   session: EditSession
@@ -2664,14 +2857,13 @@ function EntityInspector(props: {
   actorsById: Record<string, ActorDef>
   /** 敌队清单(B9 敌对行为 team 下拉;id 约定 team-<N>,引擎按 N 查)。 */
   enemyTeams: EnemyTeamDef[]
+  battleFields: readonly BattleFieldDef[]
   /** 精灵注册表(sprite 来源实体换外观下拉)。 */
   sprites: SpriteDef[]
   assetBase: AssetBase
   assetReader: EditorAssetReader
   /** v5 canonical 脚本由独立具名行为检查器编辑，禁止兼容壳重新创建 legacy stage。 */
   canonicalScriptV5?: boolean
-  /** contentVersion 13 才有的显式 hostile policy。 */
-  isContentV13?: boolean
   /** 跳事件模式定位此实体的触发/巡逻脚本(E2)。 */
   onJumpToEvent: (sceneId: string, srcKey: string) => void
   /** 从动作引用跳转时精确打开对应实体页。 */
@@ -2679,7 +2871,10 @@ function EntityInspector(props: {
   focusPageRevision?: number
   onPageFocusConsumed?: (revision: number) => void
   onOpenSpriteAction?: (spriteId: string, actionId: string) => void
+  onOpenActor?: (actorId: string) => void
+  onOpenBattleField?: (fieldId: number) => void
   onDelete: () => void
+  showHeader?: boolean
 }) {
   const {
     entity,
@@ -2688,17 +2883,20 @@ function EntityInspector(props: {
     locale,
     actorsById,
     enemyTeams,
+    battleFields,
     sprites,
     assetBase,
     assetReader,
     canonicalScriptV5,
-    isContentV13,
     onJumpToEvent,
     focusPageIndex,
     focusPageRevision,
     onPageFocusConsumed,
     onOpenSpriteAction,
+    onOpenActor,
+    onOpenBattleField,
     onDelete,
+    showHeader = true,
   } = props
   const [spriteViewerOpen, setSpriteViewerOpen] = useState(false)
   const [pageIndex, setPageIndex] = useState(0)
@@ -2755,13 +2953,15 @@ function EntityInspector(props: {
   }
   return (
     <>
-      <div className="insp-head">
-        <div className="what">选中实体</div>
-        <div className="who">
-          {actorName ?? entity.id}
-          {actorName && <code style={{ color: 'var(--faint)', fontSize: 11 }}> {entity.id}</code>}
+      {showHeader ? (
+        <div className="insp-head">
+          <div className="what">选中实体</div>
+          <div className="who">
+            {actorName ?? entity.id}
+            {actorName && <code> {entity.id}</code>}
+          </div>
         </div>
-      </div>
+      ) : null}
       <div className="section">
         <h4>
           页面默认动作 <span className="hint2">动作资产在精灵库定义</span>
@@ -2824,12 +3024,29 @@ function EntityInspector(props: {
         )}
         {/* actor 引用只读解算外观;普通 sprite 实体可换精灵;朝向暂只读。 */}
         {isActorEntity(entity) ? (
-          <div className="field">
-            <span className="field-label">角色</span>
-            <div className="in pick">
+          <div className="field actor-entity-source">
+            <span className="field-label">预制人物（共享身份与资源）</span>
+            <div className="in pick actor-entity-source-row">
               <span>{actorName ?? entity.actor}</span>
               <span className="meta">→ {spriteId ?? '(未解析)'}</span>
+              <button
+                type="button"
+                className="mini"
+                aria-label={`打开人物 ${entity.actor}`}
+                title="在人物库打开"
+                onClick={() => onOpenActor?.(entity.actor)}
+              >
+                ↗
+              </button>
             </div>
+            <p className="hint">位置、朝向、碰撞、显隐、页面脚本和敌对配置只属于当前场景实例。</p>
+            <button
+              type="button"
+              className="tool"
+              onClick={() => session.dispatch(new DetachActorEntityCommand(sceneId, entity.id))}
+            >
+              解除人物关联，保留当前精灵
+            </button>
           </div>
         ) : 'sprite' in entity ? (
           <div className="field">
@@ -2869,34 +3086,32 @@ function EntityInspector(props: {
         </div>
         <div className="field">
           <span className="field-label">碰撞</span>
-          <div>
-            <input
-              type="checkbox"
-              checked={entity.collide === true}
-              onChange={(e) =>
-                session.dispatch(
-                  new UpdateEntityCommand(sceneId, entity.id, { collide: e.target.checked }),
-                )
-              }
-            />{' '}
-            阻挡通行
-          </div>
+          <DsCheckbox
+            label="阻挡通行"
+            checked={entity.collide === true}
+            onChange={(event) =>
+              session.dispatch(
+                new UpdateEntityCommand(sceneId, entity.id, {
+                  collide: event.currentTarget.checked,
+                }),
+              )
+            }
+          />
         </div>
         <div className="field">
           <span className="field-label">初始显隐</span>
           <div title="隐藏 = 游戏里初始不出现(剧情脚本 setEntityState 可显形);编辑器「隐藏实体(透视)」图层仍半透明可见">
-            <input
-              type="checkbox"
+            <DsCheckbox
+              label="初始隐藏（待剧情出场）"
               checked={entity.hidden === true}
-              onChange={(e) =>
+              onChange={(event) =>
                 session.dispatch(
                   new UpdateEntityCommand(sceneId, entity.id, {
-                    hidden: e.target.checked ? true : undefined,
+                    hidden: event.currentTarget.checked ? true : undefined,
                   }),
                 )
               }
-            />{' '}
-            初始隐藏(待剧情出场)
+            />
           </div>
         </div>
       </div>
@@ -2947,26 +3162,21 @@ function EntityInspector(props: {
         </h4>
         <div className="field">
           <span className="field-label">敌对</span>
-          <div>
-            <input
-              type="checkbox"
-              checked={!!entity.hostile}
-              onChange={(e) =>
-                dispatchHostile(
-                  e.target.checked
-                    ? isContentV13
-                      ? {
-                          team: parseTeamNum(enemyTeams[0]?.id) ?? 1,
-                          onVictory: { kind: 'remove' },
-                          onPlayerFlee: { kind: 'remain' },
-                        }
-                      : { team: parseTeamNum(enemyTeams[0]?.id) ?? 1 }
-                    : undefined,
-                )
-              }
-            />{' '}
-            遇敌开战(触碰即 startBattle)
-          </div>
+          <DsCheckbox
+            label="遇敌开战（触碰即开始战斗）"
+            checked={!!entity.hostile}
+            onChange={(event) =>
+              dispatchHostile(
+                event.currentTarget.checked
+                  ? {
+                      team: parseTeamNum(enemyTeams[0]?.id) ?? 1,
+                      onVictory: { kind: 'remove' },
+                      onPlayerFlee: { kind: 'remain' },
+                    }
+                  : undefined,
+              )
+            }
+          />
         </div>
         {entity.hostile && (
           <>
@@ -2994,168 +3204,158 @@ function EntityInspector(props: {
               </select>
             </div>
             <div className="field">
+              <span className="field-label">战场</span>
+              <BattleFieldPicker
+                value={entity.hostile.battleFieldId}
+                fields={battleFields}
+                unsetLabel="跟随场景默认战场"
+                ariaLabel="敌对实体战场"
+                onOpen={onOpenBattleField}
+                onChange={(battleFieldId) => setHostile({ battleFieldId })}
+              />
+            </div>
+            <div className="field">
               <span className="field-label">追逐</span>
-              <div>
-                <input
-                  type="checkbox"
-                  checked={!!entity.hostile.chase}
-                  onChange={(e) =>
-                    setHostile({
-                      chase: e.target.checked ? { range: 6, speed: 2 } : undefined,
-                    })
-                  }
-                />{' '}
-                见人就追(不勾 = 原地怪)
-              </div>
+              <DsCheckbox
+                label="见人就追（不勾为原地怪）"
+                checked={!!entity.hostile.chase}
+                onChange={(event) =>
+                  setHostile({
+                    chase: event.currentTarget.checked ? { range: 6, speed: 2 } : undefined,
+                  })
+                }
+              />
             </div>
             {entity.hostile.chase && (
-              <div className="posrow">
-                <div className="cell">
-                  <span>range 格</span>
-                  <input
-                    className="in mono"
-                    type="number"
-                    value={entity.hostile.chase.range}
-                    onChange={(e) =>
-                      Number.isFinite(e.target.valueAsNumber) &&
-                      setHostile({
-                        chase: { ...entity.hostile!.chase!, range: e.target.valueAsNumber },
-                      })
-                    }
-                  />
-                </div>
-                <div className="cell">
-                  <span>speed</span>
-                  <input
-                    className="in mono"
-                    type="number"
-                    value={entity.hostile.chase.speed}
-                    onChange={(e) =>
-                      Number.isFinite(e.target.valueAsNumber) &&
-                      setHostile({
-                        chase: { ...entity.hostile!.chase!, speed: e.target.valueAsNumber },
-                      })
-                    }
-                  />
-                </div>
-                <div className="cell">
-                  <span>追击时忽略地形与阻挡实体</span>
-                  <input
-                    type="checkbox"
-                    checked={entity.hostile.chase.floating === true}
-                    onChange={(e) => {
-                      const chase = { ...entity.hostile!.chase!, floating: true }
-                      if (!e.target.checked) delete (chase as { floating?: boolean }).floating
-                      setHostile({ chase })
-                    }}
-                  />
-                </div>
-              </div>
-            )}
-            {isContentV13 ? (
-              <>
-                <div className="field">
-                  <span className="field-label">胜利后</span>
-                  <select
-                    className="in"
-                    value={hostileV13?.onVictory.kind ?? 'remove'}
-                    onChange={(e) => {
-                      const kind = e.target.value as HostileBehaviorV13['onVictory']['kind']
-                      if (kind === 'hide')
-                        setHostile({
-                          onVictory: {
-                            kind,
-                            ticks:
-                              hostileV13?.onVictory.kind === 'hide'
-                                ? hostileV13.onVictory.ticks
-                                : 800,
-                          },
-                        })
-                      else setHostile({ onVictory: { kind } })
-                    }}
-                  >
-                    <option value="remove">隐藏后从场景移除</option>
-                    <option value="hide">隐藏后离屏重现</option>
-                    <option value="remain">保持原样</option>
-                  </select>
-                </div>
-                {hostileV13?.onVictory.kind === 'hide' ? (
-                  <div className="field">
-                    <span className="field-label">胜利隐藏 ticks</span>
+              <div className="hostile-chase-options">
+                <div className="posrow hostile-chase-metrics">
+                  <div className="cell">
+                    <span>range 格</span>
                     <input
                       className="in mono"
                       type="number"
-                      min={1}
-                      step={1}
-                      value={hostileV13.onVictory.ticks}
-                      onChange={(e) => {
-                        const ticks = e.target.valueAsNumber
-                        if (Number.isSafeInteger(ticks) && ticks > 0)
-                          setHostile({ onVictory: { kind: 'hide', ticks } })
-                      }}
+                      value={entity.hostile.chase.range}
+                      onChange={(e) =>
+                        Number.isFinite(e.target.valueAsNumber) &&
+                        setHostile({
+                          chase: { ...entity.hostile!.chase!, range: e.target.valueAsNumber },
+                        })
+                      }
                     />
                   </div>
-                ) : null}
-                <div className="field">
-                  <span className="field-label">逃跑后</span>
-                  <select
-                    className="in"
-                    value={hostileV13?.onPlayerFlee.kind ?? 'remain'}
-                    onChange={(e) => {
-                      const kind = e.target.value as HostileBehaviorV13['onPlayerFlee']['kind']
-                      if (kind === 'suspend')
-                        setHostile({
-                          onPlayerFlee: {
-                            kind,
-                            ticks:
-                              hostileV13?.onPlayerFlee.kind === 'suspend'
-                                ? hostileV13.onPlayerFlee.ticks
-                                : 15,
-                          },
-                        })
-                      else setHostile({ onPlayerFlee: { kind } })
-                    }}
-                  >
-                    <option value="remain">保持原样</option>
-                    <option value="suspend">短暂暂停自动行为</option>
-                  </select>
-                </div>
-                {hostileV13?.onPlayerFlee.kind === 'suspend' ? (
-                  <div className="field">
-                    <span className="field-label">逃跑暂停 ticks</span>
+                  <div className="cell">
+                    <span>speed</span>
                     <input
                       className="in mono"
                       type="number"
-                      min={1}
-                      step={1}
-                      value={hostileV13.onPlayerFlee.ticks}
-                      onChange={(e) => {
-                        const ticks = e.target.valueAsNumber
-                        if (Number.isSafeInteger(ticks) && ticks > 0)
-                          setHostile({ onPlayerFlee: { kind: 'suspend', ticks } })
-                      }}
+                      value={entity.hostile.chase.speed}
+                      onChange={(e) =>
+                        Number.isFinite(e.target.valueAsNumber) &&
+                        setHostile({
+                          chase: { ...entity.hostile!.chase!, speed: e.target.valueAsNumber },
+                        })
+                      }
                     />
                   </div>
-                ) : null}
-              </>
-            ) : (
-              <div className="field">
-                <span className="field-label">重生秒</span>
-                <input
-                  className="in mono"
-                  type="number"
-                  placeholder="(空=不复活)"
-                  value={entity.hostile.respawnSeconds ?? ''}
-                  onChange={(e) =>
-                    setHostile({
-                      respawnSeconds: Number.isFinite(e.target.valueAsNumber)
-                        ? e.target.valueAsNumber
-                        : undefined,
-                    })
-                  }
+                </div>
+                <DsCheckbox
+                  size="compact"
+                  label="追击时忽略地形与阻挡实体"
+                  checked={entity.hostile.chase.floating === true}
+                  onChange={(event) => {
+                    const chase = { ...entity.hostile!.chase!, floating: true }
+                    if (!event.currentTarget.checked)
+                      delete (chase as { floating?: boolean }).floating
+                    setHostile({ chase })
+                  }}
                 />
               </div>
             )}
+            <>
+              <div className="field">
+                <span className="field-label">胜利后</span>
+                <select
+                  className="in"
+                  value={hostileV13?.onVictory.kind ?? 'remove'}
+                  onChange={(e) => {
+                    const kind = e.target.value as HostileBehaviorV13['onVictory']['kind']
+                    if (kind === 'hide')
+                      setHostile({
+                        onVictory: {
+                          kind,
+                          ticks:
+                            hostileV13?.onVictory.kind === 'hide'
+                              ? hostileV13.onVictory.ticks
+                              : 800,
+                        },
+                      })
+                    else setHostile({ onVictory: { kind } })
+                  }}
+                >
+                  <option value="remove">隐藏后从场景移除</option>
+                  <option value="hide">隐藏后离屏重现</option>
+                  <option value="remain">保持原样</option>
+                </select>
+              </div>
+              {hostileV13?.onVictory.kind === 'hide' ? (
+                <div className="field">
+                  <span className="field-label">胜利隐藏 ticks</span>
+                  <input
+                    className="in mono"
+                    type="number"
+                    min={1}
+                    step={1}
+                    value={hostileV13.onVictory.ticks}
+                    onChange={(e) => {
+                      const ticks = e.target.valueAsNumber
+                      if (Number.isSafeInteger(ticks) && ticks > 0)
+                        setHostile({ onVictory: { kind: 'hide', ticks } })
+                    }}
+                  />
+                </div>
+              ) : null}
+              <div className="field">
+                <span className="field-label">逃跑后</span>
+                <select
+                  className="in"
+                  value={hostileV13?.onPlayerFlee.kind ?? 'remain'}
+                  onChange={(e) => {
+                    const kind = e.target.value as HostileBehaviorV13['onPlayerFlee']['kind']
+                    if (kind === 'suspend')
+                      setHostile({
+                        onPlayerFlee: {
+                          kind,
+                          ticks:
+                            hostileV13?.onPlayerFlee.kind === 'suspend'
+                              ? hostileV13.onPlayerFlee.ticks
+                              : 15,
+                        },
+                      })
+                    else setHostile({ onPlayerFlee: { kind } })
+                  }}
+                >
+                  <option value="remain">保持原样</option>
+                  <option value="suspend">短暂暂停自动行为</option>
+                </select>
+              </div>
+              {hostileV13?.onPlayerFlee.kind === 'suspend' ? (
+                <div className="field">
+                  <span className="field-label">逃跑暂停 ticks</span>
+                  <input
+                    className="in mono"
+                    type="number"
+                    min={1}
+                    step={1}
+                    value={hostileV13.onPlayerFlee.ticks}
+                    onChange={(e) => {
+                      const ticks = e.target.valueAsNumber
+                      if (Number.isSafeInteger(ticks) && ticks > 0)
+                        setHostile({ onPlayerFlee: { kind: 'suspend', ticks } })
+                    }}
+                  />
+                </div>
+              ) : null}
+            </>
             {!canonicalScriptV5 ? (
               <>
                 <div className="field">
@@ -3193,7 +3393,7 @@ function EntityInspector(props: {
           </>
         )}
       </div>
-      {!canonicalScriptV5 && !isContentV13 ? (
+      {!canonicalScriptV5 ? (
         <div className="section">
           <h4>
             行为脚本 <span className="hint2">底部抽屉就地编(E2/E4)</span>
@@ -3394,10 +3594,22 @@ function SceneInspector(props: {
   maps: MapAssetDefV1[]
   projectMaps: Record<string, ProjectMap>
   tilesets: readonly TilesetDef[]
+  battleFields: readonly BattleFieldDef[]
   onOpenMap: (mapId: string) => void
+  onOpenBattleField: (fieldId: number) => void
 }) {
-  const { scene, session, assetCatalog, audioResolver, maps, projectMaps, tilesets, onOpenMap } =
-    props
+  const {
+    scene,
+    session,
+    assetCatalog,
+    audioResolver,
+    maps,
+    projectMaps,
+    tilesets,
+    battleFields,
+    onOpenMap,
+    onOpenBattleField,
+  } = props
   const mapId = scene.mapId
   const currentAsset = maps.find((asset) => asset.id === mapId)
   const mapSelectId = `scene-map-${scene.id}`
@@ -3448,47 +3660,48 @@ function SceneInspector(props: {
             地图
           </label>
           <div className="scene-map-control">
-            <div className="linked-control">
-              <select
-                id={mapSelectId}
-                className="in"
-                value={mapId}
-                onChange={(event) =>
-                  event.target.value &&
-                  session.dispatch(new BindSceneMapCommand(scene.id, event.target.value))
-                }
-              >
-                {!currentAsset && <option value={mapId}>{mapId} (缺失)</option>}
-                {maps.map((asset) => (
-                  <option key={asset.id} value={asset.id}>
-                    {asset.name} ({asset.id})
-                  </option>
-                ))}
-              </select>
-              <button
-                type="button"
-                className="linked-value-open"
-                title="在地图模块打开"
-                aria-label={`打开地图 ${mapId}`}
-                onClick={() => onOpenMap(mapId)}
-              >
-                ↗
-              </button>
-            </div>
+            <DsControlGroup
+              control={
+                <DsSelect
+                  id={mapSelectId}
+                  value={mapId}
+                  invalid={!currentAsset}
+                  options={[
+                    ...(!currentAsset ? [{ value: mapId, label: `${mapId} (缺失)` }] : []),
+                    ...maps.map((asset) => ({
+                      value: asset.id,
+                      label: `${asset.name} (${asset.id})`,
+                    })),
+                  ]}
+                  onValueChange={(nextMapId) => {
+                    if (nextMapId) {
+                      session.dispatch(new BindSceneMapCommand(scene.id, nextMapId))
+                    }
+                  }}
+                />
+              }
+              actions={
+                <DsIconButton
+                  label={`打开地图 ${mapId}`}
+                  title="在地图模块打开"
+                  icon="open"
+                  variant="secondary"
+                  onClick={() => onOpenMap(mapId)}
+                />
+              }
+            />
             <div className="scene-map-actions">
-              <button type="button" className="scene-map-action" onClick={createAndBind}>
-                <span aria-hidden="true">＋</span>
+              <DsButton variant="secondary" icon="add" onClick={createAndBind}>
                 创建并绑定
-              </button>
-              <button
-                type="button"
-                className="scene-map-action"
+              </DsButton>
+              <DsButton
+                variant="secondary"
+                icon="copy"
                 disabled={!currentAsset}
                 onClick={() => void duplicateAndBind()}
               >
-                <span aria-hidden="true">⧉</span>
                 复制并绑定
-              </button>
+              </DsButton>
             </div>
           </div>
         </div>
@@ -3506,8 +3719,21 @@ function SceneInspector(props: {
             allowStop
           />
         </div>
+        <div className="field">
+          <span className="field-label">默认战场</span>
+          <BattleFieldPicker
+            value={scene.battleFieldId}
+            fields={battleFields}
+            unsetLabel="项目默认战场 #024"
+            ariaLabel="场景默认战场"
+            onOpen={onOpenBattleField}
+            onChange={(battleFieldId) =>
+              session.dispatch(new UpdateSceneCommand(scene.id, { battleFieldId }))
+            }
+          />
+        </div>
       </div>
-      <div className="insp-empty">点左侧落点或实体查看属性。工具栏「+ 添加实体」→ 点画布放。</div>
+      <div className="insp-empty">点左侧落点或实体查看属性；从“实体”分组新增后，点画布放置。</div>
     </>
   )
 }

@@ -627,6 +627,53 @@ describe('X7 工程诊断与保存门', () => {
     expect(startWorldBroken.filter((issue) => issue.message.includes('ghost')).length).toBe(1)
   })
 
+  test('已声明战场表缺少系统默认 #24 时给出可见警告', () => {
+    const base = state()
+    const issues = collectEditorStatusIssues({
+      ...base,
+      manifest: {
+        ...base.manifest,
+        content: { ...base.manifest.content, battleFields: 'content/battle-fields.json' },
+      },
+      battleFields: [
+        {
+          id: 25,
+          screenWave: 0,
+          magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+        },
+      ],
+    })
+    expect(issues).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ severity: 'warn', path: 'battleFields[24]' }),
+      ]),
+    )
+  })
+
+  test('保存门拒绝重复或结构不完整的战场定义', () => {
+    const base = state()
+    const invalid = {
+      ...base,
+      manifest: {
+        ...base.manifest,
+        content: { ...base.manifest.content, battleFields: 'content/battle-fields.json' },
+      },
+      battleFields: [
+        {
+          id: 24,
+          screenWave: 0,
+          magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+        },
+        {
+          id: 24,
+          screenWave: 1,
+          magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+        },
+      ],
+    }
+    expect(() => assertProjectSaveValid(invalid)).toThrow('保存前战场数据校验失败')
+  })
+
   test('v5 状态条按 canonical ScriptId 校验，不把兼容壳内部 ScriptRef 报成悬空', () => {
     const shell = state({
       items: [

@@ -97,6 +97,7 @@ import {
   isAtomicProjectMapPath,
   loadPalBaseline,
   loadPalBaselineRepairCandidate,
+  sha256,
   type MigrationSnapshot,
   serializeMigrationJson,
   snapshotFileHash,
@@ -145,7 +146,25 @@ import {
   rewindB10PublicationIfPresent,
   shouldRunB10EnemyTeamSlotsTransition,
 } from '../src/pal-b10-enemy-team-slots.js'
+import {
+  B2_BATTLE_FIELD_DOMAIN_SEAL_PATH,
+  B2_BATTLE_FIELD_DOMAIN_TRANSITION_ID,
+  buildPalB2BattleFieldDomainMigration,
+  PAL_B2_BATTLE_FIELD_PATH,
+  rewindPublishedB2BattleFieldDomainIfPresent,
+} from '../src/pal-b2-battle-field-domain.js'
 import { PAL_CASUALTY_LOCALE_KEYS } from '../src/pal-casualty-scripts.js'
+import {
+  buildPalC1DialogueIdentityMigration,
+  rewindPublishedC1DialogueIdentityIfPresent,
+  validateC1ProjectV14Target,
+} from '../src/pal-c1-dialogue-identity.js'
+import {
+  buildPalC1NpcCurationMigration,
+  C1_NPC_CURATION_SEAL_PATH,
+  C1_NPC_CURATION_TRANSITION_ID,
+  rewindPublishedC1NpcCurationIfPresent,
+} from '../src/pal-c1-npc-curation-transition.js'
 import { preparePalManifest } from '../src/pal-manifest.js'
 import {
   buildPalHistoricalR13_4V9Migration,
@@ -244,11 +263,26 @@ function usage(): void {
 
   pnpm --filter @type-pal/migrate run migrate:content -- --w9
       只在 B10 content12 已发布后运行 W9 lifecycle source ledger 生产证明；当前入口只读，
-      不写工程、baseline、manifest、oracle 或 generated content。`)
+      不写工程、baseline、manifest、oracle 或 generated content。
+
+  pnpm --filter @type-pal/migrate run migrate:content -- --c1-dialogue [--write]
+      在已发布 W9 content13 上发布结构化对话身份 content14；已发布 content14 重放必须为 0/0/0。
+
+  pnpm --filter @type-pal/migrate run migrate:content -- --c1-npc [--write]
+      在已发布 C1-2 content14 上发布用户批准的第一批 NPC 预制；content/SAVE/manifest bytes 均不变。
+
+  pnpm --filter @type-pal/migrate run migrate:content -- --b2-battlefields [--write]
+      在已发布 C1-3 content14 上剔除 PAL raw 0-5 非战场占位；只改 battle-fields 与 B2 seal。`)
 }
 
 async function runCanonicalV5Phase(
-  flag: '--write-once' | '--verify-idempotence',
+  flag:
+    | '--write-once'
+    | '--verify-idempotence'
+    | '--c1-npc-write-once'
+    | '--c1-npc-verify-idempotence'
+    | '--b2-battlefields-write-once'
+    | '--b2-battlefields-verify-idempotence',
   extraEnv: NodeJS.ProcessEnv = {},
 ): Promise<string> {
   const entry = process.argv[1]
@@ -283,6 +317,18 @@ async function runCanonicalV5Phase(
         )
     })
   })
+}
+
+async function writeAndVerifyC1NpcTransition(): Promise<void> {
+  await runCanonicalV5Phase('--c1-npc-write-once')
+  await runCanonicalV5Phase('--c1-npc-verify-idempotence')
+  console.log('[C1-3 分进程幂等] 写入与第二个 clean Node process 0/0/0 验证均完成')
+}
+
+async function writeAndVerifyB2BattleFieldTransition(): Promise<void> {
+  await runCanonicalV5Phase('--b2-battlefields-write-once')
+  await runCanonicalV5Phase('--b2-battlefields-verify-idempotence')
+  console.log('[B2 battlefield 分进程幂等] 写入与第二个 clean Node process 0/0/0 验证均完成')
 }
 
 async function writeAndVerifyCanonicalV5Transition(
@@ -525,6 +571,124 @@ function buildW9EntityLifecycleMigration(
   return { published, ledger }
 }
 
+/** C1 production builder: rewind the outer C1 successor, replay W9, then rebuild content14. */
+function buildC1DialogueIdentityMigration(
+  sources: PalMigrationSources,
+  publishedBaseline: MigrationSnapshot,
+  manifest: ProjectManifest<13> | ProjectManifest<14>,
+  manifestRawText: string,
+): {
+  published: MigrationFileSet
+  result: ReturnType<typeof buildPalC1DialogueIdentityMigration>
+} {
+  const currentParent =
+    manifest.contentVersion === 14
+      ? rewindPublishedC1NpcCurationIfPresent({
+          source: publishedBaseline,
+          manifest,
+          manifestRawText,
+        })
+      : publishedBaseline
+  const parentW9 = rewindPublishedC1DialogueIdentityIfPresent(
+    currentParent,
+    manifest.contentVersion === 14 ? manifest : undefined,
+  )
+  const parentManifest: ProjectManifest<13> = {
+    ...structuredClone(manifest),
+    contentVersion: 13,
+  }
+  const rebuiltW9 = buildW9EntityLifecycleMigration(sources, parentW9, parentManifest)
+  if (manifest.contentVersion === 14)
+    sameSnapshot(snapshotOf(rebuiltW9.published), parentW9, 'W9 replay before C1')
+
+  const result = buildPalC1DialogueIdentityMigration({
+    baseline: snapshotOf(rebuiltW9.published),
+    manifest,
+  })
+  const published = derivePalMigrationFileSet(
+    rebuiltW9.published,
+    new Map(result.successor.files),
+    new Set(result.successor.managedFiles),
+  )
+  published.baselineMetadata = result.successor.baselineMetadata
+  return { published, result }
+}
+
+/** C1-3 production builder: replay C1-2, then apply only the user-approved NPC decision ledger. */
+function buildC1NpcCurationMigration(
+  sources: PalMigrationSources,
+  publishedBaseline: MigrationSnapshot,
+  manifest: ProjectManifest<14>,
+  manifestRawText: string,
+): {
+  published: MigrationFileSet
+  result: ReturnType<typeof buildPalC1NpcCurationMigration>
+} {
+  const parentC1 = rewindPublishedC1NpcCurationIfPresent({
+    source: publishedBaseline,
+    manifest,
+    manifestRawText,
+  })
+  const rebuiltC1 = buildC1DialogueIdentityMigration(
+    sources,
+    parentC1,
+    manifest,
+    manifestRawText,
+  )
+  sameSnapshot(snapshotOf(rebuiltC1.published), parentC1, 'C1-2 replay before C1-3')
+  const result = buildPalC1NpcCurationMigration({
+    baseline: snapshotOf(rebuiltC1.published),
+    manifest,
+    manifestRawText,
+    sourceCommands: sources.migrate.commands,
+    sourceFileSha256: sha256(
+      readFileSync(resolve(repo, 'data/extracted/events/all.json'), 'utf8'),
+    ),
+  })
+  const published = derivePalMigrationFileSet(
+    rebuiltC1.published,
+    new Map(result.successor.files),
+    new Set(result.successor.managedFiles),
+  )
+  published.baselineMetadata = result.successor.baselineMetadata
+  return { published, result }
+}
+
+/** B2 production builder: append one reversible domain-separation successor above C1-3. */
+function buildB2BattleFieldDomainMigration(
+  sources: PalMigrationSources,
+  publishedBaseline: MigrationSnapshot,
+  manifest: ProjectManifest<14>,
+  manifestRawText: string,
+): {
+  published: MigrationFileSet
+  result: ReturnType<typeof buildPalB2BattleFieldDomainMigration>
+} {
+  const carrier = buildPalMigration(sources)
+  const result = buildPalB2BattleFieldDomainMigration({
+    baseline: publishedBaseline,
+    manifest,
+    manifestRawText,
+    sourceBattleFields: sources.battleFields,
+  })
+  const publishedFiles = new Map(result.successor.files)
+  for (const [path, body] of carrier.files) {
+    if (!isAtomicProjectMapPath(path)) continue
+    const expectedHash = result.successor.hashes?.get(path)
+    const actualHash = sha256(serializeMigrationJson(body, path))
+    if (expectedHash === undefined || actualHash !== expectedHash)
+      throw new Error(`B2 battlefield: atomic parent/carrier hash 漂移 ${path}`)
+    publishedFiles.set(path, body)
+  }
+  const published = derivePalMigrationFileSet(
+    carrier,
+    publishedFiles,
+    new Set(result.successor.managedFiles),
+  )
+  published.baselineMetadata = result.successor.baselineMetadata
+  return { published, result }
+}
+
 /** W9 production gate: prove lifecycle source ledger before any content13 writer is allowed. */
 async function runW9EntityLifecycleTransition(
   manifest: ProjectManifest<12> | ProjectManifest<13>,
@@ -631,6 +795,297 @@ async function runW9EntityLifecycleTransition(
       ? '[W9 publication] content12 → content13；SAVE_VERSION 保持 8'
       : '[W9 replay] content13 authority unchanged；SAVE_VERSION 保持 8',
   )
+}
+
+/** C1-2 production gate: publish content13→14 and replay an existing content14 byte-exactly. */
+async function runC1DialogueIdentityTransition(
+  manifest: ProjectManifest<13> | ProjectManifest<14>,
+  manifestText: string,
+  write: boolean,
+): Promise<void> {
+  const sources = loadPalMigrationSources(repo)
+  const baseline = loadPalBaseline(repo)
+  if (!baseline) throw new Error('C1-2 缺 PAL baseline v2；不得绕过 baseline 写 generated content')
+
+  const { published, result } = buildC1DialogueIdentityMigration(
+    sources,
+    baseline,
+    manifest,
+    manifestText,
+  )
+  if (manifest.contentVersion === 14)
+    sameSnapshot(snapshotOf(published), baseline, 'C1 content14 replay')
+
+  reportGeneration(published)
+  const seed = new Set([...baseline.managedFiles, ...published.managedFiles])
+  const managed = discoverProjectManagedFiles(repo, seed)
+  const ours = loadProjectMigrationSnapshot(repo, managed)
+  const plan = createMigrationPlan(baseline, ours, published)
+  reportPlan(plan)
+  if (
+    manifest.contentVersion === 14 &&
+    (plan.writes.size || plan.deletes.length || plan.conflicts.length)
+  )
+    throw new Error(
+      `C1 content14 replay 必须为 0/0/0: writes=${plan.writes.size} ` +
+        `deletes=${plan.deletes.length} conflicts=${plan.conflicts.length}`,
+    )
+  if (plan.conflicts.length) {
+    writeConflictReport(plan)
+    throw new Error(`C1-2 plan 存在 conflicts=${plan.conflicts.length}`)
+  }
+
+  const target: MigrationSnapshot = {
+    files: plan.target,
+    managedFiles: new Set([...managed, ...plan.target.keys()]),
+  }
+  validateC1ProjectV14Target({ target, manifest: result.manifest })
+
+  if (!write) {
+    assertPalBaselineSnapshotCurrent(repo, baseline)
+    assertProjectSnapshotCurrent(repo, ours, target.managedFiles)
+    if (readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8') !== manifestText)
+      throw new Error('C1-2 dry-run 期间 manifest.json 已变更')
+    console.log(
+      JSON.stringify(
+        {
+          kind: result.seal.kind,
+          transitionId: result.seal.transitionId,
+          summary: result.seal.source.summary,
+          sealDigest: result.seal.digest,
+          writes: plan.writes.size,
+          deletes: plan.deletes.length,
+          conflicts: plan.conflicts.length,
+        },
+        null,
+        2,
+      ),
+    )
+    console.log('[C1-2 dry-run] content14 dialogue identity writer/seal 预检完成')
+    return
+  }
+
+  await commitAndVerify({
+    ours,
+    target,
+    plan,
+    previousBaseline: baseline,
+    theirs: published,
+    binaryAssets: sources.binaryAssets,
+    currentManifestText: manifestText,
+    nextManifest: result.manifest,
+    rebuildTheirs: (rebuiltSources, publishedBaseline) =>
+      buildC1DialogueIdentityMigration(
+        rebuiltSources,
+        publishedBaseline,
+        result.manifest,
+        manifestText,
+      ).published,
+  })
+  console.log(
+    manifest.contentVersion === 13
+      ? '[C1-2 publication] content13 → content14；SAVE_VERSION 保持 8'
+      : '[C1-2 replay] content14 authority unchanged；SAVE_VERSION 保持 8',
+  )
+}
+
+/** C1-3 production gate: same-version content14 successor with byte-exact manifest preservation. */
+async function runC1NpcCurationTransition(
+  manifest: ProjectManifest<14>,
+  manifestText: string,
+  write: boolean,
+): Promise<void> {
+  const sources = loadPalMigrationSources(repo)
+  const baseline = loadPalBaseline(repo)
+  if (!baseline) throw new Error('C1-3 缺 PAL baseline v2；不得绕过 baseline 写 generated content')
+
+  const { published, result } = buildC1NpcCurationMigration(
+    sources,
+    baseline,
+    manifest,
+    manifestText,
+  )
+  if (baseline.baselineMetadata?.transitions[C1_NPC_CURATION_TRANSITION_ID])
+    sameSnapshot(snapshotOf(published), baseline, 'C1-3 content14 replay')
+
+  reportGeneration(published)
+  const seed = new Set([...baseline.managedFiles, ...published.managedFiles])
+  const managed = discoverProjectManagedFiles(repo, seed)
+  const ours = loadProjectMigrationSnapshot(repo, managed)
+  const plan = createMigrationPlan(baseline, ours, published)
+  const allowlist = new Set([
+    ...result.seal.source.files.map((file) => file.path),
+    C1_NPC_CURATION_SEAL_PATH,
+  ])
+  const escapedWrites = [...plan.writes.keys()].filter((path) => !allowlist.has(path))
+  if (escapedWrites.length || plan.deletes.length)
+    throw new Error(
+      `C1-3 transaction allowlist 漂移: escapedWrites=${escapedWrites.join(',') || 'none'} ` +
+        `deletes=${plan.deletes.join(',') || 'none'}`,
+    )
+  reportPlan(plan)
+  if (
+    baseline.baselineMetadata?.transitions[C1_NPC_CURATION_TRANSITION_ID] &&
+    (plan.writes.size || plan.deletes.length || plan.conflicts.length)
+  )
+    throw new Error(
+      `C1-3 content14 replay 必须为 0/0/0: writes=${plan.writes.size} ` +
+        `deletes=${plan.deletes.length} conflicts=${plan.conflicts.length}`,
+    )
+  if (plan.conflicts.length) {
+    writeConflictReport(plan)
+    throw new Error(`C1-3 plan 存在 conflicts=${plan.conflicts.length}`)
+  }
+  const target: MigrationSnapshot = {
+    files: plan.target,
+    managedFiles: new Set([...managed, ...plan.target.keys()]),
+  }
+  validateC1ProjectV14Target({ target, manifest })
+
+  if (!write) {
+    assertPalBaselineSnapshotCurrent(repo, baseline)
+    assertProjectSnapshotCurrent(repo, ours, target.managedFiles)
+    if (readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8') !== manifestText)
+      throw new Error('C1-3 dry-run 期间 manifest.json 已变更')
+    console.log(
+      JSON.stringify(
+        {
+          kind: result.seal.kind,
+          transitionId: result.seal.transitionId,
+          decisionContentDigest: result.seal.authority.decisionContentDigest,
+          summary: result.seal.source.summary,
+          sealDigest: result.seal.digest,
+          writes: plan.writes.size,
+          deletes: plan.deletes.length,
+          conflicts: plan.conflicts.length,
+        },
+        null,
+        2,
+      ),
+    )
+    console.log('[C1-3 dry-run] approved NPC curation writer/seal 预检完成；manifest bytes 未变')
+    return
+  }
+
+  await commitAndVerify({
+    ours,
+    target,
+    plan,
+    previousBaseline: baseline,
+    theirs: published,
+    binaryAssets: sources.binaryAssets,
+    currentManifestText: manifestText,
+    nextManifest: manifest,
+    preserveManifestRawText: true,
+    rebuildTheirs: (rebuiltSources, publishedBaseline) =>
+      buildC1NpcCurationMigration(
+        rebuiltSources,
+        publishedBaseline,
+        manifest,
+        manifestText,
+      ).published,
+  })
+  console.log('[C1-3 publication/replay] content14/SAVE8 unchanged；manifest raw bytes unchanged')
+}
+
+/** B2 production gate: one same-version file replacement plus an append-only reversible seal. */
+async function runB2BattleFieldDomainTransition(
+  manifest: ProjectManifest<14>,
+  manifestText: string,
+  write: boolean,
+): Promise<void> {
+  const sources = loadPalMigrationSources(repo)
+  const baseline = loadPalBaseline(repo)
+  if (!baseline) throw new Error('B2 battlefield 缺 PAL baseline v2；不得绕过 baseline 写 content')
+
+  const { published, result } = buildB2BattleFieldDomainMigration(
+    sources,
+    baseline,
+    manifest,
+    manifestText,
+  )
+  if (baseline.baselineMetadata?.transitions[B2_BATTLE_FIELD_DOMAIN_TRANSITION_ID])
+    sameSnapshot(snapshotOf(published), baseline, 'B2 battlefield content14 replay')
+
+  reportGeneration(published)
+  const seed = new Set([...baseline.managedFiles, ...published.managedFiles])
+  const managed = discoverProjectManagedFiles(repo, seed)
+  const ours = loadProjectMigrationSnapshot(repo, managed)
+  const plan = createMigrationPlan(baseline, ours, published)
+  const allowlist = new Set([
+    PAL_B2_BATTLE_FIELD_PATH,
+    B2_BATTLE_FIELD_DOMAIN_SEAL_PATH,
+  ])
+  const escapedWrites = [...plan.writes.keys()].filter((path) => !allowlist.has(path))
+  if (escapedWrites.length || plan.deletes.length)
+    throw new Error(
+      `B2 battlefield transaction allowlist 漂移: escapedWrites=${escapedWrites.join(',') || 'none'} ` +
+        `deletes=${plan.deletes.join(',') || 'none'}`,
+    )
+  reportPlan(plan)
+  if (
+    baseline.baselineMetadata?.transitions[B2_BATTLE_FIELD_DOMAIN_TRANSITION_ID] &&
+    (plan.writes.size || plan.deletes.length || plan.conflicts.length)
+  )
+    throw new Error(
+      `B2 battlefield replay 必须为 0/0/0: writes=${plan.writes.size} ` +
+        `deletes=${plan.deletes.length} conflicts=${plan.conflicts.length}`,
+    )
+  if (plan.conflicts.length) {
+    writeConflictReport(plan)
+    throw new Error(`B2 battlefield plan 存在 conflicts=${plan.conflicts.length}`)
+  }
+  const target: MigrationSnapshot = {
+    files: plan.target,
+    managedFiles: new Set([...managed, ...plan.target.keys()]),
+  }
+  validateC1ProjectV14Target({ target, manifest })
+
+  if (!write) {
+    assertPalBaselineSnapshotCurrent(repo, baseline)
+    assertProjectSnapshotCurrent(repo, ours, target.managedFiles)
+    if (readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8') !== manifestText)
+      throw new Error('B2 battlefield dry-run 期间 manifest.json 已变更')
+    console.log(
+      JSON.stringify(
+        {
+          kind: result.seal.kind,
+          transitionId: result.seal.transitionId,
+          rawBattleFieldsDigest: result.seal.source.rawBattleFieldsDigest,
+          removedIds: result.seal.source.removed.map(({ id }) => id),
+          retainedIds: result.seal.source.retainedIds,
+          sealDigest: result.seal.digest,
+          writes: plan.writes.size,
+          deletes: plan.deletes.length,
+          conflicts: plan.conflicts.length,
+        },
+        null,
+        2,
+      ),
+    )
+    console.log('[B2 battlefield dry-run] 58→52 与可逆 seal 预检完成；manifest bytes 未变')
+    return
+  }
+
+  await commitAndVerify({
+    ours,
+    target,
+    plan,
+    previousBaseline: baseline,
+    theirs: published,
+    binaryAssets: sources.binaryAssets,
+    currentManifestText: manifestText,
+    nextManifest: manifest,
+    preserveManifestRawText: true,
+    rebuildTheirs: (rebuiltSources, publishedBaseline) =>
+      buildB2BattleFieldDomainMigration(
+        rebuiltSources,
+        publishedBaseline,
+        manifest,
+        manifestText,
+      ).published,
+  })
+  console.log('[B2 battlefield publication/replay] content14/SAVE8/manifest raw bytes unchanged')
 }
 
 /**
@@ -1373,6 +1828,7 @@ async function commitAndVerify(args: {
   binaryAssets: readonly PalBinaryAssetSource[]
   currentManifestText: string
   nextManifest: ProjectManifest<number>
+  preserveManifestRawText?: boolean
   rebuildTheirs?: (
     sources: PalMigrationSources,
     publishedBaseline: MigrationSnapshot,
@@ -1431,7 +1887,9 @@ async function commitAndVerify(args: {
     previousBaseline,
     nextBaseline,
     nextManifest,
-    manifestPreconditions,
+    ...(args.preserveManifestRawText
+      ? { preserveManifestRawText: args.currentManifestText }
+      : { manifestPreconditions }),
   })
   if (changes.length) commitMigrationTransaction(repo, changes)
   console.log(`[事务] ${changes.length ? `已提交 ${changes.length} 项操作` : '无需写盘'}`)
@@ -1439,6 +1897,8 @@ async function commitAndVerify(args: {
   const unmanagedAfter = hashUnmanagedProjectFiles(repo, transactionManaged, excludedFiles)
   assertHashMapsEqual(unmanagedBefore, unmanagedAfter, '非托管工程文件')
   const manifestAfterText = readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8')
+  if (args.preserveManifestRawText && manifestAfterText !== args.currentManifestText)
+    throw new Error('same-version transition 事务后 manifest raw bytes 漂移')
   const manifestAfter = JSON.parse(manifestAfterText) as LoadedManifest
   if (!isDeepStrictEqual(nextManifest, manifestAfter))
     throw new Error('事务完成后 manifest 与闭环目标不符')
@@ -1586,27 +2046,53 @@ async function main(): Promise<void> {
       flag !== '--bootstrap' &&
       flag !== '--write-once' &&
       flag !== '--verify-idempotence' &&
+      flag !== '--c1-npc-write-once' &&
+      flag !== '--c1-npc-verify-idempotence' &&
+      flag !== '--b2-battlefields-write-once' &&
+      flag !== '--b2-battlefields-verify-idempotence' &&
       flag !== '--repair-r13-confirm-seal' &&
       flag !== '--r13-z' &&
       flag !== '--r13-6c' &&
       flag !== '--r13-6d' &&
-      flag !== '--w9',
+      flag !== '--w9' &&
+      flag !== '--c1-dialogue' &&
+      flag !== '--c1-npc' &&
+      flag !== '--b2-battlefields',
   )
   if (unknown.length) throw new Error(`未知参数: ${unknown.join(', ')}`)
   const writeRequested = flags.has('--write')
   const writeOnce = flags.has('--write-once')
   const verifyIdempotence = flags.has('--verify-idempotence')
+  const c1NpcWriteOnce = flags.has('--c1-npc-write-once')
+  const c1NpcVerifyIdempotence = flags.has('--c1-npc-verify-idempotence')
+  const b2BattleFieldsWriteOnce = flags.has('--b2-battlefields-write-once')
+  const b2BattleFieldsVerifyIdempotence = flags.has('--b2-battlefields-verify-idempotence')
   const repairR13ConfirmSeal = flags.has('--repair-r13-confirm-seal')
   const publishR13Z = flags.has('--r13-z')
   const r13SixC = flags.has('--r13-6c')
   const r13SixD = flags.has('--r13-6d')
   const publishW9 = flags.has('--w9')
-  if ((writeOnce || verifyIdempotence) && process.env[INTERNAL_PHASE_ENV] !== '1')
+  const publishC1Dialogue = flags.has('--c1-dialogue')
+  const publishC1Npc = flags.has('--c1-npc')
+  const publishB2BattleFields = flags.has('--b2-battlefields')
+  if (
+    (writeOnce ||
+      verifyIdempotence ||
+      c1NpcWriteOnce ||
+      c1NpcVerifyIdempotence ||
+      b2BattleFieldsWriteOnce ||
+      b2BattleFieldsVerifyIdempotence) &&
+    process.env[INTERNAL_PHASE_ENV] !== '1'
+  )
     throw new Error('内部迁移阶段不得直接调用')
   if (
     Number(writeRequested) +
       Number(writeOnce) +
       Number(verifyIdempotence) +
+      Number(c1NpcWriteOnce) +
+      Number(c1NpcVerifyIdempotence) +
+      Number(b2BattleFieldsWriteOnce) +
+      Number(b2BattleFieldsVerifyIdempotence) +
       Number(repairR13ConfirmSeal) >
       1 ||
     (repairR13ConfirmSeal && flags.has('--bootstrap')) ||
@@ -1621,7 +2107,40 @@ async function main(): Promise<void> {
         repairR13ConfirmSeal ||
         publishR13Z ||
         r13SixC ||
-        r13SixD))
+        r13SixD)) ||
+    (publishC1Dialogue &&
+      (flags.has('--bootstrap') ||
+        writeOnce ||
+        verifyIdempotence ||
+        repairR13ConfirmSeal ||
+        publishR13Z ||
+        r13SixC ||
+        r13SixD ||
+        publishW9 ||
+        publishC1Npc ||
+        publishB2BattleFields)) ||
+    (publishC1Npc &&
+      (flags.has('--bootstrap') ||
+        writeOnce ||
+        verifyIdempotence ||
+        repairR13ConfirmSeal ||
+        publishR13Z ||
+        r13SixC ||
+        r13SixD ||
+        publishW9 ||
+        publishC1Dialogue ||
+        publishB2BattleFields)) ||
+    (publishB2BattleFields &&
+      (flags.has('--bootstrap') ||
+        writeOnce ||
+        verifyIdempotence ||
+        repairR13ConfirmSeal ||
+        publishR13Z ||
+        r13SixC ||
+        r13SixD ||
+        publishW9 ||
+        publishC1Dialogue ||
+        publishC1Npc))
   )
     throw new Error('迁移写入/内部验证/显式修复阶段参数互斥')
   const write = writeRequested || writeOnce
@@ -1646,10 +2165,11 @@ async function main(): Promise<void> {
       contentVersion !== 10 &&
       contentVersion !== 11 &&
       contentVersion !== 12 &&
-      contentVersion !== 13)
+      contentVersion !== 13 &&
+      contentVersion !== 14)
   )
     throw new Error(
-      `PAL migrate:content 只接受 contentVersion 4/5/6/7/8/9/10/11/12/13，收到 ${JSON.stringify(contentVersion)}`,
+      `PAL migrate:content 只接受 contentVersion 4/5/6/7/8/9/10/11/12/13/14，收到 ${JSON.stringify(contentVersion)}`,
     )
   const canonicalV5 =
     contentVersion === 5 ||
@@ -1660,6 +2180,108 @@ async function main(): Promise<void> {
     contentVersion === 10
   if (repairR13ConfirmSeal && !canonicalV5)
     throw new Error('R13 confirm seal 显式修复只接受 canonical v5+ 工程')
+
+  if (publishB2BattleFields) {
+    if (contentVersion !== 14)
+      throw new Error(
+        `B2 battlefield 只接受已发布 content14 工程，收到 content${String(contentVersion)}`,
+      )
+    if (writeRequested) await writeAndVerifyB2BattleFieldTransition()
+    else
+      await runB2BattleFieldDomainTransition(
+        rawManifest as ProjectManifest<14>,
+        manifestText,
+        false,
+      )
+    return
+  }
+
+  if (b2BattleFieldsWriteOnce || b2BattleFieldsVerifyIdempotence) {
+    if (contentVersion !== 14)
+      throw new Error(
+        `B2 battlefield 内部阶段只接受 content14，收到 content${String(contentVersion)}`,
+      )
+    await runB2BattleFieldDomainTransition(
+      rawManifest as ProjectManifest<14>,
+      manifestText,
+      b2BattleFieldsWriteOnce,
+    )
+    return
+  }
+
+  if (publishC1Npc) {
+    if (contentVersion !== 14)
+      throw new Error(
+        `C1 NPC curation 只接受已发布 content14 工程，收到 content${String(contentVersion)}`,
+      )
+    const current = loadPalBaseline(repo)
+    if (current?.baselineMetadata?.transitions[B2_BATTLE_FIELD_DOMAIN_TRANSITION_ID]) {
+      if (writeRequested) await writeAndVerifyB2BattleFieldTransition()
+      else
+        await runB2BattleFieldDomainTransition(
+          rawManifest as ProjectManifest<14>,
+          manifestText,
+          false,
+        )
+    } else if (writeRequested) await writeAndVerifyC1NpcTransition()
+    else
+      await runC1NpcCurationTransition(
+        rawManifest as ProjectManifest<14>,
+        manifestText,
+        false,
+      )
+    return
+  }
+
+  if (c1NpcWriteOnce || c1NpcVerifyIdempotence) {
+    if (contentVersion !== 14)
+      throw new Error(
+        `C1-3 内部阶段只接受 content14，收到 content${String(contentVersion)}`,
+      )
+    await runC1NpcCurationTransition(
+      rawManifest as ProjectManifest<14>,
+      manifestText,
+      c1NpcWriteOnce,
+    )
+    return
+  }
+
+  if (publishC1Dialogue) {
+    if (contentVersion !== 13 && contentVersion !== 14)
+      throw new Error(
+        `C1 dialogue identity 只接受已发布 content13/content14 工程，收到 content${String(contentVersion)}`,
+      )
+    const current = loadPalBaseline(repo)
+    if (
+      contentVersion === 14 &&
+      current?.baselineMetadata?.transitions[B2_BATTLE_FIELD_DOMAIN_TRANSITION_ID]
+    )
+      if (writeRequested) await writeAndVerifyB2BattleFieldTransition()
+      else
+        await runB2BattleFieldDomainTransition(
+          rawManifest as ProjectManifest<14>,
+          manifestText,
+          false,
+        )
+    else if (
+      contentVersion === 14 &&
+      current?.baselineMetadata?.transitions[C1_NPC_CURATION_TRANSITION_ID]
+    )
+      if (writeRequested) await writeAndVerifyC1NpcTransition()
+      else
+        await runC1NpcCurationTransition(
+          rawManifest as ProjectManifest<14>,
+          manifestText,
+          false,
+        )
+    else
+      await runC1DialogueIdentityTransition(
+        rawManifest as ProjectManifest<13> | ProjectManifest<14>,
+        manifestText,
+        writeRequested,
+      )
+    return
+  }
 
   if (publishW9) {
     if (contentVersion !== 12 && contentVersion !== 13)
@@ -1679,24 +2301,29 @@ async function main(): Promise<void> {
     return
   }
 
-  // W9 freezes content13 current replay as its own authority entrance.  A published v13
-  // project contains lifecycle-only commands that the historical generic/v5 merge cannot
-  // interpret, so the ordinary production command must rebuild and verify the W9 successor
-  // instead of falling through to that older pipeline.  Keep explicit internal phases out of
-  // this route; they remain valid only for their canonical historical versions.
+  // B2 is the current content authority. content13 first publishes C1-2; content14 then
+  // publishes/replays the B2 same-version domain successor without rewriting manifest bytes.
   if (
-    contentVersion === 13 &&
+    (contentVersion === 13 || contentVersion === 14) &&
     !bootstrap &&
     process.env[EXPECTED_TRANSITION_ENV] === undefined &&
     !writeOnce &&
     !verifyIdempotence &&
     !repairR13ConfirmSeal
   ) {
-    await runW9EntityLifecycleTransition(
-      rawManifest as ProjectManifest<13>,
-      manifestText,
-      writeRequested,
-    )
+    if (contentVersion === 13)
+      await runC1DialogueIdentityTransition(
+        rawManifest as ProjectManifest<13>,
+        manifestText,
+        writeRequested,
+      )
+    else if (writeRequested) await writeAndVerifyB2BattleFieldTransition()
+    else
+      await runB2BattleFieldDomainTransition(
+        rawManifest as ProjectManifest<14>,
+        manifestText,
+        false,
+      )
     return
   }
 

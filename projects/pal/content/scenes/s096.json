@@ -270,7 +270,10 @@
                             "text": "dlg.4513"
                           }
                         ],
-                        "speaker": "spk.磨刀老头"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.磨刀老头"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -287,7 +290,10 @@
                             "text": "dlg.4515"
                           }
                         ],
-                        "speaker": "spk.磨刀老头"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.磨刀老头"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -338,7 +344,10 @@
                             "text": "dlg.5135"
                           }
                         ],
-                        "speaker": "spk.老板"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.老板"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -402,7 +411,10 @@
                             "text": "dlg.5126"
                           }
                         ],
-                        "speaker": "spk.官差"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.官差"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -416,7 +428,10 @@
                             "text": "dlg.5128"
                           }
                         ],
-                        "speaker": "spk.李逍遥"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -442,7 +457,10 @@
                             "text": "dlg.5133"
                           }
                         ],
-                        "speaker": "spk.官差"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.官差"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -498,7 +516,10 @@
                             "text": "dlg.5138"
                           }
                         ],
-                        "speaker": "spk.药铺老板"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.药铺老板"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -562,7 +583,10 @@
                             "text": "dlg.5154"
                           }
                         ],
-                        "speaker": "spk.居民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.居民"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -617,7 +641,10 @@
                             "text": "dlg.5157"
                           }
                         ],
-                        "speaker": "spk.居民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.居民"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -675,7 +702,10 @@
                             "text": "dlg.5161"
                           }
                         ],
-                        "speaker": "spk.居民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.居民"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -725,6 +755,9 @@
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.12476"

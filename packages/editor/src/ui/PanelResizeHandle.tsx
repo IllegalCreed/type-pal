@@ -40,11 +40,21 @@ function useStoredPanelState<T>(
 export function useStoredPanelNumber(
   key: string,
   fallback: number,
+  limits?: { min: number; max: number },
 ): [number, Dispatch<SetStateAction<number>>] {
-  return useStoredPanelState(key, fallback, (raw) => {
-    const value = Number(raw)
-    return Number.isFinite(value) ? value : undefined
-  })
+  return useStoredPanelState(key, fallback, (raw) => parseStoredPanelNumber(raw, limits))
+}
+
+export function parseStoredPanelNumber(
+  raw: string,
+  limits?: { min: number; max: number },
+): number | undefined {
+  const value = Number(raw)
+  if (!Number.isFinite(value)) return undefined
+  if (!limits) return value
+  const min = Math.max(0, Math.round(limits.min))
+  const max = Math.max(min, Math.round(limits.max))
+  return Math.min(max, Math.max(min, Math.round(value)))
 }
 
 export function useStoredPanelBoolean(

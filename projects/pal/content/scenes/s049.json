@@ -526,7 +526,10 @@
                             "text": "dlg.3446"
                           }
                         ],
-                        "speaker": "spk.阿九"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.阿九"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -818,7 +821,10 @@
                             "text": "dlg.3448"
                           }
                         ],
-                        "speaker": "spk.小孩"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.小孩"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -976,7 +982,10 @@
                             "text": "dlg.3469"
                           }
                         ],
-                        "speaker": "spk.居民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.居民"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1002,7 +1011,10 @@
                             "text": "dlg.3474"
                           }
                         ],
-                        "speaker": "spk.居民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.居民"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1031,7 +1043,10 @@
                             "text": "dlg.4034"
                           }
                         ],
-                        "speaker": "spk.居民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.居民"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1121,7 +1136,10 @@
                             "text": "dlg.3477"
                           }
                         ],
-                        "speaker": "spk.小孩"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.小孩"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1209,7 +1227,10 @@
                             "text": "dlg.3480"
                           }
                         ],
-                        "speaker": "spk.守桥壮丁"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.守桥壮丁"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -1223,7 +1244,10 @@
                             "text": "dlg.3481"
                           }
                         ],
-                        "speaker": "spk.守桥壮丁"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.守桥壮丁"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1249,22 +1273,28 @@
                             "text": "dlg.4021"
                           }
                         ],
-                        "speaker": "spk.守桥壮丁"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.守桥壮丁"
+                        }
                       },
                       "kind": "dialog"
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.001",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
                             "text": "dlg.4023"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -1273,9 +1303,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.001",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          },
+                          "speaker": "spk.守桥壮丁"
                         },
                         "rows": [
                           {
@@ -1287,8 +1321,7 @@
                           {
                             "text": "dlg.4027"
                           }
-                        ],
-                        "speaker": "spk.守桥壮丁"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -1297,16 +1330,19 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.001",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
                             "text": "dlg.4029"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        ]
                       },
                       "kind": "dialog"
                     }
@@ -1339,7 +1375,10 @@
                             "text": "dlg.3871"
                           }
                         ],
-                        "speaker": "spk.守桥壮丁"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.守桥壮丁"
+                        }
                       }
                     },
                     {
@@ -1368,7 +1407,10 @@
                             "text": "dlg.3877"
                           }
                         ],
-                        "speaker": "spk.守桥壮丁"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.守桥壮丁"
+                        }
                       }
                     }
                   ]
@@ -1424,7 +1466,10 @@
                             "text": "dlg.3484"
                           }
                         ],
-                        "speaker": "spk.小童"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.小童"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1692,7 +1737,10 @@
                             "text": "dlg.3486"
                           }
                         ],
-                        "speaker": "spk.小孩"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.小孩"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1947,7 +1995,10 @@
                             "text": "dlg.3489"
                           }
                         ],
-                        "speaker": "spk.李逍遥"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -1980,7 +2031,10 @@
                             "text": "dlg.3492"
                           }
                         ],
-                        "speaker": "spk.小童"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.小童"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -9462,6 +9516,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.3522"
@@ -9817,6 +9874,9 @@
                     {
                       "kind": "dialog",
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.3523"
@@ -9964,12 +10024,18 @@
                             "text": "dlg.3494"
                           }
                         ],
-                        "speaker": "spk.李逍遥"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥"
+                        }
                       },
                       "kind": "dialog"
                     },
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.3495"
@@ -10074,7 +10140,10 @@
                             "text": "dlg.3501"
                           }
                         ],
-                        "speaker": "spk.村民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.村民"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -10164,7 +10233,10 @@
                             "text": "dlg.3504"
                           }
                         ],
-                        "speaker": "spk.村民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.村民"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -10257,7 +10329,10 @@
                             "text": "dlg.3508"
                           }
                         ],
-                        "speaker": "spk.村民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.村民"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -10347,7 +10422,10 @@
                             "text": "dlg.3511"
                           }
                         ],
-                        "speaker": "spk.村民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.村民"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -10443,7 +10521,10 @@
                             "text": "dlg.3516"
                           }
                         ],
-                        "speaker": "spk.村民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.村民"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -10530,7 +10611,10 @@
                             "text": "dlg.3518"
                           }
                         ],
-                        "speaker": "spk.村民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.村民"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -10620,7 +10704,10 @@
                             "text": "dlg.3521"
                           }
                         ],
-                        "speaker": "spk.村民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.村民"
+                        }
                       },
                       "kind": "dialog"
                     }

@@ -34,6 +34,7 @@ import {
   quantizeFrameAnimationInWorker,
 } from '../core/frame-animation-worker-client.js'
 import { mp4HasAudioTrack } from '../core/video-metadata.js'
+import { DsIconButton, DsListHeader, DsTag } from './design-system/index.js'
 import { FrameAnimationEditor, type FrameAnimationMetadata } from './FrameAnimationEditor.js'
 
 interface AssetEntry {
@@ -141,15 +142,16 @@ function AssetList(props: {
     <section className="cutscene-library-section">
       <div className="cutscene-library-head">
         <strong>{props.title}</strong>
-        <span>{shown.length}</span>
-        <button
-          type="button"
-          className="mini-icon"
-          title={`导入${props.title}`}
+        <DsTag tone="neutral" monospace>
+          {shown.length} 项
+        </DsTag>
+        <DsIconButton
+          label={`导入${props.title}`}
+          icon="add"
+          variant="secondary"
+          size="compact"
           onClick={props.onImport}
-        >
-          ＋
-        </button>
+        />
       </div>
       <div className="cutscene-asset-list">
         {shown.length ? (
@@ -566,6 +568,7 @@ export function CutsceneTab(props: {
     <>
       <div className="outliner data-outliner cutscene-outliner">
         {tabBar}
+        <DsListHeader title="过场" count={videos.length + animations.length} unit="项" />
         <div className="cutscene-search">
           <span className="music-search-icon" aria-hidden="true" />
           <input

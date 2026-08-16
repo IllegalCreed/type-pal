@@ -10,6 +10,7 @@ import {
   defaultStampTemplateAnchor,
   nextStampTemplateId,
 } from '../core/stamp-template.js'
+import { DsCheckbox } from './design-system/index.js'
 
 type CellsSelection = Extract<MapSelection, { kind: 'cells' }>
 type InvalidField = 'id' | 'name' | 'anchor-row' | 'anchor-col' | 'target'
@@ -407,35 +408,37 @@ export function StampTemplateDialog(props: {
             ))}
           </fieldset>
 
-          <label className="stamp-collision-choice">
-            <input
-              type="checkbox"
+          <div className="stamp-collision-choice">
+            <DsCheckbox
+              label={
+                <>
+                  <strong>同时快照碰撞通道</strong>
+                  <small>
+                    {selection.gridPoints.length} 个格点，其中 {collisionZeroCount} 个值为 0；勾选后
+                    0 也会被显式保留。
+                  </small>
+                </>
+              }
               name="stamp-include-collision"
               checked={includeCollision}
-              onChange={(event) => setIncludeCollision(event.target.checked)}
+              onChange={(event) => setIncludeCollision(event.currentTarget.checked)}
             />
-            <span>
-              <strong>同时快照碰撞通道</strong>
-              <small>
-                {selection.gridPoints.length} 个格点，其中 {collisionZeroCount} 个值为 0；勾选后 0
-                也会被显式保留。
-              </small>
-            </span>
-          </label>
+          </div>
 
           {mode === 'update' && target?.origin === 'migrated' ? (
-            <label className="stamp-takeover-choice">
-              <input
-                type="checkbox"
+            <div className="stamp-takeover-choice">
+              <DsCheckbox
+                label={
+                  <>
+                    <strong>接管这个预置组合</strong>
+                    <small>整项转为作者内容；之后迁移不会再覆盖。撤销可恢复预置状态。</small>
+                  </>
+                }
                 name="stamp-take-ownership"
                 checked={takeOwnership}
-                onChange={(event) => setTakeOwnership(event.target.checked)}
+                onChange={(event) => setTakeOwnership(event.currentTarget.checked)}
               />
-              <span>
-                <strong>接管这个预置组合</strong>
-                <small>整项转为作者内容；之后迁移不会再覆盖。撤销可恢复预置状态。</small>
-              </span>
-            </label>
+            </div>
           ) : null}
 
           <div className="stamp-dialog-summary">

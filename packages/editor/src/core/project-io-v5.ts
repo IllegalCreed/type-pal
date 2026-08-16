@@ -215,6 +215,45 @@ function mergeItemShellV5(
 }
 
 /**
+ * content14 的 shell 本身已经保存 canonical itemPrivateScript；普通物品字段仍由
+ * EditSession 编辑，而脚本正文由 ScriptV5EditSession 编辑。这里以 shell 的效果链为
+ * 顺序真值，只用 canonical 会话覆盖/补入私有脚本，避免任一侧的修改被保存边界吞掉。
+ */
+function mergeCurrentItemShell(
+  shell: ItemData,
+  canonical: ItemDataV5 | undefined,
+): ItemDataV5 {
+  const next = structuredClone(shell) as unknown as ItemDataV5
+  const canonicalPrivate = new Map(
+    (canonical?.use?.effects ?? []).flatMap((effect) =>
+      effect.kind === 'itemPrivateScript'
+        ? [[effect.script.id, structuredClone(effect)] as const]
+        : [],
+    ),
+  )
+  if (!next.use && canonicalPrivate.size > 0)
+    next.use = { target: 'scene', consuming: true, effects: [] }
+  if (next.use) {
+    const used = new Set<string>()
+    const effects: NonNullable<ItemDataV5['use']>['effects'] = []
+    for (const effect of next.use.effects) {
+      if (effect.kind !== 'itemPrivateScript') {
+        effects.push(structuredClone(effect))
+        continue
+      }
+      const replacement = canonicalPrivate.get(effect.script.id)
+      if (!replacement) continue
+      used.add(effect.script.id)
+      effects.push(structuredClone(replacement))
+    }
+    for (const [id, effect] of canonicalPrivate)
+      if (!used.has(id)) effects.push(structuredClone(effect))
+    next.use.effects = effects
+  }
+  return next
+}
+
+/**
  * 编辑中的 legacy shell 决定物品效果链的增删与顺序；canonical 只保存私有正文。
  * UI/引用扫描必须消费这个活动投影，否则已从 shell 删除、尚未保存重开的私有正文会
  * 继续形成幽灵引用。
@@ -228,7 +267,41 @@ export function projectActiveScriptEditorStateV5(
     ...structuredClone(canonical),
     // 渲染/扫描投影容忍 undo 中间态(正文刚撤、ref 尚在);保存链(mergeLegacyEditorShellIntoV5)
     // 不传容忍参数,缺正文仍 fail-loud。
-    items: shellItems.map((item) => mergeItemShellV5(item, canonicalItems.get(item.id), true)),
+    items: shellItems.map((item) =>
+      canonical.contentVersion === 14
+        ? mergeCurrentItemShell(item, canonicalItems.get(item.id))
+        : mergeItemShellV5(item, canonicalItems.get(item.id), true),
+    ),
+  }
+}
+
+/**
+ * content14 保存边界：空间/普通数据来自 EditSession，canonical behaviors/hooks、
+ * item-private scripts 与 shared scripts 来自脚本会话。返回值继续走当前版本 serializer，
+ * 绝不借用 content12 serializer 或改写 manifest 版本。
+ */
+export function mergeEditorShellWithCurrentCanonicalScripts(
+  canonical: ScriptEditorStateV5,
+  shell: EditorState,
+): EditorState {
+  if (shell.manifest.contentVersion !== 14)
+    throw new Error('mergeEditorShellWithCurrentCanonicalScripts: shell 必须是当前 content14')
+  if (canonical.contentVersion !== shell.manifest.contentVersion)
+    throw new Error('mergeEditorShellWithCurrentCanonicalScripts: canonical/shell 版本不一致')
+  const canonicalScenes = new Map(canonical.scenes.map((scene) => [scene.id, scene]))
+  const canonicalItems = new Map(canonical.items.map((item) => [item.id, item]))
+  return {
+    ...structuredClone(shell),
+    scenes: shell.scenes.map((scene) =>
+      mergeSceneShellV5(
+        scene,
+        canonicalScenes.get(scene.id),
+      ),
+    ) as unknown as EditorState['scenes'],
+    items: shell.items.map((item) =>
+      mergeCurrentItemShell(item, canonicalItems.get(item.id)),
+    ) as unknown as EditorState['items'],
+    sharedScripts: structuredClone(canonical.sharedScripts) as unknown as EditorState['sharedScripts'],
   }
 }
 

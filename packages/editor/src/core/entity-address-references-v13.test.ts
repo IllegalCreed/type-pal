@@ -13,12 +13,12 @@ import {
 } from './lifecycle-command-v13-editor.js'
 import { describe, expect, test } from 'vitest'
 
-function stateV13(): EditorState {
+function currentState(): EditorState {
   return {
     manifest: {
-      id: 'v13-editor-test',
-      name: 'V13 editor test',
-      contentVersion: 13,
+      id: 'current-editor-test',
+      name: 'Current editor test',
+      contentVersion: 14,
       entryScene: 's',
       content: {
         scenes: 'content/scenes/',
@@ -102,9 +102,9 @@ function stateV13(): EditorState {
   } as unknown as EditorState
 }
 
-describe('content13 entity address editor closure', () => {
+describe('current entity address editor closure', () => {
   test('collects lifecycle leaves recursively and reports dangling targets', () => {
-    const state = stateV13()
+    const state = currentState()
     expect(
       collectEntityAddressReferencesV13(state).map((reference) => reference.path),
     ).toEqual([
@@ -120,7 +120,7 @@ describe('content13 entity address editor closure', () => {
   })
 
   test('delete is fail-loud while lifecycle references exist and remains undoable after cleanup', () => {
-    const state = stateV13()
+    const state = currentState()
     const session = new EditSession(state)
     expect(() => session.dispatch(new DeleteEntityCommand('s', 'b'))).toThrow(
       /hideEntity.*target|仍被引用/,
@@ -157,8 +157,8 @@ describe('content13 entity address editor closure', () => {
     expect(cleanSession.getState().scenes[0]!.entities.map((entity) => entity.id)).toEqual(['a'])
   })
 
-  test('hostile v13 policy replacement participates in undo and redo', () => {
-    const session = new EditSession(stateV13())
+  test('current hostile policy replacement participates in undo and redo', () => {
+    const session = new EditSession(currentState())
     const command = new UpdateEntityCommand('s', 'b', {
       hostile: {
         team: 1,
@@ -184,7 +184,7 @@ describe('content13 entity address editor closure', () => {
   })
 
   test('lifecycle leaf insert/update/delete share EditSession undo and redo', () => {
-    const session = new EditSession(stateV13())
+    const session = new EditSession(currentState())
     const [bodyLocation] = collectEntityLifecycleCommandBodiesV13(
       session.getState(),
       's',
@@ -243,7 +243,7 @@ describe('content13 entity address editor closure', () => {
   })
 
   test('lifecycle CRUD rejects unknown targets before mutating state or history', () => {
-    const session = new EditSession(stateV13())
+    const session = new EditSession(currentState())
     const location = {
       root: 'sharedScripts' as const,
       path: ['cleanup', 'body'],

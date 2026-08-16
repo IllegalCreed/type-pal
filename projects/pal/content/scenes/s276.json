@@ -111,7 +111,10 @@
                               "text": "dlg.11988"
                             }
                           ],
-                          "speaker": "spk.木匠"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.木匠"
+                          }
                         }
                       },
                       {
@@ -128,7 +131,10 @@
                               "text": "dlg.11991"
                             }
                           ],
-                          "speaker": "spk.木匠"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.木匠"
+                          }
                         }
                       },
                       {
@@ -156,7 +162,10 @@
                               "text": "dlg.11991"
                             }
                           ],
-                          "speaker": "spk.木匠"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.木匠"
+                          }
                         }
                       },
                       {

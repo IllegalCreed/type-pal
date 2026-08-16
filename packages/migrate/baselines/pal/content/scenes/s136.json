@@ -111,7 +111,10 @@
                             "text": "dlg.5664"
                           }
                         ],
-                        "speaker": "spk.妇人"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.妇人"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -198,7 +201,10 @@
                             "text": "dlg.5666"
                           }
                         ],
-                        "speaker": "spk.孩童"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.孩童"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -284,7 +290,10 @@
                             "text": "dlg.5668"
                           }
                         ],
-                        "speaker": "spk.居民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.居民"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -301,7 +310,10 @@
                             "text": "dlg.5670"
                           }
                         ],
-                        "speaker": "spk.居民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.居民"
+                        }
                       },
                       "kind": "dialog"
                     }

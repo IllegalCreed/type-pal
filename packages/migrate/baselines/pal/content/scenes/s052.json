@@ -148,6 +148,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.3611"
@@ -224,9 +227,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.021",
-                          "side": "left"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.021",
+                            "side": "left"
+                          },
+                          "speaker": "spk.林月如"
                         },
                         "rows": [
                           {
@@ -236,8 +243,7 @@
                             "text": "dlg.3863"
                           }
                         ],
-                        "slot": "top",
-                        "speaker": "spk.林月如"
+                        "slot": "top"
                       },
                       "kind": "dialog"
                     }
@@ -249,6 +255,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.3864"
@@ -271,6 +280,9 @@
                   "body": [
                     {
                       "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
                         "rows": [
                           {
                             "text": "dlg.3867"
@@ -367,7 +379,10 @@
                             "text": "dlg.3576"
                           }
                         ],
-                        "speaker": "spk.村人"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.村人"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -460,7 +475,10 @@
                             "text": "dlg.3580"
                           }
                         ],
-                        "speaker": "spk.村人"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.村人"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -556,7 +574,10 @@
                             "text": "dlg.3585"
                           }
                         ],
-                        "speaker": "spk.村人"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.村人"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -649,7 +670,10 @@
                             "text": "dlg.3589"
                           }
                         ],
-                        "speaker": "spk.村人"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.村人"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -742,7 +766,10 @@
                             "text": "dlg.3593"
                           }
                         ],
-                        "speaker": "spk.村人"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.村人"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -834,7 +861,10 @@
                             "text": "dlg.3597"
                           }
                         ],
-                        "speaker": "spk.村人"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.村人"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -929,7 +959,10 @@
                             "text": "dlg.3602"
                           }
                         ],
-                        "speaker": "spk.村人"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.村人"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1022,7 +1055,10 @@
                             "text": "dlg.3606"
                           }
                         ],
-                        "speaker": "spk.村人"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.村人"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1115,7 +1151,10 @@
                             "text": "dlg.3610"
                           }
                         ],
-                        "speaker": "spk.村人"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.村人"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1204,7 +1243,10 @@
                             "text": "dlg.3620"
                           }
                         ],
-                        "speaker": "spk.煎药童子"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.煎药童子"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -1268,7 +1310,10 @@
                               "text": "dlg.3624"
                             }
                           ],
-                          "speaker": "spk.煎药童子",
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.煎药童子"
+                          },
                           "slot": "top"
                         }
                       },
@@ -1280,7 +1325,10 @@
                               "text": "dlg.3626"
                             }
                           ],
-                          "speaker": "spk.李逍遥"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.李逍遥"
+                          }
                         }
                       },
                       {
@@ -1297,7 +1345,10 @@
                               "text": "dlg.3629"
                             }
                           ],
-                          "speaker": "spk.煎药童子",
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.煎药童子"
+                          },
                           "slot": "top"
                         }
                       },
@@ -1318,12 +1369,15 @@
                               "text": "dlg.3633"
                             }
                           ],
-                          "speaker": "spk.林月如",
-                          "slot": "top",
-                          "portrait": {
-                            "asset": "portrait.pal.021",
-                            "side": "left"
-                          }
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.林月如",
+                            "portrait": {
+                              "asset": "portrait.pal.021",
+                              "side": "left"
+                            }
+                          },
+                          "slot": "top"
                         }
                       },
                       {
@@ -1337,10 +1391,13 @@
                               "text": "dlg.3635"
                             }
                           ],
-                          "speaker": "spk.李逍遥",
-                          "portrait": {
-                            "asset": "portrait.pal.001",
-                            "side": "right"
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.李逍遥",
+                            "portrait": {
+                              "asset": "portrait.pal.001",
+                              "side": "right"
+                            }
                           }
                         }
                       },
@@ -1352,12 +1409,15 @@
                               "text": "dlg.3637"
                             }
                           ],
-                          "speaker": "spk.林月如",
-                          "slot": "top",
-                          "portrait": {
-                            "asset": "portrait.pal.021",
-                            "side": "left"
-                          }
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.林月如",
+                            "portrait": {
+                              "asset": "portrait.pal.021",
+                              "side": "left"
+                            }
+                          },
+                          "slot": "top"
                         }
                       },
                       {
@@ -1417,7 +1477,10 @@
                               "text": "dlg.3653"
                             }
                           ],
-                          "speaker": "spk.煎药童子",
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.煎药童子"
+                          },
                           "slot": "top"
                         }
                       },
@@ -1494,7 +1557,10 @@
                               "text": "dlg.3656"
                             }
                           ],
-                          "speaker": "spk.煎药童子",
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.煎药童子"
+                          },
                           "slot": "top"
                         }
                       }
@@ -1518,7 +1584,10 @@
                               "text": "dlg.3656"
                             }
                           ],
-                          "speaker": "spk.煎药童子",
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.煎药童子"
+                          },
                           "slot": "top"
                         }
                       }
@@ -1541,7 +1610,10 @@
                               "text": "dlg.3659"
                             }
                           ],
-                          "speaker": "spk.煎药童子",
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.煎药童子"
+                          },
                           "slot": "top"
                         }
                       }
@@ -1565,7 +1637,10 @@
                               "text": "dlg.3659"
                             }
                           ],
-                          "speaker": "spk.煎药童子",
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.煎药童子"
+                          },
                           "slot": "top"
                         }
                       }
@@ -1634,7 +1709,10 @@
                               "text": "dlg.3642"
                             }
                           ],
-                          "speaker": "spk.煎药童子",
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.煎药童子"
+                          },
                           "slot": "top"
                         }
                       },
@@ -1674,7 +1752,10 @@
                               "text": "dlg.3644"
                             }
                           ],
-                          "speaker": "spk.煎药童子",
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.煎药童子"
+                          },
                           "slot": "top"
                         }
                       },
@@ -1800,7 +1881,10 @@
                               "text": "dlg.3642"
                             }
                           ],
-                          "speaker": "spk.煎药童子",
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.煎药童子"
+                          },
                           "slot": "top"
                         }
                       },
@@ -1840,7 +1924,10 @@
                               "text": "dlg.3644"
                             }
                           ],
-                          "speaker": "spk.煎药童子",
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.煎药童子"
+                          },
                           "slot": "top"
                         }
                       },
@@ -1966,7 +2053,10 @@
                               "text": "dlg.3640"
                             }
                           ],
-                          "speaker": "spk.煎药童子",
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.煎药童子"
+                          },
                           "slot": "top"
                         }
                       },
@@ -2008,7 +2098,10 @@
                               "text": "dlg.3640"
                             }
                           ],
-                          "speaker": "spk.煎药童子",
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.煎药童子"
+                          },
                           "slot": "top"
                         }
                       },
@@ -2056,7 +2149,10 @@
                               "text": "dlg.3649"
                             }
                           ],
-                          "speaker": "spk.煎药童子",
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.煎药童子"
+                          },
                           "slot": "top"
                         }
                       },
@@ -2077,7 +2173,10 @@
                               "text": "dlg.3653"
                             }
                           ],
-                          "speaker": "spk.煎药童子",
+                          "identity": {
+                            "kind": "unbound",
+                            "speaker": "spk.煎药童子"
+                          },
                           "slot": "top"
                         }
                       },

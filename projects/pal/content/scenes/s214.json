@@ -188,7 +188,10 @@
                             "text": "dlg.11013"
                           }
                         ],
-                        "speaker": "spk.白苗士兵"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.白苗士兵"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -197,9 +200,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.001",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
@@ -208,8 +215,7 @@
                           {
                             "text": "dlg.11016"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -218,9 +224,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.001",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          },
+                          "speaker": "spk.白苗士兵"
                         },
                         "rows": [
                           {
@@ -235,8 +245,7 @@
                           {
                             "text": "dlg.11021"
                           }
-                        ],
-                        "speaker": "spk.白苗士兵"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -274,7 +283,10 @@
                             "text": "dlg.11024"
                           }
                         ],
-                        "speaker": "spk.白苗士兵"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.白苗士兵"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -384,7 +396,10 @@
                             "text": "dlg.11013"
                           }
                         ],
-                        "speaker": "spk.白苗士兵"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.白苗士兵"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -393,9 +408,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.001",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          },
+                          "speaker": "spk.李逍遥"
                         },
                         "rows": [
                           {
@@ -404,8 +423,7 @@
                           {
                             "text": "dlg.11016"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -414,9 +432,13 @@
                     },
                     {
                       "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.001",
-                          "side": "right"
+                        "identity": {
+                          "kind": "unbound",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          },
+                          "speaker": "spk.白苗士兵"
                         },
                         "rows": [
                           {
@@ -431,8 +453,7 @@
                           {
                             "text": "dlg.11021"
                           }
-                        ],
-                        "speaker": "spk.白苗士兵"
+                        ]
                       },
                       "kind": "dialog"
                     },
@@ -470,7 +491,10 @@
                             "text": "dlg.11024"
                           }
                         ],
-                        "speaker": "spk.白苗士兵"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.白苗士兵"
+                        }
                       },
                       "kind": "dialog"
                     },

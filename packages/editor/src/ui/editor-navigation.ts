@@ -11,6 +11,15 @@ export const EDITOR_MODULE_IDS = [
 
 export type EditorModuleId = (typeof EDITOR_MODULE_IDS)[number]
 
+export const ACTOR_WORKSPACE_SECTIONS = [
+  'overview',
+  'battle',
+  'relationships',
+  'appearance',
+] as const
+
+export type ActorWorkspaceSection = (typeof ACTOR_WORKSPACE_SECTIONS)[number]
+
 export const DATA_PAGE_IDS = [
   'sprite',
   'skill',
@@ -178,6 +187,7 @@ export const EDITOR_MODULES: readonly EditorModuleDefinition[] = [
         icon: '🏞️',
         kind: 'data',
         dataPage: 'battlefield',
+        acceptsObject: true,
       },
     ],
   },
@@ -264,7 +274,7 @@ export interface EditorLocation {
   /** 精灵库唯一深链维度；只在 asset/sprite 保留。 */
   domain?: 'world' | 'battle'
   view?: 'definition' | 'asset'
-  /** 仅 world/definition 精灵深链使用；稳定 ActionId，不是显示编号。 */
+  /** 资源动作或角色工作区的稳定子视图标识，不是显示编号。 */
   actionId?: string
 }
 
@@ -300,13 +310,17 @@ export function locationForSubpageNavigation(
   const objectId = objectIdForSubpageNavigation(location, destination)
   const preserveSpriteLocation =
     location.module === 'asset' && location.subpage === 'sprite' && destination.id === 'sprite'
+  const preserveActorSection =
+    location.module === 'actor' && location.subpage === 'workspace' && destination.id === 'workspace'
   return {
     module: location.module,
     subpage: destination.id,
     ...(objectId ? { objectId } : {}),
     ...(preserveSpriteLocation && location.domain ? { domain: location.domain } : {}),
     ...(preserveSpriteLocation && location.view ? { view: location.view } : {}),
-    ...(preserveSpriteLocation && location.actionId ? { actionId: location.actionId } : {}),
+    ...((preserveSpriteLocation || preserveActorSection) && location.actionId
+      ? { actionId: location.actionId }
+      : {}),
   }
 }
 
@@ -337,9 +351,13 @@ export function normalizeEditorLocation(
     : module.defaultSubpage
   const objectId = typeof input?.objectId === 'string' ? input.objectId.trim() : ''
   const spriteLocation = moduleId === 'asset' && subpage === 'sprite'
+  const actorLocation = moduleId === 'actor' && subpage === 'workspace'
   const domain = spriteLocation && input?.domain === 'battle' ? 'battle' : 'world'
   const view = spriteLocation && input?.view === 'asset' ? 'asset' : 'definition'
   const actionId = typeof input?.actionId === 'string' ? input.actionId.trim() : ''
+  const actorSection = ACTOR_WORKSPACE_SECTIONS.includes(actionId as ActorWorkspaceSection)
+    ? (actionId as ActorWorkspaceSection)
+    : undefined
   return {
     module: moduleId,
     subpage,
@@ -348,6 +366,7 @@ export function normalizeEditorLocation(
     ...(spriteLocation && domain === 'world' && view === 'definition' && objectId && actionId
       ? { actionId }
       : {}),
+    ...(actorLocation && objectId && actorSection ? { actionId: actorSection } : {}),
   }
 }
 
@@ -413,10 +432,11 @@ export const editorLinks = {
     subpage: 'tileset',
     objectId: tilesetId,
   }),
-  actor: (actorId: string): EditorLocation => ({
+  actor: (actorId: string, section?: ActorWorkspaceSection): EditorLocation => ({
     module: 'actor',
     subpage: 'workspace',
     objectId: actorId,
+    ...(section ? { actionId: section } : {}),
   }),
   actorSprite: (spriteId: string): EditorLocation => ({
     module: 'asset',
@@ -473,6 +493,11 @@ export const editorLinks = {
     module: 'battle',
     subpage: 'poison',
     objectId: String(poisonId),
+  }),
+  battleField: (fieldId: number): EditorLocation => ({
+    module: 'battle',
+    subpage: 'battlefield',
+    objectId: String(fieldId),
   }),
   shop: (shopId: number): EditorLocation => ({
     module: 'item',

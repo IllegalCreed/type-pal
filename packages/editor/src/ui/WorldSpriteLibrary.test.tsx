@@ -217,7 +217,7 @@ describe('WorldSpriteLibrary', () => {
         (tag) => tag.textContent === '四向',
       ),
     ).toHaveLength(1)
-    const upload = host.querySelector('.sprite-upload-action')!
+    const upload = host.querySelector('.ds-list-header__action[aria-label="导入源帧资源"]')!
     const filter = host.querySelector('.battle-sprite-filter')!
     expect(upload.compareDocumentPosition(filter) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
   })

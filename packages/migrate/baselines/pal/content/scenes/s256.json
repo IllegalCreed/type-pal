@@ -210,7 +210,10 @@
                             "text": "dlg.11742"
                           }
                         ],
-                        "speaker": "spk.王宫卫兵"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.王宫卫兵"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -233,7 +236,10 @@
                             "text": "dlg.11746"
                           }
                         ],
-                        "speaker": "spk.王宫卫兵"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.王宫卫兵"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -347,7 +353,10 @@
                             "text": "dlg.11757"
                           }
                         ],
-                        "speaker": "spk.王宫卫兵"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.王宫卫兵"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -440,7 +449,10 @@
                             "text": "dlg.11761"
                           }
                         ],
-                        "speaker": "spk.王宫卫兵"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.王宫卫兵"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -457,7 +469,10 @@
                             "text": "dlg.11763"
                           }
                         ],
-                        "speaker": "spk.王宫卫兵"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.王宫卫兵"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -477,7 +492,10 @@
                             "text": "dlg.11766"
                           }
                         ],
-                        "speaker": "spk.王宫卫兵"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.王宫卫兵"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -591,7 +609,10 @@
                             "text": "dlg.11469"
                           }
                         ],
-                        "speaker": "spk.守卫"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.守卫"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -612,7 +633,10 @@
                             "text": "dlg.11472"
                           }
                         ],
-                        "speaker": "spk.李逍遥"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -627,7 +651,10 @@
                           }
                         ],
                         "slot": "top",
-                        "speaker": "spk.守卫"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.守卫"
+                        }
                       },
                       "kind": "dialog"
                     },

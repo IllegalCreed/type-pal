@@ -119,7 +119,10 @@
                             "text": "dlg.1228"
                           }
                         ],
-                        "speaker": "spk.曾伯"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.曾伯"
+                        }
                       },
                       "kind": "dialog"
                     },

@@ -45,6 +45,8 @@ export function editorObjectTargetMissing(
     return !(state.poisons ?? []).some((candidate) => String(candidate.id) === objectId)
   if (subpage.dataPage === 'shop')
     return !(state.shops ?? []).some((candidate) => String(candidate.id) === objectId)
+  if (subpage.dataPage === 'battlefield')
+    return !(state.battleFields ?? []).some((candidate) => String(candidate.id) === objectId)
   if (subpage.dataPage === 'music') {
     return state.assetCatalog.assets[objectId]?.kind !== 'music'
   }

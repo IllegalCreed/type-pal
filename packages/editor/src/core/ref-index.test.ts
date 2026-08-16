@@ -1,4 +1,4 @@
-import type { SceneDef } from '@type-pal/content'
+import type { SceneDef, SceneDefV13 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { buildRefIndex } from './ref-index.js'
 
@@ -156,5 +156,129 @@ describe('buildRefIndex(N5 引用反向索引)', () => {
     expect(idx.flags.size).toBe(0)
     expect(idx.vars.size).toBe(0)
     expect(idx.items.size).toBe(0)
+  })
+
+  test('content13 具名 behavior/hook 同时扫描 stages 与 stateMachine，不把 page id 当 stages', () => {
+    const canonical: SceneDefV13 = {
+      id: 's13',
+      mapId: 'map-test',
+      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+      hooks: {
+        onEnter: {
+          initial: 'intro',
+          variants: {
+            intro: {
+              label: '开场',
+              order: 0,
+              flow: {
+                kind: 'stages',
+                initial: 'initial',
+                stages: [
+                  {
+                    id: 'initial',
+                    entry: {
+                      prepare: [{ kind: 'setFlag', flag: 'prepared', value: true }],
+                      reveal: { kind: 'cut' },
+                    },
+                    body: [{ kind: 'giveItem', itemId: 'hook-gift' }],
+                  },
+                ],
+              },
+            },
+          },
+        },
+      },
+      entities: [
+        {
+          id: 'e1',
+          pos: { col: 0, row: 0, height: 0 },
+          sprite: 'x',
+          initialPage: 'default',
+          pages: [
+            {
+              id: 'default',
+              label: '默认',
+              trigger: 'talk',
+              auto: 'patrol',
+            },
+          ],
+          behaviors: {
+            trigger: {
+              talk: {
+                label: '对话',
+                order: 0,
+                flow: {
+                  kind: 'stages',
+                  initial: 'initial',
+                  stages: [
+                    {
+                      id: 'initial',
+                      body: [
+                        {
+                          kind: 'loop',
+                          mode: 'while',
+                          cond: { kind: 'hasItem', itemId: 'key' },
+                          body: [{ kind: 'setVar', var: 'talk-count', value: 1 }],
+                          yield: 'worldTick',
+                          maxIterations: 1,
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+            },
+            auto: {
+              patrol: {
+                label: '巡逻',
+                order: 0,
+                flow: {
+                  kind: 'stateMachine',
+                  machine: {
+                    id: 'patrol-machine',
+                    label: '巡逻状态机',
+                    initial: 'idle',
+                    states: {
+                      idle: {
+                        label: '等待',
+                        body: [{ kind: 'addVar', var: 'steps', delta: 1 }],
+                        next: {
+                          kind: 'branch',
+                          cond: { kind: 'flag', flag: 'route-open', is: true },
+                          then: { kind: 'stay' },
+                          else: { kind: 'restart' },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      ],
+    }
+
+    const idx = buildRefIndex([canonical])
+    expect(idx.flags.get('prepared')?.[0]).toMatchObject({
+      srcKey: '__onEnter__',
+      srcLabel: '进场脚本「开场」',
+      access: 'write',
+    })
+    expect(idx.items.get('hook-gift')).toHaveLength(1)
+    expect(idx.items.get('key')?.[0]).toMatchObject({
+      srcKey: 'e1:trigger',
+      srcLabel: 'e1 触发「对话」',
+      access: 'read',
+    })
+    expect(idx.vars.get('talk-count')).toHaveLength(1)
+    expect(idx.vars.get('steps')?.[0]).toMatchObject({
+      srcKey: 'e1:auto',
+      srcLabel: 'e1 巡逻「巡逻」',
+    })
+    expect(idx.flags.get('route-open')?.[0]).toMatchObject({
+      srcKey: 'e1:auto',
+      access: 'read',
+    })
   })
 })

@@ -89,6 +89,9 @@
                   },
                   {
                     "cue": {
+                      "identity": {
+                        "kind": "narration"
+                      },
                       "autoAdvance": 571,
                       "rows": [
                         {
@@ -198,9 +201,13 @@
                   {
                     "cue": {
                       "autoAdvance": 685,
-                      "portrait": {
-                        "asset": "portrait.pal.067",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.067",
+                          "side": "left"
+                        },
+                        "speaker": "spk.尚书夫人"
                       },
                       "rows": [
                         {
@@ -208,8 +215,7 @@
                           "text": "dlg.8217"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.尚书夫人"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -259,9 +265,13 @@
                   {
                     "cue": {
                       "autoAdvance": 571,
-                      "portrait": {
-                        "asset": "portrait.pal.048",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.048",
+                          "side": "right"
+                        },
+                        "speaker": "spk.彩　依"
                       },
                       "rows": [
                         {
@@ -276,8 +286,7 @@
                           "speed": 56,
                           "text": "dlg.8221"
                         }
-                      ],
-                      "speaker": "spk.彩　依"
+                      ]
                     },
                     "kind": "dialog"
                   },
@@ -288,9 +297,13 @@
                   {
                     "cue": {
                       "autoAdvance": 457,
-                      "portrait": {
-                        "asset": "portrait.pal.067",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.067",
+                          "side": "left"
+                        },
+                        "speaker": "spk.尚书夫人"
                       },
                       "rows": [
                         {
@@ -302,8 +315,7 @@
                           "text": "dlg.8224"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.尚书夫人"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
@@ -313,9 +325,13 @@
                   {
                     "cue": {
                       "autoAdvance": 628,
-                      "portrait": {
-                        "asset": "portrait.pal.067",
-                        "side": "left"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.067",
+                          "side": "left"
+                        },
+                        "speaker": "spk.尚书夫人"
                       },
                       "rows": [
                         {
@@ -331,25 +347,27 @@
                           "text": "dlg.8227"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.尚书夫人"
+                      "slot": "top"
                     },
                     "kind": "dialog"
                   },
                   {
                     "cue": {
                       "autoAdvance": 800,
-                      "portrait": {
-                        "asset": "portrait.pal.048",
-                        "side": "right"
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.048",
+                          "side": "right"
+                        },
+                        "speaker": "spk.彩　依"
                       },
                       "rows": [
                         {
                           "speed": 56,
                           "text": "dlg.8229"
                         }
-                      ],
-                      "speaker": "spk.彩　依"
+                      ]
                     },
                     "kind": "dialog"
                   },

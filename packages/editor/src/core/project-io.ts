@@ -18,11 +18,14 @@ import {
   formatProjectMap,
   formatStampTemplates,
   checkSharedScriptLibraryV13,
+  checkSharedScriptLibraryV14,
   type ProjectMap,
   type SceneDef,
   type SceneDefV13,
+  type SceneDefV14,
   type ScriptChunkV1,
   type SharedScriptLibraryV13,
+  type SharedScriptLibraryV14,
   type StampTemplateV1,
   validateAssetCatalog,
   validateMapIndex,
@@ -34,6 +37,7 @@ import {
   type FileSource,
   type LoadedProjectCore,
   type LoadedProjectV13Core,
+  type LoadedProjectV14Core,
   type LoadedProjectV5Core,
   parseSpriteChunkStrict,
 } from '@type-pal/reforge'
@@ -42,7 +46,11 @@ import type { EditorState } from './edit-session.js'
 import { assertProjectSaveValid } from './project-diagnostics.js'
 import { assertScriptProjectValid } from './script-references.js'
 
-type EditorSourceProject = LoadedProjectCore | LoadedProjectV5Core | LoadedProjectV13Core
+type EditorSourceProject =
+  | LoadedProjectCore
+  | LoadedProjectV5Core
+  | LoadedProjectV13Core
+  | LoadedProjectV14Core
 
 /**
  * 只读工程 → 可变工作副本。by-id Record 翻成数组(Object.values,保原数组序);
@@ -51,7 +59,7 @@ type EditorSourceProject = LoadedProjectCore | LoadedProjectV5Core | LoadedProje
  */
 export function toEditorState(
   project: EditorSourceProject,
-  scenes: SceneDef[] | SceneDefV13[],
+  scenes: SceneDef[] | SceneDefV13[] | SceneDefV14[],
   projectMaps: Record<string, ProjectMap> = {}, // 键 = 稳定 map id；缺席 = 尚未按需加载
   scriptChunks: Record<string, ScriptChunkV1> = {},
   stamps?: StampTemplateV1[],
@@ -72,17 +80,29 @@ export function toEditorState(
     scriptIndex: 'scriptIndex' in project ? project.scriptIndex : undefined,
     scriptChunks,
     migrationDiagnostics: structuredClone(project.migrationDiagnostics),
-    ...( 'sharedScripts' in project
-      ? { sharedScripts: structuredClone((project as { sharedScripts: SharedScriptLibraryV13 }).sharedScripts) }
+    ...('authorContent' in project
+      ? {
+          sharedScripts: structuredClone(project.authorContent.sharedScripts) as unknown as SharedScriptLibraryV13,
+        }
+      : 'sharedScripts' in project
+        ? {
+            sharedScripts: structuredClone(
+              (project as { sharedScripts: SharedScriptLibraryV13 }).sharedScripts,
+            ),
+          }
       : {}),
     // by-id Record → 数组(Object.values 保序:indexById 按原数组序插入)
     actors: Object.values(project.actorsById),
     skills: Object.values(project.skills),
-    items: Object.values(project.items),
+    items: ('authorContent' in project
+      ? project.authorContent.items
+      : Object.values(project.items)) as EditorState['items'],
     sprites: Object.values(project.spritesById),
     battleSprites: Object.values(project.battleSpritesById),
     // M4c-3:敌人/敌队(by-id → 数组)
-    enemies: Object.values(project.enemiesById ?? {}),
+    enemies: ('authorContent' in project
+      ? project.authorContent.enemies
+      : Object.values(project.enemiesById ?? {})) as EditorState['enemies'],
     enemyTeams: Object.values(project.enemyTeamsById ?? {}),
     // D24:战场表(数组直传;缺 = 空)
     battleFields: project.battleFields ?? [],
@@ -225,7 +245,9 @@ export function serializeProject(
   if (content.sharedScripts !== undefined) {
     if (!state.sharedScripts)
       throw new Error('serializeProject: manifest 声明 sharedScripts 但 state.sharedScripts 缺失')
-    checkSharedScriptLibraryV13(state.sharedScripts)
+    if (state.manifest.contentVersion === 14)
+      checkSharedScriptLibraryV14(state.sharedScripts as unknown as SharedScriptLibraryV14)
+    else checkSharedScriptLibraryV13(state.sharedScripts)
     addFile(content.sharedScripts, state.sharedScripts, '共享脚本')
   }
 

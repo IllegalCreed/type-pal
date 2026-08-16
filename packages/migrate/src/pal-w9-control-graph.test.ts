@@ -1,5 +1,7 @@
 import { isDeepStrictEqual } from 'node:util'
+import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
+import type { ManifestV14 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
   R13_SOURCE_SEMANTICS_SEAL_PATH,
@@ -21,6 +23,7 @@ import {
   B10_ENEMY_TEAM_SLOTS_TRANSITION_ID,
   b10PublishTimeSurfaceDigest,
 } from './pal-b10-enemy-team-slots.js'
+import { rewindCurrentC1PublicationToW9 } from './pal-current-c1-rewind.js'
 import { assertB10PublishedAuthorityGraph } from './pal-w9-control-graph.js'
 import { rewindPublishedW9PublicationIfPresent } from './pal-w9-entity-lifecycle.js'
 import {
@@ -45,7 +48,12 @@ function cloneSnapshot(source: MigrationSnapshot): MigrationSnapshot {
 function loadParentBaseline(): MigrationSnapshot {
   const loaded = loadPalBaseline(repo)
   if (!loaded) throw new Error('test 缺 PAL baseline')
-  return rewindPublishedW9PublicationIfPresent(loaded)
+  const manifestRawText = readFileSync(`${repo}/projects/pal/manifest.json`, 'utf8')
+  return rewindPublishedW9PublicationIfPresent(rewindCurrentC1PublicationToW9({
+    source: loaded,
+    manifest: JSON.parse(manifestRawText) as ManifestV14,
+    manifestRawText,
+  }))
 }
 
 // All negative cases mutate only their returned clone. Reuse one fully verified real baseline

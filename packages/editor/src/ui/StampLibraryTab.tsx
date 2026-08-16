@@ -10,6 +10,7 @@ import {
 } from '../core/stamp-commands.js'
 import type { StampSelectionSource } from '../core/stamp-template.js'
 import { collectStampTemplateUsage, nextStampTemplateId } from '../core/stamp-template.js'
+import { DsListHeader, DsSequenceIndex } from './design-system/index.js'
 import { StampMiniPreview, StampPreviewCanvas } from './StampPreviewCanvas.js'
 import { StampTemplateDialog } from './StampTemplateDialog.js'
 
@@ -295,13 +296,7 @@ export function StampLibraryTab(props: {
     <>
       <div className="outliner data-outliner stamp-outliner">
         {tabBar}
-        <div className="pane-h stamp-library-head">
-          <span className="t">组合库</span>
-          <span className="spacer" />
-          <span className="stamp-library-count">
-            {shown.length}/{stamps.length}
-          </span>
-        </div>
+        <DsListHeader title="组合库" count={stamps.length} unit="项" />
         <div className="stamp-library-tools">
           <label className="stamp-search-field" htmlFor={searchId}>
             <span className="stamp-search-icon" aria-hidden="true" />
@@ -491,11 +486,12 @@ export function StampLibraryTab(props: {
                 </div>
               </div>
               <ul className="stamp-slot-list">
-                {selected.layerSlots.map((slot) => (
+                {selected.layerSlots.map((slot, index) => (
                   <li key={slot.id}>
-                    <span className="stamp-slot-order">
-                      {selected.layerSlots.indexOf(slot) + 1}
-                    </span>
+                    <DsSequenceIndex
+                      value={index + 1}
+                      accessibleLabel={`第 ${index + 1} 个视觉层`}
+                    />
                     <span>
                       <strong>{slot.name}</strong>
                       <small className="mono">{slot.id}</small>

@@ -105,7 +105,17 @@ describe('SpriteResourceViewer', () => {
       )
     })
 
-    expect(host.querySelector('.sprite-resource-frame-count')?.textContent).toContain('3 帧')
+    const resourceMeta = host.querySelector('.ds-object-hero__meta .ds-tag')
+    expect(resourceMeta?.textContent).toContain('3 帧')
+    expect(host.querySelector('.sprite-resource-frame-count')).toBeNull()
+    const workspace = host.querySelector('.sprite-resource-viewer')!
+    const hero = workspace.querySelector(':scope > .ds-object-hero')!
+    const content = workspace.querySelector(':scope > .ds-object-workspace__content')!
+    expect(hero).not.toBeNull()
+    expect(content).not.toBeNull()
+    expect(content.contains(hero)).toBe(false)
+    expect(content.querySelector('.sprite-raw-inspector')).not.toBeNull()
+    expect(content.querySelector('.sprite-raw-inspector .ds-object-hero')).toBeNull()
     expect(
       host.querySelectorAll<HTMLButtonElement>(
         '.sprite-resource-frame-grid [aria-label^="选择源帧 "]',
@@ -113,7 +123,7 @@ describe('SpriteResourceViewer', () => {
     ).toHaveLength(3)
     expect(host.textContent).toContain('22 × 50 px')
     expect(host.textContent).toContain('由 2 个用途共享')
-    expect(host.textContent).toContain('＋ 追加帧…')
+    expect(host.textContent).toContain('追加帧…')
     expect(host.textContent).toContain('替换当前帧…')
     expect(host.textContent).toContain('删除当前帧')
     const raw = host.querySelector('.sprite-raw-inspector')!
@@ -160,6 +170,7 @@ describe('SpriteResourceViewer', () => {
         />,
       )
     })
+    expect(host.querySelector(':scope .ds-object-hero__title')?.textContent).toBe('旧资源')
     await act(async () => {
       root.render(
         <SpriteResourceViewer
@@ -173,6 +184,7 @@ describe('SpriteResourceViewer', () => {
         />,
       )
     })
+    expect(host.querySelector('.ds-object-hero__title')?.textContent).toBe('新资源')
     await act(async () => oldLoad.resolve(sprite([frame(9, 9), frame(8, 8)])))
     expect(host.textContent).toContain('正在解析帧资源 sprite.next')
     expect(host.textContent).not.toContain('2 帧')
@@ -220,7 +232,8 @@ describe('SpriteResourceViewer', () => {
       )
     })
 
-    expect(host.querySelector('.sprite-resource-frame-count')?.textContent).toContain('4 帧')
+    expect(host.querySelector('.ds-object-hero__meta .ds-tag')?.textContent).toContain('4 帧')
+    expect(host.querySelector('.sprite-resource-frame-count')).toBeNull()
     expect(host.querySelector('.semantic-frame-shelf')?.textContent).toContain('默认显示')
     expect(host.querySelector('.semantic-frame-shelf')?.textContent).toContain('默认使用 #0')
     expect(host.querySelector('.semantic-frame-shelf')?.textContent).toContain('火焰')

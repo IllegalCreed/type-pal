@@ -1,4 +1,5 @@
 import { useEffect, useId, useMemo, useState } from 'react'
+import { type DsControlSize, DsTextInput } from './design-system/controls.js'
 
 export interface NamedIdChoice {
   id: string
@@ -31,6 +32,7 @@ export function NamedIdPicker(props: {
   kindLabel: string
   inputName: string
   onChange: (id: string) => void
+  size?: DsControlSize
 }) {
   const listId = useId()
   const choicesById = useMemo(
@@ -57,8 +59,9 @@ export function NamedIdPicker(props: {
 
   return (
     <span className="cf-named-ref-picker">
-      <input
-        className={`in cf-named-ref-input${selected ? '' : ' missing'}`}
+      <DsTextInput
+        invalid={!selected}
+        size={props.size}
         type="search"
         name={props.inputName}
         list={listId}

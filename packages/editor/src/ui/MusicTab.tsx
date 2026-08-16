@@ -9,6 +9,7 @@ import {
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import { collectEditorAssetReferences } from '../core/editor-asset-references.js'
+import { DsListHeader } from './design-system/index.js'
 import { musicAssets, PreviewButton } from './MusicPicker.js'
 
 const ROLE_LABELS: Readonly<Record<string, string>> = {
@@ -183,20 +184,18 @@ export function MusicTab(props: {
     <>
       <div className="outliner data-outliner">
         {tabBar}
-        <div className="pane-h">
-          <span className="t">音乐</span>
-          <span className="spacer" />
-          <span className="k">{shown.length} 首</span>
-        </div>
+        <DsListHeader
+          title="音乐"
+          count={shown.length}
+          unit="首"
+          actions={[{
+            id: 'import-music',
+            label: '导入 MIDI',
+            icon: '＋',
+            onClick: () => importRef.current?.click(),
+          }]}
+        />
         <div className="music-library-tools">
-          <button
-            type="button"
-            className="music-import-button"
-            onClick={() => importRef.current?.click()}
-          >
-            <span className="music-import-icon" aria-hidden="true" />
-            导入 MIDI
-          </button>
           <div className="music-search-field">
             <span className="music-search-icon" aria-hidden="true" />
             <input

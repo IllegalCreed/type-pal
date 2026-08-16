@@ -155,7 +155,10 @@
                             "text": "dlg.5140"
                           }
                         ],
-                        "speaker": "spk.居民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.居民"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -172,7 +175,10 @@
                             "text": "dlg.5142"
                           }
                         ],
-                        "speaker": "spk.居民"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.居民"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -227,7 +233,10 @@
                             "text": "dlg.5145"
                           }
                         ],
-                        "speaker": "spk.父"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.父"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -241,7 +250,10 @@
                             "text": "dlg.5147"
                           }
                         ],
-                        "speaker": "spk.女"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.女"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -296,7 +308,10 @@
                             "text": "dlg.5145"
                           }
                         ],
-                        "speaker": "spk.父"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.父"
+                        }
                       },
                       "kind": "dialog"
                     },
@@ -310,7 +325,10 @@
                             "text": "dlg.5147"
                           }
                         ],
-                        "speaker": "spk.女"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.女"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -362,7 +380,10 @@
                             "text": "dlg.5149"
                           }
                         ],
-                        "speaker": "spk.小孩"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.小孩"
+                        }
                       },
                       "kind": "dialog"
                     }
@@ -379,7 +400,10 @@
                             "text": "dlg.5151"
                           }
                         ],
-                        "speaker": "spk.小孩"
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.小孩"
+                        }
                       },
                       "kind": "dialog"
                     }
