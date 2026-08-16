@@ -1,6 +1,6 @@
 # ED-SCENE-UX-1 - 场景画布直接操作与取消选择
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: Editor scene workspace（不改变 capability-map）
 Coding Owner: Codex
@@ -9,7 +9,7 @@ Reviewer: Kimi（交互/视觉主审）+ GLM（覆盖/测试审查）
 Visual Verification Owner: Codex + User
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
-Branch: TBD
+Branch: `codex/ed-scene-ux-1`
 
 ## 目标
 
@@ -271,6 +271,9 @@ App.reference-navigation.test.tsx:38-39,434-469 / ls SceneCanvas*.test 零命中
   Delete、undo/redo 与布局快捷键。脚本面板互斥渲染时不处理本次 Canvas Esc。
 - 工具栏移除“选择/移动”。放置期间插入 `role=status` 提示与“取消放置”按钮；删除按钮在放置时禁用；脚本按钮
   仍由 `drawer.open` 独立控制。
+- G2 裁决（2026-08-17）：打开脚本面板时取消放置。理由是脚本面板会互斥卸载画布，继续保留隐藏的放置模态
+  会让用户关闭脚本后意外回到放置态；这与切场景、外部定位和成功放置都会回到普通态的规则保持一致。关闭脚本
+  面板不进入放置态，测试钉住“放置中打开脚本 -> `placingEntity=false`”。
 
 ### 已知风险
 
@@ -302,7 +305,7 @@ N/A；看板记录 Kimi、GLM 当前可用。
 
 ## Build: 实现与自测
 
-- Coding Owner: Codex（签字齐后）
+- Coding Owner: Codex（三签齐，2026-08-17 进入 build）
 - 修改文件: pending
 - 实现摘要: pending
 - 运行命令: pending
@@ -352,7 +355,13 @@ N/A；不涉及资源生成。
   G2 发现 placing 态与脚本面板共存语义未定义（现状 toggleScriptPanel 不复位 tool）——build 前须
   显式裁决并钉测试;G3 mock 更新检查。SceneCanvas.test 须新建,cursor 四态可 jsdom 契约断言。
   三方签字齐,build allowed。Next: Codex 按 SK1+G1-G3 进 build。
-\n## 下一位 Agent 提示词
+
+- 2026-08-17 Codex: 接手前复核三方 premise/design 签字与 build 准入，结论仍为 allowed；任务由
+  `draft` 转 `build`，分支为 `codex/ed-scene-ux-1`。G2 裁决为“打开脚本面板即取消放置”，避免画布
+  卸载后隐藏保留模态，并与切场景/外部定位的恢复规则一致。Next: Codex 作为唯一 Coding Owner 落实
+  SK1 + G1-G3、测试和最小浏览器验证。
+
+## 下一位 Agent 提示词
 
 ### 给 Kimi（已完成）
 
