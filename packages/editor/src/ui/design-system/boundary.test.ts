@@ -205,7 +205,9 @@ describe('editor design-system static boundary', () => {
       const start = source.indexOf('<DsCatalogControls')
       const lineStart = source.lastIndexOf('\n', start) + 1
       const indent = source.slice(lineStart, start)
-      const closing = source.slice(start).match(new RegExp(`^${indent.replace(/ /g, '\\s')}\\/>`, 'm'))
+      const closing = source
+        .slice(start)
+        .match(new RegExp(`^${indent.replace(/ /g, '\\s')}\\/>`, 'm'))
       expect(closing, `${file} DsCatalogControls closing boundary`).not.toBeNull()
       const controlsSource = source.slice(start, start + (closing?.index ?? 0) + closing![0].length)
       expect(controlsSource, `${file} raw catalog control`).not.toMatch(/<(?:input|select)\b/)
@@ -339,6 +341,54 @@ describe('editor design-system static boundary', () => {
     const recipes = readFileSync(join(here, 'recipes.tsx'), 'utf8')
     expect(recipes).not.toMatch(/from ['"]\.\.\/core\//)
     expect(recipes).not.toMatch(/EditorState|EditorLocation|collector|Command/)
+  })
+
+  test('keeps all six diagnostic faces on the public diagnostic contract', () => {
+    const uiRoot = dirname(here)
+    const diagnosticFaces = [
+      'ProjectWorkbenchTab.tsx',
+      'CutsceneTab.tsx',
+      'ImageTab.tsx',
+      'SoundTab.tsx',
+      'ItemTab.tsx',
+      'StampPlacementInspector.tsx',
+    ]
+
+    for (const file of diagnosticFaces) {
+      const source = readFileSync(join(uiRoot, file), 'utf8')
+      expect(source, `${file} diagnostic panel`).toMatch(/<DsDiagnosticPanel\b/)
+      expect(source, `${file} diagnostic list`).toMatch(/<DsDiagnosticList\b/)
+      expect(source, `${file} diagnostic row`).toMatch(/<DsDiagnosticRow\b/)
+    }
+
+    const recipes = readFileSync(join(here, 'recipes.tsx'), 'utf8')
+    expect(recipes).not.toMatch(
+      /ProjectIssue|MigrationDiagnostic|StampPlacementIssue|EditorLocation|AssetClosureIssue/,
+    )
+    expect(recipes.match(/function DsLocatorRowFrame\b/g)).toHaveLength(1)
+    expect(recipes.match(/<DsLocatorRowFrame\b/g)).toHaveLength(2)
+    expect(recipes).not.toMatch(/<DsReference(?:Panel|Row)[^>]*\bvariant=["']diagnostic["']/)
+    const diagnosticRowSource = recipes.match(
+      /export function DsDiagnosticRow\b[\s\S]*?export function DsDiagnosticList\b/,
+    )?.[0]
+    expect(diagnosticRowSource).not.toMatch(/role=["']alert["']/)
+
+    const businessCss = readFileSync(join(uiRoot, 'editor.css'), 'utf8')
+    expect(businessCss).not.toMatch(
+      /\.(?:project-issue|cutscene-diagnostic|item-diagnostic|stamp-placement-problems)\b/,
+    )
+    expect(businessCss).toMatch(/\.cf-err\b/)
+
+    for (const file of ['ImageTab.tsx', 'SoundTab.tsx']) {
+      const source = readFileSync(join(uiRoot, file), 'utf8')
+      expect(source, `${file} inline diagnostic`).toMatch(
+        /id:\s*['"]references['"][\s\S]*?<DsReferencePanel\b[\s\S]*?<DsDiagnosticPanel\b/,
+      )
+      expect(source, `${file} no diagnostic tab`).not.toMatch(/id:\s*['"]diagnostics['"]/)
+      expect(source, `${file} closure issue is not cf-err`).not.toMatch(
+        /selectedIssues\.map\([\s\S]{0,200}<div className=["']cf-err["']/,
+      )
+    }
   })
 
   test('keeps shared reference pickers on canonical form controls', () => {

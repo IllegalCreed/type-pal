@@ -1,12 +1,12 @@
 # Type-Pal 编辑器设计系统与交互规范 v1
 
-Status: draft v2.4.0 catalog controls contract implemented, pending review（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
+Status: draft v2.5.0 diagnostic presentation contract implemented, pending review（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
 
-Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）
+Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）
 
 Applies to: `packages/editor` 的全部功能性界面
 
-Last updated: 2026-08-16
+Last updated: 2026-08-17
 
 > 本文是后续编辑器界面实施和验收的唯一规范入口。它定义产品语言、可复用合同和验收方法，不定义
 > content schema、业务命令、存档或运行时规则。角色模块与 B2 战场工作台是参考输入，不是自动正确的模板；
@@ -425,6 +425,27 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - 页面根必须有 error boundary；错误视图显示模块、对象 id、可复制技术详情和安全返回入口。
 - 全局问题条用于跨工程诊断；字段错误留在字段；toast 只用于短暂成功/失败回执，不承载必须处理的问题。
 
+#### DS-C.8a 诊断呈现合同（v2.5.0）
+
+- 页面级、Inspector 与工具内的诊断只允许使用 `DsDiagnosticPanel → DsDiagnosticList →
+  DsDiagnosticRow`。Panel 拥有状态与错误/警告计数，List 拥有 `list/listitem` 和分页，Row 拥有严重度、消息、
+  code/detail、证据路径与定位状态；领域页面不得继续用 `cf-err` 或私有卡片复制同义诊断列表。
+- Panel 状态固定为 `ready / clear / partial / failure`。完整结果使用 exact 错误/警告计数；读取不全只允许
+  `at-least`，失败使用 unknown，禁止把下界伪装成精确数量。每个 Panel 只保留一个 live region；Row 不得逐条
+  使用 `role=alert`。
+- Row 严重度固定为 `error / warning`，文字标签必须先于消息出现，不能只靠颜色。内容顺序固定为：严重度 →
+  消息 → code/detail → 可选择复制且 `overflow-wrap:anywhere` 的 path/evidence → 尾部 `跳转 ↗`、
+  `在问题面板查看 ↗`、`无法定位` 或 `仅提示`。
+- 定位行只允许三种原生根：可分享定位用 `<a>`，命令式定位用 `<button>`，静态或不可定位用 `<article>`。
+  禁止嵌套交互控件和 disabled 假动作。Reference 与 Diagnostic 是两个公开语义合同，但二者必须通过内部中性
+  locator row frame 共用根节点、padding、border、hover/focus、响应式和尾部几何；不得再复制第三套行骨架。
+- Project 问题面板保持 30 条紧凑摘要与 80 条完整分页，保留继续显示、显示全部、收起和精确总数。Image 与
+  Sound 的引用闭包诊断必须内联在既有“引用”面，不新增 tab；Cutscene 保留独立“诊断”tab；Item 迁移来源与
+  Stamp 放置问题保持原 collector、严重度、稳定 key、定位/sidecar/覆盖命令语义。
+- 诊断行使用中性 surface 与轻量严重度强调，不使用连续金色边框墙。120 字符 path、1280/900/720 三档与
+  200% zoom 不得产生横向页面滚动。Design Lab `RF-17` 是 ready/clear/partial/failure、error/warning、
+  button/link/article、152 条分页与长内容基准。
+
 ### DS-C.9 Modal、drawer 与危险操作
 
 - modal 用于需要阻断背景的短决策；drawer 用于保留上下文的长表单/Inspector；不得互换滥用。
@@ -655,6 +676,8 @@ Design Lab 是后续 ED-DS-2 的实现目标；本卡只冻结其输入和验收
 | RF-13 | Modal/drawer/delete blocked | 焦点 trap/return、Esc、引用阻断 | 危险操作 |
 | RF-14 | reduced motion / 200% zoom | 无非必要动画，核心功能可达 | 无障碍 |
 | RF-15 | 单行 Header 菜单 + 常用操作 + 布局控制，1280 / 900 / 720 | Wide/Medium 十项同级；Narrow 显式文件/编辑/导航与模块分组；战斗 4 子页可见且 href 正确；布局三按钮与撤销/重做/保存无 wrap/scroll；按钮/menu 共用命令；弹层不被分栏线覆盖；工程名不挤 Header；分栏线无常驻悬浮按钮；场景页中间按钮与既有脚本面板同源开关，非场景页禁用且不生成底栏 | v2.2 应用壳 |
+| RF-16 | Reference simple/grouped/static/loading/partial/error/long-content | 精确与下界计数、occurrence、真实 button/link/article、长路径和静态原因符合 DS-C.6a | v2.3 引用合同 |
+| RF-17 | Diagnostic ready/clear/partial/failure + 152 条 mixed severity | error/warning 文字、真实 button/link/article、30/80 分页、单 live region、长路径与窄宽度符合 DS-C.8a | v2.5 诊断合同 |
 
 ### DS-PERF.1 大列表性能合同（G3）
 

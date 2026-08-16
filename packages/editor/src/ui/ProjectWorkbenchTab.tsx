@@ -43,6 +43,9 @@ import {
   DsButton,
   DsCatalogRow,
   DsControlGroup,
+  DsDiagnosticList,
+  DsDiagnosticPanel,
+  DsDiagnosticRow,
   DsInspectorTabs,
   DsListHeader,
   DsObjectHero,
@@ -162,78 +165,43 @@ export function IssueList(props: {
 }) {
   const { issues, onOpenLocation, compact = false, onViewAll } = props
   const initialLimit = compact ? COMPACT_ISSUE_LIMIT : ISSUE_PAGE_SIZE
-  const [visibleLimit, setVisibleLimit] = useState(initialLimit)
-  useEffect(() => setVisibleLimit(initialLimit), [initialLimit])
-  const visibleIssues = issues.slice(0, visibleLimit)
-  const hiddenCount = issues.length - visibleIssues.length
-  if (issues.length === 0)
-    return <div className="project-empty project-ok">✓ 未发现工程配置问题</div>
+  const errors = issues.filter((issue) => issue.severity === 'error').length
+  const warnings = issues.length - errors
   return (
-    <div className={`project-issues${compact ? ' compact' : ''}`}>
-      {visibleIssues.map((issue) => {
-        const target = issueTarget(issue)
-        return (
-          <div
-            className={`project-issue ${issue.severity}`}
-            key={`${issue.code}:${issue.path}:${issue.message}`}
-          >
-            <span className="project-issue-icon">{issue.severity === 'error' ? '!' : '·'}</span>
-            <span className="project-issue-copy">
-              <span>{issue.message}</span>
-              <code>{issue.path}</code>
-            </span>
-            {target && onOpenLocation ? (
-              <button type="button" className="mini-txt" onClick={() => onOpenLocation(target)}>
-                跳转
-              </button>
-            ) : null}
-          </div>
-        )
-      })}
-      {issues.length > initialLimit ? (
-        <div className="project-issue-more">
-          <span role="status" aria-live="polite">
-            {hiddenCount > 0
-              ? `已显示 ${visibleIssues.length} / ${issues.length} 项`
-              : `已显示全部 ${issues.length} 项`}
-          </span>
-          <span className="project-issue-more-actions">
-            {compact && hiddenCount > 0 && onViewAll ? (
-              <button type="button" className="mini-txt" onClick={onViewAll}>
-                查看全部 {issues.length} 项
-              </button>
-            ) : null}
-            {hiddenCount > 0 && (!compact || !onViewAll) ? (
-              <button
-                type="button"
-                className="mini-txt"
-                onClick={() => setVisibleLimit((current) => current + ISSUE_PAGE_SIZE)}
-              >
-                继续显示 {Math.min(ISSUE_PAGE_SIZE, hiddenCount)} 项
-              </button>
-            ) : null}
-            {!compact && hiddenCount > 0 ? (
-              <button
-                type="button"
-                className="mini-txt"
-                onClick={() => setVisibleLimit(issues.length)}
-              >
-                显示全部
-              </button>
-            ) : null}
-            {!compact && visibleIssues.length > initialLimit ? (
-              <button
-                type="button"
-                className="mini-txt"
-                onClick={() => setVisibleLimit(initialLimit)}
-              >
-                收起至前 {initialLimit} 项
-              </button>
-            ) : null}
-          </span>
-        </div>
+    <DsDiagnosticPanel
+      state={issues.length ? 'ready' : 'clear'}
+      count={{ kind: 'exact', errors, warnings }}
+      description={issues.length ? '按严重度核对工程配置；可定位问题可直接跳转。' : undefined}
+      live={issues.length <= initialLimit}
+    >
+      {issues.length ? (
+        <DsDiagnosticList
+          initialVisibleCount={initialLimit}
+          pageSize={ISSUE_PAGE_SIZE}
+          onViewAll={compact ? onViewAll : undefined}
+          allowShowAll={!compact}
+        >
+          {issues.map((issue) => {
+            const target = issueTarget(issue)
+            return (
+              <DsDiagnosticRow
+                key={`${issue.code}:${issue.path}:${issue.message}`}
+                severity={issue.severity === 'error' ? 'error' : 'warning'}
+                title={issue.message}
+                code={issue.code}
+                path={issue.path}
+                action={
+                  target && onOpenLocation
+                    ? { label: '跳转 ↗', onActivate: () => onOpenLocation(target) }
+                    : undefined
+                }
+                statusLabel={target ? '无法定位' : '仅提示'}
+              />
+            )
+          })}
+        </DsDiagnosticList>
       ) : null}
-    </div>
+    </DsDiagnosticPanel>
   )
 }
 

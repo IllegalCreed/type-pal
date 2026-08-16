@@ -1,6 +1,6 @@
 # ED-DIAGNOSTIC-UI-1 - 属性面板问题与诊断呈现统一
 
-Status: build
+Status: review
 Phase: phase2
 Capability: Editor cross-cutting（本卡不改变 capability-map 状态）
 Coding Owner: Codex
@@ -513,7 +513,12 @@ StampLibraryTab.tsx:283。只读审查，未改实现文件，未代签 Kimi，�
 
 ### 进入 done 前：审查签字
 
-- Codex: pending
+- Codex: **accept（2026-08-17）**。本人完成实现并逐项复核：公开层只有
+  `DsDiagnosticPanel/List/Row`，内部只有一个 `DsLocatorRowFrame` 根节点 owner；Reference 原有
+  a/button/article DOM、12 条展开、occurrence、长 path 与 16 面消费保持回归全绿；六个诊断面均只做展示
+  adapter，Image/Sound 未新增 Tab，Item sidecar 与 Stamp overwrite 命令未变。验证证据见 Build/视觉记录：
+  editor 124 files / 927 tests 全绿，专项 7 files / 137 tests 全绿，1280/900/720/200% 等效视口无横向溢出，
+  152 项分页实测 30→110→152→30。
 - Kimi: pending
 - GLM: pending
 - counter / 返工处理: pending
@@ -532,12 +537,39 @@ StampLibraryTab.tsx:283。只读审查，未改实现文件，未代签 Kimi，�
 
 ## Build: 实现与自测
 
-- Coding Owner: Codex（build 签字齐后）
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- Coding Owner: Codex
+- 修改文件:
+  - shared contract：`packages/editor/src/ui/design-system/recipes.tsx`、`recipes.css`、`index.ts`；
+  - 六面 adapter：`ProjectWorkbenchTab.tsx`、`CutsceneTab.tsx`、`ImageTab.tsx`、`SoundTab.tsx`、
+    `ItemTab.tsx`、`StampPlacementInspector.tsx`；
+  - 私有皮肤退役：`packages/editor/src/ui/editor.css`；
+  - gates/fixtures/docs：`recipes.test.tsx`、`boundary.test.ts`、六面领域测试、`DesignLab.tsx`、
+    `editor-design-system-v1.md`。
+- 实现摘要:
+  - 新增唯一公开 `DsDiagnosticPanel/List/Row`，覆盖 ready/clear/partial/failure、exact/at-least/unknown、
+    error/warning、button/link/article、长文本和 30/80 分页；Panel 单 live region，Row 无逐条 alert。
+  - 抽取唯一内部 `DsLocatorRowFrame`，Reference/Diagnostic 保留独立公开 props，只共用根节点与 CSS geometry；
+    Reference 契约没有新增 class/DOM/role 或计数语义。
+  - Project 0/1/30/80/81/152/303、compact/full、jump/static；Cutscene 独立诊断 Tab；Image/Sound 原引用
+    panel 内联；Item callback/静态来源；Stamp issue/conflict + 行外 overwrite 全部迁入同一合同。
+  - 删除 `.project-issue*`、`.cutscene-diagnostic`、`.item-diagnostic`、`.stamp-placement-problems*`
+    私有诊断 skin；`cf-err` 通用用途保留，仅 Image/Sound closureIssues 不再使用。
+  - 设计系统升至 v2.5.0，新增 DS-C.8a 与 RF-17。
+- 运行命令:
+  - `pnpm --filter @type-pal/editor check`：PASS，124 test files / 927 tests。
+  - `pnpm --filter @type-pal/editor exec vitest run ...`（recipes/boundary/Project/Asset/Item/Stamp/Map）：
+    PASS，7 files / 137 tests。
+  - `pnpm --filter @type-pal/editor typecheck`：PASS。
+  - `git diff --check`：PASS。
+  - `pnpm check`：editor 与其余常规包通过；migrate canary 在本卡范围外失败，错误为
+    `packages/content/src tree fingerprint 漂移`。`git diff --name-only main -- packages/content packages/migrate`
+    为空，证明本卡未触碰 oracle 输入。
+  - `pnpm lint`：仓库基线失败（232 errors/9 warnings/27 infos，集中在未改的 content/editor 既有文件）；
+    本卡新写 DesignLab 代码已单文件 Biome clean，所有本次文件已显式 Biome format。
+- 浏览器 / 手工检查: Design Lab RF-17 在本地 Vite + Codex Browser 验证；分页按钮、长路径、三种行根、
+  clear/partial/failure、单列/双列响应式与 console 均核对。
+- 跳过的检查及原因: 无本卡范围内跳过项。仓库 migrate canary/oracle 与全仓 lint 的失败均是 main 基线且
+  本分支零相关 diff；未擅自修改 content/migrate 或整理无关 lint。
 
 ## 资源生成记录（如适用）
 
@@ -547,16 +579,20 @@ N/A：不生成图像或替代资源。
 
 - Visual Verification Owner: Codex
 - Visual Verification Timing: dev-functional
-- 验证方式: pending
+- 验证方式: 本地 `design-lab.html?fixture=RF-17`；浏览器 viewport 1280×900、900×900、720×900、
+  640×450（1280 宽在 200% zoom 的等效 CSS viewport），DOM geometry + viewport 截图 + console。
 - 集中 E2E 用例 / 批次: N/A
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: pending
+- 截图 / 像素检查路径: 本轮 Codex Browser 内联截图（不写入仓库）；量化结果：四档
+  `document.scrollWidth === clientWidth`，全部 diagnostic row `scrollWidth - clientWidth = 0`；900 为双列、
+  720/640 为单列；152 项分页为 30→110→152→30；console warn/error = 0。
+- 结论: PASS。严重度文字、轻量左侧 accent、中性卡面、尾部动作与 Reference 几何同源；无“金色墙”、
+  无横向滚动、长 path 完整换行可达。
+- 未完成项: Kimi/GLM 独立 review 与用户验收尚未完成。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
+- 审查结论: Codex 自审 accept；等待 Kimi + GLM 独立审查。
 - 必须返工项: pending
 - Accept / rework: pending
 
@@ -599,6 +635,11 @@ N/A：不生成图像或替代资源。
 - 2026-08-17 Codex: 接手前核对 Codex + Kimi（DK1 + DK2 lightweight confirm）+ GLM（DK2）三方
   build 前签字与直接证据齐全，build 准入为 allowed；任务由 `draft` 转 `build`，Codex 为唯一
   Coding Owner。Next: 依次落共享 locator frame / Diagnostic recipe、六面 adapter、RF-17、测试与视觉矩阵。
+- 2026-08-17 Codex: build 完成并转 `review`。唯一 Diagnostic Panel/List/Row + 内部 locator frame 已落；
+  Project/Cutscene/Image/Sound/Item/Stamp 六面迁移、旧私有 CSS 退役、DS v2.5.0/RF-17 与测试/boundary 完成。
+  editor 927 tests 与专项 137 tests 全绿；四档视觉无横滚、分页 30→110→152→30、console clean。
+  仓库总检查仅被 main 既有 content oracle fingerprint 与全仓 lint 基线阻断，本分支未改 content/migrate。
+  Next: Kimi 独立 code/visual review，签 accept 或列 counter；不得修改实现文件/不得标 done。
 
 ## 下一位 Agent 提示词
 
@@ -633,4 +674,25 @@ Kimi 已于 2026-08-16 完成 DK2 轻量确认并签字（DK2 lightweight confir
 范围红线: 不改 collector/severity/stable key/跳转/sidecar/overwrite 流程；不动 TABS 24 页矩阵；
   不与 REFERENCE/CATALOG 卡并行改重叠文件；不 reset/checkout 用户脏树文件。
 验收: 本卡「验收条件」节的功能/测试/文档/视觉矩阵；editor typecheck/test 全绿后转 review。
+```
+
+### 给 Kimi（done 前架构 / 视觉审查，可直接复制）
+
+```text
+接手任务: ED-DIAGNOSTIC-UI-1 done 前架构/视觉审查
+任务卡: docs/ops/tasks/ED-DIAGNOSTIC-UI-1-inspector-diagnostic-presentation.md
+当前状态: review；Codex build + 自审已完成，Kimi/GLM accept 待签
+分支: codex/ed-diagnostic-ui-1
+你的职责: 直接审查实现 diff 与 RF-17，重点复核 DK1/DK2：
+  1) DsReferenceRow 与 DsDiagnosticRow 是否只有一个内部 DsLocatorRowFrame/geometry owner，Reference 的
+     DOM/role/12 条展开/occurrence/focus 是否零语义变化；
+  2) Diagnostic Panel/List/Row 的四状态、error/warning 文字、button/link/article、单 live region、长路径、
+     30/80 分页是否符合 DS-C.8a；
+  3) Image/Sound 是否仍为双 Tab 且诊断内联引用 panel，Stamp overwrite 是否仍在行外；
+  4) RF-17 在 1280/900/720/200% 的信息层级与“非金色墙”观感。
+已验证: editor check 124 files/927 tests；专项 7 files/137 tests；四档 viewport 无横滚；分页
+  30→110→152→30；console clean。pnpm check 仅 main 既有 content oracle fingerprint 失败，pnpm lint 仅
+  main 既有基线失败，本分支对 content/migrate 零 diff。
+你需要输出: 一手证据 + accept；或明确 counter/返工项。只允许更新任务卡审查记录，不得修改实现文件，
+  不得标记 done；Kimi accept 后交 GLM 覆盖/测试终审。
 ```

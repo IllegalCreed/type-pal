@@ -131,21 +131,65 @@ afterEach(async () => {
 })
 
 describe('工程问题列表', () => {
+  test.each([0, 1, 30, 80, 81, 152, 303])('数量边界 %i 保持精确摘要与 80 项首屏', async (count) => {
+    await act(async () => root.render(<IssueList issues={issues(count)} />))
+
+    expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(Math.min(count, 80))
+    expect(host.querySelector('.ds-diagnostic-panel')?.getAttribute('data-state')).toBe(
+      count ? 'ready' : 'clear',
+    )
+    expect(host.textContent).toContain(`0 个错误 · ${count} 个警告`)
+    expect(host.querySelector('.ds-diagnostic-list__pagination') !== null).toBe(count > 80)
+  })
+
+  test('混合严重度保留长路径，并区分可跳转与静态行', async () => {
+    const onOpenLocation = vi.fn()
+    const longPath = `manifest.${'assets.roles.'.repeat(14)}startup`
+    const mixed: ProjectIssue[] = [
+      {
+        severity: 'error',
+        code: 'missing-entry-scene',
+        message: '入口场景缺失',
+        path: longPath,
+        target: { module: 'project', page: 'startup' },
+      },
+      {
+        severity: 'warn',
+        code: 'unused-asset',
+        message: '资源未被引用',
+        path: 'assets["unused"]',
+      },
+    ]
+    await act(async () => root.render(<IssueList issues={mixed} onOpenLocation={onOpenLocation} />))
+
+    const rows = host.querySelectorAll<HTMLElement>('.ds-diagnostic-row')
+    expect([...rows].map((row) => row.tagName)).toEqual(['BUTTON', 'ARTICLE'])
+    expect(rows[0]?.textContent).toContain('错误')
+    expect(rows[1]?.textContent).toContain('警告')
+    expect(host.querySelector('.ds-diagnostic-row__path')?.textContent).toBe(longPath)
+    await act(async () => rows[0]?.click())
+    expect(onOpenLocation).toHaveBeenCalledOnce()
+    expect(onOpenLocation).toHaveBeenCalledWith(
+      expect.objectContaining({ module: 'project', subpage: 'startup' }),
+    )
+  })
+
   test('主面板可分批加载、显示全部和收起', async () => {
     await act(async () => root.render(<IssueList issues={issues(303)} />))
 
-    expect(host.querySelectorAll('.project-issue')).toHaveLength(80)
+    expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(80)
     expect(host.textContent).toContain('已显示 80 / 303 项')
+    expect(host.querySelectorAll('[role="status"], [role="alert"]')).toHaveLength(1)
 
     await act(async () => button(host, '继续显示 80 项').click())
-    expect(host.querySelectorAll('.project-issue')).toHaveLength(160)
+    expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(160)
 
     await act(async () => button(host, '显示全部').click())
-    expect(host.querySelectorAll('.project-issue')).toHaveLength(303)
+    expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(303)
     expect(host.textContent).toContain('已显示全部 303 项')
 
     await act(async () => button(host, '收起至前 80 项').click())
-    expect(host.querySelectorAll('.project-issue')).toHaveLength(80)
+    expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(80)
   })
 
   test('右侧摘要保持 30 项上限并提供全部问题入口', async () => {
@@ -154,17 +198,17 @@ describe('工程问题列表', () => {
       root.render(<IssueList issues={issues(303)} compact onViewAll={onViewAll} />),
     )
 
-    expect(host.querySelectorAll('.project-issue')).toHaveLength(30)
+    expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(30)
     await act(async () => button(host, '查看全部 303 项').click())
     expect(onViewAll).toHaveBeenCalledOnce()
-    expect(host.querySelectorAll('.project-issue')).toHaveLength(30)
+    expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(30)
   })
 
   test('恰好 80 项时不显示多余的分批控件', async () => {
     await act(async () => root.render(<IssueList issues={issues(80)} />))
 
-    expect(host.querySelectorAll('.project-issue')).toHaveLength(80)
-    expect(host.querySelector('.project-issue-more')).toBeNull()
+    expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(80)
+    expect(host.querySelector('.ds-diagnostic-list__pagination')).toBeNull()
   })
 })
 
