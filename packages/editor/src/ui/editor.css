@@ -758,9 +758,6 @@ html[data-panel-resize="horizontal"] * {
   color: var(--faint);
 }
 .layers {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--ds-space-2);
   border-top: 1px solid var(--line);
   padding: 8px 10px 10px;
 }
@@ -770,7 +767,17 @@ html[data-panel-resize="horizontal"] * {
   letter-spacing: 0.05em;
   color: var(--dim);
   font-weight: 600;
-  margin-bottom: var(--ds-space-2);
+  margin-bottom: var(--ds-space-3);
+}
+.layer-toggle-list {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--ds-space-2);
+}
+.layer-toggle-list > * {
+  min-width: 0;
 }
 .lrow {
   display: flex;
