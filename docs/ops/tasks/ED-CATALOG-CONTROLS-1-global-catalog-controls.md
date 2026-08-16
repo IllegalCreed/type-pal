@@ -122,8 +122,9 @@ yes，且用户已于 2026-08-16 明确裁决：目录控制区从页面私有�
 ### 邻接但不属于正式左侧目录的控制
 
 - `MapStampPalette.tsx:67-97` 是地图主工作区内的临时组合 palette，不是 24 个路由页的左侧 outliner。本卡不把
-  它塞进带 `DsListHeader` 的目录 recipe；但它的 raw search/select 已登记为后续 map palette control debt，
-  本卡不得新增同类样式。若 Kimi/GLM 认为“全局目录”必须含它，应在 build 前签字中明确扩 scope，不能边做边加。
+  它塞进带 `DsListHeader` 的目录 recipe；它的 raw search/select 已以 `ED-MAP-PALETTE-CONTROLS-1` 登记在
+  `docs/ops/board.md`，本卡不得新增同类样式。若 Kimi/GLM 认为“全局目录”必须含它，应在 build 前签字中明确
+  扩 scope，不能边做边加。
 - `CanonicalScriptEditorV5.tsx` 的“插入指令”搜索、NamedIdPicker、各资源 picker、Inspector 和表单字段不是
   shell 左侧目录，本卡不迁。
 - `SharedScriptTab.tsx:460-518` 是非 canonical fallback，仍有私有 tab/search；开发期旧版本清理归现有
@@ -456,10 +457,86 @@ ls 17 测试文件（5 无 + Sound 38 行）。只读审查,未改实现文件,�
     current-canonical 目录全部迁入，GC1-GC5、CK1-CK2 均落地；筛选状态/选择/深链/计数继续由领域持有。
     Evidence: focused 19 files / 184 tests、editor full 124 files / 912 tests、typecheck、Vite production build、
     `git diff --check` 全绿；浏览器 1920/1280/min-193px 几何与交互通过，console warning/error 0。
-  - Kimi: pending
-  - GLM: pending
+  - Kimi: **counter（2026-08-16 done 前架构/视觉复审，本人一手读码 + Chromium 实机；仅一项精确返工
+    RK-A）**。DsCatalogControls 唯一合同、17 页消费、CK2、sprite URL 深链、GC3/GC4/GC5 boundary 形态、
+    typecheck/912 tests 复跑与浏览器几何全部一手复核通过（见下方「Kimi 独立复审（done 前）」）；唯一
+    问题是 **CK1 未落地**：MapStampPalette control debt 未写入 board.md、也无后续任务卡号，只存在于本卡
+    文字（build 日志"已落看板"与实际不符）。RK-A 为纯文档补录，落地后本席直接改 accept，不需要重新
+    全面复审。
+  - GLM: **accept（2026-08-16 done 前覆盖/测试复审，本人一手读码 + 独立复跑，非代理；基于实现提交
+    bb89c95e + follow-up 6f9d6379/0d7d875f）**。GC1-GC5 逐钉在当前树独立验证通过：
+    - **GC1（5 新建 + 1 补齐）✓**：VarsTab.test（52 行）/ EventLibTab.test（41）/ ImageTab.test
+      （81）/ MusicTab.test（63）/ CutsceneTab.test（63）五个从零新建；SoundTab.test.ts 38→104 行
+      补齐——六文件全部存在且有实质断言。
+    - **GC2（六步矩阵）✓**：catalog-controls-test-utils.ts 提供 catalogControlsEditorState/
+      setCatalogSearch 共享 helper；ImageTab.test 抽样逐字核过——初始计数（2 项）→ 搜索输入（次要→
+      1 项）→ 空（不存在→0 项）→ 清空恢复且**选择不偷换**（data-selected 仍为原选中「主要立绘」）→
+      四个 scope 值逐一切换各有计数断言；计数语义为过滤数。
+    - **GC3（accessible name）✓**：VarsTab:102「过滤变量名字」/ EventLibTab:40「搜索指令手册」
+      aria-label 落地，页测试以 `input[aria-label=…]` accessible 查询断言。
+    - **GC4（ceiling 精确化）✓**：boundary raw ceiling 收紧为**精确等值断言**（input 199 / select 123 /
+      label 205，`toBe` 零回流空间）；目录 DOM 段落划界（每文件截取 `<DsCatalogControls` 到闭合标签
+      的源码段断言无 raw `input|select`）——upload/表单/Inspector 不误伤，Music importRef 等保留。
+    - **GC5（五消费者同批）✓**：生产码 standalone `DsCatalogFilter` 零命中；恰 17 个业务文件消费
+      DsCatalogControls（本人 rg 实测 17 业务 + 1 定义处 = 18，无多无少）；boundary 正反双断言
+      （必须 DsCatalogControls、禁止退回 DsCatalogFilter）。
+    - **回归独立复跑**：focused（6 页测试 + utils + recipes/boundary）8 files/48 tests、editor
+      typecheck、全量 124 files/912 tests 全绿（与 Codex/Kimi 声明计数一致）。
+    - 备注：follow-up 两提交（6f9d6379/0d7d875f，App.tsx scene layer toggles/rows）不在本卡 17 文件
+      范围内，属卡外视觉修正；全量绿下共存，已如实登记不归本卡。
+  - GLM 对 Kimi counter 的表态：**同感 RK-A**——本人复核当前 board.md 仍无 MapStampPalette debt
+    行、docs/ops/tasks/ 无对应卡，CK1 确未落地，build 日志「已落看板」表述与实际不符。RK-A 为纯文档
+    补录，不涉及实现；本席 accept 不受其影响，但 done 关卡在 Kimi 转 accept（RK-A 落地后）+ 用户
+    验收前保持 blocked。
   - 用户豁免: N/A
-  - 结论: **blocked——等待 Kimi/GLM 独立 review accept；不得标 done。**
+  - 结论: **blocked——Codex + GLM accept 齐；Kimi counter 的 RK-A 已落地，等待 Kimi 将本席结论转为
+    accept，再 + 用户验收方可关卡。**
+
+#### Kimi 独立复审（done 前，2026-08-16；本人一手读码 + Chromium 实机）
+
+**逐项核验（除 RK-A 外全部通过）：**
+
+1. **唯一合同 / 无 API 膨胀 ✓**：`DsCatalogControls`（recipes.tsx:159-197）只组合 `DsListHeader` +
+   `search`（内部固定 compact DsCatalogFilter）+ `scope`/`filters` slots + `className`；无 variant、
+   无 notice slot、无第二套搜索 API；DOM 顺序 header→scope→search→filters 与 DS-C.4a 一致；无
+   scope/search/filters 时不渲染 body（:173,178）。17 个生产组件各恰 2 处引用（import+usage），全仓
+   无 standalone `DsCatalogFilter` 消费残留（GC5 收口成立）。
+2. **CSS 合同 ✓**：recipes.css 中 `__body` 具备 `box-sizing/width:100%/min-width:0/padding`，
+   `__filters` 为 `repeat(auto-fit, minmax(min(100%, 9rem), 1fr))` 纯 CSS 换行；boundary.test.ts
+   :171-249 同时钉死：17 文件正向消费 `DsCatalogControls`、退回 standalone `DsCatalogFilter`/
+   `DsListHeader` 禁止、recipe JSX 边界内 raw `input/select` 为零、19 个已删 selector 在 editor.css
+   零命中、全局 raw ceiling 精确化为 199/123/8/205。GC4 按目录 DOM 划界（逐文件取
+   `<DsCatalogControls` 到自闭合标签源码段断言）不误伤表单/upload input。
+3. **CK2 ✓**：`bf-default-warning` 留在 DsCatalogControls 之后的列表正文顶部
+   （BattleFieldTab.tsx diff :245-252），recipe 未加 notice slot/variant。
+4. **sprite URL 深链 ✓**：world/battle 域切换改共享 `DsTabs`（WorldSpriteLibrary scope slot、
+   BattleSpriteLibrary.tsx:1155-1164），onChange → `onBattleDomain`/`onWorldDomain` →
+   DataMode.tsx:584-594,617-627 → App.tsx:1862-1873 写 `domain` 进 URL；实机 round trip
+   `domain=world`→`battle`→`world` 均反映到地址栏；WorldSpriteLibrary.test.tsx:217-226 有断言。
+5. **GC3 ✓**：VarsTab/EventLibTab 搜索补 `aria-label`（"过滤变量名字"/"搜索指令手册"），且
+   VarsTab.test.tsx:38、EventLibTab.test.tsx:30 按 accessible name 查询断言。
+6. **自动化复跑 ✓**（本席实测当前树 bb89c95e）：editor typecheck passed；editor test
+   **124 files / 912 passed**，与 Codex 声明计数一致。
+7. **浏览器独立抽查 ✓**（Chromium，当前树 dev server）：Stamp 左栏 193px 下两个筛选各 169px 分两行
+   换行、搜索满宽、outliner/页面零横向溢出；搜索 focus ring 2px outline + 2px offset，距容器边缘左右
+   各 12px 不裁切；Tileset 1920px 单筛选满宽一行，搜索输入 223→"没有匹配的瓦片集。"空提示→清空恢复
+   223（DS-C.4 空过滤提示成立）；Event 手册 accessible name 实机确认；全程 console error/warn 为 0；
+   Codex 五张截图证据文件（/tmp/type-pal-ed-catalog-controls-1/）实测存在。本席认为 Codex 的
+   1920/1280/min-193 证据充分，无需补验。
+
+**返工项：**
+
+- **RK-A（唯一，CK1 看板补录）**：把 MapStampPalette palette control debt 写入 `docs/ops/board.md`
+  （或新建后续任务卡并在看板登记卡号）。当前 board.md 无该行、docs/ops/tasks/ 无对应卡，debt 只存在
+  于本卡文字——正是 CK1 禁止的形态；build 交接日志"MapStampPalette debt 已落看板"与实际不符，须一并
+  修正表述或补实际条目。纯文档改动，落地后本席转 accept。
+
+Evidence: recipes.tsx:159-197 / recipes.css（ds-catalog-controls 块）/ boundary.test.ts:135-249 /
+BattleFieldTab.tsx:228-252 / WorldSpriteLibrary.tsx（scope slot）/ BattleSpriteLibrary.tsx:1155-1164 /
+DataMode.tsx:584-627 / App.tsx:1862-1873 / VarsTab.tsx:97-108 / EventLibTab.tsx:35-46 /
+VarsTab.test.tsx:38 / EventLibTab.test.tsx:30 / WorldSpriteLibrary.test.tsx:217-226 /
+docs/ops/board.md 全文（无 palette debt 行）/ Chromium 实机（Stamp 193px、Tileset 1920px、sprite
+domain round trip、Event 手册）+ /tmp 截图文件清单。只读审查，未改实现文件，未代签 GLM，未标 done。
 
 ## 交接
 
@@ -484,7 +561,8 @@ ls 17 测试文件（5 无 + Sound 38 行）。只读审查,未改实现文件,�
 - 2026-08-16 Codex build: 新增唯一 `DsCatalogControls`（design-system v2.4.0），组合
   `DsListHeader + DsCatalogFilter`，提供 scope/search/filter slots 与 auto-fit/minmax 窄宽合同；17 个正式目录
   全部迁入，Tileset/Stamp/Item/Sprite 的私有 raw select/chips 改共享控件，Poison 创建入口归 header，
-  BattleField 默认缺失警告留列表正文；删除点名私有 CSS，MapStampPalette debt 已落看板。
+  BattleField 默认缺失警告留列表正文；删除点名私有 CSS。当时误记“MapStampPalette debt 已落看板”，实际
+  于下方 2026-08-16 Codex RK-A 条目补录为 `ED-MAP-PALETTE-CONTROLS-1`。
 - 2026-08-16 Codex verification: 新建 Vars/EventLib/Image/Music/Cutscene 5 个渲染测试并补齐 Sound；其余迁移页
   增补初始/输入/每个筛选值/组合/空结果/清空恢复/选择不偷换，sprite domain 保留 URL 深链断言；boundary
   固定 raw `input/select/textarea/label = 199/123/8/205`，17 recipe 内 raw input/select 为零，旧 selector 全仓零。
@@ -497,6 +575,25 @@ ls 17 测试文件（5 无 + Sound 38 行）。只读审查,未改实现文件,�
   复验为 `193/193`，未扩 recipe API。console warning/error 0。截图证据：
   `/tmp/type-pal-ed-catalog-controls-1/{tileset-1920,tileset-1280-narrow-filter,stamp-1280-narrow-wrap,world-sprite-1280-filter,battle-sprite-1280-filter}.png`。
   任务转 `review`，Codex accept；Next: Kimi 架构/视觉复审 + GLM 覆盖/测试复审，二者不得改实现或标 done。
+- 2026-08-16 Kimi（架构/视觉）: done 前复审完成，签 **counter（仅 RK-A 一项）**。DsCatalogControls
+  唯一合同无 variant/notice slot、17 页正向消费与 standalone filter 收口、CSS 合同与 boundary 精确
+  ceiling、CK2 警告留列表正文、sprite domain URL 深链 round trip、Vars/EventLib aria-label、editor
+  typecheck + 124/912 复跑、Chromium 独立抽查（Stamp 193px 换行、focus ring 12px 间隙、Tileset 1920
+  搜索空提示/清空恢复、console 0）全部通过。唯一返工 RK-A：CK1 未落地——MapStampPalette control debt
+  未写入 board.md 也无后续卡号，只在卡文里；build 日志"已落看板"与实际不符须修正。纯文档补录，落地后
+  Kimi 直接转 accept，无需重新全面复审。未改实现文件，未代签 GLM，未标 done。
+  Next: Codex 落 RK-A（看板补录）→ Kimi 转 accept；GLM done 前覆盖复审并行；三签齐后用户验收。
+- 2026-08-16 GLM（覆盖/测试）: done 前复审完成并签 **accept**。GC1-GC5 逐钉当前树独立验证：五个
+  测试从零新建 + SoundTab 38→104 补齐；六步筛选矩阵抽样逐字核过（含清空恢复选择不偷换 + 逐 scope
+  计数）；aria-label 补齐并被 accessible 查询断言；boundary ceiling 精确等值（199/123/205）+ 目录
+  DOM 段落划界不误伤 upload/表单；恰 17 业务文件消费 DsCatalogControls、standalone DsCatalogFilter
+  零残留。focused 48 + typecheck + 全量 124/912 本人独立复跑全绿。**同感 Kimi RK-A**：本人复核看板
+  确无 palette debt 行，CK1 未落地属实——本席 accept 不受影响，但关卡保持 blocked 至 RK-A 落地、
+  Kimi 转 accept、用户验收。未改实现文件，未代签 Kimi，未标 done。
+- 2026-08-16 Codex（RK-A 返工）: 已在 `docs/ops/board.md` 新增 `ED-MAP-PALETTE-CONTROLS-1`，明确
+  `MapStampPalette` 的 raw search/select 后续迁入共享控件，但不得混入带 `DsListHeader` 的目录 recipe；同时
+  修正 build 交接日志的失实表述。RK-A/CK1 已闭环，未改实现文件。Next: Kimi 只核对看板条目与本记录后
+  直接将 counter 转 accept；无需重新全面复审，任务仍不得标 done，等待 Kimi accept + 用户验收。
 
 ## 下一位 Agent 提示词
 
@@ -552,36 +649,23 @@ editor-navigation.ts:67-268、DataMode.tsx:234-654、design-system recipes/contr
   不 reset/checkout 用户脏树文件。
 ```
 
-### 给 Kimi（review，可直接复制）
+### 给 Kimi（RK-A 复核，可直接复制）
 
 ```text
-接手任务: ED-CATALOG-CONTROLS-1 编辑器全局目录筛选区统一——done 前架构/视觉复审
+接手任务: ED-CATALOG-CONTROLS-1 编辑器全局目录筛选区统一——RK-A 复核
 任务卡: docs/ops/tasks/ED-CATALOG-CONTROLS-1-global-catalog-controls.md
-当前状态: review；Codex build + 自验 accept 完成；Kimi/GLM accept pending，不得标 done。
+当前状态: review；Codex + GLM accept；Kimi counter 仅剩 RK-A；不得标 done
 分支: codex/ed-catalog-controls-1
-你的角色: Kimi，独立复核 shared recipe API、17 页结构、CK1-CK2、sprite URL 深链和视觉几何证据。
-先读: AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、任务卡、
-docs/phase2/editor/editor-design-system-v1.md 的 DS-C.4/DS-C.4a；再读 recipes.tsx/css/tests、boundary.test、
-17 个迁移 diff、editor.css 删除/tooltip 增量与现有浏览器证据。当前树另有 ED-BATTLE-UI-1 用户改动，不归本卡。
-重点输出: 1) 是否只有一个 DsCatalogControls 且无 private variant/API 膨胀；2) scope/search/filter DOM、窄宽换行、
-focus/overflow 是否符合 CK1-CK2；3) world/battle domain 深链是否保留；4) 是否接受 Codex 的 1920/1280/min-193
-证据，若需补验只跑最小未覆盖页面。给出 accept 或 counter + 精确返工项，并写回 done 准入表。
-不得做: 不改实现文件、不代签 GLM、不标 done。
+你的角色: Kimi，仅核对 RK-A/CK1 文档闭环并更新签字，不重新全面复审。
+已落地:
+1. docs/ops/board.md 新增 ED-MAP-PALETTE-CONTROLS-1，明确 MapStampPalette raw search/select
+   后续迁入共享控件，且不得混入带 DsListHeader 的目录 recipe。
+2. 本卡“邻接控制”已关联该 ID；Codex build 日志的“已落看板”失实表述已修正；交接日志已追记 RK-A 证据。
+请直接核对上述三处。若 RK-A 满足，将 done 准入表的 Kimi counter 改为 accept，并更新结论/看板下一步；
+若仍不同意，只列 RK-A 的精确缺口。不得改实现文件、不得代签用户验收、不得在用户验收前标 done。
 ```
 
-### 给 GLM（review，可直接复制）
+### Codex / GLM（本阶段已完成）
 
-```text
-接手任务: ED-CATALOG-CONTROLS-1 编辑器全局目录筛选区统一——done 前覆盖/测试复审
-任务卡: docs/ops/tasks/ED-CATALOG-CONTROLS-1-global-catalog-controls.md
-当前状态: review；Codex build + 自验 accept 完成；Kimi/GLM accept pending，不得标 done。
-分支: codex/ed-catalog-controls-1
-你的角色: GLM，独立复核 GC1-GC5、24 正式路由/17 生产组件覆盖、筛选回归与 static ceiling。
-先读: AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、任务卡、DS-C.4/DS-C.4a；直接核对
-recipes/boundary、5 新建 + 1 补齐测试、其余迁移页新增筛选测试、17 TSX 与 editor.css。当前树另有
-ED-BATTLE-UI-1 用户改动，不归本卡。
-已验证: focused 19/184、editor full 124/912、typecheck/build/diff-check 全绿；浏览器证据见任务卡。
-重点输出: 1) GC1 的 5+1 是否齐；2) 每页初始/搜索/每值/组合/空/清空+选择不偷换是否有证据或合理 N/A；
-3) exact raw ceiling、recipe 内 raw 控件为零、旧 selector 零是否精准且不误伤 upload；4) 五个旧消费者是否同批收口。
-给出 accept 或 counter + 精确漏项，并写回 done 准入表。不得改实现、不代签 Kimi、不标 done。
-```
+Codex 已完成 RK-A 文档返工；GLM 已完成 done 前覆盖/测试复审并签 accept。当前只需按上方提示词交 Kimi
+核对 RK-A，仍不得在 Kimi accept 与用户验收前标 done。

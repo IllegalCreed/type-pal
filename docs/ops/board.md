@@ -21,7 +21,8 @@
 | ED-INSPECTOR-TABS-1 | 属性面板共享 Tab 全局统一 | done | 三方 accept 齐，整卡收口 | 24 页审计无漏项；GT1-GT5+IK1、共享计数徽标、浏览器矩阵与 885 项全测通过 |
 | ED-REFERENCE-UI-1 | 属性面板引用呈现全局统一 | done | 三方 accept + 用户确认齐，整卡收口 | 16 面统一；RK1-RK2/GN1-GN4 逐钉通过；当前 editor 892/892 全绿 |
 | ED-DIAGNOSTIC-UI-1 | 属性面板问题与诊断呈现统一 | draft | 三签齐（DK1+DK2）；Codex 先落 DK2 扩面（Image/Sound 第 5/6 面）→ Kimi 确认后转 build | GLM 发现 Image/Sound closureIssues 漏网；呈现建议内联引用 panel；cf-err 不全仓禁 |
-| ED-CATALOG-CONTROLS-1 | 编辑器全局目录筛选区统一 | review | Codex accept；交 Kimi 架构/视觉 + GLM 覆盖/测试复审 | 17 目录与 GC1-GC5/CK1-CK2 已落地；editor 912、typecheck/build、浏览器 1920/1280/min-193 全绿 |
+| ED-CATALOG-CONTROLS-1 | 编辑器全局目录筛选区统一 | review | RK-A 已落看板；交 Kimi 直接转 accept + 用户验收 | Codex+GLM accept；GC1-GC5 全绿；CK1 debt 见 ED-MAP-PALETTE-CONTROLS-1 |
+| ED-MAP-PALETTE-CONTROLS-1 | 地图组合 Palette 控件统一 | draft | 待排期；开卡后三签再实现 | MapStampPalette 的 raw search/select 迁入共享控件；不得混入带 DsListHeader 的目录 recipe |
 | OPS-TST-PERF-B | shared/fresh 隔离并行 runner | draft | Codex 起草 runner；真实 Kimi/GLM 设计签字后实现 | manifest→canary→unit/preflight 串行；shared/fresh 并行；RSS、路径隔离及三次串行对照为硬门禁 |
 | OPS-TST-PERF-C | P2/P3/P4 consolidated determinism proof | draft | Codex 起草逐标题 coverage map；真实 Kimi/GLM 设计签字后实现 | 保留每阶段独立 live default/reversed 双建；不得用 pinned bundle 或删 source-backed 双建冒充证明 |
 
