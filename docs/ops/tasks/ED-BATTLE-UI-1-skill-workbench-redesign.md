@@ -1,12 +1,12 @@
 # ED-BATTLE-UI-1 - 战斗数据工作台族与共享对象 Hero
 
-Status: review
+Status: done
 Phase: phase2
 Capability: Editor / Actor shell / Battle data（不改变能力状态）
 Coding Owner: Codex
 Reviewer: Kimi（架构/视觉）+ GLM（覆盖/测试）
 Visual Verification Owner: Codex + User
-Blocked by: Kimi RK1 复签 + 用户实机验收
+Blocked by: none
 
 ## 用户裁决与目标
 
@@ -259,13 +259,16 @@ design-system/recipes.tsx:5-18 / App.tsx:1822。只读审查，未改实现文�
 
 - Codex: **accept（2026-08-15）**。共享 recipe、五页迁移、Skill/Enemy/Poison typed 引用阻断与可逆删除、
   深链一次性消费、试玩 href、保存重开均已实现并验证；完整证据见下方「build 实现与自验证证据」。
-- Kimi: **counter（2026-08-16 done 前架构/视觉复审，本人一手读码 + Chromium 实机；仅一项精确返工
-  RK1）**。共享合同唯一性、BK1-BK3、N4/N5、删除阻断、响应式、console 全部一手复核通过（详见下方
-  「Kimi 独立复审（done 前）」）；唯一问题是 `.skill-form`/`.sk-grid`/`.sk-anim` 死 CSS 残留
-  （editor.css:7749-7754、9488-9503、9700-9708、9935 过时注释），全仓 TSX 零引用，属本卡范围内
-  "删除被共享 recipe 替代的 CSS"漏项，且违反开发期版本纪律对旧代码残留的禁令。GLM 的 N5 核验范围
-  是 PoisonTab 零命中（成立），RK1 是其外的 editor.css 死规则，互补不冲突。RK1 为纯死码删除，落地
-  且 editor test 复跑全绿后本席直接改 accept，不需要重新全面复审。
+- Kimi: **accept（2026-08-16；先 counter 仅 RK1，RK1 经提交 68af86c8 落地后按预审承诺转 accept）**。
+  done 前架构/视觉复审（本人一手读码 + Chromium 实机，详见下方「Kimi 独立复审（done 前）」）：共享
+  合同唯一性、BK1-BK3、N4/N5、删除阻断、响应式、console 全部通过；唯一返工 RK1（死 CSS 清除）经
+  Codex 提交 68af86c8 落地，本席轻量复核：`.skill-form .sk-grid > .sound-effect-field`、
+  `.skill-form`/`.skill-form .sk-grid`/`.skill-form .field textarea.cf-ta` 及段头注释、`.sk-anim`/
+  `.sk-anim .sk-grid` 三块删除与 diff 逐行吻合，`.v-field` 过时注释已修正；`.skill-cost-*`/
+  `.skill-effect-card*`（SkillTab.tsx:567-574 仍在用，editor.css 25 条规则）保留未误删；生产 src 对
+  `skill-form|sk-grid|sk-anim` rg 零命中（仅 PoisonTab.test.tsx:163-164 守护断言）；本席复跑
+  `pnpm --filter @type-pal/editor typecheck` passed、editor test **124 files / 912 passed** 全绿。
+  RK1 闭环，转 accept。
 - GLM: **accept（2026-08-16 done 前覆盖/测试复审，本人一手读码 + 当前树独立复跑，非代理）**。
   本卡 build（2026-08-15）后历经 ED-INSPECTOR-TABS-1 / ED-REFERENCE-UI-1 / ED-CATALOG-CONTROLS-1
   三卡叠改同批文件，以下全部钉子在**当前工作树**复核仍成立：
@@ -297,8 +300,8 @@ design-system/recipes.tsx:5-18 / App.tsx:1822。只读审查，未改实现文�
     tests 全绿（910 > build 时 815，增量为后续三卡新测试；当前树无 CATALOG WIP 噪声）。
   - 备注（不阻塞）：本卡实现已作为 TABS/REFERENCE 两卡的基座被叠改（Inspector 引用/Tab 部分），
     本 accept 仅覆盖本卡 scope（Hero/工作台/sections/删除阻断闭环）在当前复合树中的存活与回归。
-- done 准入: blocked——Codex + GLM accept 齐；**Kimi counter（仅 RK1 死 CSS 清除，落地+测试绿后转
-  accept）+ 用户实机验收待完成**。
+- done 准入: **allowed（2026-08-16）——Codex + GLM + Kimi 三方 accept 齐；用户在 1280×720
+  最小实机复核证据后明确回复“验收通过”。任务转 done。**
 
 ### Kimi 独立复审（done 前，2026-08-16；本人一手读码 + Chromium 实机）
 
@@ -435,28 +438,17 @@ validate-refs.ts:819-854,1109,1140-1162,1258-1298,1335-1341,1400-1404 / editor.c
   （排除测试）`rg 'skill-form|sk-grid|sk-anim'` 零命中；`pnpm --filter @type-pal/editor test`
   124 files / 912 tests 全绿，`pnpm --filter @type-pal/editor typecheck` 全绿。未代签 Kimi，未标 done。
   Next: Kimi 按承诺核验 RK1 证据并将 counter 转 accept；随后用户实机验收。
+- 2026-08-16 Kimi（RK1 复签）: 轻量复核 68af86c8——editor.css 三块删除与 RK1 清单逐行吻合、
+  `.v-field` 注释已修正、`.skill-cost-*`/`.skill-effect-card*` 保留未误删（SkillTab.tsx:567-574 仍在用）、
+  生产 src `rg 'skill-form|sk-grid|sk-anim'` 零命中（仅 PoisonTab.test.tsx:163-164 守护断言）、
+  本席复跑 typecheck + editor 124 files / 912 tests 全绿。RK1 闭环，本席 counter 转 **accept**。
+  至此 Codex + GLM + Kimi 三方 accept 齐，仅剩用户实机验收。只读复核，未改实现文件，未标 done。
+- 2026-08-16 Codex + User: Codex 在当前 RK1 树以 Chromium 1280×720 复核 Skill 工作台：页面
+  `bodyScrollWidth === bodyClientWidth === 1280`、共享 Hero / selected row 各 1、Inspector padding
+  16px、`.skill-form|.sk-grid|.sk-anim` DOM 零命中、console warning/error 0；用户随后明确回复
+  **“验收通过”**。三方 accept + 用户验收齐，任务转 `done`。
 
 
 ## 下一位 Agent 提示词
 
-### 给 Kimi（RK1 复签，可直接复制）
-
-```text
-接手任务: ED-BATTLE-UI-1 战斗数据工作台族与共享对象 Hero —— RK1 复签
-任务卡: docs/ops/tasks/ED-BATTLE-UI-1-skill-workbench-redesign.md
-状态: review；Codex/GLM accept 已签，Kimi counter 仅剩 RK1；RK1 已由 Codex 落地，不得提前标 done
-角色: Kimi，按原复审承诺做 RK1 轻量复核并签字。只读审查，不修改实现文件。
-先读: 本卡 review -> done 的 Kimi counter、RK1 条目、交接日志最新 Codex 证据；
-  packages/editor/src/ui/editor.css。
-已完成:
-1. `.skill-form .sk-grid > .sound-effect-field` 已删。
-2. `.skill-form`、`.skill-form .sk-grid`、`.skill-form .field textarea.cf-ta` 及段头已删。
-3. `.sk-anim`、`.sk-anim .sk-grid` 已删。
-4. `.v-field` 过时注释已改为「垂直字段（独立单字段）」。
-5. `.skill-cost-*`/`.skill-effect-card*` 保留。
-6. 生产 src（排除测试）三组旧类 rg 零命中；editor 124 files / 912 tests、typecheck 全绿。
-输出: 若证据成立，把本卡 Kimi counter 改为 accept（说明仅复核 RK1，并附一手 file:line/rg/测试证据），
-同步 done 准入与交接日志；不得代签用户验收，不得在用户验收前标 done。若不成立，给出新的精确 counter。
-```
-
-（GLM 复审已完成并签 accept；Kimi accept 后仅剩用户实机验收。）
+无下一位 Agent 提示词；三方 accept 与用户验收均已完成，等待 git 收口后进入下一张独立任务卡。
