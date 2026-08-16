@@ -20,7 +20,7 @@
 | ED-SCENE-UX-1 | 场景画布直接操作与取消选择 | draft | Codex 已核实现状；交 Kimi/GLM build 前独立签字 | 删除“选择/移动”伪模式；补空白/Esc 取消与临时放置态 |
 | ED-INSPECTOR-TABS-1 | 属性面板共享 Tab 全局统一 | done | 三方 accept 齐，整卡收口 | 24 页审计无漏项；GT1-GT5+IK1、共享计数徽标、浏览器矩阵与 885 项全测通过 |
 | ED-REFERENCE-UI-1 | 属性面板引用呈现全局统一 | done | 三方 accept + 用户确认齐，整卡收口 | 16 面统一；RK1-RK2/GN1-GN4 逐钉通过；当前 editor 892/892 全绿 |
-| ED-DIAGNOSTIC-UI-1 | 属性面板问题与诊断呈现统一 | draft | 三签齐（DK1+DK2）；Codex 先落 DK2 扩面（Image/Sound 第 5/6 面）→ Kimi 确认后转 build | GLM 发现 Image/Sound closureIssues 漏网；呈现建议内联引用 panel；cf-err 不全仓禁 |
+| ED-DIAGNOSTIC-UI-1 | 属性面板问题与诊断呈现统一 | draft | DK2 六面合同已落卡；等待 Kimi 轻量确认后转 build | Image/Sound 内联引用 panel、不新增 Tab；AssetInspectorTabs 补测；cf-err 不全仓禁 |
 | ED-CATALOG-CONTROLS-1 | 编辑器全局目录筛选区统一 | done | 三方 accept + 用户验收齐，整卡收口 | GC1-GC5/CK1-CK2/RK-A 全闭环；editor 912 复跑全绿；palette debt 见 ED-MAP-PALETTE-CONTROLS-1 |
 | ED-MAP-PALETTE-CONTROLS-1 | 地图组合 Palette 控件统一 | draft | 待排期；开卡后三签再实现 | MapStampPalette 的 raw search/select 迁入共享控件；不得混入带 DsListHeader 的目录 recipe |
 | OPS-TST-PERF-B | shared/fresh 隔离并行 runner | draft | Codex 起草 runner；真实 Kimi/GLM 设计签字后实现 | manifest→canary→unit/preflight 串行；shared/fresh 并行；RSS、路径隔离及三次串行对照为硬门禁 |
