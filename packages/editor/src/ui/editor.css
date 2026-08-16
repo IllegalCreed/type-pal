@@ -11553,9 +11553,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   .item-trade-fields {
     grid-template-columns: minmax(0, 1fr);
   }
-  .item-icon-actions {
-    grid-template-columns: minmax(0, 1fr);
-  }
   .item-base-section-heading {
     flex-direction: column;
   }

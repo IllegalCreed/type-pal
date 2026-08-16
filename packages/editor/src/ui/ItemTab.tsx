@@ -484,6 +484,7 @@ function ItemIconBrowser(props: {
       <DsButton
         ref={triggerRef}
         variant="primary"
+        size="compact"
         aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls="item-icon-browser-panel"
@@ -1280,6 +1281,7 @@ export function ItemTab(props: {
                       />
                       <DsButton
                         variant="secondary"
+                        size="compact"
                         icon="upload"
                         onClick={() => iconInputRef.current?.click()}
                       >
@@ -1288,6 +1290,7 @@ export function ItemTab(props: {
                       {item.icon && onOpenImage ? (
                         <DsButton
                           variant="secondary"
+                          size="compact"
                           icon="open"
                           onClick={() => onOpenImage(item.icon!)}
                         >
@@ -1295,7 +1298,11 @@ export function ItemTab(props: {
                         </DsButton>
                       ) : null}
                       {item.icon ? (
-                        <DsButton variant="danger" onClick={() => patch({ icon: undefined })}>
+                        <DsButton
+                          variant="danger"
+                          size="compact"
+                          onClick={() => patch({ icon: undefined })}
+                        >
                           解除绑定
                         </DsButton>
                       ) : null}
@@ -2018,13 +2025,18 @@ export function ItemTab(props: {
                             {onOpenImage ? (
                               <DsButton
                                 variant="secondary"
+                                size="compact"
                                 icon="open"
                                 onClick={() => onOpenImage(item.icon!)}
                               >
                                 在图像库打开
                               </DsButton>
                             ) : null}
-                            <DsButton variant="danger" onClick={() => patch({ icon: undefined })}>
+                            <DsButton
+                              variant="danger"
+                              size="compact"
+                              onClick={() => patch({ icon: undefined })}
+                            >
                               解除绑定
                             </DsButton>
                           </div>

@@ -220,6 +220,7 @@ describe('ItemTab', () => {
       [...host.querySelectorAll<HTMLButtonElement>('.item-icon-actions button')].every(
         (action) =>
           action.classList.contains('ds-button') &&
+          action.classList.contains('ds-button--compact') &&
           !action.classList.contains('item-action-button') &&
           !action.classList.contains('mini'),
       ),
