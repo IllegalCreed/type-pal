@@ -1,6 +1,6 @@
 # ED-INSPECTOR-TABS-1 - 属性面板共享 Tab 全局统一
 
-Status: review
+Status: done
 Owner: Codex
 Reviewer: Kimi（架构 / 视觉）+ GLM（覆盖 / 测试）
 Phase: phase2
@@ -429,10 +429,72 @@ AmbienceTab.tsx:41-80。只读审查，未改实现文件，未代签 GLM，未�
   - Codex: **accept（2026-08-16）**。A/B/C 全批、计数徽标追加裁决、GT1-GT5、IK1、静态门禁、
     typecheck、focused 15/182、全量 editor 119/884 与最小浏览器矩阵均完成；Stamp 真实工程无数据限制
     已如实登记，不代签 Kimi/GLM。
-  - Kimi: pending（架构 / 视觉 done 前复审）
-  - GLM: pending（覆盖 / 测试 done 前复审）
+  - Kimi: **accept（2026-08-16 done 前架构/视觉复审，本人一手读码 + 浏览器实测，非代理；基于
+    22666ab0）**。五项核对逐项通过：
+    - **count 唯一 canonical 入口 ✓**：`DsTabItem.count?: number`（controls.tsx:1215）由 shared
+      DsTabs 渲染 `.ds-tab__label` + 独立 `.ds-tab__count`（:1285-1289），徽标皮肤全 token 化
+      （primitives.css:1044-1050,1115）；业务 TSX 无「引用/问题/诊断 ${n}」拼回 tab label
+      （本人 rg；ItemTab.tsx:1127 为目录行 meta，合法）。
+    - **15 组件固定结构 ✓**：DsInspectorTabs 消费清单恰好 = 15 迁移目标 + Enemy + Scene（App），
+      无多无少；抽查 Item（:1848-1864）、Map（:3285-3293，已补固定「地图/名称」标题）、Actor
+      （:1071+）均为固定 insp-head 在 Tabs 前、shared panel 唯一纵向滚动 owner
+      （recipes.css:63-71）。
+    - **窄栏/三 Tab/tooltip 本人浏览器实测（6010 真实工程，非复述 Codex 证据）**：Cutscene
+      Inspector 收窄 220px——三 Tab（资源/引用+1/诊断+0）徽标两元素分离、tablist 219≤220、
+      inspector/panel/document 四级 `scrollWidth<=clientWidth` 全过；Skill 290px 固定标题
+      「技能 / 梦蛇」前置、无溢出；Actor 290px 全部后代不越界、tooltip 触发后不裁切；
+      console 零 error/warning。与 Codex 留证一致。
+    - **Map 副作用 / Item hidden-mounted / IK1 ✓**：activateInspectorTab 三副作用完整
+      （MapMode.tsx:1294-1299）且 shared onChange 接回（:3293）；Item 条件渲染迁
+      hidden-but-mounted 后既有业务测试全绿（GLM 复跑），无需恢复条件卸载；Actor「编辑分区」
+      入口保留在摘要 Tab（ActorMode.tsx:1105-1129），IK1 显式决策已落。
+    - **私有清零 ✓**：三种私有 class 业务 TSX/CSS 零命中（唯一命中为 boundary 自禁正则）；
+      `onInspectorTabKeyDown`/`inspectorTabRefs` 零命中；`.item-inspector-scroll` 仅剩
+      min-width/min-height（editor.css:11359-11362），滚动权已收归 shared panel，符合卡文
+      「内容 class 可保留」边界。
+    - 范围纪律：只审本卡；并行 ED-CATALOG-CONTROLS-1 改动不计入结论。
+  - GLM: **accept（2026-08-16 done 前覆盖/测试复审，本人一手读码 + 独立复跑，非代理；基于实现提交
+    22666ab0，36 文件 +3284/-2614）**。GT1-GT5 + IK1 逐钉独立验证：
+    - **24 页无漏项（独立复算）**：node 解析 editor-navigation.ts 得 8 模块/24 二级页，与卡内审计表
+      分类吻合——2 页已有 shared（Scene 实体/Enemy，现仍各 2 处 DsInspectorTabs 未回归）+ 17 页迁移
+      （18 实际表面：sprite 双实现 + Project×4）+ 5 页无需 Tab（ambience/scripts/vars/events/
+      battlefield）；DataMode 生产分发逐页核对无第 25 页。
+    - **GT1**：Image/Music/Sound/Cutscene 由新增 AssetInspectorTabs.test.tsx（4 test）挂真实组件 +
+      真实 EditSession 补齐；跨卡协调以"本卡先建 Inspector 断言、CATALOG 卡后补目录断言"解决，
+      AssetInspectorTabs 与 ED-CATALOG-CONTROLS-1 GC1 无重复建设。
+    - **GT2**：inspector-tabs-test-utils.ts 的 verifyInspectorTabs 一次调用即断言固定标题前置
+      （.insp-head 的 nextElementSibling 含 tablist）、标签/计数、双向 aria-controls/aria-labelledby、
+      单可见 panel + 其余 hidden、点击 + ArrowRight/ArrowLeft/Home/End roving 全键；12 个测试文件
+      覆盖全部 15 组件（含 Project 四页循环 overview/startup/entrypoint/advanced）。
+    - **GT4**：activateInspectorTab（MapMode.tsx:1294-1299）三条副作用俱在——setStampPanelVisited
+      （首次访问组合）/setCandidateMenu(undefined)（清候选）/onRequestInspectorOpen；:3293 shared
+      onChange 接回该函数。专项测试 :450 断言 onRequestInspectorOpen 调用 + 组合面板按需物化；:457
+      断言切换不改地图（session state 引用相等）、revision 0、not dirty、选区/筛选值保持；清候选由
+      既有 :650/:1143 候选链测试覆盖。
+    - **GT5**：shared DsInspectorTabs 渲染全部 panel（hidden={id!==activeId}）；Item 从条件渲染迁
+      hidden-but-mounted 后全量既有引用/删除/undo/资源测试通过即实证；旧条件渲染断言
+      （WorldSprite panel-layout toBeNull）正确替换为"单可见 + rest hidden"新合同，无断言放松
+      （删除的均为私有 id/tabIndex 断言，被等价更强断言替代）。
+    - **GT3**：boundary 正向断言 15 文件含 <DsInspectorTabs；反向禁私有 handler 名
+      （onInspectorTabKeyDown|inspectorTabRefs）、inspector 语义 tablist（按 aria-label"检查器/右侧
+      面板"划界，App:2428 场景工具条/ActorMode 任务 Tab/SceneScript 内部 Tab 不误伤）、
+      inspector-tab- id、label 拼计数模板串；三种私有 class 全 UI 源零残留（本人 rg 复跑唯一命中是
+      boundary 自身禁止正则）。旧滚动 owner CSS 正确收权（.item-inspector-scroll/.map-inspector-panel
+      仅剩 min-width/min-height，overflow 归 shared panel）。
+    - **计数徽标（用户追加裁决）**：DsTabItem.count 渲染 .ds-tab__label + .ds-tab__count 两个独立
+      元素（controls.tsx:1285-1291）；controls.test/recipes.test 断言两元素文本分离；verifyInspectorTabs
+      对计过数 label 强制查两元素；ItemTab.test:1090 精确计数"引用 2"与领域数据挂钩；徽标 CSS 全
+      token 化 + selected 态。
+    - **IK1**：ActorMode.tsx:1106"编辑分区"保留在摘要 Tab 内，显式决策已写进 Build 摘要。
+    - **回归独立复跑**：typecheck PASS；全量 editor 884/884；focused（controls/recipes/boundary/
+      AssetInspectorTabs）50 tests PASS；工作树干净（实现全部收进 22666ab0）；git diff --check clean。
+  - 备注（不阻塞 accept）：① boundary 手写 tablist 禁令按 aria-label 关键词划界而非"inspector aside
+    内 role=tab"结构划界——本仓 15 处 Inspector aria-label 均含"检查器"（领域测试逐页证实），现实
+    回归向量已覆盖，属绊线门禁而非穷尽证明；② label 拼计数禁令只匹配模板串形态，字符串拼接可绕——
+    正向 DsInspectorTabs 消费断言兜底。两者如未来出现回流再升级为结构化断言。
   - 用户豁免: N/A
-  - 结论: **blocked（等待 Kimi + GLM accept；不得标 done）**
+  - 结论: **done（2026-08-16）——Codex + GLM + Kimi 三方 accept 齐，无 counter、无用户豁免；
+    Codex 已完成状态收口。**
 
 ## 交接
 
@@ -460,31 +522,37 @@ AmbienceTab.tsx:41-80。只读审查，未改实现文件，未代签 GLM，未�
   focused 15/182、typecheck、全量 editor 119/884 全绿；Wide/1280/220px/125%-150% 等效视口通过，
   巡检抓到并修复 Actor tooltip 横溢出。Codex 签 accept；Next: Kimi/GLM done 前独立复审。
 
+- 2026-08-16 GLM（覆盖/测试）: done 前复审完成并签 **accept**（基于实现提交 22666ab0）。GT1-GT5 +
+  IK1 逐钉独立验证：24 页 node 复算无漏项；verifyInspectorTabs 12 文件覆盖全部 15 组件 + Project
+  四页循环；GT4 三条副作用在 activateInspectorTab:1294-1299 俱在且 onChange:3293 接回、两条专项
+  测试断言副作用与状态不变；GT5 hidden-but-mounted 由 Item 全量业务测试通过实证；GT3 boundary 正反
+  断言划界正确无私有 class 残留；计数徽标 shared/领域双层分离断言 + ItemTab.test:1090 精确计数与数据
+  挂钩。typecheck + 全量 884/884 + focused 50 全部本人独立复跑通过。两条绊线门禁备注已登记（不阻塞）。
+  未修改实现文件，未代签 Kimi。Next: Kimi done 前 accept；签齐即关卡。
+- 2026-08-16 Kimi（架构/视觉）: done 前复审完成并签 **accept**（基于 22666ab0）。一手读码 +
+  6010 真实工程浏览器实测：count 唯一 canonical 入口（label/count 两元素分离，业务零拼回）；
+  15 组件消费清单恰好且无多；固定标题前置与单 panel 滚动 owner 抽查（Item/Map/Actor）通过；
+  Cutscene 220px 三 Tab 徽标分离 + 四级 scrollWidth 断言全过、Actor tooltip 不裁切、console 零
+  error；Map 三副作用俱在、IK1 编辑分区保留在摘要 Tab、私有 class/键盘/ref 清零（残留
+  .item-inspector-scroll 仅剩 min-size，符合卡文边界）。未修改实现文件，未代签 GLM。
+  三方 accept 齐；Status 变更交 Codex/用户。无下一位 Agent 提示词——本卡审查侧收口，
+  后续为 ED-CATALOG-CONTROLS-1 build 与 ED-AUDIT-2。
+- 2026-08-16 Codex: 三方 done 前签字核对完成，本卡正式转 `done`。Kimi/GLM 审查的 Tab 主实现为
+  `22666ab0`；随后 `73a910bf`、`bdcc745b` 仅迁移物品资源/效果动作按钮，未改变 DsTabs /
+  DsInspectorTabs API、Inspector 标题/Tab/panel 结构、键盘语义、hidden-mounted 合同或滚动 owner。
+  Codex 已在最新分支复跑 editor typecheck、focused 42/42、全量 119/885，并完成 1280px 与 150% 等效
+  窄视口复验。无下一位 Agent 提示词；等待用户验收或进入下一张已签字任务卡。
+
 ## 下一位 Agent 提示词
 
-### Kimi（架构 / 视觉 done 前复审，可直接复制）
+本卡已 `done`，无下一位 Agent 提示词。以下内容仅保留为历史交接记录，不再授权新的实现或审查。
 
-```text
-接手任务: ED-INSPECTOR-TABS-1 属性面板共享 Tab 全局统一——done 前架构/视觉复审
-任务卡: docs/ops/tasks/ED-INSPECTOR-TABS-1-global-inspector-tabs.md
-当前状态: review；Codex 已实现并自验 accept，Kimi/GLM accept 未齐，不得标 done
-你的角色: Kimi，独立审查 canonical API、滚动/宽度合同、视觉一致性和 IK1
-先读: AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、docs/ops/agent-workflow.md、本任务卡；
-重点读 design-system/controls.tsx、primitives.css、recipes.tsx/recipes.css、boundary.test.ts，及
-ActorMode/MapMode/ItemTab/WorldSpriteLibrary/BattleSpriteLibrary/CutsceneTab/editor.css 的本分支 diff。
-已完成: 15 个业务组件/18 个实际表面迁唯一 DsInspectorTabs；三种私有 CSS/API 删除；Actor 编辑分区在
-摘要内保留；用户追加计数改为 shared .ds-tab__count 徽标；Actor tooltip 横溢出已修。Codex 证据为
-focused 15/182、typecheck、全量 119/884、Wide/1280/220px/125%-150% 等效视口、console 0。
-请独立核对:
-1. shared count API 是否是唯一 canonical 入口，label/count 分离且窄栏三 Tab 不挤压/溢出；
-2. 标题/Tab 固定、panel 唯一滚动 owner，Actor tooltip 修法不制造新的裁切；
-3. Map activateInspectorTab 副作用、Item hidden-mounted 风险和 IK1 保留入口是否符合签字设计；
-4. 私有 Tab CSS/键盘/ref 是否确实清零，是否存在被 overflow-x:hidden 掩盖的真实越界。
-若通过，在任务卡 Kimi done 准入签 accept；否则签 counter 并给精确 file:line 与复现。不得修改实现文件，
-不得代签 GLM；签字未齐不得标 done。
-```
+### Kimi（架构 / 视觉 done 前复审——已完成）
 
-### GLM（覆盖 / 测试 done 前复审，可直接复制）
+Kimi 已于 2026-08-16 完成 done 前复审并签 accept（一手读码 + 6010 浏览器实测，见 done 准入
+Kimi 条目）。三方 accept 齐；Status 变更交 Codex/用户。本节提示词不再适用。
+
+### GLM（覆盖 / 测试 done 前复审——已完成）
 
 ```text
 接手任务: ED-INSPECTOR-TABS-1 属性面板共享 Tab 全局统一——done 前覆盖/测试复审
