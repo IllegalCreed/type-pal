@@ -1,5 +1,6 @@
 import type { ProjectMap, StampTemplateV1 } from '@type-pal/content'
 import type { StampLayerMapping, StampPlacementPlan } from '../core/stamp-placement.js'
+import { DsDiagnosticList, DsDiagnosticPanel, DsDiagnosticRow } from './design-system/index.js'
 
 function refLabel(ref: { row: number; col: number; layerId?: string }): string {
   return `${ref.layerId ? `${ref.layerId} · ` : ''}r${ref.row}:c${ref.col}`
@@ -134,33 +135,39 @@ export function StampPlacementInspector(props: {
                 : '预览有效；点击画布或下方按钮一次原子放置。'}
       </div>
       {plan && problemCount > 0 ? (
-        <section className="stamp-placement-problems" aria-label="组合放置问题明细">
-          <div className="stamp-placement-problems-head">
-            <strong>问题明细</strong>
-            <span>{problemCount}</span>
-          </div>
-          <ul>
-            {plan.issues.map((item, index) => (
-              <li key={`issue:${item.code}:${index}`} className="error">
-                <strong>错误 · {item.code}</strong>
-                <span>{item.message}</span>
-                {item.ref ? <code>{refLabel(item.ref)}</code> : null}
-              </li>
+        <DsDiagnosticPanel
+          state="ready"
+          count={{
+            kind: 'exact',
+            errors: plan.issues.length,
+            warnings: plan.conflicts.length,
+          }}
+          summary="组合放置问题明细"
+          label="组合放置问题明细"
+        >
+          <DsDiagnosticList>
+            {plan.issues.map((item) => (
+              <DsDiagnosticRow
+                key={`issue:${item.code}:${item.layerSlotId ?? ''}:${item.ref ? refLabel(item.ref) : ''}:${item.ownerPlacementId ?? ''}:${item.message}`}
+                severity="error"
+                title={item.message}
+                code={item.code}
+                path={item.ref ? refLabel(item.ref) : undefined}
+                statusLabel="无法定位"
+              />
             ))}
-            {plan.conflicts.map((item, index) => (
-              <li
-                key={`conflict:${item.channel}:${refLabel(item.ref)}:${index}`}
-                className="conflict"
-              >
-                <strong>{item.channel === 'visual' ? '普通视觉' : '普通碰撞'}</strong>
-                <span>{refLabel(item.ref)}</span>
-                <code>
-                  {item.currentValue} → {item.incomingValue}
-                </code>
-              </li>
+            {plan.conflicts.map((item) => (
+              <DsDiagnosticRow
+                key={`conflict:${item.channel}:${refLabel(item.ref)}:${item.currentValue}:${item.incomingValue}`}
+                severity="warning"
+                title={item.channel === 'visual' ? '普通视觉冲突' : '普通碰撞冲突'}
+                code={`${item.channel}-conflict`}
+                path={`${refLabel(item.ref)} · ${item.currentValue} → ${item.incomingValue}`}
+                statusLabel="仅提示"
+              />
             ))}
-          </ul>
-        </section>
+          </DsDiagnosticList>
+        </DsDiagnosticPanel>
       ) : null}
       {plan ? (
         <div className="stamp-placement-anchor mono">

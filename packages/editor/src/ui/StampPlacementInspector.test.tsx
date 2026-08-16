@@ -74,7 +74,7 @@ describe('StampPlacementInspector', () => {
     )
 
     const details = host.querySelector('[aria-label="组合放置问题明细"]')!
-    expect(details.querySelectorAll('li.conflict')).toHaveLength(3)
+    expect(details.querySelectorAll('.ds-diagnostic-row--warning')).toHaveLength(3)
     expect(details.textContent).toMatch(/普通视觉.*floor · r0:c0.*2 → 1/s)
     expect(details.textContent).toMatch(/普通视觉.*objects · r0:c0.*3 → 1/s)
     expect(details.textContent).toMatch(/普通碰撞.*r0:c0.*4 → 1/s)
@@ -119,7 +119,7 @@ describe('StampPlacementInspector', () => {
       />,
     )
     const details = host.querySelector('[aria-label="组合放置问题明细"]')!
-    expect(details.querySelectorAll('li.error')).toHaveLength(5)
+    expect(details.querySelectorAll('.ds-diagnostic-row--error')).toHaveLength(5)
     expect(details.textContent).toContain('错误 5')
     expect(details.textContent).toContain('r4:c5')
   })

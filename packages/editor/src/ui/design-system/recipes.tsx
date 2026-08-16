@@ -156,8 +156,7 @@ export const DsCatalogFilter = forwardRef<
   )
 })
 
-export interface DsCatalogControlsProps
-  extends ComponentPropsWithoutRef<typeof DsListHeader> {
+export interface DsCatalogControlsProps extends ComponentPropsWithoutRef<typeof DsListHeader> {
   search?: ComponentPropsWithoutRef<typeof DsCatalogFilter>
   scope?: ReactNode
   filters?: ReactNode
@@ -322,6 +321,56 @@ export interface DsReferenceRowLabel {
   tone?: DsTagTone
 }
 
+type DsLocatorRowAction =
+  | {
+      href: string
+      ariaLabel?: string
+      target?: string
+      rel?: string
+      onActivate?: never
+    }
+  | {
+      onActivate: () => void
+      ariaLabel?: string
+      href?: never
+      target?: never
+      rel?: never
+    }
+
+/** Reference 与 Diagnostic 共用的唯一定位行根节点；业务语义仍由各自公开配方持有。 */
+function DsLocatorRowFrame(props: {
+  action?: DsLocatorRowAction
+  className: string
+  content: ReactNode
+}) {
+  if (props.action && 'href' in props.action)
+    return (
+      <a
+        className={props.className}
+        data-actionable="true"
+        href={props.action.href}
+        target={props.action.target}
+        rel={props.action.rel}
+        aria-label={props.action.ariaLabel}
+      >
+        {props.content}
+      </a>
+    )
+  if (props.action)
+    return (
+      <button
+        type="button"
+        className={props.className}
+        data-actionable="true"
+        aria-label={props.action.ariaLabel}
+        onClick={props.action.onActivate}
+      >
+        {props.content}
+      </button>
+    )
+  return <article className={props.className}>{props.content}</article>
+}
+
 /**
  * Inspector 引用面的唯一行。可定位行使用真实 link/button；只读与不可定位行使用静态 article，
  * 禁止用 disabled button 伪装成状态。
@@ -376,32 +425,7 @@ export function DsReferenceRow(props: {
     </>
   )
   const className = dsClasses('ds-reference-row', props.className)
-  if (props.action && 'href' in props.action)
-    return (
-      <a
-        className={className}
-        data-actionable="true"
-        href={props.action.href}
-        target={props.action.target}
-        rel={props.action.rel}
-        aria-label={props.action.ariaLabel}
-      >
-        {content}
-      </a>
-    )
-  if (props.action)
-    return (
-      <button
-        type="button"
-        className={className}
-        data-actionable="true"
-        aria-label={props.action.ariaLabel}
-        onClick={props.action.onActivate}
-      >
-        {content}
-      </button>
-    )
-  return <article className={className}>{content}</article>
+  return <DsLocatorRowFrame action={props.action} className={className} content={content} />
 }
 
 export function DsReferenceList(props: {
@@ -411,7 +435,10 @@ export function DsReferenceList(props: {
 }) {
   const entries = Children.toArray(props.children)
   const initialVisibleCount = props.initialVisibleCount ?? 12
-  const identity = entries.map((entry) => (isValidElement(entry) ? entry.key : null)).join('\0')
+  const identity = [
+    initialVisibleCount,
+    entries.map((entry) => (isValidElement(entry) ? entry.key : null)).join('\0'),
+  ].join('\0')
   const [expansion, setExpansion] = useState({ identity, expanded: false })
   const expanded = expansion.identity === identity && expansion.expanded
   const visible = expanded ? entries : entries.slice(0, initialVisibleCount)
@@ -428,6 +455,242 @@ export function DsReferenceList(props: {
         >
           {expanded ? '收起' : `显示其余 ${hiddenCount} 条`}
         </DsButton>
+      ) : null}
+    </div>
+  )
+}
+
+export type DsDiagnosticPanelState = 'ready' | 'clear' | 'partial' | 'failure'
+
+export type DsDiagnosticCount =
+  | { kind: 'exact'; errors: number; warnings: number }
+  | { kind: 'at-least'; errors: number; warnings: number }
+  | { kind: 'unknown' }
+
+function diagnosticCountLabel(count: DsDiagnosticCount | undefined): string {
+  if (!count || count.kind === 'unknown') return '数量未知'
+  const prefix = count.kind === 'at-least' ? '至少 ' : ''
+  return `${prefix}${count.errors} 个错误 · ${count.warnings} 个警告`
+}
+
+function diagnosticPanelSummary(
+  state: DsDiagnosticPanelState,
+  count: DsDiagnosticCount | undefined,
+): string {
+  if (state === 'clear') return '未发现诊断问题'
+  if (state === 'partial') return `诊断结果不完整 · ${diagnosticCountLabel(count)}`
+  if (state === 'failure') return '无法完成诊断'
+  return diagnosticCountLabel(count)
+}
+
+/** 诊断面的唯一状态摘要；收集、严重度和定位语义仍由领域页面持有。 */
+export function DsDiagnosticPanel(props: {
+  state: DsDiagnosticPanelState
+  count?: DsDiagnosticCount
+  summary?: ReactNode
+  description?: ReactNode
+  action?: ReactNode
+  children?: ReactNode
+  className?: string
+  label?: string
+  live?: boolean
+}) {
+  const errors = props.count && props.count.kind !== 'unknown' ? props.count.errors : 0
+  const warnings = props.count && props.count.kind !== 'unknown' ? props.count.warnings : 0
+  const live = props.live ?? true
+  const tone =
+    props.state === 'failure' || errors > 0
+      ? 'error'
+      : props.state === 'partial' || warnings > 0
+        ? 'warning'
+        : props.state === 'clear'
+          ? 'success'
+          : 'neutral'
+  return (
+    <section
+      className={dsClasses('ds-diagnostic-panel', props.className)}
+      data-state={props.state}
+      aria-label={props.label ?? '诊断'}
+    >
+      <div
+        className={dsClasses('ds-status', tone !== 'neutral' && `ds-status--${tone}`)}
+        role={live ? (tone === 'error' ? 'alert' : 'status') : undefined}
+        aria-live={live ? (tone === 'error' ? 'assertive' : 'polite') : undefined}
+      >
+        <span className="ds-diagnostic-panel__status">
+          <span className="ds-diagnostic-panel__meta">
+            <DsTag tone={tone === 'error' ? 'danger' : tone === 'warning' ? 'warning' : 'neutral'}>
+              {props.state === 'clear'
+                ? '正常'
+                : props.state === 'partial'
+                  ? '结果不完整'
+                  : props.state === 'failure'
+                    ? '检查失败'
+                    : '诊断'}
+            </DsTag>
+            <span className="ds-diagnostic-panel__count">{diagnosticCountLabel(props.count)}</span>
+          </span>
+          <strong className="ds-diagnostic-panel__summary">
+            {props.summary ?? diagnosticPanelSummary(props.state, props.count)}
+          </strong>
+          {props.description ? (
+            <span className="ds-diagnostic-panel__description">{props.description}</span>
+          ) : null}
+        </span>
+        {props.action}
+      </div>
+      {props.children ? <div className="ds-diagnostic-panel__body">{props.children}</div> : null}
+    </section>
+  )
+}
+
+export type DsDiagnosticSeverity = 'error' | 'warning'
+
+export type DsDiagnosticRowAction =
+  | {
+      href: string
+      label?: ReactNode
+      ariaLabel?: string
+      target?: string
+      rel?: string
+      onActivate?: never
+    }
+  | {
+      onActivate: () => void
+      label?: ReactNode
+      ariaLabel?: string
+      href?: never
+      target?: never
+      rel?: never
+    }
+
+/** 单条诊断。严重度文本始终可见；不能定位的条目保持静态 article。 */
+export function DsDiagnosticRow(props: {
+  severity: DsDiagnosticSeverity
+  title: ReactNode
+  code?: ReactNode
+  detail?: ReactNode
+  path?: ReactNode
+  action?: DsDiagnosticRowAction
+  statusLabel?: ReactNode
+  className?: string
+}) {
+  const content = (
+    <>
+      <span className="ds-diagnostic-row__content">
+        <span className="ds-diagnostic-row__labels">
+          <DsTag tone={props.severity === 'error' ? 'danger' : 'warning'}>
+            {props.severity === 'error' ? '错误' : '警告'}
+          </DsTag>
+        </span>
+        <strong className="ds-diagnostic-row__title">{props.title}</strong>
+        {props.code ? <code className="ds-diagnostic-row__code">{props.code}</code> : null}
+        {props.detail ? <span className="ds-diagnostic-row__detail">{props.detail}</span> : null}
+        {props.path ? <code className="ds-diagnostic-row__path">{props.path}</code> : null}
+      </span>
+      <span className="ds-diagnostic-row__trailing">
+        {props.action?.label ?? props.statusLabel ?? '仅提示'}
+      </span>
+    </>
+  )
+  return (
+    <DsLocatorRowFrame
+      action={props.action}
+      className={dsClasses(
+        'ds-diagnostic-row',
+        `ds-diagnostic-row--${props.severity}`,
+        props.className,
+      )}
+      content={content}
+    />
+  )
+}
+
+/** 诊断列表统一持有 list/listitem 语义与可选的渐进展开。 */
+export function DsDiagnosticList(props: {
+  children: ReactNode
+  className?: string
+  initialVisibleCount?: number
+  pageSize?: number
+  onViewAll?: () => void
+  viewAllLabel?: ReactNode
+  allowShowAll?: boolean
+}) {
+  const entries = Children.toArray(props.children)
+  const initialVisibleCount = Math.max(0, props.initialVisibleCount ?? entries.length)
+  const pageSize = Math.max(1, (props.pageSize ?? initialVisibleCount) || 1)
+  const identity = [
+    initialVisibleCount,
+    entries.map((entry) => (isValidElement(entry) ? entry.key : null)).join('\0'),
+  ].join('\0')
+  const [pagination, setPagination] = useState({ identity, visibleCount: initialVisibleCount })
+  const visibleCount =
+    pagination.identity === identity ? pagination.visibleCount : initialVisibleCount
+  const visible = entries.slice(0, visibleCount)
+  const hiddenCount = Math.max(0, entries.length - visible.length)
+  const allowShowAll = props.allowShowAll ?? true
+  const canCollapse = !props.onViewAll && allowShowAll && visible.length > initialVisibleCount
+  return (
+    <div className={dsClasses('ds-diagnostic-list', props.className)}>
+      <ul className="ds-diagnostic-list__items">
+        {visible.map((entry, index) => (
+          <li
+            className="ds-diagnostic-list__item"
+            key={isValidElement(entry) && entry.key != null ? entry.key : index}
+          >
+            {entry}
+          </li>
+        ))}
+      </ul>
+      {entries.length > initialVisibleCount ? (
+        <div className="ds-diagnostic-list__pagination">
+          <span className="ds-diagnostic-list__progress" role="status" aria-live="polite">
+            {hiddenCount > 0
+              ? `已显示 ${visible.length} / ${entries.length} 项`
+              : `已显示全部 ${entries.length} 项`}
+          </span>
+          <span className="ds-diagnostic-list__actions">
+            {props.onViewAll && hiddenCount > 0 ? (
+              <DsButton size="compact" variant="quiet" onClick={props.onViewAll}>
+                {props.viewAllLabel ?? `查看全部 ${entries.length} 项`}
+              </DsButton>
+            ) : null}
+            {!props.onViewAll && hiddenCount > 0 ? (
+              <>
+                <DsButton
+                  size="compact"
+                  variant="quiet"
+                  onClick={() =>
+                    setPagination({
+                      identity,
+                      visibleCount: Math.min(entries.length, visibleCount + pageSize),
+                    })
+                  }
+                >
+                  继续显示 {Math.min(pageSize, hiddenCount)} 项
+                </DsButton>
+                {allowShowAll ? (
+                  <DsButton
+                    size="compact"
+                    variant="quiet"
+                    onClick={() => setPagination({ identity, visibleCount: entries.length })}
+                  >
+                    显示全部
+                  </DsButton>
+                ) : null}
+              </>
+            ) : null}
+            {canCollapse ? (
+              <DsButton
+                size="compact"
+                variant="quiet"
+                onClick={() => setPagination({ identity, visibleCount: initialVisibleCount })}
+              >
+                收起至前 {initialVisibleCount} 项
+              </DsButton>
+            ) : null}
+          </span>
+        </div>
       ) : null}
     </div>
   )

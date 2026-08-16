@@ -17,6 +17,9 @@ import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { collectEditorAssetReferences } from '../core/editor-asset-references.js'
 import {
   DsCatalogControls,
+  DsDiagnosticList,
+  DsDiagnosticPanel,
+  DsDiagnosticRow,
   DsInspectorTabs,
   DsReferenceList,
   DsReferencePanel,
@@ -385,11 +388,32 @@ export function SoundTab(props: {
                           </DsReferenceList>
                         ) : null}
                       </DsReferencePanel>
-                      {selectedIssues.map((issue) => (
-                        <div className="cf-err" key={`${issue.code}:${issue.where}`}>
-                          {issue.message}
-                        </div>
-                      ))}
+                      <DsDiagnosticPanel
+                        state={selectedIssues.length ? 'ready' : 'clear'}
+                        count={{
+                          kind: 'exact',
+                          errors: selectedIssues.filter((issue) => issue.severity === 'error')
+                            .length,
+                          warnings: selectedIssues.filter((issue) => issue.severity === 'warn')
+                            .length,
+                        }}
+                        summary={selectedIssues.length ? undefined : '资源类型与引用闭包正常'}
+                      >
+                        {selectedIssues.length ? (
+                          <DsDiagnosticList>
+                            {selectedIssues.map((issue) => (
+                              <DsDiagnosticRow
+                                key={`${issue.code}:${issue.where}`}
+                                severity={issue.severity === 'error' ? 'error' : 'warning'}
+                                title={issue.message}
+                                code={issue.code}
+                                path={issue.where}
+                                statusLabel="仅提示"
+                              />
+                            ))}
+                          </DsDiagnosticList>
+                        ) : null}
+                      </DsDiagnosticPanel>
                     </div>
                   ),
                 },

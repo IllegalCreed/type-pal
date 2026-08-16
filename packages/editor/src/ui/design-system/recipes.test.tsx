@@ -8,6 +8,9 @@ import {
   DsCatalogFilter,
   DsCatalogGroupHeader,
   DsCatalogRow,
+  DsDiagnosticList,
+  DsDiagnosticPanel,
+  DsDiagnosticRow,
   DsInspectorSection,
   DsInspectorTabs,
   DsObjectHero,
@@ -121,9 +124,11 @@ describe('object workbench recipes', () => {
     expect(host.querySelector('.ds-list-header__title')?.textContent).toBe('组合库')
     expect(host.querySelector('.ds-list-header__count')?.textContent).toBe('12 项')
     expect(host.querySelector('.ds-catalog-controls__scope')?.textContent).toBe('来源域')
-    expect(host.querySelector<HTMLInputElement>('.ds-catalog-controls__search input')?.getAttribute('aria-label')).toBe(
-      '搜索组合模板',
-    )
+    expect(
+      host
+        .querySelector<HTMLInputElement>('.ds-catalog-controls__search input')
+        ?.getAttribute('aria-label'),
+    ).toBe('搜索组合模板')
     const filters = host.querySelector('.ds-catalog-controls__filters')
     expect(filters?.getAttribute('data-filter-count')).toBe('3')
     expect(filters?.querySelectorAll('.ds-catalog-controls__filter')).toHaveLength(3)
@@ -406,6 +411,109 @@ describe('object workbench recipes', () => {
     expect(host.querySelector('.ds-reference-row__title')?.getAttribute('title')).toBe(longTitle)
     expect(host.querySelector('.ds-reference-row__path')?.getAttribute('title')).toBe(longPath)
     expect(host.querySelector('.ds-reference-row__path')?.textContent).toBe(longPath)
+  })
+
+  test('diagnostic panels expose ready, clear, partial, and failure without fake exact counts', async () => {
+    await act(async () =>
+      root.render(
+        <>
+          <DsDiagnosticPanel state="ready" count={{ kind: 'exact', errors: 2, warnings: 3 }} />
+          <DsDiagnosticPanel state="clear" count={{ kind: 'exact', errors: 0, warnings: 0 }} />
+          <DsDiagnosticPanel state="partial" count={{ kind: 'at-least', errors: 1, warnings: 4 }} />
+          <DsDiagnosticPanel state="failure" count={{ kind: 'unknown' }} />
+        </>,
+      ),
+    )
+
+    expect(host.querySelector('[data-state="ready"]')?.textContent).toContain('2 个错误 · 3 个警告')
+    expect(host.querySelector('[data-state="clear"]')?.textContent).toContain('未发现诊断问题')
+    expect(host.querySelector('[data-state="partial"]')?.textContent).toContain(
+      '至少 1 个错误 · 4 个警告',
+    )
+    expect(host.querySelector('[data-state="failure"]')?.textContent).toContain('数量未知')
+    for (const panel of host.querySelectorAll('.ds-diagnostic-panel'))
+      expect(panel.querySelectorAll('[role="status"], [role="alert"]')).toHaveLength(1)
+  })
+
+  test('diagnostic rows keep severity text and use real button, link, or article roots', async () => {
+    const onActivate = vi.fn()
+    const longPath = `manifest.${'deep.path.'.repeat(20)}asset`
+    await act(async () =>
+      root.render(
+        <DsDiagnosticList>
+          <DsDiagnosticRow
+            severity="error"
+            title="资源缺失"
+            code="missing-asset"
+            path={longPath}
+            action={{ label: '跳转 ↗', ariaLabel: '跳转到缺失资源', onActivate }}
+          />
+          <DsDiagnosticRow
+            severity="warning"
+            title="迁移待核对"
+            action={{ label: '在问题面板查看 ↗', href: '/editor?module=project' }}
+          />
+          <DsDiagnosticRow severity="warning" title="只读来源" statusLabel="无法定位" />
+        </DsDiagnosticList>,
+      ),
+    )
+
+    const rows = host.querySelectorAll<HTMLElement>('.ds-diagnostic-row')
+    expect([...rows].map((row) => row.tagName)).toEqual(['BUTTON', 'A', 'ARTICLE'])
+    expect(rows[0]?.textContent).toMatch(/^错误资源缺失missing-asset/)
+    expect(rows[1]?.textContent).toContain('警告迁移待核对')
+    expect(rows[2]?.textContent).toContain('无法定位')
+    expect(host.querySelector('.ds-diagnostic-row[disabled]')).toBeNull()
+    expect(rows[0]?.querySelector('button, a')).toBeNull()
+    expect(rows[0]?.getAttribute('aria-label')).toBe('跳转到缺失资源')
+    expect(host.querySelector('.ds-diagnostic-row__path')?.textContent).toBe(longPath)
+    await act(async () => rows[0]?.click())
+    expect(onActivate).toHaveBeenCalledOnce()
+  })
+
+  test('diagnostic list owns 80-row pagination, show-all, collapse, and stable compact handoff', async () => {
+    const rows = Array.from({ length: 152 }, (_, index) => (
+      <DsDiagnosticRow
+        key={`issue-${index}`}
+        severity={index % 2 ? 'warning' : 'error'}
+        title={`问题 ${index + 1}`}
+      />
+    ))
+    await act(async () =>
+      root.render(
+        <DsDiagnosticList initialVisibleCount={80} pageSize={80}>
+          {rows}
+        </DsDiagnosticList>,
+      ),
+    )
+    expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(80)
+    expect(host.textContent).toContain('已显示 80 / 152 项')
+    expect(host.querySelectorAll('[role="status"], [role="alert"]')).toHaveLength(1)
+
+    const click = async (label: string) => {
+      const target = [...host.querySelectorAll<HTMLButtonElement>('button')].find((button) =>
+        button.textContent?.includes(label),
+      )
+      await act(async () => target?.click())
+    }
+    await click('继续显示 72 项')
+    expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(152)
+    await click('收起至前 80 项')
+    expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(80)
+    await click('显示全部')
+    expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(152)
+
+    const onViewAll = vi.fn()
+    await act(async () =>
+      root.render(
+        <DsDiagnosticList initialVisibleCount={30} pageSize={80} onViewAll={onViewAll}>
+          {rows}
+        </DsDiagnosticList>,
+      ),
+    )
+    await click('查看全部 152 项')
+    expect(onViewAll).toHaveBeenCalledOnce()
+    expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(30)
   })
 
   test('sequence index gives ordered rows a centered numeric marker and accessible label', async () => {

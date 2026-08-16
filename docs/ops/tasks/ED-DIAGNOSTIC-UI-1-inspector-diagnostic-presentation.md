@@ -1,6 +1,6 @@
 # ED-DIAGNOSTIC-UI-1 - 属性面板问题与诊断呈现统一
 
-Status: draft
+Status: done
 Phase: phase2
 Capability: Editor cross-cutting（本卡不改变 capability-map 状态）
 Coding Owner: Codex
@@ -9,7 +9,7 @@ Reviewer: Kimi + GLM
 Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
-Branch: TBD
+Branch: `codex/ed-diagnostic-ui-1`
 
 ## 目标
 
@@ -19,8 +19,8 @@ Branch: TBD
 和工作流决策；design-system 不读取 `ProjectIssue`、迁移 sidecar、资产闭包或地图放置计划。
 
 用户可见结果：截图中的工程“问题 152”不再是一整墙金色私有卡片和微型“跳转”按钮，而是先给出一条问题摘要，
-再用与引用面一致的紧凑定位行展示“级别 / 可读问题 / 证据路径 / 跳转或静态状态”。切到过场、物品和组合放置时，
-诊断行仍是同一视觉语言；错误与警告通过文字标签明确区分，不靠颜色猜测，也不被伪装成“引用”。
+再用与引用面一致的紧凑定位行展示“级别 / 可读问题 / 证据路径 / 跳转或静态状态”。切到过场、图像、音效、物品
+和组合放置时，诊断行仍是同一视觉语言；错误与警告通过文字标签明确区分，不靠颜色猜测，也不被伪装成“引用”。
 
 ## 范围
 
@@ -31,10 +31,10 @@ Branch: TBD
     geometry、排版、根元素选择、尾部动作和长文本合同；Reference 与 Diagnostic 保持独立公开语义。
   - 迁移 Project `IssueList` 的全部消费点：右侧紧凑 Inspector、overview/advanced 主问题面板和入口 id 修复列表；
     保留 compact 30 条、full 80 条分批显示、查看全部与收起行为。
-  - 迁移 Cutscene Inspector 的“诊断” Tab、Item Inspector 概览中的“待迁移来源”、Map 的
-    `StampPlacementInspector` 问题明细。
+  - 迁移 Cutscene Inspector 的“诊断” Tab；Image/Sound Inspector 的现有“引用” panel 内联 Diagnostic 小节
+    （不新增 Tab）；Item Inspector 概览中的“待迁移来源”；Map 的 `StampPlacementInspector` 问题明细。
   - 统一 exact count、error/warning 文本标签、empty/clear、jumpable/static、长 message/path/code、分页和焦点行为。
-  - 更新 `editor-design-system-v1.md`、Design Lab `RF-17`、共享组件测试、四个领域回归和 static boundary。
+  - 更新 `editor-design-system-v1.md`、Design Lab `RF-17`、共享组件测试、六个领域回归和 static boundary。
 - 范围外：
   - 项目诊断 collector、资产引用闭包校验、迁移 sidecar、地图放置 planner、severity 判定、stable identity、
     `EditorLocation`、保存/导出/阻断/覆盖策略。
@@ -56,7 +56,7 @@ Branch: TBD
 
 ### 一句话行为 / 工程前提
 
-当前二阶段至少有四个右侧 Inspector 诊断面重复实现“级别 + 说明 + 路径/证据 + 可选动作”，问题位于呈现层和
+当前二阶段有六个右侧 Inspector 诊断面重复实现“级别 + 说明 + 路径/证据 + 可选动作”，问题位于呈现层和
 无障碍合同分裂；它们可以共享引用行的中性 locator 视觉骨架，但不能复用引用的 occurrence、影响或删除语义。
 
 ### 真值矩阵
@@ -65,8 +65,8 @@ Branch: TBD
 |---|---|---|
 | 原版 / primary source | 用户直接指出截图中的“问题 152”组件也应参考刚统一的引用样式，并要求新开 `ED-DIAGNOSTIC-UI-1`。这是 Reforge 作者工具的新产品要求，不是原版游戏机制。 | 2026-08-16 用户本轮请求与两张随附截图；`docs/phase2/READ-FIRST.md:8-22` |
 | 第一阶段 | N/A：第一阶段交付游戏运行时，不包含二阶段编辑器 Inspector、问题卡或定位交互。 | `CLAUDE.md:23-30`；`docs/phase2/READ-FIRST.md:20-22` |
-| 当前二阶段 | Project、Cutscene、Item、Stamp Placement 分别维护四套 JSX/CSS；现行规范同时要求错误保留上下文、全局/字段问题分层，并明确诊断不是引用行。Reference 已形成可复用的定位行 geometry，但公开合同仍是引用专用。 | `ProjectWorkbenchTab.tsx:151-225,828-862,1648-1669`; `CutsceneTab.tsx:413-428,857-875`; `ItemTab.tsx:1909-1935`; `StampPlacementInspector.tsx:120-164`; `editor.css:1784-1864,8339-8353,11038-11055,12600-12672`; `editor-design-system-v1.md:379-413,421-427` |
-| 本任务目标 | 四个 Inspector 诊断面使用唯一 Diagnostic Panel/List/Row 合同；Reference 与 Diagnostic 共享无业务含义的 locator frame，collector、计数单位、严重级别和工作流语义不变。 | 用户 2026-08-16 裁决；本卡 canonical 合同、迁移矩阵和验收条件 |
+| 当前二阶段 | Project、Cutscene、Image、Sound、Item、Stamp Placement 分别维护私有 JSX/CSS；Image/Sound 与 Cutscene 同源消费 `closureIssues`，但在引用 panel 内以通用 `cf-err` 静态列表呈现。现行规范同时要求错误保留上下文、全局/字段问题分层，并明确诊断不是引用行。Reference 已形成可复用的定位行 geometry，但公开合同仍是引用专用。 | `ProjectWorkbenchTab.tsx:151-225,828-862,1648-1669`; `CutsceneTab.tsx:413-428,857-875`; `ImageTab.tsx:525,744-747`; `SoundTab.tsx:184,394-397`; `ItemTab.tsx:1909-1935`; `StampPlacementInspector.tsx:120-164`; `editor.css:1784-1864,8339-8353,11038-11055,12600-12672`; `editor-design-system-v1.md:379-413,421-427` |
+| 本任务目标 | 六个 Inspector 诊断面使用唯一 Diagnostic Panel/List/Row 合同；Image/Sound 继续内联现有引用 panel、不新增 Tab；Reference 与 Diagnostic 共享无业务含义的 locator frame，collector、计数单位、严重级别和工作流语义不变。 | 用户 2026-08-16 裁决；本卡 canonical 合同、迁移矩阵和验收条件；GLM DK2 |
 
 ### 反证与替代解释
 
@@ -94,9 +94,9 @@ Branch: TBD
 ### 用户可见偏离
 
 - 是否主动偏离已核真值：yes（用户明确要求统一当前诊断组件）
-- `before -> after` 一句话：四套私有警告卡/列表 -> 唯一诊断摘要与定位行合同，诊断业务真值不变。
+- `before -> after` 一句话：六个页面中的私有警告卡/列表 -> 唯一诊断摘要与定位行合同，诊断业务真值不变。
 - 代表场景：工程 Inspector 显示 152 条未引用 AssetId，其中一部分可跳转、一部分只提供路径；切到 Cutscene、
-  Item、Map Stamp 时仍使用同一行层级，但分别保留资产闭包、迁移来源和放置冲突语义。
+  Image、Sound、Item、Map Stamp 时仍使用同一行层级，但分别保留资产闭包、引用共存、迁移来源和放置冲突语义。
 - 用户裁决：2026-08-16 用户已批准统一方向并要求新开 `ED-DIAGNOSTIC-UI-1`；build 仍需三方签字。
 
 ## 当前 Inspector 诊断面审计（2026-08-16 工作树）
@@ -108,6 +108,8 @@ Branch: TBD
 |---|---|---|---|---|
 | project / IssueList | 私有 `project-issues/project-issue` div、颜色圆点、mini jump；compact 30、full 80 | `ProjectIssue` exact finding、error/warn、稳定 `code:path:message`、可选 EditorLocation、30/80 分批 | Panel/List/Row 全迁；可定位行用整行真实 button，静态行明确“无法定位”；所有 `IssueList` 消费点同源 | `ProjectWorkbenchTab.tsx:151-225,828-862,930-934,1648-1669`; `project-diagnostics.ts:35-72,486-505` |
 | asset / cutscene / 诊断 Tab | 私有 `cutscene-diagnostic` div；只有 message 和 ok 文案 | selected asset 的 asset-reference closure finding；exact count；当前无 locator | 使用 shared Panel/List/Row 静态行；保留资产筛选逻辑和 Tab count | `CutsceneTab.tsx:403-428,857-875` |
+| asset / image / 引用 panel 内诊断 | `selectedIssues.map` 渲染通用 `cf-err` 静态 div，无 locator | selected image 的 `closureIssues` 筛选、选中态联动、稳定 `code:where` key；引用列表与诊断 finding 语义分离 | 保留在现有“引用” panel 内，作为内联 Diagnostic 小节消费 shared Panel/List/Row；不开新 Tab；与引用行共存 | `ImageTab.tsx:525,744-747`; `AssetInspectorTabs.test.tsx` |
+| asset / sound / 引用 panel 内诊断 | `selectedIssues.map` 渲染通用 `cf-err` 静态 div，无 locator | selected sound 的 `closureIssues` 筛选、选中态联动、稳定 `code:where` key；引用列表与诊断 finding 语义分离 | 保留在现有“引用” panel 内，作为内联 Diagnostic 小节消费 shared Panel/List/Row；不开新 Tab；与引用行共存 | `SoundTab.tsx:184,394-397`; `AssetInspectorTabs.test.tsx` |
 | item / overview / 待迁移来源 | 私有 `item-diagnostic`，每项重复“在问题面板查看”按钮 | sidecar stable id、warn、target label、reason、legacy source/address；动作打开工程问题面板 | 嵌入 Diagnostic Panel/List/Row；可跳转时整行 button，否则静态状态写明旧源只读 | `ItemTab.tsx:650-708,1859-1935`; `migration-diagnostic.ts:1-39` |
 | map / StampPlacementInspector / 问题明细 | 私有 section + `ul/li`；error 与 conflict 两种皮肤 | issue 阻止放置；conflict 允许用户另行选择覆盖；ref/value 是当前 preview 证据；列表本身无动作 | 保留 placement status/actions owner，只把 finding summary/list/row 迁入；error/warning 文字标签和 code/ref/value 顺序统一 | `MapMode.tsx:3838-3852`; `StampPlacementInspector.tsx:120-176`; `stamp-placement.ts:25-59,75-93` |
 
@@ -118,7 +120,7 @@ Branch: TBD
 | App 底部“引用与工程诊断”状态 | 全局跨工程摘要，不是 Inspector finding list；保留为问题入口 | `App.tsx:2540-2552`; `project-diagnostics.ts:508-519` |
 | Stamp Library 悬空来源引用 | 主工作区的信息性来源清单，不在右侧 Inspector；更接近 provenance/reference debt | `StampLibraryTab.tsx:281-306,519,528` |
 | SharedScript warnings | 脚本引用查看流程内的文本 warnings，不是 canonical Inspector 诊断 Tab | `SharedScriptTab.tsx:414-419,1001-1005` |
-| Image 缺失 focused target | 单个导航失败/资源缺失状态，不是 finding collection | `ImageTab.tsx:609-635` |
+| Image 缺失 focused target | 仅排除单个导航失败/资源缺失状态；同页引用 panel 内 `closureIssues` 列表已纳入第 5 面 | `ImageTab.tsx:609-635` |
 | Stamp preview 缺 tile | 预览组件内的即时缺失提示，不是 Inspector list | `StampPreviewCanvas.tsx:237-244` |
 | 表单校验、toast、modal/error boundary | 生命周期与修复位置由 DS-C.8 分层；不得伪装成诊断行 | `editor-design-system-v1.md:415-427` |
 
@@ -136,6 +138,8 @@ Branch: TBD
   - Project diagnostic model/presentation：`packages/editor/src/core/project-diagnostics.ts:35-72,486-505`；
     `packages/editor/src/ui/ProjectWorkbenchTab.tsx:151-225`。
   - Cutscene：`packages/editor/src/ui/CutsceneTab.tsx:403-428,857-875`。
+  - Image/Sound closure diagnostics：`packages/editor/src/ui/ImageTab.tsx:525,744-747`；
+    `packages/editor/src/ui/SoundTab.tsx:184,394-397`。
   - Item：`packages/content/src/migration-diagnostic.ts:1-39`；`packages/editor/src/ui/ItemTab.tsx:1909-1935`。
   - Stamp placement：`packages/editor/src/core/stamp-placement.ts:25-59,75-93`；
     `packages/editor/src/ui/StampPlacementInspector.tsx:120-176`。
@@ -151,6 +155,7 @@ Branch: TBD
 - 相关测试：
   - `packages/editor/src/ui/ProjectWorkbenchTab.test.tsx:133-169`（303/80、compact 30、view all、collapse）。
   - `packages/editor/src/ui/AssetInspectorTabs.test.tsx:205-222`（Cutscene canonical tabs）。
+    本卡扩展同一文件覆盖 Image/Sound 引用 panel 内诊断与引用行共存、clear/static。
   - `packages/editor/src/ui/StampPlacementInspector.test.tsx:1-126`（conflict/error 明细与数量）。
   - `packages/editor/src/ui/design-system/recipes.test.tsx:204-332`（reference root、展开、长 path 回归）。
   - Item 诊断呈现当前缺独立 UI 回归；本卡必须补齐。
@@ -177,7 +182,7 @@ Branch: TBD
   - `clear`：完整且为 0，统一 success 摘要；不渲染空 row 壳。
   - `partial`：只显示当前下界和失败来源；不得冒充 exact Tab count。
   - `failure`：collector 失败，保留上下文与领域提供的 retry/action；不是“0 个问题”。
-- 当前四面都能提供 complete/exact；`partial/failure` 先作为共享 contract/fixture，不能借机新增扫描器。
+- 当前六面都能提供 complete/exact；`partial/failure` 先作为共享 contract/fixture，不能借机新增扫描器。
 - Panel 只接收展示 count/state/summary/description/action；不计算严重级别、不持有修复命令。
 - live region 只用于 Panel 总结或分页回执；不得给几十/几百行逐条 `role="alert"` 造成播报风暴。
 
@@ -196,7 +201,8 @@ Branch: TBD
 
 - `DsDiagnosticList` 使用语义 list/listitem，统一 gap 与分页尾部；不负责筛选、排序、去重或 severity 统计。
 - Project compact 初始 30，提供“查看全部 N 项”进入 advanced；full 初始 80，每次继续 80，支持显示全部和收起。
-- Cutscene、Item、Stamp 当前数量小，使用无分页模式或高于实际量的默认阈值；不得被 Reference 的 12 条折叠截断。
+- Cutscene、Image、Sound、Item、Stamp 当前数量小，使用无分页模式或高于实际量的默认阈值；不得被 Reference
+  的 12 条折叠截断。
 - 分页后回执使用一个 polite status；焦点不突然跳到列表顶部，显示全部/收起的 handler 只触发一次。
 - finding count 是 collector 去重后的行数，不是 reference occurrence；不在 shared 层二次聚合或跨面去重。
 
@@ -215,6 +221,9 @@ Branch: TBD
   Inspector 用 compact list，主问题面板用 full list。target + callback 存在时整行跳转；否则 article 显示无法定位。
 - Cutscene：保留 `selectedIssues` 的现有筛选和 Tab count；每条显示 severity/message，并把 `where` 作为可复制
   evidence。当前没有 locator，必须是静态 row，不造假跳转。
+- Image / Sound：保留各自 `selectedIssues` 的 `closureIssues` 筛选、选中态联动和 `code:where` stable key；
+  在现有“引用” panel 内追加 Diagnostic 小节，与 `DsReferencePanel` 并列而非嵌套/伪装成 occurrence；不新增
+  “诊断” Tab，不改 ED-INSPECTOR-TABS-1 的 24 页矩阵。当前无 locator，使用静态 row；0 条显示 clear。
 - Item：保留 sidecar label/reason/source/address 和 `onOpenProjectIssues`；action 存在时整行打开问题面板，不存在时
   静态说明旧脚本源只读。不得修改 migration diagnostic 的消解、删除或保存。
 - Stamp Placement：`issues` 映射 error，`conflicts` 映射 warning；warning 只说明可覆盖冲突，真正“覆盖并放置”
@@ -231,6 +240,9 @@ Branch: TBD
   - 缓解：文字 tag、Panel severity totals、对比度检查和混合严重级别 fixture；不只靠边框颜色。
 - 风险：Item 与 Project 同一 sidecar 在两个地方出现，被误当重复 collector。
   - 缓解：明确它们是同一真源的全局视图与对象上下文视图；不改变数据、计数或消解命令。
+- 风险：Image/Sound 在引用 panel 同时呈现引用与诊断，可能形成双列表过长或误合并计数。
+  - 缓解：两个公开 Panel 并列且各自拥有标题/计数；Diagnostic 使用 finding count，Reference 使用 occurrence；
+    保留现有 Tab 数量，AssetInspectorTabs 回归覆盖同 panel 共存与 clear 态。
 - 风险：Stamp conflict 被误判为 blocking error，改变覆盖流程。
   - 缓解：conflict 固定 warning；现有 `canApply`、overwrite button 与 planner 测试不变。
 - 风险：与 Reference/Catalog 卡同时编辑 `recipes.tsx/css`、Item、Cutscene 和 `editor.css` 造成覆盖。
@@ -261,13 +273,14 @@ Branch: TBD
 
 ### 功能
 
-- 四个纳入面全部消费 canonical Diagnostic recipe，且 collector、severity、count、stable key、jump target、Item sidecar、
+- 六个纳入面全部消费 canonical Diagnostic recipe，且 collector、severity、count、stable key、jump target、Item sidecar、
   Stamp overwrite 流程和保存结果与迁移前一致。
 - Project 0/1/30/80/81/152/303 条均正确：compact 30、full 80、继续显示、显示全部、收起和“查看全部”不丢项，
   Tab count 保持 exact。
 - jumpable row 只触发一次现有 callback；static row 不是 disabled button，明确显示无法定位/仅提示。
-- Cutscene 0 条显示 clear，非 0 显示 severity/message/where；Item 显示 label/reason/source/address；Stamp error/conflict
-  分级不变且 conflict 不阻断原有 overwrite 入口。
+- Cutscene 0 条显示 clear，非 0 显示 severity/message/where；Image/Sound 在现有引用 panel 内显示静态
+  closure finding 或 clear，引用 occurrence 与 finding count 不混算且不新增 Tab；Item 显示 label/reason/source/address；
+  Stamp error/conflict 分级不变且 conflict 不阻断原有 overwrite 入口。
 - Reference `RF-16` 和全部 16 个已迁引用面无 DOM/role/计数/交互回归。
 
 ### 测试
@@ -276,11 +289,14 @@ Branch: TBD
   accessible name、无 nested interactive、分页 30/80、show all/collapse、stable handler。
 - Project：迁移现有 303/80 与 compact 30 测试，新增 jumpable/static、混合 severity、clear、长 path。
 - Cutscene：新增 selected closure issue/clear/static evidence 测试；保留 canonical tabs/reference 回归。
+- Image/Sound：扩展 `AssetInspectorTabs.test.tsx`，分别覆盖 closure issue 静态行、clear、与引用行同 panel
+  共存、选中资源联动及 canonical Tab 数量不变。
 - Item：新增 migration diagnostic 有/无 `onOpenProjectIssues`、source/address、callback 单次触发、业务 sidecar 不变。
 - Stamp：现有 issue/conflict 数量与 value diff 回归；新增 shared row/severity 文本与 overwrite action 不嵌入行。
-- Boundary：四个生产面必须使用 `DsDiagnostic*`；删除 `.project-issue*`、`.cutscene-diagnostic`、
+- Boundary：六个生产面必须使用 `DsDiagnostic*`；删除 `.project-issue*`、`.cutscene-diagnostic`、
   `.item-diagnostic`、`.stamp-placement-problems*` 中纯诊断皮肤；禁止 `DsReferenceRow` diagnostic variant、领域 union、
-  新增 `.xxx-diagnostic` skin 和逐行 alert。
+  新增 `.xxx-diagnostic` skin 和逐行 alert。Image/Sound 引用 panel 内必须消费 `DsDiagnostic*`；`cf-err` 是
+  通用字段/预览错误 class，不做全仓禁用，只禁止其继续承载这两个 closureIssues 列表。
 - 运行目标：相关定向 Vitest、`pnpm --filter @type-pal/editor test`、`pnpm lint`、`pnpm typecheck`、
   `pnpm format:check`（若仓库命令与当前文档不同，build 前以 `CLAUDE.md`/package scripts 为准）。
 
@@ -297,7 +313,7 @@ Branch: TBD
 - 功能性界面开发期最小验证；使用本地 dev server/browser，不做剧情 E2E。
 - 至少检查 1280px、900px、720px 窗口与浏览器等效 200% zoom；右 Inspector 取允许的最窄宽度。
 - 场景：Project 152 条 warning、mixed error/warning、30/80 分页、单条长 message + 120 字符 path、jumpable focus、
-  Cutscene clear/static、Item source/address、Stamp error + conflict。
+  Cutscene clear/static、Image/Sound 引用与诊断同 panel 共存/clear、Item source/address、Stamp error + conflict。
 - 通过标准：无横向页面滚动、无第二个无边界滚动 owner、focus ring 不裁切、severity 非颜色-only、正文/path 可读、
   152 条不形成高饱和边框墙。
 - 截图目标：`artifacts/ed-diagnostic-ui-1/`（build 时创建并登记具体文件）。
@@ -313,6 +329,12 @@ Branch: TBD
     本卡真值矩阵与审计表。
   - design: **agree（2026-08-16）**。公开 Diagnostic 合同与 Reference 分离，内部共享中性 locator frame；保留
     30/80 分页、领域 owner 和所有业务语义。
+  - DK2 补签: **premise verified + design agree（2026-08-16）**。本人再次直读
+    `ImageTab.tsx:520-526,739-747`、`SoundTab.tsx:179-185,385-397` 与全 UI `cf-err` 消费域：两页
+    `selectedIssues` 确由同一 `closureIssues` collector 按当前选中 asset 筛选，以稳定 `code:where` key
+    渲染无 locator 静态 finding；GLM 判定为第 5/6 面成立。冻结呈现为现有“引用” panel 内并列
+    Diagnostic 小节，不新增 Tab、不混算 reference occurrence；boundary 仅移除这两处列表对 `cf-err` 的
+    诊断承载，保留预览/表单/脚本等通用错误用途。审计表、页面适配、验收、测试、boundary 与视觉矩阵已同步。
 - Kimi:
   - premise: **verified（2026-08-16，本人一手读码，非复述）**。四个纳入面 + typed model + 私有 CSS
     全部直读：Project IssueList（ProjectWorkbenchTab.tsx:151-230，私有 div 卡 + 颜色圆点 + mini 跳转 +
@@ -328,6 +350,27 @@ Branch: TBD
     语义（occurrence+blocking vs severity+finding）不相交；符合 DS-IMP.3 第三次出现抽取规则；
     variant 方案被正确拒绝（DS-C.6a 已定性诊断不是引用行）；仅共享 tokens 的替代会留下 DOM/键盘/
     focus 双轨漂移。详见下方「Kimi 独立反证审查」。
+  - DK2 轻量确认: **DK2 lightweight confirm + design agree（2026-08-16，本人一手读码，非代理）**。
+    五点逐项一手核实：
+    1. **同源同构成立**——Image/Sound/Cutscene 的 `closureIssues` 均来自同一
+       `validateAssetReferenceClosure` collector（ImageTab.tsx:6,447-448 / SoundTab.tsx:7,157-158 /
+       CutsceneTab.tsx:9,413-416）；`selectedIssues` 同 `${code}:${where}` stable key、无 locator、
+       静态 message-only 渲染（ImageTab.tsx:525-527,742-746 / SoundTab.tsx:184-186,388-392）。
+       第 5/6 面判定成立，纯展示 adapter 足够，领域类型无需进 design-system。
+    2. **呈现位置同意**——两处 `selectedIssues.map` 本就在现有「引用」panel 容器内、
+       `DsReferencePanel` 之后（ImageTab.tsx:741-746 / SoundTab.tsx:387-392）；改为并列
+       Diagnostic 小节是原位替换，不新增 Tab、不动 TABS 卡 24 页矩阵、不混算
+       occurrence/finding（Reference 继续 occurrence，Diagnostic 用 finding count）。
+    3. **测试覆盖足够**——AssetInspectorTabs.test.tsx 已冻结 Image「资源/引用 2」（:165）、
+       Sound「资源/引用 2」（:200）、Cutscene「资源/引用 2/诊断 n」（:219）；同文件扩
+       static/clear/引用共存/选中联动断言即可，Tab 数量断言天然防开新 Tab 回归。
+    4. **boundary 划界正确**——`cf-err` 实测 9 个 TSX 消费（CommandForm/FrameAnimationEditor/
+       FireEffectPreview/CanonicalSharedScriptTabV5/SharedScriptTab/MusicTab/CutsceneTab/ImageTab/
+       SoundTab）+ editor.css:7217,14195 两处规则，是通用错误 class；只禁止其继续承载这两处
+       closureIssues 列表、不做全仓禁，划界正确。
+    5. **DK1 继续有效**——DK2 扩面是纯 adapter 增量，不触碰 locator frame 抽取；Reference
+       契约冻结 + RF-16/16 面零回归 + build 结束单一 geometry owner 的门禁不变。
+    未改实现文件，未代签 done 前 review。
 - GLM:
   - premise: **verified（2026-08-16，本人一手读码，非代理；附一处 inventory 必改修正）**。四面
     premise 独立复核属实：Project `IssueList` 四消费点（ProjectWorkbenchTab.tsx:874,962,1689,1696）+
@@ -350,9 +393,9 @@ Branch: TBD
 - counter / 分歧处理: 任一方认为诊断必须复用 Reference 公开 API、需要扩大到所有 error UI、或会改变业务数据时，
   保持 draft/blocked，先更新边界与用户可见 `before -> after`，旧签字失效。
 - 缺签豁免: N/A
-- build 准入结论: **conditionally allowed（2026-08-16）——Codex + Kimi（DK1）+ GLM（DK2）三方签字
-  齐；Codex 进 build 前必须先把 DK2 的 inventory 扩面落进审计表/页面适配/验收/boundary/测试矩阵
-  （Cutscene 同构机械扩展），并经 Kimi 轻量确认或用户豁免后 Status 方可转 build。**
+- build 准入结论: **allowed（2026-08-16）——Codex + Kimi（DK1 + DK2 lightweight confirm）+
+  GLM（DK2）三方签字齐；DK2 六面 inventory/页面适配/验收/boundary/测试/视觉矩阵已落卡，Kimi 轻量
+  确认五项全部一手核实通过。由 Codex 转 build。**
 
 #### Kimi 独立反证审查（2026-08-16，架构/视觉主审；本人一手读码）
 
@@ -470,12 +513,72 @@ StampLibraryTab.tsx:283。只读审查，未改实现文件，未代签 Kimi，�
 
 ### 进入 done 前：审查签字
 
-- Codex: pending
-- Kimi: pending
-- GLM: pending
+- Codex: **accept（2026-08-17）**。本人完成实现并逐项复核：公开层只有
+  `DsDiagnosticPanel/List/Row`，内部只有一个 `DsLocatorRowFrame` 根节点 owner；Reference 原有
+  a/button/article DOM、12 条展开、occurrence、长 path 与 16 面消费保持回归全绿；六个诊断面均只做展示
+  adapter，Image/Sound 未新增 Tab，Item sidecar 与 Stamp overwrite 命令未变。验证证据见 Build/视觉记录：
+  editor 124 files / 927 tests 全绿，专项 7 files / 137 tests 全绿，1280/900/720/200% 等效视口无横向溢出，
+  152 项分页实测 30→110→152→30。
+- Kimi: **accept（2026-08-17 done 前架构/视觉审查，本人一手读码 + Chromium 实机）**。逐项核验：
+  1. **DK1 单一 geometry owner ✓**：`DsLocatorRowFrame` 是唯一定位行根节点（recipes.tsx:341，
+     boundary 钉死 1 定义 + 2 消费）；Reference/Diagnostic 各持公开 props，CSS 几何经
+     `.ds-reference-row, .ds-diagnostic-row` 分组选择器共享（recipes.css:408-498），非整段复制；
+     `DsReferenceRow` 的 content 映射、className、`data-actionable`、occurrence/trailing 合同逐行
+     未变，16 面 + RF-16 在 927 全量中零回归。
+  2. **DS-C.8a 诊断合同 ✓**：四状态 + exact/at-least/unknown 计数、错误/警告文字 tag 恒显、
+     button/link/article 三根经 frame、不可定位静态 article 默认「仅提示」、Panel 单 live
+     （大列表 `live={issues.length <= initialLimit}` 抑制挂载播报，ProjectWorkbenchTab.tsx:175）、
+     分页回执单 polite owner、长 path `overflow-wrap` 实测换行。
+  3. **DK2 六面 ✓**：Image/Sound 原位并列 `DsDiagnosticPanel`（boundary 断言 references panel 内
+     顺序 + 无 diagnostics tab + closureIssues 不再用 cf-err）；Stamp issue→error/conflict→warning、
+     key 从 index 升级为内容派生（更安全）、overwrite 留行外；Item/Project/Cutscene adapter 纯展示。
+  4. **boundary 划界 ✓**：cf-err 保留（editor.css 仍有规则）、仅禁两处 closureIssues 承载；禁领域
+     类型进 recipes（含 AssetClosureIssue）、禁 Reference diagnostic variant、禁逐行 alert；
+     `.project-issue*/.cutscene-diagnostic/.item-diagnostic/.stamp-placement-problems*` 零残留
+     （editor.css -184 行）。
+  5. **自动化复跑 ✓**（本席实测 eabb2c23 当前树）：`pnpm --filter @type-pal/editor check`
+     124 files / 927 tests 全绿，与声明一致；`git diff --name-only main -- packages/content
+     packages/migrate` 为空，content oracle fingerprint 与全仓 lint 失败确为 main 既有基线，不归本卡。
+  6. **浏览器实机 ✓**（Chromium）：Design Lab RF-17 五态齐全，severity 文字 tag + 轻量左 accent、
+     无金色墙、长 path 完整换行；分页实测 30→110→152→30 与声明一致；实机 project overview 两个
+     Diagnostic panel（compact 30 + full 80）、110 行全部真实 button、exact「0 个错误 · 152 个警告」、
+     旧私有皮肤零残留；640px（200% 等效）行零溢出、每行均有文字 severity tag；console error/warn 0。
+  无返工项。未改实现文件，未代签 GLM，未标 done。
+- GLM: **accept（2026-08-17 done 前覆盖/测试终审，本人一手读码 + 独立复跑，非代理；基于实现提交
+  eabb2c23 + 40707d64，工作树干净）**。DK1 + DK2 逐钉在当前树独立验证通过：
+  - **DK1（frame 抽取等价）✓**：`DsLocatorRowFrame`（recipes.tsx:341）私有未导出、业务页零直接
+    消费；boundary 把单一 owner 写成**数值门禁**——恰 1 个 `function DsLocatorRowFrame` 定义 +
+    恰 2 个 `<DsLocatorRowFrame` 消费（ReferenceRow:428 + DiagnosticRow:597）；Reference 契约
+    测试（a/button/article 三根、12 条展开、occurrence、长 path）在 recipes.test 全绿，16 引用面
+    未回归。
+  - **DK2（六面扩容）✓**：Project/Cutscene/Item/StampPlacement/Image/Sound 六文件各 3 处消费
+    DsDiagnosticPanel/List/Row；Image/Sound 诊断**内联引用 panel、无新 Tab**（boundary 双向断言
+    :384 内联存在 + :387 `id:'diagnostics'` Tab 禁止）；AssetInspectorTabs.test 扩
+    「Image/Sound 诊断留在引用页并随当前资源过滤」（:260）+「Cutscene 诊断静态行与清空状态随
+    选择切换」（:302）。
+  - **boundary 门禁（本人读码复核，多项超预期）✓**：六面 Panel/List/Row 三重正向断言；禁
+    `variant="diagnostic"` 于 Reference；诊断行禁逐行 `role="alert"`；4 个私有 skin
+    （.project-issue*/.cutscene-diagnostic/.item-diagnostic/.stamp-placement-problems*）editor.css
+    零命中；**cf-err 正向保护断言**（businessCss 必须含 `.cf-err`——通用错误类不被误删，Image
+    预览错误等 3 处用途保留）；purity 五类领域类型禁入 recipes（ProjectIssue/MigrationDiagnostic/
+    StampPlacementIssue/EditorLocation/AssetClosureIssue）。
+  - **合同细节 ✓**：Panel state ready/clear/partial/failure + count errors/warnings/unknown；
+    severity 文字 tag（错误/警告 DsTag :582-583）非颜色-only；单 live owner（live 才挂
+    role=alert/status）；30/80 分页常量保留（ProjectWorkbenchTab :157-158）。
+  - **规范与 fixture ✓**：DS-C.8a 诊断呈现合同 v2.5.0（editor-design-system-v1.md:428）+
+    Design Lab RF-17（DesignLab.tsx:684）已固化。
+  - **回归独立复跑**：typecheck PASS；focused（recipes/boundary/AssetInspectorTabs/
+    ProjectWorkbenchTab/ItemTab/StampPlacementInspector）82 tests PASS；全量 124 files / 927
+    tests PASS（与 Codex 声明计数一致）。
+  - 备注（不阻塞）：`pnpm check` 中 migrate canary 的 content tree fingerprint 漂移——Codex 已
+    用 `git diff --name-only main -- packages/content packages/migrate` 为空证明本卡未触碰 oracle
+    输入，属既有漂移，与 ED-BATTLE-UI-1 N6 复核时 content 481 全绿的差异应是环境/基线侧问题，
+    建议后续在 OPS 侧单独立项核对，不影响本卡。
+  - DK2 扩面的 Kimi 轻量确认并入 Kimi 本轮 pending 的 done 复审一并完成。
 - counter / 返工处理: pending
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **allowed / completed——Codex + Kimi + GLM 三方 accept 齐，用户于 2026-08-17
+  明确验收通过。**
 
 ## 额度 / 代班记录（如适用）
 
@@ -489,12 +592,39 @@ StampLibraryTab.tsx:283。只读审查，未改实现文件，未代签 Kimi，�
 
 ## Build: 实现与自测
 
-- Coding Owner: Codex（build 签字齐后）
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- Coding Owner: Codex
+- 修改文件:
+  - shared contract：`packages/editor/src/ui/design-system/recipes.tsx`、`recipes.css`、`index.ts`；
+  - 六面 adapter：`ProjectWorkbenchTab.tsx`、`CutsceneTab.tsx`、`ImageTab.tsx`、`SoundTab.tsx`、
+    `ItemTab.tsx`、`StampPlacementInspector.tsx`；
+  - 私有皮肤退役：`packages/editor/src/ui/editor.css`；
+  - gates/fixtures/docs：`recipes.test.tsx`、`boundary.test.ts`、六面领域测试、`DesignLab.tsx`、
+    `editor-design-system-v1.md`。
+- 实现摘要:
+  - 新增唯一公开 `DsDiagnosticPanel/List/Row`，覆盖 ready/clear/partial/failure、exact/at-least/unknown、
+    error/warning、button/link/article、长文本和 30/80 分页；Panel 单 live region，Row 无逐条 alert。
+  - 抽取唯一内部 `DsLocatorRowFrame`，Reference/Diagnostic 保留独立公开 props，只共用根节点与 CSS geometry；
+    Reference 契约没有新增 class/DOM/role 或计数语义。
+  - Project 0/1/30/80/81/152/303、compact/full、jump/static；Cutscene 独立诊断 Tab；Image/Sound 原引用
+    panel 内联；Item callback/静态来源；Stamp issue/conflict + 行外 overwrite 全部迁入同一合同。
+  - 删除 `.project-issue*`、`.cutscene-diagnostic`、`.item-diagnostic`、`.stamp-placement-problems*`
+    私有诊断 skin；`cf-err` 通用用途保留，仅 Image/Sound closureIssues 不再使用。
+  - 设计系统升至 v2.5.0，新增 DS-C.8a 与 RF-17。
+- 运行命令:
+  - `pnpm --filter @type-pal/editor check`：PASS，124 test files / 927 tests。
+  - `pnpm --filter @type-pal/editor exec vitest run ...`（recipes/boundary/Project/Asset/Item/Stamp/Map）：
+    PASS，7 files / 137 tests。
+  - `pnpm --filter @type-pal/editor typecheck`：PASS。
+  - `git diff --check`：PASS。
+  - `pnpm check`：editor 与其余常规包通过；migrate canary 在本卡范围外失败，错误为
+    `packages/content/src tree fingerprint 漂移`。`git diff --name-only main -- packages/content packages/migrate`
+    为空，证明本卡未触碰 oracle 输入。
+  - `pnpm lint`：仓库基线失败（232 errors/9 warnings/27 infos，集中在未改的 content/editor 既有文件）；
+    本卡新写 DesignLab 代码已单文件 Biome clean，所有本次文件已显式 Biome format。
+- 浏览器 / 手工检查: Design Lab RF-17 在本地 Vite + Codex Browser 验证；分页按钮、长路径、三种行根、
+  clear/partial/failure、单列/双列响应式与 console 均核对。
+- 跳过的检查及原因: 无本卡范围内跳过项。仓库 migrate canary/oracle 与全仓 lint 的失败均是 main 基线且
+  本分支零相关 diff；未擅自修改 content/migrate 或整理无关 lint。
 
 ## 资源生成记录（如适用）
 
@@ -504,23 +634,30 @@ N/A：不生成图像或替代资源。
 
 - Visual Verification Owner: Codex
 - Visual Verification Timing: dev-functional
-- 验证方式: pending
+- 验证方式: 本地 `design-lab.html?fixture=RF-17`；浏览器 viewport 1280×900、900×900、720×900、
+  640×450（1280 宽在 200% zoom 的等效 CSS viewport），DOM geometry + viewport 截图 + console。
 - 集中 E2E 用例 / 批次: N/A
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: pending
+- 截图 / 像素检查路径: 本轮 Codex Browser 内联截图（不写入仓库）；量化结果：四档
+  `document.scrollWidth === clientWidth`，全部 diagnostic row `scrollWidth - clientWidth = 0`；900 为双列、
+  720/640 为单列；152 项分页为 30→110→152→30；console warn/error = 0。
+- 结论: PASS。严重度文字、轻量左侧 accent、中性卡面、尾部动作与 Reference 几何同源；无“金色墙”、
+  无横向滚动、长 path 完整换行可达。
+- 未完成项: 无。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: Codex 自审 accept；Kimi done 前架构/视觉 accept（2026-08-17，DK1 单一 frame owner /
+  DS-C.8a 合同 / DK2 六面 / boundary 划界 / 927 复跑 / RF-17 与实机浏览器全部通过，无返工项）；
+  GLM done 前覆盖/测试 accept（2026-08-17，DK1 数值门禁 + DK2 六面 + boundary 超预期 + focused 82 /
+  全量 927 复跑全绿）。
+- 必须返工项: 无
+- Accept / rework: 三方 accept + 用户验收齐，任务完成
 
 ## 用户验收
 
-- 用户结论: pending
-- 后续任务: pending
+- 用户结论: **accept（2026-08-17：“签了，我也同意通过”）**
+- 后续任务: 无；按既定顺序进入 `ED-SCENE-UX-1`
 
 ## 交接日志
 
@@ -540,6 +677,46 @@ N/A：不生成图像或替代资源。
   AssetInspectorTabs 扩断言、cf-err 通用 class 不得全仓禁）；Stamp index key 同意 Kimi 瞬时安全
   判定；DK1 同意并为最大回归风险。未改实现文件，未代签 Kimi，未标 build/done。
   Next: Codex 先落 DK2 扩面 → Kimi 轻量确认或用户豁免 → Status 转 build。
+- 2026-08-16 Codex: **DK2 已落卡并补签 premise verified + design agree**。审计表扩为 Project / Cutscene /
+  Image / Sound / Item / Stamp 六面；Image/Sound 明确定为现有“引用” panel 内并列 Diagnostic 小节，
+  不新增 Tab；验收、AssetInspectorTabs 测试、boundary 与视觉矩阵均补齐，`cf-err` 仅在两处 closureIssues
+  迁移上下文退役，不做全仓禁用。直接证据：ImageTab.tsx:520-526,739-747；SoundTab.tsx:179-185,
+  385-397；`rg cf-err packages/editor/src/ui --glob '*.tsx'` 显示其余预览/表单/脚本错误用途仍需保留。
+  未改实现文件，Status 保持 draft。Next: Kimi 对 Cutscene 同构机械扩面做轻量确认；确认前不得转 build。
+- 2026-08-16 Kimi: **DK2 轻量确认完成，签 DK2 lightweight confirm + design agree**。五项一手核实：
+  Image/Sound/Cutscene 同一 `validateAssetReferenceClosure` collector + 同 `code:where` key + 无 locator
+  静态渲染（同源同构第 5/6 面成立，纯 adapter 足够）；两处 `selectedIssues.map` 本就在引用 panel 内
+  DsReferencePanel 之后，原位并列小节不新增 Tab；AssetInspectorTabs.test 已冻结 Image/Sound 双 Tab 与
+  Cutscene 三 Tab，扩断言即可；`cf-err` 实测 9 TSX + 2 CSS 规则的通用 class，boundary 只禁两处
+  closureIssues 承载、不全仓禁；DK1 门禁不受影响继续有效。build 准入结论转 **allowed**。
+  未改实现文件，未代签 done 前 review。Next: Codex 转 build（单 Coding Owner，DK1/DK2 必落）。
+- 2026-08-17 Codex: 接手前核对 Codex + Kimi（DK1 + DK2 lightweight confirm）+ GLM（DK2）三方
+  build 前签字与直接证据齐全，build 准入为 allowed；任务由 `draft` 转 `build`，Codex 为唯一
+  Coding Owner。Next: 依次落共享 locator frame / Diagnostic recipe、六面 adapter、RF-17、测试与视觉矩阵。
+- 2026-08-17 Codex: build 完成并转 `review`。唯一 Diagnostic Panel/List/Row + 内部 locator frame 已落；
+  Project/Cutscene/Image/Sound/Item/Stamp 六面迁移、旧私有 CSS 退役、DS v2.5.0/RF-17 与测试/boundary 完成。
+  editor 927 tests 与专项 137 tests 全绿；四档视觉无横滚、分页 30→110→152→30、console clean。
+  仓库总检查仅被 main 既有 content oracle fingerprint 与全仓 lint 基线阻断，本分支未改 content/migrate。
+  Next: Kimi 独立 code/visual review，签 accept 或列 counter；不得修改实现文件/不得标 done。
+- 2026-08-17 GLM（覆盖/测试）: done 前终审完成并签 **accept**。DK1：frame 私有未导出、单一 owner
+  被写成数值门禁（恰 1 定义 + 2 消费）、Reference 契约测试全绿 16 面未回归；DK2：六面各 3 处消费、
+  Image/Sound 内联引用 panel 无新 Tab（boundary 双向断言）、AssetInspectorTabs 扩内联诊断测试；
+  boundary 多项超预期——variant 禁、逐行 alert 禁、4 私有 skin 零、**cf-err 正向保护**、purity 五类
+  领域类型禁入；30/80 分页保留；DS-C.8a v2.5.0 + RF-17 固化。typecheck + focused 82 + 全量 927/927
+  本人独立复跑全绿。migrate canary fingerprint 漂移经 Codex name-only 证明与本卡无关，建议 OPS 侧
+  另行立项。未改实现文件，未代签 Kimi，未标 done。Next: Kimi accept（含 DK2 扩面轻量确认）+ 用户
+  验收后关卡。
+- 2026-08-17 Kimi（架构/视觉）: done 前审查完成并签 **accept（无返工项）**。一手读码 + Chromium
+  实机逐项核验：DK1 单一 `DsLocatorRowFrame` owner（boundary 数值门禁 1 定义 + 2 消费）、Reference
+  DOM/occurrence/12 条展开零变化；DS-C.8a 四状态、severity 文字 tag、单 live owner（大列表
+  `live=false` 抑制挂载播报）、30/80 分页实机 30→110→152→30；DK2 六面原位适配、Image/Sound 内联
+  无新 Tab、Stamp key 升级内容派生、overwrite 行外；boundary cf-err 正向保护、私有 skin 零残留；
+  RF-17 五态无金色墙、实机 project overview 双 panel 110 行全真 button、640px 零溢出、console 0；
+  editor check 124/927 本席复跑全绿，content/migrate 零 diff（基线失败不归本卡）。未改实现文件，
+  未代签用户验收，未标 done。Next: 三方 accept 已齐，仅剩用户实机验收关卡。
+- 2026-08-17 User + Codex: 用户明确“签了，我也同意通过”；三方 done 前 accept 与用户验收全部齐备，
+  任务由 `review` 转 `done`。无返工项，无下一位 Agent 提示词；进入 git 收口后按顺序推进
+  `ED-SCENE-UX-1`。
 
 ## 下一位 Agent 提示词
 
@@ -553,31 +730,40 @@ Kimi 已于 2026-08-16 完成 premise 反证 + 架构/视觉主审并签字（pr
 GLM 已于 2026-08-16 完成 build 前审查并签字（premise verified 附 inventory 修正 + design agree
 附 DK2，见「GLM 独立覆盖审查」），本节提示词不再适用。
 
-### 给 Codex（三签齐；先落 DK2 再进 build，可直接复制）
+### 给 Kimi（DK2 轻量确认——已完成）
+
+Kimi 已于 2026-08-16 完成 DK2 轻量确认并签字（DK2 lightweight confirm + design agree，五点一手
+核实见 Kimi build 前签字节），build 准入已转 allowed，本节提示词不再适用。
+
+### 给 Codex（三签齐，转 build，可直接复制）
 
 ```text
-接手任务: ED-DIAGNOSTIC-UI-1 属性面板问题与诊断呈现统一——DK2 落卡 + build 实现
+接手任务: ED-DIAGNOSTIC-UI-1 属性面板问题与诊断呈现统一——build 实现
 任务卡: docs/ops/tasks/ED-DIAGNOSTIC-UI-1-inspector-diagnostic-presentation.md
-当前状态: draft；三签齐（Codex + Kimi DK1 + GLM DK2），conditionally allowed。
-第一步（先于任何实现）: 把 DK2 扩面落进任务卡——审计表新增 Image/Sound 两行
-  （closureIssues cf-err 列表，证据 ImageTab.tsx:525,744-747 / SoundTab.tsx:184,394-397）、
-  呈现位置定为引用 panel 内联 Diagnostic 小节（不开新 Tab）、验收/测试矩阵加 Image/Sound 断言
-  （扩展 AssetInspectorTabs.test）、boundary 划界（cf-err 通用 class 不禁，仅断言迁移上下文消费
-  DsDiagnosticList）；落卡后请 Kimi 轻量确认（或用户豁免）再转 build。
-你的角色: Coding Owner——规范/RF-17 fixture → DsDiagnosticPanel/List/Row + 内部 locator frame +
-  契约测试 → 四+二面迁移（Project/Cutscene/Item/Stamp + Image/Sound）→ CSS/boundary 收口 → 全量验证。
+当前状态: draft；Codex + Kimi（DK1 + DK2 confirm）+ GLM（DK2）三签齐，build 准入 allowed
+你的角色: Coding Owner——唯一 DsDiagnostic* recipe + 六面迁移 + CSS/测试/boundary/文档收口
 必落钉:
-  Kimi DK1: frame 抽取前先冻结现有 Reference 契约测试（recipes.test root/展开/长 path/焦点），
-    抽取后 16 面 + RF-16 零 DOM/role/计数/交互变化；结束必须单一 locator geometry owner，
-    若停在共享 CSS 过渡态在 Build 节如实标注。
-  GLM DK2: 见上；另 Image/Sound 与 Cutscene 同构静态行（无 locator 不造假跳转）。
-其余红线: Project 0/1/30/80/81/152/303 分页全档；severity 文字标签非颜色-only；不逐行 alert；
-  单一 live region；Stamp conflict 固定 warning 且覆盖动作留行外；Item sidecar 语义不变；
-  design-system 禁 import ProjectIssue/MigrationDiagnostic/StampPlacementIssue/EditorLocation
-  （沿 REFERENCE 卡 purity 门禁）；私有皮肤 .project-issue*/.cutscene-diagnostic/.item-diagnostic/
-  .stamp-placement-problems* 零残留；30/80 分页不套 Reference 12 条；pnpm typecheck/test/
-  相关 focused Vitest + 1280/900/720 + 等效 200% 视口。
-不要做: 不与 ED-CATALOG-CONTROLS-1 并行改重叠文件；不 reset 用户脏树；不造 variant="diagnostic"
-  于 Reference、不建领域大联合类型。
-完成后: 写 Build 记录并自验，交 Kimi/GLM done 前复审。
+  Kimi DK1: locator frame 抽取等价门禁——抽取前冻结 Reference 契约测试，抽取后 16 面 + RF-16 零
+    DOM/role/计数/交互变化；build 结束必须单一 geometry owner，若停在共享 CSS 过渡态须如实标注。
+  GLM DK2: 六面迁移（Project/Cutscene/Image/Sound/Item/Stamp）；Image/Sound 在现有引用 panel 内并列
+    Diagnostic 小节，不新增 Tab、不混算 occurrence/finding；AssetInspectorTabs.test 扩 static/clear/
+    引用共存/选中联动断言；boundary 只禁两处 closureIssues 的 cf-err 承载，cf-err 通用 class 保留。
+范围红线: 不改 collector/severity/stable key/跳转/sidecar/overwrite 流程；不动 TABS 24 页矩阵；
+  不与 REFERENCE/CATALOG 卡并行改重叠文件；不 reset/checkout 用户脏树文件。
+验收: 本卡「验收条件」节的功能/测试/文档/视觉矩阵；editor typecheck/test 全绿后转 review。
 ```
+
+### 给 Kimi（done 前架构 / 视觉审查——已完成）
+
+Kimi 已于 2026-08-17 完成 done 前架构/视觉审查并签 accept（无返工项，逐项证据见「进入 done 前：
+审查签字」Kimi 行与交接日志），本节提示词不再适用。
+
+<!-- 原提示词存档：分支 codex/ed-diagnostic-ui-1、实现提交 eabb2c23；复核 DK1 单一 frame、
+DS-C.8a 合同、DK2 六面内联、RF-17 四档视口——全部通过。 -->
+
+### 给 GLM（done 前覆盖 / 测试终审——已完成）
+
+GLM 已于 2026-08-17 完成 done 前覆盖/测试终审并签 accept（无返工项，逐项证据见「进入 done 前：
+审查签字」GLM 行与交接日志），本节提示词不再适用。
+
+本卡已完成，无下一位 Agent 提示词；等待 git 收口并进入 `ED-SCENE-UX-1`。

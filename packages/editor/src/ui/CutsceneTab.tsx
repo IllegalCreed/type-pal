@@ -36,6 +36,9 @@ import {
 import { mp4HasAudioTrack } from '../core/video-metadata.js'
 import {
   DsCatalogControls,
+  DsDiagnosticList,
+  DsDiagnosticPanel,
+  DsDiagnosticRow,
   DsIconButton,
   DsInspectorTabs,
   DsReferenceList,
@@ -860,18 +863,32 @@ export function CutsceneTab(props: {
                   count: selectedIssues.length,
                   panel: (
                     <div className="section">
-                      {selectedIssues.length ? (
-                        selectedIssues.map((issue) => (
-                          <div
-                            className={`cutscene-diagnostic ${issue.severity}`}
-                            key={`${issue.code}-${issue.where}`}
-                          >
-                            {issue.message}
-                          </div>
-                        ))
-                      ) : (
-                        <div className="cutscene-diagnostic ok">资源类型与引用闭包正常</div>
-                      )}
+                      <DsDiagnosticPanel
+                        state={selectedIssues.length ? 'ready' : 'clear'}
+                        count={{
+                          kind: 'exact',
+                          errors: selectedIssues.filter((issue) => issue.severity === 'error')
+                            .length,
+                          warnings: selectedIssues.filter((issue) => issue.severity === 'warn')
+                            .length,
+                        }}
+                        summary={selectedIssues.length ? undefined : '资源类型与引用闭包正常'}
+                      >
+                        {selectedIssues.length ? (
+                          <DsDiagnosticList>
+                            {selectedIssues.map((issue) => (
+                              <DsDiagnosticRow
+                                key={`${issue.code}-${issue.where}`}
+                                severity={issue.severity === 'error' ? 'error' : 'warning'}
+                                title={issue.message}
+                                code={issue.code}
+                                path={issue.where}
+                                statusLabel="仅提示"
+                              />
+                            ))}
+                          </DsDiagnosticList>
+                        ) : null}
+                      </DsDiagnosticPanel>
                     </div>
                   ),
                 },

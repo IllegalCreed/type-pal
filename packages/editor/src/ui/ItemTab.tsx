@@ -69,6 +69,9 @@ import {
   DsButton,
   DsCatalogControls,
   DsCatalogRow,
+  DsDiagnosticList,
+  DsDiagnosticPanel,
+  DsDiagnosticRow,
   DsIconButton,
   DsInspectorTabs,
   DsObjectHero,
@@ -1903,32 +1906,34 @@ export function ItemTab(props: {
                       </section>
                     ) : null}
                     {itemDiagnostics.length ? (
-                      <section className="item-inspector-section warning">
-                        <h4>待迁移来源</h4>
-                        {itemDiagnostics.map((diagnostic) => (
-                          <div className="item-diagnostic" key={diagnostic.id}>
-                            <strong>{diagnostic.target.label}</strong>
-                            <span>{diagnostic.reason}</span>
-                            <code>
-                              {diagnostic.source.label} · 0x{diagnostic.source.address.toString(16)}
-                            </code>
-                            {onOpenProjectIssues ? (
-                              <DsButton
-                                size="compact"
-                                variant="secondary"
-                                icon="open"
-                                onClick={onOpenProjectIssues}
-                              >
-                                在问题面板查看
-                              </DsButton>
-                            ) : (
-                              <small>
-                                旧版脚本源只读且未载入编辑器；请在工程问题面板核对诊断。
-                              </small>
-                            )}
-                          </div>
-                        ))}
-                      </section>
+                      <DsDiagnosticPanel
+                        state="ready"
+                        count={{ kind: 'exact', errors: 0, warnings: itemDiagnostics.length }}
+                        summary="待迁移来源"
+                        description="旧版脚本源只读且未载入编辑器；请在工程问题面板核对诊断。"
+                      >
+                        <DsDiagnosticList>
+                          {itemDiagnostics.map((diagnostic) => (
+                            <DsDiagnosticRow
+                              key={diagnostic.id}
+                              severity="warning"
+                              title={diagnostic.target.label}
+                              code={diagnostic.id}
+                              detail={diagnostic.reason}
+                              path={`${diagnostic.source.label} · 0x${diagnostic.source.address.toString(16)}`}
+                              action={
+                                onOpenProjectIssues
+                                  ? {
+                                      label: '在问题面板查看 ↗',
+                                      onActivate: onOpenProjectIssues,
+                                    }
+                                  : undefined
+                              }
+                              statusLabel="无法定位"
+                            />
+                          ))}
+                        </DsDiagnosticList>
+                      </DsDiagnosticPanel>
                     ) : null}
                     <section className="item-inspector-section">
                       <h4>删除安全</h4>

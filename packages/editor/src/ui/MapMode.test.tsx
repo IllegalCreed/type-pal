@@ -1569,8 +1569,10 @@ describe('MapMode 地图内容选择交互', () => {
     await mapStampSlots(host)
     await act(async () => pointer(canvas, 'pointermove'))
     expect(host.querySelector('.stamp-placement-status')?.textContent).toContain('普通内容冲突')
-    expect(host.querySelectorAll('.stamp-placement-problems li.conflict')).not.toHaveLength(0)
-    expect(host.querySelector('.stamp-placement-problems')?.textContent).toMatch(
+    expect(
+      host.querySelectorAll('[aria-label="组合放置问题明细"] .ds-diagnostic-row--warning'),
+    ).not.toHaveLength(0)
+    expect(host.querySelector('[aria-label="组合放置问题明细"]')?.textContent).toMatch(
       /普通视觉.*r0:c0.*1 → 1/s,
     )
 

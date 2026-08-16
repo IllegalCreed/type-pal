@@ -32,6 +32,15 @@ const catalog: AssetCatalogV1 = {
       label: '测试音效',
       origin: { kind: 'authored' },
     },
+    'sound.unused': {
+      kind: 'sound',
+      path: 'assets/sound/unused.wav',
+      mediaType: 'audio/wav',
+      bytes: 4,
+      sha256: '5'.repeat(64),
+      label: '未使用音效',
+      origin: { kind: 'authored' },
+    },
     'portrait.test': {
       kind: 'portrait',
       path: 'assets/images/test.png',
@@ -41,6 +50,15 @@ const catalog: AssetCatalogV1 = {
       label: '测试立绘',
       origin: { kind: 'authored' },
     },
+    'portrait.unused': {
+      kind: 'portrait',
+      path: 'assets/images/unused.png',
+      mediaType: 'image/png',
+      bytes: 4,
+      sha256: '6'.repeat(64),
+      label: '未使用立绘',
+      origin: { kind: 'authored' },
+    },
     'video.test': {
       kind: 'video',
       path: 'assets/video/test.mp4',
@@ -48,6 +66,15 @@ const catalog: AssetCatalogV1 = {
       bytes: 12,
       sha256: '4'.repeat(64),
       label: '测试视频',
+      origin: { kind: 'authored' },
+    },
+    'video.unused': {
+      kind: 'video',
+      path: 'assets/video/unused.mp4',
+      mediaType: 'video/mp4',
+      bytes: 12,
+      sha256: '7'.repeat(64),
+      label: '未使用视频',
       origin: { kind: 'authored' },
     },
   },
@@ -166,6 +193,10 @@ describe('asset inspectors shared tabs', () => {
     expect(host.querySelectorAll('.ds-reference-row')).toHaveLength(1)
     expect(host.querySelector('.ds-reference-row')?.tagName).toBe('ARTICLE')
     expect(host.querySelector('.ds-reference-row__trailing')?.textContent).toContain('2 次')
+    expect(host.querySelector('.ds-diagnostic-panel[data-state="clear"]')).not.toBeNull()
+    expect(
+      host.querySelectorAll('[role="tablist"][aria-label="图片检查器"] [role="tab"]'),
+    ).toHaveLength(2)
   })
 
   test('MusicTab 使用资源/引用 canonical Inspector', async () => {
@@ -200,6 +231,10 @@ describe('asset inspectors shared tabs', () => {
     await verifyInspectorTabs(host, '音效检查器', ['资源', '引用 2'])
     expect(host.querySelectorAll('.ds-reference-row')).toHaveLength(1)
     expect(host.querySelector('.ds-reference-row__trailing')?.textContent).toContain('2 次')
+    expect(host.querySelector('.ds-diagnostic-panel[data-state="clear"]')).not.toBeNull()
+    expect(
+      host.querySelectorAll('[role="tablist"][aria-label="音效检查器"] [role="tab"]'),
+    ).toHaveLength(2)
   })
 
   test('CutsceneTab 使用资源/引用/诊断 canonical Inspector', async () => {
@@ -219,5 +254,74 @@ describe('asset inspectors shared tabs', () => {
     await verifyInspectorTabs(host, '过场资源检查器', ['资源', '引用 2', /^诊断 \d+$/])
     expect(host.querySelectorAll('.ds-reference-row')).toHaveLength(1)
     expect(host.querySelector('.ds-reference-row__trailing')?.textContent).toContain('2 次')
+    expect(host.querySelector('.ds-diagnostic-panel[data-state="clear"]')).not.toBeNull()
+  })
+
+  test('Image/Sound 诊断留在引用页并随当前资源过滤', async () => {
+    const session = new EditSession(state())
+    await act(async () => {
+      root.render(
+        <ImageTab
+          assetBase={{} as never}
+          catalog={catalog}
+          reader={reader as never}
+          session={session}
+          focusObjectId="portrait.unused"
+        />,
+      )
+      await Promise.resolve()
+    })
+    await verifyInspectorTabs(host, '图片检查器', ['资源', '引用 0'])
+    expect(
+      host.querySelectorAll('[role="tablist"][aria-label="图片检查器"] [role="tab"]'),
+    ).toHaveLength(2)
+    expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(1)
+    expect(host.querySelector('.ds-diagnostic-row')?.tagName).toBe('ARTICLE')
+    expect(host.textContent).toContain('portrait.unused')
+    expect(host.textContent).not.toContain('sound.unused 当前未被引用')
+
+    await act(async () =>
+      root.render(
+        <SoundTab
+          catalog={catalog}
+          reader={reader as never}
+          session={session}
+          focusObjectId="sound.unused"
+        />,
+      ),
+    )
+    await verifyInspectorTabs(host, '音效检查器', ['资源', '引用 0'])
+    expect(
+      host.querySelectorAll('[role="tablist"][aria-label="音效检查器"] [role="tab"]'),
+    ).toHaveLength(2)
+    expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(1)
+    expect(host.textContent).toContain('sound.unused')
+    expect(host.textContent).not.toContain('portrait.unused 当前未被引用')
+  })
+
+  test('Cutscene 诊断静态行与清空状态随选择切换', async () => {
+    const session = new EditSession(state())
+    const render = async (focusObjectId: string) => {
+      await act(async () => {
+        root.render(
+          <CutsceneTab
+            assetBase={{} as never}
+            catalog={catalog}
+            reader={reader as never}
+            session={session}
+            focusObjectId={focusObjectId}
+          />,
+        )
+        await Promise.resolve()
+      })
+    }
+    await render('video.unused')
+    expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(1)
+    expect(host.querySelector('.ds-diagnostic-row')?.tagName).toBe('ARTICLE')
+    expect(host.textContent).toContain('video.unused')
+
+    await render('video.test')
+    expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(0)
+    expect(host.querySelector('.ds-diagnostic-panel[data-state="clear"]')).not.toBeNull()
   })
 })

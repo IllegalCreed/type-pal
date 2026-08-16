@@ -5,6 +5,9 @@ import {
   DsCard,
   DsCheckbox,
   DsCombobox,
+  DsDiagnosticList,
+  DsDiagnosticPanel,
+  DsDiagnosticRow,
   DsDialog,
   DsDrawer,
   DsEmptyState,
@@ -36,7 +39,7 @@ import {
 } from '../ui/design-system/index.js'
 
 const FIXTURES = Array.from(
-  { length: 16 },
+  { length: 17 },
   (_, index) => `RF-${String(index + 1).padStart(2, '0')}`,
 )
 const FORM_OPTIONS: DsOption[] = [
@@ -554,6 +557,81 @@ function ReferenceFixture() {
   )
 }
 
+function DiagnosticFixture() {
+  const projectIssues = Array.from({ length: 152 }, (_, index) => ({
+    id: `project-${index + 1}`,
+    ordinal: index + 1,
+  })).map(({ id, ordinal }) => (
+    <DsDiagnosticRow
+      key={id}
+      severity={ordinal % 5 === 1 ? 'error' : 'warning'}
+      title={`工程问题 ${ordinal}`}
+      code={ordinal % 5 === 1 ? 'missing-asset' : 'unused-asset'}
+      path={`manifest.${'assets.roles.'.repeat(ordinal === 1 ? 10 : 1)}entry-${ordinal - 1}`}
+      action={ordinal <= 2 ? { label: '跳转 ↗', onActivate: () => {} } : undefined}
+      statusLabel={ordinal % 3 === 1 ? '无法定位' : '仅提示'}
+    />
+  ))
+  return (
+    <div className="lab-reference-grid">
+      <DsCard title="Project · 152 mixed">
+        <DsDiagnosticPanel
+          state="ready"
+          count={{ kind: 'exact', errors: 31, warnings: 121 }}
+          description="保持 30 条紧凑摘要、80 条完整分页与精确总数。"
+          live={false}
+        >
+          <DsDiagnosticList initialVisibleCount={30} pageSize={80}>
+            {projectIssues}
+          </DsDiagnosticList>
+        </DsDiagnosticPanel>
+      </DsCard>
+      <DsCard title="Static · long content">
+        <DsDiagnosticPanel state="ready" count={{ kind: 'exact', errors: 1, warnings: 1 }}>
+          <DsDiagnosticList>
+            <DsDiagnosticRow
+              severity="error"
+              title="一段超过二十个汉字的诊断消息用于验证标题、代码、证据和路径都能完整换行"
+              code="asset-kind-mismatch"
+              detail="期望 portrait，实际为 battle-background。"
+              path={`assets["portrait.pal.001"].${'nested.evidence.'.repeat(8)}kind`}
+              statusLabel="无法定位"
+            />
+            <DsDiagnosticRow
+              severity="warning"
+              title="迁移来源需要人工核对"
+              code="migration-pending"
+              path="L_99 · 0x63"
+              action={{ label: '在问题面板查看 ↗', href: '?module=project&page=advanced' }}
+            />
+          </DsDiagnosticList>
+        </DsDiagnosticPanel>
+      </DsCard>
+      <DsCard title="Clear">
+        <DsDiagnosticPanel
+          state="clear"
+          count={{ kind: 'exact', errors: 0, warnings: 0 }}
+          summary="资源类型与引用闭包正常"
+        />
+      </DsCard>
+      <DsCard title="Partial / failure">
+        <DsDiagnosticPanel
+          state="partial"
+          count={{ kind: 'at-least', errors: 2, warnings: 4 }}
+          description="2 个来源读取失败；当前计数只是下界。"
+          action={<DsButton size="compact">重试检查</DsButton>}
+        />
+        <DsDiagnosticPanel
+          state="failure"
+          count={{ kind: 'unknown' }}
+          description="无法读取诊断索引；修复来源后重试。"
+          action={<DsButton size="compact">重试检查</DsButton>}
+        />
+      </DsCard>
+    </div>
+  )
+}
+
 function FixtureBody(props: { fixture: string }) {
   switch (props.fixture) {
     case 'RF-01':
@@ -603,6 +681,8 @@ function FixtureBody(props: { fixture: string }) {
       )
     case 'RF-16':
       return <ReferenceFixture />
+    case 'RF-17':
+      return <DiagnosticFixture />
     default:
       return null
   }
@@ -614,7 +694,7 @@ export function DesignLab() {
     return (
       <main className="lab-error">
         <DsStatus tone="error" action={<a href="?fixture=RF-01">返回 RF-01</a>}>
-          未知 fixture。请使用 RF-01～RF-16。
+          未知 fixture。请使用 RF-01～RF-17。
         </DsStatus>
       </main>
     )

@@ -70,6 +70,7 @@ function Harness(props: {
   onOpenScript?: (id: string) => void
   onOpenImage?: (id: string) => void
   onOpenItemReference?: (reference: ItemReference) => void
+  onOpenProjectIssues?: () => void
   focusPrivateScript?: {
     itemId: string
     ability: 'use' | 'throw'
@@ -112,6 +113,7 @@ function Harness(props: {
       onOpenScript={props.onOpenScript}
       onOpenImage={props.onOpenImage}
       onOpenItemReference={props.onOpenItemReference}
+      onOpenProjectIssues={props.onOpenProjectIssues}
       scriptV5={
         props.scriptV5 && activeScriptState
           ? { state: activeScriptState, session: props.scriptV5.session }
@@ -1150,6 +1152,47 @@ describe('ItemTab', () => {
         }),
       }),
     )
+  })
+
+  test('迁移诊断保留来源地址，且问题面板回调只触发一次', async () => {
+    const initial = state()
+    initial.migrationDiagnostics = {
+      version: 1,
+      diagnostics: [
+        {
+          id: 'item-use:item-a',
+          severity: 'warn',
+          target: {
+            domain: 'item',
+            objectId: 'item-a',
+            capability: 'use',
+            label: '剧情钥匙使用能力',
+          },
+          category: 'manual-review',
+          reason: '旧版脚本需要人工确认',
+          source: { kind: 'legacy-script', label: 'L_99', address: 99 },
+        },
+      ],
+    }
+    const session = new EditSession(initial)
+    const before = structuredClone(session.getState().migrationDiagnostics)
+    const onOpenProjectIssues = vi.fn()
+    await act(async () =>
+      root.render(<Harness session={session} onOpenProjectIssues={onOpenProjectIssues} />),
+    )
+
+    const row = host.querySelector<HTMLElement>('.ds-diagnostic-row')!
+    expect(row.tagName).toBe('BUTTON')
+    expect(row.textContent).toContain('剧情钥匙使用能力')
+    expect(row.textContent).toContain('L_99 · 0x63')
+    await act(async () => row.click())
+    expect(onOpenProjectIssues).toHaveBeenCalledOnce()
+    expect(session.getState().migrationDiagnostics).toEqual(before)
+
+    await act(async () => root.render(<Harness session={session} />))
+    expect(host.querySelector('.ds-diagnostic-row')?.tagName).toBe('ARTICLE')
+    expect(host.querySelector('.ds-diagnostic-row')?.textContent).toContain('无法定位')
+    expect(session.getState().migrationDiagnostics).toEqual(before)
   })
 
   test('检查器支持方向键切换，删除后撤销会恢复原选择', async () => {
