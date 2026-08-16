@@ -18,6 +18,7 @@ import { App } from './App.js'
 const probes = vi.hoisted(() => ({
   dataMode: vi.fn(),
   sceneWorkspace: vi.fn(),
+  sceneCanvas: vi.fn(),
 }))
 const nativeScrollIntoView = HTMLElement.prototype.scrollIntoView
 
@@ -36,7 +37,10 @@ vi.mock('./CanonicalSceneScriptWorkspaceV5.js', () => ({
 }))
 
 vi.mock('./SceneCanvas.js', () => ({
-  SceneCanvas: () => <div data-testid="scene-canvas" />,
+  SceneCanvas: (props: unknown) => {
+    probes.sceneCanvas(props)
+    return <div data-testid="scene-canvas" />
+  },
 }))
 
 function shellItem(): ItemData {
@@ -242,6 +246,13 @@ type SceneWorkspaceProbe = {
   focusReference?: { reference: CanonicalScriptReferenceV5; revision: number }
 }
 
+type SceneCanvasProbe = {
+  placingEntity: boolean
+  selectedEntityId: string | null
+  onAddAt: (cell: { col: number; row: number }) => void
+  onClearSelection: () => void
+}
+
 function button(text: string, root: ParentNode = document): HTMLButtonElement {
   const match = [...root.querySelectorAll<HTMLButtonElement>('button')].find((candidate) =>
     candidate.textContent?.includes(text),
@@ -260,6 +271,7 @@ describe('App item reference navigation', () => {
     window.localStorage.clear()
     probes.dataMode.mockClear()
     probes.sceneWorkspace.mockClear()
+    probes.sceneCanvas.mockClear()
     vi.stubGlobal(
       'ResizeObserver',
       class {
@@ -372,6 +384,19 @@ describe('App item reference navigation', () => {
     expect(host.querySelector('[role="status"]')?.textContent).toContain(
       '场景 s047 / 实体 e760 / 交互脚本“默认触发行为” / 步骤 1 / 脚本正文 / 第 2 条指令',
     )
+
+    const toolbar = host.querySelector<HTMLElement>('.toolbar')!
+    await act(async () => button('脚本', toolbar).click())
+    const addEntity = host.querySelector<HTMLButtonElement>('[aria-label="添加实体"]')!
+    await act(async () => addEntity.click())
+    expect((probes.sceneCanvas.mock.calls.at(-1)?.[0] as SceneCanvasProbe).placingEntity).toBe(true)
+
+    await act(async () => openReference(itemReference('scene', sceneReference)))
+    expect(host.querySelector('[data-testid="scene-script-workspace"]')).not.toBeNull()
+    await act(async () => button('脚本', toolbar).click())
+    expect((probes.sceneCanvas.mock.calls.at(-1)?.[0] as SceneCanvasProbe).placingEntity).toBe(
+      false,
+    )
   })
 
   test('场景地图控件标明缺失引用并可换绑、启用复制与打开新地图', async () => {
@@ -466,6 +491,121 @@ describe('App item reference navigation', () => {
     await act(async () => addEntity.click())
     expect(addEntity.getAttribute('aria-pressed')).toBeNull()
     expect(host.querySelector('.insp-head .what')?.textContent).toBe('添加实体')
+  })
+
+  test('场景直接操作移除伪工具，并统一放置、清选择、Esc 与脚本面板优先级', async () => {
+    window.history.replaceState({}, '', '/?module=scene&page=workspace&object=s047')
+    const shell = shellState()
+    shell.scenes.push({ ...shellScene(), id: 's048', mapId: 'm048', entities: [] })
+    const session = await renderApp(shell)
+    const tree = host.querySelector<HTMLElement>('.outliner .tree')!
+    const toolbar = host.querySelector<HTMLElement>('.toolbar')!
+    const entity = button('e760', tree)
+    const addEntity = tree.querySelector<HTMLButtonElement>('[aria-label="添加实体"]')!
+    const canvas = () => probes.sceneCanvas.mock.calls.at(-1)?.[0] as SceneCanvasProbe
+
+    expect(toolbar.textContent).not.toContain('选择/移动')
+    expect(toolbar.textContent).not.toContain('正在放置实体')
+    expect(canvas().placingEntity).toBe(false)
+
+    await act(async () => entity.click())
+    expect(canvas().selectedEntityId).toBe('e760')
+
+    await act(async () => addEntity.click())
+    expect(canvas().placingEntity).toBe(true)
+    expect(toolbar.querySelector('[role="status"]')?.textContent).toContain('正在放置实体')
+    expect(button('取消放置', toolbar)).toBeDefined()
+    expect(toolbar.querySelector<HTMLButtonElement>('[title="删除选中(Del)"]')?.disabled).toBe(true)
+    await act(async () =>
+      window.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Delete', bubbles: true, cancelable: true }),
+      ),
+    )
+    expect(session.getState().scenes[0]?.entities).toHaveLength(1)
+
+    await act(async () => button('取消放置', toolbar).click())
+    expect(canvas().placingEntity).toBe(false)
+    expect(canvas().selectedEntityId).toBe('e760')
+
+    await act(async () => addEntity.click())
+    await act(async () => button('触发区', host.querySelector('.inspector')!).click())
+    await act(async () => canvas().onAddAt({ col: 4, row: 5 }))
+    expect(canvas().placingEntity).toBe(false)
+    expect(session.getState().scenes[0]?.entities).toHaveLength(2)
+    const placedEntityId = session.getState().scenes[0]?.entities.at(-1)?.id
+
+    await act(async () => addEntity.click())
+    await act(async () =>
+      window.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }),
+      ),
+    )
+    expect(canvas().placingEntity).toBe(false)
+    expect(canvas().selectedEntityId).toBe(placedEntityId)
+
+    await act(async () =>
+      window.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }),
+      ),
+    )
+    expect(canvas().selectedEntityId).toBeNull()
+
+    await act(async () => entity.click())
+    await act(async () => canvas().onClearSelection())
+    expect(canvas().selectedEntityId).toBeNull()
+
+    await act(async () => entity.click())
+    const sceneMenuTrigger = [...host.querySelectorAll<HTMLButtonElement>('.ds-menu-trigger')].find(
+      (trigger) => trigger.textContent === '场景',
+    )!
+    await act(async () => sceneMenuTrigger.click())
+    const sceneMenuItem = host.querySelector<HTMLElement>('.ds-menu-popover [role="menuitem"]')!
+    sceneMenuItem.focus()
+    await act(async () =>
+      sceneMenuItem.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }),
+      ),
+    )
+    expect(host.querySelector('.ds-menu-popover')).toBeNull()
+    expect(canvas().selectedEntityId).toBe('e760')
+
+    const consumedEscape = new KeyboardEvent('keydown', {
+      key: 'Escape',
+      bubbles: true,
+      cancelable: true,
+    })
+    consumedEscape.preventDefault()
+    await act(async () => window.dispatchEvent(consumedEscape))
+    expect(canvas().selectedEntityId).toBe('e760')
+
+    const input = document.createElement('input')
+    host.append(input)
+    await act(async () =>
+      input.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }),
+      ),
+    )
+    expect(canvas().selectedEntityId).toBe('e760')
+    input.remove()
+
+    await act(async () => addEntity.click())
+    expect(canvas().placingEntity).toBe(true)
+    await act(async () => button('脚本', toolbar).click())
+    expect(host.querySelector('[data-testid="scene-script-workspace"]')).not.toBeNull()
+    expect(toolbar.textContent).not.toContain('正在放置实体')
+    await act(async () => button('脚本', toolbar).click())
+    expect(canvas().placingEntity).toBe(false)
+
+    await act(async () => addEntity.click())
+    const sceneTrigger = host.querySelector<HTMLButtonElement>('[aria-label="切换编辑场景"]')!
+    await act(async () => sceneTrigger.click())
+    const sceneListbox = document.getElementById(sceneTrigger.getAttribute('aria-controls')!)!
+    const sceneOption = [
+      ...sceneListbox.querySelectorAll<HTMLButtonElement>('[role="option"]'),
+    ].find((option) => option.textContent?.includes('s048'))!
+    await act(async () => sceneOption.click())
+    expect(canvas().placingEntity).toBe(false)
+    expect(canvas().selectedEntityId).toBeNull()
   })
 
   test('命名落点引用使用 canonical 面板与真实按钮语义', async () => {

@@ -859,6 +859,11 @@ html[data-panel-resize="horizontal"] * {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.toolbar-status {
+  flex: none;
+  color: var(--ds-text-primary);
+  font: var(--ds-font-body-strong);
+}
 .tool {
   display: flex;
   align-items: center;
