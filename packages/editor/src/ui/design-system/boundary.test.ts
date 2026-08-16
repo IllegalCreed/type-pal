@@ -368,10 +368,10 @@ describe('editor design-system static boundary', () => {
     const ceilings = {
       tool: 65,
       btn: 44,
-      mini: 36,
+      mini: 20,
       'mini-txt': 39,
       'pv-btn': 16,
-      'item-action-button': 13,
+      'item-action-button': 0,
       'mini-icon': 3,
       'media-zoom-controls': 0,
     } as const
@@ -389,9 +389,25 @@ describe('editor design-system static boundary', () => {
     }
   })
 
+  test('keeps every ItemUseEffectEditor action on shared button controls', () => {
+    const source = readFileSync(join(dirname(here), 'ItemUseEffectEditor.tsx'), 'utf8')
+
+    expect(source).toMatch(/import\s*\{[^}]*DsButton[^}]*DsIconButton[^}]*\}/s)
+    expect(source).toMatch(/<DsButton\b/)
+    expect(source).toMatch(/<DsIconButton\b/)
+    expect(source).not.toMatch(/<button\b/)
+    expect(source).not.toMatch(/\bitem-action-button\b/)
+    expect(source).not.toMatch(/className\s*=\s*["'][^"']*\bmini\b/)
+  })
+
   test('keeps the audited action families on shared controls', () => {
     const uiRoot = dirname(here)
     const contracts = [
+      {
+        file: 'ItemTab.tsx',
+        required: [/<DsButton\b/, /<DsIconButton\b/],
+        forbidden: [/\bitem-action-button\b/, /className\s*=\s*["'][^"']*\bmini\b/],
+      },
       {
         file: 'EnemyTab.tsx',
         required: [/<DsButton\b/, /<DsIconButton\b/],

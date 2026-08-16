@@ -68,6 +68,7 @@ import type { CanonicalScriptEditorContextV5 } from './CanonicalScriptEditorV5.j
 import {
   DsButton,
   DsCatalogRow,
+  DsIconButton,
   DsInspectorTabs,
   DsListHeader,
   DsObjectHero,
@@ -1228,13 +1229,14 @@ export function ItemTab(props: {
                       {itemDiagnostics[0]?.target.label}：{itemDiagnostics[0]?.reason}
                     </span>
                   </div>
-                  <button
-                    type="button"
-                    className="item-action-button item-action-button-warning item-action-button-compact"
+                  <DsButton
+                    size="compact"
+                    variant="secondary"
+                    icon="open"
                     onClick={() => setInspectorTab('overview')}
                   >
-                    查看迁移来源 ↗
-                  </button>
+                    查看迁移来源
+                  </DsButton>
                 </section>
               ) : null}
 
@@ -1496,9 +1498,11 @@ export function ItemTab(props: {
                     <div className="item-equip-effects">
                       <div className="item-effect-subhead">
                         <strong>装备效果</strong>
-                        <button
-                          type="button"
-                          className="item-action-button item-action-button-compact item-effect-add-button"
+                        <DsButton
+                          size="compact"
+                          variant="secondary"
+                          icon="add"
+                          className="item-effect-add-button"
                           onClick={() =>
                             patchEquip({
                               ...equip,
@@ -1506,8 +1510,8 @@ export function ItemTab(props: {
                             })
                           }
                         >
-                          ＋ 添加效果
-                        </button>
+                          添加效果
+                        </DsButton>
                       </div>
                       {equip.effects.map((effect, index) => (
                         <div
@@ -1565,12 +1569,17 @@ export function ItemTab(props: {
                               onOpenBattleSprite={onOpenBattleSprite}
                             />
                           </div>
-                          <span className="ef-ops">
-                            <button
-                              type="button"
-                              className="mini"
+                          <span
+                            className="ef-ops ds-control-group__actions"
+                            role="group"
+                            aria-label={`装备效果 ${index + 1} 排序与删除`}
+                          >
+                            <DsIconButton
+                              size="compact"
+                              variant="secondary"
+                              icon="chevron-up"
+                              label={`上移装备效果 ${index + 1}`}
                               disabled={index === 0}
-                              aria-label={`上移装备效果 ${index + 1}`}
                               onClick={() => {
                                 const effects = [...equip.effects]
                                 ;[effects[index - 1], effects[index]] = [
@@ -1579,14 +1588,13 @@ export function ItemTab(props: {
                                 ]
                                 patchEquip({ ...equip, effects })
                               }}
-                            >
-                              ↑
-                            </button>
-                            <button
-                              type="button"
-                              className="mini"
+                            />
+                            <DsIconButton
+                              size="compact"
+                              variant="secondary"
+                              icon="chevron-down"
+                              label={`下移装备效果 ${index + 1}`}
                               disabled={index === equip.effects.length - 1}
-                              aria-label={`下移装备效果 ${index + 1}`}
                               onClick={() => {
                                 const effects = [...equip.effects]
                                 ;[effects[index], effects[index + 1]] = [
@@ -1595,22 +1603,19 @@ export function ItemTab(props: {
                                 ]
                                 patchEquip({ ...equip, effects })
                               }}
-                            >
-                              ↓
-                            </button>
-                            <button
-                              type="button"
-                              className="mini danger"
-                              aria-label={`删除装备效果 ${index + 1}`}
+                            />
+                            <DsIconButton
+                              size="compact"
+                              variant="danger"
+                              icon="delete"
+                              label={`删除装备效果 ${index + 1}`}
                               onClick={() =>
                                 patchEquip({
                                   ...equip,
                                   effects: equip.effects.filter((_, at) => at !== index),
                                 })
                               }
-                            >
-                              ×
-                            </button>
+                            />
                           </span>
                         </div>
                       ))}
@@ -1771,9 +1776,10 @@ export function ItemTab(props: {
                       <div className="item-effect-subhead">
                         <strong>法术特效演出</strong>
                         {item.throw.presentation ? (
-                          <button
-                            type="button"
-                            className="item-action-button item-action-button-danger item-action-button-compact"
+                          <DsButton
+                            size="compact"
+                            variant="danger"
+                            icon="delete"
                             onClick={() => {
                               const next = { ...item.throw! }
                               delete next.presentation
@@ -1781,11 +1787,12 @@ export function ItemTab(props: {
                             }}
                           >
                             移除演出
-                          </button>
+                          </DsButton>
                         ) : (
-                          <button
-                            type="button"
-                            className="item-action-button item-action-button-compact"
+                          <DsButton
+                            size="compact"
+                            variant="secondary"
+                            icon="add"
                             onClick={() =>
                               patchThrow({
                                 ...item.throw!,
@@ -1796,8 +1803,8 @@ export function ItemTab(props: {
                               })
                             }
                           >
-                            ＋ 添加法术特效
-                          </button>
+                            添加法术特效
+                          </DsButton>
                         )}
                       </div>
                       {item.throw.presentation ? (
@@ -1906,13 +1913,14 @@ export function ItemTab(props: {
                               {diagnostic.source.label} · 0x{diagnostic.source.address.toString(16)}
                             </code>
                             {onOpenProjectIssues ? (
-                              <button
-                                type="button"
-                                className="item-action-button item-action-button-compact"
+                              <DsButton
+                                size="compact"
+                                variant="secondary"
+                                icon="open"
                                 onClick={onOpenProjectIssues}
                               >
-                                在问题面板查看 ↗
-                              </button>
+                                在问题面板查看
+                              </DsButton>
                             ) : (
                               <small>
                                 旧版脚本源只读且未载入编辑器；请在工程问题面板核对诊断。
@@ -1968,13 +1976,14 @@ export function ItemTab(props: {
                             <p>{reference.detail}</p>
                             <code>{reference.where}</code>
                             {reference.locator && onOpenItemReference ? (
-                              <button
-                                type="button"
-                                className="mini"
+                              <DsButton
+                                size="compact"
+                                variant="secondary"
+                                icon="open"
                                 onClick={() => onOpenItemReference(reference)}
                               >
-                                打开位置 ↗
-                              </button>
+                                打开位置
+                              </DsButton>
                             ) : reference.unavailableReason ? (
                               <small>{reference.unavailableReason}</small>
                             ) : null}

@@ -343,9 +343,17 @@ describe('ItemTab', () => {
 
     expect(host.querySelectorAll('.item-capability-card.enabled')).toHaveLength(3)
     const addEquipEffect = button('添加效果', host.querySelector('.item-equip-effects')!)
-    expect(addEquipEffect.classList).toContain('item-action-button')
-    expect(addEquipEffect.classList).toContain('item-action-button-compact')
-    expect(addEquipEffect.classList).not.toContain('mini')
+    expect(addEquipEffect.classList).toContain('ds-button')
+    expect(addEquipEffect.classList).toContain('ds-button--compact')
+    expect(addEquipEffect.classList).not.toContain('item-action-button')
+    await act(async () => addEquipEffect.click())
+    const equipEffectActions = [
+      ...host.querySelectorAll<HTMLButtonElement>('.item-equip-effects .ef-ops button'),
+    ]
+    expect(equipEffectActions).toHaveLength(3)
+    expect(equipEffectActions.every((action) => action.classList.contains('ds-icon-button'))).toBe(
+      true,
+    )
     const iconTrigger = button('选择已有图标', host)
     await act(async () => iconTrigger.click())
     expect(document.activeElement).toBe(host.querySelector<HTMLInputElement>('#item-icon-filter'))

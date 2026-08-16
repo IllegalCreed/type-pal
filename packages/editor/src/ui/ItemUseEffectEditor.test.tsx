@@ -307,6 +307,17 @@ describe('ItemEffectChainEditor', () => {
       ),
     )
 
+    const addEffect = buttonByText(host, '添加效果')!
+    expect(addEffect.classList).toContain('ds-button')
+    expect(addEffect.classList).toContain('ds-button--primary')
+    expect(addEffect.classList).toContain('ds-button--compact')
+    expect(
+      host.querySelector<HTMLButtonElement>('button[aria-label="下移效果 1"]')?.classList,
+    ).toContain('ds-icon-button')
+    expect(
+      host.querySelector<HTMLButtonElement>('button[aria-label="删除效果 1"]')?.classList,
+    ).toContain('ds-icon-button--danger')
+
     await act(async () =>
       host.querySelector<HTMLButtonElement>('button[aria-label="下移效果 1"]')!.click(),
     )
@@ -527,7 +538,7 @@ describe('ItemEffectChainEditor', () => {
     })
     expect(host.textContent).toContain('力量来源')
 
-    await act(async () => buttonByText(host, '＋ 添加效果')!.click())
+    await act(async () => buttonByText(host, '添加效果')!.click())
     expect(host.querySelectorAll('.item-effect-row')).toHaveLength(2)
     expect(host.querySelector<HTMLButtonElement>('button[aria-label="删除效果 1"]')!.disabled).toBe(
       false,

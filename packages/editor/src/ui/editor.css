@@ -10568,62 +10568,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   gap: 5px;
   width: 100%;
 }
-.item-action-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  min-width: 0;
-  min-height: 32px;
-  padding: 6px 10px;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  background: var(--panel3);
-  color: var(--dim);
-  font: 500 11px / 1.2 var(--sans);
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  cursor: pointer;
-}
-.item-action-button:hover:not(:disabled) {
-  border-color: color-mix(in srgb, var(--accent) 42%, var(--line));
-  background: color-mix(in srgb, var(--accent) 8%, var(--panel3));
-  color: var(--fg);
-}
-.item-action-button:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 1px;
-}
-.item-action-button:disabled {
-  opacity: 0.38;
-  cursor: default;
-}
-.item-action-button-primary {
-  border-color: color-mix(in srgb, var(--accent) 65%, var(--line));
-  background: color-mix(in srgb, var(--accent) 15%, var(--panel3));
-  color: color-mix(in srgb, var(--accent) 76%, white);
-}
-.item-action-button-danger {
-  border-color: color-mix(in srgb, var(--err) 35%, var(--line));
-  background: color-mix(in srgb, var(--err) 6%, var(--panel3));
-  color: color-mix(in srgb, var(--err) 82%, white);
-}
-.item-action-button-danger:hover:not(:disabled) {
-  border-color: color-mix(in srgb, var(--err) 68%, var(--line));
-  background: color-mix(in srgb, var(--err) 11%, var(--panel3));
-  color: var(--err);
-}
-.item-action-button-warning {
-  border-color: color-mix(in srgb, var(--warn) 45%, var(--line));
-  background: color-mix(in srgb, var(--warn) 7%, var(--panel3));
-  color: var(--warn);
-}
-.item-action-button-compact {
-  min-height: 28px;
-  padding: 4px 8px;
-  font-size: 10px;
-}
 .item-catalog-create {
   width: 100%;
   min-height: 28px;

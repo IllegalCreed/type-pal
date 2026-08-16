@@ -17,6 +17,7 @@ import {
   CanonicalScriptBodyEditorV5,
   type CanonicalScriptEditorContextV5,
 } from './CanonicalScriptEditorV5.js'
+import { DsButton, DsIconButton } from './design-system/controls.js'
 
 const STATUSES: { value: StatusId; label: string }[] = [
   { value: 'confused', label: '混乱' },
@@ -260,18 +261,17 @@ function ItemAmountList(props: {
     <div className="item-amount-list">
       <div className="item-effect-subhead">
         <span>{props.label}</span>
-        <button
-          type="button"
-          className="mini"
-          aria-label={`添加${props.label}`}
+        <DsIconButton
+          size="compact"
+          variant="secondary"
+          icon="add"
+          label={`添加${props.label}`}
           disabled={!items.length}
           onClick={() => {
             if (!items.length) return
             onChange([...entries, { itemId: items[0]!.id, count: 1 }])
           }}
-        >
-          ＋
-        </button>
+        />
       </div>
       {entries.map((entry, index) => (
         <div
@@ -312,43 +312,40 @@ function ItemAmountList(props: {
           />
           {props.ordered ? (
             <>
-              <button
-                type="button"
-                className="mini"
-                aria-label={`上移${props.label} ${index + 1}`}
+              <DsIconButton
+                size="compact"
+                variant="secondary"
+                icon="chevron-up"
+                label={`上移${props.label} ${index + 1}`}
                 disabled={index === 0}
                 onClick={() => {
                   const next = [...entries]
                   ;[next[index - 1], next[index]] = [next[index]!, next[index - 1]!]
                   onChange(next)
                 }}
-              >
-                ↑
-              </button>
-              <button
-                type="button"
-                className="mini"
-                aria-label={`下移${props.label} ${index + 1}`}
+              />
+              <DsIconButton
+                size="compact"
+                variant="secondary"
+                icon="chevron-down"
+                label={`下移${props.label} ${index + 1}`}
                 disabled={index === entries.length - 1}
                 onClick={() => {
                   const next = [...entries]
                   ;[next[index], next[index + 1]] = [next[index + 1]!, next[index]!]
                   onChange(next)
                 }}
-              >
-                ↓
-              </button>
+              />
             </>
           ) : null}
-          <button
-            type="button"
-            className="mini danger"
-            aria-label={`删除${props.label} ${index + 1}`}
+          <DsIconButton
+            size="compact"
+            variant="danger"
+            icon="delete"
+            label={`删除${props.label} ${index + 1}`}
             disabled={entries.length <= minimum}
             onClick={() => onChange(entries.filter((_, current) => current !== index))}
-          >
-            ×
-          </button>
+          />
         </div>
       ))}
     </div>
@@ -374,41 +371,45 @@ function RecipeEditor(props: {
         <div className="item-recipe" key={`recipe-${index}`}>
           <div className="item-effect-subhead">
             <strong>配方 {index + 1}</strong>
-            <span className="item-effect-order-actions">
-              <button
-                type="button"
-                className="mini"
-                aria-label={`上移配方 ${index + 1}`}
+            <span
+              className="item-effect-order-actions ds-control-group__actions"
+              role="group"
+              aria-label={`配方 ${index + 1} 排序与删除`}
+            >
+              <DsIconButton
+                size="compact"
+                variant="secondary"
+                icon="chevron-up"
+                label={`上移配方 ${index + 1}`}
                 disabled={index === 0}
                 onClick={() => {
                   const next = [...recipes]
                   ;[next[index - 1], next[index]] = [next[index]!, next[index - 1]!]
                   onChange(next)
                 }}
-              >
-                ↑
-              </button>
-              <button
-                type="button"
-                className="mini"
-                aria-label={`下移配方 ${index + 1}`}
+              />
+              <DsIconButton
+                size="compact"
+                variant="secondary"
+                icon="chevron-down"
+                label={`下移配方 ${index + 1}`}
                 disabled={index === recipes.length - 1}
                 onClick={() => {
                   const next = [...recipes]
                   ;[next[index], next[index + 1]] = [next[index + 1]!, next[index]!]
                   onChange(next)
                 }}
-              >
-                ↓
-              </button>
-              <button
-                type="button"
-                className="item-action-button item-action-button-danger item-action-button-compact item-recipe-delete"
+              />
+              <DsButton
+                size="compact"
+                variant="danger"
+                icon="delete"
+                className="item-recipe-delete"
                 disabled={recipes.length <= 1}
                 onClick={() => onChange(recipes.filter((_, current) => current !== index))}
               >
                 删除配方
-              </button>
+              </DsButton>
             </span>
           </div>
           <ItemAmountList
@@ -425,9 +426,10 @@ function RecipeEditor(props: {
           />
         </div>
       ))}
-      <button
-        type="button"
-        className="item-action-button item-action-button-primary"
+      <DsButton
+        size="compact"
+        variant="primary"
+        icon="add"
         disabled={!ingredientItems.length || !items.length}
         onClick={() => {
           const ingredientId = ingredientItems[0]?.id
@@ -442,8 +444,8 @@ function RecipeEditor(props: {
           ])
         }}
       >
-        ＋ 添加配方
-      </button>
+        添加配方
+      </DsButton>
     </div>
   )
 }
@@ -679,21 +681,23 @@ function EffectFields(props: {
               ))}
             </select>
           </label>
-          <button
-            type="button"
-            className="item-action-button item-action-button-compact"
+          <DsButton
+            size="compact"
+            variant="secondary"
+            icon="open"
             disabled={!effect.script.id || !props.onOpenScript}
             onClick={() => props.onOpenScript?.(effect.script.id)}
           >
-            打开脚本 ↗
-          </button>
-          <button
-            type="button"
-            className="item-action-button item-action-button-primary item-action-button-compact"
+            打开脚本
+          </DsButton>
+          <DsButton
+            size="compact"
+            variant="primary"
+            icon="add"
             onClick={() => props.onCreateAndBindScript?.()}
           >
-            ＋ 新建并绑定
-          </button>
+            新建并绑定
+          </DsButton>
         </div>
       )
     }
@@ -793,14 +797,15 @@ function EffectFields(props: {
             ) : initialValue === undefined ? (
               <div className="item-resource-initial-state">
                 <span>默认开局初始值</span>
-                <button
-                  type="button"
-                  className="item-action-button item-action-button-compact"
+                <DsButton
+                  size="compact"
+                  variant="secondary"
+                  icon="add"
                   disabled={!resourceName || !props.onSetWorldResource}
                   onClick={() => props.onSetWorldResource?.(resourceName, 0)}
                 >
-                  ＋ 初始化为 0
-                </button>
+                  初始化为 0
+                </DsButton>
               </div>
             ) : (
               <label className="item-effect-field">
@@ -1212,40 +1217,43 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
               </select>
             )}
             <span className="spacer" />
-            <button
-              type="button"
-              className="mini"
-              aria-label={`上移效果 ${index + 1}`}
-              disabled={index === 0 || isExclusiveEffect(effect)}
-              onClick={() => {
-                const effects = [...use.effects]
-                ;[effects[index - 1], effects[index]] = [effects[index]!, effects[index - 1]!]
-                patchEffects(effects)
-              }}
+            <span
+              className="item-effect-order-actions ds-control-group__actions"
+              role="group"
+              aria-label={`效果 ${index + 1} 排序与删除`}
             >
-              ↑
-            </button>
-            <button
-              type="button"
-              className="mini"
-              aria-label={`下移效果 ${index + 1}`}
-              disabled={index === use.effects.length - 1 || isExclusiveEffect(effect)}
-              onClick={() => {
-                const effects = [...use.effects]
-                ;[effects[index], effects[index + 1]] = [effects[index + 1]!, effects[index]!]
-                patchEffects(effects)
-              }}
-            >
-              ↓
-            </button>
-            <button
-              type="button"
-              className="mini danger"
-              aria-label={`删除效果 ${index + 1}`}
-              onClick={() => patchEffects(use.effects.filter((_, at) => at !== index))}
-            >
-              ×
-            </button>
+              <DsIconButton
+                size="compact"
+                variant="secondary"
+                icon="chevron-up"
+                label={`上移效果 ${index + 1}`}
+                disabled={index === 0 || isExclusiveEffect(effect)}
+                onClick={() => {
+                  const effects = [...use.effects]
+                  ;[effects[index - 1], effects[index]] = [effects[index]!, effects[index - 1]!]
+                  patchEffects(effects)
+                }}
+              />
+              <DsIconButton
+                size="compact"
+                variant="secondary"
+                icon="chevron-down"
+                label={`下移效果 ${index + 1}`}
+                disabled={index === use.effects.length - 1 || isExclusiveEffect(effect)}
+                onClick={() => {
+                  const effects = [...use.effects]
+                  ;[effects[index], effects[index + 1]] = [effects[index + 1]!, effects[index]!]
+                  patchEffects(effects)
+                }}
+              />
+              <DsIconButton
+                size="compact"
+                variant="danger"
+                icon="delete"
+                label={`删除效果 ${index + 1}`}
+                onClick={() => patchEffects(use.effects.filter((_, at) => at !== index))}
+              />
+            </span>
           </div>
           <div className="item-effect-grid">
             {props.privateScriptsV5?.[index] ? (
@@ -1277,9 +1285,11 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
         <div className="item-capability-note">当前没有效果，可继续添加或保留为空。</div>
       ) : null}
 
-      <button
-        type="button"
-        className="item-action-button item-action-button-primary item-add-effect"
+      <DsButton
+        size="compact"
+        variant="primary"
+        icon="add"
+        className="item-add-effect"
         disabled={use.effects.some(isExclusiveEffect) || firstAppendableKind() === undefined}
         onClick={() => {
           try {
@@ -1291,12 +1301,14 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
           }
         }}
       >
-        ＋ 添加效果
-      </button>
+        添加效果
+      </DsButton>
       {props.onAddPrivateScript ? (
-        <button
-          type="button"
-          className="item-action-button item-add-effect item-add-private-script"
+        <DsButton
+          size="compact"
+          variant="secondary"
+          icon="add"
+          className="item-add-effect item-add-private-script"
           disabled={
             use.effects.some(isPrivateScriptEffect) ||
             !compatibleChain([
@@ -1312,8 +1324,8 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
           }
           onClick={() => props.onAddPrivateScript?.()}
         >
-          ＋ 添加私有脚本
-        </button>
+          添加私有脚本
+        </DsButton>
       ) : null}
     </div>
   )
@@ -1667,42 +1679,45 @@ export function ThrowEffectChainEditor(props: ThrowEffectChainEditorProps) {
               ))}
             </select>
             <span className="spacer" />
-            <button
-              type="button"
-              className="mini"
-              aria-label={`上移效果 ${index + 1}`}
-              disabled={index === 0}
-              onClick={() => {
-                const effects = [...spec.effects]
-                ;[effects[index - 1], effects[index]] = [effects[index]!, effects[index - 1]!]
-                patchEffects(effects)
-              }}
+            <span
+              className="item-effect-order-actions ds-control-group__actions"
+              role="group"
+              aria-label={`效果 ${index + 1} 排序与删除`}
             >
-              ↑
-            </button>
-            <button
-              type="button"
-              className="mini"
-              aria-label={`下移效果 ${index + 1}`}
-              disabled={index === spec.effects.length - 1}
-              onClick={() => {
-                const effects = [...spec.effects]
-                ;[effects[index], effects[index + 1]] = [effects[index + 1]!, effects[index]!]
-                patchEffects(effects)
-              }}
-            >
-              ↓
-            </button>
-            <button
-              type="button"
-              className="mini danger"
-              aria-label={`删除效果 ${index + 1}`}
-              title={spec.effects.length === 1 ? '投掷能力至少保留一个效果' : undefined}
-              disabled={spec.effects.length === 1}
-              onClick={() => patchEffects(spec.effects.filter((_, at) => at !== index))}
-            >
-              ×
-            </button>
+              <DsIconButton
+                size="compact"
+                variant="secondary"
+                icon="chevron-up"
+                label={`上移效果 ${index + 1}`}
+                disabled={index === 0}
+                onClick={() => {
+                  const effects = [...spec.effects]
+                  ;[effects[index - 1], effects[index]] = [effects[index]!, effects[index - 1]!]
+                  patchEffects(effects)
+                }}
+              />
+              <DsIconButton
+                size="compact"
+                variant="secondary"
+                icon="chevron-down"
+                label={`下移效果 ${index + 1}`}
+                disabled={index === spec.effects.length - 1}
+                onClick={() => {
+                  const effects = [...spec.effects]
+                  ;[effects[index], effects[index + 1]] = [effects[index + 1]!, effects[index]!]
+                  patchEffects(effects)
+                }}
+              />
+              <DsIconButton
+                size="compact"
+                variant="danger"
+                icon="delete"
+                label={`删除效果 ${index + 1}`}
+                title={spec.effects.length === 1 ? '投掷能力至少保留一个效果' : undefined}
+                disabled={spec.effects.length === 1}
+                onClick={() => patchEffects(spec.effects.filter((_, at) => at !== index))}
+              />
+            </span>
           </div>
           <div className="item-effect-grid">
             <ThrowEffectFields
@@ -1719,13 +1734,15 @@ export function ThrowEffectChainEditor(props: ThrowEffectChainEditorProps) {
           投掷能力至少需要一个效果，请添加后再保存。
         </div>
       ) : null}
-      <button
-        type="button"
-        className="item-action-button item-action-button-primary item-add-effect"
+      <DsButton
+        size="compact"
+        variant="primary"
+        icon="add"
+        className="item-add-effect"
         onClick={() => patchEffects([...spec.effects, defaultThrowEffect('fixedDamage', poisons)])}
       >
-        ＋ 添加效果
-      </button>
+        添加效果
+      </DsButton>
     </div>
   )
 }
