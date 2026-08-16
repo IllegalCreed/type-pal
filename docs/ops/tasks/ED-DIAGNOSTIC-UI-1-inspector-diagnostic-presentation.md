@@ -1,6 +1,6 @@
 # ED-DIAGNOSTIC-UI-1 - 属性面板问题与诊断呈现统一
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: Editor cross-cutting（本卡不改变 capability-map 状态）
 Coding Owner: Codex
@@ -350,6 +350,27 @@ Branch: `codex/ed-diagnostic-ui-1`
     语义（occurrence+blocking vs severity+finding）不相交；符合 DS-IMP.3 第三次出现抽取规则；
     variant 方案被正确拒绝（DS-C.6a 已定性诊断不是引用行）；仅共享 tokens 的替代会留下 DOM/键盘/
     focus 双轨漂移。详见下方「Kimi 独立反证审查」。
+  - DK2 轻量确认: **DK2 lightweight confirm + design agree（2026-08-16，本人一手读码，非代理）**。
+    五点逐项一手核实：
+    1. **同源同构成立**——Image/Sound/Cutscene 的 `closureIssues` 均来自同一
+       `validateAssetReferenceClosure` collector（ImageTab.tsx:6,447-448 / SoundTab.tsx:7,157-158 /
+       CutsceneTab.tsx:9,413-416）；`selectedIssues` 同 `${code}:${where}` stable key、无 locator、
+       静态 message-only 渲染（ImageTab.tsx:525-527,742-746 / SoundTab.tsx:184-186,388-392）。
+       第 5/6 面判定成立，纯展示 adapter 足够，领域类型无需进 design-system。
+    2. **呈现位置同意**——两处 `selectedIssues.map` 本就在现有「引用」panel 容器内、
+       `DsReferencePanel` 之后（ImageTab.tsx:741-746 / SoundTab.tsx:387-392）；改为并列
+       Diagnostic 小节是原位替换，不新增 Tab、不动 TABS 卡 24 页矩阵、不混算
+       occurrence/finding（Reference 继续 occurrence，Diagnostic 用 finding count）。
+    3. **测试覆盖足够**——AssetInspectorTabs.test.tsx 已冻结 Image「资源/引用 2」（:165）、
+       Sound「资源/引用 2」（:200）、Cutscene「资源/引用 2/诊断 n」（:219）；同文件扩
+       static/clear/引用共存/选中联动断言即可，Tab 数量断言天然防开新 Tab 回归。
+    4. **boundary 划界正确**——`cf-err` 实测 9 个 TSX 消费（CommandForm/FrameAnimationEditor/
+       FireEffectPreview/CanonicalSharedScriptTabV5/SharedScriptTab/MusicTab/CutsceneTab/ImageTab/
+       SoundTab）+ editor.css:7217,14195 两处规则，是通用错误 class；只禁止其继续承载这两处
+       closureIssues 列表、不做全仓禁，划界正确。
+    5. **DK1 继续有效**——DK2 扩面是纯 adapter 增量，不触碰 locator frame 抽取；Reference
+       契约冻结 + RF-16/16 面零回归 + build 结束单一 geometry owner 的门禁不变。
+    未改实现文件，未代签 done 前 review。
 - GLM:
   - premise: **verified（2026-08-16，本人一手读码，非代理；附一处 inventory 必改修正）**。四面
     premise 独立复核属实：Project `IssueList` 四消费点（ProjectWorkbenchTab.tsx:874,962,1689,1696）+
@@ -372,9 +393,9 @@ Branch: `codex/ed-diagnostic-ui-1`
 - counter / 分歧处理: 任一方认为诊断必须复用 Reference 公开 API、需要扩大到所有 error UI、或会改变业务数据时，
   保持 draft/blocked，先更新边界与用户可见 `before -> after`，旧签字失效。
 - 缺签豁免: N/A
-- build 准入结论: **conditionally allowed（2026-08-16）——Codex + Kimi（DK1）+ GLM（DK2）三方签字
-  齐；DK2 的六面 inventory、页面适配、验收、boundary、测试和视觉矩阵已由 Codex 落卡并补签。
-  当前仅缺 Kimi 对 Cutscene 同构扩面的轻量确认（或用户豁免）；确认前 Status 不得转 build。**
+- build 准入结论: **allowed（2026-08-16）——Codex + Kimi（DK1 + DK2 lightweight confirm）+
+  GLM（DK2）三方签字齐；DK2 六面 inventory/页面适配/验收/boundary/测试/视觉矩阵已落卡，Kimi 轻量
+  确认五项全部一手核实通过。由 Codex 转 build。**
 
 #### Kimi 独立反证审查（2026-08-16，架构/视觉主审；本人一手读码）
 
@@ -568,6 +589,16 @@ N/A：不生成图像或替代资源。
   迁移上下文退役，不做全仓禁用。直接证据：ImageTab.tsx:520-526,739-747；SoundTab.tsx:179-185,
   385-397；`rg cf-err packages/editor/src/ui --glob '*.tsx'` 显示其余预览/表单/脚本错误用途仍需保留。
   未改实现文件，Status 保持 draft。Next: Kimi 对 Cutscene 同构机械扩面做轻量确认；确认前不得转 build。
+- 2026-08-16 Kimi: **DK2 轻量确认完成，签 DK2 lightweight confirm + design agree**。五项一手核实：
+  Image/Sound/Cutscene 同一 `validateAssetReferenceClosure` collector + 同 `code:where` key + 无 locator
+  静态渲染（同源同构第 5/6 面成立，纯 adapter 足够）；两处 `selectedIssues.map` 本就在引用 panel 内
+  DsReferencePanel 之后，原位并列小节不新增 Tab；AssetInspectorTabs.test 已冻结 Image/Sound 双 Tab 与
+  Cutscene 三 Tab，扩断言即可；`cf-err` 实测 9 TSX + 2 CSS 规则的通用 class，boundary 只禁两处
+  closureIssues 承载、不全仓禁；DK1 门禁不受影响继续有效。build 准入结论转 **allowed**。
+  未改实现文件，未代签 done 前 review。Next: Codex 转 build（单 Coding Owner，DK1/DK2 必落）。
+- 2026-08-17 Codex: 接手前核对 Codex + Kimi（DK1 + DK2 lightweight confirm）+ GLM（DK2）三方
+  build 前签字与直接证据齐全，build 准入为 allowed；任务由 `draft` 转 `build`，Codex 为唯一
+  Coding Owner。Next: 依次落共享 locator frame / Diagnostic recipe、六面 adapter、RF-17、测试与视觉矩阵。
 
 ## 下一位 Agent 提示词
 
@@ -581,23 +612,25 @@ Kimi 已于 2026-08-16 完成 premise 反证 + 架构/视觉主审并签字（pr
 GLM 已于 2026-08-16 完成 build 前审查并签字（premise verified 附 inventory 修正 + design agree
 附 DK2，见「GLM 独立覆盖审查」），本节提示词不再适用。
 
-### 给 Kimi（DK2 轻量确认，可直接复制）
+### 给 Kimi（DK2 轻量确认——已完成）
+
+Kimi 已于 2026-08-16 完成 DK2 轻量确认并签字（DK2 lightweight confirm + design agree，五点一手
+核实见 Kimi build 前签字节），build 准入已转 allowed，本节提示词不再适用。
+
+### 给 Codex（三签齐，转 build，可直接复制）
 
 ```text
-接手任务: ED-DIAGNOSTIC-UI-1 属性面板问题与诊断呈现统一——DK2 轻量确认
+接手任务: ED-DIAGNOSTIC-UI-1 属性面板问题与诊断呈现统一——build 实现
 任务卡: docs/ops/tasks/ED-DIAGNOSTIC-UI-1-inspector-diagnostic-presentation.md
-当前状态: draft；原三签齐但 GLM DK2 要求先扩为 6 面，Codex 已完成落卡；确认前不得改实现或转 build。
-角色: Kimi，做 DK2 轻量架构/视觉确认。只读任务卡与一手代码，不修改实现文件。
-先读: 本卡范围、真值矩阵、六面审计表、页面适配规则、验收/测试/boundary、Codex DK2 补签与 GLM DK2；
-  packages/editor/src/ui/ImageTab.tsx:520-526,739-747；SoundTab.tsx:179-185,385-397；
-  AssetInspectorTabs.test.tsx；ED-INSPECTOR-TABS-1 冻结的 Image/Sound Tab 合同。
-请确认:
-1. Image/Sound 是 Cutscene 同源同构的第 5/6 个 closure finding 面，纯 adapter 即可，不需领域类型进 DS。
-2. 呈现留在现有“引用” panel 内作并列 Diagnostic 小节，不新增 Tab、不混算 occurrence/finding。
-3. AssetInspectorTabs 增加 static/clear/引用共存/选中联动断言足以覆盖；24 页 Tab 矩阵不重开。
-4. boundary 只要求这两处 closureIssues 列表消费 DsDiagnostic*；cf-err 通用 class 不全仓禁。
-5. 原 DK1（内部 locator frame、Reference RF-16/16 面零回归、单一 geometry owner）继续有效。
-输出: 若同意，在任务卡 Kimi build 前签字下追加“DK2 lightweight confirm + design agree”，附一手证据，
-并把 build 准入改为 allowed、交接日志记明可由 Codex 转 build；不得代签 done 前 review。若不同意，
-签 counter 并给出精确分歧，Status 保持 draft。
+当前状态: draft；Codex + Kimi（DK1 + DK2 confirm）+ GLM（DK2）三签齐，build 准入 allowed
+你的角色: Coding Owner——唯一 DsDiagnostic* recipe + 六面迁移 + CSS/测试/boundary/文档收口
+必落钉:
+  Kimi DK1: locator frame 抽取等价门禁——抽取前冻结 Reference 契约测试，抽取后 16 面 + RF-16 零
+    DOM/role/计数/交互变化；build 结束必须单一 geometry owner，若停在共享 CSS 过渡态须如实标注。
+  GLM DK2: 六面迁移（Project/Cutscene/Image/Sound/Item/Stamp）；Image/Sound 在现有引用 panel 内并列
+    Diagnostic 小节，不新增 Tab、不混算 occurrence/finding；AssetInspectorTabs.test 扩 static/clear/
+    引用共存/选中联动断言；boundary 只禁两处 closureIssues 的 cf-err 承载，cf-err 通用 class 保留。
+范围红线: 不改 collector/severity/stable key/跳转/sidecar/overwrite 流程；不动 TABS 24 页矩阵；
+  不与 REFERENCE/CATALOG 卡并行改重叠文件；不 reset/checkout 用户脏树文件。
+验收: 本卡「验收条件」节的功能/测试/文档/视觉矩阵；editor typecheck/test 全绿后转 review。
 ```
