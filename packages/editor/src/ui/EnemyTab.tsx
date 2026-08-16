@@ -45,14 +45,13 @@ import {
   DsCheckbox,
   DsField,
   DsIconButton,
-  DsListHeader,
   DsNumberInput,
   DsSelect,
   DsTag,
   DsTextInput,
 } from './design-system/controls.js'
 import {
-  DsCatalogFilter,
+  DsCatalogControls,
   DsCatalogRow,
   DsInspectorSection,
   DsInspectorTabs,
@@ -678,7 +677,7 @@ export function EnemyTab(props: {
     <>
       {/* 左:标签栏 + 敌人列表 */}
       <div className="outliner data-outliner">
-        <DsListHeader
+        <DsCatalogControls
           title="敌人"
           count={enemies.length}
           unit="个"
@@ -693,12 +692,12 @@ export function EnemyTab(props: {
               onClick: addEnemy,
             },
           ]}
-        />
-        <DsCatalogFilter
-          aria-label="过滤敌人"
-          placeholder="过滤 id/名…"
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
+          search={{
+            'aria-label': '过滤敌人',
+            placeholder: '过滤 id/名…',
+            value: filter,
+            onChange: (event) => setFilter(event.target.value),
+          }}
         />
         <div className="sprite-list">
           {shown.map((e) => (

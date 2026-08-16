@@ -112,12 +112,11 @@ import {
 import { PlaceStampCommand } from '../core/stamp-placement-command.js'
 import {
   DsButton,
-  DsCatalogFilter,
+  DsCatalogControls,
   DsCatalogRow,
   DsCheckbox,
   DsIconButton,
   DsInspectorTabs,
-  DsListHeader,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
@@ -2768,7 +2767,7 @@ export function MapMode(props: {
     <>
       <div className="outliner map-outliner">
         {navigation}
-        <DsListHeader
+        <DsCatalogControls
           title="地图"
           count={mapIndex.maps.length}
           unit="张"
@@ -2800,12 +2799,12 @@ export function MapMode(props: {
               onClick: deleteMap,
             },
           ]}
-        />
-        <DsCatalogFilter
-          value={mapQuery}
-          onChange={(event) => setMapQuery(event.target.value)}
-          placeholder="搜索名称或 ID"
-          aria-label="搜索地图"
+          search={{
+            value: mapQuery,
+            onChange: (event) => setMapQuery(event.target.value),
+            placeholder: '搜索名称或 ID',
+            'aria-label': '搜索地图',
+          }}
         />
         <div className="map-asset-list">
           {filteredAssets.map((asset) => {

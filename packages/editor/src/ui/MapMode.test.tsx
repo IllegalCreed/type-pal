@@ -447,6 +447,37 @@ afterEach(async () => {
 })
 
 describe('MapMode 地图内容选择交互', () => {
+  test('地图目录搜索覆盖命中、空结果与清空恢复，且不会偷换当前地图', async () => {
+    const mounted = await mountMapMode()
+    const nextState = editorState(fixtureMap())
+    nextState.maps['map-b'] = fixtureMap()
+    nextState.mapIndex = {
+      version: 1,
+      maps: [
+        { id: 'map-a', name: '第一张地图', path: 'content/maps/map-a.json' },
+        { id: 'map-b', name: '第二张地图', path: 'content/maps/map-b.json' },
+      ],
+    }
+    await mounted.rerenderWithSession(new EditSession(nextState))
+    const rows = () => mounted.host.querySelectorAll('.map-asset-list .ds-catalog-row')
+    const search = mounted.host.querySelector<HTMLInputElement>('input[aria-label="搜索地图"]')!
+    expect(rows()).toHaveLength(2)
+
+    await setInputValue(search, '第二')
+    expect(rows()).toHaveLength(1)
+    expect(rows()[0]?.textContent).toContain('第二张地图')
+    expect(mounted.host.querySelector('.map-asset-list [data-selected="true"]')).toBeNull()
+
+    await setInputValue(search, '不存在')
+    expect(rows()).toHaveLength(0)
+    expect(mounted.host.textContent).toContain('没有匹配地图')
+    await setInputValue(search, '')
+    expect(rows()).toHaveLength(2)
+    expect(
+      mounted.host.querySelector('.map-asset-list [data-selected="true"]')?.textContent,
+    ).toContain('第一张地图')
+  })
+
   test('共享 Inspector Tab 完整键盘合同仍触发原有打开与组合按需访问副作用', async () => {
     const { host, onRequestInspectorOpen } = await mountMapMode({ stamps: [stampTemplate()] })
     await verifyInspectorTabs(host, '地图右侧面板', ['属性', '瓦片', '组合'])

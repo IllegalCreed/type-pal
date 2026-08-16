@@ -5,6 +5,7 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 import { namedIdChoiceLabel } from './NamedIdPicker.js'
 import { SkillTab } from './SkillTab.js'
@@ -135,6 +136,27 @@ function controlByLabel<T extends HTMLElement>(text: string): T {
 }
 
 describe('SkillTab · 施法物品成本', () => {
+  test('目录搜索覆盖命中、空结果与清空恢复，且不会偷换被过滤的选择', async () => {
+    const session = new EditSession(state([skill(), skill({ mp: 8 }, '353', '另一技能')]))
+    await act(async () => root.render(<Harness session={session} focusObjectId="353" />))
+    const search = host.querySelector<HTMLInputElement>('input[aria-label="过滤技能"]')!
+    expect(host.querySelectorAll('.ds-catalog-row')).toHaveLength(2)
+
+    await setCatalogSearch(search, '三尸')
+    expect(host.querySelectorAll('.ds-catalog-row')).toHaveLength(1)
+    expect(host.querySelector('.ds-catalog-row')?.textContent).toContain('三尸咒')
+    expect(host.querySelector('.ds-catalog-row[data-selected="true"]')).toBeNull()
+    expect(host.querySelector('h1')?.textContent).toBe('另一技能')
+
+    await setCatalogSearch(search, '不存在')
+    expect(host.querySelectorAll('.ds-catalog-row')).toHaveLength(0)
+    await setCatalogSearch(search, '')
+    expect(host.querySelectorAll('.ds-catalog-row')).toHaveLength(2)
+    expect(host.querySelector('.ds-catalog-row[data-selected="true"]')?.textContent).toContain(
+      '另一技能',
+    )
+  })
+
   test('检查器使用共享引用/说明 Tab 完整键盘与 ARIA 合同', async () => {
     const session = new EditSession(state())
     await act(async () => root.render(<Harness session={session} />))

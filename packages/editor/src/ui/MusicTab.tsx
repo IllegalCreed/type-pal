@@ -16,8 +16,8 @@ import {
 import type { EditSession } from '../core/edit-session.js'
 import { collectEditorAssetReferences } from '../core/editor-asset-references.js'
 import {
+  DsCatalogControls,
   DsInspectorTabs,
-  DsListHeader,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
@@ -203,7 +203,7 @@ export function MusicTab(props: {
     <>
       <div className="outliner data-outliner">
         {tabBar}
-        <DsListHeader
+        <DsCatalogControls
           title="音乐"
           count={shown.length}
           unit="首"
@@ -215,20 +215,14 @@ export function MusicTab(props: {
               onClick: () => importRef.current?.click(),
             },
           ]}
+          search={{
+            'aria-label': '搜索音乐',
+            placeholder: '搜索名称或 AssetId',
+            value: filter,
+            onChange: (event) => setFilter(event.target.value),
+          }}
         />
-        <div className="music-library-tools">
-          <div className="music-search-field">
-            <span className="music-search-icon" aria-hidden="true" />
-            <input
-              className="in"
-              aria-label="搜索音乐"
-              placeholder="搜索名称或 AssetId"
-              value={filter}
-              onChange={(event) => setFilter(event.target.value)}
-            />
-          </div>
-          {error ? <div className="cf-err">{error}</div> : null}
-        </div>
+        {error ? <div className="cf-err">{error}</div> : null}
         <input
           ref={importRef}
           type="file"

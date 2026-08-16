@@ -6,6 +6,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { BattleDataReference } from '../core/battle-data-references.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 import { PoisonTab } from './PoisonTab.js'
 
@@ -96,6 +97,26 @@ afterEach(async () => {
 })
 
 describe('PoisonTab shared workbench', () => {
+  test('目录搜索覆盖命中、空结果与清空恢复，且不会偷换深链选择', async () => {
+    const session = new EditSession(state())
+    await act(async () => root.render(<Harness session={session} focusObjectId="2" />))
+    const search = host.querySelector<HTMLInputElement>('input[aria-label="过滤毒"]')!
+    expect(host.querySelectorAll('.ds-catalog-row')).toHaveLength(2)
+
+    await setCatalogSearch(search, '赤蝎')
+    expect(host.querySelectorAll('.ds-catalog-row')).toHaveLength(1)
+    expect(host.querySelector('.ds-catalog-row[data-selected="true"]')).toBeNull()
+    expect(host.querySelector('h1')?.textContent).toBe('无影毒')
+
+    await setCatalogSearch(search, '不存在')
+    expect(host.querySelectorAll('.ds-catalog-row')).toHaveLength(0)
+    await setCatalogSearch(search, '')
+    expect(host.querySelectorAll('.ds-catalog-row')).toHaveLength(2)
+    expect(host.querySelector('.ds-catalog-row[data-selected="true"]')?.textContent).toContain(
+      '无影毒',
+    )
+  })
+
   test('检查器使用共享引用/关系/说明 Tab 完整键盘与 ARIA 合同', async () => {
     const session = new EditSession(state())
     await act(async () => root.render(<Harness session={session} />))
@@ -119,9 +140,7 @@ describe('PoisonTab shared workbench', () => {
     })
     expect(session.getState().poisons?.find((entry) => entry.id === 2)?.name).toBe('无影毒·改')
 
-    const create = [...host.querySelectorAll<HTMLButtonElement>('button')].find((button) =>
-      button.textContent?.includes('新建毒'),
-    )!
+    const create = host.querySelector<HTMLButtonElement>('button[aria-label="新建毒"]')!
     await act(async () => create.click())
     expect(session.getState().poisons?.at(-1)).toMatchObject({ id: 1000, name: '新毒' })
     expect(host.querySelector('h1')?.textContent).toBe('新毒')

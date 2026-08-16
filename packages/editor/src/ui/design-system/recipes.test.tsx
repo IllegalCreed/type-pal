@@ -4,6 +4,7 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import {
   DsButton,
+  DsCatalogControls,
   DsCatalogFilter,
   DsCatalogGroupHeader,
   DsCatalogRow,
@@ -95,6 +96,81 @@ describe('object workbench recipes', () => {
     expect(input.getAttribute('aria-label')).toBe('搜索地图')
     expect(input.classList.contains('ds-input--compact')).toBe(true)
     expect(shell.parentElement).toBe(host)
+  })
+
+  test('catalog controls compose the header, optional scope, search, and adaptive filters', async () => {
+    const onCreate = vi.fn()
+    await act(async () =>
+      root.render(
+        <DsCatalogControls
+          title="组合库"
+          count={12}
+          unit="项"
+          actions={[{ id: 'create', label: '新建组合', icon: '+', onClick: onCreate }]}
+          scope={<div data-testid="scope">来源域</div>}
+          search={{ 'aria-label': '搜索组合模板', placeholder: '搜索名称或 ID' }}
+          filters={[
+            <div key="category">分类</div>,
+            <div key="origin">来源</div>,
+            <div key="usage">用途</div>,
+          ]}
+        />,
+      ),
+    )
+
+    expect(host.querySelector('.ds-list-header__title')?.textContent).toBe('组合库')
+    expect(host.querySelector('.ds-list-header__count')?.textContent).toBe('12 项')
+    expect(host.querySelector('.ds-catalog-controls__scope')?.textContent).toBe('来源域')
+    expect(host.querySelector<HTMLInputElement>('.ds-catalog-controls__search input')?.getAttribute('aria-label')).toBe(
+      '搜索组合模板',
+    )
+    const filters = host.querySelector('.ds-catalog-controls__filters')
+    expect(filters?.getAttribute('data-filter-count')).toBe('3')
+    expect(filters?.querySelectorAll('.ds-catalog-controls__filter')).toHaveLength(3)
+
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="新建组合"]')?.click())
+    expect(onCreate).toHaveBeenCalledOnce()
+  })
+
+  test('catalog controls omit the body when no scope, search, or filters exist', async () => {
+    await act(async () => root.render(<DsCatalogControls title="角色" count={6} unit="位" />))
+    expect(host.querySelector('.ds-catalog-controls__body')).toBeNull()
+  })
+
+  test('catalog controls keep one, two, and three filters in the same adaptive grid contract', async () => {
+    for (const count of [1, 2, 3]) {
+      await act(async () =>
+        root.render(
+          <DsCatalogControls
+            title="筛选合同"
+            count={count}
+            unit="项"
+            filters={Array.from({ length: count }, (_, index) => (
+              <button key={`filter-${index}`} aria-label={`筛选 ${index + 1}`} type="button" />
+            ))}
+          />,
+        ),
+      )
+      const filters = host.querySelector('.ds-catalog-controls__filters')
+      expect(filters?.getAttribute('data-filter-count')).toBe(String(count))
+      expect(filters?.querySelectorAll('.ds-catalog-controls__filter')).toHaveLength(count)
+    }
+  })
+
+  test('catalog controls render search without an empty filter container', async () => {
+    await act(async () =>
+      root.render(
+        <DsCatalogControls
+          title="变量"
+          count={2}
+          unit="项"
+          search={{ 'aria-label': '过滤变量名字' }}
+        />,
+      ),
+    )
+    expect(host.querySelector('.ds-catalog-controls__body')).not.toBeNull()
+    expect(host.querySelector('.ds-catalog-controls__search input')).not.toBeNull()
+    expect(host.querySelector('.ds-catalog-controls__filters')).toBeNull()
   })
 
   test('catalog group header separates collection actions from nested category labels', async () => {

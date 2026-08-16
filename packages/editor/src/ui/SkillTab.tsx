@@ -36,7 +36,6 @@ import {
   DsCheckbox,
   DsField,
   DsIconButton,
-  DsListHeader,
   DsNumberField,
   DsNumberInput,
   DsSelect,
@@ -47,7 +46,7 @@ import {
   DsTextInput,
 } from './design-system/controls.js'
 import {
-  DsCatalogFilter,
+  DsCatalogControls,
   DsCatalogRow,
   DsInspectorSection,
   DsInspectorTabs,
@@ -891,17 +890,17 @@ export function SkillTab(props: {
   return (
     <>
       <div className="outliner data-outliner">
-        <DsListHeader
+        <DsCatalogControls
           title="技能"
           count={skills.length}
           unit="项"
           actions={[{ id: 'create-skill', label: '新建技能', icon: '＋', onClick: addSkill }]}
-        />
-        <DsCatalogFilter
-          aria-label="过滤技能"
-          placeholder="过滤 id/名…"
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
+          search={{
+            'aria-label': '过滤技能',
+            placeholder: '过滤 id/名…',
+            value: filter,
+            onChange: (event) => setFilter(event.target.value),
+          }}
         />
         <div className="sprite-list">
           {shown.map((s) => (

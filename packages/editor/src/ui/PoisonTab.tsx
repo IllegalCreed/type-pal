@@ -22,14 +22,13 @@ import {
   DsCheckbox,
   DsField,
   DsIconButton,
-  DsListHeader,
   DsNumberInput,
   DsSelect,
   DsTag,
   DsTextInput,
 } from './design-system/controls.js'
 import {
-  DsCatalogFilter,
+  DsCatalogControls,
   DsCatalogRow,
   DsInspectorSection,
   DsInspectorTabs,
@@ -364,12 +363,31 @@ export function PoisonTab(props: {
     <>
       {/* 左:标签栏 + 毒列表 */}
       <div className="outliner data-outliner">
-        <DsListHeader title="毒" count={poisons.length} unit="种" />
-        <DsCatalogFilter
-          aria-label="过滤毒"
-          placeholder="过滤 id/名…"
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
+        <DsCatalogControls
+          title="毒"
+          count={poisons.length}
+          unit="种"
+          actions={[
+            {
+              id: 'create-poison',
+              label: '新建毒',
+              icon: '＋',
+              onClick: () => {
+                const name = window.prompt('新毒名字:', '')?.trim()
+                if (!name) return
+                let n = 1000
+                while (poisons.some((poisonEntry) => poisonEntry.id === n)) n++
+                session.dispatch(new AddPoisonCommand(n, name))
+                selectPoison(n)
+              },
+            },
+          ]}
+          search={{
+            'aria-label': '过滤毒',
+            placeholder: '过滤 id/名…',
+            value: filter,
+            onChange: (event) => setFilter(event.target.value),
+          }}
         />
         <div className="sprite-list">
           {shown.map((p) => (
@@ -383,20 +401,6 @@ export function PoisonTab(props: {
             />
           ))}
         </div>
-        <DsButton
-          variant="secondary"
-          icon="add"
-          onClick={() => {
-            const name = window.prompt('新毒名字:', '')?.trim()
-            if (!name) return
-            let n = 1000
-            while (poisons.some((p) => p.id === n)) n++
-            session.dispatch(new AddPoisonCommand(n, name))
-            selectPoison(n)
-          }}
-        >
-          新建毒
-        </DsButton>
       </div>
 
       {/* 中：独立的毒编辑表单，不复用技能页私有样式。 */}

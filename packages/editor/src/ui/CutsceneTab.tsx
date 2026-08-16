@@ -35,9 +35,9 @@ import {
 } from '../core/frame-animation-worker-client.js'
 import { mp4HasAudioTrack } from '../core/video-metadata.js'
 import {
+  DsCatalogControls,
   DsIconButton,
   DsInspectorTabs,
-  DsListHeader,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
@@ -583,17 +583,17 @@ export function CutsceneTab(props: {
     <>
       <div className="outliner data-outliner cutscene-outliner">
         {tabBar}
-        <DsListHeader title="过场" count={videos.length + animations.length} unit="项" />
-        <div className="cutscene-search">
-          <span className="music-search-icon" aria-hidden="true" />
-          <input
-            className="in"
-            aria-label="搜索过场资源"
-            placeholder="搜索名称或 AssetId"
-            value={filter}
-            onChange={(event) => setFilter(event.target.value)}
-          />
-        </div>
+        <DsCatalogControls
+          title="过场"
+          count={videos.length + animations.length}
+          unit="项"
+          search={{
+            'aria-label': '搜索过场资源',
+            placeholder: '搜索名称或 AssetId',
+            value: filter,
+            onChange: (event) => setFilter(event.target.value),
+          }}
+        />
         <AssetList
           title="视频"
           kindLabel="视频"

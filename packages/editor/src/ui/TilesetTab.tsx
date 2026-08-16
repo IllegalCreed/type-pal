@@ -34,12 +34,13 @@ import {
   TilesetReplacementProof,
 } from '../core/tileset-references.js'
 import {
+  DsCatalogControls,
   DsInspectorTabs,
-  DsListHeader,
   DsReferenceGroup,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
+  DsSelect,
 } from './design-system/index.js'
 
 const FRAME_PAGE_SIZE = 128
@@ -209,8 +210,6 @@ export function TilesetTab(props: {
   const removalScanTokenRef = useRef(0)
   const [palette, setPalette] = useState<Palette | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
-  const searchId = useId()
-  const categoryId = useId()
   const tileWidthId = useId()
   const tileHeightId = useId()
   const newIdId = useId()
@@ -486,7 +485,7 @@ export function TilesetTab(props: {
     <>
       <div className="outliner data-outliner tileset-outliner">
         {tabBar}
-        <DsListHeader
+        <DsCatalogControls
           title="瓦片集"
           count={tilesets.length}
           unit="项"
@@ -504,38 +503,29 @@ export function TilesetTab(props: {
               },
             },
           ]}
-        />
-        <div className="tileset-library-tools">
-          <label className="tileset-search-field" htmlFor={searchId}>
-            <span className="tileset-search-icon" aria-hidden="true" />
-            <input
-              id={searchId}
-              className="in"
-              type="search"
-              aria-label="搜索瓦片集"
-              autoComplete="off"
-              placeholder="搜索名称或 ID…"
-              value={filter}
-              onChange={(event) => setFilter(event.target.value)}
-            />
-          </label>
-          <label className="tileset-category-filter" htmlFor={categoryId}>
-            <span>分类</span>
-            <select
-              id={categoryId}
-              className="in"
+          search={{
+            'aria-label': '搜索瓦片集',
+            autoComplete: 'off',
+            placeholder: '搜索名称或 ID…',
+            value: filter,
+            onChange: (event) => setFilter(event.target.value),
+          }}
+          filters={
+            <DsSelect
+              size="compact"
+              aria-label="筛选瓦片集分类"
               value={categoryFilter}
-              onChange={(event) => setCategoryFilter(event.target.value)}
-            >
-              <option value="all">全部分类</option>
-              {categories.map((category) => (
-                <option key={category} value={category}>
-                  {categoryLabel(category)}
-                </option>
-              ))}
-            </select>
-          </label>
-        </div>
+              onValueChange={setCategoryFilter}
+              options={[
+                { value: 'all', label: '全部分类' },
+                ...categories.map((category) => ({
+                  value: category,
+                  label: categoryLabel(category),
+                })),
+              ]}
+            />
+          }
+        />
         <fieldset className="tileset-library-list" aria-label="瓦片集列表">
           {tilesets.length === 0 ? (
             <div className="tileset-list-empty">尚无瓦片集，上传图集后即可在地图中使用。</div>

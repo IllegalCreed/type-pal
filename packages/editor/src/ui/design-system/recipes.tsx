@@ -10,6 +10,7 @@ import {
 import {
   DsButton,
   type DsControlSize,
+  DsListHeader,
   DsStatus,
   type DsTabItem,
   DsTabs,
@@ -154,6 +155,46 @@ export const DsCatalogFilter = forwardRef<
     </div>
   )
 })
+
+export interface DsCatalogControlsProps
+  extends ComponentPropsWithoutRef<typeof DsListHeader> {
+  search?: ComponentPropsWithoutRef<typeof DsCatalogFilter>
+  scope?: ReactNode
+  filters?: ReactNode
+  className?: string
+}
+
+/**
+ * 左侧目录标题与筛选区的唯一组合配方。领域页面保留筛选状态，只提供共享控件槽位。
+ */
+export function DsCatalogControls(props: DsCatalogControlsProps) {
+  const { search, scope, filters, className, ...headerProps } = props
+  const filterItems = Children.toArray(filters)
+  const hasBody = Boolean(scope || search || filterItems.length > 0)
+
+  return (
+    <div className={dsClasses('ds-catalog-controls', className)}>
+      <DsListHeader {...headerProps} />
+      {hasBody ? (
+        <div className="ds-catalog-controls__body">
+          {scope ? <div className="ds-catalog-controls__scope">{scope}</div> : null}
+          {search ? (
+            <div className="ds-catalog-controls__search">
+              <DsCatalogFilter {...search} />
+            </div>
+          ) : null}
+          {filterItems.length > 0 ? (
+            <div className="ds-catalog-controls__filters" data-filter-count={filterItems.length}>
+              {Children.map(filters, (filter) => (
+                <div className="ds-catalog-controls__filter">{filter}</div>
+              ))}
+            </div>
+          ) : null}
+        </div>
+      ) : null}
+    </div>
+  )
+}
 
 export type DsReferenceCount =
   | { kind: 'exact'; value: number }

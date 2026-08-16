@@ -7,6 +7,7 @@ import type { BlockingBattleFieldReference } from '../core/battle-field-referenc
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { BattleFieldTab } from './BattleFieldTab.js'
 
 const field = (id: number, name = `战场 ${id}`): BattleFieldDef => ({
@@ -125,6 +126,27 @@ async function setInput(input: HTMLInputElement, value: string): Promise<void> {
 }
 
 describe('BattleFieldTab B2-1 authoring closure', () => {
+  test('目录搜索覆盖命中、空结果与清空恢复，且不会偷换深链选择', async () => {
+    const session = new EditSession(state([field(1, '前置战场'), field(24, '默认战场')]))
+    await act(async () => root.render(<Harness session={session} focusObjectId="24" />))
+    const search = host.querySelector<HTMLInputElement>('input[aria-label="搜索战场"]')!
+    expect(host.querySelectorAll('.bf-catalog .ds-catalog-row')).toHaveLength(2)
+
+    await setCatalogSearch(search, '前置')
+    expect(host.querySelectorAll('.bf-catalog .ds-catalog-row')).toHaveLength(1)
+    expect(host.querySelector('.bf-catalog .ds-catalog-row[data-selected="true"]')).toBeNull()
+    expect(host.querySelector('.ds-object-hero__title')?.textContent).toBe('默认战场')
+
+    await setCatalogSearch(search, '不存在')
+    expect(host.querySelectorAll('.bf-catalog .ds-catalog-row')).toHaveLength(0)
+    expect(host.textContent).toContain('没有匹配的战场')
+    await setCatalogSearch(search, '')
+    expect(host.querySelectorAll('.bf-catalog .ds-catalog-row')).toHaveLength(2)
+    expect(
+      host.querySelector('.bf-catalog .ds-catalog-row[data-selected="true"]')?.textContent,
+    ).toContain('默认战场')
+  })
+
   test('显示全部已声明编号，不再把小于 6 的合法作者数据过滤掉', async () => {
     const session = new EditSession(state([field(1, '自定义前置战场'), field(24, '默认战场')]))
     await act(async () => root.render(<Harness session={session} focusObjectId="1" />))

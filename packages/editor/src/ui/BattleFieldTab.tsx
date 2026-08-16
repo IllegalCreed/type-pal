@@ -28,12 +28,11 @@ import type { ScriptEditorStateV5 } from '../core/script-v5-editor.js'
 import {
   DsButton,
   DsField,
-  DsListHeader,
   DsNumberInput,
   DsTextInput,
 } from './design-system/controls.js'
 import {
-  DsCatalogFilter,
+  DsCatalogControls,
   DsCatalogRow,
   DsObjectHero,
   DsReferenceList,
@@ -229,7 +228,7 @@ export function BattleFieldTab(props: {
   return (
     <>
       <div className="outliner data-outliner bf-outliner">
-        <DsListHeader
+        <DsCatalogControls
           title="战场"
           count={battleFields.length}
           unit="个"
@@ -243,12 +242,12 @@ export function BattleFieldTab(props: {
               onClick: copy,
             },
           ]}
-        />
-        <DsCatalogFilter
-          aria-label="搜索战场"
-          placeholder="搜索编号或名称"
-          value={filter}
-          onChange={(event) => setFilter(event.target.value)}
+          search={{
+            'aria-label': '搜索战场',
+            placeholder: '搜索编号或名称',
+            value: filter,
+            onChange: (event) => setFilter(event.target.value),
+          }}
         />
         {!hasDefault ? (
           <DsButton variant="secondary" className="bf-default-warning" onClick={beginCreate}>

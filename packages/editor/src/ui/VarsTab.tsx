@@ -5,7 +5,7 @@
  */
 import { useMemo, useState } from 'react'
 import type { RefEntry, RefIndex } from '../core/ref-index.js'
-import { DsListHeader } from './design-system/index.js'
+import { DsCatalogControls } from './design-system/index.js'
 
 /** 引用明细列表(变量页/物品页共用):读写徽标 · 场景 · 源 · 形态,点击跳事件模式。 */
 export function RefList(props: {
@@ -94,16 +94,16 @@ export function VarsTab(props: {
     <>
       <div className="outliner data-outliner">
         {tabBar}
-        <DsListHeader
+        <DsCatalogControls
           title="变量"
           count={refIndex.flags.size + refIndex.vars.size}
           unit="项"
-        />
-        <input
-          className="in"
-          placeholder="过滤名字"
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
+          search={{
+            'aria-label': '过滤变量名字',
+            placeholder: '过滤名字',
+            value: filter,
+            onChange: (event) => setFilter(event.target.value),
+          }}
         />
         <div className="insp-empty" style={{ marginTop: 8 }}>
           扫全工程事件脚本(进场/触发/巡逻/战败指令)建反向索引;点引用行跳事件模式。

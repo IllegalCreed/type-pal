@@ -594,16 +594,55 @@
   overflow: auto;
 }
 
+.ds-catalog-controls {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  flex: 0 0 auto;
+}
+
+.ds-catalog-controls__body {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  gap: var(--ds-space-4);
+  padding: var(--ds-space-4) var(--ds-space-5);
+  border-bottom: 1px solid var(--ds-border-subtle);
+  overflow: visible;
+}
+
+.ds-catalog-controls__scope,
+.ds-catalog-controls__search,
+.ds-catalog-controls__filters,
+.ds-catalog-controls__filter {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.ds-catalog-controls__scope > *,
+.ds-catalog-controls__filter > * {
+  width: 100%;
+  min-width: 0;
+}
+
+.ds-catalog-controls__filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
+  gap: var(--ds-space-4);
+}
+
 .ds-catalog-filter {
   display: grid;
   width: 100%;
   min-width: 0;
   box-sizing: border-box;
-  padding: var(--ds-space-4) var(--ds-space-5);
   overflow: visible;
 }
 
 .ds-catalog-filter > .ds-input {
+  width: 100%;
   min-width: 0;
 }
 

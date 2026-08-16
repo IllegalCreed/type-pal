@@ -47,14 +47,16 @@ import {
 } from './BattleSpriteInlinePreview.js'
 import { BattleSpriteUploader } from './BattleSpriteUploader.js'
 import {
+  DsCatalogControls,
   DsInspectorTabs,
-  DsListHeader,
   DsObjectHero,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
   DsSequenceIndex,
+  DsSelect,
   DsTag,
+  DsTabs,
 } from './design-system/index.js'
 import { type SemanticFrameGroup, SpriteFrameCanvas } from './SpriteFrameWorkbench.js'
 
@@ -1137,7 +1139,7 @@ export function BattleSpriteLibrary(props: {
     <>
       <div className="outliner data-outliner battle-sprite-outliner">
         {props.tabBar}
-        <DsListHeader
+        <DsCatalogControls
           title="精灵库"
           count={assets.length}
           unit="项"
@@ -1149,39 +1151,46 @@ export function BattleSpriteLibrary(props: {
               onClick: () => setUploading(true),
             },
           ]}
+          scope={
+            <DsTabs
+              size="compact"
+              label="精灵资源域"
+              items={[
+                { id: 'world', label: '大世界' },
+                { id: 'battle', label: '战斗' },
+              ]}
+              activeId="battle"
+              onChange={(domain) => {
+                if (domain === 'world') props.onWorldDomain()
+              }}
+            />
+          }
+          search={{
+            'aria-label': '过滤战斗精灵库',
+            placeholder: '名称 / id',
+            value: filter,
+            onChange: (event) => setFilter(event.target.value),
+          }}
+          filters={
+            <DsSelect
+              size="compact"
+              aria-label="用途筛选"
+              value={kind}
+              onValueChange={(value) => setKind(value as KindFilter)}
+              options={(
+                ['all', 'player-fighter', 'enemy', 'summon', 'unconfigured'] as const
+              ).map((entry) => ({
+                value: entry,
+                label:
+                  entry === 'all'
+                    ? '全部'
+                    : entry === 'unconfigured'
+                      ? '未配置'
+                      : PROFILE_LABEL[entry],
+              }))}
+            />
+          }
         />
-        <fieldset className="sprite-domain-switch" aria-label="精灵资源域">
-          <button type="button" onClick={props.onWorldDomain}>
-            大世界
-          </button>
-          <button type="button" className="on" aria-pressed="true">
-            战斗
-          </button>
-        </fieldset>
-        <input
-          className="in battle-sprite-filter"
-          aria-label="过滤战斗精灵库"
-          placeholder="名称 / id"
-          value={filter}
-          onChange={(event) => setFilter(event.target.value)}
-        />
-        <fieldset className="kind-filter" aria-label="用途筛选">
-          {(['all', 'player-fighter', 'enemy', 'summon', 'unconfigured'] as const).map((entry) => (
-            <button
-              type="button"
-              key={entry}
-              className={`kchip${kind === entry ? ' on' : ''}`}
-              aria-pressed={kind === entry}
-              onClick={() => setKind(entry)}
-            >
-              {entry === 'all'
-                ? '全部'
-                : entry === 'unconfigured'
-                  ? '未配置'
-                  : PROFILE_LABEL[entry]}
-            </button>
-          ))}
-        </fieldset>
         <div className="sprite-list">
           {shownAssets.map(([asset, assetRecord]) => {
             const entries = definitionsByAsset.get(asset) ?? []

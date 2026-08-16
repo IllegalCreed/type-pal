@@ -2041,64 +2041,66 @@ export function App(props: {
               </div>
               <div className="layers">
                 <div className="t">图层 / 显隐</div>
-                <DsCheckbox
-                  size="compact"
-                  label="地板"
-                  checked={canvasLayers.base}
-                  onChange={(event) =>
-                    setCanvasLayers({ ...canvasLayers, base: event.currentTarget.checked })
-                  }
-                />
-                <DsCheckbox
-                  size="compact"
-                  label="高物（墙、家具）"
-                  checked={canvasLayers.cover}
-                  onChange={(event) =>
-                    setCanvasLayers({ ...canvasLayers, cover: event.currentTarget.checked })
-                  }
-                />
-                <DsCheckbox
-                  size="compact"
-                  label="落点"
-                  checked={canvasLayers.entries}
-                  onChange={(event) =>
-                    setCanvasLayers({ ...canvasLayers, entries: event.currentTarget.checked })
-                  }
-                />
-                <DsCheckbox
-                  size="compact"
-                  label="实体"
-                  checked={canvasLayers.entities}
-                  onChange={(event) =>
-                    setCanvasLayers({ ...canvasLayers, entities: event.currentTarget.checked })
-                  }
-                />
-                <div title="初始隐藏的实体（剧情后期才出场）画成半透明幽灵，可点选编排；游戏内不渲染">
+                <div className="layer-toggle-list">
                   <DsCheckbox
                     size="compact"
-                    label="隐藏实体（透视）"
-                    checked={canvasLayers.ghosts}
+                    label="地板"
+                    checked={canvasLayers.base}
                     onChange={(event) =>
-                      setCanvasLayers({ ...canvasLayers, ghosts: event.currentTarget.checked })
+                      setCanvasLayers({ ...canvasLayers, base: event.currentTarget.checked })
+                    }
+                  />
+                  <DsCheckbox
+                    size="compact"
+                    label="高物（墙、家具）"
+                    checked={canvasLayers.cover}
+                    onChange={(event) =>
+                      setCanvasLayers({ ...canvasLayers, cover: event.currentTarget.checked })
+                    }
+                  />
+                  <DsCheckbox
+                    size="compact"
+                    label="落点"
+                    checked={canvasLayers.entries}
+                    onChange={(event) =>
+                      setCanvasLayers({ ...canvasLayers, entries: event.currentTarget.checked })
+                    }
+                  />
+                  <DsCheckbox
+                    size="compact"
+                    label="实体"
+                    checked={canvasLayers.entities}
+                    onChange={(event) =>
+                      setCanvasLayers({ ...canvasLayers, entities: event.currentTarget.checked })
+                    }
+                  />
+                  <DsCheckbox
+                    size="compact"
+                    label="禁入"
+                    checked={canvasLayers.blocked}
+                    onChange={(event) =>
+                      setCanvasLayers({ ...canvasLayers, blocked: event.currentTarget.checked })
+                    }
+                  />
+                  <div title="初始隐藏的实体（剧情后期才出场）画成半透明幽灵，可点选编排；游戏内不渲染">
+                    <DsCheckbox
+                      size="compact"
+                      label="隐藏实体（透视）"
+                      checked={canvasLayers.ghosts}
+                      onChange={(event) =>
+                        setCanvasLayers({ ...canvasLayers, ghosts: event.currentTarget.checked })
+                      }
+                    />
+                  </div>
+                  <DsCheckbox
+                    size="compact"
+                    label="网格"
+                    checked={canvasLayers.grid}
+                    onChange={(event) =>
+                      setCanvasLayers({ ...canvasLayers, grid: event.currentTarget.checked })
                     }
                   />
                 </div>
-                <DsCheckbox
-                  size="compact"
-                  label="网格"
-                  checked={canvasLayers.grid}
-                  onChange={(event) =>
-                    setCanvasLayers({ ...canvasLayers, grid: event.currentTarget.checked })
-                  }
-                />
-                <DsCheckbox
-                  size="compact"
-                  label="禁入"
-                  checked={canvasLayers.blocked}
-                  onChange={(event) =>
-                    setCanvasLayers({ ...canvasLayers, blocked: event.currentTarget.checked })
-                  }
-                />
               </div>
             </div>
 
