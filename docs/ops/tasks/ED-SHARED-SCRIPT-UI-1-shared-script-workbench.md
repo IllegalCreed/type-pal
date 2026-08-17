@@ -167,9 +167,31 @@ Branch: codex/ed-shared-script-ui-1
   - design: **agree（2026-08-17）**。同意 owner-less preview 删除、目录/页壳 DS 收敛、公共正文/CommandForm
     一次迁移、`SharedScriptTab` current-only 退役；字段/命令/运行时语义不变。
 - Kimi:
-  - premise: pending（用户提示词称 Kimi 已签 KSS1-KSS2，但截至 GLM 签字时代理仓库（本地 + origin，
-    edec2097）尚无该版本——Kimi 签字落库后三签即齐，GLM 不代签不阻塞。）
-  - design: pending
+  - premise: **verified（2026-08-17，本人一手读码，非复述）**。五点逐项独立核实：
+    1. **共享脚本无场景 owner ✓**：`SharedAuthorScriptV5 = { name, description?, self, body }`
+       （script-v5.ts:362-367）无 sceneId/mapId；库页预览任选场景——默认 `pairedScenes[0]`
+       （CanonicalSharedScriptTabV5.tsx:84-87）+ 合成 `callScript` 包装（:88-103）+
+       `Playback`/`PreviewCanvas`（:107-117,:378-397）。规范先后属实：N6:299「直接预览必须选
+       测试场景」已被当前 canonical 规范 script-system-design.md:98-111（owner 分层、不为每种
+       所有者复制地图/播放器）取代，用户 2026-08-17 再确认。删除 owner-less preview 正确；
+       场景工作台预览与 runtime Playback 不在删除范围。
+    2. **列表/元数据/布局缺口属实 ✓**：左栏私有三行 raw button（:287-300）；名称/ID 在目录行、
+       中央头（:309-314）、正文标题与 Inspector（:438-443）四重重复；元数据 raw form（:446-501）。
+    3. **公共层迁移边界正确 ✓**：census 逐字吻合（CanonicalScriptEditorV5 43/37/31/2 仅 1 个
+       DsSelect；CommandForm 14/13/15/2 全 raw）；同一正文组件 7 宿主消费，只能公共层迁一次，
+       逐页换皮必回流。与 GLM 复算双向互证。
+    4. **fallback 无真实调用方 ✓**：`SharedScriptTab` 仅 DataMode.tsx:45 import + :561 fallback
+       分支，测试只测纯 helper；main.tsx 两条启动链（dev/FSA）均无条件创建
+       `ScriptV5EditSession`，fallback 在产品入口不可达。GLM 补出的 script-library-catalog 级联
+       孤儿与 scriptIndex/scriptChunks 保留红线（GS1）我独立复核成立并完全携带。
+    5. **行为语义约束准确 ✓**：三种 commit 粒度并存——name=本地 draft+显式保存
+       （CanonicalSharedScriptTabV5.tsx:449-461）、description=逐键 dispatch（:465-469 经
+       :218-220）、self=即改；focus 经 `focusRevision`+`lastAppliedFocusRevisionRef` 守卫
+       （CanonicalScriptEditorV5.tsx:2911-2913）；`AuthorCommandPathV5` 是嵌套定位真值。
+       GS2 的 characterization 先行与我 KSS2 同向，两钉互补。
+  - design: **agree（2026-08-17，附必落钉 KSS1-KSS2，不阻塞准入）**。owner 决定预览位置、
+    公共组件一次迁移、目录降噪、current-only fail-loud、行为冻结五条设计结论与现有代码结构
+    相容；详见下方「Kimi 独立反证审查」。
 - GLM:
   - premise: **verified（2026-08-17，本人一手读码 + 独立复算，非代理）**。四项独立核验：
     1. **控件 census 逐字吻合**：本人 node 复算 `CanonicalScriptEditorV5` = 43 button / 37 input /
@@ -193,13 +215,16 @@ Branch: codex/ed-shared-script-ui-1
     源头一次迁移、current-only fail-loud、行为冻结四条设计结论成立；删除 owner-less preview 的
     方向与 script-system-design.md:98-111 当前规范一致。详见下方「GLM 独立覆盖审查」。
 - 独立反证审查（至少一位非 Coding Owner 必填）:
-  - 审查者: GLM（覆盖/测试，2026-08-17，见下方）；Kimi 签字落库后补充。
-  - 独立证据锚点: 见「GLM 独立覆盖审查」；须核对项已核（N6 历史 vs 当前规范先后关系由 Codex 锚定、
-    main/DataMode 调用域由 GLM 穷尽、公共 editor 委托 CommandForm 的可见范围 = 7 宿主）。
-  - 可证伪观察: 见「GLM 独立覆盖审查」末。
+  - 审查者: GLM（覆盖/测试，2026-08-17，见下方）+ Kimi（架构/交互，2026-08-17，见下方）。
+  - 独立证据锚点: 见两方审查节——GLM：census/调用域/七宿主；Kimi：N6 与当前规范先后
+    （N6-shared-script-authoring.md:299 vs script-system-design.md:98-111）、schema 无场景 owner
+    （script-v5.ts:362-367）、preview 任选场景实现（CanonicalSharedScriptTabV5.tsx:84-117）、
+    启动链（main.tsx:93-136）、commit 三粒度（:218-220,446-501）。
+  - 可证伪观察: 见两方审查节末。
 - counter / 分歧处理: 无。
 - 缺签豁免: N/A
-- build 准入结论: **blocked——GLM 已签；待 Kimi 签字落库（KSS1-KSS2）后三签即齐，方可转 build。**
+- build 准入结论: **allowed（2026-08-17）——Codex + Kimi（KSS1-KSS2）+ GLM（GS1-GS3）三方签字
+  齐；各钉为 build 必落。由 Codex 转 build。**
 
 ### 进入 done 前:审查签字
 
@@ -272,6 +297,51 @@ DataMode.tsx:34,45,561,564-565 / SharedScriptTab.tsx:49,109,202-206（1019 行�
 script-library-catalog 消费面 rg / 7 宿主 import 矩阵。只读审查，未改实现文件，未代签 Kimi，
 未标 build/done。
 
+#### Kimi 独立反证审查（2026-08-17，架构/交互；本人一手读码）
+
+**五项重点核验（与 GLM 独立互证，不复述其结论）：**
+
+1. **N6 预览条款 vs 当前规范先后**：N6 卡（N6-shared-script-authoring.md:299）写于 canonical
+   单一模型发布前；当前规范 script-system-design.md:98-111 明确「共享脚本库按所有者上下文编辑
+   正文，需要空间语境时应从具体场景调用点打开或进入场景工作台预览，不能为每种所有者复制一套
+   地图/播放器」。历史条款不再授权现实现，且用户 2026-08-17 再确认产品意图。删除方向成立。
+2. **preview 是 owner-less 的实证**：`SharedAuthorScriptV5`（script-v5.ts:362-367）只有
+   name/description/self/body；库页把 `pairedScenes[0]`（当前即 s000，CanonicalSharedScriptTabV5
+   .tsx:84-87）当默认测试场景，再合成 `callScript` 包装播 selectedId（:88-103）——该场景与脚本
+   无任何持久归属关系，预览结果不证明脚本在真实 caller 下的行为。
+3. **目录/元数据/标题缺口**：左栏 raw 三行 button（:287-300）；名称/ID 四重重复（目录行 +
+   :309-314 中央头 + 正文标题 + :438-443 Inspector 头）；元数据 raw form（:446-501）。
+   降噪方案（行只留名称/ID/计数、中央一处对象标题、Inspector 不重复身份）与已发布
+   DsCatalogRow/script workbench 合同一致。
+4. **公共层一次迁移的必要性**：同一正文组件被 7 文件宿主消费；raw census 逐字吻合。逐页换皮
+   会在 7 宿主间产生 7 套皮肤——公共层迁移是唯一不回流的路径。
+5. **行为冻结的可执行性**：commit 三粒度现状（name draft+保存 / description 逐键 dispatch /
+   self 即改）、focusRevision 守卫（CanonicalScriptEditorV5.tsx:2911-2913）、
+   AuthorCommandPathV5 嵌套路径均是可测的 characterization 对象——「先钉语义再迁控件」可执行。
+
+**必落钉 KSS1-KSS2（build 必落，不阻塞准入）：**
+
+- **KSS1（键盘合同）**：正文树现行 mouse-only 的 `div onClick/onDoubleClick` 行（以 lint ignore
+  绕过）必须迁为可聚焦行或 roving focus 等效合同，键盘行选择进实测验收；只给图标按钮加
+  aria-label 不算完成。
+- **KSS2（commit 语义冻结）**：name/description/self 三种现有粒度先补 characterization tests
+  再迁控件，迁移前后逐字段对照；不得以 DS 统一为由改变任一字段的 commit 时机或 undo 粒度
+  （与 GLM GS2 同向互补：GS2 管 CommandForm 边界值，KSS2 管共享页元数据三粒度）。
+
+**可证伪观察：**
+
+1. 若发现 `SharedAuthorScriptV5` 存在 canonical 场景 owner 字段（schema 没有）→ 删除 preview
+   需重估。
+2. 若启动链出现不建 ScriptV5EditSession 的真实产品路径（当前两条均无条件创建）→ fallback
+   删除须按 current-only 规则请用户批准临时隔离。
+3. 若公共迁移改变任一字段 commit 时机/焦点返回/嵌套路径/undo 粒度 → 越界停线拆卡。
+4. 若 GS1 ③的 script-library-catalog 出现第二个生产消费点 → 级联删除停线重估（沿用 GLM）。
+
+Evidence: script-v5.ts:362-369 / N6-shared-script-authoring.md:293-300 /
+script-system-design.md:98-111 / CanonicalSharedScriptTabV5.tsx:52-131,264-323,435-501 /
+CanonicalScriptEditorV5.tsx:2879-2926 / CommandForm.tsx:92,105,121 / DataMode.tsx:45,499-592 /
+main.tsx:38,70-136。只读审查，未改实现文件，未代签 GLM，未标 build/done。
+
 ### 进入 done 前:审查签字
 
 - Codex: pending
@@ -311,10 +381,11 @@ script-library-catalog 消费面 rg / 7 宿主 import 矩阵。只读审查，�
 ### 主审立场
 
 - Reviewer: Kimi（canonical 分层/公共组件/旧 fallback 主审）+ GLM（控件 census/测试矩阵/调用域）
-- 结论: GLM premise verified + design agree（2026-08-17，附 GS1-GS3）；Kimi pending（KSS1-KSS2
-  待落库）。
+- 结论: GLM premise verified + design agree（2026-08-17，附 GS1-GS3）；Kimi premise verified +
+  design agree（2026-08-17，附 KSS1-KSS2）
 - 必改项: GS1（删除级联含 script-library-catalog + state.scriptIndex/scriptChunks 保留红线）、
-  GS2（三粒度 commit characterization 含 Number('')===0 边界，先行后迁）、GS3（净减账两类分记）；
+  GS2（三粒度 commit characterization 含 Number('')===0 边界，先行后迁）、GS3（净减账两类分记）、
+  KSS1（正文树键盘合同）、KSS2（共享页元数据三粒度 commit 冻结）；均为 build 必落
   Kimi KSS1-KSS2 落库后并入。
 - 是否建议进入 build: 是——Kimi 签字落库后准入条件满足。
 
@@ -382,6 +453,14 @@ script-library-catalog 消费面 rg / 7 宿主 import 矩阵。只读审查，�
   消费——GS1 红线）；③净减账须分记迁移转化与文件删除两类（GS3）。备注：用户提示词称 Kimi 已签 KSS1-KSS2，
   但代理仓库（本地+origin，edec2097）尚无该版本——Kimi 落库后三签即齐。未改实现文件，未代签 Kimi，
   未标 build/done。Next: Kimi 签字落库 → 三签齐转 build。
+- 2026-08-17 Kimi（架构/交互）: 独立反证完成，签 **premise verified + design agree（附 KSS1-KSS2）**。
+  五项一手核验：N6:299 预览条款已被 script-system-design.md:98-111 当前规范取代且用户再确认；
+  schema 无场景 owner、库页默认 pairedScenes[0] 合成 callScript 预览属 owner-less 实证；目录/元数据/
+  四重标题缺口属实；7 宿主公共层一次迁移必要；commit 三粒度 + focusRevision 守卫 + command path
+  均为可 characterization 的行为冻结对象。完全携带 GLM GS1（script-library-catalog 级联孤儿 +
+  scriptIndex/scriptChunks 保留红线我独立复核成立）。KSS1 正文树键盘合同、KSS2 共享页元数据三粒度
+  冻结与 GS2 互补。三签齐，build 准入转 allowed。未改实现文件，未代签 GLM，未标 build/done。
+  Next: Codex 转 build（GS1-GS3 + KSS1-KSS2 必落）。
 
 ## 下一位 Agent 提示词
 
