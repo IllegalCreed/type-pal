@@ -496,7 +496,7 @@
                       "fieldId": 24,
                       "kind": "startBattle",
                       "music": "music.pal.047",
-                      "team": 25
+                      "enemyTeamId": "team-25"
                     },
                     {
                       "kind": "stopMusic"

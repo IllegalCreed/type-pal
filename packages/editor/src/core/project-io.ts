@@ -38,6 +38,7 @@ import {
   type LoadedProjectCore,
   type LoadedProjectV13Core,
   type LoadedProjectV14Core,
+  type LoadedProjectV15,
   type LoadedProjectV5Core,
   parseSpriteChunkStrict,
 } from '@type-pal/reforge'
@@ -51,6 +52,7 @@ type EditorSourceProject =
   | LoadedProjectV5Core
   | LoadedProjectV13Core
   | LoadedProjectV14Core
+  | LoadedProjectV15
 
 /**
  * 只读工程 → 可变工作副本。by-id Record 翻成数组(Object.values,保原数组序);
@@ -245,7 +247,7 @@ export function serializeProject(
   if (content.sharedScripts !== undefined) {
     if (!state.sharedScripts)
       throw new Error('serializeProject: manifest 声明 sharedScripts 但 state.sharedScripts 缺失')
-    if (state.manifest.contentVersion === 14)
+    if (state.manifest.contentVersion === 15)
       checkSharedScriptLibraryV14(state.sharedScripts as unknown as SharedScriptLibraryV14)
     else checkSharedScriptLibraryV13(state.sharedScripts)
     addFile(content.sharedScripts, state.sharedScripts, '共享脚本')

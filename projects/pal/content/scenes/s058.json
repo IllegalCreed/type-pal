@@ -1286,7 +1286,7 @@
                           "kind": "loadLastSave"
                         }
                       ],
-                      "team": 28
+                      "enemyTeamId": "team-28"
                     },
                     {
                       "kind": "setEntityState",
@@ -1553,7 +1553,7 @@
                           "kind": "loadLastSave"
                         }
                       ],
-                      "team": 35
+                      "enemyTeamId": "team-35"
                     },
                     {
                       "kind": "teleportParty",

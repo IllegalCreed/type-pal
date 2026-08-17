@@ -12,6 +12,7 @@ import type {
   WorldStateV12,
   WorldStateV13,
   WorldStateV14,
+  WorldStateV15,
 } from '@type-pal/content'
 
 export type SlotKind = 'auto' | 'quick' | 'manual'
@@ -130,6 +131,14 @@ export interface SavePayloadV8Content14
   world: WorldStateV14
 }
 
+/** ED-ENEMY successor：SAVE8/world 不变，只把内容轴推进到 content15。 */
+export interface SavePayloadV8Content15
+  extends Omit<SavePayload, 'version' | 'contentVersion' | 'world'> {
+  version: 8
+  contentVersion: 15
+  world: WorldStateV15
+}
+
 export type StoredSavePayload =
   | SavePayload
   | SavePayloadV5
@@ -142,3 +151,4 @@ export type StoredSavePayload =
   | SavePayloadV8
   | SavePayloadV8Content13
   | SavePayloadV8Content14
+  | SavePayloadV8Content15

@@ -194,7 +194,7 @@ export type Command =
   // boss:原版 0x07 fIsBoss = !op2(script.c:3318,无逃跑臂 = 首领战:不可逃 + 胜利曲 2)。
   | {
       kind: 'startBattle'
-      team: number
+      enemyTeamId: string
       onLose?: Command[]
       onFlee?: Command[]
       auto?: boolean

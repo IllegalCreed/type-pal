@@ -19,7 +19,7 @@ function shell(): EditorState {
             id: 'e1',
             sprite: 'npc',
             pos: { col: 0, row: 0, height: 0 },
-            hostile: { team: 1, battleFieldId: 24 },
+            hostile: { enemyTeamId: 'team-1', battleFieldId: 24 },
           },
         ],
       },
@@ -53,7 +53,9 @@ const canonical: ScriptEditorStateV5 = {
                   stages: [
                     {
                       id: 'start',
-                      body: [{ kind: 'startBattle', team: 1, fieldId: 24 }],
+                      body: [
+                        { kind: 'startBattle', enemyTeamId: 'team-1', fieldId: 24 },
+                      ],
                     },
                   ],
                 },

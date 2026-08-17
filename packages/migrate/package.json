@@ -30,7 +30,8 @@
     "audit:sounds": "tsx scripts/audit-pal-sounds.mts",
     "bake": "tsx scripts/bake-assets.mts",
     "migrate:script-v5:shadow": "tsx scripts/migrate-script-v5-shadow.mts",
-    "migrate:content": "tsx scripts/migrate-content.mts"
+    "migrate:content": "tsx scripts/migrate-content.mts",
+    "migrate:enemy-team-refs-v15": "tsx scripts/migrate-enemy-team-references-v15.mts"
   },
   "dependencies": {
     "@type-pal/content": "workspace:*",

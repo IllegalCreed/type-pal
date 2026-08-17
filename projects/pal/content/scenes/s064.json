@@ -634,7 +634,6 @@
       "sprite": "sprite-11",
       "collide": true,
       "hostile": {
-        "team": 73,
         "chase": {
           "range": 8,
           "speed": 4,
@@ -647,7 +646,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-73"
       }
     },
     {
@@ -660,7 +660,6 @@
       "sprite": "sprite-11",
       "collide": true,
       "hostile": {
-        "team": 72,
         "chase": {
           "range": 8,
           "speed": 4,
@@ -673,7 +672,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-72"
       }
     },
     {
@@ -686,7 +686,6 @@
       "sprite": "sprite-11",
       "collide": true,
       "hostile": {
-        "team": 72,
         "chase": {
           "range": 8,
           "speed": 4,
@@ -699,7 +698,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-72"
       }
     },
     {
@@ -712,7 +712,6 @@
       "sprite": "sprite-11",
       "collide": true,
       "hostile": {
-        "team": 123,
         "chase": {
           "range": 8,
           "speed": 4,
@@ -725,7 +724,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-123"
       }
     },
     {
@@ -738,7 +738,6 @@
       "sprite": "sprite-474",
       "collide": true,
       "hostile": {
-        "team": 60,
         "onVictory": {
           "kind": "hide",
           "ticks": 800
@@ -746,7 +745,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-60"
       }
     },
     {
@@ -759,7 +759,6 @@
       "sprite": "sprite-474",
       "collide": true,
       "hostile": {
-        "team": 61,
         "onVictory": {
           "kind": "hide",
           "ticks": 800
@@ -767,7 +766,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-61"
       }
     },
     {

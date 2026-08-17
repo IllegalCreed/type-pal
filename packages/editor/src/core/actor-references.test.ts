@@ -8,7 +8,7 @@ function state(): EditorState {
     manifest: {
       id: 'actor-refs',
       name: 'actor refs',
-      contentVersion: 14,
+      contentVersion: 15,
       entryScene: 's',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },

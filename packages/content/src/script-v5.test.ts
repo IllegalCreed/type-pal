@@ -252,7 +252,7 @@ describe('script v5 canonical schema', () => {
         [
           {
             kind: 'startBattle',
-            team: 1,
+            enemyTeamId: 'team-1',
             choreography: [
               {
                 at: 'battleStart',
@@ -269,7 +269,7 @@ describe('script v5 canonical schema', () => {
         [
           {
             kind: 'startBattle',
-            team: 1,
+            enemyTeamId: 'team-1',
             choreography: [
               {
                 at: 'battleStart',
@@ -284,8 +284,11 @@ describe('script v5 canonical schema', () => {
   })
 
   test.each([
-    [{ kind: 'startBattle', team: 1, partyPreset: 42 }, /partyPreset: 未知字段/],
-    [{ kind: 'startBattle', team: 1, enemyOverride: ['enemy-1'] }, /enemyOverride: 未知字段/],
+    [{ kind: 'startBattle', enemyTeamId: 'team-1', partyPreset: 42 }, /partyPreset: 未知字段/],
+    [
+      { kind: 'startBattle', enemyTeamId: 'team-1', enemyOverride: ['enemy-1'] },
+      /enemyOverride: 未知字段/,
+    ],
     [{ kind: 'holdScreen', color: 'red', token: 'night' }, /color: 只支持 black/],
     [{ kind: 'holdScreen', color: 'black', token: '' }, /token: 期望非空字符串/],
     [{ kind: 'revealScreen', token: 123 }, /token: 期望非空字符串/],

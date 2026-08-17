@@ -936,7 +936,7 @@
                           "kind": "loadLastSave"
                         }
                       ],
-                      "team": 102
+                      "enemyTeamId": "team-102"
                     },
                     {
                       "kind": "setEntityState",
@@ -1412,7 +1412,7 @@
                           "kind": "loadLastSave"
                         }
                       ],
-                      "team": 113
+                      "enemyTeamId": "team-113"
                     },
                     {
                       "kind": "setEntityState",

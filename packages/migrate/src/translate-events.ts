@@ -1787,7 +1787,7 @@ function walkBody(
           const onFlee = (o[2] ?? 0) !== 0 ? inlineArm(o[2]) : undefined
           body.push({
             kind: 'startBattle',
-            team: o[0] ?? 0,
+            enemyTeamId: `team-${o[0] ?? 0}`,
             ...(onLose?.length ? { onLose } : {}),
             ...(onFlee?.length ? { onFlee } : {}),
             ...(ctx.pendingAuto ? { auto: true } : {}),

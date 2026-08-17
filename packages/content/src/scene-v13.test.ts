@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest'
 import { checkHostileBehaviorV13, checkPositiveSafeIntV13 } from './scene-v13.js'
 
 const base = {
-  team: 3,
+  enemyTeamId: 'team-3',
   onVictory: { kind: 'hide' as const, ticks: 800 },
   onPlayerFlee: { kind: 'suspend' as const, ticks: 15 },
 }

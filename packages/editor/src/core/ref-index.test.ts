@@ -102,7 +102,7 @@ describe('buildRefIndex(N5 引用反向索引)', () => {
             body: [
               {
                 kind: 'startBattle',
-                team: 1,
+                enemyTeamId: 'team-1',
                 onLose: [{ kind: 'setFlag', flag: 'lost-once', value: true }],
               },
               { kind: 'confirm', onNo: [{ kind: 'setVar', var: 'refused', value: 1 }] },
@@ -120,7 +120,7 @@ describe('buildRefIndex(N5 引用反向索引)', () => {
             pos: { col: 0, row: 0, height: 0 },
             sprite: 'x',
             hostile: {
-              team: 2,
+              enemyTeamId: 'team-2',
               onLose: [{ kind: 'setFlag', flag: 'spared', value: true }],
             },
           } as SceneDef['entities'][number],

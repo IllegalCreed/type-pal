@@ -193,7 +193,7 @@ export type AuthorCommandV5 =
   | { kind: 'ride'; target: EntityAddress; to: GridPos; speed: WalkSpeed }
   | {
       kind: 'startBattle'
-      team: number
+      enemyTeamId: string
       onLose?: AuthorCommandV5[]
       onFlee?: AuthorCommandV5[]
       auto?: boolean
@@ -662,11 +662,21 @@ export function checkAuthorCommandsV5(
     if (kind === 'startBattle') {
       exactKeys(
         command,
-        ['kind', 'team', 'onLose', 'onFlee', 'auto', 'boss', 'fieldId', 'music', 'choreography'],
+        [
+          'kind',
+          'enemyTeamId',
+          'onLose',
+          'onFlee',
+          'auto',
+          'boss',
+          'fieldId',
+          'music',
+          'choreography',
+        ],
         commandPath,
       )
-      if (!Number.isSafeInteger(command.team) || Number(command.team) < 0)
-        throw new Error(`${commandPath}.team: 期望非负安全整数`)
+      if (typeof command.enemyTeamId !== 'string' || command.enemyTeamId.length === 0)
+        throw new Error(`${commandPath}.enemyTeamId: 期望非空字符串`)
       for (const key of ['auto', 'boss'] as const)
         if (command[key] !== undefined && typeof command[key] !== 'boolean')
           throw new Error(`${commandPath}.${key}: 期望 boolean`)

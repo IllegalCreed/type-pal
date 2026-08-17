@@ -352,7 +352,7 @@
                           "kind": "loadLastSave"
                         }
                       ],
-                      "team": 315
+                      "enemyTeamId": "team-315"
                     }
                   ]
                 }
@@ -2022,7 +2022,7 @@
                           "kind": "loadLastSave"
                         }
                       ],
-                      "team": 315
+                      "enemyTeamId": "team-315"
                     },
                     {
                       "facing": "left",
@@ -2624,7 +2624,6 @@
       "collide": true,
       "zBias": 10,
       "hostile": {
-        "team": 244,
         "chase": {
           "range": 8,
           "speed": 4,
@@ -2637,7 +2636,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-244"
       }
     },
     {
@@ -2651,7 +2651,6 @@
       "collide": true,
       "zBias": 10,
       "hostile": {
-        "team": 256,
         "chase": {
           "range": 8,
           "speed": 4,
@@ -2664,7 +2663,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-256"
       }
     },
     {
@@ -2678,7 +2678,6 @@
       "collide": true,
       "zBias": 10,
       "hostile": {
-        "team": 252,
         "chase": {
           "range": 8,
           "speed": 4,
@@ -2691,7 +2690,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-252"
       }
     },
     {
@@ -2705,7 +2705,6 @@
       "collide": true,
       "zBias": 10,
       "hostile": {
-        "team": 245,
         "chase": {
           "range": 8,
           "speed": 4,
@@ -2718,7 +2717,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-245"
       }
     },
     {
@@ -2732,7 +2732,6 @@
       "collide": true,
       "zBias": 10,
       "hostile": {
-        "team": 251,
         "chase": {
           "range": 8,
           "speed": 4,
@@ -2745,7 +2744,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-251"
       }
     },
     {
@@ -2759,7 +2759,6 @@
       "collide": true,
       "zBias": 10,
       "hostile": {
-        "team": 244,
         "chase": {
           "range": 8,
           "speed": 4,
@@ -2772,7 +2771,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-244"
       }
     },
     {
@@ -2786,7 +2786,6 @@
       "collide": true,
       "zBias": 10,
       "hostile": {
-        "team": 256,
         "chase": {
           "range": 8,
           "speed": 4,
@@ -2799,7 +2798,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-256"
       }
     },
     {
@@ -2813,7 +2813,6 @@
       "collide": true,
       "zBias": 10,
       "hostile": {
-        "team": 259,
         "chase": {
           "range": 8,
           "speed": 4,
@@ -2826,7 +2825,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-259"
       }
     },
     {
@@ -2840,7 +2840,6 @@
       "collide": true,
       "zBias": 10,
       "hostile": {
-        "team": 251,
         "chase": {
           "range": 8,
           "speed": 4,
@@ -2853,7 +2852,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-251"
       }
     },
     {
@@ -2867,7 +2867,6 @@
       "collide": true,
       "zBias": 10,
       "hostile": {
-        "team": 255,
         "chase": {
           "range": 8,
           "speed": 4,
@@ -2880,7 +2879,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-255"
       }
     }
   ],

@@ -26,10 +26,10 @@ import { getAuthorCommandAtV5, parseAuthorCommandPathV5 } from './author-command
 
 export interface ScriptEditorStateV5 {
   /**
-   * 产品路径只传当前 content14；缺省 12 仅供尚未拆出的 v5 纯函数 fixture 使用，
+   * 产品路径只传当前 content15；缺省 12 仅供尚未拆出的 v5 纯函数 fixture 使用，
    * 不代表编辑器仍可打开旧工程。
    */
-  contentVersion?: 12 | 14
+  contentVersion?: 12 | 15
   scenes: SceneDefV5[]
   items: ItemDataV5[]
   sharedScripts: SharedScriptLibraryV5
@@ -854,7 +854,7 @@ export function describeCanonicalScriptReferenceV5(
 }
 
 function validateState(state: ScriptEditorStateV5): void {
-  if (state.contentVersion === 14) {
+  if (state.contentVersion === 15) {
     validateScenesV14(state.scenes)
     validateItemsV14(state.items)
     checkSharedScriptLibraryV14(state.sharedScripts)

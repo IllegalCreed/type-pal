@@ -344,7 +344,7 @@ describe('typed 资源引用与文件闭包', () => {
           { kind: 'playMusic' as const, asset: 'music.pal.003' },
           {
             kind: 'startBattle' as const,
-            team: 1,
+            enemyTeamId: 'team-1',
             music: 'music.pal.037',
             onLose: [
               { kind: 'playMusic' as const, asset: 'music.missing' },

@@ -139,7 +139,7 @@ describe('editor design-system static boundary', () => {
         path.endsWith('.tsx') && !path.endsWith('.test.tsx') && !path.includes('/design-system/'),
     )
     const ceilings = {
-      input: 199,
+      input: 198,
       select: 123,
       textarea: 8,
       label: 205,

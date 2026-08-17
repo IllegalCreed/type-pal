@@ -232,7 +232,7 @@ describe('contentVersion 10 enemy script schema', () => {
     expect(() =>
       validateEnemies([
         enemy({
-          onDefeated: [{ kind: 'startBattle', team: 1 }],
+          onDefeated: [{ kind: 'startBattle', enemyTeamId: 'team-1' }],
         }),
       ]),
     ).toThrow(/onDefeated context 不支持命令/)

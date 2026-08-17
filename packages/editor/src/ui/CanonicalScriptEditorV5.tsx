@@ -2,11 +2,12 @@ import type {
   ActorDef,
   AmbienceDef,
   AssetCatalogV1,
-  BattleFieldDef,
   AuthorCommandV5,
   AuthorConditionV5,
+  BattleFieldDef,
   BattleSpriteDef,
   Command,
+  EnemyTeamDef,
   EntityAddress,
   HostileBehaviorV5,
   Locale,
@@ -39,8 +40,9 @@ import type {
   ScriptV5CommandLocatorV5,
 } from '../core/script-v5-editor.js'
 import { stateTransitionExecutionLabelV5 } from '../core/script-v5-editor.js'
-import { CommandForm } from './CommandForm.js'
 import { BattleFieldPicker } from './BattleFieldPicker.js'
+import { CommandForm } from './CommandForm.js'
+import { DsSelect } from './design-system/controls.js'
 import { musicAssets } from './MusicPicker.js'
 import { describeScriptCommand } from './ScriptTree.js'
 import { soundAssets } from './SoundPicker.js'
@@ -58,6 +60,7 @@ export interface CanonicalScriptEditorContextV5 {
   actors?: Record<string, ActorDef>
   battleSprites: readonly BattleSpriteDef[]
   battleFields?: readonly BattleFieldDef[]
+  enemyTeams?: readonly EnemyTeamDef[]
   sprites?: readonly SpriteDef[]
   ambiences?: AmbienceDef[]
   shops?: ShopDef[]
@@ -2290,11 +2293,14 @@ function CanonicalCommandFormV5(props: {
       <div className="canonical-command-form-fields">
         <label>
           <span>敌队</span>
-          <input
-            className="in"
-            type="number"
-            value={command.team}
-            onChange={(event) => props.onChange({ ...command, team: Number(event.target.value) })}
+          <DsSelect
+            value={command.enemyTeamId}
+            options={(props.context?.enemyTeams ?? []).map((team) => ({
+              value: team.id,
+              label: team.id,
+            }))}
+            invalid={!props.context?.enemyTeams?.some((team) => team.id === command.enemyTeamId)}
+            onValueChange={(enemyTeamId) => props.onChange({ ...command, enemyTeamId })}
           />
         </label>
         <label>
@@ -2679,7 +2685,10 @@ function insertionGroups(context?: CanonicalScriptEditorContextV5): InsertionGro
               } as InsertionChoiceV5,
             ]
           : []),
-        { label: '⚔ 开始战斗', commands: [{ kind: 'startBattle', team: 0 }] },
+        {
+          label: '⚔ 开始战斗',
+          commands: [{ kind: 'startBattle', enemyTeamId: 'team-0' }],
+        },
       ],
     },
     {

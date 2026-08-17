@@ -107,7 +107,7 @@ export function catalogControlsEditorState(
     manifest: {
       id: 'catalog-controls-test',
       name: '目录控件测试',
-      contentVersion: 14,
+      contentVersion: 15,
       minEngineVersion: '2.0.0',
       entryScene: 's001',
       startWorld,

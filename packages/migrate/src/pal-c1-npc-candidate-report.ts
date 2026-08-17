@@ -1,19 +1,16 @@
+import { isDeepStrictEqual } from 'node:util'
 import {
   checkDialogueCueV14,
+  type DialogueIdentityV14,
+  type SceneDefV14,
   validateActors,
   validateEnemiesV14,
   validateItemsV14,
   validateScenesV14,
   validateSharedScriptsV14,
-  type DialogueIdentityV14,
 } from '@type-pal/content'
-import { isDeepStrictEqual } from 'node:util'
 import { stableJsonSha256, stableStringCompare } from './experimental/script-v5/stable-json.js'
-import {
-  type MigrationSnapshot,
-  serializeMigrationJson,
-  sha256,
-} from './migration-baseline.js'
+import { type MigrationSnapshot, serializeMigrationJson, sha256 } from './migration-baseline.js'
 import type { MigrationJson } from './pal-migration.js'
 
 export const C1_NPC_CANDIDATE_REPORT_METHOD = 'pal-c1-npc-candidate-report-v1' as const
@@ -99,9 +96,7 @@ export interface C1NpcDialogueCandidateSiteV1 {
   identity: Extract<DialogueIdentityV14, { kind: 'unbound' }>
 }
 
-export type C1NpcCandidateSiteV1 =
-  | C1NpcEntityCandidateSiteV1
-  | C1NpcDialogueCandidateSiteV1
+export type C1NpcCandidateSiteV1 = C1NpcEntityCandidateSiteV1 | C1NpcDialogueCandidateSiteV1
 
 export interface C1NpcCandidateGroupV1 {
   kind: 'entity-sprite' | 'dialogue-display'
@@ -195,11 +190,9 @@ function fileSha256(snapshot: MigrationSnapshot, path: string): string {
 function sceneIds(value: MigrationJson): string[] {
   if (!Array.isArray(value)) throw new Error('C1-3 candidate: scene index 期望数组')
   const result = value.map((entry, index) => nonEmptyString(entry, `scene index[${index}]`))
-  if (new Set(result).size !== result.length)
-    throw new Error('C1-3 candidate: scene index 重复')
+  if (new Set(result).size !== result.length) throw new Error('C1-3 candidate: scene index 重复')
   const sorted = [...result].sort(stableStringCompare)
-  if (!isDeepStrictEqual(result, sorted))
-    throw new Error('C1-3 candidate: scene index 未规范排序')
+  if (!isDeepStrictEqual(result, sorted)) throw new Error('C1-3 candidate: scene index 未规范排序')
   return result
 }
 
@@ -212,8 +205,7 @@ function scenePartition(tokens: readonly string[]): C1NpcCandidatePartition {
   if (tokens[0] === 'entities') {
     if (tokens[2] === 'pages') return 'scene-entity-pages'
     if (tokens[2] === 'hostile') return 'scene-entity-hostile'
-    if (tokens[2] === 'behaviors' && tokens[3] === 'trigger')
-      return 'scene-entity-trigger'
+    if (tokens[2] === 'behaviors' && tokens[3] === 'trigger') return 'scene-entity-trigger'
     if (tokens[2] === 'behaviors' && tokens[3] === 'auto') return 'scene-entity-auto'
   }
   throw new Error(`C1-3 candidate: 未分类 scene dialogue ${pointer(tokens)}`)
@@ -277,7 +269,9 @@ function collectDialogueSites(args: {
 }): void {
   const visit = (node: unknown, tokens: string[]): void => {
     if (Array.isArray(node)) {
-      node.forEach((entry, index) => visit(entry, [...tokens, String(index)]))
+      node.forEach((entry, index) => {
+        visit(entry, [...tokens, String(index)])
+      })
       return
     }
     if (!node || typeof node !== 'object') return
@@ -328,7 +322,14 @@ function groupSites(
   sites: readonly C1NpcCandidateSiteV1[],
   locale: Readonly<Record<string, string>>,
 ): C1NpcCandidateGroupV1[] {
-  const groups = new Map<string, { kind: C1NpcCandidateGroupV1['kind']; evidence: C1NpcCandidateGroupV1['evidence']; siteIds: string[] }>()
+  const groups = new Map<
+    string,
+    {
+      kind: C1NpcCandidateGroupV1['kind']
+      evidence: C1NpcCandidateGroupV1['evidence']
+      siteIds: string[]
+    }
+  >()
   for (const site of sites) {
     const kind = site.kind === 'entity' ? 'entity-sprite' : 'dialogue-display'
     const evidence =
@@ -341,9 +342,7 @@ function groupSites(
                   speakerText:
                     locale[site.identity.speaker] ??
                     (() => {
-                      throw new Error(
-                        `C1-3 candidate: locale 缺 speaker ${site.identity.speaker}`,
-                      )
+                      throw new Error(`C1-3 candidate: locale 缺 speaker ${site.identity.speaker}`)
                     })(),
                 }
               : {}),
@@ -381,7 +380,45 @@ export function buildC1NpcCandidateReport(args: BuildReportArgs): C1NpcCandidate
   const enemyPath = 'content/enemies.json'
   const ids = sceneIds(requiredFile(args.snapshot, sceneIndexPath))
   const sceneFiles = ids.map((id) => `content/scenes/${id}.json`)
-  const scenes = validateScenesV14(sceneFiles.map((path) => requiredFile(args.snapshot, path)))
+  const rawScenes = sceneFiles.map((path) => requiredFile(args.snapshot, path))
+  const currentCommandView = (value: unknown): unknown => {
+    if (Array.isArray(value)) return value.map(currentCommandView)
+    if (!value || typeof value !== 'object') return value
+    const record = value as Record<string, unknown>
+    if (record.kind === 'startBattle' && Number.isSafeInteger(record.team))
+      return {
+        ...Object.fromEntries(
+          Object.entries(record)
+            .filter(([key]) => key !== 'team')
+            .map(([key, child]) => [key, currentCommandView(child)]),
+        ),
+        enemyTeamId: `team-${String(record.team)}`,
+      }
+    if (record.hostile && typeof record.hostile === 'object') {
+      const hostile = record.hostile as Record<string, unknown>
+      if (Number.isSafeInteger(hostile.team))
+        return {
+          ...Object.fromEntries(
+            Object.entries(record)
+              .filter(([key]) => key !== 'hostile')
+              .map(([key, child]) => [key, currentCommandView(child)]),
+          ),
+          hostile: {
+            ...Object.fromEntries(
+              Object.entries(hostile)
+                .filter(([key]) => key !== 'team')
+                .map(([key, child]) => [key, currentCommandView(child)]),
+            ),
+            enemyTeamId: `team-${String(hostile.team)}`,
+          },
+        }
+    }
+    return Object.fromEntries(
+      Object.entries(record).map(([key, child]) => [key, currentCommandView(child)]),
+    )
+  }
+  validateScenesV14(rawScenes.map(currentCommandView))
+  const scenes = rawScenes as unknown as SceneDefV14[]
   const actors = validateActors(requiredFile(args.snapshot, actorPath))
   const rawLocale = asRecord(requiredFile(args.snapshot, localePath), localePath)
   const locale = Object.fromEntries(
@@ -521,7 +558,8 @@ export function buildC1NpcCandidateReport(args: BuildReportArgs): C1NpcCandidate
     throw new Error('C1-3 candidate: candidate canonical locator 重复')
   coverage.sort(
     (left, right) =>
-      stableStringCompare(left.file, right.file) || stableStringCompare(left.pointer, right.pointer),
+      stableStringCompare(left.file, right.file) ||
+      stableStringCompare(left.pointer, right.pointer),
   )
   const groups = groupSites(sites, locale)
   const entityGroups = groups.filter((group) => group.kind === 'entity-sprite').length
@@ -581,14 +619,12 @@ export function assertC1NpcCandidateReport(report: C1NpcCandidateReportV1): void
     report.cueCoverageDigest,
     report.digest,
   ])
-    if (!/^[a-f0-9]{64}$/.test(digest))
-      throw new Error('C1-3 candidate report: digest 非 sha256')
+    if (!/^[a-f0-9]{64}$/.test(digest)) throw new Error('C1-3 candidate report: digest 非 sha256')
   const sortedSites = [...report.sites].sort(compareSite)
   if (!isDeepStrictEqual(report.sites, sortedSites))
     throw new Error('C1-3 candidate report: sites 未规范排序')
   const ids = report.sites.map((site) => site.id)
-  if (new Set(ids).size !== ids.length)
-    throw new Error('C1-3 candidate report: site id 重复')
+  if (new Set(ids).size !== ids.length) throw new Error('C1-3 candidate report: site id 重复')
   const locations = report.sites.map((site) => `${site.file}#${site.pointer}`)
   if (new Set(locations).size !== locations.length)
     throw new Error('C1-3 candidate report: canonical locator 重复')

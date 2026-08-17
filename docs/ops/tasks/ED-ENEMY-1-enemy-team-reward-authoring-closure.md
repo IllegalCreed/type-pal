@@ -1,12 +1,13 @@
 # ED-ENEMY-1 - 敌人、敌队预制与结算/偷取编辑闭环
 
-Status: draft
+Status: done
 Phase: phase2
-Capability: B1 / B7 / B9（需重验现有完成声明，不预先改变能力状态）
+Capability: B1 / B7 / B9（2026-08-17 重验通过并同步 capability-map）
 Coding Owner: Codex
 Reviewer: Kimi（架构/schema/运行时）+ GLM（数据覆盖/测试矩阵）
 Visual Verification Owner: Codex + User
-Blocked by: Kimi / GLM build 前独立前提与设计签字
+Blocked by: none
+Branch: `codex/ed-enemy-1`
 
 ## 用户裁决与目标
 
@@ -319,12 +320,164 @@ enemy.ts:99 steal schema / EnemyTab.tsx:608-640,1078-1100,1192-1193,1283 / App.t
 3181-3205 / main.ts:2363-2369 / commands.ts:2634-2646,2675-2680 / battle-data-references.ts:251 /
 global.h:270-295 / fight.c:753-754,5253-5284。只读审查,未改实现文件,未代签 Kimi,未标 build/done。
 
+## Build 实现与验证（Codex，2026-08-17）
+
+### 实现闭环
+
+1. **content15 稳定敌队引用一次升级**：`HostileBehavior.enemyTeamId` 与
+   `startBattle.enemyTeamId` 同版本切为字符串，validator、typed command scanner、manifest epoch、PAL/demo/e2e-own
+   工程与专用迁移脚本同步升级。Reforge 与编辑器产品入口只接受 current content15；启动、试玩、存档/读档
+   不再按 12/13/14 分发。证据：`packages/content/src/character.ts:116`、
+   `packages/content/src/index.ts:96-99`、`packages/content/src/script-v5.ts:195-196`、
+   `packages/content/src/enemy-team-reference-v15-upgrade.ts`、
+   `packages/reforge/src/runnable-project-loader.ts:10-18`、`packages/reforge/src/save/migration-v15.ts`。
+2. **敌队七环**：新增独立 `EnemyTeamTab`，支持稳定 ID 创建、复制、五个固定语义槽、空槽、换序、只读逐敌
+   结算汇总、成员回跳、完整字符串 ID 试打、引用列表与阻断删除；Add/Update/Delete 命令均可 undo/redo。
+   证据：`packages/editor/src/ui/EnemyTeamTab.tsx:51-445`、
+   `packages/editor/src/core/commands.ts:2704-2781`。
+3. **typed 引用单源**：hostile 与所有 canonical `startBattle` 根由 typed collector 收集；引用页给出精确场景实体/
+   canonical command locator，删除命令在 state 层再次 fail-closed。证据：
+   `packages/content/src/enemy-team-reference.ts`、`packages/editor/src/core/enemy-team-references.ts:46-104`。
+4. **场景与试玩同 ID**：场景 hostile picker 直接列全体 `EnemyTeamDef.id`，缺失值保留并标 invalid；运行时、脚本
+   host、明雷触发、dev 试打与 `?battle=` 全部直接消费字符串 ID，不再拼 `team-${number}`。证据：
+   `packages/editor/src/ui/App.tsx:3225-3253`、`packages/reforge/src/main.ts:2279-2307,5393-5399,7482-7538`。
+5. **奖励/偷取权威收口**：敌人页保留 exp/cash/collectValue 与 onDefeated 单源；偷取显式为无/金钱/物品三态，
+   金钱落 `itemId:'0'`，普通 JSON textarea 已移除；结构化物品奖励只改写现有 giveItem，dialog/branch 高级演出
+   保留。敌队只显示来自成员的只读汇总，同敌重复槽累计两次。
+
+### 数据与迁移证据
+
+- `migrate:enemy-team-refs-v15 --write` 二次运行：demo/e2e-own/PAL 均 `changed=0`；PAL 精确复算
+  **380 teams / 828 hostile / 174 startBattle / 0 dangling**。
+- `migrate:content --write`：`[current replay] content15 无写入`，同一 census 全部保持。
+- 历史 C1/B2 发布 seal 通过隔离的 v15→v14 rewind 复验；字节级旧字段插入顺序由 PAL 发布父面钉死，未用更新
+  seal 掩盖差异。最终 `test:fast` 含 compact oracle 全绿。
+
+### 验证结果
+
+- `@type-pal/content`: **42 files / 484 tests**；typecheck 通过。
+- `@type-pal/editor`: **127 files / 935 tests**；typecheck、Vite production build 通过。
+- `@type-pal/reforge`: **100 files / 1023 tests**；typecheck、Vite production build 通过。
+- `@type-pal/migrate test:fast`: **89 files / 649 passed / 5 manifest-declared skipped**；manifest
+  `fast 89/649, release 113/781, canary 1/2`；typecheck 通过。
+- G3 synthetic：Enemy UI 将“金钱”写成 `{itemId:'0', count:2}` 并可 undo；runtime 既有
+  `battle-core` 金钱偷取 fixture 验证 moneyDelta/余量。G1/G2 UI/command tests 覆盖 arbitrary stable ID、复制、五槽/
+  空槽、重复成员汇总、完整 ID 试打、hostile + canonical startBattle 引用与阻断删除。
+- 浏览器实机：PAL `team-0` 工作台在 **1280×720 / 900×720 / 720×720** 均 5 槽可达，document width
+  分别等于 viewport（无横滚），引用阻断/成员汇总可见，console error **0**；检查后已复位 viewport。
+- 代码质量：本卡新增/核心改动文件定向 Biome check 全绿。仓库级 `pnpm lint` 仍有 253 条既存跨域基线诊断，
+  未借本卡扩张修复；审查者应按本卡 diff 与上述定向检查判断。
+
+### capability-map 重验结论（待 done 时同步地图）
+
+| 格 | 结论 | 本卡新增证据 |
+|---|---|---|
+| B1 回合战核心 | 维持引擎/编辑器完成 | 独立敌人/敌队预制、五槽编组、任意稳定 ID 试打与逐敌实例化闭环。 |
+| B7 战斗结算 | 引擎完成声明维持；编辑侧可由 `—` 更新为完成 | exp/cash/collectValue、额外 giveItem 与偷取三态均可结构化编辑；重复成员只读汇总与 runtime 逐敌语义一致。 |
+| B9 数据驱动敌对行为 | 维持引擎/编辑器完成 | hostile 只持稳定 `enemyTeamId`，选择/缺失态/引用/删除/明雷触发/保存重开同一 ID。 |
+
 ### review -> done
 
-- Codex: pending
-- Kimi: pending
-- GLM: pending
-- User: pending functional acceptance
+- Codex: **accept（2026-08-17）**。Coding Owner 自审确认 G1-G5、EK1-EK3 全部落地；current-only 产品边界、
+  380/828/174/0 迁移不变式、三包全测、迁移 fast/oracle、双 build 与三档浏览器验证均通过。未发现阻断项；
+  仓库全局 lint 基线已如实列为非本卡遗留。
+- Kimi: **accept（2026-08-17 done 前架构/运行时审查，本人一手读码 + 全量复算 + 实机，非复述）**。
+  逐项核验：
+  1. **EK1 单模型 ✓**：`HostileBehavior.enemyTeamId: string`（content/index.ts:96-99）与
+     `startBattle.enemyTeamId: string`（script-v5.ts:195-196）同属 `CONTENT_VERSION = 15`
+     （character.ts:116）；`team-${...}` 合成仅存于 v13/v15 迁移转换器（合法迁移路径），
+     运行时/编辑器生产码零命中；`parseTeamNum` 全仓零命中。
+  2. **EK2 迁移面 ✓（一手复算 + 幂等实跑）**：`migrate:enemy-team-refs-v15`（plan 模式）三工程
+     `changed=0`，PAL `teams=380 hostile=828 startBattle=174 dangling=0`——与本席独立 node 复算
+     （380 队全 `team-N`、0 超槽、828 hostile / 174 startBattle 全部 exact join、0 悬空）逐项一致；
+     demo/e2e-own 均为 version=15；编辑器/运行时只接受 current（runnable-project-loader.ts:14-18
+     显式拒绝非 15；save/migration-v15.ts targetContentVersion: 15）。
+  3. **EK3 运行时贯穿 ✓**：`enemyTeamsById[enemyTeamId]` 字符串直查（main.ts:2302）、明雷
+     `h.enemyTeamId` 直传（:5393）、`?battle=<enemyTeamId>` 直消费（:7482-7538）、试打 href 全串
+     （EnemyTab.tsx:741 / EnemyTeamTab.tsx:281）、dev enemyOverride 为 string id（:2299-2301）。
+  4. **G1 敌队七环 ✓**：Add/Update/Delete 命令齐（commands.ts:2704-2781；Update 槽位切 5、空洞
+     保留；Delete apply 内 fail-closed 抛 EnemyTeamInUseError + exact invert）；collector 双路径
+     （场景 hostile 直扫 + tagged startBattle 覆盖 scenes/items/scriptChunks/sharedScripts/enemies；
+     canonical 精确 locator 变体）enemy-team-references.ts:46-104。
+  5. **G2 断链修复 ✓（实机）**：场景 hostile picker 直列全部 380 队（s006/e152 实机值 team-0
+     与引用清单一致）、缺失值保留并标「缺数据」（App.tsx:3237-3247）；敌队删除被引用阻断——实机
+     team-0 删除禁用 + 4 处可跳转引用清单。
+  6. **G3/G4 奖励偷取 ✓**：偷取三态无/金钱/物品（EnemyTab.tsx:917-944，金钱落 `itemId:'0'`），
+     数量 1-999；onDefeated 结构化奖励经 `findDefeatedItemReward`/`replaceDefeatedItemReward`
+     原数组改写单权威（:608-645），高级 dialog/branch 指令只读保留并有说明（:1136-1141）；
+     普通 JSON 兜底入口不存在。
+  7. **复跑**：content 42 files/484、reforge 100 files/1023 全绿（与声明一致）；editor typecheck
+     PASS、全量 932/935——3-6 个超时失败文件**每次运行不同**（stamp-ownership/StampLibrary/
+     BattleSpriteLibrary/WorldSpriteLibrary/App.reference-navigation/MapMode，均非本卡 diff 文件），
+     隔离复跑全部通过（21+21+55+3），判定为本席机器负载下的既有超时抖动（dev server + 双浏览器
+     并行），非本卡回归；建议归入看板已有 OPS-TST-PERF 系列跟进。
+  8. **实机**：敌队工作台 1200/720px 无横滚、5 槽可达、hero/试打/引用/只读汇总齐全；console
+     0 error。
+  **附记（不阻塞）**：validate-refs 仍无 hostile/startBattle enemyTeamId 悬空 join 校验——main 上
+  即缺（非本卡引入）；当前由编辑器 invalid 显示 + 删除阻断 + 运行时桩胜 toast 兜底，建议后续
+  内容校验补强时一并纳入（可作候选 debt 登记）。
+  只读审查，未改实现文件，未代签 GLM，未标 done。
+- GLM: **accept（2026-08-17 done 前数据/测试终审，本人一手读码 + 独立复算 + 四包独立复跑，非代理；
+  基于实现提交 95700c69，203 文件 +4345/-2660）**。G1-G5 + EK1-EK3 逐钉独立验证：
+  - **EK2/G2 迁移不变式本人第三次独立复算 ✓**：node 逐文件扫描 PAL content——380 队 /
+    hostile 828 引用 / startBattle 174 引用 / **0 悬空 / 0 残留数字或 team 字段**，与 Codex、
+    Kimi 双方数字三方一致。**方法论备注（供未来 census 复用）**：startBattle 引用必须遍历
+    `scenes/` + `scripts/` + **`shared-scripts.json`**——本人首轮只扫前两者得 4/174，漏的 170 处
+    全在 shared-scripts；任何敌队引用复算不 walk shared-scripts 即不完整。
+  - **EK1/EK2 链路 ✓**：`CONTENT_VERSION = 15`（character.ts:116）；v15 升级模块 + 测试在位；
+    pal/demo/e2e-own 三 fixture 全部 version=15（ED-DS-2 K1 的 v12 尾巴经迁移脚本处置，非手改）；
+    current-only 边界属实——open-local 非 15 显式拒绝并给出重生成指引，符合冻结设计"只保留一个
+    canonical 路径"与 EK2"旧版本链路先后关系"钉。
+  - **G1 七环 ✓**：AddEnemyTeamCommand（:2704）/Update（:2723）/Delete（:2758）三命令齐；
+    collector 双路径（hostile 直扫 :53-57 + tagged startBattle :87，覆盖 scenes/items/
+    scriptChunks/sharedScripts/enemies）；**测试用 team-c1 作正面 fixture**（:25/:64/:81-84）——
+    当年断链的反面教材成为任意稳定 ID 的正向用例，G2"新建敌队立即可被场景选用"的验收形态成立。
+  - **G3 偷取三态 ✓**：无/金钱/物品（EnemyTab:916-934），金钱落 `itemId:'0'`——PAL 零实例的
+    路径由 synthetic fixture 覆盖（build 记录），本人 G3 钉按约落实。
+  - **G4 单源 + 兜底删除 ✓**：EnemyTab textarea 零命中；findDefeatedItemReward（:196）/
+    replaceDefeatedItemReward（:217）原数组改写单权威保留；dialog/branch 类型化只读保留
+    （:168-206）——15 例 PAL 演出仍可经高级路径编辑。
+  - **EK3 贯穿 ✓**：运行时 enemyTeamId 字符串直查（main.ts:2279/:2302）；试打 href 升级为完整
+    字符串 ID（EnemyTab:741 / EnemyTeamTab:281）——协议变化属 EK3 明示授权（"battle= 参数同升"）。
+  - **四包独立复跑全绿 ✓**：content 42 files/484、editor 127 files/**935（本席一轮全绿——
+    佐证 Kimi 遇到的 3-6 个超时失败为机器负载抖动而非回归，其非本卡 diff 文件清单亦支持该判定）**、
+    reforge 100 files/1023、migrate:fast 89 files/649 passed + 5 manifest 声明跳过；content/
+    editor/reforge 三 typecheck PASS。
+  - 同感 Kimi 附记：validate-refs 缺 hostile/startBattle enemyTeamId 悬空 join 校验系 main 既有
+    缺口（非本卡引入），编辑器 invalid 显示 + 删除阻断 + 运行时兜底已闭环该风险；建议登记为内容
+    校验补强候选 debt。
+- User: **accept（2026-08-17）**。用户在三方 done 前审查签字齐后明确回复“验收通过”。
+- done 准入结论: **allowed——Codex + Kimi + GLM 三方 accept 与用户功能验收齐（2026-08-17）。**
+
+
+- 2026-08-17 User: 明确“验收通过”；ED-ENEMY-1 由 `review` 转 `done`。B1/B7/B9 重验结论同步
+  capability-map，进入 git 收口（合并 main、推送、删除已合并分支）。
+
+
+- 2026-08-17 Kimi: done 前架构/运行时审查完成并签 **accept（无返工项，附一条不阻塞附记）**。
+  EK1-EK3 逐项一手核实：content15 单模型（hostile + startBattle 同版本字符串化，`team-${}` 合成
+  仅存于迁移转换器、parseTeamNum 零命中）、产品入口只收 current、运行时/明雷/?battle=/试打 href
+  全串贯穿；迁移 plan 模式三工程 changed=0 且与本席独立 PAL 复算（380/828/174/0）逐项一致；
+  敌队七环命令 + 双路径 collector + fail-closed 删除；场景 picker 实机 380 队可选、team-0 删除
+  阻断 4 处可跳转；偷取三态与奖励单权威成立。content 484 / reforge 1023 复跑全绿；editor 全量
+  超时抖动文件均非本卡 diff 且隔离全过，判为环境负载，归 OPS-TST-PERF 跟进。附记：validate-refs
+  缺 enemyTeamId 悬空 join 校验系 main 既有缺口，建议作候选 debt。未改实现文件，未代签 GLM，
+  未标 done。Next: GLM 数据/测试终审 → 用户功能验收（含代表场景试打）。
+
+- 2026-08-17 GLM（数据/测试）: done 前终审完成并签 **accept**。第三次独立复算迁移不变式
+  380/828/174/0/0 三方一致；**方法论发现：startBattle census 必须遍历 shared-scripts.json**
+  （本人首轮漏扫只得 4/174，170 处在 shared-scripts）；三 fixture 全 v15、current-only 边界符合
+  EK2 钉；G1 三命令 + collector 双路径 + team-c1 正面 fixture；G3 三态含 itemId:'0' synthetic；
+  G4 textarea 零命中 + 单源保留 + dialog/branch 存续；EK3 字符串试打 href（协议变化属授权）。
+  四包独立复跑：content 484 / editor 935 一轮全绿（佐证 Kimi 超时抖动判定）/ reforge 1023 /
+  migrate:fast 649+5skip + 三 typecheck 全 PASS。同感 validate-refs 悬空 join debt 附记。
+  未改实现文件，未代签 Kimi，未标 done。Next: 用户功能验收（含代表场景试打）后关卡。
+
+
+- 2026-08-17 Codex: 接手前复核 Codex + Kimi（EK1-EK3）+ GLM（G1-G5）三方 premise/design
+  签字与字符串 `enemyTeamId` 方案裁决，build 准入仍为 allowed；任务由 `draft` 转 `build`，分支为
+  `codex/ed-enemy-1`。Codex 为唯一 Coding Owner，按“迁移/门禁 → 敌队七环 → 场景引用 → 奖励偷取 →
+  全量审计/视觉”顺序推进。
 
 
 - 2026-08-16 GLM: build 前数据覆盖审查签 premise verified + design agree（G1-G5）。全量复算：380 队
@@ -334,6 +487,26 @@ global.h:270-295 / fight.c:753-754,5253-5284。只读审查,未改实现文件,�
   828+174+380 exact join 矩阵。Next: Kimi 架构签字 + §4 方案裁决。
 
 ## 下一位 Agent 提示词
+
+无下一位 Agent 提示词；三方 `accept` + 用户验收齐，等待/执行 git 收口。
+
+### 给 Kimi（done 前架构/运行时审查——已完成）
+
+Kimi 已于 2026-08-17 完成 done 前架构/运行时审查并签 accept（无返工项，附 validate-refs 候选
+debt 附记；逐项一手证据见 review->done 的 Kimi 行与交接日志），本节提示词不再适用。
+
+### 给 GLM（done 前数据/测试审查，可直接复制）
+
+```text
+接手任务：ED-ENEMY-1 敌人、敌队预制与结算/偷取编辑闭环——done 前数据覆盖/测试矩阵审查
+任务卡：docs/ops/tasks/ED-ENEMY-1-enemy-team-reward-authoring-closure.md
+分支：codex/ed-enemy-1；状态：review；Codex 已实现并签 accept，Kimi/GLM/User pending
+你的角色：独立 reviewer。先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、任务卡全文与本卡 diff。
+重点核：G1-G5；独立复算 PAL 380 teams / 828 hostile / 174 startBattle / 0 dangling；迁移双跑幂等；
+敌队 CRUD/五槽/空槽/复制/引用/删除/试打，敌人 exp/cash/collect/偷取三态/extra giveItem 单权威；
+确认 synthetic 偷钱和重复成员汇总测试不依赖 PAL 零实例。输出：在任务卡 review->done 的 GLM 行签 accept，
+或写 counter、证据锚点和必返工项；不得修改实现文件，不得标 done，三方审查和用户验收未齐前不得合 main。
+```
 
 ### 给 Kimi（已完成）
 

@@ -297,7 +297,7 @@ function locateEncounter(
   if (!flow) throw new Error(`R13 enemy augmentation: ${locator} flow 不存在`)
   const matches = flowBody(flow, spec.stateId, locator).filter(
     (command): command is StartBattleCommand =>
-      command.kind === 'startBattle' && command.team === spec.team,
+      command.kind === 'startBattle' && command.enemyTeamId === `team-${spec.team}`,
   )
   if (matches.length !== 1)
     throw new Error(`R13 enemy augmentation: ${locator} startBattle 数量=${matches.length}`)
@@ -499,7 +499,7 @@ export function assertR13EnemyScriptFinalTargetClosure(
     if (!flow) throw new Error(`R13 enemy augmentation: final ${locator} flow 不存在`)
     const matches = flowBody(flow, spec.stateId, locator).filter(
       (command): command is StartBattleCommand =>
-        command.kind === 'startBattle' && command.team === spec.team,
+        command.kind === 'startBattle' && command.enemyTeamId === `team-${spec.team}`,
     )
     const command = matches[0]
     if (

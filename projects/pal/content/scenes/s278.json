@@ -891,7 +891,7 @@
                           "kind": "loadLastSave"
                         }
                       ],
-                      "team": 289
+                      "enemyTeamId": "team-289"
                     },
                     {
                       "kind": "stopMusic"
@@ -1330,7 +1330,7 @@
                           "kind": "loadLastSave"
                         }
                       ],
-                      "team": 222
+                      "enemyTeamId": "team-222"
                     },
                     {
                       "asset": "music.pal.034",

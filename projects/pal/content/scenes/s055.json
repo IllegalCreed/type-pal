@@ -384,7 +384,7 @@
                       "boss": true,
                       "fieldId": 45,
                       "kind": "startBattle",
-                      "team": 33
+                      "enemyTeamId": "team-33"
                     },
                     {
                       "kind": "setEntityState",
@@ -669,7 +669,7 @@
                       "boss": true,
                       "fieldId": 45,
                       "kind": "startBattle",
-                      "team": 33
+                      "enemyTeamId": "team-33"
                     },
                     {
                       "kind": "setEntityState",

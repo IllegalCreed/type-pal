@@ -497,10 +497,28 @@ export function digestR13ExistingSchemaContentSnapshot(snapshot: MigrationSnapsh
 }
 
 function sceneOf(snapshot: MigrationSnapshot, sceneId: string): SceneDefV5 {
-  const scene = validateScenesV5([snapshot.files.get(`content/scenes/${sceneId}.json`)])[0]
-  if (!scene || scene.id !== sceneId)
+  const raw = snapshot.files.get(`content/scenes/${sceneId}.json`)
+  const currentCommandView = (value: unknown): unknown => {
+    if (Array.isArray(value)) return value.map(currentCommandView)
+    if (!value || typeof value !== 'object') return value
+    const record = value as Record<string, unknown>
+    if (record.kind === 'startBattle' && Number.isSafeInteger(record.team))
+      return {
+        ...Object.fromEntries(
+          Object.entries(record)
+            .filter(([key]) => key !== 'team')
+            .map(([key, child]) => [key, currentCommandView(child)]),
+        ),
+        enemyTeamId: `team-${String(record.team)}`,
+      }
+    return Object.fromEntries(
+      Object.entries(record).map(([key, child]) => [key, currentCommandView(child)]),
+    )
+  }
+  const validated = validateScenesV5([currentCommandView(raw)])[0]
+  if (!validated || validated.id !== sceneId)
     throw new Error(`R13 existing-schema augmentation: scene identity 漂移 ${sceneId}`)
-  return scene
+  return raw as unknown as SceneDefV5
 }
 
 function flowOf(scene: SceneDefV5, owner: FlowOwner): ScriptFlowV5 {

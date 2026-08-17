@@ -380,7 +380,7 @@ export function SharedScriptTab(props: {
     let next = stages
     let at = parsePath(insertFor)
     const authoredCommands =
-      editorState.manifest.contentVersion === 14
+      editorState.manifest.contentVersion === 15
         ? (upgradeDialogueTreeV13ToV14(commands) as unknown as readonly Command[])
         : commands
     for (const command of authoredCommands) {

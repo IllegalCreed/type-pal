@@ -54,9 +54,9 @@ import {
   spriteDefinitionFrameDemand,
   spriteDefinitionFrameIndices,
   upsertAuthoredScript,
-  validateBattleSprites,
-  validateBattleFields,
   validateActors,
+  validateBattleFields,
+  validateBattleSprites,
   validateMapIndex,
   validateProjectRelativePath,
   validateSprites,
@@ -76,18 +76,19 @@ import {
   removeProjectMapLayer,
   updateProjectMapLayer,
 } from '@type-pal/reforge'
-import type { EditorState } from './edit-session.js'
+import { blockingActorReferences } from './actor-references.js'
 import {
+  type BattleDataReference,
   blockingEnemyReferences,
   blockingPoisonReferences,
   blockingSkillReferences,
-  type BattleDataReference,
 } from './battle-data-references.js'
-import { blockingActorReferences } from './actor-references.js'
 import {
-  blockingBattleFieldReferences,
   type BlockingBattleFieldReference,
+  blockingBattleFieldReferences,
 } from './battle-field-references.js'
+import type { EditorState } from './edit-session.js'
+import { blockingEnemyTeamReferences } from './enemy-team-references.js'
 import { collectEntityAddressReferencesV13 } from './entity-address-references-v13.js'
 import { createEmptyScriptStages } from './entity-placement.js'
 import { blockingItemReferences } from './item-references.js'
@@ -342,17 +343,11 @@ export class DeleteEntityCommand implements Command {
       scene.entities.filter((_, i) => i !== index),
     )
     const references = collectEntityAddressReferencesV13(next).filter(
-      (reference) =>
-        reference.sceneId === this.sceneId && reference.entityId === this.entityId,
+      (reference) => reference.sceneId === this.sceneId && reference.entityId === this.entityId,
     )
     if (references.length)
       throw new Error(
-        '实体 "' +
-          this.sceneId +
-          '/' +
-          this.entityId +
-          '" 仍被引用：' +
-          references[0]!.path,
+        '实体 "' + this.sceneId + '/' + this.entityId + '" 仍被引用：' + references[0]!.path,
       )
     // 首次成功 apply 才捕获被删实体 + 原索引；失败的引用保护不得污染 undo 历史。
     if (!this.removed) this.removed = { entity: structuredClone(entity), index }
@@ -1923,7 +1918,8 @@ function assertActorCanBeAdded(state: EditorState, actor: ActorDef): void {
     ['name', actor.name],
     ['spriteId', actor.spriteId],
   ] as const)
-    if (!value.trim() || value !== value.trim()) throw new Error(`人物 ${field} 必须是无首尾空格的非空字符串`)
+    if (!value.trim() || value !== value.trim())
+      throw new Error(`人物 ${field} 必须是无首尾空格的非空字符串`)
   if (state.actors.some((candidate) => candidate.id === actor.id))
     throw new Error(`人物 id 已存在：${actor.id}`)
   if (!state.sprites.some((sprite) => sprite.id === actor.spriteId))
@@ -1959,7 +1955,8 @@ function assertActorPatchCanBeApplied(
   patch: ActorPatch,
 ): void {
   if (
-    'spriteId' in patch && actor.spriteId !== previous.spriteId &&
+    'spriteId' in patch &&
+    actor.spriteId !== previous.spriteId &&
     !state.sprites.some((sprite) => sprite.id === actor.spriteId)
   )
     throw new Error(`人物 ${actor.id} 的默认精灵不存在：${actor.spriteId}`)
@@ -1979,8 +1976,7 @@ function assertActorPatchCanBeApplied(
     for (const [expression, id] of Object.entries(actor.portraits?.expressions ?? {}))
       if (!previousPortraits.has(id)) assertAsset(id, 'portrait', `立绘“${expression}”`)
   }
-  if ('face' in patch && actor.face !== previous.face)
-    assertAsset(actor.face, 'face', '小头像')
+  if ('face' in patch && actor.face !== previous.face) assertAsset(actor.face, 'face', '小头像')
   if ('battler' in patch && actor.battler) {
     if (
       actor.battler.battleSprite !== previous.battler?.battleSprite &&
@@ -2115,7 +2111,11 @@ export class DeleteActorCommand implements Command {
     if (state.actors.some((actor) => actor.id === this.actorId))
       throw new Error(`无法撤销删除：人物 id 已被占用 ${this.actorId}`)
     const actors = [...state.actors]
-    actors.splice(Math.min(Math.max(0, this.index), actors.length), 0, structuredClone(this.removed))
+    actors.splice(
+      Math.min(Math.max(0, this.index), actors.length),
+      0,
+      structuredClone(this.removed),
+    )
     const levelUp = { ...state.levelUp }
     if (this.hadLevelUp && this.removedLevelUp)
       levelUp[this.actorId] = structuredClone(this.removedLevelUp)
@@ -2139,7 +2139,8 @@ export class DetachActorEntityCommand implements Command {
     const entity = scene?.entities.find((candidate) => candidate.id === this.entityId)
     if (!scene || !entity || !('actor' in entity)) return state
     const actor = state.actors.find((candidate) => candidate.id === entity.actor)
-    if (!actor) throw new Error(`实体 ${this.sceneId}/${this.entityId} 的人物不存在：${entity.actor}`)
+    if (!actor)
+      throw new Error(`实体 ${this.sceneId}/${this.entityId} 的人物不存在：${entity.actor}`)
     if (!state.sprites.some((sprite) => sprite.id === actor.spriteId))
       throw new Error(`人物 ${actor.id} 的默认精灵不存在：${actor.spriteId}`)
     if (!this.original) this.original = structuredClone(entity)
@@ -2686,6 +2687,92 @@ export class UpdateEnemyTeamsCommand implements Command {
   invert(state: EditorState): EditorState {
     if (!this.old) return state
     return { ...state, enemyTeams: this.old }
+  }
+}
+
+function withEnemyTeam(state: EditorState, teamId: string, next: EnemyTeamDef): EditorState {
+  let hit = false
+  const enemyTeams = (state.enemyTeams ?? []).map((team) => {
+    if (team.id !== teamId) return team
+    hit = true
+    return next
+  })
+  return hit ? { ...state, enemyTeams } : state
+}
+
+/** 新增独立敌队预制。稳定 id 创建后不可修改。 */
+export class AddEnemyTeamCommand implements Command {
+  readonly label = '新增敌队'
+  private readonly team: EnemyTeamDef
+  constructor(team: EnemyTeamDef) {
+    this.team = structuredClone(team)
+  }
+  apply(state: EditorState): EditorState {
+    if ((state.enemyTeams ?? []).some((candidate) => candidate.id === this.team.id)) return state
+    return { ...state, enemyTeams: [...(state.enemyTeams ?? []), this.team] }
+  }
+  invert(state: EditorState): EditorState {
+    return {
+      ...state,
+      enemyTeams: (state.enemyTeams ?? []).filter((candidate) => candidate.id !== this.team.id),
+    }
+  }
+}
+
+/** 修改敌队语义槽；槽位最多五个，null 保留空洞。 */
+export class UpdateEnemyTeamCommand implements Command {
+  readonly label = '修改敌队'
+  private previous: EnemyTeamDef | undefined
+  private readonly next: EnemyTeamDef
+  constructor(
+    private readonly teamId: string,
+    next: EnemyTeamDef,
+  ) {
+    this.next = structuredClone(next)
+  }
+  apply(state: EditorState): EditorState {
+    const team = (state.enemyTeams ?? []).find((candidate) => candidate.id === this.teamId)
+    if (!team) return state
+    if (!this.previous) this.previous = structuredClone(team)
+    return withEnemyTeam(state, this.teamId, {
+      ...this.next,
+      id: this.teamId,
+      slots: this.next.slots.slice(0, 5),
+    })
+  }
+  invert(state: EditorState): EditorState {
+    return this.previous ? withEnemyTeam(state, this.teamId, this.previous) : state
+  }
+}
+
+export class EnemyTeamInUseError extends Error {
+  readonly references: ReturnType<typeof blockingEnemyTeamReferences>
+  constructor(teamId: string, references: ReturnType<typeof blockingEnemyTeamReferences>) {
+    super(`敌队 ${teamId} 仍被 ${references.length} 处引用`)
+    this.name = 'EnemyTeamInUseError'
+    this.references = references
+  }
+}
+
+/** 删除未被场景或脚本引用的敌队；invert 插回原索引。 */
+export class DeleteEnemyTeamCommand implements Command {
+  readonly label = '删除敌队'
+  private removed: { team: EnemyTeamDef; index: number } | undefined
+  constructor(private readonly teamId: string) {}
+  apply(state: EditorState): EditorState {
+    const teams = state.enemyTeams ?? []
+    const index = teams.findIndex((candidate) => candidate.id === this.teamId)
+    if (index === -1) return state
+    const references = blockingEnemyTeamReferences(state, this.teamId)
+    if (references.length) throw new EnemyTeamInUseError(this.teamId, references)
+    if (!this.removed) this.removed = { team: structuredClone(teams[index]!), index }
+    return { ...state, enemyTeams: teams.filter((_, candidateIndex) => candidateIndex !== index) }
+  }
+  invert(state: EditorState): EditorState {
+    if (!this.removed) return state
+    const enemyTeams = [...(state.enemyTeams ?? [])]
+    enemyTeams.splice(this.removed.index, 0, this.removed.team)
+    return { ...state, enemyTeams }
   }
 }
 

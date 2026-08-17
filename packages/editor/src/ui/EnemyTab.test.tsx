@@ -251,10 +251,10 @@ describe('EnemyTab shared workbench', () => {
     const trials = [...host.querySelectorAll<HTMLAnchorElement>('a')].filter((link) =>
       link.textContent?.includes('试打'),
     )
-    expect(trials.length).toBeGreaterThanOrEqual(2)
+    expect(trials).toHaveLength(1)
     expect(
       trials.every(
-        (trial) => trial.getAttribute('href') === 'play.html?project=test-project&battle=7',
+        (trial) => trial.getAttribute('href') === 'play.html?project=test-project&battle=team-7',
       ),
     ).toBe(true)
     expect(
@@ -334,10 +334,21 @@ describe('EnemyTab shared workbench', () => {
     expect(host.querySelector('.battle-data-form textarea')).toBeNull()
     const steal = host.querySelector<HTMLElement>('[data-enemy-item-group="steal"]')!
     const attackEffect = host.querySelector<HTMLElement>('[data-enemy-item-group="attack-effect"]')!
-    expect(steal.querySelector('legend')?.textContent).toBe('可偷取物品')
+    expect(steal.querySelector('legend')?.textContent).toBe('偷取')
     expect(attackEffect.querySelector('legend')?.textContent).toBe('普攻附带物品效果')
-    expect(steal.querySelectorAll('.ds-field')).toHaveLength(2)
+    expect(steal.querySelectorAll('.ds-field')).toHaveLength(3)
     expect(attackEffect.querySelectorAll('.ds-field')).toHaveLength(2)
+
+    const stealMode = steal.querySelector<HTMLButtonElement>('[role="combobox"]')!
+    await act(async () => stealMode.click())
+    const stealModeListbox = document.getElementById(stealMode.getAttribute('aria-controls')!)!
+    const moneyOption = [...stealModeListbox.querySelectorAll<HTMLElement>('[role="option"]')].find(
+      (option) => option.textContent?.trim() === '金钱',
+    )!
+    await act(async () => moneyOption.click())
+    expect(session.getState().enemies?.[0]?.steal).toEqual({ itemId: '0', count: 2 })
+    await act(async () => expect(session.undo()).toBe(true))
+    expect(session.getState().enemies?.[0]?.steal).toEqual({ itemId: 'item-a', count: 2 })
 
     const valueSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
     const probability = host.querySelector<HTMLInputElement>(

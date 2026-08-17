@@ -25,7 +25,7 @@ function state(): EditorState {
     manifest: {
       id: 'dialogue-expression',
       name: 'dialogue expression',
-      contentVersion: 14,
+      contentVersion: 15,
       entryScene: 's',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },

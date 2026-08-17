@@ -59,10 +59,11 @@ export function applyPalBossEncounterOverlay(
     const command = node as Record<string, unknown>
     if (
       command.kind === 'startBattle' &&
-      typeof command.team === 'number' &&
+      typeof command.enemyTeamId === 'string' &&
       !command.choreography
     ) {
-      const hit = byTeam.get(command.team)
+      const teamNumber = /^team-(\d+)$/.exec(command.enemyTeamId)?.[1]
+      const hit = teamNumber === undefined ? undefined : byTeam.get(Number(teamNumber))
       if (hit) {
         command.choreography = structuredClone(hit.value)
         attached++

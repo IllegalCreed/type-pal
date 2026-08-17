@@ -68,9 +68,11 @@ export function upgradeHostileBehaviorV12ToV13(
     checkAuthorCommandsV13(value.onLose, `${path}.onLose`)
   const upgraded = {
     ...(clone(value) as Record<string, unknown>),
+    enemyTeamId: `team-${String(value.team)}`,
     onVictory,
     onPlayerFlee: { kind: 'remain' as const },
   } as Record<string, unknown>
+  delete upgraded.team
   delete upgraded.respawnSeconds
   checkHostileBehaviorV13(upgraded, path)
   return upgraded as HostileBehaviorV13

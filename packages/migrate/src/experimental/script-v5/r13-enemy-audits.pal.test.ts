@@ -141,7 +141,7 @@ function encounterBody(
 function encounterCommand(body: AuthorCommandV5[], team: number) {
   const matches = body.filter(
     (command): command is Extract<AuthorCommandV5, { kind: 'startBattle' }> =>
-      command.kind === 'startBattle' && command.team === team,
+      command.kind === 'startBattle' && command.enemyTeamId === `team-${team}`,
   )
   if (matches.length !== 1)
     throw new Error(`R13-5 test fixture team ${team} 数量=${matches.length}`)

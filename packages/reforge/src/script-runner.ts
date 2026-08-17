@@ -132,7 +132,7 @@ export interface ScriptHost {
   ): void
   // ── M3b 战斗桩 / 商店 / 确认 ──
   startBattle(
-    team: number,
+    enemyTeamId: string,
     opts?: {
       auto?: boolean
       boss?: boolean
@@ -703,7 +703,7 @@ export class ScriptRunner {
         return h.nudgeParty(cmd.dx, cmd.dy, cmd.layer ?? 0)
       case 'startBattle': {
         const r = await h.startBattle(
-          cmd.team,
+          cmd.enemyTeamId,
           {
             auto: cmd.auto,
             boss: cmd.boss,

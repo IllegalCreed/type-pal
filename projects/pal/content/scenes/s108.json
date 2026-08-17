@@ -4035,7 +4035,7 @@
                       "fieldId": 29,
                       "kind": "startBattle",
                       "music": "music.pal.048",
-                      "team": 39
+                      "enemyTeamId": "team-39"
                     },
                     {
                       "kind": "setParty",

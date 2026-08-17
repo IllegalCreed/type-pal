@@ -34,7 +34,6 @@ import {
   CompositeCommand,
   DeleteEnemyCommand,
   UpdateEnemyCommand,
-  UpdateEnemyTeamsCommand,
   UpdateLocaleCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
@@ -544,6 +543,7 @@ export function EnemyTab(props: {
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
   onOpenReference?: (reference: BattleDataReference) => void
+  onOpenEnemyTeam?: (id: string) => void
 }) {
   const {
     enemies,
@@ -562,10 +562,10 @@ export function EnemyTab(props: {
     focusObjectId,
     onObjectFocus,
     onOpenReference,
+    onOpenEnemyTeam,
   } = props
   const [filter, setFilter] = useState('')
   const [selId, setSelId] = useState(enemies[0]?.id ?? '')
-  const [selTeam, setSelTeam] = useState<string | null>(null)
   const [inspectorTab, setInspectorTab] = useState('teams')
   const fieldPrefix = useId()
   const appliedFocusObjectId = useRef<string | undefined>(undefined)
@@ -604,8 +604,13 @@ export function EnemyTab(props: {
     () => (enemy ? enemyTeams.filter((t) => t.slots.includes(enemy.id)) : []),
     [enemyTeams, enemy],
   )
-  const team = enemyTeams.find((t) => t.id === selTeam) ?? teamsOfSel[0]
+  const team = teamsOfSel[0]
   const defeatedReward = findDefeatedItemReward(enemy?.onDefeated)
+  const stealMode = !enemy?.steal
+    ? 'none'
+    : enemy.steal.itemId === '' || enemy.steal.itemId === '0'
+      ? 'money'
+      : 'item'
   const preservedDefeatedCommandCount =
     (enemy?.onDefeated?.length ?? 0) -
     (defeatedReward ? defeatedReward.endIndex - defeatedReward.startIndex : 0)
@@ -621,9 +626,6 @@ export function EnemyTab(props: {
         ai: { ...enemy.ai, rules: rules.length ? rules : undefined },
       }),
     )
-  }
-  const setTeams = (teams: EnemyTeamDef[]): void => {
-    session.dispatch(new UpdateEnemyTeamsCommand(teams))
   }
   const setSound = (key: keyof EnemySounds, value: AssetId | boolean | undefined): void => {
     if (!enemy) return
@@ -736,7 +738,7 @@ export function EnemyTab(props: {
                     <DsActionLink
                       variant="secondary"
                       icon="open"
-                      href={`play.html?project=${projectId}&battle=${team.id.replace('team-', '')}`}
+                      href={`play.html?project=${encodeURIComponent(projectId)}&battle=${encodeURIComponent(team.id)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       title="读磁盘工程：改动须先保存"
@@ -910,42 +912,57 @@ export function EnemyTab(props: {
               >
                 <div className="enemy-item-layout">
                   <fieldset className="enemy-item-group" data-enemy-item-group="steal">
-                    <legend>可偷取物品</legend>
-                    <p>战斗中成功偷取时，获得这里配置的物品和数量。</p>
-                    <DsCheckbox
-                      label="允许偷取"
-                      checked={!!enemy.steal}
-                      disabled={!enemy.steal && itemOptions.length === 0}
-                      title={itemOptions.length ? undefined : '工程中没有可选物品'}
-                      onChange={(event) =>
-                        session.dispatch(
-                          new UpdateEnemyCommand(enemy.id, {
-                            steal: event.target.checked
-                              ? { itemId: itemOptions[0]?.value ?? '', count: 1 }
-                              : undefined,
-                          }),
-                        )
-                      }
-                    />
+                    <legend>偷取</legend>
+                    <p>明确选择不可偷取、偷取金钱或偷取物品；数量属于敌人预制。</p>
+                    <DsField label="偷取内容">
+                      {({ id }) => (
+                        <DsSelect
+                          id={id}
+                          value={stealMode}
+                          options={[
+                            { value: 'none', label: '无' },
+                            { value: 'money', label: '金钱' },
+                            { value: 'item', label: '物品', disabled: itemOptions.length === 0 },
+                          ]}
+                          onValueChange={(mode) =>
+                            session.dispatch(
+                              new UpdateEnemyCommand(enemy.id, {
+                                steal:
+                                  mode === 'none'
+                                    ? undefined
+                                    : mode === 'money'
+                                      ? { itemId: '0', count: enemy.steal?.count ?? 1 }
+                                      : {
+                                          itemId: itemOptions[0]?.value ?? '',
+                                          count: enemy.steal?.count ?? 1,
+                                        },
+                              }),
+                            )
+                          }
+                        />
+                      )}
+                    </DsField>
                     {enemy.steal ? (
                       <div className="enemy-item-fields">
-                        <DsField label="物品">
-                          {({ id }) => (
-                            <DsSelect
-                              id={id}
-                              value={enemy.steal?.itemId ?? ''}
-                              options={itemOptions}
-                              invalid={!items.some((item) => item.id === enemy.steal?.itemId)}
-                              onValueChange={(itemId) =>
-                                session.dispatch(
-                                  new UpdateEnemyCommand(enemy.id, {
-                                    steal: { ...enemy.steal!, itemId },
-                                  }),
-                                )
-                              }
-                            />
-                          )}
-                        </DsField>
+                        {stealMode === 'item' ? (
+                          <DsField label="物品">
+                            {({ id }) => (
+                              <DsSelect
+                                id={id}
+                                value={enemy.steal?.itemId ?? ''}
+                                options={itemOptions}
+                                invalid={!items.some((item) => item.id === enemy.steal?.itemId)}
+                                onValueChange={(itemId) =>
+                                  session.dispatch(
+                                    new UpdateEnemyCommand(enemy.id, {
+                                      steal: { ...enemy.steal!, itemId },
+                                    }),
+                                  )
+                                }
+                              />
+                            )}
+                          </DsField>
+                        ) : null}
                         <DsField label="数量">
                           {({ id }) => (
                             <DsNumberInput
@@ -1148,130 +1165,24 @@ export function EnemyTab(props: {
               id: 'teams',
               label: '敌队',
               panel: (
-                <>
-                  <div className="section">
-                    <h4>
-                      所在敌队 <span className="hint2">⚔ 同源试玩页试打</span>
-                    </h4>
-                    {teamsOfSel.length === 0 ? (
-                      <p className="hint">不在任何敌队。加入或新建一队才能被遭遇/试打。</p>
-                    ) : null}
-                    {teamsOfSel.map((t) => (
-                      <div key={t.id} className="et-team-row">
-                        <DsButton
-                          size="compact"
-                          variant={team?.id === t.id ? 'primary' : 'secondary'}
-                          aria-pressed={team?.id === t.id}
-                          onClick={() => setSelTeam(t.id)}
-                        >
-                          {t.id}
-                        </DsButton>
-                        <span className="hint2">{t.slots.length} 槽</span>
-                        <span className="spacer" />
-                        <DsActionLink
-                          size="compact"
-                          variant="secondary"
-                          icon="open"
-                          href={`play.html?project=${projectId}&battle=${t.id.replace('team-', '')}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          title="读磁盘工程:改动须先 💾 保存"
-                        >
-                          试打
-                        </DsActionLink>
-                      </div>
-                    ))}
-                    <div className="cf-insert" style={{ marginTop: 6 }}>
+                <div className="section">
+                  <h4>所在敌队</h4>
+                  <p className="hint">敌队成员统一在“战斗 / 敌队”工作台编辑，避免两处阵容权威。</p>
+                  {teamsOfSel.length === 0 ? <p className="hint">当前敌人不在任何敌队。</p> : null}
+                  {teamsOfSel.map((candidate) => (
+                    <div key={candidate.id} className="et-team-row">
                       <DsButton
                         size="compact"
                         variant="secondary"
-                        icon="add"
-                        onClick={() => {
-                          if (!enemy) return
-                          let n = 1
-                          while (enemyTeams.some((t) => t.id === `team-c${n}`)) n++
-                          const id = `team-c${n}`
-                          setTeams([...enemyTeams, { id, slots: [enemy.id] }])
-                          setSelTeam(id)
-                        }}
+                        icon="open"
+                        onClick={() => onOpenEnemyTeam?.(candidate.id)}
                       >
-                        新建敌队(含此敌)
+                        {candidate.id}
                       </DsButton>
+                      <span className="hint2">{candidate.slots.filter(Boolean).length} 名成员</span>
                     </div>
-                  </div>
-                  {team ? (
-                    <div className="section">
-                      <h4>
-                        编辑 {team.id} <span className="hint2">≤5 员</span>
-                      </h4>
-                      {team.slots.map((slot, si) => (
-                        <div key={si} className="et-team-row">
-                          <span className="hint2" style={{ width: 42 }}>
-                            槽 {si + 1}
-                          </span>
-                          <DsSelect
-                            size="compact"
-                            aria-label={`${team.id} 槽 ${si + 1} 敌人`}
-                            value={slot ?? ''}
-                            options={[
-                              { value: '', label: '空槽' },
-                              ...enemies.map((candidate) => ({
-                                value: candidate.id,
-                                label: `${nameOf(candidate)}(${candidate.id})`,
-                              })),
-                            ]}
-                            onValueChange={(enemyId) =>
-                              setTeams(
-                                enemyTeams.map((t) =>
-                                  t.id === team.id
-                                    ? {
-                                        ...t,
-                                        slots: t.slots.map((x, j) =>
-                                          j === si ? enemyId || null : x,
-                                        ),
-                                      }
-                                    : t,
-                                ),
-                              )
-                            }
-                          />
-                          <DsIconButton
-                            size="compact"
-                            variant="danger"
-                            icon="delete"
-                            label={`删除 ${team.id} 槽 ${si + 1}`}
-                            onClick={() =>
-                              setTeams(
-                                enemyTeams.map((t) =>
-                                  t.id === team.id
-                                    ? { ...t, slots: t.slots.filter((_, j) => j !== si) }
-                                    : t,
-                                ),
-                              )
-                            }
-                          />
-                        </div>
-                      ))}
-                      {team.slots.length < 5 ? (
-                        <DsButton
-                          size="compact"
-                          variant="secondary"
-                          icon="add"
-                          onClick={() =>
-                            enemy &&
-                            setTeams(
-                              enemyTeams.map((t) =>
-                                t.id === team.id ? { ...t, slots: [...t.slots, enemy.id] } : t,
-                              ),
-                            )
-                          }
-                        >
-                          加一员
-                        </DsButton>
-                      ) : null}
-                    </div>
-                  ) : null}
-                </>
+                  ))}
+                </div>
               ),
             },
             {

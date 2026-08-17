@@ -170,12 +170,13 @@ describe('canonical contentVersion 14 loader boundary', () => {
     expect(() => assembleProjectV14(manifest(), invalid)).toThrow(/缺表情 "missing"/)
   })
 
-  test('public and runnable loaders select content14', async () => {
+  test('historical loader remains isolated while product dispatcher rejects content14', async () => {
     const source = memorySource(files())
     const loaded = await loadProjectV14From(source)
     expect(loaded.manifest.contentVersion).toBe(14)
     expect(loaded.sharedScripts.hello?.body[0]).toHaveProperty('cue.speaker', 'name.li')
-    const runnable = await loadRunnableProjectFrom(memorySource(files()))
-    expect(runnable.manifest.contentVersion).toBe(14)
+    await expect(loadRunnableProjectFrom(memorySource(files()))).rejects.toThrow(
+      /只接受当前 contentVersion 15/,
+    )
   })
 })

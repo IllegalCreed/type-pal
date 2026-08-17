@@ -166,7 +166,7 @@ const INSERT_GROUPS: {
         label: '🚪 切场景',
         make: (c) => [{ kind: 'loadScene', scene: c.scene.id }],
       },
-      { label: '⚔ 战斗', make: () => [{ kind: 'startBattle', team: 0 }] },
+      { label: '⚔ 战斗', make: () => [{ kind: 'startBattle', enemyTeamId: 'team-0' }] },
     ],
   },
   {
@@ -854,7 +854,7 @@ export function ScriptDrawer(props: {
       return
     }
     const authoredCommands =
-      editorState.manifest.contentVersion === 14
+      editorState.manifest.contentVersion === 15
         ? (upgradeDialogueTreeV13ToV14(commands) as unknown as readonly Command[])
         : commands
     for (const command of authoredCommands) {

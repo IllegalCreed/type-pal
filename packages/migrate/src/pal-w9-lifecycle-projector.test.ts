@@ -112,7 +112,7 @@ function parentScene(): MigrationJson {
                     body: [
                       {
                         kind: 'startBattle',
-                        team: 1,
+                        enemyTeamId: 'team-1',
                         onFlee: [{ kind: 'vanishEntity', seconds: 2 }],
                       },
                       { kind: 'vanishEntity', seconds: 80 },

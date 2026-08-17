@@ -273,7 +273,7 @@
                       "boss": true,
                       "kind": "startBattle",
                       "music": "music.pal.038",
-                      "team": 223
+                      "enemyTeamId": "team-223"
                     },
                     {
                       "kind": "setEntityState",
@@ -1180,7 +1180,7 @@
                           "kind": "loadLastSave"
                         }
                       ],
-                      "team": 302
+                      "enemyTeamId": "team-302"
                     },
                     {
                       "kind": "hideEntity",
@@ -1236,7 +1236,6 @@
       },
       "sprite": "sprite-11",
       "hostile": {
-        "team": 10,
         "chase": {
           "range": 8,
           "speed": 4,
@@ -1249,7 +1248,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-10"
       }
     },
     {
@@ -1339,7 +1339,7 @@
                           "kind": "loadLastSave"
                         }
                       ],
-                      "team": 133
+                      "enemyTeamId": "team-133"
                     },
                     {
                       "kind": "hideEntity",
@@ -1395,7 +1395,6 @@
       },
       "sprite": "sprite-626",
       "hostile": {
-        "team": 135,
         "chase": {
           "range": 6,
           "speed": 2
@@ -1407,7 +1406,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-135"
       }
     },
     {
@@ -1419,7 +1419,6 @@
       },
       "sprite": "sprite-625",
       "hostile": {
-        "team": 137,
         "chase": {
           "range": 6,
           "speed": 2
@@ -1431,7 +1430,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-137"
       }
     },
     {
@@ -1443,7 +1443,6 @@
       },
       "sprite": "sprite-11",
       "hostile": {
-        "team": 123,
         "chase": {
           "range": 8,
           "speed": 4,
@@ -1456,7 +1455,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-123"
       }
     }
   ],

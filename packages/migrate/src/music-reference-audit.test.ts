@@ -29,7 +29,7 @@ test('音乐审计递归覆盖分支并区分播放、停止、场景槽和单�
         body: [
           { kind: 'branch', then: [{ kind: 'playMusic', asset: 'a' }] },
           { kind: 'stopMusic' },
-          { kind: 'startBattle', team: 1, music: 'a' },
+          { kind: 'startBattle', enemyTeamId: 'team-1', music: 'a' },
         ],
       },
     ],

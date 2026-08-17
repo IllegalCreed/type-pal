@@ -76,7 +76,7 @@ describe('script v5 compiler', () => {
                 { kind: 'confirm', onNo: [{ kind: 'clearDialog' }] },
                 {
                   kind: 'startBattle',
-                  team: 1,
+                  enemyTeamId: 'team-1',
                   onLose: [{ kind: 'clearDialog' }],
                   onFlee: [{ kind: 'clearDialog' }],
                 },
