@@ -81,7 +81,25 @@ Visual Verification Timing: dev-functional
     `controls.tsx:27-68,250-274,436-472,551-603`、DS-C.2/C.4/C.5/C.6、CATALOG CK1 与 AUDIT §3.2；
     确认 raw/private chrome 缺口、既有共享 API 和独立 Palette 边界均成立。实现无需新增公共 API，
     验证覆盖行为、边界、census 与三档功能视觉。
-  - Kimi: premise pending | design pending
+  - Kimi: **premise verified + design agree（2026-08-17，本人一手读码，非复述；完全携带 GLM MP1）**。
+    逐项独立核实：
+    - **raw chrome 缺口属实**：`MapStampPalette.tsx:70-80` raw `input.in` 搜索、`:81-96` raw
+      `select.in` 分类、`:144-147` / `:150-153` 两枚 `button.mini`；私有皮肤
+      `editor.css:12025-12029`（`.map-stamp-filters .in` 29px 高/10px 字/7px padding + 私有
+      focus 规则 :12005-12010）实存，属本卡删除面。
+    - **几何安全**：compact 共享控件高 30px（tokens.css:48）vs 私有 29px，密度等价；
+      `map-stamp-filters` 布局类保留（`1fr / minmax(78px, 0.72fr)` 双列不动），容器 padding 7px
+      足以容纳共享 focus ring（2px outline + offset）；Inspector 最窄 220px 下无横滚风险，
+      三档视口为 build 退出实机门禁。
+    - **DsSelect 语义匹配**：`searchable='auto'` + 阈值 20（controls.tsx:443,584）——分类是
+      短集合，自动保持不可搜索；分类变化重置 limit 的回调语义原样保留（只换控件不换 handler）。
+    - **边界正确**：不套 DsCatalogControls/DsListHeader（CK1 冻结，Inspector 内嵌 palette 非
+      正式目录）；不新增公共 API；不改排序/兼容禁用/60 渐进/最近标记；census 预期算术成立且
+      以实现后实测为准。MP1（boundary 按文件划界、禁全仓 `.in/.mini`）我完全同意——
+      StampLibraryTab:544 等邻接合法用途不归本卡。
+    - 可证伪观察沿用卡文+GLM：compact primitive 在三档/最窄栏出现裁切/横滚/focus 截断，
+      或 DsSelect 破坏分类选择/limit 重置——任一出现即 counter，不用业务页覆写补洞。
+    未改实现文件，未代签 GLM，未标 build/done。
   - GLM: **premise verified + design agree（2026-08-17，本人一手读码，非代理；附必落钉 MP1，不阻塞
     准入）**。锚点独立核实：raw `<input className="in">`（:70-71 搜索）、raw `<select className="in">`
     （:81-82 分类）、两枚 `<button className="mini">`（:144 再显示 60 / :150 管理组合）实存；
@@ -94,11 +112,11 @@ Visual Verification Timing: dev-functional
     `MapStampPalette.tsx` 文件内（raw input/select/button 与 `.in/.mini` token 为零）；
     **不得全仓禁止 `.in/.mini`**——StampLibraryTab 登记面板（:544 `className="in"`）等
     邻接合法用途仍在（归后续卡），全仓禁会误伤。
-  - 独立反证（至少一位非 Owner）: GLM 已完成（上方）；Kimi 待签。可证伪观察：compact primitive
-    在最窄 Inspector 发生裁切/横滚/focus 截断，或 DsSelect 破坏分类选择/limit 重置语义——任一
-    出现即 counter（卡文已列，GLM 同意该观察集）。
+  - 独立反证（至少一位非 Owner）: GLM（覆盖/测试）+ Kimi（架构/视觉）均已完成（见各自签字）。
+    可证伪观察：compact primitive 在最窄 Inspector 发生裁切/横滚/focus 截断，或 DsSelect 破坏
+    分类选择/limit 重置语义——任一出现即 counter（卡文已列，GLM/Kimi 同意该观察集）。
   - 用户豁免: N/A
-  - 结论: **blocked——GLM 已签（MP1）；待 Kimi 签字后三签齐，方可转 build。**
+  - 结论: **allowed（2026-08-17）——Codex + Kimi + GLM（MP1）三方签字齐。由 Codex 转 build。**
 - done 准入: Codex pending | Kimi pending | GLM pending | 用户验收 pending | 结论 blocked
 
 ## 交接
@@ -110,22 +128,32 @@ Visual Verification Timing: dev-functional
   raw 控件三处 + 双 mini 按钮实存；:103 map-stamp-card 非_raw——census 预期算术成立；测试补齐
   清单可执行。一钉：boundary 划界按 MapStampPalette 文件，禁全仓 .in/.mini（StampLibraryTab
   :544 等合法邻接用途防误伤）。未改实现文件，未代签 Kimi，未标 build/done。Next: Kimi 签字。
+- 2026-08-17 Kimi（架构/视觉）: 独立反证完成，签 **premise verified + design agree（携带 MP1）**。
+  一手核实：三处 raw chrome 与私有皮肤（29px/10px + 私有 focus 规则）逐项属实；compact 共享控件
+  30px 密度等价、双列布局类保留、7px 容器 padding 容纳共享 focus ring；DsSelect auto 阈值 20 使
+  短分类集自动不可搜索、limit 重置 handler 不动；不套目录 recipe（CK1）、不新增公共 API、领域
+  行为不变。三签齐，build 准入转 allowed。未改实现文件，未代签 GLM，未标 build/done。
+  Next: Codex 转 build（MP1 必落：boundary 按文件划界）。
 
 ## 下一位 Agent 提示词
 
+### 给 Kimi（build 前审查——已完成）
+
+Kimi 已于 2026-08-17 完成架构/视觉独立反证并签 premise verified + design agree（携带 MP1，
+逐项证据见签字节与交接日志），本节提示词不再适用。
+
+### 给 Codex（三签齐，转 build，可直接复制）
+
 ```text
-接手任务：ED-MAP-PALETTE-CONTROLS-1 地图组合 Palette 控件统一
+接手任务：ED-MAP-PALETTE-CONTROLS-1 地图组合 Palette 控件统一——build 实现
 任务卡：docs/ops/tasks/ED-MAP-PALETTE-CONTROLS-1-map-stamp-palette-controls.md
-当前状态：draft；Codex 已签 premise verified + design agree，Kimi/GLM pending；不得开始实现。
-你的角色：Kimi，负责架构/视觉独立反证与 build 前签字。
-先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文、
-docs/phase2/editor/editor-design-system-v1.md 的 DS-C.1/C.2/C.4/C.5/C.6、
-docs/ops/tasks/ED-CATALOG-CONTROLS-1-global-catalog-controls.md 的“邻接控制”与 CK1、
-docs/phase2/editor/editor-ui-audit-2026-08-15.md §2/§3.2，以及 MapStampPalette.tsx、editor.css
-对应区段、design-system/controls.tsx、MapStampPalette.test.tsx。
-请你做：独立确认 raw/private chrome 缺口；压力测试 compact DsTextInput/DsSelect/DsButton 在窄 Inspector
-中的几何与焦点；确认不套 DsCatalogControls/DsListHeader、不新增公共 API、不改领域行为的边界；写出
-直接证据锚点、最强反例和可证伪观察，并在卡内签 premise verified + design agree，或给出 counter。
-不要做：不得修改实现文件、不得代签 GLM、不得把任务标 build/done、不得扩到组合卡或长目录性能。
-输出要求：签字与审查摘要写回任务卡；若 agree，附可直接交给 GLM 的下一位 Agent 提示词。
+当前状态：draft；Codex + Kimi + GLM（MP1）三签齐，build allowed
+你的角色：Coding Owner——MapStampPalette chrome 迁 compact 共享控件 + CSS/测试/boundary 收口
+必落钉:
+  GLM MP1: boundary 划界按 MapStampPalette.tsx 文件（raw input/select/button 与 .in/.mini token
+    为零）；不得全仓禁 .in/.mini（StampLibraryTab :544 等邻接用途保留）。
+验收红线: 搜索/分类/limit 重置/60 渐进/兼容禁用/最近标记/管理入口行为不变；不套
+  DsCatalogControls/DsListHeader；不新增公共 API；三档视口无横滚、focus 不裁切、console 0；
+  census 净减以实现后 audit-legacy-controls.mjs 实测为准并同步 boundary/report。
+完成后：Build 节证据 → Kimi/GLM done 前审查 → 用户验收。
 ```
