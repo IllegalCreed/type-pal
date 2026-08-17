@@ -1,7 +1,6 @@
-import type { MapIndexV1, ScriptFlowV5, ScriptStage, SharedAuthorScriptV5 } from '@type-pal/content'
+import type { MapIndexV1, SharedAuthorScriptV5 } from '@type-pal/content'
 import type { ProjectMap, TilesetDef } from '@type-pal/reforge'
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
-import { Playback } from '../core/playback.js'
 import {
   AddSharedScriptV5Command,
   DeleteSharedScriptV5Command,
@@ -15,10 +14,18 @@ import {
   CanonicalScriptDialogV5,
   type CanonicalScriptEditorContextV5,
 } from './CanonicalScriptEditorV5.js'
-import { DsCatalogControls } from './design-system/index.js'
-import { PreviewCanvas } from './PreviewCanvas.js'
-
-const EMPTY_STAGES: readonly ScriptStage[] = []
+import {
+  DsButton,
+  DsCatalogControls,
+  DsCatalogRow,
+  DsControlGroup,
+  DsField,
+  DsObjectHero,
+  DsSelect,
+  DsTag,
+  DsTextArea,
+  DsTextInput,
+} from './design-system/index.js'
 
 function nextScriptId(name: string, state: ScriptEditorStateV5): string {
   const slug =
@@ -53,14 +60,6 @@ export function CanonicalSharedScriptTabV5(props: {
     () => Object.keys(props.state.sharedScripts).sort(),
     [props.state.sharedScripts],
   )
-  const pairedScenes = useMemo(
-    () =>
-      props.context.shellScenes.flatMap((shell) => {
-        const canonical = props.state.scenes.find((candidate) => candidate.id === shell.id)
-        return canonical ? [{ shell, canonical }] : []
-      }),
-    [props.context.shellScenes, props.state.scenes],
-  )
   const [filter, setFilter] = useState('')
   const [selectedId, setSelectedId] = useState(
     props.focusScriptId && props.state.sharedScripts[props.focusScriptId]
@@ -72,6 +71,7 @@ export function CanonicalSharedScriptTabV5(props: {
   const [newIdEdited, setNewIdEdited] = useState(false)
   const [createOpen, setCreateOpen] = useState(false)
   const [createError, setCreateError] = useState('')
+  const [confirmDelete, setConfirmDelete] = useState(false)
   const createFormId = useId()
   const createNameId = useId()
   const createScriptId = useId()
@@ -81,41 +81,6 @@ export function CanonicalSharedScriptTabV5(props: {
   const createScriptIdInputRef = useRef<HTMLInputElement>(null)
   const createWasOpenRef = useRef(false)
   const selected = props.state.sharedScripts[selectedId]
-  const [testSceneId, setTestSceneId] = useState(pairedScenes[0]?.shell.id ?? '')
-  const [testEntityId, setTestEntityId] = useState('')
-  const previewScene =
-    pairedScenes.find((candidate) => candidate.shell.id === testSceneId) ?? pairedScenes[0]
-  const previewFlow = useMemo<ScriptFlowV5 | undefined>(
-    () =>
-      selected
-        ? {
-            kind: 'stages',
-            initial: 'preview',
-            stages: [
-              {
-                id: 'preview',
-                body: [{ kind: 'callScript', script: selectedId }],
-              },
-            ],
-          }
-        : undefined,
-    [selected, selectedId],
-  )
-  const previewSourceKey = previewScene
-    ? `canonical:shared:${selectedId}:${previewScene.shell.id}:${testEntityId || 'none'}`
-    : `canonical:shared:${selectedId}:none:none`
-  const playback = useMemo(
-    () =>
-      previewScene
-        ? new Playback(
-            previewScene.shell,
-            undefined,
-            new Map(props.state.items.map((item) => [item.id, item.name])),
-          )
-        : undefined,
-    [previewScene, props.state.items],
-  )
-  const [, setUiTick] = useState(0)
   const [nameDraft, setNameDraft] = useState(selected?.name ?? '')
   const shown = ids.filter((id) => {
     const script = props.state.sharedScripts[id]
@@ -124,22 +89,6 @@ export function CanonicalSharedScriptTabV5(props: {
       !needle || id.toLowerCase().includes(needle) || script?.name.toLowerCase().includes(needle)
     )
   })
-  const previewEntities = useMemo(
-    () =>
-      previewScene?.shell.entities.filter((entity) =>
-        previewScene.canonical.entities.some((candidate) => candidate.id === entity.id),
-      ) ?? [],
-    [previewScene],
-  )
-  const previewSelfReady = selected?.self !== 'required' || Boolean(testEntityId)
-  const previewReady = Boolean(
-    selected &&
-      previewScene &&
-      previewFlow &&
-      playback &&
-      props.context.assetBase &&
-      previewSelfReady,
-  )
 
   useEffect(() => {
     if (props.focusScriptId && props.state.sharedScripts[props.focusScriptId]) {
@@ -152,38 +101,6 @@ export function CanonicalSharedScriptTabV5(props: {
   useEffect(() => setNameDraft(selected?.name ?? ''), [selected?.name])
 
   useEffect(() => {
-    if (!pairedScenes.length) {
-      setTestSceneId('')
-      return
-    }
-    if (!pairedScenes.some((candidate) => candidate.shell.id === testSceneId))
-      setTestSceneId(pairedScenes[0]!.shell.id)
-  }, [pairedScenes, testSceneId])
-
-  useEffect(() => {
-    if (!previewScene || selected?.self === 'none') {
-      setTestEntityId('')
-      return
-    }
-    if (testEntityId && previewEntities.some((candidate) => candidate.id === testEntityId)) return
-    setTestEntityId(selected?.self === 'required' ? (previewEntities[0]?.id ?? '') : '')
-  }, [previewEntities, previewScene, selected?.self, testEntityId])
-
-  useEffect(() => {
-    if (!playback) return
-    playback.onUi = () => setUiTick((value) => value + 1)
-    return () => playback.stop()
-  }, [playback])
-
-  useEffect(() => {
-    void previewSourceKey
-    void selected?.body
-    void selected?.self
-    void props.state.sharedScripts
-    playback?.stop()
-  }, [playback, previewSourceKey, props.state.sharedScripts, selected?.body, selected?.self])
-
-  useEffect(() => {
     if (createOpen) {
       createWasOpenRef.current = true
       createNameInputRef.current?.focus()
@@ -194,6 +111,12 @@ export function CanonicalSharedScriptTabV5(props: {
       createButtonRef.current?.focus()
     }
   }, [createOpen])
+
+  useEffect(() => {
+    if (!createOpen || !createError) return
+    const target = newName.trim() ? createScriptIdInputRef.current : createNameInputRef.current
+    target?.focus()
+  }, [createError, createOpen, newName])
 
   const dispatch = (
     command: Parameters<ScriptV5EditSession['dispatch']>[0],
@@ -211,6 +134,7 @@ export function CanonicalSharedScriptTabV5(props: {
   }
 
   const select = (id: string): void => {
+    setConfirmDelete(false)
     setSelectedId(id)
     props.onSelectedScriptId?.(id || undefined)
   }
@@ -236,7 +160,6 @@ export function CanonicalSharedScriptTabV5(props: {
     const name = newName.trim()
     if (!name) {
       setCreateError('请输入脚本名称。')
-      createNameInputRef.current?.focus()
       return
     }
     const id = newId.trim() || nextScriptId(name, props.state)
@@ -250,7 +173,6 @@ export function CanonicalSharedScriptTabV5(props: {
         }),
         (message) => {
           setCreateError(message)
-          createScriptIdInputRef.current?.focus()
         },
       )
     ) {
@@ -287,16 +209,14 @@ export function CanonicalSharedScriptTabV5(props: {
           {shown.map((id) => {
             const script = props.state.sharedScripts[id]!
             return (
-              <button
-                type="button"
+              <DsCatalogRow
                 key={id}
-                className={id === selectedId ? 'active' : ''}
+                selected={id === selectedId}
+                title={script.name}
+                meta={<code>{id}</code>}
+                trailing={<DsTag tone="neutral">{script.body.length}</DsTag>}
                 onClick={() => select(id)}
-              >
-                <strong>{script.name}</strong>
-                <code>{id}</code>
-                <small>{script.body.length} 条顶层指令</small>
-              </button>
+              />
             )
           })}
           {!shown.length ? <div className="insp-empty">没有匹配的可复用脚本</div> : null}
@@ -306,117 +226,23 @@ export function CanonicalSharedScriptTabV5(props: {
       <div className="canvas-wrap data-body shared-script-main canonical-shared-script-main">
         {selected ? (
           <>
-            <div className="shared-workbench-head">
-              <div className="shared-workbench-title">
-                <span className="shared-kind-badge">可复用脚本</span>
-                <strong>{selected.name}</strong>
-                <code>{selectedId}</code>
-              </div>
-              <span className="spacer" />
-              <span className="shared-context-free">
-                {selected.self === 'none'
-                  ? '不需要调用实体'
-                  : selected.self === 'required'
-                    ? '必须提供调用实体'
-                    : '可选调用实体'}
-              </span>
-            </div>
-            {pairedScenes.length ? (
-              <div className="canonical-shared-preview-toolbar">
-                <label className="shared-scene-context">
-                  <span>预览场景</span>
-                  <select
-                    className="in"
-                    value={previewScene?.shell.id ?? ''}
-                    onChange={(event) => {
-                      setTestSceneId(event.target.value)
-                      setTestEntityId('')
-                    }}
-                  >
-                    {pairedScenes.map(({ shell }) => (
-                      <option key={shell.id} value={shell.id}>
-                        {shell.id}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                {selected.self !== 'none' && previewScene ? (
-                  <label className="shared-scene-context entity">
-                    <span>调用实体</span>
-                    <select
-                      className="in"
-                      value={testEntityId}
-                      onChange={(event) => setTestEntityId(event.target.value)}
-                    >
-                      {selected.self === 'optional' ? <option value="">不指定</option> : null}
-                      {previewEntities.map((entity) => (
-                        <option key={entity.id} value={entity.id}>
-                          {entity.id}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                ) : null}
-                <span className="spacer" />
-                <CanonicalHelpTipV5 label="共享脚本预览">
-                  预览直接运行当前 V5
-                  脚本，不会写回工程。脚本若依赖当前场景或调用实体，可在这里切换测试上下文。
-                </CanonicalHelpTipV5>
-              </div>
-            ) : (
-              <div className="shared-context-callout">
-                当前工程没有同时存在于场景数据与脚本数据中的场景，暂时不能预览。
-              </div>
-            )}
-            {previewScene && selected.self === 'required' && !testEntityId ? (
-              <div className="shared-context-callout">
-                这个脚本要求调用实体；当前测试场景没有可用实体，无法开始预览。
-              </div>
-            ) : null}
-            {previewReady && previewScene && previewFlow && playback && props.context.assetBase ? (
-              <div className="shared-preview canonical-shared-preview">
-                <PreviewCanvas
-                  scene={previewScene.shell}
-                  stages={EMPTY_STAGES}
-                  sourceKey={previewSourceKey}
-                  projectId={props.projectId}
-                  focusEntityId={testEntityId || undefined}
-                  sprites={[...(props.context.sprites ?? [])]}
-                  actorsById={props.context.actors ?? {}}
-                  leaderSpriteId={props.leaderSpriteId}
-                  assetBase={props.context.assetBase}
-                  assetCatalog={props.context.assetCatalog}
-                  assetReader={props.context.assetReader}
-                  projectMaps={props.projectMaps}
-                  mapIndex={props.mapIndex}
-                  tilesets={props.tilesets}
-                  locale={props.context.locale}
-                  playback={playback}
-                  canonicalFlow={previewFlow}
-                  canonicalSharedScripts={props.state.sharedScripts}
-                  startPlayback={(paused) =>
-                    playback.playCanonical(previewSourceKey, previewFlow, {
-                      scene: previewScene.canonical,
-                      sharedScripts: props.state.sharedScripts,
-                      ...(selected.self !== 'none' && testEntityId
-                        ? {
-                            self: {
-                              scene: previewScene.shell.id,
-                              entity: testEntityId,
-                            },
-                            ownerId: testEntityId,
-                          }
-                        : {}),
-                      timing: 'interactive',
-                      paused,
-                    })
-                  }
-                  sceneFraming={!testEntityId}
-                />
-              </div>
-            ) : null}
+            <DsObjectHero
+              eyebrow="可复用脚本"
+              title={selected.name}
+              objectId={selectedId}
+              summary="项目级脚本正文；需要地图语境时，请从真实场景调用位置进入预览。"
+              meta={
+                <DsTag tone="neutral">
+                  {selected.self === 'none'
+                    ? '无 self'
+                    : selected.self === 'required'
+                      ? 'self 必需'
+                      : 'self 可选'}
+                </DsTag>
+              }
+            />
             <CanonicalScriptBodyEditorV5
-              label={`${selected.name} · 正文`}
+              label="正文"
               body={selected.body}
               context={{ ...props.context, hasImplicitSelf: selected.self === 'required' }}
               onError={props.onError}
@@ -434,73 +260,94 @@ export function CanonicalSharedScriptTabV5(props: {
 
       <aside className="inspector shared-script-inspector canonical-shared-script-inspector">
         {selected ? (
-          <>
-            <div className="insp-head">
-              <div className="who">
-                <strong>{selected.name}</strong>
-                <code>{selectedId}</code>
-              </div>
-            </div>
-            <div className="section shared-meta">
-              <h4>作者元数据</h4>
-              <label className="v-field">
-                <span className="lb">显示名</span>
-                <span className="canonical-shared-meta-edit">
-                  <input
-                    className="in"
-                    value={nameDraft}
-                    onChange={(event) => setNameDraft(event.target.value)}
-                  />
-                  <button
-                    type="button"
-                    disabled={!nameDraft.trim() || nameDraft.trim() === selected.name}
-                    onClick={() => update({ name: nameDraft.trim() })}
-                  >
-                    保存
-                  </button>
-                </span>
-              </label>
-              <label className="v-field">
-                <span className="lb">说明</span>
-                <textarea
-                  className="in cf-ta"
+          <div className="section shared-meta">
+            <h4>作者元数据</h4>
+            <DsField label="显示名" className="v-field">
+              {(field) => (
+                <DsControlGroup
+                  control={
+                    <DsTextInput
+                      {...field}
+                      value={nameDraft}
+                      onChange={(event) => setNameDraft(event.target.value)}
+                    />
+                  }
+                  actions={
+                    <DsButton
+                      size="compact"
+                      icon="save"
+                      disabled={!nameDraft.trim() || nameDraft.trim() === selected.name}
+                      onClick={() => update({ name: nameDraft.trim() })}
+                    >
+                      保存
+                    </DsButton>
+                  }
+                />
+              )}
+            </DsField>
+            <DsField label="说明" className="v-field">
+              {(field) => (
+                <DsTextArea
+                  {...field}
                   value={selected.description ?? ''}
                   onChange={(event) => update({ description: event.target.value || undefined })}
                 />
-              </label>
-              <label className="v-field">
-                <span className="lb">self 契约</span>
-                <select
-                  className="in"
+              )}
+            </DsField>
+            <DsField label="self 契约" className="v-field">
+              {(field) => (
+                <DsSelect
+                  {...field}
+                  aria-label="self 契约"
                   value={selected.self}
-                  onChange={(event) =>
-                    update({
-                      self: event.target.value as SharedAuthorScriptV5['self'],
-                    })
-                  }
+                  options={[
+                    { value: 'none', label: '不使用' },
+                    { value: 'optional', label: '可选' },
+                    { value: 'required', label: '必须提供' },
+                  ]}
+                  onValueChange={(value) => update({ self: value as SharedAuthorScriptV5['self'] })}
+                />
+              )}
+            </DsField>
+            <p className="hint">
+              stable ScriptId 创建后保持不变；调用方只保存这个 id，显示名可随时修改。
+            </p>
+            <section className="canonical-shared-danger-zone" aria-label="危险操作">
+              <h4>危险操作</h4>
+              {confirmDelete ? (
+                <div role="alert">
+                  <p>删除“{selected.name}”？存在引用时会阻断；成功后仍可通过撤销恢复。</p>
+                  <div className="canonical-shared-danger-actions">
+                    <DsButton size="compact" onClick={() => setConfirmDelete(false)}>
+                      取消
+                    </DsButton>
+                    <DsButton
+                      size="compact"
+                      variant="danger"
+                      icon="delete"
+                      onClick={() => {
+                        if (dispatch(new DeleteSharedScriptV5Command(selectedId))) {
+                          const next = ids.find((id) => id !== selectedId) ?? ''
+                          select(next)
+                        }
+                      }}
+                    >
+                      确认删除
+                    </DsButton>
+                  </div>
+                </div>
+              ) : (
+                <DsButton
+                  size="compact"
+                  variant="danger"
+                  icon="delete"
+                  onClick={() => setConfirmDelete(true)}
                 >
-                  <option value="none">不使用</option>
-                  <option value="optional">可选</option>
-                  <option value="required">必须提供</option>
-                </select>
-              </label>
-              <p className="hint">
-                stable ScriptId 创建后保持不变；调用方只保存这个 id，显示名可随时修改。
-              </p>
-              <button
-                type="button"
-                className="danger"
-                onClick={() => {
-                  if (dispatch(new DeleteSharedScriptV5Command(selectedId))) {
-                    const next = ids.find((id) => id !== selectedId) ?? ''
-                    select(next)
-                  }
-                }}
-              >
-                删除共享脚本
-              </button>
-            </div>
-          </>
+                  删除共享脚本…
+                </DsButton>
+              )}
+            </section>
+          </div>
         ) : (
           <div className="insp-empty">没有选中的共享脚本</div>
         )}
@@ -513,12 +360,10 @@ export function CanonicalSharedScriptTabV5(props: {
           onClose={closeCreate}
           footer={
             <>
-              <button type="button" className="btn" onClick={closeCreate}>
-                取消
-              </button>
-              <button type="submit" className="btn primary" form={createFormId}>
+              <DsButton onClick={closeCreate}>取消</DsButton>
+              <DsButton type="submit" variant="primary" form={createFormId}>
                 创建脚本
-              </button>
+              </DsButton>
             </>
           }
         >
@@ -532,10 +377,9 @@ export function CanonicalSharedScriptTabV5(props: {
           >
             <label className="v-field" htmlFor={createNameId}>
               <span className="lb">脚本名称</span>
-              <input
+              <DsTextInput
                 ref={createNameInputRef}
                 id={createNameId}
-                className="in"
                 name="shared-script-name"
                 autoComplete="off"
                 placeholder="例如：打开藏宝箱…"
@@ -559,10 +403,10 @@ export function CanonicalSharedScriptTabV5(props: {
                   用于其他脚本引用，创建后保持不变。通常保留自动生成的值即可。
                 </CanonicalHelpTipV5>
               </span>
-              <input
+              <DsTextInput
                 ref={createScriptIdInputRef}
                 id={createScriptId}
-                className="in mono"
+                monospace
                 name="shared-script-id"
                 autoComplete="off"
                 spellCheck={false}

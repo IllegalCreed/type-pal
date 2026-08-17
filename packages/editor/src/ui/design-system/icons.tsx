@@ -10,6 +10,7 @@ export type DsIconName =
   | 'close'
   | 'copy'
   | 'delete'
+  | 'edit'
   | 'eye'
   | 'eye-off'
   | 'lock'
@@ -60,6 +61,12 @@ const PATHS: Record<DsIconName, React.ReactNode> = {
       <path d="M3 4h10" />
       <path d="m6 2h4l1 2H5l1-2Z" />
       <path d="m5 6 .5 7h5L11 6" />
+    </>
+  ),
+  edit: (
+    <>
+      <path d="m10.5 2.5 3 3L6 13H3v-3l7.5-7.5Z" />
+      <path d="m9 4 3 3" />
     </>
   ),
   eye: (

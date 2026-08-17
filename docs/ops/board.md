@@ -23,6 +23,7 @@
 | ED-DIAGNOSTIC-UI-1 | 属性面板问题与诊断呈现统一 | done | 三方 accept + 用户验收齐，整卡收口 | DK1 数值门禁单一 frame、DK2 六面内联无新 Tab、cf-err 正向保护；focused 82 + 全量 927 独立复跑全绿 |
 | ED-CATALOG-CONTROLS-1 | 编辑器全局目录筛选区统一 | done | 三方 accept + 用户验收齐，整卡收口 | GC1-GC5/CK1-CK2/RK-A 全闭环；editor 912 复跑全绿；palette debt 见 ED-MAP-PALETTE-CONTROLS-1 |
 | ED-WORLD-VARIABLES-1 | 世界变量定义表与作者工作台 | draft | 三签齐（Kimi KV1-KV2 + GLM GV1-GV3）；GV1/GV3 落卡 + 依赖卡 SHARED-SCRIPT 完成后转 build | GLM census：PAL flag/var 使用量为零，迁移生成空表；验收 100% synthetic |
+| ED-SHARED-SCRIPT-UI-1 | 可复用脚本工作台与通用脚本控件收敛 | review | Kimi + GLM 独立审查并分别 accept/counter | build/自测/三档视觉验证完成；真实 callScript caller 往返留给 review 补验 |
 | ED-MAP-PALETTE-CONTROLS-1 | 地图组合 Palette 控件统一 | draft | 待排期；开卡后三签再实现 | MapStampPalette 的 raw search/select 迁入共享控件；不得混入带 DsListHeader 的目录 recipe |
 | OPS-TST-PERF-B | shared/fresh 隔离并行 runner | build | 三签齐；Codex 实现显式 runner，PB2 同机同批次对照为硬门 | PB1 已由 3,218,849,792B profiler 锚点闭合；默认串行不变，隔离/RSS/失败矩阵 fail-closed |
 | OPS-TST-PERF-C | P2/P3/P4 consolidated determinism proof | build | 三签齐；Codex 先生成 build-start 全量 coverage map 再做 probe | PC1 已由 N3-1 的 20 tests / 755.07s 闭合；当前 shared 24/138，PC2/PC3 为硬门 |

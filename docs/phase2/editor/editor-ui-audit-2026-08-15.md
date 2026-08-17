@@ -40,8 +40,10 @@ Status: rebaseline complete（2026-08-17；ED-AUDIT-2 输入；不是任一页�
   `17/15/16/6`：EnemyTeam 缺 catalog/reference 保护，Enemy 与 App 场景实体缺 Inspector 保护。review 补齐
   三处清单后，`design-system/boundary.test.ts` 已按实际消费者完整钉住 `18/17/17/6`；Skill / Enemy /
   Poison / BattleField / Actor 五个已迁对象工作台继续禁止 raw form primitive。
-- 当前生产 TSX 的只减不增基线仍为：`input=198`、`select=123`、`textarea=8`、`label=205`、原生 checkbox `23`。
-- 旧按钮类仍有：`tool=62`、`btn=43`、`mini=20`、`mini-txt=34`、`pv-btn=16`、`mini-icon=3`；
+- `ED-SHARED-SCRIPT-UI-1` build 后当前生产 TSX 的只减不增基线为：`button=254`、`input=143`、
+  `select=71`、`textarea=2`、`label=129`、原生 checkbox `12`。脚本批次的三份当前生产文件
+  `CanonicalSharedScriptTabV5 / CanonicalScriptEditorV5 / CommandForm` 已由 boundary 单独钉为 raw control 0。
+- 旧按钮类当前为：`tool=62`、`btn=26`、`mini=16`、`mini-txt=23`、`pv-btn=5`、`mini-icon=3`；
   `item-action-button` 与 `media-zoom-controls` 已归零。
 - production inline `style={{...}}` 共 72 处，集中于 SpriteFrames 16、LevelCurve 12、App 9；动态坐标/尺寸
   不自动算问题，只有页面级视觉或几何常量才进入迁移卡。
@@ -58,7 +60,7 @@ node packages/editor/scripts/audit-legacy-controls.mjs
 脚本只扫描 `packages/editor/src/ui/**/*.tsx` production source，排除 `*.test.tsx` 与
 `src/ui/design-system/**`。旧按钮类只统计 `className=` 的静态字符串、字符串模板和简单 JSX 字符串表达式；
 className 匹配器与 token 词界 `(?<![\\w-])TOKEN(?![\\w-])` 和 boundary test 完全同源。当前稳定输出为：
-`tool/btn/mini/mini-txt/pv-btn/mini-icon = 62/43/20/34/16/3`，另两项
+`tool/btn/mini/mini-txt/pv-btn/mini-icon = 62/26/16/23/5/3`，另两项
 `item-action-button/media-zoom-controls = 0/0`。这一定义不把普通正文、测试 fixture 或
 `some-tool-name` 子串误计为旧控件；后续“只减不增”以该脚本与 boundary ceiling 同时通过为准。
 
@@ -76,7 +78,7 @@ className 匹配器与 token 词界 `(?<![\\w-])TOKEN(?![\\w-])` 和 boundary te
 | U-08 | 空/错/加载/缺引用的恢复语法不统一 | 历史白屏、`stages is not iterable`；各页私有空态 | 统一 boundary + visible error + retry/open-source action；禁止静默空数组 |
 | U-09 | 页面自身标题与主任务说明不稳定 | Skill 直接从“基础”表单开始；BattleField 有明确 hero | 每个对象页必须先有 hero：类型/id、名称、摘要、状态、主要动作 |
 | U-10 | 页面级 inline layout 仍多 | Skill/Enemy/Ambience 等保留 inline style | 迁移卡逐页删除并记录例外；不得在 ED-DS-2 批量机械改写 |
-| U-11 | 按钮体系尚未完成采用 | 2026-08-17 production census：raw `<button>` 331；`DsButton=114`、`DsIconButton=53`、`DsActionLink=3`；旧类仍有 tool/btn/mini/mini-txt/pv-btn/mini-icon = 62/43/20/34/16/3 | 公共入口只保留 `DsButton/DsActionLink/DsIconButton/DsToolbar/DsMenuItem`；先迁高频遗留族，再按文件拆解语义混杂的 `.btn`，最终用边界测试禁止新增遗留 token |
+| U-11 | 按钮体系尚未完成采用 | `ED-SHARED-SCRIPT-UI-1` build 后 production census：raw `<button>` 254；`DsButton=172`、`DsIconButton=57`、`DsActionLink=3`；旧类仍有 tool/btn/mini/mini-txt/pv-btn/mini-icon = 62/26/16/23/5/3 | 公共入口只保留 `DsButton/DsActionLink/DsIconButton/DsToolbar/DsMenuItem`；脚本批次已归零，继续按领域迁剩余旧族并用边界测试禁止回流 |
 | U-12 | 对象级删除的位置随模块漂移 | Skill/Enemy/BattleField 在 hero，Actor 曾在 Inspector 底部；引用面板标题又重复写“引用与删除” | 对象级删除统一进入 `DsObjectHero.actions`；Inspector 只保留“引用”与阻断原因；子项删除留在所属行/卡片 |
 
 ### 3.1 2026-08-17 复核状态
@@ -100,6 +102,19 @@ className 匹配器与 token 词界 `(?<![\\w-])TOKEN(?![\\w-])` 和 boundary te
 3. **脚本/工程/资源旧控件分批迁移**：以 `CanonicalScriptEditorV5`、`ProjectWorkbenchTab`、
    `BattleSpriteLibrary / Tileset / Cutscene` 为批次，不开“全局替换 198+123 控件”的巨型卡。
 4. **图像固有尺寸与次级可访问性**：随对应资源卡修复，不阻塞前两批。
+
+### 3.2.1 `ED-SHARED-SCRIPT-UI-1` 净减账（GS3）
+
+两类减量分开登记，不把文件删除冒充控件迁移：
+
+| 类型 | raw button | raw input | raw select | raw textarea | raw label | native checkbox |
+|---|---:|---:|---:|---:|---:|---:|
+| DS 迁移：`CanonicalSharedScriptTabV5 / CanonicalScriptEditorV5 / CommandForm` | -62 | -53 | -49 | -5 | -71 | -11 |
+| current-only 删除：`SharedScriptTab` | -15 | -2 | -3 | -1 | -5 | 0 |
+| 全局结果：build 前 → build 后 | 331→254 | 198→143 | 123→71 | 8→2 | 205→129 | 23→12 |
+
+同时删除 `SharedScriptTab` 专属测试、`script-library-catalog` 及其测试；`state.scriptIndex/scriptChunks`
+仍由引用收集路径消费，未删除。
 
 ### 3.3 按钮迁移顺序（存量批次内约束）
 
