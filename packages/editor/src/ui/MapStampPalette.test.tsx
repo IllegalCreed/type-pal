@@ -44,10 +44,23 @@ async function input(element: HTMLInputElement, value: string): Promise<void> {
   })
 }
 
+async function chooseCategory(optionText: string): Promise<void> {
+  const trigger = host.querySelector<HTMLButtonElement>(
+    '[role="combobox"][aria-label="筛选组合分类"]',
+  )!
+  await act(async () => trigger.click())
+  expect(document.querySelector('.ds-select-popover__search-input')).toBeNull()
+  const option = [...document.querySelectorAll<HTMLElement>('[role="option"]')].find(
+    (candidate) => candidate.textContent === optionText,
+  )!
+  await act(async () => option.click())
+}
+
 let root: Root
 let host: HTMLDivElement
 
 beforeEach(() => {
+  ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
   previewRender.mockClear()
   document.body.innerHTML = ''
   host = document.createElement('div')
@@ -83,7 +96,9 @@ describe('MapStampPalette scale budget', () => {
     expect(host.querySelectorAll('[data-stamp-preview]')).toHaveLength(60)
     expect(previewRender).toHaveBeenCalledTimes(60)
 
-    await act(async () => button('再显示 60 个', host).click())
+    const showMore = button('再显示 60 个', host)
+    expect(showMore.className).toContain('ds-button--quiet')
+    await act(async () => showMore.click())
     expect(host.querySelectorAll('.map-stamp-card')).toHaveLength(120)
     expect(host.querySelectorAll('[data-stamp-preview]')).toHaveLength(120)
 
@@ -102,5 +117,103 @@ describe('MapStampPalette scale budget', () => {
 
     await act(async () => host.querySelector<HTMLButtonElement>('.map-stamp-card')!.click())
     expect(onPick).toHaveBeenCalledWith('stamp-0000')
+  })
+
+  test('分类使用不可搜索共享 Select，切换分类重置 60 条 limit', async () => {
+    const stamps = templates(140).map((stamp, index) => ({
+      ...stamp,
+      category: index < 70 ? '甲类' : '乙类',
+    }))
+    await act(async () => {
+      root.render(
+        <MapStampPalette
+          stamps={stamps}
+          tilesetId="tiles-a"
+          tilesets={[]}
+          assetCatalog={{ version: 1, assets: {} }}
+          assetReader={{} as never}
+          assetBase={{} as never}
+          recentStampIds={[]}
+          onPick={vi.fn()}
+        />,
+      )
+      await Promise.resolve()
+    })
+    const category = host.querySelector<HTMLButtonElement>(
+      '[role="combobox"][aria-label="筛选组合分类"]',
+    )!
+    expect(category.className).toContain('ds-select--compact')
+    await act(async () => button('再显示 60 个', host).click())
+    expect(host.querySelectorAll('.map-stamp-card')).toHaveLength(120)
+
+    await chooseCategory('甲类')
+    expect(host.querySelectorAll('.map-stamp-card')).toHaveLength(60)
+    expect(button('再显示 60 个', host)).not.toBeNull()
+  })
+
+  test('兼容性、最近排序、选中态和可选管理入口保持原语义', async () => {
+    const stamps = templates(3)
+    stamps[1] = { ...stamps[1]!, category: '异域', tilesetId: 'tiles-b' }
+    const onPick = vi.fn()
+    const onOpenLibrary = vi.fn()
+    await act(async () => {
+      root.render(
+        <MapStampPalette
+          stamps={stamps}
+          tilesetId="tiles-a"
+          tilesets={[]}
+          assetCatalog={{ version: 1, assets: {} }}
+          assetReader={{} as never}
+          assetBase={{} as never}
+          activeStampId="stamp-0000"
+          recentStampIds={['stamp-0002']}
+          onPick={onPick}
+          onOpenLibrary={onOpenLibrary}
+        />,
+      )
+      await Promise.resolve()
+    })
+    const cards = [...host.querySelectorAll<HTMLButtonElement>('.map-stamp-card')]
+    expect(
+      cards.map(
+        (card) =>
+          card.querySelector<HTMLCanvasElement>('[data-stamp-preview]')?.dataset.stampPreview,
+      ),
+    ).toEqual(['stamp-0002', 'stamp-0000', 'stamp-0001'])
+    expect(cards[1]?.getAttribute('aria-pressed')).toBe('true')
+    expect(cards[2]?.disabled).toBe(true)
+    await act(async () => cards[0]!.click())
+    expect(onPick).toHaveBeenCalledWith('stamp-0002')
+
+    const manage = button('管理组合', host)
+    expect(manage.className).toContain('ds-button--secondary')
+    await act(async () => manage.click())
+    expect(onOpenLibrary).toHaveBeenCalledOnce()
+
+    await chooseCategory('异域')
+    expect(host.querySelectorAll('.map-stamp-card')).toHaveLength(1)
+    expect(host.querySelector<HTMLButtonElement>('.map-stamp-card')?.disabled).toBe(true)
+  })
+
+  test('管理入口缺席和搜索空结果均保持明确状态', async () => {
+    await act(async () => {
+      root.render(
+        <MapStampPalette
+          stamps={templates(2)}
+          tilesetId="tiles-a"
+          tilesets={[]}
+          assetCatalog={{ version: 1, assets: {} }}
+          assetReader={{} as never}
+          assetBase={{} as never}
+          recentStampIds={[]}
+          onPick={vi.fn()}
+        />,
+      )
+      await Promise.resolve()
+    })
+    expect(button('管理组合', host)).toBeUndefined()
+    await input(host.querySelector<HTMLInputElement>('[aria-label="搜索地图组合"]')!, '不存在')
+    expect(host.textContent).toContain('没有匹配组合')
+    expect(host.querySelectorAll('.map-stamp-card')).toHaveLength(0)
   })
 })

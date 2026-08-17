@@ -1,6 +1,6 @@
 # ED-MAP-PALETTE-CONTROLS-1 - 地图组合 Palette 控件统一
 
-Status: draft
+Status: review
 Owner: Codex
 Reviewer: Kimi + GLM
 Phase: phase2
@@ -117,7 +117,37 @@ Visual Verification Timing: dev-functional
     分类选择/limit 重置语义——任一出现即 counter（卡文已列，GLM/Kimi 同意该观察集）。
   - 用户豁免: N/A
   - 结论: **allowed（2026-08-17）——Codex + Kimi + GLM（MP1）三方签字齐。由 Codex 转 build。**
-- done 准入: Codex pending | Kimi pending | GLM pending | 用户验收 pending | 结论 blocked
+- done 准入: Codex **accept（2026-08-17）** | Kimi pending | GLM pending | 用户验收 pending |
+  结论 blocked。Codex 证据：focused 83/83、editor 128 files / 942 tests、typecheck、Biome/diff-check、
+  census 与三档浏览器矩阵全绿；实现不含 `DsCatalogControls/DsListHeader`，领域卡/排序/兼容/最近/60 渐进未改。
+
+## Build: 实现与自测
+
+- Coding Owner: Codex（三签齐后实现）
+- 实现:
+  - `MapStampPalette.tsx` 的 raw search/select 迁为 compact `DsTextInput/DsSelect`；分类明确
+    `searchable={false}`，原 `onValueChange -> setLimit(60)` 语义保留。
+  - 两枚 `.mini` 动作迁为 quiet/secondary compact `DsButton`；删除 Palette 私有高度、字号、padding 和
+    focus 皮肤，只保留筛选双列、动作行与文字截断等业务布局。
+  - `MapStampPalette.test.tsx` 从 1 项扩至 4 项，覆盖 600 项 60 分批、搜索/分类重置 limit、不可搜索 Select、
+    兼容禁用、recent 排序、selected、可选管理入口和空态。
+  - MP1 按签字内 `map-stamp-card` 领域卡例外落边界：文件内 raw input/select、`.in/.mini` 与 raw chrome
+    action 为零；唯一保留的 raw `<button>` 必须是 `map-stamp-card`，同时禁止目录 shell creep。
+- 自动验证:
+  - focused：`MapStampPalette + MapMode + boundary` 3 files / 83 tests passed。
+  - full editor：128 files / 942 tests passed；`tsc --noEmit` passed。
+  - census：raw button/input/select = `329/197/122`，`DsButton=116`，`mini=18`；相对基线精确
+    `-2/-1/-1/+2/-2`，已同步 boundary ceiling 与审计报告。
+  - changed-files Biome passed；仅报告 `editor.css:9868-9871` 既有 `.visually-hidden !important` 4 条
+    warning，本卡未新增；`git diff --check` passed。
+- 浏览器验证:
+  - `?ui_samples=1&module=map&page=workspace` 的地图右侧“组合”页，1280/900/720×720 三档 document、
+    Palette、filters、actions 均 `scrollWidth === clientWidth`。
+  - 720 档 Palette 275px，搜索约 149px、分类约 107px；无裁切/横滚。Select 6 项且 search input 0，
+    弹层右边界 1272 < viewport 1280，选择后焦点精确返回分类触发器。
+  - 搜索命中/空态/清空恢复、分类筛选与“管理组合”跳转通过；新开干净页面 Console warning/error 0。
+- 跳过: 样例仅 6 个组合，无法在实机出现“再显示 60”；由 600 fixture 的 React 测试覆盖 60→120 与
+  搜索/分类重置回 60。
 
 ## 交接
 
@@ -134,6 +164,9 @@ Visual Verification Timing: dev-functional
   短分类集自动不可搜索、limit 重置 handler 不动；不套目录 recipe（CK1）、不新增公共 API、领域
   行为不变。三签齐，build 准入转 allowed。未改实现文件，未代签 GLM，未标 build/done。
   Next: Codex 转 build（MP1 必落：boundary 按文件划界）。
+- 2026-08-17 Codex: build 完成并签 Codex accept。Palette raw/private chrome 全部迁入既有 compact
+  primitive，MP1 文件边界、census/report 与行为测试落地；focused 83、full editor 942、typecheck、
+  三档实机及 Console 0 全绿。Next: Kimi/GLM done 前独立 review；三方 accept + 用户验收前不得 done。
 
 ## 下一位 Agent 提示词
 
@@ -142,18 +175,18 @@ Visual Verification Timing: dev-functional
 Kimi 已于 2026-08-17 完成架构/视觉独立反证并签 premise verified + design agree（携带 MP1，
 逐项证据见签字节与交接日志），本节提示词不再适用。
 
-### 给 Codex（三签齐，转 build，可直接复制）
+### 给 Kimi / GLM（done 前 review，可直接复制）
 
 ```text
-接手任务：ED-MAP-PALETTE-CONTROLS-1 地图组合 Palette 控件统一——build 实现
+接手任务：ED-MAP-PALETTE-CONTROLS-1 地图组合 Palette 控件统一——done 前 review
 任务卡：docs/ops/tasks/ED-MAP-PALETTE-CONTROLS-1-map-stamp-palette-controls.md
-当前状态：draft；Codex + Kimi + GLM（MP1）三签齐，build allowed
-你的角色：Coding Owner——MapStampPalette chrome 迁 compact 共享控件 + CSS/测试/boundary 收口
-必落钉:
-  GLM MP1: boundary 划界按 MapStampPalette.tsx 文件（raw input/select/button 与 .in/.mini token
-    为零）；不得全仓禁 .in/.mini（StampLibraryTab :544 等邻接用途保留）。
-验收红线: 搜索/分类/limit 重置/60 渐进/兼容禁用/最近标记/管理入口行为不变；不套
-  DsCatalogControls/DsListHeader；不新增公共 API；三档视口无横滚、focus 不裁切、console 0；
-  census 净减以实现后 audit-legacy-controls.mjs 实测为准并同步 boundary/report。
-完成后：Build 节证据 → Kimi/GLM done 前审查 → 用户验收。
+当前状态：review；Codex build + accept 完成，Kimi/GLM accept 与用户验收 pending；不得标 done
+你的角色：Kimi 或 GLM——独立代码/视觉/覆盖审查并签 accept 或 counter
+必读：本卡全文、MapStampPalette.tsx/test、editor.css W7G Palette 段、design-system/boundary.test.ts、
+  editor-ui-audit-2026-08-15.md census 段。
+核验：共享 compact 控件采用；搜索/分类/limit 重置/60 渐进/兼容禁用/recent/管理入口行为；MP1 仅按
+  MapStampPalette 文件划界且明确保留唯一 map-stamp-card 领域按钮；不套目录 recipe；census
+  329/197/122、DsButton116、mini18；三档无横滚/focus 裁切。
+输出：无阻塞则在 done 准入签 accept；有问题签 counter/rework 并给文件行号与最小返工项。不得代签另一方，
+  不得在三方 accept + 用户验收前标 done。
 ```

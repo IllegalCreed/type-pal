@@ -12004,7 +12004,6 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .map-palette-tabs button:focus-visible,
 .map-stamp-card:focus-visible,
-.map-stamp-palette-actions button:focus-visible,
 .stamp-mapping-list button:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 1px;
@@ -12024,12 +12023,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   gap: 5px;
   padding: 7px;
   border-bottom: 1px solid var(--line);
-}
-.map-stamp-filters .in {
-  min-width: 0;
-  height: 29px;
-  padding-inline: 7px;
-  font-size: 10px;
 }
 .map-stamp-grid {
   display: grid;
@@ -12144,10 +12137,10 @@ button.sprite-frame-cell[draggable="true"]:active {
 .map-stamp-palette-actions .spacer {
   flex: 1;
 }
-.map-stamp-palette-actions .mini {
-  width: auto;
+.map-stamp-palette-actions .ds-button {
   max-width: 100%;
-  padding-inline: 8px;
+}
+.map-stamp-palette-actions .ds-button > span {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
