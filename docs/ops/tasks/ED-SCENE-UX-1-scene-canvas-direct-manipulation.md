@@ -257,11 +257,57 @@ App.reference-navigation.test.tsx:38-39,434-469 / ls SceneCanvas*.test 零命中
   `SceneCanvas` 仅在空白 pointerup 且 `moved=false` 清选择，超过 3px 的平移保持选择；cursor 由放置/
   pointer/命中派生。专项 2 files / 10 tests、全量 125 files / 930 tests 与 typecheck 全绿；6010 实机
   常态/放置态、click/drag、Esc、脚本切换与三种静态 cursor 通过，console warning/error 0。
-- Kimi: pending
-- GLM: pending
-- counter / 返工处理: pending
+- Kimi: **accept（2026-08-17 done 前交互/视觉审查，本人一手读码 + 6010 真实鼠标手势复核）**。
+  逐项核验：
+  1. **伪 Tool 彻底退役 ✓**：App/SceneCanvas 对 `选择/移动`/`setTool`/`'select'` rg 零命中；App 只剩
+     `placingEntity` 布尔态（App.tsx:415），唯一进入点 :2025，13 处恢复点（切场景/外部定位 9 处、
+     脚本打开 :1074、Esc :1284、放置成功 :1385、取消按钮 :2143）；MapMode `MapTool` 同名不同类型，
+     不在本卡 diff 内。
+  2. **click/drag 分流 ✓（实机真实手势）**：选中默认落点后空白 click → Inspector 回到「选中场景」；
+     重新选中后空白 drag 40px → 选择保持 + 拖动中 cursor `grabbing`；分流在 pointerup 读
+     `panDrag.moved`（SceneCanvas.tsx:588-594），pointerdown 不抢清选择（:534-550 只建 pan 候选）。
+     实体/落点 click/drag 分支逻辑未改（:496-533、:603-607）。
+  3. **Esc 防护 ✓**：App.tsx:1277 `e.defaultPrevented` 总前提；放置优先（:1282-1286）、普通选择其次
+     （:1287-1291）、typing 不清、脚本面板互斥不抢（`!drawer.open` 门控）；真实 DsMenu 开菜单按 Esc
+     选择保持 + defaultPrevented 合成事件防护均有契约测试（App.reference-navigation.test.tsx:563-585）。
+     实机按 Esc：落点选择 → 场景级，符合预期。
+  4. **放置态一致性 ✓（实机）**：工具栏仅放置时显示 `role=status`「正在放置实体」+「取消放置」，
+     删除按钮与 Delete 快捷键禁用（:2154,:1298），点画布成功放置自动退出（:1385），Esc 取消放置，
+     打开脚本即取消放置（G2，:1074）且关闭不复活（测试钉住）。
+  5. **cursor 与视觉层级 ✓**：实机测得空白 `grab`、空白拖动 `grabbing`、放置 `crosshair`；实体/落点
+     `move` 由 SceneCanvas.test 契约覆盖；常态工具栏只剩删除/脚本/操作提示，放置态 status+取消按钮
+     层级自然，无第二套模式按钮。
+  - 复跑：`pnpm --filter @type-pal/editor check` 125 files / 930 tests 全绿，与声明一致。
+  - console 实机 0 error（唯一 warning 系本席 getImageData 探针的 readback 提示，非应用代码）。
+  无返工项。只读审查，未改实现文件，未代签 GLM，未标 done。
+- GLM: **accept（2026-08-17 done 前覆盖/测试终审，本人一手读码 + 独立复跑，非代理；基于实现提交
+  `20dcf96f`，diff 仅 App.tsx/SceneCanvas.tsx/新建 SceneCanvas.test.tsx/editor.css 四文件）**。
+  SK1 + G1-G3 逐钉独立验证通过：
+  - **G1（伪 Tool 退役 + 恢复点矩阵）✓**：App/SceneCanvas 对 `setTool|'select'|选择/移动` rg
+    零残留；`placingEntity` 单入口（:2025 添加实体按钮）+ 13 处恢复点与本人 build 前分类表逐一对
+    应——切场景 :471、8 处外部定位/引用跳转 :537-:965、放置成功 :1385、Esc :1284、取消按钮
+    :2143、脚本面板 :1074；切场景恢复类有专项测试（App.reference-navigation.test :598-608 切
+    s048 后 placing false + 选区清空）。
+  - **G2（共存语义裁决落地）✓**："打开脚本即取消放置"已实现（App.tsx:1074
+    `if (!drawer.open) setPlacingEntity(false)`）并被双断言钉死——开脚本 → 工具栏不含「正在放置
+    实体」；关脚本 → `placingEntity === false`（不复活，:590-595）。
+  - **G3（mock）✓**：App.reference-navigation.test:38-41 mock 升级为转发 props（canvas() 助手读
+    `placingEntity`/`selectedEntityId` 观察画布状态）；新 SceneCanvas.test.tsx（208 行）直接渲染
+    真组件并用新 props。
+  - **SK1（Esc 防护）✓**：:1277 `e.defaultPrevented` 总前提；"菜单开时 Esc 不清选择"与
+    consumedEscape 双契约测试（:563-585）；typing 输入中 Esc 不清（:585-589）。
+  - **click/drag 分流 ✓**：SceneCanvas.test :166 空白 click `onClearSelection` 恰 1 次、越阈值
+    drag 0 次且选择保持——pointerup 读 `panDrag.moved` 与设计一致。
+  - **cursor 四态 ✓**：:184 jsdom 断言 crosshair（放置）/grab（空白）/grabbing（平移）/move
+    （实体命中）+ 复位。
+  - **UI 矩阵 ✓**：主测试 :496 覆盖无伪按钮、常态无放置 status、放置态三件套（role=status +
+    取消放置按钮 + 删除按钮 disabled）、取消后选中保持、触发区放置成功自动退出、Esc 两级优先
+    （放置退出但保选 / 普通清选）。
+  - **回归独立复跑**：focused（SceneCanvas + App.reference-navigation）2 files/10 tests、
+    typecheck、全量 125 files / 930 tests 全绿（与 Codex/Kimi 声明计数一致）。
+- counter / 返工处理: 无（Kimi 复审无返工项）
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **blocked——Codex + Kimi + GLM 三方 accept 齐（2026-08-17）；仅剩用户实机验收。**
 
 ## Draft: 设计与风险
 
@@ -300,8 +346,8 @@ App.reference-navigation.test.tsx:38-39,434-469 / ls SceneCanvas*.test 零命中
 ### 三方争议记录(按需)
 
 - Codex: 无争议；用户已明确目标交互。
-- Kimi: pending
-- GLM: pending
+- Kimi: 无争议；build 前与 done 前审查均 accept。
+- GLM: 无争议；build 前与 done 前审查均 accept。
 - 用户拍板: 2026-08-16 已拍板目标形态；尚未批准缺签豁免。
 
 ## 额度 / 代班记录(如适用)
@@ -354,14 +400,14 @@ N/A；不涉及资源生成。
   空白 drag 后仍选中默认落点，空白 click 回场景级；Esc 分别清落点和取消放置；打开脚本后放置状态清空且
   Canvas 卸载，关闭脚本不复活；console warning/error 0。`grabbing` 的 pointerdown/drag/cancel 状态由
   `SceneCanvas.test.tsx` DOM 契约覆盖，真实空白拖动手势已通过。
-- 未完成项: 用户实机验收与 Kimi/GLM done 前独立审查。
+- 未完成项: 仅剩用户实机验收。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: Codex 自审 accept；等待 Kimi + GLM 独立审查。
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: Codex 自审 accept；Kimi 交互/视觉 accept；GLM 覆盖/测试 accept。三方均无返工项。
+- 必须返工项: 无
+- Accept / rework: 三方 accept 齐，仅剩用户实机验收
 
 ## 用户验收
 
@@ -395,6 +441,18 @@ N/A；不涉及资源生成。
   editor 全量 125 files / 930 tests 和 typecheck 全绿；6010 实机常态/放置态/click/drag/Esc/脚本与
   console 通过。Next: Kimi 交互/视觉审查签 accept 或 counter；随后 GLM 覆盖/测试终审。审查者不得
   修改实现文件或标 done。
+- 2026-08-17 Kimi: done 前交互/视觉审查完成并签 **accept（无返工项）**。一手读码 + 6010 真实鼠标
+  手势复核：伪 Tool/常驻按钮 rg 零命中、placingEntity 单入口 13 恢复点；空白 click 实机清选择、
+  40px drag 保持选择 + grabbing cursor；Esc defaultPrevented/放置优先/typing/菜单/脚本防护逐项
+  通过（含真实 DsMenu 契约测试）；放置态 status/取消/删除禁用/成功退出/打开脚本取消放置一致；
+  四态 cursor 实机+契约齐。editor check 125/930 本席复跑全绿，console 0 error。未改实现文件，
+  未代签 GLM，未标 done。Next: GLM 覆盖/测试终审（提示词见下）→ 用户实机验收。
+- 2026-08-17 GLM（覆盖/测试）: done 前终审完成并签 **accept**。SK1 + G1-G3 逐钉独立验证：伪 Tool
+  rg 零残留、单入口 :2025 + 13 恢复点与 build 前分类表逐一对应（含切场景专项测试）；G2"开脚本即
+  取消放置"实现 :1074 + 双断言钉死（关脚本不复活）；SK1 菜单/defaultPrevented 双防护契约测试；
+  click 恰 1 次/drag 0 次分流；四态 cursor jsdom 断言；UI 矩阵（伪按钮禁/放置三件套/删除禁用/
+  取消保选中/Esc 两级优先）全落测试。focused 2 files/10 tests + typecheck + 全量 125/930 本人
+  独立复跑全绿。未改实现文件，未代签 Kimi，未标 done。Next: 用户实机验收后关卡。
 
 ## 下一位 Agent 提示词
 
@@ -412,39 +470,14 @@ GLM 已于 2026-08-16 完成 build 前审查并签字（premise verified + desig
 
 Codex 已于 2026-08-17 完成 build、自测和实机验证，实现提交 `20dcf96f`，任务已转 `review`。
 
-### 给 Kimi（done 前交互 / 视觉审查，可直接复制）
+### 给 Kimi（done 前交互 / 视觉审查——已完成）
 
-```text
-接手任务: ED-SCENE-UX-1 done 前交互/视觉审查
-任务卡: docs/ops/tasks/ED-SCENE-UX-1-scene-canvas-direct-manipulation.md
-当前状态: review；实现提交 20dcf96f；Codex 自审 accept，Kimi/GLM done accept 待签
-分支: codex/ed-scene-ux-1
-你的职责: 一手读码 + 最小 6010 实机复核 Kimi SK1 和用户可见交互：
-  1) App/SceneCanvas 是否彻底没有场景伪 Tool 与常驻“选择/移动”，MapMode 专用工具不在本卡范围；
-  2) 空白 click 清选择、超过 3px 的空白 drag 保持选择；实体/落点 click/drag 行为不变；
-  3) Esc 是否以 defaultPrevented 为前提，放置优先、普通选择其次，输入/菜单/脚本不被误伤；
-  4) 放置状态/取消按钮/删除禁用/成功退出/G2 打开脚本取消放置是否一致；
-  5) crosshair/grab/grabbing/move 与 toolbar/PlacePalette 的视觉层级是否自然。
-已有证据: typecheck；专项 2 files/10 tests；全量 125 files/930 tests；6010 常态/放置态、真实 click/drag、
-Esc、脚本切换通过，console 0。请在任务卡写一手证据 + accept，或 counter/返工项；只允许更新审查记录，
-不得修改实现文件、不得标 done。Kimi accept 后交 GLM 覆盖/测试终审。
-```
+Kimi 已于 2026-08-17 完成 done 前交互/视觉审查并签 accept（无返工项，逐项一手证据见
+「进入 done 前:审查签字」Kimi 行与交接日志），本节提示词不再适用。
 
-### 给 GLM（done 前覆盖 / 测试终审；Kimi accept 后使用，可直接复制）
+### 给 GLM（done 前覆盖 / 测试终审——已完成）
 
-```text
-接手任务: ED-SCENE-UX-1 done 前覆盖/测试终审
-任务卡: docs/ops/tasks/ED-SCENE-UX-1-scene-canvas-direct-manipulation.md
-当前状态: review；实现提交 20dcf96f；先确认 Kimi done 前 accept 已落卡
-分支: codex/ed-scene-ux-1
-你的职责: 一手读码并独立复跑，逐项核验 GLM G1-G3：
-  1) 原 11 类恢复路径是否全部收敛到 setPlacingEntity(false)，唯一进入点为添加实体；
-  2) G2“打开脚本取消放置”是否有真实测试且关闭脚本不复活；G3 mock props 已更新；
-  3) SceneCanvas.test 是否直接钉空白 click=1 次、drag=0 次及四态 cursor；
-  4) App 测试是否覆盖伪按钮缺席、按钮/成功放置/Delete 禁用、Esc 两级、actual DsMenu、输入、
-     defaultPrevented、外部定位、切场景与脚本面板；
-  5) schema/save/runtime/MapMode/capability-map 是否零越界。
-已有证据: typecheck；专项 2 files/10 tests；全量 125 files/930 tests；formatter 通过；6010 实机通过。
-请在任务卡写一手证据 + accept，或 counter/返工项；只允许更新审查记录，不得修改实现文件、不得标 done。
-三方 accept 齐后交用户验收。
-```
+GLM 已于 2026-08-17 完成 done 前覆盖/测试终审并签 accept（无返工项，逐项一手证据见
+「进入 done 前:审查签字」GLM 行与交接日志），本节提示词不再适用。
+
+本卡三方 accept 已齐，无下一位 Agent 提示词；等待用户实机验收。
