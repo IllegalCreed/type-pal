@@ -212,6 +212,13 @@ parallel 命令必须失败，默认串行命令保持不变。
 - 内存返工改为 copy-on-write：未变化文件/数组/对象保持结构共享，只对真正命中 enemy-team 引用的
   script chunk 重算 imports/hash/bytes 并合回 index；不提高 heap、不放宽 4.5 GiB 预算。定向
   **4 files / 97 tests**、typecheck、diff check 已通过，oracle projection 仍 byte-identical。
+- 修复后的 shared-only 冷跑保存在
+  `build/release-runs/shared-diag-In6MRj/{raw.log,report.vitest.json}`：同一 worker 全程未 respawn、无 OOM，
+  `/usr/bin/time -l` maximum RSS `4,249,681,920 bytes`（约 3.96 GiB，低于 4.5 GiB）；23/24 files、
+  132 assertions 通过，唯一 `p6-shadow` 因其旧 `beforeAll` 180 秒小于当前真实冷建时长而整文件 6 条
+  skipped。该 hook 调整为 600 秒后，定向冷跑
+  `build/release-runs/p6-diag-jdHkXk/report.vitest.json` 为 **1 file / 6 passed**，wall `432.70s`、
+  maximum RSS `3,038,724,096 bytes`；测试体与断言未改。
 - 尚未完成：修复后的完整 serial control、显式 parallel 以及三组同机同批次 serial/parallel proof。
   因此本卡保持 `build`，Codex/Kimi/GLM done 前签字仍为 pending。
 
@@ -240,6 +247,9 @@ parallel 命令必须失败，默认串行命令保持不变。
   触发 V8 heap OOM；runner 正确非零、fresh 未启动、workspace `0/0/0`。直接定位为历史投影全量深拷贝，
   已改 copy-on-write + changed-chunk-only normalization，97 tests/typecheck/oracle byte pin 通过。
   Next: 先跑 shared-only 内存门诊；峰值回落后再重跑完整 control，仍不得放宽预算。
+- 2026-08-18 Codex: shared-only copy-on-write 诊断已无 OOM且峰值 `4,249,681,920B < 4.5GiB`；
+  唯一失败为 p6 冷建超过旧 180s hook。将 hook 调至同级 release 的 600s 后 p6 定向 6/6 通过，
+  wall 432.70s、peak `3,038,724,096B`。Next: 从固定提交重跑完整 serial control。
 
 ## 下一位 Agent 提示词
 
