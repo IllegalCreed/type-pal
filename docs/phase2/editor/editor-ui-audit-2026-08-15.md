@@ -36,14 +36,31 @@ Status: rebaseline complete（2026-08-17；ED-AUDIT-2 输入；不是任一页�
 
 ### 2.1 2026-08-17 共享合同覆盖与存量账
 
-- `design-system/boundary.test.ts` 已钉住 17 个 canonical catalog、15 个 Inspector、16 个引用面、6 个诊断面；
-  Skill / Enemy / Poison / BattleField / Actor 五个已迁对象工作台禁止 raw form primitive。
+- GA1 复核前，实际共享消费者为 `18 catalog / 17 Inspector / 17 reference / 6 diagnostic`，静态门禁却只有
+  `17/15/16/6`：EnemyTeam 缺 catalog/reference 保护，Enemy 与 App 场景实体缺 Inspector 保护。review 补齐
+  三处清单后，`design-system/boundary.test.ts` 已按实际消费者完整钉住 `18/17/17/6`；Skill / Enemy /
+  Poison / BattleField / Actor 五个已迁对象工作台继续禁止 raw form primitive。
 - 当前生产 TSX 的只减不增基线仍为：`input=198`、`select=123`、`textarea=8`、`label=205`、原生 checkbox `23`。
 - 旧按钮类仍有：`tool=62`、`btn=43`、`mini=20`、`mini-txt=34`、`pv-btn=16`、`mini-icon=3`；
   `item-action-button` 与 `media-zoom-controls` 已归零。
 - production inline `style={{...}}` 共 72 处，集中于 SpriteFrames 16、LevelCurve 12、App 9；动态坐标/尺寸
   不自动算问题，只有页面级视觉或几何常量才进入迁移卡。
 - 生产 `<img>` 共 6 处；Tileset 上传预览带显式宽高，其余 5 处需在所属领域卡核对固有尺寸/CLS 合同。
+
+### 2.2 可复现 census 口径（GA2）
+
+唯一发布命令：
+
+```sh
+node packages/editor/scripts/audit-legacy-controls.mjs
+```
+
+脚本只扫描 `packages/editor/src/ui/**/*.tsx` production source，排除 `*.test.tsx` 与
+`src/ui/design-system/**`。旧按钮类只统计 `className=` 的静态字符串、字符串模板和简单 JSX 字符串表达式；
+className 匹配器与 token 词界 `(?<![\\w-])TOKEN(?![\\w-])` 和 boundary test 完全同源。当前稳定输出为：
+`tool/btn/mini/mini-txt/pv-btn/mini-icon = 62/43/20/34/16/3`，另两项
+`item-action-button/media-zoom-controls = 0/0`。这一定义不把普通正文、测试 fixture 或
+`some-tool-name` 子串误计为旧控件；后续“只减不增”以该脚本与 boundary ceiling 同时通过为准。
 
 ## 3. 跨页面公共红项
 

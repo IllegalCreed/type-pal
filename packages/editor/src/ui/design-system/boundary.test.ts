@@ -183,6 +183,7 @@ describe('editor design-system static boundary', () => {
       'ItemTab.tsx',
       'SkillTab.tsx',
       'EnemyTab.tsx',
+      'EnemyTeamTab.tsx',
       'PoisonTab.tsx',
       'BattleFieldTab.tsx',
       'WorldSpriteLibrary.tsx',
@@ -255,6 +256,7 @@ describe('editor design-system static boundary', () => {
       'WorldSpriteLibrary.tsx',
       'BattleSpriteLibrary.tsx',
       'SkillTab.tsx',
+      'EnemyTab.tsx',
       'PoisonTab.tsx',
       'ImageTab.tsx',
       'MusicTab.tsx',
@@ -265,6 +267,7 @@ describe('editor design-system static boundary', () => {
       'TilesetTab.tsx',
       'StampLibraryTab.tsx',
       'ProjectWorkbenchTab.tsx',
+      'App.tsx',
     ]
 
     for (const file of migratedInspectors) {
@@ -304,6 +307,7 @@ describe('editor design-system static boundary', () => {
       'ItemTab.tsx',
       'SkillTab.tsx',
       'EnemyTab.tsx',
+      'EnemyTeamTab.tsx',
       'PoisonTab.tsx',
       'BattleFieldTab.tsx',
       'WorldSpriteLibrary.tsx',
@@ -521,10 +525,10 @@ describe('editor design-system static boundary', () => {
         path.endsWith('.tsx') && !path.endsWith('.test.tsx') && !path.includes('/design-system/'),
     )
     const ceilings = {
-      tool: 65,
-      btn: 44,
+      tool: 62,
+      btn: 43,
       mini: 20,
-      'mini-txt': 39,
+      'mini-txt': 34,
       'pv-btn': 16,
       'item-action-button': 0,
       'mini-icon': 3,
