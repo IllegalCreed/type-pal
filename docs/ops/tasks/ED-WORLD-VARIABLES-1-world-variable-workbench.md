@@ -196,21 +196,164 @@ Depends on: ED-SHARED-SCRIPT-UI-1（分支 `codex/ed-shared-script-ui-1`；公�
   - design: **agree（2026-08-17）**。同意 content registry + current schema successor、定义/运行值分层、类型目录、
     中央 metadata/initial、右栏全 owner exact refs、引用阻断和 UI samples；不改命令运行形状或存档值表。
 - Kimi:
-  - premise: pending
-  - design: pending
+  - premise: **verified（2026-08-17，本人一手读码，非复述）**。七点逐项独立核实：
+    1. **定义/运行值分层正确**：`WorldScriptStateV5` 是纯运行值表（script-v5.ts:75-92），
+       `emptyWorldScriptStateV5()` 新世界为空表；缺值求值 `?? false`/`?? 0` 在
+       reforge/src/script-world-v5.ts:694-696（卡文锚点写 editor 侧，实际文件在 reforge，
+       语义一致）。`sys:screenWave`/`sys:waveProgression` 内部值真实存在
+       （script-project-v5.ts:134-135），`sys:` 保留前缀有现实依据。
+    2. **initial 归属 registry 正确**：`StartWorld`（character.ts:84-98）当前完全没有
+       flags/vars 通道——现存入口机制不含变量初值，无真实 per-entry 需求可考；把 initial 放
+       项目 registry 是最小真值，塞入 StartWorld 反而是在无需求时新建第二真值。卡文已把
+       「若现真实入口需求则 counter 改 StartWorld 方案」列为可证伪观察，我独立同意。
+    3. **当前页确无定义模型**：VarsTab.tsx:85-140 只消费 `buildRefIndex(scenes)` 派生索引，
+       行内展开、右栏缺失、hostile 行 disabled button 伪装（:18-26）逐项属实；
+       `buildRefIndex` 只收 scenes（ref-index.ts:238-242 + DataMode.tsx:207），共享脚本与
+       物品私有脚本确实漏扫。
+    4. **引用可全 owner 覆盖**：`ScriptEditorStateV5` 已含 scenes（hooks/behaviors/hostile
+       onLose，script-v5-editor.ts:283-320）、items（:323-329）、sharedScripts（:340），
+       `visitCanonicalScriptCommandsV5` 精确 locator walker 已存在（:279，ED-ENEMY-1 已用）。
+       exact locator 前提成立，无需降回 scene/srcKey 粗跳。
+    5. **历史排除边界处理正确**：boundary.test.ts:340-344 当前把 VarsTab 钉为负向排除
+       （必须有 `ref-row`、禁止 `DsReferencePanel`）；ED-INSPECTOR-TABS-1:96「vars 没有右栏」
+       判定属实但只描述旧只读页。本卡以用户新裁决反转该边界并保留历史事实，程序正确。
+  - design: **agree（2026-08-17，附必落钉 KV1-KV2，不阻塞准入）**。定义/值分层、双类型、
+    初值只作用新世界、目录/registry 与引用/collector 双源、禁 rename 保双 session 原子性、
+    依赖卡先行的七条设计结论均与现有结构相容；详见下方「Kimi 独立反证审查」。
 - GLM:
-  - premise: pending
-  - design: pending
+  - premise: **verified（2026-08-17，本人一手读码 + 全量数据 census，非代理）**。关键事实独立核实：
+    1. **VarsTab 现状属实**：DataMode:207/496 只喂 scenes-derived refIndex；ref-index 仅扫 scenes，
+       共享/物品漏扫属实（与 Kimi 第 3 点独立互证）。
+    2. **runtime 值形状属实**：flags/vars 值表 + `?? false/?? 0` 缺值回退（script-runner.ts:214-216；
+       reforge script-world-v5.ts:694-696）。
+    3. **setFlag/setVar/addVar 合法性核清（含一次自纠）**：三命令在 v4 `Command` 联合
+       （script.ts:172-174），经 `AuthorLeafCommandV5 = Exclude<LegacyCommandV4,…>`（script-v5.ts:164）
+       继承进 AuthorCommandV5——本人最初按字面正则提取 kind 列表漏掉继承成员，已纠；卡验收条款
+       引用合法。条件侧 flag/var 只读比较（script-v5.ts:96-97，all/any/not 嵌套）。
+    4. **sys: 前缀实证**：runtime 写 `sys:screenWave`（script-runner.ts:566）、存档清理
+       `delete vars['sys:music']`（save/ops.ts:408）——保留前缀条款有真实依据。
+    5. **hostile onLose owner 存在**（index.ts:106）——owner 清单准确。
+    6. **PAL 全量 census（本人 node 宽松扫描 scenes/scripts/shared-scripts/items 一切带 flag/var
+       字符串字段的节点）**：**PAL 工程 flag/var 符号使用量 = 0**——Codex 实机所见"4 个派生变量"
+       全部来自 `?ui_samples=1` 注入（ui-review-samples.ts:104-132 注入 firstScene.hooks.onEnter +
+       sharedScripts 的 review.* 符号），非 PAL 真实数据。premise 证据链成立，但**迁移将生成空
+       registry**——影响见 GV1。
+  - design: **agree（2026-08-17，附必落钉 GV1-GV3，不阻塞准入）**。定义/运行值分层、boolean/number
+    严格两型、initial 只作用新世界（Kimi 的 StartWorld 无通道论证本人复核 character.ts:84-134
+    属实）、全 owner exact locator（visitCanonicalScriptCommandsV5 已存在且 ED-ENEMY-1 已用）、零引用
+    才可删、与 ED-SHARED-SCRIPT-UI-1 串行——与数据事实相容。详见「GLM 独立数据覆盖审查」。
 - 独立反证审查（至少一位非 Coding Owner 必填）:
-  - 审查者: pending
-  - 独立证据锚点: pending；须直接核对 content schema、StartWorld/new-world/save 边界、current loader 清理域、
-    ScriptEditorState owner 全集，以及 ED-REFERENCE/INSPECTOR 的历史排除为何被新用户行为取代。
-  - 可证伪观察: pending；须回答 initial 是否应属于项目 registry 或 EntryPoint.startWorld、同 ID 跨类型如何停线、
-    exact locator 是否覆盖全部 owner、content successor 是否会留下兼容双轨。
+  - 审查者: Kimi（2026-08-17，见下方「Kimi 独立反证审查」）+ GLM（2026-08-17，见下方「GLM 独立数据覆盖审查」）
+  - 独立证据锚点: 本席本次会话直接打开核实——script-v5.ts:75-97,362-369 /
+    reforge/src/script-world-v5.ts:690-700 / script-project-v5.ts:123-135 / character.ts:84-134,
+    325-337 / ref-index.ts:19-60,162-243 / VarsTab.tsx:1-140 / DataMode.tsx:207 /
+    script-v5-editor.ts:27-40,279-345 / boundary.test.ts:300-346 / ED-INSPECTOR-TABS-1:88-104。
+  - 可证伪观察: 见「Kimi 独立反证审查」末节。
 - counter / 分歧处理: pending
 - 缺签豁免: N/A
-- build 准入结论: **blocked——待 Kimi + GLM 分别签 premise verified / design agree，且依赖卡公共表单边界收敛；
-  不得修改实现文件。**
+- build 准入结论: **allowed（2026-08-17）——Codex + Kimi（KV1-KV2）+ GLM（GV1-GV3）三方签字齐。前置：依赖卡 ED-SHARED-SCRIPT-UI-1 完成后按序 build；GV1 空表事实与 GV3 样本/保存门语义须先落卡。**
+
+#### Kimi 独立反证审查（2026-08-17，schema/initial/版本切换/双 session 主审；本人一手读码）
+
+**七问裁决：**
+
+1. **分层 ✓**：registry 是 content、值表是 save——当前 `buildWorldV13` 以
+   `emptyWorldScriptStateV5()` 构造新世界（character.ts:329-337），flags/vars 从不进 StartWorld；
+   定义/metadata 放存档会产生「工程定义 vs 旧存档副本」双真值，卡文方向正确。
+2. **initial 归属 ✓（项目 registry）**：现存 StartWorld 无变量通道（character.ts:84-98），
+   PAL 迁移内容走 entityState 不用 flag/var（VarsTab.tsx:117-119 注释亦证），无现存
+   per-entry 初值需求；项目级 initial 是唯一当前真值。若未来出现入口级需求，按卡文回
+   blocked 走 StartWorld 设计，不落双真值。
+3. **content successor / current-only ✓**：v15→v16 只触 content 轴；SAVE_VERSION 信封轴独立
+   （character.ts:116-118）；注意 save/migration-v15.ts 的 `targetContentVersion: 15` 需随
+   successor 同升（属卡文「loader/editor/save/runtime 共享同一 validator」面）。census 驱动
+   删除清单、不以测试占用为保留理由，符合版本纪律。
+4. **跨类型同 ID 停线 ✓**：迁移 false/0 等价于现行 fallback，行为不变；同 ID 跨类型不可
+   自动定类，停线列冲突交用户——正确且必须。
+5. **引用扫描覆盖 ✓**：canonical collector 可覆盖场景 Hook/Behavior/hostile onLose/物品私有/
+   共享脚本（锚点见上），hostile 当前 disabled 假行（VarsTab.tsx:18-26）将由统一引用合同的
+   静态 article + 原因取代。
+6. **双 session 原子性 ✓**：禁 ID rename + 带引用删除阻断后，不存在跨 session 写路径；
+   metadata/initial 只走 EditSession，脚本变量 picker 只走 ScriptV5 session，删除前纯扫描。
+   「从诊断创建同 ID 定义」也只写 registry，不触脚本。
+7. **三栏 IA ✓**：hybrid data/object workbench 与已发布 DsWorkbench/DsObjectHero/DsCatalogRow/
+   DsReferencePanel 合同一致；Vars 从 boundary 负向排除反转为正向清单是本卡必做。
+
+**必落钉（build 必落，不阻塞准入）：**
+
+- **KV1（boundary 反转完整性）**：boundary.test.ts:340-344 的负向排除（`ref-row` 必有 +
+  `DsReferencePanel` 禁止）必须在同卡删除并替换为正向清单成员资格；禁止「删负向、忘正向」的
+  半迁态，Vars 的 DsCatalogRow/DsObjectHero/DsReferencePanel 消费须入正向断言。
+- **KV2（迁移生成器与引用 collector 同源）**：一次性升级扫描器与运行时引用 collector 必须是
+  同一定义、两个消费者（C1-1/B2-1 模式），不得各写一套递归 walk；否则迁移 census 与删除阻断
+  可能漏不同的 owner。
+
+**最强替代解释复核：** 「refIndex 即变量库，只需排版做满」不成立——无未使用定义、无说明/初值，
+拼写错误静默生新符号；「metadata 塞进 WorldScriptStateV5」不成立——存档携带编辑 metadata 即双
+真值；「可选 worldVariables 不升版本」不成立——无法区分合法空表与未升级旧工程，违反 current-only。
+
+**可证伪观察：**
+1. 若全调用域出现真实的 per-entry-point 变量初值需求 → 本席 initial 结论失效，回 blocked 改
+   StartWorld 方案。
+2. 若当前工程/seed 存在同 ID 跨类型使用 → 迁移停线，列冲突交用户裁决（卡文已含）。
+3. 若 canonical locator 无法表达某 owner 的变量 condition/command exact path → 先扩公共 locator，
+   不得降回粗跳（卡文已含）。
+4. 若迁移后新开局运行结果与迁移前有任何差异（false/0 不等价于空表）→ seed 不完整，停线补
+   census。
+
+Evidence: 上文全部 file:line 均为本席本次会话直接打开核实。只读审查，未改实现文件，未代签 GLM，
+未标 build/done。
+
+#### GLM 独立数据覆盖审查（2026-08-17，数据/覆盖/测试矩阵；本人一手读码 + node census，非代理）
+
+**premise verified——六点一手核实**（详见签字块）：VarsTab 只读派生索引、runtime 值形状与
+false/0 回退、setFlag/setVar/addVar 经 v4 联合继承合法、sys: 前缀实证（screenWave/music）、
+hostile onLose owner 存在、**PAL 工程 flag/var 使用量为零**（ui_samples 注入为实机所见唯一来源）。
+
+**关键 census（卡文未含，GV1 的事实基础）：**
+
+| 项 | 本人实测 |
+|---|---|
+| PAL flag 符号 | **0 符号 / 0 引用**（scenes+scripts+shared-scripts+items 全扫） |
+| PAL var 符号 | **0 符号 / 0 引用** |
+| 跨类型同 ID 冲突 | 0（可证伪观察②平凡通过） |
+| 编辑器内可见符号 | 全部来自 ui-review-samples.ts:104-132 的 review.*（注入 firstScene.hooks.onEnter + sharedScripts） |
+
+**必落钉 GV1-GV3（build 时落实；GV1/GV3 须先落卡）：**
+
+- **GV1（空 registry 事实入卡 + 合成覆盖声明）**：卡的数据前提必须补记"PAL 当前 0 flag/var
+  符号——迁移生成空表"。"迁移前后运行行为相同"不变式对 PAL 平凡成立、无真实判别力；
+  generator/validator/collector/工作台整链的验收证据 **100% synthetic**（ui_samples + demo/
+  e2e-own + 测试 fixture），Build 记录不得宣称"经 PAL 真实数据验证"；建议 e2e-own 升级为带
+  真实 flag/var 用例（读写混合、嵌套 arm、跨类型反例）的主验证 fixture。
+- **GV2（collector 覆盖矩阵以真实类型联合为准 + sys: 过滤）**：owner×access×arm 矩阵必须含——
+  读：AuthorConditionV5 flag/var（含 all/any/not 递归）；写：setFlag/setVar/addVar（**v4 继承
+  命令**，别只扫 V5 字面 kind）；owner：scene hooks/entries、entity behaviors、hostile onLose、
+  sharedScripts、item 私有脚本；arm：branch.then/else、loop、confirm 等递归 arm。**另钉：collector
+  与"未登记引用"诊断必须过滤 `sys:` 前缀**——`sys:screenWave` 是运行时内部写入，不能在作者页
+  报未登记或进 registry（卡文只禁作者创建，未钉 collector 侧过滤）。
+- **GV3（ui_samples 与保存门的互斥语义先裁决）**：sample 注入 review.* 符号到 scenes/sharedScripts，
+  而验收规定"未登记引用阻断保存"——若用户在 `?ui_samples=1` 下保存，validator 会对 sample 符号
+  报未登记并阻断（或污染工程）。build 前必须显式裁决二选一并落测试：① sample 模式注入的符号
+  视作已登记（同步注入 registry 样本）；② sample 模式不触发保存门/禁止保存。不得边做边猜。
+
+**测试矩阵可执行性 ✓**：验收节的 schema/引用/UI/boundary 四组条款与现有基建对齐——
+visitCanonicalScriptCommandsV5 walker（ED-ENEMY-1 已用）、boundary 正反清单机制（Vars 从负向
+排除反转为正向保护）、DsCatalogControls 目录头已迁（CATALOG 卡）。唯一补强即 GV1 的合成声明
+与 GV3 的语义裁决。
+
+**可证伪观察：**
+1. 若 build census 发现 PAL 之外的 seed 工程存在 flag/var 使用（本人未扫 demo/e2e-own 内容），
+   GV1 空表结论按该工程修正——不改变设计，只改 fixture 策略。
+2. 若未来在 runtime 发现第三处 sys: 内部符号写入（已核 screenWave/music 两处），collector 过滤
+   清单同步扩充。
+3. 若 GV3 裁决为①且用户在 sample 模式保存后真实工程出现 review.* registry 项（sample 写回），
+   违反"opt-in 纯投影"——测试必须断言 sample 不落盘。
+
+Evidence: script.ts:165-180 / script-v5.ts:96-97,164-167 / script-runner.ts:214-216,566,650-656 /
+reforge script-world-v5.ts:694-696 / script-project-v5.ts:123-135 / save/ops.ts:408 /
+index.ts:106 / character.ts:84-134 / ui-review-samples.ts:104-132 / DataMode.tsx:207,496 /
+PAL 四目录 node census（0/0/0）。只读审查，未改实现文件，未代签 Kimi，未标 build/done。
 
 ### 进入 done 前:审查签字
 
@@ -253,9 +396,9 @@ Depends on: ED-SHARED-SCRIPT-UI-1（分支 `codex/ed-shared-script-ui-1`；公�
 ### 主审立场
 
 - Reviewer: Kimi（schema/initial/版本切换/双 session 主审）+ GLM（全 owner 引用/迁移 census/测试矩阵主审）
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论: Kimi premise verified + design agree（2026-08-17，附必落钉 KV1-KV2）；GLM pending
+- 必改项: KV1（boundary 负向排除同卡反转为正向清单）；KV2（迁移生成器与引用 collector 同源）
+- 是否建议进入 build: 是——待 GLM 签字且 ED-SHARED-SCRIPT-UI-1 公共 CommandForm 收敛后准入
 
 ### 三方争议记录(按需)
 
@@ -312,30 +455,45 @@ Depends on: ED-SHARED-SCRIPT-UI-1（分支 `codex/ed-shared-script-ui-1`；公�
 - 2026-08-17 Codex: 实机与源码确认页面是 scenes-derived 只读索引，没有 definition/metadata/initial，右栏为空且
   shared/item refs 漏扫；既有 Phase 2 规范和闭环审计早已记录定义表缺口。完成 registry、初始化、全 owner refs、
   工作台、current-only 和验收设计并签 premise/design。Next: Kimi 独立审查；三签和依赖收敛前不得实现。
+- 2026-08-17 GLM（数据/覆盖）: build 前审查完成，签 **premise verified + design agree（附 GV1-GV3）**。
+  六点一手核实（含自纠：setFlag/setVar/addVar 经 v4 联合继承进 AuthorCommandV5）；**PAL 全量 census
+  发现 flag/var 使用量为零**——实机所见变量全部来自 ui_samples 注入，迁移将生成空 registry（GV1：
+  空表事实入卡 + 验收 100% synthetic 声明）；GV2 钉 collector 覆盖矩阵须按真实类型联合（v4 继承命令
+  别漏）+ sys: 前缀过滤；GV3 钉 ui_samples 与保存门的互斥语义 build 前裁决。与 Kimi KV1-KV2 互补
+  无重叠。未改实现文件，未代签 Kimi，未标 build/done。Next: GV1/GV3 落卡；依赖卡完成后按序 build。
+- 2026-08-17 Kimi: 独立反证完成，签 premise verified + design agree（附 KV1-KV2）。七点裁决：
+  定义/运行值分层正确（StartWorld 无变量通道、新世界空表 + false/0 fallback）；initial 属项目 registry
+  （无现存 per-entry 需求，现需求出现则回 blocked 走 StartWorld）；current-only 删除面含 save
+  migration target 同升；跨类型同 ID 停线正确；canonical collector 覆盖全 owner（hooks/behaviors/
+  hostile/items/shared，walker 已存在）；双 session 无跨写路径（禁 rename + 阻断删除）；三栏 IA 与
+  已发布 recipe 一致。注意：卡文 script-world-v5.ts 锚点实际在 reforge 包（语义一致）。未改实现文件，
+  未代签 GLM。Next: GLM 覆盖/测试签字（提示词见下）；三签 + 依赖卡收敛前不得实现。
 
-## 下一位 Agent 提示词
+### 给 Kimi（已完成）
+
+Kimi 已于 2026-08-17 完成独立反证并签字（premise verified + design agree，附 KV1-KV2，
+见「Kimi 独立反证审查」），本节提示词不再适用。
+
+### 给 GLM（build 前覆盖/数据/测试签字，可直接复制）
 
 ```text
-接手任务：ED-WORLD-VARIABLES-1 世界变量定义表与作者工作台
+接手任务：ED-WORLD-VARIABLES-1 世界变量定义表与作者工作台——build 前覆盖/数据/测试签字
 任务卡：docs/ops/tasks/ED-WORLD-VARIABLES-1-world-variable-workbench.md
-当前状态：draft；Codex 已签 premise verified + design agree，Kimi/GLM pending；不得开始实现。
-你的角色：Kimi，负责定义/运行值分层、initial 归属、content successor/current-only、双 session 原子性与工作台
-信息架构的独立反证。
-先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文、
-docs/phase2/foundation/content-schema.md:35-48、
-docs/phase2/editor/editor-authoring-closure-audit-2026-07-13.md:145-155、
-ED-INSPECTOR-TABS-1:88-104、ED-REFERENCE-UI-1 的 Vars 排除边界、
-ED-SHARED-SCRIPT-UI-1（分支 codex/ed-shared-script-ui-1），及
-VarsTab.tsx、ref-index.ts、DataMode.tsx、script-v5.ts、character.ts、loader-v15/v14.ts、
-edit-session.ts、project-io.ts、script-v5-editor.ts、design-system recipes/boundary。
-已完成：实机确认当前页只有 4 个脚本派生行、行内引用和空右栏；源码确认 refIndex 只扫 scenes，没有变量定义、
-metadata、initial 或 CRUD。当前 runtime 只有 flag:boolean / var:number 值表，缺值 false/0；Phase 2 规范要求显式
-命名变量表，旧闭环审计已点明缺初始态/说明注册表。
-请你做：独立判断 initial 应在项目 registry 还是 EntryPoint.startWorld；核对新游戏与已有存档边界；枚举 current
-content 版本切换后必须删除的旧 loader/type/upgrader/fixture；检查 registry 与 ScriptV5 双 session 是否因 ID rename/
-删除产生非原子写；确认 hybrid 三栏没有违背数据表 recipe。写出最强替代解释和可证伪观察。无阻塞则在卡内签
-premise verified + design agree；有问题签 counter 并给出单一真值的收敛方案。
-不要做：不得修改实现文件、不得代签 GLM、不得把 metadata 写进存档、不得保留 optional registry fallback、
-不得让同一 ID 跨类型自动猜、不得并行重写 ED-SHARED-SCRIPT-UI-1 正在收敛的 CommandForm primitive。
-输出要求：把直接证据、结论、必落钉和签字写回任务卡；若 agree，附可直接交给 GLM 的下一位提示词。
+分支：codex/ed-world-variables-1
+当前状态：draft；Codex 与 Kimi（KV1-KV2）已签，待 GLM；不得修改实现文件或开始实现
+先读：AGENTS.md、docs/phase2/READ-FIRST.md、任务卡全文（含 Kimi 独立反证审查）、
+  docs/phase2/foundation/content-schema.md:35-48、editor-authoring-closure-audit-2026-07-13.md:145-155；
+  再直读 script-v5.ts、character.ts、reforge/src/script-world-v5.ts:690-700、loader-v15.ts、
+  edit-session.ts、project-io.ts、script-v5-editor.ts、ref-index.ts、VarsTab.tsx。
+请独立复算/枚举：
+1. 当前工程（pal/demo/e2e-own/seed）全部 canonical 作者脚本中的 flag/var 符号 census：符号总数、
+   读写计数、是否存在同 ID 跨类型冲突（决定迁移是机械 false/0 还是停线）；sys: 前缀占用清单。
+2. content successor 的调用域/删除清单：loader/type/upgrader/fixture/test/产品升级入口逐项枚举，
+   标出 v15→v16 必须同升的 save migration targetContentVersion 面。
+3. 引用 collector 的 owner×access×nested-arm 测试矩阵（场景 Hook/实体 Behavior/hostile onLose/
+   共享脚本/物品私有脚本 × read/write × branch/loop/嵌套 arm），以及未登记引用/跨类型/删除阻断的
+   保存门断言。
+4. KV1 boundary 反转与 KV2 同源约束的可验证形态；ui_samples 注入不可变性测试。
+输出：签 premise verified + design agree 或带 file:line 的 counter；写回任务卡推进签字与交接日志；
+不得修改实现文件、不得代签。三签齐 + ED-SHARED-SCRIPT-UI-1 公共表单收敛后方可进 build。
 ```

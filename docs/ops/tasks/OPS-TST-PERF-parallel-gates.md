@@ -1,6 +1,6 @@
 # OPS-TST-PERF-B - shared/fresh 隔离并行 release runner
 
-Status: draft
+Status: build
 Phase: ops
 Capability: test infrastructure / release gate
 Coding Owner: Codex
@@ -44,12 +44,36 @@ Branch: main
   - `packages/migrate/src/pal-migration-integration.test.ts:110-118,591-600`（fresh 临时事务）。
   - `packages/migrate/scripts/profile-release.mts`（A 的 child/report/RSS 失败语义）。
 - 已知坑 / 审计文档:
-  - shared 历史峰值约 3.2GiB；并行会叠加 RSS 和磁盘压力。
+  - shared 历史 profiler 峰值为 **3,218,849,792 bytes（约 3.0 GiB / 十进制约 3.2 GB）**；
+    另一轮完整 shared 审计记录约 **2.6 GiB**。两者是不同运行样本，均低于 4.5 GiB 单 child
+    上限；并行仍会叠加 RSS 和磁盘压力。证据：`OPS-TST-PERF-release-wallclock.md:288`、
+    `OPS-TST-PERF-test-fixture-stratification.md:345-352`。
   - 当前无 parallel runner；不能仅把两个 Vitest 命令放入 `Promise.all` 就宣称隔离。
 - 不得重新引入:
   - 共享 TMPDIR/report/authority、缺 RSS 当成功、子进程失败后静默改跑串行、写入 baseline/project。
 - 相关测试:
   - manifest/list、A profiler smoke/full、release shared/fresh 定向组，以及三次串行对照。
+
+## 前提真值矩阵
+
+一句话前提：manifest/canary/preflight/unit 完成后，shared 与 fresh 的证明内容相互独立，可以在
+**不同进程、不同临时根和不同报告根**中重叠执行；任何资源遥测或 serial 等价证据不闭合时，显式
+parallel 命令必须失败，默认串行命令保持不变。
+
+| 真值面 | 当前事实 | 一手证据 |
+|---|---|---|
+| 原版 / primary source | N/A：纯 Reforge 测试基础设施，不涉及原版机制或用户内容行为。 | 任务范围仅为 `packages/migrate` release gate。 |
+| 第一阶段 | N/A：第一阶段没有本 release gate，也不是本任务的行为真值。 | `docs/phase2/READ-FIRST.md:1-18`。 |
+| 当前二阶段 | `test:release` 仍是 manifest→canary→单 Vitest release 的串行链；release 内有 preflight/unit/shared/fresh 四组，shared 只允许进程内 prepared lease，fresh 独立磁盘事务；A profiler 已有唯一 run root、进程组终止、1s process-tree RSS 与 fail-closed 报告骨架；fresh 根因卡已 done。 | `packages/migrate/package.json:8-17`；`vitest.release.config.ts:13-68`；`pal-test-fixture.ts:65-88,100-125,205-221`；`pal-migration-integration.test.ts:110-118,591-600`；`profile-release.mts:25-48,241-350,511-606,688-729,839-850`；`OPS-TST-PERF-fresh-hook-timeout.md:1-12,173-181`。 |
+| 本任务目标 | 只新增显式 parallel runner；先串行完成 manifest/canary/preflight/unit，再并行 shared/fresh；child 的 env/TMPDIR/report/log/transaction root 全隔离，资源、路径、报告或等价性任一失败即杀 sibling 并非零。 | 本卡“范围”“冻结的资源与失败矩阵”“验收条件”；母卡 `OPS-TST-PERF-release-wallclock.md:57-74`。 |
+
+最强替代解释：主要耗时也可能来自 shared 内部重复冷建或 fresh 自身链路，而不是两个独立组无法重叠；
+若实测并行没有稳定收益，或只靠共享 authority/放宽门禁才能提速，本卡不得改默认命令，显式 runner
+也不能报告成功。
+
+可证伪观察：shared/fresh 触碰同一临时根或 authority、canary 与 PAL worker 重叠、serial/parallel
+任一 title/digest/skipped/write 集不等、RSS 采样不可用/超预算、或三次同机同批次对照没有稳定收益；
+出现任一项即保持默认串行并进入 `rework/blocked`。
 
 ## 冻结的资源与失败矩阵
 
@@ -79,12 +103,58 @@ Branch: main
 
 ### 进入 build 前：设计签字
 
-- Codex: pending
-- Kimi: pending（真实席位，用户转发提示词）
-- GLM: pending（真实席位，用户转发提示词）
+- Codex: **premise verified + design agree（2026-08-17，本人一手读码 + 现场清单核验）**。
+  - 四项目 groupOrder、默认串行脚本、shared 进程内 lease、fresh 独立临时事务与 A profiler 的
+    process-tree RSS/进程组终止/fail-closed 报告骨架均已直接核实；fresh 前置卡为 done。
+  - **PB1 已闭合**：3.2 数字来自母卡保存的 profiler 报告，精确峰值
+    `3,218,849,792 bytes`（`OPS-TST-PERF-release-wallclock.md:288`）；2.6 GiB 是另一轮审计样本，
+    不是同一运行的冲突值。卡文已改为双样本并列。
+  - **PB2 携带进入 build**：三次 serial control 必须与 parallel 同机、同日/同批次，并在同一稳定
+    run report 记录机器、负载、routeSha256、title/count/skipped 与 writes/deletes/conflicts；不满足
+    即失败，不得用环境漂移解释性能结论。
+  - design agree：只新增显式命令、默认串行不变、先串行 canary/preflight/unit、双 child 独立根、
+    预算与失败矩阵 fail-closed。最强替代解释与可证伪观察已写入前提矩阵。
+- Kimi: **premise verified + design agree（2026-08-17，本人一手读码，非代理；完全携带 PB1-PB2）**。
+  逐项独立核实：
+  - **四配置组与 lease 语义属实**：`vitest.release.config.ts` preflight(groupOrder=0)/unit(1)/
+    shared(2)/fresh(3) 顺序正确；shared `pool=forks, isolate=false, fileParallelism=false`
+    （:45-55，进程内 cache 复用为设计本意）与 fresh `isolate=true, fileParallelism=false`
+    （:58-67）隔离边界清晰；`package.json:9-17` 现状纯串行（manifest→canary→release），无
+    parallel 命令——「默认不变、显式启用」边界成立。
+  - **A profiler 基础属实**：`profile-release.mts` 有 run-unique root（:25-31）、1s RSS 采样
+    （:33）、进程组终止 `-child.pid`（:38-48）与 SIGINT/SIGTERM 转发——并行 runner 可复用该
+    骨架而非新发明。
+  - **隔离/失败矩阵架构上成立**：两 child 各自单 worker（fileParallelism=false），不存在 CPU
+    超订阅；shared 只读 prepared 源、fresh 独占磁盘事务，无共享 authority；fail-closed 矩阵
+    无静默串行回退路径。三次 serial/parallel 数据守恒对照（digest/title/count/skipped/
+    writes/deletes/conflicts 逐项相等）可机检。
+  - **携带 PB1/PB2**：3.2GiB 与母卡实测 2.6GiB 不一致须钉出处（PB1）；serial control 同机
+    同批次同环境摘要（PB2）——两钉均是可证伪性补强，我独立同意。
+  - 补充观察（不另立钉）：manifest/canary/preflight/unit 串行先行再 spawn 双 child 的调度顺序
+    与现有 groupOrder 语义一致；canary 不与 PAL worker 并行的约束须在 runner 代码里显式编码
+    （而非仅靠文档），验收的「报告缺失/不完整即 fail-closed」已覆盖。
+  未改实现文件，未代签 Codex/GLM，未标 build/done。
+- GLM: **premise verified + design agree（2026-08-17，本人一手读码，非代理；附必落钉 PB1-PB2，
+  不阻塞准入）**。锚点独立核实：
+  - 四配置组实存且序正确（vitest.release.config.ts:20 preflight groupOrder=0 / :31 unit=1 /
+    :45 shared / :58 fresh）；package.json:9-17 现状纯串行、无 parallel 命令；
+    profile-release.mts 已有 child 进程组 kill（:42 `-child.pid`）与 RSS 采样（:33 1s 间隔）——
+    A profiler 基础属实。
+  - fixture gate/lease 锚点（pal-test-fixture.ts:65-88,100-125）与 fresh 临时事务锚点属实。
+  - 数据守恒验收（digest/title/list/count/listed/runnable/skipped/unlistedSkipped/
+    writes/deletes/conflicts 三次逐项相等）**可机检**：Vitest JSON 供 titles/counts/skipped，
+    每 child 唯一 fresh transaction root 供 writes/deletes/conflicts；fail-closed 矩阵
+    （RSS 不可读/超预算/signal/路径冲突/报告缺失）设计正确，无静默串行回退路径。
+  - **必落钉 PB1（RSS 数字锚定）**：本卡"shared 历史峰值约 3.2GiB"与母卡实测记录"约 2.6GiB"
+    （release-wallclock:45，1992.69s run）不一致，3.2 出处未见——预算 4.5/3.5/7.5GiB 对两者均
+    安全，但 build 前须把 3.2 钉到具体 profiler 报告路径，或改用 2.6 实测 + 余量推导并记入卡。
+  - **必落钉 PB2（serial control 同机同时）**：三次对照的 serial control 必须与 parallel 在同一
+    参考机、同日批次运行并同记 run report（机器/时间/负载摘要），防 digest 相等但 wall/RSS 因
+    环境漂移不可比；listed/runnable 对照以 manifest routeSha256 为锚。
 - counter / 分歧处理: 任何资源/隔离/失败矩阵 counter 均保持 blocked。
 - 缺签豁免: N/A
-- build 准入结论: blocked
+- build 准入结论: **allowed（2026-08-17）——Codex + Kimi + GLM 三方 premise/design 签字齐；
+  PB1 已以精确 profiler 锚点闭合，PB2 与冻结失败矩阵作为 build/验收硬门禁。**
 
 ### 进入 done 前：实现签字
 
@@ -111,19 +181,22 @@ Branch: main
 
 - 2026-08-10 Codex: 建卡。Evidence: 主卡 B 约束、shared 3.2GiB 峰值与 fresh 隔离锚点。Next:
   真实 Kimi/GLM 先审设计；未满三签不得实现。
+- 2026-08-17 GLM（覆盖/测试）: 设计审查完成，签 **premise verified + design agree（附 PB1-PB2）**。
+  四配置组/串行脚本/A profiler RSS+进程组基础/fixture lease 锚点逐一属实；三次数据守恒对照可机检。
+  两钉：PB1 RSS 数字 3.2GiB 与母卡实测 2.6GiB 不一致须锚定出处；PB2 serial control 须与 parallel
+  同机同日同记环境摘要。未改实现文件，未代签 Codex/Kimi。Next: Codex/Kimi 签字后三签齐。
+- 2026-08-17 Kimi（架构/进程/资源）: 设计审查完成，签 **premise verified + design agree（携带
+  PB1-PB2）**。一手核实：四配置组与 groupOrder 序、shared/fresh lease 隔离语义、串行现状、
+  profile-release.mts 的 run-unique root/1s RSS/进程组终止逐项属实；双 child 单 worker 无 CPU
+  超订阅、无共享 authority、无静默串行回退；数据守恒对照可机检。canary 与 PAL worker 不并行的
+  约束须编码进 runner 而非仅靠文档（验收 fail-closed 已覆盖）。未改实现文件，未代签。
+  Next: Codex 签字后三签齐转 build。
+- 2026-08-17 Codex: 独立复核并签 **premise verified + design agree**。PB1 已由母卡
+  `:288` 的 `3,218,849,792 bytes` profiler 样本闭合，并保留另一轮 2.6 GiB 样本；PB2 同机同批次
+  serial/parallel 对照升级为实现硬门。三签齐，状态转 `build`；尚未修改实现文件。
 
 ## 下一位 Agent 提示词
 
-```text
-接手任务：OPS-TST-PERF-B shared/fresh 隔离并行 release runner
-任务卡：docs/ops/tasks/OPS-TST-PERF-parallel-gates.md
-当前状态：draft，Codex/Kimi/GLM 设计签字均 pending；不得开始实现。
-先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文、OPS-TST-PERF-release-wallclock.md、
-vitest.release.config.ts、package.json、profile-release.mts 及 fresh/fixture 锚点。
-请真实 Kimi 复核架构/进程组/RSS/失败语义并写本人 Kimi agree 或 counter；请真实 GLM 复核清单、
-报告、serial-vs-parallel coverage 与数据守恒并写本人 GLM agree 或 counter。Codex 只有三方 agree
-后才能实现；实现后仍需三方 accept。
-不要做：不改默认串行、不删 source-backed 证明、不共享 authority/TMPDIR、不静默串行回退、
-不把 RSS 不可用当成功。
-输出：设计签字或带 file:line 的 counter；若进入 build，附三次 serial/parallel 原始报告与 digest。
-```
+无下一位 Agent 提示词：三方 build 前签字已齐，由 Coding Owner Codex 在本卡继续实现；进入 done 前
+仍须 Codex/Kimi/GLM 三方 implementation accept。实现不得改默认串行、共享 authority/TMPDIR、
+静默回退串行，且必须保存三次同机 serial/parallel 原始报告与 digest。
