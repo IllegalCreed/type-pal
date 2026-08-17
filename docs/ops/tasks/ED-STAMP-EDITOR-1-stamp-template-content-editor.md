@@ -139,19 +139,42 @@ Branch: codex/ed-stamp-editor-1
   - design: **agree（2026-08-17）**。同意“组合库内内存 draft + 复用地图领域 primitive + 单笔模板命令”的边界；
     不改 schema/runtime/placement 非链接语义，不接受真实地图作为必经临时画布。
 - Kimi:
-  - premise: pending
-  - design: pending
+  - premise: **verified（2026-08-17，本人一手读码，非复述）**。逐项独立核实缺口成立：
+    - 组合库属性面板只编辑名称/分类（StampLibraryTab.tsx:540-594）；「用当前地图选区更新」在
+      无会话选区时禁用（:595-607），内容更新唯一路径依赖外部普通 cells 选区。
+    - 地图仅向组合库暴露 `selection.kind === 'cells'`（MapMode.tsx:412-417），组内编辑状态不
+      出地图；placement Inspector 编辑的是地图实际值且明示「不从来源模板重建」
+      （StampPlacementSelectionInspector.tsx:144-156），非链接语义与 W7G 一致。
+    - 无「打开模板→编辑内容→取消/原子保存」路径：全仓不存在模板→画布 draft 的任何转换入口
+      （唯一反向转换是 `buildStampTemplateFromSelection`，输入强制为地图 cells 选区，
+      stamp-template.ts:73-76）。
+    - 最强替代解释（放置→组内编辑→解组→重选区替换）确实可走通但必须以污染/解组真实地图为
+      中间物，违反卡文「明确不做」，不构成非破坏闭环——前提成立。
+  - design: **agree（2026-08-17，附必落钉 SK1-SK2，不阻塞准入）**。内存 draft + 纯转换边界 +
+    复用领域 primitive + 单笔命令的方案与现有边界逐一相容：
+    - lattice 数学可逆：`relativeLatticeOffset`/`resolveRelativeLatticeOffset`
+      （map-transform.ts:86-100）互逆，负 offset 天然支持；`u=2*col+rowParity` 使 du 与 dRow
+      奇偶自动一致，draftOrigin 平移不破坏 round-trip。
+    - 命令层已 fail-closed：`ReplaceStampTemplateCommand` 在 command 层强制接管语义
+      （stamp-commands.ts:65-102）、exact invert、重复内容 no-op；单笔 history 成立。
+    - schema 不变量（视觉非空/槽必须有成员/flat 高度 0/collision=0 显式/成员唯一键，
+      stamp.ts:91-142）与 draft 编辑操作一一对应，保存前 canonicalize + validate 顺序正确。
+    - 复用边界现实可行：`isLatticeInside`/`mapInstanceHeight`/投影与 palette 已以纯函数或小组件
+      存在；风险只在抽取时把 session/dispatch 耦合带进 draft——由 SK1 钉住。
+    详见下方「Kimi 独立反证审查」。
 - GLM:
   - premise: pending
   - design: pending
 - 独立反证审查（至少一位非 Coding Owner 必填）:
-  - 审查者: pending
-  - 独立证据锚点: pending；须直接检查 cells-selection 暴露边界、placement group edit、模板 command/schema，
-    不能只复述本卡。
-  - 可证伪观察: pending；重点反证是否已有非破坏性 round-trip，及 draft 复用是否会形成第二套地图模型。
+  - 审查者: Kimi（2026-08-17，见下方「Kimi 独立反证审查」）
+  - 独立证据锚点: 本席本次会话直接打开核实的 file:line——StampLibraryTab.tsx:540-643 /
+    MapMode.tsx:412-417 / StampPlacementSelectionInspector.tsx:130-229 / stamp-template.ts:73-160 /
+    stamp-commands.ts:15-102 / stamp.ts:63-154 / map-transform.ts:82-127 / StampTemplateDialog.tsx:194-214,428-433。
+  - 可证伪观察: 见「Kimi 独立反证审查」末节。
 - counter / 分歧处理: pending
 - 缺签豁免: N/A
-- build 准入结论: **blocked——待 Kimi + GLM 分别签 premise verified / design agree；不得修改实现文件。**
+- build 准入结论: **blocked——Kimi 已签（SK1-SK2），待 GLM 签 premise verified / design agree；
+  不得修改实现文件。**
 
 ### 进入 done 前:审查签字
 
