@@ -1,12 +1,13 @@
 # ED-ENEMY-1 - 敌人、敌队预制与结算/偷取编辑闭环
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: B1 / B7 / B9（需重验现有完成声明，不预先改变能力状态）
 Coding Owner: Codex
 Reviewer: Kimi（架构/schema/运行时）+ GLM（数据覆盖/测试矩阵）
 Visual Verification Owner: Codex + User
-Blocked by: Kimi / GLM build 前独立前提与设计签字
+Blocked by: none（三方 build 前签字齐）
+Branch: `codex/ed-enemy-1`
 
 ## 用户裁决与目标
 
@@ -325,6 +326,12 @@ global.h:270-295 / fight.c:753-754,5253-5284。只读审查,未改实现文件,�
 - Kimi: pending
 - GLM: pending
 - User: pending functional acceptance
+
+
+- 2026-08-17 Codex: 接手前复核 Codex + Kimi（EK1-EK3）+ GLM（G1-G5）三方 premise/design
+  签字与字符串 `enemyTeamId` 方案裁决，build 准入仍为 allowed；任务由 `draft` 转 `build`，分支为
+  `codex/ed-enemy-1`。Codex 为唯一 Coding Owner，按“迁移/门禁 → 敌队七环 → 场景引用 → 奖励偷取 →
+  全量审计/视觉”顺序推进。
 
 
 - 2026-08-16 GLM: build 前数据覆盖审查签 premise verified + design agree（G1-G5）。全量复算：380 队
