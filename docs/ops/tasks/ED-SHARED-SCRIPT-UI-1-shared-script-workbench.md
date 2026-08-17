@@ -167,19 +167,110 @@ Branch: codex/ed-shared-script-ui-1
   - design: **agree（2026-08-17）**。同意 owner-less preview 删除、目录/页壳 DS 收敛、公共正文/CommandForm
     一次迁移、`SharedScriptTab` current-only 退役；字段/命令/运行时语义不变。
 - Kimi:
-  - premise: pending
+  - premise: pending（用户提示词称 Kimi 已签 KSS1-KSS2，但截至 GLM 签字时代理仓库（本地 + origin，
+    edec2097）尚无该版本——Kimi 签字落库后三签即齐，GLM 不代签不阻塞。）
   - design: pending
 - GLM:
-  - premise: pending
-  - design: pending
+  - premise: **verified（2026-08-17，本人一手读码 + 独立复算，非代理）**。四项独立核验：
+    1. **控件 census 逐字吻合**：本人 node 复算 `CanonicalScriptEditorV5` = 43 button / 37 input /
+       31 select / 2 textarea + **仅 1 个 DsSelect**（DsButton/TextInput/NumberInput/TextArea/IconButton
+       全 0）；`CommandForm` = 14/13/15/2 全 raw 零 DS；`CanonicalSharedScriptTabV5` = 5/3/3/1 raw
+       （含 294 项场景 select）——与卡文真值矩阵完全一致。
+    2. **SharedScriptTab 调用域穷尽枚举**：production 仅 DataMode.tsx:45 import + :561 fallback
+       分支一处；测试仅 SharedScriptTab.test.ts——**注意它测的是纯 helper
+       `resolveSharedScriptEditingId`（:109 导出）而非组件**，该 helper 全仓无 canonical 消费；
+       boundary.test 的命中是 `CanonicalSharedScriptTabV5` 子串误报非引用。main.tsx 两条启动路径
+       （dev :106 / opened :132）均无条件构造 `ScriptV5EditSession`，`scriptV5?` optional 类型面
+       在 production 不可达 fallback——删除属 current-only 死路径清理。
+    3. **公共正文编辑器宿主矩阵 = 7 文件级宿主**：CanonicalSharedScriptTabV5（共享）、ItemTab +
+       ItemUseEffectEditor（物品私有）、ScriptV5SceneHookInspector（场景 Hook）、
+       ScriptV5BehaviorInspector（实体 Behavior）、App + CanonicalSceneScriptWorkspaceV5（场景
+       工作台）——卡的 4 owner-fixture 矩阵 + 交叉实机覆盖全部 7 宿主，无漏。
+    4. **CommandForm commit 语义现状**：number `Number(e.target.value)` 即时转换（:92）、text
+       每 keystroke 整指令替换（:105，:5 注释自认）、select `as T` 直转（:121）——三种粒度
+       characterization 可执行且必要（详见 GS2）。
+  - design: **agree（2026-08-17，附必落钉 GS1-GS3，不阻塞准入）**。owner 决定预览位置、公共组件
+    源头一次迁移、current-only fail-loud、行为冻结四条设计结论成立；删除 owner-less preview 的
+    方向与 script-system-design.md:98-111 当前规范一致。详见下方「GLM 独立覆盖审查」。
 - 独立反证审查（至少一位非 Coding Owner 必填）:
-  - 审查者: pending
-  - 独立证据锚点: pending；须核对 N6 历史预览与当前 canonical 规范的先后关系、main/DataMode 调用域、
-    shared owner schema、公共 editor 委托 `CommandForm` 的真实可见范围。
-  - 可证伪观察: pending；须说明什么证据会要求保留 preview/fallback，及何种公共控件迁移会越过 UI 边界。
-- counter / 分歧处理: pending
+  - 审查者: GLM（覆盖/测试，2026-08-17，见下方）；Kimi 签字落库后补充。
+  - 独立证据锚点: 见「GLM 独立覆盖审查」；须核对项已核（N6 历史 vs 当前规范先后关系由 Codex 锚定、
+    main/DataMode 调用域由 GLM 穷尽、公共 editor 委托 CommandForm 的可见范围 = 7 宿主）。
+  - 可证伪观察: 见「GLM 独立覆盖审查」末。
+- counter / 分歧处理: 无。
 - 缺签豁免: N/A
-- build 准入结论: **blocked——待 Kimi + GLM 分别签 premise verified / design agree；不得修改实现文件。**
+- build 准入结论: **blocked——GLM 已签；待 Kimi 签字落库（KSS1-KSS2）后三签即齐，方可转 build。**
+
+### 进入 done 前:审查签字
+
+- Codex: pending
+
+#### GLM 独立覆盖审查（2026-08-17，覆盖/测试；本人一手读码 + node 复算，非代理）
+
+**census 复算（与卡文逐字一致）：**
+
+| 文件 | raw button/input/select/textarea | DS 采用 |
+|---|---|---|
+| CanonicalScriptEditorV5.tsx | **43/37/31/2** | 仅 1 个 DsSelect，其余 DS primitive 全 0 |
+| CommandForm.tsx | **14/13/15/2** | 零 DS |
+| CanonicalSharedScriptTabV5.tsx | 5/3/3/1（含 294 场景 select） | 仅 DsCatalogControls（目录头） |
+
+净减断言可执行性：三文件进 boundary 既有 raw-free 门禁机制（migrated-object-workspaces 清单 +
+legacy token 零）即可；census 净减用 `audit-legacy-controls.mjs` 前后对照。**注意**：净减账必须区分
+「迁移转化」（EditorV5/CommandForm 的 125 处 raw → DS）与「文件删除」（SharedScriptTab.tsx 全文件
+raw 随删除消失）两类，不得把删文件记成迁移成果。
+
+**SharedScriptTab 删除清单（三层级联 + 一条保留红线）：**
+
+| 层 | 对象 | 证据 |
+|---|---|---|
+| ① UI 入口 | DataMode.tsx:45 import + :561 fallback 分支 | 唯一 production 消费 |
+| ② 组件与测试 | SharedScriptTab.tsx（1019 行）+ SharedScriptTab.test.ts | 测试只测纯 helper `resolveSharedScriptEditingId`（:109），helper 无 canonical 消费，随文件级联删 |
+| ③ 孤儿模块 | **script-library-catalog.ts + 其测试** | rg 全仓仅 SharedScriptTab.tsx 消费 buildInternalScriptCatalog——卡文未列，必须补进删除清单 |
+| 保留红线 | **state.scriptIndex / state.scriptChunks 字段** | script-references.ts:73-181（引用收集器，仍活跃）与 editor-asset-references.ts:14 持续消费——删 UI ≠ 删数据面，build 不得动这两个字段 |
+
+Boot.scriptV5 类型面：main.tsx:38 optional，但 dev（:106）/opened（:132）两条路径均无条件构造
+ScriptV5EditSession，error 路径走统一错误 UI——fallback 在 production 不可达，删除安全；类型收紧
+（optional → required + 错误态显式）为 build 决策。
+
+**七宿主矩阵（文件级 7 / owner 族 4 + 场景工作台）：**
+
+CanonicalSharedScriptTabV5（共享）/ ItemTab + ItemUseEffectEditor（物品私有）/
+ScriptV5SceneHookInspector（场景 Hook）/ ScriptV5BehaviorInspector（实体 Behavior）/
+App + CanonicalSceneScriptWorkspaceV5（场景工作台）。卡的"4 owner fixture + 交叉实机"矩阵覆盖全部
+宿主；嵌套 branch/loop/startBattle、focus revision、dialog focus return、键盘行选择四项与现有
+CanonicalScriptEditorV5.test.tsx / 各宿主测试文件对齐，可执行。
+
+**必落钉 GS1-GS3（build 时落实，不阻塞准入）：**
+
+- **GS1（删除级联 + 保留红线按上表执行）**：删除清单必须含 script-library-catalog 模块（卡文漏列）；
+  state.scriptIndex/scriptChunks 字段保留（引用收集器仍消费）。删除后 rg
+  `SharedScriptTab|script-library-catalog` 生产码零命中（boundary 同步收 reference 的子串误报不需要，
+  但 DataMode import 与 fallback 分支必须整删而非隐藏）。
+- **GS2（commit 语义 characterization 含边界值）**：迁移前对 CommandForm 三粒度各补
+  characterization——number 现状 `Number(e.target.value)` 即时转换（**空串 → 0 边界必须钉**：
+  `Number('')===0`，迁移到带 integerInRange clamp 的 DsNumberInput 后行为可能不同）、text 每
+  keystroke 整指令替换（undo 粒度=每字符，迁移后须保持或显式改变并记卡）、select `as T` 直转
+  （非法值行为）。characterization 先行、迁移后全绿才许动字段模型。
+- **GS3（净减账两类分记）**：audit census 更新时把「迁移转化」与「文件删除」两类减量分开记录，
+  防止用删 SharedScriptTab 的文件级 raw 消失冒充 EditorV5/CommandForm 的迁移成果。
+
+**可证伪观察：**
+
+1. 若 SharedScriptTab 之外发现 script-library-catalog 的第二个生产消费点（本人 rg 仅 1 处），
+   GS1 ③级联删除停线重估。
+2. 若 CommandForm characterization 迁移后三粒度任一行为差异被宿主测试拦截且无法归为纯视觉，
+   即越过"行为冻结"边界 → 停止并拆卡（卡文前提观察③沿用）。
+3. 若 7 宿主中任一（如 ItemUseEffectEditor）实际未消费公共正文组件的可见路径（本人以 import
+   静态判定，未逐宿主运行时验证），fixture 矩阵按实际宿主修正——4 owner 族结论不变。
+4. 若删除 fallback 后某测试装配依赖 scriptV5 缺失走旧编辑器路径（当前测试文件清单未见此形态），
+   按"修 fixture 不修产品"原则处理。
+
+Evidence: CanonicalScriptEditorV5.tsx/CommandForm.tsx/CanonicalSharedScriptTabV5.tsx node census /
+DataMode.tsx:34,45,561,564-565 / SharedScriptTab.tsx:49,109,202-206（1019 行）/ SharedScriptTab.test.ts
+全文件 / main.tsx:38,106,132 / script-references.ts:73-181 / editor-asset-references.ts:14 /
+script-library-catalog 消费面 rg / 7 宿主 import 矩阵。只读审查，未改实现文件，未代签 Kimi，
+未标 build/done。
 
 ### 进入 done 前:审查签字
 
