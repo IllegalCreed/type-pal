@@ -25,6 +25,7 @@ export const DATA_PAGE_IDS = [
   'skill',
   'item',
   'enemy',
+  'enemy-team',
   'poison',
   'ambience',
   'shop',
@@ -171,6 +172,14 @@ export const EDITOR_MODULES: readonly EditorModuleDefinition[] = [
         icon: '👹',
         kind: 'data',
         dataPage: 'enemy',
+        acceptsObject: true,
+      },
+      {
+        id: 'enemy-team',
+        label: '敌队',
+        icon: '⚔',
+        kind: 'data',
+        dataPage: 'enemy-team',
         acceptsObject: true,
       },
       {
@@ -488,6 +497,11 @@ export const editorLinks = {
     module: 'battle',
     subpage: 'enemy',
     objectId: enemyId,
+  }),
+  enemyTeam: (enemyTeamId: string): EditorLocation => ({
+    module: 'battle',
+    subpage: 'enemy-team',
+    objectId: enemyTeamId,
   }),
   poison: (poisonId: number): EditorLocation => ({
     module: 'battle',

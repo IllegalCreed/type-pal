@@ -8,9 +8,9 @@ import { expect, test } from 'vitest'
 import { SupersedingFadeDriver } from './fade-driver.js'
 import type { FileSource } from './file-source.js'
 import type { LoadedProjectV13Core } from './loader-v13.js'
-import { loadAllScenesV14, loadProjectV14From, loadSceneDefV14 } from './loader-v14.js'
-import { normalizePayloadV14, preflightSaveMigrationV14 } from './save/migration-v14.js'
-import { buildPayloadV8Content14 } from './save/ops.js'
+import { loadAllScenesV15, loadProjectV15From, loadSceneDefV15 } from './loader-v15.js'
+import { normalizePayloadV15, preflightSaveMigrationV15 } from './save/migration-v15.js'
+import { buildPayloadV8Content15 } from './save/ops.js'
 import type { ProjectScriptHostOptionsV13 } from './script-project-v13.js'
 import { ScriptProjectRuntimeV13 } from './script-project-v13.js'
 
@@ -38,8 +38,8 @@ function projectFileSource(projectId: string): FileSource {
   }
 }
 
-type LoadedPalProject = Awaited<ReturnType<typeof loadProjectV14From>>
-type LoadedPalScene = Awaited<ReturnType<typeof loadSceneDefV14>>
+type LoadedPalProject = Awaited<ReturnType<typeof loadProjectV15From>>
+type LoadedPalScene = Awaited<ReturnType<typeof loadSceneDefV15>>
 
 function runtimeCore(project: LoadedPalProject): LoadedProjectV13Core {
   return {
@@ -75,7 +75,7 @@ function recordingHost(
         events.push(`dialog:${command.cue.rows.map((row) => row.text).join(',')}`)
     },
     lifecycleReferences,
-    scene: (sceneId) => loadSceneDefV14(project, sceneId),
+    scene: (sceneId) => loadSceneDefV15(project, sceneId),
     currentSceneId: () => scene.id,
     query: {
       hasItem: () => false,
@@ -97,11 +97,11 @@ function recordingHost(
   }
 }
 
-test('正式 PAL contentVersion 14 工程通过 loader、历史 sidecar 验签与全场景校验', async () => {
-  const project = await loadProjectV14From(projectFileSource('pal'))
-  const scenes = await loadAllScenesV14(project)
+test('正式 PAL contentVersion 15 工程通过 loader、历史 sidecar 验签与全场景校验', async () => {
+  const project = await loadProjectV15From(projectFileSource('pal'))
+  const scenes = await loadAllScenesV15(project)
 
-  expect(project.manifest.contentVersion).toBe(14)
+  expect(project.manifest.contentVersion).toBe(15)
   expect(project.manifest.minimumSaveVersion).toBe(8)
   expect(project.entryScene.id).toBe('s000')
   expect(scenes).toHaveLength(294)
@@ -110,10 +110,10 @@ test('正式 PAL contentVersion 14 工程通过 loader、历史 sidecar 验签�
 })
 
 test('PAL s048 进场演出恢复亮屏、保存完成步骤，读档重进不重播', async () => {
-  const project = await loadProjectV14From(projectFileSource('pal'))
-  const scenes = await loadAllScenesV14(project)
+  const project = await loadProjectV15From(projectFileSource('pal'))
+  const scenes = await loadAllScenesV15(project)
   const lifecycleReferences = buildEntityLifecycleReferenceIndexV13(scenes)
-  const scene = await loadSceneDefV14(project, 's048')
+  const scene = await loadSceneDefV15(project, 's048')
   const world = freshWorld(project)
 
   const firstEvents: string[] = []
@@ -144,7 +144,7 @@ test('PAL s048 进场演出恢复亮屏、保存完成步骤，读档重进不�
     at: { kind: 'stage', stage: 'completed' },
   })
 
-  const payload = buildPayloadV8Content14(
+  const payload = buildPayloadV8Content15(
     world,
     {
       sceneId: scene.id,
@@ -153,11 +153,11 @@ test('PAL s048 进场演出恢复亮屏、保存完成步骤，读档重进不�
     },
     project.manifest.id,
   )
-  const resolver = await preflightSaveMigrationV14({
+  const resolver = await preflightSaveMigrationV15({
     manifest: project.manifest,
     payload,
   })
-  const restored = normalizePayloadV14(payload, resolver, lifecycleReferences)
+  const restored = normalizePayloadV15(payload, resolver, lifecycleReferences)
   const secondEvents: string[] = []
   const secondFade = new SupersedingFadeDriver()
   const restoredRuntime = new ScriptProjectRuntimeV13(
@@ -181,10 +181,10 @@ test('PAL s048 进场演出恢复亮屏、保存完成步骤，读档重进不�
 })
 
 test('PAL s110 的逐帧重画先等待一帧再淡入，并保留剩余 27 帧', async () => {
-  const project = await loadProjectV14From(projectFileSource('pal'))
-  const scenes = await loadAllScenesV14(project)
+  const project = await loadProjectV15From(projectFileSource('pal'))
+  const scenes = await loadAllScenesV15(project)
   const lifecycleReferences = buildEntityLifecycleReferenceIndexV13(scenes)
-  const scene = await loadSceneDefV14(project, 's110')
+  const scene = await loadSceneDefV15(project, 's110')
   const behavior = scene.entities.find((entity) => entity.id === 'e2061')?.behaviors?.trigger
     ?.default
   if (!behavior || behavior.flow.kind !== 'stages') throw new Error('s110/e2061/default 缺 stages')
@@ -227,13 +227,13 @@ test('PAL s110 的逐帧重画先等待一帧再淡入，并保留剩余 27 帧'
 test.each([
   { id: 'demo', entry: 'guijie-minju', scenes: 1 },
   { id: 'e2e-own', entry: 'start', scenes: 1 },
-])('仓库 HTTP fixture $id 已同步为 canonical content 14', async ({ id, entry, scenes: count }) => {
-  const project = await loadProjectV14From(projectFileSource(id))
-  const scenes = await loadAllScenesV14(project)
+])('仓库 HTTP fixture $id 已同步为 canonical content 15', async ({ id, entry, scenes: count }) => {
+  const project = await loadProjectV15From(projectFileSource(id))
+  const scenes = await loadAllScenesV15(project)
 
   expect(project.manifest).toMatchObject({
     id,
-    contentVersion: 14,
+    contentVersion: 15,
     minimumSaveVersion: 8,
     entryScene: entry,
   })

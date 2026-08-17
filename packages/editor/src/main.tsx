@@ -4,13 +4,13 @@
  * 生产(无 env)→ ProjectPicker 启动屏:新建(克隆/空白)/ 打开本地 / 最近工程(P4)。
  */
 import type { SceneDefV14, SceneDefV5 } from '@type-pal/content'
-import type { LoadedProjectV14 } from '@type-pal/reforge'
+import type { LoadedProjectV15 } from '@type-pal/reforge'
 import {
   httpSource,
-  loadAllAuthorScenesV14,
+  loadAllAuthorScenesV15,
   loadProjectMapById,
-  loadProjectV14From,
-  loadStampTemplatesV14,
+  loadProjectV15From,
+  loadStampTemplatesV15,
 } from '@type-pal/reforge'
 import { StrictMode, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
@@ -30,7 +30,7 @@ const DEV_AUTO = !!PROJECT_ID && !FORCE_PICKER
 
 interface Booted {
   session: EditSession
-  project: LoadedProjectV14
+  project: LoadedProjectV15
   scriptV5?: {
     session: ScriptV5EditSession
   }
@@ -38,7 +38,7 @@ interface Booted {
 }
 
 function currentCanonicalScriptState(
-  project: LoadedProjectV14,
+  project: LoadedProjectV15,
   scenes: SceneDefV14[],
 ): ScriptEditorStateV5 {
   return {
@@ -66,10 +66,10 @@ function Root() {
     let alive = true
     const loadDevProject = async (): Promise<Booted> => {
       const source = httpSource(`projects/${PROJECT_ID}`)
-      const project = await loadProjectV14From(source)
+      const project = await loadProjectV15From(source)
       const [scenes, stamps] = await Promise.all([
-        loadAllAuthorScenesV14(project),
-        loadStampTemplatesV14(project),
+        loadAllAuthorScenesV15(project),
+        loadStampTemplatesV15(project),
       ])
       const canonical = currentCanonicalScriptState(project, scenes)
       return {

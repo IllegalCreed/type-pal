@@ -448,7 +448,7 @@ describe('CanonicalScriptEditorV5 author presentation', () => {
     await act(async () =>
       root.render(
         <CanonicalScriptBodyEditorV5
-          body={[{ kind: 'startBattle', team: 1, fieldId: 24 }]}
+          body={[{ kind: 'startBattle', enemyTeamId: 'team-1', fieldId: 24 }]}
           context={context}
           onChange={onChange}
         />,
@@ -471,7 +471,7 @@ describe('CanonicalScriptEditorV5 author presentation', () => {
     expect(bambooOption).toBeDefined()
     await act(async () => bambooOption!.click())
     expect(onChange).toHaveBeenLastCalledWith([
-      expect.objectContaining({ kind: 'startBattle', team: 1, fieldId: 25 }),
+      expect.objectContaining({ kind: 'startBattle', enemyTeamId: 'team-1', fieldId: 25 }),
     ])
     await act(async () =>
       host.querySelector<HTMLButtonElement>('[aria-label="打开战场 24"]')!.click(),
@@ -482,7 +482,7 @@ describe('CanonicalScriptEditorV5 author presentation', () => {
   test('resolves content14 actor identity in canonical command summaries', async () => {
     const context: CanonicalScriptEditorContextV5 = {
       state: {
-        contentVersion: 14,
+        contentVersion: 15,
         scenes: [],
         items: [],
         sharedScripts: {},

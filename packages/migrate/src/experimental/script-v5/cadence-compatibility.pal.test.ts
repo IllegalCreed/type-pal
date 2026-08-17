@@ -224,6 +224,24 @@ function assertTransitionYields(transition: StateTransitionV5, path: string): vo
   }
 }
 
+function currentEnemyTeamReferenceView(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(currentEnemyTeamReferenceView)
+  if (!value || typeof value !== 'object') return value
+  const record = value as Record<string, unknown>
+  if (record.kind === 'startBattle' && Number.isSafeInteger(record.team))
+    return {
+      ...Object.fromEntries(
+        Object.entries(record)
+          .filter(([key]) => key !== 'team')
+          .map(([key, child]) => [key, currentEnemyTeamReferenceView(child)]),
+      ),
+      enemyTeamId: `team-${String(record.team)}`,
+    }
+  return Object.fromEntries(
+    Object.entries(record).map(([key, child]) => [key, currentEnemyTeamReferenceView(child)]),
+  )
+}
+
 describe('R13-1 PAL cadence compatibility', () => {
   test('all cadence-omitted flows retain their complete lowered payload', () => {
     const published = loadPalBaseline(repo)
@@ -261,6 +279,7 @@ describe('R13-1 PAL cadence compatibility', () => {
       flow: ScriptFlowV5,
       allowSceneEntry = false,
     ): void => {
+      flow = currentEnemyTeamReferenceView(flow) as ScriptFlowV5
       if (flow.kind === 'stateMachine') {
         const group =
           flow.machine.cadence === 'transition'
@@ -373,8 +392,8 @@ describe('R13-1 PAL cadence compatibility', () => {
         r13Two: 56,
       },
       // R13-6A 正式补入 22 个既有 schema source sites 后，flow 数量/边界不变。
-      bytes: 8_042_380,
-      sha256: '9dbef7b97a82ed31608636cdb817d6bfe267f4c457b03d8502d85f3d649030e2',
+      bytes: 8_044_816,
+      sha256: '9d5831ea6ec1ed577dfeffd9e49ec8bc5f16ef5e95f18f0a1b7bd04b7e93f2af',
     })
     expect({
       historical: continueStats.historical,

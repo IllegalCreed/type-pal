@@ -404,7 +404,6 @@
       },
       "sprite": "sprite-473",
       "hostile": {
-        "team": 6,
         "chase": {
           "range": 8,
           "speed": 6,
@@ -417,7 +416,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-6"
       }
     },
     {
@@ -429,7 +429,6 @@
       },
       "sprite": "sprite-11",
       "hostile": {
-        "team": 12,
         "chase": {
           "range": 8,
           "speed": 4,
@@ -442,7 +441,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-12"
       }
     },
     {
@@ -454,7 +454,6 @@
       },
       "sprite": "sprite-11",
       "hostile": {
-        "team": 8,
         "chase": {
           "range": 8,
           "speed": 4,
@@ -467,7 +466,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-8"
       }
     },
     {
@@ -479,7 +479,6 @@
       },
       "sprite": "sprite-11",
       "hostile": {
-        "team": 47,
         "chase": {
           "range": 8,
           "speed": 4,
@@ -492,7 +491,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-47"
       }
     },
     {
@@ -504,7 +504,6 @@
       },
       "sprite": "sprite-472",
       "hostile": {
-        "team": 124,
         "chase": {
           "range": 8,
           "speed": 4
@@ -516,7 +515,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-124"
       }
     },
     {
@@ -528,7 +528,6 @@
       },
       "sprite": "sprite-11-f2",
       "hostile": {
-        "team": 123,
         "chase": {
           "range": 8,
           "speed": 4,
@@ -541,7 +540,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-123"
       }
     },
     {

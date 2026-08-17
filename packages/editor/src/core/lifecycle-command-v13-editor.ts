@@ -120,7 +120,7 @@ export function collectEntityLifecycleCommandBodiesV13(
   sceneId: string,
   entityId: string,
 ): LifecycleCommandBodyV13[] {
-  if (state.manifest.contentVersion !== 14) return []
+  if (state.manifest.contentVersion !== 15) return []
   const sceneIndex = state.scenes.findIndex((scene) => scene.id === sceneId)
   if (sceneIndex < 0) return []
   const scene = state.scenes[sceneIndex]!
@@ -200,8 +200,8 @@ function withValidatedRoot(
   location: LifecycleCommandBodyLocationV13,
   root: unknown,
 ): EditorState {
-  if (state.manifest.contentVersion !== 14)
-    throw new Error('当前 lifecycle editor 只允许修改 content14 工程')
+  if (state.manifest.contentVersion !== 15)
+    throw new Error('当前 lifecycle editor 只允许修改 content15 工程')
   const next: EditorState =
     location.root === 'scenes'
       ? { ...state, scenes: root as EditorState['scenes'] }
@@ -245,8 +245,8 @@ abstract class LifecycleEditCommandV13 implements Command {
     state: EditorState,
     edit: (body: unknown[]) => void,
   ): EditorState {
-    if (state.manifest.contentVersion !== 14)
-      throw new Error('当前 lifecycle editor 只允许修改 content14 工程')
+    if (state.manifest.contentVersion !== 15)
+      throw new Error('当前 lifecycle editor 只允许修改 content15 工程')
     const root = cloneRoot(state, this.location)
     const body = commandBodyAt(root, this.location.path)
     edit(body)

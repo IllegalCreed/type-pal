@@ -330,7 +330,7 @@ export class Playback {
       confirm: (signal) => this.requestConfirm(signal),
       startBattle: (request, signal) =>
         this.host.startBattle(
-          request.team,
+          request.enemyTeamId,
           {
             auto: request.auto,
             boss: request.boss,

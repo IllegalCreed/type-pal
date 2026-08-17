@@ -347,7 +347,7 @@ export function describeScriptCommand(
     case 'startBattle':
       return {
         icon: '⚔',
-        label: `战斗 敌队 ${cmd.team}${cmd.auto ? ' · 自动' : ''}`,
+        label: `战斗 敌队 ${cmd.enemyTeamId}${cmd.auto ? ' · 自动' : ''}`,
         blocks: [
           ...(cmd.onLose ? [{ title: '战败', seg: 'onLose', body: cmd.onLose }] : []),
           ...(cmd.onFlee ? [{ title: '逃跑', seg: 'onFlee', body: cmd.onFlee }] : []),

@@ -94,8 +94,8 @@ export interface EntityBase {
 
 /** 敌对行为数据(B9)。缺 chase = 原地怪;缺 respawn = 永杀(硬核难度杠杆)。 */
 export interface HostileBehavior {
-  /** 遇敌敌队(startBattle team)。 */
-  team: number
+  /** 遇敌敌队的稳定 id；与 EnemyTeamDef.id 直接 join。 */
+  enemyTeamId: string
   /** 此怪专属战场(优先于场景默认;水怪上岸打水下场地这类)。 */
   battleFieldId?: number
   /** 追逐参数(缺省 = 原地不追)。range = 切比雪夫格内才追;speed 越大越快;floating 忽略地形与阻挡实体。 */
@@ -168,6 +168,8 @@ export * from './enemy-ai.js'
 export * from './enemy-script-v10.js'
 export * from './enemy-script-v10-upgrade.js'
 export * from './enemy-team-slots-v12-upgrade.js'
+export * from './enemy-team-reference-v15-upgrade.js'
+export * from './enemy-team-reference.js'
 export * from './entity-lifecycle-v13.js'
 export * from './entity-lifecycle-v13-upgrade.js'
 export * from './equip-battle-sprite-v9-upgrade.js'

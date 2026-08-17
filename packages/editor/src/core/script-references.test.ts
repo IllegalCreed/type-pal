@@ -229,7 +229,7 @@ describe('W4-1 命名落点引用图', () => {
             {
               ...source.entities[0]!,
               pages: [{ trigger: { on: 'interact', stages: [{ body: [load()] }] } }],
-              hostile: { team: 1, onLose: [load()] },
+              hostile: { enemyTeamId: 'team-1', onLose: [load()] },
             },
           ],
         },

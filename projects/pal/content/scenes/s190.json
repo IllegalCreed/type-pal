@@ -573,7 +573,6 @@
       "sprite": "sprite-60",
       "collide": true,
       "hostile": {
-        "team": 207,
         "chase": {
           "range": 6,
           "speed": 2
@@ -585,7 +584,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-207"
       }
     },
     {
@@ -597,7 +597,6 @@
       },
       "sprite": "sprite-473-f1",
       "hostile": {
-        "team": 7,
         "chase": {
           "range": 8,
           "speed": 6,
@@ -610,7 +609,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-7"
       }
     },
     {
@@ -622,7 +622,6 @@
       },
       "sprite": "sprite-11",
       "hostile": {
-        "team": 376,
         "chase": {
           "range": 8,
           "speed": 4,
@@ -635,7 +634,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-376"
       }
     },
     {
@@ -648,7 +648,6 @@
       "sprite": "sprite-60",
       "collide": true,
       "hostile": {
-        "team": 208,
         "chase": {
           "range": 6,
           "speed": 2
@@ -660,7 +659,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-208"
       }
     },
     {
@@ -672,7 +672,6 @@
       },
       "sprite": "sprite-466",
       "hostile": {
-        "team": 218,
         "chase": {
           "range": 8,
           "speed": 4,
@@ -685,7 +684,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-218"
       }
     },
     {
@@ -697,7 +697,6 @@
       },
       "sprite": "sprite-11",
       "hostile": {
-        "team": 217,
         "chase": {
           "range": 8,
           "speed": 4,
@@ -710,7 +709,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-217"
       }
     },
     {
@@ -723,7 +723,6 @@
       "sprite": "sprite-60",
       "collide": true,
       "hostile": {
-        "team": 208,
         "chase": {
           "range": 6,
           "speed": 2
@@ -735,7 +734,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-208"
       }
     },
     {
@@ -747,7 +747,6 @@
       },
       "sprite": "sprite-466",
       "hostile": {
-        "team": 220,
         "chase": {
           "range": 8,
           "speed": 4,
@@ -760,7 +759,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-220"
       }
     },
     {
@@ -772,7 +772,6 @@
       },
       "sprite": "sprite-473-f1",
       "hostile": {
-        "team": 5,
         "chase": {
           "range": 8,
           "speed": 6,
@@ -785,7 +784,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-5"
       }
     },
     {
@@ -798,7 +798,6 @@
       "sprite": "sprite-60",
       "collide": true,
       "hostile": {
-        "team": 207,
         "chase": {
           "range": 6,
           "speed": 2
@@ -810,7 +809,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-207"
       }
     },
     {
@@ -823,7 +823,6 @@
       "sprite": "sprite-60",
       "collide": true,
       "hostile": {
-        "team": 204,
         "chase": {
           "range": 6,
           "speed": 2
@@ -835,7 +834,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-204"
       }
     },
     {
@@ -848,7 +848,6 @@
       "sprite": "sprite-11",
       "collide": true,
       "hostile": {
-        "team": 376,
         "chase": {
           "range": 8,
           "speed": 4,
@@ -861,7 +860,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-376"
       }
     },
     {

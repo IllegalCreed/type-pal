@@ -745,12 +745,17 @@ describe('战斗配置(铁律4:0x4A/0x45 持久全局退役 —— 无 override 
       battleCfgMarker({ musicId: 44 }),
       battleCfgMarker({ fieldId: 22 }),
       { kind: 'setEntityFacing', entity: 'e1', facing: 'down' },
-      { kind: 'startBattle', team: 27 },
+      { kind: 'startBattle', enemyTeamId: 'team-27' },
     ]
     const out = foldBattleConfig(body)
     expect(out).toEqual([
       { kind: 'setEntityFacing', entity: 'e1', facing: 'down' },
-      { kind: 'startBattle', team: 27, fieldId: 22, music: 'music.pal.044' },
+      {
+        kind: 'startBattle',
+        enemyTeamId: 'team-27',
+        fieldId: 22,
+        music: 'music.pal.044',
+      },
     ])
   })
 
@@ -760,7 +765,7 @@ describe('战斗配置(铁律4:0x4A/0x45 持久全局退役 —— 无 override 
       battleCfgMarker({ musicId: 39 }),
       { kind: 'playMusic', asset: 'music.pal.030' },
       { kind: 'dialog', cue: { rows: [{ text: 'x' }] } },
-      { kind: 'startBattle', team: 1 },
+      { kind: 'startBattle', enemyTeamId: 'team-1' },
     ]
     const out = foldBattleConfig(body)
     expect(asBattleCfg(out[0]!)).toEqual({ kind: 'overrideSceneBattle', fieldId: 53, musicId: 39 })

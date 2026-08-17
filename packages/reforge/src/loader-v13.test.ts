@@ -93,7 +93,7 @@ describe('canonical contentVersion 13 loader boundary', () => {
             pos: { col: 1, row: 1, height: 0 },
             zone: true,
             hostile: {
-              team: 1,
+              enemyTeamId: 'team-1',
               onLose: [{ kind: 'hideEntity', target, ticks: 3 }],
               onVictory: { kind: 'hide', ticks: 8 },
               onPlayerFlee: { kind: 'suspend', ticks: 15 },
@@ -171,7 +171,7 @@ describe('canonical contentVersion 13 loader boundary', () => {
           pos: { col: 1, row: 1, height: 0 },
           zone: true,
           hostile: {
-            team: 1,
+            enemyTeamId: 'team-1',
             respawnSeconds: 2,
             onVictory: { kind: 'hide', ticks: 20 },
             onPlayerFlee: { kind: 'remain' },
@@ -208,10 +208,10 @@ describe('canonical contentVersion 13 loader boundary', () => {
     expect(loaded.migrationRegistry).toEqual({})
   })
 
-  test('runtime dispatcher selects the native v13 loader from manifest version', async () => {
+  test('product runtime dispatcher rejects historical content13', async () => {
     const projectManifest = manifest()
     const content = projectManifest.content
-    const loaded = await loadRunnableProjectFrom(
+    await expect(loadRunnableProjectFrom(
       memorySource({
         'manifest.json': projectManifest,
         [content.actors!]: baseJsons.actors,
@@ -227,22 +227,20 @@ describe('canonical contentVersion 13 loader boundary', () => {
         [content.sharedScripts!]: baseJsons.sharedScripts,
         [projectManifest.assets.catalog]: baseJsons.assetCatalog,
       }),
-    )
-    expect(loaded.manifest.contentVersion).toBe(13)
-    expect(loaded.entryScene).toEqual(baseJsons.entryScene)
+    )).rejects.toThrow(/只接受当前 contentVersion 15/)
   })
 
   test('runtime dispatcher fails closed before loading unsupported content', async () => {
     let reads = 0
     const source = memorySource({
-      'manifest.json': manifest({ contentVersion: 15 as 13 }),
+      'manifest.json': manifest({ contentVersion: 12 as 13 }),
     })
     const readJson = source.readJson.bind(source)
     source.readJson = async (...args) => {
       reads += 1
       return readJson(...args)
     }
-    await expect(loadRunnableProjectFrom(source)).rejects.toThrow(/contentVersion 12、13 或 14/)
+    await expect(loadRunnableProjectFrom(source)).rejects.toThrow(/只接受当前 contentVersion 15/)
     expect(reads).toBe(1)
   })
 

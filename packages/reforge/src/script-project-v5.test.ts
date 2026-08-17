@@ -715,7 +715,7 @@ describe('canonical script v5 project runtime', () => {
     if (!flow || flow.kind !== 'stages') throw new Error('fixture trigger flow')
     flow.stages[0]!.body = [
       { kind: 'confirm', onNo: [] },
-      { kind: 'startBattle', team: 1 },
+      { kind: 'startBattle', enemyTeamId: 'team-1' },
       { kind: 'setFlag', flag: 'outer-after-battle', value: true },
     ]
     const world = emptyWorldScriptStateV5()
@@ -776,7 +776,10 @@ describe('canonical script v5 project runtime', () => {
         return 'victory'
       },
     })
-    const running = runtime.host.startBattle({ team: 2 }, new AbortController().signal)
+    const running = runtime.host.startBattle(
+      { enemyTeamId: 'team-2' },
+      new AbortController().signal,
+    )
     await battleEntered.promise
 
     let snapshots = 0
@@ -808,7 +811,7 @@ describe('canonical script v5 project runtime', () => {
       },
     })
     await expect(
-      runtime.host.startBattle({ team: 3 }, new AbortController().signal),
+      runtime.host.startBattle({ enemyTeamId: 'team-3' }, new AbortController().signal),
     ).rejects.toThrow('onDefeated failed')
 
     const barrier = runtime.coordinator.requestSaveBarrier()

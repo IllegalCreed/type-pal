@@ -1,12 +1,12 @@
 # ED-ENEMY-1 - 敌人、敌队预制与结算/偷取编辑闭环
 
-Status: build
+Status: review
 Phase: phase2
 Capability: B1 / B7 / B9（需重验现有完成声明，不预先改变能力状态）
 Coding Owner: Codex
 Reviewer: Kimi（架构/schema/运行时）+ GLM（数据覆盖/测试矩阵）
 Visual Verification Owner: Codex + User
-Blocked by: none（三方 build 前签字齐）
+Blocked by: Kimi + GLM done 前独立审查签字
 Branch: `codex/ed-enemy-1`
 
 ## 用户裁决与目标
@@ -320,9 +320,67 @@ enemy.ts:99 steal schema / EnemyTab.tsx:608-640,1078-1100,1192-1193,1283 / App.t
 3181-3205 / main.ts:2363-2369 / commands.ts:2634-2646,2675-2680 / battle-data-references.ts:251 /
 global.h:270-295 / fight.c:753-754,5253-5284。只读审查,未改实现文件,未代签 Kimi,未标 build/done。
 
+## Build 实现与验证（Codex，2026-08-17）
+
+### 实现闭环
+
+1. **content15 稳定敌队引用一次升级**：`HostileBehavior.enemyTeamId` 与
+   `startBattle.enemyTeamId` 同版本切为字符串，validator、typed command scanner、manifest epoch、PAL/demo/e2e-own
+   工程与专用迁移脚本同步升级。Reforge 与编辑器产品入口只接受 current content15；启动、试玩、存档/读档
+   不再按 12/13/14 分发。证据：`packages/content/src/character.ts:116`、
+   `packages/content/src/index.ts:96-99`、`packages/content/src/script-v5.ts:195-196`、
+   `packages/content/src/enemy-team-reference-v15-upgrade.ts`、
+   `packages/reforge/src/runnable-project-loader.ts:10-18`、`packages/reforge/src/save/migration-v15.ts`。
+2. **敌队七环**：新增独立 `EnemyTeamTab`，支持稳定 ID 创建、复制、五个固定语义槽、空槽、换序、只读逐敌
+   结算汇总、成员回跳、完整字符串 ID 试打、引用列表与阻断删除；Add/Update/Delete 命令均可 undo/redo。
+   证据：`packages/editor/src/ui/EnemyTeamTab.tsx:51-445`、
+   `packages/editor/src/core/commands.ts:2704-2781`。
+3. **typed 引用单源**：hostile 与所有 canonical `startBattle` 根由 typed collector 收集；引用页给出精确场景实体/
+   canonical command locator，删除命令在 state 层再次 fail-closed。证据：
+   `packages/content/src/enemy-team-reference.ts`、`packages/editor/src/core/enemy-team-references.ts:46-104`。
+4. **场景与试玩同 ID**：场景 hostile picker 直接列全体 `EnemyTeamDef.id`，缺失值保留并标 invalid；运行时、脚本
+   host、明雷触发、dev 试打与 `?battle=` 全部直接消费字符串 ID，不再拼 `team-${number}`。证据：
+   `packages/editor/src/ui/App.tsx:3225-3253`、`packages/reforge/src/main.ts:2279-2307,5393-5399,7482-7538`。
+5. **奖励/偷取权威收口**：敌人页保留 exp/cash/collectValue 与 onDefeated 单源；偷取显式为无/金钱/物品三态，
+   金钱落 `itemId:'0'`，普通 JSON textarea 已移除；结构化物品奖励只改写现有 giveItem，dialog/branch 高级演出
+   保留。敌队只显示来自成员的只读汇总，同敌重复槽累计两次。
+
+### 数据与迁移证据
+
+- `migrate:enemy-team-refs-v15 --write` 二次运行：demo/e2e-own/PAL 均 `changed=0`；PAL 精确复算
+  **380 teams / 828 hostile / 174 startBattle / 0 dangling**。
+- `migrate:content --write`：`[current replay] content15 无写入`，同一 census 全部保持。
+- 历史 C1/B2 发布 seal 通过隔离的 v15→v14 rewind 复验；字节级旧字段插入顺序由 PAL 发布父面钉死，未用更新
+  seal 掩盖差异。最终 `test:fast` 含 compact oracle 全绿。
+
+### 验证结果
+
+- `@type-pal/content`: **42 files / 484 tests**；typecheck 通过。
+- `@type-pal/editor`: **127 files / 935 tests**；typecheck、Vite production build 通过。
+- `@type-pal/reforge`: **100 files / 1023 tests**；typecheck、Vite production build 通过。
+- `@type-pal/migrate test:fast`: **89 files / 649 passed / 5 manifest-declared skipped**；manifest
+  `fast 89/649, release 113/781, canary 1/2`；typecheck 通过。
+- G3 synthetic：Enemy UI 将“金钱”写成 `{itemId:'0', count:2}` 并可 undo；runtime 既有
+  `battle-core` 金钱偷取 fixture 验证 moneyDelta/余量。G1/G2 UI/command tests 覆盖 arbitrary stable ID、复制、五槽/
+  空槽、重复成员汇总、完整 ID 试打、hostile + canonical startBattle 引用与阻断删除。
+- 浏览器实机：PAL `team-0` 工作台在 **1280×720 / 900×720 / 720×720** 均 5 槽可达，document width
+  分别等于 viewport（无横滚），引用阻断/成员汇总可见，console error **0**；检查后已复位 viewport。
+- 代码质量：本卡新增/核心改动文件定向 Biome check 全绿。仓库级 `pnpm lint` 仍有 253 条既存跨域基线诊断，
+  未借本卡扩张修复；审查者应按本卡 diff 与上述定向检查判断。
+
+### capability-map 重验结论（待 done 时同步地图）
+
+| 格 | 结论 | 本卡新增证据 |
+|---|---|---|
+| B1 回合战核心 | 维持引擎/编辑器完成 | 独立敌人/敌队预制、五槽编组、任意稳定 ID 试打与逐敌实例化闭环。 |
+| B7 战斗结算 | 引擎完成声明维持；编辑侧可由 `—` 更新为完成 | exp/cash/collectValue、额外 giveItem 与偷取三态均可结构化编辑；重复成员只读汇总与 runtime 逐敌语义一致。 |
+| B9 数据驱动敌对行为 | 维持引擎/编辑器完成 | hostile 只持稳定 `enemyTeamId`，选择/缺失态/引用/删除/明雷触发/保存重开同一 ID。 |
+
 ### review -> done
 
-- Codex: pending
+- Codex: **accept（2026-08-17）**。Coding Owner 自审确认 G1-G5、EK1-EK3 全部落地；current-only 产品边界、
+  380/828/174/0 迁移不变式、三包全测、迁移 fast/oracle、双 build 与三档浏览器验证均通过。未发现阻断项；
+  仓库全局 lint 基线已如实列为非本卡遗留。
 - Kimi: pending
 - GLM: pending
 - User: pending functional acceptance
@@ -341,6 +399,32 @@ global.h:270-295 / fight.c:753-754,5253-5284。只读审查,未改实现文件,�
   828+174+380 exact join 矩阵。Next: Kimi 架构签字 + §4 方案裁决。
 
 ## 下一位 Agent 提示词
+
+### 给 Kimi（done 前架构/运行时审查，可直接复制）
+
+```text
+接手任务：ED-ENEMY-1 敌人、敌队预制与结算/偷取编辑闭环——done 前架构/运行时审查
+任务卡：docs/ops/tasks/ED-ENEMY-1-enemy-team-reward-authoring-closure.md
+分支：codex/ed-enemy-1；状态：review；Codex 已实现并签 accept，Kimi/GLM/User pending
+你的角色：独立 reviewer。先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、任务卡全文与本卡 diff。
+重点核：EK1-EK3；content15 hostile + startBattle 是否真正单模型；runtime/editor/save 是否只接受 current；
+任意稳定 ID 是否贯穿场景、脚本、?battle= 与明雷；是否残留 product 旧版本分发或第二份奖励权威。
+直接读取一手代码与测试，不复述 Codex 结论。输出：在任务卡 review->done 的 Kimi 行签 accept，或写 counter、
+证据锚点和必返工项；不得修改实现文件，不得标 done，三方审查和用户验收未齐前不得合 main。
+```
+
+### 给 GLM（done 前数据/测试审查，可直接复制）
+
+```text
+接手任务：ED-ENEMY-1 敌人、敌队预制与结算/偷取编辑闭环——done 前数据覆盖/测试矩阵审查
+任务卡：docs/ops/tasks/ED-ENEMY-1-enemy-team-reward-authoring-closure.md
+分支：codex/ed-enemy-1；状态：review；Codex 已实现并签 accept，Kimi/GLM/User pending
+你的角色：独立 reviewer。先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、任务卡全文与本卡 diff。
+重点核：G1-G5；独立复算 PAL 380 teams / 828 hostile / 174 startBattle / 0 dangling；迁移双跑幂等；
+敌队 CRUD/五槽/空槽/复制/引用/删除/试打，敌人 exp/cash/collect/偷取三态/extra giveItem 单权威；
+确认 synthetic 偷钱和重复成员汇总测试不依赖 PAL 零实例。输出：在任务卡 review->done 的 GLM 行签 accept，
+或写 counter、证据锚点和必返工项；不得修改实现文件，不得标 done，三方审查和用户验收未齐前不得合 main。
+```
 
 ### 给 Kimi（已完成）
 

@@ -72,8 +72,8 @@ function fakeHost(calls: string[]): ScriptHost {
     nudgeEntity: log('nudgeEntity'),
     moveParty: alog('moveParty'),
     nudgeParty: log('nudgeParty'),
-    startBattle: async (team: number) => {
-      calls.push(`startBattle(${team})`)
+    startBattle: async (enemyTeamId: string) => {
+      calls.push(`startBattle(${enemyTeamId})`)
       return 'victory' as const
     },
     playVideo: alog('playVideo'),
@@ -931,7 +931,11 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
     host.startBattle = async () => result
     const r = new ScriptRunner(host, emptyWorldScriptState(), new AbortController().signal)
     const body: Command[] = [
-      { kind: 'startBattle', team: 5, onLose: [{ kind: 'playSound', asset: 'sound.pal.099' }] },
+      {
+        kind: 'startBattle',
+        enemyTeamId: 'team-5',
+        onLose: [{ kind: 'playSound', asset: 'sound.pal.099' }],
+      },
       { kind: 'playSound', asset: 'sound.pal.001' },
     ]
     await r.run(body)
@@ -949,8 +953,10 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
       return 'victory'
     }
     const r = new ScriptRunner(host, emptyWorldScriptState(), new AbortController().signal)
-    await r.run([{ kind: 'startBattle', team: 27, fieldId: 22, music: 'music.pal.044' }])
-    expect(calls).toEqual(['battle(27,f=22,m=music.pal.044)'])
+    await r.run([
+      { kind: 'startBattle', enemyTeamId: 'team-27', fieldId: 22, music: 'music.pal.044' },
+    ])
+    expect(calls).toEqual(['battle(team-27,f=22,m=music.pal.044)'])
   })
   test('startBattle 收到构造该 runner 的同一 AbortSignal', async () => {
     const host = fakeHost([])
@@ -961,7 +967,7 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
       return 'victory'
     }
     await new ScriptRunner(host, emptyWorldScriptState(), controller.signal).run([
-      { kind: 'startBattle', team: 9 },
+      { kind: 'startBattle', enemyTeamId: 'team-9' },
     ])
     expect(received).toBe(controller.signal)
   })

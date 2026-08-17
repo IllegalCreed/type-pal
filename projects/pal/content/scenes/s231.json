@@ -9696,7 +9696,6 @@
                     },
                     {
                       "kind": "startBattle",
-                      "team": 287,
                       "onLose": [
                         {
                           "kind": "playMusic",
@@ -9741,7 +9740,8 @@
                       ],
                       "boss": true,
                       "fieldId": 54,
-                      "music": "music.pal.038"
+                      "music": "music.pal.038",
+                      "enemyTeamId": "team-287"
                     },
                     {
                       "kind": "teleportParty",

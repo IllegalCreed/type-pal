@@ -10893,6 +10893,112 @@ button.sprite-frame-cell[draggable="true"]:active {
 .battle-data-form.ds-object-workspace__content {
   max-width: none;
 }
+
+/* ED-ENEMY-1: 独立敌队工作台。 */
+.enemy-team-workbench > main {
+  min-width: 0;
+  height: 100%;
+}
+.enemy-team-scroll {
+  overflow: auto;
+}
+.enemy-team-catalog {
+  overflow: auto;
+}
+.enemy-team-notice {
+  margin: var(--ds-space-3) var(--ds-space-4) 0;
+  padding: var(--ds-space-2) var(--ds-space-3);
+  border: 1px solid var(--ds-color-warning-border);
+  border-radius: var(--ds-radius-md);
+  color: var(--ds-color-text-primary);
+  background: var(--ds-color-warning-surface);
+}
+.enemy-team-create-card {
+  max-width: 640px;
+  margin: var(--ds-space-5) auto;
+  padding: var(--ds-space-5);
+  border: 1px solid var(--ds-color-border-default);
+  border-radius: var(--ds-radius-lg);
+  background: var(--ds-color-surface-raised);
+}
+.enemy-team-create-actions {
+  display: flex;
+  gap: var(--ds-space-2);
+  margin-top: var(--ds-space-4);
+}
+.enemy-team-slots {
+  display: grid;
+  gap: var(--ds-space-2);
+}
+.enemy-team-slot {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: var(--ds-space-2);
+}
+.enemy-team-slot__number {
+  color: var(--ds-color-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.enemy-team-totals {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--ds-space-2);
+}
+.enemy-team-totals > span {
+  display: grid;
+  gap: var(--ds-space-1);
+  padding: var(--ds-space-3);
+  border: 1px solid var(--ds-color-border-default);
+  border-radius: var(--ds-radius-md);
+  color: var(--ds-color-text-secondary);
+  background: var(--ds-color-surface-sunken);
+}
+.enemy-team-totals strong {
+  color: var(--ds-color-text-primary);
+  font-size: 1.25rem;
+}
+.enemy-team-member-summary {
+  display: grid;
+  gap: var(--ds-space-2);
+  margin-top: var(--ds-space-3);
+}
+.enemy-team-member-summary > button {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: var(--ds-space-3);
+  align-items: center;
+  width: 100%;
+  padding: var(--ds-space-2) var(--ds-space-3);
+  border: 1px solid var(--ds-color-border-default);
+  border-radius: var(--ds-radius-md);
+  color: var(--ds-color-text-secondary);
+  text-align: left;
+  background: var(--ds-color-surface-sunken);
+  cursor: pointer;
+}
+.enemy-team-member-summary > button:hover {
+  border-color: var(--ds-color-border-accent);
+}
+.enemy-team-member-summary strong {
+  color: var(--ds-color-text-primary);
+}
+.enemy-team-reference-panel > header {
+  padding: var(--ds-space-4);
+  border-bottom: 1px solid var(--ds-color-border-default);
+}
+.enemy-team-reference-panel .ds-reference-panel {
+  margin: var(--ds-space-3);
+}
+@media (max-width: 900px) {
+  .enemy-team-slot {
+    grid-template-columns: 44px minmax(0, 1fr) auto auto;
+  }
+  .enemy-team-totals,
+  .enemy-team-member-summary > button {
+    grid-template-columns: 1fr;
+  }
+}
 .battle-data-form > .section,
 .battle-data-form > .section-subpanel {
   margin: 0;

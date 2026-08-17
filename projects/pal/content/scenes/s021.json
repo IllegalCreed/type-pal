@@ -1876,7 +1876,7 @@
                           "kind": "loadLastSave"
                         }
                       ],
-                      "team": 21
+                      "enemyTeamId": "team-21"
                     },
                     {
                       "kind": "setEntityState",
@@ -3079,7 +3079,7 @@
                           "kind": "loadLastSave"
                         }
                       ],
-                      "team": 22
+                      "enemyTeamId": "team-22"
                     },
                     {
                       "kind": "setParty",

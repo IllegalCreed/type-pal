@@ -85,7 +85,7 @@ function state(): EditorState {
     manifest: {
       id: 'test',
       name: '测试工程',
-      contentVersion: 14,
+      contentVersion: 15,
       minEngineVersion: '2.0.0',
       entryScene: 's001',
       startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },

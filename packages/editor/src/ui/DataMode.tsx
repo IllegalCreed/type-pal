@@ -16,12 +16,13 @@ import type {
 } from '@type-pal/content'
 import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
 import { type ReactNode, useEffect, useMemo, useState } from 'react'
+import type { BattleDataReference } from '../core/battle-data-references.js'
+import type { BlockingBattleFieldReference } from '../core/battle-field-references.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
+import type { BlockingEnemyTeamReference } from '../core/enemy-team-references.js'
 import type { ItemReference } from '../core/item-references.js'
-import type { BattleDataReference } from '../core/battle-data-references.js'
-import type { BlockingBattleFieldReference } from '../core/battle-field-references.js'
 import type { ManifestLike } from '../core/project-diagnostics.js'
 import { buildRefIndex } from '../core/ref-index.js'
 import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
@@ -33,6 +34,7 @@ import { BattleSpriteLibrary } from './BattleSpriteLibrary.js'
 import { CanonicalSharedScriptTabV5 } from './CanonicalSharedScriptTabV5.js'
 import { CutsceneTab } from './CutsceneTab.js'
 import { EnemyTab } from './EnemyTab.js'
+import { EnemyTeamTab } from './EnemyTeamTab.js'
 import { EntryPointTab } from './EntryPointTab.js'
 import { EventLibTab } from './EventLibTab.js'
 import { type DataPageId, editorSubpageForDataPage } from './editor-navigation.js'
@@ -124,6 +126,9 @@ export function DataMode(props: {
   onOpenBattleSprite?: (id: string) => void
   onOpenBattleField?: (id: number) => void
   onOpenBattleFieldReference?: (reference: BlockingBattleFieldReference) => void
+  onOpenEnemyTeamReference?: (reference: BlockingEnemyTeamReference) => void
+  onOpenEnemy?: (id: string) => void
+  onOpenEnemyTeam?: (id: string) => void
   onOpenScript?: (id: string) => void
   onOpenItemReference?: (reference: ItemReference) => void
   onOpenBattleDataReference?: (reference: BattleDataReference) => void
@@ -187,6 +192,7 @@ export function DataMode(props: {
     onOpenBattleSprite,
     onOpenBattleField,
     onOpenBattleFieldReference,
+    onOpenEnemyTeamReference,
     onOpenScript,
     onOpenItemReference,
     onOpenProjectIssues,
@@ -250,6 +256,24 @@ export function DataMode(props: {
         onObjectFocus={onObjectFocus}
         onOpenSound={onOpenSound}
         onOpenReference={props.onOpenBattleDataReference}
+        onOpenEnemyTeam={props.onOpenEnemyTeam}
+      />
+    )
+  }
+
+  if (tab === 'enemy-team') {
+    return (
+      <EnemyTeamTab
+        enemyTeams={enemyTeams}
+        enemies={enemies}
+        locale={locale}
+        projectId={manifest.id}
+        session={session}
+        scriptState={scriptV5?.state}
+        focusObjectId={focusObjectId}
+        onObjectFocus={onObjectFocus}
+        onOpenEnemy={props.onOpenEnemy}
+        onOpenReference={onOpenEnemyTeamReference}
       />
     )
   }

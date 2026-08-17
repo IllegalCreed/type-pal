@@ -785,7 +785,7 @@
                           "kind": "loadLastSave"
                         }
                       ],
-                      "team": 30
+                      "enemyTeamId": "team-30"
                     },
                     {
                       "kind": "setEntityState",
@@ -2011,7 +2011,6 @@
       "sprite": "sprite-347",
       "hidden": true,
       "hostile": {
-        "team": 31,
         "chase": {
           "range": 8,
           "speed": 4
@@ -2023,7 +2022,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-31"
       }
     },
     {
@@ -2036,7 +2036,6 @@
       "sprite": "sprite-347",
       "hidden": true,
       "hostile": {
-        "team": 31,
         "chase": {
           "range": 8,
           "speed": 4
@@ -2048,7 +2047,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-31"
       }
     },
     {
@@ -2061,7 +2061,6 @@
       "sprite": "sprite-347",
       "hidden": true,
       "hostile": {
-        "team": 31,
         "chase": {
           "range": 8,
           "speed": 4
@@ -2073,7 +2072,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-31"
       }
     },
     {
@@ -2086,7 +2086,6 @@
       "sprite": "sprite-347",
       "hidden": true,
       "hostile": {
-        "team": 31,
         "chase": {
           "range": 8,
           "speed": 4
@@ -2098,7 +2097,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-31"
       }
     },
     {

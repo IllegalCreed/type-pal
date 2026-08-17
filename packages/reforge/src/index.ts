@@ -196,6 +196,14 @@ export type {
   LoadedProjectV14,
   LoadedProjectV14Core,
 } from './loader-v14.js'
+export type { LoadedProjectV15 } from './loader-v15.js'
+export {
+  loadAllAuthorScenesV15,
+  loadAllProjectMapsV15,
+  loadProjectV15,
+  loadProjectV15From,
+  loadStampTemplatesV15,
+} from './loader-v15.js'
 export {
   assembleProjectV14,
   loadAllAuthorScenesV14,

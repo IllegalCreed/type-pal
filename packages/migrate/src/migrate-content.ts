@@ -2526,7 +2526,7 @@ export function mapScenesStatic(
     const isGameOver = unfold(onLose ?? []).some((c) => c.kind === 'loadLastSave')
     return {
       hostile: {
-        team: first.team,
+        enemyTeamId: first.enemyTeamId,
         ...(chaseCmd
           ? {
               chase: {

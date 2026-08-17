@@ -907,7 +907,7 @@ describe('D24 战场命令(不可变 + invert)', () => {
             {
               kind: 'branch',
               cond: { kind: 'flag', flag: 'battle', is: true },
-              then: [{ kind: 'startBattle', team: 1, fieldId: 27 }],
+              then: [{ kind: 'startBattle', enemyTeamId: 'team-1', fieldId: 27 }],
               else: [],
             },
           ],
@@ -1967,7 +1967,11 @@ test('UpdateScene 回归:仅 music patch 不得把必填 entry 覆成 undefined'
 describe('B9 敌对行为 patch(hostile 整对象替换)', () => {
   test('UpdateEntity hostile:开敌对/invert 还原 undefined;源不变', () => {
     const s0 = st()
-    const h = { team: 3, chase: { range: 6, speed: 2 }, respawnSeconds: 80 }
+    const h = {
+      enemyTeamId: 'team-3',
+      chase: { range: 6, speed: 2 },
+      respawnSeconds: 80,
+    }
     const cmd = new UpdateEntityCommand('s', 'a', { hostile: h })
     const s1 = cmd.apply(s0)
     expect(ent0(s1).hostile).toEqual(h)
@@ -1978,11 +1982,14 @@ describe('B9 敌对行为 patch(hostile 整对象替换)', () => {
 
   test('UpdateEntity hostile:撤销敌对(undefined),invert 还原旧配置(深拷贝)', () => {
     const s0 = st()
-    ent0(s0).hostile = { team: 1, chase: { range: 4, speed: 1 } }
+    ent0(s0).hostile = { enemyTeamId: 'team-1', chase: { range: 4, speed: 1 } }
     const cmd = new UpdateEntityCommand('s', 'a', { hostile: undefined })
     const s1 = cmd.apply(s0)
     expect(ent0(s1).hostile).toBeUndefined()
-    expect(ent0(cmd.invert(s1)).hostile).toEqual({ team: 1, chase: { range: 4, speed: 1 } })
+    expect(ent0(cmd.invert(s1)).hostile).toEqual({
+      enemyTeamId: 'team-1',
+      chase: { range: 4, speed: 1 },
+    })
   })
 })
 

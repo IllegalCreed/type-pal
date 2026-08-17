@@ -93,6 +93,15 @@ export function buildPayloadV8Content14(
   return { version: SAVE_VERSION, projectId, contentVersion: 14, world, position }
 }
 
+/** ED-ENEMY successor builder；SAVE/world 不变，只写 content15 identity。 */
+export function buildPayloadV8Content15(
+  world: import('@type-pal/content').WorldStateV15,
+  position: { sceneId: string; pos: GridPos; facing: Facing },
+  projectId: string,
+): import('./types.js').SavePayloadV8Content15 {
+  return { version: SAVE_VERSION, projectId, contentVersion: 15, world, position }
+}
+
 /**
  * 读档运行时归一化(GLM x-shell G10.1:曾直用 payload,引擎加字段后旧档缺字段运行时崩):
  * · version 闸:新于引擎 → 抛(宁拒不猜);旧于当前 → 逐版本升级并验证当前工程闭包。

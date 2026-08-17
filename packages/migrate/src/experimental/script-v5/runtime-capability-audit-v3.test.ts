@@ -331,7 +331,7 @@ describe('R13 runtime capability audit v3', () => {
                           body: [
                             {
                               kind: 'startBattle',
-                              team: 1,
+                              enemyTeamId: 'team-1',
                               choreography: [
                                 {
                                   at: 'battleStart',
@@ -362,7 +362,7 @@ describe('R13 runtime capability audit v3', () => {
             body: [
               {
                 kind: 'startBattle',
-                team: 1,
+                enemyTeamId: 'team-1',
                 choreography: [
                   {
                     at: 'battleStart',
@@ -390,7 +390,7 @@ describe('R13 runtime capability audit v3', () => {
                     body: [
                       {
                         kind: 'startBattle',
-                        team: 1,
+                        enemyTeamId: 'team-1',
                         choreography: [
                           {
                             at: 'battleStart',

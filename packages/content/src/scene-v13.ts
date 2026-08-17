@@ -114,11 +114,11 @@ export function checkHostileBehaviorV13(
   const hostile = record(value, path)
   exactKeys(
     hostile,
-    ['team', 'battleFieldId', 'chase', 'onLose', 'onVictory', 'onPlayerFlee'],
+    ['enemyTeamId', 'battleFieldId', 'chase', 'onLose', 'onVictory', 'onPlayerFlee'],
     path,
   )
-  if (!Number.isSafeInteger(hostile.team) || Number(hostile.team) < 0)
-    throw new Error(`${path}.team: 期望非负安全整数`)
+  if (typeof hostile.enemyTeamId !== 'string' || hostile.enemyTeamId.length === 0)
+    throw new Error(`${path}.enemyTeamId: 期望非空字符串`)
   if (
     hostile.battleFieldId !== undefined &&
     (!Number.isSafeInteger(hostile.battleFieldId) || Number(hostile.battleFieldId) < 0)

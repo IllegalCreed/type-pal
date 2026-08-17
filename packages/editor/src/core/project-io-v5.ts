@@ -268,7 +268,7 @@ export function projectActiveScriptEditorStateV5(
     // 渲染/扫描投影容忍 undo 中间态(正文刚撤、ref 尚在);保存链(mergeLegacyEditorShellIntoV5)
     // 不传容忍参数,缺正文仍 fail-loud。
     items: shellItems.map((item) =>
-      canonical.contentVersion === 14
+      canonical.contentVersion === 15
         ? mergeCurrentItemShell(item, canonicalItems.get(item.id))
         : mergeItemShellV5(item, canonicalItems.get(item.id), true),
     ),
@@ -284,8 +284,8 @@ export function mergeEditorShellWithCurrentCanonicalScripts(
   canonical: ScriptEditorStateV5,
   shell: EditorState,
 ): EditorState {
-  if (shell.manifest.contentVersion !== 14)
-    throw new Error('mergeEditorShellWithCurrentCanonicalScripts: shell 必须是当前 content14')
+  if (shell.manifest.contentVersion !== 15)
+    throw new Error('mergeEditorShellWithCurrentCanonicalScripts: shell 必须是当前 content15')
   if (canonical.contentVersion !== shell.manifest.contentVersion)
     throw new Error('mergeEditorShellWithCurrentCanonicalScripts: canonical/shell 版本不一致')
   const canonicalScenes = new Map(canonical.scenes.map((scene) => [scene.id, scene]))

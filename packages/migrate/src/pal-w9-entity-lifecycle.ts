@@ -21,8 +21,8 @@ import {
   validateProjectMigrationDescriptorV1,
   validateProjectMigrationSidecarV1,
   validateProjectRelativePath,
-  validateScenesV13,
   validateScenesV5,
+  validateScenesV13,
   validateSkills,
   validateSprites,
   validateStampTemplates,
@@ -34,12 +34,6 @@ import {
   appendOnlyTransitionState,
 } from './experimental/script-v5/append-only-transition-state.js'
 import { stableJsonSha256, stableStringCompare } from './experimental/script-v5/stable-json.js'
-import { b10PublishTimeSurfaceDigest } from './pal-b10-enemy-team-slots.js'
-import {
-  assertB10PublishedAuthorityGraph,
-  assertW9ControlGraphProjectionSelfConsistent,
-  type W9B10ControlGraphProjectionV1,
-} from './pal-w9-control-graph.js'
 import {
   isAtomicProjectMapPath,
   type MigrationSnapshot,
@@ -48,7 +42,13 @@ import {
   snapshotFileHash,
   snapshotFilePresent,
 } from './migration-baseline.js'
+import { b10PublishTimeSurfaceDigest } from './pal-b10-enemy-team-slots.js'
 import type { MigrationJson } from './pal-migration.js'
+import {
+  assertB10PublishedAuthorityGraph,
+  assertW9ControlGraphProjectionSelfConsistent,
+  type W9B10ControlGraphProjectionV1,
+} from './pal-w9-control-graph.js'
 
 const W9_TRANSITION_ID = 'w9-entity-lifecycle-v1' as const
 const W9_METHOD_VERSION = 'w9-entity-lifecycle-source-ledger-v1' as const
@@ -123,10 +123,7 @@ function normalizeAllowlist(paths: readonly string[]): string[] {
   return normalized
 }
 
-function changedManagedPaths(
-  parent: MigrationSnapshot,
-  successor: MigrationSnapshot,
-): string[] {
+function changedManagedPaths(parent: MigrationSnapshot, successor: MigrationSnapshot): string[] {
   const paths = new Set([...parent.managedFiles, ...successor.managedFiles])
   return [...paths]
     .filter(
@@ -163,7 +160,9 @@ function hasW9Marker(source: MigrationSnapshot): boolean {
   )
 }
 
-function sealBody(value: W9EntityLifecycleTransitionSealV1): Omit<W9EntityLifecycleTransitionSealV1, 'digest'> {
+function sealBody(
+  value: W9EntityLifecycleTransitionSealV1,
+): Omit<W9EntityLifecycleTransitionSealV1, 'digest'> {
   const { digest: _digest, ...body } = value
   return body
 }
@@ -178,8 +177,7 @@ function assertSealSelfConsistent(value: W9EntityLifecycleTransitionSealV1, labe
   ): void => {
     const actual = Object.keys(object).sort(stableStringCompare)
     const wanted = [...expected].sort(stableStringCompare)
-    if (!isDeepStrictEqual(actual, wanted))
-      throw new Error(`${path}: 字段集合漂移`)
+    if (!isDeepStrictEqual(actual, wanted)) throw new Error(`${path}: 字段集合漂移`)
   }
   exactKeys(
     raw,
@@ -208,13 +206,7 @@ function assertSealSelfConsistent(value: W9EntityLifecycleTransitionSealV1, labe
   if (!isRecord(value.parent)) throw new Error(`${label}.parent: 期望对象`)
   exactKeys(
     value.parent,
-    [
-      'transitionId',
-      'metadataDigest',
-      'sealDigest',
-      'contentDigest',
-      'publishTimeSurfaceDigest',
-    ],
+    ['transitionId', 'metadataDigest', 'sealDigest', 'contentDigest', 'publishTimeSurfaceDigest'],
     `${label}.parent`,
   )
   if (value.parent.transitionId !== 'b10-enemy-team-slots-v1')
@@ -239,12 +231,7 @@ function assertSealSelfConsistent(value: W9EntityLifecycleTransitionSealV1, labe
   if (!isRecord(value.successor)) throw new Error(`${label}.successor: 期望对象`)
   exactKeys(
     value.successor,
-    [
-      'contentVersion',
-      'minimumSaveVersion',
-      'manifestDigest',
-      'publishTimeSurfaceDigest',
-    ],
+    ['contentVersion', 'minimumSaveVersion', 'manifestDigest', 'publishTimeSurfaceDigest'],
     `${label}.successor`,
   )
   if (value.successor.contentVersion !== 13 || value.successor.minimumSaveVersion !== 8)
@@ -305,22 +292,22 @@ function downgradeW9LifecycleCommands(
 }
 
 function downgradeW9Hostile(value: unknown, path: string): Record<string, unknown> {
-  checkHostileBehaviorV13(value, path)
-  if (value.onPlayerFlee.kind !== 'suspend' || value.onPlayerFlee.ticks !== 15)
+  if (!isRecord(value) || !Number.isSafeInteger(value.team) || Number(value.team) < 0)
+    throw new Error(`${path}.team: PAL W9 successor 期望非负整数`)
+  const { team, ...rest } = value
+  const currentView = { ...rest, enemyTeamId: `team-${String(team)}` }
+  checkHostileBehaviorV13(currentView, path)
+  if (currentView.onPlayerFlee.kind !== 'suspend' || currentView.onPlayerFlee.ticks !== 15)
     throw new Error(`${path}.onPlayerFlee: PAL W9 successor 只允许 suspend 15`)
   let respawnSeconds: number | undefined
-  if (value.onVictory.kind === 'hide') {
-    if (value.onVictory.ticks % 10 !== 0)
+  if (currentView.onVictory.kind === 'hide') {
+    if (currentView.onVictory.ticks % 10 !== 0)
       throw new Error(`${path}.onVictory.ticks: 无法精确还原 v12 respawnSeconds`)
-    respawnSeconds = value.onVictory.ticks / 10
-  } else if (value.onVictory.kind === 'remain') {
+    respawnSeconds = currentView.onVictory.ticks / 10
+  } else if (currentView.onVictory.kind === 'remain') {
     throw new Error(`${path}.onVictory: PAL W9 folded hostile 不允许 remain`)
   }
-  const {
-    onVictory: _onVictory,
-    onPlayerFlee: _onPlayerFlee,
-    ...parent
-  } = structuredClone(value)
+  const { onVictory: _onVictory, onPlayerFlee: _onPlayerFlee, ...parent } = structuredClone(value)
   return {
     ...parent,
     ...(respawnSeconds === undefined ? {} : { respawnSeconds }),
@@ -355,10 +342,28 @@ function rewindW9SceneFiles(
       return entity
     })
     scene.entities = asJson(parentEntities)
-    const [parentScene] = validateScenesV5([scene])
-    if (!parentScene) throw new Error(`W9 rewind: ${path} 还原后为空`)
-    snapshot.files.set(path, asJson(parentScene))
-    snapshot.hashes?.set(path, fileHash(asJson(parentScene), path))
+    const currentCommandView = (value: unknown): unknown => {
+      if (Array.isArray(value)) return value.map(currentCommandView)
+      if (!value || typeof value !== 'object') return value
+      const record = value as Record<string, unknown>
+      if (record.kind === 'startBattle' && Number.isSafeInteger(record.team))
+        return {
+          ...Object.fromEntries(
+            Object.entries(record)
+              .filter(([key]) => key !== 'team')
+              .map(([key, child]) => [key, currentCommandView(child)]),
+          ),
+          enemyTeamId: `team-${String(record.team)}`,
+        }
+      return Object.fromEntries(
+        Object.entries(record).map(([key, child]) => [key, currentCommandView(child)]),
+      )
+    }
+    const [validatedView] = validateScenesV5([currentCommandView(scene)])
+    if (!validatedView) throw new Error(`W9 rewind: ${path} 还原后为空`)
+    const parentScene = asJson(scene)
+    snapshot.files.set(path, parentScene)
+    snapshot.hashes?.set(path, fileHash(parentScene, path))
   }
   return snapshot
 }
@@ -630,9 +635,7 @@ function validateHistoricalMigrationRegistry(
     const { digest: declaredDigest, ...body } = sidecar
     const actualDigest = sha256(canonicalScriptTransitionJson(body))
     if (actualDigest !== declaredDigest)
-      throw new Error(
-        `${descriptor.path}: sidecar 自摘要 ${declaredDigest}，实际 ${actualDigest}`,
-      )
+      throw new Error(`${descriptor.path}: sidecar 自摘要 ${declaredDigest}，实际 ${actualDigest}`)
   }
 }
 
@@ -641,7 +644,9 @@ export async function validateW9ProjectV13Target(args: {
   manifest: ProjectManifest<13>
 }): Promise<void> {
   if (args.manifest.contentVersion !== 13)
-    throw new Error(`W9 v13 target 只接受 contentVersion 13，收到 ${String(args.manifest.contentVersion)}`)
+    throw new Error(
+      `W9 v13 target 只接受 contentVersion 13，收到 ${String(args.manifest.contentVersion)}`,
+    )
   if (args.manifest.minimumSaveVersion !== 8)
     throw new Error(
       `W9 v13 target 只接受 minimumSaveVersion 8，收到 ${String(args.manifest.minimumSaveVersion)}`,
@@ -662,12 +667,16 @@ export async function validateW9ProjectV13Target(args: {
   )
   const assetCatalog = validateAssetCatalog(targetFile(target, catalogPath))
   validateManifestAssetConfigV3(manifest.assets, assetCatalog)
-  const mapIndex = validateMapIndex(targetFile(target, contentPath(manifest, 'maps', { required: true })!))
+  const mapIndex = validateMapIndex(
+    targetFile(target, contentPath(manifest, 'maps', { required: true })!),
+  )
   const mapIds = new Set(mapIndex.maps.map((map) => map.id))
   const sceneDir = sceneDirectory(manifest)
   const sceneIds = validateSceneIds(targetFile(target, `${sceneDir}index.json`))
   if (!sceneIds.includes(manifest.entryScene))
-    throw new Error(`工程 "${manifest.id}": 入口场景 "${manifest.entryScene}" 不在 scenes/index.json`)
+    throw new Error(
+      `工程 "${manifest.id}": 入口场景 "${manifest.entryScene}" 不在 scenes/index.json`,
+    )
   for (const sceneId of sceneIds) {
     const [scene] = validateScenesV13([targetFile(target, `${sceneDir}${sceneId}.json`)])
     if (!scene) throw new Error(`工程 "${manifest.id}": v13 场景 ${sceneId} 为空`)
@@ -677,9 +686,13 @@ export async function validateW9ProjectV13Target(args: {
       throw new Error(`场景 "${scene.id}": mapId "${scene.mapId}" 不在地图索引`)
   }
 
-  const actors = validateActors(targetFile(target, contentPath(manifest, 'actors', { required: true })!))
+  const actors = validateActors(
+    targetFile(target, contentPath(manifest, 'actors', { required: true })!),
+  )
   validateSkills(targetFile(target, contentPath(manifest, 'skills', { required: true })!))
-  const items = validateItemsV5(targetFile(target, contentPath(manifest, 'items', { required: true })!))
+  const items = validateItemsV5(
+    targetFile(target, contentPath(manifest, 'items', { required: true })!),
+  )
   validateLocale(targetFile(target, contentPath(manifest, 'locale', { required: true })!), {
     allowLegacySoftWrap: true,
   })

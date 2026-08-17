@@ -570,10 +570,12 @@ function projectCommands(
             : { else: projectCommands(command.else, context, `${commandPath}.else`) }),
         },
       ]
-    if (command.kind === 'startBattle')
+    if (command.kind === 'startBattle') {
+      const { team, ...battle } = clone(command)
       return [
         {
-          ...clone(command),
+          ...battle,
+          enemyTeamId: `team-${team}`,
           ...(command.onLose === undefined
             ? {}
             : { onLose: projectCommands(command.onLose, context, `${commandPath}.onLose`) }),
@@ -582,6 +584,7 @@ function projectCommands(
             : { onFlee: projectCommands(command.onFlee, context, `${commandPath}.onFlee`) }),
         } as Extract<AuthorCommandV5, { kind: 'startBattle' }>,
       ]
+    }
     if (command.kind === 'teleportOut')
       return [
         {

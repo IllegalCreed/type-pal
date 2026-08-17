@@ -105,7 +105,7 @@
     {
       "path": "projects/pal/manifest.json",
       "bytes": 2349,
-      "sha256": "166df8c29e3fb6597f2d50bc7657c7cf8fabb7c997ab4b7b54427fe1e3af91e8"
+      "sha256": "85e962bea23c847cd0836f1e482f63d0b727abecd79f8e7d712df33d35adf09f"
     },
     {
       "path": "projects/pal/content/ambiences.json",
@@ -150,8 +150,8 @@
       "root": "projects/pal",
       "selector": "all",
       "files": 2423,
-      "bytes": 155515072,
-      "sha256": "42c2fe7403fab5aec66c2550d1975a45677bbc8f5a884a6b807cfc2fa4b30ce3"
+      "bytes": 155529100,
+      "sha256": "1fc8f7aab3ac1728b6a262deed78a6a5d4ede39b044bfe261e64f90129c54f26"
     },
     {
       "role": "generated-shadow",
@@ -166,24 +166,24 @@
       "root": "packages/migrate/src",
       "selector": "production-typescript",
       "files": 129,
-      "bytes": 2939922,
-      "sha256": "99e44b25b4cc8f815e94a74409957279469f63da3a6160e38ae484c3f12a71e4"
+      "bytes": 2946918,
+      "sha256": "24a4ee666019b172b804152c254c506225a00390724f7c8d68bb13d4aceafdf2"
     },
     {
       "role": "producer-code",
       "root": "packages/content/src",
       "selector": "production-typescript",
-      "files": 55,
-      "bytes": 670322,
-      "sha256": "c0916b13a3d9f9b91ee4a65bfcd440c803788f13a80001b96b3167306c42ed97"
+      "files": 57,
+      "bytes": 674923,
+      "sha256": "97aef7fd72f9109cf4e1207098fbc8c77cdb3ba11bd1b24a1496d4309d928c84"
     },
     {
       "role": "producer-code",
       "root": "packages/reforge/src",
       "selector": "production-typescript",
-      "files": 118,
-      "bytes": 1473587,
-      "sha256": "d5aaad0aea4f09bdb364ff3b2500956c7a6f264ad805bdb840bb2d18ee4e5d1b"
+      "files": 120,
+      "bytes": 1473867,
+      "sha256": "5fd002c2981dc59d81432808a3788f6810cfcb95baf515e365c3d002d53b54c4"
     },
     {
       "role": "runtime-code",

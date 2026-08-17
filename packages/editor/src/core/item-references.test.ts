@@ -299,7 +299,7 @@ function recursiveState(): EditorState {
         { kind: 'confirm', onNo: [{ kind: 'loseItem', itemId: 'target' }] },
         {
           kind: 'startBattle',
-          team: 1,
+          enemyTeamId: 'team-1',
           onLose: [{ kind: 'giveItem', itemId: 'target' }],
           onFlee: [{ kind: 'loseItem', itemId: 'target' }],
         },

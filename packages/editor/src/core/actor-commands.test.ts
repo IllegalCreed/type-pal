@@ -177,7 +177,10 @@ describe('人物 CRUD 与解除关联', () => {
       hidden: true,
       zBias: 7,
       pages: [{ state: 2 }],
-      hostile: { team: 1, chase: { range: 3, speed: 2, floating: true } },
+      hostile: {
+        enemyTeamId: 'team-1',
+        chase: { range: 3, speed: 2, floating: true },
+      },
     }
     const current = state([actor()])
     current.locale = { 'name.hero': '主角' }
@@ -194,7 +197,10 @@ describe('人物 CRUD 与解除关联', () => {
       hidden: true,
       zBias: 7,
       pages: [{ state: 2 }],
-      hostile: { team: 1, chase: { range: 3, speed: 2, floating: true } },
+      hostile: {
+        enemyTeamId: 'team-1',
+        chase: { range: 3, speed: 2, floating: true },
+      },
     })
     session.undo()
     expect(session.getState().scenes[0]!.entities[0]).toEqual(source)

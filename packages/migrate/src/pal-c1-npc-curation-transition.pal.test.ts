@@ -19,6 +19,7 @@ import {
   type C1NpcCurationBuildResult,
 } from './pal-c1-npc-curation-transition.js'
 import type { MigrationJson } from './pal-migration.js'
+import { rewindCurrentC1PublicationToDialogueParent } from './pal-current-c1-rewind.js'
 import type { SourceCmd } from './source-facts.js'
 
 const repo = fileURLToPath(new URL('../../..', import.meta.url))
@@ -81,10 +82,20 @@ let sourceFileSha256: string
 let build: C1NpcCurationBuildResult
 
 beforeAll(() => {
-  const baseline = loadPalBaseline(repo)
-  if (!baseline) throw new Error('C1-3 PAL test 缺 published baseline')
-  manifestRawText = readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8')
-  manifest = JSON.parse(manifestRawText) as ManifestV14
+  const current = loadPalBaseline(repo)
+  if (!current) throw new Error('C1-3 PAL test 缺 published baseline')
+  const currentManifestRawText = readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8')
+  const currentManifest = JSON.parse(currentManifestRawText) as ManifestV14
+  const baseline = rewindCurrentC1PublicationToDialogueParent({
+    source: current,
+    manifest: currentManifest,
+    manifestRawText: currentManifestRawText,
+  })
+  manifest = { ...currentManifest, contentVersion: 14 }
+  manifestRawText = currentManifestRawText.replace(
+    /(\"contentVersion\"\s*:\s*)15/,
+    (_match, prefix: string) => `${prefix}14`,
+  )
   const sourceText = readFileSync(resolve(repo, 'data/extracted/events/all.json'), 'utf8')
   const sourceJson = JSON.parse(sourceText) as { segments: { commands: SourceCmd[] }[] }
   sourceCommands = sourceJson.segments.flatMap((segment) => segment.commands)

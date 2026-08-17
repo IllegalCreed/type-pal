@@ -45,7 +45,7 @@ const scene: SceneDefV5 = {
         },
       },
       hostile: {
-        team: 1,
+        enemyTeamId: 'team-1',
         onLose: [{ kind: 'setFlag', flag: 'battle-lost', value: true }],
       },
     },

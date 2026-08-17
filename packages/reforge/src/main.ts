@@ -28,7 +28,6 @@ import {
   gridToPixel,
   type HostileBehaviorV13,
   isIdentityTint,
-  legacyPalPortraitAssetId,
   lerpTint,
   lookupText,
   ownedItemCount,
@@ -161,7 +160,6 @@ import { commitItemEntityPlacement, planItemEntityPlacement } from './item-use-p
 import { commitLatestPreparedSnapshot } from './latest-snapshot-transaction.js'
 import {
   isV5RuntimeScriptRef,
-  legacyProjectShellFromV5,
   legacyProjectViewFromV13,
   legacySceneFromV5,
   legacySceneViewFromV13,
@@ -170,8 +168,8 @@ import {
 } from './legacy-runtime-shell-v5.js'
 import { type LoadedProject, loadSceneDef } from './loader.js'
 import { type LoadedProjectV5, loadSceneDefV5 } from './loader-v5.js'
-import { type LoadedProjectV13, loadAllScenesV13, loadSceneDefV13 } from './loader-v13.js'
-import { type LoadedProjectV14, loadAllScenesV14, loadSceneDefV14 } from './loader-v14.js'
+import type { LoadedProjectV13 } from './loader-v13.js'
+import { type LoadedProjectV15, loadAllScenesV15, loadSceneDefV15 } from './loader-v15.js'
 import {
   castOutdoorSkill,
   closeMagicMenu,
@@ -224,40 +222,20 @@ import {
   openSaveBrowser,
   type SaveBrowserState,
 } from './save/browser-state.js'
-import { normalizePayloadV8, preflightSaveMigration, sha256Bytes } from './save/migration.js'
+import { sha256Bytes } from './save/migration.js'
 import {
-  normalizePayloadV13,
-  preflightSaveMigrationV13,
-  type SavePayloadV13Input,
-} from './save/migration-v13.js'
-import {
-  normalizePayloadV14,
-  preflightSaveMigrationV14,
-  type SavePayloadV14Input,
-} from './save/migration-v14.js'
+  normalizePayloadV15,
+  preflightSaveMigrationV15,
+  type SavePayloadV15Input,
+} from './save/migration-v15.js'
 import {
   buildMeta,
-  buildPayload,
-  buildPayloadV8,
-  buildPayloadV8Content13,
-  buildPayloadV8Content14,
+  buildPayloadV8Content15,
   captureThumbnail,
-  normalizePayload,
-  resolveLegacyFollowerSpriteId,
-  resolveLegacyPlayerBattleSpriteId,
   resolveRestoredMusic,
 } from './save/ops.js'
 import { IndexedDbSaveStore, MemorySaveStore, type SaveStore } from './save/store.js'
-import {
-  ALL_SLOT_IDS,
-  type SaveMeta,
-  type SavePayload,
-  type SavePayloadV8,
-  type SavePayloadV8Content13,
-  type SavePayloadV8Content14,
-  type SlotId,
-  type StoredSavePayload,
-} from './save/types.js'
+import { ALL_SLOT_IDS, type SaveMeta, type SlotId, type StoredSavePayload } from './save/types.js'
 import { SceneEntrySession } from './scene-entry-session.js'
 import type { SceneMapAssets } from './scene-map.js'
 import { loadSceneMap } from './scene-map.js'
@@ -365,32 +343,18 @@ let ctx!: CanvasRenderingContext2D
  * 传 FSA/HTTP source 装出的工程 —— 本地工程句柄跨不了源,试玩必须同源,这就是拆出本函数的原因。
  * ⚠ 模块级严禁碰 DOM/location:barrel 导出后,node 测试环境 import 本模块即执行模块级代码。
  */
-export async function bootGame(
-  inputProject: LoadedProject | LoadedProjectV5 | LoadedProjectV13 | LoadedProjectV14,
-): Promise<void> {
-  const canonicalProjectV14 =
-    inputProject.manifest.contentVersion === 14 ? (inputProject as LoadedProjectV14) : undefined
-  // content14 loader 已经通过唯一 resolver 产出冻结 v13 runtime view；历史 runner 不读 authorContent。
-  const canonicalProjectV13 = canonicalProjectV14
-    ? (canonicalProjectV14 as unknown as LoadedProjectV13)
-    : inputProject.manifest.contentVersion === 13
-      ? (inputProject as LoadedProjectV13)
-      : undefined
-  const canonicalProjectV5 =
-    !canonicalProjectV13 && inputProject.manifest.contentVersion === 12
-      ? (inputProject as LoadedProjectV5)
-      : undefined
+export async function bootGame(inputProject: LoadedProjectV15): Promise<void> {
+  // content15 loader 保留作者态，同时以单一 resolver 产出 runtime view。
+  const canonicalProjectV15 = inputProject
+  const canonicalProjectV13 = inputProject as unknown as LoadedProjectV13
+  // 历史 v5 产品路径已退役；局部纯函数仍保留显式不可达分支。
+  const canonicalProjectV5 = ((): LoadedProjectV5 | undefined => undefined)()
   let worldScriptV5: WorldScriptStateV5 | undefined
   let worldV13: WorldStateV13 | undefined
   let project: LoadedProject
-  if (canonicalProjectV13) {
-    // The view adapts only legacy renderer fields; the canonical v13 world/runtime stay native.
-    worldScriptV5 = emptyWorldScriptStateV5()
-    project = legacyProjectViewFromV13(canonicalProjectV13, worldScriptV5)
-  } else if (canonicalProjectV5) {
-    worldScriptV5 = emptyWorldScriptStateV5()
-    project = legacyProjectShellFromV5(canonicalProjectV5, worldScriptV5)
-  } else project = inputProject as LoadedProject
+  // The view adapts only renderer fields; product loading has no historical version branch.
+  worldScriptV5 = emptyWorldScriptStateV5()
+  project = legacyProjectViewFromV13(canonicalProjectV13, worldScriptV5)
   const itemEquipDescribeCtx = {
     skillName: (id) => project.skills[id]?.name,
     actorName: (id) => {
@@ -412,29 +376,6 @@ export async function bootGame(
   document.title = `${project.manifest.name} · reforge` // 标题随工程(index.html 只是加载占位)
   const params = new URLSearchParams(location.search)
   const motionProbeEntityId = import.meta.env.DEV ? params.get('motion-entity') : null
-  const saveNormalizeOptions = {
-    legacyPortraitAsset: (legacy: number): AssetId | undefined => {
-      const asset = legacyPalPortraitAssetId(legacy)
-      return asset && project.assetCatalog.assets[asset]?.kind === 'portrait' ? asset : undefined
-    },
-    validatePortraitAsset: (asset: AssetId): void => {
-      project.assetResolver.record(asset, 'portrait')
-    },
-    legacyFollowerSpriteId: (legacy: number): string | undefined => {
-      return resolveLegacyFollowerSpriteId(project.spritesById, legacy)
-    },
-    validateFollowerSpriteId: (spriteId: string): void => {
-      if (!project.spritesById[spriteId]) throw new Error(`sprites 注册表无 ${spriteId}`)
-    },
-    legacyPlayerBattleSpriteId: (legacy: number): string | undefined =>
-      resolveLegacyPlayerBattleSpriteId(project.battleSpritesById, legacy),
-    validatePlayerBattleSpriteId: (definitionId: string): void => {
-      const definition = project.battleSpritesById[definitionId]
-      if (!definition) throw new Error(`battleSprites 注册表无 ${definitionId}`)
-      if (definition.profile.kind !== 'player-fighter')
-        throw new Error(`期望 player-fighter，实际 ${definition.profile.kind}`)
-    },
-  }
   const sfx = new SfxPlayer(project.assetResolver) // 应用级单例(解码缓存跨战斗复用)
   const bgm = createBgmPlayer(project.assetResolver)
   // autoplay 解锁:BGM/SFX 都可能在 boot 时建出 suspended context。每次真实手势都允许重试，
@@ -528,20 +469,14 @@ export async function bootGame(
     if (!canonicalProjectV13) throw new Error('canonical v13 scene loader 未启用')
     const hit = canonicalSceneCacheV13.get(id)
     if (hit) return hit
-    const def = canonicalProjectV14
-      ? await loadSceneDefV14(canonicalProjectV14, id)
-      : await loadSceneDefV13(canonicalProjectV13, id)
+    const def = await loadSceneDefV15(canonicalProjectV15, id)
     canonicalSceneCacheV13.set(id, def)
     return def
   }
   let lifecycleReferencesV13Promise: Promise<EntityLifecycleReferenceIndexV13> | undefined
   function getLifecycleReferencesV13(): Promise<EntityLifecycleReferenceIndexV13> {
     if (!canonicalProjectV13) throw new Error('content13 lifecycle references 未启用')
-    lifecycleReferencesV13Promise ??= (
-      canonicalProjectV14
-        ? loadAllScenesV14(canonicalProjectV14)
-        : loadAllScenesV13(canonicalProjectV13)
-    ).then((scenes) => {
+    lifecycleReferencesV13Promise ??= loadAllScenesV15(canonicalProjectV15).then((scenes) => {
       for (const def of scenes) canonicalSceneCacheV13.set(def.id, def)
       return buildEntityLifecycleReferenceIndexV13(scenes)
     })
@@ -1491,16 +1426,16 @@ export async function bootGame(
   const battleLaunchIntent = new AsyncIntentController()
   const reportedBattleReadiness = new Set<string>()
   const reportBattleReadiness = (
-    team: number,
+    enemyTeamId: string,
     stage: string,
     error: Error,
     fatal: boolean,
   ): void => {
     // 同一坏资源会在 battleBase 与后续每轮 union 中重试；按错误本体去重，不能按 turn 刷屏。
-    const key = `${team}:${error.name}:${error.message}`
+    const key = `${enemyTeamId}:${error.name}:${error.message}`
     if (reportedBattleReadiness.has(key)) return
     reportedBattleReadiness.add(key)
-    console.error(`[sfx readiness] team-${team} ${stage}${fatal ? ' fatal' : ' degraded'}`, error)
+    console.error(`[sfx readiness] ${enemyTeamId} ${stage}${fatal ? ' fatal' : ' degraded'}`, error)
   }
   let battleFieldsPromise: Promise<Map<number, BattleFieldEntry>> | null = null // 战场表懒载一次
   // ── M3b 走位/动画驱动(abort 全兑现)。**全局 100ms 世界拍**:玩家步进与脚本走位共拍
@@ -2341,11 +2276,11 @@ export async function bootGame(
    * 引用 host.wait/host.report 等闭包,调用时已初始化。
    */
   const startBattleBody = async (
-    team: number,
+    enemyTeamId: string,
     battleOpts: DebugBattleOptions | undefined,
     runnerSignal: AbortSignal | undefined,
   ): Promise<BattleResult> => {
-    assertRunnerActive(runnerSignal, `team-${team} 战斗所属 runner 已取消`)
+    assertRunnerActive(runnerSignal, `${enemyTeamId} 战斗所属 runner 已取消`)
     // K5:帧步进作用域不含战斗——任何战斗启动即退出步进模式。
     frameStepState.active = false
     frameStepState.stepRequested = false
@@ -2355,20 +2290,21 @@ export async function bootGame(
     // 敌对实体/dev 直开没有 runner；给它们独立的永不取消 signal，绝不借用主脚本 signal。
     const launchSignal = runnerSignal ?? new AbortController().signal
     const assertLaunchCurrent = (): void => {
-      assertRunnerActive(launchSignal, `team-${team} 战斗所属 runner 已取消`)
-      battleLaunchIntent.assertCurrent(launchToken, `team-${team} 战斗启动意图已失效`)
-      scriptMutationIntent.assertCurrent(scriptMutationToken, `team-${team} 战斗启动脚本已失效`)
-      if (world !== launchWorld) throw asyncIntentAbortError(`team-${team} 战斗启动所属世界已失效`)
+      assertRunnerActive(launchSignal, `${enemyTeamId} 战斗所属 runner 已取消`)
+      battleLaunchIntent.assertCurrent(launchToken, `${enemyTeamId} 战斗启动意图已失效`)
+      scriptMutationIntent.assertCurrent(scriptMutationToken, `${enemyTeamId} 战斗启动脚本已失效`)
+      if (world !== launchWorld)
+        throw asyncIntentAbortError(`${enemyTeamId} 战斗启动所属世界已失效`)
     }
     // D13-1 dev-only enemyOverride:显式 dense 组队只影响调试入口；canonical team 保留 slots 洞。
     const enemySlots = battleOpts?.enemyOverride
       ? battleOpts.enemyOverride.map((id) => project.enemiesById[id] ?? null).slice(0, 5)
-      : (project.enemyTeamsById[`team-${team}`]?.slots ?? []).map((id) =>
+      : (project.enemyTeamsById[enemyTeamId]?.slots ?? []).map((id) =>
           id === null ? null : (project.enemiesById[id] ?? null),
         )
     const enemyDefs = enemySlots.filter((e): e is NonNullable<typeof e> => !!e)
     if (enemyDefs.length === 0) {
-      showToast(`遇敌 #${team} —— 敌队缺数据,桩胜(M4c)`)
+      showToast(`遇敌 ${enemyTeamId} —— 敌队缺数据,桩胜(M4c)`)
       await host.wait(400, launchSignal)
       assertLaunchCurrent()
       return 'victory'
@@ -2498,14 +2434,14 @@ export async function bootGame(
       signal: launchSignal,
     }).catch((error: unknown) => {
       if (isAbortError(error)) throw error
-      throw new SfxReadinessCollectionError(`team-${team} battleBase 音效闭包收集失败`, {
+      throw new SfxReadinessCollectionError(`${enemyTeamId} battleBase 音效闭包收集失败`, {
         cause: error,
       })
     })
     assertLaunchCurrent()
     await sfx.prepare(battleBaseSounds).catch((error: unknown) => {
       if (!(error instanceof SfxReadinessResourceError)) throw error
-      reportBattleReadiness(team, 'battleBase', error, false)
+      reportBattleReadiness(enemyTeamId, 'battleBase', error, false)
     })
     assertLaunchCurrent()
     // 视觉第一屏障：基础/装备/持久形象、effective skills、合击及敌 transform/summon BFS
@@ -2664,7 +2600,7 @@ export async function bootGame(
             })
           } catch (error) {
             throw new SfxReadinessCollectionError(
-              `team-${team} turn-${snapshot.turn} 音效闭包收集失败`,
+              `${enemyTeamId} turn-${snapshot.turn} 音效闭包收集失败`,
               { cause: error },
             )
           }
@@ -2672,7 +2608,7 @@ export async function bootGame(
           await sfx.prepare(new Set([...battleBaseSounds, ...turnSounds]))
         },
         reportReadinessError: (error, context) =>
-          reportBattleReadiness(team, `turn-${context.turn}`, error, context.fatal),
+          reportBattleReadiness(enemyTeamId, `turn-${context.turn}`, error, context.fatal),
         playMusic: (asset) => bgm.play(asset),
         stopMusic: () => bgm.stop(),
         worldPartyIdentities: world.party.map(({ id, template }) => ({
@@ -3773,7 +3709,7 @@ export async function bootGame(
    */
   const startBattleDev = (
     request: {
-      team: number
+      enemyTeamId: string
       enemyOverride?: string[]
       partyPreset?: {
         party: CharacterInstance[]
@@ -3785,7 +3721,7 @@ export async function bootGame(
   ): Promise<BattleResult> => {
     const run = (): Promise<BattleResult> =>
       startBattleBody(
-        request.team,
+        request.enemyTeamId,
         {
           ...(request.enemyOverride ? { enemyOverride: request.enemyOverride } : {}),
           ...(request.fieldId !== undefined ? { fieldId: request.fieldId } : {}),
@@ -4200,7 +4136,7 @@ export async function bootGame(
       confirm: (signal) => host.confirm(signal),
       startBattle: (request, signal) =>
         host.startBattle(
-          request.team,
+          request.enemyTeamId,
           {
             auto: request.auto,
             boss: request.boss,
@@ -4295,7 +4231,7 @@ export async function bootGame(
       confirm: (signal) => host.confirm(signal),
       startBattle: (request, signal) =>
         host.startBattle(
-          request.team,
+          request.enemyTeamId,
           {
             auto: request.auto,
             boss: request.boss,
@@ -5454,13 +5390,13 @@ export async function bootGame(
       const result = runtime
         ? await runtime.host.startBattle(
             {
-              team: h.team,
+              enemyTeamId: h.enemyTeamId,
               ...(h.battleFieldId !== undefined ? { fieldId: h.battleFieldId } : {}),
             },
             new AbortController().signal,
           )
         : await host.startBattle(
-            h.team,
+            h.enemyTeamId,
             h.battleFieldId !== undefined ? { fieldId: h.battleFieldId } : undefined,
           )
       if (result === 'victory') {
@@ -6218,38 +6154,7 @@ export async function bootGame(
       pos: structuredClone(player.pos),
       facing,
     }
-    if (canonicalProjectV14) {
-      return buildPayloadV8Content14(
-        currentWorldV13Snapshot(),
-        position,
-        canonicalProjectV14.manifest.id,
-      )
-    }
-    if (canonicalProjectV13) {
-      return buildPayloadV8Content13(
-        currentWorldV13Snapshot(),
-        position,
-        canonicalProjectV13.manifest.id,
-      )
-    }
-    if (worldScriptV5 && canonicalProjectV5) {
-      const snapshot = structuredClone(world)
-      delete snapshot.script
-      return buildPayloadV8(
-        {
-          ...snapshot,
-          script: structuredClone(worldScriptV5),
-        },
-        position,
-        canonicalProjectV5.manifest.id,
-      )
-    }
-    return buildPayload(
-      structuredClone(world),
-      position,
-      project.manifest.id,
-      project.manifest.contentVersion,
-    )
+    return buildPayloadV8Content15(currentWorldV13Snapshot(), position, inputProject.manifest.id)
   }
 
   function doSave(slotId: SlotId, thumb: Blob | Promise<Blob>): Promise<void> {
@@ -6338,40 +6243,18 @@ export async function bootGame(
 
   async function normalizeStoredPayload(
     raw: StoredSavePayload,
-    where: string,
+    _where: string,
     _signal?: AbortSignal,
   ): Promise<StoredSavePayload> {
-    if (canonicalProjectV14) {
-      const resolver = await preflightSaveMigrationV14({
-        manifest: canonicalProjectV14.manifest,
-        payload: raw,
-      })
-      return normalizePayloadV14(
-        raw as SavePayloadV14Input,
-        resolver,
-        await getLifecycleReferencesV13(),
-      )
-    }
-    if (canonicalProjectV13) {
-      const resolver = await preflightSaveMigrationV13({
-        manifest: canonicalProjectV13.manifest,
-        payload: raw,
-      })
-      return normalizePayloadV13(
-        raw as SavePayloadV13Input,
-        resolver,
-        await getLifecycleReferencesV13(),
-      )
-    }
-    if (!canonicalProjectV5) {
-      if (raw.version >= 5) throw new Error(`${where}: v4 工程不能读取 SAVE v${raw.version}`)
-      return normalizePayload(raw as SavePayload, { ...saveNormalizeOptions, where })
-    }
-    const resolver = await preflightSaveMigration({
-      manifest: canonicalProjectV5.manifest,
+    const resolver = await preflightSaveMigrationV15({
+      manifest: inputProject.manifest,
       payload: raw,
     })
-    return normalizePayloadV8(raw as SavePayloadV8, resolver)
+    return normalizePayloadV15(
+      raw as SavePayloadV15Input,
+      resolver,
+      await getLifecycleReferencesV13(),
+    )
   }
 
   /** 已归一化 payload 的统一恢复事务；槽读档与 E2E 文件恢复必须共路。 */
@@ -6389,43 +6272,18 @@ export async function bootGame(
     }
     let canonicalScriptCandidate: WorldScriptStateV5 | undefined
     let canonicalWorldCandidateV13: WorldStateV13 | undefined
-    const candidate =
-      canonicalProjectV13 &&
-      p.version === 8 &&
-      (p.contentVersion === 13 || p.contentVersion === 14)
-        ? (() => {
-            const payload = p as SavePayloadV8Content13 | SavePayloadV8Content14
-            canonicalScriptCandidate = structuredClone(
-              payload.world.script ?? emptyWorldScriptStateV5(),
-            )
-            canonicalWorldCandidateV13 = {
-              ...structuredClone(payload.world),
-              script: canonicalScriptCandidate,
-              entityLifecycles: structuredClone(payload.world.entityLifecycles ?? {}),
-            }
-            return legacyWorldShellFromV13(
-              canonicalWorldCandidateV13,
-              payload.position.sceneId,
-              canonicalScriptCandidate,
-            ) as typeof world
-          })()
-        : canonicalProjectV5 && p.version === 8
-          ? (() => {
-              const payload = p as SavePayloadV8
-              canonicalScriptCandidate = structuredClone(
-                payload.world.script ?? emptyWorldScriptStateV5(),
-              )
-              const shell = structuredClone(payload.world)
-              delete shell.script
-              return {
-                ...shell,
-                script: legacyWorldScriptScratchV5(
-                  canonicalScriptCandidate,
-                  payload.position.sceneId,
-                ),
-              } as typeof world
-            })()
-          : structuredClone((p as SavePayload).world)
+    const payload = p as import('./save/types.js').SavePayloadV8Content15
+    canonicalScriptCandidate = structuredClone(payload.world.script ?? emptyWorldScriptStateV5())
+    canonicalWorldCandidateV13 = {
+      ...structuredClone(payload.world),
+      script: canonicalScriptCandidate,
+      entityLifecycles: structuredClone(payload.world.entityLifecycles ?? {}),
+    }
+    const candidate = legacyWorldShellFromV13(
+      canonicalWorldCandidateV13,
+      payload.position.sceneId,
+      canonicalScriptCandidate,
+    ) as typeof world
     if (!candidate.party[0]) {
       showToast(`${where}: 存档队伍为空`)
       return false
@@ -7063,12 +6921,12 @@ export async function bootGame(
       return { running: !!runner, world: world.script }
     },
     /** dev:直开一场战斗(M4c 验证/编辑器试打入口)。 */
-    startBattle: (team: number) =>
+    startBattle: (enemyTeamId: string) =>
       scriptRuntimeV13
-        ? scriptRuntimeV13.host.startBattle({ team }, new AbortController().signal)
+        ? scriptRuntimeV13.host.startBattle({ enemyTeamId }, new AbortController().signal)
         : scriptRuntimeV5
-          ? scriptRuntimeV5.host.startBattle({ team }, new AbortController().signal)
-          : host.startBattle(team),
+          ? scriptRuntimeV5.host.startBattle({ enemyTeamId }, new AbortController().signal)
+          : host.startBattle(enemyTeamId),
     /** dev:按稳定 AssetId 播过场视频。 */
     playVideo: (asset: string) => host.playVideo(asset),
     /** dev:按稳定 AssetId 播帧动画。 */
@@ -7621,7 +7479,7 @@ export async function bootGame(
   // M3a boot:应用世界脚本态 + 跑入口场景 onEnter(演出/音乐/战场配置)+ auto 巡逻
   applyWorldToScene()
   startAutoRunners()
-  // ?battle=<team 号>:直开一场战斗(编辑器「⚔ 试打」入口;跳过 onEnter 演出。team 号 0-based)
+  // ?battle=<enemyTeamId>:直开一场战斗(编辑器「试打」入口;跳过 onEnter 演出)
   const battleRaw = params.get('battle')
   // ?skill=<id>:dev 试放(编辑器「⚔ 战斗中试放」)—— 临时授队长该技 + MP 拉满(内存态,不落档)
   const skillParam = params.get('skill')
@@ -7643,8 +7501,8 @@ export async function bootGame(
   }
   // ?field=<战场号>:dev 覆写战场(验屏波/换背景;#32 常驻波 128 最猛)—— 直传参数,不落 world
   const fieldParam = params.get('field')
-  const battleParam = battleRaw === null ? Number.NaN : Number(battleRaw)
-  if (Number.isFinite(battleParam) && battleParam >= 0) {
+  const battleParam = battleRaw?.trim() ?? ''
+  if (battleParam.length > 0) {
     // ?battle-scene=<场景>:从该场景脚本取此 team 的 startBattle.choreography(遭遇绑定对话;
     // dev 试打默认不带剧情对话,加此参数验证 boss 遭遇台词)
     const choreoScene = params.get('battle-scene')
@@ -7657,8 +7515,8 @@ export async function bootGame(
       const walk = (o: unknown): void => {
         if (Array.isArray(o)) o.forEach(walk)
         else if (o && typeof o === 'object') {
-          const c = o as { kind?: string; team?: number; choreography?: unknown }
-          if (c.kind === 'startBattle' && c.team === battleParam && c.choreography)
+          const c = o as { kind?: string; enemyTeamId?: string; choreography?: unknown }
+          if (c.kind === 'startBattle' && c.enemyTeamId === battleParam && c.choreography)
             found = c.choreography as import('@type-pal/content').BattleChoreography[]
           for (const v of Object.values(o)) walk(v)
         }
@@ -7673,7 +7531,10 @@ export async function bootGame(
       }
       const runtime = scriptRuntimeV13 ?? scriptRuntimeV5
       const battle = runtime
-        ? runtime.host.startBattle({ team: battleParam, ...options }, new AbortController().signal)
+        ? runtime.host.startBattle(
+            { enemyTeamId: battleParam, ...options },
+            new AbortController().signal,
+          )
         : host.startBattle(battleParam, options)
       return battle
         .then((r) => showToast(`试打结束:${r}`))

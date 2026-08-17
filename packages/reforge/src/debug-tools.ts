@@ -62,7 +62,7 @@ export interface DebugToolsContext {
   ): Promise<T>
   startBattleDev(
     request: {
-      team: number
+      enemyTeamId: string
       enemyOverride?: string[]
       partyPreset?: { party: CharacterInstance[]; inventory?: { itemId: string; count: number }[] }
       fieldId?: number
@@ -761,7 +761,7 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
     void ctx
       .startBattleDev(
         {
-          team: customEnemies ? 0 : teamNumber(teamSel.value),
+          enemyTeamId: customEnemies ? 'debug-custom' : teamSel.value,
           ...(customEnemies ? { enemyOverride: customEnemies } : {}),
           ...(inventory.length
             ? { partyPreset: { party, inventory } }
@@ -1002,14 +1002,14 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
         return
       }
       case 'battle': {
-        const team = Number(arg(1) ?? 0)
-        if (!Number.isFinite(team)) {
-          logLine('用法: battle <team>', '#ffb020')
+        const enemyTeamId = arg(1)
+        if (!enemyTeamId) {
+          logLine('用法: battle <enemyTeamId>', '#ffb020')
           return
         }
-        setStatus(`battle team ${team} …`, '#8fd0ff')
+        setStatus(`battle ${enemyTeamId} …`, '#8fd0ff')
         void ctx
-          .startBattleDev({ team }, new AbortController().signal)
+          .startBattleDev({ enemyTeamId }, new AbortController().signal)
           .then((r) => setStatus(`battle done: ${r}`, '#3ddc84'))
           .catch((e: unknown) => setStatus(`battle: ${String(e).slice(0, 80)}`, '#ff5f56'))
         return
@@ -1111,11 +1111,6 @@ function parseDebugPosition(
   if (col === undefined || row === undefined || !Number.isFinite(col) || !Number.isFinite(row))
     return undefined
   return { col, row, height: 0 }
-}
-
-function teamNumber(id: string): number {
-  const m = /(\d+)$/.exec(id)
-  return m ? Number(m[1]) : 0
 }
 
 function parseInventoryPreset(raw: string): { itemId: string; count: number }[] {

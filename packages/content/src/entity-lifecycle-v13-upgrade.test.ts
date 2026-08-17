@@ -8,7 +8,7 @@ import {
 describe('content12 → content13 lifecycle upgrade', () => {
   test('maps absent respawn to authored remove/remain and exact seconds to ticks', () => {
     expect(upgradeHostileBehaviorV12ToV13({ team: 1 })).toMatchObject({
-      team: 1,
+      enemyTeamId: 'team-1',
       onVictory: { kind: 'remove' },
       onPlayerFlee: { kind: 'remain' },
     })

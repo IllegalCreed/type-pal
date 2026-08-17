@@ -24,10 +24,14 @@ describe('PAL boss encounter 纯 overlay', () => {
         id: 'test',
         scripts: {
           root: [
-            { kind: 'startBattle', team: 7 },
-            { kind: 'startBattle', team: 19 },
-            { kind: 'startBattle', team: 20 },
-            { kind: 'startBattle', team: 7, choreography: choreography('preexisting') },
+            { kind: 'startBattle', enemyTeamId: 'team-7' },
+            { kind: 'startBattle', enemyTeamId: 'team-19' },
+            { kind: 'startBattle', enemyTeamId: 'team-20' },
+            {
+              kind: 'startBattle',
+              enemyTeamId: 'team-7',
+              choreography: choreography('preexisting'),
+            },
           ],
         },
       },
@@ -38,9 +42,15 @@ describe('PAL boss encounter 纯 overlay', () => {
       (command) => command.kind === 'startBattle',
     )
     expect(result.attached).toBe(2)
-    expect(battles[0]).toMatchObject({ team: 7, choreography: choreography('lead') })
-    expect(battles[1]).toMatchObject({ team: 19, choreography: choreography('explicit') })
-    expect(battles[2]).toEqual({ kind: 'startBattle', team: 20 })
+    expect(battles[0]).toMatchObject({
+      enemyTeamId: 'team-7',
+      choreography: choreography('lead'),
+    })
+    expect(battles[1]).toMatchObject({
+      enemyTeamId: 'team-19',
+      choreography: choreography('explicit'),
+    })
+    expect(battles[2]).toEqual({ kind: 'startBattle', enemyTeamId: 'team-20' })
     expect(battles[3]).toMatchObject({ choreography: choreography('preexisting') })
     expect(result.clearedEnemies).toEqual(['enemy-435', 'enemy-485'])
     expect(result.enemies.find((enemy) => enemy.id === 'enemy-999')?.choreography).toBeDefined()

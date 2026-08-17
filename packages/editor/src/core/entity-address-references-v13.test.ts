@@ -18,7 +18,7 @@ function currentState(): EditorState {
     manifest: {
       id: 'current-editor-test',
       name: 'Current editor test',
-      contentVersion: 14,
+      contentVersion: 15,
       entryScene: 's',
       content: {
         scenes: 'content/scenes/',
@@ -69,7 +69,7 @@ function currentState(): EditorState {
             pos: { col: 2, row: 2, height: 0 },
             sprite: 'ghost',
             hostile: {
-              team: 1,
+              enemyTeamId: 'team-1',
               onVictory: { kind: 'remove' },
               onPlayerFlee: { kind: 'remain' },
             },
@@ -161,7 +161,7 @@ describe('current entity address editor closure', () => {
     const session = new EditSession(currentState())
     const command = new UpdateEntityCommand('s', 'b', {
       hostile: {
-        team: 1,
+        enemyTeamId: 'team-1',
         onVictory: { kind: 'hide', ticks: 800 },
         onPlayerFlee: { kind: 'suspend', ticks: 15 },
       } as never,

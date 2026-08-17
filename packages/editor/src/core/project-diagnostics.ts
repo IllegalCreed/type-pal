@@ -12,6 +12,7 @@ import {
   type LoadedManifest,
   type ManifestV13,
   type ManifestV14,
+  type ManifestV15,
   type SceneDef,
   validateDialogueIdentityReferencesV14,
   validateEnemiesV14,
@@ -54,7 +55,12 @@ export type ProjectIssueCode =
   | 'invalid-item-data'
   | 'migration-pending'
 
-export type ManifestLike = LoadedManifest | LegacyManifestV12 | ManifestV13 | ManifestV14
+export type ManifestLike =
+  | LoadedManifest
+  | LegacyManifestV12
+  | ManifestV13
+  | ManifestV14
+  | ManifestV15
 
 export interface ProjectIssue {
   severity: ProjectIssueSeverity
@@ -287,7 +293,7 @@ export function collectProjectIssues(state: EditorState): ProjectIssue[] {
   const issues = validateManifestEntryPoints(state.manifest, state.scenes)
   let catalogValid = true
   try {
-    if (state.manifest.contentVersion === 14) validateItemsV14(state.items)
+    if (state.manifest.contentVersion === 15) validateItemsV14(state.items)
     else validateItems(state.items)
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error)
@@ -547,7 +553,7 @@ export function collectEditorStatusIssues(
     ? collectScriptV5ReferenceIssues(canonicalV5)
     : []
   const entityAddressIssues: EditorStatusIssue[] =
-    state.manifest.contentVersion === 14
+    state.manifest.contentVersion === 15
       ? collectMissingEntityAddressReferencesV13(state).map((reference) => ({
           severity: 'error',
           message:
@@ -600,7 +606,7 @@ export function assertProjectSaveValid(state: EditorState): void {
       )
     }
   }
-  if (state.manifest.contentVersion === 14) {
+  if (state.manifest.contentVersion === 15) {
     try {
       validateScenesV14(state.scenes)
       validateItemsV14(state.items)
@@ -616,7 +622,7 @@ export function assertProjectSaveValid(state: EditorState): void {
       })
     } catch (error) {
       throw new Error(
-        `保存前 content14 对话身份校验失败：${error instanceof Error ? error.message : String(error)}`,
+        `保存前 content15 对话身份校验失败：${error instanceof Error ? error.message : String(error)}`,
       )
     }
     const missingEntityAddress = collectMissingEntityAddressReferencesV13(state)[0]
@@ -633,7 +639,7 @@ export function assertProjectSaveValid(state: EditorState): void {
   }
 
   try {
-    if (state.manifest.contentVersion === 14) validateItemsV14(state.items)
+    if (state.manifest.contentVersion === 15) validateItemsV14(state.items)
     else validateItems(state.items)
   } catch (error) {
     throw new Error(

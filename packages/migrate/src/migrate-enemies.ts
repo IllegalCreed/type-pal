@@ -224,7 +224,7 @@ export interface SourceEnemyTeam {
   _names?: string[]
 }
 
-/** 敌队稳定 id(team-<原版队号>;startBattle{team:n} → `team-${n}` 查表)。 */
+/** 敌队稳定 id(team-<原版队号>),与 startBattle.enemyTeamId 直接 join。 */
 export function teamSlug(id: number): string {
   return `team-${id}`
 }

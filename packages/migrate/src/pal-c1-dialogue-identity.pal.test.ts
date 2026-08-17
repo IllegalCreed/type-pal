@@ -71,13 +71,18 @@ let seal: C1DialogueIdentityTransitionSealV1
 beforeAll(() => {
   const loaded = loadPalBaseline(repo)
   if (!loaded) throw new Error('C1 PAL test 缺 published baseline')
-  const manifestRawText = readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8')
-  manifest = JSON.parse(manifestRawText) as ManifestV14
+  const currentManifestRawText = readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8')
+  const currentManifest = JSON.parse(currentManifestRawText) as ManifestV14
   published = rewindCurrentC1PublicationToDialogueParent({
     source: loaded,
-    manifest,
-    manifestRawText,
+    manifest: currentManifest,
+    manifestRawText: currentManifestRawText,
   })
+  manifest = { ...currentManifest, contentVersion: 14 }
+  const manifestRawText = currentManifestRawText.replace(
+    /(\"contentVersion\"\s*:\s*)15/,
+    (_match, prefix: string) => `${prefix}14`,
+  )
   const rawSeal = published.files.get(C1_DIALOGUE_IDENTITY_SEAL_PATH)
   if (!rawSeal) throw new Error('C1 PAL test 缺 transition seal')
   seal = rawSeal as unknown as C1DialogueIdentityTransitionSealV1
@@ -85,8 +90,8 @@ beforeAll(() => {
   project = rewindCurrentC1ProjectToDialogueParent({
     project: loadProjectMigrationSnapshot(repo, managed),
     publishedBaseline: loaded,
-    manifest,
-    manifestRawText,
+    manifest: currentManifest,
+    manifestRawText: currentManifestRawText,
   })
 })
 

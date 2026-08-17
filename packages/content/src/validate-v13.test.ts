@@ -36,7 +36,7 @@ describe('canonical content13 scene validation', () => {
             {
               ...scene().entities[0],
               hostile: {
-                team: 1,
+                enemyTeamId: 'team-1',
                 onVictory: { kind: 'hide', ticks: 800 },
                 onPlayerFlee: { kind: 'suspend', ticks: 15 },
               },
@@ -55,7 +55,7 @@ describe('canonical content13 scene validation', () => {
             {
               ...scene().entities[0],
               hostile: {
-                team: 1,
+                enemyTeamId: 'team-1',
                 respawnSeconds: 80,
                 onVictory: { kind: 'remove' },
                 onPlayerFlee: { kind: 'remain' },

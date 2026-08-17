@@ -308,7 +308,7 @@ describe('canonical script v5 editor commands', () => {
   test('tracks and rewrites references inside an entity battle-loss script', () => {
     const state = editorState()
     state.scenes[0]!.entities[0]!.hostile = {
-      team: 1,
+      enemyTeamId: 'team-1',
       onLose: [selectionCommand('talk')],
     }
     const references = behaviorReferencesV5(state, target, 'trigger', 'talk')
@@ -343,7 +343,7 @@ describe('canonical script v5 editor commands', () => {
   test('edits the canonical battle-loss script through one undoable command', () => {
     const state = editorState()
     state.scenes[0]!.entities[0]!.hostile = {
-      team: 1,
+      enemyTeamId: 'team-1',
       onLose: [selectionCommand('talk')],
     }
     const session = new ScriptV5EditSession(state)

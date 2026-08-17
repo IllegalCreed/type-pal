@@ -34,7 +34,7 @@ import {
   type AssetBase,
   buildBlankProjectMap,
   idleFrameIndex,
-  type LoadedProjectV14,
+  type LoadedProjectV15,
   type ProjectMap,
   type TilesetDef,
 } from '@type-pal/reforge'
@@ -49,6 +49,9 @@ import {
   useState,
   useSyncExternalStore,
 } from 'react'
+import type { ActorReference } from '../core/actor-references.js'
+import type { BattleDataReference } from '../core/battle-data-references.js'
+import type { BlockingBattleFieldReference } from '../core/battle-field-references.js'
 import {
   AddEntityCommand,
   AddSceneCommand,
@@ -67,11 +70,9 @@ import {
   UpsertSceneEntryCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
-import type { ActorReference } from '../core/actor-references.js'
-import type { BlockingBattleFieldReference } from '../core/battle-field-references.js'
-import type { BattleDataReference } from '../core/battle-data-references.js'
 import { createEditorAssetReader, type EditorAssetReader } from '../core/editor-asset-reader.js'
 import { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
+import type { BlockingEnemyTeamReference } from '../core/enemy-team-references.js'
 import {
   createPlacedEntity,
   DEFAULT_ZONE_RANGE,
@@ -106,6 +107,14 @@ import {
 import type { StampSelectionSource } from '../core/stamp-template.js'
 import type { SpriteAutomaticScriptInstanceSite } from '../core/world-sprite-behavior.js'
 import { ActorMode } from './ActorMode.js'
+import { createEditorAppCommandRegistry, requireEditorAppCommand } from './app-command-registry.js'
+import {
+  closeSceneScriptPanelState,
+  createEditorLayoutCommands,
+  type EditorLayoutCommandHandlers,
+  executeEditorLayoutShortcut,
+  toggleSceneScriptPanelState,
+} from './app-layout-commands.js'
 import { BattleFieldPicker } from './BattleFieldPicker.js'
 import { CanonicalSceneScriptWorkspaceV5 } from './CanonicalSceneScriptWorkspaceV5.js'
 import {
@@ -113,30 +122,6 @@ import {
   type CanonicalScriptEditorContextV5,
 } from './CanonicalScriptEditorV5.js'
 import { DataMode } from './DataMode.js'
-import { EntityPageAnimationEditor } from './EntityPageAnimationEditor.js'
-import {
-  decodeEditorLocation,
-  defaultEditorLocation,
-  EDITOR_MODULES,
-  type EditorLocation,
-  type EditorModuleId,
-  editorLinks,
-  editorLocationHref,
-  editorModule,
-  editorSubpage,
-  normalizeEditorLocation,
-  sameEditorLocation,
-} from './editor-navigation.js'
-import { editorObjectTargetMissing } from './editor-target.js'
-import { EditorAppHeader } from './EditorAppHeader.js'
-import {
-  closeSceneScriptPanelState,
-  createEditorLayoutCommands,
-  executeEditorLayoutShortcut,
-  type EditorLayoutCommandHandlers,
-  toggleSceneScriptPanelState,
-} from './app-layout-commands.js'
-import { createEditorAppCommandRegistry, requireEditorAppCommand } from './app-command-registry.js'
 import type { DsMenuDefinition } from './design-system/index.js'
 import {
   DsButton,
@@ -152,8 +137,24 @@ import {
   DsReferenceRow,
   DsSelect,
 } from './design-system/index.js'
-import { MapMode } from './MapMode.js'
+import { EditorAppHeader } from './EditorAppHeader.js'
+import { EntityPageAnimationEditor } from './EntityPageAnimationEditor.js'
+import {
+  decodeEditorLocation,
+  defaultEditorLocation,
+  EDITOR_MODULES,
+  type EditorLocation,
+  type EditorModuleId,
+  editorLinks,
+  editorLocationHref,
+  editorModule,
+  editorSubpage,
+  normalizeEditorLocation,
+  sameEditorLocation,
+} from './editor-navigation.js'
+import { editorObjectTargetMissing } from './editor-target.js'
 import { LifecycleCommandPanelV13 } from './LifecycleCommandPanelV13.js'
+import { MapMode } from './MapMode.js'
 import { MusicPicker } from './MusicPicker.js'
 import {
   PanelResizeHandle,
@@ -250,7 +251,7 @@ function scrollKey(location: EditorLocation): string {
 
 export function App(props: {
   session: EditSession
-  project: LoadedProjectV14
+  project: LoadedProjectV15
   scriptV5?: {
     session: ScriptV5EditSession
   }
@@ -968,6 +969,22 @@ export function App(props: {
     )
     setInspectorCollapsed(false)
   }
+  const openEnemyTeamReference = (reference: BlockingEnemyTeamReference): void => {
+    const locator = reference.locator
+    if (!locator) {
+      setWorkspaceNotice({ kind: 'info', message: reference.label })
+      return
+    }
+    if (locator.kind === 'canonical-script') {
+      openCanonicalReference(locator.reference)
+      return
+    }
+    setPlaceSceneId(locator.sceneId)
+    applyEditorLocation(editorLinks.scene(locator.sceneId))
+    setPlacingEntity(false)
+    setSelected({ kind: 'entity', id: locator.entityId })
+    setInspectorCollapsed(false)
+  }
   const statusIssues = useMemo(
     () => collectEditorStatusIssues(state, scriptV5State),
     [scriptV5State, state],
@@ -991,6 +1008,7 @@ export function App(props: {
       actors: actorsById,
       battleSprites: state.battleSprites,
       battleFields: state.battleFields ?? [],
+      enemyTeams: state.enemyTeams ?? [],
       sprites: state.sprites,
       ambiences: state.ambiences ?? [],
       shops: state.shops ?? [],
@@ -1030,6 +1048,7 @@ export function App(props: {
     state.assetCatalog,
     state.battleSprites,
     state.battleFields,
+    state.enemyTeams,
     state.items,
     state.locale,
     state.mapIndex,
@@ -1906,6 +1925,9 @@ export function App(props: {
             onOpenBattleSprite={(id) => applyEditorLocation(editorLinks.battleSprite(id))}
             onOpenBattleField={(id) => applyEditorLocation(editorLinks.battleField(id))}
             onOpenBattleFieldReference={openBattleFieldReference}
+            onOpenEnemyTeamReference={openEnemyTeamReference}
+            onOpenEnemy={(id) => applyEditorLocation(editorLinks.enemy(id))}
+            onOpenEnemyTeam={(id) => applyEditorLocation(editorLinks.enemyTeam(id))}
             onOpenBattleDataReference={openBattleDataReference}
             onOpenScript={openScriptReference}
             onOpenItemReference={openItemReference}
@@ -2634,12 +2656,6 @@ function MissingEditorTarget(props: {
   )
 }
 
-/** 敌队 id 约定 `team-<N>` → N(引擎 enemyTeamsById[`team-${team}`] 查询键);不合约定返回 undefined。 */
-function parseTeamNum(id: string | undefined): number | undefined {
-  const m = id?.match(/^team-(\d+)$/)
-  return m ? Number(m[1]) : undefined
-}
-
 const KIND_ICON: Record<string, string> = { directional: '🚶', static: '🪑', loop: '🔥' }
 
 /** 放置 palette:表现形态与外观来源分开，四种模式都落回现有 EntityRef。 */
@@ -3206,7 +3222,7 @@ function EntityInspector(props: {
               dispatchHostile(
                 event.currentTarget.checked
                   ? {
-                      team: parseTeamNum(enemyTeams[0]?.id) ?? 1,
+                      enemyTeamId: enemyTeams[0]?.id ?? 'missing-enemy-team',
                       onVictory: { kind: 'remove' },
                       onPlayerFlee: { kind: 'remain' },
                     }
@@ -3221,23 +3237,19 @@ function EntityInspector(props: {
               <span className="field-label">敌队</span>
               <select
                 className="in"
-                value={String(entity.hostile.team)}
-                onChange={(e) => setHostile({ team: Number(e.target.value) })}
+                value={entity.hostile.enemyTeamId}
+                onChange={(e) => setHostile({ enemyTeamId: e.target.value })}
               >
-                {/* 约定 id=team-<N>,引擎按 N 查 enemyTeamsById[`team-${N}`];当前值兜底防悬空 */}
-                {!enemyTeams.some((t) => parseTeamNum(t.id) === entity.hostile!.team) && (
-                  <option value={String(entity.hostile.team)}>
-                    team-{entity.hostile.team} (缺数据)
+                {!enemyTeams.some((team) => team.id === entity.hostile!.enemyTeamId) && (
+                  <option value={entity.hostile.enemyTeamId}>
+                    {entity.hostile.enemyTeamId} (缺数据)
                   </option>
                 )}
-                {enemyTeams
-                  .map((t) => ({ t, n: parseTeamNum(t.id) }))
-                  .filter((x): x is { t: EnemyTeamDef; n: number } => x.n !== undefined)
-                  .map(({ t, n }) => (
-                    <option key={t.id} value={String(n)}>
-                      {t.id}({t.slots.length} 槽)
-                    </option>
-                  ))}
+                {enemyTeams.map((team) => (
+                  <option key={team.id} value={team.id}>
+                    {team.id}({team.slots.length} 槽)
+                  </option>
+                ))}
               </select>
             </div>
             <div className="field">

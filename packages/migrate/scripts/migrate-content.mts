@@ -4,7 +4,7 @@
  */
 
 import { spawn } from 'node:child_process'
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { isDeepStrictEqual } from 'node:util'
@@ -2166,11 +2166,57 @@ async function main(): Promise<void> {
       contentVersion !== 11 &&
       contentVersion !== 12 &&
       contentVersion !== 13 &&
-      contentVersion !== 14)
+      contentVersion !== 14 &&
+      contentVersion !== 15)
   )
     throw new Error(
-      `PAL migrate:content 只接受 contentVersion 4/5/6/7/8/9/10/11/12/13/14，收到 ${JSON.stringify(contentVersion)}`,
+      `PAL migrate:content 只接受 contentVersion 4..15，收到 ${JSON.stringify(contentVersion)}`,
     )
+  if (contentVersion === 15) {
+    if (flags.size > 0 && !(flags.size === 1 && flags.has('--write')))
+      throw new Error('current content15 replay 只接受默认参数或 --write')
+    const teams = JSON.parse(
+      readFileSync(resolve(repo, 'projects/pal/content/enemy-teams.json'), 'utf8'),
+    ) as Array<{ id: string }>
+    const teamIds = new Set(teams.map((team) => team.id))
+    const files = (root: string): string[] =>
+      readdirSync(root).flatMap((name) => {
+        const path = resolve(root, name)
+        return statSync(path).isDirectory() ? files(path) : path.endsWith('.json') ? [path] : []
+      })
+    let hostile = 0
+    let startBattle = 0
+    const referenced = new Set<string>()
+    const visit = (value: unknown): void => {
+      if (Array.isArray(value)) return value.forEach(visit)
+      if (!value || typeof value !== 'object') return
+      const record = value as Record<string, unknown>
+      if (record.kind === 'startBattle' && typeof record.enemyTeamId === 'string') {
+        startBattle++
+        referenced.add(record.enemyTeamId)
+      }
+      if (record.hostile && typeof record.hostile === 'object') {
+        const enemyTeamId = (record.hostile as Record<string, unknown>).enemyTeamId
+        if (typeof enemyTeamId === 'string') {
+          hostile++
+          referenced.add(enemyTeamId)
+        }
+      }
+      Object.values(record).forEach(visit)
+    }
+    files(resolve(repo, 'projects/pal/content')).forEach((path) =>
+      visit(JSON.parse(readFileSync(path, 'utf8')) as unknown),
+    )
+    const dangling = [...referenced].filter((id) => !teamIds.has(id))
+    if (teams.length !== 380 || hostile !== 828 || startBattle !== 174 || dangling.length)
+      throw new Error(
+        `content15 current replay census 不符: teams=${teams.length}, hostile=${hostile}, startBattle=${startBattle}, dangling=${dangling.length}`,
+      )
+    console.log(
+      `[current replay] content15 无写入: teams=380 hostile=828 startBattle=174 dangling=0`,
+    )
+    return
+  }
   const canonicalV5 =
     contentVersion === 5 ||
     contentVersion === 6 ||
