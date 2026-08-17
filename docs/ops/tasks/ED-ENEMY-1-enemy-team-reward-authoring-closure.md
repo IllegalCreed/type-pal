@@ -1,12 +1,12 @@
 # ED-ENEMY-1 - 敌人、敌队预制与结算/偷取编辑闭环
 
-Status: review
+Status: done
 Phase: phase2
-Capability: B1 / B7 / B9（需重验现有完成声明，不预先改变能力状态）
+Capability: B1 / B7 / B9（2026-08-17 重验通过并同步 capability-map）
 Coding Owner: Codex
 Reviewer: Kimi（架构/schema/运行时）+ GLM（数据覆盖/测试矩阵）
 Visual Verification Owner: Codex + User
-Blocked by: Kimi + GLM done 前独立审查签字
+Blocked by: none
 Branch: `codex/ed-enemy-1`
 
 ## 用户裁决与目标
@@ -446,9 +446,12 @@ global.h:270-295 / fight.c:753-754,5253-5284。只读审查,未改实现文件,�
   - 同感 Kimi 附记：validate-refs 缺 hostile/startBattle enemyTeamId 悬空 join 校验系 main 既有
     缺口（非本卡引入），编辑器 invalid 显示 + 删除阻断 + 运行时兜底已闭环该风险；建议登记为内容
     校验补强候选 debt。
-- User: pending functional acceptance
-- done 准入结论: **blocked——Codex + Kimi + GLM 三方 accept 齐（2026-08-17）；仅剩用户功能验收
-  （含代表场景试打）。**
+- User: **accept（2026-08-17）**。用户在三方 done 前审查签字齐后明确回复“验收通过”。
+- done 准入结论: **allowed——Codex + Kimi + GLM 三方 accept 与用户功能验收齐（2026-08-17）。**
+
+
+- 2026-08-17 User: 明确“验收通过”；ED-ENEMY-1 由 `review` 转 `done`。B1/B7/B9 重验结论同步
+  capability-map，进入 git 收口（合并 main、推送、删除已合并分支）。
 
 
 - 2026-08-17 Kimi: done 前架构/运行时审查完成并签 **accept（无返工项，附一条不阻塞附记）**。
@@ -484,6 +487,8 @@ global.h:270-295 / fight.c:753-754,5253-5284。只读审查,未改实现文件,�
   828+174+380 exact join 矩阵。Next: Kimi 架构签字 + §4 方案裁决。
 
 ## 下一位 Agent 提示词
+
+无下一位 Agent 提示词；三方 `accept` + 用户验收齐，等待/执行 git 收口。
 
 ### 给 Kimi（done 前架构/运行时审查——已完成）
 
