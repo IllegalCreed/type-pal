@@ -163,18 +163,61 @@ Branch: codex/ed-stamp-editor-1
       存在；风险只在抽取时把 session/dispatch 耦合带进 draft——由 SK1 钉住。
     详见下方「Kimi 独立反证审查」。
 - GLM:
-  - premise: pending
-  - design: pending
+  - premise: **verified（2026-08-17，本人一手读码，非代理）**。前提事实独立核实：
+    1. **缺口成立**：StampLibraryTab 登记面板只编辑名称/分类（:540-548 实读）；「用当前地图选区
+       更新」无 selectionSource 即禁用（:595-600 实读）——内容更新唯一路径依赖外部普通 cells 选区。
+    2. **cells-only 暴露属实**：MapMode :412-417 仅 `selection.kind === 'cells'` 时向组合库
+       onStampSelectionChange 传值，组内编辑状态不出地图。
+    3. **反向转换强制 cells 输入**：`buildStampTemplateFromSelection`（stamp-template.ts:73-76）
+       输入为 map + cells selection + anchor，无模板→草稿的正向转换入口——与 Kimi 第 3 点互证。
+    4. **schema 不变量实读**：`dRow/du` 同奇偶（stamp.ts:65-68）、collision 是显式成员数组、
+       视觉非空——与卡文已知坑逐条对应。
+    5. **命令层 fail-closed**：ReplaceStampTemplateCommand 携 takeOwnership（stamp-commands.ts:65-71）
+       ——接管语义在 command 层，draft 保存路径可复用。
+    6. **lattice 可逆对实存**：relativeLatticeOffset / resolveRelativeLatticeOffset
+       （map-transform.ts:86-100）互逆结构成立。
+    7. **五份相关测试文件全部在位**（stamp/stamp-template/stamp-commands/StampLibraryTab/
+       MapContentSelectionPreview）——测试矩阵有落点。
+  - design: **agree（2026-08-17，附必落钉 SE1-SE3，不阻塞准入）**。内存 draft + 纯转换 + 单笔
+    command + placement 非链接保持——与 schema/命令/变换三层现有边界相容，schema 零改动成立。
+    详见下方「GLM 独立数据覆盖审查」。
 - 独立反证审查（至少一位非 Coding Owner 必填）:
-  - 审查者: Kimi（2026-08-17，见下方「Kimi 独立反证审查」）
-  - 独立证据锚点: 本席本次会话直接打开核实的 file:line——StampLibraryTab.tsx:540-643 /
-    MapMode.tsx:412-417 / StampPlacementSelectionInspector.tsx:130-229 / stamp-template.ts:73-160 /
-    stamp-commands.ts:15-102 / stamp.ts:63-154 / map-transform.ts:82-127 / StampTemplateDialog.tsx:194-214,428-433。
-  - 可证伪观察: 见「Kimi 独立反证审查」末节。
+  - 审查者: Kimi（2026-08-17，SK1-SK2）+ GLM（2026-08-17，SE1-SE3，见下方）。**注意：Kimi 签字
+    三次引用的「Kimi 独立反证审查」节并未写入本卡（SE1）**——其证据锚点暂以签字块行内清单为准。
+  - 独立证据锚点: Kimi——签字块内联清单；GLM——见下方审查节。
+  - 可证伪观察: 见「GLM 独立数据覆盖审查」末节。
 - counter / 分歧处理: pending
 - 缺签豁免: N/A
-- build 准入结论: **blocked——Kimi 已签（SK1-SK2），待 GLM 签 premise verified / design agree；
-  不得修改实现文件。**
+- build 准入结论: **allowed（2026-08-17）——Codex + Kimi（SK1-SK2）+ GLM（SE1-SE3）三方签字齐。
+  前置：SE1 的 Kimi 审查节与 SK1/SK2 完整定义须先落卡（纯文档补录，落卡后无需 GLM 重审）。**
+
+#### GLM 独立数据覆盖审查（2026-08-17，数据不变量/测试矩阵；本人一手读码，非代理）
+
+**premise 七点核实**（见签字块）。**必落钉 SE1-SE3：**
+
+- **SE1（Kimi 审查节缺失——文档缺陷，落卡前置）**：Kimi 签字块三次引用「Kimi 独立反证审查」，
+  但该节不存在于卡内；**SK2 无任何定义**，SK1 仅有行内半句（"抽取时把 session/dispatch 耦合带进
+  draft——由 SK1 钉住"）。build 前 Codex 须补全该节（或由 Kimi 落其原始审查），SK1/SK2 完整定义
+  入卡；纯文档补录，落卡后 GLM 无需重审（同 ED-CATALOG-CONTROLS-1 RK-A 模式）。
+- **SE2（lattice 奇偶 + 字节稳定测试钉）**：draft 的 draftOrigin 平移不得破坏 dRow/du 奇偶
+  （结构上 u=2col+rowParity 保证，但保存路径必须有不变量断言）；round-trip 测试须含负 offset
+  多象限、anchor 在成员包围盒外部、**同一模板重复打开→保存两次的 no-op/字节稳定断言**
+  （Replace 重复内容 no-op 是命令层既有行为，须测试钉住而非口头假设）。
+- **SE3（placement 不变性四态矩阵）**：验收"已放置组值与 identity 不变"须展开为四态断言——
+  模板编辑中 / undo / redo / 保存重开——每态断言 session maps、MapIndex、save 输入零变化
+  （draft 隔离的机检形态）；取消与校验失败两态同表。
+
+**可证伪观察：**
+1. 若实现中发现 draft 需要写入 session maps 或 MapIndex 才能复用地图渲染（本人读码未见此需要，
+   纯 adapter + draft reducer 应可承载），即违反 SE3/卡文设计结论 2 → 停线重估复用边界。
+2. 若 canonicalize 确定性排序在某 fixture 上产生非稳定字节（如 key 顺序漂移），SE2 拦截。
+3. 若迁移预置接管在 draft 取消后留下 authored 标记（接管只在确认保存时生效），SE3 的取消态断言
+   拦截。
+
+Evidence: StampLibraryTab.tsx:540-548,595-600 / MapMode.tsx:412-417 / stamp-template.ts:73-76 /
+stamp.ts:65-68 / stamp-commands.ts:65-71 / map-transform.ts:86-100 / 五测试文件 ls 实存 /
+Kimi 签字块与「独立反证审查」引用缺节 grep 实证。只读审查，未改实现文件，未代签 Kimi，未标
+build/done。
 
 ### 进入 done 前:审查签字
 
@@ -277,6 +320,12 @@ Branch: codex/ed-stamp-editor-1
   自身的非破坏性 round-trip；完成前提矩阵、候选架构、风险和验收条件并签 premise/design。Evidence:
   `StampLibraryTab.tsx:258-278,540-611`、`MapMode.tsx:412-417`、
   `StampPlacementSelectionInspector.tsx:138-225,244-382`。Next: Kimi 独立架构/交互反证并签字；未签前不得实现。
+- 2026-08-17 GLM（数据不变量/测试矩阵）: 审查完成，签 **premise verified + design agree（附
+  SE1-SE3）**。七点前提一手核实（登记面板只编辑名称分类、cells-only 暴露、反向转换强制 cells、
+  奇偶不变量、takeOwnership 命令、lattice 互逆对、五测试文件在位）。**关键发现 SE1：Kimi 签字三次
+  引用的「Kimi 独立反证审查」节未写入卡内，SK2 无定义**——Codex 须先落节（纯文档补录）。SE2 钉
+  奇偶+字节稳定+重复保存 no-op 断言；SE3 钉 placement 不变性四态矩阵（含取消/校验失败态零写入
+  断言）。三签齐（SE1 落卡为 build 前置）。未改实现文件，未代签 Kimi，未标 build/done。
 
 ## 下一位 Agent 提示词
 
