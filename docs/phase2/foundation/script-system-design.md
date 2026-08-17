@@ -26,6 +26,8 @@
 - 真正跨处复用的脚本只存在于 `content/shared-scripts.json`，形状为
   `Record<ScriptId, SharedAuthorScriptV5>`。`callScript` 只保存稳定 `script` id 和可选
   `EntityAddress self`，不保存 chunk 提示。
+- 共享脚本库只编辑项目级正文、作者元数据与 `self` 调用契约，不伪造默认场景或调用实体。需要地图、实体和
+  播放语境的验证从真实场景调用点进入场景工作台；共享库本身不提供 owner-less 地图预览。
 - 只服务一件物品的复杂用途使用 `itemPrivateScript`，正文内联归该物品拥有；它不进入共享脚本库。
 
 ### 控制流

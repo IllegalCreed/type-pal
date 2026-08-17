@@ -42,7 +42,6 @@ import { ImageTab } from './ImageTab.js'
 import { ItemTab } from './ItemTab.js'
 import { MusicTab } from './MusicTab.js'
 import { PoisonTab } from './PoisonTab.js'
-import { SharedScriptTab } from './SharedScriptTab.js'
 import { ShopTab } from './ShopTab.js'
 import { SkillTab } from './SkillTab.js'
 import { SoundTab } from './SoundTab.js'
@@ -558,37 +557,10 @@ export function DataMode(props: {
       )
     }
     return (
-      <SharedScriptTab
-        tabBar={tabBar}
-        session={session}
-        scriptIndex={state.scriptIndex}
-        scriptChunks={state.scriptChunks}
-        scenes={scenes}
-        locale={locale}
-        sprites={sprites}
-        actors={actors}
-        battleSprites={battleSprites}
-        assetBase={assetBase}
-        assetCatalog={assetCatalog}
-        audioResolver={audioResolver}
-        assetReader={assetReader}
-        projectMaps={state.maps}
-        mapIndex={state.mapIndex}
-        tilesets={tilesets}
-        projectId={manifest.id}
-        focusScriptId={focusScriptId}
-        focusScriptRevision={focusScriptRevision}
-        focusCommandPath={focusScriptCommandPath}
-        onJumpToEvent={onJumpToEvent}
-        onSelectedScriptId={onObjectFocus}
-        onOpenSound={onOpenSound}
-        onOpenImage={onOpenImage}
-        onOpenBattleSprite={onOpenBattleSprite}
-        showMigrationInternals
-        onOpenSpriteAction={(spriteId, actionId) =>
-          onSpriteLocation?.('world', 'definition', spriteId, actionId)
-        }
-      />
+      <section className="canonical-script-load-error" role="alert">
+        <h2>无法加载可复用脚本</h2>
+        <p>当前工程没有建立 canonical Script V5 编辑会话。请重新打开工程后再试。</p>
+      </section>
     )
   }
 

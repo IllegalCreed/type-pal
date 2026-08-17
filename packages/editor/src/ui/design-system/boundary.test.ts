@@ -62,6 +62,7 @@ describe('editor design-system static boundary', () => {
     expect(primitives).toMatch(
       /\.ds-check-control\s*\{[\s\S]*?width:\s*18px;[\s\S]*?height:\s*18px;[\s\S]*?appearance:\s*none;/,
     )
+    expect(primitives).toMatch(/\.ds-dialog\s*\{[\s\S]*?margin:\s*auto;/)
     expect(formScope).toMatch(
       /input\[type="checkbox"\]:not\(\.ds-check-control\):not\(\[role="switch"\]\)\s*\{[\s\S]*?width:\s*18px;[\s\S]*?height:\s*18px;[\s\S]*?appearance:\s*none;/,
     )
@@ -129,7 +130,7 @@ describe('editor design-system static boundary', () => {
       (total, path) => total + (readFileSync(path, 'utf8').match(pattern)?.length ?? 0),
       0,
     )
-    expect(count, 'legacy native checkbox occurrences').toBe(23)
+    expect(count, 'legacy native checkbox occurrences').toBe(12)
   })
 
   test('does not grow raw form controls while shared primitives replace them', () => {
@@ -139,10 +140,10 @@ describe('editor design-system static boundary', () => {
         path.endsWith('.tsx') && !path.endsWith('.test.tsx') && !path.includes('/design-system/'),
     )
     const ceilings = {
-      input: 198,
-      select: 123,
-      textarea: 8,
-      label: 205,
+      input: 143,
+      select: 71,
+      textarea: 2,
+      label: 129,
     } as const
 
     for (const [tag, ceiling] of Object.entries(ceilings)) {
@@ -152,6 +153,21 @@ describe('editor design-system static boundary', () => {
         0,
       )
       expect(count, `raw <${tag}> occurrences`).toBe(ceiling)
+    }
+  })
+
+  test('keeps the canonical script workbench on design-system controls', () => {
+    const uiRoot = dirname(here)
+    for (const file of [
+      'CanonicalSharedScriptTabV5.tsx',
+      'CanonicalScriptEditorV5.tsx',
+      'CommandForm.tsx',
+    ]) {
+      const source = readFileSync(join(uiRoot, file), 'utf8')
+      expect(source, file).not.toMatch(/<(?:button|input|select|textarea)\b/)
+      expect(source, `${file} legacy control token`).not.toMatch(
+        /className\s*=\s*["'][^"']*(?:\bin\b|\bbtn\b|\bmini\b|mini-txt|pv-btn)[^"']*["']/,
+      )
     }
   })
 

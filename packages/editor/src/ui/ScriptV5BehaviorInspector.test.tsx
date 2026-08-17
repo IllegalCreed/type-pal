@@ -121,7 +121,7 @@ describe('ScriptV5BehaviorInspector', () => {
     expect(html).toContain('脚本方案')
     expect(html).toContain('初次交谈')
     expect(html).toContain('分次执行')
-    expect(html).toContain('＋ 新建步骤')
+    expect(html).toContain('新建步骤')
     expect(html).not.toContain('当前方案')
     expect(html).not.toContain('触发阶段')
     expect(html).not.toContain('阶段')
@@ -174,7 +174,7 @@ describe('ScriptV5BehaviorInspector', () => {
       label: '重新命名的交谈',
     })
 
-    await act(async () => button(host, '＋ 新建方案').click())
+    await act(async () => button(host, '新建方案').click())
     expect(host.textContent).not.toContain('所属入口')
     expect(host.querySelector('[aria-label="方案名称"]')).toBeNull()
     expect(host.textContent).not.toContain('方案使用位置')

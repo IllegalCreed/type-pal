@@ -37,13 +37,18 @@ async function openCombobox(ariaLabel: string): Promise<HTMLElement> {
 }
 
 async function changeNativeSelect(ariaLabel: string, value: string): Promise<void> {
-  const select = document.querySelector<HTMLSelectElement>(`select[aria-label="${ariaLabel}"]`)
+  const select = document.querySelector<HTMLButtonElement>(
+    `[role="combobox"][aria-label="${ariaLabel}"]`,
+  )
   expect(select, `select ${ariaLabel}`).not.toBeNull()
-  await act(async () => {
-    const setter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')!.set!
-    setter.call(select, value)
-    select!.dispatchEvent(new Event('change', { bubbles: true }))
-  })
+  await act(async () => select!.click())
+  const label =
+    value === 'gameOver' ? '游戏结束（默认）' : value === 'custom' ? '运行自定义脚本' : value
+  const option = [...document.querySelectorAll<HTMLElement>('[role="option"]')].find(
+    (candidate) => candidate.textContent === label,
+  )
+  expect(option, `option ${label}`).not.toBeNull()
+  await act(async () => option!.click())
 }
 
 describe('CanonicalScriptEditorV5 author presentation', () => {
@@ -146,7 +151,12 @@ describe('CanonicalScriptEditorV5 author presentation', () => {
     expect(host.querySelector('[role="dialog"]')).toBeNull()
 
     const row = host.querySelector<HTMLElement>('.cmd-row')!
-    await act(async () => row.click())
+    expect(row.getAttribute('role')).toBe('treeitem')
+    expect(row.tabIndex).toBe(0)
+    await act(async () =>
+      row.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true })),
+    )
+    expect(row.classList.contains('sel')).toBe(true)
     expect(host.querySelector('[role="dialog"]')).toBeNull()
     await act(async () =>
       row.dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true })),
@@ -597,7 +607,7 @@ describe('CanonicalScriptEditorV5 author presentation', () => {
 
     await act(async () =>
       [...host.querySelectorAll<HTMLButtonElement>('button')]
-        .find((candidate) => candidate.textContent?.includes('＋ 新建步骤'))!
+        .find((candidate) => candidate.textContent?.includes('新建步骤'))!
         .click(),
     )
     expect(host.querySelector('[role="dialog"]')?.getAttribute('aria-label')).toBe('新建执行步骤')

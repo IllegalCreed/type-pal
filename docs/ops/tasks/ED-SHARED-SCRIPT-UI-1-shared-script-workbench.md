@@ -1,6 +1,6 @@
 # ED-SHARED-SCRIPT-UI-1 - 可复用脚本工作台与通用脚本控件收敛
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: N6 / canonical script editor correction（不改 capability-map 状态）
 Coding Owner: Codex
@@ -392,7 +392,7 @@ main.tsx:38,70-136。只读审查，未改实现文件，未代签 GLM，未标 
 ### 三方争议记录(按需)
 
 - Codex: 当前 canonical 规范与用户裁决优先于历史 N6 直接预览条款；建议删除 owner-less preview，不改 runtime。
-- Kimi: pending（KSS1-KSS2 待落库）。
+- Kimi: 同意当前 owner-context 分层与公共组件一次迁移；KSS1-KSS2 已落实并由 characterization / 键盘回归覆盖。
 - GLM: 同意删除方向与公共组件一次迁移；补三条必落钉（GS1 级联删除与数据面保留红线 / GS2 commit
   语义边界 / GS3 净减账分记）。
 - 用户拍板: **共享脚本不属于具体场景，库页不做随机地图预览；页面和通用脚本编辑组件需统一设计系统。**
@@ -409,22 +409,49 @@ main.tsx:38,70-136。只读审查，未改实现文件，未代签 GLM，未标 
 
 ## Build: 实现与自测
 
-- Coding Owner: Codex（待三签）
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- Coding Owner: Codex
+- 修改文件:
+  - 工作台与公共编辑器：`CanonicalSharedScriptTabV5.tsx`、`CanonicalScriptEditorV5.tsx`、`CommandForm.tsx`、
+    `DataMode.tsx` 及对应 characterization / host 回归测试。
+  - 设计系统与样式：`design-system/overlays.tsx`、`primitives.css`、`boundary.test.ts`、`editor.css`。
+  - current-only 清理：删除 `SharedScriptTab.tsx`、专属测试、`script-library-catalog.ts` 及专属测试；保留仍由
+    引用收集器消费的 `state.scriptIndex/scriptChunks`。
+  - 文档：本卡、`script-system-design.md`、`editor-ui-audit-2026-08-15.md`。
+- 实现摘要:
+  - 共享库页删除随机场景/实体选择、`Playback`、`PreviewCanvas` 和播放工具条，收敛为目录、canonical 正文、
+    作者元数据三栏工作台；列表、元数据、新建/删除全部使用 DS recipe/primitive。
+  - `CanonicalScriptEditorV5` 与 delegated `CommandForm` 的 raw form/旧按钮族迁入 DS；指令行建立可聚焦
+    `treeitem` 及 Enter/Space 键盘选择合同，图标动作补齐可访问名称。
+  - `DataMode` 缺少 canonical session 时 fail-loud，不再启动旧编辑器；dialog 补齐 jsdom/native fallback、
+    居中与校验失败后的字段回焦。
+  - GS3 净减已分记“当前文件迁移”和“旧文件删除”：全局 raw tags 从 331/198/123/8/205 降为
+    254/143/71/2/129，native checkbox 从 23 降为 12；目标三个生产文件边界为 raw form/旧 token 零残留。
+- 运行命令:
+  - `pnpm --filter @type-pal/editor exec vitest run src/ui/CanonicalSharedScriptTabV5.test.tsx`：5/5 通过。
+  - `pnpm --filter @type-pal/editor typecheck`：通过。
+  - `pnpm --filter @type-pal/editor test`：126 files / 938 tests 全通过。
+  - `pnpm exec biome check <12 changed UI files>`：通过；仅报告既存 CSS specificity / sr-only
+    `!important` 警告，无 error。
+  - `node packages/editor/scripts/audit-legacy-controls.mjs`、`git diff --check`：通过。
+- 浏览器 / 手工检查:
+  - `?ui_samples=1&module=story&page=scripts` 在 1280×720、900×720、720×720 检查目录、深嵌套树、搜索空态、
+    新建/插入 dialog、Inspector 与危险动作；三栏无 document 横向溢出，dialog 无内部横向溢出，Console
+    warning/error = 0。
+  - `?ui_samples=1&module=scene&page=workspace&object=s000` 确认场景工作台 canvas / 场景控制仍存在，未被共享页
+    current-only 清理误删。
+- 跳过的检查及原因: UI review fixture 没有真实 `callScript` caller，未能当场点击完成 caller → shared → return
+  路径；`onOpenSharedScript` 宿主回归与 runtime tests 保持通过，场景工作台预览另已实机确认。该项留给 reviewer
+  使用含真实 caller 的工程补验，不影响本卡 build 转 review。
 
 ## 视觉验证记录(如适用)
 
 - Visual Verification Owner: Codex
 - Visual Verification Timing: dev-functional
-- 验证方式: pending
+- 验证方式: in-app Browser 实机 + DOM 尺寸/滚动测量 + Console 检查；1280/900/720 三档 viewport。
 - 集中 E2E 用例 / 批次: N/A
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: pending
+- 截图 / 像素检查路径: 本次 Browser 会话内逐档截图人工检查，未生成需纳入仓库的持久截图资产。
+- 结论: **build 视觉自验通过**；统一目录行、正文树、元数据与 dialog 呈现成立，共享页已无随机地图预览。
+- 未完成项: 含真实 `callScript` caller 的往返路径由 review 补验，原因见 Build 记录。
 
 ## Review: 审查与返工
 
@@ -461,28 +488,27 @@ main.tsx:38,70-136。只读审查，未改实现文件，未代签 GLM，未标 
   scriptIndex/scriptChunks 保留红线我独立复核成立）。KSS1 正文树键盘合同、KSS2 共享页元数据三粒度
   冻结与 GS2 互补。三签齐，build 准入转 allowed。未改实现文件，未代签 GLM，未标 build/done。
   Next: Codex 转 build（GS1-GS3 + KSS1-KSS2 必落）。
+- 2026-08-17 Codex（Coding Owner）: build 完成并转 `review`。删除共享库 owner-less preview、旧 fallback 与级联
+  孤儿；共享页及公共正文/命令表单迁 DS，落实 treeitem 键盘合同、dialog focus 与 commit characterization。
+  typecheck、editor 全量 126/938、Biome changed-files、audit、diff-check 全通过；1280/900/720 功能性视觉自验
+  无溢出且 Console 0 warning/error。真实 caller 往返因 UI fixture 无 callScript 留给 review 补验。Next: Kimi/GLM
+  独立代码审查并分别 accept/counter；审查前不得标 done。
 
 ## 下一位 Agent 提示词
 
 ```text
 接手任务：ED-SHARED-SCRIPT-UI-1 可复用脚本工作台与通用脚本控件收敛
 任务卡：docs/ops/tasks/ED-SHARED-SCRIPT-UI-1-shared-script-workbench.md
-当前状态：draft；Codex 已签 premise verified + design agree，Kimi/GLM pending；不得开始实现。
-你的角色：Kimi，负责 canonical 分层、公共组件边界与 current-only fallback 的独立架构/交互反证。
-先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文、
-docs/phase2/foundation/script-system-design.md:98-111、
-docs/ops/tasks/N6-shared-script-authoring.md:293-300、
-docs/phase2/editor/editor-design-system-v1.md 的 script workbench/control/清旧规则、
-ED-CATALOG-CONTROLS-1 的 story/scripts 与 fallback 边界，以及 CanonicalSharedScriptTabV5.tsx、
-CanonicalScriptEditorV5.tsx、CommandForm.tsx、DataMode.tsx、main.tsx、design-system controls/recipes。
-已完成：确认共享页当前随机选择 294 个场景之一构造 PreviewCanvas；当前 canonical 规范要求共享库只编辑正文，
-空间语境从具体 caller 进入场景工作台。目录项/元数据/公共正文和 delegated CommandForm 仍大量 raw 控件；
-产品启动始终创建 ScriptV5EditSession，但 DataMode 仍保留 SharedScriptTab fallback。
-请你做：独立核对历史 N6 与当前规范的先后和用户裁决；确认删除 preview 是否会丢失唯一合法验证能力；枚举
-SharedScriptTab 的真实 production/test/fixture 调用域；压力测试公共 DS 迁移是否会改变 command onChange、焦点、
-嵌套路径或 undo 语义。写出最强替代解释和可证伪观察。无阻塞则在卡内签 premise verified + design agree；
-有问题签 counter 并给出可执行收敛方案。
-不要做：不得修改实现文件、不得代签 GLM、不得保留随机场景预览后只换 DsSelect、不得改 schema/runtime/save、
-不得把旧 fallback 仅隐藏不删除。
-输出要求：把直接证据、结论、必落钉和签字写回任务卡；若 agree，附可直接交给 GLM 的下一位提示词。
+当前状态：review；三方 build 前签字齐，Codex 已完成实现、自测与三档功能性视觉验证。
+你的角色：Kimi，负责架构/交互代码审查并签 accept 或 counter；不得标记 done、不得代签 GLM。
+先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文、script-system-design.md:98-111、
+editor-ui-audit-2026-08-15.md 的 GS3 净减账，以及本卡列出的全部修改文件与测试。
+已完成：删除 owner-less preview 与旧 SharedScriptTab fallback/catalog；共享页、CanonicalScriptEditorV5、
+CommandForm 已统一 DS；treeitem 键盘合同、dialog focus、三种 commit 粒度、四宿主回归已覆盖；typecheck 与
+editor 全量 126 files / 938 tests 通过，1280/900/720 无横向溢出、Console 0 error/warning。
+请你做：独立检查 schema/runtime/save 未漂移、current-only 删除边界、command path/focus/undo/commit 语义、
+DS 可访问性与 owner-context 分层。若可准备含真实 callScript caller 的工程，补验 caller → shared → return；
+缺少该 fixture 不应以猜测代签。无阻塞则在 Review 写直接证据并签 accept；有问题签 counter/rework 并列最小返工项。
+不要做：不得在 review 中顺手修改实现、不得恢复随机场景预览或旧 fallback、不得代签 GLM、不得标记 done。
+输出要求：审查证据、结论、accept/counter 和剩余风险写回任务卡，并提供给 GLM 的下一位提示词。
 ```

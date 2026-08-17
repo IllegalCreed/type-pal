@@ -1,30 +1,14 @@
 // @vitest-environment jsdom
 
-import type { AssetCatalogV1, SceneDef, ScriptFlowV5 } from '@type-pal/content'
+import type { AssetCatalogV1, SceneDef } from '@type-pal/content'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { renderToStaticMarkup } from 'react-dom/server'
-import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test } from 'vitest'
 import { type ScriptEditorStateV5, ScriptV5EditSession } from '../core/script-v5-editor.js'
-import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import type { CanonicalScriptEditorContextV5 } from './CanonicalScriptEditorV5.js'
 import { CanonicalSharedScriptTabV5 } from './CanonicalSharedScriptTabV5.js'
-
-type PreviewProbeProps = {
-  stages: readonly unknown[]
-  canonicalFlow?: ScriptFlowV5
-  canonicalSharedScripts?: ScriptEditorStateV5['sharedScripts']
-  startPlayback?: (paused: boolean) => void
-}
-
-const previewRender = vi.hoisted(() => vi.fn())
-
-vi.mock('./PreviewCanvas.js', () => ({
-  PreviewCanvas: (props: PreviewProbeProps) => {
-    previewRender(props)
-    return <div data-testid="shared-preview" />
-  },
-}))
+import { setCatalogSearch } from './catalog-controls-test-utils.js'
 
 const state: ScriptEditorStateV5 = {
   scenes: [],
@@ -116,19 +100,21 @@ describe('CanonicalSharedScriptTabV5', () => {
       ),
     )
     const search = host.querySelector<HTMLInputElement>('input[aria-label="搜索可复用脚本"]')!
-    expect(host.querySelectorAll('.shared-list > button')).toHaveLength(2)
+    expect(host.querySelectorAll('.shared-list > .ds-catalog-row')).toHaveLength(2)
 
     await setCatalogSearch(search, '序章')
-    expect(host.querySelectorAll('.shared-list > button')).toHaveLength(1)
-    expect(host.querySelector('.shared-list > button.active')).toBeNull()
+    expect(host.querySelectorAll('.shared-list > .ds-catalog-row')).toHaveLength(1)
+    expect(host.querySelector('.shared-list > [data-selected="true"]')).toBeNull()
     expect(host.querySelector('.canonical-shared-script-main')?.textContent).toContain('读天书')
 
     await setCatalogSearch(search, '不存在')
-    expect(host.querySelectorAll('.shared-list > button')).toHaveLength(0)
+    expect(host.querySelectorAll('.shared-list > .ds-catalog-row')).toHaveLength(0)
     expect(host.textContent).toContain('没有匹配的可复用脚本')
     await setCatalogSearch(search, '')
-    expect(host.querySelectorAll('.shared-list > button')).toHaveLength(2)
-    expect(host.querySelector('.shared-list > button.active')?.textContent).toContain('读天书')
+    expect(host.querySelectorAll('.shared-list > .ds-catalog-row')).toHaveLength(2)
+    expect(host.querySelector('.shared-list > [data-selected="true"]')?.textContent).toContain(
+      '读天书',
+    )
   })
 
   test('opens creation from the list header and creates through a dedicated dialog', async () => {
@@ -193,56 +179,67 @@ describe('CanonicalSharedScriptTabV5', () => {
     expect(host.textContent).toContain('序章开场')
   })
 
-  test('previews a shared script through a canonical callScript wrapper', () => {
-    previewRender.mockClear()
-    const shell: SceneDef = {
-      id: 's001',
-      mapId: 'map-001',
-      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
-      entities: [],
-    }
-    const previewState: ScriptEditorStateV5 = {
-      ...state,
-      scenes: [
-        {
-          id: 's001',
-          mapId: 'map-001',
-          entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
-          entities: [],
-        },
-      ],
+  test('freezes metadata commit timing: name saves explicitly while description and self commit immediately', async () => {
+    const metadataState = structuredClone(state)
+    const session = new ScriptV5EditSession(metadataState)
+
+    function Harness() {
+      useSyncExternalStore(
+        (listener) => session.subscribe(listener),
+        () => session.getVersion(),
+      )
+      const editorState = session.getState()
+      return (
+        <CanonicalSharedScriptTabV5
+          tabBar={null}
+          state={editorState}
+          session={session}
+          context={{ ...context, state: editorState }}
+          {...projectProps}
+        />
+      )
     }
 
-    renderToStaticMarkup(
+    await act(async () => root.render(<Harness />))
+    const name = host.querySelector<HTMLInputElement>('.shared-meta .ds-control-group input')!
+    Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set?.call(name, '天书·改')
+    await act(async () => name.dispatchEvent(new Event('input', { bubbles: true })))
+    expect(session.getState().sharedScripts['shared/user/book']?.name).toBe('读天书')
+
+    const save = host.querySelector<HTMLButtonElement>('.shared-meta .ds-control-group button')!
+    await act(async () => save.click())
+    expect(session.getState().sharedScripts['shared/user/book']?.name).toBe('天书·改')
+
+    const description = host.querySelector<HTMLTextAreaElement>('.shared-meta textarea')!
+    Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')?.set?.call(
+      description,
+      '逐键提交说明',
+    )
+    await act(async () => description.dispatchEvent(new Event('input', { bubbles: true })))
+    expect(session.getState().sharedScripts['shared/user/book']?.description).toBe('逐键提交说明')
+
+    const self = host.querySelector<HTMLButtonElement>('[aria-label="self 契约"]')!
+    await act(async () => self.click())
+    const optional = [...document.body.querySelectorAll<HTMLElement>('[role="option"]')].find(
+      (option) => option.textContent?.includes('可选'),
+    )!
+    await act(async () => optional.click())
+    expect(session.getState().sharedScripts['shared/user/book']?.self).toBe('optional')
+  })
+
+  test('does not invent a scene owner or mount playback in the project-level library', () => {
+    const html = renderToStaticMarkup(
       <CanonicalSharedScriptTabV5
         tabBar={null}
-        state={previewState}
-        session={new ScriptV5EditSession(previewState)}
-        context={{
-          ...context,
-          state: previewState,
-          shellScenes: [shell],
-          assetBase: {} as never,
-          sprites: [],
-          actors: {},
-        }}
+        state={state}
+        session={new ScriptV5EditSession(state)}
+        context={context}
         {...projectProps}
       />,
     )
-
-    const preview = previewRender.mock.calls.at(-1)?.[0] as PreviewProbeProps
-    expect(preview.stages).toEqual([])
-    expect(preview.canonicalFlow).toEqual({
-      kind: 'stages',
-      initial: 'preview',
-      stages: [
-        {
-          id: 'preview',
-          body: [{ kind: 'callScript', script: 'shared/user/book' }],
-        },
-      ],
-    })
-    expect(preview.canonicalSharedScripts).toBe(previewState.sharedScripts)
-    expect(preview.startPlayback).toBeTypeOf('function')
+    expect(html).not.toContain('预览场景')
+    expect(html).not.toContain('调用实体')
+    expect(html).not.toContain('shared-preview')
+    expect(html).toContain('请从真实场景调用位置进入预览')
   })
 })

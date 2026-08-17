@@ -40,6 +40,14 @@ import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import { defaultActionTargetForEntity, sortedSpriteActions } from '../core/sprite-actions.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
+import {
+  DsButton,
+  DsCheckbox,
+  DsNumberInput,
+  DsSelect,
+  DsTextArea,
+  DsTextInput,
+} from './design-system/index.js'
 import { ImageAssetPicker } from './ImageAssetPicker.js'
 import { MusicPicker } from './MusicPicker.js'
 import { NamedIdPicker } from './NamedIdPicker.js'
@@ -84,9 +92,8 @@ function Row(props: { label: string; children: React.ReactNode }) {
 
 function Num(props: { value: number; onChange: (n: number) => void; step?: number }) {
   return (
-    <input
-      className="in cf-num"
-      type="number"
+    <DsNumberInput
+      size="compact"
       value={props.value}
       step={props.step ?? 1}
       onChange={(e) => props.onChange(Number(e.target.value))}
@@ -98,8 +105,8 @@ function Num(props: { value: number; onChange: (n: number) => void; step?: numbe
 
 function Txt(props: { value: string; onChange: (s: string) => void; placeholder?: string }) {
   return (
-    <input
-      className="in"
+    <DsTextInput
+      size="compact"
       value={props.value}
       placeholder={props.placeholder}
       onChange={(e) => props.onChange(e.target.value)}
@@ -115,33 +122,25 @@ function Sel<T extends string>(props: {
   onChange: (v: T) => void
 }) {
   return (
-    <select
-      className="in"
+    <DsSelect
+      size="compact"
       value={props.value}
-      onChange={(e) => props.onChange(e.target.value as T)}
-    >
-      {props.options.map((o, i) => (
-        <option key={o} value={o}>
-          {props.labels?.[i] ?? o}
-        </option>
-      ))}
-    </select>
+      options={props.options.map((value, index) => ({
+        value,
+        label: props.labels?.[index] ?? value,
+      }))}
+      onValueChange={(value) => props.onChange(value as T)}
+    />
   )
 }
 
 /** 实体 id 下拉(含空 = 手输)。 */
 function EntitySel(props: { value: string; scene: SceneDef; onChange: (id: string) => void }) {
+  const options = props.scene.entities.map((entity) => ({ value: entity.id, label: entity.id }))
+  if (!props.scene.entities.some((entity) => entity.id === props.value))
+    options.push({ value: props.value, label: `${props.value}(不在场)` })
   return (
-    <select className="in" value={props.value} onChange={(e) => props.onChange(e.target.value)}>
-      {props.scene.entities.map((e) => (
-        <option key={e.id} value={e.id}>
-          {e.id}
-        </option>
-      ))}
-      {props.scene.entities.some((e) => e.id === props.value) ? null : (
-        <option value={props.value}>{props.value}(不在场)</option>
-      )}
-    </select>
+    <DsSelect size="compact" value={props.value} options={options} onValueChange={props.onChange} />
   )
 }
 
@@ -156,16 +155,16 @@ function JsonForm(props: { cmd: Command; onChange: (c: Command) => void }) {
   }, [props.cmd])
   return (
     <div className="cf-json">
-      <textarea
-        className="in cf-ta"
+      <DsTextArea
+        size="compact"
+        monospace
         value={text}
         onChange={(e) => setText(e.target.value)}
         spellCheck={false}
       />
       {err ? <div className="cf-err">{err}</div> : null}
-      <button
-        type="button"
-        className="pv-btn"
+      <DsButton
+        size="compact"
         onClick={() => {
           try {
             const parsed = JSON.parse(text) as Command
@@ -183,7 +182,7 @@ function JsonForm(props: { cmd: Command; onChange: (c: Command) => void }) {
         }}
       >
         应用 JSON
-      </button>
+      </DsButton>
     </div>
   )
 }
@@ -296,38 +295,33 @@ export function CommandForm(props: {
               {identity.kind === 'actor' ? (
                 <>
                   <Row label="人物">
-                    <select
-                      className="in"
+                    <DsSelect
+                      size="compact"
                       value={identity.actor}
-                      onChange={(event) =>
+                      options={Object.values(actors ?? {}).map((actor) => ({
+                        value: actor.id,
+                        label: `${lookupText(actor.name, locale)} (${actor.id})`,
+                      }))}
+                      onValueChange={(actor) =>
                         setCue({
                           identity: {
                             kind: 'actor',
-                            actor: event.target.value,
+                            actor,
                             ...(identity.speakerOverride
                               ? { speakerOverride: identity.speakerOverride }
                               : {}),
                           },
                         })
                       }
-                    >
-                      {Object.values(actors ?? {}).map((actor) => (
-                        <option key={actor.id} value={actor.id}>
-                          {lookupText(actor.name, locale)} ({actor.id})
-                        </option>
-                      ))}
-                    </select>
+                    />
                   </Row>
                   <Row label="显示称谓">
                     <Txt
                       value={
-                        identity.speakerOverride
-                          ? lookupText(identity.speakerOverride, locale)
-                          : ''
+                        identity.speakerOverride ? lookupText(identity.speakerOverride, locale) : ''
                       }
                       onChange={(text) => {
-                        if (onDialogueSpeakerOverrideChange)
-                          onDialogueSpeakerOverrideChange(text)
+                        if (onDialogueSpeakerOverrideChange) onDialogueSpeakerOverrideChange(text)
                         else
                           setCue({
                             identity: {
@@ -372,28 +366,27 @@ export function CommandForm(props: {
           {cue.rows.map((row, index) => (
             <div className="cf-dialog-row" key={index}>
               <Row label={`第 ${index + 1} 行`}>
-                <textarea
-                  className="in cf-ta"
+                <DsTextArea
+                  size="compact"
                   value={lookupText(row.text, locale)}
                   onChange={(e) => setRow(index, { text: e.target.value })}
                   spellCheck={false}
                 />
               </Row>
               <div className="cf-dialog-row-actions">
-                <label className="cf-inline">
-                  <input
-                    type="checkbox"
-                    checked={row.speed !== undefined}
-                    onChange={(e) => setRow(index, { speed: e.target.checked ? 24 : undefined })}
-                  />
-                  自定速度
-                </label>
+                <DsCheckbox
+                  size="compact"
+                  label="自定速度"
+                  checked={row.speed !== undefined}
+                  onChange={(e) => setRow(index, { speed: e.target.checked ? 24 : undefined })}
+                />
                 {row.speed !== undefined ? (
                   <Num value={row.speed} onChange={(speed) => setRow(index, { speed })} step={8} />
                 ) : null}
-                <button
-                  type="button"
-                  className="pv-btn"
+                <DsButton
+                  size="compact"
+                  variant="quiet"
+                  icon="delete"
                   title="删除此行"
                   aria-label="删除此行"
                   disabled={cue.rows.length === 1}
@@ -401,19 +394,20 @@ export function CommandForm(props: {
                     setCue({ rows: cue.rows.filter((_, rowIndex) => rowIndex !== index) })
                   }
                 >
-                  ×
-                </button>
+                  删除
+                </DsButton>
               </div>
             </div>
           ))}
-          <button
-            type="button"
-            className="pv-btn"
+          <DsButton
+            size="compact"
+            variant="secondary"
+            icon="add"
             title="添加一行"
             onClick={() => setCue({ rows: [...cue.rows, { text: '(新一行)' }] })}
           >
-            ＋ 行
-          </button>
+            添加一行
+          </DsButton>
           <Row label="位置">
             <Sel
               value={cue.slot ?? 'bottom'}
@@ -423,14 +417,12 @@ export function CommandForm(props: {
             />
           </Row>
           <Row label="自动推进">
-            <label className="cf-inline">
-              <input
-                type="checkbox"
-                checked={cue.autoAdvance !== undefined}
-                onChange={(e) => setCue({ autoAdvance: e.target.checked ? 0 : undefined })}
-              />
-              启用
-            </label>
+            <DsCheckbox
+              size="compact"
+              label="启用"
+              checked={cue.autoAdvance !== undefined}
+              onChange={(e) => setCue({ autoAdvance: e.target.checked ? 0 : undefined })}
+            />
             {cue.autoAdvance !== undefined ? (
               <Num
                 value={cue.autoAdvance}
@@ -452,35 +444,41 @@ export function CommandForm(props: {
           </Row>
           {cueV14 && identity?.kind === 'actor' ? (
             <Row label="人物立绘">
-              <label className="cf-inline">
-                <input
-                  type="checkbox"
-                  checked={identity.portrait !== undefined}
-                  disabled={!actors?.[identity.actor]?.portraits?.default}
-                  onChange={(event) =>
-                    setCue({
-                      identity: {
-                        ...identity,
-                        portrait: event.target.checked
-                          ? { kind: 'default', side: 'right' as const }
-                          : undefined,
-                      },
-                    })
-                  }
-                />
-                启用
-              </label>
+              <DsCheckbox
+                size="compact"
+                label="启用"
+                checked={identity.portrait !== undefined}
+                disabled={!actors?.[identity.actor]?.portraits?.default}
+                onChange={(event) =>
+                  setCue({
+                    identity: {
+                      ...identity,
+                      portrait: event.target.checked
+                        ? { kind: 'default', side: 'right' as const }
+                        : undefined,
+                    },
+                  })
+                }
+              />
               {identity.portrait ? (
                 <>
-                  <select
-                    className="in"
+                  <DsSelect
+                    size="compact"
                     value={
                       identity.portrait.kind === 'default'
                         ? 'default'
                         : `expression:${identity.portrait.expression}`
                     }
-                    onChange={(event) => {
-                      const value = event.target.value
+                    options={[
+                      { value: 'default', label: '主立绘' },
+                      ...Object.keys(actors?.[identity.actor]?.portraits?.expressions ?? {}).map(
+                        (expression) => ({
+                          value: `expression:${expression}`,
+                          label: expression,
+                        }),
+                      ),
+                    ]}
+                    onValueChange={(value) => {
                       setCue({
                         identity: {
                           ...identity,
@@ -495,22 +493,15 @@ export function CommandForm(props: {
                         },
                       })
                     }}
-                  >
-                    <option value="default">主立绘</option>
-                    {Object.keys(actors?.[identity.actor]?.portraits?.expressions ?? {}).map(
-                      (expression) => (
-                        <option key={expression} value={`expression:${expression}`}>
-                          {expression}
-                        </option>
-                      ),
-                    )}
-                  </select>
+                  />
                   <Sel
                     value={identity.portrait.side}
                     options={['left', 'right'] as const}
                     labels={['左', '右']}
                     onChange={(side) =>
-                      setCue({ identity: { ...identity, portrait: { ...identity.portrait!, side } } })
+                      setCue({
+                        identity: { ...identity, portrait: { ...identity.portrait!, side } },
+                      })
                     }
                   />
                 </>
@@ -518,43 +509,43 @@ export function CommandForm(props: {
             </Row>
           ) : cueV14 && identity?.kind === 'narration' ? null : (
             <Row label="立绘">
-              <label className="cf-inline">
-                <input
-                  type="checkbox"
-                  checked={
-                    cueV14
-                      ? identity?.kind === 'unbound' && !!identity.portrait
-                      : cueLegacy?.portrait !== undefined
-                  }
-                  disabled={
-                    cueV14
-                      ? identity?.kind !== 'unbound' || (!identity.portrait && !firstPortrait)
-                      : !cueLegacy?.portrait && !firstPortrait
-                  }
-                  onChange={(event) => {
-                    if (cueV14 && identity?.kind === 'unbound')
-                      setCue({
-                        identity: {
-                          ...identity,
-                          portrait:
-                            event.target.checked && firstPortrait
-                              ? { asset: firstPortrait, side: 'right' as const }
-                              : undefined,
-                        },
-                      })
-                    else
-                      setCue({
+              <DsCheckbox
+                size="compact"
+                label="启用"
+                checked={
+                  cueV14
+                    ? identity?.kind === 'unbound' && !!identity.portrait
+                    : cueLegacy?.portrait !== undefined
+                }
+                disabled={
+                  cueV14
+                    ? identity?.kind !== 'unbound' || (!identity.portrait && !firstPortrait)
+                    : !cueLegacy?.portrait && !firstPortrait
+                }
+                onChange={(event) => {
+                  if (cueV14 && identity?.kind === 'unbound')
+                    setCue({
+                      identity: {
+                        ...identity,
                         portrait:
                           event.target.checked && firstPortrait
                             ? { asset: firstPortrait, side: 'right' as const }
                             : undefined,
-                      })
-                  }}
-                />
-                启用
-              </label>
+                      },
+                    })
+                  else
+                    setCue({
+                      portrait:
+                        event.target.checked && firstPortrait
+                          ? { asset: firstPortrait, side: 'right' as const }
+                          : undefined,
+                    })
+                }}
+              />
               {(
-                cueV14 && identity?.kind === 'unbound' ? identity.portrait : cueLegacy?.portrait
+                cueV14 && identity?.kind === 'unbound'
+                  ? identity.portrait
+                  : cueLegacy?.portrait
               ) ? (
                 <>
                   <ImageAssetPicker
@@ -595,7 +586,10 @@ export function CommandForm(props: {
                         setCue({
                           identity: {
                             ...identity,
-                            portrait: { asset: identity.portrait?.asset ?? firstPortrait ?? '', side },
+                            portrait: {
+                              asset: identity.portrait?.asset ?? firstPortrait ?? '',
+                              side,
+                            },
                           },
                         })
                       else
@@ -643,7 +637,7 @@ export function CommandForm(props: {
             <span className="hint2">保持黑屏，直到配对的恢复指令</span>
           </Row>
           <Row label="事务">
-            <input className="in mono" value={cmd.token} readOnly />
+            <DsTextInput size="compact" monospace value={cmd.token} readOnly />
           </Row>
         </>
       )
@@ -654,7 +648,7 @@ export function CommandForm(props: {
             <span className="hint2">恢复配对黑屏事务</span>
           </Row>
           <Row label="事务">
-            <input className="in mono" value={cmd.token} readOnly />
+            <DsTextInput size="compact" monospace value={cmd.token} readOnly />
           </Row>
         </>
       )
@@ -791,30 +785,36 @@ export function CommandForm(props: {
             <EntitySel value={cmd.entity} scene={scene} onChange={setEntityTarget} />
           </Row>
           <Row label="精灵">
-            <select className="in" value={cmd.sprite} onChange={(e) => setSprite(e.target.value)}>
-              {actionSprites.map((sprite) => (
-                <option key={sprite.id} value={sprite.id}>
-                  {sprite.label} · {sprite.id}
-                </option>
-              ))}
-              {actionSprites.some((sprite) => sprite.id === cmd.sprite) ? null : (
-                <option value={cmd.sprite}>{cmd.sprite}(缺失或没有动作)</option>
-              )}
-            </select>
+            <DsSelect
+              size="compact"
+              value={cmd.sprite}
+              options={[
+                ...actionSprites.map((sprite) => ({
+                  value: sprite.id,
+                  label: `${sprite.label} · ${sprite.id}`,
+                })),
+                ...(actionSprites.some((sprite) => sprite.id === cmd.sprite)
+                  ? []
+                  : [{ value: cmd.sprite, label: `${cmd.sprite}(缺失或没有动作)` }]),
+              ]}
+              onValueChange={setSprite}
+            />
           </Row>
           <Row label="动作">
-            <select
-              className="in"
+            <DsSelect
+              size="compact"
               value={cmd.action}
-              onChange={(e) => set({ action: e.target.value })}
-            >
-              {actions.map(({ id, action, index }) => (
-                <option key={id} value={id}>
-                  #{index} {action.label} · {id}
-                </option>
-              ))}
-              {selectedAction ? null : <option value={cmd.action}>{cmd.action}(动作不存在)</option>}
-            </select>
+              options={[
+                ...actions.map(({ id, action, index }) => ({
+                  value: id,
+                  label: `#${index} ${action.label} · ${id}`,
+                })),
+                ...(selectedAction
+                  ? []
+                  : [{ value: cmd.action, label: `${cmd.action}(动作不存在)` }]),
+              ]}
+              onValueChange={(action) => set({ action })}
+            />
           </Row>
           {mismatch ? (
             <p className="cf-warn">
@@ -841,24 +841,23 @@ export function CommandForm(props: {
               onChange={(value) => set({ startAtMs: value > 0 ? value : undefined })}
             />
           </Row>
-          <label className="cf-inline">
-            <input
-              type="checkbox"
-              checked={cmd.loop ? false : (cmd.wait ?? true)}
-              disabled={cmd.loop}
-              onChange={(event) => set({ wait: event.target.checked })}
-            />
-            单次动作播放完再继续脚本
-          </label>
+          <DsCheckbox
+            size="compact"
+            label="单次动作播放完再继续脚本"
+            checked={cmd.loop ? false : (cmd.wait ?? true)}
+            disabled={cmd.loop}
+            onChange={(event) => set({ wait: event.target.checked })}
+          />
           <p className="hint">循环动作在后台持续播放；停止或被更高优先级动作替换前不会结束。</p>
-          <button
-            type="button"
-            className="pv-btn"
+          <DsButton
+            size="compact"
+            variant="secondary"
+            icon="open"
             disabled={!onOpenSpriteAction || !selectedSprite}
             onClick={() => onOpenSpriteAction?.(cmd.sprite, cmd.action)}
           >
             {selectedAction ? '在精灵库编辑此动作 ↗' : '打开精灵并修复引用 ↗'}
-          </button>
+          </DsButton>
         </>
       )
     }
@@ -868,14 +867,12 @@ export function CommandForm(props: {
           <Row label="实体">
             <EntitySel value={cmd.entity} scene={scene} onChange={(id) => set({ entity: id })} />
           </Row>
-          <label className="cf-inline">
-            <input
-              type="checkbox"
-              checked={cmd.reset}
-              onChange={(event) => set({ reset: event.target.checked })}
-            />
-            停止后从头恢复当前页面的默认动作
-          </label>
+          <DsCheckbox
+            size="compact"
+            label="停止后从头恢复当前页面的默认动作"
+            checked={cmd.reset}
+            onChange={(event) => set({ reset: event.target.checked })}
+          />
         </>
       )
     case 'stepEntity':
@@ -980,29 +977,27 @@ export function CommandForm(props: {
                   inputName="script-world-sprite"
                   onChange={(spriteId) => set({ spriteId })}
                 />
-                <button
-                  type="button"
-                  className="mini-txt"
+                <DsButton
+                  size="compact"
+                  variant="quiet"
                   onClick={() => set({ spriteId: undefined })}
                 >
                   不修改
-                </button>
+                </DsButton>
               </span>
             ) : (
-              <select
-                className="in"
+              <DsSelect
+                size="compact"
                 value={cmd.spriteId ?? ''}
-                onChange={(event) =>
-                  set({ spriteId: event.target.value ? event.target.value : undefined })
-                }
-              >
-                <option value="">不修改</option>
-                {spriteChoices.map((sprite) => (
-                  <option key={sprite.id} value={sprite.id}>
-                    {sprite.name}（{sprite.id}）
-                  </option>
-                ))}
-              </select>
+                options={[
+                  { value: '', label: '不修改' },
+                  ...spriteChoices.map((sprite) => ({
+                    value: sprite.id,
+                    label: `${sprite.name}（${sprite.id}）`,
+                  })),
+                ]}
+                onValueChange={(spriteId) => set({ spriteId: spriteId || undefined })}
+              />
             )}
           </Row>
           <Row label="对话立绘">
@@ -1041,33 +1036,33 @@ export function CommandForm(props: {
       return (
         <>
           <Row label="目标场景">
-            <select
-              className="in"
+            <DsSelect
+              size="compact"
               value={cmd.scene}
-              onChange={(e) => onChange(retargetLoadScene(cmd, e.target.value))}
-            >
-              {!availableScenes.some((s) => s.id === cmd.scene) && (
-                <option value={cmd.scene}>{cmd.scene} (不在索引)</option>
-              )}
-              {availableScenes.map((s) => (
-                <option key={s.id} value={s.id}>
-                  {s.id}
-                </option>
-              ))}
-            </select>
+              options={[
+                ...(!availableScenes.some((s) => s.id === cmd.scene)
+                  ? [{ value: cmd.scene, label: `${cmd.scene} (不在索引)` }]
+                  : []),
+                ...availableScenes.map((sceneOption) => ({
+                  value: sceneOption.id,
+                  label: sceneOption.id,
+                })),
+              ]}
+              onValueChange={(sceneId) => onChange(retargetLoadScene(cmd, sceneId))}
+            />
           </Row>
           <Row label="落点">
             <fieldset className="cf-segment" aria-label="落点模式">
-              <button
-                type="button"
-                className={mode === 'default' ? 'active' : ''}
+              <DsButton
+                size="compact"
+                variant={mode === 'default' ? 'primary' : 'secondary'}
                 onClick={() => onChange(rebuild({ mode: 'default' }))}
               >
                 默认
-              </button>
-              <button
-                type="button"
-                className={mode === 'entry' ? 'active' : ''}
+              </DsButton>
+              <DsButton
+                size="compact"
+                variant={mode === 'entry' ? 'primary' : 'secondary'}
                 disabled={!entries.length}
                 onClick={() => {
                   const entryId =
@@ -1076,10 +1071,10 @@ export function CommandForm(props: {
                 }}
               >
                 命名
-              </button>
-              <button
-                type="button"
-                className={mode === 'pos' ? 'active' : ''}
+              </DsButton>
+              <DsButton
+                size="compact"
+                variant={mode === 'pos' ? 'primary' : 'secondary'}
                 onClick={() =>
                   onChange(
                     rebuild({
@@ -1090,26 +1085,25 @@ export function CommandForm(props: {
                 }
               >
                 临时坐标
-              </button>
+              </DsButton>
             </fieldset>
           </Row>
           {cmd.entryId && (
             <Row label="命名落点">
-              <select
-                className="in"
+              <DsSelect
+                size="compact"
                 value={cmd.entryId}
-                onChange={(e) => onChange(rebuild({ mode: 'entry', entryId: e.target.value }))}
-              >
-                {!target?.entries?.[cmd.entryId] && (
-                  <option value={cmd.entryId}>{cmd.entryId} (缺失)</option>
-                )}
-                {entries.map(([id, entry]) => (
-                  <option key={id} value={id}>
-                    {entry.label || id} · {id} ({entry.pos.col},{entry.pos.row},h
-                    {entry.pos.height ?? 0})
-                  </option>
-                ))}
-              </select>
+                options={[
+                  ...(!target?.entries?.[cmd.entryId]
+                    ? [{ value: cmd.entryId, label: `${cmd.entryId} (缺失)` }]
+                    : []),
+                  ...entries.map(([id, entry]) => ({
+                    value: id,
+                    label: `${entry.label || id} · ${id} (${entry.pos.col},${entry.pos.row},h${entry.pos.height ?? 0})`,
+                  })),
+                ]}
+                onValueChange={(entryId) => onChange(rebuild({ mode: 'entry', entryId }))}
+              />
             </Row>
           )}
           {cmd.pos && (
@@ -1131,11 +1125,15 @@ export function CommandForm(props: {
             </Row>
           )}
           <Row label="朝向">
-            <select
-              className="in"
+            <DsSelect
+              size="compact"
               value={cmd.facing ?? ''}
-              onChange={(e) => {
-                const f = e.target.value as Facing | ''
+              options={[
+                { value: '', label: '(保持)' },
+                ...FACINGS.map((facing) => ({ value: facing, label: facing })),
+              ]}
+              onValueChange={(value) => {
+                const f = value as Facing | ''
                 const targetMode: LoadSceneTarget = cmd.entryId
                   ? { mode: 'entry', entryId: cmd.entryId }
                   : cmd.pos
@@ -1143,14 +1141,7 @@ export function CommandForm(props: {
                     : { mode: 'default' }
                 onChange(rebuild(targetMode, f || undefined))
               }}
-            >
-              <option value="">(保持)</option>
-              {FACINGS.map((f) => (
-                <option key={f} value={f}>
-                  {f}
-                </option>
-              ))}
-            </select>
+            />
           </Row>
           <Row label="画面过渡">
             <span className="hint2">
@@ -1159,9 +1150,13 @@ export function CommandForm(props: {
                 : '现代过渡：淡出 260ms / 淡入 260ms'}
             </span>
             {cmd.transition?.kind === 'source' && (
-              <button type="button" onClick={() => set({ transition: undefined })}>
+              <DsButton
+                size="compact"
+                variant="secondary"
+                onClick={() => set({ transition: undefined })}
+              >
                 改用现代过渡
-              </button>
+              </DsButton>
             )}
           </Row>
         </>
@@ -1176,24 +1171,17 @@ export function CommandForm(props: {
     case 'releaseEntity':
       return (
         <Row label="归还">
-          <select
-            className="in"
+          <DsSelect
+            size="compact"
             value={cmd.entity ?? ''}
-            onChange={(e) =>
-              onChange(
-                e.target.value
-                  ? { kind: 'releaseEntity', entity: e.target.value }
-                  : { kind: 'releaseEntity' },
-              )
+            options={[
+              { value: '', label: '(全部)' },
+              ...scene.entities.map((entity) => ({ value: entity.id, label: entity.id })),
+            ]}
+            onValueChange={(entity) =>
+              onChange(entity ? { kind: 'releaseEntity', entity } : { kind: 'releaseEntity' })
             }
-          >
-            <option value="">(全部)</option>
-            {scene.entities.map((en) => (
-              <option key={en.id} value={en.id}>
-                {en.id}
-              </option>
-            ))}
-          </select>
+          />
         </Row>
       )
     case 'setParty': {
@@ -1205,32 +1193,40 @@ export function CommandForm(props: {
         <>
           {members.map((id, i) => (
             <Row key={`${i}-${id}`} label={i === 0 ? '队长' : `队员 ${i}`}>
-              <select
+              <DsSelect
+                size="compact"
                 value={id}
-                onChange={(e) => setMembers(members.map((m, j) => (j === i ? e.target.value : m)))}
+                options={battlers.map((actor) => ({
+                  value: actor.id,
+                  label: references.label('actor', actor.id),
+                }))}
+                onValueChange={(actorId) =>
+                  setMembers(members.map((member, j) => (j === i ? actorId : member)))
+                }
+              />
+              <DsButton
+                size="compact"
+                variant="danger"
+                icon="delete"
+                onClick={() => setMembers(members.filter((_, j) => j !== i))}
               >
-                {battlers.map((a) => (
-                  <option key={a.id} value={a.id}>
-                    {references.label('actor', a.id)}
-                  </option>
-                ))}
-              </select>
-              <button type="button" onClick={() => setMembers(members.filter((_, j) => j !== i))}>
-                ✕
-              </button>
+                删除
+              </DsButton>
             </Row>
           ))}
           <Row label="">
-            <button
-              type="button"
+            <DsButton
+              size="compact"
+              variant="secondary"
+              icon="add"
               onClick={() => {
                 const used = new Set(members)
                 const cand = battlers.find((a) => !used.has(a.id)) ?? battlers[0]
                 if (cand) setMembers([...members, cand.id])
               }}
             >
-              + 添加队员
-            </button>
+              添加队员
+            </DsButton>
             <span style={{ opacity: 0.6, fontSize: 12 }}>顺序=站位;落选进 reserve 不丢状态</span>
           </Row>
         </>
@@ -1267,8 +1263,8 @@ export function CommandForm(props: {
       return (
         <>
           <Row label="开关名">
-            <input
-              className="in"
+            <DsTextInput
+              size="compact"
               value={cmd.flag}
               onChange={(e) => set({ flag: e.target.value })}
               placeholder="如 met-li-daniang"
@@ -1287,8 +1283,8 @@ export function CommandForm(props: {
       return (
         <>
           <Row label="变量名">
-            <input
-              className="in"
+            <DsTextInput
+              size="compact"
               value={cmd.var}
               onChange={(e) => set({ var: e.target.value })}
               placeholder="如 wine-count"
@@ -1308,8 +1304,8 @@ export function CommandForm(props: {
           {c.kind === 'flag' ? (
             <>
               <Row label="条件:开关">
-                <input
-                  className="in"
+                <DsTextInput
+                  size="compact"
                   value={c.flag}
                   onChange={(e) => set({ cond: { ...c, flag: e.target.value } })}
                 />
@@ -1492,14 +1488,15 @@ export function CommandForm(props: {
                   {targetMeta ? references.label('authorScript', targetId) : targetId}
                 </code>
                 {onOpenScript ? (
-                  <button
-                    type="button"
-                    className="mini"
+                  <DsButton
+                    size="compact"
+                    variant="quiet"
+                    icon="open"
                     title={targetMeta ? '打开可复用脚本' : '打开迁移内部实现'}
                     onClick={() => onOpenScript(targetId)}
                   >
-                    ↗
-                  </button>
+                    打开
+                  </DsButton>
                 ) : null}
               </span>
             </Row>
@@ -1520,33 +1517,31 @@ export function CommandForm(props: {
                 {targetMeta ? references.label('authorScript', cmd.ref.id) : cmd.ref.id}
               </code>
               {onOpenScript ? (
-                <button
-                  type="button"
-                  className="mini"
+                <DsButton
+                  size="compact"
+                  variant="quiet"
+                  icon="open"
                   title={targetMeta ? '打开可复用脚本' : '打开迁移内部实现'}
                   onClick={() => onOpenScript(cmd.ref.id)}
                 >
-                  ↗
-                </button>
+                  打开
+                </DsButton>
               ) : null}
             </span>
           </Row>
           <Row label="self">
-            <select
-              className="in"
+            <DsSelect
+              size="compact"
               value={selfValue}
-              onChange={(event) => set({ self: event.target.value || undefined })}
-            >
-              <option value="">继承当前执行者</option>
-              {explicitEntities.map((id) => (
-                <option key={id} value={id}>
-                  {id}
-                </option>
-              ))}
-              {selfValue && !explicitEntities.includes(selfValue) ? (
-                <option value={selfValue}>{selfValue}(不在场)</option>
-              ) : null}
-            </select>
+              options={[
+                { value: '', label: '继承当前执行者' },
+                ...explicitEntities.map((id) => ({ value: id, label: id })),
+                ...(selfValue && !explicitEntities.includes(selfValue)
+                  ? [{ value: selfValue, label: `${selfValue}(不在场)` }]
+                  : []),
+              ]}
+              onValueChange={(self) => set({ self: self || undefined })}
+            />
           </Row>
         </>
       )
@@ -1565,51 +1560,46 @@ export function CommandForm(props: {
         <>
           <Row label="目标">
             <span className="cf-ref-row">
-              <select
-                className="in"
+              <DsSelect
+                size="compact"
                 value={cmd.ref.id}
-                onChange={(event) => {
-                  const id = event.target.value
+                options={options.map(([id, meta]) => ({
+                  value: id,
+                  label: references.has('authorScript', id)
+                    ? references.label('authorScript', id)
+                    : meta.name,
+                }))}
+                onValueChange={(id) => {
                   const chunk = scriptIndex ? deriveScriptChunk(id, scriptIndex.shards) : undefined
                   set({ ref: { id, chunk: chunk ?? cmd.ref.chunk } })
                 }}
-              >
-                {options.map(([id, meta]) => (
-                  <option key={id} value={id}>
-                    {references.has('authorScript', id)
-                      ? references.label('authorScript', id)
-                      : meta.name}
-                  </option>
-                ))}
-              </select>
+              />
               {onOpenScript ? (
-                <button
-                  type="button"
-                  className="mini"
+                <DsButton
+                  size="compact"
+                  variant="quiet"
+                  icon="open"
                   title={targetMeta ? '打开可复用脚本' : '打开迁移内部实现'}
                   onClick={() => onOpenScript(cmd.ref.id)}
                 >
-                  ↗
-                </button>
+                  打开
+                </DsButton>
               ) : null}
             </span>
           </Row>
           <Row label="self">
-            <select
-              className="in"
+            <DsSelect
+              size="compact"
               value={selfValue}
-              onChange={(event) => set({ self: event.target.value || undefined })}
-            >
-              <option value="">继承当前执行者</option>
-              {explicitEntities.map((id) => (
-                <option key={id} value={id}>
-                  {id}
-                </option>
-              ))}
-              {selfValue && !explicitEntities.includes(selfValue) ? (
-                <option value={selfValue}>{selfValue}(不在场)</option>
-              ) : null}
-            </select>
+              options={[
+                { value: '', label: '继承当前执行者' },
+                ...explicitEntities.map((id) => ({ value: id, label: id })),
+                ...(selfValue && !explicitEntities.includes(selfValue)
+                  ? [{ value: selfValue, label: `${selfValue}(不在场)` }]
+                  : []),
+              ]}
+              onValueChange={(self) => set({ self: self || undefined })}
+            />
           </Row>
           {targetMeta?.self === 'required' && !cmd.self && !hasImplicitSelf ? (
             <p className="cf-err">目标要求 self；当前来源没有可继承执行者，请显式选择实体。</p>
