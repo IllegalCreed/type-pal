@@ -49,7 +49,10 @@ export function validateHistoricalScenesForCurrentSchema(values: readonly unknow
 }
 
 function projectValue(value: unknown, ownerKey?: string): unknown {
-  if (Array.isArray(value)) return value.map((child) => projectValue(child))
+  if (Array.isArray(value)) {
+    const children = value.map((child) => projectValue(child))
+    return children.some((child, index) => child !== value[index]) ? children : value
+  }
   if (value === null || typeof value !== 'object') return value
   const current = value as Record<string, unknown>
   const isEnemyTeamReference =
@@ -72,9 +75,12 @@ function projectValue(value: unknown, ownerKey?: string): unknown {
       ),
     )
   }
-  return Object.fromEntries(
-    Object.entries(current).map(([key, child]) => [key, projectValue(child, key)]),
+  const entries = Object.entries(current).map(
+    ([key, child]) => [key, projectValue(child, key)] as const,
   )
+  return entries.some(([key, child]) => child !== current[key])
+    ? Object.fromEntries(entries)
+    : value
 }
 
 /** 把 current validator/compiler 的 transient 结果逆投影回冻结 authority 形状。 */
@@ -82,23 +88,36 @@ export function projectCurrentEnemyTeamReferencesForHistoricalAuthority(value: u
   return projectValue(value)
 }
 
-function normalizeProjectedScriptFiles(files: Map<string, MigrationJson>): void {
-  const index = files.get(SCRIPT_INDEX_PATH) as unknown as ScriptIndexV1 | undefined
+function normalizeProjectedScriptFiles(
+  files: Map<string, MigrationJson>,
+  input: ReadonlyMap<string, MigrationJson>,
+): void {
+  const index = input.get(SCRIPT_INDEX_PATH) as unknown as ScriptIndexV1 | undefined
   if (!index) return
-  const chunks: Record<string, ScriptChunkV1> = {}
+  const changedChunks: Record<string, ScriptChunkV1> = {}
   for (const [id, meta] of Object.entries(index.chunks)) {
     const path = `content/scripts/${meta.path}`
-    const chunk = files.get(path) as unknown as ScriptChunkV1 | undefined
+    const rawChunk = files.get(path)
+    const chunk = rawChunk as unknown as ScriptChunkV1 | undefined
     if (!chunk) throw new Error(`historical enemy-team authority: 缺脚本 chunk ${id}(${path})`)
-    chunks[id] = chunk
+    if (rawChunk !== input.get(path)) changedChunks[id] = chunk
   }
-  const normalized = normalizeScriptLibrary(index, chunks)
-  files.set(SCRIPT_INDEX_PATH, structuredClone(normalized.index) as unknown as MigrationJson)
+  if (Object.keys(changedChunks).length === 0) return
+
+  // Historical stages remain resident together in the shared release worker. Re-normalizing every
+  // chunk here would retain another complete script library for a handful of changed references.
+  const normalized = normalizeScriptLibrary(index, changedChunks)
+  const nextIndex: ScriptIndexV1 = {
+    ...index,
+    chunks: { ...index.chunks },
+  }
   for (const [id, chunk] of Object.entries(normalized.chunks)) {
     const meta = normalized.index.chunks[id]
     if (!meta) throw new Error(`historical enemy-team authority: 归一化缺 chunk ${id}`)
+    nextIndex.chunks[id] = meta
     files.set(`content/scripts/${meta.path}`, structuredClone(chunk) as unknown as MigrationJson)
   }
+  files.set(SCRIPT_INDEX_PATH, nextIndex as unknown as MigrationJson)
 }
 
 export function projectHistoricalEnemyTeamFiles(
@@ -107,7 +126,7 @@ export function projectHistoricalEnemyTeamFiles(
   const files = new Map(
     [...input].map(([path, value]) => [path, projectValue(value) as MigrationJson]),
   )
-  normalizeProjectedScriptFiles(files)
+  normalizeProjectedScriptFiles(files, input)
   return files
 }
 

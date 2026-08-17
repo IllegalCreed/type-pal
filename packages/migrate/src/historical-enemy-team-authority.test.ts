@@ -36,6 +36,38 @@ describe('historical enemy-team authority', () => {
     })
   })
 
+  test('copy-on-write preserves unrelated files and script chunks', () => {
+    const current = normalizeScriptLibrary(createScriptIndex(), {
+      changed: {
+        version: 1,
+        id: 'changed',
+        scripts: { 'shared/changed': [{ kind: 'startBattle', enemyTeamId: 'team-17' } as never] },
+      },
+      stable: {
+        version: 1,
+        id: 'stable',
+        scripts: { 'shared/stable': [{ kind: 'wait', ticks: 1 } as never] },
+      },
+    })
+    const changedMeta = current.index.chunks.changed!
+    const stableMeta = current.index.chunks.stable!
+    const unchanged = { nested: [{ value: 1 }] }
+    const files = new Map<string, MigrationJson>([
+      ['content/scripts/index.json', current.index as never],
+      [`content/scripts/${changedMeta.path}`, current.chunks.changed as never],
+      [`content/scripts/${stableMeta.path}`, current.chunks.stable as never],
+      ['content/unchanged.json', unchanged],
+    ])
+
+    const projected = projectHistoricalEnemyTeamFiles(files)
+    expect(projected.get('content/unchanged.json')).toBe(unchanged)
+    expect(projected.get(`content/scripts/${stableMeta.path}`)).toBe(current.chunks.stable)
+    expect(projected.get(`content/scripts/${changedMeta.path}`)).not.toBe(current.chunks.changed)
+    expect(
+      (projected.get('content/scripts/index.json') as unknown as typeof current.index).chunks.stable,
+    ).toBe(current.index.chunks.stable)
+  })
+
   test('rejects non-PAL ids and dual fields', () => {
     expect(() =>
       projectHistoricalEnemyTeamFiles(

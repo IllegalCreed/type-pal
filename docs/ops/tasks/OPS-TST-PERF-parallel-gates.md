@@ -200,8 +200,18 @@ parallel 命令必须失败，默认串行命令保持不变。
      canonical 现映射到稳定 actor ID，historical legacy 仍保留原数值，未知姓名字 fail-loud。
 - 修复后验证：严格 PAL migration integration **1 passed / 2 skipped（523.70s）**；R13 enemy
   initialize **1 passed / 2 skipped（773.07s）**；历史 canary **1 file / 2 passed（257s）**；
-  `check:fast` **92 files / 676 passed / 5 skipped（385.53s）**；manifest 冻结为 fast `92/676`、
-  release `116/808`、canary `1/2`。oracle projection 无 diff，仅 manifest source fingerprint 随实现更新。
+  `check:fast` **92 files / 676 passed / 5 skipped（385.53s）**；此后新增一条 copy-on-write 回归测试，
+  当前 manifest 冻结为 fast `92/677`、release `116/809`、canary `1/2`。oracle projection 无 diff，
+  仅 manifest source fingerprint 随实现更新。
+- 修复引用回归后的第二次 serial control 仍按合同 fail-closed：
+  `build/release-runs/serial-control-2026-08-17T212253530Z-eff7da24/summary.json`。manifest/canary 通过；
+  canonical release 完成 699 assertions 后，shared 历史 worker 达到 V8 4 GiB heap 上限并 OOM，child-tree
+  peak RSS `4,310,237,184 bytes`，受保护 workspace 仍为 `0/0/0`，fresh 未启动。根因位于本候选的
+  historical enemy-team 投影：少量引用变化却深拷贝完整 migration，并再次归一化全部 script chunks，
+  令共享 worker 同时常驻多个全量历史副本。
+- 内存返工改为 copy-on-write：未变化文件/数组/对象保持结构共享，只对真正命中 enemy-team 引用的
+  script chunk 重算 imports/hash/bytes 并合回 index；不提高 heap、不放宽 4.5 GiB 预算。定向
+  **4 files / 97 tests**、typecheck、diff check 已通过，oracle projection 仍 byte-identical。
 - 尚未完成：修复后的完整 serial control、显式 parallel 以及三组同机同批次 serial/parallel proof。
   因此本卡保持 `build`，Codex/Kimi/GLM done 前签字仍为 pending。
 
@@ -226,6 +236,10 @@ parallel 命令必须失败，默认串行命令保持不变。
   并暴露历史引用、资产引用冻结计数与 actor 姓名字三项 release 前置回归。三项均按 primary source
   修复，严格迁移、R13 初始化、canary 与 check:fast 已绿。Next: 提交候选后重跑完整 serial control，
   再跑 parallel 与三组同机 proof；证据未齐不得签 implementation accept 或转 review。
+- 2026-08-18 Codex: 修复后的完整 control 在 canonical shared worker 以 `4,310,237,184B` peak RSS
+  触发 V8 heap OOM；runner 正确非零、fresh 未启动、workspace `0/0/0`。直接定位为历史投影全量深拷贝，
+  已改 copy-on-write + changed-chunk-only normalization，97 tests/typecheck/oracle byte pin 通过。
+  Next: 先跑 shared-only 内存门诊；峰值回落后再重跑完整 control，仍不得放宽预算。
 
 ## 下一位 Agent 提示词
 
