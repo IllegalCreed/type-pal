@@ -1,32 +1,66 @@
 # 编辑器视觉与工作台一致性巡检（2026-08-15）
 
-Status: working audit（ED-AUDIT-2 输入；不是任一页面的 build authority）
+Status: rebaseline complete（2026-08-17；ED-AUDIT-2 输入；不是任一页面的 build authority）
 
 ## 1. 结论
 
-用户不应继续逐页指出基础问题。当前最主要的问题不是某个 padding，而是生产页仍同时存在三代界面语言：
+用户不应继续逐页指出基础问题。2026-08-15 首轮看到的“三代界面语言并存”已经被后续连续任务显著收窄：
+`ED-DS-2`、`ED-BATTLE-UI-1`、`ED-INSPECTOR-TABS-1`、`ED-REFERENCE-UI-1`、
+`ED-DIAGNOSTIC-UI-1`、`ED-CATALOG-CONTROLS-1`、`ED-SCENE-UX-1` 与 `ED-ENEMY-1` 已把 Header、
+对象 Hero、目录筛选、Inspector Tab、引用、诊断和场景直接操作建立为共享合同。当前问题不再是“整页缺设计”，而是：
 
-1. 旧 `outliner + 裸表单 + 说明型 inspector`；
-2. Actor 首轮对象工作台；
-3. BattleField / Shop 等新对象工作台。
+1. 若干专业子面板仍绕开共享控件，其中 `MapStampPalette` 是已复现的最小缺口；
+2. 长目录没有统一的生产级虚拟化合同，敌队页会一次渲染 380 个对象行；
+3. 脚本、工程、资源编辑器仍保留大量 raw form 与旧按钮族，需要按领域拆卡收敛；
+4. 少量图像预览缺显式尺寸，仍有可访问性与布局稳定性债。
 
-后续必须按同一设计系统逐批迁移，不能再把某个已改页面直接复制为唯一模板。Actor 的任务分区和
-BattleField 的主次层级都可借鉴，但列表、Header、面板控制、表单 primitive、Inspector 和响应式必须使用
-共同合同。
+因此不再照旧矩阵重做已经迁移的页面。后续先完成独立的小缺口，再处理跨页性能合同和旧控件存量；每张实现卡
+必须保持领域语义、深链和 ED-1 七环，不允许用一次全局机械替换掩盖交互差异。
 
 ## 2. 本轮证据
 
-- 浏览器：本地生产编辑器 `http://localhost:6010/`，Chromium CSS viewport `1280×720`。
+- 浏览器：本地生产编辑器 `http://localhost:6010/`，Chromium CSS viewport `1280×720`；2026-08-17 追加
+  `900×720`、`720×720` Map/Palette 抽验，三档均无 document/body 横向溢出、Console warning/error 为 0。
 - 实机页：Skill、Actor、BattleField、Shop、Image，以及 Story scripts/vars/events、Map tileset；用户本轮
   还提供了 Header、Shop、Skill、Actor/BattleField 对照截图。
-- 代码巡检：`EDITOR_MODULES` 登记的 8 个模块、24 个二级页面；重点读取 `App.tsx`、`SkillTab.tsx`、
+- 代码巡检：`EDITOR_MODULES` 当前登记 8 个模块、**25** 个二级页面；`enemy-team` 是首轮报告后新增的第 25 页。
+  重点读取 `App.tsx`、`SkillTab.tsx`、
   `ActorMode.tsx`、`BattleFieldTab.tsx`、`ShopTab.tsx`、`ItemTab.tsx`、`ImageTab.tsx`、`EnemyTab.tsx`、
   `PoisonTab.tsx`、`ProjectWorkbenchTab.tsx`、`PanelResizeHandle.tsx` 与相应 CSS。
-- 浏览器观察：Header 高 `41px`；Wide 左右面板约 `210/306px`；每个页面当前都有两处 sash toggle。
-  对 Stamp/Actor 执行通用全 DOM census 时曾超过 browser evaluate deadline；这是需单独 profile 的信号，
-  不能单凭这一观察判定业务性能结论。
-- 静态规模：Skill `1114` 行、Enemy `823`、Poison `479`、Item `2089`、ProjectWorkbench `1700`、
-  MapMode `4031`。它们不是重构理由本身，但说明不能继续在单组件内叠加页面级布局和领域编辑器。
+- 浏览器观察：Header 高 `41px`。`1280/900/720` 下 App 三栏均未产生横向溢出；地图组合 Inspector 在三档可达。
+  `MapStampPalette` 实机仍呈现 raw `.in` 搜索/分类与 `.mini`“管理组合”按钮。敌队 `team-0` 页面 DOM 可见
+  380 个对象按钮，和源码 `shown.map(...)` 一致，不是仅由数据规模推断的风险。
+- 静态规模（2026-08-17）：Skill `1362` 行、Enemy `1258`、Poison `625`、Item `2103`、
+  ProjectWorkbench `1744`、MapMode `3968`。它们不是重构理由本身，但说明不能继续在单组件内叠加页面级
+  布局和领域编辑器。
+
+### 2.1 2026-08-17 共享合同覆盖与存量账
+
+- GA1 复核前，实际共享消费者为 `18 catalog / 17 Inspector / 17 reference / 6 diagnostic`，静态门禁却只有
+  `17/15/16/6`：EnemyTeam 缺 catalog/reference 保护，Enemy 与 App 场景实体缺 Inspector 保护。review 补齐
+  三处清单后，`design-system/boundary.test.ts` 已按实际消费者完整钉住 `18/17/17/6`；Skill / Enemy /
+  Poison / BattleField / Actor 五个已迁对象工作台继续禁止 raw form primitive。
+- 当前生产 TSX 的只减不增基线仍为：`input=198`、`select=123`、`textarea=8`、`label=205`、原生 checkbox `23`。
+- 旧按钮类仍有：`tool=62`、`btn=43`、`mini=20`、`mini-txt=34`、`pv-btn=16`、`mini-icon=3`；
+  `item-action-button` 与 `media-zoom-controls` 已归零。
+- production inline `style={{...}}` 共 72 处，集中于 SpriteFrames 16、LevelCurve 12、App 9；动态坐标/尺寸
+  不自动算问题，只有页面级视觉或几何常量才进入迁移卡。
+- 生产 `<img>` 共 6 处；Tileset 上传预览带显式宽高，其余 5 处需在所属领域卡核对固有尺寸/CLS 合同。
+
+### 2.2 可复现 census 口径（GA2）
+
+唯一发布命令：
+
+```sh
+node packages/editor/scripts/audit-legacy-controls.mjs
+```
+
+脚本只扫描 `packages/editor/src/ui/**/*.tsx` production source，排除 `*.test.tsx` 与
+`src/ui/design-system/**`。旧按钮类只统计 `className=` 的静态字符串、字符串模板和简单 JSX 字符串表达式；
+className 匹配器与 token 词界 `(?<![\\w-])TOKEN(?![\\w-])` 和 boundary test 完全同源。当前稳定输出为：
+`tool/btn/mini/mini-txt/pv-btn/mini-icon = 62/43/20/34/16/3`，另两项
+`item-action-button/media-zoom-controls = 0/0`。这一定义不把普通正文、测试 fixture 或
+`some-tool-name` 子串误计为旧控件；后续“只减不增”以该脚本与 boundary ceiling 同时通过为准。
 
 ## 3. 跨页面公共红项
 
@@ -42,10 +76,32 @@ BattleField 的主次层级都可借鉴，但列表、Header、面板控制、�
 | U-08 | 空/错/加载/缺引用的恢复语法不统一 | 历史白屏、`stages is not iterable`；各页私有空态 | 统一 boundary + visible error + retry/open-source action；禁止静默空数组 |
 | U-09 | 页面自身标题与主任务说明不稳定 | Skill 直接从“基础”表单开始；BattleField 有明确 hero | 每个对象页必须先有 hero：类型/id、名称、摘要、状态、主要动作 |
 | U-10 | 页面级 inline layout 仍多 | Skill/Enemy/Ambience 等保留 inline style | 迁移卡逐页删除并记录例外；不得在 ED-DS-2 批量机械改写 |
-| U-11 | 按钮体系只有规范、没有完成采用 | 静态审计：69 个 TSX 文件中有 571 个原生 `<button>`；`DsButton/DsIconButton` 仅 7 个调用；`tool/btn/mini/mini-txt/pv-btn/item-action-button` 六个高频遗留族外仍有业务私有族 | 公共入口只保留 `DsButton/DsActionLink/DsIconButton/DsToolbar/DsMenuItem`；先迁高频遗留族，再按文件拆解语义混杂的 `.btn`，最终用边界测试禁止新增遗留 token |
+| U-11 | 按钮体系尚未完成采用 | 2026-08-17 production census：raw `<button>` 331；`DsButton=114`、`DsIconButton=53`、`DsActionLink=3`；旧类仍有 tool/btn/mini/mini-txt/pv-btn/mini-icon = 62/43/20/34/16/3 | 公共入口只保留 `DsButton/DsActionLink/DsIconButton/DsToolbar/DsMenuItem`；先迁高频遗留族，再按文件拆解语义混杂的 `.btn`，最终用边界测试禁止新增遗留 token |
 | U-12 | 对象级删除的位置随模块漂移 | Skill/Enemy/BattleField 在 hero，Actor 曾在 Inspector 底部；引用面板标题又重复写“引用与删除” | 对象级删除统一进入 `DsObjectHero.actions`；Inspector 只保留“引用”与阻断原因；子项删除留在所属行/卡片 |
 
-### 3.1 按钮迁移顺序
+### 3.1 2026-08-17 复核状态
+
+| ID | 状态 | 当前结论 |
+|---|---|---|
+| U-01/U-02/U-04/U-05 | 已由专项卡闭合 | Header/View、目录行、Inspector Tab 与 App sash 已有共享合同；不再重开总卡。 |
+| U-03/U-09/U-12 | 主对象页已闭合，领域长尾 | Battle/Actor/Item/Project 等已有 Hero/section/对象动作合同；专业媒体与脚本页按其 recipe 复核，不强套 Object Hero。 |
+| U-06/U-11 | 仍 open | raw form 与旧按钮族的精确基线仍大，只减不增不等于完成采用。 |
+| U-07 | 仍 open，优先级上升 | `DsVirtualList` 已存在但生产零调用；敌队 380 行 `shown.map` 是直接反例。必须先补焦点、选择、滚动定位和动态高度合同，不能机械套现有原型。 |
+| U-08 | 已闭合 6 个诊断面，其余按页复核 | 共享诊断/引用状态已落地；普通空态、加载态和业务错误仍由各领域卡验证。 |
+| U-10 | 部分 open | 72 个 inline style 需区分动态几何与页面皮肤，禁止按数量机械归零。 |
+
+### 3.2 最新实现顺序
+
+1. **`ED-MAP-PALETTE-CONTROLS-1`**：只把 `MapStampPalette.tsx:69-96,142-153` 的 raw 搜索、分类与
+   `.mini` 操作迁入共享 `DsTextInput / DsSelect / DsButton`；它是 Inspector 内嵌 palette，不得错误套入带
+   `DsListHeader` 的目录 recipe。保留图章卡片、兼容性禁用、最近排序和 60 条渐进显示。
+2. **长目录性能合同（后续独立开卡）**：先修/扩 `DsVirtualList` 的可访问选择、受控滚动定位、变宽和测试合同，
+   再接敌队等明确超 50 行目录。不得只加 `content-visibility` 就宣称虚拟化完成。
+3. **脚本/工程/资源旧控件分批迁移**：以 `CanonicalScriptEditorV5`、`ProjectWorkbenchTab`、
+   `BattleSpriteLibrary / Tileset / Cutscene` 为批次，不开“全局替换 198+123 控件”的巨型卡。
+4. **图像固有尺寸与次级可访问性**：随对应资源卡修复，不阻塞前两批。
+
+### 3.3 按钮迁移顺序（存量批次内约束）
 
 按钮视觉只允许 `primary / secondary / quiet / danger` 四个层级；HTML 元素差异只表达语义，不得形成新皮肤。
 
@@ -56,7 +112,7 @@ BattleField 的主次层级都可借鉴，但列表、Header、面板控制、�
 5. 门禁：扫描非 design-system TSX/CSS，遗留 token 采用只减不增基线；禁止无 accessible name 的图标按钮、
    无 `:not(:disabled)` 的 hover，以及页面 CSS 重写按钮尺寸/边框/圆角/颜色/焦点环。
 
-## 4. 页面优先矩阵
+## 4. 首轮页面优先矩阵（历史输入，执行状态见 §3.2/§3.3）
 
 | 批次 | 页面 | 现状判断 | 主要动作 |
 |---|---|---|---|
@@ -87,7 +143,7 @@ Skill 采用“数据目录 + 对象工作台”的 hybrid recipe：
 
 ## 6. 审计边界
 
-- 本文不声称 24 页功能闭环已验收；功能七环仍由 ED-1/模块卡逐项验证。
+- 本文不声称 25 页功能闭环已验收；功能七环仍由 ED-1/模块卡逐项验证。
 - 本文不允许一次性重写全编辑器。顺序固定为 ED-DS-2 foundation → ED-AUDIT-2 完整矩阵 → 小批模块迁移。
 - 用户后续指出的新问题要并入相应公共红项/页面卡，不再只做截图位置的局部补丁。
 
@@ -104,4 +160,4 @@ Skill 采用“数据目录 + 对象工作台”的 hybrid recipe：
 5. Scene：最后单独处理高复杂工作台；保留地图/演出/脚本上下分栏能力。
 
 “小批”只表示工程风险控制，不表示等待用户逐批提醒。每批完成自验后立即进入下一批设计/签字流程，直到
-24 页矩阵完成。
+25 页矩阵完成。
