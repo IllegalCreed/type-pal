@@ -311,15 +311,19 @@ script-library-catalog 消费面 rg / 7 宿主 import 矩阵。只读审查，�
 ### 主审立场
 
 - Reviewer: Kimi（canonical 分层/公共组件/旧 fallback 主审）+ GLM（控件 census/测试矩阵/调用域）
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论: GLM premise verified + design agree（2026-08-17，附 GS1-GS3）；Kimi pending（KSS1-KSS2
+  待落库）。
+- 必改项: GS1（删除级联含 script-library-catalog + state.scriptIndex/scriptChunks 保留红线）、
+  GS2（三粒度 commit characterization 含 Number('')===0 边界，先行后迁）、GS3（净减账两类分记）；
+  Kimi KSS1-KSS2 落库后并入。
+- 是否建议进入 build: 是——Kimi 签字落库后准入条件满足。
 
 ### 三方争议记录(按需)
 
 - Codex: 当前 canonical 规范与用户裁决优先于历史 N6 直接预览条款；建议删除 owner-less preview，不改 runtime。
-- Kimi: pending
-- GLM: pending
+- Kimi: pending（KSS1-KSS2 待落库）。
+- GLM: 同意删除方向与公共组件一次迁移；补三条必落钉（GS1 级联删除与数据面保留红线 / GS2 commit
+  语义边界 / GS3 净减账分记）。
 - 用户拍板: **共享脚本不属于具体场景，库页不做随机地图预览；页面和通用脚本编辑组件需统一设计系统。**
 
 ## 额度 / 代班记录(如适用)
@@ -370,6 +374,14 @@ script-library-catalog 消费面 rg / 7 宿主 import 矩阵。只读审查，�
 - 2026-08-17 Codex: 浏览器与源码核验确认四项均成立；发现历史 N6 直接预览条款已被当前 canonical owner-context
   规范取代，且真实页面虽复用 `CanonicalScriptBodyEditorV5`，公共组件自身和委托 `CommandForm` 仍大量 raw 控件；
   完成前提矩阵、设计、风险、验收并签 premise/design。Next: Kimi 独立反证；三签前不得实现。
+- 2026-08-17 GLM（覆盖/测试）: build 前审查完成，签 **premise verified + design agree（附 GS1-GS3）**。
+  census 三文件逐字复算吻合（43/37/31/2+1、14/13/15/2、5/3/3/1）；SharedScriptTab 调用域穷尽（production
+  仅 DataMode fallback 一处；测试只测纯 helper；scriptV5 optional 在 production 不可达）；公共正文编辑器
+  7 文件级宿主全枚举；CommandForm 三粒度 commit 语义可 characterization。**三项增量发现**：①删除级联含
+  script-library-catalog 孤儿模块（卡文漏列）；②state.scriptIndex/scriptChunks 必须保留（引用收集器仍
+  消费——GS1 红线）；③净减账须分记迁移转化与文件删除两类（GS3）。备注：用户提示词称 Kimi 已签 KSS1-KSS2，
+  但代理仓库（本地+origin，edec2097）尚无该版本——Kimi 落库后三签即齐。未改实现文件，未代签 Kimi，
+  未标 build/done。Next: Kimi 签字落库 → 三签齐转 build。
 
 ## 下一位 Agent 提示词
 
