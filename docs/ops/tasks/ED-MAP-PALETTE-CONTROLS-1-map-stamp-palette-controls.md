@@ -82,11 +82,23 @@ Visual Verification Timing: dev-functional
     确认 raw/private chrome 缺口、既有共享 API 和独立 Palette 边界均成立。实现无需新增公共 API，
     验证覆盖行为、边界、census 与三档功能视觉。
   - Kimi: premise pending | design pending
-  - GLM: premise pending | design pending
-  - 独立反证（至少一位非 Owner）：pending；须直接核对窄 Inspector 几何、shared primitive API、
-    CATALOG CK1 边界，并说明何种观察会要求 counter。
+  - GLM: **premise verified + design agree（2026-08-17，本人一手读码，非代理；附必落钉 MP1，不阻塞
+    准入）**。锚点独立核实：raw `<input className="in">`（:70-71 搜索）、raw `<select className="in">`
+    （:81-82 分类）、两枚 `<button className="mini">`（:144 再显示 60 / :150 管理组合）实存；
+    `map-stamp-card`（:103）是领域卡 class 非 raw chrome——**census 预期算术核对成立**：raw
+    input -1 / raw select -1 / `.mini` -2 / raw button -2 / DsButton +2，与卡文验证节一致且已
+    正确钉住"以实现后脚本实测为准"。MapStampPalette.test.tsx 在位（当前 1 test，卡内已列补齐
+    清单）。设计边界正确：不套 DsCatalogControls（CK1 冻结）、保留领域排序/兼容禁用/60 渐进、
+    compact primitive 合同引用 controls.tsx 实存。
+  - **必落钉 MP1（boundary 划界按文件，禁全仓 `.in/.mini`）**：raw 零回流断言必须限定
+    `MapStampPalette.tsx` 文件内（raw input/select/button 与 `.in/.mini` token 为零）；
+    **不得全仓禁止 `.in/.mini`**——StampLibraryTab 登记面板（:544 `className="in"`）等
+    邻接合法用途仍在（归后续卡），全仓禁会误伤。
+  - 独立反证（至少一位非 Owner）: GLM 已完成（上方）；Kimi 待签。可证伪观察：compact primitive
+    在最窄 Inspector 发生裁切/横滚/focus 截断，或 DsSelect 破坏分类选择/limit 重置语义——任一
+    出现即 counter（卡文已列，GLM 同意该观察集）。
   - 用户豁免: N/A
-  - 结论: **blocked——待 Kimi + GLM 分别签 premise verified / design agree；不得开始实现。**
+  - 结论: **blocked——GLM 已签（MP1）；待 Kimi 签字后三签齐，方可转 build。**
 - done 准入: Codex pending | Kimi pending | GLM pending | 用户验收 pending | 结论 blocked
 
 ## 交接
@@ -94,6 +106,10 @@ Visual Verification Timing: dev-functional
 - 2026-08-17 User + Codex：ED-AUDIT-2 三方 accept + 用户验收完成并合入 main；按已验收顺序正式开本卡。
   Codex 完成一手证据、范围、验证矩阵与设计签字；未改实现文件。Next：Kimi 架构/视觉独立反证，
   再由 GLM 覆盖/测试独立反证；三签齐前不得 build。
+- 2026-08-17 GLM（覆盖/测试）: 审查完成，签 **premise verified + design agree（附 MP1）**。
+  raw 控件三处 + 双 mini 按钮实存；:103 map-stamp-card 非_raw——census 预期算术成立；测试补齐
+  清单可执行。一钉：boundary 划界按 MapStampPalette 文件，禁全仓 .in/.mini（StampLibraryTab
+  :544 等合法邻接用途防误伤）。未改实现文件，未代签 Kimi，未标 build/done。Next: Kimi 签字。
 
 ## 下一位 Agent 提示词
 
