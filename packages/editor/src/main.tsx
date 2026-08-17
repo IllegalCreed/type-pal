@@ -1,9 +1,10 @@
 /**
  * @type-pal/editor 入口。
- * dev(VITE_PROJECT_ID 注入)→ 自动载入该工程(开发便利);`?picker` 强制启动屏(测试用)。
+ * dev(VITE_PROJECT_ID 注入)→ 自动载入该工程(开发便利);`?picker` 强制启动屏(测试用)，
+ * `?ui_samples` 只在内存追加视觉评审数据，不改仓库工程。
  * 生产(无 env)→ ProjectPicker 启动屏:新建(克隆/空白)/ 打开本地 / 最近工程(P4)。
  */
-import type { SceneDefV14, SceneDefV5 } from '@type-pal/content'
+import type { SceneDefV5, SceneDefV14 } from '@type-pal/content'
 import type { LoadedProjectV15 } from '@type-pal/reforge'
 import {
   httpSource,
@@ -18,6 +19,7 @@ import { EditSession } from './core/edit-session.js'
 import type { Opened } from './core/open-actions.js'
 import { toEditorState } from './core/project-io.js'
 import { type ScriptEditorStateV5, ScriptV5EditSession } from './core/script-v5-editor.js'
+import { withUiReviewSamples } from './core/ui-review-samples.js'
 import { App } from './ui/App.js'
 import { ProjectPicker } from './ui/ProjectPicker.js'
 import './ui/design-system/index.css'
@@ -25,7 +27,9 @@ import './ui/editor.css'
 import './ui/design-system/form-scope.css'
 
 const PROJECT_ID = import.meta.env.VITE_PROJECT_ID as string | undefined
-const FORCE_PICKER = new URLSearchParams(window.location.search).has('picker')
+const SEARCH_PARAMS = new URLSearchParams(window.location.search)
+const FORCE_PICKER = SEARCH_PARAMS.has('picker')
+const UI_REVIEW_SAMPLES = import.meta.env.DEV && SEARCH_PARAMS.has('ui_samples')
 const DEV_AUTO = !!PROJECT_ID && !FORCE_PICKER
 
 interface Booted {
@@ -40,13 +44,14 @@ interface Booted {
 function currentCanonicalScriptState(
   project: LoadedProjectV15,
   scenes: SceneDefV14[],
+  sharedScripts = project.authorContent.sharedScripts,
 ): ScriptEditorStateV5 {
   return {
     contentVersion: project.manifest.contentVersion,
     scenes: structuredClone(scenes) as unknown as SceneDefV5[],
     items: structuredClone(project.authorContent.items) as unknown as ScriptEditorStateV5['items'],
     sharedScripts: structuredClone(
-      project.authorContent.sharedScripts,
+      sharedScripts,
     ) as unknown as ScriptEditorStateV5['sharedScripts'],
     migrationSidecars: Object.values(project.migrationRegistry).map((blob) =>
       structuredClone(blob.sidecar),
@@ -71,12 +76,33 @@ function Root() {
         loadAllAuthorScenesV15(project),
         loadStampTemplatesV15(project),
       ])
-      const canonical = currentCanonicalScriptState(project, scenes)
+      const reviewData = UI_REVIEW_SAMPLES
+        ? withUiReviewSamples({
+            scenes,
+            sharedScripts: project.authorContent.sharedScripts,
+            stamps,
+            tilesetId: project.tilesets[0]?.id,
+          })
+        : { scenes, sharedScripts: project.authorContent.sharedScripts, stamps }
+      const reviewProject = UI_REVIEW_SAMPLES
+        ? {
+            ...project,
+            authorContent: { ...project.authorContent, sharedScripts: reviewData.sharedScripts },
+          }
+        : project
+      const canonical = currentCanonicalScriptState(
+        reviewProject,
+        reviewData.scenes,
+        reviewData.sharedScripts,
+      )
       return {
-        session: new EditSession(toEditorState(project, scenes, {}, {}, stamps), {
-          loadMap: (mapId) => loadProjectMapById(project, mapId),
-        }),
-        project,
+        session: new EditSession(
+          toEditorState(reviewProject, reviewData.scenes, {}, {}, reviewData.stamps),
+          {
+            loadMap: (mapId) => loadProjectMapById(reviewProject, mapId),
+          },
+        ),
+        project: reviewProject,
         scriptV5: {
           session: new ScriptV5EditSession(canonical),
         },
