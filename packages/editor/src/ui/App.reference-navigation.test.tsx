@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
 import type { ItemData, SceneDef } from '@type-pal/content'
-import type { LoadedProjectV15 } from '@type-pal/reforge'
+import type { LoadedProjectV16 } from '@type-pal/reforge'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
@@ -314,10 +314,10 @@ describe('App item reference navigation', () => {
     const canonical = canonicalState()
     shell.manifest = {
       ...shell.manifest,
-      contentVersion: 15,
+      contentVersion: 16,
       minimumSaveVersion: 8,
     } as EditorState['manifest']
-    canonical.contentVersion = 15
+    canonical.contentVersion = 16
     const source = {
       readText: vi.fn(async () => ''),
       readJson: vi.fn(async () => ({})),
@@ -330,7 +330,8 @@ describe('App item reference navigation', () => {
       manifest: shell.manifest,
       authorContent: { items: canonical.items, sharedScripts: canonical.sharedScripts },
       migrationRegistry: {},
-    } as unknown as LoadedProjectV15
+      worldVariables: shell.worldVariables ?? {},
+    } as unknown as LoadedProjectV16
     const session = new EditSession(shell)
     await act(async () =>
       root.render(
@@ -636,10 +637,10 @@ describe('App item reference navigation', () => {
     expect(row.textContent).toContain('s047 进场脚本')
   })
 
-  test('content15 场景脚本进入 canonical 工作区而不是 legacy stages 抽屉', async () => {
+  test('content16 场景脚本进入 canonical 工作区而不是 legacy stages 抽屉', async () => {
     window.history.replaceState({}, '', '/?module=scene&page=workspace&object=s047')
     const canonical = canonicalState()
-    canonical.contentVersion = 15
+    canonical.contentVersion = 16
     canonical.scenes[0]!.entities[0]!.behaviors!.trigger!.default!.flow = {
       kind: 'stages',
       initial: 'initial',
@@ -661,7 +662,7 @@ describe('App item reference navigation', () => {
     const shell = shellState()
     shell.manifest = {
       ...shell.manifest,
-      contentVersion: 15,
+      contentVersion: 16,
       minimumSaveVersion: 8,
       content: { ...shell.manifest.content, sharedScripts: 'content/shared-scripts.json' },
     } as EditorState['manifest']
@@ -681,7 +682,8 @@ describe('App item reference navigation', () => {
       manifest: shell.manifest,
       authorContent: { items: canonical.items, sharedScripts: canonical.sharedScripts },
       migrationRegistry: {},
-    } as unknown as LoadedProjectV15
+      worldVariables: shell.worldVariables ?? {},
+    } as unknown as LoadedProjectV16
 
     await act(async () =>
       root.render(
@@ -702,7 +704,7 @@ describe('App item reference navigation', () => {
     const workspace = probes.sceneWorkspace.mock.calls.at(-1)?.[0] as {
       state: ScriptEditorStateV5
     }
-    expect(workspace.state.contentVersion).toBe(15)
+    expect(workspace.state.contentVersion).toBe(16)
     expect(workspace.state.scenes[0]!.entities[0]!.behaviors!.trigger!.default!.flow).toMatchObject(
       {
         kind: 'stages',
@@ -711,9 +713,9 @@ describe('App item reference navigation', () => {
     )
   })
 
-  test('content15 保存合并保留 shell 空间改动与 canonical 身份对话', () => {
+  test('content16 保存合并保留 shell 空间改动与 canonical 身份对话', () => {
     const canonical = canonicalState()
-    canonical.contentVersion = 15
+    canonical.contentVersion = 16
     canonical.scenes[0]!.entities[0]!.behaviors!.trigger!.default!.flow = {
       kind: 'stages',
       initial: 'initial',
@@ -735,7 +737,7 @@ describe('App item reference navigation', () => {
     const shell = shellState()
     shell.manifest = {
       ...shell.manifest,
-      contentVersion: 15,
+      contentVersion: 16,
       minimumSaveVersion: 8,
     } as EditorState['manifest']
     shell.scenes = structuredClone(canonical.scenes) as unknown as EditorState['scenes']
@@ -749,7 +751,7 @@ describe('App item reference navigation', () => {
     }
 
     const merged = mergeEditorShellWithCurrentCanonicalScripts(canonical, shell)
-    expect(merged.manifest.contentVersion).toBe(15)
+    expect(merged.manifest.contentVersion).toBe(16)
     expect(merged.scenes[0]!.entry.pos).toEqual({ col: 9, row: 8, height: 0 })
     expect(
       (merged.scenes[0] as unknown as ScriptEditorStateV5['scenes'][number]).entities[0]!.behaviors!

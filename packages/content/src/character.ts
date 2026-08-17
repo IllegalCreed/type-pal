@@ -5,6 +5,7 @@ import type { WorldScriptState } from './script.js'
 import type { ProjectMigrationDescriptorV1 } from './script-transition-v5.js'
 import { emptyWorldScriptStateV5, type WorldScriptStateV5 } from './script-v5.js'
 import type { StatusId } from './skill.js'
+import { initialWorldVariablesV1, type WorldVariableRegistryV1 } from './world-variable.js'
 
 /** 大世界带入战斗的临时状态(护体符/金刚符 = protect;加速符等)。原版全局 rgPlayerStatus 的一格:
  *  战斗外 use 施加、随存档,建态时注入战斗 status[key]=turns,战后三件套 ClearAllStatus 清。 */
@@ -78,8 +79,8 @@ export interface WorldStateV13 extends WorldStateV12 {
 }
 /** contentVersion 14 只升级作者对话身份，运行世界形状与 W9/content13 完全相同。 */
 export type WorldStateV14 = WorldStateV13
-/** contentVersion 15 只把敌队引用升级为稳定字符串 id；世界态不变。 */
-export type WorldStateV15 = WorldStateV14
+/** contentVersion 16 增加项目级变量定义；存档仍只保存同一 WorldScriptStateV5 值表。 */
+export type WorldStateV16 = WorldStateV14
 
 /** manifest.startWorld —— initialWorld() 的数据化(loader 从工程 JSON 读,buildWorld 组装)。 */
 export interface StartWorld {
@@ -113,7 +114,7 @@ export interface EntryPoint {
 }
 
 /** 工程内容 schema 版本；与存档 SAVE_VERSION 是两个独立的版本轴。 */
-export const CONTENT_VERSION = 15 as const
+export const CONTENT_VERSION = 16 as const
 /** 当前工程仍允许读取的最早 SAVE envelope；不得从 CONTENT_VERSION 推导。 */
 export const CURRENT_PROJECT_MINIMUM_SAVE_VERSION = 8 as const
 
@@ -167,8 +168,8 @@ export type LegacyManifestV13 = ProjectManifest<13>
 /** contentVersion 14 只允许敌队引用 successor 边界读取。 */
 export type ManifestV14 = ProjectManifest<14>
 
-/** contentVersion 15 当前工程清单。 */
-export type ManifestV15 = ProjectManifest<15>
+/** contentVersion 16 当前工程清单。 */
+export type ManifestV16 = ProjectManifest<16>
 
 /** canonical loader 解析、runtime/editor 消费的当前工程清单。 */
 export type CurrentManifest = ProjectManifest<typeof CONTENT_VERSION>
@@ -334,5 +335,23 @@ export function buildWorldV13(
     ...buildWorld(startWorld, actorsById),
     script: emptyWorldScriptStateV5(),
     entityLifecycles: {},
+  }
+}
+
+/** content16 新档构造器：只在创建时读取作者默认；读档路径绝不调用。 */
+export function buildWorldV16(
+  startWorld: StartWorld,
+  actorsById: Record<string, ActorDef>,
+  worldVariables: WorldVariableRegistryV1,
+): WorldStateV16 {
+  const world = buildWorldV13(startWorld, actorsById)
+  const initial = initialWorldVariablesV1(worldVariables)
+  return {
+    ...world,
+    script: {
+      ...(world.script ?? emptyWorldScriptStateV5()),
+      flags: initial.flags,
+      vars: initial.vars,
+    },
   }
 }

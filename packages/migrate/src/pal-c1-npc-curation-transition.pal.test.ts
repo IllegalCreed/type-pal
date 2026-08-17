@@ -1,25 +1,28 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { validateActors, type ManifestV14 } from '@type-pal/content'
+import { type ManifestV14, type ManifestV16, validateActors } from '@type-pal/content'
 import { beforeAll, describe, expect, test } from 'vitest'
 import { stableStringCompare } from './experimental/script-v5/stable-json.js'
 import {
   loadPalBaseline,
+  type MigrationSnapshot,
   serializeMigrationJson,
   sha256,
-  type MigrationSnapshot,
 } from './migration-baseline.js'
 import {
   buildPalC1NpcCurationMigration,
   C1_NPC_CURATION_SEAL_PATH,
   C1_NPC_CURATION_TRANSITION_ID,
+  type C1NpcCurationBuildResult,
   rewindPublishedC1NpcCurationIfPresent,
   rewindPublishedC1NpcProjectAgainstPublishedBaseline,
-  type C1NpcCurationBuildResult,
 } from './pal-c1-npc-curation-transition.js'
+import {
+  rewindCurrentC1PublicationToDialogueParent,
+  rewindCurrentManifestToV14,
+} from './pal-current-c1-rewind.js'
 import type { MigrationJson } from './pal-migration.js'
-import { rewindCurrentC1PublicationToDialogueParent } from './pal-current-c1-rewind.js'
 import type { SourceCmd } from './source-facts.js'
 
 const repo = fileURLToPath(new URL('../../..', import.meta.url))
@@ -85,17 +88,16 @@ beforeAll(() => {
   const current = loadPalBaseline(repo)
   if (!current) throw new Error('C1-3 PAL test 缺 published baseline')
   const currentManifestRawText = readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8')
-  const currentManifest = JSON.parse(currentManifestRawText) as ManifestV14
+  const currentManifest = JSON.parse(currentManifestRawText) as ManifestV16
   const baseline = rewindCurrentC1PublicationToDialogueParent({
     source: current,
     manifest: currentManifest,
     manifestRawText: currentManifestRawText,
   })
-  manifest = { ...currentManifest, contentVersion: 14 }
-  manifestRawText = currentManifestRawText.replace(
-    /(\"contentVersion\"\s*:\s*)15/,
-    (_match, prefix: string) => `${prefix}14`,
-  )
+  ;({ manifest, manifestRawText } = rewindCurrentManifestToV14(
+    currentManifest,
+    currentManifestRawText,
+  ))
   const sourceText = readFileSync(resolve(repo, 'data/extracted/events/all.json'), 'utf8')
   const sourceJson = JSON.parse(sourceText) as { segments: { commands: SourceCmd[] }[] }
   sourceCommands = sourceJson.segments.flatMap((segment) => segment.commands)
@@ -178,18 +180,21 @@ describe('C1-3 approved PAL NPC curation transition', () => {
     const parentScene = parent.files.get(path) as Record<string, unknown>
     expect((parentScene.entry as Record<string, unknown>).facing).toBe('left')
     expect(parent.files.has(C1_NPC_CURATION_SEAL_PATH)).toBe(false)
-    expect(validateActors(parent.files.get('content/actors.json')).some(
-      (actor) => actor.id === 'li-daniang' || actor.id === 'jiu-jianxian',
-    )).toBe(false)
+    expect(
+      validateActors(parent.files.get('content/actors.json')).some(
+        (actor) => actor.id === 'li-daniang' || actor.id === 'jiu-jianxian',
+      ),
+    ).toBe(false)
   }, 120_000)
 
   test('requires the complete copied project seal tuple', () => {
     for (let mask = 0; mask < 7; mask += 1) {
       const project = projectFromPublished(build.successor)
-      if (mask & 1) project.files.set(
-        C1_NPC_CURATION_SEAL_PATH,
-        structuredClone(build.successor.files.get(C1_NPC_CURATION_SEAL_PATH)!),
-      )
+      if (mask & 1)
+        project.files.set(
+          C1_NPC_CURATION_SEAL_PATH,
+          structuredClone(build.successor.files.get(C1_NPC_CURATION_SEAL_PATH)!),
+        )
       else project.files.delete(C1_NPC_CURATION_SEAL_PATH)
       if (mask & 2) project.managedFiles.add(C1_NPC_CURATION_SEAL_PATH)
       else project.managedFiles.delete(C1_NPC_CURATION_SEAL_PATH)

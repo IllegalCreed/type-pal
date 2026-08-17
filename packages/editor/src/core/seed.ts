@@ -161,6 +161,7 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
     'content/skills.json': { skills: [], levelUp: {} },
     'content/items.json': [],
     'content/shared-scripts.json': {},
+    'content/world-variables.json': {},
     'content/locale.json': { 'name.hero': '主角' },
     'content/scenes/index.json': ['start'],
     'content/scenes/start.json': {
@@ -237,6 +238,7 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
         scenes: 'content/scenes/',
         maps: 'content/maps/index.json',
         sharedScripts: 'content/shared-scripts.json',
+        worldVariables: 'content/world-variables.json',
       },
       assets: {
         catalog: 'assets/index.json',

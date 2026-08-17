@@ -1,4 +1,9 @@
-import type { SceneDefV14, SharedScriptLibraryV14, StampTemplateV1 } from '@type-pal/content'
+import type {
+  SceneDefV14,
+  SharedScriptLibraryV14,
+  StampTemplateV1,
+  WorldVariableRegistryV1,
+} from '@type-pal/content'
 
 const REVIEW_HOOK_ID = 'ui-review-samples'
 
@@ -48,6 +53,51 @@ const REVIEW_VARIABLE_COMMANDS = [
   },
 ] satisfies SharedScriptLibraryV14[string]['body']
 
+const REVIEW_WORLD_VARIABLES = {
+  'review.quest.started': {
+    kind: 'flag',
+    name: '支线任务已开始',
+    description: '在评审样例的开始支线脚本中写入。',
+    initial: false,
+  },
+  'review.quest.rewarded': {
+    kind: 'flag',
+    name: '任务奖励已领取',
+    description: '覆盖同一变量读写混合、then/else 分支和精确引用定位。',
+    initial: false,
+  },
+  'review.chapter.opened': {
+    kind: 'flag',
+    name: '章节已开启',
+    description: '场景进入脚本中的开关写入样例。',
+    initial: false,
+  },
+  'review.quest.progress': {
+    kind: 'number',
+    name: '支线进度',
+    description: '可复用脚本中的数值赋值样例。',
+    initial: 0,
+  },
+  'review.chapter.progress': {
+    kind: 'number',
+    name: '章节推进度',
+    description: '场景脚本中的数值赋值与分支嵌套样例。',
+    initial: 0,
+  },
+  'review.reputation': {
+    kind: 'number',
+    name: '当前地区阵营声望累计值（长名称布局评审样例）',
+    description: '在条件分支的两个结果分支中分别累加，用于验证多处写入与长内容布局。',
+    initial: 0,
+  },
+  'review.unused.counter': {
+    kind: 'number',
+    name: '未使用计数器',
+    description: '合法的零引用定义，用于验证 0 处状态和可删除规则。',
+    initial: 12,
+  },
+} satisfies WorldVariableRegistryV1
+
 function reviewStamps(tilesetId: string): StampTemplateV1[] {
   const template = (
     id: string,
@@ -87,6 +137,7 @@ export interface UiReviewSampleInput {
   scenes: readonly SceneDefV14[]
   sharedScripts: SharedScriptLibraryV14
   stamps: readonly StampTemplateV1[]
+  worldVariables: WorldVariableRegistryV1
   tilesetId?: string
 }
 
@@ -94,6 +145,7 @@ export interface UiReviewSampleOutput {
   scenes: SceneDefV14[]
   sharedScripts: SharedScriptLibraryV14
   stamps: StampTemplateV1[]
+  worldVariables: WorldVariableRegistryV1
 }
 
 /**
@@ -136,5 +188,9 @@ export function withUiReviewSamples(input: UiReviewSampleInput): UiReviewSampleO
   for (const stamp of input.tilesetId ? reviewStamps(input.tilesetId) : [])
     if (!existingStampIds.has(stamp.id)) stamps.push(stamp)
 
-  return { scenes, sharedScripts, stamps }
+  const worldVariables = structuredClone(input.worldVariables)
+  for (const [id, definition] of Object.entries(REVIEW_WORLD_VARIABLES))
+    if (!worldVariables[id]) worldVariables[id] = structuredClone(definition)
+
+  return { scenes, sharedScripts, stamps, worldVariables }
 }

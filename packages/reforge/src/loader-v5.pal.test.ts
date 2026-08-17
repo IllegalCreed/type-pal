@@ -1,16 +1,16 @@
 import {
   buildEntityLifecycleReferenceIndexV13,
-  buildWorldV13,
+  buildWorldV16,
   type EntityLifecycleReferenceIndexV13,
-  type WorldStateV13,
+  type WorldStateV16,
 } from '@type-pal/content'
 import { expect, test } from 'vitest'
 import { SupersedingFadeDriver } from './fade-driver.js'
 import type { FileSource } from './file-source.js'
 import type { LoadedProjectV13Core } from './loader-v13.js'
-import { loadAllScenesV15, loadProjectV15From, loadSceneDefV15 } from './loader-v15.js'
-import { normalizePayloadV15, preflightSaveMigrationV15 } from './save/migration-v15.js'
-import { buildPayloadV8Content15 } from './save/ops.js'
+import { loadAllScenesV16, loadProjectV16From, loadSceneDefV16 } from './loader-v16.js'
+import { normalizePayloadV16, preflightSaveMigrationV16 } from './save/migration-v16.js'
+import { buildPayloadV8Content16 } from './save/ops.js'
 import type { ProjectScriptHostOptionsV13 } from './script-project-v13.js'
 import { ScriptProjectRuntimeV13 } from './script-project-v13.js'
 
@@ -38,8 +38,16 @@ function projectFileSource(projectId: string): FileSource {
   }
 }
 
-type LoadedPalProject = Awaited<ReturnType<typeof loadProjectV15From>>
-type LoadedPalScene = Awaited<ReturnType<typeof loadSceneDefV15>>
+function withJsonOverride(source: FileSource, path: string, value: unknown): FileSource {
+  return {
+    ...source,
+    readJson: async <T>(candidate: string) =>
+      candidate === path ? (structuredClone(value) as T) : source.readJson<T>(candidate),
+  }
+}
+
+type LoadedPalProject = Awaited<ReturnType<typeof loadProjectV16From>>
+type LoadedPalScene = Awaited<ReturnType<typeof loadSceneDefV16>>
 
 function runtimeCore(project: LoadedPalProject): LoadedProjectV13Core {
   return {
@@ -48,8 +56,8 @@ function runtimeCore(project: LoadedPalProject): LoadedProjectV13Core {
   } as unknown as LoadedProjectV13Core
 }
 
-function freshWorld(project: LoadedPalProject): WorldStateV13 {
-  return buildWorldV13(project.manifest.startWorld, project.actorsById)
+function freshWorld(project: LoadedPalProject): WorldStateV16 {
+  return buildWorldV16(project.manifest.startWorld, project.actorsById, project.worldVariables)
 }
 
 function recordingHost(
@@ -75,7 +83,7 @@ function recordingHost(
         events.push(`dialog:${command.cue.rows.map((row) => row.text).join(',')}`)
     },
     lifecycleReferences,
-    scene: (sceneId) => loadSceneDefV15(project, sceneId),
+    scene: (sceneId) => loadSceneDefV16(project, sceneId),
     currentSceneId: () => scene.id,
     query: {
       hasItem: () => false,
@@ -97,23 +105,67 @@ function recordingHost(
   }
 }
 
-test('正式 PAL contentVersion 15 工程通过 loader、历史 sidecar 验签与全场景校验', async () => {
-  const project = await loadProjectV15From(projectFileSource('pal'))
-  const scenes = await loadAllScenesV15(project)
+test('正式 PAL contentVersion 16 工程通过 loader、历史 sidecar 验签与全场景校验', async () => {
+  const project = await loadProjectV16From(projectFileSource('pal'))
+  const scenes = await loadAllScenesV16(project)
 
-  expect(project.manifest.contentVersion).toBe(15)
+  expect(project.manifest.contentVersion).toBe(16)
   expect(project.manifest.minimumSaveVersion).toBe(8)
   expect(project.entryScene.id).toBe('s000')
   expect(scenes).toHaveLength(294)
   expect(Object.keys(project.migrationRegistry)).toEqual(['script-v4-v5'])
   expect(Object.keys(project.sharedScripts)).toHaveLength(0)
+  expect(project.worldVariables).toEqual({})
+})
+
+test('content16 loader 要求变量表路径并复用严格 registry validator', async () => {
+  const source = projectFileSource('demo')
+  const manifest = await source.readJson<Record<string, unknown>>('manifest.json')
+  const content = { ...(manifest.content as Record<string, unknown>) }
+  delete content.worldVariables
+  await expect(
+    loadProjectV16From(withJsonOverride(source, 'manifest.json', { ...manifest, content })),
+  ).rejects.toThrow(/manifest 缺 worldVariables/)
+
+  await expect(
+    loadProjectV16From(
+      withJsonOverride(source, 'content/world-variables.json', {
+        'sys:screenWave': {
+          kind: 'number',
+          name: '内部屏波',
+          description: '',
+          initial: 0,
+        },
+      }),
+    ),
+  ).rejects.toThrow(/sys:/)
+})
+
+test('content16 registry 只初始化新世界，不进入存档 metadata', async () => {
+  const source = projectFileSource('demo')
+  const project = await loadProjectV16From(
+    withJsonOverride(source, 'content/world-variables.json', {
+      'quest.open': { kind: 'flag', name: '任务开启', description: '', initial: true },
+      reputation: { kind: 'number', name: '声望', description: '', initial: 7 },
+    }),
+  )
+  const world = freshWorld(project)
+  expect(world.script?.flags['quest.open']).toBe(true)
+  expect(world.script?.vars.reputation).toBe(7)
+  const payload = buildPayloadV8Content16(
+    world,
+    { sceneId: project.entryScene.id, pos: project.entryScene.entry.pos, facing: 'down' },
+    project.manifest.id,
+  )
+  expect(payload).not.toHaveProperty('worldVariables')
+  expect(payload.world.script?.flags['quest.open']).toBe(true)
 })
 
 test('PAL s048 进场演出恢复亮屏、保存完成步骤，读档重进不重播', async () => {
-  const project = await loadProjectV15From(projectFileSource('pal'))
-  const scenes = await loadAllScenesV15(project)
+  const project = await loadProjectV16From(projectFileSource('pal'))
+  const scenes = await loadAllScenesV16(project)
   const lifecycleReferences = buildEntityLifecycleReferenceIndexV13(scenes)
-  const scene = await loadSceneDefV15(project, 's048')
+  const scene = await loadSceneDefV16(project, 's048')
   const world = freshWorld(project)
 
   const firstEvents: string[] = []
@@ -144,7 +196,7 @@ test('PAL s048 进场演出恢复亮屏、保存完成步骤，读档重进不�
     at: { kind: 'stage', stage: 'completed' },
   })
 
-  const payload = buildPayloadV8Content15(
+  const payload = buildPayloadV8Content16(
     world,
     {
       sceneId: scene.id,
@@ -153,11 +205,11 @@ test('PAL s048 进场演出恢复亮屏、保存完成步骤，读档重进不�
     },
     project.manifest.id,
   )
-  const resolver = await preflightSaveMigrationV15({
+  const resolver = await preflightSaveMigrationV16({
     manifest: project.manifest,
     payload,
   })
-  const restored = normalizePayloadV15(payload, resolver, lifecycleReferences)
+  const restored = normalizePayloadV16(payload, resolver, lifecycleReferences)
   const secondEvents: string[] = []
   const secondFade = new SupersedingFadeDriver()
   const restoredRuntime = new ScriptProjectRuntimeV13(
@@ -181,10 +233,10 @@ test('PAL s048 进场演出恢复亮屏、保存完成步骤，读档重进不�
 })
 
 test('PAL s110 的逐帧重画先等待一帧再淡入，并保留剩余 27 帧', async () => {
-  const project = await loadProjectV15From(projectFileSource('pal'))
-  const scenes = await loadAllScenesV15(project)
+  const project = await loadProjectV16From(projectFileSource('pal'))
+  const scenes = await loadAllScenesV16(project)
   const lifecycleReferences = buildEntityLifecycleReferenceIndexV13(scenes)
-  const scene = await loadSceneDefV15(project, 's110')
+  const scene = await loadSceneDefV16(project, 's110')
   const behavior = scene.entities.find((entity) => entity.id === 'e2061')?.behaviors?.trigger
     ?.default
   if (!behavior || behavior.flow.kind !== 'stages') throw new Error('s110/e2061/default 缺 stages')
@@ -227,13 +279,13 @@ test('PAL s110 的逐帧重画先等待一帧再淡入，并保留剩余 27 帧'
 test.each([
   { id: 'demo', entry: 'guijie-minju', scenes: 1 },
   { id: 'e2e-own', entry: 'start', scenes: 1 },
-])('仓库 HTTP fixture $id 已同步为 canonical content 15', async ({ id, entry, scenes: count }) => {
-  const project = await loadProjectV15From(projectFileSource(id))
-  const scenes = await loadAllScenesV15(project)
+])('仓库 HTTP fixture $id 已同步为 canonical content 16', async ({ id, entry, scenes: count }) => {
+  const project = await loadProjectV16From(projectFileSource(id))
+  const scenes = await loadAllScenesV16(project)
 
   expect(project.manifest).toMatchObject({
     id,
-    contentVersion: 15,
+    contentVersion: 16,
     minimumSaveVersion: 8,
     entryScene: entry,
   })

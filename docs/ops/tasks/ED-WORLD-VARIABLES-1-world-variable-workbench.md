@@ -1,6 +1,6 @@
 # ED-WORLD-VARIABLES-1 - 世界变量定义表与作者工作台
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: N5 authoring closure / content schema successor（N5 状态不降格）
 Coding Owner: Codex
@@ -357,7 +357,9 @@ PAL 四目录 node census（0/0/0）。只读审查，未改实现文件，未�
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept（2026-08-18）**。current 16 registry/loader/save/new-world 初始化、全 owner canonical
+  collector、diagnostics/save gate、CRUD/undo、变量 picker 与三栏工作台均已实现；Content 490、Reforge 1025、
+  Editor 949、Migrate fast 649 测试通过，Reforge/Editor production build 通过，三档浏览器布局无横向溢出。
 - Kimi: pending
 - GLM: pending
 - counter / 返工处理: pending
@@ -396,15 +398,16 @@ PAL 四目录 node census（0/0/0）。只读审查，未改实现文件，未�
 ### 主审立场
 
 - Reviewer: Kimi（schema/initial/版本切换/双 session 主审）+ GLM（全 owner 引用/迁移 census/测试矩阵主审）
-- 结论: Kimi premise verified + design agree（2026-08-17，附必落钉 KV1-KV2）；GLM pending
+- 结论: Kimi premise verified + design agree（2026-08-17，附必落钉 KV1-KV2）；GLM premise verified +
+  design agree（2026-08-17，附必落钉 GV1-GV3）
 - 必改项: KV1（boundary 负向排除同卡反转为正向清单）；KV2（迁移生成器与引用 collector 同源）
 - 是否建议进入 build: 是——待 GLM 签字且 ED-SHARED-SCRIPT-UI-1 公共 CommandForm 收敛后准入
 
 ### 三方争议记录(按需)
 
 - Codex: 建议项目级 definition registry（含共享新开局 initial）与存档值表分层；ID/kind 锁定，全 owner refs 阻断删除。
-- Kimi: pending
-- GLM: pending
+- Kimi: agree（KV1-KV2 已纳入实现验收）。
+- GLM: agree（GV1-GV3 已纳入实现验收）。
 - 用户拍板: **变量页必须按类型组织，变量有可编辑基本信息/说明，并能查看每一处具体引用。**
 
 ## 额度 / 代班记录(如适用)
@@ -419,27 +422,67 @@ PAL 四目录 node census（0/0/0）。只读审查，未改实现文件，未�
 
 ## Build: 实现与自测
 
-- Coding Owner: Codex（待三签与依赖卡）
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- Coding Owner: Codex
+- Build-start（2026-08-17）:
+  - 依赖 `ED-SHARED-SCRIPT-UI-1` 已完成实现、自测并以 merge commit `85b2888c` 合入本分支；本卡在其
+    `CommandForm`/共享脚本工作台收敛结果上继续，不再维护旧私有脚本表单。
+  - **GV1 落卡**：PAL 当前作者脚本 flag/var 使用量为 0，current successor 为 PAL 生成合法空 registry；
+    registry/generator/collector/UI 的行为验证明确 **100% 使用 synthetic fixture 与 ui_samples**，不得宣称经
+    PAL 真实变量数据验证。
+  - **GV3 裁决 = 方案 ①**：`?ui_samples=1` 同时以纯内存投影注入 review.* registry definitions 和对应
+    scenes/sharedScripts references；正常保存门仍严格运行，样例引用不是未登记引用；测试必须断言输入和磁盘
+    工程均不被修改，review.* 不进入普通工程输出。
+- 修改文件:
+  - `packages/content/src/world-variable.ts`、`character.ts`、`index.ts` 及测试：新增 exact registry validator、
+    current content 16 manifest/world 类型和按 initial 创建新世界；删除上一 content 版本的产品类型/upgrader。
+  - `packages/reforge/src/loader-v16.ts`、`runnable-project-loader.ts`、`save/*`、`main.ts` 及测试：current-only
+    loader/save/runtime 切换到 16；删除 v15 loader/migration 产品路径。
+  - `packages/editor/src/core/world-variable-*`、commands/project IO/diagnostics/ui samples 与
+    `VarsTab/CommandForm/DataMode/CanonicalScriptEditorV5/ScriptDrawer/App/editor.css`：同源引用索引、保存门、
+    CRUD/undo、类型 picker/反向导航和统一三栏工作台。
+  - `projects/{pal,demo,e2e-own}`：登记 `content/world-variables.json`；PAL 按 GV1 生成合法空表。
+  - `packages/migrate`：current 16 fixture/oracle 与历史 seal rewind helper；删除旧 v15 产品迁移脚本入口。
+- 实现摘要:
+  - registry 是唯一作者定义真值，运行态 flags/vars 仍只保存值；新游戏读取 initial，旧存档不回填覆盖。
+  - generator、diagnostics、删除阻断和 UI 共用 canonical occurrence collector；覆盖 scene hook、entity
+    behavior、hostile onLose、item private、shared script 及递归 command/condition arm，过滤 `sys:`。
+  - 变量脚本字段只能选择匹配 kind 的已登记定义，并可往返打开变量；未登记/跨类型/定义错型 fail-loud。
+  - Vars 页使用 Catalog/Hero/Reference DS，提供类型分组、搜索、metadata/initial 编辑、精确读写引用与状态空面；
+    ui samples 注入 7 个纯内存 definition 和多 owner refs，普通工程不落样例数据。
+- 运行命令:
+  - `pnpm --filter @type-pal/content check`：42 files / 490 tests passed。
+  - `pnpm --filter @type-pal/reforge check`：100 files / 1025 tests passed。
+  - `pnpm --filter @type-pal/editor check`：128 files / 949 tests passed。
+  - `pnpm --filter @type-pal/migrate check:fast`：89 files / 649 passed、5 skipped，退出码 0。
+  - `pnpm --filter @type-pal/reforge build && pnpm --filter @type-pal/editor build`：两项 production build 通过；
+    仅保留既有 chunk-size warning。
+  - changed-files `biome check`：0 error（2 warning / 23 info，均为既有提示级规则）；`git diff --check` 通过；
+    v15 product path 负向 `rg` 通过。
+- 浏览器 / 手工检查:
+  - `?ui_samples=1&module=story&page=vars` 在 1280×720、900×720、720×720 实测，三栏职责稳定，
+    `documentElement.scrollWidth === innerWidth`，长名称截断且无逐字折行/横向溢出。
+  - 新建 `review.manual` 后 URL 同步，undo 删除并回落到有效 object；零引用变量显示“未发现引用”且可删除。
+  - 从变量写入引用精确打开 `shared/ui-review/quest-start` 首条命令；双击编辑后 picker 仅列开关定义，
+    “打开变量”返回原变量深链。
+  - ui sample 页面未执行保存；不可变/不落普通工程由 `ui-review-samples` 与 project IO 测试覆盖。
+- 跳过的检查及原因: 未对本地 HTTP 工程执行真实保存，避免污染用户工作副本；save/reopen 由 project IO、loader、
+  serializer 与全量测试闭环。浏览器 Console 未提供独立历史捕获接口，页面交互无可见 runtime error；请 reviewer
+  在独立复验时补一次 Console warning/error 记录。
 
 ## 视觉验证记录(如适用)
 
 - Visual Verification Owner: Codex
 - Visual Verification Timing: dev-functional
-- 验证方式: pending
+- 验证方式: in-app browser 实机 DOM、三档 viewport capability、截图与交互往返；视口测试后已 reset。
 - 集中 E2E 用例 / 批次: N/A
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: pending
+- 截图 / 像素检查路径: 当前任务浏览器证据（1280×720、900×720、720×720）；未写入仓库产物。
+- 结论: pass。三档均无页面级横向滚动；目录/正文/引用在 720 仍保持分栏且可独立纵向滚动，900/1280 信息密度正常。
+- 未完成项: reviewer 独立 Console 记录与真实磁盘 save/reopen spot-check（不得在 ui sample 投影上保存）。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
+- 审查结论: Codex 自验 accept；待 Kimi + GLM 独立 review。
 - 必须返工项: pending
 - Accept / rework: pending
 
@@ -468,6 +511,10 @@ PAL 四目录 node census（0/0/0）。只读审查，未改实现文件，未�
   hostile/items/shared，walker 已存在）；双 session 无跨写路径（禁 rename + 阻断删除）；三栏 IA 与
   已发布 recipe 一致。注意：卡文 script-world-v5.ts 锚点实际在 reforge 包（语义一致）。未改实现文件，
   未代签 GLM。Next: GLM 覆盖/测试签字（提示词见下）；三签 + 依赖卡收敛前不得实现。
+- 2026-08-18 Codex: 完成 current 16 registry/loader/save/new-world、canonical collector/diagnostics/CRUD、
+  picker 与三栏变量工作台；GV1-GV3/KV1-KV2 均落实。Content/Reforge/Editor/Migrate 共 3113 个通过测试，
+  两项 production build 和三档实机布局通过，签 Codex accept，任务转 review。Next: Kimi + GLM 独立 review；
+  不得标 done，待三方 accept 与用户验收。
 
 ### 给 Kimi（已完成）
 
@@ -496,4 +543,20 @@ Kimi 已于 2026-08-17 完成独立反证并签字（premise verified + design a
 4. KV1 boundary 反转与 KV2 同源约束的可验证形态；ui_samples 注入不可变性测试。
 输出：签 premise verified + design agree 或带 file:line 的 counter；写回任务卡推进签字与交接日志；
 不得修改实现文件、不得代签。三签齐 + ED-SHARED-SCRIPT-UI-1 公共表单收敛后方可进 build。
+```
+
+### 给 Kimi + GLM（done 前独立 review，可直接复制）
+
+```text
+接手任务：ED-WORLD-VARIABLES-1 世界变量定义表与作者工作台——done 前独立 review
+任务卡：docs/ops/tasks/ED-WORLD-VARIABLES-1-world-variable-workbench.md
+分支：codex/ed-world-variables-1
+当前状态：review；Codex 已实现并签 accept，Kimi/GLM 均未签 done；不得标 done
+先读：AGENTS.md、docs/phase2/READ-FIRST.md、任务卡全文，重点复核 KV1-KV2、GV1-GV3 与 Build 记录。
+Kimi 主审：content 16 current-only 清理、registry/save/new-world 分层、双 session/删除原子性、三栏视觉与
+  Console；确认旧存档不被 initial 覆盖、上一 production content path 无残留。
+GLM 主审：canonical collector owner×access×nested-arm、sys: 过滤、未登记/跨型保存门、PAL 空 registry 与
+  ui_samples 纯投影、测试矩阵和 oracle/seal 更新。
+请直接读取一手代码并独立复跑必要测试；输出 accept，或带 file:line/复现步骤的 counter 与返工项；写回任务卡
+推进签字和交接日志。允许审查性小改仅在明确归属后进行；任何 counter 都必须留在 review/rework，不得标 done。
 ```

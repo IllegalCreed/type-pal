@@ -219,10 +219,7 @@ function mergeItemShellV5(
  * EditSession 编辑，而脚本正文由 ScriptV5EditSession 编辑。这里以 shell 的效果链为
  * 顺序真值，只用 canonical 会话覆盖/补入私有脚本，避免任一侧的修改被保存边界吞掉。
  */
-function mergeCurrentItemShell(
-  shell: ItemData,
-  canonical: ItemDataV5 | undefined,
-): ItemDataV5 {
+function mergeCurrentItemShell(shell: ItemData, canonical: ItemDataV5 | undefined): ItemDataV5 {
   const next = structuredClone(shell) as unknown as ItemDataV5
   const canonicalPrivate = new Map(
     (canonical?.use?.effects ?? []).flatMap((effect) =>
@@ -268,7 +265,7 @@ export function projectActiveScriptEditorStateV5(
     // 渲染/扫描投影容忍 undo 中间态(正文刚撤、ref 尚在);保存链(mergeLegacyEditorShellIntoV5)
     // 不传容忍参数,缺正文仍 fail-loud。
     items: shellItems.map((item) =>
-      canonical.contentVersion === 15
+      canonical.contentVersion === 16
         ? mergeCurrentItemShell(item, canonicalItems.get(item.id))
         : mergeItemShellV5(item, canonicalItems.get(item.id), true),
     ),
@@ -284,8 +281,8 @@ export function mergeEditorShellWithCurrentCanonicalScripts(
   canonical: ScriptEditorStateV5,
   shell: EditorState,
 ): EditorState {
-  if (shell.manifest.contentVersion !== 15)
-    throw new Error('mergeEditorShellWithCurrentCanonicalScripts: shell 必须是当前 content15')
+  if (shell.manifest.contentVersion !== 16)
+    throw new Error('mergeEditorShellWithCurrentCanonicalScripts: shell 必须是当前 content16')
   if (canonical.contentVersion !== shell.manifest.contentVersion)
     throw new Error('mergeEditorShellWithCurrentCanonicalScripts: canonical/shell 版本不一致')
   const canonicalScenes = new Map(canonical.scenes.map((scene) => [scene.id, scene]))
@@ -293,15 +290,14 @@ export function mergeEditorShellWithCurrentCanonicalScripts(
   return {
     ...structuredClone(shell),
     scenes: shell.scenes.map((scene) =>
-      mergeSceneShellV5(
-        scene,
-        canonicalScenes.get(scene.id),
-      ),
+      mergeSceneShellV5(scene, canonicalScenes.get(scene.id)),
     ) as unknown as EditorState['scenes'],
     items: shell.items.map((item) =>
       mergeCurrentItemShell(item, canonicalItems.get(item.id)),
     ) as unknown as EditorState['items'],
-    sharedScripts: structuredClone(canonical.sharedScripts) as unknown as EditorState['sharedScripts'],
+    sharedScripts: structuredClone(
+      canonical.sharedScripts,
+    ) as unknown as EditorState['sharedScripts'],
   }
 }
 

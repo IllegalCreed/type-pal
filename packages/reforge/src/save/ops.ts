@@ -93,13 +93,13 @@ export function buildPayloadV8Content14(
   return { version: SAVE_VERSION, projectId, contentVersion: 14, world, position }
 }
 
-/** ED-ENEMY successor builder；SAVE/world 不变，只写 content15 identity。 */
-export function buildPayloadV8Content15(
-  world: import('@type-pal/content').WorldStateV15,
+/** 世界变量 successor builder；registry metadata 不进存档，只推进当前 content identity。 */
+export function buildPayloadV8Content16(
+  world: import('@type-pal/content').WorldStateV16,
   position: { sceneId: string; pos: GridPos; facing: Facing },
   projectId: string,
-): import('./types.js').SavePayloadV8Content15 {
-  return { version: SAVE_VERSION, projectId, contentVersion: 15, world, position }
+): import('./types.js').SavePayloadV8Content16 {
+  return { version: SAVE_VERSION, projectId, contentVersion: 16, world, position }
 }
 
 /**

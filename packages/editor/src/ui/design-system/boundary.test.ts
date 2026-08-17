@@ -219,6 +219,7 @@ describe('editor design-system static boundary', () => {
       'MusicTab.tsx',
       'SoundTab.tsx',
       'CutsceneTab.tsx',
+      'VarsTab.tsx',
     ]
 
     for (const file of catalogFiles) {
@@ -366,8 +367,10 @@ describe('editor design-system static boundary', () => {
     )
 
     const vars = readFileSync(join(uiRoot, 'VarsTab.tsx'), 'utf8')
-    expect(vars).toMatch(/\bref-row\b/)
-    expect(vars).not.toMatch(/<DsReferencePanel\b/)
+    expect(vars).toMatch(/<DsCatalogRow\b/)
+    expect(vars).toMatch(/<DsObjectHero\b/)
+    expect(vars).toMatch(/<DsReferencePanel\b/)
+    expect(vars).not.toMatch(/\b(?:var-head|ref-row|className="rw)\b/)
 
     const recipes = readFileSync(join(here, 'recipes.tsx'), 'utf8')
     expect(recipes).not.toMatch(/from ['"]\.\.\/core\//)

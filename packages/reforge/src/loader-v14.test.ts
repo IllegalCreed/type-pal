@@ -176,7 +176,7 @@ describe('canonical contentVersion 14 loader boundary', () => {
     expect(loaded.manifest.contentVersion).toBe(14)
     expect(loaded.sharedScripts.hello?.body[0]).toHaveProperty('cue.speaker', 'name.li')
     await expect(loadRunnableProjectFrom(memorySource(files()))).rejects.toThrow(
-      /只接受当前 contentVersion 15/,
+      /只接受当前 contentVersion 16/,
     )
   })
 })

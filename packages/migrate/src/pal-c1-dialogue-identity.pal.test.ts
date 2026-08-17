@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import type { ManifestV14 } from '@type-pal/content'
+import type { ManifestV14, ManifestV16 } from '@type-pal/content'
 import { beforeAll, describe, expect, test } from 'vitest'
 import { stableJsonSha256 } from './experimental/script-v5/stable-json.js'
 import {
@@ -24,6 +24,7 @@ import {
 import {
   rewindCurrentC1ProjectToDialogueParent,
   rewindCurrentC1PublicationToDialogueParent,
+  rewindCurrentManifestToV14,
 } from './pal-current-c1-rewind.js'
 import type { MigrationJson } from './pal-migration.js'
 
@@ -72,17 +73,14 @@ beforeAll(() => {
   const loaded = loadPalBaseline(repo)
   if (!loaded) throw new Error('C1 PAL test 缺 published baseline')
   const currentManifestRawText = readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8')
-  const currentManifest = JSON.parse(currentManifestRawText) as ManifestV14
+  const currentManifest = JSON.parse(currentManifestRawText) as ManifestV16
   published = rewindCurrentC1PublicationToDialogueParent({
     source: loaded,
     manifest: currentManifest,
     manifestRawText: currentManifestRawText,
   })
-  manifest = { ...currentManifest, contentVersion: 14 }
-  const manifestRawText = currentManifestRawText.replace(
-    /(\"contentVersion\"\s*:\s*)15/,
-    (_match, prefix: string) => `${prefix}14`,
-  )
+  const rewoundManifest = rewindCurrentManifestToV14(currentManifest, currentManifestRawText)
+  manifest = rewoundManifest.manifest
   const rawSeal = published.files.get(C1_DIALOGUE_IDENTITY_SEAL_PATH)
   if (!rawSeal) throw new Error('C1 PAL test 缺 transition seal')
   seal = rawSeal as unknown as C1DialogueIdentityTransitionSealV1

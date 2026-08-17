@@ -15,7 +15,7 @@ import type {
   SpriteDefinitionReference,
 } from '@type-pal/content'
 import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
-import { type ReactNode, useEffect, useMemo, useState } from 'react'
+import { type ReactNode, useEffect, useState } from 'react'
 import type { BattleDataReference } from '../core/battle-data-references.js'
 import type { BlockingBattleFieldReference } from '../core/battle-field-references.js'
 import type { EditSession } from '../core/edit-session.js'
@@ -24,10 +24,17 @@ import type { EditorHistoryCoordinator } from '../core/editor-history-coordinato
 import type { BlockingEnemyTeamReference } from '../core/enemy-team-references.js'
 import type { ItemReference } from '../core/item-references.js'
 import type { ManifestLike } from '../core/project-diagnostics.js'
-import { buildRefIndex } from '../core/ref-index.js'
 import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
-import type { ScriptEditorStateV5, ScriptV5EditSession } from '../core/script-v5-editor.js'
+import type {
+  CanonicalScriptReferenceV5,
+  ScriptEditorStateV5,
+  ScriptV5EditSession,
+} from '../core/script-v5-editor.js'
 import type { SpriteAutomaticScriptInstanceSite } from '../core/world-sprite-behavior.js'
+import {
+  collectWorldVariableReferencesV1,
+  worldVariableScriptStateFromEditorStateV1,
+} from '../core/world-variable-references.js'
 import { AmbienceTab } from './AmbienceTab.js'
 import { BattleFieldTab } from './BattleFieldTab.js'
 import { BattleSpriteLibrary } from './BattleSpriteLibrary.js'
@@ -129,6 +136,8 @@ export function DataMode(props: {
   onOpenEnemy?: (id: string) => void
   onOpenEnemyTeam?: (id: string) => void
   onOpenScript?: (id: string) => void
+  onOpenWorldVariable?: (id: string) => void
+  onOpenCanonicalReference?: (reference: CanonicalScriptReferenceV5) => void
   onOpenItemReference?: (reference: ItemReference) => void
   onOpenBattleDataReference?: (reference: BattleDataReference) => void
   onOpenProjectIssues?: () => void
@@ -170,7 +179,6 @@ export function DataMode(props: {
     manifest,
     actors,
     skillList,
-    onJumpToEvent,
     focusScriptId,
     focusScriptRevision,
     focusScriptCommandPath,
@@ -193,6 +201,8 @@ export function DataMode(props: {
     onOpenBattleFieldReference,
     onOpenEnemyTeamReference,
     onOpenScript,
+    onOpenWorldVariable,
+    onOpenCanonicalReference,
     onOpenItemReference,
     onOpenProjectIssues,
     onJumpWorldSpriteReference,
@@ -202,8 +212,9 @@ export function DataMode(props: {
     onStatusNotice,
     scriptV5,
   } = props
-  // N5:引用反向索引(flag/var/item ← 事件脚本);scenes 变才重算(全量扫描毫秒级)
-  const refIndex = useMemo(() => buildRefIndex(scenes), [scenes])
+  const variableReferences = collectWorldVariableReferencesV1(
+    scriptV5?.state ?? worldVariableScriptStateFromEditorStateV1(session.getState()),
+  )
   const [spriteDomain, setSpriteDomain] = useState<'world' | 'battle'>(
     () =>
       controlledSpriteDomain ??
@@ -492,7 +503,17 @@ export function DataMode(props: {
   }
 
   if (tab === 'vars') {
-    return <VarsTab refIndex={refIndex} onJumpToEvent={onJumpToEvent} tabBar={tabBar} />
+    return (
+      <VarsTab
+        variables={session.getState().worldVariables ?? {}}
+        references={variableReferences}
+        session={session}
+        focusObjectId={focusObjectId}
+        onObjectFocus={onObjectFocus}
+        onOpenReference={onOpenCanonicalReference}
+        tabBar={tabBar}
+      />
+    )
   }
 
   if (tab === 'scripts') {
@@ -545,7 +566,9 @@ export function DataMode(props: {
             ambiences,
             shops,
             references,
+            worldVariables: state.worldVariables,
             onOpenScript,
+            onOpenWorldVariable,
             onOpenSound,
             onOpenImage,
             onOpenBattleSprite,

@@ -1,6 +1,7 @@
+import { describe, expect, test } from 'vitest'
+import { DeleteEntityCommand, UpdateEntityCommand } from './commands.js'
 import type { EditorState } from './edit-session.js'
 import { EditSession } from './edit-session.js'
-import { DeleteEntityCommand, UpdateEntityCommand } from './commands.js'
 import {
   collectEntityAddressReferencesV13,
   collectMissingEntityAddressReferencesV13,
@@ -11,14 +12,13 @@ import {
   InsertLifecycleCommandV13,
   UpdateLifecycleCommandV13,
 } from './lifecycle-command-v13-editor.js'
-import { describe, expect, test } from 'vitest'
 
 function currentState(): EditorState {
   return {
     manifest: {
       id: 'current-editor-test',
       name: 'Current editor test',
-      contentVersion: 15,
+      contentVersion: 16,
       entryScene: 's',
       content: {
         scenes: 'content/scenes/',
@@ -105,17 +105,13 @@ function currentState(): EditorState {
 describe('current entity address editor closure', () => {
   test('collects lifecycle leaves recursively and reports dangling targets', () => {
     const state = currentState()
-    expect(
-      collectEntityAddressReferencesV13(state).map((reference) => reference.path),
-    ).toEqual([
+    expect(collectEntityAddressReferencesV13(state).map((reference) => reference.path)).toEqual([
       'scenes[0].entities[0].behaviors.trigger.main.flow.stages[0].body[0].target',
       'sharedScripts.cleanup.body[0].target',
     ])
     expect(collectMissingEntityAddressReferencesV13(state)).toEqual([])
 
-    state.scenes[0]!.entities = state.scenes[0]!.entities.filter(
-      (entity) => entity.id !== 'b',
-    )
+    state.scenes[0]!.entities = state.scenes[0]!.entities.filter((entity) => entity.id !== 'b')
     expect(collectMissingEntityAddressReferencesV13(state)).toHaveLength(2)
   })
 
@@ -125,10 +121,7 @@ describe('current entity address editor closure', () => {
     expect(() => session.dispatch(new DeleteEntityCommand('s', 'b'))).toThrow(
       /hideEntity.*target|仍被引用/,
     )
-    expect(session.getState().scenes[0]!.entities.map((entity) => entity.id)).toEqual([
-      'a',
-      'b',
-    ])
+    expect(session.getState().scenes[0]!.entities.map((entity) => entity.id)).toEqual(['a', 'b'])
     expect(session.canUndo()).toBe(false)
 
     const cleaned = structuredClone(state)
@@ -136,10 +129,7 @@ describe('current entity address editor closure', () => {
       entities: Array<{
         id: string
         behaviors?: {
-          trigger?: Record<
-            string,
-            { flow: { stages: Array<{ body: unknown[] }> } }
-          >
+          trigger?: Record<string, { flow: { stages: Array<{ body: unknown[] }> } }>
         }
       }>
     }
@@ -185,11 +175,7 @@ describe('current entity address editor closure', () => {
 
   test('lifecycle leaf insert/update/delete share EditSession undo and redo', () => {
     const session = new EditSession(currentState())
-    const [bodyLocation] = collectEntityLifecycleCommandBodiesV13(
-      session.getState(),
-      's',
-      'a',
-    )
+    const [bodyLocation] = collectEntityLifecycleCommandBodiesV13(session.getState(), 's', 'a')
     if (!bodyLocation) throw new Error('test lifecycle body 缺失')
     const location = bodyLocation.location
     expect(bodyLocation.label).toBe('触发 / main / main')
@@ -232,9 +218,7 @@ describe('current entity address editor closure', () => {
       'restoreEntity',
     ])
     expect(session.dispatch(new DeleteLifecycleCommandV13(location, 0))).toBe(true)
-    expect(body().map((command) => (command as { kind: string }).kind)).toEqual([
-      'restoreEntity',
-    ])
+    expect(body().map((command) => (command as { kind: string }).kind)).toEqual(['restoreEntity'])
     expect(session.undo()).toBe(true)
     expect(body().map((command) => (command as { kind: string }).kind)).toEqual([
       'suspendEntity',

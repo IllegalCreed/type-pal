@@ -1,7 +1,7 @@
 {
   "id": "e2e-own",
   "name": "E2E 自有内容烟测",
-  "contentVersion": 15,
+  "contentVersion": 16,
   "minimumSaveVersion": 8,
   "entryScene": "start",
   "content": {
@@ -14,7 +14,8 @@
     "scenes": "content/scenes/",
     "maps": "content/maps/index.json",
     "battleSprites": "content/battle-sprites.json",
-    "sharedScripts": "content/shared-scripts.json"
+    "sharedScripts": "content/shared-scripts.json",
+    "worldVariables": "content/world-variables.json"
   },
   "assets": {
     "catalog": "assets/index.json",

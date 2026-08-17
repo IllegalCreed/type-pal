@@ -41,9 +41,9 @@ import {
   CreateScriptSourceCommand,
   DeleteScriptSourceCommand,
   type ScriptSourceRef,
+  UpdateLocaleCommand,
   UpdateScriptBodyCommand,
   UpdateScriptCommand,
-  UpdateLocaleCommand,
   UpdateTriggerModeCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
@@ -556,6 +556,7 @@ export function ScriptDrawer(props: {
   layers?: { grid: boolean; blocked: boolean; ghosts?: boolean }
   /** N6:从调用行跳到数据模式的共享脚本页。 */
   onOpenScript?: (id: string) => void
+  onOpenWorldVariable?: (id: string) => void
   onOpenSound?: (id: string) => void
   onOpenImage?: (id: string) => void
   onOpenBattleSprite?: (id: string) => void
@@ -587,6 +588,7 @@ export function ScriptDrawer(props: {
     shops,
     layers,
     onOpenScript,
+    onOpenWorldVariable,
     onOpenSound,
     onOpenImage,
     onOpenBattleSprite,
@@ -756,11 +758,7 @@ export function ScriptDrawer(props: {
     internalScriptId,
   ])
 
-  const editedCommand = (
-    stages: readonly ScriptStage[],
-    stageIndex: number,
-    entryEdit = false,
-  ) => {
+  const editedCommand = (stages: readonly ScriptStage[], stageIndex: number, entryEdit = false) => {
     const stage = stages[stageIndex]
     if (!stage) return undefined
     if (entryEdit) {
@@ -854,7 +852,7 @@ export function ScriptDrawer(props: {
       return
     }
     const authoredCommands =
-      editorState.manifest.contentVersion === 15
+      editorState.manifest.contentVersion === 16
         ? (upgradeDialogueTreeV13ToV14(commands) as unknown as readonly Command[])
         : commands
     for (const command of authoredCommands) {
@@ -1386,9 +1384,11 @@ export function ScriptDrawer(props: {
                     ambiences={ambiences}
                     shops={shops}
                     references={scriptReferences}
+                    worldVariables={editorState.worldVariables}
                     scriptIndex={scriptIndex}
                     hasImplicitSelf={active?.kind === 'trigger' || active?.kind === 'auto'}
                     onOpenScript={openScriptTarget}
+                    onOpenWorldVariable={onOpenWorldVariable}
                     onOpenSound={onOpenSound}
                     onOpenImage={onOpenImage}
                     onOpenBattleSprite={onOpenBattleSprite}

@@ -64,6 +64,11 @@ function render(cmd: Command, onChange = vi.fn(), onOverride = vi.fn()) {
         actors={actors}
         battleSprites={[]}
         references={references}
+        worldVariables={{
+          a: { kind: 'flag', name: 'Alpha', description: '', initial: false },
+          b: { kind: 'flag', name: 'Beta', description: '', initial: true },
+          count: { kind: 'number', name: 'Count', description: '', initial: 0 },
+        }}
         onDialogueSpeakerOverrideChange={onOverride}
         onChange={onChange}
       />,
@@ -185,20 +190,11 @@ describe('CommandForm commit characterization', () => {
     expect(onChange).toHaveBeenLastCalledWith({ kind: 'wait', ms: 0 })
   })
 
-  test('text commits each input event as a whole-command replacement', () => {
+  test('world variable picker commits only a registered id', () => {
     const { onChange } = render({ kind: 'setFlag', flag: 'a', value: false } as Command)
-    const input = control('开关名') as HTMLInputElement
-    for (const value of ['ab', 'abc']) {
-      act(() => {
-        const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set
-        setter?.call(input, value)
-        input.dispatchEvent(new Event('input', { bubbles: true }))
-      })
-    }
-    expect(onChange.mock.calls.map(([value]) => value)).toEqual([
-      { kind: 'setFlag', flag: 'ab', value: false },
-      { kind: 'setFlag', flag: 'abc', value: false },
-    ])
+    chooseSelect('开关名', 'Beta · b')
+    expect(onChange).toHaveBeenLastCalledWith({ kind: 'setFlag', flag: 'b', value: false })
+    expect(row('开关名').textContent).not.toContain('Count')
   })
 
   test('select commits the selected string directly', () => {

@@ -127,25 +127,6 @@ export type { Palette, RleFrame } from '@type-pal/shared'
 // RLE 编码/解析转出口(W7B 上传管线;编辑器不直依赖 shared)
 export { encodeSpriteChunk, parseSpriteChunk, parseSpriteChunkStrict } from '@type-pal/shared'
 export { AssetResolver } from './asset-resolver.js'
-export {
-  advanceEntityLifecycleWorldStep,
-  applyEntityLifecycleMutation,
-  deriveEntityLifecycleGates,
-  footAnchorOutsideReappearRect,
-  restoreAwaitingExitIfOutside,
-  tickEntityLifecycles,
-  type EntityLifecycleWorldStepContext,
-  type EntityLifecycleWorldStepResult,
-} from './entity-lifecycle.js'
-export {
-  applyWorldEntityLifecycleCommandV13,
-  commitEntityLifecycleCommandV13,
-  commitWorldEntityLifecycleCommandV13,
-  reduceEntityLifecycleCommandV13,
-  type EntityLifecycleCommandCommitV13,
-  type RuntimeLifecycleCommandV13,
-  type WorldEntityLifecycleCommandCommitV13,
-} from './entity-lifecycle-command.js'
 export { tilesFromChunkBytes } from './assets.js'
 export {
   type BattleResult,
@@ -156,6 +137,25 @@ export {
   type LegacyBattleResult,
   normalizeLegacyBattleResult,
 } from './battle/battle-result.js'
+export {
+  advanceEntityLifecycleWorldStep,
+  applyEntityLifecycleMutation,
+  deriveEntityLifecycleGates,
+  type EntityLifecycleWorldStepContext,
+  type EntityLifecycleWorldStepResult,
+  footAnchorOutsideReappearRect,
+  restoreAwaitingExitIfOutside,
+  tickEntityLifecycles,
+} from './entity-lifecycle.js'
+export {
+  applyWorldEntityLifecycleCommandV13,
+  commitEntityLifecycleCommandV13,
+  commitWorldEntityLifecycleCommandV13,
+  type EntityLifecycleCommandCommitV13,
+  type RuntimeLifecycleCommandV13,
+  reduceEntityLifecycleCommandV13,
+  type WorldEntityLifecycleCommandCommitV13,
+} from './entity-lifecycle-command.js'
 // 文件源抽象(内容 + 素材统一「从哪读」;httpSource=dev/种子,fsaSource=本地工程)
 export { type FileSource, httpSource } from './file-source.js'
 export { fsaSource } from './fsa-source.js'
@@ -196,14 +196,6 @@ export type {
   LoadedProjectV14,
   LoadedProjectV14Core,
 } from './loader-v14.js'
-export type { LoadedProjectV15 } from './loader-v15.js'
-export {
-  loadAllAuthorScenesV15,
-  loadAllProjectMapsV15,
-  loadProjectV15,
-  loadProjectV15From,
-  loadStampTemplatesV15,
-} from './loader-v15.js'
 export {
   assembleProjectV14,
   loadAllAuthorScenesV14,
@@ -215,6 +207,16 @@ export {
   loadSceneDefV14,
   loadStampTemplatesV14,
 } from './loader-v14.js'
+export type { LoadedProjectV16 } from './loader-v16.js'
+export {
+  loadAllAuthorScenesV16,
+  loadAllProjectMapsV16,
+  loadAllScenesV16,
+  loadProjectV16,
+  loadProjectV16From,
+  loadSceneDefV16,
+  loadStampTemplatesV16,
+} from './loader-v16.js'
 export type {
   LatticePos,
   ProjectMapCollisionEdit,
@@ -304,8 +306,8 @@ export * from './script-compiler-v13.js'
 export * from './script-host-adapter-v5.js'
 export * from './script-project-v5.js'
 export * from './script-project-v13.js'
-export * from './script-runner-v13.js'
 export * from './script-runner-v5.js'
+export * from './script-runner-v13.js'
 export * from './script-world-v5.js'
 export type { ScriptHost, StepEvent }
 export { evalCondition, ScriptRunner }

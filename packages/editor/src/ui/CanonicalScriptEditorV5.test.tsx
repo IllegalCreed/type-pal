@@ -495,7 +495,7 @@ describe('CanonicalScriptEditorV5 author presentation', () => {
   test('resolves content14 actor identity in canonical command summaries', async () => {
     const context: CanonicalScriptEditorContextV5 = {
       state: {
-        contentVersion: 15,
+        contentVersion: 16,
         scenes: [],
         items: [],
         sharedScripts: {},

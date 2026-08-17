@@ -27,6 +27,8 @@ import type {
   ShopDef,
   SpriteDef,
   WalkSpeed,
+  WorldVariableKindV1,
+  WorldVariableRegistryV1,
 } from '@type-pal/content'
 import {
   type ActorDef,
@@ -134,6 +136,46 @@ function Sel<T extends string>(props: {
   )
 }
 
+export function WorldVariablePicker(props: {
+  value: string
+  kind: WorldVariableKindV1
+  variables?: WorldVariableRegistryV1
+  onChange: (id: string) => void
+  onOpen?: (id: string) => void
+}) {
+  const definitions = Object.entries(props.variables ?? {})
+    .filter(([, definition]) => definition.kind === props.kind)
+    .sort(([aId, a], [bId, b]) => a.name.localeCompare(b.name, 'zh-CN') || aId.localeCompare(bId))
+  const known = definitions.some(([id]) => id === props.value)
+  const options = [
+    ...(!known && props.value
+      ? [{ value: props.value, label: `${props.value}（未登记）`, description: '保存前必须登记' }]
+      : []),
+    ...definitions.map(([id, definition]) => ({
+      value: id,
+      label: `${definition.name} · ${id}`,
+      description: definition.description || undefined,
+    })),
+  ]
+  return (
+    <div className="cf-world-variable-picker">
+      <DsSelect
+        size="compact"
+        value={props.value}
+        options={options}
+        placeholder={props.kind === 'flag' ? '选择开关' : '选择数值变量'}
+        searchable
+        onValueChange={props.onChange}
+      />
+      {props.onOpen && props.value ? (
+        <DsButton size="compact" variant="quiet" onClick={() => props.onOpen?.(props.value)}>
+          打开变量
+        </DsButton>
+      ) : null}
+    </div>
+  )
+}
+
 /** 实体 id 下拉(含空 = 手输)。 */
 function EntitySel(props: { value: string; scene: SceneDef; onChange: (id: string) => void }) {
   const options = props.scene.entities.map((entity) => ({ value: entity.id, label: entity.id }))
@@ -215,6 +257,9 @@ export function CommandForm(props: {
   hasImplicitSelf?: boolean
   /** 打开 callScript/jumpScript 目标；调用方决定留在场景内或进入作者共享库。 */
   onOpenScript?: (id: string) => void
+  /** 工程级变量登记表；变量与条件字段只允许从对应类型中选择。 */
+  worldVariables?: WorldVariableRegistryV1
+  onOpenWorldVariable?: (id: string) => void
   onOpenSound?: (id: string) => void
   onOpenImage?: (id: string) => void
   onOpenBattleSprite?: (id: string) => void
@@ -242,6 +287,8 @@ export function CommandForm(props: {
     scriptIndex,
     hasImplicitSelf,
     onOpenScript,
+    worldVariables,
+    onOpenWorldVariable,
     onOpenSound,
     onOpenImage,
     onOpenBattleSprite,
@@ -1263,11 +1310,12 @@ export function CommandForm(props: {
       return (
         <>
           <Row label="开关名">
-            <DsTextInput
-              size="compact"
+            <WorldVariablePicker
               value={cmd.flag}
-              onChange={(e) => set({ flag: e.target.value })}
-              placeholder="如 met-li-daniang"
+              kind="flag"
+              variables={worldVariables}
+              onChange={(flag) => set({ flag })}
+              onOpen={onOpenWorldVariable}
             />
           </Row>
           <Row label="设为">
@@ -1283,15 +1331,33 @@ export function CommandForm(props: {
       return (
         <>
           <Row label="变量名">
-            <DsTextInput
-              size="compact"
+            <WorldVariablePicker
               value={cmd.var}
-              onChange={(e) => set({ var: e.target.value })}
-              placeholder="如 wine-count"
+              kind="number"
+              variables={worldVariables}
+              onChange={(variable) => set({ var: variable })}
+              onOpen={onOpenWorldVariable}
             />
           </Row>
           <Row label="设为">
             <Num value={cmd.value} onChange={(n) => set({ value: n })} />
+          </Row>
+        </>
+      )
+    case 'addVar':
+      return (
+        <>
+          <Row label="变量名">
+            <WorldVariablePicker
+              value={cmd.var}
+              kind="number"
+              variables={worldVariables}
+              onChange={(variable) => set({ var: variable })}
+              onOpen={onOpenWorldVariable}
+            />
+          </Row>
+          <Row label="增减">
+            <Num value={cmd.delta} onChange={(delta) => set({ delta })} />
           </Row>
         </>
       )
@@ -1304,10 +1370,12 @@ export function CommandForm(props: {
           {c.kind === 'flag' ? (
             <>
               <Row label="条件:开关">
-                <DsTextInput
-                  size="compact"
+                <WorldVariablePicker
                   value={c.flag}
-                  onChange={(e) => set({ cond: { ...c, flag: e.target.value } })}
+                  kind="flag"
+                  variables={worldVariables}
+                  onChange={(flag) => set({ cond: { ...c, flag } })}
+                  onOpen={onOpenWorldVariable}
                 />
               </Row>
               <Row label="要求为">
@@ -1316,6 +1384,28 @@ export function CommandForm(props: {
                   options={['true', 'false']}
                   onChange={(v) => set({ cond: { ...c, is: v === 'true' } })}
                 />
+              </Row>
+            </>
+          ) : c.kind === 'var' ? (
+            <>
+              <Row label="条件:数值">
+                <WorldVariablePicker
+                  value={c.var}
+                  kind="number"
+                  variables={worldVariables}
+                  onChange={(variable) => set({ cond: { ...c, var: variable } })}
+                  onOpen={onOpenWorldVariable}
+                />
+              </Row>
+              <Row label="比较">
+                <Sel
+                  value={c.op}
+                  options={['==', '!=', '>=', '<=', '>', '<'] as const}
+                  onChange={(op) => set({ cond: { ...c, op } })}
+                />
+              </Row>
+              <Row label="值">
+                <Num value={c.value} onChange={(value) => set({ cond: { ...c, value } })} />
               </Row>
             </>
           ) : itemCondition ? (

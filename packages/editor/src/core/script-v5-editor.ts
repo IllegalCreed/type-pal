@@ -15,21 +15,21 @@ import type {
   StateTransitionV5,
 } from '@type-pal/content'
 import {
-  checkSharedScriptLibraryV14,
   checkSharedScriptLibraryV5,
-  validateItemsV14,
+  checkSharedScriptLibraryV14,
   validateItemsV5,
-  validateScenesV14,
+  validateItemsV14,
   validateScenesV5,
+  validateScenesV14,
 } from '@type-pal/content'
 import { getAuthorCommandAtV5, parseAuthorCommandPathV5 } from './author-command-edit-v5.js'
 
 export interface ScriptEditorStateV5 {
   /**
-   * 产品路径只传当前 content15；缺省 12 仅供尚未拆出的 v5 纯函数 fixture 使用，
+   * 产品路径只传当前 content16；缺省 12 仅供尚未拆出的 v5 纯函数 fixture 使用，
    * 不代表编辑器仍可打开旧工程。
    */
-  contentVersion?: 12 | 15
+  contentVersion?: 12 | 16
   scenes: SceneDefV5[]
   items: ItemDataV5[]
   sharedScripts: SharedScriptLibraryV5
@@ -854,7 +854,7 @@ export function describeCanonicalScriptReferenceV5(
 }
 
 function validateState(state: ScriptEditorStateV5): void {
-  if (state.contentVersion === 15) {
+  if (state.contentVersion === 16) {
     validateScenesV14(state.scenes)
     validateItemsV14(state.items)
     checkSharedScriptLibraryV14(state.sharedScripts)

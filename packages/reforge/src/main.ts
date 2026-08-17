@@ -3,7 +3,7 @@ import {
   applySetParty,
   buildEntityLifecycleReferenceIndexV13,
   buildWorld,
-  buildWorldV13,
+  buildWorldV16,
   type CharacterInstance,
   canonicalScriptTransitionJson,
   checkEntityLifecycleTableV13,
@@ -169,7 +169,7 @@ import {
 import { type LoadedProject, loadSceneDef } from './loader.js'
 import { type LoadedProjectV5, loadSceneDefV5 } from './loader-v5.js'
 import type { LoadedProjectV13 } from './loader-v13.js'
-import { type LoadedProjectV15, loadAllScenesV15, loadSceneDefV15 } from './loader-v15.js'
+import { type LoadedProjectV16, loadAllScenesV16, loadSceneDefV16 } from './loader-v16.js'
 import {
   castOutdoorSkill,
   closeMagicMenu,
@@ -224,13 +224,13 @@ import {
 } from './save/browser-state.js'
 import { sha256Bytes } from './save/migration.js'
 import {
-  normalizePayloadV15,
-  preflightSaveMigrationV15,
-  type SavePayloadV15Input,
-} from './save/migration-v15.js'
+  normalizePayloadV16,
+  preflightSaveMigrationV16,
+  type SavePayloadV16Input,
+} from './save/migration-v16.js'
 import {
   buildMeta,
-  buildPayloadV8Content15,
+  buildPayloadV8Content16,
   captureThumbnail,
   resolveRestoredMusic,
 } from './save/ops.js'
@@ -343,9 +343,9 @@ let ctx!: CanvasRenderingContext2D
  * 传 FSA/HTTP source 装出的工程 —— 本地工程句柄跨不了源,试玩必须同源,这就是拆出本函数的原因。
  * ⚠ 模块级严禁碰 DOM/location:barrel 导出后,node 测试环境 import 本模块即执行模块级代码。
  */
-export async function bootGame(inputProject: LoadedProjectV15): Promise<void> {
-  // content15 loader 保留作者态，同时以单一 resolver 产出 runtime view。
-  const canonicalProjectV15 = inputProject
+export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
+  // content16 loader 保留作者态与变量定义，同时以单一 resolver 产出 runtime view。
+  const canonicalProjectV16 = inputProject
   const canonicalProjectV13 = inputProject as unknown as LoadedProjectV13
   // 历史 v5 产品路径已退役；局部纯函数仍保留显式不可达分支。
   const canonicalProjectV5 = ((): LoadedProjectV5 | undefined => undefined)()
@@ -469,14 +469,14 @@ export async function bootGame(inputProject: LoadedProjectV15): Promise<void> {
     if (!canonicalProjectV13) throw new Error('canonical v13 scene loader 未启用')
     const hit = canonicalSceneCacheV13.get(id)
     if (hit) return hit
-    const def = await loadSceneDefV15(canonicalProjectV15, id)
+    const def = await loadSceneDefV16(canonicalProjectV16, id)
     canonicalSceneCacheV13.set(id, def)
     return def
   }
   let lifecycleReferencesV13Promise: Promise<EntityLifecycleReferenceIndexV13> | undefined
   function getLifecycleReferencesV13(): Promise<EntityLifecycleReferenceIndexV13> {
     if (!canonicalProjectV13) throw new Error('content13 lifecycle references 未启用')
-    lifecycleReferencesV13Promise ??= loadAllScenesV15(canonicalProjectV15).then((scenes) => {
+    lifecycleReferencesV13Promise ??= loadAllScenesV16(canonicalProjectV16).then((scenes) => {
       for (const def of scenes) canonicalSceneCacheV13.set(def.id, def)
       return buildEntityLifecycleReferenceIndexV13(scenes)
     })
@@ -681,7 +681,11 @@ export async function bootGame(inputProject: LoadedProjectV15): Promise<void> {
   // 0x99 底图覆写持久层。放此前 = 避免 TDZ)。
   let world: WorldState = buildWorld(bootStartWorld, project.actorsById)
   if (canonicalProjectV13) {
-    worldV13 = buildWorldV13(bootStartWorld, canonicalProjectV13.actorsById)
+    worldV13 = buildWorldV16(
+      bootStartWorld,
+      canonicalProjectV13.actorsById,
+      canonicalProjectV16.worldVariables,
+    )
     worldV13.script = worldScriptV5 ?? worldV13.script
   }
   if (!world.party[0]) throw new Error('reforge: 开局队伍不能为空')
@@ -6154,7 +6158,7 @@ export async function bootGame(inputProject: LoadedProjectV15): Promise<void> {
       pos: structuredClone(player.pos),
       facing,
     }
-    return buildPayloadV8Content15(currentWorldV13Snapshot(), position, inputProject.manifest.id)
+    return buildPayloadV8Content16(currentWorldV13Snapshot(), position, inputProject.manifest.id)
   }
 
   function doSave(slotId: SlotId, thumb: Blob | Promise<Blob>): Promise<void> {
@@ -6246,12 +6250,12 @@ export async function bootGame(inputProject: LoadedProjectV15): Promise<void> {
     _where: string,
     _signal?: AbortSignal,
   ): Promise<StoredSavePayload> {
-    const resolver = await preflightSaveMigrationV15({
+    const resolver = await preflightSaveMigrationV16({
       manifest: inputProject.manifest,
       payload: raw,
     })
-    return normalizePayloadV15(
-      raw as SavePayloadV15Input,
+    return normalizePayloadV16(
+      raw as SavePayloadV16Input,
       resolver,
       await getLifecycleReferencesV13(),
     )
@@ -6272,7 +6276,7 @@ export async function bootGame(inputProject: LoadedProjectV15): Promise<void> {
     }
     let canonicalScriptCandidate: WorldScriptStateV5 | undefined
     let canonicalWorldCandidateV13: WorldStateV13 | undefined
-    const payload = p as import('./save/types.js').SavePayloadV8Content15
+    const payload = p as import('./save/types.js').SavePayloadV8Content16
     canonicalScriptCandidate = structuredClone(payload.world.script ?? emptyWorldScriptStateV5())
     canonicalWorldCandidateV13 = {
       ...structuredClone(payload.world),

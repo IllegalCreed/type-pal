@@ -7106,6 +7106,17 @@ button.sprite-frame-cell[draggable="true"]:active {
 .cf-named-ref-picker > .ds-input {
   width: 100%;
 }
+.cf-world-variable-picker {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+.cf-world-variable-picker > .ds-select {
+  min-width: 0;
+}
 .cf-readonly {
   flex: 1;
   min-width: 0;
@@ -8395,89 +8406,100 @@ button.sprite-frame-cell[draggable="true"]:active {
   }
 }
 
-/* ── N5 变量总览 + 引用反向索引 ── */
-.var-group {
-  margin: 10px 12px;
-  max-width: 620px;
+/* ── N5 世界变量定义工作台 ── */
+.world-variable-outliner,
+.world-variable-reference-panel,
+.world-variable-workbench,
+.world-variable-workbench .ds-object-workspace {
+  min-width: 0;
+  min-height: 0;
 }
-.var-group h4 {
-  margin: 8px 0 6px;
-  font-size: 13px;
+.world-variable-catalog,
+.world-variable-scroll,
+.world-variable-reference-panel {
+  overflow: auto;
 }
-.var-row {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+.world-variable-catalog .ds-catalog-group-header:not(:first-child) {
+  margin-top: 8px;
 }
-.var-head {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  padding: 4px 6px;
-  background: none;
-  border: 0;
-  color: inherit;
-  cursor: pointer;
-  text-align: left;
+.world-variable-catalog .ds-catalog-row__trailing {
+  white-space: nowrap;
 }
-.var-head:hover {
-  background: rgba(255, 255, 255, 0.04);
-}
-.var-head .caret {
-  opacity: 0.5;
-  width: 12px;
-}
-.var-head .nm {
-  flex: 1;
-}
-.var-head .k {
-  font-size: 12px;
-  opacity: 0.55;
-}
-.ref-list {
+.world-variable-workbench .ds-object-workspace {
   display: flex;
   flex-direction: column;
-  padding: 2px 0 6px 24px;
+  height: 100%;
 }
-.ref-row {
+.world-variable-scroll {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: 14px;
+}
+.world-variable-notice {
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--danger);
+  background: color-mix(in srgb, var(--danger) 12%, var(--panel));
+  color: var(--fg);
+}
+.world-variable-create-card {
+  display: grid;
+  gap: 12px;
+  width: min(620px, 100%);
+  margin: 24px auto;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+.world-variable-create-card h2,
+.world-variable-create-card p {
+  margin: 0;
+}
+.world-variable-create-actions {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
-  padding: 2px 6px;
-  background: none;
-  border: 0;
-  color: inherit;
-  cursor: pointer;
-  text-align: left;
-  font-size: 12px;
-  border-radius: 4px;
 }
-.ref-row:hover:not(:disabled) {
-  background: rgba(127, 212, 255, 0.1);
+.world-variable-readonly-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(120px, 0.35fr);
+  gap: 8px;
 }
-.ref-row:disabled {
-  cursor: default;
-  opacity: 0.6;
+.world-variable-readonly-grid > div {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel2);
 }
-.ref-row .rw {
-  flex: none;
-  padding: 0 5px;
-  border-radius: 3px;
+.world-variable-readonly-grid span {
+  color: var(--dim);
   font-size: 11px;
 }
-.ref-row .rw.write {
-  background: rgba(255, 170, 90, 0.18);
-  color: #ffb570;
+.world-variable-readonly-grid code {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.ref-row .rw.read {
-  background: rgba(120, 200, 255, 0.15);
-  color: #7fd4ff;
+.world-variable-reference-panel > header {
+  padding: 14px;
+  border-bottom: 1px solid var(--line);
 }
-.ref-row .src {
-  opacity: 0.75;
+.world-variable-reference-panel > header p,
+.world-variable-reference-panel > header h3 {
+  margin: 0;
 }
-.ref-row .det {
-  opacity: 0.55;
-  margin-left: auto;
+.world-variable-reference-panel > .ds-reference-panel {
+  margin: 12px;
+}
+
+@media (max-width: 760px) {
+  .world-variable-readonly-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 /* ── C4 立绘编辑 ── */

@@ -17,6 +17,7 @@ import type {
   ShopDef,
   SpriteDef,
   StateTransitionV5,
+  WorldVariableRegistryV1,
 } from '@type-pal/content'
 import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
 import type { ReactElement, ReactNode } from 'react'
@@ -41,7 +42,7 @@ import type {
 } from '../core/script-v5-editor.js'
 import { stateTransitionExecutionLabelV5 } from '../core/script-v5-editor.js'
 import { BattleFieldPicker } from './BattleFieldPicker.js'
-import { CommandForm } from './CommandForm.js'
+import { CommandForm, WorldVariablePicker } from './CommandForm.js'
 import {
   DsButton,
   DsCheckbox,
@@ -82,6 +83,7 @@ export interface CanonicalScriptEditorContextV5 {
   audioResolver: AudioAssetReader
   assetReader: EditorAssetReader
   references: ScriptReferenceCatalog
+  worldVariables?: WorldVariableRegistryV1
   assetBase?: AssetBase
   actors?: Record<string, ActorDef>
   battleSprites: readonly BattleSpriteDef[]
@@ -93,6 +95,7 @@ export interface CanonicalScriptEditorContextV5 {
   hasImplicitSelf?: boolean
   currentEntityId?: string
   onOpenScript?: (id: string) => void
+  onOpenWorldVariable?: (id: string) => void
   onOpenSound?: (id: string) => void
   onOpenImage?: (id: string) => void
   onOpenBattleSprite?: (id: string) => void
@@ -1072,6 +1075,8 @@ function ConditionEditorV5(props: {
   value: AuthorConditionV5
   state?: ScriptEditorStateV5
   references?: ScriptReferenceCatalog
+  worldVariables?: WorldVariableRegistryV1
+  onOpenWorldVariable?: (id: string) => void
   onChange: (condition: AuthorConditionV5) => void
 }) {
   const sceneFieldId = useId()
@@ -1124,10 +1129,12 @@ function ConditionEditorV5(props: {
       {props.value.kind === 'flag' ? (
         <>
           <CanonicalFieldV5 label="开关 id">
-            <DsTextInput
-              size="compact"
+            <WorldVariablePicker
               value={props.value.flag}
-              onChange={(event) => patch({ flag: event.target.value })}
+              kind="flag"
+              variables={props.worldVariables}
+              onChange={(flag) => patch({ flag })}
+              onOpen={props.onOpenWorldVariable}
             />
           </CanonicalFieldV5>
           <CanonicalFieldV5 label="期望">
@@ -1146,10 +1153,12 @@ function ConditionEditorV5(props: {
       {props.value.kind === 'var' ? (
         <>
           <CanonicalFieldV5 label="数值 id">
-            <DsTextInput
-              size="compact"
+            <WorldVariablePicker
               value={props.value.var}
-              onChange={(event) => patch({ var: event.target.value })}
+              kind="number"
+              variables={props.worldVariables}
+              onChange={(variable) => patch({ var: variable })}
+              onOpen={props.onOpenWorldVariable}
             />
           </CanonicalFieldV5>
           <CanonicalFieldV5 label="比较">
@@ -1279,6 +1288,8 @@ function ConditionEditorV5(props: {
               value={condition}
               state={props.state}
               references={props.references}
+              worldVariables={props.worldVariables}
+              onOpenWorldVariable={props.onOpenWorldVariable}
               onChange={(next) => {
                 const compound = props.value as Extract<AuthorConditionV5, { kind: 'all' | 'any' }>
                 const of = [...compound.of]
@@ -1308,6 +1319,8 @@ function ConditionEditorV5(props: {
           value={props.value.cond}
           state={props.state}
           references={props.references}
+          worldVariables={props.worldVariables}
+          onOpenWorldVariable={props.onOpenWorldVariable}
           onChange={(cond) =>
             props.onChange({
               ...(props.value as Extract<AuthorConditionV5, { kind: 'not' }>),
@@ -1321,7 +1334,6 @@ function ConditionEditorV5(props: {
 }
 
 const CUSTOM_COMMANDS = new Set<AuthorCommandV5['kind']>([
-  'addVar',
   'cameraSnap',
   'chasePlayer',
   'endBattle',
@@ -1543,6 +1555,8 @@ function CanonicalCommandFormV5(props: {
           ambiences={context.ambiences}
           shops={context.shops}
           references={context.references}
+          worldVariables={context.worldVariables}
+          onOpenWorldVariable={context.onOpenWorldVariable}
           hasImplicitSelf={context.hasImplicitSelf}
           showRawJson={false}
           onOpenSound={context.onOpenSound}
@@ -1594,6 +1608,8 @@ function CanonicalCommandFormV5(props: {
           value={command.cond}
           state={context?.state}
           references={context?.references}
+          worldVariables={context?.worldVariables}
+          onOpenWorldVariable={context?.onOpenWorldVariable}
           onChange={(cond) => props.onChange({ ...command, cond })}
         />
         <p className="hint">分支和循环正文在左侧树中直接增删、排序和编辑。</p>
@@ -3246,6 +3262,8 @@ function TransitionEditorV5(props: {
             value={transition.cond}
             state={props.context?.state}
             references={props.context?.references}
+            worldVariables={props.context?.worldVariables}
+            onOpenWorldVariable={props.context?.onOpenWorldVariable}
             onChange={(cond) => props.onChange({ ...transition, cond })}
           />
           <TransitionEditorV5
