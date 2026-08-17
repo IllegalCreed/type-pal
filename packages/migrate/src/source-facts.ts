@@ -24,6 +24,23 @@ export const ROLE_SLUGS = [
   'gai-luojiao',
 ] as const
 
+/**
+ * PAL 角色名字对象号 → 稳定角色 id。0x79 比较的是 PlayerRoles.rgwName，
+ * 不是 role 数组下标（reference/sdlpal/script.c:2230-2243）。
+ */
+const ROLE_NAME_WORD_TO_SLUG: Readonly<Record<number, (typeof ROLE_SLUGS)[number]>> = {
+  36: 'li-xiaoyao',
+  37: 'zhao-linger',
+  38: 'lin-yueru',
+  39: 'anu',
+  40: 'wu-hou',
+  41: 'gai-luojiao',
+}
+
+export function roleSlugForNameWord(word: number): (typeof ROLE_SLUGS)[number] | undefined {
+  return ROLE_NAME_WORD_TO_SLUG[word]
+}
+
 /** 原版 direction 0-3 = 下/左/上/右(kDirSouth/West/North/East;sdlpal palcommon.h)。 */
 export const FACING_BY_DIR = ['down', 'left', 'up', 'right'] as const
 

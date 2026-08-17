@@ -57,13 +57,13 @@ export function applyPalBossEncounterOverlay(
     }
     if (!node || typeof node !== 'object') return
     const command = node as Record<string, unknown>
-    if (
-      command.kind === 'startBattle' &&
-      typeof command.enemyTeamId === 'string' &&
-      !command.choreography
-    ) {
-      const teamNumber = /^team-(\d+)$/.exec(command.enemyTeamId)?.[1]
-      const hit = teamNumber === undefined ? undefined : byTeam.get(Number(teamNumber))
+    if (command.kind === 'startBattle' && !command.choreography) {
+      const stableTeam =
+        typeof command.enemyTeamId === 'string'
+          ? /^team-(\d+)$/.exec(command.enemyTeamId)?.[1]
+          : undefined
+      const teamNumber = Number.isSafeInteger(command.team) ? Number(command.team) : undefined
+      const hit = byTeam.get(teamNumber ?? Number(stableTeam))
       if (hit) {
         command.choreography = structuredClone(hit.value)
         attached++

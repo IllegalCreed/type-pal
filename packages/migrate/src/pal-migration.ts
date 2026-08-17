@@ -524,10 +524,15 @@ export interface PalMigrationBuildOptions {
   enemyTeamSchema?: 'legacy-members' | 'semantic-slots'
 }
 
+interface PalMigrationInternalBuildOptions extends PalMigrationBuildOptions {
+  /** 只供已发布 historical authority 重放；当前产品与 CLI 禁止开启 legacy。 */
+  palReferenceSchema?: 'legacy' | 'stable-id'
+}
+
 function buildPalMigrationWithEnemyAuthority(
   sources: PalMigrationSources,
   enemyAuthority: PalEnemyAuthorityProfile,
-  options: PalMigrationBuildOptions = {},
+  options: PalMigrationInternalBuildOptions = {},
 ): MigrationFileSet {
   const palSemanticProfile =
     enemyAuthority.r13_6a === 'current'
@@ -559,6 +564,9 @@ function buildPalMigrationWithEnemyAuthority(
     {
       skillItemCosts: enemyAuthority.r13_6a === 'current',
       palSemanticProfile,
+      palReferenceSchema:
+        options.palReferenceSchema ??
+        (palSemanticProfile === 'historical-r13-4' ? 'legacy' : 'stable-id'),
     },
   )
   const items = applyPalItemOverlays(migrated.items)
@@ -648,6 +656,9 @@ function buildPalMigrationWithEnemyAuthority(
       worldSpriteFrameCounts: sources.worldSpriteFrameCounts,
       globalScriptAliases: itemUseScriptAliases,
       palSemanticProfile,
+      palReferenceSchema:
+        options.palReferenceSchema ??
+        (palSemanticProfile === 'historical-r13-4' ? 'legacy' : 'stable-id'),
     },
   )
   const boss = applyPalBossEncounterOverlay(
@@ -896,6 +907,19 @@ export function buildPalHistoricalR13_5V10Migration(
 ): MigrationFileSet {
   return buildPalMigrationWithEnemyAuthority(sources, R13_ENEMY_PARENT_AUTHORITY, {
     enemyTeamSchema: 'legacy-members',
+  })
+}
+
+/**
+ * R13-6A canary 的发布时输入：保留 current-v10/6A 能力，只把敌队引用重放为当时的 numeric team。
+ * 不得用于当前工程生成、CLI 或写盘。
+ */
+export function buildPalHistoricalR13_6AV10Migration(
+  sources: PalMigrationSources,
+): MigrationFileSet {
+  return buildPalMigrationWithEnemyAuthority(sources, CURRENT_ENEMY_AUTHORITY, {
+    enemyTeamSchema: 'legacy-members',
+    palReferenceSchema: 'legacy',
   })
 }
 

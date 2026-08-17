@@ -6,9 +6,9 @@ import {
   type ScriptFlowV5,
   validateEnemies,
   validateLocale,
-  validateScenesV5,
   validateSkills,
 } from '@type-pal/content'
+import { validateHistoricalScenesForCurrentSchema } from '../../historical-enemy-team-authority.js'
 import type { MigrationSnapshot } from '../../migration-baseline.js'
 import type { MigrationFileSet, MigrationJson, PalMigrationSources } from '../../pal-migration.js'
 import {
@@ -253,7 +253,7 @@ function asMigrationJson(value: unknown): MigrationJson {
 
 function sceneOf(snapshot: MigrationSnapshot, sceneId: string): SceneDefV5 {
   const value = snapshot.files.get(`content/scenes/${sceneId}.json`)
-  const scenes = validateScenesV5([value])
+  const scenes = validateHistoricalScenesForCurrentSchema([value])
   const scene = scenes[0]
   if (!scene || scene.id !== sceneId)
     throw new Error(`R13 enemy augmentation: scene ${sceneId} identity 漂移`)
@@ -297,7 +297,9 @@ function locateEncounter(
   if (!flow) throw new Error(`R13 enemy augmentation: ${locator} flow 不存在`)
   const matches = flowBody(flow, spec.stateId, locator).filter(
     (command): command is StartBattleCommand =>
-      command.kind === 'startBattle' && command.enemyTeamId === `team-${spec.team}`,
+      command.kind === 'startBattle' &&
+      ((command as unknown as { team?: number }).team === spec.team ||
+        command.enemyTeamId === `team-${spec.team}`),
   )
   if (matches.length !== 1)
     throw new Error(`R13 enemy augmentation: ${locator} startBattle 数量=${matches.length}`)
@@ -499,7 +501,9 @@ export function assertR13EnemyScriptFinalTargetClosure(
     if (!flow) throw new Error(`R13 enemy augmentation: final ${locator} flow 不存在`)
     const matches = flowBody(flow, spec.stateId, locator).filter(
       (command): command is StartBattleCommand =>
-        command.kind === 'startBattle' && command.enemyTeamId === `team-${spec.team}`,
+        command.kind === 'startBattle' &&
+        ((command as unknown as { team?: number }).team === spec.team ||
+          command.enemyTeamId === `team-${spec.team}`),
     )
     const command = matches[0]
     if (

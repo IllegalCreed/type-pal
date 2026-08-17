@@ -1,5 +1,6 @@
-import { type SceneDefV5, validateScenesV5 } from '@type-pal/content'
+import type { SceneDefV5 } from '@type-pal/content'
 import { beforeAll, describe, expect, it } from 'vitest'
+import { validateHistoricalScenesForCurrentSchema } from '../../historical-enemy-team-authority.js'
 import type { MigrationSnapshot } from '../../migration-baseline.js'
 import type { MigrationJson } from '../../pal-migration.js'
 import { getPalTestGeneratedFixture, hasPalTestFixture } from './pal-test-fixture.js'
@@ -126,7 +127,9 @@ describePal('R13-4 confirm source control flow (PAL)', () => {
 
     const ids = generated.r13ConfirmSuccessorSnapshot.files.get('content/scenes/index.json')
     if (!Array.isArray(ids)) throw new Error('R13-4 PAL test: scene index 无效')
-    validateScenesV5(ids.map((id) => scene(generated.r13ConfirmSuccessorSnapshot, String(id))))
+    validateHistoricalScenesForCurrentSchema(
+      ids.map((id) => scene(generated.r13ConfirmSuccessorSnapshot, String(id))),
+    )
     assertR13ConfirmDispositionBacked(
       generated.r13ConfirmParentSnapshot,
       generated.r13ConfirmSuccessorSnapshot,

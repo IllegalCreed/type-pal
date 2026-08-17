@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { checkScriptFlowV5 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
+import { projectHistoricalSceneForCurrentValidation } from '../../historical-enemy-team-authority.js'
 import { p7OwnerKey } from './p7-canonical.js'
 import { type LegacyStageInput, projectP7StateMachineOwnerFlow } from './p7-owner-machine.js'
 import { PAL_TEST_FAST_GATE } from './pal-test-fixture.js'
@@ -229,12 +230,16 @@ describe.skipIf(
       })
       stateCount += Object.keys(flow.machine.states).length
       expect(() =>
-        checkScriptFlowV5(flow, `owner:${p7OwnerKey(owner.identity)}`, {
-          allowSceneEntry:
-            owner.identity.kind === 'scene-hook' && owner.identity.slot === 'onEnter',
-          forbidLoadScene:
-            owner.identity.kind === 'entity-behavior' && owner.identity.channel === 'auto',
-        }),
+        checkScriptFlowV5(
+          projectHistoricalSceneForCurrentValidation(flow),
+          `owner:${p7OwnerKey(owner.identity)}`,
+          {
+            allowSceneEntry:
+              owner.identity.kind === 'scene-hook' && owner.identity.slot === 'onEnter',
+            forbidLoadScene:
+              owner.identity.kind === 'entity-behavior' && owner.identity.channel === 'auto',
+          },
+        ),
       ).not.toThrow()
     }
     expect(stateCount).toBe(771)

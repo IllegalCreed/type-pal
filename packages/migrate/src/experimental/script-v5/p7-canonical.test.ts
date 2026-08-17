@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { checkAuthorCommandsV5, checkScriptFlowV5 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
+import { projectHistoricalSceneForCurrentValidation } from '../../historical-enemy-team-authority.js'
 import type { SourceCmd } from '../../source-facts.js'
 import { AutoFlowLifecycleIndex } from './auto-flow-lifecycle.js'
 import {
@@ -283,12 +284,16 @@ describe.skipIf(
         entityScenes,
       })
       expect(() =>
-        checkScriptFlowV5(flow, `owner:${p7OwnerKey(owner.identity)}`, {
-          allowSceneEntry:
-            owner.identity.kind === 'scene-hook' && owner.identity.slot === 'onEnter',
-          forbidLoadScene:
-            owner.identity.kind === 'entity-behavior' && owner.identity.channel === 'auto',
-        }),
+        checkScriptFlowV5(
+          projectHistoricalSceneForCurrentValidation(flow),
+          `owner:${p7OwnerKey(owner.identity)}`,
+          {
+            allowSceneEntry:
+              owner.identity.kind === 'scene-hook' && owner.identity.slot === 'onEnter',
+            forbidLoadScene:
+              owner.identity.kind === 'entity-behavior' && owner.identity.channel === 'auto',
+          },
+        ),
       ).not.toThrow()
     }
   }, 120_000)

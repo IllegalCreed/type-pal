@@ -1,6 +1,6 @@
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { dirname, resolve } from 'node:path'
+import { dirname, isAbsolute, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { isDeepStrictEqual } from 'node:util'
 import { gunzipSync, inflateSync } from 'node:zlib'
@@ -47,8 +47,8 @@ import {
   createR13EnemyScriptV5MigrationPlan,
   R13_ENEMY_SCRIPT_TRANSITION_ID,
 } from './experimental/script-v5/r13-enemy-script-mg2.js'
-import { prepareR13SourceExecutionCensus } from './experimental/script-v5/source-execution-census.js'
 import { buildValidatedP6TransformOutput } from './experimental/script-v5/shadow-harness.js'
+import { prepareR13SourceExecutionCensus } from './experimental/script-v5/source-execution-census.js'
 import { migratedItemUseScriptRef } from './migrate-content.js'
 import {
   isAtomicProjectMapPath,
@@ -81,23 +81,23 @@ import {
   PAL_WORLD_SPRITE_TUPLE_DIGEST,
 } from './pal-assets.js'
 import { assertB10PublishedAuthority } from './pal-b10-enemy-team-slots.js'
-import { rewindCurrentC1PublicationToW9 } from './pal-current-c1-rewind.js'
 import {
   PAL_ENEMY_BATTLE_SPRITE_FRAME_COUNTS,
   PAL_PLAYER_BATTLE_SPRITE_FRAME_COUNTS,
 } from './pal-battle-sprites.js'
+import { rewindCurrentC1PublicationToW9 } from './pal-current-c1-rewind.js'
 import { preparePalManifest } from './pal-manifest.js'
-import { rewindPublishedW9PublicationIfPresent } from './pal-w9-entity-lifecycle.js'
 import {
   buildPalHistoricalR13_4V9Migration,
   buildPalHistoricalR13_5V10Migration,
   buildPalMigration,
   type MigrationJson,
-  type PalMigrationSources,
   PAL_WORLD_SPRITE_UNUSED_NUMBERS,
+  type PalMigrationSources,
   palSoundAssetForSources,
 } from './pal-migration.js'
 import { loadPalMigrationSources } from './pal-migration-io.js'
+import { rewindPublishedW9PublicationIfPresent } from './pal-w9-entity-lifecycle.js'
 import {
   PAL_WORLD_SPRITE_LAYOUT_DEBT_AUDIT,
   PAL_WORLD_SPRITE_LAYOUT_OVERLAYS,
@@ -122,6 +122,14 @@ const hasBootstrapFixture =
 const hasCommittedBaseline =
   hasExtractedData && existsSync(resolve(repo, 'packages/migrate/baselines/pal/_state.json'))
 const tempRoots: string[] = []
+
+function freshTransactionParent(): string {
+  const requested = process.env.TYPE_PAL_MIGRATE_TRANSACTION_ROOT
+  if (!requested) return tmpdir()
+  if (!isAbsolute(requested)) throw new Error('MG2 fresh transaction root 必须是绝对路径')
+  mkdirSync(requested, { recursive: true })
+  return requested
+}
 const expectedLegacyPaletteByFrameAnimation = Object.fromEntries(
   Array.from({ length: 12 }, (_, index) => [
     `frame-animation.pal.${String(index).padStart(3, '0')}`,
@@ -510,12 +518,8 @@ function assertItemUseCensus(migration: ReturnType<typeof buildPalMigration>): v
   )
 }
 
-function assertBattleFieldDomainSeparation(
-  snapshot: Pick<MigrationSnapshot, 'files'>,
-): void {
-  const fields = snapshot.files.get('content/battle-fields.json') as
-    | BattleFieldDef[]
-    | undefined
+function assertBattleFieldDomainSeparation(snapshot: Pick<MigrationSnapshot, 'files'>): void {
+  const fields = snapshot.files.get('content/battle-fields.json') as BattleFieldDef[] | undefined
   expect(fields).toBeDefined()
   expect(fields).toHaveLength(52)
   expect(fields?.map(({ id }) => id)).toEqual(Array.from({ length: 52 }, (_, index) => index + 6))
@@ -609,7 +613,7 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
       setFollowers: { total: 1, migrated: 1 },
     })
 
-    const temp = mkdtempSync(resolve(tmpdir(), 'type-pal-mg2-real-'))
+    const temp = mkdtempSync(resolve(freshTransactionParent(), 'type-pal-mg2-real-'))
     tempRoots.push(temp)
     mkdirSync(resolve(temp, 'projects'), { recursive: true })
     cpSync(resolve(repo, 'projects/pal'), resolve(temp, 'projects/pal'), { recursive: true })
@@ -958,7 +962,7 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
       manifest,
       generatedResult?.snapshot.files.get('content/items.json'),
     )
-    expect(soundAudit.report.target.soundEdges).toBe(1_747)
+    expect(soundAudit.report.target.soundEdges).toBe(1_749)
     expect(manifest.assets.roles).toMatchObject(PAL_ASSET_ROLES)
     expect(manifest.assets.legacy?.families).not.toContain('sound')
     expect(manifest.assets.legacy?.sounds).toBeUndefined()
@@ -1002,5 +1006,5 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
       setActorAppearance: { total: 3, migrated: 2 },
       setFollowers: { total: 1, migrated: 1 },
     })
-  }, 240_000)
+  }, 600_000)
 })

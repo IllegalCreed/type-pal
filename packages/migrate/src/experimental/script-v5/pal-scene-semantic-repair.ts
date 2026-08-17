@@ -1,5 +1,5 @@
 import type { AuthorCommandV5, SceneDefV5 } from '@type-pal/content'
-import { validateScenesV5 } from '@type-pal/content'
+import { validateHistoricalScenesForCurrentSchema } from '../../historical-enemy-team-authority.js'
 import type { MigrationSnapshot } from '../../migration-baseline.js'
 import type { MigrationJson } from '../../pal-migration.js'
 import type { SourceCmd } from '../../source-facts.js'
@@ -384,12 +384,12 @@ export function repairPalSceneSemanticsAfterP7(args: {
     const path = `content/scenes/${spec.sceneId}.json`
     const raw = snapshot.files.get(path)
     if (!raw) throw new Error(`PAL scene semantic repair: 缺 ${path}`)
-    const scene = validateScenesV5([structuredClone(raw)])[0]!
+    const scene = validateHistoricalScenesForCurrentSchema([structuredClone(raw)])[0]!
     if (scene.id !== spec.sceneId)
       throw new Error(`PAL scene semantic repair: ${path} 内容 id=${scene.id} 与路径不匹配`)
     restoreImplicitFadeIn(scene, spec)
     if (scene.id === S048_CHECKPOINT.sceneId) restoreS048Checkpoint(scene)
-    validateScenesV5([scene])
+    validateHistoricalScenesForCurrentSchema([scene])
     snapshot.files.set(path, asJson(scene))
     snapshot.managedFiles.add(path)
     targets.push({

@@ -5,7 +5,7 @@ import type {
   ScriptFlowV5,
   StateTransitionV5,
 } from '@type-pal/content'
-import { validateScenesV5 } from '@type-pal/content'
+import { validateHistoricalScenesForCurrentSchema } from '../../historical-enemy-team-authority.js'
 import type { MigrationSnapshot } from '../../migration-baseline.js'
 import type { MigrationJson } from '../../pal-migration.js'
 import type { SourceCmd } from '../../source-facts.js'
@@ -1633,7 +1633,7 @@ export function augmentR13AutoIdleGates(args: {
   if (steadyOwners.length !== 15)
     throw new Error(`R13 idle gate: steady auto owner 数量 ${steadyOwners.length}，期望 15`)
 
-  validateScenesV5(scenes)
+  validateHistoricalScenesForCurrentSchema(scenes)
   const files = new Map(args.snapshot.files)
   const managedFiles = new Set(args.snapshot.managedFiles)
   // `readScenes` already created this augmentation's isolated working set.  Retain those values

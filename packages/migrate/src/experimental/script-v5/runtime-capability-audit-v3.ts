@@ -18,9 +18,9 @@ import {
   upgradeEmbeddedBattleChoreographyV9ToV10,
   validateEnemies,
   validateItemsV5,
-  validateScenesV5,
   validateSkills,
 } from '@type-pal/content'
+import { validateHistoricalScenesForCurrentSchema } from '../../historical-enemy-team-authority.js'
 import type { MigrationSnapshot } from '../../migration-baseline.js'
 import { stableJsonSha256, stableStringCompare } from './stable-json.js'
 
@@ -252,7 +252,7 @@ function runtimeCorpus(snapshot: MigrationSnapshot): RuntimeCorpusV3 {
   const sceneIds = value(snapshot, 'content/scenes/index.json')
   if (!Array.isArray(sceneIds) || sceneIds.some((id) => typeof id !== 'string' || id.length === 0))
     throw new Error('R13 runtime capability v3: scenes/index.json 无效')
-  const scenes = validateScenesV5(
+  const scenes = validateHistoricalScenesForCurrentSchema(
     upgradeEmbeddedBattleChoreographyV9ToV10(
       sceneIds.map((id) => value(snapshot, `content/scenes/${String(id)}.json`)),
       'scenes',

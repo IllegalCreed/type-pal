@@ -1,6 +1,6 @@
 import { isDeepStrictEqual } from 'node:util'
 import type { SceneDefV5 } from '@type-pal/content'
-import { validateScenesV5 } from '@type-pal/content'
+import { validateHistoricalScenesForCurrentSchema } from '../../historical-enemy-team-authority.js'
 import type { MigrationSnapshot } from '../../migration-baseline.js'
 import type { MigrationJson } from '../../pal-migration.js'
 import { appendOnlyTransitionState } from './append-only-transition-state.js'
@@ -135,7 +135,7 @@ function targetScenes(snapshot: MigrationSnapshot): Map<string, SceneDefV5> {
   const ids = snapshot.files.get('content/scenes/index.json')
   if (!Array.isArray(ids) || ids.some((id) => typeof id !== 'string'))
     throw new Error('R13 cadence MG2: target scene index 无效')
-  const scenes = validateScenesV5(
+  const scenes = validateHistoricalScenesForCurrentSchema(
     ids.map((id) => {
       const scene = snapshot.files.get(`content/scenes/${String(id)}.json`)
       if (!scene) throw new Error(`R13 cadence MG2: target 缺 scene ${String(id)}`)

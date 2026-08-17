@@ -15,18 +15,8 @@ import {
 } from './legacy-dialog.js'
 import { resolveSoundAsset } from './sound-migration.js'
 import type { SourceCmd } from './source-facts.js'
-import { ROLE_SLUGS, signExtendI16 } from './source-facts.js'
+import { roleSlugForNameWord, ROLE_SLUGS, signExtendI16 } from './source-facts.js'
 import type { TranslateCtx } from './translate-events.js'
-
-/** 0x79 的 rgwName word → 稳定角色模板 id。 */
-const NAME_WORD_TO_SLUG: Readonly<Record<number, string>> = {
-  36: 'li-xiaoyao',
-  37: 'zhao-linger',
-  38: 'lin-yueru',
-  39: 'anu',
-  40: 'wu-hou',
-  41: 'gai-luojiao',
-}
 
 const ENEMY_SPEAKER_RE = /[∶:：]\s*$/
 const MAX_REACHABLE_INSTRUCTIONS = 2_048
@@ -409,7 +399,7 @@ export function translateEnemyHookFlow(
           branchTarget === 0 ? { kind: 'stay' } : continueTo(target(branchTarget, position))
         if (opcode === 0x79) {
           const actor =
-            NAME_WORD_TO_SLUG[operands[0] ?? -1] ??
+            roleSlugForNameWord(operands[0] ?? -1) ??
             fail(address, `0x79 未知角色 word=${operands[0] ?? -1}`)
           transition = {
             kind: 'branch',

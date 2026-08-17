@@ -21,9 +21,9 @@ import {
   projectLocalScriptV4ToV5,
   validateLocale,
   validateMigrationDiagnostics,
-  validateScenesV5,
   validateSprites,
 } from '@type-pal/content'
+import { validateHistoricalScenesForCurrentSchema } from '../../historical-enemy-team-authority.js'
 import {
   migratedSpriteId,
   resolveSceneScriptPatches,
@@ -608,9 +608,8 @@ export function assertC8ItemUseFinalTargetClosure(
   evidence: C8ItemUseAugmentationEvidenceV1,
 ): void {
   const sceneIds = required<string[]>(snapshot, 'content/scenes/index.json')
-  const scenes = validateScenesV5(
-    sceneIds.map((id) => required(snapshot, `content/scenes/${id}.json`)),
-  )
+  const sceneValues = sceneIds.map((id) => required(snapshot, `content/scenes/${id}.json`))
+  const scenes = validateHistoricalScenesForCurrentSchema(sceneValues)
   const items = validateR13ItemThrowParentItems(required(snapshot, 'content/items.json'))
   const diagnostics = validateMigrationDiagnostics(
     required(snapshot, 'content/migration-diagnostics.json'),
@@ -873,9 +872,10 @@ export function augmentC8ItemUsesAfterP7(args: {
 }): C8ItemUseAugmentation {
   const snapshot = cloneSnapshot(args.snapshot)
   const sceneIds = required<string[]>(snapshot, 'content/scenes/index.json', false)
-  const sourceScenes = validateScenesV5(
-    sceneIds.map((id) => required(snapshot, `content/scenes/${id}.json`, false)),
+  const sourceSceneValues = sceneIds.map((id) =>
+    required(snapshot, `content/scenes/${id}.json`, false),
   )
+  const sourceScenes = validateHistoricalScenesForCurrentSchema(sourceSceneValues)
   const sourceScenesById = new Map(sourceScenes.map((scene) => [scene.id, scene]))
   const mutatedScenes = new Map<string, SceneDefV5>()
   const mutableScene = (sceneId: string): SceneDefV5 => {
@@ -1081,7 +1081,7 @@ export function augmentC8ItemUsesAfterP7(args: {
   sameStringSet(sourceUsableItemIds, targetRunnableUseItemIds, 'source usable / target runnable')
 
   const finalScenes = sourceScenes.map((scene) => mutatedScenes.get(scene.id) ?? scene)
-  validateScenesV5(finalScenes)
+  validateHistoricalScenesForCurrentSchema(finalScenes)
   validateR13ItemThrowParentItems(items)
   validateLocale(locale, { allowLegacySoftWrap: true })
   validateSprites(sprites)

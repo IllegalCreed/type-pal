@@ -8,6 +8,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { projectMigrationV9ToLegacyV8 } from '../src/experimental/script-v5/equip-battle-sprite-v8-authority.js'
 import { buildPalHistoricalR13_4V9Migration } from '../src/pal-migration.js'
 import { loadPalMigrationSources } from '../src/pal-migration-io.js'
 import {
@@ -24,7 +25,7 @@ if (unknown.length) throw new Error(`未知参数: ${unknown.join(', ')}`)
 const json = process.argv.includes('--json')
 const writeBaseline = process.argv.includes('--write-baseline')
 const sources = loadPalMigrationSources(repo)
-const migration = buildPalHistoricalR13_4V9Migration(sources)
+const migration = projectMigrationV9ToLegacyV8(buildPalHistoricalR13_4V9Migration(sources))
 const report = auditPalScriptControlFlow(sources, migration)
 assertScriptControlFlowAudit(report)
 const baselineSerialized = `${JSON.stringify(report)}\n`

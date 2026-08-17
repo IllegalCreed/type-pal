@@ -1,6 +1,6 @@
 import { isDeepStrictEqual } from 'node:util'
 import type { SceneDefV5, ScriptFlowV5 } from '@type-pal/content'
-import { validateScenesV5 } from '@type-pal/content'
+import { validateHistoricalScenesForCurrentSchema } from '../../historical-enemy-team-authority.js'
 import type { MigrationSnapshot } from '../../migration-baseline.js'
 import type { MigrationFileSet, MigrationJson, PalMigrationSources } from '../../pal-migration.js'
 import type { ScriptControlFlowAuditV1 } from '../../script-control-flow-audit.js'
@@ -246,7 +246,7 @@ function targetScenes(snapshot: MigrationSnapshot): SceneDefV5[] {
   const ids = snapshot.files.get('content/scenes/index.json')
   if (!Array.isArray(ids) || ids.some((id) => typeof id !== 'string'))
     throw new Error('R13 cross activation MG2: target scene index 无效')
-  return validateScenesV5(
+  return validateHistoricalScenesForCurrentSchema(
     ids.map((id) => {
       const scene = snapshot.files.get(`content/scenes/${String(id)}.json`)
       if (!scene) throw new Error(`R13 cross activation MG2: target 缺 scene ${String(id)}`)

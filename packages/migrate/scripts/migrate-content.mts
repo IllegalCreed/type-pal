@@ -4,7 +4,7 @@
  */
 
 import { spawn } from 'node:child_process'
-import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { isDeepStrictEqual } from 'node:util'
@@ -18,10 +18,10 @@ import {
   checkSharedScriptLibraryV5,
   mapAssetById,
   upgradeEnemyTeamsV11ToV12,
-  upgradeManifestV12ToV13,
   upgradeManifestV9ToV10,
   upgradeManifestV10ToV11,
   upgradeManifestV11ToV12,
+  upgradeManifestV12ToV13,
   validateActors,
   validateAssetCatalog,
   validateBattleFields,
@@ -40,6 +40,7 @@ import {
   validateStampTemplates,
   validateStartWorldResources,
   validateTilesets,
+  validateWorldVariableRegistryV1,
 } from '@type-pal/content'
 import type { FileSource } from '../../reforge/src/file-source.js'
 import { loadProjectMigrationRegistryV5 } from '../../reforge/src/save/migration.js'
@@ -97,9 +98,9 @@ import {
   isAtomicProjectMapPath,
   loadPalBaseline,
   loadPalBaselineRepairCandidate,
-  sha256,
   type MigrationSnapshot,
   serializeMigrationJson,
+  sha256,
   snapshotFileHash,
   snapshotFilePresent,
 } from '../src/migration-baseline.js'
@@ -136,6 +137,12 @@ import {
   type PalBinaryAssetSource,
 } from '../src/pal-assets.js'
 import {
+  B2_BATTLE_FIELD_DOMAIN_SEAL_PATH,
+  B2_BATTLE_FIELD_DOMAIN_TRANSITION_ID,
+  buildPalB2BattleFieldDomainMigration,
+  PAL_B2_BATTLE_FIELD_PATH,
+} from '../src/pal-b2-battle-field-domain.js'
+import {
   assertB10PublishedAuthority,
   assertB10PublishedReplayUnchanged,
   B10_ENEMY_TEAM_SLOTS_SEAL_PATH,
@@ -147,14 +154,6 @@ import {
   shouldRunB10EnemyTeamSlotsTransition,
 } from '../src/pal-b10-enemy-team-slots.js'
 import {
-  B2_BATTLE_FIELD_DOMAIN_SEAL_PATH,
-  B2_BATTLE_FIELD_DOMAIN_TRANSITION_ID,
-  buildPalB2BattleFieldDomainMigration,
-  PAL_B2_BATTLE_FIELD_PATH,
-  rewindPublishedB2BattleFieldDomainIfPresent,
-} from '../src/pal-b2-battle-field-domain.js'
-import { PAL_CASUALTY_LOCALE_KEYS } from '../src/pal-casualty-scripts.js'
-import {
   buildPalC1DialogueIdentityMigration,
   rewindPublishedC1DialogueIdentityIfPresent,
   validateC1ProjectV14Target,
@@ -165,6 +164,7 @@ import {
   C1_NPC_CURATION_TRANSITION_ID,
   rewindPublishedC1NpcCurationIfPresent,
 } from '../src/pal-c1-npc-curation-transition.js'
+import { PAL_CASUALTY_LOCALE_KEYS } from '../src/pal-casualty-scripts.js'
 import { preparePalManifest } from '../src/pal-manifest.js'
 import {
   buildPalHistoricalR13_4V9Migration,
@@ -177,18 +177,6 @@ import {
   palSoundAssetForSources,
 } from '../src/pal-migration.js'
 import { loadPalMigrationSources } from '../src/pal-migration-io.js'
-import {
-  buildPalW9LifecyclePublicationLedger,
-  foldedHostileTargetsFromPublishedB10,
-  PAL_W9_EXPECTED_PROOF_LEDGER_DIGEST,
-} from '../src/pal-w9-lifecycle-source-ledger.js'
-import { projectPalW9LifecycleSuccessor } from '../src/pal-w9-lifecycle-projector.js'
-import {
-  buildW9EntityLifecycleSeal,
-  installW9EntityLifecycleSeal,
-  rewindPublishedW9PublicationIfPresent,
-  validateW9ProjectV13Target,
-} from '../src/pal-w9-entity-lifecycle.js'
 import { applyPalR13SixBLoadSceneTransitions } from '../src/pal-r13-six-b-load-scene.js'
 import { applyPalR13SixBSceneOverlays } from '../src/pal-r13-six-b-overlays.js'
 import { rewindPalR13SixBPublication } from '../src/pal-r13-six-b-rewind.js'
@@ -198,6 +186,18 @@ import {
   R13_SIX_C_SEAL_PATH,
   rewindPalR13SixCPublicationIfPresent,
 } from '../src/pal-r13-six-c.js'
+import {
+  buildW9EntityLifecycleSeal,
+  installW9EntityLifecycleSeal,
+  rewindPublishedW9PublicationIfPresent,
+  validateW9ProjectV13Target,
+} from '../src/pal-w9-entity-lifecycle.js'
+import { projectPalW9LifecycleSuccessor } from '../src/pal-w9-lifecycle-projector.js'
+import {
+  buildPalW9LifecyclePublicationLedger,
+  foldedHostileTargetsFromPublishedB10,
+  PAL_W9_EXPECTED_PROOF_LEDGER_DIGEST,
+} from '../src/pal-w9-lifecycle-source-ledger.js'
 import {
   assertScriptControlFlowAudit,
   auditPalScriptControlFlow,
@@ -629,21 +629,14 @@ function buildC1NpcCurationMigration(
     manifest,
     manifestRawText,
   })
-  const rebuiltC1 = buildC1DialogueIdentityMigration(
-    sources,
-    parentC1,
-    manifest,
-    manifestRawText,
-  )
+  const rebuiltC1 = buildC1DialogueIdentityMigration(sources, parentC1, manifest, manifestRawText)
   sameSnapshot(snapshotOf(rebuiltC1.published), parentC1, 'C1-2 replay before C1-3')
   const result = buildPalC1NpcCurationMigration({
     baseline: snapshotOf(rebuiltC1.published),
     manifest,
     manifestRawText,
     sourceCommands: sources.migrate.commands,
-    sourceFileSha256: sha256(
-      readFileSync(resolve(repo, 'data/extracted/events/all.json'), 'utf8'),
-    ),
+    sourceFileSha256: sha256(readFileSync(resolve(repo, 'data/extracted/events/all.json'), 'utf8')),
   })
   const published = derivePalMigrationFileSet(
     rebuiltC1.published,
@@ -978,12 +971,8 @@ async function runC1NpcCurationTransition(
     nextManifest: manifest,
     preserveManifestRawText: true,
     rebuildTheirs: (rebuiltSources, publishedBaseline) =>
-      buildC1NpcCurationMigration(
-        rebuiltSources,
-        publishedBaseline,
-        manifest,
-        manifestText,
-      ).published,
+      buildC1NpcCurationMigration(rebuiltSources, publishedBaseline, manifest, manifestText)
+        .published,
   })
   console.log('[C1-3 publication/replay] content14/SAVE8 unchanged；manifest raw bytes unchanged')
 }
@@ -1012,10 +1001,7 @@ async function runB2BattleFieldDomainTransition(
   const managed = discoverProjectManagedFiles(repo, seed)
   const ours = loadProjectMigrationSnapshot(repo, managed)
   const plan = createMigrationPlan(baseline, ours, published)
-  const allowlist = new Set([
-    PAL_B2_BATTLE_FIELD_PATH,
-    B2_BATTLE_FIELD_DOMAIN_SEAL_PATH,
-  ])
+  const allowlist = new Set([PAL_B2_BATTLE_FIELD_PATH, B2_BATTLE_FIELD_DOMAIN_SEAL_PATH])
   const escapedWrites = [...plan.writes.keys()].filter((path) => !allowlist.has(path))
   if (escapedWrites.length || plan.deletes.length)
     throw new Error(
@@ -1078,12 +1064,8 @@ async function runB2BattleFieldDomainTransition(
     nextManifest: manifest,
     preserveManifestRawText: true,
     rebuildTheirs: (rebuiltSources, publishedBaseline) =>
-      buildB2BattleFieldDomainMigration(
-        rebuiltSources,
-        publishedBaseline,
-        manifest,
-        manifestText,
-      ).published,
+      buildB2BattleFieldDomainMigration(rebuiltSources, publishedBaseline, manifest, manifestText)
+        .published,
   })
   console.log('[B2 battlefield publication/replay] content14/SAVE8/manifest raw bytes unchanged')
 }
@@ -2167,14 +2149,15 @@ async function main(): Promise<void> {
       contentVersion !== 12 &&
       contentVersion !== 13 &&
       contentVersion !== 14 &&
-      contentVersion !== 15)
+      contentVersion !== 15 &&
+      contentVersion !== 16)
   )
     throw new Error(
-      `PAL migrate:content 只接受 contentVersion 4..15，收到 ${JSON.stringify(contentVersion)}`,
+      `PAL migrate:content 只接受 contentVersion 4..16，收到 ${JSON.stringify(contentVersion)}`,
     )
-  if (contentVersion === 15) {
+  if (contentVersion === 15 || contentVersion === 16) {
     if (flags.size > 0 && !(flags.size === 1 && flags.has('--write')))
-      throw new Error('current content15 replay 只接受默认参数或 --write')
+      throw new Error(`current content${String(contentVersion)} replay 只接受默认参数或 --write`)
     const teams = JSON.parse(
       readFileSync(resolve(repo, 'projects/pal/content/enemy-teams.json'), 'utf8'),
     ) as Array<{ id: string }>
@@ -2188,7 +2171,10 @@ async function main(): Promise<void> {
     let startBattle = 0
     const referenced = new Set<string>()
     const visit = (value: unknown): void => {
-      if (Array.isArray(value)) return value.forEach(visit)
+      if (Array.isArray(value)) {
+        value.forEach(visit)
+        return
+      }
       if (!value || typeof value !== 'object') return
       const record = value as Record<string, unknown>
       if (record.kind === 'startBattle' && typeof record.enemyTeamId === 'string') {
@@ -2204,16 +2190,29 @@ async function main(): Promise<void> {
       }
       Object.values(record).forEach(visit)
     }
-    files(resolve(repo, 'projects/pal/content')).forEach((path) =>
-      visit(JSON.parse(readFileSync(path, 'utf8')) as unknown),
-    )
+    for (const path of files(resolve(repo, 'projects/pal/content')))
+      visit(JSON.parse(readFileSync(path, 'utf8')) as unknown)
     const dangling = [...referenced].filter((id) => !teamIds.has(id))
     if (teams.length !== 380 || hostile !== 828 || startBattle !== 174 || dangling.length)
       throw new Error(
-        `content15 current replay census 不符: teams=${teams.length}, hostile=${hostile}, startBattle=${startBattle}, dangling=${dangling.length}`,
+        `content${String(contentVersion)} current replay census 不符: teams=${teams.length}, hostile=${hostile}, startBattle=${startBattle}, dangling=${dangling.length}`,
+      )
+    const worldVariableCount =
+      contentVersion === 16
+        ? Object.keys(
+            validateWorldVariableRegistryV1(
+              JSON.parse(
+                readFileSync(resolve(repo, 'projects/pal/content/world-variables.json'), 'utf8'),
+              ) as unknown,
+            ),
+          ).length
+        : null
+    if (worldVariableCount !== null && worldVariableCount !== 0)
+      throw new Error(
+        `content16 current replay variable census 不符: worldVariables=${String(worldVariableCount)}`,
       )
     console.log(
-      `[current replay] content15 无写入: teams=380 hostile=828 startBattle=174 dangling=0`,
+      `[current replay] content${String(contentVersion)} 无写入: teams=380 hostile=828 startBattle=174 dangling=0${worldVariableCount === null ? '' : ` worldVariables=${String(worldVariableCount)}`}`,
     )
     return
   }
@@ -2270,20 +2269,13 @@ async function main(): Promise<void> {
           false,
         )
     } else if (writeRequested) await writeAndVerifyC1NpcTransition()
-    else
-      await runC1NpcCurationTransition(
-        rawManifest as ProjectManifest<14>,
-        manifestText,
-        false,
-      )
+    else await runC1NpcCurationTransition(rawManifest as ProjectManifest<14>, manifestText, false)
     return
   }
 
   if (c1NpcWriteOnce || c1NpcVerifyIdempotence) {
     if (contentVersion !== 14)
-      throw new Error(
-        `C1-3 内部阶段只接受 content14，收到 content${String(contentVersion)}`,
-      )
+      throw new Error(`C1-3 内部阶段只接受 content14，收到 content${String(contentVersion)}`)
     await runC1NpcCurationTransition(
       rawManifest as ProjectManifest<14>,
       manifestText,
@@ -2314,12 +2306,7 @@ async function main(): Promise<void> {
       current?.baselineMetadata?.transitions[C1_NPC_CURATION_TRANSITION_ID]
     )
       if (writeRequested) await writeAndVerifyC1NpcTransition()
-      else
-        await runC1NpcCurationTransition(
-          rawManifest as ProjectManifest<14>,
-          manifestText,
-          false,
-        )
+      else await runC1NpcCurationTransition(rawManifest as ProjectManifest<14>, manifestText, false)
     else
       await runC1DialogueIdentityTransition(
         rawManifest as ProjectManifest<13> | ProjectManifest<14>,
@@ -2334,7 +2321,11 @@ async function main(): Promise<void> {
       throw new Error(
         `W9 lifecycle source ledger 只接受已发布 content12/content13 工程，收到 content${String(contentVersion)}`,
       )
-    await runW9EntityLifecycleTransition(rawManifest as ProjectManifest<12> | ProjectManifest<13>, manifestText, writeRequested)
+    await runW9EntityLifecycleTransition(
+      rawManifest as ProjectManifest<12> | ProjectManifest<13>,
+      manifestText,
+      writeRequested,
+    )
     return
   }
 

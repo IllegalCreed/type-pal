@@ -414,8 +414,8 @@ export function assertPalSoundReferenceBaseline(report: PalSoundReferenceAudit):
       skillAnimation: { sites: 103, nonzero: 97, positive: 97, zero: 6, negative: 0 },
       skillSummon: { sites: 9, nonzero: 9, positive: 9, zero: 0, negative: 0 },
       // R13-5 恢复 enemy-447/449/523 与 enemy-473 持久 hook 中被旧 choreography
-      // 投影压扁的 sound.pal.267：historical target 4 edges，current target 8 edges。
-      playSound: { sites: 1_039, nonzero: 1_039, positive: 1_039, zero: 0, negative: 0 },
+      // 投影压扁的 sound.pal.267；item 全树闭包另补计内嵌的 260 与 045 两个源位点。
+      playSound: { sites: 1_041, nonzero: 1_041, positive: 1_041, zero: 0, negative: 0 },
     },
     'source.channels',
   )
@@ -428,11 +428,11 @@ export function assertPalSoundReferenceBaseline(report: PalSoundReferenceAudit):
       playSound45Occurrences: report.source.playSound45Occurrences,
     },
     {
-      sites: 1_958,
-      nonzero: 1_666,
+      sites: 1_960,
+      nonzero: 1_668,
       uniqueAbsoluteIds: 325,
       empty122Occurrences: 1,
-      playSound45Occurrences: 3,
+      playSound45Occurrences: 4,
     },
     'source.total',
   )
@@ -443,7 +443,7 @@ export function assertPalSoundReferenceBaseline(report: PalSoundReferenceAudit):
       enemies: 479,
       skillAnimation: 98,
       skillSummon: 9,
-      playSound: 1_039,
+      playSound: 1_041,
       itemUse: 1,
       itemThrow: 75,
       roles: 4,
@@ -464,11 +464,11 @@ export function assertPalSoundReferenceBaseline(report: PalSoundReferenceAudit):
       hasFake122Asset: report.target.hasFake122Asset,
     },
     {
-      soundEdges: 1_747,
-      // C8 恢复共享用途根：物品 266 新增 portrait.pal.069，土灵珠出口 fallback 新增
-      // sound.pal.045。R13-5 再恢复 4 条 enemy hook playSound 与 2 条 enemy hook music。
-      allReferences: 6_731,
-      nonSoundReferences: 4_984,
+      soundEdges: 1_749,
+      // item 全树闭包补计 portrait.pal.069、sound.pal.260 与土灵珠 fallback sound.pal.045；
+      // R13-5 再恢复 4 条 enemy hook playSound 与 2 条 enemy hook music。
+      allReferences: 6_734,
+      nonSoundReferences: 4_985,
       catalogSounds: 363,
       referencedSounds: 329,
       unusedSounds: 34,
@@ -486,7 +486,7 @@ export function assertPalSoundReferenceBaseline(report: PalSoundReferenceAudit):
         portrait: {
           records: 88,
           bytes: 768_841,
-          edges: 2_366,
+          edges: 2_367,
           referenced: 84,
           unused: 4,
           unusedIds: [
@@ -523,7 +523,7 @@ export function assertPalSoundReferenceBaseline(report: PalSoundReferenceAudit):
       },
       records: 379,
       bytes: 5_464_181,
-      edges: 2_657,
+      edges: 2_658,
       referenced: 375,
       unused: 4,
       unusedIds: ['portrait.pal.050', 'portrait.pal.068', 'portrait.pal.072', 'portrait.pal.089'],

@@ -6,7 +6,7 @@ import type {
   ScriptFlowV5,
   SharedScriptLibraryV5,
 } from '@type-pal/content'
-import { validateScenesV5 } from '@type-pal/content'
+import { validateHistoricalScenesForCurrentSchema } from '../../historical-enemy-team-authority.js'
 import type { ScriptControlFlowAuditV1 } from '../../script-control-flow-audit.js'
 import type { SourceCmd } from '../../source-facts.js'
 import {
@@ -458,7 +458,7 @@ export function projectP7CanonicalProject(args: {
   if (missingPrivateScripts.length !== 0)
     throw new Error(`P7 project: item-private owner 未消费 ${missingPrivateScripts[0]}`)
 
-  validateScenesV5(scenes)
+  validateHistoricalScenesForCurrentSchema(scenes)
   validateR13ItemThrowParentItems(items)
 
   return {

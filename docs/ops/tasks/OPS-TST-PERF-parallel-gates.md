@@ -177,6 +177,34 @@ parallel 命令必须失败，默认串行命令保持不变。
 - 两个 PAL child 的峰值 RSS 可能同时超过机器安全预算；必须在 spawn 前检查主机内存并持续采样。
 - sibling 取消的信号传播、残留进程和临时目录冲突容易产生假成功，需故障注入测试。
 
+## Build：实现与候选验证（Codex，2026-08-18）
+
+- 新增隔离 runner 与证明协议：`release-runner-core.ts`、`release-proof-protocol.ts`、
+  `scripts/run-release-isolated.mts`、`scripts/prove-release-parallel.mts`；每个 run/child 使用独立
+  process group、TMPDIR、日志、Vitest JSON、fresh transaction root，并记录递归 RSS、退出信号、
+  title/count/digest 与 workspace writes/deletes/conflicts。默认 `test:release` 未改；parallel/control/
+  prove 均为显式命令。
+- 协议单测通过：runner/proof、当前/历史引用隔离共 **3 files / 93 tests**；migrate typecheck 通过。
+- 首次 serial control 按失败矩阵正确 fail-closed：
+  `build/release-runs/serial-control-2026-08-17T182936329Z-0776db40/summary.json`。manifest 与 canary
+  通过，canonical release 失败，未继续 fresh；manifest/canary/release child-tree peak RSS 分别为
+  `1,849,999,360 / 2,237,988,864 / 3,758,342,144 bytes`，均未越单 child 预算；受保护 workspace
+  `writes/deletes/conflicts = 0/0/0`，总时长 `3,347,114ms`。
+- 该 control 暴露并已修复三项 release 前置回归，而非绕过门禁：
+  1. ED-ENEMY-1 把 current canonical 改为 stable `enemyTeamId` 后，历史 R13 证明仍需原数值引用；现由
+     `historical-enemy-team-authority.ts` 在验证边界双向投影，current 产品入口保持 stable ID，历史
+     canary/golden 仍 byte-exact。
+  2. ED-5I 的完整 item-tree collector 已新增两条 `playSound` 和一条 portrait 真实边；冻结审计计数
+     同步到 collector 的现行权威结果，没有修改生成内容。
+  3. 原版 `script.c` opcode `0x79` 比较 `PlayerRoles.rgwName`，操作数 `36..41` 是角色姓名字；current
+     canonical 现映射到稳定 actor ID，historical legacy 仍保留原数值，未知姓名字 fail-loud。
+- 修复后验证：严格 PAL migration integration **1 passed / 2 skipped（523.70s）**；R13 enemy
+  initialize **1 passed / 2 skipped（773.07s）**；历史 canary **1 file / 2 passed（257s）**；
+  `check:fast` **92 files / 676 passed / 5 skipped（385.53s）**；manifest 冻结为 fast `92/676`、
+  release `116/808`、canary `1/2`。oracle projection 无 diff，仅 manifest source fingerprint 随实现更新。
+- 尚未完成：修复后的完整 serial control、显式 parallel 以及三组同机同批次 serial/parallel proof。
+  因此本卡保持 `build`，Codex/Kimi/GLM done 前签字仍为 pending。
+
 ## 交接日志
 
 - 2026-08-10 Codex: 建卡。Evidence: 主卡 B 约束、shared 3.2GiB 峰值与 fresh 隔离锚点。Next:
@@ -194,6 +222,10 @@ parallel 命令必须失败，默认串行命令保持不变。
 - 2026-08-17 Codex: 独立复核并签 **premise verified + design agree**。PB1 已由母卡
   `:288` 的 `3,218,849,792 bytes` profiler 样本闭合，并保留另一轮 2.6 GiB 样本；PB2 同机同批次
   serial/parallel 对照升级为实现硬门。三签齐，状态转 `build`；尚未修改实现文件。
+- 2026-08-18 Codex: 隔离 runner/proof protocol 已实现；首轮 serial control 按合同 fail-closed，
+  并暴露历史引用、资产引用冻结计数与 actor 姓名字三项 release 前置回归。三项均按 primary source
+  修复，严格迁移、R13 初始化、canary 与 check:fast 已绿。Next: 提交候选后重跑完整 serial control，
+  再跑 parallel 与三组同机 proof；证据未齐不得签 implementation accept 或转 review。
 
 ## 下一位 Agent 提示词
 

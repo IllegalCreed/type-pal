@@ -5,7 +5,7 @@ import { loadPalBaseline } from '../../migration-baseline.js'
 import {
   buildPalHistoricalR13_4V9Migration,
   buildPalHistoricalR13_5V10Migration,
-  buildPalMigration,
+  buildPalHistoricalR13_6AV10Migration,
   palSoundAssetForSources,
 } from '../../pal-migration.js'
 import { loadPalMigrationSources } from '../../pal-migration-io.js'
@@ -138,7 +138,7 @@ function loadCurrentV10Fixture() {
   const sources = loadPalMigrationSources(PAL_TEST_REPO)
   // This fixture feeds historical R13-6A/R13-5 audits; keep its content<=11 enemy-team
   // authority explicit. The B10 successor opts into semantic slots at its dedicated builder.
-  const migration = buildPalMigration(sources, { enemyTeamSchema: 'legacy-members' })
+  const migration = buildPalHistoricalR13_6AV10Migration(sources)
   const audit = auditPalScriptControlFlow(sources, migration)
   assertScriptControlFlowAudit(audit)
   return Object.freeze({

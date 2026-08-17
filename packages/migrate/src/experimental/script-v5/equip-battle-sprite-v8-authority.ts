@@ -1,5 +1,6 @@
 import type { LegacyItemDataV8 } from '@type-pal/content'
 import { upgradeItemsV8ToV9 } from '@type-pal/content'
+import { projectMigrationForFrozenEnemyTeamAuthority } from '../../historical-enemy-team-authority.js'
 import type { MigrationSnapshot } from '../../migration-baseline.js'
 import {
   derivePalMigrationFileSet,
@@ -201,13 +202,14 @@ export function projectItemsV9ToLegacyV8(value: unknown): LegacyItemDataV8[] {
 export function projectMigrationV9ToLegacyV8(migration: MigrationFileSet): MigrationFileSet {
   const currentItems = migration.files.get(ITEMS_PATH)
   if (currentItems === undefined) throw new Error(`E1 legacy authority: 缺 ${ITEMS_PATH}`)
-  const files = new Map(migration.files)
+  const enemyTeamAuthority = projectMigrationForFrozenEnemyTeamAuthority(migration)
+  const files = new Map(enemyTeamAuthority.files)
   files.set(ITEMS_PATH, clone(projectItemsV9ToLegacyV8(currentItems)) as unknown as MigrationJson)
   const derived = derivePalMigrationFileSet(migration, files)
   derived.report = {
-    ...migration.report,
+    ...enemyTeamAuthority.report,
     rawProjection: {
-      ...migration.report.rawProjection,
+      ...enemyTeamAuthority.report.rawProjection,
       items: projectItemsV9ToLegacyV8(migration.report.rawProjection.items) as never,
     },
   }

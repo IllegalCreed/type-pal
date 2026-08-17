@@ -486,6 +486,18 @@ global.h:270-295 / fight.c:753-754,5253-5284。只读审查,未改实现文件,�
   （dialog/branch 是演出非奖励）。引用模型数据输入：方案 B 零迁移成本;方案 A 无 PAL 收益,若选须
   828+174+380 exact join 矩阵。Next: Kimi 架构签字 + §4 方案裁决。
 
+## Post-close release 回归修复（2026-08-18）
+
+- 完整 release control 证明：提交 `95700c69` 将 current canonical 的 `hostile/startBattle` 统一为
+  stable `enemyTeamId` 是正确产品语义，但历史 R13 证明仍消费旧数值引用；此前只跑 current 快速门禁，
+  未覆盖该历史边界。对照基点为 `96215db0`。
+- 修复只发生在历史证明投影层：`historical-enemy-team-authority.ts` 将 historical numeric authority
+  临时投影为 current stable 引用做验证，再将真实引用投回历史数值并重建 script index；current CLI、
+  runtime 与产品数据继续只接受 stable ID，任意/双重 ID fail-loud。
+- 证据：current strict migration integration 通过；R13 enemy initialize 通过；历史 canary 2/2 通过，
+  frozen oracle projection 无变化。原卡三方 accept 与用户验收作为历史事实保留；本 follow-up 纳入
+  `OPS-TST-PERF-B` 的完整 release 候选审查，不改写原卡签字。
+
 ## 下一位 Agent 提示词
 
 无下一位 Agent 提示词；三方 `accept` + 用户验收齐，等待/执行 git 收口。
