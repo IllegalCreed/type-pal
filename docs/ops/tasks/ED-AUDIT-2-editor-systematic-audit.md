@@ -1,6 +1,6 @@
 # ED-AUDIT-2 - 编辑器全页面视觉、闭环与代码质量审计
 
-Status: review
+Status: done
 Phase: phase2
 Capability: Editor cross-cutting（审计，不改变 capability-map）
 Audit Owner: Codex
@@ -142,8 +142,8 @@ Visual Verification Owner: Codex + User
   - **审计卡纪律 ✓**：候选提交 99069677 仅触 docs + 只读脚本 + boundary 测试，零业务实现改动。
 - GLM 对下一步顺序的表态：同意 §3.2——ED-MAP-PALETTE-CONTROLS-1 先行、长目录性能合同卡其次
   （先修 DsVirtualList 可访问选择/受控滚动/变宽合同再接敌队），两卡各自重新走三签。
-- done 准入结论：**blocked——Codex + Kimi + GLM 三方 accept 齐（2026-08-17）；仅剩用户验收，
-  用户通过后本卡 done 并正式开 ED-MAP-PALETTE-CONTROLS-1。**
+- done 准入结论：**allowed / completed——Codex + Kimi + GLM 三方 accept 齐，用户于 2026-08-17
+  明确验收通过。**
 
 ## 当前证据（2026-08-17 rebaseline）
 
@@ -161,9 +161,13 @@ Visual Verification Owner: Codex + User
 
 ## 下一步
 
-1. Kimi 只读复核 GA1 后 18/17/17/6 门禁、已闭合项不重开与最新拆卡顺序，签 `accept` 或 counter。
-2. GLM 独立运行 census 脚本和 boundary test，核对 GA2 可复现性、数字与遗漏页，签 `accept` 或 counter。
-3. 三方 accept 后等待用户验收；用户通过后本卡 done，并正式开 `ED-MAP-PALETTE-CONTROLS-1`。
+1. 本卡审计、三方完成审查与用户验收均已完成，不再追加业务实现。
+2. 后续按审计结论进入独立任务 `ED-MAP-PALETTE-CONTROLS-1`；该卡须重新完成自己的三方设计签字。
+
+## 用户验收
+
+- 用户结论：**accept（2026-08-17：“验收通过”）**
+- 后续任务：按既定顺序进入 `ED-MAP-PALETTE-CONTROLS-1`。
 
 ## 交接日志
 
@@ -200,8 +204,10 @@ Visual Verification Owner: Codex + User
   且与 boundary 同源（GA2 闭环）；候选 diff 零业务实现、§3.1 闭合划分与 §3.2/§3.3 拆卡顺序未变
   （已闭合项不重开）。同意 Palette 先行 + 长目录合同先行的后续顺序。未改任何文件，未标 done。
   Next：三方 accept 齐，仅剩用户验收；用户通过后本卡 done 并正式开 ED-MAP-PALETTE-CONTROLS-1。
+- 2026-08-17 User + Codex：用户明确“验收通过”；三方 done 前 `accept` 与用户验收全部齐备，任务由
+  `review` 转 `done`。无返工项；后续任务 `ED-MAP-PALETTE-CONTROLS-1` 独立重新走三方签字。
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词，三方 review `accept` 已齐，等待用户验收/收口；用户验收前不得标记 `done`，
-也不得以本卡签字授权后续业务实现。
+无下一位 Agent 提示词；ED-AUDIT-2 已完成三方 review `accept` 与用户最终验收，整卡收口。
+后续 `ED-MAP-PALETTE-CONTROLS-1` 使用其独立任务卡与签字，不沿用本卡授权。
