@@ -110,9 +110,40 @@ Visual Verification Owner: Codex + User
   发布扫描范围、className 匹配器与 token 词界，输出 62/43/20/34/16/3 且 boundary ceiling 同步收紧。
   `node packages/editor/scripts/audit-legacy-controls.mjs` 与 boundary 23/23 通过，`git diff --check` 通过；
   本批未修改业务实现。
-- Kimi: pending
-- GLM: pending
-- done 准入结论：blocked（待 Kimi/GLM 对 GA1/GA2 与最终审计交付签 accept）。
+- Kimi: **accept（2026-08-17 review 终审，本人一手读码 + 独立复跑；基于候选提交 99069677）**。
+  - **GA1 门禁 ✓**：node 解析 boundary.test.ts 实测 catalogFiles=18（含 EnemyTeamTab）、
+    migratedInspectors=17（补 EnemyTab/App）、referenceFaces=17（含 EnemyTeamTab）、
+    diagnosticFaces=6——静态门禁与实际消费者统一为 18/17/17/6；本席独立执行
+    `vitest run src/ui/design-system/boundary.test.ts` → 23/23 通过。上轮我独立发现的
+    EnemyTeamTab 缺口已闭合，Enemy/App Inspector 补强超出最低要求但不越界（仍是门禁清单）。
+  - **GA2 口径 ✓**：本席独立执行 `node packages/editor/scripts/audit-legacy-controls.mjs`——
+    输出 tool/btn/mini/mini-txt/pv-btn/mini-icon = 62/43/20/34/16/3、tags 198/123/8/205、
+    checkbox 23、inline 72、raw button 331、DsButton 114/DsIconButton 53/DsActionLink 3，
+    与卡文逐字一致；scope/排除规则/className 匹配器/token 词界已自文档化且与 boundary 同源，
+    只减不增基线可复现可证伪。
+  - **已闭合项不重开 ✓**：候选 diff 只追加 §2.1 GA1 记录与 §2.2 口径节，§3.1 resolved/open 划分与
+    §3.2/§3.3 拆卡顺序（Palette 先行 → 长目录合同 → 旧控件分批）未变；候选提交仅触 docs +
+    只读 census 脚本 + boundary 测试，零业务实现。
+  - **拆卡顺序同意**：ED-MAP-PALETTE-CONTROLS-1 先行（闭合已登记 palette debt）、长目录性能合同
+    另卡且先补 DsVirtualList 选择/滚动/变宽合同——与本席 build 前审查结论一致。
+  未改任何文件，未代签 GLM，未标 done。
+- GLM: **accept（2026-08-17 review 终审，本人独立运行两条命令，非代理；基于候选提交 99069677）**。
+  - **GA2 独立复跑 ✓**：`node packages/editor/scripts/audit-legacy-controls.mjs` 本人执行——输出
+    legacyClasses **tool=62 / btn=43 / mini=20 / mini-txt=34 / pv-btn=16 / mini-icon=3**
+    （item-action-button/media-zoom-controls=0）与卡文逐字一致；tags 198/123/8/205、checkbox 23、
+    inline 72、raw button 331 与 DsButton 114/DsIconButton 53/DsActionLink 3 全部吻合。脚本自文档化
+    （scope 74 文件 + className 匹配器 + token 词界 `(?<![\w-])TOKEN(?![\w-])`）——本人上轮 ±3/±1
+    偏差即因词界方法论未定义，现已发布且可复现，"只减不增"基线可证伪。
+  - **GA1 独立复跑 ✓**：`boundary.test.ts` 本人执行 23/23 通过；EnemyTeamTab 已进 catalogFiles
+    （:186）与 referenceFaces（:310），inspector 清单补入 EnemyTab + App（17 成员）——静态门禁与
+    实际消费者统一为 **18/17/17/6**，且超越了 GA1 的最低要求（可选项一并落地）。
+  - **审计文档同步 ✓**：editor-ui-audit §2.1 记录复核前 18/17/17/6 vs 17/15/16/6 差异（:39）、
+    §2.2 发布 census 口径。
+  - **审计卡纪律 ✓**：候选提交 99069677 仅触 docs + 只读脚本 + boundary 测试，零业务实现改动。
+- GLM 对下一步顺序的表态：同意 §3.2——ED-MAP-PALETTE-CONTROLS-1 先行、长目录性能合同卡其次
+  （先修 DsVirtualList 可访问选择/受控滚动/变宽合同再接敌队），两卡各自重新走三签。
+- done 准入结论：**blocked——Codex + Kimi + GLM 三方 accept 齐（2026-08-17）；仅剩用户验收，
+  用户通过后本卡 done 并正式开 ED-MAP-PALETTE-CONTROLS-1。**
 
 ## 当前证据（2026-08-17 rebaseline）
 
@@ -157,26 +188,20 @@ Visual Verification Owner: Codex + User
 - 2026-08-17 Codex：GA1/GA2 已落地并进入 review。GA1 将 boundary 从 17/15/16/6 补齐到实际消费者
   18/17/17/6；GA2 新增 `audit-legacy-controls.mjs` 固化范围/正则/词界并同步收紧 legacy ceiling。
   census 输出吻合，boundary 23/23、diff check 通过。未改业务实现。Next：Kimi/GLM implementation accept。
+- 2026-08-17 GLM（覆盖/测试）：review 终审完成并签 **accept**。两条命令本人独立运行：census 脚本
+  输出 62/43/20/34/16/3 及全部辅助数字与卡文逐字一致、脚本自文档化可复现（GA2 闭环，上轮 ±3/±1
+  偏差源于词界方法论、现已钉死）；boundary 23/23 通过、EnemyTeamTab 入 catalog/reference 两清单
+  且 inspector 补入 EnemyTab/App（18/17/17/6 与实际消费者统一，超越 GA1 最低要求）。候选提交零业务
+  实现改动，审计卡纪律保持。同意 §3.2 后续顺序。未改实现文件，未代签 Kimi，未标 done。
+  Next：Kimi accept 后本卡 done，随即开 ED-MAP-PALETTE-CONTROLS-1。
+- 2026-08-17 Kimi：review 终审完成并签 **accept**。一手读码 + 独立复跑：node 解析 boundary 实测
+  18/17/17/6（EnemyTeamTab 入 catalog/reference 两清单、EnemyTab/App 补 Inspector）、boundary
+  23/23 通过；census 脚本本席独立执行，62/43/20/34/16/3 与全部辅助数字逐字吻合、口径自文档化
+  且与 boundary 同源（GA2 闭环）；候选 diff 零业务实现、§3.1 闭合划分与 §3.2/§3.3 拆卡顺序未变
+  （已闭合项不重开）。同意 Palette 先行 + 长目录合同先行的后续顺序。未改任何文件，未标 done。
+  Next：三方 accept 齐，仅剩用户验收；用户通过后本卡 done 并正式开 ED-MAP-PALETTE-CONTROLS-1。
 
 ## 下一位 Agent 提示词
 
-```text
-接手任务：ED-AUDIT-2 编辑器全页面视觉、闭环与代码质量审计
-任务卡：docs/ops/tasks/ED-AUDIT-2-editor-systematic-audit.md
-当前状态：review；三方设计签字齐，Codex review accept；Kimi/GLM done 前 accept pending。不得修改业务实现。
-先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文、
-docs/phase2/editor/editor-ui-audit-2026-08-15.md，以及：
-- packages/editor/src/ui/editor-navigation.ts
-- packages/editor/src/ui/design-system/boundary.test.ts
-- packages/editor/scripts/audit-legacy-controls.mjs
-- packages/editor/src/ui/design-system/virtual-list.tsx
-- packages/editor/src/ui/MapStampPalette.tsx
-- packages/editor/src/ui/EnemyTeamTab.tsx
-当前证据：8 模块/25 子页；GA1 后门禁与实际消费者均为 18 catalog / 17 Inspector / 17 reference /
-6 diagnostic；
-raw form 198/123/8/205、checkbox 23；旧按钮 62/43/20/34/16/3；Map 1280/900/720 零溢出和零
-Console；Palette 仍 raw .in/.mini；EnemyTeam 实机一次渲染 380 个目录按钮，DsVirtualList 生产零调用。
-Kimi 职责：只读复核 GA1 门禁补齐、resolved/open 边界与拆卡顺序，写 accept 或带 file:line counter。
-GLM 职责：独立运行 census 脚本与 boundary test，核对 GA2 口径、精确输出及遗漏页，写 accept/counter。
-输出必须写回本卡完成审查与交接日志。两席 accept 未齐不得标 done；不得夹带业务实现。
-```
+无下一位 Agent 提示词，三方 review `accept` 已齐，等待用户验收/收口；用户验收前不得标记 `done`，
+也不得以本卡签字授权后续业务实现。
