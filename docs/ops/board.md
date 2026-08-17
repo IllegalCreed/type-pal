@@ -17,7 +17,7 @@
 | ED-AUDIT-2 | 编辑器全页面视觉、闭环与代码质量审计 | draft | 首轮巡检完成；连续迁移批次已冻结，补全矩阵并交 Kimi/GLM 抽审 | 8 模块/24 二级页主动审查，不再等待用户逐页指出 |
 | ED-BATTLE-UI-1 | 战斗数据工作台族与共享对象 Hero | done | 三方 accept + 用户验收齐，整卡收口 | N1-N6/BK1-BK3 + RK1 全闭环；editor 124 files / 912 tests + typecheck、1280×720 实机通过 |
 | ED-ENEMY-1 | 敌人、敌队预制与结算/偷取编辑闭环 | draft | Codex 已完成前提核对；交 Kimi/GLM build 前独立签字 | 敌人拥有奖励/偷取，敌队只编组，场景只引用预制敌队 |
-| ED-SCENE-UX-1 | 场景画布直接操作与取消选择 | review | 三方 accept 齐；仅剩用户实机验收即关卡 | SK1+G1-G3 逐钉通过；focused 10 + 全量 930 独立复跑全绿 |
+| ED-SCENE-UX-1 | 场景画布直接操作与取消选择 | done | 三方 accept + 用户验收齐，整卡收口 | SK1+G1-G3 逐钉通过；focused 10 + 全量 930 独立复跑全绿 |
 | ED-INSPECTOR-TABS-1 | 属性面板共享 Tab 全局统一 | done | 三方 accept 齐，整卡收口 | 24 页审计无漏项；GT1-GT5+IK1、共享计数徽标、浏览器矩阵与 885 项全测通过 |
 | ED-REFERENCE-UI-1 | 属性面板引用呈现全局统一 | done | 三方 accept + 用户确认齐，整卡收口 | 16 面统一；RK1-RK2/GN1-GN4 逐钉通过；当前 editor 892/892 全绿 |
 | ED-DIAGNOSTIC-UI-1 | 属性面板问题与诊断呈现统一 | done | 三方 accept + 用户验收齐，整卡收口 | DK1 数值门禁单一 frame、DK2 六面内联无新 Tab、cf-err 正向保护；focused 82 + 全量 927 独立复跑全绿 |

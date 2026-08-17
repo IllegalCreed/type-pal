@@ -1,6 +1,6 @@
 # ED-SCENE-UX-1 - 场景画布直接操作与取消选择
 
-Status: review
+Status: done
 Phase: phase2
 Capability: Editor scene workspace（不改变 capability-map）
 Coding Owner: Codex
@@ -307,7 +307,8 @@ App.reference-navigation.test.tsx:38-39,434-469 / ls SceneCanvas*.test 零命中
     typecheck、全量 125 files / 930 tests 全绿（与 Codex/Kimi 声明计数一致）。
 - counter / 返工处理: 无（Kimi 复审无返工项）
 - 缺签豁免: N/A
-- done 准入结论: **blocked——Codex + Kimi + GLM 三方 accept 齐（2026-08-17）；仅剩用户实机验收。**
+- done 准入结论: **allowed / completed——Codex + Kimi + GLM 三方 accept 齐，用户于 2026-08-17
+  明确验收通过。**
 
 ## Draft: 设计与风险
 
@@ -407,12 +408,12 @@ N/A；不涉及资源生成。
 - Reviewer: Kimi + GLM
 - 审查结论: Codex 自审 accept；Kimi 交互/视觉 accept；GLM 覆盖/测试 accept。三方均无返工项。
 - 必须返工项: 无
-- Accept / rework: 三方 accept 齐，仅剩用户实机验收
+- Accept / rework: 三方 accept + 用户验收齐，任务完成
 
 ## 用户验收
 
-- 用户结论: pending
-- 后续任务: pending
+- 用户结论: **accept（2026-08-17：“验收通过”）**
+- 后续任务: 无；按既定顺序进入 `ED-ENEMY-1`
 
 ## 交接日志
 
@@ -453,6 +454,8 @@ N/A；不涉及资源生成。
   click 恰 1 次/drag 0 次分流；四态 cursor jsdom 断言；UI 矩阵（伪按钮禁/放置三件套/删除禁用/
   取消保选中/Esc 两级优先）全落测试。focused 2 files/10 tests + typecheck + 全量 125/930 本人
   独立复跑全绿。未改实现文件，未代签 Kimi，未标 done。Next: 用户实机验收后关卡。
+- 2026-08-17 User + Codex: 用户明确“验收通过”；三方 done 前 accept 与用户验收全部齐备，任务由
+  `review` 转 `done`。无返工项，无下一位 Agent 提示词；进入 git 收口后按顺序推进 `ED-ENEMY-1`。
 
 ## 下一位 Agent 提示词
 
@@ -480,4 +483,4 @@ Kimi 已于 2026-08-17 完成 done 前交互/视觉审查并签 accept（无返�
 GLM 已于 2026-08-17 完成 done 前覆盖/测试终审并签 accept（无返工项，逐项一手证据见
 「进入 done 前:审查签字」GLM 行与交接日志），本节提示词不再适用。
 
-本卡三方 accept 已齐，无下一位 Agent 提示词；等待用户实机验收。
+本卡已完成，无下一位 Agent 提示词；等待 git 收口并进入 `ED-ENEMY-1`。
