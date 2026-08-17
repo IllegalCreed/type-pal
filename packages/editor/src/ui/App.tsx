@@ -163,7 +163,7 @@ import {
 import { type ProjectSaveActivity, ProjectSaveDialog } from './ProjectSaveDialog.js'
 import { ProjectWorkbenchTab } from './ProjectWorkbenchTab.js'
 import { clampPanelSize, fitSidePanelWidths } from './panel-layout.js'
-import { type SceneAnchorSelection, SceneCanvas, type Tool } from './SceneCanvas.js'
+import { type SceneAnchorSelection, SceneCanvas } from './SceneCanvas.js'
 import { ScriptDrawer } from './ScriptDrawer.js'
 import { ScriptV5BehaviorInspector } from './ScriptV5BehaviorInspector.js'
 import { disposeSoundPreview } from './SoundPicker.js'
@@ -412,7 +412,7 @@ export function App(props: {
   }, [activeScrollKey])
 
   const [selected, setSelected] = useState<SceneSelection>(SCENE_SELECTION)
-  const [tool, setTool] = useState<Tool>('select')
+  const [placingEntity, setPlacingEntity] = useState(false)
   const [scriptV5Channel, setScriptV5Channel] = useState<'trigger' | 'auto'>('trigger')
   const [selectedBehaviorV5, setSelectedBehaviorV5] = useState<string>()
   const [selectedPageV5, setSelectedPageV5] = useState<string>()
@@ -468,7 +468,7 @@ export function App(props: {
   const switchPlaceScene = (id: string): void => {
     setPlaceSceneId(id)
     setSelected(SCENE_SELECTION)
-    setTool('select')
+    setPlacingEntity(false)
     const current = locationRef.current
     if (current.module === 'scene' && current.subpage === 'workspace') {
       applyEditorLocation({ ...current, objectId: id }, 'replace')
@@ -534,7 +534,7 @@ export function App(props: {
     selection: Extract<SceneSelection, { kind: 'default-entry' | 'named-entry' }>,
   ): void => {
     setSelected(selection)
-    setTool('select')
+    setPlacingEntity(false)
     setDrawer({
       open: false,
       src: null,
@@ -599,7 +599,7 @@ export function App(props: {
       setSelected(
         entityKind === 'entity' && entityId ? { kind: 'entity', id: entityId } : SCENE_SELECTION,
       )
-      setTool('select')
+      setPlacingEntity(false)
       setDrawer({
         open: false,
         src: null,
@@ -632,7 +632,7 @@ export function App(props: {
       setPlaceSceneId(locator.sceneId)
       applyEditorLocation(editorLinks.scene(locator.sceneId))
       setSelected({ kind: 'entity', id: locator.entityId })
-      setTool('select')
+      setPlacingEntity(false)
       setInspectorCollapsed(false)
       setEntityPageFocus({ ...locator, revision })
       setDrawer({
@@ -685,7 +685,7 @@ export function App(props: {
         ? { kind: 'entity', id: entityId }
         : SCENE_SELECTION,
     )
-    setTool('select')
+    setPlacingEntity(false)
     setDrawer({
       open: true,
       src: null,
@@ -732,7 +732,7 @@ export function App(props: {
       setPlaceSceneId(locator.sceneId)
       applyEditorLocation(editorLinks.scene(locator.sceneId))
       setSelected({ kind: 'entity', id: locator.entityId })
-      setTool('select')
+      setPlacingEntity(false)
       setInspectorCollapsed(false)
       setSelectedPageV5(locator.pageId)
       setScriptV5Channel(locator.channel)
@@ -767,7 +767,7 @@ export function App(props: {
       setPlaceSceneId(locator.sceneId)
       applyEditorLocation(editorLinks.scene(locator.sceneId))
       setSelected(SCENE_SELECTION)
-      setTool('select')
+      setPlacingEntity(false)
       setCanonicalReferenceFocus({ reference, revision })
       setDrawer({
         open: true,
@@ -808,7 +808,7 @@ export function App(props: {
 
     setPlaceSceneId(owner.sceneId)
     applyEditorLocation(editorLinks.scene(owner.sceneId))
-    setTool('select')
+    setPlacingEntity(false)
     if (owner.kind === 'entity-hostile-on-lose') {
       setSelected({ kind: 'entity', id: owner.entityId })
       setInspectorCollapsed(false)
@@ -962,7 +962,7 @@ export function App(props: {
     }
     setPlaceSceneId(locator.sceneId)
     applyEditorLocation(editorLinks.scene(locator.sceneId))
-    setTool('select')
+    setPlacingEntity(false)
     setSelected(
       locator.kind === 'scene-entity' ? { kind: 'entity', id: locator.entityId } : SCENE_SELECTION,
     )
@@ -1071,8 +1071,9 @@ export function App(props: {
   )
   const toggleScriptPanel = useCallback(() => {
     if (!scriptPanelAvailable) return
+    if (!drawer.open) setPlacingEntity(false)
     setDrawer(toggleSceneScriptPanelState)
-  }, [scriptPanelAvailable])
+  }, [drawer.open, scriptPanelAvailable])
   const resetPanelLayout = useCallback(() => {
     setOutlinerWidth(OUTLINER_DEFAULT_WIDTH)
     setInspectorWidth(INSPECTOR_DEFAULT_WIDTH)
@@ -1273,15 +1274,28 @@ export function App(props: {
   // 删除键:选中实体时删(在输入框里打字不触发)。
   useEffect(() => {
     const onKey = (e: KeyboardEvent): void => {
-      if (saveInFlightRef.current) return
+      if (e.defaultPrevented || saveInFlightRef.current) return
       const t = e.target as HTMLElement | null
       const typing =
         t && (t.tagName === 'INPUT' || t.tagName === 'SELECT' || t.tagName === 'TEXTAREA')
+      if (e.key === 'Escape' && scriptPanelAvailable && !drawer.open) {
+        if (placingEntity) {
+          e.preventDefault()
+          setPlacingEntity(false)
+          return
+        }
+        if (!typing && selected.kind !== 'scene') {
+          e.preventDefault()
+          setSelected(SCENE_SELECTION)
+          return
+        }
+      }
       if (
         (e.key === 'Delete' || e.key === 'Backspace') &&
         activeSubpage.kind === 'scene' &&
         selEntity &&
         scene &&
+        !placingEntity &&
         !typing
       ) {
         e.preventDefault()
@@ -1302,7 +1316,19 @@ export function App(props: {
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [session, scene, selEntity, activeSubpage.kind, layoutCommandHandlers, redo, undo])
+  }, [
+    session,
+    scene,
+    selEntity,
+    selected,
+    placingEntity,
+    drawer.open,
+    scriptPanelAvailable,
+    activeSubpage.kind,
+    layoutCommandHandlers,
+    redo,
+    undo,
+  ])
 
   if (!scene && activeSubpage.kind !== 'project') {
     return (
@@ -1356,7 +1382,7 @@ export function App(props: {
       ),
     )
     setSelected({ kind: 'entity', id })
-    setTool('select')
+    setPlacingEntity(false)
   }
   const deleteSelected = (): void => {
     if (!selEntity) return
@@ -1996,7 +2022,7 @@ export function App(props: {
                       icon="add"
                       label="添加实体"
                       disabled={drawer.open}
-                      onClick={() => setTool('add')}
+                      onClick={() => setPlacingEntity(true)}
                     />
                   }
                 />
@@ -2106,21 +2132,26 @@ export function App(props: {
 
             <div className="center">
               <div className="toolbar">
-                <DsButton
-                  size="compact"
-                  variant="quiet"
-                  aria-pressed={tool === 'select'}
-                  onClick={() => setTool('select')}
-                  disabled={drawer.open}
-                  title="选择 / 拖动移位"
-                >
-                  ↖ 选择/移动
-                </DsButton>
+                {placingEntity ? (
+                  <>
+                    <span className="toolbar-status" role="status">
+                      正在放置实体
+                    </span>
+                    <DsButton
+                      size="compact"
+                      variant="secondary"
+                      onClick={() => setPlacingEntity(false)}
+                    >
+                      取消放置
+                    </DsButton>
+                    <span className="sep" />
+                  </>
+                ) : null}
                 <DsButton
                   size="compact"
                   variant="danger"
                   onClick={deleteSelected}
-                  disabled={!selEntity}
+                  disabled={!selEntity || placingEntity}
                   title="删除选中(Del)"
                 >
                   🗑 删除
@@ -2136,7 +2167,7 @@ export function App(props: {
                   📜 脚本
                 </DsButton>
                 <span className="toolbar-hint">
-                  {tool === 'add' ? '点画布放实体' : '拖动移位 · Del 删除'}
+                  {placingEntity ? '点画布放实体 · Esc 取消' : '点击选择 · 拖动移位 · Esc 取消选择'}
                 </span>
               </div>
               {!drawer.open ? (
@@ -2153,7 +2184,7 @@ export function App(props: {
                   tilesets={state.tilesets ?? []}
                   selectedEntityId={selEntity?.id ?? null}
                   selectedAnchor={selectedAnchor}
-                  tool={tool}
+                  placingEntity={placingEntity}
                   layers={canvasLayers}
                   onSelectEntity={(id) => setSelected({ kind: 'entity', id })}
                   onMoveEntity={moveEntity}
@@ -2186,6 +2217,7 @@ export function App(props: {
                       )
                   }}
                   onAddAt={addAt}
+                  onClearSelection={() => setSelected(SCENE_SELECTION)}
                 />
               ) : scriptV5Session && scriptV5State ? (
                 <CanonicalSceneScriptWorkspaceV5
@@ -2255,8 +2287,8 @@ export function App(props: {
               )}
             </div>
 
-            <div className={`inspector${tool !== 'add' && selEntity ? ' inspector--tabbed' : ''}`}>
-              {tool === 'add' ? (
+            <div className={`inspector${!placingEntity && selEntity ? ' inspector--tabbed' : ''}`}>
+              {placingEntity ? (
                 <PlacePalette
                   actors={state.actors}
                   sprites={state.sprites}

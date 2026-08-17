@@ -25,9 +25,9 @@ import {
 const WORLD_SCALE = 4
 const PAN_DRAG_THRESHOLD_PX = 3
 
-export type Tool = 'select' | 'add'
-
 export type SceneAnchorSelection = { kind: 'default' } | { kind: 'named'; id: string }
+
+type SceneCanvasCursor = 'crosshair' | 'grab' | 'grabbing' | 'move'
 
 type HitTarget = { kind: 'entity'; id: string } | { kind: 'anchor'; anchor: SceneAnchorSelection }
 
@@ -76,7 +76,7 @@ export function SceneCanvas(props: {
   tilesets: readonly import('@type-pal/reforge').TilesetDef[]
   selectedEntityId: string | null
   selectedAnchor?: SceneAnchorSelection | null
-  tool: Tool
+  placingEntity: boolean
   /** 图层显隐(布置模式左栏开关):base 地板 / cover 高物 / entities 实体 / grid 网格 / blocked 禁入格。 */
   layers: {
     base: boolean
@@ -94,6 +94,7 @@ export function SceneCanvas(props: {
   onSelectAnchor: (anchor: SceneAnchorSelection) => void
   onMoveAnchor: (anchor: SceneAnchorSelection, cell: { col: number; row: number }) => void
   onAddAt: (cell: { col: number; row: number }) => void
+  onClearSelection: () => void
 }) {
   const {
     scene,
@@ -108,19 +109,21 @@ export function SceneCanvas(props: {
     tilesets,
     selectedEntityId,
     selectedAnchor,
-    tool,
+    placingEntity,
     layers,
     onSelectEntity,
     onMoveEntity,
     onSelectAnchor,
     onMoveAnchor,
     onAddAt,
+    onClearSelection,
   } = props
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const wrapRef = useRef<HTMLDivElement>(null)
   const hitsRef = useRef<HitRect[]>([])
   const downRef = useRef<Down | null>(null)
   const [drag, setDrag] = useState<Drag | null>(null)
+  const [cursor, setCursor] = useState<SceneCanvasCursor>(placingEntity ? 'crosshair' : 'grab')
   // 共享层:容器自适应 + 视图态(缩放/平移,滚轮锚点缩放)—— 与预览/W7 同一套(scene-stage)
   const size = useStageSize(wrapRef)
   const { view, viewRef, setView } = useViewZoomPan({
@@ -134,6 +137,13 @@ export function SceneCanvas(props: {
     panY: number
     moved: boolean
   } | null>(null)
+
+  useEffect(() => {
+    downRef.current = null
+    panDragRef.current = null
+    setDrag(null)
+    setCursor(placingEntity ? 'crosshair' : 'grab')
+  }, [placingEntity])
 
   // 地图像素包围盒(菱形投影 AABB;room 缺省 = 整图)。
   const mapBox = (map: StageAssets['map']) => mapBoxOf(map, undefined)
@@ -478,13 +488,14 @@ export function SceneCanvas(props: {
 
   // —— 指针交互 ——
   const onPointerDown = (e: React.PointerEvent<HTMLCanvasElement>): void => {
-    if (tool === 'add') {
+    if (placingEntity) {
       downRef.current = { target: null, grabDcol: 0, grabDrow: 0, moved: false }
+      setCursor('crosshair')
       return
     }
-    // select 工具
     const hit = targetAt(e.clientX, e.clientY)
     if (hit?.kind === 'anchor') {
+      setCursor('move')
       pickFromCanvasRef.current = true
       onSelectAnchor(hit.anchor)
       const cell = screenToCell(e.clientX, e.clientY)
@@ -504,6 +515,7 @@ export function SceneCanvas(props: {
       return
     }
     if (hit?.kind === 'entity') {
+      setCursor('move')
       pickFromCanvasRef.current = true // 画布点选:用户已看到它,选中定位不动镜头
       onSelectEntity(hit.id)
       const ent = scene.entities.find((x) => x.id === hit.id)
@@ -520,7 +532,7 @@ export function SceneCanvas(props: {
         /* 合成/边缘指针可能抛 InvalidPointerId,忽略即可(拖动仍在画布内可用) */
       }
     } else {
-      // 空白只负责平移,不改变选中;场景节点必须在左树显式点选。
+      // 空白先建立平移候选；完整 click 才在 pointerup 清选择，拖动不清。
       downRef.current = null
       panDragRef.current = {
         sx: e.clientX,
@@ -529,6 +541,7 @@ export function SceneCanvas(props: {
         panY: viewRef.current.panY,
         moved: false,
       }
+      setCursor('grabbing')
       try {
         e.currentTarget.setPointerCapture(e.pointerId)
       } catch {
@@ -537,6 +550,10 @@ export function SceneCanvas(props: {
     }
   }
   const onPointerMove = (e: React.PointerEvent<HTMLCanvasElement>): void => {
+    if (placingEntity) {
+      setCursor('crosshair')
+      return
+    }
     const pd = panDragRef.current
     if (pd) {
       const dx = e.clientX - pd.sx
@@ -545,6 +562,7 @@ export function SceneCanvas(props: {
         if (dx * dx + dy * dy < PAN_DRAG_THRESHOLD_PX * PAN_DRAG_THRESHOLD_PX) return
         pd.moved = true
       }
+      setCursor('grabbing')
       const { zoom } = viewRef.current
       setView((v) => ({
         ...v,
@@ -554,7 +572,11 @@ export function SceneCanvas(props: {
       return
     }
     const d = downRef.current
-    if (!d?.target) return
+    if (!d?.target) {
+      setCursor(targetAt(e.clientX, e.clientY) ? 'move' : 'grab')
+      return
+    }
+    setCursor('move')
     const cell = screenToCell(e.clientX, e.clientY)
     d.moved = true
     setDrag({
@@ -564,14 +586,18 @@ export function SceneCanvas(props: {
     })
   }
   const onPointerUp = (e: React.PointerEvent<HTMLCanvasElement>): void => {
-    if (panDragRef.current) {
+    const panDrag = panDragRef.current
+    if (panDrag) {
       panDragRef.current = null
+      if (!panDrag.moved) onClearSelection()
+      setCursor(targetAt(e.clientX, e.clientY) ? 'move' : 'grab')
       return
     }
     const d = downRef.current
     downRef.current = null
-    if (tool === 'add') {
+    if (placingEntity) {
       onAddAt(screenToCell(e.clientX, e.clientY))
+      setCursor('crosshair')
       return
     }
     if (d?.target && d.moved && drag) {
@@ -580,6 +606,16 @@ export function SceneCanvas(props: {
       else onMoveEntity(d.target.id, { col: drag.col, row: drag.row })
     }
     setDrag(null)
+    setCursor(targetAt(e.clientX, e.clientY) ? 'move' : 'grab')
+  }
+  const onPointerCancel = (): void => {
+    downRef.current = null
+    panDragRef.current = null
+    setDrag(null)
+    setCursor(placingEntity ? 'crosshair' : 'grab')
+  }
+  const onPointerLeave = (): void => {
+    if (!downRef.current && !panDragRef.current) setCursor(placingEntity ? 'crosshair' : 'grab')
   }
 
   // 选中即定位(仅左树/外部点选;画布点选不动镜头):不在视野内 **或缩放小到看不清** →
@@ -640,11 +676,13 @@ export function SceneCanvas(props: {
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
+        onPointerCancel={onPointerCancel}
+        onPointerLeave={onPointerLeave}
         style={{
           width: '100%',
           height: '100%',
           display: 'block',
-          cursor: tool === 'add' ? 'crosshair' : 'grab',
+          cursor,
           touchAction: 'none',
         }}
       />
