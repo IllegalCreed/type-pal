@@ -101,6 +101,17 @@ describe('editor design-system static boundary', () => {
     )
   })
 
+  test('keeps canonical script headings content-sized above the scrolling body', () => {
+    const businessCss = readFileSync(join(dirname(here), 'editor.css'), 'utf8')
+    expect(businessCss).toMatch(
+      /\.canonical-script-editor\s*\{[\s\S]*?grid-template-rows:\s*auto minmax\(0, 1fr\);/,
+    )
+    expect(businessCss).toMatch(/container:\s*canonical-script-editor \/ inline-size;/)
+    expect(businessCss).toMatch(
+      /@container canonical-script-editor \(max-width:\s*460px\)[\s\S]*?\.canonical-script-row-actions\s*\{[\s\S]*?position:\s*static;[\s\S]*?flex:\s*0 0 100%;/,
+    )
+  })
+
   test('keeps every legacy checkbox bridge selector isolated from shared controls', () => {
     const formScope = readFileSync(join(here, 'form-scope.css'), 'utf8')
     const rules = [...formScope.matchAll(/([^{}]+)\{([^{}]*)\}/g)]

@@ -16,9 +16,14 @@ function useDialogState(
       if (typeof dialog.showModal === 'function') dialog.showModal()
       else dialog.setAttribute('open', '')
       requestAnimationFrame(() => {
-        const target = dialog.querySelector<HTMLElement>(
-          '[autofocus], button, input, select, textarea',
-        )
+        const target =
+          dialog.querySelector<HTMLElement>('[autofocus]') ??
+          dialog.querySelector<HTMLElement>(
+            '.ds-overlay__body input, .ds-overlay__body select, .ds-overlay__body textarea',
+          ) ??
+          dialog.querySelector<HTMLElement>('.ds-overlay__body button') ??
+          dialog.querySelector<HTMLElement>('.ds-overlay__footer button') ??
+          dialog.querySelector<HTMLElement>('.ds-overlay__header button')
         target?.focus()
       })
     } else if (!open && dialog.open) {

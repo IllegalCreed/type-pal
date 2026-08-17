@@ -894,13 +894,16 @@ function CommandRowsV5(props: {
               {description.detail ? <span className="cmd-detail">{description.detail}</span> : null}
               {/* biome-ignore lint/a11y/useKeyWithClickEvents lint/a11y/noStaticElementInteractions: 只挡住行选择，内部按钮可键盘操作。 */}
               <span
-                className="cmd-ops"
+                className="canonical-script-row-actions"
                 onClick={(event) => event.stopPropagation()}
                 onDoubleClick={(event) => event.stopPropagation()}
               >
-                <DsButton size="compact" variant="quiet" onClick={() => props.onEdit(path)}>
-                  编辑
-                </DsButton>
+                <DsIconButton
+                  label="编辑"
+                  icon="edit"
+                  size="compact"
+                  onClick={() => props.onEdit(path)}
+                />
                 <DsIconButton
                   label="在此后插入"
                   icon="add"

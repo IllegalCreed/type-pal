@@ -13124,6 +13124,8 @@ button.sprite-frame-cell[draggable="true"]:active {
 /* P7-R1：共享/场景/物品共同使用的 canonical v5 脚本编辑器。 */
 .canonical-script-editor {
   display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  container: canonical-script-editor / inline-size;
   min-width: 0;
   overflow: visible;
   border: 0;
@@ -13169,6 +13171,55 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .canonical-script-tree .cmd-row {
   border-radius: 3px;
+}
+.canonical-script-row-actions {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 2px;
+  width: max-content;
+  padding-left: 22px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--panel) 22px);
+  transform: translateY(-50%);
+  transition: opacity 0.12s;
+}
+.canonical-script-tree .cmd-row:hover > .canonical-script-row-actions,
+.canonical-script-tree .cmd-row:focus-within > .canonical-script-row-actions,
+.canonical-script-tree .cmd-row.sel > .canonical-script-row-actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+.canonical-script-tree .cmd-row.sel > .canonical-script-row-actions {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--accent) 11%, var(--panel)) 22px
+  );
+}
+@container canonical-script-editor (max-width: 460px) {
+  .canonical-script-tree .cmd-row {
+    flex-wrap: wrap;
+  }
+  .canonical-script-row-actions {
+    position: static;
+    display: none;
+    flex: 0 0 100%;
+    justify-content: flex-end;
+    padding-left: 0;
+    background: transparent;
+    transform: none;
+  }
+  .canonical-script-tree .cmd-row:focus-within > .canonical-script-row-actions,
+  .canonical-script-tree .cmd-row.sel > .canonical-script-row-actions {
+    display: flex;
+    background: transparent;
+  }
 }
 .canonical-script-modal-backdrop {
   z-index: 2200;

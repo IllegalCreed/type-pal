@@ -429,7 +429,7 @@ main.tsx:38,70-136。只读审查，未改实现文件，未代签 GLM，未标 
 - 运行命令:
   - `pnpm --filter @type-pal/editor exec vitest run src/ui/CanonicalSharedScriptTabV5.test.tsx`：5/5 通过。
   - `pnpm --filter @type-pal/editor typecheck`：通过。
-  - `pnpm --filter @type-pal/editor test`：126 files / 938 tests 全通过。
+  - `pnpm --filter @type-pal/editor test`：126 files / 939 tests 全通过。
   - `pnpm exec biome check <12 changed UI files>`：通过；仅报告既存 CSS specificity / sr-only
     `!important` 警告，无 error。
   - `node packages/editor/scripts/audit-legacy-controls.mjs`、`git diff --check`：通过。
@@ -439,6 +439,11 @@ main.tsx:38,70-136。只读审查，未改实现文件，未代签 GLM，未标 
     warning/error = 0。
   - `?ui_samples=1&module=scene&page=workspace&object=s000` 确认场景工作台 canvas / 场景控制仍存在，未被共享页
     current-only 清理误删。
+  - 用户首轮看图指出正文 grid 的 implicit auto rows 均分剩余高度；已改为显式 `auto minmax(0, 1fr)`，实测
+    1280 下 heading 高 47px、首条指令紧接于正文头后，无顶部大块空白。
+  - 用户二轮看图指出“编辑”在旧 `.cmd-ops button` 的 20px 宽度内换成两行；当前 canonical 行动作已脱离该旧
+    CSS，全部改为具 tooltip/aria-label 的单行 DS 图标按钮。1280 下 5 键均为 30px 高、无文字溢出；720 下通过
+    container query 下沉到选中行第二行，保留完整指令文字，document `scrollWidth === innerWidth === 720`。
 - 跳过的检查及原因: UI review fixture 没有真实 `callScript` caller，未能当场点击完成 caller → shared → return
   路径；`onOpenSharedScript` 宿主回归与 runtime tests 保持通过，场景工作台预览另已实机确认。该项留给 reviewer
   使用含真实 caller 的工程补验，不影响本卡 build 转 review。
@@ -493,6 +498,11 @@ main.tsx:38,70-136。只读审查，未改实现文件，未代签 GLM，未标 
   typecheck、editor 全量 126/938、Biome changed-files、audit、diff-check 全通过；1280/900/720 功能性视觉自验
   无溢出且 Console 0 warning/error。真实 caller 往返因 UI fixture 无 callScript 留给 review 补验。Next: Kimi/GLM
   独立代码审查并分别 accept/counter；审查前不得标 done。
+- 2026-08-17 User + Codex（build follow-up）: 用户连续指出正文区域被纵向拉伸、行内“编辑”两字换行。Codex
+  复核确认分别由 grid implicit auto track 拉伸与 canonical 行复用旧 `.cmd-ops button` 固定 20px 引起；已改为
+  显式正文行轨道、独立 DS 图标动作区，并在 ≤460px 容器内把动作区排到选中行第二行。Chrome CDP 实测
+  1280/720 无横向溢出、5 个动作均 28px client/scroll width；editor 全量更新为 126 files / 939 tests 通过。
+  核心前提/范围未变，任务保持 `review`。Next: Kimi/GLM 审查最新 commit。
 
 ## 下一位 Agent 提示词
 
@@ -505,7 +515,8 @@ main.tsx:38,70-136。只读审查，未改实现文件，未代签 GLM，未标 
 editor-ui-audit-2026-08-15.md 的 GS3 净减账，以及本卡列出的全部修改文件与测试。
 已完成：删除 owner-less preview 与旧 SharedScriptTab fallback/catalog；共享页、CanonicalScriptEditorV5、
 CommandForm 已统一 DS；treeitem 键盘合同、dialog focus、三种 commit 粒度、四宿主回归已覆盖；typecheck 与
-editor 全量 126 files / 938 tests 通过，1280/900/720 无横向溢出、Console 0 error/warning。
+editor 全量 126 files / 939 tests 通过，1280/900/720 无横向溢出、Console 0 error/warning；用户指出的正文纵向
+拉伸与行动作换行已在 build follow-up 修复，review 必须基于最新 commit。
 请你做：独立检查 schema/runtime/save 未漂移、current-only 删除边界、command path/focus/undo/commit 语义、
 DS 可访问性与 owner-context 分层。若可准备含真实 callScript caller 的工程，补验 caller → shared → return；
 缺少该 fixture 不应以猜测代签。无阻塞则在 Review 写直接证据并签 accept；有问题签 counter/rework 并列最小返工项。

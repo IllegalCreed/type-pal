@@ -153,6 +153,9 @@ describe('CanonicalScriptEditorV5 author presentation', () => {
     const row = host.querySelector<HTMLElement>('.cmd-row')!
     expect(row.getAttribute('role')).toBe('treeitem')
     expect(row.tabIndex).toBe(0)
+    expect(row.querySelector('[aria-label="编辑"]')).not.toBeNull()
+    for (const button of row.querySelectorAll('.canonical-script-row-actions button'))
+      expect(button.textContent).toBe('')
     await act(async () =>
       row.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true })),
     )
