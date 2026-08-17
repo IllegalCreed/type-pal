@@ -4,15 +4,18 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import {
+  AddStampTemplateCommand,
   DeleteStampTemplateCommand,
   DuplicateStampTemplateCommand,
   ReplaceStampTemplateCommand,
 } from '../core/stamp-commands.js'
+import { createBlankStampDraft } from '../core/stamp-draft.js'
 import type { StampSelectionSource } from '../core/stamp-template.js'
 import { collectStampTemplateUsage, nextStampTemplateId } from '../core/stamp-template.js'
 import {
   DsButton,
   DsCatalogControls,
+  DsDialog,
   DsInspectorTabs,
   DsReferenceGroup,
   DsReferenceList,
@@ -20,7 +23,9 @@ import {
   DsReferenceRow,
   DsSelect,
   DsSequenceIndex,
+  DsTextInput,
 } from './design-system/index.js'
+import { StampContentEditor } from './StampContentEditor.js'
 import { StampMiniPreview, StampPreviewCanvas } from './StampPreviewCanvas.js'
 import { StampTemplateDialog } from './StampTemplateDialog.js'
 
@@ -36,6 +41,11 @@ const EMPTY_SCAN: UsageScan = { maps: {}, completed: 0, total: 0, failures: [], 
 const STAMP_PAGE_SIZE = 100
 
 type StampInspectorTab = 'properties' | 'references' | 'actions'
+type StampContentEditorState = {
+  mode: 'create' | 'edit'
+  template: StampTemplateV1
+}
+type StampLeaveIntent = { kind: 'close' } | { kind: 'select'; id: string }
 
 export function StampLibraryTab(props: {
   stamps: readonly StampTemplateV1[]
@@ -86,6 +96,14 @@ export function StampLibraryTab(props: {
   const [error, setError] = useState('')
   const [selectionDialogMap, setSelectionDialogMap] = useState<ProjectMap>()
   const [selectionLoading, setSelectionLoading] = useState(false)
+  const [contentEditor, setContentEditor] = useState<StampContentEditorState>()
+  const [contentDirty, setContentDirty] = useState(false)
+  const [leaveIntent, setLeaveIntent] = useState<StampLeaveIntent>()
+  const [createOpen, setCreateOpen] = useState(false)
+  const [createName, setCreateName] = useState('')
+  const [createId, setCreateId] = useState('')
+  const [createTilesetId, setCreateTilesetId] = useState(tilesets[0]?.id ?? '')
+  const [createError, setCreateError] = useState('')
   const metadataSaveRef = useRef<HTMLButtonElement>(null)
   const takeoverCancelRef = useRef<HTMLButtonElement>(null)
   const deleteTriggerRef = useRef<HTMLButtonElement>(null)
@@ -203,6 +221,82 @@ export function StampLibraryTab(props: {
     setSelectedId(id)
     onObjectFocus?.(id)
   }
+  const requestFocusTemplate = (id: string): void => {
+    if (!contentEditor || contentEditor.template.id === id) {
+      focusTemplate(id)
+      return
+    }
+    if (contentDirty) {
+      setLeaveIntent({ kind: 'select', id })
+      return
+    }
+    setContentEditor(undefined)
+    focusTemplate(id)
+  }
+  const requestCloseContentEditor = (): void => {
+    if (contentDirty) {
+      setLeaveIntent({ kind: 'close' })
+      return
+    }
+    setContentEditor(undefined)
+  }
+  const openContentEditor = (template: StampTemplateV1): void => {
+    setContentDirty(false)
+    setContentEditor({ mode: 'edit', template: structuredClone(template) })
+  }
+  const openCreate = (): void => {
+    const id = nextStampTemplateId(
+      'stamp-user',
+      stamps.map((template) => template.id),
+    )
+    setCreateName('')
+    setCreateId(id)
+    setCreateTilesetId(tilesets[0]?.id ?? '')
+    setCreateError('')
+    setCreateOpen(true)
+  }
+  const beginCreate = (): void => {
+    const name = createName.trim()
+    const id = createId.trim()
+    if (!name) {
+      setCreateError('请输入组合名称。')
+      return
+    }
+    if (!id) {
+      setCreateError('请输入稳定 ID。')
+      return
+    }
+    if (id.includes('/')) {
+      setCreateError("稳定 ID 不得包含 '/'。")
+      return
+    }
+    if (stamps.some((template) => template.id === id)) {
+      setCreateError(`稳定 ID “${id}” 已存在。`)
+      return
+    }
+    if (!createTilesetId) {
+      setCreateError('请选择瓦片集。')
+      return
+    }
+    setContentDirty(false)
+    setContentEditor({
+      mode: 'create',
+      template: createBlankStampDraft(id, name, createTilesetId),
+    })
+    setCreateOpen(false)
+  }
+  const saveContent = (
+    next: StampTemplateV1,
+    takeOwnership: boolean,
+    editor: StampContentEditorState,
+  ): void => {
+    if (editor.mode === 'create') session.dispatch(new AddStampTemplateCommand(next))
+    else session.dispatch(new ReplaceStampTemplateCommand(next, { takeOwnership }))
+    setContentDirty(false)
+    setContentEditor(undefined)
+    focusTemplate(next.id)
+    onStatusNotice?.({ kind: 'info', message: `已保存组合“${next.name}”；既有地图放置保持不变。` })
+  }
   const saveMetadata = (takeOwnership: boolean): void => {
     if (!selected || !metadataChanged) return
     if (selected.origin === 'migrated' && !takeOwnership) {
@@ -310,6 +404,7 @@ export function StampLibraryTab(props: {
           title="组合库"
           count={stamps.length}
           unit="项"
+          actions={[{ id: 'create-stamp', label: '新建组合', icon: '＋', onClick: openCreate }]}
           search={{
             'aria-label': '搜索组合模板',
             value: query,
@@ -348,7 +443,10 @@ export function StampLibraryTab(props: {
             <div className="stamp-list-empty">
               <span aria-hidden="true">▦</span>
               <strong>还没有组合</strong>
-              <small>到“地图编辑”选中一个或多个瓦片，再从检查器保存为组合。</small>
+              <small>直接新建组合，或从地图选区导入已有内容。</small>
+              <DsButton size="compact" icon="add" onClick={openCreate}>
+                新建组合
+              </DsButton>
             </div>
           ) : shown.length === 0 ? (
             <div className="stamp-list-empty">
@@ -371,7 +469,7 @@ export function StampLibraryTab(props: {
                   ? 0
                   : -1
               }
-              onClick={() => focusTemplate(template.id)}
+              onClick={() => requestFocusTemplate(template.id)}
               onKeyDown={(event) => {
                 if (!['ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) return
                 event.preventDefault()
@@ -394,7 +492,7 @@ export function StampLibraryTab(props: {
                         ]
                 if (next?.dataset.stampId) {
                   next.focus()
-                  focusTemplate(next.dataset.stampId)
+                  requestFocusTemplate(next.dataset.stampId)
                 }
               }}
             >
@@ -443,7 +541,20 @@ export function StampLibraryTab(props: {
       </div>
 
       <main className="center stamp-center">
-        {selected ? (
+        {contentEditor ? (
+          <StampContentEditor
+            key={`${contentEditor.mode}:${contentEditor.template.id}`}
+            template={contentEditor.template}
+            mode={contentEditor.mode}
+            tilesets={tilesets}
+            assetCatalog={assetCatalog}
+            assetReader={assetReader}
+            assetBase={assetBase}
+            onDirtyChange={setContentDirty}
+            onCancel={requestCloseContentEditor}
+            onSave={(next, takeOwnership) => saveContent(next, takeOwnership, contentEditor)}
+          />
+        ) : selected ? (
           <div className="stamp-workspace-scroll">
             <header className="stamp-workspace-head">
               <div>
@@ -451,9 +562,14 @@ export function StampLibraryTab(props: {
                 <h2>{selected.name}</h2>
                 <p className="mono">{selected.id}</p>
               </div>
-              <span className={`stamp-origin-badge ${selected.origin}`}>
-                {selected.origin === 'migrated' ? '迁移预置' : '作者模板'}
-              </span>
+              <div className="stamp-workspace-head__actions">
+                <span className={`stamp-origin-badge ${selected.origin}`}>
+                  {selected.origin === 'migrated' ? '迁移预置' : '作者模板'}
+                </span>
+                <DsButton size="compact" onClick={() => openContentEditor(selected)}>
+                  编辑内容
+                </DsButton>
+              </div>
             </header>
             <StampPreviewCanvas
               template={selected}
@@ -510,8 +626,13 @@ export function StampLibraryTab(props: {
           <div className="stamp-workspace-scroll">
             <div className="stamp-workspace-empty">
               <span aria-hidden="true">▦</span>
-              <strong>{stamps.length ? '选择一个组合' : '从地图选区创建第一个组合'}</strong>
+              <strong>{stamps.length ? '选择一个组合' : '创建第一个组合'}</strong>
               <small>组合可以同时包含多个视觉层和独立碰撞通道。</small>
+              {!stamps.length ? (
+                <DsButton size="compact" icon="add" onClick={openCreate}>
+                  新建组合
+                </DsButton>
+              ) : null}
             </div>
             {sourceDiagnostics}
           </div>
@@ -521,9 +642,43 @@ export function StampLibraryTab(props: {
       <aside className="inspector inspector--tabbed stamp-inspector">
         <div className="insp-head">
           <div className="what">组合模板</div>
-          <div className="who">{selected?.name ?? selected?.id ?? '未选择'}</div>
+          <div className="who">
+            {contentEditor?.template.name ?? selected?.name ?? selected?.id ?? '未选择'}
+          </div>
         </div>
-        {selected ? (
+        {contentEditor ? (
+          <div className="stamp-content-inspector">
+            <section className="section">
+              <h4>内容编辑</h4>
+              <p>当前所有修改只存在于内存草稿；点击“保存组合”后才会作为一笔可撤销命令写入工程。</p>
+              <dl>
+                <div>
+                  <dt>稳定 ID</dt>
+                  <dd className="mono">{contentEditor.template.id}</dd>
+                </div>
+                <div>
+                  <dt>瓦片集</dt>
+                  <dd className="mono">{contentEditor.template.tilesetId}</dd>
+                </div>
+                <div>
+                  <dt>地图放置</dt>
+                  <dd>保持原快照，不随模板变化</dd>
+                </div>
+              </dl>
+              <DsButton
+                size="compact"
+                variant="secondary"
+                icon="open"
+                onClick={() => onOpenTileset?.(contentEditor.template.tilesetId)}
+              >
+                打开来源瓦片集
+              </DsButton>
+              <DsButton size="compact" onClick={requestCloseContentEditor}>
+                退出内容编辑
+              </DsButton>
+            </section>
+          </div>
+        ) : selected ? (
           <DsInspectorTabs
             id="stamp-inspector"
             label="组合模板检查器"
@@ -537,6 +692,9 @@ export function StampLibraryTab(props: {
                   <>
                     {error ? <div className="stamp-error">{error}</div> : null}
                     <section className="section">
+                      <DsButton variant="primary" onClick={() => openContentEditor(selected)}>
+                        编辑组合内容
+                      </DsButton>
                       <h4>登记</h4>
                       <label className="field">
                         <span className="field-label">名称</span>
@@ -803,6 +961,89 @@ export function StampLibraryTab(props: {
           <div className="insp-empty">选择组合后编辑属性和查看来源引用。</div>
         )}
       </aside>
+      {createOpen ? (
+        <DsDialog
+          open
+          title="新建组合"
+          description="先登记稳定 ID 与来源瓦片集；进入工作区后再绘制多层内容。"
+          onClose={() => setCreateOpen(false)}
+          footer={
+            <>
+              <DsButton onClick={() => setCreateOpen(false)}>取消</DsButton>
+              <DsButton variant="primary" onClick={beginCreate}>
+                进入内容编辑
+              </DsButton>
+            </>
+          }
+        >
+          <div className="stamp-create-form">
+            <DsTextInput
+              autoFocus
+              aria-label="新组合名称"
+              placeholder="例如：村口门楼"
+              value={createName}
+              onChange={(event) => {
+                setCreateName(event.target.value)
+                setCreateError('')
+              }}
+            />
+            <DsTextInput
+              aria-label="新组合稳定 ID"
+              monospace
+              value={createId}
+              onChange={(event) => {
+                setCreateId(event.target.value)
+                setCreateError('')
+              }}
+            />
+            <DsSelect
+              aria-label="新组合瓦片集"
+              value={createTilesetId}
+              options={tilesets.map((tileset) => ({
+                value: tileset.id,
+                label: `${tileset.name} · ${tileset.id}`,
+              }))}
+              onValueChange={(value) => {
+                setCreateTilesetId(value)
+                setCreateError('')
+              }}
+              placeholder={tilesets.length ? undefined : '没有可用瓦片集'}
+            />
+            {createError ? (
+              <p className="stamp-error" role="alert">
+                {createError}
+              </p>
+            ) : null}
+          </div>
+        </DsDialog>
+      ) : null}
+      {leaveIntent ? (
+        <DsDialog
+          open
+          title="放弃未保存的组合修改？"
+          description="草稿尚未写入工程；放弃后无法通过工程撤销恢复。"
+          onClose={() => setLeaveIntent(undefined)}
+          footer={
+            <>
+              <DsButton onClick={() => setLeaveIntent(undefined)}>继续编辑</DsButton>
+              <DsButton
+                variant="danger"
+                onClick={() => {
+                  const intent = leaveIntent
+                  setLeaveIntent(undefined)
+                  setContentDirty(false)
+                  setContentEditor(undefined)
+                  if (intent.kind === 'select') focusTemplate(intent.id)
+                }}
+              >
+                放弃草稿
+              </DsButton>
+            </>
+          }
+        >
+          <p>地图、MapIndex 与已放置组合均未被当前草稿修改。</p>
+        </DsDialog>
+      ) : null}
       {selectionDialogMap && selectionSource && selected ? (
         <StampTemplateDialog
           map={selectionDialogMap}

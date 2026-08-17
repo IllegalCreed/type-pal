@@ -11,7 +11,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { resolveRelativeLatticeOffset } from '../core/map-transform.js'
 
-interface PreviewAssets {
+export interface StampPreviewAssets {
   palette: Palette
   frames: Map<number, RleFrame>
 }
@@ -42,12 +42,12 @@ function cachedFrames(
   return pending
 }
 
-async function loadPreviewAssets(
+export async function loadStampPreviewAssets(
   assetBase: AssetBase,
   assetReader: EditorAssetReader,
   tileset: TilesetDef,
   revision: string,
-): Promise<PreviewAssets> {
+): Promise<StampPreviewAssets> {
   const [palette, frames] = await Promise.all([
     cachedPalette(assetBase),
     cachedFrames(assetReader, tileset, revision),
@@ -66,7 +66,7 @@ export function StampPreviewCanvas(props: {
 }) {
   const { template, tilesets, assetReader, assetCatalog, assetBase } = props
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [assets, setAssets] = useState<PreviewAssets>()
+  const [assets, setAssets] = useState<StampPreviewAssets>()
   const [error, setError] = useState('')
   const [hiddenSlots, setHiddenSlots] = useState<Set<string>>(() => new Set())
   const [showCollision, setShowCollision] = useState(true)
@@ -87,7 +87,7 @@ export function StampPreviewCanvas(props: {
     }
     void (async () => {
       try {
-        const next = await loadPreviewAssets(assetBase, assetReader, tileset, revision)
+        const next = await loadStampPreviewAssets(assetBase, assetReader, tileset, revision)
         if (alive) setAssets(next)
       } catch (cause) {
         if (alive) setError(cause instanceof Error ? cause.message : String(cause))
@@ -300,7 +300,7 @@ export function StampMiniPreview(props: {
     const canvas = ref.current
     const context = canvas?.getContext('2d')
     if (!canvas || !context || !tileset) return
-    void loadPreviewAssets(assetBase, assetReader, tileset, revision).then(
+    void loadStampPreviewAssets(assetBase, assetReader, tileset, revision).then(
       ({ palette, frames }) => {
         if (!alive) return
         const slotOrder = new Map(

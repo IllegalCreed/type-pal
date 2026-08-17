@@ -1,6 +1,6 @@
 # ED-STAMP-EDITOR-1 - 组合模板内容编辑闭环
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: W7G correction（不新增 capability-map 格，不改 schema/runtime）
 Coding Owner: Codex
@@ -182,14 +182,37 @@ Branch: codex/ed-stamp-editor-1
     command + placement 非链接保持——与 schema/命令/变换三层现有边界相容，schema 零改动成立。
     详见下方「GLM 独立数据覆盖审查」。
 - 独立反证审查（至少一位非 Coding Owner 必填）:
-  - 审查者: Kimi（2026-08-17，SK1-SK2）+ GLM（2026-08-17，SE1-SE3，见下方）。**注意：Kimi 签字
-    三次引用的「Kimi 独立反证审查」节并未写入本卡（SE1）**——其证据锚点暂以签字块行内清单为准。
-  - 独立证据锚点: Kimi——签字块内联清单；GLM——见下方审查节。
+  - 审查者: Kimi（2026-08-17，SK1-SK2）+ GLM（2026-08-17，SE1-SE3，见下方）。
+  - 独立证据锚点: Kimi——签字块内联清单与下方恢复的独立审查节；GLM——见下方审查节。
   - 可证伪观察: 见「GLM 独立数据覆盖审查」末节。
 - counter / 分歧处理: pending
 - 缺签豁免: N/A
 - build 准入结论: **allowed（2026-08-17）——Codex + Kimi（SK1-SK2）+ GLM（SE1-SE3）三方签字齐。
-  前置：SE1 的 Kimi 审查节与 SK1/SK2 完整定义须先落卡（纯文档补录，落卡后无需 GLM 重审）。**
+  SE1 的 Kimi 审查节与 SK1/SK2 完整定义已于 2026-08-17 从既有签字证据恢复入卡；该补录不新增或代签
+  Kimi 结论，GLM 已明确无需重审。**
+
+#### Kimi 独立反证审查（2026-08-17，架构/交互；SE1 恢复记录）
+
+> 本节由 Codex 依据 commit `db490d9c` 已落库的 Kimi 一手证据、签字结论和引用锚点恢复完整定义；只修复
+> “签字块引用了缺失小节”的文档缺陷，不改变、扩张或代签 Kimi 的 premise/design 结论。
+
+- **能力缺口反证**：`StampLibraryTab` 的内容更新强制依赖外部 cells selection；`MapMode` 不向组合库暴露
+  placement group edit，且 placement Inspector 明示编辑真实地图快照、不从模板重建。唯一反向转换
+  `buildStampTemplateFromSelection` 也只接受 map + cells selection。因而“放置→组内编辑→解组→重选区”虽然
+  技术上能绕行，却必然污染并拆解真实地图，不是模板自身的非破坏 round-trip。
+- **SK1——draft / 复用边界钉**：模板编辑 surface 只能接收内存 draft、tileset/投影只读资源和显式 patch
+  callback；不得导入或伪造 `MapMode` session、写 `session.maps`、MapIndex、save 输入或临时持久地图。可复用
+  `relativeLatticeOffset`、`resolveRelativeLatticeOffset`、投影/命中/tileset palette 等纯函数或小 surface，
+  不能把 `MapMode` 的 dispatch、placement authoring、entity/map IO 状态机带进模板域。若不写持久地图便无法
+  渲染/命中，立即 counter 并重新抽取纯 adapter，不得以隐藏临时地图兜底。
+- **SK2——单一事务与作者交互钉**：打开/新建仅创建 draft；layer/tile/height/collision/anchor 的所有中间操作
+  只改 draft，dirty 离开必须确认。保存先 canonicalize + validate，再且仅 dispatch 一次 Add/Replace command；
+  migrated 的 `takeOwnership` 只能随确认保存发生，取消/校验失败不得改变来源。活动层、稳定 slot ID、独立
+  collision 与固定可见 anchor 必须在同一工作区可达；窄屏可折叠/换区，但不得隐藏内容编辑能力或退回表格/JSON。
+- **可证伪观察**：若 round-trip 破坏负 offset/奇偶，重复保存产生内容漂移，保存前 history/session maps/MapIndex
+  发生变化，取消后 migrated 变 authored，或模板更新扫描并改写 placement，则 SK1/SK2 任一被推翻，任务必须
+  停线返工。上述观察分别由 SE2 字节稳定与 SE3 六态持久数据不变矩阵机检。
+- **结论**：`premise verified + design agree（SK1-SK2）` 保持有效；恢复小节后 build 准入前置满足。
 
 #### GLM 独立数据覆盖审查（2026-08-17，数据不变量/测试矩阵；本人一手读码，非代理）
 
@@ -221,7 +244,10 @@ build/done。
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept（2026-08-17）**。实现保持 SK1/SK2：`StampContentEditor` 只持有内存 draft 与只读资源，
+  `StampLibraryTab` 仅在确认保存时派发一次 Add/Replace；focused、全量、typecheck、content validator、
+  三档浏览器矩阵和保存/撤销/重做实测全绿。SE2/SE3 由纯函数字节稳定测试、静态边界测试与六态 session
+  不变断言覆盖；未发现 schema/runtime/MapMode/placement 写入。
 - Kimi: pending
 - GLM: pending
 - counter / 返工处理: pending
@@ -283,29 +309,53 @@ build/done。
 
 ## Build: 实现与自测
 
-- Coding Owner: Codex（待三签）
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- Coding Owner: Codex（三签齐后实现）
+- 修改文件:
+  - `packages/editor/src/core/stamp-draft.ts`、`stamp-draft.test.ts`
+  - `packages/editor/src/ui/StampContentEditor.tsx`
+  - `packages/editor/src/ui/StampLibraryTab.tsx`、`StampLibraryTab.test.tsx`
+  - `packages/editor/src/ui/StampPreviewCanvas.tsx`、`editor.css`
+  - `packages/editor/src/ui/design-system/boundary.test.ts`
+- 实现摘要:
+  - 新增纯 draft 边界，直接复用既有 isometric lattice 互逆/移动函数；覆盖稳定 layer ID、图层 CRUD、
+    flat/height、视觉/碰撞 0/1、选区移动、reanchor、确定性 canonicalize 与 tileId fail-loud。
+  - 组合库新增空库新建和已有模板“编辑内容”主入口；工作区复用同一真实 tileset/palette 与
+    `StampPreviewCanvas`，所有中间操作留在内存。dirty 切换/取消先确认，migrated 只有“接管并保存”才转 authored。
+  - 保存边界位于 `StampLibraryTab.tsx:288-299`，一次且仅一次派发 `AddStampTemplateCommand` 或
+    `ReplaceStampTemplateCommand`；原地图选区导入捷径保留。
+  - 响应式区使用内容高度 grid + 中央滚动；620px container query 重排图层、工具条和选区动作，tooltip
+    向内/向上锚定，避免窄栏隐形溢出。
+- 运行命令:
+  - `pnpm --filter @type-pal/editor typecheck`：通过。
+  - `pnpm --filter @type-pal/editor test`：129 files / 948 tests passed。
+  - `pnpm --filter @type-pal/content test`：42 files / 484 tests passed。
+  - changed-files `biome check`：通过；仅报告 `editor.css:10314-10317` 既有 `.visually-hidden !important`
+    4 条 warning，本卡未新增。
+  - `git diff --check`：通过。
+- 浏览器 / 手工检查:
+  - `?ui_samples=1&module=map&page=stamp` 实测多层、6 个不同 tileId、H0/H2/H3、collision 0/1、
+    draft 取消零写入、保存→撤销→重做→再撤销；最终样例恢复 1 层/3 成员/0 collision。
+  - 1280/900/720 × 720 三档 document `scrollWidth === clientWidth`；中央 editor 仅纵向滚动，720 档
+    lattice surface 保留自身横向滚动；Console warning/error 0。
+- 跳过的检查及原因: 无。
 
 ## 视觉验证记录(如适用)
 
 - Visual Verification Owner: Codex
 - Visual Verification Timing: dev-functional
-- 验证方式: pending
+- 验证方式: in-app Browser + DOM 尺寸量化 + 三档截图 + 语义交互。
 - 集中 E2E 用例 / 批次: N/A
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: pending
+- 截图 / 像素检查路径: 本轮浏览器内联截图（未把临时截图落库）；量化证据已写入上一节。
+- 结论: **通过**。初验发现工作台/Palette 被 grid 压成约 40px，已以 `grid-auto-rows: max-content` +
+  `align-content: start` 修复；复验 workbench 391px、palette 355px，三档无 document 横向溢出。
+- 未完成项: Kimi/GLM 独立 review 与用户最终验收。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: Codex 自审 accept；Kimi/GLM pending。
+- 必须返工项: 当前无；以非 Coding Owner review 为准。
+- Accept / rework: review。
 
 ## 用户验收
 
@@ -326,26 +376,27 @@ build/done。
   引用的「Kimi 独立反证审查」节未写入卡内，SK2 无定义**——Codex 须先落节（纯文档补录）。SE2 钉
   奇偶+字节稳定+重复保存 no-op 断言；SE3 钉 placement 不变性四态矩阵（含取消/校验失败态零写入
   断言）。三签齐（SE1 落卡为 build 前置）。未改实现文件，未代签 Kimi，未标 build/done。
+- 2026-08-17 Codex: 完成组合模板内容编辑闭环并签 Codex accept。实现纯 draft、可视化多层/高度/碰撞/
+  锚点编辑、新建/编辑/dirty 离开/迁移接管与单笔命令保存；补齐 SE2/SE3 机检。Evidence: editor
+  129/948、content 42/484、typecheck、Biome/diff-check 全绿；1280/900/720 浏览器矩阵无文档横溢出，
+  实测取消零写入与保存/undo/redo，Console 0。Next: Kimi/GLM 独立 review，未齐前不得标 done。
 
 ## 下一位 Agent 提示词
 
 ```text
 接手任务：ED-STAMP-EDITOR-1 组合模板内容编辑闭环
 任务卡：docs/ops/tasks/ED-STAMP-EDITOR-1-stamp-template-content-editor.md
-当前状态：draft；Codex 已完成 premise verified + design agree，Kimi/GLM pending；不得开始实现。
-你的角色：Kimi，负责架构/交互独立反证与 build 前签字。
+当前状态：review；Codex 已完成实现、自测与 accept，Kimi/GLM done 前 accept pending；不得标 done。
+你的角色：Kimi 或 GLM，负责独立代码审查与 done 前签字。
 先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文、
-docs/ops/tasks/W7G-composite-tile-stamps.md 的用户语义/S1-S16/模板映射/组内编辑/UI 章节，
-packages/content/src/stamp.ts、packages/editor/src/core/stamp-template.ts、stamp-commands.ts、
-packages/editor/src/ui/StampLibraryTab.tsx、StampTemplateDialog.tsx、MapMode.tsx 的 selection 暴露段、
-StampPlacementSelectionInspector.tsx。
-已完成：确认当前只有模板元数据编辑、真实地图 placement 组内编辑、普通 cells 选区整项替换；组内编辑状态不直接
-暴露给模板更新，不存在“打开模板→完整编辑→取消/原子保存”的无损闭环。候选方案是在组合库内建立内存 draft，
-复用地图领域 primitive，不改 schema/runtime/placement 非链接语义。
-请你做：独立读取一手代码，验证或反驳能力缺口；压力测试 draft adapter、MapMode 能力复用边界、负 offset/anchor、
-多层/height/collision、迁移预置接管、单笔 history 与窄屏交互；写出最强反例和可证伪观察。无阻塞则在卡内签
-premise verified + design agree；有问题签 counter 并给出可执行收敛方案。
-不要做：不得修改实现文件，不得代签 GLM，不得把任务标 build/done，不得以真实持久地图作为编辑模板的必经中间物，
-不得改变 StampTemplateV1 或 linked placement 语义。
-输出要求：把证据、结论、风险和签字写回任务卡；若 agree，附可直接交给 GLM 的下一位 Agent 提示词。
+packages/editor/src/core/stamp-draft.ts、stamp-draft.test.ts、stamp-commands.ts，
+packages/editor/src/ui/StampContentEditor.tsx、StampLibraryTab.tsx/test、StampPreviewCanvas.tsx、
+design-system/boundary.test.ts 与 editor.css 的 ED-STAMP 段。
+已完成：纯内存 draft + 真实 tileset/palette + 多层/height/collision/anchor 空间工作区；新建、dirty 离开、
+migrated 接管、单次 Add/Replace 保存；editor 129/948、content 42/484、typecheck 与三档视觉矩阵全绿。
+请你做：独立检查 SK1/SK2 与 SE2/SE3 是否逐钉满足，尤其 draft 是否触及 session maps/MapIndex、offset 奇偶/
+字节稳定、空槽/最后成员守卫、collision=0、接管取消、单笔 history、undo/redo 及窄栏布局；复跑必要测试。
+无阻塞则在 done 前签 accept；有问题签 counter/rework 并写出文件行号与最小返工项。
+不要做：不得代签另一方，不得在三方 accept + 用户验收前标 done；审查阶段原则上不改实现文件。
+输出要求：把证据、结论与签字写回任务卡；若仍缺另一方，附下一位 Agent 提示词。
 ```
