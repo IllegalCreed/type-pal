@@ -117,13 +117,13 @@ import {
   DsCatalogRow,
   DsCheckbox,
   DsInspectorTabs,
-  DsMenuBar,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
 } from './design-system/index.js'
 import { IsometricEditorCanvas } from './IsometricEditorCanvas.js'
 import { IsometricEditorSurface } from './IsometricEditorSurface.js'
+import { IsometricEditorToolbar } from './IsometricEditorToolbar.js'
 import { LayerStackControls } from './LayerStackControls.js'
 import { MapSelectionInspector } from './MapSelectionInspector.js'
 import { MapStampPalette } from './MapStampPalette.js'
@@ -3012,170 +3012,60 @@ export function MapMode(props: {
         className="center map-center"
         viewportRef={wrapRef}
         toolbar={
-          <>
-            <div className="tool-group">
-              <DsButton
-                size="compact"
-                variant="quiet"
-                aria-pressed={activeTool === 'pan'}
-                onClick={() => activateMapTool('pan')}
-                title="平移画布"
-              >
-                ✋ 平移
-              </DsButton>
-              <DsButton
-                size="compact"
-                variant="quiet"
-                onClick={() => {
-                  activateMapTool('select')
-                }}
-                disabled={!liveMap}
-                title="选择地图已有内容 (V)；Shift 追加，Ctrl/⌘ 切换追加或移除，Alt 候选"
-                aria-label="选择地图内容"
-                aria-pressed={activeTool === 'select'}
-              >
-                ⛶ 选择
-              </DsButton>
-              {activeTool === 'select' ? (
-                <fieldset className="map-inline-option">
-                  <legend className="visually-hidden">选择工具选项</legend>
-                  <DsCheckbox
-                    size="compact"
-                    label="跨层"
-                    title="下一次点击/框选作用于所有可见且未锁图层；已有选区保持不变"
-                    checked={workspaceMap.hitScope === 'visible-unlocked-layers'}
-                    onChange={(event) => {
-                      dispatchWorkspace({
-                        type: 'set-hit-scope',
-                        mapId,
-                        hitScope: event.target.checked ? 'visible-unlocked-layers' : 'active-layer',
-                      })
-                      notifyWorkspace(
-                        'info',
-                        event.target.checked
-                          ? '已启用跨层选择；已有选区保持不变。'
-                          : '已切回活动层选择；已有选区保持不变。',
-                      )
-                    }}
-                  />
-                </fieldset>
-              ) : null}
-            </div>
-            <div className="tool-group">
-              <DsButton
-                size="compact"
-                variant="quiet"
-                aria-pressed={activeTool === 'eyedropper'}
-                onClick={() => activateMapTool('eyedropper')}
-                disabled={!liveMap || activeLayerReadOnly}
-                title="从当前图层取样瓦片与实例高度"
-              >
-                ◉ 取样
-              </DsButton>
-              <DsButton
-                size="compact"
-                variant="quiet"
-                aria-pressed={activeTool === 'brush'}
-                onClick={() => activateMapTool('brush')}
-                disabled={!liveMap || activeLayerReadOnly}
-                title="画选中瓦片"
-              >
-                🖌 笔刷
-              </DsButton>
-              <DsButton
-                size="compact"
-                variant="quiet"
-                aria-pressed={activeTool === 'rect'}
-                onClick={() => activateMapTool('rect')}
-                disabled={!liveMap || activeLayerReadOnly}
-                title="矩形铺瓦"
-              >
-                ▭ 矩形
-              </DsButton>
-              <DsButton
-                size="compact"
-                variant="quiet"
-                aria-pressed={activeTool === 'fill'}
-                onClick={() => activateMapTool('fill')}
-                disabled={!liveMap || activeLayerReadOnly}
-                title="填充连通区域"
-              >
-                🪣 填充
-              </DsButton>
-              <DsButton
-                size="compact"
-                variant="quiet"
-                aria-pressed={activeTool === 'erase'}
-                onClick={() => activateMapTool('erase')}
-                disabled={!liveMap || activeLayerReadOnly}
-                title="擦除瓦片"
-              >
-                ⌫ 擦除
-              </DsButton>
-            </div>
-            <div className="tool-group">
-              <DsButton
-                size="compact"
-                variant="quiet"
-                aria-pressed={activeTool === 'collision'}
-                onClick={() => activateMapTool('collision')}
-                disabled={!liveMap || activeLayerReadOnly}
-                title="绘制独立碰撞层"
-              >
-                ⛔ 碰撞
-              </DsButton>
-              {activeTool === 'collision' ? (
-                <fieldset className="map-inline-option map-collision-options">
-                  <legend className="visually-hidden">碰撞工具选项</legend>
-                  <DsButton
-                    size="compact"
-                    variant={collisionPaint === 'set' ? 'primary' : 'quiet'}
-                    aria-pressed={collisionPaint === 'set'}
-                    onClick={() => setCollisionPaint('set')}
-                    disabled={!liveMap || activeLayerReadOnly}
-                    title="标记阻挡"
-                  >
-                    标记
-                  </DsButton>
-                  <DsButton
-                    size="compact"
-                    variant={collisionPaint === 'clear' ? 'primary' : 'quiet'}
-                    aria-pressed={collisionPaint === 'clear'}
-                    onClick={() => setCollisionPaint('clear')}
-                    disabled={!liveMap || activeLayerReadOnly}
-                    title="清除阻挡"
-                  >
-                    清除
-                  </DsButton>
-                </fieldset>
-              ) : null}
-            </div>
-            <div className="tool-group map-view-menu">
-              <DsMenuBar
-                label="画布显示"
-                menus={[
-                  {
-                    id: 'view',
-                    label: '视图',
-                    items: [
-                      {
-                        id: 'grid',
-                        label: '显示网格',
-                        checked: showGrid,
-                        onSelect: () => setShowGrid((visible) => !visible),
-                      },
-                      {
-                        id: 'collision',
-                        label: '显示碰撞',
-                        checked: showCollision,
-                        onSelect: () => setShowCollision((visible) => !visible),
-                      },
-                    ],
-                  },
-                ]}
-              />
-            </div>
-          </>
+          <IsometricEditorToolbar
+            activeTool={activeTool === 'stamp' ? undefined : activeTool}
+            onToolChange={activateMapTool}
+            disabledTools={{
+              select: !liveMap,
+              eyedropper: !liveMap || activeLayerReadOnly,
+              brush: !liveMap || activeLayerReadOnly,
+              rect: !liveMap || activeLayerReadOnly,
+              fill: !liveMap || activeLayerReadOnly,
+              erase: !liveMap || activeLayerReadOnly,
+              collision: !liveMap || activeLayerReadOnly,
+            }}
+            selectionOptions={
+              <>
+                <DsCheckbox
+                  size="compact"
+                  label="跨层"
+                  title="下一次点击/框选作用于所有可见且未锁图层；已有选区保持不变"
+                  checked={workspaceMap.hitScope === 'visible-unlocked-layers'}
+                  onChange={(event) => {
+                    dispatchWorkspace({
+                      type: 'set-hit-scope',
+                      mapId,
+                      hitScope: event.target.checked ? 'visible-unlocked-layers' : 'active-layer',
+                    })
+                    notifyWorkspace(
+                      'info',
+                      event.target.checked
+                        ? '已启用跨层选择；已有选区保持不变。'
+                        : '已切回活动层选择；已有选区保持不变。',
+                    )
+                  }}
+                />
+                <DsCheckbox
+                  size="compact"
+                  label="包含碰撞"
+                  title={
+                    selection.kind === 'stamp-placements'
+                      ? '完整组合始终包含碰撞'
+                      : '复制、剪切、移动、重复和删除同时作用于碰撞层'
+                  }
+                  checked={transformIncludesCollision}
+                  disabled={selection.kind === 'stamp-placements' || Boolean(transformIntent)}
+                  onChange={(event) => setIncludeCollision(event.target.checked)}
+                />
+              </>
+            }
+            collisionPaint={collisionPaint}
+            onCollisionPaintChange={setCollisionPaint}
+            showGrid={showGrid}
+            onShowGridChange={setShowGrid}
+            showCollision={showCollision}
+            onShowCollisionChange={setShowCollision}
+          />
         }
       >
         {status === 'error' && (
@@ -3317,24 +3207,6 @@ export function MapMode(props: {
                 {item.shortcut ? <kbd>{item.shortcut}</kbd> : null}
               </DsButton>
             ))}
-            <div className="map-canvas-context-menu__section">变换选项</div>
-            <DsButton
-              role="menuitemcheckbox"
-              size="compact"
-              variant="quiet"
-              className="ds-menu-item"
-              aria-checked={transformIncludesCollision}
-              disabled={selection.kind === 'stamp-placements'}
-              onClick={() => {
-                setIncludeCollision(!includeCollision)
-                setCanvasContextMenu(undefined)
-                canvasRef.current?.focus({ preventScroll: true })
-              }}
-            >
-              <span>{selection.kind === 'stamp-placements' ? '组合始终包含碰撞' : '包含碰撞'}</span>
-              <span className="ds-spacer" />
-              <span aria-hidden="true">{transformIncludesCollision ? '✓' : ''}</span>
-            </DsButton>
           </div>
         ) : null}
         <span className="map-viewport-status map-viewport-status--context">{toolbarHint}</span>

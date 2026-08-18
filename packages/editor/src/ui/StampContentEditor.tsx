@@ -26,19 +26,17 @@ import {
 } from '../core/stamp-draft.js'
 import {
   DsButton,
+  DsCheckbox,
   DsDialog,
   DsIconButton,
   DsSelect,
-  DsTabs,
   DsTextInput,
 } from './design-system/index.js'
 import { IsometricEditorCanvas } from './IsometricEditorCanvas.js'
 import { IsometricEditorSurface } from './IsometricEditorSurface.js'
+import { type IsometricEditorTool, IsometricEditorToolbar } from './IsometricEditorToolbar.js'
 import { LayerStackControls } from './LayerStackControls.js'
 import { loadStampPreviewAssets, type StampPreviewAssets } from './StampPreviewCanvas.js'
-
-type StampDraftTool = 'paint' | 'erase' | 'select'
-type StampDraftChannelKind = 'visual' | 'collision'
 
 const STAMP_DRAFT_LATTICE_SCALE = 2
 const STAMP_DRAFT_CELL_WIDTH = 32 * STAMP_DRAFT_LATTICE_SCALE
@@ -97,11 +95,16 @@ export function StampContentEditor(props: {
   const [baseline] = useState(() => openStampDraft(props.template))
   const [draft, setDraft] = useState(() => openStampDraft(props.template))
   const [activeSlotId, setActiveSlotId] = useState(props.template.layerSlots[0]?.id ?? '')
-  const [channel, setChannel] = useState<StampDraftChannelKind>('visual')
-  const [tool, setTool] = useState<StampDraftTool>('paint')
+  const [tool, setTool] = useState<IsometricEditorTool>('brush')
   const [selectedTileId, setSelectedTileId] = useState(props.template.visual[0]?.tileId ?? 0)
   const [height, setHeight] = useState(props.template.visual[0]?.height ?? 0)
   const [collisionValue, setCollisionValue] = useState(1)
+  const [collisionPaint, setCollisionPaint] = useState<'set' | 'clear'>('set')
+  const [includeCollision, setIncludeCollision] = useState(true)
+  const [showGrid, setShowGrid] = useState(true)
+  const [showCollision, setShowCollision] = useState(true)
+  const [stagePan, setStagePan] = useState({ x: 0, y: 0 })
+  const [panning, setPanning] = useState(false)
   const [selectedPointKeys, setSelectedPointKeys] = useState<Set<string>>(() => new Set())
   const [assets, setAssets] = useState<StampPreviewAssets>()
   const [assetError, setAssetError] = useState('')
@@ -114,6 +117,16 @@ export function StampContentEditor(props: {
   const [takeoverOpen, setTakeoverOpen] = useState(false)
   const stageCanvasRef = useRef<HTMLCanvasElement>(null)
   const paintedPointRef = useRef<string | undefined>(undefined)
+  const rectStartPointRef = useRef<GridPointRef | undefined>(undefined)
+  const panStartRef = useRef<
+    | {
+        clientX: number
+        clientY: number
+        panX: number
+        panY: number
+      }
+    | undefined
+  >(undefined)
   const dirty = JSON.stringify(draft) !== JSON.stringify(baseline)
   const tileset = props.tilesets.find((candidate) => candidate.id === draft.tilesetId)
   const revision = tileset
@@ -136,10 +149,10 @@ export function StampContentEditor(props: {
   useEffect(() => {
     if (activeSlot?.depthMode === 'flat') setHeight(0)
   }, [activeSlot?.depthMode])
-  // biome-ignore lint/correctness/useExhaustiveDependencies: selection belongs to the active channel/slot identity and must reset when either changes.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: selection belongs to the active layer identity and resets when it changes.
   useEffect(() => {
     setSelectedPointKeys(new Set())
-  }, [activeSlotId, channel])
+  }, [activeSlotId])
 
   useEffect(() => {
     let alive = true
@@ -213,6 +226,10 @@ export function StampContentEditor(props: {
       for (let col = bounds.minCol; col <= bounds.maxCol; col += 1) points.push({ row, col })
     return points
   }, [bounds])
+  const latticePointKeys = useMemo(
+    () => new Set(latticePoints.map(stampDraftPointKey)),
+    [latticePoints],
+  )
   const stageWidth =
     (bounds.maxU - bounds.minU) * (16 * STAMP_DRAFT_LATTICE_SCALE) + STAMP_DRAFT_CELL_WIDTH + 32
   const stageHeight =
@@ -226,11 +243,48 @@ export function StampContentEditor(props: {
       .sort((left, right) => left[0] - right[0])
   }, [assets, tileQuery])
 
-  const handleCell = (point: GridPointRef): void => {
-    if (channel === 'visual' && (activeSlotHidden || activeSlotLocked)) {
-      setError(activeSlotHidden ? '当前视觉层已隐藏，请先显示后再编辑。' : '当前视觉层已锁定。')
-      return
+  const paintVisualPoints = (points: readonly GridPointRef[]): void =>
+    update((current) =>
+      points.reduce(
+        (next, point) =>
+          setStampDraftVisual(
+            next,
+            activeSlotId,
+            point,
+            selectedTileId,
+            activeSlot?.depthMode === 'height' ? height : 0,
+          ),
+        current,
+      ),
+    )
+
+  const fillVisualAt = (point: GridPointRef): void => {
+    const seed = activeVisualByPoint.get(stampDraftPointKey(point))
+    const replacementHeight = activeSlot?.depthMode === 'height' ? height : 0
+    if (seed?.tileId === selectedTileId && (seed?.height ?? 0) === replacementHeight) return
+    const matchesSeed = (candidate: GridPointRef): boolean => {
+      const member = activeVisualByPoint.get(stampDraftPointKey(candidate))
+      return seed
+        ? member?.tileId === seed.tileId && member.height === seed.height
+        : member === undefined
     }
+    const queue = [point]
+    const visited = new Set<string>()
+    const filled: GridPointRef[] = []
+    while (queue.length) {
+      const current = queue.shift()!
+      const key = stampDraftPointKey(current)
+      if (visited.has(key) || !latticePointKeys.has(key) || !matchesSeed(current)) continue
+      visited.add(key)
+      filled.push(current)
+      for (const direction of ['up', 'down', 'left', 'right'] as const)
+        queue.push(nudgeIsometricLattice(current, direction))
+    }
+    paintVisualPoints(filled)
+  }
+
+  const handleCell = (point: GridPointRef): void => {
+    if (tool === 'pan' || tool === 'rect') return
     const key = stampDraftPointKey(point)
     if (tool === 'select') {
       setSelectedPointKeys((current) => {
@@ -241,16 +295,35 @@ export function StampContentEditor(props: {
       })
       return
     }
-    if (channel === 'collision') {
+    if (tool === 'collision') {
       update((current) =>
-        tool === 'erase'
+        collisionPaint === 'clear'
           ? eraseStampDraftCollision(current, point)
           : setStampDraftCollision(current, point, collisionValue),
       )
       return
     }
+    if (activeSlotHidden || activeSlotLocked) {
+      setError(activeSlotHidden ? '当前视觉层已隐藏，请先显示后再编辑。' : '当前视觉层已锁定。')
+      return
+    }
     if (!activeSlotId) {
       setError('请先选择一个视觉层。')
+      return
+    }
+    if (tool === 'eyedropper') {
+      const member = activeVisualByPoint.get(key)
+      if (!member) {
+        setError('当前格没有可取样的瓦片。')
+        return
+      }
+      setSelectedTileId(member.tileId)
+      setHeight(member.height)
+      setError('')
+      return
+    }
+    if (tool === 'fill') {
+      fillVisualAt(point)
       return
     }
     update((current) =>
@@ -266,21 +339,45 @@ export function StampContentEditor(props: {
     )
   }
 
+  const paintVisualRect = (start: GridPointRef, end: GridPointRef): void => {
+    if (!activeSlotId || activeSlotHidden || activeSlotLocked) {
+      setError(
+        !activeSlotId
+          ? '请先选择一个视觉层。'
+          : activeSlotHidden
+            ? '当前视觉层已隐藏，请先显示后再编辑。'
+            : '当前视觉层已锁定。',
+      )
+      return
+    }
+    const minRow = Math.min(start.row, end.row)
+    const maxRow = Math.max(start.row, end.row)
+    const minCol = Math.min(start.col, end.col)
+    const maxCol = Math.max(start.col, end.col)
+    paintVisualPoints(
+      latticePoints.filter(
+        (point) =>
+          point.row >= minRow && point.row <= maxRow && point.col >= minCol && point.col <= maxCol,
+      ),
+    )
+  }
+
   const moveSelection = (direction: 'up' | 'down' | 'left' | 'right'): void => {
     if (!selectedPoints.length) {
       setError('请先用“选择”工具选中一个或多个格子。')
       return
     }
-    update((current) =>
-      moveStampDraftSelection(
+    update((current) => {
+      let next = moveStampDraftSelection(
         current,
-        channel === 'collision'
-          ? { kind: 'collision' }
-          : { kind: 'visual', layerSlotId: activeSlotId },
+        { kind: 'visual', layerSlotId: activeSlotId },
         selectedPoints,
         direction,
-      ),
-    )
+      )
+      if (includeCollision)
+        next = moveStampDraftSelection(next, { kind: 'collision' }, selectedPoints, direction)
+      return next
+    })
     setSelectedPointKeys(
       new Set(
         selectedPoints.map((point) => stampDraftPointKey(nudgeIsometricLattice(point, direction))),
@@ -323,20 +420,21 @@ export function StampContentEditor(props: {
       stageOriginY,
     )
 
-    for (const point of latticePoints) {
-      const center = latticeCenter(point)
-      context.beginPath()
-      context.moveTo(center.x, center.y - 8)
-      context.lineTo(center.x + 16, center.y)
-      context.lineTo(center.x, center.y + 8)
-      context.lineTo(center.x - 16, center.y)
-      context.closePath()
-      context.fillStyle = 'rgba(35, 40, 51, 0.86)'
-      context.strokeStyle = '#46516a'
-      context.lineWidth = 0.6
-      context.fill()
-      context.stroke()
-    }
+    if (showGrid)
+      for (const point of latticePoints) {
+        const center = latticeCenter(point)
+        context.beginPath()
+        context.moveTo(center.x, center.y - 8)
+        context.lineTo(center.x + 16, center.y)
+        context.lineTo(center.x, center.y + 8)
+        context.lineTo(center.x - 16, center.y)
+        context.closePath()
+        context.fillStyle = 'rgba(35, 40, 51, 0.86)'
+        context.strokeStyle = '#46516a'
+        context.lineWidth = 0.6
+        context.fill()
+        context.stroke()
+      }
 
     const layerOrder = new Map(draft.layerSlots.map((slot, index) => [slot.id, index] as const))
     const frames = new Map<number, HTMLCanvasElement>()
@@ -364,22 +462,23 @@ export function StampContentEditor(props: {
     }
     context.globalAlpha = 1
 
-    for (const collision of draft.collision) {
-      const point = stampDraftPoint(collision.offset)
-      const center = latticeCenter(point)
-      context.beginPath()
-      context.moveTo(center.x, center.y - 7)
-      context.lineTo(center.x + 14, center.y)
-      context.lineTo(center.x, center.y + 7)
-      context.lineTo(center.x - 14, center.y)
-      context.closePath()
-      context.fillStyle =
-        collision.value === 0 ? 'rgba(65, 155, 255, 0.18)' : 'rgba(255, 130, 76, 0.25)'
-      context.strokeStyle = collision.value === 0 ? '#6eb0ff' : '#ff945f'
-      context.lineWidth = 1
-      context.fill()
-      context.stroke()
-    }
+    if (showCollision)
+      for (const collision of draft.collision) {
+        const point = stampDraftPoint(collision.offset)
+        const center = latticeCenter(point)
+        context.beginPath()
+        context.moveTo(center.x, center.y - 7)
+        context.lineTo(center.x + 14, center.y)
+        context.lineTo(center.x, center.y + 7)
+        context.lineTo(center.x - 14, center.y)
+        context.closePath()
+        context.fillStyle =
+          collision.value === 0 ? 'rgba(65, 155, 255, 0.18)' : 'rgba(255, 130, 76, 0.25)'
+        context.strokeStyle = collision.value === 0 ? '#6eb0ff' : '#ff945f'
+        context.lineWidth = 1
+        context.fill()
+        context.stroke()
+      }
 
     for (const key of selectedPointKeys) {
       const point = parsePointKey(key)
@@ -412,6 +511,8 @@ export function StampContentEditor(props: {
     hiddenSlotIds,
     latticePoints,
     selectedPointKeys,
+    showCollision,
+    showGrid,
     stageOriginX,
     stageOriginY,
   ])
@@ -465,8 +566,7 @@ export function StampContentEditor(props: {
             selected={tileId === selectedTileId}
             onPick={() => {
               setSelectedTileId(tileId)
-              setChannel('visual')
-              setTool('paint')
+              setTool('brush')
             }}
           />
         ))}
@@ -541,7 +641,6 @@ export function StampContentEditor(props: {
       activeId={activeSlotId}
       onSelect={(id) => {
         setActiveSlotId(id)
-        setChannel('visual')
       }}
       onAdd={() => {
         const id = nextStampLayerSlotId(draft)
@@ -553,8 +652,7 @@ export function StampContentEditor(props: {
           }),
         )
         setActiveSlotId(id)
-        setChannel('visual')
-        setTool('paint')
+        setTool('brush')
       }}
       onDelete={() => {
         if (activeSlotId) setPendingDeleteSlotId(activeSlotId)
@@ -662,41 +760,35 @@ export function StampContentEditor(props: {
         className="stamp-draft-workbench"
         toolbarClassName="stamp-draft-toolbar"
         toolbar={
-          <>
-            <DsTabs
-              label="组合编辑通道"
-              size="compact"
-              activeId={channel}
-              onChange={(value) => setChannel(value as StampDraftChannelKind)}
-              items={[
-                { id: 'visual', label: '视觉层', count: activeVisualByPoint.size },
-                { id: 'collision', label: '碰撞', count: draft.collision.length },
-              ]}
-            />
-            <fieldset className="stamp-draft-tools">
-              <legend className="map-a11y-legend">组合编辑工具</legend>
-              {(
-                [
-                  ['paint', channel === 'visual' ? '绘制瓦片' : '写碰撞'],
-                  ['erase', '擦除'],
-                  ['select', '选择 / 移动'],
-                ] as const
-              ).map(([id, label]) => (
-                <DsButton
-                  key={id}
-                  size="compact"
-                  variant={tool === id ? 'primary' : 'quiet'}
-                  aria-pressed={tool === id}
-                  onClick={() => setTool(id)}
-                >
-                  {label}
-                </DsButton>
-              ))}
-            </fieldset>
-            {channel === 'collision' ? (
+          <IsometricEditorToolbar
+            activeTool={tool}
+            selectionAriaLabel="选择组合内容"
+            onToolChange={(nextTool) => {
+              setTool(nextTool)
+              if (nextTool === 'pan') setSelectedPointKeys(new Set())
+            }}
+            disabledTools={{
+              eyedropper: !activeSlot || activeSlotHidden || activeSlotLocked,
+              brush: !activeSlot || activeSlotHidden || activeSlotLocked,
+              rect: !activeSlot || activeSlotHidden || activeSlotLocked,
+              fill: !activeSlot || activeSlotHidden || activeSlotLocked,
+              erase: !activeSlot || activeSlotHidden || activeSlotLocked,
+            }}
+            selectionOptions={
+              <DsCheckbox
+                size="compact"
+                label="包含碰撞"
+                title="移动选中格时同时移动碰撞值"
+                checked={includeCollision}
+                onChange={(event) => setIncludeCollision(event.target.checked)}
+              />
+            }
+            collisionPaint={collisionPaint}
+            onCollisionPaintChange={setCollisionPaint}
+            collisionOptions={
               <DsSelect
                 size="compact"
-                aria-label="碰撞值"
+                aria-label="碰撞标记值"
                 value={String(collisionValue)}
                 options={[
                   { value: '0', label: '0 · 显式可通行' },
@@ -704,8 +796,12 @@ export function StampContentEditor(props: {
                 ]}
                 onValueChange={(value) => setCollisionValue(Number(value))}
               />
-            ) : null}
-          </>
+            }
+            showGrid={showGrid}
+            onShowGridChange={setShowGrid}
+            showCollision={showCollision}
+            onShowCollisionChange={setShowCollision}
+          />
         }
         viewportClassName="stamp-draft-stage-scroll"
         footer={
@@ -763,17 +859,55 @@ export function StampContentEditor(props: {
           style={{
             width: stageWidth,
             height: stageHeight,
-            cursor: tool === 'select' ? 'default' : 'crosshair',
+            cursor: panning
+              ? 'grabbing'
+              : tool === 'pan'
+                ? 'grab'
+                : tool === 'select'
+                  ? 'default'
+                  : tool === 'eyedropper'
+                    ? 'copy'
+                    : 'crosshair',
+            transform: `translate(${stagePan.x}px, ${stagePan.y}px)`,
           }}
           onPointerDown={(event) => {
+            if (tool === 'pan') {
+              event.currentTarget.setPointerCapture(event.pointerId)
+              panStartRef.current = {
+                clientX: event.clientX,
+                clientY: event.clientY,
+                panX: stagePan.x,
+                panY: stagePan.y,
+              }
+              setPanning(true)
+              return
+            }
             const point = pointFromStagePointer(event)
             if (!point) return
             event.currentTarget.setPointerCapture(event.pointerId)
+            if (tool === 'rect') {
+              rectStartPointRef.current = point
+              return
+            }
             paintedPointRef.current = stampDraftPointKey(point)
             handleCell(point)
           }}
           onPointerMove={(event) => {
-            if (!(event.buttons & 1) || tool === 'select') return
+            if (tool === 'pan' && panStartRef.current && event.buttons & 1) {
+              setStagePan({
+                x: panStartRef.current.panX + event.clientX - panStartRef.current.clientX,
+                y: panStartRef.current.panY + event.clientY - panStartRef.current.clientY,
+              })
+              return
+            }
+            if (
+              !(event.buttons & 1) ||
+              tool === 'select' ||
+              tool === 'eyedropper' ||
+              tool === 'fill' ||
+              tool === 'rect'
+            )
+              return
             const point = pointFromStagePointer(event)
             if (!point) return
             const key = stampDraftPointKey(point)
@@ -782,12 +916,22 @@ export function StampContentEditor(props: {
             handleCell(point)
           }}
           onPointerUp={(event) => {
+            if (tool === 'rect' && rectStartPointRef.current) {
+              const end = pointFromStagePointer(event)
+              if (end) paintVisualRect(rectStartPointRef.current, end)
+            }
             paintedPointRef.current = undefined
+            rectStartPointRef.current = undefined
+            panStartRef.current = undefined
+            setPanning(false)
             if (event.currentTarget.hasPointerCapture(event.pointerId))
               event.currentTarget.releasePointerCapture(event.pointerId)
           }}
           onPointerCancel={() => {
             paintedPointRef.current = undefined
+            rectStartPointRef.current = undefined
+            panStartRef.current = undefined
+            setPanning(false)
           }}
           onContextMenu={(event) => event.preventDefault()}
         />

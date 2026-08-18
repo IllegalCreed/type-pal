@@ -202,6 +202,38 @@ async function clickDraftPoint(point: { row: number; col: number }): Promise<voi
   })
 }
 
+async function dragDraftPoints(
+  start: { row: number; col: number },
+  end: { row: number; col: number },
+): Promise<void> {
+  const canvas = host.querySelector<HTMLCanvasElement>('[aria-label="组合局部地图编辑画布"]')!
+  const bounds = stampDraftBounds(template(), 2)
+  const clientPoint = (point: { row: number; col: number }) => {
+    const center = latticeCenter(point)
+    return {
+      clientX: 16 - bounds.minU * 32 + center.x * 2,
+      clientY: 16 - bounds.minRow * 16 + center.y * 2,
+    }
+  }
+  await act(async () => {
+    for (const [type, point, buttons] of [
+      ['pointerdown', start, 1],
+      ['pointermove', end, 1],
+      ['pointerup', end, 0],
+    ] as const) {
+      const event = new MouseEvent(type, {
+        bubbles: true,
+        cancelable: true,
+        button: 0,
+        buttons,
+        ...clientPoint(point),
+      })
+      Object.defineProperty(event, 'pointerId', { value: 12 })
+      canvas.dispatchEvent(event)
+    }
+  })
+}
+
 let root: Root
 let host: HTMLDivElement
 
@@ -468,6 +500,10 @@ describe('StampLibraryTab', () => {
     await act(async () => new Promise((resolve) => window.setTimeout(resolve, 0)))
     await act(async () => button('瓦片', host).click())
     expect(host.textContent).toContain('3 块 · 当前 #1')
+    const toolbar = host.querySelector('.stamp-draft-toolbar')!
+    for (const label of ['平移', '选择', '取样', '笔刷', '矩形', '填充', '擦除', '碰撞', '视图'])
+      expect(button(label, toolbar)).not.toBeNull()
+    expect(toolbar.querySelector('[role="tablist"]')).toBeNull()
     expect(session.getHistoryVersion()).toBe(historyBefore)
     expect(session.getState().maps).toEqual(beforeMaps)
     expect(session.getState().mapIndex).toEqual(beforeMapIndex)
@@ -477,11 +513,8 @@ describe('StampLibraryTab', () => {
     await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="瓦片 #2"]')!.click())
     await input(host.querySelector<HTMLInputElement>('#stamp-paint-height')!, '3')
     await clickDraftPoint({ row: 1, col: 0 })
-    const collisionTab = [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(
-      (candidate) => candidate.textContent?.includes('碰撞'),
-    )!
-    await act(async () => collisionTab.click())
-    await chooseSelectOption('碰撞值', '0 · 显式可通行')
+    await act(async () => button('碰撞', toolbar).click())
+    await chooseSelectOption('碰撞标记值', '0 · 显式可通行')
     await clickDraftPoint({ row: 0, col: 1 })
     expect(host.querySelector('.stamp-content-editor')?.getAttribute('data-dirty')).toBe('true')
     expect(session.getHistoryVersion()).toBe(historyBefore)
@@ -515,6 +548,64 @@ describe('StampLibraryTab', () => {
     ])
     expect(session.getState().maps).toEqual(beforeMaps)
     expect(session.getState().mapIndex).toEqual(beforeMapIndex)
+  })
+
+  test('组合中央复用地图工具栏并闭合矩形、填充、取样和平移', async () => {
+    const session = new EditSession(state([template()], {}))
+    await act(async () => {
+      root.render(
+        <Harness
+          session={session}
+          tilesets={[tilesetFixture]}
+          assetCatalog={assetCatalogFixture}
+        />,
+      )
+      await new Promise((resolve) => window.setTimeout(resolve, 0))
+    })
+    await act(async () => new Promise((resolve) => window.setTimeout(resolve, 0)))
+    await act(async () => button('瓦片', host).click())
+    const toolbar = host.querySelector('.stamp-draft-toolbar')!
+
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="瓦片 #2"]')!.click())
+    await act(async () => button('矩形', toolbar).click())
+    await dragDraftPoints({ row: 0, col: 0 }, { row: 1, col: 1 })
+
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="瓦片 #0"]')!.click())
+    await act(async () => button('取样', toolbar).click())
+    await clickDraftPoint({ row: 1, col: 1 })
+    expect(
+      host.querySelector<HTMLButtonElement>('[aria-label="瓦片 #2"]')?.getAttribute('aria-pressed'),
+    ).toBe('true')
+
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="瓦片 #0"]')!.click())
+    await act(async () => button('填充', toolbar).click())
+    await clickDraftPoint({ row: 2, col: 0 })
+
+    const canvas = host.querySelector<HTMLCanvasElement>('[aria-label="组合局部地图编辑画布"]')!
+    await act(async () => button('平移', toolbar).click())
+    await act(async () => {
+      for (const [type, clientX, clientY, buttons] of [
+        ['pointerdown', 10, 10, 1],
+        ['pointermove', 30, 22, 1],
+        ['pointerup', 30, 22, 0],
+      ] as const) {
+        const event = new MouseEvent(type, {
+          bubbles: true,
+          cancelable: true,
+          button: 0,
+          buttons,
+          clientX,
+          clientY,
+        })
+        Object.defineProperty(event, 'pointerId', { value: 13 })
+        canvas.dispatchEvent(event)
+      }
+    })
+    expect(canvas.style.transform).toBe('translate(20px, 12px)')
+
+    await act(async () => button('保存组合', host).click())
+    expect(session.getState().stamps[0]?.visual.length).toBeGreaterThan(4)
+    expect(session.getState().stamps[0]?.visual.some((member) => member.tileId === 0)).toBe(true)
   })
 
   test('内容草稿离开时先确认，取消编辑保持工程与迁移来源不变', async () => {

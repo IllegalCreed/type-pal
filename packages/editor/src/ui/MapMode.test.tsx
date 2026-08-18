@@ -583,10 +583,19 @@ describe('MapMode 地图内容选择交互', () => {
     const contextMenu = await openSelectionMenu(host)
     expect(contextMenu.textContent).toContain('复制')
     expect(contextMenu.textContent).toContain('移动')
-    expect(contextMenu.textContent).toContain('包含碰撞')
+    expect(contextMenu.textContent).not.toContain('包含碰撞')
 
     await act(async () => button(host, '选择').click())
     expect(optionGroup('选择工具选项')?.textContent).toContain('跨层')
+    expect(optionGroup('选择工具选项')?.textContent).toContain('包含碰撞')
+    const includeCollision = [...host.querySelectorAll<HTMLLabelElement>('.ds-check-label')]
+      .find((label) => label.textContent?.includes('包含碰撞'))
+      ?.querySelector<HTMLInputElement>('input')
+    expect(includeCollision?.checked).toBe(false)
+    await act(async () => includeCollision?.click())
+    expect(includeCollision?.checked).toBe(true)
+    expect((await openSelectionMenu(host)).textContent).not.toContain('包含碰撞')
+    expect(includeCollision?.checked).toBe(true)
     await act(async () => button(host, '碰撞').click())
     expect(optionGroup('选择工具选项')).toBeUndefined()
     expect(optionGroup('碰撞工具选项')?.textContent).toContain('标记')
@@ -955,12 +964,12 @@ describe('MapMode 地图内容选择交互', () => {
     const before = session.getState().maps['map-a']!
     await act(async () => button(host, '选择').click())
     await act(async () => pointer(canvas, 'pointerdown'))
-    const menu = await openSelectionMenu(host)
-    const collisionToggle = [
-      ...menu.querySelectorAll<HTMLButtonElement>('[role="menuitemcheckbox"]'),
-    ].find((item) => item.textContent?.includes('组合始终包含碰撞'))
-    expect(collisionToggle?.getAttribute('aria-checked')).toBe('true')
+    const collisionToggle = [...host.querySelectorAll<HTMLLabelElement>('.ds-check-label')]
+      .find((label) => label.textContent?.includes('包含碰撞'))
+      ?.querySelector<HTMLInputElement>('input')
+    expect(collisionToggle?.checked).toBe(true)
     expect(collisionToggle?.disabled).toBe(true)
+    const menu = await openSelectionMenu(host)
     await act(async () => button(menu, '重复').click())
 
     const bar = host.querySelector<HTMLElement>('.map-transform-bar')!

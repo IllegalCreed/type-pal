@@ -4885,24 +4885,6 @@ html[data-panel-resize="horizontal"] * {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.stamp-draft-toolbar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-width: 0;
-  padding: 7px;
-  border-bottom: 1px solid var(--line);
-  background: color-mix(in srgb, var(--panel2) 68%, var(--panel));
-}
-.stamp-draft-tools {
-  display: flex;
-  min-width: 0;
-  align-items: center;
-  gap: 3px;
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
 .stamp-draft-stage-scroll {
   display: grid;
   min-height: 0;
@@ -5080,14 +5062,6 @@ html[data-panel-resize="horizontal"] * {
 @container stamp-content-editor (max-width: 620px) {
   .stamp-content-editor__metadata {
     grid-template-columns: 1fr;
-  }
-  .stamp-draft-toolbar {
-    flex-wrap: wrap;
-  }
-  .stamp-draft-tools {
-    flex-basis: 100%;
-    order: 2;
-    overflow: auto;
   }
   .stamp-draft-selection-bar {
     align-items: stretch;
