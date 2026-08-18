@@ -171,6 +171,9 @@ const FRESH_RSS_LIMIT_BYTES = Math.floor(3.5 * GIB)
 const COMBINED_RSS_LIMIT_BYTES = Math.floor(7.5 * GIB)
 const SERIAL_PHASE_TIMEOUT_MS = 30 * 60 * 1_000
 const PAL_PHASE_TIMEOUT_MS = 60 * 60 * 1_000
+// serial-control runs preflight/unit/shared/fresh inside one canonical Vitest process. Its outer
+// timeout must cover the same per-phase budget that parallel mode enforces on separate children.
+const CANONICAL_RELEASE_TIMEOUT_MS = SERIAL_PHASE_TIMEOUT_MS + 2 * PAL_PHASE_TIMEOUT_MS
 const PROTECTED_PATHS = [
   'projects/pal',
   'packages/migrate/test-fixtures',
@@ -685,7 +688,7 @@ async function main(): Promise<void> {
         commandArgs: [],
         gate: 'release',
         report: true,
-        timeoutMs: PAL_PHASE_TIMEOUT_MS,
+        timeoutMs: CANONICAL_RELEASE_TIMEOUT_MS,
         transaction: true,
       })
       releaseSpec.args = vitestArgs('vitest.release.config.ts', [], releaseSpec.reportPath!)

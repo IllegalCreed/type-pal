@@ -219,6 +219,12 @@ parallel 命令必须失败，默认串行命令保持不变。
   skipped。该 hook 调整为 600 秒后，定向冷跑
   `build/release-runs/p6-diag-jdHkXk/report.vitest.json` 为 **1 file / 6 passed**，wall `432.70s`、
   maximum RSS `3,038,724,096 bytes`；测试体与断言未改。
+- 第三次 serial control
+  `build/release-runs/serial-control-2026-08-17T231339310Z-3b6c3253/summary.json` 在业务测试仍运行时
+  被 runner 于 `3,600,000ms` 主动 SIGTERM：canonical child peak RSS `3,574,153,216 bytes`、
+  workspace `0/0/0`，无断言/heap 错误。根因是整条 canonical process 同时承载 preflight+unit+
+  shared+fresh，却误用了单个 PAL child 的 60m timeout；现改为各既有子门之和 `30m+60m+60m=150m`。
+  parallel 的 preflight/unit 30m、shared 60m、fresh 60m 单项门限均不变。
 - 尚未完成：修复后的完整 serial control、显式 parallel 以及三组同机同批次 serial/parallel proof。
   因此本卡保持 `build`，Codex/Kimi/GLM done 前签字仍为 pending。
 
@@ -250,6 +256,9 @@ parallel 命令必须失败，默认串行命令保持不变。
 - 2026-08-18 Codex: shared-only copy-on-write 诊断已无 OOM且峰值 `4,249,681,920B < 4.5GiB`；
   唯一失败为 p6 冷建超过旧 180s hook。将 hook 调至同级 release 的 600s 后 p6 定向 6/6 通过，
   wall 432.70s、peak `3,038,724,096B`。Next: 从固定提交重跑完整 serial control。
+- 2026-08-18 Codex: 完整 control 再次正确 fail-closed，但原因为 canonical 外层错误复用 60m 单 PAL
+  timeout；child 在 3,600,000ms 被 SIGTERM，peak `3,574,153,216B`、workspace `0/0/0`。已将
+  canonical 总门改为既有四阶段预算之和 150m，parallel 各子门不变。Next: 定向验证后提交并重跑。
 
 ## 下一位 Agent 提示词
 
