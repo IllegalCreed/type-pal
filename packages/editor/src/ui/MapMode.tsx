@@ -229,7 +229,7 @@ interface MapCanvasContextMenu {
   y: number
 }
 
-type MapInspectorTab = 'properties' | 'tiles' | 'stamps'
+type MapInspectorTab = 'properties' | 'draw' | 'references'
 
 interface StampStructureIntent {
   operation: StampStructureOperation
@@ -356,7 +356,7 @@ export function MapMode(props: {
   const [showCollision, setShowCollision] = useState(true)
   const [tool, setTool] = useState<MapTool>('pan')
   const [inspectorTab, setInspectorTab] = useState<MapInspectorTab>('properties')
-  const [stampPanelVisited, setStampPanelVisited] = useState(false)
+  const [drawPanelVisited, setDrawPanelVisited] = useState(false)
   const [activeStampId, setActiveStampId] = useState<string>()
   const [stampMappingsByKey, setStampMappingsByKey] = useState<Record<string, StampLayerMapping[]>>(
     {},
@@ -457,7 +457,7 @@ export function MapMode(props: {
     // 同 manifest.id 的另一工程副本仍会换 EditSession；图章作者态绝不能借 mapId/stampId 串过去。
     setTool('pan')
     setInspectorTab('properties')
-    setStampPanelVisited(false)
+    setDrawPanelVisited(false)
     setActiveStampId(undefined)
     setStampMappingsByKey({})
     setStampHoverAnchor(undefined)
@@ -1361,7 +1361,7 @@ export function MapMode(props: {
 
   const activateInspectorTab = (nextTab: MapInspectorTab): void => {
     setInspectorTab(nextTab)
-    if (nextTab === 'stamps') setStampPanelVisited(true)
+    if (nextTab === 'draw') setDrawPanelVisited(true)
     if (nextTab !== 'properties') setCandidateMenu(undefined)
     onRequestInspectorOpen?.()
   }
@@ -1403,8 +1403,8 @@ export function MapMode(props: {
         return
       }
       setActiveStampId(id)
-      setInspectorTab('stamps')
-      setStampPanelVisited(true)
+      setInspectorTab('draw')
+      setDrawPanelVisited(true)
       onRequestInspectorOpen?.()
       setTool('stamp')
       setTransformIntent(undefined)
@@ -2908,7 +2908,7 @@ export function MapMode(props: {
       : activeTool === 'stamp'
         ? activeStamp
           ? `${activeStamp.name} · ${stampMappings.length}/${activeStamp.layerSlots.length} 层已映射 · 点击原子放置`
-          : '请先从组合面板选择模板'
+          : '请先从绘制面板选择组合'
         : activeLayerReadOnly
           ? `${activeLayerName} · ${activeLayerHidden ? '已隐藏' : '已锁定'} · 只读`
           : activeTool === 'select'
@@ -3685,34 +3685,6 @@ export function MapMode(props: {
                               </div>
                             </>
                           ) : null}
-                          <h4>使用场景</h4>
-                          <DsReferencePanel
-                            state={selectedReferences.length ? 'ready' : 'empty'}
-                            count={{ kind: 'exact', value: selectedReferences.length }}
-                            impact={{
-                              kind: 'blocking',
-                              description: selectedReferences.length
-                                ? '这些场景绑定了当前地图；先处理绑定关系再移除地图。'
-                                : '尚未绑定场景，地图保存并重开后仍会保留。',
-                            }}
-                          >
-                            {selectedReferences.length ? (
-                              <DsReferenceList>
-                                {selectedReferences.map((sceneId) => (
-                                  <DsReferenceRow
-                                    key={sceneId}
-                                    title={`场景 ${sceneId}`}
-                                    detail="使用当前地图"
-                                    action={{
-                                      label: '打开 ↗',
-                                      ariaLabel: `打开场景 ${sceneId}`,
-                                      onActivate: () => onOpenScene(sceneId),
-                                    }}
-                                  />
-                                ))}
-                              </DsReferenceList>
-                            ) : null}
-                          </DsReferencePanel>
                         </>
                       ) : (
                         <>
@@ -3728,91 +3700,144 @@ export function MapMode(props: {
               ),
             },
             {
-              id: 'tiles',
-              label: '瓦片',
+              id: 'draw',
+              label: '绘制',
               panel: (
-                <div className="map-inspector-panel map-tiles-panel">
-                  <div className="pane-h map-tiles-head">
-                    <span className="t">瓦片</span>
-                    {liveMap && loaded ? (
-                      <span className="hint2">
-                        #{selectedTile} · H{activePaintHeight} · {loaded.tiles.size} 块
-                      </span>
-                    ) : null}
-                  </div>
-                  {inspectorTab === 'tiles' && liveMap && loaded ? (
-                    <fieldset className="tile-grid">
-                      <legend className="map-a11y-legend">瓦片列表</legend>
-                      {[...loaded.tiles.entries()]
-                        .sort((a, b) => a[0] - b[0])
-                        .map(([idx, frame]) => (
-                          <TileThumb
-                            key={idx}
-                            idx={idx}
-                            frame={frame}
-                            palette={loaded.palette}
-                            selected={idx === selectedTile}
-                            onPick={(id) => {
-                              setSelectedTile(id)
-                              activateMapTool('brush')
-                              canvasRef.current?.focus({ preventScroll: true })
-                            }}
-                          />
-                        ))}
-                    </fieldset>
-                  ) : (
-                    <p className="hint2 map-panel-empty">正在载入瓦片…</p>
-                  )}
+                <div
+                  className={`map-inspector-panel map-draw-panel${
+                    activeTool === 'stamp' && activeStamp && liveMap ? ' has-details' : ''
+                  }`}
+                >
+                  <section className="map-draw-section map-draw-tiles-section">
+                    <div className="pane-h map-draw-section__head map-tiles-head">
+                      <span className="t">瓦片</span>
+                      {liveMap && loaded ? (
+                        <span className="hint2">
+                          #{selectedTile} · H{activePaintHeight} · {loaded.tiles.size} 块
+                        </span>
+                      ) : null}
+                    </div>
+                    {inspectorTab === 'draw' && liveMap && loaded ? (
+                      <fieldset className="tile-grid">
+                        <legend className="map-a11y-legend">瓦片列表</legend>
+                        {[...loaded.tiles.entries()]
+                          .sort((a, b) => a[0] - b[0])
+                          .map(([idx, frame]) => (
+                            <TileThumb
+                              key={idx}
+                              idx={idx}
+                              frame={frame}
+                              palette={loaded.palette}
+                              selected={idx === selectedTile}
+                              onPick={(id) => {
+                                setSelectedTile(id)
+                                activateMapTool('brush')
+                                canvasRef.current?.focus({ preventScroll: true })
+                              }}
+                            />
+                          ))}
+                      </fieldset>
+                    ) : (
+                      <p className="hint2 map-panel-empty">正在载入瓦片…</p>
+                    )}
+                  </section>
+                  <section className="map-draw-section map-draw-combinations-section">
+                    <div className="pane-h map-draw-section__head">
+                      <span className="t">组合</span>
+                      <span className="hint2">{stamps.length} 项</span>
+                    </div>
+                    <div
+                      className={`map-draw-combination-body${
+                        activeTool === 'stamp' && activeStamp ? ' has-details' : ''
+                      }`}
+                    >
+                      {drawPanelVisited && liveMap ? (
+                        <>
+                          <div className="map-combination-browser">
+                            <MapStampPalette
+                              stamps={stamps}
+                              tilesetId={liveMap.tilesetId}
+                              tilesets={tilesets}
+                              assetCatalog={assetCatalog}
+                              assetReader={assetReader}
+                              assetBase={assetBase}
+                              activeStampId={activeStampId}
+                              recentStampIds={recentStampIds}
+                              onPick={pickStamp}
+                              onOpenLibrary={
+                                onOpenStampLibrary ? openActiveStampLibrary : undefined
+                              }
+                            />
+                          </div>
+                          {activeTool === 'stamp' && activeStamp ? (
+                            <div className="map-combination-details">
+                              <StampPlacementInspector
+                                template={activeStamp}
+                                map={liveMap}
+                                mappings={stampMappings}
+                                plan={stampPlan}
+                                activeLayerId={activeLayerId}
+                                hiddenLayerIds={hiddenLayerIds}
+                                lockedLayerIds={lockedLayerIds}
+                                onMapSlot={mapStampSlot}
+                                onCommit={() => commitStamp('reject')}
+                                onOverwrite={() => commitStamp('overwrite')}
+                                onCancel={cancelStampTool}
+                                onOpenLibrary={
+                                  onOpenStampLibrary ? openActiveStampLibrary : undefined
+                                }
+                              />
+                            </div>
+                          ) : null}
+                        </>
+                      ) : (
+                        <p className="hint2 map-panel-empty">正在载入组合库…</p>
+                      )}
+                    </div>
+                  </section>
                 </div>
               ),
             },
             {
-              id: 'stamps',
-              label: '组合',
+              id: 'references',
+              label: '引用',
+              count: selectedAsset ? selectedReferences.length : undefined,
               panel: (
-                <div
-                  className={`map-inspector-panel map-combination-panel${
-                    activeTool === 'stamp' && activeStamp && liveMap ? ' has-details' : ''
-                  }`}
-                >
-                  {stampPanelVisited && liveMap ? (
-                    <>
-                      <div className="map-combination-browser">
-                        <MapStampPalette
-                          stamps={stamps}
-                          tilesetId={liveMap.tilesetId}
-                          tilesets={tilesets}
-                          assetCatalog={assetCatalog}
-                          assetReader={assetReader}
-                          assetBase={assetBase}
-                          activeStampId={activeStampId}
-                          recentStampIds={recentStampIds}
-                          onPick={pickStamp}
-                          onOpenLibrary={onOpenStampLibrary ? openActiveStampLibrary : undefined}
-                        />
-                      </div>
-                      {activeTool === 'stamp' && activeStamp ? (
-                        <div className="map-combination-details">
-                          <StampPlacementInspector
-                            template={activeStamp}
-                            map={liveMap}
-                            mappings={stampMappings}
-                            plan={stampPlan}
-                            activeLayerId={activeLayerId}
-                            hiddenLayerIds={hiddenLayerIds}
-                            lockedLayerIds={lockedLayerIds}
-                            onMapSlot={mapStampSlot}
-                            onCommit={() => commitStamp('reject')}
-                            onOverwrite={() => commitStamp('overwrite')}
-                            onCancel={cancelStampTool}
-                            onOpenLibrary={onOpenStampLibrary ? openActiveStampLibrary : undefined}
-                          />
-                        </div>
-                      ) : null}
-                    </>
-                  ) : (
-                    <p className="hint2 map-panel-empty">选择“组合”后载入组合库。</p>
-                  )}
+                <div className="map-inspector-panel map-references-panel">
+                  <section className="section" data-ds-density="compact">
+                    <h4>使用场景</h4>
+                    {selectedAsset ? (
+                      <DsReferencePanel
+                        state={selectedReferences.length ? 'ready' : 'empty'}
+                        count={{ kind: 'exact', value: selectedReferences.length }}
+                        impact={{
+                          kind: 'blocking',
+                          description: selectedReferences.length
+                            ? '这些场景绑定了当前地图；先处理绑定关系再移除地图。'
+                            : '尚未绑定场景，地图保存并重开后仍会保留。',
+                        }}
+                      >
+                        {selectedReferences.length ? (
+                          <DsReferenceList>
+                            {selectedReferences.map((sceneId) => (
+                              <DsReferenceRow
+                                key={sceneId}
+                                title={`场景 ${sceneId}`}
+                                detail="使用当前地图"
+                                action={{
+                                  label: '打开 ↗',
+                                  ariaLabel: `打开场景 ${sceneId}`,
+                                  onActivate: () => onOpenScene(sceneId),
+                                }}
+                              />
+                            ))}
+                          </DsReferenceList>
+                        ) : null}
+                      </DsReferencePanel>
+                    ) : (
+                      <p className="hint2">选择一张地图查看引用。</p>
+                    )}
+                  </section>
                 </div>
               ),
             },

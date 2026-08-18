@@ -12527,7 +12527,7 @@ button.sprite-frame-cell[draggable="true"]:active {
   border-color: color-mix(in srgb, #59d8ff 55%, var(--line));
 }
 
-/* 地图右栏：属性 / 瓦片 / 组合。中央 viewport 不再承载 DOM 浮层。 */
+/* 地图右栏：属性 / 绘制 / 引用。绘制资源按瓦片、组合上下分区，不再用同级 Tab 制造互斥心智。 */
 .map-inspector {
   min-width: 0;
   min-height: 0;
@@ -12537,18 +12537,44 @@ button.sprite-frame-cell[draggable="true"]:active {
   min-width: 0;
   min-height: 0;
 }
-.map-tiles-panel {
-  display: block;
+.map-draw-panel {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  grid-template-rows: minmax(180px, 0.82fr) minmax(260px, 1.18fr);
+  overflow: hidden;
+}
+.map-draw-panel.has-details {
+  grid-template-rows: minmax(140px, 0.55fr) minmax(360px, 1.45fr);
+}
+.map-draw-section {
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  grid-template-rows: auto minmax(0, 1fr);
+  overflow: hidden;
+}
+.map-draw-section + .map-draw-section {
+  border-top: 1px solid var(--line);
+}
+.map-draw-section__head {
+  min-height: var(--ds-control-height-default);
+  padding-inline: var(--ds-space-4);
+  border-bottom: 1px solid var(--line);
+  background: var(--panel2);
 }
 .map-panel-empty {
   padding: 18px 12px;
   text-align: center;
 }
-.map-combination-panel {
-  display: block;
+.map-draw-combination-body {
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
 }
-.map-combination-panel.has-details {
-  grid-template-rows: minmax(180px, 0.8fr) minmax(220px, 1.2fr);
+.map-draw-combination-body.has-details {
+  grid-template-rows: minmax(140px, 0.72fr) minmax(180px, 1.28fr);
 }
 .map-combination-browser,
 .map-combination-details {

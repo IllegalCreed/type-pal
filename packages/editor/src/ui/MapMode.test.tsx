@@ -386,10 +386,10 @@ async function selectFloor(host: HTMLElement, canvas: HTMLCanvasElement): Promis
 }
 
 async function activateStamp(host: HTMLElement): Promise<void> {
-  const stampTab = [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(
-    (candidate) => candidate.textContent?.trim() === '组合',
+  const drawTab = [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(
+    (candidate) => candidate.textContent?.trim() === '绘制',
   )!
-  await act(async () => stampTab.click())
+  await act(async () => drawTab.click())
   await act(async () => host.querySelector<HTMLButtonElement>('.map-stamp-card')?.click())
 }
 
@@ -511,7 +511,7 @@ describe('MapMode 地图内容选择交互', () => {
 
   test('共享 Inspector Tab 完整键盘合同仍触发原有打开与组合按需访问副作用', async () => {
     const { host, onRequestInspectorOpen } = await mountMapMode({ stamps: [stampTemplate()] })
-    await verifyInspectorTabs(host, '地图右侧面板', ['属性', '瓦片', '组合'])
+    await verifyInspectorTabs(host, '地图右侧面板', ['属性', '绘制', '引用 1'])
     expect(onRequestInspectorOpen).toHaveBeenCalled()
     expect(host.querySelector('[aria-label="搜索地图组合"]')).not.toBeNull()
   })
@@ -525,7 +525,7 @@ describe('MapMode 地图内容选择交互', () => {
         '[role="tablist"][aria-label="地图右侧面板"] [role="tab"]',
       ),
     ]
-    expect(tabs.map((tab) => tab.textContent?.trim())).toEqual(['属性', '瓦片', '组合'])
+    expect(tabs.map((tab) => tab.textContent?.trim())).toEqual(['属性', '绘制', '引用 1'])
     expect(tabs.map((tab) => tab.tabIndex)).toEqual([0, -1, -1])
     for (const tab of tabs) {
       const panel = document.getElementById(tab.getAttribute('aria-controls')!)
@@ -542,6 +542,11 @@ describe('MapMode 地图内容选择交互', () => {
     expect(document.activeElement).toBe(tabs[1])
     expect(tabs[1]?.getAttribute('aria-selected')).toBe('true')
     expect(host.querySelectorAll('.tile-thumb')).toHaveLength(1)
+    expect(host.querySelector('.map-stamp-palette')).not.toBeNull()
+
+    const search = host.querySelector<HTMLInputElement>('[aria-label="搜索地图组合"]')!
+    await setInputValue(search, '树')
+    expect(host.querySelectorAll('.map-stamp-card')).toHaveLength(1)
 
     await act(async () => {
       tabs[1]?.dispatchEvent(
@@ -549,12 +554,11 @@ describe('MapMode 地图内容选择交互', () => {
       )
     })
     expect(document.activeElement).toBe(tabs[2])
-    const search = host.querySelector<HTMLInputElement>('[aria-label="搜索地图组合"]')!
-    await setInputValue(search, '树')
-    expect(host.querySelectorAll('.map-stamp-card')).toHaveLength(1)
+    expect(host.querySelector('.map-references-panel .ds-reference-panel')).not.toBeNull()
+    expect(host.querySelector('.map-properties-panel .ds-reference-panel')).toBeNull()
     await act(async () => tabs[0]?.click())
     expect(host.querySelector('.map-selection-head')).not.toBeNull()
-    await act(async () => tabs[2]?.click())
+    await act(async () => tabs[1]?.click())
     expect(host.querySelector<HTMLInputElement>('[aria-label="搜索地图组合"]')?.value).toBe('树')
     expect(session.getState().maps['map-a']).toBe(beforeMap)
     expect(session.getMapRevision('map-a')).toBe(0)
@@ -576,10 +580,10 @@ describe('MapMode 地图内容选择交互', () => {
     await act(async () => button(host, '退出组合工具').click())
     await act(async () => inspectorTab(host, '属性').click())
     expect(inspectorTab(host, '属性').getAttribute('aria-selected')).toBe('true')
-    expect(inspectorTab(host, '组合').getAttribute('aria-selected')).toBe('false')
+    expect(inspectorTab(host, '绘制').getAttribute('aria-selected')).toBe('false')
 
     await activateStamp(host)
-    expect(inspectorTab(host, '组合').getAttribute('aria-selected')).toBe('true')
+    expect(inspectorTab(host, '绘制').getAttribute('aria-selected')).toBe('true')
     expect(host.querySelector('.stamp-placement-inspector')).not.toBeNull()
   })
 
@@ -734,7 +738,7 @@ describe('MapMode 地图内容选择交互', () => {
     expect(host.querySelector('.map-selection-head')?.textContent).toContain('2 个视觉实例')
   })
 
-  test('左侧承载层高控件，瓦片/组合在右栏按需挂载，中央画布无 DOM 遮挡', async () => {
+  test('左侧承载层高控件，瓦片/组合在右栏绘制页上下挂载，中央画布无 DOM 遮挡', async () => {
     const { host } = await mountMapMode({ stamps: [stampTemplate()] })
     const viewport = host.querySelector<HTMLElement>('.viewport')!
     const paintContext = host.querySelector<HTMLElement>('.map-paint-context')!
@@ -754,11 +758,15 @@ describe('MapMode 地图内容选择交互', () => {
     expect(host.querySelectorAll('.tile-thumb')).toHaveLength(0)
     expect(host.querySelector('.map-stamp-palette')).toBeNull()
 
-    await act(async () => inspectorTab(host, '瓦片').click())
+    await act(async () => inspectorTab(host, '绘制').click())
     expect(host.querySelector('.map-inspector .tile-grid')).not.toBeNull()
     expect(host.querySelector('.map-outliner .tile-grid')).toBeNull()
-    await act(async () => inspectorTab(host, '组合').click())
     expect(host.querySelector('.map-inspector .map-stamp-palette')).not.toBeNull()
+    const sections = [...host.querySelectorAll<HTMLElement>('.map-draw-section')]
+    expect(sections.map((section) => section.querySelector('.pane-h')?.textContent)).toEqual([
+      expect.stringContaining('瓦片'),
+      expect.stringContaining('组合'),
+    ])
     expect(host.textContent).not.toContain('图章')
   })
 
@@ -832,7 +840,7 @@ describe('MapMode 地图内容选择交互', () => {
 
   test('600 个组合只挂载首批 60 个，真实画布 hover 不重渲染缩略图', async () => {
     const { host, canvas } = await mountMapMode({ stamps: stampTemplates(600) })
-    await act(async () => inspectorTab(host, '组合').click())
+    await act(async () => inspectorTab(host, '绘制').click())
     expect(host.querySelectorAll('.map-stamp-card')).toHaveLength(60)
     expect(host.querySelectorAll('[data-stamp-preview]')).toHaveLength(60)
 
@@ -851,7 +859,7 @@ describe('MapMode 地图内容选择交互', () => {
 
   test('候选与变换自动回到右侧属性，不在画布内生成浮层', async () => {
     const { host, canvas, onRequestInspectorOpen } = await mountMapMode()
-    await act(async () => inspectorTab(host, '瓦片').click())
+    await act(async () => inspectorTab(host, '绘制').click())
     await selectFloor(host, canvas)
     await runSelectionCommand(host, '复制')
     await runSelectionCommand(host, '粘贴')
@@ -861,7 +869,7 @@ describe('MapMode 地图内容选择交互', () => {
     expect(onRequestInspectorOpen).toHaveBeenCalled()
 
     await act(async () => button(host, '平移').click())
-    await act(async () => inspectorTab(host, '组合').click())
+    await act(async () => inspectorTab(host, '绘制').click())
     await act(async () => button(host, '选择').click())
     await act(async () => {
       pointer(canvas, 'pointerdown', { altKey: true })
@@ -1587,7 +1595,7 @@ describe('MapMode 地图内容选择交互', () => {
     await act(async () => pointer(canvas, 'pointerdown'))
     expect(host.querySelector('.map-selection-head')?.textContent).toContain('1 个视觉实例')
     expect(button(host, '笔刷').getAttribute('aria-pressed')).toBe('true')
-    await act(async () => inspectorTab(host, '瓦片').click())
+    await act(async () => inspectorTab(host, '绘制').click())
     expect(host.querySelector('.map-tiles-head .hint2')?.textContent).toContain('#1')
   })
 
