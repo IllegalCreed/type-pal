@@ -635,21 +635,23 @@ describe('MapMode 地图内容选择交互', () => {
   })
 
   test('笔刷面积用横向图标托盘选择并按 2 × 2 一笔写入', async () => {
-    const map = buildBlankProjectMap(2, 2, 'tiles')
+    const map = buildBlankProjectMap(3, 2, 'tiles')
     const { host, canvas, session } = await mountMapMode({ map })
     await act(async () => button(host, '笔刷').click())
     await chooseToolOption(host, '笔刷面积', '2 × 2')
     await act(async () => {
-      pointer(canvas, 'pointerdown', { clientX: 1, clientY: 1 })
-      pointer(canvas, 'pointerup', { clientX: 1, clientY: 1 })
+      pointer(canvas, 'pointerdown', { clientX: 33, clientY: 1 })
+      pointer(canvas, 'pointerup', { clientX: 33, clientY: 1 })
     })
     const floor = session.getState().maps['map-a']!.layers[0]!
     expect([
-      floor.tiles[0]![0],
       floor.tiles[0]![1],
       floor.tiles[1]![0],
       floor.tiles[1]![1],
+      floor.tiles[2]![1],
     ]).toEqual([0, 0, 0, 0])
+    expect(floor.tiles[0]![2]).toBeNull()
+    expect(floor.tiles[2]![0]).toBeNull()
     await act(async () => button(host, '选择').click())
     expect(host.querySelector('[aria-label="笔刷面积"]')).toBeNull()
     expect(host.querySelector('[aria-label="绘制高度"]')).toBeNull()

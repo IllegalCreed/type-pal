@@ -84,6 +84,8 @@ Branch: main
   - `docs/ops/tasks/W7G-composite-tile-stamps.md:112-139,190-211,272-349,364-378`：模板与 placement 正交、
     图层槽/offset、组内编辑、soft provenance、原子命令和组合库职责。
   - `docs/phase2/capability-map.md:60-61`：W7G/W8 当前能力记账；本卡是 W7G 作者闭环纠偏，不新开能力格。
+  - `docs/phase2/decisions.md:112-113`：D16 确定 col/row 是菱形两条斜轴，`gridToPixel=(16(col-row),8(col+row))`；
+    任何笔刷/范围/变换都不得把 raw 错排存储数组轴当成地图 row/col。
 - 代码锚点(`file:line`):
   - `packages/content/src/stamp.ts:1-154`：canonical 模板字段、不变量与确定性 validator。
   - `packages/editor/src/core/stamp-template.ts:33-129`：普通地图 cells 选区到模板的现有转换。
@@ -99,10 +101,11 @@ Branch: main
   - migrated 模板只有显式接管后才能变为 authored，失败/取消必须保持来源不变。
 - 不得重新引入:
   - 第二套模板 schema、linked prefab、数组下标身份、隐藏的真实地图写入、旧版本兼容 fallback、
-    页面私有基础控件皮肤、不可撤销的多步保存。
+    页面私有基础控件皮肤、不可撤销的多步保存、raw lattice `row+i/col+j` 的伪菱形范围。
 - 相关测试:
   - `packages/content/src/stamp.test.ts`、`packages/editor/src/core/stamp-template.test.ts`、
-    `stamp-commands.test.ts`、`StampLibraryTab.test.tsx`、`MapMode.test.tsx`、`MapContentSelectionPreview.test.tsx`。
+    `stamp-commands.test.ts`、`isometric-brush.test.ts`、`StampLibraryTab.test.tsx`、`MapMode.test.tsx`、
+    `MapContentSelectionPreview.test.tsx`。
 
 ## 验收条件
 
@@ -244,20 +247,21 @@ build/done。
 
 ### 进入 done 前:审查签字
 
-- Codex: **accept（2026-08-18，第四次绘制上下文返工后重新签）**。前三次 accept 分别被“查看/编辑分离”、“常驻选区命令/
+- Codex: **accept（2026-08-18，第五次笔刷 lattice 返工后重新签）**。前三次 accept 分别被“查看/编辑分离”、“常驻选区命令/
   重复组合标题壳/View 层级”以及“包含碰撞关闭菜单/组合并未真正复用地图工具栏”三轮用户 counter 推翻。当前
   地图与组合共同消费 `IsometricEditorToolbar`、`LayerStackControls`、`IsometricEditorCanvas` 和
   `IsometricEditorSurface`；平移、选择、取样、笔刷、矩形、填充、擦除、碰撞及 View 只有一份工具栏实现。
   “包含碰撞”作为选择工具的持久附加 checkbox，已从一次性右键命令中移除；右键菜单只保留复制/剪切/粘贴/
   移动/重复/删除。后续按用户补充裁决，笔刷范围改为图标触发的横向格阵托盘，且只在笔刷激活时显示；
   绘制高度从左侧“显示高度”彻底分离，只在笔刷/矩形/填充任一激活时显示，触发器和横向托盘均使用纯 `H0…Hn` 文本。地图与组合共用
-  同一状态 UI、范围函数和画布范围预览。填充按用户裁决统一为 `(原 tileId, 原 height)` 四邻域，`null/H0`
-  空区同样可填，地图/组合/组内编辑不再出现不同边界。定向 106 项、typecheck、build、Biome 和 1280×720
+  同一状态 UI、范围函数和画布范围预览。笔刷 `2×2/3×3` 不再按 raw lattice `row/col` 枚举，而是按 D16 菱形双轴
+  `gridToPixel=(16(col-row),8(col+row))` 转换为 `{dRow,du}`；奇偶行都有回归断言。填充按用户裁决统一为 `(原 tileId, 原 height)`
+  四邻域，`null/H0` 空区同样可填，地图/组合/组内编辑不再出现不同边界。定向 78 项、typecheck、build、Biome 和 1280×720
   浏览器语义复验全绿；未触及
   schema/runtime/placement 非链接语义。
 - Kimi: pending
 - GLM: pending
-- counter / 返工处理: **2026-08-18 四轮用户 counter 均已完成返工；等待 Kimi/GLM 独立复审。**
+- counter / 返工处理: **2026-08-18 五轮用户 counter 均已完成返工；等待 Kimi/GLM 独立复审。**
 - 缺签豁免: N/A
 - done 准入结论: blocked
 
@@ -318,7 +322,7 @@ build/done。
 
 - Coding Owner: Codex（三签齐后实现）
 - 修改文件:
-  - `packages/editor/src/core/stamp-draft.ts`、`stamp-draft.test.ts`、`isometric-brush.ts`、`isometric-fill.ts/test`
+  - `packages/editor/src/core/stamp-draft.ts`、`stamp-draft.test.ts`、`isometric-brush.ts/test`、`isometric-fill.ts/test`
   - `packages/editor/src/ui/StampContentEditor.tsx`
   - `packages/editor/src/ui/StampLibraryTab.tsx`、`StampLibraryTab.test.tsx`
   - `packages/editor/src/ui/LayerStackControls.tsx`、`IsometricEditorCanvas.tsx`、`IsometricEditorSurface.tsx`、
@@ -344,7 +348,9 @@ build/done。
     因菜单关闭而丢失。
   - 笔刷面积作为笔刷工具的持续参数直接内置于共享工具栏：只在笔刷激活时显示，图标按钮展开横向
     `1×1 / 2×2 / 3×3` 格阵托盘；选择后收起且触发图标同步更新。地图与组合共同消费 `isometricBrushPoints`，
-    2×2/3×3 会实际批量写格且画布 hover 勾勒完整范围。绘制高度不再复用左侧渲染高度：左侧明确为
+    2×2/3×3 会实际批量写格且画布 hover 勾勒完整范围。范围的 row/col 是 D16 菱形双轴，不是 raw 错排存储数组：
+    grid col 每 +1 转为 `{dRow:+1,du:+1}`，grid row 每 +1 转为 `{dRow:+1,du:-1}`，从而得到四个边相邻的菱形 `2×2`。
+    绘制高度不再复用左侧渲染高度：左侧明确为
     “显示高度”；只在笔刷/矩形/填充激活时显示共享高度触发器，触发器及托盘选项均为纯 `Hx` 文本；平面层
     强制 H0，高度层可展开横向托盘，取样同时取得瓦片与高度。
   - 填充语义统一为当前活动层的 `(原 tileId, 原 height)` 四邻域 flood fill：两者都相同才属于同一连通片；
@@ -374,6 +380,8 @@ build/done。
     并修正 placement 与 Reforge 回归；editor/reforge typecheck、Biome 与单次 editor build 通过。
   - 工具上下文显隐与纯 `Hx` 触发器返工后：MapMode + StampLibraryTab 75/75 passed；editor typecheck、
     changed-files Biome 与单次 editor build 通过（仅既有 chunk >500k 提示）。
+  - 笔刷菱形双轴返工后：isometric-brush + MapMode + StampLibraryTab 78/78 passed；纯函数分别覆盖奇/偶错排行、
+    2×2 像素中心偏移和 3×3 九格，两个工作台断言精确写入点/offset；editor typecheck、Biome 与单次 build 通过。
   - changed-files `biome check`：通过；仅报告 `editor.css:10314-10317` 既有 `.visually-hidden !important`
     4 条 warning，本卡未新增。
   - `git diff --check`：通过。
@@ -403,7 +411,7 @@ build/done。
 - 验证方式: in-app Browser + DOM 尺寸量化 + 三档截图 + 语义交互。
 - 集中 E2E 用例 / 批次: N/A
 - 截图 / 像素检查路径: 本轮浏览器内联截图（未把临时截图落库）；量化证据已写入上一节。
-- 结论: **第四次绘制上下文返工后通过**。查看/编辑分离、重复图层/画布、组合中央重复标题、常驻选区命令、View 层级、
+- 结论: **第五次笔刷 lattice 返工后通过**。查看/编辑分离、重复图层/画布、组合中央重复标题、常驻选区命令、View 层级、
   “包含碰撞”状态归属和私有组合工具栏均已按共享 toolbar/surface 收口；最新 1280×720 复验右键菜单与组合中央
   布局通过。多瓦片集语义另见
   `ED-MAP-MULTI-TILESET-1`，不得用现有单值下拉搬家冒充完成。
@@ -412,13 +420,15 @@ build/done。
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: 前三次 Codex accept 均曾被后续用户 counter 推翻；第四次绘制上下文返工后 Codex 重新 accept，Kimi/GLM pending。
-- 必须返工项: 四轮用户 counter 项已完成；多瓦片集结构纠偏转 `ED-MAP-MULTI-TILESET-1`；以非 Coding Owner 复审为准。
+- 审查结论: 早期 Codex accept 均曾被后续用户 counter 推翻；第五次笔刷 lattice 返工后 Codex 重新 accept，Kimi/GLM pending。
+- 必须返工项: 五轮用户 counter 项已完成；多瓦片集结构纠偏转 `ED-MAP-MULTI-TILESET-1`；以非 Coding Owner 复审为准。
 - Accept / rework: review。
 
 ## 用户验收
 
-- 用户结论: **counter（2026-08-18，第四轮；绘制上下文，后续补充填充语义与显隐细节）**：左下角是渲染/显示高度，不应与绘制高度耦合；
+- 用户结论: **counter（2026-08-18，第五轮；笔刷菱形双轴）**：笔刷 2×2 不能把 raw 错排存储的 row/col 当成地图 row/col；
+  必须沿菱形两条斜轴展开。已按 D16 转换为 `{dRow,du}` 并增加奇/偶行、2×2/3×3、预览/实写共用回归。前述第四轮
+  要求为：左下角是渲染/显示高度，不应与绘制高度耦合；
   笔刷/矩形/填充需要共同的绘制高度；面积和高度不应使用 Select，而应使用类似 Windows 画图的图标按钮 + 横向
   选项托盘；公共高度不能跟在每个绘制按钮后。后续明确填充应批量替换当前活动层中 `(原 tileId, 原 height)`
   相同的连通片，空瓦片也按同一规则可填。最新要求笔刷面积只在笔刷激活时显示，公共绘制高度只在三个绘制工具之一
@@ -475,26 +485,29 @@ build/done。
 - 2026-08-18 User: 继续收紧绘制上下文：笔刷面积仅在笔刷激活时出现；公共绘制高度仅在笔刷/矩形/填充之一
   激活时出现；高度按钮只显示 `Hx` 文本。Codex 已在共享工具栏单点实现，地图/组合同步生效。Evidence: focused 75、
   editor typecheck、Biome、单次 build。Next: Kimi/GLM 独立复审；未齐前不得标 done。
+- 2026-08-18 User: 指出 2×2 笔刷错把斜向地图 row/col 当成 raw 错排数组轴。Codex 回读 `docs/phase2/decisions.md` D16 确认
+  `col/row` 是菱形两条斜轴，用 `resolveRelativeLatticeOffset` 将 grid offset 转为 `{dRow,du}`，修复共享范围函数。注释与
+  奇/偶行单测共同固化该铁律。Evidence: focused 78、editor typecheck、Biome、单次 build。Next: Kimi/GLM 独立复审。
 
 ## 下一位 Agent 提示词
 
 ```text
 接手任务：ED-STAMP-EDITOR-1 组合模板内容编辑闭环
 任务卡：docs/ops/tasks/ED-STAMP-EDITOR-1-stamp-template-content-editor.md
-当前状态：review；用户四轮 counter 后，Codex 完成 shared toolbar/surface、“包含碰撞”状态归位、共享笔刷范围
-横向图标托盘、显示高度/公共绘制高度分离，以及同 tile+height、空区可用的统一填充，并于 2026-08-18 重新 accept；
+当前状态：review；用户五轮 counter 后，Codex 完成 shared toolbar/surface、“包含碰撞”状态归位、绘制上下文显隐、
+D16 菱形双轴笔刷范围，以及同 tile+height、空区可用的统一填充，并于 2026-08-18 重新 accept；
 Kimi/GLM done 前 accept pending；不得标 done。
 你的角色：Kimi 或 GLM，负责独立代码审查与 done 前签字。
 先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文、
-packages/editor/src/core/stamp-draft.ts、stamp-draft.test.ts、stamp-commands.ts、isometric-brush.ts、isometric-fill.ts/test，
+packages/editor/src/core/stamp-draft.ts、stamp-draft.test.ts、stamp-commands.ts、isometric-brush.ts/test、isometric-fill.ts/test，
 packages/editor/src/ui/StampContentEditor.tsx、StampLibraryTab.tsx/test、LayerStackControls.tsx、
 IsometricEditorCanvas.tsx、IsometricEditorSurface.tsx、IsometricEditorToolbar.tsx、MapMode.tsx/test、TilesetTab.tsx、
 design-system/boundary.test.ts 与 editor.css。
 已完成：纯内存 draft；选择即编辑；属性/引用/瓦片分栏；地图/组合共享图层栈、等距画布和 surface 骨架；右侧
 tile palette；地图选组合即放置；地图/组合共用完整工具栏；“包含碰撞”是选择工具持久附加 checkbox；选区命令进
-画布右键菜单；View 单入口；笔刷范围以横向格阵图标托盘选择并实际批量绘制，仅笔刷激活时显示；绘制高度以纯 `Hx`
+画布右键菜单；View 单入口；笔刷范围以横向格阵图标托盘选择并实际批量绘制，仅笔刷激活时显示，2×2/3×3 严格沿 D16 菱形双轴展开；绘制高度以纯 `Hx`
 触发器/托盘供笔刷/矩形/填充共用，仅在三者之一激活时显示，左侧显示高度只影响渲染；填充按 tileId+height 连通且空区可填；
-最新 focused 75、typecheck 与 build 全绿；既有浏览器复验证据保留。
+最新 focused 78、typecheck 与 build 全绿；既有浏览器复验证据保留。
 请你做：独立检查 SK1/SK2 与 SE2/SE3，并重点核对共享 surface 是否仍保持 draft/session 隔离、地图/组合投影与
 命中是否一致、组合选择即放置是否无隐藏模式冲突、工具栏附加选项是否只在正确主工具下出现、窄栏布局是否可达；
 复跑必要测试。

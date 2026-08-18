@@ -642,6 +642,14 @@ describe('StampLibraryTab', () => {
 
     const painted = session.getState().stamps[0]!.visual.filter((member) => member.tileId === 2)
     expect(painted).toHaveLength(4)
+    expect(painted.map((member) => member.offset)).toEqual(
+      expect.arrayContaining([
+        { dRow: 0, du: 0 },
+        { dRow: 1, du: 1 },
+        { dRow: 1, du: -1 },
+        { dRow: 2, du: 0 },
+      ]),
+    )
   })
 
   test('内容草稿离开时先确认，取消编辑保持工程与迁移来源不变', async () => {
