@@ -1,6 +1,6 @@
 # ED-STAMP-EDITOR-1 - 组合模板内容编辑闭环
 
-Status: review
+Status: blocked
 Phase: phase2
 Capability: W7G correction（不新增 capability-map 格，不改 schema/runtime）
 Coding Owner: Codex
@@ -10,6 +10,10 @@ Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
 Branch: main
+
+> **2026-08-18 最新用户 counter：**组合必须先确定“局部小型地图”的 canonical 数据结构与相对高度语义，
+> 不能继续在 `StampTemplateV1` 稀疏模型上用 adapter/私有画布补丁假装复用地图编辑器。本卡的旧 build/review
+> 证据保留为历史，但不再授权继续实现或进入 done；上游门禁见 `ED-STAMP-MAP-MODEL-1`。
 
 ## 目标
 
@@ -190,9 +194,9 @@ Branch: main
   - 可证伪观察: 见「GLM 独立数据覆盖审查」末节。
 - counter / 分歧处理: pending
 - 缺签豁免: N/A
-- build 准入结论: **allowed（2026-08-17）——Codex + Kimi（SK1-SK2）+ GLM（SE1-SE3）三方签字齐。
-  SE1 的 Kimi 审查节与 SK1/SK2 完整定义已于 2026-08-17 从既有签字证据恢复入卡；该补录不新增或代签
-  Kimi 结论，GLM 已明确无需重审。**
+- build 准入结论: **历史 allowed（2026-08-17），已于 2026-08-18 失效。** 当时 Codex + Kimi（SK1-SK2）+
+  GLM（SE1-SE3）三方签字齐，但签字建立在“不改 StampTemplateV1/schema、使用临时 adapter”的旧前提上；最新用户
+  counter 改变核心 premise，必须等待 ED-STAMP-MAP-MODEL-1 重新三签，当前 build blocked。
 
 #### Kimi 独立反证审查（2026-08-17，架构/交互；SE1 恢复记录）
 
@@ -247,7 +251,10 @@ build/done。
 
 ### 进入 done 前:审查签字
 
-- Codex: **accept（2026-08-18，第五次笔刷 lattice 返工后重新签）**。前三次 accept 分别被“查看/编辑分离”、“常驻选区命令/
+- Codex: **counter / rework（2026-08-18，最新）**。用户指出共享 toolbar/surface 不等于复用地图编辑器，且现有
+  adapter 建立在错误的稀疏组合/绝对高度模型上；须等待 `ED-STAMP-MAP-MODEL-1` 三签和 schema 落地后删除组合私有
+  renderer/命中/viewport，再重新 build/review。下列 accept 仅保留为被推翻前的历史证据。
+- Codex（历史，已失效）: **accept（2026-08-18，第五次笔刷 lattice 返工后重新签）**。前三次 accept 分别被“查看/编辑分离”、“常驻选区命令/
   重复组合标题壳/View 层级”以及“包含碰撞关闭菜单/组合并未真正复用地图工具栏”三轮用户 counter 推翻。当前
   地图与组合共同消费 `IsometricEditorToolbar`、`LayerStackControls`、`IsometricEditorCanvas` 和
   `IsometricEditorSurface`；平移、选择、取样、笔刷、矩形、填充、擦除、碰撞及 View 只有一份工具栏实现。
@@ -261,13 +268,17 @@ build/done。
   schema/runtime/placement 非链接语义。
 - Kimi: pending
 - GLM: pending
-- counter / 返工处理: **2026-08-18 五轮用户 counter 均已完成返工；等待 Kimi/GLM 独立复审。**
+- counter / 返工处理: **2026-08-18 最新 counter 未完成：先完成 ED-STAMP-MAP-MODEL-1 三方 premise/design 与
+  canonical 数据迁移，再按同一中央地图编辑组件返工本卡。**
 - 缺签豁免: N/A
 - done 准入结论: blocked
 
 ## Draft: 设计与风险
 
 ### 设计结论
+
+> 以下结论是旧 `StampTemplateV1` 前提下的历史方案；其中“临时 lattice adapter + 独立 draft reducer”已被最新用户
+> counter 推翻，不得作为当前 build 方案。新方案以 `ED-STAMP-MAP-MODEL-1` 签字后的共享 content 为准。
 
 1. **一个编辑语义，两种入口**：组合库内“新建/选择即编辑”是主闭环；地图普通选区“保存/更新组合”继续作为
    从真实场景采样的快捷导入。两者最后都生成 canonical `StampTemplateV1` 并走同一 validator/command。
