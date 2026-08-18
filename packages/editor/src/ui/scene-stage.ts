@@ -282,7 +282,8 @@ export function drawGridBlocked(
     ctx.fill(blockedPath)
   }
   if (show.grid) {
-    // 网格 = 两组贯穿平行斜线:每个菱形边恰好落在 y = ±x/2 + 8k 上(格中心 (16a,8b) 验证),
+    // 网格 = 两组贯穿平行斜线。合法 lattice 中心满足 a+b 为偶，因此格边只落在
+    // y = ±x/2 + 8k 的奇数 k 上；偶数 k 会穿过格心，把一个真实菱形误切成两个“半格”。
     // 条数 O(可见宽+高) 而非 O(可见格数) 个菱形。低倍率大图上菱形法每帧构建/描边数十万个
     // Path2D 段(实测 40 次缩放帧 31.6s),贯穿线法只有千级段,且视觉上与逐格菱形完全等价。
     ctx.save()
@@ -295,6 +296,7 @@ export function drawGridBlocked(
       const lo = Math.min(m * px0, m * px1)
       const hi = Math.max(m * px0, m * px1)
       for (let k = Math.ceil((py0 - hi) / 8); k <= Math.floor((py1 - lo) / 8); k++) {
+        if (Math.abs(k % 2) !== 1) continue
         gridPath.moveTo(px0, m * px0 + 8 * k)
         gridPath.lineTo(px1, m * px1 + 8 * k)
       }
