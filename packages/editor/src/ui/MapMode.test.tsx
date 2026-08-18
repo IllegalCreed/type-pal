@@ -595,6 +595,28 @@ describe('MapMode 地图内容选择交互', () => {
     expect(optionGroup('碰撞工具选项')).toBeUndefined()
   })
 
+  test('从选择切回平移时清空内容选区并恢复地图属性', async () => {
+    const map = paintProjectMapTiles(fixtureMap(), [
+      { layerId: 'floor', row: 0, col: 1, tileId: 1, height: 0 },
+    ])
+    const { host, canvas, onWorkspaceNotice } = await mountMapMode({ map })
+    await act(async () => button(host, '选择').click())
+    await act(async () => {
+      pointer(canvas, 'pointerdown', { clientX: 1, clientY: 1 })
+      pointer(canvas, 'pointerup', { clientX: 1, clientY: 1 })
+    })
+    expect(host.querySelector('.map-content-selection-preview')).not.toBeNull()
+
+    await act(async () => button(host, '平移').click())
+    expect(host.querySelector('.map-content-selection-preview')).toBeNull()
+    expect(host.querySelector('.map-properties-section')).not.toBeNull()
+    expect(button(host, '平移').getAttribute('aria-pressed')).toBe('true')
+    expect(onWorkspaceNotice).toHaveBeenLastCalledWith({
+      kind: 'info',
+      message: '已切换到平移；地图内容选区已清空。',
+    })
+  })
+
   test('Ctrl/⌘ 可追加不规则瓦片选区、再次命中移除，并可直接提取组合', async () => {
     const map = paintProjectMapTiles(fixtureMap(), [
       { layerId: 'floor', row: 0, col: 1, tileId: 1, height: 0 },
@@ -1528,7 +1550,7 @@ describe('MapMode 地图内容选择交互', () => {
     expect(host.querySelector<HTMLInputElement>('[aria-label="选区 tileId"]')?.disabled).toBe(true)
   })
 
-  test('变换预览锁定 Inspector，切换工具取消后恢复并替换过期错误消息', async () => {
+  test('变换预览锁定 Inspector，切回平移后取消预览、清空选区并恢复地图属性', async () => {
     const { host, canvas, onWorkspaceNotice } = await mountMapMode()
     await selectFloor(host, canvas)
     await runSelectionCommand(host, '复制')
@@ -1538,10 +1560,11 @@ describe('MapMode 地图内容选择交互', () => {
 
     await act(async () => button(host, '平移').click())
     expect(host.querySelector('.map-transform-bar')).toBeNull()
-    expect(host.querySelector<HTMLInputElement>('[aria-label="选区 tileId"]')?.disabled).toBe(false)
+    expect(host.querySelector('[aria-label="选区 tileId"]')).toBeNull()
+    expect(host.querySelector('.map-properties-section')).not.toBeNull()
     expect(onWorkspaceNotice).toHaveBeenLastCalledWith({
       kind: 'info',
-      message: '已取消地图变换预览。',
+      message: '已取消地图变换预览并清空选区。',
     })
   })
 

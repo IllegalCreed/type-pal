@@ -1349,12 +1349,26 @@ export function MapMode(props: {
 
   const activateMapTool = (nextTool: MapTool): void => {
     const cancelledTransform = Boolean(transformIntent)
+    const clearedSelection =
+      nextTool === 'pan' &&
+      (selection.kind !== 'none' || Boolean(selectionPreview) || Boolean(stampGroupEditPlacementId))
+    if (nextTool === 'pan') {
+      selectionPreviewRef.current = undefined
+      setSelectionPreview(undefined)
+      dispatchWorkspace({ type: 'clear-selection', mapId })
+    }
     setTool(nextTool)
     setTransformIntent(undefined)
     setTransformTargetLocked(false)
     setTransformOverwriteIntent(undefined)
     setCandidateMenu(undefined)
-    if (cancelledTransform) setWorkspaceNotice({ kind: 'info', message: '已取消地图变换预览。' })
+    if (cancelledTransform)
+      setWorkspaceNotice({
+        kind: 'info',
+        message: nextTool === 'pan' ? '已取消地图变换预览并清空选区。' : '已取消地图变换预览。',
+      })
+    else if (clearedSelection)
+      setWorkspaceNotice({ kind: 'info', message: '已切换到平移；地图内容选区已清空。' })
   }
 
   const pickStamp = useCallback(
