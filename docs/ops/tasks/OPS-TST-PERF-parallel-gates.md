@@ -247,6 +247,11 @@ parallel 命令必须失败，默认串行命令保持不变。
   runner 现只把可审计 log/report/transaction 留在长 proof root，运行时 TMP 改为按 run/child 哈希的
   `/tmp/type-pal-release/...` 独立短根，并在构造时强制 socket probe `<=100 bytes`。回归测试 9/9、
   typecheck、真实短 TMP manifest `fast 92/678 / release 116/810 / canary 1/2` 均通过。
+- 最终候选首轮 proof 在 canary 正确 fail-closed：
+  `build/release-runs/proof-final-e548f9e0/pair-1/serial-control/summary.json`，1/2 assertions 通过，
+  workspace `0/0/0`；唯一失败为新增 `release-runner-core.ts` 后 oracle 的
+  `packages/migrate/src` source fingerprint 漂移。显式 oracle update 的 diff 只有该 root 的
+  `bytes 2,982,322 -> 2,983,291` 与 `sha256`，projection/golden 均无变化；刷新后须重跑 canary。
 - 尚未完成：修复后的完整 serial control、显式 parallel 以及三组同机同批次 serial/parallel proof。
   因此本卡保持 `build`，Codex/Kimi/GLM done 前签字仍为 pending。
 
@@ -289,6 +294,9 @@ parallel 命令必须失败，默认串行命令保持不变。
   manifest 暴露 macOS 长 TMPDIR 截断导致的 `tsx` IPC 冲突并 fail-closed。已改为短 runtime TMP 根，
   保持 report/log/transaction 证据根不变；单测、typecheck、真实 manifest 均绿。因最终实现 HEAD 已变，
   旧对照只保留诊断证据，三组正式 proof 将从修复提交重新运行。
+- 2026-08-18 Codex: 短 TMP 最终候选的首轮 proof 在 canary 因 src fingerprint 漂移 fail-closed；
+  replay assertion 仍通过且 workspace 0/0/0。显式 oracle update 只改 production source root 的
+  bytes/sha256，projection/golden 无 diff。Next: canary 2/2 后提交固定候选并从头跑三组 proof。
 
 ## 下一位 Agent 提示词
 
