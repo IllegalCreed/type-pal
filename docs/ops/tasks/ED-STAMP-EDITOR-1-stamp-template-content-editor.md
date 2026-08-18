@@ -1,6 +1,6 @@
 # ED-STAMP-EDITOR-1 - 组合模板内容编辑闭环
 
-Status: blocked
+Status: review
 Phase: phase2
 Capability: W7G correction（不新增 capability-map 格，不改 schema/runtime）
 Coding Owner: Codex
@@ -14,6 +14,10 @@ Branch: main
 > **2026-08-18 最新用户 counter：**组合必须先确定“局部小型地图”的 canonical 数据结构与相对高度语义，
 > 不能继续在 `StampTemplateV1` 稀疏模型上用 adapter/私有画布补丁假装复用地图编辑器。本卡的旧 build/review
 > 证据保留为历史，但不再授权继续实现或进入 done；上游门禁见 `ED-STAMP-MAP-MODEL-1`。
+>
+> **2026-08-19 counter 已解除：**`ED-STAMP-MAP-MODEL-1` 与 `ED-MAP-MULTI-TILESET-1` 三签后的替代设计已
+> 落地；下文旧 scope/design 中的 `StampTemplateV1`、`flat/height` 和 adapter 只作历史记录，当前实现与验收以
+> 两张替代模型卡的共享 `IsometricMapContent`、相对高度和多来源矩阵为准。
 
 ## 目标
 
@@ -251,7 +255,11 @@ build/done。
 
 ### 进入 done 前:审查签字
 
-- Codex: **counter / rework（2026-08-18，最新）**。用户指出共享 toolbar/surface 不等于复用地图编辑器，且现有
+- Codex: **accept（2026-08-19，替代模型落地后重签）**。组合直接持有共享 canonical content，并与地图共用
+  `IsometricEditorCanvas`、renderer cache、toolbar、图层控件与 tile picker；临时 `stamp-draft-map` adapter、
+  私有 renderer/命中/viewport 均已删除。选择模板即编辑，保存一笔 command，relative H、多来源与 nullable
+  collision 均闭环。editor 全量 970/970、两项 production build、1280×720 页面验收与 Console 0 通过。
+- Codex（历史 counter，已解除）: **counter / rework（2026-08-18）**。用户指出共享 toolbar/surface 不等于复用地图编辑器，且现有
   adapter 建立在错误的稀疏组合/绝对高度模型上；须等待 `ED-STAMP-MAP-MODEL-1` 三签和 schema 落地后删除组合私有
   renderer/命中/viewport，再重新 build/review。下列 accept 仅保留为被推翻前的历史证据。
 - Codex（历史，已失效）: **accept（2026-08-18，第五次笔刷 lattice 返工后重新签）**。前三次 accept 分别被“查看/编辑分离”、“常驻选区命令/
@@ -268,8 +276,8 @@ build/done。
   schema/runtime/placement 非链接语义。
 - Kimi: pending
 - GLM: pending
-- counter / 返工处理: **2026-08-18 最新 counter 未完成：先完成 ED-STAMP-MAP-MODEL-1 三方 premise/design 与
-  canonical 数据迁移，再按同一中央地图编辑组件返工本卡。**
+- counter / 返工处理: **2026-08-19 已完成。** 两张替代模型卡完成三方 premise/design、canonical 数据迁移与
+  同一中央地图编辑组件返工；当前等待 Kimi/GLM 实现审查。
 - 缺签豁免: N/A
 - done 准入结论: blocked
 
@@ -332,6 +340,13 @@ build/done。
 ## Build: 实现与自测
 
 - Coding Owner: Codex（三签齐后实现）
+- 2026-08-19 替代模型收口：`StampTemplate` 不再是稀疏成员 schema，而是与地图同形的局部
+  `IsometricMapContent`；图层矩阵直接保存 tile/source/relative height，collision 为 nullable membership，
+  显式 anchor 保持错排 lattice。组合和地图直接消费同一个中央画布与资源 registry，不再做 adapter 转换。
+- 最终验证：editor 131 files / 970 tests；content 482、reforge 1020、migrate focused 32；四包 typecheck；
+  Reforge/Editor production build 各一次；本次视觉高度修复后 StampLibrary + boundary 44/44。
+- 浏览器 `1280×720`：surface `796×653`、画布 viewport `796×577`，共享工具栏/图层/属性/引用/瓦片可达；
+  “瓦片”Tab 有来源选择器和 452 个 tile，Console warning/error 0。
 - 修改文件:
   - `packages/editor/src/core/stamp-draft.ts`、`stamp-draft.test.ts`、`isometric-brush.ts/test`、`isometric-fill.ts/test`
   - `packages/editor/src/ui/StampContentEditor.tsx`
@@ -433,8 +448,9 @@ build/done。
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: 早期 Codex accept 均曾被后续用户 counter 推翻；第五次笔刷 lattice 返工后 Codex 重新 accept，Kimi/GLM pending。
-- 必须返工项: 五轮用户 counter 项已完成；多瓦片集结构纠偏转 `ED-MAP-MULTI-TILESET-1`；以非 Coding Owner 复审为准。
+- 审查结论: 早期 Codex accept 均曾被后续用户 counter 推翻；2026-08-19 两张替代模型卡落地后 Codex 重新
+  accept，Kimi/GLM pending。
+- 必须返工项: 五轮交互 counter、共享模型/画布、相对高度和多瓦片来源均已完成；以非 Coding Owner 复审为准。
 - Accept / rework: review。
 
 ## 用户验收
@@ -446,8 +462,9 @@ build/done。
   选项托盘；公共高度不能跟在每个绘制按钮后。后续明确填充应批量替换当前活动层中 `(原 tileId, 原 height)`
   相同的连通片，空瓦片也按同一规则可填。最新要求笔刷面积只在笔刷激活时显示，公共绘制高度只在三个绘制工具之一
   激活时显示，高度触发器只显示 `Hx`；笔刷面积上限后续扩展为 5×5。以上已返工，等待用户复验。用户同时要求来源瓦片集在“瓦片”
-  Tab 选择且一张地图允许多个瓦片集；该 schema 产品铁律已进入 `ED-MAP-MULTI-TILESET-1`，尚未获得 build 三签。
-- 后续任务: Kimi/GLM 独立复审 + 用户对返工版最终验收。
+  Tab 选择且一张地图允许多个瓦片集。上述 schema 产品铁律已由 `ED-STAMP-MAP-MODEL-1` 与
+  `ED-MAP-MULTI-TILESET-1` 三签后落地；当前实现等待用户最终验收。
+- 后续任务: Kimi/GLM 独立复审 + 用户对共享模型返工版最终验收。
 
 ## 交接日志
 
@@ -503,6 +520,10 @@ build/done。
   奇/偶行单测共同固化该铁律。Evidence: focused 78、editor typecheck、Biome、单次 build。Next: Kimi/GLM 独立复审。
 - 2026-08-18 User: 要求笔刷扩展到 5×5。Codex 将共享类型/托盘扩展为 1×1…5×5，图标改为固定 5×5 密度预览；组合草稿
   仅扩展必要的 raw row 边界，避免画布横向无意义变宽。Evidence: focused 80、editor typecheck、Biome、单次 build。Next: Kimi/GLM 独立复审。
+- 2026-08-19 Codex: 两张替代模型卡三签后完成唯一 v4、共享 `IsometricMapContent`、relative H、nullable
+  collision、多来源矩阵与当前工程切版；组合直接复用地图中央画布/renderer cache。最终 editor 970/970、四包
+  typecheck、两项 production build 通过；浏览器发现并修复 viewport 120px 退化，终态 796×577、瓦片 452 项、
+  Console 0。Codex 重签 accept。Next: Kimi/GLM 独立 review，未齐前不得标 done。
 
 ## 下一位 Agent 提示词
 
@@ -510,10 +531,12 @@ build/done。
 接手任务：ED-STAMP-EDITOR-1 组合模板内容编辑闭环
 任务卡：docs/ops/tasks/ED-STAMP-EDITOR-1-stamp-template-content-editor.md
 当前状态：review；用户五轮 counter 后，Codex 完成 shared toolbar/surface、“包含碰撞”状态归位、绘制上下文显隐、
-D16 菱形双轴笔刷范围，以及同 tile+height、空区可用的统一填充，并于 2026-08-18 重新 accept；
+D16 菱形双轴笔刷范围、同 tile+height 空区填充，以及两张替代模型卡授权的共享 canonical content、relative H 与
+多来源 source matrix，并于 2026-08-19 重新 accept；
 Kimi/GLM done 前 accept pending；不得标 done。
 你的角色：Kimi 或 GLM，负责独立代码审查与 done 前签字。
 先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文、
+ED-STAMP-MAP-MODEL-1、ED-MAP-MULTI-TILESET-1、packages/content/src/project-map.ts、stamp.ts、
 packages/editor/src/core/stamp-draft.ts、stamp-draft.test.ts、stamp-commands.ts、isometric-brush.ts/test、isometric-fill.ts/test，
 packages/editor/src/ui/StampContentEditor.tsx、StampLibraryTab.tsx/test、LayerStackControls.tsx、
 IsometricEditorCanvas.tsx、IsometricEditorSurface.tsx、IsometricEditorToolbar.tsx、MapMode.tsx/test、TilesetTab.tsx、
@@ -522,7 +545,8 @@ design-system/boundary.test.ts 与 editor.css。
 tile palette；地图选组合即放置；地图/组合共用完整工具栏；“包含碰撞”是选择工具持久附加 checkbox；选区命令进
 画布右键菜单；View 单入口；笔刷范围以横向格阵图标托盘选择并实际批量绘制，仅笔刷激活时显示，1×1…5×5 严格沿 D16 菱形双轴展开；绘制高度以纯 `Hx`
 触发器/托盘供笔刷/矩形/填充共用，仅在三者之一激活时显示，左侧显示高度只影响渲染；填充按 tileId+height 连通且空区可填；
-最新 focused 80、typecheck 与 build 全绿；既有浏览器复验证据保留。
+editor 全量 970/970、四包 typecheck、Reforge/Editor production build 与 1280×720 浏览器复验全绿；
+中央 viewport 796×577、瓦片 Tab 452 项、Console warning/error 0。
 请你做：独立检查 SK1/SK2 与 SE2/SE3，并重点核对共享 surface 是否仍保持 draft/session 隔离、地图/组合投影与
 命中是否一致、组合选择即放置是否无隐藏模式冲突、工具栏附加选项是否只在正确主工具下出现、窄栏布局是否可达；
 复跑必要测试。

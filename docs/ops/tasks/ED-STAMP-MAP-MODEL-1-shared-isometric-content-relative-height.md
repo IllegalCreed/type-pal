@@ -1,6 +1,6 @@
 # ED-STAMP-MAP-MODEL-1 - 组合/地图共享等距内容模型与相对高度
 
-Status: build
+Status: review
 Phase: phase2
 Capability: W7 / W8（地图与组合 canonical 内容模型纠偏）
 Coding Owner: Codex
@@ -295,13 +295,33 @@ MULTI-TILESET 卡 KM1-KM3/MT1-MT4。只读审查，未改实现文件，未提�
 
 ### 进入 done 前：审查签字
 
-- Codex/Kimi/GLM：pending。
+- Codex：**accept（2026-08-19）**。canonical v4、共享 content、relative H、nullable collision、
+  多来源矩阵、runtime/placement/editor 与当前工程原子切版均已按 KS1-KS3、SM1-SM4 自验通过；旧
+  schema/adapter/token census 为 0。最终证据见 Build 记录。
+- Kimi：pending。
+- GLM：pending。
 - done 准入结论：blocked。
 
 ## Build: 实现与自测
 
 - Coding Owner：Codex（三签齐后）。
-- 修改文件/实现摘要/运行命令/浏览器检查：pending。
+- 2026-08-19 canonical 一次切版已完成：
+  - content 抽出 `IsometricMapContent`；`ProjectMap` 仅 v4，`StampTemplate` 直接包同形局部 content；删除
+    稀疏成员模型、`depthMode`、v2/v3 parser/upgrader/fallback 与临时 `stamp-draft-map` adapter。
+  - 地图 absolute H、组合 relative H、ghost/提交共用 `base + relative`；所有图层进入统一实际高度遮挡。
+  - 地图/组合直接复用 `IsometricEditorCanvas`、`IsometricEditorToolbar`、图层控件、网格和 renderer cache；
+    组合没有查看/编辑双状态，草稿只在保存时提交一笔 command。
+  - 当前 PAL 工程 223 图/446 层原子迁移为 v4；当前工程没有真实组合模板，因此组合 schema/相对高度
+    验收按卡文明确只使用 synthetic fixture，不宣称真实组合数据验证。
+- 已通过：content/reforge/editor/migrate 四包 typecheck；content 全量 42 files / 482 tests；reforge 全量
+  100 files / 1020 tests；editor 全量 131 files / 970 tests；migrate 定向 4 files / 32 tests；editor 关键
+  定向 14 files / 266 tests。changed TypeScript/TSX Biome 与 `git diff --check` 通过；仅 `editor.css` 保留
+  4 条既有 visually-hidden `!important` warning。
+- Reforge 与 Editor production build 各执行一次并通过；均只有既有 chunk size warning，没有二次重复构建。
+- 最小浏览器验收 `1280×720` 通过：组合页直接显示共享 toolbar/画布/图层，中央 surface `796×653`、viewport
+  `796×577`，不再退回 120px；右侧“瓦片”Tab 有来源选择器与 452 个 tile，Console warning/error 0。
+- 旧实现 census：`ProjectMapV1/V2/V3`、`StampTemplateV1`、`stamp-draft-map`、`layerSlots`、`depthMode`、
+  `ProjectMap.tilesetId`、flat/height instance 统计在四个实现包中均为 0。
 - 验证纪律：遵守用户“长时验证只跑一次”；先 focused/typecheck，最终只做一次必要全量/build。
 
 ## 用户验收
@@ -331,19 +351,14 @@ MULTI-TILESET 卡 KM1-KM3/MT1-MT4。只读审查，未改实现文件，未提�
 ## 下一位 Agent 提示词
 
 ```text
-接手 ED-STAMP-MAP-MODEL-1 组合/地图共享等距内容模型与相对高度。
+审查 ED-STAMP-MAP-MODEL-1 组合/地图共享等距内容模型与相对高度实现。
 任务卡：docs/ops/tasks/ED-STAMP-MAP-MODEL-1-shared-isometric-content-relative-height.md
-当前状态：draft / build blocked；Codex 已签 premise verified + design agree，Kimi/GLM 待签。
-你的角色：独立 schema/架构或数据/迁移审查；不得修改实现文件。
+当前状态：review；Codex 已完成 canonical 切版、自测、一次 production build 和最小浏览器验收并签 accept。
+你的角色：Kimi/GLM 独立实现审查；除非 counter 指向明确缺陷，否则不得扩范围改实现。
 先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡、W7G-composite-tile-stamps.md、
 ED-MAP-MULTI-TILESET-1-multi-tileset-map-authoring.md、project-map.ts、stamp.ts、stamp-placement.ts、
 stamp-template.ts、reforge/render.ts。
-已完成：已核实 Stamp 稀疏 members / ProjectMap 矩阵双模型；placement 无 baseHeight 且直接写 member.height；
-renderer 以 depthMode 排除 flat cover。用户已拍板组合是局部小地图、相对 H5 + 放置 H5 = 实际 H10、
-所有层按实际高度遮挡。多瓦片全量 census 已排除 per-cell 对象落盘，推荐 source-index matrix。
-请你做：独立核验 premise；压力测试共享 content（非 StampMap 文档）、紧凑并行矩阵、删除 depthMode、
-map absolute/stamp relative envelope、nullable collision membership、选区导入按最小高度正规化、一次 version cut；
-给出直接证据、最强反证、可证伪观察和测试钉。
-不要做：不得实现，不得提交当前共享画布 WIP，不得用旧 W7G 签字授权新前提。
-输出要求：在任务卡签 premise verified/counter + design agree/counter；counter 时写收敛方案和用户待拍板点。
+请核验：唯一 v4、旧 token/adapter 零残留；共享 content/画布不是转换伪复用；H5+baseH5=H10；nullable
+collision；所有层 actual H 遮挡；save/undo/reopen；当前工程切版与验证证据。
+输出要求：在“进入 done 前”签 accept，或写 counter 的文件锚点、复现和最小返工项；不得标 done，仍需三方 accept。
 ```

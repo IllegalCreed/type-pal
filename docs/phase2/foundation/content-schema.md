@@ -66,24 +66,25 @@ scene = {
 
 加载只碰这个包 + 它引用的素材。跨场景影响 → 改 L1 世界态 / 世界变量，别的场景下次加载自然反映。
 
-## 5. 地图 Schema（尺寸可变 + 多层 + 实例高度 + 碰撞层）
+## 5. 共享等距内容与 ProjectMap v4（尺寸可变 + 多来源 + 实例高度 + 碰撞层）
 
-> ✅ **ProjectMapV2 已落地（2026-07-14，W7F）**：W7D 的 OwnMap v1 与 W7E 的双格式兼容
-> 方案均已被本节取代。旧 packed Tilemap 只允许出现在 pal-extract 和 migrate 的输入侧；
-> content、reforge、editor 只接受 `ProjectMapV2`。
+> ✅ **ProjectMap v4 / 共享等距内容已落地（2026-08-19，ED-STAMP-MAP-MODEL-1 +
+> ED-MAP-MULTI-TILESET-1）**：地图和组合直接消费同一个 `IsometricMapContent`；旧 packed Tilemap
+> 只允许出现在 pal-extract 和 migrate 输入侧，v2/v3、单 `tilesetId`、`depthMode` 与兼容 upgrader
+> 均已从 content、reforge、editor 当前版本删除。
 
 ```jsonc
 {
-  "version": 2,
+  "version": 4,
   "width": 24,
   "height": 24,
-  "tilesetId": "tileset-020",
+  "tilesetRefs": ["tileset-001", "tileset-020"],
   "layers": [
     {
       "id": "floor",
       "name": "地板",
-      "depthMode": "height",
       "tiles": [/* 2 * height 行 × width 列；tileId | null */],
+      "sources": [/* 同尺寸；tilesetRefs 下标 | null */],
       "heights": [/* 同尺寸；每次放置实例自己的非负整数高度 */]
     }
   ],
@@ -91,10 +92,17 @@ scene = {
 }
 ```
 
-`layers` 数组序就是 z 序，编辑/引用使用稳定 `layer.id`；错排 lattice 行奇偶只负责几何，
-不再暴露旧格式 `h`。角色按逻辑格行走时，该格对应的两个子格碰撞值任一非 0 即阻挡。
-`depthMode: "height"` 的瓦片实例按自己的高度参与遮挡；`flat` 层高度恒为 0，可省略
-`heights`。任何 `null` 瓦片的高度都必须为 0。
+`layers` 数组序就是 z/tie-break 序，编辑/引用使用稳定 `layer.id`；错排 lattice 行奇偶只负责几何，
+不再暴露旧格式 `h`。`tilesetRefs` 按稳定 id 字典序排列；`sources` 与 `tiles` 同形并 lockstep，
+非空来源值指向 `tilesetRefs`。单来源文档落盘时可省略完全可推导的 `sources`，加载后仍物化为完整矩阵；
+多来源文档必须显式保存。全 0 `heights` 同样可省略。任何 `null` 瓦片的来源必须为 `null`、高度必须为 0。
+所有图层的非空瓦片都按实例实际高度参与遮挡，不存在 `flat | height` 图层分叉。角色按逻辑格行走时，
+该格对应的两个子格碰撞值任一非 0 即阻挡。
+
+组合模板不是第二种地图文档，而是带 `id/name/origin/category/anchor` envelope 的局部
+`IsometricMapContent<number|null>`：地图 `heights` 是绝对高度，组合 `heights` 是相对高度，放置唯一公式为
+`actualHeight = placementBaseHeight + relativeHeight`。组合 nullable collision 中 `null` 表示不参与放置，
+`0` 表示显式可通行；地图 collision 则是完整 number 矩阵。
 
 ### 5.1 地图资产注册与场景绑定（W7F，2026-07-14）
 
@@ -113,7 +121,7 @@ scene = {
 - `MapAssetDefV1.id` 是场景、编辑器和缓存使用的稳定身份；`name` 可改，`path` 只负责存储。
 - `SceneDef.mapId` 直接保存稳定 id，例如 `"home"`；不存在原版复用、自有地图或路径引用分支。
 - 注册表是资产发现真值。没有任何场景引用的地图仍须加载到编辑器、参与保存、克隆和 ZIP 导出。
-- PAL 的 223 张旧地图由 migrate 一次性转换成独立 V2 文件；编辑器和运行时不得在打开时猜格式或
+- PAL 的 223 张旧地图由 migrate 一次性转换成独立 v4 文件；编辑器和运行时不得在打开时猜格式或
   临时升级。旧工程必须先经过显式迁移，再进入编辑器。
 - editor/reforge 先读 index，再按 map id 懒加载正文；显示地图列表不得解析全工程地图。
 - 非法/绝对/越界 path、重复 id/path、未知 `mapId`、索引缺文件和输出路径碰撞全部 fail-loud，
@@ -122,11 +130,12 @@ scene = {
 突破原版「2 视觉层」+「定长尺寸」两重天花板，泛化成：
 
 - **尺寸可变（每图自带 width/height）**：原版被 C 定长数组 `Tiles[128][64][2]`（sdlpal map.h:61，提取器 `map.ts:15` 把 64×128 写死成常量）焊成恒定 64×128，小场景也背满 8192 空格。新引擎把尺寸当**每张图自带的数据**，不是全局常量。**两个层次划清**：①每图一个有限矩形网格、尺寸可变 = **现在就做**（渲染 / 碰撞本就按 width/height 跑，近乎白送；小场景所见即所得，大场景突破天花板，编辑器画多大就是多大）；②超大无缝世界 / 分块（chunk）流式加载 = MMO 级，**现在不做、只留口**（别把「一张地图 = 单个有限 cells 网格、坐标单一原点」焊死到将来加不进分块）。
-- **N 个视觉层**：每层带 z 序（画的先后）和深度模式；原版两层只是迁移输入中的一个特例。
+- **N 个视觉层**：数组序仅负责 z/tie-break；每层有稳定 id，原版两层只是迁移输入中的一个特例。
 - **实例高度**：高度与坐标、图层、这次瓦片放置绑定，不属于瓦片元数据；同一 tileId 可在不同格使用不同高度。
 - **独立碰撞 / 地形层**：不止「能不能走」，每格可带地形类型、移动属性、触发区。把原版藏在 tile 里的障碍 bit 独立出来（呼应你说的「算三层」）。
 - **真立交 / 楼层**：靠「多层 + 每层可行走性 + 角色当前所在层」表达，不再 fake 成两张图。**schema 现在留足表达力；角色跨层行走的引擎实现是 P1 的活。**
-- 字段：宽高尺寸（每图自带，非全局常量）、每层瓦片引用、瓦片集素材引用。
+- **多瓦片来源**：同图同层可以同时放置不同瓦片集的同号 tileId；切换绘制来源不会重新解释已有格。
+- 字段：宽高尺寸（每图自带，非全局常量）、每层 tile/source/height 并行矩阵、内容级瓦片集引用表。
 
 ### tile（地）还是 entity（物）？
 
@@ -393,12 +402,14 @@ content/
 `{id, name, category, asset}`。
 - `id` 是地图/组合模板引用的稳定语义身份(不含 `/`)；`asset` 是不透明 AssetId，必须指向 catalog 中
   `kind=tileset` 的记录。物理路径只允许出现在该 AssetRecord，禁止从任一 id 或原版编号推导。
-- 唯一加载链为 `ProjectMap.tilesetId -> TilesetDef.id -> TilesetDef.asset -> AssetRecord.path ->
-  AssetResolver -> FileSource`；canonical 文件是 gzip 包裹的 GOP 索引帧组，bytes/SHA 描述保存的 gzip 字节。
+- 唯一加载链为 `ProjectMap.tilesetRefs[] -> TilesetDef.id -> TilesetDef.asset -> AssetRecord.path ->
+  AssetResolver -> FileSource`；运行时按引用并集加载 registry，逐格通过 `sources` 解析。canonical 文件是
+  gzip 包裹的 GOP 索引帧组，bytes/SHA 描述保存的 gzip 字节。
 - `path` 只允许在旧 contentVersion 3 本地工程的一次性升级输入中出现；canonical content、运行时和编辑器
   工作态均拒绝 `path | asset` 双轨。
 - 上传管线:PNG → 网格切片 → **量化到工程标准色彩**(D25 第 4 条;最近邻,alpha<128 透明)→
   `encodeSpriteChunk` + gzip 落盘 —— 存索引 1B/px,不烘 RGBA(D25 第 2 条),渲染与
   原版同一条「索引帧 + 标准色彩 → bake」单路。tileset 不保存 `paletteId`，编辑器不暴露颜色表选择器。
-- `ProjectMapV2.tilesetId` 必须引用注册表稳定 id，不允许路径直通。
+- `ProjectMap.tilesetRefs[]` 必须引用注册表稳定 id，不允许路径直通；删除任一被地图或组合逐格引用的
+  来源必须 fail-loud。
 - tileset 只描述图像资源，不拥有地图放置实例的高度；禁止恢复 `tileId -> height` 映射。

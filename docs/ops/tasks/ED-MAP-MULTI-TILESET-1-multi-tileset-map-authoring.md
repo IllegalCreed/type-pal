@@ -1,6 +1,6 @@
 # ED-MAP-MULTI-TILESET-1 - 地图多瓦片集作者模型
 
-Status: build
+Status: review
 Phase: phase2
 Capability: 地图/组合瓦片来源模型纠偏（schema/save/runtime/editor）
 Coding Owner: Codex
@@ -9,18 +9,19 @@ Branch: main
 
 ## 目标
 
-瓦片集只负责归类同一风格或同一类型的瓦片，不再充当“一张地图唯一绑定的全局皮肤”。作者在地图右侧“瓦片”
-Tab 中选择来源瓦片集和具体瓦片；同一地图可同时使用多个瓦片集，已有格子的来源不会因切换当前 palette 而被重解释。
+瓦片集只负责归类同一风格或同一类型的瓦片，不再充当“一张地图唯一绑定的全局皮肤”。作者在地图右侧“绘制”
+Tab 的瓦片区选择来源瓦片集和具体瓦片；同一地图可同时使用多个瓦片集，已有格子的来源不会因切换当前 palette 而被重解释。
 组合模板的视觉成员也必须保留可独立解析的瓦片来源，才能无损放入使用多个瓦片集的地图。
 
 ## 范围
 
 - 范围内：ProjectMap、StampTemplate、加载/渲染、编辑 patch/clipboard/stamp、保存/校验/引用扫描、当前工程重迁、
-  “瓦片”Tab 的来源选择与 palette。
+  地图“绘制”Tab 瓦片区、组合“瓦片”Tab 的来源选择与 palette。
 - 范围外：瓦片二进制格式本身、碰撞语义、图层/高度语义、linked prefab。
 - 上游依赖：`ED-STAMP-MAP-MODEL-1` 正在重定组合/地图共享 content、相对高度与 depthMode；两卡必须合并为
   一次 canonical version cut。该卡三签前，本卡即使来源表达已收敛也不得独立进入 build。
 - 产品铁律：地图属性不再提供“替换整张地图瓦片集”的单值下拉；切换 palette 只改变后续笔刷来源，不改已有格子。
+- 后续 UI 裁决：地图右栏把“瓦片/组合”上下合并为一个“绘制”Tab；这只合并绘制入口，不恢复地图级单来源。
 - 开发期版本纪律：版本切换后删除旧 schema/upgrader/fixture/fallback；历史只由 Git 保存。
 
 ## 前提真值门
@@ -33,7 +34,7 @@ Tab 中选择来源瓦片集和具体瓦片；同一地图可同时使用多个�
 | 原版 / primary source | N/A：这是 Reforge 作者数据模型与 UI 产品决策，不裁决原版地图文件机制。 | `docs/phase2/READ-FIRST.md:1-16,38-41`。 |
 | 第一阶段 | N/A：本卡不改变第一阶段忠实还原数据；只重构第二阶段 canonical 作者模型。 | `CLAUDE.md:5-13`。 |
 | 当前二阶段 | `MapLayerV2.tiles` 只存裸 `number|null`，`ProjectMapBase` 只有一个 `tilesetId`；validator 也只返回该单值。运行时 `loadSceneMap` 只加载这一个 tileset。`StampTemplateV1` 同样只有全局 `tilesetId`，placement 直接拒绝 map/template tileset 不同。现有“换瓦片集”命令明确不重映射裸索引。 | `packages/content/src/project-map.ts:1-23,147-203`；`packages/reforge/src/scene-map.ts:6-22`；`packages/content/src/stamp.ts:29-38,85-127`；`packages/editor/src/core/stamp-placement.ts:145-158`；`packages/editor/src/core/commands.ts:1266-1293`。 |
-| 本任务目标 | 同一地图和组合可保留多个稳定瓦片来源；来源选择属于右侧“瓦片”Tab，切换 palette 不改已有内容。 | 用户 2026-08-18 明确指出“瓦片集用于归类统一风格或同类瓦片，并不是一张地图只能绑定一个瓦片集”。 |
+| 本任务目标 | 同一地图和组合可保留多个稳定瓦片来源；地图来源选择属于右侧“绘制”Tab 的瓦片区，组合来源在“瓦片”Tab，切换 palette 不改已有内容。 | 用户 2026-08-18 明确指出“瓦片集用于归类统一风格或同类瓦片，并不是一张地图只能绑定一个瓦片集”。 |
 
 ### 反证与替代解释
 
@@ -48,7 +49,7 @@ Tab 中选择来源瓦片集和具体瓦片；同一地图可同时使用多个�
 
 ## 验收条件
 
-- “属性”不再出现全局瓦片集替换；“瓦片”Tab 可搜索/选择来源瓦片集并从其 palette 取瓦片。
+- “属性”不再出现全局瓦片集替换；地图“绘制”Tab 瓦片区与组合“瓦片”Tab 可选择来源并从其 palette 取瓦片。
 - 同一地图同一视觉层至少放置两个不同 tileset 的同号 tileId，保存/重开/undo/redo 后来源和值均不变。
 - 切换当前 palette、重排 registry、删除未引用 tileset 均不重解释已有格子；删除被引用来源 fail-loud 并列出引用。
 - 组合模板可保留多来源成员并放入多来源地图，不再用全局 tileset mismatch 拒绝；placement 快照语义不变。
@@ -135,10 +136,29 @@ Tab 中选择来源瓦片集和具体瓦片；同一地图可同时使用多个�
 
 ### 进入 done 前
 
-- Codex: pending
+- Codex: **accept（2026-08-19）**。KM1/KM2、MT1-MT4 全部落地；当前工程 census、同号 tileId 双来源、
+  runtime 并集加载、引用删除阻断、来源切换不重解释、stamp 多来源放置与 UI palette 均已验证。
 - Kimi: pending
 - GLM: pending
 - done 准入结论: blocked
+
+## Build: 实现与自测
+
+- 2026-08-19 Codex 已按 KM1/KM2、MT1-MT4 与上游共享 content 卡合并完成一次 canonical cut：
+  `tilesetRefs` 字典序稳定表 + `tiles/sources/heights` 并行矩阵；patch/clipboard/transform/stamp/renderer/
+  引用扫描全部逐格解析来源；组合放置不再有全局 tileset mismatch；来源选择位于“绘制 → 瓦片”。
+- 单来源 JSON 可省略确定性 `sources`；多来源必须显式保存，validator 加载后总是物化完整矩阵，且
+  tile/source 空值 lockstep、下标越界、未知 TilesetDef 全部 fail-loud。
+- PAL 全量结果：223 地图、446 层、3,996,116 非空格、0 悬空来源；二跑 `changed=0`。第一次强制写
+  sources 为 77,324,353 B，触发 MT2 后改为单来源省略；最终 maps 目录 52,517,553 B → 51,508,403 B，
+  减少 1,009,150 B（约 -0.253 B/非空格），满足 +2~3 B/格上限。
+- 已通过：content/reforge/editor/migrate 四包 typecheck；content 42 files / 482 tests；reforge 100 files /
+  1020 tests；editor 131 files / 970 tests；migrate 4 files / 32 tests；同号 tileId 双来源 round-trip、registry
+  重排、删除引用、stamp 多来源放置、undo/redo 与迁移幂等均有 fixture。Reforge/Editor production build 各一次
+  通过；changed TypeScript/TSX Biome 与 `git diff --check` 通过。
+- 浏览器 `1280×720`：组合“瓦片”Tab 可选择来源并显示当前 tileset 的 452 个 tile；地图“绘制”Tab 同时显示
+  来源选择器、452 个 tile 与 6 个组合，属性 Tab 不含瓦片集单值绑定；中央共享 viewport `796×577`，两页
+  Console warning/error 0。
 
 ## 交接日志
 
@@ -165,14 +185,14 @@ Tab 中选择来源瓦片集和具体瓦片；同一地图可同时使用多个�
 ## 下一位 Agent 提示词
 
 ```text
-接手 ED-MAP-MULTI-TILESET-1 地图多瓦片集作者模型。
+审查 ED-MAP-MULTI-TILESET-1 地图多瓦片集作者模型实现。
 任务卡：docs/ops/tasks/ED-MAP-MULTI-TILESET-1-multi-tileset-map-authoring.md
-当前状态：draft / build blocked；Codex 只签 premise，design 与 Kimi/GLM 签字未齐；不得开始实现。
+当前状态：review；Codex 已完成一次切版、自测、production build 与最小浏览器验收并签 accept。
 先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文、packages/content/src/project-map.ts、stamp.ts、
 packages/reforge/src/scene-map.ts、render.ts、packages/editor/src/core/stamp-placement.ts、commands.ts、
 packages/editor/src/ui/MapMode.tsx 的属性/瓦片面板与 scene-stage.ts。
 用户铁律：瓦片集是风格/类型来源分类；一张地图可同时使用多个；来源选择在“瓦片”Tab，切换 palette 不改已有格子。
-请独立核验 premise，并比较 per-cell ref、并行 source matrix、palette binding 三种 canonical 表达；必须覆盖确定性格式、
-存储体积、渲染查找、patch/clipboard/stamp、引用删除、当前工程重迁与旧版本同卡删除。
-输出：premise verified/counter + design agree/counter，直接证据行号、最强反证、必改钉和测试矩阵。不得改实现文件。
+请核验：KM1/KM2、MT1-MT4；同号 tileId 双来源 round-trip；来源切换不重解释；runtime 并集加载；
+patch/clipboard/stamp/ref scan；223 图迁移与 51,508,403 B 终态；旧单 tileset 语义零残留。
+输出：在“进入 done 前”签 accept，或写 counter 的文件锚点、复现与最小返工项。不得标 done，仍需三方 accept。
 ```

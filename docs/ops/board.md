@@ -24,10 +24,10 @@
 | ED-CATALOG-CONTROLS-1 | 编辑器全局目录筛选区统一 | done | 三方 accept + 用户验收齐，整卡收口 | GC1-GC5/CK1-CK2/RK-A 全闭环；editor 912 复跑全绿；palette debt 见 ED-MAP-PALETTE-CONTROLS-1 |
 | ED-WORLD-VARIABLES-1 | 世界变量定义表与作者工作台 | review | Kimi + GLM 独立 review 并分别 accept/counter | Codex 自验 accept；Content/Reforge/Editor/Migrate 3113 tests、两项 build、三档布局通过 |
 | ED-SHARED-SCRIPT-UI-1 | 可复用脚本工作台与通用脚本控件收敛 | review | Kimi + GLM 独立审查并分别 accept/counter | build/自测/三档视觉验证完成；真实 callScript caller 往返留给 review 补验 |
-| ED-STAMP-EDITOR-1 | 组合模板内容编辑闭环 | blocked | 等 ED-STAMP-MAP-MODEL-1 三签并落地 | 最新用户 counter 推翻稀疏 adapter/私有画布路线；旧 review 证据仅作历史保留 |
+| ED-STAMP-EDITOR-1 | 组合模板内容编辑闭环 | review | Kimi + GLM 按替代模型独立审查 | 共享 content/画布、多来源、relative H 已落地；Codex accept，1280×720 通过 |
 | ED-MAP-PALETTE-CONTROLS-1 | 地图组合 Palette 控件统一 | review | Kimi/GLM 独立 review | Codex accept；`5dccf549` 已推送；focused 83 + full 942、三档零横滚、Console 0，census 已收紧 |
-| ED-STAMP-MAP-MODEL-1 | 组合/地图共享内容模型与相对高度 | build | Codex 合并实现共享 content、相对高度与多瓦片来源 | 三签齐；KS1-KS3、SM1-SM4 为 build 硬门；只做一次 canonical 版本切换 |
-| ED-MAP-MULTI-TILESET-1 | 地图多瓦片集作者模型 | build | 与 ED-STAMP-MAP-MODEL-1 同一 Coding Owner、同次切版 | 三签齐；紧凑 source matrix；组合放置删除全局 tileset mismatch |
+| ED-STAMP-MAP-MODEL-1 | 组合/地图共享内容模型与相对高度 | review | Kimi + GLM 独立 review | Codex accept；唯一 v4、relative H、共享 content/画布、当前工程切版均完成 |
+| ED-MAP-MULTI-TILESET-1 | 地图多瓦片集作者模型 | review | Kimi + GLM 独立 review | Codex accept；紧凑 source matrix、runtime/编辑/组合放置与 223 图迁移完成 |
 | OPS-TST-PERF-B | shared/fresh 隔离并行 runner | build | **用户 2026-08-18 暂缓**；先处理功能与样式 | 不再启动长时 proof；既有候选与证据保留，恢复后继续，默认串行不变 |
 | OPS-TST-PERF-C | P2/P3/P4 consolidated determinism proof | build | **用户 2026-08-18 暂缓**；先处理功能与样式 | 不生成 coverage map / probe，不改 release route；恢复后从当前门禁继续 |
 

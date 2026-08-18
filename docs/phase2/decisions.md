@@ -430,3 +430,29 @@ render.ts:295-346），只差审美取向。
    审美类判定（如 D6-1 遮挡 alpha 定稿）与抽查。
 3. 影响：D14-2 未实跑段（求雨 / 酒剑仙 / 结局）改走分段 e2e；后续演出类卡的验收条件统一
    写「分段 e2e + Kimi 抽验」而非「Kimi 视觉全验」。
+
+## D29 · 地图与组合共享等距内容、多瓦片来源与相对高度（2026-08-19，用户拍板）
+
+**背景**：单 `tilesetId` 让一张地图只能解释一种裸 tileId；组合又用稀疏成员表和私有画布，既不能
+复用地图编辑器，也无法表达“组合内部高度相对放置基面”。用户明确要求组合视为可复用局部小地图，
+同图可使用多个瓦片集，组合 H5 放在地图绘制 H5 时实际为 H10。
+
+**决定**：
+
+1. 地图与组合共同实现 `IsometricMapContent`：`width/height/tilesetRefs/layers/collision`；每层统一为
+   `tiles + sources + optional heights` 同形矩阵。组合只增加身份、作者来源和显式局部锚点，不进入 MapIndex。
+2. `ProjectMap` 当前唯一版本为 v4；地图高度是绝对值，组合高度是相对值，落图只允许
+   `actualHeight = placementBaseHeight + relativeHeight` 一条公式。所有层实例都按实际高度参与遮挡，
+   `depthMode` 退役。
+3. `tilesetRefs` 按稳定 id 排序，`sources` 保存其下标并与 `tiles` lockstep。同图同层不同来源的同号
+   tileId 保持可区分；绘制时切换来源不重解释已有格。单来源 JSON 可省略可推导的 `sources`，多来源必须保存。
+4. 地图 collision 是 dense number；组合 collision 是 nullable matrix，`null` 为不参与放置、`0` 为显式
+   可通行。组合 placement 仍是非链接快照；修改模板不回写既有地图放置。
+5. 地图与组合直接复用同一 `IsometricEditorCanvas`、渲染 cache、网格、工具栏、图层控件与瓦片 picker；
+   不保留 adapter、第二套 renderer 或“查看/编辑”双状态。
+6. 正式上线前只保留当前 canonical：v2/v3 parser、旧 Stamp 稀疏类型、upgrader、fallback 和旧 fixture
+   同次删除；当前 PAL 223 张地图原子切到 v4，历史只由 Git 保存。
+
+**影响**：D26 的“单一当前地图格式”原则保留，但其中 `ProjectMapV2` 名称、单瓦片集和图层深度分叉由本决策
+取代。瓦片集现在是可逐格选择的来源分类，不是整图绑定；地图和组合的编辑/预览/放置/引用扫描必须沿同一
+来源解析链运行。

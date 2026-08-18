@@ -43,13 +43,13 @@ editor  (React vite app,新建)
    └─ main.tsx
 ```
 
-> **边界**:`core/` 是纯逻辑(可单测、无 React、无 DOM),React 只是它的视图——沿用本仓「纯逻辑与视图分离」惯例(如 reforge 的 state 机)。编辑器**不碰 game/pal-extract**；地图只使用 content 的 `ProjectMapV2`，旧 packed Tilemap 只存在于 migrate 输入侧。
+> **边界**:`core/` 是纯逻辑(可单测、无 React、无 DOM),React 只是它的视图——沿用本仓「纯逻辑与视图分离」惯例(如 reforge 的 state 机)。编辑器**不碰 game/pal-extract**；地图只使用 content 的当前 `ProjectMap` v4，组合直接复用其 `IsometricMapContent`，旧 packed Tilemap 只存在于 migrate 输入侧。
 
 ## 3. 渲染复用(第一根地基)—— 投查结论
 
 reforge 的渲染是纯 blitter,零游戏状态耦合。复用需三步(都不重写逻辑):
 
-1. **reforge 提供稳定包出口**：导出 `Canvas2DRenderer`、场景绘制类型、ProjectMapV2 地图加载/渲染、tileset/sprite/palette 资产加载、项目 loader 和碰撞查询；editor 不复制引擎逻辑。
+1. **reforge 提供稳定包出口**：导出 `Canvas2DRenderer`、场景绘制类型、ProjectMap v4 地图加载/渲染、tileset registry、sprite/palette 资产加载、项目 loader 和碰撞查询；editor 不复制引擎逻辑。
 2. **抽「画一帧场景」函数**:把 `main.ts:288-323`(clear → 定相机 → 组 `SpriteDraw[]` → scale+`renderScene`)抽成 `renderSceneFrame(ctx, renderer, {map, room, camera, sprites})`,reforge 自己的 main 也改调它(去重,单一真源)。
 3. **editor 的 vite.config 复制 `serveDir` 中间件**(`/projects`、`/extracted` → 仓库根目录;和 game/reforge 同款,可抽成共享 vite 插件)。
 
@@ -125,12 +125,29 @@ interface EditorMode {
   命中的内容尚未全部入选时整批追加，已全部入选时整批移除；因此既能逐次组出不规则集合，又不会在框选部分重叠时意外反选旧成员。默认只命中活动层，“跨层选择”是显式 scope 开关且不改已有选区。全选只收集活动层非空视觉槽和非零碰撞格，不枚举无内容空格。
 - 单击命中与渲染共用 `projectMapTileBlitRect` 和 `RleFrame.opaque`：活动层内高大 tile 的不透明像素源格优先于光标逻辑格；跨层像素只进 Alt 候选。候选固定按面板层自上而下，同层按 row/col；键盘可导航，Esc 返回 canvas。选区叠加同时画源格菱形与实际图像边界。
 - 隐藏层不可见/不可命中/不可写，锁定层可见但普通命中和所有写入均禁止；聚焦/淡化和碰撞叠加显隐仅影响显示，不影响 hit policy 或“变换含碰撞”开关。活动层隐藏/锁定时不偷换层，而是显式进入只读并给出原因。
-- Inspector 把 tileId、实例 height 和 collision 分通道呈现/写入，多值显示“混合”。height 只处理非空 `depthMode=height` 实例，对 null/flat 显示跳过数或拒绝非法值；字段旁与全局底栏都有精确反馈，但只由底栏承担 live region，避免辅助技术重复播报。
-- 所有 Inspector/变换持久修改都走 channel-aware `ApplyProjectMapPatchCommand`：先完整校验坐标、图层、null/flat schema、隐藏/锁定权限和重复写入，再一次应用；失败零写入，invert 同时恢复视觉与碰撞 prev。no-op Command 不入 history、不置脏、不清 redo；undo/redo 执行失败不丢栈顶。
-- 结构化地图剪贴板保留相对错排坐标、稳定图层映射、tileId/height 和显式 included/excluded collision；移动、复制、剪切、粘贴、重复、删除均先生成完整预览/冲突计划，取消/覆盖不静默，每个用户动作只一笔 undo。变换预览期间 Inspector 与破坏性快捷键被锁定。
+- Inspector 把 tileset 来源、tileId、实例 height 和 collision 分通道呈现/写入，多值显示“混合”。所有非空
+  图层实例均可编辑高度；null 格没有来源且高度必须为 0。字段旁与全局底栏都有精确反馈，但只由底栏承担
+  live region，避免辅助技术重复播报。
+- 所有 Inspector/变换持久修改都走 channel-aware `ApplyProjectMapPatchCommand`：先完整校验坐标、图层、
+  tile/source lockstep、隐藏/锁定权限和重复写入，再一次应用；失败零写入，invert 同时恢复视觉、来源、高度与
+  碰撞 prev。no-op Command 不入 history、不置脏、不清 redo；undo/redo 执行失败不丢栈顶。
+- 结构化地图剪贴板保留相对错排坐标、稳定图层映射、tilesetId/tileId/height 和显式 included/excluded
+  collision；移动、复制、剪切、粘贴、重复、删除均先生成完整预览/冲突计划，取消/覆盖不静默，每个用户动作
+  只一笔 undo。变换预览期间 Inspector 与破坏性快捷键被锁定。
 - W8 只在 selection 代数类型中预留 `stamp-placement`。W7G 若要实现“保存重开后仍能整章选中”，必须另开三签 schema 任务持久化非链接 placement group；不得从相邻普通格猜组，不得让模板暗中回写已有放置。
 
 实现、测试矩阵和 27%/103% 浏览器证据统一记录在 [W8 任务卡](../../ops/tasks/W8-map-content-selection-inspector.md)。
+
+### 5.2.2 地图/组合共享编辑面与来源面板（2026-08-19）
+
+- 地图与组合的中央区域直接渲染同一个 `IsometricEditorCanvas`，共享 base cache、裁剪、网格、图层显隐、
+  pointer lattice 与 `IsometricEditorToolbar`；组合只提供锚点/局部选择 overlay，不准再建 adapter 或私有 renderer。
+- 组合没有“查看/编辑”双状态：选中模板即进入同一编辑面，属性承载名称/分类/稳定 id/尺寸/锚点，引用独立成 Tab；
+  图层控件复用地图版本。所有草稿只在“保存组合”时提交一笔 command，取消/离开先确认。
+- 右栏“绘制”Tab 上下排列瓦片与组合。瓦片区先选择来源瓦片集，再从共享 `TilePickerGrid` 选 tile；默认侧栏宽度
+  一行五项。地图和组合都能在同一次编辑中使用多个来源，来源切换只影响下一笔。
+- 组合高度是相对 H，地图高度是绝对 H；共享工具栏仍只展示一个绘制高度选项。放置 ghost 与提交必须共用
+  `base + relative` 解析，避免预览和落图漂移。
 
 ### 5.3 音乐资源工作台(A7-0,2026-07-15)
 
