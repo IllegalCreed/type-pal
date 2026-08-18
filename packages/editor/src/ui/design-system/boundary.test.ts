@@ -769,4 +769,14 @@ describe('editor design-system static boundary', () => {
     expect(surface).toMatch(/<IsometricEditorCanvas\b/)
     expect(surface).toMatch(/canonicalizeStampDraft/)
   })
+
+  test('keeps editable and read-only map properties on one compact row rhythm', () => {
+    const uiRoot = dirname(here)
+    const mapMode = readFileSync(join(uiRoot, 'MapMode.tsx'), 'utf8')
+    const businessCss = readFileSync(join(uiRoot, 'editor.css'), 'utf8')
+    expect(mapMode).toMatch(/className="section map-properties-section" data-ds-density="compact"/)
+    expect(businessCss).toMatch(
+      /\.map-properties-section > \.field\s*\{[\s\S]*?min-height:\s*var\(--ds-control-height-compact\);[\s\S]*?margin-bottom:\s*var\(--ds-space-2\);/,
+    )
+  })
 })

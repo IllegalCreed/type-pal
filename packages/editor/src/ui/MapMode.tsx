@@ -3562,7 +3562,7 @@ export function MapMode(props: {
                       onValidationError={(message) => notifyWorkspace('error', message)}
                     />
                   ) : (
-                    <div className="section">
+                    <div className="section map-properties-section" data-ds-density="compact">
                       <h4>地图</h4>
                       {selectedAsset ? (
                         <>

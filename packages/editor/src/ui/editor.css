@@ -12027,6 +12027,15 @@ button.sprite-frame-cell[draggable="true"]:active {
   width: 64px;
 }
 
+/* 地图属性表：可编辑控件与只读值共享同一紧凑行高，避免表格节奏随字段类型跳变。 */
+.map-properties-section > .field {
+  min-height: var(--ds-control-height-compact);
+  margin-bottom: var(--ds-space-2);
+}
+.map-properties-section > .field:last-child {
+  margin-bottom: 0;
+}
+
 .map-file {
   max-width: 150px;
   overflow-wrap: anywhere;
