@@ -1,12 +1,17 @@
 import type { AssetCatalogV1, StampTemplateV1 } from '@type-pal/content'
 import type { AssetBase, TilesetDef } from '@type-pal/reforge'
-import { bakeFrame, latticeCenter, pixelToLattice, projectMapTileBlitRect } from '@type-pal/reforge'
+import {
+  Canvas2DRenderer,
+  isLatticeInside,
+  latticeCenter,
+  latticeInMapRect,
+  pixelToLattice,
+} from '@type-pal/reforge'
 import { type PointerEvent as ReactPointerEvent, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import {
   type IsometricBrushSize,
-  isometricBrushDraftRowExtension,
   isometricBrushPoints,
 } from '../core/isometric-brush.js'
 import { floodFillIsometricTiles } from '../core/isometric-fill.js'
@@ -25,11 +30,11 @@ import {
   reanchorStampDraft,
   setStampDraftCollision,
   setStampDraftVisual,
-  stampDraftBounds,
   stampDraftPoint,
   stampDraftPointKey,
   updateStampDraftLayer,
 } from '../core/stamp-draft.js'
+import { stampDraftMapAdapter } from '../core/stamp-draft-map.js'
 import {
   DsButton,
   DsCheckbox,
@@ -41,13 +46,15 @@ import {
 import { IsometricEditorCanvas } from './IsometricEditorCanvas.js'
 import { IsometricEditorSurface } from './IsometricEditorSurface.js'
 import { type IsometricEditorTool, IsometricEditorToolbar } from './IsometricEditorToolbar.js'
+import {
+  drawIsometricMapBase,
+  type IsometricMapBaseCache,
+} from './isometric-map-render.js'
 import { LayerStackControls } from './LayerStackControls.js'
+import { drawMapSelectionOverlay } from './map-selection-overlay.js'
 import { loadStampPreviewAssets, type StampPreviewAssets } from './StampPreviewCanvas.js'
+import { mapBoxOf, useStageSize, useViewZoomPan } from './scene-stage.js'
 import { TilePickerGrid } from './TilePickerGrid.js'
-
-const STAMP_DRAFT_LATTICE_SCALE = 2
-const STAMP_DRAFT_CELL_WIDTH = 32 * STAMP_DRAFT_LATTICE_SCALE
-const STAMP_DRAFT_CELL_HEIGHT = 16 * STAMP_DRAFT_LATTICE_SCALE
 
 function parsePointKey(key: string): GridPointRef {
   const [row, col] = key.split(':').map(Number)
@@ -80,9 +87,8 @@ export function StampContentEditor(props: {
   const [brushSize, setBrushSize] = useState<IsometricBrushSize>(1)
   const [showGrid, setShowGrid] = useState(true)
   const [showCollision, setShowCollision] = useState(true)
-  const [stagePan, setStagePan] = useState({ x: 0, y: 0 })
   const [panning, setPanning] = useState(false)
-  const [hoverPoint, setHoverPoint] = useState<GridPointRef>()
+  const [paintTick, setPaintTick] = useState(0)
   const [selectedPointKeys, setSelectedPointKeys] = useState<Set<string>>(() => new Set())
   const [assets, setAssets] = useState<StampPreviewAssets>()
   const [assetError, setAssetError] = useState('')
@@ -94,6 +100,23 @@ export function StampContentEditor(props: {
   const [lockedSlotIds, setLockedSlotIds] = useState<Set<string>>(() => new Set())
   const [takeoverOpen, setTakeoverOpen] = useState(false)
   const stageCanvasRef = useRef<HTMLCanvasElement>(null)
+  const stageWrapRef = useRef<HTMLDivElement>(null)
+  const stageSize = useStageSize(stageWrapRef, 120)
+  const { view, viewRef, setView } = useViewZoomPan({
+    canvasRef: stageCanvasRef,
+    initial: { zoom: 1, panX: 0, panY: 0 },
+  })
+  const hoverPointRef = useRef<GridPointRef | undefined>(undefined)
+  const baseCanvasCacheRef = useRef<IsometricMapBaseCache | undefined>(undefined)
+  const rendererRef = useRef<
+    | {
+        context: CanvasRenderingContext2D
+        assets: StampPreviewAssets
+        renderer: Canvas2DRenderer
+      }
+    | undefined
+  >(undefined)
+  const fittedRef = useRef(false)
   const paintedPointRef = useRef<string | undefined>(undefined)
   const rectStartPointRef = useRef<GridPointRef | undefined>(undefined)
   const panStartRef = useRef<
@@ -113,6 +136,7 @@ export function StampContentEditor(props: {
   const activeSlot = draft.layerSlots.find((slot) => slot.id === activeSlotId)
   const activeSlotHidden = hiddenSlotIds.has(activeSlotId)
   const activeSlotLocked = lockedSlotIds.has(activeSlotId)
+  const draftMap = useMemo(() => stampDraftMapAdapter(draft), [draft])
 
   useEffect(() => props.onDirtyChange?.(dirty), [dirty, props.onDirtyChange])
   useEffect(() => {
@@ -144,18 +168,9 @@ export function StampContentEditor(props: {
       (next) => {
         if (!alive) return
         setAssets(next)
-        const firstTileId = [...next.frames.keys()].sort((left, right) => left - right)[0]
-        if (firstTileId === undefined) {
+        if (next.frames.size === 0) {
           setAssetError(`瓦片集 “${draft.tilesetId}” 没有可用瓦片。`)
-          return
         }
-        setSelectedTileId((current) => (next.frames.has(current) ? current : firstTileId))
-        if (props.mode === 'create' && draft.visual.length === 0 && activeSlotId)
-          setDraft((current) =>
-            current.visual.length
-              ? current
-              : setStampDraftVisual(current, activeSlotId, { row: 0, col: 0 }, firstTileId, 0),
-          )
       },
       (cause) => {
         if (alive) setAssetError(cause instanceof Error ? cause.message : String(cause))
@@ -165,15 +180,24 @@ export function StampContentEditor(props: {
       alive = false
     }
   }, [
-    activeSlotId,
     draft.tilesetId,
-    draft.visual.length,
     props.assetBase,
     props.assetReader,
-    props.mode,
     revision,
     tileset,
   ])
+
+  useEffect(() => {
+    const firstTileId = [...(assets?.frames.keys() ?? [])].sort((left, right) => left - right)[0]
+    if (firstTileId === undefined) return
+    setSelectedTileId((current) => (assets?.frames.has(current) ? current : firstTileId))
+    if (props.mode === 'create' && draft.visual.length === 0 && activeSlotId)
+      setDraft((current) =>
+        current.visual.length
+          ? current
+          : setStampDraftVisual(current, activeSlotId, { row: 0, col: 0 }, firstTileId, 0),
+      )
+  }, [activeSlotId, assets, draft.visual.length, props.mode])
 
   const update = (produce: (current: StampTemplateV1) => StampTemplateV1): void => {
     try {
@@ -197,26 +221,8 @@ export function StampContentEditor(props: {
       ),
     [activeSlotHidden, activeSlotId, draft.visual],
   )
-  const bounds = useMemo(() => {
-    const base = stampDraftBounds(draft, 2)
-    return { ...base, maxRow: base.maxRow + isometricBrushDraftRowExtension(brushSize) }
-  }, [brushSize, draft])
-  const latticePoints = useMemo(() => {
-    const points: GridPointRef[] = []
-    for (let row = bounds.minRow; row <= bounds.maxRow; row += 1)
-      for (let col = bounds.minCol; col <= bounds.maxCol; col += 1) points.push({ row, col })
-    return points
-  }, [bounds])
-  const latticePointKeys = useMemo(
-    () => new Set(latticePoints.map(stampDraftPointKey)),
-    [latticePoints],
-  )
-  const stageWidth =
-    (bounds.maxU - bounds.minU) * (16 * STAMP_DRAFT_LATTICE_SCALE) + STAMP_DRAFT_CELL_WIDTH + 32
-  const stageHeight =
-    (bounds.maxRow - bounds.minRow) * (8 * STAMP_DRAFT_LATTICE_SCALE) + STAMP_DRAFT_CELL_HEIGHT + 32
-  const stageOriginX = 16 - bounds.minU * (16 * STAMP_DRAFT_LATTICE_SCALE)
-  const stageOriginY = 16 - bounds.minRow * (8 * STAMP_DRAFT_LATTICE_SCALE)
+  const isDraftPointInside = (point: GridPointRef): boolean =>
+    isLatticeInside(draftMap.map, draftMap.toMapPoint(point))
   const tileEntries = useMemo(() => {
     const needle = tileQuery.trim()
     return [...(assets?.frames.entries() ?? [])]
@@ -245,7 +251,7 @@ export function StampContentEditor(props: {
     if (seed?.tileId === selectedTileId && (seed?.height ?? 0) === replacementHeight) return
     const filled = floodFillIsometricTiles({
       start: point,
-      isInside: (candidate) => latticePointKeys.has(stampDraftPointKey(candidate)),
+      isInside: isDraftPointInside,
       sampleAt: (candidate) => {
         const member = activeVisualByPoint.get(stampDraftPointKey(candidate))
         return member
@@ -301,9 +307,7 @@ export function StampContentEditor(props: {
     }
     if (tool === 'brush') {
       paintVisualPoints(
-        isometricBrushPoints(point, brushSize).filter((candidate) =>
-          latticePointKeys.has(stampDraftPointKey(candidate)),
-        ),
+        isometricBrushPoints(point, brushSize).filter(isDraftPointInside),
       )
       return
     }
@@ -331,15 +335,16 @@ export function StampContentEditor(props: {
       )
       return
     }
-    const minRow = Math.min(start.row, end.row)
-    const maxRow = Math.max(start.row, end.row)
-    const minCol = Math.min(start.col, end.col)
-    const maxCol = Math.max(start.col, end.col)
+    const startCenter = latticeCenter(draftMap.toMapPoint(start))
+    const endCenter = latticeCenter(draftMap.toMapPoint(end))
     paintVisualPoints(
-      latticePoints.filter(
-        (point) =>
-          point.row >= minRow && point.row <= maxRow && point.col >= minCol && point.col <= maxCol,
-      ),
+      latticeInMapRect(
+        draftMap.map,
+        startCenter.x,
+        startCenter.y,
+        endCenter.x,
+        endCenter.y,
+      ).map(draftMap.toDraftPoint),
     )
   }
 
@@ -372,127 +377,123 @@ export function StampContentEditor(props: {
     const canvas = event.currentTarget
     const rect = canvas.getBoundingClientRect()
     if (!rect.width || !rect.height) return undefined
-    const canvasX = (event.clientX - rect.left) * (canvas.width / rect.width)
-    const canvasY = (event.clientY - rect.top) * (canvas.height / rect.height)
-    const point = pixelToLattice(
-      (canvasX - stageOriginX) / STAMP_DRAFT_LATTICE_SCALE,
-      (canvasY - stageOriginY) / STAMP_DRAFT_LATTICE_SCALE,
-    )
-    const key = stampDraftPointKey(point)
-    return latticePoints.some((candidate) => stampDraftPointKey(candidate) === key)
-      ? point
-      : undefined
+    const current = viewRef.current
+    const worldX =
+      ((event.clientX - rect.left) * (canvas.width / rect.width)) / current.zoom + current.panX
+    const worldY =
+      ((event.clientY - rect.top) * (canvas.height / rect.height)) / current.zoom + current.panY
+    const point = pixelToLattice(worldX, worldY)
+    return isLatticeInside(draftMap.map, point) ? draftMap.toDraftPoint(point) : undefined
+  }
+
+  const setStageHover = (point: GridPointRef | undefined): void => {
+    const previous = hoverPointRef.current
+    if (previous?.row === point?.row && previous?.col === point?.col) return
+    hoverPointRef.current = point
+    setPaintTick((tick) => tick + 1)
   }
 
   useEffect(() => {
+    if (!assets || fittedRef.current) return
+    fittedRef.current = true
+    const box = mapBoxOf(draftMap.map, undefined)
+    const width = Math.max(1, box.maxX - box.minX)
+    const height = Math.max(1, box.maxY - box.minY)
+    const zoom = Math.max(0.05, Math.min(stageSize.w / width, stageSize.h / height, 3))
+    setView({
+      zoom,
+      panX: box.minX - (stageSize.w / zoom - width) / 2,
+      panY: box.minY - (stageSize.h / zoom - height) / 2,
+    })
+  }, [assets, draftMap.map, setView, stageSize])
+
+  useEffect(() => {
+    void stageSize
+    void paintTick
     const canvas = stageCanvasRef.current
     const context = canvas?.getContext('2d')
-    if (!canvas || !context) return
-    context.setTransform(1, 0, 0, 1, 0, 0)
-    context.clearRect(0, 0, canvas.width, canvas.height)
-    context.fillStyle = '#15171d'
-    context.fillRect(0, 0, canvas.width, canvas.height)
-    context.setTransform(
-      STAMP_DRAFT_LATTICE_SCALE,
-      0,
-      0,
-      STAMP_DRAFT_LATTICE_SCALE,
-      stageOriginX,
-      stageOriginY,
+    if (!canvas || !context || !assets) return
+    // Lightweight component-test contexts intentionally omit the native back-reference.
+    if (!(context as CanvasRenderingContext2D & { canvas?: HTMLCanvasElement }).canvas) return
+    if (rendererRef.current?.context !== context || rendererRef.current.assets !== assets)
+      rendererRef.current = {
+        context,
+        assets,
+        renderer: new Canvas2DRenderer(context, assets.palette, assets.frames),
+      }
+    const renderer = rendererRef.current.renderer
+    baseCanvasCacheRef.current = drawIsometricMapBase(
+      context,
+      {
+        map: draftMap.map,
+        assets: { renderer, tiles: assets.frames },
+        view,
+        showGrid,
+        showCollision,
+        hiddenLayerIds: hiddenSlotIds,
+        ...(activeSlotId ? { focus: { layerId: activeSlotId } } : {}),
+      },
+      baseCanvasCacheRef.current,
     )
 
-    if (showGrid)
-      for (const point of latticePoints) {
-        const center = latticeCenter(point)
-        context.beginPath()
-        context.moveTo(center.x, center.y - 8)
-        context.lineTo(center.x + 16, center.y)
-        context.lineTo(center.x, center.y + 8)
-        context.lineTo(center.x - 16, center.y)
-        context.closePath()
-        context.fillStyle = 'rgba(35, 40, 51, 0.86)'
-        context.strokeStyle = '#46516a'
-        context.lineWidth = 0.6
-        context.fill()
-        context.stroke()
-      }
+    const selectedMapPoints = [...selectedPointKeys].map((key) =>
+      draftMap.toMapPoint(parsePointKey(key)),
+    )
+    drawMapSelectionOverlay(
+      context,
+      {
+        kind: 'cells',
+        visualSlots: [],
+        gridPoints: selectedMapPoints,
+        hitScope: 'active-layer',
+      },
+      view,
+    )
 
-    const layerOrder = new Map(draft.layerSlots.map((slot, index) => [slot.id, index] as const))
-    const frames = new Map<number, HTMLCanvasElement>()
-    const visualMembers = draft.visual
-      .filter((member) => !hiddenSlotIds.has(member.layerSlotId))
-      .map((member) => ({ member, point: stampDraftPoint(member.offset) }))
-      .sort(
-        (left, right) =>
-          (layerOrder.get(left.member.layerSlotId) ?? 0) -
-            (layerOrder.get(right.member.layerSlotId) ?? 0) ||
-          left.point.row - right.point.row ||
-          left.point.col - right.point.col,
-      )
-    for (const { member, point } of visualMembers) {
-      const frame = assets?.frames.get(member.tileId)
-      if (!frame || !assets) continue
-      let image = frames.get(member.tileId)
-      if (!image) {
-        image = bakeFrame(frame, assets.palette)
-        frames.set(member.tileId, image)
-      }
-      const rect = projectMapTileBlitRect(point, frame)
-      context.globalAlpha = member.layerSlotId === activeSlotId ? 1 : 0.42
-      context.drawImage(image, rect.x, rect.y)
-    }
-    context.globalAlpha = 1
-
-    if (showCollision)
-      for (const collision of draft.collision) {
-        const point = stampDraftPoint(collision.offset)
-        const center = latticeCenter(point)
-        context.beginPath()
-        context.moveTo(center.x, center.y - 7)
-        context.lineTo(center.x + 14, center.y)
-        context.lineTo(center.x, center.y + 7)
-        context.lineTo(center.x - 14, center.y)
-        context.closePath()
-        context.fillStyle =
-          collision.value === 0 ? 'rgba(65, 155, 255, 0.18)' : 'rgba(255, 130, 76, 0.25)'
-        context.strokeStyle = collision.value === 0 ? '#6eb0ff' : '#ff945f'
-        context.lineWidth = 1
-        context.fill()
-        context.stroke()
-      }
-
-    for (const key of selectedPointKeys) {
-      const point = parsePointKey(key)
+    const drawDiamond = (
+      point: GridPointRef,
+      colors: { fill?: string; stroke: string },
+      lineWidth = 1.5,
+    ): void => {
       const center = latticeCenter(point)
+      const cx = (center.x - view.panX) * view.zoom
+      const cy = (center.y - view.panY) * view.zoom
+      const rx = 16 * view.zoom
+      const ry = 8 * view.zoom
       context.beginPath()
-      context.moveTo(center.x, center.y - 8)
-      context.lineTo(center.x + 16, center.y)
-      context.lineTo(center.x, center.y + 8)
-      context.lineTo(center.x - 16, center.y)
+      context.moveTo(cx, cy - ry)
+      context.lineTo(cx + rx, cy)
+      context.lineTo(cx, cy + ry)
+      context.lineTo(cx - rx, cy)
       context.closePath()
-      context.strokeStyle = '#5fa4ff'
-      context.lineWidth = 2
+      if (colors.fill) {
+        context.fillStyle = colors.fill
+        context.fill()
+      }
+      context.strokeStyle = colors.stroke
+      context.lineWidth = lineWidth
       context.stroke()
     }
 
-    if (tool === 'brush' && hoverPoint)
-      for (const point of isometricBrushPoints(hoverPoint, brushSize)) {
-        if (!latticePointKeys.has(stampDraftPointKey(point))) continue
-        const center = latticeCenter(point)
-        context.beginPath()
-        context.moveTo(center.x, center.y - 8)
-        context.lineTo(center.x + 16, center.y)
-        context.lineTo(center.x, center.y + 8)
-        context.lineTo(center.x - 16, center.y)
-        context.closePath()
-        context.strokeStyle = 'rgba(255,255,255,0.92)'
-        context.lineWidth = 1.5
-        context.stroke()
+    if (showCollision)
+      for (const collision of draft.collision) {
+        if (collision.value !== 0) continue
+        drawDiamond(draftMap.toMapPoint(stampDraftPoint(collision.offset)), {
+          fill: 'rgba(65, 155, 255, 0.18)',
+          stroke: '#6eb0ff',
+        })
       }
 
-    const anchor = latticeCenter({ row: 0, col: 0 })
+    const hoverPoint = hoverPointRef.current
+    if (tool === 'brush' && hoverPoint)
+      for (const point of isometricBrushPoints(hoverPoint, brushSize).filter(isDraftPointInside))
+        drawDiamond(draftMap.toMapPoint(point), { stroke: 'rgba(255,255,255,0.92)' })
+
+    const anchor = latticeCenter(draftMap.anchor)
+    const anchorX = (anchor.x - view.panX) * view.zoom
+    const anchorY = (anchor.y - view.panY) * view.zoom
     context.beginPath()
-    context.arc(anchor.x, anchor.y, 3.5, 0, Math.PI * 2)
+    context.arc(anchorX, anchorY, Math.max(3.5, 3.5 * view.zoom), 0, Math.PI * 2)
     context.fillStyle = '#59d8ff'
     context.fill()
     context.strokeStyle = '#07131d'
@@ -501,20 +502,17 @@ export function StampContentEditor(props: {
   }, [
     activeSlotId,
     assets,
-    draft.collision,
-    draft.layerSlots,
-    draft.visual,
-    hiddenSlotIds,
-    hoverPoint,
-    latticePoints,
-    latticePointKeys,
-    selectedPointKeys,
     brushSize,
+    draft.collision,
+    draftMap,
+    hiddenSlotIds,
+    paintTick,
+    selectedPointKeys,
     showCollision,
     showGrid,
-    stageOriginX,
-    stageOriginY,
+    stageSize,
     tool,
+    view,
   ])
 
   const save = (takeOwnership: boolean): void => {
@@ -742,6 +740,7 @@ export function StampContentEditor(props: {
       <IsometricEditorSurface
         className="stamp-draft-workbench"
         toolbarClassName="stamp-draft-toolbar"
+        viewportRef={stageWrapRef}
         toolbar={
           <IsometricEditorToolbar
             activeTool={tool}
@@ -843,11 +842,11 @@ export function StampContentEditor(props: {
           ref={stageCanvasRef}
           label="组合局部地图编辑画布"
           className="stamp-draft-stage"
-          width={stageWidth}
-          height={stageHeight}
+          width={stageSize.w}
+          height={stageSize.h}
           style={{
-            width: stageWidth,
-            height: stageHeight,
+            width: '100%',
+            height: '100%',
             cursor: panning
               ? 'grabbing'
               : tool === 'pan'
@@ -857,23 +856,23 @@ export function StampContentEditor(props: {
                   : tool === 'eyedropper'
                     ? 'copy'
                     : 'crosshair',
-            transform: `translate(${stagePan.x}px, ${stagePan.y}px)`,
           }}
           onPointerDown={(event) => {
             if (tool === 'pan') {
               event.currentTarget.setPointerCapture(event.pointerId)
+              const current = viewRef.current
               panStartRef.current = {
                 clientX: event.clientX,
                 clientY: event.clientY,
-                panX: stagePan.x,
-                panY: stagePan.y,
+                panX: current.panX,
+                panY: current.panY,
               }
               setPanning(true)
               return
             }
             const point = pointFromStagePointer(event)
             if (!point) return
-            setHoverPoint(point)
+            setStageHover(point)
             event.currentTarget.setPointerCapture(event.pointerId)
             if (tool === 'rect') {
               rectStartPointRef.current = point
@@ -883,15 +882,20 @@ export function StampContentEditor(props: {
             handleCell(point)
           }}
           onPointerMove={(event) => {
-            if (tool === 'pan' && panStartRef.current && event.buttons & 1) {
-              setStagePan({
-                x: panStartRef.current.panX + event.clientX - panStartRef.current.clientX,
-                y: panStartRef.current.panY + event.clientY - panStartRef.current.clientY,
-              })
+            const panStart = panStartRef.current
+            if (tool === 'pan' && panStart && event.buttons & 1) {
+              const rect = event.currentTarget.getBoundingClientRect()
+              const scale =
+                event.currentTarget.width / rect.width / Math.max(0.01, viewRef.current.zoom)
+              setView((current) => ({
+                ...current,
+                panX: panStart.panX - (event.clientX - panStart.clientX) * scale,
+                panY: panStart.panY - (event.clientY - panStart.clientY) * scale,
+              }))
               return
             }
             const point = pointFromStagePointer(event)
-            setHoverPoint(point)
+            setStageHover(point)
             if (
               !(event.buttons & 1) ||
               tool === 'select' ||
@@ -924,7 +928,7 @@ export function StampContentEditor(props: {
             panStartRef.current = undefined
             setPanning(false)
           }}
-          onPointerLeave={() => setHoverPoint(undefined)}
+          onPointerLeave={() => setStageHover(undefined)}
           onContextMenu={(event) => event.preventDefault()}
         />
       </IsometricEditorSurface>

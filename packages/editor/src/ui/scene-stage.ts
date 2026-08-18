@@ -52,10 +52,15 @@ export function useStageSize(
   useEffect(() => {
     const el = wrapRef.current
     if (!el) return
-    const ro = new ResizeObserver(() => {
+    const measure = (): void => {
       const r = el.getBoundingClientRect()
       setSize({ w: Math.max(min, Math.floor(r.width)), h: Math.max(min, Math.floor(r.height)) })
-    })
+    }
+    if (typeof ResizeObserver === 'undefined') {
+      measure()
+      return
+    }
+    const ro = new ResizeObserver(measure)
     ro.observe(el)
     return () => ro.disconnect()
   }, [wrapRef, min])

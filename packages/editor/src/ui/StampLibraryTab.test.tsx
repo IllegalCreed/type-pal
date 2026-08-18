@@ -7,7 +7,7 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
-import { stampDraftBounds } from '../core/stamp-draft.js'
+import { stampDraftMapAdapter } from '../core/stamp-draft-map.js'
 import type { StampSelectionSource } from '../core/stamp-template.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
@@ -192,14 +192,10 @@ async function chooseToolOption(label: string, optionLabel: string): Promise<voi
 
 async function clickDraftPoint(
   point: { row: number; col: number },
-  extraMaxRow = 0,
+  _extraMaxRow = 0,
 ): Promise<void> {
   const canvas = host.querySelector<HTMLCanvasElement>('[aria-label="组合局部地图编辑画布"]')!
-  const baseBounds = stampDraftBounds(template(), 2)
-  const bounds = { ...baseBounds, maxRow: baseBounds.maxRow + extraMaxRow }
-  const center = latticeCenter(point)
-  const clientX = 16 - bounds.minU * 32 + center.x * 2
-  const clientY = 16 - bounds.minRow * 16 + center.y * 2
+  const { clientX, clientY } = draftPointClient(canvas, point)
   await act(async () => {
     for (const type of ['pointerdown', 'pointerup']) {
       const event = new MouseEvent(type, {
@@ -221,14 +217,6 @@ async function dragDraftPoints(
   end: { row: number; col: number },
 ): Promise<void> {
   const canvas = host.querySelector<HTMLCanvasElement>('[aria-label="组合局部地图编辑画布"]')!
-  const bounds = stampDraftBounds(template(), 2)
-  const clientPoint = (point: { row: number; col: number }) => {
-    const center = latticeCenter(point)
-    return {
-      clientX: 16 - bounds.minU * 32 + center.x * 2,
-      clientY: 16 - bounds.minRow * 16 + center.y * 2,
-    }
-  }
   await act(async () => {
     for (const [type, point, buttons] of [
       ['pointerdown', start, 1],
@@ -240,12 +228,36 @@ async function dragDraftPoints(
         cancelable: true,
         button: 0,
         buttons,
-        ...clientPoint(point),
+        ...draftPointClient(canvas, point),
       })
       Object.defineProperty(event, 'pointerId', { value: 12 })
       canvas.dispatchEvent(event)
     }
   })
+}
+
+function draftPointClient(
+  canvas: HTMLCanvasElement,
+  point: { row: number; col: number },
+): { clientX: number; clientY: number } {
+  const adapter = stampDraftMapAdapter(template())
+  const mapped = adapter.toMapPoint(point)
+  const center = latticeCenter(mapped)
+  const box = {
+    minX: -32,
+    minY: -40,
+    maxX: adapter.map.width * 32 + 32,
+    maxY: adapter.map.height * 16 + 16,
+  }
+  const worldWidth = box.maxX - box.minX
+  const worldHeight = box.maxY - box.minY
+  const zoom = Math.max(
+    0.05,
+    Math.min(canvas.width / worldWidth, canvas.height / worldHeight, 3),
+  )
+  const panX = box.minX - (canvas.width / zoom - worldWidth) / 2
+  const panY = box.minY - (canvas.height / zoom - worldHeight) / 2
+  return { clientX: (center.x - panX) * zoom, clientY: (center.y - panY) * zoom }
 }
 
 let root: Root
@@ -617,7 +629,8 @@ describe('StampLibraryTab', () => {
         canvas.dispatchEvent(event)
       }
     })
-    expect(canvas.style.transform).toBe('translate(20px, 12px)')
+    expect(canvas.dataset.isometricEditorCanvas).toBe('true')
+    expect(button('平移', toolbar).getAttribute('aria-pressed')).toBe('true')
 
     await act(async () => button('保存组合', host).click())
     expect(session.getState().stamps[0]?.visual.length).toBeGreaterThan(4)

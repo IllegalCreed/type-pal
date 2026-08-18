@@ -128,7 +128,9 @@ describe('editor design-system static boundary', () => {
       expect(source).toMatch(/<IsometricEditorCanvas\b/)
       expect(source).toMatch(/<IsometricEditorSurface\b/)
       expect(source).toMatch(/<IsometricEditorToolbar\b/)
+      expect(source).toMatch(/drawIsometricMapBase/)
     }
+    expect(stampEditor).not.toMatch(/latticePoints\.some|for \(const point of latticePoints\)/)
     expect(mapMode).not.toMatch(/>\s*◆\s*放置组合\s*</)
   })
 

@@ -19,7 +19,6 @@ import {
   paintProjectMapTiles,
   pixelToLattice,
   projectMapStampPlacements,
-  renderSceneFrame,
 } from '@type-pal/reforge'
 import {
   useCallback,
@@ -122,6 +121,7 @@ import {
 import { IsometricEditorCanvas } from './IsometricEditorCanvas.js'
 import { IsometricEditorSurface } from './IsometricEditorSurface.js'
 import { IsometricEditorToolbar } from './IsometricEditorToolbar.js'
+import { drawIsometricMapBase, type IsometricMapBaseCache } from './isometric-map-render.js'
 import { LayerStackControls } from './LayerStackControls.js'
 import { MapSelectionInspector } from './MapSelectionInspector.js'
 import { MapStampPalette } from './MapStampPalette.js'
@@ -130,7 +130,6 @@ import { StampPlacementInspector } from './StampPlacementInspector.js'
 import { StampPlacementSelectionInspector } from './StampPlacementSelectionInspector.js'
 import { StampTemplateDialog } from './StampTemplateDialog.js'
 import {
-  drawGridBlocked,
   mapBoxOf,
   type StageAssets,
   useSceneAssets,
@@ -144,35 +143,6 @@ import { TilePickerGrid } from './TilePickerGrid.js'
 const DEFAULT_COLS = 24
 const DEFAULT_ROWS = 24
 const EMPTY_STAMP_MAPPINGS: StampLayerMapping[] = []
-
-function visibleMapRoom(
-  map: ProjectMap,
-  tiles: StageAssets['tiles'],
-  canvas: HTMLCanvasElement,
-  view: { zoom: number; panX: number; panY: number },
-): { col: number; row: number; cols: number; rows: number } {
-  let maxTileWidth = 32
-  let maxTileHeight = 16
-  for (const frame of tiles.values()) {
-    maxTileWidth = Math.max(maxTileWidth, frame.width)
-    maxTileHeight = Math.max(maxTileHeight, frame.height)
-  }
-  const worldWidth = canvas.width / view.zoom
-  const worldHeight = canvas.height / view.zoom
-  const firstCol = Math.max(0, Math.floor((view.panX - maxTileWidth - 16) / 32))
-  const lastCol = Math.min(map.width, Math.ceil((view.panX + worldWidth + maxTileWidth + 16) / 32))
-  const firstRow = Math.max(0, Math.floor((view.panY - maxTileHeight - 8) / 16))
-  const lastRow = Math.min(
-    map.height,
-    Math.ceil((view.panY + worldHeight + maxTileHeight + 8) / 16),
-  )
-  return {
-    col: firstCol,
-    row: firstRow,
-    cols: Math.max(0, lastCol - firstCol),
-    rows: Math.max(0, lastRow - firstRow),
-  }
-}
 
 type MapTool =
   | 'pan'
@@ -452,28 +422,7 @@ export function MapMode(props: {
   }, [session])
   const [paintTick, setPaintTick] = useState(0)
   const [basePaintTick, setBasePaintTick] = useState(0)
-  const baseCanvasCacheRef = useRef<
-    | {
-        canvas: HTMLCanvasElement
-        map: ProjectMap
-        liveMap: ProjectMap | undefined
-        width: number
-        height: number
-        zoom: number
-        panX: number
-        panY: number
-        showGrid: boolean
-        showCollision: boolean
-        hiddenKey: string
-        focusEnabled: boolean
-        activeLayerId: string | undefined
-        focusHeight: number
-        basePaintTick: number
-        renderer: StageAssets['renderer']
-        tiles: StageAssets['tiles']
-      }
-    | undefined
-  >(undefined)
+  const baseCanvasCacheRef = useRef<IsometricMapBaseCache | undefined>(undefined)
   const selectionCanvasCacheRef = useRef<
     | {
         canvas: HTMLCanvasElement
@@ -805,77 +754,24 @@ export function MapMode(props: {
       map = paintProjectMapCollision(map, collisionEdits)
     }
     const { zoom, panX, panY } = view
-    const room = visibleMapRoom(map, loaded.tiles, ctx.canvas, view)
     const hiddenKey = JSON.stringify([...hiddenLayerIds].sort())
     const lockedKey = JSON.stringify([...lockedLayerIds].sort())
-    const cached = baseCanvasCacheRef.current
-    const baseChanged =
-      !cached ||
-      cached.liveMap !== liveMap ||
-      cached.width !== ctx.canvas.width ||
-      cached.height !== ctx.canvas.height ||
-      cached.zoom !== zoom ||
-      cached.panX !== panX ||
-      cached.panY !== panY ||
-      cached.showGrid !== showGrid ||
-      cached.showCollision !== showCollision ||
-      cached.hiddenKey !== hiddenKey ||
-      cached.focusEnabled !== focusEnabled ||
-      cached.activeLayerId !== activeLayer?.id ||
-      cached.focusHeight !== activeViewHeight ||
-      cached.basePaintTick !== basePaintTick ||
-      cached.renderer !== loaded.renderer ||
-      cached.tiles !== loaded.tiles
-    if (baseChanged) {
-      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-      renderSceneFrame(ctx, loaded.renderer, {
+    baseCanvasCacheRef.current = drawIsometricMapBase(
+      ctx,
+      {
         map,
-        room,
-        camera: { x: panX, y: panY },
-        sprites: [],
-        worldScale: zoom,
-        layers: {
-          hiddenLayerIds: [...hiddenLayerIds],
-          ...(focusEnabled && activeLayer
-            ? { focusLayerId: activeLayer.id, focusHeight: activeViewHeight, dimAlpha: 0.22 }
-            : { showAll: true }),
-        },
-      })
-      drawGridBlocked(
-        ctx,
-        map,
-        room,
-        { zoom, panX, panY },
-        { grid: showGrid, blocked: showCollision },
-      )
-      const cacheCanvas = cached?.canvas ?? document.createElement('canvas')
-      cacheCanvas.width = ctx.canvas.width
-      cacheCanvas.height = ctx.canvas.height
-      const cacheContext = cacheCanvas.getContext('2d')
-      cacheContext?.drawImage(ctx.canvas, 0, 0)
-      baseCanvasCacheRef.current = {
-        canvas: cacheCanvas,
-        map,
-        liveMap,
-        width: ctx.canvas.width,
-        height: ctx.canvas.height,
-        zoom,
-        panX,
-        panY,
+        assets: loaded,
+        view,
         showGrid,
         showCollision,
-        hiddenKey,
-        focusEnabled,
-        activeLayerId: activeLayer?.id,
-        focusHeight: activeViewHeight,
-        basePaintTick,
-        renderer: loaded.renderer,
-        tiles: loaded.tiles,
-      }
-    } else {
-      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-      ctx.drawImage(cached.canvas, 0, 0)
-    }
+        hiddenLayerIds,
+        ...(focusEnabled && activeLayer
+          ? { focus: { layerId: activeLayer.id, height: activeViewHeight } }
+          : {}),
+        revision: basePaintTick,
+      },
+      baseCanvasCacheRef.current,
+    )
 
     const selectionCached = selectionCanvasCacheRef.current
     const selectionOverlayChanged =
