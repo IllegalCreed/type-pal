@@ -251,8 +251,9 @@ build/done。
   “包含碰撞”作为选择工具的持久附加 checkbox，已从一次性右键命令中移除；右键菜单只保留复制/剪切/粘贴/
   移动/重复/删除。后续按用户补充裁决，笔刷范围改为图标触发的横向格阵托盘；绘制高度从左侧“显示高度”彻底
   分离，作为笔刷/矩形/填充共享上下文固定在绘制工具组末尾，并以横向 H0…Hn 图标托盘选择。地图与组合共用
-  同一状态 UI、范围函数和画布范围预览。定向 104 项、typecheck、build、Biome 和 1280×720 浏览器语义复验
-  全绿；未触及
+  同一状态 UI、范围函数和画布范围预览。填充按用户裁决统一为 `(原 tileId, 原 height)` 四邻域，`null/H0`
+  空区同样可填，地图/组合/组内编辑不再出现不同边界。定向 106 项、typecheck、build、Biome 和 1280×720
+  浏览器语义复验全绿；未触及
   schema/runtime/placement 非链接语义。
 - Kimi: pending
 - GLM: pending
@@ -317,7 +318,7 @@ build/done。
 
 - Coding Owner: Codex（三签齐后实现）
 - 修改文件:
-  - `packages/editor/src/core/stamp-draft.ts`、`stamp-draft.test.ts`、`isometric-brush.ts`
+  - `packages/editor/src/core/stamp-draft.ts`、`stamp-draft.test.ts`、`isometric-brush.ts`、`isometric-fill.ts/test`
   - `packages/editor/src/ui/StampContentEditor.tsx`
   - `packages/editor/src/ui/StampLibraryTab.tsx`、`StampLibraryTab.test.tsx`
   - `packages/editor/src/ui/LayerStackControls.tsx`、`IsometricEditorCanvas.tsx`、`IsometricEditorSurface.tsx`、
@@ -345,6 +346,9 @@ build/done。
     选择后收起且触发图标同步更新；地图与组合共同消费 `isometricBrushPoints`，2×2/3×3 会实际批量写格且画布
     hover 勾勒完整范围。绘制高度不再跟随单个工具或复用左侧渲染高度：左侧明确为“显示高度”，共享 H 图标固定
     在整个绘制工具组末尾，笔刷/矩形/填充共同消费；平面层强制 H0，高度层可展开横向托盘，取样同时取得瓦片与高度。
+  - 填充语义统一为当前活动层的 `(原 tileId, 原 height)` 四邻域 flood fill：两者都相同才属于同一连通片；
+    `(null, 0)` 空格是正常可填充区域。地图、组合草稿与 placement 组内编辑共同消费 editor 纯连通域函数；组内编辑
+    继续叠加 ownership 边界，普通格不能作为起点或桥。Reforge 既有 helper 同步修正同一语义，避免其他调用方回退。
   - 新增 `IsometricEditorSurface` 统一 toolbar/viewport/overlay/footer 骨架；组合中央删除重复页面标题 Hero，
     直接从共享工具栏和等距画布开始，名称/分类/保存留在属性面板。
   - 用户新增的“同一地图多瓦片集、来源选择位于瓦片 Tab”会改变 map/stamp/save/runtime canonical 结构，已拆到
@@ -365,6 +369,8 @@ build/done。
   - 显示/绘制高度分离及横向图标托盘返工后同一 focused 命令：104/104 passed；覆盖三个绘制工具共同使用
     H4、显示高度保持独立、平面层 H0 强制、地图/组合图标托盘选择；`typecheck`、changed-files Biome 与单次
     `pnpm --filter @type-pal/editor build` 通过（仅既有 chunk >500k 提示）。
+  - 填充语义统一后定向 5 文件：106/106 passed；新增纯函数断言同 tile 不同高度阻断、`null/H0` 空区可填，
+    并修正 placement 与 Reforge 回归；editor/reforge typecheck、Biome 与单次 editor build 通过。
   - changed-files `biome check`：通过；仅报告 `editor.css:10314-10317` 既有 `.visually-hidden !important`
     4 条 warning，本卡未新增。
   - `git diff --check`：通过。
@@ -409,9 +415,10 @@ build/done。
 
 ## 用户验收
 
-- 用户结论: **counter（2026-08-18，第四轮；绘制上下文）**：左下角是渲染/显示高度，不应与绘制高度耦合；
+- 用户结论: **counter（2026-08-18，第四轮；绘制上下文，后续补充填充语义）**：左下角是渲染/显示高度，不应与绘制高度耦合；
   笔刷/矩形/填充需要共同的绘制高度；面积和高度不应使用 Select，而应使用类似 Windows 画图的图标按钮 + 横向
-  选项托盘；公共高度不能跟在每个绘制按钮后。以上已返工，等待用户复验。用户同时要求来源瓦片集在“瓦片”
+  选项托盘；公共高度不能跟在每个绘制按钮后。后续明确填充应批量替换当前活动层中 `(原 tileId, 原 height)`
+  相同的连通片，空瓦片也按同一规则可填。以上已返工，等待用户复验。用户同时要求来源瓦片集在“瓦片”
   Tab 选择且一张地图允许多个瓦片集；该 schema 产品铁律已进入 `ED-MAP-MULTI-TILESET-1`，尚未获得 build 三签。
 - 后续任务: Kimi/GLM 独立复审 + 用户对返工版最终验收。
 
@@ -457,6 +464,10 @@ build/done。
   交互很差，应改为图标触发的横向选项托盘，公共高度不得跟随各工具跳动。Codex 拆分 `viewHeight/paintHeight`，
   将 H 图标固定到绘制组末尾，并让地图/组合共享两个横向托盘。Evidence: focused 104、typecheck、单次 build、
   1280×720 展开态截图与 H4 图标更新实测。Next: Kimi/GLM 独立复审；未齐前不得标 done。
+- 2026-08-18 User: 明确填充产品语义：同一活动层内，原 tile 与原高度都相同的连续片批量替换；空 tile 也可按
+  同一规则填充。Codex 核验发现普通地图/placement 旧实现只按 tileId，随即统一三条路径为 `(tileId,height)`
+  四邻域，`null/H0` 可填。Evidence: focused 106、editor/reforge typecheck、Biome、单次 build。Next: Kimi/GLM
+  独立复审；未齐前不得标 done。
 
 ## 下一位 Agent 提示词
 
@@ -464,18 +475,19 @@ build/done。
 接手任务：ED-STAMP-EDITOR-1 组合模板内容编辑闭环
 任务卡：docs/ops/tasks/ED-STAMP-EDITOR-1-stamp-template-content-editor.md
 当前状态：review；用户四轮 counter 后，Codex 完成 shared toolbar/surface、“包含碰撞”状态归位、共享笔刷范围
-横向图标托盘，以及显示高度/公共绘制高度分离，并于 2026-08-18 重新 accept；
+横向图标托盘、显示高度/公共绘制高度分离，以及同 tile+height、空区可用的统一填充，并于 2026-08-18 重新 accept；
 Kimi/GLM done 前 accept pending；不得标 done。
 你的角色：Kimi 或 GLM，负责独立代码审查与 done 前签字。
 先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文、
-packages/editor/src/core/stamp-draft.ts、stamp-draft.test.ts、stamp-commands.ts、isometric-brush.ts，
+packages/editor/src/core/stamp-draft.ts、stamp-draft.test.ts、stamp-commands.ts、isometric-brush.ts、isometric-fill.ts/test，
 packages/editor/src/ui/StampContentEditor.tsx、StampLibraryTab.tsx/test、LayerStackControls.tsx、
 IsometricEditorCanvas.tsx、IsometricEditorSurface.tsx、IsometricEditorToolbar.tsx、MapMode.tsx/test、TilesetTab.tsx、
 design-system/boundary.test.ts 与 editor.css。
 已完成：纯内存 draft；选择即编辑；属性/引用/瓦片分栏；地图/组合共享图层栈、等距画布和 surface 骨架；右侧
 tile palette；地图选组合即放置；地图/组合共用完整工具栏；“包含碰撞”是选择工具持久附加 checkbox；选区命令进
 画布右键菜单；View 单入口；笔刷范围以横向格阵图标托盘选择并实际批量绘制；绘制高度固定在绘制组末尾，以横向
-H 托盘供笔刷/矩形/填充共用，左侧显示高度只影响渲染；focused 104、typecheck、build 与浏览器
+H 托盘供笔刷/矩形/填充共用，左侧显示高度只影响渲染；填充按 tileId+height 连通且空区可填；focused 106、
+typecheck、build 与浏览器
 复验全绿。
 请你做：独立检查 SK1/SK2 与 SE2/SE3，并重点核对共享 surface 是否仍保持 draft/session 隔离、地图/组合投影与
 命中是否一致、组合选择即放置是否无隐藏模式冲突、工具栏附加选项是否只在正确主工具下出现、窄栏布局是否可达；

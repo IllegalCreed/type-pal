@@ -121,7 +121,7 @@ describe('视觉层、实例高度与碰撞层编辑', () => {
     expect(paintProjectMapCollision(map, [{ col: 9, row: 9, value: 1 }])).toBe(map)
   })
 
-  test('填充仅作用选中层的同 tileId 四邻域，并写入当前笔刷高度', () => {
+  test('填充仅作用选中层的同 tileId + height 四邻域，空瓦片也可填充', () => {
     let map = buildBlankProjectMap(3, 1, 'tileset-001')
     map = paintProjectMapTiles(map, [
       { layerId: 'floor', col: 1, row: 0, tileId: 8, height: 0 },
@@ -138,6 +138,19 @@ describe('视觉层、实例高度与碰撞层编辑', () => {
     const edits = floodFillProjectMapTiles(heightMap, 'objects', { col: 0, row: 0 }, 6, 3)
     expect(edits).toHaveLength(3 * 2)
     expect(edits.every((edit) => edit.height === 3)).toBe(true)
+
+    const splitHeightBase = buildBlankProjectMap(2, 1, 'tileset-001')
+    let splitHeightMap = insertProjectMapLayer(
+      splitHeightBase,
+      buildProjectMapLayer(splitHeightBase, 'raised', '高度', 'height'),
+    )
+    splitHeightMap = paintProjectMapTiles(splitHeightMap, [
+      { layerId: 'raised', col: 0, row: 0, tileId: 7, height: 1 },
+      { layerId: 'raised', col: 0, row: 1, tileId: 7, height: 2 },
+    ])
+    expect(floodFillProjectMapTiles(splitHeightMap, 'raised', { col: 0, row: 0 }, 9, 4)).toEqual([
+      { layerId: 'raised', col: 0, row: 0, tileId: 9, height: 4 },
+    ])
   })
 })
 

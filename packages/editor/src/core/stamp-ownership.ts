@@ -1,6 +1,7 @@
 import { mapInstanceHeight, type ProjectMap, type StampPlacementGroupV1 } from '@type-pal/content'
 import type { LatticePos, ProjectMapTileEdit } from '@type-pal/reforge'
 import { isLatticeInside, projectMapStampPlacements } from '@type-pal/reforge'
+import { floodFillIsometricTiles } from './isometric-fill.js'
 import type { GridPointRef, VisualSlotRef } from './map-selection.js'
 import { gridPointKey, visualSlotKey } from './map-selection.js'
 
@@ -181,9 +182,7 @@ export function stampCollisionOwner(map: ProjectMap, ref: GridPointRef): string 
   return buildStampPlacementIndex(map).collisionOwnerByKey.get(gridPointKey(ref))
 }
 
-/**
- * 组内填充只能把当前 placement 的活动层成员视作连通域；普通格既不能作为起点，也不能充当桥。
- */
+/** 组内填充以 tileId + height 判断当前层成员的连通域；普通格不能作为起点或桥。 */
 export function floodFillStampPlacementTiles(
   map: ProjectMap,
   placementId: string,
@@ -199,41 +198,22 @@ export function floodFillStampPlacementTiles(
     placement.visualSlots.filter((ref) => ref.layerId === layerId).map((ref) => visualSlotKey(ref)),
   )
   if (!allowed.has(visualSlotKey({ layerId, ...start }))) return []
-  const target = layer.tiles[start.row]?.[start.col]
-  if (target === undefined) return []
-
-  const out: ProjectMapTileEdit[] = []
-  const seen = new Set<string>([gridPointKey(start)])
-  const queue: LatticePos[] = [start]
-  while (queue.length > 0) {
-    const current = queue.pop()
-    if (
-      !current ||
-      !allowed.has(visualSlotKey({ layerId, ...current })) ||
-      layer.tiles[current.row]?.[current.col] !== target
-    )
-      continue
-    if (
-      layer.tiles[current.row]?.[current.col] !== tileId ||
-      mapInstanceHeight(layer, current.row, current.col) !== height
-    )
-      out.push({ ...current, layerId, tileId, height })
-    const left = current.col - (current.row % 2 === 0 ? 1 : 0)
-    const neighbors: LatticePos[] = [
-      { col: left, row: current.row - 1 },
-      { col: left + 1, row: current.row - 1 },
-      { col: left, row: current.row + 1 },
-      { col: left + 1, row: current.row + 1 },
-    ]
-    for (const neighbor of neighbors) {
-      if (!isLatticeInside(map, neighbor)) continue
-      const key = gridPointKey(neighbor)
-      if (seen.has(key)) continue
-      seen.add(key)
-      if (allowed.has(visualSlotKey({ layerId, ...neighbor }))) queue.push(neighbor)
-    }
-  }
-  return out
+  return floodFillIsometricTiles({
+    start,
+    isInside: (point) =>
+      isLatticeInside(map, point) && allowed.has(visualSlotKey({ layerId, ...point })),
+    sampleAt: (point) => {
+      const currentTileId = layer.tiles[point.row]?.[point.col]
+      return currentTileId === undefined
+        ? undefined
+        : { tileId: currentTileId, height: mapInstanceHeight(layer, point.row, point.col) }
+    },
+  }).flatMap((point) =>
+    layer.tiles[point.row]?.[point.col] === tileId &&
+    mapInstanceHeight(layer, point.row, point.col) === height
+      ? []
+      : [{ ...point, layerId, tileId, height }],
+  )
 }
 
 /** 测试/诊断用直接扫描；用于证明缓存反向索引没有语义漂移。 */

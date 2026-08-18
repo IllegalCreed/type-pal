@@ -5,6 +5,7 @@ import { type PointerEvent as ReactPointerEvent, useEffect, useMemo, useRef, use
 import { createPortal } from 'react-dom'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { type IsometricBrushSize, isometricBrushPoints } from '../core/isometric-brush.js'
+import { floodFillIsometricTiles } from '../core/isometric-fill.js'
 import type { GridPointRef } from '../core/map-selection.js'
 import { nudgeIsometricLattice } from '../core/map-transform.js'
 import {
@@ -265,24 +266,16 @@ export function StampContentEditor(props: {
     const seed = activeVisualByPoint.get(stampDraftPointKey(point))
     const replacementHeight = activeSlot?.depthMode === 'height' ? height : 0
     if (seed?.tileId === selectedTileId && (seed?.height ?? 0) === replacementHeight) return
-    const matchesSeed = (candidate: GridPointRef): boolean => {
-      const member = activeVisualByPoint.get(stampDraftPointKey(candidate))
-      return seed
-        ? member?.tileId === seed.tileId && member.height === seed.height
-        : member === undefined
-    }
-    const queue = [point]
-    const visited = new Set<string>()
-    const filled: GridPointRef[] = []
-    while (queue.length) {
-      const current = queue.shift()!
-      const key = stampDraftPointKey(current)
-      if (visited.has(key) || !latticePointKeys.has(key) || !matchesSeed(current)) continue
-      visited.add(key)
-      filled.push(current)
-      for (const direction of ['up', 'down', 'left', 'right'] as const)
-        queue.push(nudgeIsometricLattice(current, direction))
-    }
+    const filled = floodFillIsometricTiles({
+      start: point,
+      isInside: (candidate) => latticePointKeys.has(stampDraftPointKey(candidate)),
+      sampleAt: (candidate) => {
+        const member = activeVisualByPoint.get(stampDraftPointKey(candidate))
+        return member
+          ? { tileId: member.tileId, height: member.height }
+          : { tileId: null, height: 0 }
+      },
+    })
     paintVisualPoints(filled)
   }
 

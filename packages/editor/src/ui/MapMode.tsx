@@ -13,7 +13,6 @@ import {
   bakeFrame,
   buildBlankProjectMap,
   buildProjectMapLayer,
-  floodFillProjectMapTiles,
   isLatticeInside,
   latticeCenter,
   latticeInMapRect,
@@ -52,6 +51,7 @@ import {
 import type { EditorState, EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { type IsometricBrushSize, isometricBrushPoints } from '../core/isometric-brush.js'
+import { floodFillIsometricTiles } from '../core/isometric-fill.js'
 import type { ProjectMapPatch } from '../core/map-patch.js'
 import { ProjectMapPatchError } from '../core/map-patch.js'
 import {
@@ -2184,12 +2184,30 @@ export function MapMode(props: {
               selectedTile,
               activePaintHeight,
             )
-          : floodFillProjectMapTiles(
-              liveMap,
-              activeLayer.id,
+          : floodFillIsometricTiles({
               start,
-              selectedTile,
-              activePaintHeight,
+              isInside: (point) => isLatticeInside(liveMap, point),
+              sampleAt: (point) => {
+                const tileId = activeLayer.tiles[point.row]?.[point.col]
+                return tileId === undefined
+                  ? undefined
+                  : {
+                      tileId,
+                      height: mapInstanceHeight(activeLayer, point.row, point.col),
+                    }
+              },
+            }).flatMap((point) =>
+              activeLayer.tiles[point.row]?.[point.col] === selectedTile &&
+              mapInstanceHeight(activeLayer, point.row, point.col) === activePaintHeight
+                ? []
+                : [
+                    {
+                      ...point,
+                      layerId: activeLayer.id,
+                      tileId: selectedTile,
+                      height: activePaintHeight,
+                    },
+                  ],
             )
         if (edits.length > 0) {
           const patch = tileEditsPatch(liveMap, edits)

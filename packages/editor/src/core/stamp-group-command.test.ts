@@ -92,7 +92,7 @@ describe('W7G stamp group commands', () => {
     ])
   })
 
-  test('组内 fill 以 tileId 连通，并只改写同 tile 中高度不同的成员', () => {
+  test('组内 fill 以 tileId + height 连通，不跨越同 tile 的其他高度', () => {
     let map: ProjectMap = buildBlankProjectMap(2, 2, 'tiles')
     map = insertProjectMapLayer(map, buildProjectMapLayer(map, 'objects', '物件', 'height'))
     map = paintProjectMapTiles(map, [
@@ -111,8 +111,8 @@ describe('W7G stamp group commands', () => {
       },
     ])
     expect(
-      floodFillStampPlacementTiles(map, 'mixed-height', 'objects', { row: 0, col: 0 }, 1, 1),
-    ).toEqual([{ layerId: 'objects', row: 1, col: 0, tileId: 1, height: 1 }])
+      floodFillStampPlacementTiles(map, 'mixed-height', 'objects', { row: 0, col: 0 }, 9, 3),
+    ).toEqual([{ layerId: 'objects', row: 0, col: 0, tileId: 9, height: 3 }])
   })
 
   test('组内 tile/height/collision 原子编辑；collision=0 仍保留 membership', () => {

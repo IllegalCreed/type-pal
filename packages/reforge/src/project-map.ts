@@ -266,7 +266,7 @@ export function paintProjectMapCollision<T extends ProjectMap>(
   return { ...map, collision } as T
 }
 
-/** 同 tileId 的四邻域填充。 */
+/** 同 tileId + 实例高度的四邻域填充；null/H0 空格同样是可填充区域。 */
 export function floodFillProjectMapTiles(
   map: ProjectMap,
   layerId: string,
@@ -277,18 +277,20 @@ export function floodFillProjectMapTiles(
   const layer = map.layers.find((candidate) => candidate.id === layerId)
   if (!layer || !isLatticeInside(map, start)) return []
   const target = layer.tiles[start.row]?.[start.col]
-  if (
-    target === undefined ||
-    (target === tileId && mapInstanceHeight(layer, start.row, start.col) === height)
-  )
-    return []
+  const targetHeight = mapInstanceHeight(layer, start.row, start.col)
+  if (target === undefined || (target === tileId && targetHeight === height)) return []
 
   const out: ProjectMapTileEdit[] = []
   const seen = new Set<string>([`${start.col},${start.row}`])
   const queue: LatticePos[] = [start]
   while (queue.length > 0) {
     const current = queue.pop()
-    if (!current || layer.tiles[current.row]?.[current.col] !== target) continue
+    if (
+      !current ||
+      layer.tiles[current.row]?.[current.col] !== target ||
+      mapInstanceHeight(layer, current.row, current.col) !== targetHeight
+    )
+      continue
     out.push({ ...current, layerId, tileId, height })
     const left = current.col - (current.row % 2 === 0 ? 1 : 0)
     const neighbors: LatticePos[] = [
