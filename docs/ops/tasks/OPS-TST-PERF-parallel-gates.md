@@ -225,6 +225,13 @@ parallel 命令必须失败，默认串行命令保持不变。
   workspace `0/0/0`，无断言/heap 错误。根因是整条 canonical process 同时承载 preflight+unit+
   shared+fresh，却误用了单个 PAL child 的 60m timeout；现改为各既有子门之和 `30m+60m+60m=150m`。
   parallel 的 preflight/unit 30m、shared 60m、fresh 60m 单项门限均不变。
+- 150m 外层门修复后的第四次 control
+  `build/release-runs/serial-control-2026-08-18T003502833Z-726c3eba/summary.json` 完整走过 shared 并进入
+  fresh，最终 JSON 为 799 passed / 0 assertion failed；canonical peak RSS `4,025,942,016 bytes`、
+  workspace `0/0/0`。唯一失败是三个 PAL-lite 文件在 release-unit 路由下仍使用 Vitest默认10s
+  `beforeAll`，而 fast 的 pal-lite project本就给同类冷建120s。现只为这三处真实冷建hook显式120s，
+  不抬整个unit组；定向release-unit报告
+  `build/release-runs/c1-release-unit-3DUz9a/report.vitest.json` 为 **3 files / 10 passed**。
 - 尚未完成：修复后的完整 serial control、显式 parallel 以及三组同机同批次 serial/parallel proof。
   因此本卡保持 `build`，Codex/Kimi/GLM done 前签字仍为 pending。
 
@@ -259,6 +266,10 @@ parallel 命令必须失败，默认串行命令保持不变。
 - 2026-08-18 Codex: 完整 control 再次正确 fail-closed，但原因为 canonical 外层错误复用 60m 单 PAL
   timeout；child 在 3,600,000ms 被 SIGTERM，peak `3,574,153,216B`、workspace `0/0/0`。已将
   canonical 总门改为既有四阶段预算之和 150m，parallel 各子门不变。Next: 定向验证后提交并重跑。
+- 2026-08-18 Codex: 150m control已完整走到fresh，799 assertions通过、0断言失败，peak
+  `4,025,942,016B`、workspace `0/0/0`；仅3个PAL-lite `beforeAll`在release-unit默认10s下超时。
+  三处显式对齐fast pal-lite的120s后，release-unit定向3 files/10 tests全绿，typecheck/manifest通过。
+  Next: 提交固定候选并再次完整control。
 
 ## 下一位 Agent 提示词
 

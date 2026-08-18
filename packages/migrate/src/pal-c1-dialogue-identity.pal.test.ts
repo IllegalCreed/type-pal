@@ -91,7 +91,7 @@ beforeAll(() => {
     manifest: currentManifest,
     manifestRawText: currentManifestRawText,
   })
-})
+}, 120_000)
 
 describe('C1-2 published dialogue identity successor', () => {
   test('pins the PAL census and folds the copied project seal without losing authored edits', () => {

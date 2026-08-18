@@ -109,7 +109,7 @@ beforeAll(() => {
     sourceCommands,
     sourceFileSha256,
   })
-})
+}, 120_000)
 
 describe('C1-3 approved PAL NPC curation transition', () => {
   test('projects only the approved two Actors and rewinds byte-exact to C1-2', () => {
