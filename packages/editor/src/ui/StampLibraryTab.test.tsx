@@ -190,9 +190,13 @@ async function chooseToolOption(label: string, optionLabel: string): Promise<voi
   await act(async () => option.click())
 }
 
-async function clickDraftPoint(point: { row: number; col: number }): Promise<void> {
+async function clickDraftPoint(
+  point: { row: number; col: number },
+  extraMaxRow = 0,
+): Promise<void> {
   const canvas = host.querySelector<HTMLCanvasElement>('[aria-label="组合局部地图编辑画布"]')!
-  const bounds = stampDraftBounds(template(), 2)
+  const baseBounds = stampDraftBounds(template(), 2)
+  const bounds = { ...baseBounds, maxRow: baseBounds.maxRow + extraMaxRow }
   const center = latticeCenter(point)
   const clientX = 16 - bounds.minU * 32 + center.x * 2
   const clientY = 16 - bounds.minRow * 16 + center.y * 2
@@ -650,6 +654,30 @@ describe('StampLibraryTab', () => {
         { dRow: 2, du: 0 },
       ]),
     )
+  })
+
+  test('组合 5 × 5 笔刷扩展草稿边界并完整写入 25 格', async () => {
+    const session = new EditSession(state([template()], {}))
+    await act(async () => {
+      root.render(
+        <Harness
+          session={session}
+          tilesets={[tilesetFixture]}
+          assetCatalog={assetCatalogFixture}
+        />,
+      )
+      await new Promise((resolve) => window.setTimeout(resolve, 0))
+    })
+    await act(async () => new Promise((resolve) => window.setTimeout(resolve, 0)))
+    await act(async () => button('瓦片', host).click())
+    await chooseToolOption('笔刷面积', '5 × 5')
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="瓦片 #2"]')!.click())
+    await clickDraftPoint({ row: 0, col: 0 }, 6)
+    await act(async () => button('保存组合', host).click())
+
+    expect(
+      session.getState().stamps[0]!.visual.filter((member) => member.tileId === 2),
+    ).toHaveLength(25)
   })
 
   test('内容草稿离开时先确认，取消编辑保持工程与迁移来源不变', async () => {

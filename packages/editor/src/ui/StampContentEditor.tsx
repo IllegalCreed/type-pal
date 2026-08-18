@@ -4,7 +4,11 @@ import { bakeFrame, latticeCenter, pixelToLattice, projectMapTileBlitRect } from
 import { type PointerEvent as ReactPointerEvent, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
-import { type IsometricBrushSize, isometricBrushPoints } from '../core/isometric-brush.js'
+import {
+  type IsometricBrushSize,
+  isometricBrushDraftRowExtension,
+  isometricBrushPoints,
+} from '../core/isometric-brush.js'
 import { floodFillIsometricTiles } from '../core/isometric-fill.js'
 import type { GridPointRef } from '../core/map-selection.js'
 import { nudgeIsometricLattice } from '../core/map-transform.js'
@@ -223,7 +227,10 @@ export function StampContentEditor(props: {
       ),
     [activeSlotHidden, activeSlotId, draft.visual],
   )
-  const bounds = useMemo(() => stampDraftBounds(draft, 2), [draft])
+  const bounds = useMemo(() => {
+    const base = stampDraftBounds(draft, 2)
+    return { ...base, maxRow: base.maxRow + isometricBrushDraftRowExtension(brushSize) }
+  }, [brushSize, draft])
   const latticePoints = useMemo(() => {
     const points: GridPointRef[] = []
     for (let row = bounds.minRow; row <= bounds.maxRow; row += 1)

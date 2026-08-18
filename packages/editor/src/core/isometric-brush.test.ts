@@ -1,6 +1,6 @@
 import { latticeCenter } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
-import { isometricBrushPoints } from './isometric-brush.js'
+import { isometricBrushDraftRowExtension, isometricBrushPoints } from './isometric-brush.js'
 
 describe('isometricBrushPoints', () => {
   test.each([
@@ -42,5 +42,12 @@ describe('isometricBrushPoints', () => {
     expect(points).toHaveLength(9)
     expect(points).toContainEqual({ row: 6, col: 3 })
     expect(points).not.toContainEqual({ row: 2, col: 4 })
+  })
+
+  test('5 × 5 是菱形双轴二十五格，草稿边界覆盖最远偏移', () => {
+    const points = isometricBrushPoints({ row: 2, col: 3 }, 5)
+    expect(points).toHaveLength(25)
+    expect(points).toContainEqual({ row: 10, col: 3 })
+    expect(isometricBrushDraftRowExtension(5)).toBe(6)
   })
 })

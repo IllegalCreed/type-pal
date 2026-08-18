@@ -1,8 +1,14 @@
 import { resolveRelativeLatticeOffset } from './map-transform.js'
 
-export type IsometricBrushSize = 1 | 2 | 3
+export type IsometricBrushSize = 1 | 2 | 3 | 4 | 5
 
-export const ISOMETRIC_BRUSH_SIZES: readonly IsometricBrushSize[] = [1, 2, 3]
+export const MAX_ISOMETRIC_BRUSH_SIZE: IsometricBrushSize = 5
+export const ISOMETRIC_BRUSH_SIZES: readonly IsometricBrushSize[] = [1, 2, 3, 4, 5]
+
+/** 草稿默认已留 2 行编辑边；只补足双轴笔刷向下的 raw lattice row 最远偏移。 */
+export function isometricBrushDraftRowExtension(size: IsometricBrushSize): number {
+  return Math.max(0, (size - 1) * 2 - 2)
+}
 
 export function isometricBrushPoints(
   anchor: { row: number; col: number },

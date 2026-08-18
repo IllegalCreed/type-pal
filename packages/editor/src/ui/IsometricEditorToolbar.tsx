@@ -7,7 +7,11 @@ import {
   useRef,
   useState,
 } from 'react'
-import { ISOMETRIC_BRUSH_SIZES, type IsometricBrushSize } from '../core/isometric-brush.js'
+import {
+  ISOMETRIC_BRUSH_SIZES,
+  type IsometricBrushSize,
+  MAX_ISOMETRIC_BRUSH_SIZE,
+} from '../core/isometric-brush.js'
 import { DsButton, DsMenuBar } from './design-system/index.js'
 
 export type IsometricEditorTool =
@@ -39,9 +43,9 @@ const TOOL_DEFINITIONS: readonly {
 function BrushSizeGlyph(props: { size: IsometricBrushSize }) {
   return (
     <span className="map-brush-size-glyph" aria-hidden="true">
-      {Array.from({ length: 9 }, (_, index) => {
-        const row = Math.floor(index / 3)
-        const col = index % 3
+      {Array.from({ length: MAX_ISOMETRIC_BRUSH_SIZE ** 2 }, (_, index) => {
+        const row = Math.floor(index / MAX_ISOMETRIC_BRUSH_SIZE)
+        const col = index % MAX_ISOMETRIC_BRUSH_SIZE
         return <i key={index} data-active={row < props.size && col < props.size} />
       })}
     </span>

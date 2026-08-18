@@ -659,6 +659,9 @@ describe('MapMode 地图内容选择交互', () => {
     const brushSizeTrigger = host.querySelector<HTMLButtonElement>('[aria-label="笔刷面积"]')!
     expect(brushSizeTrigger.title).toContain('当前 2 × 2')
     expect(brushSizeTrigger.querySelectorAll('[data-active="true"]')).toHaveLength(4)
+    await chooseToolOption(host, '笔刷面积', '5 × 5')
+    expect(brushSizeTrigger.title).toContain('当前 5 × 5')
+    expect(brushSizeTrigger.querySelectorAll('[data-active="true"]')).toHaveLength(25)
   })
 
   test('从选择切回平移时清空内容选区并恢复地图属性', async () => {

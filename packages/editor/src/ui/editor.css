@@ -903,8 +903,8 @@ html[data-panel-resize="horizontal"] * {
 }
 .map-brush-size-glyph {
   display: grid;
-  grid-template-columns: repeat(3, 4px);
-  grid-template-rows: repeat(3, 4px);
+  grid-template-columns: repeat(5, 2px);
+  grid-template-rows: repeat(5, 2px);
   gap: 1px;
   width: 14px;
   height: 14px;
