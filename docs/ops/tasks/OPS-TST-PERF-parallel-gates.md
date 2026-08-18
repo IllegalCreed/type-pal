@@ -1,6 +1,7 @@
 # OPS-TST-PERF-B - shared/fresh 隔离并行 release runner
 
 Status: build
+Execution: paused by user（2026-08-18；先处理功能与样式，不启动长时 proof）
 Phase: ops
 Capability: test infrastructure / release gate
 Coding Owner: Codex
@@ -307,6 +308,8 @@ parallel 命令必须失败，默认串行命令保持不变。
 - 2026-08-18 Codex: oracle 固定候选的首组 canary 2/2 通过；canonical 仅 C1-3 半状态矩阵用例在
   5,013.9ms 命中默认 5s。核对同文件其余重型用例均 120s，补齐该漏项且不改断言/业务代码。
   真实 `release-unit` 定向 1 file/6 tests 全绿。Next: 提交后从固定 HEAD 重启 proof。
+- 2026-08-18 User: 暂缓性能优化任务，优先处理编辑器功能与样式。Evidence: 本轮用户明确指示。
+  Next: 保持 `build` 与既有证据，不再启动 serial/parallel 长时 proof；用户恢复任务后从固定候选继续。
 
 ## 下一位 Agent 提示词
 

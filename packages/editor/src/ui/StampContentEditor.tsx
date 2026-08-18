@@ -1,10 +1,11 @@
 import type { AssetCatalogV1, StampTemplateV1 } from '@type-pal/content'
 import type { AssetBase, Palette, RleFrame, TilesetDef } from '@type-pal/reforge'
-import { bakeFrame } from '@type-pal/reforge'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { bakeFrame, latticeCenter, pixelToLattice, projectMapTileBlitRect } from '@type-pal/reforge'
+import { type PointerEvent as ReactPointerEvent, useEffect, useMemo, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { GridPointRef } from '../core/map-selection.js'
-import { latticeU, nudgeIsometricLattice } from '../core/map-transform.js'
+import { nudgeIsometricLattice } from '../core/map-transform.js'
 import {
   addStampDraftLayer,
   canonicalizeStampDraft,
@@ -27,20 +28,22 @@ import {
   DsButton,
   DsDialog,
   DsIconButton,
-  DsNumberInput,
+  DsObjectHero,
   DsSelect,
   DsTabs,
   DsTag,
   DsTextInput,
 } from './design-system/index.js'
-import {
-  loadStampPreviewAssets,
-  type StampPreviewAssets,
-  StampPreviewCanvas,
-} from './StampPreviewCanvas.js'
+import { IsometricEditorCanvas } from './IsometricEditorCanvas.js'
+import { LayerStackControls } from './LayerStackControls.js'
+import { loadStampPreviewAssets, type StampPreviewAssets } from './StampPreviewCanvas.js'
 
 type StampDraftTool = 'paint' | 'erase' | 'select'
 type StampDraftChannelKind = 'visual' | 'collision'
+
+const STAMP_DRAFT_LATTICE_SCALE = 2
+const STAMP_DRAFT_CELL_WIDTH = 32 * STAMP_DRAFT_LATTICE_SCALE
+const STAMP_DRAFT_CELL_HEIGHT = 16 * STAMP_DRAFT_LATTICE_SCALE
 
 function TileFrameButton(props: {
   tileId: number
@@ -85,6 +88,9 @@ export function StampContentEditor(props: {
   assetCatalog: AssetCatalogV1
   assetReader: EditorAssetReader
   assetBase: AssetBase
+  paletteHost?: HTMLElement | null
+  propertiesHost?: HTMLElement | null
+  layersHost?: HTMLElement | null
   onSave: (template: StampTemplateV1, takeOwnership: boolean) => void
   onCancel: () => void
   onDirtyChange?: (dirty: boolean) => void
@@ -104,13 +110,19 @@ export function StampContentEditor(props: {
   const [tileQuery, setTileQuery] = useState('')
   const [tileLimit, setTileLimit] = useState(120)
   const [pendingDeleteSlotId, setPendingDeleteSlotId] = useState<string>()
+  const [hiddenSlotIds, setHiddenSlotIds] = useState<Set<string>>(() => new Set())
+  const [lockedSlotIds, setLockedSlotIds] = useState<Set<string>>(() => new Set())
   const [takeoverOpen, setTakeoverOpen] = useState(false)
+  const stageCanvasRef = useRef<HTMLCanvasElement>(null)
+  const paintedPointRef = useRef<string | undefined>(undefined)
   const dirty = JSON.stringify(draft) !== JSON.stringify(baseline)
   const tileset = props.tilesets.find((candidate) => candidate.id === draft.tilesetId)
   const revision = tileset
     ? (props.assetCatalog.assets[tileset.asset]?.sha256 ?? 'missing')
     : 'missing'
   const activeSlot = draft.layerSlots.find((slot) => slot.id === activeSlotId)
+  const activeSlotHidden = hiddenSlotIds.has(activeSlotId)
+  const activeSlotLocked = lockedSlotIds.has(activeSlotId)
 
   useEffect(() => props.onDirtyChange?.(dirty), [dirty, props.onDirtyChange])
   useEffect(() => {
@@ -190,19 +202,10 @@ export function StampContentEditor(props: {
     () =>
       new Map(
         draft.visual
-          .filter((member) => member.layerSlotId === activeSlotId)
+          .filter((member) => member.layerSlotId === activeSlotId && !activeSlotHidden)
           .map((member) => [stampDraftPointKey(stampDraftPoint(member.offset)), member] as const),
       ),
-    [activeSlotId, draft.visual],
-  )
-  const collisionByPoint = useMemo(
-    () =>
-      new Map(
-        draft.collision.map(
-          (member) => [stampDraftPointKey(stampDraftPoint(member.offset)), member] as const,
-        ),
-      ),
-    [draft.collision],
+    [activeSlotHidden, activeSlotId, draft.visual],
   )
   const bounds = useMemo(() => stampDraftBounds(draft, 2), [draft])
   const latticePoints = useMemo(() => {
@@ -211,8 +214,12 @@ export function StampContentEditor(props: {
       for (let col = bounds.minCol; col <= bounds.maxCol; col += 1) points.push({ row, col })
     return points
   }, [bounds])
-  const stageWidth = (bounds.maxU - bounds.minU) * 26 + 64
-  const stageHeight = (bounds.maxRow - bounds.minRow) * 30 + 64
+  const stageWidth =
+    (bounds.maxU - bounds.minU) * (16 * STAMP_DRAFT_LATTICE_SCALE) + STAMP_DRAFT_CELL_WIDTH + 32
+  const stageHeight =
+    (bounds.maxRow - bounds.minRow) * (8 * STAMP_DRAFT_LATTICE_SCALE) + STAMP_DRAFT_CELL_HEIGHT + 32
+  const stageOriginX = 16 - bounds.minU * (16 * STAMP_DRAFT_LATTICE_SCALE)
+  const stageOriginY = 16 - bounds.minRow * (8 * STAMP_DRAFT_LATTICE_SCALE)
   const tileEntries = useMemo(() => {
     const needle = tileQuery.trim()
     return [...(assets?.frames.entries() ?? [])]
@@ -221,6 +228,10 @@ export function StampContentEditor(props: {
   }, [assets, tileQuery])
 
   const handleCell = (point: GridPointRef): void => {
+    if (channel === 'visual' && (activeSlotHidden || activeSlotLocked)) {
+      setError(activeSlotHidden ? '当前视觉层已隐藏，请先显示后再编辑。' : '当前视觉层已锁定。')
+      return
+    }
     const key = stampDraftPointKey(point)
     if (tool === 'select') {
       setSelectedPointKeys((current) => {
@@ -278,6 +289,134 @@ export function StampContentEditor(props: {
     )
   }
 
+  const pointFromStagePointer = (
+    event: ReactPointerEvent<HTMLCanvasElement>,
+  ): GridPointRef | undefined => {
+    const canvas = event.currentTarget
+    const rect = canvas.getBoundingClientRect()
+    if (!rect.width || !rect.height) return undefined
+    const canvasX = (event.clientX - rect.left) * (canvas.width / rect.width)
+    const canvasY = (event.clientY - rect.top) * (canvas.height / rect.height)
+    const point = pixelToLattice(
+      (canvasX - stageOriginX) / STAMP_DRAFT_LATTICE_SCALE,
+      (canvasY - stageOriginY) / STAMP_DRAFT_LATTICE_SCALE,
+    )
+    const key = stampDraftPointKey(point)
+    return latticePoints.some((candidate) => stampDraftPointKey(candidate) === key)
+      ? point
+      : undefined
+  }
+
+  useEffect(() => {
+    const canvas = stageCanvasRef.current
+    const context = canvas?.getContext('2d')
+    if (!canvas || !context) return
+    context.setTransform(1, 0, 0, 1, 0, 0)
+    context.clearRect(0, 0, canvas.width, canvas.height)
+    context.fillStyle = '#15171d'
+    context.fillRect(0, 0, canvas.width, canvas.height)
+    context.setTransform(
+      STAMP_DRAFT_LATTICE_SCALE,
+      0,
+      0,
+      STAMP_DRAFT_LATTICE_SCALE,
+      stageOriginX,
+      stageOriginY,
+    )
+
+    for (const point of latticePoints) {
+      const center = latticeCenter(point)
+      context.beginPath()
+      context.moveTo(center.x, center.y - 8)
+      context.lineTo(center.x + 16, center.y)
+      context.lineTo(center.x, center.y + 8)
+      context.lineTo(center.x - 16, center.y)
+      context.closePath()
+      context.fillStyle = 'rgba(35, 40, 51, 0.86)'
+      context.strokeStyle = '#46516a'
+      context.lineWidth = 0.6
+      context.fill()
+      context.stroke()
+    }
+
+    const layerOrder = new Map(draft.layerSlots.map((slot, index) => [slot.id, index] as const))
+    const frames = new Map<number, HTMLCanvasElement>()
+    const visualMembers = draft.visual
+      .filter((member) => !hiddenSlotIds.has(member.layerSlotId))
+      .map((member) => ({ member, point: stampDraftPoint(member.offset) }))
+      .sort(
+        (left, right) =>
+          (layerOrder.get(left.member.layerSlotId) ?? 0) -
+            (layerOrder.get(right.member.layerSlotId) ?? 0) ||
+          left.point.row - right.point.row ||
+          left.point.col - right.point.col,
+      )
+    for (const { member, point } of visualMembers) {
+      const frame = assets?.frames.get(member.tileId)
+      if (!frame || !assets) continue
+      let image = frames.get(member.tileId)
+      if (!image) {
+        image = bakeFrame(frame, assets.palette)
+        frames.set(member.tileId, image)
+      }
+      const rect = projectMapTileBlitRect(point, frame)
+      context.globalAlpha = member.layerSlotId === activeSlotId ? 1 : 0.42
+      context.drawImage(image, rect.x, rect.y)
+    }
+    context.globalAlpha = 1
+
+    for (const collision of draft.collision) {
+      const point = stampDraftPoint(collision.offset)
+      const center = latticeCenter(point)
+      context.beginPath()
+      context.moveTo(center.x, center.y - 7)
+      context.lineTo(center.x + 14, center.y)
+      context.lineTo(center.x, center.y + 7)
+      context.lineTo(center.x - 14, center.y)
+      context.closePath()
+      context.fillStyle =
+        collision.value === 0 ? 'rgba(65, 155, 255, 0.18)' : 'rgba(255, 130, 76, 0.25)'
+      context.strokeStyle = collision.value === 0 ? '#6eb0ff' : '#ff945f'
+      context.lineWidth = 1
+      context.fill()
+      context.stroke()
+    }
+
+    for (const key of selectedPointKeys) {
+      const point = parsePointKey(key)
+      const center = latticeCenter(point)
+      context.beginPath()
+      context.moveTo(center.x, center.y - 8)
+      context.lineTo(center.x + 16, center.y)
+      context.lineTo(center.x, center.y + 8)
+      context.lineTo(center.x - 16, center.y)
+      context.closePath()
+      context.strokeStyle = '#5fa4ff'
+      context.lineWidth = 2
+      context.stroke()
+    }
+
+    const anchor = latticeCenter({ row: 0, col: 0 })
+    context.beginPath()
+    context.arc(anchor.x, anchor.y, 3.5, 0, Math.PI * 2)
+    context.fillStyle = '#59d8ff'
+    context.fill()
+    context.strokeStyle = '#07131d'
+    context.lineWidth = 1
+    context.stroke()
+  }, [
+    activeSlotId,
+    assets,
+    draft.collision,
+    draft.layerSlots,
+    draft.visual,
+    hiddenSlotIds,
+    latticePoints,
+    selectedPointKeys,
+    stageOriginX,
+    stageOriginY,
+  ])
+
   const save = (takeOwnership: boolean): void => {
     try {
       if (!assets) throw new Error(assetError || '瓦片集尚未载入，暂时不能保存。')
@@ -297,26 +436,207 @@ export function StampContentEditor(props: {
     }
   }
 
+  const tilePalette = (
+    <section className="stamp-draft-palette" aria-label="组合瓦片面板">
+      <header>
+        <div>
+          <strong>选择瓦片</strong>
+          <span>
+            {assets ? `${assets.frames.size} 块 · 当前 #${selectedTileId}` : '正在载入瓦片…'}
+          </span>
+        </div>
+        <DsTextInput
+          size="compact"
+          aria-label="筛选组合瓦片"
+          placeholder="筛选 tileId…"
+          value={tileQuery}
+          onChange={(event) => {
+            setTileQuery(event.target.value)
+            setTileLimit(120)
+          }}
+        />
+      </header>
+      <div className="stamp-draft-tile-grid">
+        {tileEntries.slice(0, tileLimit).map(([tileId, frame]) => (
+          <TileFrameButton
+            key={tileId}
+            tileId={tileId}
+            frame={frame}
+            palette={assets!.palette}
+            selected={tileId === selectedTileId}
+            onPick={() => {
+              setSelectedTileId(tileId)
+              setChannel('visual')
+              setTool('paint')
+            }}
+          />
+        ))}
+      </div>
+      {tileEntries.length > tileLimit ? (
+        <DsButton size="compact" onClick={() => setTileLimit((current) => current + 120)}>
+          再显示 120 个
+        </DsButton>
+      ) : null}
+    </section>
+  )
+  const metadataFields = (
+    <div className="stamp-content-editor__metadata">
+      <DsTextInput
+        size="compact"
+        aria-label="组合名称"
+        value={draft.name}
+        onChange={(event) => setDraft((current) => ({ ...current, name: event.target.value }))}
+      />
+      <DsTextInput
+        size="compact"
+        aria-label="组合分类"
+        placeholder="未分类"
+        value={draft.category ?? ''}
+        onChange={(event) =>
+          setDraft((current) => ({ ...current, category: event.target.value || undefined }))
+        }
+      />
+    </div>
+  )
+  const maxDraftHeight = Math.max(8, ...draft.visual.map((member) => member.height))
+  const layerStack = (
+    <LayerStackControls
+      items={[...draft.layerSlots].reverse().map((slot) => {
+        const index = draft.layerSlots.findIndex((candidate) => candidate.id === slot.id)
+        const count = draft.visual.filter((member) => member.layerSlotId === slot.id).length
+        return {
+          id: slot.id,
+          name: slot.name,
+          detail: `${count} 格 · ${slot.id}`,
+          hidden: hiddenSlotIds.has(slot.id),
+          locked: lockedSlotIds.has(slot.id),
+          canMoveUp: index < draft.layerSlots.length - 1,
+          canMoveDown: index > 0,
+        }
+      })}
+      activeId={activeSlotId}
+      onSelect={(id) => {
+        setActiveSlotId(id)
+        setChannel('visual')
+      }}
+      onAdd={() => {
+        const id = nextStampLayerSlotId(draft)
+        update((current) =>
+          addStampDraftLayer(current, {
+            id,
+            name: `图层 ${current.layerSlots.length + 1}`,
+            depthMode: 'height',
+          }),
+        )
+        setActiveSlotId(id)
+        setChannel('visual')
+        setTool('paint')
+      }}
+      onDelete={() => {
+        if (activeSlotId) setPendingDeleteSlotId(activeSlotId)
+      }}
+      deleteDisabled={draft.layerSlots.length <= 1 || activeSlotLocked}
+      onToggleVisible={(id) =>
+        setHiddenSlotIds((current) => {
+          const next = new Set(current)
+          if (next.has(id)) next.delete(id)
+          else next.add(id)
+          return next
+        })
+      }
+      onToggleLocked={(id) =>
+        setLockedSlotIds((current) => {
+          const next = new Set(current)
+          if (next.has(id)) next.delete(id)
+          else next.add(id)
+          return next
+        })
+      }
+      onMove={(id, direction) =>
+        update((current) => moveStampDraftLayer(current, id, direction === 'up' ? 1 : -1))
+      }
+      footer={
+        activeSlot ? (
+          <section className="map-paint-context stamp-layer-context" aria-label="绘制层级">
+            <div className="stamp-layer-editor-fields">
+              <DsTextInput
+                size="compact"
+                aria-label={`图层 ${activeSlot.id} 名称`}
+                value={activeSlot.name}
+                onChange={(event) =>
+                  update((current) =>
+                    updateStampDraftLayer(current, activeSlot.id, { name: event.target.value }),
+                  )
+                }
+              />
+              <DsSelect
+                size="compact"
+                aria-label={`图层 ${activeSlot.id} 高度模式`}
+                value={activeSlot.depthMode}
+                options={[
+                  { value: 'flat', label: '平面层' },
+                  { value: 'height', label: '高度层' },
+                ]}
+                onValueChange={(value) =>
+                  update((current) =>
+                    updateStampDraftLayer(current, activeSlot.id, {
+                      depthMode: value as 'flat' | 'height',
+                    }),
+                  )
+                }
+              />
+            </div>
+            <div className="map-paint-context__control">
+              <label htmlFor="stamp-paint-height">绘制高度</label>
+              <input
+                id="stamp-paint-height"
+                type="range"
+                min={0}
+                max={maxDraftHeight}
+                step={1}
+                value={activeSlot.depthMode === 'height' ? height : 0}
+                onChange={(event) => setHeight(Number(event.currentTarget.value))}
+                disabled={activeSlot.depthMode === 'flat' || activeSlotLocked}
+              />
+              <output htmlFor="stamp-paint-height">
+                {activeSlot.depthMode === 'height' ? height : 0}
+              </output>
+            </div>
+          </section>
+        ) : undefined
+      }
+    />
+  )
+
   return (
     <div className="stamp-content-editor" data-dirty={dirty || undefined}>
-      <header className="stamp-content-editor__header">
-        <div>
-          <span className="stamp-eyebrow">
-            {props.mode === 'create' ? '新建组合' : '编辑组合内容'}
-          </span>
-          <h2>{draft.name || '未命名组合'}</h2>
-          <p className="mono">{draft.id}</p>
-        </div>
-        <DsTag tone={dirty ? 'warning' : 'neutral'}>{dirty ? '未保存' : '无更改'}</DsTag>
-        <DsButton onClick={props.onCancel}>取消</DsButton>
-        <DsButton
-          variant="primary"
-          icon="save"
-          onClick={() => (baseline.origin === 'migrated' ? setTakeoverOpen(true) : save(false))}
-        >
-          保存组合
-        </DsButton>
-      </header>
+      <DsObjectHero
+        eyebrow={props.mode === 'create' ? '新建组合' : '组合地物模板'}
+        title={draft.name || '未命名组合'}
+        objectId={draft.id}
+        summary="直接编辑图层、瓦片、高度、碰撞与锚点；保存只影响未来放置。"
+        meta={
+          <>
+            <DsTag tone="neutral">{draft.layerSlots.length} 层</DsTag>
+            <DsTag tone={dirty ? 'warning' : 'neutral'}>{dirty ? '未保存' : '无更改'}</DsTag>
+          </>
+        }
+        actions={
+          <>
+            <DsButton onClick={props.onCancel}>
+              {props.mode === 'create' ? '取消新建' : '还原修改'}
+            </DsButton>
+            <DsButton
+              variant="primary"
+              icon="save"
+              disabled={!dirty && props.mode === 'edit'}
+              onClick={() => (baseline.origin === 'migrated' ? setTakeoverOpen(true) : save(false))}
+            >
+              保存组合
+            </DsButton>
+          </>
+        }
+      />
 
       {error || assetError ? (
         <div className="stamp-content-editor__error" role="alert">
@@ -324,127 +644,23 @@ export function StampContentEditor(props: {
         </div>
       ) : null}
 
-      <div className="stamp-content-editor__metadata">
-        <DsTextInput
-          size="compact"
-          aria-label="组合名称"
-          value={draft.name}
-          onChange={(event) => setDraft((current) => ({ ...current, name: event.target.value }))}
-        />
-        <DsTextInput
-          size="compact"
-          aria-label="组合分类"
-          placeholder="未分类"
-          value={draft.category ?? ''}
-          onChange={(event) =>
-            setDraft((current) => ({ ...current, category: event.target.value || undefined }))
-          }
-        />
-        <span className="mono">瓦片集 · {draft.tilesetId}</span>
-        <span>保存只影响未来放置；地图中的既有组合保持不变。</span>
-      </div>
+      {props.propertiesHost === undefined
+        ? metadataFields
+        : props.propertiesHost
+          ? createPortal(metadataFields, props.propertiesHost)
+          : null}
 
-      <section className="stamp-draft-layers" aria-label="组合视觉层">
-        <header>
-          <div>
-            <strong>视觉层</strong>
-            <span>{draft.layerSlots.length} 层 · 每层使用稳定 ID</span>
-          </div>
-          <DsButton
-            size="compact"
-            icon="add"
-            onClick={() => {
-              const id = nextStampLayerSlotId(draft)
-              update((current) =>
-                addStampDraftLayer(current, {
-                  id,
-                  name: `图层 ${current.layerSlots.length + 1}`,
-                  depthMode: 'height',
-                }),
-              )
-              setActiveSlotId(id)
-              setChannel('visual')
-              setTool('paint')
-            }}
-          >
-            新增图层
-          </DsButton>
-        </header>
-        <div className="stamp-draft-layer-list">
-          {draft.layerSlots.map((slot, index) => {
-            const count = draft.visual.filter((member) => member.layerSlotId === slot.id).length
-            return (
-              <article
-                key={slot.id}
-                className={`stamp-draft-layer${slot.id === activeSlotId ? ' active' : ''}`}
-              >
-                <button
-                  type="button"
-                  className="stamp-draft-layer__pick"
-                  aria-pressed={slot.id === activeSlotId}
-                  onClick={() => {
-                    setActiveSlotId(slot.id)
-                    setChannel('visual')
-                  }}
-                >
-                  <span>{index + 1}</span>
-                  <code>{slot.id}</code>
-                  <small>{count} 格</small>
-                </button>
-                <DsTextInput
-                  size="compact"
-                  aria-label={`图层 ${slot.id} 名称`}
-                  value={slot.name}
-                  onChange={(event) =>
-                    update((current) =>
-                      updateStampDraftLayer(current, slot.id, { name: event.target.value }),
-                    )
-                  }
-                />
-                <DsSelect
-                  size="compact"
-                  aria-label={`图层 ${slot.id} 高度模式`}
-                  value={slot.depthMode}
-                  options={[
-                    { value: 'flat', label: '平面层' },
-                    { value: 'height', label: '高度层' },
-                  ]}
-                  onValueChange={(value) =>
-                    update((current) =>
-                      updateStampDraftLayer(current, slot.id, {
-                        depthMode: value as 'flat' | 'height',
-                      }),
-                    )
-                  }
-                />
-                <div className="stamp-draft-layer__actions">
-                  <DsIconButton
-                    size="compact"
-                    label="上移图层"
-                    icon="chevron-up"
-                    disabled={index === 0}
-                    onClick={() => update((current) => moveStampDraftLayer(current, slot.id, -1))}
-                  />
-                  <DsIconButton
-                    size="compact"
-                    label="下移图层"
-                    icon="chevron-down"
-                    disabled={index === draft.layerSlots.length - 1}
-                    onClick={() => update((current) => moveStampDraftLayer(current, slot.id, 1))}
-                  />
-                  <DsIconButton
-                    size="compact"
-                    label="删除图层"
-                    icon="delete"
-                    variant="danger"
-                    onClick={() => setPendingDeleteSlotId(slot.id)}
-                  />
-                </div>
-              </article>
-            )
-          })}
-        </div>
-      </section>
+      {props.layersHost === undefined
+        ? layerStack
+        : props.layersHost
+          ? createPortal(layerStack, props.layersHost)
+          : null}
+
+      {props.paletteHost === undefined
+        ? tilePalette
+        : props.paletteHost
+          ? createPortal(tilePalette, props.paletteHost)
+          : null}
 
       <section className="stamp-draft-workbench">
         <header className="stamp-draft-toolbar">
@@ -478,19 +694,7 @@ export function StampContentEditor(props: {
               </DsButton>
             ))}
           </fieldset>
-          {channel === 'visual' ? (
-            <span className="stamp-draft-inline-field">
-              <span>高度</span>
-              <DsNumberInput
-                size="compact"
-                aria-label="绘制高度"
-                min={0}
-                disabled={activeSlot?.depthMode !== 'height'}
-                value={activeSlot?.depthMode === 'height' ? height : 0}
-                onChange={(event) => setHeight(Math.max(0, Number(event.target.value) || 0))}
-              />
-            </span>
-          ) : (
+          {channel === 'collision' ? (
             <DsSelect
               size="compact"
               aria-label="碰撞值"
@@ -501,61 +705,47 @@ export function StampContentEditor(props: {
               ]}
               onValueChange={(value) => setCollisionValue(Number(value))}
             />
-          )}
+          ) : null}
         </header>
 
         <div className="stamp-draft-stage-scroll">
-          <fieldset
+          <IsometricEditorCanvas
+            ref={stageCanvasRef}
+            label="组合局部地图编辑画布"
             className="stamp-draft-stage"
-            style={{ width: stageWidth, height: stageHeight }}
-          >
-            <legend className="map-a11y-legend">组合局部 lattice 画布</legend>
-            {latticePoints.map((point) => {
+            width={stageWidth}
+            height={stageHeight}
+            style={{
+              width: stageWidth,
+              height: stageHeight,
+              cursor: tool === 'select' ? 'default' : 'crosshair',
+            }}
+            onPointerDown={(event) => {
+              const point = pointFromStagePointer(event)
+              if (!point) return
+              event.currentTarget.setPointerCapture(event.pointerId)
+              paintedPointRef.current = stampDraftPointKey(point)
+              handleCell(point)
+            }}
+            onPointerMove={(event) => {
+              if (!(event.buttons & 1) || tool === 'select') return
+              const point = pointFromStagePointer(event)
+              if (!point) return
               const key = stampDraftPointKey(point)
-              const visual = activeVisualByPoint.get(key)
-              const collision = collisionByPoint.get(key)
-              const selected = selectedPointKeys.has(key)
-              const isAnchor = point.row === 0 && point.col === 0
-              return (
-                <button
-                  key={key}
-                  type="button"
-                  className={`stamp-draft-cell${visual ? ' has-visual' : ''}${collision ? ' has-collision' : ''}${selected ? ' selected' : ''}${isAnchor ? ' anchor' : ''}`}
-                  style={{
-                    left: (latticeU(point) - bounds.minU) * 26 + 6,
-                    top: (point.row - bounds.minRow) * 30 + 6,
-                  }}
-                  data-point-key={key}
-                  aria-label={`格子 r${point.row} c${point.col}${visual ? `，瓦片 ${visual.tileId}，高度 ${visual.height}` : ''}${collision ? `，碰撞 ${collision.value}` : ''}${isAnchor ? '，当前锚点' : ''}`}
-                  aria-pressed={selected}
-                  onClick={() => handleCell(point)}
-                  onKeyDown={(event) => {
-                    const directions = {
-                      ArrowUp: 'up',
-                      ArrowDown: 'down',
-                      ArrowLeft: 'left',
-                      ArrowRight: 'right',
-                    } as const
-                    const direction = directions[event.key as keyof typeof directions]
-                    if (!direction) return
-                    event.preventDefault()
-                    const next = nudgeIsometricLattice(point, direction)
-                    const selector = `[data-point-key="${stampDraftPointKey(next)}"]`
-                    event.currentTarget.parentElement?.querySelector<HTMLElement>(selector)?.focus()
-                  }}
-                >
-                  {visual ? (
-                    <span>
-                      <strong>#{visual.tileId}</strong>
-                      <small>H{visual.height}</small>
-                    </span>
-                  ) : null}
-                  {collision ? <b>C{collision.value}</b> : null}
-                  {isAnchor ? <i aria-hidden="true" /> : null}
-                </button>
-              )
-            })}
-          </fieldset>
+              if (paintedPointRef.current === key) return
+              paintedPointRef.current = key
+              handleCell(point)
+            }}
+            onPointerUp={(event) => {
+              paintedPointRef.current = undefined
+              if (event.currentTarget.hasPointerCapture(event.pointerId))
+                event.currentTarget.releasePointerCapture(event.pointerId)
+            }}
+            onPointerCancel={() => {
+              paintedPointRef.current = undefined
+            }}
+            onContextMenu={(event) => event.preventDefault()}
+          />
         </div>
 
         <footer className="stamp-draft-selection-bar">
@@ -601,58 +791,6 @@ export function StampContentEditor(props: {
             </DsButton>
           </div>
         </footer>
-      </section>
-
-      <section className="stamp-draft-preview">
-        <StampPreviewCanvas
-          template={draft}
-          tilesets={props.tilesets}
-          assetCatalog={props.assetCatalog}
-          assetReader={props.assetReader}
-          assetBase={props.assetBase}
-        />
-      </section>
-
-      <section className="stamp-draft-palette" aria-label="组合瓦片面板">
-        <header>
-          <div>
-            <strong>瓦片</strong>
-            <span>
-              {assets ? `${assets.frames.size} 块 · 当前 #${selectedTileId}` : '正在载入瓦片…'}
-            </span>
-          </div>
-          <DsTextInput
-            size="compact"
-            aria-label="筛选组合瓦片"
-            placeholder="筛选 tileId…"
-            value={tileQuery}
-            onChange={(event) => {
-              setTileQuery(event.target.value)
-              setTileLimit(120)
-            }}
-          />
-        </header>
-        <div className="stamp-draft-tile-grid">
-          {tileEntries.slice(0, tileLimit).map(([tileId, frame]) => (
-            <TileFrameButton
-              key={tileId}
-              tileId={tileId}
-              frame={frame}
-              palette={assets!.palette}
-              selected={tileId === selectedTileId}
-              onPick={() => {
-                setSelectedTileId(tileId)
-                setChannel('visual')
-                setTool('paint')
-              }}
-            />
-          ))}
-        </div>
-        {tileEntries.length > tileLimit ? (
-          <DsButton size="compact" onClick={() => setTileLimit((current) => current + 120)}>
-            再显示 120 个
-          </DsButton>
-        ) : null}
       </section>
 
       {pendingDeleteSlotId ? (

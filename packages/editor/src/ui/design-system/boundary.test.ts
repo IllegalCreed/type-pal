@@ -112,6 +112,24 @@ describe('editor design-system static boundary', () => {
     )
   })
 
+  test('keeps stamp and tileset workspaces on shared object and map editing surfaces', () => {
+    const uiRoot = dirname(here)
+    const stampEditor = readFileSync(join(uiRoot, 'StampContentEditor.tsx'), 'utf8')
+    const stampLibrary = readFileSync(join(uiRoot, 'StampLibraryTab.tsx'), 'utf8')
+    const tileset = readFileSync(join(uiRoot, 'TilesetTab.tsx'), 'utf8')
+    const mapMode = readFileSync(join(uiRoot, 'MapMode.tsx'), 'utf8')
+
+    expect(stampEditor).toMatch(/<DsObjectHero\b/)
+    expect(tileset).toMatch(/<DsObjectHero\b/)
+    expect(stampLibrary).not.toMatch(/stamp-workspace-head|编辑组合内容|退出内容编辑/)
+    expect(tileset).not.toMatch(/tileset-workspace-head/)
+    for (const source of [stampEditor, mapMode]) {
+      expect(source).toMatch(/<LayerStackControls\b/)
+      expect(source).toMatch(/<IsometricEditorCanvas\b/)
+    }
+    expect(mapMode).not.toMatch(/>\s*◆\s*放置组合\s*</)
+  })
+
   test('keeps every legacy checkbox bridge selector isolated from shared controls', () => {
     const formScope = readFileSync(join(here, 'form-scope.css'), 'utf8')
     const rules = [...formScope.matchAll(/([^{}]+)\{([^{}]*)\}/g)]
@@ -151,10 +169,10 @@ describe('editor design-system static boundary', () => {
         path.endsWith('.tsx') && !path.endsWith('.test.tsx') && !path.includes('/design-system/'),
     )
     const ceilings = {
-      input: 142,
+      input: 141,
       select: 70,
       textarea: 2,
-      label: 129,
+      label: 128,
     } as const
 
     for (const [tag, ceiling] of Object.entries(ceilings)) {
@@ -451,7 +469,6 @@ describe('editor design-system static boundary', () => {
     const contracts = [
       ['ShopTab.tsx', 'shop-stock-order'],
       ['ProjectWorkbenchTab.tsx', 'project-party-index|project-flow-number'],
-      ['StampLibraryTab.tsx', 'stamp-slot-order'],
       ['CasualtyEditor.tsx', 'casualty-branch-index'],
       ['BattleSpriteLibrary.tsx', 'battle-action-stage-number'],
       ['PoisonTab.tsx', 'poison-tick-index'],
@@ -748,7 +765,7 @@ describe('editor design-system static boundary', () => {
       expect(source, name).not.toMatch(/\b(?:EditSession|MapMode|MapIndexV1|ProjectMap)\b/)
       expect(source, name).not.toMatch(/\bsession\.(?:dispatch|getState|ensureMapLoaded)\b/)
     }
-    expect(surface).toMatch(/<StampPreviewCanvas\b/)
+    expect(surface).toMatch(/<IsometricEditorCanvas\b/)
     expect(surface).toMatch(/canonicalizeStampDraft/)
   })
 })

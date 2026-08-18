@@ -40,8 +40,8 @@ Status: rebaseline complete（2026-08-17；ED-AUDIT-2 输入；不是任一页�
   `17/15/16/6`：EnemyTeam 缺 catalog/reference 保护，Enemy 与 App 场景实体缺 Inspector 保护。review 补齐
   三处清单后，`design-system/boundary.test.ts` 已按实际消费者完整钉住 `18/17/17/6`；Skill / Enemy /
   Poison / BattleField / Actor 五个已迁对象工作台继续禁止 raw form primitive。
-- `ED-SHARED-SCRIPT-UI-1` 与 `ED-MAP-PALETTE-CONTROLS-1` 合入后，当前生产 TSX 的只减不增基线为：
-  `button=253`、`input=142`、`select=70`、`textarea=2`、`label=129`、原生 checkbox `12`。脚本批次的三份当前生产文件
+- `ED-STAMP-EDITOR-1` 地图/组合共享 surface 返工后，当前生产 TSX 的只减不增基线为：
+  `button=241`、`input=141`、`select=70`、`textarea=2`、`label=128`、原生 checkbox `12`。脚本批次的三份当前生产文件
   `CanonicalSharedScriptTabV5 / CanonicalScriptEditorV5 / CommandForm` 已由 boundary 单独钉为 raw control 0。
 - 旧按钮类当前为：`tool=62`、`btn=26`、`mini=14`、`mini-txt=23`、`pv-btn=5`、`mini-icon=3`；
   `item-action-button` 与 `media-zoom-controls` 已归零。
@@ -78,7 +78,7 @@ className 匹配器与 token 词界 `(?<![\\w-])TOKEN(?![\\w-])` 和 boundary te
 | U-08 | 空/错/加载/缺引用的恢复语法不统一 | 历史白屏、`stages is not iterable`；各页私有空态 | 统一 boundary + visible error + retry/open-source action；禁止静默空数组 |
 | U-09 | 页面自身标题与主任务说明不稳定 | Skill 直接从“基础”表单开始；BattleField 有明确 hero | 每个对象页必须先有 hero：类型/id、名称、摘要、状态、主要动作 |
 | U-10 | 页面级 inline layout 仍多 | Skill/Enemy/Ambience 等保留 inline style | 迁移卡逐页删除并记录例外；不得在 ED-DS-2 批量机械改写 |
-| U-11 | 按钮体系尚未完成采用 | 两卡合入后 production census：raw `<button>` 253；`DsButton=198`、`DsIconButton=65`、`DsActionLink=3`；旧类仍有 tool/btn/mini/mini-txt/pv-btn/mini-icon = 62/26/14/23/5/3 | 公共入口只保留 `DsButton/DsActionLink/DsIconButton/DsToolbar/DsMenuItem`；脚本批次已归零，继续按领域迁剩余旧族并用边界测试禁止回流 |
+| U-11 | 按钮体系尚未完成采用 | 当前 production census：raw `<button>` 241；`DsButton=199`、`DsIconButton=62`、`DsActionLink=3`；旧类仍有 tool/btn/mini/mini-txt/pv-btn/mini-icon = 62/26/14/23/5/3 | 公共入口只保留 `DsButton/DsActionLink/DsIconButton/DsToolbar/DsMenuItem`；脚本批次已归零，继续按领域迁剩余旧族并用边界测试禁止回流 |
 | U-12 | 对象级删除的位置随模块漂移 | Skill/Enemy/BattleField 在 hero，Actor 曾在 Inspector 底部；引用面板标题又重复写“引用与删除” | 对象级删除统一进入 `DsObjectHero.actions`；Inspector 只保留“引用”与阻断原因；子项删除留在所属行/卡片 |
 
 ### 3.1 2026-08-17 复核状态

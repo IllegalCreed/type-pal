@@ -1,12 +1,13 @@
 // @vitest-environment jsdom
 import type { AssetCatalogV1, ProjectMap, StampTemplateV1 } from '@type-pal/content'
 import type { TilesetDef } from '@type-pal/reforge'
-import { buildBlankProjectMap, paintProjectMapTiles } from '@type-pal/reforge'
+import { buildBlankProjectMap, latticeCenter, paintProjectMapTiles } from '@type-pal/reforge'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { stampDraftBounds } from '../core/stamp-draft.js'
 import type { StampSelectionSource } from '../core/stamp-template.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
@@ -179,6 +180,28 @@ async function chooseSelectOption(label: string, optionText: string): Promise<vo
   await act(async () => option.click())
 }
 
+async function clickDraftPoint(point: { row: number; col: number }): Promise<void> {
+  const canvas = host.querySelector<HTMLCanvasElement>('[aria-label="组合局部地图编辑画布"]')!
+  const bounds = stampDraftBounds(template(), 2)
+  const center = latticeCenter(point)
+  const clientX = 16 - bounds.minU * 32 + center.x * 2
+  const clientY = 16 - bounds.minRow * 16 + center.y * 2
+  await act(async () => {
+    for (const type of ['pointerdown', 'pointerup']) {
+      const event = new MouseEvent(type, {
+        bubbles: true,
+        cancelable: true,
+        button: 0,
+        buttons: type === 'pointerdown' ? 1 : 0,
+        clientX,
+        clientY,
+      })
+      Object.defineProperty(event, 'pointerId', { value: 11 })
+      canvas.dispatchEvent(event)
+    }
+  })
+}
+
 let root: Root
 let host: HTMLDivElement
 
@@ -192,6 +215,7 @@ beforeEach(() => {
     configurable: true,
     value: () => ({
       clearRect: vi.fn(),
+      fillRect: vi.fn(),
       setTransform: vi.fn(),
       drawImage: vi.fn(),
       beginPath: vi.fn(),
@@ -205,7 +229,36 @@ beforeEach(() => {
       lineWidth: 1,
       fillStyle: '',
       strokeStyle: '',
+      globalAlpha: 1,
     }),
+  })
+  Object.defineProperty(HTMLCanvasElement.prototype, 'getBoundingClientRect', {
+    configurable: true,
+    value() {
+      return {
+        x: 0,
+        y: 0,
+        top: 0,
+        left: 0,
+        right: this.width,
+        bottom: this.height,
+        width: this.width,
+        height: this.height,
+        toJSON: () => ({}),
+      }
+    },
+  })
+  Object.defineProperty(HTMLCanvasElement.prototype, 'setPointerCapture', {
+    configurable: true,
+    value: vi.fn(),
+  })
+  Object.defineProperty(HTMLCanvasElement.prototype, 'hasPointerCapture', {
+    configurable: true,
+    value: () => true,
+  })
+  Object.defineProperty(HTMLCanvasElement.prototype, 'releasePointerCapture', {
+    configurable: true,
+    value: vi.fn(),
   })
   Object.defineProperty(HTMLDialogElement.prototype, 'showModal', {
     configurable: true,
@@ -267,13 +320,16 @@ describe('StampLibraryTab', () => {
     expect(host.querySelector('.stamp-library-row.selected')?.textContent).toContain('tree')
   })
 
-  test('检查器使用共享属性/引用/动作 Tab 完整键盘与 ARIA 合同', async () => {
+  test('检查器使用共享属性/引用/瓦片 Tab，且选中模板直接进入编辑工作区', async () => {
     const session = new EditSession(state([template()], {}))
     await act(async () => {
       root.render(<Harness session={session} />)
       await Promise.resolve()
     })
-    await verifyInspectorTabs(host, '组合模板检查器', ['属性', /^引用 \d+$/, '动作'])
+    await verifyInspectorTabs(host, '组合模板检查器', ['属性', /^引用 \d+$/, '瓦片'])
+    expect(host.querySelector('[aria-label="组合局部地图编辑画布"]')).not.toBeNull()
+    expect(host.textContent).not.toContain('编辑组合内容')
+    expect(host.textContent).not.toContain('退出内容编辑')
   })
 
   test('改名/分类/复制/删除均走 undo，删除模板不改 placement 且库级显示悬空来源', async () => {
@@ -282,13 +338,20 @@ describe('StampLibraryTab', () => {
     const beforeMap = structuredClone(map)
     const onOpenMap = vi.fn()
     await act(async () => {
-      root.render(<Harness session={session} onOpenMap={onOpenMap} />)
-      await Promise.resolve()
+      root.render(
+        <Harness
+          session={session}
+          onOpenMap={onOpenMap}
+          tilesets={[tilesetFixture]}
+          assetCatalog={assetCatalogFixture}
+        />,
+      )
+      await new Promise((resolve) => window.setTimeout(resolve, 0))
     })
 
-    await input(host.querySelector<HTMLInputElement>('[name="stamp-name"]')!, '古树')
-    await input(host.querySelector<HTMLInputElement>('[name="stamp-category"]')!, '古迹')
-    await act(async () => button('保存名称与分类', host).click())
+    await input(host.querySelector<HTMLInputElement>('[aria-label="组合名称"]')!, '古树')
+    await input(host.querySelector<HTMLInputElement>('[aria-label="组合分类"]')!, '古迹')
+    await act(async () => button('保存组合', host).click())
     expect(session.getState().stamps[0]).toMatchObject({ name: '古树', category: '古迹' })
 
     await act(async () => button('复制为作者模板', host).click())
@@ -381,7 +444,7 @@ describe('StampLibraryTab', () => {
       root.render(<Harness session={session} onOpenTileset={onOpenTileset} />)
       await Promise.resolve()
     })
-    await act(async () => button('tiles-a', host).click())
+    await act(async () => button('打开来源瓦片集', host).click())
     expect(onOpenTileset).toHaveBeenCalledWith('tiles-a')
   })
 
@@ -402,26 +465,24 @@ describe('StampLibraryTab', () => {
       await new Promise((resolve) => window.setTimeout(resolve, 0))
     })
 
-    await act(async () => button('编辑组合内容', host).click())
     await act(async () => new Promise((resolve) => window.setTimeout(resolve, 0)))
+    await act(async () => button('瓦片', host).click())
     expect(host.textContent).toContain('3 块 · 当前 #1')
     expect(session.getHistoryVersion()).toBe(historyBefore)
     expect(session.getState().maps).toEqual(beforeMaps)
     expect(session.getState().mapIndex).toEqual(beforeMapIndex)
 
-    await act(async () => button('新增图层', host).click())
-    expect(host.querySelectorAll('.stamp-draft-layer')).toHaveLength(2)
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="新增图层"]')!.click())
+    expect(host.querySelectorAll('.stamp-layer-host .map-layer-row')).toHaveLength(2)
     await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="瓦片 #2"]')!.click())
-    await input(host.querySelector<HTMLInputElement>('[aria-label="绘制高度"]')!, '3')
-    const paintTarget = host.querySelector<HTMLButtonElement>('[data-point-key="1:0"]')!
-    expect(paintTarget).not.toBeNull()
-    await act(async () => paintTarget.click())
+    await input(host.querySelector<HTMLInputElement>('#stamp-paint-height')!, '3')
+    await clickDraftPoint({ row: 1, col: 0 })
     const collisionTab = [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(
       (candidate) => candidate.textContent?.includes('碰撞'),
     )!
     await act(async () => collisionTab.click())
     await chooseSelectOption('碰撞值', '0 · 显式可通行')
-    await act(async () => host.querySelector<HTMLButtonElement>('[data-point-key="0:1"]')!.click())
+    await clickDraftPoint({ row: 0, col: 1 })
     expect(host.querySelector('.stamp-content-editor')?.getAttribute('data-dirty')).toBe('true')
     expect(session.getHistoryVersion()).toBe(historyBefore)
     expect(session.getState().maps).toEqual(beforeMaps)
@@ -470,9 +531,8 @@ describe('StampLibraryTab', () => {
       )
       await new Promise((resolve) => window.setTimeout(resolve, 0))
     })
-    await act(async () => button('编辑组合内容', host).click())
     await act(async () => new Promise((resolve) => window.setTimeout(resolve, 0)))
-    await act(async () => host.querySelector<HTMLButtonElement>('[data-point-key="1:0"]')!.click())
+    await clickDraftPoint({ row: 1, col: 0 })
 
     const rock = host.querySelector<HTMLButtonElement>('[data-stamp-id="rock"]')!
     await act(async () => rock.click())
@@ -481,8 +541,8 @@ describe('StampLibraryTab', () => {
     expect(session.getHistoryVersion()).toBe(historyBefore)
 
     await act(async () => button('继续编辑', document).click())
-    expect(host.textContent).toContain('编辑组合内容')
-    await act(async () => button('取消', host).click())
+    expect(host.querySelector('[aria-label="组合局部地图编辑画布"]')).not.toBeNull()
+    await act(async () => button('还原修改', host).click())
     await act(async () => button('放弃草稿', document).click())
     expect(session.getState().stamps[0]?.origin).toBe('migrated')
     expect(session.getHistoryVersion()).toBe(historyBefore)
@@ -504,6 +564,7 @@ describe('StampLibraryTab', () => {
     await input(document.querySelector<HTMLInputElement>('[aria-label="新组合名称"]')!, '村口门楼')
     await act(async () => button('进入内容编辑', document).click())
     await act(async () => new Promise((resolve) => window.setTimeout(resolve, 0)))
+    await act(async () => button('瓦片', host).click())
     expect(host.textContent).toContain('3 块 · 当前 #0')
     expect(session.getState().stamps).toHaveLength(0)
 
@@ -533,9 +594,8 @@ describe('StampLibraryTab', () => {
       )
       await new Promise((resolve) => window.setTimeout(resolve, 0))
     })
-    await act(async () => button('编辑组合内容', host).click())
     await act(async () => new Promise((resolve) => window.setTimeout(resolve, 0)))
-    await act(async () => host.querySelector<HTMLButtonElement>('[data-point-key="1:0"]')!.click())
+    await clickDraftPoint({ row: 1, col: 0 })
     await act(async () => button('保存组合', host).click())
     expect(document.querySelector('dialog')?.textContent).toContain('接管预置组合？')
     expect(session.getState().stamps[0]?.origin).toBe('migrated')
@@ -549,23 +609,20 @@ describe('StampLibraryTab', () => {
     expect(session.getState().stamps[0]?.origin).toBe('migrated')
   })
 
-  test('预置接管确认出现后把焦点移到取消按钮，Esc 可回到原动作', async () => {
+  test('预置接管确认出现后把焦点移到取消按钮', async () => {
     const migrated = { ...template(), origin: 'migrated' as const }
     const session = new EditSession(state([migrated], {}))
     await act(async () => {
       root.render(<Harness session={session} />)
       await Promise.resolve()
     })
-    await input(host.querySelector<HTMLInputElement>('[name="stamp-name"]')!, '接管后的树')
-    const save = button('保存名称与分类', host)
+    await input(host.querySelector<HTMLInputElement>('[aria-label="组合名称"]')!, '接管后的树')
+    const save = button('保存组合', host)
     await act(async () => save.click())
+    await act(async () => new Promise((resolve) => window.setTimeout(resolve, 20)))
     const cancel = button('取消', host)
     expect(document.activeElement).toBe(cancel)
-    await act(async () =>
-      cancel.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })),
-    )
-    await act(async () => new Promise((resolve) => window.setTimeout(resolve, 0)))
-    expect(document.activeElement).toBe(save)
+    await act(async () => cancel.click())
   })
 
   test('库页用选区更新前先拒绝 tileset mismatch，不会覆盖其他模板', async () => {

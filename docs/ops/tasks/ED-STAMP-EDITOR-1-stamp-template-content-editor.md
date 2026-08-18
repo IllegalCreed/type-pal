@@ -9,7 +9,7 @@ Reviewer: Kimi + GLM
 Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
-Branch: codex/ed-stamp-editor-1
+Branch: main
 
 ## 目标
 
@@ -20,7 +20,7 @@ Branch: codex/ed-stamp-editor-1
 ## 范围
 
 - 范围内:
-  - 在组合库提供明确的“新建组合”“编辑内容”入口；编辑已有迁移预置时沿用显式接管语义。
+  - 在组合库提供“新建组合”；选择已有组合即直接进入统一编辑工作台，不再区分查看/编辑状态；编辑迁移预置时沿用显式接管语义。
   - 中央区域进入可视化组合编辑工作区：显示真实 tileset，支持局部图层槽的新增、重命名、排序、删除与
     `flat/height` 模式；支持活动层、实例高度、瓦片绘制/擦除、选区/移动以及独立碰撞成员和值。
   - 以固定可见锚点和相对 lattice 坐标编辑；允许成员位于锚点任意方向，保存时确定性还原
@@ -107,7 +107,7 @@ Branch: codex/ed-stamp-editor-1
 ## 验收条件
 
 - 功能:
-  - 空库可选 tileset 新建组合；已有 authored 模板可直接“编辑内容”；migrated 模板保存前要求显式接管。
+  - 空库可选 tileset 新建组合；选择已有 authored 模板即直接编辑；migrated 模板保存前要求显式接管。
   - 同一草稿内可新增/重命名/排序/删除多个稳定图层槽，分别编辑 `flat/height`；可在不同槽放置不同 tileId，
     设置混合 height，编辑独立 collision（含显式 0），调整锚点和成员空间位置。
   - 删除最后视觉成员、保存无成员槽、flat 非零高度、非法 tileId/offset 等均 fail-loud 且草稿不丢失。
@@ -244,13 +244,13 @@ build/done。
 
 ### 进入 done 前:审查签字
 
-- Codex: **accept（2026-08-17）**。实现保持 SK1/SK2：`StampContentEditor` 只持有内存 draft 与只读资源，
-  `StampLibraryTab` 仅在确认保存时派发一次 Add/Replace；focused、全量、typecheck、content validator、
-  三档浏览器矩阵和保存/撤销/重做实测全绿。SE2/SE3 由纯函数字节稳定测试、静态边界测试与六态 session
-  不变断言覆盖；未发现 schema/runtime/MapMode/placement 写入。
+- Codex: **accept（2026-08-18，返工后重新签）**。2026-08-17 的旧 accept 已被用户对分离查看/编辑、重复图层/画布、
+  右栏动作页和瓦片不可选等 counter 推翻。返工后选择即编辑，基础信息归属性，右栏为属性/引用/瓦片，图层栈与
+  等距编辑画布由地图和组合共同消费；地图工具栏也按主工具/附加选项/显示状态重组。editor `129 files / 965 tests`、
+  typecheck、build、三档浏览器尺寸与 Console 0 全绿；未触及 schema/runtime/placement 非链接语义。
 - Kimi: pending
 - GLM: pending
-- counter / 返工处理: pending
+- counter / 返工处理: **2026-08-18 用户 counter 已完成返工；等待 Kimi/GLM 独立复审。**
 - 缺签豁免: N/A
 - done 准入结论: blocked
 
@@ -258,7 +258,7 @@ build/done。
 
 ### 设计结论
 
-1. **一个编辑语义，两种入口**：组合库内“新建/编辑内容”是主闭环；地图普通选区“保存/更新组合”继续作为
+1. **一个编辑语义，两种入口**：组合库内“新建/选择即编辑”是主闭环；地图普通选区“保存/更新组合”继续作为
    从真实场景采样的快捷导入。两者最后都生成 canonical `StampTemplateV1` 并走同一 validator/command。
 2. **内存草稿，不污染地图**：打开模板后将相对 offsets 映射到带安全 padding 的临时 lattice surface，另存
    `draftOrigin` 只负责画布坐标换算；它不进入 session maps、MapIndex、save 或 runtime。保存时以可见锚点为
@@ -314,29 +314,37 @@ build/done。
   - `packages/editor/src/core/stamp-draft.ts`、`stamp-draft.test.ts`
   - `packages/editor/src/ui/StampContentEditor.tsx`
   - `packages/editor/src/ui/StampLibraryTab.tsx`、`StampLibraryTab.test.tsx`
-  - `packages/editor/src/ui/StampPreviewCanvas.tsx`、`editor.css`
+  - `packages/editor/src/ui/LayerStackControls.tsx`、`IsometricEditorCanvas.tsx`
+  - `packages/editor/src/ui/MapMode.tsx`、`MapMode.test.tsx`、`TilesetTab.tsx`、`editor.css`
   - `packages/editor/src/ui/design-system/boundary.test.ts`
 - 实现摘要:
   - 新增纯 draft 边界，直接复用既有 isometric lattice 互逆/移动函数；覆盖稳定 layer ID、图层 CRUD、
     flat/height、视觉/碰撞 0/1、选区移动、reanchor、确定性 canonicalize 与 tileId fail-loud。
-  - 组合库新增空库新建和已有模板“编辑内容”主入口；工作区复用同一真实 tileset/palette 与
-    `StampPreviewCanvas`，所有中间操作留在内存。dirty 切换/取消先确认，migrated 只有“接管并保存”才转 authored。
+  - 组合库新增空库新建，已有模板选择后直接进入唯一工作台；不再保留查看/编辑切换。所有中间操作留在内存，
+    dirty 切换/取消先确认，migrated 只有“接管并保存”才转 authored。
+  - 基础信息和模板动作进入“属性”，引用诊断进入“引用”，真实 tileset palette 进入右侧“瓦片”；删除“动作”页。
+    图层管理抽为 `LayerStackControls`，地图与组合共用；等距投影/命中/绘制 surface 抽为
+    `IsometricEditorCanvas`，中央画布同时承担编辑和合成预览，不再维护重复的 DOM 格子/预览画布。
+  - 地图工具栏移除独立“放置组合”：右侧选择组合后直接进入放置；跨层选择只在选择工具中出现，变换含碰撞归入
+    选区操作附加项，碰撞成为主工具且标记/清除只在该状态出现，网格/碰撞显示独立分组。
+  - Tileset 页自有 header 改为共享 `DsObjectHero`；地图/组合图层按钮和状态语法统一。
   - 保存边界位于 `StampLibraryTab.tsx:288-299`，一次且仅一次派发 `AddStampTemplateCommand` 或
     `ReplaceStampTemplateCommand`；原地图选区导入捷径保留。
   - 响应式区使用内容高度 grid + 中央滚动；620px container query 重排图层、工具条和选区动作，tooltip
     向内/向上锚定，避免窄栏隐形溢出。
 - 运行命令:
-  - `pnpm --filter @type-pal/editor typecheck`：通过。
-  - `pnpm --filter @type-pal/editor test`：129 files / 948 tests passed。
-  - `pnpm --filter @type-pal/content test`：42 files / 484 tests passed。
+  - `pnpm --filter @type-pal/editor check`：通过；129 files / 965 tests passed。
+  - `pnpm --filter @type-pal/editor build`：通过（仅既有 chunk >500k 提示）。
+  - `pnpm --filter @type-pal/editor exec vitest run src/ui/MapMode.test.tsx`：56/56 passed（最后工具栏语义修订后定向复验）。
   - changed-files `biome check`：通过；仅报告 `editor.css:10314-10317` 既有 `.visually-hidden !important`
     4 条 warning，本卡未新增。
   - `git diff --check`：通过。
 - 浏览器 / 手工检查:
-  - `?ui_samples=1&module=map&page=stamp` 实测多层、6 个不同 tileId、H0/H2/H3、collision 0/1、
-    draft 取消零写入、保存→撤销→重做→再撤销；最终样例恢复 1 层/3 成员/0 collision。
-  - 1280/900/720 × 720 三档 document `scrollWidth === clientWidth`；中央 editor 仅纵向滚动，720 档
-    lattice surface 保留自身横向滚动；Console warning/error 0。
+  - `?ui_samples=1&module=map&page=stamp`：选择组合即见编辑工作台；左侧列表和共享图层栈均可达；右侧瓦片网格
+    独立滚动；中央共享等距画布填满剩余高度；无旧“编辑内容/退出编辑”状态。
+  - `?ui_samples=1&module=map`：选择工具才显示“跨层”；碰撞工具才显示“标记/清除”；右侧选择组合后出现放置
+    Inspector，工具栏不存在独立“放置组合”按钮；Console warning/error 0。
+  - 1280/900/720 × 720 三档 document 横向 overflow 均为 0；900 中央 416px、720 中央 260px，画布保持可滚动。
 - 跳过的检查及原因: 无。
 
 ## 视觉验证记录(如适用)
@@ -346,21 +354,22 @@ build/done。
 - 验证方式: in-app Browser + DOM 尺寸量化 + 三档截图 + 语义交互。
 - 集中 E2E 用例 / 批次: N/A
 - 截图 / 像素检查路径: 本轮浏览器内联截图（未把临时截图落库）；量化证据已写入上一节。
-- 结论: **通过**。初验发现工作台/Palette 被 grid 压成约 40px，已以 `grid-auto-rows: max-content` +
-  `align-content: start` 修复；复验 workbench 391px、palette 355px，三档无 document 横向溢出。
+- 结论: **返工后通过**。用户指出的“查看/编辑分离、瓦片不在侧栏、图层和地图 surface 重复、工具栏层级不清”均已
+  按共享 surface 收口；1280/900/720 三档无 document 横向溢出，Console warning/error 0。
 - 未完成项: Kimi/GLM 独立 review 与用户最终验收。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: Codex 自审 accept；Kimi/GLM pending。
-- 必须返工项: 当前无；以非 Coding Owner review 为准。
+- 审查结论: 2026-08-17 Codex 旧 accept 被用户 counter 推翻；2026-08-18 返工后 Codex 重新 accept，Kimi/GLM pending。
+- 必须返工项: 用户 counter 项已完成；以非 Coding Owner 复审为准。
 - Accept / rework: review。
 
 ## 用户验收
 
-- 用户结论: pending
-- 后续任务: pending
+- 用户结论: **counter（2026-08-18）**：不得区分组合查看/编辑；基本信息归属性；瓦片在右侧选择；图层管理和中间
+  地图编辑应复用地图页面；地图工具栏须区分主工具、附加选项和显示开关。当前实现已返工，等待用户复验。
+- 后续任务: Kimi/GLM 独立复审 + 用户对返工版最终验收。
 
 ## 交接日志
 
@@ -380,22 +389,30 @@ build/done。
   锚点编辑、新建/编辑/dirty 离开/迁移接管与单笔命令保存；补齐 SE2/SE3 机检。Evidence: editor
   129/948、content 42/484、typecheck、Biome/diff-check 全绿；1280/900/720 浏览器矩阵无文档横溢出，
   实测取消零写入与保存/undo/redo，Console 0。Next: Kimi/GLM 独立 review，未齐前不得标 done。
+- 2026-08-18 User: counter 初版交互与复用边界：查看/编辑不应分离，基本信息应在属性，瓦片应在右栏；图层与
+  中央地图编辑必须复用地图页面；地图工具栏移除独立放置组合并明确主工具/附加项/显示项。Evidence: 本轮多张
+  UI 截图与连续反馈。Next: Codex 返工；旧 accept 失效。
+- 2026-08-18 Codex: 完成返工并重新 accept。新增共享 `LayerStackControls` 与 `IsometricEditorCanvas`，组合选择即
+  编辑，属性/引用/瓦片分栏，地图选组合即放置，工具栏按语义分组；Tileset hero 一并统一。Evidence: editor check
+  129/965、build、MapMode 56/56、三档浏览器无横溢出、Console 0。Next: Kimi/GLM 独立复审；未齐前不得标 done。
 
 ## 下一位 Agent 提示词
 
 ```text
 接手任务：ED-STAMP-EDITOR-1 组合模板内容编辑闭环
 任务卡：docs/ops/tasks/ED-STAMP-EDITOR-1-stamp-template-content-editor.md
-当前状态：review；Codex 已完成实现、自测与 accept，Kimi/GLM done 前 accept pending；不得标 done。
+当前状态：review；用户已 counter 2026-08-17 初版，Codex 完成共享 surface 返工并于 2026-08-18 重新 accept；
+Kimi/GLM done 前 accept pending；不得标 done。
 你的角色：Kimi 或 GLM，负责独立代码审查与 done 前签字。
 先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文、
 packages/editor/src/core/stamp-draft.ts、stamp-draft.test.ts、stamp-commands.ts，
-packages/editor/src/ui/StampContentEditor.tsx、StampLibraryTab.tsx/test、StampPreviewCanvas.tsx、
-design-system/boundary.test.ts 与 editor.css 的 ED-STAMP 段。
-已完成：纯内存 draft + 真实 tileset/palette + 多层/height/collision/anchor 空间工作区；新建、dirty 离开、
-migrated 接管、单次 Add/Replace 保存；editor 129/948、content 42/484、typecheck 与三档视觉矩阵全绿。
-请你做：独立检查 SK1/SK2 与 SE2/SE3 是否逐钉满足，尤其 draft 是否触及 session maps/MapIndex、offset 奇偶/
-字节稳定、空槽/最后成员守卫、collision=0、接管取消、单笔 history、undo/redo 及窄栏布局；复跑必要测试。
+packages/editor/src/ui/StampContentEditor.tsx、StampLibraryTab.tsx/test、LayerStackControls.tsx、
+IsometricEditorCanvas.tsx、MapMode.tsx/test、TilesetTab.tsx、design-system/boundary.test.ts 与 editor.css。
+已完成：纯内存 draft；选择即编辑；属性/引用/瓦片分栏；地图/组合共享图层栈和等距画布；右侧 tile palette；
+地图选组合即放置与语义化工具栏；editor 129/965、build 与三档视觉矩阵全绿。
+请你做：独立检查 SK1/SK2 与 SE2/SE3，并重点核对共享 surface 是否仍保持 draft/session 隔离、地图/组合投影与
+命中是否一致、组合选择即放置是否无隐藏模式冲突、工具栏附加选项是否只在正确主工具下出现、窄栏布局是否可达；
+复跑必要测试。
 无阻塞则在 done 前签 accept；有问题签 counter/rework 并写出文件行号与最小返工项。
 不要做：不得代签另一方，不得在三方 accept + 用户验收前标 done；审查阶段原则上不改实现文件。
 输出要求：把证据、结论与签字写回任务卡；若仍缺另一方，附下一位 Agent 提示词。

@@ -34,13 +34,16 @@ import {
   TilesetReplacementProof,
 } from '../core/tileset-references.js'
 import {
+  DsButton,
   DsCatalogControls,
   DsInspectorTabs,
+  DsObjectHero,
   DsReferenceGroup,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
   DsSelect,
+  DsTag,
 } from './design-system/index.js'
 
 const FRAME_PAGE_SIZE = 128
@@ -563,31 +566,27 @@ export function TilesetTab(props: {
       <div className="center tileset-center">
         {uploading ? (
           <div className="tileset-workspace-scroll">
-            <header className="tileset-workspace-head">
-              <div>
-                <span className="tileset-eyebrow">导入预览</span>
-                <h2>{draft?.fileName ?? '上传瓦片图集'}</h2>
-                <p>选择图片后按网格切片，预览结果就是入库后的瓦片。</p>
-              </div>
-              <button
-                type="button"
-                className="tileset-file-button"
-                onClick={() => fileRef.current?.click()}
-              >
-                {draft ? '更换文件' : '选择图集'}
-              </button>
-              <input
-                ref={fileRef}
-                type="file"
-                accept="image/png,image/webp,image/gif"
-                hidden
-                onChange={(event) => {
-                  const file = event.target.files?.[0]
-                  if (file) void pickFile(file)
-                  event.target.value = ''
-                }}
-              />
-            </header>
+            <DsObjectHero
+              eyebrow="导入预览"
+              title={draft?.fileName ?? '上传瓦片图集'}
+              summary="选择图片后按网格切片，预览结果就是入库后的瓦片。"
+              actions={
+                <DsButton variant="secondary" onClick={() => fileRef.current?.click()}>
+                  {draft ? '更换文件' : '选择图集'}
+                </DsButton>
+              }
+            />
+            <input
+              ref={fileRef}
+              type="file"
+              accept="image/png,image/webp,image/gif"
+              hidden
+              onChange={(event) => {
+                const file = event.target.files?.[0]
+                if (file) void pickFile(file)
+                event.target.value = ''
+              }}
+            />
             {draft ? (
               <>
                 <div className="tileset-atlas-card">
@@ -1121,14 +1120,12 @@ function TilesetPreview(props: {
   }, [assetReader, def.asset, revision])
   return (
     <div className="tileset-workspace-scroll">
-      <header className="tileset-workspace-head">
-        <div>
-          <span className="tileset-eyebrow">瓦片集预览</span>
-          <h2>{def.name}</h2>
-          <p className="mono">{def.id}</p>
-        </div>
-        <span className="tileset-workspace-badge">{categoryLabel(def.category)}</span>
-      </header>
+      <DsObjectHero
+        eyebrow="瓦片集预览"
+        title={def.name}
+        objectId={def.id}
+        meta={<DsTag tone="neutral">{categoryLabel(def.category)}</DsTag>}
+      />
       {frames ? (
         <PagedFrameGrid frames={frames} palette={palette} />
       ) : err ? (

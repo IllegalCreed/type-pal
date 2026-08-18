@@ -531,21 +531,42 @@ describe('MapMode 地图内容选择交互', () => {
     expect(button(host, '选择').getAttribute('aria-pressed')).toBe('true')
   })
 
-  test('组合工具只负责放置已选模板，不冒充右栏组合 Tab', async () => {
+  test('右栏选择组合即进入放置态，不再暴露重复的放置组合模式按钮', async () => {
     const { host } = await mountMapMode({ stamps: [stampTemplate()] })
-    const placeStamp = button(host, '◆ 放置组合')
-    expect(placeStamp.disabled).toBe(true)
+    expect(
+      [...host.querySelectorAll('button')].some((candidate) =>
+        candidate.textContent?.includes('放置组合'),
+      ),
+    ).toBe(false)
     expect(inspectorTab(host, '属性').getAttribute('aria-selected')).toBe('true')
 
     await activateStamp(host)
-    expect(placeStamp.disabled).toBe(false)
+    expect(host.querySelector('.stamp-placement-inspector')).not.toBeNull()
     await act(async () => button(host, '退出组合工具').click())
     await act(async () => inspectorTab(host, '属性').click())
-    await act(async () => placeStamp.click())
-
-    expect(placeStamp.getAttribute('aria-pressed')).toBe('true')
     expect(inspectorTab(host, '属性').getAttribute('aria-selected')).toBe('true')
     expect(inspectorTab(host, '组合').getAttribute('aria-selected')).toBe('false')
+
+    await activateStamp(host)
+    expect(inspectorTab(host, '组合').getAttribute('aria-selected')).toBe('true')
+    expect(host.querySelector('.stamp-placement-inspector')).not.toBeNull()
+  })
+
+  test('工具栏把选择、变换、碰撞和显示选项归入各自主工具', async () => {
+    const { host } = await mountMapMode()
+    expect(host.querySelector('[aria-label="选择工具选项"]')).toBeNull()
+    expect(host.querySelector('[aria-label="碰撞工具选项"]')).toBeNull()
+    expect(host.querySelector('[aria-label="选区变换选项"]')?.textContent).toContain('包含碰撞')
+    expect(host.querySelector('[aria-label="画布显示"]')?.textContent).toContain('网格')
+
+    await act(async () => button(host, '选择').click())
+    expect(host.querySelector('[aria-label="选择工具选项"]')?.textContent).toContain('跨层')
+    await act(async () => button(host, '碰撞').click())
+    expect(host.querySelector('[aria-label="选择工具选项"]')).toBeNull()
+    expect(host.querySelector('[aria-label="碰撞工具选项"]')?.textContent).toContain('标记')
+    expect(host.querySelector('[aria-label="碰撞工具选项"]')?.textContent).toContain('清除')
+    await act(async () => button(host, '笔刷').click())
+    expect(host.querySelector('[aria-label="碰撞工具选项"]')).toBeNull()
   })
 
   test('Ctrl/⌘ 可追加不规则瓦片选区、再次命中移除，并可直接提取组合', async () => {
@@ -601,8 +622,10 @@ describe('MapMode 地图内容选择交互', () => {
     const viewport = host.querySelector<HTMLElement>('.viewport')!
     const paintContext = host.querySelector<HTMLElement>('.map-paint-context')!
     const outliner = paintContext.closest<HTMLElement>('.map-outliner')!
+    const layerStack = paintContext.closest<HTMLElement>('.layer-stack-controls')!
     expect(outliner).not.toBeNull()
-    expect(outliner.lastElementChild).toBe(paintContext)
+    expect(outliner.lastElementChild).toBe(layerStack)
+    expect(layerStack.lastElementChild).toBe(paintContext)
     expect(paintContext.textContent).toContain('绘制层级')
     expect(viewport.querySelector('.map-paint-context')).toBeNull()
     expect(viewport.querySelector('.canvas-note')).toBeNull()
@@ -887,7 +910,7 @@ describe('MapMode 地图内容选择交互', () => {
     const bar = host.querySelector<HTMLElement>('.map-transform-bar')!
     expect(bar.textContent).toContain('锚点 r0:c1 · 含碰撞')
     const collisionToggle = [...host.querySelectorAll<HTMLLabelElement>('label')]
-      .find((label) => label.textContent?.includes('组合始终含碰撞'))
+      .find((label) => label.textContent?.includes('组合含碰撞'))
       ?.querySelector<HTMLInputElement>('input')
     expect(collisionToggle?.checked).toBe(true)
     expect(collisionToggle?.disabled).toBe(true)
@@ -1301,6 +1324,7 @@ describe('MapMode 地图内容选择交互', () => {
   test.each(['标记', '清除'])('普通碰撞%s 命中组成员整笔零写', async (mode) => {
     const map = placementMap()
     const { host, canvas, session, onWorkspaceNotice } = await mountMapMode({ map })
+    await act(async () => button(host, '碰撞').click())
     await act(async () => button(host, mode).click())
     const before = session.getState()
     await act(async () => {
@@ -1496,7 +1520,7 @@ describe('MapMode 地图内容选择交互', () => {
     await selectFloor(host, canvas)
     await activateStamp(host)
 
-    expect(button(host, '◆ 放置组合').getAttribute('aria-pressed')).toBe('true')
+    expect(host.querySelector('.stamp-placement-inspector')).not.toBeNull()
     const mappings = [...host.querySelectorAll<HTMLSelectElement>('.stamp-mapping-list select')]
     expect(mappings).toHaveLength(2)
     expect(mappings.map((select) => select.value)).toEqual(['', ''])
@@ -1514,11 +1538,10 @@ describe('MapMode 地图内容选择交互', () => {
     await mapStampSlots(host)
     await act(async () => pointer(canvas, 'pointerdown', { clientX: 33, clientY: 17 }))
     expect(host.querySelector('.map-stamp-recent')).not.toBeNull()
-    expect(button(host, '◆ 放置组合').getAttribute('aria-pressed')).toBe('true')
+    expect(host.querySelector('.stamp-placement-inspector')).not.toBeNull()
 
     const nextSession = new EditSession(editorState(fixtureMap(), [template]))
     await rerenderWithSession(nextSession, [template])
-    expect(button(host, '◆ 放置组合').getAttribute('aria-pressed')).toBe('false')
     expect(host.querySelector('.stamp-placement-inspector')).toBeNull()
     expect(
       [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(

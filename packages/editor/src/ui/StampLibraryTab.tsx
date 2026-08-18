@@ -1,6 +1,6 @@
 import type { AssetCatalogV1, MapIndexV1, ProjectMap, StampTemplateV1 } from '@type-pal/content'
 import type { AssetBase, TilesetDef } from '@type-pal/reforge'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import {
@@ -22,11 +22,10 @@ import {
   DsReferencePanel,
   DsReferenceRow,
   DsSelect,
-  DsSequenceIndex,
   DsTextInput,
 } from './design-system/index.js'
 import { StampContentEditor } from './StampContentEditor.js'
-import { StampMiniPreview, StampPreviewCanvas } from './StampPreviewCanvas.js'
+import { StampMiniPreview } from './StampPreviewCanvas.js'
 import { StampTemplateDialog } from './StampTemplateDialog.js'
 
 interface UsageScan {
@@ -40,7 +39,7 @@ interface UsageScan {
 const EMPTY_SCAN: UsageScan = { maps: {}, completed: 0, total: 0, failures: [], done: false }
 const STAMP_PAGE_SIZE = 100
 
-type StampInspectorTab = 'properties' | 'references' | 'actions'
+type StampInspectorTab = 'properties' | 'references' | 'tiles'
 type StampContentEditorState = {
   mode: 'create' | 'edit'
   template: StampTemplateV1
@@ -79,7 +78,9 @@ export function StampLibraryTab(props: {
     onOpenTileset,
     onStatusNotice,
   } = props
-  const [selectedId, setSelectedId] = useState(focusObjectId ?? stamps[0]?.id ?? '')
+  const initialSelectedId = focusObjectId ?? stamps[0]?.id ?? ''
+  const initialSelected = stamps.find((template) => template.id === initialSelectedId)
+  const [selectedId, setSelectedId] = useState(initialSelectedId)
   const [inspectorTab, setInspectorTab] = useState<StampInspectorTab>('properties')
   const [query, setQuery] = useState('')
   const [categoryFilter, setCategoryFilter] = useState('all')
@@ -90,13 +91,17 @@ export function StampLibraryTab(props: {
     total: mapIndex.maps.length,
   }))
   const [scanRevision, setScanRevision] = useState(0)
-  const [draftName, setDraftName] = useState('')
-  const [draftCategory, setDraftCategory] = useState('')
-  const [confirmAction, setConfirmAction] = useState<'takeover' | 'delete'>()
+  const [confirmAction, setConfirmAction] = useState<'delete'>()
   const [error, setError] = useState('')
   const [selectionDialogMap, setSelectionDialogMap] = useState<ProjectMap>()
   const [selectionLoading, setSelectionLoading] = useState(false)
-  const [contentEditor, setContentEditor] = useState<StampContentEditorState>()
+  const [contentEditor, setContentEditor] = useState<StampContentEditorState | undefined>(() =>
+    initialSelected ? { mode: 'edit', template: structuredClone(initialSelected) } : undefined,
+  )
+  const [contentEditorEpoch, setContentEditorEpoch] = useState(0)
+  const [paletteHost, setPaletteHost] = useState<HTMLDivElement | null>(null)
+  const [propertiesHost, setPropertiesHost] = useState<HTMLDivElement | null>(null)
+  const [layersHost, setLayersHost] = useState<HTMLDivElement | null>(null)
   const [contentDirty, setContentDirty] = useState(false)
   const [leaveIntent, setLeaveIntent] = useState<StampLeaveIntent>()
   const [createOpen, setCreateOpen] = useState(false)
@@ -104,12 +109,17 @@ export function StampLibraryTab(props: {
   const [createId, setCreateId] = useState('')
   const [createTilesetId, setCreateTilesetId] = useState(tilesets[0]?.id ?? '')
   const [createError, setCreateError] = useState('')
-  const metadataSaveRef = useRef<HTMLButtonElement>(null)
-  const takeoverCancelRef = useRef<HTMLButtonElement>(null)
   const deleteTriggerRef = useRef<HTMLButtonElement>(null)
   const deleteCancelRef = useRef<HTMLButtonElement>(null)
 
   const selected = stamps.find((template) => template.id === selectedId)
+  const inspectorTemplate = contentEditor?.template ?? selected
+  const bindPaletteHost = useCallback((node: HTMLDivElement | null) => setPaletteHost(node), [])
+  const bindPropertiesHost = useCallback(
+    (node: HTMLDivElement | null) => setPropertiesHost(node),
+    [],
+  )
+  const bindLayersHost = useCallback((node: HTMLDivElement | null) => setLayersHost(node), [])
   const categories = useMemo(
     () =>
       [
@@ -134,8 +144,13 @@ export function StampLibraryTab(props: {
   const pagedShown = shown.slice(safePage * STAMP_PAGE_SIZE, (safePage + 1) * STAMP_PAGE_SIZE)
 
   useEffect(() => {
-    if (focusObjectId !== undefined) setSelectedId(focusObjectId)
-  }, [focusObjectId])
+    if (focusObjectId === undefined || focusObjectId === selectedId) return
+    if (contentDirty) {
+      setLeaveIntent({ kind: 'select', id: focusObjectId })
+      return
+    }
+    setSelectedId(focusObjectId)
+  }, [contentDirty, focusObjectId, selectedId])
   useEffect(() => {
     if (selectedId && stamps.some((template) => template.id === selectedId)) return
     const next = stamps[0]?.id ?? ''
@@ -148,11 +163,10 @@ export function StampLibraryTab(props: {
     else setPage((current) => Math.min(current, pageCount - 1))
   }, [pageCount, selectedId, shown])
   useEffect(() => {
-    setDraftName(selected?.name ?? '')
-    setDraftCategory(selected?.category ?? '')
+    void selectedId
     setConfirmAction(undefined)
     setError('')
-  }, [selected])
+  }, [selectedId])
 
   useEffect(() => {
     void scanRevision
@@ -206,20 +220,18 @@ export function StampLibraryTab(props: {
   }, [mapIndex, onStatusNotice, scanRevision, session])
   useEffect(() => {
     if (confirmAction === 'delete') deleteCancelRef.current?.focus()
-    if (confirmAction === 'takeover') takeoverCancelRef.current?.focus()
   }, [confirmAction])
 
   const usage = useMemo(() => collectStampTemplateUsage(scan.maps, stamps), [scan.maps, stamps])
   const scanComplete = scan.done && scan.failures.length === 0
   const selectedUsage = selected ? usage.byStampId[selected.id] : undefined
-  const metadataChanged = Boolean(
-    selected &&
-      (draftName.trim() !== selected.name || draftCategory.trim() !== (selected.category ?? '')),
-  )
-
   const focusTemplate = (id: string): void => {
+    const template = stamps.find((candidate) => candidate.id === id)
     setSelectedId(id)
     onObjectFocus?.(id)
+    setContentDirty(false)
+    setContentEditor(template ? { mode: 'edit', template: structuredClone(template) } : undefined)
+    setContentEditorEpoch((value) => value + 1)
   }
   const requestFocusTemplate = (id: string): void => {
     if (!contentEditor || contentEditor.template.id === id) {
@@ -238,11 +250,8 @@ export function StampLibraryTab(props: {
       setLeaveIntent({ kind: 'close' })
       return
     }
-    setContentEditor(undefined)
-  }
-  const openContentEditor = (template: StampTemplateV1): void => {
-    setContentDirty(false)
-    setContentEditor({ mode: 'edit', template: structuredClone(template) })
+    setContentEditor(selected ? { mode: 'edit', template: structuredClone(selected) } : undefined)
+    setContentEditorEpoch((value) => value + 1)
   }
   const openCreate = (): void => {
     const id = nextStampTemplateId(
@@ -293,37 +302,11 @@ export function StampLibraryTab(props: {
     if (editor.mode === 'create') session.dispatch(new AddStampTemplateCommand(next))
     else session.dispatch(new ReplaceStampTemplateCommand(next, { takeOwnership }))
     setContentDirty(false)
-    setContentEditor(undefined)
-    focusTemplate(next.id)
+    setSelectedId(next.id)
+    onObjectFocus?.(next.id)
+    setContentEditor({ mode: 'edit', template: structuredClone(next) })
+    setContentEditorEpoch((value) => value + 1)
     onStatusNotice?.({ kind: 'info', message: `已保存组合“${next.name}”；既有地图放置保持不变。` })
-  }
-  const saveMetadata = (takeOwnership: boolean): void => {
-    if (!selected || !metadataChanged) return
-    if (selected.origin === 'migrated' && !takeOwnership) {
-      setConfirmAction('takeover')
-      return
-    }
-    try {
-      session.dispatch(
-        new ReplaceStampTemplateCommand(
-          {
-            ...selected,
-            name: draftName.trim(),
-            ...(draftCategory.trim()
-              ? { category: draftCategory.trim() }
-              : { category: undefined }),
-            ...(selected.origin === 'migrated' ? { origin: 'authored' as const } : {}),
-          },
-          { takeOwnership },
-        ),
-      )
-      setConfirmAction(undefined)
-      setError('')
-    } catch (cause) {
-      const message = cause instanceof Error ? cause.message : String(cause)
-      setError(message)
-      onStatusNotice?.({ kind: 'error', message })
-    }
   }
   const duplicate = (): void => {
     if (!selected) return
@@ -395,6 +378,17 @@ export function StampLibraryTab(props: {
       ))}
     </section>
   ) : null
+
+  useEffect(() => {
+    if (!selected || contentDirty || contentEditor?.mode === 'create') return
+    if (
+      contentEditor?.template.id === selected.id &&
+      JSON.stringify(contentEditor.template) === JSON.stringify(selected)
+    )
+      return
+    setContentEditor({ mode: 'edit', template: structuredClone(selected) })
+    setContentEditorEpoch((value) => value + 1)
+  }, [contentDirty, contentEditor?.mode, contentEditor?.template, selected])
 
   return (
     <>
@@ -538,90 +532,26 @@ export function StampLibraryTab(props: {
             </button>
           </nav>
         ) : null}
+        {contentEditor ? <div ref={bindLayersHost} className="stamp-layer-host" /> : null}
       </div>
 
       <main className="center stamp-center">
         {contentEditor ? (
           <StampContentEditor
-            key={`${contentEditor.mode}:${contentEditor.template.id}`}
+            key={`${contentEditorEpoch}:${contentEditor.mode}:${contentEditor.template.id}`}
             template={contentEditor.template}
             mode={contentEditor.mode}
             tilesets={tilesets}
             assetCatalog={assetCatalog}
             assetReader={assetReader}
             assetBase={assetBase}
+            paletteHost={paletteHost}
+            propertiesHost={propertiesHost}
+            layersHost={layersHost}
             onDirtyChange={setContentDirty}
             onCancel={requestCloseContentEditor}
             onSave={(next, takeOwnership) => saveContent(next, takeOwnership, contentEditor)}
           />
-        ) : selected ? (
-          <div className="stamp-workspace-scroll">
-            <header className="stamp-workspace-head">
-              <div>
-                <span className="stamp-eyebrow">组合地物模板</span>
-                <h2>{selected.name}</h2>
-                <p className="mono">{selected.id}</p>
-              </div>
-              <div className="stamp-workspace-head__actions">
-                <span className={`stamp-origin-badge ${selected.origin}`}>
-                  {selected.origin === 'migrated' ? '迁移预置' : '作者模板'}
-                </span>
-                <DsButton size="compact" onClick={() => openContentEditor(selected)}>
-                  编辑内容
-                </DsButton>
-              </div>
-            </header>
-            <StampPreviewCanvas
-              template={selected}
-              tilesets={tilesets}
-              assetCatalog={assetCatalog}
-              assetReader={assetReader}
-              assetBase={assetBase}
-            />
-            <section className="stamp-composition-card">
-              <header>
-                <strong>组成</strong>
-                <span>模板是快照，已放置内容不会随模板变化</span>
-              </header>
-              <div className="stamp-metric-grid">
-                <div>
-                  <strong>{selected.layerSlots.length}</strong>
-                  <span>视觉层</span>
-                </div>
-                <div>
-                  <strong>{selected.visual.length}</strong>
-                  <span>视觉成员</span>
-                </div>
-                <div>
-                  <strong>{selected.collision.length}</strong>
-                  <span>碰撞成员</span>
-                </div>
-                <div>
-                  <strong>{new Set(selected.visual.map((member) => member.tileId)).size}</strong>
-                  <span>不同瓦片</span>
-                </div>
-              </div>
-              <ul className="stamp-slot-list">
-                {selected.layerSlots.map((slot, index) => (
-                  <li key={slot.id}>
-                    <DsSequenceIndex
-                      value={index + 1}
-                      accessibleLabel={`第 ${index + 1} 个视觉层`}
-                    />
-                    <span>
-                      <strong>{slot.name}</strong>
-                      <small className="mono">{slot.id}</small>
-                    </span>
-                    <span>{slot.depthMode === 'height' ? '高度层' : '平面层'}</span>
-                    <b>
-                      {selected.visual.filter((member) => member.layerSlotId === slot.id).length}
-                    </b>
-                  </li>
-                ))}
-              </ul>
-            </section>
-            {sourceDiagnostics}
-          </div>
         ) : (
           <div className="stamp-workspace-scroll">
             <div className="stamp-workspace-empty">
@@ -646,39 +576,7 @@ export function StampLibraryTab(props: {
             {contentEditor?.template.name ?? selected?.name ?? selected?.id ?? '未选择'}
           </div>
         </div>
-        {contentEditor ? (
-          <div className="stamp-content-inspector">
-            <section className="section">
-              <h4>内容编辑</h4>
-              <p>当前所有修改只存在于内存草稿；点击“保存组合”后才会作为一笔可撤销命令写入工程。</p>
-              <dl>
-                <div>
-                  <dt>稳定 ID</dt>
-                  <dd className="mono">{contentEditor.template.id}</dd>
-                </div>
-                <div>
-                  <dt>瓦片集</dt>
-                  <dd className="mono">{contentEditor.template.tilesetId}</dd>
-                </div>
-                <div>
-                  <dt>地图放置</dt>
-                  <dd>保持原快照，不随模板变化</dd>
-                </div>
-              </dl>
-              <DsButton
-                size="compact"
-                variant="secondary"
-                icon="open"
-                onClick={() => onOpenTileset?.(contentEditor.template.tilesetId)}
-              >
-                打开来源瓦片集
-              </DsButton>
-              <DsButton size="compact" onClick={requestCloseContentEditor}>
-                退出内容编辑
-              </DsButton>
-            </section>
-          </div>
-        ) : selected ? (
+        {inspectorTemplate ? (
           <DsInspectorTabs
             id="stamp-inspector"
             label="组合模板检查器"
@@ -692,116 +590,117 @@ export function StampLibraryTab(props: {
                   <>
                     {error ? <div className="stamp-error">{error}</div> : null}
                     <section className="section">
-                      <DsButton variant="primary" onClick={() => openContentEditor(selected)}>
-                        编辑组合内容
-                      </DsButton>
-                      <h4>登记</h4>
-                      <label className="field">
-                        <span className="field-label">名称</span>
-                        <input
-                          className="in"
-                          name="stamp-name"
-                          autoComplete="off"
-                          value={draftName}
-                          onChange={(event) => setDraftName(event.target.value)}
-                        />
-                      </label>
-                      <label className="field">
-                        <span className="field-label">分类</span>
-                        <input
-                          className="in"
-                          name="stamp-category"
-                          autoComplete="off"
-                          value={draftCategory}
-                          placeholder="未分类"
-                          onChange={(event) => setDraftCategory(event.target.value)}
-                        />
-                      </label>
-                      <div className="field">
-                        <span className="field-label">ID</span>
-                        <div className="in mono stamp-readonly" title={selected.id}>
-                          {selected.id}
+                      <h4>基本信息</h4>
+                      <div ref={bindPropertiesHost} className="stamp-inspector-properties-host" />
+                      <dl className="stamp-template-facts">
+                        <div>
+                          <dt>稳定 ID</dt>
+                          <dd className="mono">{inspectorTemplate.id}</dd>
                         </div>
-                      </div>
-                      <div className="field">
-                        <span className="field-label">瓦片集</span>
-                        <button
-                          type="button"
-                          className="in mono stamp-readonly stamp-resource-link"
-                          title={`打开瓦片集 ${selected.tilesetId}`}
-                          onClick={() => onOpenTileset?.(selected.tilesetId)}
-                        >
-                          {selected.tilesetId}
-                          <span aria-hidden="true">↗</span>
-                        </button>
-                      </div>
-                      <div className="field">
-                        <span className="field-label">来源</span>
-                        <span>
-                          {selected.origin === 'migrated' ? '迁移预置（只读）' : '作者内容'}
-                        </span>
-                      </div>
-                      <button
-                        ref={metadataSaveRef}
-                        type="button"
-                        className="stamp-primary-action"
-                        disabled={!metadataChanged || !draftName.trim()}
-                        onClick={() => saveMetadata(false)}
+                        <div>
+                          <dt>瓦片集</dt>
+                          <dd className="mono">{inspectorTemplate.tilesetId}</dd>
+                        </div>
+                        <div>
+                          <dt>来源</dt>
+                          <dd>
+                            {contentEditor?.mode === 'create'
+                              ? '新建草稿'
+                              : inspectorTemplate.origin === 'migrated'
+                                ? '迁移预置'
+                                : '作者内容'}
+                          </dd>
+                        </div>
+                        <div>
+                          <dt>地图放置</dt>
+                          <dd>保持快照，不随模板变化</dd>
+                        </div>
+                      </dl>
+                      <DsButton
+                        size="compact"
+                        variant="secondary"
+                        icon="open"
+                        onClick={() => onOpenTileset?.(inspectorTemplate.tilesetId)}
                       >
-                        保存名称与分类
-                      </button>
-                      <button
-                        type="button"
-                        className="stamp-secondary-action"
-                        disabled={!selectionSource || selectionLoading}
+                        打开来源瓦片集
+                      </DsButton>
+                      <h4>从地图导入</h4>
+                      <DsButton
+                        size="compact"
+                        variant="secondary"
+                        disabled={
+                          contentEditor?.mode === 'create' ||
+                          contentDirty ||
+                          !selectionSource ||
+                          selectionLoading
+                        }
                         title={
-                          selectionSource
-                            ? `使用地图 ${selectionSource.mapId} 的暂存选区`
-                            : '先到地图编辑中建立一个选区'
+                          contentEditor?.mode === 'create'
+                            ? '请先保存新组合'
+                            : contentDirty
+                              ? '请先保存或还原当前草稿'
+                              : selectionSource
+                                ? `使用地图 ${selectionSource.mapId} 的暂存选区`
+                                : '先到地图编辑中建立一个选区'
                         }
                         onClick={() => void updateFromSelection()}
                       >
                         {selectionLoading ? '正在读取地图…' : '用当前地图选区更新…'}
-                      </button>
+                      </DsButton>
                       <p className="stamp-selection-source-note">
                         {selectionSource
                           ? `会话选区：${mapIndex.maps.find((asset) => asset.id === selectionSource.mapId)?.name ?? selectionSource.mapId}`
                           : '尚无会话选区；到地图编辑中选择内容后再返回。'}
                       </p>
-                      {confirmAction === 'takeover' ? (
-                        <div className="stamp-inline-confirm warning">
-                          <strong>接管预置组合？</strong>
-                          <p>整项转为作者内容，迁移不再覆盖；撤销可恢复。</p>
-                          <div>
-                            <button
-                              ref={takeoverCancelRef}
-                              type="button"
-                              onKeyDown={(event) => {
-                                if (event.key !== 'Escape') return
-                                setConfirmAction(undefined)
-                                window.setTimeout(() => metadataSaveRef.current?.focus(), 0)
-                              }}
-                              onClick={() => {
-                                setConfirmAction(undefined)
-                                metadataSaveRef.current?.focus()
-                              }}
+                      {contentEditor?.mode !== 'create' && selected ? (
+                        <>
+                          <h4>模板管理</h4>
+                          <div className="stamp-template-actions">
+                            <DsButton size="compact" variant="secondary" onClick={duplicate}>
+                              复制为作者模板
+                            </DsButton>
+                            <DsButton
+                              ref={deleteTriggerRef}
+                              size="compact"
+                              variant="danger"
+                              icon="delete"
+                              onClick={() => setConfirmAction('delete')}
                             >
-                              取消
-                            </button>
-                            <button
-                              type="button"
-                              className="primary"
-                              onKeyDown={(event) => {
-                                if (event.key !== 'Escape') return
-                                setConfirmAction(undefined)
-                                window.setTimeout(() => metadataSaveRef.current?.focus(), 0)
-                              }}
-                              onClick={() => saveMetadata(true)}
-                            >
-                              确认接管
-                            </button>
+                              删除模板…
+                            </DsButton>
                           </div>
-                        </div>
+                          {confirmAction === 'delete' ? (
+                            <div className="stamp-inline-confirm danger">
+                              <strong>只删除模板？</strong>
+                              <p>
+                                {scanComplete
+                                  ? `检测到 ${selectedUsage?.placementCount ?? 0} 处来源引用；`
+                                  : '完整来源数量仍未知；'}
+                                已放置地图值和组身份都会保留。
+                              </p>
+                              <div>
+                                <DsButton
+                                  ref={deleteCancelRef}
+                                  size="compact"
+                                  onClick={() => {
+                                    setConfirmAction(undefined)
+                                    deleteTriggerRef.current?.focus()
+                                  }}
+                                >
+                                  取消
+                                </DsButton>
+                                <DsButton
+                                  size="compact"
+                                  variant="danger"
+                                  disabled={!scanComplete}
+                                  onClick={remove}
+                                >
+                                  确认删除
+                                </DsButton>
+                              </div>
+                            </div>
+                          ) : null}
+                        </>
                       ) : null}
                     </section>
                   </>
@@ -888,72 +787,15 @@ export function StampLibraryTab(props: {
                           </DsReferenceGroup>
                         ) : null}
                       </DsReferencePanel>
+                      {sourceDiagnostics}
                     </section>
                   </>
                 ),
               },
               {
-                id: 'actions',
-                label: '动作',
-                panel: (
-                  <>
-                    {error ? <div className="stamp-error">{error}</div> : null}
-                    <section className="section stamp-inspector-actions">
-                      <button type="button" className="stamp-secondary-action" onClick={duplicate}>
-                        复制为作者模板
-                      </button>
-                      <button
-                        ref={deleteTriggerRef}
-                        type="button"
-                        className="stamp-danger-action"
-                        onClick={() => setConfirmAction('delete')}
-                      >
-                        删除模板…
-                      </button>
-                      {confirmAction === 'delete' ? (
-                        <div className="stamp-inline-confirm danger">
-                          <strong>只删除模板？</strong>
-                          <p>
-                            {scanComplete
-                              ? `检测到 ${selectedUsage?.placementCount ?? 0} 处来源引用；`
-                              : '完整来源数量仍未知；'}
-                            已放置地图值和组身份都会保留。
-                          </p>
-                          <div>
-                            <button
-                              ref={deleteCancelRef}
-                              type="button"
-                              onKeyDown={(event) => {
-                                if (event.key !== 'Escape') return
-                                setConfirmAction(undefined)
-                                window.setTimeout(() => deleteTriggerRef.current?.focus(), 0)
-                              }}
-                              onClick={() => {
-                                setConfirmAction(undefined)
-                                deleteTriggerRef.current?.focus()
-                              }}
-                            >
-                              取消
-                            </button>
-                            <button
-                              type="button"
-                              className="danger"
-                              disabled={!scanComplete}
-                              onKeyDown={(event) => {
-                                if (event.key !== 'Escape') return
-                                setConfirmAction(undefined)
-                                window.setTimeout(() => deleteTriggerRef.current?.focus(), 0)
-                              }}
-                              onClick={remove}
-                            >
-                              确认删除
-                            </button>
-                          </div>
-                        </div>
-                      ) : null}
-                    </section>
-                  </>
-                ),
+                id: 'tiles',
+                label: '瓦片',
+                panel: <div ref={bindPaletteHost} className="stamp-inspector-palette-host" />,
               },
             ]}
           />
@@ -1032,8 +874,13 @@ export function StampLibraryTab(props: {
                   const intent = leaveIntent
                   setLeaveIntent(undefined)
                   setContentDirty(false)
-                  setContentEditor(undefined)
                   if (intent.kind === 'select') focusTemplate(intent.id)
+                  else {
+                    setContentEditor(
+                      selected ? { mode: 'edit', template: structuredClone(selected) } : undefined,
+                    )
+                    setContentEditorEpoch((value) => value + 1)
+                  }
                 }}
               >
                 放弃草稿

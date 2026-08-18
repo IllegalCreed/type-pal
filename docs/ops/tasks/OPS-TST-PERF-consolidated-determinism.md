@@ -1,6 +1,7 @@
 # OPS-TST-PERF-C - P2/P3/P4 consolidated determinism proof
 
 Status: build
+Execution: paused by user（2026-08-18；先处理功能与样式，不生成 coverage/probe）
 Phase: ops
 Capability: test infrastructure / migration proof
 Coding Owner: Codex
@@ -201,6 +202,8 @@ coverage 正确，consolidated probe 也可能没有足够收益。实现必须�
   `3 files / 20 tests / 755.07s` 正式记录闭合；现场 shared 清单已从历史 137 漂移为 24/138，故
   PC2 升级为 build-start 全量机械清单 + AST，PC3 保留 routeSha256 新旧归因。三签齐，状态转
   `build`；尚未修改实现文件或 release route。
+- 2026-08-18 User: 暂缓性能优化任务，优先处理编辑器功能与样式。Evidence: 本轮用户明确指示。
+  Next: 保持 `build` 与三签，不生成 coverage map / consolidated probe，不改 release route；用户恢复后继续。
 
 ## 下一位 Agent 提示词
 
