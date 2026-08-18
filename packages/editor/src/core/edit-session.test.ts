@@ -102,7 +102,9 @@ test('map revision 只随该地图内容变化且覆盖 dispatch/undo/redo，过
   expect(sess.getMapRevision('map-a')).toBe(0)
 
   sess.dispatch(
-    new PaintTilesCommand('map-a', [{ layerId: 'floor', row: 0, col: 0, tileId: 1, height: 0 }]),
+    new PaintTilesCommand('map-a', [
+      { layerId: 'floor', row: 0, col: 0, tileId: 1, tilesetId: 'tiles', height: 0 },
+    ]),
   )
   expect(sess.getMapRevision('map-a')).toBe(1)
   expect(sess.getMapRevision('map-b')).toBe(0)
@@ -121,7 +123,9 @@ test('map revision 只随该地图内容变化且覆盖 dispatch/undo/redo，过
     sess.dispatchAtMapRevision(
       'map-a',
       2,
-      new PaintTilesCommand('map-a', [{ layerId: 'floor', row: 1, col: 0, tileId: 2, height: 0 }]),
+      new PaintTilesCommand('map-a', [
+        { layerId: 'floor', row: 1, col: 0, tileId: 2, tilesetId: 'tiles', height: 0 },
+      ]),
     ),
   ).toThrow('已变化')
   expect(sess.getState()).toBe(stateBeforeStale)
@@ -180,7 +184,9 @@ test('dispatch/undo/redo 抛错时不丢失原历史分支', () => {
 test('原子地图 patch 经 EditSession 一次 dispatch/undo/redo 恢复视觉与碰撞双 prev', () => {
   const state = mkState()
   let map = buildBlankProjectMap(2, 1, 'tileset-001')
-  map = paintProjectMapTiles(map, [{ layerId: 'floor', row: 0, col: 0, tileId: 2, height: 0 }])
+  map = paintProjectMapTiles(map, [
+    { layerId: 'floor', row: 0, col: 0, tileId: 2, tilesetId: 'tiles', height: 0 },
+  ])
   map = paintProjectMapCollision(map, [{ row: 0, col: 0, value: 3 }])
   state.maps = { a: map }
   const hiddenLayerIds: string[] = []
@@ -298,7 +304,9 @@ test('干净地图可被 LRU 淘汰；撤销链触及的地图保存后仍 pin�
   })
   await sess.ensureMapLoaded('a')
   sess.dispatch(
-    new PaintTilesCommand('a', [{ layerId: 'floor', col: 0, row: 0, tileId: 7, height: 0 }]),
+    new PaintTilesCommand('a', [
+      { layerId: 'floor', col: 0, row: 0, tileId: 7, tilesetId: 'tiles', height: 0 },
+    ]),
   )
   sess.markSaved()
 

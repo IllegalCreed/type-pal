@@ -60,9 +60,9 @@ describe('MapContentSelectionPreview', () => {
   test('从当前地图矩阵读取选中 tile，同 tileId 只烘焙一次但绘制所有实例', async () => {
     let map = buildBlankProjectMap(2, 2, 'tiles')
     map = paintProjectMapTiles(map, [
-      { layerId: 'floor', row: 0, col: 0, tileId: 7, height: 0 },
-      { layerId: 'floor', row: 0, col: 1, tileId: 7, height: 0 },
-      { layerId: 'floor', row: 1, col: 0, tileId: 8, height: 0 },
+      { layerId: 'floor', row: 0, col: 0, tileId: 7, tilesetId: 'tiles', height: 0 },
+      { layerId: 'floor', row: 0, col: 1, tileId: 7, tilesetId: 'tiles', height: 0 },
+      { layerId: 'floor', row: 1, col: 0, tileId: 8, tilesetId: 'tiles', height: 0 },
     ])
     const tile7 = frame(32, 16)
     const tile8 = frame(48, 32)
@@ -80,10 +80,15 @@ describe('MapContentSelectionPreview', () => {
             { layerId: 'floor', row: 0, col: 1 },
             { layerId: 'floor', row: 1, col: 0 },
           ]}
-          tiles={
+          tilesets={
             new Map([
-              [7, tile7],
-              [8, tile8],
+              [
+                'tiles',
+                new Map([
+                  [7, tile7],
+                  [8, tile8],
+                ]),
+              ],
             ])
           }
           palette={palette}
@@ -103,7 +108,9 @@ describe('MapContentSelectionPreview', () => {
 
   test('所选矩阵值没有对应帧时显示精确 tileId', async () => {
     let map = buildBlankProjectMap(1, 1, 'tiles')
-    map = paintProjectMapTiles(map, [{ layerId: 'floor', row: 0, col: 0, tileId: 99, height: 0 }])
+    map = paintProjectMapTiles(map, [
+      { layerId: 'floor', row: 0, col: 0, tileId: 99, tilesetId: 'tiles', height: 0 },
+    ])
     const host = document.createElement('div')
     document.body.append(host)
     const root = createRoot(host)
@@ -114,7 +121,7 @@ describe('MapContentSelectionPreview', () => {
         <MapContentSelectionPreview
           map={map}
           visualSlots={[{ layerId: 'floor', row: 0, col: 0 }]}
-          tiles={new Map()}
+          tilesets={new Map()}
           palette={palette}
           title="当前选区"
           subtitle="实际地图值"
@@ -123,6 +130,6 @@ describe('MapContentSelectionPreview', () => {
     )
 
     expect(host.textContent).toContain('所选瓦片帧不可用')
-    expect(host.textContent).toContain('瓦片集缺少 tileId：99')
+    expect(host.textContent).toContain('瓦片资源缺失：tiles #99')
   })
 })

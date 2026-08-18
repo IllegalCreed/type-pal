@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import type { StampTemplateV1 } from '@type-pal/content'
+import type { StampTemplate } from '@type-pal/content'
 import {
   buildBlankProjectMap,
   buildProjectMapLayer,
@@ -12,31 +12,30 @@ import { describe, expect, test, vi } from 'vitest'
 import { planStampPlacement } from '../core/stamp-placement.js'
 import { StampPlacementInspector } from './StampPlacementInspector.js'
 
-function template(): StampTemplateV1 {
+function template(): StampTemplate {
   return {
     id: 'multi-conflict',
     name: '多冲突图章',
-    tilesetId: 'tiles',
     origin: 'authored',
-    layerSlots: [
-      { id: 'floor-slot', name: '地面', depthMode: 'flat' },
-      { id: 'object-slot', name: '物件', depthMode: 'flat' },
+    anchor: { row: 0, col: 0 },
+    width: 1,
+    height: 1,
+    tilesetRefs: ['tiles'],
+    layers: [
+      { id: 'floor-slot', name: '地面', tiles: [[1], [null]], sources: [[0], [null]] },
+      { id: 'object-slot', name: '物件', tiles: [[1], [null]], sources: [[0], [null]] },
     ],
-    visual: [
-      { layerSlotId: 'floor-slot', offset: { dRow: 0, du: 0 }, tileId: 1, height: 0 },
-      { layerSlotId: 'object-slot', offset: { dRow: 0, du: 0 }, tileId: 1, height: 0 },
-    ],
-    collision: [{ offset: { dRow: 0, du: 0 }, value: 1 }],
+    collision: [[1], [null]],
   }
 }
 
 describe('StampPlacementInspector', () => {
   test('逐项列出全部普通冲突的通道、坐标与 current → incoming', () => {
     let map = buildBlankProjectMap(2, 2, 'tiles')
-    map = insertProjectMapLayer(map, buildProjectMapLayer(map, 'objects', '物件', 'flat'))
+    map = insertProjectMapLayer(map, buildProjectMapLayer(map, 'objects', '物件'))
     map = paintProjectMapTiles(map, [
-      { layerId: 'floor', row: 0, col: 0, tileId: 2, height: 0 },
-      { layerId: 'objects', row: 0, col: 0, tileId: 3, height: 0 },
+      { layerId: 'floor', row: 0, col: 0, tileId: 2, tilesetId: 'tiles', height: 0 },
+      { layerId: 'objects', row: 0, col: 0, tileId: 3, tilesetId: 'tiles', height: 0 },
     ])
     map = paintProjectMapCollision(map, [{ row: 0, col: 0, value: 4 }])
     const stamp = template()
@@ -50,9 +49,10 @@ describe('StampPlacementInspector', () => {
       mapRevision: 7,
       template: stamp,
       anchor: { row: 0, col: 0 },
+      placementBaseHeight: 0,
       mappings,
       permission: { hiddenLayerIds: [], lockedLayerIds: [] },
-      availableTileIds: new Set([1, 2, 3]),
+      availableTileIdsByTileset: new Map([['tiles', new Set([1, 2, 3])]]),
       conflictPolicy: 'reject',
     })
 
@@ -89,9 +89,10 @@ describe('StampPlacementInspector', () => {
       mapRevision: 0,
       template: stamp,
       anchor: { row: 0, col: 0 },
+      placementBaseHeight: 0,
       mappings: [],
       permission: { hiddenLayerIds: [], lockedLayerIds: [] },
-      availableTileIds: new Set([1]),
+      availableTileIdsByTileset: new Map([['tiles', new Set([1])]]),
       conflictPolicy: 'reject',
     })
     const plan = {

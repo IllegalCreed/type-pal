@@ -111,8 +111,8 @@ export class EditStampPlacementCommand implements Command {
     for (const key of removeVisualKeys) {
       const ref = placement.visualSlots.find((candidate) => visualSlotKey(candidate) === key)!
       visual.push({ channel: 'tileId', ref: { ...ref }, value: null })
-      if (activeLayer.depthMode === 'height')
-        visual.push({ channel: 'height', ref: { ...ref }, value: 0 })
+      visual.push({ channel: 'tilesetId', ref: { ...ref }, value: null })
+      visual.push({ channel: 'height', ref: { ...ref }, value: 0 })
     }
     const normalizedPatch: ProjectMapPatch = { visual, collision: patch.collision }
     const nextVisualSlots = placement.visualSlots.filter(

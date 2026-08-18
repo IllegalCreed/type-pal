@@ -440,10 +440,11 @@ export function validatePalMigrationTarget(args: {
   const tilesetIds = new Set(tilesets.map((tileset) => tileset.id))
   const stamps = validateStampTemplates(required(files, 'content/stamps.json'))
   for (const stamp of stamps) {
-    if (!tilesetIds.has(stamp.tilesetId))
-      throw new Error(
-        `content/stamps.json: 图章 "${stamp.id}" 的 tilesetId "${stamp.tilesetId}" 不在 tilesets 注册表`,
-      )
+    for (const tilesetId of stamp.tilesetRefs)
+      if (!tilesetIds.has(tilesetId))
+        throw new Error(
+          `content/stamps.json: 组合 "${stamp.id}" 的 tilesetRefs 包含未注册来源 "${tilesetId}"`,
+        )
   }
   if (mapIndex.maps.length !== sources.tilemaps.length)
     throw new Error(`地图索引数量 ${mapIndex.maps.length} != 源图数量 ${sources.tilemaps.length}`)
@@ -451,8 +452,9 @@ export function validatePalMigrationTarget(args: {
   for (const asset of mapIndex.maps) {
     indexedMapPaths.add(asset.path)
     const map = validateProjectMap(required(files, asset.path))
-    if (!tilesetIds.has(map.tilesetId))
-      throw new Error(`${asset.path}: tilesetId "${map.tilesetId}" 不在 tilesets 注册表`)
+    for (const tilesetId of map.tilesetRefs)
+      if (!tilesetIds.has(tilesetId))
+        throw new Error(`${asset.path}: tilesetRefs 包含未注册来源 "${tilesetId}"`)
   }
   const orphanMap = [...files.keys()].find(
     (path) =>

@@ -194,7 +194,7 @@ describe('buildBlankProject(W-blank:开箱即玩)', () => {
       version: number
       width: number
     }
-    expect(map).toMatchObject({ version: 2, width: 12 })
+    expect(map).toMatchObject({ version: 4, width: 12 })
     expect(files['content/maps/index.json']).toEqual({
       version: 1,
       maps: [{ id: 'start', name: '起始地图', path: 'content/maps/start.json' }],

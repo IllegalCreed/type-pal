@@ -30,7 +30,7 @@ import {
 
 function twoLayerMap() {
   const base = buildBlankProjectMap(3, 2, 'tiles')
-  return insertProjectMapLayer(base, buildProjectMapLayer(base, 'objects', '物件', 'height'))
+  return insertProjectMapLayer(base, buildProjectMapLayer(base, 'objects', '物件'))
 }
 
 const cells = (
@@ -278,8 +278,8 @@ describe('W8 selection workspace / clipping / summary', () => {
   test('普通 cells 在对应槽被 placement 接管后自动裁去，不能保留双重选择身份', () => {
     const populated = paintProjectMapCollision(
       paintProjectMapTiles(twoLayerMap(), [
-        { layerId: 'floor', row: 0, col: 0, tileId: 1, height: 0 },
-        { layerId: 'floor', row: 0, col: 1, tileId: 2, height: 0 },
+        { layerId: 'floor', row: 0, col: 0, tileId: 1, tilesetId: 'tiles', height: 0 },
+        { layerId: 'floor', row: 0, col: 1, tileId: 2, tilesetId: 'tiles', height: 0 },
       ]),
       [
         { row: 0, col: 0, value: 1 },
@@ -313,8 +313,8 @@ describe('W8 selection workspace / clipping / summary', () => {
 
   test('placement clip 按实时顺序去悬空 ID；组内 context 只随单组选区保留', () => {
     const populated = paintProjectMapTiles(twoLayerMap(), [
-      { layerId: 'floor', row: 0, col: 0, tileId: 1, height: 0 },
-      { layerId: 'objects', row: 1, col: 1, tileId: 2, height: 0 },
+      { layerId: 'floor', row: 0, col: 0, tileId: 1, tilesetId: 'tiles', height: 0 },
+      { layerId: 'objects', row: 1, col: 1, tileId: 2, tilesetId: 'tiles', height: 0 },
     ])
     const map = withProjectMapStampPlacements(populated, [
       {
@@ -398,9 +398,9 @@ describe('W8 selection workspace / clipping / summary', () => {
 
   test('组内 cells 只从指定 placement 的当前层成员与碰撞 membership 派生', () => {
     let populated = paintProjectMapTiles(twoLayerMap(), [
-      { layerId: 'floor', row: 0, col: 0, tileId: 1, height: 0 },
-      { layerId: 'objects', row: 0, col: 0, tileId: 2, height: 1 },
-      { layerId: 'floor', row: 1, col: 0, tileId: 3, height: 0 },
+      { layerId: 'floor', row: 0, col: 0, tileId: 1, tilesetId: 'tiles', height: 0 },
+      { layerId: 'objects', row: 0, col: 0, tileId: 2, tilesetId: 'tiles', height: 1 },
+      { layerId: 'floor', row: 1, col: 0, tileId: 3, tilesetId: 'tiles', height: 0 },
     ])
     populated = paintProjectMapCollision(populated, [
       { row: 0, col: 0, value: 0 },
@@ -484,9 +484,9 @@ describe('W8 selection workspace / clipping / summary', () => {
   test('全选固定只含活动层非空视觉槽和非零 collision；跨层开关不扩大范围', () => {
     let map = twoLayerMap()
     map = paintProjectMapTiles(map, [
-      { layerId: 'floor', row: 0, col: 0, tileId: 2, height: 0 },
-      { layerId: 'objects', row: 1, col: 1, tileId: 7, height: 3 },
-      { layerId: 'objects', row: 2, col: 1, tileId: 8, height: 5 },
+      { layerId: 'floor', row: 0, col: 0, tileId: 2, tilesetId: 'tiles', height: 0 },
+      { layerId: 'objects', row: 1, col: 1, tileId: 7, tilesetId: 'tiles', height: 3 },
+      { layerId: 'objects', row: 2, col: 1, tileId: 8, tilesetId: 'tiles', height: 5 },
     ])
     map = paintProjectMapCollision(map, [{ row: 3, col: 2, value: 4 }])
     const all = selectAllMapContent(map, {
@@ -504,8 +504,6 @@ describe('W8 selection workspace / clipping / summary', () => {
       visualInstanceCount: 2,
       emptySlotCount: 0,
       gridPointCount: 1,
-      flatInstanceCount: 0,
-      heightInstanceCount: 2,
       tileId: { kind: 'mixed' },
       height: { kind: 'mixed' },
       collision: { kind: 'single', value: 4 },
@@ -538,14 +536,15 @@ describe('W8 opaque hit policy (R1/R5)', () => {
   test('活动层越出源格的 opaque 像素优先于光标逻辑格；逻辑格仍在候选', () => {
     let map = buildBlankProjectMap(3, 1, 'tiles')
     map = paintProjectMapTiles(map, [
-      { layerId: 'floor', row: 0, col: 0, tileId: 1, height: 0 },
-      { layerId: 'floor', row: 0, col: 1, tileId: 2, height: 0 },
+      { layerId: 'floor', row: 0, col: 0, tileId: 1, tilesetId: 'tiles', height: 0 },
+      { layerId: 'floor', row: 0, col: 1, tileId: 2, tilesetId: 'tiles', height: 0 },
     ])
     const tiles = new Map<number, RleFrame>([
       [1, frame(64, 16, [[48, 8]])],
       [2, frame(32, 16, [[16, 8]])],
     ])
-    const hit = hitTestMapContent(map, tiles, 32, 0, { activeLayerId: 'floor' })
+    const registry = new Map([['tiles', tiles]])
+    const hit = hitTestMapContent(map, registry, 32, 0, { activeLayerId: 'floor' })
     expect(hit.logicalPoint).toEqual({ row: 0, col: 1 })
     // 同层有多个 opaque 重叠时与 renderer 的“后画在上”一致，逻辑格 tile #2 最后绘制。
     expect(hit.primary?.ref).toEqual({ layerId: 'floor', row: 0, col: 1 })
@@ -556,7 +555,7 @@ describe('W8 opaque hit policy (R1/R5)', () => {
 
     // 让逻辑格像素透明后，仍命中越界可见像素的真实源格，而不是逻辑槽。
     tiles.set(2, frame(32, 16, []))
-    const visible = hitTestMapContent(map, tiles, 32, 0, { activeLayerId: 'floor' })
+    const visible = hitTestMapContent(map, registry, 32, 0, { activeLayerId: 'floor' })
     expect(visible.primary?.ref).toEqual({ layerId: 'floor', row: 0, col: 0 })
     expect(visible.candidates.some((item) => item.logicalHit && item.ref.col === 1)).toBe(true)
   })
@@ -564,15 +563,20 @@ describe('W8 opaque hit policy (R1/R5)', () => {
   test('Alt 候选按面板顶层优先再 row/col；跨层像素不抢活动层，locked 灰显', () => {
     let map = twoLayerMap()
     map = paintProjectMapTiles(map, [
-      { layerId: 'floor', row: 0, col: 0, tileId: 1, height: 0 },
-      { layerId: 'objects', row: 0, col: 0, tileId: 2, height: 2 },
+      { layerId: 'floor', row: 0, col: 0, tileId: 1, tilesetId: 'tiles', height: 0 },
+      { layerId: 'objects', row: 0, col: 0, tileId: 2, tilesetId: 'tiles', height: 2 },
     ])
     const solid = frame(32, 16, [[16, 8]])
     const hit = hitTestMapContent(
       map,
       new Map([
-        [1, solid],
-        [2, solid],
+        [
+          'tiles',
+          new Map([
+            [1, solid],
+            [2, solid],
+          ]),
+        ],
       ]),
       0,
       0,

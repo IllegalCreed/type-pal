@@ -1,4 +1,9 @@
-import { mapInstanceHeight, type Palette, type ProjectMap, type RleFrame } from '@type-pal/reforge'
+import {
+  mapInstanceHeight,
+  type Palette,
+  type ProjectMap,
+  type TilesetFrameRegistry,
+} from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { ProjectMapPatch } from '../core/map-patch.js'
 import type { MapSelection } from '../core/map-selection.js'
@@ -11,7 +16,7 @@ export interface MapSelectionInspectorProps {
   activeLayerId: string
   hiddenLayerIds: ReadonlySet<string>
   lockedLayerIds: ReadonlySet<string>
-  tiles?: ReadonlyMap<number, RleFrame>
+  tilesets?: TilesetFrameRegistry
   palette?: Palette
   editingBlockedReason?: string
   notice?: { kind: 'info' | 'error'; message: string }
@@ -36,7 +41,7 @@ export function MapSelectionInspector(props: MapSelectionInspectorProps) {
     activeLayerId,
     hiddenLayerIds,
     lockedLayerIds,
-    tiles,
+    tilesets,
     palette,
     editingBlockedReason,
     notice,
@@ -102,7 +107,7 @@ export function MapSelectionInspector(props: MapSelectionInspectorProps) {
     () =>
       selection.visualSlots.filter((ref) => {
         const layer = layerById.get(ref.layerId)
-        return layer?.depthMode === 'height' && layer.tiles[ref.row]?.[ref.col] != null
+        return layer?.tiles[ref.row]?.[ref.col] != null
       }),
     [selection.visualSlots, layerById],
   )
@@ -147,12 +152,10 @@ export function MapSelectionInspector(props: MapSelectionInspectorProps) {
     onPatch(
       {
         visual: selection.visualSlots.flatMap((ref) => {
-          const layer = map.layers.find((candidate) => candidate.id === ref.layerId)
           return [
             { channel: 'tileId' as const, ref, value: null },
-            ...(layer?.depthMode === 'height'
-              ? [{ channel: 'height' as const, ref, value: 0 }]
-              : []),
+            { channel: 'tilesetId' as const, ref, value: null },
+            { channel: 'height' as const, ref, value: 0 },
           ]
         }),
         collision: [],
@@ -223,7 +226,7 @@ export function MapSelectionInspector(props: MapSelectionInspectorProps) {
         <MapContentSelectionPreview
           map={map}
           visualSlots={selection.visualSlots}
-          tiles={tiles}
+          tilesets={tilesets}
           palette={palette}
           title={selectionPreviewTitle}
           subtitle={selectedLayers.map((layer) => layer.name).join('、') || '无视觉层'}
@@ -348,7 +351,7 @@ export function MapSelectionInspector(props: MapSelectionInspectorProps) {
             +1
           </button>
           <span className="hint2">
-            {skippedHeight ? `跳过 ${skippedHeight} 个空槽/平面实例` : '仅改实例高度'}
+            {skippedHeight ? `跳过 ${skippedHeight} 个空槽` : '仅改实例高度'}
           </span>
         </div>
         <div className="field map-selection-field">
@@ -366,7 +369,7 @@ export function MapSelectionInspector(props: MapSelectionInspectorProps) {
                 value={layer.id}
                 disabled={hiddenLayerIds.has(layer.id) || lockedLayerIds.has(layer.id)}
               >
-                {layer.name} · {layer.depthMode === 'height' ? '高度' : '平面'}
+                {layer.name}
               </option>
             ))}
           </select>

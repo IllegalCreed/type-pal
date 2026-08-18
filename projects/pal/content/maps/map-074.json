@@ -1,13 +1,12 @@
 {
-  "version": 2,
+  "version": 4,
   "width": 64,
   "height": 128,
-  "tilesetId": "tileset-074",
+  "tilesetRefs": ["tileset-074"],
   "layers": [
     {
       "id": "layer-0",
       "name": "下层",
-      "depthMode": "height",
       "tiles": [
         [226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,223,226,223,223,226,223,223,223,226,223,223,226,226,223,223,223,226,223],
         [226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,223,226,223,226,226,224,225,224,224,225,224,224,224,225,224,225,225,226,224,224,224,225,224,225],
@@ -528,7 +527,6 @@
     {
       "id": "layer-1",
       "name": "上层",
-      "depthMode": "height",
       "tiles": [
         [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
         [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],

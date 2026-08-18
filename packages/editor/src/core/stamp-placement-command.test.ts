@@ -1,4 +1,4 @@
-import type { ProjectMap, StampTemplateV1 } from '@type-pal/content'
+import type { ProjectMap, StampTemplate } from '@type-pal/content'
 import {
   buildBlankProjectMap,
   buildProjectMapLayer,
@@ -16,25 +16,30 @@ import { PlaceStampCommand, StampPlacementCommandError } from './stamp-placement
 
 function fixtureMap(): ProjectMap {
   let map = buildBlankProjectMap(4, 3, 'tiles-a')
-  map = insertProjectMapLayer(map, buildProjectMapLayer(map, 'objects', '物件', 'height'))
+  map = insertProjectMapLayer(map, buildProjectMapLayer(map, 'objects', '物件'))
   return map
 }
 
-function template(): StampTemplateV1 {
+function template(): StampTemplate {
   return {
     id: 'tree',
     name: '树',
-    tilesetId: 'tiles-a',
     origin: 'authored',
-    layerSlots: [
-      { id: 'ground', name: '地面', depthMode: 'flat' },
-      { id: 'object', name: '物件', depthMode: 'height' },
+    width: 1,
+    height: 1,
+    anchor: { row: 0, col: 0 },
+    tilesetRefs: ['tiles-a'],
+    layers: [
+      { id: 'ground', name: '地面', tiles: [[1], [null]], sources: [[0], [null]] },
+      {
+        id: 'object',
+        name: '物件',
+        tiles: [[null], [2]],
+        sources: [[null], [0]],
+        heights: [[0], [5]],
+      },
     ],
-    visual: [
-      { layerSlotId: 'ground', offset: { dRow: 0, du: 0 }, tileId: 1, height: 0 },
-      { layerSlotId: 'object', offset: { dRow: 1, du: 1 }, tileId: 2, height: 5 },
-    ],
-    collision: [{ offset: { dRow: 1, du: 1 }, value: 0 }],
+    collision: [[null], [0]],
   }
 }
 
@@ -71,12 +76,13 @@ function plan(map: ProjectMap = fixtureMap(), revision = 0, anchor = { row: 0, c
     mapRevision: revision,
     template: template(),
     anchor,
+    placementBaseHeight: 0,
     mappings: [
       { layerSlotId: 'ground', targetLayerId: 'floor' },
       { layerSlotId: 'object', targetLayerId: 'objects' },
     ],
     permission: { hiddenLayerIds: [], lockedLayerIds: [] },
-    availableTileIds: new Set([1, 2]),
+    availableTileIdsByTileset: new Map([['tiles-a', new Set([1, 2])]]),
     conflictPolicy: 'overwrite',
   })
 }
@@ -89,7 +95,7 @@ describe('PlaceStampCommand', () => {
     expect(session.dispatch(new PlaceStampCommand(firstPlan))).toBe(true)
 
     const placed = session.getState().maps['map-a']!
-    expect(placed.version).toBe(3)
+    expect(placed.version).toBe(4)
     expect(placed.layers[0]?.tiles[0]?.[0]).toBe(1)
     expect(placed.layers[1]?.tiles[1]?.[0]).toBe(2)
     expect(placed.layers[1]?.heights?.[1]?.[0]).toBe(5)
@@ -99,7 +105,7 @@ describe('PlaceStampCommand', () => {
 
     expect(session.undo()).toBe(true)
     expect(session.getState().maps['map-a']).toBe(before)
-    expect(session.getState().maps['map-a']?.version).toBe(2)
+    expect(session.getState().maps['map-a']?.version).toBe(4)
     expect(session.undo()).toBe(false)
 
     expect(session.redo()).toBe(true)
@@ -121,8 +127,8 @@ describe('PlaceStampCommand', () => {
 
   test('普通矩阵值已相同仍会新增 metadata，作为一次可撤销 history', () => {
     let map = paintProjectMapTiles(fixtureMap(), [
-      { layerId: 'floor', row: 0, col: 0, tileId: 1, height: 0 },
-      { layerId: 'objects', row: 1, col: 0, tileId: 2, height: 5 },
+      { layerId: 'floor', row: 0, col: 0, tileId: 1, tilesetId: 'tiles-a', height: 0 },
+      { layerId: 'objects', row: 1, col: 0, tileId: 2, tilesetId: 'tiles-a', height: 5 },
     ])
     map = paintProjectMapCollision(map, [{ row: 1, col: 0, value: 0 }])
     const session = new EditSession(state(map))
@@ -140,12 +146,14 @@ describe('PlaceStampCommand', () => {
       true,
     )
     session.dispatch(
-      new PaintTilesCommand('map-a', [{ layerId: 'floor', row: 2, col: 1, tileId: 2, height: 0 }]),
+      new PaintTilesCommand('map-a', [
+        { layerId: 'floor', row: 2, col: 1, tileId: 2, tilesetId: 'tiles-a', height: 0 },
+      ]),
     )
     expect(session.undo()).toBe(true)
     expect(projectMapStampPlacements(session.getState().maps['map-a']!)).toHaveLength(1)
     expect(session.undo()).toBe(true)
-    expect(session.getState().maps['map-a']?.version).toBe(2)
+    expect(session.getState().maps['map-a']?.version).toBe(4)
     expect(projectMapStampPlacements(session.getState().maps['map-a']!)).toHaveLength(0)
   })
 
@@ -157,7 +165,7 @@ describe('PlaceStampCommand', () => {
     expect(() =>
       session.dispatch(
         new PaintTilesCommand('map-a', [
-          { layerId: 'objects', row: 1, col: 0, tileId: 9, height: 4 },
+          { layerId: 'objects', row: 1, col: 0, tileId: 9, tilesetId: 'tiles-a', height: 4 },
         ]),
       ),
     ).toThrow(/进入组内编辑或先解组/)
@@ -189,7 +197,9 @@ describe('PlaceStampCommand', () => {
     const session = new EditSession(state(initial))
     const stalePlan = plan(initial)
     session.dispatch(
-      new PaintTilesCommand('map-a', [{ layerId: 'floor', row: 4, col: 0, tileId: 1, height: 0 }]),
+      new PaintTilesCommand('map-a', [
+        { layerId: 'floor', row: 4, col: 0, tileId: 1, tilesetId: 'tiles-a', height: 0 },
+      ]),
     )
     session.undo()
     const beforeAttempt = session.getState()
@@ -209,7 +219,8 @@ describe('PlaceStampCommand', () => {
       anchor: { row: 99, col: 0 },
       mappings: [],
       permission: { hiddenLayerIds: [], lockedLayerIds: [] },
-      availableTileIds: new Set([1, 2]),
+      placementBaseHeight: 0,
+      availableTileIdsByTileset: new Map([['tiles-a', new Set([1, 2])]]),
       conflictPolicy: 'reject',
     })
     expect(() => new PlaceStampCommand(invalid)).toThrow(StampPlacementCommandError)

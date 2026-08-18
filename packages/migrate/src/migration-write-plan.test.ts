@@ -89,16 +89,16 @@ describe('migration transaction change list', () => {
     const repo = tempRepo()
     const path = 'content/maps/map-001.json'
     const map: MigrationJson = {
-      version: 2,
+      version: 4,
       width: 1,
       height: 1,
-      tilesetId: 'tileset-001',
+      tilesetRefs: ['tileset-001'],
       layers: [
         {
           id: 'floor',
           name: '地板',
-          depthMode: 'flat',
           tiles: [[1], [2]],
+          sources: [[0], [0]],
         },
       ],
       collision: [[0], [0]],

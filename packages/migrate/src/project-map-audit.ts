@@ -1,4 +1,4 @@
-import { formatProjectMapV2, type ProjectMapV2 } from '@type-pal/content'
+import { formatProjectMap, type ProjectMap } from '@type-pal/content'
 import type { Tilemap } from '@type-pal/shared'
 import {
   convertSourceTilemap,
@@ -47,7 +47,7 @@ export interface ProjectMapAuditReport {
 }
 
 export interface ProjectMapAuditResult {
-  maps: Map<number, ProjectMapV2>
+  maps: Map<number, ProjectMap>
   report: ProjectMapAuditReport
 }
 
@@ -55,7 +55,7 @@ export interface ProjectMapAuditResult {
 export function auditAndConvertSourceMaps(
   entries: readonly SourceMapAuditEntry[],
 ): ProjectMapAuditResult {
-  const maps = new Map<number, ProjectMapV2>()
+  const maps = new Map<number, ProjectMap>()
   const heightsByTilesetTile = new Map<string, Set<number>>()
   let latticeInstances = 0
   let residualWordCount = 0
@@ -75,7 +75,7 @@ export function auditAndConvertSourceMaps(
     const map = convertSourceTilemap(entry.mapNum, entry.source)
     maps.set(entry.mapNum, map)
     sourceJsonBytes += entry.sourceJsonBytes
-    projectMapJsonBytes += Buffer.byteLength(formatProjectMapV2(map), 'utf8')
+    projectMapJsonBytes += Buffer.byteLength(formatProjectMap(map), 'utf8')
 
     for (let row = 0; row < entry.source.height; row++) {
       for (let col = 0; col < entry.source.width; col++) {
@@ -110,12 +110,12 @@ export function auditAndConvertSourceMaps(
           if (decoded.layer0Height !== 0) layer0NonzeroHeightCount++
           if (decoded.layer1Height !== 0) layer1NonzeroHeightCount++
           if (decoded.collision !== 0) collisionInstanceCount++
-          const lowerKey = `${map.tilesetId}:0:${decoded.layer0Tile}`
+          const lowerKey = `${map.tilesetRefs[0]}:0:${decoded.layer0Tile}`
           const lowerHeights = heightsByTilesetTile.get(lowerKey) ?? new Set<number>()
           lowerHeights.add(decoded.layer0Height)
           heightsByTilesetTile.set(lowerKey, lowerHeights)
           if (decoded.layer1Tile !== null) {
-            const upperKey = `${map.tilesetId}:1:${decoded.layer1Tile}`
+            const upperKey = `${map.tilesetRefs[0]}:1:${decoded.layer1Tile}`
             const upperHeights = heightsByTilesetTile.get(upperKey) ?? new Set<number>()
             upperHeights.add(decoded.layer1Height)
             heightsByTilesetTile.set(upperKey, upperHeights)

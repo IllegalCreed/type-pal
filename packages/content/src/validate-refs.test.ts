@@ -398,18 +398,27 @@ test('敌脚本逻辑引用递归保留精确路径并拒绝非战斗角色', ()
     ),
   ).toBe(true)
 })
-test('图章模板 tilesetId 悬空 → 报 error(W7G)', () => {
+test('组合模板 tilesetRefs 悬空 → 报 error', () => {
   const b = clone(base)
   b.tilesets = [{ id: 'known', name: '已知', category: 'test', asset: 'tileset.known' }]
   b.stamps = [
     {
       id: 'tree',
       name: '树',
-      tilesetId: 'missing',
       origin: 'authored',
-      layerSlots: [{ id: 'ground', name: '地面', depthMode: 'flat' }],
-      visual: [{ layerSlotId: 'ground', offset: { dRow: 0, du: 0 }, tileId: 1, height: 0 }],
-      collision: [],
+      width: 1,
+      height: 1,
+      anchor: { row: 0, col: 0 },
+      tilesetRefs: ['missing'],
+      layers: [
+        {
+          id: 'ground',
+          name: '地面',
+          tiles: [[1], [null]],
+          sources: [[0], [null]],
+        },
+      ],
+      collision: [[null], [null]],
     },
   ]
   expect(
@@ -1162,7 +1171,10 @@ test('Actor typed 引用补齐 setActorSprite/setActorAppearance/setParty 并保
     expect.arrayContaining([
       expect.objectContaining({ severity: 'error', where: expect.stringContaining('[0].actor') }),
       expect.objectContaining({ severity: 'error', where: expect.stringContaining('[1].actor') }),
-      expect.objectContaining({ severity: 'error', where: expect.stringContaining('[2].members[1]') }),
+      expect.objectContaining({
+        severity: 'error',
+        where: expect.stringContaining('[2].members[1]'),
+      }),
     ]),
   )
 })
@@ -1246,8 +1258,8 @@ describe('validateReferences · battleField 三层引用(B2-1)', () => {
   test('三层引用全部命中已声明表时不产生战场问题', () => {
     const bundle = battleFieldBundle()
     bundle.battleFields = [field(24), field(25), field(26)]
-    expect(
-      validateReferences(bundle).filter((issue) => issue.message.startsWith('战场 ')),
-    ).toEqual([])
+    expect(validateReferences(bundle).filter((issue) => issue.message.startsWith('战场 '))).toEqual(
+      [],
+    )
   })
 })

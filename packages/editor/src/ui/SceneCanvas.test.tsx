@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
 import type { SceneDef } from '@type-pal/content'
-import type { ProjectMapV2 } from '@type-pal/reforge'
+import type { ProjectMap } from '@type-pal/reforge'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
@@ -21,7 +21,7 @@ vi.mock('./scene-stage.js', async (importOriginal) => {
     drawTriggerHighlight: vi.fn(),
     mapBoxOf: vi.fn(() => ({ minX: 0, minY: 0, maxX: 100, maxY: 100 })),
     useStageSize: vi.fn(() => ({ w: 100, h: 100 })),
-    useSceneAssets: (options: { mapId: string; projectMaps: Record<string, ProjectMapV2> }) => {
+    useSceneAssets: (options: { mapId: string; projectMaps: Record<string, ProjectMap> }) => {
       const loadedRef = React.useRef({
         renderer: {} as never,
         map: options.projectMaps[options.mapId]!,
@@ -38,13 +38,13 @@ vi.mock('./scene-stage.js', async (importOriginal) => {
   }
 })
 
-const projectMap: ProjectMapV2 = {
-  version: 2,
+const projectMap: ProjectMap = {
+  version: 4,
   width: 1,
   height: 1,
-  tilesetId: 'tiles-a',
-  layers: [{ id: 'floor', name: '地板', depthMode: 'flat', tiles: [[0]] }],
-  collision: [[0]],
+  tilesetRefs: ['tiles-a'],
+  layers: [{ id: 'floor', name: '地板', tiles: [[0], [null]], sources: [[0], [null]] }],
+  collision: [[0], [0]],
 }
 
 const scene = {

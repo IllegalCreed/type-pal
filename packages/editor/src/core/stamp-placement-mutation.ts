@@ -33,20 +33,12 @@ function point(
 function assertMatrixDerivative(beforeMap: ProjectMap, matrixMap: ProjectMap): void {
   const sameLayers =
     beforeMap.layers.length === matrixMap.layers.length &&
-    beforeMap.layers.every(
-      (layer, index) =>
-        layer.id === matrixMap.layers[index]?.id &&
-        layer.depthMode === matrixMap.layers[index]?.depthMode,
-    )
+    beforeMap.layers.every((layer, index) => layer.id === matrixMap.layers[index]?.id)
   const sameAuthoring =
-    beforeMap.version === matrixMap.version &&
-    (beforeMap.version === 2 ||
-      (matrixMap.version === 3 &&
-        beforeMap.authoring.stampPlacements === matrixMap.authoring.stampPlacements))
+    beforeMap.authoring?.stampPlacements === matrixMap.authoring?.stampPlacements
   if (
     beforeMap.width !== matrixMap.width ||
     beforeMap.height !== matrixMap.height ||
-    beforeMap.tilesetId !== matrixMap.tilesetId ||
     !sameLayers ||
     !sameAuthoring
   )
@@ -160,15 +152,16 @@ export function applyStampPlacementMutation(
     ...canonicalUpserts,
   ].sort((left, right) => compareText(left.id, right.id))
   const base = {
+    version: 4 as const,
     width: matrixMap.width,
     height: matrixMap.height,
-    tilesetId: matrixMap.tilesetId,
+    tilesetRefs: matrixMap.tilesetRefs,
     layers: matrixMap.layers,
     collision: matrixMap.collision,
   }
   const afterMap: ProjectMap = placements.length
-    ? { version: 3, ...base, authoring: { version: 1, stampPlacements: placements } }
-    : { version: 2, ...base }
+    ? { ...base, authoring: { version: 1, stampPlacements: placements } }
+    : base
   seedStampPlacementIndexDelta(beforeMap, afterMap, {
     removedPlacementIds: [...removedIds],
     upsertPlacementIds: canonicalUpserts.map((placement) => placement.id),

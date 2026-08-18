@@ -1,4 +1,4 @@
-import type { AssetCatalogV1, MapIndexV1, ProjectMap, StampTemplateV1 } from '@type-pal/content'
+import type { AssetCatalogV1, MapIndexV1, ProjectMap, StampTemplate } from '@type-pal/content'
 import type { AssetBase, TilesetDef } from '@type-pal/reforge'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { EditSession } from '../core/edit-session.js'
@@ -42,12 +42,12 @@ const STAMP_PAGE_SIZE = 100
 type StampInspectorTab = 'properties' | 'references' | 'tiles'
 type StampContentEditorState = {
   mode: 'create' | 'edit'
-  template: StampTemplateV1
+  template: StampTemplate
 }
 type StampLeaveIntent = { kind: 'close' } | { kind: 'select'; id: string }
 
 export function StampLibraryTab(props: {
-  stamps: readonly StampTemplateV1[]
+  stamps: readonly StampTemplate[]
   tilesets: readonly TilesetDef[]
   assetCatalog: AssetCatalogV1
   assetReader: EditorAssetReader
@@ -84,7 +84,7 @@ export function StampLibraryTab(props: {
   const [inspectorTab, setInspectorTab] = useState<StampInspectorTab>('properties')
   const [query, setQuery] = useState('')
   const [categoryFilter, setCategoryFilter] = useState('all')
-  const [originFilter, setOriginFilter] = useState<'all' | StampTemplateV1['origin']>('all')
+  const [originFilter, setOriginFilter] = useState<'all' | StampTemplate['origin']>('all')
   const [page, setPage] = useState(0)
   const [scan, setScan] = useState<UsageScan>(() => ({
     ...EMPTY_SCAN,
@@ -136,7 +136,7 @@ export function StampLibraryTab(props: {
         (!needle ||
           template.name.toLowerCase().includes(needle) ||
           template.id.toLowerCase().includes(needle) ||
-          template.tilesetId.toLowerCase().includes(needle)),
+          template.tilesetRefs.some((tilesetId) => tilesetId.toLowerCase().includes(needle))),
     )
   }, [categoryFilter, originFilter, query, stamps])
   const pageCount = Math.max(1, Math.ceil(shown.length / STAMP_PAGE_SIZE))
@@ -295,7 +295,7 @@ export function StampLibraryTab(props: {
     setCreateOpen(false)
   }
   const saveContent = (
-    next: StampTemplateV1,
+    next: StampTemplate,
     takeOwnership: boolean,
     editor: StampContentEditorState,
   ): void => {
@@ -340,10 +340,6 @@ export function StampLibraryTab(props: {
       const map =
         session.getState().maps[selectionSource.mapId] ??
         (await session.ensureMapLoaded(selectionSource.mapId))
-      if (map.tilesetId !== selected.tilesetId)
-        throw new Error(
-          `当前选区使用 tileset “${map.tilesetId}”，不能更新 tileset “${selected.tilesetId}” 的组合。`,
-        )
       setSelectionDialogMap(map)
     } catch (cause) {
       const message = cause instanceof Error ? cause.message : String(cause)
@@ -598,8 +594,8 @@ export function StampLibraryTab(props: {
                           <dd className="mono">{inspectorTemplate.id}</dd>
                         </div>
                         <div>
-                          <dt>瓦片集</dt>
-                          <dd className="mono">{inspectorTemplate.tilesetId}</dd>
+                          <dt>瓦片来源</dt>
+                          <dd className="mono">{inspectorTemplate.tilesetRefs.join('、')}</dd>
                         </div>
                         <div>
                           <dt>来源</dt>
@@ -620,7 +616,11 @@ export function StampLibraryTab(props: {
                         size="compact"
                         variant="secondary"
                         icon="open"
-                        onClick={() => onOpenTileset?.(inspectorTemplate.tilesetId)}
+                        onClick={() => {
+                          const first = inspectorTemplate.tilesetRefs[0]
+                          if (first) onOpenTileset?.(first)
+                        }}
+                        disabled={!inspectorTemplate.tilesetRefs.length}
                       >
                         打开来源瓦片集
                       </DsButton>

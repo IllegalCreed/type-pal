@@ -1,4 +1,9 @@
-import { mapInstanceHeight, type Palette, type ProjectMap, type RleFrame } from '@type-pal/reforge'
+import {
+  mapInstanceHeight,
+  type Palette,
+  type ProjectMap,
+  type TilesetFrameRegistry,
+} from '@type-pal/reforge'
 import { useMemo } from 'react'
 import type { ProjectMapPatch } from '../core/map-patch.js'
 import type { GridPointRef, StampGroupCellSelection, VisualSlotRef } from '../core/map-selection.js'
@@ -11,7 +16,7 @@ export interface StampPlacementSelectionInspectorProps {
   activeLayerId: string
   hiddenLayerIds: ReadonlySet<string>
   lockedLayerIds: ReadonlySet<string>
-  tiles?: ReadonlyMap<number, RleFrame>
+  tilesets?: TilesetFrameRegistry
   palette?: Palette
   editingPlacementId?: string
   editingSelection?: StampGroupCellSelection
@@ -42,7 +47,7 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
     activeLayerId,
     hiddenLayerIds,
     lockedLayerIds,
-    tiles,
+    tilesets,
     palette,
     editingPlacementId,
     editingSelection,
@@ -94,7 +99,7 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
     return value === null || value === undefined ? [] : [value]
   })
   const activeHeights = activeVisual.flatMap((ref) => {
-    if (!activeLayer || activeLayer.depthMode !== 'height') return []
+    if (!activeLayer) return []
     return [mapInstanceHeight(activeLayer, ref.row, ref.col)]
   })
   const collisionValues =
@@ -145,7 +150,7 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
           <MapContentSelectionPreview
             map={map}
             visualSlots={placements.flatMap((placement) => placement.visualSlots)}
-            tiles={tiles}
+            tilesets={tilesets}
             palette={palette}
             title={
               single
@@ -254,7 +259,7 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
         <MapContentSelectionPreview
           map={map}
           visualSlots={editing.visualSlots}
-          tiles={tiles}
+          tilesets={tilesets}
           palette={palette}
           title={`正在编辑 · ${editing.sourceStampName ?? editing.id}`}
           subtitle={`完整放置组 · 当前层 ${activeLayer?.name ?? activeLayerId}`}

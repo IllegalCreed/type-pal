@@ -1,7 +1,7 @@
 import type {
   SceneDefV14,
   SharedScriptLibraryV14,
-  StampTemplateV1,
+  StampTemplate,
   WorldVariableRegistryV1,
 } from '@type-pal/content'
 
@@ -98,29 +98,31 @@ const REVIEW_WORLD_VARIABLES = {
   },
 } satisfies WorldVariableRegistryV1
 
-function reviewStamps(tilesetId: string): StampTemplateV1[] {
+function reviewStamps(tilesetId: string): StampTemplate[] {
   const template = (
     id: string,
     name: string,
     category: string,
     tileIds: readonly number[],
     collision = false,
-  ): StampTemplateV1 => ({
+  ): StampTemplate => ({
     id,
     name,
     category,
-    tilesetId,
     origin: 'authored',
-    layerSlots: [{ id: 'surface', name: '主体', depthMode: 'flat' }],
-    visual: tileIds.map((tileId, index) => ({
-      layerSlotId: 'surface',
-      offset: { dRow: index, du: index },
-      tileId,
-      height: 0,
-    })),
-    collision: collision
-      ? tileIds.map((_, index) => ({ offset: { dRow: index, du: index }, value: 1 }))
-      : [],
+    width: Math.max(1, tileIds.length),
+    height: 1,
+    anchor: { row: 0, col: 0 },
+    tilesetRefs: [tilesetId],
+    layers: [
+      {
+        id: 'surface',
+        name: '主体',
+        tiles: [tileIds.map((tileId) => tileId), tileIds.map(() => null)],
+        sources: [tileIds.map(() => 0), tileIds.map(() => null)],
+      },
+    ],
+    collision: [tileIds.map(() => (collision ? 1 : null)), tileIds.map(() => null)],
   })
 
   return [
@@ -136,7 +138,7 @@ function reviewStamps(tilesetId: string): StampTemplateV1[] {
 export interface UiReviewSampleInput {
   scenes: readonly SceneDefV14[]
   sharedScripts: SharedScriptLibraryV14
-  stamps: readonly StampTemplateV1[]
+  stamps: readonly StampTemplate[]
   worldVariables: WorldVariableRegistryV1
   tilesetId?: string
 }
@@ -144,7 +146,7 @@ export interface UiReviewSampleInput {
 export interface UiReviewSampleOutput {
   scenes: SceneDefV14[]
   sharedScripts: SharedScriptLibraryV14
-  stamps: StampTemplateV1[]
+  stamps: StampTemplate[]
   worldVariables: WorldVariableRegistryV1
 }
 
@@ -183,7 +185,7 @@ export function withUiReviewSamples(input: UiReviewSampleInput): UiReviewSampleO
   for (const [id, script] of Object.entries(REVIEW_SCRIPTS))
     if (!sharedScripts[id]) sharedScripts[id] = structuredClone(script)
 
-  const stamps = structuredClone(input.stamps) as StampTemplateV1[]
+  const stamps = structuredClone(input.stamps) as StampTemplate[]
   const existingStampIds = new Set(stamps.map((stamp) => stamp.id))
   for (const stamp of input.tilesetId ? reviewStamps(input.tilesetId) : [])
     if (!existingStampIds.has(stamp.id)) stamps.push(stamp)

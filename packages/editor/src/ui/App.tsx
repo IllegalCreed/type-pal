@@ -3672,7 +3672,7 @@ function SceneInspector(props: {
 
   const createAndBind = (): void => {
     const { id, path } = nextMapAssetIdentity({ version: 1, maps }, scene.id)
-    const tileset = projectMaps[scene.mapId]?.tilesetId ?? tilesets[0]?.id ?? 'starter'
+    const tileset = projectMaps[scene.mapId]?.tilesetRefs[0] ?? tilesets[0]?.id ?? 'starter'
     session.dispatch(
       new CreateMapAssetCommand(
         { id, name: `${scene.id} 地图`, path },

@@ -1,7 +1,21 @@
-import type { MapIndexV1, ProjectMap, StampTemplateV1, TilesetDef } from '@type-pal/content'
+import type {
+  IsometricMapContent,
+  MapIndexV1,
+  ProjectMap,
+  StampTemplate,
+  TilesetDef,
+} from '@type-pal/content'
 import type { EditorState } from './edit-session.js'
 
 export interface TilesetMapScanEntry {
+  mapId: string
+  mapName: string
+  path: string
+  tilesetIds: string[]
+  maxTileIdByTileset: Record<string, number>
+}
+
+export interface TilesetReferenceEntry {
   mapId: string
   mapName: string
   path: string
@@ -22,8 +36,8 @@ export interface TilesetReferenceScan {
   completed: number
   total: number
   maps: TilesetMapScanEntry[]
-  mapReferences: TilesetMapScanEntry[]
-  stampReferences: Array<Pick<StampTemplateV1, 'id' | 'name' | 'tilesetId'> & { maxTileId: number }>
+  mapReferences: TilesetReferenceEntry[]
+  stampReferences: Array<{ id: string; name: string; tilesetId: string; maxTileId: number }>
   failures: TilesetReferenceScanFailure[]
   done: boolean
 }
@@ -32,7 +46,7 @@ export interface ScanTilesetReferencesInput {
   tilesetId: string
   tilesetIds?: readonly string[]
   mapIndex: MapIndexV1
-  stamps: readonly StampTemplateV1[]
+  stamps: readonly StampTemplate[]
   loadMap: (mapId: string) => Promise<ProjectMap>
   onProgress?: (scan: TilesetReferenceScan) => void
 }
@@ -41,24 +55,49 @@ function snapshot(scan: TilesetReferenceScan): TilesetReferenceScan {
   return {
     ...scan,
     tilesetIds: [...scan.tilesetIds],
-    maps: [...scan.maps],
+    maps: scan.maps.map((entry) => ({
+      ...entry,
+      tilesetIds: [...entry.tilesetIds],
+      maxTileIdByTileset: { ...entry.maxTileIdByTileset },
+    })),
     mapReferences: [...scan.mapReferences],
     stampReferences: [...scan.stampReferences],
     failures: [...scan.failures],
   }
 }
 
-function maxMapTileId(map: ProjectMap): number {
-  let maximum = -1
-  for (const layer of map.layers)
-    for (const row of layer.tiles)
-      for (const tileId of row) if (tileId !== null && tileId > maximum) maximum = tileId
-  return maximum
+function maxTileIds(
+  content: Pick<IsometricMapContent<number | null>, 'tilesetRefs' | 'layers'>,
+): Record<string, number> {
+  const result = Object.fromEntries(content.tilesetRefs.map((tilesetId) => [tilesetId, -1]))
+  for (const layer of content.layers)
+    for (let row = 0; row < layer.tiles.length; row++)
+      for (let col = 0; col < (layer.tiles[row]?.length ?? 0); col++) {
+        const tileId = layer.tiles[row]?.[col]
+        const source = layer.sources[row]?.[col]
+        if (tileId === null || tileId === undefined || source === null || source === undefined)
+          continue
+        const tilesetId = content.tilesetRefs[source]
+        if (tilesetId) result[tilesetId] = Math.max(result[tilesetId] ?? -1, tileId)
+      }
+  return result
 }
 
-/**
- * 完整 mapIndex 的 fail-closed 瓦片集引用扫描；未加载地图也必须经 loadMap 确认。
- */
+function stampReferences(
+  stamps: readonly StampTemplate[],
+  targetSet: ReadonlySet<string>,
+): TilesetReferenceScan['stampReferences'] {
+  return stamps.flatMap((stamp) => {
+    const maxima = maxTileIds(stamp)
+    return stamp.tilesetRefs.flatMap((tilesetId) =>
+      targetSet.has(tilesetId)
+        ? [{ id: stamp.id, name: stamp.name, tilesetId, maxTileId: maxima[tilesetId] ?? -1 }]
+        : [],
+    )
+  })
+}
+
+/** 完整 mapIndex 的 fail-closed 瓦片集引用扫描；每个格子的来源都参与。 */
 export async function scanTilesetReferences(
   input: ScanTilesetReferencesInput,
 ): Promise<TilesetReferenceScan> {
@@ -72,14 +111,7 @@ export async function scanTilesetReferences(
     total: input.mapIndex.maps.length,
     maps: [],
     mapReferences: [],
-    stampReferences: input.stamps
-      .filter((stamp) => targetSet.has(stamp.tilesetId))
-      .map(({ id, name, tilesetId, visual }) => ({
-        id,
-        name,
-        tilesetId,
-        maxTileId: Math.max(...visual.map((member) => member.tileId)),
-      })),
+    stampReferences: stampReferences(input.stamps, targetSet),
     failures: [],
     done: false,
   }
@@ -87,15 +119,24 @@ export async function scanTilesetReferences(
   for (const asset of input.mapIndex.maps) {
     try {
       const map = await input.loadMap(asset.id)
-      const entry = {
+      const maxima = maxTileIds(map)
+      const entry: TilesetMapScanEntry = {
         mapId: asset.id,
         mapName: asset.name,
         path: asset.path,
-        tilesetId: map.tilesetId,
-        maxTileId: maxMapTileId(map),
+        tilesetIds: [...map.tilesetRefs],
+        maxTileIdByTileset: maxima,
       }
       scan.maps.push(entry)
-      if (targetSet.has(map.tilesetId)) scan.mapReferences.push(entry)
+      for (const tilesetId of map.tilesetRefs)
+        if (targetSet.has(tilesetId))
+          scan.mapReferences.push({
+            mapId: asset.id,
+            mapName: asset.name,
+            path: asset.path,
+            tilesetId,
+            maxTileId: maxima[tilesetId] ?? -1,
+          })
     } catch (cause) {
       scan.failures.push({
         mapId: asset.id,
@@ -104,7 +145,7 @@ export async function scanTilesetReferences(
         message: cause instanceof Error ? cause.message : String(cause),
       })
     }
-    scan.completed += 1
+    scan.completed++
     input.onProgress?.(snapshot(scan))
   }
   scan.done = true
@@ -113,24 +154,23 @@ export async function scanTilesetReferences(
   return result
 }
 
-/** 只能由完整零引用扫描生成；Command 仍会用当前 EditorState 自校验。 */
 export class TilesetRemovalProof {
   readonly tilesetId: string
   readonly mapIndex: ReadonlyArray<{ id: string; path: string }>
-  readonly scannedMaps: ReadonlyArray<{ id: string; path: string; tilesetId: string }>
+  readonly scannedMaps: ReadonlyArray<{ id: string; path: string; tilesetIds: string[] }>
 
   private constructor(scan: TilesetReferenceScan, mapIndex: MapIndexV1) {
     this.tilesetId = scan.tilesetId
     this.mapIndex = mapIndex.maps.map(({ id, path }) => ({ id, path }))
-    this.scannedMaps = scan.maps.map(({ mapId: id, path, tilesetId }) => ({
+    this.scannedMaps = scan.maps.map(({ mapId: id, path, tilesetIds }) => ({
       id,
       path,
-      tilesetId,
+      tilesetIds: [...tilesetIds],
     }))
   }
 
   static fromScan(scan: TilesetReferenceScan, mapIndex: MapIndexV1): TilesetRemovalProof {
-    if (!scan.done || scan.completed !== scan.total || scan.failures.length > 0)
+    if (!scan.done || scan.completed !== scan.total || scan.failures.length)
       throw new Error('瓦片集引用扫描不完整，不能生成删除许可。')
     if (
       scan.total !== mapIndex.maps.length ||
@@ -141,13 +181,12 @@ export class TilesetRemovalProof {
       )
     )
       throw new Error('瓦片集引用扫描未覆盖完整地图索引。')
-    if (scan.mapReferences.length > 0 || scan.stampReferences.length > 0)
+    if (scan.mapReferences.length || scan.stampReferences.length)
       throw new Error('瓦片集仍被地图或组合模板引用，不能移除。')
     return new TilesetRemovalProof(scan, mapIndex)
   }
 }
 
-/** 完整扫描后生成的缩帧替换许可。 */
 export class TilesetReplacementProof {
   readonly tilesetId: string
   readonly frameCount: number
@@ -182,15 +221,11 @@ export class TilesetReplacementProof {
       scan.completed !== scan.total ||
       scan.total !== mapIndex.maps.length ||
       scan.failures.length ||
-      scan.maps.length !== mapIndex.maps.length ||
-      scan.maps.some(
-        (entry, index) =>
-          entry.mapId !== mapIndex.maps[index]?.id || entry.path !== mapIndex.maps[index]?.path,
-      )
+      scan.maps.length !== mapIndex.maps.length
     )
       throw new Error('瓦片集引用扫描不完整，不能替换。')
-    const badMaps = scan.mapReferences.filter((entry) => entry.maxTileId >= frameCount)
-    const badStamps = scan.stampReferences.filter((entry) => entry.maxTileId >= frameCount)
+    const badMaps = scan.mapReferences.filter(({ maxTileId }) => maxTileId >= frameCount)
+    const badStamps = scan.stampReferences.filter(({ maxTileId }) => maxTileId >= frameCount)
     if (badMaps.length || badStamps.length)
       throw new Error(
         `新瓦片集仅 ${frameCount} 帧，越界引用：${[
@@ -198,13 +233,25 @@ export class TilesetReplacementProof {
           ...badStamps.map((entry) => `组合“${entry.name}” #${entry.maxTileId}`),
         ].join('、')}`,
       )
-    const expectedIds = options.definitions.map((entry) => entry.id).sort()
+    const expectedIds = options.definitions.map(({ id }) => id).sort()
     if (expectedIds.join('\0') !== [...scan.tilesetIds].sort().join('\0'))
       throw new Error('共享瓦片集影响范围与引用扫描不一致。')
     if (options.definitions.some((entry) => entry.asset !== options.asset))
       throw new Error('共享瓦片集定义的 AssetId 不一致。')
     return new TilesetReplacementProof(scan, mapIndex, frameCount, options)
   }
+}
+
+function sameIndex(
+  actual: readonly { id: string; path: string }[],
+  expected: readonly { id: string; path: string }[],
+): boolean {
+  return (
+    actual.length === expected.length &&
+    actual.every(
+      (entry, index) => entry.id === expected[index]?.id && entry.path === expected[index]?.path,
+    )
+  )
 }
 
 export function assertTilesetReplacementAllowed(
@@ -224,47 +271,28 @@ export function assertTilesetReplacementAllowed(
     throw new Error('瓦片集资源已变化；请重新扫描。')
   const actualDefinitions = (state.tilesets ?? [])
     .filter((entry) => entry.asset === asset)
-    .map(({ id, asset }) => ({ id, asset }))
-  if (
-    actualDefinitions.length !== proof.definitions.length ||
-    actualDefinitions.some(
-      (entry, index) =>
-        entry.id !== proof.definitions[index]?.id ||
-        entry.asset !== proof.definitions[index]?.asset,
-    )
-  )
+    .map(({ id, asset: definitionAsset }) => ({ id, asset: definitionAsset }))
+  if (JSON.stringify(actualDefinitions) !== JSON.stringify(proof.definitions))
     throw new Error('共享瓦片集影响范围已变化；请重新扫描。')
-  const currentIndex = state.mapIndex.maps.map(({ id, path }) => ({ id, path }))
-  if (!sameIndex(currentIndex, proof.mapIndex)) throw new Error('地图索引已变化；请重新扫描。')
+  if (!sameIndex(state.mapIndex.maps, proof.mapIndex))
+    throw new Error('地图索引已变化；请重新扫描。')
+  const definitionIds = new Set(proof.definitions.map(({ id }) => id))
   for (const [mapId, map] of Object.entries(state.maps)) {
-    if (
-      proof.definitions.some((definition) => definition.id === map.tilesetId) &&
-      maxMapTileId(map) >= proof.frameCount
+    const maxima = maxTileIds(map)
+    const bad = map.tilesetRefs.find(
+      (id) => definitionIds.has(id) && (maxima[id] ?? -1) >= proof.frameCount,
     )
-      throw new Error(`地图“${mapId}”出现新的越界瓦片；请重新扫描。`)
+    if (bad) throw new Error(`地图“${mapId}”出现新的越界瓦片；请重新扫描。`)
   }
-  const stamp = state.stamps.find(
-    (candidate) =>
-      proof.definitions.some((definition) => definition.id === candidate.tilesetId) &&
-      candidate.visual.some((member) => member.tileId >= proof.frameCount),
-  )
+  const stamp = state.stamps.find((candidate) => {
+    const maxima = maxTileIds(candidate)
+    return candidate.tilesetRefs.some(
+      (id) => definitionIds.has(id) && (maxima[id] ?? -1) >= proof.frameCount,
+    )
+  })
   if (stamp) throw new Error(`组合“${stamp.name}”出现新的越界瓦片；请重新扫描。`)
 }
 
-function sameIndex(
-  actual: readonly { id: string; path: string }[],
-  expected: readonly { id: string; path: string }[],
-): boolean {
-  return (
-    actual.length === expected.length &&
-    actual.every((entry, index) => {
-      const other = expected[index]
-      return entry.id === other?.id && entry.path === other.path
-    })
-  )
-}
-
-/** Command 层最后防线：许可必须完整，且当前已加载地图/模板不得新增引用。 */
 export function assertTilesetRemovalAllowed(
   state: EditorState,
   tilesetId: string,
@@ -272,8 +300,7 @@ export function assertTilesetRemovalAllowed(
 ): asserts proof is TilesetRemovalProof {
   if (!(proof instanceof TilesetRemovalProof) || proof.tilesetId !== tilesetId)
     throw new Error('移除瓦片集前必须完成全工程引用扫描。')
-  const currentIndex = state.mapIndex.maps.map(({ id, path }) => ({ id, path }))
-  if (!sameIndex(currentIndex, proof.mapIndex))
+  if (!sameIndex(state.mapIndex.maps, proof.mapIndex))
     throw new Error('地图索引已变化；请重新扫描瓦片集引用。')
   if (
     proof.scannedMaps.length !== proof.mapIndex.length ||
@@ -281,12 +308,14 @@ export function assertTilesetRemovalAllowed(
       (entry, index) =>
         entry.id !== proof.mapIndex[index]?.id ||
         entry.path !== proof.mapIndex[index]?.path ||
-        entry.tilesetId === tilesetId,
+        entry.tilesetIds.includes(tilesetId),
     )
   )
     throw new Error('瓦片集删除许可不完整或仍含地图引用。')
-  const stamp = state.stamps.find((candidate) => candidate.tilesetId === tilesetId)
+  const stamp = state.stamps.find(({ tilesetRefs }) => tilesetRefs.includes(tilesetId))
   if (stamp) throw new Error(`瓦片集仍被组合模板“${stamp.name}”（${stamp.id}）引用。`)
-  const loadedMap = Object.entries(state.maps).find(([, map]) => map.tilesetId === tilesetId)
+  const loadedMap = Object.entries(state.maps).find(([, map]) =>
+    map.tilesetRefs.includes(tilesetId),
+  )
   if (loadedMap) throw new Error(`瓦片集仍被地图“${loadedMap[0]}”引用。`)
 }

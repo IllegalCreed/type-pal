@@ -1,5 +1,5 @@
-import type { ProjectMap } from '@type-pal/content'
-import { Canvas2DRenderer, type Palette, type RleFrame } from '@type-pal/reforge'
+import type { IsometricMapContent } from '@type-pal/content'
+import { Canvas2DRenderer, type Palette, type TilesetFrameRegistry } from '@type-pal/reforge'
 import {
   type CanvasHTMLAttributes,
   type ForwardedRef,
@@ -8,15 +8,12 @@ import {
   useImperativeHandle,
   useRef,
 } from 'react'
-import {
-  drawIsometricMapBase,
-  type IsometricMapBaseCache,
-} from './isometric-map-render.js'
+import { drawIsometricMapBase, type IsometricMapBaseCache } from './isometric-map-render.js'
 import type { StageView } from './scene-stage.js'
 
 export interface IsometricEditorCanvasScene {
-  map: ProjectMap
-  tiles: Map<number, RleFrame>
+  map: IsometricMapContent<number | null>
+  tilesets: TilesetFrameRegistry
   palette: Palette
   view: StageView
   showGrid: boolean
@@ -29,7 +26,7 @@ export interface IsometricEditorCanvasScene {
 export interface IsometricEditorCanvasProps
   extends Omit<CanvasHTMLAttributes<HTMLCanvasElement>, 'aria-label'> {
   label: string
-  /** Canonical map viewport. Stamp drafts enter through a transient ProjectMap adapter. */
+  /** Canonical shared isometric content; maps and combinations enter directly. */
   scene?: IsometricEditorCanvasScene
   /** Domain-specific selection/hover/anchor overlay, painted after the shared cached base. */
   drawOverlay?: (context: CanvasRenderingContext2D) => void
@@ -40,13 +37,13 @@ export const IsometricEditorCanvas = forwardRef(function IsometricEditorCanvas(
   props: IsometricEditorCanvasProps,
   ref: ForwardedRef<HTMLCanvasElement>,
 ) {
-  const { label, className, style, scene, drawOverlay, ...canvasProps } = props
+  const { label, className, style, scene, drawOverlay, width, height, ...canvasProps } = props
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const baseCacheRef = useRef<IsometricMapBaseCache | undefined>(undefined)
   const rendererRef = useRef<
     | {
         context: CanvasRenderingContext2D
-        tiles: Map<number, RleFrame>
+        tilesets: TilesetFrameRegistry
         palette: Palette
         renderer: Canvas2DRenderer
       }
@@ -55,26 +52,29 @@ export const IsometricEditorCanvas = forwardRef(function IsometricEditorCanvas(
   useImperativeHandle(ref, () => canvasRef.current!, [])
 
   useEffect(() => {
+    // The backing store is reset when either dimension changes, so repaint even if the scene is stable.
+    void width
+    void height
     const context = canvasRef.current?.getContext('2d')
     if (!context || !scene) return
     // Lightweight jsdom contexts may omit the native back-reference; interaction tests do not paint.
     if (!(context as CanvasRenderingContext2D & { canvas?: HTMLCanvasElement }).canvas) return
     if (
       rendererRef.current?.context !== context ||
-      rendererRef.current.tiles !== scene.tiles ||
+      rendererRef.current.tilesets !== scene.tilesets ||
       rendererRef.current.palette !== scene.palette
     )
       rendererRef.current = {
         context,
-        tiles: scene.tiles,
+        tilesets: scene.tilesets,
         palette: scene.palette,
-        renderer: new Canvas2DRenderer(context, scene.palette, scene.tiles),
+        renderer: new Canvas2DRenderer(context, scene.palette, scene.tilesets),
       }
     baseCacheRef.current = drawIsometricMapBase(
       context,
       {
         map: scene.map,
-        assets: { renderer: rendererRef.current.renderer, tiles: scene.tiles },
+        assets: { renderer: rendererRef.current.renderer, tilesets: scene.tilesets },
         view: scene.view,
         showGrid: scene.showGrid,
         showCollision: scene.showCollision,
@@ -85,11 +85,13 @@ export const IsometricEditorCanvas = forwardRef(function IsometricEditorCanvas(
       baseCacheRef.current,
     )
     drawOverlay?.(context)
-  }, [scene, drawOverlay, props.width, props.height])
+  }, [scene, drawOverlay, width, height])
 
   return (
     <canvas
       {...canvasProps}
+      width={width}
+      height={height}
       ref={canvasRef}
       className={`isometric-editor-canvas${className ? ` ${className}` : ''}`}
       tabIndex={props.tabIndex ?? 0}

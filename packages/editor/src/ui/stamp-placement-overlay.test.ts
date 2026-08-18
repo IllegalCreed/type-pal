@@ -42,13 +42,16 @@ function plan(patch: Partial<StampPlacementPlan> = {}): StampPlacementPlan {
     template: {
       id: 'tree',
       name: '树',
-      tilesetId: 'tiles',
       origin: 'authored',
-      layerSlots: [{ id: 'ground', name: '地面', depthMode: 'flat' }],
-      visual: [{ layerSlotId: 'ground', offset: { dRow: 0, du: 0 }, tileId: 1, height: 0 }],
-      collision: [],
+      anchor: { row: 0, col: 0 },
+      width: 1,
+      height: 1,
+      tilesetRefs: ['tiles'],
+      layers: [{ id: 'ground', name: '地面', tiles: [[1], [null]], sources: [[0], [null]] }],
+      collision: [[null], [null]],
     },
     anchor: { row: 0, col: 0 },
+    placementBaseHeight: 0,
     mappings: [{ layerSlotId: 'ground', targetLayerId: 'floor' }],
     permission: {
       hiddenLayerIds: [],
@@ -117,6 +120,8 @@ describe('stamp placement ghost overlay', () => {
           targetLayerIndex: 1,
           ref: { layerId: 'objects', row: 1, col: 0 },
           tileId: 2,
+          tilesetId: 'tiles',
+          relativeHeight: 2,
           height: 7,
         },
         {
@@ -125,6 +130,8 @@ describe('stamp placement ghost overlay', () => {
           targetLayerIndex: 0,
           ref: { layerId: 'floor', row: 0, col: 0 },
           tileId: 1,
+          tilesetId: 'tiles',
+          relativeHeight: 0,
           height: 0,
         },
       ],
@@ -133,9 +140,14 @@ describe('stamp placement ghost overlay', () => {
     const first = context()
     drawStampPlacementOverlay(first.ctx, {
       plan: placement,
-      tiles: new Map([
-        [1, low],
-        [2, high],
+      tilesets: new Map([
+        [
+          'tiles',
+          new Map([
+            [1, low],
+            [2, high],
+          ]),
+        ],
       ]),
       palette: colors,
       view: { zoom: 2, panX: 0, panY: 0 },
@@ -147,9 +159,14 @@ describe('stamp placement ghost overlay', () => {
     const second = context()
     drawStampPlacementOverlay(second.ctx, {
       plan: placement,
-      tiles: new Map([
-        [1, low],
-        [2, high],
+      tilesets: new Map([
+        [
+          'tiles',
+          new Map([
+            [1, low],
+            [2, high],
+          ]),
+        ],
       ]),
       palette: colors,
       view: { zoom: 1, panX: 0, panY: 0 },
@@ -178,7 +195,7 @@ describe('stamp placement ghost overlay', () => {
     const { ctx, fills } = context()
     drawStampPlacementOverlay(ctx, {
       plan: overlay,
-      tiles: new Map(),
+      tilesets: new Map(),
       palette: palette(),
       view: { zoom: 1, panX: 0, panY: 0 },
     })

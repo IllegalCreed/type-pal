@@ -1,4 +1,4 @@
-import type { AssetCatalogV1, StampTemplateV1 } from '@type-pal/content'
+import type { AssetCatalogV1, StampTemplate } from '@type-pal/content'
 import type { AssetBase, TilesetDef } from '@type-pal/reforge'
 import { memo, useMemo, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
@@ -8,8 +8,7 @@ import { StampMiniPreview } from './StampPreviewCanvas.js'
 const INITIAL_LIMIT = 60
 
 export const MapStampPalette = memo(function MapStampPalette(props: {
-  stamps: readonly StampTemplateV1[]
-  tilesetId: string
+  stamps: readonly StampTemplate[]
   tilesets: readonly TilesetDef[]
   assetCatalog: AssetCatalogV1
   assetReader: EditorAssetReader
@@ -21,7 +20,6 @@ export const MapStampPalette = memo(function MapStampPalette(props: {
 }) {
   const {
     stamps,
-    tilesetId,
     tilesets,
     assetCatalog,
     assetReader,
@@ -52,18 +50,14 @@ export const MapStampPalette = memo(function MapStampPalette(props: {
             stamp.name.toLocaleLowerCase().includes(needle) ||
             stamp.id.toLocaleLowerCase().includes(needle)),
       )
-      .sort((left, right) => {
-        const leftCompatible = left.tilesetId === tilesetId ? 0 : 1
-        const rightCompatible = right.tilesetId === tilesetId ? 0 : 1
-        return (
-          leftCompatible - rightCompatible ||
+      .sort(
+        (left, right) =>
           (recentRank.get(left.id) ?? Number.MAX_SAFE_INTEGER) -
             (recentRank.get(right.id) ?? Number.MAX_SAFE_INTEGER) ||
           left.name.localeCompare(right.name, 'zh-CN') ||
-          left.id.localeCompare(right.id)
-        )
-      })
-  }, [category, query, recentRank, stamps, tilesetId])
+          left.id.localeCompare(right.id),
+      )
+  }, [category, query, recentRank, stamps])
 
   return (
     <section className="map-stamp-palette" aria-label="地图组合模板">
@@ -97,20 +91,23 @@ export const MapStampPalette = memo(function MapStampPalette(props: {
       {shown.length ? (
         <div className="map-stamp-grid">
           {shown.slice(0, limit).map((stamp) => {
-            const compatible = stamp.tilesetId === tilesetId
+            const visualCount = stamp.layers.reduce(
+              (count, layer) =>
+                count +
+                layer.tiles.reduce(
+                  (sum, row) => sum + row.filter((tile) => tile !== null).length,
+                  0,
+                ),
+              0,
+            )
             return (
               <button
                 key={stamp.id}
                 type="button"
                 className={`map-stamp-card${stamp.id === activeStampId ? ' selected' : ''}`}
-                disabled={!compatible}
                 aria-pressed={stamp.id === activeStampId}
                 onClick={() => onPick(stamp.id)}
-                title={
-                  compatible
-                    ? `${stamp.name} (${stamp.id})`
-                    : `来源瓦片集 ${stamp.tilesetId} 与当前地图 ${tilesetId} 不同`
-                }
+                title={`${stamp.name} (${stamp.id})`}
               >
                 <span className="map-stamp-thumb" aria-hidden="true">
                   <StampMiniPreview
@@ -124,7 +121,7 @@ export const MapStampPalette = memo(function MapStampPalette(props: {
                 <span className="map-stamp-copy">
                   <strong>{stamp.name}</strong>
                   <small>
-                    {stamp.layerSlots.length} 层 · {stamp.visual.length} 格
+                    {stamp.layers.length} 层 · {visualCount} 格
                   </small>
                 </span>
                 {recentRank.has(stamp.id) ? <span className="map-stamp-recent">最近</span> : null}

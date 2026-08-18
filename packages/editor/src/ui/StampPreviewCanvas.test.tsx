@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import type { StampTemplateV1 } from '@type-pal/content'
+import type { StampTemplate } from '@type-pal/content'
 import { loadTilesetAsset } from '@type-pal/reforge'
 import { act } from 'react'
 import { createRoot } from 'react-dom/client'
@@ -25,14 +25,16 @@ vi.mock('@type-pal/reforge', async (importOriginal) => {
   }
 })
 
-const template: StampTemplateV1 = {
+const template: StampTemplate = {
   id: 'missing-member',
   name: '缺帧树',
-  tilesetId: 'tiles-a',
   origin: 'authored',
-  layerSlots: [{ id: 'floor', name: '地板', depthMode: 'flat' }],
-  visual: [{ layerSlotId: 'floor', offset: { dRow: 0, du: 0 }, tileId: 9, height: 0 }],
-  collision: [{ offset: { dRow: 0, du: 0 }, value: 0 }],
+  anchor: { row: 0, col: 0 },
+  width: 1,
+  height: 1,
+  tilesetRefs: ['tiles-a'],
+  layers: [{ id: 'floor', name: '地板', tiles: [[9], [null]], sources: [[0], [null]] }],
+  collision: [[0], [null]],
 }
 
 let host: HTMLDivElement
@@ -95,7 +97,7 @@ describe('StampPreviewCanvas', () => {
       )
       await Promise.resolve()
     })
-    expect(host.textContent).toContain('瓦片集缺少 tileId：9')
+    expect(host.textContent).toContain('瓦片资源缺失：tiles-a #9')
     expect(host.querySelector('canvas[role="img"]')?.getAttribute('aria-label')).toContain(
       '1 层、1 个视觉成员',
     )

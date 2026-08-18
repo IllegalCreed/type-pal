@@ -40,12 +40,12 @@ import type {
   ScriptChunkV1,
   ScriptIndexV1,
   ScriptStage,
+  SharedScriptLibraryV13,
   ShopDef,
   SkillData,
   SpriteDef,
-  StampTemplateV1,
+  StampTemplate,
   StartWorld,
-  SharedScriptLibraryV13,
   TilesetDef,
   WorldState,
 } from './index.js'
@@ -80,8 +80,8 @@ export interface ContentBundle {
   enemyTeams?: EnemyTeamDef[]
   /** tileset 注册表(W7B;可缺省 = 空)。 */
   tilesets?: TilesetDef[]
-  /** 图章模板表(W7G;模板按稳定 tilesetId 引用注册表)。 */
-  stamps?: StampTemplateV1[]
+  /** 组合模板表；每个局部内容可引用多个稳定 tileset id。 */
+  stamps?: StampTemplate[]
   /** 战场表(D24 一等 content 域;可缺省 = 空,引擎走 assetBase 遗留回退)。 */
   battleFields?: BattleFieldDef[]
   /** 毒定义表(B10 编辑器结构化;可缺省 = 空。保原文件序 —— 勿经 by-id Record 转,数值键会重排)。 */
@@ -985,12 +985,14 @@ export function validateReferences(b: ContentBundle): Issue[] {
   }
 
   ;(b.stamps ?? []).forEach((stamp, index) => {
-    if (!tilesetIds.has(stamp.tilesetId))
-      issues.push({
-        severity: 'error',
-        where: `stamps[${index}](${stamp.id}).tilesetId`,
-        message: `瓦片集 "${stamp.tilesetId}" 不在 tilesets 注册表`,
-      })
+    stamp.tilesetRefs.forEach((tilesetId, sourceIndex) => {
+      if (!tilesetIds.has(tilesetId))
+        issues.push({
+          severity: 'error',
+          where: `stamps[${index}](${stamp.id}).tilesetRefs[${sourceIndex}]`,
+          message: `瓦片集 "${tilesetId}" 不在 tilesets 注册表`,
+        })
+    })
   })
 
   // ── scenes ──────────────────────────────────────────────
@@ -1051,7 +1053,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
   for (const reference of battleFieldTagged)
     validateBattleField(reference.fieldId, reference.where)
 
-  // ── enemies / enemyTeams(M4c-3)────────────────────────
+    // ── enemies / enemyTeams(M4c-3)────────────────────────
   ;(b.enemies ?? []).forEach((e, ei) => {
     const where = `enemies[${ei}](${e.id})`
     for (const [ri, r] of (e.ai.rules ?? []).entries()) {

@@ -49,6 +49,7 @@ import {
   MAP_INDEX_PATH,
   mapIdStem,
   mapInstanceHeight,
+  mapInstanceTilesetId,
   nextMapAssetId,
   normalizeScriptLibrary,
   removeAuthoredScript,
@@ -65,7 +66,7 @@ import {
   validateWorldVariableRegistryV1,
 } from '@type-pal/content'
 import type {
-  MapLayerV2,
+  IsometricMapLayer,
   ProjectMap,
   ProjectMapCollisionEdit,
   ProjectMapTileEdit,
@@ -966,6 +967,7 @@ export class PaintTilesCommand implements Command {
     const ownershipIssues = ordinaryProjectMapPatchOwnershipIssues(map, {
       visual: this.edits.flatMap((edit) => [
         { channel: 'tileId' as const, ref: edit, value: edit.tileId },
+        { channel: 'tilesetId' as const, ref: edit, value: edit.tilesetId },
         { channel: 'height' as const, ref: edit, value: edit.height },
       ]),
       collision: [],
@@ -984,6 +986,7 @@ export class PaintTilesCommand implements Command {
         this.prev.push({
           ...e,
           tileId,
+          tilesetId: layer ? (mapInstanceTilesetId(map, layer, e.row, e.col) ?? null) : null,
           height: layer ? mapInstanceHeight(layer, e.row, e.col) : 0,
         })
       }
@@ -1101,12 +1104,12 @@ export class ApplyProjectMapPatchCommand implements Command {
 
 export class AddProjectMapLayerCommand implements Command {
   readonly label = '新增地图层'
-  private readonly layer: MapLayerV2
+  private readonly layer: IsometricMapLayer
   private insertedIndex: number | undefined
 
   constructor(
     private readonly mapRel: string,
-    layer: MapLayerV2,
+    layer: IsometricMapLayer,
     private readonly index?: number,
   ) {
     this.layer = structuredClone(layer)
@@ -1191,12 +1194,12 @@ export class MoveProjectMapLayerCommand implements Command {
 
 export class UpdateProjectMapLayerCommand implements Command {
   readonly label = '修改地图层'
-  private oldPatch: Partial<Pick<MapLayerV2, 'name' | 'depthMode'>> | undefined
+  private oldPatch: Partial<Pick<IsometricMapLayer, 'name'>> | undefined
 
   constructor(
     private readonly mapRel: string,
     private readonly layerId: string,
-    private readonly patch: Partial<Pick<MapLayerV2, 'name' | 'depthMode'>>,
+    private readonly patch: Partial<Pick<IsometricMapLayer, 'name'>>,
   ) {}
 
   apply(state: EditorState): EditorState {
@@ -1206,7 +1209,6 @@ export class UpdateProjectMapLayerCommand implements Command {
     if (!this.oldPatch) {
       this.oldPatch = {}
       if ('name' in this.patch) this.oldPatch.name = layer.name
-      if ('depthMode' in this.patch) this.oldPatch.depthMode = layer.depthMode
     }
     const next = updateProjectMapLayer(map, this.layerId, this.patch)
     inheritStampPlacementIndex(map, next)
@@ -1260,46 +1262,6 @@ export class ResizeProjectMapCommand implements Command {
     const map = state.maps[this.mapRel]
     if (!map || !this.prev) return state
     return { ...state, maps: { ...state.maps, [this.mapRel]: this.prev } }
-  }
-}
-
-/**
- * 换地图绑定的 tileset：ProjectMap.tilesetId 只存注册表稳定 id。
- * 换绑不重映射瓦片索引(套件间同位替换是常见玩法;索引超出新集 = 渲染空,可换回)。
- */
-export class SetProjectMapTilesetCommand implements Command {
-  readonly label = '换瓦片集'
-  private prev: ProjectMap | undefined
-
-  constructor(
-    private readonly mapRel: string,
-    private readonly tileset: string,
-    private readonly stampOptions: StampStructureResolutionOptions = {},
-  ) {}
-
-  apply(state: EditorState): EditorState {
-    const map = state.maps[this.mapRel]
-    if (!map || map.tilesetId === this.tileset) return state
-    const next = resolveStampStructureOperation(
-      map,
-      { kind: 'set-tileset', tilesetId: this.tileset },
-      this.stampOptions,
-    )
-    if (next === map) return state
-    if (!this.prev) this.prev = map
-    return {
-      ...state,
-      maps: { ...state.maps, [this.mapRel]: next },
-    }
-  }
-
-  invert(state: EditorState): EditorState {
-    const map = state.maps[this.mapRel]
-    if (!map || !this.prev) return state
-    return {
-      ...state,
-      maps: { ...state.maps, [this.mapRel]: this.prev },
-    }
   }
 }
 

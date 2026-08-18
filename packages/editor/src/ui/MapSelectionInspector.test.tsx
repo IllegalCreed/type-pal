@@ -15,10 +15,10 @@ import { MapSelectionInspector } from './MapSelectionInspector.js'
 
 function fixture() {
   let map = buildBlankProjectMap(3, 2, 'tiles')
-  map = insertProjectMapLayer(map, buildProjectMapLayer(map, 'objects', '物件', 'height'))
+  map = insertProjectMapLayer(map, buildProjectMapLayer(map, 'objects', '物件'))
   map = paintProjectMapTiles(map, [
-    { layerId: 'objects', row: 0, col: 0, tileId: 2, height: 1 },
-    { layerId: 'objects', row: 1, col: 0, tileId: 3, height: 4 },
+    { layerId: 'objects', row: 0, col: 0, tileId: 2, tilesetId: 'tiles', height: 1 },
+    { layerId: 'objects', row: 1, col: 0, tileId: 3, tilesetId: 'tiles', height: 4 },
   ])
   map = paintProjectMapCollision(map, [{ row: 1, col: 0, value: 5 }])
   const selection: Extract<MapSelection, { kind: 'cells' }> = {
@@ -54,7 +54,7 @@ describe('MapSelectionInspector React output', () => {
       />,
     )
     expect(html).toContain('placeholder="混合"')
-    expect(html).toContain('跳过 1 个空槽/平面实例')
+    expect(html).toContain('跳过 1 个空槽')
     expect(html).toContain('格点 / 碰撞')
     expect(html).not.toContain('aria-live="polite"')
   })

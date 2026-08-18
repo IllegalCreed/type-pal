@@ -1,9 +1,16 @@
 /** ProjectMap 独立 collision lattice 的统一判定。 */
-import { type GridPos, gridToPixel, type ProjectMap } from '@type-pal/content'
+import {
+  type GridPos,
+  gridToPixel,
+  type IsometricMapContent,
+  type ProjectMap,
+} from '@type-pal/content'
 import { pixelToLattice } from './project-map.js'
 
 /** 世界像素坐标落到 lattice 后查独立碰撞值；界外恒阻挡。 */
-export function buildIsBlocked(map: ProjectMap): (x: number, y: number) => boolean {
+export function buildIsBlocked(
+  map: IsometricMapContent<number | null>,
+): (x: number, y: number) => boolean {
   return (x, y) => {
     const pos = pixelToLattice(x, y)
     if (pos.col < 0 || pos.col >= map.width || pos.row < 0 || pos.row >= map.height * 2) return true

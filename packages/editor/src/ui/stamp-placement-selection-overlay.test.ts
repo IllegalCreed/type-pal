@@ -13,10 +13,10 @@ vi.mock('./map-selection-overlay.js', () => ({ drawMapSelectionOverlay: vi.fn() 
 
 function mapFixture() {
   let map = buildBlankProjectMap(2, 2, 'tiles')
-  map = insertProjectMapLayer(map, buildProjectMapLayer(map, 'objects', '物件', 'height'))
+  map = insertProjectMapLayer(map, buildProjectMapLayer(map, 'objects', '物件'))
   map = paintProjectMapTiles(map, [
-    { layerId: 'floor', row: 0, col: 0, tileId: 1, height: 0 },
-    { layerId: 'objects', row: 0, col: 0, tileId: 2, height: 3 },
+    { layerId: 'floor', row: 0, col: 0, tileId: 1, tilesetId: 'tiles', height: 0 },
+    { layerId: 'objects', row: 0, col: 0, tileId: 2, tilesetId: 'tiles', height: 3 },
   ])
   return withProjectMapStampPlacements(map, [
     {

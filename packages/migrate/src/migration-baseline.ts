@@ -5,7 +5,7 @@ import {
   formatProjectMap,
   formatStampTemplates,
   type ProjectMap,
-  type StampTemplateV1,
+  type StampTemplate,
 } from '@type-pal/content'
 import type { MigrationJson } from './pal-migration.js'
 
@@ -46,7 +46,7 @@ export function isAtomicProjectMapPath(path: string): boolean {
 export function serializeMigrationJson(value: MigrationJson, path?: string): string {
   if (path && isAtomicProjectMapPath(path)) return formatProjectMap(value as unknown as ProjectMap)
   if (path === 'content/stamps.json')
-    return formatStampTemplates(value as unknown as StampTemplateV1[])
+    return formatStampTemplates(value as unknown as StampTemplate[])
   return `${JSON.stringify(value, null, 2)}\n`
 }
 

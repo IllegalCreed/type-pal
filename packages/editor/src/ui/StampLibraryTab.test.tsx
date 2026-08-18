@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import type { AssetCatalogV1, ProjectMap, StampTemplateV1 } from '@type-pal/content'
+import type { AssetCatalogV1, ProjectMap, StampTemplate } from '@type-pal/content'
 import type { TilesetDef } from '@type-pal/reforge'
 import { buildBlankProjectMap, latticeCenter, paintProjectMapTiles } from '@type-pal/reforge'
 import { act, useSyncExternalStore } from 'react'
@@ -7,11 +7,12 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
-import { stampDraftMapAdapter } from '../core/stamp-draft-map.js'
+import { createBlankStampDraft } from '../core/stamp-draft.js'
 import type { StampSelectionSource } from '../core/stamp-template.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 import { StampLibraryTab } from './StampLibraryTab.js'
+import { mapBoxOf } from './scene-stage.js'
 
 vi.mock('@type-pal/reforge', async (importOriginal) => {
   const original = await importOriginal<typeof import('@type-pal/reforge')>()
@@ -52,26 +53,66 @@ const assetCatalogFixture: AssetCatalogV1 = {
     },
   },
 }
+const assetReaderFixture = {} as never
+const assetBaseFixture = {} as never
 
-function template(id = 'tree', tilesetId = 'tiles-a'): StampTemplateV1 {
+function matrix<T>(rows: number, columns: number, value: T): T[][] {
+  return Array.from({ length: rows }, () => Array<T>(columns).fill(value))
+}
+
+function template(id = 'tree', tilesetId = 'tiles-a'): StampTemplate {
+  const width = 5
+  const height = 6
+  const tiles = matrix<number | null>(height * 2, width, null)
+  const sources = matrix<number | null>(height * 2, width, null)
+  tiles[0]![0] = 1
+  sources[0]![0] = 0
   return {
     id,
     name: id,
     category: '植被',
-    tilesetId,
     origin: 'authored',
-    layerSlots: [{ id: 'floor', name: '地板', depthMode: 'flat' }],
-    visual: [{ layerSlotId: 'floor', offset: { dRow: 0, du: 0 }, tileId: 1, height: 0 }],
-    collision: [],
+    anchor: { row: 0, col: 0 },
+    width,
+    height,
+    tilesetRefs: [tilesetId],
+    layers: [{ id: 'floor', name: '地板', tiles, sources }],
+    collision: matrix<number | null>(height * 2, width, null),
   }
+}
+
+function visualMembers(stamp: StampTemplate) {
+  return stamp.layers.flatMap((layer) =>
+    layer.tiles.flatMap((row, rowIndex) =>
+      row.flatMap((tileId, colIndex) => {
+        if (tileId === null) return []
+        const sourceIndex = layer.sources[rowIndex]?.[colIndex]
+        return [
+          {
+            layerSlotId: layer.id,
+            row: rowIndex,
+            col: colIndex,
+            tileId,
+            tilesetId:
+              sourceIndex === null || sourceIndex === undefined
+                ? undefined
+                : stamp.tilesetRefs[sourceIndex],
+            height: layer.heights?.[rowIndex]?.[colIndex] ?? 0,
+          },
+        ]
+      }),
+    ),
+  )
 }
 
 function placedMap(sourceStampId: string, tilesetId = 'tiles-a'): ProjectMap {
   let map = buildBlankProjectMap(2, 2, tilesetId)
-  map = paintProjectMapTiles(map, [{ layerId: 'floor', row: 0, col: 0, tileId: 1, height: 0 }])
+  map = paintProjectMapTiles(map, [
+    { layerId: 'floor', row: 0, col: 0, tileId: 1, tilesetId, height: 0 },
+  ])
   return {
     ...map,
-    version: 3,
+    version: 4,
     authoring: {
       version: 1,
       stampPlacements: [
@@ -87,7 +128,7 @@ function placedMap(sourceStampId: string, tilesetId = 'tiles-a'): ProjectMap {
   }
 }
 
-function state(stamps: StampTemplateV1[], maps: Record<string, ProjectMap>): EditorState {
+function state(stamps: StampTemplate[], maps: Record<string, ProjectMap>): EditorState {
   return {
     manifest: { content: { stamps: 'content/stamps.json' } } as unknown as EditorState['manifest'],
     scenes: [],
@@ -125,8 +166,8 @@ function Harness(props: {
 }) {
   const {
     session,
-    tilesets = [],
-    assetCatalog = { version: 1, assets: {} },
+    tilesets = [tilesetFixture],
+    assetCatalog = assetCatalogFixture,
     selectionSource,
     onObjectFocus,
     onOpenMap,
@@ -143,8 +184,8 @@ function Harness(props: {
       stamps={current.stamps}
       tilesets={tilesets}
       assetCatalog={assetCatalog}
-      assetReader={{} as never}
-      assetBase={{} as never}
+      assetReader={assetReaderFixture}
+      assetBase={assetBaseFixture}
       session={session}
       mapIndex={current.mapIndex}
       selectionSource={selectionSource}
@@ -192,10 +233,10 @@ async function chooseToolOption(label: string, optionLabel: string): Promise<voi
 
 async function clickDraftPoint(
   point: { row: number; col: number },
-  _extraMaxRow = 0,
+  draft: StampTemplate = template(),
 ): Promise<void> {
-  const canvas = host.querySelector<HTMLCanvasElement>('[aria-label="组合局部地图编辑画布"]')!
-  const { clientX, clientY } = draftPointClient(canvas, point)
+  const canvas = host.querySelector<HTMLCanvasElement>('[aria-label="组合地图编辑画布"]')!
+  const { clientX, clientY } = draftPointClient(canvas, point, draft)
   await act(async () => {
     for (const type of ['pointerdown', 'pointerup']) {
       const event = new MouseEvent(type, {
@@ -216,7 +257,7 @@ async function dragDraftPoints(
   start: { row: number; col: number },
   end: { row: number; col: number },
 ): Promise<void> {
-  const canvas = host.querySelector<HTMLCanvasElement>('[aria-label="组合局部地图编辑画布"]')!
+  const canvas = host.querySelector<HTMLCanvasElement>('[aria-label="组合地图编辑画布"]')!
   await act(async () => {
     for (const [type, point, buttons] of [
       ['pointerdown', start, 1],
@@ -239,22 +280,13 @@ async function dragDraftPoints(
 function draftPointClient(
   canvas: HTMLCanvasElement,
   point: { row: number; col: number },
+  draft: StampTemplate = template(),
 ): { clientX: number; clientY: number } {
-  const adapter = stampDraftMapAdapter(template())
-  const mapped = adapter.toMapPoint(point)
-  const center = latticeCenter(mapped)
-  const box = {
-    minX: -32,
-    minY: -40,
-    maxX: adapter.map.width * 32 + 32,
-    maxY: adapter.map.height * 16 + 16,
-  }
+  const center = latticeCenter(point)
+  const box = mapBoxOf(draft, undefined)
   const worldWidth = box.maxX - box.minX
   const worldHeight = box.maxY - box.minY
-  const zoom = Math.max(
-    0.05,
-    Math.min(canvas.width / worldWidth, canvas.height / worldHeight, 3),
-  )
+  const zoom = Math.max(0.05, Math.min(canvas.width / worldWidth, canvas.height / worldHeight, 3))
   const panX = box.minX - (canvas.width / zoom - worldWidth) / 2
   const panY = box.minY - (canvas.height / zoom - worldHeight) / 2
   return { clientX: (center.x - panX) * zoom, clientY: (center.y - panY) * zoom }
@@ -385,7 +417,7 @@ describe('StampLibraryTab', () => {
       await Promise.resolve()
     })
     await verifyInspectorTabs(host, '组合模板检查器', ['属性', /^引用 \d+$/, '瓦片'])
-    expect(host.querySelector('[aria-label="组合局部地图编辑画布"]')).not.toBeNull()
+    expect(host.querySelector('[aria-label="组合地图编辑画布"]')).not.toBeNull()
     expect(host.textContent).not.toContain('编辑组合内容')
     expect(host.textContent).not.toContain('退出内容编辑')
   })
@@ -525,10 +557,9 @@ describe('StampLibraryTab', () => {
 
     await act(async () => new Promise((resolve) => window.setTimeout(resolve, 0)))
     await act(async () => button('瓦片', host).click())
-    expect(host.textContent).toContain('3 块 · 当前 #1')
     expect(host.querySelector('.stamp-inspector-palette-host .tile-picker-grid')).not.toBeNull()
     expect(host.querySelectorAll('.tile-picker-item')).toHaveLength(3)
-    const toolbar = host.querySelector('.stamp-draft-toolbar')!
+    const toolbar = host.querySelector('.stamp-content-editor > .map-toolbar')!
     for (const label of ['平移', '选择', '取样', '笔刷', '矩形', '填充', '擦除', '碰撞', '视图'])
       expect(button(label, toolbar)).not.toBeNull()
     expect(toolbar.querySelector('[role="tablist"]')).toBeNull()
@@ -542,38 +573,41 @@ describe('StampLibraryTab', () => {
     await chooseToolOption('绘制高度', 'H3')
     await clickDraftPoint({ row: 1, col: 0 })
     await act(async () => button('碰撞', toolbar).click())
-    await chooseSelectOption('碰撞标记值', '0 · 显式可通行')
+    await act(async () => button('标记', toolbar).click())
     await clickDraftPoint({ row: 0, col: 1 })
-    expect(host.querySelector('.stamp-content-editor')?.getAttribute('data-dirty')).toBe('true')
+    expect(button('保存组合', host).disabled).toBe(false)
     expect(session.getHistoryVersion()).toBe(historyBefore)
     expect(session.getState().maps).toEqual(beforeMaps)
     expect(session.getState().mapIndex).toEqual(beforeMapIndex)
 
     await act(async () => button('保存组合', host).click())
     expect(session.getHistoryVersion()).toBe(historyBefore + 1)
-    expect(session.getState().stamps[0]).toMatchObject({
-      layerSlots: [
-        { id: 'floor', depthMode: 'flat' },
-        { id: 'layer', depthMode: 'height' },
-      ],
-      collision: [{ value: 0 }],
-    })
-    expect(session.getState().stamps[0]?.visual).toContainEqual(
-      expect.objectContaining({ layerSlotId: 'layer', tileId: 2, height: 3 }),
+    expect(session.getState().stamps[0]?.layers.map(({ id }) => id)).toEqual(['floor', 'layer'])
+    expect(
+      session
+        .getState()
+        .stamps[0]?.collision.flat()
+        .filter((value) => value !== null),
+    ).toEqual([1])
+    expect(visualMembers(session.getState().stamps[0]!)).toContainEqual(
+      expect.objectContaining({ layerSlotId: 'layer', tileId: 2, tilesetId: 'tiles-a', height: 3 }),
     )
     expect(session.getState().maps).toEqual(beforeMaps)
     expect(session.getState().mapIndex).toEqual(beforeMapIndex)
 
     await act(async () => session.undo())
-    expect(session.getState().stamps[0]?.visual).toHaveLength(1)
+    expect(visualMembers(session.getState().stamps[0]!)).toHaveLength(1)
     expect(session.getState().maps).toEqual(beforeMaps)
     expect(session.getState().mapIndex).toEqual(beforeMapIndex)
 
     await act(async () => session.redo())
-    expect(session.getState().stamps[0]?.visual).toHaveLength(2)
-    expect(session.getState().stamps[0]?.collision).toEqual([
-      { offset: { dRow: 0, du: 2 }, value: 0 },
-    ])
+    expect(visualMembers(session.getState().stamps[0]!)).toHaveLength(2)
+    expect(
+      session
+        .getState()
+        .stamps[0]?.collision.flat()
+        .filter((value) => value !== null),
+    ).toEqual([1])
     expect(session.getState().maps).toEqual(beforeMaps)
     expect(session.getState().mapIndex).toEqual(beforeMapIndex)
   })
@@ -592,7 +626,7 @@ describe('StampLibraryTab', () => {
     })
     await act(async () => new Promise((resolve) => window.setTimeout(resolve, 0)))
     await act(async () => button('瓦片', host).click())
-    const toolbar = host.querySelector('.stamp-draft-toolbar')!
+    const toolbar = host.querySelector('.stamp-content-editor > .map-toolbar')!
 
     await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="瓦片 #2"]')!.click())
     await act(async () => button('矩形', toolbar).click())
@@ -609,7 +643,7 @@ describe('StampLibraryTab', () => {
     await act(async () => button('填充', toolbar).click())
     await clickDraftPoint({ row: 2, col: 0 })
 
-    const canvas = host.querySelector<HTMLCanvasElement>('[aria-label="组合局部地图编辑画布"]')!
+    const canvas = host.querySelector<HTMLCanvasElement>('[aria-label="组合地图编辑画布"]')!
     await act(async () => button('平移', toolbar).click())
     await act(async () => {
       for (const [type, clientX, clientY, buttons] of [
@@ -633,8 +667,10 @@ describe('StampLibraryTab', () => {
     expect(button('平移', toolbar).getAttribute('aria-pressed')).toBe('true')
 
     await act(async () => button('保存组合', host).click())
-    expect(session.getState().stamps[0]?.visual.length).toBeGreaterThan(4)
-    expect(session.getState().stamps[0]?.visual.some((member) => member.tileId === 0)).toBe(true)
+    expect(visualMembers(session.getState().stamps[0]!)).toHaveLength(60)
+    expect(visualMembers(session.getState().stamps[0]!).some((member) => member.tileId === 0)).toBe(
+      true,
+    )
   })
 
   test('组合笔刷面积用横向图标托盘选择并按 2 × 2 写入草稿', async () => {
@@ -651,27 +687,29 @@ describe('StampLibraryTab', () => {
     })
     await act(async () => new Promise((resolve) => window.setTimeout(resolve, 0)))
     await act(async () => button('瓦片', host).click())
-    const toolbar = host.querySelector('.stamp-draft-toolbar')!
+    const toolbar = host.querySelector('.stamp-content-editor > .map-toolbar')!
     expect(toolbar.querySelector('[aria-label="笔刷面积"]')).not.toBeNull()
 
     await chooseToolOption('笔刷面积', '2 × 2')
     await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="瓦片 #2"]')!.click())
-    await clickDraftPoint({ row: 0, col: 0 })
+    await clickDraftPoint({ row: 2, col: 2 })
     await act(async () => button('保存组合', host).click())
 
-    const painted = session.getState().stamps[0]!.visual.filter((member) => member.tileId === 2)
+    const painted = visualMembers(session.getState().stamps[0]!).filter(
+      (member) => member.tileId === 2,
+    )
     expect(painted).toHaveLength(4)
-    expect(painted.map((member) => member.offset)).toEqual(
+    expect(painted.map(({ row, col }) => ({ row, col }))).toEqual(
       expect.arrayContaining([
-        { dRow: 0, du: 0 },
-        { dRow: 1, du: 1 },
-        { dRow: 1, du: -1 },
-        { dRow: 2, du: 0 },
+        { row: 2, col: 2 },
+        { row: 3, col: 2 },
+        { row: 3, col: 1 },
+        { row: 4, col: 2 },
       ]),
     )
   })
 
-  test('组合 5 × 5 笔刷扩展草稿边界并完整写入 25 格', async () => {
+  test('组合 5 × 5 笔刷按菱形双轴完整写入 25 格', async () => {
     const session = new EditSession(state([template()], {}))
     await act(async () => {
       root.render(
@@ -687,11 +725,11 @@ describe('StampLibraryTab', () => {
     await act(async () => button('瓦片', host).click())
     await chooseToolOption('笔刷面积', '5 × 5')
     await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="瓦片 #2"]')!.click())
-    await clickDraftPoint({ row: 0, col: 0 }, 6)
+    await clickDraftPoint({ row: 2, col: 2 })
     await act(async () => button('保存组合', host).click())
 
     expect(
-      session.getState().stamps[0]!.visual.filter((member) => member.tileId === 2),
+      visualMembers(session.getState().stamps[0]!).filter((member) => member.tileId === 2),
     ).toHaveLength(25)
   })
 
@@ -719,10 +757,11 @@ describe('StampLibraryTab', () => {
     expect(session.getHistoryVersion()).toBe(historyBefore)
 
     await act(async () => button('继续编辑', document).click())
-    expect(host.querySelector('[aria-label="组合局部地图编辑画布"]')).not.toBeNull()
-    await act(async () => button('恢复已保存', host).click())
-    expect(host.querySelector('[aria-label="组合局部地图编辑画布"]')).not.toBeNull()
-    expect(host.querySelector('.stamp-content-editor')?.hasAttribute('data-dirty')).toBe(false)
+    expect(host.querySelector('[aria-label="组合地图编辑画布"]')).not.toBeNull()
+    await act(async () => button('取消', host).click())
+    await act(async () => button('放弃草稿', document).click())
+    expect(host.querySelector('[aria-label="组合地图编辑画布"]')).not.toBeNull()
+    expect(button('保存组合', host).disabled).toBe(true)
     expect(session.getState().stamps[0]?.origin).toBe('migrated')
     expect(session.getHistoryVersion()).toBe(historyBefore)
   })
@@ -744,18 +783,21 @@ describe('StampLibraryTab', () => {
     await act(async () => button('进入内容编辑', document).click())
     await act(async () => new Promise((resolve) => window.setTimeout(resolve, 0)))
     await act(async () => button('瓦片', host).click())
-    expect(host.textContent).toContain('3 块 · 当前 #0')
+    expect(host.querySelectorAll('.tile-picker-item')).toHaveLength(3)
     expect(session.getState().stamps).toHaveLength(0)
+    const blank = createBlankStampDraft('stamp-user', '村口门楼', 'tiles-a')
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="瓦片 #1"]')!.click())
+    await clickDraftPoint(blank.anchor, blank)
 
     await act(async () => button('保存组合', host).click())
     expect(session.getHistoryVersion()).toBe(1)
     expect(session.getState().stamps[0]).toMatchObject({
       id: 'stamp-user',
       name: '村口门楼',
-      tilesetId: 'tiles-a',
+      tilesetRefs: ['tiles-a'],
       origin: 'authored',
     })
-    expect(session.getState().stamps[0]?.visual).toHaveLength(1)
+    expect(visualMembers(session.getState().stamps[0]!)).toHaveLength(1)
     await act(async () => session.undo())
     expect(session.getState().stamps).toHaveLength(0)
   })
@@ -775,20 +817,21 @@ describe('StampLibraryTab', () => {
     })
     await act(async () => new Promise((resolve) => window.setTimeout(resolve, 0)))
     await clickDraftPoint({ row: 1, col: 0 })
+    await act(async () => {
+      const takeover = host.querySelector<HTMLInputElement>(
+        '.stamp-content-properties input[type="checkbox"]',
+      )
+      takeover?.click()
+    })
     await act(async () => button('保存组合', host).click())
-    expect(document.querySelector('dialog')?.textContent).toContain('接管预置组合？')
-    expect(session.getState().stamps[0]?.origin).toBe('migrated')
-    expect(session.getHistoryVersion()).toBe(0)
-
-    await act(async () => button('接管并保存', document).click())
     expect(session.getState().stamps[0]?.origin).toBe('authored')
-    expect(session.getState().stamps[0]?.visual).toHaveLength(2)
+    expect(visualMembers(session.getState().stamps[0]!)).toHaveLength(2)
     expect(session.getHistoryVersion()).toBe(1)
     await act(async () => session.undo())
     expect(session.getState().stamps[0]?.origin).toBe('migrated')
   })
 
-  test('预置接管确认出现后把焦点移到取消按钮', async () => {
+  test('预置组合未勾选接管时拒绝保存，勾选后才原子接管', async () => {
     const migrated = { ...template(), origin: 'migrated' as const }
     const session = new EditSession(state([migrated], {}))
     await act(async () => {
@@ -798,13 +841,18 @@ describe('StampLibraryTab', () => {
     await input(host.querySelector<HTMLInputElement>('[aria-label="组合名称"]')!, '接管后的树')
     const save = button('保存组合', host)
     await act(async () => save.click())
-    await act(async () => new Promise((resolve) => window.setTimeout(resolve, 20)))
-    const cancel = button('取消', host)
-    expect(document.activeElement).toBe(cancel)
-    await act(async () => cancel.click())
+    expect(host.textContent).toContain('必须显式接管后才能修改')
+    expect(session.getHistoryVersion()).toBe(0)
+    const takeover = host.querySelector<HTMLInputElement>(
+      '.stamp-content-properties input[type="checkbox"]',
+    )!
+    await act(async () => takeover.click())
+    await act(async () => save.click())
+    expect(session.getState().stamps[0]?.origin).toBe('authored')
+    expect(session.getHistoryVersion()).toBe(1)
   })
 
-  test('库页用选区更新前先拒绝 tileset mismatch，不会覆盖其他模板', async () => {
+  test('库页允许用其他来源瓦片集的选区更新目标模板，不会覆盖其他模板', async () => {
     const map = placedMap('unrelated', 'tiles-b')
     const stamps = [template('wanted', 'tiles-a'), template('other', 'tiles-b')]
     const session = new EditSession(state(stamps, { 'map-b': map }))
@@ -822,8 +870,11 @@ describe('StampLibraryTab', () => {
       await Promise.resolve()
     })
     await act(async () => button('用当前地图选区更新', host).click())
-    expect(host.textContent).toContain('不能更新 tileset “tiles-a”')
-    expect(document.querySelector('dialog')).toBeNull()
-    expect(session.getState().stamps).toEqual(stamps)
+    expect(document.querySelector('dialog')?.textContent).toContain('更新已有模板')
+    await act(async () => button('替换模板内容', document).click())
+    expect(session.getState().stamps.find((item) => item.id === 'wanted')?.tilesetRefs).toEqual([
+      'tiles-b',
+    ])
+    expect(session.getState().stamps.find((item) => item.id === 'other')).toEqual(stamps[1])
   })
 })

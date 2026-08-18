@@ -1,4 +1,4 @@
-import type { SceneDefV14, SharedScriptLibraryV14, StampTemplateV1 } from '@type-pal/content'
+import type { SceneDefV14, SharedScriptLibraryV14, StampTemplate } from '@type-pal/content'
 import {
   validateScenesV14,
   validateSharedScriptsV14,
@@ -34,7 +34,7 @@ describe('withUiReviewSamples', () => {
   test('adds valid review data without mutating the loaded project and feeds the real variable index', () => {
     const scenes = [scene()]
     const sharedScripts: SharedScriptLibraryV14 = {}
-    const stamps: StampTemplateV1[] = []
+    const stamps: StampTemplate[] = []
     const worldVariables = {}
     const result = withUiReviewSamples({
       scenes,
@@ -69,14 +69,16 @@ describe('withUiReviewSamples', () => {
       self: 'none',
       body: [],
     }
-    const existingStamp: StampTemplateV1 = {
+    const existingStamp: StampTemplate = {
       id: 'ui-review-stone-path',
       name: '真实作者组合',
-      tilesetId: 'tiles-a',
       origin: 'authored',
-      layerSlots: [{ id: 'surface', name: '主体', depthMode: 'flat' }],
-      visual: [{ layerSlotId: 'surface', offset: { dRow: 0, du: 0 }, tileId: 0, height: 0 }],
-      collision: [],
+      width: 1,
+      height: 1,
+      anchor: { row: 0, col: 0 },
+      tilesetRefs: ['tiles-a'],
+      layers: [{ id: 'surface', name: '主体', tiles: [[0], [null]], sources: [[0], [null]] }],
+      collision: [[null], [null]],
     }
     const input = {
       scenes: [scene()],

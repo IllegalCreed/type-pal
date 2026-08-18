@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
-import type { SceneDef, StampTemplateV1 } from '@type-pal/content'
-import type { ProjectMap, ProjectMapV2, RleFrame } from '@type-pal/reforge'
+import type { SceneDef, StampTemplate } from '@type-pal/content'
+import type { ProjectMap, RleFrame } from '@type-pal/reforge'
 import {
   buildBlankProjectMap,
   buildProjectMapLayer,
@@ -36,7 +36,7 @@ vi.mock('./stamp-placement-selection-overlay.js', () => ({
   drawStampPlacementSelectionOverlay: vi.fn(),
 }))
 vi.mock('./StampPreviewCanvas.js', () => ({
-  StampMiniPreview: (props: { template: StampTemplateV1 }) => {
+  StampMiniPreview: (props: { template: StampTemplate }) => {
     stampMiniPreviewRender(props.template.id)
     return <canvas data-stamp-preview={props.template.id} />
   },
@@ -60,15 +60,16 @@ vi.mock('./scene-stage.js', async (importOriginal) => {
     useSceneAssets: (options: { mapId: string; projectMaps?: Record<string, ProjectMap> }) => {
       const loadedRef = React.useRef({
         renderer: {} as never,
-        map: options.projectMaps?.[options.mapId] as ProjectMapV2,
+        map: options.projectMaps?.[options.mapId] as ProjectMap,
         spritesByNum: new Map(),
         tiles: new Map([[1, frame]]),
+        tilesets: new Map([['tiles', new Map([[1, frame]])]]),
         palette: {
           colors: Array.from({ length: 256 }, () => [0, 0, 0] as [number, number, number]),
           cycles: [],
         },
       })
-      loadedRef.current.map = options.projectMaps?.[options.mapId] as ProjectMapV2
+      loadedRef.current.map = options.projectMaps?.[options.mapId] as ProjectMap
       return { status: 'ready' as const, err: '', loadedRef }
     },
     useViewZoomPan: (options: { initial: { zoom: number; panX: number; panY: number } }) => {
@@ -82,33 +83,47 @@ vi.mock('./scene-stage.js', async (importOriginal) => {
 
 const mountedRoots: { root: Root; host: HTMLDivElement }[] = []
 
-function fixtureMap(): ProjectMapV2 {
+function fixtureMap(): ProjectMap {
   let map = buildBlankProjectMap(2, 2, 'tiles')
-  map = paintProjectMapTiles(map, [{ layerId: 'floor', row: 0, col: 0, tileId: 1, height: 0 }])
-  map = insertProjectMapLayer(map, buildProjectMapLayer(map, 'objects', '上层', 'height'))
-  return paintProjectMapTiles(map, [{ layerId: 'objects', row: 0, col: 0, tileId: 1, height: 2 }])
+  map = paintProjectMapTiles(map, [
+    { layerId: 'floor', row: 0, col: 0, tileId: 1, tilesetId: 'tiles', height: 0 },
+  ])
+  map = insertProjectMapLayer(map, buildProjectMapLayer(map, 'objects', '上层'))
+  return paintProjectMapTiles(map, [
+    { layerId: 'objects', row: 0, col: 0, tileId: 1, tilesetId: 'tiles', height: 2 },
+  ])
 }
 
-function stampTemplate(): StampTemplateV1 {
+function stampTemplate(): StampTemplate {
   return {
     id: 'tree-house',
     name: '树屋',
     category: '建筑',
-    tilesetId: 'tiles',
     origin: 'authored',
-    layerSlots: [
-      { id: 'ground-slot', name: '地面槽', depthMode: 'flat' },
-      { id: 'object-slot', name: '物件槽', depthMode: 'height' },
+    anchor: { row: 0, col: 0 },
+    width: 1,
+    height: 1,
+    tilesetRefs: ['tiles'],
+    layers: [
+      {
+        id: 'ground-slot',
+        name: '地面槽',
+        tiles: [[1], [null]],
+        sources: [[0], [null]],
+      },
+      {
+        id: 'object-slot',
+        name: '物件槽',
+        tiles: [[null], [1]],
+        sources: [[null], [0]],
+        heights: [[0], [2]],
+      },
     ],
-    visual: [
-      { layerSlotId: 'ground-slot', offset: { dRow: 0, du: 0 }, tileId: 1, height: 0 },
-      { layerSlotId: 'object-slot', offset: { dRow: 1, du: 1 }, tileId: 1, height: 2 },
-    ],
-    collision: [{ offset: { dRow: 1, du: 1 }, value: 0 }],
+    collision: [[null], [0]],
   }
 }
 
-function stampTemplates(count: number): StampTemplateV1[] {
+function stampTemplates(count: number): StampTemplate[] {
   return Array.from({ length: count }, (_, index) => ({
     ...stampTemplate(),
     id: `tree-house-${index.toString().padStart(4, '0')}`,
@@ -116,7 +131,7 @@ function stampTemplates(count: number): StampTemplateV1[] {
   }))
 }
 
-function editorState(map: ProjectMap, stamps: StampTemplateV1[] = []): EditorState {
+function editorState(map: ProjectMap, stamps: StampTemplate[] = []): EditorState {
   return {
     manifest: { content: {} } as never,
     scenes: [],
@@ -144,7 +159,7 @@ function editorState(map: ProjectMap, stamps: StampTemplateV1[] = []): EditorSta
 
 async function mountMapMode(
   options: {
-    stamps?: StampTemplateV1[]
+    stamps?: StampTemplate[]
     map?: ProjectMap
     referenceSelectedMap?: boolean
     tilesets?: readonly import('@type-pal/reforge').TilesetDef[]
@@ -155,7 +170,7 @@ async function mountMapMode(
   session: EditSession
   onWorkspaceNotice: ReturnType<typeof vi.fn>
   onRequestInspectorOpen: ReturnType<typeof vi.fn>
-  rerenderWithSession: (session: EditSession, stamps?: StampTemplateV1[]) => Promise<void>
+  rerenderWithSession: (session: EditSession, stamps?: StampTemplate[]) => Promise<void>
 }> {
   const map = options.map ?? fixtureMap()
   const state = editorState(map, options.stamps ?? [])
@@ -172,7 +187,7 @@ async function mountMapMode(
   const onWorkspaceNotice = vi.fn()
   const onRequestInspectorOpen = vi.fn()
   mountedRoots.push({ root, host })
-  const renderMode = (renderSession: EditSession, renderStamps: StampTemplateV1[]) => {
+  const renderMode = (renderSession: EditSession, renderStamps: StampTemplate[]) => {
     const renderState = renderSession.getState()
     root.render(
       <MapMode
@@ -311,8 +326,8 @@ function placementMap(two = false): ProjectMap {
   ])
   if (two)
     map = paintProjectMapTiles(map, [
-      { layerId: 'floor', row: 2, col: 0, tileId: 1, height: 0 },
-      { layerId: 'objects', row: 2, col: 0, tileId: 1, height: 2 },
+      { layerId: 'floor', row: 2, col: 0, tileId: 1, tilesetId: 'tiles', height: 0 },
+      { layerId: 'objects', row: 2, col: 0, tileId: 1, tilesetId: 'tiles', height: 2 },
     ])
   return withProjectMapStampPlacements(map, [
     {
@@ -346,7 +361,9 @@ function placementMap(two = false): ProjectMap {
 
 function placementMapWithTwoFloorMembers(): ProjectMap {
   let map = placementMap()
-  map = paintProjectMapTiles(map, [{ layerId: 'floor', row: 0, col: 1, tileId: 4, height: 0 }])
+  map = paintProjectMapTiles(map, [
+    { layerId: 'floor', row: 0, col: 1, tileId: 4, tilesetId: 'tiles', height: 0 },
+  ])
   const [placement] = projectMapStampPlacements(map)
   return withProjectMapStampPlacements(map, [
     {
@@ -359,9 +376,9 @@ function placementMapWithTwoFloorMembers(): ProjectMap {
 function splitFillPlacementMap(): ProjectMap {
   let map: ProjectMap = buildBlankProjectMap(2, 2, 'tiles')
   map = paintProjectMapTiles(map, [
-    { layerId: 'floor', row: 0, col: 0, tileId: 1, height: 0 },
-    { layerId: 'floor', row: 1, col: 0, tileId: 1, height: 0 },
-    { layerId: 'floor', row: 2, col: 0, tileId: 1, height: 0 },
+    { layerId: 'floor', row: 0, col: 0, tileId: 1, tilesetId: 'tiles', height: 0 },
+    { layerId: 'floor', row: 1, col: 0, tileId: 1, tilesetId: 'tiles', height: 0 },
+    { layerId: 'floor', row: 2, col: 0, tileId: 1, tilesetId: 'tiles', height: 0 },
   ])
   return withProjectMapStampPlacements(map, [
     {
@@ -653,7 +670,7 @@ describe('MapMode 地图内容选择交互', () => {
       floor.tiles[1]![0],
       floor.tiles[1]![1],
       floor.tiles[2]![1],
-    ]).toEqual([0, 0, 0, 0])
+    ]).toEqual([1, 1, 1, 1])
     expect(floor.tiles[0]![2]).toBeNull()
     expect(floor.tiles[2]![0]).toBeNull()
     await act(async () => button(host, '选择').click())
@@ -670,7 +687,7 @@ describe('MapMode 地图内容选择交互', () => {
 
   test('从选择切回平移时清空内容选区并恢复地图属性', async () => {
     const map = paintProjectMapTiles(fixtureMap(), [
-      { layerId: 'floor', row: 0, col: 1, tileId: 1, height: 0 },
+      { layerId: 'floor', row: 0, col: 1, tileId: 1, tilesetId: 'tiles', height: 0 },
     ])
     const { host, canvas, onWorkspaceNotice } = await mountMapMode({ map })
     await act(async () => button(host, '选择').click())
@@ -692,8 +709,8 @@ describe('MapMode 地图内容选择交互', () => {
 
   test('Ctrl/⌘ 可追加不规则瓦片选区、再次命中移除，并可直接提取组合', async () => {
     const map = paintProjectMapTiles(fixtureMap(), [
-      { layerId: 'floor', row: 0, col: 1, tileId: 1, height: 0 },
-      { layerId: 'floor', row: 2, col: 0, tileId: 1, height: 0 },
+      { layerId: 'floor', row: 0, col: 1, tileId: 1, tilesetId: 'tiles', height: 0 },
+      { layerId: 'floor', row: 2, col: 0, tileId: 1, tilesetId: 'tiles', height: 0 },
     ])
     const { host, canvas, session } = await mountMapMode({ map })
     await act(async () => button(host, '选择').click())
@@ -724,11 +741,12 @@ describe('MapMode 地图内容选择交互', () => {
     await act(async () => button(host, '保存为组合…').click())
     expect(document.body.querySelector('.stamp-template-dialog')).not.toBeNull()
     await act(async () => button(document.body, '创建组合').click())
-    expect(session.getState().stamps[0]?.visual.map(({ offset }) => offset)).toEqual([
-      { dRow: 0, du: 0 },
-      { dRow: 0, du: 2 },
-      { dRow: 2, du: 0 },
-    ])
+    expect(
+      session
+        .getState()
+        .stamps[0]?.layers.flatMap((layer) => layer.tiles.flat())
+        .filter((tileId) => tileId !== null),
+    ).toHaveLength(3)
     expect(document.body.querySelector('.stamp-template-dialog')).toBeNull()
 
     await act(async () => {
@@ -770,7 +788,7 @@ describe('MapMode 地图内容选择交互', () => {
     expect(host.textContent).not.toContain('图章')
   })
 
-  test('显示高度与绘制高度分离，平面层两者都强制为 0', async () => {
+  test('显示高度与绘制高度分离，所有图层都允许实例高度', async () => {
     const { host, canvas, session } = await mountMapMode()
     const layerRows = [...host.querySelectorAll<HTMLElement>('.map-layer-row')]
     const objectLayer = layerRows.find((row) => row.textContent?.includes('上层'))!
@@ -794,27 +812,25 @@ describe('MapMode 地图内容选择交互', () => {
     expect(session.getState().maps['map-a']!.layers[1]?.heights?.[0]?.[0]).toBe(3)
 
     await act(async () => floorLayer.querySelector<HTMLButtonElement>('.layer-name')!.click())
-    expect(viewHeight.disabled).toBe(true)
-    expect(viewHeight.value).toBe('0')
-    expect(viewHeightOutput.textContent).toBe('0')
+    expect(viewHeight.disabled).toBe(false)
     const paintHeight = host.querySelector<HTMLButtonElement>('[aria-label="绘制高度"]')!
-    expect(paintHeight.disabled).toBe(true)
-    expect(paintHeight.textContent).toContain('H0')
+    expect(paintHeight.disabled).toBe(false)
+    expect(paintHeight.textContent).toContain('H3')
 
     await act(async () => {
       pointer(canvas, 'pointerdown')
       pointer(canvas, 'pointerup')
     })
     const changed = session.getState().maps['map-a']!
-    expect(changed.layers[0]?.tiles[0]?.[0]).toBe(0)
-    expect(changed.layers[0]).not.toHaveProperty('heights')
+    expect(changed.layers[0]?.tiles[0]?.[0]).toBe(1)
+    expect(changed.layers[0]?.heights?.[0]?.[0]).toBe(3)
   })
 
   test.each(['笔刷', '矩形', '填充'])('%s 使用工具栏选择的绘制高度', async (tool) => {
     const base = buildBlankProjectMap(2, 2, 'tiles')
     const map = {
       ...base,
-      layers: [buildProjectMapLayer(base, 'floor', '地板', 'height')],
+      layers: [buildProjectMapLayer(base, 'floor', '地板')],
     }
     const { host, canvas, session } = await mountMapMode({ map })
     await act(async () => button(host, tool).click())
@@ -921,7 +937,7 @@ describe('MapMode 地图内容选择交互', () => {
     const beforeCollision = session.getState().maps['map-a']!.collision
     await act(async () => button(host, '解组（保留地图内容）').click())
     const ungrouped = session.getState().maps['map-a']!
-    expect(ungrouped.version).toBe(2)
+    expect(ungrouped.version).toBe(4)
     expect(ungrouped.layers).toBe(beforeLayers)
     expect(ungrouped.collision).toBe(beforeCollision)
     await act(async () => session.undo())
@@ -993,8 +1009,8 @@ describe('MapMode 地图内容选择交互', () => {
   test('普通冲突在落点冻结后弹窗确认，移出画布不漂移，返回调整零写且覆盖可撤销', async () => {
     let map = placementMap()
     map = paintProjectMapTiles(map, [
-      { layerId: 'floor', row: 2, col: 1, tileId: 1, height: 0 },
-      { layerId: 'objects', row: 2, col: 1, tileId: 1, height: 2 },
+      { layerId: 'floor', row: 2, col: 1, tileId: 1, tilesetId: 'tiles', height: 0 },
+      { layerId: 'objects', row: 2, col: 1, tileId: 1, tilesetId: 'tiles', height: 2 },
     ])
     const { host, canvas, session } = await mountMapMode({ map })
     const before = session.getState().maps['map-a']!
@@ -1105,7 +1121,7 @@ describe('MapMode 地图内容选择交互', () => {
     expect(projectMapStampPlacements(deleted)).toEqual([])
     expect(deleted.layers[0]?.tiles[0]?.[0]).toBeNull()
     expect(deleted.layers[1]?.tiles[0]?.[0]).toBeNull()
-    expect(deleted.layers[1]?.heights?.[0]?.[0]).toBe(0)
+    expect(deleted.layers[1]?.heights?.[0]?.[0] ?? 0).toBe(0)
     expect(deleted.collision[0]?.[0]).toBe(0)
     await act(async () => session.undo())
     expect(session.getState().maps['map-a']).toBe(before)
@@ -1255,7 +1271,9 @@ describe('MapMode 地图内容选择交互', () => {
 
   test('活动层普通逻辑槽不被非活动层 placement 的透明逻辑命中劫持', async () => {
     let map: ProjectMap = fixtureMap()
-    map = paintProjectMapTiles(map, [{ layerId: 'objects', row: 0, col: 0, tileId: 9, height: 2 }])
+    map = paintProjectMapTiles(map, [
+      { layerId: 'objects', row: 0, col: 0, tileId: 9, tilesetId: 'tiles', height: 2 },
+    ])
     map = withProjectMapStampPlacements(map, [
       {
         id: 'upper-only',
@@ -1298,7 +1316,9 @@ describe('MapMode 地图内容选择交互', () => {
 
   test('活动层普通视觉命中优先于同坐标 placement collision ownership', async () => {
     let map: ProjectMap = fixtureMap()
-    map = paintProjectMapTiles(map, [{ layerId: 'objects', row: 2, col: 0, tileId: 1, height: 2 }])
+    map = paintProjectMapTiles(map, [
+      { layerId: 'objects', row: 2, col: 0, tileId: 1, tilesetId: 'tiles', height: 2 },
+    ])
     map = withProjectMapStampPlacements(map, [
       {
         id: 'collision-owner',
@@ -1320,7 +1340,9 @@ describe('MapMode 地图内容选择交互', () => {
 
   test('活动层空视觉槽不会压住 placement collision 的直接整组选中', async () => {
     let map: ProjectMap = buildBlankProjectMap(2, 2, 'tiles')
-    map = paintProjectMapTiles(map, [{ layerId: 'floor', row: 2, col: 0, tileId: 1, height: 0 }])
+    map = paintProjectMapTiles(map, [
+      { layerId: 'floor', row: 2, col: 0, tileId: 1, tilesetId: 'tiles', height: 0 },
+    ])
     map = withProjectMapStampPlacements(map, [
       {
         id: 'collision-only-hit',
@@ -1354,7 +1376,9 @@ describe('MapMode 地图内容选择交互', () => {
 
   test('组内 Alt 与普通剪贴板快捷键不能打开外部候选或变换', async () => {
     let map = placementMap(true)
-    map = paintProjectMapTiles(map, [{ layerId: 'floor', row: 0, col: 1, tileId: 1, height: 0 }])
+    map = paintProjectMapTiles(map, [
+      { layerId: 'floor', row: 0, col: 1, tileId: 1, tilesetId: 'tiles', height: 0 },
+    ])
     const { host, canvas, onWorkspaceNotice } = await mountMapMode({ map })
     await act(async () => button(host, '选择').click())
     await act(async () => {
@@ -1499,7 +1523,9 @@ describe('MapMode 地图内容选择交互', () => {
 
   test('普通 fill 即使写回同值也先报告 ownership，不被 helper no-op 吞掉', async () => {
     let map = placementMap()
-    map = paintProjectMapTiles(map, [{ layerId: 'floor', row: 0, col: 0, tileId: 0, height: 0 }])
+    map = paintProjectMapTiles(map, [
+      { layerId: 'floor', row: 0, col: 0, tileId: 0, tilesetId: 'tiles', height: 0 },
+    ])
     const { host, canvas, session, onWorkspaceNotice } = await mountMapMode({ map })
     await act(async () => button(host, '填充').click())
     await act(async () => pointer(canvas, 'pointerdown'))
@@ -1514,6 +1540,8 @@ describe('MapMode 地图内容选择交互', () => {
     const { host, canvas, session, onWorkspaceNotice } = await mountMapMode({
       map: splitFillPlacementMap(),
     })
+    await act(async () => button(host, '笔刷').click())
+    await chooseToolOption(host, '绘制高度', 'H1')
     await act(async () => button(host, '选择').click())
     await act(async () => {
       pointer(canvas, 'pointerdown', { clientX: 1, clientY: 1, altKey: true })
@@ -1534,8 +1562,10 @@ describe('MapMode 地图内容选择交互', () => {
       expect.objectContaining({ kind: 'info', message: expect.stringContaining('可撤销') }),
     )
     const edited = session.getState().maps['map-a']!
-    expect(edited.layers[0]?.tiles[0]?.[0]).toBe(0)
+    expect(edited.layers[0]?.tiles[0]?.[0]).toBe(1)
+    expect(edited.layers[0]?.heights?.[0]?.[0]).toBe(1)
     expect(edited.layers[0]?.tiles[1]?.[0]).toBe(1)
+    expect(edited.layers[0]?.heights?.[1]?.[0] ?? 0).toBe(0)
     expect(edited.layers[0]?.tiles[2]?.[0]).toBe(1)
   })
 
@@ -1730,7 +1760,7 @@ describe('MapMode 地图内容选择交互', () => {
     await act(async () => pointer(canvas, 'pointerdown', { clientX: 33, clientY: 17 }))
     const placed = session.getState().maps['map-a']!
     expect(session.getMapRevision('map-a')).toBe(1)
-    expect(placed.version).toBe(3)
+    expect(placed.version).toBe(4)
     expect(projectMapStampPlacements(placed)).toHaveLength(1)
     expect(placed.layers[0]?.tiles[2]?.[1]).toBe(1)
     expect(placed.layers[1]?.tiles[3]?.[1]).toBe(1)
@@ -1738,7 +1768,7 @@ describe('MapMode 地图内容选择交互', () => {
     await act(async () => session.undo())
     const undone = session.getState().maps['map-a']!
     expect(session.getMapRevision('map-a')).toBe(2)
-    expect(undone.version).toBe(2)
+    expect(undone.version).toBe(4)
     expect(undone.layers[0]?.tiles[2]?.[1]).toBeNull()
     expect(undone.layers[1]?.tiles[3]?.[1]).toBeNull()
   })
@@ -1818,20 +1848,16 @@ describe('MapMode 地图内容选择交互', () => {
     const changed = session.getState().maps['map-a']!
     expect(changed.layers.map(({ id }) => id)).toEqual(['objects'])
     expect(changed.layers[0]?.tiles[0]?.[0]).toBeNull()
-    expect(changed.layers[0]?.heights?.[0]?.[0]).toBe(0)
+    expect(changed.layers[0]?.heights?.[0]?.[0] ?? 0).toBe(0)
     expect(changed.collision[0]?.[0]).toBe(0)
     expect(projectMapStampPlacements(changed)).toEqual([])
     await act(async () => session.undo())
     expect(session.getState().maps['map-a']).toBe(before)
   })
 
-  test('缩图与换 tileset 共用结构确认；取消恢复真实表单值', async () => {
+  test('缩图结构确认取消后恢复真实表单值', async () => {
     const { host, session } = await mountMapMode({
       map: placementMap(true),
-      tilesets: [
-        { id: 'tiles', name: '瓦片 A', category: 'test', asset: 'tileset.a' },
-        { id: 'tiles-b', name: '瓦片 B', category: 'test', asset: 'tileset.b' },
-      ],
     })
     const height = host.querySelector<HTMLInputElement>('[title*="高(格)"]')!
     await act(async () => {
@@ -1843,20 +1869,6 @@ describe('MapMode 地图内容选择交互', () => {
     expect(height.value).toBe('2')
     await act(async () => button(host.querySelector('.stamp-lifecycle-dialog')!, '取消').click())
     expect(session.getState().maps['map-a']?.height).toBe(2)
-
-    const tileset = host.querySelector<HTMLSelectElement>('select[title^="换本图用的瓦片集"]')!
-    await act(async () => {
-      tileset.value = 'tiles-b'
-      tileset.dispatchEvent(new Event('change', { bubbles: true }))
-    })
-    expect(host.querySelector('.stamp-lifecycle-dialog')?.textContent).toContain('2 个放置组合')
-    expect(tileset.value).toBe('tiles')
-    await act(async () =>
-      button(host.querySelector('.stamp-lifecycle-dialog')!, '先解组 2 个组合并继续').click(),
-    )
-    expect(session.getState().maps['map-a']?.tilesetId).toBe('tiles-b')
-    expect(projectMapStampPlacements(session.getState().maps['map-a']!)).toEqual([])
-    expect(session.getMapRevision('map-a')).toBe(1)
   })
 
   test('确认期间地图变化会刷新影响清单，第一次过期确认绝不执行', async () => {

@@ -51,11 +51,11 @@ function memSource(json: unknown, roleJson: unknown = json): FileSource {
 
 describe('assets.ts 经 FileSource 读', () => {
   const projectMap = {
-    version: 2 as const,
+    version: 4 as const,
     width: 1,
     height: 1,
-    tilesetId: 'tileset-001',
-    layers: [{ id: 'floor', name: '地板', depthMode: 'flat' as const, tiles: [[null], [null]] }],
+    tilesetRefs: ['tileset-001'],
+    layers: [{ id: 'floor', name: '地板', tiles: [[null], [null]], sources: [[null], [null]] }],
     collision: [[0], [0]],
   }
 
@@ -73,7 +73,7 @@ describe('assets.ts 经 FileSource 读', () => {
     vi.restoreAllMocks()
   })
 
-  test('loadProjectMap 在加载边界校验 ProjectMapV2 schema', async () => {
+  test('loadProjectMap 在加载边界校验 ProjectMap schema', async () => {
     expect(await loadProjectMap(base(memSource(projectMap)), 'content/maps/a.json')).toEqual(
       projectMap,
     )
@@ -82,11 +82,10 @@ describe('assets.ts 经 FileSource 读', () => {
     ).rejects.toThrow('期望 2 行')
   })
 
-  test('loadProjectMap 接受 v3 且未知 authoring 版本 fail-loud', async () => {
-    const v3 = {
+  test('loadProjectMap 只接受当前 v4 且未知 authoring 版本 fail-loud', async () => {
+    const current = {
       ...projectMap,
-      version: 3,
-      layers: [{ ...projectMap.layers[0]!, tiles: [[1], [null]] }],
+      layers: [{ ...projectMap.layers[0]!, tiles: [[1], [null]], sources: [[0], [null]] }],
       authoring: {
         version: 1,
         stampPlacements: [
@@ -99,10 +98,15 @@ describe('assets.ts 经 FileSource 读', () => {
         ],
       },
     }
-    await expect(loadProjectMap(base(memSource(v3)), 'content/maps/a.json')).resolves.toEqual(v3)
+    await expect(loadProjectMap(base(memSource(current)), 'content/maps/a.json')).resolves.toEqual(
+      current,
+    )
+    await expect(
+      loadProjectMap(base(memSource({ ...current, version: 3 })), 'content/maps/a.json'),
+    ).rejects.toThrow('仅支持当前版本 4')
     await expect(
       loadProjectMap(
-        base(memSource({ ...v3, authoring: { ...v3.authoring, version: 2 } })),
+        base(memSource({ ...current, authoring: { ...current.authoring, version: 2 } })),
         'content/maps/a.json',
       ),
     ).rejects.toThrow('authoring.version')

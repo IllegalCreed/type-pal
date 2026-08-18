@@ -1,4 +1,9 @@
-import { mapInstanceHeight, type ProjectMap, type StampPlacementGroupV1 } from '@type-pal/content'
+import {
+  mapInstanceHeight,
+  mapInstanceTilesetId,
+  type ProjectMap,
+  type StampPlacementGroupV1,
+} from '@type-pal/content'
 import type { LatticePos, ProjectMapTileEdit } from '@type-pal/reforge'
 import { isLatticeInside, projectMapStampPlacements } from '@type-pal/reforge'
 import { floodFillIsometricTiles } from './isometric-fill.js'
@@ -189,6 +194,7 @@ export function floodFillStampPlacementTiles(
   layerId: string,
   start: LatticePos,
   tileId: number | null,
+  tilesetId: string | null,
   height: number,
 ): ProjectMapTileEdit[] {
   const placement = buildStampPlacementIndex(map).byId.get(placementId)
@@ -206,13 +212,18 @@ export function floodFillStampPlacementTiles(
       const currentTileId = layer.tiles[point.row]?.[point.col]
       return currentTileId === undefined
         ? undefined
-        : { tileId: currentTileId, height: mapInstanceHeight(layer, point.row, point.col) }
+        : {
+            tileId: currentTileId,
+            tilesetId: mapInstanceTilesetId(map, layer, point.row, point.col),
+            height: mapInstanceHeight(layer, point.row, point.col),
+          }
     },
   }).flatMap((point) =>
     layer.tiles[point.row]?.[point.col] === tileId &&
+    mapInstanceTilesetId(map, layer, point.row, point.col) === (tilesetId ?? undefined) &&
     mapInstanceHeight(layer, point.row, point.col) === height
       ? []
-      : [{ ...point, layerId, tileId, height }],
+      : [{ ...point, layerId, tileId, tilesetId, height }],
   )
 }
 

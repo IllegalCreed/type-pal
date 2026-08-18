@@ -1,12 +1,12 @@
-import type { Palette, ProjectMap, RleFrame } from '@type-pal/reforge'
-import { bakeFrame, projectMapTileBlitRect } from '@type-pal/reforge'
+import type { Palette, ProjectMap, TilesetFrameRegistry } from '@type-pal/reforge'
+import { bakeFrame, mapInstanceTilesetId, projectMapTileBlitRect } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef } from 'react'
 import type { VisualSlotRef } from '../core/map-selection.js'
 
 export interface MapContentSelectionPreviewProps {
   map: ProjectMap
   visualSlots: readonly VisualSlotRef[]
-  tiles?: ReadonlyMap<number, RleFrame>
+  tilesets?: TilesetFrameRegistry
   palette?: Palette
   title: string
   subtitle: string
@@ -19,7 +19,7 @@ export interface MapContentSelectionPreviewProps {
  * 当前选中内容，必须读取 placement 成员指向的实际 tileId，再按地图图层顺序合成。
  */
 export function MapContentSelectionPreview(props: MapContentSelectionPreviewProps) {
-  const { map, visualSlots, tiles, palette, title, subtitle } = props
+  const { map, visualSlots, tilesets, palette, title, subtitle } = props
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const values = useMemo(() => {
     const layerOrder = new Map(map.layers.map((layer, index) => [layer.id, index] as const))
@@ -27,8 +27,9 @@ export function MapContentSelectionPreview(props: MapContentSelectionPreviewProp
       .flatMap((ref) => {
         const layer = map.layers.find((candidate) => candidate.id === ref.layerId)
         const tileId = layer?.tiles[ref.row]?.[ref.col]
-        return layer && tileId !== null && tileId !== undefined
-          ? [{ ref, tileId, layerIndex: layerOrder.get(layer.id) ?? 0 }]
+        const tilesetId = layer ? mapInstanceTilesetId(map, layer, ref.row, ref.col) : undefined
+        return layer && tileId !== null && tileId !== undefined && tilesetId
+          ? [{ ref, tileId, tilesetId, layerIndex: layerOrder.get(layer.id) ?? 0 }]
           : []
       })
       .sort(
@@ -38,19 +39,23 @@ export function MapContentSelectionPreview(props: MapContentSelectionPreviewProp
           left.ref.col - right.ref.col,
       )
   }, [map, visualSlots])
-  const missingTileIds = useMemo(
+  const missingTiles = useMemo(
     () =>
-      tiles
-        ? [...new Set(values.flatMap(({ tileId }) => (tiles.has(tileId) ? [] : [tileId])))].sort(
-            (left, right) => left - right,
-          )
+      tilesets
+        ? [
+            ...new Set(
+              values.flatMap(({ tileId, tilesetId }) =>
+                tilesets.get(tilesetId)?.has(tileId) ? [] : [`${tilesetId} #${tileId}`],
+              ),
+            ),
+          ].sort()
         : [],
-    [tiles, values],
+    [tilesets, values],
   )
   const layout = useMemo(() => {
-    if (!tiles) return undefined
+    if (!tilesets) return undefined
     const members = values.flatMap((value) => {
-      const frame = tiles.get(value.tileId)
+      const frame = tilesets.get(value.tilesetId)?.get(value.tileId)
       if (!frame) return []
       return [{ ...value, frame, rect: projectMapTileBlitRect(value.ref, frame) }]
     })
@@ -83,7 +88,7 @@ export function MapContentSelectionPreview(props: MapContentSelectionPreviewProp
       width: Math.max(1, Math.ceil(naturalWidth * scale)),
       height: Math.max(1, Math.ceil(naturalHeight * scale)),
     }
-  }, [tiles, values])
+  }, [tilesets, values])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -101,12 +106,13 @@ export function MapContentSelectionPreview(props: MapContentSelectionPreviewProp
       -layout.minY * layout.scale,
     )
     context.clearRect(layout.minX, layout.minY, layout.naturalWidth, layout.naturalHeight)
-    const bakedFrames = new Map<number, ReturnType<typeof bakeFrame>>()
-    for (const { tileId, frame, rect } of layout.members) {
-      let baked = bakedFrames.get(tileId)
+    const bakedFrames = new Map<string, ReturnType<typeof bakeFrame>>()
+    for (const { tileId, tilesetId, frame, rect } of layout.members) {
+      const key = `${tilesetId}:${tileId}`
+      let baked = bakedFrames.get(key)
       if (!baked) {
         baked = bakeFrame(frame, palette)
-        bakedFrames.set(tileId, baked)
+        bakedFrames.set(key, baked)
       }
       context.drawImage(baked, rect.x, rect.y)
     }
@@ -124,7 +130,7 @@ export function MapContentSelectionPreview(props: MapContentSelectionPreviewProp
       <div className="map-content-selection-preview-stage">
         {values.length === 0 ? (
           <span>选区没有非空瓦片</span>
-        ) : !tiles || !palette ? (
+        ) : !tilesets || !palette ? (
           <span>正在载入所选内容…</span>
         ) : layout ? (
           <canvas
@@ -138,7 +144,7 @@ export function MapContentSelectionPreview(props: MapContentSelectionPreviewProp
           <span>所选瓦片帧不可用</span>
         )}
       </div>
-      {missingTileIds.length ? <p>瓦片集缺少 tileId：{missingTileIds.join('、')}</p> : null}
+      {missingTiles.length ? <p>瓦片资源缺失：{missingTiles.join('、')}</p> : null}
     </section>
   )
 }

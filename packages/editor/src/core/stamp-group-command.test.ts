@@ -20,10 +20,10 @@ import { floodFillStampPlacementTiles } from './stamp-ownership.js'
 
 function fixtureMap(): ProjectMap {
   let map = buildBlankProjectMap(3, 2, 'tiles')
-  map = insertProjectMapLayer(map, buildProjectMapLayer(map, 'objects', '物件', 'height'))
+  map = insertProjectMapLayer(map, buildProjectMapLayer(map, 'objects', '物件'))
   map = paintProjectMapTiles(map, [
-    { layerId: 'floor', row: 0, col: 0, tileId: 1, height: 0 },
-    { layerId: 'objects', row: 1, col: 0, tileId: 2, height: 5 },
+    { layerId: 'floor', row: 0, col: 0, tileId: 1, tilesetId: 'tiles', height: 0 },
+    { layerId: 'objects', row: 1, col: 0, tileId: 2, tilesetId: 'tiles', height: 5 },
   ])
   map = paintProjectMapCollision(map, [{ row: 1, col: 0, value: 2 }])
   return withProjectMapStampPlacements(map, [
@@ -69,9 +69,9 @@ describe('W7G stamp group commands', () => {
   test('组内 fill 不能从组外起步，也不能借普通格桥接两个成员', () => {
     let map: ProjectMap = buildBlankProjectMap(2, 2, 'tiles')
     map = paintProjectMapTiles(map, [
-      { layerId: 'floor', row: 0, col: 0, tileId: 1, height: 0 },
-      { layerId: 'floor', row: 1, col: 0, tileId: 1, height: 0 },
-      { layerId: 'floor', row: 2, col: 0, tileId: 1, height: 0 },
+      { layerId: 'floor', row: 0, col: 0, tileId: 1, tilesetId: 'tiles', height: 0 },
+      { layerId: 'floor', row: 1, col: 0, tileId: 1, tilesetId: 'tiles', height: 0 },
+      { layerId: 'floor', row: 2, col: 0, tileId: 1, tilesetId: 'tiles', height: 0 },
     ])
     map = withProjectMapStampPlacements(map, [
       {
@@ -84,20 +84,20 @@ describe('W7G stamp group commands', () => {
         gridPoints: [],
       },
     ])
-    expect(floodFillStampPlacementTiles(map, 'split', 'floor', { row: 1, col: 0 }, 9, 0)).toEqual(
-      [],
-    )
-    expect(floodFillStampPlacementTiles(map, 'split', 'floor', { row: 0, col: 0 }, 9, 0)).toEqual([
-      { layerId: 'floor', row: 0, col: 0, tileId: 9, height: 0 },
-    ])
+    expect(
+      floodFillStampPlacementTiles(map, 'split', 'floor', { row: 1, col: 0 }, 9, 'tiles', 0),
+    ).toEqual([])
+    expect(
+      floodFillStampPlacementTiles(map, 'split', 'floor', { row: 0, col: 0 }, 9, 'tiles', 0),
+    ).toEqual([{ layerId: 'floor', row: 0, col: 0, tileId: 9, tilesetId: 'tiles', height: 0 }])
   })
 
   test('组内 fill 以 tileId + height 连通，不跨越同 tile 的其他高度', () => {
     let map: ProjectMap = buildBlankProjectMap(2, 2, 'tiles')
-    map = insertProjectMapLayer(map, buildProjectMapLayer(map, 'objects', '物件', 'height'))
+    map = insertProjectMapLayer(map, buildProjectMapLayer(map, 'objects', '物件'))
     map = paintProjectMapTiles(map, [
-      { layerId: 'objects', row: 0, col: 0, tileId: 1, height: 1 },
-      { layerId: 'objects', row: 1, col: 0, tileId: 1, height: 2 },
+      { layerId: 'objects', row: 0, col: 0, tileId: 1, tilesetId: 'tiles', height: 1 },
+      { layerId: 'objects', row: 1, col: 0, tileId: 1, tilesetId: 'tiles', height: 2 },
     ])
     map = withProjectMapStampPlacements(map, [
       {
@@ -111,8 +111,16 @@ describe('W7G stamp group commands', () => {
       },
     ])
     expect(
-      floodFillStampPlacementTiles(map, 'mixed-height', 'objects', { row: 0, col: 0 }, 9, 3),
-    ).toEqual([{ layerId: 'objects', row: 0, col: 0, tileId: 9, height: 3 }])
+      floodFillStampPlacementTiles(
+        map,
+        'mixed-height',
+        'objects',
+        { row: 0, col: 0 },
+        9,
+        'tiles',
+        3,
+      ),
+    ).toEqual([{ layerId: 'objects', row: 0, col: 0, tileId: 9, tilesetId: 'tiles', height: 3 }])
   })
 
   test('组内 tile/height/collision 原子编辑；collision=0 仍保留 membership', () => {
@@ -186,7 +194,7 @@ describe('W7G stamp group commands', () => {
     }).apply(state(before))
     const shrunk = first.maps['map-a']!
     expect(shrunk.layers[1]?.tiles[1]?.[0]).toBeNull()
-    expect(shrunk.layers[1]?.heights?.[1]?.[0]).toBe(0)
+    expect(shrunk.layers[1]?.heights?.[1]?.[0] ?? 0).toBe(0)
     expect(projectMapStampPlacements(shrunk)[0]?.visualSlots).toEqual([
       { layerId: 'floor', row: 0, col: 0 },
     ])
@@ -241,7 +249,7 @@ describe('W7G stamp group commands', () => {
     expect(projectMapStampPlacements(before)[0]?.gridPoints).toEqual([{ row: 1, col: 0 }])
   })
 
-  test('解组只删 identity；最后一组 v3→v2，undo 精确恢复', () => {
+  test('解组只删 identity；始终保持 canonical v4，undo 精确恢复', () => {
     const before = fixtureMap()
     const layers = before.layers
     const collision = before.collision
@@ -257,19 +265,19 @@ describe('W7G stamp group commands', () => {
       ),
     ).toBe(true)
     const ungrouped = session.getState().maps['map-a']!
-    expect(ungrouped.version).toBe(2)
+    expect(ungrouped.version).toBe(4)
     expect(ungrouped.layers).toBe(layers)
     expect(ungrouped.collision).toBe(collision)
     expect(session.undo()).toBe(true)
     expect(session.getState().maps['map-a']).toBe(before)
     expect(session.redo()).toBe(true)
-    expect(session.getState().maps['map-a']?.version).toBe(2)
+    expect(session.getState().maps['map-a']?.version).toBe(4)
   })
 
-  test('部分解组仍为 v3 时保持矩阵引用并只移除指定 identity', () => {
+  test('部分解组保持 v4 矩阵引用并只移除指定 identity', () => {
     let before = fixtureMap()
     before = paintProjectMapTiles(before, [
-      { layerId: 'floor', row: 2, col: 1, tileId: 4, height: 0 },
+      { layerId: 'floor', row: 2, col: 1, tileId: 4, tilesetId: 'tiles', height: 0 },
     ])
     before = withProjectMapStampPlacements(before, [
       ...projectMapStampPlacements(before),
@@ -290,7 +298,7 @@ describe('W7G stamp group commands', () => {
       placementIds: ['tree-1'],
       permission: writable,
     }).apply(state(before)).maps['map-a']!
-    expect(result.version).toBe(3)
+    expect(result.version).toBe(4)
     expect(result.layers).toBe(layers)
     expect(result.collision).toBe(collision)
     expect(projectMapStampPlacements(result).map((placement) => placement.id)).toEqual(['tree-2'])

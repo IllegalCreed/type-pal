@@ -16,7 +16,6 @@ import { applyStampPlacementMutation } from './stamp-placement-mutation.js'
 export type StampStructureOperation =
   | { kind: 'remove-layer'; layerId: string }
   | { kind: 'resize'; width: number; height: number }
-  | { kind: 'set-tileset'; tilesetId: string }
 
 export type StampStructureResolution = 'reject' | 'ungroup' | 'delete-groups'
 
@@ -66,7 +65,6 @@ export function inspectStampStructureImpact(
     (operation.kind === 'resize' &&
       operation.width === map.width &&
       operation.height === map.height) ||
-    (operation.kind === 'set-tileset' && operation.tilesetId === map.tilesetId) ||
     (operation.kind === 'remove-layer' &&
       (map.layers.length <= 1 || !map.layers.some((layer) => layer.id === operation.layerId)))
   )
@@ -76,13 +74,11 @@ export function inspectStampStructureImpact(
     const affected =
       operation.kind === 'remove-layer'
         ? placement.visualSlots.some((ref) => ref.layerId === operation.layerId)
-        : operation.kind === 'set-tileset'
-          ? true
-          : !insideSize(operation.width, operation.height, placement.anchor) ||
-            placement.visualSlots.some(
-              (ref) => !insideSize(operation.width, operation.height, ref),
-            ) ||
-            placement.gridPoints.some((ref) => !insideSize(operation.width, operation.height, ref))
+        : !insideSize(operation.width, operation.height, placement.anchor) ||
+          placement.visualSlots.some(
+            (ref) => !insideSize(operation.width, operation.height, ref),
+          ) ||
+          placement.gridPoints.some((ref) => !insideSize(operation.width, operation.height, ref))
     return affected ? [placement.id] : []
   })
   return { placementIds }
@@ -96,8 +92,8 @@ function deletePlacementContentPatch(map: ProjectMap, placementIds: ReadonlySet<
   for (const placement of placements) {
     for (const ref of placement.visualSlots) {
       visual.push({ channel: 'tileId', ref: { ...ref }, value: null })
-      if (map.layers.find((layer) => layer.id === ref.layerId)?.depthMode === 'height')
-        visual.push({ channel: 'height', ref: { ...ref }, value: 0 })
+      visual.push({ channel: 'tilesetId', ref: { ...ref }, value: null })
+      visual.push({ channel: 'height', ref: { ...ref }, value: 0 })
     }
   }
   return {
@@ -114,10 +110,6 @@ function applyStructureOperation(map: ProjectMap, operation: StampStructureOpera
       return removeProjectMapLayer(map, operation.layerId)
     case 'resize':
       return resizeProjectMap(map, operation.width, operation.height)
-    case 'set-tileset':
-      return map.tilesetId === operation.tilesetId
-        ? map
-        : { ...map, tilesetId: operation.tilesetId }
   }
 }
 

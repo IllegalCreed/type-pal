@@ -1,4 +1,9 @@
-import { formatProjectMapV2, type MapLayerV2, type ProjectMapV2 } from '@type-pal/content'
+import {
+  formatProjectMap,
+  type IsometricMapLayer,
+  mapInstanceHeight,
+  type ProjectMap,
+} from '@type-pal/content'
 import type { Tilemap } from '@type-pal/shared'
 
 export const SOURCE_MAP_RESIDUAL_MASK = 0xe000c000
@@ -83,13 +88,15 @@ function assertSourceShape(source: Tilemap): void {
   })
 }
 
-/** 把一张旧源图无损展开为工程唯一 ProjectMapV2。 */
-export function convertSourceTilemap(mapNum: number, source: Tilemap): ProjectMapV2 {
+/** 把一张旧源图无损展开为工程唯一 ProjectMap。 */
+export function convertSourceTilemap(mapNum: number, source: Tilemap): ProjectMap {
   assertSourceShape(source)
   const rows = source.height * 2
   const layer0Tiles = matrix<number | null>(rows, source.width, null)
+  const layer0Sources = matrix<number | null>(rows, source.width, null)
   const layer0Heights = matrix(rows, source.width, 0)
   const layer1Tiles = matrix<number | null>(rows, source.width, null)
+  const layer1Sources = matrix<number | null>(rows, source.width, null)
   const layer1Heights = matrix(rows, source.width, 0)
   const collision = matrix(rows, source.width, 0)
 
@@ -100,57 +107,59 @@ export function convertSourceTilemap(mapNum: number, source: Tilemap): ProjectMa
         const targetRow = row * 2 + sub
         const decoded = decodeSourceMapWord(sub === 0 ? cell.lower : cell.upper)
         layer0Tiles[targetRow]![col] = decoded.layer0Tile
+        layer0Sources[targetRow]![col] = 0
         layer0Heights[targetRow]![col] = decoded.layer0Height
         layer1Tiles[targetRow]![col] = decoded.layer1Tile
+        layer1Sources[targetRow]![col] = decoded.layer1Tile === null ? null : 0
         layer1Heights[targetRow]![col] = decoded.layer1Height
         collision[targetRow]![col] = decoded.collision
       }
     }
   }
 
-  const layers: MapLayerV2[] = [
+  const layers: IsometricMapLayer[] = [
     {
       id: 'layer-0',
       name: '下层',
-      depthMode: 'height',
       tiles: layer0Tiles,
-      heights: layer0Heights,
+      sources: layer0Sources,
+      ...(layer0Heights.some((row) => row.some((height) => height !== 0))
+        ? { heights: layer0Heights }
+        : {}),
     },
     {
       id: 'layer-1',
       name: '上层',
-      depthMode: 'height',
       tiles: layer1Tiles,
-      heights: layer1Heights,
+      sources: layer1Sources,
+      ...(layer1Heights.some((row) => row.some((height) => height !== 0))
+        ? { heights: layer1Heights }
+        : {}),
     },
   ]
   return {
-    version: 2,
+    version: 4,
     width: source.width,
     height: source.height,
-    tilesetId: tilesetIdFromSourceNumber(mapNum),
+    tilesetRefs: [tilesetIdFromSourceNumber(mapNum)],
     layers,
     collision,
   }
 }
 
-export function sourceWordFromProjectMap(
-  map: ProjectMapV2,
-  latticeRow: number,
-  col: number,
-): number {
+export function sourceWordFromProjectMap(map: ProjectMap, latticeRow: number, col: number): number {
   const lower = map.layers[0]
   const upper = map.layers[1]
   if (!lower || !upper) throw new Error('源图回编码要求 layer-0/layer-1 两层')
   return encodeProjectMapWord(
     lower.tiles[latticeRow]![col]!,
-    lower.heights![latticeRow]![col]!,
+    mapInstanceHeight(lower, latticeRow, col),
     upper.tiles[latticeRow]![col]!,
-    upper.heights![latticeRow]![col]!,
+    mapInstanceHeight(upper, latticeRow, col),
     map.collision[latticeRow]![col]!,
   )
 }
 
-export function formattedProjectMapBytes(map: ProjectMapV2): number {
-  return Buffer.byteLength(formatProjectMapV2(map), 'utf8')
+export function formattedProjectMapBytes(map: ProjectMap): number {
+  return Buffer.byteLength(formatProjectMap(map), 'utf8')
 }

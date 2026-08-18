@@ -1,4 +1,4 @@
-import type { ProjectMap, StampTemplateV1 } from '@type-pal/content'
+import type { ProjectMap, StampTemplate } from '@type-pal/content'
 import type { StampLayerMapping, StampPlacementPlan } from '../core/stamp-placement.js'
 import { DsDiagnosticList, DsDiagnosticPanel, DsDiagnosticRow } from './design-system/index.js'
 
@@ -7,7 +7,7 @@ function refLabel(ref: { row: number; col: number; layerId?: string }): string {
 }
 
 export function StampPlacementInspector(props: {
-  template: StampTemplateV1
+  template: StampTemplate
   map: ProjectMap
   mappings: readonly StampLayerMapping[]
   plan?: StampPlacementPlan
@@ -38,10 +38,19 @@ export function StampPlacementInspector(props: {
   const issueSlots = new Set(
     plan?.issues.flatMap((item) => (item.layerSlotId ? [item.layerSlotId] : [])),
   )
-  const mappedCount = template.layerSlots.filter((slot) => mappingBySlot.has(slot.id)).length
+  const mappedCount = template.layers.filter((slot) => mappingBySlot.has(slot.id)).length
   const activeLayer = map.layers.find((layer) => layer.id === activeLayerId)
-  const allMapped = mappedCount === template.layerSlots.length
+  const allMapped = mappedCount === template.layers.length
   const problemCount = (plan?.issues.length ?? 0) + (plan?.conflicts.length ?? 0)
+  const visualCount = template.layers.reduce(
+    (count, layer) =>
+      count + layer.tiles.reduce((sum, row) => sum + row.filter((tile) => tile !== null).length, 0),
+    0,
+  )
+  const collisionCount = template.collision.reduce(
+    (count, row) => count + row.filter((value) => value !== null).length,
+    0,
+  )
 
   return (
     <div className="section stamp-placement-inspector">
@@ -52,29 +61,29 @@ export function StampPlacementInspector(props: {
       </div>
       <div className="stamp-placement-metrics">
         <span>
-          <strong>{template.visual.length}</strong> 视觉格
+          <strong>{visualCount}</strong> 视觉格
         </span>
         <span>
-          <strong>{template.layerSlots.length}</strong> 局部层
+          <strong>{template.layers.length}</strong> 局部层
         </span>
         <span>
-          <strong>{template.collision.length}</strong> 碰撞格
+          <strong>{collisionCount}</strong> 碰撞格
         </span>
       </div>
       <div className="stamp-mapping-heading">
         <strong>显式图层映射</strong>
         <span>
-          {mappedCount}/{template.layerSlots.length}
+          {mappedCount}/{template.layers.length}
         </span>
       </div>
       <p className="hint2 stamp-mapping-copy">
         每个局部层都要明确指向稳定 layerId；改名和重排不会改变映射。
       </p>
       <div className="stamp-mapping-list">
-        {template.layerSlots.map((slot) => {
+        {template.layers.map((slot) => {
           const mapping = mappingBySlot.get(slot.id)
           const canUseActive =
-            activeLayer?.depthMode === slot.depthMode &&
+            activeLayer !== undefined &&
             !hiddenLayerIds.has(activeLayer.id) &&
             !lockedLayerIds.has(activeLayer.id)
           return (
@@ -82,9 +91,7 @@ export function StampPlacementInspector(props: {
               <label>
                 <span>
                   <strong>{slot.name}</strong>
-                  <small>
-                    {slot.depthMode === 'height' ? '高度层' : '平面层'} · {slot.id}
-                  </small>
+                  <small>{slot.id}</small>
                 </span>
                 <select
                   className="in"
@@ -96,7 +103,7 @@ export function StampPlacementInspector(props: {
                   <option value="">请选择目标层…</option>
                   {map.layers.map((layer) => (
                     <option key={layer.id} value={layer.id}>
-                      {layer.name} · {layer.id} · {layer.depthMode === 'height' ? '高度' : '平面'}
+                      {layer.name} · {layer.id}
                       {hiddenLayerIds.has(layer.id) ? ' · 已隐藏' : ''}
                       {lockedLayerIds.has(layer.id) ? ' · 已锁定' : ''}
                     </option>
@@ -108,9 +115,7 @@ export function StampPlacementInspector(props: {
                 className="mini"
                 disabled={!canUseActive}
                 onClick={() => activeLayer && onMapSlot(slot.id, activeLayer.id)}
-                title={
-                  canUseActive ? `映射到活动层 ${activeLayer?.name}` : '活动层深度不兼容或不可写'
-                }
+                title={canUseActive ? `映射到活动层 ${activeLayer?.name}` : '活动层不可写'}
               >
                 用活动层
               </button>
@@ -122,7 +127,7 @@ export function StampPlacementInspector(props: {
         className={`stamp-placement-status${plan?.issues.length ? ' error' : plan?.conflicts.length ? ' conflict' : plan?.canApply ? ' ready' : ''}`}
       >
         {!allMapped
-          ? `还需映射 ${template.layerSlots.length - mappedCount} 个局部层。`
+          ? `还需映射 ${template.layers.length - mappedCount} 个局部层。`
           : !plan
             ? '移动到地图上查看跨层完整预览。'
             : plan.issues.length

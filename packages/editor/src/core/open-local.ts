@@ -2,7 +2,7 @@
  * 打开本地工程夹。开发期编辑器只接受当前 canonical contentVersion 16；旧工程必须由
  * 对应生成/迁移工具重建，编辑器本身不再携带版本升级器或双读分支。
  */
-import type { SceneDefV14, ScriptChunkV1, StampTemplateV1 } from '@type-pal/content'
+import type { SceneDefV14, ScriptChunkV1, StampTemplate } from '@type-pal/content'
 import {
   fsaSource,
   loadAllAuthorScenesV16,
@@ -15,7 +15,7 @@ export interface OpenedProjectV16 {
   project: Awaited<ReturnType<typeof loadProjectV16From>>
   scenes: SceneDefV14[]
   scriptChunks: Record<string, ScriptChunkV1>
-  stamps: StampTemplateV1[]
+  stamps: StampTemplate[]
 }
 
 export type OpenedProject = OpenedProjectV16

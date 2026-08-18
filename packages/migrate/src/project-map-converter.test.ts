@@ -19,7 +19,7 @@ function source(words: [number, number][]): Tilemap {
   }
 }
 
-describe('旧地图到 ProjectMapV2', () => {
+describe('旧地图到 ProjectMap', () => {
   test('逐位覆盖两层 tile、高度、碰撞、空上层与 0/15 边界', () => {
     const a = encodeProjectMapWord(0x1ff, 15, 0x1fe, 15, 1)
     const b = encodeProjectMapWord(0, 0, null, 0, 0)
@@ -35,10 +35,17 @@ describe('旧地图到 ProjectMapV2', () => {
 
     const input = source([[a, b]])
     const map = convertSourceTilemap(1, input)
-    expect(map).toMatchObject({ version: 2, tilesetId: 'tileset-001', width: 1, height: 1 })
+    expect(map).toMatchObject({
+      version: 4,
+      tilesetRefs: ['tileset-001'],
+      width: 1,
+      height: 1,
+    })
     expect(map.layers[0]!.tiles).toEqual([[0x1ff], [0]])
+    expect(map.layers[0]!.sources).toEqual([[0], [0]])
     expect(map.layers[0]!.heights).toEqual([[15], [0]])
     expect(map.layers[1]!.tiles).toEqual([[0x1fe], [null]])
+    expect(map.layers[1]!.sources).toEqual([[0], [null]])
     expect(map.layers[1]!.heights).toEqual([[15], [0]])
     expect(map.collision).toEqual([[1], [0]])
     expect(sourceWordFromProjectMap(map, 0, 0)).toBe(a)

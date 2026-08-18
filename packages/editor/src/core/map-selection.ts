@@ -5,10 +5,11 @@
  * 持久内容修改仍必须通过 Command。
  */
 import type { StampPlacementGroupV1 } from '@type-pal/content'
-import type { ProjectMap, RleFrame } from '@type-pal/reforge'
+import type { ProjectMap, RleFrame, TilesetFrameRegistry } from '@type-pal/reforge'
 import {
   isLatticeInside,
   mapInstanceHeight,
+  mapInstanceTilesetId,
   pixelToLattice,
   projectMapStampPlacements,
   projectMapTileBlitRect,
@@ -114,8 +115,6 @@ export interface MapSelectionSummary {
   emptySlotCount: number
   gridPointCount: number
   layerIds: string[]
-  flatInstanceCount: number
-  heightInstanceCount: number
   bounds?: MapSelectionBounds
   tileId: MixedValue<number | null>
   height: MixedValue<number>
@@ -656,8 +655,6 @@ export function summarizeMapSelection(
       emptySlotCount: 0,
       gridPointCount: 0,
       layerIds: [],
-      flatInstanceCount: 0,
-      heightInstanceCount: 0,
       tileId: { kind: 'empty' },
       height: { kind: 'empty' },
       collision: { kind: 'empty' },
@@ -666,8 +663,6 @@ export function summarizeMapSelection(
   const tiles: (number | null)[] = []
   const heights: number[] = []
   let emptySlotCount = 0
-  let flatInstanceCount = 0
-  let heightInstanceCount = 0
   const layerIds = new Set<string>()
   for (const ref of selection.visualSlots) {
     const layer = map.layers.find((candidate) => candidate.id === ref.layerId)
@@ -681,8 +676,6 @@ export function summarizeMapSelection(
       continue
     }
     heights.push(mapInstanceHeight(layer, ref.row, ref.col))
-    if (layer.depthMode === 'flat') flatInstanceCount++
-    else heightInstanceCount++
   }
   const collision = selection.gridPoints.flatMap((point) => {
     const value = map.collision[point.row]?.[point.col]
@@ -694,8 +687,6 @@ export function summarizeMapSelection(
     emptySlotCount,
     gridPointCount: collision.length,
     layerIds: [...layerIds],
-    flatInstanceCount,
-    heightInstanceCount,
     bounds: mapSelectionBounds(selection),
     tileId: mixed(tiles),
     height: mixed(heights),
@@ -722,7 +713,7 @@ function frameHit(
  */
 export function hitTestMapContent(
   map: ProjectMap,
-  tiles: ReadonlyMap<number, RleFrame>,
+  tilesets: TilesetFrameRegistry,
   worldX: number,
   worldY: number,
   options: {
@@ -743,7 +734,8 @@ export function hitTestMapContent(
         const tileId = layer.tiles[row]?.[col]
         if (tileId === undefined) continue
         const logicalHit = row === logicalPoint.row && col === logicalPoint.col
-        const frame = tileId === null ? undefined : tiles.get(tileId)
+        const sourceId = mapInstanceTilesetId(map, layer, row, col)
+        const frame = tileId === null || !sourceId ? undefined : tilesets.get(sourceId)?.get(tileId)
         const imageBounds = frame ? projectMapTileBlitRect({ row, col }, frame) : undefined
         const pixelHit =
           frame !== undefined &&

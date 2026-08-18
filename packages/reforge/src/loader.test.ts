@@ -190,11 +190,11 @@ const baseJsons = {
 }
 
 const projectMapJson = {
-  version: 2 as const,
+  version: 4 as const,
   width: 1,
   height: 1,
-  tilesetId: 'starter',
-  layers: [{ id: 'floor', name: '地板', depthMode: 'flat' as const, tiles: [[0], [1]] }],
+  tilesetRefs: ['starter'],
+  layers: [{ id: 'floor', name: '地板', tiles: [[0], [1]], sources: [[0], [0]] }],
   collision: [[0], [0]],
 }
 
@@ -372,11 +372,13 @@ describe('loadProjectFrom(经 FileSource)', () => {
         {
           id: 'tree',
           name: '树',
-          tilesetId: 'starter',
           origin: 'authored',
-          layerSlots: [{ id: 'ground', name: '地面', depthMode: 'flat' }],
-          visual: [{ layerSlotId: 'ground', offset: { dRow: 0, du: 0 }, tileId: 1, height: 0 }],
-          collision: [],
+          anchor: { row: 0, col: 0 },
+          width: 1,
+          height: 1,
+          tilesetRefs: ['starter'],
+          layers: [{ id: 'ground', name: '地面', tiles: [[1], [null]], sources: [[0], [null]] }],
+          collision: [[null], [null]],
         },
       ],
     }
@@ -427,8 +429,8 @@ describe('loadProjectFrom(经 FileSource)', () => {
           {
             id: 'floor',
             name: '未绑定地图',
-            depthMode: 'flat',
             tiles: [[null], [null]],
+            sources: [[null], [null]],
           },
         ],
       },

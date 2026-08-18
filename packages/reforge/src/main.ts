@@ -211,7 +211,12 @@ import {
   wakeDurableMotionEndpoint,
 } from './motion-runtime-wiring.js'
 import { runOpeningMenu, runOpeningMenuWithMusic } from './opening-menu.js'
-import { Canvas2DRenderer, type CellRect, type SpriteDraw } from './render.js'
+import {
+  Canvas2DRenderer,
+  type CellRect,
+  type SpriteDraw,
+  type TilesetFrameRegistry,
+} from './render.js'
 import { renderSceneFrame } from './render-scene.js'
 import {
   browserConfirm,
@@ -424,7 +429,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
   // ── 场景资产缓存(M2c,设计 §3):map/tileset 按稳定 mapId LRU(cap16 + protect 当前,
   // 修一阶段按 sceneId 双取坑);palette/sceneDef 小缓存;精灵跨场景累积。──
   const MAP_CACHE_CAP = 16
-  // 键 = ProjectMapV2 的稳定 mapId。
+  // 键 = ProjectMap 的稳定 mapId。
   const mapCache = new Map<string, SceneMapAssets>()
   async function getMapAssets(mapId: string): Promise<SceneMapAssets> {
     const hit = mapCache.get(mapId)
@@ -527,7 +532,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
   // ── 活动场景态(M2c:boot = switchScene 第一跳,单一代码路)──
   let scene: SceneDef = project.entryScene
   let map!: SceneMapAssets['map']
-  let tiles!: Map<number, RleFrame>
+  let tiles!: TilesetFrameRegistry
   let palette!: Palette
   let renderer!: Canvas2DRenderer
   let waveRenderer: Canvas2DRenderer | null = null
@@ -1137,7 +1142,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
       def,
       assets,
       palette: pal,
-      renderer: new Canvas2DRenderer(ctx, pal, assets.tiles),
+      renderer: new Canvas2DRenderer(ctx, pal, assets.tilesets),
       entityDefs: defs,
       pageActions,
       neededSprites: needed,
@@ -1179,7 +1184,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
       })
     }
     map = plan.assets.map
-    tiles = plan.assets.tiles
+    tiles = plan.assets.tilesets
     palette = plan.palette
     renderer = plan.renderer
     waveRenderer = null
@@ -3680,12 +3685,12 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
         throw asyncIntentAbortError(`reloadMap(${mapId}) 的所属场景已失效`)
       if (world !== worldAtRequest || world.script !== scriptAtRequest)
         throw asyncIntentAbortError(`reloadMap(${mapId}) 的所属世界已失效`)
-      const nextRenderer = new Canvas2DRenderer(ctx, palette, assets.tiles)
+      const nextRenderer = new Canvas2DRenderer(ctx, palette, assets.tilesets)
       const nextRoom = { col: 0, row: 0, cols: assets.map.width, rows: assets.map.height }
       scriptAtRequest.mapOverride ??= {}
       scriptAtRequest.mapOverride[sceneAtRequest.id] = mapId
       map = assets.map
-      tiles = assets.tiles
+      tiles = assets.tilesets
       renderer = nextRenderer
       waveRenderer = null
       room = nextRoom

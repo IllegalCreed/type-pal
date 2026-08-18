@@ -4884,9 +4884,7 @@ html[data-panel-resize="horizontal"] * {
 /* ED-STAMP-EDITOR-1：模板自身的内存草稿工作区，不借用真实地图或 MapMode 状态。 */
 .stamp-content-editor {
   position: relative;
-  display: flex;
   container: stamp-content-editor / inline-size;
-  flex-direction: column;
   height: 100%;
   min-width: 0;
   min-height: 0;

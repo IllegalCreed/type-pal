@@ -1,4 +1,4 @@
-import type { MapIndexV1, ProjectMap, StampTemplateV1 } from '@type-pal/content'
+import type { MapIndexV1, ProjectMap, StampTemplate } from '@type-pal/content'
 import { buildBlankProjectMap } from '@type-pal/reforge'
 import { describe, expect, test, vi } from 'vitest'
 import { RemoveTilesetCommand } from './commands.js'
@@ -13,19 +13,21 @@ const mapIndex: MapIndexV1 = {
   ],
 }
 
-function stamp(tilesetId: string): StampTemplateV1 {
+function stamp(tilesetId: string): StampTemplate {
   return {
     id: 'tree',
     name: '树',
-    tilesetId,
     origin: 'authored',
-    layerSlots: [{ id: 'floor', name: '地面', depthMode: 'flat' }],
-    visual: [{ layerSlotId: 'floor', offset: { dRow: 0, du: 0 }, tileId: 0, height: 0 }],
-    collision: [],
+    width: 1,
+    height: 1,
+    anchor: { row: 0, col: 0 },
+    tilesetRefs: [tilesetId],
+    layers: [{ id: 'floor', name: '地面', tiles: [[0], [null]], sources: [[0], [null]] }],
+    collision: [[null], [null]],
   }
 }
 
-function state(maps: Record<string, ProjectMap>, stamps: StampTemplateV1[] = []): EditorState {
+function state(maps: Record<string, ProjectMap>, stamps: StampTemplate[] = []): EditorState {
   return {
     manifest: { content: { maps: 'content/maps.json' } },
     scenes: [],

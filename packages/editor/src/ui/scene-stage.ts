@@ -8,7 +8,13 @@
  * 即恶果。
  */
 
-import type { AssetCatalogV1, AssetId, MapIndexV1, SceneDef } from '@type-pal/content'
+import type {
+  AssetCatalogV1,
+  AssetId,
+  IsometricMapContent,
+  MapIndexV1,
+  SceneDef,
+} from '@type-pal/content'
 import { gridToPixel, mapAssetById, resolveTilesetAsset } from '@type-pal/content'
 import type {
   AssetBase,
@@ -38,8 +44,10 @@ export interface StageAssets {
   renderer: Canvas2DRenderer
   map: SceneMapAssets['map']
   spritesByAsset: Map<AssetId, LoadedSprite>
-  /** tileset 帧(索引 → RleFrame)+ 调色板 —— W7c tile 面板缩略图用。 */
-  tiles: SceneMapAssets['tiles']
+  /** 地图所引用的全部瓦片集；渲染按实例来源解析。 */
+  tilesets: SceneMapAssets['tilesets']
+  /** 当前瓦片面板来源；MapMode 会按用户选择切换。 */
+  tiles: Map<number, import('@type-pal/reforge').RleFrame>
   palette: Palette
 }
 
@@ -79,6 +87,8 @@ export function useSceneAssets(opts: {
   mapIndex?: MapIndexV1
   /** tileset 注册表；ProjectMap 只保存稳定 tilesetId。 */
   tilesets: readonly TilesetDef[]
+  /** 作者模式可额外预载尚未写入地图、但可用于下一笔绘制的瓦片集。 */
+  authoringTilesetIds?: readonly string[]
   assetCatalog: AssetCatalogV1
   assetReader: EditorAssetReader
 }): {
@@ -94,6 +104,7 @@ export function useSceneAssets(opts: {
     projectMaps,
     mapIndex,
     tilesets,
+    authoringTilesetIds,
     assetCatalog,
     assetReader,
   } = opts
@@ -107,10 +118,17 @@ export function useSceneAssets(opts: {
   const liveMap = projectMaps?.[mapId]
   const projectMapPath = mapAssetById(mapIndex ?? { version: 1, maps: [] }, mapId)?.path ?? ''
   // 换绑 tileset 时 mapKey 不变 → 定义引用与 catalog record sha 单独进入依赖。
-  const tilesetRef = liveMap?.tilesetId ?? ''
-  const tilesetAsset = liveMap ? resolveTilesetAsset(liveMap.tilesetId, tilesets) : undefined
-  const tilesetRevision = tilesetAsset
-    ? (assetCatalog.assets[tilesetAsset]?.sha256 ?? 'missing')
+  const requestedTilesetIds = [
+    ...new Set([...(liveMap?.tilesetRefs ?? []), ...(authoringTilesetIds ?? [])]),
+  ].sort()
+  const tilesetRef = requestedTilesetIds.join(',')
+  const tilesetRevision = liveMap
+    ? requestedTilesetIds
+        .map((tilesetId) => {
+          const asset = resolveTilesetAsset(tilesetId, tilesets)
+          return `${tilesetId}:${assetCatalog.assets[asset]?.sha256 ?? 'missing'}`
+        })
+        .join(',')
     : 'unloaded'
   // 已加载地图的编辑态更新只换 map 引用，不重读 tileset/精灵资产。
   useEffect(() => {
@@ -126,12 +144,20 @@ export function useSceneAssets(opts: {
     setStatus('loading')
     void (async () => {
       try {
-        const [{ map, tiles }, palette] = await Promise.all([
+        const [{ map, tilesets: loadedTilesets }, palette] = await Promise.all([
           // 有实时副本 → 直接用它；否则按 mapId 从磁盘懒加载。
           (async () => {
             const map = liveMap ?? (await loadProjectMap(assetBase, projectMapPath))
-            const asset = resolveTilesetAsset(map.tilesetId, tilesets)
-            return { map, tiles: await loadTilesetAsset(assetReader, asset) }
+            const loaded = await Promise.all(
+              requestedTilesetIds.map(
+                async (tilesetId) =>
+                  [
+                    tilesetId,
+                    await loadTilesetAsset(assetReader, resolveTilesetAsset(tilesetId, tilesets)),
+                  ] as const,
+              ),
+            )
+            return { map, tilesets: new Map(loaded) }
           })(),
           loadStandardPalette(assetBase), // 只留盘 0(W7a-3:调色板概念退役)
         ])
@@ -141,10 +167,12 @@ export function useSceneAssets(opts: {
           ),
         )
         if (!alive) return
+        const tiles = loadedTilesets.get(map.tilesetRefs[0]!) ?? new Map()
         loadedRef.current = {
-          renderer: new Canvas2DRenderer(ctx, palette, tiles),
+          renderer: new Canvas2DRenderer(ctx, palette, loadedTilesets),
           map,
           spritesByAsset: new Map(entries),
+          tilesets: loadedTilesets,
           tiles,
           palette,
         }
@@ -241,7 +269,7 @@ export function mapBoxOf(
  */
 export function drawGridBlocked(
   ctx: CanvasRenderingContext2D,
-  map: StageAssets['map'],
+  map: IsometricMapContent<number | null>,
   room: { col: number; row: number; cols: number; rows: number },
   view: StageView,
   show: { grid: boolean; blocked: boolean },

@@ -2,6 +2,7 @@ import type { GridPointRef } from './map-selection.js'
 
 export interface IsometricTileSample {
   tileId: number | null
+  tilesetId?: string
   height: number
 }
 
@@ -39,7 +40,13 @@ export function floodFillIsometricTiles(options: {
     const current = queue.pop()
     if (!current) continue
     const sample = options.sampleAt(current)
-    if (!sample || sample.tileId !== seed.tileId || sample.height !== seed.height) continue
+    if (
+      !sample ||
+      sample.tileId !== seed.tileId ||
+      sample.tilesetId !== seed.tilesetId ||
+      sample.height !== seed.height
+    )
+      continue
     filled.push(current)
     for (const neighbor of neighbors(current)) {
       const key = pointKey(neighbor)

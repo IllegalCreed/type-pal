@@ -69,12 +69,12 @@ function state(
 
 function map(tilesetId: string, tileId: number): ProjectMap {
   return {
-    version: 2,
+    version: 4,
     width: 1,
     height: 1,
-    tilesetId,
-    layers: [{ id: 'floor', name: '地板', depthMode: 'flat', tiles: [[tileId]] }],
-    collision: [[0]],
+    tilesetRefs: [tilesetId],
+    layers: [{ id: 'floor', name: '地板', tiles: [[tileId], [null]], sources: [[0], [null]] }],
+    collision: [[0], [0]],
   }
 }
 

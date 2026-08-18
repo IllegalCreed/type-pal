@@ -9,7 +9,7 @@ import {
   type LegacyManifestV12,
   type ProjectMap,
   type SceneDefV5,
-  type StampTemplateV1,
+  type StampTemplate,
   validateActors,
   validateAssetCatalog,
   validateEquipBattleSpriteReferences,
@@ -55,7 +55,7 @@ export function toEditorStateV5(
   project: LoadedProjectV5Core,
   scenes: SceneDefV5[],
   projectMaps: Record<string, ProjectMap> = {},
-  stamps?: StampTemplateV1[],
+  stamps?: StampTemplate[],
 ): EditorStateV5 {
   if (project.manifest.content.stamps && stamps === undefined)
     throw new Error('toEditorStateV5: manifest.content.stamps 已登记但未加载图章模板表')

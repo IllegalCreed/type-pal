@@ -460,7 +460,7 @@ export async function loadAllScriptChunks(
 /** 编辑器作者态入口：运行时 loadProjectFrom 不读取、不依赖图章模板表。 */
 export async function loadStampTemplates(
   project: LoadedProject,
-): Promise<import('@type-pal/content').StampTemplateV1[]> {
+): Promise<import('@type-pal/content').StampTemplate[]> {
   const path = project.manifest.content.stamps
   if (!path) return []
   return validateStampTemplates(await project.source.readJson<unknown>(path))

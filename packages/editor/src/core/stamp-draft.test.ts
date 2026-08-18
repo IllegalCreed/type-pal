@@ -1,11 +1,11 @@
-import { formatStampTemplates, type StampTemplateV1 } from '@type-pal/content'
+import { formatStampTemplates, mapInstanceTilesetId, type StampTemplate } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { nudgeIsometricLattice, resolveRelativeLatticeOffset } from './map-transform.js'
 import {
   addStampDraftLayer,
   canonicalizeStampDraft,
   createBlankStampDraft,
   deleteStampDraftLayer,
+  eraseStampDraftCollision,
   eraseStampDraftVisual,
   moveStampDraftLayer,
   moveStampDraftSelection,
@@ -13,111 +13,83 @@ import {
   reanchorStampDraft,
   setStampDraftCollision,
   setStampDraftVisual,
-  stampDraftPoint,
-  stampDraftPointKey,
   updateStampDraftLayer,
 } from './stamp-draft.js'
 
-function fixture(): StampTemplateV1 {
-  return {
-    id: 'gate',
-    name: '村口门楼',
-    tilesetId: 'town',
-    origin: 'authored',
-    layerSlots: [
-      { id: 'ground', name: '地面', depthMode: 'flat' },
-      { id: 'roof', name: '屋檐', depthMode: 'height' },
-    ],
-    visual: [
-      { layerSlotId: 'roof', offset: { dRow: 3, du: -1 }, tileId: 9, height: 3 },
-      { layerSlotId: 'ground', offset: { dRow: -2, du: -2 }, tileId: 2, height: 0 },
-      { layerSlotId: 'roof', offset: { dRow: 1, du: 1 }, tileId: 8, height: 2 },
-    ],
-    collision: [
-      { offset: { dRow: 1, du: -1 }, value: 1 },
-      { offset: { dRow: -1, du: -1 }, value: 0 },
-    ],
-  }
+function fixture(): StampTemplate {
+  let draft = createBlankStampDraft('gate', '村口门楼', 'town')
+  draft = setStampDraftVisual(draft, 'base', { row: 8, col: 7 }, 2, 'town', 0)
+  draft = addStampDraftLayer(draft, { id: 'roof', name: '屋檐' })
+  draft = setStampDraftVisual(draft, 'roof', { row: 7, col: 7 }, 8, 'roof', 2)
+  draft = setStampDraftVisual(draft, 'roof', { row: 9, col: 7 }, 9, 'roof', 3)
+  draft = setStampDraftCollision(draft, { row: 8, col: 7 }, 0)
+  draft = setStampDraftCollision(draft, { row: 9, col: 7 }, 1)
+  return draft
 }
 
-describe('stamp draft', () => {
-  test('canonicalizes negative offsets and repeated open-save is byte stable', () => {
-    const first = canonicalizeStampDraft(openStampDraft(fixture()), new Set([2, 8, 9]))
-    const second = canonicalizeStampDraft(openStampDraft(first), new Set([2, 8, 9]))
+const available = new Map([
+  ['town', new Set([2])],
+  ['roof', new Set([8, 9])],
+])
+
+describe('canonical stamp draft', () => {
+  test('open-save is byte stable and validates every per-cell source', () => {
+    const first = canonicalizeStampDraft(openStampDraft(fixture()), available)
+    const second = canonicalizeStampDraft(openStampDraft(first), available)
     expect(formatStampTemplates([second])).toBe(formatStampTemplates([first]))
-    expect(first.visual.map((member) => member.layerSlotId)).toEqual(['ground', 'roof', 'roof'])
-    for (const member of [...first.visual, ...first.collision])
-      expect(Math.abs(member.offset.dRow % 2)).toBe(Math.abs(member.offset.du % 2))
-    expect(() => canonicalizeStampDraft(first, new Set([2, 8]))).toThrow('瓦片集缺少 tileId：9')
-
-    const wrongParity = openStampDraft(first)
-    wrongParity.visual[0]!.offset = { dRow: 0, du: 1 }
-    expect(() => canonicalizeStampDraft(wrongParity)).toThrow('必须同奇偶')
+    expect(first.tilesetRefs).toEqual(['roof', 'town'])
+    expect(mapInstanceTilesetId(first, first.layers[0]!, 8, 7)).toBe('town')
+    expect(() => canonicalizeStampDraft(first, new Map([['town', new Set([2])]]))).toThrow(
+      '缺少 tileId',
+    )
   })
 
-  test('reanchors outside the member bounds without changing absolute draft points', () => {
+  test('reanchor only changes the local anchor and must remain inside the mini map', () => {
     const before = fixture()
-    const anchor = { row: 5, col: -4 }
-    const after = canonicalizeStampDraft(reanchorStampDraft(before, anchor), new Set([2, 8, 9]))
-    const restoredPoints = after.visual.map((member) =>
-      resolveRelativeLatticeOffset(anchor, member.offset),
-    )
-    const originalPoints = canonicalizeStampDraft(before).visual.map((member) =>
-      stampDraftPoint(member.offset),
-    )
-    expect(restoredPoints).toEqual(originalPoints)
+    const after = reanchorStampDraft(before, { row: 10, col: 8 })
+    expect(after.anchor).toEqual({ row: 10, col: 8 })
+    expect(after.layers).toEqual(before.layers)
+    expect(() => reanchorStampDraft(before, { row: -1, col: 0 })).toThrow('边界内')
   })
 
-  test('supports layer CRUD and keeps flat members at height zero', () => {
+  test('layer CRUD preserves dense matrices', () => {
     let draft = fixture()
-    draft = addStampDraftLayer(draft, { id: 'decor', name: '装饰', depthMode: 'height' })
-    expect(() => canonicalizeStampDraft(draft)).toThrow('没有视觉成员')
-    draft = setStampDraftVisual(draft, 'decor', { row: 0, col: 1 }, 11, 4)
+    draft = addStampDraftLayer(draft, { id: 'decor', name: '装饰' })
+    draft = setStampDraftVisual(draft, 'decor', { row: 8, col: 8 }, 11, 'town', 4)
     draft = moveStampDraftLayer(draft, 'decor', -1)
-    expect(draft.layerSlots.map((slot) => slot.id)).toEqual(['ground', 'decor', 'roof'])
-    draft = updateStampDraftLayer(draft, 'decor', { name: '前景装饰', depthMode: 'flat' })
-    expect(draft.visual.find((member) => member.layerSlotId === 'decor')?.height).toBe(0)
+    draft = updateStampDraftLayer(draft, 'decor', { name: '前景装饰' })
+    expect(draft.layers.map(({ id }) => id)).toEqual(['base', 'decor', 'roof'])
+    expect(draft.layers[1]?.heights?.[8]?.[8]).toBe(4)
     draft = deleteStampDraftLayer(draft, 'decor')
-    expect(draft.layerSlots.map((slot) => slot.id)).toEqual(['ground', 'roof'])
+    expect(draft.layers.map(({ id }) => id)).toEqual(['base', 'roof'])
   })
 
-  test('guards the last visual member and keeps invalid blank drafts local', () => {
+  test('blank draft stays local-invalid and the last visual member cannot be erased', () => {
     let draft = createBlankStampDraft('new-gate', '新门楼', 'town')
-    expect(() => canonicalizeStampDraft(draft)).toThrow('至少包含一个视觉成员')
-    draft = setStampDraftVisual(draft, 'base', { row: 0, col: 0 }, 2, 0)
-    expect(() => eraseStampDraftVisual(draft, 'base', { row: 0, col: 0 })).toThrow(
-      '至少保留一个视觉成员',
-    )
-    expect(canonicalizeStampDraft(draft, new Set([2])).visual).toHaveLength(1)
+    expect(() => canonicalizeStampDraft(draft)).toThrow('视觉瓦片实例')
+    draft = setStampDraftVisual(draft, 'base', { row: 0, col: 0 }, 2, 'town', 0)
+    expect(() => eraseStampDraftVisual(draft, 'base', { row: 0, col: 0 })).toThrow('至少保留')
   })
 
-  test('moves selected visual/collision members on the isometric lattice and rejects conflicts', () => {
-    let draft = fixture()
-    const roofPoint = stampDraftPoint(
-      draft.visual.find((member) => member.layerSlotId === 'roof')!.offset,
-    )
-    draft = moveStampDraftSelection(
-      draft,
+  test('selection moves tile/source/relative-height and nullable collision in lockstep', () => {
+    const before = fixture()
+    const visual = moveStampDraftSelection(
+      before,
       { kind: 'visual', layerSlotId: 'roof' },
-      [roofPoint],
+      [{ row: 7, col: 7 }],
       'right',
     )
-    const movedRoofPoints = draft.visual
-      .filter((member) => member.layerSlotId === 'roof')
-      .map((member) => stampDraftPointKey(stampDraftPoint(member.offset)))
-    expect(movedRoofPoints).toContain(stampDraftPointKey(nudgeIsometricLattice(roofPoint, 'right')))
+    expect(visual.layers[1]?.tiles[8]?.[8]).toBe(8)
+    expect(visual.layers[1]?.heights?.[8]?.[8]).toBe(2)
+    expect(mapInstanceTilesetId(visual, visual.layers[1]!, 8, 8)).toBe('roof')
 
-    const collisionPoint = stampDraftPoint(draft.collision[0]!.offset)
-    draft = moveStampDraftSelection(draft, { kind: 'collision' }, [collisionPoint], 'left')
-    expect(
-      draft.collision.some(
-        (member) =>
-          stampDraftPointKey(stampDraftPoint(member.offset)) ===
-          stampDraftPointKey(nudgeIsometricLattice(collisionPoint, 'left')),
-      ),
-    ).toBe(true)
-
-    draft = setStampDraftCollision(draft, { row: 8, col: 8 }, 0)
-    expect(draft.collision.at(-1)?.value).toBe(0)
+    const collision = moveStampDraftSelection(
+      before,
+      { kind: 'collision' },
+      [{ row: 9, col: 7 }],
+      'right',
+    )
+    expect(collision.collision[10]?.[8]).toBe(1)
+    expect(eraseStampDraftCollision(collision, { row: 10, col: 8 }).collision[10]?.[8]).toBeNull()
   })
 })

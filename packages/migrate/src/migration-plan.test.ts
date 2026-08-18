@@ -15,16 +15,16 @@ const generated = (
 })
 
 const projectMap = (tile: number): MigrationJson => ({
-  version: 2,
+  version: 4,
   width: 1,
   height: 1,
-  tilesetId: 'tileset-001',
+  tilesetRefs: ['tileset-001'],
   layers: [
     {
       id: 'floor',
       name: '地板',
-      depthMode: 'height',
       tiles: [[tile], [tile]],
+      sources: [[0], [0]],
       heights: [[0], [0]],
     },
   ],

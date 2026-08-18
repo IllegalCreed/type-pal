@@ -19,7 +19,7 @@ import type {
   ProjectMap,
   ScriptChunkV1,
   ScriptIndexV1,
-  StampTemplateV1,
+  StampTemplate,
   WorldVariableRegistryV1,
 } from '@type-pal/content'
 import type { Command } from './commands.js'
@@ -34,7 +34,7 @@ export interface EditorState extends ContentBundle {
   /** content16 项目级作者变量定义；运行时值不在编辑工作副本中混存。 */
   worldVariables?: WorldVariableRegistryV1
   /** W7G 作者态图章模板表；旧工程加载时规范化为空数组。 */
-  stamps: StampTemplateV1[]
+  stamps: StampTemplate[]
   /**
    * 自有地图工作副本:键 = map asset 稳定 id。文件路径只从 mapIndex 解析。
    * 编辑器画布读取此实时态；保存时按 MapAssetDefV1.path 序列化。

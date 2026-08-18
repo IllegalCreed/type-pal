@@ -11,8 +11,8 @@ import { buildBlankProjectMap, buildProjectMapLayer, paintProjectMapTiles } from
 import { describe, expect, test } from 'vitest'
 import {
   AddAmbienceCommand,
-  AddBattleSpriteCommand,
   AddBattleFieldCommand,
+  AddBattleSpriteCommand,
   AddEnemyCommand,
   AddEntityCommand,
   AddPoisonCommand,
@@ -20,7 +20,9 @@ import {
   AddSceneCommand,
   AddSpriteCommand,
   AddSpriteDefinitionCommand,
+  BATTLE_FIELDS_PATH,
   BattleDataInUseError,
+  BattleFieldInUseError,
   BindSceneMapCommand,
   CompositeCommand,
   CopyBattleFieldCommand,
@@ -29,8 +31,8 @@ import {
   CreateScriptSourceCommand,
   DeleteAssetCommand,
   DeleteAuthoredScriptCommand,
-  DeleteEnemyCommand,
   DeleteBattleFieldCommand,
+  DeleteEnemyCommand,
   DeleteEntityCommand,
   DeleteMapAssetCommand,
   DeleteSceneEntryCommand,
@@ -40,6 +42,7 @@ import {
   MapAssetInUseError,
   MoveEntityCommand,
   MoveProjectMapLayerCommand,
+  nextBattleFieldId,
   PaintCollisionCommand,
   PaintTilesCommand,
   RemoveBattleSpriteDefinitionCommand,
@@ -75,9 +78,6 @@ import {
   UpsertAssetCommand,
   UpsertAuthoredScriptCommand,
   UpsertSceneEntryCommand,
-  BattleFieldInUseError,
-  BATTLE_FIELDS_PATH,
-  nextBattleFieldId,
 } from './commands.js'
 import { type EditorState, EditSession } from './edit-session.js'
 import { createPlacedEntity, type EntityPlacement } from './entity-placement.js'
@@ -2317,7 +2317,7 @@ describe('地图资产命令', () => {
   })
 })
 
-describe('ProjectMapV2 绘制与图层命令', () => {
+describe('ProjectMap 绘制与图层命令', () => {
   const rel = 'content/maps/s.json'
   const stPaint = (): EditorState => {
     return { ...st(), maps: { [rel]: buildBlankProjectMap(3, 3, 't') } } as never
@@ -2326,8 +2326,8 @@ describe('ProjectMapV2 绘制与图层命令', () => {
   test('画瓦按稳定 layer.id 写入；invert 还原，源 state 不动', () => {
     const s0 = stPaint()
     const cmd = new PaintTilesCommand(rel, [
-      { layerId: 'floor', col: 0, row: 0, tileId: 5, height: 0 },
-      { layerId: 'floor', col: 1, row: 1, tileId: 900, height: 0 },
+      { layerId: 'floor', col: 0, row: 0, tileId: 5, tilesetId: 'tiles', height: 0 },
+      { layerId: 'floor', col: 1, row: 1, tileId: 900, tilesetId: 'tiles', height: 0 },
     ])
     const s1 = cmd.apply(s0)
     expect(s1.maps[rel]!.layers[0]?.tiles[0]?.[0]).toBe(5)
@@ -2341,12 +2341,12 @@ describe('ProjectMapV2 绘制与图层命令', () => {
   test('同格重复编辑以后者为准；undo 回到 stroke 前', () => {
     const s0 = stPaint()
     const c1 = new PaintTilesCommand(rel, [
-      { layerId: 'floor', col: 0, row: 0, tileId: 3, height: 0 },
+      { layerId: 'floor', col: 0, row: 0, tileId: 3, tilesetId: 'tiles', height: 0 },
     ])
     const s1 = c1.apply(s0)
     const c2 = new PaintTilesCommand(rel, [
-      { layerId: 'floor', col: 0, row: 0, tileId: 7, height: 0 },
-      { layerId: 'floor', col: 0, row: 0, tileId: 8, height: 0 },
+      { layerId: 'floor', col: 0, row: 0, tileId: 7, tilesetId: 'tiles', height: 0 },
+      { layerId: 'floor', col: 0, row: 0, tileId: 8, tilesetId: 'tiles', height: 0 },
     ])
     const s2 = c2.apply(s1)
     expect(s2.maps[rel]!.layers[0]?.tiles[0]?.[0]).toBe(8)
@@ -2355,10 +2355,10 @@ describe('ProjectMapV2 绘制与图层命令', () => {
 
   test('实例高度与 tileId 同笔写入；undo 同时恢复两者', () => {
     const s0 = stPaint()
-    const layer = buildProjectMapLayer(s0.maps[rel]!, 'objects', '物件', 'height')
+    const layer = buildProjectMapLayer(s0.maps[rel]!, 'objects', '物件')
     const withLayer = new AddProjectMapLayerCommand(rel, layer).apply(s0)
     const command = new PaintTilesCommand(rel, [
-      { layerId: 'objects', col: 1, row: 2, tileId: 18, height: 3 },
+      { layerId: 'objects', col: 1, row: 2, tileId: 18, tilesetId: 'tiles', height: 3 },
     ])
     const painted = command.apply(withLayer)
     const objectLayer = painted.maps[rel]!.layers.find((item) => item.id === 'objects')!
@@ -2369,13 +2369,13 @@ describe('ProjectMapV2 绘制与图层命令', () => {
       .invert(painted)
       .maps[rel]!.layers.find((item) => item.id === 'objects')!
     expect(restored.tiles[2]?.[1]).toBeNull()
-    expect(restored.heights?.[2]?.[1]).toBe(0)
+    expect(restored.heights?.[2]?.[1] ?? 0).toBe(0)
   })
 
   test('独立碰撞命令与视觉层正交并可撤销', () => {
     const s0 = stPaint()
     const painted = new PaintTilesCommand(rel, [
-      { layerId: 'floor', col: 0, row: 0, tileId: 12, height: 0 },
+      { layerId: 'floor', col: 0, row: 0, tileId: 12, tilesetId: 'tiles', height: 0 },
     ]).apply(s0)
     const cmd = new PaintCollisionCommand(rel, [{ col: 0, row: 0, value: 1 }])
     const s1 = cmd.apply(painted)
@@ -2388,7 +2388,7 @@ describe('ProjectMapV2 绘制与图层命令', () => {
 
   test('图层新增、重排、属性更新、删除均 apply/invert', () => {
     const s0 = stPaint()
-    const layer = buildProjectMapLayer(s0.maps[rel]!, 'objects', '物件', 'flat')
+    const layer = buildProjectMapLayer(s0.maps[rel]!, 'objects', '物件')
     const add = new AddProjectMapLayerCommand(rel, layer)
     const s1 = add.apply(s0)
     expect(s1.maps[rel]!.layers.map((item) => item.id)).toEqual(['floor', 'objects'])
@@ -2400,14 +2400,10 @@ describe('ProjectMapV2 绘制与图层命令', () => {
 
     const update = new UpdateProjectMapLayerCommand(rel, 'objects', {
       name: '遮挡物',
-      depthMode: 'height',
     })
     const s3 = update.apply(s2)
-    expect(s3.maps[rel]!.layers[0]).toMatchObject({ name: '遮挡物', depthMode: 'height' })
-    expect(update.invert(s3).maps[rel]!.layers[0]).toMatchObject({
-      name: '物件',
-      depthMode: 'flat',
-    })
+    expect(s3.maps[rel]!.layers[0]).toMatchObject({ name: '遮挡物' })
+    expect(update.invert(s3).maps[rel]!.layers[0]).toMatchObject({ name: '物件' })
 
     const remove = new RemoveProjectMapLayerCommand(rel, 'objects')
     const s4 = remove.apply(s3)
@@ -2419,7 +2415,7 @@ describe('ProjectMapV2 绘制与图层命令', () => {
   test('地图不存在(rel 悬空)→ noop', () => {
     const s0 = stPaint()
     const cmd = new PaintTilesCommand('content/maps/ghost.json', [
-      { layerId: 'floor', col: 0, row: 0, tileId: 5, height: 0 },
+      { layerId: 'floor', col: 0, row: 0, tileId: 5, tilesetId: 'tiles', height: 0 },
     ])
     expect(cmd.apply(s0)).toBe(s0)
   })
@@ -2429,7 +2425,9 @@ describe('ResizeProjectMapCommand(W7c-4)', () => {
   const stMap = (): EditorState => {
     const base = st() as EditorState & { maps: Record<string, unknown> }
     let map = buildBlankProjectMap(3, 3, 't')
-    map = paintProjectMapTiles(map, [{ layerId: 'floor', col: 2, row: 5, tileId: 7, height: 0 }])
+    map = paintProjectMapTiles(map, [
+      { layerId: 'floor', col: 2, row: 5, tileId: 7, tilesetId: 'tiles', height: 0 },
+    ])
     base.maps = { 'content/maps/s.json': map }
     return base
   }

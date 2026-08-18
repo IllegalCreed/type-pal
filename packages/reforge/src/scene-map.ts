@@ -5,7 +5,8 @@ import { type AssetBase, loadProjectMap, loadTileset } from './assets.js'
 
 export interface SceneMapAssets {
   map: ProjectMap
-  tiles: Map<number, RleFrame>
+  /** 以稳定 tileset id 分组；tileId 只在所属来源内有意义。 */
+  tilesets: Map<string, Map<number, RleFrame>>
 }
 
 /** 唯一加载链：稳定 map id -> map index -> ProjectMap -> tileset registry。 */
@@ -18,6 +19,11 @@ export async function loadSceneMap(
   const asset = mapAssetById(mapIndex, mapId)
   if (!asset) throw new Error(`loadSceneMap: mapId "${mapId}" 不在 map index`)
   const map = await loadProjectMap(base, asset.path)
-  const tiles = await loadTileset(base, resolveTilesetAsset(map.tilesetId, tilesets))
-  return { map, tiles }
+  const loaded = await Promise.all(
+    map.tilesetRefs.map(
+      async (tilesetId) =>
+        [tilesetId, await loadTileset(base, resolveTilesetAsset(tilesetId, tilesets))] as const,
+    ),
+  )
+  return { map, tilesets: new Map(loaded) }
 }

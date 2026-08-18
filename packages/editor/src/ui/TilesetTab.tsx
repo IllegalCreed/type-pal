@@ -6,7 +6,7 @@
  * 新上传与已落盘资源统一经 EditorAssetReader + AssetId 读取；record.sha256 驱动缓存失效。
  */
 
-import type { AssetCatalogV1, AssetRecordV1, MapIndexV1, StampTemplateV1 } from '@type-pal/content'
+import type { AssetCatalogV1, AssetRecordV1, MapIndexV1, StampTemplate } from '@type-pal/content'
 import type { AssetBase, Palette, RleFrame, TilesetDef } from '@type-pal/reforge'
 import {
   bakeFrame,
@@ -169,7 +169,7 @@ export function TilesetTab(props: {
   assetBase: AssetBase
   session: EditSession
   mapIndex: MapIndexV1
-  stamps: readonly StampTemplateV1[]
+  stamps: readonly StampTemplate[]
   tabBar?: React.ReactNode
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void

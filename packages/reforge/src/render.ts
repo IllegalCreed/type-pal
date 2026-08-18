@@ -7,7 +7,7 @@
  *   于是投影靠前者后画、盖住投影靠后者 → 正确遮挡（堆叠高墙的每块小瓦片也对）。
  * 图层只是作画组织，与遮挡无关；遮挡纯看 baseY。等距位偏移端口自 game/draw-tilemap.ts。
  */
-import type { ProjectMap } from '@type-pal/content'
+import type { IsometricMapContent } from '@type-pal/content'
 import type { Palette, RleFrame } from '@type-pal/shared'
 import {
   type ProjectMapTileDraw,
@@ -224,7 +224,7 @@ export interface Renderer {
   readonly context: CanvasRenderingContext2D
   clear(): void
   renderScene(
-    map: ProjectMap,
+    map: IsometricMapContent<number | null>,
     view: CellRect,
     camera: Camera,
     sprites: readonly SpriteDraw[],
@@ -240,15 +240,18 @@ export interface Renderer {
   ): void
 }
 
+/** tileId 仅在来源内唯一；渲染器始终通过稳定 tileset id 解析。 */
+export type TilesetFrameRegistry = ReadonlyMap<string, ReadonlyMap<number, RleFrame>>
+
 export class Canvas2DRenderer implements Renderer {
-  private readonly tileCache = new Map<number, HTMLCanvasElement>()
+  private readonly tileCache = new Map<string, HTMLCanvasElement>()
   private readonly frameCache = new WeakMap<RleFrame, HTMLCanvasElement>()
   private readonly occlusionLatch: OcclusionLatch
 
   constructor(
     private readonly ctx: CanvasRenderingContext2D,
     private readonly palette: Palette,
-    private readonly tiles: Map<number, RleFrame>,
+    private readonly tilesets: TilesetFrameRegistry,
     now: () => number = () => performance.now(),
   ) {
     this.occlusionLatch = new OcclusionLatch(now)
@@ -272,19 +275,20 @@ export class Canvas2DRenderer implements Renderer {
     return b
   }
 
-  private bakedTile(id: number): HTMLCanvasElement | undefined {
-    let b = this.tileCache.get(id)
+  private bakedTile(tilesetId: string, id: number): HTMLCanvasElement | undefined {
+    const key = `${tilesetId}\u0000${id}`
+    let b = this.tileCache.get(key)
     if (b) return b
-    const f = this.tiles.get(id)
+    const f = this.tilesets.get(tilesetId)?.get(id)
     if (!f) return undefined
     b = this.bake(f)
-    this.tileCache.set(id, b)
+    this.tileCache.set(key, b)
     return b
   }
 
   /**
    * PAL_CalcCoverTiles 的 sprite-specific 候选扫描。
-   * ProjectMapV2 的 lattice 行 `2 * dy + dh` 正好对应旧地图 cell 的
+   * ProjectMap 的 lattice 行 `2 * dy + dh` 正好对应旧地图 cell 的
    * `(dy, dh)`；保留原版的五邻 tile 候选和高度门，避免把视口内所有高瓦片
    * 都重画成“全屏遮罩”。
    */
@@ -343,12 +347,12 @@ export class Canvas2DRenderer implements Renderer {
           const latticeRow = dy * 2 + dh
           const tileAt = tilesByLattice.get(`${dx}:${latticeRow}`) ?? []
           for (const tile of tileAt) {
-            if (tile.depthMode !== 'height' || tile.height <= 0) continue
+            if (tile.height <= 0) continue
             // scene.c:156：瓦片投影深度必须到达精灵脚下。
             if ((dy + tile.height) * TILE_H + dh * SUBROW < sy) continue
             const key = `${tile.layerIndex}:${tile.row}:${tile.col}`
             if (seen.has(key)) continue
-            const image = this.bakedTile(tile.tileId)
+            const image = this.bakedTile(tile.tilesetId, tile.tileId)
             if (!image) continue
             seen.add(key)
             out.push({
@@ -370,7 +374,7 @@ export class Canvas2DRenderer implements Renderer {
   }
 
   renderScene(
-    map: ProjectMap,
+    map: IsometricMapContent<number | null>,
     view: CellRect,
     camera: Camera,
     sprites: readonly SpriteDraw[],
@@ -405,7 +409,7 @@ export class Canvas2DRenderer implements Renderer {
 
     if (!opts?.skipBase) {
       for (const tile of tiles) {
-        const image = this.bakedTile(tile.tileId)
+        const image = this.bakedTile(tile.tilesetId, tile.tileId)
         if (image) {
           const rect = projectMapTileBlitRect(tile, image)
           drawTile(image, rect.x + ox, rect.y + oy, tileAlpha(tile))

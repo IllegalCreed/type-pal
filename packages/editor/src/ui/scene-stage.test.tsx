@@ -19,12 +19,12 @@ vi.mock('@type-pal/reforge', async (importOriginal) => {
 })
 
 const projectMap = {
-  version: 2 as const,
+  version: 4 as const,
   width: 1,
   height: 1,
-  tilesetId: 'tiles-a',
-  layers: [{ id: 'floor', name: '地板', depthMode: 'flat' as const, tiles: [[0]] }],
-  collision: [[0]],
+  tilesetRefs: ['tiles-a'],
+  layers: [{ id: 'floor', name: '地板', tiles: [[0], [null]], sources: [[0], [null]] }],
+  collision: [[0], [0]],
 }
 const tilesets = [{ id: 'tiles-a', name: 'A', category: 'test', asset: 'tileset.a' }]
 const assetBase = {} as never

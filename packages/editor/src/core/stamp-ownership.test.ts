@@ -16,6 +16,7 @@ function filledMap(width: number, height: number): ProjectMap {
     layers: map.layers.map((layer) => ({
       ...layer,
       tiles: layer.tiles.map((row) => row.map(() => 1)),
+      sources: layer.sources.map((row) => row.map(() => 0)),
     })),
   }
 }
@@ -61,8 +62,7 @@ describe('stamp ownership derived index', () => {
       )
     })
     const map = withProjectMapStampPlacements(filledMap(width, 90), placements)
-    expect(map.version).toBe(3)
-    if (map.version !== 3) throw new Error('scale fixture must be a v3 project map')
+    expect(map.version).toBe(4)
 
     let authoringReads = 0
     const observed = { ...map } as ProjectMap
@@ -134,9 +134,7 @@ describe('stamp ownership derived index', () => {
     expect(seeded.byId.size).toBe(3)
     expect(seeded.byId.has('b')).toBe(false)
     expect(seeded.byId.get('a')).toEqual(
-      after.version === 3
-        ? after.authoring.stampPlacements.find((candidate) => candidate.id === 'a')
-        : undefined,
+      after.authoring?.stampPlacements.find((candidate) => candidate.id === 'a'),
     )
     expect(seeded.visualOwnerByKey.has(visualSlotKey({ layerId: 'floor', row: 0, col: 0 }))).toBe(
       false,

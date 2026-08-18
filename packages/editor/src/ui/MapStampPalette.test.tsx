@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import type { StampTemplateV1 } from '@type-pal/content'
+import type { StampTemplate } from '@type-pal/content'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
@@ -8,24 +8,26 @@ import { MapStampPalette } from './MapStampPalette.js'
 const previewRender = vi.hoisted(() => vi.fn())
 
 vi.mock('./StampPreviewCanvas.js', () => ({
-  StampMiniPreview: (props: { template: StampTemplateV1 }) => {
+  StampMiniPreview: (props: { template: StampTemplate }) => {
     previewRender(props.template.id)
     return <canvas data-stamp-preview={props.template.id} />
   },
 }))
 
-function templates(count: number): StampTemplateV1[] {
+function templates(count: number): StampTemplate[] {
   return Array.from({ length: count }, (_, index) => {
     const suffix = index.toString().padStart(4, '0')
     return {
       id: `stamp-${suffix}`,
       name: `模板 ${suffix}`,
       category: '测试',
-      tilesetId: 'tiles-a',
       origin: 'authored',
-      layerSlots: [{ id: 'floor', name: '地板', depthMode: 'flat' }],
-      visual: [{ layerSlotId: 'floor', offset: { dRow: 0, du: 0 }, tileId: 1, height: 0 }],
-      collision: [],
+      anchor: { row: 0, col: 0 },
+      width: 1,
+      height: 1,
+      tilesetRefs: ['tiles-a'],
+      layers: [{ id: 'floor', name: '地板', tiles: [[1], [null]], sources: [[0], [null]] }],
+      collision: [[null], [null]],
     }
   })
 }
@@ -80,7 +82,6 @@ describe('MapStampPalette scale budget', () => {
       root.render(
         <MapStampPalette
           stamps={templates(600)}
-          tilesetId="tiles-a"
           tilesets={[]}
           assetCatalog={{ version: 1, assets: {} }}
           assetReader={{} as never}
@@ -128,7 +129,6 @@ describe('MapStampPalette scale budget', () => {
       root.render(
         <MapStampPalette
           stamps={stamps}
-          tilesetId="tiles-a"
           tilesets={[]}
           assetCatalog={{ version: 1, assets: {} }}
           assetReader={{} as never}
@@ -151,16 +151,15 @@ describe('MapStampPalette scale budget', () => {
     expect(button('再显示 60 个', host)).not.toBeNull()
   })
 
-  test('兼容性、最近排序、选中态和可选管理入口保持原语义', async () => {
+  test('多瓦片源组合、最近排序、选中态和可选管理入口保持原语义', async () => {
     const stamps = templates(3)
-    stamps[1] = { ...stamps[1]!, category: '异域', tilesetId: 'tiles-b' }
+    stamps[1] = { ...stamps[1]!, category: '异域', tilesetRefs: ['tiles-b'] }
     const onPick = vi.fn()
     const onOpenLibrary = vi.fn()
     await act(async () => {
       root.render(
         <MapStampPalette
           stamps={stamps}
-          tilesetId="tiles-a"
           tilesets={[]}
           assetCatalog={{ version: 1, assets: {} }}
           assetReader={{} as never}
@@ -181,7 +180,7 @@ describe('MapStampPalette scale budget', () => {
       ),
     ).toEqual(['stamp-0002', 'stamp-0000', 'stamp-0001'])
     expect(cards[1]?.getAttribute('aria-pressed')).toBe('true')
-    expect(cards[2]?.disabled).toBe(true)
+    expect(cards[2]?.disabled).toBe(false)
     await act(async () => cards[0]!.click())
     expect(onPick).toHaveBeenCalledWith('stamp-0002')
 
@@ -192,7 +191,7 @@ describe('MapStampPalette scale budget', () => {
 
     await chooseCategory('异域')
     expect(host.querySelectorAll('.map-stamp-card')).toHaveLength(1)
-    expect(host.querySelector<HTMLButtonElement>('.map-stamp-card')?.disabled).toBe(true)
+    expect(host.querySelector<HTMLButtonElement>('.map-stamp-card')?.disabled).toBe(false)
   })
 
   test('管理入口缺席和搜索空结果均保持明确状态', async () => {
@@ -200,7 +199,6 @@ describe('MapStampPalette scale budget', () => {
       root.render(
         <MapStampPalette
           stamps={templates(2)}
-          tilesetId="tiles-a"
           tilesets={[]}
           assetCatalog={{ version: 1, assets: {} }}
           assetReader={{} as never}

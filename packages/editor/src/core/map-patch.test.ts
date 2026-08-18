@@ -20,11 +20,11 @@ import {
 
 function fixtureMap() {
   let map = buildBlankProjectMap(3, 2, 'tiles')
-  map = insertProjectMapLayer(map, buildProjectMapLayer(map, 'objects', '物件', 'height'))
+  map = insertProjectMapLayer(map, buildProjectMapLayer(map, 'objects', '物件'))
   map = paintProjectMapTiles(map, [
-    { layerId: 'floor', row: 0, col: 0, tileId: 1, height: 0 },
-    { layerId: 'objects', row: 1, col: 1, tileId: 5, height: 3 },
-    { layerId: 'objects', row: 2, col: 1, tileId: 6, height: 7 },
+    { layerId: 'floor', row: 0, col: 0, tileId: 1, tilesetId: 'tiles', height: 0 },
+    { layerId: 'objects', row: 1, col: 1, tileId: 5, tilesetId: 'tiles', height: 3 },
+    { layerId: 'objects', row: 2, col: 1, tileId: 6, tilesetId: 'tiles', height: 7 },
   ])
   return paintProjectMapCollision(map, [{ row: 1, col: 1, value: 2 }])
 }
@@ -93,6 +93,11 @@ describe('W8 atomic map patch', () => {
               channel: 'tileId',
               ref: { layerId: 'objects', row: 0, col: 0 },
               value: 9,
+            },
+            {
+              channel: 'tilesetId',
+              ref: { layerId: 'objects', row: 0, col: 0 },
+              value: 'tiles',
             },
           ],
           collision: [],
@@ -235,15 +240,6 @@ describe('W8 atomic map patch', () => {
       },
       writable(),
       'out-of-bounds',
-    ],
-    [
-      'flat height',
-      {
-        visual: [{ channel: 'height', ref: { layerId: 'floor', row: 0, col: 0 }, value: 0 }],
-        collision: [],
-      },
-      writable(['floor']),
-      'flat-height',
     ],
     [
       'null height',

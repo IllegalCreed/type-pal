@@ -1,10 +1,11 @@
-/** ProjectMap v2/v3 的构造与不可变编辑纯逻辑。 */
+/** 当前 ProjectMap 的构造与不可变编辑纯逻辑。 */
 
 import {
-  type MapLayerV2,
+  type IsometricMapContent,
+  type IsometricMapLayer,
   mapInstanceHeight,
+  mapInstanceTilesetId,
   type ProjectMap,
-  type ProjectMapV2,
   type StampPlacementGroupV1,
   validateProjectMap,
 } from '@type-pal/content'
@@ -19,6 +20,8 @@ export interface ProjectMapTileEdit extends LatticePos {
   /** 稳定图层身份；重排后命令仍写同一层。 */
   layerId: string
   tileId: number | null
+  /** tileId 非空时必须给出稳定瓦片集 id；空格强制为 null。 */
+  tilesetId: string | null
   /** 这次放置实例的高度；tileId=null 时强制归零。 */
   height: number
 }
@@ -31,7 +34,7 @@ export interface ProjectMapTileDraw extends LatticePos {
   layerId: string
   layerIndex: number
   tileId: number
-  depthMode: MapLayerV2['depthMode']
+  tilesetId: string
   height: number
   centerX: number
   centerY: number
@@ -41,23 +44,19 @@ function matrix<T>(rows: number, cols: number, make: () => T): T[][] {
   return Array.from({ length: rows }, () => Array.from({ length: cols }, make))
 }
 
-export function buildBlankProjectMap(
-  width: number,
-  height: number,
-  tilesetId: string,
-): ProjectMapV2 {
+export function buildBlankProjectMap(width: number, height: number, tilesetId: string): ProjectMap {
   const rows = height * 2
   return {
-    version: 2,
+    version: 4,
     width,
     height,
-    tilesetId,
+    tilesetRefs: [tilesetId],
     layers: [
       {
         id: 'floor',
         name: '地板',
-        depthMode: 'flat',
         tiles: matrix(rows, width, () => null),
+        sources: matrix(rows, width, () => null),
       },
     ],
     collision: matrix(rows, width, () => 0),
@@ -68,15 +67,13 @@ export function buildProjectMapLayer(
   map: Pick<ProjectMap, 'width' | 'height'>,
   id: string,
   name: string,
-  depthMode: MapLayerV2['depthMode'] = 'height',
-): MapLayerV2 {
+): IsometricMapLayer {
   const rows = map.height * 2
   return {
     id,
     name,
-    depthMode,
     tiles: matrix(rows, map.width, () => null),
-    ...(depthMode === 'height' ? { heights: matrix(rows, map.width, () => 0) } : {}),
+    sources: matrix(rows, map.width, () => null),
   }
 }
 
@@ -175,7 +172,7 @@ export function latticeInMapRect(
 
 /** 供渲染器消费的纯计划；null 永不产出。 */
 export function projectMapTilesInView(
-  map: ProjectMap,
+  map: IsometricMapContent<number | null>,
   view: { col: number; row: number; cols: number; rows: number },
   hiddenLayerIds: ReadonlySet<string> = new Set(),
 ): ProjectMapTileDraw[] {
@@ -195,7 +192,7 @@ export function projectMapTilesInView(
           layerId: layer.id,
           layerIndex,
           tileId,
-          depthMode: layer.depthMode,
+          tilesetId: expectDefined(mapInstanceTilesetId(map, layer, row, col)),
           height: mapInstanceHeight(layer, row, col),
           col,
           row,
@@ -213,41 +210,71 @@ export function paintProjectMapTiles<T extends ProjectMap>(
   edits: readonly ProjectMapTileEdit[],
 ): T {
   const byLayer = new Map<string, ProjectMapTileEdit[]>()
+  const requestedTilesetIds = new Set(map.tilesetRefs)
   for (const edit of edits) {
     if (!isLatticeInside(map, edit)) continue
     if (!Number.isInteger(edit.height) || edit.height < 0)
       throw new Error(`地图实例高度必须是非负整数，收到 ${edit.height}`)
+    if (edit.tileId === null) {
+      if (edit.tilesetId !== null) throw new Error('空瓦片不能保留瓦片集来源')
+    } else {
+      if (!Number.isSafeInteger(edit.tileId) || edit.tileId < 0)
+        throw new Error(`tileId 必须是非负安全整数，收到 ${edit.tileId}`)
+      if (!edit.tilesetId) throw new Error('非空瓦片必须给出稳定瓦片集 id')
+      requestedTilesetIds.add(edit.tilesetId)
+    }
     const list = byLayer.get(edit.layerId)
     if (list) list.push(edit)
     else byLayer.set(edit.layerId, [edit])
   }
   if (byLayer.size === 0) return map
 
+  const tilesetRefs = [...requestedTilesetIds].sort()
+  const refsChanged =
+    tilesetRefs.length !== map.tilesetRefs.length ||
+    tilesetRefs.some((tilesetId, index) => tilesetId !== map.tilesetRefs[index])
+  const sourceIndexByTilesetId = new Map(tilesetRefs.map((tilesetId, index) => [tilesetId, index]))
+  const remapSource = (source: number | null): number | null => {
+    if (source === null) return null
+    return expectDefined(sourceIndexByTilesetId.get(expectDefined(map.tilesetRefs[source])))
+  }
+
   let changed = false
   const layers = map.layers.map((layer) => {
     const layerEdits = byLayer.get(layer.id)
-    if (!layerEdits) return layer
-    if (
-      layer.depthMode === 'flat' &&
-      layerEdits.some((edit) => edit.tileId !== null && edit.height > 0)
-    )
-      throw new Error(`flat 图层 "${layer.name}" 不能写入非零高度`)
+    if (!layerEdits && !refsChanged) return layer
+    if (!layerEdits)
+      return {
+        ...layer,
+        sources: layer.sources.map((row) => row.map(remapSource)),
+      }
     const touchedRows = new Set(layerEdits.map((edit) => edit.row))
     const tiles = layer.tiles.map((row, index) => (touchedRows.has(index) ? [...row] : row))
+    const sources = layer.sources.map((row, index) => {
+      const remapped = refsChanged ? row.map(remapSource) : row
+      return touchedRows.has(index) ? [...remapped] : remapped
+    })
     const sourceHeights = layer.heights ?? matrix(map.height * 2, map.width, () => 0)
     const heights = sourceHeights.map((row, index) => (touchedRows.has(index) ? [...row] : row))
     for (const edit of layerEdits) {
       expectDefined(tiles[edit.row])[edit.col] = edit.tileId
+      expectDefined(sources[edit.row])[edit.col] =
+        edit.tileId === null
+          ? null
+          : expectDefined(sourceIndexByTilesetId.get(expectDefined(edit.tilesetId)))
       expectDefined(heights[edit.row])[edit.col] = edit.tileId === null ? 0 : edit.height
     }
     changed = true
+    const hasHeight = heights.some((row) => row.some((height) => height !== 0))
+    const { heights: _oldHeights, ...layerWithoutHeights } = layer
     return {
-      ...layer,
+      ...layerWithoutHeights,
       tiles,
-      ...(layer.depthMode === 'height' ? { heights } : {}),
+      sources,
+      ...(hasHeight ? { heights } : {}),
     }
   })
-  return changed ? ({ ...map, layers } as T) : map
+  return changed || refsChanged ? ({ ...map, tilesetRefs, layers } as T) : map
 }
 
 export function paintProjectMapCollision<T extends ProjectMap>(
@@ -266,19 +293,25 @@ export function paintProjectMapCollision<T extends ProjectMap>(
   return { ...map, collision } as T
 }
 
-/** 同 tileId + 实例高度的四邻域填充；null/H0 空格同样是可填充区域。 */
+/** 同 tileId + 来源 + 实例高度的四邻域填充；null/H0 空格同样是可填充区域。 */
 export function floodFillProjectMapTiles(
   map: ProjectMap,
   layerId: string,
   start: LatticePos,
   tileId: number | null,
+  tilesetId: string | null,
   height: number,
 ): ProjectMapTileEdit[] {
   const layer = map.layers.find((candidate) => candidate.id === layerId)
   if (!layer || !isLatticeInside(map, start)) return []
   const target = layer.tiles[start.row]?.[start.col]
+  const targetTilesetId = mapInstanceTilesetId(map, layer, start.row, start.col)
   const targetHeight = mapInstanceHeight(layer, start.row, start.col)
-  if (target === undefined || (target === tileId && targetHeight === height)) return []
+  if (
+    target === undefined ||
+    (target === tileId && targetTilesetId === (tilesetId ?? undefined) && targetHeight === height)
+  )
+    return []
 
   const out: ProjectMapTileEdit[] = []
   const seen = new Set<string>([`${start.col},${start.row}`])
@@ -288,10 +321,11 @@ export function floodFillProjectMapTiles(
     if (
       !current ||
       layer.tiles[current.row]?.[current.col] !== target ||
+      mapInstanceTilesetId(map, layer, current.row, current.col) !== targetTilesetId ||
       mapInstanceHeight(layer, current.row, current.col) !== targetHeight
     )
       continue
-    out.push({ ...current, layerId, tileId, height })
+    out.push({ ...current, layerId, tileId, tilesetId, height })
     const left = current.col - (current.row % 2 === 0 ? 1 : 0)
     const neighbors: LatticePos[] = [
       { col: left, row: current.row - 1 },
@@ -346,7 +380,8 @@ export function resizeProjectMap<T extends ProjectMap>(map: T, width: number, he
     layers: map.layers.map((layer) => ({
       ...layer,
       tiles: rebuild<number | null>(layer.tiles, null),
-      ...(layer.depthMode === 'height' ? { heights: rebuild(layer.heights ?? [], 0) } : {}),
+      sources: rebuild<number | null>(layer.sources, null),
+      ...(layer.heights ? { heights: rebuild(layer.heights, 0) } : {}),
     })),
     collision: rebuild(map.collision, 0),
   } as T
@@ -354,7 +389,7 @@ export function resizeProjectMap<T extends ProjectMap>(map: T, width: number, he
 
 export function insertProjectMapLayer<T extends ProjectMap>(
   map: T,
-  layer: MapLayerV2,
+  layer: IsometricMapLayer,
   index = map.layers.length,
 ): T {
   if (map.layers.some((candidate) => candidate.id === layer.id)) return map
@@ -393,49 +428,36 @@ export function moveProjectMapLayer<T extends ProjectMap>(
 export function updateProjectMapLayer<T extends ProjectMap>(
   map: T,
   layerId: string,
-  patch: Partial<Pick<MapLayerV2, 'name' | 'depthMode'>>,
+  patch: Partial<Pick<IsometricMapLayer, 'name'>>,
 ): T {
   const index = map.layers.findIndex((layer) => layer.id === layerId)
   if (index < 0) return map
   const current = expectDefined(map.layers[index])
-  if (patch.depthMode === 'flat' && current.depthMode !== 'flat') {
-    const hasHeight = current.heights?.some((row) => row.some((height) => height !== 0)) ?? false
-    if (hasHeight) throw new Error(`图层 "${current.name}" 仍有非零实例高度，不能切换为 flat`)
-  }
-  const depthMode = patch.depthMode ?? current.depthMode
   const layers = [...map.layers]
-  layers[index] = {
-    ...current,
-    ...patch,
-    ...(depthMode === 'height'
-      ? { heights: current.heights ?? matrix(map.height * 2, map.width, () => 0) }
-      : {}),
-  }
-  const updated = layers[index]
-  if (depthMode === 'flat' && updated) delete updated.heights
+  layers[index] = { ...current, ...patch }
   return { ...map, layers } as T
 }
 
-/** v2 不物化空 authoring；非空 placement 与普通矩阵一同成为 v3。 */
+/** 空 authoring 不物化；组合放置身份只属于编辑器作者态。 */
 export function withProjectMapStampPlacements(
   map: ProjectMap,
   placements: readonly StampPlacementGroupV1[],
 ): ProjectMap {
   const base = {
+    version: 4 as const,
     width: map.width,
     height: map.height,
-    tilesetId: map.tilesetId,
+    tilesetRefs: map.tilesetRefs,
     layers: map.layers,
     collision: map.collision,
   }
-  if (placements.length === 0) return { version: 2, ...base }
+  if (placements.length === 0) return base
   return validateProjectMap({
-    version: 3,
     ...base,
     authoring: { version: 1, stampPlacements: placements },
   })
 }
 
 export function projectMapStampPlacements(map: ProjectMap): readonly StampPlacementGroupV1[] {
-  return map.version === 3 ? map.authoring.stampPlacements : []
+  return map.authoring?.stampPlacements ?? []
 }

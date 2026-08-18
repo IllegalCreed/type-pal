@@ -15,10 +15,10 @@ describe('floodFillIsometricTiles', () => {
   test('tileId 与实例高度共同构成连通边界', () => {
     expect(
       fixture({
-        '0:0': { tileId: 7, height: 1 },
-        '1:0': { tileId: 7, height: 1 },
-        '1:1': { tileId: 7, height: 2 },
-        '2:0': { tileId: 7, height: 2 },
+        '0:0': { tileId: 7, tilesetId: 'tiles', height: 1 },
+        '1:0': { tileId: 7, tilesetId: 'tiles', height: 1 },
+        '1:1': { tileId: 7, tilesetId: 'tiles', height: 2 },
+        '2:0': { tileId: 7, tilesetId: 'tiles', height: 2 },
       }),
     ).toEqual([
       { row: 0, col: 0 },
@@ -29,10 +29,10 @@ describe('floodFillIsometricTiles', () => {
   test('空瓦片是 tileId=null、height=0 的普通可填充连通域', () => {
     expect(
       fixture({
-        '0:0': { tileId: null, height: 0 },
-        '1:0': { tileId: null, height: 0 },
-        '1:1': { tileId: 3, height: 0 },
-        '2:0': { tileId: 3, height: 0 },
+        '0:0': { tileId: null, tilesetId: 'tiles', height: 0 },
+        '1:0': { tileId: null, tilesetId: 'tiles', height: 0 },
+        '1:1': { tileId: 3, tilesetId: 'tiles', height: 0 },
+        '2:0': { tileId: 3, tilesetId: 'tiles', height: 0 },
       }),
     ).toEqual([
       { row: 0, col: 0 },

@@ -1,8 +1,14 @@
-import { type ProjectMap, type StampTemplateV1, validateStampTemplates } from '@type-pal/content'
-import { isLatticeInside, mapInstanceHeight } from '@type-pal/reforge'
+import {
+  mapInstanceHeight,
+  mapInstanceTilesetId,
+  type ProjectMap,
+  type StampTemplate,
+  validateStampTemplates,
+} from '@type-pal/content'
+import { isLatticeInside } from '@type-pal/reforge'
 import type { GridPointRef, MapSelection } from './map-selection.js'
 import { gridPointKey, visualSlotKey } from './map-selection.js'
-import { latticeU, relativeLatticeOffset } from './map-transform.js'
+import { latticeU, relativeLatticeOffset, resolveRelativeLatticeOffset } from './map-transform.js'
 
 export interface BuildStampTemplateInput {
   map: ProjectMap
@@ -10,12 +16,10 @@ export interface BuildStampTemplateInput {
   id: string
   name: string
   category?: string
-  /** 作者显式确认的地图锚点；UI 可先用 defaultStampTemplateAnchor 提供建议值。 */
+  /** 作者显式确认的地图锚点；保存后转为组合内容内的局部 anchor。 */
   anchor: GridPointRef
   includeCollision: boolean
-  /** “用当前选区更新模板”时钉住原模板 tileset，禁止静默换套件。 */
-  expectedTilesetId?: string
-  /** source layerId → 模板局部槽显示名；槽 id 首版固定复用稳定 source layerId。 */
+  /** source layerId → 组合局部层显示名；稳定 id 复用 source layerId。 */
   layerSlotNames?: Readonly<Record<string, string>>
 }
 
@@ -29,13 +33,11 @@ export interface StampTemplateUsageIndex {
   missingSources: Array<{ sourceStampId: string; placementCount: number; mapIds: string[] }>
 }
 
-/** 只存在于编辑会话的 W8 选区快照；不进入 EditorState、JSON 或 URL。 */
 export interface StampSelectionSource {
   mapId: string
   selection: Extract<MapSelection, { kind: 'cells' }>
 }
 
-/** 选区默认锚点：先 row，再按错排 lattice u；UI 可让作者显式改成其他地图格点。 */
 export function defaultStampTemplateAnchor(
   selection: Extract<MapSelection, { kind: 'cells' }>,
 ): GridPointRef | undefined {
@@ -55,7 +57,6 @@ function normalizedTemplateId(input: string): string {
     .replace(/^-+|-+$/g, '')
 }
 
-/** 为“从选区保存/复制模板”生成不碰撞的稳定 id；最终仍由 content validator 把关。 */
 export function nextStampTemplateId(preferred: string, existingIds: Iterable<string>): string {
   const used = new Set(existingIds)
   const stem = normalizedTemplateId(preferred) || 'stamp'
@@ -66,81 +67,97 @@ export function nextStampTemplateId(preferred: string, existingIds: Iterable<str
   }
 }
 
+function matrix<T>(rows: number, cols: number, value: T): T[][] {
+  return Array.from({ length: rows }, () => Array<T>(cols).fill(value))
+}
+
 /**
- * 把 W8 普通 cells 选区快照成非链接模板。
- * 空视觉槽跳过；collision 值 0 在 includeCollision=true 时仍显式保留。
+ * 将地图选区裁成与地图同构的局部等距内容。来源、高度、图层和 nullable collision
+ * 都原样保留；组合 anchor 只从世界坐标平移为局部坐标。
  */
-export function buildStampTemplateFromSelection(input: BuildStampTemplateInput): StampTemplateV1 {
+export function buildStampTemplateFromSelection(input: BuildStampTemplateInput): StampTemplate {
   const { map, selection } = input
-  const anchor = input.anchor
-  if (!isLatticeInside(map, anchor)) throw new Error('图章锚点必须位于当前地图内。')
-  if (input.expectedTilesetId && map.tilesetId !== input.expectedTilesetId)
-    throw new Error(
-      `当前地图 tileset "${map.tilesetId}" 与模板 tileset "${input.expectedTilesetId}" 不一致。`,
-    )
+  if (!isLatticeInside(map, input.anchor)) throw new Error('组合锚点必须位于当前地图内。')
 
   const layerById = new Map(map.layers.map((layer) => [layer.id, layer] as const))
-  const seenVisual = new Set<string>()
-  const capturedByLayer = new Map<
-    string,
-    Array<{ row: number; col: number; tileId: number; height: number }>
-  >()
+  const selectedVisual = new Map<string, { layerId: string; row: number; col: number }>()
   for (const ref of selection.visualSlots) {
     const key = visualSlotKey(ref)
-    if (seenVisual.has(key)) continue
-    seenVisual.add(key)
+    if (selectedVisual.has(key)) continue
     if (!isLatticeInside(map, ref)) throw new Error(`视觉槽 ${key} 已超出地图边界。`)
     const layer = layerById.get(ref.layerId)
     if (!layer) throw new Error(`选区引用的图层 "${ref.layerId}" 不存在。`)
     const tileId = layer.tiles[ref.row]?.[ref.col]
-    if (tileId === null || tileId === undefined) continue
-    const member = {
-      row: ref.row,
-      col: ref.col,
-      tileId,
-      height: mapInstanceHeight(layer, ref.row, ref.col),
-    }
-    const bucket = capturedByLayer.get(layer.id)
-    if (bucket) bucket.push(member)
-    else capturedByLayer.set(layer.id, [member])
+    if (tileId !== null && tileId !== undefined) selectedVisual.set(key, { ...ref })
   }
-  if (capturedByLayer.size === 0) throw new Error('选区没有可保存的非空视觉实例。')
+  if (selectedVisual.size === 0) throw new Error('选区没有可保存的非空视觉实例。')
 
-  const usedLayers = map.layers.filter((layer) => capturedByLayer.has(layer.id))
-  const layerSlots = usedLayers.map((layer) => ({
-    id: layer.id,
-    name: input.layerSlotNames?.[layer.id]?.trim() || layer.name,
-    depthMode: layer.depthMode,
-  }))
-  const visual = usedLayers.flatMap((layer) =>
-    (capturedByLayer.get(layer.id) ?? [])
-      .sort((left, right) => left.row - right.row || latticeU(left) - latticeU(right))
-      .map((member) => ({
-        layerSlotId: layer.id,
-        offset: relativeLatticeOffset(member, anchor),
-        tileId: member.tileId,
-        height: member.height,
-      })),
+  const selectedCollision = new Map<string, GridPointRef>()
+  if (input.includeCollision)
+    for (const ref of selection.gridPoints) {
+      const key = gridPointKey(ref)
+      if (selectedCollision.has(key)) continue
+      if (!isLatticeInside(map, ref)) throw new Error(`碰撞格点 ${key} 已超出地图边界。`)
+      selectedCollision.set(key, { ...ref })
+    }
+
+  const points = [input.anchor, ...selectedVisual.values(), ...selectedCollision.values()]
+  const offsets = points.map((point) => relativeLatticeOffset(point, input.anchor))
+  const minDRow = Math.min(...offsets.map(({ dRow }) => dRow))
+  const localAnchorRow = Math.ceil(Math.max(0, -minDRow) / 2) * 2
+  const provisionalAnchor = { row: localAnchorRow, col: 0 }
+  const provisional = offsets.map((offset) =>
+    resolveRelativeLatticeOffset(provisionalAnchor, offset),
   )
+  const localAnchorCol = Math.max(0, -Math.min(...provisional.map(({ col }) => col)))
+  const anchor = { row: localAnchorRow, col: localAnchorCol }
+  const toLocal = (point: GridPointRef): GridPointRef =>
+    resolveRelativeLatticeOffset(anchor, relativeLatticeOffset(point, input.anchor))
+  const localPoints = points.map(toLocal)
+  const width = Math.max(...localPoints.map(({ col }) => col)) + 1
+  const latticeRows = Math.max(...localPoints.map(({ row }) => row)) + 1
+  const height = Math.max(1, Math.ceil(latticeRows / 2))
+  const rows = height * 2
 
-  const collision = input.includeCollision
-    ? (() => {
-        const seen = new Set<string>()
-        return selection.gridPoints
-          .filter((ref) => {
-            const key = gridPointKey(ref)
-            if (seen.has(key)) return false
-            seen.add(key)
-            if (!isLatticeInside(map, ref)) throw new Error(`碰撞格点 ${key} 已超出地图边界。`)
-            return true
-          })
-          .sort((left, right) => left.row - right.row || latticeU(left) - latticeU(right))
-          .map((ref) => ({
-            offset: relativeLatticeOffset(ref, anchor),
-            value: map.collision[ref.row]![ref.col]!,
-          }))
-      })()
-    : []
+  const usedLayerIds = new Set([...selectedVisual.values()].map(({ layerId }) => layerId))
+  const usedLayers = map.layers.filter(({ id }) => usedLayerIds.has(id))
+  const usedTilesetIds = new Set<string>()
+  for (const ref of selectedVisual.values()) {
+    const layer = layerById.get(ref.layerId)!
+    const tilesetId = mapInstanceTilesetId(map, layer, ref.row, ref.col)
+    if (!tilesetId) throw new Error(`视觉槽 ${visualSlotKey(ref)} 缺少瓦片集来源。`)
+    usedTilesetIds.add(tilesetId)
+  }
+  const tilesetRefs = [...usedTilesetIds].sort()
+  const sourceIndex = new Map(tilesetRefs.map((tilesetId, index) => [tilesetId, index]))
+
+  const layers = usedLayers.map((sourceLayer) => {
+    const tiles = matrix<number | null>(rows, width, null)
+    const sources = matrix<number | null>(rows, width, null)
+    const heights = matrix(rows, width, 0)
+    for (const ref of selectedVisual.values()) {
+      if (ref.layerId !== sourceLayer.id) continue
+      const point = toLocal(ref)
+      const tileId = sourceLayer.tiles[ref.row]?.[ref.col]
+      const tilesetId = mapInstanceTilesetId(map, sourceLayer, ref.row, ref.col)
+      if (tileId === null || tileId === undefined || !tilesetId) continue
+      tiles[point.row]![point.col] = tileId
+      sources[point.row]![point.col] = sourceIndex.get(tilesetId)!
+      heights[point.row]![point.col] = mapInstanceHeight(sourceLayer, ref.row, ref.col)
+    }
+    return {
+      id: sourceLayer.id,
+      name: input.layerSlotNames?.[sourceLayer.id]?.trim() || sourceLayer.name,
+      tiles,
+      sources,
+      ...(heights.some((row) => row.some((value) => value !== 0)) ? { heights } : {}),
+    }
+  })
+  const collision = matrix<number | null>(rows, width, null)
+  for (const ref of selectedCollision.values()) {
+    const point = toLocal(ref)
+    collision[point.row]![point.col] = map.collision[ref.row]![ref.col]!
+  }
 
   const category = input.category?.trim()
   const [template] = validateStampTemplates([
@@ -148,27 +165,27 @@ export function buildStampTemplateFromSelection(input: BuildStampTemplateInput):
       id: input.id.trim(),
       name: input.name.trim(),
       ...(category ? { category } : {}),
-      tilesetId: map.tilesetId,
       origin: 'authored',
-      layerSlots,
-      visual,
+      width,
+      height,
+      anchor,
+      tilesetRefs,
+      layers,
       collision,
     },
   ])
-  if (!template) throw new Error('图章模板构建失败。')
+  if (!template) throw new Error('组合模板构建失败。')
   return template
 }
 
-/** 已加载地图上的软来源使用统计；模板删除不会修改这些 placement。 */
 export function collectStampTemplateUsage(
   maps: Readonly<Record<string, ProjectMap>>,
-  templates: readonly StampTemplateV1[],
+  templates: readonly StampTemplate[],
 ): StampTemplateUsageIndex {
-  const templateIds = new Set(templates.map((template) => template.id))
+  const templateIds = new Set(templates.map(({ id }) => id))
   const byStampId = new Map<string, { placementCount: number; mapIds: Set<string> }>()
-  for (const [mapId, map] of Object.entries(maps)) {
-    if (map.version !== 3) continue
-    for (const placement of map.authoring.stampPlacements) {
+  for (const [mapId, map] of Object.entries(maps))
+    for (const placement of map.authoring?.stampPlacements ?? []) {
       if (!placement.sourceStampId) continue
       const current = byStampId.get(placement.sourceStampId) ?? {
         placementCount: 0,
@@ -178,7 +195,6 @@ export function collectStampTemplateUsage(
       current.mapIds.add(mapId)
       byStampId.set(placement.sourceStampId, current)
     }
-  }
   const normalized = Object.fromEntries(
     [...byStampId]
       .sort(([left], [right]) => (left === right ? 0 : left < right ? -1 : 1))

@@ -1,6 +1,6 @@
 /** 地图模式：ProjectMap 的 N 视觉层、实例高度与独立碰撞层编辑器。 */
-import type { AssetCatalogV1, MapIndexV1, SceneDef, StampTemplateV1 } from '@type-pal/content'
-import { mapInstanceHeight, nextMapAssetIdentity } from '@type-pal/content'
+import type { AssetCatalogV1, MapIndexV1, SceneDef, StampTemplate } from '@type-pal/content'
+import { mapInstanceHeight, mapInstanceTilesetId, nextMapAssetIdentity } from '@type-pal/content'
 import type {
   AssetBase,
   LatticePos,
@@ -41,7 +41,6 @@ import {
   RemoveProjectMapLayerCommand,
   RenameMapAssetCommand,
   ResizeProjectMapCommand,
-  SetProjectMapTilesetCommand,
   UpdateProjectMapLayerCommand,
 } from '../core/commands.js'
 import type { EditorState, EditSession } from '../core/edit-session.js'
@@ -117,6 +116,7 @@ import {
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
+  DsSelect,
 } from './design-system/index.js'
 import { IsometricEditorCanvas } from './IsometricEditorCanvas.js'
 import { IsometricEditorSurface } from './IsometricEditorSurface.js'
@@ -212,17 +212,13 @@ function isStampGroupTransform(intent: MapTransformIntent): boolean {
     : intent.selection.kind === 'stamp-placements'
 }
 
-function tileEditsPatch(map: ProjectMap, edits: readonly ProjectMapTileEdit[]): ProjectMapPatch {
+function tileEditsPatch(_map: ProjectMap, edits: readonly ProjectMapTileEdit[]): ProjectMapPatch {
   return {
-    visual: edits.flatMap((edit) => {
-      const layer = map.layers.find((candidate) => candidate.id === edit.layerId)
-      return [
-        { channel: 'tileId' as const, ref: edit, value: edit.tileId },
-        ...(layer?.depthMode === 'height'
-          ? [{ channel: 'height' as const, ref: edit, value: edit.height }]
-          : []),
-      ]
-    }),
+    visual: edits.flatMap((edit) => [
+      { channel: 'tileId' as const, ref: edit, value: edit.tileId },
+      { channel: 'tilesetId' as const, ref: edit, value: edit.tilesetId },
+      { channel: 'height' as const, ref: edit, value: edit.height },
+    ]),
     collision: [],
   }
 }
@@ -239,9 +235,9 @@ export function MapMode(props: {
   selectedMapId?: string
   onSelectMap: (id: string | undefined) => void
   onOpenScene: (id: string) => void
-  /** tileset 注册表(W7B:绑定下拉 + ProjectMap.tilesetId 解析)。 */
+  /** tileset 注册表（供地图逐格来源索引解析与瓦片面板切换）。 */
   tilesets: readonly import('@type-pal/reforge').TilesetDef[]
-  stamps: readonly StampTemplateV1[]
+  stamps: readonly StampTemplate[]
   onOpenStampLibrary?: (id?: string) => void
   onStampSelectionChange?: (
     source: import('../core/stamp-template.js').StampSelectionSource | undefined,
@@ -301,6 +297,9 @@ export function MapMode(props: {
   const [recentStampIds, setRecentStampIds] = useState<string[]>([])
   const [collisionPaint, setCollisionPaint] = useState<CollisionPaint>('set')
   const [selectedTile, setSelectedTile] = useState(0)
+  const [selectedTilesetId, setSelectedTilesetId] = useState(
+    () => liveMap?.tilesetRefs[0] ?? tilesets[0]?.id ?? '',
+  )
   const [paintHeight, setPaintHeight] = useState(0)
   const [viewHeight, setViewHeight] = useState(0)
   const [brushSize, setBrushSize] = useState<IsometricBrushSize>(1)
@@ -427,7 +426,7 @@ export function MapMode(props: {
     | {
         canvas: HTMLCanvasElement
         map: ProjectMap
-        tiles: StageAssets['tiles']
+        tilesets: StageAssets['tilesets']
         selection: MapSelection
         selectionPreview: MapSelection | undefined
         transformPlan: MapTransformPlan | undefined
@@ -454,14 +453,21 @@ export function MapMode(props: {
     projectMaps: currentProjectMaps,
     mapIndex,
     tilesets,
+    authoringTilesetIds: tilesets.map(({ id }) => id),
     assetCatalog,
     assetReader,
   })
   const loadedAssets = status === 'ready' ? loadedRef.current : null
+  const selectedTiles = useMemo(
+    () =>
+      loadedAssets?.tilesets.get(selectedTilesetId) ??
+      new Map<number, import('@type-pal/reforge').RleFrame>(),
+    [loadedAssets?.tilesets, selectedTilesetId],
+  )
   const activeTool: MapTool = liveMap ? tool : 'pan'
   const activeLayer = liveMap?.layers.find((layer) => layer.id === activeLayerId)
-  const activePaintHeight = activeLayer?.depthMode === 'height' ? paintHeight : 0
-  const activeViewHeight = activeLayer?.depthMode === 'height' ? viewHeight : 0
+  const activePaintHeight = paintHeight
+  const activeViewHeight = viewHeight
   const activeLayerHidden = activeLayer ? hiddenLayerIds.has(activeLayer.id) : false
   const activeLayerLocked = activeLayer ? lockedLayerIds.has(activeLayer.id) : false
   const activeLayerReadOnly = !activeLayer || activeLayerHidden || activeLayerLocked
@@ -551,11 +557,14 @@ export function MapMode(props: {
   }, [liveMap, activeLayerId])
 
   useEffect(() => {
-    if (activeLayer?.depthMode === 'flat') {
-      setPaintHeight(0)
-      setViewHeight(0)
-    }
-  }, [activeLayer?.depthMode])
+    const fallback = liveMap?.tilesetRefs[0] ?? tilesets[0]?.id ?? ''
+    if (!tilesets.some(({ id }) => id === selectedTilesetId)) setSelectedTilesetId(fallback)
+  }, [liveMap, selectedTilesetId, tilesets])
+
+  useEffect(() => {
+    if (selectedTiles.size > 0 && !selectedTiles.has(selectedTile))
+      setSelectedTile(selectedTiles.keys().next().value ?? 0)
+  }, [selectedTile, selectedTiles])
 
   useEffect(() => {
     void mapId
@@ -670,8 +679,11 @@ export function MapMode(props: {
     [transformIntent, planTransform],
   )
   const availableStampTileIds = useMemo(
-    () => new Set(loadedAssets?.tiles.keys() ?? []),
-    [loadedAssets?.tiles],
+    () =>
+      new Map(
+        [...(loadedAssets?.tilesets ?? [])].map(([id, frames]) => [id, new Set(frames.keys())]),
+      ),
+    [loadedAssets?.tilesets],
   )
   const stampPlan = useMemo(
     () =>
@@ -687,13 +699,15 @@ export function MapMode(props: {
               hiddenLayerIds: workspaceMap.hiddenLayerIds,
               lockedLayerIds: workspaceMap.lockedLayerIds,
             },
-            availableTileIds: availableStampTileIds,
+            placementBaseHeight: activePaintHeight,
+            availableTileIdsByTileset: availableStampTileIds,
             conflictPolicy: 'reject',
           })
         : undefined,
     [
       activeStamp,
       activeTool,
+      activePaintHeight,
       availableStampTileIds,
       liveMap,
       mapId,
@@ -777,7 +791,7 @@ export function MapMode(props: {
     const selectionOverlayChanged =
       !selectionCached ||
       selectionCached.map !== map ||
-      selectionCached.tiles !== loaded.tiles ||
+      selectionCached.tilesets !== loaded.tilesets ||
       selectionCached.selection !== selection ||
       selectionCached.selectionPreview !== selectionPreview ||
       selectionCached.transformPlan !== transformPlan ||
@@ -849,7 +863,7 @@ export function MapMode(props: {
       selectionCanvasCacheRef.current = {
         canvas: selectionCanvas,
         map,
-        tiles: loaded.tiles,
+        tilesets: loaded.tilesets,
         selection,
         selectionPreview,
         transformPlan,
@@ -872,7 +886,7 @@ export function MapMode(props: {
     if (stampPlan)
       drawStampPlacementOverlay(ctx, {
         plan: stampPlan,
-        tiles: loaded.tiles,
+        tilesets: loaded.tilesets,
         palette: loaded.palette,
         view,
       })
@@ -976,6 +990,7 @@ export function MapMode(props: {
         ...pos,
         layerId: activeLayer.id,
         tileId: activeTool === 'erase' ? null : selectedTile,
+        tilesetId: activeTool === 'erase' ? null : selectedTilesetId,
         height: activeTool === 'erase' ? 0 : activePaintHeight,
       },
     }
@@ -1032,7 +1047,7 @@ export function MapMode(props: {
     const loaded = loadedRef.current
     const point = loaded
       ? (() => {
-          const hit = hitTestMapContent(liveMap, loaded.tiles, wx, wy, {
+          const hit = hitTestMapContent(liveMap, loaded.tilesets, wx, wy, {
             activeLayerId,
             hiddenLayerIds,
             lockedLayerIds,
@@ -1061,7 +1076,7 @@ export function MapMode(props: {
     const loaded = loadedRef.current
     let point = pixelToLattice(wx, wy)
     if (loaded) {
-      const hit = hitTestMapContent(liveMap, loaded.tiles, wx, wy, {
+      const hit = hitTestMapContent(liveMap, loaded.tilesets, wx, wy, {
         activeLayerId,
         hiddenLayerIds,
         lockedLayerIds,
@@ -1093,7 +1108,7 @@ export function MapMode(props: {
     if (!liveMap || !stampPlacementIndex) return undefined
     const loaded = loadedRef.current
     if (!loaded) return undefined
-    const hit = hitTestMapContent(liveMap, loaded.tiles, wx, wy, {
+    const hit = hitTestMapContent(liveMap, loaded.tilesets, wx, wy, {
       activeLayerId,
       hiddenLayerIds,
       lockedLayerIds,
@@ -1131,7 +1146,7 @@ export function MapMode(props: {
     if (!liveMap) return []
     const loaded = loadedRef.current
     if (!loaded) return []
-    const hit = hitTestMapContent(liveMap, loaded.tiles, wx, wy, {
+    const hit = hitTestMapContent(liveMap, loaded.tilesets, wx, wy, {
       activeLayerId,
       hiddenLayerIds,
       lockedLayerIds,
@@ -1334,7 +1349,10 @@ export function MapMode(props: {
         hiddenLayerIds: workspaceMap.hiddenLayerIds,
         lockedLayerIds: workspaceMap.lockedLayerIds,
       },
-      availableTileIds: new Set(loaded.tiles.keys()),
+      placementBaseHeight: activePaintHeight,
+      availableTileIdsByTileset: new Map(
+        [...loaded.tilesets].map(([id, frames]) => [id, new Set(frames.keys())]),
+      ),
       conflictPolicy,
     })
     if (!freshPlan.canApply) {
@@ -2018,7 +2036,9 @@ export function MapMode(props: {
         const tileId = activeLayer.tiles[pos.row]?.[pos.col]
         if (tileId === null || tileId === undefined) return
         const sampledHeight = mapInstanceHeight(activeLayer, pos.row, pos.col)
+        const sampledTilesetId = mapInstanceTilesetId(liveMap, activeLayer, pos.row, pos.col)
         setSelectedTile(tileId)
+        if (sampledTilesetId) setSelectedTilesetId(sampledTilesetId)
         setPaintHeight(sampledHeight)
         setViewHeight(sampledHeight)
         setTool('brush')
@@ -2044,6 +2064,7 @@ export function MapMode(props: {
               activeLayer.id,
               start,
               selectedTile,
+              selectedTilesetId,
               activePaintHeight,
             )
           : floodFillIsometricTiles({
@@ -2055,11 +2076,14 @@ export function MapMode(props: {
                   ? undefined
                   : {
                       tileId,
+                      tilesetId: mapInstanceTilesetId(liveMap, activeLayer, point.row, point.col),
                       height: mapInstanceHeight(activeLayer, point.row, point.col),
                     }
               },
             }).flatMap((point) =>
               activeLayer.tiles[point.row]?.[point.col] === selectedTile &&
+              mapInstanceTilesetId(liveMap, activeLayer, point.row, point.col) ===
+                selectedTilesetId &&
               mapInstanceHeight(activeLayer, point.row, point.col) === activePaintHeight
                 ? []
                 : [
@@ -2067,6 +2091,7 @@ export function MapMode(props: {
                       ...point,
                       layerId: activeLayer.id,
                       tileId: selectedTile,
+                      tilesetId: selectedTilesetId,
                       height: activePaintHeight,
                     },
                   ],
@@ -2259,7 +2284,7 @@ export function MapMode(props: {
 
   const createMap = (): void => {
     const identity = nextMapAssetIdentity(mapIndex, 'map')
-    const tileset = liveMap?.tilesetId ?? tilesets[0]?.id ?? 'tileset-001'
+    const tileset = selectedTilesetId || liveMap?.tilesetRefs[0] || tilesets[0]?.id || 'tileset-001'
     const map = buildBlankProjectMap(DEFAULT_COLS, DEFAULT_ROWS, tileset)
     session.dispatch(new CreateMapAssetCommand({ ...identity, name: '新地图' }, map))
     onSelectMap(identity.id)
@@ -2326,8 +2351,6 @@ export function MapMode(props: {
         return new RemoveProjectMapLayerCommand(mapId, operation.layerId, options)
       case 'resize':
         return new ResizeProjectMapCommand(mapId, operation.width, operation.height, options)
-      case 'set-tileset':
-        return new SetProjectMapTilesetCommand(mapId, operation.tilesetId, options)
     }
   }
 
@@ -2769,7 +2792,7 @@ export function MapMode(props: {
       ? `${activeLayerName} · 平移`
       : activeTool === 'stamp'
         ? activeStamp
-          ? `${activeStamp.name} · ${stampMappings.length}/${activeStamp.layerSlots.length} 层已映射 · 点击原子放置`
+          ? `${activeStamp.name} · ${stampMappings.length}/${activeStamp.layers.length} 层已映射 · 点击原子放置`
           : '请先从绘制面板选择组合'
         : activeLayerReadOnly
           ? `${activeLayerName} · ${activeLayerHidden ? '已隐藏' : '已锁定'} · 只读`
@@ -2894,7 +2917,6 @@ export function MapMode(props: {
                       step={1}
                       value={activeViewHeight}
                       onChange={(event) => setViewHeight(Number(event.currentTarget.value))}
-                      disabled={activeLayer.depthMode === 'flat'}
                     />
                     <output htmlFor="map-view-height" aria-live="polite">
                       {activeViewHeight}
@@ -2964,7 +2986,7 @@ export function MapMode(props: {
             onBrushSizeChange={setBrushSize}
             paintHeight={activePaintHeight}
             maxPaintHeight={maxMapHeight}
-            paintHeightDisabled={activeLayerReadOnly || activeLayer?.depthMode === 'flat'}
+            paintHeightDisabled={activeLayerReadOnly}
             onPaintHeightChange={setPaintHeight}
             collisionPaint={collisionPaint}
             onCollisionPaintChange={setCollisionPaint}
@@ -3308,7 +3330,7 @@ export function MapMode(props: {
                       activeLayerId={activeLayerId}
                       hiddenLayerIds={hiddenLayerIds}
                       lockedLayerIds={lockedLayerIds}
-                      tiles={loaded?.tiles}
+                      tilesets={loaded?.tilesets}
                       palette={loaded?.palette}
                       editingBlockedReason={
                         transformIntent
@@ -3334,7 +3356,7 @@ export function MapMode(props: {
                       activeLayerId={activeLayerId}
                       hiddenLayerIds={hiddenLayerIds}
                       lockedLayerIds={lockedLayerIds}
-                      tiles={loaded?.tiles}
+                      tilesets={loaded?.tilesets}
                       palette={loaded?.palette}
                       editingPlacementId={stampGroupEditPlacementId}
                       editingSelection={stampGroupEditSelection}
@@ -3460,34 +3482,6 @@ export function MapMode(props: {
                               {selectedAsset?.path ?? '(索引缺失)'}
                             </span>
                           </div>
-                          <div className="field">
-                            <span className="field-label">瓦片集</span>
-                            <select
-                              className="in"
-                              aria-label="地图瓦片集"
-                              title="换本图用的瓦片集(库条目;换绑不重映射瓦片索引)"
-                              value={liveMap?.tilesetId ?? ''}
-                              disabled={!liveMap}
-                              onChange={(e) => {
-                                if (e.target.value && liveMap)
-                                  requestStampStructureOperation(
-                                    { kind: 'set-tileset', tilesetId: e.target.value },
-                                    e.currentTarget,
-                                  )
-                              }}
-                            >
-                              {liveMap && !tilesets.some((t) => t.id === liveMap.tilesetId) && (
-                                <option value={liveMap.tilesetId}>
-                                  缺失条目({liveMap.tilesetId})
-                                </option>
-                              )}
-                              {tilesets.map((t) => (
-                                <option key={t.id} value={t.id}>
-                                  {t.name}({t.category})
-                                </option>
-                              ))}
-                            </select>
-                          </div>
                           {activeLayer ? (
                             <>
                               <h4>选中图层</h4>
@@ -3516,34 +3510,6 @@ export function MapMode(props: {
                               <div className="field">
                                 <span className="field-label">ID</span>
                                 <span className="mono">{activeLayer.id}</span>
-                              </div>
-                              <div className="field">
-                                <span className="field-label">深度</span>
-                                <select
-                                  className="in"
-                                  aria-label="图层深度模式"
-                                  value={activeLayer.depthMode}
-                                  disabled={activeLayerReadOnly}
-                                  onChange={(event) =>
-                                    session.dispatch(
-                                      new UpdateProjectMapLayerCommand(mapId, activeLayer.id, {
-                                        depthMode: event.target.value as 'flat' | 'height',
-                                      }),
-                                    )
-                                  }
-                                >
-                                  <option
-                                    value="flat"
-                                    disabled={
-                                      activeLayer.heights?.some((row) =>
-                                        row.some((height) => height !== 0),
-                                      ) ?? false
-                                    }
-                                  >
-                                    平面
-                                  </option>
-                                  <option value="height">按实例高度参与遮挡</option>
-                                </select>
                               </div>
                             </>
                           ) : null}
@@ -3575,22 +3541,35 @@ export function MapMode(props: {
                       <span className="t">瓦片</span>
                       {liveMap && loaded ? (
                         <span className="hint2">
-                          #{selectedTile} · H{activePaintHeight} · {loaded.tiles.size} 块
+                          #{selectedTile} · H{activePaintHeight} · {selectedTiles.size} 块
                         </span>
                       ) : null}
                     </div>
                     {inspectorTab === 'draw' && liveMap && loaded ? (
-                      <TilePickerGrid
-                        ariaLabel="瓦片列表"
-                        entries={[...loaded.tiles.entries()].sort((a, b) => a[0] - b[0])}
-                        palette={loaded.palette}
-                        selectedTileId={selectedTile}
-                        onPick={(id) => {
-                          setSelectedTile(id)
-                          activateMapTool('brush')
-                          canvasRef.current?.focus({ preventScroll: true })
-                        }}
-                      />
+                      <>
+                        <DsSelect
+                          size="compact"
+                          searchable
+                          aria-label="绘制瓦片集"
+                          value={selectedTilesetId}
+                          options={tilesets.map(({ id, name, category }) => ({
+                            value: id,
+                            label: `${name}（${category}）`,
+                          }))}
+                          onValueChange={setSelectedTilesetId}
+                        />
+                        <TilePickerGrid
+                          ariaLabel="瓦片列表"
+                          entries={[...selectedTiles.entries()].sort((a, b) => a[0] - b[0])}
+                          palette={loaded.palette}
+                          selectedTileId={selectedTile}
+                          onPick={(id) => {
+                            setSelectedTile(id)
+                            activateMapTool('brush')
+                            canvasRef.current?.focus({ preventScroll: true })
+                          }}
+                        />
+                      </>
                     ) : (
                       <p className="hint2 map-panel-empty">正在载入瓦片…</p>
                     )}
@@ -3610,7 +3589,6 @@ export function MapMode(props: {
                           <div className="map-combination-browser">
                             <MapStampPalette
                               stamps={stamps}
-                              tilesetId={liveMap.tilesetId}
                               tilesets={tilesets}
                               assetCatalog={assetCatalog}
                               assetReader={assetReader}

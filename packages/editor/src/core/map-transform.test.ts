@@ -22,11 +22,11 @@ import {
 
 function mapFixture() {
   let map = buildBlankProjectMap(5, 4, 'tiles')
-  map = insertProjectMapLayer(map, buildProjectMapLayer(map, 'objects', '物件', 'height'))
+  map = insertProjectMapLayer(map, buildProjectMapLayer(map, 'objects', '物件'))
   map = paintProjectMapTiles(map, [
-    { layerId: 'objects', row: 0, col: 0, tileId: 2, height: 1 },
-    { layerId: 'objects', row: 1, col: 0, tileId: 3, height: 2 },
-    { layerId: 'objects', row: 4, col: 3, tileId: 9, height: 4 },
+    { layerId: 'objects', row: 0, col: 0, tileId: 2, tilesetId: 'tiles', height: 1 },
+    { layerId: 'objects', row: 1, col: 0, tileId: 3, tilesetId: 'tiles', height: 2 },
+    { layerId: 'objects', row: 4, col: 3, tileId: 9, tilesetId: 'tiles', height: 4 },
   ])
   return paintProjectMapCollision(map, [
     { row: 0, col: 0, value: 5 },
@@ -218,8 +218,8 @@ describe('W8 paste/move/delete planning', () => {
         conflictPolicy: 'overwrite',
       },
     )
-    expect(remapped.issues.some((issue) => issue.code === 'flat-height')).toBe(true)
-    expect(remapped.canApply).toBe(false)
+    expect(remapped.issues).toEqual([])
+    expect(remapped.canApply).toBe(true)
   })
 
   test('visual-only paste 不改 collision；include-collision 同一原子 patch 写入 0/非零', () => {
@@ -308,9 +308,9 @@ describe('W8 paste/move/delete planning', () => {
     expect(applyPreparedProjectMapPatch(map, prepared).collision[2]?.[1]).toBe(5)
   })
 
-  test('平面层 copy/paste/move/delete 都不生成 height 写入', () => {
+  test('所有视觉层 copy/paste/move/delete 都保持 tile/source/height 通道锁步', () => {
     const map = paintProjectMapTiles(mapFixture(), [
-      { layerId: 'floor', row: 0, col: 1, tileId: 11, height: 0 },
+      { layerId: 'floor', row: 0, col: 1, tileId: 11, tilesetId: 'tiles', height: 0 },
     ])
     const flatSelection: MapSelection = {
       kind: 'cells',
@@ -337,7 +337,7 @@ describe('W8 paste/move/delete planning', () => {
     const remove = planMapDelete(map, flatSelection, false, 'floor')
     for (const plan of [paste, move, remove]) {
       expect(plan.canApply).toBe(true)
-      expect(plan.patch.visual.some((write) => write.channel === 'height')).toBe(false)
+      expect(plan.patch.visual.some((write) => write.channel === 'height')).toBe(true)
       expect(() =>
         prepareProjectMapPatch(map, plan.patch, {
           hiddenLayerIds: [],

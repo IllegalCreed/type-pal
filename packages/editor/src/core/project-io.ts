@@ -26,7 +26,7 @@ import {
   type ScriptChunkV1,
   type SharedScriptLibraryV13,
   type SharedScriptLibraryV14,
-  type StampTemplateV1,
+  type StampTemplate,
   validateAssetCatalog,
   validateMapIndex,
   validateWorldVariableRegistryV1,
@@ -65,7 +65,7 @@ export function toEditorState(
   scenes: SceneDef[] | SceneDefV13[] | SceneDefV14[],
   projectMaps: Record<string, ProjectMap> = {}, // 键 = 稳定 map id；缺席 = 尚未按需加载
   scriptChunks: Record<string, ScriptChunkV1> = {},
-  stamps?: StampTemplateV1[],
+  stamps?: StampTemplate[],
 ): EditorState {
   if (project.manifest.content.stamps && stamps === undefined)
     throw new Error('toEditorState: manifest.content.stamps 已登记但调用方未加载图章模板表')

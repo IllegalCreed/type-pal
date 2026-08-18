@@ -2,6 +2,7 @@
 import type { ProjectMap, ProjectMapCollisionEdit, ProjectMapTileEdit } from '@type-pal/reforge'
 import {
   mapInstanceHeight,
+  mapInstanceTilesetId,
   paintProjectMapCollision,
   paintProjectMapTiles,
 } from '@type-pal/reforge'
@@ -11,6 +12,7 @@ import { buildStampPlacementIndex, inheritStampPlacementIndex } from './stamp-ow
 
 export type ProjectMapVisualWrite =
   | { channel: 'tileId'; ref: VisualSlotRef; value: number | null }
+  | { channel: 'tilesetId'; ref: VisualSlotRef; value: string | null }
   | { channel: 'height'; ref: VisualSlotRef; value: number }
 
 export interface ProjectMapCollisionWrite {
@@ -37,7 +39,7 @@ export type MapPatchIssueCode =
   | 'layer-missing'
   | 'duplicate-channel'
   | 'invalid-value'
-  | 'flat-height'
+  | 'missing-source'
   | 'null-height'
   | 'hidden-layer'
   | 'locked-layer'
@@ -66,6 +68,7 @@ export class ProjectMapPatchError extends Error {
 
 export interface FullVisualSlotWrite extends VisualSlotRef {
   tileId: number | null
+  tilesetId: string | null
   height: number
 }
 
@@ -249,6 +252,8 @@ function prepareProjectMapPatchWithOwnership(
       ref: VisualSlotRef
       tileId?: number | null
       hasTileId: boolean
+      tilesetId?: string | null
+      hasTilesetId: boolean
       height?: number
       hasHeight: boolean
     }
@@ -279,20 +284,25 @@ function prepareProjectMapPatchWithOwnership(
     if (write.channel === 'tileId') {
       if (write.value !== null && !validNonNegative(write.value))
         pushRefIssue(issues, 'invalid-value', `tileId 必须是非负整数或 null`, ref)
+    } else if (write.channel === 'tilesetId') {
+      if (write.value !== null && (typeof write.value !== 'string' || !write.value))
+        pushRefIssue(issues, 'invalid-value', `tilesetId 必须是非空字符串或 null`, ref)
     } else {
       if (!validNonNegative(write.value))
         pushRefIssue(issues, 'invalid-value', `实例高度必须是非负整数`, ref)
-      if (layer?.depthMode === 'flat')
-        pushRefIssue(issues, 'flat-height', `平面图层 "${layer.name}" 的实例高度只读`, ref)
     }
     const aggregate = visualByRef.get(refKey) ?? {
       ref: { ...ref },
       hasTileId: false,
+      hasTilesetId: false,
       hasHeight: false,
     }
     if (write.channel === 'tileId') {
       aggregate.tileId = write.value
       aggregate.hasTileId = true
+    } else if (write.channel === 'tilesetId') {
+      aggregate.tilesetId = write.value
+      aggregate.hasTilesetId = true
     } else {
       aggregate.height = write.value
       aggregate.hasHeight = true
@@ -344,8 +354,12 @@ function prepareProjectMapPatchWithOwnership(
     if (!layer || !validCoordinate(aggregate.ref) || !inside(map, aggregate.ref)) continue
     const oldTileId = layer.tiles[aggregate.ref.row]?.[aggregate.ref.col]
     if (oldTileId === undefined) continue
+    const oldTilesetId =
+      mapInstanceTilesetId(map, layer, aggregate.ref.row, aggregate.ref.col) ?? null
     const oldHeight = mapInstanceHeight(layer, aggregate.ref.row, aggregate.ref.col)
     const tileId = aggregate.hasTileId ? (aggregate.tileId ?? null) : oldTileId
+    const tilesetId =
+      tileId === null ? null : aggregate.hasTilesetId ? (aggregate.tilesetId ?? null) : oldTilesetId
     const height = aggregate.hasHeight ? (aggregate.height ?? 0) : oldHeight
     if (tileId === null && height !== 0)
       pushRefIssue(
@@ -354,9 +368,21 @@ function prepareProjectMapPatchWithOwnership(
         `空视觉槽 ${visualSlotKey(aggregate.ref)} 的高度必须为 0`,
         aggregate.ref,
       )
-    if (tileId === oldTileId && height === oldHeight) continue
-    prevVisual.push({ ...aggregate.ref, tileId: oldTileId, height: oldHeight })
-    nextVisual.push({ ...aggregate.ref, tileId, height })
+    if (tileId !== null && tilesetId === null)
+      pushRefIssue(
+        issues,
+        'missing-source',
+        `非空视觉槽 ${visualSlotKey(aggregate.ref)} 必须指定瓦片集来源`,
+        aggregate.ref,
+      )
+    if (tileId === oldTileId && tilesetId === oldTilesetId && height === oldHeight) continue
+    prevVisual.push({
+      ...aggregate.ref,
+      tileId: oldTileId,
+      tilesetId: oldTilesetId,
+      height: oldHeight,
+    })
+    nextVisual.push({ ...aggregate.ref, tileId, tilesetId, height })
   }
 
   const nextCollision: FullCollisionWrite[] = []

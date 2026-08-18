@@ -1,6 +1,6 @@
 /** W8 结构化地图剪贴板与可逆变换规划器（纯函数，不直接 dispatch）。 */
 import type { ProjectMap } from '@type-pal/reforge'
-import { mapInstanceHeight } from '@type-pal/reforge'
+import { mapInstanceHeight, mapInstanceTilesetId } from '@type-pal/reforge'
 import { ordinaryProjectMapPatchOwnershipIssues, type ProjectMapPatch } from './map-patch.js'
 import type { GridPointRef, MapHitScope, MapSelection, VisualSlotRef } from './map-selection.js'
 import { gridPointKey, visualSlotKey } from './map-selection.js'
@@ -16,6 +16,7 @@ export interface MapClipboardVisualCell {
   sourceRef: VisualSlotRef
   offset: RelativeLatticeOffset
   tileId: number
+  tilesetId: string
   height: number
 }
 
@@ -52,7 +53,6 @@ export type MapTransformIssueCode =
   | 'empty-selection'
   | 'out-of-bounds'
   | 'layer-missing'
-  | 'flat-height'
   | 'collision-authority-missing'
   | 'ambiguous-destination'
   | 'visual-owned'
@@ -151,11 +151,14 @@ export function captureMapClipboard(
         const layer = map.layers.find((candidate) => candidate.id === ref.layerId)
         const tileId = layer?.tiles[ref.row]?.[ref.col]
         if (!layer || tileId === null || tileId === undefined) continue
+        const tilesetId = mapInstanceTilesetId(map, layer, ref.row, ref.col)
+        if (!tilesetId) continue
         visual.push({
           sourceLayerId: layer.id,
           sourceRef: { ...ref },
           offset: relativeLatticeOffset(ref, sourceAnchor),
           tileId,
+          tilesetId,
           height: mapInstanceHeight(layer, ref.row, ref.col),
         })
       }
@@ -301,14 +304,6 @@ function destinationCells(
       issues.push({ code: 'layer-missing', message: `目标图层 "${ref.layerId}" 不存在`, ref })
       continue
     }
-    if (layer.depthMode === 'flat' && source.height !== 0) {
-      issues.push({
-        code: 'flat-height',
-        message: `非零高度实例不能放入平面图层 "${layer.name}"`,
-        ref,
-      })
-      continue
-    }
     const key = visualSlotKey(ref)
     if (seen.has(key)) {
       issues.push({
@@ -386,15 +381,11 @@ export function planMapPaste(
       })
   }
   const patch: ProjectMapPatch = {
-    visual: destination.visual.flatMap(({ source, ref }) => {
-      const layer = map.layers.find((candidate) => candidate.id === ref.layerId)
-      return [
-        { channel: 'tileId' as const, ref, value: source.tileId },
-        ...(layer?.depthMode === 'height'
-          ? [{ channel: 'height' as const, ref, value: source.height }]
-          : []),
-      ]
-    }),
+    visual: destination.visual.flatMap(({ source, ref }) => [
+      { channel: 'tileId' as const, ref, value: source.tileId },
+      { channel: 'tilesetId' as const, ref, value: source.tilesetId },
+      { channel: 'height' as const, ref, value: source.height },
+    ]),
     collision: destination.collision.map(({ source, ref }) => ({ ref, value: source.value })),
   }
   return finishPlan(
@@ -467,13 +458,11 @@ export function planMapDelete(
   return finishPlan(
     map,
     {
-      visual: visual.flatMap((ref) => {
-        const layer = map.layers.find((candidate) => candidate.id === ref.layerId)
-        return [
-          { channel: 'tileId' as const, ref, value: null },
-          ...(layer?.depthMode === 'height' ? [{ channel: 'height' as const, ref, value: 0 }] : []),
-        ]
-      }),
+      visual: visual.flatMap((ref) => [
+        { channel: 'tileId' as const, ref, value: null },
+        { channel: 'tilesetId' as const, ref, value: null },
+        { channel: 'height' as const, ref, value: 0 },
+      ]),
       collision: includeCollision ? collisionPoints.map((ref) => ({ ref, value: 0 })) : [],
     },
     requiredLayers,
@@ -551,15 +540,16 @@ export function planMapMove(
     string,
     Extract<ProjectMapPatch['visual'][number], { channel: 'height' }>
   >()
+  const tilesetWrites = new Map<
+    string,
+    Extract<ProjectMapPatch['visual'][number], { channel: 'tilesetId' }>
+  >()
   const collisionWrites = new Map<string, ProjectMapPatch['collision'][number]>()
   for (const source of clipboard.visual) {
     const key = visualSlotKey(source.sourceRef)
     tileIdWrites.set(key, { channel: 'tileId', ref: source.sourceRef, value: null })
-    if (
-      map.layers.find((candidate) => candidate.id === source.sourceRef.layerId)?.depthMode ===
-      'height'
-    )
-      heightWrites.set(key, { channel: 'height', ref: source.sourceRef, value: 0 })
+    tilesetWrites.set(key, { channel: 'tilesetId', ref: source.sourceRef, value: null })
+    heightWrites.set(key, { channel: 'height', ref: source.sourceRef, value: 0 })
     destination.requiredLayers.add(source.sourceLayerId)
   }
   if (clipboard.collision.kind === 'included') {
@@ -570,8 +560,8 @@ export function planMapMove(
   for (const { source, ref } of destination.visual) {
     const key = visualSlotKey(ref)
     tileIdWrites.set(key, { channel: 'tileId', ref, value: source.tileId })
-    if (map.layers.find((candidate) => candidate.id === ref.layerId)?.depthMode === 'height')
-      heightWrites.set(key, { channel: 'height', ref, value: source.height })
+    tilesetWrites.set(key, { channel: 'tilesetId', ref, value: source.tilesetId })
+    heightWrites.set(key, { channel: 'height', ref, value: source.height })
   }
   for (const { source, ref } of destination.collision)
     collisionWrites.set(gridPointKey(ref), { ref, value: source.value })
@@ -579,7 +569,7 @@ export function planMapMove(
   return finishPlan(
     map,
     {
-      visual: [...tileIdWrites.values(), ...heightWrites.values()],
+      visual: [...tileIdWrites.values(), ...tilesetWrites.values(), ...heightWrites.values()],
       collision: [...collisionWrites.values()],
     },
     destination.requiredLayers,

@@ -1,4 +1,10 @@
-import type { ProjectMap, StampPlacementGroupV1, StampTemplateV1 } from '@type-pal/content'
+import {
+  mapInstanceHeight,
+  mapInstanceTilesetId,
+  type ProjectMap,
+  type StampPlacementGroupV1,
+  type StampTemplate,
+} from '@type-pal/content'
 import { isLatticeInside } from '@type-pal/reforge'
 import type {
   MapPatchPermissionSnapshot,
@@ -8,7 +14,7 @@ import type {
 import { ProjectMapPatchError, prepareProjectMapPatch } from './map-patch.js'
 import type { GridPointRef, VisualSlotRef } from './map-selection.js'
 import { gridPointKey, visualSlotKey } from './map-selection.js'
-import { resolveRelativeLatticeOffset } from './map-transform.js'
+import { relativeLatticeOffset, resolveRelativeLatticeOffset } from './map-transform.js'
 import { buildStampPlacementIndex } from './stamp-ownership.js'
 
 export {
@@ -25,13 +31,11 @@ export interface StampLayerMapping {
 export type StampPlacementConflictPolicy = 'reject' | 'overwrite'
 
 export type StampPlacementIssueCode =
-  | 'tileset-mismatch'
   | 'anchor-out-of-bounds'
   | 'mapping-missing'
   | 'mapping-unknown-slot'
   | 'mapping-duplicate-slot'
   | 'target-layer-missing'
-  | 'depth-mode-mismatch'
   | 'hidden-layer'
   | 'locked-layer'
   | 'missing-tile'
@@ -64,6 +68,8 @@ export interface ResolvedStampVisual {
   targetLayerIndex: number
   ref: VisualSlotRef
   tileId: number
+  tilesetId: string
+  relativeHeight: number
   height: number
 }
 
@@ -74,12 +80,12 @@ export interface ResolvedStampCollision {
 
 export interface StampPlacementPlan {
   mapId: string
-  /** 仅供原子 Command 检查 stale；不是持久字段。 */
   baseMap: ProjectMap
-  /** EditSession notify revision；UI 必须把 undo/redo 也纳入 ghost 失效键。 */
   mapRevision: number
-  template: StampTemplateV1
+  template: StampTemplate
   anchor: GridPointRef
+  /** 放置基准高度；template.heights 都是相对此值的增量。 */
+  placementBaseHeight: number
   mappings: StampLayerMapping[]
   permission: MapPatchPermissionSnapshot
   resolvedVisual: ResolvedStampVisual[]
@@ -96,11 +102,12 @@ export interface PlanStampPlacementInput {
   mapId: string
   map: ProjectMap
   mapRevision: number
-  template: StampTemplateV1
+  template: StampTemplate
   anchor: GridPointRef
+  placementBaseHeight: number
   mappings: readonly StampLayerMapping[]
   permission: Pick<MapPatchPermissionSnapshot, 'hiddenLayerIds' | 'lockedLayerIds'>
-  availableTileIds: ReadonlySet<number>
+  availableTileIdsByTileset: ReadonlyMap<string, ReadonlySet<number>>
   conflictPolicy: StampPlacementConflictPolicy
   placementId?: string
 }
@@ -114,7 +121,6 @@ function normalizedIdStem(input: string): string {
     .replace(/^-+|-+$/g, '')
 }
 
-/** map-local placement id；相邻同款每次规划都从实时地图生成不同 id。 */
 export function nextStampPlacementId(map: ProjectMap, preferred = 'stamp-placement'): string {
   const used = buildStampPlacementIndex(map).byId
   const stem = normalizedIdStem(preferred) || 'stamp-placement'
@@ -134,224 +140,226 @@ function issue(
   issues.push({ code, message, ...extra })
 }
 
-function cloneMappings(mappings: readonly StampLayerMapping[]): StampLayerMapping[] {
-  return mappings.map((mapping) => ({ ...mapping }))
+/** 组合相对高度的唯一落地公式。 */
+export function stampPlacementActualHeight(baseHeight: number, relativeHeight: number): number {
+  if (!Number.isSafeInteger(baseHeight) || baseHeight < 0)
+    throw new Error(`组合放置基准高度必须是非负安全整数，收到 ${baseHeight}`)
+  if (!Number.isSafeInteger(relativeHeight) || relativeHeight < 0)
+    throw new Error(`组合相对高度必须是非负安全整数，收到 ${relativeHeight}`)
+  return baseHeight + relativeHeight
 }
 
-/**
- * 从模板、显式 mapping 和目标 anchor 生成 ghost/冲突/patch/group 的唯一解析结果。
- * 本函数只读；失败计划不改 state/history/dirty。
- */
 export function planStampPlacement(input: PlanStampPlacementInput): StampPlacementPlan {
   const { map, template, anchor } = input
   const issues: StampPlacementIssue[] = []
   const conflicts: StampPlacementConflict[] = []
-  const mappings = cloneMappings(input.mappings)
+  const mappings = input.mappings.map((mapping) => ({ ...mapping }))
   const placementId = input.placementId ?? nextStampPlacementId(map, `${template.id}-placement`)
   const placementIndex = buildStampPlacementIndex(map)
-
-  if (map.tilesetId !== template.tilesetId)
-    issue(
-      issues,
-      'tileset-mismatch',
-      `图章使用 tileset "${template.tilesetId}"，当前地图使用 "${map.tilesetId}"。`,
-    )
+  let placementBaseHeight = input.placementBaseHeight
+  try {
+    placementBaseHeight = stampPlacementActualHeight(input.placementBaseHeight, 0)
+  } catch (cause) {
+    issue(issues, 'patch-invalid', cause instanceof Error ? cause.message : String(cause))
+  }
   if (
     !Number.isInteger(anchor.row) ||
     !Number.isInteger(anchor.col) ||
     !isLatticeInside(map, anchor)
   )
-    issue(issues, 'anchor-out-of-bounds', '图章锚点必须是地图内的整数格点。', {
+    issue(issues, 'anchor-out-of-bounds', '组合锚点必须是地图内的整数格点。', {
       ref: { ...anchor },
     })
   if (placementIndex.byId.has(placementId))
     issue(issues, 'placement-id-duplicate', `放置组 ID "${placementId}" 已存在。`)
 
-  const slotById = new Map(template.layerSlots.map((slot) => [slot.id, slot] as const))
-  const mappingsBySlot = new Map<string, StampLayerMapping[]>()
+  const layerById = new Map(template.layers.map((layer) => [layer.id, layer] as const))
+  const mappingsByLayer = new Map<string, StampLayerMapping[]>()
   for (const mapping of mappings) {
-    if (!slotById.has(mapping.layerSlotId)) {
-      issue(issues, 'mapping-unknown-slot', `映射引用未知局部槽 "${mapping.layerSlotId}"。`, {
+    if (!layerById.has(mapping.layerSlotId)) {
+      issue(issues, 'mapping-unknown-slot', `映射引用未知组合图层 "${mapping.layerSlotId}"。`, {
         layerSlotId: mapping.layerSlotId,
       })
       continue
     }
-    const bucket = mappingsBySlot.get(mapping.layerSlotId)
+    const bucket = mappingsByLayer.get(mapping.layerSlotId)
     if (bucket) bucket.push(mapping)
-    else mappingsBySlot.set(mapping.layerSlotId, [mapping])
+    else mappingsByLayer.set(mapping.layerSlotId, [mapping])
   }
 
-  const targetLayerBySlot = new Map<string, ProjectMap['layers'][number]>()
+  const targetLayerBySource = new Map<string, ProjectMap['layers'][number]>()
   const targetLayerIndexById = new Map(map.layers.map((layer, index) => [layer.id, index]))
   const hidden = new Set(input.permission.hiddenLayerIds)
   const locked = new Set(input.permission.lockedLayerIds)
-  for (const slot of template.layerSlots) {
-    const matches = mappingsBySlot.get(slot.id) ?? []
+  for (const sourceLayer of template.layers) {
+    const matches = mappingsByLayer.get(sourceLayer.id) ?? []
     if (matches.length === 0) {
-      issue(issues, 'mapping-missing', `局部槽 "${slot.name}" 尚未映射目标图层。`, {
-        layerSlotId: slot.id,
+      issue(issues, 'mapping-missing', `组合图层 "${sourceLayer.name}" 尚未映射目标图层。`, {
+        layerSlotId: sourceLayer.id,
       })
       continue
     }
     if (matches.length > 1) {
-      issue(issues, 'mapping-duplicate-slot', `局部槽 "${slot.name}" 被重复映射。`, {
-        layerSlotId: slot.id,
+      issue(issues, 'mapping-duplicate-slot', `组合图层 "${sourceLayer.name}" 被重复映射。`, {
+        layerSlotId: sourceLayer.id,
       })
       continue
     }
     const targetLayerId = matches[0]!.targetLayerId
-    const target = map.layers.find((layer) => layer.id === targetLayerId)
+    const target = map.layers.find(({ id }) => id === targetLayerId)
     if (!target) {
-      issue(
-        issues,
-        'target-layer-missing',
-        `局部槽 "${slot.name}" 的目标图层 "${targetLayerId}" 不存在。`,
-        { layerSlotId: slot.id },
-      )
+      issue(issues, 'target-layer-missing', `目标图层 "${targetLayerId}" 不存在。`, {
+        layerSlotId: sourceLayer.id,
+      })
       continue
     }
-    targetLayerBySlot.set(slot.id, target)
-    if (target.depthMode !== slot.depthMode)
-      issue(
-        issues,
-        'depth-mode-mismatch',
-        `局部槽 "${slot.name}" 是 ${slot.depthMode}，目标图层 "${target.name}" 是 ${target.depthMode}。`,
-        { layerSlotId: slot.id },
-      )
+    targetLayerBySource.set(sourceLayer.id, target)
     if (hidden.has(target.id))
-      issue(issues, 'hidden-layer', `目标图层 "${target.name}" 已隐藏，整枚图章不能放置。`, {
-        layerSlotId: slot.id,
+      issue(issues, 'hidden-layer', `目标图层 "${target.name}" 已隐藏，整组不能放置。`, {
+        layerSlotId: sourceLayer.id,
       })
     if (locked.has(target.id))
-      issue(issues, 'locked-layer', `目标图层 "${target.name}" 已锁定，整枚图章不能放置。`, {
-        layerSlotId: slot.id,
+      issue(issues, 'locked-layer', `目标图层 "${target.name}" 已锁定，整组不能放置。`, {
+        layerSlotId: sourceLayer.id,
       })
   }
 
   const resolvedVisual: ResolvedStampVisual[] = []
   const visualDestinations = new Set<string>()
-  for (const member of template.visual) {
-    const target = targetLayerBySlot.get(member.layerSlotId)
+  for (const sourceLayer of template.layers) {
+    const target = targetLayerBySource.get(sourceLayer.id)
     if (!target) continue
-    if (!input.availableTileIds.has(member.tileId))
-      issue(issues, 'missing-tile', `图章引用的瓦片 #${member.tileId} 不在当前 tileset 中。`, {
-        layerSlotId: member.layerSlotId,
-      })
-    const point = resolveRelativeLatticeOffset(anchor, member.offset)
-    const ref = { layerId: target.id, ...point }
-    if (!Number.isInteger(point.row) || !Number.isInteger(point.col)) {
-      issue(issues, 'invalid-coordinate', `图章视觉成员解析到非整数格点。`, {
-        layerSlotId: member.layerSlotId,
-        ref,
-      })
-      continue
-    }
-    if (!isLatticeInside(map, point)) {
-      issue(issues, 'out-of-bounds', `图章视觉成员越出地图边界。`, {
-        layerSlotId: member.layerSlotId,
-        ref,
-      })
-      continue
-    }
-    const key = visualSlotKey(ref)
-    if (visualDestinations.has(key)) {
-      issue(issues, 'ambiguous-destination', `多个图章成员映射到同一视觉槽 ${key}。`, {
-        layerSlotId: member.layerSlotId,
-        ref,
-      })
-      continue
-    }
-    visualDestinations.add(key)
-    const owner = placementIndex.visualOwnerByKey.get(key)
-    if (owner)
-      issue(issues, 'visual-owned', `视觉槽 ${key} 已属于放置组 "${owner}"，不能覆盖。`, {
-        layerSlotId: member.layerSlotId,
-        ref,
-        ownerPlacementId: owner,
-      })
-    else {
-      const currentTile = target.tiles[point.row]?.[point.col]
-      if (currentTile !== null && currentTile !== undefined)
-        conflicts.push({
-          channel: 'visual',
+    for (let row = 0; row < template.height * 2; row++)
+      for (let col = 0; col < template.width; col++) {
+        const tileId = sourceLayer.tiles[row]?.[col]
+        if (tileId === null || tileId === undefined) continue
+        const tilesetId = mapInstanceTilesetId(template, sourceLayer, row, col)
+        if (!tilesetId) {
+          issue(issues, 'patch-invalid', `组合视觉实例 ${sourceLayer.id}:${row}:${col} 缺少来源。`)
+          continue
+        }
+        if (!input.availableTileIdsByTileset.get(tilesetId)?.has(tileId))
+          issue(issues, 'missing-tile', `瓦片集 ${tilesetId} 缺少 #${tileId}。`, {
+            layerSlotId: sourceLayer.id,
+          })
+        const point = resolveRelativeLatticeOffset(
+          anchor,
+          relativeLatticeOffset({ row, col }, template.anchor),
+        )
+        const ref = { layerId: target.id, ...point }
+        if (!Number.isInteger(point.row) || !Number.isInteger(point.col)) {
+          issue(issues, 'invalid-coordinate', '组合视觉实例解析到非整数格点。', {
+            layerSlotId: sourceLayer.id,
+            ref,
+          })
+          continue
+        }
+        if (!isLatticeInside(map, point)) {
+          issue(issues, 'out-of-bounds', '组合视觉实例越出地图边界。', {
+            layerSlotId: sourceLayer.id,
+            ref,
+          })
+          continue
+        }
+        const key = visualSlotKey(ref)
+        if (visualDestinations.has(key)) {
+          issue(issues, 'ambiguous-destination', `多个组合实例映射到同一视觉槽 ${key}。`, {
+            layerSlotId: sourceLayer.id,
+            ref,
+          })
+          continue
+        }
+        visualDestinations.add(key)
+        const owner = placementIndex.visualOwnerByKey.get(key)
+        if (owner)
+          issue(issues, 'visual-owned', `视觉槽 ${key} 已属于放置组 "${owner}"，不能覆盖。`, {
+            layerSlotId: sourceLayer.id,
+            ref,
+            ownerPlacementId: owner,
+          })
+        else {
+          const currentTile = target.tiles[point.row]?.[point.col]
+          if (currentTile !== null && currentTile !== undefined)
+            conflicts.push({
+              channel: 'visual',
+              ref,
+              currentValue: currentTile,
+              incomingValue: tileId,
+            })
+        }
+        const relativeHeight = mapInstanceHeight(sourceLayer, row, col)
+        resolvedVisual.push({
+          layerSlotId: sourceLayer.id,
+          targetLayerId: target.id,
+          targetLayerIndex: targetLayerIndexById.get(target.id) ?? -1,
           ref,
-          currentValue: currentTile,
-          incomingValue: member.tileId,
+          tileId,
+          tilesetId,
+          relativeHeight,
+          height: stampPlacementActualHeight(placementBaseHeight, relativeHeight),
         })
-    }
-    resolvedVisual.push({
-      layerSlotId: member.layerSlotId,
-      targetLayerId: target.id,
-      targetLayerIndex: targetLayerIndexById.get(target.id) ?? -1,
-      ref,
-      tileId: member.tileId,
-      height: member.height,
-    })
+      }
   }
 
   const resolvedCollision: ResolvedStampCollision[] = []
   const collisionDestinations = new Set<string>()
-  for (const member of template.collision) {
-    const point = resolveRelativeLatticeOffset(anchor, member.offset)
-    if (!Number.isInteger(point.row) || !Number.isInteger(point.col)) {
-      issue(issues, 'invalid-coordinate', '图章碰撞成员解析到非整数格点。', { ref: point })
-      continue
-    }
-    if (!isLatticeInside(map, point)) {
-      issue(issues, 'out-of-bounds', '图章碰撞成员越出地图边界。', { ref: point })
-      continue
-    }
-    const key = gridPointKey(point)
-    if (collisionDestinations.has(key)) {
-      issue(issues, 'ambiguous-destination', `多个碰撞成员映射到同一格点 ${key}。`, {
-        ref: point,
-      })
-      continue
-    }
-    collisionDestinations.add(key)
-    const owner = placementIndex.collisionOwnerByKey.get(key)
-    if (owner)
-      issue(issues, 'collision-owned', `碰撞格点 ${key} 已属于放置组 "${owner}"，不能覆盖。`, {
-        ref: point,
-        ownerPlacementId: owner,
-      })
-    else {
-      const currentValue = map.collision[point.row]?.[point.col]
-      // 非零普通碰撞即为已有内容；即使值相同，纳入 placement ownership 也必须显式确认。
-      if (currentValue !== undefined && currentValue !== 0)
-        conflicts.push({
-          channel: 'collision',
+  for (let row = 0; row < template.height * 2; row++)
+    for (let col = 0; col < template.width; col++) {
+      const value = template.collision[row]?.[col]
+      if (value === null || value === undefined) continue
+      const point = resolveRelativeLatticeOffset(
+        anchor,
+        relativeLatticeOffset({ row, col }, template.anchor),
+      )
+      if (!isLatticeInside(map, point)) {
+        issue(issues, 'out-of-bounds', '组合碰撞实例越出地图边界。', { ref: point })
+        continue
+      }
+      const key = gridPointKey(point)
+      if (collisionDestinations.has(key)) {
+        issue(issues, 'ambiguous-destination', `多个碰撞实例映射到同一格点 ${key}。`, {
           ref: point,
-          currentValue,
-          incomingValue: member.value,
         })
+        continue
+      }
+      collisionDestinations.add(key)
+      const owner = placementIndex.collisionOwnerByKey.get(key)
+      if (owner)
+        issue(issues, 'collision-owned', `碰撞格点 ${key} 已属于放置组 "${owner}"。`, {
+          ref: point,
+          ownerPlacementId: owner,
+        })
+      else {
+        const currentValue = map.collision[point.row]?.[point.col]
+        if (currentValue !== undefined && currentValue !== 0)
+          conflicts.push({
+            channel: 'collision',
+            ref: point,
+            currentValue,
+            incomingValue: value,
+          })
+      }
+      resolvedCollision.push({ ref: point, value })
     }
-    resolvedCollision.push({ ref: point, value: member.value })
-  }
 
   const patch: ProjectMapPatch = {
-    visual: resolvedVisual.flatMap((member) => {
-      const layer = map.layers[member.targetLayerIndex]
-      return [
-        { channel: 'tileId' as const, ref: member.ref, value: member.tileId },
-        ...(layer?.depthMode === 'height'
-          ? [{ channel: 'height' as const, ref: member.ref, value: member.height }]
-          : []),
-      ]
-    }),
+    visual: resolvedVisual.flatMap((member) => [
+      { channel: 'tileId' as const, ref: member.ref, value: member.tileId },
+      { channel: 'tilesetId' as const, ref: member.ref, value: member.tilesetId },
+      { channel: 'height' as const, ref: member.ref, value: member.height },
+    ]),
     collision: resolvedCollision.map((member) => ({ ref: member.ref, value: member.value })),
   }
   const requiredWritableLayerIds = [
-    ...new Set(resolvedVisual.map((member) => member.targetLayerId)),
+    ...new Set(resolvedVisual.map(({ targetLayerId }) => targetLayerId)),
   ]
   const permission: MapPatchPermissionSnapshot = {
     hiddenLayerIds: [...input.permission.hiddenLayerIds],
     lockedLayerIds: [...input.permission.lockedLayerIds],
     requiredWritableLayerIds,
   }
-
   let preparedPatch: PreparedProjectMapPatch | undefined
-  if (issues.length === 0) {
+  if (!issues.length)
     try {
       preparedPatch = prepareProjectMapPatch(map, patch, permission)
     } catch (cause) {
@@ -362,15 +370,14 @@ export function planStampPlacement(input: PlanStampPlacementInput): StampPlaceme
           })
       else issue(issues, 'patch-invalid', cause instanceof Error ? cause.message : String(cause))
     }
-  }
 
   const placement: StampPlacementGroupV1 = {
     id: placementId,
     sourceStampId: template.id,
     sourceStampName: template.name,
     anchor: { ...anchor },
-    visualSlots: resolvedVisual.map((member) => ({ ...member.ref })),
-    gridPoints: resolvedCollision.map((member) => ({ ...member.ref })),
+    visualSlots: resolvedVisual.map(({ ref }) => ({ ...ref })),
+    gridPoints: resolvedCollision.map(({ ref }) => ({ ...ref })),
   }
   return {
     mapId: input.mapId,
@@ -378,6 +385,7 @@ export function planStampPlacement(input: PlanStampPlacementInput): StampPlaceme
     mapRevision: input.mapRevision,
     template: structuredClone(template),
     anchor: { ...anchor },
+    placementBaseHeight,
     mappings,
     permission,
     resolvedVisual,

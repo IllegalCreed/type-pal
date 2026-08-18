@@ -3,6 +3,7 @@ import {
   type ItemData,
   type LoadedManifest,
   normalizeScriptLibrary,
+  parseProjectMap,
   type SceneDef,
 } from '@type-pal/content'
 import {
@@ -29,9 +30,9 @@ import {
   DeleteItemCommand,
   DeleteMapAssetCommand,
   DetachActorEntityCommand,
-  UpdateItemCommand,
   UpdateActorCommand,
   UpdateEnemyCommand,
+  UpdateItemCommand,
   UpdateLocaleCommand,
   UpdatePoisonCommand,
   UpdateSkillCommand,
@@ -716,19 +717,27 @@ test('C1-1 空人物库创建预制人物、跨场景复用、保存重开、解
   session.dispatch(
     new AddEntityCommand(
       'scene-a',
-      createPlacedEntity('guide-a', { col: 1, row: 2, height: 0 }, {
-        mode: 'actor',
-        actorId: 'npc-guide',
-      }),
+      createPlacedEntity(
+        'guide-a',
+        { col: 1, row: 2, height: 0 },
+        {
+          mode: 'actor',
+          actorId: 'npc-guide',
+        },
+      ),
     ),
   )
   session.dispatch(
     new AddEntityCommand(
       'scene-b',
-      createPlacedEntity('guide-b', { col: 6, row: 7, height: 0 }, {
-        mode: 'actor',
-        actorId: 'npc-guide',
-      }),
+      createPlacedEntity(
+        'guide-b',
+        { col: 6, row: 7, height: 0 },
+        {
+          mode: 'actor',
+          actorId: 'npc-guide',
+        },
+      ),
     ),
   )
   session.dispatch(new UpdateActorCommand('npc-guide', { spriteId: 'li-xiaoyao' }))
@@ -752,14 +761,26 @@ test('C1-1 空人物库创建预制人物、跨场景复用、保存重开、解
   ])
   expect(reopened.locale['name.npc-guide']).toBe('引路人')
   expect(reopened.scenes.map((scene) => scene.entities[0])).toEqual([
-    expect.objectContaining({ id: 'guide-a', actor: 'npc-guide', pos: { col: 1, row: 2, height: 0 } }),
-    expect.objectContaining({ id: 'guide-b', actor: 'npc-guide', pos: { col: 6, row: 7, height: 0 } }),
+    expect.objectContaining({
+      id: 'guide-a',
+      actor: 'npc-guide',
+      pos: { col: 1, row: 2, height: 0 },
+    }),
+    expect.objectContaining({
+      id: 'guide-b',
+      actor: 'npc-guide',
+      pos: { col: 6, row: 7, height: 0 },
+    }),
   ])
 
   const reopenedSession = new EditSession(reopened)
-  expect(() => reopenedSession.dispatch(new DeleteActorCommand('npc-guide'))).toThrow(/仍被 2 处引用/)
+  expect(() => reopenedSession.dispatch(new DeleteActorCommand('npc-guide'))).toThrow(
+    /仍被 2 处引用/,
+  )
   reopenedSession.dispatch(new DetachActorEntityCommand('scene-a', 'guide-a'))
-  expect(() => reopenedSession.dispatch(new DeleteActorCommand('npc-guide'))).toThrow(/仍被 1 处引用/)
+  expect(() => reopenedSession.dispatch(new DeleteActorCommand('npc-guide'))).toThrow(
+    /仍被 1 处引用/,
+  )
   reopenedSession.dispatch(new DetachActorEntityCommand('scene-b', 'guide-b'))
   reopenedSession.dispatch(new DeleteActorCommand('npc-guide'))
   expect(reopenedSession.getState().actors).toEqual([])
@@ -775,7 +796,7 @@ test('C1-1 空人物库创建预制人物、跨场景复用、保存重开、解
   expect(reopenedSession.getState().actors[0]?.id).toBe('npc-guide')
 })
 
-test('ProjectMapV2 round-trip 使用共享确定性格式化器', () => {
+test('ProjectMap round-trip 使用共享确定性格式化器', () => {
   const map = buildBlankProjectMap(2, 2, 'tileset-056')
   const project = assembleProject(manifest, JSONS)
   const state = toEditorState(project, SCENES, { 'map-056': map })
@@ -783,12 +804,12 @@ test('ProjectMapV2 round-trip 使用共享确定性格式化器', () => {
 
   expect(out['content/maps/index.json']).toEqual(mapsJson)
   expect(typeof out['content/maps/map-056.json']).toBe('string')
-  expect(JSON.parse(out['content/maps/map-056.json'] as string)).toEqual(map)
+  expect(parseProjectMap(out['content/maps/map-056.json'] as string)).toEqual(map)
 })
 
-test('未加载 v3 地图保存时按原文本 copy-through，authoring 不解析也不改写', async () => {
+test('未加载的当前 v4 地图保存时按原文本 copy-through，authoring 不解析也不改写', async () => {
   const raw =
-    '{"version":3,"width":1,"height":1,"tilesetId":"tileset-056","layers":[],"collision":[],"authoring":{"version":1,"stampPlacements":[{"id":"raw-placement"}]}}'
+    '{"version":4,"width":1,"height":1,"tilesetRefs":["tileset-056"],"layers":[{"id":"floor","name":"地板","tiles":[[0],[null]]}],"collision":[[0],[0]]}'
   const reads: string[] = []
   const project = assembleProject(manifest, JSONS)
   const state = toEditorState(project, SCENES)
@@ -1101,7 +1122,7 @@ test('N6 保存门禁:作者脚本孤儿 ref fail-loud', () => {
   expect(() => serializeProject(state)).toThrow(/孤儿 ref/)
 })
 
-test('ProjectMapV2 serialize → loadProjectMap 重开闭环', async () => {
+test('ProjectMap serialize → loadProjectMap 重开闭环', async () => {
   const ownManifest: LoadedManifest = {
     ...manifest,
     contentVersion: 4,
@@ -1121,11 +1142,11 @@ test('ProjectMapV2 serialize → loadProjectMap 重开闭环', async () => {
   let projectMap = buildBlankProjectMap(2, 2, 'tileset-056')
   projectMap = insertProjectMapLayer(
     projectMap,
-    buildProjectMapLayer(projectMap, 'objects', '物件', 'height'),
+    buildProjectMapLayer(projectMap, 'objects', '物件'),
   )
   projectMap = paintProjectMapTiles(projectMap, [
-    { layerId: 'floor', row: 0, col: 0, tileId: 2, height: 0 },
-    { layerId: 'objects', row: 1, col: 0, tileId: 7, height: 3 },
+    { layerId: 'floor', row: 0, col: 0, tileId: 2, tilesetId: 'tiles', height: 0 },
+    { layerId: 'objects', row: 1, col: 0, tileId: 7, tilesetId: 'tiles', height: 3 },
   ])
   projectMap = paintProjectMapCollision(projectMap, [{ row: 1, col: 0, value: 5 }])
   const files = serializeProject(toEditorState(project, [ownScene], { 'guijie-minju': projectMap }))
@@ -1140,10 +1161,12 @@ test('ProjectMapV2 serialize → loadProjectMap 重开闭环', async () => {
   expect(await loadProjectMap({ ...project.assetBase, io: source }, rel)).toEqual(projectMap)
 })
 
-test('W7G ProjectMapV3 保存重开保留 authoring，删除最后一组同图降回 v2', async () => {
+test('ProjectMap 保存重开保留 authoring，删除最后一组仍保持当前 v4', async () => {
   let base = buildBlankProjectMap(2, 1, 'tileset-056')
-  base = paintProjectMapTiles(base, [{ layerId: 'floor', row: 0, col: 0, tileId: 9, height: 0 }])
-  const v3 = withProjectMapStampPlacements(base, [
+  base = paintProjectMapTiles(base, [
+    { layerId: 'floor', row: 0, col: 0, tileId: 9, tilesetId: 'tiles', height: 0 },
+  ])
+  const withPlacement = withProjectMapStampPlacements(base, [
     {
       id: 'placement-1',
       sourceStampId: 'tree',
@@ -1154,9 +1177,9 @@ test('W7G ProjectMapV3 保存重开保留 authoring，删除最后一组同图�
     },
   ])
   const project = assembleProject(manifest, JSONS)
-  const saved = serializeProject(toEditorState(project, SCENES, { 'map-056': v3 }))
+  const saved = serializeProject(toEditorState(project, SCENES, { 'map-056': withPlacement }))
   const text = saved['content/maps/map-056.json'] as string
-  expect(JSON.parse(text)).toMatchObject({ version: 3, authoring: { version: 1 } })
+  expect(JSON.parse(text)).toMatchObject({ version: 4, authoring: { version: 1 } })
   const source = {
     readText: async () => text,
     readJson: async <T>() => JSON.parse(text) as T,
@@ -1165,23 +1188,28 @@ test('W7G ProjectMapV3 保存重开保留 authoring，删除最后一组同图�
   }
   await expect(
     loadProjectMap({ ...project.assetBase, io: source }, 'content/maps/map-056.json'),
-  ).resolves.toEqual(v3)
+  ).resolves.toEqual(withPlacement)
 
-  const v2 = withProjectMapStampPlacements(v3, [])
-  const downgraded = serializeProject(toEditorState(project, SCENES, { 'map-056': v2 }))
-  expect(JSON.parse(downgraded['content/maps/map-056.json'] as string)).toEqual(v2)
-  expect('authoring' in v2).toBe(false)
+  const withoutPlacement = withProjectMapStampPlacements(withPlacement, [])
+  const serialized = serializeProject(
+    toEditorState(project, SCENES, { 'map-056': withoutPlacement }),
+  )
+  expect(JSON.parse(serialized['content/maps/map-056.json'] as string)).toEqual(withoutPlacement)
+  expect(withoutPlacement.version).toBe(4)
+  expect('authoring' in withoutPlacement).toBe(false)
 })
 
 test('W7G stamps 表使用共享 formatter；旧 manifest 零表不物化，非空未登记 fail-loud', () => {
   const template = {
     id: 'tree',
     name: '树',
-    tilesetId: 'tileset-056',
     origin: 'authored' as const,
-    layerSlots: [{ id: 'ground', name: '地面', depthMode: 'flat' as const }],
-    visual: [{ layerSlotId: 'ground', offset: { dRow: 0, du: 0 }, tileId: 9, height: 0 }],
-    collision: [{ offset: { dRow: 0, du: 0 }, value: 0 }],
+    width: 1,
+    height: 1,
+    anchor: { row: 0, col: 0 },
+    tilesetRefs: ['tileset-056'],
+    layers: [{ id: 'ground', name: '地面', tiles: [[9], [null]], sources: [[0], [null]] }],
+    collision: [[0], [null]],
   }
   const project = assembleProject(manifest, JSONS)
   const oldState = toEditorState(project, SCENES)

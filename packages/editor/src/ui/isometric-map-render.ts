@@ -1,10 +1,10 @@
-import type { ProjectMap } from '@type-pal/content'
-import { renderSceneFrame } from '@type-pal/reforge'
+import type { IsometricMapContent } from '@type-pal/content'
+import { renderSceneFrame, type TilesetFrameRegistry } from '@type-pal/reforge'
 import { drawGridBlocked, type StageAssets, type StageView } from './scene-stage.js'
 
 export interface IsometricMapBaseCache {
   canvas: HTMLCanvasElement
-  map: ProjectMap
+  map: IsometricMapContent<number | null>
   width: number
   height: number
   zoom: number
@@ -18,12 +18,12 @@ export interface IsometricMapBaseCache {
   dimAlpha: number
   revision: number
   renderer: StageAssets['renderer']
-  tiles: StageAssets['tiles']
+  tilesets: TilesetFrameRegistry
 }
 
 export interface DrawIsometricMapBaseOptions {
-  map: ProjectMap
-  assets: Pick<StageAssets, 'renderer' | 'tiles'>
+  map: IsometricMapContent<number | null>
+  assets: { renderer: StageAssets['renderer']; tilesets: TilesetFrameRegistry }
   view: StageView
   showGrid: boolean
   showCollision: boolean
@@ -42,17 +42,18 @@ export interface DrawIsometricMapBaseOptions {
  * stamp editor from materializing and scanning a private rectangle of lattice cells.
  */
 export function visibleMapRoom(
-  map: ProjectMap,
-  tiles: StageAssets['tiles'],
+  map: IsometricMapContent<number | null>,
+  tilesets: TilesetFrameRegistry,
   canvas: HTMLCanvasElement,
   view: StageView,
 ): { col: number; row: number; cols: number; rows: number } {
   let maxTileWidth = 32
   let maxTileHeight = 16
-  for (const frame of tiles.values()) {
-    maxTileWidth = Math.max(maxTileWidth, frame.width)
-    maxTileHeight = Math.max(maxTileHeight, frame.height)
-  }
+  for (const tiles of tilesets.values())
+    for (const frame of tiles.values()) {
+      maxTileWidth = Math.max(maxTileWidth, frame.width)
+      maxTileHeight = Math.max(maxTileHeight, frame.height)
+    }
   const worldWidth = canvas.width / view.zoom
   const worldHeight = canvas.height / view.zoom
   const firstCol = Math.max(0, Math.floor((view.panX - maxTileWidth - 16) / 32))
@@ -101,7 +102,7 @@ export function drawIsometricMapBase(
     previous.dimAlpha !== dimAlpha ||
     previous.revision !== revision ||
     previous.renderer !== assets.renderer ||
-    previous.tiles !== assets.tiles
+    previous.tilesets !== assets.tilesets
 
   if (!changed) {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
@@ -109,7 +110,7 @@ export function drawIsometricMapBase(
     return previous
   }
 
-  const room = visibleMapRoom(map, assets.tiles, ctx.canvas, view)
+  const room = visibleMapRoom(map, assets.tilesets, ctx.canvas, view)
   renderSceneFrame(ctx, assets.renderer, {
     map,
     room,
@@ -118,9 +119,7 @@ export function drawIsometricMapBase(
     worldScale: view.zoom,
     layers: {
       hiddenLayerIds: [...(options.hiddenLayerIds ?? [])],
-      ...(focusLayerId === undefined
-        ? { showAll: true }
-        : { focusLayerId, focusHeight, dimAlpha }),
+      ...(focusLayerId === undefined ? { showAll: true } : { focusLayerId, focusHeight, dimAlpha }),
     },
   })
   drawGridBlocked(ctx, map, room, view, { grid: showGrid, blocked: showCollision })
@@ -145,6 +144,6 @@ export function drawIsometricMapBase(
     dimAlpha,
     revision,
     renderer: assets.renderer,
-    tiles: assets.tiles,
+    tilesets: assets.tilesets,
   }
 }

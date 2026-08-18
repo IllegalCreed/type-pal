@@ -2,6 +2,7 @@ import {
   buildBlankProjectMap,
   buildProjectMapLayer,
   insertProjectMapLayer,
+  paintProjectMapTiles,
 } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
 import type { MapSelection } from './map-selection.js'
@@ -14,17 +15,12 @@ import {
 
 function fixture() {
   const base = buildBlankProjectMap(3, 2, 'tileset-003')
-  const floor = {
-    ...base.layers[0]!,
-    tiles: base.layers[0]!.tiles.map((row) => [...row]),
-  }
-  floor.tiles[0]![0] = 1
-  floor.tiles[1]![0] = 2
-  const withFloor = { ...base, layers: [floor] }
-  const objects = buildProjectMapLayer(withFloor, 'objects', '物件', 'height')
-  objects.tiles[0]![1] = 3
-  objects.heights![0]![1] = 8
-  const map = insertProjectMapLayer(withFloor, objects)
+  const withObjects = insertProjectMapLayer(base, buildProjectMapLayer(base, 'objects', '物件'))
+  const map = paintProjectMapTiles(withObjects, [
+    { layerId: 'floor', row: 0, col: 0, tileId: 1, tilesetId: 'tileset-003', height: 0 },
+    { layerId: 'floor', row: 1, col: 0, tileId: 2, tilesetId: 'tileset-003', height: 0 },
+    { layerId: 'objects', row: 0, col: 1, tileId: 3, tilesetId: 'tileset-003', height: 8 },
+  ])
   map.collision[0]![0] = 0
   map.collision[1]![0] = 2
   const selection: Extract<MapSelection, { kind: 'cells' }> = {
@@ -57,17 +53,28 @@ describe('buildStampTemplateFromSelection', () => {
       includeCollision: true,
       layerSlotNames: { floor: '地基槽', objects: '立面槽' },
     })
-    expect(template.tilesetId).toBe('tileset-003')
-    expect(template.layerSlots.map((slot) => slot.id)).toEqual(['floor', 'objects'])
-    expect(template.layerSlots.map((slot) => slot.name)).toEqual(['地基槽', '立面槽'])
-    expect(template.visual).toEqual([
-      { layerSlotId: 'floor', offset: { dRow: 0, du: 0 }, tileId: 1, height: 0 },
-      { layerSlotId: 'floor', offset: { dRow: 1, du: 1 }, tileId: 2, height: 0 },
-      { layerSlotId: 'objects', offset: { dRow: 0, du: 2 }, tileId: 3, height: 8 },
+    expect(template.tilesetRefs).toEqual(['tileset-003'])
+    expect(template.layers.map((layer) => layer.id)).toEqual(['floor', 'objects'])
+    expect(template.layers.map((layer) => layer.name)).toEqual(['地基槽', '立面槽'])
+    expect(template.layers[0]?.tiles).toEqual([
+      [1, null],
+      [2, null],
+    ])
+    expect(template.layers[0]?.sources).toEqual([
+      [0, null],
+      [0, null],
+    ])
+    expect(template.layers[1]?.tiles).toEqual([
+      [null, 3],
+      [null, null],
+    ])
+    expect(template.layers[1]?.heights).toEqual([
+      [0, 8],
+      [0, 0],
     ])
     expect(template.collision).toEqual([
-      { offset: { dRow: 0, du: 0 }, value: 0 },
-      { offset: { dRow: 1, du: 1 }, value: 2 },
+      [0, null],
+      [2, null],
     ])
   })
 
@@ -81,8 +88,13 @@ describe('buildStampTemplateFromSelection', () => {
       anchor: defaultStampTemplateAnchor(selection)!,
       includeCollision: false,
     })
-    expect(template.visual).toHaveLength(3)
-    expect(template.collision).toEqual([])
+    expect(
+      template.layers.flatMap((layer) => layer.tiles.flat()).filter((tile) => tile !== null),
+    ).toHaveLength(3)
+    expect(template.collision).toEqual([
+      [null, null],
+      [null, null],
+    ])
     expect(defaultStampTemplateAnchor(selection)).toEqual({ row: 0, col: 0 })
 
     expect(() =>
@@ -121,7 +133,7 @@ test('collectStampTemplateUsage 统计已加载地图并把悬空来源作为软
   })
   const placed = {
     ...map,
-    version: 3 as const,
+    version: 4 as const,
     authoring: {
       version: 1 as const,
       stampPlacements: [

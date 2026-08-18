@@ -1,4 +1,4 @@
-import type { StampTemplateV1 } from '@type-pal/content'
+import type { StampTemplate } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import type { EditorState } from './edit-session.js'
 import { EditSession } from './edit-session.js'
@@ -9,19 +9,21 @@ import {
   ReplaceStampTemplateCommand,
 } from './stamp-commands.js'
 
-function template(id = 'tree', origin: StampTemplateV1['origin'] = 'authored'): StampTemplateV1 {
+function template(id = 'tree', origin: StampTemplate['origin'] = 'authored'): StampTemplate {
   return {
     id,
     name: id,
-    tilesetId: 'tiles',
     origin,
-    layerSlots: [{ id: 'floor', name: '地面', depthMode: 'flat' }],
-    visual: [{ layerSlotId: 'floor', offset: { dRow: 0, du: 0 }, tileId: 1, height: 0 }],
-    collision: [],
+    width: 1,
+    height: 1,
+    anchor: { row: 0, col: 0 },
+    tilesetRefs: ['tiles'],
+    layers: [{ id: 'floor', name: '地面', tiles: [[1], [null]], sources: [[0], [null]] }],
+    collision: [[null], [null]],
   }
 }
 
-function state(stamps: StampTemplateV1[] = []): EditorState {
+function state(stamps: StampTemplate[] = []): EditorState {
   return {
     manifest: { content: {} } as EditorState['manifest'],
     scenes: [],
@@ -64,7 +66,7 @@ describe('stamp template commands', () => {
     const next = {
       ...template('tree'),
       name: '我的树',
-      visual: [{ ...template().visual[0]!, tileId: 9 }],
+      layers: [{ ...template().layers[0]!, tiles: [[9], [null]] }],
     }
     expect(() => session.dispatch(new ReplaceStampTemplateCommand(next))).toThrow('显式接管')
     expect(session.getState().stamps[0]).toEqual(template('tree', 'migrated'))

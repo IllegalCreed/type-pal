@@ -1,4 +1,4 @@
-import type { Palette, RleFrame } from '@type-pal/reforge'
+import type { Palette, RleFrame, TilesetFrameRegistry } from '@type-pal/reforge'
 import { bakeFrame, latticeCenter, projectMapTileBlitRect } from '@type-pal/reforge'
 import type { GridPointRef } from '../core/map-selection.js'
 import { gridPointKey } from '../core/map-selection.js'
@@ -7,7 +7,7 @@ import type { MapOverlayView } from './map-selection-overlay.js'
 
 export interface StampPlacementOverlayOptions {
   plan: StampPlacementPlan
-  tiles: ReadonlyMap<number, RleFrame>
+  tilesets: TilesetFrameRegistry
   palette: Palette
   view: MapOverlayView
   alpha?: number
@@ -62,7 +62,7 @@ export function drawStampPlacementOverlay(
   ctx: CanvasRenderingContext2D,
   options: StampPlacementOverlayOptions,
 ): void {
-  const { plan, tiles, palette, view } = options
+  const { plan, tilesets, palette, view } = options
   const visual = [...plan.resolvedVisual].sort(
     (left, right) =>
       left.targetLayerIndex - right.targetLayerIndex ||
@@ -74,7 +74,7 @@ export function drawStampPlacementOverlay(
   ctx.globalAlpha = options.alpha ?? 0.68
   ctx.imageSmoothingEnabled = false
   for (const member of visual) {
-    const frame = tiles.get(member.tileId)
+    const frame = tilesets.get(member.tilesetId)?.get(member.tileId)
     if (!frame) continue
     const rect = projectMapTileBlitRect(member.ref, frame)
     ctx.drawImage(

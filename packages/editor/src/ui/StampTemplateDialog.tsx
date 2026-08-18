@@ -1,4 +1,4 @@
-import type { StampTemplateV1 } from '@type-pal/content'
+import type { StampTemplate } from '@type-pal/content'
 import type { ProjectMap } from '@type-pal/reforge'
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
@@ -18,7 +18,7 @@ type InvalidField = 'id' | 'name' | 'anchor-row' | 'anchor-col' | 'target'
 export function StampTemplateDialog(props: {
   map: ProjectMap
   selection: CellsSelection
-  stamps: readonly StampTemplateV1[]
+  stamps: readonly StampTemplate[]
   session: EditSession
   initialMode?: 'create' | 'update'
   initialTargetId?: string
@@ -26,10 +26,7 @@ export function StampTemplateDialog(props: {
   onSaved: (id: string, mode: 'create' | 'update') => void
 }) {
   const { map, selection, stamps, session, onClose, onSaved, initialMode, initialTargetId } = props
-  const compatible = useMemo(
-    () => stamps.filter((template) => template.tilesetId === map.tilesetId),
-    [map.tilesetId, stamps],
-  )
+  const compatible = stamps
   const suggestedAnchor = defaultStampTemplateAnchor(selection) ?? { row: 0, col: 0 }
   const sourceLayers = useMemo(
     () =>
@@ -37,7 +34,7 @@ export function StampTemplateDialog(props: {
         const count = selection.visualSlots.filter(
           (ref) => ref.layerId === layer.id && layer.tiles[ref.row]?.[ref.col] != null,
         ).length
-        return count ? [{ id: layer.id, name: layer.name, depthMode: layer.depthMode, count }] : []
+        return count ? [{ id: layer.id, name: layer.name, count }] : []
       }),
     [map.layers, selection.visualSlots],
   )
@@ -68,7 +65,7 @@ export function StampTemplateDialog(props: {
       ? Object.fromEntries(
           sourceLayers.map((layer) => [
             layer.id,
-            initialTarget.layerSlots.find((slot) => slot.id === layer.id)?.name ?? layer.name,
+            initialTarget.layers.find((slot) => slot.id === layer.id)?.name ?? layer.name,
           ]),
         )
       : sourceSlotNames,
@@ -123,7 +120,7 @@ export function StampTemplateDialog(props: {
       Object.fromEntries(
         sourceLayers.map((layer) => [
           layer.id,
-          next.layerSlots.find((slot) => slot.id === layer.id)?.name ?? layer.name,
+          next.layers.find((slot) => slot.id === layer.id)?.name ?? layer.name,
         ]),
       ),
     )
@@ -149,7 +146,7 @@ export function StampTemplateDialog(props: {
         Object.fromEntries(
           sourceLayers.map((layer) => [
             layer.id,
-            nextTarget.layerSlots.find((slot) => slot.id === layer.id)?.name ?? layer.name,
+            nextTarget.layers.find((slot) => slot.id === layer.id)?.name ?? layer.name,
           ]),
         ),
       )
@@ -204,7 +201,6 @@ export function StampTemplateDialog(props: {
         ...(category.trim() ? { category: category.trim() } : {}),
         anchor: { row, col },
         includeCollision,
-        ...(mode === 'update' ? { expectedTilesetId: target!.tilesetId } : {}),
         layerSlotNames: slotNames,
       })
       if (mode === 'create') session.dispatch(new AddStampTemplateCommand(template))
@@ -392,9 +388,7 @@ export function StampTemplateDialog(props: {
               <label key={layer.id}>
                 <span>
                   <strong>{layer.id}</strong>
-                  <small>
-                    {layer.depthMode === 'height' ? '高度' : '平面'} · {layer.count} 成员
-                  </small>
+                  <small>{layer.count} 成员</small>
                 </span>
                 <input
                   name={`stamp-slot-${layer.id}`}
@@ -451,12 +445,26 @@ export function StampTemplateDialog(props: {
             <span>
               <strong>{includeCollision ? selection.gridPoints.length : 0}</strong> 碰撞成员
             </span>
-            <span className="mono">{map.tilesetId}</span>
+            <span className="mono">{map.tilesetRefs.join('、')}</span>
           </div>
           {mode === 'update' && target ? (
             <p className="stamp-replace-summary">
-              整项替换：{target.layerSlots.length} 层 / {target.visual.length} 视觉 /{' '}
-              {target.collision.length} 碰撞
+              整项替换：{target.layers.length} 层 /{' '}
+              {target.layers.reduce(
+                (count, layer) =>
+                  count +
+                  layer.tiles.reduce(
+                    (sum, row) => sum + row.filter((tile) => tile !== null).length,
+                    0,
+                  ),
+                0,
+              )}{' '}
+              视觉 /{' '}
+              {target.collision.reduce(
+                (count, row) => count + row.filter((value) => value !== null).length,
+                0,
+              )}{' '}
+              碰撞
               {' → '}
               {sourceLayers.length} 层 / {nonEmptyVisualCount} 视觉 /{' '}
               {includeCollision ? selection.gridPoints.length : 0} 碰撞

@@ -1,25 +1,25 @@
-import { type StampTemplateV1, validateStampTemplates } from '@type-pal/content'
+import { type StampTemplate, validateStampTemplates } from '@type-pal/content'
 import type { Command } from './commands.js'
 import type { EditorState } from './edit-session.js'
 
 const STAMPS_CONTENT_PATH = 'content/stamps.json'
 
-function cloneTemplate(template: StampTemplateV1): StampTemplateV1 {
+function cloneTemplate(template: StampTemplate): StampTemplate {
   return structuredClone(template)
 }
 
-function validateNext(templates: readonly StampTemplateV1[]): StampTemplateV1[] {
+function validateNext(templates: readonly StampTemplate[]): StampTemplate[] {
   return validateStampTemplates(templates.map(cloneTemplate))
 }
 
 export class AddStampTemplateCommand implements Command {
   readonly label = '新增图章模板'
-  private readonly template: StampTemplateV1
+  private readonly template: StampTemplate
   private added = false
   private previousManifestPath: string | undefined
   private manifestPathCaptured = false
 
-  constructor(template: StampTemplateV1) {
+  constructor(template: StampTemplate) {
     this.template = validateNext([template])[0]!
   }
 
@@ -64,11 +64,11 @@ export interface ReplaceStampTemplateOptions {
 
 export class ReplaceStampTemplateCommand implements Command {
   readonly label = '更新图章模板'
-  private readonly template: StampTemplateV1
+  private readonly template: StampTemplate
   private readonly takeOwnership: boolean
-  private previous: StampTemplateV1 | undefined
+  private previous: StampTemplate | undefined
 
-  constructor(template: StampTemplateV1, options: ReplaceStampTemplateOptions = {}) {
+  constructor(template: StampTemplate, options: ReplaceStampTemplateOptions = {}) {
     this.template = validateNext([template])[0]!
     this.takeOwnership = options.takeOwnership === true
   }
@@ -136,7 +136,7 @@ export class DuplicateStampTemplateCommand implements Command {
 export class DeleteStampTemplateCommand implements Command {
   readonly label = '删除图章模板'
   private readonly templateId: string
-  private removed: { template: StampTemplateV1; index: number } | undefined
+  private removed: { template: StampTemplate; index: number } | undefined
 
   constructor(templateId: string) {
     this.templateId = templateId

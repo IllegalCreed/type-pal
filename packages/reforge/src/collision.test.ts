@@ -10,7 +10,7 @@ import {
   withProjectMapStampPlacements,
 } from './project-map.js'
 
-describe('ProjectMapV2 独立碰撞 lattice', () => {
+describe('ProjectMap 独立碰撞 lattice', () => {
   test('像素入口精确读取命中的子格', () => {
     let map = buildBlankProjectMap(3, 3, 'tileset-001')
     map = paintProjectMapCollision(map, [{ col: 1, row: 3, value: 1 }])
@@ -40,11 +40,20 @@ describe('ProjectMapV2 独立碰撞 lattice', () => {
     expect(isBlockedAt(map, pos)).toBe(buildIsBlocked(map)(pixel.x, pixel.y))
   })
 
-  test('相同 collision 的 v2/v3 判定逐点一致', () => {
+  test('相同 collision 的有无作者态判定逐点一致', () => {
     let base = buildBlankProjectMap(1, 1, 'tileset-001')
-    base = paintProjectMapTiles(base, [{ layerId: 'floor', row: 0, col: 0, tileId: 1, height: 0 }])
+    base = paintProjectMapTiles(base, [
+      {
+        layerId: 'floor',
+        row: 0,
+        col: 0,
+        tileId: 1,
+        tilesetId: 'tileset-001',
+        height: 0,
+      },
+    ])
     base = paintProjectMapCollision(base, [{ row: 0, col: 0, value: 1 }])
-    const v3 = withProjectMapStampPlacements(base, [
+    const authored = withProjectMapStampPlacements(base, [
       {
         id: 'placement-1',
         anchor: { row: 0, col: 0 },
@@ -53,7 +62,7 @@ describe('ProjectMapV2 独立碰撞 lattice', () => {
       },
     ])
     const point = latticeCenter({ row: 0, col: 0 })
-    expect(buildIsBlocked(v3)(point.x, point.y)).toBe(buildIsBlocked(base)(point.x, point.y))
+    expect(buildIsBlocked(authored)(point.x, point.y)).toBe(buildIsBlocked(base)(point.x, point.y))
   })
 })
 

@@ -21,14 +21,14 @@ import {
 
 function fixtureMap(withOther = true): ProjectMap {
   let map: ProjectMap = buildBlankProjectMap(5, 3, 'tiles')
-  map = insertProjectMapLayer(map, buildProjectMapLayer(map, 'objects', '物件', 'height'))
+  map = insertProjectMapLayer(map, buildProjectMapLayer(map, 'objects', '物件'))
   map = paintProjectMapTiles(map, [
-    { layerId: 'floor', row: 0, col: 0, tileId: 1, height: 0 },
-    { layerId: 'objects', row: 1, col: 0, tileId: 2, height: 3 },
+    { layerId: 'floor', row: 0, col: 0, tileId: 1, tilesetId: 'tiles', height: 0 },
+    { layerId: 'objects', row: 1, col: 0, tileId: 2, tilesetId: 'tiles', height: 3 },
     ...(withOther
       ? [
-          { layerId: 'floor', row: 4, col: 3, tileId: 4, height: 0 },
-          { layerId: 'objects', row: 5, col: 3, tileId: 5, height: 2 },
+          { layerId: 'floor', row: 4, col: 3, tileId: 4, tilesetId: 'tiles', height: 0 },
+          { layerId: 'objects', row: 5, col: 3, tileId: 5, tilesetId: 'tiles', height: 2 },
         ]
       : []),
   ])
@@ -101,8 +101,8 @@ describe('W7G-E 整组变换', () => {
       sourceId: 'tree-a',
       sourceStampId: 'tree',
       visual: [
-        { tileId: 1, height: 0 },
-        { tileId: 2, height: 3 },
+        { tileId: 1, tilesetId: 'tiles', height: 0 },
+        { tileId: 2, tilesetId: 'tiles', height: 3 },
       ],
       collision: [{ value: 0 }],
     })
@@ -197,7 +197,7 @@ describe('W7G-E 整组变换', () => {
     expect(pasted.upsertPlacements[0]?.id).toBe('tree-a')
   })
 
-  test('delete 始终清理全部通道，最后一组降回 v2', () => {
+  test('delete 始终清理全部通道并保持 canonical v4', () => {
     const map = paintProjectMapCollision(fixtureMap(false), [{ row: 1, col: 0, value: 7 }])
     const plan = planStampGroupDelete({
       mapId: 'map-a',
@@ -207,10 +207,10 @@ describe('W7G-E 整组变换', () => {
       permission: writable,
     })
     const deleted = new TransformStampPlacementsCommand(plan).apply(state(map)).maps['map-a']!
-    expect(deleted.version).toBe(2)
+    expect(deleted.version).toBe(4)
     expect(deleted.layers[0]?.tiles[0]?.[0]).toBeNull()
     expect(deleted.layers[1]?.tiles[1]?.[0]).toBeNull()
-    expect(deleted.layers[1]?.heights?.[1]?.[0]).toBe(0)
+    expect(deleted.layers[1]?.heights?.[1]?.[0] ?? 0).toBe(0)
     expect(deleted.collision[1]?.[0]).toBe(0)
   })
 
@@ -232,7 +232,7 @@ describe('W7G-E 整组变换', () => {
 
     let ordinary = fixtureMap(false)
     ordinary = paintProjectMapTiles(ordinary, [
-      { layerId: 'floor', row: 2, col: 1, tileId: 1, height: 0 },
+      { layerId: 'floor', row: 2, col: 1, tileId: 1, tilesetId: 'tiles', height: 0 },
     ])
     const reject = planStampGroupMove({
       mapId: 'map-a',

@@ -7,7 +7,14 @@
  * 见 docs/phase2/editor/editor-design.md §3(渲染复用)。
  */
 
-import type { Camera, CellRect, Renderer, RenderLayerOpts, SpriteDraw } from './render.js'
+import type {
+  Camera,
+  CellRect,
+  Renderer,
+  RenderLayerOpts,
+  SpriteDraw,
+  TilesetFrameRegistry,
+} from './render.js'
 // 渲染器(D10:Canvas2D blitter + Y 深度遮挡)
 import { bakeFrame, Canvas2DRenderer, spriteBlitRect } from './render.js'
 
@@ -19,7 +26,7 @@ export {
   resolveSpriteActionPosition,
   type SpriteActionPosition,
 } from './entity-action-player.js'
-export type { Camera, CellRect, Renderer, RenderLayerOpts, SpriteDraw }
+export type { Camera, CellRect, Renderer, RenderLayerOpts, SpriteDraw, TilesetFrameRegistry }
 export { bakeFrame, Canvas2DRenderer, spriteBlitRect }
 
 import type {
@@ -31,7 +38,7 @@ import type {
   LoadedWorldSprite,
   SpriteAssetReader,
 } from './assets.js'
-// 资产加载(ProjectMapV2/工程标准色彩/tileset/sprite + gzip 解压)
+// 资产加载(ProjectMap/工程标准色彩/tileset/sprite + gzip 解压)
 import {
   BattleSpriteAssetCache,
   compressGzip,
@@ -78,7 +85,7 @@ export {
 }
 
 import type { SceneMapAssets } from './scene-map.js'
-// 场景地图解析(ProjectMapV2 + tileset 注册表;引擎 + 编辑器共用)
+// 场景地图解析(ProjectMap + tileset 注册表;引擎 + 编辑器共用)
 import { loadSceneMap } from './scene-map.js'
 
 export type { SceneMapAssets }
@@ -99,27 +106,23 @@ import {
 } from './loader.js'
 
 export type {
-  MapLayerV2,
+  IsometricMapContent,
+  IsometricMapLayer,
   ProjectMap,
   ProjectMapAuthoringV1,
-  ProjectMapV2,
-  ProjectMapV3,
   StampPlacementGridPointV1,
   StampPlacementGroupV1,
   StampPlacementVisualSlotV1,
-  StampTemplateV1,
+  StampTemplate,
   TilesetDef,
 } from '@type-pal/content'
 // 地图/调色板类型转出口(编辑器不直依赖 shared/content)
 export {
   isProjectMap,
-  isProjectMapV2,
-  isProjectMapV3,
   mapInstanceHeight,
+  mapInstanceTilesetId,
   resolveTilesetAsset,
   validateProjectMap,
-  validateProjectMapV2,
-  validateProjectMapV3,
   validateStampTemplates,
   validateTilesets,
 } from '@type-pal/content'
@@ -223,7 +226,7 @@ export type {
   ProjectMapTileDraw,
   ProjectMapTileEdit,
 } from './project-map.js'
-// 工程地图(ProjectMapV2):构造/编辑 + 错排 lattice 纯逻辑
+// 工程地图(ProjectMap):构造/编辑 + 错排 lattice 纯逻辑
 export {
   buildBlankProjectMap,
   buildProjectMapLayer,

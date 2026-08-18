@@ -1,5 +1,5 @@
 import type { ProjectMap, StampPlacementGroupV1 } from '@type-pal/content'
-import { mapInstanceHeight } from '@type-pal/reforge'
+import { mapInstanceHeight, mapInstanceTilesetId } from '@type-pal/reforge'
 import {
   type MapPatchPermissionSnapshot,
   type PreparedProjectMapPatch,
@@ -26,6 +26,7 @@ export interface StampGroupClipboardVisual {
   sourceRef: VisualSlotRef
   offset: RelativeLatticeOffset
   tileId: number
+  tilesetId: string
   height: number
 }
 
@@ -47,7 +48,7 @@ export interface StampGroupClipboardPlacement {
 export interface StampGroupClipboard {
   kind: 'stamp-placements'
   sourceMapId: string
-  sourceTilesetId: string
+  sourceTilesetIds: string[]
   sourceAnchor: GridPointRef
   /** cut 粘贴保留 id；copy/repeat 必须产生新的 map-local id。 */
   identity: 'copy' | 'preserve'
@@ -110,7 +111,7 @@ export function captureStampGroupClipboard(
   return {
     kind: 'stamp-placements',
     sourceMapId: mapId,
-    sourceTilesetId: map.tilesetId,
+    sourceTilesetIds: [...map.tilesetRefs],
     sourceAnchor: { ...sourceAnchor },
     identity,
     placements: placements.map((placement) => ({
@@ -125,10 +126,13 @@ export function captureStampGroupClipboard(
           throw new Error(
             `放置组“${placement!.id}”的视觉成员 ${visualSlotKey(ref)} 没有普通瓦片值。`,
           )
+        const tilesetId = mapInstanceTilesetId(map, layer, ref.row, ref.col)
+        if (!tilesetId) throw new Error(`放置组视觉成员 ${visualSlotKey(ref)} 缺少瓦片来源。`)
         return {
           sourceRef: { ...ref },
           offset: relativeLatticeOffset(ref, sourceAnchor),
           tileId,
+          tilesetId,
           height: mapInstanceHeight(layer, ref.row, ref.col),
         }
       }),
@@ -204,11 +208,6 @@ function commonPlan(input: {
       code: 'stamp-selection-unsupported',
       message: '组合首版不支持跨地图粘贴；请在来源地图内完成变换。',
     })
-  if (input.clipboard.sourceTilesetId !== input.map.tilesetId)
-    issues.push({
-      code: 'stamp-selection-unsupported',
-      message: '组合所属瓦片集与当前地图不一致，不做自动重映射。',
-    })
   const index = buildStampPlacementIndex(input.map)
   if (input.kind !== 'paste') {
     const missing = input.sourcePlacementIds.find((id) => !index.byId.has(id))
@@ -253,6 +252,7 @@ function commonPlan(input: {
     ),
   )
   const tileWrites = new Map<string, ProjectMapPatch['visual'][number]>()
+  const tilesetWrites = new Map<string, ProjectMapPatch['visual'][number]>()
   const heightWrites = new Map<string, ProjectMapPatch['visual'][number]>()
   const collisionWrites = new Map<string, ProjectMapPatch['collision'][number]>()
 
@@ -261,11 +261,8 @@ function commonPlan(input: {
       for (const member of placement.visual) {
         const key = visualSlotKey(member.sourceRef)
         tileWrites.set(key, { channel: 'tileId', ref: member.sourceRef, value: null })
-        if (
-          input.map.layers.find((layer) => layer.id === member.sourceRef.layerId)?.depthMode ===
-          'height'
-        )
-          heightWrites.set(key, { channel: 'height', ref: member.sourceRef, value: 0 })
+        tilesetWrites.set(key, { channel: 'tilesetId', ref: member.sourceRef, value: null })
+        heightWrites.set(key, { channel: 'height', ref: member.sourceRef, value: 0 })
       }
       for (const member of placement.collision)
         collisionWrites.set(gridPointKey(member.sourceRef), { ref: member.sourceRef, value: 0 })
@@ -299,14 +296,6 @@ function commonPlan(input: {
           issues.push({ code: 'layer-missing', message: `目标图层“${ref.layerId}”不存在。`, ref })
           continue
         }
-        if (layer.depthMode === 'flat' && member.height !== 0) {
-          issues.push({
-            code: 'flat-height',
-            message: `非零高度成员不能放入平面图层“${layer.name}”。`,
-            ref,
-          })
-          continue
-        }
         const key = visualSlotKey(ref)
         const isMoveSource = input.kind === 'move' && sourceVisualKeys.has(key)
         const current = layer.tiles[ref.row]?.[ref.col]
@@ -318,8 +307,8 @@ function commonPlan(input: {
             incomingValue: member.tileId,
           })
         tileWrites.set(key, { channel: 'tileId', ref, value: member.tileId })
-        if (layer.depthMode === 'height')
-          heightWrites.set(key, { channel: 'height', ref, value: member.height })
+        tilesetWrites.set(key, { channel: 'tilesetId', ref, value: member.tilesetId })
+        heightWrites.set(key, { channel: 'height', ref, value: member.height })
       }
       for (const member of placement.collision) {
         const ref = resolveRelativeLatticeOffset(targetAnchor, member.offset)
@@ -356,7 +345,7 @@ function commonPlan(input: {
   }
 
   const patch: ProjectMapPatch = {
-    visual: [...tileWrites.values(), ...heightWrites.values()],
+    visual: [...tileWrites.values(), ...tilesetWrites.values(), ...heightWrites.values()],
     collision: [...collisionWrites.values()],
   }
   const permission: MapPatchPermissionSnapshot = {
@@ -450,7 +439,7 @@ export function planStampGroupMove(input: {
       clipboard: {
         kind: 'stamp-placements',
         sourceMapId: input.mapId,
-        sourceTilesetId: input.map.tilesetId,
+        sourceTilesetIds: [...input.map.tilesetRefs],
         sourceAnchor: input.targetAnchor,
         identity: 'preserve',
         placements: [],

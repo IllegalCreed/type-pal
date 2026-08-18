@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import type { StampTemplateV1 } from '@type-pal/content'
+import type { StampTemplate } from '@type-pal/content'
 import {
   buildBlankProjectMap,
   buildProjectMapLayer,
@@ -16,10 +16,14 @@ import { StampTemplateDialog } from './StampTemplateDialog.js'
 
 function fixture(tilesetId = 'tiles-a') {
   let map = buildBlankProjectMap(3, 2, tilesetId)
-  map = paintProjectMapTiles(map, [{ layerId: 'floor', row: 0, col: 0, tileId: 1, height: 0 }])
-  const objects = buildProjectMapLayer(map, 'objects', '物件', 'height')
+  map = paintProjectMapTiles(map, [
+    { layerId: 'floor', row: 0, col: 0, tileId: 1, tilesetId, height: 0 },
+  ])
+  const objects = buildProjectMapLayer(map, 'objects', '物件')
   map = insertProjectMapLayer(map, objects)
-  map = paintProjectMapTiles(map, [{ layerId: 'objects', row: 1, col: 0, tileId: 2, height: 3 }])
+  map = paintProjectMapTiles(map, [
+    { layerId: 'objects', row: 1, col: 0, tileId: 2, tilesetId, height: 3 },
+  ])
   map.collision[0]![0] = 0
   map.collision[1]![0] = 4
   const selection: Extract<MapSelection, { kind: 'cells' }> = {
@@ -40,20 +44,22 @@ function fixture(tilesetId = 'tiles-a') {
 function template(
   id: string,
   tilesetId = 'tiles-a',
-  origin: StampTemplateV1['origin'] = 'authored',
-): StampTemplateV1 {
+  origin: StampTemplate['origin'] = 'authored',
+): StampTemplate {
   return {
     id,
     name: id,
-    tilesetId,
     origin,
-    layerSlots: [{ id: 'floor', name: '地板', depthMode: 'flat' }],
-    visual: [{ layerSlotId: 'floor', offset: { dRow: 0, du: 0 }, tileId: 1, height: 0 }],
-    collision: [],
+    anchor: { row: 0, col: 0 },
+    width: 1,
+    height: 1,
+    tilesetRefs: [tilesetId],
+    layers: [{ id: 'floor', name: '地板', tiles: [[1], [null]], sources: [[0], [null]] }],
+    collision: [[null], [null]],
   }
 }
 
-function state(stamps: StampTemplateV1[] = []): EditorState {
+function state(stamps: StampTemplate[] = []): EditorState {
   return {
     manifest: {
       content: stamps.length ? { stamps: 'content/stamps.json' } : {},
@@ -143,22 +149,24 @@ describe('StampTemplateDialog', () => {
     await act(async () => button('创建组合').click())
 
     const created = session.getState().stamps[0]!
-    expect(created).toMatchObject({ name: '双层树', tilesetId: 'tiles-a', origin: 'authored' })
-    expect(created.layerSlots.map((slot) => [slot.id, slot.name])).toEqual([
+    expect(created).toMatchObject({ name: '双层树', tilesetRefs: ['tiles-a'], origin: 'authored' })
+    expect(created.layers.map((layer) => [layer.id, layer.name])).toEqual([
       ['floor', '地板'],
       ['objects', '树冠槽'],
     ])
-    expect(created.visual).toHaveLength(2)
-    expect(created.collision.map((member) => member.value)).toEqual([0, 4])
+    expect(
+      created.layers.flatMap((layer) => layer.tiles.flat()).filter((value) => value !== null),
+    ).toHaveLength(2)
+    expect(created.collision.flat()).toEqual([0, 4])
   })
 
   test('新建模板不会继承同 tileset 旧模板的名称、分类或局部槽名', async () => {
     const { map, selection } = fixture()
-    const existing: StampTemplateV1 = {
+    const existing: StampTemplate = {
       ...template('old-tree'),
       name: '旧树',
       category: '旧分类',
-      layerSlots: [{ id: 'floor', name: '旧地板槽', depthMode: 'flat' }],
+      layers: [{ id: 'floor', name: '旧地板槽', tiles: [[1], [null]], sources: [[0], [null]] }],
     }
     const session = new EditSession(state([existing]))
     await act(async () =>
@@ -223,7 +231,7 @@ describe('StampTemplateDialog', () => {
     expect(session.getState().stamps[0]).toEqual(migrated)
   })
 
-  test('精确 update target 不匹配时不回退到同 tileset 的另一模板，也不降级为新建', async () => {
+  test('精确 update target 可接收来自其他瓦片源的当前选区', async () => {
     const { map, selection } = fixture('tiles-b')
     const stamps = [template('wanted', 'tiles-a'), template('other', 'tiles-b')]
     const session = new EditSession(state(stamps))
@@ -243,8 +251,10 @@ describe('StampTemplateDialog', () => {
     )
     expect(button('替换模板内容')).toBeTruthy()
     await act(async () => button('替换模板内容').click())
-    expect(document.body.textContent).toContain('请选择要更新的模板')
-    expect(session.getState().stamps).toEqual(stamps)
+    expect(session.getState().stamps.find(({ id }) => id === 'wanted')?.tilesetRefs).toEqual([
+      'tiles-b',
+    ])
+    expect(session.getState().stamps.find(({ id }) => id === 'other')).toEqual(stamps[1])
   })
 
   test('校验失败会标记并聚焦首个错误字段', async () => {

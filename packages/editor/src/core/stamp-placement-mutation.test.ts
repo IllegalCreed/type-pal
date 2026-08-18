@@ -11,6 +11,7 @@ function filledMap(width = 5, height = 4): ProjectMap {
     layers: map.layers.map((layer) => ({
       ...layer,
       tiles: layer.tiles.map((row) => row.map(() => 1)),
+      sources: layer.sources.map((row) => row.map(() => 0)),
     })),
   }
 }
@@ -31,9 +32,9 @@ function placement(
 }
 
 describe('applyStampPlacementMutation', () => {
-  test('add/replace/remove-last 都生成 content validator 接受的 canonical v2/v3', () => {
-    const v2 = filledMap()
-    const added = applyStampPlacementMutation(v2, v2, {
+  test('add/replace/remove-last 都生成 content validator 接受的 canonical v4', () => {
+    const base = filledMap()
+    const added = applyStampPlacementMutation(base, base, {
       upsertPlacements: [
         placement('b', 2, 1, {
           sourceStampId: 'source-b',
@@ -49,9 +50,8 @@ describe('applyStampPlacementMutation', () => {
       ],
     })
     expect(validateProjectMap(added)).toEqual(added)
-    expect(added.version).toBe(3)
-    if (added.version !== 3) throw new Error('add must produce v3')
-    expect(added.authoring.stampPlacements[0]?.visualSlots).toEqual([
+    expect(added.version).toBe(4)
+    expect(added.authoring!.stampPlacements[0]?.visualSlots).toEqual([
       { layerId: 'floor', row: 1, col: 1 },
       { layerId: 'floor', row: 2, col: 1 },
     ])
@@ -61,14 +61,13 @@ describe('applyStampPlacementMutation', () => {
       upsertPlacements: [placement('b', 3, 2)],
     })
     expect(validateProjectMap(replaced)).toEqual(replaced)
-    expect(
-      replaced.version === 3 ? replaced.authoring.stampPlacements[0]?.anchor : undefined,
-    ).toEqual({ row: 3, col: 2 })
+    expect(replaced.authoring!.stampPlacements[0]?.anchor).toEqual({ row: 3, col: 2 })
 
     const removed = applyStampPlacementMutation(replaced, replaced, {
       removedPlacementIds: ['b'],
     })
-    expect(removed.version).toBe(2)
+    expect(removed.version).toBe(4)
+    expect(removed.authoring).toBeUndefined()
     expect(validateProjectMap(removed)).toEqual(removed)
   })
 
@@ -173,10 +172,10 @@ describe('applyStampPlacementMutation', () => {
     )
     const before = withProjectMapStampPlacements(filledMap(5, 12), placements)
     buildStampPlacementIndex(before)
-    if (before.version !== 3) throw new Error('fixture must produce v3')
+    expect(before.version).toBe(4)
 
     let memberReads = 0
-    const observed = before.authoring.stampPlacements[10]!
+    const observed = before.authoring!.stampPlacements[10]!
     const originalVisualSlots = observed.visualSlots
     const originalGridPoints = observed.gridPoints
     Object.defineProperties(observed, {

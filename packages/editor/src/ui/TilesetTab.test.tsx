@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import type { MapIndexV1, ProjectMap, StampTemplateV1 } from '@type-pal/content'
+import type { MapIndexV1, ProjectMap, StampTemplate } from '@type-pal/content'
 import { buildBlankProjectMap, loadTilesetAsset, type TilesetDef } from '@type-pal/reforge'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
@@ -59,19 +59,21 @@ const mapIndex: MapIndexV1 = {
   ],
 }
 
-function stamp(tilesetId: string): StampTemplateV1 {
+function stamp(tilesetId: string): StampTemplate {
   return {
     id: 'tree',
     name: '树木组合',
-    tilesetId,
     origin: 'authored',
-    layerSlots: [{ id: 'floor', name: '地面', depthMode: 'flat' }],
-    visual: [{ layerSlotId: 'floor', offset: { dRow: 0, du: 0 }, tileId: 0, height: 0 }],
-    collision: [],
+    anchor: { row: 0, col: 0 },
+    width: 1,
+    height: 1,
+    tilesetRefs: [tilesetId],
+    layers: [{ id: 'floor', name: '地面', tiles: [[0], [null]], sources: [[0], [null]] }],
+    collision: [[null], [null]],
   }
 }
 
-function editorState(map: ProjectMap, stamps: StampTemplateV1[] = []): EditorState {
+function editorState(map: ProjectMap, stamps: StampTemplate[] = []): EditorState {
   return {
     manifest: {} as never,
     scenes: [],
@@ -98,7 +100,7 @@ const mounted: Array<{ root: Root; host: HTMLDivElement }> = []
 
 async function mountTilesetTab(input: {
   mapB: ProjectMap
-  stamps?: StampTemplateV1[]
+  stamps?: StampTemplate[]
   onOpenMap?: (id: string) => void
   onOpenStamp?: (id: string) => void
   loadMap?: (id: string) => Promise<ProjectMap>

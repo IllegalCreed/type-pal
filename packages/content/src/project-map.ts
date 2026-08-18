@@ -1,45 +1,43 @@
-/** 地图视觉层。高度属于格子实例，不属于 tileset 或 tileId。 */
-export interface MapLayerV2 {
+/** 地图与组合共享的等距视觉层。高度和瓦片来源都属于格子实例。 */
+export interface IsometricMapLayer {
   /** 稳定身份；重排图层不改变 id。 */
   id: string
   name: string
-  /** flat 只铺底；height 参与角色遮挡深度排序。 */
-  depthMode: 'flat' | 'height'
-  /** 错排菱形 lattice：[2 * map.height] 行 × [map.width] 列。 */
+  /** 错排菱形 lattice：[2 * content.height] 行 × [content.width] 列。 */
   tiles: (number | null)[][]
-  /** 同位置瓦片实例的遮挡高度。flat 层可省略，等价于全 0。 */
+  /** 与 tiles 同形；非空值是 content.tilesetRefs 的稳定下标。 */
+  sources: (number | null)[][]
+  /** 同位置瓦片实例的实际/相对高度；全 0 时省略。 */
   heights?: number[][]
 }
 
-interface ProjectMapBase {
+/** 地图与组合唯一的 canonical 等距内容值对象。 */
+export interface IsometricMapContent<CollisionCell extends number | null = number> {
   /** 旧 cell 矩形的逻辑尺寸；lattice 实际有 2 * height 行。 */
   width: number
   height: number
-  /** 稳定 tileset 注册 id，不接受资产路径。 */
-  tilesetId: string
-  /** 数组顺序就是 z 序；身份必须使用 layer.id。 */
-  layers: MapLayerV2[]
-  /** 与视觉层同 lattice 尺寸；0 可通行，非 0 阻挡/预留地形类型。 */
-  collision: number[][]
+  /** 本内容引用的稳定瓦片集 id；按字典序排列，sources 只保存其下标。 */
+  tilesetRefs: string[]
+  /** 数组顺序是 z/tie-break；身份必须使用 layer.id。 */
+  layers: IsometricMapLayer[]
+  /** 地图为全 number；组合用 null 表示不参与放置，0 表示显式可通行。 */
+  collision: CollisionCell[][]
 }
 
-/** 一次图章放置实际拥有的视觉槽；只保存身份，不复制 tile/height 值。 */
+/** 一次组合放置实际拥有的视觉槽；只保存身份，不复制实例值。 */
 export interface StampPlacementVisualSlotV1 {
   layerId: string
   row: number
   col: number
 }
 
-/** 一次图章放置实际拥有的独立碰撞格点；值仍只存在 collision 矩阵。 */
+/** 一次组合放置实际拥有的独立碰撞格点；值仍只存在 collision 矩阵。 */
 export interface StampPlacementGridPointV1 {
   row: number
   col: number
 }
 
-/**
- * 地图局部、非链接的图章放置身份。
- * sourceStamp* 仅供作者识别；模板删除或修改不得改变此组成员。
- */
+/** 地图局部、非链接的组合放置身份。sourceStamp* 仅供作者识别。 */
 export interface StampPlacementGroupV1 {
   id: string
   sourceStampId?: string
@@ -51,62 +49,28 @@ export interface StampPlacementGroupV1 {
 
 export interface ProjectMapAuthoringV1 {
   version: 1
-  /** v3 中必须非空；删除最后一组时地图应同时降回 v2。 */
   stampPlacements: StampPlacementGroupV1[]
 }
 
-/** 无图章放置组的作者态地图；禁止携带 authoring。 */
-export interface ProjectMapV2 extends ProjectMapBase {
-  version: 2
-  authoring?: never
+/** 当前唯一地图格式；运行时只消费等距内容，authoring 仅服务编辑器。 */
+export interface ProjectMap extends IsometricMapContent<number> {
+  version: 4
+  authoring?: ProjectMapAuthoringV1
 }
-
-/** 有非空图章放置组的作者态地图；运行时仍只消费 ProjectMapBase。 */
-export interface ProjectMapV3 extends ProjectMapBase {
-  version: 3
-  authoring: ProjectMapAuthoringV1
-}
-
-/** 工程唯一地图联合格式。v2/v3 共用同一套普通矩阵。 */
-export type ProjectMap = ProjectMapV2 | ProjectMapV3
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
-export function isProjectMapV2(value: unknown): value is ProjectMapV2 {
-  return (
-    isRecord(value) &&
-    value.version === 2 &&
-    !('authoring' in value) &&
-    Array.isArray(value.layers) &&
-    Array.isArray(value.collision)
-  )
-}
-
-export function isProjectMapV3(value: unknown): value is ProjectMapV3 {
-  return (
-    isRecord(value) &&
-    value.version === 3 &&
-    isRecord(value.authoring) &&
-    value.authoring.version === 1 &&
-    Array.isArray(value.authoring.stampPlacements) &&
-    Array.isArray(value.layers) &&
-    Array.isArray(value.collision)
-  )
-}
-
-export function isProjectMap(value: unknown): value is ProjectMap {
-  return isProjectMapV2(value) || isProjectMapV3(value)
-}
-
 function requirePositiveInt(value: unknown, path: string): number {
-  if (!Number.isInteger(value) || (value as number) <= 0) throw new Error(`${path}: 期望正整数`)
+  if (!Number.isSafeInteger(value) || (value as number) <= 0)
+    throw new Error(`${path}: 期望正安全整数`)
   return value as number
 }
 
 function requireNonNegativeInt(value: unknown, path: string): number {
-  if (!Number.isInteger(value) || (value as number) < 0) throw new Error(`${path}: 期望非负整数`)
+  if (!Number.isSafeInteger(value) || (value as number) < 0)
+    throw new Error(`${path}: 期望非负安全整数`)
   return value as number
 }
 
@@ -135,72 +99,101 @@ function validateMatrix<T>(
   })
 }
 
-function validateHeightMatrix(
-  value: unknown,
-  rows: number,
-  cols: number,
-  path: string,
-): number[][] {
-  return validateMatrix(value, rows, cols, path, requireNonNegativeInt)
+function validateTilesetRefs(value: unknown, path: string): string[] {
+  if (!Array.isArray(value) || value.length === 0)
+    throw new Error(`${path}: 至少需要一个瓦片集来源`)
+  const refs = value.map((entry, index) => requireNonEmptyString(entry, `${path}[${index}]`))
+  const canonical = [...new Set(refs)].sort(compareText)
+  if (canonical.length !== refs.length) throw new Error(`${path}: 不得包含重复瓦片集 id`)
+  if (canonical.some((entry, index) => entry !== refs[index]))
+    throw new Error(`${path}: 必须按稳定 id 字典序排列`)
+  return refs
 }
 
-function validateProjectMapBase(value: Record<string, unknown>): ProjectMapBase {
-  const width = requirePositiveInt(value.width, 'projectMap.width')
-  const height = requirePositiveInt(value.height, 'projectMap.height')
-  const tilesetId = requireNonEmptyString(value.tilesetId, 'projectMap.tilesetId')
+export interface ValidateIsometricMapContentOptions {
+  path: string
+  collision: 'dense' | 'nullable'
+}
+
+export function validateIsometricMapContent(
+  value: unknown,
+  options: ValidateIsometricMapContentOptions & { collision: 'dense' },
+): IsometricMapContent<number>
+export function validateIsometricMapContent(
+  value: unknown,
+  options: ValidateIsometricMapContentOptions & { collision: 'nullable' },
+): IsometricMapContent<number | null>
+export function validateIsometricMapContent(
+  value: unknown,
+  options: ValidateIsometricMapContentOptions,
+): IsometricMapContent<number | null> {
+  if (!isRecord(value)) throw new Error(`${options.path}: 期望对象`)
+  const width = requirePositiveInt(value.width, `${options.path}.width`)
+  const height = requirePositiveInt(value.height, `${options.path}.height`)
+  const rows = height * 2
+  const tilesetRefs = validateTilesetRefs(value.tilesetRefs, `${options.path}.tilesetRefs`)
   if (!Array.isArray(value.layers) || value.layers.length === 0)
-    throw new Error('projectMap.layers: 至少需要一个视觉层')
+    throw new Error(`${options.path}.layers: 至少需要一个视觉层`)
 
   const ids = new Set<string>()
-  const rows = height * 2
-  const layers: MapLayerV2[] = value.layers.map((raw, index) => {
-    const path = `projectMap.layers[${index}]`
-    if (!isRecord(raw)) throw new Error(`${path}: 期望对象`)
-    const id = requireNonEmptyString(raw.id, `${path}.id`)
+  const layers = value.layers.map((entry, index): IsometricMapLayer => {
+    const path = `${options.path}.layers[${index}]`
+    if (!isRecord(entry)) throw new Error(`${path}: 期望对象`)
+    const id = requireNonEmptyString(entry.id, `${path}.id`)
     if (ids.has(id)) throw new Error(`${path}.id: 重复的稳定 id "${id}"`)
     ids.add(id)
-    const name = requireNonEmptyString(raw.name, `${path}.name`)
-    if (raw.depthMode !== 'flat' && raw.depthMode !== 'height')
-      throw new Error(`${path}.depthMode: 期望 flat 或 height`)
-    const tiles = validateMatrix(raw.tiles, rows, width, `${path}.tiles`, (cell, cellPath) => {
+    const name = requireNonEmptyString(entry.name, `${path}.name`)
+    const tiles = validateMatrix(entry.tiles, rows, width, `${path}.tiles`, (cell, cellPath) => {
       if (cell === null) return null
-      if (!Number.isInteger(cell) || (cell as number) < 0)
-        throw new Error(`${cellPath}: 期望非负整数 tileId 或 null`)
-      return cell as number
+      return requireNonNegativeInt(cell, `${cellPath} tileId`)
     })
-
-    if (raw.depthMode === 'height' && raw.heights === undefined)
-      throw new Error(`${path}.heights: height 层必须提供实例高度矩阵`)
+    // 单来源内容的 sources 全由 tiles 唯一决定，canonical JSON 可像全零 heights 一样省略冗余矩阵。
+    // validator 始终物化完整矩阵，编辑/渲染/patch 因而只有一个内存模型。
+    const sources =
+      entry.sources === undefined
+        ? (() => {
+            if (tilesetRefs.length !== 1)
+              throw new Error(`${path}.sources: 多来源内容必须保存逐格来源矩阵`)
+            return tiles.map((row) => row.map((tile) => (tile === null ? null : 0)))
+          })()
+        : validateMatrix(entry.sources, rows, width, `${path}.sources`, (cell, cellPath) => {
+            if (cell === null) return null
+            const source = requireNonNegativeInt(cell, cellPath)
+            if (source >= tilesetRefs.length)
+              throw new Error(`${cellPath}: 来源下标 ${source} 超出 tilesetRefs`)
+            return source
+          })
     const heights =
-      raw.heights === undefined
+      entry.heights === undefined
         ? undefined
-        : validateHeightMatrix(raw.heights, rows, width, `${path}.heights`)
+        : validateMatrix(entry.heights, rows, width, `${path}.heights`, requireNonNegativeInt)
+    let hasNonZeroHeight = false
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < width; col++) {
+        const tile = tiles[row]?.[col]
+        const source = sources[row]?.[col]
+        if ((tile === null) !== (source === null))
+          throw new Error(`${path}.sources[${row}][${col}]: tiles/sources 必须同时为空或同时非空`)
         const instanceHeight = heights?.[row]?.[col] ?? 0
-        if (tiles[row]?.[col] === null && instanceHeight !== 0)
+        if (tile === null && instanceHeight !== 0)
           throw new Error(`${path}.heights[${row}][${col}]: 空瓦片高度必须为 0`)
-        if (raw.depthMode === 'flat' && instanceHeight !== 0)
-          throw new Error(`${path}.heights[${row}][${col}]: flat 层高度必须为 0`)
+        if (instanceHeight !== 0) hasNonZeroHeight = true
       }
     }
-
-    const layer = { id, name, depthMode: raw.depthMode, tiles }
-    if (raw.depthMode === 'height') {
-      if (!heights) throw new Error(`${path}.heights: height 层必须提供实例高度矩阵`)
-      return { ...layer, depthMode: 'height', heights }
-    }
-    return { ...layer, depthMode: 'flat' }
+    return { id, name, tiles, sources, ...(hasNonZeroHeight && heights ? { heights } : {}) }
   })
 
   const collision = validateMatrix(
     value.collision,
     rows,
     width,
-    'projectMap.collision',
-    requireNonNegativeInt,
+    `${options.path}.collision`,
+    (cell, cellPath) => {
+      if (options.collision === 'nullable' && cell === null) return null
+      return requireNonNegativeInt(cell, cellPath)
+    },
   )
-  return { width, height, tilesetId, layers, collision }
+  return { width, height, tilesetRefs, layers, collision }
 }
 
 function validatePoint(
@@ -216,12 +209,16 @@ function validatePoint(
   return { row, col }
 }
 
-function validateProjectMapAuthoring(value: unknown, map: ProjectMapBase): ProjectMapAuthoringV1 {
+function validateProjectMapAuthoring(
+  value: unknown,
+  map: IsometricMapContent<number>,
+): ProjectMapAuthoringV1 | undefined {
+  if (value === undefined) return undefined
   if (!isRecord(value)) throw new Error('projectMap.authoring: 期望对象')
   if (value.version !== 1)
     throw new Error(`projectMap.authoring.version: 仅支持 1，收到 ${String(value.version)}`)
   if (!Array.isArray(value.stampPlacements) || value.stampPlacements.length === 0)
-    throw new Error('projectMap.authoring.stampPlacements: v3 必须包含至少一个放置组')
+    throw new Error('projectMap.authoring.stampPlacements: authoring 必须包含至少一个放置组')
 
   const layerById = new Map(map.layers.map((layer) => [layer.id, layer]))
   const placementIds = new Set<string>()
@@ -302,61 +299,39 @@ function validateProjectMapAuthoring(value: unknown, map: ProjectMapBase): Proje
   return { version: 1, stampPlacements }
 }
 
-/** v2 专用 guard；旧调用方继续得到精确 v2，不会吞掉 v3 authoring。 */
-export function validateProjectMapV2(value: unknown): ProjectMapV2 {
-  if (!isRecord(value)) throw new Error('projectMap: 期望对象')
-  if (value.version !== 2)
-    throw new Error(`projectMap.version: 仅支持 2，收到 ${String(value.version)}`)
-  if ('authoring' in value) throw new Error('projectMap.authoring: version 2 禁止携带作者态')
-  return { version: 2, ...validateProjectMapBase(value) }
+export function isProjectMap(value: unknown): value is ProjectMap {
+  return isRecord(value) && value.version === 4 && Array.isArray(value.layers)
 }
 
-export function validateProjectMapV3(value: unknown): ProjectMapV3 {
-  if (!isRecord(value)) throw new Error('projectMap: 期望对象')
-  if (value.version !== 3)
-    throw new Error(`projectMap.version: 仅支持 3，收到 ${String(value.version)}`)
-  const base = validateProjectMapBase(value)
-  const authoring = validateProjectMapAuthoring(value.authoring, base)
-  return { version: 3, ...base, authoring }
-}
-
-/** v2/v3 联合加载边界；未知版本一律 fail-loud。 */
+/** 当前 canonical 单版本加载边界；旧开发版本一律 fail-loud。 */
 export function validateProjectMap(value: unknown): ProjectMap {
   if (!isRecord(value)) throw new Error('projectMap: 期望对象')
-  if (value.version === 2) return validateProjectMapV2(value)
-  if (value.version === 3) return validateProjectMapV3(value)
-  throw new Error(`projectMap.version: 仅支持 2 或 3，收到 ${String(value.version)}`)
+  if (value.version !== 4)
+    throw new Error(`projectMap.version: 仅支持当前版本 4，收到 ${String(value.version)}`)
+  const content = validateIsometricMapContent(value, { path: 'projectMap', collision: 'dense' })
+  const authoring = validateProjectMapAuthoring(value.authoring, content)
+  return { version: 4, ...content, ...(authoring ? { authoring } : {}) }
 }
 
-/** flat 层省略 heights 时统一返回 0。 */
-export function mapInstanceHeight(layer: MapLayerV2, row: number, col: number): number {
+/** 缺省高度统一返回 0。 */
+export function mapInstanceHeight(layer: IsometricMapLayer, row: number, col: number): number {
   return layer.heights?.[row]?.[col] ?? 0
+}
+
+/** 解析非空瓦片实例的稳定来源；空实例返回 undefined。 */
+export function mapInstanceTilesetId(
+  content: Pick<IsometricMapContent<number | null>, 'tilesetRefs'>,
+  layer: IsometricMapLayer,
+  row: number,
+  col: number,
+): string | undefined {
+  const source = layer.sources[row]?.[col]
+  return source === null || source === undefined ? undefined : content.tilesetRefs[source]
 }
 
 function formatMatrix(matrix: readonly (readonly unknown[])[], indent: string): string {
   const rows = matrix.map((row) => `${indent}${JSON.stringify(row)}`)
   return `[\n${rows.join(',\n')}\n${indent.slice(0, -2)}]`
-}
-
-function formatProjectMapBase(map: ProjectMap): string[] {
-  const layerBlocks = map.layers.map((layer) => {
-    const fields = [
-      `      "id": ${JSON.stringify(layer.id)}`,
-      `      "name": ${JSON.stringify(layer.name)}`,
-      `      "depthMode": ${JSON.stringify(layer.depthMode)}`,
-      `      "tiles": ${formatMatrix(layer.tiles, '        ')}`,
-    ]
-    if (layer.heights) fields.push(`      "heights": ${formatMatrix(layer.heights, '        ')}`)
-    return `    {\n${fields.join(',\n')}\n    }`
-  })
-  return [
-    `  "version": ${map.version}`,
-    `  "width": ${map.width}`,
-    `  "height": ${map.height}`,
-    `  "tilesetId": ${JSON.stringify(map.tilesetId)}`,
-    `  "layers": [\n${layerBlocks.join(',\n')}\n  ]`,
-    `  "collision": ${formatMatrix(map.collision, '    ')}`,
-  ]
 }
 
 function formatAuthoring(authoring: ProjectMapAuthoringV1): string {
@@ -378,26 +353,42 @@ function formatAuthoring(authoring: ProjectMapAuthoringV1): string {
   return `  "authoring": {\n    "version": 1,\n    "stampPlacements": [\n${placements.join(',\n')}\n    ]\n  }`
 }
 
-/**
- * 地图专用确定性序列化：对象结构保留缩进，dense 矩阵每行一行，作者态成员每组一行。
- * migrate/editor 必须共用本函数，避免无意义格式 diff 与 pretty JSON 体积膨胀。
- */
+/** 地图专用确定性序列化：dense 矩阵逐行紧凑，来源表和矩阵保持 lockstep。 */
 export function formatProjectMap(value: ProjectMap): string {
   const map = validateProjectMap(value)
-  const fields = formatProjectMapBase(map)
-  if (map.version === 3) fields.push(formatAuthoring(map.authoring))
+  const layerBlocks = map.layers.map((layer) => {
+    const implicitSingleSource =
+      map.tilesetRefs.length === 1 &&
+      layer.tiles.every((row, rowIndex) =>
+        row.every((tile, colIndex) =>
+          tile === null
+            ? layer.sources[rowIndex]?.[colIndex] === null
+            : layer.sources[rowIndex]?.[colIndex] === 0,
+        ),
+      )
+    const fields = [
+      `      "id": ${JSON.stringify(layer.id)}`,
+      `      "name": ${JSON.stringify(layer.name)}`,
+      `      "tiles": ${formatMatrix(layer.tiles, '        ')}`,
+      ...(implicitSingleSource
+        ? []
+        : [`      "sources": ${formatMatrix(layer.sources, '        ')}`]),
+    ]
+    if (layer.heights) fields.push(`      "heights": ${formatMatrix(layer.heights, '        ')}`)
+    return `    {\n${fields.join(',\n')}\n    }`
+  })
+  const fields = [
+    `  "version": 4`,
+    `  "width": ${map.width}`,
+    `  "height": ${map.height}`,
+    `  "tilesetRefs": ${JSON.stringify(map.tilesetRefs)}`,
+    `  "layers": [\n${layerBlocks.join(',\n')}\n  ]`,
+    `  "collision": ${formatMatrix(map.collision, '    ')}`,
+  ]
+  if (map.authoring) fields.push(formatAuthoring(map.authoring))
   return `{\n${fields.join(',\n')}\n}\n`
-}
-
-/** v2 兼容格式化入口；传入 v3 在类型和运行时都不会静默降级。 */
-export function formatProjectMapV2(value: ProjectMapV2): string {
-  return formatProjectMap(validateProjectMapV2(value))
 }
 
 export function parseProjectMap(text: string): ProjectMap {
   return validateProjectMap(JSON.parse(text) as unknown)
-}
-
-export function parseProjectMapV2(text: string): ProjectMapV2 {
-  return validateProjectMapV2(JSON.parse(text) as unknown)
 }

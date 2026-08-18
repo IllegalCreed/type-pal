@@ -22,45 +22,30 @@ afterEach(() => {
   for (const root of roots.splice(0)) rmSync(root, { recursive: true, force: true })
 })
 
-const v2 = (): MigrationJson => ({
-  version: 2,
+const currentMap = (): Record<string, MigrationJson> => ({
+  version: 4,
   width: 1,
   height: 1,
-  tilesetId: 'tileset-001',
-  layers: [{ id: 'floor', name: '地板', depthMode: 'flat', tiles: [[1], [null]] }],
+  tilesetRefs: ['tileset-001'],
+  layers: [{ id: 'floor', name: '地板', tiles: [[1], [null]], sources: [[0], [null]] }],
   collision: [[0], [0]],
 })
 
 describe('serializeMigrationJson W7G', () => {
-  test('v2 继续使用原有逐行矩阵字节格式', () => {
-    expect(serializeMigrationJson(v2(), 'content/maps/map-001.json')).toBe(`{
-  "version": 2,
-  "width": 1,
-  "height": 1,
-  "tilesetId": "tileset-001",
-  "layers": [
-    {
-      "id": "floor",
-      "name": "地板",
-      "depthMode": "flat",
-      "tiles": [
-        [1],
-        [null]
-      ]
-    }
-  ],
-  "collision": [
-    [0],
-    [0]
-  ]
-}
-`)
+  test('当前 v4 使用共享逐行矩阵格式且可往返', () => {
+    const first = serializeMigrationJson(currentMap(), 'content/maps/map-001.json')
+    expect(JSON.parse(first)).toEqual({
+      ...currentMap(),
+      layers: [{ id: 'floor', name: '地板', tiles: [[1], [null]] }],
+    })
+    expect(
+      serializeMigrationJson(JSON.parse(first) as MigrationJson, 'content/maps/map-001.json'),
+    ).toBe(first)
   })
 
-  test('G1：v3 authoring 不丢失且与二次 formatter 字节幂等', () => {
+  test('authoring 不丢失且与二次 formatter 字节幂等', () => {
     const map = {
-      ...(v2() as Record<string, MigrationJson>),
-      version: 3,
+      ...currentMap(),
       authoring: {
         version: 1,
         stampPlacements: [
@@ -85,11 +70,13 @@ describe('serializeMigrationJson W7G', () => {
       {
         id: 'tree',
         name: '树',
-        tilesetId: 'tileset-001',
         origin: 'migrated',
-        layerSlots: [{ id: 'ground', name: '地面', depthMode: 'flat' }],
-        visual: [{ layerSlotId: 'ground', offset: { dRow: 0, du: 0 }, tileId: 1, height: 0 }],
-        collision: [{ offset: { dRow: 0, du: 0 }, value: 0 }],
+        anchor: { row: 0, col: 0 },
+        width: 1,
+        height: 1,
+        tilesetRefs: ['tileset-001'],
+        layers: [{ id: 'ground', name: '地面', tiles: [[1], [null]], sources: [[0], [null]] }],
+        collision: [[0], [null]],
       },
     ]
     const first = serializeMigrationJson(stamps, 'content/stamps.json')

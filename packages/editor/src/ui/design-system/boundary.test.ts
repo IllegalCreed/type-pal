@@ -128,8 +128,10 @@ describe('editor design-system static boundary', () => {
       expect(source).toMatch(/<IsometricEditorCanvas\b/)
       expect(source).toMatch(/<IsometricEditorSurface\b/)
       expect(source).toMatch(/<IsometricEditorToolbar\b/)
-      expect(source).toMatch(/drawIsometricMapBase/)
     }
+    const sharedCanvas = readFileSync(join(uiRoot, 'IsometricEditorCanvas.tsx'), 'utf8')
+    expect(sharedCanvas).toMatch(/drawIsometricMapBase/)
+    expect(stampEditor).not.toMatch(/drawIsometricMapBase/)
     expect(stampEditor).not.toMatch(/latticePoints\.some|for \(const point of latticePoints\)/)
     expect(mapMode).not.toMatch(/>\s*◆\s*放置组合\s*</)
   })
@@ -174,7 +176,7 @@ describe('editor design-system static boundary', () => {
     )
     const ceilings = {
       input: 139,
-      select: 70,
+      select: 68,
       textarea: 2,
       label: 127,
     } as const

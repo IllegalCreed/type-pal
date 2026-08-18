@@ -17,6 +17,10 @@ function frame(width: number, height: number): RleFrame {
   }
 }
 
+function tiles(entries: Iterable<readonly [number, RleFrame]>): Map<string, Map<number, RleFrame>> {
+  return new Map([['tileset-test', new Map(entries)]])
+}
+
 describe('Canvas2DRenderer cover layer', () => {
   beforeEach(() => {
     vi.stubGlobal('document', {
@@ -41,7 +45,16 @@ describe('Canvas2DRenderer cover layer', () => {
   test('sLayer=6 把同一高物排到人物之前，layer=0 对照会盖住人物', () => {
     let map = buildBlankProjectMap(3, 3, 'tileset-test')
     map = insertProjectMapLayer(map, buildProjectMapLayer(map, 'cover', '高物'))
-    map = paintProjectMapTiles(map, [{ layerId: 'cover', col: 0, row: 3, tileId: 7, height: 2 }])
+    map = paintProjectMapTiles(map, [
+      {
+        layerId: 'cover',
+        col: 0,
+        row: 3,
+        tileId: 7,
+        tilesetId: 'tileset-test',
+        height: 2,
+      },
+    ])
 
     const drawOrder: number[] = []
     const ctx = {
@@ -55,7 +68,7 @@ describe('Canvas2DRenderer cover layer', () => {
       colors: Array.from({ length: 256 }, () => [0, 0, 0]),
       cycles: [],
     }
-    const renderer = new Canvas2DRenderer(ctx, palette, new Map([[7, frame(32, 16)]]))
+    const renderer = new Canvas2DRenderer(ctx, palette, tiles([[7, frame(32, 16)]]))
     const sprite: SpriteDraw = {
       frame: frame(10, 10),
       worldX: 32,
@@ -118,7 +131,16 @@ describe('D6-1 遮挡半透明(方案 A)', () => {
   function occlusionHarness() {
     let map = buildBlankProjectMap(3, 3, 'tileset-test')
     map = insertProjectMapLayer(map, buildProjectMapLayer(map, 'cover', '高物'))
-    map = paintProjectMapTiles(map, [{ layerId: 'cover', col: 0, row: 3, tileId: 7, height: 2 }])
+    map = paintProjectMapTiles(map, [
+      {
+        layerId: 'cover',
+        col: 0,
+        row: 3,
+        tileId: 7,
+        tilesetId: 'tileset-test',
+        height: 2,
+      },
+    ])
     const draws: Array<{ alpha: number; width: number }> = []
     let globalAlpha = 1
     const setGlobalAlpha = (value: number): void => {
@@ -158,20 +180,20 @@ describe('D6-1 遮挡半透明(方案 A)', () => {
 
   test('K1/K2:角色遮挡瓦片以 0.35 画一次;prop 不触发不透明', () => {
     const h = occlusionHarness()
-    const renderer = new Canvas2DRenderer(h.ctx, h.palette, new Map([[7, frame(32, 16)]]))
+    const renderer = new Canvas2DRenderer(h.ctx, h.palette, tiles([[7, frame(32, 16)]]))
     renderer.renderScene(h.map, h.view, h.camera, [character])
     expect(h.draws.filter((d) => d.alpha === 0.35)).toHaveLength(1)
 
     h.draws.length = 0
     // 新渲染器 = 全新 latch,隔离上一帧角色触发的迟滞。
-    const propRenderer = new Canvas2DRenderer(h.ctx, h.palette, new Map([[7, frame(32, 16)]]))
+    const propRenderer = new Canvas2DRenderer(h.ctx, h.palette, tiles([[7, frame(32, 16)]]))
     propRenderer.renderScene(h.map, h.view, h.camera, [{ ...character, occlusionTrigger: false }])
     expect(h.draws.filter((d) => d.alpha === 0.35)).toHaveLength(0)
   })
 
   test('K2:两角色共享同一遮挡瓦片只画一次(防 alpha 叠加变暗)', () => {
     const h = occlusionHarness()
-    const renderer = new Canvas2DRenderer(h.ctx, h.palette, new Map([[7, frame(32, 16)]]))
+    const renderer = new Canvas2DRenderer(h.ctx, h.palette, tiles([[7, frame(32, 16)]]))
     renderer.renderScene(h.map, h.view, h.camera, [character, { ...character }])
     expect(h.draws.filter((d) => d.alpha === 0.35)).toHaveLength(1)
   })
@@ -179,12 +201,7 @@ describe('D6-1 遮挡半透明(方案 A)', () => {
   test('K3:latch 迟滞——角色离开后 120ms 内仍半透明,到期恢复不透明', () => {
     const h = occlusionHarness()
     let now = 0
-    const renderer = new Canvas2DRenderer(
-      h.ctx,
-      h.palette,
-      new Map([[7, frame(32, 16)]]),
-      () => now,
-    )
+    const renderer = new Canvas2DRenderer(h.ctx, h.palette, tiles([[7, frame(32, 16)]]), () => now)
     renderer.renderScene(h.map, h.view, h.camera, [character])
     expect(h.draws.filter((d) => d.alpha === 0.35)).toHaveLength(1)
 
@@ -203,7 +220,7 @@ describe('D6-1 遮挡半透明(方案 A)', () => {
 
   test('K3:调试态(showAll)遮挡半透明不生效', () => {
     const h = occlusionHarness()
-    const renderer = new Canvas2DRenderer(h.ctx, h.palette, new Map([[7, frame(32, 16)]]))
+    const renderer = new Canvas2DRenderer(h.ctx, h.palette, tiles([[7, frame(32, 16)]]))
     renderer.renderScene(h.map, h.view, h.camera, [character], { showAll: true })
     expect(h.draws.filter((d) => d.alpha === 0.35)).toHaveLength(0)
   })

@@ -10,10 +10,10 @@ import {
   type AssetRecordV1,
   CONTENT_VERSION,
   CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
-  formatProjectMapV2,
+  formatProjectMap,
   type MapIndexV1,
   type ProjectManifest,
-  type ProjectMapV2,
+  type ProjectMap,
   type ScriptIndexV1,
 } from '@type-pal/content'
 import { sha256Hex } from './binary-signature.js'
@@ -23,18 +23,25 @@ const SEED_W = 12
 const SEED_H = 12
 
 /** 起始地图:12×12 单层草地矩形房(错排 lattice 铺满草棋盘);碰撞全 0,越界自动挡边。 */
-function buildSeedMap(): ProjectMapV2 {
+function buildSeedMap(): ProjectMap {
   const rows = SEED_H * 2
   const tiles: (number | null)[][] = Array.from({ length: rows }, (_, b) =>
     Array.from({ length: SEED_W }, (_, k) => ((b + k) % 2 === 0 ? 0 : 1)),
   )
   const collision = Array.from({ length: rows }, () => Array.from({ length: SEED_W }, () => 0))
   return {
-    version: 2,
+    version: 4,
     width: SEED_W,
     height: SEED_H,
-    tilesetId: 'starter',
-    layers: [{ id: 'floor', name: '地板', depthMode: 'flat', tiles }],
+    tilesetRefs: ['starter'],
+    layers: [
+      {
+        id: 'floor',
+        name: '地板',
+        tiles,
+        sources: tiles.map((row) => row.map((tileId) => (tileId === null ? null : 0))),
+      },
+    ],
     collision,
   }
 }
@@ -174,7 +181,7 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
       version: 1,
       maps: [{ id: 'start', name: '起始地图', path: 'content/maps/start.json' }],
     },
-    'content/maps/start.json': formatProjectMapV2(buildSeedMap()),
+    'content/maps/start.json': formatProjectMap(buildSeedMap()),
     'assets/index.json': {
       version: 1,
       assets: {
