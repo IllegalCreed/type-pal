@@ -51,6 +51,7 @@ import {
 } from '../core/commands.js'
 import type { EditorState, EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { type IsometricBrushSize, isometricBrushPoints } from '../core/isometric-brush.js'
 import type { ProjectMapPatch } from '../core/map-patch.js'
 import { ProjectMapPatchError } from '../core/map-patch.js'
 import {
@@ -365,6 +366,7 @@ export function MapMode(props: {
   const [collisionPaint, setCollisionPaint] = useState<CollisionPaint>('set')
   const [selectedTile, setSelectedTile] = useState(0)
   const [currentHeight, setCurrentHeight] = useState(0)
+  const [brushSize, setBrushSize] = useState<IsometricBrushSize>(1)
   const [focusEnabled, setFocusEnabled] = useState(true)
   const [activeLayerId, setActiveLayerId] = useState('floor')
   const [mapQuery, setMapQuery] = useState('')
@@ -1010,9 +1012,6 @@ export function MapMode(props: {
 
     const hover = hoverRef.current
     if (hover && activeTool !== 'pan' && activeTool !== 'stamp') {
-      const center = latticeCenter(hover)
-      const cx = (center.x - panX) * zoom
-      const cy = (center.y - panY) * zoom
       ctx.save()
       ctx.strokeStyle =
         activeTool === 'erase' || (activeTool === 'collision' && collisionPaint === 'clear')
@@ -1021,13 +1020,24 @@ export function MapMode(props: {
             ? 'rgba(255,70,70,0.95)'
             : 'rgba(255,255,255,0.9)'
       ctx.lineWidth = 1.5
-      ctx.beginPath()
-      ctx.moveTo(cx, cy - 8 * zoom)
-      ctx.lineTo(cx + 16 * zoom, cy)
-      ctx.lineTo(cx, cy + 8 * zoom)
-      ctx.lineTo(cx - 16 * zoom, cy)
-      ctx.closePath()
-      ctx.stroke()
+      const hoverPoints =
+        activeTool === 'brush' && liveMap
+          ? isometricBrushPoints(hover, brushSize).filter((point) =>
+              isLatticeInside(liveMap, point),
+            )
+          : [hover]
+      for (const point of hoverPoints) {
+        const center = latticeCenter(point)
+        const cx = (center.x - panX) * zoom
+        const cy = (center.y - panY) * zoom
+        ctx.beginPath()
+        ctx.moveTo(cx, cy - 8 * zoom)
+        ctx.lineTo(cx + 16 * zoom, cy)
+        ctx.lineTo(cx, cy + 8 * zoom)
+        ctx.lineTo(cx - 16 * zoom, cy)
+        ctx.closePath()
+        ctx.stroke()
+      }
       ctx.restore()
     }
   }, [
@@ -1046,6 +1056,7 @@ export function MapMode(props: {
     focusEnabled,
     activeLayer,
     activePaintHeight,
+    brushSize,
     loadedRef,
     selection,
     selectionPreview,
@@ -1117,9 +1128,12 @@ export function MapMode(props: {
     const { wx, wy } = toWorld(event)
     const pos = pixelToLattice(wx, wy)
     if (!isLatticeInside(liveMap, pos)) return
-    const item = editFor(pos)
-    if (!item) return
-    rememberStroke(item)
+    const points = activeTool === 'brush' ? isometricBrushPoints(pos, brushSize) : [pos]
+    for (const point of points) {
+      if (!isLatticeInside(liveMap, point)) continue
+      const item = editFor(point)
+      if (item) rememberStroke(item)
+    }
     setBasePaintTick((tick) => tick + 1)
     setPaintTick((tick) => tick + 1)
   }
@@ -3059,6 +3073,8 @@ export function MapMode(props: {
                 />
               </>
             }
+            brushSize={brushSize}
+            onBrushSizeChange={setBrushSize}
             collisionPaint={collisionPaint}
             onCollisionPaintChange={setCollisionPaint}
             showGrid={showGrid}

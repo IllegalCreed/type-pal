@@ -1,5 +1,6 @@
-import type { ReactNode } from 'react'
-import { DsButton, DsMenuBar } from './design-system/index.js'
+import { Fragment, type ReactNode } from 'react'
+import { ISOMETRIC_BRUSH_SIZES, type IsometricBrushSize } from '../core/isometric-brush.js'
+import { DsButton, DsMenuBar, DsSelect } from './design-system/index.js'
 
 export type IsometricEditorTool =
   | 'pan'
@@ -33,6 +34,8 @@ export function IsometricEditorToolbar(props: {
   disabledTools?: Partial<Record<IsometricEditorTool, boolean>>
   selectionAriaLabel?: string
   selectionOptions?: ReactNode
+  brushSize: IsometricBrushSize
+  onBrushSizeChange: (size: IsometricBrushSize) => void
   collisionPaint: 'set' | 'clear'
   onCollisionPaintChange: (paint: 'set' | 'clear') => void
   collisionOptions?: ReactNode
@@ -68,7 +71,40 @@ export function IsometricEditorToolbar(props: {
           </fieldset>
         ) : null}
       </div>
-      <div className="tool-group">{renderTools('paint')}</div>
+      <div className="tool-group">
+        {TOOL_DEFINITIONS.filter((tool) => tool.group === 'paint').map((tool) => (
+          <Fragment key={tool.id}>
+            <DsButton
+              size="compact"
+              variant="quiet"
+              aria-pressed={props.activeTool === tool.id}
+              onClick={() => props.onToolChange(tool.id)}
+              disabled={props.disabledTools?.[tool.id]}
+              title={tool.title}
+            >
+              {tool.label}
+            </DsButton>
+            {tool.id === 'brush' && props.activeTool === 'brush' ? (
+              <fieldset className="map-inline-option">
+                <legend className="visually-hidden">笔刷工具选项</legend>
+                <DsSelect
+                  size="compact"
+                  aria-label="笔刷面积"
+                  title="以当前格为起点绘制所选面积"
+                  value={String(props.brushSize)}
+                  options={ISOMETRIC_BRUSH_SIZES.map((size) => ({
+                    value: String(size),
+                    label: `${size} × ${size}`,
+                  }))}
+                  onValueChange={(value) =>
+                    props.onBrushSizeChange(Number(value) as IsometricBrushSize)
+                  }
+                />
+              </fieldset>
+            ) : null}
+          </Fragment>
+        ))}
+      </div>
       <div className="tool-group">
         {renderTools('collision')}
         {props.activeTool === 'collision' ? (

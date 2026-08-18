@@ -24,7 +24,7 @@
 | ED-CATALOG-CONTROLS-1 | 编辑器全局目录筛选区统一 | done | 三方 accept + 用户验收齐，整卡收口 | GC1-GC5/CK1-CK2/RK-A 全闭环；editor 912 复跑全绿；palette debt 见 ED-MAP-PALETTE-CONTROLS-1 |
 | ED-WORLD-VARIABLES-1 | 世界变量定义表与作者工作台 | review | Kimi + GLM 独立 review 并分别 accept/counter | Codex 自验 accept；Content/Reforge/Editor/Migrate 3113 tests、两项 build、三档布局通过 |
 | ED-SHARED-SCRIPT-UI-1 | 可复用脚本工作台与通用脚本控件收敛 | review | Kimi + GLM 独立审查并分别 accept/counter | build/自测/三档视觉验证完成；真实 callScript caller 往返留给 review 补验 |
-| ED-STAMP-EDITOR-1 | 组合模板内容编辑闭环 | review | Kimi/GLM 独立复审 | 三次 counter 已返工：地图/组合共用完整工具栏；“包含碰撞”改为选择工具常驻附加项；Codex 重新 accept |
+| ED-STAMP-EDITOR-1 | 组合模板内容编辑闭环 | review | Kimi/GLM 独立复审 | 共享工具栏补齐笔刷面积 1×1/2×2/3×3 与范围预览；第三轮 counter 已返工，Codex 重新 accept |
 | ED-MAP-PALETTE-CONTROLS-1 | 地图组合 Palette 控件统一 | review | Kimi/GLM 独立 review | Codex accept；`5dccf549` 已推送；focused 83 + full 942、三档零横滚、Console 0，census 已收紧 |
 | ED-MAP-MULTI-TILESET-1 | 地图多瓦片集作者模型 | draft | Kimi/GLM 独立 premise/design 审查 | 当前 map/stamp/loader 为单 tileset + 裸 tileId；高风险 schema 卡，三签前不得实现 |
 | OPS-TST-PERF-B | shared/fresh 隔离并行 runner | build | **用户 2026-08-18 暂缓**；先处理功能与样式 | 不再启动长时 proof；既有候选与证据保留，恢复后继续，默认串行不变 |

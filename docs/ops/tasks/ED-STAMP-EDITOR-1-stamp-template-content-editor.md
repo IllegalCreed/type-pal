@@ -244,12 +244,14 @@ build/done。
 
 ### 进入 done 前:审查签字
 
-- Codex: **accept（2026-08-18，第三次返工后重新签）**。前三次 accept 分别被“查看/编辑分离”、“常驻选区命令/
+- Codex: **accept（2026-08-18，第三次返工及笔刷面积补充后重新签）**。前三次 accept 分别被“查看/编辑分离”、“常驻选区命令/
   重复组合标题壳/View 层级”以及“包含碰撞关闭菜单/组合并未真正复用地图工具栏”三轮用户 counter 推翻。当前
   地图与组合共同消费 `IsometricEditorToolbar`、`LayerStackControls`、`IsometricEditorCanvas` 和
   `IsometricEditorSurface`；平移、选择、取样、笔刷、矩形、填充、擦除、碰撞及 View 只有一份工具栏实现。
   “包含碰撞”作为选择工具的持久附加 checkbox，已从一次性右键命令中移除；右键菜单只保留复制/剪切/粘贴/
-  移动/重复/删除。定向 99 项、typecheck、build、Biome 和 1280×720 浏览器语义复验全绿；未触及
+  移动/重复/删除。后续按用户补充裁决，笔刷激活时在按钮后显示 `1 × 1 / 2 × 2 / 3 × 3` 面积选择，地图与组合
+  共用同一尺寸状态 UI、范围函数和画布范围预览。定向 101 项、typecheck、build、Biome 和 1280×720 浏览器
+  语义复验全绿；未触及
   schema/runtime/placement 非链接语义。
 - Kimi: pending
 - GLM: pending
@@ -314,7 +316,7 @@ build/done。
 
 - Coding Owner: Codex（三签齐后实现）
 - 修改文件:
-  - `packages/editor/src/core/stamp-draft.ts`、`stamp-draft.test.ts`
+  - `packages/editor/src/core/stamp-draft.ts`、`stamp-draft.test.ts`、`isometric-brush.ts`
   - `packages/editor/src/ui/StampContentEditor.tsx`
   - `packages/editor/src/ui/StampLibraryTab.tsx`、`StampLibraryTab.test.tsx`
   - `packages/editor/src/ui/LayerStackControls.tsx`、`IsometricEditorCanvas.tsx`、`IsometricEditorSurface.tsx`、
@@ -338,6 +340,9 @@ build/done。
     视觉/碰撞页签或简化工具集，并补齐矩形、填充、取样、平移、网格与碰撞显示行为。用户指出“包含碰撞”是
     选择的持续修饰状态后，将它放回选择工具后的 checkbox；画布右键菜单只承担单次选区命令，勾选状态不会再
     因菜单关闭而丢失。
+  - 笔刷面积作为笔刷工具的持续参数直接内置于共享工具栏：点“笔刷”即用默认/上次尺寸激活，按钮后显示
+    `1 × 1 / 2 × 2 / 3 × 3` 下拉；切换工具时隐藏但保留选择。地图与组合共同消费 `isometricBrushPoints`，
+    2×2/3×3 会实际批量写格且画布 hover 勾勒完整范围，不是只增加一个无行为下拉框。
   - 新增 `IsometricEditorSurface` 统一 toolbar/viewport/overlay/footer 骨架；组合中央删除重复页面标题 Hero，
     直接从共享工具栏和等距画布开始，名称/分类/保存留在属性面板。
   - 用户新增的“同一地图多瓦片集、来源选择位于瓦片 Tab”会改变 map/stamp/save/runtime canonical 结构，已拆到
@@ -353,6 +358,8 @@ build/done。
   - `pnpm --filter @type-pal/editor exec vitest run src/ui/MapMode.test.tsx`：56/56 passed（最后工具栏语义修订后定向复验）。
   - `pnpm exec vitest run packages/editor/src/ui/MapMode.test.tsx packages/editor/src/ui/StampLibraryTab.test.tsx packages/editor/src/ui/design-system/boundary.test.ts`：96/96 passed。
   - 第三轮工具栏共享返工后同一 focused 命令：99/99 passed；`typecheck` 与 `build` 通过。
+  - 笔刷面积补充后同一 focused 命令：101/101 passed；新增地图和组合各一项 2×2 四格写入断言；`typecheck`
+    与 `build` 通过。
   - changed-files `biome check`：通过；仅报告 `editor.css:10314-10317` 既有 `.visually-hidden !important`
     4 条 warning，本卡未新增。
   - `git diff --check`：通过。
@@ -367,6 +374,8 @@ build/done。
   - 第三轮 DOM 复验：`.stamp-draft-toolbar.map-toolbar=1`，旧 `[role=tablist]=0`；共享工具栏完整显示九个入口，
     切到“选择”后出现唯一“包含碰撞” checkbox，Console warning/error 0。地图页实测勾选后打开右键菜单，
     checkbox 仍为 checked，菜单内“包含碰撞”项为 0、一次性“移动”命令为 1。
+  - 笔刷面积复验：组合共享工具栏内 `[aria-label="笔刷面积"]=1`，默认文案 `1 × 1`，位置紧跟“笔刷”且在
+    “矩形”之前；1280×720 未挤压中央画布，Console warning/error 0。
   - 1280/900/720 × 720 三档 document 横向 overflow 均为 0；900 中央 416px、720 中央 260px，画布保持可滚动。
 - 跳过的检查及原因: 无。
 
@@ -377,7 +386,7 @@ build/done。
 - 验证方式: in-app Browser + DOM 尺寸量化 + 三档截图 + 语义交互。
 - 集中 E2E 用例 / 批次: N/A
 - 截图 / 像素检查路径: 本轮浏览器内联截图（未把临时截图落库）；量化证据已写入上一节。
-- 结论: **第三次返工后通过**。查看/编辑分离、重复图层/画布、组合中央重复标题、常驻选区命令、View 层级、
+- 结论: **第三次返工及笔刷面积补充后通过**。查看/编辑分离、重复图层/画布、组合中央重复标题、常驻选区命令、View 层级、
   “包含碰撞”状态归属和私有组合工具栏均已按共享 toolbar/surface 收口；最新 1280×720 复验右键菜单与组合中央
   布局通过。多瓦片集语义另见
   `ED-MAP-MULTI-TILESET-1`，不得用现有单值下拉搬家冒充完成。
@@ -392,8 +401,9 @@ build/done。
 
 ## 用户验收
 
-- 用户结论: **counter（2026-08-18，第三轮）**：“包含碰撞”不应因右键菜单关闭而只表现为一次性命令；组合中央
-  仍未真正复用地图编辑同款工具栏。以上已返工，等待用户复验。用户同时要求来源瓦片集在“瓦片”
+- 用户结论: **counter（2026-08-18，第三轮；后续补充笔刷面积交互）**：“包含碰撞”不应因右键菜单关闭而只表现为一次性命令；组合中央
+  仍未真正复用地图编辑同款工具栏；点“笔刷”后应显示面积下拉，可选 1×1/2×2 等尺寸且保留上次选择。以上已
+  返工，等待用户复验。用户同时要求来源瓦片集在“瓦片”
   Tab 选择且一张地图允许多个瓦片集；该 schema 产品铁律已进入 `ED-MAP-MULTI-TILESET-1`，尚未获得 build 三签。
 - 后续任务: Kimi/GLM 独立复审 + 用户对返工版最终验收。
 
@@ -432,23 +442,28 @@ build/done。
 - 2026-08-18 Codex: 抽取共享 `IsometricEditorToolbar` 并让 MapMode/StampContentEditor 直接共同消费；组合补齐
   地图同款工具与行为，删除旧视觉/碰撞页签；“包含碰撞”移到选择工具附加项。Evidence: focused 99、typecheck、
   build、Biome、浏览器 DOM/交互与 Console 0。Next: Kimi/GLM 独立复审；未齐前不得标 done。
+- 2026-08-18 User: 补充笔刷交互：点击笔刷后在其后显示面积下拉，可选 1×1/2×2 等。Codex 沿共享工具栏补齐
+  1×1/2×2/3×3 状态、地图/组合批量写入与 hover 范围预览。Evidence: focused 101、typecheck、build、Biome、
+  1280×720 组合工具栏截图与 Console 0。Next: Kimi/GLM 独立复审；未齐前不得标 done。
 
 ## 下一位 Agent 提示词
 
 ```text
 接手任务：ED-STAMP-EDITOR-1 组合模板内容编辑闭环
 任务卡：docs/ops/tasks/ED-STAMP-EDITOR-1-stamp-template-content-editor.md
-当前状态：review；用户三轮 counter 后，Codex 完成 shared toolbar/surface、“包含碰撞”状态归位并于 2026-08-18 重新 accept；
+当前状态：review；用户三轮 counter 与笔刷面积补充后，Codex 完成 shared toolbar/surface、“包含碰撞”状态归位、
+共享 1×1/2×2/3×3 笔刷并于 2026-08-18 重新 accept；
 Kimi/GLM done 前 accept pending；不得标 done。
 你的角色：Kimi 或 GLM，负责独立代码审查与 done 前签字。
 先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文、
-packages/editor/src/core/stamp-draft.ts、stamp-draft.test.ts、stamp-commands.ts，
+packages/editor/src/core/stamp-draft.ts、stamp-draft.test.ts、stamp-commands.ts、isometric-brush.ts，
 packages/editor/src/ui/StampContentEditor.tsx、StampLibraryTab.tsx/test、LayerStackControls.tsx、
 IsometricEditorCanvas.tsx、IsometricEditorSurface.tsx、IsometricEditorToolbar.tsx、MapMode.tsx/test、TilesetTab.tsx、
 design-system/boundary.test.ts 与 editor.css。
 已完成：纯内存 draft；选择即编辑；属性/引用/瓦片分栏；地图/组合共享图层栈、等距画布和 surface 骨架；右侧
 tile palette；地图选组合即放置；地图/组合共用完整工具栏；“包含碰撞”是选择工具持久附加 checkbox；选区命令进
-画布右键菜单；View 单入口；focused 99、typecheck、build 与浏览器复验全绿。
+画布右键菜单；View 单入口；笔刷激活后显示共享面积下拉并实际批量绘制；focused 101、typecheck、build 与浏览器
+复验全绿。
 请你做：独立检查 SK1/SK2 与 SE2/SE3，并重点核对共享 surface 是否仍保持 draft/session 隔离、地图/组合投影与
 命中是否一致、组合选择即放置是否无隐藏模式冲突、工具栏附加选项是否只在正确主工具下出现、窄栏布局是否可达；
 复跑必要测试。

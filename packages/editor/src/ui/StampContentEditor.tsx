@@ -4,6 +4,7 @@ import { bakeFrame, latticeCenter, pixelToLattice, projectMapTileBlitRect } from
 import { type PointerEvent as ReactPointerEvent, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { type IsometricBrushSize, isometricBrushPoints } from '../core/isometric-brush.js'
 import type { GridPointRef } from '../core/map-selection.js'
 import { nudgeIsometricLattice } from '../core/map-transform.js'
 import {
@@ -101,10 +102,12 @@ export function StampContentEditor(props: {
   const [collisionValue, setCollisionValue] = useState(1)
   const [collisionPaint, setCollisionPaint] = useState<'set' | 'clear'>('set')
   const [includeCollision, setIncludeCollision] = useState(true)
+  const [brushSize, setBrushSize] = useState<IsometricBrushSize>(1)
   const [showGrid, setShowGrid] = useState(true)
   const [showCollision, setShowCollision] = useState(true)
   const [stagePan, setStagePan] = useState({ x: 0, y: 0 })
   const [panning, setPanning] = useState(false)
+  const [hoverPoint, setHoverPoint] = useState<GridPointRef>()
   const [selectedPointKeys, setSelectedPointKeys] = useState<Set<string>>(() => new Set())
   const [assets, setAssets] = useState<StampPreviewAssets>()
   const [assetError, setAssetError] = useState('')
@@ -326,6 +329,14 @@ export function StampContentEditor(props: {
       fillVisualAt(point)
       return
     }
+    if (tool === 'brush') {
+      paintVisualPoints(
+        isometricBrushPoints(point, brushSize).filter((candidate) =>
+          latticePointKeys.has(stampDraftPointKey(candidate)),
+        ),
+      )
+      return
+    }
     update((current) =>
       tool === 'erase'
         ? eraseStampDraftVisual(current, activeSlotId, point)
@@ -494,6 +505,21 @@ export function StampContentEditor(props: {
       context.stroke()
     }
 
+    if (tool === 'brush' && hoverPoint)
+      for (const point of isometricBrushPoints(hoverPoint, brushSize)) {
+        if (!latticePointKeys.has(stampDraftPointKey(point))) continue
+        const center = latticeCenter(point)
+        context.beginPath()
+        context.moveTo(center.x, center.y - 8)
+        context.lineTo(center.x + 16, center.y)
+        context.lineTo(center.x, center.y + 8)
+        context.lineTo(center.x - 16, center.y)
+        context.closePath()
+        context.strokeStyle = 'rgba(255,255,255,0.92)'
+        context.lineWidth = 1.5
+        context.stroke()
+      }
+
     const anchor = latticeCenter({ row: 0, col: 0 })
     context.beginPath()
     context.arc(anchor.x, anchor.y, 3.5, 0, Math.PI * 2)
@@ -509,12 +535,16 @@ export function StampContentEditor(props: {
     draft.layerSlots,
     draft.visual,
     hiddenSlotIds,
+    hoverPoint,
     latticePoints,
+    latticePointKeys,
     selectedPointKeys,
+    brushSize,
     showCollision,
     showGrid,
     stageOriginX,
     stageOriginY,
+    tool,
   ])
 
   const save = (takeOwnership: boolean): void => {
@@ -783,6 +813,8 @@ export function StampContentEditor(props: {
                 onChange={(event) => setIncludeCollision(event.target.checked)}
               />
             }
+            brushSize={brushSize}
+            onBrushSizeChange={setBrushSize}
             collisionPaint={collisionPaint}
             onCollisionPaintChange={setCollisionPaint}
             collisionOptions={
@@ -884,6 +916,7 @@ export function StampContentEditor(props: {
             }
             const point = pointFromStagePointer(event)
             if (!point) return
+            setHoverPoint(point)
             event.currentTarget.setPointerCapture(event.pointerId)
             if (tool === 'rect') {
               rectStartPointRef.current = point
@@ -900,6 +933,8 @@ export function StampContentEditor(props: {
               })
               return
             }
+            const point = pointFromStagePointer(event)
+            setHoverPoint(point)
             if (
               !(event.buttons & 1) ||
               tool === 'select' ||
@@ -908,7 +943,6 @@ export function StampContentEditor(props: {
               tool === 'rect'
             )
               return
-            const point = pointFromStagePointer(event)
             if (!point) return
             const key = stampDraftPointKey(point)
             if (paintedPointRef.current === key) return
@@ -933,6 +967,7 @@ export function StampContentEditor(props: {
             panStartRef.current = undefined
             setPanning(false)
           }}
+          onPointerLeave={() => setHoverPoint(undefined)}
           onContextMenu={(event) => event.preventDefault()}
         />
       </IsometricEditorSurface>

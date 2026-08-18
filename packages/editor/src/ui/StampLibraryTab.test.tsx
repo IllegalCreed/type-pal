@@ -608,6 +608,32 @@ describe('StampLibraryTab', () => {
     expect(session.getState().stamps[0]?.visual.some((member) => member.tileId === 0)).toBe(true)
   })
 
+  test('组合笔刷面积在笔刷后出现并按 2 × 2 写入草稿', async () => {
+    const session = new EditSession(state([template()], {}))
+    await act(async () => {
+      root.render(
+        <Harness
+          session={session}
+          tilesets={[tilesetFixture]}
+          assetCatalog={assetCatalogFixture}
+        />,
+      )
+      await new Promise((resolve) => window.setTimeout(resolve, 0))
+    })
+    await act(async () => new Promise((resolve) => window.setTimeout(resolve, 0)))
+    await act(async () => button('瓦片', host).click())
+    const toolbar = host.querySelector('.stamp-draft-toolbar')!
+    expect(toolbar.querySelector('[aria-label="笔刷面积"]')).not.toBeNull()
+
+    await chooseSelectOption('笔刷面积', '2 × 2')
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="瓦片 #2"]')!.click())
+    await clickDraftPoint({ row: 0, col: 0 })
+    await act(async () => button('保存组合', host).click())
+
+    const painted = session.getState().stamps[0]!.visual.filter((member) => member.tileId === 2)
+    expect(painted).toHaveLength(4)
+  })
+
   test('内容草稿离开时先确认，取消编辑保持工程与迁移来源不变', async () => {
     const migrated = { ...template('tree'), origin: 'migrated' as const }
     const session = new EditSession(state([migrated, template('rock')], {}))

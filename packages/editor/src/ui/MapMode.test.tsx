@@ -221,6 +221,20 @@ function button(host: HTMLElement, text: string): HTMLButtonElement {
   return result
 }
 
+async function chooseSelectOption(
+  host: HTMLElement,
+  label: string,
+  optionText: string,
+): Promise<void> {
+  const trigger = host.querySelector<HTMLButtonElement>(`[role="combobox"][aria-label="${label}"]`)!
+  await act(async () => trigger.click())
+  const listbox = document.getElementById(trigger.getAttribute('aria-controls')!)!
+  const option = [...listbox.querySelectorAll<HTMLElement>('[role="option"]')].find((candidate) =>
+    candidate.textContent?.includes(optionText),
+  )!
+  await act(async () => option.click())
+}
+
 async function openSelectionMenu(host: HTMLElement): Promise<HTMLElement> {
   const canvas = host.querySelector<HTMLCanvasElement>('[data-map-canvas="true"]')!
   await act(async () =>
@@ -602,6 +616,29 @@ describe('MapMode 地图内容选择交互', () => {
     expect(optionGroup('碰撞工具选项')?.textContent).toContain('清除')
     await act(async () => button(host, '笔刷').click())
     expect(optionGroup('碰撞工具选项')).toBeUndefined()
+    expect(optionGroup('笔刷工具选项')?.textContent).toContain('1 × 1')
+  })
+
+  test('笔刷面积在工具后出现并按 2 × 2 一笔写入', async () => {
+    const map = buildBlankProjectMap(2, 2, 'tiles')
+    const { host, canvas, session } = await mountMapMode({ map })
+    await act(async () => button(host, '笔刷').click())
+    await chooseSelectOption(host, '笔刷面积', '2 × 2')
+    await act(async () => {
+      pointer(canvas, 'pointerdown', { clientX: 1, clientY: 1 })
+      pointer(canvas, 'pointerup', { clientX: 1, clientY: 1 })
+    })
+    const floor = session.getState().maps['map-a']!.layers[0]!
+    expect([
+      floor.tiles[0]![0],
+      floor.tiles[0]![1],
+      floor.tiles[1]![0],
+      floor.tiles[1]![1],
+    ]).toEqual([0, 0, 0, 0])
+    await act(async () => button(host, '选择').click())
+    expect(host.querySelector('[aria-label="笔刷面积"]')).toBeNull()
+    await act(async () => button(host, '笔刷').click())
+    expect(host.querySelector('[aria-label="笔刷面积"]')?.textContent).toContain('2 × 2')
   })
 
   test('从选择切回平移时清空内容选区并恢复地图属性', async () => {
