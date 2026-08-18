@@ -1,6 +1,6 @@
 # ED-STAMP-MAP-MODEL-1 - 组合/地图共享等距内容模型与相对高度
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: W7 / W8（地图与组合 canonical 内容模型纠偏）
 Coding Owner: Codex
@@ -153,14 +153,15 @@ Branch: main
 ### 主审立场
 
 - Reviewer：Kimi（schema/公共接口/renderer/版本）+ GLM（迁移/数据不变量/测试矩阵）。
-- 结论/必改项/是否进入 build：pending。
+- 结论/必改项/是否进入 build：Codex、Kimi、GLM 三方 premise verified + design agree；
+  KS1-KS3、SM1-SM4 均为 build 必落钉，当前已准入 build。
 
 ### 三方争议记录
 
 - Codex：建议共享 content 值对象、紧凑并行矩阵、map absolute/stamp relative envelope、删除 depthMode；不直接嵌入
   ProjectMap，不保留稀疏 Stamp V1 adapter。
-- Kimi：pending；其多瓦片集卡 KM1/KM2 可继承，KM3 的 per-member stamp 结论建立在旧稀疏模型上，需按本卡重审。
-- GLM：pending；其 MT1-MT4 census/预算/引用/判别矩阵继续作为硬门。
+- Kimi：agree；继承多瓦片集卡 KM1/KM2，KM3 的 per-member stamp 结论已按共享 content 重审并作废。
+- GLM：agree；MT1-MT4 census/预算/引用/判别矩阵继续作为 build 硬门。
 - 用户拍板：已批准组合是局部小地图、H5+H5=H10、所有层按实际高度遮挡。
 
 ## 验收条件
@@ -186,16 +187,111 @@ Branch: main
   - design: **agree（2026-08-18）**。同意本卡 11 点候选；吸收多瓦片卡 KM1/KM2 与 MT1-MT4，选择紧凑并行
     source matrix，不采用 per-cell 对象落盘。
 - Kimi：
-  - premise: pending
-  - design: pending
+  - premise: **verified（2026-08-18，本人一手读码，非复述）**。逐项独立核实：
+    - **双模型实锤**：`StampTemplateV1` 稀疏 members（stamp.ts:3-39）vs `ProjectMap` 定尺寸
+      矩阵（project-map.ts:1-24）；`PlanStampPlacementInput` 无 baseHeight（stamp-placement.ts
+      :95-106），patch 把 `member.height` 原样写入目标层（:332-343）——且仅在目标层
+      `depthMode==='height'` 时写，flat 层成员高度被静默丢弃（:336-341 条件分支）。
+    - **renderer cover 分叉实锤**：render.ts:344 `tile.depthMode !== 'height' || tile.height <= 0`
+      直接跳过——flat 层永不参与遮挡。
+    - **选区导入复制绝对高度实锤**：stamp-template.ts:101 `mapInstanceHeight(layer, …)` 原样
+      拷贝实例高度，无基面正规化。
+    - 可证伪观察核对：现有模型无 base+relative 解析路径、无双模型共享 patch/render——前提成立。
+  - design: **agree（2026-08-18，附必落钉 KS1-KS3，不阻塞准入）**。共享 content 值对象 +
+    envelope 分层（ProjectMap 绝对 / StampTemplate 相对+anchor）、紧凑并行矩阵、删 depthMode、
+    nullable collision membership、base+relative 唯一公式、选区按最小高度正规化、一次切版——
+    与现有结构和 MULTI-TILESET 的 KM1/KM2 相容；**KM3 按本卡重审结论：per-member 来源结论
+    作废**，共享 content 的 sources 矩阵使 stamp 不再需要 per-member 引用，模板全局 tilesetId
+    判据随之退役。详见下方「Kimi 独立反证审查」。
 - GLM：
-  - premise: pending
-  - design: pending
-- 独立反证审查：审查者/证据/可证伪观察 pending；至少核验 collision 0 membership、placement height 写入、
-  renderer depthMode cover 条件、223 图迁移预算和版本边界。
-- counter / 分歧处理：pending。
+  - premise: **verified（2026-08-18，本人一手读码 + 全工程 census，非代理）**。四锚点实锤
+    （与 Kimi 互证）：稀疏/矩阵双模型（stamp.ts:11,18,33-36 vs project-map.ts:7,163-172）；
+    placement 无 baseHeight（stamp-placement.ts:95-106）且 flat 层成员高度被静默丢弃
+    （Kimi 补充 :336-341，本人复核属实）；render :346 `depthMode !== 'height' || height <= 0`
+    flat 与 H0 双重豁免；可证伪观察核对无既有 base+relative/共享路径。
+  - **全工程 census（本卡新数据事实）**：
+    - **组合模板 = 0**：PAL `stamps.json` 为 `[]`，demo/e2e-own 无该文件——组合侧 schema
+      迁移是**零数据纯切换**（与 WORLD-VARIABLES GV1 空表同型）；模板侧不变式对真实工程
+      平凡成立，验收 100% 依赖合成 fixture。
+    - **地图 446 层全部 `height`、flat = 0**——depthMode 删除对 PAL 存量数据无损；但见 SM2。
+  - design: **agree（2026-08-18，附必落钉 SM1-SM4，不阻塞准入）**。11 点候选与本人多瓦片卡
+    MT1-MT4 及 source-index matrix 推荐一致（设计 2 禁止 per-cell 对象落盘）；共享 content
+    值对象非 StampMap 文档、envelope 绝对/相对、planner 唯一公式、nullable collision 三态、
+    一次 version cut——数据/迁移/测试三维成立。Kimi KM3 重审结论本人同意。
+  - **必落钉 SM1-SM4：**
+    - **SM1（零数据事实入卡 + 合成覆盖声明）**：组合模板全工程 0 写入卡；模板侧迁移/验收
+      100% synthetic，Build 记录不得宣称"经真实组合数据验证"。
+    - **SM2（H0 遮挡语义变化基线显式化——关键）**：现 render :346 把 **H0（height<=0）与
+      flat 一并排除**出 cover；新模型"所有实例按实际高度参与遮挡"意味着 **PAL 大量 H0 地板
+      将开始进入 cover 候选**——用户拍板的有意渲染行为变化，不是无损迁移。必须：①显式列出
+      预期变化面与锚定 fixture（扩充"人物立于 H0 地板行"）；②迁移前后同场景最小实机对照
+      截图入卡；③既有视觉/E2E 基线覆盖地图渲染的须登记重录，不得静默炸基线。
+    - **SM3（迁移不变式双域精确化）**：**数据等价与渲染等价分离**——地图域数据等价（223 图/
+      446 层/4.0M 非空格 tiles/sources/heights 逐格相同 + 幂等二跑 changed=0 + 0 悬空来源）
+      为硬门；渲染像素等价仅对非 H0-cover 路径承诺，H0 cover 变化按 SM2 单独验收。组合域
+      零数据 + 合成 round-trip（相对高度非负、最小基面正规化、null/0/非零三态）。
+    - **SM4（一次切版合并清单 + 零残留 token 表）**：与 MULTI-TILESET 共用切版的合并 census
+      断言一次跑：tiles/sources lockstep、heights 非负、地图 collision 全 number/组合三态、
+      同层双源同号 tileId 判别（MT4）；旧 schema 零残留 rg 清单含
+      `depthMode|layerSlots|StampVisualMemberV1|StampCollisionMemberV1` 及旧 StampTemplateV1
+      形状 token，同卡删除不双轨。
+  - GLM 反证可证伪观察：①nullable collision 若迫使两套 patch/renderer → 改 value+mask 不
+    复制编辑器；②source matrix 实迁超 MT2 +2~3B/格预算 → 回编码层重议；③H0 进 cover 后
+    PAL 实机非预期遮挡 → SM2 对照截图拦截并修 cover 判定，不得恢复 flat/H0 豁免。
+- 独立反证审查：Kimi 与 GLM 均已完成一手证据审查，见各自签字与下方「Kimi 独立反证审查」。
+- counter / 分歧处理：无未解决 counter。
 - 缺签豁免：N/A。
-- build 准入结论：**blocked——Kimi/GLM premise/design 与独立反证未完成；不得实现。**
+- build 准入结论：**allowed（2026-08-18）——Codex + Kimi（KS1-KS3）+ GLM（SM1-SM4）三方签字齐；SM1 零数据事实与 SM2 基线策略须先落卡。**
+
+#### Kimi 独立反证审查（2026-08-18，schema/公共接口/renderer/版本主审；本人一手读码）
+
+**设计压力测试（七项）：**
+
+1. **共享 content 值对象边界 ✓**：envelope 分层正确——ProjectMap envelope 持 MapIndex 身份与绝对
+   高度语义，StampTemplate envelope 持 anchor/metadata 与相对高度语义；content 本身不含身份，
+   不会变成可被 Scene 绑定或 runtime 加载的第二类地图文档（「明确不做」第 1 条成立且必须保持）。
+2. **删 depthMode 的行为面 ✓（可控）**：现行 cover 判定本来就用 `tile.height <= 0` 排除零高度
+   （render.ts:344）——flat 层迁移为全 0 heights 后 cover 候选集合不变，无回归；新增能力是
+   原 flat 层可编辑非零高度并参与遮挡，这正是用户拍板语义。风险只在迁移正确性，由 fixture 覆盖
+   （卡文已知风险第 4 条）。
+3. **nullable collision membership ✓**：`null=不参与 / 0=显式可通行 / 非零=碰撞`与现行稀疏
+   `collision[]`（缺席=未纳入、0 显式成员，stamp.ts:23-27 注释自认）表达力精确等价，不是新语义；
+   地图 envelope 要求全 number 保持 runtime 全覆盖。dense 空白由 deterministic trim + anchor 保留
+   控制体积。
+4. **base+relative 唯一公式 ✓**：放置输入新增 `placementBaseHeight >= 0`，ghost/冲突/提交共同
+   消费一个 planner；溢出 fail-loud；选区导入按最小实际高度正规化 + 作者确认基面 + 拒绝负
+   relative——语义闭环。KS3 钉死「唯一高度解析路径」防 ghost 与提交分叉。
+5. **紧凑并行矩阵 ✓**：与 MULTI-TILESET 的 KM1/KM2 直接合并——同形 sources 矩阵 + content 级
+   确定性 tilesetRefs；per-cell 对象禁落盘沿用。**KM3 作废重签**：旧稀疏模型下的 per-member
+   tilesetId 结论不再适用，共享 content 的 sources 矩阵天然携带每格来源。
+6. **一次切版 ✓**：MULTI-TILESET 来源模型与本卡共享 content 同次切换，避免两次连续地图/组合
+   迁移，符合版本纪律；旧 StampTemplateV1/depthMode/upgrader/fallback 同卡删除。
+7. **W7G 旧签字处理 ✓**：稀疏模板 + flat|height 是 W7G 三签产物，本卡明示旧签字仅作历史证据、
+   新前提重新三签——程序正确。
+
+**必落钉 KS1-KS3（build 必落，不阻塞准入）：**
+
+- **KS1（heights 落盘紧凑性）**：删 depthMode 后所有层拥有实例高度，但 canonical 序列化必须
+  保持全 0 heights 可省略（沿用现行 `heights?` 省略 = 全 0 的确定性约定），不得给 223 张地图
+  每层追加全零矩阵噪声；validator 继续钉「空瓦片高度必须为 0」。
+- **KS2（cover 回归 fixture 硬门）**：迁移后 flat→全 0 层的 cover 行为必须与迁移前逐场景等价
+  （地板/墙/屋顶/跨层同高 fixture），任何排序差异修统一高度判定，不得恢复 flat 逃逸或
+  depthMode 影子字段。
+- **KS3（唯一高度解析路径）**：ghost、冲突检测、提交、placement 记录必须调用同一个
+  `base + relative` 解析函数；boundary/测试断言不存在第二条高度计算路径（含编辑器预览与
+  runtime 读取各自重算）。
+
+**可证伪观察：**
+
+1. 若 nullable collision 迫使 patch/renderer 双分支 → 改同形 value + membership mask（卡文已列，
+   本席同意）。
+2. 若 PAL 重迁后 source matrix 超 +2~3B/格预算 → 回编码层重议（沿用 GLM MT2）。
+3. 若全 0 heights 不可省略导致 maps 目录体积显著膨胀 → 违反 KS1，修序列化而非恢复 depthMode。
+4. 若 ghost 与提交出现高度差 → KS3 拦截，合并解析路径。
+
+Evidence: stamp.ts:3-39,91-152 / project-map.ts:1-24,147-203 / stamp-placement.ts:95-106,231-289,
+332-343 / stamp-template.ts:73-119 / render.ts:291-357 / W7G:20-25,138-188 /
+MULTI-TILESET 卡 KM1-KM3/MT1-MT4。只读审查，未改实现文件，未提交共享画布 WIP，未代签 GLM。
 
 ### 进入 done 前：审查签字
 
@@ -218,6 +314,19 @@ Branch: main
 - 2026-08-18 User：指出不能先给组合页面打渲染补丁，必须先确定组合数据结构并开相对高度卡。
 - 2026-08-18 Codex：核验稀疏/矩阵双模型、placement 直接绝对高度和 depthMode 分叉；提出共享 content、紧凑
   source matrix、map absolute/stamp relative、删除 depthMode并与多瓦片来源一次切版；三签前暂停实现。
+- 2026-08-18 GLM（迁移/数据不变量/测试矩阵）: 审查完成，签 **premise verified + design agree（附
+  SM1-SM4）**。四锚点实锤并复核 Kimi 补充的 flat 层高度静默丢弃；**census：组合模板 0（零数据纯
+  切换、验收 100% synthetic）、地图 446 层全 height flat=0**；SM2 关键钉：H0 进 cover 是有意渲染
+  行为变化，基线策略/对照截图显式化；SM3 数据/渲染等价分离；SM4 一次切版合并 census 与旧 token
+  零残留表。三签齐，SM1/SM2 落卡后可转 build。未改实现文件，未提交 WIP，未代签 Kimi。
+- 2026-08-18 Kimi：独立反证完成，签 **premise verified + design agree（附 KS1-KS3）**。一手实锤：
+  placement 无 baseHeight 且把 member.height 原样写入（flat 层静默丢弃）、renderer 以 depthMode/height<=0
+  排除 cover、选区导入复制绝对高度。七项压测通过：envelope 分层不造成 StampMap 文档、删 depthMode 后
+  cover 候选集合不变（height<=0 本已排除）、nullable collision 与稀疏 collision[] 表达力精确等价、
+  base+relative 唯一公式闭环、紧凑矩阵合并 KM1/KM2（KM3 per-member 结论按本卡作废重签）、一次切版
+  符合版本纪律、W7G 旧签字按历史处理程序正确。钉：KS1 全 0 heights 可省略、KS2 cover 迁移等价
+  fixture、KS3 唯一高度解析路径。未改实现文件，未提交 WIP，未代签 GLM。Next: GLM 迁移/数据/测试
+  签字后转 build。
 
 ## 下一位 Agent 提示词
 

@@ -1,6 +1,6 @@
 # ED-MAP-MULTI-TILESET-1 - 地图多瓦片集作者模型
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: 地图/组合瓦片来源模型纠偏（schema/save/runtime/editor）
 Coding Owner: Codex
@@ -128,9 +128,10 @@ Tab 中选择来源瓦片集和具体瓦片；同一地图可同时使用多个�
     - **MT4（判别用例矩阵）**：核心判别 = **同图同层两个来源的同号 tileId** round-trip 逐格
       不变（现模型必歧义）；palette 切换/registry 重排/删未引用/删被引用四态不重解释；stamp
       多源成员放多源图不再 mismatch 且快照语义不变；undo/redo 对称；迁移 census 断言。
-- counter / 分歧处理: pending
-- build 准入结论: **blocked——来源矩阵表达已由三方方向收敛，但 Stamp 稀疏 member 前提已被最新用户 counter
-  推翻；必须等待 ED-STAMP-MAP-MODEL-1 对共享 content/相对高度/depthMode 重新三签，两卡一次 version cut。**
+- counter / 分歧处理: 无未解决 counter；旧稀疏 member 前提已由共享 content 方案取代。
+- build 准入结论: **allowed（2026-08-19）——本卡三方来源模型签字齐，且上游
+  ED-STAMP-MAP-MODEL-1 已完成共享 content/相对高度/depthMode 的重新三签；两卡由同一 Coding Owner
+  合并执行一次 canonical version cut。**
 
 ### 进入 done 前
 
