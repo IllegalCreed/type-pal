@@ -2,6 +2,7 @@ import type { AssetCatalogV1, StampTemplateV1 } from '@type-pal/content'
 import type { AssetBase, TilesetDef } from '@type-pal/reforge'
 import { memo, useMemo, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { DsButton, DsSelect, DsTextInput } from './design-system/index.js'
 import { StampMiniPreview } from './StampPreviewCanvas.js'
 
 const INITIAL_LIMIT = 60
@@ -67,8 +68,8 @@ export const MapStampPalette = memo(function MapStampPalette(props: {
   return (
     <section className="map-stamp-palette" aria-label="地图组合模板">
       <div className="map-stamp-filters">
-        <input
-          className="in"
+        <DsTextInput
+          size="compact"
           type="search"
           value={query}
           onChange={(event) => {
@@ -78,22 +79,20 @@ export const MapStampPalette = memo(function MapStampPalette(props: {
           placeholder="搜索组合…"
           aria-label="搜索地图组合"
         />
-        <select
-          className="in"
+        <DsSelect
+          size="compact"
+          searchable={false}
           value={category}
           aria-label="筛选组合分类"
-          onChange={(event) => {
-            setCategory(event.target.value)
+          options={[
+            { value: 'all', label: '全部分类' },
+            ...categories.map((value) => ({ value, label: value })),
+          ]}
+          onValueChange={(value) => {
+            setCategory(value)
             setLimit(INITIAL_LIMIT)
           }}
-        >
-          <option value="all">全部分类</option>
-          {categories.map((value) => (
-            <option key={value} value={value}>
-              {value}
-            </option>
-          ))}
-        </select>
+        />
       </div>
       {shown.length ? (
         <div className="map-stamp-grid">
@@ -141,15 +140,15 @@ export const MapStampPalette = memo(function MapStampPalette(props: {
       )}
       <div className="map-stamp-palette-actions">
         {shown.length > limit ? (
-          <button type="button" className="mini" onClick={() => setLimit((value) => value + 60)}>
+          <DsButton size="compact" variant="quiet" onClick={() => setLimit((value) => value + 60)}>
             再显示 60 个
-          </button>
+          </DsButton>
         ) : null}
         <span className="spacer" />
         {onOpenLibrary ? (
-          <button type="button" className="mini" onClick={onOpenLibrary}>
+          <DsButton size="compact" variant="secondary" onClick={onOpenLibrary}>
             管理组合 ↗
-          </button>
+          </DsButton>
         ) : null}
       </div>
     </section>

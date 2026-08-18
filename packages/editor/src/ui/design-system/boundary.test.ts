@@ -151,8 +151,8 @@ describe('editor design-system static boundary', () => {
         path.endsWith('.tsx') && !path.endsWith('.test.tsx') && !path.includes('/design-system/'),
     )
     const ceilings = {
-      input: 143,
-      select: 71,
+      input: 142,
+      select: 70,
       textarea: 2,
       label: 129,
     } as const
@@ -557,7 +557,7 @@ describe('editor design-system static boundary', () => {
     const ceilings = {
       tool: 62,
       btn: 43,
-      mini: 20,
+      mini: 18,
       'mini-txt': 34,
       'pv-btn': 16,
       'item-action-button': 0,
@@ -587,6 +587,18 @@ describe('editor design-system static boundary', () => {
     expect(source).not.toMatch(/<button\b/)
     expect(source).not.toMatch(/\bitem-action-button\b/)
     expect(source).not.toMatch(/className\s*=\s*["'][^"']*\bmini\b/)
+  })
+
+  test('keeps MapStampPalette chrome on shared controls without catalog-shell creep', () => {
+    const source = readFileSync(join(dirname(here), 'MapStampPalette.tsx'), 'utf8')
+    expect(source).toMatch(
+      /import\s*\{[^}]*DsButton[^}]*DsSelect[^}]*DsTextInput[^}]*\}\s*from ['"]\.\/design-system\/index\.js['"]/s,
+    )
+    expect(source).not.toMatch(/<(?:input|select)\b/)
+    expect(source).not.toMatch(/className\s*=\s*["'][^"']*(?:^|\s)(?:in|mini)(?:\s|$)/m)
+    expect(source.match(/<button\b/g)).toHaveLength(1)
+    expect(source).toMatch(/<button[\s\S]*?className=\{`map-stamp-card/)
+    expect(source).not.toMatch(/<(?:DsCatalogControls|DsListHeader)\b/)
   })
 
   test('keeps the audited action families on shared controls', () => {
