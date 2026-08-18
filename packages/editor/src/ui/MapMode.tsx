@@ -365,7 +365,8 @@ export function MapMode(props: {
   const [recentStampIds, setRecentStampIds] = useState<string[]>([])
   const [collisionPaint, setCollisionPaint] = useState<CollisionPaint>('set')
   const [selectedTile, setSelectedTile] = useState(0)
-  const [currentHeight, setCurrentHeight] = useState(0)
+  const [paintHeight, setPaintHeight] = useState(0)
+  const [viewHeight, setViewHeight] = useState(0)
   const [brushSize, setBrushSize] = useState<IsometricBrushSize>(1)
   const [focusEnabled, setFocusEnabled] = useState(true)
   const [activeLayerId, setActiveLayerId] = useState('floor')
@@ -500,7 +501,7 @@ export function MapMode(props: {
         hiddenKey: string
         focusEnabled: boolean
         activeLayerId: string | undefined
-        currentHeight: number
+        focusHeight: number
         basePaintTick: number
         renderer: StageAssets['renderer']
         tiles: StageAssets['tiles']
@@ -544,7 +545,8 @@ export function MapMode(props: {
   const loadedAssets = status === 'ready' ? loadedRef.current : null
   const activeTool: MapTool = liveMap ? tool : 'pan'
   const activeLayer = liveMap?.layers.find((layer) => layer.id === activeLayerId)
-  const activePaintHeight = activeLayer?.depthMode === 'height' ? currentHeight : 0
+  const activePaintHeight = activeLayer?.depthMode === 'height' ? paintHeight : 0
+  const activeViewHeight = activeLayer?.depthMode === 'height' ? viewHeight : 0
   const activeLayerHidden = activeLayer ? hiddenLayerIds.has(activeLayer.id) : false
   const activeLayerLocked = activeLayer ? lockedLayerIds.has(activeLayer.id) : false
   const activeLayerReadOnly = !activeLayer || activeLayerHidden || activeLayerLocked
@@ -619,8 +621,8 @@ export function MapMode(props: {
     let max = 0
     for (const layer of liveMap.layers)
       for (const row of layer.heights ?? []) for (const height of row) max = Math.max(max, height)
-    return Math.max(15, max + 1, currentHeight)
-  }, [liveMap, currentHeight])
+    return Math.max(15, max + 1, paintHeight, viewHeight)
+  }, [liveMap, paintHeight, viewHeight])
 
   useEffect(() => {
     if (!mapId) return
@@ -634,7 +636,10 @@ export function MapMode(props: {
   }, [liveMap, activeLayerId])
 
   useEffect(() => {
-    if (activeLayer?.depthMode === 'flat') setCurrentHeight(0)
+    if (activeLayer?.depthMode === 'flat') {
+      setPaintHeight(0)
+      setViewHeight(0)
+    }
   }, [activeLayer?.depthMode])
 
   useEffect(() => {
@@ -851,7 +856,7 @@ export function MapMode(props: {
       cached.hiddenKey !== hiddenKey ||
       cached.focusEnabled !== focusEnabled ||
       cached.activeLayerId !== activeLayer?.id ||
-      cached.currentHeight !== activePaintHeight ||
+      cached.focusHeight !== activeViewHeight ||
       cached.basePaintTick !== basePaintTick ||
       cached.renderer !== loaded.renderer ||
       cached.tiles !== loaded.tiles
@@ -866,7 +871,7 @@ export function MapMode(props: {
         layers: {
           hiddenLayerIds: [...hiddenLayerIds],
           ...(focusEnabled && activeLayer
-            ? { focusLayerId: activeLayer.id, focusHeight: activePaintHeight, dimAlpha: 0.22 }
+            ? { focusLayerId: activeLayer.id, focusHeight: activeViewHeight, dimAlpha: 0.22 }
             : { showAll: true }),
         },
       })
@@ -896,7 +901,7 @@ export function MapMode(props: {
         hiddenKey,
         focusEnabled,
         activeLayerId: activeLayer?.id,
-        currentHeight: activePaintHeight,
+        focusHeight: activeViewHeight,
         basePaintTick,
         renderer: loaded.renderer,
         tiles: loaded.tiles,
@@ -1055,7 +1060,7 @@ export function MapMode(props: {
     lockedLayerIds,
     focusEnabled,
     activeLayer,
-    activePaintHeight,
+    activeViewHeight,
     brushSize,
     loadedRef,
     selection,
@@ -2150,8 +2155,10 @@ export function MapMode(props: {
         if (!isLatticeInside(liveMap, pos)) return
         const tileId = activeLayer.tiles[pos.row]?.[pos.col]
         if (tileId === null || tileId === undefined) return
+        const sampledHeight = mapInstanceHeight(activeLayer, pos.row, pos.col)
         setSelectedTile(tileId)
-        setCurrentHeight(mapInstanceHeight(activeLayer, pos.row, pos.col))
+        setPaintHeight(sampledHeight)
+        setViewHeight(sampledHeight)
         setTool('brush')
         return
       }
@@ -2998,19 +3005,19 @@ export function MapMode(props: {
                     </DsButton>
                   </div>
                   <div className="map-paint-context__control">
-                    <label htmlFor="map-paint-height">绘制高度</label>
+                    <label htmlFor="map-view-height">显示高度</label>
                     <input
-                      id="map-paint-height"
+                      id="map-view-height"
                       type="range"
                       min={0}
                       max={maxMapHeight}
                       step={1}
-                      value={activePaintHeight}
-                      onChange={(event) => setCurrentHeight(Number(event.currentTarget.value))}
+                      value={activeViewHeight}
+                      onChange={(event) => setViewHeight(Number(event.currentTarget.value))}
                       disabled={activeLayer.depthMode === 'flat'}
                     />
-                    <output htmlFor="map-paint-height" aria-live="polite">
-                      {activePaintHeight}
+                    <output htmlFor="map-view-height" aria-live="polite">
+                      {activeViewHeight}
                     </output>
                   </div>
                 </section>
@@ -3075,6 +3082,10 @@ export function MapMode(props: {
             }
             brushSize={brushSize}
             onBrushSizeChange={setBrushSize}
+            paintHeight={activePaintHeight}
+            maxPaintHeight={maxMapHeight}
+            paintHeightDisabled={activeLayerReadOnly || activeLayer?.depthMode === 'flat'}
+            onPaintHeightChange={setPaintHeight}
             collisionPaint={collisionPaint}
             onCollisionPaintChange={setCollisionPaint}
             showGrid={showGrid}
@@ -3653,26 +3664,6 @@ export function MapMode(props: {
                                   </option>
                                   <option value="height">按实例高度参与遮挡</option>
                                 </select>
-                              </div>
-                              <div className="field">
-                                <span className="field-label">笔刷高度</span>
-                                <input
-                                  className="in mono"
-                                  type="number"
-                                  aria-label="笔刷高度"
-                                  min={0}
-                                  max={255}
-                                  value={activePaintHeight}
-                                  disabled={activeLayerReadOnly || activeLayer.depthMode === 'flat'}
-                                  onChange={(event) =>
-                                    setCurrentHeight(
-                                      Math.max(
-                                        0,
-                                        Math.min(255, Math.floor(event.target.valueAsNumber || 0)),
-                                      ),
-                                    )
-                                  }
-                                />
                               </div>
                             </>
                           ) : null}

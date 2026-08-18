@@ -171,10 +171,10 @@ describe('editor design-system static boundary', () => {
         path.endsWith('.tsx') && !path.endsWith('.test.tsx') && !path.includes('/design-system/'),
     )
     const ceilings = {
-      input: 141,
+      input: 139,
       select: 70,
       textarea: 2,
-      label: 128,
+      label: 127,
     } as const
 
     for (const [tag, ceiling] of Object.entries(ceilings)) {

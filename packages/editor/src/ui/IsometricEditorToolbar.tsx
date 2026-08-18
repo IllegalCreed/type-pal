@@ -1,6 +1,14 @@
-import { Fragment, type ReactNode } from 'react'
+import {
+  Fragment,
+  type KeyboardEvent,
+  type ReactNode,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+} from 'react'
 import { ISOMETRIC_BRUSH_SIZES, type IsometricBrushSize } from '../core/isometric-brush.js'
-import { DsButton, DsMenuBar, DsSelect } from './design-system/index.js'
+import { DsButton, DsMenuBar } from './design-system/index.js'
 
 export type IsometricEditorTool =
   | 'pan'
@@ -28,6 +36,162 @@ const TOOL_DEFINITIONS: readonly {
   { id: 'collision', label: '⛔ 碰撞', title: '绘制独立碰撞层', group: 'collision' },
 ]
 
+function BrushSizeGlyph(props: { size: IsometricBrushSize }) {
+  return (
+    <span className="map-brush-size-glyph" aria-hidden="true">
+      {Array.from({ length: 9 }, (_, index) => {
+        const row = Math.floor(index / 3)
+        const col = index % 3
+        return <i key={index} data-active={row < props.size && col < props.size} />
+      })}
+    </span>
+  )
+}
+
+function PaintHeightGlyph(props: { height: number }) {
+  return (
+    <span className="map-paint-height-glyph" aria-hidden="true">
+      <i />
+      <span>H{props.height}</span>
+    </span>
+  )
+}
+
+function ToolOptionTray<T extends number>(props: {
+  label: string
+  title: string
+  value: T
+  options: readonly T[]
+  disabled?: boolean
+  align?: 'start' | 'end'
+  renderIcon: (value: T) => ReactNode
+  optionLabel: (value: T) => string
+  onChange: (value: T) => void
+}) {
+  const [open, setOpen] = useState(false)
+  const panelId = useId()
+  const rootRef = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<HTMLButtonElement>(null)
+  const optionRefs = useRef(new Map<T, HTMLButtonElement>())
+
+  useEffect(() => {
+    if (!open) return
+    const onPointerDown = (event: PointerEvent) => {
+      if (!rootRef.current?.contains(event.target as Node)) setOpen(false)
+    }
+    document.addEventListener('pointerdown', onPointerDown)
+    return () => document.removeEventListener('pointerdown', onPointerDown)
+  }, [open])
+
+  useEffect(() => {
+    if (props.disabled) setOpen(false)
+  }, [props.disabled])
+
+  function focusOption(value: T): void {
+    requestAnimationFrame(() => optionRefs.current.get(value)?.focus())
+  }
+
+  function openTray(): void {
+    if (props.disabled) return
+    setOpen(true)
+    focusOption(props.value)
+  }
+
+  function moveFocus(event: KeyboardEvent<HTMLDivElement>, direction: -1 | 1): void {
+    const current = props.options.findIndex(
+      (option) => optionRefs.current.get(option) === document.activeElement,
+    )
+    const next = (Math.max(0, current) + direction + props.options.length) % props.options.length
+    const option = props.options[next]
+    if (option !== undefined) optionRefs.current.get(option)?.focus()
+    event.preventDefault()
+  }
+
+  return (
+    <div
+      ref={rootRef}
+      className="map-tool-option"
+      data-align={props.align ?? 'start'}
+      data-open={open || undefined}
+    >
+      <DsButton
+        ref={triggerRef}
+        size="compact"
+        variant="quiet"
+        className="map-tool-option-trigger"
+        aria-label={props.label}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls={panelId}
+        disabled={props.disabled}
+        title={`${props.title} · 当前 ${props.optionLabel(props.value)}`}
+        onClick={() => {
+          if (open) setOpen(false)
+          else openTray()
+        }}
+        onKeyDown={(event) => {
+          if (['ArrowDown', 'ArrowUp', 'Enter', ' '].includes(event.key)) {
+            openTray()
+            event.preventDefault()
+          }
+        }}
+      >
+        {props.renderIcon(props.value)}
+      </DsButton>
+      {open ? (
+        <div
+          id={panelId}
+          role="listbox"
+          aria-label={`${props.label}选项`}
+          aria-orientation="horizontal"
+          className="map-tool-option-tray"
+          onKeyDown={(event) => {
+            if (event.key === 'ArrowRight') moveFocus(event, 1)
+            else if (event.key === 'ArrowLeft') moveFocus(event, -1)
+            else if (event.key === 'Home') {
+              const option = props.options[0]
+              if (option !== undefined) optionRefs.current.get(option)?.focus()
+              event.preventDefault()
+            } else if (event.key === 'End') {
+              const option = props.options.at(-1)
+              if (option !== undefined) optionRefs.current.get(option)?.focus()
+              event.preventDefault()
+            } else if (event.key === 'Escape') {
+              setOpen(false)
+              triggerRef.current?.focus()
+              event.preventDefault()
+            }
+          }}
+        >
+          {props.options.map((option) => (
+            <DsButton
+              key={option}
+              ref={(node) => {
+                if (node) optionRefs.current.set(option, node)
+                else optionRefs.current.delete(option)
+              }}
+              size="compact"
+              variant={option === props.value ? 'primary' : 'quiet'}
+              className="map-tool-option-choice"
+              role="option"
+              aria-selected={option === props.value}
+              aria-label={props.optionLabel(option)}
+              title={props.optionLabel(option)}
+              onClick={() => {
+                props.onChange(option)
+                setOpen(false)
+                triggerRef.current?.focus()
+              }}
+            >
+              {props.renderIcon(option)}
+            </DsButton>
+          ))}
+        </div>
+      ) : null}
+    </div>
+  )
+}
+
 export function IsometricEditorToolbar(props: {
   activeTool?: IsometricEditorTool
   onToolChange: (tool: IsometricEditorTool) => void
@@ -36,6 +200,10 @@ export function IsometricEditorToolbar(props: {
   selectionOptions?: ReactNode
   brushSize: IsometricBrushSize
   onBrushSizeChange: (size: IsometricBrushSize) => void
+  paintHeight: number
+  maxPaintHeight: number
+  paintHeightDisabled?: boolean
+  onPaintHeightChange: (height: number) => void
   collisionPaint: 'set' | 'clear'
   onCollisionPaintChange: (paint: 'set' | 'clear') => void
   collisionOptions?: ReactNode
@@ -44,6 +212,10 @@ export function IsometricEditorToolbar(props: {
   showCollision: boolean
   onShowCollisionChange: (show: boolean) => void
 }) {
+  const paintHeightOptions = Array.from(
+    { length: Math.max(0, Math.min(255, props.maxPaintHeight)) + 1 },
+    (_, height) => height,
+  )
   const renderTools = (group: 'navigate' | 'paint' | 'collision'): ReactNode =>
     TOOL_DEFINITIONS.filter((tool) => tool.group === group).map((tool) => (
       <DsButton
@@ -84,26 +256,30 @@ export function IsometricEditorToolbar(props: {
             >
               {tool.label}
             </DsButton>
-            {tool.id === 'brush' && props.activeTool === 'brush' ? (
-              <fieldset className="map-inline-option">
-                <legend className="visually-hidden">笔刷工具选项</legend>
-                <DsSelect
-                  size="compact"
-                  aria-label="笔刷面积"
-                  title="以当前格为起点绘制所选面积"
-                  value={String(props.brushSize)}
-                  options={ISOMETRIC_BRUSH_SIZES.map((size) => ({
-                    value: String(size),
-                    label: `${size} × ${size}`,
-                  }))}
-                  onValueChange={(value) =>
-                    props.onBrushSizeChange(Number(value) as IsometricBrushSize)
-                  }
-                />
-              </fieldset>
+            {tool.id === 'brush' ? (
+              <ToolOptionTray
+                label="笔刷面积"
+                title="选择笔刷一次绘制的格阵范围"
+                value={props.brushSize}
+                options={ISOMETRIC_BRUSH_SIZES}
+                renderIcon={(size) => <BrushSizeGlyph size={size} />}
+                optionLabel={(size) => `${size} × ${size}`}
+                onChange={props.onBrushSizeChange}
+              />
             ) : null}
           </Fragment>
         ))}
+        <ToolOptionTray
+          label="绘制高度"
+          title="选择笔刷、矩形和填充共用的实例高度"
+          value={props.paintHeight}
+          options={paintHeightOptions}
+          disabled={props.paintHeightDisabled}
+          align="end"
+          renderIcon={(height) => <PaintHeightGlyph height={height} />}
+          optionLabel={(height) => `H${height}`}
+          onChange={props.onPaintHeightChange}
+        />
       </div>
       <div className="tool-group">
         {renderTools('collision')}

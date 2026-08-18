@@ -221,16 +221,16 @@ function button(host: HTMLElement, text: string): HTMLButtonElement {
   return result
 }
 
-async function chooseSelectOption(
+async function chooseToolOption(
   host: HTMLElement,
   label: string,
-  optionText: string,
+  optionLabel: string,
 ): Promise<void> {
-  const trigger = host.querySelector<HTMLButtonElement>(`[role="combobox"][aria-label="${label}"]`)!
+  const trigger = host.querySelector<HTMLButtonElement>(`button[aria-label="${label}"]`)!
   await act(async () => trigger.click())
   const listbox = document.getElementById(trigger.getAttribute('aria-controls')!)!
-  const option = [...listbox.querySelectorAll<HTMLElement>('[role="option"]')].find((candidate) =>
-    candidate.textContent?.includes(optionText),
+  const option = [...listbox.querySelectorAll<HTMLButtonElement>('[role="option"]')].find(
+    (candidate) => candidate.getAttribute('aria-label') === optionLabel,
   )!
   await act(async () => option.click())
 }
@@ -616,14 +616,20 @@ describe('MapMode 地图内容选择交互', () => {
     expect(optionGroup('碰撞工具选项')?.textContent).toContain('清除')
     await act(async () => button(host, '笔刷').click())
     expect(optionGroup('碰撞工具选项')).toBeUndefined()
-    expect(optionGroup('笔刷工具选项')?.textContent).toContain('1 × 1')
+    expect(host.querySelector('[aria-label="笔刷面积"]')).not.toBeNull()
+    expect(host.querySelector('[aria-label="绘制高度"]')).not.toBeNull()
+    await act(async () => button(host, '矩形').click())
+    expect(host.querySelectorAll('[aria-label="绘制高度"]')).toHaveLength(1)
+    await act(async () => button(host, '填充').click())
+    expect(host.querySelectorAll('[aria-label="绘制高度"]')).toHaveLength(1)
+    expect(host.querySelector('[role="combobox"][aria-label="绘制高度"]')).toBeNull()
   })
 
-  test('笔刷面积在工具后出现并按 2 × 2 一笔写入', async () => {
+  test('笔刷面积用横向图标托盘选择并按 2 × 2 一笔写入', async () => {
     const map = buildBlankProjectMap(2, 2, 'tiles')
     const { host, canvas, session } = await mountMapMode({ map })
     await act(async () => button(host, '笔刷').click())
-    await chooseSelectOption(host, '笔刷面积', '2 × 2')
+    await chooseToolOption(host, '笔刷面积', '2 × 2')
     await act(async () => {
       pointer(canvas, 'pointerdown', { clientX: 1, clientY: 1 })
       pointer(canvas, 'pointerup', { clientX: 1, clientY: 1 })
@@ -636,9 +642,11 @@ describe('MapMode 地图内容选择交互', () => {
       floor.tiles[1]![1],
     ]).toEqual([0, 0, 0, 0])
     await act(async () => button(host, '选择').click())
-    expect(host.querySelector('[aria-label="笔刷面积"]')).toBeNull()
+    expect(host.querySelector('[aria-label="笔刷面积"]')).not.toBeNull()
     await act(async () => button(host, '笔刷').click())
-    expect(host.querySelector('[aria-label="笔刷面积"]')?.textContent).toContain('2 × 2')
+    const brushSizeTrigger = host.querySelector<HTMLButtonElement>('[aria-label="笔刷面积"]')!
+    expect(brushSizeTrigger.title).toContain('当前 2 × 2')
+    expect(brushSizeTrigger.querySelectorAll('[data-active="true"]')).toHaveLength(4)
   })
 
   test('从选择切回平移时清空内容选区并恢复地图属性', async () => {
@@ -739,26 +747,37 @@ describe('MapMode 地图内容选择交互', () => {
     expect(host.textContent).not.toContain('图章')
   })
 
-  test('高度层切到平面层后视图、输出与实际笔刷都强制使用高度 0', async () => {
+  test('显示高度与绘制高度分离，平面层两者都强制为 0', async () => {
     const { host, canvas, session } = await mountMapMode()
     const layerRows = [...host.querySelectorAll<HTMLElement>('.map-layer-row')]
     const objectLayer = layerRows.find((row) => row.textContent?.includes('上层'))!
     const floorLayer = layerRows.find((row) => row.textContent?.includes('地板'))!
-    const height = host.querySelector<HTMLInputElement>('#map-paint-height')!
-    const heightOutput = host.querySelector<HTMLOutputElement>('output[for="map-paint-height"]')!
+    const viewHeight = host.querySelector<HTMLInputElement>('#map-view-height')!
+    const viewHeightOutput = host.querySelector<HTMLOutputElement>('output[for="map-view-height"]')!
 
     await act(async () => objectLayer.querySelector<HTMLButtonElement>('.layer-name')!.click())
-    expect(height.disabled).toBe(false)
-    await setInputValue(height, '7')
-    expect(height.value).toBe('7')
-    expect(heightOutput.textContent).toBe('7')
-
-    await act(async () => floorLayer.querySelector<HTMLButtonElement>('.layer-name')!.click())
-    expect(height.disabled).toBe(true)
-    expect(height.value).toBe('0')
-    expect(heightOutput.textContent).toBe('0')
+    expect(viewHeight.disabled).toBe(false)
+    await setInputValue(viewHeight, '7')
+    expect(viewHeight.value).toBe('7')
+    expect(viewHeightOutput.textContent).toBe('7')
 
     await act(async () => button(host, '笔刷').click())
+    await chooseToolOption(host, '绘制高度', 'H3')
+    expect(viewHeight.value).toBe('7')
+    await act(async () => {
+      pointer(canvas, 'pointerdown')
+      pointer(canvas, 'pointerup')
+    })
+    expect(session.getState().maps['map-a']!.layers[1]?.heights?.[0]?.[0]).toBe(3)
+
+    await act(async () => floorLayer.querySelector<HTMLButtonElement>('.layer-name')!.click())
+    expect(viewHeight.disabled).toBe(true)
+    expect(viewHeight.value).toBe('0')
+    expect(viewHeightOutput.textContent).toBe('0')
+    const paintHeight = host.querySelector<HTMLButtonElement>('[aria-label="绘制高度"]')!
+    expect(paintHeight.disabled).toBe(true)
+    expect(paintHeight.textContent).toContain('H0')
+
     await act(async () => {
       pointer(canvas, 'pointerdown')
       pointer(canvas, 'pointerup')
@@ -766,6 +785,24 @@ describe('MapMode 地图内容选择交互', () => {
     const changed = session.getState().maps['map-a']!
     expect(changed.layers[0]?.tiles[0]?.[0]).toBe(0)
     expect(changed.layers[0]).not.toHaveProperty('heights')
+  })
+
+  test.each(['笔刷', '矩形', '填充'])('%s 使用工具栏选择的绘制高度', async (tool) => {
+    const base = buildBlankProjectMap(2, 2, 'tiles')
+    const map = {
+      ...base,
+      layers: [buildProjectMapLayer(base, 'floor', '地板', 'height')],
+    }
+    const { host, canvas, session } = await mountMapMode({ map })
+    await act(async () => button(host, tool).click())
+    expect(host.querySelector('[aria-label="绘制高度"]')).not.toBeNull()
+    await chooseToolOption(host, '绘制高度', 'H4')
+    await act(async () => {
+      pointer(canvas, 'pointerdown')
+      if (tool === '矩形') pointer(canvas, 'pointermove', { clientX: 17, clientY: 9 })
+      pointer(canvas, 'pointerup')
+    })
+    expect(session.getState().maps['map-a']!.layers[0]?.heights?.[0]?.[0]).toBe(4)
   })
 
   test('图层管理统一使用共享控件，不在列表重复暴露内部深度类型', async () => {

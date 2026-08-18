@@ -709,7 +709,7 @@ export function StampContentEditor(props: {
       }
       footer={
         activeSlot ? (
-          <section className="map-paint-context stamp-layer-context" aria-label="绘制层级">
+          <section className="map-paint-context stamp-layer-context" aria-label="图层属性">
             <div className="stamp-layer-editor-fields">
               <DsTextInput
                 size="compact"
@@ -737,22 +737,6 @@ export function StampContentEditor(props: {
                   )
                 }
               />
-            </div>
-            <div className="map-paint-context__control">
-              <label htmlFor="stamp-paint-height">绘制高度</label>
-              <input
-                id="stamp-paint-height"
-                type="range"
-                min={0}
-                max={maxDraftHeight}
-                step={1}
-                value={activeSlot.depthMode === 'height' ? height : 0}
-                onChange={(event) => setHeight(Number(event.currentTarget.value))}
-                disabled={activeSlot.depthMode === 'flat' || activeSlotLocked}
-              />
-              <output htmlFor="stamp-paint-height">
-                {activeSlot.depthMode === 'height' ? height : 0}
-              </output>
             </div>
           </section>
         ) : undefined
@@ -815,6 +799,10 @@ export function StampContentEditor(props: {
             }
             brushSize={brushSize}
             onBrushSizeChange={setBrushSize}
+            paintHeight={activeSlot?.depthMode === 'height' ? height : 0}
+            maxPaintHeight={maxDraftHeight}
+            paintHeightDisabled={!activeSlot || activeSlot.depthMode === 'flat' || activeSlotLocked}
+            onPaintHeightChange={setHeight}
             collisionPaint={collisionPaint}
             onCollisionPaintChange={setCollisionPaint}
             collisionOptions={

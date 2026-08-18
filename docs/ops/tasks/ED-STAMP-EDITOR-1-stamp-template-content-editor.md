@@ -244,18 +244,19 @@ build/done。
 
 ### 进入 done 前:审查签字
 
-- Codex: **accept（2026-08-18，第三次返工及笔刷面积补充后重新签）**。前三次 accept 分别被“查看/编辑分离”、“常驻选区命令/
+- Codex: **accept（2026-08-18，第四次绘制上下文返工后重新签）**。前三次 accept 分别被“查看/编辑分离”、“常驻选区命令/
   重复组合标题壳/View 层级”以及“包含碰撞关闭菜单/组合并未真正复用地图工具栏”三轮用户 counter 推翻。当前
   地图与组合共同消费 `IsometricEditorToolbar`、`LayerStackControls`、`IsometricEditorCanvas` 和
   `IsometricEditorSurface`；平移、选择、取样、笔刷、矩形、填充、擦除、碰撞及 View 只有一份工具栏实现。
   “包含碰撞”作为选择工具的持久附加 checkbox，已从一次性右键命令中移除；右键菜单只保留复制/剪切/粘贴/
-  移动/重复/删除。后续按用户补充裁决，笔刷激活时在按钮后显示 `1 × 1 / 2 × 2 / 3 × 3` 面积选择，地图与组合
-  共用同一尺寸状态 UI、范围函数和画布范围预览。定向 101 项、typecheck、build、Biome 和 1280×720 浏览器
-  语义复验全绿；未触及
+  移动/重复/删除。后续按用户补充裁决，笔刷范围改为图标触发的横向格阵托盘；绘制高度从左侧“显示高度”彻底
+  分离，作为笔刷/矩形/填充共享上下文固定在绘制工具组末尾，并以横向 H0…Hn 图标托盘选择。地图与组合共用
+  同一状态 UI、范围函数和画布范围预览。定向 104 项、typecheck、build、Biome 和 1280×720 浏览器语义复验
+  全绿；未触及
   schema/runtime/placement 非链接语义。
 - Kimi: pending
 - GLM: pending
-- counter / 返工处理: **2026-08-18 三轮用户 counter 均已完成返工；等待 Kimi/GLM 独立复审。**
+- counter / 返工处理: **2026-08-18 四轮用户 counter 均已完成返工；等待 Kimi/GLM 独立复审。**
 - 缺签豁免: N/A
 - done 准入结论: blocked
 
@@ -340,9 +341,10 @@ build/done。
     视觉/碰撞页签或简化工具集，并补齐矩形、填充、取样、平移、网格与碰撞显示行为。用户指出“包含碰撞”是
     选择的持续修饰状态后，将它放回选择工具后的 checkbox；画布右键菜单只承担单次选区命令，勾选状态不会再
     因菜单关闭而丢失。
-  - 笔刷面积作为笔刷工具的持续参数直接内置于共享工具栏：点“笔刷”即用默认/上次尺寸激活，按钮后显示
-    `1 × 1 / 2 × 2 / 3 × 3` 下拉；切换工具时隐藏但保留选择。地图与组合共同消费 `isometricBrushPoints`，
-    2×2/3×3 会实际批量写格且画布 hover 勾勒完整范围，不是只增加一个无行为下拉框。
+  - 笔刷面积作为笔刷工具的持续参数直接内置于共享工具栏：图标按钮展开横向 `1×1 / 2×2 / 3×3` 格阵托盘，
+    选择后收起且触发图标同步更新；地图与组合共同消费 `isometricBrushPoints`，2×2/3×3 会实际批量写格且画布
+    hover 勾勒完整范围。绘制高度不再跟随单个工具或复用左侧渲染高度：左侧明确为“显示高度”，共享 H 图标固定
+    在整个绘制工具组末尾，笔刷/矩形/填充共同消费；平面层强制 H0，高度层可展开横向托盘，取样同时取得瓦片与高度。
   - 新增 `IsometricEditorSurface` 统一 toolbar/viewport/overlay/footer 骨架；组合中央删除重复页面标题 Hero，
     直接从共享工具栏和等距画布开始，名称/分类/保存留在属性面板。
   - 用户新增的“同一地图多瓦片集、来源选择位于瓦片 Tab”会改变 map/stamp/save/runtime canonical 结构，已拆到
@@ -360,6 +362,9 @@ build/done。
   - 第三轮工具栏共享返工后同一 focused 命令：99/99 passed；`typecheck` 与 `build` 通过。
   - 笔刷面积补充后同一 focused 命令：101/101 passed；新增地图和组合各一项 2×2 四格写入断言；`typecheck`
     与 `build` 通过。
+  - 显示/绘制高度分离及横向图标托盘返工后同一 focused 命令：104/104 passed；覆盖三个绘制工具共同使用
+    H4、显示高度保持独立、平面层 H0 强制、地图/组合图标托盘选择；`typecheck`、changed-files Biome 与单次
+    `pnpm --filter @type-pal/editor build` 通过（仅既有 chunk >500k 提示）。
   - changed-files `biome check`：通过；仅报告 `editor.css:10314-10317` 既有 `.visually-hidden !important`
     4 条 warning，本卡未新增。
   - `git diff --check`：通过。
@@ -376,6 +381,9 @@ build/done。
     checkbox 仍为 checked，菜单内“包含碰撞”项为 0、一次性“移动”命令为 1。
   - 笔刷面积复验：组合共享工具栏内 `[aria-label="笔刷面积"]=1`，默认文案 `1 × 1`，位置紧跟“笔刷”且在
     “矩形”之前；1280×720 未挤压中央画布，Console warning/error 0。
+  - 绘制上下文复验：地图左侧只显示“显示高度”滑杆；共享工具栏内笔刷范围为三枚横向格阵图标，高度按钮固定在
+    擦除之后、碰撞之前。高度托盘横向列出 H0–H15，选 H4 后托盘收起且触发图标/标题同步为 H4；DOM 暴露
+    `listbox + aria-orientation=horizontal + option/aria-selected`，不再存在笔刷面积/绘制高度 combobox。
   - 1280/900/720 × 720 三档 document 横向 overflow 均为 0；900 中央 416px、720 中央 260px，画布保持可滚动。
 - 跳过的检查及原因: 无。
 
@@ -386,7 +394,7 @@ build/done。
 - 验证方式: in-app Browser + DOM 尺寸量化 + 三档截图 + 语义交互。
 - 集中 E2E 用例 / 批次: N/A
 - 截图 / 像素检查路径: 本轮浏览器内联截图（未把临时截图落库）；量化证据已写入上一节。
-- 结论: **第三次返工及笔刷面积补充后通过**。查看/编辑分离、重复图层/画布、组合中央重复标题、常驻选区命令、View 层级、
+- 结论: **第四次绘制上下文返工后通过**。查看/编辑分离、重复图层/画布、组合中央重复标题、常驻选区命令、View 层级、
   “包含碰撞”状态归属和私有组合工具栏均已按共享 toolbar/surface 收口；最新 1280×720 复验右键菜单与组合中央
   布局通过。多瓦片集语义另见
   `ED-MAP-MULTI-TILESET-1`，不得用现有单值下拉搬家冒充完成。
@@ -395,15 +403,15 @@ build/done。
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: 前三次 Codex accept 均曾被后续用户 counter 推翻；第三次返工后 Codex 重新 accept，Kimi/GLM pending。
-- 必须返工项: 三轮用户 counter 项已完成；多瓦片集结构纠偏转 `ED-MAP-MULTI-TILESET-1`；以非 Coding Owner 复审为准。
+- 审查结论: 前三次 Codex accept 均曾被后续用户 counter 推翻；第四次绘制上下文返工后 Codex 重新 accept，Kimi/GLM pending。
+- 必须返工项: 四轮用户 counter 项已完成；多瓦片集结构纠偏转 `ED-MAP-MULTI-TILESET-1`；以非 Coding Owner 复审为准。
 - Accept / rework: review。
 
 ## 用户验收
 
-- 用户结论: **counter（2026-08-18，第三轮；后续补充笔刷面积交互）**：“包含碰撞”不应因右键菜单关闭而只表现为一次性命令；组合中央
-  仍未真正复用地图编辑同款工具栏；点“笔刷”后应显示面积下拉，可选 1×1/2×2 等尺寸且保留上次选择。以上已
-  返工，等待用户复验。用户同时要求来源瓦片集在“瓦片”
+- 用户结论: **counter（2026-08-18，第四轮；绘制上下文）**：左下角是渲染/显示高度，不应与绘制高度耦合；
+  笔刷/矩形/填充需要共同的绘制高度；面积和高度不应使用 Select，而应使用类似 Windows 画图的图标按钮 + 横向
+  选项托盘；公共高度不能跟在每个绘制按钮后。以上已返工，等待用户复验。用户同时要求来源瓦片集在“瓦片”
   Tab 选择且一张地图允许多个瓦片集；该 schema 产品铁律已进入 `ED-MAP-MULTI-TILESET-1`，尚未获得 build 三签。
 - 后续任务: Kimi/GLM 独立复审 + 用户对返工版最终验收。
 
@@ -445,14 +453,18 @@ build/done。
 - 2026-08-18 User: 补充笔刷交互：点击笔刷后在其后显示面积下拉，可选 1×1/2×2 等。Codex 沿共享工具栏补齐
   1×1/2×2/3×3 状态、地图/组合批量写入与 hover 范围预览。Evidence: focused 101、typecheck、build、Biome、
   1280×720 组合工具栏截图与 Console 0。Next: Kimi/GLM 独立复审；未齐前不得标 done。
+- 2026-08-18 User: 第四轮 counter：左侧高度是显示高度；三个绘制工具需要独立且公共的绘制高度；面积/高度 Select
+  交互很差，应改为图标触发的横向选项托盘，公共高度不得跟随各工具跳动。Codex 拆分 `viewHeight/paintHeight`，
+  将 H 图标固定到绘制组末尾，并让地图/组合共享两个横向托盘。Evidence: focused 104、typecheck、单次 build、
+  1280×720 展开态截图与 H4 图标更新实测。Next: Kimi/GLM 独立复审；未齐前不得标 done。
 
 ## 下一位 Agent 提示词
 
 ```text
 接手任务：ED-STAMP-EDITOR-1 组合模板内容编辑闭环
 任务卡：docs/ops/tasks/ED-STAMP-EDITOR-1-stamp-template-content-editor.md
-当前状态：review；用户三轮 counter 与笔刷面积补充后，Codex 完成 shared toolbar/surface、“包含碰撞”状态归位、
-共享 1×1/2×2/3×3 笔刷并于 2026-08-18 重新 accept；
+当前状态：review；用户四轮 counter 后，Codex 完成 shared toolbar/surface、“包含碰撞”状态归位、共享笔刷范围
+横向图标托盘，以及显示高度/公共绘制高度分离，并于 2026-08-18 重新 accept；
 Kimi/GLM done 前 accept pending；不得标 done。
 你的角色：Kimi 或 GLM，负责独立代码审查与 done 前签字。
 先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文、
@@ -462,7 +474,8 @@ IsometricEditorCanvas.tsx、IsometricEditorSurface.tsx、IsometricEditorToolbar.
 design-system/boundary.test.ts 与 editor.css。
 已完成：纯内存 draft；选择即编辑；属性/引用/瓦片分栏；地图/组合共享图层栈、等距画布和 surface 骨架；右侧
 tile palette；地图选组合即放置；地图/组合共用完整工具栏；“包含碰撞”是选择工具持久附加 checkbox；选区命令进
-画布右键菜单；View 单入口；笔刷激活后显示共享面积下拉并实际批量绘制；focused 101、typecheck、build 与浏览器
+画布右键菜单；View 单入口；笔刷范围以横向格阵图标托盘选择并实际批量绘制；绘制高度固定在绘制组末尾，以横向
+H 托盘供笔刷/矩形/填充共用，左侧显示高度只影响渲染；focused 104、typecheck、build 与浏览器
 复验全绿。
 请你做：独立检查 SK1/SK2 与 SE2/SE3，并重点核对共享 surface 是否仍保持 draft/session 隔离、地图/组合投影与
 命中是否一致、组合选择即放置是否无隐藏模式冲突、工具栏附加选项是否只在正确主工具下出现、窄栏布局是否可达；

@@ -857,6 +857,81 @@ html[data-panel-resize="horizontal"] * {
   padding: 0 0 0 4px;
   border: 0;
 }
+.map-tool-option {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+}
+.map-tool-option-trigger,
+.map-tool-option-choice {
+  display: inline-grid;
+  place-items: center;
+  min-width: 30px;
+  padding-inline: 6px;
+}
+.map-tool-option-trigger[aria-expanded="true"] {
+  color: var(--ds-action-primary);
+  background: var(--ds-action-primary-soft);
+  border-color: var(--ds-action-primary);
+}
+.map-tool-option-tray {
+  position: absolute;
+  top: calc(100% + 7px);
+  left: 0;
+  z-index: var(--ds-z-popover);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: max-content;
+  max-width: min(640px, 72vw);
+  padding: 6px;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  background: var(--ds-surface-raised);
+  border: 1px solid var(--ds-border-control);
+  border-radius: var(--ds-radius-overlay);
+  box-shadow: var(--ds-elevation-popover);
+}
+.map-tool-option[data-align="end"] .map-tool-option-tray {
+  right: 0;
+  left: auto;
+}
+.map-tool-option-choice {
+  flex: none;
+  min-width: 38px;
+  min-height: 34px;
+}
+.map-brush-size-glyph {
+  display: grid;
+  grid-template-columns: repeat(3, 4px);
+  grid-template-rows: repeat(3, 4px);
+  gap: 1px;
+  width: 14px;
+  height: 14px;
+}
+.map-brush-size-glyph > i {
+  background: color-mix(in srgb, currentColor 18%, transparent);
+  border: 1px solid color-mix(in srgb, currentColor 50%, transparent);
+}
+.map-brush-size-glyph > i[data-active="true"] {
+  background: currentColor;
+  border-color: currentColor;
+}
+.map-paint-height-glyph {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 24px;
+  font: var(--ds-font-caption);
+  font-variant-numeric: tabular-nums;
+}
+.map-paint-height-glyph > i {
+  width: 10px;
+  height: 7px;
+  background: currentColor;
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  box-shadow: 0 3px 0 color-mix(in srgb, currentColor 56%, transparent);
+}
 .map-toolbar fieldset.tool-group,
 .map-inline-option {
   margin: 0;

@@ -180,6 +180,16 @@ async function chooseSelectOption(label: string, optionText: string): Promise<vo
   await act(async () => option.click())
 }
 
+async function chooseToolOption(label: string, optionLabel: string): Promise<void> {
+  const trigger = host.querySelector<HTMLButtonElement>(`button[aria-label="${label}"]`)!
+  await act(async () => trigger.click())
+  const listbox = document.getElementById(trigger.getAttribute('aria-controls')!)!
+  const option = [...listbox.querySelectorAll<HTMLButtonElement>('[role="option"]')].find(
+    (candidate) => candidate.getAttribute('aria-label') === optionLabel,
+  )!
+  await act(async () => option.click())
+}
+
 async function clickDraftPoint(point: { row: number; col: number }): Promise<void> {
   const canvas = host.querySelector<HTMLCanvasElement>('[aria-label="组合局部地图编辑画布"]')!
   const bounds = stampDraftBounds(template(), 2)
@@ -511,7 +521,7 @@ describe('StampLibraryTab', () => {
     await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="新增图层"]')!.click())
     expect(host.querySelectorAll('.stamp-layer-host .map-layer-row')).toHaveLength(2)
     await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="瓦片 #2"]')!.click())
-    await input(host.querySelector<HTMLInputElement>('#stamp-paint-height')!, '3')
+    await chooseToolOption('绘制高度', 'H3')
     await clickDraftPoint({ row: 1, col: 0 })
     await act(async () => button('碰撞', toolbar).click())
     await chooseSelectOption('碰撞标记值', '0 · 显式可通行')
@@ -608,7 +618,7 @@ describe('StampLibraryTab', () => {
     expect(session.getState().stamps[0]?.visual.some((member) => member.tileId === 0)).toBe(true)
   })
 
-  test('组合笔刷面积在笔刷后出现并按 2 × 2 写入草稿', async () => {
+  test('组合笔刷面积用横向图标托盘选择并按 2 × 2 写入草稿', async () => {
     const session = new EditSession(state([template()], {}))
     await act(async () => {
       root.render(
@@ -625,7 +635,7 @@ describe('StampLibraryTab', () => {
     const toolbar = host.querySelector('.stamp-draft-toolbar')!
     expect(toolbar.querySelector('[aria-label="笔刷面积"]')).not.toBeNull()
 
-    await chooseSelectOption('笔刷面积', '2 × 2')
+    await chooseToolOption('笔刷面积', '2 × 2')
     await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="瓦片 #2"]')!.click())
     await clickDraftPoint({ row: 0, col: 0 })
     await act(async () => button('保存组合', host).click())
