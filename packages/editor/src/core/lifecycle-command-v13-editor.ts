@@ -37,24 +37,14 @@ function nestedCommandBodies(
     if (command.kind === 'branch') {
       nestedCommandBodies(command.then, [...commandPath, 'then'], label + ' / 条件满足', result)
       if (command.else)
-        nestedCommandBodies(
-          command.else,
-          [...commandPath, 'else'],
-          label + ' / 条件不满足',
-          result,
-        )
+        nestedCommandBodies(command.else, [...commandPath, 'else'], label + ' / 条件不满足', result)
     } else if (command.kind === 'loop') {
       nestedCommandBodies(command.body, [...commandPath, 'body'], label + ' / 循环', result)
     } else if (command.kind === 'confirm') {
       nestedCommandBodies(command.onNo, [...commandPath, 'onNo'], label + ' / 选择否', result)
     } else if (command.kind === 'startBattle') {
       if (command.onLose)
-        nestedCommandBodies(
-          command.onLose,
-          [...commandPath, 'onLose'],
-          label + ' / 战败',
-          result,
-        )
+        nestedCommandBodies(command.onLose, [...commandPath, 'onLose'], label + ' / 战败', result)
       if (command.onFlee)
         nestedCommandBodies(
           command.onFlee,
@@ -120,7 +110,7 @@ export function collectEntityLifecycleCommandBodiesV13(
   sceneId: string,
   entityId: string,
 ): LifecycleCommandBodyV13[] {
-  if (state.manifest.contentVersion !== 15) return []
+  if (state.manifest.contentVersion !== 16) return []
   const sceneIndex = state.scenes.findIndex((scene) => scene.id === sceneId)
   if (sceneIndex < 0) return []
   const scene = state.scenes[sceneIndex]!
@@ -161,17 +151,12 @@ function isLifecycleCommand(value: unknown): value is LifecycleCommandV13 {
 
 function assertLifecycleCommand(value: unknown): asserts value is LifecycleCommandV13 {
   checkAuthorCommandsV14([value], 'lifecycle command')
-  if (!isLifecycleCommand(value))
-    throw new Error('当前 lifecycle editor 只接受四种 lifecycle leaf')
+  if (!isLifecycleCommand(value)) throw new Error('当前 lifecycle editor 只接受四种 lifecycle leaf')
 }
 
-function cloneRoot(
-  state: EditorState,
-  location: LifecycleCommandBodyLocationV13,
-): unknown {
+function cloneRoot(state: EditorState, location: LifecycleCommandBodyLocationV13): unknown {
   if (location.root === 'scenes') return structuredClone(state.scenes)
-  if (!state.sharedScripts)
-    throw new Error('当前 lifecycle editor: sharedScripts 工作副本缺失')
+  if (!state.sharedScripts) throw new Error('当前 lifecycle editor: sharedScripts 工作副本缺失')
   return structuredClone(state.sharedScripts)
 }
 
@@ -190,8 +175,7 @@ function commandBodyAt(root: unknown, path: readonly (string | number)[]): unkno
       throw new Error('当前 lifecycle editor: command body path 字段不存在 ' + segment)
     current = (current as Record<string, unknown>)[segment]
   }
-  if (!Array.isArray(current))
-    throw new Error('当前 lifecycle editor: location 未指向 command[]')
+  if (!Array.isArray(current)) throw new Error('当前 lifecycle editor: location 未指向 command[]')
   return current
 }
 
@@ -200,8 +184,8 @@ function withValidatedRoot(
   location: LifecycleCommandBodyLocationV13,
   root: unknown,
 ): EditorState {
-  if (state.manifest.contentVersion !== 15)
-    throw new Error('当前 lifecycle editor 只允许修改 content15 工程')
+  if (state.manifest.contentVersion !== 16)
+    throw new Error('当前 lifecycle editor 只允许修改 content16 工程')
   const next: EditorState =
     location.root === 'scenes'
       ? { ...state, scenes: root as EditorState['scenes'] }
@@ -241,12 +225,9 @@ abstract class LifecycleEditCommandV13 implements Command {
       throw new Error('当前 lifecycle editor: index 期望非负安全整数')
   }
 
-  protected mutate(
-    state: EditorState,
-    edit: (body: unknown[]) => void,
-  ): EditorState {
-    if (state.manifest.contentVersion !== 15)
-      throw new Error('当前 lifecycle editor 只允许修改 content15 工程')
+  protected mutate(state: EditorState, edit: (body: unknown[]) => void): EditorState {
+    if (state.manifest.contentVersion !== 16)
+      throw new Error('当前 lifecycle editor 只允许修改 content16 工程')
     const root = cloneRoot(state, this.location)
     const body = commandBodyAt(root, this.location.path)
     edit(body)
@@ -270,8 +251,7 @@ export class InsertLifecycleCommandV13 extends LifecycleEditCommandV13 {
 
   apply(state: EditorState): EditorState {
     return this.mutate(state, (body) => {
-      if (this.index > body.length)
-        throw new Error('当前 lifecycle editor: insert index 越界')
+      if (this.index > body.length) throw new Error('当前 lifecycle editor: insert index 越界')
       body.splice(this.index, 0, structuredClone(this.command))
     })
   }
@@ -337,8 +317,7 @@ export class DeleteLifecycleCommandV13 extends LifecycleEditCommandV13 {
   invert(state: EditorState): EditorState {
     if (!this.removed) return state
     return this.mutate(state, (body) => {
-      if (this.index > body.length)
-        throw new Error('当前 lifecycle editor: undo delete index 越界')
+      if (this.index > body.length) throw new Error('当前 lifecycle editor: undo delete index 越界')
       body.splice(this.index, 0, structuredClone(this.removed))
     })
   }

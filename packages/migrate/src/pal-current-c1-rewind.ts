@@ -1,4 +1,4 @@
-import type { ManifestV14, ManifestV15 } from '@type-pal/content'
+import type { ManifestV14, ManifestV16 } from '@type-pal/content'
 import { type MigrationSnapshot, serializeMigrationJson, sha256 } from './migration-baseline.js'
 import {
   rewindPublishedB2BattleFieldDomainIfPresent,
@@ -15,12 +15,28 @@ import {
 
 type CurrentRewindArgs = {
   source: MigrationSnapshot
-  manifest: ManifestV14 | ManifestV15
+  manifest: ManifestV14 | ManifestV16
   manifestRawText: string
 }
 
-/** ED-ENEMY-1 的无损机械 successor 回卷，只供历史发布 seal 复验。 */
-function rewindEnemyTeamReferenceV15(args: CurrentRewindArgs): {
+/** 当前清单到已发布 v14 权威面的字节级回卷；只供 seal 审计与测试复用。 */
+export function rewindCurrentManifestToV14(
+  manifest: ManifestV14 | ManifestV16,
+  manifestRawText: string,
+): { manifest: ManifestV14; manifestRawText: string } {
+  if (manifest.contentVersion === 14) return { manifest, manifestRawText }
+  const content = { ...manifest.content } as Record<string, unknown>
+  delete content.worldVariables
+  return {
+    manifest: { ...manifest, contentVersion: 14, content } as ManifestV14,
+    manifestRawText: manifestRawText
+      .replace(/,\r?\n[ \t]*"worldVariables"[ \t]*:[ \t]*"[^"]+"[ \t]*\r?\n/, '\n')
+      .replace(/("contentVersion"\s*:\s*)16/, (_match, prefix: string) => `${prefix}14`),
+  }
+}
+
+/** 从当前工程剥离变量表与敌队稳定引用，只供历史发布 seal 复验，不是产品 loader/upgrader。 */
+function rewindCurrentSuccessorsToV14(args: CurrentRewindArgs): {
   source: MigrationSnapshot
   manifest: ManifestV14
   manifestRawText: string
@@ -32,7 +48,8 @@ function rewindEnemyTeamReferenceV15(args: CurrentRewindArgs): {
     const current = value as Record<string, unknown>
     if (current.kind === 'startBattle' && typeof current.enemyTeamId === 'string') {
       const match = /^team-(\d+)$/.exec(current.enemyTeamId)
-      if (!match) throw new Error(`content15 historical rewind: 非 PAL 敌队 ${current.enemyTeamId}`)
+      if (!match)
+        throw new Error(`enemy-team historical rewind: 非 PAL 敌队 ${current.enemyTeamId}`)
       const entries = Object.entries(current)
         .filter(([key]) => key !== 'enemyTeamId')
         .map(([key, child]) => [key, reverse(child)] as const)
@@ -54,7 +71,7 @@ function rewindEnemyTeamReferenceV15(args: CurrentRewindArgs): {
       if (typeof hostile.enemyTeamId === 'string') {
         const match = /^team-(\d+)$/.exec(hostile.enemyTeamId)
         if (!match)
-          throw new Error(`content15 historical rewind: 非 PAL 敌队 ${hostile.enemyTeamId}`)
+          throw new Error(`enemy-team historical rewind: 非 PAL 敌队 ${hostile.enemyTeamId}`)
         next.hostile = {
           team: Number(match[1]),
           ...Object.fromEntries(Object.entries(hostile).filter(([key]) => key !== 'enemyTeamId')),
@@ -65,19 +82,27 @@ function rewindEnemyTeamReferenceV15(args: CurrentRewindArgs): {
   }
   const files = new Map(args.source.files)
   const hashes = new Map(args.source.hashes)
+  const managedFiles = new Set(args.source.managedFiles)
+  files.delete('content/world-variables.json')
+  hashes.delete('content/world-variables.json')
+  managedFiles.delete('content/world-variables.json')
   for (const [path, value] of files) {
     const next = reverse(value) as typeof value
     if (JSON.stringify(next) === JSON.stringify(value)) continue
     files.set(path, next)
     if (hashes.has(path)) hashes.set(path, sha256(serializeMigrationJson(next, path)))
   }
-  const manifest = { ...args.manifest, contentVersion: 14 } as ManifestV14
-  const manifestRawText = args.manifestRawText.replace(
-    /("contentVersion"\s*:\s*)15/,
-    (_match, prefix: string) => `${prefix}14`,
+  const { manifest, manifestRawText } = rewindCurrentManifestToV14(
+    args.manifest,
+    args.manifestRawText,
   )
   return {
-    source: { ...args.source, files, ...(args.source.hashes ? { hashes } : {}) },
+    source: {
+      ...args.source,
+      files,
+      managedFiles,
+      ...(args.source.hashes ? { hashes } : {}),
+    },
     manifest,
     manifestRawText,
   }
@@ -86,10 +111,10 @@ function rewindEnemyTeamReferenceV15(args: CurrentRewindArgs): {
 /** Remove the current B2 outer successor and C1-3, yielding the exact published C1-2 surface. */
 export function rewindCurrentC1PublicationToDialogueParent(args: {
   source: MigrationSnapshot
-  manifest: ManifestV14 | ManifestV15
+  manifest: ManifestV14 | ManifestV16
   manifestRawText: string
 }): MigrationSnapshot {
-  const parent = rewindEnemyTeamReferenceV15(args)
+  const parent = rewindCurrentSuccessorsToV14(args)
   const c1Current = rewindPublishedB2BattleFieldDomainIfPresent(parent)
   return rewindPublishedC1NpcCurationIfPresent({ ...parent, source: c1Current })
 }
@@ -97,11 +122,11 @@ export function rewindCurrentC1PublicationToDialogueParent(args: {
 /** Current historical choke point: C1-3 → C1-2 → W9. */
 export function rewindCurrentC1PublicationToW9(args: {
   source: MigrationSnapshot
-  manifest: ManifestV14 | ManifestV15
+  manifest: ManifestV14 | ManifestV16
   manifestRawText: string
 }): MigrationSnapshot {
   const dialogueParent = rewindCurrentC1PublicationToDialogueParent(args)
-  const parent = rewindEnemyTeamReferenceV15(args)
+  const parent = rewindCurrentSuccessorsToV14(args)
   return rewindPublishedC1DialogueIdentityIfPresent(dialogueParent, parent.manifest)
 }
 
@@ -109,10 +134,10 @@ export function rewindCurrentC1PublicationToW9(args: {
 export function rewindCurrentC1ProjectToDialogueParent(args: {
   project: MigrationSnapshot
   publishedBaseline: MigrationSnapshot
-  manifest: ManifestV14 | ManifestV15
+  manifest: ManifestV14 | ManifestV16
   manifestRawText: string
 }): MigrationSnapshot {
-  const current = rewindEnemyTeamReferenceV15({
+  const current = rewindCurrentSuccessorsToV14({
     source: args.project,
     manifest: args.manifest,
     manifestRawText: args.manifestRawText,
@@ -140,7 +165,7 @@ export function rewindCurrentC1ProjectToDialogueParent(args: {
 export function rewindCurrentC1ProjectToW9(args: {
   project: MigrationSnapshot
   publishedBaseline: MigrationSnapshot
-  manifest: ManifestV14 | ManifestV15
+  manifest: ManifestV14 | ManifestV16
   manifestRawText: string
 }): MigrationSnapshot {
   const projectC1 = rewindCurrentC1ProjectToDialogueParent(args)

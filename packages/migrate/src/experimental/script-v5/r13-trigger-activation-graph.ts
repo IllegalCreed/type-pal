@@ -6,7 +6,7 @@ import type {
   ScriptFlowV5,
   StateTransitionV5,
 } from '@type-pal/content'
-import { validateScenesV5 } from '@type-pal/content'
+import { validateHistoricalScenesForCurrentSchema } from '../../historical-enemy-team-authority.js'
 import type { R13StaticEntityBehaviorRoot, R13TranslationSession } from '../../migrate-content.js'
 import { deepStripBattleCfg } from '../../migrate-content.js'
 import type { MigrationSnapshot } from '../../migration-baseline.js'
@@ -2264,7 +2264,7 @@ export function augmentR13TriggerActivations(args: {
 
   // 0x45/0x4A 是迁移期 marker；R13-2 恢复的后半 activation 必须沿用生产迁移
   // 的既有“烘进 SceneDef 默认并 strip”策略，绝不能复活退役 override 命令。
-  const finalizedScenes = validateScenesV5(
+  const finalizedScenes = validateHistoricalScenesForCurrentSchema(
     scenes.map((scene) => {
       const battleDefaults: {
         battleFieldId?: number

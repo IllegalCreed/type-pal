@@ -64,6 +64,11 @@ function render(cmd: Command, onChange = vi.fn(), onOverride = vi.fn()) {
         actors={actors}
         battleSprites={[]}
         references={references}
+        worldVariables={{
+          a: { kind: 'flag', name: 'Alpha', description: '', initial: false },
+          b: { kind: 'flag', name: 'Beta', description: '', initial: true },
+          count: { kind: 'number', name: 'Count', description: '', initial: 0 },
+        }}
         onDialogueSpeakerOverrideChange={onOverride}
         onChange={onChange}
       />,
@@ -86,6 +91,22 @@ function control(label: string): HTMLInputElement | HTMLSelectElement {
   return found
 }
 
+function openSelect(label: string, index = 0): HTMLButtonElement {
+  const found = row(label).querySelectorAll<HTMLButtonElement>('[role="combobox"]')[index]
+  if (!found) throw new Error(`表单项 ${label} 缺选择器`)
+  act(() => found.click())
+  return found
+}
+
+function chooseSelect(label: string, optionLabel: string): void {
+  openSelect(label)
+  const option = [...document.querySelectorAll<HTMLElement>('[role="option"]')].find(
+    (candidate) => candidate.textContent === optionLabel,
+  )
+  if (!option) throw new Error(`表单项 ${label} 缺选项 ${optionLabel}`)
+  act(() => option.click())
+}
+
 describe('content14 对话身份表单', () => {
   test('人物立绘只列该人物的默认与命名表情', () => {
     render({
@@ -101,11 +122,15 @@ describe('content14 对话身份表单', () => {
       },
     } as Command)
 
-    const portrait = row('人物立绘').querySelectorAll('select')[0]!
-    expect([...portrait.options].map((option) => [option.value, option.textContent])).toEqual([
-      ['default', '主立绘'],
-      ['expression:angry', 'angry'],
-    ])
+    openSelect('人物立绘')
+    expect(
+      [...document.querySelectorAll<HTMLElement>('[role="option"]')].map(
+        (option) => option.textContent,
+      ),
+    ).toEqual(['主立绘', 'angry'])
+    expect(document.querySelector('[role="option"][aria-selected="true"]')?.textContent).toBe(
+      'angry',
+    )
     expect(host.textContent).not.toContain('全局立绘')
   })
 
@@ -141,12 +166,7 @@ describe('content14 对话身份表单', () => {
         rows: [{ text: 'dialog.hero' }],
       },
     } as Command)
-    const actor = control('人物') as HTMLSelectElement
-    act(() => {
-      const setter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')?.set
-      setter?.call(actor, 'friend')
-      actor.dispatchEvent(new Event('change', { bubbles: true }))
-    })
+    chooseSelect('人物', '队友 (friend)')
     expect(onChange).toHaveBeenCalledWith({
       kind: 'dialog',
       cue: {
@@ -155,5 +175,36 @@ describe('content14 对话身份表单', () => {
         rows: [{ text: 'dialog.hero' }],
       },
     })
+  })
+})
+
+describe('CommandForm commit characterization', () => {
+  test("number empty string commits Number('') === 0 immediately", () => {
+    const { onChange } = render({ kind: 'wait', ms: 40 } as Command)
+    const input = control('毫秒') as HTMLInputElement
+    act(() => {
+      const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set
+      setter?.call(input, '')
+      input.dispatchEvent(new Event('input', { bubbles: true }))
+    })
+    expect(onChange).toHaveBeenLastCalledWith({ kind: 'wait', ms: 0 })
+  })
+
+  test('world variable picker commits only a registered id', () => {
+    const { onChange } = render({ kind: 'setFlag', flag: 'a', value: false } as Command)
+    chooseSelect('开关名', 'Beta · b')
+    expect(onChange).toHaveBeenLastCalledWith({ kind: 'setFlag', flag: 'b', value: false })
+    expect(row('开关名').textContent).not.toContain('Count')
+  })
+
+  test('select commits the selected string directly', () => {
+    const { onChange } = render({ kind: 'fade', dir: 'in', ms: 300 } as Command)
+    const select = row('方向').querySelector<HTMLButtonElement>('[role="combobox"]')!
+    act(() => select.click())
+    const option = [...document.body.querySelectorAll<HTMLElement>('[role="option"]')].find(
+      (candidate) => candidate.textContent?.includes('out'),
+    )!
+    act(() => option.click())
+    expect(onChange).toHaveBeenLastCalledWith({ kind: 'fade', dir: 'out', ms: 300 })
   })
 })

@@ -62,6 +62,7 @@ describe('editor design-system static boundary', () => {
     expect(primitives).toMatch(
       /\.ds-check-control\s*\{[\s\S]*?width:\s*18px;[\s\S]*?height:\s*18px;[\s\S]*?appearance:\s*none;/,
     )
+    expect(primitives).toMatch(/\.ds-dialog\s*\{[\s\S]*?margin:\s*auto;/)
     expect(formScope).toMatch(
       /input\[type="checkbox"\]:not\(\.ds-check-control\):not\(\[role="switch"\]\)\s*\{[\s\S]*?width:\s*18px;[\s\S]*?height:\s*18px;[\s\S]*?appearance:\s*none;/,
     )
@@ -100,6 +101,17 @@ describe('editor design-system static boundary', () => {
     )
   })
 
+  test('keeps canonical script headings content-sized above the scrolling body', () => {
+    const businessCss = readFileSync(join(dirname(here), 'editor.css'), 'utf8')
+    expect(businessCss).toMatch(
+      /\.canonical-script-editor\s*\{[\s\S]*?grid-template-rows:\s*auto minmax\(0, 1fr\);/,
+    )
+    expect(businessCss).toMatch(/container:\s*canonical-script-editor \/ inline-size;/)
+    expect(businessCss).toMatch(
+      /@container canonical-script-editor \(max-width:\s*460px\)[\s\S]*?\.canonical-script-row-actions\s*\{[\s\S]*?position:\s*static;[\s\S]*?flex:\s*0 0 100%;/,
+    )
+  })
+
   test('keeps every legacy checkbox bridge selector isolated from shared controls', () => {
     const formScope = readFileSync(join(here, 'form-scope.css'), 'utf8')
     const rules = [...formScope.matchAll(/([^{}]+)\{([^{}]*)\}/g)]
@@ -129,7 +141,7 @@ describe('editor design-system static boundary', () => {
       (total, path) => total + (readFileSync(path, 'utf8').match(pattern)?.length ?? 0),
       0,
     )
-    expect(count, 'legacy native checkbox occurrences').toBe(23)
+    expect(count, 'legacy native checkbox occurrences').toBe(12)
   })
 
   test('does not grow raw form controls while shared primitives replace them', () => {
@@ -139,10 +151,10 @@ describe('editor design-system static boundary', () => {
         path.endsWith('.tsx') && !path.endsWith('.test.tsx') && !path.includes('/design-system/'),
     )
     const ceilings = {
-      input: 198,
-      select: 123,
-      textarea: 8,
-      label: 205,
+      input: 143,
+      select: 71,
+      textarea: 2,
+      label: 129,
     } as const
 
     for (const [tag, ceiling] of Object.entries(ceilings)) {
@@ -152,6 +164,21 @@ describe('editor design-system static boundary', () => {
         0,
       )
       expect(count, `raw <${tag}> occurrences`).toBe(ceiling)
+    }
+  })
+
+  test('keeps the canonical script workbench on design-system controls', () => {
+    const uiRoot = dirname(here)
+    for (const file of [
+      'CanonicalSharedScriptTabV5.tsx',
+      'CanonicalScriptEditorV5.tsx',
+      'CommandForm.tsx',
+    ]) {
+      const source = readFileSync(join(uiRoot, file), 'utf8')
+      expect(source, file).not.toMatch(/<(?:button|input|select|textarea)\b/)
+      expect(source, `${file} legacy control token`).not.toMatch(
+        /className\s*=\s*["'][^"']*(?:\bin\b|\bbtn\b|\bmini\b|mini-txt|pv-btn)[^"']*["']/,
+      )
     }
   })
 
@@ -192,6 +219,7 @@ describe('editor design-system static boundary', () => {
       'MusicTab.tsx',
       'SoundTab.tsx',
       'CutsceneTab.tsx',
+      'VarsTab.tsx',
     ]
 
     for (const file of catalogFiles) {
@@ -339,8 +367,10 @@ describe('editor design-system static boundary', () => {
     )
 
     const vars = readFileSync(join(uiRoot, 'VarsTab.tsx'), 'utf8')
-    expect(vars).toMatch(/\bref-row\b/)
-    expect(vars).not.toMatch(/<DsReferencePanel\b/)
+    expect(vars).toMatch(/<DsCatalogRow\b/)
+    expect(vars).toMatch(/<DsObjectHero\b/)
+    expect(vars).toMatch(/<DsReferencePanel\b/)
+    expect(vars).not.toMatch(/\b(?:var-head|ref-row|className="rw)\b/)
 
     const recipes = readFileSync(join(here, 'recipes.tsx'), 'utf8')
     expect(recipes).not.toMatch(/from ['"]\.\.\/core\//)

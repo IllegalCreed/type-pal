@@ -867,4 +867,49 @@ describe('X7 工程诊断与保存门', () => {
       /保存前开局数据校验失败.*重复/,
     )
   })
+
+  test('content16 保存门要求 registry 路径，并阻断未登记与错型变量引用', () => {
+    const legacy = state()
+    const current: EditorState = {
+      ...legacy,
+      manifest: {
+        ...legacy.manifest,
+        contentVersion: 16,
+        minimumSaveVersion: 8,
+        content: {
+          ...legacy.manifest.content,
+          worldVariables: 'content/world-variables.json',
+        },
+      },
+      worldVariables: {},
+      sharedScripts: {
+        test: {
+          name: '测试',
+          self: 'none',
+          body: [{ kind: 'setVar', var: 'score', value: 1 }],
+        },
+      },
+    }
+    expect(() => assertProjectSaveValid(current)).toThrow(
+      /保存前世界变量校验失败.*score.*未在.*登记/,
+    )
+
+    current.worldVariables = {
+      score: { kind: 'flag', name: '错误类型', description: '', initial: false },
+    }
+    expect(() => assertProjectSaveValid(current)).toThrow(
+      /保存前世界变量校验失败.*score.*flag.*number/,
+    )
+
+    const { worldVariables: _worldVariablesPath, ...contentWithoutVariables } =
+      current.manifest.content
+    const missingPath: EditorState = {
+      ...current,
+      manifest: {
+        ...current.manifest,
+        content: contentWithoutVariables,
+      },
+    }
+    expect(() => assertProjectSaveValid(missingPath)).toThrow(/manifest 缺 worldVariables/)
+  })
 })

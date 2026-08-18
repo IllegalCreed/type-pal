@@ -1406,6 +1406,8 @@ export interface MigrateAllOptions {
   skillItemCosts?: boolean
   /** 与场景翻译共用的 PAL 历史/current 语义隔离。 */
   palSemanticProfile?: 'historical-r13-4' | 'current-r13-6a' | 'current-r13-6b'
+  /** 冻结历史 authority 的 PAL 引用形状；当前产品保持 stable-id。 */
+  palReferenceSchema?: 'legacy' | 'stable-id'
 }
 
 export function migrateAll(
@@ -1659,6 +1661,7 @@ export function migrateAll(
     sourceAddressAt: (_cmds: readonly SourceCmd[], idx: number) => idx,
     explicitLabels,
     palSemanticProfile: options.palSemanticProfile ?? 'current-r13-6a',
+    palReferenceSchema: options.palReferenceSchema,
     locale: {} as Record<string, string>,
     report: emptyTranslateReport(),
     soundAssetForNum: src.soundAssetForNum,
@@ -1974,6 +1977,8 @@ export interface SceneMigrationOptions {
   }>
   /** 已发布历史层、current R13-6A 与 6B 专用证据提取必须显式隔离，禁止重签 P0。 */
   palSemanticProfile?: 'historical-r13-4' | 'current-r13-6a' | 'current-r13-6b'
+  /** 冻结历史 authority 的 PAL 引用形状；当前产品保持 stable-id。 */
+  palReferenceSchema?: 'legacy' | 'stable-id'
 }
 
 /**
@@ -2434,6 +2439,7 @@ export function mapScenesStatic(
       labelAt,
       sourceAddressAt: (cmds, idx) => addressesByCommands.get(cmds)?.[idx],
       palSemanticProfile: options.palSemanticProfile ?? 'current-r13-6a',
+      palReferenceSchema: options.palReferenceSchema,
       explicitLabels,
       locale: {} as Record<string, string>,
       report: emptyTranslateReport(),
@@ -2524,9 +2530,14 @@ export function mapScenesStatic(
     const onLose = first.onLose // startBattle.onLose(GameOver 链 or 剧情)
     // onLose 是 gameOver 序列(渐红+读档)→ 归 'gameOver' 语义;否则保留命令
     const isGameOver = unfold(onLose ?? []).some((c) => c.kind === 'loadLastSave')
+    const historicalTeam = (first as unknown as { team?: number }).team
     return {
       hostile: {
-        enemyTeamId: first.enemyTeamId,
+        ...(tctx.palReferenceSchema === 'legacy' ||
+        (tctx.palReferenceSchema === undefined &&
+          tctx.palSemanticProfile === 'historical-r13-4')
+          ? { team: historicalTeam }
+          : { enemyTeamId: first.enemyTeamId }),
         ...(chaseCmd
           ? {
               chase: {
@@ -2538,7 +2549,7 @@ export function mapScenesStatic(
           : {}),
         ...(vanish?.seconds ? { respawnSeconds: vanish.seconds } : {}),
         ...(onLose && !isGameOver ? { onLose } : {}),
-      },
+      } as unknown as HostileBehavior,
     }
   }
 

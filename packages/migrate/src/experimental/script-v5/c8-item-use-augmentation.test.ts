@@ -10,10 +10,10 @@ import {
   validateItemsV5,
   validateLocale,
   validateMigrationDiagnostics,
-  validateScenesV5,
   validateSprites,
 } from '@type-pal/content'
 import { beforeAll, describe, expect, test } from 'vitest'
+import { validateHistoricalScenesForCurrentSchema } from '../../historical-enemy-team-authority.js'
 import type { MigrationJson } from '../../pal-migration.js'
 import { createPalR13TranslationSession } from '../../pal-migration.js'
 import {
@@ -78,7 +78,7 @@ function required<T>(files: ReadonlyMap<string, MigrationJson>, path: string): T
 function loadFixture() {
   const { sources, migration, generated } = getPalTestGeneratedFixture()
   const sceneIds = required<string[]>(generated.snapshot.files, 'content/scenes/index.json')
-  const scenes = validateScenesV5(
+  const scenes = validateHistoricalScenesForCurrentSchema(
     sceneIds.map((sceneId) => required(generated.snapshot.files, `content/scenes/${sceneId}.json`)),
   )
   return {

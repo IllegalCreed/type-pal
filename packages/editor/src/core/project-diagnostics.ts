@@ -12,26 +12,32 @@ import {
   type LoadedManifest,
   type ManifestV13,
   type ManifestV14,
-  type ManifestV15,
+  type ManifestV16,
   type SceneDef,
-  validateDialogueIdentityReferencesV14,
-  validateEnemiesV14,
   validateAssetCatalog,
   validateAssetReferenceClosure,
   validateBattleFields,
+  validateDialogueIdentityReferencesV14,
+  validateEnemiesV14,
   validateItems,
   validateItemsV14,
   validateManifestAssetConfigV3,
   validateReferences,
-  validateStartWorldResources,
   validateScenesV14,
   validateSharedScriptsV14,
+  validateStartWorldResources,
+  validateWorldVariableRegistryV1,
 } from '@type-pal/content'
 import { isV5RuntimeScriptRef } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
 import { collectEditorAssetReferences } from './editor-asset-references.js'
 import { collectMissingEntityAddressReferencesV13 } from './entity-address-references-v13.js'
 import { collectScriptV5ReferenceIssues, type ScriptEditorStateV5 } from './script-v5-editor.js'
+import {
+  collectWorldVariableReferencesV1,
+  collectWorldVariableRegistryIssuesV1,
+  worldVariableScriptStateFromEditorStateV1,
+} from './world-variable-references.js'
 
 export type ProjectIssueSeverity = 'error' | 'warn'
 
@@ -60,7 +66,7 @@ export type ManifestLike =
   | LegacyManifestV12
   | ManifestV13
   | ManifestV14
-  | ManifestV15
+  | ManifestV16
 
 export interface ProjectIssue {
   severity: ProjectIssueSeverity
@@ -186,9 +192,10 @@ function validateSeedStats(
 ): ProjectIssue[] {
   const issues: ProjectIssue[] = []
   const actorIds = new Set(actors.map((actor) => actor.id))
-  const actorReferencePolicy = ACTOR_REFERENCE_POLICIES[
-    pathPrefix.startsWith('entryPoints[') ? 'entry-point-seed-stats' : 'manifest-seed-stats'
-  ]
+  const actorReferencePolicy =
+    ACTOR_REFERENCE_POLICIES[
+      pathPrefix.startsWith('entryPoints[') ? 'entry-point-seed-stats' : 'manifest-seed-stats'
+    ]
   for (const [actorId, stats] of Object.entries(startWorld.seedStats ?? {})) {
     if (!actorIds.has(actorId)) {
       issues.push({
@@ -293,7 +300,7 @@ export function collectProjectIssues(state: EditorState): ProjectIssue[] {
   const issues = validateManifestEntryPoints(state.manifest, state.scenes)
   let catalogValid = true
   try {
-    if (state.manifest.contentVersion === 15) validateItemsV14(state.items)
+    if (state.manifest.contentVersion === 16) validateItemsV14(state.items)
     else validateItems(state.items)
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error)
@@ -552,12 +559,17 @@ export function collectEditorStatusIssues(
   const canonicalScriptIssues: EditorStatusIssue[] = canonicalV5
     ? collectScriptV5ReferenceIssues(canonicalV5)
     : []
+  const worldVariableIssues: EditorStatusIssue[] = collectWorldVariableRegistryIssuesV1(
+    state.worldVariables ?? {},
+    collectWorldVariableReferencesV1(
+      canonicalV5 ?? worldVariableScriptStateFromEditorStateV1(state),
+    ),
+  ).map((issue) => ({ severity: 'error', message: issue.message, path: issue.path }))
   const entityAddressIssues: EditorStatusIssue[] =
-    state.manifest.contentVersion === 15
+    state.manifest.contentVersion === 16
       ? collectMissingEntityAddressReferencesV13(state).map((reference) => ({
           severity: 'error',
-          message:
-            '实体 "' + reference.sceneId + '/' + reference.entityId + '" 不在 scenes',
+          message: '实体 "' + reference.sceneId + '/' + reference.entityId + '" 不在 scenes',
           path: reference.path,
         }))
       : []
@@ -582,6 +594,7 @@ export function collectEditorStatusIssues(
   for (const issue of [
     ...contentIssues,
     ...canonicalScriptIssues,
+    ...worldVariableIssues,
     ...entityAddressIssues,
     ...projectIssues,
     ...battleFieldIssues,
@@ -606,8 +619,11 @@ export function assertProjectSaveValid(state: EditorState): void {
       )
     }
   }
-  if (state.manifest.contentVersion === 15) {
+  if (state.manifest.contentVersion === 16) {
     try {
+      if (!state.manifest.content.worldVariables)
+        throw new Error('manifest 缺 worldVariables 注册表路径')
+      validateWorldVariableRegistryV1(state.worldVariables ?? {})
       validateScenesV14(state.scenes)
       validateItemsV14(state.items)
       validateEnemiesV14(state.enemies ?? [])
@@ -622,7 +638,7 @@ export function assertProjectSaveValid(state: EditorState): void {
       })
     } catch (error) {
       throw new Error(
-        `保存前 content15 对话身份校验失败：${error instanceof Error ? error.message : String(error)}`,
+        `保存前 content16 对话身份校验失败：${error instanceof Error ? error.message : String(error)}`,
       )
     }
     const missingEntityAddress = collectMissingEntityAddressReferencesV13(state)[0]
@@ -636,10 +652,16 @@ export function assertProjectSaveValid(state: EditorState): void {
           missingEntityAddress.entityId +
           '"',
       )
+    const variableIssue = collectWorldVariableRegistryIssuesV1(
+      state.worldVariables ?? {},
+      collectWorldVariableReferencesV1(worldVariableScriptStateFromEditorStateV1(state)),
+    )[0]
+    if (variableIssue)
+      throw new Error(`保存前世界变量校验失败：${variableIssue.path}: ${variableIssue.message}`)
   }
 
   try {
-    if (state.manifest.contentVersion === 15) validateItemsV14(state.items)
+    if (state.manifest.contentVersion === 16) validateItemsV14(state.items)
     else validateItems(state.items)
   } catch (error) {
     throw new Error(

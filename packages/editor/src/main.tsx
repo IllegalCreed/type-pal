@@ -5,13 +5,13 @@
  * 生产(无 env)→ ProjectPicker 启动屏:新建(克隆/空白)/ 打开本地 / 最近工程(P4)。
  */
 import type { SceneDefV5, SceneDefV14 } from '@type-pal/content'
-import type { LoadedProjectV15 } from '@type-pal/reforge'
+import type { LoadedProjectV16 } from '@type-pal/reforge'
 import {
   httpSource,
-  loadAllAuthorScenesV15,
+  loadAllAuthorScenesV16,
   loadProjectMapById,
-  loadProjectV15From,
-  loadStampTemplatesV15,
+  loadProjectV16From,
+  loadStampTemplatesV16,
 } from '@type-pal/reforge'
 import { StrictMode, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
@@ -34,7 +34,7 @@ const DEV_AUTO = !!PROJECT_ID && !FORCE_PICKER
 
 interface Booted {
   session: EditSession
-  project: LoadedProjectV15
+  project: LoadedProjectV16
   scriptV5?: {
     session: ScriptV5EditSession
   }
@@ -42,7 +42,7 @@ interface Booted {
 }
 
 function currentCanonicalScriptState(
-  project: LoadedProjectV15,
+  project: LoadedProjectV16,
   scenes: SceneDefV14[],
   sharedScripts = project.authorContent.sharedScripts,
 ): ScriptEditorStateV5 {
@@ -71,23 +71,30 @@ function Root() {
     let alive = true
     const loadDevProject = async (): Promise<Booted> => {
       const source = httpSource(`projects/${PROJECT_ID}`)
-      const project = await loadProjectV15From(source)
+      const project = await loadProjectV16From(source)
       const [scenes, stamps] = await Promise.all([
-        loadAllAuthorScenesV15(project),
-        loadStampTemplatesV15(project),
+        loadAllAuthorScenesV16(project),
+        loadStampTemplatesV16(project),
       ])
       const reviewData = UI_REVIEW_SAMPLES
         ? withUiReviewSamples({
             scenes,
             sharedScripts: project.authorContent.sharedScripts,
             stamps,
+            worldVariables: project.worldVariables,
             tilesetId: project.tilesets[0]?.id,
           })
-        : { scenes, sharedScripts: project.authorContent.sharedScripts, stamps }
+        : {
+            scenes,
+            sharedScripts: project.authorContent.sharedScripts,
+            stamps,
+            worldVariables: project.worldVariables,
+          }
       const reviewProject = UI_REVIEW_SAMPLES
         ? {
             ...project,
             authorContent: { ...project.authorContent, sharedScripts: reviewData.sharedScripts },
+            worldVariables: reviewData.worldVariables,
           }
         : project
       const canonical = currentCanonicalScriptState(

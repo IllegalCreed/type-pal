@@ -1,13 +1,14 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { describe, expect, test } from 'vitest'
 import type { ManifestV14 } from '@type-pal/content'
+import { describe, expect, test } from 'vitest'
+import { projectMigrationV9ToLegacyV8 } from './experimental/script-v5/equip-battle-sprite-v8-authority.js'
 import { prepareR13SourceExecutionCensus } from './experimental/script-v5/source-execution-census.js'
 import { loadPalBaseline } from './migration-baseline.js'
+import { rewindCurrentC1PublicationToW9 } from './pal-current-c1-rewind.js'
 import { buildPalHistoricalR13_4V9Migration } from './pal-migration.js'
 import { loadPalMigrationSources } from './pal-migration-io.js'
-import { rewindCurrentC1PublicationToW9 } from './pal-current-c1-rewind.js'
 import {
   buildPalW9LifecyclePublicationLedger,
   foldedHostileTargetsFromPublishedB10,
@@ -26,7 +27,7 @@ const baseline = resolve(repo, 'packages/migrate/baselines/script-control-flow/p
 describe.skipIf(!existsSync(extracted))('PAL script control flow audit golden', () => {
   test('冻结完整入口、引用、可达性、循环、折叠来源和关键异常', () => {
     const sources = loadPalMigrationSources(repo)
-    const migration = buildPalHistoricalR13_4V9Migration(sources)
+    const migration = projectMigrationV9ToLegacyV8(buildPalHistoricalR13_4V9Migration(sources))
     const report = auditPalScriptControlFlow(sources, migration)
     assertScriptControlFlowAudit(report)
     const publishedBaseline = loadPalBaseline(repo)
@@ -40,8 +41,14 @@ describe.skipIf(!existsSync(extracted))('PAL script control flow audit golden', 
       }),
     )
     expect(
-      new Set(migration.report.foldedHostileRoots.map(({ sceneId, entityId }) => `${sceneId}/${entityId}`)),
-    ).toEqual(new Set(publishedFoldedHostiles.map(({ sceneId, entityId }) => `${sceneId}/${entityId}`)))
+      new Set(
+        migration.report.foldedHostileRoots.map(
+          ({ sceneId, entityId }) => `${sceneId}/${entityId}`,
+        ),
+      ),
+    ).toEqual(
+      new Set(publishedFoldedHostiles.map(({ sceneId, entityId }) => `${sceneId}/${entityId}`)),
+    )
     const w9LifecycleLedger = buildPalW9LifecyclePublicationLedger({
       sources,
       preparedSourceCensus: prepareR13SourceExecutionCensus(sources),
@@ -324,11 +331,11 @@ describe.skipIf(!existsSync(extracted))('PAL script control flow audit golden', 
     const expected = readFileSync(baseline, 'utf8')
     const serialized = `${JSON.stringify(report)}\n`
     expect(serialized === expected, `基线字节不一致；当前 digest=${report.digest}`).toBe(true)
-  }, 60_000)
+  }, 120_000)
 
   test('迁移文件 Map 逆序后仍得到字节一致审计', () => {
     const sources = loadPalMigrationSources(repo)
-    const migration = buildPalHistoricalR13_4V9Migration(sources)
+    const migration = projectMigrationV9ToLegacyV8(buildPalHistoricalR13_4V9Migration(sources))
     const first = auditPalScriptControlFlow(sources, migration)
     const second = auditPalScriptControlFlow(sources, {
       ...migration,

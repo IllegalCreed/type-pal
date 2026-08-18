@@ -6,7 +6,7 @@ import {
 } from '../../migration-project-io.js'
 import {
   buildPalHistoricalR13_5V10Migration,
-  buildPalMigration,
+  buildPalHistoricalR13_6AV10Migration,
   type MigrationJson,
   type PalMigrationSources,
 } from '../../pal-migration.js'
@@ -45,7 +45,7 @@ import { stableJsonSha256 } from './stable-json.js'
  */
 function loadCanarySourcesMigration(
   source: PalMigrationSources,
-  buildMigration: typeof buildPalHistoricalR13_5V10Migration | typeof buildPalMigration,
+  buildMigration: typeof buildPalHistoricalR13_5V10Migration,
 ) {
   const sources: PalMigrationSources = {
     ...source,
@@ -140,8 +140,7 @@ export function buildR13SourceSemanticsCanaryFixture(): R13SourceSemanticsCanary
     // published压紧 members surface instead of silently changing the old authority digest.
     const currentFull = loadCanarySourcesMigration(
       prepared.historicalSources,
-      (sources: PalMigrationSources) =>
-        buildPalMigration(sources, { enemyTeamSchema: 'legacy-members' }),
+      buildPalHistoricalR13_6AV10Migration,
     )
     const currentMigrationDigest = digestR13SourceSemanticsMigrationInput(currentFull.migration)
     const currentMigrationFastDigest = digestR13SourceSemanticsMigrationInputFast(

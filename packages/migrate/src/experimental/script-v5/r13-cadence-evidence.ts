@@ -1,7 +1,10 @@
 import { isDeepStrictEqual } from 'node:util'
-import type { SceneDefV5, ScriptFlowV5 } from '@type-pal/content'
-import { validateScenesV5 } from '@type-pal/content'
-import { compileScriptFlowV5 } from '@type-pal/reforge/script-compiler-v5'
+import { checkScriptFlowV5, type SceneDefV5, type ScriptFlowV5 } from '@type-pal/content'
+import { compileScriptFlowV5UncheckedAfterValidation } from '@type-pal/reforge/script-compiler-v5'
+import {
+  projectHistoricalSceneForCurrentValidation,
+  validateHistoricalScenesForCurrentSchema,
+} from '../../historical-enemy-team-authority.js'
 import type { MigrationSnapshot } from '../../migration-baseline.js'
 import type { AutoFlowLifecycleReport } from './auto-flow-lifecycle.js'
 import type { PalAutoLifecycleRepairEvidenceV1 } from './pal-auto-lifecycle-repair.js'
@@ -74,7 +77,7 @@ function requiredScenes(snapshot: MigrationSnapshot): SceneDefV5[] {
   const ids = snapshot.files.get('content/scenes/index.json')
   if (!Array.isArray(ids) || ids.some((id) => typeof id !== 'string'))
     throw new Error('R13 cadence evidence: scenes/index.json 无效')
-  return validateScenesV5(
+  return validateHistoricalScenesForCurrentSchema(
     ids.map((id) => {
       const scene = snapshot.files.get(`content/scenes/${String(id)}.json`)
       if (!scene) throw new Error(`R13 cadence evidence: 缺 scene ${String(id)}`)
@@ -134,14 +137,20 @@ function buildCompatibility(
       if (flow.machine.cadence !== undefined)
         throw new Error(`R13 cadence evidence: 非 transition machine 含 cadence ${key}`)
     }
+    checkScriptFlowV5(
+      projectHistoricalSceneForCurrentValidation(flow),
+      'historicalCompatibilityFlow',
+      { allowSceneEntry },
+    )
+    const compiled = compileScriptFlowV5UncheckedAfterValidation(flow, {
+      canonicalContentDigest: COMPATIBILITY_CONTENT_DIGEST,
+      timing,
+      ...(allowSceneEntry ? { allowSceneEntry: true } : {}),
+    })
     rows.push({
       key,
       timing,
-      flow: compileScriptFlowV5(flow, {
-        canonicalContentDigest: COMPATIBILITY_CONTENT_DIGEST,
-        timing,
-        ...(allowSceneEntry ? { allowSceneEntry: true } : {}),
-      }).flow,
+      flow: compiled.flow,
     })
   }
   for (const scene of requiredScenes(snapshot)) {

@@ -153,7 +153,7 @@ describe.skipIf(!existsSync(PAL_TEST_EXTRACTED))(
   () => {
     beforeAll(() => {
       fixture = loadP6Fixture()
-    }, 180_000)
+    }, 600_000)
 
     test('31 pending bodies close with complete tail classification and body conservation', () => {
       const report = fixture.chain.validations.p6

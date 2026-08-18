@@ -1,3 +1,4 @@
+// biome-ignore-all lint/a11y/noRedundantRoles: jsdom does not expose native dialog roles, while consumers and tests rely on an explicit public dialog contract.
 import { type ReactNode, useEffect, useRef } from 'react'
 import { DsIconButton } from './controls.js'
 
@@ -12,12 +13,23 @@ function useDialogState(
     if (!dialog) return
     if (open && !dialog.open) {
       returnFocusRef.current = document.activeElement as HTMLElement | null
-      dialog.showModal()
+      if (typeof dialog.showModal === 'function') dialog.showModal()
+      else dialog.setAttribute('open', '')
       requestAnimationFrame(() => {
-        const target = dialog.querySelector<HTMLElement>('[autofocus], button, input, select, textarea')
+        const target =
+          dialog.querySelector<HTMLElement>('[autofocus]') ??
+          dialog.querySelector<HTMLElement>(
+            '.ds-overlay__body input, .ds-overlay__body select, .ds-overlay__body textarea',
+          ) ??
+          dialog.querySelector<HTMLElement>('.ds-overlay__body button') ??
+          dialog.querySelector<HTMLElement>('.ds-overlay__footer button') ??
+          dialog.querySelector<HTMLElement>('.ds-overlay__header button')
         target?.focus()
       })
-    } else if (!open && dialog.open) dialog.close()
+    } else if (!open && dialog.open) {
+      if (typeof dialog.close === 'function') dialog.close()
+      else dialog.removeAttribute('open')
+    }
   }, [open, ref])
   useEffect(() => {
     const dialog = ref.current
@@ -46,8 +58,10 @@ export function DsDialog(props: {
   return (
     <dialog
       ref={ref}
+      role="dialog"
       className="ds-dialog"
       aria-labelledby={titleId}
+      aria-label={props.title}
       onCancel={(event) => {
         event.preventDefault()
         props.onClose()
@@ -81,6 +95,7 @@ export function DsDrawer(props: {
   return (
     <dialog
       ref={ref}
+      role="dialog"
       className="ds-drawer"
       aria-labelledby={titleId}
       onCancel={(event) => {

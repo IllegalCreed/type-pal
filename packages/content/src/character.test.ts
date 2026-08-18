@@ -4,6 +4,7 @@ import {
   applySetParty,
   buildWorld,
   buildWorldV13,
+  buildWorldV16,
   instantiate,
   type StartWorld,
   type WorldState,
@@ -109,6 +110,28 @@ describe('buildWorld(manifest.startWorld 数据化)', () => {
     expect(w.entityLifecycles).toEqual({})
     expect(w.party[0]?.template).toBe('test-hero')
     expect(w.inventory).toEqual([{ itemId: '267', count: 1 }])
+  })
+})
+
+describe('buildWorldV16 variable defaults', () => {
+  test('seeds only a fresh world and keeps definition metadata out of runtime state', () => {
+    const start: StartWorld = {
+      party: ['test-hero'],
+      money: 0,
+      learnedSkills: {},
+      inventory: [],
+    }
+    const world = buildWorldV16(
+      start,
+      { 'test-hero': hero },
+      {
+        introSeen: { kind: 'flag', name: '已看开场', description: '作者说明', initial: true },
+        reputation: { kind: 'number', name: '声望', description: '', initial: 3 },
+      },
+    )
+    expect(world.script?.flags).toEqual({ introSeen: true })
+    expect(world.script?.vars).toEqual({ reputation: 3 })
+    expect(world).not.toHaveProperty('worldVariables')
   })
 })
 

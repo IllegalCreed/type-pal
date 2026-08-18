@@ -34,7 +34,7 @@ import {
   type AssetBase,
   buildBlankProjectMap,
   idleFrameIndex,
-  type LoadedProjectV15,
+  type LoadedProjectV16,
   type ProjectMap,
   type TilesetDef,
 } from '@type-pal/reforge'
@@ -251,7 +251,7 @@ function scrollKey(location: EditorLocation): string {
 
 export function App(props: {
   session: EditSession
-  project: LoadedProjectV15
+  project: LoadedProjectV16
   scriptV5?: {
     session: ScriptV5EditSession
   }
@@ -1028,7 +1028,9 @@ export function App(props: {
           name: script.name,
         })),
       }),
+      worldVariables: state.worldVariables,
       onOpenScript: openSharedScript,
+      onOpenWorldVariable: (id) => applyEditorLocation(editorLinks.variable(id)),
       onOpenSound: (id) => applyEditorLocation(editorLinks.sound(id)),
       onOpenImage: (id) => applyEditorLocation(editorLinks.image(id)),
       onOpenBattleSprite: (id) => applyEditorLocation(editorLinks.battleSprite(id)),
@@ -1056,6 +1058,7 @@ export function App(props: {
     state.shops,
     state.skills,
     state.sprites,
+    state.worldVariables,
     applyEditorLocation,
     openSharedScript,
   ])
@@ -1348,6 +1351,10 @@ export function App(props: {
     redo,
     undo,
   ])
+
+  useEffect(() => {
+    document.title = `${state.manifest.name} · type-pal 编辑器`
+  }, [state.manifest.name])
 
   if (!scene && activeSubpage.kind !== 'project') {
     return (
@@ -1739,10 +1746,6 @@ export function App(props: {
     openEditorSubpage(decodeEditorLocation(url.search))
   }
 
-  useEffect(() => {
-    document.title = `${state.manifest.name} · type-pal 编辑器`
-  }, [state.manifest.name])
-
   return (
     <div className="editor ds-form-scope" aria-busy={saveActivity !== null ? true : undefined}>
       <EditorAppHeader
@@ -1756,7 +1759,7 @@ export function App(props: {
         onNavigate={onHeaderNavigate}
       />
 
-      <div
+      <section
         ref={bodyRef}
         tabIndex={-1}
         aria-label={`${activeSubpage.label}工作区`}
@@ -1930,6 +1933,8 @@ export function App(props: {
             onOpenEnemyTeam={(id) => applyEditorLocation(editorLinks.enemyTeam(id))}
             onOpenBattleDataReference={openBattleDataReference}
             onOpenScript={openScriptReference}
+            onOpenWorldVariable={(id) => applyEditorLocation(editorLinks.variable(id))}
+            onOpenCanonicalReference={openCanonicalReference}
             onOpenItemReference={openItemReference}
             onOpenProjectIssues={() =>
               applyEditorLocation({ module: 'project', subpage: 'advanced' })
@@ -2299,6 +2304,7 @@ export function App(props: {
                     ghosts: canvasLayers.ghosts,
                   }}
                   onOpenScript={openSharedScript}
+                  onOpenWorldVariable={(id) => applyEditorLocation(editorLinks.variable(id))}
                   onOpenSound={(id) => applyEditorLocation(editorLinks.sound(id))}
                   onOpenImage={(id) => applyEditorLocation(editorLinks.image(id))}
                   onOpenBattleSprite={(id) => applyEditorLocation(editorLinks.battleSprite(id))}
@@ -2588,7 +2594,7 @@ export function App(props: {
             )
           }
         />
-      </div>
+      </section>
 
       <div className="valbar" inert={saveActivity !== null ? true : undefined}>
         {statusIssues.length > 0 ? (

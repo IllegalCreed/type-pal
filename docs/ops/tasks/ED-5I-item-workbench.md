@@ -623,6 +623,17 @@ PAL 的 33 件武器中另有 13 件允许多角色，但这些物品当前都�
   content 138、editor 11、reforge 2、migrate 4 tests 及四包 typecheck 全绿。Next：Kimi /
   GLM 按下方提示词只读实现审查；两席未齐不得标 E1 / ED-5I done。R13-5 只读 census 可并行。
 
+## Post-close asset audit 计数校正（2026-08-18）
+
+- 提交 `aefa0e0d` 将 item 引用收集从局部字段扩展为完整 item tree 后，PAL 权威数据新增被看见的
+  **2 条 `playSound`**（`sound.pal.260`、`sound.pal.045`）和 **1 条 portrait**
+  （`portrait.pal.069`）；生成内容与迁移命令 byte-identical，旧冻结计数落后于 collector 现状。
+- 冻结审计按真实边更新：playSound `1039→1041`、sound edges `1747→1749`、portrait edges
+  `2366→2367`、all refs `6731→6734`；相关派生合计同步更新。严格 PAL migration integration 与
+  `check:fast` 均通过。
+- 原卡三方 accept 与用户验收作为历史事实保留；本校正纳入 `OPS-TST-PERF-B` release 候选审查，
+  不修改生成工程或原卡签字。
+
 ## 下一位 Agent 提示词
 
 ### 给 Kimi（E1 implementation review：schema/runtime/version/Editor）

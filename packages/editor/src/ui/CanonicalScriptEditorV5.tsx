@@ -17,10 +17,11 @@ import type {
   ShopDef,
   SpriteDef,
   StateTransitionV5,
+  WorldVariableRegistryV1,
 } from '@type-pal/content'
 import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
-import type { ReactNode } from 'react'
-import { useEffect, useId, useMemo, useRef, useState } from 'react'
+import type { ReactElement, ReactNode } from 'react'
+import { cloneElement, useEffect, useId, useMemo, useRef, useState } from 'react'
 import {
   type AuthorCommandChildKeyV5,
   type AuthorCommandPathV5,
@@ -41,11 +42,37 @@ import type {
 } from '../core/script-v5-editor.js'
 import { stateTransitionExecutionLabelV5 } from '../core/script-v5-editor.js'
 import { BattleFieldPicker } from './BattleFieldPicker.js'
-import { CommandForm } from './CommandForm.js'
-import { DsSelect } from './design-system/controls.js'
+import { CommandForm, WorldVariablePicker } from './CommandForm.js'
+import {
+  DsButton,
+  DsCheckbox,
+  DsDialog,
+  DsField,
+  DsIconButton,
+  DsNumberInput,
+  DsSelect,
+  DsTextArea,
+  DsTextInput,
+} from './design-system/index.js'
 import { musicAssets } from './MusicPicker.js'
 import { describeScriptCommand } from './ScriptTree.js'
 import { soundAssets } from './SoundPicker.js'
+
+function CanonicalFieldV5(props: {
+  label: string
+  children: ReactElement<{
+    id?: string
+    'aria-describedby'?: string
+    'aria-invalid'?: boolean
+  }>
+  className?: string
+}) {
+  return (
+    <DsField label={props.label} className={props.className}>
+      {(field) => cloneElement(props.children, field)}
+    </DsField>
+  )
+}
 
 export interface CanonicalScriptEditorContextV5 {
   state: ScriptEditorStateV5
@@ -56,6 +83,7 @@ export interface CanonicalScriptEditorContextV5 {
   audioResolver: AudioAssetReader
   assetReader: EditorAssetReader
   references: ScriptReferenceCatalog
+  worldVariables?: WorldVariableRegistryV1
   assetBase?: AssetBase
   actors?: Record<string, ActorDef>
   battleSprites: readonly BattleSpriteDef[]
@@ -67,6 +95,7 @@ export interface CanonicalScriptEditorContextV5 {
   hasImplicitSelf?: boolean
   currentEntityId?: string
   onOpenScript?: (id: string) => void
+  onOpenWorldVariable?: (id: string) => void
   onOpenSound?: (id: string) => void
   onOpenImage?: (id: string) => void
   onOpenBattleSprite?: (id: string) => void
@@ -95,34 +124,21 @@ export function CanonicalScriptDialogV5(props: {
   className?: string
   footer?: ReactNode
 }) {
-  useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent): void => {
-      if (event.key === 'Escape') props.onClose()
-    }
-    window.addEventListener('keydown', onKeyDown)
-    return () => window.removeEventListener('keydown', onKeyDown)
-  }, [props.onClose])
-
   return (
-    <div className="modal-backdrop canonical-script-modal-backdrop" role="presentation">
-      <section
-        className={`canonical-script-modal${props.className ? ` ${props.className}` : ''}`}
-        role="dialog"
-        aria-modal="true"
-        aria-label={props.title}
-      >
-        <header className="canonical-script-modal-heading">
-          <strong>{props.title}</strong>
-          <button type="button" className="mini" aria-label="关闭" onClick={props.onClose}>
-            ✕
-          </button>
-        </header>
-        <div className="canonical-script-modal-body">{props.children}</div>
-        {props.footer ? (
-          <footer className="canonical-script-modal-footer">{props.footer}</footer>
-        ) : null}
-      </section>
-    </div>
+    <DsDialog
+      open
+      title={props.title}
+      onClose={props.onClose}
+      footer={
+        props.footer ? (
+          <div className="canonical-script-modal-footer">{props.footer}</div>
+        ) : undefined
+      }
+    >
+      <div className={`canonical-script-modal-body${props.className ? ` ${props.className}` : ''}`}>
+        {props.children}
+      </div>
+    </DsDialog>
   )
 }
 
@@ -132,8 +148,9 @@ export function CanonicalHelpTipV5(props: { label: string; children: ReactNode }
 
   return (
     <span className={`canonical-help-tip${dismissed ? ' dismissed' : ''}`}>
-      <button
-        type="button"
+      <DsButton
+        size="compact"
+        variant="quiet"
         aria-label={`${props.label}说明`}
         aria-describedby={tooltipId}
         onMouseEnter={() => setDismissed(false)}
@@ -146,7 +163,7 @@ export function CanonicalHelpTipV5(props: { label: string; children: ReactNode }
         }}
       >
         ?
-      </button>
+      </DsButton>
       <span id={tooltipId} role="tooltip">
         {props.children}
       </span>
@@ -180,9 +197,9 @@ export function ScriptSchemeStripV5(props: {
             会整套切换。
           </CanonicalHelpTipV5>
         </div>
-        <button type="button" className="mini-txt" onClick={props.onCreate}>
-          ＋ 新建方案
-        </button>
+        <DsButton size="compact" variant="secondary" icon="add" onClick={props.onCreate}>
+          新建方案
+        </DsButton>
       </header>
       <nav aria-label="脚本方案列表">
         {props.options.map((option) => (
@@ -190,8 +207,9 @@ export function ScriptSchemeStripV5(props: {
             key={option.id}
             className={`script-scheme-card${option.id === props.selectedId ? ' active' : ''}`}
           >
-            <button
-              type="button"
+            <DsButton
+              size="compact"
+              variant={option.id === props.selectedId ? 'primary' : 'secondary'}
               className="script-scheme-card-select"
               aria-pressed={option.id === props.selectedId}
               onClick={() => props.onSelect(option.id)}
@@ -203,15 +221,16 @@ export function ScriptSchemeStripV5(props: {
                   : '连续流程（高级）'}
               </span>
               {option.isDefault ? <small>默认方案</small> : null}
-            </button>
-            <button
-              type="button"
+            </DsButton>
+            <DsButton
+              size="compact"
+              variant="quiet"
               className="script-scheme-card-details"
               aria-label={`打开“${option.label}”的方案详情`}
               onClick={() => props.onDetails(option.id)}
             >
               方案详情
-            </button>
+            </DsButton>
           </div>
         ))}
       </nav>
@@ -264,18 +283,19 @@ export function ScriptSchemeDetailsDialogV5(props: {
           <>
             <span className="script-scheme-footer-warning">此操作会删除全部步骤和正文。</span>
             <span className="spacer" />
-            <button type="button" className="btn" onClick={() => setConfirmDelete(false)}>
+            <DsButton size="compact" variant="secondary" onClick={() => setConfirmDelete(false)}>
               取消删除
-            </button>
-            <button type="button" className="btn danger" onClick={props.onDelete}>
+            </DsButton>
+            <DsButton size="compact" variant="danger" onClick={props.onDelete}>
               确认删除方案
-            </button>
+            </DsButton>
           </>
         ) : (
           <>
-            <button
-              type="button"
-              className="btn danger script-scheme-delete"
+            <DsButton
+              size="compact"
+              variant="danger"
+              className="script-scheme-delete"
               disabled={props.references.length > 0}
               title={
                 props.references.length ? '这套方案仍在使用中，请先处理上方列出的引用。' : undefined
@@ -283,19 +303,14 @@ export function ScriptSchemeDetailsDialogV5(props: {
               onClick={() => setConfirmDelete(true)}
             >
               删除方案…
-            </button>
+            </DsButton>
             <span className="spacer" />
-            <button type="button" className="btn" onClick={props.onClose}>
+            <DsButton size="compact" variant="secondary" onClick={props.onClose}>
               取消
-            </button>
-            <button
-              type="button"
-              className="btn primary"
-              disabled={!nameDraft.trim()}
-              onClick={save}
-            >
+            </DsButton>
+            <DsButton size="compact" variant="primary" disabled={!nameDraft.trim()} onClick={save}>
               保存
-            </button>
+            </DsButton>
           </>
         )
       }
@@ -308,9 +323,9 @@ export function ScriptSchemeDetailsDialogV5(props: {
               这是一套完整脚本。切换方案时，它拥有的执行步骤、出现前准备和正文会一起切换。
             </CanonicalHelpTipV5>
           </header>
-          <input
+          <DsTextInput
+            size="compact"
             id={nameInputId}
-            className="in"
             name="scheme-name"
             autoComplete="off"
             aria-label="方案名称"
@@ -331,14 +346,14 @@ export function ScriptSchemeDetailsDialogV5(props: {
               <CanonicalHelpTipV5 label="默认方案">
                 {defaultDraft ? props.defaultControl.activeCopy : props.defaultControl.inactiveCopy}
               </CanonicalHelpTipV5>
-              <button
-                type="button"
-                className="mini-txt"
+              <DsButton
+                size="compact"
+                variant="secondary"
                 aria-pressed={defaultDraft}
                 onClick={() => setDefaultDraft((current) => !current)}
               >
                 {defaultDraft ? '取消默认' : '设为默认方案'}
-              </button>
+              </DsButton>
             </div>
           </div>
         ) : null}
@@ -357,14 +372,16 @@ export function ScriptSchemeDetailsDialogV5(props: {
                 {props.references.map((reference) => (
                   <li key={reference.key}>
                     {props.onOpenReference ? (
-                      <button
-                        type="button"
+                      <DsButton
+                        size="compact"
+                        variant="quiet"
+                        icon="open"
                         aria-label={`打开引用：${reference.label}`}
                         onClick={() => props.onOpenReference?.(reference.reference)}
                       >
                         <span>{reference.label}</span>
                         <small aria-hidden="true">打开 ↗</small>
-                      </button>
+                      </DsButton>
                     ) : (
                       <span>{reference.label}</span>
                     )}
@@ -422,9 +439,9 @@ export function ScriptSchemeCreateDialogV5(props: {
                 : '新方案从空白内容开始，已有方案不会受到影响。'}
             </CanonicalHelpTipV5>
           </header>
-          <input
+          <DsTextInput
+            size="compact"
             id={nameInputId}
-            className="in"
             name="new-scheme-name"
             autoComplete="off"
             aria-label="新方案名称"
@@ -434,12 +451,12 @@ export function ScriptSchemeCreateDialogV5(props: {
           />
         </div>
         <div className="script-scheme-create-actions">
-          <button type="button" className="btn" onClick={props.onClose}>
+          <DsButton size="compact" variant="secondary" onClick={props.onClose}>
             取消
-          </button>
-          <button type="submit" className="btn primary" disabled={!newName.trim()}>
+          </DsButton>
+          <DsButton size="compact" type="submit" variant="primary" disabled={!newName.trim()}>
             创建空白方案
-          </button>
+          </DsButton>
         </div>
       </form>
     </CanonicalScriptDialogV5>
@@ -840,16 +857,18 @@ function CommandRowsV5(props: {
 }) {
   if (!props.body.length)
     return (
-      <button
-        type="button"
+      <DsButton
+        size="compact"
+        variant="secondary"
+        icon="add"
         className="canonical-script-empty-add"
         onClick={() => props.onInsert(formatAuthorCommandPathV5([...props.parentPath, -1]))}
       >
         ＋ 添加第一条指令
-      </button>
+      </DsButton>
     )
   return (
-    <div className="canonical-command-list">
+    <div className="canonical-command-list" role="tree">
       {props.body.map((command, index) => {
         const path = formatAuthorCommandPathV5([...props.parentPath, index])
         const description = describeCommand(command, props.context)
@@ -859,53 +878,62 @@ function CommandRowsV5(props: {
             : ''
         return (
           <div className="canonical-command-node" key={path}>
-            {/* biome-ignore lint/a11y/useKeyWithClickEvents lint/a11y/noStaticElementInteractions: 与既有 ScriptTree 保持同一行级交互。 */}
             <div
+              role="treeitem"
               className={`cmd-row${props.selectedPath === path ? ' sel' : ''}${referenceFocusClass}`}
               data-command-path={path}
-              tabIndex={-1}
+              tabIndex={0}
               onClick={() => props.onSelect(path)}
               onDoubleClick={() => props.onEdit(path)}
+              onKeyDown={(event) => {
+                if (event.currentTarget !== event.target) return
+                if (event.key !== 'Enter' && event.key !== ' ') return
+                event.preventDefault()
+                props.onSelect(path)
+              }}
             >
               <span className="cmd-ico">{description.icon}</span>
               <span className="cmd-label">{description.label}</span>
               {description.detail ? <span className="cmd-detail">{description.detail}</span> : null}
               {/* biome-ignore lint/a11y/useKeyWithClickEvents lint/a11y/noStaticElementInteractions: 只挡住行选择，内部按钮可键盘操作。 */}
               <span
-                className="cmd-ops"
+                className="canonical-script-row-actions"
                 onClick={(event) => event.stopPropagation()}
                 onDoubleClick={(event) => event.stopPropagation()}
               >
-                <button type="button" title="编辑指令" onClick={() => props.onEdit(path)}>
-                  ✎
-                </button>
-                <button type="button" title="在此后插入" onClick={() => props.onInsert(path)}>
-                  ＋
-                </button>
-                <button
-                  type="button"
-                  title="上移"
+                <DsIconButton
+                  label="编辑"
+                  icon="edit"
+                  size="compact"
+                  onClick={() => props.onEdit(path)}
+                />
+                <DsIconButton
+                  label="在此后插入"
+                  icon="add"
+                  size="compact"
+                  onClick={() => props.onInsert(path)}
+                />
+                <DsIconButton
+                  label="上移"
+                  icon="chevron-up"
+                  size="compact"
                   disabled={index === 0}
                   onClick={() => props.onMove(path, -1)}
-                >
-                  ↑
-                </button>
-                <button
-                  type="button"
-                  title="下移"
+                />
+                <DsIconButton
+                  label="下移"
+                  icon="chevron-down"
+                  size="compact"
                   disabled={index === props.body.length - 1}
                   onClick={() => props.onMove(path, 1)}
-                >
-                  ↓
-                </button>
-                <button
-                  type="button"
-                  className="del"
-                  title="删除"
+                />
+                <DsIconButton
+                  label="删除"
+                  icon="delete"
+                  size="compact"
+                  variant="danger"
                   onClick={() => props.onRemove(path)}
-                >
-                  ✕
-                </button>
+                />
               </span>
             </div>
             {description.children.map((child) => (
@@ -985,30 +1013,27 @@ function EntityAddressEditorV5(props: {
       <div className="canonical-address-field">
         <span>场景</span>
         {scenes.length ? (
-          <select
-            className="in"
+          <DsSelect
+            size="compact"
             aria-label="场景"
             value={props.value.scene}
-            onChange={(event) => {
-              const nextScene = scenes.find((candidate) => candidate.id === event.target.value)
+            options={[
+              ...(!scene
+                ? [{ value: props.value.scene, label: `${props.value.scene}（引用失效）` }]
+                : []),
+              ...scenes.map((candidate) => ({ value: candidate.id, label: candidate.id })),
+            ]}
+            onValueChange={(sceneId) => {
+              const nextScene = scenes.find((candidate) => candidate.id === sceneId)
               props.onChange({
-                scene: event.target.value,
+                scene: sceneId,
                 entity: nextScene?.entities[0]?.id ?? props.value.entity,
               })
             }}
-          >
-            {!scene ? (
-              <option value={props.value.scene}>{props.value.scene}（引用失效）</option>
-            ) : null}
-            {scenes.map((candidate) => (
-              <option key={candidate.id} value={candidate.id}>
-                {candidate.id}
-              </option>
-            ))}
-          </select>
+          />
         ) : (
-          <input
-            className="in"
+          <DsTextInput
+            size="compact"
             aria-label="场景"
             value={props.value.scene}
             onChange={(event) => props.onChange({ ...props.value, scene: event.target.value })}
@@ -1018,24 +1043,24 @@ function EntityAddressEditorV5(props: {
       <div className="canonical-address-field">
         <span>实体</span>
         {scene?.entities.length ? (
-          <select
-            className="in"
+          <DsSelect
+            size="compact"
             aria-label="实体"
             value={props.value.entity}
-            onChange={(event) => props.onChange({ ...props.value, entity: event.target.value })}
-          >
-            {!scene.entities.some((candidate) => candidate.id === props.value.entity) ? (
-              <option value={props.value.entity}>{props.value.entity}（引用失效）</option>
-            ) : null}
-            {scene.entities.map((candidate) => (
-              <option key={candidate.id} value={candidate.id}>
-                {candidate.id}
-              </option>
-            ))}
-          </select>
+            options={[
+              ...(!scene.entities.some((candidate) => candidate.id === props.value.entity)
+                ? [{ value: props.value.entity, label: `${props.value.entity}（引用失效）` }]
+                : []),
+              ...scene.entities.map((candidate) => ({
+                value: candidate.id,
+                label: candidate.id,
+              })),
+            ]}
+            onValueChange={(entity) => props.onChange({ ...props.value, entity })}
+          />
         ) : (
-          <input
-            className="in"
+          <DsTextInput
+            size="compact"
             aria-label="实体"
             value={props.value.entity}
             onChange={(event) => props.onChange({ ...props.value, entity: event.target.value })}
@@ -1050,6 +1075,8 @@ function ConditionEditorV5(props: {
   value: AuthorConditionV5
   state?: ScriptEditorStateV5
   references?: ScriptReferenceCatalog
+  worldVariables?: WorldVariableRegistryV1
+  onOpenWorldVariable?: (id: string) => void
   onChange: (condition: AuthorConditionV5) => void
 }) {
   const sceneFieldId = useId()
@@ -1070,121 +1097,114 @@ function ConditionEditorV5(props: {
     : undefined
   return (
     <div className="canonical-condition-editor">
-      <label>
-        <span>条件</span>
-        <select
-          className="in"
+      <CanonicalFieldV5 label="条件">
+        <DsSelect
+          size="compact"
           value={props.value.kind}
-          onChange={(event) =>
+          options={[
+            ['flag', '开关'],
+            ['var', '数值'],
+            ['currentScene', '当前场景'],
+            ['chance', '概率'],
+            ['hasItem', '背包持有物品'],
+            ['ownsItem', '拥有物品'],
+            ['itemEquipped', '已装备物品'],
+            ['entityState', '实体状态'],
+            ['entityInScene', '实体在场'],
+            ['facingEntity', '面向实体'],
+            ['allFullHp', '全队满血'],
+            ['hasMoney', '金钱'],
+            ['inParty', '队伍成员'],
+            ['all', '全部满足'],
+            ['any', '任一满足'],
+            ['not', '取反'],
+          ].map(([value, label]) => ({ value: value!, label: label! }))}
+          onValueChange={(kind) =>
             props.onChange(
-              defaultCondition(
-                event.target.value as AuthorConditionV5['kind'],
-                target ?? firstTarget,
-              ),
+              defaultCondition(kind as AuthorConditionV5['kind'], target ?? firstTarget),
             )
           }
-        >
-          <option value="flag">开关</option>
-          <option value="var">数值</option>
-          <option value="currentScene">当前场景</option>
-          <option value="chance">概率</option>
-          <option value="hasItem">背包持有物品</option>
-          <option value="ownsItem">拥有物品</option>
-          <option value="itemEquipped">已装备物品</option>
-          <option value="entityState">实体状态</option>
-          <option value="entityInScene">实体在场</option>
-          <option value="facingEntity">面向实体</option>
-          <option value="allFullHp">全队满血</option>
-          <option value="hasMoney">金钱</option>
-          <option value="inParty">队伍成员</option>
-          <option value="all">全部满足</option>
-          <option value="any">任一满足</option>
-          <option value="not">取反</option>
-        </select>
-      </label>
+        />
+      </CanonicalFieldV5>
       {props.value.kind === 'flag' ? (
         <>
-          <label>
-            <span>开关 id</span>
-            <input
-              className="in"
+          <CanonicalFieldV5 label="开关 id">
+            <WorldVariablePicker
               value={props.value.flag}
-              onChange={(event) => patch({ flag: event.target.value })}
+              kind="flag"
+              variables={props.worldVariables}
+              onChange={(flag) => patch({ flag })}
+              onOpen={props.onOpenWorldVariable}
             />
-          </label>
-          <label>
-            <span>期望</span>
-            <select
-              className="in"
+          </CanonicalFieldV5>
+          <CanonicalFieldV5 label="期望">
+            <DsSelect
+              size="compact"
               value={props.value.is ? 'true' : 'false'}
-              onChange={(event) => patch({ is: event.target.value === 'true' })}
-            >
-              <option value="true">为真</option>
-              <option value="false">为假</option>
-            </select>
-          </label>
+              options={[
+                { value: 'true', label: '为真' },
+                { value: 'false', label: '为假' },
+              ]}
+              onValueChange={(value) => patch({ is: value === 'true' })}
+            />
+          </CanonicalFieldV5>
         </>
       ) : null}
       {props.value.kind === 'var' ? (
         <>
-          <label>
-            <span>数值 id</span>
-            <input
-              className="in"
+          <CanonicalFieldV5 label="数值 id">
+            <WorldVariablePicker
               value={props.value.var}
-              onChange={(event) => patch({ var: event.target.value })}
+              kind="number"
+              variables={props.worldVariables}
+              onChange={(variable) => patch({ var: variable })}
+              onOpen={props.onOpenWorldVariable}
             />
-          </label>
-          <label>
-            <span>比较</span>
-            <select
-              className="in"
+          </CanonicalFieldV5>
+          <CanonicalFieldV5 label="比较">
+            <DsSelect
+              size="compact"
               value={props.value.op}
-              onChange={(event) =>
+              options={['==', '!=', '>=', '<=', '>', '<'].map((op) => ({
+                value: op,
+                label: op,
+              }))}
+              onValueChange={(op) =>
                 patch({
-                  op: event.target.value as Extract<AuthorConditionV5, { kind: 'var' }>['op'],
+                  op: op as Extract<AuthorConditionV5, { kind: 'var' }>['op'],
                 })
               }
-            >
-              {['==', '!=', '>=', '<=', '>', '<'].map((op) => (
-                <option key={op}>{op}</option>
-              ))}
-            </select>
-          </label>
-          <label>
-            <span>值</span>
-            <input
-              className="in"
-              type="number"
+            />
+          </CanonicalFieldV5>
+          <CanonicalFieldV5 label="值">
+            <DsNumberInput
+              size="compact"
               value={props.value.value}
               onChange={(event) => patch({ value: Number(event.target.value) })}
             />
-          </label>
+          </CanonicalFieldV5>
         </>
       ) : null}
       {currentScene ? (
         <label htmlFor={sceneFieldId}>
           <span>场景</span>
           {props.state?.scenes.length ? (
-            <select
+            <DsSelect
+              size="compact"
               id={sceneFieldId}
-              className="in"
               value={currentScene.scene}
-              onChange={(event) => patch({ scene: event.target.value })}
-            >
-              {!props.state.scenes.some((scene) => scene.id === currentScene.scene) ? (
-                <option value={currentScene.scene}>{currentScene.scene}（引用失效）</option>
-              ) : null}
-              {props.state.scenes.map((scene) => (
-                <option key={scene.id} value={scene.id}>
-                  {scene.id}
-                </option>
-              ))}
-            </select>
+              options={[
+                ...(!props.state.scenes.some((scene) => scene.id === currentScene.scene)
+                  ? [{ value: currentScene.scene, label: `${currentScene.scene}（引用失效）` }]
+                  : []),
+                ...props.state.scenes.map((scene) => ({ value: scene.id, label: scene.id })),
+              ]}
+              onValueChange={(scene) => patch({ scene })}
+            />
           ) : (
-            <input
+            <DsTextInput
+              size="compact"
               id={sceneFieldId}
-              className="in"
               value={currentScene.scene}
               onChange={(event) => patch({ scene: event.target.value })}
             />
@@ -1192,11 +1212,9 @@ function ConditionEditorV5(props: {
         </label>
       ) : null}
       {props.value.kind === 'chance' ? (
-        <label>
-          <span>概率 %</span>
-          <input
-            className="in"
-            type="number"
+        <CanonicalFieldV5 label="概率 %">
+          <DsNumberInput
+            size="compact"
             min={0}
             max={100}
             value={props.value.percent}
@@ -1204,39 +1222,36 @@ function ConditionEditorV5(props: {
               patch({ percent: Math.max(0, Math.min(100, Number(event.target.value))) })
             }
           />
-        </label>
+        </CanonicalFieldV5>
       ) : null}
       {props.value.kind === 'hasItem' ||
       props.value.kind === 'ownsItem' ||
       props.value.kind === 'itemEquipped' ? (
         <>
-          <label>
-            <span>物品</span>
-            <select
-              className="in"
+          <CanonicalFieldV5 label="物品">
+            <DsSelect
+              size="compact"
               value={props.value.itemId}
-              onChange={(event) => patch({ itemId: event.target.value })}
-            >
-              {!props.references?.has('item', props.value.itemId) ? (
-                <option value={props.value.itemId}>{props.value.itemId}</option>
-              ) : null}
-              {props.references?.choices('item').map((choice) => (
-                <option key={choice.id} value={choice.id}>
-                  {choice.name} · {choice.id}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>
-            <span>至少</span>
-            <input
-              className="in"
-              type="number"
+              options={[
+                ...(!props.references?.has('item', props.value.itemId)
+                  ? [{ value: props.value.itemId, label: props.value.itemId }]
+                  : []),
+                ...(props.references?.choices('item').map((choice) => ({
+                  value: choice.id,
+                  label: `${choice.name} · ${choice.id}`,
+                })) ?? []),
+              ]}
+              onValueChange={(itemId) => patch({ itemId })}
+            />
+          </CanonicalFieldV5>
+          <CanonicalFieldV5 label="至少">
+            <DsNumberInput
+              size="compact"
               min={1}
               value={props.value.atLeast ?? 1}
               onChange={(event) => patch({ atLeast: Math.max(1, Number(event.target.value) || 1) })}
             />
-          </label>
+          </CanonicalFieldV5>
         </>
       ) : null}
       {target ? (
@@ -1247,27 +1262,23 @@ function ConditionEditorV5(props: {
         />
       ) : null}
       {props.value.kind === 'entityState' ? (
-        <label>
-          <span>状态</span>
-          <input
-            className="in"
-            type="number"
+        <CanonicalFieldV5 label="状态">
+          <DsNumberInput
+            size="compact"
             value={props.value.is}
             onChange={(event) => patch({ is: Number(event.target.value) })}
           />
-        </label>
+        </CanonicalFieldV5>
       ) : null}
       {props.value.kind === 'facingEntity' ? (
-        <label>
-          <span>距离</span>
-          <input
-            className="in"
-            type="number"
+        <CanonicalFieldV5 label="距离">
+          <DsNumberInput
+            size="compact"
             min={0}
             value={props.value.range ?? 1}
             onChange={(event) => patch({ range: Math.max(0, Number(event.target.value)) })}
           />
-        </label>
+        </CanonicalFieldV5>
       ) : null}
       {props.value.kind === 'all' || props.value.kind === 'any' ? (
         <div className="canonical-condition-nested">
@@ -1277,6 +1288,8 @@ function ConditionEditorV5(props: {
               value={condition}
               state={props.state}
               references={props.references}
+              worldVariables={props.worldVariables}
+              onOpenWorldVariable={props.onOpenWorldVariable}
               onChange={(next) => {
                 const compound = props.value as Extract<AuthorConditionV5, { kind: 'all' | 'any' }>
                 const of = [...compound.of]
@@ -1285,8 +1298,10 @@ function ConditionEditorV5(props: {
               }}
             />
           ))}
-          <button
-            type="button"
+          <DsButton
+            size="compact"
+            variant="secondary"
+            icon="add"
             onClick={() => {
               const compound = props.value as Extract<AuthorConditionV5, { kind: 'all' | 'any' }>
               props.onChange({
@@ -1295,8 +1310,8 @@ function ConditionEditorV5(props: {
               })
             }}
           >
-            ＋ 条件
-          </button>
+            添加条件
+          </DsButton>
         </div>
       ) : null}
       {props.value.kind === 'not' ? (
@@ -1304,6 +1319,8 @@ function ConditionEditorV5(props: {
           value={props.value.cond}
           state={props.state}
           references={props.references}
+          worldVariables={props.worldVariables}
+          onOpenWorldVariable={props.onOpenWorldVariable}
           onChange={(cond) =>
             props.onChange({
               ...(props.value as Extract<AuthorConditionV5, { kind: 'not' }>),
@@ -1317,7 +1334,6 @@ function ConditionEditorV5(props: {
 }
 
 const CUSTOM_COMMANDS = new Set<AuthorCommandV5['kind']>([
-  'addVar',
   'cameraSnap',
   'chasePlayer',
   'endBattle',
@@ -1415,89 +1431,93 @@ function primitiveField(
   const label = PRIMITIVE_FIELD_LABELS[key] ?? key
   if (typeof value === 'boolean')
     return (
-      <label key={key}>
-        <input
-          type="checkbox"
-          checked={value}
-          onChange={(event) =>
-            onChange({ ...command, [key]: event.target.checked } as AuthorCommandV5)
-          }
-        />
-        {label}
-      </label>
+      <DsCheckbox
+        key={key}
+        size="compact"
+        label={label}
+        checked={value}
+        onChange={(event) =>
+          onChange({ ...command, [key]: event.target.checked } as AuthorCommandV5)
+        }
+      />
     )
   if (key === 'facing' || key === 'dir')
     return (
-      <label key={key}>
-        <span>{label}</span>
-        <select
-          className="in"
-          value={value}
-          onChange={(event) =>
-            onChange({ ...command, [key]: event.target.value } as AuthorCommandV5)
+      <CanonicalFieldV5 key={key} label={label}>
+        <DsSelect
+          size="compact"
+          value={String(value)}
+          options={[
+            { value: 'down', label: '向下' },
+            { value: 'left', label: '向左' },
+            { value: 'up', label: '向上' },
+            { value: 'right', label: '向右' },
+          ]}
+          onValueChange={(nextValue) =>
+            onChange({ ...command, [key]: nextValue } as AuthorCommandV5)
           }
-        >
-          <option value="down">向下</option>
-          <option value="left">向左</option>
-          <option value="up">向上</option>
-          <option value="right">向右</option>
-        </select>
-      </label>
+        />
+      </CanonicalFieldV5>
     )
   if (key === 'speed')
     return (
-      <label key={key}>
-        <span>{label}</span>
-        <select
-          className="in"
+      <CanonicalFieldV5 key={key} label={label}>
+        <DsSelect
+          size="compact"
+          value={String(value)}
+          options={[
+            { value: 'slow', label: '慢速' },
+            { value: 'normal', label: '正常' },
+            { value: 'fast', label: '快速' },
+            { value: 'run', label: '奔跑' },
+          ]}
+          onValueChange={(nextValue) =>
+            onChange({ ...command, [key]: nextValue } as AuthorCommandV5)
+          }
+        />
+      </CanonicalFieldV5>
+    )
+  if (key === 'channel')
+    return (
+      <CanonicalFieldV5 key={key} label={label}>
+        <DsSelect
+          size="compact"
+          value={String(value)}
+          options={[
+            { value: 'trigger', label: '交互脚本' },
+            { value: 'auto', label: '自动行为' },
+          ]}
+          onValueChange={(channel) =>
+            onChange(
+              stripCursorHandoffV5({
+                ...command,
+                [key]: channel,
+              } as AuthorCommandV5),
+            )
+          }
+        />
+      </CanonicalFieldV5>
+    )
+  return (
+    <CanonicalFieldV5 key={key} label={label}>
+      {typeof value === 'number' ? (
+        <DsNumberInput
+          size="compact"
+          value={value}
+          onChange={(event) =>
+            onChange({ ...command, [key]: Number(event.target.value) } as AuthorCommandV5)
+          }
+        />
+      ) : (
+        <DsTextInput
+          size="compact"
           value={value}
           onChange={(event) =>
             onChange({ ...command, [key]: event.target.value } as AuthorCommandV5)
           }
-        >
-          <option value="slow">慢速</option>
-          <option value="normal">正常</option>
-          <option value="fast">快速</option>
-          <option value="run">奔跑</option>
-        </select>
-      </label>
-    )
-  if (key === 'channel')
-    return (
-      <label key={key}>
-        <span>{label}</span>
-        <select
-          className="in"
-          value={value}
-          onChange={(event) =>
-            onChange(
-              stripCursorHandoffV5({
-                ...command,
-                [key]: event.target.value,
-              } as AuthorCommandV5),
-            )
-          }
-        >
-          <option value="trigger">交互脚本</option>
-          <option value="auto">自动行为</option>
-        </select>
-      </label>
-    )
-  return (
-    <label key={key}>
-      <span>{label}</span>
-      <input
-        className="in"
-        type={typeof value === 'number' ? 'number' : 'text'}
-        value={value}
-        onChange={(event) =>
-          onChange({
-            ...command,
-            [key]: typeof value === 'number' ? Number(event.target.value) : event.target.value,
-          } as AuthorCommandV5)
-        }
-      />
-    </label>
+        />
+      )}
+    </CanonicalFieldV5>
   )
 }
 
@@ -1535,6 +1555,8 @@ function CanonicalCommandFormV5(props: {
           ambiences={context.ambiences}
           shops={context.shops}
           references={context.references}
+          worldVariables={context.worldVariables}
+          onOpenWorldVariable={context.onOpenWorldVariable}
           hasImplicitSelf={context.hasImplicitSelf}
           showRawJson={false}
           onOpenSound={context.onOpenSound}
@@ -1551,27 +1573,25 @@ function CanonicalCommandFormV5(props: {
       <div className="canonical-command-form-fields">
         {command.kind === 'loop' ? (
           <>
-            <label>
-              <span>循环方式</span>
-              <select
-                className="in"
+            <CanonicalFieldV5 label="循环方式">
+              <DsSelect
+                size="compact"
                 value={command.mode}
-                onChange={(event) =>
+                options={[
+                  { value: 'while', label: '条件成立时' },
+                  { value: 'until', label: '直到条件成立' },
+                ]}
+                onValueChange={(mode) =>
                   props.onChange({
                     ...command,
-                    mode: event.target.value as 'while' | 'until',
+                    mode: mode as 'while' | 'until',
                   })
                 }
-              >
-                <option value="while">条件成立时</option>
-                <option value="until">直到条件成立</option>
-              </select>
-            </label>
-            <label>
-              <span>最大次数</span>
-              <input
-                className="in"
-                type="number"
+              />
+            </CanonicalFieldV5>
+            <CanonicalFieldV5 label="最大次数">
+              <DsNumberInput
+                size="compact"
                 min={1}
                 value={command.maxIterations}
                 onChange={(event) =>
@@ -1581,13 +1601,15 @@ function CanonicalCommandFormV5(props: {
                   })
                 }
               />
-            </label>
+            </CanonicalFieldV5>
           </>
         ) : null}
         <ConditionEditorV5
           value={command.cond}
           state={context?.state}
           references={context?.references}
+          worldVariables={context?.worldVariables}
+          onOpenWorldVariable={context?.onOpenWorldVariable}
           onChange={(cond) => props.onChange({ ...command, cond })}
         />
         <p className="hint">分支和循环正文在左侧树中直接增删、排序和编辑。</p>
@@ -1598,26 +1620,30 @@ function CanonicalCommandFormV5(props: {
     const scripts = Object.entries(context?.state.sharedScripts ?? {})
     return (
       <div className="canonical-command-form-fields">
-        <label>
-          <span>共享脚本</span>
-          <select
-            className="in"
+        <CanonicalFieldV5 label="共享脚本">
+          <DsSelect
+            size="compact"
             value={command.script}
-            onChange={(event) => props.onChange({ ...command, script: event.target.value })}
-          >
-            {!context?.state.sharedScripts[command.script] ? (
-              <option value={command.script}>{command.script}（引用失效）</option>
-            ) : null}
-            {scripts.map(([id, script]) => (
-              <option key={id} value={id}>
-                {script.name} · {id}
-              </option>
-            ))}
-          </select>
-        </label>
-        <button type="button" onClick={() => context?.onOpenScript?.(command.script)}>
+            options={[
+              ...(!context?.state.sharedScripts[command.script]
+                ? [{ value: command.script, label: `${command.script}（引用失效）` }]
+                : []),
+              ...scripts.map(([id, script]) => ({
+                value: id,
+                label: `${script.name} · ${id}`,
+              })),
+            ]}
+            onValueChange={(script) => props.onChange({ ...command, script })}
+          />
+        </CanonicalFieldV5>
+        <DsButton
+          size="compact"
+          variant="secondary"
+          icon="open"
+          onClick={() => context?.onOpenScript?.(command.script)}
+        >
           打开共享脚本
-        </button>
+        </DsButton>
         {command.self ? (
           <>
             <span className="field-label">脚本作用实体</span>
@@ -1626,13 +1652,19 @@ function CanonicalCommandFormV5(props: {
               state={context?.state}
               onChange={(self) => props.onChange({ ...command, self })}
             />
-            <button type="button" onClick={() => props.onChange({ ...command, self: undefined })}>
+            <DsButton
+              size="compact"
+              variant="secondary"
+              onClick={() => props.onChange({ ...command, self: undefined })}
+            >
               使用当前实体
-            </button>
+            </DsButton>
           </>
         ) : (
-          <button
-            type="button"
+          <DsButton
+            size="compact"
+            variant="secondary"
+            icon="add"
             onClick={() => {
               const scene =
                 context?.state.scenes.find(
@@ -1645,8 +1677,8 @@ function CanonicalCommandFormV5(props: {
                 props.onChange({ ...command, self: { scene: scene.id, entity: entity.id } })
             }}
           >
-            ＋ 指定另一个作用实体
-          </button>
+            指定另一个作用实体
+          </DsButton>
         )}
       </div>
     )
@@ -1655,29 +1687,27 @@ function CanonicalCommandFormV5(props: {
   if (command.kind === 'cameraSnap')
     return (
       <div className="canonical-command-form-fields">
-        <label>
-          <span>镜头位置</span>
-          <select
-            className="in"
+        <CanonicalFieldV5 label="镜头位置">
+          <DsSelect
+            size="compact"
             value={command.to ? 'position' : 'follow'}
-            onChange={(event) =>
+            options={[
+              { value: 'follow', label: '回到队伍并继续跟随' },
+              { value: 'position', label: '定位到指定格子' },
+            ]}
+            onValueChange={(mode) =>
               props.onChange({
                 ...command,
-                to: event.target.value === 'position' ? { col: 0, row: 0, height: 0 } : undefined,
+                to: mode === 'position' ? { col: 0, row: 0, height: 0 } : undefined,
               })
             }
-          >
-            <option value="follow">回到队伍并继续跟随</option>
-            <option value="position">定位到指定格子</option>
-          </select>
-        </label>
+          />
+        </CanonicalFieldV5>
         {command.to ? (
           <div className="canonical-grid-editor">
-            <label>
-              <span>横向格坐标</span>
-              <input
-                className="in"
-                type="number"
+            <CanonicalFieldV5 label="横向格坐标">
+              <DsNumberInput
+                size="compact"
                 value={command.to.col}
                 onChange={(event) =>
                   props.onChange({
@@ -1686,12 +1716,10 @@ function CanonicalCommandFormV5(props: {
                   })
                 }
               />
-            </label>
-            <label>
-              <span>纵向格坐标</span>
-              <input
-                className="in"
-                type="number"
+            </CanonicalFieldV5>
+            <CanonicalFieldV5 label="纵向格坐标">
+              <DsNumberInput
+                size="compact"
                 value={command.to.row}
                 onChange={(event) =>
                   props.onChange({
@@ -1700,7 +1728,7 @@ function CanonicalCommandFormV5(props: {
                   })
                 }
               />
-            </label>
+            </CanonicalFieldV5>
           </div>
         ) : null}
       </div>
@@ -1713,40 +1741,33 @@ function CanonicalCommandFormV5(props: {
       .map(([id]) => id)
     return (
       <div className="canonical-command-form-fields">
-        {/* biome-ignore lint/a11y/noLabelWithoutControl: the command kind selects exactly one nested form control at runtime. */}
-        <label>
-          <span>{command.kind === 'playVideo' ? '视频' : '帧动画'}</span>
+        <CanonicalFieldV5 label={command.kind === 'playVideo' ? '视频' : '帧动画'}>
           {assets.length ? (
-            <select
-              className="in"
+            <DsSelect
+              size="compact"
               value={command.asset}
-              onChange={(event) => props.onChange({ ...command, asset: event.target.value })}
-            >
-              {!assets.includes(command.asset) ? (
-                <option value={command.asset}>{command.asset}（引用失效）</option>
-              ) : null}
-              {assets.map((asset) => (
-                <option key={asset} value={asset}>
-                  {asset}
-                </option>
-              ))}
-            </select>
+              options={[
+                ...(!assets.includes(command.asset)
+                  ? [{ value: command.asset, label: `${command.asset}（引用失效）` }]
+                  : []),
+                ...assets.map((asset) => ({ value: asset, label: asset })),
+              ]}
+              onValueChange={(asset) => props.onChange({ ...command, asset })}
+            />
           ) : (
-            <input
-              className="in"
+            <DsTextInput
+              size="compact"
               value={command.asset}
               onChange={(event) => props.onChange({ ...command, asset: event.target.value })}
             />
           )}
-        </label>
+        </CanonicalFieldV5>
         {command.kind === 'playFrameAnimation' ? (
           <div className="canonical-grid-editor">
             {(['startFrame', 'endFrame', 'frameRate'] as const).map((key) => (
-              <label key={key}>
-                <span>{PRIMITIVE_FIELD_LABELS[key]}</span>
-                <input
-                  className="in"
-                  type="number"
+              <CanonicalFieldV5 key={key} label={PRIMITIVE_FIELD_LABELS[key]!}>
+                <DsNumberInput
+                  size="compact"
                   value={command[key] ?? ''}
                   onChange={(event) =>
                     props.onChange({
@@ -1755,7 +1776,7 @@ function CanonicalCommandFormV5(props: {
                     })
                   }
                 />
-              </label>
+              </CanonicalFieldV5>
             ))}
           </div>
         ) : null}
@@ -1767,11 +1788,9 @@ function CanonicalCommandFormV5(props: {
     return (
       <div className="canonical-command-form-fields">
         <div className="canonical-grid-editor">
-          <label>
-            <span>开始追逐的格数</span>
-            <input
-              className="in"
-              type="number"
+          <CanonicalFieldV5 label="开始追逐的格数">
+            <DsNumberInput
+              size="compact"
               min={0}
               value={command.range ?? ''}
               placeholder="不限距离"
@@ -1782,12 +1801,10 @@ function CanonicalCommandFormV5(props: {
                 })
               }
             />
-          </label>
-          <label>
-            <span>移动速度</span>
-            <input
-              className="in"
-              type="number"
+          </CanonicalFieldV5>
+          <CanonicalFieldV5 label="移动速度">
+            <DsNumberInput
+              size="compact"
               min={0}
               value={command.speed ?? ''}
               placeholder="默认速度"
@@ -1798,122 +1815,116 @@ function CanonicalCommandFormV5(props: {
                 })
               }
             />
-          </label>
+          </CanonicalFieldV5>
         </div>
-        <label>
-          <input
-            type="checkbox"
-            checked={command.floating ?? false}
-            onChange={(event) =>
-              props.onChange({ ...command, floating: event.target.checked || undefined })
-            }
-          />
-          追击时忽略地形与阻挡实体
-        </label>
+        <DsCheckbox
+          size="compact"
+          label="追击时忽略地形与阻挡实体"
+          checked={command.floating ?? false}
+          onChange={(event) =>
+            props.onChange({ ...command, floating: event.target.checked || undefined })
+          }
+        />
       </div>
     )
 
   if (command.kind === 'endBattle')
     return (
-      <label className="canonical-command-form-fields">
-        <span>结束结果</span>
-        <select
-          className="in"
+      <CanonicalFieldV5 label="结束结果" className="canonical-command-form-fields">
+        <DsSelect
+          size="compact"
           value={command.result}
-          onChange={(event) =>
+          options={[
+            { value: 'terminate', label: '直接结束，不发奖励' },
+            { value: 'won', label: '判定玩家胜利' },
+            { value: 'lost', label: '判定玩家战败' },
+          ]}
+          onValueChange={(result) =>
             props.onChange({
               ...command,
-              result: event.target.value as typeof command.result,
+              result: result as typeof command.result,
             })
           }
-        >
-          <option value="terminate">直接结束，不发奖励</option>
-          <option value="won">判定玩家胜利</option>
-          <option value="lost">判定玩家战败</option>
-        </select>
-      </label>
+        />
+      </CanonicalFieldV5>
     )
 
   if (command.kind === 'increaseHpMp')
     return (
       <div className="canonical-command-form-fields">
-        <label>
-          <span>恢复量（负数表示扣除）</span>
-          <input
-            className="in"
-            type="number"
+        <CanonicalFieldV5 label="恢复量（负数表示扣除）">
+          <DsNumberInput
+            size="compact"
             value={command.delta}
             onChange={(event) => props.onChange({ ...command, delta: Number(event.target.value) })}
           />
-        </label>
-        <label>
-          <span>作用资源</span>
-          <select
-            className="in"
+        </CanonicalFieldV5>
+        <CanonicalFieldV5 label="作用资源">
+          <DsSelect
+            size="compact"
             value={command.pools ?? 'both'}
-            onChange={(event) =>
+            options={[
+              { value: 'both', label: '生命与法力' },
+              { value: 'hp', label: '仅生命' },
+              { value: 'mp', label: '仅法力' },
+            ]}
+            onValueChange={(pools) =>
               props.onChange({
                 ...command,
-                pools:
-                  event.target.value === 'both' ? undefined : (event.target.value as 'hp' | 'mp'),
+                pools: pools === 'both' ? undefined : (pools as 'hp' | 'mp'),
               })
             }
-          >
-            <option value="both">生命与法力</option>
-            <option value="hp">仅生命</option>
-            <option value="mp">仅法力</option>
-          </select>
-        </label>
+          />
+        </CanonicalFieldV5>
       </div>
     )
 
   if (command.kind === 'unequip')
     return (
       <div className="canonical-command-form-fields">
-        <label>
-          <span>角色序号</span>
-          <input
-            className="in"
-            type="number"
+        <CanonicalFieldV5 label="角色序号">
+          <DsNumberInput
+            size="compact"
             min={0}
             value={command.role}
             onChange={(event) => props.onChange({ ...command, role: Number(event.target.value) })}
           />
-        </label>
-        <label>
-          <span>装备位置</span>
-          <select
-            className="in"
+        </CanonicalFieldV5>
+        <CanonicalFieldV5 label="装备位置">
+          <DsSelect
+            size="compact"
             value={String(command.slot)}
-            onChange={(event) =>
+            options={[
+              { value: 'all', label: '全部装备' },
+              ...[0, 1, 2, 3, 4, 5].map((slot) => ({
+                value: String(slot),
+                label: `位置 ${slot + 1}`,
+              })),
+            ]}
+            onValueChange={(slot) =>
               props.onChange({
                 ...command,
-                slot: event.target.value === 'all' ? 'all' : Number(event.target.value),
+                slot: slot === 'all' ? 'all' : Number(slot),
               })
             }
-          >
-            <option value="all">全部装备</option>
-            {[0, 1, 2, 3, 4, 5].map((slot) => (
-              <option key={slot} value={slot}>
-                位置 {slot + 1}
-              </option>
-            ))}
-          </select>
-        </label>
+          />
+        </CanonicalFieldV5>
       </div>
     )
 
   if (command.kind === 'setFollowers' || command.kind === 'quitToTitle') {
     const values = command.kind === 'setFollowers' ? command.sprites : (command.videos ?? [])
     return (
-      <label className="canonical-command-form-fields">
-        <span>
-          {command.kind === 'setFollowers'
+      <CanonicalFieldV5
+        label={
+          command.kind === 'setFollowers'
             ? '跟随者精灵（每行一个，留空表示清除）'
-            : '返回标题前播放的视频（每行一个，可留空）'}
-        </span>
-        <textarea
-          className="in"
+            : '返回标题前播放的视频（每行一个，可留空）'
+        }
+        className="canonical-command-form-fields"
+      >
+        <DsTextArea
+          size="compact"
           value={values.join('\n')}
           onChange={(event) => {
             const next = event.target.value
@@ -1927,38 +1938,32 @@ function CanonicalCommandFormV5(props: {
             )
           }}
         />
-      </label>
+      </CanonicalFieldV5>
     )
   }
 
   if (command.kind === 'setSceneMapOverride')
     return (
       <div className="canonical-command-form-fields">
-        <label>
-          <span>场景</span>
-          <select
-            className="in"
+        <CanonicalFieldV5 label="场景">
+          <DsSelect
+            size="compact"
             value={command.scene ?? ''}
-            onChange={(event) =>
-              props.onChange({ ...command, scene: event.target.value || undefined })
-            }
-          >
-            <option value="">当前场景</option>
-            {context?.state.scenes.map((scene) => (
-              <option key={scene.id} value={scene.id}>
-                {scene.id}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          <span>地图 id</span>
-          <input
-            className="in"
+            options={[
+              { value: '', label: '当前场景' },
+              ...(context?.state.scenes.map((scene) => ({ value: scene.id, label: scene.id })) ??
+                []),
+            ]}
+            onValueChange={(scene) => props.onChange({ ...command, scene: scene || undefined })}
+          />
+        </CanonicalFieldV5>
+        <CanonicalFieldV5 label="地图 id">
+          <DsTextInput
+            size="compact"
             value={command.mapId}
             onChange={(event) => props.onChange({ ...command, mapId: event.target.value })}
           />
-        </label>
+        </CanonicalFieldV5>
       </div>
     )
 
@@ -2015,11 +2020,9 @@ function CanonicalCommandFormV5(props: {
         )}
         {'to' in command && command.to ? (
           <div className="canonical-grid-editor">
-            <label>
-              <span>横向格坐标</span>
-              <input
-                className="in"
-                type="number"
+            <CanonicalFieldV5 label="横向格坐标">
+              <DsNumberInput
+                size="compact"
                 value={command.to.col}
                 onChange={(event) =>
                   props.onChange({
@@ -2028,12 +2031,10 @@ function CanonicalCommandFormV5(props: {
                   } as AuthorCommandV5)
                 }
               />
-            </label>
-            <label>
-              <span>纵向格坐标</span>
-              <input
-                className="in"
-                type="number"
+            </CanonicalFieldV5>
+            <CanonicalFieldV5 label="纵向格坐标">
+              <DsNumberInput
+                size="compact"
                 value={command.to.row}
                 onChange={(event) =>
                   props.onChange({
@@ -2042,16 +2043,14 @@ function CanonicalCommandFormV5(props: {
                   } as AuthorCommandV5)
                 }
               />
-            </label>
+            </CanonicalFieldV5>
           </div>
         ) : null}
         {'pos' in command && command.pos ? (
           <div className="canonical-grid-editor">
-            <label>
-              <span>横向格坐标</span>
-              <input
-                className="in"
-                type="number"
+            <CanonicalFieldV5 label="横向格坐标">
+              <DsNumberInput
+                size="compact"
                 value={command.pos.col}
                 onChange={(event) =>
                   props.onChange({
@@ -2060,12 +2059,10 @@ function CanonicalCommandFormV5(props: {
                   } as AuthorCommandV5)
                 }
               />
-            </label>
-            <label>
-              <span>纵向格坐标</span>
-              <input
-                className="in"
-                type="number"
+            </CanonicalFieldV5>
+            <CanonicalFieldV5 label="纵向格坐标">
+              <DsNumberInput
+                size="compact"
                 value={command.pos.row}
                 onChange={(event) =>
                   props.onChange({
@@ -2074,7 +2071,7 @@ function CanonicalCommandFormV5(props: {
                   } as AuthorCommandV5)
                 }
               />
-            </label>
+            </CanonicalFieldV5>
           </div>
         ) : null}
         {Object.entries(command)
@@ -2089,17 +2086,29 @@ function CanonicalCommandFormV5(props: {
             primitiveField(command, key, value as string | number | boolean, props.onChange),
           )}
         {command.kind === 'selectEntityBehavior' ? (
-          <label>
-            <span>选择</span>
-            <select
-              className="in"
+          <CanonicalFieldV5 label="选择">
+            <DsSelect
+              size="compact"
               value={
                 command.selection.kind === 'use'
                   ? `use:${command.selection.value}`
                   : command.selection.kind
               }
-              onChange={(event) => {
-                const value = event.target.value
+              options={[
+                { value: 'inherit', label: '继承' },
+                { value: 'disabled', label: '显式禁用' },
+                ...Object.entries(
+                  context?.state.scenes
+                    .find((scene) => scene.id === command.target.scene)
+                    ?.entities.find((entity) => entity.id === command.target.entity)?.behaviors?.[
+                    command.channel
+                  ] ?? {},
+                ).map(([id, behavior]) => ({
+                  value: `use:${id}`,
+                  label: `${behavior.label} · ${id}`,
+                })),
+              ]}
+              onValueChange={(value) => {
                 props.onChange(
                   stripCursorHandoffV5({
                     ...command,
@@ -2109,22 +2118,8 @@ function CanonicalCommandFormV5(props: {
                   }),
                 )
               }}
-            >
-              <option value="inherit">继承</option>
-              <option value="disabled">显式禁用</option>
-              {Object.entries(
-                context?.state.scenes
-                  .find((scene) => scene.id === command.target.scene)
-                  ?.entities.find((entity) => entity.id === command.target.entity)?.behaviors?.[
-                  command.channel
-                ] ?? {},
-              ).map(([id, behavior]) => (
-                <option key={id} value={`use:${id}`}>
-                  {behavior.label} · {id}
-                </option>
-              ))}
-            </select>
-          </label>
+            />
+          </CanonicalFieldV5>
         ) : null}
         {command.kind === 'selectEntityBehavior' && command.cursorHandoff ? (
           <p className="hint">
@@ -2133,45 +2128,48 @@ function CanonicalCommandFormV5(props: {
           </p>
         ) : null}
         {command.kind === 'selectEntityPage' ? (
-          <label>
-            <span>页面选择</span>
-            <select
-              className="in"
+          <CanonicalFieldV5 label="页面选择">
+            <DsSelect
+              size="compact"
               value={
                 command.selection.kind === 'use'
                   ? `use:${command.selection.value}`
                   : command.selection.kind
               }
-              onChange={(event) =>
+              options={[
+                { value: 'inherit', label: '继承当前页面' },
+                ...(context?.state.scenes
+                  .find((scene) => scene.id === command.target.scene)
+                  ?.entities.find((entity) => entity.id === command.target.entity)
+                  ?.pages?.map((page) => ({
+                    value: `use:${page.id}`,
+                    label: `${page.label} · ${page.id}`,
+                  })) ?? []),
+              ]}
+              onValueChange={(value) =>
                 props.onChange({
                   ...command,
-                  selection: event.target.value.startsWith('use:')
-                    ? { kind: 'use', value: event.target.value.slice(4) }
+                  selection: value.startsWith('use:')
+                    ? { kind: 'use', value: value.slice(4) }
                     : { kind: 'inherit' },
                 })
               }
-            >
-              <option value="inherit">继承当前页面</option>
-              {context?.state.scenes
-                .find((scene) => scene.id === command.target.scene)
-                ?.entities.find((entity) => entity.id === command.target.entity)
-                ?.pages?.map((page) => (
-                  <option key={page.id} value={`use:${page.id}`}>
-                    {page.label} · {page.id}
-                  </option>
-                ))}
-            </select>
-          </label>
+            />
+          </CanonicalFieldV5>
         ) : null}
         {command.kind === 'setEntityTriggerActivation' ? (
           <>
-            <label>
-              <span>触发方式来源</span>
-              <select
-                className="in"
+            <CanonicalFieldV5 label="触发方式来源">
+              <DsSelect
+                size="compact"
                 value={command.selection.kind}
-                onChange={(event) => {
-                  const kind = event.target.value as 'inherit' | 'disabled' | 'use'
+                options={[
+                  { value: 'inherit', label: '继承页面定义' },
+                  { value: 'disabled', label: '显式禁用触发' },
+                  { value: 'use', label: '使用自定义方式' },
+                ]}
+                onValueChange={(value) => {
+                  const kind = value as 'inherit' | 'disabled' | 'use'
                   props.onChange({
                     ...command,
                     selection:
@@ -2180,41 +2178,35 @@ function CanonicalCommandFormV5(props: {
                         : { kind },
                   })
                 }}
-              >
-                <option value="inherit">继承页面定义</option>
-                <option value="disabled">显式禁用触发</option>
-                <option value="use">使用自定义方式</option>
-              </select>
-            </label>
+              />
+            </CanonicalFieldV5>
             {triggerActivation ? (
               <div className="canonical-grid-editor">
-                <label>
-                  <span>方式</span>
-                  <select
-                    className="in"
+                <CanonicalFieldV5 label="方式">
+                  <DsSelect
+                    size="compact"
                     value={triggerActivation.on}
-                    onChange={(event) =>
+                    options={[
+                      { value: 'interact', label: '交互' },
+                      { value: 'touch', label: '触碰' },
+                    ]}
+                    onValueChange={(on) =>
                       props.onChange({
                         ...command,
                         selection: {
                           kind: 'use',
                           value: {
                             ...triggerActivation,
-                            on: event.target.value as 'interact' | 'touch',
+                            on: on as 'interact' | 'touch',
                           },
                         },
                       })
                     }
-                  >
-                    <option value="interact">交互</option>
-                    <option value="touch">触碰</option>
-                  </select>
-                </label>
-                <label>
-                  <span>距离</span>
-                  <input
-                    className="in"
-                    type="number"
+                  />
+                </CanonicalFieldV5>
+                <CanonicalFieldV5 label="距离">
+                  <DsNumberInput
+                    size="compact"
                     min={0}
                     value={triggerActivation.range ?? ''}
                     onChange={(event) =>
@@ -2233,7 +2225,7 @@ function CanonicalCommandFormV5(props: {
                       })
                     }
                   />
-                </label>
+                </CanonicalFieldV5>
               </div>
             ) : null}
           </>
@@ -2245,15 +2237,13 @@ function CanonicalCommandFormV5(props: {
   if (command.kind === 'setMultiEntityState')
     return (
       <div className="canonical-command-form-fields">
-        <label>
-          <span>状态</span>
-          <input
-            className="in"
-            type="number"
+        <CanonicalFieldV5 label="状态">
+          <DsNumberInput
+            size="compact"
             value={command.state}
             onChange={(event) => props.onChange({ ...command, state: Number(event.target.value) })}
           />
-        </label>
+        </CanonicalFieldV5>
         {command.targets.map((target, index) => (
           <EntityAddressEditorV5
             key={`${target.scene}/${target.entity}/${index}`}
@@ -2272,16 +2262,15 @@ function CanonicalCommandFormV5(props: {
   if (command.kind === 'confirm')
     return (
       <div className="canonical-command-form-fields">
-        <label>
-          <span>高级：结果识别名</span>
-          <input
-            className="in"
+        <CanonicalFieldV5 label="高级：结果识别名">
+          <DsTextInput
+            size="compact"
             value={command.id ?? ''}
             onChange={(event) =>
               props.onChange({ ...command, id: event.target.value.trim() || undefined })
             }
           />
-        </label>
+        </CanonicalFieldV5>
         <p className="hint">
           “否”分支在左侧树中编辑；识别名只在连续剧情需要根据回答切换状态时使用。
         </p>
@@ -2291,8 +2280,7 @@ function CanonicalCommandFormV5(props: {
   if (command.kind === 'startBattle')
     return (
       <div className="canonical-command-form-fields">
-        <label>
-          <span>敌队</span>
+        <CanonicalFieldV5 label="敌队">
           <DsSelect
             value={command.enemyTeamId}
             options={(props.context?.enemyTeams ?? []).map((team) => ({
@@ -2302,8 +2290,8 @@ function CanonicalCommandFormV5(props: {
             invalid={!props.context?.enemyTeams?.some((team) => team.id === command.enemyTeamId)}
             onValueChange={(enemyTeamId) => props.onChange({ ...command, enemyTeamId })}
           />
-        </label>
-        <label>
+        </CanonicalFieldV5>
+        <div className="canonical-picker-field">
           <span>战场</span>
           <BattleFieldPicker
             value={command.fieldId}
@@ -2313,27 +2301,23 @@ function CanonicalCommandFormV5(props: {
             onOpen={props.context?.onOpenBattleField}
             onChange={(fieldId) => props.onChange({ ...command, fieldId })}
           />
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={command.auto ?? false}
-            onChange={(event) =>
-              props.onChange({ ...command, auto: event.target.checked || undefined })
-            }
-          />
-          自动战斗
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={command.boss ?? false}
-            onChange={(event) =>
-              props.onChange({ ...command, boss: event.target.checked || undefined })
-            }
-          />
-          Boss
-        </label>
+        </div>
+        <DsCheckbox
+          size="compact"
+          label="自动战斗"
+          checked={command.auto ?? false}
+          onChange={(event) =>
+            props.onChange({ ...command, auto: event.target.checked || undefined })
+          }
+        />
+        <DsCheckbox
+          size="compact"
+          label="Boss"
+          checked={command.boss ?? false}
+          onChange={(event) =>
+            props.onChange({ ...command, boss: event.target.checked || undefined })
+          }
+        />
         <p className="hint">战败与逃跑分支在左侧树中编辑。</p>
       </div>
     )
@@ -2342,31 +2326,39 @@ function CanonicalCommandFormV5(props: {
     const scene = context?.state.scenes.find((candidate) => candidate.id === command.scene)
     return (
       <div className="canonical-command-form-fields">
-        <label>
-          <span>场景</span>
-          <select
-            className="in"
+        <CanonicalFieldV5 label="场景">
+          <DsSelect
+            size="compact"
             value={command.scene}
-            onChange={(event) => props.onChange({ ...command, scene: event.target.value })}
-          >
-            {context?.state.scenes.map((candidate) => (
-              <option key={candidate.id}>{candidate.id}</option>
-            ))}
-          </select>
-        </label>
+            options={
+              context?.state.scenes.map((candidate) => ({
+                value: candidate.id,
+                label: candidate.id,
+              })) ?? []
+            }
+            onValueChange={(scene) => props.onChange({ ...command, scene })}
+          />
+        </CanonicalFieldV5>
         {(['onEnter', 'onTeleport'] as const).map((slot) => {
           const selection = command.selection[slot]
           const variants = scene?.hooks?.[slot]?.variants ?? {}
           const value =
             selection?.kind === 'use' ? `use:${selection.value}` : (selection?.kind ?? '__omit')
           return (
-            <label key={slot}>
-              <span>{slot === 'onEnter' ? '进入场景' : '传送出口'}</span>
-              <select
-                className="in"
+            <CanonicalFieldV5 key={slot} label={slot === 'onEnter' ? '进入场景' : '传送出口'}>
+              <DsSelect
+                size="compact"
                 value={value}
-                onChange={(event) => {
-                  const raw = event.target.value
+                options={[
+                  { value: '__omit', label: '不修改此槽' },
+                  { value: 'inherit', label: '恢复继承' },
+                  { value: 'disabled', label: '显式禁用' },
+                  ...Object.entries(variants).map(([id, hook]) => ({
+                    value: `use:${id}`,
+                    label: `${hook.label} · ${id}`,
+                  })),
+                ]}
+                onValueChange={(raw) => {
                   const next = { ...command.selection }
                   if (raw === '__omit') {
                     delete next[slot]
@@ -2377,17 +2369,8 @@ function CanonicalCommandFormV5(props: {
                       : { kind: raw as 'inherit' | 'disabled' }
                   props.onChange({ ...command, selection: next })
                 }}
-              >
-                <option value="__omit">不修改此槽</option>
-                <option value="inherit">恢复继承</option>
-                <option value="disabled">显式禁用</option>
-                {Object.entries(variants).map(([id, hook]) => (
-                  <option key={id} value={`use:${id}`}>
-                    {hook.label} · {id}
-                  </option>
-                ))}
-              </select>
-            </label>
+              />
+            </CanonicalFieldV5>
           )
         })}
         <p className="hint">
@@ -2399,10 +2382,9 @@ function CanonicalCommandFormV5(props: {
 
   if (!context && command.kind === 'dialog')
     return (
-      <label className="canonical-dialog-fallback">
-        <span>对话正文（每行一行）</span>
-        <textarea
-          className="in"
+      <CanonicalFieldV5 label="对话正文（每行一行）" className="canonical-dialog-fallback">
+        <DsTextArea
+          size="compact"
           value={command.cue.rows.map((row) => row.text).join('\n')}
           onChange={(event) =>
             props.onChange({
@@ -2414,7 +2396,7 @@ function CanonicalCommandFormV5(props: {
             })
           }
         />
-      </label>
+      </CanonicalFieldV5>
     )
 
   return (
@@ -2954,17 +2936,18 @@ export function CanonicalScriptBodyEditorV5(props: {
         <strong>{props.label ?? '脚本正文'}</strong>
         <div>
           <span>{props.body.length} 条顶层指令 · 双击指令可编辑</span>
-          <button
-            type="button"
-            className="mini-txt"
+          <DsButton
+            size="compact"
+            variant="secondary"
+            icon="add"
             onClick={() =>
               setInsertPath(
                 formatAuthorCommandPathV5([props.body.length ? props.body.length - 1 : -1]),
               )
             }
           >
-            ＋ 添加指令
-          </button>
+            添加指令
+          </DsButton>
         </div>
       </header>
       <div className="canonical-script-editor-layout">
@@ -3015,8 +2998,8 @@ export function CanonicalScriptBodyEditorV5(props: {
             <p className="canonical-script-modal-copy">
               选择一条指令或常用事件模板。新内容会插在当前指令之后。
             </p>
-            <input
-              className="in canonical-script-insert-search"
+            <DsTextInput
+              size="compact"
               type="search"
               aria-label="搜索可插入指令"
               placeholder="搜索指令或事件模板…"
@@ -3028,9 +3011,9 @@ export function CanonicalScriptBodyEditorV5(props: {
                 <div className="cf-group">{group.title}</div>
                 <div className="cf-insert">
                   {group.choices.map((choice, index) => (
-                    <button
-                      type="button"
-                      className="pv-btn"
+                    <DsButton
+                      size="compact"
+                      variant="secondary"
                       key={`${choice.label}:${index}`}
                       data-command-kinds={
                         choice.commands.map((command) => command.kind).join(',') || choice.kind
@@ -3053,7 +3036,7 @@ export function CanonicalScriptBodyEditorV5(props: {
                     >
                       <span>{choice.label}</span>
                       {choice.unavailableReason ? <small>{choice.unavailableReason}</small> : null}
-                    </button>
+                    </DsButton>
                   ))}
                 </div>
               </section>
@@ -3070,9 +3053,9 @@ export function CanonicalScriptBodyEditorV5(props: {
           title={`编辑：${describeCommand(editing, props.context).label}`}
           onClose={() => setEditingPath(undefined)}
           footer={
-            <button type="button" className="btn primary" onClick={() => setEditingPath(undefined)}>
+            <DsButton size="compact" variant="primary" onClick={() => setEditingPath(undefined)}>
               完成
-            </button>
+            </DsButton>
           }
         >
           <CanonicalCommandFormV5
@@ -3114,12 +3097,16 @@ export function CanonicalHostileOnLoseEditorV5(props: {
           <span>{body ? `${body.length} 条指令` : '游戏结束'}</span>
         </header>
         <div>
-          <select
-            className="in"
+          <DsSelect
+            size="compact"
             aria-label="战败后的处理"
             value={custom ? 'custom' : 'gameOver'}
-            onChange={(event) => {
-              if (event.target.value === 'custom') {
+            options={[
+              { value: 'gameOver', label: '游戏结束（默认）' },
+              { value: 'custom', label: '运行自定义脚本' },
+            ]}
+            onValueChange={(mode) => {
+              if (mode === 'custom') {
                 props.onChange([])
                 setOpen(true)
                 return
@@ -3127,18 +3114,15 @@ export function CanonicalHostileOnLoseEditorV5(props: {
               props.onChange('gameOver')
               setOpen(false)
             }}
-          >
-            <option value="gameOver">游戏结束（默认）</option>
-            <option value="custom">运行自定义脚本</option>
-          </select>
-          <button
-            type="button"
-            className="mini-txt"
+          />
+          <DsButton
+            size="compact"
+            variant="secondary"
             disabled={!custom}
             onClick={() => setOpen(true)}
           >
             编辑脚本…
-          </button>
+          </DsButton>
         </div>
       </section>
 
@@ -3148,9 +3132,9 @@ export function CanonicalHostileOnLoseEditorV5(props: {
           className="canonical-hostile-script-dialog"
           onClose={() => setOpen(false)}
           footer={
-            <button type="button" className="btn primary" onClick={() => setOpen(false)}>
+            <DsButton size="compact" variant="primary" onClick={() => setOpen(false)}>
               完成
-            </button>
+            </DsButton>
           }
         >
           <CanonicalScriptBodyEditorV5
@@ -3214,69 +3198,63 @@ function TransitionEditorV5(props: {
   const transition = props.value
   return (
     <div className="canonical-transition-editor">
-      <label>
-        <span>{props.label ?? '跑完后'}</span>
-        <select
-          className="in"
+      <CanonicalFieldV5 label={props.label ?? '跑完后'}>
+        <DsSelect
+          size="compact"
           value={transition.kind}
-          onChange={(event) =>
+          options={[
+            { value: 'stay', label: '下次激活保持当前状态' },
+            { value: 'restart', label: '下次激活回初始状态' },
+            { value: 'continue', label: '同步继续到状态' },
+            { value: 'advance', label: '下次激活进入状态' },
+            { value: 'to', label: '让步后同次继续' },
+            { value: 'branch', label: '按条件分派' },
+            { value: 'commandOutcome', label: '按命令结果分派' },
+          ]}
+          onValueChange={(kind) =>
             props.onChange(
-              defaultTransition(
-                event.target.value as StateTransitionV5['kind'],
-                props.states,
-                props.commandIds,
-              ),
+              defaultTransition(kind as StateTransitionV5['kind'], props.states, props.commandIds),
             )
           }
-        >
-          <option value="stay">下次激活保持当前状态</option>
-          <option value="restart">下次激活回初始状态</option>
-          <option value="continue">同步继续到状态</option>
-          <option value="advance">下次激活进入状态</option>
-          <option value="to">让步后同次继续</option>
-          <option value="branch">按条件分派</option>
-          <option value="commandOutcome">按命令结果分派</option>
-        </select>
-      </label>
+        />
+      </CanonicalFieldV5>
       <strong className="canonical-transition-execution">
         {stateTransitionExecutionLabelV5(transition)}
       </strong>
       {transition.kind === 'continue' ||
       transition.kind === 'advance' ||
       transition.kind === 'to' ? (
-        <label>
-          <span>目标状态</span>
-          <select
-            className="in"
+        <CanonicalFieldV5 label="目标状态">
+          <DsSelect
+            size="compact"
             value={transition.state}
-            onChange={(event) => props.onChange({ ...transition, state: event.target.value })}
-          >
-            {!props.states.includes(transition.state) ? (
-              <option value={transition.state}>{transition.state}（引用失效）</option>
-            ) : null}
-            {props.states.map((state) => (
-              <option key={state}>{state}</option>
-            ))}
-          </select>
-        </label>
+            options={[
+              ...(!props.states.includes(transition.state)
+                ? [{ value: transition.state, label: `${transition.state}（引用失效）` }]
+                : []),
+              ...props.states.map((state) => ({ value: state, label: state })),
+            ]}
+            onValueChange={(state) => props.onChange({ ...transition, state })}
+          />
+        </CanonicalFieldV5>
       ) : null}
       {transition.kind === 'to' ? (
-        <label>
-          <span>让步边界</span>
-          <select
-            className="in"
+        <CanonicalFieldV5 label="让步边界">
+          <DsSelect
+            size="compact"
             value={transition.yield}
-            onChange={(event) =>
+            options={[
+              { value: 'worldTick', label: 'worldTick' },
+              { value: 'macroTask', label: 'macroTask' },
+            ]}
+            onValueChange={(value) =>
               props.onChange({
                 ...transition,
-                yield: event.target.value as 'macroTask' | 'worldTick',
+                yield: value as 'macroTask' | 'worldTick',
               })
             }
-          >
-            <option value="worldTick">worldTick</option>
-            <option value="macroTask">macroTask</option>
-          </select>
-        </label>
+          />
+        </CanonicalFieldV5>
       ) : null}
       {transition.kind === 'branch' ? (
         <>
@@ -3284,6 +3262,8 @@ function TransitionEditorV5(props: {
             value={transition.cond}
             state={props.context?.state}
             references={props.context?.references}
+            worldVariables={props.context?.worldVariables}
+            onOpenWorldVariable={props.context?.onOpenWorldVariable}
             onChange={(cond) => props.onChange({ ...transition, cond })}
           />
           <TransitionEditorV5
@@ -3302,23 +3282,24 @@ function TransitionEditorV5(props: {
       ) : null}
       {transition.kind === 'commandOutcome' ? (
         <>
-          <label>
-            <span>确认命令</span>
-            <select
-              className="in"
+          <CanonicalFieldV5 label="确认命令">
+            <DsSelect
+              size="compact"
               value={transition.commandId}
-              onChange={(event) => props.onChange({ ...transition, commandId: event.target.value })}
-            >
-              {!props.commandIds.includes(transition.commandId) ? (
-                <option value={transition.commandId}>
-                  {transition.commandId}（本状态中不存在）
-                </option>
-              ) : null}
-              {props.commandIds.map((id) => (
-                <option key={id}>{id}</option>
-              ))}
-            </select>
-          </label>
+              options={[
+                ...(!props.commandIds.includes(transition.commandId)
+                  ? [
+                      {
+                        value: transition.commandId,
+                        label: `${transition.commandId}（本状态中不存在）`,
+                      },
+                    ]
+                  : []),
+                ...props.commandIds.map((id) => ({ value: id, label: id })),
+              ]}
+              onValueChange={(commandId) => props.onChange({ ...transition, commandId })}
+            />
+          </CanonicalFieldV5>
           <TransitionEditorV5
             {...props}
             label="选择“否”"
@@ -3408,34 +3389,34 @@ function CanonicalFlowBodyTabsV5(props: {
   return (
     <div className="canonical-flow-body">
       <div className="canonical-flow-body-tabs" role="tablist" aria-label="脚本内容">
-        <button
+        <DsButton
+          size="compact"
+          variant={tab === 'prepare' ? 'primary' : 'quiet'}
           id={prepareTabId}
-          type="button"
           role="tab"
           aria-selected={tab === 'prepare'}
           aria-controls={panelId}
           tabIndex={tab === 'prepare' ? 0 : -1}
-          className={tab === 'prepare' ? 'active' : ''}
           onClick={() => setTab('prepare')}
           onKeyDown={onTabKeyDown}
         >
           画面出现前
           <small>{props.prepare.length} 条</small>
-        </button>
-        <button
+        </DsButton>
+        <DsButton
+          size="compact"
+          variant={tab === 'body' ? 'primary' : 'quiet'}
           id={bodyTabId}
-          type="button"
           role="tab"
           aria-selected={tab === 'body'}
           aria-controls={panelId}
           tabIndex={tab === 'body' ? 0 : -1}
-          className={tab === 'body' ? 'active' : ''}
           onClick={() => setTab('body')}
           onKeyDown={onTabKeyDown}
         >
           脚本正文
           <small>{props.body.length} 条</small>
-        </button>
+        </DsButton>
       </div>
       <div
         id={panelId}
@@ -3585,16 +3566,17 @@ export function CanonicalScriptFlowEditorV5(props: {
             </CanonicalHelpTipV5>
           </div>
           <div className="canonical-flow-actions">
-            <button
-              type="button"
-              className="mini-txt"
+            <DsButton
+              size="compact"
+              variant="secondary"
+              icon="add"
               onClick={() => {
                 setLinkNewStage(true)
                 setCreateOpen(true)
               }}
             >
-              ＋ 新建步骤
-            </button>
+              新建步骤
+            </DsButton>
           </div>
         </header>
         {hasMultipleStages ? (
@@ -3604,8 +3586,9 @@ export function CanonicalScriptFlowEditorV5(props: {
                 key={candidate.id}
                 className={`canonical-stage-card${candidate.id === stage?.id ? ' active' : ''}`}
               >
-                <button
-                  type="button"
+                <DsButton
+                  size="compact"
+                  variant={candidate.id === stage?.id ? 'primary' : 'secondary'}
                   className="canonical-stage-card-select"
                   aria-pressed={candidate.id === stage?.id}
                   onClick={() => setSelectedId(candidate.id)}
@@ -3616,9 +3599,10 @@ export function CanonicalScriptFlowEditorV5(props: {
                     {candidate.id === flow.initial ? '首次运行 · ' : ''}
                     {stageNextLabel(candidate)}
                   </small>
-                </button>
-                <button
-                  type="button"
+                </DsButton>
+                <DsButton
+                  size="compact"
+                  variant="quiet"
                   className="canonical-stage-card-details"
                   aria-label={`打开“${stageLabel(candidate.id)}”详情`}
                   onClick={() => {
@@ -3627,7 +3611,7 @@ export function CanonicalScriptFlowEditorV5(props: {
                   }}
                 >
                   步骤详情
-                </button>
+                </DsButton>
               </div>
             ))}
           </nav>
@@ -3688,9 +3672,9 @@ export function CanonicalScriptFlowEditorV5(props: {
             onClose={() => setDetailsOpen(false)}
             footer={
               <>
-                <button
-                  type="button"
-                  className="btn danger"
+                <DsButton
+                  size="compact"
+                  variant="danger"
                   disabled={!hasMultipleStages}
                   title={hasMultipleStages ? undefined : '分次执行至少需要保留一个步骤。'}
                   onClick={() => {
@@ -3699,16 +3683,16 @@ export function CanonicalScriptFlowEditorV5(props: {
                   }}
                 >
                   删除步骤…
-                </button>
+                </DsButton>
                 {!hasMultipleStages ? (
                   <span className="canonical-stage-delete-note">
                     分次执行至少需要保留一个步骤。
                   </span>
                 ) : null}
                 <span className="spacer" />
-                <button type="button" className="btn" onClick={() => setDetailsOpen(false)}>
+                <DsButton size="compact" variant="secondary" onClick={() => setDetailsOpen(false)}>
                   关闭
-                </button>
+                </DsButton>
               </>
             }
           >
@@ -3725,13 +3709,13 @@ export function CanonicalScriptFlowEditorV5(props: {
                     {flow.initial === stage.id ? '当前步骤是起始步骤' : '当前步骤不是起始步骤'}
                   </span>
                   {flow.initial !== stage.id ? (
-                    <button
-                      type="button"
-                      className="mini-txt"
+                    <DsButton
+                      size="compact"
+                      variant="secondary"
                       onClick={() => props.onChange({ ...flow, initial: stage.id })}
                     >
                       设为起始步骤
-                    </button>
+                    </DsButton>
                   ) : null}
                 </div>
               </section>
@@ -3742,32 +3726,31 @@ export function CanonicalScriptFlowEditorV5(props: {
                     当前步骤完成后，下一次运行这套方案时从哪个步骤开始。
                   </CanonicalHelpTipV5>
                 </header>
-                <select
+                <DsSelect
+                  size="compact"
                   id={stageNextSelectId}
-                  name="stage-next"
-                  className="in"
                   value={stage.next ?? ''}
-                  onChange={(event) => {
+                  options={[
+                    { value: '', label: '仍执行当前步骤' },
+                    ...flow.stages
+                      .filter((candidate) => candidate.id !== stage.id)
+                      .map((candidate) => ({
+                        value: candidate.id,
+                        label: `进入${stageLabel(candidate.id)}`,
+                      })),
+                  ]}
+                  onValueChange={(nextStageId) => {
                     const stages = flow.stages.map((candidate) =>
                       candidate.id === stage.id
                         ? {
                             ...candidate,
-                            next: event.target.value || undefined,
+                            next: nextStageId || undefined,
                           }
                         : candidate,
                     )
                     props.onChange({ ...flow, stages })
                   }}
-                >
-                  <option value="">仍执行当前步骤</option>
-                  {flow.stages
-                    .filter((candidate) => candidate.id !== stage.id)
-                    .map((candidate) => (
-                      <option key={candidate.id} value={candidate.id}>
-                        进入{stageLabel(candidate.id)}
-                      </option>
-                    ))}
-                </select>
+                />
               </section>
             </div>
           </CanonicalScriptDialogV5>
@@ -3785,26 +3768,24 @@ export function CanonicalScriptFlowEditorV5(props: {
                   新步骤拥有独立的出现前准备和脚本正文，只会加入当前脚本方案。
                 </CanonicalHelpTipV5>
               </div>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={linkNewStage}
-                  onChange={(event) => setLinkNewStage(event.target.checked)}
-                />
-                创建后，将“{stageLabel(stage.id)}”的下次运行改为新步骤
-              </label>
+              <DsCheckbox
+                size="compact"
+                label={`创建后，将“${stageLabel(stage.id)}”的下次运行改为新步骤`}
+                checked={linkNewStage}
+                onChange={(event) => setLinkNewStage(event.target.checked)}
+              />
               {linkNewStage && stage.next ? (
                 <p className="canonical-stage-create-warning">
                   当前去向“{stageNextLabel(stage)}”会改为新步骤。
                 </p>
               ) : null}
               <div className="script-scheme-create-actions">
-                <button type="button" className="btn" onClick={() => setCreateOpen(false)}>
+                <DsButton size="compact" variant="secondary" onClick={() => setCreateOpen(false)}>
                   取消
-                </button>
-                <button type="button" className="btn primary" onClick={addStage}>
+                </DsButton>
+                <DsButton size="compact" variant="primary" onClick={addStage}>
                   创建步骤
-                </button>
+                </DsButton>
               </div>
             </div>
           </CanonicalScriptDialogV5>
@@ -3829,12 +3810,12 @@ export function CanonicalScriptFlowEditorV5(props: {
               </p>
               <p>删除后仍可使用编辑器的撤销恢复。</p>
               <div className="script-scheme-create-actions">
-                <button type="button" className="btn" onClick={() => setDeleteOpen(false)}>
+                <DsButton size="compact" variant="secondary" onClick={() => setDeleteOpen(false)}>
                   取消
-                </button>
-                <button type="button" className="btn danger" onClick={deleteStage}>
+                </DsButton>
+                <DsButton size="compact" variant="danger" onClick={deleteStage}>
                   确认删除步骤
-                </button>
+                </DsButton>
               </div>
             </div>
           </CanonicalScriptDialogV5>
@@ -3858,40 +3839,39 @@ export function CanonicalScriptFlowEditorV5(props: {
               : '用于同一次运行内按条件或选择连续切换多个状态。普通脚本和“下次运行换内容”不需要使用。'}
           </CanonicalHelpTipV5>
         </div>
-        <label>
-          <span>起始状态</span>
-          <select
-            className="in"
+        <CanonicalFieldV5 label="起始状态">
+          <DsSelect
+            size="compact"
             value={flow.machine.initial}
-            onChange={(event) =>
+            options={ids.map((id) => ({
+              value: id,
+              label: flow.machine.states[id]?.label ?? id,
+            }))}
+            onValueChange={(initial) =>
               props.onChange({
                 ...flow,
-                machine: { ...flow.machine, initial: event.target.value },
+                machine: { ...flow.machine, initial },
               })
             }
-          >
-            {ids.map((id) => (
-              <option key={id} value={id}>
-                {flow.machine.states[id]?.label ?? id}
-              </option>
-            ))}
-          </select>
-        </label>
+          />
+        </CanonicalFieldV5>
       </header>
       <nav aria-label="连续流程状态">
         {Object.entries(flow.machine.states).map(([id, candidate]) => (
-          <button
-            type="button"
+          <DsButton
+            size="compact"
+            variant={id === stateId ? 'primary' : 'secondary'}
             key={id}
-            className={id === stateId ? 'active' : ''}
             onClick={() => setSelectedId(id)}
           >
             <span>{candidate.label}</span>
             <small>{stateTransitionExecutionLabelV5(candidate.next)}</small>
-          </button>
+          </DsButton>
         ))}
-        <button
-          type="button"
+        <DsButton
+          size="compact"
+          variant="secondary"
+          icon="add"
           onClick={() => {
             let index = ids.length + 1
             let id = `state-${index}`
@@ -3909,15 +3889,14 @@ export function CanonicalScriptFlowEditorV5(props: {
             setSelectedId(id)
           }}
         >
-          ＋ 新建状态
-        </button>
+          新建状态
+        </DsButton>
       </nav>
       {state && stateId ? (
         <>
-          <label className="canonical-state-label">
-            <span>状态名称</span>
-            <input
-              className="in"
+          <CanonicalFieldV5 label="状态名称" className="canonical-state-label">
+            <DsTextInput
+              size="compact"
               value={state.label}
               onChange={(event) =>
                 props.onChange({
@@ -3932,7 +3911,7 @@ export function CanonicalScriptFlowEditorV5(props: {
                 })
               }
             />
-          </label>
+          </CanonicalFieldV5>
           <CanonicalFlowBodyTabsV5
             key={stateId}
             prepare={state.entry?.prepare}

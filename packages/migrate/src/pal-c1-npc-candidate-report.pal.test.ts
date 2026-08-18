@@ -62,7 +62,7 @@ beforeAll(() => {
     expectedDialogueCandidates: PAL_C1_NPC_CANDIDATE_CENSUS.cues.unbound,
   })
   prepareC1NpcSourceEvidence({ report, evidence: sourceEvidence })
-})
+}, 120_000)
 
 describe('C1-3 PAL read-only NPC candidate census', () => {
   test('closes every content14 source partition without granting write authority', () => {

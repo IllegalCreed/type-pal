@@ -51,6 +51,7 @@ import {
   FACING_BY_DIR,
   legacyEventObjectEntityId,
   partyPosToGrid,
+  roleSlugForNameWord,
   ROLE_SLUGS,
   sceneSlug,
   signExtendI16,
@@ -199,6 +200,8 @@ export interface TranslateCtx {
    * 避免改写 P0 冻结翻译输出。
    */
   palSemanticProfile?: 'historical-r13-4' | 'current-r13-6a' | 'current-r13-6b'
+  /** 冻结历史 authority 可在保留 6A 语义时单独重放旧 numeric PAL 引用。 */
+  palReferenceSchema?: 'legacy' | 'stable-id'
   /** all.json 原本显式声明的 label;用于记录补全地址索引的命中。 */
   explicitLabels?: ReadonlySet<string>
   /** 当前翻译引用路径,只用于诊断。 */
@@ -1787,13 +1790,17 @@ function walkBody(
           const onFlee = (o[2] ?? 0) !== 0 ? inlineArm(o[2]) : undefined
           body.push({
             kind: 'startBattle',
-            enemyTeamId: `team-${o[0] ?? 0}`,
+            ...(ctx.palReferenceSchema === 'legacy' ||
+            (ctx.palReferenceSchema === undefined &&
+              ctx.palSemanticProfile === 'historical-r13-4')
+              ? { team: o[0] ?? 0 }
+              : { enemyTeamId: `team-${o[0] ?? 0}` }),
             ...(onLose?.length ? { onLose } : {}),
             ...(onFlee?.length ? { onFlee } : {}),
             ...(ctx.pendingAuto ? { auto: true } : {}),
             // 原版 fIsBoss = !op2(script.c:3318):无逃跑臂 = 首领战(不可逃+胜利曲 2)
             ...((o[2] ?? 0) === 0 ? { boss: true } : {}),
-          })
+          } as unknown as Command)
           ctx.pendingAuto = false
         } else if (oc === 0x06) {
           flush()
@@ -1921,11 +1928,25 @@ function walkBody(
           })
         } else if (oc === 0x79) {
           flush()
-          body.push({
-            kind: 'branch',
-            cond: { kind: 'inParty', actorId: ROLE_SLUGS[o[0] ?? 0] ?? String(o[0]) },
-            then: inlineArm(o[1]),
-          })
+          const stableReferences =
+            ctx.palReferenceSchema === 'stable-id' ||
+            (ctx.palReferenceSchema === undefined &&
+              ctx.palSemanticProfile !== 'historical-r13-4')
+          if (stableReferences) {
+            const actorId = roleSlugForNameWord(o[0] ?? 0)
+            if (!actorId) gap(`jumpIfPlayerInParty 未知角色名字对象 ${String(o[0] ?? 0)}`)
+            else
+              body.push({
+                kind: 'branch',
+                cond: { kind: 'inParty', actorId },
+                then: inlineArm(o[1]),
+              })
+          } else
+            body.push({
+              kind: 'branch',
+              cond: { kind: 'inParty', actorId: ROLE_SLUGS[o[0] ?? 0] ?? String(o[0]) },
+              then: inlineArm(o[1]),
+            })
         } else if (oc === 0x7f) {
           flush()
           const [a = 0, b = 0, cc = 0] = o

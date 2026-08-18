@@ -71,6 +71,62 @@ function bodyOf(ctx: TranslateCtx): Command[] {
   return stages![0]!.body
 }
 
+describe('0x07 敌队引用 authority 隔离', () => {
+  test('当前产品输出 stable id；冻结 6A 输入可正交重放 numeric team', () => {
+    const current = ctxOf([{ opcode: 0x07, operands: [27, 0, 0] }])
+    current.palSemanticProfile = 'current-r13-6a'
+    current.palReferenceSchema = 'stable-id'
+    expect(bodyOf(current)).toEqual([{ kind: 'startBattle', enemyTeamId: 'team-27', boss: true }])
+
+    const historicalAuthority = ctxOf([{ opcode: 0x07, operands: [27, 0, 0] }])
+    historicalAuthority.palSemanticProfile = 'current-r13-6a'
+    historicalAuthority.palReferenceSchema = 'legacy'
+    expect(bodyOf(historicalAuthority)).toEqual([{ kind: 'startBattle', team: 27, boss: true }])
+    expect(historicalAuthority.report.instructionOutcomes).not.toEqual(
+      current.report.instructionOutcomes,
+    )
+  })
+})
+
+describe('0x79 队伍角色名字对象映射', () => {
+  test.each([
+    [36, 'li-xiaoyao'],
+    [37, 'zhao-linger'],
+    [38, 'lin-yueru'],
+    [39, 'anu'],
+    [40, 'wu-hou'],
+    [41, 'gai-luojiao'],
+  ] as const)('名字对象 %i 映射为稳定角色 %s', (nameWord, actorId) => {
+    const ctx = ctxOf([{ opcode: 0x79, operands: [nameWord, 0, 0] }])
+    expect(bodyOf(ctx)).toEqual([
+      {
+        kind: 'branch',
+        cond: { kind: 'inParty', actorId },
+        then: [{ kind: 'stopScript' }],
+      },
+    ])
+    expect(() => assertNoMigrationGaps(ctx.report)).not.toThrow()
+  })
+
+  test('未知名字对象 fail-loud，不泄漏数字字符串到 canonical actorId', () => {
+    const ctx = ctxOf([{ opcode: 0x79, operands: [99, 0, 0] }])
+    expect(bodyOf(ctx)).toEqual([])
+    expect(() => assertNoMigrationGaps(ctx.report)).toThrow(/未知角色名字对象 99/)
+  })
+
+  test('冻结历史 authority 仍保留旧 numeric actorId 字节', () => {
+    const ctx = ctxOf([{ opcode: 0x79, operands: [37, 0, 0] }])
+    ctx.palReferenceSchema = 'legacy'
+    expect(bodyOf(ctx)).toEqual([
+      {
+        kind: 'branch',
+        cond: { kind: 'inParty', actorId: '37' },
+        then: [{ kind: 'stopScript' }],
+      },
+    ])
+  })
+})
+
 describe('R13-0 逐指令翻译轨迹', () => {
   test('区分直接发射、已知 no-op 与控制流，并绑定发射体摘要', () => {
     const ctx = ctxOf([

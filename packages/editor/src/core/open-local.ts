@@ -1,24 +1,24 @@
 /**
- * 打开本地工程夹。开发期编辑器只接受当前 canonical contentVersion 15；旧工程必须由
+ * 打开本地工程夹。开发期编辑器只接受当前 canonical contentVersion 16；旧工程必须由
  * 对应生成/迁移工具重建，编辑器本身不再携带版本升级器或双读分支。
  */
 import type { SceneDefV14, ScriptChunkV1, StampTemplateV1 } from '@type-pal/content'
 import {
   fsaSource,
-  loadAllAuthorScenesV15,
-  loadProjectV15From,
-  loadStampTemplatesV15,
+  loadAllAuthorScenesV16,
+  loadProjectV16From,
+  loadStampTemplatesV16,
 } from '@type-pal/reforge'
 
-export interface OpenedProjectV15 {
-  kind: 'v15'
-  project: Awaited<ReturnType<typeof loadProjectV15From>>
+export interface OpenedProjectV16 {
+  kind: 'v16'
+  project: Awaited<ReturnType<typeof loadProjectV16From>>
   scenes: SceneDefV14[]
   scriptChunks: Record<string, ScriptChunkV1>
   stamps: StampTemplateV1[]
 }
 
-export type OpenedProject = OpenedProjectV15
+export type OpenedProject = OpenedProjectV16
 
 function manifestContentVersion(value: unknown): number | undefined {
   if (!value || typeof value !== 'object' || !('contentVersion' in value)) return undefined
@@ -39,25 +39,25 @@ export async function openLocalProject(dir: FileSystemDirectoryHandle): Promise<
   }
 
   const version = manifestContentVersion(rawManifest)
-  if (version !== 15) {
+  if (version !== 16) {
     source.dispose?.()
     const found = version === undefined ? '未知' : String(version)
     throw new Error(
-      `打开工程失败:「${dir.name}」是 contentVersion ${found}；开发期编辑器只接受当前 contentVersion 15，请用对应生成或迁移工具重新生成工程。`,
+      `打开工程失败:「${dir.name}」是 contentVersion ${found}；开发期编辑器只接受当前 contentVersion 16，请用对应生成或迁移工具重新生成工程。`,
     )
   }
 
   try {
-    const project = await loadProjectV15From(source)
+    const project = await loadProjectV16From(source)
     const [scenes, stamps] = await Promise.all([
-      loadAllAuthorScenesV15(project),
-      loadStampTemplatesV15(project),
+      loadAllAuthorScenesV16(project),
+      loadStampTemplatesV16(project),
     ])
-    return { kind: 'v15', project, scenes, scriptChunks: {}, stamps }
+    return { kind: 'v16', project, scenes, scriptChunks: {}, stamps }
   } catch (error) {
     source.dispose?.()
     throw new Error(
-      `打开工程失败:「${dir.name}」的 canonical v15 内容无效(${error instanceof Error ? error.message : String(error)})`,
+      `打开工程失败:「${dir.name}」的 canonical v16 内容无效(${error instanceof Error ? error.message : String(error)})`,
     )
   }
 }

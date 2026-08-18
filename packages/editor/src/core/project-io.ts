@@ -15,10 +15,10 @@
 
 import {
   type AssetCatalogV1,
-  formatProjectMap,
-  formatStampTemplates,
   checkSharedScriptLibraryV13,
   checkSharedScriptLibraryV14,
+  formatProjectMap,
+  formatStampTemplates,
   type ProjectMap,
   type SceneDef,
   type SceneDefV13,
@@ -29,6 +29,7 @@ import {
   type StampTemplateV1,
   validateAssetCatalog,
   validateMapIndex,
+  validateWorldVariableRegistryV1,
 } from '@type-pal/content'
 import {
   decodeBattleSpriteAssetBytes,
@@ -36,10 +37,10 @@ import {
   decompressGzip,
   type FileSource,
   type LoadedProjectCore,
+  type LoadedProjectV5Core,
   type LoadedProjectV13Core,
   type LoadedProjectV14Core,
-  type LoadedProjectV15,
-  type LoadedProjectV5Core,
+  type LoadedProjectV16,
   parseSpriteChunkStrict,
 } from '@type-pal/reforge'
 import { binarySnapshotSignature, sha256Hex } from './binary-signature.js'
@@ -52,7 +53,7 @@ type EditorSourceProject =
   | LoadedProjectV5Core
   | LoadedProjectV13Core
   | LoadedProjectV14Core
-  | LoadedProjectV15
+  | LoadedProjectV16
 
 /**
  * 只读工程 → 可变工作副本。by-id Record 翻成数组(Object.values,保原数组序);
@@ -78,13 +79,19 @@ export function toEditorState(
     // W7B:tileset 注册表(loader 已 guard;缺省空)+ 上传字节暂存(载入时空,只存新上传)
     tilesets: project.tilesets ?? [],
     stamps: stamps ?? [],
+    worldVariables:
+      'worldVariables' in project
+        ? validateWorldVariableRegistryV1(structuredClone(project.worldVariables))
+        : {},
     tilesetBlobs: {},
     scriptIndex: 'scriptIndex' in project ? project.scriptIndex : undefined,
     scriptChunks,
     migrationDiagnostics: structuredClone(project.migrationDiagnostics),
     ...('authorContent' in project
       ? {
-          sharedScripts: structuredClone(project.authorContent.sharedScripts) as unknown as SharedScriptLibraryV13,
+          sharedScripts: structuredClone(
+            project.authorContent.sharedScripts,
+          ) as unknown as SharedScriptLibraryV13,
         }
       : 'sharedScripts' in project
         ? {
@@ -92,7 +99,7 @@ export function toEditorState(
               (project as { sharedScripts: SharedScriptLibraryV13 }).sharedScripts,
             ),
           }
-      : {}),
+        : {}),
     // by-id Record → 数组(Object.values 保序:indexById 按原数组序插入)
     actors: Object.values(project.actorsById),
     skills: Object.values(project.skills),
@@ -141,6 +148,7 @@ type ContentKey =
   | 'ambiences'
   | 'shops'
   | 'migrationDiagnostics'
+  | 'worldVariables'
 
 /**
  * 工作副本 → {相对路径: JSON 值} 文件集。按 manifest.content 的路径键映射;
@@ -168,6 +176,8 @@ export function serializeProject(
     files[rel] = value
   }
   const content = state.manifest.content
+  if (state.manifest.contentVersion === 16 && !content.worldVariables)
+    throw new Error('serializeProject: 当前工程缺 manifest.content.worldVariables')
   if (!content.stamps && state.stamps.length > 0)
     throw new Error('serializeProject: 工程有图章模板但 manifest.content.stamps 未登记')
 
@@ -237,6 +247,7 @@ export function serializeProject(
         return !item?.[diagnostic.target.capability]
       }),
     },
+    worldVariables: validateWorldVariableRegistryV1(state.worldVariables ?? {}),
   }
 
   // 只产出 manifest.content 里**声明了路径**的文件(sprites 缺则不产出 sprites.json)。
@@ -247,7 +258,7 @@ export function serializeProject(
   if (content.sharedScripts !== undefined) {
     if (!state.sharedScripts)
       throw new Error('serializeProject: manifest 声明 sharedScripts 但 state.sharedScripts 缺失')
-    if (state.manifest.contentVersion === 15)
+    if (state.manifest.contentVersion === 16)
       checkSharedScriptLibraryV14(state.sharedScripts as unknown as SharedScriptLibraryV14)
     else checkSharedScriptLibraryV13(state.sharedScripts)
     addFile(content.sharedScripts, state.sharedScripts, '共享脚本')

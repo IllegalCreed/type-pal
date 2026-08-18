@@ -12,13 +12,16 @@ import type {
   ContentBundle,
   LegacyManifestV12,
   LoadedManifest,
+  ManifestV13,
+  ManifestV14,
+  ManifestV16,
   MapIndexV1,
   ProjectMap,
   ScriptChunkV1,
   ScriptIndexV1,
   StampTemplateV1,
+  WorldVariableRegistryV1,
 } from '@type-pal/content'
-import type { ManifestV13, ManifestV14, ManifestV15 } from '@type-pal/content'
 import type { Command } from './commands.js'
 
 export type { Command } from './commands.js'
@@ -27,7 +30,9 @@ export { MoveEntityCommand } from './commands.js'
 
 /** 被编辑的内容工作副本(ContentBundle + manifest)。命令 apply/invert 收/返它(不可变)。 */
 export interface EditorState extends ContentBundle {
-  manifest: LoadedManifest | LegacyManifestV12 | ManifestV13 | ManifestV14 | ManifestV15
+  manifest: LoadedManifest | LegacyManifestV12 | ManifestV13 | ManifestV14 | ManifestV16
+  /** content16 项目级作者变量定义；运行时值不在编辑工作副本中混存。 */
+  worldVariables?: WorldVariableRegistryV1
   /** W7G 作者态图章模板表；旧工程加载时规范化为空数组。 */
   stamps: StampTemplateV1[]
   /**

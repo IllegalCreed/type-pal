@@ -1,4 +1,4 @@
-import { validateScenesV5 } from '@type-pal/content'
+import { validateHistoricalScenesForCurrentSchema } from '../../historical-enemy-team-authority.js'
 import type { MigrationSnapshot } from '../../migration-baseline.js'
 import type { MigrationJson } from '../../pal-migration.js'
 import type { SourceCmd } from '../../source-facts.js'
@@ -61,7 +61,7 @@ export function repairPalAutoLifecycleAfterC8(args: {
   if (!Array.isArray(sceneIds) || sceneIds.some((id) => typeof id !== 'string'))
     throw new Error('PAL auto lifecycle repair: scenes/index.json 无效')
   const writableSceneIds = new Set<string>(C8_AUTO_TERMINAL_ORACLE.map((entry) => entry.sceneId))
-  const scenes = validateScenesV5(
+  const scenes = validateHistoricalScenesForCurrentSchema(
     sceneIds.map((sceneId) => {
       const scene = snapshot.files.get(`content/scenes/${String(sceneId)}.json`)
       if (!scene) throw new Error(`PAL auto lifecycle repair: 缺 scene ${String(sceneId)}`)
@@ -140,7 +140,7 @@ export function repairPalAutoLifecycleAfterC8(args: {
     })
   }
 
-  validateScenesV5(scenes)
+  validateHistoricalScenesForCurrentSchema(scenes)
   for (const scene of scenes.filter((candidate) => writableSceneIds.has(candidate.id))) {
     const path = `content/scenes/${scene.id}.json`
     snapshot.files.set(path, asJson(scene))

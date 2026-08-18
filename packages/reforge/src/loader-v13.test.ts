@@ -148,17 +148,14 @@ describe('canonical contentVersion 13 loader boundary', () => {
       ],
     }
 
-    expect(() => assembleProjectV13(manifest(), { ...baseJsons, entryScene: invalidScene })).toThrow(
-      /禁止 vanishEntity/,
-    )
+    expect(() =>
+      assembleProjectV13(manifest(), { ...baseJsons, entryScene: invalidScene }),
+    ).toThrow(/禁止 vanishEntity/)
   })
 
   test.each([12, 14])('fails closed for contentVersion %s', (contentVersion) => {
     expect(() =>
-      assembleProjectV13(
-        manifest({ contentVersion: contentVersion as 13 }),
-        baseJsons,
-      ),
+      assembleProjectV13(manifest({ contentVersion: contentVersion as 13 }), baseJsons),
     ).toThrow(/contentVersion 13/)
   })
 
@@ -179,9 +176,9 @@ describe('canonical contentVersion 13 loader boundary', () => {
         },
       ],
     }
-    expect(() => assembleProjectV13(manifest(), { ...baseJsons, entryScene: invalidScene })).toThrow(
-      /respawnSeconds|未知字段/,
-    )
+    expect(() =>
+      assembleProjectV13(manifest(), { ...baseJsons, entryScene: invalidScene }),
+    ).toThrow(/respawnSeconds|未知字段/)
   })
 
   test('public loader reads the canonical v13 file set without consulting a legacy sidecar', async () => {
@@ -211,23 +208,25 @@ describe('canonical contentVersion 13 loader boundary', () => {
   test('product runtime dispatcher rejects historical content13', async () => {
     const projectManifest = manifest()
     const content = projectManifest.content
-    await expect(loadRunnableProjectFrom(
-      memorySource({
-        'manifest.json': projectManifest,
-        [content.actors!]: baseJsons.actors,
-        [content.scenes! + 'index.json']: baseJsons.sceneIds,
-        [content.scenes! + 's001.json']: baseJsons.entryScene,
-        [content.skills!]: baseJsons.skills,
-        [content.items!]: baseJsons.items,
-        [content.locale!]: baseJsons.locale,
-        [content.sprites!]: baseJsons.sprites,
-        [content.battleSprites!]: baseJsons.battleSprites,
-        [content.tilesets!]: baseJsons.tilesets,
-        [content.maps!]: baseJsons.maps,
-        [content.sharedScripts!]: baseJsons.sharedScripts,
-        [projectManifest.assets.catalog]: baseJsons.assetCatalog,
-      }),
-    )).rejects.toThrow(/只接受当前 contentVersion 15/)
+    await expect(
+      loadRunnableProjectFrom(
+        memorySource({
+          'manifest.json': projectManifest,
+          [content.actors!]: baseJsons.actors,
+          [content.scenes! + 'index.json']: baseJsons.sceneIds,
+          [content.scenes! + 's001.json']: baseJsons.entryScene,
+          [content.skills!]: baseJsons.skills,
+          [content.items!]: baseJsons.items,
+          [content.locale!]: baseJsons.locale,
+          [content.sprites!]: baseJsons.sprites,
+          [content.battleSprites!]: baseJsons.battleSprites,
+          [content.tilesets!]: baseJsons.tilesets,
+          [content.maps!]: baseJsons.maps,
+          [content.sharedScripts!]: baseJsons.sharedScripts,
+          [projectManifest.assets.catalog]: baseJsons.assetCatalog,
+        }),
+      ),
+    ).rejects.toThrow(/只接受当前 contentVersion 16/)
   })
 
   test('runtime dispatcher fails closed before loading unsupported content', async () => {
@@ -240,7 +239,7 @@ describe('canonical contentVersion 13 loader boundary', () => {
       reads += 1
       return readJson(...args)
     }
-    await expect(loadRunnableProjectFrom(source)).rejects.toThrow(/只接受当前 contentVersion 15/)
+    await expect(loadRunnableProjectFrom(source)).rejects.toThrow(/只接受当前 contentVersion 16/)
     expect(reads).toBe(1)
   })
 

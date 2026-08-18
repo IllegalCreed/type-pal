@@ -115,7 +115,14 @@ export const EDITOR_MODULES: readonly EditorModuleDefinition[] = [
         dataPage: 'scripts',
         acceptsObject: true,
       },
-      { id: 'vars', label: '变量', icon: '🚩', kind: 'data', dataPage: 'vars' },
+      {
+        id: 'vars',
+        label: '变量',
+        icon: '🚩',
+        kind: 'data',
+        dataPage: 'vars',
+        acceptsObject: true,
+      },
       { id: 'events', label: '指令手册', icon: '📖', kind: 'data', dataPage: 'events' },
     ],
   },
@@ -320,7 +327,9 @@ export function locationForSubpageNavigation(
   const preserveSpriteLocation =
     location.module === 'asset' && location.subpage === 'sprite' && destination.id === 'sprite'
   const preserveActorSection =
-    location.module === 'actor' && location.subpage === 'workspace' && destination.id === 'workspace'
+    location.module === 'actor' &&
+    location.subpage === 'workspace' &&
+    destination.id === 'workspace'
   return {
     module: location.module,
     subpage: destination.id,
@@ -421,6 +430,11 @@ export function sameEditorLocation(left: EditorLocation, right: EditorLocation):
 }
 
 export const editorLinks = {
+  variable: (variableId: string): EditorLocation => ({
+    module: 'story',
+    subpage: 'vars',
+    objectId: variableId,
+  }),
   scene: (sceneId: string): EditorLocation => ({
     module: 'scene',
     subpage: 'workspace',
