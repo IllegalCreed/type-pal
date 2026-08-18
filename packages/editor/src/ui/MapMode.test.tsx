@@ -593,6 +593,8 @@ describe('MapMode 地图内容选择交互', () => {
     expect(optionGroup('碰撞工具选项')).toBeUndefined()
     expect(host.querySelector('.map-transform-tools')).toBeNull()
     expect(host.querySelector('[role="menubar"][aria-label="画布显示"]')).not.toBeNull()
+    expect(host.querySelector('[aria-label="笔刷面积"]')).toBeNull()
+    expect(host.querySelector('[aria-label="绘制高度"]')).toBeNull()
 
     const contextMenu = await openSelectionMenu(host)
     expect(contextMenu.textContent).toContain('复制')
@@ -619,10 +621,17 @@ describe('MapMode 地图内容选择交互', () => {
     expect(host.querySelector('[aria-label="笔刷面积"]')).not.toBeNull()
     expect(host.querySelector('[aria-label="绘制高度"]')).not.toBeNull()
     await act(async () => button(host, '矩形').click())
+    expect(host.querySelector('[aria-label="笔刷面积"]')).toBeNull()
     expect(host.querySelectorAll('[aria-label="绘制高度"]')).toHaveLength(1)
     await act(async () => button(host, '填充').click())
+    expect(host.querySelector('[aria-label="笔刷面积"]')).toBeNull()
     expect(host.querySelectorAll('[aria-label="绘制高度"]')).toHaveLength(1)
     expect(host.querySelector('[role="combobox"][aria-label="绘制高度"]')).toBeNull()
+    const paintHeight = host.querySelector<HTMLButtonElement>('[aria-label="绘制高度"]')!
+    expect(paintHeight.textContent).toBe('H0')
+    expect(paintHeight.querySelector('i')).toBeNull()
+    await act(async () => button(host, '擦除').click())
+    expect(host.querySelector('[aria-label="绘制高度"]')).toBeNull()
   })
 
   test('笔刷面积用横向图标托盘选择并按 2 × 2 一笔写入', async () => {
@@ -642,7 +651,8 @@ describe('MapMode 地图内容选择交互', () => {
       floor.tiles[1]![1],
     ]).toEqual([0, 0, 0, 0])
     await act(async () => button(host, '选择').click())
-    expect(host.querySelector('[aria-label="笔刷面积"]')).not.toBeNull()
+    expect(host.querySelector('[aria-label="笔刷面积"]')).toBeNull()
+    expect(host.querySelector('[aria-label="绘制高度"]')).toBeNull()
     await act(async () => button(host, '笔刷').click())
     const brushSizeTrigger = host.querySelector<HTMLButtonElement>('[aria-label="笔刷面积"]')!
     expect(brushSizeTrigger.title).toContain('当前 2 × 2')

@@ -48,15 +48,6 @@ function BrushSizeGlyph(props: { size: IsometricBrushSize }) {
   )
 }
 
-function PaintHeightGlyph(props: { height: number }) {
-  return (
-    <span className="map-paint-height-glyph" aria-hidden="true">
-      <i />
-      <span>H{props.height}</span>
-    </span>
-  )
-}
-
 function ToolOptionTray<T extends number>(props: {
   label: string
   title: string
@@ -212,6 +203,8 @@ export function IsometricEditorToolbar(props: {
   showCollision: boolean
   onShowCollisionChange: (show: boolean) => void
 }) {
+  const showPaintHeight =
+    props.activeTool === 'brush' || props.activeTool === 'rect' || props.activeTool === 'fill'
   const paintHeightOptions = Array.from(
     { length: Math.max(0, Math.min(255, props.maxPaintHeight)) + 1 },
     (_, height) => height,
@@ -256,7 +249,7 @@ export function IsometricEditorToolbar(props: {
             >
               {tool.label}
             </DsButton>
-            {tool.id === 'brush' ? (
+            {tool.id === 'brush' && props.activeTool === 'brush' ? (
               <ToolOptionTray
                 label="笔刷面积"
                 title="选择笔刷一次绘制的格阵范围"
@@ -269,17 +262,19 @@ export function IsometricEditorToolbar(props: {
             ) : null}
           </Fragment>
         ))}
-        <ToolOptionTray
-          label="绘制高度"
-          title="选择笔刷、矩形和填充共用的实例高度"
-          value={props.paintHeight}
-          options={paintHeightOptions}
-          disabled={props.paintHeightDisabled}
-          align="end"
-          renderIcon={(height) => <PaintHeightGlyph height={height} />}
-          optionLabel={(height) => `H${height}`}
-          onChange={props.onPaintHeightChange}
-        />
+        {showPaintHeight ? (
+          <ToolOptionTray
+            label="绘制高度"
+            title="选择笔刷、矩形和填充共用的实例高度"
+            value={props.paintHeight}
+            options={paintHeightOptions}
+            disabled={props.paintHeightDisabled}
+            align="end"
+            renderIcon={(height) => <span className="map-paint-height-label">H{height}</span>}
+            optionLabel={(height) => `H${height}`}
+            onChange={props.onPaintHeightChange}
+          />
+        ) : null}
       </div>
       <div className="tool-group">
         {renderTools('collision')}

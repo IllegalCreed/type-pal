@@ -249,8 +249,8 @@ build/done。
   地图与组合共同消费 `IsometricEditorToolbar`、`LayerStackControls`、`IsometricEditorCanvas` 和
   `IsometricEditorSurface`；平移、选择、取样、笔刷、矩形、填充、擦除、碰撞及 View 只有一份工具栏实现。
   “包含碰撞”作为选择工具的持久附加 checkbox，已从一次性右键命令中移除；右键菜单只保留复制/剪切/粘贴/
-  移动/重复/删除。后续按用户补充裁决，笔刷范围改为图标触发的横向格阵托盘；绘制高度从左侧“显示高度”彻底
-  分离，作为笔刷/矩形/填充共享上下文固定在绘制工具组末尾，并以横向 H0…Hn 图标托盘选择。地图与组合共用
+  移动/重复/删除。后续按用户补充裁决，笔刷范围改为图标触发的横向格阵托盘，且只在笔刷激活时显示；
+  绘制高度从左侧“显示高度”彻底分离，只在笔刷/矩形/填充任一激活时显示，触发器和横向托盘均使用纯 `H0…Hn` 文本。地图与组合共用
   同一状态 UI、范围函数和画布范围预览。填充按用户裁决统一为 `(原 tileId, 原 height)` 四邻域，`null/H0`
   空区同样可填，地图/组合/组内编辑不再出现不同边界。定向 106 项、typecheck、build、Biome 和 1280×720
   浏览器语义复验全绿；未触及
@@ -342,10 +342,11 @@ build/done。
     视觉/碰撞页签或简化工具集，并补齐矩形、填充、取样、平移、网格与碰撞显示行为。用户指出“包含碰撞”是
     选择的持续修饰状态后，将它放回选择工具后的 checkbox；画布右键菜单只承担单次选区命令，勾选状态不会再
     因菜单关闭而丢失。
-  - 笔刷面积作为笔刷工具的持续参数直接内置于共享工具栏：图标按钮展开横向 `1×1 / 2×2 / 3×3` 格阵托盘，
-    选择后收起且触发图标同步更新；地图与组合共同消费 `isometricBrushPoints`，2×2/3×3 会实际批量写格且画布
-    hover 勾勒完整范围。绘制高度不再跟随单个工具或复用左侧渲染高度：左侧明确为“显示高度”，共享 H 图标固定
-    在整个绘制工具组末尾，笔刷/矩形/填充共同消费；平面层强制 H0，高度层可展开横向托盘，取样同时取得瓦片与高度。
+  - 笔刷面积作为笔刷工具的持续参数直接内置于共享工具栏：只在笔刷激活时显示，图标按钮展开横向
+    `1×1 / 2×2 / 3×3` 格阵托盘；选择后收起且触发图标同步更新。地图与组合共同消费 `isometricBrushPoints`，
+    2×2/3×3 会实际批量写格且画布 hover 勾勒完整范围。绘制高度不再复用左侧渲染高度：左侧明确为
+    “显示高度”；只在笔刷/矩形/填充激活时显示共享高度触发器，触发器及托盘选项均为纯 `Hx` 文本；平面层
+    强制 H0，高度层可展开横向托盘，取样同时取得瓦片与高度。
   - 填充语义统一为当前活动层的 `(原 tileId, 原 height)` 四邻域 flood fill：两者都相同才属于同一连通片；
     `(null, 0)` 空格是正常可填充区域。地图、组合草稿与 placement 组内编辑共同消费 editor 纯连通域函数；组内编辑
     继续叠加 ownership 边界，普通格不能作为起点或桥。Reforge 既有 helper 同步修正同一语义，避免其他调用方回退。
@@ -371,6 +372,8 @@ build/done。
     `pnpm --filter @type-pal/editor build` 通过（仅既有 chunk >500k 提示）。
   - 填充语义统一后定向 5 文件：106/106 passed；新增纯函数断言同 tile 不同高度阻断、`null/H0` 空区可填，
     并修正 placement 与 Reforge 回归；editor/reforge typecheck、Biome 与单次 editor build 通过。
+  - 工具上下文显隐与纯 `Hx` 触发器返工后：MapMode + StampLibraryTab 75/75 passed；editor typecheck、
+    changed-files Biome 与单次 editor build 通过（仅既有 chunk >500k 提示）。
   - changed-files `biome check`：通过；仅报告 `editor.css:10314-10317` 既有 `.visually-hidden !important`
     4 条 warning，本卡未新增。
   - `git diff --check`：通过。
@@ -415,10 +418,11 @@ build/done。
 
 ## 用户验收
 
-- 用户结论: **counter（2026-08-18，第四轮；绘制上下文，后续补充填充语义）**：左下角是渲染/显示高度，不应与绘制高度耦合；
+- 用户结论: **counter（2026-08-18，第四轮；绘制上下文，后续补充填充语义与显隐细节）**：左下角是渲染/显示高度，不应与绘制高度耦合；
   笔刷/矩形/填充需要共同的绘制高度；面积和高度不应使用 Select，而应使用类似 Windows 画图的图标按钮 + 横向
   选项托盘；公共高度不能跟在每个绘制按钮后。后续明确填充应批量替换当前活动层中 `(原 tileId, 原 height)`
-  相同的连通片，空瓦片也按同一规则可填。以上已返工，等待用户复验。用户同时要求来源瓦片集在“瓦片”
+  相同的连通片，空瓦片也按同一规则可填。最新要求笔刷面积只在笔刷激活时显示，公共绘制高度只在三个绘制工具之一
+  激活时显示，高度触发器只显示 `Hx`。以上已返工，等待用户复验。用户同时要求来源瓦片集在“瓦片”
   Tab 选择且一张地图允许多个瓦片集；该 schema 产品铁律已进入 `ED-MAP-MULTI-TILESET-1`，尚未获得 build 三签。
 - 后续任务: Kimi/GLM 独立复审 + 用户对返工版最终验收。
 
@@ -468,6 +472,9 @@ build/done。
   同一规则填充。Codex 核验发现普通地图/placement 旧实现只按 tileId，随即统一三条路径为 `(tileId,height)`
   四邻域，`null/H0` 可填。Evidence: focused 106、editor/reforge typecheck、Biome、单次 build。Next: Kimi/GLM
   独立复审；未齐前不得标 done。
+- 2026-08-18 User: 继续收紧绘制上下文：笔刷面积仅在笔刷激活时出现；公共绘制高度仅在笔刷/矩形/填充之一
+  激活时出现；高度按钮只显示 `Hx` 文本。Codex 已在共享工具栏单点实现，地图/组合同步生效。Evidence: focused 75、
+  editor typecheck、Biome、单次 build。Next: Kimi/GLM 独立复审；未齐前不得标 done。
 
 ## 下一位 Agent 提示词
 
@@ -485,10 +492,9 @@ IsometricEditorCanvas.tsx、IsometricEditorSurface.tsx、IsometricEditorToolbar.
 design-system/boundary.test.ts 与 editor.css。
 已完成：纯内存 draft；选择即编辑；属性/引用/瓦片分栏；地图/组合共享图层栈、等距画布和 surface 骨架；右侧
 tile palette；地图选组合即放置；地图/组合共用完整工具栏；“包含碰撞”是选择工具持久附加 checkbox；选区命令进
-画布右键菜单；View 单入口；笔刷范围以横向格阵图标托盘选择并实际批量绘制；绘制高度固定在绘制组末尾，以横向
-H 托盘供笔刷/矩形/填充共用，左侧显示高度只影响渲染；填充按 tileId+height 连通且空区可填；focused 106、
-typecheck、build 与浏览器
-复验全绿。
+画布右键菜单；View 单入口；笔刷范围以横向格阵图标托盘选择并实际批量绘制，仅笔刷激活时显示；绘制高度以纯 `Hx`
+触发器/托盘供笔刷/矩形/填充共用，仅在三者之一激活时显示，左侧显示高度只影响渲染；填充按 tileId+height 连通且空区可填；
+最新 focused 75、typecheck 与 build 全绿；既有浏览器复验证据保留。
 请你做：独立检查 SK1/SK2 与 SE2/SE3，并重点核对共享 surface 是否仍保持 draft/session 隔离、地图/组合投影与
 命中是否一致、组合选择即放置是否无隐藏模式冲突、工具栏附加选项是否只在正确主工具下出现、窄栏布局是否可达；
 复跑必要测试。
