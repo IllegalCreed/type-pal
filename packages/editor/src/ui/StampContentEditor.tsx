@@ -28,13 +28,12 @@ import {
   DsButton,
   DsDialog,
   DsIconButton,
-  DsObjectHero,
   DsSelect,
   DsTabs,
-  DsTag,
   DsTextInput,
 } from './design-system/index.js'
 import { IsometricEditorCanvas } from './IsometricEditorCanvas.js'
+import { IsometricEditorSurface } from './IsometricEditorSurface.js'
 import { LayerStackControls } from './LayerStackControls.js'
 import { loadStampPreviewAssets, type StampPreviewAssets } from './StampPreviewCanvas.js'
 
@@ -496,6 +495,31 @@ export function StampContentEditor(props: {
           setDraft((current) => ({ ...current, category: event.target.value || undefined }))
         }
       />
+      <p className="hint2">组合内容保存后只影响未来放置；地图中的既有组合保持快照。</p>
+      <div className="stamp-template-actions">
+        <DsButton
+          onClick={() => {
+            if (props.mode === 'create') {
+              props.onCancel()
+              return
+            }
+            setDraft(baseline)
+            setSelectedPointKeys(new Set())
+            setError('')
+          }}
+          disabled={props.mode === 'edit' && !dirty}
+        >
+          {props.mode === 'create' ? '取消新建' : '恢复已保存'}
+        </DsButton>
+        <DsButton
+          variant="primary"
+          icon="save"
+          disabled={!dirty && props.mode === 'edit'}
+          onClick={() => (baseline.origin === 'migrated' ? setTakeoverOpen(true) : save(false))}
+        >
+          保存组合
+        </DsButton>
+      </div>
     </div>
   )
   const maxDraftHeight = Math.max(8, ...draft.visual.map((member) => member.height))
@@ -610,34 +634,6 @@ export function StampContentEditor(props: {
 
   return (
     <div className="stamp-content-editor" data-dirty={dirty || undefined}>
-      <DsObjectHero
-        eyebrow={props.mode === 'create' ? '新建组合' : '组合地物模板'}
-        title={draft.name || '未命名组合'}
-        objectId={draft.id}
-        summary="直接编辑图层、瓦片、高度、碰撞与锚点；保存只影响未来放置。"
-        meta={
-          <>
-            <DsTag tone="neutral">{draft.layerSlots.length} 层</DsTag>
-            <DsTag tone={dirty ? 'warning' : 'neutral'}>{dirty ? '未保存' : '无更改'}</DsTag>
-          </>
-        }
-        actions={
-          <>
-            <DsButton onClick={props.onCancel}>
-              {props.mode === 'create' ? '取消新建' : '还原修改'}
-            </DsButton>
-            <DsButton
-              variant="primary"
-              icon="save"
-              disabled={!dirty && props.mode === 'edit'}
-              onClick={() => (baseline.origin === 'migrated' ? setTakeoverOpen(true) : save(false))}
-            >
-              保存组合
-            </DsButton>
-          </>
-        }
-      />
-
       {error || assetError ? (
         <div className="stamp-content-editor__error" role="alert">
           {error || assetError}
@@ -662,136 +658,140 @@ export function StampContentEditor(props: {
           ? createPortal(tilePalette, props.paletteHost)
           : null}
 
-      <section className="stamp-draft-workbench">
-        <header className="stamp-draft-toolbar">
-          <DsTabs
-            label="组合编辑通道"
-            size="compact"
-            activeId={channel}
-            onChange={(value) => setChannel(value as StampDraftChannelKind)}
-            items={[
-              { id: 'visual', label: '视觉层', count: activeVisualByPoint.size },
-              { id: 'collision', label: '碰撞', count: draft.collision.length },
-            ]}
-          />
-          <fieldset className="stamp-draft-tools">
-            <legend className="map-a11y-legend">组合编辑工具</legend>
-            {(
-              [
-                ['paint', channel === 'visual' ? '绘制瓦片' : '写碰撞'],
-                ['erase', '擦除'],
-                ['select', '选择 / 移动'],
-              ] as const
-            ).map(([id, label]) => (
-              <DsButton
-                key={id}
-                size="compact"
-                variant={tool === id ? 'primary' : 'quiet'}
-                aria-pressed={tool === id}
-                onClick={() => setTool(id)}
-              >
-                {label}
-              </DsButton>
-            ))}
-          </fieldset>
-          {channel === 'collision' ? (
-            <DsSelect
+      <IsometricEditorSurface
+        className="stamp-draft-workbench"
+        toolbarClassName="stamp-draft-toolbar"
+        toolbar={
+          <>
+            <DsTabs
+              label="组合编辑通道"
               size="compact"
-              aria-label="碰撞值"
-              value={String(collisionValue)}
-              options={[
-                { value: '0', label: '0 · 显式可通行' },
-                { value: '1', label: '1 · 阻挡' },
+              activeId={channel}
+              onChange={(value) => setChannel(value as StampDraftChannelKind)}
+              items={[
+                { id: 'visual', label: '视觉层', count: activeVisualByPoint.size },
+                { id: 'collision', label: '碰撞', count: draft.collision.length },
               ]}
-              onValueChange={(value) => setCollisionValue(Number(value))}
             />
-          ) : null}
-        </header>
-
-        <div className="stamp-draft-stage-scroll">
-          <IsometricEditorCanvas
-            ref={stageCanvasRef}
-            label="组合局部地图编辑画布"
-            className="stamp-draft-stage"
-            width={stageWidth}
-            height={stageHeight}
-            style={{
-              width: stageWidth,
-              height: stageHeight,
-              cursor: tool === 'select' ? 'default' : 'crosshair',
-            }}
-            onPointerDown={(event) => {
-              const point = pointFromStagePointer(event)
-              if (!point) return
-              event.currentTarget.setPointerCapture(event.pointerId)
-              paintedPointRef.current = stampDraftPointKey(point)
-              handleCell(point)
-            }}
-            onPointerMove={(event) => {
-              if (!(event.buttons & 1) || tool === 'select') return
-              const point = pointFromStagePointer(event)
-              if (!point) return
-              const key = stampDraftPointKey(point)
-              if (paintedPointRef.current === key) return
-              paintedPointRef.current = key
-              handleCell(point)
-            }}
-            onPointerUp={(event) => {
-              paintedPointRef.current = undefined
-              if (event.currentTarget.hasPointerCapture(event.pointerId))
-                event.currentTarget.releasePointerCapture(event.pointerId)
-            }}
-            onPointerCancel={() => {
-              paintedPointRef.current = undefined
-            }}
-            onContextMenu={(event) => event.preventDefault()}
-          />
-        </div>
-
-        <footer className="stamp-draft-selection-bar">
-          <span>
-            {selectedPoints.length
-              ? `已选 ${selectedPoints.length} 格`
-              : '选择格子后可移动或设为锚点'}
-          </span>
-          <div>
-            <DsIconButton
-              size="compact"
-              label="向左上移动"
-              icon="chevron-left"
-              onClick={() => moveSelection('left')}
-            />
-            <DsIconButton
-              size="compact"
-              label="向右上移动"
-              icon="chevron-up"
-              onClick={() => moveSelection('up')}
-            />
-            <DsIconButton
-              size="compact"
-              label="向左下移动"
-              icon="chevron-down"
-              onClick={() => moveSelection('down')}
-            />
-            <DsIconButton
-              size="compact"
-              label="向右下移动"
-              icon="chevron-right"
-              onClick={() => moveSelection('right')}
-            />
-            <DsButton
-              size="compact"
-              disabled={selectedPoints.length !== 1}
-              onClick={() => {
-                update((current) => reanchorStampDraft(current, selectedPoints[0]!))
-                setSelectedPointKeys(new Set(['0:0']))
-              }}
-            >
-              设为锚点
-            </DsButton>
-          </div>
-        </footer>
-      </section>
+            <fieldset className="stamp-draft-tools">
+              <legend className="map-a11y-legend">组合编辑工具</legend>
+              {(
+                [
+                  ['paint', channel === 'visual' ? '绘制瓦片' : '写碰撞'],
+                  ['erase', '擦除'],
+                  ['select', '选择 / 移动'],
+                ] as const
+              ).map(([id, label]) => (
+                <DsButton
+                  key={id}
+                  size="compact"
+                  variant={tool === id ? 'primary' : 'quiet'}
+                  aria-pressed={tool === id}
+                  onClick={() => setTool(id)}
+                >
+                  {label}
+                </DsButton>
+              ))}
+            </fieldset>
+            {channel === 'collision' ? (
+              <DsSelect
+                size="compact"
+                aria-label="碰撞值"
+                value={String(collisionValue)}
+                options={[
+                  { value: '0', label: '0 · 显式可通行' },
+                  { value: '1', label: '1 · 阻挡' },
+                ]}
+                onValueChange={(value) => setCollisionValue(Number(value))}
+              />
+            ) : null}
+          </>
+        }
+        viewportClassName="stamp-draft-stage-scroll"
+        footer={
+          <footer className="stamp-draft-selection-bar">
+            <span>
+              {selectedPoints.length
+                ? `已选 ${selectedPoints.length} 格`
+                : '选择格子后可移动或设为锚点'}
+            </span>
+            <div>
+              <DsIconButton
+                size="compact"
+                label="向左上移动"
+                icon="chevron-left"
+                onClick={() => moveSelection('left')}
+              />
+              <DsIconButton
+                size="compact"
+                label="向右上移动"
+                icon="chevron-up"
+                onClick={() => moveSelection('up')}
+              />
+              <DsIconButton
+                size="compact"
+                label="向左下移动"
+                icon="chevron-down"
+                onClick={() => moveSelection('down')}
+              />
+              <DsIconButton
+                size="compact"
+                label="向右下移动"
+                icon="chevron-right"
+                onClick={() => moveSelection('right')}
+              />
+              <DsButton
+                size="compact"
+                disabled={selectedPoints.length !== 1}
+                onClick={() => {
+                  update((current) => reanchorStampDraft(current, selectedPoints[0]!))
+                  setSelectedPointKeys(new Set(['0:0']))
+                }}
+              >
+                设为锚点
+              </DsButton>
+            </div>
+          </footer>
+        }
+      >
+        <IsometricEditorCanvas
+          ref={stageCanvasRef}
+          label="组合局部地图编辑画布"
+          className="stamp-draft-stage"
+          width={stageWidth}
+          height={stageHeight}
+          style={{
+            width: stageWidth,
+            height: stageHeight,
+            cursor: tool === 'select' ? 'default' : 'crosshair',
+          }}
+          onPointerDown={(event) => {
+            const point = pointFromStagePointer(event)
+            if (!point) return
+            event.currentTarget.setPointerCapture(event.pointerId)
+            paintedPointRef.current = stampDraftPointKey(point)
+            handleCell(point)
+          }}
+          onPointerMove={(event) => {
+            if (!(event.buttons & 1) || tool === 'select') return
+            const point = pointFromStagePointer(event)
+            if (!point) return
+            const key = stampDraftPointKey(point)
+            if (paintedPointRef.current === key) return
+            paintedPointRef.current = key
+            handleCell(point)
+          }}
+          onPointerUp={(event) => {
+            paintedPointRef.current = undefined
+            if (event.currentTarget.hasPointerCapture(event.pointerId))
+              event.currentTarget.releasePointerCapture(event.pointerId)
+          }}
+          onPointerCancel={() => {
+            paintedPointRef.current = undefined
+          }}
+          onContextMenu={(event) => event.preventDefault()}
+        />
+      </IsometricEditorSurface>
 
       {pendingDeleteSlotId ? (
         <DsDialog

@@ -119,13 +119,14 @@ describe('editor design-system static boundary', () => {
     const tileset = readFileSync(join(uiRoot, 'TilesetTab.tsx'), 'utf8')
     const mapMode = readFileSync(join(uiRoot, 'MapMode.tsx'), 'utf8')
 
-    expect(stampEditor).toMatch(/<DsObjectHero\b/)
+    expect(stampEditor).not.toMatch(/<DsObjectHero\b/)
     expect(tileset).toMatch(/<DsObjectHero\b/)
     expect(stampLibrary).not.toMatch(/stamp-workspace-head|编辑组合内容|退出内容编辑/)
     expect(tileset).not.toMatch(/tileset-workspace-head/)
     for (const source of [stampEditor, mapMode]) {
       expect(source).toMatch(/<LayerStackControls\b/)
       expect(source).toMatch(/<IsometricEditorCanvas\b/)
+      expect(source).toMatch(/<IsometricEditorSurface\b/)
     }
     expect(mapMode).not.toMatch(/>\s*◆\s*放置组合\s*</)
   })

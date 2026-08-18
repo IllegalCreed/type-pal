@@ -28,6 +28,7 @@ import {
   memo,
   useCallback,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useReducer,
   useRef,
@@ -116,11 +117,13 @@ import {
   DsCatalogRow,
   DsCheckbox,
   DsInspectorTabs,
+  DsMenuBar,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
 } from './design-system/index.js'
 import { IsometricEditorCanvas } from './IsometricEditorCanvas.js'
+import { IsometricEditorSurface } from './IsometricEditorSurface.js'
 import { LayerStackControls } from './LayerStackControls.js'
 import { MapSelectionInspector } from './MapSelectionInspector.js'
 import { MapStampPalette } from './MapStampPalette.js'
@@ -218,6 +221,11 @@ type MapCandidate =
 
 interface MapCandidateMenu {
   candidates: MapCandidate[]
+}
+
+interface MapCanvasContextMenu {
+  x: number
+  y: number
 }
 
 type MapInspectorTab = 'properties' | 'tiles' | 'stamps'
@@ -399,6 +407,8 @@ export function MapMode(props: {
   const transformConflictAdjustRef = useRef<HTMLButtonElement>(null)
   const [candidateMenu, setCandidateMenu] = useState<MapCandidateMenu>()
   const candidateMenuRef = useRef<HTMLDivElement>(null)
+  const [canvasContextMenu, setCanvasContextMenu] = useState<MapCanvasContextMenu>()
+  const canvasContextMenuRef = useRef<HTMLDivElement>(null)
   const [workspaceNotice, setWorkspaceNotice] = useState<
     { kind: 'info' | 'error'; message: string } | undefined
   >()
@@ -455,6 +465,7 @@ export function MapMode(props: {
     setTransformTargetLocked(false)
     setTransformOverwriteIntent(undefined)
     setCandidateMenu(undefined)
+    setCanvasContextMenu(undefined)
     setClipboard(undefined)
     setStampDialogOpen(false)
     setStampStructureIntent(undefined)
@@ -559,6 +570,41 @@ export function MapMode(props: {
   }, [candidateMenu, focusFirstCandidate])
 
   useEffect(() => {
+    if (!canvasContextMenu) return
+    const frame = requestAnimationFrame(() =>
+      canvasContextMenuRef.current
+        ?.querySelector<HTMLButtonElement>('[role^="menuitem"]:not(:disabled)')
+        ?.focus({ preventScroll: true }),
+    )
+    const close = (event: PointerEvent): void => {
+      if (!canvasContextMenuRef.current?.contains(event.target as Node))
+        setCanvasContextMenu(undefined)
+    }
+    document.addEventListener('pointerdown', close)
+    return () => {
+      cancelAnimationFrame(frame)
+      document.removeEventListener('pointerdown', close)
+    }
+  }, [canvasContextMenu])
+
+  useLayoutEffect(() => {
+    if (!canvasContextMenu) return
+    const viewport = wrapRef.current
+    const menu = canvasContextMenuRef.current
+    if (!viewport || !menu) return
+    const nextX = Math.max(
+      8,
+      Math.min(viewport.clientWidth - menu.offsetWidth - 8, canvasContextMenu.x),
+    )
+    const nextY = Math.max(
+      8,
+      Math.min(viewport.clientHeight - menu.offsetHeight - 8, canvasContextMenu.y),
+    )
+    if (nextX !== canvasContextMenu.x || nextY !== canvasContextMenu.y)
+      setCanvasContextMenu({ x: nextX, y: nextY })
+  }, [canvasContextMenu])
+
+  useEffect(() => {
     if (stampStructureIntent) stampStructureCancelRef.current?.focus({ preventScroll: true })
   }, [stampStructureIntent])
 
@@ -596,6 +642,7 @@ export function MapMode(props: {
     setSelectionPreview(undefined)
     selectionPreviewRef.current = undefined
     setCandidateMenu(undefined)
+    setCanvasContextMenu(undefined)
     setTransformIntent(undefined)
     setTransformTargetLocked(false)
     setTransformOverwriteIntent(undefined)
@@ -1331,6 +1378,7 @@ export function MapMode(props: {
       setTransformTargetLocked(false)
       setTransformOverwriteIntent(undefined)
       setCandidateMenu(undefined)
+      setCanvasContextMenu(undefined)
       const hover = hoverRef.current
       setStampHoverAnchor(hover && isLatticeInside(liveMap, hover) ? hover : undefined)
       setWorkspaceNotice({
@@ -1675,7 +1723,7 @@ export function MapMode(props: {
     }
     if (!liveMap) return
     if (selection.kind === 'stamp-placements') {
-      notifyWorkspace('error', '整组剪切会把移动拆成两步历史；请使用“移动…”保留原放置组 ID。')
+      notifyWorkspace('error', '整组剪切会把移动拆成两步历史；请使用“移动”保留原放置组 ID。')
       return
     }
     const next = captureMapClipboard(mapId, liveMap, selection, includeCollision)
@@ -1966,6 +2014,7 @@ export function MapMode(props: {
   }
 
   const onDown = (event: React.PointerEvent<HTMLCanvasElement>): void => {
+    if (event.button === 0) setCanvasContextMenu(undefined)
     event.currentTarget.focus()
     if (event.button !== 0 && event.button !== 1) return
     if (transformIntent && event.button === 0 && liveMap) {
@@ -2596,8 +2645,61 @@ export function MapMode(props: {
     options[nextIndex]?.focus()
   }
 
+  const openCanvasContextMenu = (clientX?: number, clientY?: number): void => {
+    if (transformIntent) return
+    const rect = wrapRef.current?.getBoundingClientRect()
+    if (!rect) return
+    const requestedX = clientX === undefined ? rect.width / 2 : clientX - rect.left
+    const requestedY = clientY === undefined ? rect.height / 2 : clientY - rect.top
+    setCandidateMenu(undefined)
+    setCanvasContextMenu({
+      x: Math.max(8, Math.min(rect.width - 212, requestedX)),
+      y: Math.max(8, Math.min(rect.height - 292, requestedY)),
+    })
+  }
+
+  const onCanvasContextMenuKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
+    if (event.key === 'Escape') {
+      event.preventDefault()
+      setCanvasContextMenu(undefined)
+      canvasRef.current?.focus({ preventScroll: true })
+      return
+    }
+    if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) return
+    event.preventDefault()
+    const items = [
+      ...(canvasContextMenuRef.current?.querySelectorAll<HTMLButtonElement>(
+        '[role^="menuitem"]:not(:disabled)',
+      ) ?? []),
+    ]
+    if (!items.length) return
+    const current = items.indexOf(document.activeElement as HTMLButtonElement)
+    const nextIndex =
+      event.key === 'Home'
+        ? 0
+        : event.key === 'End'
+          ? items.length - 1
+          : event.key === 'ArrowUp'
+            ? current < 0
+              ? items.length - 1
+              : (current - 1 + items.length) % items.length
+            : current < 0
+              ? 0
+              : (current + 1) % items.length
+    items[nextIndex]?.focus()
+  }
+
   const onCanvasKeyDown = (event: React.KeyboardEvent<HTMLCanvasElement>): void => {
     const command = event.metaKey || event.ctrlKey
+    if (
+      !transformIntent &&
+      (event.key === 'ContextMenu' || (event.shiftKey && event.key === 'F10'))
+    ) {
+      event.preventDefault()
+      event.stopPropagation()
+      openCanvasContextMenu()
+      return
+    }
     if (!command && !event.altKey && event.key.toLowerCase() === 'v' && !transformIntent) {
       event.preventDefault()
       event.stopPropagation()
@@ -2611,6 +2713,7 @@ export function MapMode(props: {
       if (activeTool === 'stamp') cancelStampTool()
       else if (selectionDragRef.current || selectionPreview) cancelPointerInteraction()
       else if (transformIntent) cancelTransform()
+      else if (canvasContextMenu) setCanvasContextMenu(undefined)
       else if (candidateMenu) setCandidateMenu(undefined)
       else if (stampGroupEditPlacementId) exitStampGroupEdit()
       else dispatchWorkspace({ type: 'clear-selection', mapId })
@@ -2891,317 +2994,340 @@ export function MapMode(props: {
         )}
       </div>
 
-      <div className="center map-center">
-        <div className="toolbar map-toolbar">
-          <div className="tool-group">
-            <DsButton
-              size="compact"
-              variant="quiet"
-              aria-pressed={activeTool === 'pan'}
-              onClick={() => activateMapTool('pan')}
-              title="平移画布"
-            >
-              ✋ 平移
-            </DsButton>
-            <DsButton
-              size="compact"
-              variant="quiet"
-              onClick={() => {
-                activateMapTool('select')
-              }}
-              disabled={!liveMap}
-              title="选择地图已有内容 (V)；Shift 追加，Ctrl/⌘ 切换追加或移除，Alt 候选"
-              aria-label="选择地图内容"
-              aria-pressed={activeTool === 'select'}
-            >
-              ⛶ 选择
-            </DsButton>
-            {activeTool === 'select' ? (
-              <fieldset className="map-tool-option" aria-label="选择工具选项">
-                <span>选择选项</span>
-                <DsCheckbox
-                  size="compact"
-                  label="跨层"
-                  title="下一次点击/框选作用于所有可见且未锁图层；已有选区保持不变"
-                  checked={workspaceMap.hitScope === 'visible-unlocked-layers'}
-                  onChange={(event) => {
-                    dispatchWorkspace({
-                      type: 'set-hit-scope',
-                      mapId,
-                      hitScope: event.target.checked ? 'visible-unlocked-layers' : 'active-layer',
-                    })
-                    notifyWorkspace(
-                      'info',
-                      event.target.checked
-                        ? '已启用跨层选择；已有选区保持不变。'
-                        : '已切回活动层选择；已有选区保持不变。',
-                    )
-                  }}
-                />
-              </fieldset>
-            ) : null}
-          </div>
-          <div className="tool-group map-transform-tools">
-            <span className="tool-group-label">选区操作</span>
-            <DsButton
-              size="compact"
-              variant="quiet"
-              disabled={
-                selection.kind === 'none' ||
-                Boolean(transformIntent) ||
-                Boolean(stampGroupEditPlacementId)
-              }
-              onClick={() => copyMapSelection()}
-              title="复制选区 (Ctrl/⌘+C)"
-            >
-              复制
-            </DsButton>
-            <DsButton
-              size="compact"
-              variant="quiet"
-              disabled={
-                selection.kind === 'none' ||
-                (selection.kind === 'cells' &&
-                  (activeLayerReadOnly || selectionHasReadOnlyLayer)) ||
-                Boolean(transformIntent) ||
-                Boolean(stampGroupEditPlacementId)
-              }
-              onClick={cutMapSelection}
-              title="剪切选区 (Ctrl/⌘+X)"
-            >
-              剪切
-            </DsButton>
-            <DsButton
-              size="compact"
-              variant="quiet"
-              disabled={
-                !clipboard ||
-                (clipboard.kind === 'cells' && activeLayerReadOnly) ||
-                Boolean(transformIntent) ||
-                Boolean(stampGroupEditPlacementId)
-              }
-              onClick={() => beginPaste()}
-              title="粘贴预览 (Ctrl/⌘+V)"
-            >
-              粘贴
-            </DsButton>
-            <DsButton
-              size="compact"
-              variant="quiet"
-              disabled={
-                selection.kind === 'none' ||
-                (selection.kind === 'cells' &&
-                  (activeLayerReadOnly || selectionHasReadOnlyLayer)) ||
-                Boolean(transformIntent) ||
-                Boolean(stampGroupEditPlacementId)
-              }
-              onClick={() => beginMove()}
-              title="移动选区；通过鼠标或方向键定位"
-            >
-              移动…
-            </DsButton>
-            <DsButton
-              size="compact"
-              variant="quiet"
-              disabled={
-                (selection.kind === 'none' && !clipboard) ||
-                ((selection.kind === 'cells' ||
-                  (selection.kind === 'none' && clipboard?.kind === 'cells')) &&
-                  activeLayerReadOnly) ||
-                (selection.kind === 'cells' && selectionHasReadOnlyLayer) ||
-                Boolean(transformIntent) ||
-                Boolean(stampGroupEditPlacementId)
-              }
-              onClick={repeatMapSelection}
-              title="重复选区到相邻位置"
-            >
-              重复
-            </DsButton>
-            <DsButton
-              size="compact"
-              variant="danger"
-              disabled={
-                selection.kind === 'none' ||
-                (selection.kind === 'cells' &&
-                  (activeLayerReadOnly || selectionHasReadOnlyLayer)) ||
-                Boolean(transformIntent) ||
-                Boolean(stampGroupEditPlacementId)
-              }
-              onClick={() => deleteMapSelection()}
-              title="删除选区 (Delete)"
-            >
-              删除
-            </DsButton>
-            <fieldset className="map-tool-option" aria-label="选区变换选项">
-              <span>附加</span>
-              <DsCheckbox
+      <IsometricEditorSurface
+        className="center map-center"
+        viewportRef={wrapRef}
+        toolbar={
+          <>
+            <div className="tool-group">
+              <DsButton
                 size="compact"
-                label={selection.kind === 'stamp-placements' ? '组合含碰撞' : '包含碰撞'}
-                title="移动、复制、剪切、粘贴、重复、删除时显式包含独立碰撞通道"
-                checked={transformIncludesCollision}
-                disabled={Boolean(transformIntent) || selection.kind === 'stamp-placements'}
-                onChange={(event) => setIncludeCollision(event.target.checked)}
-              />
-            </fieldset>
-          </div>
-          <div className="tool-group">
-            <DsButton
-              size="compact"
-              variant="quiet"
-              aria-pressed={activeTool === 'eyedropper'}
-              onClick={() => activateMapTool('eyedropper')}
-              disabled={!liveMap || activeLayerReadOnly}
-              title="从当前图层取样瓦片与实例高度"
-            >
-              ◉ 取样
-            </DsButton>
-            <DsButton
-              size="compact"
-              variant="quiet"
-              aria-pressed={activeTool === 'brush'}
-              onClick={() => activateMapTool('brush')}
-              disabled={!liveMap || activeLayerReadOnly}
-              title="画选中瓦片"
-            >
-              🖌 笔刷
-            </DsButton>
-            <DsButton
-              size="compact"
-              variant="quiet"
-              aria-pressed={activeTool === 'rect'}
-              onClick={() => activateMapTool('rect')}
-              disabled={!liveMap || activeLayerReadOnly}
-              title="矩形铺瓦"
-            >
-              ▭ 矩形
-            </DsButton>
-            <DsButton
-              size="compact"
-              variant="quiet"
-              aria-pressed={activeTool === 'fill'}
-              onClick={() => activateMapTool('fill')}
-              disabled={!liveMap || activeLayerReadOnly}
-              title="填充连通区域"
-            >
-              🪣 填充
-            </DsButton>
-            <DsButton
-              size="compact"
-              variant="quiet"
-              aria-pressed={activeTool === 'erase'}
-              onClick={() => activateMapTool('erase')}
-              disabled={!liveMap || activeLayerReadOnly}
-              title="擦除瓦片"
-            >
-              ⌫ 擦除
-            </DsButton>
-          </div>
-          <div className="tool-group">
-            <DsButton
-              size="compact"
-              variant="quiet"
-              aria-pressed={activeTool === 'collision'}
-              onClick={() => activateMapTool('collision')}
-              disabled={!liveMap || activeLayerReadOnly}
-              title="绘制独立碰撞层"
-            >
-              ⛔ 碰撞
-            </DsButton>
-            {activeTool === 'collision' ? (
-              <fieldset className="map-tool-option map-collision-options" aria-label="碰撞工具选项">
-                <span>碰撞操作</span>
-                <DsButton
-                  size="compact"
-                  variant={collisionPaint === 'set' ? 'primary' : 'quiet'}
-                  aria-pressed={collisionPaint === 'set'}
-                  onClick={() => setCollisionPaint('set')}
-                  disabled={!liveMap || activeLayerReadOnly}
-                  title="标记阻挡"
-                >
-                  标记
-                </DsButton>
-                <DsButton
-                  size="compact"
-                  variant={collisionPaint === 'clear' ? 'primary' : 'quiet'}
-                  aria-pressed={collisionPaint === 'clear'}
-                  onClick={() => setCollisionPaint('clear')}
-                  disabled={!liveMap || activeLayerReadOnly}
-                  title="清除阻挡"
-                >
-                  清除
-                </DsButton>
-              </fieldset>
-            ) : null}
-          </div>
-          <fieldset className="tool-group map-view-options" aria-label="画布显示">
-            <span className="tool-group-label">显示</span>
-            <DsCheckbox
-              size="compact"
-              label="网格"
-              checked={showGrid}
-              onChange={(event) => setShowGrid(event.target.checked)}
-            />
-            <DsCheckbox
-              size="compact"
-              label="碰撞"
-              checked={showCollision}
-              onChange={(event) => setShowCollision(event.target.checked)}
-            />
-          </fieldset>
-        </div>
-        <div className="viewport" ref={wrapRef}>
-          {status === 'error' && (
-            <div className="boot">
-              <div className="err">地图渲染失败: {err}</div>
+                variant="quiet"
+                aria-pressed={activeTool === 'pan'}
+                onClick={() => activateMapTool('pan')}
+                title="平移画布"
+              >
+                ✋ 平移
+              </DsButton>
+              <DsButton
+                size="compact"
+                variant="quiet"
+                onClick={() => {
+                  activateMapTool('select')
+                }}
+                disabled={!liveMap}
+                title="选择地图已有内容 (V)；Shift 追加，Ctrl/⌘ 切换追加或移除，Alt 候选"
+                aria-label="选择地图内容"
+                aria-pressed={activeTool === 'select'}
+              >
+                ⛶ 选择
+              </DsButton>
+              {activeTool === 'select' ? (
+                <fieldset className="map-inline-option">
+                  <legend className="visually-hidden">选择工具选项</legend>
+                  <DsCheckbox
+                    size="compact"
+                    label="跨层"
+                    title="下一次点击/框选作用于所有可见且未锁图层；已有选区保持不变"
+                    checked={workspaceMap.hitScope === 'visible-unlocked-layers'}
+                    onChange={(event) => {
+                      dispatchWorkspace({
+                        type: 'set-hit-scope',
+                        mapId,
+                        hitScope: event.target.checked ? 'visible-unlocked-layers' : 'active-layer',
+                      })
+                      notifyWorkspace(
+                        'info',
+                        event.target.checked
+                          ? '已启用跨层选择；已有选区保持不变。'
+                          : '已切回活动层选择；已有选区保持不变。',
+                      )
+                    }}
+                  />
+                </fieldset>
+              ) : null}
             </div>
-          )}
-          <IsometricEditorCanvas
-            ref={canvasRef}
-            width={size.w}
-            height={size.h}
-            onPointerDown={onDown}
-            onPointerMove={onMove}
-            onPointerUp={onUp}
-            onPointerCancel={cancelPointerInteraction}
-            onLostPointerCapture={() => {
-              if (selectionDragRef.current || paintingRef.current || panRef.current)
-                cancelPointerInteraction()
-            }}
-            onPointerLeave={onLeave}
-            onClick={() => {
-              // Chromium 可在 Alt+pointerdown 后才完成 canvas 的原生焦点默认动作；
-              // 候选列表移入右侧后仍需在 click 任务结束后恢复首项焦点。
-              if (candidateMenuRef.current) window.setTimeout(focusFirstCandidate, 0)
-            }}
-            onDoubleClick={(event) => {
-              if (activeTool !== 'select' || !liveMap) return
-              const { wx, wy } = toWorld(event)
-              const hit = directStampHitAt(wx, wy)
-              if (stampGroupEditPlacementId) {
-                if (hit && hit.placementId !== stampGroupEditPlacementId)
-                  notifyWorkspace('error', '组内编辑已隔离；请先按 Esc 退出，再选择其他地图内容。')
-                return
-              }
-              if (hit) enterStampGroupEdit(hit.placementId)
-            }}
-            onKeyDown={onCanvasKeyDown}
-            onContextMenu={(event) => event.preventDefault()}
-            label="地图内容编辑画布"
-            data-map-canvas="true"
-            style={{
-              width: '100%',
-              height: '100%',
-              display: 'block',
-              cursor,
-              touchAction: 'none',
-            }}
-          />
-        </div>
+            <div className="tool-group">
+              <DsButton
+                size="compact"
+                variant="quiet"
+                aria-pressed={activeTool === 'eyedropper'}
+                onClick={() => activateMapTool('eyedropper')}
+                disabled={!liveMap || activeLayerReadOnly}
+                title="从当前图层取样瓦片与实例高度"
+              >
+                ◉ 取样
+              </DsButton>
+              <DsButton
+                size="compact"
+                variant="quiet"
+                aria-pressed={activeTool === 'brush'}
+                onClick={() => activateMapTool('brush')}
+                disabled={!liveMap || activeLayerReadOnly}
+                title="画选中瓦片"
+              >
+                🖌 笔刷
+              </DsButton>
+              <DsButton
+                size="compact"
+                variant="quiet"
+                aria-pressed={activeTool === 'rect'}
+                onClick={() => activateMapTool('rect')}
+                disabled={!liveMap || activeLayerReadOnly}
+                title="矩形铺瓦"
+              >
+                ▭ 矩形
+              </DsButton>
+              <DsButton
+                size="compact"
+                variant="quiet"
+                aria-pressed={activeTool === 'fill'}
+                onClick={() => activateMapTool('fill')}
+                disabled={!liveMap || activeLayerReadOnly}
+                title="填充连通区域"
+              >
+                🪣 填充
+              </DsButton>
+              <DsButton
+                size="compact"
+                variant="quiet"
+                aria-pressed={activeTool === 'erase'}
+                onClick={() => activateMapTool('erase')}
+                disabled={!liveMap || activeLayerReadOnly}
+                title="擦除瓦片"
+              >
+                ⌫ 擦除
+              </DsButton>
+            </div>
+            <div className="tool-group">
+              <DsButton
+                size="compact"
+                variant="quiet"
+                aria-pressed={activeTool === 'collision'}
+                onClick={() => activateMapTool('collision')}
+                disabled={!liveMap || activeLayerReadOnly}
+                title="绘制独立碰撞层"
+              >
+                ⛔ 碰撞
+              </DsButton>
+              {activeTool === 'collision' ? (
+                <fieldset className="map-inline-option map-collision-options">
+                  <legend className="visually-hidden">碰撞工具选项</legend>
+                  <DsButton
+                    size="compact"
+                    variant={collisionPaint === 'set' ? 'primary' : 'quiet'}
+                    aria-pressed={collisionPaint === 'set'}
+                    onClick={() => setCollisionPaint('set')}
+                    disabled={!liveMap || activeLayerReadOnly}
+                    title="标记阻挡"
+                  >
+                    标记
+                  </DsButton>
+                  <DsButton
+                    size="compact"
+                    variant={collisionPaint === 'clear' ? 'primary' : 'quiet'}
+                    aria-pressed={collisionPaint === 'clear'}
+                    onClick={() => setCollisionPaint('clear')}
+                    disabled={!liveMap || activeLayerReadOnly}
+                    title="清除阻挡"
+                  >
+                    清除
+                  </DsButton>
+                </fieldset>
+              ) : null}
+            </div>
+            <div className="tool-group map-view-menu">
+              <DsMenuBar
+                label="画布显示"
+                menus={[
+                  {
+                    id: 'view',
+                    label: '视图',
+                    items: [
+                      {
+                        id: 'grid',
+                        label: '显示网格',
+                        checked: showGrid,
+                        onSelect: () => setShowGrid((visible) => !visible),
+                      },
+                      {
+                        id: 'collision',
+                        label: '显示碰撞',
+                        checked: showCollision,
+                        onSelect: () => setShowCollision((visible) => !visible),
+                      },
+                    ],
+                  },
+                ]}
+              />
+            </div>
+          </>
+        }
+      >
+        {status === 'error' && (
+          <div className="boot">
+            <div className="err">地图渲染失败: {err}</div>
+          </div>
+        )}
+        <IsometricEditorCanvas
+          ref={canvasRef}
+          width={size.w}
+          height={size.h}
+          onPointerDown={onDown}
+          onPointerMove={onMove}
+          onPointerUp={onUp}
+          onPointerCancel={cancelPointerInteraction}
+          onLostPointerCapture={() => {
+            if (selectionDragRef.current || paintingRef.current || panRef.current)
+              cancelPointerInteraction()
+          }}
+          onPointerLeave={onLeave}
+          onClick={() => {
+            // Chromium 可在 Alt+pointerdown 后才完成 canvas 的原生焦点默认动作；
+            // 候选列表移入右侧后仍需在 click 任务结束后恢复首项焦点。
+            if (candidateMenuRef.current) window.setTimeout(focusFirstCandidate, 0)
+          }}
+          onDoubleClick={(event) => {
+            if (activeTool !== 'select' || !liveMap) return
+            const { wx, wy } = toWorld(event)
+            const hit = directStampHitAt(wx, wy)
+            if (stampGroupEditPlacementId) {
+              if (hit && hit.placementId !== stampGroupEditPlacementId)
+                notifyWorkspace('error', '组内编辑已隔离；请先按 Esc 退出，再选择其他地图内容。')
+              return
+            }
+            if (hit) enterStampGroupEdit(hit.placementId)
+          }}
+          onKeyDown={onCanvasKeyDown}
+          onContextMenu={(event) => {
+            event.preventDefault()
+            openCanvasContextMenu(event.clientX, event.clientY)
+          }}
+          label="地图内容编辑画布"
+          data-map-canvas="true"
+          style={{
+            width: '100%',
+            height: '100%',
+            display: 'block',
+            cursor,
+            touchAction: 'none',
+          }}
+        />
+        {canvasContextMenu ? (
+          <div
+            ref={canvasContextMenuRef}
+            className="map-canvas-context-menu"
+            role="menu"
+            aria-label="地图选区操作"
+            style={{ left: canvasContextMenu.x, top: canvasContextMenu.y }}
+            onKeyDown={onCanvasContextMenuKeyDown}
+          >
+            <div className="map-canvas-context-menu__section">选区</div>
+            {[
+              {
+                id: 'copy',
+                label: '复制',
+                shortcut: '⌘C',
+                disabled: selection.kind === 'none' || Boolean(stampGroupEditPlacementId),
+                run: () => copyMapSelection(),
+              },
+              {
+                id: 'cut',
+                label: '剪切',
+                shortcut: '⌘X',
+                disabled:
+                  selection.kind === 'none' ||
+                  (selection.kind === 'cells' &&
+                    (activeLayerReadOnly || selectionHasReadOnlyLayer)) ||
+                  Boolean(stampGroupEditPlacementId),
+                run: cutMapSelection,
+              },
+              {
+                id: 'paste',
+                label: '粘贴',
+                shortcut: '⌘V',
+                disabled:
+                  !clipboard ||
+                  (clipboard.kind === 'cells' && activeLayerReadOnly) ||
+                  Boolean(stampGroupEditPlacementId),
+                run: () => beginPaste(),
+              },
+              {
+                id: 'move',
+                label: '移动',
+                disabled:
+                  selection.kind === 'none' ||
+                  (selection.kind === 'cells' &&
+                    (activeLayerReadOnly || selectionHasReadOnlyLayer)) ||
+                  Boolean(stampGroupEditPlacementId),
+                run: () => beginMove(),
+              },
+              {
+                id: 'repeat',
+                label: '重复',
+                disabled:
+                  (selection.kind === 'none' && !clipboard) ||
+                  ((selection.kind === 'cells' ||
+                    (selection.kind === 'none' && clipboard?.kind === 'cells')) &&
+                    activeLayerReadOnly) ||
+                  (selection.kind === 'cells' && selectionHasReadOnlyLayer) ||
+                  Boolean(stampGroupEditPlacementId),
+                run: repeatMapSelection,
+              },
+              {
+                id: 'delete',
+                label: '删除',
+                shortcut: 'Delete',
+                danger: true,
+                disabled:
+                  selection.kind === 'none' ||
+                  (selection.kind === 'cells' &&
+                    (activeLayerReadOnly || selectionHasReadOnlyLayer)) ||
+                  Boolean(stampGroupEditPlacementId),
+                run: () => deleteMapSelection(),
+              },
+            ].map((item) => (
+              <DsButton
+                key={item.id}
+                role="menuitem"
+                size="compact"
+                variant={item.danger ? 'danger' : 'quiet'}
+                className={`ds-menu-item${item.danger ? ' map-canvas-context-menu__danger' : ''}`}
+                disabled={item.disabled}
+                onClick={() => {
+                  setCanvasContextMenu(undefined)
+                  item.run()
+                }}
+              >
+                <span>{item.label}</span>
+                {item.shortcut ? <kbd>{item.shortcut}</kbd> : null}
+              </DsButton>
+            ))}
+            <div className="map-canvas-context-menu__section">变换选项</div>
+            <DsButton
+              role="menuitemcheckbox"
+              size="compact"
+              variant="quiet"
+              className="ds-menu-item"
+              aria-checked={transformIncludesCollision}
+              disabled={selection.kind === 'stamp-placements'}
+              onClick={() => {
+                setIncludeCollision(!includeCollision)
+                setCanvasContextMenu(undefined)
+                canvasRef.current?.focus({ preventScroll: true })
+              }}
+            >
+              <span>{selection.kind === 'stamp-placements' ? '组合始终包含碰撞' : '包含碰撞'}</span>
+              <span className="ds-spacer" />
+              <span aria-hidden="true">{transformIncludesCollision ? '✓' : ''}</span>
+            </DsButton>
+          </div>
+        ) : null}
         <span className="map-viewport-status map-viewport-status--context">{toolbarHint}</span>
         <span className="map-viewport-status map-viewport-status--zoom" title="画布缩放">
           {Math.round(view.zoom * 100)}%{status === 'loading' ? ' · 载入中…' : ''}
         </span>
-      </div>
+      </IsometricEditorSurface>
 
       <div className="inspector inspector--tabbed map-inspector">
         <div className="insp-head">

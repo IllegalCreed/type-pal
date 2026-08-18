@@ -848,33 +848,44 @@ html[data-panel-resize="horizontal"] * {
   padding-left: 8px;
   border-left: 1px solid color-mix(in srgb, var(--line) 78%, transparent);
 }
-.map-tool-option {
+.map-inline-option {
   display: inline-flex;
   flex: none;
   align-items: center;
-  gap: 5px;
-  min-height: 30px;
-  padding: 2px 5px;
-  border: 1px solid color-mix(in srgb, var(--line) 82%, transparent);
-  border-radius: 5px;
-  background: color-mix(in srgb, var(--panel) 72%, transparent);
+  gap: 3px;
+  min-height: 28px;
+  padding: 0 0 0 4px;
+  border: 0;
 }
 .map-toolbar fieldset.tool-group,
-.map-tool-option {
+.map-inline-option {
   margin: 0;
   min-width: 0;
 }
-.map-tool-option > span,
-.tool-group-label {
-  color: var(--ds-text-secondary);
-  font: var(--ds-font-caption);
-}
 .map-collision-options {
-  border-color: color-mix(in srgb, var(--warn) 38%, var(--line));
-  background: color-mix(in srgb, var(--warn) 6%, var(--panel));
+  padding-left: 6px;
+  border-left: 1px solid color-mix(in srgb, var(--warn) 42%, var(--line));
 }
-.map-view-options {
+.map-view-menu {
   margin-left: auto;
+}
+.map-view-menu .ds-menubar {
+  height: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.map-view-menu .ds-menu-trigger {
+  min-height: 30px;
+  margin: 0;
+  padding-inline: 10px;
+  border: 1px solid transparent;
+  border-radius: var(--ds-radius-control);
+  font: var(--ds-font-label);
+}
+.map-view-menu .ds-menu-popover {
+  right: 0;
+  left: auto;
 }
 .map-toolbar .spacer {
   flex: 1 1 16px;
@@ -973,6 +984,47 @@ html[data-panel-resize="horizontal"] * {
 }
 .viewport canvas {
   image-rendering: pixelated;
+}
+.isometric-editor-surface {
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+.map-canvas-context-menu {
+  position: absolute;
+  z-index: var(--ds-z-popover);
+  display: grid;
+  width: 204px;
+  padding: var(--ds-space-3);
+  border: 1px solid var(--ds-border-subtle);
+  border-radius: var(--ds-radius-overlay);
+  background: var(--ds-surface-overlay);
+  box-shadow: var(--ds-elevation-popover);
+}
+.map-canvas-context-menu__section {
+  padding: var(--ds-space-3) var(--ds-space-5) var(--ds-space-2);
+  color: var(--ds-text-muted);
+  font: var(--ds-font-label);
+}
+.map-canvas-context-menu > button {
+  width: 100%;
+  justify-content: flex-start;
+}
+.map-canvas-context-menu > button > span {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  align-items: center;
+  gap: var(--ds-space-4);
+}
+.map-canvas-context-menu kbd {
+  margin-left: auto;
+  color: var(--ds-text-muted);
+  font: var(--ds-font-code);
+}
+.map-canvas-context-menu__danger:not(:disabled) {
+  color: var(--ds-status-danger);
 }
 .map-viewport-status {
   position: absolute;
@@ -4764,20 +4816,19 @@ html[data-panel-resize="horizontal"] * {
 
 /* ED-STAMP-EDITOR-1：模板自身的内存草稿工作区，不借用真实地图或 MapMode 状态。 */
 .stamp-content-editor {
+  position: relative;
   display: flex;
   container: stamp-content-editor / inline-size;
   flex-direction: column;
-  gap: 12px;
   height: 100%;
   min-width: 0;
   min-height: 0;
-  padding: 12px;
   overflow: hidden;
 }
 .stamp-content-editor__error {
-  padding: 8px 10px;
-  border: 1px solid color-mix(in srgb, var(--err) 55%, var(--line));
-  border-radius: 6px;
+  z-index: 2;
+  padding: 7px 10px;
+  border-bottom: 1px solid color-mix(in srgb, var(--err) 55%, var(--line));
   background: color-mix(in srgb, var(--err) 8%, transparent);
   color: #f1a1a1;
   font-size: 11px;
@@ -4802,7 +4853,9 @@ html[data-panel-resize="horizontal"] * {
   display: grid;
   flex: 1 1 auto;
   grid-template-rows: auto minmax(0, 1fr) auto;
-  min-height: 300px;
+  min-height: 0;
+  border: 0;
+  border-radius: 0;
 }
 .stamp-draft-palette {
   align-self: start;
@@ -5052,7 +5105,7 @@ html[data-panel-resize="horizontal"] * {
 
 @container stamp-content-editor (max-width: 880px) {
   .stamp-content-editor {
-    padding: 10px;
+    min-width: 0;
   }
 }
 

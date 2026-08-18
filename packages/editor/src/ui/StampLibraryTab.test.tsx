@@ -542,8 +542,9 @@ describe('StampLibraryTab', () => {
 
     await act(async () => button('继续编辑', document).click())
     expect(host.querySelector('[aria-label="组合局部地图编辑画布"]')).not.toBeNull()
-    await act(async () => button('还原修改', host).click())
-    await act(async () => button('放弃草稿', document).click())
+    await act(async () => button('恢复已保存', host).click())
+    expect(host.querySelector('[aria-label="组合局部地图编辑画布"]')).not.toBeNull()
+    expect(host.querySelector('.stamp-content-editor')?.hasAttribute('data-dirty')).toBe(false)
     expect(session.getState().stamps[0]?.origin).toBe('migrated')
     expect(session.getHistoryVersion()).toBe(historyBefore)
   })

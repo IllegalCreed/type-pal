@@ -45,7 +45,8 @@ Status: rebaseline complete（2026-08-17；ED-AUDIT-2 输入；不是任一页�
   `CanonicalSharedScriptTabV5 / CanonicalScriptEditorV5 / CommandForm` 已由 boundary 单独钉为 raw control 0。
 - 旧按钮类当前为：`tool=62`、`btn=26`、`mini=14`、`mini-txt=23`、`pv-btn=5`、`mini-icon=3`；
   `item-action-button` 与 `media-zoom-controls` 已归零。
-- production inline `style={{...}}` 共 72 处，集中于 SpriteFrames 16、LevelCurve 12、App 9；动态坐标/尺寸
+- production inline `style={{...}}` 共 73 处，集中于 SpriteFrames 16、LevelCurve 12、App 9；本轮新增的 1 处为
+  地图画布右键菜单的动态定位；动态坐标/尺寸
   不自动算问题，只有页面级视觉或几何常量才进入迁移卡。
 - 生产 `<img>` 共 6 处；Tileset 上传预览带显式宽高，其余 5 处需在所属领域卡核对固有尺寸/CLS 合同。
 
@@ -78,7 +79,7 @@ className 匹配器与 token 词界 `(?<![\\w-])TOKEN(?![\\w-])` 和 boundary te
 | U-08 | 空/错/加载/缺引用的恢复语法不统一 | 历史白屏、`stages is not iterable`；各页私有空态 | 统一 boundary + visible error + retry/open-source action；禁止静默空数组 |
 | U-09 | 页面自身标题与主任务说明不稳定 | Skill 直接从“基础”表单开始；BattleField 有明确 hero | 每个对象页必须先有 hero：类型/id、名称、摘要、状态、主要动作 |
 | U-10 | 页面级 inline layout 仍多 | Skill/Enemy/Ambience 等保留 inline style | 迁移卡逐页删除并记录例外；不得在 ED-DS-2 批量机械改写 |
-| U-11 | 按钮体系尚未完成采用 | 当前 production census：raw `<button>` 241；`DsButton=199`、`DsIconButton=62`、`DsActionLink=3`；旧类仍有 tool/btn/mini/mini-txt/pv-btn/mini-icon = 62/26/14/23/5/3 | 公共入口只保留 `DsButton/DsActionLink/DsIconButton/DsToolbar/DsMenuItem`；脚本批次已归零，继续按领域迁剩余旧族并用边界测试禁止回流 |
+| U-11 | 按钮体系尚未完成采用 | 当前 production census：raw `<button>` 241；`DsButton=195`、`DsIconButton=62`、`DsActionLink=3`；旧类仍有 tool/btn/mini/mini-txt/pv-btn/mini-icon = 62/26/14/23/5/3 | 公共入口只保留 `DsButton/DsActionLink/DsIconButton/DsToolbar/DsMenuItem`；脚本批次已归零，继续按领域迁剩余旧族并用边界测试禁止回流 |
 | U-12 | 对象级删除的位置随模块漂移 | Skill/Enemy/BattleField 在 hero，Actor 曾在 Inspector 底部；引用面板标题又重复写“引用与删除” | 对象级删除统一进入 `DsObjectHero.actions`；Inspector 只保留“引用”与阻断原因；子项删除留在所属行/卡片 |
 
 ### 3.1 2026-08-17 复核状态
@@ -90,7 +91,7 @@ className 匹配器与 token 词界 `(?<![\\w-])TOKEN(?![\\w-])` 和 boundary te
 | U-06/U-11 | 仍 open | raw form 与旧按钮族的精确基线仍大，只减不增不等于完成采用。 |
 | U-07 | 仍 open，优先级上升 | `DsVirtualList` 已存在但生产零调用；敌队 380 行 `shown.map` 是直接反例。必须先补焦点、选择、滚动定位和动态高度合同，不能机械套现有原型。 |
 | U-08 | 已闭合 6 个诊断面，其余按页复核 | 共享诊断/引用状态已落地；普通空态、加载态和业务错误仍由各领域卡验证。 |
-| U-10 | 部分 open | 72 个 inline style 需区分动态几何与页面皮肤，禁止按数量机械归零。 |
+| U-10 | 部分 open | 73 个 inline style 需区分动态几何与页面皮肤，禁止按数量机械归零。 |
 
 ### 3.2 最新实现顺序
 

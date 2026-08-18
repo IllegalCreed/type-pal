@@ -244,13 +244,15 @@ build/done。
 
 ### 进入 done 前:审查签字
 
-- Codex: **accept（2026-08-18，返工后重新签）**。2026-08-17 的旧 accept 已被用户对分离查看/编辑、重复图层/画布、
-  右栏动作页和瓦片不可选等 counter 推翻。返工后选择即编辑，基础信息归属性，右栏为属性/引用/瓦片，图层栈与
-  等距编辑画布由地图和组合共同消费；地图工具栏也按主工具/附加选项/显示状态重组。editor `129 files / 965 tests`、
-  typecheck、build、三档浏览器尺寸与 Console 0 全绿；未触及 schema/runtime/placement 非链接语义。
+- Codex: **accept（2026-08-18，二次返工后重新签）**。前两次 accept 分别被“查看/编辑分离”与“常驻选区命令、
+  重复组合标题壳、View 层级”两轮用户 counter 推翻。当前选择即编辑；基础信息归属性；属性/引用/瓦片分栏；
+  地图与组合共同消费 `LayerStackControls`、`IsometricEditorCanvas` 和 `IsometricEditorSurface`。地图常驻栏只保留
+  主工具及当前主工具的附加项，复制/剪切/粘贴/移动/重复/删除/包含碰撞进入可键盘访问的画布右键菜单，View
+  收为单一菜单。editor `129 files / 965 tests`、typecheck、build、定向 96 项和 1280×720 浏览器复验全绿；
+  未触及 schema/runtime/placement 非链接语义。
 - Kimi: pending
 - GLM: pending
-- counter / 返工处理: **2026-08-18 用户 counter 已完成返工；等待 Kimi/GLM 独立复审。**
+- counter / 返工处理: **2026-08-18 两轮用户 counter 均已完成返工；等待 Kimi/GLM 独立复审。**
 - 缺签豁免: N/A
 - done 准入结论: blocked
 
@@ -314,7 +316,7 @@ build/done。
   - `packages/editor/src/core/stamp-draft.ts`、`stamp-draft.test.ts`
   - `packages/editor/src/ui/StampContentEditor.tsx`
   - `packages/editor/src/ui/StampLibraryTab.tsx`、`StampLibraryTab.test.tsx`
-  - `packages/editor/src/ui/LayerStackControls.tsx`、`IsometricEditorCanvas.tsx`
+  - `packages/editor/src/ui/LayerStackControls.tsx`、`IsometricEditorCanvas.tsx`、`IsometricEditorSurface.tsx`
   - `packages/editor/src/ui/MapMode.tsx`、`MapMode.test.tsx`、`TilesetTab.tsx`、`editor.css`
   - `packages/editor/src/ui/design-system/boundary.test.ts`
 - 实现摘要:
@@ -327,6 +329,13 @@ build/done。
     `IsometricEditorCanvas`，中央画布同时承担编辑和合成预览，不再维护重复的 DOM 格子/预览画布。
   - 地图工具栏移除独立“放置组合”：右侧选择组合后直接进入放置；跨层选择只在选择工具中出现，变换含碰撞归入
     选区操作附加项，碰撞成为主工具且标记/清除只在该状态出现，网格/碰撞显示独立分组。
+  - 第二轮工具栏返工移除常驻“选区操作”；复制/剪切/粘贴/移动/重复/删除与“包含碰撞”进入画布右键菜单，
+    同时支持 ContextMenu / Shift+F10、方向键、Home/End、Escape 和既有快捷键。去掉“移动…”省略号；显示项
+    收口为 `DsMenuBar` 的 View 菜单。
+  - 新增 `IsometricEditorSurface` 统一 toolbar/viewport/overlay/footer 骨架；组合中央删除重复页面标题 Hero，
+    直接从共享工具栏和等距画布开始，名称/分类/保存留在属性面板。
+  - 用户新增的“同一地图多瓦片集、来源选择位于瓦片 Tab”会改变 map/stamp/save/runtime canonical 结构，已拆到
+    `ED-MAP-MULTI-TILESET-1` 并完成 premise 核验；本卡不以移动单值下拉伪装为多来源闭环。
   - Tileset 页自有 header 改为共享 `DsObjectHero`；地图/组合图层按钮和状态语法统一。
   - 保存边界位于 `StampLibraryTab.tsx:288-299`，一次且仅一次派发 `AddStampTemplateCommand` 或
     `ReplaceStampTemplateCommand`；原地图选区导入捷径保留。
@@ -336,14 +345,18 @@ build/done。
   - `pnpm --filter @type-pal/editor check`：通过；129 files / 965 tests passed。
   - `pnpm --filter @type-pal/editor build`：通过（仅既有 chunk >500k 提示）。
   - `pnpm --filter @type-pal/editor exec vitest run src/ui/MapMode.test.tsx`：56/56 passed（最后工具栏语义修订后定向复验）。
+  - `pnpm exec vitest run packages/editor/src/ui/MapMode.test.tsx packages/editor/src/ui/StampLibraryTab.test.tsx packages/editor/src/ui/design-system/boundary.test.ts`：96/96 passed。
   - changed-files `biome check`：通过；仅报告 `editor.css:10314-10317` 既有 `.visually-hidden !important`
     4 条 warning，本卡未新增。
   - `git diff --check`：通过。
 - 浏览器 / 手工检查:
   - `?ui_samples=1&module=map&page=stamp`：选择组合即见编辑工作台；左侧列表和共享图层栈均可达；右侧瓦片网格
     独立滚动；中央共享等距画布填满剩余高度；无旧“编辑内容/退出编辑”状态。
-  - `?ui_samples=1&module=map`：选择工具才显示“跨层”；碰撞工具才显示“标记/清除”；右侧选择组合后出现放置
-    Inspector，工具栏不存在独立“放置组合”按钮；Console warning/error 0。
+  - `?ui_samples=1&module=map&page=editor`：选择工具才显示“跨层”；碰撞工具才显示“标记/清除”；选区命令不再
+    常驻，右键菜单完整收在画布内；View 为单入口；右侧选择组合后出现放置 Inspector，工具栏不存在独立
+    “放置组合”按钮。
+  - `?ui_samples=1&module=map&page=stamp`：中央没有重复组合标题 Hero，顶部直接是共享编辑 surface；右侧属性
+    保留名称/分类/保存，瓦片与引用各自归入 Tab。
   - 1280/900/720 × 720 三档 document 横向 overflow 均为 0；900 中央 416px、720 中央 260px，画布保持可滚动。
 - 跳过的检查及原因: 无。
 
@@ -354,21 +367,24 @@ build/done。
 - 验证方式: in-app Browser + DOM 尺寸量化 + 三档截图 + 语义交互。
 - 集中 E2E 用例 / 批次: N/A
 - 截图 / 像素检查路径: 本轮浏览器内联截图（未把临时截图落库）；量化证据已写入上一节。
-- 结论: **返工后通过**。用户指出的“查看/编辑分离、瓦片不在侧栏、图层和地图 surface 重复、工具栏层级不清”均已
-  按共享 surface 收口；1280/900/720 三档无 document 横向溢出，Console warning/error 0。
+- 结论: **二次返工后通过**。查看/编辑分离、重复图层/画布、组合中央重复标题、常驻选区命令、View 层级和菜单
+  越界均已按共享 surface 收口；最新 1280×720 复验右键菜单与组合中央布局通过。多瓦片集语义另见
+  `ED-MAP-MULTI-TILESET-1`，不得用现有单值下拉搬家冒充完成。
 - 未完成项: Kimi/GLM 独立 review 与用户最终验收。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: 2026-08-17 Codex 旧 accept 被用户 counter 推翻；2026-08-18 返工后 Codex 重新 accept，Kimi/GLM pending。
-- 必须返工项: 用户 counter 项已完成；以非 Coding Owner 复审为准。
+- 审查结论: 2026-08-17 与 2026-08-18 两次 Codex accept 均曾被后续用户 counter 推翻；二次返工后 Codex
+  重新 accept，Kimi/GLM pending。
+- 必须返工项: 两轮用户 counter 项已完成；多瓦片集结构纠偏转 `ED-MAP-MULTI-TILESET-1`；以非 Coding Owner 复审为准。
 - Accept / rework: review。
 
 ## 用户验收
 
-- 用户结论: **counter（2026-08-18）**：不得区分组合查看/编辑；基本信息归属性；瓦片在右侧选择；图层管理和中间
-  地图编辑应复用地图页面；地图工具栏须区分主工具、附加选项和显示开关。当前实现已返工，等待用户复验。
+- 用户结论: **counter（2026-08-18，第二轮）**：不得常驻选区命令；移动不应带省略号；View 需要统一样式；
+  组合中央删除重复标题并继续复用地图编辑 surface。以上已返工，等待用户复验。用户同时要求来源瓦片集在“瓦片”
+  Tab 选择且一张地图允许多个瓦片集；该 schema 产品铁律已进入 `ED-MAP-MULTI-TILESET-1`，尚未获得 build 三签。
 - 后续任务: Kimi/GLM 独立复审 + 用户对返工版最终验收。
 
 ## 交接日志
@@ -395,21 +411,27 @@ build/done。
 - 2026-08-18 Codex: 完成返工并重新 accept。新增共享 `LayerStackControls` 与 `IsometricEditorCanvas`，组合选择即
   编辑，属性/引用/瓦片分栏，地图选组合即放置，工具栏按语义分组；Tileset hero 一并统一。Evidence: editor check
   129/965、build、MapMode 56/56、三档浏览器无横溢出、Console 0。Next: Kimi/GLM 独立复审；未齐前不得标 done。
+- 2026-08-18 User: 第二轮 counter：常驻选区操作、移动省略号、View 呈现和组合中央重复标题仍不合格；要求组合
+  中央继续沿用地图编辑组件。Next: Codex 继续同卡返工，上一轮 accept 失效。
+- 2026-08-18 Codex: 新增共享 `IsometricEditorSurface`，删除组合中央 Hero；选区命令迁入带键盘替代路径的画布
+  右键菜单，View 收为 `DsMenuBar`，完成菜单实测与 editor 129/965 + build，重新 accept。Next: Kimi/GLM 复审。
+- 2026-08-18 User: 进一步裁决瓦片集语义：来源选择位于“瓦片”Tab，一张地图可混用多个瓦片集。Codex 核验
+  当前单 tileset + 裸 tileId 横跨 map/stamp/runtime，拆出 `ED-MAP-MULTI-TILESET-1` 高风险卡；三签前不得实现。
 
 ## 下一位 Agent 提示词
 
 ```text
 接手任务：ED-STAMP-EDITOR-1 组合模板内容编辑闭环
 任务卡：docs/ops/tasks/ED-STAMP-EDITOR-1-stamp-template-content-editor.md
-当前状态：review；用户已 counter 2026-08-17 初版，Codex 完成共享 surface 返工并于 2026-08-18 重新 accept；
+当前状态：review；用户两轮 counter 后，Codex 完成 shared surface、右键选区命令与 View 返工并于 2026-08-18 重新 accept；
 Kimi/GLM done 前 accept pending；不得标 done。
 你的角色：Kimi 或 GLM，负责独立代码审查与 done 前签字。
 先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文、
 packages/editor/src/core/stamp-draft.ts、stamp-draft.test.ts、stamp-commands.ts，
 packages/editor/src/ui/StampContentEditor.tsx、StampLibraryTab.tsx/test、LayerStackControls.tsx、
-IsometricEditorCanvas.tsx、MapMode.tsx/test、TilesetTab.tsx、design-system/boundary.test.ts 与 editor.css。
-已完成：纯内存 draft；选择即编辑；属性/引用/瓦片分栏；地图/组合共享图层栈和等距画布；右侧 tile palette；
-地图选组合即放置与语义化工具栏；editor 129/965、build 与三档视觉矩阵全绿。
+IsometricEditorCanvas.tsx、IsometricEditorSurface.tsx、MapMode.tsx/test、TilesetTab.tsx、design-system/boundary.test.ts 与 editor.css。
+已完成：纯内存 draft；选择即编辑；属性/引用/瓦片分栏；地图/组合共享图层栈、等距画布和 surface 骨架；右侧
+tile palette；地图选组合即放置；选区命令进画布右键菜单；View 单入口；editor 129/965、build 与浏览器复验全绿。
 请你做：独立检查 SK1/SK2 与 SE2/SE3，并重点核对共享 surface 是否仍保持 draft/session 隔离、地图/组合投影与
 命中是否一致、组合选择即放置是否无隐藏模式冲突、工具栏附加选项是否只在正确主工具下出现、窄栏布局是否可达；
 复跑必要测试。
