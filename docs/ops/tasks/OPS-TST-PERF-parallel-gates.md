@@ -252,6 +252,13 @@ parallel 命令必须失败，默认串行命令保持不变。
   workspace `0/0/0`；唯一失败为新增 `release-runner-core.ts` 后 oracle 的
   `packages/migrate/src` source fingerprint 漂移。显式 oracle update 的 diff 只有该 root 的
   `bytes 2,982,322 -> 2,983,291` 与 `sha256`，projection/golden 均无变化；刷新后须重跑 canary。
+- oracle 固定后的 proof 首组 canary 2/2 通过，canonical release 完成 811 assertions 后仍正确
+  fail-closed：`build/release-runs/proof-final-373ea24b/pair-1/serial-control/summary.json`，唯一失败为
+  `pal-c1-npc-curation-transition.pal.test.ts` 的半状态矩阵用例命中 Vitest 默认 5s（实测
+  `5,013.9ms`）；同文件其余 5 个重型用例和 `beforeAll` 均已显式 120s。现只把该漏项补为同级
+  `120_000`，不改断言、业务实现或全局 timeout；该 control peak `3,998,154,752B`、workspace
+  `0/0/0`、其余 809 listed tests 通过。真实 `release-unit` 路由定向复跑为 **1 file / 6 passed**，
+  wall `205.45s`。
 - 尚未完成：修复后的完整 serial control、显式 parallel 以及三组同机同批次 serial/parallel proof。
   因此本卡保持 `build`，Codex/Kimi/GLM done 前签字仍为 pending。
 
@@ -297,6 +304,9 @@ parallel 命令必须失败，默认串行命令保持不变。
 - 2026-08-18 Codex: 短 TMP 最终候选的首轮 proof 在 canary 因 src fingerprint 漂移 fail-closed；
   replay assertion 仍通过且 workspace 0/0/0。显式 oracle update 只改 production source root 的
   bytes/sha256，projection/golden 无 diff。Next: canary 2/2 后提交固定候选并从头跑三组 proof。
+- 2026-08-18 Codex: oracle 固定候选的首组 canary 2/2 通过；canonical 仅 C1-3 半状态矩阵用例在
+  5,013.9ms 命中默认 5s。核对同文件其余重型用例均 120s，补齐该漏项且不改断言/业务代码。
+  真实 `release-unit` 定向 1 file/6 tests 全绿。Next: 提交后从固定 HEAD 重启 proof。
 
 ## 下一位 Agent 提示词
 

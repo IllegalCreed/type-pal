@@ -162,7 +162,7 @@ describe('C1-3 approved PAL NPC curation transition', () => {
         }),
       ).toThrow()
     }
-  })
+  }, 120_000)
 
   test('preserves unrelated project edits while folding exact C1-3 leaves', () => {
     const project = projectFromPublished(build.successor)
