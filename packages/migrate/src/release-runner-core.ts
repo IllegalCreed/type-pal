@@ -1,6 +1,8 @@
 import { type ChildProcess, execFileSync, spawn } from 'node:child_process'
+import { createHash } from 'node:crypto'
 import { createWriteStream, mkdirSync } from 'node:fs'
-import { dirname } from 'node:path'
+import { tmpdir } from 'node:os'
+import { dirname, resolve } from 'node:path'
 import { performance } from 'node:perf_hooks'
 
 export const GIB = 1024 ** 3
@@ -78,6 +80,25 @@ interface MutableChildState {
 }
 
 const STDERR_TAIL_LIMIT = 64 * 1024
+const UNIX_SOCKET_PATH_BUDGET_BYTES = 100
+
+export function releaseRuntimeTmpDir(
+  runId: string,
+  childId: string,
+  baseDir = process.platform === 'win32' ? tmpdir() : '/tmp',
+): string {
+  if (!runId.trim()) throw new Error('release runner: run id 为空')
+  if (!childId.trim()) throw new Error('release runner: child id 为空')
+  const runKey = createHash('sha256').update(runId).digest('hex').slice(0, 12)
+  const childKey = createHash('sha256').update(childId).digest('hex').slice(0, 8)
+  const directory = resolve(baseDir, 'type-pal-release', runKey, childKey)
+  if (process.platform !== 'win32') {
+    const socketProbe = resolve(directory, 'tsx-4294967295', '4294967295.pipe')
+    if (Buffer.byteLength(socketProbe) > UNIX_SOCKET_PATH_BUDGET_BYTES)
+      throw new Error(`release runner: runtime tmp 路径超出 Unix socket 预算 ${socketProbe}`)
+  }
+  return directory
+}
 
 export function parsePsTable(raw: string): Map<number, { parent: number; rssKiB: number }> {
   const processes = new Map<number, { parent: number; rssKiB: number }>()

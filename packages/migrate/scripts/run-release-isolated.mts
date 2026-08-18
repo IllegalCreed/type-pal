@@ -10,6 +10,7 @@ import {
   GIB,
   type ReleaseChildGroupResult,
   type ReleaseChildSpec,
+  releaseRuntimeTmpDir,
   runReleaseChildGroup,
 } from '../src/release-runner-core.js'
 import {
@@ -492,7 +493,9 @@ function childSpec(args: {
   transaction: boolean
 }): ReleaseChildSpec {
   const childRoot = resolve(args.runRoot, 'children', args.id)
-  const tmpDir = resolve(childRoot, 'tmp')
+  // Keep logs/reports under the proof root, but keep runtime TMP short. macOS truncates long
+  // Unix-domain socket paths; tsx appends its IPC path below TMPDIR and otherwise collides.
+  const tmpDir = releaseRuntimeTmpDir(args.runId, args.id)
   const transactionRoot = args.transaction ? resolve(childRoot, 'transaction') : null
   const reportPath = args.report ? resolve(childRoot, 'report.vitest.json') : null
   const env: NodeJS.ProcessEnv = {

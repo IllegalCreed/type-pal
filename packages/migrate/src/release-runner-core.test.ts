@@ -8,6 +8,7 @@ import {
   parsePsTable,
   processTreeSamplesFromTable,
   type ReleaseChildSpec,
+  releaseRuntimeTmpDir,
   runReleaseChildGroup,
 } from './release-runner-core.js'
 
@@ -62,6 +63,16 @@ function fixedSamples(
 }
 
 describe('release runner process/RSS protocol', () => {
+  test('keeps runtime tmp roots isolated and below the Unix socket path budget', () => {
+    const first = releaseRuntimeTmpDir('parallel-run-a', 'manifest', '/tmp')
+    const sibling = releaseRuntimeTmpDir('parallel-run-a', 'release-pal-shared', '/tmp')
+    const nextRun = releaseRuntimeTmpDir('parallel-run-b', 'manifest', '/tmp')
+    const socketProbe = resolve(first, 'tsx-4294967295', '4294967295.pipe')
+
+    expect(new Set([first, sibling, nextRun]).size).toBe(3)
+    expect(Buffer.byteLength(socketProbe)).toBeLessThanOrEqual(100)
+  })
+
   test('parses process trees once and rejects overlapping ownership', () => {
     const table = parsePsTable('10 1 100\n11 10 50\n12 1 25\n')
     expect(processTreeSamplesFromTable(table, [10, 12])).toEqual(

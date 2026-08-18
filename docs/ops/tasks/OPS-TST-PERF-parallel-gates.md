@@ -201,7 +201,7 @@ parallel 命令必须失败，默认串行命令保持不变。
 - 修复后验证：严格 PAL migration integration **1 passed / 2 skipped（523.70s）**；R13 enemy
   initialize **1 passed / 2 skipped（773.07s）**；历史 canary **1 file / 2 passed（257s）**；
   `check:fast` **92 files / 676 passed / 5 skipped（385.53s）**；此后新增一条 copy-on-write 回归测试，
-  当前 manifest 冻结为 fast `92/677`、release `116/809`、canary `1/2`。oracle projection 无 diff，
+  当前 manifest 冻结为 fast `92/678`、release `116/810`、canary `1/2`。oracle projection 无 diff，
   仅 manifest source fingerprint 随实现更新。
 - 修复引用回归后的第二次 serial control 仍按合同 fail-closed：
   `build/release-runs/serial-control-2026-08-17T212253530Z-eff7da24/summary.json`。manifest/canary 通过；
@@ -232,6 +232,21 @@ parallel 命令必须失败，默认串行命令保持不变。
   `beforeAll`，而 fast 的 pal-lite project本就给同类冷建120s。现只为这三处真实冷建hook显式120s，
   不抬整个unit组；定向release-unit报告
   `build/release-runs/c1-release-unit-3DUz9a/report.vitest.json` 为 **3 files / 10 passed**。
+- 固定候选 `5efa8191` 的首组完整对照已通过：serial
+  `build/release-runs/serial-control-2026-08-18T020200248Z-1bc745b2/summary.json` wall
+  `4,641,424ms`、peak `4,063,330,304B`；parallel
+  `build/release-runs/parallel-2026-08-18T032008184Z-16ea9cf4/summary.json` wall
+  `4,059,785ms`、shared/fresh/combined peak `4,327,112,704 / 2,959,327,232 /
+  4,749,967,360B`，节省 `581,639ms`。两边 116 files / 809 listed tests、coverage/test-list/route
+  digest 与 workspace `0/0/0` 全等。
+- 同候选第二组 serial 也通过：
+  `build/release-runs/proof-seeded-8ryNqE/pair-2/serial-control/summary.json` wall
+  `4,516,294ms`、peak `4,031,496,192B`、workspace `0/0/0`；随后的 parallel manifest 在启动时
+  正确 fail-closed，`tsx` 报 `EADDRINUSE`。一手 `lsof` 复现显示长 `TMPDIR` 下多个 Unix socket
+  均被内核截为同一个 `.../tmp/ts` 前缀；失败路径长 127 bytes，超过 macOS UDS 安全预算。
+  runner 现只把可审计 log/report/transaction 留在长 proof root，运行时 TMP 改为按 run/child 哈希的
+  `/tmp/type-pal-release/...` 独立短根，并在构造时强制 socket probe `<=100 bytes`。回归测试 9/9、
+  typecheck、真实短 TMP manifest `fast 92/678 / release 116/810 / canary 1/2` 均通过。
 - 尚未完成：修复后的完整 serial control、显式 parallel 以及三组同机同批次 serial/parallel proof。
   因此本卡保持 `build`，Codex/Kimi/GLM done 前签字仍为 pending。
 
@@ -270,6 +285,10 @@ parallel 命令必须失败，默认串行命令保持不变。
   `4,025,942,016B`、workspace `0/0/0`；仅3个PAL-lite `beforeAll`在release-unit默认10s下超时。
   三处显式对齐fast pal-lite的120s后，release-unit定向3 files/10 tests全绿，typecheck/manifest通过。
   Next: 提交固定候选并再次完整control。
+- 2026-08-18 Codex: 首组 serial/parallel 完整通过且节省 581,639ms；第二组 serial 通过后，parallel
+  manifest 暴露 macOS 长 TMPDIR 截断导致的 `tsx` IPC 冲突并 fail-closed。已改为短 runtime TMP 根，
+  保持 report/log/transaction 证据根不变；单测、typecheck、真实 manifest 均绿。因最终实现 HEAD 已变，
+  旧对照只保留诊断证据，三组正式 proof 将从修复提交重新运行。
 
 ## 下一位 Agent 提示词
 
