@@ -689,7 +689,7 @@ export function EnemyTab(props: {
               label: battleSprites.some((entry) => entry.profile.kind === 'enemy')
                 ? '新建敌人'
                 : '请先在战斗精灵库创建 enemy 定义',
-              icon: '＋',
+              icon: 'add',
               disabled: !battleSprites.some((entry) => entry.profile.kind === 'enemy'),
               onClick: addEnemy,
             },

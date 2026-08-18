@@ -1955,7 +1955,7 @@ export function App(props: {
                   {
                     id: 'create-scene',
                     label: '新建场景',
-                    icon: '＋',
+                    icon: 'add',
                     onClick: () => {
                       const id = window.prompt('新场景 id(kebab-case):', '')?.trim()
                       if (!id) return

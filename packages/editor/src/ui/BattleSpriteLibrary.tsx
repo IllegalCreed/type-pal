@@ -1147,7 +1147,7 @@ export function BattleSpriteLibrary(props: {
             {
               id: 'import-battle-sprite',
               label: '导入战斗精灵',
-              icon: '＋',
+              icon: 'add',
               onClick: () => setUploading(true),
             },
           ]}

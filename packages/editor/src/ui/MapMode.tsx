@@ -2812,7 +2812,7 @@ export function MapMode(props: {
           title="地图"
           count={mapIndex.maps.length}
           unit="张"
-          actions={[{ id: 'create-map', label: '新建地图', icon: '＋', onClick: createMap }]}
+          actions={[{ id: 'create-map', label: '新建地图', icon: 'add', onClick: createMap }]}
           overflowActions={[
             {
               id: 'duplicate-map',

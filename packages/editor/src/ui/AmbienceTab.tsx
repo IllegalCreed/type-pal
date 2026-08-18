@@ -55,7 +55,7 @@ export function AmbienceTab(props: {
           actions={[{
             id: 'create-ambience',
             label: '新建氛围',
-            icon: '＋',
+            icon: 'add',
             onClick: () => {
               const id = window.prompt('新氛围 id(英文,脚本引用):', '')?.trim()
               if (!id) return

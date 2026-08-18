@@ -153,7 +153,7 @@ function SampleList() {
         title="角色"
         count={6}
         unit="位"
-        actions={[{ id: 'create-actor', label: '创建角色', icon: '＋', onClick: () => {} }]}
+        actions={[{ id: 'create-actor', label: '创建角色', icon: 'add', onClick: () => {} }]}
       />
       {FORM_OPTIONS.slice(0, 3).map((item) => (
         <button type="button" className="lab-object-row" key={item.value}>

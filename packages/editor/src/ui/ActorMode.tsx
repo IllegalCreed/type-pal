@@ -305,11 +305,11 @@ export function ActorMode(props: {
           count={actors.length}
           unit="位"
           actions={[
-            { id: 'create-actor', label: '新建人物', icon: '＋', onClick: beginCreate },
+            { id: 'create-actor', label: '新建人物', icon: 'add', onClick: beginCreate },
             {
               id: 'copy-actor',
               label: '复制当前人物',
-              icon: '⧉',
+              icon: 'copy',
               disabled: !actor,
               onClick: beginCopy,
             },

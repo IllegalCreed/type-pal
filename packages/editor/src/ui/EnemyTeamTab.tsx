@@ -201,11 +201,11 @@ export function EnemyTeamTab(props: {
           count={enemyTeams.length}
           unit="队"
           actions={[
-            { id: 'create-enemy-team', label: '新建敌队', icon: '＋', onClick: beginCreate },
+            { id: 'create-enemy-team', label: '新建敌队', icon: 'add', onClick: beginCreate },
             {
               id: 'copy-enemy-team',
               label: '复制当前敌队',
-              icon: '⧉',
+              icon: 'copy',
               disabled: !selected,
               onClick: copy,
             },

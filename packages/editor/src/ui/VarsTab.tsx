@@ -272,7 +272,7 @@ export function VarsTab(props: {
             {
               id: 'create-world-variable',
               label: '新建变量',
-              icon: '＋',
+              icon: 'add',
               onClick: () => beginCreate(),
             },
           ]}

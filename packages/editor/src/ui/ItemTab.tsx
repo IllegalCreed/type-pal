@@ -1083,7 +1083,7 @@ export function ItemTab(props: {
           title="物品"
           count={items.length}
           unit="项"
-          actions={[{ id: 'create-item', label: '新建物品', icon: '＋', onClick: createItem }]}
+          actions={[{ id: 'create-item', label: '新建物品', icon: 'add', onClick: createItem }]}
           search={{
             'aria-label': '搜索物品名称或稳定 ID',
             placeholder: '搜索名称或 id…',

@@ -496,7 +496,7 @@ export function TilesetTab(props: {
             {
               id: 'upload-tileset',
               label: '上传 PNG、WebP 或 GIF 图集',
-              icon: '＋',
+              icon: 'add',
               onClick: () => {
                 setUploading(true)
                 setReplaceTargetId(undefined)

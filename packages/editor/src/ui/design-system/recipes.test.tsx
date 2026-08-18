@@ -109,7 +109,7 @@ describe('object workbench recipes', () => {
           title="组合库"
           count={12}
           unit="项"
-          actions={[{ id: 'create', label: '新建组合', icon: '+', onClick: onCreate }]}
+          actions={[{ id: 'create', label: '新建组合', icon: 'add', onClick: onCreate }]}
           scope={<div data-testid="scope">来源域</div>}
           search={{ 'aria-label': '搜索组合模板', placeholder: '搜索名称或 ID' }}
           filters={[

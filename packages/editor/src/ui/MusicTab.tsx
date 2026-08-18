@@ -211,7 +211,7 @@ export function MusicTab(props: {
             {
               id: 'import-music',
               label: '导入 MIDI',
-              icon: '＋',
+              icon: 'add',
               onClick: () => importRef.current?.click(),
             },
           ]}

@@ -1060,7 +1060,7 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
           title="入口点"
           count={entryPoints.length + 1}
           unit="项"
-          actions={[{ id: 'create-entry', label: '新增入口', icon: '＋', onClick: addEntry }]}
+          actions={[{ id: 'create-entry', label: '新增入口', icon: 'add', onClick: addEntry }]}
           overflowActions={[
             { id: 'clone-entry', label: '复制当前入口', onClick: cloneEntry },
             {

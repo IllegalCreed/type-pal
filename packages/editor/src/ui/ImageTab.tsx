@@ -541,7 +541,7 @@ export function ImageTab(props: {
             {
               id: 'import-image',
               label: '导入 PNG',
-              icon: '＋',
+              icon: 'add',
               onClick: () => inputRef.current?.click(),
             },
           ]}

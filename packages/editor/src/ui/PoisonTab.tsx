@@ -371,7 +371,7 @@ export function PoisonTab(props: {
             {
               id: 'create-poison',
               label: '新建毒',
-              icon: '＋',
+              icon: 'add',
               onClick: () => {
                 const name = window.prompt('新毒名字:', '')?.trim()
                 if (!name) return

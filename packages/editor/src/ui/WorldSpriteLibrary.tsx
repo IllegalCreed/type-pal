@@ -483,7 +483,7 @@ export function WorldSpriteLibrary(props: {
             {
               id: 'import-world-sprite',
               label: '导入源帧资源',
-              icon: '＋',
+              icon: 'add',
               onClick: () => setUploading(true),
             },
           ]}

@@ -59,7 +59,7 @@ export function ShopTab(props: {
             {
               id: 'create-shop',
               label: '新建店铺',
-              icon: '＋',
+              icon: 'add',
               onClick: () => {
                 const id =
                   shops.reduce((maximum, candidate) => Math.max(maximum, candidate.id), -1) + 1

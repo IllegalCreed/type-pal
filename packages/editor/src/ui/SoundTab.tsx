@@ -215,7 +215,7 @@ export function SoundTab(props: {
             {
               id: 'import-sound',
               label: '导入 WAV',
-              icon: '＋',
+              icon: 'add',
               onClick: () => importRef.current?.click(),
             },
           ]}

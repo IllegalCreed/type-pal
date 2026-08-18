@@ -193,7 +193,7 @@ export function CanonicalSharedScriptTabV5(props: {
             {
               id: 'create-shared-script',
               label: '新建可复用脚本',
-              icon: '＋',
+              icon: 'add',
               buttonRef: createButtonRef,
               onClick: openCreate,
             },

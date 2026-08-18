@@ -121,15 +121,16 @@ export function DsTooltip(props: { label: string; shortcut?: string; children: R
   )
 }
 
-export function DsIconButton(
-  props: Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'aria-label'> & {
+export const DsIconButton = forwardRef<
+  HTMLButtonElement,
+  Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'aria-label'> & {
     label: string
     icon: DsIconName
     shortcut?: string
     variant?: Extract<DsButtonVariant, 'secondary' | 'quiet' | 'danger'>
     size?: DsControlSize
-  },
-) {
+  }
+>(function DsIconButton(props, ref) {
   const {
     label,
     icon,
@@ -142,6 +143,7 @@ export function DsIconButton(
   return (
     <DsTooltip label={label} shortcut={shortcut}>
       <button
+        ref={ref}
         type="button"
         {...buttonProps}
         className={classes(
@@ -156,7 +158,7 @@ export function DsIconButton(
       </button>
     </DsTooltip>
   )
-}
+})
 
 export function DsField(props: {
   id?: string
@@ -1131,7 +1133,7 @@ export function DsCard(props: {
 export interface DsListHeaderAction {
   id: string
   label: string
-  icon: ReactNode
+  icon: DsIconName
   onClick: MouseEventHandler<HTMLButtonElement>
   disabled?: boolean
   buttonRef?: Ref<HTMLButtonElement>
@@ -1165,23 +1167,22 @@ export function DsListHeader(props: {
       {actions.length > 0 || overflowActions.length > 0 ? (
         <span className="ds-list-header__actions">
           {actions.map((action) => (
-            <button
+            <DsIconButton
               key={action.id}
               ref={action.buttonRef}
-              type="button"
               className="ds-list-header__action"
-              aria-label={action.label}
-              title={action.label}
+              size="compact"
+              variant="secondary"
+              label={action.label}
+              icon={action.icon}
               disabled={action.disabled}
               onClick={action.onClick}
-            >
-              {action.icon}
-            </button>
+            />
           ))}
           {overflowActions.length > 0 ? (
             <details className="ds-list-header__menu">
               <summary className="ds-list-header__action" aria-label="更多操作" title="更多操作">
-                ⋯
+                <DsIcon name="more" />
               </summary>
               <div className="ds-list-header__menu-popup">
                 {overflowActions.map((action) => (

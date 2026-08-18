@@ -233,11 +233,11 @@ export function BattleFieldTab(props: {
           count={battleFields.length}
           unit="个"
           actions={[
-            { id: 'create-battlefield', label: '新建战场', icon: '＋', onClick: beginCreate },
+            { id: 'create-battlefield', label: '新建战场', icon: 'add', onClick: beginCreate },
             {
               id: 'copy-battlefield',
               label: '复制当前战场',
-              icon: '⧉',
+              icon: 'copy',
               disabled: !field,
               onClick: copy,
             },

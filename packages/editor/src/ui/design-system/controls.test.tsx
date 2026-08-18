@@ -490,7 +490,7 @@ describe('editor design-system controls', () => {
           title="地图"
           count={223}
           unit="张"
-          actions={[{ id: 'create', label: '新建地图', icon: '＋', onClick: create }]}
+          actions={[{ id: 'create', label: '新建地图', icon: 'add', onClick: create }]}
           overflowActions={[{ id: 'duplicate', label: '复制地图', onClick: duplicate }]}
         />,
       ),
@@ -498,7 +498,9 @@ describe('editor design-system controls', () => {
     expect(host.querySelector('.ds-list-header__title')?.textContent).toBe('地图')
     expect(host.querySelector('.ds-list-header__count')?.textContent).toContain('223 张')
     const createButton = host.querySelector<HTMLButtonElement>('[aria-label="新建地图"]')!
-    expect(createButton.className).toBe('ds-list-header__action')
+    expect(createButton.classList).toContain('ds-list-header__action')
+    expect(createButton.classList).toContain('ds-icon-button--compact')
+    expect(createButton.querySelector('.ds-icon')).not.toBeNull()
     await click(createButton)
     expect(create).toHaveBeenCalledOnce()
     const details = host.querySelector<HTMLDetailsElement>('.ds-list-header__menu')!

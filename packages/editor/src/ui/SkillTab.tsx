@@ -894,7 +894,7 @@ export function SkillTab(props: {
           title="技能"
           count={skills.length}
           unit="项"
-          actions={[{ id: 'create-skill', label: '新建技能', icon: '＋', onClick: addSkill }]}
+          actions={[{ id: 'create-skill', label: '新建技能', icon: 'add', onClick: addSkill }]}
           search={{
             'aria-label': '过滤技能',
             placeholder: '过滤 id/名…',

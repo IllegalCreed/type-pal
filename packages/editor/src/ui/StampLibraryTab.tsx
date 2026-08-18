@@ -394,7 +394,7 @@ export function StampLibraryTab(props: {
           title="组合库"
           count={stamps.length}
           unit="项"
-          actions={[{ id: 'create-stamp', label: '新建组合', icon: '＋', onClick: openCreate }]}
+          actions={[{ id: 'create-stamp', label: '新建组合', icon: 'add', onClick: openCreate }]}
           search={{
             'aria-label': '搜索组合模板',
             value: query,
