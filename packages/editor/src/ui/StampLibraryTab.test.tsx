@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
-import type { ProjectMap, StampTemplateV1 } from '@type-pal/content'
+import type { AssetCatalogV1, ProjectMap, StampTemplateV1 } from '@type-pal/content'
+import type { TilesetDef } from '@type-pal/reforge'
 import { buildBlankProjectMap, paintProjectMapTiles } from '@type-pal/reforge'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
@@ -10,6 +11,46 @@ import type { StampSelectionSource } from '../core/stamp-template.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 import { StampLibraryTab } from './StampLibraryTab.js'
+
+vi.mock('@type-pal/reforge', async (importOriginal) => {
+  const original = await importOriginal<typeof import('@type-pal/reforge')>()
+  const frame: import('@type-pal/reforge').RleFrame = {
+    width: 32,
+    height: 16,
+    pixels: new Uint8Array(32 * 16),
+    opaque: new Uint8Array(32 * 16),
+  }
+  return {
+    ...original,
+    loadStandardPalette: vi.fn(async () => ({
+      colors: Array.from({ length: 256 }, () => [0, 0, 0]),
+      cycles: [],
+    })),
+    loadTilesetAsset: vi.fn(async () => new Map([0, 1, 2].map((tileId) => [tileId, frame]))),
+    bakeFrame: vi.fn(() => document.createElement('canvas')),
+  }
+})
+
+const tilesetFixture: TilesetDef = {
+  id: 'tiles-a',
+  name: '测试瓦片集',
+  category: 'test',
+  asset: 'tileset.a',
+}
+
+const assetCatalogFixture: AssetCatalogV1 = {
+  version: 1,
+  assets: {
+    'tileset.a': {
+      kind: 'tileset',
+      path: 'assets/authored/tilesets/a.rle',
+      mediaType: 'application/vnd.type-pal.rle',
+      bytes: 1,
+      sha256: 'a'.repeat(64),
+      origin: { kind: 'authored' },
+    },
+  },
+}
 
 function template(id = 'tree', tilesetId = 'tiles-a'): StampTemplateV1 {
   return {
@@ -73,14 +114,24 @@ function state(stamps: StampTemplateV1[], maps: Record<string, ProjectMap>): Edi
 
 function Harness(props: {
   session: EditSession
+  tilesets?: readonly TilesetDef[]
+  assetCatalog?: AssetCatalogV1
   selectionSource?: StampSelectionSource
   onObjectFocus?: (id: string | undefined) => void
   onOpenMap?: (id: string) => void
   onOpenTileset?: (id: string) => void
   onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
 }) {
-  const { session, selectionSource, onObjectFocus, onOpenMap, onOpenTileset, onStatusNotice } =
-    props
+  const {
+    session,
+    tilesets = [],
+    assetCatalog = { version: 1, assets: {} },
+    selectionSource,
+    onObjectFocus,
+    onOpenMap,
+    onOpenTileset,
+    onStatusNotice,
+  } = props
   useSyncExternalStore(
     (callback) => session.subscribe(callback),
     () => session.getVersion(),
@@ -89,8 +140,8 @@ function Harness(props: {
   return (
     <StampLibraryTab
       stamps={current.stamps}
-      tilesets={[]}
-      assetCatalog={{ version: 1, assets: {} }}
+      tilesets={tilesets}
+      assetCatalog={assetCatalog}
       assetReader={{} as never}
       assetBase={{} as never}
       session={session}
@@ -137,6 +188,37 @@ beforeEach(() => {
   host = document.createElement('div')
   document.body.append(host)
   root = createRoot(host)
+  Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
+    configurable: true,
+    value: () => ({
+      clearRect: vi.fn(),
+      setTransform: vi.fn(),
+      drawImage: vi.fn(),
+      beginPath: vi.fn(),
+      moveTo: vi.fn(),
+      lineTo: vi.fn(),
+      closePath: vi.fn(),
+      fill: vi.fn(),
+      stroke: vi.fn(),
+      arc: vi.fn(),
+      imageSmoothingEnabled: false,
+      lineWidth: 1,
+      fillStyle: '',
+      strokeStyle: '',
+    }),
+  })
+  Object.defineProperty(HTMLDialogElement.prototype, 'showModal', {
+    configurable: true,
+    value() {
+      this.setAttribute('open', '')
+    },
+  })
+  Object.defineProperty(HTMLDialogElement.prototype, 'close', {
+    configurable: true,
+    value() {
+      this.removeAttribute('open')
+    },
+  })
 })
 
 afterEach(async () => {
@@ -301,6 +383,170 @@ describe('StampLibraryTab', () => {
     })
     await act(async () => button('tiles-a', host).click())
     expect(onOpenTileset).toHaveBeenCalledWith('tiles-a')
+  })
+
+  test('内容编辑只在保存时提交一笔模板 history，undo/redo 全程不改地图与 MapIndex', async () => {
+    const map = placedMap('tree')
+    const session = new EditSession(state([template()], { 'map-a': map }))
+    const beforeMaps = structuredClone(session.getState().maps)
+    const beforeMapIndex = structuredClone(session.getState().mapIndex)
+    const historyBefore = session.getHistoryVersion()
+    await act(async () => {
+      root.render(
+        <Harness
+          session={session}
+          tilesets={[tilesetFixture]}
+          assetCatalog={assetCatalogFixture}
+        />,
+      )
+      await new Promise((resolve) => window.setTimeout(resolve, 0))
+    })
+
+    await act(async () => button('编辑组合内容', host).click())
+    await act(async () => new Promise((resolve) => window.setTimeout(resolve, 0)))
+    expect(host.textContent).toContain('3 块 · 当前 #1')
+    expect(session.getHistoryVersion()).toBe(historyBefore)
+    expect(session.getState().maps).toEqual(beforeMaps)
+    expect(session.getState().mapIndex).toEqual(beforeMapIndex)
+
+    await act(async () => button('新增图层', host).click())
+    expect(host.querySelectorAll('.stamp-draft-layer')).toHaveLength(2)
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="瓦片 #2"]')!.click())
+    await input(host.querySelector<HTMLInputElement>('[aria-label="绘制高度"]')!, '3')
+    const paintTarget = host.querySelector<HTMLButtonElement>('[data-point-key="1:0"]')!
+    expect(paintTarget).not.toBeNull()
+    await act(async () => paintTarget.click())
+    const collisionTab = [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(
+      (candidate) => candidate.textContent?.includes('碰撞'),
+    )!
+    await act(async () => collisionTab.click())
+    await chooseSelectOption('碰撞值', '0 · 显式可通行')
+    await act(async () => host.querySelector<HTMLButtonElement>('[data-point-key="0:1"]')!.click())
+    expect(host.querySelector('.stamp-content-editor')?.getAttribute('data-dirty')).toBe('true')
+    expect(session.getHistoryVersion()).toBe(historyBefore)
+    expect(session.getState().maps).toEqual(beforeMaps)
+    expect(session.getState().mapIndex).toEqual(beforeMapIndex)
+
+    await act(async () => button('保存组合', host).click())
+    expect(session.getHistoryVersion()).toBe(historyBefore + 1)
+    expect(session.getState().stamps[0]).toMatchObject({
+      layerSlots: [
+        { id: 'floor', depthMode: 'flat' },
+        { id: 'layer', depthMode: 'height' },
+      ],
+      collision: [{ value: 0 }],
+    })
+    expect(session.getState().stamps[0]?.visual).toContainEqual(
+      expect.objectContaining({ layerSlotId: 'layer', tileId: 2, height: 3 }),
+    )
+    expect(session.getState().maps).toEqual(beforeMaps)
+    expect(session.getState().mapIndex).toEqual(beforeMapIndex)
+
+    await act(async () => session.undo())
+    expect(session.getState().stamps[0]?.visual).toHaveLength(1)
+    expect(session.getState().maps).toEqual(beforeMaps)
+    expect(session.getState().mapIndex).toEqual(beforeMapIndex)
+
+    await act(async () => session.redo())
+    expect(session.getState().stamps[0]?.visual).toHaveLength(2)
+    expect(session.getState().stamps[0]?.collision).toEqual([
+      { offset: { dRow: 0, du: 2 }, value: 0 },
+    ])
+    expect(session.getState().maps).toEqual(beforeMaps)
+    expect(session.getState().mapIndex).toEqual(beforeMapIndex)
+  })
+
+  test('内容草稿离开时先确认，取消编辑保持工程与迁移来源不变', async () => {
+    const migrated = { ...template('tree'), origin: 'migrated' as const }
+    const session = new EditSession(state([migrated, template('rock')], {}))
+    const historyBefore = session.getHistoryVersion()
+    await act(async () => {
+      root.render(
+        <Harness
+          session={session}
+          tilesets={[tilesetFixture]}
+          assetCatalog={assetCatalogFixture}
+        />,
+      )
+      await new Promise((resolve) => window.setTimeout(resolve, 0))
+    })
+    await act(async () => button('编辑组合内容', host).click())
+    await act(async () => new Promise((resolve) => window.setTimeout(resolve, 0)))
+    await act(async () => host.querySelector<HTMLButtonElement>('[data-point-key="1:0"]')!.click())
+
+    const rock = host.querySelector<HTMLButtonElement>('[data-stamp-id="rock"]')!
+    await act(async () => rock.click())
+    expect(document.querySelector('dialog')?.textContent).toContain('放弃未保存的组合修改？')
+    expect(session.getState().stamps[0]?.origin).toBe('migrated')
+    expect(session.getHistoryVersion()).toBe(historyBefore)
+
+    await act(async () => button('继续编辑', document).click())
+    expect(host.textContent).toContain('编辑组合内容')
+    await act(async () => button('取消', host).click())
+    await act(async () => button('放弃草稿', document).click())
+    expect(session.getState().stamps[0]?.origin).toBe('migrated')
+    expect(session.getHistoryVersion()).toBe(historyBefore)
+  })
+
+  test('空库可选择瓦片集新建组合，首个视觉成员与模板一起原子提交', async () => {
+    const session = new EditSession(state([], {}))
+    await act(async () => {
+      root.render(
+        <Harness
+          session={session}
+          tilesets={[tilesetFixture]}
+          assetCatalog={assetCatalogFixture}
+        />,
+      )
+      await new Promise((resolve) => window.setTimeout(resolve, 0))
+    })
+    await act(async () => button('新建组合', host).click())
+    await input(document.querySelector<HTMLInputElement>('[aria-label="新组合名称"]')!, '村口门楼')
+    await act(async () => button('进入内容编辑', document).click())
+    await act(async () => new Promise((resolve) => window.setTimeout(resolve, 0)))
+    expect(host.textContent).toContain('3 块 · 当前 #0')
+    expect(session.getState().stamps).toHaveLength(0)
+
+    await act(async () => button('保存组合', host).click())
+    expect(session.getHistoryVersion()).toBe(1)
+    expect(session.getState().stamps[0]).toMatchObject({
+      id: 'stamp-user',
+      name: '村口门楼',
+      tilesetId: 'tiles-a',
+      origin: 'authored',
+    })
+    expect(session.getState().stamps[0]?.visual).toHaveLength(1)
+    await act(async () => session.undo())
+    expect(session.getState().stamps).toHaveLength(0)
+  })
+
+  test('迁移预置内容直到确认保存才接管为 authored', async () => {
+    const migrated = { ...template(), origin: 'migrated' as const }
+    const session = new EditSession(state([migrated], {}))
+    await act(async () => {
+      root.render(
+        <Harness
+          session={session}
+          tilesets={[tilesetFixture]}
+          assetCatalog={assetCatalogFixture}
+        />,
+      )
+      await new Promise((resolve) => window.setTimeout(resolve, 0))
+    })
+    await act(async () => button('编辑组合内容', host).click())
+    await act(async () => new Promise((resolve) => window.setTimeout(resolve, 0)))
+    await act(async () => host.querySelector<HTMLButtonElement>('[data-point-key="1:0"]')!.click())
+    await act(async () => button('保存组合', host).click())
+    expect(document.querySelector('dialog')?.textContent).toContain('接管预置组合？')
+    expect(session.getState().stamps[0]?.origin).toBe('migrated')
+    expect(session.getHistoryVersion()).toBe(0)
+
+    await act(async () => button('接管并保存', document).click())
+    expect(session.getState().stamps[0]?.origin).toBe('authored')
+    expect(session.getState().stamps[0]?.visual).toHaveLength(2)
+    expect(session.getHistoryVersion()).toBe(1)
+    await act(async () => session.undo())
+    expect(session.getState().stamps[0]?.origin).toBe('migrated')
   })
 
   test('预置接管确认出现后把焦点移到取消按钮，Esc 可回到原动作', async () => {

@@ -724,4 +724,19 @@ describe('editor design-system static boundary', () => {
       expect(source, path).not.toContain('sprite-resource-frame-count')
     }
   })
+
+  test('keeps the stamp content draft outside persistent map and session state', () => {
+    const uiRoot = dirname(here)
+    const surface = readFileSync(join(uiRoot, 'StampContentEditor.tsx'), 'utf8')
+    const draft = readFileSync(join(uiRoot, '../core/stamp-draft.ts'), 'utf8')
+    for (const [name, source] of [
+      ['StampContentEditor.tsx', surface],
+      ['stamp-draft.ts', draft],
+    ] as const) {
+      expect(source, name).not.toMatch(/\b(?:EditSession|MapMode|MapIndexV1|ProjectMap)\b/)
+      expect(source, name).not.toMatch(/\bsession\.(?:dispatch|getState|ensureMapLoaded)\b/)
+    }
+    expect(surface).toMatch(/<StampPreviewCanvas\b/)
+    expect(surface).toMatch(/canonicalizeStampDraft/)
+  })
 })
