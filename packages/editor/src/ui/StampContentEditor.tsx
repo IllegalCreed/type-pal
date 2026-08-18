@@ -1,5 +1,5 @@
 import type { AssetCatalogV1, StampTemplateV1 } from '@type-pal/content'
-import type { AssetBase, Palette, RleFrame, TilesetDef } from '@type-pal/reforge'
+import type { AssetBase, TilesetDef } from '@type-pal/reforge'
 import { bakeFrame, latticeCenter, pixelToLattice, projectMapTileBlitRect } from '@type-pal/reforge'
 import { type PointerEvent as ReactPointerEvent, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
@@ -43,41 +43,11 @@ import { IsometricEditorSurface } from './IsometricEditorSurface.js'
 import { type IsometricEditorTool, IsometricEditorToolbar } from './IsometricEditorToolbar.js'
 import { LayerStackControls } from './LayerStackControls.js'
 import { loadStampPreviewAssets, type StampPreviewAssets } from './StampPreviewCanvas.js'
+import { TilePickerGrid } from './TilePickerGrid.js'
 
 const STAMP_DRAFT_LATTICE_SCALE = 2
 const STAMP_DRAFT_CELL_WIDTH = 32 * STAMP_DRAFT_LATTICE_SCALE
 const STAMP_DRAFT_CELL_HEIGHT = 16 * STAMP_DRAFT_LATTICE_SCALE
-
-function TileFrameButton(props: {
-  tileId: number
-  frame: RleFrame
-  palette: Palette
-  selected: boolean
-  onPick: () => void
-}) {
-  const ref = useRef<HTMLCanvasElement>(null)
-  useEffect(() => {
-    const canvas = ref.current
-    const context = canvas?.getContext('2d')
-    if (!canvas || !context) return
-    context.clearRect(0, 0, canvas.width, canvas.height)
-    context.drawImage(bakeFrame(props.frame, props.palette), 0, 0)
-  }, [props.frame, props.palette])
-  return (
-    <button
-      type="button"
-      className={`stamp-draft-tile${props.selected ? ' selected' : ''}`}
-      aria-label={`瓦片 #${props.tileId}`}
-      aria-pressed={props.selected}
-      onClick={props.onPick}
-    >
-      <span aria-hidden="true">
-        <canvas ref={ref} width={props.frame.width} height={props.frame.height} />
-      </span>
-      <small>#{props.tileId}</small>
-    </button>
-  )
-}
 
 function parsePointKey(key: string): GridPointRef {
   const [row, col] = key.split(':').map(Number)
@@ -586,21 +556,20 @@ export function StampContentEditor(props: {
           }}
         />
       </header>
-      <div className="stamp-draft-tile-grid">
-        {tileEntries.slice(0, tileLimit).map(([tileId, frame]) => (
-          <TileFrameButton
-            key={tileId}
-            tileId={tileId}
-            frame={frame}
-            palette={assets!.palette}
-            selected={tileId === selectedTileId}
-            onPick={() => {
-              setSelectedTileId(tileId)
-              setTool('brush')
-            }}
-          />
-        ))}
-      </div>
+      {assets ? (
+        <TilePickerGrid
+          ariaLabel="组合瓦片列表"
+          entries={tileEntries.slice(0, tileLimit)}
+          palette={assets.palette}
+          selectedTileId={selectedTileId}
+          onPick={(tileId) => {
+            setSelectedTileId(tileId)
+            setTool('brush')
+          }}
+        />
+      ) : (
+        <p className="hint2 map-panel-empty">正在载入瓦片…</p>
+      )}
       {tileEntries.length > tileLimit ? (
         <DsButton size="compact" onClick={() => setTileLimit((current) => current + 120)}>
           再显示 120 个

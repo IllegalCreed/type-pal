@@ -4,13 +4,11 @@ import { mapInstanceHeight, nextMapAssetIdentity } from '@type-pal/content'
 import type {
   AssetBase,
   LatticePos,
-  Palette,
   ProjectMap,
   ProjectMapCollisionEdit,
   ProjectMapTileEdit,
 } from '@type-pal/reforge'
 import {
-  bakeFrame,
   buildBlankProjectMap,
   buildProjectMapLayer,
   isLatticeInside,
@@ -24,7 +22,6 @@ import {
   renderSceneFrame,
 } from '@type-pal/reforge'
 import {
-  memo,
   useCallback,
   useEffect,
   useLayoutEffect,
@@ -142,6 +139,7 @@ import {
 } from './scene-stage.js'
 import { drawStampPlacementOverlay } from './stamp-placement-overlay.js'
 import { drawStampPlacementSelectionOverlay } from './stamp-placement-selection-overlay.js'
+import { TilePickerGrid } from './TilePickerGrid.js'
 
 const DEFAULT_COLS = 24
 const DEFAULT_ROWS = 24
@@ -258,38 +256,6 @@ function tileEditsPatch(map: ProjectMap, edits: readonly ProjectMapTileEdit[]): 
     collision: [],
   }
 }
-
-const TileThumb = memo(function TileThumb(props: {
-  idx: number
-  frame: Parameters<typeof bakeFrame>[0]
-  palette: Palette
-  selected: boolean
-  onPick: (idx: number) => void
-}) {
-  const { idx, frame, palette, selected, onPick } = props
-  const ref = useRef<HTMLCanvasElement>(null)
-  useEffect(() => {
-    const canvas = ref.current
-    const ctx = canvas?.getContext('2d')
-    if (!canvas || !ctx) return
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-    ctx.drawImage(bakeFrame(frame, palette), 0, 0)
-  }, [frame, palette])
-  return (
-    <button
-      type="button"
-      className={`tile-thumb${selected ? ' sel' : ''}`}
-      title={`瓦片 #${idx}`}
-      aria-label={`瓦片 #${idx}`}
-      aria-pressed={selected}
-      onClick={() => onPick(idx)}
-    >
-      <span aria-hidden="true">
-        <canvas ref={ref} width={frame.width} height={frame.height} />
-      </span>
-    </button>
-  )
-})
 
 export function MapMode(props: {
   scene: SceneDef
@@ -3718,25 +3684,17 @@ export function MapMode(props: {
                       ) : null}
                     </div>
                     {inspectorTab === 'draw' && liveMap && loaded ? (
-                      <fieldset className="tile-grid">
-                        <legend className="map-a11y-legend">瓦片列表</legend>
-                        {[...loaded.tiles.entries()]
-                          .sort((a, b) => a[0] - b[0])
-                          .map(([idx, frame]) => (
-                            <TileThumb
-                              key={idx}
-                              idx={idx}
-                              frame={frame}
-                              palette={loaded.palette}
-                              selected={idx === selectedTile}
-                              onPick={(id) => {
-                                setSelectedTile(id)
-                                activateMapTool('brush')
-                                canvasRef.current?.focus({ preventScroll: true })
-                              }}
-                            />
-                          ))}
-                      </fieldset>
+                      <TilePickerGrid
+                        ariaLabel="瓦片列表"
+                        entries={[...loaded.tiles.entries()].sort((a, b) => a[0] - b[0])}
+                        palette={loaded.palette}
+                        selectedTileId={selectedTile}
+                        onPick={(id) => {
+                          setSelectedTile(id)
+                          activateMapTool('brush')
+                          canvasRef.current?.focus({ preventScroll: true })
+                        }}
+                      />
                     ) : (
                       <p className="hint2 map-panel-empty">正在载入瓦片…</p>
                     )}

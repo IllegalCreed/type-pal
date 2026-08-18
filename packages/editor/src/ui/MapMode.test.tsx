@@ -541,7 +541,7 @@ describe('MapMode 地图内容选择交互', () => {
     })
     expect(document.activeElement).toBe(tabs[1])
     expect(tabs[1]?.getAttribute('aria-selected')).toBe('true')
-    expect(host.querySelectorAll('.tile-thumb')).toHaveLength(1)
+    expect(host.querySelectorAll('.tile-picker-item')).toHaveLength(1)
     expect(host.querySelector('.map-stamp-palette')).not.toBeNull()
 
     const search = host.querySelector<HTMLInputElement>('[aria-label="搜索地图组合"]')!
@@ -755,12 +755,12 @@ describe('MapMode 地图内容选择交互', () => {
     expect(viewport.querySelector('.map-canvas-context-menu')).toBeNull()
     expect(viewport.firstElementChild?.tagName).toBe('CANVAS')
     expect(viewport.querySelectorAll('.map-viewport-status')).toHaveLength(2)
-    expect(host.querySelectorAll('.tile-thumb')).toHaveLength(0)
+    expect(host.querySelectorAll('.tile-picker-item')).toHaveLength(0)
     expect(host.querySelector('.map-stamp-palette')).toBeNull()
 
     await act(async () => inspectorTab(host, '绘制').click())
-    expect(host.querySelector('.map-inspector .tile-grid')).not.toBeNull()
-    expect(host.querySelector('.map-outliner .tile-grid')).toBeNull()
+    expect(host.querySelector('.map-inspector .tile-picker-grid')).not.toBeNull()
+    expect(host.querySelector('.map-outliner .tile-picker-grid')).toBeNull()
     expect(host.querySelector('.map-inspector .map-stamp-palette')).not.toBeNull()
     const sections = [...host.querySelectorAll<HTMLElement>('.map-draw-section')]
     expect(sections.map((section) => section.querySelector('.pane-h')?.textContent)).toEqual([
