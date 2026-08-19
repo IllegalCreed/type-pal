@@ -179,7 +179,7 @@ describe('CanonicalSharedScriptTabV5', () => {
     expect(host.textContent).toContain('序章开场')
   })
 
-  test('freezes metadata commit timing: name saves explicitly while description and self commit immediately', async () => {
+  test('metadata uses field commits without a redundant local save action', async () => {
     const metadataState = structuredClone(state)
     const session = new ScriptV5EditSession(metadataState)
 
@@ -201,14 +201,20 @@ describe('CanonicalSharedScriptTabV5', () => {
     }
 
     await act(async () => root.render(<Harness />))
-    const name = host.querySelector<HTMLInputElement>('.shared-meta .ds-control-group input')!
+    const name = host.querySelector<HTMLInputElement>(
+      '.shared-meta input[name="shared-script-display-name"]',
+    )!
     Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set?.call(name, '天书·改')
     await act(async () => name.dispatchEvent(new Event('input', { bubbles: true })))
     expect(session.getState().sharedScripts['shared/user/book']?.name).toBe('读天书')
 
-    const save = host.querySelector<HTMLButtonElement>('.shared-meta .ds-control-group button')!
-    await act(async () => save.click())
+    await act(async () => name.dispatchEvent(new FocusEvent('focusout', { bubbles: true })))
     expect(session.getState().sharedScripts['shared/user/book']?.name).toBe('天书·改')
+    expect(
+      [...host.querySelectorAll<HTMLButtonElement>('.shared-meta button')].some(
+        (candidate) => candidate.textContent?.trim() === '保存',
+      ),
+    ).toBe(false)
 
     const description = host.querySelector<HTMLTextAreaElement>('.shared-meta textarea')!
     Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')?.set?.call(

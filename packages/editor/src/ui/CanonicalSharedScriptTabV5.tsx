@@ -18,7 +18,6 @@ import {
   DsButton,
   DsCatalogControls,
   DsCatalogRow,
-  DsControlGroup,
   DsField,
   DsObjectHero,
   DsSelect,
@@ -281,24 +280,24 @@ export function CanonicalSharedScriptTabV5(props: {
             <h4>作者元数据</h4>
             <DsField label="显示名" className="v-field">
               {(field) => (
-                <DsControlGroup
-                  control={
-                    <DsTextInput
-                      {...field}
-                      value={nameDraft}
-                      onChange={(event) => setNameDraft(event.target.value)}
-                    />
-                  }
-                  actions={
-                    <DsButton
-                      size="compact"
-                      icon="save"
-                      disabled={!nameDraft.trim() || nameDraft.trim() === selected.name}
-                      onClick={() => update({ name: nameDraft.trim() })}
-                    >
-                      保存
-                    </DsButton>
-                  }
+                <DsTextInput
+                  {...field}
+                  name="shared-script-display-name"
+                  autoComplete="off"
+                  value={nameDraft}
+                  onChange={(event) => setNameDraft(event.target.value)}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter') event.currentTarget.blur()
+                  }}
+                  onBlur={(event) => {
+                    const next = event.currentTarget.value.trim()
+                    if (!next) {
+                      setNameDraft(selected.name)
+                      return
+                    }
+                    setNameDraft(next)
+                    if (next !== selected.name) update({ name: next })
+                  }}
                 />
               )}
             </DsField>
