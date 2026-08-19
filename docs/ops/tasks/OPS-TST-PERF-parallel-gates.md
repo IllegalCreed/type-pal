@@ -1,7 +1,7 @@
 # OPS-TST-PERF-B - shared/fresh 隔离并行 release runner
 
 Status: build
-Execution: paused by user（2026-08-18；先处理功能与样式，不启动长时 proof）
+Execution: active（用户 2026-08-19 明确解除 2026-08-18 暂停，允许恢复性能任务）
 Phase: ops
 Capability: test infrastructure / release gate
 Coding Owner: Codex
@@ -310,6 +310,9 @@ parallel 命令必须失败，默认串行命令保持不变。
   真实 `release-unit` 定向 1 file/6 tests 全绿。Next: 提交后从固定 HEAD 重启 proof。
 - 2026-08-18 User: 暂缓性能优化任务，优先处理编辑器功能与样式。Evidence: 本轮用户明确指示。
   Next: 保持 `build` 与既有证据，不再启动 serial/parallel 长时 proof；用户恢复任务后从固定候选继续。
+- 2026-08-19 User: 明确解除 2026-08-18 暂停指令，允许恢复性能任务。Evidence: 本轮用户明确指示。
+  Next: Codex 先审计当前 main 候选无语义漂移，完成定向门禁后在固定提交上只跑验收要求的
+  三组同机、同批次 serial/parallel proof；失败必须 fail-closed，不得用重跑掩盖。
 
 ## 下一位 Agent 提示词
 

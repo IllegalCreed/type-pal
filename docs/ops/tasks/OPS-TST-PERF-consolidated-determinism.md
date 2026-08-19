@@ -1,7 +1,7 @@
 # OPS-TST-PERF-C - P2/P3/P4 consolidated determinism proof
 
 Status: build
-Execution: paused by user（2026-08-18；先处理功能与样式，不生成 coverage/probe）
+Execution: active（用户 2026-08-19 明确解除 2026-08-18 暂停，允许恢复性能任务）
 Phase: ops
 Capability: test infrastructure / migration proof
 Coding Owner: Codex
@@ -204,6 +204,10 @@ coverage 正确，consolidated probe 也可能没有足够收益。实现必须�
   `build`；尚未修改实现文件或 release route。
 - 2026-08-18 User: 暂缓性能优化任务，优先处理编辑器功能与样式。Evidence: 本轮用户明确指示。
   Next: 保持 `build` 与三签，不生成 coverage map / consolidated probe，不改 release route；用户恢复后继续。
+- 2026-08-19 User: 明确解除 2026-08-18 暂停指令，允许恢复性能任务。Evidence: 本轮用户明确指示。
+  Next: 待 B 转 `review` 后，Codex 以 C build 开始时的当前仓库机械生成 `vitest list` + 断言 AST 新基线，
+  先闭合 coverage map 与 duplicate/orphan/missing fail-closed，再实现 consolidated probe；三方 implementation
+  accept 前不得修改默认 release route。
 
 ## 下一位 Agent 提示词
 

@@ -28,8 +28,8 @@
 | ED-MAP-PALETTE-CONTROLS-1 | 地图组合 Palette 控件统一 | done | 三方 accept + 用户验收齐，整卡收口 | Palette 行为/边界与共享控件统一；editor 131 files / 975 tests + typecheck 全绿 |
 | ED-STAMP-MAP-MODEL-1 | 组合/地图共享内容模型与相对高度 | done | 三方 accept + 用户验收齐，整卡收口 | 唯一 v4、relative H、共享 content/画布与当前工程切版完成；全量门禁复绿 |
 | ED-MAP-MULTI-TILESET-1 | 地图多瓦片集作者模型 | done | 三方 accept + 用户验收齐，整卡收口 | 紧凑 source matrix、runtime/编辑/组合放置与 223 图迁移完成；全量门禁复绿 |
-| OPS-TST-PERF-B | shared/fresh 隔离并行 runner | build | **用户 2026-08-18 暂缓**；先处理功能与样式 | 不再启动长时 proof；既有候选与证据保留，恢复后继续，默认串行不变 |
-| OPS-TST-PERF-C | P2/P3/P4 consolidated determinism proof | build | **用户 2026-08-18 暂缓**；先处理功能与样式 | 不生成 coverage map / probe，不改 release route；恢复后从当前门禁继续 |
+| OPS-TST-PERF-B | shared/fresh 隔离并行 runner | build | Codex 先完成当前候选审计与三组正式 proof | 用户 2026-08-19 已恢复执行；默认串行不变，只跑验收要求的三组对照 |
+| OPS-TST-PERF-C | P2/P3/P4 consolidated determinism proof | build | B 转 review 后由 Codex 机械生成新基线并实现 | 用户 2026-08-19 已恢复执行；三方 accept 前不改默认 release route |
 
 ## 看板规则
 
