@@ -23,6 +23,7 @@ import type {
   WorldVariableRegistryV1,
 } from '@type-pal/content'
 import type { Command } from './commands.js'
+import type { StampTemplateUsageIndex } from './stamp-template.js'
 
 export type { Command } from './commands.js'
 // commands.ts 引 EditorState(type),本文件引 Command(type) —— 仅类型,运行期无环。
@@ -74,6 +75,41 @@ export interface EditSessionTransactionReceipt {
   rollback(): void
 }
 
+export interface StampUsageScanFailure {
+  mapId: string
+  message: string
+}
+
+/**
+ * 组合来源反向索引的覆盖状态。索引是当前 EditSession 的可丢弃派生数据，地图 JSON
+ * 中的 sourceStampId 仍是唯一真值。
+ */
+export interface StampUsageScanSnapshot {
+  completed: number
+  total: number
+  failures: StampUsageScanFailure[]
+  running: boolean
+  done: boolean
+}
+
+function stampSourceCounts(map: ProjectMap): Map<string, number> {
+  const counts = new Map<string, number>()
+  for (const placement of map.authoring?.stampPlacements ?? []) {
+    if (!placement.sourceStampId) continue
+    counts.set(placement.sourceStampId, (counts.get(placement.sourceStampId) ?? 0) + 1)
+  }
+  return counts
+}
+
+function sameStampSourceCounts(
+  left: ReadonlyMap<string, number> | undefined,
+  right: ReadonlyMap<string, number>,
+): boolean {
+  if (!left || left.size !== right.size) return false
+  for (const [id, count] of left) if (right.get(id) !== count) return false
+  return true
+}
+
 /** 编辑会话:不可变工作副本 + undo/redo 栈 + 订阅 + 脏标记。 */
 export class EditSession {
   private state: EditorState
@@ -98,6 +134,15 @@ export class EditSession {
   /** 只在 dispatch/undo/redo 时递增；markSaved/hydrate 不得篡改全局撤销归属。 */
   private historyVersion = 0
   private readonly listeners = new Set<() => void>()
+  /** 每张地图只保留轻量来源计数；地图被 LRU 淘汰后索引仍然有效。 */
+  private readonly stampUsageByMap = new Map<string, ReadonlyMap<string, number>>()
+  /** sourceStampId -> (mapId -> placement count)，供 UI O(引用数) 查询。 */
+  private readonly stampUsageByStamp = new Map<string, Map<string, number>>()
+  private readonly stampUsageFailures = new Map<string, string>()
+  private stampUsageScanRunning = false
+  private stampUsageScanPromise?: Promise<void>
+  private stampUsageVersion = 0
+  private readonly stampUsageListeners = new Set<() => void>()
 
   constructor(initial: EditorState, options: EditSessionOptions = {}) {
     this.state = initial
@@ -108,6 +153,9 @@ export class EditSession {
     this.persistedAssetPaths = new Set(
       Object.values(initial.assetCatalog.assets).map((asset) => asset.path),
     )
+    const indexedMapIds = new Set(initial.mapIndex.maps.map(({ id }) => id))
+    for (const [mapId, map] of Object.entries(initial.maps))
+      if (indexedMapIds.has(mapId)) this.updateStampUsageForMap(mapId, map, false)
   }
 
   /** 当前状态(返回引用;调用方不得 mutate —— 要改发 Command)。 */
@@ -180,6 +228,7 @@ export class EditSession {
         this.mapRevisions.clear()
         for (const [id, revision] of before.mapRevisions) this.mapRevisions.set(id, revision)
         this.mapLru = before.mapLru
+        this.syncStampUsageAfterStateChange(this.state)
         this.historyVersion += 1
         this.notify()
       },
@@ -249,6 +298,120 @@ export class EditSession {
     return this.mapRevisions.get(mapId) ?? 0
   }
 
+  /** 当前组合来源索引的扫描覆盖；读取不触发地图 hydrate 或 React 全局刷新。 */
+  getStampUsageScanSnapshot(): StampUsageScanSnapshot {
+    const ids = new Set(this.state.mapIndex.maps.map(({ id }) => id))
+    const failures = this.state.mapIndex.maps.flatMap(({ id }) => {
+      const message = this.stampUsageFailures.get(id)
+      return message ? [{ mapId: id, message }] : []
+    })
+    let indexed = 0
+    for (const id of ids) if (this.stampUsageByMap.has(id)) indexed++
+    const completed = indexed + failures.length
+    return {
+      completed,
+      total: ids.size,
+      failures,
+      running: this.stampUsageScanRunning,
+      done: !this.stampUsageScanRunning && completed === ids.size,
+    }
+  }
+
+  getStampUsageVersion(): number {
+    return this.stampUsageVersion
+  }
+
+  subscribeStampUsage(fn: () => void): () => void {
+    this.stampUsageListeners.add(fn)
+    return () => {
+      this.stampUsageListeners.delete(fn)
+    }
+  }
+
+  /**
+   * 返回会话级反向索引快照。模板只参与“悬空来源”分类，不会令地图索引失效。
+   */
+  getStampTemplateUsageIndex(templates: readonly StampTemplate[]): StampTemplateUsageIndex {
+    const templateIds = new Set(templates.map(({ id }) => id))
+    const byStampId = Object.fromEntries(
+      [...this.stampUsageByStamp]
+        .sort(([left], [right]) => (left === right ? 0 : left < right ? -1 : 1))
+        .map(([id, mapCounts]) => [
+          id,
+          {
+            placementCount: [...mapCounts.values()].reduce((sum, count) => sum + count, 0),
+            mapIds: [...mapCounts.keys()].sort(),
+          },
+        ]),
+    )
+    return {
+      byStampId,
+      missingSources: Object.entries(byStampId)
+        .filter(([id]) => !templateIds.has(id))
+        .map(([sourceStampId, usage]) => ({ sourceStampId, ...usage })),
+    }
+  }
+
+  /**
+   * 一次性补齐尚未索引的地图。直接走只读 loader，不把 223 张地图塞进 EditorState，
+   * 也不污染 LRU/revision/dirty；同一会话重复调用共享结果和在途 Promise。
+   */
+  async ensureStampUsageIndexed(
+    options: { retryFailures?: boolean } = {},
+  ): Promise<StampUsageScanSnapshot> {
+    if (this.stampUsageScanPromise) {
+      await this.stampUsageScanPromise
+      return this.getStampUsageScanSnapshot()
+    }
+    const indexedIds = new Set(this.state.mapIndex.maps.map(({ id }) => id))
+    for (const mapId of [...this.stampUsageByMap.keys()])
+      if (!indexedIds.has(mapId)) this.removeStampUsageForMap(mapId, false)
+    for (const mapId of [...this.stampUsageFailures.keys()])
+      if (!indexedIds.has(mapId)) this.stampUsageFailures.delete(mapId)
+
+    const targets = this.state.mapIndex.maps.filter(
+      ({ id }) =>
+        !this.stampUsageByMap.has(id) &&
+        (options.retryFailures === true || !this.stampUsageFailures.has(id)),
+    )
+    if (!targets.length) return this.getStampUsageScanSnapshot()
+    if (options.retryFailures) for (const { id } of targets) this.stampUsageFailures.delete(id)
+
+    this.stampUsageScanRunning = true
+    this.emitStampUsageUpdate()
+    const run = async (): Promise<void> => {
+      for (let index = 0; index < targets.length; index++) {
+        const { id } = targets[index]!
+        try {
+          const loaded = this.state.maps[id]
+          const pending = this.mapLoads.get(id)
+          const map = loaded ?? (pending ? await pending : await this.readMapForStampUsage(id))
+          // 扫描等待期间地图可能已被作者命令替换；实时工作副本优先于刚读到的磁盘快照。
+          this.updateStampUsageForMap(id, this.state.maps[id] ?? map, false)
+          this.stampUsageFailures.delete(id)
+        } catch (cause) {
+          const current = this.state.maps[id]
+          if (current) {
+            this.updateStampUsageForMap(id, current, false)
+            this.stampUsageFailures.delete(id)
+          } else if (this.state.mapIndex.maps.some((asset) => asset.id === id)) {
+            this.stampUsageFailures.set(id, cause instanceof Error ? cause.message : String(cause))
+          }
+        }
+        // 进度按批通知，避免 223 张地图触发 223 次整页 React 渲染。
+        if ((index + 1) % 8 === 0 || index === targets.length - 1) this.emitStampUsageUpdate()
+      }
+    }
+    const promise = run().finally(() => {
+      this.stampUsageScanRunning = false
+      this.stampUsageScanPromise = undefined
+      this.emitStampUsageUpdate()
+    })
+    this.stampUsageScanPromise = promise
+    await promise
+    return this.getStampUsageScanSnapshot()
+  }
+
   /**
    * 以预览时的 map revision 原子派发，封住 pointer preview → click 之间的过期提交窗口。
    * Command 自身仍应校验地图引用，形成双重 fail-loud 防线。
@@ -295,6 +458,7 @@ export class EditSession {
       .then((map) => {
         if (this.state.mapIndex.maps.some((asset) => asset.id === mapId)) {
           this.state = { ...this.state, maps: { ...this.state.maps, [mapId]: map } }
+          this.updateStampUsageForMap(mapId, map)
           this.bumpMapRevision(mapId)
           this.touchMap(mapId)
           this.evictCleanMaps(mapId)
@@ -338,6 +502,71 @@ export class EditSession {
       this.pinnedMapIds.add(id)
       this.touchMap(id)
     }
+    this.syncStampUsageAfterStateChange(after)
+  }
+
+  private async readMapForStampUsage(mapId: string): Promise<ProjectMap> {
+    if (!this.state.mapIndex.maps.some((asset) => asset.id === mapId))
+      throw new Error(`地图 "${mapId}" 不在 map index`)
+    if (!this.loadMap) throw new Error(`未配置地图加载器，无法读取 "${mapId}"`)
+    return this.loadMap(mapId)
+  }
+
+  private syncStampUsageAfterStateChange(state: EditorState): void {
+    const validIds = new Set(state.mapIndex.maps.map(({ id }) => id))
+    let changed = false
+    for (const mapId of [...this.stampUsageByMap.keys()])
+      if (!validIds.has(mapId)) changed = this.removeStampUsageForMap(mapId, false) || changed
+    for (const mapId of [...this.stampUsageFailures.keys()])
+      if (!validIds.has(mapId)) {
+        this.stampUsageFailures.delete(mapId)
+        changed = true
+      }
+    for (const [mapId, map] of Object.entries(state.maps))
+      if (validIds.has(mapId)) changed = this.updateStampUsageForMap(mapId, map, false) || changed
+    if (changed) this.emitStampUsageUpdate()
+  }
+
+  private updateStampUsageForMap(mapId: string, map: ProjectMap, notify = true): boolean {
+    const next = stampSourceCounts(map)
+    const previous = this.stampUsageByMap.get(mapId)
+    if (sameStampSourceCounts(previous, next)) {
+      this.stampUsageFailures.delete(mapId)
+      return false
+    }
+    if (previous)
+      for (const stampId of previous.keys()) {
+        const maps = this.stampUsageByStamp.get(stampId)
+        maps?.delete(mapId)
+        if (maps?.size === 0) this.stampUsageByStamp.delete(stampId)
+      }
+    this.stampUsageByMap.set(mapId, next)
+    for (const [stampId, count] of next) {
+      const maps = this.stampUsageByStamp.get(stampId) ?? new Map<string, number>()
+      maps.set(mapId, count)
+      this.stampUsageByStamp.set(stampId, maps)
+    }
+    this.stampUsageFailures.delete(mapId)
+    if (notify) this.emitStampUsageUpdate()
+    return true
+  }
+
+  private removeStampUsageForMap(mapId: string, notify = true): boolean {
+    const previous = this.stampUsageByMap.get(mapId)
+    if (!previous) return false
+    this.stampUsageByMap.delete(mapId)
+    for (const stampId of previous.keys()) {
+      const maps = this.stampUsageByStamp.get(stampId)
+      maps?.delete(mapId)
+      if (maps?.size === 0) this.stampUsageByStamp.delete(stampId)
+    }
+    if (notify) this.emitStampUsageUpdate()
+    return true
+  }
+
+  private emitStampUsageUpdate(): void {
+    this.stampUsageVersion++
+    for (const fn of this.stampUsageListeners) fn()
   }
 
   private touchMap(mapId: string): void {

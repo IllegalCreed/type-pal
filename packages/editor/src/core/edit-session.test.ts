@@ -1,3 +1,4 @@
+import type { ProjectMap } from '@type-pal/content'
 import {
   buildBlankProjectMap,
   paintProjectMapCollision,
@@ -258,6 +259,86 @@ function withMapIndex(...ids: string[]) {
   }
   return state
 }
+
+function mapWithStampSources(...sourceStampIds: string[]): ProjectMap {
+  const map = buildBlankProjectMap(2, 2, 'tileset-001')
+  return {
+    ...map,
+    version: 4,
+    authoring: {
+      version: 1,
+      stampPlacements: sourceStampIds.map((sourceStampId, index) => ({
+        id: `placement-${index}`,
+        sourceStampId,
+        anchor: { row: 0, col: 0 },
+        visualSlots: [],
+        gridPoints: [],
+      })),
+    },
+  }
+}
+
+test('组合来源索引直接读取轻量快照、同会话复用，且不 hydrate 地图或刷新全局 session', async () => {
+  const maps = {
+    a: mapWithStampSources('tree', 'tree'),
+    b: mapWithStampSources('rock'),
+  }
+  const loadMap = vi.fn(async (mapId: string) => maps[mapId as keyof typeof maps])
+  const sess = new EditSession(withMapIndex('a', 'b'), { loadMap, maxLoadedMaps: 1 })
+  const globalListener = vi.fn()
+  sess.subscribe(globalListener)
+
+  await expect(sess.ensureStampUsageIndexed()).resolves.toMatchObject({
+    completed: 2,
+    total: 2,
+    failures: [],
+    done: true,
+  })
+  expect(sess.getState().maps).toEqual({})
+  expect(globalListener).not.toHaveBeenCalled()
+  expect(sess.getStampTemplateUsageIndex([])).toEqual({
+    byStampId: {
+      rock: { placementCount: 1, mapIds: ['b'] },
+      tree: { placementCount: 2, mapIds: ['a'] },
+    },
+    missingSources: [
+      { sourceStampId: 'rock', placementCount: 1, mapIds: ['b'] },
+      { sourceStampId: 'tree', placementCount: 2, mapIds: ['a'] },
+    ],
+  })
+
+  await sess.ensureStampUsageIndexed()
+  expect(loadMap).toHaveBeenCalledTimes(2)
+})
+
+test('组合来源索引随地图命令、undo/redo 增量更新', () => {
+  const before = mapWithStampSources('tree')
+  const after = mapWithStampSources('rock', 'rock')
+  const initial = withMapIndex('a')
+  initial.maps = { a: before }
+  const sess = new EditSession(initial)
+  const replace: Command = {
+    label: '替换组合来源',
+    apply: (state) => ({ ...state, maps: { ...state.maps, a: after } }),
+    invert: (state) => ({ ...state, maps: { ...state.maps, a: before } }),
+  }
+
+  expect(sess.getStampTemplateUsageIndex([]).byStampId).toEqual({
+    tree: { placementCount: 1, mapIds: ['a'] },
+  })
+  sess.dispatch(replace)
+  expect(sess.getStampTemplateUsageIndex([]).byStampId).toEqual({
+    rock: { placementCount: 2, mapIds: ['a'] },
+  })
+  sess.undo()
+  expect(sess.getStampTemplateUsageIndex([]).byStampId).toEqual({
+    tree: { placementCount: 1, mapIds: ['a'] },
+  })
+  sess.redo()
+  expect(sess.getStampTemplateUsageIndex([]).byStampId).toEqual({
+    rock: { placementCount: 2, mapIds: ['a'] },
+  })
+})
 
 test('地图按需加载去重；hydrate 不进 undo、也不置脏', async () => {
   const loadMap = vi.fn(async () => buildBlankProjectMap(2, 2, 'tileset-001'))

@@ -501,10 +501,11 @@ describe('StampLibraryTab', () => {
       version: 1,
       maps: [{ id: 'recover-map', name: '可恢复地图', path: 'content/maps/recover.json' }],
     }
-    const session = new EditSession(initial)
-    vi.spyOn(session, 'ensureMapLoaded')
+    const loadMap = vi
+      .fn<(mapId: string) => Promise<ProjectMap>>()
       .mockRejectedValueOnce(new Error('第一次读取失败'))
       .mockResolvedValueOnce(placedMap('tree'))
+    const session = new EditSession(initial, { loadMap })
     const onStatusNotice = vi.fn()
     await act(async () => {
       root.render(<Harness session={session} onStatusNotice={onStatusNotice} />)
@@ -520,11 +521,39 @@ describe('StampLibraryTab', () => {
       await new Promise((resolve) => window.setTimeout(resolve, 0))
     })
     expect(host.textContent).toContain('已扫描 1/1 张地图')
+    expect(loadMap).toHaveBeenCalledTimes(2)
     expect(onStatusNotice).toHaveBeenLastCalledWith(undefined)
 
     await act(async () => root.unmount())
     expect(onStatusNotice).toHaveBeenLastCalledWith(undefined)
     root = createRoot(host)
+  })
+
+  test('组合页重进复用会话级引用索引，不重复读取或 hydrate 全部地图', async () => {
+    const initial = state([template()], {})
+    initial.mapIndex = {
+      version: 1,
+      maps: [{ id: 'map-a', name: '地图 A', path: 'content/maps/a.json' }],
+    }
+    const loadMap = vi.fn(async () => placedMap('tree'))
+    const session = new EditSession(initial, { loadMap })
+
+    await act(async () => {
+      root.render(<Harness session={session} />)
+      await new Promise((resolve) => window.setTimeout(resolve, 0))
+    })
+    expect(host.textContent).toContain('已扫描 1/1 张地图')
+    expect(loadMap).toHaveBeenCalledTimes(1)
+    expect(session.getState().maps).toEqual({})
+
+    await act(async () => root.unmount())
+    root = createRoot(host)
+    await act(async () => {
+      root.render(<Harness session={session} />)
+      await new Promise((resolve) => window.setTimeout(resolve, 0))
+    })
+    expect(host.textContent).toContain('已扫描 1/1 张地图')
+    expect(loadMap).toHaveBeenCalledTimes(1)
   })
 
   test('来源瓦片集按钮精确跳转到当前模板的 tileset', async () => {

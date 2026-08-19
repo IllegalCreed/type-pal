@@ -1,6 +1,6 @@
 import type { AssetCatalogV1, MapIndexV1, ProjectMap, StampTemplate } from '@type-pal/content'
 import type { AssetBase, TilesetDef } from '@type-pal/reforge'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import {
@@ -11,7 +11,7 @@ import {
 } from '../core/stamp-commands.js'
 import { createBlankStampDraft } from '../core/stamp-draft.js'
 import type { StampSelectionSource } from '../core/stamp-template.js'
-import { collectStampTemplateUsage, nextStampTemplateId } from '../core/stamp-template.js'
+import { nextStampTemplateId } from '../core/stamp-template.js'
 import {
   DsButton,
   DsCatalogControls,
@@ -28,15 +28,6 @@ import { StampContentEditor } from './StampContentEditor.js'
 import { StampMiniPreview } from './StampPreviewCanvas.js'
 import { StampTemplateDialog } from './StampTemplateDialog.js'
 
-interface UsageScan {
-  maps: Record<string, ProjectMap>
-  completed: number
-  total: number
-  failures: Array<{ mapId: string; message: string }>
-  done: boolean
-}
-
-const EMPTY_SCAN: UsageScan = { maps: {}, completed: 0, total: 0, failures: [], done: false }
 const STAMP_PAGE_SIZE = 100
 
 type StampInspectorTab = 'properties' | 'references' | 'tiles'
@@ -86,11 +77,6 @@ export function StampLibraryTab(props: {
   const [categoryFilter, setCategoryFilter] = useState('all')
   const [originFilter, setOriginFilter] = useState<'all' | StampTemplate['origin']>('all')
   const [page, setPage] = useState(0)
-  const [scan, setScan] = useState<UsageScan>(() => ({
-    ...EMPTY_SCAN,
-    total: mapIndex.maps.length,
-  }))
-  const [scanRevision, setScanRevision] = useState(0)
   const [confirmAction, setConfirmAction] = useState<'delete'>()
   const [error, setError] = useState('')
   const [selectionDialogMap, setSelectionDialogMap] = useState<ProjectMap>()
@@ -111,6 +97,13 @@ export function StampLibraryTab(props: {
   const [createError, setCreateError] = useState('')
   const deleteTriggerRef = useRef<HTMLButtonElement>(null)
   const deleteCancelRef = useRef<HTMLButtonElement>(null)
+
+  const subscribeStampUsage = useCallback(
+    (listener: () => void) => session.subscribeStampUsage(listener),
+    [session],
+  )
+  const readStampUsageVersion = useCallback(() => session.getStampUsageVersion(), [session])
+  useSyncExternalStore(subscribeStampUsage, readStampUsageVersion, readStampUsageVersion)
 
   const selected = stamps.find((template) => template.id === selectedId)
   const inspectorTemplate = contentEditor?.template ?? selected
@@ -169,60 +162,31 @@ export function StampLibraryTab(props: {
   }, [selectedId])
 
   useEffect(() => {
-    void scanRevision
-    let alive = true
-    const run = async (): Promise<void> => {
+    void mapIndex
+    void session.ensureStampUsageIndexed()
+  }, [mapIndex, session])
+  const scan = session.getStampUsageScanSnapshot()
+  useEffect(() => {
+    onStatusNotice?.(
+      scan.done && scan.failures.length
+        ? {
+            kind: 'error',
+            message: `组合来源扫描不完整：${scan.failures.length} 张地图读取失败。`,
+          }
+        : undefined,
+    )
+  }, [onStatusNotice, scan.done, scan.failures.length])
+  useEffect(
+    () => () => {
       onStatusNotice?.(undefined)
-      const maps: Record<string, ProjectMap> = {}
-      const failures: UsageScan['failures'] = []
-      setScan({ maps, completed: 0, total: mapIndex.maps.length, failures, done: false })
-      for (const asset of mapIndex.maps) {
-        try {
-          maps[asset.id] = await session.ensureMapLoaded(asset.id)
-        } catch (cause) {
-          failures.push({
-            mapId: asset.id,
-            message: cause instanceof Error ? cause.message : String(cause),
-          })
-        }
-        if (!alive) return
-        setScan({
-          maps: { ...maps },
-          completed: Object.keys(maps).length + failures.length,
-          total: mapIndex.maps.length,
-          failures: [...failures],
-          done: false,
-        })
-      }
-      if (alive)
-        setScan({
-          maps: { ...maps },
-          completed: mapIndex.maps.length,
-          total: mapIndex.maps.length,
-          failures: [...failures],
-          done: true,
-        })
-      if (alive)
-        onStatusNotice?.(
-          failures.length
-            ? {
-                kind: 'error',
-                message: `组合来源扫描不完整：${failures.length} 张地图读取失败。`,
-              }
-            : undefined,
-        )
-    }
-    void run()
-    return () => {
-      alive = false
-      onStatusNotice?.(undefined)
-    }
-  }, [mapIndex, onStatusNotice, scanRevision, session])
+    },
+    [onStatusNotice],
+  )
   useEffect(() => {
     if (confirmAction === 'delete') deleteCancelRef.current?.focus()
   }, [confirmAction])
 
-  const usage = useMemo(() => collectStampTemplateUsage(scan.maps, stamps), [scan.maps, stamps])
+  const usage = session.getStampTemplateUsageIndex(stamps)
   const scanComplete = scan.done && scan.failures.length === 0
   const selectedUsage = selected ? usage.byStampId[selected.id] : undefined
   const focusTemplate = (id: string): void => {
@@ -743,7 +707,9 @@ export function StampLibraryTab(props: {
                             <DsButton
                               size="compact"
                               variant="secondary"
-                              onClick={() => setScanRevision((value) => value + 1)}
+                              onClick={() =>
+                                void session.ensureStampUsageIndexed({ retryFailures: true })
+                              }
                             >
                               重试扫描
                             </DsButton>

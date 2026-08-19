@@ -258,7 +258,9 @@ build/done。
 - Codex: **accept（2026-08-19，替代模型落地后重签）**。组合直接持有共享 canonical content，并与地图共用
   `IsometricEditorCanvas`、renderer cache、toolbar、图层控件与 tile picker；临时 `stamp-draft-map` adapter、
   私有 renderer/命中/viewport 均已删除。选择模板即编辑，保存一笔 command，relative H、多来源与 nullable
-  collision 均闭环。editor 全量 970/970、两项 production build、1280×720 页面验收与 Console 0 通过。
+  collision 均闭环。组合来源反向索引已从页面私有全量扫描提升为 `EditSession` 派生索引：地图只读一次、
+  不 hydrate 全库、不触发全局 session 重渲染，地图命令/undo/redo 增量更新，页面重进复用。相关定向 36/36、
+  1280×720 实机 223/223 与页面重进保持精确结果、Console 0 通过。
 - Codex（历史 counter，已解除）: **counter / rework（2026-08-18）**。用户指出共享 toolbar/surface 不等于复用地图编辑器，且现有
   adapter 建立在错误的稀疏组合/绝对高度模型上；须等待 `ED-STAMP-MAP-MODEL-1` 三签和 schema 落地后删除组合私有
   renderer/命中/viewport，再重新 build/review。下列 accept 仅保留为被推翻前的历史证据。
@@ -389,6 +391,10 @@ build/done。
   - Tileset 页自有 header 改为共享 `DsObjectHero`；地图/组合图层按钮和状态语法统一。
   - 保存边界位于 `StampLibraryTab.tsx:288-299`，一次且仅一次派发 `AddStampTemplateCommand` 或
     `ReplaceStampTemplateCommand`；原地图选区导入捷径保留。
+  - 组合来源统计不再把完整地图对象逐张复制进 React state 并累计重算；`EditSession` 持有
+    `sourceStampId -> mapId -> placement count` 派生索引，首次通过只读 loader 按 8 张一批补齐，结果跨页面
+    挂载复用。LRU 淘汰不丢摘要，地图编辑/undo/redo 原子刷新对应 map 摘要；地图 JSON 仍是唯一真值，未新增
+    IndexedDB 或工程 schema 双写。
   - 响应式区使用内容高度 grid + 中央滚动；620px container query 重排图层、工具条和选区动作，tooltip
     向内/向上锚定，避免窄栏隐形溢出。
 - 运行命令:
@@ -410,6 +416,10 @@ build/done。
     2×2 像素中心偏移和 3×3 九格，两个工作台断言精确写入点/offset；editor typecheck、Biome 与单次 build 通过。
   - 笔刷上限扩展到 5×5 后：同一定向 3 文件 80/80 passed；新增 5×5=25 格、最远 raw row 偏移、组合草稿不截断以及
     5×5 托盘/图标状态断言；editor typecheck、Biome 与单次 build 通过。
+  - 来源索引性能返工后：`edit-session + stamp-template + StampLibraryTab` 36/36 passed；新增只读索引不 hydrate、
+    零全局 session 通知、同会话二次读取为 0、命令/undo/redo 增量更新、失败重试与页面重进复用断言。
+    单次 editor 全量运行中本卡相关及其余 973 项通过，另有 `EnemyTab` / `ItemTab` 两个与本次文件无关的旧按钮
+    选择器失败，短隔离复核稳定复现；未重复跑整套。
   - changed-files `biome check`：通过；仅报告 `editor.css:10314-10317` 既有 `.visually-hidden !important`
     4 条 warning，本卡未新增。
   - `git diff --check`：通过。
@@ -421,6 +431,8 @@ build/done。
     “放置组合”按钮。
   - `?ui_samples=1&module=map&page=stamp`：中央没有重复组合标题 Hero，顶部直接是共享编辑 surface；右侧属性
     保留名称/分类/保存，瓦片与引用各自归入 Tab。
+  - 来源索引返工实机：PAL 样例工程引用 Tab 显示 `已扫描 223/223 张地图`；切到地图编辑再返回组合库后立即保持
+    同一精确结果，不回到扫描态；Console warning/error 0。
   - 第三轮 DOM 复验：`.stamp-draft-toolbar.map-toolbar=1`，旧 `[role=tablist]=0`；共享工具栏完整显示九个入口，
     切到“选择”后出现唯一“包含碰撞” checkbox，Console warning/error 0。地图页实测勾选后打开右键菜单，
     checkbox 仍为 checked，菜单内“包含碰撞”项为 0、一次性“移动”命令为 1。
@@ -524,6 +536,10 @@ build/done。
   collision、多来源矩阵与当前工程切版；组合直接复用地图中央画布/renderer cache。最终 editor 970/970、四包
   typecheck、两项 production build 通过；浏览器发现并修复 viewport 120px 退化，终态 796×577、瓦片 452 项、
   Console 0。Codex 重签 accept。Next: Kimi/GLM 独立 review，未齐前不得标 done。
+- 2026-08-19 User: 指出组合引用每次全量现查造成明显卡顿，要求改为可复用的持久索引语义。Codex 核验确认
+  地图 `sourceStampId` 已持久化，但 `StampLibraryTab` 每读一图就复制全部累计地图并重算；现已将反向索引提升到
+  `EditSession` 会话级派生缓存，首次一遍、后续复用、地图命令/undo/redo 增量更新且不 hydrate 全库。Evidence:
+  focused 36/36、PAL 223/223 页面重进保持精确结果、Console 0。Next: 随本卡由 Kimi/GLM 复审；未齐前不得标 done。
 
 ## 下一位 Agent 提示词
 
@@ -532,12 +548,13 @@ build/done。
 任务卡：docs/ops/tasks/ED-STAMP-EDITOR-1-stamp-template-content-editor.md
 当前状态：review；用户五轮 counter 后，Codex 完成 shared toolbar/surface、“包含碰撞”状态归位、绘制上下文显隐、
 D16 菱形双轴笔刷范围、同 tile+height 空区填充，以及两张替代模型卡授权的共享 canonical content、relative H 与
-多来源 source matrix，并于 2026-08-19 重新 accept；
+多来源 source matrix、会话级组合引用反向索引，并于 2026-08-19 重新 accept；
 Kimi/GLM done 前 accept pending；不得标 done。
 你的角色：Kimi 或 GLM，负责独立代码审查与 done 前签字。
 先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全文、
 ED-STAMP-MAP-MODEL-1、ED-MAP-MULTI-TILESET-1、packages/content/src/project-map.ts、stamp.ts、
 packages/editor/src/core/stamp-draft.ts、stamp-draft.test.ts、stamp-commands.ts、isometric-brush.ts/test、isometric-fill.ts/test，
+packages/editor/src/core/edit-session.ts、edit-session.test.ts、
 packages/editor/src/ui/StampContentEditor.tsx、StampLibraryTab.tsx/test、LayerStackControls.tsx、
 IsometricEditorCanvas.tsx、IsometricEditorSurface.tsx、IsometricEditorToolbar.tsx、MapMode.tsx/test、TilesetTab.tsx、
 design-system/boundary.test.ts 与 editor.css。
@@ -545,10 +562,12 @@ design-system/boundary.test.ts 与 editor.css。
 tile palette；地图选组合即放置；地图/组合共用完整工具栏；“包含碰撞”是选择工具持久附加 checkbox；选区命令进
 画布右键菜单；View 单入口；笔刷范围以横向格阵图标托盘选择并实际批量绘制，仅笔刷激活时显示，1×1…5×5 严格沿 D16 菱形双轴展开；绘制高度以纯 `Hx`
 触发器/托盘供笔刷/矩形/填充共用，仅在三者之一激活时显示，左侧显示高度只影响渲染；填充按 tileId+height 连通且空区可填；
-editor 全量 970/970、四包 typecheck、Reforge/Editor production build 与 1280×720 浏览器复验全绿；
-中央 viewport 796×577、瓦片 Tab 452 项、Console warning/error 0。
+组合来源索引首次一遍、页面重进复用、地图命令/undo/redo 增量更新且不 hydrate 全库；此前 editor 全量 970/970，
+本轮 focused 36/36、typecheck、PAL 223/223 页面重进与 Console 0 通过；本轮单次全量另有 EnemyTab/ItemTab
+两个旧按钮选择器失败，短隔离复现，相关及其余 973 项通过。中央 viewport 796×577、瓦片 Tab 452 项。
 请你做：独立检查 SK1/SK2 与 SE2/SE3，并重点核对共享 surface 是否仍保持 draft/session 隔离、地图/组合投影与
-命中是否一致、组合选择即放置是否无隐藏模式冲突、工具栏附加选项是否只在正确主工具下出现、窄栏布局是否可达；
+命中是否一致、组合选择即放置是否无隐藏模式冲突、工具栏附加选项是否只在正确主工具下出现、引用索引是否保持
+地图 JSON 单真值且跨页面复用/增量失效正确、窄栏布局是否可达；
 复跑必要测试。
 无阻塞则在 done 前签 accept；有问题签 counter/rework 并写出文件行号与最小返工项。
 不要做：不得代签另一方，不得在三方 accept + 用户验收前标 done；审查阶段原则上不改实现文件。
