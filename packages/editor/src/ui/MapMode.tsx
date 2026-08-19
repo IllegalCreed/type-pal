@@ -238,9 +238,6 @@ export function MapMode(props: {
   tilesets: readonly import('@type-pal/reforge').TilesetDef[]
   stamps: readonly StampTemplate[]
   onOpenStampLibrary?: (id?: string) => void
-  onStampSelectionChange?: (
-    source: import('../core/stamp-template.js').StampSelectionSource | undefined,
-  ) => void
   navigation?: React.ReactNode
   onRequestInspectorOpen?: () => void
   onWorkspaceNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
@@ -260,7 +257,6 @@ export function MapMode(props: {
     tilesets,
     stamps,
     onOpenStampLibrary,
-    onStampSelectionChange,
     navigation,
     onRequestInspectorOpen,
     onWorkspaceNotice,
@@ -356,9 +352,6 @@ export function MapMode(props: {
   const mapNameInputRef = useRef<HTMLInputElement>(null)
   const selectedMapRowRef = useRef<HTMLButtonElement>(null)
 
-  useEffect(() => {
-    onStampSelectionChange?.(selection.kind === 'cells' && mapId ? { mapId, selection } : undefined)
-  }, [mapId, onStampSelectionChange, selection])
   useEffect(() => {
     if (selection.kind !== 'cells') setStampDialogOpen(false)
   }, [selection.kind])

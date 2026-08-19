@@ -34,7 +34,7 @@ import {
   setStampDraftVisual,
   updateStampDraftLayer,
 } from '../core/stamp-draft.js'
-import { DsButton, DsCheckbox, DsTextInput } from './design-system/index.js'
+import { DsButton, DsCheckbox, DsField, DsTextInput } from './design-system/index.js'
 import { IsometricEditorCanvas } from './IsometricEditorCanvas.js'
 import { IsometricEditorSurface } from './IsometricEditorSurface.js'
 import { type IsometricEditorTool, IsometricEditorToolbar } from './IsometricEditorToolbar.js'
@@ -424,18 +424,34 @@ export function StampContentEditor(props: {
   )
 
   const properties = (
-    <section className="stamp-content-properties">
-      <DsTextInput
-        aria-label="组合名称"
-        value={draft.name}
-        onChange={(event) => setDraft((current) => ({ ...current, name: event.target.value }))}
-      />
-      <DsTextInput
-        aria-label="组合分类"
-        value={draft.category ?? ''}
-        placeholder="分类（可选）"
-        onChange={(event) => setDraft((current) => ({ ...current, category: event.target.value }))}
-      />
+    <div className="stamp-content-properties">
+      <div className="stamp-property-fields">
+        <DsField label="名称">
+          {(control) => (
+            <DsTextInput
+              {...control}
+              aria-label="组合名称"
+              value={draft.name}
+              onChange={(event) =>
+                setDraft((current) => ({ ...current, name: event.target.value }))
+              }
+            />
+          )}
+        </DsField>
+        <DsField label="分类">
+          {(control) => (
+            <DsTextInput
+              {...control}
+              aria-label="组合分类"
+              value={draft.category ?? ''}
+              placeholder="可选"
+              onChange={(event) =>
+                setDraft((current) => ({ ...current, category: event.target.value }))
+              }
+            />
+          )}
+        </DsField>
+      </div>
       <dl className="stamp-template-facts">
         <div>
           <dt>稳定 ID</dt>
@@ -454,16 +470,6 @@ export function StampContentEditor(props: {
           </dd>
         </div>
       </dl>
-      <DsButton
-        size="compact"
-        variant="secondary"
-        disabled={!selectedPoint}
-        onClick={() =>
-          selectedPoint && updateDraft((current) => reanchorStampDraft(current, selectedPoint))
-        }
-      >
-        将选中格设为锚点
-      </DsButton>
       {props.template.origin === 'migrated' ? (
         <DsCheckbox
           label="保存为作者内容"
@@ -471,7 +477,7 @@ export function StampContentEditor(props: {
           onChange={(event) => setTakeOwnership(event.target.checked)}
         />
       ) : null}
-    </section>
+    </div>
   )
 
   const palette = (
@@ -520,6 +526,20 @@ export function StampContentEditor(props: {
               collision: activeLayerReadOnly,
               eyedropper: activeLayerReadOnly,
             }}
+            selectionOptions={
+              <DsButton
+                size="compact"
+                variant="secondary"
+                disabled={!selectedPoint}
+                title={selectedPoint ? '将当前选中格设为组合锚点' : '先在画布中选择一个格子'}
+                onClick={() =>
+                  selectedPoint &&
+                  updateDraft((current) => reanchorStampDraft(current, selectedPoint))
+                }
+              >
+                设为锚点
+              </DsButton>
+            }
             brushSize={brushSize}
             onBrushSizeChange={setBrushSize}
             paintHeight={paintHeight}

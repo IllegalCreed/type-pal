@@ -104,7 +104,6 @@ import {
   SetEntityHostileOnLoseV5Command,
   SetEntityPageBehaviorV5Command,
 } from '../core/script-v5-editor.js'
-import type { StampSelectionSource } from '../core/stamp-template.js'
 import type { SpriteAutomaticScriptInstanceSite } from '../core/world-sprite-behavior.js'
 import { ActorMode } from './ActorMode.js'
 import { createEditorAppCommandRegistry, requireEditorAppCommand } from './app-command-registry.js'
@@ -312,15 +311,6 @@ export function App(props: {
   const [workspaceNotice, setWorkspaceNotice] = useState<
     { kind: 'info' | 'error'; message: string } | undefined
   >()
-  const [stampSelectionSource, setStampSelectionSource] = useState<StampSelectionSource>()
-  const captureStampSelection = useCallback((source: StampSelectionSource | undefined) => {
-    setStampSelectionSource(source)
-  }, [])
-  useEffect(() => {
-    void session
-    setStampSelectionSource(undefined)
-  }, [session])
-
   const persistNavigation = useCallback(
     (last: EditorLocation): void => {
       try {
@@ -1797,7 +1787,6 @@ export function App(props: {
             tilesets={state.tilesets ?? []}
             stamps={state.stamps}
             onOpenStampLibrary={(id) => applyEditorLocation(editorLinks.stamp(id))}
-            onStampSelectionChange={captureStampSelection}
             onRequestInspectorOpen={() => setInspectorCollapsed(false)}
             onWorkspaceNotice={setWorkspaceNotice}
           />
@@ -1867,7 +1856,6 @@ export function App(props: {
             tilesetBlobs={state.tilesetBlobs}
             stamps={state.stamps}
             mapIndex={state.mapIndex}
-            stampSelectionSource={stampSelectionSource}
             onStatusNotice={setWorkspaceNotice}
             scriptV5={
               scriptV5Session && scriptV5State

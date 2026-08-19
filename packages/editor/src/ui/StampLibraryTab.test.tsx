@@ -8,7 +8,6 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import { createBlankStampDraft } from '../core/stamp-draft.js'
-import type { StampSelectionSource } from '../core/stamp-template.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 import { StampLibraryTab } from './StampLibraryTab.js'
@@ -158,20 +157,16 @@ function Harness(props: {
   session: EditSession
   tilesets?: readonly TilesetDef[]
   assetCatalog?: AssetCatalogV1
-  selectionSource?: StampSelectionSource
   onObjectFocus?: (id: string | undefined) => void
   onOpenMap?: (id: string) => void
-  onOpenTileset?: (id: string) => void
   onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
 }) {
   const {
     session,
     tilesets = [tilesetFixture],
     assetCatalog = assetCatalogFixture,
-    selectionSource,
     onObjectFocus,
     onOpenMap,
-    onOpenTileset,
     onStatusNotice,
   } = props
   useSyncExternalStore(
@@ -188,10 +183,8 @@ function Harness(props: {
       assetBase={assetBaseFixture}
       session={session}
       mapIndex={current.mapIndex}
-      selectionSource={selectionSource}
       onObjectFocus={onObjectFocus}
       onOpenMap={onOpenMap ?? vi.fn()}
-      onOpenTileset={onOpenTileset}
       onStatusNotice={onStatusNotice}
     />
   )
@@ -420,6 +413,17 @@ describe('StampLibraryTab', () => {
     expect(host.querySelector('[aria-label="组合地图编辑画布"]')).not.toBeNull()
     expect(host.textContent).not.toContain('编辑组合内容')
     expect(host.textContent).not.toContain('退出内容编辑')
+    const properties = host.querySelector('.stamp-properties-section')!
+    expect(properties.textContent).toContain('名称')
+    expect(properties.textContent).toContain('分类')
+    expect(properties.textContent).toContain('稳定 ID')
+    expect(properties.textContent).toContain('尺寸')
+    expect(properties.textContent).toContain('锚点')
+    expect(properties.textContent).not.toContain('瓦片来源')
+    expect(properties.textContent).not.toContain('从地图导入')
+    expect(properties.textContent).not.toContain('模板管理')
+    expect(host.querySelector('[aria-label="复制组合 tree"]')).not.toBeNull()
+    expect(host.querySelector('[aria-label="删除组合 tree"]')).not.toBeNull()
   })
 
   test('改名/分类/复制/删除均走 undo，删除模板不改 placement 且库级显示悬空来源', async () => {
@@ -444,7 +448,9 @@ describe('StampLibraryTab', () => {
     await act(async () => button('保存组合', host).click())
     expect(session.getState().stamps[0]).toMatchObject({ name: '古树', category: '古迹' })
 
-    await act(async () => button('复制为作者模板', host).click())
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label="复制组合 古树"]')!.click(),
+    )
     expect(session.getState().stamps).toHaveLength(2)
     expect(session.getState().stamps[1]).toMatchObject({ id: 'tree-copy', origin: 'authored' })
 
@@ -455,7 +461,9 @@ describe('StampLibraryTab', () => {
     await act(async () => {
       await new Promise((resolve) => window.setTimeout(resolve, 0))
     })
-    await act(async () => button('删除模板', host).click())
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label="删除组合 古树"]')!.click(),
+    )
     const confirm = button('确认删除', host)
     expect(confirm.disabled).toBe(false)
     expect(host.textContent).toContain('检测到 1 处来源引用')
@@ -491,7 +499,9 @@ describe('StampLibraryTab', () => {
     expect(
       host.querySelector('[role="tablist"][aria-label="组合模板检查器"] .ds-tab__count'),
     ).toBeNull()
-    await act(async () => button('删除模板', host).click())
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label="删除组合 tree"]')!.click(),
+    )
     expect(button('确认删除', host).disabled).toBe(true)
   })
 
@@ -556,15 +566,20 @@ describe('StampLibraryTab', () => {
     expect(loadMap).toHaveBeenCalledTimes(1)
   })
 
-  test('来源瓦片集按钮精确跳转到当前模板的 tileset', async () => {
+  test('锚点操作只在选择工具中出现，并对当前单格选择生效', async () => {
     const session = new EditSession(state([template()], {}))
-    const onOpenTileset = vi.fn()
     await act(async () => {
-      root.render(<Harness session={session} onOpenTileset={onOpenTileset} />)
+      root.render(<Harness session={session} />)
       await Promise.resolve()
     })
-    await act(async () => button('打开来源瓦片集', host).click())
-    expect(onOpenTileset).toHaveBeenCalledWith('tiles-a')
+    const toolbar = host.querySelector('.stamp-content-editor > .map-toolbar')!
+    expect(button('设为锚点', toolbar)).toBeUndefined()
+    await act(async () => button('选择', toolbar).click())
+    expect(button('设为锚点', toolbar).disabled).toBe(true)
+    await clickDraftPoint({ row: 1, col: 0 })
+    expect(button('设为锚点', toolbar).disabled).toBe(false)
+    await act(async () => button('设为锚点', toolbar).click())
+    expect(host.querySelector('.stamp-template-facts')?.textContent).toContain('r1 · c0')
   })
 
   test('内容编辑只在保存时提交一笔模板 history，undo/redo 全程不改地图与 MapIndex', async () => {
@@ -883,29 +898,4 @@ describe('StampLibraryTab', () => {
     expect(session.getHistoryVersion()).toBe(1)
   })
 
-  test('库页允许用其他来源瓦片集的选区更新目标模板，不会覆盖其他模板', async () => {
-    const map = placedMap('unrelated', 'tiles-b')
-    const stamps = [template('wanted', 'tiles-a'), template('other', 'tiles-b')]
-    const session = new EditSession(state(stamps, { 'map-b': map }))
-    const selectionSource: StampSelectionSource = {
-      mapId: 'map-b',
-      selection: {
-        kind: 'cells',
-        hitScope: 'active-layer',
-        visualSlots: [{ layerId: 'floor', row: 0, col: 0 }],
-        gridPoints: [{ row: 0, col: 0 }],
-      },
-    }
-    await act(async () => {
-      root.render(<Harness session={session} selectionSource={selectionSource} />)
-      await Promise.resolve()
-    })
-    await act(async () => button('用当前地图选区更新', host).click())
-    expect(document.querySelector('dialog')?.textContent).toContain('更新已有模板')
-    await act(async () => button('替换模板内容', document).click())
-    expect(session.getState().stamps.find((item) => item.id === 'wanted')?.tilesetRefs).toEqual([
-      'tiles-b',
-    ])
-    expect(session.getState().stamps.find((item) => item.id === 'other')).toEqual(stamps[1])
-  })
 })
