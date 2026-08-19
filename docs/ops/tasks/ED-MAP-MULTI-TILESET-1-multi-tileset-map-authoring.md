@@ -1,6 +1,6 @@
 # ED-MAP-MULTI-TILESET-1 - 地图多瓦片集作者模型
 
-Status: review
+Status: done
 Phase: phase2
 Capability: 地图/组合瓦片来源模型纠偏（schema/save/runtime/editor）
 Coding Owner: Codex
@@ -138,9 +138,39 @@ Tab 的瓦片区选择来源瓦片集和具体瓦片；同一地图可同时使�
 
 - Codex: **accept（2026-08-19）**。KM1/KM2、MT1-MT4 全部落地；当前工程 census、同号 tileId 双来源、
   runtime 并集加载、引用删除阻断、来源切换不重解释、stamp 多来源放置与 UI palette 均已验证。
-- Kimi: pending
-- GLM: pending
-- done 准入结论: blocked
+- Kimi: **accept（2026-08-19 done 前 schema/架构复审，本人一手读码 + 工程文件实测，非代理）**。
+  逐项核验：
+  - **KM1 存储形态 ✓**：content schema 为 `tilesetRefs: string[]`（字典序）+ 同形
+    `sources: (number|null)[][]` 下标矩阵（project-map.ts:8-9,19-20）；单来源 JSON 确定性省略、
+    多来源必须显式且 validator 物化（:150-157）；无 per-cell 对象落盘、无全局拼接编号。
+  - **KM2 lockstep/归一化 ✓**：tiles/sources 同空同非空（:174-176）、下标越界 fail-loud（:162-163）。
+  - **工程实测 ✓（本席 node 全扫）**：223 图全部携带 `tilesetRefs`、0 多来源、0 显式 sources
+    矩阵——单来源省略与 census 一致；终态体积变化（77.3MB 强制写 → MT2 触发省略 → 51.5MB，
+    -0.253B/格）满足预算。
+  - **runtime/消费面 ✓**：`loadSceneMap` 按 `tilesetRefs` 并集加载（scene-map.ts:23）；
+    `tileset-mismatch` 在 stamp-placement.ts 零命中；组合放置 mismatch 拒绝已退役。
+  - **复跑 ✓**：content project-map.test 6/6；同号 tileId 双来源 round-trip、迁移幂等由
+    content/migrate fixture 覆盖（Codex 已跑，GLM 终审复算）。
+  - **UI ✓（抽查）**：属性 Tab 无瓦片集单值绑定；来源选择在绘制 → 瓦片（Codex 1280 实机
+    记录 + 本席在多卡复审中交叉确认当前 Inspector 为属性/绘制/引用结构）。
+  未改实现文件，未代签 GLM，未标 done。
+- GLM: **accept（2026-08-19 done 前数据/迁移终审，本人一手读码 + 全工程独立 census，非代理）**。
+  MT1-MT4 逐钉验证：MT1 census 本人独立复算与 build 记录完全一致（223/446/3,996,116/
+  0 悬空/二跑 changed=0）；**MT2 预算钉真实发挥门禁作用**——第一版强制 sources
+  77,324,353B 触发预算红线后改单源省略，最终 -0.253B/非空格（远优于 +2~3B/格上限），
+  预算过程如实记卡；MT3 引用扫描逐格解析来源（patch/clipboard/transform/stamp/renderer
+  全链）；MT4 同号 tileId 双来源/registry 重排/删除引用/stamp 多源 fixture 齐；
+  tilesetRefs 字典序 + lockstep/越界/未知 TilesetDef fail-closed（:150-174）。
+  content/reforge 全量本席复跑通过。
+  - **批次级返工项（非本卡范围，关卡前须修）**：`a5e69100 unify catalog header icon buttons`
+    将新建按钮迁为目录 header action 后，`EnemyTab.test:218` 与 `ItemTab.test` 的
+    `button[title="新建敌人/新建物品"]` 选择器失效——main editor 全量当前 973/975（2 红），
+    属六卡验收之后的范围外回归；六卡 focused 本席复跑 105/105 全绿。Codex 更新两处测试
+    选择器为 header action 可访问名并复绿全量后，本批方可关卡/用户验收。
+- counter / 返工处理: **resolved（2026-08-19）**。两处选择器已改用 header action `aria-label`；
+  定向 19/19、editor typecheck 与全量 131 files / 975 tests 通过。
+- 用户验收: **accept（2026-08-19）**。用户明确确认本批验收全部通过。
+- done 准入结论: **allowed（2026-08-19）**——Codex + Kimi + GLM accept、批次返工清零、用户最终验收齐。
 
 ## Build: 实现与自测
 
@@ -182,7 +212,13 @@ Tab 的瓦片区选择来源瓦片集和具体瓦片；同一地图可同时使�
 - 2026-08-18 Codex：接受紧凑 source-index matrix 并补 design agree；用户随后要求先重定组合为共享局部地图
   content 与相对高度，因此本卡依赖 ED-STAMP-MAP-MODEL-1，合并为一次 canonical version cut。
 
+- 2026-08-19 GLM（数据/迁移）: done 终审完成并签 **accept**。MT1 census 复算一致；MT2 预算钉真实发挥门禁（77MB→-0.253B/格）；MT3/MT4 fixture 齐。附批次返工项 a5e69100。
+
 ## 下一位 Agent 提示词
+
+无下一位 Agent 提示词；三方 accept、用户验收与全量测试均已完成，本卡收口。
+
+## 历史交接提示词（已完成）
 
 ```text
 审查 ED-MAP-MULTI-TILESET-1 地图多瓦片集作者模型实现。

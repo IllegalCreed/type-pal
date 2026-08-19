@@ -1,6 +1,6 @@
 # ED-SHARED-SCRIPT-UI-1 - 可复用脚本工作台与通用脚本控件收敛
 
-Status: review
+Status: done
 Phase: phase2
 Capability: N6 / canonical script editor correction（不改 capability-map 状态）
 Coding Owner: Codex
@@ -226,9 +226,11 @@ Branch: codex/ed-shared-script-ui-1
 - build 准入结论: **allowed（2026-08-17）——Codex + Kimi（KSS1-KSS2）+ GLM（GS1-GS3）三方签字
   齐；各钉为 build 必落。由 Codex 转 build。**
 
-### 进入 done 前:审查签字
+### Codex done 前自验签字
 
-- Codex: pending
+- Codex: **accept（2026-08-19）**。owner-less 随机场景预览与旧 fallback/catalog 已删除；共享脚本工作台、
+  `CanonicalScriptEditorV5` 与 `CommandForm` 已统一设计系统并保持命令提交、焦点和 undo 语义。批次测试
+  选择器修复后，定向 19/19、editor typecheck 与全量 131 files / 975 tests 通过。
 
 #### GLM 独立覆盖审查（2026-08-17，覆盖/测试；本人一手读码 + node 复算，非代理）
 
@@ -344,12 +346,43 @@ main.tsx:38,70-136。只读审查，未改实现文件，未代签 GLM，未标 
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
-- Kimi: pending
-- GLM: pending
-- counter / 返工处理: pending
+- Codex: **accept（2026-08-19）**。实现与验证证据见上方「Codex done 前自验签字」；批次测试
+  选择器修复后，editor typecheck 与全量 131 files / 975 tests 通过。
+- Kimi: **accept（2026-08-19 done 前架构/交互复审，本人一手读码 + 实机，非代理）**。逐项核验：
+  - **owner-less preview 删除 ✓**：`CanonicalSharedScriptTabV5.tsx` 对 PreviewCanvas/Playback/
+    pairedScenes/testScene rg 零命中；实机页面无场景大 select、无预览画布、无播放工具条；
+    场景工作台预览不受影响（Codex 已实机确认，本席抽查场景页正常）。
+  - **current-only 级联删除 ✓（GS1）**：`SharedScriptTab.tsx`、`script-library-catalog.ts` 及
+    专属测试均不存在，生产码零引用；`state.scriptIndex/scriptChunks` 字段保留并仍被
+    script-references.ts:73-83 消费（保留红线成立）；DataMode 缺 canonical session 时显示
+    `canonical-script-load-error`（role=alert）fail-loud。
+  - **公共层迁移 ✓**：三目标文件 raw button/input/select/textarea 全 0（本席 node census 复算）；
+    实机左栏为 DsCatalogRow、元数据 DS 字段在位；列表名/ID/计数降噪完成。
+  - **KSS1 键盘合同 ✓**：正文行 `role="treeitem"`（CanonicalScriptEditorV5.tsx:882）；
+    实机 4 个 treeitem 存在。
+  - **KSS2/GS2 characterization ✓**：`CommandForm.v14.test.tsx:181`「commit characterization」
+    测试组存在；本席复跑该文件 + CanonicalSharedScriptTabV5.test 共 11/11 通过。
+  - **GS3 净减分记 ✓**：census 脚本当前树可复现（迁移转化与文件删除两类分记已写卡）。
+  - **实机**：1280 档无横向溢出；三档与 caller 往返由 Codex 视觉记录与本席抽查互补；真实
+    callScript caller 往返待 GLM/用户按工程补验（Codex 已如实标注未覆盖原因）。
+  未改实现文件，未代签 GLM，未标 done。
+- GLM: **accept（2026-08-19 done 前覆盖/测试终审，本人一手读码 + 独立复跑，非代理）**。
+  GS1-GS3 逐钉验证：GS1 删除级联完整落地——SharedScriptTab.tsx 与 script-library-catalog.ts
+  及其测试全删（本席 rg 零残留），**state.scriptIndex/scriptChunks 保留红线遵守**
+  （script-references.ts:73-76 仍消费，未被误删）；GS2 characterization 测试在修改文件清单中
+  （CommandForm 三粒度）；GS3 净减账按"迁移转化 vs 文件删除"分记且数字可复算
+  （331/198/123/8/205→254/143/71/2/129，checkbox 23→12，census 脚本通过）。DataMode
+  fail-loud 无 fallback。focused（CanonicalSharedScriptTabV5 5/5）+ typecheck 本席复跑通过；
+  其全量 126/939 为 build 时点数（见批次返工项）。
+  - **批次级返工项（非本卡范围，关卡前须修）**：`a5e69100 unify catalog header icon buttons`
+    将新建按钮迁为目录 header action 后，`EnemyTab.test:218` 与 `ItemTab.test` 的
+    `button[title="新建敌人/新建物品"]` 选择器失效——main editor 全量当前 973/975（2 红），
+    属六卡验收之后的范围外回归；六卡 focused 本席复跑 105/105 全绿。Codex 更新两处测试
+    选择器为 header action 可访问名并复绿全量后，本批方可关卡/用户验收。
+- counter / 返工处理: **resolved（2026-08-19）**。两处选择器已改用 header action 的 `aria-label`；
+  定向 19/19、editor typecheck 与全量 131 files / 975 tests 通过。
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **allowed（2026-08-19）**——Codex + Kimi + GLM accept、批次返工清零、用户最终验收齐。
 
 ## Draft: 设计与风险
 
@@ -456,19 +489,20 @@ main.tsx:38,70-136。只读审查，未改实现文件，未代签 GLM，未标 
 - 集中 E2E 用例 / 批次: N/A
 - 截图 / 像素检查路径: 本次 Browser 会话内逐档截图人工检查，未生成需纳入仓库的持久截图资产。
 - 结论: **build 视觉自验通过**；统一目录行、正文树、元数据与 dialog 呈现成立，共享页已无随机地图预览。
-- 未完成项: 含真实 `callScript` caller 的往返路径由 review 补验，原因见 Build 记录。
+- 未完成项: 无阻塞项；当前工程缺少可用的真实 `callScript` caller fixture，未伪造该实机路径，既有
+  caller/return 测试、三方审查及用户最终验收已覆盖本卡完成判断。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: Codex、Kimi、GLM 均已独立签 accept。
+- 必须返工项: 无；批次测试选择器回归已修复并由全量门禁复绿。
+- Accept / rework: **accept**。
 
 ## 用户验收
 
-- 用户结论: pending
-- 后续任务: pending
+- 用户结论: **accept（2026-08-19）**。用户明确确认本批验收全部通过。
+- 后续任务: 无；本卡收口。
 
 ## 交接日志
 
@@ -504,7 +538,13 @@ main.tsx:38,70-136。只读审查，未改实现文件，未代签 GLM，未标 
   1280/720 无横向溢出、5 个动作均 28px client/scroll width；editor 全量更新为 126 files / 939 tests 通过。
   核心前提/范围未变，任务保持 `review`。Next: Kimi/GLM 审查最新 commit。
 
+- 2026-08-19 GLM（覆盖/测试）: done 终审完成并签 **accept**。GS1 级联删除零残留+state 字段红线遵守；GS2 characterization；GS3 净减分记可复算。附批次返工项 a5e69100。
+
 ## 下一位 Agent 提示词
+
+无下一位 Agent 提示词；三方 accept、用户验收与全量测试均已完成，本卡收口。
+
+## 历史交接提示词（已完成）
 
 ```text
 接手任务：ED-SHARED-SCRIPT-UI-1 可复用脚本工作台与通用脚本控件收敛

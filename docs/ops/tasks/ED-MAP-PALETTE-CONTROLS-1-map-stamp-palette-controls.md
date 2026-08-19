@@ -1,6 +1,6 @@
 # ED-MAP-PALETTE-CONTROLS-1 - 地图组合 Palette 控件统一
 
-Status: review
+Status: done
 Owner: Codex
 Reviewer: Kimi + GLM
 Phase: phase2
@@ -117,9 +117,29 @@ Visual Verification Timing: dev-functional
     分类选择/limit 重置语义——任一出现即 counter（卡文已列，GLM/Kimi 同意该观察集）。
   - 用户豁免: N/A
   - 结论: **allowed（2026-08-17）——Codex + Kimi + GLM（MP1）三方签字齐。由 Codex 转 build。**
-- done 准入: Codex **accept（2026-08-17）** | Kimi pending | GLM pending | 用户验收 pending |
-  结论 blocked。Codex 证据：focused 83/83、editor 128 files / 942 tests、typecheck、Biome/diff-check、
-  census 与三档浏览器矩阵全绿；实现不含 `DsCatalogControls/DsListHeader`，领域卡/排序/兼容/最近/60 渐进未改。
+- done 准入: Codex **accept（2026-08-17）** | Kimi **accept（2026-08-19，done 前架构/视觉复审，
+  本人一手读码 + 实机，非代理）** | GLM **accept（2026-08-19 done 前覆盖/测试终审，本人独立复跑，非代理；基于实现 5dccf549）**
+  | MP1 逐字落地：boundary :562 按单文件划界（MapStampPalette 内 raw input/select 与
+  `.in/.mini` 零、唯一 raw button 必须是 `map-stamp-card`、DsCatalogControls 防蔓延）；
+  census 预期算术本人独立复算精确命中（-1/-1/-2/-2/+2 → 197/122/329/18/116）；focused
+  3 files/83 + typecheck + 全量 128/942 全部本人复跑通过（build 时点；批次返工项见下）。
+  - 批次级返工项（非本卡范围）：a5e69100 迁移新建按钮后 EnemyTab.test:218/ItemTab.test 的旧选择器
+    失效；**2026-08-19 已 resolved**——Codex 改用 header action `aria-label`，定向 19/19、editor
+    typecheck 与全量 131 files / 975 tests 通过。
+  - 用户验收：**accept（2026-08-19）**。用户明确确认本批验收全部通过。
+  - done 准入结论：**allowed（2026-08-19）**——三方 accept、批次返工清零、用户最终验收齐。
+  Kimi 证据：
+  - **MP1 落地 ✓**：`MapStampPalette.tsx` 唯一保留的 raw `<button>` 是 `map-stamp-card`（:104）；
+    chrome 全部 compact 共享控件（DsTextInput :65 / DsSelect :76 / DsButton :140,:146）；
+    `searchable={false}` 与 limit 重置 handler 原样；boundary.test.ts:629 有
+    「shared controls + 无目录 shell creep」门禁。
+  - **实机 ✓**（当前树 dev server，`?ui_samples=1&module=map&page=workspace` → 绘制 Tab）：
+    palette 内 `.in/.mini` 零命中、DsInput/DsSelect 存在、「管理组合 ↗」为 DsButton、
+    filters 与页面均无横向溢出。
+  - **复跑 ✓**：`vitest run MapStampPalette.test + boundary.test` 35/35 通过；census 脚本可复现
+    （当前树数字已含后续卡净减，与本卡历史基线兼容）。
+  - 说明：实机样例仅 6 组合无「再显示 60」入口，与 Codex 记录一致，由 600 fixture 测试覆盖。
+  未改实现文件，未代签 GLM，未标 done。
 
 ## Build: 实现与自测
 
@@ -168,7 +188,13 @@ Visual Verification Timing: dev-functional
   primitive，MP1 文件边界、census/report 与行为测试落地；focused 83、full editor 942、typecheck、
   三档实机及 Console 0 全绿。Next: Kimi/GLM done 前独立 review；三方 accept + 用户验收前不得 done。
 
+- 2026-08-19 GLM（覆盖/测试）: done 终审完成并签 **accept**。MP1 逐字落地、census 算术独立复算精确命中、focused 83+全量 942 复跑。附批次返工项 a5e69100。
+
 ## 下一位 Agent 提示词
+
+无下一位 Agent 提示词；三方 accept、用户验收与全量测试均已完成，本卡收口。
+
+## 历史交接提示词（已完成）
 
 ### 给 Kimi（build 前审查——已完成）
 

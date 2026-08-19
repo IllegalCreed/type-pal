@@ -249,7 +249,7 @@ describe('ItemTab', () => {
     ).toBe(true)
     expect(button('删除', initialHero).classList).toContain('ds-button--danger')
 
-    await act(async () => button('＋', host.querySelector('.ds-list-header')!).click())
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="新建物品"]')!.click())
     expect(session.getState().items.map((entry) => entry.id)).toEqual(['item-a', 'item-001'])
     expect(host.querySelector('.ds-object-hero__id')?.textContent).toBe('item-001')
 

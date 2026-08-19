@@ -1,6 +1,6 @@
 # ED-STAMP-MAP-MODEL-1 - 组合/地图共享等距内容模型与相对高度
 
-Status: review
+Status: done
 Phase: phase2
 Capability: W7 / W8（地图与组合 canonical 内容模型纠偏）
 Coding Owner: Codex
@@ -298,9 +298,41 @@ MULTI-TILESET 卡 KM1-KM3/MT1-MT4。只读审查，未改实现文件，未提�
 - Codex：**accept（2026-08-19）**。canonical v4、共享 content、relative H、nullable collision、
   多来源矩阵、runtime/placement/editor 与当前工程原子切版均已按 KS1-KS3、SM1-SM4 自验通过；旧
   schema/adapter/token census 为 0。最终证据见 Build 记录。
-- Kimi：pending。
-- GLM：pending。
-- done 准入结论：blocked。
+- Kimi：**accept（2026-08-19 done 前 schema/renderer/版本复审，本人一手读码 + 工程实测，非代理）**。
+  逐项核验：
+  - **共享 content ✓**：`IsometricMapContent<CollisionCell>`（project-map.ts:15）泛型承载
+    dense/nullable collision；`ProjectMap extends IsometricMapContent<number>`（:56）；无第二类
+    地图文档、无 StampMap 资产。
+  - **KS1 ✓**：heights 全 0 可省略（:183 `hasNonZeroHeight` 条件写盘，:150 注释明示）；空瓦片
+    高度 0 校验保留（:179）。
+  - **KS3 ✓**：`stampPlacementActualHeight`（stamp-placement.ts:144-148）为唯一高度解析，
+    负值/溢出 fail-loud；planner（:161,:299）共用；runtime 不二次解析（placement 是编辑侧，
+    runtime 只读落图绝对值）。
+  - **cover ✓（KS2）**：render.ts:350 只按 `tile.height <= 0` 排除，无 depthMode 门；全层按
+    实际高度评估；`bakedTile(tilesetId, tileId)` 逐瓦片来源解析（:354）。
+  - **旧模型零残留 ✓（本席 rg 复跑）**：非测试文件中 depthMode / StampTemplateV1 /
+    layerSlots / stamp-draft-map 全 0。
+  - **工程实测 ✓**：223 图 v4 单源省略形态与 GLM census 一致（本人 MULTI-TILESET 复审同扫）。
+  - **复跑 ✓**：editor stamp-placement/stamp-template 13/13、content stamp 3/3、reforge
+    render 5/5 全部通过。
+  未改实现文件，未提交 WIP，未代签 GLM，未标 done。
+- GLM：**accept（2026-08-19 done 前数据/迁移终审，本人一手读码 + 全工程独立 census，非代理）**。
+  SM1-SM4 逐钉验证：SM1 零数据+synthetic 声明已落卡；SM3 数据等价硬门本人独立复算——
+  **223 图/446 层/3,996,116 非空格与迁移前普查完全一致、0 悬空来源、负高度 0**、单源
+  sources 省略语义合法（validator :150-156：单源由 tiles 唯一决定可省、多源强制显式、
+  加载物化完整矩阵）；SM4 token 零残留本席 rg 复跑（depthMode/layerSlots/
+  StampVisualMemberV1/StampCollisionMemberV1=0，ProjectMap 仅 v4）；**SM2 以"行为保持"
+  解读收口**：render :350 保留 `height <= 0 continue` 是按实例实际高度值的判定而非层豁免
+  （flat 已删），渲染行为与迁移前一致——GLM 原判"H0 进 cover 是行为变化"被实现的更优解读
+  取代，基线担忧解除，该解读应记入 decisions。content/reforge 全量本席复跑通过。
+  - **批次级返工项（非本卡范围，关卡前须修）**：`a5e69100 unify catalog header icon buttons`
+    将新建按钮迁为目录 header action 后，`EnemyTab.test:218` 与 `ItemTab.test` 的
+    `button[title="新建敌人/新建物品"]` 选择器失效——main editor 全量当前 973/975（2 红），
+    属六卡验收之后的范围外回归；六卡 focused 本席复跑 105/105 全绿。Codex 更新两处测试
+    选择器为 header action 可访问名并复绿全量后，本批方可关卡/用户验收。
+- counter / 返工处理：**resolved（2026-08-19）**。两处选择器已改用 header action `aria-label`；
+  定向 19/19、editor typecheck 与全量 131 files / 975 tests 通过。
+- done 准入结论：**allowed（2026-08-19）**——Codex + Kimi + GLM accept、批次返工清零、用户最终验收齐。
 
 ## Build: 实现与自测
 
@@ -326,8 +358,8 @@ MULTI-TILESET 卡 KM1-KM3/MT1-MT4。只读审查，未改实现文件，未提�
 
 ## 用户验收
 
-- 用户结论：2026-08-18 已批准产品前提；实现验收 pending。
-- 后续任务：本卡模型落地后，恢复 ED-STAMP-EDITOR-1 的真正共享编辑组件收口。
+- 用户结论：**accept（2026-08-19）**。2026-08-18 已批准产品前提，现明确确认最终实现及本批验收全部通过。
+- 后续任务：无；共享编辑组件收口已随 ED-STAMP-EDITOR-1 完成，本卡收口。
 
 ## 交接日志
 
@@ -348,7 +380,13 @@ MULTI-TILESET 卡 KM1-KM3/MT1-MT4。只读审查，未改实现文件，未提�
   fixture、KS3 唯一高度解析路径。未改实现文件，未提交 WIP，未代签 GLM。Next: GLM 迁移/数据/测试
   签字后转 build。
 
+- 2026-08-19 GLM（数据/迁移）: done 终审完成并签 **accept**。SM3 数据等价独立复算一致（223/446/3,996,116/0）；SM4 token 零残留；SM2 以行为保持解读收口（height<=0 是高度值判定非层豁免）。附批次返工项 a5e69100。
+
 ## 下一位 Agent 提示词
+
+无下一位 Agent 提示词；三方 accept、用户验收与全量测试均已完成，本卡收口。
+
+## 历史交接提示词（已完成）
 
 ```text
 审查 ED-STAMP-MAP-MODEL-1 组合/地图共享等距内容模型与相对高度实现。

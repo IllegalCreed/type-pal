@@ -22,12 +22,12 @@
 | ED-REFERENCE-UI-1 | 属性面板引用呈现全局统一 | done | 三方 accept + 用户确认齐，整卡收口 | 16 面统一；RK1-RK2/GN1-GN4 逐钉通过；当前 editor 892/892 全绿 |
 | ED-DIAGNOSTIC-UI-1 | 属性面板问题与诊断呈现统一 | done | 三方 accept + 用户验收齐，整卡收口 | DK1 数值门禁单一 frame、DK2 六面内联无新 Tab、cf-err 正向保护；focused 82 + 全量 927 独立复跑全绿 |
 | ED-CATALOG-CONTROLS-1 | 编辑器全局目录筛选区统一 | done | 三方 accept + 用户验收齐，整卡收口 | GC1-GC5/CK1-CK2/RK-A 全闭环；editor 912 复跑全绿；palette debt 见 ED-MAP-PALETTE-CONTROLS-1 |
-| ED-WORLD-VARIABLES-1 | 世界变量定义表与作者工作台 | review | Kimi + GLM 独立 review 并分别 accept/counter | Codex 自验 accept；Content/Reforge/Editor/Migrate 3113 tests、两项 build、三档布局通过 |
-| ED-SHARED-SCRIPT-UI-1 | 可复用脚本工作台与通用脚本控件收敛 | review | Kimi + GLM 独立审查并分别 accept/counter | build/自测/三档视觉验证完成；真实 callScript caller 往返留给 review 补验 |
-| ED-STAMP-EDITOR-1 | 组合模板内容编辑闭环 | review | Kimi + GLM 按替代模型独立审查 | 共享 content/画布、多来源、relative H 与会话级引用索引已落地；Codex accept |
-| ED-MAP-PALETTE-CONTROLS-1 | 地图组合 Palette 控件统一 | review | Kimi/GLM 独立 review | Codex accept；`5dccf549` 已推送；focused 83 + full 942、三档零横滚、Console 0，census 已收紧 |
-| ED-STAMP-MAP-MODEL-1 | 组合/地图共享内容模型与相对高度 | review | Kimi + GLM 独立 review | Codex accept；唯一 v4、relative H、共享 content/画布、当前工程切版均完成 |
-| ED-MAP-MULTI-TILESET-1 | 地图多瓦片集作者模型 | review | Kimi + GLM 独立 review | Codex accept；紧凑 source matrix、runtime/编辑/组合放置与 223 图迁移完成 |
+| ED-WORLD-VARIABLES-1 | 世界变量定义表与作者工作台 | done | 三方 accept + 用户验收齐，整卡收口 | 变量定义/初值/全 owner 引用闭环；editor 131 files / 975 tests + typecheck 全绿 |
+| ED-SHARED-SCRIPT-UI-1 | 可复用脚本工作台与通用脚本控件收敛 | done | 三方 accept + 用户验收齐，整卡收口 | owner-context 工作台与公共脚本控件收敛；editor 131 files / 975 tests + typecheck 全绿 |
+| ED-STAMP-EDITOR-1 | 组合模板内容编辑闭环 | done | 三方 accept + 用户验收齐，整卡收口 | 共享 content/画布、多来源、relative H 与会话级引用索引落地；全量门禁复绿 |
+| ED-MAP-PALETTE-CONTROLS-1 | 地图组合 Palette 控件统一 | done | 三方 accept + 用户验收齐，整卡收口 | Palette 行为/边界与共享控件统一；editor 131 files / 975 tests + typecheck 全绿 |
+| ED-STAMP-MAP-MODEL-1 | 组合/地图共享内容模型与相对高度 | done | 三方 accept + 用户验收齐，整卡收口 | 唯一 v4、relative H、共享 content/画布与当前工程切版完成；全量门禁复绿 |
+| ED-MAP-MULTI-TILESET-1 | 地图多瓦片集作者模型 | done | 三方 accept + 用户验收齐，整卡收口 | 紧凑 source matrix、runtime/编辑/组合放置与 223 图迁移完成；全量门禁复绿 |
 | OPS-TST-PERF-B | shared/fresh 隔离并行 runner | build | **用户 2026-08-18 暂缓**；先处理功能与样式 | 不再启动长时 proof；既有候选与证据保留，恢复后继续，默认串行不变 |
 | OPS-TST-PERF-C | P2/P3/P4 consolidated determinism proof | build | **用户 2026-08-18 暂缓**；先处理功能与样式 | 不生成 coverage map / probe，不改 release route；恢复后从当前门禁继续 |
 

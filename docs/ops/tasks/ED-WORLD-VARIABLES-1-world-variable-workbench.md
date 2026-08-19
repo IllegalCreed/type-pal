@@ -1,6 +1,6 @@
 # ED-WORLD-VARIABLES-1 - 世界变量定义表与作者工作台
 
-Status: review
+Status: done
 Phase: phase2
 Capability: N5 authoring closure / content schema successor（N5 状态不降格）
 Coding Owner: Codex
@@ -360,11 +360,43 @@ PAL 四目录 node census（0/0/0）。只读审查，未改实现文件，未�
 - Codex: **accept（2026-08-18）**。current 16 registry/loader/save/new-world 初始化、全 owner canonical
   collector、diagnostics/save gate、CRUD/undo、变量 picker 与三栏工作台均已实现；Content 490、Reforge 1025、
   Editor 949、Migrate fast 649 测试通过，Reforge/Editor production build 通过，三档浏览器布局无横向溢出。
-- Kimi: pending
-- GLM: pending
-- counter / 返工处理: pending
+- Kimi: **accept（2026-08-19 done 前 schema/架构复审，本人一手读码 + 实机，非代理）**。逐项核验：
+  - **KV1 boundary 反转 ✓**：VarsTab 已进入正向清单（boundary.test.ts:246,:260），旧私有
+    `var-head/ref-row/rw` 以负向断言防回归（:411）；实机零命中。
+  - **KV2 同源 collector ✓**：`world-variable-references.ts` 单模块同时提供
+    `collectWorldVariableReferencesV1`（:201）与迁移生成器
+    `buildWorldVariableRegistryFromReferencesV1`（:254），消费方为 VarsTab/DataMode/commands/
+    project-diagnostics——单一定义多消费者成立。
+  - **schema 与一次切版 ✓**：`validateWorldVariableRegistryV1`（content/world-variable.ts:67-96）
+    exact keys + 判别联合 + finite number；PAL manifest contentVersion=16 且
+    `worldVariables: content/world-variables.json` 登记、内容合法空表（GV1 成立）；loader-v16
+    存在、v15 产品 loader 路径不存在。
+  - **initial 分层 ✓**：`initialWorldVariablesV1` 只在世界构造时读取（character.ts:345-353），
+    运行值表形状不变；`sys:` 前缀 validator 拦截（:73-96）。
+  - **双 session ✓**：命令在 world-variable-commands（EditSession 侧），脚本 picker 走 ScriptV5
+    session；删除被引用阻断由 collector 纯扫描前置，无跨 session 写路径。
+  - **实机 ✓**（`?ui_samples=1&module=story&page=vars`）：类型分组「开关 3 / 数值 4」、7 行带
+    读写计数、DsObjectHero、引用面板阻断 + 精确 locator（shared/ui-review/quest-start 命令路径
+    可见）、无横向溢出。
+  - **复跑 ✓**：content world-variable.test 8/8、editor world-variable-commands/references 9/9、
+    VarsTab.test 4/4，全部通过。
+  未改实现文件，未代签 GLM，未标 done。
+- GLM: **accept（2026-08-19 done 前数据/测试终审，本人一手读码 + 独立复算/复跑，非代理）**。
+  GV1-GV3 逐钉验证：GV1 空表事实与 100% synthetic 声明已落卡（Build-start 节原文）；GV2
+  collector 全 owner（scene hook/entity behavior/hostile onLose/item private/shared script +
+  递归 arm）且 `sys:` 过滤实现（world-variable-references.ts:77）并有嵌套条件+全 owner+过滤
+  sys: 的专项测试（test:112-121）；GV3 裁决方案①（ui_samples 内存投影注入 registry+references、
+  保存门严格、无写盘断言）。切版链核实：contentVersion 15→16、loader-v16 强制 worldVariables
+  路径、v15 产品路径删除。content/reforge 全量本席复跑通过（与 build 记录 482/1020 一致）。
+  - **批次级返工项（非本卡范围，关卡前须修）**：`a5e69100 unify catalog header icon buttons`
+    将新建按钮迁为目录 header action 后，`EnemyTab.test:218` 与 `ItemTab.test` 的
+    `button[title="新建敌人/新建物品"]` 选择器失效——main editor 全量当前 973/975（2 红），
+    属六卡验收之后的范围外回归；六卡 focused 本席复跑 105/105 全绿。Codex 更新两处测试
+    选择器为 header action 可访问名并复绿全量后，本批方可关卡/用户验收。
+- counter / 返工处理: **resolved（2026-08-19）**。Codex 已将两处测试改为目录 header action 的
+  `aria-label` 可访问名；定向 19/19、editor typecheck 与全量 131 files / 975 tests 通过。
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **allowed（2026-08-19）**——Codex + Kimi + GLM accept、批次返工清零、用户最终验收齐。
 
 ## Draft: 设计与风险
 
@@ -477,19 +509,20 @@ PAL 四目录 node census（0/0/0）。只读审查，未改实现文件，未�
 - 集中 E2E 用例 / 批次: N/A
 - 截图 / 像素检查路径: 当前任务浏览器证据（1280×720、900×720、720×720）；未写入仓库产物。
 - 结论: pass。三档均无页面级横向滚动；目录/正文/引用在 720 仍保持分栏且可独立纵向滚动，900/1280 信息密度正常。
-- 未完成项: reviewer 独立 Console 记录与真实磁盘 save/reopen spot-check（不得在 ui sample 投影上保存）。
+- 未完成项: 无阻塞项；为避免污染用户工程未对 ui sample 执行真实磁盘写入，loader/save/reopen 自动测试、
+  非 Owner 独立审查及用户最终验收已覆盖本卡完成判断。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: Codex 自验 accept；待 Kimi + GLM 独立 review。
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: Codex、Kimi、GLM 均已独立签 accept。
+- 必须返工项: 无；批次测试选择器回归已修复并由全量门禁复绿。
+- Accept / rework: **accept**。
 
 ## 用户验收
 
-- 用户结论: pending
-- 后续任务: pending
+- 用户结论: **accept（2026-08-19）**。用户明确确认本批验收全部通过。
+- 后续任务: 无；本卡收口。
 
 ## 交接日志
 
@@ -515,6 +548,12 @@ PAL 四目录 node census（0/0/0）。只读审查，未改实现文件，未�
   picker 与三栏变量工作台；GV1-GV3/KV1-KV2 均落实。Content/Reforge/Editor/Migrate 共 3113 个通过测试，
   两项 production build 和三档实机布局通过，签 Codex accept，任务转 review。Next: Kimi + GLM 独立 review；
   不得标 done，待三方 accept 与用户验收。
+
+## 下一位 Agent 提示词
+
+无下一位 Agent 提示词；三方 accept、用户验收与全量测试均已完成，本卡收口。
+
+## 历史交接提示词（已完成）
 
 ### 给 Kimi（已完成）
 
@@ -560,3 +599,5 @@ GLM 主审：canonical collector owner×access×nested-arm、sys: 过滤、未�
 请直接读取一手代码并独立复跑必要测试；输出 accept，或带 file:line/复现步骤的 counter 与返工项；写回任务卡
 推进签字和交接日志。允许审查性小改仅在明确归属后进行；任何 counter 都必须留在 review/rework，不得标 done。
 ```
+
+- 2026-08-19 GLM（数据/测试）: done 终审完成并签 **accept**。GV1 空表声明/GV2 sys: 过滤+全 owner 测试/GV3 方案①落卡核验；content16 切版链独立核实；content/reforge 复跑通过。附批次返工项 a5e69100（范围外 2 红）。

@@ -1,6 +1,6 @@
 # ED-STAMP-EDITOR-1 - 组合模板内容编辑闭环
 
-Status: review
+Status: done
 Phase: phase2
 Capability: W7G correction（不新增 capability-map 格，不改 schema/runtime）
 Coding Owner: Codex
@@ -276,12 +276,40 @@ build/done。
   四邻域，`null/H0` 空区同样可填，地图/组合/组内编辑不再出现不同边界。定向 80 项、typecheck、build、Biome 和 1280×720
   浏览器语义复验全绿；未触及
   schema/runtime/placement 非链接语义。
-- Kimi: pending
-- GLM: pending
-- counter / 返工处理: **2026-08-19 已完成。** 两张替代模型卡完成三方 premise/design、canonical 数据迁移与
-  同一中央地图编辑组件返工；当前等待 Kimi/GLM 实现审查。
+- Kimi: **accept（2026-08-19 done 前架构/交互复审，本人一手读码 + 实机，非代理）**。逐项核验：
+  - **替代模型 ✓**：`StampTemplate` 直接持有同形 `IsometricMapContent`（本卡与 MAP-MODEL 卡
+    同一切版，rg 复跑：StampTemplateV1/layerSlots/stamp-draft-map/depthMode 非测试文件零命中）。
+  - **SK1 draft 纯边界 ✓**：`core/stamp-draft.ts` + isometric-brush/fill 纯函数层存在；
+    本席复跑 stamp-draft/isometric-brush/isometric-fill/StampLibraryTab 共 27/27 通过。
+  - **共享画布 ✓（实机）**：`?ui_samples=1&module=map&page=stamp` 目录列出 6 个评审样例，
+    选中村口门楼后 URL 深链 `object=ui-review-village-gate`、中央共享 surface 716×623 /
+    主 canvas 716×547、Inspector 为「属性 / 引用 0 / 瓦片」三页（与 IA 一致）、无横向溢出。
+  - **无查看/编辑双状态 ✓**：选择模板即进入唯一工作台；「动作」页已删，图层管理抽
+    LayerStackControls、工具栏抽 IsometricEditorToolbar 与地图共用（实现摘要与文件清单核对）。
+  - **SK2 round-trip/接管 ✓**：migrated 仅「接管并保存」转 authored、dirty 取消先确认、
+    保存一笔 command（StampLibraryTab.test 覆盖，复跑通过）。
+  - **批次说明**：GLM 记录的批次级返工项（a5e69100 致 EnemyTab/ItemTab 两测试选择器失效）
+    本席独立复现（2 红，均非本卡 diff）——关卡前须由 Codex 修选择器并复绿全量。
+  未改实现文件，未代签 GLM，未标 done。
+- GLM: **accept（2026-08-19 done 前数据不变量/测试终审，本人一手读码，非代理）**。SE1-SE3
+  逐钉验证：SE1 Kimi 审查节已补录（卡内 4 处引用完整）；SE2 draft 纯边界落地
+  （stamp-draft + isometric-brush/fill 纯函数、稳定 layer ID、确定性 canonicalize、tileId
+  fail-loud 测试齐）；SE3 由替代模型重构性满足——StampTemplate 直接持有共享
+  IsometricMapContent、placement 逐格写普通 content，非链接快照语义与既有 placement 测试
+  （stamp-placement.test.ts）承载。历史 counter（共享 toolbar≠复用）经共享模型卡解决，
+  查看/编辑双态删除、migrated 仅"接管并保存"转 authored。editor 970 为 build 时点数（见
+  批次返工项）；StampLibrary+boundary 44/44 本席复跑通过。
+  - **批次级返工项（非本卡范围，关卡前须修）**：`a5e69100 unify catalog header icon buttons`
+    将新建按钮迁为目录 header action 后，`EnemyTab.test:218` 与 `ItemTab.test` 的
+    `button[title="新建敌人/新建物品"]` 选择器失效——main editor 全量当前 973/975（2 红），
+    属六卡验收之后的范围外回归；六卡 focused 本席复跑 105/105 全绿。Codex 更新两处测试
+    选择器为 header action 可访问名并复绿全量后，本批方可关卡/用户验收。
+- counter / 返工处理: **resolved（2026-08-19）**。两张替代模型卡、canonical 数据迁移与共享中央地图
+  编辑组件返工均已完成；目录 header action 两处测试选择器已修复，定向 19/19、editor typecheck 与
+  全量 131 files / 975 tests 通过。
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **allowed（2026-08-19）**——Codex + Kimi + GLM accept、全部 counter/批次返工清零、
+  用户最终验收齐。
 
 ## Draft: 设计与风险
 
@@ -455,19 +483,20 @@ build/done。
   “包含碰撞”状态归属和私有组合工具栏均已按共享 toolbar/surface 收口；最新 1280×720 复验右键菜单与组合中央
   布局通过。多瓦片集语义另见
   `ED-MAP-MULTI-TILESET-1`，不得用现有单值下拉搬家冒充完成。
-- 未完成项: Kimi/GLM 独立 review 与用户最终验收。
+- 未完成项: 无；Kimi/GLM 独立 review 与用户最终验收均已完成。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: 早期 Codex accept 均曾被后续用户 counter 推翻；2026-08-19 两张替代模型卡落地后 Codex 重新
-  accept，Kimi/GLM pending。
-- 必须返工项: 五轮交互 counter、共享模型/画布、相对高度和多瓦片来源均已完成；以非 Coding Owner 复审为准。
-- Accept / rework: review。
+- 审查结论: 早期 Codex accept 均曾被后续用户 counter 推翻；替代模型落地后 Codex 重新 accept，
+  Kimi/GLM 已基于最终实现独立复审并 accept。
+- 必须返工项: 无；五轮交互 counter、共享模型/画布、相对高度、多瓦片来源和批次测试回归均已完成。
+- Accept / rework: **accept**。
 
 ## 用户验收
 
-- 用户结论: **counter（2026-08-18，第五轮；笔刷菱形双轴）**：笔刷 2×2 不能把 raw 错排存储的 row/col 当成地图 row/col；
+- 用户结论: **accept（2026-08-19）**。用户明确确认最终实现及本批验收全部通过。历史最后一次 counter
+  （2026-08-18，第五轮；笔刷菱形双轴）要求笔刷 2×2 不能把 raw 错排存储的 row/col 当成地图 row/col；
   必须沿菱形两条斜轴展开。已按 D16 转换为 `{dRow,du}` 并增加奇/偶行、2×2/3×3、预览/实写共用回归。前述第四轮
   要求为：左下角是渲染/显示高度，不应与绘制高度耦合；
   笔刷/矩形/填充需要共同的绘制高度；面积和高度不应使用 Select，而应使用类似 Windows 画图的图标按钮 + 横向
@@ -475,8 +504,8 @@ build/done。
   相同的连通片，空瓦片也按同一规则可填。最新要求笔刷面积只在笔刷激活时显示，公共绘制高度只在三个绘制工具之一
   激活时显示，高度触发器只显示 `Hx`；笔刷面积上限后续扩展为 5×5。以上已返工，等待用户复验。用户同时要求来源瓦片集在“瓦片”
   Tab 选择且一张地图允许多个瓦片集。上述 schema 产品铁律已由 `ED-STAMP-MAP-MODEL-1` 与
-  `ED-MAP-MULTI-TILESET-1` 三签后落地；当前实现等待用户最终验收。
-- 后续任务: Kimi/GLM 独立复审 + 用户对共享模型返工版最终验收。
+  `ED-MAP-MULTI-TILESET-1` 三签后落地；上述要求均已完成并通过最终验收。
+- 后续任务: 无；本卡收口。
 
 ## 交接日志
 
@@ -541,7 +570,13 @@ build/done。
   `EditSession` 会话级派生缓存，首次一遍、后续复用、地图命令/undo/redo 增量更新且不 hydrate 全库。Evidence:
   focused 36/36、PAL 223/223 页面重进保持精确结果、Console 0。Next: 随本卡由 Kimi/GLM 复审；未齐前不得标 done。
 
+- 2026-08-19 GLM（数据不变量/测试）: done 终审完成并签 **accept**。SE1 节已补；SE2 draft 纯边界+canonicalize 测试；SE3 由共享模型重构性满足。附批次返工项 a5e69100。
+
 ## 下一位 Agent 提示词
+
+无下一位 Agent 提示词；三方 accept、用户验收与全量测试均已完成，本卡收口。
+
+## 历史交接提示词（已完成）
 
 ```text
 接手任务：ED-STAMP-EDITOR-1 组合模板内容编辑闭环

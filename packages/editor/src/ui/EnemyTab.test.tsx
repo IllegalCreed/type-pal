@@ -214,9 +214,7 @@ describe('EnemyTab shared workbench', () => {
     })
     expect(session.getState().locale['name.enemy-b']).toBe('变身者·改')
 
-    await act(async () =>
-      host.querySelector<HTMLButtonElement>('button[title="新建敌人"]')!.click(),
-    )
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="新建敌人"]')!.click())
     expect(session.getState().enemies?.at(-1)?.id).toBe('enemy-c1')
     expect(host.querySelector('h1')?.textContent).toBe('新敌人 1')
     await act(async () => expect(session.undo()).toBe(true))
