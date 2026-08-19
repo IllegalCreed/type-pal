@@ -10614,16 +10614,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   font-size: 10px;
   line-height: 1.45;
 }
-.item-resource-preview {
-  width: 112px;
-  height: 112px;
-  margin: 3px auto 7px;
-}
-.item-resource-actions {
-  display: grid;
-  gap: 6px;
-}
-
 @container item-workbench (max-width: 860px) {
   .item-base-layout,
   .item-equip-options,

@@ -346,7 +346,7 @@ function EquipEffectFields(props: {
 }
 
 type ItemFilter = 'all' | 'equip' | 'use' | 'throw' | 'referenced' | 'pending'
-type ItemInspectorTab = 'overview' | 'references' | 'resource'
+type ItemInspectorTab = 'overview' | 'references'
 
 const ITEM_FILTERS: { value: ItemFilter; label: string }[] = [
   { value: 'all', label: '全部' },
@@ -497,6 +497,7 @@ function ItemIconBrowser(props: {
         ref={triggerRef}
         variant="primary"
         size="compact"
+        icon="edit"
         aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls="item-icon-browser-panel"
@@ -1309,6 +1310,7 @@ export function ItemTab(props: {
                         <DsButton
                           variant="danger"
                           size="compact"
+                          icon="close"
                           onClick={() => patch({ icon: undefined })}
                         >
                           解除绑定
@@ -1931,22 +1933,6 @@ export function ItemTab(props: {
                         </DsDiagnosticList>
                       </DsDiagnosticPanel>
                     ) : null}
-                    <DsInspectorSection title="删除安全">
-                      <p>
-                        {blockers.length
-                          ? `仍有 ${blockers.length} 处外部引用，删除会被阻止。`
-                          : '没有外部引用，可安全删除；删除后仍可撤销。'}
-                      </p>
-                      {blockers.length ? (
-                        <DsButton
-                          size="compact"
-                          variant="secondary"
-                          onClick={() => setInspectorTab('references')}
-                        >
-                          查看阻塞引用
-                        </DsButton>
-                      ) : null}
-                    </DsInspectorSection>
                   </div>
                 ),
               },
@@ -2026,72 +2012,6 @@ export function ItemTab(props: {
                           ))
                         : null}
                     </DsReferencePanel>
-                  </div>
-                ),
-              },
-              {
-                id: 'resource',
-                label: '资源',
-                panel: (
-                  <div className="item-inspector-scroll">
-                    <DsInspectorSection title="图标资源">
-                      {item.icon && assetCatalog.assets[item.icon] ? (
-                        <>
-                          <ImageAssetThumbnail
-                            asset={item.icon}
-                            kind="item-icon"
-                            reader={assetReader}
-                            revision={assetCatalog.assets[item.icon]?.sha256}
-                            className="item-resource-preview"
-                            alt={`${item.name}图标资源`}
-                          />
-                          <DsPropertyGrid>
-                            <DsPropertyRow label="AssetId">
-                              <code className="ds-inspector-readonly" translate="no">
-                                {item.icon}
-                              </code>
-                            </DsPropertyRow>
-                            <DsPropertyRow label="路径">
-                              <code className="ds-inspector-readonly" translate="no">
-                                {assetCatalog.assets[item.icon]!.path}
-                              </code>
-                            </DsPropertyRow>
-                            <DsPropertyRow label="来源">
-                              {assetCatalog.assets[item.icon]!.origin.kind}
-                            </DsPropertyRow>
-                            <DsPropertyRow label="大小">
-                              {assetCatalog.assets[item.icon]!.bytes.toLocaleString()} bytes
-                            </DsPropertyRow>
-                            <DsPropertyRow label="物品引用">
-                              {items.filter((candidate) => candidate.icon === item.icon).length} 项
-                            </DsPropertyRow>
-                          </DsPropertyGrid>
-                          <div className="item-resource-actions">
-                            {onOpenImage ? (
-                              <DsButton
-                                variant="secondary"
-                                size="compact"
-                                icon="open"
-                                onClick={() => onOpenImage(item.icon!)}
-                              >
-                                在图像库打开
-                              </DsButton>
-                            ) : null}
-                            <DsButton
-                              variant="danger"
-                              size="compact"
-                              onClick={() => patch({ icon: undefined })}
-                            >
-                              解除绑定
-                            </DsButton>
-                          </div>
-                        </>
-                      ) : (
-                        <div className="insp-empty">
-                          尚未绑定物品图标。可在中央选择现有资源或导入 PNG。
-                        </div>
-                      )}
-                    </DsInspectorSection>
                   </div>
                 ),
               },

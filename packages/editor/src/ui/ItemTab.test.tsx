@@ -411,20 +411,16 @@ describe('ItemTab', () => {
     const editorUnbind = button('解除绑定', editorActions)
     expect(editorOpen.classList).toContain('ds-button--secondary')
     expect(editorUnbind.classList).toContain('ds-button--danger')
+    expect(
+      [...editorActions.querySelectorAll<HTMLButtonElement>('button')].every(
+        (action) => action.querySelector('.ds-icon') !== null,
+      ),
+    ).toBe(true)
     await act(async () => editorOpen.click())
     expect(onOpenImage).toHaveBeenLastCalledWith('item-icon.test')
-
-    await act(async () =>
-      button('资源', host.querySelector('[role="tablist"][aria-label="物品检查器"]')!).click(),
-    )
-    const inspectorActions = host.querySelector('.item-resource-actions')!
-    const inspectorOpen = button('在图像库打开', inspectorActions)
-    const inspectorUnbind = button('解除绑定', inspectorActions)
-    expect(inspectorOpen.classList).toContain('ds-button--secondary')
-    expect(inspectorUnbind.classList).toContain('ds-button--danger')
-    await act(async () => inspectorOpen.click())
-    expect(onOpenImage).toHaveBeenCalledTimes(2)
-    await act(async () => inspectorUnbind.click())
+    expect(host.querySelector('[role="tab"][aria-label^="资源"]')).toBeNull()
+    expect(host.querySelector('.item-resource-actions')).toBeNull()
+    await act(async () => editorUnbind.click())
     expect(session.getState().items[0]?.icon).toBeUndefined()
   })
 
@@ -1199,7 +1195,7 @@ describe('ItemTab', () => {
     const session = new EditSession(state([item('item-a'), item('item-b')]))
     await act(async () => root.render(<Harness session={session} />))
 
-    await verifyInspectorTabs(host, '物品检查器', ['概览', /^引用 \d+$/, '资源'])
+    await verifyInspectorTabs(host, '物品检查器', ['概览', /^引用 \d+$/])
 
     const referenceTab = button(
       '引用',
@@ -1211,9 +1207,9 @@ describe('ItemTab', () => {
         new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }),
       ),
     )
-    expect(host.querySelector('[role="tab"][aria-selected="true"]')?.textContent).toContain('资源')
+    expect(host.querySelector('[role="tab"][aria-selected="true"]')?.textContent).toContain('概览')
     expect(host.querySelector('[role="tabpanel"]:not([hidden])')?.id).toBe(
-      'item-inspector-panel-resource',
+      'item-inspector-panel-overview',
     )
 
     const second = [...host.querySelectorAll<HTMLButtonElement>('.ds-catalog-row')].find(
