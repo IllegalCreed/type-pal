@@ -5061,16 +5061,15 @@ html[data-panel-resize="horizontal"] * {
   min-height: 0;
   height: 100%;
 }
-.stamp-inspector-palette-host .stamp-draft-palette {
-  display: flex;
+.stamp-inspector-palette-host .stamp-tile-palette {
+  display: grid;
   height: 100%;
   min-height: 0;
-  flex-direction: column;
-  border: 0;
-  border-radius: 0;
+  grid-template-rows: auto minmax(0, 1fr);
+  overflow: hidden;
 }
 .stamp-inspector-palette-host .tile-picker-grid {
-  flex: 1 1 auto;
+  min-height: 0;
 }
 .stamp-create-form {
   display: grid;

@@ -101,6 +101,13 @@ describe('editor design-system static boundary', () => {
     )
   })
 
+  test('keeps the stamp tileset selector above the scrolling tile grid', () => {
+    const businessCss = readFileSync(join(dirname(here), 'editor.css'), 'utf8')
+    expect(businessCss).toMatch(
+      /\.stamp-inspector-palette-host \.stamp-tile-palette\s*\{[\s\S]*?display:\s*grid;[\s\S]*?grid-template-rows:\s*auto minmax\(0, 1fr\);[\s\S]*?overflow:\s*hidden;/,
+    )
+  })
+
   test('keeps object workspace cards content-sized inside the scrolling grid', () => {
     const recipes = readFileSync(join(here, 'recipes.css'), 'utf8')
     expect(recipes).toMatch(
