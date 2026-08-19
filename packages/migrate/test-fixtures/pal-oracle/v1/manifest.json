@@ -25,7 +25,7 @@
     {
       "path": "packages/migrate/baselines/pal/_state.json",
       "bytes": 75113,
-      "sha256": "c770034e2c49c6ee40d8df414604c6d6e904c3b264535c434a341e1095aa1408"
+      "sha256": "e9c0235a696eae0745ef4b5b3d0bccef3678a0e4cd7dea08f0d734e1dc5dc9f5"
     },
     {
       "path": "packages/migrate/baselines/pal/_transitions/b2-battle-field-domain-v1.json",
@@ -143,15 +143,15 @@
       "selector": "all",
       "files": 329,
       "bytes": 65517368,
-      "sha256": "24fe5ae059adf834bab7daddb51f0516198c6af322f5f85b5e9db043ce14457f"
+      "sha256": "564580a096d7086508cf9f4264b9a363c01bfd31291c0796674a01aacab7cb64"
     },
     {
       "role": "project-prerequisite",
       "root": "projects/pal",
       "selector": "all",
       "files": 2424,
-      "bytes": 155529157,
-      "sha256": "236b8790a3252a22d649d65934bf912e0adc8148ab885a464fa548eb0d0af761"
+      "bytes": 154520007,
+      "sha256": "d1698ca794e9b216e557cff010da1b25c873167872c8a004b0d8707fdfadc25c"
     },
     {
       "role": "generated-shadow",
@@ -165,25 +165,25 @@
       "role": "producer-code",
       "root": "packages/migrate/src",
       "selector": "production-typescript",
-      "files": 132,
-      "bytes": 2983291,
-      "sha256": "e13364e19b2a0a64697fe7f0a14c0fa55948f9439bf367dbd445352e40fbcc9c"
+      "files": 133,
+      "bytes": 3026494,
+      "sha256": "f2ab221273c54e48520609189260b7196202b9f2ad5a334401c6ed4d059e25f5"
     },
     {
       "role": "producer-code",
       "root": "packages/content/src",
       "selector": "production-typescript",
       "files": 57,
-      "bytes": 677700,
-      "sha256": "3b1c6619b35cf0af6c752e921c678b29cc5997d4cf15229066564471e93a3b7b"
+      "bytes": 674551,
+      "sha256": "aad114249c3f693fe1d4e032e473d3c952126a7a389345911968ed05471d6441"
     },
     {
       "role": "producer-code",
       "root": "packages/reforge/src",
       "selector": "production-typescript",
       "files": 120,
-      "bytes": 1474464,
-      "sha256": "37e86b2c0731430354e8f32432b653a1606ee995201b1d531260311cac23c3a5"
+      "bytes": 1476654,
+      "sha256": "a7cc7f18ffd4460e13d94ce42d6ef969e1b080a2441c9335030de50fd521a7aa"
     },
     {
       "role": "runtime-code",

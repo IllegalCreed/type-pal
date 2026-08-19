@@ -260,6 +260,21 @@ parallel 命令必须失败，默认串行命令保持不变。
   `120_000`，不改断言、业务实现或全局 timeout；该 control peak `3,998,154,752B`、workspace
   `0/0/0`、其余 809 listed tests 通过。真实 `release-unit` 路由定向复跑为 **1 file / 6 passed**，
   wall `205.45s`。
+- 2026-08-19 恢复后审计确认 runner/proof protocol、package 默认串行脚本和四组 release config
+  未漂移；但暂停期间 `11dbebb4` 的当前 ProjectMap v4 切版合法更新了 baseline 面。机械对比
+  `1ccc83b9` 与当前 baseline：只有 **223** 个 `content/maps/map-*.json` atomic hash 变化，
+  managed list、transition metadata、generator epoch 及其余文件 hash 全等。首次 `test:manifest`
+  因 `B2 battlefield rewind: successor surface 漂移` 正确 fail-closed，未启动 canary/proof。
+- 根因修复位于历史验签边界：新增 `historical-map-surface-authority.ts`，只将当前 223 个
+  v4 atomic hash 双端验证后投影回 B2/C1 seal 已发布的 pre-v4 surface；不读取/转换旧 payload、
+  不进入 product loader，authored project snapshot 为 no-op，路径/清单/当前 hash 任一漂移即失败。
+  真实输入是 release 仍必须消费的 B2/C1 已发布 seal；唯一产品外调用方是
+  `pal-current-c1-rewind.ts` 的历史验签路径；历史 seal proof 退役时同步删除。用户本轮明确要求
+  C 继续保留 historical rewind 证据，故不属于产品旧版本兼容层。
+- 定向验证：历史 map authority **1 file / 3 tests** 通过（全量 223 投影、hash 篡改、
+  清单缺项、project no-op）；runner/proof/历史 enemy authority **3 files / 20 tests** 通过；
+  migrate typecheck 通过。新测试导致 manifest 精确变化为 fast `93/681`、release `117/813`、
+  canary `1/2`；oracle 刷新只更新当前 baseline/project/producer-code 指纹，projection 零 diff。
 - 尚未完成：修复后的完整 serial control、显式 parallel 以及三组同机同批次 serial/parallel proof。
   因此本卡保持 `build`，Codex/Kimi/GLM done 前签字仍为 pending。
 

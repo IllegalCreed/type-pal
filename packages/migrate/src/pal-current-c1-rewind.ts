@@ -1,4 +1,5 @@
 import type { ManifestV14, ManifestV16 } from '@type-pal/content'
+import { projectCurrentMapHashesToPublishedPreV4Surface } from './historical-map-surface-authority.js'
 import { type MigrationSnapshot, serializeMigrationJson, sha256 } from './migration-baseline.js'
 import {
   rewindPublishedB2BattleFieldDomainIfPresent,
@@ -97,12 +98,12 @@ function rewindCurrentSuccessorsToV14(args: CurrentRewindArgs): {
     args.manifestRawText,
   )
   return {
-    source: {
+    source: projectCurrentMapHashesToPublishedPreV4Surface({
       ...args.source,
       files,
       managedFiles,
       ...(args.source.hashes ? { hashes } : {}),
-    },
+    }),
     manifest,
     manifestRawText,
   }
