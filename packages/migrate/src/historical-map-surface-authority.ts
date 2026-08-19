@@ -1,4 +1,11 @@
-import { isAtomicProjectMapPath, type MigrationSnapshot } from './migration-baseline.js'
+import { validateProjectMap } from '@type-pal/content'
+import {
+  isAtomicProjectMapPath,
+  type MigrationSnapshot,
+  serializeMigrationJson,
+  sha256,
+} from './migration-baseline.js'
+import type { MigrationJson } from './pal-migration.js'
 
 /**
  * Current ProjectMap v4 hashes paired with the exact pre-v4 hashes carried by the published
@@ -901,6 +908,80 @@ const PUBLISHED_PRE_V4_MAP_HASHES = {
 } as const satisfies Record<string, readonly [currentV4: string, publishedPreV4: string]>
 
 export const PUBLISHED_PRE_V4_MAP_HASH_COUNT = Object.keys(PUBLISHED_PRE_V4_MAP_HASHES).length
+
+const PUBLISHED_PRE_V4_MAP_BODY_SURFACE_DIGEST =
+  'b53484ff0f7218fc2af4a5fe2a2ca1c7be2d30a23719917964b0332e7f9ca06d' as const
+
+function zeroMatrix(rows: number, cols: number): number[][] {
+  return Array.from({ length: rows }, () => Array<number>(cols).fill(0))
+}
+
+/**
+ * Validation-only reconstruction of one published pre-v4 map body from its exact current v4
+ * canonical counterpart. Old product types/loaders stay deleted; this shape exists solely so a
+ * live current source producer can still prove the already-published historical transition seal.
+ */
+export function projectCurrentMapBodyToPublishedPreV4Surface(
+  path: string,
+  value: MigrationJson,
+): MigrationJson {
+  const pair = PUBLISHED_PRE_V4_MAP_HASHES[path as keyof typeof PUBLISHED_PRE_V4_MAP_HASHES]
+  if (!pair) throw new Error(`historical map body surface: 非发布 atomic map ${path}`)
+  if (sha256(serializeMigrationJson(value, path)) !== pair[0])
+    throw new Error(`historical map body surface: current canonical hash 漂移 ${path}`)
+
+  const map = validateProjectMap(value)
+  if (map.tilesetRefs.length !== 1 || map.layers.length !== 2 || map.authoring)
+    throw new Error(`historical map body surface: current source map 形状漂移 ${path}`)
+  const rows = map.height * 2
+  return {
+    version: 2,
+    width: map.width,
+    height: map.height,
+    tilesetId: map.tilesetRefs[0]!,
+    layers: map.layers.map((layer) => ({
+      id: layer.id,
+      name: layer.name,
+      depthMode: 'height',
+      tiles: layer.tiles,
+      heights: layer.heights ?? zeroMatrix(rows, map.width),
+    })),
+    collision: map.collision,
+  }
+}
+
+/** Exact-body companion used only by historical source-proof fixtures. */
+export function projectCurrentMapBodiesToPublishedPreV4Surface<T extends MigrationSnapshot>(
+  source: T,
+): T {
+  const paths = [...source.managedFiles].filter(isAtomicProjectMapPath).sort()
+  const authorityPaths = Object.keys(PUBLISHED_PRE_V4_MAP_HASHES).sort()
+  if (
+    paths.length !== authorityPaths.length ||
+    paths.some((path, index) => path !== authorityPaths[index])
+  )
+    throw new Error('historical map body surface: atomic map 清单漂移')
+
+  const files = new Map(source.files)
+  const hashes = source.hashes ? new Map(source.hashes) : undefined
+  const surface: Array<{ path: string; value: MigrationJson }> = []
+  for (const path of authorityPaths) {
+    const value = files.get(path)
+    if (value === undefined) throw new Error(`historical map body surface: map 正文缺失 ${path}`)
+    const projected = projectCurrentMapBodyToPublishedPreV4Surface(path, value)
+    files.set(path, projected)
+    surface.push({ path, value: projected })
+    if (hashes) {
+      const pair = PUBLISHED_PRE_V4_MAP_HASHES[path as keyof typeof PUBLISHED_PRE_V4_MAP_HASHES]
+      if (hashes.get(path) !== pair[0])
+        throw new Error(`historical map body surface: recorded current hash 漂移 ${path}`)
+      hashes.set(path, pair[1])
+    }
+  }
+  if (sha256(JSON.stringify(surface)) !== PUBLISHED_PRE_V4_MAP_BODY_SURFACE_DIGEST)
+    throw new Error('historical map body surface: published body surface 漂移')
+  return { ...source, files, ...(hashes ? { hashes } : {}) }
+}
 
 export function projectCurrentMapHashesToPublishedPreV4Surface(
   source: MigrationSnapshot,

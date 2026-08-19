@@ -275,6 +275,16 @@ parallel 命令必须失败，默认串行命令保持不变。
   清单缺项、project no-op）；runner/proof/历史 enemy authority **3 files / 20 tests** 通过；
   migrate typecheck 通过。新测试导致 manifest 精确变化为 fast `93/681`、release `117/813`、
   canary `1/2`；oracle 刷新只更新当前 baseline/project/producer-code 指纹，projection 零 diff。
+- 固定候选 `703edf05` 的首次 canary 在 `88.48s` 后按预期 fail-closed：R13 enemy
+  augmentation 的 parent whole-content authority 仍直接消费 source producer 生成的 v4 地图正文，
+  报 `parent content authority 漂移`；没有启动正式 proof，也没有重跑掩盖。机械验证当前 v4→
+  pre-v4 body 投影与 `11dbebb4^` 的 223 张地图逐张 deep-equal（`223/223`），完整 body
+  surface digest 为 `b53484ff0f7218fc2af4a5fe2a2ca1c7be2d30a23719917964b0332e7f9ca06d`。
+- 修复把 exact-body 投影只接入 `pal-test-fixture.ts` 与 canary 的 historical source-proof
+  producer：每张当前 v4 canonical hash、223 清单、完整 pre-v4 body surface 均 fail-closed；默认
+  migration builder、product loader 与当前 project 仍只接受 v4。定向集现为 **4 files / 24 tests**，
+  typecheck 与 oracle verify 通过；manifest 精确变为 fast `93/682`、release `117/814`、
+  canary `1/2`。旧开发类型没有恢复，隔离投影的真实输入/唯一调用域/删除条件沿用上一条声明。
 - 尚未完成：修复后的完整 serial control、显式 parallel 以及三组同机同批次 serial/parallel proof。
   因此本卡保持 `build`，Codex/Kimi/GLM done 前签字仍为 pending。
 

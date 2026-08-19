@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs'
+import { projectCurrentMapBodiesToPublishedPreV4Surface } from '../../historical-map-surface-authority.js'
 import { loadPalBaseline, type MigrationSnapshot } from '../../migration-baseline.js'
 import {
   discoverProjectManagedFiles,
@@ -53,7 +54,10 @@ function loadCanarySourcesMigration(
     allJson: { segments: source.allJson.segments },
     eventsByScene: new Map(source.eventsByScene),
   }
-  return Object.freeze({ sources, migration: buildMigration(sources) })
+  return Object.freeze({
+    sources,
+    migration: projectCurrentMapBodiesToPublishedPreV4Surface(buildMigration(sources)),
+  })
 }
 
 export interface R13SourceSemanticsCanaryFixture {
