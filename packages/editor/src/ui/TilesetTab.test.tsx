@@ -222,6 +222,34 @@ describe('TilesetTab 全工程引用删除', () => {
     expect(mounted.host.querySelector('[role="tablist"][aria-label="瓦片集检查器"]')).toBeNull()
   })
 
+  test('名称与分类失焦提交到会话并只使用全局保存', async () => {
+    const { host, session } = await mountTilesetTab({
+      mapB: buildBlankProjectMap(1, 1, 'tiles-b'),
+    })
+    expect(
+      [...host.querySelectorAll('button')].some((item) =>
+        item.textContent?.includes('保存名称与分类'),
+      ),
+    ).toBe(false)
+
+    const name = host.querySelector<HTMLInputElement>('[aria-label="瓦片集名称"]')!
+    await act(async () => name.focus())
+    await setCatalogSearch(name, '重命名瓦片集')
+    await act(async () => name.blur())
+    expect(session.getState().tilesets?.find(({ id }) => id === 'tiles-a')?.name).toBe(
+      '重命名瓦片集',
+    )
+
+    const category = host.querySelector<HTMLInputElement>('[aria-label="瓦片集分类"]')!
+    await act(async () => category.focus())
+    await setCatalogSearch(category, 'interior')
+    await act(async () => category.blur())
+    expect(session.getState().tilesets?.find(({ id }) => id === 'tiles-a')?.category).toBe(
+      'interior',
+    )
+    expect(session.isDirty()).toBe(true)
+  })
+
   test('同 AssetId/path 但 record sha 改变时重新载入工作台预览', async () => {
     const mounted = await mountTilesetTab({ mapB: buildBlankProjectMap(1, 1, 'tiles-b') })
     await act(async () => new Promise((resolve) => window.setTimeout(resolve, 0)))

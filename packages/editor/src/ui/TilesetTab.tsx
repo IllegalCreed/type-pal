@@ -251,6 +251,21 @@ export function TilesetTab(props: {
     ? tilesets.filter((candidate) => candidate.asset === selected.asset)
     : []
 
+  const commitMetadataField = (field: 'name' | 'category'): void => {
+    if (!selected) return
+    const current = session.getState().tilesets?.find((tileset) => tileset.id === selected.id)
+    if (!current) return
+    const setDraftValue = field === 'name' ? setEditName : setEditCategory
+    const next = (field === 'name' ? editName : editCategory).trim()
+    if (!next) {
+      setDraftValue(current[field])
+      return
+    }
+    setDraftValue(next)
+    if (next === current[field]) return
+    session.dispatch(new UpdateTilesetMetadataCommand(selected.id, { [field]: next }))
+  }
+
   useEffect(() => {
     setEditName(selected?.name ?? '')
     setEditCategory(selected?.category ?? '')
@@ -908,16 +923,26 @@ export function TilesetTab(props: {
                           <span className="field-label">名称</span>
                           <input
                             className="in"
+                            aria-label="瓦片集名称"
                             value={editName}
                             onChange={(event) => setEditName(event.target.value)}
+                            onBlur={() => commitMetadataField('name')}
+                            onKeyDown={(event) => {
+                              if (event.key === 'Enter') event.currentTarget.blur()
+                            }}
                           />
                         </div>
                         <div className="field">
                           <span className="field-label">分类</span>
                           <input
                             className="in"
+                            aria-label="瓦片集分类"
                             value={editCategory}
                             onChange={(event) => setEditCategory(event.target.value)}
+                            onBlur={() => commitMetadataField('category')}
+                            onKeyDown={(event) => {
+                              if (event.key === 'Enter') event.currentTarget.blur()
+                            }}
                           />
                         </div>
                         <div className="field tileset-path-field">
@@ -931,21 +956,6 @@ export function TilesetTab(props: {
                             尚未保存；保存工程后写入资产目录。
                           </div>
                         )}
-                        <DsButton
-                          size="compact"
-                          variant="secondary"
-                          disabled={!editName.trim() || !editCategory.trim()}
-                          onClick={() =>
-                            session.dispatch(
-                              new UpdateTilesetMetadataCommand(selected.id, {
-                                name: editName.trim(),
-                                category: editCategory.trim(),
-                              }),
-                            )
-                          }
-                        >
-                          保存名称与分类
-                        </DsButton>
                       </section>
                       <section className="section">
                         <h4>组合地物</h4>
