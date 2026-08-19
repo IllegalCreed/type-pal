@@ -1,7 +1,7 @@
 # OPS-TST-PERF-B - shared/fresh 隔离并行 release runner
 
-Status: build
-Execution: active（用户 2026-08-19 明确解除 2026-08-18 暂停，允许恢复性能任务）
+Status: rework
+Execution: rework（用户 2026-08-19 纠正：地图证明必须使用当前 canonical v4，不得还原旧结构）
 Phase: ops
 Capability: test infrastructure / release gate
 Coding Owner: Codex
@@ -156,6 +156,31 @@ parallel 命令必须失败，默认串行命令保持不变。
 - 缺签豁免: N/A
 - build 准入结论: **allowed（2026-08-17）——Codex + Kimi + GLM 三方 premise/design 签字齐；
   PB1 已以精确 profiler 锚点闭合，PB2 与冻结失败矩阵作为 build/验收硬门禁。**
+- 2026-08-19 前提失效：恢复审计暴露的 canary 修复越界到了历史地图结构；用户明确裁决所有
+  地图证明必须消费当前 canonical v4。上述三方签字保留为 runner/proof protocol 的历史事实，
+  **不再授权当前 rework build**；须基于下述 v4-only 真值补充 Codex/Kimi/GLM 三方
+  `premise verified + design agree` 后才能继续改实现或运行 canary/proof。
+
+### 2026-08-19 v4-only 前提补充（待三方重签）
+
+一句话前提：当前工程 223 张地图已经完整切换为 ProjectMap v4；R13/release 的 live proof 必须
+直接消费 v4 source/baseline/project，历史由 Git 保存，不得通过 v2 body/hash 投影维持旧 seal。
+
+| 真值面 | 当前事实 | 一手证据 |
+|---|---|---|
+| 原版 / primary source | N/A：本纠偏是开发期 canonical schema 与测试 authority，不涉及原版地图机制。 | `AGENTS.md:24`；`docs/phase2/READ-FIRST.md:28`。 |
+| 第一阶段 | N/A：第一阶段没有 ProjectMap v4/R13 release proof。 | `docs/phase2/READ-FIRST.md:1-18`。 |
+| 当前二阶段 | `ProjectMap` 唯一接受 v4；当前 PAL 223 图已原子迁移为 v4，v2/v3 parser/upgrader/fallback 已删除。R13 whole-content digest 会遍历所有 managed body，因此地图合法切版必然改变该 digest。 | `packages/content/src/project-map.ts:303-313`；`docs/ops/tasks/ED-STAMP-MAP-MODEL-1-shared-isometric-content-relative-height.md:340-347`；`packages/migrate/src/experimental/script-v5/source-instruction-disposition.ts:706-712`。 |
+| 本任务目标 | 删除 `703edf05..cfaccb39` 引入的 pre-v4 map hash/body authority；在 v4 live producer 上机械重建受影响的 R13 parent/successor/seal/oracle authority，逐项证明 enemy/script owned leaf 与 route/coverage 不变，再恢复 B canary 与三组 proof。 | 用户 2026-08-19 本轮裁决；`packages/migrate/src/experimental/script-v5/r13-enemy-script-augmentation.ts:26-30,635-641`；本卡三次 fail-closed 记录。 |
+
+最强替代解释：如果 R13 seal 本意只覆盖 enemy/script owned domain，则正确修复可能是把无关地图域从
+whole-content seal 分离，而不是每次 canonical 地图切版都更新整包 digest。推翻“重建 v4 whole-content
+seal”的观察是：primary-source seal 合同明确要求 domain-scoped digest，且已有独立全内容 authority
+覆盖地图域；在此尚未由 Kimi/GLM 独立核实前不得选择修复层。
+
+可证伪观察：任何 v2/v3 value、pre-v4 hash、legacy map parser/upgrader/fallback 进入活代码；v4 source
+producer 与当前 project/baseline 不一致；更新 seal 时 enemy/script owned leaf、route/title/coverage 或
+transaction evidence 发生未解释变化。任一出现即继续 `rework`。
 
 ### 进入 done 前：实现签字
 
@@ -290,8 +315,14 @@ parallel 命令必须失败，默认串行命令保持不变。
   buildPalMigration 返回的原始 MigrationFileSet”；仍未启动正式 proof。修复改为通过既有
   `derivePalMigrationFileSet` 建立投影视图，保留 source session identity，不改变地图数据、seal
   常量或 release 路由。
+- 固定候选 `cfaccb39` 的 canary 在 `20.60s` 后第三次 fail-closed：旧 v2 body 投影视图进入
+  `source-v4` 的当前 serializer，被“ProjectMap 仅支持当前版本 4”正确拒绝。随后曾在工作树试验
+  digest-only normalization，但用户指出其前提仍错误，**未提交且已完整撤销**；canary/proof 未再运行。
+- 用户裁决后确认 `703edf05`、`f34dc375`、`cfaccb39` 已推到 main 的 pre-v4 hash/body authority
+  均属于待删除 rework，不可作为候选或验收证据。工作树只保留任务卡/board 状态记录；实现删除与
+  v4 authority 重建必须等待三方重新签字。
 - 尚未完成：修复后的完整 serial control、显式 parallel 以及三组同机同批次 serial/parallel proof。
-  因此本卡保持 `build`，Codex/Kimi/GLM done 前签字仍为 pending。
+  因此本卡转 `rework`，Codex/Kimi/GLM done 前签字仍为 pending。
 
 ## 交接日志
 
@@ -343,9 +374,25 @@ parallel 命令必须失败，默认串行命令保持不变。
 - 2026-08-19 User: 明确解除 2026-08-18 暂停指令，允许恢复性能任务。Evidence: 本轮用户明确指示。
   Next: Codex 先审计当前 main 候选无语义漂移，完成定向门禁后在固定提交上只跑验收要求的
   三组同机、同批次 serial/parallel proof；失败必须 fail-closed，不得用重跑掩盖。
+- 2026-08-19 User: 指出地图已大改，测试应使用新数据结构而不是还原旧结构。Evidence:
+  `ProjectMap` 当前加载边界仅接受 v4、223 图切版已 done，符合开发期 canonical 单版本铁律。
+  Next: B 转 `rework`，原三签失效；Codex/Kimi/GLM 先独立核实 v4 seal 修复层并重签，签字前不得
+  删除/修改实现或运行 canary/proof。C 因执行顺序依赖 B 暂时 blocked。
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词：三方 build 前签字已齐，由 Coding Owner Codex 在本卡继续实现；进入 done 前
-仍须 Codex/Kimi/GLM 三方 implementation accept。实现不得改默认串行、共享 authority/TMPDIR、
-静默回退串行，且必须保存三次同机 serial/parallel 原始报告与 digest。
+下一位 Kimi 提示词：
+
+> 请审查 `docs/ops/tasks/OPS-TST-PERF-parallel-gates.md` 的“2026-08-19 v4-only 前提补充”。先读
+> `AGENTS.md:19-24`、`docs/phase2/READ-FIRST.md:28`、ProjectMap v4 validator、R13 whole-content
+> digest/enemy seal 与三次 canary 失败记录。独立判断应机械重建 v4 whole-content seal，还是把地图域
+> 从 R13 owned-domain seal 分离；必须给 primary-source 证据、可证伪观察，并签 `premise verified +
+> design agree` 或 `counter`。不得改实现、不得恢复 canary/proof、不得标 build/done。
+
+下一位 GLM 提示词：
+
+> 请审查 `docs/ops/tasks/OPS-TST-PERF-parallel-gates.md` 的“2026-08-19 v4-only 前提补充”。机械核对
+> 当前 223 图/manifest/oracle/R13 parent-successor-seal 的受影响面，列出 v4 authority 重建后必须保持的
+> enemy/script leaf、route/title/coverage/transaction 证据，以及 duplicate/missing/stale-old-version
+> fail-closed 检查。签 `premise verified + design agree` 或 `counter`，不得改实现、不得运行长测、
+> 不得标 build/done。

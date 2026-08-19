@@ -1,7 +1,7 @@
 # OPS-TST-PERF-C - P2/P3/P4 consolidated determinism proof
 
-Status: build
-Execution: active（用户 2026-08-19 明确解除 2026-08-18 暂停，允许恢复性能任务）
+Status: blocked
+Execution: waiting（B 因 v4-only 前提纠偏转 rework；B 重签并转 review 前不得开始 C）
 Phase: ops
 Capability: test infrastructure / migration proof
 Coding Owner: Codex
@@ -208,10 +208,13 @@ coverage 正确，consolidated probe 也可能没有足够收益。实现必须�
   Next: 待 B 转 `review` 后，Codex 以 C build 开始时的当前仓库机械生成 `vitest list` + 断言 AST 新基线，
   先闭合 coverage map 与 duplicate/orphan/missing fail-closed，再实现 consolidated probe；三方 implementation
   accept 前不得修改默认 release route。
+- 2026-08-19 User: 纠正 B 的地图证明必须使用当前 canonical v4，不得还原旧结构。C 自身 PC1-PC3
+  与 current mechanical baseline 前提未变化，但按既定执行顺序暂转 `blocked`。Next: 等 B 完成
+  v4-only 重签、实现并转 `review` 后恢复 C `build`；不得提前生成 coverage map 或改 release route。
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词：三方 build 前签字已齐，由 Coding Owner Codex 在本卡继续实现；进入 done 前
-仍须 Codex/Kimi/GLM 三方 implementation accept。实现必须以 build-start 全量 shared 清单（当前
-24/138）机械生成 coverage map，不得删除 source-backed 双建、用 pinned bundle 单独证明 producer、
-复用同一 lease 反转输入，或在三方 accept 前改默认 release route。
+无下一位 Agent 提示词：C 仅因执行顺序依赖 B 而等待；B 转 `review` 前不得开始实现。恢复时必须以
+当时仓库机械生成全量 shared 清单与断言 AST，历史 `24/138` 只作漂移记录、不得作为基线；仍须
+Codex/Kimi/GLM 三方 implementation accept，且不得删除 source-backed 双建、用 pinned bundle
+单独证明 producer、复用同一 lease 反转输入，或在三方 accept 前改默认 release route。
