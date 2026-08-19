@@ -7,6 +7,8 @@ import {
   buildPalHistoricalR13_4V9Migration,
   buildPalHistoricalR13_5V10Migration,
   buildPalHistoricalR13_6AV10Migration,
+  derivePalMigrationFileSet,
+  type MigrationFileSet,
   palSoundAssetForSources,
 } from '../../pal-migration.js'
 import { loadPalMigrationSources } from '../../pal-migration-io.js'
@@ -98,11 +100,14 @@ export function hasPalTestFixture(): boolean {
   return existsSync(PAL_TEST_EXTRACTED) && existsSync(PAL_TEST_AUDIT)
 }
 
+function projectHistoricalSourceMapBodies(migration: MigrationFileSet): MigrationFileSet {
+  const projected = projectCurrentMapBodiesToPublishedPreV4Surface(migration)
+  return derivePalMigrationFileSet(migration, projected.files, projected.managedFiles)
+}
+
 function loadCoreFixture() {
   const sources = loadPalMigrationSources(PAL_TEST_REPO)
-  const rawMigration = projectCurrentMapBodiesToPublishedPreV4Surface(
-    buildPalHistoricalR13_4V9Migration(sources),
-  )
+  const rawMigration = projectHistoricalSourceMapBodies(buildPalHistoricalR13_4V9Migration(sources))
   const migration = projectMigrationV9ToLegacyV8(rawMigration)
   const currentAudit = auditPalScriptControlFlow(sources, migration)
   assertScriptControlFlowAudit(currentAudit)
@@ -141,9 +146,7 @@ function loadCurrentV10Fixture() {
   const sources = loadPalMigrationSources(PAL_TEST_REPO)
   // This fixture feeds historical R13-6A/R13-5 audits; keep its content<=11 enemy-team
   // authority explicit. The B10 successor opts into semantic slots at its dedicated builder.
-  const migration = projectCurrentMapBodiesToPublishedPreV4Surface(
-    buildPalHistoricalR13_6AV10Migration(sources),
-  )
+  const migration = projectHistoricalSourceMapBodies(buildPalHistoricalR13_6AV10Migration(sources))
   const audit = auditPalScriptControlFlow(sources, migration)
   assertScriptControlFlowAudit(audit)
   return Object.freeze({
@@ -167,9 +170,7 @@ export function getPalTestCurrentV10Fixture(): PalTestCurrentV10Fixture {
 
 function loadHistoricalR13_5V10Fixture() {
   const sources = loadPalMigrationSources(PAL_TEST_REPO)
-  const migration = projectCurrentMapBodiesToPublishedPreV4Surface(
-    buildPalHistoricalR13_5V10Migration(sources),
-  )
+  const migration = projectHistoricalSourceMapBodies(buildPalHistoricalR13_5V10Migration(sources))
   const audit = auditPalScriptControlFlow(sources, migration)
   assertScriptControlFlowAudit(audit)
   return Object.freeze({ sources, migration, audit })
@@ -372,7 +373,7 @@ export function getPalTestGeneratedFixture(): PalTestGeneratedFixture {
 function loadSourceDispositionFixture() {
   const compact = (() => {
     const sources = loadPalMigrationSources(PAL_TEST_REPO)
-    const rawMigration = projectCurrentMapBodiesToPublishedPreV4Surface(
+    const rawMigration = projectHistoricalSourceMapBodies(
       buildPalHistoricalR13_4V9Migration(sources),
     )
     const migration = projectMigrationV9ToLegacyV8(rawMigration)

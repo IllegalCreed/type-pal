@@ -285,6 +285,11 @@ parallel 命令必须失败，默认串行命令保持不变。
   migration builder、product loader 与当前 project 仍只接受 v4。定向集现为 **4 files / 24 tests**，
   typecheck 与 oracle verify 通过；manifest 精确变为 fast `93/682`、release `117/814`、
   canary `1/2`。旧开发类型没有恢复，隔离投影的真实输入/唯一调用域/删除条件沿用上一条声明。
+- 固定候选 `f34dc375` 的 canary 在 `15.92s` 后再次 fail-closed，直接证据为投影视图复制
+  `MigrationFileSet` 后丢失进程内 WeakMap translation authority，报“必须使用本进程
+  buildPalMigration 返回的原始 MigrationFileSet”；仍未启动正式 proof。修复改为通过既有
+  `derivePalMigrationFileSet` 建立投影视图，保留 source session identity，不改变地图数据、seal
+  常量或 release 路由。
 - 尚未完成：修复后的完整 serial control、显式 parallel 以及三组同机同批次 serial/parallel proof。
   因此本卡保持 `build`，Codex/Kimi/GLM done 前签字仍为 pending。
 

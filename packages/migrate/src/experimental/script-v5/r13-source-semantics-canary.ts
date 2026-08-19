@@ -8,6 +8,7 @@ import {
 import {
   buildPalHistoricalR13_5V10Migration,
   buildPalHistoricalR13_6AV10Migration,
+  derivePalMigrationFileSet,
   type MigrationJson,
   type PalMigrationSources,
 } from '../../pal-migration.js'
@@ -54,9 +55,11 @@ function loadCanarySourcesMigration(
     allJson: { segments: source.allJson.segments },
     eventsByScene: new Map(source.eventsByScene),
   }
+  const migration = buildMigration(sources)
+  const projected = projectCurrentMapBodiesToPublishedPreV4Surface(migration)
   return Object.freeze({
     sources,
-    migration: projectCurrentMapBodiesToPublishedPreV4Surface(buildMigration(sources)),
+    migration: derivePalMigrationFileSet(migration, projected.files, projected.managedFiles),
   })
 }
 
