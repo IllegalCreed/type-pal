@@ -7,4 +7,4 @@ export * from './recipes.js'
 export * from './selection.js'
 export * from './virtual-list.js'
 
-export const EDITOR_DESIGN_SYSTEM_VERSION = '2.5.0' as const
+export const EDITOR_DESIGN_SYSTEM_VERSION = '2.6.0' as const

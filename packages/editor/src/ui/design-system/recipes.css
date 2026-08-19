@@ -640,6 +640,50 @@
   border-bottom: 1px solid var(--ds-border-subtle);
 }
 
+.ds-property-grid {
+  display: grid;
+  min-width: 0;
+  gap: var(--ds-space-2);
+}
+
+.ds-property-row {
+  display: grid;
+  min-width: 0;
+  min-height: var(--ds-control-height-compact);
+  grid-template-columns: 60px minmax(0, 1fr);
+  align-items: center;
+  gap: var(--ds-space-4);
+}
+
+.ds-property-row__label {
+  min-width: 0;
+  color: var(--ds-text-secondary);
+  font: var(--ds-font-label);
+  overflow-wrap: anywhere;
+}
+
+.ds-property-row__value {
+  display: grid;
+  min-width: 0;
+  align-items: center;
+  color: var(--ds-text-primary);
+  font: var(--ds-font-body);
+  overflow-wrap: anywhere;
+}
+
+.ds-property-row__value > :is(.ds-input, .in) {
+  width: 100%;
+  min-width: 0;
+}
+
+.ds-property-row__help {
+  margin: var(--ds-space-2) 0 0;
+  color: var(--ds-text-muted);
+  font: var(--ds-font-caption);
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
 .ds-object-workspace {
   display: flex;
   min-width: 0;

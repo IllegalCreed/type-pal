@@ -793,13 +793,17 @@ describe('editor design-system static boundary', () => {
     expect(surface).toMatch(/canonicalizeStampDraft/)
   })
 
-  test('keeps editable and read-only map properties on one compact row rhythm', () => {
+  test('keeps map and stamp inspector properties on one compact row recipe', () => {
     const uiRoot = dirname(here)
     const mapMode = readFileSync(join(uiRoot, 'MapMode.tsx'), 'utf8')
-    const businessCss = readFileSync(join(uiRoot, 'editor.css'), 'utf8')
+    const stampEditor = readFileSync(join(uiRoot, 'StampContentEditor.tsx'), 'utf8')
+    const recipesCss = readFileSync(join(uiRoot, 'design-system/recipes.css'), 'utf8')
     expect(mapMode).toMatch(/className="section map-properties-section" data-ds-density="compact"/)
-    expect(businessCss).toMatch(
-      /\.map-properties-section > \.field\s*\{[\s\S]*?min-height:\s*var\(--ds-control-height-compact\);[\s\S]*?margin-bottom:\s*var\(--ds-space-2\);/,
+    expect(mapMode).toContain('<DsPropertyGrid>')
+    expect(stampEditor).toContain('<DsPropertyGrid>')
+    expect(stampEditor).not.toContain('stamp-template-facts')
+    expect(recipesCss).toMatch(
+      /\.ds-property-row\s*\{[\s\S]*?min-height:\s*var\(--ds-control-height-compact\);[\s\S]*?grid-template-columns:\s*60px minmax\(0, 1fr\);/,
     )
   })
 })

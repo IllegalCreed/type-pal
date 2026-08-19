@@ -14,6 +14,8 @@ import {
   DsInspectorSection,
   DsInspectorTabs,
   DsObjectHero,
+  DsPropertyGrid,
+  DsPropertyRow,
   DsReferenceGroup,
   DsReferenceList,
   DsReferencePanel,
@@ -211,6 +213,26 @@ describe('object workbench recipes', () => {
     )
     expect(host.querySelector('.ds-workbench-section')?.textContent).toContain('字段')
     expect(host.querySelector('.ds-inspector-section')?.textContent).toContain('2 处')
+  })
+
+  test('inspector properties share one compact label/value row contract', async () => {
+    await act(async () =>
+      root.render(
+        <DsPropertyGrid>
+          <DsPropertyRow label="名称" labelFor="property-name">
+            <input id="property-name" aria-label="名称" />
+          </DsPropertyRow>
+          <DsPropertyRow label="稳定 ID" help="创建后保持不变。">
+            <code>shared/example</code>
+          </DsPropertyRow>
+        </DsPropertyGrid>,
+      ),
+    )
+    const rows = host.querySelectorAll('.ds-property-row')
+    expect(rows).toHaveLength(2)
+    expect(rows[0]?.getAttribute('data-property-label')).toBe('名称')
+    expect(rows[0]?.querySelector('label')?.getAttribute('for')).toBe('property-name')
+    expect(rows[1]?.querySelector('.ds-property-row__help')?.textContent).toContain('保持不变')
   })
 
   test('inspector tabs keep one visible scroll panel and expose linked tab semantics', async () => {

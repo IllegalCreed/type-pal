@@ -38,8 +38,9 @@ import {
 import {
   DsButton,
   DsCheckbox,
-  DsField,
   DsNumberInput,
+  DsPropertyGrid,
+  DsPropertyRow,
   DsTextInput,
 } from './design-system/index.js'
 import { IsometricEditorCanvas } from './IsometricEditorCanvas.js'
@@ -448,93 +449,87 @@ export function StampContentEditor(props: {
 
   const properties = (
     <div className="stamp-content-properties">
-      <div className="stamp-property-fields">
-        <DsField label="名称">
-          {(control) => (
-            <DsTextInput
-              {...control}
-              aria-label="组合名称"
-              value={draft.name}
-              onChange={(event) =>
-                setDraft((current) => ({ ...current, name: event.target.value }))
-              }
-            />
-          )}
-        </DsField>
-        <DsField label="标签" help="自由填写；相同标签会归入同一筛选项。">
-          {(control) => (
-            <DsTextInput
-              {...control}
-              aria-label="组合标签"
-              value={draft.category ?? ''}
-              placeholder="例如：道路"
-              onChange={(event) =>
-                setDraft((current) => ({ ...current, category: event.target.value }))
-              }
-            />
-          )}
-        </DsField>
-        <DsField
+      <DsPropertyGrid>
+        <DsPropertyRow label="名称" labelFor="stamp-template-name">
+          <DsTextInput
+            id="stamp-template-name"
+            size="compact"
+            aria-label="组合名称"
+            value={draft.name}
+            onChange={(event) => setDraft((current) => ({ ...current, name: event.target.value }))}
+          />
+        </DsPropertyRow>
+        <DsPropertyRow
+          label="标签"
+          labelFor="stamp-template-tag"
+          help="自由填写；相同标签会归入同一筛选项。"
+        >
+          <DsTextInput
+            id="stamp-template-tag"
+            size="compact"
+            aria-label="组合标签"
+            value={draft.category ?? ''}
+            placeholder="例如：道路"
+            onChange={(event) =>
+              setDraft((current) => ({ ...current, category: event.target.value }))
+            }
+          />
+        </DsPropertyRow>
+        <DsPropertyRow
           label="画布尺寸"
           help="宽 × 高，范围 1–256；左上固定，缩小时不会裁掉现有内容或锚点。"
         >
-          {(control) => (
-            <div className="stamp-canvas-size-fields">
-              <DsNumberInput
-                key={`stamp-width:${draft.width}`}
-                {...control}
-                aria-label="组合画布宽度"
-                min={1}
-                max={256}
-                defaultValue={draft.width}
-                onBlur={(event) => {
-                  const width = Math.max(
-                    1,
-                    Math.min(256, Math.floor(event.currentTarget.valueAsNumber)),
-                  )
-                  if (!Number.isFinite(width) || !commitCanvasSize(width, draft.height))
-                    event.currentTarget.value = String(draft.width)
-                }}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter') event.currentTarget.blur()
-                }}
-              />
-              <span aria-hidden="true">×</span>
-              <DsNumberInput
-                key={`stamp-height:${draft.height}`}
-                aria-label="组合画布高度"
-                aria-describedby={control['aria-describedby']}
-                min={1}
-                max={256}
-                defaultValue={draft.height}
-                onBlur={(event) => {
-                  const height = Math.max(
-                    1,
-                    Math.min(256, Math.floor(event.currentTarget.valueAsNumber)),
-                  )
-                  if (!Number.isFinite(height) || !commitCanvasSize(draft.width, height))
-                    event.currentTarget.value = String(draft.height)
-                }}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter') event.currentTarget.blur()
-                }}
-              />
-            </div>
-          )}
-        </DsField>
-      </div>
-      <dl className="stamp-template-facts">
-        <div>
-          <dt>稳定 ID</dt>
-          <dd className="mono">{draft.id}</dd>
-        </div>
-        <div>
-          <dt>锚点</dt>
-          <dd className="mono">
+          <div className="stamp-canvas-size-fields">
+            <DsNumberInput
+              key={`stamp-width:${draft.width}`}
+              size="compact"
+              aria-label="组合画布宽度"
+              min={1}
+              max={256}
+              defaultValue={draft.width}
+              onBlur={(event) => {
+                const width = Math.max(
+                  1,
+                  Math.min(256, Math.floor(event.currentTarget.valueAsNumber)),
+                )
+                if (!Number.isFinite(width) || !commitCanvasSize(width, draft.height))
+                  event.currentTarget.value = String(draft.width)
+              }}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') event.currentTarget.blur()
+              }}
+            />
+            <span aria-hidden="true">×</span>
+            <DsNumberInput
+              key={`stamp-height:${draft.height}`}
+              size="compact"
+              aria-label="组合画布高度"
+              min={1}
+              max={256}
+              defaultValue={draft.height}
+              onBlur={(event) => {
+                const height = Math.max(
+                  1,
+                  Math.min(256, Math.floor(event.currentTarget.valueAsNumber)),
+                )
+                if (!Number.isFinite(height) || !commitCanvasSize(draft.width, height))
+                  event.currentTarget.value = String(draft.height)
+              }}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') event.currentTarget.blur()
+              }}
+            />
+          </div>
+        </DsPropertyRow>
+        <DsPropertyRow label="稳定 ID">
+          <span className="mono">{draft.id}</span>
+        </DsPropertyRow>
+        <DsPropertyRow label="锚点">
+          <span className="mono">
             r{draft.anchor.row} · c{draft.anchor.col}
-          </dd>
-        </div>
-      </dl>
+          </span>
+        </DsPropertyRow>
+      </DsPropertyGrid>
       {props.template.origin === 'migrated' ? (
         <DsCheckbox
           label="保存为作者内容"

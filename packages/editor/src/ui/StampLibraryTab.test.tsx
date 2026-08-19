@@ -588,7 +588,7 @@ describe('StampLibraryTab', () => {
     await clickDraftPoint({ row: 1, col: 0 })
     expect(button('设为锚点', toolbar).disabled).toBe(false)
     await act(async () => button('设为锚点', toolbar).click())
-    expect(host.querySelector('.stamp-template-facts')?.textContent).toContain('r1 · c0')
+    expect(host.querySelector('[data-property-label="锚点"]')?.textContent).toContain('r1 · c0')
   })
 
   test('属性页可调整组合画布尺寸并在保存时保持矩阵同构', async () => {
@@ -598,14 +598,8 @@ describe('StampLibraryTab', () => {
       await Promise.resolve()
     })
 
-    await commitNumber(
-      host.querySelector<HTMLInputElement>('[aria-label="组合画布宽度"]')!,
-      7,
-    )
-    await commitNumber(
-      host.querySelector<HTMLInputElement>('[aria-label="组合画布高度"]')!,
-      4,
-    )
+    await commitNumber(host.querySelector<HTMLInputElement>('[aria-label="组合画布宽度"]')!, 7)
+    await commitNumber(host.querySelector<HTMLInputElement>('[aria-label="组合画布高度"]')!, 4)
     await act(async () => button('保存组合', host).click())
 
     const saved = session.getState().stamps[0]!
@@ -930,5 +924,4 @@ describe('StampLibraryTab', () => {
     expect(session.getState().stamps[0]?.origin).toBe('authored')
     expect(session.getHistoryVersion()).toBe(1)
   })
-
 })

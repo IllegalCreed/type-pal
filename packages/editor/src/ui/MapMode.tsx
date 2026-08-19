@@ -113,6 +113,8 @@ import {
   DsCatalogRow,
   DsCheckbox,
   DsInspectorTabs,
+  DsPropertyGrid,
+  DsPropertyRow,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
@@ -3373,136 +3375,135 @@ export function MapMode(props: {
                       <h4>地图</h4>
                       {selectedAsset ? (
                         <>
-                          <div className="field">
-                            <span className="field-label">名称</span>
-                            <input
-                              ref={mapNameInputRef}
-                              key={`${selectedAsset?.id}:${selectedAsset?.name}`}
-                              className="in"
-                              aria-label="地图名称"
-                              defaultValue={selectedAsset?.name ?? ''}
-                              onBlur={(event) => {
-                                const name = event.target.value.trim()
-                                if (selectedAsset && name && name !== selectedAsset.name)
-                                  session.dispatch(
-                                    new RenameMapAssetCommand(selectedAsset.id, name),
-                                  )
-                              }}
-                              onKeyDown={(event) => {
-                                if (event.key === 'Enter') event.currentTarget.blur()
-                              }}
-                            />
-                          </div>
-                          <div className="field">
-                            <span className="field-label">ID</span>
-                            <span className="mono map-file">{selectedAsset?.id ?? mapId}</span>
-                          </div>
-                          <div className="field">
-                            <span className="field-label">尺寸</span>
-                            {/* 左上锚定裁剪/扩展;失焦或回车提交,一次 = 一步撤销(缩图裁掉的内容 undo 可回) */}
-                            <span className="size-edit">
+                          <DsPropertyGrid>
+                            <DsPropertyRow label="名称" labelFor="map-properties-name">
                               <input
-                                key={`w:${liveMap?.width}`}
-                                className="in mono"
-                                type="number"
-                                aria-label="地图宽度"
-                                min={1}
-                                max={256}
-                                defaultValue={liveMap?.width ?? 0}
-                                disabled={mapHasReadOnlyLayer}
-                                title={
-                                  mapHasReadOnlyLayer
-                                    ? '地图含隐藏或锁定层，不能调整尺寸'
-                                    : '宽(格);1-256,左上锚定'
-                                }
+                                id="map-properties-name"
+                                ref={mapNameInputRef}
+                                key={`${selectedAsset?.id}:${selectedAsset?.name}`}
+                                className="in"
+                                aria-label="地图名称"
+                                defaultValue={selectedAsset?.name ?? ''}
                                 onBlur={(event) => {
-                                  const w = Math.max(
-                                    1,
-                                    Math.min(256, Math.floor(event.target.valueAsNumber)),
-                                  )
-                                  if (liveMap && Number.isFinite(w) && w !== liveMap.width)
-                                    requestStampStructureOperation(
-                                      { kind: 'resize', width: w, height: liveMap.height },
-                                      event.currentTarget,
+                                  const name = event.target.value.trim()
+                                  if (selectedAsset && name && name !== selectedAsset.name)
+                                    session.dispatch(
+                                      new RenameMapAssetCommand(selectedAsset.id, name),
                                     )
-                                  if (liveMap) event.currentTarget.value = String(liveMap.width)
                                 }}
                                 onKeyDown={(event) => {
                                   if (event.key === 'Enter') event.currentTarget.blur()
                                 }}
                               />
-                              ×
-                              <input
-                                key={`h:${liveMap?.height}`}
-                                className="in mono"
-                                type="number"
-                                aria-label="地图高度"
-                                min={1}
-                                max={256}
-                                defaultValue={liveMap?.height ?? 0}
-                                disabled={mapHasReadOnlyLayer}
-                                title={
-                                  mapHasReadOnlyLayer
-                                    ? '地图含隐藏或锁定层，不能调整尺寸'
-                                    : '高(格);1-256,左上锚定'
-                                }
-                                onBlur={(event) => {
-                                  const h = Math.max(
-                                    1,
-                                    Math.min(256, Math.floor(event.target.valueAsNumber)),
-                                  )
-                                  if (liveMap && Number.isFinite(h) && h !== liveMap.height)
-                                    requestStampStructureOperation(
-                                      { kind: 'resize', width: liveMap.width, height: h },
-                                      event.currentTarget,
-                                    )
-                                  if (liveMap) event.currentTarget.value = String(liveMap.height)
-                                }}
-                                onKeyDown={(event) => {
-                                  if (event.key === 'Enter') event.currentTarget.blur()
-                                }}
-                              />
-                            </span>
-                          </div>
-                          <div className="field">
-                            <span className="field-label">图层</span>
-                            <span className="mono">{liveMap?.layers.length ?? 0}</span>
-                          </div>
-                          <div className="field">
-                            <span className="field-label">文件</span>
-                            <span className="mono map-file">
-                              {selectedAsset?.path ?? '(索引缺失)'}
-                            </span>
-                          </div>
-                          {activeLayer ? (
-                            <>
-                              <h4>选中图层</h4>
-                              <div className="field">
-                                <span className="field-label">名称</span>
+                            </DsPropertyRow>
+                            <DsPropertyRow label="ID">
+                              <span className="mono map-file">{selectedAsset?.id ?? mapId}</span>
+                            </DsPropertyRow>
+                            <DsPropertyRow label="尺寸">
+                              {/* 左上锚定裁剪/扩展;失焦或回车提交,一次 = 一步撤销(缩图裁掉的内容 undo 可回) */}
+                              <span className="size-edit">
                                 <input
-                                  key={`${activeLayer.id}:${activeLayer.name}`}
-                                  className="in"
-                                  aria-label="图层名称"
-                                  defaultValue={activeLayer.name}
-                                  disabled={activeLayerReadOnly}
+                                  key={`w:${liveMap?.width}`}
+                                  className="in mono"
+                                  type="number"
+                                  aria-label="地图宽度"
+                                  min={1}
+                                  max={256}
+                                  defaultValue={liveMap?.width ?? 0}
+                                  disabled={mapHasReadOnlyLayer}
+                                  title={
+                                    mapHasReadOnlyLayer
+                                      ? '地图含隐藏或锁定层，不能调整尺寸'
+                                      : '宽(格);1-256,左上锚定'
+                                  }
                                   onBlur={(event) => {
-                                    const name = event.target.value.trim()
-                                    if (name && name !== activeLayer.name)
-                                      session.dispatch(
-                                        new UpdateProjectMapLayerCommand(mapId, activeLayer.id, {
-                                          name,
-                                        }),
+                                    const w = Math.max(
+                                      1,
+                                      Math.min(256, Math.floor(event.target.valueAsNumber)),
+                                    )
+                                    if (liveMap && Number.isFinite(w) && w !== liveMap.width)
+                                      requestStampStructureOperation(
+                                        { kind: 'resize', width: w, height: liveMap.height },
+                                        event.currentTarget,
                                       )
+                                    if (liveMap) event.currentTarget.value = String(liveMap.width)
                                   }}
                                   onKeyDown={(event) => {
                                     if (event.key === 'Enter') event.currentTarget.blur()
                                   }}
                                 />
-                              </div>
-                              <div className="field">
-                                <span className="field-label">ID</span>
-                                <span className="mono">{activeLayer.id}</span>
-                              </div>
+                                ×
+                                <input
+                                  key={`h:${liveMap?.height}`}
+                                  className="in mono"
+                                  type="number"
+                                  aria-label="地图高度"
+                                  min={1}
+                                  max={256}
+                                  defaultValue={liveMap?.height ?? 0}
+                                  disabled={mapHasReadOnlyLayer}
+                                  title={
+                                    mapHasReadOnlyLayer
+                                      ? '地图含隐藏或锁定层，不能调整尺寸'
+                                      : '高(格);1-256,左上锚定'
+                                  }
+                                  onBlur={(event) => {
+                                    const h = Math.max(
+                                      1,
+                                      Math.min(256, Math.floor(event.target.valueAsNumber)),
+                                    )
+                                    if (liveMap && Number.isFinite(h) && h !== liveMap.height)
+                                      requestStampStructureOperation(
+                                        { kind: 'resize', width: liveMap.width, height: h },
+                                        event.currentTarget,
+                                      )
+                                    if (liveMap) event.currentTarget.value = String(liveMap.height)
+                                  }}
+                                  onKeyDown={(event) => {
+                                    if (event.key === 'Enter') event.currentTarget.blur()
+                                  }}
+                                />
+                              </span>
+                            </DsPropertyRow>
+                            <DsPropertyRow label="图层">
+                              <span className="mono">{liveMap?.layers.length ?? 0}</span>
+                            </DsPropertyRow>
+                            <DsPropertyRow label="文件">
+                              <span className="mono map-file">
+                                {selectedAsset?.path ?? '(索引缺失)'}
+                              </span>
+                            </DsPropertyRow>
+                          </DsPropertyGrid>
+                          {activeLayer ? (
+                            <>
+                              <h4>选中图层</h4>
+                              <DsPropertyGrid>
+                                <DsPropertyRow label="名称" labelFor="map-active-layer-name">
+                                  <input
+                                    id="map-active-layer-name"
+                                    key={`${activeLayer.id}:${activeLayer.name}`}
+                                    className="in"
+                                    aria-label="图层名称"
+                                    defaultValue={activeLayer.name}
+                                    disabled={activeLayerReadOnly}
+                                    onBlur={(event) => {
+                                      const name = event.target.value.trim()
+                                      if (name && name !== activeLayer.name)
+                                        session.dispatch(
+                                          new UpdateProjectMapLayerCommand(mapId, activeLayer.id, {
+                                            name,
+                                          }),
+                                        )
+                                    }}
+                                    onKeyDown={(event) => {
+                                      if (event.key === 'Enter') event.currentTarget.blur()
+                                    }}
+                                  />
+                                </DsPropertyRow>
+                                <DsPropertyRow label="ID">
+                                  <span className="mono">{activeLayer.id}</span>
+                                </DsPropertyRow>
+                              </DsPropertyGrid>
                             </>
                           ) : null}
                         </>

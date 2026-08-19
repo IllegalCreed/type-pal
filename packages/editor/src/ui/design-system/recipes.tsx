@@ -773,6 +773,42 @@ export function DsInspectorSection(props: {
   )
 }
 
+/**
+ * Inspector 基本信息的统一双列属性表。领域页面只提供值或控件，不再自行拼接标签列与信息卡。
+ */
+export function DsPropertyGrid(props: { children: ReactNode; className?: string }) {
+  return <div className={dsClasses('ds-property-grid', props.className)}>{props.children}</div>
+}
+
+/** Inspector 属性表中的单行；帮助文字跟随对应值，不另起一套表单布局。 */
+export function DsPropertyRow(props: {
+  label: ReactNode
+  children: ReactNode
+  help?: ReactNode
+  labelFor?: string
+  className?: string
+}) {
+  const label = props.labelFor ? (
+    <label className="ds-property-row__label" htmlFor={props.labelFor}>
+      {props.label}
+    </label>
+  ) : (
+    <span className="ds-property-row__label">{props.label}</span>
+  )
+  return (
+    <div
+      className={dsClasses('ds-property-row', props.className)}
+      data-property-label={typeof props.label === 'string' ? props.label : undefined}
+    >
+      {label}
+      <div className="ds-property-row__value">
+        {props.children}
+        {props.help ? <p className="ds-property-row__help">{props.help}</p> : null}
+      </div>
+    </div>
+  )
+}
+
 export interface DsInspectorTabItem extends DsTabItem {
   panel: ReactNode
 }

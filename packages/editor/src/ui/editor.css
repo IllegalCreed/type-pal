@@ -5041,13 +5041,6 @@ html[data-panel-resize="horizontal"] * {
   display: grid;
   gap: var(--ds-space-5);
 }
-.stamp-property-fields {
-  display: grid;
-  gap: var(--ds-space-4);
-}
-.stamp-property-fields .ds-input {
-  width: 100%;
-}
 .stamp-canvas-size-fields {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
@@ -5057,28 +5050,6 @@ html[data-panel-resize="horizontal"] * {
 .stamp-canvas-size-fields > span {
   color: var(--ds-text-muted);
   font: var(--ds-font-body);
-}
-.stamp-template-facts {
-  display: grid;
-  gap: 1px;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: 5px;
-  background: var(--line);
-}
-.stamp-template-facts > div {
-  display: grid;
-  grid-template-columns: 82px minmax(0, 1fr);
-  gap: 8px;
-  padding: 7px;
-  background: var(--panel);
-}
-.stamp-template-facts dt {
-  color: var(--faint);
-}
-.stamp-template-facts dd {
-  min-width: 0;
-  overflow-wrap: anywhere;
 }
 .stamp-layer-host {
   display: flex;
@@ -12099,13 +12070,9 @@ button.sprite-frame-cell[draggable="true"]:active {
   width: 64px;
 }
 
-/* 地图属性表：可编辑控件与只读值共享同一紧凑行高，避免表格节奏随字段类型跳变。 */
-.map-properties-section > .field {
-  min-height: var(--ds-control-height-compact);
-  margin-bottom: var(--ds-space-2);
-}
-.map-properties-section > .field:last-child {
-  margin-bottom: 0;
+/* 地图与组合共用属性表；这里只保留地图分区之间的领域间距。 */
+.map-properties-section > .ds-property-grid + h4 {
+  margin-top: var(--ds-space-6);
 }
 
 .map-file {
