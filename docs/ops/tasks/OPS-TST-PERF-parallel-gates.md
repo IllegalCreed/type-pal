@@ -1,7 +1,8 @@
 # OPS-TST-PERF-B - shared/fresh 隔离并行 release runner
 
 Status: build
-Execution: active（v4-only 补充三签已齐；以最新 `dacd7ec8` 为 build 起点）
+Execution: blocked inside build（current-v4 authority 表示合同在 focused gate fail-closed；
+实现候选不可提交，交由 ARCH-CURRENT-ONLY-1 单版本收口；最终 proof 继续延后）
 Phase: ops
 Capability: test infrastructure / release gate
 Coding Owner: Codex
@@ -321,6 +322,15 @@ Primary-source 证据（三点，均为本席直接打开核实）：
 
 ## Build：实现与候选验证（Codex，2026-08-18）
 
+- 2026-08-19 User：明确同意把既有 C1-3 首批 NPC 审批重新绑定到当前 v4 证明链。审批范围仅为
+  proof provenance 重绑定：李大娘、酒剑仙的 2 个 actor、6 个 entity ref、163 个 dialogue
+  identity 逐项语义不变，不修改 NPC、对话或剧情内容。旧 digest
+  `3b797613f508ebee9d0464f4185a59eaa3b3760a6c4ad5dbb33c09008f373c0f` 保留为历史；新 digest
+  `cd68376e08d834cc4b9d4a4d476eff35e69cc22515b29918cdcdcf4ea10768cd` 于
+  `2026-08-19T10:05:21.000Z` 获用户批准。机械等价审计：
+  `build/release-runs/v4-authority-rebuild-df147a94/c1-approval-rebind-audit.json`
+  （`semanticEquivalent=true`，`semanticDecisionCount=173`）。
+
 - 新增隔离 runner 与证明协议：`release-runner-core.ts`、`release-proof-protocol.ts`、
   `scripts/run-release-isolated.mts`、`scripts/prove-release-parallel.mts`；每个 run/child 使用独立
   process group、TMPDIR、日志、Vitest JSON、fresh transaction root，并记录递归 RSS、退出信号、
@@ -440,6 +450,112 @@ Primary-source 证据（三点，均为本席直接打开核实）：
 - 尚未完成：修复后的完整 serial control、显式 parallel 以及三组同机同批次 serial/parallel proof。
   因此本卡转 `rework`，Codex/Kimi/GLM done 前签字仍为 pending。
 
+### 2026-08-19 implementation checkpoint 阻塞记录
+
+- PB3/PB4 的机械审计脚本已补为精确 15 项闭包：当前分类为 **9 rebuild / 6 preserve**，其中
+  `2 direct-body / 4 direct-hash-surface / 3 transitive-parent / 6 unaffected`；任何 transition
+  缺失或未分类均 fail-closed。PB4 对 `r13-4-v9`、`r13-5-v10`、`r13-6a-v10` 三种 profile
+  的 `content/enemies.json + content/scripts/index.json + 307 chunks` 共 **927** 个 owned leaf
+  做重建前后逐文件 sha256 对照，结果 `driftCount=0`；三组 aggregate 分别为
+  `b5c9f3b8c62f85818dad4ff5539000382b5e28887e85f71492454fa756a5b575`、
+  `ee5115bfab5a25a94b92f362b82cc72e8d4ac9836a68b7f362b67b5fb482559e`、
+  `14e14f7f32de10790fd4c3a6d6a67966b42e82e4f234a4e46862f4631314781c`。
+  原始报告：`build/release-runs/v4-authority-rebuild-8148083b/pb3-pb4-post.json`；安装四态审计：
+  `build/release-runs/v4-authority-rebuild-8148083b/install-audit.json`。这些报告仍是工作树候选证据，
+  checkpoint 未固定前不得冒充最终 proof。
+- focused unit 首轮为 **7 files passed / 56 tests passed，1 suite 在 import 时 fail-closed**；失败点
+  是 `pal-w9-control-graph.test.ts` 经 current C1 rewind 校验 B2 seal 时报告
+  `B2 battlefield rewind: manifest authority 不符`。直接 diff 证明一次性 v4 authority 重建脚本把
+  current v16 的 `content.worldVariables` 原样带进了标称 content14 的 checkpoint manifest；该错误
+  候选的 manifest file sha256 为
+  `6811ce380228288aa130be5810f6118102574e08d42ca4fed0cc98f951dfa8c2`，canonical v16→v14
+  归一化结果为 `166df8c29e3fb6597f2d50bc7657c7cf8fabb7c997ab4b7b54427fe1e3af91e8`。
+  不允许通过放宽 rewind 或保留错误字段使测试转绿。
+- 重建器现改为直接调用 `rewindCurrentManifestToV14`，单次 source-backed 重建在 C1 审批门正确
+  fail-closed：新 decision digest
+  `3f84c53acba5fea26eb3e3f2d5a9fa3325b05fd8936f5967de0a2385206ba24f` 不等于此前基于错误
+  manifest 批准的
+  `cd68376e08d834cc4b9d4a4d476eff35e69cc22515b29918cdcdcf4ea10768cd`。新 checkpoint 的
+  manifest 为 content14 且无 `worldVariables`；语义逐项审计仍为 **173 项、
+  `semanticEquivalent=true`**。证据：
+  `build/release-runs/v4-authority-rebuild-8148083b/corrected-chain.c1-checkpoint.json`、
+  `build/release-runs/v4-authority-rebuild-8148083b/corrected-c1-approval-audit.json`。
+- blocker：C1 批准合同绑定精确 digest；Codex 不得把用户对旧值 `cd68376e...` 的批准擅自迁移到
+  新值 `3f84c53a...`。等待用户明确批准该 semantic-equivalent rebind 后，才可更新审批常量、完成
+  C1/B2 current-v4 seal、重跑 focused/manifest/canary 并形成可提交检查点。若用户不批准，则交由
+  ARCH-CURRENT-ONLY-1 删除/折叠该历史 C1/B2 proof 链；不得恢复 pre-v4 地图投影或放宽 manifest
+  authority。
+- 2026-08-19 User：明确回复“同意更新验证指纹”，批准将 semantic-equivalent C1 验证指纹更新为
+  `3f84c53acba5fea26eb3e3f2d5a9fa3325b05fd8936f5967de0a2385206ba24f`；审批时间记录为
+  `2026-08-19T11:07:10.000Z`。批准只覆盖验证指纹重绑定，不改变 173 项 NPC/对话决定、地图、
+  编辑器或产品内容。上述 blocker 已解除，可继续 current-v4 外层 seal 与 checkpoint 收口。
+- 随后的 15-seal 闭包审计发现 `3f84c53a...` 候选漏算 6 个必须原样保留的 transition sidecar；
+  该候选没有安装为最终 authority。补齐 6 个 preserve control 后，canonical C1 checkpoint 为
+  **548 managed / 319 materialized bodies / 548 hashes / 13 transitions**（另有 223 个 v4 map 与
+  6 个 preserve transition 以原子 hash 表示），manifest content14 且无 `worldVariables`。
+  最终 decision digest 为
+  `985eea7a8338aa4fab7f769c1eb0c73c32c9173ed2962201c7ff6d5e2456e253`；再次机械审计为
+  **173 项、`semanticEquivalent=true`**，old/new semantic digest 均为
+  `196a42985c79283922c4874e5d83b71d46146a9106676a7769980f20c6b628c8`。证据：
+  `build/release-runs/v4-authority-rebuild-8148083b/canonical-chain.c1-checkpoint.json`、
+  `build/release-runs/v4-authority-rebuild-8148083b/canonical-c1-approval-audit.json`。
+- 2026-08-19 User：在获知上述完整 15-seal 链与最终指纹后明确回复“同意”，批准将验证指纹绑定到
+  `985eea7a8338aa4fab7f769c1eb0c73c32c9173ed2962201c7ff6d5e2456e253`；审批时间记录为
+  `2026-08-19T14:14:08.000Z`。批准仍只覆盖证明 provenance 指纹，不改变 173 项内容。
+- 本轮 migrate typecheck 在纠正重建器后通过。三组 serial/parallel proof、
+  `prove-release-parallel`、完整 `test:release` 均**未运行**；B 保持 `build`，Codex/Kimi/GLM
+  implementation accept 仍 pending，未提交、未推送本候选。
+
+### 2026-08-20 current-v4 authority 最终 focused blocker
+
+- 后续审计发现 current baseline 与 project 都真实保留 opaque sidecar
+  `content/migrations/script-v4-v5-save.json`，两份 raw sha256 均为
+  `30ce8717aa9f6f21e14d862cde2aa44dff8f3652833826b4506e49bc7a6a2ed0`；
+  `r13-source-semantics-mg2.ts` 明确把它当 opaque 文件。重建器已改为直接从 current-v4 source
+  snapshot 保留该真实输入，而不是合成旧 payload。
+- sidecar-aware chain 的最终 C1 decision digest 为
+  `dac9207d296f4736250ebcebd210f0fe21ae4883161698fabb1916ef8817638c`；用户已明确同意更新当前 v4
+  验证指纹。审批记录时间为 `2026-08-19T15:17:18.000Z`。语义审计仍为 **173 decisions、
+  `semanticEquivalent=true`**，old/new semantic digest 都是
+  `196a42985c79283922c4874e5d83b71d46146a9106676a7769980f20c6b628c8`。证据：
+  `build/release-runs/v4-authority-rebuild-8148083b/current-v4-opaque-c1-approval-audit.json`。
+- current-v4 source authority 机械续建成功：C1 checkpoint sha256
+  `c0685a453d42a9650c41e8d9aaff1cb162472f7641635ad7eaaad67b0b5cd1f9`、C1 NPC seal
+  `41b40915f38ef1151e11e59ff485154cd68e3db3a552cea9cef5a83e9bd196cf`、B2 seal
+  `9f0ee1a2bfa6880ea5f999229dfe4e974bde8949b10f5fefadee70ad6b04bee6`。原始报告：
+  `build/release-runs/v4-authority-rebuild-8148083b/current-v4-opaque-c1-authority-resume.json`；
+  9 个 rebuild transition 安装审计：
+  `build/release-runs/v4-authority-rebuild-8148083b/current-v4-opaque-install-audit.json`。
+  这些值只证明 rebuild chain 内部闭合，**不代表当前 baseline focused 验收通过**。
+- PB3/PB4 最终报告固定为
+  `build/release-runs/v4-authority-rebuild-8148083b/pb3-pb4-final-blocked.json`：15 transitions
+  精确分类仍为 **9 rebuild / 6 preserve**，PB4 仍为 **927 files / drift 0**。重建前报告为
+  `build/release-runs/v4-authority-rebuild-11fda923/pre.json`。逐项域、sha256 与 ARCH 处置清单已写入
+  `docs/ops/evidence/OPS-TST-PERF-B-arch-current-only-handoff.md`。
+- focused gate 在 92.78s 后 fail-closed：**3 tests failed / 7 passed / 21 skipped；6 files failed /
+  3 passed**。六个失败均在 import/fixture 初始化时由
+  `pal-current-c1-rewind.ts → rewindPublishedB2BattleFieldDomainIfPresent` 抛出
+  `B2 battlefield rewind: successor surface 漂移`，未进入 manifest/canary，更未启动完整 proof。
+- 直接对照当前 `_state.files` 与 source-backed rebuild report 的 `publishedChain.state.files`：两边
+  都是 551 files，managed list 与 generator epoch 相同；**295 个 raw hash 不同，精确分布为
+  `content/items.json` 1 个 + `content/scenes/s000..s293.json` 294 个**。解析值语义相同，差异来自
+  baseline/editor serializer 已发布的 key insertion order 与历史 C1 upgrader 构造顺序不同。
+- 为证伪“简单 current 表示归一化即可”的替代解释，曾做未提交的定向 key-order transplant：raw
+  mismatch 从 295 降到 192；继续注入 C1 dialogue upgrader 后，byte-exact downgrade 在
+  `content/items.json#/229/use/effects/0/script/body/1/cue` 失败（seal 记录 `rows,portrait`，当前输入为
+  `portrait,rows`）。这证明现有 `legacyCueOrders` 不能表达完整 current canonical 表示。该试验脚本、
+  callback 和调用路径已全部撤销，仓库无 `canonicalizeCurrentV4` / `canonicalizeSuccessor` 残留。
+- 按用户停线规则，不新增 full historical representation/key-order converter、proof schema、旧版
+  parser/adapter、compat fallback 或 pre-v4 投影。已判错的
+  `historical-map-surface-authority.ts` 及测试和全部调用路径仍保持删除。
+- 快速验证：`pnpm --filter @type-pal/migrate typecheck` **通过**；`git diff --check` **通过**。
+  manifest/canary **未运行**，原因是 focused gate 已在更前置的 authority 断言失败；重复运行不能增加
+  证据。三组 serial/parallel、`prove-release-parallel`、完整 `test:release` 均明确未运行。
+- 结论：问题只能通过 ARCH-CURRENT-ONLY-1 删除/折叠历史 C1/B2/R13 proof 链，或在 ARCH 明确认定
+  存在不可重生真实输入时建立隔离 source converter 解决。B 保持 `build`，Codex/Kimi/GLM
+  implementation accept 继续 `pending`，不得转 `review/done`。当前候选没有通过 focused gate，
+  因而**没有实现 commit、没有 push**；不得把 9-seal 工作树候选冒充可交付 authority。
+
 ## 交接日志
 
 - 2026-08-10 Codex: 建卡。Evidence: 主卡 B 约束、shared 3.2GiB 峰值与 fresh 隔离锚点。Next:
@@ -512,6 +628,16 @@ Primary-source 证据（三点，均为本席直接打开核实）：
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词：v4-only 三方 build 前重签已齐，由 Coding Owner Codex 继续 build；进入
-done 前仍须 Codex/Kimi/GLM implementation accept。先闭合 PB3/PB4、删除旧投影并机械重建 v4
-authority，固定候选与定向门禁通过前不得启动三组正式 proof。
+可直接复制给 ARCH-CURRENT-ONLY-1 Coding Owner：
+
+> 继续 `ARCH-CURRENT-ONLY-1`，先完整阅读任务卡、`AGENTS.md`、`docs/phase2/READ-FIRST.md`、
+> `docs/ops/agent-workflow.md`、本 B 卡，以及
+> `docs/ops/evidence/OPS-TST-PERF-B-arch-current-only-handoff.md`。B 的 PB3 已机械闭合 15 个
+> transition/seal 域（9 rebuild / 6 preserve），PB4 已逐文件证明 927 个 enemy/script owned leaf
+> drift=0；但 source-backed current-v4 rebuild 与当前 baseline 有 295 个 items/scenes raw hash
+> 表示差异，focused gate fail-closed 为 `B2 battlefield rewind: successor surface 漂移`。
+> 不得恢复 v2/v3 parser、pre-v4 map 投影、compat fallback，也不得为 B 新增 full key-order
+> converter。请按 ARCH 已签设计完成开发期 current-only 收口，逐项裁决 handoff 清单的 delete /
+> fold into current / isolated source converter；不要修改 B runner 或运行 B 长测。输出干净固定提交、
+> focused/manifest/canary 可用的最终测试拓扑，以及 B 可接回执行一次正式 serial/parallel proof 的
+> 明确前提。不得代签 B 的 Codex/Kimi/GLM implementation accept，不得标记 B done。
