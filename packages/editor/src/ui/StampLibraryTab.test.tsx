@@ -642,6 +642,13 @@ describe('StampLibraryTab', () => {
 
     await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="新增图层"]')!.click())
     expect(host.querySelectorAll('.stamp-layer-host .map-layer-row')).toHaveLength(2)
+    const paintContext = host.querySelector<HTMLElement>(
+      '.stamp-layer-host [aria-label="绘制层级"]',
+    )!
+    expect(paintContext).not.toBeNull()
+    expect(paintContext.textContent).toContain('图层 2')
+    expect(paintContext.querySelector('#stamp-view-height')).not.toBeNull()
+    expect(host.querySelector('.stamp-layer-host [aria-label="图层名称"]')).toBeNull()
     await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="瓦片 #2"]')!.click())
     await chooseToolOption('绘制高度', 'H3')
     await clickDraftPoint({ row: 1, col: 0 })

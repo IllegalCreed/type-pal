@@ -124,7 +124,7 @@ import { IsometricEditorCanvas } from './IsometricEditorCanvas.js'
 import { IsometricEditorSurface } from './IsometricEditorSurface.js'
 import { IsometricEditorToolbar } from './IsometricEditorToolbar.js'
 import { drawIsometricMapBase, type IsometricMapBaseCache } from './isometric-map-render.js'
-import { LayerStackControls } from './LayerStackControls.js'
+import { LayerPaintContext, LayerStackControls } from './LayerStackControls.js'
 import { MapSelectionInspector } from './MapSelectionInspector.js'
 import { MapStampPalette } from './MapStampPalette.js'
 import { drawMapSelectionOverlay } from './map-selection-overlay.js'
@@ -2885,39 +2885,15 @@ export function MapMode(props: {
             deleteDisabled={liveMap.layers.length <= 1 || activeLayerReadOnly}
             footer={
               activeLayer ? (
-                <section className="map-paint-context" aria-label="绘制层级">
-                  <div className="map-paint-context__head">
-                    <div className="map-paint-context__title">
-                      <span className="t">绘制层级</span>
-                      <span title={activeLayer.name}>{activeLayer.name}</span>
-                    </div>
-                    <DsButton
-                      size="compact"
-                      variant="quiet"
-                      onClick={() => setFocusEnabled((enabled) => !enabled)}
-                      title={focusEnabled ? '关闭聚焦，全部正常显示' : '开启聚焦，其他瓦片变暗'}
-                      aria-label={focusEnabled ? '关闭其他图层聚焦' : '聚焦当前图层和高度'}
-                      aria-pressed={focusEnabled}
-                    >
-                      {focusEnabled ? '只看当前' : '聚焦当前'}
-                    </DsButton>
-                  </div>
-                  <div className="map-paint-context__control">
-                    <label htmlFor="map-view-height">显示高度</label>
-                    <input
-                      id="map-view-height"
-                      type="range"
-                      min={0}
-                      max={maxMapHeight}
-                      step={1}
-                      value={activeViewHeight}
-                      onChange={(event) => setViewHeight(Number(event.currentTarget.value))}
-                    />
-                    <output htmlFor="map-view-height" aria-live="polite">
-                      {activeViewHeight}
-                    </output>
-                  </div>
-                </section>
+                <LayerPaintContext
+                  layerName={activeLayer.name}
+                  focusEnabled={focusEnabled}
+                  viewHeight={activeViewHeight}
+                  maxViewHeight={maxMapHeight}
+                  rangeId="map-view-height"
+                  onToggleFocus={() => setFocusEnabled((enabled) => !enabled)}
+                  onViewHeightChange={setViewHeight}
+                />
               ) : undefined
             }
           />

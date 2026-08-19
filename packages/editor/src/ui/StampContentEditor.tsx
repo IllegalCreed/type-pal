@@ -33,7 +33,6 @@ import {
   resizeStampDraft,
   setStampDraftCollision,
   setStampDraftVisual,
-  updateStampDraftLayer,
 } from '../core/stamp-draft.js'
 import {
   DsButton,
@@ -46,7 +45,7 @@ import {
 import { IsometricEditorCanvas } from './IsometricEditorCanvas.js'
 import { IsometricEditorSurface } from './IsometricEditorSurface.js'
 import { type IsometricEditorTool, IsometricEditorToolbar } from './IsometricEditorToolbar.js'
-import { LayerStackControls } from './LayerStackControls.js'
+import { LayerPaintContext, LayerStackControls } from './LayerStackControls.js'
 import { drawMapSelectionOverlay } from './map-selection-overlay.js'
 import { loadStampPreviewAssets } from './StampPreviewCanvas.js'
 import { mapBoxOf, useStageSize, useViewZoomPan } from './scene-stage.js'
@@ -102,6 +101,8 @@ export function StampContentEditor(props: {
   const [collisionPaint, setCollisionPaint] = useState<'set' | 'clear'>('set')
   const [showGrid, setShowGrid] = useState(true)
   const [showCollision, setShowCollision] = useState(true)
+  const [viewHeight, setViewHeight] = useState(0)
+  const [focusEnabled, setFocusEnabled] = useState(true)
   const [hiddenLayerIds, setHiddenLayerIds] = useState<Set<string>>(() => new Set())
   const [lockedLayerIds, setLockedLayerIds] = useState<Set<string>>(() => new Set())
   const [selectedPoint, setSelectedPoint] = useState<GridPointRef>()
@@ -124,6 +125,13 @@ export function StampContentEditor(props: {
   const activeLayerReadOnly =
     !activeLayer || hiddenLayerIds.has(activeLayerId) || lockedLayerIds.has(activeLayerId)
   const selectedTiles = assets?.tilesets.get(selectedTilesetId) ?? new Map<number, RleFrame>()
+  const maxViewHeight = useMemo(() => {
+    let max = 0
+    for (const layer of draft.layers)
+      for (const row of layer.heights ?? [])
+        for (const height of row) max = Math.max(max, height)
+    return Math.max(15, max + 1, viewHeight)
+  }, [draft.layers, viewHeight])
   const tilesetLoads = useMemo(
     () =>
       props.tilesets.map((tileset) => ({
@@ -431,16 +439,14 @@ export function StampContentEditor(props: {
       }
       footer={
         activeLayer ? (
-          <DsTextInput
-            size="compact"
-            aria-label="图层名称"
-            value={activeLayer.name}
-            disabled={activeLayerReadOnly}
-            onChange={(event) =>
-              updateDraft((current) =>
-                updateStampDraftLayer(current, activeLayer.id, { name: event.target.value }),
-              )
-            }
+          <LayerPaintContext
+            layerName={activeLayer.name}
+            focusEnabled={focusEnabled}
+            viewHeight={viewHeight}
+            maxViewHeight={maxViewHeight}
+            rangeId="stamp-view-height"
+            onToggleFocus={() => setFocusEnabled((enabled) => !enabled)}
+            onViewHeightChange={setViewHeight}
           />
         ) : null
       }
@@ -646,6 +652,9 @@ export function StampContentEditor(props: {
               showGrid,
               showCollision,
               hiddenLayerIds,
+              ...(focusEnabled && activeLayer
+                ? { focus: { layerId: activeLayer.id, height: viewHeight } }
+                : {}),
             }}
             drawOverlay={drawOverlay}
             onPointerDown={onPointerDown}

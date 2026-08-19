@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react'
-import { DsIconButton, DsTag } from './design-system/index.js'
+import { type ReactNode, useId } from 'react'
+import { DsButton, DsIconButton, DsTag } from './design-system/index.js'
 
 export interface LayerStackControlItem {
   id: string
@@ -9,6 +9,56 @@ export interface LayerStackControlItem {
   locked?: boolean
   canMoveUp?: boolean
   canMoveDown?: boolean
+}
+
+/** 地图与组合编辑器共用的当前绘制层级与显示高度上下文。 */
+export function LayerPaintContext(props: {
+  layerName: string
+  focusEnabled: boolean
+  viewHeight: number
+  maxViewHeight: number
+  rangeId?: string
+  onToggleFocus: () => void
+  onViewHeightChange: (height: number) => void
+}) {
+  const generatedRangeId = useId()
+  const rangeId = props.rangeId ?? generatedRangeId
+
+  return (
+    <section className="map-paint-context" aria-label="绘制层级">
+      <div className="map-paint-context__head">
+        <div className="map-paint-context__title">
+          <span className="t">绘制层级</span>
+          <span title={props.layerName}>{props.layerName}</span>
+        </div>
+        <DsButton
+          size="compact"
+          variant="quiet"
+          onClick={props.onToggleFocus}
+          title={props.focusEnabled ? '关闭聚焦，全部正常显示' : '开启聚焦，其他瓦片变暗'}
+          aria-label={props.focusEnabled ? '关闭其他图层聚焦' : '聚焦当前图层和高度'}
+          aria-pressed={props.focusEnabled}
+        >
+          {props.focusEnabled ? '只看当前' : '聚焦当前'}
+        </DsButton>
+      </div>
+      <div className="map-paint-context__control">
+        <label htmlFor={rangeId}>显示高度</label>
+        <input
+          id={rangeId}
+          type="range"
+          min={0}
+          max={props.maxViewHeight}
+          step={1}
+          value={props.viewHeight}
+          onChange={(event) => props.onViewHeightChange(Number(event.currentTarget.value))}
+        />
+        <output htmlFor={rangeId} aria-live="polite">
+          {props.viewHeight}
+        </output>
+      </div>
+    </section>
+  )
 }
 
 /**
