@@ -350,11 +350,11 @@ export function StampLibraryTab(props: {
             <DsSelect
               key="category"
               size="compact"
-              aria-label="筛选组合分类"
+              aria-label="筛选组合标签"
               value={categoryFilter}
               onValueChange={setCategoryFilter}
               options={[
-                { value: 'all', label: '全部分类' },
+                { value: 'all', label: '全部标签' },
                 ...categories.map((category) => ({ value: category, label: category })),
               ]}
             />,

@@ -363,7 +363,7 @@ afterEach(async () => {
 })
 
 describe('StampLibraryTab', () => {
-  test('搜索、分类和来源覆盖各值、组合、空结果和清空恢复，且不偷换选择', async () => {
+  test('搜索、标签和来源覆盖各值、组合、空结果和清空恢复，且不偷换选择', async () => {
     const authoredTree = template('tree', 'tiles-a')
     const authoredShrub = { ...template('shrub', 'tiles-b'), name: '灌木' }
     const migratedRock = {
@@ -381,7 +381,7 @@ describe('StampLibraryTab', () => {
     const search = host.querySelector<HTMLInputElement>('input[aria-label="搜索组合模板"]')!
     expect(rows()).toHaveLength(3)
 
-    await chooseSelectOption('筛选组合分类', '地貌')
+    await chooseSelectOption('筛选组合标签', '地貌')
     await chooseSelectOption('筛选组合来源', '预置')
     expect(rows()).toHaveLength(1)
     expect(rows()[0]?.textContent).toContain('岩石')
@@ -389,7 +389,7 @@ describe('StampLibraryTab', () => {
 
     await setCatalogSearch(search, 'tree')
     expect(rows()).toHaveLength(0)
-    await chooseSelectOption('筛选组合分类', '植被')
+    await chooseSelectOption('筛选组合标签', '植被')
     await chooseSelectOption('筛选组合来源', '作者')
     expect(rows()).toHaveLength(1)
     expect(rows()[0]?.textContent).toContain('tree')
@@ -397,7 +397,7 @@ describe('StampLibraryTab', () => {
     await setCatalogSearch(search, '不存在')
     expect(rows()).toHaveLength(0)
     await setCatalogSearch(search, '')
-    await chooseSelectOption('筛选组合分类', '全部分类')
+    await chooseSelectOption('筛选组合标签', '全部标签')
     await chooseSelectOption('筛选组合来源', '全部来源')
     expect(rows()).toHaveLength(3)
     expect(host.querySelector('.stamp-library-row.selected')?.textContent).toContain('tree')
@@ -415,7 +415,7 @@ describe('StampLibraryTab', () => {
     expect(host.textContent).not.toContain('退出内容编辑')
     const properties = host.querySelector('.stamp-properties-section')!
     expect(properties.textContent).toContain('名称')
-    expect(properties.textContent).toContain('分类')
+    expect(properties.textContent).toContain('标签')
     expect(properties.textContent).toContain('稳定 ID')
     expect(properties.textContent).toContain('尺寸')
     expect(properties.textContent).toContain('锚点')
@@ -426,7 +426,7 @@ describe('StampLibraryTab', () => {
     expect(host.querySelector('[aria-label="删除组合 tree"]')).not.toBeNull()
   })
 
-  test('改名/分类/复制/删除均走 undo，删除模板不改 placement 且库级显示悬空来源', async () => {
+  test('改名/标签/复制/删除均走 undo，删除模板不改 placement 且库级显示悬空来源', async () => {
     const map = placedMap('tree')
     const session = new EditSession(state([template()], { 'map-a': map }))
     const beforeMap = structuredClone(map)
@@ -444,7 +444,7 @@ describe('StampLibraryTab', () => {
     })
 
     await input(host.querySelector<HTMLInputElement>('[aria-label="组合名称"]')!, '古树')
-    await input(host.querySelector<HTMLInputElement>('[aria-label="组合分类"]')!, '古迹')
+    await input(host.querySelector<HTMLInputElement>('[aria-label="组合标签"]')!, '古迹')
     await act(async () => button('保存组合', host).click())
     expect(session.getState().stamps[0]).toMatchObject({ name: '古树', category: '古迹' })
 

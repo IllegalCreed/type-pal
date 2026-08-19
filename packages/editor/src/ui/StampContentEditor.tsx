@@ -438,13 +438,13 @@ export function StampContentEditor(props: {
             />
           )}
         </DsField>
-        <DsField label="分类">
+        <DsField label="标签" help="自由填写；相同标签会归入同一筛选项。">
           {(control) => (
             <DsTextInput
               {...control}
-              aria-label="组合分类"
+              aria-label="组合标签"
               value={draft.category ?? ''}
-              placeholder="可选"
+              placeholder="例如：道路"
               onChange={(event) =>
                 setDraft((current) => ({ ...current, category: event.target.value }))
               }
