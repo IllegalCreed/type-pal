@@ -684,6 +684,58 @@
   overflow-wrap: anywhere;
 }
 
+/* Inspector content grammar shared by every domain panel. */
+.ds-inspector-choice-list {
+  display: grid;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--ds-border-subtle);
+  border-radius: var(--ds-radius-control);
+}
+
+.ds-inspector-choice-list > .ds-catalog-row + .ds-catalog-row {
+  border-top: 1px solid var(--ds-border-subtle);
+}
+
+.ds-inspector-option-row,
+.ds-inspector-actions {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ds-space-3);
+}
+
+.ds-inspector-actions {
+  justify-content: flex-end;
+}
+
+.ds-inspector-inline-empty,
+.ds-inspector-supporting-copy {
+  margin: 0;
+  color: var(--ds-text-muted);
+  font: var(--ds-font-caption);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.ds-inspector-inline-empty {
+  padding: var(--ds-space-5);
+  border: 1px dashed var(--ds-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background: color-mix(in srgb, var(--ds-surface-raised) 42%, transparent);
+}
+
+.ds-inspector-readonly {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--ds-text-secondary);
+  font: var(--ds-font-code);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .ds-object-workspace {
   display: flex;
   min-width: 0;

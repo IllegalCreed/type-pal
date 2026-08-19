@@ -886,9 +886,9 @@ export function TilesetTab(props: {
                             尚未保存；保存工程后写入资产目录。
                           </div>
                         )}
-                        <button
-                          type="button"
-                          className="tileset-secondary-action"
+                        <DsButton
+                          size="compact"
+                          variant="secondary"
                           disabled={!editName.trim() || !editCategory.trim()}
                           onClick={() =>
                             session.dispatch(
@@ -900,7 +900,7 @@ export function TilesetTab(props: {
                           }
                         >
                           保存名称与分类
-                        </button>
+                        </DsButton>
                       </section>
                       <section className="section">
                         <h4>组合地物</h4>
@@ -909,9 +909,9 @@ export function TilesetTab(props: {
                         </p>
                       </section>
                       <section className="section tileset-inspector-actions">
-                        <button
-                          type="button"
-                          className="tileset-secondary-action"
+                        <DsButton
+                          size="compact"
+                          variant="secondary"
                           disabled={!selectedRecord}
                           onClick={() => {
                             if (
@@ -935,7 +935,7 @@ export function TilesetTab(props: {
                           {sharedDefinitions.length > 1
                             ? `（影响 ${sharedDefinitions.length} 个定义）`
                             : ''}
-                        </button>
+                        </DsButton>
                       </section>
                     </>
                   ),

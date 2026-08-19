@@ -343,6 +343,7 @@ export function MusicTab(props: {
                   label: '资源',
                   panel: (
                     <div className="section">
+                      <h4>资源信息</h4>
                       <div className="music-meta-row">
                         <span>AssetId</span>
                         <code title={selected.id}>{selected.id}</code>

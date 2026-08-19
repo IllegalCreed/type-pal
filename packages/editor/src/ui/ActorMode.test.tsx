@@ -168,7 +168,10 @@ describe('ActorMode 战斗关系节 (E18-1)', () => {
       root.render(<Harness session={session} />)
     })
     await verifyInspectorTabs(host, '角色检查器', ['摘要', /^引用 \d+$/])
-    expect(host.querySelector('.actor-side-nav')).not.toBeNull()
+    expect(host.querySelector('[role="group"][aria-label="角色编辑分区"]')).not.toBeNull()
+    expect(
+      host.querySelectorAll('[role="group"][aria-label="角色编辑分区"] .ds-catalog-row'),
+    ).toHaveLength(4)
   })
 
   test('默认主工作区是角色总览；行走帧只在外观资源分区出现', async () => {

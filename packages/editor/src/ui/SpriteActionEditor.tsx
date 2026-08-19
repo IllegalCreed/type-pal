@@ -8,6 +8,16 @@ import type {
 import { Fragment, type DragEvent as ReactDragEvent, useEffect, useMemo, useState } from 'react'
 import { type SpriteLayoutEditProof, UpdateSpriteCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import {
+  DsButton,
+  DsCatalogRow,
+  DsCheckbox,
+  DsInspectorSection,
+  DsPropertyGrid,
+  DsPropertyRow,
+  DsSelect,
+  DsTextInput,
+} from './design-system/index.js'
 import { SpriteFrameCanvas, type SpriteFrameView } from './SpriteFrameWorkbench.js'
 import { SPRITE_FRAME_DRAG_MIME } from './SpriteResourceViewer.js'
 
@@ -258,65 +268,63 @@ export function SpriteActionEditor(props: {
   )
 
   return (
-    <section className="sprite-action-editor" aria-label="预制动作编辑器">
-      <div className="battle-section-head sprite-action-editor-head">
-        <div>
-          <h4>预制动作</h4>
-          <p className="hint2">动作保存在精灵库；场景只引用稳定 ActionId。</p>
-        </div>
-        <button type="button" className="tool" disabled={!props.proof} onClick={createAction}>
-          ＋ 新增动作
-        </button>
-      </div>
-
+    <DsInspectorSection
+      title="预制动作"
+      description="动作保存在精灵库；场景只引用稳定 ActionId。"
+      className="sprite-action-editor"
+      actions={
+        <DsButton size="compact" variant="secondary" disabled={!props.proof} onClick={createAction}>
+          新增动作
+        </DsButton>
+      }
+    >
       {actions.length ? (
-        <fieldset className="sprite-action-switch" aria-label="选择预制动作">
+        <div className="ds-inspector-choice-list" role="group" aria-label="选择预制动作">
           {actions.map(([id, candidate], index) => (
-            <button
-              type="button"
+            <DsCatalogRow
               key={id}
-              className={id === actionId ? 'on' : ''}
-              aria-pressed={id === actionId}
+              selected={id === actionId}
+              title={`#${index} · ${candidate.label}`}
+              meta={id}
+              trailing={`${candidate.loopFrom === undefined ? '单次' : '循环'} · ${candidate.steps.length} 步`}
               onClick={() => props.onSelectedActionChange?.(id)}
-            >
-              <span>
-                #{index} · {candidate.label}
-              </span>
-              <small>
-                {candidate.loopFrom === undefined ? '单次' : '循环'} · {candidate.steps.length} 步
-              </small>
-            </button>
+            />
           ))}
-        </fieldset>
+        </div>
       ) : (
-        <p className="hint2">尚无预制动作。新增后，可把中间“全部源帧”中的帧拖到时间线。</p>
+        <p className="ds-inspector-inline-empty">
+          尚无预制动作。新增后，可把中间“全部源帧”中的帧拖到时间线。
+        </p>
       )}
 
       {action && actionId ? (
         <div className="sprite-action-detail">
-          <label className="field">
-            <span className="field-label">名称</span>
-            <input
-              className="in"
-              value={labelDraft}
-              onChange={(event) => setLabelDraft(event.target.value)}
-              onBlur={() => {
-                const label = labelDraft.trim()
-                if (!label) setLabelDraft(action.label)
-                else if (label !== action.label) updateAction((current) => ({ ...current, label }))
-              }}
-            />
-          </label>
-          <div className="field">
-            <span className="field-label">ActionId</span>
-            <div className="in mono" title="稳定引用身份，显示顺序变化不会改变它">
-              {actionId}
-            </div>
-          </div>
-          <div className="sprite-action-mode-row">
-            <label className="check-label">
-              <input
-                type="checkbox"
+          <DsPropertyGrid>
+            <DsPropertyRow label="名称" labelFor="sprite-action-name">
+              <DsTextInput
+                id="sprite-action-name"
+                name="sprite-action-name"
+                autoComplete="off"
+                size="compact"
+                value={labelDraft}
+                onChange={(event) => setLabelDraft(event.target.value)}
+                onBlur={() => {
+                  const label = labelDraft.trim()
+                  if (!label) setLabelDraft(action.label)
+                  else if (label !== action.label)
+                    updateAction((current) => ({ ...current, label }))
+                }}
+              />
+            </DsPropertyRow>
+            <DsPropertyRow label="ActionId" help="稳定引用身份，显示顺序变化不会改变它。">
+              <code className="ds-inspector-readonly" translate="no">
+                {actionId}
+              </code>
+            </DsPropertyRow>
+            <DsPropertyRow label="播放">
+              <DsCheckbox
+                label="循环播放"
+                size="compact"
                 checked={action.loopFrom !== undefined}
                 onChange={(event) =>
                   updateAction((current) => {
@@ -327,30 +335,27 @@ export function SpriteActionEditor(props: {
                   })
                 }
               />
-              循环播放
-            </label>
+            </DsPropertyRow>
             {action.loopFrom !== undefined ? (
-              <label>
-                循环起点
-                <select
-                  className="in"
-                  value={action.loopFrom}
-                  onChange={(event) =>
+              <DsPropertyRow label="循环起点" labelFor="sprite-action-loop-from">
+                <DsSelect
+                  id="sprite-action-loop-from"
+                  size="compact"
+                  value={String(action.loopFrom)}
+                  options={action.steps.map((_, index) => ({
+                    value: String(index),
+                    label: `第 ${index + 1} 步`,
+                  }))}
+                  onValueChange={(value) =>
                     updateAction((current) => ({
                       ...current,
-                      loopFrom: Number(event.target.value),
+                      loopFrom: Number(value),
                     }))
                   }
-                >
-                  {action.steps.map((_, index) => (
-                    <option key={index} value={index}>
-                      第 {index + 1} 步
-                    </option>
-                  ))}
-                </select>
-              </label>
+                />
+              </DsPropertyRow>
             ) : null}
-          </div>
+          </DsPropertyGrid>
 
           <div className="sprite-action-timeline-head">
             <div>
@@ -593,6 +598,6 @@ export function SpriteActionEditor(props: {
           </div>
         </div>
       ) : null}
-    </section>
+    </DsInspectorSection>
   )
 }

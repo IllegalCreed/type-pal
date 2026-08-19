@@ -47,9 +47,14 @@ import {
 } from './BattleSpriteInlinePreview.js'
 import { BattleSpriteUploader } from './BattleSpriteUploader.js'
 import {
+  DsButton,
   DsCatalogControls,
+  DsCatalogRow,
+  DsInspectorSection,
   DsInspectorTabs,
   DsObjectHero,
+  DsPropertyGrid,
+  DsPropertyRow,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
@@ -57,6 +62,7 @@ import {
   DsSelect,
   DsTag,
   DsTabs,
+  DsTextInput,
 } from './design-system/index.js'
 import { type SemanticFrameGroup, SpriteFrameCanvas } from './SpriteFrameWorkbench.js'
 
@@ -1177,17 +1183,17 @@ export function BattleSpriteLibrary(props: {
               aria-label="用途筛选"
               value={kind}
               onValueChange={(value) => setKind(value as KindFilter)}
-              options={(
-                ['all', 'player-fighter', 'enemy', 'summon', 'unconfigured'] as const
-              ).map((entry) => ({
-                value: entry,
-                label:
-                  entry === 'all'
-                    ? '全部'
-                    : entry === 'unconfigured'
-                      ? '未配置'
-                      : PROFILE_LABEL[entry],
-              }))}
+              options={(['all', 'player-fighter', 'enemy', 'summon', 'unconfigured'] as const).map(
+                (entry) => ({
+                  value: entry,
+                  label:
+                    entry === 'all'
+                      ? '全部'
+                      : entry === 'unconfigured'
+                        ? '未配置'
+                        : PROFILE_LABEL[entry],
+                }),
+              )}
             />
           }
         />
@@ -1396,74 +1402,97 @@ export function BattleSpriteLibrary(props: {
               label: '动作',
               panel: (
                 <div>
-                  <div className="section battle-usage-section">
-                    <div className="battle-section-head">
-                      <h4>用途</h4>
-                      <button
-                        type="button"
-                        className="tool"
+                  <DsInspectorSection
+                    title="用途"
+                    actions={
+                      <DsButton
+                        size="compact"
+                        variant="secondary"
                         onClick={() => setShowUsageMenu((value) => !value)}
                       >
-                        ＋ 新增用途
-                      </button>
-                    </div>
+                        新增用途
+                      </DsButton>
+                    }
+                  >
                     {consumers.length > 1 && !creatingUsage ? (
-                      <fieldset className="battle-usage-switch" aria-label="切换用途">
+                      <div className="ds-inspector-choice-list" role="group" aria-label="切换用途">
                         {consumers.map((entry) => (
-                          <button
-                            type="button"
+                          <DsCatalogRow
                             key={entry.id}
-                            className={entry.id === definition?.id ? 'on' : ''}
-                            aria-pressed={entry.id === definition?.id}
+                            selected={entry.id === definition?.id}
+                            title={entry.label}
+                            meta={entry.id}
+                            trailing={PROFILE_LABEL[entry.profile.kind]}
                             onClick={() => focusDefinition(entry)}
-                          >
-                            {entry.label}
-                          </button>
+                          />
                         ))}
-                      </fieldset>
+                      </div>
                     ) : null}
                     {showUsageMenu ? (
-                      <fieldset className="battle-new-usage-menu" aria-label="新增用途类型">
+                      <div
+                        className="ds-inspector-option-row"
+                        role="group"
+                        aria-label="新增用途类型"
+                      >
                         {(['player-fighter', 'enemy', 'summon'] as const).map((entry) => (
-                          <button type="button" key={entry} onClick={() => beginUsage(entry)}>
+                          <DsButton
+                            key={entry}
+                            size="compact"
+                            variant="secondary"
+                            onClick={() => beginUsage(entry)}
+                          >
                             {PROFILE_LABEL[entry]}
-                          </button>
+                          </DsButton>
                         ))}
-                      </fieldset>
+                      </div>
                     ) : null}
                     {creatingUsage ? (
-                      <p className="hint2">新用途尚未写入工程；应用后才会成为一次可撤销修改。</p>
+                      <p className="ds-inspector-supporting-copy">
+                        新用途尚未写入工程；应用后才会成为一次可撤销修改。
+                      </p>
                     ) : null}
                     {!definition && !creatingUsage ? (
-                      <p className="hint2">这组源帧尚未设置用途。点击“新增用途”开始配置。</p>
+                      <p className="ds-inspector-inline-empty">
+                        这组源帧尚未设置用途。点击“新增用途”开始配置。
+                      </p>
                     ) : null}
-                  </div>
+                  </DsInspectorSection>
 
                   {draftProfile ? (
                     <>
-                      <div className="section">
-                        <label className="battle-usage-label-field">
-                          <span>名称</span>
-                          <input
-                            className="in"
-                            aria-label="战斗精灵用途名称"
-                            value={draftLabel}
-                            onChange={(event) => setDraftLabel(event.target.value)}
-                          />
-                        </label>
-                        <div className="hint2">
-                          {PROFILE_LABEL[draftProfile.kind]} · <code>{draftDefinitionId}</code>
-                        </div>
-                      </div>
-                      <div className="section">
-                        <h4>动作</h4>
-                        <fieldset className="battle-action-list" aria-label="动作列表">
+                      <DsInspectorSection
+                        title="用途信息"
+                        description={`${PROFILE_LABEL[draftProfile.kind]} · ${draftDefinitionId}`}
+                      >
+                        <DsPropertyGrid>
+                          <DsPropertyRow label="名称" labelFor="battle-sprite-usage-name">
+                            <DsTextInput
+                              id="battle-sprite-usage-name"
+                              name="battle-sprite-usage-name"
+                              autoComplete="off"
+                              size="compact"
+                              value={draftLabel}
+                              onChange={(event) => setDraftLabel(event.target.value)}
+                            />
+                          </DsPropertyRow>
+                        </DsPropertyGrid>
+                      </DsInspectorSection>
+                      <DsInspectorSection title="动作">
+                        <div
+                          className="ds-inspector-choice-list"
+                          role="group"
+                          aria-label="动作列表"
+                        >
                           {namedActions.map((action) => (
-                            <button
-                              type="button"
+                            <DsCatalogRow
                               key={action.key}
-                              className={effectiveAction === action.key ? 'on' : ''}
-                              aria-pressed={effectiveAction === action.key}
+                              selected={effectiveAction === action.key}
+                              title={action.label}
+                              meta={
+                                action.frames.length
+                                  ? action.frames.map((frame) => `#${frame}`).join(' → ')
+                                  : '未设置'
+                              }
                               onClick={() => {
                                 setSelectedAction(action.key)
                                 setDragOverPlayerSlot(undefined)
@@ -1472,16 +1501,9 @@ export function BattleSpriteLibrary(props: {
                                 )
                                 setSelectedPlayerSlot(spec?.slots[0]?.key)
                               }}
-                            >
-                              <b>{action.label}</b>
-                              <span>
-                                {action.frames.length
-                                  ? action.frames.map((frame) => `#${frame}`).join(' → ')
-                                  : '未设置'}
-                              </span>
-                            </button>
+                            />
                           ))}
-                        </fieldset>
+                        </div>
 
                         {actionProfile?.kind === 'player-fighter' && activePlayerSpec ? (
                           <div className="battle-action-stage-editor">
@@ -1627,19 +1649,19 @@ export function BattleSpriteLibrary(props: {
                           actualFrameCount={actualFrameCount}
                           onChange={setDraftProfile}
                         />
-                      </div>
-                      <div className="section battle-draft-actions">
-                        <button type="button" className="tool" onClick={discardDraft}>
+                      </DsInspectorSection>
+                      <div className="ds-inspector-actions battle-draft-actions">
+                        <DsButton size="compact" variant="secondary" onClick={discardDraft}>
                           放弃修改
-                        </button>
-                        <button
-                          type="button"
-                          className="tool primary"
+                        </DsButton>
+                        <DsButton
+                          size="compact"
+                          variant="primary"
                           disabled={!proofReady || !draftLabel.trim() || !draftChanged}
                           onClick={() => void applyDefinitionDraft()}
                         >
                           应用修改
-                        </button>
+                        </DsButton>
                       </div>
                     </>
                   ) : null}
@@ -1696,14 +1718,14 @@ export function BattleSpriteLibrary(props: {
                       ) : null}
                     </DsReferencePanel>
                     {definition ? (
-                      <button
-                        type="button"
-                        className="tool danger-action"
+                      <DsButton
+                        size="compact"
+                        variant="danger"
                         disabled={references.length > 0}
                         onClick={deleteDefinition}
                       >
                         删除用途（保留源文件）
-                      </button>
+                      </DsButton>
                     ) : null}
                   </div>
                 </div>
@@ -1716,55 +1738,58 @@ export function BattleSpriteLibrary(props: {
                 <div>
                   {record?.kind === 'battle-sprite' ? (
                     <>
-                      <div className="section sprite-resource-meta">
-                        <h4>源文件</h4>
-                        <div className="field">
-                          <span className="field-label">AssetId</span>
-                          <div className="in mono">{selectedAsset}</div>
-                        </div>
-                        <div className="field">
-                          <span className="field-label">路径</span>
-                          <div className="in mono">{record.path}</div>
-                        </div>
-                        <div className="field">
-                          <span className="field-label">实际帧数</span>
-                          <div className="in mono">{actualFrameCount || '读取中…'}</div>
-                        </div>
-                        <div className="field">
-                          <span className="field-label">字节</span>
-                          <div className="in mono">{record.bytes.toLocaleString()}</div>
-                        </div>
-                        <div className="field">
-                          <span className="field-label">SHA-256</span>
-                          <div className="in mono" title={record.sha256}>
-                            {record.sha256.slice(0, 16)}…
-                          </div>
-                        </div>
-                        <div className="field">
-                          <span className="field-label">来源</span>
-                          <div className="in mono">{record.origin.kind}</div>
-                        </div>
-                      </div>
-                      <div className="section battle-source-actions">
-                        {consumers.length ? (
-                          <button
-                            type="button"
-                            className="tool"
-                            disabled={!proofReady}
-                            onClick={() => setReplacing(true)}
+                      <DsInspectorSection title="源文件">
+                        <DsPropertyGrid>
+                          <DsPropertyRow label="AssetId">
+                            <code className="ds-inspector-readonly" translate="no">
+                              {selectedAsset}
+                            </code>
+                          </DsPropertyRow>
+                          <DsPropertyRow label="路径">
+                            <code className="ds-inspector-readonly" translate="no">
+                              {record.path}
+                            </code>
+                          </DsPropertyRow>
+                          <DsPropertyRow label="实际帧数">
+                            {actualFrameCount || '读取中…'}
+                          </DsPropertyRow>
+                          <DsPropertyRow label="字节">
+                            {record.bytes.toLocaleString()}
+                          </DsPropertyRow>
+                          <DsPropertyRow label="SHA-256">
+                            <code
+                              className="ds-inspector-readonly"
+                              translate="no"
+                              title={record.sha256}
+                            >
+                              {record.sha256.slice(0, 16)}…
+                            </code>
+                          </DsPropertyRow>
+                          <DsPropertyRow label="来源">{record.origin.kind}</DsPropertyRow>
+                        </DsPropertyGrid>
+                      </DsInspectorSection>
+                      <DsInspectorSection title="资源操作">
+                        <div className="ds-inspector-actions">
+                          {consumers.length ? (
+                            <DsButton
+                              size="compact"
+                              variant="secondary"
+                              disabled={!proofReady}
+                              onClick={() => setReplacing(true)}
+                            >
+                              替换共享源文件…
+                            </DsButton>
+                          ) : null}
+                          <DsButton
+                            size="compact"
+                            variant="danger"
+                            disabled={consumers.length > 0}
+                            onClick={() => void deleteAsset()}
                           >
-                            替换共享源文件…
-                          </button>
-                        ) : null}
-                        <button
-                          type="button"
-                          className="tool danger-action"
-                          disabled={consumers.length > 0}
-                          onClick={() => void deleteAsset()}
-                        >
-                          删除未使用源文件
-                        </button>
-                      </div>
+                            删除未使用源文件
+                          </DsButton>
+                        </div>
+                      </DsInspectorSection>
                     </>
                   ) : (
                     <div className="insp-empty">未选择源文件。</div>

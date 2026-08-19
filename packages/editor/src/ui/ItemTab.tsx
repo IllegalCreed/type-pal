@@ -73,8 +73,11 @@ import {
   DsDiagnosticPanel,
   DsDiagnosticRow,
   DsIconButton,
+  DsInspectorSection,
   DsInspectorTabs,
   DsObjectHero,
+  DsPropertyGrid,
+  DsPropertyRow,
   DsReferenceGroup,
   DsReferenceList,
   DsReferencePanel,
@@ -1874,36 +1877,29 @@ export function ItemTab(props: {
                 label: '概览',
                 panel: (
                   <div className="item-inspector-scroll">
-                    <section className="item-inspector-section">
-                      <h4>能力摘要</h4>
-                      <div className="item-summary-line">
-                        <span>装备</span>
-                        <strong>
+                    <DsInspectorSection title="能力摘要">
+                      <DsPropertyGrid>
+                        <DsPropertyRow label="装备">
                           {item.equip
                             ? `${SLOTS.find((slot) => slot.v === item.equip?.slot)?.label} · ${item.equip.effects.length} 个效果`
                             : '未启用'}
-                        </strong>
-                      </div>
-                      <div className="item-summary-line">
-                        <span>使用</span>
-                        <strong>{item.use ? `${item.use.effects.length} 个效果` : '未启用'}</strong>
-                      </div>
-                      <div className="item-summary-line">
-                        <span>投掷</span>
-                        <strong>
+                        </DsPropertyRow>
+                        <DsPropertyRow label="使用">
+                          {item.use ? `${item.use.effects.length} 个效果` : '未启用'}
+                        </DsPropertyRow>
+                        <DsPropertyRow label="投掷">
                           {item.throw ? `${item.throw.effects.length} 个效果` : '未启用'}
-                        </strong>
-                      </div>
-                    </section>
+                        </DsPropertyRow>
+                      </DsPropertyGrid>
+                    </DsInspectorSection>
                     {item.use ? (
-                      <section className="item-inspector-section">
-                        <h4>使用时发生什么</h4>
+                      <DsInspectorSection title="使用时发生什么">
                         <ul className="item-summary-list">
                           {summarizeUse(item, items).map((line) => (
                             <li key={line}>{line}</li>
                           ))}
                         </ul>
-                      </section>
+                      </DsInspectorSection>
                     ) : null}
                     {itemDiagnostics.length ? (
                       <DsDiagnosticPanel
@@ -1935,23 +1931,22 @@ export function ItemTab(props: {
                         </DsDiagnosticList>
                       </DsDiagnosticPanel>
                     ) : null}
-                    <section className="item-inspector-section">
-                      <h4>删除安全</h4>
+                    <DsInspectorSection title="删除安全">
                       <p>
                         {blockers.length
                           ? `仍有 ${blockers.length} 处外部引用，删除会被阻止。`
                           : '没有外部引用，可安全删除；删除后仍可撤销。'}
                       </p>
                       {blockers.length ? (
-                        <button
-                          type="button"
-                          className="tool"
+                        <DsButton
+                          size="compact"
+                          variant="secondary"
                           onClick={() => setInspectorTab('references')}
                         >
                           查看阻塞引用
-                        </button>
+                        </DsButton>
                       ) : null}
-                    </section>
+                    </DsInspectorSection>
                   </div>
                 ),
               },
@@ -2039,8 +2034,7 @@ export function ItemTab(props: {
                 label: '资源',
                 panel: (
                   <div className="item-inspector-scroll">
-                    <section className="item-inspector-section">
-                      <h4>图标资源</h4>
+                    <DsInspectorSection title="图标资源">
                       {item.icon && assetCatalog.assets[item.icon] ? (
                         <>
                           <ImageAssetThumbnail
@@ -2051,20 +2045,27 @@ export function ItemTab(props: {
                             className="item-resource-preview"
                             alt={`${item.name}图标资源`}
                           />
-                          <dl className="item-resource-meta">
-                            <dt>AssetId</dt>
-                            <dd>{item.icon}</dd>
-                            <dt>路径</dt>
-                            <dd>{assetCatalog.assets[item.icon]!.path}</dd>
-                            <dt>来源</dt>
-                            <dd>{assetCatalog.assets[item.icon]!.origin.kind}</dd>
-                            <dt>大小</dt>
-                            <dd>{assetCatalog.assets[item.icon]!.bytes.toLocaleString()} bytes</dd>
-                            <dt>物品引用</dt>
-                            <dd>
+                          <DsPropertyGrid>
+                            <DsPropertyRow label="AssetId">
+                              <code className="ds-inspector-readonly" translate="no">
+                                {item.icon}
+                              </code>
+                            </DsPropertyRow>
+                            <DsPropertyRow label="路径">
+                              <code className="ds-inspector-readonly" translate="no">
+                                {assetCatalog.assets[item.icon]!.path}
+                              </code>
+                            </DsPropertyRow>
+                            <DsPropertyRow label="来源">
+                              {assetCatalog.assets[item.icon]!.origin.kind}
+                            </DsPropertyRow>
+                            <DsPropertyRow label="大小">
+                              {assetCatalog.assets[item.icon]!.bytes.toLocaleString()} bytes
+                            </DsPropertyRow>
+                            <DsPropertyRow label="物品引用">
                               {items.filter((candidate) => candidate.icon === item.icon).length} 项
-                            </dd>
-                          </dl>
+                            </DsPropertyRow>
+                          </DsPropertyGrid>
                           <div className="item-resource-actions">
                             {onOpenImage ? (
                               <DsButton
@@ -2090,7 +2091,7 @@ export function ItemTab(props: {
                           尚未绑定物品图标。可在中央选择现有资源或导入 PNG。
                         </div>
                       )}
-                    </section>
+                    </DsInspectorSection>
                   </div>
                 ),
               },

@@ -336,6 +336,7 @@ export function SoundTab(props: {
                   label: '资源',
                   panel: (
                     <div className="section">
+                      <h4>资源信息</h4>
                       <div className="music-meta-row">
                         <span>AssetId</span>
                         <code>{selected.id}</code>

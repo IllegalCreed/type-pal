@@ -276,9 +276,9 @@ describe('BattleSpriteLibrary', () => {
     await setCatalogSearch(search, '')
     await chooseSelectOption('用途筛选', '全部')
     expect(rows()).toHaveLength(2)
-    expect(host.querySelector('.battle-sprite-resource-row[aria-pressed="true"]')?.textContent).toContain(
-      '共享战斗帧',
-    )
+    expect(
+      host.querySelector('.battle-sprite-resource-row[aria-pressed="true"]')?.textContent,
+    ).toContain('共享战斗帧')
   })
 
   test('检查器使用共享动作/引用/源文件 Tab 完整键盘与 ARIA 合同', async () => {
@@ -340,8 +340,8 @@ describe('BattleSpriteLibrary', () => {
 
   test('给共享帧源新增用途时，预览显示新草稿身份而不是旧用途', async () => {
     await act(async () => root.render(library(definitions)))
-    await act(async () => button('＋ 新增用途').click())
-    const usageMenu = host.querySelector<HTMLFieldSetElement>('[aria-label="新增用途类型"]')!
+    await act(async () => button('新增用途').click())
+    const usageMenu = host.querySelector<HTMLDivElement>('[aria-label="新增用途类型"]')!
     const enemyUsage = [...usageMenu.querySelectorAll<HTMLButtonElement>('button')].find(
       (candidate) => candidate.textContent?.trim() === '敌人',
     )!
@@ -368,10 +368,9 @@ describe('BattleSpriteLibrary', () => {
     expect(document.querySelector('.inspector')?.textContent).toContain('甲战士')
 
     await act(async () => root.render(library([definitions[1]!], { onViewChange, onObjectFocus })))
-    expect(
-      document.querySelector<HTMLInputElement>('.inspector input[aria-label="战斗精灵用途名称"]')
-        ?.value,
-    ).toBe('乙战士')
+    expect(document.querySelector<HTMLInputElement>('#battle-sprite-usage-name')?.value).toBe(
+      '乙战士',
+    )
     expect(document.querySelector('[data-preview]')?.getAttribute('data-active-definition')).toBe(
       'fighter-b',
     )
@@ -381,22 +380,18 @@ describe('BattleSpriteLibrary', () => {
 
   test('共享同一源文件的两个用途切换时草稿不会串到另一项', async () => {
     await act(async () => root.render(library(definitions)))
-    const labelInput = document.querySelector<HTMLInputElement>(
-      '.inspector input[aria-label="战斗精灵用途名称"]',
-    )!
+    const labelInput = document.querySelector<HTMLInputElement>('#battle-sprite-usage-name')!
     await changeInput(labelInput, '甲的未提交草稿')
     expect(labelInput.value).toBe('甲的未提交草稿')
 
-    await act(async () => button('乙战士').click())
-    expect(
-      document.querySelector<HTMLInputElement>('.inspector input[aria-label="战斗精灵用途名称"]')
-        ?.value,
-    ).toBe('乙战士')
-    await act(async () => button('甲战士').click())
-    expect(
-      document.querySelector<HTMLInputElement>('.inspector input[aria-label="战斗精灵用途名称"]')
-        ?.value,
-    ).toBe('甲战士')
+    await act(async () => buttonContaining('乙战士').click())
+    expect(document.querySelector<HTMLInputElement>('#battle-sprite-usage-name')?.value).toBe(
+      '乙战士',
+    )
+    await act(async () => buttonContaining('甲战士').click())
+    expect(document.querySelector<HTMLInputElement>('#battle-sprite-usage-name')?.value).toBe(
+      '甲战士',
+    )
   })
 
   test('我方原版动作阶段顺序固定，可用已选帧或拖放精确替换', async () => {

@@ -26,14 +26,21 @@ import {
   type SpriteAutomaticScriptInstanceSite,
 } from '../core/world-sprite-behavior.js'
 import {
+  DsButton,
   DsCatalogControls,
+  DsCatalogRow,
+  DsInspectorSection,
   DsInspectorTabs,
+  DsNumberInput,
+  DsPropertyGrid,
+  DsPropertyRow,
   DsReferenceGroup,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
   DsSelect,
   DsTabs,
+  DsTextInput,
 } from './design-system/index.js'
 import { SpriteActionEditor } from './SpriteActionEditor.js'
 import type { SpriteFrameView } from './SpriteFrameWorkbench.js'
@@ -639,179 +646,203 @@ export function WorldSpriteLibrary(props: {
               id: 'layout',
               label: '动作',
               panel: (
-                <div>
-                  <div className="section battle-usage-section">
-                    <div className="battle-section-head">
-                      <h4>用途定义</h4>
-                      <button
-                        type="button"
-                        className="tool"
+                <div className="world-sprite-inspector-content">
+                  <DsInspectorSection
+                    title="用途定义"
+                    actions={
+                      <DsButton
+                        size="compact"
+                        variant="secondary"
                         onClick={() => setShowUsageMenu((value) => !value)}
                       >
-                        ＋ 新增用途定义
-                      </button>
-                    </div>
+                        新增用途定义
+                      </DsButton>
+                    }
+                  >
                     {consumers.length && !creatingUsage ? (
-                      <fieldset className="battle-usage-switch" aria-label="选择用途定义">
+                      <div
+                        className="ds-inspector-choice-list"
+                        role="group"
+                        aria-label="选择用途定义"
+                      >
                         {consumers.map((entry) => (
-                          <button
-                            type="button"
+                          <DsCatalogRow
                             key={entry.id}
-                            className={entry.id === definition?.id ? 'on' : ''}
-                            aria-pressed={entry.id === definition?.id}
+                            selected={entry.id === definition?.id}
+                            title={entry.label}
+                            meta={entry.id}
+                            trailing={KIND_LABEL[entry.layout.kind]}
                             onClick={() => focusDefinition(entry)}
-                          >
-                            <span>{entry.label}</span>
-                            <small>{KIND_LABEL[entry.layout.kind]}</small>
-                          </button>
+                          />
                         ))}
-                      </fieldset>
+                      </div>
                     ) : null}
                     {showUsageMenu ? (
-                      <fieldset className="battle-new-usage-menu" aria-label="新增用途类型">
+                      <div
+                        className="ds-inspector-option-row"
+                        role="group"
+                        aria-label="新增用途类型"
+                      >
                         {(['directional', 'static'] as const).map((entry) => (
-                          <button
-                            type="button"
+                          <DsButton
                             key={entry}
+                            size="compact"
+                            variant="secondary"
                             disabled={entry === 'directional' && (actualFrameCount ?? 0) < 4}
                             onClick={() => beginUsage(entry)}
                           >
                             {KIND_FULL_LABEL[entry]}
-                          </button>
+                          </DsButton>
                         ))}
-                      </fieldset>
+                      </div>
                     ) : null}
                     {!definition && !creatingUsage ? (
-                      <p className="hint2">
+                      <p className="ds-inspector-inline-empty">
                         {consumers.length
                           ? '选择上方某个用途定义进行编辑；用途布局不会反过来变成源帧资源的分类。'
                           : '尚未创建用途定义；源帧资源仍会保留，可随时添加定义。'}
                       </p>
                     ) : null}
-                  </div>
+                  </DsInspectorSection>
 
                   {creatingUsage ? (
-                    <div className="section world-sprite-new-usage">
-                      <label className="battle-usage-label-field">
-                        <span>名称</span>
-                        <input
-                          className="in"
-                          value={draftLabel}
-                          onChange={(event) => setDraftLabel(event.target.value)}
-                        />
-                      </label>
-                      <label className="battle-usage-label-field">
-                        <span>id</span>
-                        <input
-                          className="in mono"
-                          value={draftId}
-                          onChange={(event) => setDraftId(event.target.value)}
-                        />
-                      </label>
-                      <p className="hint2">
-                        初始布局：{KIND_FULL_LABEL[draftKind]} · 源容器 {actualFrameCount ?? '…'}{' '}
-                        帧； 应用后才会写入工程。
-                      </p>
-                      <div className="battle-draft-actions">
-                        <button
-                          type="button"
-                          className="tool"
+                    <DsInspectorSection
+                      title="新增用途定义"
+                      description={`初始布局：${KIND_FULL_LABEL[draftKind]} · 源容器 ${actualFrameCount ?? '…'} 帧；应用后才会写入工程。`}
+                    >
+                      <DsPropertyGrid>
+                        <DsPropertyRow label="名称" labelFor="world-sprite-new-usage-label">
+                          <DsTextInput
+                            id="world-sprite-new-usage-label"
+                            name="world-sprite-new-usage-label"
+                            autoComplete="off"
+                            size="compact"
+                            value={draftLabel}
+                            onChange={(event) => setDraftLabel(event.target.value)}
+                          />
+                        </DsPropertyRow>
+                        <DsPropertyRow label="ID" labelFor="world-sprite-new-usage-id">
+                          <DsTextInput
+                            id="world-sprite-new-usage-id"
+                            name="world-sprite-new-usage-id"
+                            autoComplete="off"
+                            spellCheck={false}
+                            size="compact"
+                            monospace
+                            value={draftId}
+                            onChange={(event) => setDraftId(event.target.value)}
+                          />
+                        </DsPropertyRow>
+                      </DsPropertyGrid>
+                      <div className="ds-inspector-actions">
+                        <DsButton
+                          size="compact"
+                          variant="secondary"
                           onClick={() => setCreatingUsage(false)}
                         >
                           取消
-                        </button>
-                        <button
-                          type="button"
-                          className="tool primary"
+                        </DsButton>
+                        <DsButton
+                          size="compact"
+                          variant="primary"
                           disabled={!loadedProof || !draftId.trim() || !draftLabel.trim()}
                           onClick={applyUsage}
                         >
                           应用
-                        </button>
+                        </DsButton>
                       </div>
-                    </div>
+                    </DsInspectorSection>
                   ) : definition ? (
                     <>
-                      <div className="section">
-                        <h4>帧布局</h4>
-                        <div className="hint2">
-                          {definition.label} · {definition.id}
-                        </div>
-                        <div className="field">
-                          <span className="field-label">布局类型</span>
-                          <select
-                            className="in"
-                            value={definition.layout.kind}
-                            disabled={!loadedProof}
-                            onChange={(event) =>
-                              loadedProof &&
-                              dispatchLayout(
-                                defaultLayout(
-                                  event.target.value as AuthorableLayoutKind,
-                                  loadedProof.actualFrameCount,
-                                ),
-                              )
-                            }
-                          >
-                            <option value="directional" disabled={(actualFrameCount ?? 0) < 4}>
-                              四向行走
-                            </option>
-                            <option value="static">默认定格（默认 #0，可由脚本切帧）</option>
-                            {definition.layout.kind === 'loop' ? (
-                              <option value="loop" disabled>
-                                旧定义级循环（请转换为预制动作）
-                              </option>
-                            ) : null}
-                          </select>
-                        </div>
-                        {definition.layout.kind === 'directional' ? (
-                          <div className="field">
-                            <span className="field-label">每向帧数</span>
-                            <input
-                              className="in mono"
-                              type="number"
-                              min={1}
-                              max={Math.max(1, Math.floor((actualFrameCount ?? 0) / 4))}
+                      <DsInspectorSection
+                        title="帧布局"
+                        description={`${definition.label} · ${definition.id}`}
+                      >
+                        <DsPropertyGrid>
+                          <DsPropertyRow label="布局类型" labelFor="world-sprite-layout-kind">
+                            <DsSelect
+                              id="world-sprite-layout-kind"
+                              size="compact"
+                              value={definition.layout.kind}
                               disabled={!loadedProof}
-                              value={definition.layout.framesPerDir}
-                              onChange={(event) => {
-                                if (
-                                  Number.isInteger(event.target.valueAsNumber) &&
-                                  event.target.valueAsNumber > 0
+                              options={[
+                                {
+                                  value: 'directional',
+                                  label: '四向行走',
+                                  disabled: (actualFrameCount ?? 0) < 4,
+                                },
+                                {
+                                  value: 'static',
+                                  label: '默认定格（默认 #0，可由脚本切帧）',
+                                },
+                                ...(definition.layout.kind === 'loop'
+                                  ? [
+                                      {
+                                        value: 'loop',
+                                        label: '旧定义级循环（请转换为预制动作）',
+                                        disabled: true,
+                                      },
+                                    ]
+                                  : []),
+                              ]}
+                              onValueChange={(value) =>
+                                loadedProof &&
+                                dispatchLayout(
+                                  defaultLayout(
+                                    value as AuthorableLayoutKind,
+                                    loadedProof.actualFrameCount,
+                                  ),
                                 )
-                                  dispatchLayout({
-                                    kind: 'directional',
-                                    framesPerDir: event.target.valueAsNumber,
-                                  })
-                              }}
+                              }
                             />
-                          </div>
-                        ) : null}
-                        <p className="hint2">
+                          </DsPropertyRow>
+                          {definition.layout.kind === 'directional' ? (
+                            <DsPropertyRow label="每向帧数" labelFor="world-sprite-frames-per-dir">
+                              <DsNumberInput
+                                id="world-sprite-frames-per-dir"
+                                name="world-sprite-frames-per-dir"
+                                size="compact"
+                                min={1}
+                                max={Math.max(1, Math.floor((actualFrameCount ?? 0) / 4))}
+                                disabled={!loadedProof}
+                                value={definition.layout.framesPerDir}
+                                onChange={(event) => {
+                                  if (
+                                    Number.isInteger(event.target.valueAsNumber) &&
+                                    event.target.valueAsNumber > 0
+                                  )
+                                    dispatchLayout({
+                                      kind: 'directional',
+                                      framesPerDir: event.target.valueAsNumber,
+                                    })
+                                }}
+                              />
+                            </DsPropertyRow>
+                          ) : null}
+                        </DsPropertyGrid>
+                        <p className="ds-inspector-supporting-copy">
                           {loadedProof
                             ? `${layoutDescription(definition.layout)} · 源帧容器共 ${loadedProof.actualFrameCount} 帧`
                             : '正在读取实际帧数；载入完成后可编辑。'}
                         </p>
-                      </div>
-                      <div className="section sprite-action-editor-section">
-                        <SpriteActionEditor
-                          definition={definition}
-                          catalog={props.catalog}
-                          proof={loadedProof}
-                          frames={sourceFrames}
-                          selectedSourceFrame={selectedSourceFrame}
-                          references={actionReferences}
-                          session={props.session}
-                          selectedActionId={selectedActionId}
-                          onSelectedActionChange={selectAction}
-                          onOpenReferences={(actionId) => {
-                            setSelectedActionId(actionId)
-                            props.onActionFocus?.(definition.id, actionId)
-                            setInspectorTab('references')
-                          }}
-                          onStatusNotice={props.onStatusNotice}
-                        />
-                      </div>
+                      </DsInspectorSection>
+                      <SpriteActionEditor
+                        definition={definition}
+                        catalog={props.catalog}
+                        proof={loadedProof}
+                        frames={sourceFrames}
+                        selectedSourceFrame={selectedSourceFrame}
+                        references={actionReferences}
+                        session={props.session}
+                        selectedActionId={selectedActionId}
+                        onSelectedActionChange={selectAction}
+                        onOpenReferences={(actionId) => {
+                          setSelectedActionId(actionId)
+                          props.onActionFocus?.(definition.id, actionId)
+                          setInspectorTab('references')
+                        }}
+                        onStatusNotice={props.onStatusNotice}
+                      />
                     </>
                   ) : null}
                 </div>
@@ -845,7 +876,11 @@ export function WorldSpriteLibrary(props: {
                     >
                       {definition && Object.keys(definition.poses ?? {}).length ? (
                         <DsReferenceGroup title="动作引用" count={actionReferences.length}>
-                          <fieldset className="sprite-action-switch" aria-label="选择动作查看引用">
+                          <div
+                            className="ds-inspector-choice-list"
+                            role="group"
+                            aria-label="选择动作查看引用"
+                          >
                             {Object.entries(definition.poses ?? {})
                               .sort(
                                 ([leftId, left], [rightId, right]) =>
@@ -854,20 +889,15 @@ export function WorldSpriteLibrary(props: {
                                   leftId.localeCompare(rightId),
                               )
                               .map(([actionId, action], index) => (
-                                <button
-                                  type="button"
+                                <DsCatalogRow
                                   key={actionId}
-                                  className={selectedActionId === actionId ? 'on' : ''}
-                                  aria-pressed={selectedActionId === actionId}
+                                  selected={selectedActionId === actionId}
+                                  title={`#${index} · ${action.label}`}
+                                  meta={actionId}
                                   onClick={() => setSelectedActionId(actionId)}
-                                >
-                                  <span>
-                                    #{index} · {action.label}
-                                  </span>
-                                  <small>{actionId}</small>
-                                </button>
+                                />
                               ))}
-                          </fieldset>
+                          </div>
                           {selectedActionId ? (
                             selectedActionReferences.length ? (
                               <DsReferenceList>
@@ -917,16 +947,18 @@ export function WorldSpriteLibrary(props: {
                       {definition || consumers.length ? (
                         <DsReferenceGroup title="用途定义引用" count={references.length}>
                           {consumers.length ? (
-                            <fieldset
-                              className="battle-usage-switch"
+                            <div
+                              className="ds-inspector-choice-list"
+                              role="group"
                               aria-label="选择要查看的用途定义"
                             >
                               {consumers.map((entry) => (
-                                <button
-                                  type="button"
+                                <DsCatalogRow
                                   key={entry.id}
-                                  className={entry.id === definition?.id ? 'on' : ''}
-                                  aria-pressed={entry.id === definition?.id}
+                                  selected={entry.id === definition?.id}
+                                  title={entry.label}
+                                  meta={entry.id}
+                                  trailing={KIND_LABEL[entry.layout.kind]}
                                   onClick={() => {
                                     pendingInspectorTab.current = {
                                       view: 'definition',
@@ -939,12 +971,9 @@ export function WorldSpriteLibrary(props: {
                                     props.onViewChange('definition', entry.id)
                                     props.onObjectFocus?.(entry.id)
                                   }}
-                                >
-                                  <span>{entry.label}</span>
-                                  <small>{KIND_LABEL[entry.layout.kind]}</small>
-                                </button>
+                                />
                               ))}
-                            </fieldset>
+                            </div>
                           ) : null}
                           {definition ? (
                             <p className="hint2">
@@ -1037,14 +1066,14 @@ export function WorldSpriteLibrary(props: {
                       ) : null}
                     </DsReferencePanel>
                     {definition ? (
-                      <button
-                        type="button"
-                        className="tool danger-action"
+                      <DsButton
+                        size="compact"
+                        variant="danger"
                         disabled={references.length > 0}
                         onClick={deleteDefinition}
                       >
                         删除用途定义（保留源资源）
-                      </button>
+                      </DsButton>
                     ) : null}
                   </div>
                 </div>
@@ -1057,59 +1086,62 @@ export function WorldSpriteLibrary(props: {
                 <div>
                   {record?.kind === 'sprite' ? (
                     <>
-                      <div className="section sprite-resource-meta">
-                        <h4>资源信息</h4>
-                        <div className="field">
-                          <span className="field-label">AssetId</span>
-                          <div className="in mono">{selectedAsset}</div>
+                      <DsInspectorSection title="资源信息">
+                        <DsPropertyGrid>
+                          <DsPropertyRow label="AssetId">
+                            <code className="ds-inspector-readonly" translate="no">
+                              {selectedAsset}
+                            </code>
+                          </DsPropertyRow>
+                          <DsPropertyRow label="路径">
+                            <code className="ds-inspector-readonly" translate="no">
+                              {record.path}
+                            </code>
+                          </DsPropertyRow>
+                          <DsPropertyRow label="源帧数">
+                            {actualFrameCount ?? '读取中…'}
+                          </DsPropertyRow>
+                          <DsPropertyRow label="文件大小">
+                            {record.bytes.toLocaleString()}
+                          </DsPropertyRow>
+                          <DsPropertyRow label="SHA-256">
+                            <code
+                              className="ds-inspector-readonly"
+                              translate="no"
+                              title={record.sha256}
+                            >
+                              {record.sha256.slice(0, 16)}…
+                            </code>
+                          </DsPropertyRow>
+                          <DsPropertyRow label="来源">{record.origin.kind}</DsPropertyRow>
+                        </DsPropertyGrid>
+                      </DsInspectorSection>
+                      <DsInspectorSection title="资源操作">
+                        <div className="ds-inspector-actions">
+                          <DsButton
+                            size="compact"
+                            variant="secondary"
+                            onClick={() => {
+                              const first = consumers[0]
+                              if (first) focusDefinition(first)
+                              else {
+                                setInspectorTab('layout')
+                                setShowUsageMenu(true)
+                              }
+                            }}
+                          >
+                            {consumers.length ? '编辑用途定义' : '新增用途定义'}
+                          </DsButton>
+                          <DsButton
+                            size="compact"
+                            variant="danger"
+                            disabled={consumers.length > 0}
+                            onClick={() => void deleteAsset()}
+                          >
+                            删除未使用源资源
+                          </DsButton>
                         </div>
-                        <div className="field">
-                          <span className="field-label">路径</span>
-                          <div className="in mono">{record.path}</div>
-                        </div>
-                        <div className="field">
-                          <span className="field-label">源帧数</span>
-                          <div className="in mono">{actualFrameCount ?? '读取中…'}</div>
-                        </div>
-                        <div className="field">
-                          <span className="field-label">文件大小</span>
-                          <div className="in mono">{record.bytes.toLocaleString()}</div>
-                        </div>
-                        <div className="field">
-                          <span className="field-label">SHA-256</span>
-                          <div className="in mono" title={record.sha256}>
-                            {record.sha256.slice(0, 16)}…
-                          </div>
-                        </div>
-                        <div className="field">
-                          <span className="field-label">来源</span>
-                          <div className="in mono">{record.origin.kind}</div>
-                        </div>
-                      </div>
-                      <div className="section battle-source-actions">
-                        <button
-                          type="button"
-                          className="tool"
-                          onClick={() => {
-                            const first = consumers[0]
-                            if (first) focusDefinition(first)
-                            else {
-                              setInspectorTab('layout')
-                              setShowUsageMenu(true)
-                            }
-                          }}
-                        >
-                          {consumers.length ? '编辑用途定义' : '新增用途定义'}
-                        </button>
-                        <button
-                          type="button"
-                          className="tool danger-action"
-                          disabled={consumers.length > 0}
-                          onClick={() => void deleteAsset()}
-                        >
-                          删除未使用源资源
-                        </button>
-                      </div>
+                      </DsInspectorSection>
                     </>
                   ) : (
                     <div className="insp-empty">未选择源资源。</div>

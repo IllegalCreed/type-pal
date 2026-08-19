@@ -651,6 +651,7 @@ export function ImageTab(props: {
                   label: '资源',
                   panel: (
                     <div className="section">
+                      <h4>资源信息</h4>
                       <EditableName
                         assetId={selected.id}
                         label={selected.record.label}

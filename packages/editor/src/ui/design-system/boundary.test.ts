@@ -183,7 +183,7 @@ describe('editor design-system static boundary', () => {
       (total, path) => total + (readFileSync(path, 'utf8').match(pattern)?.length ?? 0),
       0,
     )
-    expect(count, 'legacy native checkbox occurrences').toBe(12)
+    expect(count, 'legacy native checkbox occurrences').toBe(11)
   })
 
   test('does not grow raw form controls while shared primitives replace them', () => {
@@ -193,10 +193,10 @@ describe('editor design-system static boundary', () => {
         path.endsWith('.tsx') && !path.endsWith('.test.tsx') && !path.includes('/design-system/'),
     )
     const ceilings = {
-      input: 139,
-      select: 68,
+      input: 133,
+      select: 66,
       textarea: 2,
-      label: 127,
+      label: 121,
     } as const
 
     for (const [tag, ceiling] of Object.entries(ceilings)) {
@@ -363,6 +363,64 @@ describe('editor design-system static boundary', () => {
       .join('\n')
     expect(allUiSource).not.toMatch(
       /\.(?:item-inspector-tabs|map-inspector-tabs|battle-inspector-tabs)\b/,
+    )
+  })
+
+  test('keeps Inspector content on one shared section, property, choice, and action grammar', () => {
+    const uiRoot = dirname(here)
+    const explicitContentInspectors = [
+      'ActorMode.tsx',
+      'BattleSpriteLibrary.tsx',
+      'ItemTab.tsx',
+      'ShopTab.tsx',
+      'SpriteActionEditor.tsx',
+      'WorldSpriteLibrary.tsx',
+    ]
+
+    for (const file of explicitContentInspectors) {
+      const source = readFileSync(join(uiRoot, file), 'utf8')
+      expect(source, `${file} shared section`).toMatch(/<DsInspectorSection\b/)
+    }
+
+    for (const file of [
+      'ActorMode.tsx',
+      'BattleSpriteLibrary.tsx',
+      'ItemTab.tsx',
+      'ShopTab.tsx',
+      'WorldSpriteLibrary.tsx',
+    ]) {
+      const source = readFileSync(join(uiRoot, file), 'utf8')
+      expect(source, `${file} shared property rows`).toMatch(/<DsPropertyGrid\b/)
+      expect(source, `${file} shared property rows`).toMatch(/<DsPropertyRow\b/)
+    }
+
+    const productionSource = explicitContentInspectors
+      .map((file) => readFileSync(join(uiRoot, file), 'utf8'))
+      .join('\n')
+    expect(productionSource).not.toMatch(
+      /\b(?:actor-side-nav|battle-usage-switch|battle-new-usage-menu|item-inspector-section|shop-inspector-card|sprite-action-switch)\b/,
+    )
+
+    const recipes = readFileSync(join(here, 'recipes.css'), 'utf8')
+    for (const selector of [
+      'ds-inspector-choice-list',
+      'ds-inspector-option-row',
+      'ds-inspector-actions',
+      'ds-inspector-inline-empty',
+      'ds-inspector-readonly',
+    ])
+      expect(recipes, selector).toContain(`.${selector}`)
+
+    const businessCss = readFileSync(join(uiRoot, 'editor.css'), 'utf8')
+    expect(businessCss).toContain('Canonical Inspector content bridge')
+    expect(businessCss).toMatch(
+      /:is\(\.inspector, \.scene-entity-inspector\) \.section\s*\{[\s\S]*?padding:\s*var\(--ds-space-6\);/,
+    )
+    expect(businessCss).toMatch(
+      /:is\(\.inspector, \.scene-entity-inspector\)[\s\S]*?:where\(\.field, \.music-meta-row\)\s*\{[\s\S]*?grid-template-columns:\s*60px minmax\(0, 1fr\);/,
+    )
+    expect(businessCss).toMatch(
+      /:is\(\.inspector, \.scene-entity-inspector\) :is\(\.tool, \.btn, \.mini-txt\)\s*\{[\s\S]*?min-height:\s*var\(--ds-control-height-compact\);/,
     )
   })
 
@@ -596,11 +654,11 @@ describe('editor design-system static boundary', () => {
         path.endsWith('.tsx') && !path.endsWith('.test.tsx') && !path.includes('/design-system/'),
     )
     const ceilings = {
-      tool: 62,
-      btn: 43,
-      mini: 18,
-      'mini-txt': 34,
-      'pv-btn': 16,
+      tool: 48,
+      btn: 23,
+      mini: 14,
+      'mini-txt': 23,
+      'pv-btn': 5,
       'item-action-button': 0,
       'mini-icon': 3,
       'media-zoom-controls': 0,

@@ -35,6 +35,7 @@ import {
 } from '../core/frame-animation-worker-client.js'
 import { mp4HasAudioTrack } from '../core/video-metadata.js'
 import {
+  DsButton,
   DsCatalogControls,
   DsDiagnosticList,
   DsDiagnosticPanel,
@@ -765,25 +766,25 @@ export function CutsceneTab(props: {
                       <div className="section cutscene-actions-section">
                         <h4>内容</h4>
                         {selected.record.kind === 'video' ? (
-                          <button
-                            type="button"
-                            className="btn"
+                          <DsButton
+                            size="compact"
+                            variant="secondary"
                             onClick={() => videoReplaceRef.current?.click()}
                           >
                             替换视频
-                          </button>
+                          </DsButton>
                         ) : (
-                          <button
-                            type="button"
-                            className="btn"
+                          <DsButton
+                            size="compact"
+                            variant="secondary"
                             onClick={() => frameReplaceRef.current?.click()}
                           >
                             用图片序列替换
-                          </button>
+                          </DsButton>
                         )}
-                        <button
-                          type="button"
-                          className="btn danger"
+                        <DsButton
+                          size="compact"
+                          variant="danger"
                           disabled={selectedReferences.length > 0}
                           title={
                             selectedReferences.length
@@ -793,7 +794,7 @@ export function CutsceneTab(props: {
                           onClick={() => void deleteSelected()}
                         >
                           删除资源
-                        </button>
+                        </DsButton>
                         <input
                           ref={videoReplaceRef}
                           hidden

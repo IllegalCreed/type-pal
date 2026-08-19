@@ -1165,8 +1165,7 @@ export function EnemyTab(props: {
               id: 'teams',
               label: '敌队',
               panel: (
-                <div className="section">
-                  <h4>所在敌队</h4>
+                <DsInspectorSection title="所在敌队">
                   <p className="hint">敌队成员统一在“战斗 / 敌队”工作台编辑，避免两处阵容权威。</p>
                   {teamsOfSel.length === 0 ? <p className="hint">当前敌人不在任何敌队。</p> : null}
                   {teamsOfSel.map((candidate) => (
@@ -1182,7 +1181,7 @@ export function EnemyTab(props: {
                       <span className="hint2">{candidate.slots.filter(Boolean).length} 名成员</span>
                     </div>
                   ))}
-                </div>
+                </DsInspectorSection>
               ),
             },
             {
@@ -1241,13 +1240,12 @@ export function EnemyTab(props: {
               id: 'help',
               label: '说明',
               panel: (
-                <div className="section">
-                  <h4>从头造新敌人</h4>
+                <DsInspectorSection title="从头造新敌人">
                   <p className="hint">
                     ＋ 新建 → 改名/数值 → 配 AI 规则(变身/施法/集火都在下拉里)→ 建敌队 → **💾 保存**
                     → ⚔ 试打(试打读磁盘工程;需 reforge dev:pal 在跑,见 docs/dev-servers.md)。
                   </p>
-                </div>
+                </DsInspectorSection>
               ),
             },
           ]}

@@ -49,8 +49,11 @@ import {
 } from './design-system/controls.js'
 import {
   DsCatalogRow,
+  DsInspectorSection,
   DsInspectorTabs,
   DsObjectHero,
+  DsPropertyGrid,
+  DsPropertyRow,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
@@ -1080,84 +1083,75 @@ export function ActorMode(props: {
                 label: '摘要',
                 panel: (
                   <>
-                    <section className="section actor-quick-profile">
-                      <h4>身份与资源</h4>
-                      <div className="actor-quick-row">
-                        <span>类型</span>
-                        <strong>{battler ? '可入队 / 可参战' : 'NPC / 剧情角色'}</strong>
-                      </div>
-                      <div className="actor-quick-row">
-                        <span>名称 ID</span>
-                        <code translate="no">{actor.name}</code>
-                      </div>
-                      <div className="actor-quick-row actor-quick-resource">
-                        <span>大世界精灵</span>
-                        <strong>{sprite?.label ?? actor.spriteId}</strong>
-                        <DsIconButton
-                          size="compact"
-                          variant="secondary"
-                          icon="open"
-                          label={`在资源库打开精灵 ${actor.spriteId}`}
-                          onClick={() => onOpenSprite?.(actor.spriteId)}
-                        />
-                      </div>
-                    </section>
+                    <DsInspectorSection title="身份与资源">
+                      <DsPropertyGrid>
+                        <DsPropertyRow label="类型">
+                          {battler ? '可入队 / 可参战' : 'NPC / 剧情角色'}
+                        </DsPropertyRow>
+                        <DsPropertyRow label="名称 ID">
+                          <code className="ds-inspector-readonly" translate="no">
+                            {actor.name}
+                          </code>
+                        </DsPropertyRow>
+                        <DsPropertyRow label="大世界精灵">
+                          <span className="actor-inspector-linked-value">
+                            <span>{sprite?.label ?? actor.spriteId}</span>
+                            <DsIconButton
+                              size="compact"
+                              variant="secondary"
+                              icon="open"
+                              label={`在资源库打开精灵 ${actor.spriteId}`}
+                              onClick={() => onOpenSprite?.(actor.spriteId)}
+                            />
+                          </span>
+                        </DsPropertyRow>
+                      </DsPropertyGrid>
+                    </DsInspectorSection>
 
-                    <section className="section">
-                      <h4>编辑分区</h4>
-                      <div className="actor-side-nav">
+                    <DsInspectorSection title="编辑分区">
+                      <div
+                        className="ds-inspector-choice-list"
+                        role="group"
+                        aria-label="角色编辑分区"
+                      >
                         {ACTOR_WORKSPACE_SECTIONS.map((candidate) => (
-                          <button
-                            type="button"
+                          <DsCatalogRow
                             key={candidate}
-                            className={section === candidate ? 'active' : ''}
-                            aria-pressed={section === candidate}
-                            onClick={() => openSection(candidate)}
-                          >
-                            <span>{SECTION_LABEL[candidate]}</span>
-                            <small>
-                              {candidate === 'overview'
+                            selected={section === candidate}
+                            title={SECTION_LABEL[candidate]}
+                            meta={
+                              candidate === 'overview'
                                 ? '身份与全局摘要'
                                 : candidate === 'battle'
                                   ? '属性、装备、成长、音效'
                                   : candidate === 'relationships'
                                     ? '援护、合体技、伤亡脚本'
-                                    : '行走图、立绘、小头像'}
-                            </small>
-                          </button>
+                                    : '行走图、立绘、小头像'
+                            }
+                            onClick={() => openSection(candidate)}
+                          />
                         ))}
                       </div>
-                    </section>
+                    </DsInspectorSection>
 
                     {battler ? (
-                      <section className="section actor-side-facts">
-                        <h4>当前摘要</h4>
-                        <div className="actor-quick-row">
-                          <span>等级</span>
-                          <strong>{battler.baseStats.level}</strong>
-                        </div>
-                        <div className="actor-quick-row">
-                          <span>体力 / 真气</span>
-                          <strong>
+                      <DsInspectorSection title="当前摘要">
+                        <DsPropertyGrid>
+                          <DsPropertyRow label="等级">{battler.baseStats.level}</DsPropertyRow>
+                          <DsPropertyRow label="体力 / 真气">
                             {battler.baseStats.maxHP} / {battler.baseStats.maxMP}
-                          </strong>
-                        </div>
-                        <div className="actor-quick-row">
-                          <span>装备 / 仙术</span>
-                          <strong>
+                          </DsPropertyRow>
+                          <DsPropertyRow label="装备 / 仙术">
                             {Object.keys(battler.initialEquipment).length} /{' '}
                             {battler.initialMagic.length}
-                          </strong>
-                        </div>
-                        <div className="actor-quick-row">
-                          <span>立绘 / 表情</span>
-                          <strong>
+                          </DsPropertyRow>
+                          <DsPropertyRow label="立绘 / 表情">
                             {actor.portraits
                               ? 1 + Object.keys(actor.portraits.expressions ?? {}).length
                               : 0}
-                          </strong>
-                        </div>
-                      </section>
+                          </DsPropertyRow>
+                        </DsPropertyGrid>
+                      </DsInspectorSection>
                     ) : null}
                   </>
                 ),

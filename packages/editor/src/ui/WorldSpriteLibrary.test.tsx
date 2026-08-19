@@ -287,7 +287,9 @@ describe('WorldSpriteLibrary', () => {
       host.querySelector('[data-world-resource]')?.getAttribute('data-world-active-definition'),
     ).toBe('hero-static')
     const usageButtons = [
-      ...host.querySelectorAll<HTMLButtonElement>('.battle-usage-switch button'),
+      ...host.querySelectorAll<HTMLButtonElement>(
+        '[role="group"][aria-label="选择用途定义"] .ds-catalog-row',
+      ),
     ]
     expect(
       usageButtons.find((candidate) => candidate.textContent?.includes('主角行走')),
@@ -314,9 +316,13 @@ describe('WorldSpriteLibrary', () => {
       'sprite.raw',
     )
     await act(async () => button('动作').click())
-    await act(async () => button('＋ 新增用途定义').click())
+    await act(async () => button('新增用途定义').click())
     await act(async () =>
-      host.querySelector<HTMLButtonElement>('.battle-new-usage-menu button:last-child')!.click(),
+      host
+        .querySelector<HTMLButtonElement>(
+          '[role="group"][aria-label="新增用途类型"] button:last-child',
+        )!
+        .click(),
     )
     await act(async () => button('应用').click())
 
@@ -347,7 +353,7 @@ describe('WorldSpriteLibrary', () => {
     await act(async () => button('引用').click())
     const usageButtons = [
       ...host.querySelectorAll<HTMLButtonElement>(
-        '#world-sprite-inspector-panel-references .battle-usage-switch button',
+        '#world-sprite-inspector-panel-references [role="group"][aria-label="选择要查看的用途定义"] .ds-catalog-row',
       ),
     ]
     expect(usageButtons).toHaveLength(2)
@@ -378,7 +384,7 @@ describe('WorldSpriteLibrary', () => {
     await act(async () => button('引用').click())
     const usage = [
       ...host.querySelectorAll<HTMLButtonElement>(
-        '#world-sprite-inspector-panel-references .battle-usage-switch button',
+        '#world-sprite-inspector-panel-references [role="group"][aria-label="选择要查看的用途定义"] .ds-catalog-row',
       ),
     ].find((candidate) => candidate.textContent?.includes('主角静止'))!
     await act(async () => usage.click())
