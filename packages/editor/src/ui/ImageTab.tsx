@@ -529,6 +529,15 @@ export function ImageTab(props: {
     ? closureIssues.filter((issue) => issue.message.includes(`"${selected.id}"`))
     : []
 
+  const deleteSelectedImage = (): void => {
+    if (!selected || selectedReferences.length) return
+    if (!window.confirm(`确认删除未被引用的图片 ${selected.id}？`)) return
+    void reader.readBytes(selected.id, kind).then(
+      (previousBytes) => session.dispatch(new DeleteAssetCommand(selected.id, previousBytes)),
+      (cause: unknown) => setError(cause instanceof Error ? cause.message : String(cause)),
+    )
+  }
+
   return (
     <>
       <div className="outliner data-outliner image-library-outliner">
@@ -543,6 +552,28 @@ export function ImageTab(props: {
               label: '导入 PNG',
               icon: 'add',
               onClick: () => inputRef.current?.click(),
+            },
+          ]}
+          overflowActions={[
+            {
+              id: 'replace-selected-image',
+              label: '替换当前图片…',
+              disabled: !selected,
+              onClick: () => {
+                if (!selected) return
+                setReplaceId(selected.id)
+                inputRef.current?.click()
+              },
+            },
+            {
+              id: 'delete-selected-image',
+              label: '删除当前图片…',
+              danger: true,
+              disabled: !selected || selectedReferences.length > 0,
+              title: selectedReferences.length
+                ? `仍有 ${selectedReferences.length} 处引用，不能删除`
+                : '删除当前图片',
+              onClick: deleteSelectedImage,
             },
           ]}
           scope={
@@ -672,40 +703,6 @@ export function ImageTab(props: {
                       <div className="music-meta-row">
                         <span>大小</span>
                         <strong>{formatBytes(selected.record.bytes)}</strong>
-                      </div>
-                      <div className="image-resource-actions">
-                        <DsButton
-                          variant="secondary"
-                          onClick={() => {
-                            setReplaceId(selected.id)
-                            inputRef.current?.click()
-                          }}
-                        >
-                          替换（保持引用）
-                        </DsButton>
-                        <DsButton
-                          variant="danger"
-                          icon="delete"
-                          disabled={selectedReferences.length > 0}
-                          title={
-                            selectedReferences.length
-                              ? `仍有 ${selectedReferences.length} 处引用`
-                              : '删除图片'
-                          }
-                          onClick={() => {
-                            if (!window.confirm(`确认删除未被引用的图片 ${selected.id}？`)) return
-                            void reader.readBytes(selected.id, kind).then(
-                              (previousBytes) =>
-                                session.dispatch(
-                                  new DeleteAssetCommand(selected.id, previousBytes),
-                                ),
-                              (cause: unknown) =>
-                                setError(cause instanceof Error ? cause.message : String(cause)),
-                            )
-                          }}
-                        >
-                          删除
-                        </DsButton>
                       </div>
                     </div>
                   ),

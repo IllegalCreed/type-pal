@@ -17,7 +17,7 @@ import {
   quantizeToRleFrame,
   sliceAtlasGrid,
 } from '@type-pal/reforge'
-import { useEffect, useId, useMemo, useRef, useState } from 'react'
+import { type ReactNode, useEffect, useId, useMemo, useRef, useState } from 'react'
 import { sha256Hex } from '../core/binary-signature.js'
 import {
   AddTilesetCommand,
@@ -484,6 +484,31 @@ export function TilesetTab(props: {
           ? 'empty'
           : 'ready'
 
+  const beginSelectedReplacement = (): void => {
+    if (!selected || !selectedRecord) return
+    if (
+      sharedDefinitions.length > 1 &&
+      !window.confirm(
+        `这份图像由 ${sharedDefinitions.map((entry) => entry.name).join('、')} 共同使用。替换会同时更新全部定义，是否继续？`,
+      )
+    )
+      return
+    setReplaceTargetId(selected.id)
+    setReplacementScan(undefined)
+    setUploading(true)
+    setDraft(null)
+    setNewId(selected.id)
+    setNewName(selected.name)
+    setNewCategory(selected.category)
+    setErr('')
+  }
+
+  const runRemovalLifecycle = (): void => {
+    setInspectorTab('references')
+    if (removalComplete && !removalHasReferences) void removeSelected()
+    else void scanRemovalReferences()
+  }
+
   return (
     <>
       <div className="outliner data-outliner tileset-outliner">
@@ -631,6 +656,26 @@ export function TilesetTab(props: {
             revision={selectedRecord?.sha256 ?? 'missing'}
             assetReader={assetReader}
             palette={palette}
+            actions={
+              <>
+                <DsButton size="compact" variant="secondary" onClick={beginSelectedReplacement}>
+                  替换图像…
+                </DsButton>
+                <DsButton
+                  size="compact"
+                  variant="danger"
+                  busy={removalScanning}
+                  title="检查全工程引用后从注册表移除；操作可撤销"
+                  onClick={runRemovalLifecycle}
+                >
+                  {removalComplete && !removalHasReferences
+                    ? '确认移除…'
+                    : removalScan
+                      ? '重新检查后移除…'
+                      : '检查引用后移除…'}
+                </DsButton>
+              </>
+            }
           />
         ) : (
           <div className="tileset-workspace-empty">
@@ -908,35 +953,6 @@ export function TilesetTab(props: {
                           此处管理原始瓦片素材。组合模板由地图工作区的独立组合库管理，不写入瓦片图像文件。
                         </p>
                       </section>
-                      <section className="section tileset-inspector-actions">
-                        <DsButton
-                          size="compact"
-                          variant="secondary"
-                          disabled={!selectedRecord}
-                          onClick={() => {
-                            if (
-                              sharedDefinitions.length > 1 &&
-                              !window.confirm(
-                                `这份图像由 ${sharedDefinitions.map((entry) => entry.name).join('、')} 共同使用。替换会同时更新全部定义，是否继续？`,
-                              )
-                            )
-                              return
-                            setReplaceTargetId(selected.id)
-                            setReplacementScan(undefined)
-                            setUploading(true)
-                            setDraft(null)
-                            setNewId(selected.id)
-                            setNewName(selected.name)
-                            setNewCategory(selected.category)
-                            setErr('')
-                          }}
-                        >
-                          替换图像
-                          {sharedDefinitions.length > 1
-                            ? `（影响 ${sharedDefinitions.length} 个定义）`
-                            : ''}
-                        </DsButton>
-                      </section>
                     </>
                   ),
                 },
@@ -1038,25 +1054,6 @@ export function TilesetTab(props: {
                           </DsReferenceGroup>
                         ) : null}
                       </DsReferencePanel>
-                      <button
-                        type="button"
-                        className="tileset-danger-action"
-                        title="检查全工程引用后从注册表移除；操作可撤销"
-                        disabled={removalScanning}
-                        onClick={() =>
-                          removalComplete && !removalHasReferences
-                            ? void removeSelected()
-                            : void scanRemovalReferences()
-                        }
-                      >
-                        {removalScanning
-                          ? `正在检查 ${removalScan?.completed ?? 0}/${removalScan?.total ?? mapIndex.maps.length}`
-                          : removalComplete && !removalHasReferences
-                            ? '确认移除未引用条目'
-                            : removalScan
-                              ? '重新检查引用'
-                              : '检查引用后移除'}
-                      </button>
                       {removalScan ? (
                         <button
                           type="button"
@@ -1096,6 +1093,7 @@ function TilesetPreview(props: {
   revision: string
   assetReader: EditorAssetReader
   palette: Palette
+  actions?: ReactNode
 }) {
   const { def, revision, assetReader, palette } = props
   const [frames, setFrames] = useState<RleFrame[] | null>(null)
@@ -1125,6 +1123,7 @@ function TilesetPreview(props: {
         title={def.name}
         objectId={def.id}
         meta={<DsTag tone="neutral">{categoryLabel(def.category)}</DsTag>}
+        actions={props.actions}
       />
       {frames ? (
         <PagedFrameGrid frames={frames} palette={palette} />

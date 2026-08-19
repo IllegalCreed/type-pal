@@ -608,6 +608,30 @@ export function WorldSpriteLibrary(props: {
             activeDefinitionId={definition?.id}
             activeActionId={selectedActionId}
             session={props.session}
+            headerActions={
+              <>
+                {definition ? (
+                  <DsButton
+                    size="compact"
+                    variant="danger"
+                    disabled={references.length > 0}
+                    title={
+                      references.length
+                        ? `仍有 ${references.length} 处用途引用，不能删除`
+                        : '删除当前用途定义，保留共享源资源'
+                    }
+                    onClick={deleteDefinition}
+                  >
+                    删除用途…
+                  </DsButton>
+                ) : null}
+                {!consumers.length ? (
+                  <DsButton size="compact" variant="danger" onClick={() => void deleteAsset()}>
+                    删除源资源…
+                  </DsButton>
+                ) : null}
+              </>
+            }
             onDefinitionSelect={(id) => {
               const next = consumers.find((entry) => entry.id === id)
               if (next) focusDefinition(next)
@@ -1065,16 +1089,6 @@ export function WorldSpriteLibrary(props: {
                         </DsReferenceGroup>
                       ) : null}
                     </DsReferencePanel>
-                    {definition ? (
-                      <DsButton
-                        size="compact"
-                        variant="danger"
-                        disabled={references.length > 0}
-                        onClick={deleteDefinition}
-                      >
-                        删除用途定义（保留源资源）
-                      </DsButton>
-                    ) : null}
                   </div>
                 </div>
               ),
@@ -1085,64 +1099,36 @@ export function WorldSpriteLibrary(props: {
               panel: (
                 <div>
                   {record?.kind === 'sprite' ? (
-                    <>
-                      <DsInspectorSection title="资源信息">
-                        <DsPropertyGrid>
-                          <DsPropertyRow label="AssetId">
-                            <code className="ds-inspector-readonly" translate="no">
-                              {selectedAsset}
-                            </code>
-                          </DsPropertyRow>
-                          <DsPropertyRow label="路径">
-                            <code className="ds-inspector-readonly" translate="no">
-                              {record.path}
-                            </code>
-                          </DsPropertyRow>
-                          <DsPropertyRow label="源帧数">
-                            {actualFrameCount ?? '读取中…'}
-                          </DsPropertyRow>
-                          <DsPropertyRow label="文件大小">
-                            {record.bytes.toLocaleString()}
-                          </DsPropertyRow>
-                          <DsPropertyRow label="SHA-256">
-                            <code
-                              className="ds-inspector-readonly"
-                              translate="no"
-                              title={record.sha256}
-                            >
-                              {record.sha256.slice(0, 16)}…
-                            </code>
-                          </DsPropertyRow>
-                          <DsPropertyRow label="来源">{record.origin.kind}</DsPropertyRow>
-                        </DsPropertyGrid>
-                      </DsInspectorSection>
-                      <DsInspectorSection title="资源操作">
-                        <div className="ds-inspector-actions">
-                          <DsButton
-                            size="compact"
-                            variant="secondary"
-                            onClick={() => {
-                              const first = consumers[0]
-                              if (first) focusDefinition(first)
-                              else {
-                                setInspectorTab('layout')
-                                setShowUsageMenu(true)
-                              }
-                            }}
+                    <DsInspectorSection title="资源信息">
+                      <DsPropertyGrid>
+                        <DsPropertyRow label="AssetId">
+                          <code className="ds-inspector-readonly" translate="no">
+                            {selectedAsset}
+                          </code>
+                        </DsPropertyRow>
+                        <DsPropertyRow label="路径">
+                          <code className="ds-inspector-readonly" translate="no">
+                            {record.path}
+                          </code>
+                        </DsPropertyRow>
+                        <DsPropertyRow label="源帧数">
+                          {actualFrameCount ?? '读取中…'}
+                        </DsPropertyRow>
+                        <DsPropertyRow label="文件大小">
+                          {record.bytes.toLocaleString()}
+                        </DsPropertyRow>
+                        <DsPropertyRow label="SHA-256">
+                          <code
+                            className="ds-inspector-readonly"
+                            translate="no"
+                            title={record.sha256}
                           >
-                            {consumers.length ? '编辑用途定义' : '新增用途定义'}
-                          </DsButton>
-                          <DsButton
-                            size="compact"
-                            variant="danger"
-                            disabled={consumers.length > 0}
-                            onClick={() => void deleteAsset()}
-                          >
-                            删除未使用源资源
-                          </DsButton>
-                        </div>
-                      </DsInspectorSection>
-                    </>
+                            {record.sha256.slice(0, 16)}…
+                          </code>
+                        </DsPropertyRow>
+                        <DsPropertyRow label="来源">{record.origin.kind}</DsPropertyRow>
+                      </DsPropertyGrid>
+                    </DsInspectorSection>
                   ) : (
                     <div className="insp-empty">未选择源资源。</div>
                   )}

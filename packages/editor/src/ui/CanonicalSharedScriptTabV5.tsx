@@ -71,7 +71,6 @@ export function CanonicalSharedScriptTabV5(props: {
   const [newIdEdited, setNewIdEdited] = useState(false)
   const [createOpen, setCreateOpen] = useState(false)
   const [createError, setCreateError] = useState('')
-  const [confirmDelete, setConfirmDelete] = useState(false)
   const createFormId = useId()
   const createNameId = useId()
   const createScriptId = useId()
@@ -134,7 +133,6 @@ export function CanonicalSharedScriptTabV5(props: {
   }
 
   const select = (id: string): void => {
-    setConfirmDelete(false)
     setSelectedId(id)
     props.onSelectedScriptId?.(id || undefined)
   }
@@ -178,6 +176,15 @@ export function CanonicalSharedScriptTabV5(props: {
     ) {
       closeCreate()
       select(id)
+    }
+  }
+
+  const deleteSelectedScript = (): void => {
+    if (!selected || !window.confirm(`删除“${selected.name}”？存在引用时会阻断；成功后仍可撤销。`))
+      return
+    if (dispatch(new DeleteSharedScriptV5Command(selectedId))) {
+      const next = ids.find((id) => id !== selectedId) ?? ''
+      select(next)
     }
   }
 
@@ -239,6 +246,16 @@ export function CanonicalSharedScriptTabV5(props: {
                       ? 'self 必需'
                       : 'self 可选'}
                 </DsTag>
+              }
+              actions={
+                <DsButton
+                  size="compact"
+                  variant="danger"
+                  icon="delete"
+                  onClick={deleteSelectedScript}
+                >
+                  删除脚本…
+                </DsButton>
               }
             />
             <CanonicalScriptBodyEditorV5
@@ -312,41 +329,6 @@ export function CanonicalSharedScriptTabV5(props: {
             <p className="hint">
               stable ScriptId 创建后保持不变；调用方只保存这个 id，显示名可随时修改。
             </p>
-            <section className="canonical-shared-danger-zone" aria-label="危险操作">
-              <h4>危险操作</h4>
-              {confirmDelete ? (
-                <div role="alert">
-                  <p>删除“{selected.name}”？存在引用时会阻断；成功后仍可通过撤销恢复。</p>
-                  <div className="canonical-shared-danger-actions">
-                    <DsButton size="compact" onClick={() => setConfirmDelete(false)}>
-                      取消
-                    </DsButton>
-                    <DsButton
-                      size="compact"
-                      variant="danger"
-                      icon="delete"
-                      onClick={() => {
-                        if (dispatch(new DeleteSharedScriptV5Command(selectedId))) {
-                          const next = ids.find((id) => id !== selectedId) ?? ''
-                          select(next)
-                        }
-                      }}
-                    >
-                      确认删除
-                    </DsButton>
-                  </div>
-                </div>
-              ) : (
-                <DsButton
-                  size="compact"
-                  variant="danger"
-                  icon="delete"
-                  onClick={() => setConfirmDelete(true)}
-                >
-                  删除共享脚本…
-                </DsButton>
-              )}
-            </section>
           </div>
         ) : (
           <div className="insp-empty">没有选中的共享脚本</div>

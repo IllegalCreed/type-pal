@@ -14,19 +14,13 @@ import {
   type RleFrame,
   sliceAtlasGrid,
 } from '@type-pal/reforge'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import { sha256Hex } from '../core/binary-signature.js'
 import { ReplaceSpriteAssetCommand, type SpriteReplacementProof } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { loadEditorSprite } from '../core/sprite-assets.js'
-import {
-  DsButton,
-  DsField,
-  DsNumberInput,
-  DsObjectHero,
-  DsTag,
-} from './design-system/index.js'
+import { DsButton, DsField, DsNumberInput, DsObjectHero, DsTag } from './design-system/index.js'
 import {
   RawFrameInspector,
   type SemanticFrameGroup,
@@ -253,6 +247,7 @@ export function SpriteResourceViewer(props: {
   activeDefinitionId?: string
   activeActionId?: string
   session: EditSession
+  headerActions?: ReactNode
   onDefinitionSelect?: (id: string) => void
   onActionSelect?: (definitionId: string, actionId: string) => void
   onLoaded?: (proof: SpriteResourceLoadProof | undefined) => void
@@ -509,6 +504,7 @@ export function SpriteResourceViewer(props: {
               : '正在解析'}
         </DsTag>
       }
+      actions={props.headerActions}
     />
   )
 

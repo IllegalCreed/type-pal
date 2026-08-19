@@ -366,6 +366,45 @@ describe('editor design-system static boundary', () => {
     )
   })
 
+  test('keeps top-level object lifecycle actions out of Inspector content', () => {
+    const uiRoot = dirname(here)
+    const legacyInspectorActions: Record<string, readonly string[]> = {
+      'WorldSpriteLibrary.tsx': [
+        '<DsInspectorSection title="资源操作">',
+        '删除用途定义（保留源资源）',
+        '删除未使用源资源',
+      ],
+      'BattleSpriteLibrary.tsx': [
+        '<DsInspectorSection title="资源操作">',
+        '删除用途（保留源文件）',
+        '删除未使用源文件',
+      ],
+      'ImageTab.tsx': ['image-resource-actions'],
+      'CutsceneTab.tsx': ['cutscene-actions-section'],
+      'TilesetTab.tsx': ['tileset-danger-action'],
+      'CanonicalSharedScriptTabV5.tsx': ['canonical-shared-danger-zone'],
+      'App.tsx': ['删除此实体', '删除此落点'],
+    }
+
+    for (const [file, markers] of Object.entries(legacyInspectorActions)) {
+      const source = readFileSync(join(uiRoot, file), 'utf8')
+      for (const marker of markers)
+        expect(source, `${file} Inspector lifecycle marker: ${marker}`).not.toContain(marker)
+    }
+
+    const expectedOwners: Record<string, RegExp> = {
+      'WorldSpriteLibrary.tsx': /headerActions=\{/,
+      'BattleSpriteLibrary.tsx': /<DsObjectHero[\s\S]*?actions=\{/,
+      'ImageTab.tsx': /<DsCatalogControls[\s\S]*?overflowActions=\{/,
+      'CutsceneTab.tsx': /<DsCatalogControls[\s\S]*?overflowActions=\{/,
+      'TilesetTab.tsx': /<TilesetPreview[\s\S]*?actions=\{/,
+      'CanonicalSharedScriptTabV5.tsx': /<DsObjectHero[\s\S]*?deleteSelectedScript/,
+      'App.tsx': /className="toolbar"[\s\S]*?deleteSelectedSceneObject/,
+    }
+    for (const [file, owner] of Object.entries(expectedOwners))
+      expect(readFileSync(join(uiRoot, file), 'utf8'), `${file} lifecycle owner`).toMatch(owner)
+  })
+
   test('keeps Inspector content on one shared section, property, choice, and action grammar', () => {
     const uiRoot = dirname(here)
     const explicitContentInspectors = [

@@ -3795,8 +3795,7 @@ html[data-panel-resize="horizontal"] * {
   margin-bottom: 12px;
 }
 .tileset-primary-action,
-.tileset-secondary-action,
-.tileset-danger-action {
+.tileset-secondary-action {
   min-height: 30px;
   padding: 5px 10px;
   border: 1px solid var(--line);
@@ -3816,7 +3815,6 @@ html[data-panel-resize="horizontal"] * {
 }
 .tileset-primary-action:focus-visible,
 .tileset-secondary-action:focus-visible,
-.tileset-danger-action:focus-visible,
 .tileset-upload-empty:focus-visible,
 .tileset-page-actions button:focus-visible {
   outline: 2px solid var(--accent);
@@ -4084,19 +4082,6 @@ html[data-panel-resize="horizontal"] * {
 .tileset-primary-action:disabled {
   opacity: 0.42;
   cursor: default;
-}
-.tileset-danger-action {
-  border-color: color-mix(in srgb, var(--err) 52%, var(--line));
-  background: color-mix(in srgb, var(--err) 7%, var(--panel2));
-  color: #ed9a9a;
-}
-.tileset-danger-action:hover {
-  border-color: var(--err);
-  background: color-mix(in srgb, var(--err) 13%, var(--panel2));
-}
-.tileset-danger-action:disabled {
-  cursor: wait;
-  opacity: 0.5;
 }
 .tileset-error {
   margin: 10px 12px;
@@ -5639,19 +5624,6 @@ html[data-panel-resize="horizontal"] * {
 .battle-profile-actions .tool.primary:hover:not(:disabled) {
   border-color: var(--accent);
   background: color-mix(in srgb, var(--accent) 27%, var(--panel2));
-}
-.sprite-definition-lifecycle .danger-action,
-.sprite-resource-meta + .section .danger-action {
-  width: 100%;
-  justify-content: center;
-  margin-top: 8px;
-  border-color: color-mix(in srgb, var(--err) 42%, var(--line));
-  background: color-mix(in srgb, var(--err) 8%, var(--panel2));
-}
-.sprite-definition-lifecycle .danger-action:hover:not(:disabled),
-.sprite-resource-meta + .section .danger-action:hover:not(:disabled) {
-  border-color: var(--err);
-  background: color-mix(in srgb, var(--err) 14%, var(--panel2));
 }
 .battle-sprite-preview {
   flex: none;
@@ -8028,14 +8000,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   margin-top: 5px;
   font-weight: 600;
 }
-.cutscene-actions-section {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.cutscene-actions-section h4 {
-  flex: 0 0 100%;
-}
 .cutscene-main .btn,
 .cutscene-inspector .btn,
 .cutscene-import-dialog .btn {
@@ -8758,18 +8722,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   width: 100%;
   margin-bottom: 8px;
 }
-.image-resource-actions {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 6px;
-  margin-top: 10px;
-}
-.image-resource-actions .ds-button {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
 .image-import-review {
   width: min(760px, calc(100% - 28px));
   padding: 16px;
@@ -8816,9 +8768,6 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 @media (max-width: 920px) {
   .image-import-compare {
-    grid-template-columns: 1fr;
-  }
-  .image-resource-actions {
     grid-template-columns: 1fr;
   }
 }

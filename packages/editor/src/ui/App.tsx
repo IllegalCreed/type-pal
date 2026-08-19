@@ -1282,7 +1282,6 @@ export function App(props: {
         : [],
     [state, scene, selectedNamedEntryId],
   )
-
   // 删除键:选中实体时删(在输入框里打字不触发)。
   useEffect(() => {
     const onKey = (e: KeyboardEvent): void => {
@@ -1404,6 +1403,24 @@ export function App(props: {
     if (!selEntity) return
     session.dispatch(new DeleteEntityCommand(scene.id, selEntity.id))
     setSelected(SCENE_SELECTION)
+  }
+  const deleteSelectedSceneObject = (): void => {
+    if (selEntity) {
+      deleteSelected()
+      return
+    }
+    if (
+      selected.kind !== 'named-entry' ||
+      !scene.entries?.[selected.id] ||
+      selectedEntryReferences.length
+    )
+      return
+    try {
+      session.dispatch(new DeleteSceneEntryCommand(scene.id, selected.id))
+      setSelected(SCENE_SELECTION)
+    } catch (error) {
+      window.alert(error instanceof Error ? error.message : String(error))
+    }
   }
   const sceneEntityGroups = (['预制人物', '自定义实体', '触发区'] as const).map((title) => ({
     title,
@@ -2165,9 +2182,19 @@ export function App(props: {
                 <DsButton
                   size="compact"
                   variant="danger"
-                  onClick={deleteSelected}
-                  disabled={!selEntity || placingEntity}
-                  title="删除选中(Del)"
+                  onClick={deleteSelectedSceneObject}
+                  disabled={
+                    placingEntity ||
+                    (!selEntity &&
+                      (selected.kind !== 'named-entry' ||
+                        !scene.entries?.[selected.id] ||
+                        selectedEntryReferences.length > 0))
+                  }
+                  title={
+                    selected.kind === 'named-entry' && selectedEntryReferences.length
+                      ? `仍有 ${selectedEntryReferences.length} 处脚本引用，不能删除`
+                      : '删除选中对象（Del）'
+                  }
                 >
                   🗑 删除
                 </DsButton>
@@ -2366,7 +2393,6 @@ export function App(props: {
                       onOpenBattleField={(fieldId) =>
                         applyEditorLocation(editorLinks.battleField(fieldId))
                       }
-                      onDelete={deleteSelected}
                       showHeader={false}
                     />
                   }
@@ -2523,14 +2549,6 @@ export function App(props: {
                   session={session}
                   onJumpToEvent={jumpToEvent}
                   onOpenScript={openScriptReference}
-                  onDelete={() => {
-                    try {
-                      session.dispatch(new DeleteSceneEntryCommand(scene.id, selected.id))
-                      setSelected(SCENE_SELECTION)
-                    } catch (error) {
-                      window.alert(error instanceof Error ? error.message : String(error))
-                    }
-                  }}
                 />
               ) : (
                 <SceneInspector
@@ -2920,7 +2938,6 @@ function EntityInspector(props: {
   onOpenSpriteAction?: (spriteId: string, actionId: string) => void
   onOpenActor?: (actorId: string) => void
   onOpenBattleField?: (fieldId: number) => void
-  onDelete: () => void
   showHeader?: boolean
 }) {
   const {
@@ -2942,7 +2959,6 @@ function EntityInspector(props: {
     onOpenSpriteAction,
     onOpenActor,
     onOpenBattleField,
-    onDelete,
     showHeader = true,
   } = props
   const [spriteViewerOpen, setSpriteViewerOpen] = useState(false)
@@ -3514,11 +3530,6 @@ function EntityInspector(props: {
           </div>
         </div>
       ) : null}
-      <div className="section" style={{ borderBottom: 0 }}>
-        <button type="button" className="tool" style={{ color: 'var(--err)' }} onClick={onDelete}>
-          🗑 删除此实体
-        </button>
-      </div>
       {spriteViewerOpen && spriteDef && (
         <SpriteImageViewer
           assetBase={assetBase}
@@ -3800,10 +3811,8 @@ function NamedEntryInspector(props: {
   session: EditSession
   onJumpToEvent: (sceneId: string, sourceKey: string) => void
   onOpenScript: (scriptId: string) => void
-  onDelete: () => void
 }) {
-  const { scene, entryId, entry, references, session, onJumpToEvent, onOpenScript, onDelete } =
-    props
+  const { scene, entryId, entry, references, session, onJumpToEvent, onOpenScript } = props
   const [labelDraft, setLabelDraft] = useState(entry.label ?? '')
   useEffect(() => setLabelDraft(entry.label ?? ''), [entry.label])
   const patch = (next: Partial<SceneEntryPoint>): void => {
@@ -3938,19 +3947,6 @@ function NamedEntryInspector(props: {
             </DsReferenceList>
           ) : null}
         </DsReferencePanel>
-      </div>
-      <div className="section" style={{ borderBottom: 0 }}>
-        <button
-          type="button"
-          className="tool danger-action"
-          disabled={references.length > 0}
-          title={
-            references.length ? `仍有 ${references.length} 处脚本引用，不能删除` : '删除此落点'
-          }
-          onClick={onDelete}
-        >
-          🗑 删除此落点
-        </button>
       </div>
     </>
   )

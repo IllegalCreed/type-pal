@@ -58,10 +58,10 @@ import {
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
-  DsSequenceIndex,
   DsSelect,
-  DsTag,
+  DsSequenceIndex,
   DsTabs,
+  DsTag,
   DsTextInput,
 } from './design-system/index.js'
 import { type SemanticFrameGroup, SpriteFrameCanvas } from './SpriteFrameWorkbench.js'
@@ -1242,6 +1242,41 @@ export function BattleSpriteLibrary(props: {
               </DsTag>
             )
           }
+          actions={
+            uploading ? null : (
+              <>
+                {consumers.length ? (
+                  <DsButton
+                    size="compact"
+                    variant="secondary"
+                    disabled={!proofReady}
+                    onClick={() => setReplacing(true)}
+                  >
+                    替换源文件…
+                  </DsButton>
+                ) : (
+                  <DsButton size="compact" variant="danger" onClick={() => void deleteAsset()}>
+                    删除源文件…
+                  </DsButton>
+                )}
+                {definition ? (
+                  <DsButton
+                    size="compact"
+                    variant="danger"
+                    disabled={references.length > 0 || creatingUsage}
+                    title={
+                      references.length
+                        ? `仍有 ${references.length} 处用途引用，不能删除`
+                        : '删除当前用途，保留共享源文件'
+                    }
+                    onClick={deleteDefinition}
+                  >
+                    删除用途…
+                  </DsButton>
+                ) : null}
+              </>
+            )
+          }
         />
         <div className="battle-sprite-workspace-scroll ds-object-workspace__content">
           {uploading ? (
@@ -1717,16 +1752,6 @@ export function BattleSpriteLibrary(props: {
                         </DsReferenceList>
                       ) : null}
                     </DsReferencePanel>
-                    {definition ? (
-                      <DsButton
-                        size="compact"
-                        variant="danger"
-                        disabled={references.length > 0}
-                        onClick={deleteDefinition}
-                      >
-                        删除用途（保留源文件）
-                      </DsButton>
-                    ) : null}
                   </div>
                 </div>
               ),
@@ -1737,60 +1762,34 @@ export function BattleSpriteLibrary(props: {
               panel: (
                 <div>
                   {record?.kind === 'battle-sprite' ? (
-                    <>
-                      <DsInspectorSection title="源文件">
-                        <DsPropertyGrid>
-                          <DsPropertyRow label="AssetId">
-                            <code className="ds-inspector-readonly" translate="no">
-                              {selectedAsset}
-                            </code>
-                          </DsPropertyRow>
-                          <DsPropertyRow label="路径">
-                            <code className="ds-inspector-readonly" translate="no">
-                              {record.path}
-                            </code>
-                          </DsPropertyRow>
-                          <DsPropertyRow label="实际帧数">
-                            {actualFrameCount || '读取中…'}
-                          </DsPropertyRow>
-                          <DsPropertyRow label="字节">
-                            {record.bytes.toLocaleString()}
-                          </DsPropertyRow>
-                          <DsPropertyRow label="SHA-256">
-                            <code
-                              className="ds-inspector-readonly"
-                              translate="no"
-                              title={record.sha256}
-                            >
-                              {record.sha256.slice(0, 16)}…
-                            </code>
-                          </DsPropertyRow>
-                          <DsPropertyRow label="来源">{record.origin.kind}</DsPropertyRow>
-                        </DsPropertyGrid>
-                      </DsInspectorSection>
-                      <DsInspectorSection title="资源操作">
-                        <div className="ds-inspector-actions">
-                          {consumers.length ? (
-                            <DsButton
-                              size="compact"
-                              variant="secondary"
-                              disabled={!proofReady}
-                              onClick={() => setReplacing(true)}
-                            >
-                              替换共享源文件…
-                            </DsButton>
-                          ) : null}
-                          <DsButton
-                            size="compact"
-                            variant="danger"
-                            disabled={consumers.length > 0}
-                            onClick={() => void deleteAsset()}
+                    <DsInspectorSection title="源文件">
+                      <DsPropertyGrid>
+                        <DsPropertyRow label="AssetId">
+                          <code className="ds-inspector-readonly" translate="no">
+                            {selectedAsset}
+                          </code>
+                        </DsPropertyRow>
+                        <DsPropertyRow label="路径">
+                          <code className="ds-inspector-readonly" translate="no">
+                            {record.path}
+                          </code>
+                        </DsPropertyRow>
+                        <DsPropertyRow label="实际帧数">
+                          {actualFrameCount || '读取中…'}
+                        </DsPropertyRow>
+                        <DsPropertyRow label="字节">{record.bytes.toLocaleString()}</DsPropertyRow>
+                        <DsPropertyRow label="SHA-256">
+                          <code
+                            className="ds-inspector-readonly"
+                            translate="no"
+                            title={record.sha256}
                           >
-                            删除未使用源文件
-                          </DsButton>
-                        </div>
-                      </DsInspectorSection>
-                    </>
+                            {record.sha256.slice(0, 16)}…
+                          </code>
+                        </DsPropertyRow>
+                        <DsPropertyRow label="来源">{record.origin.kind}</DsPropertyRow>
+                      </DsPropertyGrid>
+                    </DsInspectorSection>
                   ) : (
                     <div className="insp-empty">未选择源文件。</div>
                   )}

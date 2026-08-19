@@ -251,7 +251,7 @@ describe('TilesetTab 全工程引用删除', () => {
     expect(loadMap).toHaveBeenCalledOnce()
     expect(host.querySelector('.ds-reference-panel')?.textContent).toContain('地图 B')
     expect(host.querySelector('.ds-reference-panel')?.textContent).toContain('树木组合')
-    expect(button(host, '重新检查引用')).toBeDefined()
+    expect(button(host, '重新检查后移除').closest('.ds-object-hero')).not.toBeNull()
     expect(session.getState().tilesets?.map(({ id }) => id)).toEqual(['tiles-a', 'tiles-b'])
 
     await act(async () => button(host, '地图 B').click())
@@ -279,13 +279,13 @@ describe('TilesetTab 全工程引用删除', () => {
     expect(session.getState().tilesets?.map(({ id }) => id)).toEqual(['tiles-a', 'tiles-b'])
 
     await act(async () => {
-      button(host, '重新检查引用').click()
+      button(host, '重新检查后移除').click()
       await new Promise((resolve) => window.setTimeout(resolve, 0))
       await new Promise((resolve) => window.setTimeout(resolve, 0))
     })
     expect(host.querySelector('.ds-reference-panel')?.textContent).toContain('均未引用')
 
-    await act(async () => button(host, '确认移除未引用条目').click())
+    await act(async () => button(host, '确认移除').click())
     expect(session.getState().tilesets?.map(({ id }) => id)).toEqual(['tiles-b'])
     expect(session.isDirty()).toBe(true)
     await act(async () => session.undo())

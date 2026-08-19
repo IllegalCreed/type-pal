@@ -35,7 +35,6 @@ import {
 } from '../core/frame-animation-worker-client.js'
 import { mp4HasAudioTrack } from '../core/video-metadata.js'
 import {
-  DsButton,
   DsCatalogControls,
   DsDiagnosticList,
   DsDiagnosticPanel,
@@ -591,6 +590,28 @@ export function CutsceneTab(props: {
           title="过场"
           count={videos.length + animations.length}
           unit="项"
+          overflowActions={[
+            {
+              id: 'replace-selected-cutscene',
+              label: selected?.record.kind === 'video' ? '替换当前视频…' : '替换当前帧动画…',
+              disabled: !selected,
+              onClick: () => {
+                if (selected?.record.kind === 'video') videoReplaceRef.current?.click()
+                else if (selected?.record.kind === 'frame-animation')
+                  frameReplaceRef.current?.click()
+              },
+            },
+            {
+              id: 'delete-selected-cutscene',
+              label: '删除当前过场资源…',
+              danger: true,
+              disabled: !selected || selectedReferences.length > 0,
+              title: selectedReferences.length
+                ? `有 ${selectedReferences.length} 处引用，不能删除`
+                : '删除当前过场资源',
+              onClick: () => void deleteSelected(),
+            },
+          ]}
           search={{
             'aria-label': '搜索过场资源',
             placeholder: '搜索名称或 AssetId',
@@ -636,6 +657,25 @@ export function CutsceneTab(props: {
           type="file"
           accept="image/png,image/jpeg,image/webp"
           onChange={(event) => onFrameFiles(event)}
+        />
+        <input
+          ref={videoReplaceRef}
+          hidden
+          type="file"
+          accept="video/mp4,video/webm"
+          onChange={(event) => {
+            const file = event.target.files?.[0]
+            if (file && selected) void importVideo(file, selected.id)
+            event.target.value = ''
+          }}
+        />
+        <input
+          ref={frameReplaceRef}
+          hidden
+          multiple
+          type="file"
+          accept="image/png,image/jpeg,image/webp"
+          onChange={(event) => onFrameFiles(event, selected?.id)}
         />
       </div>
 
@@ -763,58 +803,6 @@ export function CutsceneTab(props: {
                           </div>
                         </div>
                       )}
-                      <div className="section cutscene-actions-section">
-                        <h4>内容</h4>
-                        {selected.record.kind === 'video' ? (
-                          <DsButton
-                            size="compact"
-                            variant="secondary"
-                            onClick={() => videoReplaceRef.current?.click()}
-                          >
-                            替换视频
-                          </DsButton>
-                        ) : (
-                          <DsButton
-                            size="compact"
-                            variant="secondary"
-                            onClick={() => frameReplaceRef.current?.click()}
-                          >
-                            用图片序列替换
-                          </DsButton>
-                        )}
-                        <DsButton
-                          size="compact"
-                          variant="danger"
-                          disabled={selectedReferences.length > 0}
-                          title={
-                            selectedReferences.length
-                              ? `有 ${selectedReferences.length} 处引用，不能删除`
-                              : '删除资源'
-                          }
-                          onClick={() => void deleteSelected()}
-                        >
-                          删除资源
-                        </DsButton>
-                        <input
-                          ref={videoReplaceRef}
-                          hidden
-                          type="file"
-                          accept="video/mp4,video/webm"
-                          onChange={(event) => {
-                            const file = event.target.files?.[0]
-                            if (file) void importVideo(file, selected.id)
-                            event.target.value = ''
-                          }}
-                        />
-                        <input
-                          ref={frameReplaceRef}
-                          hidden
-                          multiple
-                          type="file"
-                          accept="image/png,image/jpeg,image/webp"
-                          onChange={(event) => onFrameFiles(event, selected.id)}
-                        />
-                      </div>
                     </>
                   ),
                 },
