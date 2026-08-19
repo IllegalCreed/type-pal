@@ -25,11 +25,11 @@ import type {
   TilesetDef,
 } from '@type-pal/reforge'
 import {
-  buildIsBlocked,
   Canvas2DRenderer,
   loadProjectMap,
   loadStandardPalette,
   loadTilesetAsset,
+  pixelToLattice,
 } from '@type-pal/reforge'
 import { type RefObject, useEffect, useRef, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
@@ -263,6 +263,15 @@ export function mapBoxOf(
   }
 }
 
+/** 编辑器碰撞遮罩只标记显式非零值；nullable 组合中的 null 是“没有碰撞记录”。 */
+export function isCollisionOverlayMarked(
+  map: IsometricMapContent<number | null>,
+  point: { row: number; col: number },
+): boolean {
+  const value = map.collision[point.row]?.[point.col]
+  return value !== null && value !== undefined && value !== 0
+}
+
 /**
  * 网格/禁入格叠加(世界坐标系;调用方不需预先 scale)。
  * ⚠ room 是矩形 cell 坐标;站立格是菱形轴 —— 像素域遍历:格中心 = (16a, 8b) 且 a+b 为偶。
@@ -293,22 +302,22 @@ export function drawGridBlocked(
   const px1 = Math.min((room.col + room.cols) * TILE_W + TILE_W, view.panX + vw + TILE_W)
   const py0 = Math.max(room.row * TILE_H, view.panY - TILE_H)
   const py1 = Math.min((room.row + room.rows) * TILE_H + TILE_H, view.panY + vh + TILE_H)
-  const isBlocked = show.blocked ? buildIsBlocked(map) : null
-  if (isBlocked) {
+  if (show.blocked) {
     const blockedPath = new Path2D()
     for (let b = Math.ceil(py0 / 8); b * 8 <= py1; b++) {
       for (let a = Math.ceil(px0 / 16); a * 16 <= px1; a++) {
         if (((a + b) & 1) !== 0) continue // 非格中心
         const cx = a * 16
         const cy = b * 8
-        // 禁入红只画图内子格(buildIsBlocked 界外恒 true 是游戏语义;编辑器画它 = 边缘一圈
-        // 误导性红圈,空白图看似全边被标碰撞 —— W7C-3 复验发现,W7c-1 遗留)
+        // 禁入红只画图内显式非零碰撞。组合的 nullable collision 中 null 表示“未记录”，
+        // 不能复用运行时 fail-closed 判定，否则扩展出来的空画布会整片标红。
         const inRoom =
           cx >= room.col * TILE_W &&
           cx < (room.col + room.cols) * TILE_W &&
           cy >= room.row * TILE_H &&
           cy < (room.row + room.rows) * TILE_H
-        if (inRoom && isBlocked(cx, cy)) diamond(blockedPath, cx, cy)
+        if (inRoom && isCollisionOverlayMarked(map, pixelToLattice(cx, cy)))
+          diamond(blockedPath, cx, cy)
       }
     }
     ctx.fillStyle = 'rgba(255, 70, 70, 0.3)'

@@ -3,7 +3,7 @@ import { loadTilesetAsset } from '@type-pal/reforge'
 import { act, useRef } from 'react'
 import { createRoot } from 'react-dom/client'
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
-import { useSceneAssets } from './scene-stage.js'
+import { isCollisionOverlayMarked, useSceneAssets } from './scene-stage.js'
 
 vi.mock('@type-pal/reforge', async (importOriginal) => {
   const original = await importOriginal<typeof import('@type-pal/reforge')>()
@@ -90,4 +90,19 @@ test('地图/场景舞台以 record sha 为失效键，同路径同长度替换�
   expect(vi.mocked(loadTilesetAsset)).toHaveBeenCalledTimes(1)
   await render('b'.repeat(64))
   expect(vi.mocked(loadTilesetAsset)).toHaveBeenCalledTimes(2)
+})
+
+test('碰撞遮罩忽略组合未记录的 null 与开放值 0，只标红显式非零碰撞', () => {
+  const stampSurface = {
+    ...projectMap,
+    width: 2,
+    collision: [
+      [null, 0],
+      [1, 7],
+    ],
+  }
+  expect(isCollisionOverlayMarked(stampSurface, { row: 0, col: 0 })).toBe(false)
+  expect(isCollisionOverlayMarked(stampSurface, { row: 0, col: 1 })).toBe(false)
+  expect(isCollisionOverlayMarked(stampSurface, { row: 1, col: 0 })).toBe(true)
+  expect(isCollisionOverlayMarked(stampSurface, { row: 1, col: 1 })).toBe(true)
 })
