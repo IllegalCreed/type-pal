@@ -34,7 +34,7 @@ import {
   setStampDraftVisual,
   updateStampDraftLayer,
 } from '../core/stamp-draft.js'
-import { DsButton, DsCheckbox, DsSelect, DsTextInput } from './design-system/index.js'
+import { DsButton, DsCheckbox, DsTextInput } from './design-system/index.js'
 import { IsometricEditorCanvas } from './IsometricEditorCanvas.js'
 import { IsometricEditorSurface } from './IsometricEditorSurface.js'
 import { type IsometricEditorTool, IsometricEditorToolbar } from './IsometricEditorToolbar.js'
@@ -42,7 +42,7 @@ import { LayerStackControls } from './LayerStackControls.js'
 import { drawMapSelectionOverlay } from './map-selection-overlay.js'
 import { loadStampPreviewAssets } from './StampPreviewCanvas.js'
 import { mapBoxOf, useStageSize, useViewZoomPan } from './scene-stage.js'
-import { TilePickerGrid } from './TilePickerGrid.js'
+import { TilePalettePicker } from './TilePickerGrid.js'
 
 interface StampEditorAssets {
   palette: Palette
@@ -476,16 +476,15 @@ export function StampContentEditor(props: {
 
   const palette = (
     <section className="stamp-tile-palette">
-      <DsSelect
-        searchable
-        size="compact"
-        aria-label="组合绘制瓦片集"
-        value={selectedTilesetId}
-        options={props.tilesets.map(({ id, name }) => ({ value: id, label: `${name} · ${id}` }))}
-        onValueChange={setSelectedTilesetId}
-      />
       {assets ? (
-        <TilePickerGrid
+        <TilePalettePicker
+          tilesetAriaLabel="组合绘制瓦片集"
+          tilesetOptions={props.tilesets.map(({ id, name }) => ({
+            value: id,
+            label: `${name} · ${id}`,
+          }))}
+          selectedTilesetId={selectedTilesetId}
+          onSelectTileset={setSelectedTilesetId}
           ariaLabel="组合瓦片列表"
           entries={[...selectedTiles.entries()].sort((left, right) => left[0] - right[0])}
           palette={assets.palette}

@@ -1,6 +1,7 @@
 import type { Palette, RleFrame } from '@type-pal/reforge'
 import { bakeFrame } from '@type-pal/reforge'
 import { memo, useLayoutEffect, useRef } from 'react'
+import { DsSelect } from './design-system/index.js'
 
 export interface TilePickerGridProps {
   ariaLabel: string
@@ -8,6 +9,13 @@ export interface TilePickerGridProps {
   palette: Palette
   selectedTileId: number
   onPick: (tileId: number) => void
+}
+
+export interface TilePalettePickerProps extends TilePickerGridProps {
+  tilesetAriaLabel: string
+  tilesetOptions: readonly { value: string; label: string }[]
+  selectedTilesetId: string
+  onSelectTileset: (tilesetId: string) => void
 }
 
 const TilePickerItem = memo(function TilePickerItem(props: {
@@ -58,5 +66,27 @@ export const TilePickerGrid = memo(function TilePickerGrid(props: TilePickerGrid
         />
       ))}
     </fieldset>
+  )
+})
+
+export const TilePalettePicker = memo(function TilePalettePicker(props: TilePalettePickerProps) {
+  return (
+    <div className="tile-palette-picker">
+      <DsSelect
+        searchable
+        size="compact"
+        aria-label={props.tilesetAriaLabel}
+        value={props.selectedTilesetId}
+        options={props.tilesetOptions}
+        onValueChange={props.onSelectTileset}
+      />
+      <TilePickerGrid
+        ariaLabel={props.ariaLabel}
+        entries={props.entries}
+        palette={props.palette}
+        selectedTileId={props.selectedTileId}
+        onPick={props.onPick}
+      />
+    </div>
   )
 })

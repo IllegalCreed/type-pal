@@ -116,7 +116,6 @@ import {
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
-  DsSelect,
 } from './design-system/index.js'
 import { IsometricEditorCanvas } from './IsometricEditorCanvas.js'
 import { IsometricEditorSurface } from './IsometricEditorSurface.js'
@@ -138,7 +137,7 @@ import {
 } from './scene-stage.js'
 import { drawStampPlacementOverlay } from './stamp-placement-overlay.js'
 import { drawStampPlacementSelectionOverlay } from './stamp-placement-selection-overlay.js'
-import { TilePickerGrid } from './TilePickerGrid.js'
+import { TilePalettePicker } from './TilePickerGrid.js'
 
 const DEFAULT_COLS = 24
 const DEFAULT_ROWS = 24
@@ -3546,30 +3545,24 @@ export function MapMode(props: {
                       ) : null}
                     </div>
                     {inspectorTab === 'draw' && liveMap && loaded ? (
-                      <>
-                        <DsSelect
-                          size="compact"
-                          searchable
-                          aria-label="绘制瓦片集"
-                          value={selectedTilesetId}
-                          options={tilesets.map(({ id, name, category }) => ({
-                            value: id,
-                            label: `${name}（${category}）`,
-                          }))}
-                          onValueChange={setSelectedTilesetId}
-                        />
-                        <TilePickerGrid
-                          ariaLabel="瓦片列表"
-                          entries={[...selectedTiles.entries()].sort((a, b) => a[0] - b[0])}
-                          palette={loaded.palette}
-                          selectedTileId={selectedTile}
-                          onPick={(id) => {
-                            setSelectedTile(id)
-                            activateMapTool('brush')
-                            canvasRef.current?.focus({ preventScroll: true })
-                          }}
-                        />
-                      </>
+                      <TilePalettePicker
+                        tilesetAriaLabel="绘制瓦片集"
+                        tilesetOptions={tilesets.map(({ id, name, category }) => ({
+                          value: id,
+                          label: `${name}（${category}）`,
+                        }))}
+                        selectedTilesetId={selectedTilesetId}
+                        onSelectTileset={setSelectedTilesetId}
+                        ariaLabel="瓦片列表"
+                        entries={[...selectedTiles.entries()].sort((a, b) => a[0] - b[0])}
+                        palette={loaded.palette}
+                        selectedTileId={selectedTile}
+                        onPick={(id) => {
+                          setSelectedTile(id)
+                          activateMapTool('brush')
+                          canvasRef.current?.focus({ preventScroll: true })
+                        }}
+                      />
                     ) : (
                       <p className="hint2 map-panel-empty">正在载入瓦片…</p>
                     )}

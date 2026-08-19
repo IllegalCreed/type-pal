@@ -777,7 +777,9 @@ describe('MapMode 地图内容选择交互', () => {
     expect(host.querySelector('.map-stamp-palette')).toBeNull()
 
     await act(async () => inspectorTab(host, '绘制').click())
-    expect(host.querySelector('.map-inspector .tile-picker-grid')).not.toBeNull()
+    const tilePalette = host.querySelector('.map-inspector .tile-palette-picker')!
+    expect(tilePalette.querySelector(':scope > .ds-select')).not.toBeNull()
+    expect(tilePalette.querySelector(':scope > .tile-picker-grid')).not.toBeNull()
     expect(host.querySelector('.map-outliner .tile-picker-grid')).toBeNull()
     expect(host.querySelector('.map-inspector .map-stamp-palette')).not.toBeNull()
     const sections = [...host.querySelectorAll<HTMLElement>('.map-draw-section')]

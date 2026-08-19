@@ -96,16 +96,20 @@ describe('editor design-system static boundary', () => {
 
   test('keeps layer header actions visually separated', () => {
     const businessCss = readFileSync(join(dirname(here), 'editor.css'), 'utf8')
-    expect(businessCss).toMatch(
-      /\.map-layer-panel__header\s*\{[\s\S]*?gap:\s*var\(--ds-space-3\);/,
-    )
+    expect(businessCss).toMatch(/\.map-layer-panel__header\s*\{[\s\S]*?gap:\s*var\(--ds-space-3\);/)
   })
 
-  test('keeps the stamp tileset selector above the scrolling tile grid', () => {
+  test('keeps map and stamp on the shared tileset selector and scrolling tile grid', () => {
+    const uiRoot = dirname(here)
     const businessCss = readFileSync(join(dirname(here), 'editor.css'), 'utf8')
     expect(businessCss).toMatch(
-      /\.stamp-inspector-palette-host \.stamp-tile-palette\s*\{[\s\S]*?display:\s*grid;[\s\S]*?grid-template-rows:\s*auto minmax\(0, 1fr\);[\s\S]*?overflow:\s*hidden;/,
+      /\.tile-palette-picker\s*\{[\s\S]*?display:\s*grid;[\s\S]*?grid-template-rows:\s*auto minmax\(0, 1fr\);[\s\S]*?overflow:\s*hidden;/,
     )
+    for (const file of ['MapMode.tsx', 'StampContentEditor.tsx']) {
+      const source = readFileSync(join(uiRoot, file), 'utf8')
+      expect(source, file).toMatch(/<TilePalettePicker\b/)
+      expect(source, file).not.toMatch(/<TilePickerGrid\b/)
+    }
   })
 
   test('keeps object workspace cards content-sized inside the scrolling grid', () => {

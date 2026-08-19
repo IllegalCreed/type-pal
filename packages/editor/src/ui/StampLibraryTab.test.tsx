@@ -586,7 +586,9 @@ describe('StampLibraryTab', () => {
 
     await act(async () => new Promise((resolve) => window.setTimeout(resolve, 0)))
     await act(async () => button('瓦片', host).click())
-    expect(host.querySelector('.stamp-inspector-palette-host .tile-picker-grid')).not.toBeNull()
+    const tilePalette = host.querySelector('.stamp-inspector-palette-host .tile-palette-picker')!
+    expect(tilePalette.querySelector(':scope > .ds-select')).not.toBeNull()
+    expect(tilePalette.querySelector(':scope > .tile-picker-grid')).not.toBeNull()
     expect(host.querySelectorAll('.tile-picker-item')).toHaveLength(3)
     const toolbar = host.querySelector('.stamp-content-editor > .map-toolbar')!
     for (const label of ['平移', '选择', '取样', '笔刷', '矩形', '填充', '擦除', '碰撞', '视图'])
