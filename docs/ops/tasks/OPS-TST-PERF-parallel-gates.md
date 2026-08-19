@@ -1,7 +1,7 @@
 # OPS-TST-PERF-B - shared/fresh 隔离并行 release runner
 
-Status: rework
-Execution: rework（用户 2026-08-19 纠正：地图证明必须使用当前 canonical v4，不得还原旧结构）
+Status: build
+Execution: active（v4-only 补充三签已齐；以最新 `dacd7ec8` 为 build 起点）
 Phase: ops
 Capability: test infrastructure / release gate
 Coding Owner: Codex
@@ -161,7 +161,14 @@ parallel 命令必须失败，默认串行命令保持不变。
   **不再授权当前 rework build**；须基于下述 v4-only 真值补充 Codex/Kimi/GLM 三方
   `premise verified + design agree` 后才能继续改实现或运行 canary/proof。
 
-### 2026-08-19 v4-only 前提补充（待三方重签）
+- 2026-08-19 GLM（数据/机械核对）: v4-only 前提补充审查完成，签 **premise verified + design agree
+  （附 PB3-PB4）**。223/223 v4、digest 含 maps 机械成立、越界层实锤；**替代解释两前提均被证伪
+  （seal 按构造 whole-content + 地图域无独立 authority）——v4 重建是唯一修复层**；受影响面含
+  R13 常量/7 消费者/越界层/双 manifest + 凡 digest 覆盖 maps 的 rewind seal（c1 抽查不含）；
+  leaf/route/coverage/transaction 保持证据清单与 PB3 逐 seal 域普查、PB4 owned-leaf sha256
+  对照表已列。未改实现未跑长测。
+
+### 2026-08-19 v4-only 前提补充（三方重签已齐）
 
 一句话前提：当前工程 223 张地图已经完整切换为 ProjectMap v4；R13/release 的 live proof 必须
 直接消费 v4 source/baseline/project，历史由 Git 保存，不得通过 v2 body/hash 投影维持旧 seal。
@@ -181,6 +188,115 @@ seal”的观察是：primary-source seal 合同明确要求 domain-scoped diges
 可证伪观察：任何 v2/v3 value、pre-v4 hash、legacy map parser/upgrader/fallback 进入活代码；v4 source
 producer 与当前 project/baseline 不一致；更新 seal 时 enemy/script owned leaf、route/title/coverage 或
 transaction evidence 发生未解释变化。任一出现即继续 `rework`。
+
+#### Kimi 重签（2026-08-19 v4-only 前提补充；本人一手读码，非代理）
+
+**裁决：机械重建 v4 whole-content seal，反对把地图域从 R13 seal 分离。**
+
+Primary-source 证据（三点，均为本席直接打开核实）：
+
+1. **seal 合同是 whole-content 而非 domain-scoped**：`digestR13ContentSnapshot`
+   （source-instruction-disposition.ts:706-712）对快照中全部 managedFiles 的完整 path/value 排序
+   哈希——没有域过滤参数，也没有任何「敌/脚本域」限定。`R13_ENEMY_SCRIPT_PARENT_CONTENT_DIGEST`
+   与 `SUCCESSOR_CONTENT_DIGEST`（r13-enemy-script-augmentation.ts:26-31）的职责名就是「parent
+   content authority」，且在 :435/:458/:535/:635 与 r13-source-semantics-mg2.ts:1473 多处作为整
+   快照权威被强制。enemy/script 的 owned leaf digest（PARENT/CURRENT_ENEMIES_DIGEST、SKILLS_DIGEST，
+   :32-36）是在 whole-content 之上**额外**存在的细粒度锚——证明 seal 设计本身已分层：整包防伪 +
+   域内语义，而非只有域内。
+2. **parent digest 是 live producer 输出钉，不是冻结历史工件**：:734-735 显示 evidence 的
+   parent/successor digest 由当前 source producer 现算现写。当前 canonical 合法切版（v4）改变
+   producer 输出时，正确的维护路径就是机械重算并更新常量——这正是 seal 的预期生命周期，而不是
+   seal 被破坏。「把 v4 投影回 pre-v4 以保旧 digest」（703edf05..cfaccb39 的做法）才是把 seal
+   用错层：它让 seal 不再描述当前 producer 的真实输出。
+3. **分离方案的反证条件不成立**：卡文最强替代解释成立的前提是「seal 合同明确要求 domain-scoped
+   digest，且已有独立全内容 authority 覆盖地图域」。两点均不满足——合同是 whole-content（见 1）；
+   R13 parent 这个特定历史组合没有第二处全内容 authority（leaf digest 只覆盖 enemies/skills，
+   oracle/manifest fingerprint 管的是当前工程而非 R13 parent 组合）。把地图域分离出去会在 R13
+   parent 证明里留下永久无覆盖面：未来任何非预期地图域漂移将不再被该 authority 捕获。
+
+**重建的正确形态（本席认可的执行约束）**：
+
+- 删除 703edf05..cfaccb39 的 pre-v4 hash/body 投影 authority（用户裁决为 rework）；
+- 在 v4 live producer 上重算受影响的 parent/successor/seal/oracle 常量；
+- 逐项机械证明重建只解释地图域变化：enemy/script owned leaf digest 逐字节不变、route/title/
+  coverage 不变、transaction evidence 不变、managed list 与 generator epoch 不变（卡内
+  2026-08-19 审计已给出 223 个 map-*.json 是唯一差异的基线）。
+
+**可证伪观察（任一出现即继续 rework）**：
+
+1. 重建 digest 时 enemy/script owned leaf、route/title/coverage 或 transaction evidence 出现
+   无法用 v4 切版逐项解释的变化——说明重建掩盖了非地图漂移，停线。
+2. 重建后仍有任何 pre-v4 hash/body 投影、v2/v3 value 或 legacy parser 进入活代码——违反
+   v4-only，停线。
+3. 若有人主张分离方案，必须先出示「whole-content seal 应为 domain-scoped」的 primary-source
+   条款及地图域的独立全内容 authority——当前均不存在。
+
+结论：**premise verified + design agree**——按机械重建 v4 whole-content seal 执行。
+只读审查，未改实现，未运行 canary/proof，未标 build/done。
+
+#### GLM v4-only 前提补充审查（2026-08-19，机械核对；本人一手读码 + census，非代理）
+
+- **premise: verified**。四项机械核对：
+  1. **223/223 图 v4**（本人 node 复数）；`validateProjectMap` 仅收 version 4 且 fail-loud
+     （project-map.ts:303-313），v2/v3 parser 在实现包零残留（本人 rg）。
+  2. **whole-content digest 必然含地图**：`digestR13ContentSnapshot` = 对全部 managedFiles
+     排序 stableJson（source-instruction-disposition.ts:706-712）；`content/maps/*.json` 由
+     migration 产出进 managedFiles（pal-migration.ts:809-827）——地图合法切版必然改变
+     R13 parent/successor digest，前提主张机械成立。
+  3. **越界层实锤**：`703edf05` 引入 932 行 `historical-map-surface-authority.ts`（v2
+     body/hash 投影）+ 两处 manifest 重冻结；`f34dc375`/`cfaccb39` 扩展之——正是用户裁决
+     必须删除的"以 v2 投影维持旧 seal"。
+  4. **最强替代解释已被本人独立证伪（修复层裁决）**：其两个前提条件均不成立——
+     (a) seal 合同**按构造即 whole-content**（digestR13ContentSnapshot 无任何 domain 分域）；
+     (b) **地图域不存在独立 authority**（pal-oracle/v1/manifest 零 map 引用；15 个 transition
+     seal 中无地图域 seal；c1 为 enemies/items/scenes/shared-scripts 逐文件域、不含 maps）。
+     分域方案会使地图迁移完全无 seal 覆盖——**v4 whole-content authority 重建是唯一正确
+     修复层**。
+- **受影响面普查（本人机械枚举）**：R13 digest 常量（r13-enemy-script-augmentation.ts:26-30）
+  及全部 digestR13ContentSnapshot 消费者（7 文件含 source-semantics-canary/cadence-evidence/
+  existing-schema-augmentation 等）；historical-map-surface-authority.ts + 测试（删除）；
+  pal-oracle/v1/manifest.json 与 test-manifest-v1.json（三个越界提交均改，须在 v4 上重冻结）；
+  **凡 rewind 校验的 recorded digest 覆盖 map 文件的 seal 都在受影响面**——c1 本人抽查为
+  逐文件域不含 maps（s000-s293 scenes + enemies/items/shared-scripts，无 maps），但 b10/w9
+  的 contentDigest 计算域须在重建时逐 seal 机械判定（→PB3）。
+- **v4 authority 重建后必须保持的证据（清单）**：
+  - **leaf**：enemy/script owned 文件跨切版逐字节不变（v4 仅触 maps/stamps）——重建前后
+    per-file sha256 对照表；R13 enemies 三方校验（parent/historical/current，:638-641）
+    结果不变。
+  - **route/coverage**：oracle `projectionSha256` 不变（仅 manifest source fingerprint 随实现
+    移动）；测试计数冻结 fast 92/678、release 116/810、canary 1/2；三组 proof pair 的
+    test-list/route digest 与 listed/runnable/skipped/unlistedSkipped 逐项相等。
+  - **transaction**：受保护 workspace writes/deletes/conflicts = 0/0/0；每 child 唯一 fresh
+    transaction root；四次 serial-control 与既有 proof pair 报告作为可比基线，v4 重建后
+    新跑须复现同一守恒合同。
+- **design: agree（附增量钉 PB3-PB4；PB1/PB2 继续有效）**：
+  - **PB3（15 seal 域普查入卡）**：重建前机械枚举全部 15 个 transition seal 的 digest 域
+    （whole-content vs 逐文件清单），受影响者重建、不受影响者（如 c1）显式列"已核不受
+    影响"——任何 seal 不得被静默跳过。
+  - **PB4（owned-leaf 不变性证明）**：重建前后 enemies.json 与全部 script chunk 的逐文件
+    sha256 对照表入卡；任何 owned-leaf 变化即"未解释变化"按卡文可证伪观察继续 rework。
+- 未改实现、未运行长测；本签字仅覆盖 v4-only 前提补充，runner/proof protocol 部分沿用
+  2026-08-17 历史签字的事实地位。
+
+#### Codex v4-only 前提补充重签（2026-08-19，最新 HEAD 独立复核）
+
+- **premise verified**：本人在 `dacd7ec8` 机械复核当前 PAL 地图为 **223/223 version 4**；
+  `7df14754..dacd7ec8` 的已提交漂移仅为 `packages/editor` **43 files**，未触及
+  `packages/migrate`、`packages/content`、`packages/reforge`、`projects/pal` 或 B/C 卡，故
+  Kimi/GLM 重签所依赖的 v4 source/seal 真值未发生变化。
+- **修复层独立结论**：`digestR13ContentSnapshot` 对所有 managed body 做 whole-content digest，
+  enemy/skills leaf digest 是额外细粒度锚；当前无覆盖同一 R13 parent 组合的独立地图 authority。
+  因此同意 Kimi/GLM：删除 pre-v4 投影并在 live v4 producer 上机械重建 whole-content authority，
+  不把地图域从 seal 分离。
+- **design agree（携带 PB1-PB4）**：先保存 PB3 全 transition-seal digest 域 inventory 与 PB4
+  `enemies.json + 全 script chunks` 逐文件 sha256 对照，再删除 `703edf05..cfaccb39` 投影层；只
+  重建 PB3 判定受 v4 maps 影响的 authority。任何 owned leaf、route/title/coverage、transaction
+  或未受影响 seal 漂移均 fail-closed。完成定向门禁并固定提交后，才运行三组正式 proof。
+- 可证伪观察：最新 HEAD 若出现 migrate/content/project 漂移、任何 v2/v3 map 活代码残留、PB4
+  非零差异或 PB3 未解释 seal 变化，立即退回 `rework`。本次只读复核未运行 canary/proof。
+
+- v4-only build 重新准入结论：**allowed（2026-08-19，HEAD `dacd7ec8`）**——Codex/Kimi/GLM
+  三方 `premise verified + design agree` 已齐，PB1-PB4 均为 build/验收硬门禁。
 
 ### 进入 done 前：实现签字
 
@@ -378,21 +494,24 @@ transaction evidence 发生未解释变化。任一出现即继续 `rework`。
   `ProjectMap` 当前加载边界仅接受 v4、223 图切版已 done，符合开发期 canonical 单版本铁律。
   Next: B 转 `rework`，原三签失效；Codex/Kimi/GLM 先独立核实 v4 seal 修复层并重签，签字前不得
   删除/修改实现或运行 canary/proof。C 因执行顺序依赖 B 暂时 blocked。
+- 2026-08-19 Kimi: v4-only 前提补充审查完成，签 **premise verified + design agree——裁决机械
+  重建 v4 whole-content seal，反对地图域分离**。Primary-source 证据：`digestR13ContentSnapshot`
+  对全部 managedFiles 无域过滤哈希（whole-content 合同）；parent/successor digest 是 live
+  producer 输出钉（:734-735），合法切版后的机械重算正是 seal 预期生命周期；leaf digest 仅覆盖
+  enemies/skills，R13 parent 无第二处全内容 authority，分离会留永久无覆盖面。执行约束：删除
+  703edf05..cfaccb39 投影、v4 producer 重算常量、enemy/script leaf/route/coverage/transaction
+  逐项不变式机械证明。未改实现，未运行 canary/proof，未标 build/done。
+  Next: Codex/GLM 重签后再删实现与重建 authority。
+- 2026-08-19 GLM: v4-only 前提补充审查完成，签 **premise verified + design agree（附
+  PB3-PB4）**。机械确认 223/223 v4、whole-content digest 含 maps、pre-v4 投影越界；独立证伪
+  domain 分离方案，并给出 15 seal 域 inventory 与 owned-leaf sha256 对照硬门。未改实现、未跑长测。
+- 2026-08-19 Codex: 在最新 `dacd7ec8` 独立复核并重签 **premise verified + design agree
+  （携带 PB1-PB4）**。签字后已提交代码只改 editor 43 files，未触及 v4 source/seal 前提；三签齐，
+  B 恢复 `build`。Next: 先保存 PB3/PB4 机械证据，再删 pre-v4 投影并重建 v4 authority；定向门禁
+  与固定提交完成前不得启动三组 proof。
 
 ## 下一位 Agent 提示词
 
-下一位 Kimi 提示词：
-
-> 请审查 `docs/ops/tasks/OPS-TST-PERF-parallel-gates.md` 的“2026-08-19 v4-only 前提补充”。先读
-> `AGENTS.md:19-24`、`docs/phase2/READ-FIRST.md:28`、ProjectMap v4 validator、R13 whole-content
-> digest/enemy seal 与三次 canary 失败记录。独立判断应机械重建 v4 whole-content seal，还是把地图域
-> 从 R13 owned-domain seal 分离；必须给 primary-source 证据、可证伪观察，并签 `premise verified +
-> design agree` 或 `counter`。不得改实现、不得恢复 canary/proof、不得标 build/done。
-
-下一位 GLM 提示词：
-
-> 请审查 `docs/ops/tasks/OPS-TST-PERF-parallel-gates.md` 的“2026-08-19 v4-only 前提补充”。机械核对
-> 当前 223 图/manifest/oracle/R13 parent-successor-seal 的受影响面，列出 v4 authority 重建后必须保持的
-> enemy/script leaf、route/title/coverage/transaction 证据，以及 duplicate/missing/stale-old-version
-> fail-closed 检查。签 `premise verified + design agree` 或 `counter`，不得改实现、不得运行长测、
-> 不得标 build/done。
+无下一位 Agent 提示词：v4-only 三方 build 前重签已齐，由 Coding Owner Codex 继续 build；进入
+done 前仍须 Codex/Kimi/GLM implementation accept。先闭合 PB3/PB4、删除旧投影并机械重建 v4
+authority，固定候选与定向门禁通过前不得启动三组正式 proof。

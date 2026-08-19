@@ -28,7 +28,7 @@
 | ED-MAP-PALETTE-CONTROLS-1 | 地图组合 Palette 控件统一 | done | 三方 accept + 用户验收齐，整卡收口 | Palette 行为/边界与共享控件统一；editor 131 files / 975 tests + typecheck 全绿 |
 | ED-STAMP-MAP-MODEL-1 | 组合/地图共享内容模型与相对高度 | done | 三方 accept + 用户验收齐，整卡收口 | 唯一 v4、relative H、共享 content/画布与当前工程切版完成；全量门禁复绿 |
 | ED-MAP-MULTI-TILESET-1 | 地图多瓦片集作者模型 | done | 三方 accept + 用户验收齐，整卡收口 | 紧凑 source matrix、runtime/编辑/组合放置与 223 图迁移完成；全量门禁复绿 |
-| OPS-TST-PERF-B | shared/fresh 隔离并行 runner | rework | Kimi/GLM 独立核实 v4 seal 修复层并与 Codex 重签 | 用户纠正地图证明必须使用当前 canonical v4；旧结构 authority 待签字后删除 |
+| OPS-TST-PERF-B | shared/fresh 隔离并行 runner | build | Codex 先闭合 PB3/PB4，再删投影并重建 v4 authority | v4-only 三签已齐；最新代码漂移仅 editor 43 files，定向门禁后才跑三组 proof |
 | OPS-TST-PERF-C | P2/P3/P4 consolidated determinism proof | blocked | 等 B 重签、实现并转 review 后恢复 build | PC1-PC3 不变；不得提前生成 coverage map 或改默认 release route |
 
 ## 看板规则
