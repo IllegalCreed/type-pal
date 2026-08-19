@@ -201,6 +201,7 @@ async function input(element: HTMLInputElement, value: string): Promise<void> {
     const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
     setter.call(element, value)
     element.dispatchEvent(new Event('input', { bubbles: true }))
+    element.dispatchEvent(new FocusEvent('focusout', { bubbles: true }))
   })
 }
 
@@ -454,7 +455,6 @@ describe('StampLibraryTab', () => {
 
     await input(host.querySelector<HTMLInputElement>('[aria-label="组合名称"]')!, '古树')
     await input(host.querySelector<HTMLInputElement>('[aria-label="组合标签"]')!, '古迹')
-    await act(async () => button('保存组合', host).click())
     expect(session.getState().stamps[0]).toMatchObject({ name: '古树', category: '古迹' })
 
     await act(async () =>
@@ -587,11 +587,13 @@ describe('StampLibraryTab', () => {
     expect(button('设为锚点', toolbar).disabled).toBe(true)
     await clickDraftPoint({ row: 1, col: 0 })
     expect(button('设为锚点', toolbar).disabled).toBe(false)
+    expect(host.querySelector('.map-viewport-status--coordinate')?.textContent).toBe('R1 · C0')
+    expect(host.querySelector('.map-viewport-status--context')?.textContent).toContain('地板 · 选择')
     await act(async () => button('设为锚点', toolbar).click())
     expect(host.querySelector('[data-property-label="锚点"]')?.textContent).toContain('r1 · c0')
   })
 
-  test('属性页可调整组合画布尺寸并在保存时保持矩阵同构', async () => {
+  test('属性页调整组合画布尺寸后立即进入全局编辑会话并保持矩阵同构', async () => {
     const session = new EditSession(state([template()], {}))
     await act(async () => {
       root.render(<Harness session={session} />)
@@ -600,7 +602,6 @@ describe('StampLibraryTab', () => {
 
     await commitNumber(host.querySelector<HTMLInputElement>('[aria-label="组合画布宽度"]')!, 7)
     await commitNumber(host.querySelector<HTMLInputElement>('[aria-label="组合画布高度"]')!, 4)
-    await act(async () => button('保存组合', host).click())
 
     const saved = session.getState().stamps[0]!
     expect(saved).toMatchObject({ width: 7, height: 4 })
@@ -609,7 +610,7 @@ describe('StampLibraryTab', () => {
     expect(saved.collision).toHaveLength(8)
   })
 
-  test('内容编辑只在保存时提交一笔模板 history，undo/redo 全程不改地图与 MapIndex', async () => {
+  test('内容编辑直接提交全局 history，且全程不改地图与 MapIndex', async () => {
     const map = placedMap('tree')
     const session = new EditSession(state([template()], { 'map-a': map }))
     const beforeMaps = structuredClone(session.getState().maps)
@@ -655,13 +656,12 @@ describe('StampLibraryTab', () => {
     await act(async () => button('碰撞', toolbar).click())
     await act(async () => button('标记', toolbar).click())
     await clickDraftPoint({ row: 0, col: 1 })
-    expect(button('保存组合', host).disabled).toBe(false)
-    expect(session.getHistoryVersion()).toBe(historyBefore)
+    expect(button('保存组合', host)).toBeUndefined()
+    expect(button('取消', host)).toBeUndefined()
+    expect(session.getHistoryVersion()).toBe(historyBefore + 3)
     expect(session.getState().maps).toEqual(beforeMaps)
     expect(session.getState().mapIndex).toEqual(beforeMapIndex)
 
-    await act(async () => button('保存组合', host).click())
-    expect(session.getHistoryVersion()).toBe(historyBefore + 1)
     expect(session.getState().stamps[0]?.layers.map(({ id }) => id)).toEqual(['floor', 'layer'])
     expect(
       session
@@ -676,7 +676,13 @@ describe('StampLibraryTab', () => {
     expect(session.getState().mapIndex).toEqual(beforeMapIndex)
 
     await act(async () => session.undo())
-    expect(visualMembers(session.getState().stamps[0]!)).toHaveLength(1)
+    expect(visualMembers(session.getState().stamps[0]!)).toHaveLength(2)
+    expect(
+      session
+        .getState()
+        .stamps[0]?.collision.flat()
+        .filter((value) => value !== null),
+    ).toEqual([])
     expect(session.getState().maps).toEqual(beforeMaps)
     expect(session.getState().mapIndex).toEqual(beforeMapIndex)
 
@@ -746,7 +752,6 @@ describe('StampLibraryTab', () => {
     expect(canvas.dataset.isometricEditorCanvas).toBe('true')
     expect(button('平移', toolbar).getAttribute('aria-pressed')).toBe('true')
 
-    await act(async () => button('保存组合', host).click())
     expect(visualMembers(session.getState().stamps[0]!)).toHaveLength(60)
     expect(visualMembers(session.getState().stamps[0]!).some((member) => member.tileId === 0)).toBe(
       true,
@@ -773,8 +778,6 @@ describe('StampLibraryTab', () => {
     await chooseToolOption('笔刷面积', '2 × 2')
     await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="瓦片 #2"]')!.click())
     await clickDraftPoint({ row: 2, col: 2 })
-    await act(async () => button('保存组合', host).click())
-
     const painted = visualMembers(session.getState().stamps[0]!).filter(
       (member) => member.tileId === 2,
     )
@@ -806,14 +809,12 @@ describe('StampLibraryTab', () => {
     await chooseToolOption('笔刷面积', '5 × 5')
     await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="瓦片 #2"]')!.click())
     await clickDraftPoint({ row: 2, col: 2 })
-    await act(async () => button('保存组合', host).click())
-
     expect(
       visualMembers(session.getState().stamps[0]!).filter((member) => member.tileId === 2),
     ).toHaveLength(25)
   })
 
-  test('内容草稿离开时先确认，取消编辑保持工程与迁移来源不变', async () => {
+  test('预置组合未接管时保持只读，切换组合不再出现局部草稿确认', async () => {
     const migrated = { ...template('tree'), origin: 'migrated' as const }
     const session = new EditSession(state([migrated, template('rock')], {}))
     const historyBefore = session.getHistoryVersion()
@@ -828,25 +829,17 @@ describe('StampLibraryTab', () => {
       await new Promise((resolve) => window.setTimeout(resolve, 0))
     })
     await act(async () => new Promise((resolve) => window.setTimeout(resolve, 0)))
-    await clickDraftPoint({ row: 1, col: 0 })
+    expect(host.querySelector<HTMLInputElement>('[aria-label="组合名称"]')?.disabled).toBe(true)
 
     const rock = host.querySelector<HTMLButtonElement>('[data-stamp-id="rock"]')!
     await act(async () => rock.click())
-    expect(document.querySelector('dialog')?.textContent).toContain('放弃未保存的组合修改？')
+    expect(document.querySelector('dialog')).toBeNull()
     expect(session.getState().stamps[0]?.origin).toBe('migrated')
     expect(session.getHistoryVersion()).toBe(historyBefore)
-
-    await act(async () => button('继续编辑', document).click())
     expect(host.querySelector('[aria-label="组合地图编辑画布"]')).not.toBeNull()
-    await act(async () => button('取消', host).click())
-    await act(async () => button('放弃草稿', document).click())
-    expect(host.querySelector('[aria-label="组合地图编辑画布"]')).not.toBeNull()
-    expect(button('保存组合', host).disabled).toBe(true)
-    expect(session.getState().stamps[0]?.origin).toBe('migrated')
-    expect(session.getHistoryVersion()).toBe(historyBefore)
   })
 
-  test('空库可选择瓦片集新建组合，首个视觉成员与模板一起原子提交', async () => {
+  test('空库新建组合在首次有效绘制时原子进入全局会话', async () => {
     const session = new EditSession(state([], {}))
     await act(async () => {
       root.render(
@@ -869,7 +862,6 @@ describe('StampLibraryTab', () => {
     await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="瓦片 #1"]')!.click())
     await clickDraftPoint(blank.anchor, blank)
 
-    await act(async () => button('保存组合', host).click())
     expect(session.getHistoryVersion()).toBe(1)
     expect(session.getState().stamps[0]).toMatchObject({
       id: 'stamp-user',
@@ -882,7 +874,7 @@ describe('StampLibraryTab', () => {
     expect(session.getState().stamps).toHaveLength(0)
   })
 
-  test('迁移预置内容直到确认保存才接管为 authored', async () => {
+  test('迁移预置内容显式接管后立即进入全局会话', async () => {
     const migrated = { ...template(), origin: 'migrated' as const }
     const session = new EditSession(state([migrated], {}))
     await act(async () => {
@@ -896,39 +888,36 @@ describe('StampLibraryTab', () => {
       await new Promise((resolve) => window.setTimeout(resolve, 0))
     })
     await act(async () => new Promise((resolve) => window.setTimeout(resolve, 0)))
-    await clickDraftPoint({ row: 1, col: 0 })
     await act(async () => {
       const takeover = host.querySelector<HTMLInputElement>(
         '.stamp-content-properties input[type="checkbox"]',
       )
       takeover?.click()
     })
-    await act(async () => button('保存组合', host).click())
     expect(session.getState().stamps[0]?.origin).toBe('authored')
+    await act(async () => button('笔刷', host).click())
+    await clickDraftPoint({ row: 1, col: 0 })
     expect(visualMembers(session.getState().stamps[0]!)).toHaveLength(2)
-    expect(session.getHistoryVersion()).toBe(1)
+    expect(session.getHistoryVersion()).toBe(2)
     await act(async () => session.undo())
-    expect(session.getState().stamps[0]?.origin).toBe('migrated')
+    expect(session.getState().stamps[0]?.origin).toBe('authored')
   })
 
-  test('预置组合未勾选接管时拒绝保存，勾选后才原子接管', async () => {
+  test('预置组合未接管时编辑控件禁用，接管后恢复', async () => {
     const migrated = { ...template(), origin: 'migrated' as const }
     const session = new EditSession(state([migrated], {}))
     await act(async () => {
       root.render(<Harness session={session} />)
       await Promise.resolve()
     })
-    await input(host.querySelector<HTMLInputElement>('[aria-label="组合名称"]')!, '接管后的树')
-    const save = button('保存组合', host)
-    await act(async () => save.click())
-    expect(host.textContent).toContain('必须显式接管后才能修改')
+    expect(host.querySelector<HTMLInputElement>('[aria-label="组合名称"]')?.disabled).toBe(true)
     expect(session.getHistoryVersion()).toBe(0)
     const takeover = host.querySelector<HTMLInputElement>(
       '.stamp-content-properties input[type="checkbox"]',
     )!
     await act(async () => takeover.click())
-    await act(async () => save.click())
     expect(session.getState().stamps[0]?.origin).toBe('authored')
     expect(session.getHistoryVersion()).toBe(1)
+    expect(host.querySelector<HTMLInputElement>('[aria-label="组合名称"]')?.disabled).toBe(false)
   })
 })

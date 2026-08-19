@@ -45,6 +45,7 @@ import {
 import { IsometricEditorCanvas } from './IsometricEditorCanvas.js'
 import { IsometricEditorSurface } from './IsometricEditorSurface.js'
 import { type IsometricEditorTool, IsometricEditorToolbar } from './IsometricEditorToolbar.js'
+import { IsometricViewportStatus } from './IsometricViewportStatus.js'
 import { LayerPaintContext, LayerStackControls } from './LayerStackControls.js'
 import { drawMapSelectionOverlay } from './map-selection-overlay.js'
 import { loadStampPreviewAssets } from './StampPreviewCanvas.js'
@@ -76,7 +77,6 @@ function layerTileCount(layer: StampTemplate['layers'][number]): number {
 
 export function StampContentEditor(props: {
   template: StampTemplate
-  mode: 'create' | 'edit'
   tilesets: readonly TilesetDef[]
   assetCatalog: AssetCatalogV1
   assetReader: EditorAssetReader
@@ -84,11 +84,8 @@ export function StampContentEditor(props: {
   paletteHost?: HTMLElement | null
   propertiesHost?: HTMLElement | null
   layersHost?: HTMLElement | null
-  onSave: (template: StampTemplate, takeOwnership: boolean) => void
-  onCancel: () => void
-  onDirtyChange?: (dirty: boolean) => void
+  onChange: (template: StampTemplate, takeOwnership: boolean) => void
 }) {
-  const [baseline] = useState(() => openStampDraft(props.template))
   const [draft, setDraft] = useState(() => openStampDraft(props.template))
   const [activeLayerId, setActiveLayerId] = useState(props.template.layers[0]?.id ?? '')
   const [selectedTilesetId, setSelectedTilesetId] = useState(
@@ -96,7 +93,9 @@ export function StampContentEditor(props: {
   )
   const [selectedTileId, setSelectedTileId] = useState(0)
   const [paintHeight, setPaintHeight] = useState(0)
-  const [tool, setTool] = useState<IsometricEditorTool>('brush')
+  const [tool, setTool] = useState<IsometricEditorTool>(
+    props.template.origin === 'migrated' ? 'pan' : 'brush',
+  )
   const [brushSize, setBrushSize] = useState<IsometricBrushSize>(1)
   const [collisionPaint, setCollisionPaint] = useState<'set' | 'clear'>('set')
   const [showGrid, setShowGrid] = useState(true)
@@ -117,13 +116,19 @@ export function StampContentEditor(props: {
     initial: { zoom: 1, panX: 0, panY: 0 },
   })
   const hoverRef = useRef<GridPointRef | undefined>(undefined)
+  const [hoverPoint, setHoverPoint] = useState<GridPointRef>()
+  const draftRef = useRef(draft)
+  const dirtyRef = useRef(false)
   const panRef = useRef<{ x: number; y: number; panX: number; panY: number } | undefined>(undefined)
   const rectStartRef = useRef<GridPointRef | undefined>(undefined)
   const paintedRef = useRef<Set<string>>(new Set())
-  const dirty = JSON.stringify(draft) !== JSON.stringify(baseline)
+  const editingAllowed = props.template.origin !== 'migrated' || takeOwnership
   const activeLayer = draft.layers.find(({ id }) => id === activeLayerId)
   const activeLayerReadOnly =
-    !activeLayer || hiddenLayerIds.has(activeLayerId) || lockedLayerIds.has(activeLayerId)
+    !editingAllowed ||
+    !activeLayer ||
+    hiddenLayerIds.has(activeLayerId) ||
+    lockedLayerIds.has(activeLayerId)
   const selectedTiles = assets?.tilesets.get(selectedTilesetId) ?? new Map<number, RleFrame>()
   const maxViewHeight = useMemo(() => {
     let max = 0
@@ -141,7 +146,13 @@ export function StampContentEditor(props: {
     [props.assetCatalog.assets, props.tilesets],
   )
 
-  useEffect(() => props.onDirtyChange?.(dirty), [dirty, props.onDirtyChange])
+  useEffect(() => {
+    const next = openStampDraft(props.template)
+    if (JSON.stringify(next) === JSON.stringify(draftRef.current)) return
+    draftRef.current = next
+    dirtyRef.current = false
+    setDraft(next)
+  }, [props.template])
 
   useEffect(() => {
     let alive = true
@@ -201,28 +212,57 @@ export function StampContentEditor(props: {
     })
   }, [assets, draft, setView, size])
 
-  const updateDraft = useCallback((change: (current: StampTemplate) => StampTemplate): void => {
-    setDraft((current) => {
+  const commitDraft = useCallback(
+    (candidate = draftRef.current, takeOver = takeOwnership): void => {
       try {
-        const next = change(current)
+        const available = assets
+          ? new Map([...assets.tilesets].map(([id, frames]) => [id, new Set(frames.keys())]))
+          : undefined
+        const canonical = available ? canonicalizeStampDraft(candidate, available) : candidate
+        const next =
+          takeOver && canonical.origin === 'migrated'
+            ? { ...canonical, origin: 'authored' as const }
+            : canonical
+        draftRef.current = next
+        dirtyRef.current = false
+        setDraft(next)
+        props.onChange(next, takeOver)
         setError('')
-        return next
       } catch (cause) {
         setError(cause instanceof Error ? cause.message : String(cause))
-        return current
       }
-    })
-  }, [])
+    },
+    [assets, props.onChange, takeOwnership],
+  )
+
+  const updateDraft = useCallback(
+    (change: (current: StampTemplate) => StampTemplate, commit = true): void => {
+      try {
+        const next = change(draftRef.current)
+        draftRef.current = next
+        dirtyRef.current = true
+        setDraft(next)
+        setError('')
+        if (commit) commitDraft(next)
+      } catch (cause) {
+        setError(cause instanceof Error ? cause.message : String(cause))
+      }
+    },
+    [commitDraft],
+  )
 
   const commitCanvasSize = (width: number, height: number): boolean => {
     try {
       const next = resizeStampDraft(draft, width, height)
+      draftRef.current = next
+      dirtyRef.current = true
       setDraft(next)
       setSelectedPoint((current) =>
         current && isLatticeInside(next, current) ? current : undefined,
       )
       fittedRef.current = false
       setError('')
+      commitDraft(next)
       return true
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : String(cause))
@@ -251,9 +291,10 @@ export function StampContentEditor(props: {
           collisionPaint === 'set'
             ? setStampDraftCollision(current, point, 1)
             : eraseStampDraftCollision(current, point),
+          false,
         )
       else if (tool === 'erase')
-        updateDraft((current) => eraseStampDraftVisual(current, activeLayer.id, point))
+        updateDraft((current) => eraseStampDraftVisual(current, activeLayer.id, point), false)
       else
         updateDraft((current) =>
           setStampDraftVisual(
@@ -264,6 +305,7 @@ export function StampContentEditor(props: {
             selectedTilesetId,
             paintHeight,
           ),
+          false,
         )
     },
     [
@@ -289,6 +331,7 @@ export function StampContentEditor(props: {
     event.currentTarget.setPointerCapture(event.pointerId)
     const point = toWorld(event)
     hoverRef.current = point
+    setHoverPoint(isLatticeInside(draft, point) ? point : undefined)
     paintedRef.current.clear()
     if (tool === 'pan') {
       panRef.current = {
@@ -336,6 +379,12 @@ export function StampContentEditor(props: {
   }
 
   const onPointerMove = (event: ReactPointerEvent<HTMLCanvasElement>): void => {
+    const point = toWorld(event)
+    const nextHover = isLatticeInside(draftRef.current, point) ? point : undefined
+    if (hoverRef.current?.row !== nextHover?.row || hoverRef.current?.col !== nextHover?.col) {
+      hoverRef.current = nextHover
+      setHoverPoint(nextHover)
+    }
     if (panRef.current) {
       const start = panRef.current
       setView({
@@ -345,8 +394,6 @@ export function StampContentEditor(props: {
       })
       return
     }
-    const point = toWorld(event)
-    hoverRef.current = point
     if (event.buttons === 1 && ['brush', 'erase', 'collision'].includes(tool)) paintBrush(point)
   }
 
@@ -366,24 +413,7 @@ export function StampContentEditor(props: {
     rectStartRef.current = undefined
     panRef.current = undefined
     paintedRef.current.clear()
-  }
-
-  const save = (): void => {
-    try {
-      const available = new Map(
-        [...(assets?.tilesets ?? [])].map(([id, frames]) => [id, new Set(frames.keys())]),
-      )
-      const canonical = canonicalizeStampDraft(draft, available)
-      props.onSave(
-        takeOwnership && canonical.origin === 'migrated'
-          ? { ...canonical, origin: 'authored' }
-          : canonical,
-        takeOwnership,
-      )
-      setError('')
-    } catch (cause) {
-      setError(cause instanceof Error ? cause.message : String(cause))
-    }
+    if (dirtyRef.current) commitDraft()
   }
 
   const drawOverlay = useCallback(
@@ -404,10 +434,11 @@ export function StampContentEditor(props: {
         detail: `${layerTileCount(layer)} 格`,
         hidden: hiddenLayerIds.has(layer.id),
         locked: lockedLayerIds.has(layer.id),
-        canMoveUp: index < draft.layers.length - 1,
-        canMoveDown: index > 0,
+        canMoveUp: editingAllowed && index < draft.layers.length - 1,
+        canMoveDown: editingAllowed && index > 0,
       }))}
       activeId={activeLayerId}
+      addDisabled={!editingAllowed}
       onSelect={setActiveLayerId}
       onAdd={() => {
         const id = nextStampLayerSlotId(draft)
@@ -417,7 +448,7 @@ export function StampContentEditor(props: {
         setActiveLayerId(id)
       }}
       onDelete={() => updateDraft((current) => deleteStampDraftLayer(current, activeLayerId))}
-      deleteDisabled={draft.layers.length <= 1 || activeLayerReadOnly}
+      deleteDisabled={!editingAllowed || draft.layers.length <= 1 || activeLayerReadOnly}
       onToggleVisible={(id) =>
         setHiddenLayerIds((current) => {
           const next = new Set(current)
@@ -462,7 +493,11 @@ export function StampContentEditor(props: {
             size="compact"
             aria-label="组合名称"
             value={draft.name}
-            onChange={(event) => setDraft((current) => ({ ...current, name: event.target.value }))}
+            disabled={!editingAllowed}
+            onChange={(event) =>
+              updateDraft((current) => ({ ...current, name: event.target.value }), false)
+            }
+            onBlur={() => dirtyRef.current && commitDraft()}
           />
         </DsPropertyRow>
         <DsPropertyRow
@@ -476,9 +511,11 @@ export function StampContentEditor(props: {
             aria-label="组合标签"
             value={draft.category ?? ''}
             placeholder="例如：道路"
+            disabled={!editingAllowed}
             onChange={(event) =>
-              setDraft((current) => ({ ...current, category: event.target.value }))
+              updateDraft((current) => ({ ...current, category: event.target.value }), false)
             }
+            onBlur={() => dirtyRef.current && commitDraft()}
           />
         </DsPropertyRow>
         <DsPropertyRow
@@ -492,6 +529,7 @@ export function StampContentEditor(props: {
               aria-label="组合画布宽度"
               min={1}
               max={256}
+              disabled={!editingAllowed}
               defaultValue={draft.width}
               onBlur={(event) => {
                 const width = Math.max(
@@ -512,6 +550,7 @@ export function StampContentEditor(props: {
               aria-label="组合画布高度"
               min={1}
               max={256}
+              disabled={!editingAllowed}
               defaultValue={draft.height}
               onBlur={(event) => {
                 const height = Math.max(
@@ -538,9 +577,13 @@ export function StampContentEditor(props: {
       </DsPropertyGrid>
       {props.template.origin === 'migrated' ? (
         <DsCheckbox
-          label="保存为作者内容"
+          label="接管为作者内容"
           checked={takeOwnership}
-          onChange={(event) => setTakeOwnership(event.target.checked)}
+          onChange={(event) => {
+            const checked = event.target.checked
+            setTakeOwnership(checked)
+            if (checked) commitDraft(draftRef.current, true)
+          }}
         />
       ) : null}
     </div>
@@ -572,6 +615,21 @@ export function StampContentEditor(props: {
     </section>
   )
 
+  const activeLayerName = activeLayer?.name ?? '未选图层'
+  const toolbarHint = !editingAllowed
+    ? `${activeLayerName} · 预置只读，请先接管为作者内容`
+    : activeLayerReadOnly
+      ? `${activeLayerName} · ${hiddenLayerIds.has(activeLayerId) ? '已隐藏' : '已锁定'} · 只读`
+      : tool === 'pan'
+        ? `${activeLayerName} · 平移`
+        : tool === 'select'
+          ? `${activeLayerName} · 选择`
+          : tool === 'eyedropper'
+            ? `${activeLayerName} · 取样瓦片与实例高度`
+            : tool === 'collision'
+              ? `${collisionPaint === 'set' ? '标记' : '清除'}碰撞`
+              : `${activeLayerName} · 高度 ${paintHeight} · ${tool === 'fill' ? '填充' : tool === 'rect' ? '矩形' : tool === 'erase' ? '擦除' : '笔刷'}`
+
   return (
     <>
       {props.layersHost ? createPortal(layerControls, props.layersHost) : null}
@@ -590,13 +648,13 @@ export function StampContentEditor(props: {
               fill: activeLayerReadOnly,
               erase: activeLayerReadOnly,
               collision: activeLayerReadOnly,
-              eyedropper: activeLayerReadOnly,
+              eyedropper: !activeLayer,
             }}
             selectionOptions={
               <DsButton
                 size="compact"
                 variant="secondary"
-                disabled={!selectedPoint}
+                disabled={!editingAllowed || !selectedPoint}
                 title={selectedPoint ? '将当前选中格设为组合锚点' : '先在画布中选择一个格子'}
                 onClick={() =>
                   selectedPoint &&
@@ -619,18 +677,6 @@ export function StampContentEditor(props: {
             showCollision={showCollision}
             onShowCollisionChange={setShowCollision}
           />
-        }
-        footer={
-          <footer className="stamp-content-footer">
-            <span className="hint2">
-              组合高度为相对高度；放置实际高度 = 地图绘制高度 + H{paintHeight}
-            </span>
-            <span className="spacer" />
-            <DsButton onClick={props.onCancel}>取消</DsButton>
-            <DsButton variant="primary" disabled={!dirty} onClick={save}>
-              保存组合
-            </DsButton>
-          </footer>
         }
       >
         {error ? (
@@ -661,9 +707,14 @@ export function StampContentEditor(props: {
             onPointerMove={onPointerMove}
             onPointerUp={onPointerUp}
             onPointerCancel={onPointerUp}
+            onPointerLeave={() => {
+              hoverRef.current = undefined
+              setHoverPoint(undefined)
+            }}
             style={{ cursor: tool === 'pan' ? 'grab' : 'crosshair' }}
           />
         ) : null}
+        <IsometricViewportStatus context={toolbarHint} zoom={view.zoom} pointer={hoverPoint} />
       </IsometricEditorSurface>
     </>
   )

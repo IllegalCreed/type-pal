@@ -138,63 +138,28 @@ describe('MapSelectionInspector React output', () => {
     host.remove()
   })
 
-  test('保存为组合只要求非空视觉实例，transform 预览时禁用并能打开独立组合库', async () => {
+  test('选区属性只编辑选中内容，不重复承载组合库操作', async () => {
     const { map, selection } = fixture()
     const host = document.createElement('div')
     document.body.append(host)
     const root = createRoot(host)
-    const onSaveAsStamp = vi.fn()
-    const onOpenStampLibrary = vi.fn()
-    const render = (editingBlockedReason?: string, nextSelection = selection) => (
+    const render = () => (
       <MapSelectionInspector
         map={map}
-        selection={nextSelection}
+        selection={selection}
         activeLayerId="objects"
         hiddenLayerIds={new Set()}
         lockedLayerIds={new Set()}
-        editingBlockedReason={editingBlockedReason}
         onPatch={vi.fn()}
         onValidationError={vi.fn()}
         onMoveToLayer={vi.fn()}
         onClearSelection={vi.fn()}
-        onSaveAsStamp={onSaveAsStamp}
-        onOpenStampLibrary={onOpenStampLibrary}
       />
     )
     await act(async () => root.render(render()))
-    const save = [...host.querySelectorAll<HTMLButtonElement>('button')].find((candidate) =>
-      candidate.textContent?.includes('保存为组合'),
-    )!
-    expect(save.disabled).toBe(false)
-    await act(async () => save.click())
-    expect(onSaveAsStamp).toHaveBeenCalledOnce()
-    await act(async () =>
-      [...host.querySelectorAll<HTMLButtonElement>('button')]
-        .find((candidate) => candidate.textContent?.includes('打开组合库'))!
-        .click(),
-    )
-    expect(onOpenStampLibrary).toHaveBeenCalledOnce()
-
-    await act(async () => root.render(render('正在预览地图变换')))
-    expect(
-      [...host.querySelectorAll<HTMLButtonElement>('button')].find((candidate) =>
-        candidate.textContent?.includes('保存为组合'),
-      )?.disabled,
-    ).toBe(true)
-
-    await act(async () =>
-      root.render(
-        render(undefined, {
-          ...selection,
-          visualSlots: [{ layerId: 'objects', row: 2, col: 0 }],
-        }),
-      ),
-    )
-    expect(
-      [...host.querySelectorAll<HTMLButtonElement>('button')].find((candidate) =>
-        candidate.textContent?.includes('保存为组合'),
-      )?.disabled,
-    ).toBe(true)
+    expect(host.textContent).not.toContain('复用为组合')
+    expect(host.textContent).not.toContain('保存为组合')
+    expect(host.textContent).not.toContain('打开组合库')
     await act(async () => root.unmount())
     host.remove()
   })

@@ -101,11 +101,7 @@ import {
   type StampStructureResolutionOptions,
 } from '../core/stamp-lifecycle.js'
 import { buildStampPlacementIndex, floodFillStampPlacementTiles } from '../core/stamp-ownership.js'
-import {
-  planStampPlacement,
-  type StampLayerMapping,
-  type StampPlacementConflictPolicy,
-} from '../core/stamp-placement.js'
+import { planStampPlacement, type StampLayerMapping } from '../core/stamp-placement.js'
 import { PlaceStampCommand } from '../core/stamp-placement-command.js'
 import {
   DsButton,
@@ -123,12 +119,12 @@ import {
 import { IsometricEditorCanvas } from './IsometricEditorCanvas.js'
 import { IsometricEditorSurface } from './IsometricEditorSurface.js'
 import { IsometricEditorToolbar } from './IsometricEditorToolbar.js'
+import { IsometricViewportStatus } from './IsometricViewportStatus.js'
 import { drawIsometricMapBase, type IsometricMapBaseCache } from './isometric-map-render.js'
 import { LayerPaintContext, LayerStackControls } from './LayerStackControls.js'
 import { MapSelectionInspector } from './MapSelectionInspector.js'
 import { MapStampPalette } from './MapStampPalette.js'
 import { drawMapSelectionOverlay } from './map-selection-overlay.js'
-import { StampPlacementInspector } from './StampPlacementInspector.js'
 import { StampPlacementSelectionInspector } from './StampPlacementSelectionInspector.js'
 import { StampTemplateDialog } from './StampTemplateDialog.js'
 import {
@@ -144,7 +140,20 @@ import { TilePalettePicker } from './TilePickerGrid.js'
 
 const DEFAULT_COLS = 24
 const DEFAULT_ROWS = 24
-const EMPTY_STAMP_MAPPINGS: StampLayerMapping[] = []
+/** 当前地图层承接组合底层，其余局部层按组合顺序向上落到相邻地图层。 */
+function stampMappingsFromActiveLayer(
+  template: StampTemplate | undefined,
+  map: ProjectMap | undefined,
+  activeLayerId: string,
+): StampLayerMapping[] {
+  if (!template || !map) return []
+  const start = map.layers.findIndex((layer) => layer.id === activeLayerId)
+  if (start < 0) return []
+  return template.layers.flatMap((layer, offset) => {
+    const target = map.layers[start + offset]
+    return target ? [{ layerSlotId: layer.id, targetLayerId: target.id }] : []
+  })
+}
 
 type MapTool =
   | 'pan'
@@ -288,9 +297,6 @@ export function MapMode(props: {
   const [inspectorTab, setInspectorTab] = useState<MapInspectorTab>('properties')
   const [drawPanelVisited, setDrawPanelVisited] = useState(false)
   const [activeStampId, setActiveStampId] = useState<string>()
-  const [stampMappingsByKey, setStampMappingsByKey] = useState<Record<string, StampLayerMapping[]>>(
-    {},
-  )
   const [stampHoverAnchor, setStampHoverAnchor] = useState<LatticePos>()
   const [recentStampIds, setRecentStampIds] = useState<string[]>([])
   const [collisionPaint, setCollisionPaint] = useState<CollisionPaint>('set')
@@ -329,10 +335,10 @@ export function MapMode(props: {
   const stampGroupEditPlacementId = workspaceMap.stampGroupEditContext?.placementId
   const stampGroupEditSelection = workspaceMap.stampGroupEditContext?.selection
   const activeStamp = stamps.find((stamp) => stamp.id === activeStampId)
-  const stampMappingKey = activeStamp ? `${mapId}\u0000${activeStamp.id}` : ''
-  const stampMappings = stampMappingKey
-    ? (stampMappingsByKey[stampMappingKey] ?? EMPTY_STAMP_MAPPINGS)
-    : EMPTY_STAMP_MAPPINGS
+  const stampMappings = useMemo(
+    () => stampMappingsFromActiveLayer(activeStamp, liveMap, activeLayerId),
+    [activeLayerId, activeStamp, liveMap],
+  )
   const [selectionPreview, setSelectionPreview] = useState<MapSelection>()
   const selectionPreviewRef = useRef<MapSelection | undefined>(undefined)
   const [includeCollision, setIncludeCollision] = useState(false)
@@ -366,6 +372,8 @@ export function MapMode(props: {
   }, [activeStamp, activeStampId])
   const strokeRef = useRef<Map<string, StrokeEdit>>(new Map())
   const hoverRef = useRef<LatticePos | null>(null)
+  const coordinateHoverRef = useRef<LatticePos | null>(null)
+  const [hoverPoint, setHoverPoint] = useState<LatticePos | null>(null)
   const panRef = useRef<{ sx: number; sy: number; panX: number; panY: number } | null>(null)
   const paintingRef = useRef(false)
   const rectAnchorRef = useRef<LatticePos | null>(null)
@@ -389,7 +397,6 @@ export function MapMode(props: {
     setInspectorTab('properties')
     setDrawPanelVisited(false)
     setActiveStampId(undefined)
-    setStampMappingsByKey({})
     setStampHoverAnchor(undefined)
     setRecentStampIds([])
     setSelectionPreview(undefined)
@@ -411,6 +418,8 @@ export function MapMode(props: {
     panRef.current = null
     selectionDragRef.current = null
     hoverRef.current = null
+    coordinateHoverRef.current = null
+    setHoverPoint(null)
     // mapId / placementId 在不同工程副本中可能相同；选择、隐藏/锁定与组内上下文都必须按会话隔离。
     dispatchWorkspace({ type: 'reset' })
   }, [session])
@@ -475,6 +484,13 @@ export function MapMode(props: {
       ),
     [selection, hiddenLayerIds, lockedLayerIds],
   )
+  const canSaveSelectionAsStamp = useMemo(() => {
+    if (!liveMap || selection.kind !== 'cells') return false
+    const layers = new Map(liveMap.layers.map((layer) => [layer.id, layer] as const))
+    return selection.visualSlots.some(
+      (ref) => layers.get(ref.layerId)?.tiles[ref.row]?.[ref.col] != null,
+    )
+  }, [liveMap, selection])
 
   useEffect(() => onWorkspaceNotice?.(workspaceNotice), [workspaceNotice, onWorkspaceNotice])
 
@@ -1284,29 +1300,18 @@ export function MapMode(props: {
       setTransformOverwriteIntent(undefined)
       setCandidateMenu(undefined)
       setCanvasContextMenu(undefined)
-      const hover = hoverRef.current
+      const hover = coordinateHoverRef.current
       setStampHoverAnchor(hover && isLatticeInside(liveMap, hover) ? hover : undefined)
       setWorkspaceNotice({
         kind: 'info',
-        message: `已选择组合“${template.name}”；请先显式映射每个局部层。`,
+        message:
+          template.layers.length === 1
+            ? `已选择组合“${template.name}”；锚点将跟随鼠标，单击放置到当前图层。`
+            : `已选择组合“${template.name}”；当前图层承接底层，其余 ${template.layers.length - 1} 层自动向上对应。`,
       })
       canvasRef.current?.focus({ preventScroll: true })
     },
     [liveMap, onRequestInspectorOpen, stampGroupEditPlacementId, stamps],
-  )
-
-  const mapStampSlot = useCallback(
-    (layerSlotId: string, targetLayerId: string): void => {
-      if (!stampMappingKey) return
-      setStampMappingsByKey((current) => {
-        const nextMappings = (current[stampMappingKey] ?? []).filter(
-          (mapping) => mapping.layerSlotId !== layerSlotId,
-        )
-        if (targetLayerId) nextMappings.push({ layerSlotId, targetLayerId })
-        return { ...current, [stampMappingKey]: nextMappings }
-      })
-    },
-    [stampMappingKey],
   )
 
   const cancelStampTool = useCallback((): void => {
@@ -1316,10 +1321,7 @@ export function MapMode(props: {
     canvasRef.current?.focus({ preventScroll: true })
   }, [])
 
-  const commitStamp = (
-    conflictPolicy: StampPlacementConflictPolicy,
-    targetAnchor = stampHoverAnchor,
-  ): void => {
+  const commitStamp = (targetAnchor = stampHoverAnchor): void => {
     if (!activeStamp || !targetAnchor) {
       notifyWorkspace('error', '请先选择组合并把鼠标移到地图目标位置。')
       return
@@ -1348,15 +1350,13 @@ export function MapMode(props: {
       availableTileIdsByTileset: new Map(
         [...loaded.tilesets].map(([id, frames]) => [id, new Set(frames.keys())]),
       ),
-      conflictPolicy,
+      conflictPolicy: 'overwrite',
     })
     if (!freshPlan.canApply) {
       notifyWorkspace(
         'error',
         freshPlan.issues[0]?.message ??
-          (freshPlan.conflicts.length
-            ? `目标有 ${freshPlan.conflicts.length} 处普通内容冲突；请在右侧显式确认覆盖。`
-            : '当前组合不能放置。'),
+          (freshPlan.conflicts.length ? '当前位置不能覆盖现有内容。' : '当前组合不能放置。'),
       )
       return
     }
@@ -1925,6 +1925,13 @@ export function MapMode(props: {
     if (event.button === 0) setCanvasContextMenu(undefined)
     event.currentTarget.focus()
     if (event.button !== 0 && event.button !== 1) return
+    if (liveMap) {
+      const { wx, wy } = toWorld(event)
+      const point = pixelToLattice(wx, wy)
+      const next = isLatticeInside(liveMap, point) ? point : null
+      coordinateHoverRef.current = next
+      setHoverPoint(next)
+    }
     if (transformIntent && event.button === 0 && liveMap) {
       const { wx, wy } = toWorld(event)
       const anchor = pixelToLattice(wx, wy)
@@ -1939,7 +1946,7 @@ export function MapMode(props: {
       const anchor = pixelToLattice(wx, wy)
       hoverRef.current = anchor
       setStampHoverAnchor(anchor)
-      commitStamp('reject', anchor)
+      commitStamp(anchor)
       return
     }
     if (activeTool === 'select' && event.button === 0 && liveMap) {
@@ -2125,6 +2132,16 @@ export function MapMode(props: {
   }
 
   const onMove = (event: React.PointerEvent<HTMLCanvasElement>): void => {
+    if (liveMap) {
+      const { wx, wy } = toWorld(event)
+      const point = pixelToLattice(wx, wy)
+      const next = isLatticeInside(liveMap, point) ? point : null
+      const previous = coordinateHoverRef.current
+      if (previous?.row !== next?.row || previous?.col !== next?.col) {
+        coordinateHoverRef.current = next
+        setHoverPoint(next)
+      }
+    }
     if (selectionDragRef.current) {
       if (selectionDragRef.current.pointerId !== event.pointerId) return
       updateSelectionDrag(event)
@@ -2270,6 +2287,8 @@ export function MapMode(props: {
   }, [])
 
   const onLeave = (): void => {
+    coordinateHoverRef.current = null
+    setHoverPoint(null)
     if (selectionDragRef.current || transformIntent) return
     if (!hoverRef.current) return
     hoverRef.current = null
@@ -2655,7 +2674,7 @@ export function MapMode(props: {
     if (activeTool === 'stamp' && event.key === 'Enter') {
       event.preventDefault()
       event.stopPropagation()
-      commitStamp('reject')
+      commitStamp()
       return
     }
     if (transformIntent) {
@@ -2787,7 +2806,13 @@ export function MapMode(props: {
       ? `${activeLayerName} · 平移`
       : activeTool === 'stamp'
         ? activeStamp
-          ? `${activeStamp.name} · ${stampMappings.length}/${activeStamp.layers.length} 层已映射 · 点击原子放置`
+          ? stampMappings.length < activeStamp.layers.length
+            ? `${activeStamp.name} · 当前层上方还缺 ${activeStamp.layers.length - stampMappings.length} 个可用图层`
+            : stampPlan?.issues.length
+              ? `${activeStamp.name} · ${stampPlan.issues[0]?.message ?? '当前位置不可放置'}`
+              : stampPlan?.conflicts.length
+                ? `${activeStamp.name} · 将覆盖 ${stampPlan.conflicts.length} 处普通内容 · 点击放置到 ${activeLayerName}`
+                : `${activeStamp.name} · 锚点跟随鼠标 · 点击放置到 ${activeLayerName}${activeStamp.layers.length > 1 ? ' 起的图层栈' : ''}`
           : '请先从绘制面板选择组合'
         : activeLayerReadOnly
           ? `${activeLayerName} · ${activeLayerHidden ? '已隐藏' : '已锁定'} · 只读`
@@ -3079,6 +3104,12 @@ export function MapMode(props: {
                 run: repeatMapSelection,
               },
               {
+                id: 'save-as-stamp',
+                label: '保存为组合…',
+                disabled: !canSaveSelectionAsStamp,
+                run: () => setStampDialogOpen(true),
+              },
+              {
                 id: 'delete',
                 label: '删除',
                 shortcut: 'Delete',
@@ -3109,10 +3140,12 @@ export function MapMode(props: {
             ))}
           </div>
         ) : null}
-        <span className="map-viewport-status map-viewport-status--context">{toolbarHint}</span>
-        <span className="map-viewport-status map-viewport-status--zoom" title="画布缩放">
-          {Math.round(view.zoom * 100)}%{status === 'loading' ? ' · 载入中…' : ''}
-        </span>
+        <IsometricViewportStatus
+          context={toolbarHint}
+          zoom={view.zoom}
+          pointer={hoverPoint}
+          loading={status === 'loading'}
+        />
       </IsometricEditorSurface>
 
       <div className="inspector inspector--tabbed map-inspector">
@@ -3315,10 +3348,6 @@ export function MapMode(props: {
                       onValidationError={(message) => notifyWorkspace('error', message)}
                       onMoveToLayer={moveSelectionToLayer}
                       onClearSelection={() => dispatchWorkspace({ type: 'clear-selection', mapId })}
-                      onSaveAsStamp={() => setStampDialogOpen(true)}
-                      onOpenStampLibrary={
-                        onOpenStampLibrary ? () => onOpenStampLibrary(undefined) : undefined
-                      }
                     />
                   ) : selection.kind === 'stamp-placements' && liveMap ? (
                     <StampPlacementSelectionInspector
@@ -3499,11 +3528,7 @@ export function MapMode(props: {
               id: 'draw',
               label: '绘制',
               panel: (
-                <div
-                  className={`map-inspector-panel map-draw-panel${
-                    activeTool === 'stamp' && activeStamp && liveMap ? ' has-details' : ''
-                  }`}
-                >
+                <div className="map-inspector-panel map-draw-panel">
                   <section className="map-draw-section map-draw-tiles-section">
                     <div className="pane-h map-draw-section__head map-tiles-head">
                       <span className="t">瓦片</span>
@@ -3541,49 +3566,21 @@ export function MapMode(props: {
                       <span className="t">组合</span>
                       <span className="hint2">{stamps.length} 项</span>
                     </div>
-                    <div
-                      className={`map-draw-combination-body${
-                        activeTool === 'stamp' && activeStamp ? ' has-details' : ''
-                      }`}
-                    >
+                    <div className="map-draw-combination-body">
                       {drawPanelVisited && liveMap ? (
-                        <>
-                          <div className="map-combination-browser">
-                            <MapStampPalette
-                              stamps={stamps}
-                              tilesets={tilesets}
-                              assetCatalog={assetCatalog}
-                              assetReader={assetReader}
-                              assetBase={assetBase}
-                              activeStampId={activeStampId}
-                              recentStampIds={recentStampIds}
-                              onPick={pickStamp}
-                              onOpenLibrary={
-                                onOpenStampLibrary ? openActiveStampLibrary : undefined
-                              }
-                            />
-                          </div>
-                          {activeTool === 'stamp' && activeStamp ? (
-                            <div className="map-combination-details">
-                              <StampPlacementInspector
-                                template={activeStamp}
-                                map={liveMap}
-                                mappings={stampMappings}
-                                plan={stampPlan}
-                                activeLayerId={activeLayerId}
-                                hiddenLayerIds={hiddenLayerIds}
-                                lockedLayerIds={lockedLayerIds}
-                                onMapSlot={mapStampSlot}
-                                onCommit={() => commitStamp('reject')}
-                                onOverwrite={() => commitStamp('overwrite')}
-                                onCancel={cancelStampTool}
-                                onOpenLibrary={
-                                  onOpenStampLibrary ? openActiveStampLibrary : undefined
-                                }
-                              />
-                            </div>
-                          ) : null}
-                        </>
+                        <div className="map-combination-browser">
+                          <MapStampPalette
+                            stamps={stamps}
+                            tilesets={tilesets}
+                            assetCatalog={assetCatalog}
+                            assetReader={assetReader}
+                            assetBase={assetBase}
+                            activeStampId={activeStampId}
+                            recentStampIds={recentStampIds}
+                            onPick={pickStamp}
+                            onOpenLibrary={onOpenStampLibrary ? openActiveStampLibrary : undefined}
+                          />
+                        </div>
                       ) : (
                         <p className="hint2 map-panel-empty">正在载入组合库…</p>
                       )}

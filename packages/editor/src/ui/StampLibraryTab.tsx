@@ -34,7 +34,6 @@ type StampContentEditorState = {
   mode: 'create' | 'edit'
   template: StampTemplate
 }
-type StampLeaveIntent = { kind: 'close' } | { kind: 'select'; id: string }
 
 export function StampLibraryTab(props: {
   stamps: readonly StampTemplate[]
@@ -77,12 +76,9 @@ export function StampLibraryTab(props: {
   const [contentEditor, setContentEditor] = useState<StampContentEditorState | undefined>(() =>
     initialSelected ? { mode: 'edit', template: structuredClone(initialSelected) } : undefined,
   )
-  const [contentEditorEpoch, setContentEditorEpoch] = useState(0)
   const [paletteHost, setPaletteHost] = useState<HTMLDivElement | null>(null)
   const [propertiesHost, setPropertiesHost] = useState<HTMLDivElement | null>(null)
   const [layersHost, setLayersHost] = useState<HTMLDivElement | null>(null)
-  const [contentDirty, setContentDirty] = useState(false)
-  const [leaveIntent, setLeaveIntent] = useState<StampLeaveIntent>()
   const [createOpen, setCreateOpen] = useState(false)
   const [createName, setCreateName] = useState('')
   const [createId, setCreateId] = useState('')
@@ -130,12 +126,8 @@ export function StampLibraryTab(props: {
 
   useEffect(() => {
     if (focusObjectId === undefined || focusObjectId === selectedId) return
-    if (contentDirty) {
-      setLeaveIntent({ kind: 'select', id: focusObjectId })
-      return
-    }
-    setSelectedId(focusObjectId)
-  }, [contentDirty, focusObjectId, selectedId])
+    focusTemplate(focusObjectId)
+  }, [focusObjectId, selectedId])
   useEffect(() => {
     if (selectedId && stamps.some((template) => template.id === selectedId)) return
     const next = stamps[0]?.id ?? ''
@@ -184,29 +176,15 @@ export function StampLibraryTab(props: {
     const template = stamps.find((candidate) => candidate.id === id)
     setSelectedId(id)
     onObjectFocus?.(id)
-    setContentDirty(false)
     setContentEditor(template ? { mode: 'edit', template: structuredClone(template) } : undefined)
-    setContentEditorEpoch((value) => value + 1)
   }
   const requestFocusTemplate = (id: string): void => {
     if (!contentEditor || contentEditor.template.id === id) {
       focusTemplate(id)
       return
     }
-    if (contentDirty) {
-      setLeaveIntent({ kind: 'select', id })
-      return
-    }
     setContentEditor(undefined)
     focusTemplate(id)
-  }
-  const requestCloseContentEditor = (): void => {
-    if (contentDirty) {
-      setLeaveIntent({ kind: 'close' })
-      return
-    }
-    setContentEditor(selected ? { mode: 'edit', template: structuredClone(selected) } : undefined)
-    setContentEditorEpoch((value) => value + 1)
   }
   const openCreate = (): void => {
     const id = nextStampTemplateId(
@@ -242,26 +220,27 @@ export function StampLibraryTab(props: {
       setCreateError('请选择瓦片集。')
       return
     }
-    setContentDirty(false)
-    setContentEditor({
-      mode: 'create',
-      template: createBlankStampDraft(id, name, createTilesetId),
-    })
+    const next = createBlankStampDraft(id, name, createTilesetId)
+    setSelectedId(id)
+    onObjectFocus?.(id)
+    setContentEditor({ mode: 'create', template: structuredClone(next) })
     setCreateOpen(false)
+    onStatusNotice?.({ kind: 'info', message: `正在创建组合“${name}”；首次绘制后进入全局撤销与保存。` })
   }
-  const saveContent = (
-    next: StampTemplate,
-    takeOwnership: boolean,
-    editor: StampContentEditorState,
-  ): void => {
-    if (editor.mode === 'create') session.dispatch(new AddStampTemplateCommand(next))
-    else session.dispatch(new ReplaceStampTemplateCommand(next, { takeOwnership }))
-    setContentDirty(false)
+  const updateContent = (next: StampTemplate, takeOwnership: boolean): void => {
+    const hasVisual = next.layers.some((layer) =>
+      layer.tiles.some((row) => row.some((tileId) => tileId !== null)),
+    )
+    if (contentEditor?.mode === 'create') {
+      if (!hasVisual) {
+        setContentEditor({ mode: 'create', template: structuredClone(next) })
+        return
+      }
+      session.dispatch(new AddStampTemplateCommand(next))
+    } else session.dispatch(new ReplaceStampTemplateCommand(next, { takeOwnership }))
     setSelectedId(next.id)
     onObjectFocus?.(next.id)
     setContentEditor({ mode: 'edit', template: structuredClone(next) })
-    setContentEditorEpoch((value) => value + 1)
-    onStatusNotice?.({ kind: 'info', message: `已保存组合“${next.name}”；既有地图放置保持不变。` })
   }
   const duplicate = (template: StampTemplate): void => {
     try {
@@ -285,10 +264,8 @@ export function StampLibraryTab(props: {
     if (selected?.id === id) {
       setSelectedId(nextId ?? '')
       onObjectFocus?.(nextId)
-      setContentDirty(false)
       const next = stamps.find((template) => template.id === nextId)
       setContentEditor(next ? { mode: 'edit', template: structuredClone(next) } : undefined)
-      setContentEditorEpoch((value) => value + 1)
     }
     setDeleteTargetId(undefined)
     setError('')
@@ -320,15 +297,14 @@ export function StampLibraryTab(props: {
   ) : null
 
   useEffect(() => {
-    if (!selected || contentDirty || contentEditor?.mode === 'create') return
+    if (!selected) return
     if (
       contentEditor?.template.id === selected.id &&
       JSON.stringify(contentEditor.template) === JSON.stringify(selected)
     )
       return
     setContentEditor({ mode: 'edit', template: structuredClone(selected) })
-    setContentEditorEpoch((value) => value + 1)
-  }, [contentDirty, contentEditor?.mode, contentEditor?.template, selected])
+  }, [contentEditor?.mode, contentEditor?.template, selected])
 
   return (
     <>
@@ -468,8 +444,6 @@ export function StampLibraryTab(props: {
                     variant="danger"
                     icon="delete"
                     label={`删除组合 ${template.name}`}
-                    disabled={contentDirty && isSelected}
-                    title={contentDirty && isSelected ? '请先保存或还原当前组合修改' : undefined}
                     onClick={(event) => {
                       deleteTriggerRef.current = event.currentTarget
                       setDeleteTargetId(template.id)
@@ -509,9 +483,8 @@ export function StampLibraryTab(props: {
       <main className="center stamp-center">
         {contentEditor ? (
           <StampContentEditor
-            key={`${contentEditorEpoch}:${contentEditor.mode}:${contentEditor.template.id}`}
+            key={contentEditor.template.id}
             template={contentEditor.template}
-            mode={contentEditor.mode}
             tilesets={tilesets}
             assetCatalog={assetCatalog}
             assetReader={assetReader}
@@ -519,9 +492,7 @@ export function StampLibraryTab(props: {
             paletteHost={paletteHost}
             propertiesHost={propertiesHost}
             layersHost={layersHost}
-            onDirtyChange={setContentDirty}
-            onCancel={requestCloseContentEditor}
-            onSave={(next, takeOwnership) => saveContent(next, takeOwnership, contentEditor)}
+            onChange={updateContent}
           />
         ) : (
           <div className="stamp-workspace-scroll">
@@ -720,38 +691,6 @@ export function StampLibraryTab(props: {
               </p>
             ) : null}
           </div>
-        </DsDialog>
-      ) : null}
-      {leaveIntent ? (
-        <DsDialog
-          open
-          title="放弃未保存的组合修改？"
-          description="草稿尚未写入工程；放弃后无法通过工程撤销恢复。"
-          onClose={() => setLeaveIntent(undefined)}
-          footer={
-            <>
-              <DsButton onClick={() => setLeaveIntent(undefined)}>继续编辑</DsButton>
-              <DsButton
-                variant="danger"
-                onClick={() => {
-                  const intent = leaveIntent
-                  setLeaveIntent(undefined)
-                  setContentDirty(false)
-                  if (intent.kind === 'select') focusTemplate(intent.id)
-                  else {
-                    setContentEditor(
-                      selected ? { mode: 'edit', template: structuredClone(selected) } : undefined,
-                    )
-                    setContentEditorEpoch((value) => value + 1)
-                  }
-                }}
-              >
-                放弃草稿
-              </DsButton>
-            </>
-          }
-        >
-          <p>地图、MapIndex 与已放置组合均未被当前草稿修改。</p>
         </DsDialog>
       ) : null}
       {deleteTargetId ? (

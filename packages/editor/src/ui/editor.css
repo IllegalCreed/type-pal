@@ -1112,8 +1112,22 @@ html[data-panel-resize="horizontal"] * {
 .map-viewport-status--context {
   left: var(--ds-space-4);
 }
-.map-viewport-status--zoom {
+.map-viewport-status-cluster {
+  position: absolute;
+  z-index: 2;
   right: var(--ds-space-4);
+  bottom: var(--ds-space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-3);
+  pointer-events: none;
+}
+.map-viewport-status-cluster > .map-viewport-status {
+  position: static;
+  max-width: none;
+}
+.map-viewport-status--coordinate,
+.map-viewport-status--zoom {
   font: var(--ds-font-code);
   font-variant-numeric: tabular-nums;
 }
@@ -4815,18 +4829,7 @@ html[data-panel-resize="horizontal"] * {
   font-size: 10px;
   line-height: 1.45;
 }
-.map-selection-stamp-actions p {
-  margin-bottom: 7px;
-  color: var(--faint);
-  font-size: 9px;
-  line-height: 1.5;
-}
-.map-selection-stamp-actions .stamp-primary-action,
-.map-selection-stamp-actions .stamp-secondary-action {
-  margin-top: 5px;
-}
-
-/* ED-STAMP-EDITOR-1：模板自身的内存草稿工作区，不借用真实地图或 MapMode 状态。 */
+/* 组合复用地图编辑交互；单次笔划先在本地聚合，再作为一条命令进入全局编辑会话。 */
 .stamp-content-editor {
   position: relative;
   container: stamp-content-editor / inline-size;
@@ -12141,9 +12144,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   grid-template-rows: minmax(180px, 0.82fr) minmax(260px, 1.18fr);
   overflow: hidden;
 }
-.map-draw-panel.has-details {
-  grid-template-rows: minmax(140px, 0.55fr) minmax(360px, 1.45fr);
-}
 .map-draw-section {
   display: grid;
   min-width: 0;
@@ -12170,18 +12170,10 @@ button.sprite-frame-cell[draggable="true"]:active {
   min-height: 0;
   overflow: hidden;
 }
-.map-draw-combination-body.has-details {
-  grid-template-rows: minmax(140px, 0.72fr) minmax(180px, 1.28fr);
-}
-.map-combination-browser,
-.map-combination-details {
+.map-combination-browser {
   min-width: 0;
   min-height: 0;
   overflow: hidden;
-}
-.map-combination-details {
-  overflow-y: auto;
-  border-top: 1px solid var(--line);
 }
 
 /* ── W8 地图内容选区 / 候选 / 可逆变换 ──────────────────── */

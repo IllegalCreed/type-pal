@@ -410,19 +410,6 @@ async function activateStamp(host: HTMLElement): Promise<void> {
   await act(async () => host.querySelector<HTMLButtonElement>('.map-stamp-card')?.click())
 }
 
-async function mapStampSlots(host: HTMLElement): Promise<void> {
-  const ground = host.querySelector<HTMLSelectElement>('[aria-label="地面槽 的目标图层"]')!
-  const object = host.querySelector<HTMLSelectElement>('[aria-label="物件槽 的目标图层"]')!
-  await act(async () => {
-    ground.value = 'floor'
-    ground.dispatchEvent(new Event('change', { bubbles: true }))
-  })
-  await act(async () => {
-    object.value = 'objects'
-    object.dispatchEvent(new Event('change', { bubbles: true }))
-  })
-}
-
 beforeEach(() => {
   ;(
     globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT: boolean }
@@ -597,7 +584,7 @@ describe('MapMode 地图内容选择交互', () => {
     expect(button(host, '选择').getAttribute('aria-pressed')).toBe('true')
   })
 
-  test('右栏选择组合即进入放置态，不再暴露重复的放置组合模式按钮', async () => {
+  test('右栏选择组合即进入直接放置态，不出现映射或确认面板', async () => {
     const { host } = await mountMapMode({ stamps: [stampTemplate()] })
     expect(
       [...host.querySelectorAll('button')].some((candidate) =>
@@ -607,15 +594,18 @@ describe('MapMode 地图内容选择交互', () => {
     expect(inspectorTab(host, '属性').getAttribute('aria-selected')).toBe('true')
 
     await activateStamp(host)
-    expect(host.querySelector('.stamp-placement-inspector')).not.toBeNull()
-    await act(async () => button(host, '退出组合工具').click())
+    expect(host.querySelector('.map-stamp-card[aria-pressed="true"]')).not.toBeNull()
+    expect(host.querySelector('.stamp-placement-inspector')).toBeNull()
+    expect(host.querySelector('.stamp-mapping-list')).toBeNull()
+    await act(async () => button(host, '笔刷').click())
     await act(async () => inspectorTab(host, '属性').click())
     expect(inspectorTab(host, '属性').getAttribute('aria-selected')).toBe('true')
     expect(inspectorTab(host, '绘制').getAttribute('aria-selected')).toBe('false')
 
     await activateStamp(host)
     expect(inspectorTab(host, '绘制').getAttribute('aria-selected')).toBe('true')
-    expect(host.querySelector('.stamp-placement-inspector')).not.toBeNull()
+    expect(host.querySelector('.map-stamp-card[aria-pressed="true"]')).not.toBeNull()
+    expect(host.querySelector('.stamp-placement-inspector')).toBeNull()
   })
 
   test('工具栏只保留主工具，选区命令进入右键菜单，画布显示进入视图菜单', async () => {
@@ -752,7 +742,10 @@ describe('MapMode 地图内容选择交互', () => {
     })
     expect(host.querySelector('.map-selection-head')?.textContent).toContain('3 个视觉实例')
 
-    await act(async () => button(host, '保存为组合…').click())
+    expect(host.querySelector('.map-selection-stamp-actions')).toBeNull()
+    const selectionMenu = await openSelectionMenu(host)
+    expect(button(selectionMenu, '保存为组合…').disabled).toBe(false)
+    await act(async () => button(selectionMenu, '保存为组合…').click())
     expect(document.body.querySelector('.stamp-template-dialog')).not.toBeNull()
     await act(async () => button(document.body, '创建组合').click())
     expect(
@@ -771,7 +764,7 @@ describe('MapMode 地图内容选择交互', () => {
   })
 
   test('左侧承载层高控件，瓦片/组合在右栏绘制页上下挂载，中央画布无 DOM 遮挡', async () => {
-    const { host } = await mountMapMode({ stamps: [stampTemplate()] })
+    const { host, canvas } = await mountMapMode({ stamps: [stampTemplate()] })
     const viewport = host.querySelector<HTMLElement>('.viewport')!
     const paintContext = host.querySelector<HTMLElement>('.map-paint-context')!
     const outliner = paintContext.closest<HTMLElement>('.map-outliner')!
@@ -786,7 +779,12 @@ describe('MapMode 地图内容选择交互', () => {
     expect(viewport.querySelector('.map-candidate-menu')).toBeNull()
     expect(viewport.querySelector('.map-canvas-context-menu')).toBeNull()
     expect(viewport.firstElementChild?.tagName).toBe('CANVAS')
-    expect(viewport.querySelectorAll('.map-viewport-status')).toHaveLength(2)
+    expect(viewport.querySelectorAll('.map-viewport-status')).toHaveLength(3)
+    expect(viewport.querySelector('.map-viewport-status--coordinate')?.textContent).toBe('R— · C—')
+    await act(async () => pointer(canvas, 'pointermove', { clientX: 1, clientY: 1 }))
+    expect(viewport.querySelector('.map-viewport-status--coordinate')?.textContent).toMatch(
+      /^R\d+ · C\d+$/,
+    )
     expect(host.querySelectorAll('.tile-picker-item')).toHaveLength(0)
     expect(host.querySelector('.map-stamp-palette')).toBeNull()
 
@@ -1720,34 +1718,37 @@ describe('MapMode 地图内容选择交互', () => {
     })
   })
 
-  test('组合模板、普通瓦片与既有地图选区正交，多层映射初始绝不自动猜测', async () => {
+  test('组合模板与既有选区正交，当前层自动承接组合底层且不出现映射面板', async () => {
     const { host, canvas } = await mountMapMode({ stamps: [stampTemplate()] })
     await selectFloor(host, canvas)
     await activateStamp(host)
 
-    expect(host.querySelector('.stamp-placement-inspector')).not.toBeNull()
-    const mappings = [...host.querySelectorAll<HTMLSelectElement>('.stamp-mapping-list select')]
-    expect(mappings).toHaveLength(2)
-    expect(mappings.map((select) => select.value)).toEqual(['', ''])
-    expect(host.querySelector('.stamp-placement-status')?.textContent).toContain('还需映射 2 个')
+    expect(host.querySelector('.stamp-placement-inspector')).toBeNull()
+    expect(host.querySelector('.stamp-mapping-list')).toBeNull()
+    await act(async () => pointer(canvas, 'pointermove', { clientX: 33, clientY: 17 }))
+    expect(host.querySelector('.map-viewport-status--context')?.textContent).toContain(
+      '点击放置到 地板 起的图层栈',
+    )
 
-    await act(async () => button(host, '退出组合工具').click())
+    await act(async () => {
+      canvas.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))
+    })
+    await act(async () => inspectorTab(host, '属性').click())
     expect(host.querySelector('.map-selection-head')?.textContent).toContain('1 个视觉实例')
     expect(button(host, '笔刷').getAttribute('aria-pressed')).toBe('false')
   })
 
-  test('同 ID 工程更换 EditSession 时清空图章工具、显式映射与最近使用', async () => {
+  test('同 ID 工程更换 EditSession 时清空组合放置态与最近使用', async () => {
     const template = stampTemplate()
     const { host, canvas, rerenderWithSession } = await mountMapMode({ stamps: [template] })
     await activateStamp(host)
-    await mapStampSlots(host)
     await act(async () => pointer(canvas, 'pointerdown', { clientX: 33, clientY: 17 }))
     expect(host.querySelector('.map-stamp-recent')).not.toBeNull()
-    expect(host.querySelector('.stamp-placement-inspector')).not.toBeNull()
+    expect(host.querySelector('.map-stamp-card[aria-pressed="true"]')).not.toBeNull()
 
     const nextSession = new EditSession(editorState(fixtureMap(), [template]))
     await rerenderWithSession(nextSession, [template])
-    expect(host.querySelector('.stamp-placement-inspector')).toBeNull()
+    expect(host.querySelector('.map-stamp-card[aria-pressed="true"]')).toBeNull()
     expect(
       [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(
         (candidate) => candidate.getAttribute('aria-selected') === 'true',
@@ -1755,21 +1756,18 @@ describe('MapMode 地图内容选择交互', () => {
     ).toBe('属性')
 
     await activateStamp(host)
-    expect(
-      [...host.querySelectorAll<HTMLSelectElement>('.stamp-mapping-list select')].map(
-        (select) => select.value,
-      ),
-    ).toEqual(['', ''])
+    expect(host.querySelector('.stamp-mapping-list')).toBeNull()
     expect(host.querySelector('.map-stamp-recent')).toBeNull()
   })
 
   test('跨层 ghost hover 零写；有效点击一次原子放置，undo 同时恢复矩阵与身份', async () => {
     const { host, canvas, session } = await mountMapMode({ stamps: [stampTemplate()] })
     await activateStamp(host)
-    await mapStampSlots(host)
 
     await act(async () => pointer(canvas, 'pointermove', { clientX: 33, clientY: 17 }))
-    expect(host.querySelector('.stamp-placement-status')?.textContent).toContain('预览有效')
+    expect(host.querySelector('.map-viewport-status--context')?.textContent).toContain(
+      '锚点跟随鼠标',
+    )
     expect(session.getMapRevision('map-a')).toBe(0)
     expect(session.isDirty()).toBe(false)
 
@@ -1789,31 +1787,26 @@ describe('MapMode 地图内容选择交互', () => {
     expect(undone.layers[1]?.tiles[3]?.[1]).toBeNull()
   })
 
-  test('普通内容冲突第一次点击零 dispatch，显式覆盖才提交；随后 ownership 不提供覆盖', async () => {
+  test('普通内容冲突随直接放置原子覆盖且可撤销，既有组合 ownership 仍阻止覆盖', async () => {
     const { host, canvas, session, onWorkspaceNotice } = await mountMapMode({
       stamps: [stampTemplate()],
     })
     await activateStamp(host)
-    await mapStampSlots(host)
     await act(async () => pointer(canvas, 'pointermove'))
-    expect(host.querySelector('.stamp-placement-status')?.textContent).toContain('普通内容冲突')
-    expect(
-      host.querySelectorAll('[aria-label="组合放置问题明细"] .ds-diagnostic-row--warning'),
-    ).not.toHaveLength(0)
-    expect(host.querySelector('[aria-label="组合放置问题明细"]')?.textContent).toMatch(
-      /普通视觉.*r0:c0.*1 → 1/s,
+    expect(host.querySelector('.map-viewport-status--context')?.textContent).toContain(
+      '将覆盖 1 处普通内容',
     )
+    expect(host.querySelector('[aria-label="组合放置问题明细"]')).toBeNull()
 
     await act(async () => pointer(canvas, 'pointerdown'))
-    expect(session.getMapRevision('map-a')).toBe(0)
-    expect(onWorkspaceNotice).toHaveBeenLastCalledWith(
-      expect.objectContaining({ kind: 'error', message: expect.stringContaining('显式确认覆盖') }),
-    )
-
-    await act(async () => button(host, '覆盖普通格并放置').click())
     expect(session.getMapRevision('map-a')).toBe(1)
+    expect(onWorkspaceNotice).toHaveBeenLastCalledWith(
+      expect.objectContaining({ kind: 'info', message: expect.stringContaining('已放置组合') }),
+    )
     expect(projectMapStampPlacements(session.getState().maps['map-a']!)).toHaveLength(1)
-    expect(host.querySelector('.stamp-placement-status')?.textContent).toContain('已属于放置组')
+    expect(host.querySelector('.map-viewport-status--context')?.textContent).toContain(
+      '已属于放置组',
+    )
     expect(
       [...host.querySelectorAll<HTMLButtonElement>('button')].filter((candidate) =>
         candidate.textContent?.includes('覆盖普通格并放置'),
