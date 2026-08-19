@@ -328,9 +328,19 @@ export function drawGridBlocked(
     // y = ±x/2 + 8k 的奇数 k 上；偶数 k 会穿过格心，把一个真实菱形误切成两个“半格”。
     // 条数 O(可见宽+高) 而非 O(可见格数) 个菱形。低倍率大图上菱形法每帧构建/描边数十万个
     // Path2D 段(实测 40 次缩放帧 31.6s),贯穿线法只有千级段,且视觉上与逐格菱形完全等价。
+    // px0..py1 含视口防弹跳余量，只用于生成足够长的斜线；真正可见的网格必须裁在
+    // 非倾斜的地图画布矩形内，不能把 culling 余量画成额外一圈格子。
+    const clipX0 = Math.max(0, view.panX)
+    const clipX1 = Math.min(map.width * TILE_W, view.panX + vw)
+    const clipY0 = Math.max(0, view.panY)
+    const clipY1 = Math.min(map.height * TILE_H, view.panY + vh)
+    if (clipX1 <= clipX0 || clipY1 <= clipY0) {
+      ctx.restore()
+      return
+    }
     ctx.save()
     ctx.beginPath()
-    ctx.rect(px0, py0, px1 - px0, py1 - py0)
+    ctx.rect(clipX0, clipY0, clipX1 - clipX0, clipY1 - clipY0)
     ctx.clip()
     const gridPath = new Path2D()
     for (const m of [0.5, -0.5] as const) {

@@ -3,7 +3,7 @@ import { loadTilesetAsset } from '@type-pal/reforge'
 import { act, useRef } from 'react'
 import { createRoot } from 'react-dom/client'
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
-import { isCollisionOverlayMarked, useSceneAssets } from './scene-stage.js'
+import { drawGridBlocked, isCollisionOverlayMarked, useSceneAssets } from './scene-stage.js'
 
 vi.mock('@type-pal/reforge', async (importOriginal) => {
   const original = await importOriginal<typeof import('@type-pal/reforge')>()
@@ -76,6 +76,7 @@ beforeEach(() => {
 
 afterEach(async () => {
   await act(async () => root.unmount())
+  vi.unstubAllGlobals()
   host.remove()
 })
 
@@ -105,4 +106,35 @@ test('碰撞遮罩忽略组合未记录的 null 与开放值 0，只标红显式
   expect(isCollisionOverlayMarked(stampSurface, { row: 0, col: 1 })).toBe(false)
   expect(isCollisionOverlayMarked(stampSurface, { row: 1, col: 0 })).toBe(true)
   expect(isCollisionOverlayMarked(stampSurface, { row: 1, col: 1 })).toBe(true)
+})
+
+test('网格只裁在非倾斜画布矩形内，不把视口防弹跳余量画成额外格子', () => {
+  class TestPath2D {
+    moveTo() {}
+    lineTo() {}
+    closePath() {}
+  }
+  vi.stubGlobal('Path2D', TestPath2D)
+  const rect = vi.fn()
+  const context = {
+    canvas: { width: 400, height: 300 },
+    save: vi.fn(),
+    restore: vi.fn(),
+    scale: vi.fn(),
+    translate: vi.fn(),
+    beginPath: vi.fn(),
+    rect,
+    clip: vi.fn(),
+    stroke: vi.fn(),
+  } as unknown as CanvasRenderingContext2D
+
+  drawGridBlocked(
+    context,
+    { ...projectMap, width: 3, height: 3 },
+    { col: 0, row: 0, cols: 3, rows: 3 },
+    { zoom: 1, panX: -100, panY: -100 },
+    { grid: true, blocked: false },
+  )
+
+  expect(rect).toHaveBeenCalledWith(0, 0, 96, 48)
 })
