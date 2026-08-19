@@ -11851,6 +11851,7 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .map-layer-panel__header {
   flex: none;
+  gap: var(--ds-space-3);
 }
 .map-layer-panel__header > .ds-tooltip .ds-tooltip__bubble,
 .map-layer-row .layer-order .ds-tooltip__bubble {

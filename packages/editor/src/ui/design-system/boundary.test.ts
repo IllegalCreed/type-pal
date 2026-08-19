@@ -94,6 +94,13 @@ describe('editor design-system static boundary', () => {
     )
   })
 
+  test('keeps layer header actions visually separated', () => {
+    const businessCss = readFileSync(join(dirname(here), 'editor.css'), 'utf8')
+    expect(businessCss).toMatch(
+      /\.map-layer-panel__header\s*\{[\s\S]*?gap:\s*var\(--ds-space-3\);/,
+    )
+  })
+
   test('keeps object workspace cards content-sized inside the scrolling grid', () => {
     const recipes = readFileSync(join(here, 'recipes.css'), 'utf8')
     expect(recipes).toMatch(
