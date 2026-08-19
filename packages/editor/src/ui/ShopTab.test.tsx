@@ -50,5 +50,11 @@ describe('ShopTab shared object workspace', () => {
     expect(hero!.querySelector('.ds-tag')?.textContent).toBe('2 种货')
     expect(host.querySelectorAll('h1')).toHaveLength(1)
     await verifyInspectorTabs(host, '商店检查器', ['摘要', '说明'])
+
+    const helpTab = [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(
+      (tab) => tab.textContent?.trim() === '说明',
+    )!
+    await act(async () => helpTab.click())
+    expect(host.querySelector('ol.shop-help-steps')?.children).toHaveLength(3)
   })
 })

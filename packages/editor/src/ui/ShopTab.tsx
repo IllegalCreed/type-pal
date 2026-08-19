@@ -257,7 +257,7 @@ export function ShopTab(props: {
                   </DsInspectorSection>
 
                   <DsInspectorSection title="剧情调用" description="通过“商店”指令开店">
-                    <ol>
+                    <ol className="shop-help-steps">
                       <li>打开掌柜 NPC 的触发脚本。</li>
                       <li>插入“商店”指令并选择买入或卖出模式。</li>
                       <li>买入模式引用当前店铺编号 #{shop?.id ?? '—'}。</li>
