@@ -5048,6 +5048,16 @@ html[data-panel-resize="horizontal"] * {
 .stamp-property-fields .ds-input {
   width: 100%;
 }
+.stamp-canvas-size-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--ds-space-3);
+}
+.stamp-canvas-size-fields > span {
+  color: var(--ds-text-muted);
+  font: var(--ds-font-body);
+}
 .stamp-template-facts {
   display: grid;
   gap: 1px;

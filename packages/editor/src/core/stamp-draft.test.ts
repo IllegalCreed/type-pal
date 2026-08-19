@@ -11,6 +11,7 @@ import {
   moveStampDraftSelection,
   openStampDraft,
   reanchorStampDraft,
+  resizeStampDraft,
   setStampDraftCollision,
   setStampDraftVisual,
   updateStampDraftLayer,
@@ -50,6 +51,34 @@ describe('canonical stamp draft', () => {
     expect(after.anchor).toEqual({ row: 10, col: 8 })
     expect(after.layers).toEqual(before.layers)
     expect(() => reanchorStampDraft(before, { row: -1, col: 0 })).toThrow('边界内')
+  })
+
+  test('canvas resize is top-left anchored, expands dense matrices and only shrinks empty edges', () => {
+    const before = fixture()
+    const expanded = resizeStampDraft(before, 18, 10)
+    expect(expanded).toMatchObject({ width: 18, height: 10, anchor: before.anchor })
+    expect(expanded.layers[1]?.tiles[7]?.[7]).toBe(8)
+    expect(expanded.layers[1]?.tiles).toHaveLength(20)
+    expect(expanded.layers[1]?.tiles[0]).toHaveLength(18)
+    expect(expanded.collision).toHaveLength(20)
+
+    let compact = createBlankStampDraft('compact', '紧凑组合', 'town')
+    compact = reanchorStampDraft(compact, { row: 0, col: 0 })
+    compact = setStampDraftVisual(compact, 'base', { row: 0, col: 0 }, 2, 'town', 0)
+    expect(resizeStampDraft(compact, 3, 2)).toMatchObject({ width: 3, height: 2 })
+  })
+
+  test('canvas shrink rejects clipping the anchor, visual tiles or collision', () => {
+    expect(() => resizeStampDraft(fixture(), 7, 8)).toThrow('锚点')
+
+    let visual = reanchorStampDraft(fixture(), { row: 0, col: 0 })
+    expect(() => resizeStampDraft(visual, 7, 8)).toThrow('视觉瓦片')
+
+    let collision = createBlankStampDraft('collision', '碰撞边缘', 'town')
+    collision = reanchorStampDraft(collision, { row: 0, col: 0 })
+    collision = setStampDraftVisual(collision, 'base', { row: 0, col: 0 }, 2, 'town', 0)
+    collision = setStampDraftCollision(collision, { row: 0, col: 2 }, 1)
+    expect(() => resizeStampDraft(collision, 2, 8)).toThrow('碰撞')
   })
 
   test('layer CRUD preserves dense matrices', () => {

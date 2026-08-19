@@ -9,6 +9,17 @@ function matrix<T>(rows: number, cols: number, value: T): T[][] {
   return Array.from({ length: rows }, () => Array<T>(cols).fill(value))
 }
 
+function resizeMatrix<T>(
+  source: readonly (readonly T[])[],
+  rows: number,
+  cols: number,
+  value: T,
+): T[][] {
+  return Array.from({ length: rows }, (_, row) =>
+    Array.from({ length: cols }, (_, col) => source[row]?.[col] ?? value),
+  )
+}
+
 export function stampDraftPointKey(point: GridPointRef): string {
   return `${point.row}:${point.col}`
 }
@@ -268,6 +279,47 @@ export function eraseStampDraftCollision(draft: StampTemplate, point: GridPointR
 export function reanchorStampDraft(draft: StampTemplate, nextAnchor: GridPointRef): StampTemplate {
   if (!inside(draft, nextAnchor)) throw new Error('组合锚点必须位于局部地图边界内。')
   return { ...draft, anchor: { ...nextAnchor } }
+}
+
+/** 左上固定调整组合局部地图；缩小时拒绝静默裁掉锚点、视觉成员或碰撞。 */
+export function resizeStampDraft(
+  draft: StampTemplate,
+  width: number,
+  height: number,
+): StampTemplate {
+  if (!Number.isSafeInteger(width) || width < 1 || width > 256)
+    throw new Error('组合画布宽度必须是 1–256 的整数。')
+  if (!Number.isSafeInteger(height) || height < 1 || height > 256)
+    throw new Error('组合画布高度必须是 1–256 的整数。')
+  if (width === draft.width && height === draft.height) return draft
+  const rows = height * 2
+  if (draft.anchor.col >= width || draft.anchor.row >= rows)
+    throw new Error('缩小后的画布不能裁掉组合锚点。请先重新设置锚点。')
+
+  for (const layer of draft.layers)
+    for (let row = 0; row < draft.height * 2; row++)
+      for (let col = 0; col < draft.width; col++)
+        if ((row >= rows || col >= width) && layer.tiles[row]?.[col] !== null)
+          throw new Error('缩小后的画布会裁掉视觉瓦片。请先移动或清理边缘内容。')
+  for (let row = 0; row < draft.height * 2; row++)
+    for (let col = 0; col < draft.width; col++)
+      if ((row >= rows || col >= width) && draft.collision[row]?.[col] !== null)
+        throw new Error('缩小后的画布会裁掉碰撞。请先移动或清理边缘内容。')
+
+  return {
+    ...draft,
+    width,
+    height,
+    layers: draft.layers.map((layer) => ({
+      ...layer,
+      tiles: resizeMatrix(layer.tiles, rows, width, null),
+      sources: resizeMatrix(layer.sources, rows, width, null),
+      ...(layer.heights
+        ? { heights: resizeMatrix(layer.heights, rows, width, 0) }
+        : { heights: undefined }),
+    })),
+    collision: resizeMatrix(draft.collision, rows, width, null),
+  }
 }
 
 export function moveStampDraftSelection(

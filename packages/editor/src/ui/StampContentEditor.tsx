@@ -30,11 +30,18 @@ import {
   nextStampLayerSlotId,
   openStampDraft,
   reanchorStampDraft,
+  resizeStampDraft,
   setStampDraftCollision,
   setStampDraftVisual,
   updateStampDraftLayer,
 } from '../core/stamp-draft.js'
-import { DsButton, DsCheckbox, DsField, DsTextInput } from './design-system/index.js'
+import {
+  DsButton,
+  DsCheckbox,
+  DsField,
+  DsNumberInput,
+  DsTextInput,
+} from './design-system/index.js'
 import { IsometricEditorCanvas } from './IsometricEditorCanvas.js'
 import { IsometricEditorSurface } from './IsometricEditorSurface.js'
 import { type IsometricEditorTool, IsometricEditorToolbar } from './IsometricEditorToolbar.js'
@@ -197,6 +204,22 @@ export function StampContentEditor(props: {
       }
     })
   }, [])
+
+  const commitCanvasSize = (width: number, height: number): boolean => {
+    try {
+      const next = resizeStampDraft(draft, width, height)
+      setDraft(next)
+      setSelectedPoint((current) =>
+        current && isLatticeInside(next, current) ? current : undefined,
+      )
+      fittedRef.current = false
+      setError('')
+      return true
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : String(cause))
+      return false
+    }
+  }
 
   const toWorld = (event: ReactPointerEvent<HTMLCanvasElement>): GridPointRef => {
     const canvas = event.currentTarget
@@ -451,17 +474,59 @@ export function StampContentEditor(props: {
             />
           )}
         </DsField>
+        <DsField
+          label="画布尺寸"
+          help="宽 × 高，范围 1–256；左上固定，缩小时不会裁掉现有内容或锚点。"
+        >
+          {(control) => (
+            <div className="stamp-canvas-size-fields">
+              <DsNumberInput
+                key={`stamp-width:${draft.width}`}
+                {...control}
+                aria-label="组合画布宽度"
+                min={1}
+                max={256}
+                defaultValue={draft.width}
+                onBlur={(event) => {
+                  const width = Math.max(
+                    1,
+                    Math.min(256, Math.floor(event.currentTarget.valueAsNumber)),
+                  )
+                  if (!Number.isFinite(width) || !commitCanvasSize(width, draft.height))
+                    event.currentTarget.value = String(draft.width)
+                }}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter') event.currentTarget.blur()
+                }}
+              />
+              <span aria-hidden="true">×</span>
+              <DsNumberInput
+                key={`stamp-height:${draft.height}`}
+                aria-label="组合画布高度"
+                aria-describedby={control['aria-describedby']}
+                min={1}
+                max={256}
+                defaultValue={draft.height}
+                onBlur={(event) => {
+                  const height = Math.max(
+                    1,
+                    Math.min(256, Math.floor(event.currentTarget.valueAsNumber)),
+                  )
+                  if (!Number.isFinite(height) || !commitCanvasSize(draft.width, height))
+                    event.currentTarget.value = String(draft.height)
+                }}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter') event.currentTarget.blur()
+                }}
+              />
+            </div>
+          )}
+        </DsField>
       </div>
       <dl className="stamp-template-facts">
         <div>
           <dt>稳定 ID</dt>
           <dd className="mono">{draft.id}</dd>
-        </div>
-        <div>
-          <dt>尺寸</dt>
-          <dd>
-            {draft.width} × {draft.height}
-          </dd>
         </div>
         <div>
           <dt>锚点</dt>

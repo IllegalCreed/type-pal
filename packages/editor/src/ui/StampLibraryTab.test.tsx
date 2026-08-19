@@ -204,6 +204,15 @@ async function input(element: HTMLInputElement, value: string): Promise<void> {
   })
 }
 
+async function commitNumber(element: HTMLInputElement, value: number): Promise<void> {
+  await act(async () => {
+    const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
+    setter.call(element, String(value))
+    element.dispatchEvent(new Event('input', { bubbles: true }))
+    element.dispatchEvent(new FocusEvent('focusout', { bubbles: true }))
+  })
+}
+
 async function chooseSelectOption(label: string, optionText: string): Promise<void> {
   const trigger = host.querySelector<HTMLButtonElement>(`[role="combobox"][aria-label="${label}"]`)!
   await act(async () => trigger.click())
@@ -580,6 +589,30 @@ describe('StampLibraryTab', () => {
     expect(button('设为锚点', toolbar).disabled).toBe(false)
     await act(async () => button('设为锚点', toolbar).click())
     expect(host.querySelector('.stamp-template-facts')?.textContent).toContain('r1 · c0')
+  })
+
+  test('属性页可调整组合画布尺寸并在保存时保持矩阵同构', async () => {
+    const session = new EditSession(state([template()], {}))
+    await act(async () => {
+      root.render(<Harness session={session} />)
+      await Promise.resolve()
+    })
+
+    await commitNumber(
+      host.querySelector<HTMLInputElement>('[aria-label="组合画布宽度"]')!,
+      7,
+    )
+    await commitNumber(
+      host.querySelector<HTMLInputElement>('[aria-label="组合画布高度"]')!,
+      4,
+    )
+    await act(async () => button('保存组合', host).click())
+
+    const saved = session.getState().stamps[0]!
+    expect(saved).toMatchObject({ width: 7, height: 4 })
+    expect(saved.layers[0]?.tiles).toHaveLength(8)
+    expect(saved.layers[0]?.tiles[0]).toHaveLength(7)
+    expect(saved.collision).toHaveLength(8)
   })
 
   test('内容编辑只在保存时提交一笔模板 history，undo/redo 全程不改地图与 MapIndex', async () => {
