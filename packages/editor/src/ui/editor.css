@@ -10094,7 +10094,7 @@ button.sprite-frame-cell[draggable="true"]:active {
     "description trade";
   gap: 12px;
   min-width: 0;
-  align-items: start;
+  align-items: stretch;
 }
 .item-base-section {
   display: grid;
