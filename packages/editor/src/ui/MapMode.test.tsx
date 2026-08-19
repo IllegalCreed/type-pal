@@ -533,6 +533,20 @@ describe('MapMode 地图内容选择交互', () => {
     expect(host.querySelector('[aria-label="搜索地图组合"]')).not.toBeNull()
   })
 
+  test('地图与选中图层使用同级 Inspector 分区', async () => {
+    const { host } = await mountMapMode()
+    const sections = [
+      ...host.querySelectorAll<HTMLElement>('.map-properties-section > .ds-inspector-section'),
+    ]
+
+    expect(sections.map((section) => section.querySelector('h2')?.textContent)).toEqual([
+      '地图',
+      '选中图层',
+    ])
+    expect(sections[0]?.querySelector('[aria-label="地图名称"]')).not.toBeNull()
+    expect(sections[1]?.querySelector('[aria-label="图层名称"]')).not.toBeNull()
+  })
+
   test('右栏三 Tab 关联完整且键盘循环，切换不改地图、选区或组合筛选状态', async () => {
     const { host, canvas, session } = await mountMapMode({ stamps: [stampTemplate()] })
     await selectFloor(host, canvas)

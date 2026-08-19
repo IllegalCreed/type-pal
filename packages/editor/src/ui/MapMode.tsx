@@ -112,6 +112,7 @@ import {
   DsCatalogControls,
   DsCatalogRow,
   DsCheckbox,
+  DsInspectorSection,
   DsInspectorTabs,
   DsPropertyGrid,
   DsPropertyRow,
@@ -3371,10 +3372,9 @@ export function MapMode(props: {
                       onValidationError={(message) => notifyWorkspace('error', message)}
                     />
                   ) : (
-                    <div className="section map-properties-section" data-ds-density="compact">
-                      <h4>地图</h4>
-                      {selectedAsset ? (
-                        <>
+                    <div className="map-properties-section" data-ds-density="compact">
+                      <DsInspectorSection title="地图">
+                        {selectedAsset ? (
                           <DsPropertyGrid>
                             <DsPropertyRow label="名称" labelFor="map-properties-name">
                               <input
@@ -3474,47 +3474,46 @@ export function MapMode(props: {
                               </span>
                             </DsPropertyRow>
                           </DsPropertyGrid>
-                          {activeLayer ? (
-                            <>
-                              <h4>选中图层</h4>
-                              <DsPropertyGrid>
-                                <DsPropertyRow label="名称" labelFor="map-active-layer-name">
-                                  <input
-                                    id="map-active-layer-name"
-                                    key={`${activeLayer.id}:${activeLayer.name}`}
-                                    className="in"
-                                    aria-label="图层名称"
-                                    defaultValue={activeLayer.name}
-                                    disabled={activeLayerReadOnly}
-                                    onBlur={(event) => {
-                                      const name = event.target.value.trim()
-                                      if (name && name !== activeLayer.name)
-                                        session.dispatch(
-                                          new UpdateProjectMapLayerCommand(mapId, activeLayer.id, {
-                                            name,
-                                          }),
-                                        )
-                                    }}
-                                    onKeyDown={(event) => {
-                                      if (event.key === 'Enter') event.currentTarget.blur()
-                                    }}
-                                  />
-                                </DsPropertyRow>
-                                <DsPropertyRow label="ID">
-                                  <span className="mono">{activeLayer.id}</span>
-                                </DsPropertyRow>
-                              </DsPropertyGrid>
-                            </>
-                          ) : null}
-                        </>
-                      ) : (
-                        <>
-                          <p className="hint2">当前场景引用的地图没有索引条目。</p>
-                          <button type="button" className="tool" onClick={createMap}>
-                            ＋ 新建地图
-                          </button>
-                        </>
-                      )}
+                        ) : (
+                          <>
+                            <p className="hint2">当前场景引用的地图没有索引条目。</p>
+                            <button type="button" className="tool" onClick={createMap}>
+                              ＋ 新建地图
+                            </button>
+                          </>
+                        )}
+                      </DsInspectorSection>
+                      {selectedAsset && activeLayer ? (
+                        <DsInspectorSection title="选中图层">
+                          <DsPropertyGrid>
+                            <DsPropertyRow label="名称" labelFor="map-active-layer-name">
+                              <input
+                                id="map-active-layer-name"
+                                key={`${activeLayer.id}:${activeLayer.name}`}
+                                className="in"
+                                aria-label="图层名称"
+                                defaultValue={activeLayer.name}
+                                disabled={activeLayerReadOnly}
+                                onBlur={(event) => {
+                                  const name = event.target.value.trim()
+                                  if (name && name !== activeLayer.name)
+                                    session.dispatch(
+                                      new UpdateProjectMapLayerCommand(mapId, activeLayer.id, {
+                                        name,
+                                      }),
+                                    )
+                                }}
+                                onKeyDown={(event) => {
+                                  if (event.key === 'Enter') event.currentTarget.blur()
+                                }}
+                              />
+                            </DsPropertyRow>
+                            <DsPropertyRow label="ID">
+                              <span className="mono">{activeLayer.id}</span>
+                            </DsPropertyRow>
+                          </DsPropertyGrid>
+                        </DsInspectorSection>
+                      ) : null}
                     </div>
                   )}
                 </div>

@@ -11658,11 +11658,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   width: 64px;
 }
 
-/* 地图与组合共用属性表；这里只保留地图分区之间的领域间距。 */
-.map-properties-section > .ds-property-grid + h4 {
-  margin-top: var(--ds-space-6);
-}
-
 .map-file {
   max-width: 150px;
   overflow-wrap: anywhere;
