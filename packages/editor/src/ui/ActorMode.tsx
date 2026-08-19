@@ -1108,32 +1108,6 @@ export function ActorMode(props: {
                       </DsPropertyGrid>
                     </DsInspectorSection>
 
-                    <DsInspectorSection title="编辑分区">
-                      <div
-                        className="ds-inspector-choice-list"
-                        role="group"
-                        aria-label="角色编辑分区"
-                      >
-                        {ACTOR_WORKSPACE_SECTIONS.map((candidate) => (
-                          <DsCatalogRow
-                            key={candidate}
-                            selected={section === candidate}
-                            title={SECTION_LABEL[candidate]}
-                            meta={
-                              candidate === 'overview'
-                                ? '身份与全局摘要'
-                                : candidate === 'battle'
-                                  ? '属性、装备、成长、音效'
-                                  : candidate === 'relationships'
-                                    ? '援护、合体技、伤亡脚本'
-                                    : '行走图、立绘、小头像'
-                            }
-                            onClick={() => openSection(candidate)}
-                          />
-                        ))}
-                      </div>
-                    </DsInspectorSection>
-
                     {battler ? (
                       <DsInspectorSection title="当前摘要">
                         <DsPropertyGrid>

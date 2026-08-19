@@ -161,17 +161,15 @@ function setInputValue(input: HTMLInputElement, value: string): void {
 }
 
 describe('ActorMode 战斗关系节 (E18-1)', () => {
-  test('角色检查器保留编辑分区导航并使用共享摘要/引用 Tab', async () => {
+  test('角色检查器只保留摘要与引用，不重复主工作区分区导航', async () => {
     const session = new EditSession(state(actors()))
     await act(async () => {
       root = createRoot(host)
       root.render(<Harness session={session} />)
     })
     await verifyInspectorTabs(host, '角色检查器', ['摘要', /^引用 \d+$/])
-    expect(host.querySelector('[role="group"][aria-label="角色编辑分区"]')).not.toBeNull()
-    expect(
-      host.querySelectorAll('[role="group"][aria-label="角色编辑分区"] .ds-catalog-row'),
-    ).toHaveLength(4)
+    expect(host.querySelector('[role="group"][aria-label="角色编辑分区"]')).toBeNull()
+    expect(host.querySelector('.actor-summary-panel')?.textContent).not.toContain('编辑分区')
   })
 
   test('默认主工作区是角色总览；行走帧只在外观资源分区出现', async () => {
@@ -235,6 +233,7 @@ describe('ActorMode 战斗关系节 (E18-1)', () => {
     await act(async () => button('编辑伤亡脚本').click())
     expect(host.textContent).toContain('伤亡脚本 · hero')
     expect(host.textContent).toContain('概率分支')
+    await act(async () => button('完成').click())
     await act(async () => button('战斗与成长').click())
     expect(button('📈 编辑曲线(中区拖点)')).toBeTruthy()
     await act(async () => button('📈 编辑曲线(中区拖点)').click())
