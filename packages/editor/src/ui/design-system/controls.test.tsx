@@ -254,6 +254,66 @@ describe('editor design-system controls', () => {
     expect(onValueChange).toHaveBeenCalledWith('c')
   })
 
+  test('select keeps its popup inside the nearest native dialog top-layer context', async () => {
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+      callback(0)
+      return 1
+    })
+    const onValueChange = vi.fn()
+    const options: DsOption[] = Array.from({ length: 30 }, (_, index) => ({
+      value: String(index),
+      label: `选项 ${index}`,
+    }))
+    await act(async () =>
+      root.render(
+        <dialog open aria-label="编辑指令">
+          <button type="button" aria-label="弹窗前一个控件">
+            前一个
+          </button>
+          <DsSelect
+            aria-label="开关名"
+            value="0"
+            options={options}
+            onValueChange={onValueChange}
+          />
+          <button type="button" aria-label="弹窗后一个控件">
+            后一个
+          </button>
+        </dialog>,
+      ),
+    )
+
+    const dialog = host.querySelector<HTMLDialogElement>('dialog')!
+    const trigger = dialog.querySelector<HTMLButtonElement>('[role="combobox"]')!
+    await click(trigger)
+    const listbox = dialog.querySelector<HTMLElement>('[role="listbox"]')!
+    expect(listbox).not.toBeNull()
+    expect(listbox.closest('dialog')).toBe(dialog)
+    const search = dialog.querySelector<HTMLInputElement>('.ds-select-popover__search-input')!
+    expect(document.activeElement).toBe(search)
+    await keyDown(search, 'Tab')
+    expect(document.activeElement).toBe(dialog.querySelector('[aria-label="弹窗后一个控件"]'))
+    expect(dialog.hasAttribute('open')).toBe(true)
+
+    trigger.focus()
+    await click(trigger)
+    const reopenedSearch = dialog.querySelector<HTMLInputElement>(
+      '.ds-select-popover__search-input',
+    )!
+    await keyDown(reopenedSearch, 'Escape')
+    expect(dialog.querySelector('[role="listbox"]')).toBeNull()
+    expect(dialog.hasAttribute('open')).toBe(true)
+    expect(document.activeElement).toBe(trigger)
+
+    await click(trigger)
+    const reopenedListbox = dialog.querySelector<HTMLElement>('[role="listbox"]')!
+    const option = [...reopenedListbox.querySelectorAll<HTMLElement>('[role="option"]')].find(
+      (candidate) => candidate.textContent?.includes('选项 1'),
+    )!
+    await click(option)
+    expect(onValueChange).toHaveBeenCalledWith('1')
+  })
+
   test('select surfaces an unknown controlled value without inventing an option', async () => {
     await act(async () =>
       root.render(

@@ -47,6 +47,21 @@ afterEach(async () => {
 })
 
 describe('DsFloatingLayer', () => {
+  test('portals into the nearest native dialog so the layer stays in its top-layer context', async () => {
+    await act(async () =>
+      root.render(
+        <dialog open aria-label="测试弹窗">
+          <Harness />
+        </dialog>,
+      ),
+    )
+
+    const dialog = host.querySelector<HTMLDialogElement>('dialog')!
+    const layer = dialog.querySelector<HTMLDivElement>('.test-floating-layer')
+    expect(layer).not.toBeNull()
+    expect(layer?.parentElement).toBe(dialog)
+  })
+
   test('matches the anchor width and respects a max height smaller than 80px', async () => {
     vi.spyOn(window, 'innerWidth', 'get').mockReturnValue(800)
     vi.spyOn(window, 'innerHeight', 'get').mockReturnValue(600)

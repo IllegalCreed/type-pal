@@ -514,7 +514,8 @@ function focusAdjacentTabStop(
   backwards: boolean,
   excludedRoot: HTMLElement | null,
 ): void {
-  const candidates = [...document.querySelectorAll<HTMLElement>(TAB_STOP_SELECTOR)].filter(
+  const scope = reference.closest('dialog[open]') ?? document
+  const candidates = [...scope.querySelectorAll<HTMLElement>(TAB_STOP_SELECTOR)].filter(
     (candidate) => {
       if (excludedRoot?.contains(candidate) || candidate.closest('[hidden], [inert]')) return false
       if (candidate.getAttribute('aria-hidden') === 'true' || candidate.tabIndex < 0) return false

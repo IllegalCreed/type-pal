@@ -17,6 +17,8 @@ interface DsFloatingLayout {
 
 /**
  * Top-level anchored surface used by controls that must escape scrolling panels.
+ * Native modal dialogs live in the browser top layer, so a layer anchored inside one must portal
+ * back into that dialog instead of document.body; z-index cannot cross the top-layer boundary.
  * It owns geometry and light-dismiss only; listbox/menu semantics stay with callers.
  */
 export function DsFloatingLayer(props: {
@@ -104,6 +106,7 @@ export function DsFloatingLayer(props: {
   }, [anchorRef, layerRef, onDismiss, open, updateLayout])
 
   if (!open || typeof document === 'undefined') return null
+  const portalHost = anchorRef.current?.closest('dialog[open]') ?? document.body
   return createPortal(
     <div
       ref={props.layerRef}
@@ -113,6 +116,6 @@ export function DsFloatingLayer(props: {
     >
       {props.children}
     </div>,
-    document.body,
+    portalHost,
   )
 }
