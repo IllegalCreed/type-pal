@@ -592,6 +592,51 @@ export function collectEditorStatusIssues(
   return [...unique.values()]
 }
 
+function sameWorldVariableDiagnosticShape(
+  left: EditorState['worldVariables'],
+  right: EditorState['worldVariables'],
+): boolean {
+  if (left === right) return true
+  const leftEntries = Object.entries(left ?? {})
+  if (leftEntries.length !== Object.keys(right ?? {}).length) return false
+  return leftEntries.every(([id, definition]) => right?.[id]?.kind === definition.kind)
+}
+
+/**
+ * Component-local status collector cache. Author-only world-variable metadata cannot affect any
+ * status diagnostic, so those edits reuse the previous result; every other immutable state slice,
+ * variable id/kind change, and canonical script change invalidates it.
+ */
+export function createEditorStatusIssueCollector(): (
+  state: EditorState,
+  canonical?: ScriptEditorState,
+) => EditorStatusIssue[] {
+  let previousState: EditorState | undefined
+  let previousCanonical: ScriptEditorState | undefined
+  let previousIssues: EditorStatusIssue[] | undefined
+  return (state, canonical) => {
+    const left = previousState as unknown as Record<string, unknown> | undefined
+    const right = state as unknown as Record<string, unknown>
+    const leftKeys = left ? Object.keys(left) : []
+    const rightKeys = Object.keys(right)
+    const sameOtherSlices =
+      left !== undefined &&
+      leftKeys.length === rightKeys.length &&
+      rightKeys.every((key) => key === 'worldVariables' || left[key] === right[key])
+    if (
+      previousIssues &&
+      previousCanonical === canonical &&
+      sameOtherSlices &&
+      sameWorldVariableDiagnosticShape(previousState?.worldVariables, state.worldVariables)
+    )
+      return previousIssues
+    previousState = state
+    previousCanonical = canonical
+    previousIssues = collectEditorStatusIssues(state, canonical)
+    return previousIssues
+  }
+}
+
 /** serializeProject 的 G2 保存门；入口点、角色配置和现有资产引用共用既有 validator。 */
 export function assertProjectSaveValid(state: EditorState): void {
   const errors = validateManifestEntryPoints(state.manifest, state.scenes).filter(

@@ -14,6 +14,7 @@ import {
   assertProjectSaveValid,
   collectEditorStatusIssues,
   collectProjectIssues,
+  createEditorStatusIssueCollector,
   getRepairableEntryIndexes,
   resolveProjectEntryPoints,
   validateManifestEntryPoints,
@@ -643,6 +644,44 @@ describe('X7 工程诊断与保存门', () => {
       startWorld: { ...base.startWorld, party: ['ghost'] },
     })
     expect(startWorldBroken.filter((issue) => issue.message.includes('ghost')).length).toBe(1)
+  })
+
+  test('状态诊断缓存忽略变量作者元数据，但变量结构与其他内容仍会失效', () => {
+    const base = state({
+      worldVariables: {
+        ready: { kind: 'flag', name: '就绪', description: '', initial: false },
+      },
+    })
+    const collect = createEditorStatusIssueCollector()
+    const initial = collect(base)
+    const metadataOnly = {
+      ...base,
+      worldVariables: {
+        ready: { kind: 'flag' as const, name: '已经就绪', description: '作者说明', initial: true },
+      },
+    }
+    expect(collect(metadataOnly)).toBe(initial)
+
+    const kindChanged = {
+      ...metadataOnly,
+      worldVariables: {
+        ready: { kind: 'number' as const, name: '已经就绪', description: '作者说明', initial: 1 },
+      },
+    }
+    const afterKindChange = collect(kindChanged)
+    expect(afterKindChange).not.toBe(initial)
+    expect(collect({ ...kindChanged, scenes: [...kindChanged.scenes] })).not.toBe(afterKindChange)
+
+    const baselineBeforeAdd = collect(kindChanged)
+    expect(
+      collect({
+        ...kindChanged,
+        worldVariables: {
+          ...kindChanged.worldVariables,
+          extra: { kind: 'flag', name: '额外变量', description: '', initial: false },
+        },
+      }),
+    ).not.toBe(baselineBeforeAdd)
   })
 
   test('已声明战场表缺少系统默认 #24 时给出可见警告', () => {

@@ -15,7 +15,7 @@ import type {
   SpriteDefinitionReference,
 } from '@type-pal/content'
 import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
-import { type ReactNode, useEffect, useState } from 'react'
+import { type ReactNode, useEffect, useMemo, useState } from 'react'
 import type { BattleDataReference } from '../core/battle-data-references.js'
 import type { BlockingBattleFieldReference } from '../core/battle-field-references.js'
 import type { EditSession } from '../core/edit-session.js'
@@ -212,8 +212,18 @@ export function DataMode(props: {
     onStatusNotice,
     script,
   } = props
-  const variableReferences = collectWorldVariableReferencesV1(
-    script?.state ?? worldVariableScriptStateFromEditorStateV1(session.getState()),
+  const fallbackScriptSource = session.getState()
+  const variableReferences = useMemo(
+    () =>
+      collectWorldVariableReferencesV1(
+        script?.state ?? worldVariableScriptStateFromEditorStateV1(fallbackScriptSource),
+      ),
+    [
+      fallbackScriptSource.items,
+      fallbackScriptSource.scenes,
+      fallbackScriptSource.sharedScripts,
+      script?.state,
+    ],
   )
   const [spriteDomain, setSpriteDomain] = useState<'world' | 'battle'>(
     () =>

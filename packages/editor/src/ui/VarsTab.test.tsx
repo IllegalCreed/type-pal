@@ -163,6 +163,24 @@ describe('VarsTab world variable workbench', () => {
     expect(session.getState().worldVariables?.['quest.started']?.name).toBe('任务已开始')
   })
 
+  test('moves focus between unchanged metadata fields without creating a history entry', async () => {
+    await render('quest.started')
+    const name = [...host.querySelectorAll<HTMLInputElement>('.ds-input')].find(
+      (input) => input.value === '任务已开始',
+    )!
+    const description = host.querySelector<HTMLTextAreaElement>('.ds-textarea')!
+    const historyVersion = session.getHistoryVersion()
+
+    await act(async () => {
+      name.focus()
+      description.focus()
+    })
+
+    expect(document.activeElement).toBe(description)
+    expect(session.getHistoryVersion()).toBe(historyVersion)
+    expect(session.isDirty()).toBe(false)
+  })
+
   test('deletes only a zero-reference definition and can undo it', async () => {
     await render('unused')
     const deleteButton = [...host.querySelectorAll<HTMLButtonElement>('button')].find((button) =>

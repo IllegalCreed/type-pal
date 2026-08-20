@@ -79,6 +79,23 @@ describe('world variable EditSession commands', () => {
     expect(session.getState().worldVariables?.score?.name).toBe('分数')
   })
 
+  test('identical updates are no-ops and do not create undo history', () => {
+    const session = new EditSession(state())
+    const before = session.getHistoryVersion()
+    expect(
+      session.dispatch(
+        new UpdateWorldVariableCommand('used', {
+          kind: 'flag',
+          name: '被引用',
+          description: '',
+          initial: false,
+        }),
+      ),
+    ).toBe(false)
+    expect(session.getHistoryVersion()).toBe(before)
+    expect(session.isDirty()).toBe(false)
+  })
+
   test('delete blocks every referenced definition and keeps zero-reference deletion undoable', () => {
     const session = new EditSession(state())
     expect(() => session.dispatch(new DeleteWorldVariableCommand('used'))).toThrow(

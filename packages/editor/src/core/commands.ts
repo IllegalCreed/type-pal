@@ -196,6 +196,13 @@ export class UpdateWorldVariableCommand implements Command {
   apply(state: EditorState): EditorState {
     const current = state.worldVariables?.[this.id]
     if (!current) return state
+    if (
+      current.kind === this.definition.kind &&
+      current.name === this.definition.name &&
+      current.description === this.definition.description &&
+      current.initial === this.definition.initial
+    )
+      return state
     if (!this.previous) this.previous = structuredClone(current)
     return {
       ...state,

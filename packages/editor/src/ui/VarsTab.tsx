@@ -185,6 +185,21 @@ export function VarsTab(props: {
             description: nextDraft.description.trim(),
             initial: Number(nextDraft.initial),
           }
+    if (
+      selected.kind === definition.kind &&
+      selected.name === definition.name &&
+      selected.description === definition.description &&
+      selected.initial === definition.initial
+    ) {
+      if (
+        nextDraft.name !== definition.name ||
+        nextDraft.description !== definition.description ||
+        nextDraft.initial !== definition.initial
+      )
+        setDraft(draftOf(definition))
+      setNotice(undefined)
+      return
+    }
     try {
       session.dispatch(new UpdateWorldVariableCommand(selectedId, definition))
       setNotice(undefined)

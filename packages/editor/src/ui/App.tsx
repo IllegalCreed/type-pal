@@ -90,7 +90,7 @@ import {
 import { exportProjectZip } from '../core/export-zip.js'
 import type { ItemReference } from '../core/item-references.js'
 import { type Opened, openExistingProject, pickDir, saveProjectAs } from '../core/open-actions.js'
-import { collectEditorStatusIssues } from '../core/project-diagnostics.js'
+import { createEditorStatusIssueCollector } from '../core/project-diagnostics.js'
 import { serializeProjectWithMapCopies, writeProject } from '../core/project-io.js'
 import type { WorkspaceContext } from '../core/workspace-context.js'
 import { workspaceModeLabel } from '../core/workspace-context.js'
@@ -306,12 +306,19 @@ export function App(props: {
     [scriptSession],
   )
   const getScriptVersion = useMemo(() => () => scriptSession?.getVersion() ?? 0, [scriptSession])
-  useSyncExternalStore(subscribeScript, getScriptVersion)
+  const scriptVersion = useSyncExternalStore(subscribeScript, getScriptVersion)
   const state = session.getState()
-  const storedScriptState = scriptSession?.getState()
-  const scriptState = storedScriptState
-    ? projectActiveScriptEditorState(storedScriptState, state.items)
-    : undefined
+  const storedScriptState = useMemo(
+    () => scriptSession?.getState(),
+    [scriptSession, scriptVersion],
+  )
+  const scriptState = useMemo(
+    () =>
+      storedScriptState
+        ? projectActiveScriptEditorState(storedScriptState, state.items)
+        : undefined,
+    [state.items, storedScriptState],
+  )
   const editorDirty = session.isDirty() || (scriptSession?.isDirty() ?? false)
   const assetReader = useMemo(
     () => createEditorAssetReader(project.source, () => session.getState()),
@@ -1007,10 +1014,8 @@ export function App(props: {
     setSelected({ kind: 'entity', id: locator.entityId })
     setInspectorCollapsed(false)
   }
-  const statusIssues = useMemo(
-    () => collectEditorStatusIssues(state, scriptState),
-    [scriptState, state],
-  )
+  const statusIssueCollector = useMemo(createEditorStatusIssueCollector, [])
+  const statusIssues = statusIssueCollector(state, scriptState)
   // C0:实体经 actor⊕sprite 解析;玩家精灵 = party[0] → ActorDef.spriteId(与引擎同路径)
   const actorsById = useMemo(
     () => Object.fromEntries(state.actors.map((a) => [a.id, a])) as Record<string, ActorDef>,
