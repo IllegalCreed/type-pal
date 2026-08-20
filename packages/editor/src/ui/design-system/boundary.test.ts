@@ -36,6 +36,7 @@ describe('editor design-system static boundary', () => {
     const primitives = readFileSync(join(here, 'primitives.css'), 'utf8')
     const formScope = readFileSync(join(here, 'form-scope.css'), 'utf8')
     const recipes = readFileSync(join(here, 'recipes.css'), 'utf8')
+    const editor = readFileSync(join(here, '..', 'editor.css'), 'utf8')
 
     expect(tokens).toMatch(/--ds-control-height:\s*36px;/)
     expect(tokens).toMatch(/--ds-control-height-compact:\s*30px;/)
@@ -64,6 +65,16 @@ describe('editor design-system static boundary', () => {
       /\.ds-check-control\s*\{[\s\S]*?width:\s*18px;[\s\S]*?height:\s*18px;[\s\S]*?appearance:\s*none;/,
     )
     expect(primitives).toMatch(/\.ds-dialog\s*\{[\s\S]*?margin:\s*auto;/)
+    expect(primitives).toMatch(
+      /\.ds-dialog\[open\],[\s\S]*?\.ds-drawer\[open\]\s*\{[\s\S]*?display:\s*grid;[\s\S]*?grid-template-rows:\s*auto minmax\(0,\s*1fr\) auto;[\s\S]*?overflow:\s*hidden;/,
+    )
+    expect(primitives).toMatch(
+      /\.ds-overlay__body\s*\{[\s\S]*?min-width:\s*0;[\s\S]*?min-height:\s*0;[\s\S]*?overflow:\s*auto;[\s\S]*?overscroll-behavior:\s*contain;/,
+    )
+    const canonicalScriptBody = editor.match(/\.canonical-script-modal-body\s*\{([^}]*)\}/)?.[1]
+    expect(canonicalScriptBody).toBeDefined()
+    expect(canonicalScriptBody).not.toMatch(/\boverflow\s*:/)
+    expect(canonicalScriptBody).not.toMatch(/\boverscroll-behavior\s*:/)
     expect(formScope).toMatch(
       /input\[type="checkbox"\]:not\(\.ds-check-control\):not\(\[role="switch"\]\)\s*\{[\s\S]*?width:\s*18px;[\s\S]*?height:\s*18px;[\s\S]*?appearance:\s*none;/,
     )

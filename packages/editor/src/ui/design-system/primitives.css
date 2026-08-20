@@ -1345,6 +1345,13 @@
   box-shadow: 0 18px 60px color-mix(in srgb, var(--ds-media-black) 65%, transparent);
 }
 
+.ds-dialog[open],
+.ds-drawer[open] {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  overflow: hidden;
+}
+
 .ds-dialog {
   width: min(520px, calc(100vw - 32px));
   max-height: calc(100vh - 32px);
@@ -1379,7 +1386,10 @@
 }
 
 .ds-overlay__body {
+  min-width: 0;
+  min-height: 0;
   overflow: auto;
+  overscroll-behavior: contain;
 }
 
 .ds-overlay__footer {
