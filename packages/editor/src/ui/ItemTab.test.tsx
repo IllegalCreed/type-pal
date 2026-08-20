@@ -863,7 +863,7 @@ describe('ItemTab', () => {
     )
 
     const chain = host.querySelector('.item-effect-chain')!
-    const addButton = button('添加私有脚本', chain)
+    const addButton = button('添加脚本', chain)
     expect(addButton.disabled).toBe(false)
     await act(async () => addButton.click())
 
@@ -878,7 +878,7 @@ describe('ItemTab', () => {
     ])
     expect(host.textContent).toContain('私有脚本物品私有脚本')
     // 已存在一条后入口禁用(每件物品至多一条)
-    expect(button('添加私有脚本', chain).disabled).toBe(true)
+    expect(button('添加脚本', chain).disabled).toBe(true)
 
     // 编辑正文:添加一条指令
     await act(async () => button('添加第一条指令', host).click())

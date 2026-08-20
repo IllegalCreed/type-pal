@@ -1324,7 +1324,7 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
           }
           onClick={() => props.onAddPrivateScript?.()}
         >
-          添加私有脚本
+          添加脚本
         </DsButton>
       ) : null}
     </div>
