@@ -46,6 +46,7 @@ export function CanonicalSceneScriptWorkspace(props: {
   assetCatalog: AssetCatalogV1
   assetReader: EditorAssetReader
   projectId: string
+  workspaceId?: string
   layers?: { grid: boolean; blocked: boolean; ghosts?: boolean }
   editorContext?: CanonicalScriptEditorContext
   onDispatch: (command: ScriptEditorCommand) => void
@@ -197,6 +198,7 @@ export function CanonicalSceneScriptWorkspace(props: {
           stages={EMPTY_STAGES}
           sourceKey={previewSourceKey}
           projectId={props.projectId}
+          workspaceId={props.workspaceId}
           focusEntityId={owner === 'entity' ? (props.selectedEntityId ?? undefined) : undefined}
           sprites={props.sprites}
           actorsById={props.actorsById}

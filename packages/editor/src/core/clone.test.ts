@@ -1,8 +1,22 @@
 import type { CurrentManifest } from '@type-pal/content'
 import type { FileSource } from '@type-pal/reforge'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
+
+vi.mock('./handle-store.js', () => ({
+  loadWorkspaceRecord: async () => null,
+  findWorkspaceRecordByHandle: async () => null,
+  withWorkspaceDiscoveryLock: async (operation: () => Promise<unknown>) => operation(),
+  withWorkspaceRegistrationLock: async (
+    _workspaceId: string,
+    operation: (lock: object) => Promise<unknown>,
+  ) => operation(Object.freeze({})),
+  saveWorkspaceHandleUnderLock: async () => undefined,
+}))
+
 import { cloneFromPal } from './clone.js'
 import { buildSeedAssets } from './seed-assets.js'
+import { createLocalWorkspaceContext } from './workspace-context.js'
+import { authorizeFirstSaveTarget } from './workspace-persistence.js'
 
 function memSource(files: Record<string, unknown>): FileSource {
   return {
@@ -28,11 +42,14 @@ function recordingDir(): { dir: FileSystemDirectoryHandle; written: Map<string, 
   const written = new Map<string, unknown>()
   const make = (prefix: string): FileSystemDirectoryHandle =>
     ({
-      async getDirectoryHandle(name: string) {
+      async *entries() {},
+      async getDirectoryHandle(name: string, opts?: { create?: boolean }) {
+        if (!opts?.create) throw new DOMException(name, 'NotFoundError')
         return make(prefix ? `${prefix}/${name}` : name)
       },
-      async getFileHandle(name: string) {
+      async getFileHandle(name: string, opts?: { create?: boolean }) {
         const full = prefix ? `${prefix}/${name}` : name
+        if (!opts?.create && !written.has(full)) throw new DOMException(name, 'NotFoundError')
         return {
           async createWritable() {
             let buf: unknown
@@ -51,6 +68,15 @@ function recordingDir(): { dir: FileSystemDirectoryHandle; written: Map<string, 
   return { dir: make(''), written }
 }
 
+async function localTarget(dir: FileSystemDirectoryHandle) {
+  const workspace = createLocalWorkspaceContext(
+    'pal',
+    'pal-development-snapshot-clone',
+    '22222222-2222-4222-8222-222222222222',
+  )
+  return authorizeFirstSaveTarget(workspace, dir)
+}
+
 const manifest = {
   id: 'pal',
   name: 'PAL',
@@ -67,6 +93,8 @@ describe('cloneFromPal', () => {
     const portraitBytes = new ArrayBuffer(50)
     const portraitSha = await sha256Hex(portraitBytes)
     const source = memSource({
+      '.type-pal/pal-development.json': { workspaceId: 'must-not-clone' },
+      '.type-pal/workspace.json': { workspaceId: 'must-not-clone' },
       'manifest.json': manifest,
       'content/scenes/index.json': ['s1'],
       'content/actors.json': [{ id: 'a' }],
@@ -89,13 +117,17 @@ describe('cloneFromPal', () => {
     const { dir, written } = recordingDir()
     const progress: Array<[number, number]> = []
 
-    await cloneFromPal(source, dir, (done, total) => progress.push([done, total]))
+    await cloneFromPal(source, await localTarget(dir), (done, total) =>
+      progress.push([done, total]),
+    )
 
     expect(JSON.parse(written.get('manifest.json') as string)).toEqual(manifest)
     expect(written.has('content/actors.json')).toBe(true)
     expect(written.has('content/scenes/index.json')).toBe(true)
     expect(written.has('content/scenes/s1.json')).toBe(true)
     expect(written.has('assets/migrated/portraits/001.png')).toBe(true)
+    expect(written.has('.type-pal/pal-development.json')).toBe(false)
+    expect(written.has('.type-pal/workspace.json')).toBe(false)
     expect(progress.at(-1)).toEqual([50, 50])
   })
 
@@ -130,7 +162,7 @@ describe('cloneFromPal', () => {
     })
     const { dir, written } = recordingDir()
 
-    await cloneFromPal(source, dir, () => {})
+    await cloneFromPal(source, await localTarget(dir), () => {})
 
     const copied = written.get('assets/migrated/tilesets/001.rle') as Blob
     expect(new Uint8Array(await copied.arrayBuffer())).toEqual(new Uint8Array(tileBytes))
@@ -174,7 +206,7 @@ describe('cloneFromPal', () => {
     })
     const { dir, written } = recordingDir()
 
-    await cloneFromPal(source, dir, () => {})
+    await cloneFromPal(source, await localTarget(dir), () => {})
 
     expect(new Uint8Array(await (written.get(battlePath) as Blob).arrayBuffer())).toEqual(
       new Uint8Array(battleBytes),
@@ -200,7 +232,7 @@ describe('cloneFromPal', () => {
     })
     const { dir, written } = recordingDir()
 
-    await cloneFromPal(source, dir, () => {})
+    await cloneFromPal(source, await localTarget(dir), () => {})
 
     expect(JSON.parse(written.get('content/maps/index.json') as string)).toEqual(mapIndex)
     expect(JSON.parse(written.get('content/maps/unused.json') as string)).toMatchObject({

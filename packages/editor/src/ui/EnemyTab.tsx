@@ -38,6 +38,7 @@ import {
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { playProjectQuery } from '../core/play-url.js'
 import {
   DsActionLink,
   DsButton,
@@ -134,7 +135,7 @@ const ENEMY_SOUND_GROUPS: readonly {
 ]
 
 /** reforge(pal)地址:主机跟随编辑器访问地址(局域网/同事机不再错跳 localhost),端口按 dev-servers.md。 */
-// 同源试玩页(本地工程 FSA 句柄跨不了源;?project= 由调用处拼)
+// 同源试玩页；本地工程用 workspaceId 定位 FSA 句柄，projectId 只描述内容身份。
 
 /** 新敌人模板(史莱姆级;id 用 c 前缀避开迁移 objectIndex 空间)。 */
 function newEnemy(id: string, battleSprite: string): EnemyDef {
@@ -539,6 +540,7 @@ export function EnemyTab(props: {
   assetBase?: import('@type-pal/reforge').AssetBase
   /** 工程 id(同源试玩页;缺省 pal 兼容旧调用)。 */
   projectId?: string
+  workspaceId?: string
   onOpenBattleSprite?: (id: string) => void
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
@@ -558,6 +560,7 @@ export function EnemyTab(props: {
     onOpenSound,
     assetBase,
     projectId = 'pal',
+    workspaceId,
     onOpenBattleSprite,
     focusObjectId,
     onObjectFocus,
@@ -738,7 +741,7 @@ export function EnemyTab(props: {
                     <DsActionLink
                       variant="secondary"
                       icon="open"
-                      href={`play.html?project=${encodeURIComponent(projectId)}&battle=${encodeURIComponent(team.id)}`}
+                      href={`play.html?${playProjectQuery(projectId, workspaceId)}&battle=${encodeURIComponent(team.id)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       title="读磁盘工程：改动须先保存"

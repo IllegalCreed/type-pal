@@ -45,6 +45,31 @@ describe('createMigrationPlan', () => {
     expect(plan.summary).toMatchObject({ writes: 1, conflicts: 0 })
   })
 
+  test('base 等于 theirs 时保留 ours，推进 baseline 后重放仍严格零计划', () => {
+    const path = 'content/locale.json'
+    const base = snapshot({ [path]: { a: 1 } })
+    const ours = snapshot({ [path]: { a: 2 } })
+    const theirs = generated({ [path]: { a: 1 } })
+
+    const first = createMigrationPlan(base, ours, theirs)
+    expect(first.target.get(path)).toEqual({ a: 2 })
+    expect(first.conflicts).toEqual([])
+    expect(first.writes.size).toBe(0)
+    expect(first.deletes).toEqual([])
+    expect(first.summary).toMatchObject({ kept: 1, writes: 0, deletes: 0, conflicts: 0 })
+
+    const replay = createMigrationPlan(
+      snapshotOf(theirs),
+      snapshotOf(generated({ [path]: first.target.get(path)! })),
+      theirs,
+    )
+    expect(replay.target.get(path)).toEqual({ a: 2 })
+    expect(replay.conflicts).toEqual([])
+    expect(replay.writes.size).toBe(0)
+    expect(replay.deletes).toEqual([])
+    expect(replay.summary).toMatchObject({ kept: 1, writes: 0, deletes: 0, conflicts: 0 })
+  })
+
   test('四类静态图 AssetId 被 authored 整条接管，迁移更新不抢回且二次严格零计划', () => {
     const families = [
       ['portrait.pal.001', 'portrait'],
@@ -432,5 +457,4 @@ describe('createMigrationPlan', () => {
     expect(conflict.conflicts[0]?.base.value).toHaveProperty('sha256')
     expect(conflict.writes.size).toBe(0)
   })
-
 })

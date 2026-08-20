@@ -13,6 +13,7 @@ import {
   type ScriptEditorState,
   ScriptEditSession,
 } from '../core/script-editor.js'
+import { createLocalWorkspaceContext } from '../core/workspace-context.js'
 import { App } from './App.js'
 
 const probes = vi.hoisted(() => ({
@@ -21,6 +22,11 @@ const probes = vi.hoisted(() => ({
   sceneCanvas: vi.fn(),
 }))
 const nativeScrollIntoView = HTMLElement.prototype.scrollIntoView
+const testWorkspace = createLocalWorkspaceContext(
+  'test',
+  'local-directory',
+  '11111111-1111-4111-8111-111111111111',
+)
 
 vi.mock('./DataMode.js', () => ({
   DataMode: (props: unknown) => {
@@ -336,6 +342,7 @@ describe('App item reference navigation', () => {
           session={session}
           project={project}
           script={{ session: new ScriptEditSession(canonical) }}
+          workspace={testWorkspace}
         />,
       ),
     )
@@ -688,6 +695,7 @@ describe('App item reference navigation', () => {
           session={new EditSession(shell)}
           project={project}
           script={{ session: new ScriptEditSession(canonical) }}
+          workspace={testWorkspace}
         />,
       ),
     )

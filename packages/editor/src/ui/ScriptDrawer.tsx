@@ -547,6 +547,7 @@ export function ScriptDrawer(props: {
   assetReader: EditorAssetReader
   /** 工程 id(同源试玩页 ?project=)。 */
   projectId: string
+  workspaceId?: string
   /** 氛围表(setAmbience 表单下拉;W6)。 */
   ambiences?: AmbienceDef[]
   /** 店铺表(openShop 表单店下拉)。 */
@@ -583,6 +584,7 @@ export function ScriptDrawer(props: {
     audioResolver,
     assetReader,
     projectId,
+    workspaceId,
     ambiences,
     shops,
     layers,
@@ -960,6 +962,7 @@ export function ScriptDrawer(props: {
             internalScriptId ? `internal:${internalScriptId}` : (active?.key ?? '__none__')
           }
           projectId={projectId}
+          workspaceId={workspaceId}
           focusEntityId={
             active
               ? sourceRefOf(active.key).kind === 'onEnter' ||

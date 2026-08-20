@@ -60,12 +60,28 @@ body {
   text-overflow: ellipsis;
 }
 
+.editor-header-context__copy {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: var(--ds-space-2);
+}
+
 .editor-header-context__project {
   max-width: 176px;
   flex: 0 1 auto;
   color: var(--ds-text-secondary);
   font: var(--ds-font-label);
   font-weight: 600;
+}
+
+.editor-header-context__workspace {
+  flex: 0 0 auto;
+  padding: 1px var(--ds-space-2);
+  border: 1px solid var(--ds-border-subtle);
+  border-radius: 999px;
+  color: var(--ds-text-muted);
+  font: var(--ds-font-caption);
 }
 
 .editor-app-header > .ds-menubar {
@@ -11345,6 +11361,11 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .picker-recent-name {
   font-size: 13px;
+}
+.picker-recent-mode {
+  margin-left: auto;
+  color: var(--faint);
+  font-size: 11px;
 }
 .picker-busy {
   padding: 24px 4px;

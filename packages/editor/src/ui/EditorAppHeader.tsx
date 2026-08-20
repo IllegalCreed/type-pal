@@ -1,13 +1,14 @@
 import type { MouseEvent } from 'react'
-import { DsMenuBar, DsToolbar, type DsMenuDefinition } from './design-system/index.js'
 import {
   type EditorAppCommandRegistry,
   requireEditorAppCommand,
   toolbarCommandView,
 } from './app-command-registry.js'
+import { DsMenuBar, type DsMenuDefinition, DsToolbar } from './design-system/index.js'
 
 export function EditorAppHeader(props: {
   projectName: string
+  workspaceLabel: string
   menus: readonly DsMenuDefinition[]
   commands: EditorAppCommandRegistry
   toolbarCommandGroups: readonly (readonly string[])[]
@@ -26,15 +27,18 @@ export function EditorAppHeader(props: {
 
   return (
     <header className="editor-app-header">
-      <div className="editor-header-context" aria-label={`当前工程 ${props.projectName}`}>
+      <div className="editor-header-context">
         <img
           className="editor-header-context__logo"
           src="/type-pal-editor-mark.svg"
           alt=""
           aria-hidden="true"
         />
-        <span className="editor-header-context__project" title={props.projectName}>
-          {props.projectName}
+        <span className="editor-header-context__copy">
+          <span className="editor-header-context__project" title={props.projectName}>
+            {props.projectName}
+          </span>
+          <span className="editor-header-context__workspace">{props.workspaceLabel}</span>
         </span>
       </div>
       <DsMenuBar

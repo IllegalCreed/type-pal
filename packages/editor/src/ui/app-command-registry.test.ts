@@ -1,6 +1,7 @@
 import { describe, expect, test, vi } from 'vitest'
 import {
   createEditorAppCommandRegistry,
+  executeEditorSaveShortcut,
   requireEditorAppCommand,
   toolbarCommandView,
 } from './app-command-registry.js'
@@ -18,6 +19,78 @@ describe('editor app command registry', () => {
     requireEditorAppCommand(registry, 'file.save').execute()
     expect(execute).toHaveBeenCalledTimes(3)
     expect(toolbar.execute).toBe(execute)
+  })
+
+  test('routes Cmd/Ctrl+S through the same save command and always blocks browser save', () => {
+    const execute = vi.fn()
+    const preventDefault = vi.fn()
+    const command = requireEditorAppCommand(
+      createEditorAppCommandRegistry([
+        { id: 'file.save', label: '保存', icon: 'save', enabled: true, scope: 'global', execute },
+      ]),
+      'file.save',
+    )
+
+    expect(
+      executeEditorSaveShortcut(
+        {
+          key: 'S',
+          metaKey: true,
+          ctrlKey: false,
+          altKey: false,
+          shiftKey: false,
+          defaultPrevented: false,
+          preventDefault,
+        },
+        command,
+      ),
+    ).toBe(true)
+    expect(preventDefault).toHaveBeenCalledOnce()
+    expect(execute).toHaveBeenCalledOnce()
+
+    expect(
+      executeEditorSaveShortcut(
+        {
+          key: 's',
+          metaKey: false,
+          ctrlKey: true,
+          altKey: false,
+          shiftKey: false,
+          defaultPrevented: false,
+          preventDefault,
+        },
+        { ...command, busy: true },
+      ),
+    ).toBe(true)
+    expect(execute).toHaveBeenCalledOnce()
+    expect(
+      executeEditorSaveShortcut(
+        {
+          key: 'z',
+          metaKey: true,
+          ctrlKey: false,
+          altKey: false,
+          shiftKey: false,
+          defaultPrevented: false,
+          preventDefault,
+        },
+        command,
+      ),
+    ).toBe(false)
+    expect(
+      executeEditorSaveShortcut(
+        {
+          key: 's',
+          metaKey: true,
+          ctrlKey: false,
+          altKey: false,
+          shiftKey: true,
+          defaultPrevented: false,
+          preventDefault,
+        },
+        command,
+      ),
+    ).toBe(false)
   })
 
   test('projects toggle state without manufacturing another handler', () => {
@@ -40,7 +113,14 @@ describe('editor app command registry', () => {
   })
 
   test('rejects duplicate and missing command ids', () => {
-    const command = { id: 'edit.undo', label: '撤销', icon: 'undo' as const, enabled: true, scope: 'global' as const, execute: () => {} }
+    const command = {
+      id: 'edit.undo',
+      label: '撤销',
+      icon: 'undo' as const,
+      enabled: true,
+      scope: 'global' as const,
+      execute: () => {},
+    }
     expect(() => createEditorAppCommandRegistry([command, command])).toThrow('命令 id 重复')
     const registry = createEditorAppCommandRegistry([command])
     expect(() => requireEditorAppCommand(registry, 'edit.redo')).toThrow('命令不存在')

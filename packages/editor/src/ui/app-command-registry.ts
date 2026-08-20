@@ -51,3 +51,28 @@ export function toolbarCommandView(command: EditorAppCommand): DsToolbarCommand 
     execute: command.execute,
   }
 }
+
+/**
+ * Route the native save shortcut through the exact command object used by the menu and toolbar.
+ * Returning true means the browser shortcut was consumed, even while the command is disabled or
+ * busy, so the browser's page-save dialog can never become an accidental persistence path.
+ */
+export function executeEditorSaveShortcut(
+  event: Pick<
+    KeyboardEvent,
+    'altKey' | 'ctrlKey' | 'defaultPrevented' | 'key' | 'metaKey' | 'preventDefault' | 'shiftKey'
+  >,
+  command: EditorAppCommand | null,
+): boolean {
+  if (
+    event.defaultPrevented ||
+    event.altKey ||
+    event.shiftKey ||
+    event.metaKey === event.ctrlKey ||
+    event.key.toLowerCase() !== 's'
+  )
+    return false
+  event.preventDefault()
+  if (command?.enabled && !command.busy) command.execute()
+  return true
+}

@@ -4,7 +4,11 @@
  */
 import { useEffect, useState } from 'react'
 import { currentDirectoryPickerAvailability } from '../core/file-system-access.js'
-import { ensurePermission, listRecent, loadHandle } from '../core/handle-store.js'
+import {
+  ensurePermission,
+  listRecentWorkspaces,
+  loadWorkspaceRecord,
+} from '../core/handle-store.js'
 import {
   finishOpen,
   newBlankProject,
@@ -12,18 +16,30 @@ import {
   type Opened,
   pickDir,
 } from '../core/open-actions.js'
+import { type WorkspaceMode, workspaceModeLabel } from '../core/workspace-context.js'
 
 const mb = (value: number): string => (value / 1024 / 1024).toFixed(1)
 
-export function ProjectPicker(props: { onOpened: (opened: Opened) => void; seedBaseUrl?: string }) {
-  const { onOpened, seedBaseUrl = 'projects/pal' } = props
-  const [recent, setRecent] = useState<{ id: string; name: string }[]>([])
+export function ProjectPicker(props: {
+  onOpened: (opened: Opened) => void
+  seedBaseUrl?: string
+  forceSandbox?: boolean
+}) {
+  const { onOpened, seedBaseUrl = 'projects/pal', forceSandbox = false } = props
+  const [recent, setRecent] = useState<
+    Array<{
+      workspaceId: string
+      projectId: string
+      name: string
+      mode: WorkspaceMode
+    }>
+  >([])
   const [busy, setBusy] = useState('')
   const [progress, setProgress] = useState<{ done: number; total: number } | null>(null)
   const [error, setError] = useState('')
 
   useEffect(() => {
-    listRecent()
+    listRecentWorkspaces()
       .then(setRecent)
       .catch(() => {})
   }, [])
@@ -45,19 +61,21 @@ export function ProjectPicker(props: { onOpened: (opened: Opened) => void; seedB
 
   const openProject = run('打开工程', async () => {
     const dir = await pickDir()
-    return dir ? finishOpen(dir) : null
+    return dir ? finishOpen(dir, { forceSandbox }) : null
   })
-  const clonePal = run('从 pal 克隆', () =>
+  // Creation commands always produce a new, explicitly selected local workspace. forceSandbox
+  // only prevents an existing PAL/local directory from lending its write authority to ui_samples.
+  const clonePal = run('从 pal 克隆', async () =>
     newFromPal(seedBaseUrl, (done, total) => setProgress({ done, total })),
   )
   const createBlank = run('创建空白工程', newBlankProject)
-  const openRecent = (id: string): void => {
+  const openRecent = (workspaceId: string): void => {
     void run('打开最近工程', async () => {
-      const dir = await loadHandle(id)
-      if (!dir) throw new Error('句柄已失效，请使用「打开工程」重新选择文件夹。')
-      const permission = await ensurePermission(dir, { withRequest: true })
+      const record = await loadWorkspaceRecord(workspaceId)
+      if (!record) throw new Error('句柄已失效，请使用「打开工程」重新选择文件夹。')
+      const permission = await ensurePermission(record.handle, { withRequest: true })
       if (permission !== 'granted') throw new Error('未授权访问该文件夹。')
-      return finishOpen(dir)
+      return finishOpen(record.handle, { expectedIdentity: record, forceSandbox })
     })()
   }
 
@@ -103,8 +121,10 @@ export function ProjectPicker(props: { onOpened: (opened: Opened) => void; seedB
           <>
             <div className="picker-actions">
               <button type="button" className="picker-act primary" onClick={clonePal}>
-                <span className="picker-act-t">从仙剑（pal）克隆</span>
-                <span className="picker-act-d">下载整套原版到本地工程，直接开始改版。</span>
+                <span className="picker-act-t">从 PAL 开发快照创建本地工程</span>
+                <span className="picker-act-d">
+                  当前快照仍随 E2E 持续完善，尚不是稳定用户种子。
+                </span>
               </button>
               <button type="button" className="picker-act" onClick={openProject}>
                 <span className="picker-act-t">打开工程</span>
@@ -122,12 +142,13 @@ export function ProjectPicker(props: { onOpened: (opened: Opened) => void; seedB
                 {recent.map((entry) => (
                   <button
                     type="button"
-                    key={entry.id}
+                    key={entry.workspaceId}
                     className="picker-recent-item"
-                    onClick={() => openRecent(entry.id)}
+                    onClick={() => openRecent(entry.workspaceId)}
                   >
-                    <span className="mono">{entry.id}</span>
+                    <span className="mono">{entry.projectId}</span>
                     <span className="picker-recent-name">{entry.name}</span>
+                    <span className="picker-recent-mode">{workspaceModeLabel(entry)}</span>
                   </button>
                 ))}
               </div>

@@ -4,7 +4,7 @@
  * `?ui_samples` 只在内存追加视觉评审数据，不改仓库工程。
  * 生产(无 env)→ ProjectPicker 启动屏:新建(克隆/空白)/ 打开本地 / 最近工程(P4)。
  */
-import type { BaseSceneDef, AuthorSceneDef } from '@type-pal/content'
+import type { AuthorSceneDef, BaseSceneDef } from '@type-pal/content'
 import type { LoadedCurrentProject } from '@type-pal/reforge'
 import {
   httpSource,
@@ -20,6 +20,13 @@ import type { Opened } from './core/open-actions.js'
 import { toEditorState } from './core/project-io.js'
 import { type ScriptEditorState, ScriptEditSession } from './core/script-editor.js'
 import { withUiReviewSamples } from './core/ui-review-samples.js'
+import {
+  assertSamePalDevelopmentProof,
+  createLocalWorkspaceContext,
+  createPalDevelopmentWorkspaceContext,
+  createSandboxWorkspaceContext,
+  type WorkspaceContext,
+} from './core/workspace-context.js'
 import { App } from './ui/App.js'
 import { ProjectPicker } from './ui/ProjectPicker.js'
 import './ui/design-system/index.css'
@@ -39,6 +46,7 @@ interface Booted {
     session: ScriptEditSession
   }
   dir?: FileSystemDirectoryHandle
+  workspace: WorkspaceContext
 }
 
 function currentCanonicalScriptState(
@@ -49,9 +57,7 @@ function currentCanonicalScriptState(
   return {
     scenes: structuredClone(scenes) as unknown as BaseSceneDef[],
     items: structuredClone(project.authorContent.items) as unknown as ScriptEditorState['items'],
-    sharedScripts: structuredClone(
-      sharedScripts,
-    ) as unknown as ScriptEditorState['sharedScripts'],
+    sharedScripts: structuredClone(sharedScripts) as unknown as ScriptEditorState['sharedScripts'],
   }
 }
 /** 四态摊开:loading 只属于 dev 首次自动载入;picker 在任何模式下都是真启动屏。
@@ -67,7 +73,22 @@ function Root() {
     let alive = true
     const loadDevProject = async (): Promise<Booted> => {
       const source = httpSource(`projects/${PROJECT_ID}`)
+      const palProofBefore =
+        !UI_REVIEW_SAMPLES && PROJECT_ID === 'pal'
+          ? await createPalDevelopmentWorkspaceContext(source)
+          : undefined
       const project = await loadCurrentProjectFrom(source)
+      // Workspace mode is fixed before any ui_samples projection mutates author data. Normal PAL
+      // dev freezes a trusted HTTP proof; ui_samples never receives that authority and is sandbox.
+      const workspace = UI_REVIEW_SAMPLES
+        ? createSandboxWorkspaceContext(project.manifest.id, 'ui-samples')
+        : project.manifest.id === 'pal'
+          ? await createPalDevelopmentWorkspaceContext(source, project.manifest).then((after) => {
+              if (!palProofBefore) throw new Error('PAL 开发基线载入缺少启动前的可信快照证明')
+              assertSamePalDevelopmentProof(palProofBefore, after)
+              return after
+            })
+          : createLocalWorkspaceContext(project.manifest.id, 'local-directory')
       const [scenes, stamps] = await Promise.all([
         loadAllAuthorScenes(project),
         loadStampTemplates(project),
@@ -109,6 +130,7 @@ function Root() {
         script: {
           session: new ScriptEditSession(canonical),
         },
+        workspace,
       }
     }
     loadDevProject()
@@ -136,11 +158,13 @@ function Root() {
         session: new ScriptEditSession(canonical),
       },
       dir: o.dir,
+      workspace: o.workspace,
     })
   }
 
   if (boot === 'loading') return <div className="boot">载入工程…</div>
-  if (boot === 'picker') return <ProjectPicker onOpened={onOpened} />
+  if (boot === 'picker')
+    return <ProjectPicker onOpened={onOpened} forceSandbox={UI_REVIEW_SAMPLES} />
   if ('error' in boot)
     return (
       <div className="boot">
@@ -153,11 +177,13 @@ function Root() {
     )
   return (
     <App
-      key={boot.project.manifest.id}
+      key={boot.workspace.workspaceId}
       session={boot.session}
       project={boot.project}
       script={boot.script}
       initialDir={boot.dir}
+      workspace={boot.workspace}
+      forceSandbox={UI_REVIEW_SAMPLES}
       onOpened={onOpened}
       onBackToPicker={() => setBoot('picker')}
     />

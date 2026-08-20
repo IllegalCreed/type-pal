@@ -9,6 +9,7 @@ import {
   UpdateEnemyTeamCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import { playProjectQuery } from '../core/play-url.js'
 import {
   type BlockingEnemyTeamReference,
   enemyTeamReferences,
@@ -53,6 +54,7 @@ export function EnemyTeamTab(props: {
   enemies: readonly EnemyDef[]
   locale: Locale
   projectId: string
+  workspaceId?: string
   session: EditSession
   scriptState?: ScriptEditorState
   focusObjectId?: string
@@ -65,6 +67,7 @@ export function EnemyTeamTab(props: {
     enemies,
     locale,
     projectId,
+    workspaceId,
     session,
     scriptState,
     focusObjectId,
@@ -278,7 +281,7 @@ export function EnemyTeamTab(props: {
                     <DsActionLink
                       variant="secondary"
                       icon="open"
-                      href={`play.html?project=${encodeURIComponent(projectId)}&battle=${encodeURIComponent(selected.id)}`}
+                      href={`play.html?${playProjectQuery(projectId, workspaceId)}&battle=${encodeURIComponent(selected.id)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       title="读取磁盘工程；未保存改动不会进入试玩"

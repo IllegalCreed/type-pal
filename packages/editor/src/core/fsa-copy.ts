@@ -4,29 +4,95 @@
  */
 
 /** src 全部文件/子目录递归拷进 dst(同名覆盖,他文件保留)。返回拷贝文件数。 */
-export async function copyDirRecursive(
+import {
+  type AuthorizedWorkspaceInput,
+  type AuthorizedWorkspaceMutation,
+  WORKSPACE_IDENTITY_COPY_EXCLUDES,
+  authorizedDirectory,
+  beginAuthorizedWorkspaceMutation,
+  recordAuthorizedWorkspaceWriteCompleted,
+  withAuthorizedWorkspaceMutation,
+} from './workspace-persistence.js'
+import { isWorkspaceIdentityPath } from './workspace-context.js'
+
+interface SourceCopySnapshot {
+  directories: string[]
+  files: Array<{ path: string; file: File }>
+}
+
+async function collectDirectoryContents(
   src: FileSystemDirectoryHandle,
-  dst: FileSystemDirectoryHandle,
-): Promise<number> {
-  let n = 0
-  // entries() 是 FSA 标准异步迭代器(TS lib 未收录 → 局部窄化;同 export-zip)
+  prefix: string,
+  excludes: ReadonlySet<string>,
+  snapshot: SourceCopySnapshot,
+): Promise<void> {
   const iter = (
     src as unknown as {
       entries(): AsyncIterable<[string, FileSystemDirectoryHandle | FileSystemFileHandle]>
     }
   ).entries()
   for await (const [name, handle] of iter) {
+    const rel = prefix ? `${prefix}/${name}` : name
+    if (isWorkspaceIdentityPath(rel) || excludes.has(rel)) continue
     if (handle.kind === 'file') {
       const file = await (handle as FileSystemFileHandle).getFile()
-      const fh = await dst.getFileHandle(name, { create: true })
-      const w = await fh.createWritable()
-      await w.write(file)
-      await w.close()
-      n++
+      snapshot.files.push({ path: rel, file })
     } else {
-      const sub = await dst.getDirectoryHandle(name, { create: true })
-      n += await copyDirRecursive(handle as FileSystemDirectoryHandle, sub)
+      snapshot.directories.push(rel)
+      await collectDirectoryContents(
+        handle as FileSystemDirectoryHandle,
+        rel,
+        excludes,
+        snapshot,
+      )
     }
   }
-  return n
+}
+
+async function ensureDirectory(
+  root: FileSystemDirectoryHandle,
+  path: string,
+): Promise<FileSystemDirectoryHandle> {
+  let current = root
+  for (const segment of path.split('/').filter(Boolean))
+    current = await current.getDirectoryHandle(segment, { create: true })
+  return current
+}
+
+async function writeSourceSnapshot(
+  snapshot: SourceCopySnapshot,
+  dstRoot: FileSystemDirectoryHandle,
+  mutation: AuthorizedWorkspaceMutation,
+): Promise<number> {
+  if (snapshot.directories.length === 0 && snapshot.files.length === 0) return 0
+  // Every source getFile() has completed. Revalidate only now, immediately before the first
+  // destination create, so target drift during any slow source read still yields zero writes.
+  await beginAuthorizedWorkspaceMutation(mutation)
+  for (const path of snapshot.directories) await ensureDirectory(dstRoot, path)
+  for (const { path, file } of snapshot.files) {
+    const segments = path.split('/')
+    const name = segments.pop()!
+    const dst = await ensureDirectory(dstRoot, segments.join('/'))
+    const writable = await (await dst.getFileHandle(name, { create: true })).createWritable()
+    await writable.write(file)
+    await writable.close()
+    recordAuthorizedWorkspaceWriteCompleted(mutation, path, file)
+  }
+  return snapshot.files.length
+}
+
+export async function copyDirRecursive(
+  src: FileSystemDirectoryHandle,
+  target: AuthorizedWorkspaceInput,
+  opts: { excludePaths?: readonly string[] } = {},
+): Promise<number> {
+  const excludes = new Set([
+    ...WORKSPACE_IDENTITY_COPY_EXCLUDES,
+    ...(opts.excludePaths ?? []),
+  ])
+  return withAuthorizedWorkspaceMutation(target, async (mutation) => {
+    const snapshot: SourceCopySnapshot = { directories: [], files: [] }
+    await collectDirectoryContents(src, '', excludes, snapshot)
+    return writeSourceSnapshot(snapshot, authorizedDirectory(mutation), mutation)
+  })
 }

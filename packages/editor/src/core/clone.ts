@@ -3,19 +3,15 @@
  * 逐文件下载→写(流式,单文件在内存,207MB 不 OOM);素材经 src 绝对透传(种子 httpSource)读。
  * manifest 单独相对化写(assets 指向本地 assets/**),使克隆后经 fsaSource 离线渲染。
  */
-import {
-  type CurrentManifest,
-  validateAssetCatalog,
-  validateMapIndex,
-} from '@type-pal/content'
+import { type CurrentManifest, validateAssetCatalog, validateMapIndex } from '@type-pal/content'
 import { decodeBattleSpriteAssetBytes, type FileSource } from '@type-pal/reforge'
 import { sha256Hex } from './binary-signature.js'
 import { writeFile } from './project-io.js'
+import { enumerateSeedFiles, relativizeManifest, scenesDir } from './seed.js'
 import {
-  enumerateSeedFiles,
-  relativizeManifest,
-  scenesDir,
-} from './seed.js'
+  type AuthorizedWorkspaceInput,
+  withAuthorizedWorkspaceMutation,
+} from './workspace-persistence.js'
 
 /**
  * catalog 资源必须逐字节复制，record.bytes/sha256 描述的就是落盘字节。
@@ -44,7 +40,7 @@ async function assetBytes(
 
 export async function cloneFromPal(
   seed: FileSource,
-  dir: FileSystemDirectoryHandle,
+  target: AuthorizedWorkspaceInput,
   onProgress: (done: number, total: number) => void,
 ): Promise<void> {
   const manifest = await seed.readJson<CurrentManifest>('manifest.json')
@@ -53,27 +49,21 @@ export async function cloneFromPal(
     ? validateMapIndex(await seed.readJson(manifest.content.maps))
     : undefined
   const catalog = validateAssetCatalog(await seed.readJson(manifest.assets.catalog))
-  const files = enumerateSeedFiles(
-    manifest,
-    sceneIds,
-    mapIndex,
-    catalog,
-  )
+  const files = enumerateSeedFiles(manifest, sceneIds, mapIndex, catalog)
   const total = files.reduce((s, f) => s + f.size, 0)
 
-  let done = 0
-  for (const f of [...files].sort((left, right) => {
-    const order = { binary: 0, content: 1, catalog: 2 } as const
-    return order[left.commitPhase] - order[right.commitPhase]
-  })) {
-    const value =
-      f.kind === 'json'
-        ? await seed.readJson(f.src)
-        : await assetBytes(seed, f)
-    await writeFile(dir, f.rel, value)
-    done += f.size
-    onProgress(done, total)
-  }
-  // 工程提交点最后写；此前任一素材失败都不会发布指向半批文件的新 manifest。
-  await writeFile(dir, 'manifest.json', relativizeManifest(manifest))
+  await withAuthorizedWorkspaceMutation(target, async (mutation) => {
+    let done = 0
+    for (const f of [...files].sort((left, right) => {
+      const order = { binary: 0, content: 1, catalog: 2 } as const
+      return order[left.commitPhase] - order[right.commitPhase]
+    })) {
+      const value = f.kind === 'json' ? await seed.readJson(f.src) : await assetBytes(seed, f)
+      await writeFile(mutation, f.rel, value)
+      done += f.size
+      onProgress(done, total)
+    }
+    // 工程提交点最后写；此前任一素材失败都不会发布指向半批文件的新 manifest。
+    await writeFile(mutation, 'manifest.json', relativizeManifest(manifest))
+  })
 }

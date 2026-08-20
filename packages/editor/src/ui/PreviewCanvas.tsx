@@ -27,6 +27,7 @@ import {
 } from '@type-pal/reforge'
 import { type KeyboardEvent, useEffect, useMemo, useRef } from 'react'
 import type { Playback } from '../core/playback.js'
+import { playProjectQuery } from '../core/play-url.js'
 import { DsButton, DsSelect, DsTag, DsToolbar } from './design-system/index.js'
 import {
   drawGridBlocked,
@@ -111,8 +112,9 @@ export function PreviewCanvas(props: {
   scene: SceneDef
   stages: readonly ScriptStage[]
   sourceKey: string
-  /** 工程 id(同源试玩页 ?project=;本地工程经 IndexedDB 句柄,dev 种子回退 http)。 */
+  /** 内容工程 id；本地试玩另带 workspaceId，只有不带 workspace 时才明确走 HTTP dev。 */
   projectId: string
+  workspaceId?: string
   /** 当前源的触发实体(未播时镜头对准它;onEnter 源 undefined = 对准玩家)。 */
   focusEntityId: string | undefined
   sprites: SpriteDef[]
@@ -144,6 +146,7 @@ export function PreviewCanvas(props: {
     stages,
     sourceKey,
     projectId,
+    workspaceId,
     focusEntityId,
     sprites,
     actorsById,
@@ -421,7 +424,10 @@ export function PreviewCanvas(props: {
       ? scene.entities.find((candidate) => candidate.id === focusEntityId)
       : undefined
     const pos = entity ? `&pos=${entity.pos.col},${entity.pos.row + 1}&facing=up` : ''
-    window.open(`play.html?project=${projectId}&scene=${scene.id}${pos}`, '_blank')
+    window.open(
+      `play.html?${playProjectQuery(projectId, workspaceId)}&scene=${encodeURIComponent(scene.id)}${pos}`,
+      '_blank',
+    )
   }
 
   return (

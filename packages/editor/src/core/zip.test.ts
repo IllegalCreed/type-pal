@@ -150,6 +150,23 @@ describe('zip 打包器(A5 工程导出)', () => {
     ])
   })
 
+  test('沙盒 marker 作为目录身份旁车随原样 ZIP 导出并逐字节 roundtrip', async () => {
+    const marker =
+      '{"kind":"type-pal-editor-workspace","version":1,"mode":"sandbox","workspaceId":"44444444-4444-4444-8444-444444444444","projectId":"pal","source":"ui-samples"}\n'
+    const entries = await collectProjectZipEntries(
+      projectDir({
+        'manifest.json': '{"id":"pal"}',
+        '.type-pal/workspace.json': marker,
+      }),
+    )
+    expect(entries.map((entry) => entry.path).sort()).toEqual([
+      '.type-pal/workspace.json',
+      'manifest.json',
+    ])
+    const back = await readZip(await buildZip(entries))
+    expect(new TextDecoder().decode(back.get('.type-pal/workspace.json'))).toBe(marker)
+  })
+
   test('不可压小文件择优 STORE(不反涨)', async () => {
     const tiny = new Uint8Array([1, 2, 3])
     const zip = await buildZip([{ path: 'a.bin', data: tiny }])

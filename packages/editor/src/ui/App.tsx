@@ -81,11 +81,19 @@ import {
   entityShapeLabel,
 } from '../core/entity-placement.js'
 import { exportProjectZip } from '../core/export-zip.js'
-import { saveHandle } from '../core/handle-store.js'
 import type { ItemReference } from '../core/item-references.js'
 import { type Opened, openExistingProject, pickDir, saveProjectAs } from '../core/open-actions.js'
 import { collectEditorStatusIssues } from '../core/project-diagnostics.js'
 import { serializeProjectWithMapCopies, writeProject } from '../core/project-io.js'
+import type { WorkspaceContext } from '../core/workspace-context.js'
+import { workspaceModeLabel } from '../core/workspace-context.js'
+import {
+  authorizeBoundWorkspaceTarget,
+  authorizeFirstSaveTarget,
+  preflightFirstSaveTarget,
+  registerAuthorizedWorkspaceMutation,
+  withAuthorizedWorkspaceMutation,
+} from '../core/workspace-persistence.js'
 import {
   mergeEditorProjectionWithCurrentAuthorState,
   projectActiveScriptEditorState,
@@ -106,7 +114,12 @@ import {
 } from '../core/script-editor.js'
 import type { SpriteAutomaticScriptInstanceSite } from '../core/world-sprite-behavior.js'
 import { ActorMode } from './ActorMode.js'
-import { createEditorAppCommandRegistry, requireEditorAppCommand } from './app-command-registry.js'
+import {
+  createEditorAppCommandRegistry,
+  type EditorAppCommand,
+  executeEditorSaveShortcut,
+  requireEditorAppCommand,
+} from './app-command-registry.js'
 import {
   closeSceneScriptPanelState,
   createEditorLayoutCommands,
@@ -256,6 +269,10 @@ export function App(props: {
   }
   /** 启动屏打开/克隆得到的工程目录句柄(P4):保存直接写回此夹,不再首存选夹。 */
   initialDir?: FileSystemDirectoryHandle
+  /** 会话级工作区身份；不写进 manifest，所有目录 mutation 都由它授权。 */
+  workspace: WorkspaceContext
+  /** `?ui_samples=1` 的强制约束会贯穿工程菜单打开路径。 */
+  forceSandbox?: boolean
   /** 「工程」菜单切到别的工程(打开/另存为)→ 上抛 main 重建 session。 */
   onOpened?: (o: Opened) => void
   /** 「工程」菜单「新建工程」→ 回启动屏。 */
@@ -297,7 +314,7 @@ export function App(props: {
   )
   const audioResolver = assetReader
   const bodyRef = useRef<HTMLDivElement>(null)
-  const storedNavigationRef = useRef(readStoredEditorNavigation(state.manifest.id))
+  const storedNavigationRef = useRef(readStoredEditorNavigation(props.workspace.workspaceId))
   const [location, setLocation] = useState<EditorLocation>(() =>
     initialEditorLocation(storedNavigationRef.current),
   )
@@ -307,7 +324,7 @@ export function App(props: {
   >(() => ({ ...storedNavigationRef.current.modules, [location.module]: location }))
   const moduleLocationsRef = useRef(moduleLocations)
   const scrollPositionsRef = useRef(storedNavigationRef.current.scroll ?? {})
-  const navigationStorageKey = editorNavigationKey(state.manifest.id)
+  const navigationStorageKey = editorNavigationKey(props.workspace.workspaceId)
   const [workspaceNotice, setWorkspaceNotice] = useState<
     { kind: 'info' | 'error'; message: string } | undefined
   >()
@@ -440,7 +457,11 @@ export function App(props: {
   const [saveActivity, setSaveActivity] = useState<ProjectSaveActivity | null>(null)
   // React state 只负责展示；同步 ref 才能在首个 await 前防住双击和并发工程 IO。
   const saveInFlightRef = useRef(false)
+  const saveCommandRef = useRef<EditorAppCommand | null>(null)
   const [exporting, setExporting] = useState(false) // A5 导出 zip 进行中
+  // Only a bound local handle may appear in a local-play URL. Unpersisted PAL/sandbox sessions
+  // deliberately use the explicit HTTP fallback instead of emitting a guaranteed-dead workspace id.
+  const playWorkspaceId = dirHandleRef.current ? props.workspace.workspaceId : undefined
 
   useEffect(() => {
     if (
@@ -1285,6 +1306,7 @@ export function App(props: {
   // 删除键:选中实体时删(在输入框里打字不触发)。
   useEffect(() => {
     const onKey = (e: KeyboardEvent): void => {
+      if (executeEditorSaveShortcut(e, saveCommandRef.current)) return
       if (e.defaultPrevented || saveInFlightRef.current) return
       const t = e.target as HTMLElement | null
       const typing =
@@ -1438,8 +1460,8 @@ export function App(props: {
       { includeAssetCopies },
     )
   }
-  // 保存:File System Access + 增量(快照-diff,只写变化;P3)。首次弹选文件夹并把句柄存
-  // IndexedDB(工程标识 = manifest.id;将来「打开本地/最近工程」= P4 复用)。
+  // 保存:File System Access + 增量(快照-diff,只写变化;P3)。所有入口先经过 workspace
+  // persistence policy，成功后才按 workspaceId 登记目录句柄。
   const save = async (): Promise<void> => {
     if (saveInFlightRef.current || exporting) return
     saveInFlightRef.current = true
@@ -1447,16 +1469,27 @@ export function App(props: {
     try {
       let dir = dirHandleRef.current
       let rememberDirectory = false
+      let resumesInterruptedAttempt = false
       if (!dir) {
+        if (
+          props.workspace.mode === 'pal-development' &&
+          !window.confirm(
+            '当前是 PAL 开发基线模式。只有选择与本次启动快照一致的 projects/pal 目录才会获准写入；要继续吗？',
+          )
+        )
+          return
         dir = await pickDir()
         if (!dir) return
         const previousAttempt = saveAttemptDirRef.current
-        const resumesInterruptedAttempt = previousAttempt
+        resumesInterruptedAttempt = previousAttempt
           ? await dir.isSameEntry(previousAttempt)
           : false
         if (!resumesInterruptedAttempt) snapshotRef.current = null
         saveAttemptDirRef.current = dir
         rememberDirectory = true
+        // Early read-only proof gives immediate feedback after the picker. The same proof is run
+        // again immediately before mutation below to close the serialize/fetch TOCTOU window.
+        await preflightFirstSaveTarget(props.workspace, dir, { resumesInterruptedAttempt })
       }
       const savedState = session.getState()
       const savedScriptState = scriptSession?.getState()
@@ -1475,15 +1508,28 @@ export function App(props: {
       // 中断后该 Map 留在 ref 中，下次保存/撤销才能清理已写但未发布的新 blob。
       const recoverySnapshot = snapshotRef.current ?? new Map<string, string>()
       snapshotRef.current = recoverySnapshot
-      snapshotRef.current = await writeProject(dir, files, {
-        prevSnapshot: recoverySnapshot,
-        removePaths,
-        onProgress: ({ completed, total }) => {
-          const percent = total > 0 ? Math.floor((completed / total) * 100) : 0
-          if (percent === lastPercent && completed < total) return
-          lastPercent = percent
-          setSaveActivity({ phase: 'writing', completed, total })
-        },
+      const target = rememberDirectory
+        ? await authorizeFirstSaveTarget(props.workspace, dir, { resumesInterruptedAttempt })
+        : await authorizeBoundWorkspaceTarget(props.workspace, dir)
+      snapshotRef.current = await withAuthorizedWorkspaceMutation(target, async (mutation) => {
+        const nextSnapshot = await writeProject(mutation, files, {
+          prevSnapshot: recoverySnapshot,
+          removePaths,
+          onProgress: ({ completed, total }) => {
+            const percent = total > 0 ? Math.floor((completed / total) * 100) : 0
+            if (percent === lastPercent && completed < total) return
+            lastPercent = percent
+            setSaveActivity({ phase: 'writing', completed, total })
+          },
+        })
+        // Registration stays under the same workspace mutation lock as the write. A competing
+        // first-save therefore sees the binding before it can mutate an identical directory copy.
+        await registerAuthorizedWorkspaceMutation(
+          mutation,
+          props.workspace,
+          dir.name,
+        )
+        return nextSnapshot
       })
       // 若保存期间仍有后台 hydrate/command 生成新 state，磁盘只是开始时快照，不能误清 dirty。
       if (session.getState() === savedState) session.markSaved()
@@ -1498,9 +1544,6 @@ export function App(props: {
         // hash 校验 / 写盘中途失败，下一次仍按 HTTP 首存全量物化，不能提交半闭包工程。
         dirHandleRef.current = dir
         saveAttemptDirRef.current = dir
-        void saveHandle(savedState.manifest.id, dir.name, dir).catch((error: unknown) =>
-          console.warn('[project] 工程已保存，但最近工程句柄登记失败', error),
-        )
       }
     } catch (e) {
       if (e instanceof DOMException && e.name === 'AbortError') return // 用户取消选择器
@@ -1534,6 +1577,7 @@ export function App(props: {
       const sourceDir = dirHandleRef.current ?? undefined
       // 必须在点击调用栈内同步启动，File System Access 的目录选择器才保有用户激活。
       const operation = saveProjectAs(
+        props.workspace,
         () => serializeEditorSnapshot(savedState, savedScriptState, !sourceDir),
         sourceDir,
         removePaths,
@@ -1587,7 +1631,7 @@ export function App(props: {
       enabled: saveActivity === null,
       scope: 'global',
       defaultPlacement: 'common',
-      execute: () => void runProj(openExistingProject),
+      execute: () => void runProj(() => openExistingProject({ forceSandbox: props.forceSandbox })),
     },
     {
       id: 'file.rename',
@@ -1637,7 +1681,13 @@ export function App(props: {
     },
     {
       id: 'file.save',
-      label: saveActivity ? '正在保存…' : '保存',
+      label: saveActivity
+        ? '正在保存…'
+        : !dirHandleRef.current && props.workspace.mode === 'sandbox'
+          ? '保存评审副本…'
+          : !dirHandleRef.current && props.workspace.mode === 'pal-development'
+            ? '保存 PAL 开发基线…'
+            : '保存',
       icon: 'save',
       shortcut: '⌘S',
       enabled: editorDirty && saveActivity === null && !exporting,
@@ -1653,6 +1703,8 @@ export function App(props: {
       inspectorVisible: !inspectorCollapsed,
     }),
   ])
+  const saveCommand = requireEditorAppCommand(commands, 'file.save')
+  saveCommandRef.current = saveCommand
 
   const commandItem = (id: string) => {
     const command = requireEditorAppCommand(commands, id)
@@ -1754,6 +1806,7 @@ export function App(props: {
     <div className="editor ds-form-scope" aria-busy={saveActivity !== null ? true : undefined}>
       <EditorAppHeader
         projectName={state.manifest.name}
+        workspaceLabel={workspaceModeLabel(props.workspace)}
         menus={menus}
         commands={commands}
         toolbarCommandGroups={[
@@ -1883,6 +1936,7 @@ export function App(props: {
             shops={state.shops ?? []}
             scenes={state.scenes}
             manifest={state.manifest}
+            workspaceId={playWorkspaceId}
             actors={state.actors}
             skillList={state.skills}
             onJumpToEvent={jumpToEvent}
@@ -2274,6 +2328,7 @@ export function App(props: {
                   assetCatalog={state.assetCatalog}
                   assetReader={assetReader}
                   projectId={state.manifest.id}
+                  workspaceId={playWorkspaceId}
                   layers={{
                     grid: canvasLayers.grid,
                     blocked: canvasLayers.blocked,
@@ -2308,6 +2363,7 @@ export function App(props: {
                   audioResolver={audioResolver}
                   assetReader={assetReader}
                   projectId={state.manifest.id}
+                  workspaceId={playWorkspaceId}
                   ambiences={state.ambiences ?? []}
                   shops={state.shops ?? []}
                   layers={{
@@ -2628,7 +2684,9 @@ export function App(props: {
           role={saveErr ? 'alert' : undefined}
           style={{ color: saveErr ? 'var(--err)' : 'var(--faint)', fontSize: 11 }}
         >
-          {saveErr ? `保存失败: ${saveErr}` : editorDirty ? '未保存改动' : '已保存'}
+          {saveErr
+            ? `保存失败: ${saveErr}`
+            : `${workspaceModeLabel(props.workspace)} · ${editorDirty ? '未保存改动' : '已保存'}`}
         </span>
       </div>
 

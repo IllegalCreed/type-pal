@@ -29,6 +29,7 @@ import {
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { playProjectQuery } from '../core/play-url.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
 import {
   DsActionLink,
@@ -786,6 +787,7 @@ export function SkillTab(props: {
   onOpenReference?: (reference: BattleDataReference) => void
   /** 工程 id(同源试玩页;缺省 pal 兼容旧调用)。 */
   projectId?: string
+  workspaceId?: string
 }) {
   const {
     skills,
@@ -802,6 +804,7 @@ export function SkillTab(props: {
     onStatusNotice,
     onOpenReference,
     projectId = 'pal',
+    workspaceId,
   } = props
   const [filter, setFilter] = useState('')
   const [selId, setSelId] = useState(skills[0]?.id ?? '')
@@ -936,7 +939,7 @@ export function SkillTab(props: {
                     variant="secondary"
                     icon="open"
                     title="开真实战斗临时授此技试放（不改存档/工程数据）"
-                    href={`play.html?project=${projectId}&scene=s001&battle=0&skill=${skill.id}`}
+                    href={`play.html?${playProjectQuery(projectId, workspaceId)}&scene=s001&battle=0&skill=${encodeURIComponent(skill.id)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >

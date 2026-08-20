@@ -96,4 +96,16 @@ describe('PAL 迁移工程快照', () => {
     expect(managed).toContain('content/scripts/chunks/manual.json')
     expect(managed).not.toContain('content/scripts/chunks/unreferenced.json')
   })
+
+  test('工作区 identity 旁车不进入 managed census，并作为非托管字节受保护', () => {
+    const repo = tempRepo()
+    put(
+      repo,
+      '.type-pal/workspace.json',
+      '{"kind":"type-pal-editor-workspace","version":1,"mode":"sandbox"}\n',
+    )
+    const managed = discoverProjectManagedFiles(repo, new Set())
+    expect(managed.has('.type-pal/workspace.json')).toBe(false)
+    expect(hashUnmanagedProjectFiles(repo, managed).has('.type-pal/workspace.json')).toBe(true)
+  })
 })

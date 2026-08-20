@@ -94,6 +94,7 @@ export function DataMode(props: {
   scenes: SceneDef[]
   /** 工程清单(入口点页编 manifest.entryPoints)。 */
   manifest: ManifestLike
+  workspaceId?: string
   /** 角色定义(入口点 startWorld 队伍选人)。 */
   actors: import('@type-pal/content').ActorDef[]
   /** 引用跳转:变量页/物品页点引用 → 事件模式定位。 */
@@ -175,6 +176,7 @@ export function DataMode(props: {
     shops,
     scenes,
     manifest,
+    workspaceId,
     actors,
     skillList,
     focusScriptId,
@@ -250,6 +252,7 @@ export function DataMode(props: {
       <EnemyTab
         assetBase={assetBase}
         projectId={manifest.id}
+        workspaceId={workspaceId}
         enemies={enemies}
         enemyTeams={enemyTeams}
         skills={Object.values(skills)}
@@ -276,6 +279,7 @@ export function DataMode(props: {
         enemies={enemies}
         locale={locale}
         projectId={manifest.id}
+        workspaceId={workspaceId}
         session={session}
         scriptState={script?.state}
         focusObjectId={focusObjectId}
@@ -327,6 +331,7 @@ export function DataMode(props: {
         session={session}
         assetBase={assetBase}
         projectId={manifest.id}
+        workspaceId={workspaceId}
         assetCatalog={assetCatalog}
         assetReader={assetReader}
         battleSprites={battleSprites}
