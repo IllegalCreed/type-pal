@@ -16,6 +16,7 @@ import type {
   ScriptStage,
   BaseScriptLibrary,
   SpriteDef,
+  TriggerActivation,
 } from '@type-pal/content'
 import { gridToPixel, lookupText, resolveEntitySpriteId, spriteScreenY } from '@type-pal/content'
 import type { AssetBase, ProjectMap, SpriteDraw } from '@type-pal/reforge'
@@ -117,6 +118,8 @@ export function PreviewCanvas(props: {
   workspaceId?: string
   /** 当前源的触发实体(未播时镜头对准它;onEnter 源 undefined = 对准玩家)。 */
   focusEntityId: string | undefined
+  /** 焦点实体当前 canonical 页的静态触发方式，用于共享黄色范围高亮。 */
+  focusTriggerActivation?: TriggerActivation
   sprites: SpriteDef[]
   actorsById: Record<string, ActorDef>
   leaderSpriteId: string | undefined
@@ -148,6 +151,7 @@ export function PreviewCanvas(props: {
     projectId,
     workspaceId,
     focusEntityId,
+    focusTriggerActivation,
     sprites,
     actorsById,
     leaderSpriteId,
@@ -361,9 +365,14 @@ export function PreviewCanvas(props: {
       if (focusEntityId) {
         const e = scene.entities.find((x) => x.id === focusEntityId)
         if (e && !(v.entity.get(e.id)?.hidden ?? e.hidden)) {
-          drawTriggerHighlight(ctx, e, camera, viewRef.current.zoom, now)
+          drawTriggerHighlight(ctx, e, camera, viewRef.current.zoom, now, {
+            activation: focusTriggerActivation,
+          })
         } else if (e) {
-          drawTriggerHighlight(ctx, e, camera, viewRef.current.zoom, now, { ghost: true }) // 隐藏实体:淡显位置仍可寻
+          drawTriggerHighlight(ctx, e, camera, viewRef.current.zoom, now, {
+            activation: focusTriggerActivation,
+            ghost: true,
+          }) // 隐藏实体:淡显位置仍可寻
         }
       }
       // 淡幕
@@ -387,6 +396,7 @@ export function PreviewCanvas(props: {
     spriteById,
     leaderSpriteId,
     focusEntityId,
+    focusTriggerActivation,
     layers,
     sceneFraming,
     tilesets,

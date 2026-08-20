@@ -82,7 +82,12 @@ import {
   UpsertSceneEntryCommand,
 } from './commands.js'
 import { type EditorState, EditSession } from './edit-session.js'
-import { createPlacedEntity, type EntityPlacement } from './entity-placement.js'
+import {
+  activePageTriggerActivation,
+  createCanonicalPlacedEntity,
+  createPlacedEntity,
+  type EntityPlacement,
+} from './entity-placement.js'
 import type { ScriptEditorState } from './script-editor.js'
 import { findSceneEntryReferences } from './script-references.js'
 import { buildBlankProject } from './seed.js'
@@ -182,6 +187,18 @@ const ids = (s: EditorState): string[] => s.scenes[0]!.entities.map((e) => e.id)
 const ent0 = (s: EditorState): EntityDef => s.scenes[0]!.entities[0]!
 
 describe('布置命令集 · 不可变 + invert', () => {
+  test('触发范围只在当前页同时绑定行为与 activation 时生效', () => {
+    expect(
+      activePageTriggerActivation({
+        trigger: 'default',
+        triggerActivation: { on: 'interact', range: 1 },
+      }),
+    ).toEqual({ on: 'interact', range: 1 })
+    expect(
+      activePageTriggerActivation({ triggerActivation: { on: 'touch', range: 3 } }),
+    ).toBeUndefined()
+  })
+
   // ── AddEntityCommand ───────────────────────────────────────
   test('AddEntity:追加到场景末尾 + 源不变;invert 移除该实体', () => {
     const s0 = st()
@@ -210,6 +227,11 @@ describe('布置命令集 · 不可变 + invert', () => {
       { col: 7, row: 8, height: 0 },
       placement as EntityPlacement,
     )
+    const canonical = createCanonicalPlacedEntity(
+      'placed',
+      { col: 7, row: 8, height: 0 },
+      placement as EntityPlacement,
+    )
     const cmd = new AddEntityCommand('s', entity)
     const s1 = cmd.apply(s0)
     const added = s1.scenes[0]!.entities.at(-1)
@@ -218,6 +240,18 @@ describe('布置命令集 · 不可变 + invert', () => {
     const undone = cmd.invert(s1)
     expect(undone.scenes[0]!.entities.some((candidate) => candidate.id === 'placed')).toBe(false)
     expect(cmd.apply(undone).scenes[0]!.entities.at(-1)).toEqual(entity)
+    if (placement.mode === 'touch-zone' || placement.mode === 'interact-zone') {
+      expect(canonical.pages?.[0]).toMatchObject({
+        trigger: 'default',
+        triggerActivation: {
+          on: placement.mode === 'touch-zone' ? 'touch' : 'interact',
+          range: placement.range,
+        },
+      })
+      expect(canonical.behaviors?.trigger?.default).toBeDefined()
+    } else {
+      expect(canonical.pages).toBeUndefined()
+    }
   })
 
   // ── DeleteEntityCommand ────────────────────────────────────

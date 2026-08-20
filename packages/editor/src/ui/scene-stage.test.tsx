@@ -3,7 +3,12 @@ import { loadTilesetAsset } from '@type-pal/reforge'
 import { act, useRef } from 'react'
 import { createRoot } from 'react-dom/client'
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
-import { drawGridBlocked, isCollisionOverlayMarked, useSceneAssets } from './scene-stage.js'
+import {
+  drawGridBlocked,
+  drawTriggerHighlight,
+  isCollisionOverlayMarked,
+  useSceneAssets,
+} from './scene-stage.js'
 
 vi.mock('@type-pal/reforge', async (importOriginal) => {
   const original = await importOriginal<typeof import('@type-pal/reforge')>()
@@ -137,4 +142,35 @@ test('网格只裁在非倾斜画布矩形内，不把视口防弹跳余量画�
   )
 
   expect(rect).toHaveBeenCalledWith(0, 0, 96, 48)
+})
+
+test('触发高亮只消费 current page activation，并按实际范围绘制黄色格', () => {
+  const fill = vi.fn()
+  const context = {
+    save: vi.fn(),
+    restore: vi.fn(),
+    beginPath: vi.fn(),
+    moveTo: vi.fn(),
+    lineTo: vi.fn(),
+    closePath: vi.fn(),
+    fill,
+    stroke: vi.fn(),
+    setLineDash: vi.fn(),
+  } as unknown as CanvasRenderingContext2D
+  const entity = {
+    pos: { col: 4, row: 7, height: 0 },
+    // 旧 trigger 即使存在也不得再被共享画布读取。
+    pages: [{ trigger: { on: 'touch', range: 0, stages: [] } }],
+  } as never
+
+  drawTriggerHighlight(context, entity, { x: 0, y: 0 }, 1, 0, {
+    activation: { on: 'interact', range: 1 },
+  })
+  expect(fill).toHaveBeenCalledTimes(9)
+
+  fill.mockClear()
+  drawTriggerHighlight(context, entity, { x: 0, y: 0 }, 1, 0, {
+    activation: { on: 'touch', range: 0 },
+  })
+  expect(fill).toHaveBeenCalledTimes(1)
 })

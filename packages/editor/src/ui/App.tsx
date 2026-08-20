@@ -11,6 +11,8 @@ import type {
   AssetCatalogV1,
   BattleFieldDef,
   BattleSpriteDefinitionReference,
+  BaseEntityPage,
+  BaseSceneEntityDef,
   EnemyTeamDef,
   EntityDef,
   GridPos,
@@ -23,6 +25,7 @@ import type {
   SpriteActionReference,
   SpriteDef,
   SpriteDefinitionReference,
+  TriggerActivation,
 } from '@type-pal/content'
 import {
   isActorEntity,
@@ -74,11 +77,15 @@ import { createEditorAssetReader, type EditorAssetReader } from '../core/editor-
 import { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
 import type { BlockingEnemyTeamReference } from '../core/enemy-team-references.js'
 import {
+  activePageTriggerActivation,
+  createCanonicalPlacedEntity,
   createPlacedEntity,
   DEFAULT_ZONE_RANGE,
+  effectiveTriggerRange,
   type EntityPlacement,
   type EntityPlacementMode,
   entityShapeLabel,
+  triggerActivationSummary,
 } from '../core/entity-placement.js'
 import { exportProjectZip } from '../core/export-zip.js'
 import type { ItemReference } from '../core/item-references.js'
@@ -104,6 +111,8 @@ import {
   type SceneEntryReferenceEntry,
 } from '../core/script-references.js'
 import {
+  AddSceneEntityDefinitionCommand,
+  DeleteSceneEntityDefinitionCommand,
   type CanonicalScriptReference,
   canonicalScriptReferenceDestinationExists,
   describeCanonicalScriptReference,
@@ -111,6 +120,7 @@ import {
   type ScriptEditSession,
   SetEntityHostileOnLoseCommand,
   SetEntityPageBehaviorCommand,
+  SetEntityPageTriggerActivationCommand,
 } from '../core/script-editor.js'
 import type { SpriteAutomaticScriptInstanceSite } from '../core/world-sprite-behavior.js'
 import { ActorMode } from './ActorMode.js'
@@ -129,10 +139,7 @@ import {
 } from './app-layout-commands.js'
 import { BattleFieldPicker } from './BattleFieldPicker.js'
 import { CanonicalSceneScriptWorkspace } from './SceneScriptWorkspace.js'
-import {
-  CanonicalHostileOnLoseEditor,
-  type CanonicalScriptEditorContext,
-} from './ScriptEditor.js'
+import { CanonicalHostileOnLoseEditor, type CanonicalScriptEditorContext } from './ScriptEditor.js'
 import { DataMode } from './DataMode.js'
 import type { DsMenuDefinition } from './design-system/index.js'
 import {
@@ -144,6 +151,7 @@ import {
   DsIconButton,
   DsInspectorTabs,
   DsListHeader,
+  DsNumberInput,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
@@ -205,13 +213,19 @@ function sceneEntryOutlineLabel(entry: SceneEntryPoint): string {
   return /^原版(?:传送点|落点) \(-?\d+,\s*-?\d+,\s*-?\d+\)$/.test(label) ? '原版落点' : label
 }
 
+function initialCanonicalEntityPage(
+  entity: BaseSceneEntityDef | undefined,
+): BaseEntityPage | undefined {
+  return entity?.pages?.find((page) => page.id === entity.initialPage) ?? entity?.pages?.[0]
+}
+
 interface StoredEditorNavigation {
   last?: EditorLocation
   modules?: Partial<Record<EditorModuleId, EditorLocation>>
   scroll?: Record<string, { outliner: number; center: number; inspector: number }>
 }
 
-function newEntityId(existing: EntityDef[]): string {
+function newEntityId(existing: readonly { id: string }[]): string {
   const ids = new Set(existing.map((e) => e.id))
   let n = 1
   while (ids.has(`entity-${n}`)) n++
@@ -284,17 +298,14 @@ export function App(props: {
   useSyncExternalStore(subscribe, getVersion) // 任一变化(含 markSaved / undo)都重渲染
   const scriptSession = props.script.session
   const historyCoordinator = useMemo(
-    () => (scriptSession ? new EditorHistoryCoordinator(session, scriptSession) : undefined),
+    () => new EditorHistoryCoordinator(session, scriptSession),
     [scriptSession, session],
   )
   const subscribeScript = useMemo(
     () => (cb: () => void) => scriptSession?.subscribe(cb) ?? (() => undefined),
     [scriptSession],
   )
-  const getScriptVersion = useMemo(
-    () => () => scriptSession?.getVersion() ?? 0,
-    [scriptSession],
-  )
+  const getScriptVersion = useMemo(() => () => scriptSession?.getVersion() ?? 0, [scriptSession])
   useSyncExternalStore(subscribeScript, getScriptVersion)
   const state = session.getState()
   const storedScriptState = scriptSession?.getState()
@@ -1197,11 +1208,7 @@ export function App(props: {
     else delete next.objectId
     applyEditorLocation(next, 'replace')
   }
-  const objectTargetMissing = editorObjectTargetMissing(
-    state,
-    location,
-    scriptState?.sharedScripts,
-  )
+  const objectTargetMissing = editorObjectTargetMissing(state, location, scriptState?.sharedScripts)
   const historyOwnerRef = useRef<'main' | 'script'>('main')
   useEffect(() => {
     let version = session.getHistoryVersion()
@@ -1264,9 +1271,10 @@ export function App(props: {
 
   const selEntity =
     selected.kind === 'entity' ? scene?.entities.find((e) => e.id === selected.id) : undefined
-  const canonicalEntity = scriptState?.scenes
-    .find((candidate) => candidate.id === scene?.id)
-    ?.entities.find((candidate) => candidate.id === selEntity?.id)
+  const canonicalScene = scriptState?.scenes.find((candidate) => candidate.id === scene?.id)
+  const canonicalEntity = canonicalScene?.entities.find(
+    (candidate) => candidate.id === selEntity?.id,
+  )
   const canonicalPage =
     canonicalEntity?.pages?.find((page) => page.id === selectedPage) ??
     canonicalEntity?.pages?.find((page) => page.id === canonicalEntity.initialPage) ??
@@ -1303,6 +1311,22 @@ export function App(props: {
         : [],
     [state, scene, selectedNamedEntryId],
   )
+  const canonicalEntitiesById = new Map(
+    (canonicalScene?.entities ?? []).map((entity) => [entity.id, entity]),
+  )
+  const outlineTriggerActivation = (entityId: string): TriggerActivation | undefined => {
+    const entity = canonicalEntitiesById.get(entityId)
+    const page = entityId === selEntity?.id ? canonicalPage : initialCanonicalEntityPage(entity)
+    return activePageTriggerActivation(page)
+  }
+  const deleteSelected = useCallback((): void => {
+    if (!selEntity || !scene) return
+    historyCoordinator.dispatch(
+      new DeleteSceneEntityDefinitionCommand(scene.id, selEntity.id),
+      new DeleteEntityCommand(scene.id, selEntity.id),
+    )
+    setSelected(SCENE_SELECTION)
+  }, [historyCoordinator, scene, selEntity])
   // 删除键:选中实体时删(在输入框里打字不触发)。
   useEffect(() => {
     const onKey = (e: KeyboardEvent): void => {
@@ -1332,8 +1356,7 @@ export function App(props: {
         !typing
       ) {
         e.preventDefault()
-        session.dispatch(new DeleteEntityCommand(scene.id, selEntity.id))
-        setSelected(SCENE_SELECTION)
+        deleteSelected()
         return
       }
       // undo/redo 快捷键(⌘/Ctrl+Z,+Shift=redo;输入框内不劫持)
@@ -1350,7 +1373,6 @@ export function App(props: {
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [
-    session,
     scene,
     selEntity,
     selected,
@@ -1358,6 +1380,7 @@ export function App(props: {
     drawer.open,
     scriptPanelAvailable,
     activeSubpage.kind,
+    deleteSelected,
     layoutCommandHandlers,
     redo,
     undo,
@@ -1398,7 +1421,7 @@ export function App(props: {
       )
   }
   const addAt = (cell: { col: number; row: number }): void => {
-    const id = newEntityId(scene.entities)
+    const id = newEntityId([...scene.entities, ...(canonicalScene?.entities ?? [])])
     let placement: EntityPlacement | undefined
     if (placeMode === 'actor') {
       const actorId = placeActorId || state.actors[0]?.id
@@ -1412,19 +1435,16 @@ export function App(props: {
       placement = { mode: placeMode, range: placeZoneRanges.interact }
     }
     if (!placement) return
-    session.dispatch(
-      new AddEntityCommand(
+    const pos = { col: cell.col, row: cell.row, height: 0 }
+    historyCoordinator.dispatch(
+      new AddSceneEntityDefinitionCommand(
         scene.id,
-        createPlacedEntity(id, { col: cell.col, row: cell.row, height: 0 }, placement),
+        createCanonicalPlacedEntity(id, pos, placement),
       ),
+      new AddEntityCommand(scene.id, createPlacedEntity(id, pos, placement)),
     )
     setSelected({ kind: 'entity', id })
     setPlacingEntity(false)
-  }
-  const deleteSelected = (): void => {
-    if (!selEntity) return
-    session.dispatch(new DeleteEntityCommand(scene.id, selEntity.id))
-    setSelected(SCENE_SELECTION)
   }
   const deleteSelectedSceneObject = (): void => {
     if (selEntity) {
@@ -1481,9 +1501,7 @@ export function App(props: {
         dir = await pickDir()
         if (!dir) return
         const previousAttempt = saveAttemptDirRef.current
-        resumesInterruptedAttempt = previousAttempt
-          ? await dir.isSameEntry(previousAttempt)
-          : false
+        resumesInterruptedAttempt = previousAttempt ? await dir.isSameEntry(previousAttempt) : false
         if (!resumesInterruptedAttempt) snapshotRef.current = null
         saveAttemptDirRef.current = dir
         rememberDirectory = true
@@ -1524,11 +1542,7 @@ export function App(props: {
         })
         // Registration stays under the same workspace mutation lock as the write. A competing
         // first-save therefore sees the binding before it can mutate an identical directory copy.
-        await registerAuthorizedWorkspaceMutation(
-          mutation,
-          props.workspace,
-          dir.name,
-        )
+        await registerAuthorizedWorkspaceMutation(mutation, props.workspace, dir.name)
         return nextSnapshot
       })
       // 若保存期间仍有后台 hydrate/command 生成新 state，磁盘只是开始时快照，不能误清 dirty。
@@ -2137,10 +2151,14 @@ export function App(props: {
                                 ? `角色来源：${actorsById[e.actor] ? lookupText(actorsById[e.actor]!.name, state.locale) : e.actor}`
                                 : 'sprite' in e
                                   ? `资源来源：${state.sprites.find((sprite) => sprite.id === e.sprite)?.label || e.sprite}`
-                                  : '无外观触发区'
+                                  : `无外观触发区 · ${triggerActivationSummary(
+                                      outlineTriggerActivation(e.id),
+                                    )}`
                             }
                           >
-                            {entityShapeLabel(e)}
+                            {'zone' in e
+                              ? triggerActivationSummary(outlineTriggerActivation(e.id))
+                              : entityShapeLabel(e)}
                           </span>
                         </button>
                       ))}
@@ -2276,6 +2294,7 @@ export function App(props: {
                   mapIndex={state.mapIndex}
                   tilesets={state.tilesets ?? []}
                   selectedEntityId={selEntity?.id ?? null}
+                  selectedTriggerActivation={activePageTriggerActivation(canonicalPage)}
                   selectedAnchor={selectedAnchor}
                   placingEntity={placingEntity}
                   layers={canvasLayers}
@@ -2317,6 +2336,7 @@ export function App(props: {
                   scene={scene}
                   state={scriptState}
                   selectedEntityId={selEntity?.id ?? null}
+                  selectedPageId={canonicalPage?.id}
                   locale={state.locale}
                   sprites={state.sprites}
                   actorsById={actorsById}
@@ -2421,6 +2441,18 @@ export function App(props: {
                       assetBase={project.assetBase}
                       assetReader={assetReader}
                       canonicalScript={!!scriptSession}
+                      canonicalPages={canonicalEntity?.pages}
+                      canonicalPage={canonicalPage}
+                      onCanonicalPageChange={setSelectedPage}
+                      onTriggerActivationChange={(pageId, activation) =>
+                        scriptSession?.dispatch(
+                          new SetEntityPageTriggerActivationCommand(
+                            { scene: scene.id, entity: selEntity.id },
+                            pageId,
+                            activation,
+                          ),
+                        )
+                      }
                       onJumpToEvent={jumpToEvent}
                       focusPageIndex={
                         entityPageFocus?.sceneId === scene.id &&
@@ -2548,11 +2580,7 @@ export function App(props: {
                             })}
                           </div>
                         ) : null}
-                        <div
-                          className="script-channel-tabs"
-                          role="tablist"
-                          aria-label="行为通道"
-                        >
+                        <div className="script-channel-tabs" role="tablist" aria-label="行为通道">
                           {(['trigger', 'auto'] as const).map((channel) => (
                             <button
                               key={channel}
@@ -2984,6 +3012,11 @@ function EntityInspector(props: {
   assetReader: EditorAssetReader
   /** 当前 canonical 脚本由独立具名行为检查器编辑，禁止 renderer 投影重新创建作者正文。 */
   canonicalScript?: boolean
+  /** 当前脚本作者真值中的实体页；触发方式/范围只能写这里，不能写 renderer 投影。 */
+  canonicalPages?: BaseEntityPage[]
+  canonicalPage?: BaseEntityPage
+  onCanonicalPageChange?: (pageId: string) => void
+  onTriggerActivationChange?: (pageId: string, activation: TriggerActivation | undefined) => void
   /** 跳事件模式定位此实体的触发/巡逻脚本(E2)。 */
   onJumpToEvent: (sceneId: string, srcKey: string) => void
   /** 从动作引用跳转时精确打开对应实体页。 */
@@ -3007,6 +3040,10 @@ function EntityInspector(props: {
     assetBase,
     assetReader,
     canonicalScript,
+    canonicalPages,
+    canonicalPage,
+    onCanonicalPageChange,
+    onTriggerActivationChange,
     onJumpToEvent,
     focusPageIndex,
     focusPageRevision,
@@ -3028,20 +3065,24 @@ function EntityInspector(props: {
   }
   const spriteId = resolveEntitySpriteId(entity, actorsById)
   const spriteDef = spriteId ? sprites.find((sprite) => sprite.id === spriteId) : undefined
-  const pageCount = Math.max(1, entity.pages?.length ?? 0)
+  const pageCount = Math.max(1, canonicalPages?.length ?? entity.pages?.length ?? 0)
+  const canonicalTriggerBound = Boolean(canonicalPage?.trigger)
   const hostile = entity.hostile as RuntimeHostileBehavior | undefined
   useEffect(() => {
     if (!entity.id) return
-    setPageIndex((current) =>
-      current >= 0 && current < Math.max(1, entity.pages?.length ?? 0) ? current : 0,
-    )
-  }, [entity.id, entity.pages?.length])
+    setPageIndex((current) => (current >= 0 && current < pageCount ? current : 0))
+  }, [entity.id, pageCount])
+  useEffect(() => {
+    if (!canonicalPage || !canonicalPages) return
+    const index = canonicalPages.findIndex((page) => page.id === canonicalPage.id)
+    if (index >= 0) setPageIndex(index)
+  }, [canonicalPage, canonicalPages])
   useEffect(() => {
     if (focusPageRevision == null || focusPageIndex == null) return
-    if (focusPageIndex < 0 || focusPageIndex >= Math.max(1, entity.pages?.length ?? 0)) return
+    if (focusPageIndex < 0 || focusPageIndex >= pageCount) return
     setPageIndex(focusPageIndex)
     onPageFocusConsumed?.(focusPageRevision)
-  }, [entity.pages?.length, focusPageIndex, focusPageRevision, onPageFocusConsumed])
+  }, [focusPageIndex, focusPageRevision, onPageFocusConsumed, pageCount])
   const setPageAnimation = (
     animation: NonNullable<EntityDef['pages']>[number]['animation'],
   ): void => {
@@ -3082,27 +3123,90 @@ function EntityInspector(props: {
       ) : null}
       <div className="section">
         <h4>
-          页面默认动作 <span className="hint2">动作资产在精灵库定义</span>
+          页面与触发 <span className="hint2">动作资源在精灵库定义</span>
         </h4>
         {pageCount > 1 ? (
           <div className="field">
             <span className="field-label">实体页</span>
-            <select
-              className="in"
+            <DsSelect
+              size="compact"
               aria-label="选择实体页"
-              value={pageIndex}
-              onChange={(event) => setPageIndex(Number(event.target.value))}
-            >
-              {Array.from({ length: pageCount }, (_, index) => (
-                <option key={index} value={index}>
-                  第 {index + 1} 页
-                  {entity.pages?.[index]?.state === undefined
-                    ? ''
-                    : ` · state=${entity.pages[index]!.state}`}
-                </option>
-              ))}
-            </select>
+              value={String(pageIndex)}
+              options={Array.from({ length: pageCount }, (_, index) => ({
+                value: String(index),
+                label: canonicalPages?.[index]
+                  ? `${canonicalPages[index]!.label} · ${canonicalPages[index]!.id}`
+                  : `第 ${index + 1} 页${
+                      entity.pages?.[index]?.state === undefined
+                        ? ''
+                        : ` · state=${entity.pages[index]!.state}`
+                    }`,
+              }))}
+              onValueChange={(value) => {
+                const nextIndex = Number(value)
+                setPageIndex(nextIndex)
+                const pageId = canonicalPages?.[nextIndex]?.id
+                if (pageId) onCanonicalPageChange?.(pageId)
+              }}
+            />
           </div>
+        ) : null}
+        {canonicalPage && onTriggerActivationChange ? (
+          <>
+            <div className="field">
+              <span className="field-label">触发方式</span>
+              <DsSelect
+                size="compact"
+                aria-label="实体页触发方式"
+                value={
+                  canonicalTriggerBound
+                    ? (canonicalPage.triggerActivation?.on ?? 'disabled')
+                    : 'disabled'
+                }
+                disabled={!canonicalTriggerBound}
+                options={[
+                  { value: 'disabled', label: '不触发' },
+                  { value: 'interact', label: '交互（按键）' },
+                  { value: 'touch', label: '触碰（自动）' },
+                ]}
+                onValueChange={(value) => {
+                  if (value === 'disabled') {
+                    onTriggerActivationChange(canonicalPage.id, undefined)
+                    return
+                  }
+                  const on = value as TriggerActivation['on']
+                  onTriggerActivationChange(canonicalPage.id, {
+                    on,
+                    range: Math.max(
+                      canonicalPage.triggerActivation?.range ?? DEFAULT_ZONE_RANGE[on],
+                      DEFAULT_ZONE_RANGE[on],
+                    ),
+                  })
+                }}
+              />
+            </div>
+            {!canonicalTriggerBound ? (
+              <p className="hint2">当前页尚未绑定触发行为；请先在“行为”页选择触发行为槽。</p>
+            ) : null}
+            {canonicalTriggerBound && canonicalPage.triggerActivation ? (
+              <div className="field">
+                <span className="field-label">触发范围（半径）</span>
+                <DsNumberInput
+                  size="compact"
+                  aria-label="实体页触发范围（格）"
+                  min={0}
+                  step={1}
+                  value={effectiveTriggerRange(canonicalPage.triggerActivation)}
+                  onChange={(event) =>
+                    onTriggerActivationChange(canonicalPage.id, {
+                      ...canonicalPage.triggerActivation!,
+                      range: Math.max(0, Math.round(Number(event.target.value))),
+                    })
+                  }
+                />
+              </div>
+            ) : null}
+          </>
         ) : null}
         <EntityPageAnimationEditor
           page={entity.pages?.[pageIndex]}
@@ -3397,10 +3501,7 @@ function EntityInspector(props: {
                       setHostile({
                         onVictory: {
                           kind,
-                          ticks:
-                            hostile?.onVictory.kind === 'hide'
-                              ? hostile.onVictory.ticks
-                              : 800,
+                          ticks: hostile?.onVictory.kind === 'hide' ? hostile.onVictory.ticks : 800,
                         },
                       })
                     else setHostile({ onVictory: { kind } })

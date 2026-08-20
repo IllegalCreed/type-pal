@@ -10,6 +10,7 @@ import type {
 import type { AssetBase, ProjectMap } from '@type-pal/reforge'
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { activePageTriggerActivation } from '../core/entity-placement.js'
 import { Playback } from '../core/playback.js'
 import type {
   CanonicalScriptReference,
@@ -35,6 +36,7 @@ export function CanonicalSceneScriptWorkspace(props: {
   scene: SceneDef
   state: ScriptEditorState
   selectedEntityId?: string | null
+  selectedPageId?: string
   locale: Locale
   sprites: SpriteDef[]
   actorsById: Record<string, ActorDef>
@@ -143,6 +145,10 @@ export function CanonicalSceneScriptWorkspace(props: {
         )[0]?.[0]) ?? ''
   const activeFlow =
     owner === 'scene' ? hookVariants[activeHookId]?.flow : behaviorVariants[activeBehaviorId]?.flow
+  const canonicalEntityPage =
+    canonicalEntity?.pages?.find((page) => page.id === props.selectedPageId) ??
+    canonicalEntity?.pages?.find((page) => page.id === canonicalEntity.initialPage) ??
+    canonicalEntity?.pages?.[0]
   const previewEntityId = props.selectedEntityId ?? canonicalScene?.entities[0]?.id ?? '__scene'
   const previewSourceKey =
     owner === 'scene'
@@ -200,6 +206,9 @@ export function CanonicalSceneScriptWorkspace(props: {
           projectId={props.projectId}
           workspaceId={props.workspaceId}
           focusEntityId={owner === 'entity' ? (props.selectedEntityId ?? undefined) : undefined}
+          focusTriggerActivation={
+            owner === 'entity' ? activePageTriggerActivation(canonicalEntityPage) : undefined
+          }
           sprites={props.sprites}
           actorsById={props.actorsById}
           leaderSpriteId={props.leaderSpriteId}

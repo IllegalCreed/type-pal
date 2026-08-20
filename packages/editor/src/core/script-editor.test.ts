@@ -8,6 +8,7 @@ import type {
 import { describe, expect, test } from 'vitest'
 import {
   AddEntityBehaviorCommand,
+  AddSceneEntityDefinitionCommand,
   AddItemPrivateScriptCommand,
   AddSceneHookCommand,
   AddSharedScriptCommand,
@@ -16,6 +17,7 @@ import {
   CopySceneHookCommand,
   collectScriptReferenceIssues,
   DeleteEntityBehaviorCommand,
+  DeleteSceneEntityDefinitionCommand,
   DeleteSceneHookCommand,
   DeleteSharedScriptCommand,
   describeCanonicalScriptReference,
@@ -28,6 +30,7 @@ import {
   ScriptEditSession,
   SetEntityHostileOnLoseCommand,
   SetEntityPageBehaviorCommand,
+  SetEntityPageTriggerActivationCommand,
   SetItemPrivateScriptBodyCommand,
   SetSceneHookInitialCommand,
   sceneHookReferences,
@@ -77,7 +80,14 @@ function scene(): BaseSceneDef {
         sprite: 'npc',
         pos: { col: 1, row: 1, height: 0 },
         initialPage: 'default',
-        pages: [{ id: 'default', label: '默认', trigger: 'talk' }],
+        pages: [
+          {
+            id: 'default',
+            label: '默认',
+            trigger: 'talk',
+            triggerActivation: { on: 'interact', range: 1 },
+          },
+        ],
         behaviors: {
           trigger: {
             talk: behavior('talk'),
@@ -449,9 +459,9 @@ describe('canonical script editor commands', () => {
         script: { id: 'use', label: '私有脚本物品私有脚本', body: [] },
       },
     ])
-    expect(() =>
-      session.dispatch(new AddItemPrivateScriptCommand('private', '再来一条')),
-    ).toThrow(/已有私有脚本/)
+    expect(() => session.dispatch(new AddItemPrivateScriptCommand('private', '再来一条'))).toThrow(
+      /已有私有脚本/,
+    )
     expect(session.undo()).toBe(true)
     expect(session.getState().items[0]!.use!.effects).toHaveLength(0)
     expect(session.redo()).toBe(true)
@@ -543,9 +553,7 @@ describe('canonical script editor commands', () => {
     expect(renamed.sharedScripts['shared/user/select-talk']!.body[0]).toMatchObject({
       selection: { onEnter: { kind: 'use', value: 'story-entry' } },
     })
-    session.dispatch(
-      new CopySceneHookCommand('s001', 'onEnter', 'story-entry', 'story-entry-copy'),
-    )
+    session.dispatch(new CopySceneHookCommand('s001', 'onEnter', 'story-entry', 'story-entry-copy'))
     session.dispatch(new DeleteSceneHookCommand('s001', 'onEnter', 'story-entry-copy'))
     expect(
       session.getState().scenes[0]!.hooks!.onEnter!.variants['story-entry-copy'],
@@ -594,6 +602,97 @@ describe('canonical script editor commands', () => {
     expect(() =>
       session.dispatch(new SetEntityPageBehaviorCommand(target, 'default', 'trigger', 'missing')),
     ).toThrow(/behavior 不存在/)
+  })
+
+  test('edits current page trigger activation as one undoable canonical change', () => {
+    const session = new ScriptEditSession(editorState())
+    session.dispatch(
+      new SetEntityPageTriggerActivationCommand(target, 'default', { on: 'touch', range: 3 }),
+    )
+    expect(session.getState().scenes[0]!.entities[0]!.pages![0]!.triggerActivation).toEqual({
+      on: 'touch',
+      range: 3,
+    })
+
+    expect(session.undo()).toBe(true)
+    expect(session.getState().scenes[0]!.entities[0]!.pages![0]!.triggerActivation).toEqual({
+      on: 'interact',
+      range: 1,
+    })
+    expect(session.redo()).toBe(true)
+    expect(session.getState().scenes[0]!.entities[0]!.pages![0]!.triggerActivation).toEqual({
+      on: 'touch',
+      range: 3,
+    })
+
+    expect(() =>
+      session.dispatch(
+        new SetEntityPageTriggerActivationCommand(target, 'default', {
+          on: 'touch',
+          range: -1,
+        }),
+      ),
+    ).toThrow(/期望非负有限数/)
+    expect(() =>
+      session.dispatch(
+        new SetEntityPageTriggerActivationCommand(target, 'missing', {
+          on: 'interact',
+          range: 1,
+        }),
+      ),
+    ).toThrow(/实体页不存在/)
+  })
+
+  test('adds and deletes a current canonical scene entity with stable undo order', () => {
+    const session = new ScriptEditSession(editorState())
+    const entity = {
+      id: 'zone-new',
+      zone: true as const,
+      pos: { col: 7, row: 8, height: 0 },
+      behaviors: {
+        trigger: {
+          default: {
+            label: '默认触发行为',
+            order: 0,
+            flow: {
+              kind: 'stages' as const,
+              initial: 'initial',
+              stages: [{ id: 'initial', body: [] }],
+            },
+          },
+        },
+      },
+      pages: [
+        {
+          id: 'default',
+          label: '默认模式',
+          trigger: 'default',
+          triggerActivation: { on: 'interact' as const, range: 1 },
+        },
+      ],
+      initialPage: 'default',
+    }
+    session.dispatch(new AddSceneEntityDefinitionCommand('s001', entity))
+    expect(session.getState().scenes[0]!.entities.at(-1)).toEqual(entity)
+    expect(session.undo()).toBe(true)
+    expect(session.getState().scenes[0]!.entities.some((entry) => entry.id === entity.id)).toBe(
+      false,
+    )
+    expect(session.redo()).toBe(true)
+    expect(() => session.dispatch(new AddSceneEntityDefinitionCommand('s001', entity))).toThrow(
+      /实体已存在/,
+    )
+
+    session.dispatch(new DeleteSceneEntityDefinitionCommand('s001', entity.id))
+    expect(session.getState().scenes[0]!.entities.some((entry) => entry.id === entity.id)).toBe(
+      false,
+    )
+    expect(session.undo()).toBe(true)
+    expect(session.getState().scenes[0]!.entities.at(-1)).toEqual(entity)
+    expect(session.redo()).toBe(true)
+    expect(session.getState().scenes[0]!.entities.some((entry) => entry.id === entity.id)).toBe(
+      false,
+    )
   })
 })
 

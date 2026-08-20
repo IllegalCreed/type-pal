@@ -13,6 +13,7 @@ type PreviewProbeProps = {
   canonicalFlow?: BaseScriptFlow
   sourceKey: string
   focusEntityId?: string
+  focusTriggerActivation?: { on: 'interact' | 'touch'; range?: number }
   sceneFraming?: boolean
 }
 
@@ -172,6 +173,7 @@ describe('CanonicalSceneScriptWorkspace', () => {
     selectedEntityId: string | null,
     options?: {
       state?: ScriptEditorState
+      selectedPageId?: string
       focusReference?: { reference: CanonicalScriptReference; revision: number }
     },
   ): Promise<void> => {
@@ -181,6 +183,7 @@ describe('CanonicalSceneScriptWorkspace', () => {
           scene={scene}
           state={options?.state ?? state}
           selectedEntityId={selectedEntityId}
+          selectedPageId={options?.selectedPageId}
           locale={{} as never}
           sprites={[]}
           actorsById={{}}
@@ -239,6 +242,49 @@ describe('CanonicalSceneScriptWorkspace', () => {
     await renderWorkspace(sceneA, 'e1')
     expect(scriptTab('交互脚本').getAttribute('aria-selected')).toBe('true')
     expect(host.textContent).toContain('A 交互方案')
+  })
+
+  test('preview range follows the selected current page and ignores activation without a trigger behavior', async () => {
+    const next = structuredClone(state)
+    const entity = next.scenes[0]!.entities[0]!
+    entity.behaviors!.trigger!.alternate = {
+      label: '备用交互方案',
+      order: 1,
+      flow: {
+        kind: 'stages',
+        initial: 'start',
+        stages: [{ id: 'start', body: [] }],
+      },
+    }
+    entity.pages = [
+      {
+        id: 'default',
+        label: '默认',
+        trigger: 'legacy-001',
+        triggerActivation: { on: 'interact', range: 1 },
+      },
+      {
+        id: 'alternate',
+        label: '备用',
+        trigger: 'alternate',
+        triggerActivation: { on: 'touch', range: 2 },
+      },
+      {
+        id: 'inactive',
+        label: '未绑定行为',
+        triggerActivation: { on: 'touch', range: 5 },
+      },
+    ]
+
+    await renderWorkspace(sceneA, 'e1', { state: next, selectedPageId: 'alternate' })
+    expect(
+      (previewRender.mock.calls.at(-1)?.[0] as PreviewProbeProps).focusTriggerActivation,
+    ).toEqual({ on: 'touch', range: 2 })
+
+    await renderWorkspace(sceneA, 'e1', { state: next, selectedPageId: 'inactive' })
+    expect(
+      (previewRender.mock.calls.at(-1)?.[0] as PreviewProbeProps).focusTriggerActivation,
+    ).toBeUndefined()
   })
 
   test('only exposes entity script tabs while an entity is selected', async () => {

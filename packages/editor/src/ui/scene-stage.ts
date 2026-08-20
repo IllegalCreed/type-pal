@@ -14,6 +14,7 @@ import type {
   IsometricMapContent,
   MapIndexV1,
   SceneDef,
+  TriggerActivation,
 } from '@type-pal/content'
 import { gridToPixel, mapAssetById, resolveTilesetAsset } from '@type-pal/content'
 import type {
@@ -33,6 +34,7 @@ import {
 } from '@type-pal/reforge'
 import { type RefObject, useEffect, useRef, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { effectiveTriggerRange } from '../core/entity-placement.js'
 import { loadEditorSprite } from '../core/sprite-assets.js'
 
 export const TILE_W = 32
@@ -379,8 +381,8 @@ function diamondPath(
 }
 
 /**
- * 选中事件的触发点/面高亮:owner 格金色描边(呼吸)+ 触发范围淡金面
- * (range = max(trigger.range, interact?1:0),切比雪夫盒 —— 与引擎 findTrigger 同源)。
+ * 选中事件的触发点/面高亮:owner 格金色描边(呼吸)+ 触发范围淡金面。
+ * activation 由当前 canonical 实体页显式传入；共享画布不得再猜旧 trigger 数据形状。
  * zone/隐藏实体无精灵,此标记是它们在预览里唯一的可见形态;ghost = 隐藏实体淡显。
  * 布置模式可用 ownerDashed 将中心格改成虚线,范围语义保持一致。
  */
@@ -390,11 +392,14 @@ export function drawTriggerHighlight(
   camera: { x: number; y: number },
   zoom: number,
   now: number,
-  options: { ghost?: boolean; ownerDashed?: boolean } = {},
+  options: {
+    activation?: TriggerActivation
+    ghost?: boolean
+    ownerDashed?: boolean
+  } = {},
 ): void {
-  const { ghost = false, ownerDashed = false } = options
-  const t = e.pages?.[0]?.trigger
-  const range = t ? Math.max(t.range ?? 0, t.on === 'interact' ? 1 : 0) : 0
+  const { activation, ghost = false, ownerDashed = false } = options
+  const range = effectiveTriggerRange(activation)
   const height = e.pos.height ?? 0
   const breath = 0.55 + 0.35 * Math.sin(now / 280)
   const alpha = ghost ? 0.35 : 1

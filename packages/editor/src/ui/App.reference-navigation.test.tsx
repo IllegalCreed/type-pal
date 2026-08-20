@@ -254,6 +254,7 @@ type SceneWorkspaceProbe = {
 type SceneCanvasProbe = {
   placingEntity: boolean
   selectedEntityId: string | null
+  selectedTriggerActivation?: { on: 'interact' | 'touch'; range?: number }
   onAddAt: (cell: { col: number; row: number }) => void
   onClearSelection: () => void
 }
@@ -269,6 +270,7 @@ function button(text: string, root: ParentNode = document): HTMLButtonElement {
 describe('App item reference navigation', () => {
   let host: HTMLDivElement
   let root: Root
+  let renderedScriptSession: ScriptEditSession
 
   beforeEach(() => {
     ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
@@ -315,8 +317,10 @@ describe('App item reference navigation', () => {
     vi.restoreAllMocks()
   })
 
-  const renderApp = async (shell = shellState()): Promise<EditSession> => {
-    const canonical = canonicalState()
+  const renderApp = async (
+    shell = shellState(),
+    canonical = canonicalState(),
+  ): Promise<EditSession> => {
     shell.manifest = {
       ...shell.manifest,
       contentVersion: 16,
@@ -336,12 +340,13 @@ describe('App item reference navigation', () => {
       worldVariables: shell.worldVariables ?? {},
     } as unknown as LoadedCurrentProject
     const session = new EditSession(shell)
+    renderedScriptSession = new ScriptEditSession(canonical)
     await act(async () =>
       root.render(
         <App
           session={session}
           project={project}
-          script={{ session: new ScriptEditSession(canonical) }}
+          script={{ session: renderedScriptSession }}
           workspace={testWorkspace}
         />,
       ),
@@ -496,6 +501,235 @@ describe('App item reference navigation', () => {
     await act(async () => addEntity.click())
     expect(addEntity.getAttribute('aria-pressed')).toBeNull()
     expect(host.querySelector('.insp-head .what')?.textContent).toBe('添加实体')
+  })
+
+  test('触发区目录、画布和属性面板共用 current page 的方式与范围', async () => {
+    window.history.replaceState({}, '', '/?module=scene&page=workspace&object=s047')
+    const shell = shellState()
+    shell.scenes[0]!.entities.push({
+      id: 'e-zone',
+      zone: true,
+      pos: { col: 3, row: 3, height: 0 },
+      pages: [
+        {
+          id: 'default',
+          label: '默认模式',
+          trigger: 'default',
+          triggerActivation: { on: 'interact', range: 2 },
+        },
+        {
+          id: 'alternate',
+          label: '备用模式',
+          trigger: 'alternate',
+          triggerActivation: { on: 'touch', range: 3 },
+        },
+        {
+          id: 'inactive',
+          label: '未绑定行为',
+          triggerActivation: { on: 'touch', range: 5 },
+        },
+      ],
+      initialPage: 'default',
+    } as never)
+    const canonical = canonicalState()
+    canonical.scenes[0]!.entities.push({
+      id: 'e-zone',
+      zone: true,
+      pos: { col: 3, row: 3, height: 0 },
+      pages: [
+        {
+          id: 'default',
+          label: '默认模式',
+          trigger: 'default',
+          triggerActivation: { on: 'interact', range: 2 },
+        },
+        {
+          id: 'alternate',
+          label: '备用模式',
+          trigger: 'alternate',
+          triggerActivation: { on: 'touch', range: 3 },
+        },
+        {
+          id: 'inactive',
+          label: '未绑定行为',
+          triggerActivation: { on: 'touch', range: 5 },
+        },
+      ],
+      initialPage: 'default',
+      behaviors: {
+        trigger: {
+          default: {
+            label: '默认触发行为',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'initial',
+              stages: [{ id: 'initial', body: [] }],
+            },
+          },
+          alternate: {
+            label: '备用触发行为',
+            order: 1,
+            flow: {
+              kind: 'stages',
+              initial: 'initial',
+              stages: [{ id: 'initial', body: [] }],
+            },
+          },
+        },
+      },
+    })
+    await renderApp(shell, canonical)
+
+    const tree = host.querySelector<HTMLElement>('.outliner .tree')!
+    const zoneRow = button('e-zone', tree)
+    expect(zoneRow.textContent).toContain('交互 · 2 格')
+    await act(async () => zoneRow.click())
+    expect(
+      (probes.sceneCanvas.mock.calls.at(-1)?.[0] as SceneCanvasProbe).selectedTriggerActivation,
+    ).toEqual({ on: 'interact', range: 2 })
+
+    const pageSelect = host.querySelector<HTMLButtonElement>(
+      '[role="combobox"][aria-label="选择实体页"]',
+    )!
+    await act(async () => pageSelect.click())
+    const pageListbox = document.getElementById(pageSelect.getAttribute('aria-controls')!)!
+    const alternatePage = [...pageListbox.querySelectorAll<HTMLElement>('[role="option"]')].find(
+      (option) => option.textContent?.includes('备用模式'),
+    )!
+    await act(async () => alternatePage.click())
+    expect(button('e-zone', tree).textContent).toContain('触碰 · 3 格')
+    expect(
+      (probes.sceneCanvas.mock.calls.at(-1)?.[0] as SceneCanvasProbe).selectedTriggerActivation,
+    ).toEqual({ on: 'touch', range: 3 })
+
+    const range = host.querySelector<HTMLInputElement>('[aria-label="实体页触发范围（格）"]')!
+    expect(range.value).toBe('3')
+    const valueSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
+    await act(async () => {
+      valueSetter.call(range, '4')
+      range.dispatchEvent(new Event('input', { bubbles: true }))
+    })
+    expect(button('e-zone', tree).textContent).toContain('触碰 · 4 格')
+    expect(
+      (probes.sceneCanvas.mock.calls.at(-1)?.[0] as SceneCanvasProbe).selectedTriggerActivation,
+    ).toEqual({ on: 'touch', range: 4 })
+
+    const triggerMode = host.querySelector<HTMLButtonElement>(
+      '[role="combobox"][aria-label="实体页触发方式"]',
+    )!
+    await act(async () => triggerMode.click())
+    const listbox = document.getElementById(triggerMode.getAttribute('aria-controls')!)!
+    const interact = [...listbox.querySelectorAll<HTMLElement>('[role="option"]')].find((option) =>
+      option.textContent?.includes('交互（按键）'),
+    )!
+    await act(async () => interact.click())
+    expect(button('e-zone', tree).textContent).toContain('交互 · 4 格')
+    expect(
+      (probes.sceneCanvas.mock.calls.at(-1)?.[0] as SceneCanvasProbe).selectedTriggerActivation,
+    ).toEqual({ on: 'interact', range: 4 })
+
+    const currentPageSelect = host.querySelector<HTMLButtonElement>(
+      '[role="combobox"][aria-label="选择实体页"]',
+    )!
+    await act(async () => currentPageSelect.click())
+    const currentPageListbox = document.getElementById(
+      currentPageSelect.getAttribute('aria-controls')!,
+    )!
+    const inactivePage = [
+      ...currentPageListbox.querySelectorAll<HTMLElement>('[role="option"]'),
+    ].find((option) => option.textContent?.includes('未绑定行为'))!
+    await act(async () => inactivePage.click())
+    expect(button('e-zone', tree).textContent).toContain('未启用')
+    expect(
+      (probes.sceneCanvas.mock.calls.at(-1)?.[0] as SceneCanvasProbe).selectedTriggerActivation,
+    ).toBeUndefined()
+    expect(
+      host.querySelector<HTMLButtonElement>('[role="combobox"][aria-label="实体页触发方式"]')!
+        .disabled,
+    ).toBe(true)
+  })
+
+  test('新建触发区把渲染投影与 canonical 页作为一次历史写入并可无损保存', async () => {
+    window.history.replaceState({}, '', '/?module=scene&page=workspace&object=s047')
+    const session = await renderApp()
+    const tree = host.querySelector<HTMLElement>('.outliner .tree')!
+    await act(async () => tree.querySelector<HTMLButtonElement>('[aria-label="添加实体"]')!.click())
+    const inspector = host.querySelector<HTMLElement>('.inspector')!
+    await act(async () => button('触发区', inspector).click())
+    await act(async () => button('交互', inspector).click())
+    await act(async () =>
+      (probes.sceneCanvas.mock.calls.at(-1)?.[0] as SceneCanvasProbe).onAddAt({ col: 8, row: 9 }),
+    )
+
+    const shellEntity = session
+      .getState()
+      .scenes[0]!.entities.find((entity) => entity.id === 'entity-1')!
+    const canonicalEntity = renderedScriptSession
+      .getState()
+      .scenes[0]!.entities.find((entity) => entity.id === 'entity-1')!
+    expect(shellEntity).toMatchObject({ zone: true, pos: { col: 8, row: 9, height: 0 } })
+    expect(canonicalEntity).toMatchObject({
+      zone: true,
+      initialPage: 'default',
+      pages: [
+        {
+          id: 'default',
+          trigger: 'default',
+          triggerActivation: { on: 'interact', range: 1 },
+        },
+      ],
+    })
+    const merged = mergeEditorProjectionWithCurrentAuthorState(
+      renderedScriptSession.getState(),
+      session.getState(),
+    )
+    expect(
+      (merged.scenes[0] as unknown as ScriptEditorState['scenes'][number]).entities.find(
+        (entity) => entity.id === 'entity-1',
+      )?.pages?.[0]?.triggerActivation,
+    ).toEqual({ on: 'interact', range: 1 })
+    expect(button('entity-1', tree).textContent).toContain('交互 · 1 格')
+
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[title="删除选中对象（Del）"]')!.click(),
+    )
+    expect(session.getState().scenes[0]!.entities.some((entity) => entity.id === 'entity-1')).toBe(
+      false,
+    )
+    expect(
+      renderedScriptSession
+        .getState()
+        .scenes[0]!.entities.some((entity) => entity.id === 'entity-1'),
+    ).toBe(false)
+
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="撤销"]')!.click())
+    expect(session.getState().scenes[0]!.entities.some((entity) => entity.id === 'entity-1')).toBe(
+      true,
+    )
+    expect(
+      renderedScriptSession
+        .getState()
+        .scenes[0]!.entities.some((entity) => entity.id === 'entity-1'),
+    ).toBe(true)
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="重做"]')!.click())
+    expect(session.getState().scenes[0]!.entities.some((entity) => entity.id === 'entity-1')).toBe(
+      false,
+    )
+    expect(
+      renderedScriptSession
+        .getState()
+        .scenes[0]!.entities.some((entity) => entity.id === 'entity-1'),
+    ).toBe(false)
+
+    await act(async () => tree.querySelector<HTMLButtonElement>('[aria-label="添加实体"]')!.click())
+    await act(async () => button('触发区', host.querySelector('.inspector')!).click())
+    await act(async () => button('交互', host.querySelector('.inspector')!).click())
+    await act(async () =>
+      (probes.sceneCanvas.mock.calls.at(-1)?.[0] as SceneCanvasProbe).onAddAt({ col: 10, row: 11 }),
+    )
+    expect(session.getState().scenes[0]!.entities.at(-1)?.id).toBe('entity-1')
+    expect(renderedScriptSession.getState().scenes[0]!.entities.at(-1)?.id).toBe('entity-1')
   })
 
   test('场景直接操作移除伪工具，并统一放置、清选择、Esc 与脚本面板优先级', async () => {

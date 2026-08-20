@@ -1,4 +1,10 @@
-import type { EntityDef, GridPos, ScriptStage } from '@type-pal/content'
+import type {
+  BaseSceneEntityDef,
+  EntityDef,
+  GridPos,
+  ScriptStage,
+  TriggerActivation,
+} from '@type-pal/content'
 
 export type EntityPlacementMode = 'actor' | 'sprite' | 'touch-zone' | 'interact-zone'
 
@@ -12,6 +18,30 @@ export const DEFAULT_ZONE_RANGE = {
   touch: 0,
   interact: 1,
 } as const
+
+/** 当前作者页的实际触发半径；交互触发至少覆盖面对面的 1 格，与运行时 findTrigger 同义。 */
+export function effectiveTriggerRange(activation: TriggerActivation | undefined): number {
+  if (!activation) return 0
+  return Math.max(activation.range ?? 0, activation.on === 'interact' ? 1 : 0)
+}
+
+/** 场景目录的紧凑触发摘要；范围展示实际生效值，避免显式 interact=0 误导作者。 */
+export function triggerActivationSummary(activation: TriggerActivation | undefined): string {
+  if (!activation) return '未启用'
+  return `${activation.on === 'interact' ? '交互' : '触碰'} · ${effectiveTriggerRange(activation)} 格`
+}
+
+/** 只有当前页同时绑定触发行为与静态激活条件时，运行时才会投影可触发区域。 */
+export function activePageTriggerActivation(
+  page:
+    | {
+        trigger?: string
+        triggerActivation?: TriggerActivation
+      }
+    | undefined,
+): TriggerActivation | undefined {
+  return page?.trigger ? page.triggerActivation : undefined
+}
 
 /** CreateScriptSourceCommand 与放置 zone 共用的合法空脚本起点。 */
 export function createEmptyScriptStages(): ScriptStage[] {
@@ -46,6 +76,49 @@ export function createPlacedEntity(
         },
       },
     ],
+  }
+}
+
+/**
+ * 放置动作对应的 current canonical 实体。主会话保留即时渲染投影，脚本会话持有唯一作者页与行为真值；
+ * 两者必须由 EditorHistoryCoordinator 成对提交，保存边界才能无损合并。
+ */
+export function createCanonicalPlacedEntity(
+  id: string,
+  pos: GridPos,
+  placement: EntityPlacement,
+): BaseSceneEntityDef {
+  const base = { id, pos: structuredClone(pos) }
+  if (placement.mode === 'actor') return { ...base, actor: placement.actorId }
+  if (placement.mode === 'sprite') return { ...base, sprite: placement.spriteId }
+
+  const on = placement.mode === 'touch-zone' ? 'touch' : 'interact'
+  const range = normalizeRange(placement.range, DEFAULT_ZONE_RANGE[on])
+  return {
+    ...base,
+    zone: true,
+    behaviors: {
+      trigger: {
+        default: {
+          label: '默认触发行为',
+          order: 0,
+          flow: {
+            kind: 'stages',
+            initial: 'initial',
+            stages: [{ id: 'initial', body: [] }],
+          },
+        },
+      },
+    },
+    pages: [
+      {
+        id: 'default',
+        label: '默认模式',
+        trigger: 'default',
+        triggerActivation: { on, range },
+      },
+    ],
+    initialPage: 'default',
   }
 }
 

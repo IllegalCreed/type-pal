@@ -10,10 +10,16 @@ import type {
   BaseSceneHook,
   BaseScriptFlow,
   Selection,
+  BaseSceneEntityDef,
   BaseSharedScript,
   BaseStateTransition,
+  TriggerActivation,
 } from '@type-pal/content'
-import { checkAuthorScriptLibrary, validateAuthorItems, validateAuthorScenes } from '@type-pal/content'
+import {
+  checkAuthorScriptLibrary,
+  validateAuthorItems,
+  validateAuthorScenes,
+} from '@type-pal/content'
 import { getAuthorCommandAt, parseAuthorCommandPath } from './author-command-edit.js'
 
 export interface ScriptEditorState {
@@ -461,9 +467,7 @@ export interface ScriptReferenceIssue {
  * 当前共享脚本引用闭包。`__author-script-runtime` ScriptRef 只是 UI/宿主投影，
  * 不能拿旧 ScriptChunk 校验器判断；真正的作者引用必须在这里按稳定 ScriptId 对 sharedScripts 验证。
  */
-export function collectScriptReferenceIssues(
-  state: ScriptEditorState,
-): ScriptReferenceIssue[] {
+export function collectScriptReferenceIssues(state: ScriptEditorState): ScriptReferenceIssue[] {
   const issues: ScriptReferenceIssue[] = []
   const sharedIds = new Set(Object.keys(state.sharedScripts))
   const check = (scriptId: string, path: string): void => {
@@ -720,8 +724,7 @@ export function canonicalScriptReferenceDestinationExists(
   reference: CanonicalScriptReference,
 ): boolean {
   const locator = reference.locator
-  if (locator.kind === 'command')
-    return resolveCanonicalScriptCommand(state, locator) !== undefined
+  if (locator.kind === 'command') return resolveCanonicalScriptCommand(state, locator) !== undefined
   if (locator.kind === 'entity-page')
     return Boolean(
       state.scenes
@@ -866,6 +869,46 @@ abstract class SnapshotCommand implements ScriptEditorCommand {
   invert(_state: ScriptEditorState): ScriptEditorState {
     if (!this.before) throw new Error(`${this.label}: 尚未 apply`)
     return clone(this.before)
+  }
+}
+
+/** 新放置实体同步登记进 current canonical 场景；与主会话 AddEntityCommand 成对提交。 */
+export class AddSceneEntityDefinitionCommand extends SnapshotCommand {
+  readonly label = '新增 canonical 场景实体'
+
+  constructor(
+    private readonly sceneId: string,
+    private readonly entity: BaseSceneEntityDef,
+  ) {
+    super()
+  }
+
+  protected transform(state: ScriptEditorState): void {
+    const scene = state.scenes.find((candidate) => candidate.id === this.sceneId)
+    if (!scene) throw new Error(`场景不存在 ${this.sceneId}`)
+    if (scene.entities.some((candidate) => candidate.id === this.entity.id))
+      throw new Error(`实体已存在 ${this.sceneId}/${this.entity.id}`)
+    scene.entities.push(clone(this.entity))
+  }
+}
+
+/** 删除 current canonical 场景实体；与主会话 DeleteEntityCommand 成对提交。 */
+export class DeleteSceneEntityDefinitionCommand extends SnapshotCommand {
+  readonly label = '删除 canonical 场景实体'
+
+  constructor(
+    private readonly sceneId: string,
+    private readonly entityId: string,
+  ) {
+    super()
+  }
+
+  protected transform(state: ScriptEditorState): void {
+    const scene = state.scenes.find((candidate) => candidate.id === this.sceneId)
+    if (!scene) throw new Error(`场景不存在 ${this.sceneId}`)
+    const index = scene.entities.findIndex((candidate) => candidate.id === this.entityId)
+    if (index < 0) throw new Error(`实体不存在 ${this.sceneId}/${this.entityId}`)
+    scene.entities.splice(index, 1)
   }
 }
 
@@ -1480,6 +1523,28 @@ export class SetEntityPageBehaviorCommand extends SnapshotCommand {
       )
     if (this.behaviorId === undefined) delete page[this.channel]
     else page[this.channel] = this.behaviorId
+  }
+}
+
+/** 当前 canonical 实体页的静态触发方式；与行为槽分离，修改后由同一脚本会话撤销/保存。 */
+export class SetEntityPageTriggerActivationCommand extends SnapshotCommand {
+  readonly label = '编辑实体页触发方式'
+
+  constructor(
+    private readonly target: EntityAddress,
+    private readonly pageId: string,
+    private readonly activation: TriggerActivation | undefined,
+  ) {
+    super()
+  }
+
+  protected transform(state: ScriptEditorState): void {
+    const { entity } = sceneAndEntity(state, this.target)
+    const page = entity.pages?.find((candidate) => candidate.id === this.pageId)
+    if (!page)
+      throw new Error(`实体页不存在 ${this.target.scene}/${this.target.entity}/${this.pageId}`)
+    if (this.activation === undefined) delete page.triggerActivation
+    else page.triggerActivation = clone(this.activation)
   }
 }
 

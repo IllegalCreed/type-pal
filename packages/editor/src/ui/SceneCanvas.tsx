@@ -7,7 +7,13 @@
  * 帧 = idleFrameIndex(SpriteDef.layout, facing)——与引擎同一套数据与公式,零漂移。
  */
 
-import type { ActorDef, MapIndexV1, SceneDef, SpriteDef } from '@type-pal/content'
+import type {
+  ActorDef,
+  MapIndexV1,
+  SceneDef,
+  SpriteDef,
+  TriggerActivation,
+} from '@type-pal/content'
 import { gridToPixel, pixelToGrid, resolveEntitySpriteId, spriteScreenY } from '@type-pal/content'
 import type { AssetBase, ProjectMap, SpriteDraw } from '@type-pal/reforge'
 import { idleFrameIndex, renderSceneFrame, spriteBlitRect } from '@type-pal/reforge'
@@ -75,6 +81,8 @@ export function SceneCanvas(props: {
   /** tileset 注册表。 */
   tilesets: readonly import('@type-pal/reforge').TilesetDef[]
   selectedEntityId: string | null
+  /** 当前 canonical 实体页的静态触发方式；画布只消费作者真值，不从旧投影猜测。 */
+  selectedTriggerActivation?: TriggerActivation
   selectedAnchor?: SceneAnchorSelection | null
   placingEntity: boolean
   /** 图层显隐(布置模式左栏开关):base 地板 / cover 高物 / entities 实体 / grid 网格 / blocked 禁入格。 */
@@ -108,6 +116,7 @@ export function SceneCanvas(props: {
     mapIndex,
     tilesets,
     selectedEntityId,
+    selectedTriggerActivation,
     selectedAnchor,
     placingEntity,
     layers,
@@ -366,6 +375,7 @@ export function SceneCanvas(props: {
         : selectedZoneBase
     if (layers.entities && selectedZone && (!selectedZone.hidden || layers.ghosts)) {
       drawTriggerHighlight(ctx, selectedZone, camera, zoom, performance.now(), {
+        activation: selectedTriggerActivation,
         ghost: selectedZone.hidden === true,
         ownerDashed: true,
       })
@@ -455,6 +465,7 @@ export function SceneCanvas(props: {
     status,
     scene,
     selectedEntityId,
+    selectedTriggerActivation,
     selectedAnchor,
     drag,
     actorsById,
