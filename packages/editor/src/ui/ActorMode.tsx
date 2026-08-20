@@ -60,7 +60,7 @@ import {
   DsWorkbenchSection,
 } from './design-system/recipes.js'
 import { ACTOR_WORKSPACE_SECTIONS, type ActorWorkspaceSection } from './editor-navigation.js'
-import { ImageAssetPicker } from './ImageAssetPicker.js'
+import { ImageAssetPicker, ImageAssetThumbnail } from './ImageAssetPicker.js'
 import { LevelCurveEditor } from './LevelCurveEditor.js'
 import { LevelingEditor } from './LevelingEditor.js'
 import { PortraitEditor } from './PortraitEditor.js'
@@ -99,6 +99,36 @@ function actorSection(value: string | undefined): ActorWorkspaceSection {
   return ACTOR_WORKSPACE_SECTIONS.includes(value as ActorWorkspaceSection)
     ? (value as ActorWorkspaceSection)
     : 'overview'
+}
+
+function ActorAvatar(props: {
+  actor: ActorDef
+  catalog: AssetCatalogV1
+  reader: EditorAssetReader
+  placement: 'catalog' | 'hero'
+}) {
+  const { actor, catalog, reader, placement } = props
+  const faceRecord = actor.face ? catalog.assets[actor.face] : undefined
+  return (
+    <span
+      className={`actor-avatar actor-avatar--${placement} actor-avatar--${actor.face ? 'face' : 'fallback'}`}
+      aria-hidden="true"
+    >
+      {actor.face ? (
+        <ImageAssetThumbnail
+          asset={actor.face}
+          kind="face"
+          reader={reader}
+          revision={faceRecord?.kind === 'face' ? faceRecord.sha256 : undefined}
+          className="actor-avatar__image"
+        />
+      ) : actor.battler ? (
+        '🧑'
+      ) : (
+        '👤'
+      )}
+    </span>
+  )
 }
 
 export function ActorMode(props: {
@@ -385,9 +415,12 @@ export function ActorMode(props: {
               key={candidate.id}
               selected={candidate.id === selId}
               leading={
-                <span className="face" aria-hidden="true">
-                  {candidate.battler ? '🧑' : '👤'}
-                </span>
+                <ActorAvatar
+                  actor={candidate}
+                  catalog={assetCatalog}
+                  reader={assetReader}
+                  placement="catalog"
+                />
               }
               title={nm(candidate.name)}
               meta={<span translate="no">{candidate.id}</span>}
@@ -427,7 +460,14 @@ export function ActorMode(props: {
         ) : actor ? (
           <>
             <DsObjectHero
-              media={<span aria-hidden="true">{battler ? '🧑' : '👤'}</span>}
+              media={
+                <ActorAvatar
+                  actor={actor}
+                  catalog={assetCatalog}
+                  reader={assetReader}
+                  placement="hero"
+                />
+              }
               eyebrow={battler ? '可入队角色' : '剧情角色 / NPC'}
               title={nm(actor.name)}
               objectId={actor.id}

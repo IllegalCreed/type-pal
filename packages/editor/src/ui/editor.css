@@ -2424,6 +2424,29 @@ html[data-panel-resize="horizontal"] * {
   flex: 1;
   overflow-y: auto;
 }
+.actor-avatar {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  overflow: hidden;
+}
+.actor-avatar--catalog {
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
+}
+.actor-avatar--hero {
+  width: 100%;
+  height: 100%;
+  font-size: 28px;
+}
+.actor-avatar .actor-avatar__image {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
 .actor-create-panel {
   display: grid;
   gap: 8px;

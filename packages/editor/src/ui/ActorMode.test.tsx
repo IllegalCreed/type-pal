@@ -2,7 +2,7 @@
 import type { ActorDef, CasualtyScript } from '@type-pal/content'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
-import { afterEach, beforeEach, describe, expect, test } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
@@ -21,6 +21,7 @@ beforeEach(() => {
 afterEach(() => {
   root?.unmount()
   host.remove()
+  vi.unstubAllGlobals()
 })
 
 const script: CasualtyScript = {
@@ -114,7 +115,7 @@ function state(actorsList: ActorDef[]): EditorState {
   } as unknown as EditorState
 }
 
-function Harness(props: { session: EditSession }) {
+function Harness(props: { session: EditSession; assetReader?: EditorAssetReader }) {
   useSyncExternalStore(
     (callback) => props.session.subscribe(callback),
     () => props.session.getVersion(),
@@ -131,7 +132,7 @@ function Harness(props: { session: EditSession }) {
       assetBase={{} as never}
       session={props.session}
       assetCatalog={current.assetCatalog}
-      assetReader={{} as EditorAssetReader}
+      assetReader={props.assetReader ?? ({} as EditorAssetReader)}
       levelUp={current.levelUp}
       startSkills={{}}
     />
@@ -189,6 +190,57 @@ describe('ActorMode 战斗关系节 (E18-1)', () => {
     await act(async () => button('外观资源').click())
     expect(host.querySelector('.actor-frame-card')).not.toBeNull()
     expect(host.textContent).toContain('行走图与动作帧')
+  })
+
+  test('角色列表与标题优先显示战斗小头像，未配置时回退人物占位', async () => {
+    const currentActors = actors()
+    currentActors[0] = { ...currentActors[0]!, face: 'face.hero' }
+    currentActors.push({ id: 'npc', name: 'name.npc', spriteId: 'npc-sprite' })
+    const current = state(currentActors)
+    current.locale['name.npc'] = '路人'
+    current.assetCatalog.assets['face.hero'] = {
+      kind: 'face',
+      path: 'assets/faces/hero.png',
+      mediaType: 'image/png',
+      bytes: 1,
+      sha256: 'face-revision',
+      origin: { kind: 'authored' },
+    }
+    const readBytes = vi.fn(async () => new Uint8Array([1]).buffer)
+    const assetReader = {
+      readBytes,
+      record: () => current.assetCatalog.assets['face.hero']!,
+    } as unknown as EditorAssetReader
+    vi.stubGlobal('URL', {
+      createObjectURL: vi.fn(() => 'blob:face.hero'),
+      revokeObjectURL: vi.fn(),
+    })
+    const session = new EditSession(current)
+
+    await act(async () => {
+      root = createRoot(host)
+      root.render(<Harness session={session} assetReader={assetReader} />)
+      await Promise.resolve()
+      await Promise.resolve()
+    })
+
+    const faceAvatars = host.querySelectorAll('.actor-avatar--face')
+    expect(faceAvatars).toHaveLength(2)
+    expect(
+      [...faceAvatars].every((avatar) => avatar.querySelector('img')?.src === 'blob:face.hero'),
+    ).toBe(true)
+    expect(readBytes).toHaveBeenCalledWith('face.hero', 'face')
+    expect(host.querySelector('.actor-avatar--catalog.actor-avatar--fallback')?.textContent).toBe(
+      '🧑',
+    )
+    expect(
+      [...host.querySelectorAll('.actor-avatar--catalog.actor-avatar--fallback')].some(
+        (avatar) => avatar.textContent === '👤',
+      ),
+    ).toBe(true)
+
+    await act(async () => button('守护者').click())
+    expect(host.querySelector('.actor-avatar--hero.actor-avatar--fallback')?.textContent).toBe('🧑')
   })
 
   test('三字段区域渲染:援护者/合体技下拉 + 伤亡脚本 chip 派生自 state', async () => {

@@ -207,7 +207,7 @@ describe('editor design-system static boundary', () => {
     )
     const ceilings = {
       input: 133,
-      select: 66,
+      select: 65,
       textarea: 2,
       label: 121,
     } as const
