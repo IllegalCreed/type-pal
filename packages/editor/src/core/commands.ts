@@ -82,6 +82,10 @@ import {
 } from '@type-pal/reforge'
 import { blockingActorReferences } from './actor-references.js'
 import {
+  type BlockingAmbienceReference,
+  blockingAmbienceReferences,
+} from './ambience-references.js'
+import {
   type BattleDataReference,
   blockingEnemyReferences,
   blockingPoisonReferences,
@@ -4434,6 +4438,54 @@ export class AddAmbienceCommand implements Command {
   invert(state: EditorState): EditorState {
     if (!this.added) return state
     return { ...state, ambiences: (state.ambiences ?? []).filter((a) => a.id !== this.ambience.id) }
+  }
+}
+
+export class AmbienceInUseError extends Error {
+  readonly ambienceId: string
+  readonly references: readonly BlockingAmbienceReference[]
+
+  constructor(ambienceId: string, references: readonly BlockingAmbienceReference[]) {
+    super(`氛围 ${ambienceId} 仍被 ${references.length} 处引用，不能删除`)
+    this.name = 'AmbienceInUseError'
+    this.ambienceId = ambienceId
+    this.references = references
+  }
+}
+
+/** 删除未被脚本或运行态引用的氛围；invert 按原索引恢复。 */
+export class DeleteAmbienceCommand implements Command {
+  readonly label = '删除氛围'
+  private removed: { ambience: AmbienceDef; index: number } | undefined
+
+  constructor(
+    private readonly ambienceId: string,
+    private readonly canonicalState: (() => ScriptEditorState | undefined) | undefined = undefined,
+  ) {}
+
+  apply(state: EditorState): EditorState {
+    const ambiences = state.ambiences ?? []
+    const index = ambiences.findIndex((ambience) => ambience.id === this.ambienceId)
+    if (index < 0) return state
+    const canonicalState = this.canonicalState?.()
+    if (this.canonicalState && !canonicalState)
+      throw new Error('删除氛围前无法读取 canonical 脚本引用')
+    const references = blockingAmbienceReferences(state, this.ambienceId, canonicalState)
+    if (references.length) throw new AmbienceInUseError(this.ambienceId, references)
+    if (!this.removed) this.removed = { ambience: structuredClone(ambiences[index]!), index }
+    return {
+      ...state,
+      ambiences: ambiences.filter((_, candidateIndex) => candidateIndex !== index),
+    }
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.removed) return state
+    if ((state.ambiences ?? []).some((ambience) => ambience.id === this.ambienceId))
+      throw new Error(`无法撤销删除：氛围 id 已被占用 ${this.ambienceId}`)
+    const ambiences = [...(state.ambiences ?? [])]
+    ambiences.splice(this.removed.index, 0, structuredClone(this.removed.ambience))
+    return { ...state, ambiences }
   }
 }
 

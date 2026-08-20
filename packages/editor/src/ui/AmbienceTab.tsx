@@ -5,10 +5,29 @@
  * 夜晚缺省值拟合自原版夜盘(R×0.458/G×0.899/B×1.0,见 docs/phase2/ambience-design.md)。
  */
 import type { AmbienceDef } from '@type-pal/content'
-import { useId, useState } from 'react'
-import { AddAmbienceCommand, UpdateAmbienceCommand } from '../core/commands.js'
+import { useId, useRef, useState } from 'react'
+import {
+  type BlockingAmbienceReference,
+  blockingAmbienceReferences,
+} from '../core/ambience-references.js'
+import {
+  AddAmbienceCommand,
+  AmbienceInUseError,
+  DeleteAmbienceCommand,
+  UpdateAmbienceCommand,
+} from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
-import { DsButton, DsDialog, DsListHeader, DsTextField } from './design-system/index.js'
+import type { CanonicalScriptReference, ScriptEditSession } from '../core/script-editor.js'
+import {
+  DsButton,
+  DsDialog,
+  DsIconButton,
+  DsListHeader,
+  DsReferenceList,
+  DsReferencePanel,
+  DsReferenceRow,
+  DsTextField,
+} from './design-system/index.js'
 
 const toHex = (t: readonly [number, number, number]): string =>
   `#${t.map((c) => Math.max(0, Math.min(255, c)).toString(16).padStart(2, '0')).join('')}`
@@ -41,15 +60,25 @@ function NameCell(props: { a: AmbienceDef; session: EditSession }) {
 export function AmbienceTab(props: {
   ambiences: AmbienceDef[]
   session: EditSession
+  script?: { session: ScriptEditSession }
+  onOpenReference?: (reference: CanonicalScriptReference) => void
   tabBar?: React.ReactNode
 }) {
-  const { ambiences, session, tabBar } = props
+  const { ambiences, session, script, onOpenReference, tabBar } = props
   const createFormId = useId()
   const createIdFieldId = useId()
   const [createOpen, setCreateOpen] = useState(false)
   const [createId, setCreateId] = useState('')
   const [createName, setCreateName] = useState('')
   const [createError, setCreateError] = useState('')
+  const [deleteTarget, setDeleteTarget] = useState<{
+    id: string
+    name: string
+    references: BlockingAmbienceReference[]
+  }>()
+  const deleteTriggerRef = useRef<HTMLButtonElement | null>(null)
+  const deleteButtonRefs = useRef(new Map<string, HTMLButtonElement>())
+  const outlinerRef = useRef<HTMLDivElement | null>(null)
 
   const openCreate = () => {
     setCreateId('')
@@ -76,9 +105,57 @@ export function AmbienceTab(props: {
     setCreateOpen(false)
   }
 
+  const beginDelete = (ambience: AmbienceDef, trigger: HTMLButtonElement) => {
+    deleteTriggerRef.current = trigger
+    setDeleteTarget({
+      id: ambience.id,
+      name: ambience.name,
+      references: blockingAmbienceReferences(
+        session.getState(),
+        ambience.id,
+        script?.session.getState(),
+      ),
+    })
+  }
+
+  const closeDelete = () => {
+    setDeleteTarget(undefined)
+    requestAnimationFrame(() => deleteTriggerRef.current?.focus())
+  }
+
+  const confirmDelete = () => {
+    if (!deleteTarget || deleteTarget.references.length) return
+    const targetIndex = ambiences.findIndex((ambience) => ambience.id === deleteTarget.id)
+    const nextFocusId =
+      ambiences[targetIndex + 1]?.id ?? ambiences[targetIndex - 1]?.id ?? undefined
+    try {
+      session.dispatch(
+        new DeleteAmbienceCommand(
+          deleteTarget.id,
+          script ? () => script.session.getState() : undefined,
+        ),
+      )
+      setDeleteTarget(undefined)
+      requestAnimationFrame(() => {
+        const nextDelete = nextFocusId ? deleteButtonRefs.current.get(nextFocusId) : undefined
+        if (nextDelete) nextDelete.focus()
+        else
+          outlinerRef.current
+            ?.querySelector<HTMLButtonElement>('button[aria-label="新建氛围"]')
+            ?.focus()
+        deleteTriggerRef.current = null
+      })
+    } catch (error) {
+      if (!(error instanceof AmbienceInUseError)) throw error
+      setDeleteTarget((current) =>
+        current ? { ...current, references: [...error.references] } : current,
+      )
+    }
+  }
+
   return (
     <>
-      <div className="outliner data-outliner">
+      <div ref={outlinerRef} className="outliner data-outliner">
         {tabBar}
         <DsListHeader
           title="氛围"
@@ -112,6 +189,7 @@ export function AmbienceTab(props: {
                   <th style={{ width: 180 }}>名字</th>
                   <th style={{ width: 130 }}>乘色</th>
                   <th>滤镜预览</th>
+                  <th className="amb-action-column">操作</th>
                 </tr>
               </thead>
               <tbody>
@@ -142,6 +220,19 @@ export function AmbienceTab(props: {
                         <div className="amb-preview-base" />
                         <div className="amb-preview-tint" style={{ background: toHex(a.tint) }} />
                       </div>
+                    </td>
+                    <td className="amb-action-cell">
+                      <DsIconButton
+                        ref={(node) => {
+                          if (node) deleteButtonRefs.current.set(a.id, node)
+                          else deleteButtonRefs.current.delete(a.id)
+                        }}
+                        label={`删除氛围 ${a.name}`}
+                        icon="delete"
+                        variant="danger"
+                        size="compact"
+                        onClick={(event) => beginDelete(a, event.currentTarget)}
+                      />
                     </td>
                   </tr>
                 ))}
@@ -202,6 +293,86 @@ export function AmbienceTab(props: {
             onChange={(event) => setCreateName(event.target.value)}
           />
         </form>
+      </DsDialog>
+      <DsDialog
+        open={Boolean(deleteTarget)}
+        title={`删除氛围“${deleteTarget?.name ?? ''}”？`}
+        description={
+          deleteTarget?.references.length
+            ? `仍有 ${deleteTarget.references.length} 处引用；请先处理引用后再删除。`
+            : '删除后该定义将从氛围表移除；操作可通过撤销恢复。'
+        }
+        onClose={closeDelete}
+        footer={
+          <>
+            <DsButton onClick={closeDelete}>取消</DsButton>
+            <DsButton
+              variant="danger"
+              disabled={!deleteTarget || deleteTarget.references.length > 0}
+              onClick={confirmDelete}
+            >
+              确认删除
+            </DsButton>
+          </>
+        }
+      >
+        {deleteTarget?.references.length ? (
+          <DsReferencePanel
+            className="ambience-delete-references"
+            state="ready"
+            count={{ kind: 'exact', value: deleteTarget.references.length }}
+            impact={{
+              kind: 'blocking',
+              description: '删除会让剧情或运行态中的稳定 ID 失去定义。',
+            }}
+          >
+            <DsReferenceList initialVisibleCount={3}>
+              {deleteTarget.references.map((reference, index) => (
+                <DsReferenceRow
+                  key={`${reference.kind}:${reference.where}:${index}`}
+                  title={reference.label}
+                  path={reference.where}
+                  labels={[
+                    {
+                      label:
+                        reference.kind === 'world-state'
+                          ? '运行态'
+                          : reference.kind === 'toggle-day-night'
+                            ? '昼夜切换'
+                            : '剧情脚本',
+                    },
+                  ]}
+                  action={
+                    reference.locator && onOpenReference
+                      ? {
+                          label: '打开 ↗',
+                          ariaLabel: `打开引用：${reference.label}`,
+                          onActivate: () => {
+                            setDeleteTarget(undefined)
+                            deleteTriggerRef.current = null
+                            onOpenReference(reference.locator!)
+                          },
+                        }
+                      : undefined
+                  }
+                  status={
+                    reference.locator && onOpenReference
+                      ? undefined
+                      : {
+                          label: '暂不可定位',
+                          reason: '当前引用没有可编辑的精确位置。',
+                          tone: 'warning',
+                        }
+                  }
+                />
+              ))}
+            </DsReferenceList>
+          </DsReferencePanel>
+        ) : (
+          <p className="ds-field__help ambience-delete-help">
+            当前未发现脚本、昼夜切换或运行态引用。
+          </p>
+        )}
       </DsDialog>
     </>
   )

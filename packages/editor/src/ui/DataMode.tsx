@@ -359,7 +359,15 @@ export function DataMode(props: {
   }
 
   if (tab === 'ambience') {
-    return <AmbienceTab ambiences={ambiences} session={session} tabBar={tabBar} />
+    return (
+      <AmbienceTab
+        ambiences={ambiences}
+        session={session}
+        script={script}
+        onOpenReference={onOpenCanonicalReference}
+        tabBar={tabBar}
+      />
+    )
   }
 
   if (tab === 'shop') {

@@ -4,11 +4,28 @@ import type { AmbienceDef } from '@type-pal/content'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { AddAmbienceCommand } from '../core/commands.js'
+import { AddAmbienceCommand, DeleteAmbienceCommand } from '../core/commands.js'
 import type { EditorState, EditSession } from '../core/edit-session.js'
+import type { ScriptEditorState, ScriptEditSession } from '../core/script-editor.js'
 import { AmbienceTab } from './AmbienceTab.js'
 
 const day: AmbienceDef = { id: 'day', name: '白天', tint: [255, 255, 255] }
+const review: AmbienceDef = { id: '123', name: '123', tint: [255, 255, 255] }
+
+function editorState(overrides: Partial<EditorState> = {}): EditorState {
+  return {
+    scenes: [],
+    items: [],
+    sharedScripts: {},
+    scriptChunks: {},
+    ambiences: [day, review],
+    ...overrides,
+  } as unknown as EditorState
+}
+
+function sessionFor(state: EditorState, dispatch = vi.fn()): EditSession {
+  return { dispatch, getState: () => state } as unknown as EditSession
+}
 
 function setInputValue(input: HTMLInputElement, value: string) {
   Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set?.call(input, value)
@@ -96,5 +113,97 @@ describe('AmbienceTab creation dialog', () => {
       host.querySelector<HTMLButtonElement>('dialog[open] button:not([aria-label])')?.click()
     })
     expect(dispatch).toHaveBeenCalledTimes(1)
+  })
+
+  test('deletes an unreferenced ambience only after the shared confirmation dialog', async () => {
+    const dispatch = vi.fn()
+    const confirm = vi.spyOn(window, 'confirm')
+    const session = sessionFor(editorState(), dispatch)
+    await act(async () => {
+      root.render(<AmbienceTab ambiences={[day, review]} session={session} />)
+    })
+
+    const trigger = host.querySelector<HTMLButtonElement>('button[aria-label="删除氛围 123"]')!
+    await act(async () => trigger.click())
+
+    const dialog = host.querySelector<HTMLDialogElement>(
+      'dialog[open][aria-label="删除氛围“123”？"]',
+    )!
+    expect(dialog).not.toBeNull()
+    expect(dialog.classList.contains('ds-dialog')).toBe(true)
+    expect(dialog.textContent).toContain('当前未发现脚本、昼夜切换或运行态引用')
+    expect(dispatch).not.toHaveBeenCalled()
+
+    const deleteButton = [...dialog.querySelectorAll<HTMLButtonElement>('button')].find(
+      (button) => button.textContent === '确认删除',
+    )!
+    await act(async () => deleteButton.click())
+    await act(
+      async () =>
+        new Promise<void>((resolve) => {
+          requestAnimationFrame(() => resolve())
+        }),
+    )
+
+    expect(dispatch).toHaveBeenCalledTimes(1)
+    expect(dispatch.mock.calls[0]?.[0]).toBeInstanceOf(DeleteAmbienceCommand)
+    expect(dialog.hasAttribute('open')).toBe(false)
+    expect(document.activeElement).toBe(
+      host.querySelector<HTMLButtonElement>('button[aria-label="删除氛围 白天"]'),
+    )
+    expect(confirm).not.toHaveBeenCalled()
+  })
+
+  test('lists blocking references and keeps deletion disabled', async () => {
+    const dispatch = vi.fn()
+    const openReference = vi.fn()
+    const state = editorState()
+    const scriptState: ScriptEditorState = {
+      scenes: [],
+      items: [],
+      sharedScripts: {
+        'shared/review': {
+          name: '评审脚本',
+          self: 'none',
+          body: [{ kind: 'setAmbience', ambience: '123' }],
+        },
+      },
+    }
+    await act(async () => {
+      root.render(
+        <AmbienceTab
+          ambiences={[day, review]}
+          session={sessionFor(state, dispatch)}
+          script={{
+            session: {
+              getState: () => scriptState,
+            } as unknown as ScriptEditSession,
+          }}
+          onOpenReference={openReference}
+        />,
+      )
+    })
+
+    await act(async () => {
+      host.querySelector<HTMLButtonElement>('button[aria-label="删除氛围 123"]')?.click()
+    })
+
+    const dialog = host.querySelector<HTMLDialogElement>(
+      'dialog[open][aria-label="删除氛围“123”？"]',
+    )!
+    expect(dialog.textContent).toContain('仍有 1 处引用')
+    expect(dialog.textContent).toContain('评审脚本')
+    expect(dialog.querySelector('.ds-reference-panel')).not.toBeNull()
+    const deleteButton = [...dialog.querySelectorAll<HTMLButtonElement>('button')].find(
+      (button) => button.textContent === '确认删除',
+    )!
+    expect(deleteButton.disabled).toBe(true)
+    expect(dispatch).not.toHaveBeenCalled()
+
+    await act(async () => {
+      dialog.querySelector<HTMLButtonElement>('button[aria-label^="打开引用："]')?.click()
+    })
+    expect(openReference).toHaveBeenCalledTimes(1)
+    expect(dialog.hasAttribute('open')).toBe(false)
   })
 })

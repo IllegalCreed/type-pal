@@ -10830,6 +10830,18 @@ button.sprite-frame-cell[draggable="true"]:active {
   gap: var(--ds-space-5);
   margin-block-start: var(--ds-space-5);
 }
+.music-table.amb-table .amb-action-column,
+.music-table.amb-table .amb-action-cell {
+  width: 56px;
+  text-align: right;
+}
+.amb-action-cell > .ds-tooltip {
+  display: inline-flex;
+}
+.ambience-delete-references,
+.ambience-delete-help {
+  margin-block-start: var(--ds-space-5);
+}
 
 /* ── 数据模式中栏滚动容器(2026-07-05 作者:指令手册下面看不到 —— 这三个类此前从未定义,
    内容溢出即裁;grid 行高已 minmax(0,1fr) 约束,列内补滚动) ── */

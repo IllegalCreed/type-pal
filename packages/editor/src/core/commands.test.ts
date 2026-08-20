@@ -20,6 +20,7 @@ import {
   AddSceneCommand,
   AddSpriteCommand,
   AddSpriteDefinitionCommand,
+  AmbienceInUseError,
   BATTLE_FIELDS_PATH,
   BattleDataInUseError,
   BattleFieldInUseError,
@@ -29,6 +30,7 @@ import {
   CreateMapAssetCommand,
   CreateProjectMapCommand,
   CreateScriptSourceCommand,
+  DeleteAmbienceCommand,
   DeleteAssetCommand,
   DeleteAuthoredScriptCommand,
   DeleteBattleFieldCommand,
@@ -81,6 +83,7 @@ import {
 } from './commands.js'
 import { type EditorState, EditSession } from './edit-session.js'
 import { createPlacedEntity, type EntityPlacement } from './entity-placement.js'
+import type { ScriptEditorState } from './script-editor.js'
 import { findSceneEntryReferences } from './script-references.js'
 import { buildBlankProject } from './seed.js'
 
@@ -1824,6 +1827,66 @@ describe('W6 氛围命令(不可变 + invert)', () => {
     expect(s1.ambiences![2]).toEqual({ id: 'dusk', name: '黄昏', tint: [255, 255, 255] })
     expect(cmd.invert(s1).ambiences).toHaveLength(2)
     expect(new AddAmbienceCommand('day', '重复').apply(s0)).toBe(s0)
+  })
+  test('DeleteAmbience:零引用时删除;invert 按原索引恢复且源不变', () => {
+    const s0 = stA()
+    const cmd = new DeleteAmbienceCommand('day')
+    const s1 = cmd.apply(s0)
+    expect(s1.ambiences?.map((ambience) => ambience.id)).toEqual(['night'])
+    expect(s0.ambiences?.map((ambience) => ambience.id)).toEqual(['day', 'night'])
+    expect(cmd.invert(s1).ambiences).toEqual(s0.ambiences)
+  })
+  test('DeleteAmbience:脚本显式引用、昼夜隐式引用和运行态引用均阻断且不改源', () => {
+    const explicit = stA()
+    explicit.sharedScripts = {
+      'shared/review': {
+        name: '评审脚本',
+        self: 'none',
+        body: [{ kind: 'setAmbience', ambience: 'day' }],
+      },
+    }
+    expect(() => new DeleteAmbienceCommand('day').apply(explicit)).toThrow(AmbienceInUseError)
+    expect(explicit.ambiences).toHaveLength(2)
+
+    const implicit = stA()
+    implicit.scriptChunks = {
+      review: {
+        version: 1,
+        id: 'review',
+        scripts: { 'shared/day-night': [{ kind: 'toggleDayNight', ms: 800 }] },
+      },
+    }
+    expect(() => new DeleteAmbienceCommand('night').apply(implicit)).toThrow(/仍被 1 处引用/)
+
+    const runtime = stA()
+    runtime.worlds = [
+      {
+        ambience: 'day',
+        party: [],
+        reserve: [],
+        money: 0,
+        learnedSkills: {},
+        inventory: [],
+      },
+    ]
+    expect(() => new DeleteAmbienceCommand('day').apply(runtime)).toThrow(/仍被 1 处引用/)
+  })
+  test('DeleteAmbience:删除时重读独立脚本会话并阻断尚未投影的引用', () => {
+    const s0 = stA()
+    const canonical: ScriptEditorState = {
+      scenes: [],
+      items: [],
+      sharedScripts: {
+        'shared/live': {
+          name: '实时脚本',
+          self: 'none',
+          body: [{ kind: 'setAmbience', ambience: 'day' }],
+        },
+      },
+    }
+    expect(() => new DeleteAmbienceCommand('day', () => canonical).apply(s0)).toThrow(
+      AmbienceInUseError,
+    )
   })
 })
 
