@@ -11,9 +11,9 @@ import {
   type AmbienceDef,
   type AssetCatalogV1,
   type AssetId,
+  type AuthorDialogueCue,
   type BattleSpriteDef,
   type Command,
-  type AuthorDialogueCue,
   type Facing,
   getScriptBody,
   type Locale,
@@ -65,6 +65,7 @@ import { createScriptReferenceCatalog } from '../core/script-reference-catalog.j
 import { createAuthoredScriptCall } from '../core/shared-script.js'
 import { defaultActionTargetForEntity } from '../core/sprite-actions.js'
 import { CommandForm } from './CommandForm.js'
+import { DsSelect } from './design-system/controls.js'
 import { musicAssets } from './MusicPicker.js'
 import {
   PanelResizeHandle,
@@ -1148,25 +1149,28 @@ export function ScriptDrawer(props: {
                     <span style={{ color: 'var(--faint)', fontSize: 11, alignSelf: 'center' }}>
                       方式
                     </span>
-                    <select
-                      className="in"
-                      style={{ height: 22, fontSize: 12, width: 104, flex: 'none' }}
-                      value={trig.on ?? 'interact'}
-                      onChange={(e) =>
-                        session.dispatch(
-                          new UpdateTriggerModeCommand(
-                            scene.id,
-                            selectedEntityId,
-                            e.target.value as 'interact' | 'touch',
-                            trig.range,
-                            pageIndex,
-                          ),
-                        )
-                      }
-                    >
-                      <option value="interact">交互(空格)</option>
-                      <option value="touch">触碰即发</option>
-                    </select>
+                    <span className="script-drawer-trigger-mode">
+                      <DsSelect
+                        size="compact"
+                        aria-label="触发方式"
+                        value={trig.on ?? 'interact'}
+                        options={[
+                          { value: 'interact', label: '交互（空格）' },
+                          { value: 'touch', label: '触碰即发' },
+                        ]}
+                        onValueChange={(value) =>
+                          session.dispatch(
+                            new UpdateTriggerModeCommand(
+                              scene.id,
+                              selectedEntityId,
+                              value as 'interact' | 'touch',
+                              trig.range,
+                              pageIndex,
+                            ),
+                          )
+                        }
+                      />
+                    </span>
                     <span style={{ color: 'var(--faint)', fontSize: 11, alignSelf: 'center' }}>
                       距离
                     </span>

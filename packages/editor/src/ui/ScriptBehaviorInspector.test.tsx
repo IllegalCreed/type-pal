@@ -10,10 +10,7 @@ import {
   type ScriptEditorState,
   ScriptEditSession,
 } from '../core/script-editor.js'
-import {
-  BehaviorSelectionEditor,
-  ScriptBehaviorInspector,
-} from './ScriptBehaviorInspector.js'
+import { BehaviorSelectionEditor, ScriptBehaviorInspector } from './ScriptBehaviorInspector.js'
 
 const target = { scene: 's001', entity: 'e1' }
 
@@ -418,8 +415,7 @@ describe('BehaviorSelectionEditor', () => {
       />,
     )
     expect(inherit).toContain('继承静态定义')
-    expect(inherit).toContain('不运行脚本')
-    expect(inherit).toContain('初次交谈')
+    expect(inherit).toContain('使用实体页面原本的脚本')
 
     const dangling = renderToStaticMarkup(
       <BehaviorSelectionEditor

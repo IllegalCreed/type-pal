@@ -7,7 +7,6 @@ import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
-import { namedIdChoiceLabel } from './NamedIdPicker.js'
 import { SkillTab } from './SkillTab.js'
 
 vi.mock('./TrancePreview.js', () => ({
@@ -235,9 +234,11 @@ describe('SkillTab · 施法物品成本', () => {
     )
     await act(async () => root.render(<Harness session={session} />))
 
-    expect(host.querySelector<HTMLInputElement>('input[aria-label^="物品（可按名称"]')?.value).toBe(
-      '蛊（148）',
-    )
+    const firstItemPicker = host.querySelector<HTMLButtonElement>(
+      'button[aria-label^="物品（可按名称"]',
+    )!
+    expect(firstItemPicker.textContent).toContain('蛊')
+    expect(firstItemPicker.textContent).toContain('148')
     expect(host.querySelector<HTMLInputElement>('input[aria-label="消耗物品数量 1"]')?.value).toBe(
       '1',
     )
@@ -298,14 +299,16 @@ describe('SkillTab · 施法物品成本', () => {
       ]),
     )
     await act(async () => root.render(<Harness session={session} />))
-    const pickers = host.querySelectorAll<HTMLInputElement>('input[aria-label^="物品（可按名称"]')
-    expect(pickers[0]!.value).toBe('未知物品（missing）')
+    const pickers = host.querySelectorAll<HTMLButtonElement>('button[aria-label^="物品（可按名称"]')
+    expect(pickers[0]!.textContent).toContain('未知物品')
+    expect(pickers[0]!.textContent).toContain('missing')
     expect(pickers[0]!.getAttribute('aria-invalid')).toBe('true')
-    expect(
-      [...host.querySelectorAll('datalist')[0]!.options].map((option) => option.value),
-    ).toEqual(['酒（86）'])
 
-    await setInput(pickers[0]!, namedIdChoiceLabel({ id: '86', name: '酒' }))
+    await act(async () => pickers[0]!.click())
+    const options = [...document.querySelectorAll<HTMLElement>('[role="option"]')]
+    expect(options.map((option) => option.textContent?.trim())).toEqual(['未知物品missing', '酒86'])
+    const wine = options.find((option) => option.textContent?.includes('酒'))!
+    await act(async () => wine.click())
     expect(session.getState().skills[0]!.cost.items?.[0]).toEqual({
       itemId: '86',
       amount: 1,

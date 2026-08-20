@@ -57,4 +57,83 @@ describe('ShopTab shared object workspace', () => {
     await act(async () => helpTab.click())
     expect(host.querySelector('ol.shop-help-steps')?.children).toHaveLength(3)
   })
+
+  test('上架物品使用统一选择控件并可完成入货', async () => {
+    const shops = [{ id: 0, items: [] }]
+    const session = new EditSession({
+      shops,
+      maps: {},
+      mapIndex: { version: 1, maps: [] },
+      assetCatalog: { version: 1, assets: {} },
+      assetBlobs: {},
+    } as unknown as EditorState)
+    const items = [{ id: 'item-a', name: '金创药', buyPrice: 80, sellPrice: 40 }] as never
+
+    await act(async () => {
+      root.render(<ShopTab shops={shops} items={items} session={session} />)
+    })
+
+    expect(host.querySelector('select')).toBeNull()
+    const trigger = host.querySelector<HTMLButtonElement>('.shop-add-stock .ds-select')!
+    expect(trigger.textContent).toContain('选择物品…')
+    await act(async () => trigger.click())
+    const option = [...document.querySelectorAll<HTMLElement>('[role="option"]')].find(
+      (candidate) => candidate.textContent?.includes('金创药'),
+    )!
+    await act(async () => option.click())
+    expect(trigger.textContent).toContain('金创药')
+    expect(trigger.textContent).toContain('买价 80 文')
+
+    const addButton = [...host.querySelectorAll<HTMLButtonElement>('button')].find((candidate) =>
+      candidate.textContent?.includes('上架'),
+    )!
+    expect(addButton.disabled).toBe(false)
+
+    await act(async () => trigger.click())
+    const clear = [...document.querySelectorAll<HTMLElement>('[role="option"]')].find(
+      (candidate) => candidate.textContent?.trim() === '选择物品…',
+    )!
+    await act(async () => clear.click())
+    expect(addButton.disabled).toBe(true)
+
+    await act(async () => trigger.click())
+    const reselect = [...document.querySelectorAll<HTMLElement>('[role="option"]')].find(
+      (candidate) => candidate.textContent?.includes('金创药'),
+    )!
+    await act(async () => reselect.click())
+    await act(async () => addButton.click())
+    expect(session.getState().shops?.[0]?.items).toEqual(['item-a'])
+  })
+
+  test('切换店铺会清空尚未上架的选择', async () => {
+    const shops = [
+      { id: 0, items: [] },
+      { id: 1, items: [] },
+    ]
+    const session = new EditSession({
+      shops,
+      maps: {},
+      mapIndex: { version: 1, maps: [] },
+      assetCatalog: { version: 1, assets: {} },
+      assetBlobs: {},
+    } as unknown as EditorState)
+    const items = [{ id: 'item-a', name: '金创药', buyPrice: 80, sellPrice: 40 }] as never
+
+    await act(async () => {
+      root.render(<ShopTab shops={shops} items={items} session={session} />)
+    })
+    const trigger = host.querySelector<HTMLButtonElement>('.shop-add-stock .ds-select')!
+    await act(async () => trigger.click())
+    const option = [...document.querySelectorAll<HTMLElement>('[role="option"]')].find(
+      (candidate) => candidate.textContent?.includes('金创药'),
+    )!
+    await act(async () => option.click())
+    expect(trigger.textContent).toContain('金创药')
+
+    const secondShop = [...host.querySelectorAll<HTMLButtonElement>('.ds-catalog-row')].find(
+      (candidate) => candidate.textContent?.includes('店 1'),
+    )!
+    await act(async () => secondShop.click())
+    expect(trigger.textContent).toContain('选择物品…')
+  })
 })

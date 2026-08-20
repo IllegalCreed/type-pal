@@ -44,6 +44,7 @@ import {
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
+  DsSelect,
   DsTag,
 } from './design-system/index.js'
 import { FrameAnimationEditor, type FrameAnimationMetadata } from './FrameAnimationEditor.js'
@@ -946,33 +947,35 @@ export function CutsceneTab(props: {
                 onChange={(event) => setImportFps(Number(event.target.value))}
               />
             </label>
-            <label>
-              色彩处理
-              <select
-                className="sel"
+            <div className="cutscene-import-field">
+              <span>色彩处理</span>
+              <DsSelect
+                size="compact"
+                aria-label="导入色彩处理"
                 value={importTreatment}
-                onChange={(event) =>
-                  setImportTreatment(event.target.value as 'preserve' | 'project-standard')
+                options={[
+                  { value: 'preserve', label: '保留原色' },
+                  { value: 'project-standard', label: '贴合工程标准色彩' },
+                ]}
+                onValueChange={(value) =>
+                  setImportTreatment(value as 'preserve' | 'project-standard')
                 }
-              >
-                <option value="preserve">保留原色</option>
-                <option value="project-standard">贴合工程标准色彩</option>
-              </select>
-            </label>
+              />
+            </div>
             {importTreatment === 'project-standard' ? (
-              <label>
-                转换方式
-                <select
-                  className="sel"
+              <div className="cutscene-import-field">
+                <span>转换方式</span>
+                <DsSelect
+                  size="compact"
+                  aria-label="量化方式"
                   value={importQuantization}
-                  onChange={(event) =>
-                    setImportQuantization(event.target.value as FrameQuantization)
-                  }
-                >
-                  <option value="nearest">最近色</option>
-                  <option value="floyd-steinberg">误差扩散</option>
-                </select>
-              </label>
+                  options={[
+                    { value: 'nearest', label: '最近色' },
+                    { value: 'floyd-steinberg', label: '误差扩散' },
+                  ]}
+                  onValueChange={(value) => setImportQuantization(value as FrameQuantization)}
+                />
+              </div>
             ) : null}
             <div className="modal-actions">
               <button

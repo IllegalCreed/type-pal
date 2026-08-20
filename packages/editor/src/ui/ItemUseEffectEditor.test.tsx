@@ -119,6 +119,15 @@ function buttonByText(rootNode: ParentNode, text: string): HTMLButtonElement | u
   )
 }
 
+async function chooseSelect(trigger: HTMLButtonElement, label: string): Promise<void> {
+  await act(async () => trigger.click())
+  const option = [...document.querySelectorAll<HTMLElement>('[role="option"]')].find((candidate) =>
+    candidate.textContent?.includes(label),
+  )
+  if (!option) throw new Error(`找不到选择项：${label}`)
+  await act(async () => option.click())
+}
+
 beforeEach(() => {
   ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
   host = document.createElement('div')
@@ -275,9 +284,8 @@ describe('ItemEffectChainEditor', () => {
         />,
       ),
     )
-    const resourceInput = host.querySelector<HTMLInputElement>(
-      'input[list="item-world-resource-keys"]',
-    )!
+    const resourceInput = host.querySelector<HTMLInputElement>('input[aria-label="资源变量名称"]')!
+    expect(host.querySelector('datalist, input[list]')).toBeNull()
     expect(resourceInput.getAttribute('aria-invalid')).toBe('true')
     await act(async () =>
       resourceInput.dispatchEvent(new FocusEvent('focusout', { bubbles: true })),
@@ -285,6 +293,17 @@ describe('ItemEffectChainEditor', () => {
     expect(onPoolChange).toHaveBeenLastCalledWith(
       expect.objectContaining({
         effects: [expect.objectContaining({ kind: 'drawFromResourcePool', resource: 'pool' })],
+      }),
+    )
+    await chooseSelect(
+      host.querySelector<HTMLButtonElement>('[aria-label="选择已有资源变量"]')!,
+      '内建收妖值',
+    )
+    expect(onPoolChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        effects: [
+          expect.objectContaining({ kind: 'drawFromResourcePool', resource: 'collectValue' }),
+        ],
       }),
     )
   })
@@ -426,6 +445,12 @@ describe('ItemEffectChainEditor', () => {
         entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
         entities: [{ id: 'entity-b', sprite: 'npc-b', pos: { col: 2, row: 2, height: 0 } }],
       },
+      {
+        id: 'scene-empty',
+        mapId: 'map-empty',
+        entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+        entities: [],
+      },
     ]
     await act(async () =>
       root.render(
@@ -447,17 +472,14 @@ describe('ItemEffectChainEditor', () => {
       ),
     )
 
-    const sceneSelect = [...host.querySelectorAll<HTMLSelectElement>('select')].find((candidate) =>
-      [...(candidate.closest('label')?.querySelectorAll('span') ?? [])].some(
-        (label) => label.textContent === '场景',
-      ),
-    )!
+    const sceneSelect = host.querySelector<HTMLButtonElement>('[aria-label="目标场景"]')!
     expect(sceneSelect.textContent).toContain('⚠ missing-scene')
-    await act(async () => {
-      const setter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')!.set!
-      setter.call(sceneSelect, 'scene-b')
-      sceneSelect.dispatchEvent(new Event('change', { bubbles: true }))
-    })
+    await act(async () => sceneSelect.click())
+    const sceneOptions = [...document.querySelectorAll<HTMLElement>('[role="option"]')]
+    const emptyScene = sceneOptions.find((option) => option.textContent?.includes('scene-empty'))!
+    expect(emptyScene.getAttribute('aria-disabled')).toBe('true')
+    const nextScene = sceneOptions.find((option) => option.textContent?.includes('scene-b'))!
+    await act(async () => nextScene.click())
     expect(onChange).toHaveBeenLastCalledWith(
       expect.objectContaining({
         effects: [
@@ -513,17 +535,23 @@ describe('ItemEffectChainEditor', () => {
       ),
     )
 
-    const target = host.querySelector<HTMLSelectElement>('.item-use-options select')!
+    const target = host.querySelector<HTMLButtonElement>('[aria-label="投掷目标"]')!
     expect(target.textContent).toContain('单个敌人')
-    expect(target.textContent).toContain('全体敌人')
-    await act(async () => {
-      target.value = 'allEnemies'
-      target.dispatchEvent(new Event('change', { bubbles: true }))
-    })
+    await act(async () => target.click())
+    expect(document.querySelector('[role="listbox"]')?.textContent).toContain('全体敌人')
+    const allEnemies = [...document.querySelectorAll<HTMLElement>('[role="option"]')].find(
+      (option) => option.textContent?.includes('全体敌人'),
+    )!
+    await act(async () => allEnemies.click())
     expect(onChange).toHaveBeenLastCalledWith(expect.objectContaining({ target: 'allEnemies' }))
 
-    const kind = host.querySelector<HTMLSelectElement>('.item-effect-kind')!
-    expect([...kind.options].map((option) => option.textContent)).toEqual([
+    const kind = host.querySelector<HTMLButtonElement>('[aria-label="效果 1 类型"]')!
+    await act(async () => kind.click())
+    expect(
+      [...document.querySelectorAll<HTMLElement>('[role="option"]')].map(
+        (option) => option.textContent,
+      ),
+    ).toEqual([
       '法术伤害',
       '固定伤害',
       '施毒',
@@ -532,10 +560,10 @@ describe('ItemEffectChainEditor', () => {
       '低血量即死',
       '伤害并回复使用者',
     ])
-    await act(async () => {
-      kind.value = 'magicDamage'
-      kind.dispatchEvent(new Event('change', { bubbles: true }))
-    })
+    const magicDamage = [...document.querySelectorAll<HTMLElement>('[role="option"]')].find(
+      (option) => option.textContent === '法术伤害',
+    )!
+    await act(async () => magicDamage.click())
     expect(host.textContent).toContain('力量来源')
 
     await act(async () => buttonByText(host, '添加效果')!.click())

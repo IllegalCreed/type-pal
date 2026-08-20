@@ -4,7 +4,6 @@ import {
   DsButton,
   DsCard,
   DsCheckbox,
-  DsCombobox,
   DsDiagnosticList,
   DsDiagnosticPanel,
   DsDiagnosticRow,
@@ -213,12 +212,13 @@ function FormMatrix() {
               onValueChange={setActor}
             />
           </DsField>
-          <DsField label="可搜索 Combobox">
-            <DsCombobox
-              label="角色"
+          <DsField label="可搜索 Select">
+            <DsSelect
+              aria-label="角色"
               options={FORM_OPTIONS}
               value={actor}
-              onChange={(value) => setActor(value ?? '')}
+              searchable
+              onValueChange={setActor}
             />
           </DsField>
           <DsField label="多选 MultiSelect">

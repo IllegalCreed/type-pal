@@ -138,9 +138,7 @@ describe('editor design-system static boundary', () => {
     expect(businessCss).toMatch(
       /\.canonical-help-tip\s*>\s*button\s*\{[\s\S]*?width:\s*var\(--ds-control-height-compact\);[\s\S]*?height:\s*var\(--ds-control-height-compact\);[\s\S]*?min-width:\s*var\(--ds-control-height-compact\);[\s\S]*?min-height:\s*var\(--ds-control-height-compact\);[\s\S]*?aspect-ratio:\s*1;/,
     )
-    expect(businessCss).toMatch(
-      /\.canonical-help-tooltip\s*\{[\s\S]*?position:\s*fixed;/,
-    )
+    expect(businessCss).toMatch(/\.canonical-help-tooltip\s*\{[\s\S]*?position:\s*fixed;/)
   })
 
   test('keeps stamp and tileset workspaces on shared object and map editing surfaces', () => {
@@ -199,17 +197,16 @@ describe('editor design-system static boundary', () => {
     expect(count, 'legacy native checkbox occurrences').toBe(11)
   })
 
-  test('does not grow raw form controls while shared primitives replace them', () => {
+  test('does not grow remaining raw form controls while shared primitives replace them', () => {
     const uiRoot = dirname(here)
     const sources = filesUnder(uiRoot).filter(
       (path) =>
         path.endsWith('.tsx') && !path.endsWith('.test.tsx') && !path.includes('/design-system/'),
     )
     const ceilings = {
-      input: 133,
-      select: 65,
+      input: 132,
       textarea: 2,
-      label: 121,
+      label: 79,
     } as const
 
     for (const [tag, ceiling] of Object.entries(ceilings)) {
@@ -222,13 +219,58 @@ describe('editor design-system static boundary', () => {
     }
   })
 
+  test('keeps native browser selection controls out of production editor code', () => {
+    const srcRoot = dirname(dirname(here))
+    const sources = filesUnder(srcRoot).filter(
+      (path) =>
+        (path.endsWith('.ts') || path.endsWith('.tsx')) &&
+        !path.endsWith('.test.ts') &&
+        !path.endsWith('.test.tsx'),
+    )
+
+    for (const path of sources) {
+      const source = readFileSync(path, 'utf8')
+      expect(source, path).not.toMatch(/<select\b/)
+      expect(source, path).not.toMatch(/<datalist\b/)
+      expect(source, path).not.toMatch(/<input\b[^>]*\blist\s*=/s)
+      expect(source, path).not.toMatch(/createElement\(\s*['"](?:select|datalist)['"]/)
+    }
+  })
+
+  test('keeps handcrafted choice popups limited to named visual or canvas interactions', () => {
+    const srcRoot = dirname(dirname(here))
+    const choicePattern =
+      /role=["'](?:combobox|listbox|option)["']|aria-haspopup=["'](?:listbox|dialog)["']/
+    const files = filesUnder(srcRoot).filter(
+      (path) =>
+        path.endsWith('.tsx') && !path.endsWith('.test.tsx') && !path.includes('/design-system/'),
+    )
+    const handcrafted = files
+      .filter((path) => choicePattern.test(readFileSync(path, 'utf8')))
+      .map((path) => path.slice(srcRoot.length + 1))
+      .sort()
+
+    expect(handcrafted).toEqual([
+      'ui/IsometricEditorToolbar.tsx',
+      'ui/ItemTab.tsx',
+      'ui/MapMode.tsx',
+    ])
+  })
+
+  test('keeps all general-purpose choice controls on the shared floating layer', () => {
+    const index = readFileSync(join(here, 'index.ts'), 'utf8')
+    const primitives = readFileSync(join(here, 'primitives.css'), 'utf8')
+    const formScope = readFileSync(join(here, 'form-scope.css'), 'utf8')
+    const multiSelect = readFileSync(join(here, 'multi-select.tsx'), 'utf8')
+    expect(index).not.toContain("'./selection.js'")
+    expect(index).toContain("'./multi-select.js'")
+    expect(`${primitives}\n${formScope}`).not.toMatch(/\.ds-combobox\b/)
+    expect(multiSelect).toContain('<DsFloatingLayer')
+  })
+
   test('keeps the canonical script workbench on design-system controls', () => {
     const uiRoot = dirname(here)
-    for (const file of [
-      'SharedScriptTab.tsx',
-      'ScriptEditor.tsx',
-      'CommandForm.tsx',
-    ]) {
+    for (const file of ['SharedScriptTab.tsx', 'ScriptEditor.tsx', 'CommandForm.tsx']) {
       const source = readFileSync(join(uiRoot, file), 'utf8')
       expect(source, file).not.toMatch(/<(?:button|input|select|textarea)\b/)
       expect(source, `${file} legacy control token`).not.toMatch(
@@ -245,6 +287,7 @@ describe('editor design-system static boundary', () => {
       'PoisonTab.tsx',
       'BattleFieldTab.tsx',
       'ActorMode.tsx',
+      'ShopTab.tsx',
     ]
 
     for (const file of migratedWorkspaces) {
@@ -585,7 +628,7 @@ describe('editor design-system static boundary', () => {
       ['BattleSpritePicker.tsx', /<DsSelect\b/, /<DsControlGroup\b/],
       ['BattleFieldPicker.tsx', /<DsSelect\b/, /<DsControlGroup\b/],
       ['ImageAssetPicker.tsx', /<DsSelect\b/, /<DsControlGroup\b/],
-      ['NamedIdPicker.tsx', /<DsTextInput\b/],
+      ['NamedIdPicker.tsx', /<DsSelect\b/, /\bsearchable\b/],
       ['FireEffectPreview.tsx', /<DsSelect\b/, /size="compact"/],
     ] as const
 

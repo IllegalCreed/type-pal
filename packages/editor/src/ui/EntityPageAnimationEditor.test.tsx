@@ -65,11 +65,12 @@ describe('EntityPageAnimationEditor', () => {
     await act(async () => enabled.click())
     expect(changes.at(-1)).toEqual({ sprite: 'sprite-77', action: 'loop', loop: true })
 
-    const select = host.querySelector<HTMLSelectElement>('[aria-label="页面默认动作"]')!
-    await act(async () => {
-      select.value = 'late'
-      select.dispatchEvent(new Event('change', { bubbles: true }))
-    })
+    const select = host.querySelector<HTMLButtonElement>('[aria-label="页面默认动作"]')!
+    await act(async () => select.click())
+    const late = [...document.querySelectorAll<HTMLElement>('[role="option"]')].find((option) =>
+      option.textContent?.includes('后动作'),
+    )!
+    await act(async () => late.click())
     expect(changes.at(-1)).toEqual({ sprite: 'sprite-77', action: 'late', loop: false })
 
     const loop = host.querySelectorAll<HTMLInputElement>('input[type="checkbox"]')[1]!
@@ -104,6 +105,9 @@ describe('EntityPageAnimationEditor', () => {
     )
     expect(host.textContent).toContain('wrong/missing（引用失效）')
     expect(host.textContent).toContain('不匹配')
-    expect(host.querySelector<HTMLButtonElement>('button')?.disabled).toBe(true)
+    const openAction = [...host.querySelectorAll<HTMLButtonElement>('button')].find((button) =>
+      button.textContent?.includes('打开动作'),
+    )!
+    expect(openAction.disabled).toBe(true)
   })
 })

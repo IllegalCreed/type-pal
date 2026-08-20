@@ -13,7 +13,7 @@ import { lookupText } from '@type-pal/content'
 import { useState } from 'react'
 import { UpdateActorCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
-import { DsSequenceIndex } from './design-system/index.js'
+import { DsSelect, DsSequenceIndex } from './design-system/index.js'
 
 export type CasualtySlot = 'friendDeath' | 'dying'
 
@@ -31,10 +31,7 @@ const STAT_OPTIONS = [
   { value: 'luck', label: '吉运' },
 ] as const
 
-const SLOT_META: Record<
-  CasualtySlot,
-  { label: string; description: string }
-> = {
+const SLOT_META: Record<CasualtySlot, { label: string; description: string }> = {
   friendDeath: {
     label: '队友阵亡时',
     description: '队伍中其他角色阵亡后触发',
@@ -235,10 +232,7 @@ export function CasualtyEditor(props: {
                         onChange={(event) =>
                           setGateChance(
                             index,
-                            Math.max(
-                              1,
-                              Math.min(100, Math.trunc(Number(event.target.value) || 1)),
-                            ),
+                            Math.max(1, Math.min(100, Math.trunc(Number(event.target.value) || 1))),
                           )
                         }
                       />
@@ -312,7 +306,9 @@ function BranchEditor(props: {
           <span>当前编辑</span>
           <h3>{header}</h3>
         </div>
-        <p>{branch.lines.length} 条台词 · {branch.effects.length} 个效果</p>
+        <p>
+          {branch.lines.length} 条台词 · {branch.effects.length} 个效果
+        </p>
       </header>
 
       <section className="casualty-content-section">
@@ -321,13 +317,13 @@ function BranchEditor(props: {
             <span>演出内容</span>
             <h4>台词</h4>
           </div>
-        <button
-          type="button"
-          className="mini-txt"
-          onClick={() => setLines([...branch.lines, { text: '', style: 'bottom' }])}
-        >
-          ＋ 台词
-        </button>
+          <button
+            type="button"
+            className="mini-txt"
+            onClick={() => setLines([...branch.lines, { text: '', style: 'bottom' }])}
+          >
+            ＋ 台词
+          </button>
         </header>
         <div className="casualty-item-list">
           {branch.lines.map((line, index) => (
@@ -359,32 +355,27 @@ function BranchEditor(props: {
                     }
                   />
                 </label>
-                <label>
+                <div className="casualty-field">
                   <span>显示方式</span>
-                  <select
-                    className="in"
+                  <DsSelect
+                    size="compact"
+                    aria-label={`第 ${index + 1} 条台词样式`}
                     value={line.style}
-                    onChange={(event) =>
+                    options={STYLE_OPTIONS}
+                    onValueChange={(value) =>
                       setLines(
                         branch.lines.map((item, i) =>
                           i === index
                             ? {
                                 ...item,
-                                style: event.target
-                                  .value as CasualtyBranch['lines'][number]['style'],
+                                style: value as CasualtyBranch['lines'][number]['style'],
                               }
                             : item,
                         ),
                       )
                     }
-                  >
-                    {STYLE_OPTIONS.map((style) => (
-                      <option key={style.value} value={style.value}>
-                        {style.label}
-                      </option>
-                    ))}
-                  </select>
-                </label>
+                  />
+                </div>
               </div>
               <div className="casualty-dialog-preview">
                 <span>预览</span>
@@ -404,13 +395,13 @@ function BranchEditor(props: {
             <span>状态变化</span>
             <h4>效果</h4>
           </div>
-        <button
-          type="button"
-          className="mini-txt"
-          onClick={() => setEffects([...branch.effects, { kind: 'heal', resource: 'hp' }])}
-        >
-          ＋ 效果
-        </button>
+          <button
+            type="button"
+            className="mini-txt"
+            onClick={() => setEffects([...branch.effects, { kind: 'heal', resource: 'hp' }])}
+          >
+            ＋ 效果
+          </button>
         </header>
         <div className="casualty-item-list">
           {branch.effects.map((effect, index) => (
@@ -427,13 +418,17 @@ function BranchEditor(props: {
                 </button>
               </header>
               <div className="casualty-effect-fields">
-                <label>
+                <div className="casualty-field">
                   <span>效果类型</span>
-                  <select
-                    className="in"
+                  <DsSelect
+                    size="compact"
+                    aria-label={`第 ${index + 1} 个效果类型`}
                     value={effect.kind}
-                    onChange={(event) => {
-                      const kind = event.target.value
+                    options={[
+                      { value: 'heal', label: '恢复资源' },
+                      { value: 'tempStatBuff', label: '临时属性增益' },
+                    ]}
+                    onValueChange={(kind) => {
                       setEffects(
                         branch.effects.map((item, i) =>
                           i === index
@@ -444,58 +439,51 @@ function BranchEditor(props: {
                         ),
                       )
                     }}
-                  >
-                    <option value="heal">恢复资源</option>
-                    <option value="tempStatBuff">临时属性增益</option>
-                  </select>
-                </label>
+                  />
+                </div>
                 {effect.kind === 'heal' ? (
-                  <label>
+                  <div className="casualty-field">
                     <span>恢复对象</span>
-                    <select
-                      className="in"
+                    <DsSelect
+                      size="compact"
+                      aria-label={`第 ${index + 1} 个效果恢复资源`}
                       value={effect.resource}
-                      onChange={(event) =>
+                      options={[
+                        { value: 'hp', label: '体力' },
+                        { value: 'mp', label: '真气' },
+                      ]}
+                      onValueChange={(value) =>
                         setEffects(
                           branch.effects.map((item, i) =>
-                            i === index
-                              ? { ...item, resource: event.target.value as 'hp' | 'mp' }
-                              : item,
+                            i === index ? { ...item, resource: value as 'hp' | 'mp' } : item,
                           ),
                         )
                       }
-                    >
-                      <option value="hp">体力</option>
-                      <option value="mp">真气</option>
-                    </select>
-                  </label>
+                    />
+                  </div>
                 ) : (
                   <>
-                    <label>
+                    <div className="casualty-field">
                       <span>增益属性</span>
-                      <select
-                        className="in"
+                      <DsSelect
+                        size="compact"
+                        aria-label={`第 ${index + 1} 个效果增益属性`}
                         value={effect.stat}
-                        onChange={(event) =>
+                        options={STAT_OPTIONS}
+                        onValueChange={(value) =>
                           setEffects(
                             branch.effects.map((item, i) =>
                               i === index
                                 ? {
                                     ...item,
-                                    stat: event.target.value as (typeof STAT_OPTIONS)[number]['value'],
+                                    stat: value as (typeof STAT_OPTIONS)[number]['value'],
                                   }
                                 : item,
                             ),
                           )
                         }
-                      >
-                        {STAT_OPTIONS.map((stat) => (
-                          <option key={stat.value} value={stat.value}>
-                            {stat.label}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
+                      />
+                    </div>
                     <label>
                       <span>提升比例</span>
                       <span className="casualty-percent-input">

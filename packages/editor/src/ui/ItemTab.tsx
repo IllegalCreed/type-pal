@@ -55,16 +55,15 @@ import {
   type ItemReference,
   itemReferenceMap,
 } from '../core/item-references.js'
-import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import {
   AddItemPrivateScriptCommand,
   type ScriptEditorState,
   type ScriptEditSession,
   SetItemPrivateScriptBodyCommand,
 } from '../core/script-editor.js'
+import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import { createAuthoredScriptId } from '../core/shared-script.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
-import type { CanonicalScriptEditorContext } from './ScriptEditor.js'
 import {
   DsButton,
   DsCatalogControls,
@@ -93,6 +92,7 @@ import {
   type ItemScriptOption,
   ThrowEffectChainEditor,
 } from './ItemUseEffectEditor.js'
+import type { CanonicalScriptEditorContext } from './ScriptEditor.js'
 import { SkillAnimationEditor } from './SkillAnimationEditor.js'
 import { SoundPicker } from './SoundPicker.js'
 
@@ -204,20 +204,16 @@ function EquipEffectFields(props: {
     case 'statBonus':
       return (
         <>
-          <label>
+          <div>
             <span>属性</span>
-            <select
-              className="in"
+            <DsSelect
+              size="compact"
+              aria-label="装备属性"
               value={e.stat}
-              onChange={(ev) => on({ ...e, stat: ev.target.value as CombatStat })}
-            >
-              {STATS.map((s) => (
-                <option key={s.v} value={s.v}>
-                  {s.label}
-                </option>
-              ))}
-            </select>
-          </label>
+              options={STATS.map((stat) => ({ value: stat.v, label: stat.label }))}
+              onValueChange={(value) => on({ ...e, stat: value as CombatStat })}
+            />
+          </div>
           <label>
             <span>加/减</span>
             <Num v={e.delta} on={(n) => on({ ...e, delta: n })} />
@@ -227,17 +223,19 @@ function EquipEffectFields(props: {
     case 'maxPool':
       return (
         <>
-          <label>
+          <div>
             <span>池</span>
-            <select
-              className="in"
+            <DsSelect
+              size="compact"
+              aria-label="装备上限池"
               value={e.pool}
-              onChange={(ev) => on({ ...e, pool: ev.target.value as 'hp' | 'mp' })}
-            >
-              <option value="hp">体力上限</option>
-              <option value="mp">真气上限</option>
-            </select>
-          </label>
+              options={[
+                { value: 'hp', label: '体力上限' },
+                { value: 'mp', label: '真气上限' },
+              ]}
+              onValueChange={(value) => on({ ...e, pool: value as 'hp' | 'mp' })}
+            />
+          </div>
           <label>
             <span>加/减</span>
             <Num v={e.delta} on={(n) => on({ ...e, delta: n })} />
@@ -247,20 +245,19 @@ function EquipEffectFields(props: {
     case 'resistance':
       return (
         <>
-          <label>
+          <div>
             <span>五灵/毒</span>
-            <select
-              className="in"
+            <DsSelect
+              size="compact"
+              aria-label="装备抗性类型"
               value={e.element}
-              onChange={(ev) => on({ ...e, element: ev.target.value as ResElem })}
-            >
-              {RES_ELEMS.map((r) => (
-                <option key={r.v} value={r.v}>
-                  {r.label}
-                </option>
-              ))}
-            </select>
-          </label>
+              options={RES_ELEMS.map((element) => ({
+                value: element.v,
+                label: element.label,
+              }))}
+              onValueChange={(value) => on({ ...e, element: value as ResElem })}
+            />
+          </div>
           <label>
             <span>抗 %</span>
             <Num v={e.percent} on={(n) => on({ ...e, percent: n })} />
@@ -269,38 +266,37 @@ function EquipEffectFields(props: {
       )
     case 'grantStatus':
       return (
-        <label>
+        <div>
           <span>状态</span>
-          <select
-            className="in"
+          <DsSelect
+            size="compact"
+            aria-label="装备常驻状态"
             value={e.status}
-            onChange={(ev) => on({ ...e, status: ev.target.value as StatusId })}
-          >
-            {STATUSES.map((s) => (
-              <option key={s.v} value={s.v}>
-                {s.label}
-              </option>
-            ))}
-          </select>
-        </label>
+            options={STATUSES.map((status) => ({ value: status.v, label: status.label }))}
+            onValueChange={(value) => on({ ...e, status: value as StatusId })}
+          />
+        </div>
       )
     case 'grantSkill':
       return (
-        <label>
+        <div>
           <span>技能</span>
-          <select
-            className="in"
+          <DsSelect
+            size="compact"
+            aria-label="装备授予技能"
             value={e.skillId}
-            onChange={(ev) => on({ ...e, skillId: ev.target.value })}
-          >
-            <option value="">(选技能)</option>
-            {skills.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.name}
-              </option>
-            ))}
-          </select>
-        </label>
+            placeholder="选择技能…"
+            options={[
+              { value: '', label: '未选择技能' },
+              ...skills.map((skill) => ({
+                value: skill.id,
+                label: skill.name,
+                description: skill.id,
+              })),
+            ]}
+            onValueChange={(value) => on({ ...e, skillId: value })}
+          />
+        </div>
       )
     case 'regenHp':
     case 'regenMp':
@@ -980,9 +976,7 @@ export function ItemTab(props: {
   /** 新建私有脚本是一个跨 session 作者事务；正文与 shell ref 必须成对撤销/重做。 */
   const addPrivateScript = (): void => {
     if (!item || !script) return
-    const storedItem = script.session
-      .getState()
-      .items.find((candidate) => candidate.id === item.id)
+    const storedItem = script.session.getState().items.find((candidate) => candidate.id === item.id)
     const exists = (storedItem?.use?.effects ?? []).some(
       (effect) => effect.kind === 'itemPrivateScript',
     )
@@ -1454,22 +1448,20 @@ export function ItemTab(props: {
                 {equip ? (
                   <div className="item-capability-body">
                     <div className="item-equip-options">
-                      <label className="item-field">
+                      <div className="item-field">
                         <span>槽位</span>
-                        <select
-                          className="in"
+                        <DsSelect
+                          aria-label="装备槽位"
                           value={equip.slot}
-                          onChange={(event) =>
-                            patchEquip({ ...equip, slot: event.target.value as EquipSlot })
+                          options={SLOTS.map((slot) => ({
+                            value: slot.v,
+                            label: slot.label,
+                          }))}
+                          onValueChange={(value) =>
+                            patchEquip({ ...equip, slot: value as EquipSlot })
                           }
-                        >
-                          {SLOTS.map((slot) => (
-                            <option key={slot.v} value={slot.v}>
-                              {slot.label}
-                            </option>
-                          ))}
-                        </select>
-                      </label>
+                        />
+                      </div>
                       <fieldset className="item-character-checks">
                         <legend>可装备角色</legend>
                         {actors
@@ -1530,41 +1522,37 @@ export function ItemTab(props: {
                           }`}
                           key={`${item.id}-equip-${index}`}
                         >
-                          <select
-                            className="in ef-kind"
-                            aria-label={`装备效果 ${index + 1} 类型`}
-                            value={effect.kind}
-                            onChange={(event) => {
-                              try {
-                                setEquipEffect(
-                                  index,
-                                  defaultEquipEffect(event.target.value as EquipEffect['kind']),
-                                )
-                                onStatusNotice?.(undefined)
-                              } catch (cause) {
-                                onStatusNotice?.({
-                                  kind: 'error',
-                                  message: cause instanceof Error ? cause.message : String(cause),
-                                })
-                              }
-                            }}
-                          >
-                            {EFFECT_KINDS.map((kind) => (
-                              <option
-                                key={kind.v}
-                                value={kind.v}
-                                disabled={
+                          <div className="ef-kind">
+                            <DsSelect
+                              size="compact"
+                              aria-label={`装备效果 ${index + 1} 类型`}
+                              value={effect.kind}
+                              options={EFFECT_KINDS.map((kind) => ({
+                                value: kind.v,
+                                label: kind.label,
+                                disabled:
                                   kind.v === 'battleSprite' &&
                                   effect.kind !== 'battleSprite' &&
                                   equip.effects.some(
                                     (candidate) => candidate.kind === 'battleSprite',
+                                  ),
+                              }))}
+                              onValueChange={(value) => {
+                                try {
+                                  setEquipEffect(
+                                    index,
+                                    defaultEquipEffect(value as EquipEffect['kind']),
                                   )
+                                  onStatusNotice?.(undefined)
+                                } catch (cause) {
+                                  onStatusNotice?.({
+                                    kind: 'error',
+                                    message: cause instanceof Error ? cause.message : String(cause),
+                                  })
                                 }
-                              >
-                                {kind.label}
-                              </option>
-                            ))}
-                          </select>
+                              }}
+                            />
+                          </div>
                           <div className="ef-fields">
                             <EquipEffectFields
                               e={effect}

@@ -8,6 +8,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import type { ProjectMapPatch } from '../core/map-patch.js'
 import type { MapSelection } from '../core/map-selection.js'
 import { summarizeMapSelection } from '../core/map-selection.js'
+import { DsSelect } from './design-system/controls.js'
 import { MapContentSelectionPreview } from './MapContentSelectionPreview.js'
 
 export interface MapSelectionInspectorProps {
@@ -352,23 +353,18 @@ export function MapSelectionInspector(props: MapSelectionInspectorProps) {
         </div>
         <div className="field map-selection-field">
           <span className="field-label">移到层</span>
-          <select
-            className="in"
+          <DsSelect
             value={effectiveTargetLayerId}
             aria-label="选区目标图层"
             disabled={writeDisabled || summary.visualInstanceCount === 0}
-            onChange={(event) => setTargetLayerId(event.target.value)}
-          >
-            {map.layers.map((layer) => (
-              <option
-                key={layer.id}
-                value={layer.id}
-                disabled={hiddenLayerIds.has(layer.id) || lockedLayerIds.has(layer.id)}
-              >
-                {layer.name}
-              </option>
-            ))}
-          </select>
+            options={map.layers.map((layer) => ({
+              value: layer.id,
+              label: layer.name,
+              description: layer.id,
+              disabled: hiddenLayerIds.has(layer.id) || lockedLayerIds.has(layer.id),
+            }))}
+            onValueChange={setTargetLayerId}
+          />
         </div>
         <button
           type="button"

@@ -479,27 +479,27 @@ export function SpriteActionEditor(props: {
                     {(step.cues ?? []).map((cue, cueIndex) => (
                       <label key={`${cueIndex}:${cue.asset}`}>
                         音效
-                        <select
-                          className="in"
+                        <DsSelect
+                          size="compact"
+                          aria-label={`第 ${index + 1} 步第 ${cueIndex + 1} 个音效`}
                           value={cue.asset}
-                          onChange={(event) =>
+                          options={sounds.map(([asset, record]) => ({
+                            value: asset,
+                            label: record.label ?? asset,
+                            description: asset,
+                          }))}
+                          onValueChange={(value) =>
                             updateAction((current) => ({
                               ...current,
                               steps: current.steps.map((candidate, position) => {
                                 if (position !== index) return candidate
                                 const cues = [...(candidate.cues ?? [])]
-                                cues[cueIndex] = { kind: 'sound', asset: event.target.value }
+                                cues[cueIndex] = { kind: 'sound', asset: value }
                                 return { ...candidate, cues }
                               }),
                             }))
                           }
-                        >
-                          {sounds.map(([asset, record]) => (
-                            <option key={asset} value={asset}>
-                              {record.label ?? asset}
-                            </option>
-                          ))}
-                        </select>
+                        />
                         <button
                           type="button"
                           className="tool icon-only danger-action"

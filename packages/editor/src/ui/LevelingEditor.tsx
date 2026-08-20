@@ -7,6 +7,7 @@
 import type { ActorDef, LevelUpSkill, SkillDataMap } from '@type-pal/content'
 import { UpdateLevelUpCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import { DsSelect } from './design-system/controls.js'
 
 export function LevelingEditor(props: {
   actor: ActorDef & { battler: NonNullable<ActorDef['battler']> }
@@ -60,22 +61,25 @@ export function LevelingEditor(props: {
             }}
             onWheel={(e) => e.currentTarget.blur()}
           />
-          <select
-            className="in"
+          <DsSelect
+            aria-label={`等级 ${r.level} 学习的技能`}
             value={r.skillId}
-            onChange={(e) => {
+            options={[
+              ...(!skillIds.includes(r.skillId)
+                ? [{ value: r.skillId, label: `${r.skillId}（缺失）` }]
+                : []),
+              ...skillIds.map((skillId) => ({
+                value: skillId,
+                label: skills[skillId]?.name ?? skillId,
+                description: skillId,
+              })),
+            ]}
+            onValueChange={(value) => {
               const rows = [...levelUpRows]
-              rows[i] = { ...r, skillId: e.target.value }
+              rows[i] = { ...r, skillId: value }
               dispatchRows(rows)
             }}
-          >
-            {!skillIds.includes(r.skillId) && <option value={r.skillId}>{r.skillId} (缺)</option>}
-            {skillIds.map((sid) => (
-              <option key={sid} value={sid}>
-                {skills[sid]?.name ?? sid}
-              </option>
-            ))}
-          </select>
+          />
           <button
             type="button"
             className="mini"

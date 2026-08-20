@@ -9,8 +9,8 @@ import { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
 import type { ItemReference } from '../core/item-references.js'
-import { projectActiveScriptEditorState } from '../core/script-editor-projection.js'
 import { type ScriptEditorState, ScriptEditSession } from '../core/script-editor.js'
+import { projectActiveScriptEditorState } from '../core/script-editor-projection.js'
 import { ItemTab } from './ItemTab.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 
@@ -503,10 +503,13 @@ describe('ItemTab', () => {
         (option) => option.textContent === '不覆写',
       ),
     ).toBeDefined()
-    const otherEffectKind = host.querySelectorAll<HTMLSelectElement>('.ef-kind')[1]!
-    expect(
-      [...otherEffectKind.options].find((option) => option.value === 'battleSprite')?.disabled,
-    ).toBe(true)
+    const otherEffectKind = host.querySelector<HTMLButtonElement>('[aria-label="装备效果 2 类型"]')!
+    await act(async () => otherEffectKind.click())
+    const disabledBattleSprite = [
+      ...document.querySelectorAll<HTMLElement>('[role="option"]'),
+    ].find((option) => option.textContent?.includes('战斗形象覆写'))!
+    expect(disabledBattleSprite.getAttribute('aria-disabled')).toBe('true')
+    await act(async () => otherEffectKind.click())
 
     await chooseComboboxOption(heroPicker, '灵儿战斗形象 · fighter-mage')
     expect(session.getState().items[0]?.equip?.effects[0]).toEqual({

@@ -59,6 +59,7 @@ import {
   DsReferencePanel,
   DsReferenceRow,
   DsSelect,
+  DsSelectField,
   DsSequenceIndex,
   DsTabs,
   DsTag,
@@ -1298,18 +1299,16 @@ export function BattleSpriteLibrary(props: {
                   onChange={(event) => setUploadLabel(event.target.value)}
                 />
               </label>
-              <label>
-                <span>用途</span>
-                <select
-                  className="in"
-                  value={uploadKind}
-                  onChange={(event) => setUploadKind(event.target.value as BattleSpriteProfileKind)}
-                >
-                  <option value="player-fighter">玩家战斗</option>
-                  <option value="enemy">敌人</option>
-                  <option value="summon">召唤现身</option>
-                </select>
-              </label>
+              <DsSelectField
+                label="用途"
+                value={uploadKind}
+                options={[
+                  { value: 'player-fighter', label: '玩家战斗' },
+                  { value: 'enemy', label: '敌人' },
+                  { value: 'summon', label: '召唤现身' },
+                ]}
+                onValueChange={(value) => setUploadKind(value as BattleSpriteProfileKind)}
+              />
               <BattleSpriteUploader
                 assetBase={props.assetBase}
                 onApply={async (bytes, frameCount) => {

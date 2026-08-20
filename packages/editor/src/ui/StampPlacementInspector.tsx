@@ -1,6 +1,11 @@
 import type { ProjectMap, StampTemplate } from '@type-pal/content'
 import type { StampLayerMapping, StampPlacementPlan } from '../core/stamp-placement.js'
-import { DsDiagnosticList, DsDiagnosticPanel, DsDiagnosticRow } from './design-system/index.js'
+import {
+  DsDiagnosticList,
+  DsDiagnosticPanel,
+  DsDiagnosticRow,
+  DsSelect,
+} from './design-system/index.js'
 
 function refLabel(ref: { row: number; col: number; layerId?: string }): string {
   return `${ref.layerId ? `${ref.layerId} · ` : ''}r${ref.row}:c${ref.col}`
@@ -88,28 +93,33 @@ export function StampPlacementInspector(props: {
             !lockedLayerIds.has(activeLayer.id)
           return (
             <div key={slot.id} className={issueSlots.has(slot.id) ? 'invalid' : ''}>
-              <label>
+              <div className="stamp-mapping-field">
                 <span>
                   <strong>{slot.name}</strong>
                   <small>{slot.id}</small>
                 </span>
-                <select
-                  className="in"
+                <DsSelect
                   value={mapping?.targetLayerId ?? ''}
-                  aria-invalid={issueSlots.has(slot.id)}
+                  invalid={issueSlots.has(slot.id)}
                   aria-label={`${slot.name} 的目标图层`}
-                  onChange={(event) => onMapSlot(slot.id, event.target.value)}
-                >
-                  <option value="">请选择目标层…</option>
-                  {map.layers.map((layer) => (
-                    <option key={layer.id} value={layer.id}>
-                      {layer.name} · {layer.id}
-                      {hiddenLayerIds.has(layer.id) ? ' · 已隐藏' : ''}
-                      {lockedLayerIds.has(layer.id) ? ' · 已锁定' : ''}
-                    </option>
-                  ))}
-                </select>
-              </label>
+                  placeholder="请选择目标层…"
+                  options={[
+                    { value: '', label: '未映射' },
+                    ...map.layers.map((layer) => ({
+                      value: layer.id,
+                      label: layer.name,
+                      description: [
+                        layer.id,
+                        hiddenLayerIds.has(layer.id) ? '已隐藏' : '',
+                        lockedLayerIds.has(layer.id) ? '已锁定' : '',
+                      ]
+                        .filter(Boolean)
+                        .join(' · '),
+                    })),
+                  ]}
+                  onValueChange={(value) => onMapSlot(slot.id, value)}
+                />
+              </div>
               <button
                 type="button"
                 className="mini"

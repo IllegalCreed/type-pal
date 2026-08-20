@@ -6,6 +6,7 @@ import {
   InsertEntityLifecycleCommand,
   UpdateEntityLifecycleCommand,
 } from '../core/lifecycle-command-editor.js'
+import { DsSelect } from './design-system/controls.js'
 
 function isLifecycleCommand(value: unknown): value is EntityLifecycleCommand {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return false
@@ -43,11 +44,7 @@ export function LifecycleCommandPanel(props: {
   entityId: string
 }) {
   const state = props.session.getState()
-  const bodies = collectEntityLifecycleCommandBodies(
-    state,
-    props.sceneId,
-    props.entityId,
-  )
+  const bodies = collectEntityLifecycleCommandBodies(state, props.sceneId, props.entityId)
   const dispatchUpdate = (
     location: (typeof bodies)[number]['location'],
     index: number,
@@ -80,15 +77,11 @@ export function LifecycleCommandPanel(props: {
                   type="button"
                   onClick={() =>
                     props.session.dispatch(
-                      new InsertEntityLifecycleCommand(
-                        body.location,
-                        body.commands.length,
-                        {
-                          kind: 'suspendEntity',
-                          target: { scene: props.sceneId, entity: props.entityId },
-                          ticks: 15,
-                        },
-                      ),
+                      new InsertEntityLifecycleCommand(body.location, body.commands.length, {
+                        kind: 'suspendEntity',
+                        target: { scene: props.sceneId, entity: props.entityId },
+                        ticks: 15,
+                      }),
                     )
                   }
                 >
@@ -99,42 +92,42 @@ export function LifecycleCommandPanel(props: {
                 <p className="hint">此正文暂无生命周期叶命令。</p>
               ) : null}
               {lifecycleRows.map(({ command, index }) => {
-                const targetScene = state.scenes.find(
-                  (scene) => scene.id === command.target.scene,
-                )
+                const targetScene = state.scenes.find((scene) => scene.id === command.target.scene)
                 return (
                   <div className="lifecycle-command-row" key={index}>
                     <div className="field">
                       <span className="field-label">动作</span>
-                      <select
-                        className="in"
+                      <DsSelect
+                        size="compact"
+                        aria-label={`第 ${index + 1} 条生命周期指令类型`}
                         value={command.kind}
-                        onChange={(event) =>
+                        options={[
+                          { value: 'suspendEntity', label: '短暂暂停自动行为' },
+                          { value: 'hideEntity', label: '隐藏后离屏重现' },
+                          { value: 'restoreEntity', label: '立即恢复' },
+                          { value: 'removeEntity', label: '永久移除' },
+                        ]}
+                        onValueChange={(value) =>
                           dispatchUpdate(
                             body.location,
                             index,
-                            withKind(
-                              command,
-                              event.target.value as EntityLifecycleCommand['kind'],
-                            ),
+                            withKind(command, value as EntityLifecycleCommand['kind']),
                           )
                         }
-                      >
-                        <option value="suspendEntity">短暂暂停自动行为</option>
-                        <option value="hideEntity">隐藏后离屏重现</option>
-                        <option value="restoreEntity">立即恢复</option>
-                        <option value="removeEntity">永久移除</option>
-                      </select>
+                      />
                     </div>
                     <div className="field">
                       <span className="field-label">目标场景</span>
-                      <select
-                        className="in"
+                      <DsSelect
+                        size="compact"
+                        aria-label={`第 ${index + 1} 条生命周期指令目标场景`}
                         value={command.target.scene}
-                        onChange={(event) => {
-                          const scene = state.scenes.find(
-                            (candidate) => candidate.id === event.target.value,
-                          )
+                        options={state.scenes.map((scene) => ({
+                          value: scene.id,
+                          label: scene.id,
+                        }))}
+                        onValueChange={(value) => {
+                          const scene = state.scenes.find((candidate) => candidate.id === value)
                           const entity = scene?.entities[0]
                           if (!scene || !entity) return
                           dispatchUpdate(body.location, index, {
@@ -142,35 +135,28 @@ export function LifecycleCommandPanel(props: {
                             target: { scene: scene.id, entity: entity.id },
                           })
                         }}
-                      >
-                        {state.scenes.map((scene) => (
-                          <option key={scene.id} value={scene.id}>
-                            {scene.id}
-                          </option>
-                        ))}
-                      </select>
+                      />
                     </div>
                     <div className="field">
                       <span className="field-label">目标实体</span>
-                      <select
-                        className="in"
+                      <DsSelect
+                        size="compact"
+                        aria-label={`第 ${index + 1} 条生命周期指令目标实体`}
                         value={command.target.entity}
-                        onChange={(event) =>
+                        options={(targetScene?.entities ?? []).map((entity) => ({
+                          value: entity.id,
+                          label: entity.id,
+                        }))}
+                        onValueChange={(value) =>
                           dispatchUpdate(body.location, index, {
                             ...command,
                             target: {
                               scene: command.target.scene,
-                              entity: event.target.value,
+                              entity: value,
                             },
                           })
                         }
-                      >
-                        {(targetScene?.entities ?? []).map((entity) => (
-                          <option key={entity.id} value={entity.id}>
-                            {entity.id}
-                          </option>
-                        ))}
-                      </select>
+                      />
                     </div>
                     {command.kind === 'suspendEntity' || command.kind === 'hideEntity' ? (
                       <div className="field">

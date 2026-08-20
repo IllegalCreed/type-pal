@@ -1,4 +1,4 @@
-import type { EntityAddress, BaseEntityBehavior, Selection } from '@type-pal/content'
+import type { BaseEntityBehavior, EntityAddress, Selection } from '@type-pal/content'
 import { useMemo, useState } from 'react'
 import {
   AddEntityBehaviorCommand,
@@ -7,11 +7,12 @@ import {
   DeleteEntityBehaviorCommand,
   describeCanonicalScriptReference,
   presentSelection,
+  type ScriptCommandLocator,
   type ScriptEditorCommand,
   type ScriptEditorState,
-  type ScriptCommandLocator,
   UpdateEntityBehaviorCommand,
 } from '../core/script-editor.js'
+import { DsSelect } from './design-system/controls.js'
 import {
   CanonicalHelpTip,
   type CanonicalScriptEditorContext,
@@ -71,31 +72,27 @@ export function BehaviorSelectionEditor(props: {
   })
 
   return (
-    <label className="script-selection">
+    <div className="script-selection">
       <span className="field-label">{props.label ?? '当前使用的脚本'}</span>
-      <select
-        className="in"
+      <DsSelect
         aria-label={props.label ?? '当前使用的脚本'}
         value={value}
-        onChange={(event) => {
-          if (event.target.value === '__inherit') props.onChange({ kind: 'inherit' })
-          else if (event.target.value === '__disabled') props.onChange({ kind: 'disabled' })
-          else props.onChange({ kind: 'use', value: event.target.value })
+        options={[
+          { value: '__inherit', label: '使用实体页面原本的脚本' },
+          { value: '__disabled', label: '不运行脚本' },
+          ...(danglingValue
+            ? [{ value: danglingValue, label: `${danglingValue}（引用失效）` }]
+            : []),
+          ...entries.map(([id, behavior]) => ({ value: id, label: behavior.label })),
+        ]}
+        onValueChange={(nextValue) => {
+          if (nextValue === '__inherit') props.onChange({ kind: 'inherit' })
+          else if (nextValue === '__disabled') props.onChange({ kind: 'disabled' })
+          else props.onChange({ kind: 'use', value: nextValue })
         }}
-      >
-        <option value="__inherit">使用实体页面原本的脚本</option>
-        <option value="__disabled">不运行脚本</option>
-        {danglingValue ? <option value={danglingValue}>{danglingValue}（引用失效）</option> : null}
-        {entries.map(([id, behavior]) => (
-          <option key={id} value={id}>
-            {behavior.label}
-          </option>
-        ))}
-      </select>
-      <small className={`script-selection-status ${presentation.tone}`}>
-        {presentation.label}
-      </small>
-    </label>
+      />
+      <small className={`script-selection-status ${presentation.tone}`}>{presentation.label}</small>
+    </div>
   )
 }
 
@@ -262,9 +259,7 @@ export function ScriptBehaviorInspector(props: {
             )
           }
           onDelete={() => {
-            if (
-              dispatch(new DeleteEntityBehaviorCommand(props.target, props.channel, detailsId))
-            ) {
+            if (dispatch(new DeleteEntityBehaviorCommand(props.target, props.channel, detailsId))) {
               if (selectedId === detailsId) {
                 const next = entries.find(([id]) => id !== detailsId)?.[0]
                 if (next) props.onSelectBehavior?.(next)

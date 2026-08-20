@@ -270,12 +270,7 @@ describe('editor design-system controls', () => {
           <button type="button" aria-label="弹窗前一个控件">
             前一个
           </button>
-          <DsSelect
-            aria-label="开关名"
-            value="0"
-            options={options}
-            onValueChange={onValueChange}
-          />
+          <DsSelect aria-label="开关名" value="0" options={options} onValueChange={onValueChange} />
           <button type="button" aria-label="弹窗后一个控件">
             后一个
           </button>
@@ -630,47 +625,61 @@ describe('editor design-system controls', () => {
         />,
       ),
     )
+
     await click(host.querySelector<HTMLButtonElement>('[aria-label="队伍"]')!)
-    expect(host.textContent).toContain('已选 2 项')
-    expect(host.querySelectorAll('.ds-multiselect__option')).toHaveLength(3)
-    expect(host.querySelector('.ds-multiselect__option.ds-menu-item')).toBeNull()
-    for (const label of host.querySelectorAll('.ds-multiselect__option > .ds-check-label'))
+    expect(document.body.textContent).toContain('已选 2 项')
+    expect(document.querySelectorAll('.ds-multiselect__option')).toHaveLength(3)
+    for (const label of document.querySelectorAll('.ds-multiselect__option > .ds-check-label'))
       expect(label.classList).toContain('ds-check-label--compact')
-    const boxes = [...host.querySelectorAll<HTMLInputElement>('input[type="checkbox"]')]
+    const boxes = [...document.querySelectorAll<HTMLInputElement>('input[type="checkbox"]')]
     await click(boxes[2]!)
     expect(onChange).toHaveBeenCalledWith(['a', 'b', 'c'])
   })
 
-  test('multi-select keeps hidden selections and closes from option focus with Escape', async () => {
-    const options: DsOption[] = [
-      { value: 'a', label: '甲' },
-      { value: 'b', label: '乙' },
-      { value: 'c', label: '丙' },
-    ]
+  test('multi-select uses the shared dialog-aware floating layer and restores focus on Escape', async () => {
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+      callback(0)
+      return 1
+    })
     const onChange = vi.fn()
     await act(async () =>
       root.render(
-        <DsMultiSelect label="队伍" options={options} value={['a']} onChange={onChange} />,
+        <dialog open aria-label="队伍设置">
+          <DsMultiSelect
+            label="队伍"
+            options={[
+              { value: 'a', label: '甲' },
+              { value: 'b', label: '乙' },
+              { value: 'c', label: '丙' },
+            ]}
+            value={['a']}
+            onChange={onChange}
+          />
+        </dialog>,
       ),
     )
 
     const trigger = host.querySelector<HTMLButtonElement>('[aria-label="队伍"]')!
     await click(trigger)
-    await input(host.querySelector<HTMLInputElement>('[aria-label="搜索队伍"]')!, '丙')
-    expect(host.querySelectorAll('.ds-multiselect__option')).toHaveLength(1)
+    const dialog = host.querySelector<HTMLDialogElement>('dialog')!
+    const popup = document.querySelector<HTMLElement>('[role="dialog"][aria-label="选择队伍"]')!
+    expect(popup.parentElement?.parentElement).toBe(dialog)
+
+    const search = document.querySelector<HTMLInputElement>('[aria-label="搜索队伍"]')!
+    await input(search, '丙')
+    expect(document.querySelectorAll('.ds-multiselect__option')).toHaveLength(1)
     await click(
-      [...host.querySelectorAll<HTMLButtonElement>('.ds-menu-item')].find(
+      [...document.querySelectorAll<HTMLButtonElement>('.ds-menu-item')].find(
         (button) => button.textContent === '全选',
       )!,
     )
     expect(onChange).toHaveBeenLastCalledWith(['a', 'c'])
 
-    const option = host.querySelector<HTMLInputElement>('input[type="checkbox"]')!
+    const option = document.querySelector<HTMLInputElement>('input[type="checkbox"]')!
     option.focus()
-    await act(async () =>
-      option.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })),
-    )
-    expect(host.querySelector('[role="dialog"]')).toBeNull()
+    await keyDown(option, 'Escape')
+    expect(document.querySelector('[role="dialog"][aria-label="选择队伍"]')).toBeNull()
     expect(document.activeElement).toBe(trigger)
+    expect(dialog.open).toBe(true)
   })
 })

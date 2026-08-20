@@ -7,8 +7,8 @@
 
 import type {
   ActorDef,
-  Command,
   AuthorDialogueCue,
+  Command,
   Locale,
   SceneDef,
   SceneEntryPresentation,
@@ -19,6 +19,7 @@ import type {
 import { lookupText, parseRichText, resolveDialogueIdentity } from '@type-pal/content'
 import { useEffect, useRef } from 'react'
 import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js'
+import { DsSelect } from './design-system/controls.js'
 
 /** locale 查文本;缺失回落显 id(不崩)。 */
 export function scriptTreeText(id: string | undefined, locale: Locale): string {
@@ -613,12 +614,17 @@ function SceneEntrySections(props: {
           <span>{revealLabel(entry.reveal)}</span>
         </summary>
         <div className="scene-reveal-controls">
-          <select
-            className="in"
+          <DsSelect
+            size="compact"
+            aria-label="场景揭示方式"
             value={entry.reveal.kind}
             disabled={!onChange}
-            onChange={(event) => {
-              const kind = event.target.value
+            options={[
+              { value: 'dither', label: '逐像素渐变' },
+              { value: 'fade', label: '淡出 / 淡入' },
+              { value: 'cut', label: '直接切换' },
+            ]}
+            onValueChange={(kind) => {
               setReveal(
                 kind === 'dither'
                   ? { kind, ms: 720, source: 'previousPresentedFrame' }
@@ -627,11 +633,7 @@ function SceneEntrySections(props: {
                     : { kind: 'cut' },
               )
             }}
-          >
-            <option value="dither">逐像素渐变</option>
-            <option value="fade">淡出 / 淡入</option>
-            <option value="cut">直接切换</option>
-          </select>
+          />
           {entry.reveal.kind === 'dither' ? (
             <label>
               时长
@@ -782,32 +784,39 @@ export function ScriptTree(props: {
               {onStageAction ? (
                 <>
                   <span className="stage-next">→ 跑完</span>
-                  <select
-                    className="stage-next-sel"
-                    value={
-                      st.next === 'advance'
-                        ? 'advance'
-                        : typeof st.next === 'number'
-                          ? String(st.next)
-                          : ''
-                    }
-                    onChange={(e) => {
-                      const v = e.target.value
-                      onStageAction(i, {
-                        kind: 'next',
-                        next: v === '' ? undefined : v === 'advance' ? 'advance' : Number(v),
-                      })
-                    }}
-                    title="本段跑完后的去向(多段 = 原版「再按一次继续下一段」;宝箱防重两段)"
-                  >
-                    <option value="">停在本段</option>
-                    <option value="advance">推进下一段</option>
-                    {stages.map((_, k) => (
-                      <option key={k} value={k}>
-                        回第 {k + 1} 段
-                      </option>
-                    ))}
-                  </select>
+                  <span className="stage-next-select">
+                    <DsSelect
+                      size="compact"
+                      aria-label={`第 ${i + 1} 段跑完后的去向`}
+                      value={
+                        st.next === 'advance'
+                          ? 'advance'
+                          : typeof st.next === 'number'
+                            ? String(st.next)
+                            : ''
+                      }
+                      options={[
+                        { value: '', label: '停在本段' },
+                        { value: 'advance', label: '推进下一段' },
+                        ...stages.map((_, stageIndex) => ({
+                          value: String(stageIndex),
+                          label: `回第 ${stageIndex + 1} 段`,
+                        })),
+                      ]}
+                      onValueChange={(value) =>
+                        onStageAction(i, {
+                          kind: 'next',
+                          next:
+                            value === ''
+                              ? undefined
+                              : value === 'advance'
+                                ? 'advance'
+                                : Number(value),
+                        })
+                      }
+                      title="本段跑完后的去向（多段 = 原版“再按一次继续下一段”；宝箱防重两段）"
+                    />
+                  </span>
                   <span className="spacer" />
                   <button
                     type="button"

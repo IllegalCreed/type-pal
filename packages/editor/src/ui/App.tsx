@@ -9,17 +9,17 @@
 import type {
   ActorDef,
   AssetCatalogV1,
-  BattleFieldDef,
-  BattleSpriteDefinitionReference,
   BaseEntityPage,
   BaseSceneEntityDef,
+  BattleFieldDef,
+  BattleSpriteDefinitionReference,
   EnemyTeamDef,
   EntityDef,
   GridPos,
   HostileBehavior,
-  RuntimeHostileBehavior,
   Locale,
   MapAssetDefV1,
+  RuntimeHostileBehavior,
   SceneDef,
   SceneEntryPoint,
   SpriteActionReference,
@@ -81,9 +81,9 @@ import {
   createCanonicalPlacedEntity,
   createPlacedEntity,
   DEFAULT_ZONE_RANGE,
-  effectiveTriggerRange,
   type EntityPlacement,
   type EntityPlacementMode,
+  effectiveTriggerRange,
   entityShapeLabel,
   triggerActivationSummary,
 } from '../core/entity-placement.js'
@@ -92,15 +92,18 @@ import type { ItemReference } from '../core/item-references.js'
 import { type Opened, openExistingProject, pickDir, saveProjectAs } from '../core/open-actions.js'
 import { createEditorStatusIssueCollector } from '../core/project-diagnostics.js'
 import { serializeProjectWithMapCopies, writeProject } from '../core/project-io.js'
-import type { WorkspaceContext } from '../core/workspace-context.js'
-import { workspaceModeLabel } from '../core/workspace-context.js'
 import {
-  authorizeBoundWorkspaceTarget,
-  authorizeFirstSaveTarget,
-  preflightFirstSaveTarget,
-  registerAuthorizedWorkspaceMutation,
-  withAuthorizedWorkspaceMutation,
-} from '../core/workspace-persistence.js'
+  AddSceneEntityDefinitionCommand,
+  type CanonicalScriptReference,
+  canonicalScriptReferenceDestinationExists,
+  DeleteSceneEntityDefinitionCommand,
+  describeCanonicalScriptReference,
+  type ScriptEditorState,
+  type ScriptEditSession,
+  SetEntityHostileOnLoseCommand,
+  SetEntityPageBehaviorCommand,
+  SetEntityPageTriggerActivationCommand,
+} from '../core/script-editor.js'
 import {
   mergeEditorProjectionWithCurrentAuthorState,
   projectActiveScriptEditorState,
@@ -110,18 +113,15 @@ import {
   findSceneEntryReferences,
   type SceneEntryReferenceEntry,
 } from '../core/script-references.js'
+import type { WorkspaceContext } from '../core/workspace-context.js'
+import { workspaceModeLabel } from '../core/workspace-context.js'
 import {
-  AddSceneEntityDefinitionCommand,
-  DeleteSceneEntityDefinitionCommand,
-  type CanonicalScriptReference,
-  canonicalScriptReferenceDestinationExists,
-  describeCanonicalScriptReference,
-  type ScriptEditorState,
-  type ScriptEditSession,
-  SetEntityHostileOnLoseCommand,
-  SetEntityPageBehaviorCommand,
-  SetEntityPageTriggerActivationCommand,
-} from '../core/script-editor.js'
+  authorizeBoundWorkspaceTarget,
+  authorizeFirstSaveTarget,
+  preflightFirstSaveTarget,
+  registerAuthorizedWorkspaceMutation,
+  withAuthorizedWorkspaceMutation,
+} from '../core/workspace-persistence.js'
 import type { SpriteAutomaticScriptInstanceSite } from '../core/world-sprite-behavior.js'
 import { ActorMode } from './ActorMode.js'
 import {
@@ -138,8 +138,6 @@ import {
   toggleSceneScriptPanelState,
 } from './app-layout-commands.js'
 import { BattleFieldPicker } from './BattleFieldPicker.js'
-import { CanonicalSceneScriptWorkspace } from './SceneScriptWorkspace.js'
-import { CanonicalHostileOnLoseEditor, type CanonicalScriptEditorContext } from './ScriptEditor.js'
 import { DataMode } from './DataMode.js'
 import type { DsMenuDefinition } from './design-system/index.js'
 import {
@@ -161,7 +159,6 @@ import { EditorAppHeader } from './EditorAppHeader.js'
 import { EntityPageAnimationEditor } from './EntityPageAnimationEditor.js'
 import {
   decodeEditorLocation,
-  defaultEditorLocation,
   EDITOR_MODULES,
   type EditorLocation,
   type EditorModuleId,
@@ -185,8 +182,10 @@ import { type ProjectSaveActivity, ProjectSaveDialog } from './ProjectSaveDialog
 import { ProjectWorkbenchTab } from './ProjectWorkbenchTab.js'
 import { clampPanelSize, fitSidePanelWidths } from './panel-layout.js'
 import { type SceneAnchorSelection, SceneCanvas } from './SceneCanvas.js'
-import { ScriptDrawer } from './ScriptDrawer.js'
+import { CanonicalSceneScriptWorkspace } from './SceneScriptWorkspace.js'
 import { ScriptBehaviorInspector } from './ScriptBehaviorInspector.js'
+import { ScriptDrawer } from './ScriptDrawer.js'
+import { CanonicalHostileOnLoseEditor, type CanonicalScriptEditorContext } from './ScriptEditor.js'
 import { disposeSoundPreview } from './SoundPicker.js'
 import { SpriteImageViewer, SpriteThumb } from './SpriteThumb.js'
 
@@ -308,10 +307,10 @@ export function App(props: {
   const getScriptVersion = useMemo(() => () => scriptSession?.getVersion() ?? 0, [scriptSession])
   const scriptVersion = useSyncExternalStore(subscribeScript, getScriptVersion)
   const state = session.getState()
-  const storedScriptState = useMemo(
-    () => scriptSession?.getState(),
-    [scriptSession, scriptVersion],
-  )
+  const storedScriptState = useMemo(() => {
+    void scriptVersion
+    return scriptSession?.getState()
+  }, [scriptSession, scriptVersion])
   const scriptState = useMemo(
     () =>
       storedScriptState
@@ -2532,55 +2531,57 @@ export function App(props: {
                         ) : null}
                         {canonicalEntity && canonicalPage ? (
                           <div className="script-page-binding">
-                            <label>
+                            <div>
                               <span className="field-label">实体页</span>
-                              <select
-                                className="in"
+                              <DsSelect
+                                aria-label="实体页"
                                 value={canonicalPage.id}
-                                onChange={(event) => setSelectedPage(event.target.value)}
-                              >
-                                {(canonicalEntity.pages ?? []).map((page) => (
-                                  <option key={page.id} value={page.id}>
-                                    {page.label} · {page.id}
-                                    {page.id === canonicalEntity.initialPage ? '（初始）' : ''}
-                                  </option>
-                                ))}
-                              </select>
-                            </label>
+                                options={(canonicalEntity.pages ?? []).map((page) => ({
+                                  value: page.id,
+                                  label: page.label,
+                                  description: `${page.id}${
+                                    page.id === canonicalEntity.initialPage ? ' · 初始' : ''
+                                  }`,
+                                }))}
+                                onValueChange={setSelectedPage}
+                              />
+                            </div>
                             {(['trigger', 'auto'] as const).map((channel) => {
                               const registry = canonicalEntity.behaviors?.[channel] ?? {}
                               return (
-                                <label key={channel}>
+                                <div key={channel}>
                                   <span className="field-label">
                                     {channel === 'trigger' ? '触发行为槽' : '自动行为槽'}
                                   </span>
-                                  <select
-                                    className="in"
+                                  <DsSelect
+                                    aria-label={channel === 'trigger' ? '触发行为槽' : '自动行为槽'}
                                     value={canonicalPage[channel] ?? ''}
-                                    onChange={(event) =>
+                                    options={[
+                                      { value: '', label: '显式无行为' },
+                                      ...Object.entries(registry)
+                                        .sort(
+                                          ([leftId, left], [rightId, right]) =>
+                                            left.order - right.order ||
+                                            leftId.localeCompare(rightId),
+                                        )
+                                        .map(([id, behavior]) => ({
+                                          value: id,
+                                          label: behavior.label,
+                                          description: id,
+                                        })),
+                                    ]}
+                                    onValueChange={(value) =>
                                       scriptSession.dispatch(
                                         new SetEntityPageBehaviorCommand(
                                           { scene: scene.id, entity: selEntity.id },
                                           canonicalPage.id,
                                           channel,
-                                          event.target.value || undefined,
+                                          value || undefined,
                                         ),
                                       )
                                     }
-                                  >
-                                    <option value="">显式无行为</option>
-                                    {Object.entries(registry)
-                                      .sort(
-                                        ([leftId, left], [rightId, right]) =>
-                                          left.order - right.order || leftId.localeCompare(rightId),
-                                      )
-                                      .map(([id, behavior]) => (
-                                        <option key={id} value={id}>
-                                          {behavior.label} · {id}
-                                        </option>
-                                      ))}
-                                  </select>
-                                </label>
+                                  />
+                                </div>
                               )
                             })}
                           </div>
@@ -3278,22 +3279,24 @@ function EntityInspector(props: {
         ) : 'sprite' in entity ? (
           <div className="field">
             <span className="field-label">精灵</span>
-            <select
-              className="in"
+            <DsSelect
+              searchable="auto"
+              aria-label="实体精灵"
               value={entity.sprite}
-              onChange={(e) =>
-                session.dispatch(new SetEntitySpriteCommand(sceneId, entity.id, e.target.value))
+              options={[
+                ...(!sprites.some((sprite) => sprite.id === entity.sprite)
+                  ? [{ value: entity.sprite, label: `${entity.sprite}（缺失）` }]
+                  : []),
+                ...sprites.map((sprite) => ({
+                  value: sprite.id,
+                  label: sprite.label || sprite.id,
+                  description: `${sprite.id} · ${sprite.asset}`,
+                })),
+              ]}
+              onValueChange={(value) =>
+                session.dispatch(new SetEntitySpriteCommand(sceneId, entity.id, value))
               }
-            >
-              {!sprites.some((sp) => sp.id === entity.sprite) && (
-                <option value={entity.sprite}>{entity.sprite} (缺)</option>
-              )}
-              {sprites.map((sp) => (
-                <option key={sp.id} value={sp.id}>
-                  {sp.label || sp.id} · {sp.asset}
-                </option>
-              ))}
-            </select>
+            />
           </div>
         ) : (
           <div className="field">
@@ -3409,22 +3412,27 @@ function EntityInspector(props: {
           <>
             <div className="field">
               <span className="field-label">敌队</span>
-              <select
-                className="in"
+              <DsSelect
+                searchable="auto"
+                aria-label="敌对实体敌队"
                 value={entity.hostile.enemyTeamId}
-                onChange={(e) => setHostile({ enemyTeamId: e.target.value })}
-              >
-                {!enemyTeams.some((team) => team.id === entity.hostile!.enemyTeamId) && (
-                  <option value={entity.hostile.enemyTeamId}>
-                    {entity.hostile.enemyTeamId} (缺数据)
-                  </option>
-                )}
-                {enemyTeams.map((team) => (
-                  <option key={team.id} value={team.id}>
-                    {team.id}({team.slots.length} 槽)
-                  </option>
-                ))}
-              </select>
+                options={[
+                  ...(!enemyTeams.some((team) => team.id === entity.hostile!.enemyTeamId)
+                    ? [
+                        {
+                          value: entity.hostile.enemyTeamId,
+                          label: `${entity.hostile.enemyTeamId}（缺数据）`,
+                        },
+                      ]
+                    : []),
+                  ...enemyTeams.map((team) => ({
+                    value: team.id,
+                    label: team.id,
+                    description: `${team.slots.length} 槽`,
+                  })),
+                ]}
+                onValueChange={(value) => setHostile({ enemyTeamId: value })}
+              />
             </div>
             <div className="field">
               <span className="field-label">战场</span>
@@ -3497,11 +3505,16 @@ function EntityInspector(props: {
             <>
               <div className="field">
                 <span className="field-label">胜利后</span>
-                <select
-                  className="in"
+                <DsSelect
+                  aria-label="胜利后行为"
                   value={hostile?.onVictory.kind ?? 'remove'}
-                  onChange={(e) => {
-                    const kind = e.target.value as RuntimeHostileBehavior['onVictory']['kind']
+                  options={[
+                    { value: 'remove', label: '隐藏后从场景移除' },
+                    { value: 'hide', label: '隐藏后离屏重现' },
+                    { value: 'remain', label: '保持原样' },
+                  ]}
+                  onValueChange={(value) => {
+                    const kind = value as RuntimeHostileBehavior['onVictory']['kind']
                     if (kind === 'hide')
                       setHostile({
                         onVictory: {
@@ -3511,11 +3524,7 @@ function EntityInspector(props: {
                       })
                     else setHostile({ onVictory: { kind } })
                   }}
-                >
-                  <option value="remove">隐藏后从场景移除</option>
-                  <option value="hide">隐藏后离屏重现</option>
-                  <option value="remain">保持原样</option>
-                </select>
+                />
               </div>
               {hostile?.onVictory.kind === 'hide' ? (
                 <div className="field">
@@ -3536,11 +3545,15 @@ function EntityInspector(props: {
               ) : null}
               <div className="field">
                 <span className="field-label">逃跑后</span>
-                <select
-                  className="in"
+                <DsSelect
+                  aria-label="逃跑后行为"
                   value={hostile?.onPlayerFlee.kind ?? 'remain'}
-                  onChange={(e) => {
-                    const kind = e.target.value as RuntimeHostileBehavior['onPlayerFlee']['kind']
+                  options={[
+                    { value: 'remain', label: '保持原样' },
+                    { value: 'suspend', label: '短暂暂停自动行为' },
+                  ]}
+                  onValueChange={(value) => {
+                    const kind = value as RuntimeHostileBehavior['onPlayerFlee']['kind']
                     if (kind === 'suspend')
                       setHostile({
                         onPlayerFlee: {
@@ -3553,10 +3566,7 @@ function EntityInspector(props: {
                       })
                     else setHostile({ onPlayerFlee: { kind } })
                   }}
-                >
-                  <option value="remain">保持原样</option>
-                  <option value="suspend">短暂暂停自动行为</option>
-                </select>
+                />
               </div>
               {hostile?.onPlayerFlee.kind === 'suspend' ? (
                 <div className="field">
@@ -3580,16 +3590,17 @@ function EntityInspector(props: {
               <>
                 <div className="field">
                   <span className="field-label">战败</span>
-                  <select
-                    className="in"
+                  <DsSelect
+                    aria-label="战败行为"
                     value={Array.isArray(entity.hostile.onLose) ? 'custom' : ''}
-                    onChange={(e) =>
-                      setHostile({ onLose: e.target.value === 'custom' ? [] : undefined })
+                    options={[
+                      { value: '', label: '游戏结束（渐红读档，默认）' },
+                      { value: 'custom', label: '自定义指令（剧情战输了也继续）' },
+                    ]}
+                    onValueChange={(value) =>
+                      setHostile({ onLose: value === 'custom' ? [] : undefined })
                     }
-                  >
-                    <option value="">游戏结束(渐红读档,默认)</option>
-                    <option value="custom">自定义指令(剧情战输了也继续)</option>
-                  </select>
+                  />
                 </div>
                 {Array.isArray(entity.hostile.onLose) ? (
                   <textarea
@@ -3780,17 +3791,12 @@ function EntryInspector(props: { scene: SceneDef; session: EditSession }) {
         </div>
         <div className="field">
           <span className="field-label">朝向</span>
-          <select
-            className="in"
+          <DsSelect
+            aria-label="默认进场朝向"
             value={scene.entry.facing}
-            onChange={(e) => patch({ facing: e.target.value as SceneDef['entry']['facing'] })}
-          >
-            {facings.map((f) => (
-              <option key={f} value={f}>
-                {f}
-              </option>
-            ))}
-          </select>
+            options={facings.map((facing) => ({ value: facing, label: facing }))}
+            onValueChange={(value) => patch({ facing: value as SceneDef['entry']['facing'] })}
+          />
         </div>
         <div className="insp-empty" style={{ marginTop: 8 }}>
           也可直接在画布上拖动红色菱形标记改坐标。这是「正常走进来」的落点;引路蜂/土灵珠把队伍送去哪,
@@ -4041,22 +4047,19 @@ function NamedEntryInspector(props: {
           <label className="field-label" htmlFor={`entry-facing-${scene.id}-${entryId}`}>
             朝向
           </label>
-          <select
+          <DsSelect
             id={`entry-facing-${scene.id}-${entryId}`}
-            className="in"
+            aria-label="命名进场点朝向"
             value={entry.facing ?? ''}
-            onChange={(event) => {
-              const facing = event.target.value as SceneDef['entry']['facing'] | ''
+            options={[
+              { value: '', label: '继承进入前朝向' },
+              ...facings.map((facing) => ({ value: facing, label: facing })),
+            ]}
+            onValueChange={(value) => {
+              const facing = value as SceneDef['entry']['facing'] | ''
               patch({ facing: facing || undefined })
             }}
-          >
-            <option value="">继承进入前朝向</option>
-            {facings.map((facing) => (
-              <option key={facing} value={facing}>
-                {facing}
-              </option>
-            ))}
-          </select>
+          />
         </div>
       </div>
       <div className="section">

@@ -10,7 +10,7 @@ import {
   defaultStampTemplateAnchor,
   nextStampTemplateId,
 } from '../core/stamp-template.js'
-import { DsCheckbox } from './design-system/index.js'
+import { DsCheckbox, DsSelect } from './design-system/index.js'
 
 type CellsSelection = Extract<MapSelection, { kind: 'cells' }>
 type InvalidField = 'id' | 'name' | 'anchor-row' | 'anchor-col' | 'target'
@@ -81,7 +81,7 @@ export function StampTemplateDialog(props: {
   const nameRef = useRef<HTMLInputElement>(null)
   const anchorRowRef = useRef<HTMLInputElement>(null)
   const anchorColRef = useRef<HTMLInputElement>(null)
-  const targetRef = useRef<HTMLSelectElement>(null)
+  const targetRef = useRef<HTMLButtonElement>(null)
   const errorRef = useRef<HTMLParagraphElement>(null)
   const returnFocusRef = useRef<HTMLElement | null>(null)
   const titleId = useId()
@@ -270,24 +270,22 @@ export function StampTemplateDialog(props: {
           </fieldset>
 
           {mode === 'update' ? (
-            <label className="stamp-dialog-field">
+            <div className="stamp-dialog-field">
               <span>目标模板</span>
-              <select
+              <DsSelect
                 ref={targetRef}
-                name="stamp-target"
+                aria-label="目标模板"
                 value={targetId}
-                aria-invalid={invalidField === 'target'}
+                invalid={invalidField === 'target'}
                 aria-describedby={invalidField === 'target' ? errorId : undefined}
-                onChange={(event) => selectTarget(event.target.value)}
-              >
-                {compatible.map((template) => (
-                  <option key={template.id} value={template.id}>
-                    {template.name} · {template.id}
-                    {template.origin === 'migrated' ? '（预置）' : ''}
-                  </option>
-                ))}
-              </select>
-            </label>
+                options={compatible.map((template) => ({
+                  value: template.id,
+                  label: template.name,
+                  description: `${template.id}${template.origin === 'migrated' ? ' · 预置' : ''}`,
+                }))}
+                onValueChange={selectTarget}
+              />
+            </div>
           ) : (
             <label className="stamp-dialog-field">
               <span>

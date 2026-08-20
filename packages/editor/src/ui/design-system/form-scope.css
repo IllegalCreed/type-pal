@@ -24,18 +24,17 @@
 
 .ds-form-scope
   :is(
-    input:not([type]):not(.ds-input):not(.ds-combobox__input),
-    input[type="text"]:not(.ds-input):not(.ds-combobox__input),
-    input[type="number"]:not(.ds-input):not(.ds-combobox__input),
-    input[type="search"]:not(.ds-input):not(.ds-combobox__input),
-    input[type="email"]:not(.ds-input):not(.ds-combobox__input),
-    input[type="password"]:not(.ds-input):not(.ds-combobox__input),
-    input[type="url"]:not(.ds-input):not(.ds-combobox__input),
-    input[type="tel"]:not(.ds-input):not(.ds-combobox__input),
-    input[type="date"]:not(.ds-input):not(.ds-combobox__input),
-    input[type="time"]:not(.ds-input):not(.ds-combobox__input),
-    input[type="datetime-local"]:not(.ds-input):not(.ds-combobox__input),
-    select:not(.ds-select),
+    input:not([type]):not(.ds-input),
+    input[type="text"]:not(.ds-input),
+    input[type="number"]:not(.ds-input),
+    input[type="search"]:not(.ds-input),
+    input[type="email"]:not(.ds-input),
+    input[type="password"]:not(.ds-input),
+    input[type="url"]:not(.ds-input),
+    input[type="tel"]:not(.ds-input),
+    input[type="date"]:not(.ds-input),
+    input[type="time"]:not(.ds-input),
+    input[type="datetime-local"]:not(.ds-input),
     textarea:not(.ds-textarea)
   ) {
   box-sizing: border-box;
@@ -57,18 +56,17 @@
 
 .ds-form-scope
   :is(
-    input:not([type]):not(.ds-input):not(.ds-combobox__input),
-    input[type="text"]:not(.ds-input):not(.ds-combobox__input),
-    input[type="number"]:not(.ds-input):not(.ds-combobox__input),
-    input[type="search"]:not(.ds-input):not(.ds-combobox__input),
-    input[type="email"]:not(.ds-input):not(.ds-combobox__input),
-    input[type="password"]:not(.ds-input):not(.ds-combobox__input),
-    input[type="url"]:not(.ds-input):not(.ds-combobox__input),
-    input[type="tel"]:not(.ds-input):not(.ds-combobox__input),
-    input[type="date"]:not(.ds-input):not(.ds-combobox__input),
-    input[type="time"]:not(.ds-input):not(.ds-combobox__input),
-    input[type="datetime-local"]:not(.ds-input):not(.ds-combobox__input),
-    select:not(.ds-select),
+    input:not([type]):not(.ds-input),
+    input[type="text"]:not(.ds-input),
+    input[type="number"]:not(.ds-input),
+    input[type="search"]:not(.ds-input),
+    input[type="email"]:not(.ds-input),
+    input[type="password"]:not(.ds-input),
+    input[type="url"]:not(.ds-input),
+    input[type="tel"]:not(.ds-input),
+    input[type="date"]:not(.ds-input),
+    input[type="time"]:not(.ds-input),
+    input[type="datetime-local"]:not(.ds-input),
     textarea:not(.ds-textarea)
   ):focus-visible {
   border-color: var(--ds-focus-ring);
@@ -78,18 +76,17 @@
 
 .ds-form-scope
   :is(
-    input:not([type]):not(.ds-input):not(.ds-combobox__input),
-    input[type="text"]:not(.ds-input):not(.ds-combobox__input),
-    input[type="number"]:not(.ds-input):not(.ds-combobox__input),
-    input[type="search"]:not(.ds-input):not(.ds-combobox__input),
-    input[type="email"]:not(.ds-input):not(.ds-combobox__input),
-    input[type="password"]:not(.ds-input):not(.ds-combobox__input),
-    input[type="url"]:not(.ds-input):not(.ds-combobox__input),
-    input[type="tel"]:not(.ds-input):not(.ds-combobox__input),
-    input[type="date"]:not(.ds-input):not(.ds-combobox__input),
-    input[type="time"]:not(.ds-input):not(.ds-combobox__input),
-    input[type="datetime-local"]:not(.ds-input):not(.ds-combobox__input),
-    select:not(.ds-select),
+    input:not([type]):not(.ds-input),
+    input[type="text"]:not(.ds-input),
+    input[type="number"]:not(.ds-input),
+    input[type="search"]:not(.ds-input),
+    input[type="email"]:not(.ds-input),
+    input[type="password"]:not(.ds-input),
+    input[type="url"]:not(.ds-input),
+    input[type="tel"]:not(.ds-input),
+    input[type="date"]:not(.ds-input),
+    input[type="time"]:not(.ds-input),
+    input[type="datetime-local"]:not(.ds-input),
     textarea:not(.ds-textarea)
   ):disabled {
   cursor: not-allowed;
@@ -183,18 +180,17 @@
 .ds-form-scope
   label:not(.ds-field__label):has(
     > :is(
-        input:not([type]):not(.ds-input):not(.ds-combobox__input),
-        input[type="text"]:not(.ds-input):not(.ds-combobox__input),
-        input[type="number"]:not(.ds-input):not(.ds-combobox__input),
-        input[type="search"]:not(.ds-input):not(.ds-combobox__input),
-        input[type="email"]:not(.ds-input):not(.ds-combobox__input),
-        input[type="password"]:not(.ds-input):not(.ds-combobox__input),
-        input[type="url"]:not(.ds-input):not(.ds-combobox__input),
-        input[type="tel"]:not(.ds-input):not(.ds-combobox__input),
-        input[type="date"]:not(.ds-input):not(.ds-combobox__input),
-        input[type="time"]:not(.ds-input):not(.ds-combobox__input),
-        input[type="datetime-local"]:not(.ds-input):not(.ds-combobox__input),
-        select:not(.ds-select),
+        input:not([type]):not(.ds-input),
+        input[type="text"]:not(.ds-input),
+        input[type="number"]:not(.ds-input),
+        input[type="search"]:not(.ds-input),
+        input[type="email"]:not(.ds-input),
+        input[type="password"]:not(.ds-input),
+        input[type="url"]:not(.ds-input),
+        input[type="tel"]:not(.ds-input),
+        input[type="date"]:not(.ds-input),
+        input[type="time"]:not(.ds-input),
+        input[type="datetime-local"]:not(.ds-input),
         textarea:not(.ds-textarea)
       )
   )

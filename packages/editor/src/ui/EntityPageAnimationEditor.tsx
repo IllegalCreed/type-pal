@@ -1,5 +1,6 @@
 import type { EntityPage, SpriteActionBinding, SpriteDef } from '@type-pal/content'
 import { sortedSpriteActions } from '../core/sprite-actions.js'
+import { DsSelect } from './design-system/controls.js'
 
 export function EntityPageAnimationEditor(props: {
   page: EntityPage | undefined
@@ -61,12 +62,26 @@ export function EntityPageAnimationEditor(props: {
           <div className="field">
             <span className="field-label">动作</span>
             <div className="entity-page-animation-action-row">
-              <select
-                className="in"
+              <DsSelect
                 aria-label="页面默认动作"
                 value={bindingValid ? binding.action : ''}
-                onChange={(event) => {
-                  const entry = actions.find((action) => action.id === event.target.value)
+                options={[
+                  ...(!bindingValid
+                    ? [
+                        {
+                          value: '',
+                          label: `${binding.sprite}/${binding.action}（引用失效）`,
+                        },
+                      ]
+                    : []),
+                  ...actions.map((entry) => ({
+                    value: entry.id,
+                    label: `动作 #${entry.index} · ${entry.action.label}`,
+                    description: entry.id,
+                  })),
+                ]}
+                onValueChange={(value) => {
+                  const entry = actions.find((action) => action.id === value)
                   if (!entry || !props.sprite) return
                   props.onChange({
                     sprite: props.sprite.id,
@@ -74,18 +89,7 @@ export function EntityPageAnimationEditor(props: {
                     loop: entry.action.loopFrom !== undefined,
                   })
                 }}
-              >
-                {!bindingValid ? (
-                  <option value="">
-                    {binding.sprite}/{binding.action}（引用失效）
-                  </option>
-                ) : null}
-                {actions.map((entry) => (
-                  <option key={entry.id} value={entry.id}>
-                    动作 #{entry.index} · {entry.action.label} · {entry.id}
-                  </option>
-                ))}
-              </select>
+              />
               <button
                 type="button"
                 className="mini-txt"

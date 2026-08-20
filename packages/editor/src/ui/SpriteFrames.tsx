@@ -27,7 +27,7 @@ import {
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { loadEditorSprite } from '../core/sprite-assets.js'
-import { DsButton } from './design-system/controls.js'
+import { DsButton, DsSelect } from './design-system/controls.js'
 
 /** 读用户选图 → RGBA(量化/切帧的公共前置)。 */
 async function fileToRgba(file: File): Promise<{ rgba: Uint8Array; w: number; h: number }> {
@@ -786,14 +786,16 @@ export function SpriteFrames(props: {
                 onChange={(e) => setPoseName(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && createPose()}
               />
-              <select
-                className="in"
+              <DsSelect
+                size="compact"
+                aria-label="预览播放方式"
                 value={poseMode}
-                onChange={(e) => setPoseMode(e.target.value as 'once' | 'loop')}
-              >
-                <option value="once">单次</option>
-                <option value="loop">循环</option>
-              </select>
+                options={[
+                  { value: 'once', label: '单次' },
+                  { value: 'loop', label: '循环' },
+                ]}
+                onValueChange={(value) => setPoseMode(value as 'once' | 'loop')}
+              />
               <DsButton variant="primary" onClick={createPose} disabled={!poseName.trim()}>
                 建姿势 · 帧 {[...selFrames].sort((a, b) => a - b).join(',')}
               </DsButton>

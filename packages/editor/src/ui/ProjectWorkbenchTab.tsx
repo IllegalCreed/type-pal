@@ -546,35 +546,33 @@ export function StartWorldFields(props: {
         <div className="project-list-stack">
           {inventory.map((row, index) => (
             <div className="project-inline-row" key={`${row.itemId}:${index}`}>
-              <select
-                className="in"
+              <DsSelect
+                size="compact"
+                aria-label={`第 ${index + 1} 项初始道具`}
                 value={row.itemId}
                 disabled={readOnly}
-                onChange={(event) =>
+                options={[
+                  ...(!items.some((item) => item.id === row.itemId)
+                    ? [{ value: row.itemId, label: `${row.itemId}（缺失）` }]
+                    : []),
+                  ...items
+                    .filter(
+                      (item) =>
+                        item.id === row.itemId ||
+                        !inventory.some(
+                          (entry, itemIndex) => itemIndex !== index && entry.itemId === item.id,
+                        ),
+                    )
+                    .map((item) => ({ value: item.id, label: item.name, description: item.id })),
+                ]}
+                onValueChange={(value) =>
                   patch({
                     inventory: inventory.map((item, itemIndex) =>
-                      itemIndex === index ? { ...item, itemId: event.target.value } : item,
+                      itemIndex === index ? { ...item, itemId: value } : item,
                     ),
                   })
                 }
-              >
-                {!items.some((item) => item.id === row.itemId) ? (
-                  <option value={row.itemId}>{row.itemId}（缺失）</option>
-                ) : null}
-                {items
-                  .filter(
-                    (item) =>
-                      item.id === row.itemId ||
-                      !inventory.some(
-                        (entry, itemIndex) => itemIndex !== index && entry.itemId === item.id,
-                      ),
-                  )
-                  .map((item) => (
-                    <option value={item.id} key={item.id}>
-                      {item.name} · {item.id}
-                    </option>
-                  ))}
-              </select>
+              />
               <input
                 className="in project-count"
                 type="number"
@@ -633,36 +631,36 @@ export function StartWorldFields(props: {
               </div>
               {actorSkills.map((skillId, index) => (
                 <div className="project-inline-row" key={`${skillId}:${index}`}>
-                  <select
-                    className="in"
+                  <DsSelect
+                    size="compact"
+                    aria-label={`${actorId} 的第 ${index + 1} 个初始技能`}
                     value={skillId}
                     disabled={readOnly}
-                    onChange={(event) =>
+                    options={[
+                      ...(!skills.some((skill) => skill.id === skillId)
+                        ? [{ value: skillId, label: `${skillId}（缺失）` }]
+                        : []),
+                      ...skills
+                        .filter(
+                          (skill) =>
+                            skill.id === skillId ||
+                            !actorSkills.some(
+                              (id, skillIndex) => skillIndex !== index && id === skill.id,
+                            ),
+                        )
+                        .map((skill) => ({
+                          value: skill.id,
+                          label: skill.name,
+                          description: skill.id,
+                        })),
+                    ]}
+                    onValueChange={(value) =>
                       setSkills(
                         actorId,
-                        actorSkills.map((id, skillIndex) =>
-                          skillIndex === index ? event.target.value : id,
-                        ),
+                        actorSkills.map((id, skillIndex) => (skillIndex === index ? value : id)),
                       )
                     }
-                  >
-                    {!skills.some((skill) => skill.id === skillId) ? (
-                      <option value={skillId}>{skillId}（缺失）</option>
-                    ) : null}
-                    {skills
-                      .filter(
-                        (skill) =>
-                          skill.id === skillId ||
-                          !actorSkills.some(
-                            (id, skillIndex) => skillIndex !== index && id === skill.id,
-                          ),
-                      )
-                      .map((skill) => (
-                        <option value={skill.id} key={skill.id}>
-                          {skill.name} · {skill.id}
-                        </option>
-                      ))}
-                  </select>
+                  />
                   <button
                     type="button"
                     className="btn"
@@ -901,6 +899,9 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
     if (entryPoints.some((entry) => entry.id === focusObjectId)) setSelectedId(focusObjectId)
   }, [entryPoints, focusObjectId])
   const selected = selectedId ? entryPoints.find((entry) => entry.id === selectedId) : undefined
+  const selectedIntroVideoAsset = selected?.introVideo
+    ? assetCatalog.assets[selected.introVideo]
+    : undefined
   const sceneIds = useMemo(() => scenes.map((scene) => scene.id).sort(), [scenes])
   const videoAssets = useMemo(
     () =>
@@ -1119,51 +1120,57 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
                   onChange={(event) => patchEntry(selected.id, { label: event.target.value })}
                 />
               </label>
-              <label className="field">
+              <div className="field">
                 <span className="field-label">起始场景</span>
-                <select
-                  className="in"
+                <DsSelect
+                  aria-label="菜单入口场景"
                   value={selected.scene}
-                  onChange={(event) => patchEntry(selected.id, { scene: event.target.value })}
-                >
-                  {!sceneIds.includes(selected.scene) ? (
-                    <option value={selected.scene}>{selected.scene}（缺失）</option>
-                  ) : null}
-                  {sceneIds.map((id) => (
-                    <option value={id} key={id}>
-                      {id}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="field">
+                  options={[
+                    ...(!sceneIds.includes(selected.scene)
+                      ? [{ value: selected.scene, label: `${selected.scene}（缺失）` }]
+                      : []),
+                    ...sceneIds.map((id) => ({ value: id, label: id })),
+                  ]}
+                  onValueChange={(value) => patchEntry(selected.id, { scene: value })}
+                />
+              </div>
+              <div className="field">
                 <span className="field-label">入口视频</span>
                 <span className="project-entry-video-control">
-                  <select
-                    className="in"
+                  <DsSelect
+                    aria-label="入口视频"
                     value={selected.introVideo ?? ''}
-                    onChange={(event) =>
-                      patchEntry(selected.id, { introVideo: event.target.value || undefined })
+                    options={[
+                      { value: '', label: '无（由场景脚本负责叙事）' },
+                      ...(selected.introVideo && !assetCatalog.assets[selected.introVideo]
+                        ? [
+                            {
+                              value: selected.introVideo,
+                              label: `${selected.introVideo}（缺失）`,
+                            },
+                          ]
+                        : []),
+                      ...(selected.introVideo &&
+                      selectedIntroVideoAsset &&
+                      selectedIntroVideoAsset.kind !== 'video'
+                        ? [
+                            {
+                              value: selected.introVideo,
+                              label: selected.introVideo,
+                              description: `类型 ${selectedIntroVideoAsset.kind}`,
+                            },
+                          ]
+                        : []),
+                      ...videoAssets.map(([id, asset]) => ({
+                        value: id,
+                        label: asset.label ?? id,
+                        description: asset.label ? id : undefined,
+                      })),
+                    ]}
+                    onValueChange={(value) =>
+                      patchEntry(selected.id, { introVideo: value || undefined })
                     }
-                  >
-                    <option value="">无（由场景脚本负责叙事）</option>
-                    {selected.introVideo && !assetCatalog.assets[selected.introVideo] ? (
-                      <option value={selected.introVideo}>{selected.introVideo}（缺失）</option>
-                    ) : null}
-                    {selected.introVideo &&
-                    assetCatalog.assets[selected.introVideo]?.kind !== 'video' ? (
-                      <option value={selected.introVideo}>
-                        {selected.introVideo}（类型 {assetCatalog.assets[selected.introVideo]?.kind}
-                        ）
-                      </option>
-                    ) : null}
-                    {videoAssets.map(([id, asset]) => (
-                      <option value={id} key={id}>
-                        {asset.label ? `${asset.label} · ` : ''}
-                        {id}
-                      </option>
-                    ))}
-                  </select>
+                  />
                   {selected.introVideo && onOpenLocation ? (
                     <button
                       type="button"
@@ -1181,7 +1188,7 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
                     </button>
                   ) : null}
                 </span>
-              </label>
+              </div>
             </section>
             <section className="project-card">
               <div className="project-title-row">
@@ -1232,25 +1239,20 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
           <>
             <section className="project-card">
               <h4>入口信息</h4>
-              <label className="field">
+              <div className="field">
                 <span className="field-label">起始场景</span>
-                <select
-                  className="in"
+                <DsSelect
+                  aria-label="默认入口场景"
                   value={manifest.entryScene}
-                  onChange={(event) =>
-                    session.dispatch(new UpdateEntrySceneCommand(event.target.value))
-                  }
-                >
-                  {!sceneIds.includes(manifest.entryScene) ? (
-                    <option value={manifest.entryScene}>{manifest.entryScene}（缺失）</option>
-                  ) : null}
-                  {sceneIds.map((id) => (
-                    <option value={id} key={id}>
-                      {id}
-                    </option>
-                  ))}
-                </select>
-              </label>
+                  options={[
+                    ...(!sceneIds.includes(manifest.entryScene)
+                      ? [{ value: manifest.entryScene, label: `${manifest.entryScene}（缺失）` }]
+                      : []),
+                    ...sceneIds.map((id) => ({ value: id, label: id })),
+                  ]}
+                  onValueChange={(value) => session.dispatch(new UpdateEntrySceneCommand(value))}
+                />
+              </div>
               <PageHint>
                 这是无 menu / entry 参数时使用的入口；没有 introVideo，叙事由入口场景 onEnter 负责。
               </PageHint>

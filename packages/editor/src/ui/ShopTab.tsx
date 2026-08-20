@@ -8,7 +8,7 @@ import type { ItemData, ShopDef } from '@type-pal/content'
 import { useEffect, useMemo, useState } from 'react'
 import { AddShopCommand, UpdateShopCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
-import { DsListHeader, DsTag } from './design-system/controls.js'
+import { DsButton, DsListHeader, DsSelectField, DsTag } from './design-system/controls.js'
 import {
   DsCatalogRow,
   DsInspectorSection,
@@ -35,16 +35,34 @@ export function ShopTab(props: {
   const [inspectorTab, setInspectorTab] = useState<ShopInspectorTab>('summary')
   const shop = shops.find((x) => x.id === selId) ?? shops[0]
   const itemsById = useMemo(() => new Map(items.map((i) => [i.id, i])), [items])
+  const stockItemOptions = useMemo(
+    () =>
+      items
+        .filter((item) => !shop?.items.includes(item.id))
+        .map((item) => ({
+          value: item.id,
+          label: item.name,
+          description: `${item.id} · 买价 ${item.buyPrice} 文`,
+        })),
+    [items, shop?.items],
+  )
   const selectShop = (id: number): void => {
     setSelId(id)
+    setPick('')
     onObjectFocus?.(String(id))
   }
 
   useEffect(() => {
     const id = Number(focusObjectId)
-    if (focusObjectId && Number.isInteger(id) && shops.some((candidate) => candidate.id === id))
+    if (focusObjectId && Number.isInteger(id) && shops.some((candidate) => candidate.id === id)) {
       setSelId(id)
+      setPick('')
+    }
   }, [focusObjectId, shops])
+
+  useEffect(() => {
+    if (pick && !stockItemOptions.some((option) => option.value === pick)) setPick('')
+  }, [pick, stockItemOptions])
 
   const setItems = (next: string[]): void => {
     if (shop) session.dispatch(new UpdateShopCommand(shop.id, next))
@@ -172,37 +190,33 @@ export function ShopTab(props: {
                 </div>
 
                 <div className="shop-add-stock">
-                  <label>
-                    <span>上架物品</span>
-                    <select
-                      className="in"
-                      name="shop-stock-item"
-                      autoComplete="off"
-                      value={pick}
-                      onChange={(e) => setPick(e.target.value)}
-                    >
-                      <option value="">选择物品…</option>
-                      {items
-                        .filter((it) => !shop.items.includes(it.id))
-                        .map((it) => (
-                          <option key={it.id} value={it.id}>
-                            {it.name}（{it.buyPrice} 文）
-                          </option>
-                        ))}
-                    </select>
-                  </label>
-                  <button
-                    type="button"
-                    className="tool shop-add-stock-button"
-                    disabled={!pick}
+                  <DsSelectField
+                    label="上架物品"
+                    value={pick}
+                    placeholder={stockItemOptions.length ? '选择物品…' : '没有可上架物品'}
+                    options={[
+                      {
+                        value: '',
+                        label: stockItemOptions.length ? '选择物品…' : '没有可上架物品',
+                      },
+                      ...stockItemOptions,
+                    ]}
+                    disabled={!stockItemOptions.length}
+                    onValueChange={setPick}
+                  />
+                  <DsButton
+                    variant="primary"
+                    icon="add"
+                    className="shop-add-stock-button"
+                    disabled={!stockItemOptions.some((option) => option.value === pick)}
                     onClick={() => {
-                      if (!pick) return
+                      if (!stockItemOptions.some((option) => option.value === pick)) return
                       setItems([...shop.items, pick])
                       setPick('')
                     }}
                   >
-                    ＋ 上架
-                  </button>
+                    上架
+                  </DsButton>
                 </div>
               </section>
             </div>
