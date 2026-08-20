@@ -12720,15 +12720,18 @@ button.sprite-frame-cell[draggable="true"]:active {
 .canonical-help-tip > button {
   display: inline-grid;
   place-items: center;
-  width: 17px;
-  height: 17px;
+  width: var(--ds-control-height-compact);
+  height: var(--ds-control-height-compact);
+  min-width: var(--ds-control-height-compact);
+  min-height: var(--ds-control-height-compact);
+  aspect-ratio: 1;
   padding: 0;
   border: 1px solid color-mix(in srgb, var(--dim) 56%, transparent);
   border-radius: 50%;
   background: transparent;
   color: var(--dim);
   cursor: help;
-  font: 700 10px / 1 var(--sans);
+  font: 700 12px / 1 var(--sans);
 }
 .canonical-help-tip > button:hover,
 .canonical-help-tip > button:focus-visible {

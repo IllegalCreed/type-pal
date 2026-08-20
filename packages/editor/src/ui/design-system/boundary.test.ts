@@ -135,6 +135,9 @@ describe('editor design-system static boundary', () => {
     expect(businessCss).toMatch(
       /@container canonical-script-editor \(max-width:\s*460px\)[\s\S]*?\.canonical-script-row-actions\s*\{[\s\S]*?position:\s*static;[\s\S]*?flex:\s*0 0 100%;/,
     )
+    expect(businessCss).toMatch(
+      /\.canonical-help-tip\s*>\s*button\s*\{[\s\S]*?width:\s*var\(--ds-control-height-compact\);[\s\S]*?height:\s*var\(--ds-control-height-compact\);[\s\S]*?min-width:\s*var\(--ds-control-height-compact\);[\s\S]*?min-height:\s*var\(--ds-control-height-compact\);[\s\S]*?aspect-ratio:\s*1;/,
+    )
   })
 
   test('keeps stamp and tileset workspaces on shared object and map editing surfaces', () => {
