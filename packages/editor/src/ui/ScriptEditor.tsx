@@ -21,7 +21,8 @@ import type {
 } from '@type-pal/content'
 import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
 import type { ReactElement, ReactNode } from 'react'
-import { cloneElement, useEffect, useId, useMemo, useRef, useState } from 'react'
+import { cloneElement, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import {
   type AuthorCommandChildKey,
   type AuthorCommandPath,
@@ -144,30 +145,125 @@ export function CanonicalScriptDialog(props: {
 
 export function CanonicalHelpTip(props: { label: string; children: ReactNode }) {
   const tooltipId = useId()
+  const buttonRef = useRef<HTMLButtonElement>(null)
+  const tooltipRef = useRef<HTMLSpanElement>(null)
+  const [portalHost, setPortalHost] = useState<Element | null>(null)
   const [dismissed, setDismissed] = useState(false)
+  const [hovered, setHovered] = useState(false)
+  const [focused, setFocused] = useState(false)
+  const [position, setPosition] = useState({ left: -10_000, top: -10_000 })
+  const open = !dismissed && (hovered || focused)
+
+  const placeTooltip = useCallback((button = buttonRef.current) => {
+    const tooltip = tooltipRef.current
+    if (!button || !tooltip) return
+    const buttonRect = button.getBoundingClientRect()
+    const tooltipRect = tooltip.getBoundingClientRect()
+    const viewportMargin = 20
+    const gap = 7
+    const left = Math.min(
+      Math.max(viewportMargin, buttonRect.left + buttonRect.width / 2 - tooltipRect.width / 2),
+      Math.max(viewportMargin, window.innerWidth - viewportMargin - tooltipRect.width),
+    )
+    const below = buttonRect.bottom + gap
+    const top =
+      below + tooltipRect.height <= window.innerHeight - viewportMargin
+        ? below
+        : Math.max(viewportMargin, buttonRect.top - gap - tooltipRect.height)
+    setPosition({ left, top })
+  }, [])
+
+  const prepareTooltip = (button: HTMLButtonElement) => {
+    setDismissed(false)
+    const nextPortalHost = button.closest('dialog') ?? document.body
+    if (nextPortalHost === portalHost) placeTooltip(button)
+    else {
+      setPortalHost(nextPortalHost)
+      setPosition({ left: -10_000, top: -10_000 })
+    }
+  }
+
+  useEffect(() => {
+    const button = buttonRef.current
+    if (!button) return
+    setPortalHost(button.closest('dialog') ?? document.body)
+  }, [])
+
+  useEffect(() => {
+    if (!open || !portalHost) return
+    const reposition = () => placeTooltip()
+    reposition()
+    window.addEventListener('resize', reposition)
+    document.addEventListener('scroll', reposition, true)
+    window.visualViewport?.addEventListener('resize', reposition)
+    window.visualViewport?.addEventListener('scroll', reposition)
+    const observer =
+      typeof ResizeObserver === 'undefined'
+        ? null
+        : new ResizeObserver(() => {
+            reposition()
+          })
+    if (buttonRef.current) observer?.observe(buttonRef.current)
+    if (tooltipRef.current) observer?.observe(tooltipRef.current)
+    return () => {
+      window.removeEventListener('resize', reposition)
+      document.removeEventListener('scroll', reposition, true)
+      window.visualViewport?.removeEventListener('resize', reposition)
+      window.visualViewport?.removeEventListener('scroll', reposition)
+      observer?.disconnect()
+    }
+  }, [open, placeTooltip, portalHost])
+
+  const visualTooltip = portalHost
+    ? createPortal(
+        <span
+          ref={tooltipRef}
+          className={`canonical-help-tooltip${open ? ' is-open' : ''}`}
+          aria-hidden="true"
+          style={{ left: position.left, top: position.top }}
+        >
+          {props.children}
+        </span>,
+        portalHost,
+      )
+    : null
 
   return (
-    <span className={`canonical-help-tip${dismissed ? ' dismissed' : ''}`}>
-      <DsButton
-        size="compact"
-        variant="quiet"
-        aria-label={`${props.label}说明`}
-        aria-describedby={tooltipId}
-        onMouseEnter={() => setDismissed(false)}
-        onMouseLeave={() => setDismissed(false)}
-        onFocus={() => setDismissed(false)}
-        onKeyDown={(event) => {
-          if (event.key !== 'Escape') return
-          event.stopPropagation()
-          setDismissed(true)
-        }}
+    <>
+      <span
+        className={`canonical-help-tip${open ? ' is-open' : ''}${dismissed ? ' dismissed' : ''}`}
       >
-        ?
-      </DsButton>
-      <span id={tooltipId} role="tooltip">
-        {props.children}
+        <DsButton
+          ref={buttonRef}
+          size="compact"
+          variant="quiet"
+          aria-label={`${props.label}说明`}
+          aria-describedby={tooltipId}
+          onMouseEnter={(event) => {
+            setHovered(true)
+            prepareTooltip(event.currentTarget)
+          }}
+          onMouseLeave={() => setHovered(false)}
+          onFocus={(event) => {
+            setFocused(true)
+            prepareTooltip(event.currentTarget)
+          }}
+          onBlur={() => setFocused(false)}
+          onKeyDown={(event) => {
+            if (event.key !== 'Escape' || !open) return
+            event.preventDefault()
+            event.stopPropagation()
+            setDismissed(true)
+          }}
+        >
+          ?
+        </DsButton>
+        <span id={tooltipId} role="tooltip" className="ds-visually-hidden">
+          {props.children}
+        </span>
       </span>
-    </span>
+      {visualTooltip}
+    </>
   )
 }
 

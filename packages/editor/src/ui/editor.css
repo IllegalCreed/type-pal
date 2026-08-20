@@ -12739,11 +12739,9 @@ button.sprite-frame-cell[draggable="true"]:active {
   color: var(--accent);
   outline: 0;
 }
-.canonical-help-tip > [role="tooltip"] {
-  position: absolute;
+.canonical-help-tooltip {
+  position: fixed;
   z-index: 2400;
-  top: calc(100% + 7px);
-  left: 50%;
   width: max-content;
   max-width: min(300px, calc(100vw - 40px));
   padding: 7px 9px;
@@ -12755,19 +12753,19 @@ button.sprite-frame-cell[draggable="true"]:active {
   box-shadow: 0 9px 28px rgba(0, 0, 0, 0.38);
   opacity: 0;
   pointer-events: none;
-  transform: translate(-50%, -2px);
+  transform: translateY(-2px);
   transition:
-    opacity 120ms ease,
-    transform 120ms ease,
-    visibility 120ms;
+    opacity var(--ds-motion-fast) ease,
+    transform var(--ds-motion-fast) ease,
+    visibility var(--ds-motion-fast);
   font: 400 10px / 1.55 var(--sans);
+  overflow-wrap: anywhere;
   white-space: normal;
 }
-.canonical-help-tip:not(.dismissed):hover > [role="tooltip"],
-.canonical-help-tip:not(.dismissed):focus-within > [role="tooltip"] {
+.canonical-help-tooltip.is-open {
   visibility: visible;
   opacity: 1;
-  transform: translate(-50%, 0);
+  transform: translateY(0);
 }
 .script-scheme-strip {
   display: grid;

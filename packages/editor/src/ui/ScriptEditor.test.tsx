@@ -89,20 +89,85 @@ describe('CanonicalScriptEditor author presentation', () => {
     const wrapper = host.querySelector<HTMLElement>('.canonical-help-tip')!
     const button = host.querySelector<HTMLButtonElement>('button')!
     const tooltip = host.querySelector<HTMLElement>('[role="tooltip"]')!
+    const visualTooltip = document.body.querySelector<HTMLElement>('.canonical-help-tooltip')!
     expect(button.getAttribute('aria-describedby')).toBe(tooltip.id)
+    expect(visualTooltip.textContent).toBe(tooltip.textContent)
+    expect(wrapper.contains(visualTooltip)).toBe(false)
     expect(button.hasAttribute('aria-expanded')).toBe(false)
+    expect(wrapper.classList.contains('is-open')).toBe(false)
 
+    await act(async () =>
+      button.dispatchEvent(new MouseEvent('mouseover', { bubbles: true, relatedTarget: null })),
+    )
+    expect(wrapper.classList.contains('is-open')).toBe(true)
     await act(async () => button.focus())
     expect(wrapper.classList.contains('dismissed')).toBe(false)
+    expect(wrapper.classList.contains('is-open')).toBe(true)
     await act(async () =>
-      button.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })),
+      button.dispatchEvent(
+        new MouseEvent('mouseout', { bubbles: true, relatedTarget: document.body }),
+      ),
     )
+    expect(wrapper.classList.contains('is-open')).toBe(true)
+    const firstEscape = new KeyboardEvent('keydown', {
+      key: 'Escape',
+      bubbles: true,
+      cancelable: true,
+    })
+    await act(async () =>
+      button.dispatchEvent(firstEscape),
+    )
+    expect(firstEscape.defaultPrevented).toBe(true)
     expect(wrapper.classList.contains('dismissed')).toBe(true)
+    expect(wrapper.classList.contains('is-open')).toBe(false)
     expect(document.activeElement).toBe(button)
+    const secondEscape = new KeyboardEvent('keydown', {
+      key: 'Escape',
+      bubbles: true,
+      cancelable: true,
+    })
+    await act(async () => button.dispatchEvent(secondEscape))
+    expect(secondEscape.defaultPrevented).toBe(false)
     await act(async () => button.blur())
     expect(wrapper.classList.contains('dismissed')).toBe(true)
     await act(async () => button.focus())
     expect(wrapper.classList.contains('dismissed')).toBe(false)
+    expect(wrapper.classList.contains('is-open')).toBe(true)
+    await act(async () =>
+      button.dispatchEvent(new MouseEvent('mouseover', { bubbles: true, relatedTarget: null })),
+    )
+    await act(async () => button.blur())
+    expect(wrapper.classList.contains('is-open')).toBe(true)
+    await act(async () =>
+      button.dispatchEvent(
+        new MouseEvent('mouseout', { bubbles: true, relatedTarget: document.body }),
+      ),
+    )
+    expect(wrapper.classList.contains('is-open')).toBe(false)
+  })
+
+  test('keeps dialog help bubbles in the native dialog top layer and SSR descriptions inline', async () => {
+    const staticHtml = renderToStaticMarkup(
+      <CanonicalHelpTip label="脚本方案">完整的方案说明。</CanonicalHelpTip>,
+    )
+    const staticHost = document.createElement('div')
+    staticHost.innerHTML = staticHtml
+    const staticButton = staticHost.querySelector('button')!
+    const staticTooltip = staticHost.querySelector<HTMLElement>('[role="tooltip"]')!
+    expect(staticButton.getAttribute('aria-describedby')).toBe(staticTooltip.id)
+    expect(staticTooltip.textContent).toBe('完整的方案说明。')
+
+    await act(async () =>
+      root.render(
+        <dialog open>
+          <CanonicalHelpTip label="脚本方案">完整的方案说明。</CanonicalHelpTip>
+        </dialog>,
+      ),
+    )
+    const dialog = host.querySelector('dialog')!
+    const visualTooltip = dialog.querySelector<HTMLElement>('.canonical-help-tooltip')
+    expect(visualTooltip?.parentElement).toBe(dialog)
+    expect(document.body.querySelectorAll('.canonical-help-tooltip')).toHaveLength(1)
   })
 
   test('renders command rows in the existing Chinese script-tree language', () => {
