@@ -320,9 +320,11 @@ OPS-TST-PERF-B/C 未提交改动，未标 build/done。
 - Codex: **accept（2026-08-20）** — direct content16/SAVE8、current author/runtime/editor/migrate、catalog-only
   资源和 current publication 均已落地；产品静态边界 3/3 通过，四包 typecheck 通过，current PAL dry-run
   `managed=537 writes=0 deletes=0 conflicts=0`。旧版本兼容审查见 Review，结论 `pass`。
-- Kimi: pending
+- Kimi: **counter（2026-08-20，仅 RA1：`projects/pal/_transitions/` 5 个历史 sidecar 残留待删；
+  其余公共接口/editor 双 session 边界/资源面/ledger/静态门禁全部一手核验通过，详见 Review 节主审
+  记录）**。RA1 为纯死文件删除，落地 + boundary test 复绿后本席直接转 accept，不需重新全面复审。
 - GLM: pending
-- counter / 返工处理: pending
+- counter / 返工处理: Kimi RA1（见 Review 节）
 - 缺签豁免: N/A
 - done 准入结论: blocked
 
@@ -446,9 +448,53 @@ N/A
     `extractLegacyScriptEdges` 或旧 payload。
   - 允许命中仅限 retention ledger 显式 current/provenance 项：Map4、AssetCatalogV1、ScriptChunk/IndexV1、
     `legacy-migrated` origin、浏览器 `onupgradeneeded`、PAL raw legacy-dialog 解码。
-- Kimi/GLM 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- Kimi/GLM 审查结论: Kimi **counter（2026-08-20，仅一项精确返工 RA1；RA1 已于同日落地，待复签
+  accept）**；GLM pending
+- 必须返工项:
+  - **RA1（唯一，`projects/pal/_transitions/` 残留删除；已完成）**：`b10-enemy-team-slots-v1.json`、
+    `b2-battle-field-domain-v1.json`、`c1-dialogue-identity-v1.json`、`c1-npc-curation-v1.json`、
+    `w9-entity-lifecycle-v1.json` 五个历史 sidecar 仍 git 追踪在当前工程目录。ledger 的删除条件
+    已满足（direct current publication proof 存在、`pal-current-publication.ts:64` 禁止该路径、
+    manifest 无 migrations 声明、无生产 reader——全仓仅负向断言引用）；baseline 侧
+    `_transitions` 已清空，工程侧未删。属本卡范围「删除已完成使命的 transition sidecar」的漏项，
+    也违反开发期版本纪律。删除后 migrate:content replay 应保持 writes/deletes/conflicts = 0/0/0
+    （这些文件本就不在 managed set），current-only boundary test 全绿即闭环。RA1 为纯死文件删除，
+    落地后本席直接转 accept，不需要重新全面复审。Codex 已删除全部 5 个 git tracked sidecar；
+    `migrate:content` 复验为 `managed=537 writes=0 deletes=0 conflicts=0`，闭包仍为
+    `scenes=294 maps=223 assets=1935`；`current-only-product-boundary.test.ts` 为 `3/3`。
+- Accept / rework: RA1 已闭环，等待 Kimi 将 counter 转 accept；GLM 独立审查并行。
+
+### Kimi done 前主审记录（2026-08-20，本人一手读码 + focused 复跑，非代理）
+
+**逐项核验（除 RA1 外全部通过）：**
+
+1. **公共接口 current-only ✓**：content/src 全部模块已改为无版本领域命名（author-script/
+   author-scene/author-dialogue/author-item/author-enemy/entity-lifecycle 等），content/index.ts 与
+   reforge/src/index.ts 对 `V5/V13/V14/V16/Legacy` 零命中；`loader-v5/v13/v14/v16`、
+   `legacy-runtime-shell-v5`、`script-v13/v14`、`migration-v13/v14/v16` 生产文件全不存在、生产码
+   零引用；save/ 只剩 `current-codec.ts` + current characterization。
+2. **editor 边界 ✓（不构成任务卡禁止的"双作者态"）**：`ScriptEditSession` 是脚本作者真值，
+   生产 App 必须携带（App.tsx:255）；主 EditSession 是 shell 内容 + 交互投影；两条保存路径
+   （save :1429-1438 与 saveAs :1532-1539）都经 `serializeEditorSnapshot`，缺 scriptState 即抛
+   「current 作者态缺失，拒绝序列化交互投影」，唯一 merge
+   `mergeEditorProjectionWithCurrentAuthorState`（script-editor-projection.ts:153）带 fail-closed
+   校验（:49 未登记 onLose 即拒）。不存在可绕过 merge 的序列化路径，也不是双读双写——两 session
+   按字段域分工 + 单 merge，与我 build 前认可的分工一致。
+3. **资源面 ✓**：`assets.legacy` 配置、LegacyAssetAdapter、extracted fallback 均不存在；
+   `legacy-migrated` 仅为 origin 溯源标签（asset.ts:74,99,152，与 allowlist 一致）；PAL manifest
+   无 legacy key、无 migrations 声明。
+4. **retention ledger 与静态门禁 ✓**：ledger 逐类处置 + allowlist 逐项有角色；本席复跑
+   `current-only-product-boundary.test.ts` 3/3、script-editor-projection.test 2/2 通过；KA1 排序门
+   已按 OPS-B 停线交接执行、KA2 characterization 文件在位
+   （author-script.current-characterization.test.ts 等）。
+5. **RA1 发现的来源**：Build 摘要称「删除 `_transitions/`、旧 sidecar」，但 projects/pal 侧 5 个
+   sidecar 仍在（baseline 侧已清空）；负向断言只防再生产、不删既有文件。
+
+Evidence: content/src 目录全量 ls + 双 index grep / App.tsx:86-90,255,268-278,1429-1438,1532-1539 /
+script-editor-projection.ts:49,153 / save/current-codec.ts / asset.ts:74-152 /
+projects/pal/manifest.json 实测 / projects/pal/_transitions 5 文件 ls + git ls-files /
+pal-current-publication.ts:64 / current-only-product-boundary.test.ts:71-77 / 两测试复跑输出。
+只读审查，未改实现文件，未代签 GLM，未标 done。
 
 ## 用户验收
 
@@ -476,25 +522,48 @@ N/A
 - 2026-08-20 Codex（Coding Owner）: 完成 G0-G5 current-only 收口、current PAL 正式发布/零差异复验、
   product/migration 静态门禁和四包验证；签 **accept**，任务转 review。最终整套门禁只跑一次；其发现的
   content/editor 失败均按文件定向复绿。Next: Kimi 独立代码/架构审查，不得修改实现或标 done。
+- 2026-08-20 Kimi: done 前主审完成，签 **counter（仅 RA1）**。公共接口 current-only（content 全面
+  无版本化改名、双 index 零旧纪元导出、loader/save/legacy shell 删除）、editor 边界（单 merge +
+  fail-closed、非双作者态）、资源面（catalog-only、legacy-migrated 仅溯源标签）、ledger 与静态门禁
+  均一手通过（boundary 3/3、projection 2/2 本席复跑）。唯一返工 RA1：`projects/pal/_transitions/`
+  5 个历史 sidecar 仍在 git 追踪（baseline 侧已清空、负向断言只防再生产）；纯死文件删除，落地后
+  本席直接转 accept。未改实现文件，未代签 GLM，未标 done。Next: Codex 落 RA1 + GLM 覆盖终审。
+- 2026-08-20 Codex: 完成 Kimi RA1 返工，删除 `projects/pal/_transitions/` 全部 5 个 git tracked 历史
+  sidecar；focused 复验 `migrate:content` 为 `537/0/0/0`、闭包 `294/223/1935`，current-only boundary
+  `3/3`。未重复四包长测。Next: Kimi 直接复签 accept；GLM 继续独立终审。
 
 ## 下一位 Agent 提示词
 
+### 给 Kimi（RA1 focused 复验并转 accept，可直接复制）
+
 ```text
-接手任务: ARCH-CURRENT-ONLY-1 开发期单版本架构收口——Kimi review
+继续任务: ARCH-CURRENT-ONLY-1——Kimi RA1 focused 复验
 任务卡: docs/ops/tasks/ARCH-CURRENT-ONLY-1-development-current-only-consolidation.md
-当前状态: review；Codex 已实现并签 accept，Kimi/GLM review 待签；不得标 done
-你的角色: Kimi，独立代码/架构/公共接口主审
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、任务卡全文、
-docs/ops/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md
+当前状态: review；你此前仅因 RA1 counter，Codex 已删除 projects/pal/_transitions/ 5 个 tracked sidecar；
+GLM 终审 pending；不得标 done
+请只做你承诺的最小复验：
+1. 确认 projects/pal/_transitions/ 已无 tracked 文件；
+2. 核对任务卡记录的 migrate:content 537/0/0/0、闭包 294/223/1935 和 boundary 3/3 证据；
+3. RA1 闭环则把 Kimi counter 转 accept，并写回 Review/交接日志；若仍有问题，仅给精确 file:line/路径证据。
+不得修改实现文件、不得代签 GLM、不得标 done；无需重新全面复审或重跑长测试。
+```
+
+### 给 GLM（done 前覆盖/迁移终审，可直接复制）
+
+```text
+接手任务: ARCH-CURRENT-ONLY-1 开发期单版本架构收口——GLM done 前覆盖/迁移终审
+任务卡: docs/ops/tasks/ARCH-CURRENT-ONLY-1-development-current-only-consolidation.md
+当前状态: review；Codex accept、Kimi counter 的唯一 RA1 已落地并待其复签；不得标 done
+你的角色: GLM，独立覆盖/迁移/测试矩阵终审
+先读: 任务卡全文、docs/ops/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md、Review 节 Kimi 主审记录
 请独立执行:
-1. 核对 content/reforge/editor/save public surface 是否只剩 direct current content16/SAVE8；旧委托链、
-   legacy runtime shell、旧 upgrader/payload/fixture 是否确实从产品入口删除。
-2. 重点压力测试 editor 边界：主 EditSession 是 current 交互投影、ScriptEditSession 是脚本作者真值；
-   生产 App 必须携带后者且保存不能绕过唯一 merge。若你认为这仍构成任务卡禁止的“双作者态”，请 counter
-   并给出最小可验收边界，不要用命名争论代替调用链证据。
-3. 核对 catalog-only 资源与 PAL raw -> current publication 是否没有兼容 fallback；复核 retention allowlist
-   没有掩盖旧产品 reader。
-4. 复核 Build 中验证证据；无需重复长跑已有全量，只跑发现问题所需的最小 focused tests。
-输出: 在进入 done 前签 Kimi accept，或 counter + 精确 file:line 返工项；写回 Review/交接日志并给出 GLM
-下一位提示词。不得修改实现文件、不得代签 GLM、不得标 done。
+1. 复核 G0 retention ledger 的分类完整性：GLM2 七个 dead upgrade 模块删除、KA1 交集清单、
+   GLM1 命名轴裁定在实现中的落地形态。
+2. 独立复算 current PAL：migrate:content replay writes/deletes/conflicts=0/0/0、闭包
+   scenes=294 maps=223 assets=1935、effect-sprite 56/922 帧目录 census。
+3. 复核 characterization（KA2）覆盖与 current-only-product-boundary 静态门禁的召回率
+   （允许项是否全部落在 ledger allowlist）。
+4. 核对 RA1 落地后的零 diff 证据与测试矩阵收尾。
+输出: 在进入 done 前签 GLM accept 或 counter + 精确缺口；写回 Review/交接日志。
+不得修改实现文件、不得代签 Kimi、不得标 done。
 ```

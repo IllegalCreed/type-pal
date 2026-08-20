@@ -13,7 +13,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| ARCH-CURRENT-ONLY-1 | 开发期单版本架构收口 | review | Kimi：架构/公共接口主审，随后 GLM 覆盖审查 | direct content16/SAVE8、catalog-only 与 raw→current publication 已落地；静态边界 3/3、PAL 零差异 |
+| ARCH-CURRENT-ONLY-1 | 开发期单版本架构收口 | review | Kimi RA1 已落地，待 focused 复签 accept；GLM 终审并行 | 5 个死 sidecar 已删；静态边界 3/3、PAL 537/0/0/0 零差异 |
 | ED-DS-2 | 编辑器设计系统代码基础与 Design Lab | done | 三方 accept + 用户验收齐，整卡收口 | 四入口同源、WK2 与 sash 边界复审通过；全量 118/872 独立复跑全绿 |
 | ED-AUDIT-2 | 编辑器全页面视觉、闭环与代码质量审计 | done | 三方 accept + 用户验收齐，整卡收口 | GA1/GA2 闭环（门禁 18/17/17/6）；census 脚本可复现、boundary 23/23 |
 | ED-BATTLE-UI-1 | 战斗数据工作台族与共享对象 Hero | done | 三方 accept + 用户验收齐，整卡收口 | N1-N6/BK1-BK3 + RK1 全闭环；editor 124 files / 912 tests + typecheck、1280×720 实机通过 |
