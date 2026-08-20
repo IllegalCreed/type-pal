@@ -10824,6 +10824,12 @@ button.sprite-frame-cell[draggable="true"]:active {
   inset: 0;
   mix-blend-mode: multiply;
 }
+.ambience-create-form {
+  display: grid;
+  min-width: 0;
+  gap: var(--ds-space-5);
+  margin-block-start: var(--ds-space-5);
+}
 
 /* ── 数据模式中栏滚动容器(2026-07-05 作者:指令手册下面看不到 —— 这三个类此前从未定义,
    内容溢出即裁;grid 行高已 minmax(0,1fr) 约束,列内补滚动) ── */

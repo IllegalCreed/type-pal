@@ -5,10 +5,10 @@
  * 夜晚缺省值拟合自原版夜盘(R×0.458/G×0.899/B×1.0,见 docs/phase2/ambience-design.md)。
  */
 import type { AmbienceDef } from '@type-pal/content'
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import { AddAmbienceCommand, UpdateAmbienceCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
-import { DsListHeader } from './design-system/index.js'
+import { DsButton, DsDialog, DsListHeader, DsTextField } from './design-system/index.js'
 
 const toHex = (t: readonly [number, number, number]): string =>
   `#${t.map((c) => Math.max(0, Math.min(255, c)).toString(16).padStart(2, '0')).join('')}`
@@ -44,6 +44,38 @@ export function AmbienceTab(props: {
   tabBar?: React.ReactNode
 }) {
   const { ambiences, session, tabBar } = props
+  const createFormId = useId()
+  const createIdFieldId = useId()
+  const [createOpen, setCreateOpen] = useState(false)
+  const [createId, setCreateId] = useState('')
+  const [createName, setCreateName] = useState('')
+  const [createError, setCreateError] = useState('')
+
+  const openCreate = () => {
+    setCreateId('')
+    setCreateName('')
+    setCreateError('')
+    setCreateOpen(true)
+  }
+
+  const closeCreate = () => setCreateOpen(false)
+
+  const createAmbience = () => {
+    const id = createId.trim()
+    if (!id) {
+      setCreateError('请输入稳定 ID。')
+      document.getElementById(createIdFieldId)?.focus()
+      return
+    }
+    if (ambiences.some((ambience) => ambience.id === id)) {
+      setCreateError(`稳定 ID“${id}”已存在。`)
+      document.getElementById(createIdFieldId)?.focus()
+      return
+    }
+    session.dispatch(new AddAmbienceCommand(id, createName.trim() || id))
+    setCreateOpen(false)
+  }
+
   return (
     <>
       <div className="outliner data-outliner">
@@ -52,21 +84,14 @@ export function AmbienceTab(props: {
           title="氛围"
           count={ambiences.length}
           unit="条"
-          actions={[{
-            id: 'create-ambience',
-            label: '新建氛围',
-            icon: 'add',
-            onClick: () => {
-              const id = window.prompt('新氛围 id(英文,脚本引用):', '')?.trim()
-              if (!id) return
-              if (ambiences.some((a) => a.id === id)) {
-                window.alert(`氛围 "${id}" 已存在`)
-                return
-              }
-              const name = window.prompt('显示名:', id)?.trim() || id
-              session.dispatch(new AddAmbienceCommand(id, name))
+          actions={[
+            {
+              id: 'create-ambience',
+              label: '新建氛围',
+              icon: 'add',
+              onClick: openCreate,
             },
-          }]}
+          ]}
         />
         <div className="insp-empty" style={{ marginTop: 8 }}>
           全局昼夜色调(全帧乘法滤镜):脚本「切氛围」指令引用这里的 id,跨场景持续、随存档。 白 =
@@ -125,6 +150,59 @@ export function AmbienceTab(props: {
           )}
         </div>
       </div>
+      <DsDialog
+        open={createOpen}
+        title="新建氛围"
+        description="创建后稳定 ID 用于脚本引用；初始为白色（不染），可在列表中继续调整乘色。"
+        onClose={closeCreate}
+        footer={
+          <>
+            <DsButton onClick={closeCreate}>取消</DsButton>
+            <DsButton type="submit" form={createFormId} variant="primary">
+              创建氛围
+            </DsButton>
+          </>
+        }
+      >
+        <form
+          id={createFormId}
+          className="ambience-create-form"
+          noValidate
+          onSubmit={(event) => {
+            event.preventDefault()
+            createAmbience()
+          }}
+        >
+          <DsTextField
+            id={createIdFieldId}
+            name="ambience-id"
+            label="稳定 ID"
+            required
+            monospace
+            autoFocus
+            autoComplete="off"
+            spellCheck={false}
+            translate="no"
+            placeholder="例如：dusk"
+            value={createId}
+            help={createError ? undefined : '创建后不可修改，供剧情脚本长期引用。'}
+            error={createError || undefined}
+            onChange={(event) => {
+              setCreateId(event.target.value)
+              setCreateError('')
+            }}
+          />
+          <DsTextField
+            name="ambience-name"
+            label="显示名称"
+            autoComplete="off"
+            placeholder="留空则使用稳定 ID"
+            value={createName}
+            help="用于编辑器列表展示，创建后仍可修改。"
+            onChange={(event) => setCreateName(event.target.value)}
+          />
+        </form>
+      </DsDialog>
     </>
   )
 }
