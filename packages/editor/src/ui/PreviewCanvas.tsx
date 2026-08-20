@@ -25,7 +25,7 @@ import {
   renderSceneFrame,
   walkFrameIndex,
 } from '@type-pal/reforge'
-import { type KeyboardEvent, useEffect, useMemo, useRef } from 'react'
+import { type KeyboardEvent, useEffect, useMemo, useRef, useState } from 'react'
 import type { Playback } from '../core/playback.js'
 import { playProjectQuery } from '../core/play-url.js'
 import { DsButton, DsSelect, DsTag, DsToolbar } from './design-system/index.js'
@@ -169,6 +169,9 @@ export function PreviewCanvas(props: {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const wrapRef = useRef<HTMLDivElement>(null)
   const confirmNoRef = useRef<HTMLButtonElement>(null)
+  // Playback 是可变控制器，speed 本身不发 React 更新；选择器用本地视图态保持受控值同步。
+  const [previewSpeed, setPreviewSpeed] = useState(playback.speed)
+  useEffect(() => setPreviewSpeed(playback.speed), [playback])
   // UI 重渲由宿主订阅 playback.onUi 驱动:父重渲 → 本组件(未 memo)必重渲,
   // 控制条/对话条读到最新 playback 状态;canvas 本体由 rAF 自绘,不依赖 React。
   // 共享层:容器自适应 + 视图态(滚轮缩放;pan = 相对导演相机的偏移,拖拽累积)
@@ -481,7 +484,7 @@ export function PreviewCanvas(props: {
               <DsSelect
                 aria-label="预览速度"
                 size="compact"
-                value={String(playback.speed)}
+                value={String(previewSpeed)}
                 options={[
                   { value: '0.5', label: '0.5×' },
                   { value: '1', label: '1×' },
@@ -489,7 +492,9 @@ export function PreviewCanvas(props: {
                   { value: '4', label: '4×' },
                 ]}
                 onValueChange={(value) => {
-                  playback.speed = Number(value)
+                  const nextSpeed = Number(value)
+                  playback.speed = nextSpeed
+                  setPreviewSpeed(nextSpeed)
                 }}
               />
             </div>

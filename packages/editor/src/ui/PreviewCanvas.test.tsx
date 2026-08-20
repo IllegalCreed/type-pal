@@ -110,6 +110,12 @@ describe('PreviewCanvas confirm controls', () => {
     )
     await act(async () => twice?.click())
     expect(playback.speed).toBe(2)
+    expect(speed?.textContent).toBe('2×')
+    await act(async () => speed?.click())
+    const selectedTwice = [...document.body.querySelectorAll<HTMLElement>('[role="option"]')].find(
+      (option) => option.textContent === '2×',
+    )
+    expect(selectedTwice?.getAttribute('aria-selected')).toBe('true')
   })
 
   test('默认聚焦否，方向/提交/Escape 与按钮都走同一 playback API', async () => {
