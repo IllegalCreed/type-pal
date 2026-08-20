@@ -1,7 +1,7 @@
 import type { Palette, RleFrame } from '@type-pal/reforge'
 import { bakeFrame } from '@type-pal/reforge'
 import { memo, useLayoutEffect, useRef } from 'react'
-import { DsSelect } from './design-system/index.js'
+import { DsButton, DsSelect } from './design-system/index.js'
 
 export interface TilePickerGridProps {
   ariaLabel: string
@@ -18,6 +18,79 @@ export interface TilePalettePickerProps extends TilePickerGridProps {
   onSelectTileset: (tilesetId: string) => void
 }
 
+export const TileFramePreview = memo(function TileFramePreview(props: {
+  frame?: RleFrame
+  palette?: Palette
+  className?: string
+}) {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useLayoutEffect(() => {
+    const canvas = canvasRef.current
+    const context = canvas?.getContext('2d')
+    if (!canvas || !context || !props.frame || !props.palette) return
+    context.clearRect(0, 0, canvas.width, canvas.height)
+    context.drawImage(bakeFrame(props.frame, props.palette), 0, 0)
+  }, [props.frame, props.palette])
+
+  return (
+    <span
+      className={`tile-frame-preview${props.className ? ` ${props.className}` : ''}`}
+      data-unavailable={!props.frame || !props.palette || undefined}
+      aria-hidden="true"
+    >
+      {props.frame && props.palette ? (
+        <canvas ref={canvasRef} width={props.frame.width} height={props.frame.height} />
+      ) : (
+        <span>—</span>
+      )}
+    </span>
+  )
+})
+
+export const CurrentPaintTileButton = memo(function CurrentPaintTileButton(props: {
+  tilesetId?: string
+  tilesetName?: string
+  tileId?: number
+  frame?: RleFrame
+  palette?: Palette
+  onOpenPicker: () => void
+}) {
+  const available = Boolean(props.tilesetId && props.frame && props.palette)
+  const tilesetLabel = props.tilesetId
+    ? props.tilesetName && props.tilesetName !== props.tilesetId
+      ? `${props.tilesetName}（${props.tilesetId}）`
+      : props.tilesetId
+    : '未选择瓦片集'
+  const tileLabel = props.tileId === undefined ? '未选择瓦片' : `瓦片 #${props.tileId}`
+  const identity = `${tilesetLabel} · ${tileLabel}`
+
+  return (
+    <DsButton
+      size="compact"
+      variant="secondary"
+      className="map-current-paint-tile"
+      aria-label={
+        available ? `当前绘制瓦片：${identity}；打开瓦片面板` : `当前绘制瓦片不可用：${identity}`
+      }
+      title={
+        available ? `当前绘制：${identity}；点击打开瓦片面板` : '暂无可绘制瓦片，请在绘制面板选择'
+      }
+      disabled={!available}
+      onClick={props.onOpenPicker}
+    >
+      <TileFramePreview
+        frame={props.frame}
+        palette={props.palette}
+        className="map-current-paint-tile__preview"
+      />
+      <span className="map-current-paint-tile__id">
+        {props.tileId === undefined ? '—' : `#${props.tileId}`}
+      </span>
+    </DsButton>
+  )
+})
+
 const TilePickerItem = memo(function TilePickerItem(props: {
   tileId: number
   frame: RleFrame
@@ -25,16 +98,6 @@ const TilePickerItem = memo(function TilePickerItem(props: {
   selected: boolean
   onPick: (tileId: number) => void
 }) {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-
-  useLayoutEffect(() => {
-    const canvas = canvasRef.current
-    const context = canvas?.getContext('2d')
-    if (!canvas || !context) return
-    context.clearRect(0, 0, canvas.width, canvas.height)
-    context.drawImage(bakeFrame(props.frame, props.palette), 0, 0)
-  }, [props.frame, props.palette])
-
   return (
     <button
       type="button"
@@ -44,9 +107,7 @@ const TilePickerItem = memo(function TilePickerItem(props: {
       aria-pressed={props.selected}
       onClick={() => props.onPick(props.tileId)}
     >
-      <span aria-hidden="true">
-        <canvas ref={canvasRef} width={props.frame.width} height={props.frame.height} />
-      </span>
+      <TileFramePreview frame={props.frame} palette={props.palette} />
     </button>
   )
 })

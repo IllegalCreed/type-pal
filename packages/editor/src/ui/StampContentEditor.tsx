@@ -50,7 +50,7 @@ import { LayerPaintContext, LayerStackControls } from './LayerStackControls.js'
 import { drawMapSelectionOverlay } from './map-selection-overlay.js'
 import { loadStampPreviewAssets } from './StampPreviewCanvas.js'
 import { mapBoxOf, useStageSize, useViewZoomPan } from './scene-stage.js'
-import { TilePalettePicker } from './TilePickerGrid.js'
+import { CurrentPaintTileButton, TilePalettePicker } from './TilePickerGrid.js'
 
 interface StampEditorAssets {
   palette: Palette
@@ -84,6 +84,7 @@ export function StampContentEditor(props: {
   paletteHost?: HTMLElement | null
   propertiesHost?: HTMLElement | null
   layersHost?: HTMLElement | null
+  onOpenTilePalette: () => void
   onChange: (template: StampTemplate, takeOwnership: boolean) => void
 }) {
   const [draft, setDraft] = useState(() => openStampDraft(props.template))
@@ -663,6 +664,16 @@ export function StampContentEditor(props: {
               >
                 设为锚点
               </DsButton>
+            }
+            paintTileControl={
+              <CurrentPaintTileButton
+                tilesetId={selectedTilesetId || undefined}
+                tilesetName={props.tilesets.find(({ id }) => id === selectedTilesetId)?.name}
+                tileId={selectedTileId}
+                frame={selectedTiles.get(selectedTileId)}
+                palette={assets?.palette}
+                onOpenPicker={props.onOpenTilePalette}
+              />
             }
             brushSize={brushSize}
             onBrushSizeChange={setBrushSize}

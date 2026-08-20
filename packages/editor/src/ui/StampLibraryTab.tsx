@@ -102,6 +102,16 @@ export function StampLibraryTab(props: {
     [],
   )
   const bindLayersHost = useCallback((node: HTMLDivElement | null) => setLayersHost(node), [])
+  const openTilePalette = useCallback(() => {
+    setInspectorTab('tiles')
+    requestAnimationFrame(() => {
+      const selected = paletteHost?.querySelector<HTMLButtonElement>(
+        '.tile-picker-item.is-selected',
+      )
+      selected?.scrollIntoView?.({ block: 'nearest', inline: 'nearest' })
+      selected?.focus({ preventScroll: true })
+    })
+  }, [paletteHost])
   const categories = useMemo(
     () =>
       [
@@ -492,6 +502,7 @@ export function StampLibraryTab(props: {
             paletteHost={paletteHost}
             propertiesHost={propertiesHost}
             layersHost={layersHost}
+            onOpenTilePalette={openTilePalette}
             onChange={updateContent}
           />
         ) : (

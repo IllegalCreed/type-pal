@@ -1631,6 +1631,10 @@ describe('MapMode 地图内容选择交互', () => {
 
   test('选择与取样状态隔离：取样后保留地图选区并转回笔刷', async () => {
     const { host, canvas } = await mountMapMode()
+    const currentPaintTile = host.querySelector<HTMLButtonElement>(
+      '[aria-label="当前绘制瓦片：测试瓦片（tiles） · 瓦片 #1；打开瓦片面板"]',
+    )!
+    expect(currentPaintTile.querySelector('canvas')).not.toBeNull()
     await selectFloor(host, canvas)
     expect(host.querySelector('.map-selection-head')?.textContent).toContain('1 个视觉实例')
     expect(host.querySelector('.map-selection-summary')?.textContent).toContain('地板')
@@ -1639,7 +1643,8 @@ describe('MapMode 地图内容选择交互', () => {
     await act(async () => pointer(canvas, 'pointerdown'))
     expect(host.querySelector('.map-selection-head')?.textContent).toContain('1 个视觉实例')
     expect(button(host, '笔刷').getAttribute('aria-pressed')).toBe('true')
-    await act(async () => inspectorTab(host, '绘制').click())
+    await act(async () => currentPaintTile.click())
+    expect(inspectorTab(host, '绘制').getAttribute('aria-selected')).toBe('true')
     expect(host.querySelector('.map-tiles-head .hint2')?.textContent).toContain('#1')
   })
 

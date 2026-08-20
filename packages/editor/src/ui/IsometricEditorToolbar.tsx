@@ -193,6 +193,7 @@ export function IsometricEditorToolbar(props: {
   disabledTools?: Partial<Record<IsometricEditorTool, boolean>>
   selectionAriaLabel?: string
   selectionOptions?: ReactNode
+  paintTileControl?: ReactNode
   brushSize: IsometricBrushSize
   onBrushSizeChange: (size: IsometricBrushSize) => void
   paintHeight: number
@@ -213,7 +214,7 @@ export function IsometricEditorToolbar(props: {
     { length: Math.max(0, Math.min(255, props.maxPaintHeight)) + 1 },
     (_, height) => height,
   )
-  const renderTools = (group: 'navigate' | 'paint' | 'collision'): ReactNode =>
+  const renderTools = (group: 'navigate' | 'paint' | 'collision'): ReactNode[] =>
     TOOL_DEFINITIONS.filter((tool) => tool.group === group).map((tool) => (
       <DsButton
         key={tool.id}
@@ -241,31 +242,37 @@ export function IsometricEditorToolbar(props: {
         ) : null}
       </div>
       <div className="tool-group">
-        {TOOL_DEFINITIONS.filter((tool) => tool.group === 'paint').map((tool) => (
-          <Fragment key={tool.id}>
-            <DsButton
-              size="compact"
-              variant="quiet"
-              aria-pressed={props.activeTool === tool.id}
-              onClick={() => props.onToolChange(tool.id)}
-              disabled={props.disabledTools?.[tool.id]}
-              title={tool.title}
-            >
-              {tool.label}
-            </DsButton>
-            {tool.id === 'brush' && props.activeTool === 'brush' ? (
-              <ToolOptionTray
-                label="笔刷面积"
-                title="选择笔刷一次绘制的格阵范围"
-                value={props.brushSize}
-                options={ISOMETRIC_BRUSH_SIZES}
-                renderIcon={(size) => <BrushSizeGlyph size={size} />}
-                optionLabel={(size) => `${size} × ${size}`}
-                onChange={props.onBrushSizeChange}
-              />
-            ) : null}
-          </Fragment>
-        ))}
+        {renderTools('paint').slice(0, 1)}
+        {props.paintTileControl}
+      </div>
+      <div className="tool-group">
+        {TOOL_DEFINITIONS.filter((tool) => tool.group === 'paint' && tool.id !== 'eyedropper').map(
+          (tool) => (
+            <Fragment key={tool.id}>
+              <DsButton
+                size="compact"
+                variant="quiet"
+                aria-pressed={props.activeTool === tool.id}
+                onClick={() => props.onToolChange(tool.id)}
+                disabled={props.disabledTools?.[tool.id]}
+                title={tool.title}
+              >
+                {tool.label}
+              </DsButton>
+              {tool.id === 'brush' && props.activeTool === 'brush' ? (
+                <ToolOptionTray
+                  label="笔刷面积"
+                  title="选择笔刷一次绘制的格阵范围"
+                  value={props.brushSize}
+                  options={ISOMETRIC_BRUSH_SIZES}
+                  renderIcon={(size) => <BrushSizeGlyph size={size} />}
+                  optionLabel={(size) => `${size} × ${size}`}
+                  onChange={props.onBrushSizeChange}
+                />
+              ) : null}
+            </Fragment>
+          ),
+        )}
         {showPaintHeight ? (
           <ToolOptionTray
             label="绘制高度"

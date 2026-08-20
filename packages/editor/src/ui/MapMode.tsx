@@ -136,7 +136,7 @@ import {
 } from './scene-stage.js'
 import { drawStampPlacementOverlay } from './stamp-placement-overlay.js'
 import { drawStampPlacementSelectionOverlay } from './stamp-placement-selection-overlay.js'
-import { TilePalettePicker } from './TilePickerGrid.js'
+import { CurrentPaintTileButton, TilePalettePicker } from './TilePickerGrid.js'
 
 const DEFAULT_COLS = 24
 const DEFAULT_ROWS = 24
@@ -286,6 +286,7 @@ export function MapMode(props: {
   const mapRevision = session.getMapRevision(mapId)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const wrapRef = useRef<HTMLDivElement>(null)
+  const inspectorRef = useRef<HTMLDivElement>(null)
   const size = useStageSize(wrapRef, 120)
   const { view, viewRef, setView } = useViewZoomPan({
     canvasRef,
@@ -1252,6 +1253,17 @@ export function MapMode(props: {
     if (nextTab === 'draw') setDrawPanelVisited(true)
     if (nextTab !== 'properties') setCandidateMenu(undefined)
     onRequestInspectorOpen?.()
+  }
+
+  const openPaintTilePicker = (): void => {
+    activateInspectorTab('draw')
+    requestAnimationFrame(() => {
+      const selected = inspectorRef.current?.querySelector<HTMLButtonElement>(
+        '.tile-picker-item.is-selected',
+      )
+      selected?.scrollIntoView?.({ block: 'nearest', inline: 'nearest' })
+      selected?.focus({ preventScroll: true })
+    })
   }
 
   const activateMapTool = (nextTool: MapTool): void => {
@@ -2978,6 +2990,16 @@ export function MapMode(props: {
                 />
               </>
             }
+            paintTileControl={
+              <CurrentPaintTileButton
+                tilesetId={selectedTilesetId || undefined}
+                tilesetName={tilesets.find(({ id }) => id === selectedTilesetId)?.name}
+                tileId={selectedTile}
+                frame={selectedTiles.get(selectedTile)}
+                palette={loadedAssets?.palette}
+                onOpenPicker={openPaintTilePicker}
+              />
+            }
             brushSize={brushSize}
             onBrushSizeChange={setBrushSize}
             paintHeight={activePaintHeight}
@@ -3148,7 +3170,7 @@ export function MapMode(props: {
         />
       </IsometricEditorSurface>
 
-      <div className="inspector inspector--tabbed map-inspector">
+      <div ref={inspectorRef} className="inspector inspector--tabbed map-inspector">
         <div className="insp-head">
           <div className="what">地图</div>
           <div className="who">{selectedAsset?.name || mapId || '未选择'}</div>

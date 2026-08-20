@@ -721,9 +721,17 @@ describe('StampLibraryTab', () => {
     await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="瓦片 #0"]')!.click())
     await act(async () => button('取样', toolbar).click())
     await clickDraftPoint({ row: 1, col: 1 })
+    const currentPaintTile = toolbar.querySelector<HTMLButtonElement>(
+      '[aria-label="当前绘制瓦片：测试瓦片集（tiles-a） · 瓦片 #2；打开瓦片面板"]',
+    )!
+    expect(currentPaintTile.querySelector('canvas')).not.toBeNull()
     expect(
       host.querySelector<HTMLButtonElement>('[aria-label="瓦片 #2"]')?.getAttribute('aria-pressed'),
     ).toBe('true')
+
+    await act(async () => button('属性', host).click())
+    await act(async () => currentPaintTile.click())
+    expect(button('瓦片', host).getAttribute('aria-selected')).toBe('true')
 
     await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="瓦片 #0"]')!.click())
     await act(async () => button('填充', toolbar).click())

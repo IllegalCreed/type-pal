@@ -940,6 +940,38 @@ html[data-panel-resize="horizontal"] * {
   font: var(--ds-font-caption);
   font-variant-numeric: tabular-nums;
 }
+.map-current-paint-tile.ds-button {
+  gap: 5px;
+  min-width: 58px;
+  padding: 3px 7px 3px 4px;
+}
+.map-current-paint-tile > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.map-current-paint-tile__preview {
+  display: grid;
+  width: 24px;
+  height: 22px;
+  overflow: hidden;
+  place-items: center;
+  color: var(--ds-text-secondary);
+  background: var(--ds-surface-canvas);
+  border: 1px solid var(--ds-border-subtle);
+  border-radius: 3px;
+}
+.map-current-paint-tile__preview canvas {
+  max-width: 20px;
+  max-height: 18px;
+  image-rendering: pixelated;
+}
+.map-current-paint-tile__id {
+  min-width: 22px;
+  font: var(--ds-font-caption);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
 .map-toolbar fieldset.tool-group,
 .map-inline-option {
   margin: 0;
@@ -11802,7 +11834,7 @@ button.sprite-frame-cell[draggable="true"]:active {
   max-width: calc(100% - 6px);
   max-height: calc(100% - 6px);
 }
-.tile-picker-item > span {
+.tile-picker-item > .tile-frame-preview {
   display: grid;
   width: 100%;
   height: 100%;
