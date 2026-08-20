@@ -4,7 +4,7 @@ import type {
   AssetKind,
   AssetRecordV1,
   AssetRole,
-  ManifestAssetConfigV3,
+  ManifestAssetConfig,
 } from '@type-pal/content'
 import { ASSET_ROLE_KINDS } from '@type-pal/content'
 import type { FileSource } from './file-source.js'
@@ -13,7 +13,7 @@ export class AssetResolver {
   constructor(
     readonly projectId: string,
     readonly catalog: AssetCatalogV1,
-    readonly roles: ManifestAssetConfigV3['roles'],
+    readonly roles: ManifestAssetConfig['roles'],
     private readonly source: FileSource,
   ) {}
 

@@ -2,18 +2,18 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import {
   type AssetRecordV1,
-  emptyWorldScriptStateV5,
-  type SceneDefV5,
-  type SharedScriptLibraryV5,
+  emptyWorldScriptState,
+  type BaseSceneDef,
+  type BaseScriptLibrary,
   type SpriteDef,
 } from '@type-pal/content'
-import { decodeWorldSpriteAssetBytes, legacySceneFromV5 } from '@type-pal/reforge'
+import { decodeWorldSpriteAssetBytes, baseSceneView } from '@type-pal/reforge'
 import { expect, test } from 'vitest'
 import type { EditorState } from '../src/core/edit-session.js'
 import {
   collectSpriteAutomaticScriptBehaviors,
   describeSpriteReferenceBehavior,
-  projectCanonicalSpritePreviewStateV5,
+  projectCanonicalSpritePreviewState,
 } from '../src/core/world-sprite-behavior.js'
 
 const root = resolve(import.meta.dirname, '../../..')
@@ -103,17 +103,17 @@ async function actualFrameCount(
 function palPreviewState(): EditorState {
   const sceneIds = readJson<string[]>('projects/pal/content/scenes/index.json')
   const canonicalScenes = sceneIds.map((id) =>
-    readJson<SceneDefV5>(`projects/pal/content/scenes/${id}.json`),
+    readJson<BaseSceneDef>(`projects/pal/content/scenes/${id}.json`),
   )
-  const world = emptyWorldScriptStateV5()
+  const world = emptyWorldScriptState()
   const shell = {
     actors: readJson('projects/pal/content/actors.json'),
-    scenes: canonicalScenes.map((scene) => legacySceneFromV5(scene, world)),
+    scenes: canonicalScenes.map((scene) => baseSceneView(scene, world)),
     scriptChunks: {},
   } as unknown as EditorState
-  return projectCanonicalSpritePreviewStateV5(shell, {
+  return projectCanonicalSpritePreviewState(shell, {
     scenes: canonicalScenes,
-    sharedScripts: readJson<SharedScriptLibraryV5>('projects/pal/content/shared-scripts.json'),
+    sharedScripts: readJson<BaseScriptLibrary>('projects/pal/content/shared-scripts.json'),
   })
 }
 

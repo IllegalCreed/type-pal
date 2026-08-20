@@ -5,7 +5,7 @@ import { loadPalMigrationSources } from '../src/pal-migration-io.js'
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 const sources = loadPalMigrationSources(repo)
-// G2 只认 legacy 提取源生成的纯 theirs；不得读 projects/pal 的 authored/MG2 合并态。
+// 审计只认 PAL 原始提取源生成的纯 theirs；不得读 projects/pal 的 authored 合并态。
 const migration = buildPalMigration(sources)
 const report = migration.report.spriteActions
 

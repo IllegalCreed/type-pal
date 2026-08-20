@@ -4,33 +4,28 @@
  * manifest 单独相对化写(assets 指向本地 assets/**),使克隆后经 fsaSource 离线渲染。
  */
 import {
-  type ProjectManifest,
-  type ScriptIndexV1,
+  type CurrentManifest,
   validateAssetCatalog,
   validateMapIndex,
 } from '@type-pal/content'
-import { decodeBattleSpriteAssetBytes, decompressGzip, type FileSource } from '@type-pal/reforge'
+import { decodeBattleSpriteAssetBytes, type FileSource } from '@type-pal/reforge'
 import { sha256Hex } from './binary-signature.js'
 import { writeFile } from './project-io.js'
 import {
   enumerateSeedFiles,
-  type FileList,
   relativizeManifest,
   scenesDir,
-  scriptsDir,
 } from './seed.js'
 
 /**
  * catalog 资源必须逐字节复制，record.bytes/sha256 描述的就是落盘字节。
- * 仅历史 `/extracted/**.rle` 属于未闭环 legacy family，保留既有裸字节 workaround；
- * catalog tileset 已退出该路径，绝不能因扩展名被传输层改码。
+ * 所有二进制都由 catalog 闭包精确复制，不能因扩展名被传输层改码。
  */
 async function assetBytes(
   seed: FileSource,
   file: import('./seed.js').SeedFile,
 ): Promise<ArrayBuffer> {
-  const reader = file.sourceLane === 'legacy' ? (seed.legacy ?? seed) : seed
-  const bytes = await reader.readBytes(file.src)
+  const bytes = await seed.readBytes(file.src)
   if (file.catalogAsset) {
     const meta = file.catalogAsset
     if (bytes.byteLength !== meta.bytes || (await sha256Hex(bytes)) !== meta.sha256)
@@ -44,10 +39,6 @@ async function assetBytes(
       await decodeBattleSpriteAssetBytes(meta.record, bytes, `克隆 battle-sprite ${meta.id}`)
     return bytes
   }
-  if (file.sourceLane === 'legacy' && file.rel.endsWith('.rle')) {
-    const raw = await decompressGzip(new Blob([bytes]))
-    return raw.buffer.slice(raw.byteOffset, raw.byteOffset + raw.byteLength) as ArrayBuffer
-  }
   return bytes
 }
 
@@ -56,14 +47,8 @@ export async function cloneFromPal(
   dir: FileSystemDirectoryHandle,
   onProgress: (done: number, total: number) => void,
 ): Promise<void> {
-  const manifest = await seed.readJson<ProjectManifest<number>>('manifest.json')
+  const manifest = await seed.readJson<CurrentManifest>('manifest.json')
   const sceneIds = await seed.readJson<string[]>(`${scenesDir(manifest)}index.json`)
-  if (!seed.legacy) throw new Error('PAL clone 缺 LegacyAssetAdapter，无法读取 extracted 清单')
-  const assetManifest = await seed.legacy.readJson<FileList>('/extracted/asset-manifest.json')
-  const scriptDir = scriptsDir(manifest)
-  const scriptIndex = scriptDir
-    ? await seed.readJson<ScriptIndexV1>(`${scriptDir}index.json`)
-    : undefined
   const mapIndex = manifest.content.maps
     ? validateMapIndex(await seed.readJson(manifest.content.maps))
     : undefined
@@ -71,8 +56,6 @@ export async function cloneFromPal(
   const files = enumerateSeedFiles(
     manifest,
     sceneIds,
-    assetManifest,
-    scriptIndex,
     mapIndex,
     catalog,
   )
@@ -85,7 +68,7 @@ export async function cloneFromPal(
   })) {
     const value =
       f.kind === 'json'
-        ? await (f.sourceLane === 'legacy' ? seed.legacy! : seed).readJson(f.src)
+        ? await seed.readJson(f.src)
         : await assetBytes(seed, f)
     await writeFile(dir, f.rel, value)
     done += f.size

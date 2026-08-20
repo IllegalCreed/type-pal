@@ -5,23 +5,23 @@ import {
   collectAssetReferences,
   collectCommandAssetReferences,
   groupAssetReferencesBySite,
-  legacyPalPortraitAssetId,
-  legacyWorldSpriteNumberFromAsset,
-  type ManifestAssetConfigV3,
+  type ManifestAssetConfig,
   palBattleBackgroundAssetId,
   palFaceAssetId,
   palFrameAnimationAssetId,
   palItemIconAssetId,
+  palMagicEffectSpriteAssetId,
   palMusicAssetId,
   palPortraitAssetId,
   palSoundAssetId,
   palSpriteAssetId,
   palTilesetAssetId,
   palVideoAssetId,
+  PAL_PHYSICAL_EFFECT_ASSET_ID,
   validateAssetCatalog,
   validateAssetFileClosure,
   validateAssetReferenceClosure,
-  validateManifestAssetConfigV3,
+  validateManifestAssetConfig,
   validateProjectRelativePath,
 } from './asset.js'
 import type { EnemyDef } from './enemy.js'
@@ -139,7 +139,7 @@ const catalog: AssetCatalogV1 = {
   },
 }
 
-const assets: ManifestAssetConfigV3 = {
+const assets: ManifestAssetConfig = {
   catalog: 'assets/index.json',
   roles: {
     'audio.midiSoundfont': 'soundfont.default',
@@ -150,7 +150,6 @@ const assets: ManifestAssetConfigV3 = {
     'audio.battleItemUseSound': 'sound.pal.045',
     'visual.standardColorTable': 'color.project-standard',
   },
-  legacy: { families: ['sprite', 'tileset'] },
 }
 
 describe('validateProjectRelativePath', () => {
@@ -176,33 +175,33 @@ describe('validateProjectRelativePath', () => {
   })
 })
 
-describe('catalog 与 manifest v3', () => {
-  test('合法目录、音频与视觉角色及 legacy 债务区通过', () => {
+describe('catalog 与当前 manifest', () => {
+  test('合法目录、音频与视觉角色通过', () => {
     expect(validateAssetCatalog(catalog)).toEqual(catalog)
-    expect(validateManifestAssetConfigV3(assets, catalog)).toEqual(assets)
+    expect(validateManifestAssetConfig(assets, catalog)).toEqual(assets)
   })
 
   test('未知角色、角色 kind 错、缺角色均 fail-loud', () => {
     expect(() =>
-      validateManifestAssetConfigV3(
+      validateManifestAssetConfig(
         { ...assets, roles: { ...assets.roles, 'audio.hidden': 'music.pal.002' } },
         catalog,
       ),
     ).toThrow('未知资源角色')
     expect(() =>
-      validateManifestAssetConfigV3(
+      validateManifestAssetConfig(
         { ...assets, roles: { ...assets.roles, 'audio.midiSoundfont': 'music.pal.002' } },
         catalog,
       ),
     ).toThrow('期望 soundfont')
     expect(() =>
-      validateManifestAssetConfigV3(
+      validateManifestAssetConfig(
         { ...assets, roles: { ...assets.roles, 'audio.openingMenuMusic': 'soundfont.default' } },
         catalog,
       ),
     ).toThrow('期望 music')
     expect(() =>
-      validateManifestAssetConfigV3(
+      validateManifestAssetConfig(
         {
           ...assets,
           roles: { ...assets.roles, 'visual.standardColorTable': 'music.pal.002' },
@@ -211,7 +210,7 @@ describe('catalog 与 manifest v3', () => {
       ),
     ).toThrow('期望 color-table')
     expect(() =>
-      validateManifestAssetConfigV3(
+      validateManifestAssetConfig(
         {
           ...assets,
           roles: { ...assets.roles, 'video.startupSplash': 'music.pal.002' },
@@ -220,42 +219,27 @@ describe('catalog 与 manifest v3', () => {
       ),
     ).toThrow('期望 video')
     expect(() =>
-      validateManifestAssetConfigV3(
+      validateManifestAssetConfig(
         { ...assets, roles: { ...assets.roles, 'audio.battleEscapeSound': 'music.pal.002' } },
         catalog,
       ),
     ).toThrow('期望 sound')
     const { 'audio.openingMenuMusic': _openingMenuMusic, ...rolesWithoutOpeningMenu } = assets.roles
     expect(() =>
-      validateManifestAssetConfigV3({ ...assets, roles: rolesWithoutOpeningMenu }, catalog),
+      validateManifestAssetConfig({ ...assets, roles: rolesWithoutOpeningMenu }, catalog),
     ).toThrow('音乐切片缺角色 "audio.openingMenuMusic"')
   })
 
-  test('同一资源族不得同时存在于 catalog 和 legacy', () => {
-    expect(() =>
-      validateManifestAssetConfigV3(
-        { ...assets, legacy: { families: ['music', 'sprite'] } },
-        catalog,
-      ),
-    ).toThrow('同时出现在 catalog 与 legacy')
-    expect(() =>
-      validateManifestAssetConfigV3(
-        { ...assets, legacy: { families: ['sound', 'sprite'] } },
-        catalog,
-      ),
-    ).toThrow('资源族 "sound" 同时出现在 catalog 与 legacy')
-  })
-
-  test('旧 UI 目录字段 actionable fail，不作为未知扩展静默穿透', () => {
-    expect(() => validateManifestAssetConfigV3({ ...assets, ui: 'assets/ui' }, catalog)).toThrow(
+  test('catalog 与 roles 之外的资源配置 fail-loud', () => {
+    expect(() => validateManifestAssetConfig({ ...assets, ui: 'assets/ui' }, catalog)).toThrow(
       'manifest.assets.ui',
     )
     expect(() =>
-      validateManifestAssetConfigV3(
-        { ...assets, legacy: { families: ['sprite'], ui: 'assets/ui' } },
+      validateManifestAssetConfig(
+        { ...assets, legacy: { families: ['sprite'] } },
         catalog,
       ),
-    ).toThrow('manifest.assets.legacy.ui')
+    ).toThrow('manifest.assets.legacy')
   })
 })
 
@@ -264,23 +248,20 @@ test('PAL 数字号只在迁移边界确定性映射', () => {
   expect(palSoundAssetId(45)).toBe('sound.pal.045')
   expect(palVideoAssetId(1)).toBe('video.pal.001')
   expect(palFrameAnimationAssetId(0)).toBe('frame-animation.pal.000')
+  expect(PAL_PHYSICAL_EFFECT_ASSET_ID).toBe('effect-sprite.pal.physical-hit')
+  expect(palMagicEffectSpriteAssetId(7)).toBe('effect-sprite.pal.magic.007')
   expect(palPortraitAssetId(7)).toBe('portrait.pal.007')
-  expect(legacyPalPortraitAssetId(0)).toBeUndefined()
-  expect(legacyPalPortraitAssetId(7)).toBe('portrait.pal.007')
   expect(palFaceAssetId('li-xiaoyao')).toBe('face.pal.li-xiaoyao')
   expect(palItemIconAssetId(12)).toBe('item-icon.pal.012')
   expect(palBattleBackgroundAssetId(6)).toBe('battle-background.pal.006')
   expect(palTilesetAssetId(225)).toBe('tileset.pal.225')
   expect(palSpriteAssetId(82)).toBe('sprite.pal.082')
-  expect(legacyWorldSpriteNumberFromAsset('sprite.pal.082')).toBe(82)
-  expect(legacyWorldSpriteNumberFromAsset('sprite.authored.legacy-900.custom')).toBe(900)
-  expect(legacyWorldSpriteNumberFromAsset('sprite.authored.custom')).toBeUndefined()
   expect(() => palMusicAssetId(0)).toThrow('正整数')
   expect(() => palSoundAssetId(0)).toThrow('正整数')
   expect(() => palVideoAssetId(0)).toThrow('正整数')
   expect(() => palFrameAnimationAssetId(-1)).toThrow('非负整数')
+  expect(() => palMagicEffectSpriteAssetId(-1)).toThrow('非负整数')
   expect(() => palPortraitAssetId(0)).toThrow('正整数')
-  expect(() => legacyPalPortraitAssetId(-1)).toThrow('非负整数')
   expect(() => palFaceAssetId('')).toThrow('非空字符串')
   expect(() => palItemIconAssetId(0)).toThrow('正整数')
   expect(() => palBattleBackgroundAssetId(-1)).toThrow('非负整数')
@@ -288,14 +269,14 @@ test('PAL 数字号只在迁移边界确定性映射', () => {
   expect(() => palSpriteAssetId(0)).toThrow('正整数')
 })
 
-test('项目 schema 不再接受幽灵 glyph/ui 资源族', () => {
+test('项目 schema 不再接受 catalog 外资源族', () => {
   expect(() =>
-    validateManifestAssetConfigV3({
+    validateManifestAssetConfig({
       catalog: 'assets/index.json',
       roles: {},
       legacy: { families: ['glyph-table'] },
     }),
-  ).toThrow('未知 legacy family')
+  ).toThrow('manifest.assets.legacy')
   expect(() =>
     validateAssetCatalog({
       version: 1,

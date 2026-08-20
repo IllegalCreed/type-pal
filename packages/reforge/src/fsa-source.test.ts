@@ -57,10 +57,10 @@ describe('fsaSource', () => {
     vi.restoreAllMocks()
   })
 
-  test('普通路径与 legacy adapter 都拒绝越界/绝对路径', async () => {
+  test('拒绝越界与绝对路径', async () => {
     const source = fsaSource(dir)
     await expect(source.readText('../manifest.json')).rejects.toThrow('禁止空段、. 或 ..')
-    await expect(source.legacy?.readText('/manifest.json')).rejects.toThrow('禁止绝对路径')
+    await expect(source.readText('/manifest.json')).rejects.toThrow('禁止绝对路径')
   })
 
   test('缺文件 → 抛(NotFound 透传)', async () => {

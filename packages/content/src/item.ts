@@ -8,7 +8,7 @@ import type { CharacterInstance, WorldState } from './character.js'
 import { applyPoisonSelf, poisonCurableBy } from './poison.js'
 import { applyLevelGrowth } from './rewards.js'
 import type { ScriptRef } from './script-library.js'
-import type { EntityAddress } from './script-v5.js'
+import type { EntityAddress } from './author-script-core.js'
 import type { SkillAnimation, StatusId } from './skill.js'
 
 /** 战斗属性(对齐 CharacterInstance 的 5 项)。 */

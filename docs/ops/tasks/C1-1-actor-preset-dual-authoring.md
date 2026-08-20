@@ -278,7 +278,7 @@ successor 与大规模内容归并揉成一个不可验收的大任务。
   - 可证伪观察: 见下方
 - counter / 分歧处理: **2026-08-14 Codex supplemental audit 发现原“9 条穷尽”结论可证伪：**
   `packages/content/src/script.ts:145-155` 的 `setActorSprite.actor` 是第 10 条；
-  `packages/content/src/enemy-script-v10.ts:36-40` 的 `applyActorGrowth.actor` / `playActorCastEffect.actor`
+  `packages/content/src/enemy-script.ts:36-40` 的 `applyActorGrowth.actor` / `playActorCastEffect.actor`
   是第 11/12 条。三条均为 ActorDef.id；后两条已有 `validate-refs.ts:846-849,1014-1029` 校验，
   `setActorSprite.actor` 当前无加载期校验。设计方向不变，但 Kimi/GLM 关于引用穷尽的签字需 supplemental
   复核；历史签字保留，不再单独提供 build 准入。
@@ -432,14 +432,14 @@ startWorld.party) / `script.ts:236`(setParty.members:string[]) / `validate-refs.
 
 #### Kimi supplemental 复核（2026-08-14，本人；非代理）——**counter：12 条仍未穷尽**
 
-**方法**：一手重读 `script.ts` 全 Command/Condition 联合、`enemy-script-v10.ts`、`character.ts`
+**方法**：一手重读 `script.ts` 全 Command/Condition 联合、`enemy-script.ts`、`character.ts`
 StartWorld/EntryPoint、`validate-refs.ts` 全文 grep，独立重扫 ActorDef.id 出现点，验证 12 条清单。
 
 **已确认属实的部分：**
 
 - 三条新增通道存在：`setActorSprite.actor`（`script.ts:147`）、`setActorAppearance.actor`
   （`script.ts:150-156`）、`applyActorGrowth.actor` / `playActorCastEffect.actor`
-  （`enemy-script-v10.ts:36-41`）。
+  （`enemy-script.ts:36-41`）。
 - 四条无加载期校验通道复核成立：`entryPoints[].startWorld.party[]`（validate-refs grep
   `entryPoints` 零命中）、`setParty.members[]`（grep 零命中）、`setActorSprite.actor`（无对应
   case）；`setActorAppearance` 的 `:221/:367` 只校验 battleSprite/spriteId 资源，**`actor` 字段
@@ -478,7 +478,7 @@ learnedSkills/seedStats 键不再是 ActorDef.id，届时这两条应移出删�
 携带 actor id，本 counter 撤回。
 
 Evidence: `character.ts:84-91,282,293,302-303` / `validate-refs.ts:1210-1219`（键未校验）、
-grep `seedStats` 零命中 / `script.ts:124-125,147,150-156` / `enemy-script-v10.ts:36-41` /
+grep `seedStats` 零命中 / `script.ts:124-125,147,150-156` / `enemy-script.ts:36-41` /
 `reforge/main.ts:2409,3358-3359`。只读复核，未改任何文件，未代签 GLM，未标 build/done。
 
 #### Codex 二次 supplemental 审计（2026-08-14）——从“数条目”改为 typed ownership 闭包
@@ -522,7 +522,7 @@ grep `seedStats` 零命中 / `script.ts:124-125,147,150-156` / `enemy-script-v10
 #### Kimi typed ownership supplemental 复核（2026-08-14，本人；非代理）——**supplemental agree**
 
 **方法**：一手重读 `character.ts` / `skill.ts` / `rewards.ts` / `enemy-ai.ts` / `script.ts` /
-`enemy-script-v10.ts` / `validate-refs.ts` / `project-diagnostics.ts` 全部相关段，独立重扫
+`enemy-script.ts` / `validate-refs.ts` / `project-diagnostics.ts` 全部相关段，独立重扫
 ActorDef.id 全部出现点。
 
 **四项核准：**
@@ -533,7 +533,7 @@ ActorDef.id 全部出现点。
    （`rewards.ts:219` 按 `c.template` 消费；`validate-refs.ts:1344-1353` 只查行内 skillId
    不查键）。本人独立补扫：`ScriptCondition` 联合仅 `inParty` 一条 actor 条件（`script.ts:49`）；
    `AiAction` 无 actor 字段（summon/transform 为 enemyId，`enemy-ai.ts:37-44`）；enemy hooks 仅
-   `applyActorGrowth` / `playActorCastEffect`（`enemy-script-v10.ts:36-41`）；item 仅
+   `applyActorGrowth` / `playActorCastEffect`（`enemy-script.ts:36-41`）；item 仅
    `equipableBy` 与 effects `byActor`；`learnSkill.role` / `unequip.role` 为 number 下标
    （`script.ts:124-125`），排除成立；`DialogueCue.speaker` 为 TextId，属 successor 卡范围。
 2. **17 外部阻塞 + 1 伴随联动 ownership 区分 ✓**。`levelUp[actorId]` 是 Actor 自有成长伴随表：
@@ -561,7 +561,7 @@ schema 字段族，本签字作废转 counter。
 Evidence: `enemy-ai.ts:31,37-44,99-100` / `skill.ts:206-210` / `rewards.ts:201,219` /
 `validate-refs.ts:98-100,788-790,1344-1353` / `character.ts:21-23,172` /
 `project-diagnostics.ts:169-201,298,329-331` / `script.ts:49,124-125,147,150-156,236` /
-`enemy-script-v10.ts:36-41`。只读复核，未改任何文件，未代签 GLM，未标 build/done。
+`enemy-script.ts:36-41`。只读复核，未改任何文件，未代签 GLM，未标 build/done。
 
 #### Kimi 独立反证审查（2026-08-14，本人；非代理）
 

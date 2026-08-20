@@ -17,13 +17,29 @@ Status: G0 frozen; implementation dispositions below are the build contract.
 | Raw-source migration implementation | generic migration transaction/baseline/write-plan and PAL raw extract transforms | Keep only the direct raw-source -> current producer and current publication proof. Delete intermediate development epochs, rewind chains and published-old-version fixtures. |
 | Platform/third-party compatibility | browser, filesystem, media decoders | Out of this task; not “old project compatibility”. |
 
+## Explicit current-axis allowlist
+
+The final static gate classifies these names as current contracts or provenance rather than product epochs. They remain only in the
+listed role; none authorizes an old project/save reader or product fallback.
+
+| name / family | current meaning | allowed scope |
+|---|---|---|
+| `ProjectMap.version = 4` | current map-file schema | content/editor/reforge map IO |
+| `AssetCatalogV1.version = 1` | current asset-catalog file schema | content/editor/reforge/migrate catalog IO |
+| `ScriptChunkV1`, `ScriptIndexV1`, `ScriptRef { chunk, id }` | current chunked raw/local script file schema | current local projection and PAL raw-source tooling |
+| `legacy-migrated` | immutable asset origin/provenance label; files themselves are in the canonical catalog | asset record metadata and decoder strictness selection only |
+| migration diagnostic `source.kind = legacy-script` | provenance for unresolved PAL raw-script facts | current diagnostic records only; never a product loader branch |
+| `skippedLegacyTailSlots` | media-decoder evidence about malformed source tails | strict source decoding/audit only; no old project schema path |
+| IndexedDB `onupgradeneeded` | browser database lifecycle callback | editor/save platform storage only |
+| PAL raw `legacy-dialog` helper | direct original-event decoding before current publication | `packages/migrate` only, with current publication as sole downstream boundary |
+
 ## Product code disposition
 
 | surface | current role | disposition | exit evidence |
 |---|---|---|---|
 | `content/script-v5.ts` + `script-v13.ts` + `script-v14.ts` | Current author command, lifecycle and dialogue semantics | **fold into current** unversioned author-script module; characterization before deletion | current command/flow/dialogue tests pass without v13/v14 -> v5 sanitizer delegation |
 | `content/scene-v5/v13/v14`, `item-v5/v14`, `enemy-v14`, `dialogue-v14`, `entity-lifecycle-v13` | Current content author shapes layered over old epochs | **fold into current** unversioned domains | current PAL parse/validate and editor typecheck pass |
-| `enemy-script-v10`, current skill/equipment/item execution versioned modules | Current feature-generation names, not supported product epochs | **fold/rename when on product public surface**; retain serialized/local discriminants | no public “supported V10/V11” implication; focused behavior tests unchanged |
+| `enemy-script`, current skill/equipment/item execution versioned modules | Current feature-generation names, not supported product epochs | **fold/rename when on product public surface**; retain serialized/local discriminants | no public “supported V10/V11” implication; focused behavior tests unchanged |
 | `reforge/loader-v5/v13/v14/v16` + `legacy-runtime-shell-v5` | Current loader delegates through old project shells | **replace with one direct project loader**, then delete old loaders/shell/tests | current content16 project loads directly; old project inputs fail at the one boundary |
 | `reforge/script-{compiler,runner,project,world,host-adapter}-v5/v13` | Current runtime semantics split by historical generation | **fold into current** unversioned runtime modules; no compatibility alias | runtime/editor playback tests pass; public exports unversioned |
 | `editor/*-v5`, `*-v13`, V14 component/test names | Current editor implementation coupled to version names | **fold/rename into current**; keep behavior and UI unchanged | editor typecheck/focused tests pass; no old epoch imports |

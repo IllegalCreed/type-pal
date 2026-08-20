@@ -1,14 +1,13 @@
 import { describe, expect, test } from 'vitest'
-import type { ScriptEditorStateV5 } from './script-v5-editor.js'
+import type { ScriptEditorState } from './script-editor.js'
 import {
   buildWorldVariableRegistryFromReferencesV1,
   collectWorldVariableReferencesV1,
   collectWorldVariableRegistryIssuesV1,
 } from './world-variable-references.js'
 
-function state(): ScriptEditorStateV5 {
+function state(): ScriptEditorState {
   return {
-    contentVersion: 16,
     scenes: [
       {
         id: 'scene-a',
@@ -68,6 +67,8 @@ function state(): ScriptEditorStateV5 {
             hostile: {
               enemyTeamId: 'team-a',
               onLose: [{ kind: 'setFlag', flag: 'lost', value: true }],
+              onVictory: { kind: 'remove' },
+              onPlayerFlee: { kind: 'remain' },
             },
             behaviors: {
               trigger: {
@@ -113,7 +114,6 @@ function state(): ScriptEditorStateV5 {
         ],
       },
     },
-    migrationSidecars: [],
   }
 }
 

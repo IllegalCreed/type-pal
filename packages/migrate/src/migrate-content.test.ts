@@ -6,9 +6,8 @@ import type { ActorDef, Command, SceneDef, ScriptChunkV1, SpriteDef } from '@typ
 import {
   buildWorld,
   pixelToGrid,
-  upgradeItemsV7ToV8,
   validateActors,
-  validateItems,
+  validateAuthorItems,
   validateLocale,
   validateSkills,
   validateSprites,
@@ -403,9 +402,8 @@ describe('M1a · 输出过 content 契约 + 可 buildWorld', () => {
     )
     expect(() => validateActors(actors)).not.toThrow()
     expect(() => validateSprites(sprites)).not.toThrow()
-    // migrateAll 是 append-only R13-3 之前的 immutable v7 parent；current 契约只在
-    // 显式 v7→v8 归一后校验，不能为了让本测试通过而反向改写父快照。
-    expect(() => validateItems(upgradeItemsV7ToV8(out.items))).not.toThrow()
+    // migrateAll 是隔离的 raw-source 转换核；产品契约只校验唯一 current publication。
+    expect(() => validateAuthorItems(readJson('projects/pal/content/items.json'))).not.toThrow()
     expect(() => validateSkills(out.skills)).not.toThrow()
     expect(() => validateLocale({ ...out.localeNames })).not.toThrow()
     const actorsById = Object.fromEntries(actors.map((a) => [a.id, a]))

@@ -9,9 +9,9 @@ import {
   effectiveStat,
   validateActors,
   validateAssetCatalog,
-  validateItemsV14,
+  validateAuthorItems,
   validateLocale,
-  validateScenesV14,
+  validateAuthorScenes,
   validateSkills,
   validateSprites,
 } from '@type-pal/content'
@@ -28,12 +28,12 @@ const manifest = read('manifest.json') as {
   startWorld: StartWorld
 }
 const sceneIds = read('content/scenes/index.json') as string[]
-const scenes = validateScenesV14(sceneIds.map((id) => read(`content/scenes/${id}.json`)))
+const scenes = validateAuthorScenes(sceneIds.map((id) => read(`content/scenes/${id}.json`)))
 const actors = validateActors(read('content/actors.json'))
 const assetCatalog = validateAssetCatalog(read('assets/index.json'))
 const sprites = validateSprites(read('content/sprites.json'), assetCatalog)
 const { skills } = validateSkills(read('content/skills.json'))
-const items = validateItemsV14(read('content/items.json'))
+const items = validateAuthorItems(read('content/items.json'))
 const locale = validateLocale(read('content/locale.json'))
 
 const byId = <T extends { id: string }>(a: T[]): Record<string, T> =>

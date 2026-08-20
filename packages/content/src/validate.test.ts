@@ -914,10 +914,10 @@ describe('validateItems · C8 用途能力契约', () => {
     expect(() => checkThrowSpec(thrown)).toThrow(/安全整数/)
   })
 
-  test('兼容壳允许当前物品的 v5 私有脚本与普通效果组合', () => {
+  test('运行时投影允许当前物品私有脚本与普通效果组合', () => {
     const privateRuntime = {
       kind: 'runScript' as const,
-      script: { chunk: '__script-v5-runtime', id: 'item:item:use' },
+      script: { chunk: '__author-script-runtime', id: 'item:item:use' },
     }
     expect(() =>
       validateItems([
@@ -935,7 +935,7 @@ describe('validateItems · C8 用途能力契约', () => {
             effects: [
               {
                 kind: 'runScript',
-                script: { chunk: '__script-v5-runtime', id: 'item:mixed:use' },
+                script: { chunk: '__author-script-runtime', id: 'item:mixed:use' },
               },
               { kind: 'healHp', amount: 1 },
             ],
@@ -960,7 +960,7 @@ describe('validateItems · C8 用途能力契约', () => {
           effects: [
             {
               kind: 'runScript',
-              script: { chunk: '__script-v5-runtime', id: 'item:other:use' },
+              script: { chunk: '__author-script-runtime', id: 'item:other:use' },
             },
             { kind: 'healHp', amount: 1 },
           ],
@@ -1075,7 +1075,7 @@ describe('validateStartWorldResources', () => {
 describe('validateLocale · 对话行边界', () => {
   test('新内容禁止 locale 内换行；loader 兼容边界可显式保留旧软换行', () => {
     expect(() => validateLocale({ old: '第一行\n第二行' })).toThrow(/DialogueCue\.rows/)
-    expect(validateLocale({ old: '第一行\n第二行' }, { allowLegacySoftWrap: true })).toEqual({
+    expect(validateLocale({ old: '第一行\n第二行' }, { allowSoftWrap: true })).toEqual({
       old: '第一行\n第二行',
     })
   })

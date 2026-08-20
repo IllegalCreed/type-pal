@@ -1,7 +1,8 @@
+import { emptyWorldScriptState, type WorldState } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { makeTestWorld } from '../test-fixtures.js'
 import { MemorySaveStore } from './store.js'
-import { SAVE_VERSION, type SaveMeta, type SavePayload } from './types.js'
+import { SAVE_VERSION, type CurrentSavePayload, type SaveMeta } from './types.js'
 
 function meta(slotId: string): SaveMeta {
   return {
@@ -12,12 +13,17 @@ function meta(slotId: string): SaveMeta {
     savedAt: 123,
   }
 }
-function payload(): SavePayload {
+function payload(): CurrentSavePayload {
+  const world: WorldState = {
+    ...makeTestWorld(),
+    script: emptyWorldScriptState(),
+    entityLifecycles: {},
+  }
   return {
     version: SAVE_VERSION,
     projectId: 'demo',
-    contentVersion: 1,
-    world: makeTestWorld(),
+    contentVersion: 16,
+    world,
     position: { sceneId: 's', pos: { col: 1, row: 2, height: 0 }, facing: 'down' },
   }
 }
@@ -26,9 +32,10 @@ describe('MemorySaveStore', () => {
   test('putSlot → listMeta/getPayload/getThumb 往返', async () => {
     const s = new MemorySaveStore()
     expect(await s.listMeta()).toEqual([])
-    await s.putSlot(meta('m01'), payload(), new Blob(['png']))
+    const written = payload()
+    await s.putSlot(meta('m01'), written, new Blob(['png']))
     expect((await s.listMeta()).map((m) => m.slotId)).toEqual(['m01'])
-    expect((await s.getPayload('m01'))?.world).toEqual(makeTestWorld())
+    expect((await s.getPayload('m01'))?.world).toEqual(written.world)
     expect(await s.getThumb('m01')).toBeInstanceOf(Blob)
   })
   test('缺失槽 → null', async () => {

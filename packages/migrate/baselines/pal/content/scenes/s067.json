@@ -329,7 +329,7 @@
                       "fieldId": 57,
                       "kind": "startBattle",
                       "music": "music.pal.040",
-                      "team": 34
+                      "enemyTeamId": "team-34"
                     },
                     {
                       "asset": "music.pal.033",

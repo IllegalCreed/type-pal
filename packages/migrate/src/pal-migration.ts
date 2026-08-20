@@ -2,7 +2,6 @@ import type {
   AssetCatalogV1,
   BattleFieldDef,
   BattleSpriteDef,
-  Command,
   EnemyDef,
   MapIndexV1,
   MigrationDiagnosticsV1,
@@ -11,7 +10,6 @@ import type {
   TilesetDef,
 } from '@type-pal/content'
 import {
-  checkCommands,
   collectBattleSpriteDefinitionReferences,
   palBattleBackgroundAssetId,
   palSoundAssetId,
@@ -20,23 +18,18 @@ import {
   spriteDefinitionFrameDemand,
   validateBattleSprites,
 } from '@type-pal/content'
-import { translateEnemyScriptsR13ConfirmParent } from './experimental/script-v5/legacy-enemy-script-v9-authority.js'
 import { itemScriptCommandRoots } from './item-script-roots.js'
 import type {
-  EnemyMigrationAuthority,
   MigrateSources,
-  R13TranslationSession,
   SourceCmd,
   SourceScene,
 } from './migrate-content.js'
 import {
-  createSceneR13TranslationSession,
   mapRoleSpriteIdsByNumber,
   mapScenesStatic,
   migrateAll,
   migratedSpriteId,
 } from './migrate-content.js'
-import type { EnemyScriptTranslator } from './migrate-enemies.js'
 import { sha256 } from './migration-baseline.js'
 import {
   applyPalItemOverlays,
@@ -104,8 +97,6 @@ export interface PalMigrationSources {
 export interface MigrationFileSet {
   files: Map<string, MigrationJson>
   managedFiles: Set<string>
-  /** Published PAL baselines keep their transition ledger across append-only successors. */
-  baselineMetadata?: import('./migration-baseline.js').MigrationSnapshot['baselineMetadata']
   report: {
     /** migrateAll 的原始观察，尚未经过 PAL overlay 或后置增强消账。 */
     rawContent: ReturnType<typeof migrateAll>['report']
@@ -140,110 +131,8 @@ export function palSoundAssetForSources(
   }
 }
 
-const r13TranslationSessionFactories = new WeakMap<MigrationFileSet, () => R13TranslationSession>()
-
-/**
- * R13-2 迁移期专用控制面。只接受 buildPalMigration 在当前进程返回的原始对象；
- * MigrationFileSet 的 JSON 形状、baseline 与工程文件均不携带该临时能力。
- */
-export function createPalR13TranslationSession(migration: MigrationFileSet): R13TranslationSession {
-  const factory = r13TranslationSessionFactories.get(migration)
-  if (!factory)
-    throw new Error(
-      'R13 PAL translation context 不存在：必须使用本进程 buildPalMigration 返回的原始 MigrationFileSet',
-    )
-  return factory()
-}
-
-/**
- * 为同一份源提取权威建立只替换 canonical 文件视图的派生快照，同时保留进程内
- * R13 source translation 能力。只供后置迁移建立 immutable historical authority；
- * 普通 JSON/baseline 无法伪造这个控制面。
- */
-export function derivePalMigrationFileSet(
-  migration: MigrationFileSet,
-  files: Map<string, MigrationJson>,
-  managedFiles: Set<string> = new Set(migration.managedFiles),
-): MigrationFileSet {
-  const factory = r13TranslationSessionFactories.get(migration)
-  if (!factory)
-    throw new Error(
-      'PAL migration 派生失败：必须使用本进程 buildPalMigration 返回的原始 MigrationFileSet',
-    )
-  const derived: MigrationFileSet = {
-    ...migration,
-    files,
-    managedFiles,
-  }
-  r13TranslationSessionFactories.set(derived, factory)
-  return derived
-}
-
 function asJson(value: unknown): MigrationJson {
   return JSON.parse(JSON.stringify(value)) as MigrationJson
-}
-
-type PalEnemyAuthorityKind = 'current-v10' | 'r13-confirm-parent-v9'
-
-interface PalEnemyAuthorityProfile {
-  kind: PalEnemyAuthorityKind
-  migrate?: EnemyMigrationAuthority
-  r13_6a: 'historical' | 'current'
-}
-
-const CURRENT_ENEMY_AUTHORITY: PalEnemyAuthorityProfile = Object.freeze({
-  kind: 'current-v10',
-  r13_6a: 'current',
-})
-
-/** 已发布 R13-5 的 current-v10 输入视图；只冻结 R13-6A 之前的 source semantics。 */
-const R13_ENEMY_PARENT_AUTHORITY: PalEnemyAuthorityProfile = Object.freeze({
-  kind: 'current-v10',
-  r13_6a: 'historical',
-})
-
-/**
- * 历史 v9 的 onDefeated 是通用 Command[]；只允许在 mapEnemies 的注入边界
- * 适配到现行 translator 形状。冻结实现本身不得 import current v10 输出类型。
- */
-const translateR13ConfirmParentForMapEnemies =
-  translateEnemyScriptsR13ConfirmParent as unknown as EnemyScriptTranslator
-
-const R13_CONFIRM_PARENT_ENEMY_AUTHORITY: PalEnemyAuthorityProfile = Object.freeze({
-  kind: 'r13-confirm-parent-v9',
-  r13_6a: 'historical',
-  migrate: {
-    translateScripts: translateR13ConfirmParentForMapEnemies,
-    castSkillClosure: 'rules-only' as const,
-    reportHookSources: false,
-  },
-})
-
-/**
- * v9 parent 中 choreography/onDefeated 仍属于通用 Command 域。
- * current v10 已拆成严格 battle/onDefeated grammar，绝不能调用本适配器。
- */
-function legacyEnemyCommandRoots(
-  enemies: readonly EnemyDef[],
-): Array<{ id: string; body: Command[] }> {
-  const validatedCommands = (value: unknown, path: string): Command[] => {
-    checkCommands(value, path)
-    return value as Command[]
-  }
-  return enemies.flatMap((enemy) => [
-    ...(enemy.choreography ?? []).map((hook, index) => {
-      return {
-        id: `global/enemies/${enemy.id}/choreography-${index}`,
-        body: validatedCommands(hook.body, `${enemy.id}.choreography[${index}].body`),
-      }
-    }),
-    ...(enemy.onDefeated?.length
-      ? (() => {
-          const body = validatedCommands(enemy.onDefeated, `${enemy.id}.onDefeated`)
-          return [{ id: `global/enemies/${enemy.id}/on-defeated`, body }]
-        })()
-      : []),
-  ])
 }
 
 /**
@@ -363,8 +252,6 @@ function assertPalBattleSpriteBaseline(args: {
   skills: ReturnType<typeof migrateAll>['skills']['skills']
   scenes: readonly SceneDef[]
   scriptChunks: Readonly<Record<string, import('@type-pal/content').ScriptChunkV1>>
-  enemyAuthority: PalEnemyAuthorityKind
-  r13SixBSourceSemantics: boolean
 }): void {
   const { definitions, catalog } = args
   validateBattleSprites(definitions, catalog)
@@ -384,7 +271,7 @@ function assertPalBattleSpriteBaseline(args: {
     scriptChunks: args.scriptChunks,
   })
   // 6B 后酒神同时保留公共 summon 叶与 player execution 覆盖叶；两条都是可寻址持久边。
-  const expectedReferenceCount = args.r13SixBSourceSemantics ? 180 : 179
+  const expectedReferenceCount = 180
   if (references.length !== expectedReferenceCount)
     throw new Error(
       `PAL BattleSpriteDef 直接引用期望 ${expectedReferenceCount}，收到 ${references.length}`,
@@ -411,7 +298,7 @@ function assertPalBattleSpriteBaseline(args: {
     ['player-fighter-5', 2],
     ['player-fighter-6', 3],
     ['player-fighter-7', 4],
-    ...(args.r13SixBSourceSemantics ? ([['player-summon-15', 2]] as const) : []),
+    ['player-summon-15', 2],
   ]
   if (JSON.stringify(shared) !== JSON.stringify(expectedShared))
     throw new Error(`PAL BattleSpriteDef 共享关系漂移: ${JSON.stringify(shared)}`)
@@ -432,29 +319,28 @@ function assertPalBattleSpriteBaseline(args: {
           kind: 'summon',
         })
     }
-    if (args.enemyAuthority === 'current-v10')
-      for (const flow of Object.values(enemy.ai.hooks ?? {}))
-        for (const state of Object.values(flow.states))
-          for (const command of state.body) {
-            if (command.kind !== 'effect') continue
-            if (command.effect.kind === 'transform')
-              indirectEdges.push({
-                source: enemy.id,
-                target: command.effect.enemyId,
-                kind: 'transform',
-              })
-            else if (command.effect.kind === 'summon')
-              indirectEdges.push({
-                source: enemy.id,
-                target: command.effect.enemyId ?? enemy.id,
-                kind: 'summon',
-              })
-          }
+    for (const flow of Object.values(enemy.ai.hooks ?? {}))
+      for (const state of Object.values(flow.states))
+        for (const command of state.body) {
+          if (command.kind !== 'effect') continue
+          if (command.effect.kind === 'transform')
+            indirectEdges.push({
+              source: enemy.id,
+              target: command.effect.enemyId,
+              kind: 'transform',
+            })
+          else if (command.effect.kind === 'summon')
+            indirectEdges.push({
+              source: enemy.id,
+              target: command.effect.enemyId ?? enemy.id,
+              kind: 'summon',
+            })
+        }
   }
   const transforms = indirectEdges.filter(({ kind }) => kind === 'transform')
   const summons = indirectEdges.filter(({ kind }) => kind === 'summon')
-  const expectedSummons = args.enemyAuthority === 'current-v10' ? 32 : 22
-  const expectedTotal = args.enemyAuthority === 'current-v10' ? 36 : 26
+  const expectedSummons = 32
+  const expectedTotal = 36
   if (
     transforms.length !== 4 ||
     summons.length !== expectedSummons ||
@@ -471,9 +357,7 @@ function assertPalBattleSpriteBaseline(args: {
   ].sort()
   if (missingTargets.length) throw new Error(`PAL 敌 AI 间接边缺目标: ${missingTargets.join(',')}`)
   const uniqueTargets = [...new Set(indirectEdges.map(({ target }) => target))].sort()
-  const expectedTargets =
-    args.enemyAuthority === 'current-v10'
-      ? [
+  const expectedTargets = [
           'enemy-403',
           'enemy-407',
           'enemy-410',
@@ -496,50 +380,13 @@ function assertPalBattleSpriteBaseline(args: {
           'enemy-511',
           'enemy-512',
         ]
-      : [
-          'enemy-403',
-          'enemy-407',
-          'enemy-410',
-          'enemy-419',
-          'enemy-420',
-          'enemy-433',
-          'enemy-434',
-          'enemy-441',
-          'enemy-442',
-          'enemy-453',
-          'enemy-461',
-          'enemy-470',
-          'enemy-490',
-          'enemy-492',
-          'enemy-512',
-        ]
   if (JSON.stringify(uniqueTargets) !== JSON.stringify(expectedTargets))
     throw new Error(`PAL 敌 AI 间接目标集漂移: ${JSON.stringify(uniqueTargets)}`)
 }
 
-export interface PalMigrationBuildOptions {
-  /** 仅 R13-6B successor 启用技能语义和 loadScene 源证据；普通 build 必须保持冻结输出。 */
-  r13SixBSourceSemantics?: boolean
-  /** 敌队输出形状；未指定时保持 content<=11 历史 authority 的压紧 members。 */
-  enemyTeamSchema?: 'legacy-members' | 'semantic-slots'
-}
-
-interface PalMigrationInternalBuildOptions extends PalMigrationBuildOptions {
-  /** 只供已发布 historical authority 重放；当前产品与 CLI 禁止开启 legacy。 */
-  palReferenceSchema?: 'legacy' | 'stable-id'
-}
-
-function buildPalMigrationWithEnemyAuthority(
-  sources: PalMigrationSources,
-  enemyAuthority: PalEnemyAuthorityProfile,
-  options: PalMigrationInternalBuildOptions = {},
-): MigrationFileSet {
-  const palSemanticProfile =
-    enemyAuthority.r13_6a === 'current'
-      ? options.r13SixBSourceSemantics
-        ? ('current-r13-6b' as const)
-        : ('current-r13-6a' as const)
-      : ('historical-r13-4' as const)
+/** data/extracted 到当前 canonical 内容的唯一纯生成核。 */
+export function buildPalMigration(sources: PalMigrationSources): MigrationFileSet {
+  const palSemanticProfile = 'current-r13-6b' as const
   const soundAssetForNum = palSoundAssetForSources(sources)
   const convertedMaps = auditAndConvertSourceMaps(sources.tilemaps)
   const legacyEntityAddresses = new Map<number, { scene: string; entity: string }>()
@@ -560,36 +407,27 @@ function buildPalMigrationWithEnemyAuthority(
       soundAssetForNum,
       legacyEntityAddresses,
     },
-    enemyAuthority.migrate,
+    undefined,
     {
-      skillItemCosts: enemyAuthority.r13_6a === 'current',
+      skillItemCosts: true,
       palSemanticProfile,
-      palReferenceSchema:
-        options.palReferenceSchema ??
-        (palSemanticProfile === 'historical-r13-4' ? 'legacy' : 'stable-id'),
+      palReferenceSchema: 'stable-id',
     },
   )
   const items = applyPalItemOverlays(migrated.items)
   const skills = {
     ...migrated.skills,
     skills: applyPalSkillOverlays(migrated.skills.skills, {
-      r13SixBExecution: options.r13SixBSourceSemantics,
+      r13SixBExecution: true,
     }),
   }
   // B11-1 casualty 是 6B successor 的叶:历史/6A 生成必须保持发布时形状,
   // 否则 R13 enemy augmentation 的 parent content digest 会漂移。
-  const casualtyOverlay = options.r13SixBSourceSemantics
-    ? applyPalCasualtyOverlays(migrated.actors, sources.migrate.commands, sources.objectPlayers)
-    : {
-        // coveredBy 是 B11-1 一起引入的 6B 叶;历史/6A 生成必须剥离,恢复发布时形状。
-        actors: migrated.actors.map((actor) => {
-          if (!actor.battler || actor.battler.coveredBy === undefined) return actor
-          const battler = { ...actor.battler }
-          delete battler.coveredBy
-          return { ...actor, battler }
-        }),
-        locale: {},
-      }
+  const casualtyOverlay = applyPalCasualtyOverlays(
+    migrated.actors,
+    sources.migrate.commands,
+    sources.objectPlayers,
+  )
   const globalRoots = makeGlobalScriptRoots({
     items: sources.migrate.items.flatMap((item) => [
       item.scriptOnUse,
@@ -656,9 +494,7 @@ function buildPalMigrationWithEnemyAuthority(
       worldSpriteFrameCounts: sources.worldSpriteFrameCounts,
       globalScriptAliases: itemUseScriptAliases,
       palSemanticProfile,
-      palReferenceSchema:
-        options.palReferenceSchema ??
-        (palSemanticProfile === 'historical-r13-4' ? 'legacy' : 'stable-id'),
+      palReferenceSchema: 'stable-id',
     },
   )
   const boss = applyPalBossEncounterOverlay(
@@ -681,16 +517,11 @@ function buildPalMigrationWithEnemyAuthority(
     boss.chunks,
   )
   const itemCommandRoots = itemScriptCommandRoots(items)
-  const historicalEnemyRoots =
-    enemyAuthority.kind === 'r13-confirm-parent-v9' ? legacyEnemyCommandRoots(boss.enemies) : []
-  const spriteExtraRoots =
-    enemyAuthority.kind === 'r13-confirm-parent-v9'
-      ? [...historicalEnemyRoots, ...itemCommandRoots]
-      : itemCommandRoots
-  const scriptAuditRoots =
-    enemyAuthority.kind === 'r13-confirm-parent-v9'
-      ? worldCommandAuditRoots(spriteExtraRoots)
-      : [...enemyScriptAuditRoots(boss.enemies), ...worldCommandAuditRoots(itemCommandRoots)]
+  const spriteExtraRoots = itemCommandRoots
+  const scriptAuditRoots = [
+    ...enemyScriptAuditRoots(boss.enemies),
+    ...worldCommandAuditRoots(itemCommandRoots),
+  ]
   const sprites = [...migrated.sprites, ...sceneOutput.sprites]
   const spriteActions = auditPalSpriteActions({
     scenes: sceneOutput.scenes,
@@ -726,8 +557,6 @@ function buildPalMigrationWithEnemyAuthority(
     skills: skills.skills,
     scenes: spriteActionMaterialization.scenes,
     scriptChunks: scripts.chunks,
-    enemyAuthority: enemyAuthority.kind,
-    r13SixBSourceSemantics: options.r13SixBSourceSemantics === true,
   })
   const audit = auditScriptLibrary({
     sourceJson: sources.allJson,
@@ -777,12 +606,7 @@ function buildPalMigrationWithEnemyAuthority(
   put('content/enemies.json', boss.enemies)
   put(
     'content/enemy-teams.json',
-    (options.enemyTeamSchema ?? 'legacy-members') === 'legacy-members'
-      ? migrated.enemyTeams.map((team) => ({
-          id: team.id,
-          members: team.slots.filter((slot): slot is string => slot !== null),
-        }))
-      : migrated.enemyTeams,
+    migrated.enemyTeams,
   )
   put('content/locale.json', {
     ...migrated.localeNames,
@@ -876,51 +700,7 @@ function buildPalMigrationWithEnemyAuthority(
       assets: structuredClone(sources.assetReport),
     },
   }
-  r13TranslationSessionFactories.set(result, () => createSceneR13TranslationSession(sceneOutput))
   return result
-}
-
-/** data/extracted 的 current v10 纯迁移；严禁读取 projects/pal。 */
-export function buildPalMigration(
-  sources: PalMigrationSources,
-  options: PalMigrationBuildOptions = {},
-): MigrationFileSet {
-  return buildPalMigrationWithEnemyAuthority(sources, CURRENT_ENEMY_AUTHORITY, options)
-}
-
-/**
- * 只用于重放已经发布的 P2 → P7 → r13-confirm 父层。
- * 新迁移、CLI 与项目写入不得调用这个入口。
- */
-export function buildPalHistoricalR13_4V9Migration(sources: PalMigrationSources): MigrationFileSet {
-  return buildPalMigrationWithEnemyAuthority(sources, R13_CONFIRM_PARENT_ENEMY_AUTHORITY, {
-    enemyTeamSchema: 'legacy-members',
-  })
-}
-
-/**
- * 只用于重放已经发布的 R13-5 transition。敌人 v10 能力保持，但 R13-6A 的
- * 技能物品门、palette/redraw/delay 仍按发布时旧口径生成。
- */
-export function buildPalHistoricalR13_5V10Migration(
-  sources: PalMigrationSources,
-): MigrationFileSet {
-  return buildPalMigrationWithEnemyAuthority(sources, R13_ENEMY_PARENT_AUTHORITY, {
-    enemyTeamSchema: 'legacy-members',
-  })
-}
-
-/**
- * R13-6A canary 的发布时输入：保留 current-v10/6A 能力，只把敌队引用重放为当时的 numeric team。
- * 不得用于当前工程生成、CLI 或写盘。
- */
-export function buildPalHistoricalR13_6AV10Migration(
-  sources: PalMigrationSources,
-): MigrationFileSet {
-  return buildPalMigrationWithEnemyAuthority(sources, CURRENT_ENEMY_AUTHORITY, {
-    enemyTeamSchema: 'legacy-members',
-    palReferenceSchema: 'legacy',
-  })
 }
 
 /** 审计与测试用：抽取纯文件集内的场景，不经 projects/pal 回读。 */

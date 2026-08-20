@@ -1,4 +1,4 @@
-import type { LoadedManifest } from '@type-pal/content'
+import type { CurrentManifest } from '@type-pal/content'
 import type { FileSource } from '@type-pal/reforge'
 import { describe, expect, it, vi } from 'vitest'
 import type { EditorState } from './edit-session.js'
@@ -42,7 +42,7 @@ function fixture(): Pick<EditorState, 'assetCatalog' | 'assetBlobs' | 'manifest'
         catalog: 'assets/index.json',
         roles: { 'visual.standardColorTable': 'color.demo' },
       },
-    } as LoadedManifest,
+    } as CurrentManifest,
   }
 }
 

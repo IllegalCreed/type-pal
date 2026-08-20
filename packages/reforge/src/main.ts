@@ -1,16 +1,14 @@
 import {
   type AssetId,
   applySetParty,
-  buildEntityLifecycleReferenceIndexV13,
+  buildEntityLifecycleReferenceIndex,
   buildWorld,
-  buildWorldV16,
   type CharacterInstance,
-  canonicalScriptTransitionJson,
-  checkEntityLifecycleTableV13,
+  checkEntityLifecycleTable,
   collectCommandAssetReferences,
   type EntityDef,
   type EntityLifecycleEntry,
-  type EntityLifecycleReferenceIndexV13,
+  type EntityLifecycleReferenceIndex,
   type EntityLifecycleTable,
   type EntryPoint,
   type EquipDescribeCtx,
@@ -20,13 +18,12 @@ import {
   effectiveSkills,
   effectiveStat,
   emptyWorldScriptState,
-  emptyWorldScriptStateV5,
   equipGrantsAttackAll,
   type Facing,
   type GridPos,
   grantBattleRewards,
   gridToPixel,
-  type HostileBehaviorV13,
+  type RuntimeHostileBehavior,
   isIdentityTint,
   lerpTint,
   lookupText,
@@ -38,7 +35,7 @@ import {
   resolveAmbienceTint,
   resolveEntitySpriteId,
   type SceneDef,
-  type SceneDefV5,
+  type ProjectedWorldScriptState,
   type SceneEntryPresentation,
   type SceneReveal,
   type SceneSpawn,
@@ -49,16 +46,14 @@ import {
   stageIndexFor,
   usableItems,
   type WalkSpeed,
-  type WorldScriptStateV5,
+  type WorldScriptState,
   type WorldState,
-  type WorldStateV13,
 } from '@type-pal/content'
 import type { Palette, RleFrame } from '@type-pal/shared'
 import {
   type BattleFieldEntry,
   type LoadedSprite,
   loadBattleBgFull,
-  loadBattleFields,
   loadBattleSpriteDefinition,
   loadEffectSprite,
   loadFireSprite,
@@ -159,17 +154,18 @@ import { executeWorldItemUse } from './item-use-executor.js'
 import { commitItemEntityPlacement, planItemEntityPlacement } from './item-use-placement.js'
 import { commitLatestPreparedSnapshot } from './latest-snapshot-transaction.js'
 import {
-  isV5RuntimeScriptRef,
-  legacyProjectViewFromV13,
-  legacySceneFromV5,
-  legacySceneViewFromV13,
-  legacyWorldScriptScratchV5,
-  refreshLegacySceneBindingsV5,
-} from './legacy-runtime-shell-v5.js'
-import { type LoadedProject, loadSceneDef } from './loader.js'
-import { type LoadedProjectV5, loadSceneDefV5 } from './loader-v5.js'
-import type { LoadedProjectV13 } from './loader-v13.js'
-import { type LoadedProjectV16, loadAllScenesV16, loadSceneDefV16 } from './loader-v16.js'
+  isRuntimeScriptRef,
+  runtimeProjectView,
+  runtimeSceneView,
+  projectedWorldScriptScratch,
+  refreshSceneViewBindings,
+} from './runtime-project-view.js'
+import {
+  type LoadedCurrentProject,
+  loadAllScenes,
+  loadScene,
+} from './project-loader.js'
+import type { RuntimeProjectView } from './runtime-project-view.js'
 import {
   castOutdoorSkill,
   closeMagicMenu,
@@ -227,15 +223,14 @@ import {
   openSaveBrowser,
   type SaveBrowserState,
 } from './save/browser-state.js'
-import { sha256Bytes } from './save/migration.js'
 import {
-  normalizePayloadV16,
-  preflightSaveMigrationV16,
-  type SavePayloadV16Input,
-} from './save/migration-v16.js'
+  normalizeCurrentSave,
+  preflightCurrentSave,
+} from './save/current-codec.js'
+import { sha256Bytes } from './hash.js'
 import {
   buildMeta,
-  buildPayloadV8Content16,
+  buildCurrentSavePayload,
   captureThumbnail,
   resolveRestoredMusic,
 } from './save/ops.js'
@@ -253,14 +248,14 @@ import {
 import { resolveSceneSpawn } from './scene-transition.js'
 import { runWithPresentationFinalizer, ScreenHoldTransaction } from './screen-hold-transaction.js'
 import { advanceWave, WorldWaveRenderer } from './screen-wave.js'
-import type { RuntimeLeafCommandV5 } from './script-compiler-v5.js'
-import type { RuntimeLeafCommandV13 } from './script-compiler-v13.js'
+import type { BaseRuntimeLeafCommand } from './script-compiler-core.js'
+import type { RuntimeLeafCommand } from './runtime-script-compiler.js'
 import { ScriptConfirmModalQueue } from './script-confirm-modal.js'
-import { executeLegacyScriptHostEffectV5 } from './script-host-adapter-v5.js'
-import { type ScriptEffectCommitControlV5, ScriptProjectRuntimeV5 } from './script-project-v5.js'
-import { ScriptProjectRuntimeV13 } from './script-project-v13.js'
+import { executeScriptHostEffect } from './script-host-adapter.js'
+import type { ScriptEffectCommitControl } from './script-project-core.js'
+import { ScriptProjectRuntime } from './runtime-script-project.js'
 import { type ScriptHost, ScriptRunner } from './script-runner.js'
-import type { ScriptRuntimeContextV5 } from './script-runner-v5.js'
+import type { ScriptRuntimeContext } from './script-runner-core.js'
 import {
   actualFrameIndex,
   animFrameIndex,
@@ -309,7 +304,7 @@ const TILE_W = 32
 const TILE_H = 16
 const _MARGIN = 32
 
-/** 原版角色号 → 模板 id(0x55 学仙术等 legacy op 的 role 操作数;= 原版 PlayerRoles 表序。
+/** 原版角色号 → 模板 id（来源指令 0x55 的 role 操作数 = 原版 PlayerRoles 表序）。
  *  ⚠ 3=巫后、4=阿奴(原版名字指针 3/4 对调是名字层面,角色号本身照表序)。 */
 const ORIGINAL_ROLE_TEMPLATES = [
   'li-xiaoyao',
@@ -348,18 +343,12 @@ let ctx!: CanvasRenderingContext2D
  * 传 FSA/HTTP source 装出的工程 —— 本地工程句柄跨不了源,试玩必须同源,这就是拆出本函数的原因。
  * ⚠ 模块级严禁碰 DOM/location:barrel 导出后,node 测试环境 import 本模块即执行模块级代码。
  */
-export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
-  // content16 loader 保留作者态与变量定义，同时以单一 resolver 产出 runtime view。
-  const canonicalProjectV16 = inputProject
-  const canonicalProjectV13 = inputProject as unknown as LoadedProjectV13
-  // 历史 v5 产品路径已退役；局部纯函数仍保留显式不可达分支。
-  const canonicalProjectV5 = ((): LoadedProjectV5 | undefined => undefined)()
-  let worldScriptV5: WorldScriptStateV5 | undefined
-  let worldV13: WorldStateV13 | undefined
-  let project: LoadedProject
-  // The view adapts only renderer fields; product loading has no historical version branch.
-  worldScriptV5 = emptyWorldScriptStateV5()
-  project = legacyProjectViewFromV13(canonicalProjectV13, worldScriptV5)
+export async function bootGame(inputProject: LoadedCurrentProject): Promise<void> {
+  // Product input has exactly one current shape. The renderer still consumes a flattened scene
+  // view, but that projection is never an alternate project version or persistence authority.
+  const canonicalProject = inputProject
+  const canonicalScript = emptyWorldScriptState()
+  const project: RuntimeProjectView = runtimeProjectView(canonicalProject, canonicalScript)
   const itemEquipDescribeCtx = {
     skillName: (id) => project.skills[id]?.name,
     actorName: (id) => {
@@ -452,60 +441,27 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
     standardPalettePromise ??= loadStandardPalette(project.assetBase)
     return standardPalettePromise
   }
-  const sceneDefCache = new Map<string, SceneDef>()
-  sceneDefCache.set(project.entryScene.id, project.entryScene)
-  const canonicalSceneCacheV5 = new Map<string, SceneDefV5>()
-  if (canonicalProjectV5)
-    canonicalSceneCacheV5.set(canonicalProjectV5.entryScene.id, canonicalProjectV5.entryScene)
-  async function getCanonicalSceneDefV5(id: string): Promise<SceneDefV5> {
-    if (!canonicalProjectV5) throw new Error('canonical v5 scene loader 未启用')
-    const hit = canonicalSceneCacheV5.get(id)
-    if (hit) return hit
-    const def = await loadSceneDefV5(canonicalProjectV5, id)
-    canonicalSceneCacheV5.set(id, def)
-    return def
-  }
-  const canonicalSceneCacheV13 = new Map<string, import('@type-pal/content').SceneDefV13>()
-  if (canonicalProjectV13)
-    canonicalSceneCacheV13.set(canonicalProjectV13.entryScene.id, canonicalProjectV13.entryScene)
-  async function getCanonicalSceneDefV13(
+  const canonicalSceneCache = new Map<string, import('@type-pal/content').RuntimeSceneDef>()
+  canonicalSceneCache.set(canonicalProject.entryScene.id, canonicalProject.entryScene)
+  async function getCanonicalScene(
     id: string,
-  ): Promise<import('@type-pal/content').SceneDefV13> {
-    if (!canonicalProjectV13) throw new Error('canonical v13 scene loader 未启用')
-    const hit = canonicalSceneCacheV13.get(id)
+  ): Promise<import('@type-pal/content').RuntimeSceneDef> {
+    const hit = canonicalSceneCache.get(id)
     if (hit) return hit
-    const def = await loadSceneDefV16(canonicalProjectV16, id)
-    canonicalSceneCacheV13.set(id, def)
+    const def = await loadScene(canonicalProject, id)
+    canonicalSceneCache.set(id, def)
     return def
   }
-  let lifecycleReferencesV13Promise: Promise<EntityLifecycleReferenceIndexV13> | undefined
-  function getLifecycleReferencesV13(): Promise<EntityLifecycleReferenceIndexV13> {
-    if (!canonicalProjectV13) throw new Error('content13 lifecycle references 未启用')
-    lifecycleReferencesV13Promise ??= loadAllScenesV16(canonicalProjectV16).then((scenes) => {
-      for (const def of scenes) canonicalSceneCacheV13.set(def.id, def)
-      return buildEntityLifecycleReferenceIndexV13(scenes)
+  let lifecycleReferencesPromise: Promise<EntityLifecycleReferenceIndex> | undefined
+  function getLifecycleReferences(): Promise<EntityLifecycleReferenceIndex> {
+    lifecycleReferencesPromise ??= loadAllScenes(canonicalProject).then((scenes) => {
+      for (const def of scenes) canonicalSceneCache.set(def.id, def)
+      return buildEntityLifecycleReferenceIndex(scenes)
     })
-    return lifecycleReferencesV13Promise
+    return lifecycleReferencesPromise
   }
-  async function getSceneDef(id: string, scriptStateV5?: WorldScriptStateV5): Promise<SceneDef> {
-    if (canonicalProjectV13)
-      return legacySceneViewFromV13(
-        await getCanonicalSceneDefV13(id),
-        scriptStateV5 ?? worldV13?.script ?? worldScriptV5 ?? emptyWorldScriptStateV5(),
-      )
-    if (canonicalProjectV5)
-      return legacySceneFromV5(
-        await getCanonicalSceneDefV5(id),
-        scriptStateV5 ?? worldScriptV5 ?? emptyWorldScriptStateV5(),
-      )
-    // 缓存存 pristine,取用深拷贝 —— 运行时直接 mutate scene.entities(演出走位/隐藏/改触发),
-    // 返回活对象会把污染带进场景重入与同场景读档(X1 核出的真 bug)。跨场景持久一律走
-    // world.script(entityState/vars),场景重入 = def 初态 + applyWorldToScene 重放。
-    const hit = sceneDefCache.get(id)
-    if (hit) return structuredClone(hit)
-    const def = await loadSceneDef(project, id)
-    sceneDefCache.set(id, def)
-    return structuredClone(def)
+  async function getSceneDef(id: string, scriptState = canonicalScript): Promise<SceneDef> {
+    return runtimeSceneView(await getCanonicalScene(id), scriptState)
   }
   /** RLE 索引帧组缓存；AssetId 共享解码，record 签名变化自动失效。 */
   const spriteCache = new SpriteAssetCache(96)
@@ -546,7 +502,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
    * Pristine static entity flags. `applyWorldToScene` historically projects entityState into
    * the live SceneDef, so reading `scene.entities[].hidden/collide` back as the static baseline
    * would make a restore permanently inherit the old projection. Keep this side table separate
-   * until the full v13 scene projection replaces the legacy fields entirely.
+   * until the current scene projection replaces the flattened renderer fields entirely.
    */
   const entityStaticBaseline = new Map<string, { hidden: boolean; collide: boolean }>()
   // 首次 switchScene 前建立，boot/重入/读档都由 commitSceneSwitch 原子重建页动作。
@@ -682,17 +638,17 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
           .filter(Boolean),
       }
     : baseStartWorld
-  // world 须先于 switchScene 定义(switchScene 首调在 boot 时读 world.script.mapOverride;
-  // 0x99 底图覆写持久层。放此前 = 避免 TDZ)。
-  let world: WorldState = buildWorld(bootStartWorld, project.actorsById)
-  if (canonicalProjectV13) {
-    worldV13 = buildWorldV16(
-      bootStartWorld,
-      canonicalProjectV13.actorsById,
-      canonicalProjectV16.worldVariables,
-    )
-    worldV13.script = worldScriptV5 ?? worldV13.script
-  }
+  // world 是唯一 canonical 当前世界。旧渲染壳需要的平面脚本状态只存在于
+  // runtimeScript 投影中，绝不回填 world、保存或脚本运行时。
+  const world = buildWorld(
+    bootStartWorld,
+    canonicalProject.actorsById,
+    canonicalProject.worldVariables,
+  )
+  const initialScript = world.script ?? emptyWorldScriptState()
+  Object.assign(canonicalScript, structuredClone(initialScript))
+  world.script = canonicalScript
+  let runtimeScript = projectedWorldScriptScratch(canonicalScript, project.entryScene.id)
   if (!world.party[0]) throw new Error('reforge: 开局队伍不能为空')
   const worldMutationIntent = new AsyncIntentController()
   const loadIntent = new AsyncIntentController()
@@ -730,9 +686,23 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
       )
     })
   }
-  const replaceWorld = (next: typeof world): void => {
+  const replaceCanonicalScript = (next: WorldScriptState): void => {
+    const target = canonicalScript as unknown as Record<string, unknown>
+    for (const key of Object.keys(target)) delete target[key]
+    Object.assign(target, structuredClone(next))
+  }
+  const syncRuntimeScriptScratch = (sceneId: string): void => {
+    runtimeScript = projectedWorldScriptScratch(canonicalScript, sceneId)
+  }
+  const replaceWorld = (next: WorldState): void => {
     worldMutationIntent.invalidate()
-    world = next
+    const replacement = structuredClone(next)
+    replaceCanonicalScript(replacement.script ?? emptyWorldScriptState())
+    replacement.script = canonicalScript
+    const target = world as unknown as Record<string, unknown>
+    for (const key of Object.keys(target)) delete target[key]
+    Object.assign(target, replacement)
+    syncRuntimeScriptScratch(scene.id)
   }
   const actorMutationIntent = (
     intents: Map<string, AsyncIntentController>,
@@ -777,15 +747,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
     ].filter((asset): asset is string => !!asset)
   }
   const prepareItemSounds = (itemId: string): Promise<void> => sfx.prepare(itemSoundAssets(itemId))
-  const prepareSceneSounds = async (def: SceneDef, worldView: typeof world): Promise<void> => {
-    const override = worldView.script?.sceneScriptOverrides?.[def.id]
-    const soundScene = structuredClone(def)
-    const additionalRoots: unknown[] = []
-    for (const slot of ['onEnter', 'onTeleport'] as const) {
-      if (!override || !Object.hasOwn(override, slot)) continue
-      delete soundScene[slot]
-      if (override[slot]) additionalRoots.push(override[slot])
-    }
+  const prepareSceneSounds = async (def: SceneDef, worldView: WorldState): Promise<void> => {
     const currentItems = new Map(
       worldView.inventory.flatMap((entry) => {
         const item = project.items[entry.itemId]
@@ -794,8 +756,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
     )
     for (const item of usableItems(worldView, project.items)) currentItems.set(item.id, item)
     const sounds = await collectSceneSoundAssets({
-      scene: soundScene,
-      ...(additionalRoots.length ? { additionalRoots } : {}),
+      scene: def,
       inventoryItems: [...currentItems.values()],
       ...(project.scriptStore ? { resolver: project.scriptStore } : {}),
       spritesById: project.spritesById,
@@ -969,52 +930,8 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
       configurable: true,
     })
   }
-  const syncLegacyScriptScratchV5 = (sceneId: string): void => {
-    if (!worldScriptV5) return
-    world.script = legacyWorldScriptScratchV5(worldScriptV5, sceneId)
-  }
-  const replaceWorldScriptStateV5 = (next: WorldScriptStateV5): void => {
-    if (!worldScriptV5) throw new Error('script v5 world authority 未初始化')
-    const target = worldScriptV5 as unknown as Record<string, unknown>
-    for (const key of Object.keys(target)) delete target[key]
-    Object.assign(target, structuredClone(next))
-  }
-  const legacyWorldShellFromV13 = (
-    next: WorldStateV13,
-    sceneId: string,
-    scriptState: WorldScriptStateV5,
-  ): WorldState => {
-    const shell = structuredClone(next) as unknown as WorldState & {
-      entityLifecycles?: unknown
-    }
-    delete shell.entityLifecycles
-    shell.script = legacyWorldScriptScratchV5(scriptState, sceneId)
-    return shell
-  }
-  const currentWorldV13Snapshot = (): WorldStateV13 => {
-    if (!worldV13) throw new Error('content13 world authority 未初始化')
-    const shell = structuredClone(world) as WorldState & { entityLifecycles?: unknown }
-    delete shell.script
-    delete shell.entityLifecycles
-    return {
-      ...shell,
-      script: structuredClone(worldScriptV5 ?? worldV13.script ?? emptyWorldScriptStateV5()),
-      entityLifecycles: structuredClone(worldV13.entityLifecycles ?? {}),
-    }
-  }
-  const replaceWorldV13State = (next: WorldStateV13): void => {
-    const replacement = structuredClone(next)
-    if (worldScriptV5) replacement.script = worldScriptV5
-    if (!worldV13) {
-      worldV13 = replacement
-      return
-    }
-    const target = worldV13 as unknown as Record<string, unknown>
-    for (const key of Object.keys(target)) delete target[key]
-    Object.assign(target, replacement)
-  }
-  if (worldScriptV5) syncLegacyScriptScratchV5(project.entryScene.id)
-  else world.script ??= emptyWorldScriptState()
+  const currentWorldSnapshot = (): WorldState => structuredClone(world)
+  syncRuntimeScriptScratch(project.entryScene.id)
 
   const runnableStages = (binding: RuntimeScriptBinding): ScriptStage[] =>
     Array.isArray(binding) ? binding : [{ body: [{ kind: 'callScript', ref: binding }] }]
@@ -1023,10 +940,8 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
   const sceneScriptBinding = (
     def: SceneDef,
     slot: 'onEnter' | 'onTeleport',
-    worldView: typeof world,
+    _scriptView: ProjectedWorldScriptState,
   ): RuntimeScriptBinding | undefined => {
-    const override = worldView.script?.sceneScriptOverrides?.[def.id]
-    if (override && Object.hasOwn(override, slot)) return override[slot] ?? undefined
     return def[slot]
   }
 
@@ -1034,11 +949,11 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
   const bindingSceneEntry = (
     key: string,
     binding: RuntimeScriptBinding | undefined,
-    worldView: typeof world,
+    scriptView: ProjectedWorldScriptState,
   ): SceneEntryPresentation | undefined => {
     if (!binding) return undefined
     const stages = runnableStages(binding)
-    const stage = stages[stageIndexFor(expectDefined(worldView.script), key, stages)]
+    const stage = stages[stageIndexFor(scriptView, key, stages)]
     return stage?.entry
   }
 
@@ -1061,15 +976,17 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
   /** 只准备所有可能失败的场景依赖；不得改活动 world/scene/cache 工作集。 */
   async function prepareSceneSwitch(
     sceneId: string,
-    worldView: typeof world,
+    worldView: WorldState,
     spawn?: SceneSpawn & { inheritFacing?: Facing },
     useActorOverrides = true,
-    scriptStateV5?: WorldScriptStateV5,
+    scriptState?: WorldScriptState,
   ): Promise<SceneSwitchPlan> {
-    if (worldScriptV5 && worldView === world) syncLegacyScriptScratchV5(sceneId)
+    const currentScript = scriptState ?? worldView.script ?? emptyWorldScriptState()
+    const preparedRuntimeScript = projectedWorldScriptScratch(currentScript, sceneId)
     // 活动 world 会被并行 auto 原地修改；预检必须只读调用瞬间的快照，并在提交前对依赖签名。
     const dependencies = captureSceneSwitchDependencies(
       worldView,
+      preparedRuntimeScript,
       sceneId,
       actorSpriteOverrides,
       useActorOverrides,
@@ -1078,9 +995,9 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
     const preparedActorOverrides = useActorOverrides
       ? new Map(actorSpriteOverrides)
       : new Map<string, { def: SpriteDef; frames: LoadedSprite }>()
-    const def = await getSceneDef(sceneId, scriptStateV5)
+    const def = await getSceneDef(sceneId, scriptState)
     // 0x99 底图覆写:按稳定 mapId 换底(麒麟洞岩浆),随存档持久。
-    const mapId = preparedWorld.script?.mapOverride?.[sceneId] ?? def.mapId
+    const mapId = currentScript.mapOverride?.[sceneId] ?? def.mapId
     const defs = new Map<string, SpriteDef>()
     for (const e of def.entities) {
       // 隐藏实体也登记(M3a:脚本 setEntityState 可显形);zone 无视觉跳过
@@ -1099,7 +1016,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
         `队员 ${character.template}`,
       )
     })
-    const extraFollowerDefs = (preparedWorld.script?.followers ?? []).map((spriteId) =>
+    const extraFollowerDefs = (currentScript.followers ?? []).map((spriteId) =>
       requireSpriteDef(spriteId, `编外跟随者 ${spriteId}`),
     )
     const needed = new Set<AssetId>([
@@ -1136,7 +1053,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
       )
       pageActions.push({ entity: entity.id, ...resolved })
     }
-    const onEnterBinding = sceneScriptBinding(def, 'onEnter', preparedWorld)
+    const onEnterBinding = sceneScriptBinding(def, 'onEnter', preparedRuntimeScript)
     return {
       sceneId,
       def,
@@ -1150,15 +1067,20 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
       dependencies,
       useActorOverrides,
       onEnterBinding,
-      onEnterEntry: bindingSceneEntry(`s:${sceneId}`, onEnterBinding, preparedWorld),
+      onEnterEntry: bindingSceneEntry(`s:${sceneId}`, onEnterBinding, preparedRuntimeScript),
     }
   }
 
-  function assertSceneSwitchPlanCurrent(plan: SceneSwitchPlan, worldView: typeof world): void {
+  function assertSceneSwitchPlanCurrent(plan: SceneSwitchPlan, worldView: WorldState): void {
+    const scriptView = projectedWorldScriptScratch(
+      worldView.script ?? emptyWorldScriptState(),
+      plan.sceneId,
+    )
     assertSceneSwitchDependenciesCurrent(
       plan.dependencies,
       captureSceneSwitchDependencies(
         worldView,
+        scriptView,
         plan.sceneId,
         actorSpriteOverrides,
         plan.useActorOverrides,
@@ -1292,8 +1214,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
     entityTriggerRevision.set(entityId, (entityTriggerRevision.get(entityId) ?? 0) + 1)
     pendingTouchTrigger.clearEntity(entityId)
   }
-  let scriptRuntimeV5: ScriptProjectRuntimeV5 | null = null
-  let scriptRuntimeV13: ScriptProjectRuntimeV13 | null = null
+  let scriptRuntime: ScriptProjectRuntime | null = null
   /** X1 自动存档:本次演出链切过场景 → 整链(含排队 onEnter)收尾后静默写 auto 槽。 */
   let sceneChangedByScript = false
   let scriptAbort: AbortController | null = null
@@ -1469,7 +1390,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
     kind: 'move'
     to: GridPos
     speed: WalkSpeed
-    commitControl?: ScriptEffectCommitControlV5
+    commitControl?: ScriptEffectCommitControl
     blockedAttempts: number
     nextBlockedReportAt: number
     slowRestPending: boolean
@@ -1509,29 +1430,9 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
     if (inlineTriggerOwners.has(entityId)) return true
     inlineTriggerOwners.add(entityId)
     try {
-      if (scriptRuntimeV13) {
-        const canonical = canonicalSceneCacheV13.get(scene.id)
-        if (!canonical) return false
-        return scriptRuntimeV13.runEntityBehavior(canonical, entityId, 'trigger', { signal })
-      }
-      if (scriptRuntimeV5) {
-        const canonical = canonicalSceneCacheV5.get(scene.id)
-        if (!canonical) return false
-        return scriptRuntimeV5.runEntityBehavior(canonical, entityId, 'trigger', { signal })
-      }
-      const entity = scene.entities.find((candidate) => candidate.id === entityId)
-      const binding = entity?.pages?.[0]?.trigger
-      if (!binding) return false
-      const child = new ScriptRunner(
-        scriptHost,
-        expectDefined(world.script),
-        signal,
-        Math.random,
-        project.scriptStore,
-      )
-      child.selfId = entityId
-      await child.runStages(entityId, runnableStages(binding.stages))
-      return true
+      const canonical = canonicalSceneCache.get(scene.id)
+      if (!canonical || !scriptRuntime) return false
+      return scriptRuntime.runEntityBehavior(canonical, entityId, 'trigger', { signal })
     } finally {
       inlineTriggerOwners.delete(entityId)
     }
@@ -1564,9 +1465,9 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
   } | null = null
 
   function lifecycleTableForWorld(): EntityLifecycleTable | undefined {
-    const table = worldV13?.entityLifecycles
+    const table = world.entityLifecycles
     if (table === undefined) return undefined
-    checkEntityLifecycleTableV13(table)
+    checkEntityLifecycleTable(table)
     return table
   }
 
@@ -1575,9 +1476,8 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
   }
 
   function setLifecycleTableForWorld(table: EntityLifecycleTable): void {
-    if (!worldV13) return
-    checkEntityLifecycleTableV13(table)
-    worldV13.entityLifecycles = table
+    checkEntityLifecycleTable(table)
+    world.entityLifecycles = table
   }
 
   function lifecycleFootAnchors(): Record<string, { x: number; y: number }> {
@@ -1591,9 +1491,9 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
 
   /**
    * W9 world clock bridge. It intentionally consumes the already-issued single 100ms world step;
-   * no wall clock/timer is introduced. v12 worlds have no lifecycle table and take the exact old
-   * path. Blocking presentation, dialogue, menu, confirmation and script execution all freeze
-   * this table even though legacy NPC movement retains its historical independent cadence.
+   * no wall clock/timer is introduced. Worlds without lifecycle entries take the unchanged
+   * entity-state path. Blocking presentation, dialogue, menu, confirmation and script execution
+   * all freeze this table even though source-faithful NPC movement keeps its independent cadence.
    */
   function advanceLifecycleWorldStepIfEligible(gameplayFrozen: boolean, stepActive: boolean): void {
     if (
@@ -1644,7 +1544,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
     return deriveEntityLifecycleGates({
       staticHidden: baseline.hidden,
       staticCollide: baseline.collide,
-      entityState: world.script?.entityState[entity.id],
+      entityState: runtimeScript.entityState[entity.id],
       lifecycle: lifecycleEntryFor(entity.id),
       ...options,
     })
@@ -1652,13 +1552,13 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
 
   /** 仅投影显隐/碰撞。lifecycle tick 不得顺带重放旧 endpoint、拉回半途 mover。 */
   function applyWorldEntityGatesToScene(): void {
-    syncLegacyScriptScratchV5(scene.id)
+    syncRuntimeScriptScratch(scene.id)
     for (const e of scene.entities) {
       const baseline = entityStaticBaseline.get(`${scene.id}/${e.id}`) ?? {
         hidden: e.hidden === true,
         collide: e.collide === true,
       }
-      const st = world.script?.entityState[e.id]
+      const st = runtimeScript.entityState[e.id]
       const lifecycle = lifecycleEntryFor(e.id)
       const gates = deriveEntityLifecycleGates({
         staticHidden: baseline.hidden,
@@ -1666,11 +1566,11 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
         entityState: st,
         lifecycle,
       })
-      // Transitional projection only: consumers below use the same gates, while these legacy
-      // fields remain a render-shell cache for code paths not yet moved to content13.
+      // Renderer projection only: consumers below use the same gates, while these fields remain
+      // a render-shell cache rather than a second persisted authority.
       e.hidden = !gates.visible
       e.collide = gates.collidable
-      // Legacy setEntityState and v13 lifecycle commands share this projection. A carrier that
+      // setEntityState and lifecycle commands share this projection. A carrier that
       // becomes non-visible must release every rider here; otherwise the retained scene object can
       // keep dragging the party and can be resurrected as a compound collision body.
       if (!gates.visible) {
@@ -1684,9 +1584,9 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
 
   /** 显式定位或进场/读档才重放 canonical entityPos；普通 lifecycle 投影禁止调用。 */
   function applyWorldEntityPositionToScene(id: string): void {
-    syncLegacyScriptScratchV5(scene.id)
+    syncRuntimeScriptScratch(scene.id)
     const entity = scene.entities.find((candidate) => candidate.id === id)
-    const pos = world.script?.entityPos?.[id]
+    const pos = runtimeScript.entityPos?.[id]
     if (!entity || !pos) return
     entity.pos = { ...pos }
     clearEntityGait(id)
@@ -1868,7 +1768,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
     to: GridPos,
     speed: WalkSpeed,
     signal?: AbortSignal,
-    commitControl?: ScriptEffectCommitControlV5,
+    commitControl?: ScriptEffectCommitControl,
   ): Promise<number> {
     return new Promise((resolve, reject) => {
       signal?.throwIfAborted()
@@ -2472,21 +2372,19 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
     const fieldId = battleOpts?.fieldId ?? scene.battleFieldId ?? 24
     // 战场常驻波(battle.c:1559 进战斗设 field.screenWave;#18/22/32/35/50 水下/幻境)
     // + 五灵加成(lprgBattleField.rgsMagicEffect,fight.c:244 双向乘入法术伤害)。
-    // 数据源:工程 content 战场表(D24 一等域,编辑器管) > assetBase 遗留回退(未收编工程)。
-    battleFieldsPromise ??= project.battleFields.length
-      ? Promise.resolve(
-          new Map(
-            project.battleFields.map((f) => [
-              Number(f.id),
-              {
-                screenWave: f.screenWave ?? 0,
-                ...(f.magicEffect ? { magicEffect: f.magicEffect } : {}),
-                ...(f.background ? { background: f.background } : {}),
-              },
-            ]),
-          ),
-        )
-      : loadBattleFields(project.assetBase).catch(() => new Map<number, BattleFieldEntry>())
+    // 战场表只来自当前工程 content；空表明确表示使用默认战场参数。
+    battleFieldsPromise ??= Promise.resolve(
+      new Map(
+        project.battleFields.map((f) => [
+          Number(f.id),
+          {
+            screenWave: f.screenWave ?? 0,
+            ...(f.magicEffect ? { magicEffect: f.magicEffect } : {}),
+            ...(f.background ? { background: f.background } : {}),
+          },
+        ]),
+      ),
+    )
     const fields = await battleFieldsPromise
     assertLaunchCurrent()
     const fieldDef = fields.get(Number(fieldId))
@@ -2718,7 +2616,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
       if (c.extraPoisonRes) c.extraPoisonRes = undefined
       if (c.poisons?.length) curePoisons(c, project.poisonsById, 'severe')
     }
-    // Phase E 战后脚本：逐槽按 scriptOwnerDef 跑 canonical V5 onDefeated。
+    // 战后脚本：逐槽按 scriptOwnerDef 跑 current canonical onDefeated。
     // exact launchSignal 复用父 activity lineage；F5 已关 gate 时不得另开 transient 自锁。
     // 非 abort 错误向外传播，禁止 console.error 后假装战斗成功。
     let hasBattleEndError = false
@@ -2726,20 +2624,14 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
     try {
       if (result === 'victory') {
         const scripted = session.enemySlotDefs().filter((def) => def.onDefeated?.length)
-        if (scripted.length && !scriptRuntimeV13 && !scriptRuntimeV5)
+        if (scripted.length && !scriptRuntime)
           throw new Error('enemy onDefeated 需要 canonical script runtime')
         for (const def of scripted) {
           const commands = expectDefined(def.onDefeated)
-          if (scriptRuntimeV13)
-            await scriptRuntimeV13.runCommands(commands as never, {
-              signal: launchSignal,
-              timing: 'interactive',
-            })
-          else
-            await expectDefined(scriptRuntimeV5).runCommands(commands, {
-              signal: launchSignal,
-              timing: 'interactive',
-            })
+          await expectDefined(scriptRuntime).runCommands(commands, {
+            signal: launchSignal,
+            timing: 'interactive',
+          })
           assertLaunchCurrent()
         }
       }
@@ -3160,31 +3052,27 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
     setEntityState: () => applyWorldEntityGatesToScene(), // runner 已写 world.script,这里只重放显隐/碰撞
     // 0x13 实体绝对定位:持久写 entityPos(跨场景 36/54 处,进场重放)+ 本场景活体生效
     setEntityPos: (id, pos) => {
-      if (world.script) {
-        const e = scene.entities.find((x) => x.id === id)
-        const height = e?.pos.height ?? 0
-        world.script.entityPos ??= {}
-        world.script.entityPos[id] = { col: pos.col, row: pos.row, height }
-      }
+      const e = scene.entities.find((x) => x.id === id)
+      const height = e?.pos.height ?? 0
+      runtimeScript.entityPos ??= {}
+      runtimeScript.entityPos[id] = { col: pos.col, row: pos.row, height }
       applyWorldEntityPositionToScene(id)
     },
     // 0x12 相对队伍摆位:绝对格 = 队伍当前格 + (dcol,drow);持久/活体同 setEntityPos
     setEntityPosRelParty: (id, dcol, drow) => {
-      if (world.script) {
-        const e = scene.entities.find((x) => x.id === id)
-        const height = e?.pos.height ?? 0
-        world.script.entityPos ??= {}
-        world.script.entityPos[id] = {
-          col: player.pos.col + dcol,
-          row: player.pos.row + drow,
-          height,
-        }
+      const e = scene.entities.find((x) => x.id === id)
+      const height = e?.pos.height ?? 0
+      runtimeScript.entityPos ??= {}
+      runtimeScript.entityPos[id] = {
+        col: player.pos.col + dcol,
+        row: player.pos.row + drow,
+        height,
       }
       applyWorldEntityPositionToScene(id)
     },
     // 0x6F 源状态读取:脚本覆写优先,否则活体推导(隐 0 / 挡路 2 / 可见 1)
     getEntityState: (id) => {
-      const st = world.script?.entityState[id]
+      const st = runtimeScript.entityState[id]
       if (st !== undefined) return st
       const e = scene.entities.find((x) => x.id === id)
       if (!e) return undefined
@@ -3231,7 +3119,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
         loaded?.frames.length,
         `playEntityAction: 场景 ${scene.id} 实体 ${id}`,
       )
-      // 新动作接管外观时清掉 legacy 定帧；移动中的走帧仍保留并以更高优先级暂停动作。
+      // 新动作接管外观时清掉显式定帧；移动中的走帧仍保留并以更高优先级暂停动作。
       entityFrameOverride.delete(id)
       entityExplicitAnim.delete(id)
       return entityActions.play(id, resolved, signal)
@@ -3588,32 +3476,13 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
     // sceneScriptOverrides 覆写优先于静态槽;null 显式禁用,不得回退。
     teleportOut: async (signal) => {
       assertRunnerActive(signal, '传送出口所属 runner 已取消')
-      if (scriptRuntimeV13) {
-        const canonical = canonicalSceneCacheV13.get(scene.id)
-        if (!canonical) throw new Error(`script v13 当前场景未缓存: ${scene.id}`)
-        const ran = await runDetachedV13ScriptChain(signal, (runtime, runSignal) =>
-          runtime.runSceneHook(canonical, 'onTeleport', { signal: runSignal }),
-        )
-        assertRunnerActive(signal, '传送出口所属 runner 已取消')
-        return ran
-      }
-      if (scriptRuntimeV5) {
-        const canonical = canonicalSceneCacheV5.get(scene.id)
-        if (!canonical) throw new Error(`script v5 当前场景未缓存: ${scene.id}`)
-        const ran = await runDetachedV5ScriptChain(signal, (runtime, runSignal) =>
-          runtime.runSceneHook(canonical, 'onTeleport', { signal: runSignal }),
-        )
-        assertRunnerActive(signal, '传送出口所属 runner 已取消')
-        return ran
-      }
-      const binding = sceneScriptBinding(scene, 'onTeleport', world)
-      if (!binding || (Array.isArray(binding) && binding.length === 0)) return false
-      if (world.script)
-        await runDetachedScriptChain(signal, (child) =>
-          child.runStages(`teleport:${scene.id}`, runnableStages(binding)),
-        )
+      const canonical = canonicalSceneCache.get(scene.id)
+      if (!canonical) throw new Error(`script 当前场景未缓存: ${scene.id}`)
+      const ran = await runDetachedScriptChain(signal, (runtime, runSignal) =>
+        runtime.runSceneHook(canonical, 'onTeleport', { signal: runSignal }),
+      )
       assertRunnerActive(signal, '传送出口所属 runner 已取消')
-      return true
+      return ran
     },
     // 演出期 runner 活跃 → 游戏循环吞输入；视频 URL 只经 catalog resolver 获得。
     playVideo: async (asset, signal) =>
@@ -3672,8 +3541,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
       assertRunnerActive(signal, `reloadMap(${mapId}) 的 runner 已取消`)
       const scriptMutationToken = scriptMutationIntent.capture()
       const sceneAtRequest = scene
-      const worldAtRequest = world
-      const scriptAtRequest = expectDefined(world.script)
+      const scriptAtRequest = canonicalScript
       const assets = await awaitRunner(
         getMapAssets(mapId),
         signal,
@@ -3683,8 +3551,8 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
       scriptMutationIntent.assertCurrent(scriptMutationToken, `reloadMap(${mapId}) 的脚本已失效`)
       if (scene !== sceneAtRequest)
         throw asyncIntentAbortError(`reloadMap(${mapId}) 的所属场景已失效`)
-      if (world !== worldAtRequest || world.script !== scriptAtRequest)
-        throw asyncIntentAbortError(`reloadMap(${mapId}) 的所属世界已失效`)
+      if (world.script !== scriptAtRequest)
+        throw asyncIntentAbortError(`reloadMap(${mapId}) 的所属脚本世界已失效`)
       const nextRenderer = new Canvas2DRenderer(ctx, palette, assets.tilesets)
       const nextRoom = { col: 0, row: 0, cols: assets.map.width, rows: assets.map.height }
       scriptAtRequest.mapOverride ??= {}
@@ -3714,7 +3582,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
 
   /**
    * DEV-only battle gateway. Debug-only overrides stay outside both author commands and
-   * the canonical v5 host, while sharing the production launch intent/frame-step guards.
+   * the canonical host, while sharing the production launch intent/frame-step guards.
    */
   const startBattleDev = (
     request: {
@@ -3826,11 +3694,25 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
     },
   }
 
-  const refreshCurrentCanonicalBindingsV5 = (): void => {
-    if (!worldScriptV5) return
-    const canonical = canonicalSceneCacheV5.get(scene.id)
-    if (!canonical) throw new Error(`script v5 当前场景未缓存: ${scene.id}`)
-    refreshLegacySceneBindingsV5(scene, canonical, worldScriptV5)
+  const isLifecycleRuntimeCommand = (
+    command: RuntimeLeafCommand,
+  ): command is Extract<
+    RuntimeLeafCommand,
+    { kind: 'suspendEntity' | 'hideEntity' | 'restoreEntity' | 'removeEntity' }
+  > =>
+    command.kind === 'suspendEntity' ||
+    command.kind === 'hideEntity' ||
+    command.kind === 'restoreEntity' ||
+    command.kind === 'removeEntity'
+
+  const refreshCurrentCanonicalBindings = (): void => {
+    const canonical = canonicalSceneCache.get(scene.id)
+    if (!canonical) throw new Error(`script 当前场景未缓存: ${scene.id}`)
+    refreshSceneViewBindings(
+      scene,
+      canonical as unknown as import('@type-pal/content').BaseSceneDef,
+      canonicalScript,
+    )
     const pageActions: EntityActionSeed[] = []
     for (const entity of scene.entities) {
       const binding = entity.pages?.[0]?.animation
@@ -3849,89 +3731,9 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
     entityActions.replaceScene(pageActions)
   }
 
-  const refreshRuntimeProjectionV5 = (command: RuntimeLeafCommandV5): void => {
-    if (!worldScriptV5) return
-    syncLegacyScriptScratchV5(scene.id)
-    if (
-      ((command.kind === 'selectEntityBehavior' && command.channel === 'trigger') ||
-        command.kind === 'selectEntityPage' ||
-        command.kind === 'setEntityTriggerActivation') &&
-      command.target.scene === scene.id
-    )
-      bumpEntityTriggerRevision(command.target.entity)
-    if (
-      command.kind === 'selectEntityBehavior' ||
-      command.kind === 'selectEntityPage' ||
-      command.kind === 'setEntityTriggerActivation' ||
-      command.kind === 'selectSceneHooks'
-    )
-      refreshCurrentCanonicalBindingsV5()
-    if (
-      (command.kind === 'selectEntityBehavior' && command.channel === 'auto') ||
-      command.kind === 'selectEntityPage'
-    ) {
-      const target = command.target
-      if (target.scene === scene.id) {
-        const entity = scene.entities.find((candidate) => candidate.id === target.entity)
-        // v5 behavior/page selection may atomically hand off a persisted cursor. Abort the
-        // previous runner before it can wake and execute one stale state body; owner epoch
-        // remains the final guard against an already-running command committing old state.
-        if (entity) restartAutoRunner(entity)
-      }
-    }
-    if (command.kind === 'setEntityState' || command.kind === 'setMultiEntityState') {
-      applyWorldEntityGatesToScene()
-      const targets = command.kind === 'setEntityState' ? [command.target] : command.targets
-      for (const target of targets)
-        if (target.scene === scene.id) maybeResumeLifecycleHiddenMotion(target.entity)
-    } else if (
-      (command.kind === 'setEntityPos' || command.kind === 'setEntityPosRelParty') &&
-      command.target.scene === scene.id
-    )
-      applyWorldEntityPositionToScene(command.target.entity)
-  }
-
-  const isLifecycleRuntimeCommandV13 = (
-    command: RuntimeLeafCommandV13,
-  ): command is Extract<
-    RuntimeLeafCommandV13,
-    { kind: 'suspendEntity' | 'hideEntity' | 'restoreEntity' | 'removeEntity' }
-  > =>
-    command.kind === 'suspendEntity' ||
-    command.kind === 'hideEntity' ||
-    command.kind === 'restoreEntity' ||
-    command.kind === 'removeEntity'
-
-  const refreshCurrentCanonicalBindingsV13 = (): void => {
-    if (!worldScriptV5) return
-    const canonical = canonicalSceneCacheV13.get(scene.id)
-    if (!canonical) throw new Error(`script v13 当前场景未缓存: ${scene.id}`)
-    refreshLegacySceneBindingsV5(
-      scene,
-      canonical as unknown as import('@type-pal/content').SceneDefV5,
-      worldScriptV5,
-    )
-    const pageActions: EntityActionSeed[] = []
-    for (const entity of scene.entities) {
-      const binding = entity.pages?.[0]?.animation
-      if (!binding) continue
-      const sprite = entitySpriteDefs.get(entity.id)
-      if (!sprite) continue
-      const loaded = spriteCache.get(project.assetResolver, sprite.asset)
-      const resolved = resolveSpriteActionBinding(
-        sprite,
-        binding,
-        loaded?.frames.length,
-        `reforge: 场景 ${scene.id} 实体 ${entity.id} canonical v13 page animation`,
-      )
-      pageActions.push({ entity: entity.id, ...resolved })
-    }
-    entityActions.replaceScene(pageActions)
-  }
-
-  const refreshLifecycleProjectionV13 = (
+  const refreshLifecycleProjection = (
     command: Extract<
-      RuntimeLeafCommandV13,
+      RuntimeLeafCommand,
       { kind: 'suspendEntity' | 'hideEntity' | 'restoreEntity' | 'removeEntity' }
     >,
     commit?: Readonly<{ resetFrameTarget?: { scene: string; entity: string } }>,
@@ -3995,14 +3797,13 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
     restartAutoOwnersWaitingOnTarget(entity.id)
   }
 
-  const refreshRuntimeProjectionV13 = (
-    command: RuntimeLeafCommandV13,
+  const refreshRuntimeProjection = (
+    command: RuntimeLeafCommand,
     commit?: Readonly<{ resetFrameTarget?: { scene: string; entity: string } }>,
   ): void => {
-    if (!worldScriptV5) return
-    syncLegacyScriptScratchV5(scene.id)
-    if (isLifecycleRuntimeCommandV13(command)) {
-      refreshLifecycleProjectionV13(command, commit)
+    syncRuntimeScriptScratch(scene.id)
+    if (isLifecycleRuntimeCommand(command)) {
+      refreshLifecycleProjection(command, commit)
       return
     }
     if (
@@ -4018,7 +3819,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
       command.kind === 'setEntityTriggerActivation' ||
       command.kind === 'selectSceneHooks'
     )
-      refreshCurrentCanonicalBindingsV13()
+      refreshCurrentCanonicalBindings()
     if (
       (command.kind === 'selectEntityBehavior' && command.channel === 'auto') ||
       command.kind === 'selectEntityPage'
@@ -4042,10 +3843,10 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
   }
 
   const executeProjectScriptEffect = async (
-    command: RuntimeLeafCommandV5,
-    context: Readonly<ScriptRuntimeContextV5>,
+    command: BaseRuntimeLeafCommand,
+    context: Readonly<ScriptRuntimeContext>,
     signal: AbortSignal,
-    commitControl?: ScriptEffectCommitControlV5,
+    commitControl?: ScriptEffectCommitControl,
   ): Promise<void> => {
     if (command.kind === 'moveEntity' && command.target.scene === scene.id) {
       const source: EntityMoveSource = context.timing === 'auto' ? 'auto' : 'script'
@@ -4079,7 +3880,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
       await runAutoStepThroughContinuation(command.target.entity, command.dir, signal)
       return
     }
-    await executeLegacyScriptHostEffectV5(
+    await executeScriptHostEffect(
       context.timing === 'auto' ? autoHost : scriptHost,
       command,
       context,
@@ -4088,119 +3889,31 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
     )
   }
 
-  if (canonicalProjectV5 && worldScriptV5) {
-    const transitionDigest = Object.values(canonicalProjectV5.migrationRegistry)[0]?.sidecar.digest
-    const runtimeDigest =
-      transitionDigest ??
-      (await sha256Bytes(
-        new TextEncoder().encode(
-          canonicalScriptTransitionJson({
-            manifest: canonicalProjectV5.manifest,
-            items: canonicalProjectV5.items,
-            sharedScripts: canonicalProjectV5.sharedScripts,
-          }),
-        ),
-      ))
-    scriptRuntimeV5 = new ScriptProjectRuntimeV5(canonicalProjectV5, worldScriptV5, runtimeDigest, {
-      executeEffect: (command, context, signal, commitControl) =>
-        executeProjectScriptEffect(command, context, signal, commitControl),
-      worldChanged: (command) => refreshRuntimeProjectionV5(command),
-      scene: getCanonicalSceneDefV5,
-      currentSceneId: () => scene.id,
-      currentSceneSessionId: currentMotionSceneSessionId,
-      gate: (signal) => waitForScriptGameplay(signal),
-      entityPosRelativeToParty: (target, dcol, drow) => {
-        if (target.scene !== scene.id)
-          throw new Error(`setEntityPosRelParty 只能操作当前场景: ${target.scene}/${target.entity}`)
-        const entity = scene.entities.find((candidate) => candidate.id === target.entity)
-        return {
-          col: player.pos.col + dcol,
-          row: player.pos.row + drow,
-          height: entity?.pos.height ?? 0,
-        }
-      },
-      query: {
-        hasItem: (itemId, atLeast) =>
-          (world.inventory.find((entry) => entry.itemId === itemId)?.count ?? 0) >= atLeast,
-        ownsItem: (itemId, atLeast) => ownedItemCount(world, itemId) >= atLeast,
-        itemEquipped: (itemId, atLeast) =>
-          world.party.reduce(
-            (count, character) =>
-              count + Object.values(character.equipment).filter((value) => value === itemId).length,
-            0,
-          ) >= atLeast,
-        allFullHp: () => world.party.every((character) => character.hp >= character.maxHP),
-        money: () => world.money,
-        inParty: (actorId) =>
-          world.party.some(
-            (character) => character.id === actorId || character.template === actorId,
-          ),
-        entityInScene: (target) =>
-          target.scene === scene.id && scene.entities.some((entity) => entity.id === target.entity),
-        facingEntity: (target, range) => {
-          if (target.scene !== scene.id) return false
-          return host.query.facingEntity(target.entity, range)
-        },
-      },
-      confirm: (signal) => host.confirm(signal),
-      startBattle: (request, signal) =>
-        host.startBattle(
-          request.enemyTeamId,
-          {
-            auto: request.auto,
-            boss: request.boss,
-            fieldId: request.fieldId,
-            ...(request.music !== undefined ? { music: request.music } : {}),
-            ...(request.choreography ? { choreography: [...request.choreography] } : {}),
-          },
-          signal,
-        ),
-      teleportOut: (signal) => host.teleportOut(signal),
-      revealSceneEntry: (reveal, signal) => hostSceneEntryReveal(reveal, signal),
-      wait: (ms, signal) => host.wait(ms, signal),
-      waitWorldTick: (signal) => host.wait(STEP_MS, signal),
-      yieldMacroTask: (signal) =>
-        new Promise<void>((resolve, reject) => {
-          const abort = (): void => {
-            clearTimeout(timer)
-            reject(asyncIntentAbortError('script v5 macro task 已取消'))
-          }
-          const timer = setTimeout(() => {
-            signal.removeEventListener('abort', abort)
-            resolve()
-          }, 0)
-          signal.addEventListener('abort', abort, { once: true })
-          if (signal.aborted) abort()
+  {
+    const lifecycleReferences = await getLifecycleReferences()
+    const runtimeDigest = await sha256Bytes(
+      new TextEncoder().encode(
+        JSON.stringify({
+          manifest: canonicalProject.manifest,
+          items: canonicalProject.items,
+          sharedScripts: canonicalProject.sharedScripts,
+          scenes: canonicalProject.sceneIds.map((id) => canonicalSceneCache.get(id)),
         }),
-    })
-  }
-  if (canonicalProjectV13 && worldScriptV5) {
-    if (!worldV13) throw new Error('script v13 runtime 需要 content13 world authority')
-    const transitionDigest = Object.values(canonicalProjectV13.migrationRegistry)[0]?.sidecar.digest
-    const runtimeDigest =
-      transitionDigest ??
-      (await sha256Bytes(
-        new TextEncoder().encode(
-          canonicalScriptTransitionJson({
-            manifest: canonicalProjectV13.manifest,
-            items: canonicalProjectV13.items,
-            sharedScripts: canonicalProjectV13.sharedScripts,
-          }),
-        ),
-      ))
-    scriptRuntimeV13 = new ScriptProjectRuntimeV13(canonicalProjectV13, worldV13, runtimeDigest, {
-      lifecycleReferences: await getLifecycleReferencesV13(),
+      ),
+    )
+    scriptRuntime = new ScriptProjectRuntime(canonicalProject, world, runtimeDigest, {
+      lifecycleReferences,
       executeEffect: (command, context, signal, commitControl) => {
-        if (isLifecycleRuntimeCommandV13(command)) return
+        if (isLifecycleRuntimeCommand(command)) return
         return executeProjectScriptEffect(
-          command as unknown as RuntimeLeafCommandV5,
+          command as unknown as BaseRuntimeLeafCommand,
           context,
           signal,
           commitControl,
         )
       },
-      worldChanged: (command, _context, commit) => refreshRuntimeProjectionV13(command, commit),
-      scene: getCanonicalSceneDefV13,
+      worldChanged: (command, _context, commit) => refreshRuntimeProjection(command, commit),
+      scene: getCanonicalScene,
       currentSceneId: () => scene.id,
       currentSceneSessionId: currentMotionSceneSessionId,
       gate: (signal) => waitForScriptGameplay(signal),
@@ -4258,7 +3971,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
         new Promise<void>((resolve, reject) => {
           const abort = (): void => {
             clearTimeout(timer)
-            reject(asyncIntentAbortError('script v13 macro task 已取消'))
+            reject(asyncIntentAbortError('script macro task 已取消'))
           }
           const timer = setTimeout(() => {
             signal.removeEventListener('abort', abort)
@@ -5088,105 +4801,27 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
     const ac = controller
     autoActivations.set(e.id, activation)
     autoActivationBySignal.set(ac.signal, activation)
-    if (scriptRuntimeV13) {
-      const runtime = scriptRuntimeV13
-      const canonical = canonicalSceneCacheV13.get(scene.id)
-      if (!canonical) throw new Error(`script v13 当前场景未缓存: ${scene.id}`)
-      void (async () => {
-        try {
-          while (!ac.signal.aborted) {
-            if (!entityLifecycleGates(e, { hasAuto: true }).autoAllowed) {
-              await host.wait(120, ac.signal)
-              continue
-            }
-            const ran = await runtime.runEntityBehavior(canonical, e.id, 'auto', {
-              signal: ac.signal,
-            })
-            if (!ran) {
-              await host.wait(120, ac.signal)
-              continue
-            }
-            await host.wait(40, ac.signal)
-          }
-        } catch (error) {
-          if (!isAbortError(error)) console.error('[auto:v13]', e.id, error)
-        } finally {
-          autoActivationBySignal.delete(ac.signal)
-          if (autoActivations.get(e.id) === activation) autoActivations.delete(e.id)
-        }
-      })()
-      return
-    }
-    if (scriptRuntimeV5) {
-      const runtime = scriptRuntimeV5
-      const canonical = canonicalSceneCacheV5.get(scene.id)
-      if (!canonical) throw new Error(`script v5 当前场景未缓存: ${scene.id}`)
-      void (async () => {
-        try {
-          while (!ac.signal.aborted) {
-            if (!entityLifecycleGates(e, { hasAuto: true }).autoAllowed) {
-              await host.wait(120, ac.signal)
-              continue
-            }
-            const ran = await runtime.runEntityBehavior(canonical, e.id, 'auto', {
-              signal: ac.signal,
-            })
-            if (!ran) {
-              await host.wait(120, ac.signal)
-              continue
-            }
-            await host.wait(40, ac.signal)
-          }
-        } catch (error) {
-          if (!isAbortError(error)) console.error('[auto:v5]', e.id, error)
-        } finally {
-          autoActivationBySignal.delete(ac.signal)
-          if (autoActivations.get(e.id) === activation) autoActivations.delete(e.id)
-        }
-      })()
-      return
-    }
-    const stages = auto.stages
-    let pendingLegacyAutoOneShot: Promise<AutoStepAck> | undefined
-    const legacyAutoHost: ScriptHost = {
-      ...autoHost,
-      // Legacy Command.stepEntity is intentionally void. Bind its private acknowledgement to this
-      // activation and let ScriptRunner.afterCommand hold the cursor at the same leaf until the
-      // unified motion tick has attempted or dropped it.
-      stepEntity: (id, dir) => {
-        pendingLegacyAutoOneShot = runAutoStepThroughContinuation(id, dir, ac.signal)
-      },
-    }
-    const r = new ScriptRunner(
-      legacyAutoHost,
-      expectDefined(world.script),
-      ac.signal,
-      Math.random,
-      project.scriptStore,
-    ) // E6a:auto 视图(被接管实体暂停)
-    r.selfId = e.id // chasePlayer/vanishEntity 的 self
-    r.paceMs = 100 // 原版 auto 一帧(100ms)一 op(曾 80ms 近似;对齐世界拍减小与走位的错相)
-    r.gate = () => waitForScriptGameplay(ac.signal)
-    r.afterCommand = async () => {
-      const pending = pendingLegacyAutoOneShot
-      pendingLegacyAutoOneShot = undefined
-      if (pending) await pending
-    }
+    const runtime = scriptRuntime
+    const canonical = canonicalSceneCache.get(scene.id)
+    if (!runtime || !canonical) throw new Error(`script 当前场景未缓存: ${scene.id}`)
     void (async () => {
       try {
         while (!ac.signal.aborted) {
-          // auto 与主脚本并行(开场李大娘 setEntityState 显形后边对话边走位);仅 hidden
-          // 挂起。设计裁决(2026-07-03 用户):不复刻原版"对话期冻结 NPC"的阻塞怪癖,
-          // NPC 移动不感知对话系统。
           if (!entityLifecycleGates(e, { hasAuto: true }).autoAllowed) {
-            await host.wait(120)
+            await host.wait(120, ac.signal)
             continue
           }
-          await r.runStages(`auto:${e.id}`, stages)
-          await host.wait(40) // 段间让步(防空体紧转;原版 auto 一帧一段)
+          const ran = await runtime.runEntityBehavior(canonical, e.id, 'auto', {
+            signal: ac.signal,
+          })
+          if (!ran) {
+            await host.wait(120, ac.signal)
+            continue
+          }
+          await host.wait(40, ac.signal)
         }
-      } catch (err) {
-        if ((err as DOMException)?.name !== 'AbortError') console.error('[auto]', e.id, err)
+      } catch (error) {
+        if (!isAbortError(error)) console.error('[auto]', e.id, error)
       } finally {
         autoActivationBySignal.delete(ac.signal)
         if (autoActivations.get(e.id) === activation) autoActivations.delete(e.id)
@@ -5322,15 +4957,15 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
       if (!hostileMotionEpoch.has(e.id)) hostileMotionEpoch.set(e.id, nextMotionCommandEpoch++)
     }
   }
-  function hostileBehaviorV13For(entityId: string): HostileBehaviorV13 | undefined {
-    if (!canonicalProjectV13) return undefined
-    const canonical = canonicalSceneCacheV13.get(scene.id)
-    if (!canonical) throw new Error(`script v13 当前场景未缓存: ${scene.id}`)
+  function hostileBehaviorFor(entityId: string): RuntimeHostileBehavior | undefined {
+    if (!canonicalProject) return undefined
+    const canonical = canonicalSceneCache.get(scene.id)
+    if (!canonical) throw new Error(`script 当前场景未缓存: ${scene.id}`)
     return canonical.entities.find((candidate) => candidate.id === entityId)?.hostile
   }
 
-  function applyHostileLifecyclePolicyV13(entity: EntityDef, result: BattleResult): boolean {
-    const hostile = hostileBehaviorV13For(entity.id)
+  function applyHostileLifecyclePolicy(entity: EntityDef, result: BattleResult): boolean {
+    const hostile = hostileBehaviorFor(entity.id)
     if (!hostile) return false
     if (result === 'victory') {
       const policy = hostile.onVictory
@@ -5349,7 +4984,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
             ticks: policy.ticks,
           }),
         )
-        refreshLifecycleProjectionV13(command)
+        refreshLifecycleProjection(command)
         return true
       }
       const command = {
@@ -5363,7 +4998,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
           entity: entity.id,
         }),
       )
-      refreshLifecycleProjectionV13(command)
+      refreshLifecycleProjection(command)
       return true
     }
     if (result === 'playerFled') {
@@ -5382,7 +5017,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
           ticks: policy.ticks,
         }),
       )
-      refreshLifecycleProjectionV13(command)
+      refreshLifecycleProjection(command)
       return true
     }
     return false
@@ -5395,21 +5030,16 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
     hostileBusy = true
     try {
       // 明雷怪专属战场(三层解析第二层;缺省走场景覆写/默认)
-      const runtime = scriptRuntimeV13 ?? scriptRuntimeV5
-      const result = runtime
-        ? await runtime.host.startBattle(
-            {
-              enemyTeamId: h.enemyTeamId,
-              ...(h.battleFieldId !== undefined ? { fieldId: h.battleFieldId } : {}),
-            },
-            new AbortController().signal,
-          )
-        : await host.startBattle(
-            h.enemyTeamId,
-            h.battleFieldId !== undefined ? { fieldId: h.battleFieldId } : undefined,
-          )
+      const runtime = expectDefined(scriptRuntime)
+      const result = await runtime.host.startBattle(
+        {
+          enemyTeamId: h.enemyTeamId,
+          ...(h.battleFieldId !== undefined ? { fieldId: h.battleFieldId } : {}),
+        },
+        new AbortController().signal,
+      )
       if (result === 'victory') {
-        if (applyHostileLifecyclePolicyV13(e, result)) return
+        if (applyHostileLifecyclePolicy(e, result)) return
         e.hidden = true // 消失
         if (h.respawnSeconds && h.respawnSeconds > 0) {
           const atScene = scene
@@ -5419,7 +5049,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
           })()
         }
       } else if (result === 'playerFled') {
-        applyHostileLifecyclePolicyV13(e, result)
+        applyHostileLifecyclePolicy(e, result)
       } else if (result === 'defeat') {
         if (h.onLose === 'gameOver' || h.onLose === undefined) await host.gameOver()
         else startScript(`hostile:${e.id}`, [{ body: h.onLose }], e.id)
@@ -5441,7 +5071,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
     // A cross-target command needs the same autonomous target gate even when the target owns no
     // auto behavior itself. This keeps hide→suspend markers pending until suspension really ends.
     const targetAutoAllowed = entityLifecycleGates(target, { hasAuto: true }).autoAllowed
-    // A lifecycle hide may finish while legacy entityState still keeps the body hidden. Preserve
+    // A lifecycle hide may finish while numeric entityState still keeps the body hidden. Preserve
     // the restart dependency until the effective gate really opens; pure state=0→visible flows
     // retain their existing activation and therefore do not restart their canonical cursor.
     if (!targetAutoAllowed) return
@@ -5496,12 +5126,12 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
    * 在当前主 runner 内调用时作为同步子链执行；从物品菜单独立发起时临时占用全局 runner，
    * 并完整接续目标场景 onEnter。这样外部用途不会留下“已切场景但入场脚本没跑”的半状态。
    */
-  async function runDetachedV5ScriptChain<T>(
+  async function runDetachedScriptChain<T>(
     signal: AbortSignal | undefined,
-    invoke: (runtime: ScriptProjectRuntimeV5, signal: AbortSignal) => Promise<T>,
+    invoke: (runtime: ScriptProjectRuntime, signal: AbortSignal) => Promise<T>,
   ): Promise<T> {
-    const runtime = scriptRuntimeV5
-    if (!runtime) throw new Error('script v5 runtime 未初始化')
+    const runtime = scriptRuntime
+    if (!runtime) throw new Error('script runtime 未初始化')
     const ownsRunnerSlot = runner === null
     const runSignal = signal ?? new AbortController().signal
     const active = { running: true }
@@ -5516,8 +5146,8 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
           sceneEntrySession.cancel()
           continue
         }
-        const canonical = canonicalSceneCacheV5.get(pending.sceneId)
-        if (!canonical) throw new Error(`script v5 当前场景未缓存: ${pending.sceneId}`)
+        const canonical = canonicalSceneCache.get(pending.sceneId)
+        if (!canonical) throw new Error(`script 当前场景未缓存: ${pending.sceneId}`)
         await runtime.runSceneHook(canonical, 'onEnter', {
           signal: runSignal,
           runSceneEntry: true,
@@ -5528,96 +5158,6 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
       active.running = false
       if (ownsRunnerSlot) {
         if (runner === active) runner = null
-        dismountParty()
-        releaseAllAuthority()
-        if (sceneChangedByScript) {
-          sceneChangedByScript = false
-          void doSave('auto', captureThumbnail(canvas)).catch(() => undefined)
-        }
-        drainPendingTouchTrigger()
-      }
-    }
-  }
-
-  async function runDetachedV13ScriptChain<T>(
-    signal: AbortSignal | undefined,
-    invoke: (runtime: ScriptProjectRuntimeV13, signal: AbortSignal) => Promise<T>,
-  ): Promise<T> {
-    const runtime = scriptRuntimeV13
-    if (!runtime) throw new Error('script v13 runtime 未初始化')
-    const ownsRunnerSlot = runner === null
-    const runSignal = signal ?? new AbortController().signal
-    const active = { running: true }
-    if (ownsRunnerSlot) runner = active
-    try {
-      const result = await invoke(runtime, runSignal)
-      if (!ownsRunnerSlot) return result
-      while (pendingOnEnter) {
-        const pending = pendingOnEnter
-        pendingOnEnter = null
-        if (scene.id !== pending.sceneId) {
-          sceneEntrySession.cancel()
-          continue
-        }
-        const canonical = canonicalSceneCacheV13.get(pending.sceneId)
-        if (!canonical) throw new Error(`script v13 当前场景未缓存: ${pending.sceneId}`)
-        await runtime.runSceneHook(canonical, 'onEnter', {
-          signal: runSignal,
-          runSceneEntry: true,
-        })
-      }
-      return result
-    } finally {
-      active.running = false
-      if (ownsRunnerSlot) {
-        if (runner === active) runner = null
-        dismountParty()
-        releaseAllAuthority()
-        if (sceneChangedByScript) {
-          sceneChangedByScript = false
-          void doSave('auto', captureThumbnail(canvas)).catch(() => undefined)
-        }
-        drainPendingTouchTrigger()
-      }
-    }
-  }
-
-  async function runDetachedScriptChain(
-    signal: AbortSignal | undefined,
-    invoke: (child: ScriptRunner) => Promise<void>,
-  ): Promise<void> {
-    const ownsRunnerSlot = runner === null
-    const runSignal = signal ?? new AbortController().signal
-    let activeChild: ScriptRunner | null = null
-    const makeChild = (): ScriptRunner => {
-      const child = new ScriptRunner(
-        scriptHost,
-        expectDefined(world.script),
-        runSignal,
-        Math.random,
-        project.scriptStore,
-      )
-      activeChild = child
-      if (ownsRunnerSlot) runner = child
-      return child
-    }
-    try {
-      await invoke(makeChild())
-      if (!ownsRunnerSlot) return
-      while (pendingOnEnter) {
-        const pending = pendingOnEnter
-        pendingOnEnter = null
-        if (scene.id !== pending.sceneId) {
-          sceneEntrySession.cancel()
-          continue
-        }
-        await makeChild().runStages(`s:${pending.sceneId}`, runnableStages(pending.binding), {
-          allowSceneEntry: true,
-        })
-      }
-    } finally {
-      if (ownsRunnerSlot) {
-        if (runner === activeChild) runner = null
         dismountParty()
         releaseAllAuthority()
         if (sceneChangedByScript) {
@@ -5640,10 +5180,10 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
     const settledWalk = settleWalkAnimation({ walking, stepFrame })
     walking = settledWalk.walking
     stepFrame = settledWalk.stepFrame
-    if (scriptRuntimeV13) {
-      const runtime = scriptRuntimeV13
-      const canonical = canonicalSceneCacheV13.get(scene.id)
-      if (!canonical) throw new Error(`script v13 当前场景未缓存: ${scene.id}`)
+    if (scriptRuntime) {
+      const runtime = scriptRuntime
+      const canonical = canonicalSceneCache.get(scene.id)
+      if (!canonical) throw new Error(`script 当前场景未缓存: ${scene.id}`)
       scriptAbort = new AbortController()
       const controller = scriptAbort
       const active = { running: true }
@@ -5673,7 +5213,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
       void execution
         .catch((error: unknown) => {
           if (!isAbortError(error)) {
-            console.error('[script:v13]', key, error)
+            console.error('[script]', key, error)
             showToast(`脚本错误: ${String(error).slice(0, 40)}`)
           }
         })
@@ -5708,122 +5248,6 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
         })
       return
     }
-    if (scriptRuntimeV5) {
-      const runtime = scriptRuntimeV5
-      const canonical = canonicalSceneCacheV5.get(scene.id)
-      if (!canonical) throw new Error(`script v5 当前场景未缓存: ${scene.id}`)
-      scriptAbort = new AbortController()
-      const controller = scriptAbort
-      const active = { running: true }
-      runner = active
-      runnerTriggerOwnerId = triggerOwnerId
-      const execution = key.startsWith('s:')
-        ? runtime.runSceneHook(canonical, 'onEnter', {
-            signal: controller.signal,
-            runSceneEntry: true,
-          })
-        : key.startsWith('hostile:')
-          ? (() => {
-              const entityId = key.slice('hostile:'.length)
-              const definition = canonical.entities.find((entity) => entity.id === entityId)
-              const commands =
-                definition?.hostile?.onLose && definition.hostile.onLose !== 'gameOver'
-                  ? definition.hostile.onLose
-                  : []
-              return runtime.runCommands(commands, {
-                signal: controller.signal,
-                self: { scene: canonical.id, entity: entityId },
-              })
-            })()
-          : runtime.runEntityBehavior(canonical, selfId ?? key, 'trigger', {
-              signal: controller.signal,
-            })
-      void execution
-        .catch((error: unknown) => {
-          if (!isAbortError(error)) {
-            console.error('[script:v5]', key, error)
-            showToast(`脚本错误: ${String(error).slice(0, 40)}`)
-          }
-        })
-        .finally(() => {
-          active.running = false
-          if (runner !== active) return
-          runner = null
-          runnerTriggerOwnerId = null
-          scriptAbort = null
-          dismountParty()
-          releaseAllAuthority()
-          const finishedSceneId = key.startsWith('s:') ? key.slice(2) : null
-          if (
-            finishedSceneId === scene.id &&
-            sceneEntrySession.active?.targetSceneId === finishedSceneId
-          )
-            sceneEntrySession.cancel()
-          if (pendingOnEnter) {
-            const pending = pendingOnEnter
-            pendingOnEnter = null
-            if (scene.id === pending.sceneId) {
-              startScript(`s:${pending.sceneId}`, pending.binding)
-              return
-            }
-            sceneEntrySession.cancel()
-          }
-          if (sceneChangedByScript) {
-            sceneChangedByScript = false
-            void doSave('auto', captureThumbnail(canvas)).catch(() => undefined)
-          }
-          drainPendingTouchTrigger()
-        })
-      return
-    }
-    scriptAbort = new AbortController()
-    const r = new ScriptRunner(
-      scriptHost,
-      expectDefined(world.script),
-      scriptAbort.signal,
-      Math.random,
-      project.scriptStore,
-    ) // E6a:主脚本视图(位移隐式接管)
-    r.selfId = selfId
-    runner = r
-    runnerTriggerOwnerId = triggerOwnerId
-    void r
-      .runStages(key, runnableStages(binding), { allowSceneEntry: key.startsWith('s:') })
-      .catch((err: unknown) => {
-        if (!isAbortError(err)) {
-          console.error('[script]', key, err)
-          showToast(`脚本错误: ${String(err).slice(0, 40)}`)
-        }
-      })
-      .finally(() => {
-        if (runner !== r) return
-        runner = null
-        runnerTriggerOwnerId = null
-        scriptAbort = null
-        dismountParty() // E7 兜底收尾人:脚本链结束仍挂载 → 下筏(防跟随者漏挂持久态)
-        releaseAllAuthority() // E6a:脚本链收尾统一归还(兜底收尾人;续链新段自行重新接管)
-        const finishedSceneId = key.startsWith('s:') ? key.slice(2) : null
-        if (
-          finishedSceneId === scene.id &&
-          sceneEntrySession.active?.targetSceneId === finishedSceneId
-        )
-          sceneEntrySession.cancel()
-        if (pendingOnEnter) {
-          const pending = pendingOnEnter
-          pendingOnEnter = null
-          if (scene.id === pending.sceneId) {
-            startScript(`s:${pending.sceneId}`, pending.binding)
-            return // onEnter 续链;auto 档等整链收尾(下一次 finally)
-          }
-          sceneEntrySession.cancel()
-        }
-        if (sceneChangedByScript) {
-          // X1 自动存档:演出链(含 onEnter)全部收尾、玩家落地 → 静默写 auto 槽
-          sceneChangedByScript = false
-          void doSave('auto', captureThumbnail(canvas)).catch(() => undefined)
-        }
-        drainPendingTouchTrigger()
-      })
   }
 
   /** 强停脚本(读档/dev 切场景):abort 全树 + 兑现悬挂 driver + 清演出态。 */
@@ -6048,29 +5472,14 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
           currentWorld: () => world,
           replaceWorld: (next) => replaceWorld(next),
           runScript: (ref, signal) => {
-            if (scriptRuntimeV13 && canonicalProjectV13 && isV5RuntimeScriptRef(ref))
-              return runDetachedV13ScriptChain(signal, async (runtime, runSignal) => {
-                if (ref.id.startsWith('item:')) {
-                  const [, itemId, scriptId] = ref.id.split(':')
-                  if (!itemId || scriptId !== 'use')
-                    throw new Error(`item private script ref 非法: ${ref.id}`)
-                  await runtime.runItemPrivateScript(canonicalProjectV13.items, itemId, scriptId, {
-                    signal: runSignal,
-                  })
-                  return
-                }
-                await runtime.runSharedScript(ref.id, { signal: runSignal })
-              })
-            if (!scriptRuntimeV5 || !canonicalProjectV5 || !isV5RuntimeScriptRef(ref))
-              return runDetachedScriptChain(signal, (child) =>
-                child.run([{ kind: 'callScript', ref }]),
-              )
-            return runDetachedV5ScriptChain(signal, async (runtime, runSignal) => {
+            if (!isRuntimeScriptRef(ref))
+              return Promise.reject(new Error(`非 current script ref: ${ref.chunk}/${ref.id}`))
+            return runDetachedScriptChain(signal, async (runtime, runSignal) => {
               if (ref.id.startsWith('item:')) {
                 const [, itemId, scriptId] = ref.id.split(':')
                 if (!itemId || scriptId !== 'use')
                   throw new Error(`item private script ref 非法: ${ref.id}`)
-                await runtime.runItemPrivateScript(canonicalProjectV5.items, itemId, scriptId, {
+                await runtime.runItemPrivateScript(canonicalProject.items, itemId, scriptId, {
                   signal: runSignal,
                 })
                 return
@@ -6093,13 +5502,8 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
             // PAL 0x84 calls PAL_CheckObstacle(..., FALSE, 0): only map geometry
             // participates. Other event objects are deliberately ignored here.
             if (!pos) return false
-            if (worldScriptV5) {
-              commitItemEntityPlacement({ kind: 'v5', value: worldScriptV5 }, target, state, pos)
-              syncLegacyScriptScratchV5(target.scene)
-            } else {
-              const script = expectDefined(world.script)
-              commitItemEntityPlacement({ kind: 'legacy', value: script }, target, state, pos)
-            }
+            commitItemEntityPlacement(canonicalScript, target, state, pos)
+            syncRuntimeScriptScratch(target.scene)
             applyWorldEntityGatesToScene()
             if (target.scene === scene.id) {
               applyWorldEntityPositionToScene(target.entity)
@@ -6157,13 +5561,13 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
     saveMetasInitialized = true
   }
 
-  function buildCurrentSavePayload(): StoredSavePayload {
+  function captureCurrentSavePayload(): StoredSavePayload {
     const position = {
       sceneId: scene.id,
       pos: structuredClone(player.pos),
       facing,
     }
-    return buildPayloadV8Content16(currentWorldV13Snapshot(), position, inputProject.manifest.id)
+    return buildCurrentSavePayload(currentWorldSnapshot(), position, inputProject.manifest.id)
   }
 
   function doSave(slotId: SlotId, thumb: Blob | Promise<Blob>): Promise<void> {
@@ -6182,14 +5586,10 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
             (c) => lookupText(`name.${c.template}`, project.locale),
             Date.now(),
           ),
-          payload: buildCurrentSavePayload(),
+          payload: captureCurrentSavePayload(),
         })
       }
-      return scriptRuntimeV13
-        ? await scriptRuntimeV13.withSaveBarrier(prepareSnapshot)
-        : scriptRuntimeV5
-          ? await scriptRuntimeV5.withSaveBarrier(prepareSnapshot)
-          : prepareSnapshot()
+      return await expectDefined(scriptRuntime).withSaveBarrier(prepareSnapshot)
     })
     saveSnapshotQueue = snapshot.then(
       () => undefined,
@@ -6255,14 +5655,14 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
     _where: string,
     _signal?: AbortSignal,
   ): Promise<StoredSavePayload> {
-    const resolver = await preflightSaveMigrationV16({
+    const resolver = await preflightCurrentSave({
       manifest: inputProject.manifest,
       payload: raw,
     })
-    return normalizePayloadV16(
-      raw as SavePayloadV16Input,
+    return normalizeCurrentSave(
+      raw,
       resolver,
-      await getLifecycleReferencesV13(),
+      await getLifecycleReferences(),
     )
   }
 
@@ -6275,29 +5675,20 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
   ): Promise<boolean> {
     assertRunnerActive(signal, `${where} 的 runner 已取消`)
     if (!payloadBelongsToProject(p, where)) return false
-    // 内容版本温和提示(不拒绝:内容工程迭代是常态,存档格式版本才做硬迁移)
-    if (p.contentVersion !== project.manifest.contentVersion) {
-      showToast('存档来自旧版内容,如有异常请重开新档')
-    }
-    let canonicalScriptCandidate: WorldScriptStateV5 | undefined
-    let canonicalWorldCandidateV13: WorldStateV13 | undefined
-    const payload = p as import('./save/types.js').SavePayloadV8Content16
-    canonicalScriptCandidate = structuredClone(payload.world.script ?? emptyWorldScriptStateV5())
-    canonicalWorldCandidateV13 = {
+    const payload = p
+    const canonicalScriptCandidate = structuredClone(
+      payload.world.script ?? emptyWorldScriptState(),
+    )
+    const canonicalWorldCandidate: WorldState = {
       ...structuredClone(payload.world),
       script: canonicalScriptCandidate,
       entityLifecycles: structuredClone(payload.world.entityLifecycles ?? {}),
     }
-    const candidate = legacyWorldShellFromV13(
-      canonicalWorldCandidateV13,
-      payload.position.sceneId,
-      canonicalScriptCandidate,
-    ) as typeof world
+    const candidate = canonicalWorldCandidate
     if (!candidate.party[0]) {
       showToast(`${where}: 存档队伍为空`)
       return false
     }
-    if (!canonicalScriptCandidate) candidate.script ??= emptyWorldScriptState()
     // 读档解毒(原版真值:毒/定时状态/装备临时抗性在 GLOBALVARS 不入 SAVEDGAME → 读档即净身;
     // reforge 全量 world 入档,故读回后主动清 runtime-only 三件)
     for (const c of candidate.party) {
@@ -6334,19 +5725,10 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
     const music = resolveRestoredMusic(candidate.audio?.currentMusic, plan.def.music)
     abortScript()
     stopAutoRunners()
-    if (canonicalWorldCandidateV13) {
-      replaceWorldScriptStateV5(canonicalScriptCandidate ?? emptyWorldScriptStateV5())
-      canonicalWorldCandidateV13.script = expectDefined(worldScriptV5)
-      replaceWorldV13State(canonicalWorldCandidateV13)
-    } else if (canonicalScriptCandidate) replaceWorldScriptStateV5(canonicalScriptCandidate)
     replaceWorld(candidate)
     commitSceneSwitch(plan, world, false)
-    if (canonicalScriptCandidate && canonicalProjectV5) {
-      syncLegacyScriptScratchV5(scene.id)
-      refreshCurrentCanonicalBindingsV5()
-    } else if (canonicalScriptCandidate) {
-      syncLegacyScriptScratchV5(scene.id)
-    }
+    syncRuntimeScriptScratch(scene.id)
+    refreshCurrentCanonicalBindings()
     syncAmbience() // W6:读档瞬时还原氛围(夜档回夜;旧档缺省昼),不播过渡
     applyWorldToScene() // 实体隐现/挡路按存档世界态重放(读档不重跑 onEnter,对齐原版)
     world.audio ??= {}
@@ -6465,7 +5847,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
       if (!entityLifecycleGates(e).visible) continue
       const def = entitySpriteDefs.get(e.id)
       const sp = def ? spriteCache.get(project.assetResolver, def.asset) : undefined
-      // 帧优先级:legacy 定帧 > 移动/legacy anim > 语义动作 > v3 layout.loop > 站立。
+      // 帧优先级:显式定帧 > 移动/显式 anim > 语义动作 > 当前 layout.loop > 站立。
       // 动作步骤已经是绝对源帧，不得再叠方向站立基址。
       const gait = entityWalkPhase.get(e.id)
       const explicitAnim = entityExplicitAnim.get(e.id)
@@ -6494,7 +5876,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
       const p = gridToPixel(e.pos)
       // 0x7E 图层覆写:只进深度排序键(+8px/层 = 一阶段 present.ts:540 sLayer×8 真值),
       // 不进落笔位;render 直读持久映射,跨场景/存档天然生效
-      const lay = world.script?.entityLayer?.[e.id]
+      const lay = runtimeScript.entityLayer?.[e.id]
       const effectiveLayer = lay ?? e.zBias ?? 0
       sprites.push({
         frame: f,
@@ -6573,7 +5955,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
       })
     }
     // 0x98 编外跟随者：存档/脚本保存 SpriteDef.id；定义提供各自 AssetId 与 layout。
-    const extraFollowers = world.script?.followers ?? []
+    const extraFollowers = runtimeScript.followers ?? []
     for (let k = 0; k < extraFollowers.length; k++) {
       const spriteId = expectDefined(extraFollowers[k])
       const def = project.spritesById[spriteId]
@@ -6619,7 +6001,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
     // 一阶段探索 present 只在 100ms 世界拍推进波相位；rAF 补帧只复用当前相位，
     // 否则 60/120Hz 会把水波加速 6~12 倍。
     const advanceWaveFrame = worldTicksThisFrame > 0
-    const waveAmp = world.script ? advanceWave(world.script.vars, advanceWaveFrame) : 0
+    const waveAmp = advanceWave(runtimeScript.vars, advanceWaveFrame)
     if (waveAmp > 0) {
       const wc = ensureWaveCanvas()
       const wctx = get2dContext(wc)
@@ -6927,15 +6309,14 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
       return dialogBox.active
     },
     get script() {
-      return { running: !!runner, world: world.script }
+      return { running: !!runner, world: canonicalScript }
     },
     /** dev:直开一场战斗(M4c 验证/编辑器试打入口)。 */
     startBattle: (enemyTeamId: string) =>
-      scriptRuntimeV13
-        ? scriptRuntimeV13.host.startBattle({ enemyTeamId }, new AbortController().signal)
-        : scriptRuntimeV5
-          ? scriptRuntimeV5.host.startBattle({ enemyTeamId }, new AbortController().signal)
-          : host.startBattle(enemyTeamId),
+      expectDefined(scriptRuntime).host.startBattle(
+        { enemyTeamId },
+        new AbortController().signal,
+      ),
     /** dev:按稳定 AssetId 播过场视频。 */
     playVideo: (asset: string) => host.playVideo(asset),
     /** dev:按稳定 AssetId 播帧动画。 */
@@ -7385,7 +6766,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
               applyWorldToScene()
               startAutoRunners()
               showToast(`${nextId}(${ids.indexOf(nextId) + 1}/${ids.length})`)
-              const onEnter = sceneScriptBinding(scene, 'onEnter', world)
+              const onEnter = sceneScriptBinding(scene, 'onEnter', runtimeScript)
               if (onEnter) startScript(`s:${scene.id}`, onEnter)
             })
             .catch((err: unknown) => showToast(`切场景失败: ${String(err).slice(0, 40)}`))
@@ -7479,7 +6860,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
       // 读档失败(槽空/归一化拒/工程不符)→ 落回默认新局:应用世界态 + 跑入口 onEnter。
       applyWorldToScene()
       startAutoRunners()
-      const onEnter = sceneScriptBinding(scene, 'onEnter', world)
+      const onEnter = sceneScriptBinding(scene, 'onEnter', runtimeScript)
       if (onEnter) startScript(`s:${scene.id}`, onEnter)
     }
     requestAnimationFrame(tick)
@@ -7538,13 +6919,10 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
         ...(fieldParam !== null ? { fieldId: Number(fieldParam) } : {}),
         ...(choreography ? { choreography } : {}),
       }
-      const runtime = scriptRuntimeV13 ?? scriptRuntimeV5
-      const battle = runtime
-        ? runtime.host.startBattle(
-            { enemyTeamId: battleParam, ...options },
-            new AbortController().signal,
-          )
-        : host.startBattle(battleParam, options)
+      const battle = expectDefined(scriptRuntime).host.startBattle(
+        { enemyTeamId: battleParam, ...options },
+        new AbortController().signal,
+      )
       return battle
         .then((r) => showToast(`试打结束:${r}`))
         .catch((error: unknown) => {
@@ -7556,7 +6934,7 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
     //   (同一阶段 dev 跳场景语义;onEnter 的队伍瞬移会劫持落点)。要看进场演出 → 不带 pos。
     showToast(`已跳至 ${scene.id} (${spawnPos.col},${spawnPos.row}) — onEnter 已跳过`)
   } else {
-    const onEnter = sceneScriptBinding(scene, 'onEnter', world)
+    const onEnter = sceneScriptBinding(scene, 'onEnter', runtimeScript)
     if (onEnter) startScript(`s:${scene.id}`, onEnter)
   }
   requestAnimationFrame(tick)
@@ -7569,17 +6947,13 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
       installDebugTools({
         world: () => world,
         sceneId: () => scene.id,
-        scene: () => canonicalSceneCacheV5.get(scene.id),
-        canonicalProject: canonicalProjectV5 ?? (project as unknown as LoadedProjectV5),
-        runtime: () => scriptRuntimeV5 ?? undefined,
+        scene: () => canonicalSceneCache.get(scene.id),
+        canonicalProject,
+        runtime: () => scriptRuntime ?? undefined,
         runnerBusy: () => runner !== null,
         dialogBusy: () => dialogBox.active,
         presentationBusy: () => presentation.busy(),
-        runDetached: (signal, invoke) => {
-          if (!scriptRuntimeV5)
-            return Promise.reject(new Error('非 canonical 工程(无 script v5 runtime)'))
-          return runDetachedV5ScriptChain(signal, invoke)
-        },
+        runDetached: (signal, invoke) => runDetachedScriptChain(signal, invoke),
         startBattleDev,
         buildPresetParty: (actorIds, seedStats) =>
           buildWorld(
@@ -7642,7 +7016,10 @@ export async function bootGame(inputProject: LoadedProjectV16): Promise<void> {
  * M4b-1 战斗场景预览:?battle-preview=<field>&enemies=1,2,3 → 加载背景 + 敌队 + 队员战斗精灵,
  * 摆位渲染一帧。验证 loader + battle-positions + renderBattleScene(不进主循环/回合)。
  */
-async function renderBattlePreview(project: LoadedProject, params: URLSearchParams): Promise<void> {
+async function renderBattlePreview(
+  project: RuntimeProjectView,
+  params: URLSearchParams,
+): Promise<void> {
   const WORLD_SCALE = 4
   canvas.width = 320 * WORLD_SCALE
   canvas.height = 200 * WORLD_SCALE
@@ -7715,7 +7092,7 @@ async function renderBattlePreview(project: LoadedProject, params: URLSearchPara
 }
 
 /** 调试速查：按 catalog 的 sprite AssetId 浏览全部一等资源，不猜编号或物理路径。 */
-async function renderSpriteGallery(project: LoadedProject, palette: Palette): Promise<void> {
+async function renderSpriteGallery(project: RuntimeProjectView, palette: Palette): Promise<void> {
   const COLS = 8
   const CELL = 80
   const assets = Object.entries(project.assetCatalog.assets)

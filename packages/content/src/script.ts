@@ -383,7 +383,7 @@ export interface EntityPage {
 }
 
 /** 脚本世界状态(跟存档;flags/vars 手工内容用,entityState/entityStage 迁移内容用)。 */
-export interface WorldScriptState {
+export interface ProjectedWorldScriptState {
   flags: Record<string, boolean>
   vars: Record<string, number>
   /** 实体可见性/形态档(原版 sState 的 clean 版):≤0 隐藏,1 可见,≥2 可见+挡路。 */
@@ -406,19 +406,19 @@ export interface WorldScriptState {
   sceneScriptOverrides?: Record<string, SceneScriptOverride>
 }
 
-export function emptyWorldScriptState(): WorldScriptState {
+export function emptyProjectedWorldScriptState(): ProjectedWorldScriptState {
   return { flags: {}, vars: {}, entityState: {}, entityStage: {} }
 }
 
 /** stages 选段(stage 越界钳到末段 —— 原版语义:推进过头停在最后一段重复)。 */
-export function stageIndexFor(world: WorldScriptState, key: string, stages: ScriptStage[]): number {
+export function stageIndexFor(world: ProjectedWorldScriptState, key: string, stages: ScriptStage[]): number {
   const raw = world.entityStage[key] ?? 0
   return Math.max(0, Math.min(raw, stages.length - 1))
 }
 
 /** 段跑完的阶段转移(纯函数;runner 调)。 */
 export function applyStageNext(
-  world: WorldScriptState,
+  world: ProjectedWorldScriptState,
   key: string,
   current: number,
   next: ScriptStage['next'],

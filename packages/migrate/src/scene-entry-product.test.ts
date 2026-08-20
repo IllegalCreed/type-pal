@@ -1,10 +1,10 @@
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import type {
-  AuthorCommandV5,
-  AuthorSceneEntryPresentationV5,
-  SceneDefV5,
-  ScriptFlowV5,
+  BaseAuthorCommand,
+  BaseSceneEntryPresentation,
+  BaseSceneDef,
+  BaseScriptFlow,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 
@@ -12,11 +12,11 @@ const root = fileURLToPath(new URL('../../../', import.meta.url))
 const readJson = <T>(rel: string): T => JSON.parse(readFileSync(root + rel, 'utf8')) as T
 
 const sceneIds = readJson<string[]>('projects/pal/content/scenes/index.json')
-const scenes = sceneIds.map((id) => readJson<SceneDefV5>(`projects/pal/content/scenes/${id}.json`))
+const scenes = sceneIds.map((id) => readJson<BaseSceneDef>(`projects/pal/content/scenes/${id}.json`))
 
 function visitCommands(
-  body: readonly AuthorCommandV5[],
-  visit: (command: AuthorCommandV5) => void,
+  body: readonly BaseAuthorCommand[],
+  visit: (command: BaseAuthorCommand) => void,
 ): void {
   for (const command of body) {
     visit(command)
@@ -42,7 +42,7 @@ function visitCommands(
   }
 }
 
-function visitFlow(flow: ScriptFlowV5, visit: (command: AuthorCommandV5) => void): void {
+function visitFlow(flow: BaseScriptFlow, visit: (command: BaseAuthorCommand) => void): void {
   if (flow.kind === 'stages') {
     for (const stage of flow.stages) {
       visitCommands(stage.entry?.prepare ?? [], visit)
@@ -56,7 +56,7 @@ function visitFlow(flow: ScriptFlowV5, visit: (command: AuthorCommandV5) => void
   }
 }
 
-function flowHasDither(flow: ScriptFlowV5): boolean {
+function flowHasDither(flow: BaseScriptFlow): boolean {
   let found = false
   visitFlow(flow, (command) => {
     if (command.kind === 'ditherScreen') found = true
@@ -67,8 +67,8 @@ function flowHasDither(flow: ScriptFlowV5): boolean {
 interface EntrySite {
   targetScene: string
   ownerPath: string
-  entry: AuthorSceneEntryPresentationV5
-  body: AuthorCommandV5[]
+  entry: BaseSceneEntryPresentation
+  body: BaseAuthorCommand[]
 }
 
 function collectEntrySites(): EntrySite[] {

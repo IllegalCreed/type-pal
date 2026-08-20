@@ -3,8 +3,6 @@ import type { ActorDef } from './actor.js'
 import {
   applySetParty,
   buildWorld,
-  buildWorldV13,
-  buildWorldV16,
   instantiate,
   type StartWorld,
   type WorldState,
@@ -98,14 +96,14 @@ describe('buildWorld(manifest.startWorld 数据化)', () => {
     expect(() => buildWorld(sw, { villager })).toThrow(/battler/)
   })
 
-  test('content13 新档直接构造 canonical script 与 lifecycle 空容器', () => {
+  test('新档直接构造 canonical script 与 lifecycle 空容器', () => {
     const sw: StartWorld = {
       party: ['test-hero'],
       money: 50,
       learnedSkills: { 'test-hero': ['296'] },
       inventory: [{ itemId: '267', count: 1 }],
     }
-    const w = buildWorldV13(sw, { 'test-hero': hero })
+    const w = buildWorld(sw, { 'test-hero': hero })
     expect(w.script).toEqual({ flags: {}, vars: {}, entityState: {}, behaviors: {} })
     expect(w.entityLifecycles).toEqual({})
     expect(w.party[0]?.template).toBe('test-hero')
@@ -113,7 +111,7 @@ describe('buildWorld(manifest.startWorld 数据化)', () => {
   })
 })
 
-describe('buildWorldV16 variable defaults', () => {
+describe('buildWorld variable defaults', () => {
   test('seeds only a fresh world and keeps definition metadata out of runtime state', () => {
     const start: StartWorld = {
       party: ['test-hero'],
@@ -121,7 +119,7 @@ describe('buildWorldV16 variable defaults', () => {
       learnedSkills: {},
       inventory: [],
     }
-    const world = buildWorldV16(
+    const world = buildWorld(
       start,
       { 'test-hero': hero },
       {

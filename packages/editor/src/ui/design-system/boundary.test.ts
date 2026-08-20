@@ -212,8 +212,8 @@ describe('editor design-system static boundary', () => {
   test('keeps the canonical script workbench on design-system controls', () => {
     const uiRoot = dirname(here)
     for (const file of [
-      'CanonicalSharedScriptTabV5.tsx',
-      'CanonicalScriptEditorV5.tsx',
+      'SharedScriptTab.tsx',
+      'ScriptEditor.tsx',
       'CommandForm.tsx',
     ]) {
       const source = readFileSync(join(uiRoot, file), 'utf8')
@@ -246,7 +246,7 @@ describe('editor design-system static boundary', () => {
       'MapMode.tsx',
       'TilesetTab.tsx',
       'StampLibraryTab.tsx',
-      'CanonicalSharedScriptTabV5.tsx',
+      'SharedScriptTab.tsx',
       'VarsTab.tsx',
       'EventLibTab.tsx',
       'ItemTab.tsx',
@@ -382,7 +382,7 @@ describe('editor design-system static boundary', () => {
       'ImageTab.tsx': ['image-resource-actions'],
       'CutsceneTab.tsx': ['cutscene-actions-section'],
       'TilesetTab.tsx': ['tileset-danger-action'],
-      'CanonicalSharedScriptTabV5.tsx': ['canonical-shared-danger-zone'],
+      'SharedScriptTab.tsx': ['canonical-shared-danger-zone'],
       'App.tsx': ['删除此实体', '删除此落点'],
     }
 
@@ -398,7 +398,7 @@ describe('editor design-system static boundary', () => {
       'ImageTab.tsx': /<DsCatalogControls[\s\S]*?overflowActions=\{/,
       'CutsceneTab.tsx': /<DsCatalogControls[\s\S]*?overflowActions=\{/,
       'TilesetTab.tsx': /<TilesetPreview[\s\S]*?actions=\{/,
-      'CanonicalSharedScriptTabV5.tsx': /<DsObjectHero[\s\S]*?deleteSelectedScript/,
+      'SharedScriptTab.tsx': /<DsObjectHero[\s\S]*?deleteSelectedScript/,
       'App.tsx': /className="toolbar"[\s\S]*?deleteSelectedSceneObject/,
     }
     for (const [file, owner] of Object.entries(expectedOwners))
@@ -783,7 +783,7 @@ describe('editor design-system static boundary', () => {
         forbidden: [/media-zoom-controls/],
       },
       {
-        file: 'CanonicalSceneScriptWorkspaceV5.tsx',
+        file: 'SceneScriptWorkspace.tsx',
         required: [/<DsTabs\b/],
         forbidden: [/\bmini-txt\b/],
       },

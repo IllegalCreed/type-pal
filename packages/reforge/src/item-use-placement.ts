@@ -3,7 +3,6 @@ import type {
   GridPos,
   ProjectMap,
   WorldScriptState,
-  WorldScriptStateV5,
 } from '@type-pal/content'
 import { isBlockedAt } from './collision.js'
 
@@ -26,22 +25,16 @@ export function planItemEntityPlacement(args: {
 }
 
 export function commitItemEntityPlacement(
-  script: { kind: 'v5'; value: WorldScriptStateV5 } | { kind: 'legacy'; value: WorldScriptState },
+  script: WorldScriptState,
   target: EntityAddress,
   state: number,
   pos: GridPos,
 ): void {
-  if (script.kind === 'v5') {
-    script.value.entityPos ??= {}
-    const scenePositions = script.value.entityPos[target.scene] ?? {}
-    script.value.entityPos[target.scene] = scenePositions
-    scenePositions[target.entity] = { ...pos }
-    const sceneStates = script.value.entityState[target.scene] ?? {}
-    script.value.entityState[target.scene] = sceneStates
-    sceneStates[target.entity] = state
-    return
-  }
-  script.value.entityPos ??= {}
-  script.value.entityPos[target.entity] = { ...pos }
-  script.value.entityState[target.entity] = state
+  script.entityPos ??= {}
+  const scenePositions = script.entityPos[target.scene] ?? {}
+  script.entityPos[target.scene] = scenePositions
+  scenePositions[target.entity] = { ...pos }
+  const sceneStates = script.entityState[target.scene] ?? {}
+  script.entityState[target.scene] = sceneStates
+  sceneStates[target.entity] = state
 }

@@ -19,10 +19,10 @@ import {
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import {
-  type CanonicalSpritePreviewStateV5,
+  type CanonicalSpritePreviewState,
   collectAutomaticScriptSpriteInstanceSites,
   describeSpriteReferenceBehavior,
-  projectCanonicalSpritePreviewStateV5,
+  projectCanonicalSpritePreviewState,
   type SpriteAutomaticScriptInstanceSite,
 } from '../core/world-sprite-behavior.js'
 import {
@@ -118,7 +118,6 @@ function referenceLabel(site: string): string {
     const [, worldIndex, role, subjectId] = site.split(':')
     if (role === 'character' && subjectId) return `世界状态 ${worldIndex} · 角色 ${subjectId} 外观`
     if (role === 'followers') return `世界状态 ${worldIndex} · 跟随者队列`
-    if (role === 'sceneScriptOverrides') return `世界状态 ${worldIndex} · 场景脚本覆写`
     return `世界状态 · ${worldIndex ?? site}`
   }
   return site
@@ -142,7 +141,7 @@ export function WorldSpriteLibrary(props: {
   onJumpActionReference?: (reference: SpriteActionReference) => void
   onJumpAutomaticScriptInstance?: (site: SpriteAutomaticScriptInstanceSite) => void
   onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
-  canonicalV5?: CanonicalSpritePreviewStateV5
+  canonical?: CanonicalSpritePreviewState
 }) {
   const assets = useMemo(
     () =>
@@ -205,10 +204,10 @@ export function WorldSpriteLibrary(props: {
   const editorState = props.session.getState()
   const spritePreviewState = useMemo(
     () =>
-      props.canonicalV5
-        ? projectCanonicalSpritePreviewStateV5(editorState, props.canonicalV5)
+      props.canonical
+        ? projectCanonicalSpritePreviewState(editorState, props.canonical)
         : editorState,
-    [editorState, props.canonicalV5],
+    [editorState, props.canonical],
   )
   const automaticScriptSites = useMemo(
     () => collectAutomaticScriptSpriteInstanceSites(spritePreviewState),

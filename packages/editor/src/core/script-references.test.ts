@@ -76,7 +76,7 @@ function baseState(): EditorState {
     stamps: [],
     scriptIndex: createScriptIndex(),
     scriptChunks: {},
-  } as EditorState
+  } as unknown as EditorState
 }
 
 function addScript(
@@ -168,7 +168,7 @@ describe('N6 脚本引用图', () => {
           ],
         },
       ],
-    } as EditorState
+    } as unknown as EditorState
     expect(buildScriptReferenceIndex(orphan).errors.join('\n')).toMatch(/孤儿 ref/)
   })
 

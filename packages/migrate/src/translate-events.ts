@@ -22,7 +22,7 @@ import {
   type DialogueCue,
   deriveScriptChunk,
   type EntityAddress,
-  type LifecycleCommandV13,
+  type EntityLifecycleCommand,
   palFrameAnimationAssetId,
   palMusicAssetId,
   palPortraitAssetId,
@@ -65,7 +65,7 @@ export function translatePalW9LifecycleLanding(args: {
   opcode: 0x4b | 0x52
   ticks: number
   target: EntityAddress
-}): LifecycleCommandV13 {
+}): EntityLifecycleCommand {
   if (!Number.isSafeInteger(args.ticks) || args.ticks <= 0)
     throw new Error('PAL W9 lifecycle landing ticks 必须为正安全整数')
   if (args.opcode === 0x4b) {
@@ -2164,7 +2164,7 @@ function walkBody(
 /**
  * R13-2 专用的窄翻译入口：复用生产 opcode 映射，但把跨块控制边交还给
  * TriggerActivationGraph。返回 body 是 unknown[]，因为其中可能短暂含
- * n3R13ActivationTransfer；调用方必须在投影 AuthorCommandV5 前消费完毕。
+ * n3R13ActivationTransfer；调用方必须在投影 BaseAuthorCommand 前消费完毕。
  */
 export function translateActivationBlock(args: {
   address: number

@@ -1,4 +1,4 @@
-import type { LoadedManifest } from '@type-pal/content'
+import type { CurrentManifest } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { sha256Hex } from './binary-signature.js'
 import { buildBlankProject, enumerateSeedFiles, relativizeManifest } from './seed.js'
@@ -6,7 +6,8 @@ import { buildBlankProject, enumerateSeedFiles, relativizeManifest } from './see
 const manifest = {
   id: 'pal',
   name: 'PAL',
-  contentVersion: 4,
+  contentVersion: 16,
+  minimumSaveVersion: 8,
   entryScene: 's1',
   content: {
     actors: 'content/actors.json',
@@ -16,33 +17,22 @@ const manifest = {
   assets: {
     catalog: 'assets/index.json',
     roles: {},
-    legacy: {
-      families: ['tileset', 'sprite', 'color-table', 'sound'],
-      root: '/extracted/data',
-      tilesets: 'tileset',
-      sprites: 'sprite',
-      palettes: 'palette',
-      sounds: '/extracted/sounds',
-    },
   },
   startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
-} as unknown as LoadedManifest
+} as unknown as CurrentManifest
 
 describe('relativizeManifest', () => {
-  test('assets 的 legacy /extracted 绝对前缀 → assets/ 相对;子目录不变', () => {
-    const a = relativizeManifest(manifest).assets
-    expect(a.legacy?.root).toBe('assets/extracted/data')
-    expect(a.legacy?.sounds).toBe('assets/extracted/sounds')
-    expect(a.legacy?.tilesets).toBe('tileset')
+  test('当前 manifest 不做路径兼容转换', () => {
+    expect(relativizeManifest(manifest)).toEqual(manifest)
   })
   test('不改原对象(深拷)', () => {
-    relativizeManifest(manifest)
-    expect(manifest.assets.legacy?.root).toBe('/extracted/data')
+    const clone = relativizeManifest(manifest)
+    clone.assets.roles['visual.standardColorTable'] = 'changed'
+    expect(manifest.assets.roles['visual.standardColorTable']).toBeUndefined()
   })
 })
 
 describe('enumerateSeedFiles', () => {
-  const assetManifest = { files: [{ path: 'data/tileset/1.rle', size: 100 }] }
   const catalog = {
     version: 1 as const,
     assets: {
@@ -56,32 +46,22 @@ describe('enumerateSeedFiles', () => {
       },
     },
   }
-  const seed = enumerateSeedFiles(
-    manifest,
-    ['s1', 's2'],
-    assetManifest,
-    undefined,
-    undefined,
-    catalog,
-  )
+  const seed = enumerateSeedFiles(manifest, ['s1', 's2'], undefined, catalog)
 
-  test('汇总:内容表 + scenes index + 每场景 + catalog 静态图 + legacy extracted', () => {
+  test('汇总:内容表 + scenes index + 每场景 + catalog 静态图', () => {
     const rels = seed.map((f) => f.rel)
     expect(rels).toContain('content/actors.json')
     expect(rels).toContain('content/skills.json')
     expect(rels).toContain('content/scenes/index.json')
     expect(rels).toContain('content/scenes/s1.json')
     expect(rels).toContain('content/scenes/s2.json')
-    expect(rels).toContain('assets/extracted/data/tileset/1.rle')
     expect(rels).toContain('assets/migrated/portraits/001.png')
     expect(rels).not.toContain('content/scenes/') // scenes 是目录,不作文件
     expect(rels).toContain('assets/index.json')
-    expect(seed).toHaveLength(8)
+    expect(seed).toHaveLength(7)
   })
 
-  test('素材项带 src(绝对透传)+ size(进度用);内容项 src=rel', () => {
-    const tile = seed.find((f) => f.rel === 'assets/extracted/data/tileset/1.rle')
-    expect(tile).toMatchObject({ src: '/extracted/data/tileset/1.rle', kind: 'binary', size: 100 })
+  test('catalog 素材与内容项都只使用工程相对路径', () => {
     const portrait = seed.find((f) => f.rel === 'assets/migrated/portraits/001.png')
     expect(portrait).toMatchObject({
       src: 'assets/migrated/portraits/001.png',
@@ -92,33 +72,12 @@ describe('enumerateSeedFiles', () => {
     expect(actors).toMatchObject({ src: 'content/actors.json', kind: 'json' })
   })
 
-  test('scripts 是目录：复制 index 与全部 chunk，不把目录当单文件', () => {
-    const withScripts = {
-      ...manifest,
-      content: { ...manifest.content, scripts: 'content/scripts/' },
-    }
-    const files = enumerateSeedFiles(
-      withScripts,
-      ['s1'],
-      { files: [] },
-      {
-        version: 1,
-        shards: { shared: 1, global: {} },
-        chunks: { 'scene/s1': { path: 'chunks/scene/s1.json', bytes: 10 } },
-      },
-    )
-    expect(files.map((f) => f.rel)).toContain('content/scripts/index.json')
-    expect(files.map((f) => f.rel)).toContain('content/scripts/chunks/scene/s1.json')
-    expect(files.map((f) => f.rel)).not.toContain('content/scripts/')
-  })
-
   test('map index 登记的零引用地图也进入克隆文件集', () => {
-    const withMaps: LoadedManifest = {
+    const withMaps: CurrentManifest = {
       ...manifest,
-      contentVersion: 4,
       content: { ...manifest.content, maps: 'content/maps/index.json' },
     }
-    const files = enumerateSeedFiles(withMaps, ['s1'], { files: [] }, undefined, {
+    const files = enumerateSeedFiles(withMaps, ['s1'], {
       version: 1,
       maps: [{ id: 'unused', name: '未引用', path: 'content/maps/unused.json' }],
     })
@@ -127,22 +86,9 @@ describe('enumerateSeedFiles', () => {
     )
   })
 
-  test('已闭环的 sprite family 不再从 extracted 重复克隆', () => {
-    const closed: LoadedManifest = {
-      ...manifest,
-      assets: {
-        ...manifest.assets,
-        legacy: { ...manifest.assets.legacy, families: ['tileset'] },
-      },
-    }
-    const files = enumerateSeedFiles(closed, ['s1'], {
-      files: [
-        { path: 'data/tileset/1.rle', size: 10 },
-        { path: 'data/sprite/2.rle', size: 20 },
-      ],
-    })
-    expect(files.map((file) => file.rel)).toContain('assets/extracted/data/tileset/1.rle')
-    expect(files.map((file) => file.rel)).not.toContain('assets/extracted/data/sprite/2.rle')
+  test('未登记在 catalog 的外部资源不会进入克隆文件集', () => {
+    const files = enumerateSeedFiles(manifest, ['s1'])
+    expect(files.map((file) => file.rel).some((path) => path.includes('extracted'))).toBe(false)
   })
 })
 

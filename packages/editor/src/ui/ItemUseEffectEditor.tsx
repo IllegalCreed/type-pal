@@ -1,5 +1,5 @@
 import type {
-  AuthorCommandV5,
+  BaseAuthorCommand,
   ItemData,
   ItemRecipe,
   ItemUseEffect,
@@ -14,9 +14,9 @@ import type {
 } from '@type-pal/content'
 import { itemUseEffectSupportsContext } from '@type-pal/content'
 import {
-  CanonicalScriptBodyEditorV5,
-  type CanonicalScriptEditorContextV5,
-} from './CanonicalScriptEditorV5.js'
+  CanonicalScriptBodyEditor,
+  type CanonicalScriptEditorContext,
+} from './ScriptEditor.js'
 import { DsButton, DsIconButton } from './design-system/controls.js'
 
 const STATUSES: { value: StatusId; label: string }[] = [
@@ -73,26 +73,26 @@ export interface ItemScriptOption {
   label: string
 }
 
-export interface ItemPrivateScriptBindingV5 {
+export interface ItemPrivateScriptBinding {
   label: string
-  body: AuthorCommandV5[]
-  onChange: (body: AuthorCommandV5[]) => void
-  editorContext?: CanonicalScriptEditorContextV5
+  body: BaseAuthorCommand[]
+  onChange: (body: BaseAuthorCommand[]) => void
+  editorContext?: CanonicalScriptEditorContext
   focusCommandPath?: string
   focusRevision?: number
 }
 
-function ItemPrivateScriptBodyEditorV5(props: {
-  binding: ItemPrivateScriptBindingV5
+function ItemPrivateScriptBodyEditor(props: {
+  binding: ItemPrivateScriptBinding
   onError?: (message: string) => void
 }) {
   return (
-    <div className="item-private-script-v5" data-item-private-script={props.binding.label}>
+    <div className="item-private-script" data-item-private-script={props.binding.label}>
       <div>
         <strong>{props.binding.label}</strong>
         <span>归当前物品拥有 · 不进入共享脚本库</span>
       </div>
-      <CanonicalScriptBodyEditorV5
+      <CanonicalScriptBodyEditor
         label={`${props.binding.label} · 正文`}
         body={props.binding.body}
         context={props.binding.editorContext}
@@ -1014,8 +1014,8 @@ interface ItemUseEffectChainEditorProps {
   worldResources?: Readonly<Record<string, number>>
   onSetWorldResource?: (resource: string, initialValue: number) => void
   itemId?: string
-  /** v5 item-private effect 的 canonical 正文；索引与兼容壳中的占位 runScript 对齐。 */
-  privateScriptsV5?: Readonly<Record<number, ItemPrivateScriptBindingV5>>
+  /** item-private effect 的 canonical 正文；索引与运行时投影中的占位 runScript 对齐。 */
+  privateScripts?: Readonly<Record<number, ItemPrivateScriptBinding>>
   scenes?: readonly SceneDef[]
 }
 
@@ -1024,7 +1024,7 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
   const excludedIngredientItemId = use.consuming ? props.itemId : undefined
   const isPrivateScriptEffect = (effect: ItemUseEffect): boolean =>
     effect.kind === 'runScript' &&
-    effect.script.chunk === '__script-v5-runtime' &&
+    effect.script.chunk === '__author-script-runtime' &&
     effect.script.id.startsWith(`item:${props.itemId ?? ''}:`)
   const isExclusiveEffect = (effect: ItemUseEffect): boolean =>
     EXCLUSIVE_EFFECTS.has(effect.kind) && !isPrivateScriptEffect(effect)
@@ -1200,7 +1200,7 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
         <div className="item-effect-row" key={`${effect.kind}-${index}`}>
           <div className="item-effect-row-head">
             <span className="item-effect-index">效果 {index + 1}</span>
-            {props.privateScriptsV5?.[index] ? (
+            {props.privateScripts?.[index] ? (
               <span className="in item-effect-kind item-private-script-kind">物品私有脚本</span>
             ) : (
               <select
@@ -1256,9 +1256,9 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
             </span>
           </div>
           <div className="item-effect-grid">
-            {props.privateScriptsV5?.[index] ? (
-              <ItemPrivateScriptBodyEditorV5
-                binding={props.privateScriptsV5[index]}
+            {props.privateScripts?.[index] ? (
+              <ItemPrivateScriptBodyEditor
+                binding={props.privateScripts[index]}
                 onError={props.onError}
               />
             ) : (
@@ -1316,7 +1316,7 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
               {
                 kind: 'runScript',
                 script: {
-                  chunk: '__script-v5-runtime',
+                  chunk: '__author-script-runtime',
                   id: `item:${props.itemId ?? ''}:__probe__`,
                 },
               },

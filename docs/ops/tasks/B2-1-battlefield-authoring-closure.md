@@ -347,7 +347,7 @@ script.ts 实际 Command 递归容器穷尽清单（本人逐行核对）：
 6. **`SceneEntryPresentation.prepare: Command[]`（:254）** — 仅 scene onEnter stage
 7. 通用 `body: Command[]`（:359）
 
-enemy 侧：`EnemyHookFlow.states[].body: EnemyHookCommand[]`（enemy-script-v10.ts:75-83）+
+enemy 侧：`EnemyHookFlow.states[].body: EnemyHookCommand[]`（enemy-script.ts:75-83）+
 `EnemyDef.choreography?: BattleChoreography[]` + `onDefeated`（enemy.ts:103-105）；
 hostile 侧：`HostileBehavior.onLose?: 'gameOver' | Command[]`（index.ts:106）。
 
@@ -403,7 +403,7 @@ id24 显式 system reference 不暗扩 schema、移除 FIRST_BATTLE_FIELD_ID 过
 
 Evidence: battle-fields.json 58 条实测 / 引用扫描 scenes+items+shared+enemies=140 / commands.ts:2367 /
 seed.ts+ref-index.ts+validate-refs.ts+CanonicalScriptEditorV5.tsx grep 零命中 / script.ts:196-204,
-212,214,238,254,359 / enemy-script-v10.ts:75-83 / enemy.ts:103-105 / index.ts:106 /
+212,214,238,254,359 / enemy-script.ts:75-83 / enemy.ts:103-105 / index.ts:106 /
 validate.ts:1150-1175。只读审查，未改实现文件，未代签 Kimi，未标 build/done。
 
 #### Kimi 独立反证审查（2026-08-14，主审；本人独立核实）
@@ -422,7 +422,7 @@ validate.ts:1150-1175。只读审查，未改实现文件，未代签 Kimi，未
 states** 1（`scenes/s231.json hooks.onEnter.variants.default.flow.machine.states.continuation-008
 .body[61]`）= 32。**enemies.json / items.json / shared-scripts.json 实测 0 处**。GLM G1 把 s231
 这 1 处归为「enemy ai hooks root」系误分类：enemy 侧命令闭集（`EnemyHookCommand` /
-`BattleChoreographyAction` / `EnemyOnDefeatedLeafV10`,enemy-script-v10.ts:20-50,86-113）均不含
+`BattleChoreographyAction` / `EnemyOnDefeatedLeaf`,enemy-script.ts:20-50,86-113）均不含
 startBattle，不可能携带 fieldId；真正被卡文和 GLM 清单都漏掉的是 **v13 flow 的 machine states
 形态**（`flow.machine.states.*.body`，对照常见的 `flow.stages[].body`）。
 

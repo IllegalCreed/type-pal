@@ -1,10 +1,8 @@
 # 脚本库与可复用脚本作者手册
 
-> 适用版本：contentVersion 10（canonical script schema V5，2026-07-31）。R13-1～R13-5 的
-> epoch 晋升不复制脚本模型；R13-3 的独立 `ThrowSpec`/`ThrowEffect`、R13-4 的确认结果
-> transition 与 R13-5 的 enemy/battle context 收紧也不改变共享脚本模型。旧版
-> `content/scripts/index.json + chunks`、`ScriptRef.chunk`、`shared/scc-*` 和“迁移内部实现”只属于
-> v4 迁移边界，不是当前作者模型。
+> 适用版本：contentVersion 16 / SAVE 8（2026-08-20）。脚本模型不带产品版本后缀；作者内容直接使用
+> `AuthorCommand`、`AuthorScriptFlow`、`AuthorScriptLibrary` 与 `WorldScriptState`。正式上线前只支持
+> 当前 canonical 工程；脚本分片、旧地址 sidecar、旧 upgrader 和“迁移内部实现”均已删除。
 
 可复用脚本用于“改一处，所有调用方同时生效”的项目级逻辑。它不是减少录入步骤的万能容器，
 也不会替代结构化能力、实体本地行为、场景 hook 和编辑器模板。
@@ -36,13 +34,13 @@ canonical 文件是：
 
 ```ts
 // content/shared-scripts.json
-type SharedScriptLibraryV5 = Record<
+type AuthorScriptLibrary = Record<
   ScriptId,
   {
     name: string
     description?: string
     self: 'none' | 'optional' | 'required'
-    body: AuthorCommandV5[]
+    body: AuthorCommand[]
   }
 >
 ```
@@ -52,7 +50,7 @@ type SharedScriptLibraryV5 = Record<
 
 ## 统一编辑器与场景工作台
 
-共享脚本、物品私有脚本、实体 Behavior、场景 Hook 使用同一个 canonical v5 指令树；Behavior
+共享脚本、物品私有脚本、实体 Behavior、场景 Hook 使用同一个 canonical 指令树；Behavior
 和 Hook 的 stage/state/transition 也使用同一个流程编辑器。各入口自己的面板只负责稳定 id、
 显示名、选择、复制/删除守卫和引用列表，不能另设整段 JSON 编辑器。
 
@@ -84,12 +82,11 @@ type SharedScriptLibraryV5 = Record<
 ```
 
 调用点只保存稳定 `script` id 和可选 `self`，不保存 `chunk`。callee 正常结束或执行
-`stopScript` 后返回 caller；v5 作者命令没有 `jumpScript`。
+`stopScript` 后返回 caller；当前作者命令没有 `jumpScript`。
 
 “打开脚本”会进入目标脚本，“扫描调用位置”会列出场景 Behavior、Hook、物品和其他共享脚本中的
-直接调用方。contentVersion 10 / canonical V5 作者界面不显示“迁移内部实现”页签；若诊断仍出现
-legacy 内部块，说明旧本地工程尚未走完历史 v4 → v5 结构迁移与后续 content epoch 晋升，应回到
-启动页迁移工作台，不要把它当作者 API。
+直接调用方。contentVersion 16 作者界面不显示“迁移内部实现”页签；若工程仍含脚本分片、旧地址或
+旧版本字段，当前 loader 会直接拒绝，重新执行当前迁移发布即可，不提供产品内升级工作台。
 
 ## 物品私有脚本
 
@@ -110,9 +107,8 @@ legacy 内部块，说明旧本地工程尚未走完历史 v4 → v5 结构迁�
 - `self: required` 缺调用实体、实体地址悬空、引用目标缺失或作者正文含 v4
   `jumpScript`/动态 binding 时，保存和发布均 fail-loud。
 
-## 重迁与 MG2
+## 重迁与当前发布
 
-MG2 以稳定 ScriptId、PageId、BehaviorId、HookId、StageId/StateId 作为作者冲突键，不以生成块
+当前发布以稳定 ScriptId、PageId、BehaviorId、HookId、StageId/StateId 作为作者冲突键，不以生成块
 或数组位置为键。作者独有共享脚本保留；双方修改同一 canonical identity 时显式冲突并保持零写。
-历史 v4 → v5 compatibility sidecar 只作为旧地址迁移的 byte-pin / MG2 证明保留；current
-contentVersion 10 / SAVE 8 runtime 不调用它，普通属性面板也不会编辑它。
+迁移器直接生成 contentVersion 16，发布前完整预检，manifest 最后写入；仓库不常驻旧脚本升级链。

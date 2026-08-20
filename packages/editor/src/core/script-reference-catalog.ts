@@ -52,7 +52,7 @@ export interface ScriptReferenceCatalogInput {
   mapIndex: MapIndexV1
   assetCatalog: AssetCatalogV1
   scriptIndex?: ScriptIndexV1
-  /** canonical v5 作者共享脚本；提供时替代 legacy ScriptIndexV1.library。 */
+  /** 当前作者共享脚本；提供时作为引用目录的唯一共享脚本来源。 */
   authorScripts?: readonly ScriptReferenceChoice[]
 }
 

@@ -1,6 +1,6 @@
 /**
- * 编辑器启动屏。只负责创建、选择和打开当前 canonical v14 工程；旧 schema 的迁移属于
- * 独立生成/迁移工具，不在产品启动流程中提供兼容工作台。
+ * 编辑器启动屏。只负责创建、选择和打开当前 canonical content16 工程；旧开发工程必须
+ * 重新生成，不在产品启动流程中提供兼容工作台。
  */
 import { useEffect, useState } from 'react'
 import { currentDirectoryPickerAvailability } from '../core/file-system-access.js'
@@ -80,7 +80,7 @@ export function ProjectPicker(props: { onOpened: (opened: Opened) => void; seedB
       <div className="picker-card">
         <h1 className="picker-title">type-pal 编辑器</h1>
         <p className="picker-sub">
-          选择当前 canonical v14 工程开始编辑。旧工程请先通过对应生成或迁移工具重建。
+          选择当前 canonical content16 工程开始编辑。旧开发工程请重新生成。
         </p>
 
         {busy ? (
@@ -108,11 +108,11 @@ export function ProjectPicker(props: { onOpened: (opened: Opened) => void; seedB
               </button>
               <button type="button" className="picker-act" onClick={openProject}>
                 <span className="picker-act-t">打开工程</span>
-                <span className="picker-act-d">选择一个当前 v14 本地工程继续编辑。</span>
+                <span className="picker-act-d">选择一个当前 content16 本地工程继续编辑。</span>
               </button>
               <button type="button" className="picker-act" onClick={createBlank}>
                 <span className="picker-act-t">新建空白工程</span>
-                <span className="picker-act-d">创建包含起始场景与占位角色的 v14 工程。</span>
+                <span className="picker-act-d">创建包含起始场景与占位角色的 content16 工程。</span>
               </button>
             </div>
 

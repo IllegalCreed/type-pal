@@ -1,6 +1,6 @@
 import type {
-  SceneDefV14,
-  SharedScriptLibraryV14,
+  AuthorSceneDef,
+  AuthorScriptLibrary,
   StampTemplate,
   WorldVariableRegistryV1,
 } from '@type-pal/content'
@@ -39,7 +39,7 @@ const REVIEW_SCRIPTS = {
     self: 'required',
     body: [],
   },
-} satisfies SharedScriptLibraryV14
+} satisfies AuthorScriptLibrary
 
 const REVIEW_VARIABLE_COMMANDS = [
   { kind: 'setFlag', flag: 'review.chapter.opened', value: true },
@@ -51,7 +51,7 @@ const REVIEW_VARIABLE_COMMANDS = [
     then: [{ kind: 'setFlag', flag: 'review.quest.rewarded', value: true }],
     else: [{ kind: 'setVar', var: 'review.chapter.progress', value: 3 }],
   },
-] satisfies SharedScriptLibraryV14[string]['body']
+] satisfies AuthorScriptLibrary[string]['body']
 
 const REVIEW_WORLD_VARIABLES = {
   'review.quest.started': {
@@ -136,16 +136,16 @@ function reviewStamps(tilesetId: string): StampTemplate[] {
 }
 
 export interface UiReviewSampleInput {
-  scenes: readonly SceneDefV14[]
-  sharedScripts: SharedScriptLibraryV14
+  scenes: readonly AuthorSceneDef[]
+  sharedScripts: AuthorScriptLibrary
   stamps: readonly StampTemplate[]
   worldVariables: WorldVariableRegistryV1
   tilesetId?: string
 }
 
 export interface UiReviewSampleOutput {
-  scenes: SceneDefV14[]
-  sharedScripts: SharedScriptLibraryV14
+  scenes: AuthorSceneDef[]
+  sharedScripts: AuthorScriptLibrary
   stamps: StampTemplate[]
   worldVariables: WorldVariableRegistryV1
 }
@@ -155,7 +155,7 @@ export interface UiReviewSampleOutput {
  * records always win, so the helper can be applied repeatedly without hiding real author content.
  */
 export function withUiReviewSamples(input: UiReviewSampleInput): UiReviewSampleOutput {
-  const scenes = structuredClone(input.scenes) as SceneDefV14[]
+  const scenes = structuredClone(input.scenes) as AuthorSceneDef[]
   const firstScene = scenes[0]
   if (firstScene) {
     const onEnter = firstScene.hooks?.onEnter

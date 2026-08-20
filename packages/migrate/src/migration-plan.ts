@@ -1,11 +1,5 @@
 import { isDeepStrictEqual } from 'node:util'
 import {
-  upgradeLegacyActorImages,
-  upgradeLegacyItemImages,
-  upgradeLegacyPalBattleFields,
-  upgradeLegacyStaticImageCommands,
-} from '@type-pal/content'
-import {
   isAtomicProjectMapPath,
   type MigrationSnapshot,
   serializeMigrationJson,
@@ -16,11 +10,6 @@ import {
 import type { MergeConflict } from './migration-merge.js'
 import { jsonAbsent, jsonPresent, mergeManagedFile } from './migration-merge.js'
 import type { MigrationFileSet, MigrationJson } from './pal-migration.js'
-import {
-  canonicalizeMigrationScriptFiles,
-  isMigrationScriptChunkFile,
-  materializeMigrationScriptFiles,
-} from './script-library-normalize.js'
 
 export interface MigrationPlan {
   target: Map<string, MigrationJson>
@@ -39,7 +28,7 @@ export interface MigrationPlan {
 }
 
 export function snapshotOf(
-  fileSet: Pick<MigrationFileSet, 'files' | 'managedFiles' | 'baselineMetadata'>,
+  fileSet: Pick<MigrationFileSet, 'files' | 'managedFiles'>,
 ): MigrationSnapshot {
   return {
     files: new Map(fileSet.files),
@@ -50,34 +39,15 @@ export function snapshotOf(
         sha256(serializeMigrationJson(value, path)),
       ]),
     ),
-    ...(fileSet.baselineMetadata
-      ? { baselineMetadata: structuredClone(fileSet.baselineMetadata) }
-      : {}),
   }
 }
 
 function canonicalSnapshot(
   snapshot: Pick<MigrationSnapshot, 'files' | 'managedFiles' | 'hashes'>,
 ): MigrationSnapshot {
-  const staticNormalized = new Map<string, MigrationJson>()
-  for (const [path, value] of snapshot.files) {
-    let normalized: unknown = value
-    if (path === 'content/actors.json') normalized = upgradeLegacyActorImages(normalized)
-    else if (path === 'content/items.json') normalized = upgradeLegacyItemImages(normalized)
-    else if (path === 'content/battle-fields.json')
-      normalized = upgradeLegacyPalBattleFields(normalized)
-    normalized = upgradeLegacyStaticImageCommands(normalized)
-    staticNormalized.set(path, normalized as MigrationJson)
-  }
-  const files = canonicalizeMigrationScriptFiles(staticNormalized)
-  const managedFiles = new Set(snapshot.managedFiles)
-  for (const path of [...managedFiles]) {
-    if (isMigrationScriptChunkFile(path) && !files.has(path)) managedFiles.delete(path)
-  }
-  for (const path of files.keys()) managedFiles.add(path)
   return {
-    files,
-    managedFiles,
+    files: new Map(snapshot.files),
+    managedFiles: new Set(snapshot.managedFiles),
     ...(snapshot.hashes ? { hashes: new Map(snapshot.hashes) } : {}),
   }
 }
@@ -161,22 +131,6 @@ function mergeAtomicMapFile(
   return { value: selected.value, oursSameBase, theirsSameBase }
 }
 
-/** 首次 bootstrap 已有审批 target 后，只计算当前工程到 target 的真实写删。 */
-export function createInitialMigrationPlan(
-  ours: MigrationSnapshot,
-  target: MigrationSnapshot,
-): Pick<MigrationPlan, 'writes' | 'deletes'> {
-  const writes = new Map<string, MigrationJson>()
-  for (const [path, value] of target.files) {
-    if (!ours.files.has(path) || !isDeepStrictEqual(ours.files.get(path), value))
-      writes.set(path, value)
-  }
-  const deletes = [...ours.managedFiles]
-    .filter((path) => ours.files.has(path) && !target.files.has(path))
-    .sort()
-  return { writes, deletes }
-}
-
 export function createMigrationPlan(
   base: MigrationSnapshot,
   ours: MigrationSnapshot,
@@ -230,7 +184,7 @@ export function createMigrationPlan(
     else if (theirsSameBase && !oursSameBase) kept++
     else if (!oursSameBase || !theirsSameBase) mergedCount++
   }
-  const normalized = conflicts.length ? target : materializeMigrationScriptFiles(target)
+  const normalized = target
   const writes = new Map<string, MigrationJson>()
   const deletes: string[] = []
   if (!conflicts.length) {

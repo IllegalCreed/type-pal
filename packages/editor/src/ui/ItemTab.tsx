@@ -32,8 +32,8 @@ import {
 import {
   type AssetBase,
   type AudioAssetReader,
-  isV5RuntimeScriptRef,
-  v5RuntimeScriptRef,
+  isRuntimeScriptRef,
+  runtimeScriptRef,
 } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import {
@@ -57,14 +57,14 @@ import {
 } from '../core/item-references.js'
 import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import {
-  AddItemPrivateScriptV5Command,
-  type ScriptEditorStateV5,
-  type ScriptV5EditSession,
-  SetItemPrivateScriptBodyV5Command,
-} from '../core/script-v5-editor.js'
+  AddItemPrivateScriptCommand,
+  type ScriptEditorState,
+  type ScriptEditSession,
+  SetItemPrivateScriptBodyCommand,
+} from '../core/script-editor.js'
 import { createAuthoredScriptId } from '../core/shared-script.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
-import type { CanonicalScriptEditorContextV5 } from './CanonicalScriptEditorV5.js'
+import type { CanonicalScriptEditorContext } from './ScriptEditor.js'
 import {
   DsButton,
   DsCatalogControls,
@@ -607,9 +607,9 @@ export function ItemTab(props: {
   onObjectFocus?: (id: string | undefined) => void
   onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
   tabBar?: React.ReactNode
-  scriptV5?: {
-    state: ScriptEditorStateV5
-    session: ScriptV5EditSession
+  script?: {
+    state: ScriptEditorState
+    session: ScriptEditSession
   }
   historyCoordinator?: EditorHistoryCoordinator
 }) {
@@ -638,7 +638,7 @@ export function ItemTab(props: {
     onObjectFocus,
     onStatusNotice,
     tabBar,
-    scriptV5,
+    script,
     historyCoordinator,
   } = props
   const [filter, setFilter] = useState('')
@@ -652,8 +652,8 @@ export function ItemTab(props: {
   const deletedSelectionRef = useRef<{ id: string; sawAbsent: boolean } | undefined>(undefined)
   const editorState = session.getState()
   const referenceMap = useMemo(
-    () => itemReferenceMap(editorState, scriptV5?.state),
-    [editorState, scriptV5?.state],
+    () => itemReferenceMap(editorState, script?.state),
+    [editorState, script?.state],
   )
   const diagnostics = editorState.migrationDiagnostics?.diagnostics ?? []
   const pendingIds = new Set(
@@ -730,10 +730,10 @@ export function ItemTab(props: {
     return (id: string): string | undefined => names.get(id)
   }, [actors, locale])
   const scriptOptions = (() => {
-    if (scriptV5)
-      return Object.entries(scriptV5.state.sharedScripts)
+    if (script)
+      return Object.entries(script.state.sharedScripts)
         .map(([id, script]) => ({
-          ref: v5RuntimeScriptRef(id),
+          ref: runtimeScriptRef(id),
           label: `${script.name} · ${id}`,
         }))
         .sort((left, right) => left.label.localeCompare(right.label, 'zh-CN'))
@@ -746,8 +746,8 @@ export function ItemTab(props: {
       })
       .sort((left, right) => left.label.localeCompare(right.label, 'zh-CN'))
   })() as ItemScriptOption[]
-  const canonicalScriptEditorContextV5 = useMemo<CanonicalScriptEditorContextV5 | undefined>(() => {
-    if (!scriptV5) return undefined
+  const canonicalScriptEditorContext = useMemo<CanonicalScriptEditorContext | undefined>(() => {
+    if (!script) return undefined
     const shell = session.getState()
     const references = createScriptReferenceCatalog({
       locale,
@@ -759,13 +759,13 @@ export function ItemTab(props: {
       ambiences: shell.ambiences ?? [],
       mapIndex: shell.mapIndex,
       assetCatalog,
-      authorScripts: Object.entries(scriptV5.state.sharedScripts).map(([id, script]) => ({
+      authorScripts: Object.entries(script.state.sharedScripts).map(([id, script]) => ({
         id,
         name: script.name,
       })),
     })
     return {
-      state: scriptV5.state,
+      state: script.state,
       shellScenes: shell.scenes,
       locale,
       assetCatalog,
@@ -798,12 +798,12 @@ export function ItemTab(props: {
     onOpenImage,
     onOpenScript,
     onOpenSound,
-    scriptV5,
+    script,
     session,
     skills,
   ])
-  const privateScriptsV5 = (slot: 'use' | 'throw') => {
-    const storedItem = scriptV5?.session
+  const privateScripts = (slot: 'use' | 'throw') => {
+    const storedItem = script?.session
       .getState()
       .items.find((candidate) => candidate.id === item?.id)
     const stored = new Map(
@@ -818,7 +818,7 @@ export function ItemTab(props: {
       (item?.[slot]?.effects ?? []).flatMap((shellEffect, shellIndex) => {
         if (
           shellEffect.kind !== 'runScript' ||
-          !isV5RuntimeScriptRef(shellEffect.script) ||
+          !isRuntimeScriptRef(shellEffect.script) ||
           !shellEffect.script.id.startsWith(prefix)
         )
           return []
@@ -832,7 +832,7 @@ export function ItemTab(props: {
             {
               label: effect.script.label ?? `${item?.name ?? item?.id}私有脚本`,
               body: effect.script.body,
-              editorContext: canonicalScriptEditorContextV5,
+              editorContext: canonicalScriptEditorContext,
               focusCommandPath:
                 focusPrivateScript?.itemId === item?.id &&
                 focusPrivateScript?.ability === slot &&
@@ -846,8 +846,8 @@ export function ItemTab(props: {
                   ? focusPrivateScript.revision
                   : undefined,
               onChange: (body: typeof effect.script.body) =>
-                scriptV5?.session.dispatch(
-                  new SetItemPrivateScriptBodyV5Command(storedItem!.id, slot, canonicalIndex, body),
+                script?.session.dispatch(
+                  new SetItemPrivateScriptBodyCommand(storedItem!.id, slot, canonicalIndex, body),
                 ),
             },
           ] as const,
@@ -902,7 +902,7 @@ export function ItemTab(props: {
     const currentBlockers = blockingItemReferences(
       session.getState(),
       item.id,
-      scriptV5?.session.getState(),
+      script?.session.getState(),
     )
     if (currentBlockers.length) {
       setInspectorTab('references')
@@ -918,7 +918,7 @@ export function ItemTab(props: {
     try {
       deletedSelectionRef.current = { id: item.id, sawAbsent: false }
       session.dispatch(
-        new DeleteItemCommand(item.id, scriptV5 ? () => scriptV5.session.getState() : undefined),
+        new DeleteItemCommand(item.id, script ? () => script.session.getState() : undefined),
       )
       setSelId(next)
       setConfirmDeleteId(undefined)
@@ -934,10 +934,10 @@ export function ItemTab(props: {
   }
   const createAndBindScript = (confirmed = false): void => {
     if (!item) return
-    if (scriptV5) {
+    if (script) {
       onStatusNotice?.({
         kind: 'error',
-        message: 'v5 共享脚本必须从具名共享库创建；物品私有逻辑请直接编辑当前物品内联正文。',
+        message: '共享脚本必须从具名共享库创建；物品私有逻辑请直接编辑当前物品内联正文。',
       })
       return
     }
@@ -959,11 +959,11 @@ export function ItemTab(props: {
       onStatusNotice?.({ kind: 'error', message: `无法为 ${id} 推导脚本分片。` })
       return
     }
-    const script: ScriptRef = { id, chunk }
+    const scriptRef: ScriptRef = { id, chunk }
     const nextUse: UseSpec = {
       ...(current.use ?? { consuming: true, effects: [] }),
       target: 'scene',
-      effects: [{ kind: 'runScript', script }],
+      effects: [{ kind: 'runScript', script: scriptRef }],
       menuAfterUse: current.use?.menuAfterUse ?? 'close',
     }
     delete nextUse.battleOnly
@@ -979,8 +979,8 @@ export function ItemTab(props: {
   }
   /** 新建私有脚本是一个跨 session 作者事务；正文与 shell ref 必须成对撤销/重做。 */
   const addPrivateScript = (): void => {
-    if (!item || !scriptV5) return
-    const storedItem = scriptV5.session
+    if (!item || !script) return
+    const storedItem = script.session
       .getState()
       .items.find((candidate) => candidate.id === item.id)
     const exists = (storedItem?.use?.effects ?? []).some(
@@ -995,7 +995,7 @@ export function ItemTab(props: {
       const current = session.getState().items.find((candidate) => candidate.id === item.id)
       if (!current?.use) throw new Error(`${item.id}.use 不存在，无法绑定私有脚本`)
       historyCoordinator.dispatch(
-        new AddItemPrivateScriptV5Command(item.id, `${item.name}私有脚本`),
+        new AddItemPrivateScriptCommand(item.id, `${item.name}私有脚本`),
         new UpdateItemCommand(item.id, {
           use: {
             ...current.use,
@@ -1003,7 +1003,7 @@ export function ItemTab(props: {
               ...current.use.effects,
               {
                 kind: 'runScript',
-                script: { chunk: '__script-v5-runtime', id: `item:${item.id}:use` },
+                script: { chunk: '__author-script-runtime', id: `item:${item.id}:use` },
               },
             ],
           },
@@ -1738,8 +1738,8 @@ export function ItemTab(props: {
                         )
                       }}
                       scenes={editorState.scenes as readonly SceneDef[]}
-                      privateScriptsV5={privateScriptsV5('use')}
-                      onAddPrivateScript={scriptV5 ? addPrivateScript : undefined}
+                      privateScripts={privateScripts('use')}
+                      onAddPrivateScript={script ? addPrivateScript : undefined}
                     />
                   </div>
                 ) : (

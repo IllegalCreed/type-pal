@@ -13,7 +13,7 @@ import {
   type AssetId,
   type BattleSpriteDef,
   type Command,
-  type DialogueCueV14,
+  type AuthorDialogueCue,
   type Facing,
   getScriptBody,
   type Locale,
@@ -27,7 +27,6 @@ import {
   type ShopDef,
   type SpriteDef,
   sceneEntryPrepareSafety,
-  upgradeDialogueTreeV13ToV14,
 } from '@type-pal/content'
 import {
   type AssetBase,
@@ -851,11 +850,7 @@ export function ScriptDrawer(props: {
       console.warn('[editor] entry.prepare 拒绝非安全命令')
       return
     }
-    const authoredCommands =
-      editorState.manifest.contentVersion === 16
-        ? (upgradeDialogueTreeV13ToV14(commands) as unknown as readonly Command[])
-        : commands
-    for (const command of authoredCommands) {
+    for (const command of commands) {
       const last = at[at.length - 1] as number
       if (last === -1) {
         const entryPrepare = at[1] === 'entry' && at[2] === 'prepare'
@@ -1397,7 +1392,7 @@ export function ScriptDrawer(props: {
                       const path = parsePath(selPath)
                       const stageIndex = path[0]
                       if (typeof stageIndex !== 'number') return
-                      const cue = (selCmd as { cue?: DialogueCueV14 }).cue
+                      const cue = (selCmd as { cue?: AuthorDialogueCue }).cue
                       if (!cue || !('identity' in cue) || cue.identity.kind !== 'actor') return
                       const currentKey = cue.identity.speakerOverride
                       const sourceKey = (internalScriptId ?? active?.key ?? 'script').replace(

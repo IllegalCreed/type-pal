@@ -1,14 +1,14 @@
 /**
- * 只协调当前唯一的跨 session 作者动作（canonical 私有正文 + legacy shell ref）。
+ * 只协调当前唯一的跨 session 作者动作（脚本正文 + 主编辑工作副本引用）。
  * 两个既有 session 仍各自持栈；本类只记录成对命令身份，并在全局 undo/redo 前优先配对。
  */
 import type { Command } from './commands.js'
 import type { EditSession } from './edit-session.js'
-import type { ScriptEditorCommandV5, ScriptV5EditSession } from './script-v5-editor.js'
+import type { ScriptEditorCommand, ScriptEditSession } from './script-editor.js'
 
 interface HistoryPair {
-  legacy: Command
-  scriptV5: ScriptEditorCommandV5
+  main: Command
+  script: ScriptEditorCommand
 }
 
 export class EditorHistoryCoordinator {
@@ -16,21 +16,21 @@ export class EditorHistoryCoordinator {
   private future: HistoryPair[] = []
 
   constructor(
-    private readonly legacySession: EditSession,
-    private readonly scriptV5Session: ScriptV5EditSession,
+    private readonly mainSession: EditSession,
+    private readonly scriptSession: ScriptEditSession,
   ) {}
 
   /** 两边都成功才登记；第二笔失败会用 receipt 原样回滚第一笔且不产生 redo。 */
-  dispatch(scriptV5: ScriptEditorCommandV5, legacy: Command): void {
-    const scriptReceipt = this.scriptV5Session.dispatchForTransaction(scriptV5)
+  dispatch(script: ScriptEditorCommand, main: Command): void {
+    const scriptReceipt = this.scriptSession.dispatchForTransaction(script)
     try {
-      const legacyReceipt = this.legacySession.dispatchForTransaction(legacy)
-      if (!legacyReceipt) throw new Error(`跨会话事务「${legacy.label}」未修改 legacy 作者态`)
+      const mainReceipt = this.mainSession.dispatchForTransaction(main)
+      if (!mainReceipt) throw new Error(`跨会话事务「${main.label}」未修改主编辑工作副本`)
     } catch (cause) {
       scriptReceipt.rollback()
       throw cause
     }
-    this.past.push({ legacy, scriptV5 })
+    this.past.push({ main, script })
     this.future = []
   }
 
@@ -39,17 +39,17 @@ export class EditorHistoryCoordinator {
     const pair = this.past.at(-1)
     if (
       !pair ||
-      !this.legacySession.isUndoTop(pair.legacy) ||
-      !this.scriptV5Session.isUndoTop(pair.scriptV5)
+      !this.mainSession.isUndoTop(pair.main) ||
+      !this.scriptSession.isUndoTop(pair.script)
     )
       return false
-    // 应用顺序 script-v5 -> legacy；撤销严格反序。
-    if (!this.legacySession.undo()) throw new Error('跨会话撤销 legacy 失败')
+    // 应用顺序 script -> main；撤销严格反序。
+    if (!this.mainSession.undo()) throw new Error('跨会话撤销主编辑工作副本失败')
     try {
-      if (!this.scriptV5Session.undo()) throw new Error('跨会话撤销 script-v5 失败')
+      if (!this.scriptSession.undo()) throw new Error('跨会话撤销 script 失败')
     } catch (cause) {
-      if (!this.legacySession.redo())
-        throw new Error('跨会话撤销失败且 legacy 补偿重做失败', { cause })
+      if (!this.mainSession.redo())
+        throw new Error('跨会话撤销失败且主编辑工作副本补偿重做失败', { cause })
       throw cause
     }
     this.past.pop()
@@ -62,12 +62,12 @@ export class EditorHistoryCoordinator {
     this.discardInvalidRedoPairs()
     const pair = this.future.at(-1)
     if (!pair) return false
-    if (!this.scriptV5Session.redo()) throw new Error('跨会话重做 script-v5 失败')
+    if (!this.scriptSession.redo()) throw new Error('跨会话重做 script 失败')
     try {
-      if (!this.legacySession.redo()) throw new Error('跨会话重做 legacy 失败')
+      if (!this.mainSession.redo()) throw new Error('跨会话重做主编辑工作副本失败')
     } catch (cause) {
-      if (!this.scriptV5Session.undo())
-        throw new Error('跨会话重做失败且 script-v5 补偿撤销失败', { cause })
+      if (!this.scriptSession.undo())
+        throw new Error('跨会话重做失败且 script 补偿撤销失败', { cause })
       throw cause
     }
     this.future.pop()
@@ -78,11 +78,11 @@ export class EditorHistoryCoordinator {
   private discardInvalidRedoPairs(): void {
     while (this.future.length) {
       const pair = this.future.at(-1)!
-      const legacyReady = this.legacySession.isRedoTop(pair.legacy)
-      const scriptReady = this.scriptV5Session.isRedoTop(pair.scriptV5)
-      if (legacyReady && scriptReady) return
-      if (legacyReady) this.legacySession.discardRedo(pair.legacy)
-      if (scriptReady) this.scriptV5Session.discardRedo(pair.scriptV5)
+      const mainReady = this.mainSession.isRedoTop(pair.main)
+      const scriptReady = this.scriptSession.isRedoTop(pair.script)
+      if (mainReady && scriptReady) return
+      if (mainReady) this.mainSession.discardRedo(pair.main)
+      if (scriptReady) this.scriptSession.discardRedo(pair.script)
       this.future.pop()
     }
   }

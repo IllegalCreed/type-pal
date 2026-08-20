@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import type { ProjectManifest } from '@type-pal/content'
+import type { CurrentManifest } from '@type-pal/content'
 import {
   baselineWrites,
   type MigrationSnapshot,
@@ -22,10 +22,8 @@ export function buildMigrationTransactionChanges(args: {
   previousBaseline?: MigrationSnapshot
   nextBaseline: MigrationSnapshot
   /** 必须最后提交：新 manifest 只能在资源及其 catalog 已就绪后对运行时可见。 */
-  nextManifest?: ProjectManifest<number>
+  nextManifest?: CurrentManifest
   manifestPreconditions?: readonly TransactionPrecondition[]
-  /** Same-version successor: prove the live manifest bytes are unchanged and emit no manifest op. */
-  preserveManifestRawText?: string
 }): TransactionChange[] {
   const { repo, plan, previousBaseline, nextBaseline, nextManifest } = args
   const changes: TransactionChange[] = []
@@ -55,11 +53,7 @@ export function buildMigrationTransactionChanges(args: {
   const state = desired.get(statePath)!
   if (differs(repo, statePath, state))
     changes.push({ target: statePath, scope: 'baseline', content: state })
-  if (args.preserveManifestRawText !== undefined) {
-    const path = resolve(repo, 'projects/pal/manifest.json')
-    if (!existsSync(path) || readFileSync(path, 'utf8') !== args.preserveManifestRawText)
-      throw new Error('same-version transition manifest raw bytes 漂移')
-  } else if (nextManifest) {
+  if (nextManifest) {
     if (!args.manifestPreconditions?.length) throw new Error('manifest 变更缺资源闭包前置条件')
     const path = 'projects/pal/manifest.json'
     const content = `${JSON.stringify(nextManifest, null, 2)}\n`

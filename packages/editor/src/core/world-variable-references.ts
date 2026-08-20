@@ -1,18 +1,18 @@
 import type {
-  AuthorConditionV5,
-  ScriptFlowV5,
-  StateTransitionV5,
+  AuthorCondition,
+  BaseScriptFlow,
+  BaseStateTransition,
   WorldVariableKindV1,
   WorldVariableRegistryV1,
 } from '@type-pal/content'
 import type { EditorState } from './edit-session.js'
 import type {
-  CanonicalScriptReferenceV5,
-  ScriptEditorStateV5,
-  ScriptV5CommandLocatorV5,
-  ScriptV5CommandOwnerV5,
-} from './script-v5-editor.js'
-import { visitCanonicalScriptCommandsV5 } from './script-v5-editor.js'
+  CanonicalScriptReference,
+  ScriptEditorState,
+  ScriptCommandLocator,
+  ScriptCommandOwner,
+} from './script-editor.js'
+import { visitCanonicalScriptCommands } from './script-editor.js'
 
 export type WorldVariableAccessV1 = 'read' | 'write'
 
@@ -22,11 +22,11 @@ export interface WorldVariableReferenceV1 {
   access: WorldVariableAccessV1
   detail: string
   path: string
-  owner: ScriptV5CommandOwnerV5
+  owner: ScriptCommandOwner
   ownerLabel: string
   sourceLabel: string
   /** command-backed occurrences can open exactly; state transition conditions stay static. */
-  reference?: CanonicalScriptReferenceV5
+  reference?: CanonicalScriptReference
 }
 
 export interface WorldVariableReferenceIndexV1 {
@@ -42,18 +42,16 @@ export interface WorldVariableRegistryIssueV1 {
 }
 
 export function worldVariableScriptStateFromEditorStateV1(
-  state: Pick<EditorState, 'manifest' | 'scenes' | 'items' | 'sharedScripts'>,
-): ScriptEditorStateV5 {
+  state: Pick<EditorState, 'scenes' | 'items' | 'sharedScripts'>,
+): ScriptEditorState {
   return {
-    contentVersion: state.manifest.contentVersion === 16 ? 16 : undefined,
-    scenes: state.scenes as unknown as ScriptEditorStateV5['scenes'],
-    items: state.items as unknown as ScriptEditorStateV5['items'],
-    sharedScripts: (state.sharedScripts ?? {}) as unknown as ScriptEditorStateV5['sharedScripts'],
-    migrationSidecars: [],
+    scenes: state.scenes as unknown as ScriptEditorState['scenes'],
+    items: state.items as unknown as ScriptEditorState['items'],
+    sharedScripts: (state.sharedScripts ?? {}) as unknown as ScriptEditorState['sharedScripts'],
   }
 }
 
-function ownerLabel(state: ScriptEditorStateV5, owner: ScriptV5CommandOwnerV5): string {
+function ownerLabel(state: ScriptEditorState, owner: ScriptCommandOwner): string {
   if (owner.kind === 'shared-script')
     return `可复用脚本 · ${state.sharedScripts[owner.scriptId]?.name ?? owner.scriptId}`
   if (owner.kind === 'item-private-script')
@@ -65,7 +63,7 @@ function ownerLabel(state: ScriptEditorStateV5, owner: ScriptV5CommandOwnerV5): 
   return `场景 ${owner.sceneId} · 实体 ${owner.entityId} · ${owner.channel === 'trigger' ? '交互' : '自动'}脚本`
 }
 
-function sourceLabel(owner: ScriptV5CommandOwnerV5): string {
+function sourceLabel(owner: ScriptCommandOwner): string {
   if (owner.kind === 'shared-script') return owner.scriptId
   if (owner.kind === 'item-private-script') return `${owner.itemId}/${owner.scriptId}`
   if (owner.kind === 'scene-hook') return `${owner.sceneId}/${owner.slot}/${owner.hookId}`
@@ -78,12 +76,12 @@ function isInternalId(id: string): boolean {
 }
 
 function collectCondition(
-  condition: AuthorConditionV5,
+  condition: AuthorCondition,
   path: string,
-  owner: ScriptV5CommandOwnerV5,
-  state: ScriptEditorStateV5,
+  owner: ScriptCommandOwner,
+  state: ScriptEditorState,
   output: WorldVariableReferenceV1[],
-  locator?: ScriptV5CommandLocatorV5,
+  locator?: ScriptCommandLocator,
 ): void {
   if (condition.kind === 'flag' && !isInternalId(condition.flag))
     output.push({
@@ -118,10 +116,10 @@ function collectCondition(
 }
 
 function collectTransition(
-  transition: StateTransitionV5,
+  transition: BaseStateTransition,
   path: string,
-  owner: ScriptV5CommandOwnerV5,
-  state: ScriptEditorStateV5,
+  owner: ScriptCommandOwner,
+  state: ScriptEditorState,
   output: WorldVariableReferenceV1[],
 ): void {
   if (transition.kind === 'branch') {
@@ -135,10 +133,10 @@ function collectTransition(
 }
 
 function collectFlowTransitions(
-  flow: ScriptFlowV5,
+  flow: BaseScriptFlow,
   path: string,
-  owner: ScriptV5CommandOwnerV5,
-  state: ScriptEditorStateV5,
+  owner: ScriptCommandOwner,
+  state: ScriptEditorState,
   output: WorldVariableReferenceV1[],
 ): void {
   if (flow.kind !== 'stateMachine') return
@@ -153,14 +151,14 @@ function collectFlowTransitions(
 }
 
 function collectAllTransitionConditions(
-  state: ScriptEditorStateV5,
+  state: ScriptEditorState,
   output: WorldVariableReferenceV1[],
 ): void {
   for (const scene of state.scenes) {
     for (const entity of scene.entities) {
       for (const channel of ['trigger', 'auto'] as const) {
         for (const [behaviorId, behavior] of Object.entries(entity.behaviors?.[channel] ?? {})) {
-          const owner: ScriptV5CommandOwnerV5 = {
+          const owner: ScriptCommandOwner = {
             kind: 'entity-behavior',
             sceneId: scene.id,
             entityId: entity.id,
@@ -179,7 +177,7 @@ function collectAllTransitionConditions(
     }
     for (const slot of ['onEnter', 'onTeleport'] as const) {
       for (const [hookId, hook] of Object.entries(scene.hooks?.[slot]?.variants ?? {})) {
-        const owner: ScriptV5CommandOwnerV5 = {
+        const owner: ScriptCommandOwner = {
           kind: 'scene-hook',
           sceneId: scene.id,
           slot,
@@ -199,15 +197,15 @@ function collectAllTransitionConditions(
 
 /** canonical collector；迁移 seed、保存门、删除保护与 UI 必须全部消费本函数。 */
 export function collectWorldVariableReferencesV1(
-  state: ScriptEditorStateV5,
+  state: ScriptEditorState,
 ): WorldVariableReferenceIndexV1 {
   const all: WorldVariableReferenceV1[] = []
-  visitCanonicalScriptCommandsV5(state, (command, path, locator) => {
+  visitCanonicalScriptCommands(state, (command, path, locator) => {
     const base = {
       owner: locator.owner,
       ownerLabel: ownerLabel(state, locator.owner),
       sourceLabel: sourceLabel(locator.owner),
-      reference: { kind: 'command', path, locator } as CanonicalScriptReferenceV5,
+      reference: { kind: 'command', path, locator } as CanonicalScriptReference,
     }
     if (command.kind === 'setFlag' && !isInternalId(command.flag))
       all.push({

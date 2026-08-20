@@ -1,15 +1,15 @@
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import type { AuthorCommandV5 } from '@type-pal/content'
-import { validateScenesV5 } from '@type-pal/content'
+import type { BaseAuthorCommand } from '@type-pal/content'
+import { validateBaseScenes } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 
 const scenePath = fileURLToPath(
   new URL('../../../projects/pal/content/scenes/s001.json', import.meta.url),
 )
-const scene = validateScenesV5([JSON.parse(readFileSync(scenePath, 'utf8'))])[0]!
+const scene = validateBaseScenes([JSON.parse(readFileSync(scenePath, 'utf8'))])[0]!
 
-function initialOnEnterBody(): AuthorCommandV5[] {
+function initialOnEnterBody(): BaseAuthorCommand[] {
   const channel = scene.hooks?.onEnter
   const hook = channel?.initial ? channel.variants[channel.initial] : undefined
   const flow = hook?.flow

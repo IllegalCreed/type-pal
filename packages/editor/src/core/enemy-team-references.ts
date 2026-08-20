@@ -1,11 +1,11 @@
 import { collectEnemyTeamTaggedReferences, type EnemyTeamReferenceKind } from '@type-pal/content'
 import type { EditorState } from './edit-session.js'
-import type { CanonicalScriptReferenceV5, ScriptEditorStateV5 } from './script-v5-editor.js'
-import { visitCanonicalScriptCommandsV5 } from './script-v5-editor.js'
+import type { CanonicalScriptReference, ScriptEditorState } from './script-editor.js'
+import { visitCanonicalScriptCommands } from './script-editor.js'
 
 export type EnemyTeamReferenceLocator =
   | { kind: 'scene-entity'; sceneId: string; entityId: string }
-  | { kind: 'canonical-script'; reference: CanonicalScriptReferenceV5 }
+  | { kind: 'canonical-script'; reference: CanonicalScriptReference }
 
 export interface BlockingEnemyTeamReference {
   enemyTeamId: string
@@ -78,12 +78,12 @@ export function blockingEnemyTeamReferences(
 export function enemyTeamReferences(
   state: EditorState,
   enemyTeamId: string,
-  canonicalState?: ScriptEditorStateV5,
+  canonicalState?: ScriptEditorState,
 ): BlockingEnemyTeamReference[] {
   const blocking = blockingEnemyTeamReferences(state, enemyTeamId)
   if (!canonicalState) return blocking
   const structural = blocking.filter((reference) => reference.kind !== 'start-battle')
-  visitCanonicalScriptCommandsV5(canonicalState, (command, path, locator) => {
+  visitCanonicalScriptCommands(canonicalState, (command, path, locator) => {
     if (command.kind !== 'startBattle' || command.enemyTeamId !== enemyTeamId) return
     structural.push({
       enemyTeamId,

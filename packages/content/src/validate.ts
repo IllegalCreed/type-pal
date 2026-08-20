@@ -3,10 +3,10 @@
 // 编辑器产大量手改 JSON 时再上 zod(局部替换这些函数,签名不变)。
 
 import {
-  checkBattleChoreographyV10,
-  checkEnemyAiV10,
-  checkEnemyOnDefeatedCommandsV10,
-} from './enemy-script-v10.js'
+  checkBattleChoreography,
+  checkEnemyAi,
+  checkEnemyOnDefeatedCommands,
+} from './enemy-script.js'
 import type {
   ActorDef,
   AssetCatalogV1,
@@ -20,19 +20,20 @@ import type {
 } from './index.js'
 import type { ItemUseEffect, ThrowEffect } from './item.js'
 import { ITEM_USE_EFFECT_KINDS, itemUseSupportsContext, THROW_EFFECT_KINDS } from './item.js'
-import type { ItemDataV5, ItemUseEffectV5 } from './item-v5.js'
-import { ITEM_USE_EFFECT_KINDS_V5, itemUseSupportsContextV5 } from './item-v5.js'
+import type { AuthorItemCore, AuthorItemUseEffect } from './author-item-core.js'
+import { AUTHOR_ITEM_USE_EFFECT_KINDS, authorItemUseSupportsContext } from './author-item-core.js'
 import { isMapAssetId } from './map-index.js'
-import type { SceneDefV5 } from './scene-v5.js'
+import type { BaseSceneDef } from './scene-core.js'
 import { checkEntityPages, checkStages } from './script.js'
 import { checkScriptRef } from './script-library.js'
 import {
-  checkAuthorCommandsV5,
+  checkBaseAuthorCommands,
   checkEntityAddress,
-  checkEntityBehaviorsV5,
-  checkEntityPagesV5,
-  checkSceneHooksV5,
-} from './script-v5.js'
+  checkBaseEntityBehaviors,
+  checkBaseEntityPages,
+  checkBaseSceneHooks,
+  type CommandValidationOptions,
+} from './author-script-core.js'
 import { ENEMY_RUNTIME_SKILL_EFFECT_KINDS } from './skill.js'
 
 /** 显式要求的对象键;缺任一 throw。 */
@@ -171,21 +172,19 @@ export function validateScenes(json: unknown): SceneDef[] {
   return validateSceneArray(json)
 }
 
-/** 迁移输入端显式 v4 guard；P7 切换后运行时不得再调用它。 */
-export function validateScenesV4(json: unknown): SceneDef[] {
-  return validateSceneArray(json)
-}
-
-/** Canonical v5 scene guard；v4 行为页与顶层场景脚本不会泄漏进正式模型。 */
-export function validateScenesV5(json: unknown): SceneDefV5[] {
-  const arr = assertArray<SceneDefV5>(json, 'scenes')
+/** 当前场景共享形状 guard；脚本命令方言由调用方显式注入。 */
+export function validateBaseScenes(
+  json: unknown,
+  options: CommandValidationOptions = {},
+): BaseSceneDef[] {
+  const arr = assertArray<BaseSceneDef>(json, 'scenes')
   arr.forEach((scene, sceneIndex) => {
     const scenePath = `scenes[${sceneIndex}]`
     const sceneRecord = assertObject(scene, scenePath) as Record<string, unknown>
-    if ('onEnter' in sceneRecord) throw new Error(`${scenePath}.onEnter: v5 已迁移至 hooks.onEnter`)
+    if ('onEnter' in sceneRecord) throw new Error(`${scenePath}.onEnter: current 作者态脚本必须位于 hooks.onEnter`)
     if ('onTeleport' in sceneRecord)
-      throw new Error(`${scenePath}.onTeleport: v5 已迁移至 hooks.onTeleport`)
-    checkSceneHooksV5(sceneRecord.hooks, `${scenePath}.hooks`)
+      throw new Error(`${scenePath}.onTeleport: current 作者态脚本必须位于 hooks.onTeleport`)
+    checkBaseSceneHooks(sceneRecord.hooks, `${scenePath}.hooks`, options)
 
     const entities = assertArray<Record<string, unknown>>(
       sceneRecord.entities,
@@ -196,17 +195,18 @@ export function validateScenesV5(json: unknown): SceneDefV5[] {
       const entityRecord = assertObject(entity, entityPath) as Record<string, unknown>
       const hasPages = entityRecord.pages !== undefined
       if (hasPages)
-        checkEntityPagesV5(
+        checkBaseEntityPages(
           entityRecord.pages,
           entityRecord.behaviors,
           entityRecord.initialPage,
           entityPath,
+          options,
         )
       else {
         if (entityRecord.initialPage !== undefined)
           throw new Error(`${entityPath}.initialPage: 必须与非空 pages 一起声明`)
         if (entityRecord.behaviors !== undefined)
-          checkEntityBehaviorsV5(entityRecord.behaviors, entityPath)
+          checkBaseEntityBehaviors(entityRecord.behaviors, entityPath, options)
       }
 
       if (entityRecord.hostile !== undefined) {
@@ -215,12 +215,12 @@ export function validateScenesV5(json: unknown): SceneDefV5[] {
           unknown
         >
         if (hostile.onLose !== undefined && hostile.onLose !== 'gameOver')
-          checkAuthorCommandsV5(hostile.onLose, `${entityPath}.hostile.onLose`)
+          checkBaseAuthorCommands(hostile.onLose, `${entityPath}.hostile.onLose`, options)
       }
     })
   })
 
-  // 复用稳定的场景空间/资源字段 guard；v5 专属行为字段已在上方独立验证。
+  // 复用稳定的场景空间/资源字段 guard；当前作者行为字段已在上方独立验证。
   const spatialOnly = arr.map((scene) => {
     const { hooks: _hooks, ...base } = scene
     return {
@@ -249,13 +249,6 @@ export function validateScenesV5(json: unknown): SceneDefV5[] {
   })
   validateSceneArray(spatialOnly)
   return arr
-}
-
-/** P7 发布前运行时/编辑器仍只接受规范 v4；v2/v3 只能在项目升级边界读取。 */
-export function validateScenesForContentVersion(json: unknown, contentVersion: number): SceneDef[] {
-  if (contentVersion !== 4)
-    throw new Error(`scenes: 仅支持 contentVersion 4，收到 ${contentVersion}；请先迁移工程`)
-  return validateSceneArray(json)
 }
 
 /** 角色定义形状校验:id/name/spriteId 必为 string;battler 若在,查三块必需键。 */
@@ -909,14 +902,18 @@ export function checkThrowSpec(
   })
 }
 
-function validateItemUseEffectV5(effect: Record<string, unknown>, ctx: string): void {
+function validateAuthorItemUseEffect(
+  effect: Record<string, unknown>,
+  ctx: string,
+  options: CommandValidationOptions,
+): void {
   if (typeof effect.kind !== 'string') throw new Error(`${ctx}.kind: 期望 string`)
-  if (!(effect.kind in ITEM_USE_EFFECT_KINDS_V5))
-    throw new Error(`${ctx}.kind: 未知 v5 物品效果 ${effect.kind}`)
+  if (!(effect.kind in AUTHOR_ITEM_USE_EFFECT_KINDS))
+    throw new Error(`${ctx}.kind: 未知作者物品效果 ${effect.kind}`)
   if (effect.kind === 'runScript') {
     requireOnlyKeys(effect, ['kind', 'script'], ctx)
     if (typeof effect.script !== 'string' || effect.script.trim().length === 0)
-      throw new Error(`${ctx}.script: v5 期望稳定 shared script id`)
+      throw new Error(`${ctx}.script: 期望稳定 shared script id`)
     return
   }
   if (effect.kind === 'itemPrivateScript') {
@@ -926,7 +923,7 @@ function validateItemUseEffectV5(effect: Record<string, unknown>, ctx: string): 
     if (script.id !== 'use') throw new Error(`${ctx}.script.id: item-private 固定为 use`)
     if (script.label !== undefined && typeof script.label !== 'string')
       throw new Error(`${ctx}.script.label: 期望 string`)
-    checkAuthorCommandsV5(script.body, `${ctx}.script.body`)
+    checkBaseAuthorCommands(script.body, `${ctx}.script.body`, options)
     return
   }
   validateItemUseEffect(effect, ctx)
@@ -941,7 +938,7 @@ function isItemPrivateRuntimeEffect(
   const script = effect.script
   if (typeof script !== 'object' || script === null || Array.isArray(script)) return false
   const ref = script as Record<string, unknown>
-  return ref.chunk === '__script-v5-runtime' && ref.id === `item:${itemId}:${slot}`
+  return ref.chunk === '__author-script-runtime' && ref.id === `item:${itemId}:${slot}`
 }
 
 export function validateItems(json: unknown): ItemData[] {
@@ -1077,9 +1074,12 @@ export function validateItems(json: unknown): ItemData[] {
   return arr
 }
 
-/** Canonical v5 item guard；shared script 使用稳定 id，物品私有脚本以内联唯一槽保存。 */
-export function validateItemsV5(json: unknown): ItemDataV5[] {
-  const arr = assertArray<ItemDataV5>(json, 'items')
+/** 当前物品共享形状 guard；物品私有脚本方言由调用方注入。 */
+export function validateAuthorItemCore(
+  json: unknown,
+  options: CommandValidationOptions = {},
+): AuthorItemCore[] {
+  const arr = assertArray<AuthorItemCore>(json, 'items')
   arr.forEach((item, itemIndex) => {
     const itemRecord = assertObject(item, `items[${itemIndex}]`) as Record<string, unknown>
     if (itemRecord.use !== undefined) {
@@ -1087,18 +1087,18 @@ export function validateItemsV5(json: unknown): ItemDataV5[] {
         string,
         unknown
       >
-      const effects = assertArray<ItemUseEffectV5>(spec.effects, `items[${itemIndex}].use.effects`)
+      const effects = assertArray<AuthorItemUseEffect>(spec.effects, `items[${itemIndex}].use.effects`)
       effects.forEach((effect, effectIndex) => {
         const ctx = `items[${itemIndex}].use.effects[${effectIndex}]`
-        validateItemUseEffectV5(effect as unknown as Record<string, unknown>, ctx)
+        validateAuthorItemUseEffect(effect as unknown as Record<string, unknown>, ctx, options)
       })
       const privateScripts = effects.filter((effect) => effect.kind === 'itemPrivateScript')
       if (privateScripts.length > 1)
         throw new Error(`items[${itemIndex}].use.effects: item-private use 槽只能出现一次`)
     }
     if (item.use !== undefined) {
-      const supportsWorld = itemUseSupportsContextV5(item.use, 'world')
-      const supportsBattle = itemUseSupportsContextV5(item.use, 'battle')
+      const supportsWorld = authorItemUseSupportsContext(item.use, 'world')
+      const supportsBattle = authorItemUseSupportsContext(item.use, 'battle')
       if (item.use.effects.length > 0 && item.use.battleOnly === true && !supportsBattle)
         throw new Error(`items[${itemIndex}].use.effects: battleOnly 用途包含不可用于战斗的效果`)
       if (item.use.effects.length > 0 && !supportsWorld && !supportsBattle)
@@ -1106,9 +1106,9 @@ export function validateItemsV5(json: unknown): ItemDataV5[] {
     }
   })
 
-  // 复用 v4 非脚本物品规则；脚本效果只替换成等价的世界专用占位引用。
+  // 复用当前非脚本物品规则；脚本效果只替换成等价的世界专用占位引用。
   const commonShape = arr.map((item) => {
-    const mapUse = (spec: ItemDataV5['use']) => {
+    const mapUse = (spec: AuthorItemCore['use']) => {
       if (spec === undefined) return undefined
       const sceneKinds = new Set([
         'runScript',
@@ -1128,7 +1128,7 @@ export function validateItemsV5(json: unknown): ItemDataV5[] {
         ...spec,
         effects: spec.effects.map((effect) => {
           if (effect.kind === 'runScript')
-            return { kind: 'runScript' as const, script: { chunk: '__v5__', id: 'script' } }
+            return { kind: 'runScript' as const, script: { chunk: '__author__', id: 'script' } }
           if (effect.kind === 'itemPrivateScript')
             return privateScriptNeedsCharacterTarget
               ? { kind: 'gate' as const, chance: 100 }
@@ -1184,7 +1184,10 @@ export function validateBattleFields(json: unknown): BattleFieldDef[] {
 }
 
 /** 敌人定义轻量 guard；音效边界必须拒绝旧数字/负号协议。 */
-export function validateEnemies(json: unknown): EnemyDef[] {
+export function validateEnemies(
+  json: unknown,
+  options: CommandValidationOptions = {},
+): EnemyDef[] {
   const arr = assertArray<EnemyDef>(json, 'enemies')
   arr.forEach((enemy, index) => {
     const ctx = `enemies[${index}]`
@@ -1200,7 +1203,7 @@ export function validateEnemies(json: unknown): EnemyDef[] {
       throw new Error(`${ctx}.battleSprite: 期望非空 BattleSpriteDef.id`)
     if (typeof record.yPosOffset !== 'number' || !Number.isFinite(record.yPosOffset))
       throw new Error(`${ctx}.yPosOffset: 期望有限数`)
-    checkEnemyAiV10(record.ai, `${ctx}.ai`)
+    checkEnemyAi(record.ai, `${ctx}.ai`, options)
     const sounds = validateSoundFields(
       record.sounds,
       ['attack', 'action', 'magic', 'death', 'call'],
@@ -1212,10 +1215,10 @@ export function validateEnemies(json: unknown): EnemyDef[] {
     )
       throw new Error(`${ctx}.sounds.suppressMagicEffectSound: 期望 boolean`)
     if (record.choreography !== undefined) {
-      checkBattleChoreographyV10(record.choreography, `${ctx}.choreography`)
+      checkBattleChoreography(record.choreography, `${ctx}.choreography`, options)
     }
     if (record.onDefeated !== undefined)
-      checkEnemyOnDefeatedCommandsV10(record.onDefeated, `${ctx}.onDefeated`)
+      checkEnemyOnDefeatedCommands(record.onDefeated, `${ctx}.onDefeated`, options)
   })
   return arr
 }
@@ -1322,12 +1325,12 @@ export function validateSprites(json: unknown, catalog?: AssetCatalogV1): Sprite
 
 export function validateLocale(
   json: unknown,
-  opts: { allowLegacySoftWrap?: boolean } = {},
+  opts: { allowSoftWrap?: boolean } = {},
 ): Record<string, string> {
   const o = assertObject(json, 'locale')
   for (const [k, v] of Object.entries(o)) {
     if (typeof v !== 'string') throw new Error(`locale: 键 "${k}" 的值非string`)
-    if (!opts.allowLegacySoftWrap && /[\r\n]/.test(v))
+    if (!opts.allowSoftWrap && /[\r\n]/.test(v))
       throw new Error(`locale: 键 "${k}" 含换行；请拆成 DialogueCue.rows`)
   }
   return o as Record<string, string>

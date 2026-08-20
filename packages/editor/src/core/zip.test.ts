@@ -214,7 +214,7 @@ describe('zip 打包器(A5 工程导出)', () => {
         ...valid,
         { path: 'assets/extracted/data/tileset/1.rle', data: gzip },
       ]),
-    ).rejects.toThrow(/已退役/)
+    ).rejects.toThrow(/catalog 外的 extracted 资源副本/)
   })
 
   test('catalog battle-sprite ZIP 拒绝缺失/篡改/非 RLE 与退役 extracted 双副本', async () => {
@@ -275,6 +275,6 @@ describe('zip 打包器(A5 工程导出)', () => {
         { path: 'assets/extracted/data/battle-sprites.json', data: enc.encode('{}') },
         { path: 'assets/extracted/data/battle-sprite/player/0.rle', data: gzip },
       ]),
-    ).rejects.toThrow(/extracted battle-sprite/)
+    ).rejects.toThrow(/catalog 外的 extracted 资源副本/)
   })
 })

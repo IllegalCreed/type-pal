@@ -1,7 +1,7 @@
 /**
  * 指令手册(opcode 库;2026-07-05 作者术语拍板:指令 = 单 opcode,事件 = 触发方式 +
  * 相关实体/道具 + 指令序列的组合)。
- * canonical v5 作者指令目录:分组/参数/语义/原版 opcode 对照 + 搜索。
+ * 当前作者指令目录:分组/参数/语义/原版 opcode 对照 + 搜索。
  * ⚠ 不放「已编事件链」列表(作者拍板:事件在场景中配置,属场景上下文,不是数据表;
  * 场景内事件的编辑与检索随 Step2「场景内嵌脚本编辑」走)。
  */
@@ -48,7 +48,7 @@ export function EventLibTab(props: { tabBar?: React.ReactNode }) {
           }}
         />
         <div className="insp-empty" style={{ marginTop: 8 }}>
-          canonical v5 全部作者指令的参考手册(参数/语义/原版 opcode 对照);在通用脚本编辑器
+          当前全部作者指令的参考手册(参数/语义/原版 opcode 对照);在通用脚本编辑器
           「添加指令」中使用。事件本身在场景中配置。
         </div>
       </div>

@@ -7,14 +7,14 @@
 
 import type {
   ActorDef,
-  AuthorCommandV5,
+  BaseAuthorCommand,
   Command,
   Locale,
   MapIndexV1,
   SceneDef,
-  ScriptFlowV5,
+  BaseScriptFlow,
   ScriptStage,
-  SharedScriptLibraryV5,
+  BaseScriptLibrary,
   SpriteDef,
 } from '@type-pal/content'
 import { gridToPixel, lookupText, resolveEntitySpriteId, spriteScreenY } from '@type-pal/content'
@@ -64,12 +64,12 @@ function collectScriptSprites(stages: readonly ScriptStage[]): string[] {
 }
 
 function collectCanonicalScriptSprites(
-  flow: ScriptFlowV5,
-  sharedScripts: SharedScriptLibraryV5,
+  flow: BaseScriptFlow,
+  sharedScripts: BaseScriptLibrary,
 ): string[] {
   const out = new Set<string>()
   const visitedShared = new Set<string>()
-  const walk = (commands: readonly AuthorCommandV5[]): void => {
+  const walk = (commands: readonly BaseAuthorCommand[]): void => {
     for (const command of commands) {
       if (command.kind === 'setActorSprite') out.add(command.sprite)
       if (command.kind === 'setActorAppearance' && command.spriteId) out.add(command.spriteId)
@@ -128,10 +128,10 @@ export function PreviewCanvas(props: {
   tilesets: readonly import('@type-pal/reforge').TilesetDef[]
   locale: Locale
   playback: Playback
-  /** canonical v5 入口：直接启动原始 flow；缺省继续使用 legacy stages。 */
+  /** 当前作者态入口：直接启动原始 flow；缺省使用运行时投影的 stages。 */
   startPlayback?: (paused: boolean) => void
-  canonicalFlow?: ScriptFlowV5
-  canonicalSharedScripts?: SharedScriptLibraryV5
+  canonicalFlow?: BaseScriptFlow
+  canonicalSharedScripts?: BaseScriptLibrary
   /** 网格/禁入/透视叠加(与布置模式同一开关;共享层绘制)。 */
   layers?: { grid: boolean; blocked: boolean; ghosts?: boolean }
   /** 无活动脚本源时的底部提示(地图仍照常渲染;缺省 = 不显示)。 */

@@ -22,7 +22,7 @@ import type {
   ScriptStage,
   SpriteActionBinding,
   WalkSpeed,
-  WorldScriptState,
+  ProjectedWorldScriptState,
 } from '@type-pal/content'
 import { applyStageNext, stageIndexFor } from '@type-pal/content'
 import type { BattleResult } from './battle/battle-result.js'
@@ -205,7 +205,7 @@ export interface ScriptHost {
 /** 条件求值(chance 用注入的 random,可测)。 */
 export function evalCondition(
   cond: ScriptCondition,
-  world: WorldScriptState,
+  world: ProjectedWorldScriptState,
   query: ScriptHost['query'],
   random: () => number = Math.random,
 ): boolean {
@@ -320,7 +320,7 @@ export class ScriptRunner {
 
   constructor(
     private readonly host: ScriptHost,
-    private readonly world: WorldScriptState,
+    private readonly world: ProjectedWorldScriptState,
     private readonly signal: AbortSignal,
     private readonly random: () => number = Math.random,
     private readonly resolver?: ScriptResolver,

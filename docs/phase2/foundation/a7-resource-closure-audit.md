@@ -1,5 +1,10 @@
 # A7/R7 工程资源闭包与稳定资源注册表审计
 
+> **现行结论（2026-08-20）**：本文件主体是 A7 各批次的历史审计。ARCH-CURRENT-ONLY-1 已将当前
+> content16 工程收口为 catalog-only：PAL 1,935 条记录，effect sprite 56 文件 / 652,870 B / 922 帧；
+> editor/reforge 不再读取 extracted 或 `assets.legacy`。以下“仍剩 effect-sprite/image”等结论只描述
+> 旧审计时间点，不再是当前产品事实。
+>
 > 审计日期: 2026-07-16；最近更新:2026-07-31（A7-3W、A7-3B 均已 done；A7-4 候选版本顺延至 v11）
 > 范围: `packages/content`、`packages/reforge`、`packages/editor`、`packages/migrate`、`projects/pal` 的资源声明、加载、克隆、保存与迁移链。
 > 前置: [第二阶段开工铁律](../READ-FIRST.md)、[项目生命周期设计](../editor/project-lifecycle-design.md)、[路线图 §10](../roadmap.md)、[既有资产/迁移八单元审计](am-asset-migrate-audit.md)。

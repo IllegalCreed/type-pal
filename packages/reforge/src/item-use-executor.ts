@@ -12,7 +12,7 @@ import {
   type WorldItemUsePresentation,
   type WorldState,
 } from '@type-pal/content'
-import { isV5RuntimeScriptRef } from './legacy-runtime-shell-v5.js'
+import { isRuntimeScriptRef } from './runtime-project-view.js'
 
 function assertNever(value: never): never {
   throw new Error(`executeWorldItemUse: 未处理的外部效果 ${JSON.stringify(value)}`)
@@ -49,7 +49,7 @@ function isItemPrivateRuntimeEffect(
 ): effect is Extract<ItemUseEffect, { kind: 'runScript' }> {
   return (
     effect.kind === 'runScript' &&
-    isV5RuntimeScriptRef(effect.script) &&
+    isRuntimeScriptRef(effect.script) &&
     effect.script.id === `item:${itemId}:use`
   )
 }

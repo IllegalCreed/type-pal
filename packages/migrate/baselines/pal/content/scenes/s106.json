@@ -743,7 +743,7 @@
                     "fieldId": 23,
                     "kind": "startBattle",
                     "music": "music.pal.018",
-                    "team": 37
+                    "enemyTeamId": "team-37"
                   },
                   {
                     "asset": "music.pal.018",

@@ -3377,7 +3377,7 @@ export function MapMode(props: {
                       onValidationError={(message) => notifyWorkspace('error', message)}
                     />
                   ) : (
-                    <div className="map-properties-section" data-ds-density="compact">
+                    <div className="section map-properties-section" data-ds-density="compact">
                       <DsInspectorSection title="地图">
                         {selectedAsset ? (
                           <DsPropertyGrid>

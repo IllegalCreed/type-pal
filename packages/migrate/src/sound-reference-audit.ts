@@ -4,18 +4,16 @@ import {
   collectAssetReferences,
   type EntryPoint,
   type ItemData,
-  type ManifestAssetConfigV3,
+  type ManifestAssetConfig,
   palSoundAssetId,
   type ScriptChunkV1,
   type ScriptIndexV1,
-  upgradeItemsV7ToV8,
-  upgradeItemsV8ToV9,
   validateActors,
   validateAssetCatalog,
   validateAssetReferenceClosure,
   validateBattleSprites,
   validateEnemies,
-  validateItemsV5,
+  validateAuthorItemCore,
   validateScenes,
   validateSkills,
   validateSprites,
@@ -174,11 +172,8 @@ function sourceSkillSounds(
 export function auditPalSoundReferences(args: {
   sources: PalMigrationSources
   files: ReadonlyMap<string, MigrationJson>
-  /** 可用 R13-3 successor items 覆盖 immutable v7 parent 中的同一路径。 */
   items?: unknown
-  /** buildPalMigration 是 immutable R13-3 parent；只允许显式声明后做 v7→v8 投掷归一。 */
-  itemContentVersion: 7 | 8 | 9
-  assets: ManifestAssetConfigV3
+  assets: ManifestAssetConfig
   entryPoints?: readonly EntryPoint[]
   translationReport: TranslateReport
 }): PalSoundReferenceAudit {
@@ -187,13 +182,7 @@ export function auditPalSoundReferences(args: {
   const actors = validateActors(required(files, 'content/actors.json'))
   const enemies = validateEnemies(required(files, 'content/enemies.json'))
   const rawItems = args.items ?? required(files, 'content/items.json')
-  const items = validateItemsV5(
-    args.itemContentVersion === 7
-      ? upgradeItemsV8ToV9(upgradeItemsV7ToV8(rawItems))
-      : args.itemContentVersion === 8
-        ? upgradeItemsV8ToV9(rawItems)
-        : rawItems,
-  )
+  const items = validateAuthorItemCore(rawItems)
   const battleFields = required(files, 'content/battle-fields.json') as never
   const skills = validateSkills(required(files, 'content/skills.json')).skills
   const sprites = validateSprites(required(files, 'content/sprites.json'), catalog)

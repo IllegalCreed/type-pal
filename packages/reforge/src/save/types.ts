@@ -2,17 +2,6 @@ import type {
   Facing,
   GridPos,
   WorldState,
-  WorldStateV5,
-  WorldStateV6,
-  WorldStateV7,
-  WorldStateV8,
-  WorldStateV9,
-  WorldStateV10,
-  WorldStateV11,
-  WorldStateV12,
-  WorldStateV13,
-  WorldStateV14,
-  WorldStateV16,
 } from '@type-pal/content'
 
 export type SlotKind = 'auto' | 'quick' | 'manual'
@@ -46,109 +35,15 @@ export interface SaveMeta {
   savedTimes?: number
 }
 
-/** 全量还原状态；v3 起跟随者只允许 SpriteDef.id，v4 起战斗外观只允许 BattleSpriteDef.id。 */
-export interface SavePayload {
-  version: number
+/** 当前唯一可持久化/读取的存档合同。 */
+export interface CurrentSavePayload {
+  version: typeof SAVE_VERSION
   /** 存档所属工程 id(读档校验:防把 A 工程存档读进 B 工程)。 */
   projectId: string
   /** 存档时的工程内容版本(与 SAVE_VERSION 分轴:SAVE_VERSION=存档格式,contentVersion=工程内容)。 */
-  contentVersion: number
+  contentVersion: 16
   world: WorldState
   position: { sceneId: string; pos: GridPos; facing: Facing }
 }
 
-export interface SavePayloadV5 extends Omit<SavePayload, 'version' | 'contentVersion' | 'world'> {
-  version: 5
-  contentVersion: 5
-  world: WorldStateV5
-}
-
-export interface SavePayloadV6 extends Omit<SavePayload, 'version' | 'contentVersion' | 'world'> {
-  version: 6
-  contentVersion: 6
-  world: WorldStateV6
-}
-
-/** R13-2 已发布的历史 SAVE7/content7 payload；只供 v7 byte-pin 与 v8 identity 升级。 */
-export interface LegacySavePayloadV7
-  extends Omit<SavePayload, 'version' | 'contentVersion' | 'world'> {
-  version: 7
-  contentVersion: 7
-  world: WorldStateV7
-}
-
-/** R13-3 已发布的历史 SAVE7/content8 payload；当前运行时不再接受。 */
-export interface SavePayloadV7 extends Omit<SavePayload, 'version' | 'contentVersion' | 'world'> {
-  version: 7
-  contentVersion: 8
-  world: WorldStateV8
-}
-
-/** R13-4 已发布的历史 SAVE8/content9 payload；只供 v10 identity 升级与 byte-pin。 */
-export interface LegacySavePayloadV8Content9
-  extends Omit<SavePayload, 'version' | 'contentVersion' | 'world'> {
-  version: 8
-  contentVersion: 9
-  world: WorldStateV9
-}
-
-/** R13-5 已发布的历史 SAVE8/content10 payload；R13-6B 内容轴升级只做 identity。 */
-export interface LegacySavePayloadV8Content10
-  extends Omit<SavePayload, 'version' | 'contentVersion' | 'world'> {
-  version: 8
-  contentVersion: 10
-  world: WorldStateV10
-}
-
-/** 已发布的 v11 envelope；只供 v12 successor identity 升级。 */
-export interface LegacySavePayloadV8Content11
-  extends Omit<SavePayload, 'version' | 'contentVersion' | 'world'> {
-  version: 8
-  contentVersion: 11
-  world: WorldStateV11
-}
-
-/** 当前 B10 envelope；世界形状不变，只切 content epoch。 */
-export interface SavePayloadV8 extends Omit<SavePayload, 'version' | 'contentVersion' | 'world'> {
-  version: 8
-  contentVersion: 12
-  world: WorldStateV12
-}
-
-/** W9 successor：SAVE8 格式不变，只把内容轴推进到 content13。 */
-export interface SavePayloadV8Content13
-  extends Omit<SavePayload, 'version' | 'contentVersion' | 'world'> {
-  version: 8
-  contentVersion: 13
-  world: WorldStateV13
-}
-
-/** C1-2 successor：SAVE8/world 不变，只把内容身份轴推进到 content14。 */
-export interface SavePayloadV8Content14
-  extends Omit<SavePayload, 'version' | 'contentVersion' | 'world'> {
-  version: 8
-  contentVersion: 14
-  world: WorldStateV14
-}
-
-/** 世界变量定义 successor：旧档运行值保持原样，定义表不进入存档。 */
-export interface SavePayloadV8Content16
-  extends Omit<SavePayload, 'version' | 'contentVersion' | 'world'> {
-  version: 8
-  contentVersion: 16
-  world: WorldStateV16
-}
-
-export type StoredSavePayload =
-  | SavePayload
-  | SavePayloadV5
-  | SavePayloadV6
-  | LegacySavePayloadV7
-  | SavePayloadV7
-  | LegacySavePayloadV8Content9
-  | LegacySavePayloadV8Content10
-  | LegacySavePayloadV8Content11
-  | SavePayloadV8
-  | SavePayloadV8Content13
-  | SavePayloadV8Content14
-  | SavePayloadV8Content16
+export type StoredSavePayload = CurrentSavePayload

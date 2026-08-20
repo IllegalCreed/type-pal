@@ -1,20 +1,20 @@
 import {
-  buildEntityLifecycleReferenceIndexV13,
-  type WorldStateV13,
+  buildEntityLifecycleReferenceIndex,
+  type WorldState,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
-  applyWorldEntityLifecycleCommandV13,
-  commitWorldEntityLifecycleCommandV13,
-  reduceEntityLifecycleCommandV13,
+  applyWorldEntityEntityLifecycleCommand,
+  commitWorldEntityEntityLifecycleCommand,
+  reduceEntityEntityLifecycleCommand,
 } from './entity-lifecycle-command.js'
 
-const references = buildEntityLifecycleReferenceIndexV13([
+const references = buildEntityLifecycleReferenceIndex([
   { id: 's001', entities: [{ id: 'e001' }] },
   { id: 's002', entities: [{ id: 'e002' }] },
 ])
 
-const world: WorldStateV13 = {
+const world: WorldState = {
   party: [],
   money: 0,
   learnedSkills: {},
@@ -27,9 +27,9 @@ const world: WorldStateV13 = {
   },
 }
 
-describe('v13 lifecycle command adapter', () => {
+describe('current lifecycle command adapter', () => {
   test('writes a non-current scene without touching script/entityState', () => {
-    const next = applyWorldEntityLifecycleCommandV13(
+    const next = applyWorldEntityEntityLifecycleCommand(
       world,
       { kind: 'suspendEntity', target: { scene: 's002', entity: 'e002' }, ticks: 15 },
       references,
@@ -41,19 +41,19 @@ describe('v13 lifecycle command adapter', () => {
   })
 
   test('supports all four leaves through one reducer boundary', () => {
-    let table = reduceEntityLifecycleCommandV13(
+    let table = reduceEntityEntityLifecycleCommand(
       undefined,
       { kind: 'hideEntity', target: { scene: 's001', entity: 'e001' }, ticks: 2 },
       references,
     )
     expect(table.s001?.e001).toEqual({ phase: 'despawned', remainingTicks: 2 })
-    table = reduceEntityLifecycleCommandV13(
+    table = reduceEntityEntityLifecycleCommand(
       table,
       { kind: 'restoreEntity', target: { scene: 's001', entity: 'e001' } },
       references,
     )
     expect(table).toEqual({})
-    table = reduceEntityLifecycleCommandV13(
+    table = reduceEntityEntityLifecycleCommand(
       table,
       { kind: 'removeEntity', target: { scene: 's001', entity: 'e001' } },
       references,
@@ -62,13 +62,13 @@ describe('v13 lifecycle command adapter', () => {
   })
 
   test('manual restore emits the only explicit frame-reset notification', () => {
-    const hidden: WorldStateV13 = {
+    const hidden: WorldState = {
       ...structuredClone(world),
       entityLifecycles: {
         s001: { e001: { phase: 'awaitingExit' } },
       },
     }
-    const restored = commitWorldEntityLifecycleCommandV13(
+    const restored = commitWorldEntityEntityLifecycleCommand(
       hidden,
       { kind: 'restoreEntity', target: { scene: 's001', entity: 'e001' } },
       references,
@@ -76,7 +76,7 @@ describe('v13 lifecycle command adapter', () => {
     expect(restored.world.entityLifecycles).toEqual({})
     expect(restored.resetFrameTarget).toEqual({ scene: 's001', entity: 'e001' })
 
-    const removed = commitWorldEntityLifecycleCommandV13(
+    const removed = commitWorldEntityEntityLifecycleCommand(
       world,
       { kind: 'removeEntity', target: { scene: 's001', entity: 'e001' } },
       references,
@@ -89,7 +89,7 @@ describe('v13 lifecycle command adapter', () => {
     { scene: 's001', entity: 'missing' },
   ])('rejects unknown target before writing: %o', (target) => {
     expect(() =>
-      reduceEntityLifecycleCommandV13(
+      reduceEntityEntityLifecycleCommand(
         {},
         { kind: 'removeEntity', target },
         references,

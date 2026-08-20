@@ -8,7 +8,7 @@ import {
 import type { EditorState } from './edit-session.js'
 import { EditSession } from './edit-session.js'
 import { blockingEnemyTeamReferences, enemyTeamReferences } from './enemy-team-references.js'
-import type { ScriptEditorStateV5 } from './script-v5-editor.js'
+import type { ScriptEditorState } from './script-editor.js'
 
 function shell(): EditorState {
   return {
@@ -41,7 +41,7 @@ function shell(): EditorState {
   } as unknown as EditorState
 }
 
-const canonical: ScriptEditorStateV5 = {
+const canonical: ScriptEditorState = {
   scenes: [
     {
       id: 's001',
@@ -73,7 +73,6 @@ const canonical: ScriptEditorStateV5 = {
   ],
   items: [],
   sharedScripts: {},
-  migrationSidecars: [],
 }
 
 describe('enemy team authoring commands and references', () => {

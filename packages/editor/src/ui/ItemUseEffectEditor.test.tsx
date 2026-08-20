@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import {
-  type AuthorCommandV5,
+  type BaseAuthorCommand,
   ITEM_USE_EFFECT_KINDS,
   type ItemData,
   type ItemUseEffect,
@@ -51,13 +51,13 @@ function Harness(props: {
 function PrivateHarness(props: {
   initial: UseSpec
   onChange?: (next: UseSpec) => void
-  onBodyChange?: (body: AuthorCommandV5[]) => void
+  onBodyChange?: (body: BaseAuthorCommand[]) => void
 }) {
   const [spec, setSpec] = useState(props.initial)
   const privateIndex = spec.effects.findIndex(
     (effect) =>
       effect.kind === 'runScript' &&
-      effect.script.chunk === '__script-v5-runtime' &&
+      effect.script.chunk === '__author-script-runtime' &&
       effect.script.id === 'item:tool:use',
   )
   return (
@@ -68,7 +68,7 @@ function PrivateHarness(props: {
       poisons={[]}
       scripts={[]}
       itemId="tool"
-      privateScriptsV5={
+      privateScripts={
         privateIndex < 0
           ? {}
           : {
@@ -358,7 +358,7 @@ describe('ItemEffectChainEditor', () => {
             effects: [
               {
                 kind: 'runScript',
-                script: { chunk: '__script-v5-runtime', id: 'item:tool:use' },
+                script: { chunk: '__author-script-runtime', id: 'item:tool:use' },
               },
             ],
           }}
@@ -378,7 +378,7 @@ describe('ItemEffectChainEditor', () => {
         effects: [
           {
             kind: 'runScript',
-            script: { chunk: '__script-v5-runtime', id: 'item:tool:use' },
+            script: { chunk: '__author-script-runtime', id: 'item:tool:use' },
           },
           { kind: 'healHp', amount: 100 },
         ],
@@ -395,7 +395,7 @@ describe('ItemEffectChainEditor', () => {
           { kind: 'healHp', amount: 100 },
           {
             kind: 'runScript',
-            script: { chunk: '__script-v5-runtime', id: 'item:tool:use' },
+            script: { chunk: '__author-script-runtime', id: 'item:tool:use' },
           },
         ],
       }),
@@ -552,7 +552,7 @@ describe('ItemEffectChainEditor', () => {
     )
   })
 
-  test('v5 物品私有脚本在物品效果内联编辑，不显示共享脚本跳转', async () => {
+  test('物品私有脚本在物品效果内联编辑，不显示共享脚本跳转', async () => {
     const onBodyChange = vi.fn()
     await act(async () =>
       root.render(
@@ -564,7 +564,7 @@ describe('ItemEffectChainEditor', () => {
             effects: [
               {
                 kind: 'runScript',
-                script: { chunk: '__script-v5-runtime', id: 'item:tool:use' },
+                script: { chunk: '__author-script-runtime', id: 'item:tool:use' },
               },
             ],
           }}
@@ -573,7 +573,7 @@ describe('ItemEffectChainEditor', () => {
           scripts={[]}
           itemId="tool"
           onChange={() => undefined}
-          privateScriptsV5={{
+          privateScripts={{
             0: {
               label: '土灵珠使用',
               body: [{ kind: 'setFlag', flag: 'before', value: true }],

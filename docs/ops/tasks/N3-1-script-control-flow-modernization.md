@@ -6312,7 +6312,7 @@ fleeBattle / endBattle / revivePartyAll / increaseHpMp
 content10 同时把 `EnemyDef.onDefeated` 从 legacy `Command[]` 收窄为显式 context union：
 
 ```ts
-type EnemyOnDefeatedLeafV10 = Extract<
+type EnemyOnDefeatedLeaf = Extract<
   AuthorCommandV5,
   {
     kind:
@@ -6332,13 +6332,13 @@ type EnemyOnDefeatedLeafV10 = Extract<
   }
 >
 
-type EnemyOnDefeatedCommandV10 =
-  | EnemyOnDefeatedLeafV10
+type EnemyOnDefeatedCommand =
+  | EnemyOnDefeatedLeaf
   | {
       kind: 'branch'
       cond: AuthorConditionV5
-      then: EnemyOnDefeatedCommandV10[]
-      else?: EnemyOnDefeatedCommandV10[]
+      then: EnemyOnDefeatedCommand[]
+      else?: EnemyOnDefeatedCommand[]
     }
 ```
 
@@ -6351,7 +6351,7 @@ context 与测试后另签，不以整个 `AuthorCommandV5` 冒充 context schem
 #### C. onDefeated canonical authority
 
 - content v5/current 工程：递归验证 `onDefeated` 是
-  `EnemyOnDefeatedCommandV10[]` 后，按其结构属于 `AuthorCommandV5` 的子集调用现有
+  `EnemyOnDefeatedCommand[]` 后，按其结构属于 `AuthorCommandV5` 的子集调用现有
   canonical runner；
 - 若战斗由当前 V5 activation 的 `startBattle` 发起，onDefeated 子链必须携带不可伪造的内部
   activity lineage token，复用父 activity/lease 执行；不得在 activation gate 已关闭时再
@@ -6389,7 +6389,7 @@ context 与测试后另签，不以整个 `AuthorCommandV5` 冒充 context schem
   owner/path fail-loud，零写盘等待作者处理；扫描范围必须同时覆盖 enemies 和
   scene/shared/item-private 递归 command tree 中的 `startBattle.choreography`，禁止只扫
   `enemies.json` 或用裸 cast 把未知命令偷渡到 v10；`onDefeated` 同步递归升级为
-  `EnemyOnDefeatedCommandV10[]`；
+  `EnemyOnDefeatedCommand[]`；
 - v4/v5/v6/v7/v8 直升 current 的所有 Editor 路径与独立 v9→v10 路径复用同一纯升级器，
   `enemies` 与其余受影响内容先写、manifest 最后写；只容忍“内容已是 v10 形状、manifest
   仍为 v9”的可验证半状态重试，新旧形态混合必须 fail-loud；

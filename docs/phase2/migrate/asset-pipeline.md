@@ -1,5 +1,10 @@
 # migrate 资产管线 — UI box 首切片（design + plan）
 
+> **现行结果（2026-08-20）**：本文主体保留资产管线的历史演进证据。当前产品格式为
+> contentVersion 16 / SAVE 8，`manifest.assets` 已 catalog-only；PAL 共 1,935 个 catalog 记录，新增的
+> 56 个 effect sprite（652,870 B / 922 帧）由 migrate 确定性物化，runtime/editor 不再读取 extracted
+> 或 `assets.legacy`。现行发布命令见 `packages/migrate/README.md`。
+>
 > 状态：设计 + 计划（2026-06-28）。方向已定（作者选 A：正式启动 migrate、UI box 作首个资产迁移切片）。
 > 依据：[roadmap](../roadmap.md) P0 迁移器、[D15](../decisions.md)（资产 RGBA 化）、[D18](../decisions.md)（migrate 包职责 + 阶段隔离）。
 

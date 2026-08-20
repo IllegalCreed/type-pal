@@ -7,32 +7,27 @@
  */
 import {
   ACTOR_REFERENCE_POLICIES,
+  type CurrentManifest,
   type EntryPoint,
-  type LegacyManifestV12,
-  type LoadedManifest,
-  type ManifestV13,
-  type ManifestV14,
-  type ManifestV16,
   type SceneDef,
   validateAssetCatalog,
   validateAssetReferenceClosure,
   validateBattleFields,
-  validateDialogueIdentityReferencesV14,
-  validateEnemiesV14,
-  validateItems,
-  validateItemsV14,
-  validateManifestAssetConfigV3,
+  validateAuthorDialogueReferences,
+  validateAuthorEnemies,
+  validateAuthorItems,
+  validateManifestAssetConfig,
   validateReferences,
-  validateScenesV14,
-  validateSharedScriptsV14,
+  validateAuthorScenes,
+  validateAuthorSharedScripts,
   validateStartWorldResources,
   validateWorldVariableRegistryV1,
 } from '@type-pal/content'
-import { isV5RuntimeScriptRef } from '@type-pal/reforge'
+import { isRuntimeScriptRef } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
 import { collectEditorAssetReferences } from './editor-asset-references.js'
-import { collectMissingEntityAddressReferencesV13 } from './entity-address-references-v13.js'
-import { collectScriptV5ReferenceIssues, type ScriptEditorStateV5 } from './script-v5-editor.js'
+import { collectMissingEntityAddressReferences } from './entity-address-references.js'
+import { collectScriptReferenceIssues, type ScriptEditorState } from './script-editor.js'
 import {
   collectWorldVariableReferencesV1,
   collectWorldVariableRegistryIssuesV1,
@@ -61,12 +56,7 @@ export type ProjectIssueCode =
   | 'invalid-item-data'
   | 'migration-pending'
 
-export type ManifestLike =
-  | LoadedManifest
-  | LegacyManifestV12
-  | ManifestV13
-  | ManifestV14
-  | ManifestV16
+export type ManifestLike = CurrentManifest
 
 export interface ProjectIssue {
   severity: ProjectIssueSeverity
@@ -185,7 +175,7 @@ export function validateManifestEntryPoints(
 }
 
 function validateSeedStats(
-  startWorld: LoadedManifest['startWorld'],
+  startWorld: CurrentManifest['startWorld'],
   actors: readonly { id: string }[],
   pathPrefix: string,
   target: ProjectIssue['target'] = { module: 'project', page: 'entrypoint' },
@@ -223,7 +213,7 @@ function validateSeedStats(
 }
 
 function validateStartWorldResourceIssues(
-  startWorld: LoadedManifest['startWorld'],
+  startWorld: CurrentManifest['startWorld'],
   pathPrefix: string,
   target: ProjectIssue['target'] = { module: 'project', page: 'entrypoint' },
 ): ProjectIssue[] {
@@ -244,7 +234,7 @@ function validateStartWorldResourceIssues(
 }
 
 function validateStartWorldUniqueness(
-  startWorld: LoadedManifest['startWorld'],
+  startWorld: CurrentManifest['startWorld'],
   pathPrefix: string,
   target: ProjectIssue['target'] = { module: 'project', page: 'entrypoint' },
 ): ProjectIssue[] {
@@ -300,8 +290,7 @@ export function collectProjectIssues(state: EditorState): ProjectIssue[] {
   const issues = validateManifestEntryPoints(state.manifest, state.scenes)
   let catalogValid = true
   try {
-    if (state.manifest.contentVersion === 16) validateItemsV14(state.items)
-    else validateItems(state.items)
+    validateAuthorItems(state.items)
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error)
     const itemIndex = Number(/^items\[(\d+)\]/.exec(message)?.[1])
@@ -383,7 +372,7 @@ export function collectProjectIssues(state: EditorState): ProjectIssue[] {
   }
 
   try {
-    validateManifestAssetConfigV3(state.manifest.assets, state.assetCatalog)
+    validateManifestAssetConfig(state.manifest.assets, state.assetCatalog)
   } catch (error) {
     issues.push({
       severity: 'error',
@@ -532,11 +521,11 @@ export interface EditorStatusIssue {
   target?: ProjectIssue['target']
 }
 
-function v5RuntimeItemScriptPaths(state: EditorState): Set<string> {
+function runtimeItemScriptProjectionPaths(state: EditorState): Set<string> {
   const paths = new Set<string>()
   for (const [itemIndex, item] of state.items.entries()) {
     for (const [effectIndex, effect] of (item.use?.effects ?? []).entries()) {
-      if (effect.kind === 'runScript' && isV5RuntimeScriptRef(effect.script))
+      if (effect.kind === 'runScript' && isRuntimeScriptRef(effect.script))
         paths.add(`items[${itemIndex}](${item.id}).use.effects[${effectIndex}].script`)
     }
   }
@@ -545,34 +534,33 @@ function v5RuntimeItemScriptPaths(state: EditorState): Set<string> {
 
 export function collectEditorStatusIssues(
   state: EditorState,
-  canonicalV5?: ScriptEditorStateV5,
+  canonical?: ScriptEditorState,
 ): EditorStatusIssue[] {
-  const compatibilityPaths = canonicalV5 ? v5RuntimeItemScriptPaths(state) : new Set<string>()
+  const projectedItemScriptPaths = canonical ? runtimeItemScriptProjectionPaths(state) : new Set<string>()
   const contentIssues: EditorStatusIssue[] = validateReferences(state)
     .filter((issue) => !issue.where.startsWith('startWorld'))
-    .filter((issue) => !compatibilityPaths.has(issue.where))
+    .filter((issue) => !projectedItemScriptPaths.has(issue.where))
     .map((issue) => ({
       severity: issue.severity,
       message: issue.message,
       path: issue.where,
     }))
-  const canonicalScriptIssues: EditorStatusIssue[] = canonicalV5
-    ? collectScriptV5ReferenceIssues(canonicalV5)
+  const canonicalScriptIssues: EditorStatusIssue[] = canonical
+    ? collectScriptReferenceIssues(canonical)
     : []
   const worldVariableIssues: EditorStatusIssue[] = collectWorldVariableRegistryIssuesV1(
     state.worldVariables ?? {},
     collectWorldVariableReferencesV1(
-      canonicalV5 ?? worldVariableScriptStateFromEditorStateV1(state),
+      canonical ?? worldVariableScriptStateFromEditorStateV1(state),
     ),
   ).map((issue) => ({ severity: 'error', message: issue.message, path: issue.path }))
-  const entityAddressIssues: EditorStatusIssue[] =
-    state.manifest.contentVersion === 16
-      ? collectMissingEntityAddressReferencesV13(state).map((reference) => ({
-          severity: 'error',
-          message: '实体 "' + reference.sceneId + '/' + reference.entityId + '" 不在 scenes',
-          path: reference.path,
-        }))
-      : []
+  const entityAddressIssues: EditorStatusIssue[] = collectMissingEntityAddressReferences(state).map(
+    (reference) => ({
+      severity: 'error',
+      message: '实体 "' + reference.sceneId + '/' + reference.entityId + '" 不在 scenes',
+      path: reference.path,
+    }),
+  )
   const projectIssues: EditorStatusIssue[] = collectProjectIssues(state).map((issue) => ({
     severity: issue.severity,
     message: issue.message,
@@ -619,55 +607,49 @@ export function assertProjectSaveValid(state: EditorState): void {
       )
     }
   }
-  if (state.manifest.contentVersion === 16) {
+  const validateSection = (label: string, validate: () => void): void => {
     try {
-      if (!state.manifest.content.worldVariables)
-        throw new Error('manifest 缺 worldVariables 注册表路径')
-      validateWorldVariableRegistryV1(state.worldVariables ?? {})
-      validateScenesV14(state.scenes)
-      validateItemsV14(state.items)
-      validateEnemiesV14(state.enemies ?? [])
-      const sharedScripts = state.sharedScripts ?? {}
-      validateSharedScriptsV14(sharedScripts)
-      validateDialogueIdentityReferencesV14({
-        scenes: state.scenes as never,
-        items: state.items as never,
-        sharedScripts: sharedScripts as never,
-        enemies: (state.enemies ?? []) as never,
-        actors: state.actors,
-      })
+      validate()
     } catch (error) {
-      throw new Error(
-        `保存前 content16 对话身份校验失败：${error instanceof Error ? error.message : String(error)}`,
-      )
+      throw new Error(`保存前${label}校验失败：${error instanceof Error ? error.message : String(error)}`)
     }
-    const missingEntityAddress = collectMissingEntityAddressReferencesV13(state)[0]
-    if (missingEntityAddress)
-      throw new Error(
-        '保存前实体引用校验失败：' +
-          missingEntityAddress.path +
-          ' 指向不存在的实体 "' +
-          missingEntityAddress.sceneId +
-          '/' +
-          missingEntityAddress.entityId +
-          '"',
-      )
-    const variableIssue = collectWorldVariableRegistryIssuesV1(
-      state.worldVariables ?? {},
-      collectWorldVariableReferencesV1(worldVariableScriptStateFromEditorStateV1(state)),
-    )[0]
-    if (variableIssue)
-      throw new Error(`保存前世界变量校验失败：${variableIssue.path}: ${variableIssue.message}`)
   }
-
-  try {
-    if (state.manifest.contentVersion === 16) validateItemsV14(state.items)
-    else validateItems(state.items)
-  } catch (error) {
+  validateSection('世界变量', () => {
+    if (!state.manifest.content.worldVariables)
+      throw new Error('manifest 缺 worldVariables 注册表路径')
+    validateWorldVariableRegistryV1(state.worldVariables ?? {})
+  })
+  validateSection('场景数据', () => validateAuthorScenes(state.scenes))
+  validateSection('物品数据', () => validateAuthorItems(state.items))
+  validateSection('敌人数据', () => validateAuthorEnemies(state.enemies ?? []))
+  const sharedScripts = state.sharedScripts ?? {}
+  validateSection('共享脚本', () => validateAuthorSharedScripts(sharedScripts))
+  validateSection('对话身份', () =>
+    validateAuthorDialogueReferences({
+      scenes: state.scenes as never,
+      items: state.items as never,
+      sharedScripts: sharedScripts as never,
+      enemies: (state.enemies ?? []) as never,
+      actors: state.actors,
+    }),
+  )
+  const missingEntityAddress = collectMissingEntityAddressReferences(state)[0]
+  if (missingEntityAddress)
     throw new Error(
-      `保存前物品数据校验失败：${error instanceof Error ? error.message : String(error)}`,
+      '保存前实体引用校验失败：' +
+        missingEntityAddress.path +
+        ' 指向不存在的实体 "' +
+        missingEntityAddress.sceneId +
+        '/' +
+        missingEntityAddress.entityId +
+        '"',
     )
-  }
+  const variableIssue = collectWorldVariableRegistryIssuesV1(
+    state.worldVariables ?? {},
+    collectWorldVariableReferencesV1(worldVariableScriptStateFromEditorStateV1(state)),
+  )[0]
+  if (variableIssue)
+    throw new Error(`保存前世界变量校验失败：${variableIssue.path}: ${variableIssue.message}`)
 
   const referenceErrors = [
     ...validateReferences(state),
@@ -718,7 +700,7 @@ export function assertProjectSaveValid(state: EditorState): void {
     )
   }
   try {
-    validateManifestAssetConfigV3(state.manifest.assets, state.assetCatalog)
+    validateManifestAssetConfig(state.manifest.assets, state.assetCatalog)
   } catch (error) {
     throw new Error(
       `保存前资源角色校验失败：${error instanceof Error ? error.message : String(error)}`,

@@ -653,7 +653,7 @@ test('未登记的内部共享脚本动作引用保持只读，不伪造不可�
   expect(references).toEqual([expect.objectContaining({ action: 'idle' })])
   expect(references[0]?.locator).toBeUndefined()
 })
-test('canonical v13 行为、hooks 与共享脚本动作可校验且不会按旧 inline stages 崩溃', () => {
+test('canonical 行为、hooks 与共享脚本动作可校验且不会把 behavior id 当 inline stages', () => {
   const b = clone(base)
   b.scenes = [
     {
@@ -797,7 +797,7 @@ test('页动作声明的 sprite 也进入定义级引用门禁', () => {
     ]),
   )
 })
-test('可见存档 appearance/followers/sceneScriptOverrides 也进入删除与校验引用图', () => {
+test('current 可见存档 appearance/followers 也进入删除与校验引用图', () => {
   const b = clone(base)
   b.worlds = [
     {
@@ -806,7 +806,7 @@ test('可见存档 appearance/followers/sceneScriptOverrides 也进入删除与�
           id: 'hero',
           template: 'hero',
           appearance: { spriteId: 'missing-save-appearance' },
-        },
+        } as never,
       ],
       money: 0,
       learnedSkills: {},
@@ -815,24 +815,14 @@ test('可见存档 appearance/followers/sceneScriptOverrides 也进入删除与�
         flags: {},
         vars: {},
         entityState: {},
-        entityStage: {},
+        behaviors: {},
         followers: ['missing-save-follower'],
-        sceneScriptOverrides: {
-          s001: {
-            onEnter: [
-              {
-                body: [{ kind: 'setFollowers', sprites: ['missing-save-override'] }],
-              },
-            ],
-          },
-        },
       },
-    } as never,
+    },
   ]
   const errors = validateReferences(b).filter((issue) => issue.severity === 'error')
   expect(errors.map((issue) => issue.message).join('\n')).toMatch(/missing-save-appearance/)
   expect(errors.map((issue) => issue.message).join('\n')).toMatch(/missing-save-follower/)
-  expect(errors.map((issue) => issue.message).join('\n')).toMatch(/missing-save-override/)
 })
 test('actor.battler.initialEquipment 指向不存在物品 → 报 warn', () => {
   const b = clone(base)

@@ -15,10 +15,9 @@ import type {
   EnemyFallback,
   EnemyHookChannel,
   EnemyHookFlow,
-  EnemyOnDefeatedCommandV10,
-} from './enemy-script-v10.js'
+  EnemyOnDefeatedCommand,
+} from './enemy-script.js'
 import type { TextId } from './index.js'
-import type { Command } from './script.js'
 
 /** 敌人属性（enemies.json 的战斗数值 + 奖励）。 */
 export interface EnemyStats {
@@ -101,29 +100,11 @@ export interface EnemyDef {
   attackEquivItem?: { itemId: string; rate: number }
   /** 剧情演出钩子(M4c-2 执行;蛇女嘲讽逃跑等)。 */
   choreography?: BattleChoreography[]
-  /** 战后剧情(scriptOnBattleEnd 翻译:胜利结算时逐敌跑;canonical v5 上下文子集)。 */
-  onDefeated?: EnemyOnDefeatedCommandV10[]
+  /** 战后剧情(scriptOnBattleEnd 翻译:胜利结算时逐敌跑；使用当前敌人战后命令子集)。 */
+  onDefeated?: EnemyOnDefeatedCommand[]
 }
 
-/** contentVersion 9 的显式历史 choreography；只允许升级器/历史 guard 消费。 */
-export interface LegacyBattleChoreographyV9 extends Omit<BattleChoreography, 'body'> {
-  body: Command[]
-}
-
-/** contentVersion 9 的显式历史敌人形状；current loader 不得消费。 */
-export interface LegacyEnemyDefV9 extends Omit<EnemyDef, 'choreography' | 'onDefeated'> {
-  choreography?: LegacyBattleChoreographyV9[]
-  onDefeated?: Command[]
-}
-
-/** contentVersion 11 的历史敌队形状；只允许升级边界消费。 */
-export interface LegacyEnemyTeamDefV11 {
-  id: string
-  /** v11 压紧后的敌人 id 列表（最多 5）。 */
-  members: string[]
-}
-
-/** 敌队（contentVersion 12；保留原始语义槽与空洞）。 */
+/** 敌队；保留原始语义槽与空洞。 */
 export interface EnemyTeamDef {
   id: string
   /**

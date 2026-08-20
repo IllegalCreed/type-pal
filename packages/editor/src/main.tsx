@@ -4,21 +4,21 @@
  * `?ui_samples` 只在内存追加视觉评审数据，不改仓库工程。
  * 生产(无 env)→ ProjectPicker 启动屏:新建(克隆/空白)/ 打开本地 / 最近工程(P4)。
  */
-import type { SceneDefV5, SceneDefV14 } from '@type-pal/content'
-import type { LoadedProjectV16 } from '@type-pal/reforge'
+import type { BaseSceneDef, AuthorSceneDef } from '@type-pal/content'
+import type { LoadedCurrentProject } from '@type-pal/reforge'
 import {
   httpSource,
-  loadAllAuthorScenesV16,
+  loadAllAuthorScenes,
+  loadCurrentProjectFrom,
   loadProjectMapById,
-  loadProjectV16From,
-  loadStampTemplatesV16,
+  loadStampTemplates,
 } from '@type-pal/reforge'
 import { StrictMode, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { EditSession } from './core/edit-session.js'
 import type { Opened } from './core/open-actions.js'
 import { toEditorState } from './core/project-io.js'
-import { type ScriptEditorStateV5, ScriptV5EditSession } from './core/script-v5-editor.js'
+import { type ScriptEditorState, ScriptEditSession } from './core/script-editor.js'
 import { withUiReviewSamples } from './core/ui-review-samples.js'
 import { App } from './ui/App.js'
 import { ProjectPicker } from './ui/ProjectPicker.js'
@@ -34,28 +34,24 @@ const DEV_AUTO = !!PROJECT_ID && !FORCE_PICKER
 
 interface Booted {
   session: EditSession
-  project: LoadedProjectV16
-  scriptV5?: {
-    session: ScriptV5EditSession
+  project: LoadedCurrentProject
+  script: {
+    session: ScriptEditSession
   }
   dir?: FileSystemDirectoryHandle
 }
 
 function currentCanonicalScriptState(
-  project: LoadedProjectV16,
-  scenes: SceneDefV14[],
+  project: LoadedCurrentProject,
+  scenes: AuthorSceneDef[],
   sharedScripts = project.authorContent.sharedScripts,
-): ScriptEditorStateV5 {
+): ScriptEditorState {
   return {
-    contentVersion: project.manifest.contentVersion,
-    scenes: structuredClone(scenes) as unknown as SceneDefV5[],
-    items: structuredClone(project.authorContent.items) as unknown as ScriptEditorStateV5['items'],
+    scenes: structuredClone(scenes) as unknown as BaseSceneDef[],
+    items: structuredClone(project.authorContent.items) as unknown as ScriptEditorState['items'],
     sharedScripts: structuredClone(
       sharedScripts,
-    ) as unknown as ScriptEditorStateV5['sharedScripts'],
-    migrationSidecars: Object.values(project.migrationRegistry).map((blob) =>
-      structuredClone(blob.sidecar),
-    ),
+    ) as unknown as ScriptEditorState['sharedScripts'],
   }
 }
 /** 四态摊开:loading 只属于 dev 首次自动载入;picker 在任何模式下都是真启动屏。
@@ -71,10 +67,10 @@ function Root() {
     let alive = true
     const loadDevProject = async (): Promise<Booted> => {
       const source = httpSource(`projects/${PROJECT_ID}`)
-      const project = await loadProjectV16From(source)
+      const project = await loadCurrentProjectFrom(source)
       const [scenes, stamps] = await Promise.all([
-        loadAllAuthorScenesV16(project),
-        loadStampTemplatesV16(project),
+        loadAllAuthorScenes(project),
+        loadStampTemplates(project),
       ])
       const reviewData = UI_REVIEW_SAMPLES
         ? withUiReviewSamples({
@@ -110,8 +106,8 @@ function Root() {
           },
         ),
         project: reviewProject,
-        scriptV5: {
-          session: new ScriptV5EditSession(canonical),
+        script: {
+          session: new ScriptEditSession(canonical),
         },
       }
     }
@@ -136,8 +132,8 @@ function Root() {
         loadMap: (mapId) => loadProjectMapById(project, mapId),
       }),
       project,
-      scriptV5: {
-        session: new ScriptV5EditSession(canonical),
+      script: {
+        session: new ScriptEditSession(canonical),
       },
       dir: o.dir,
     })
@@ -160,7 +156,7 @@ function Root() {
       key={boot.project.manifest.id}
       session={boot.session}
       project={boot.project}
-      scriptV5={boot.scriptV5}
+      script={boot.script}
       initialDir={boot.dir}
       onOpened={onOpened}
       onBackToPicker={() => setBoot('picker')}

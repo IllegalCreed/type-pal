@@ -2,11 +2,11 @@ import type {
   ActorDef,
   AssetKind,
   AssetRecordV1,
-  LoadedManifest,
+  CurrentManifest,
   SceneDef,
   SpriteDef,
 } from '@type-pal/content'
-import { v5RuntimeScriptRef } from '@type-pal/reforge'
+import { runtimeScriptRef } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
 import type { EditorState } from './edit-session.js'
 import { collectEditorAssetReferences } from './editor-asset-references.js'
@@ -18,7 +18,7 @@ import {
   resolveProjectEntryPoints,
   validateManifestEntryPoints,
 } from './project-diagnostics.js'
-import type { ScriptEditorStateV5 } from './script-v5-editor.js'
+import type { ScriptEditorState } from './script-editor.js'
 
 const hero = {
   id: 'hero',
@@ -50,15 +50,18 @@ const heroSprite = {
   layout: { kind: 'directional', framesPerDir: 3 },
 } as SpriteDef
 
-function state(overrides: Partial<EditorState> = {}): EditorState & { manifest: LoadedManifest } {
-  const manifest: LoadedManifest = {
+function state(overrides: Partial<EditorState> = {}): EditorState & { manifest: CurrentManifest } {
+  const manifest: CurrentManifest = {
     id: 'test',
     name: 'Test',
-    contentVersion: 4,
+    contentVersion: 16,
+    minimumSaveVersion: 8,
     entryScene: 's000',
     content: {
       maps: 'content/maps/index.json',
       battleSprites: 'content/battle-sprites.json',
+      sharedScripts: 'content/shared-scripts.json',
+      worldVariables: 'content/world-variables.json',
     },
     assets: { catalog: 'assets/index.json', roles: {} },
     startWorld: { party: ['hero'], money: 0, learnedSkills: {}, inventory: [] },
@@ -71,7 +74,7 @@ function state(overrides: Partial<EditorState> = {}): EditorState & { manifest: 
       entities: [],
     },
   ]
-  const base: EditorState & { manifest: LoadedManifest } = {
+  const base: EditorState & { manifest: CurrentManifest } = {
     manifest,
     scenes,
     actors: [hero],
@@ -113,6 +116,8 @@ function state(overrides: Partial<EditorState> = {}): EditorState & { manifest: 
     tilesetBlobs: {},
     stamps: [],
     scriptChunks: {},
+    sharedScripts: {},
+    worldVariables: {},
     assetCatalog: {
       version: 1,
       assets: {
@@ -136,7 +141,7 @@ function state(overrides: Partial<EditorState> = {}): EditorState & { manifest: 
     },
     assetBlobs: {},
   }
-  return { ...base, ...overrides } as unknown as EditorState & { manifest: LoadedManifest }
+  return { ...base, ...overrides } as unknown as EditorState & { manifest: CurrentManifest }
 }
 
 function assetRecord(kind: AssetKind, stem: string): AssetRecordV1 {
@@ -254,7 +259,7 @@ describe('X7 工程入口不变式', () => {
   })
 
   test('显式入口点拒绝空表、重复/非规范 id 和不存在场景', () => {
-    const manifest: LoadedManifest = {
+    const manifest: CurrentManifest = {
       ...state().manifest,
       entryPoints: [
         { id: ' duplicate ', label: 'A', scene: 'missing-a' },
@@ -307,7 +312,7 @@ describe('X7 工程诊断与保存门', () => {
       ['rng.unused', assetRecord('frame-animation', 'rng-unused')],
       ['sprite.unused', assetRecord('sprite', 'sprite-unused')],
     ])
-    const manifest: LoadedManifest = {
+    const manifest: CurrentManifest = {
       ...base.manifest,
       assets: {
         ...base.manifest.assets,
@@ -481,6 +486,24 @@ describe('X7 工程诊断与保存门', () => {
       ai: { resistanceToSorcery: 0 },
       sounds: { action: sound },
     }
+    const sceneWithCurrentHooks = Object.assign(structuredClone(base.scenes[0]!), {
+      hooks: {
+        onEnter: {
+          initial: 'sound-test',
+          variants: {
+            'sound-test': {
+              label: '音效测试',
+              order: 0,
+              flow: {
+                kind: 'stages' as const,
+                initial: 'start',
+                stages: [{ id: 'start', body: [{ kind: 'playSound' as const, asset: sound }] }],
+              },
+            },
+          },
+        },
+      },
+    })
     const withEverySoundSite = state({
       actors: [actor],
       enemies: [enemy],
@@ -536,12 +559,7 @@ describe('X7 工程诊断与保存门', () => {
           animation: { effectSprite: 1, sound },
         },
       ],
-      scenes: [
-        {
-          ...base.scenes[0]!,
-          onEnter: [{ body: [{ kind: 'playSound', asset: sound }] }],
-        },
-      ],
+      scenes: [sceneWithCurrentHooks],
       scriptChunks: {
         shared: {
           version: 1,
@@ -674,7 +692,7 @@ describe('X7 工程诊断与保存门', () => {
     expect(() => assertProjectSaveValid(invalid)).toThrow('保存前战场数据校验失败')
   })
 
-  test('v5 状态条按 canonical ScriptId 校验，不把兼容壳内部 ScriptRef 报成悬空', () => {
+  test('状态条按 canonical ScriptId 校验，不把运行时投影内部 ScriptRef 报成悬空', () => {
     const shell = state({
       items: [
         {
@@ -687,12 +705,12 @@ describe('X7 工程诊断与保存门', () => {
           use: {
             target: 'scene',
             consuming: false,
-            effects: [{ kind: 'runScript', script: v5RuntimeScriptRef('item:private:use') }],
+            effects: [{ kind: 'runScript', script: runtimeScriptRef('item:private:use') }],
           },
         },
       ],
     })
-    const canonical: ScriptEditorStateV5 = {
+    const canonical: ScriptEditorState = {
       scenes: [],
       items: [
         {
@@ -715,7 +733,6 @@ describe('X7 工程诊断与保存门', () => {
         },
       ],
       sharedScripts: {},
-      migrationSidecars: [],
     }
 
     expect(
@@ -735,7 +752,7 @@ describe('X7 工程诊断与保存门', () => {
             target: 'oneAlly',
             consuming: false,
             effects: [
-              { kind: 'runScript', script: v5RuntimeScriptRef('item:private:use') },
+              { kind: 'runScript', script: runtimeScriptRef('item:private:use') },
               { kind: 'healHp', amount: 1 },
             ],
           },
@@ -751,7 +768,7 @@ describe('X7 工程诊断与保存门', () => {
 
   test('入口视频和资源角色错误跳到字段唯一作者，而不是悬空资源页', () => {
     const base = state()
-    const manifest: LoadedManifest = {
+    const manifest: CurrentManifest = {
       ...base.manifest,
       assets: {
         ...base.manifest.assets,
@@ -775,7 +792,7 @@ describe('X7 工程诊断与保存门', () => {
 
   test('seedStats 只接受已存在角色的非负整数，入口覆盖错误跳回稳定入口 id', () => {
     const base = state()
-    const manifest: LoadedManifest = {
+    const manifest: CurrentManifest = {
       ...base.manifest,
       entryPoints: [
         {
@@ -805,7 +822,7 @@ describe('X7 工程诊断与保存门', () => {
     const base = state()
     expect(() => assertProjectSaveValid(base)).not.toThrow()
 
-    const duplicate: LoadedManifest = {
+    const duplicate: CurrentManifest = {
       ...base.manifest,
       entryPoints: [
         { id: 'same', label: 'A', scene: 's000' },
@@ -816,7 +833,7 @@ describe('X7 工程诊断与保存门', () => {
       /入口点 id.*重复/,
     )
 
-    const brokenRole: LoadedManifest = {
+    const brokenRole: CurrentManifest = {
       ...base.manifest,
       assets: { ...base.manifest.assets, roles: { 'video.startupSplash': 'missing' } },
     }
@@ -843,7 +860,7 @@ describe('X7 工程诊断与保存门', () => {
 
   test('初始队伍、道具和每名角色的技能都拒绝重复 id', () => {
     const base = state()
-    const manifest: LoadedManifest = {
+    const manifest: CurrentManifest = {
       ...base.manifest,
       startWorld: {
         party: ['hero', 'hero'],

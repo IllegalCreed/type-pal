@@ -15,7 +15,7 @@ import type {
   AssetId,
   BattleSpriteDef,
   EnemyDef,
-  EnemyOnDefeatedCommandV10,
+  EnemyOnDefeatedCommand,
   EnemySounds,
   EnemyTeamDef,
   ItemData,
@@ -164,8 +164,8 @@ function newEnemy(id: string, battleSprite: string): EnemyDef {
   }
 }
 
-type DefeatedGiveItemCommand = Extract<EnemyOnDefeatedCommandV10, { kind: 'giveItem' }>
-type DefeatedDialogCommand = Extract<EnemyOnDefeatedCommandV10, { kind: 'dialog' }>
+type DefeatedGiveItemCommand = Extract<EnemyOnDefeatedCommand, { kind: 'giveItem' }>
+type DefeatedDialogCommand = Extract<EnemyOnDefeatedCommand, { kind: 'dialog' }>
 
 interface DefeatedItemReward {
   startIndex: number
@@ -181,7 +181,7 @@ function integerInRange(value: number, min: number, max: number, fallback: numbe
   return Math.min(max, Math.max(min, Math.floor(value)))
 }
 
-function rewardSkipPercent(command: EnemyOnDefeatedCommandV10 | undefined): number | undefined {
+function rewardSkipPercent(command: EnemyOnDefeatedCommand | undefined): number | undefined {
   if (
     command?.kind !== 'branch' ||
     command.cond.kind !== 'chance' ||
@@ -194,7 +194,7 @@ function rewardSkipPercent(command: EnemyOnDefeatedCommandV10 | undefined): numb
 }
 
 function findDefeatedItemReward(
-  commands: readonly EnemyOnDefeatedCommandV10[] | undefined,
+  commands: readonly EnemyOnDefeatedCommand[] | undefined,
 ): DefeatedItemReward | undefined {
   if (!commands) return undefined
   const giveIndex = commands.findIndex((command) => command.kind === 'giveItem')
@@ -215,12 +215,12 @@ function findDefeatedItemReward(
 }
 
 function replaceDefeatedItemReward(
-  commands: readonly EnemyOnDefeatedCommandV10[] | undefined,
+  commands: readonly EnemyOnDefeatedCommand[] | undefined,
   current: DefeatedItemReward | undefined,
   next: { itemId: string; count: number; probability: number } | undefined,
-): EnemyOnDefeatedCommandV10[] | undefined {
+): EnemyOnDefeatedCommand[] | undefined {
   const result = [...(commands ?? [])]
-  const replacement: EnemyOnDefeatedCommandV10[] = []
+  const replacement: EnemyOnDefeatedCommand[] = []
   if (next) {
     if (next.probability < 100) {
       replacement.push({

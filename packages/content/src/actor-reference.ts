@@ -137,19 +137,19 @@ export function collectActorTaggedReferences(value: unknown, where: string): Act
   return out
 }
 
-export interface DialoguePortraitReferenceV14 {
+export interface DialoguePortraitReference {
   actorId: string
   portraitKind: 'default' | 'expression'
   expression?: string
   where: string
 }
 
-/** content14 对话对人物立绘组的 exact 引用；不扫描 unbound 的全局 AssetId。 */
-export function collectDialoguePortraitReferencesV14(
+/** 当前作者对话对人物立绘组的 exact 引用；不扫描 unbound 的全局 AssetId。 */
+export function collectDialoguePortraitReferences(
   value: unknown,
   where: string,
-): DialoguePortraitReferenceV14[] {
-  const out: DialoguePortraitReferenceV14[] = []
+): DialoguePortraitReference[] {
+  const out: DialoguePortraitReference[] = []
   const visit = (node: unknown, path: string): void => {
     if (Array.isArray(node)) {
       node.forEach((entry, index) => visit(entry, `${path}[${index}]`))
@@ -193,7 +193,7 @@ export function collectDialoguePortraitReferencesV14(
 }
 
 /** expression key refactor；仅改 exact actor+expression 引用，并返回可审计改写数。 */
-export function renameDialoguePortraitExpressionV14<T>(
+export function renameDialoguePortraitExpression<T>(
   value: T,
   actorId: string,
   from: string,

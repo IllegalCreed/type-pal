@@ -1,4 +1,10 @@
-import { buildWorld, emptyWorldScriptState, type WorldState } from '@type-pal/content'
+import {
+  buildWorld,
+  emptyProjectedWorldScriptState,
+  emptyWorldScriptState,
+  type ProjectedWorldScriptState,
+  type WorldState,
+} from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
 import { AsyncIntentController } from './async-intent.js'
 import { DitherTransitionController } from './dither-transition.js'
@@ -55,9 +61,14 @@ describe('scene switch dependency guard', () => {
   test('所有预检依赖变化都拒绝陈旧 plan，无关世界字段不误伤', () => {
     const overrides = new Map<string, SceneActorSpriteOverride>()
     const base = worldFixture()
-    const expected = captureSceneSwitchDependencies(base, 's002', overrides, true)
+    const baseProjection = emptyProjectedWorldScriptState()
+    const expected = captureSceneSwitchDependencies(base, baseProjection, 's002', overrides, true)
     const mutations: Array<
-      (world: WorldState, map: Map<string, SceneActorSpriteOverride>) => void
+      (
+        world: WorldState,
+        projection: ProjectedWorldScriptState,
+        map: Map<string, SceneActorSpriteOverride>,
+      ) => void
     > = [
       (world) => {
         world.script!.mapOverride = { s002: 'map.changed' }
@@ -74,25 +85,32 @@ describe('scene switch dependency guard', () => {
       (world) => {
         world.inventory[0]!.count++
       },
-      (world) => {
-        world.script!.sceneScriptOverrides = { s002: { onEnter: null } }
+      (_world, projection) => {
+        projection.sceneScriptOverrides = { s002: { onEnter: null } }
       },
-      (world) => {
-        world.script!.entityStage['s:s002'] = 2
+      (_world, projection) => {
+        projection.entityStage['s:s002'] = 2
       },
-      (_world, map) => {
+      (_world, _projection, map) => {
         map.set('hero', { def: { id: 'sprite.override', asset: 'asset.override' } })
       },
     ]
 
     for (const mutate of mutations) {
       const current = structuredClone(base)
+      const currentProjection = structuredClone(baseProjection)
       const currentOverrides = new Map(overrides)
-      mutate(current, currentOverrides)
+      mutate(current, currentProjection, currentOverrides)
       expect(() =>
         assertSceneSwitchDependenciesCurrent(
           expected,
-          captureSceneSwitchDependencies(current, 's002', currentOverrides, true),
+          captureSceneSwitchDependencies(
+            current,
+            currentProjection,
+            's002',
+            currentOverrides,
+            true,
+          ),
           '依赖已变化',
         ),
       ).toThrowError(expect.objectContaining({ name: 'AbortError' }))
@@ -101,16 +119,21 @@ describe('scene switch dependency guard', () => {
     const unrelated = structuredClone(base)
     unrelated.money++
     unrelated.script!.flags.unrelated = true
-    expect(captureSceneSwitchDependencies(unrelated, 's002', overrides, true)).toEqual(expected)
+    expect(
+      captureSceneSwitchDependencies(unrelated, baseProjection, 's002', overrides, true),
+    ).toEqual(expected)
   })
 
   test('读档计划显式忽略活动 actor override', () => {
     const world = worldFixture()
-    const before = captureSceneSwitchDependencies(world, 's002', new Map(), false)
+    const projection = emptyProjectedWorldScriptState()
+    const before = captureSceneSwitchDependencies(world, projection, 's002', new Map(), false)
     const overrides = new Map<string, SceneActorSpriteOverride>([
       ['hero', { def: { id: 'sprite.override', asset: 'asset.override' } }],
     ])
-    expect(captureSceneSwitchDependencies(world, 's002', overrides, false)).toEqual(before)
+    expect(captureSceneSwitchDependencies(world, projection, 's002', overrides, false)).toEqual(
+      before,
+    )
   })
 })
 

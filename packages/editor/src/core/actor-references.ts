@@ -1,8 +1,8 @@
 import {
   ACTOR_REFERENCE_POLICIES,
   collectActorTaggedReferences,
-  collectDialoguePortraitReferencesV14,
-  type DialoguePortraitReferenceV14,
+  collectDialoguePortraitReferences,
+  type DialoguePortraitReference,
   type ActorReferenceKind,
 } from '@type-pal/content'
 import type { EditorState } from './edit-session.js'
@@ -275,12 +275,12 @@ export function actorReferenceMap(state: EditorState): Map<string, ActorReferenc
   return result
 }
 
-export interface EditorDialoguePortraitReference extends DialoguePortraitReferenceV14 {
+export interface EditorDialoguePortraitReference extends DialoguePortraitReference {
   label: string
   locator?: ActorReferenceLocator
 }
 
-/** scene/item/shared/enemy 四个 content14 command surface 的人物立绘引用。 */
+/** scene/item/shared/enemy 四个当前 command surface 的人物立绘引用。 */
 export function collectEditorDialoguePortraitReferences(
   state: EditorState,
 ): EditorDialoguePortraitReference[] {
@@ -291,7 +291,7 @@ export function collectEditorDialoguePortraitReferences(
     label: string,
     locator?: ActorReferenceLocator,
   ): void => {
-    for (const reference of collectDialoguePortraitReferencesV14(value, where))
+    for (const reference of collectDialoguePortraitReferences(value, where))
       out.push({ ...reference, label, locator })
   }
   state.scenes.forEach((scene, index) =>

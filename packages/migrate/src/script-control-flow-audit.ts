@@ -5,7 +5,7 @@ import type { SourceCmd } from './migrate-content.js'
 import type { MigrationFileSet, PalMigrationSources } from './pal-migration.js'
 import {
   analyzeScriptGraph,
-  extractLegacyScriptEdgesV1,
+  extractPalSourceScriptEdges,
   makeGlobalScriptRoots,
   type ScriptEdge,
   type ScriptEdgeKind,
@@ -657,7 +657,7 @@ function semanticSourceGraph(
   audit: SemanticSourceGraphAudit
   contextsByAddress: Map<number, Set<SourceExecutionChannel>>
 } {
-  const rawEdges = extractLegacyScriptEdgesV1(commands)
+  const rawEdges = extractPalSourceScriptEdges(commands)
   const byFrom = new Map<number, ScriptEdge[]>()
   for (const edge of rawEdges) {
     const list = byFrom.get(edge.from) ?? []

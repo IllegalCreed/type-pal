@@ -320,3 +320,14 @@ A7/R7 总体不能提前标 done。
 - 本地打开边界把 v4～v9 工程经各自纯升级器合成 current v10，完整预检后始终最后提交
   manifest；非法 battle/onDefeated 上下文在任何写盘前 fail-loud。
 - contentVersion 5～10 已由 N3-1 P7/R13 占用；A7-4 当前顺延为候选 v11，版本尚未冻结。
+
+## 19. 开发期 current-only 边界（2026-08-20，覆盖 §11–§18 中所有版本/升级口径）
+
+- 当前唯一产品格式为 `contentVersion: 16` / SAVE 8 / `minimumSaveVersion: 8`。loader、editor、runtime
+  和 save codec 只消费这一组 canonical 类型，不按版本选择实现。
+- 本项目尚未正式上线；旧 content/save upgrader、旧类型、fixture、sidecar、产品升级入口和兼容 fallback
+  已删除。历史版本轴只由 Git 和上文的历史记录保存，不能作为新代码的输入契约。
+- `manifest.assets` 只含 catalog 与 roles。HTTP/FSA clone、保存、ZIP、运行和预览都经同一
+  `AssetResolver/FileSource` 链；effect sprite 已物化为 56 个 catalog 资产，不再读取 extracted。
+- 当前迁移命令从真实提取输入直接生成 current publication，执行三方 merge 与闭包验证，manifest 最后提交；
+  它不发布 `_transitions/`、`content/migrations/` 或脚本分片。

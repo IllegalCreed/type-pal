@@ -6,7 +6,7 @@ import {
   collectAutomaticScriptSpriteInstanceSites,
   collectSpriteAutomaticScriptBehaviors,
   describeSpriteReferenceBehavior,
-  projectCanonicalScriptFlowPreviewV5,
+  projectCanonicalScriptFlowPreview,
 } from './world-sprite-behavior.js'
 
 const definition: SpriteDef = {
@@ -216,9 +216,9 @@ describe('describeSpriteReferenceBehavior', () => {
   })
 })
 
-describe('projectCanonicalScriptFlowPreviewV5', () => {
-  test('lowers v5 entity addresses and nested conditions for the existing map preview runner', () => {
-    const stages = projectCanonicalScriptFlowPreviewV5(
+describe('projectCanonicalScriptFlowPreview', () => {
+  test('lowers canonical entity addresses and nested conditions for the map preview runner', () => {
+    const stages = projectCanonicalScriptFlowPreview(
       {
         kind: 'stages',
         initial: 'start',

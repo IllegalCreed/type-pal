@@ -1,21 +1,21 @@
 import type {
-  AuthorCommandV5,
-  AuthorConditionV5,
+  BaseAuthorCommand,
+  AuthorCondition,
   Command,
-  EnemyOnDefeatedCommandV10,
+  EnemyOnDefeatedCommand,
   ScriptCondition,
-  ScriptFlowV5,
+  BaseScriptFlow,
   ScriptStage,
-  StateTransitionV5,
+  BaseStateTransition,
 } from '@type-pal/content'
 import type { EditorState } from './edit-session.js'
 import {
-  type CanonicalScriptReferenceV5,
-  describeCanonicalScriptReferenceV5,
-  type ScriptEditorStateV5,
-  type ScriptV5CommandLocatorV5,
-  visitCanonicalScriptCommandsV5,
-} from './script-v5-editor.js'
+  type CanonicalScriptReference,
+  describeCanonicalScriptReference,
+  type ScriptEditorState,
+  type ScriptCommandLocator,
+  visitCanonicalScriptCommands,
+} from './script-editor.js'
 
 export type ItemReferenceAccess = 'read' | 'lose' | 'consume' | 'reward' | 'hold' | 'configure'
 
@@ -37,7 +37,7 @@ export type ItemReferenceLocator =
   | { kind: 'item'; itemId: string }
   | {
       kind: 'canonical-script'
-      reference: Extract<CanonicalScriptReferenceV5, { kind: 'command' }>
+      reference: Extract<CanonicalScriptReference, { kind: 'command' }>
     }
 
 export interface ItemReference {
@@ -238,7 +238,7 @@ function scanInventory(
 }
 
 function canonicalReferenceSource(
-  locator: ScriptV5CommandLocatorV5,
+  locator: ScriptCommandLocator,
 ): Pick<ItemReference, 'source' | 'ownerItemId'> {
   if (locator.owner.kind === 'shared-script') return { source: 'script' }
   if (locator.owner.kind === 'item-private-script')
@@ -247,7 +247,7 @@ function canonicalReferenceSource(
 }
 
 function scanCanonicalCondition(
-  condition: AuthorConditionV5,
+  condition: AuthorCondition,
   addReference: (itemId: string, detail: string, suffix: string) => void,
   suffix = '.cond',
 ): void {
@@ -280,7 +280,7 @@ function scanCanonicalCondition(
 }
 
 function scanEnemyOnDefeatedCommands(
-  commands: readonly EnemyOnDefeatedCommandV10[],
+  commands: readonly EnemyOnDefeatedCommand[],
   context: ScriptScanContext,
   prefix: string,
   out: ItemReference[],
@@ -337,7 +337,7 @@ function scanEnemyOnDefeatedCommands(
 }
 
 function scanCanonicalStateTransitionItemReferences(
-  transition: StateTransitionV5,
+  transition: BaseStateTransition,
   context: {
     source: 'scene'
     label: string
@@ -389,7 +389,7 @@ function scanCanonicalStateTransitionItemReferences(
 }
 
 function scanCanonicalFlowTransitionItemReferences(
-  flow: ScriptFlowV5,
+  flow: BaseScriptFlow,
   context: { label: string; where: string },
   out: ItemReference[],
 ): void {
@@ -406,22 +406,22 @@ function scanCanonicalFlowTransitionItemReferences(
     )
 }
 
-/** canonical v5 脚本中的物品读取/获得/失去引用；locator 直接复用脚本编辑器稳定定位。 */
-export function collectCanonicalItemReferencesV5(state: ScriptEditorStateV5): ItemReference[] {
+/** 当前脚本中的物品读取/获得/失去引用；locator 直接复用脚本编辑器稳定定位。 */
+export function collectCanonicalItemReferences(state: ScriptEditorState): ItemReference[] {
   const out: ItemReference[] = []
 
-  visitCanonicalScriptCommandsV5(state, (command: AuthorCommandV5, path, commandLocator) => {
+  visitCanonicalScriptCommands(state, (command: BaseAuthorCommand, path, commandLocator) => {
     const source = canonicalReferenceSource(commandLocator)
-    let reference: Extract<CanonicalScriptReferenceV5, { kind: 'command' }> | undefined
+    let reference: Extract<CanonicalScriptReference, { kind: 'command' }> | undefined
     let label: string | undefined
-    const commandReference = (): Extract<CanonicalScriptReferenceV5, { kind: 'command' }> =>
+    const commandReference = (): Extract<CanonicalScriptReference, { kind: 'command' }> =>
       (reference ??= {
         kind: 'command',
         path,
         locator: commandLocator,
       })
     const commandLabel = (): string =>
-      (label ??= describeCanonicalScriptReferenceV5(state, commandReference()))
+      (label ??= describeCanonicalScriptReference(state, commandReference()))
     const addCommandReference = (
       itemId: string,
       access: ItemReferenceAccess,
@@ -481,7 +481,7 @@ export function collectCanonicalItemReferencesV5(state: ScriptEditorStateV5): It
  */
 export function collectItemReferences(
   state: EditorState,
-  canonicalState?: ScriptEditorStateV5,
+  canonicalState?: ScriptEditorState,
 ): ItemReference[] {
   const out: ItemReference[] = []
 
@@ -755,34 +755,15 @@ export function collectItemReferences(
             })
       })
 
-    for (const [sceneId, override] of Object.entries(world.script?.sceneScriptOverrides ?? {})) {
-      for (const [slot, binding] of [
-        ['onEnter', override.onEnter],
-        ['onTeleport', override.onTeleport],
-      ] as const) {
-        if (!Array.isArray(binding)) continue
-        scanStages(
-          binding,
-          {
-            source: 'save',
-            label: `存档 ${worldIndex + 1} · 场景 ${sceneId} ${slot} 覆写`,
-            where: `worlds[${worldIndex}].script.sceneScriptOverrides[${JSON.stringify(sceneId)}].${slot}`,
-            locator: undefined,
-            unavailableReason: '运行态存档只读，没有作者对象可供精确跳转。',
-          },
-          out,
-        )
-      }
-    }
   })
 
-  if (canonicalState) out.push(...collectCanonicalItemReferencesV5(canonicalState))
+  if (canonicalState) out.push(...collectCanonicalItemReferences(canonicalState))
   return out
 }
 
 export function itemReferenceMap(
   state: EditorState,
-  canonicalState?: ScriptEditorStateV5,
+  canonicalState?: ScriptEditorState,
 ): Map<string, ItemReference[]> {
   const result = new Map<string, ItemReference[]>()
   for (const reference of collectItemReferences(state, canonicalState)) {
@@ -796,7 +777,7 @@ export function itemReferenceMap(
 export function blockingItemReferences(
   state: EditorState,
   itemId: string,
-  canonicalState?: ScriptEditorStateV5,
+  canonicalState?: ScriptEditorState,
 ): ItemReference[] {
   return collectItemReferences(state, canonicalState).filter(
     (reference) => reference.itemId === itemId && reference.ownerItemId !== itemId,

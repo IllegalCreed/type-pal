@@ -24,7 +24,7 @@ import {
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
-import type { ScriptEditorStateV5 } from '../core/script-v5-editor.js'
+import type { ScriptEditorState } from '../core/script-editor.js'
 import {
   DsButton,
   DsField,
@@ -110,7 +110,7 @@ export function BattleFieldTab(props: {
   onOpenBattleFieldReference?: (reference: BlockingBattleFieldReference) => void
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
-  scriptState?: ScriptEditorStateV5
+  scriptState?: ScriptEditorState
 }) {
   const {
     battleFields,

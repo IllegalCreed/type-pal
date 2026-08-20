@@ -1,76 +1,47 @@
-import type { AssetCatalogV1, LegacyManifestV3, LoadedManifest } from '@type-pal/content'
+import type { AssetCatalogV1, AssetKind } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { PAL_ASSET_ROLES } from './pal-assets.js'
-import { closePalSoundManifest, preparePalManifest } from './pal-manifest.js'
+import { buildPalCurrentManifest } from './pal-manifest.js'
 
-const manifest = (): LoadedManifest => ({
-  id: 'pal',
-  name: 'PAL',
-  contentVersion: 4,
-  entryScene: 's000',
-  content: {},
-  assets: {
-    catalog: 'assets/index.json',
-    roles: { 'audio.battleEscapeSound': 'sound.authored.escape' },
-    legacy: {
-      families: ['sound', 'sprite', 'battle-sprite', 'effect-sprite'],
-      root: '/extracted/data',
-      sounds: '/extracted/sounds',
-      sprites: 'sprite',
-    },
-  },
-  startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
-})
+function kindOf(id: string): AssetKind {
+  if (id === 'color.project-standard') return 'color-table'
+  if (id.startsWith('video.')) return 'video'
+  if (id.startsWith('music.')) return 'music'
+  if (id.startsWith('soundfont.')) return 'soundfont'
+  return 'sound'
+}
 
-const legacyManifest = (): LegacyManifestV3 => ({
-  ...manifest(),
-  contentVersion: 3,
-})
+function catalog(): AssetCatalogV1 {
+  return {
+    version: 1,
+    assets: Object.fromEntries(
+      Object.values(PAL_ASSET_ROLES).map((id) => [
+        id,
+        {
+          kind: kindOf(id),
+          path: `assets/${id}`,
+          mediaType: 'application/octet-stream',
+          bytes: 1,
+          sha256: 'a'.repeat(64),
+          origin: { kind: 'generated' },
+        },
+      ]),
+    ),
+  }
+}
 
-describe('PAL sound manifest closure', () => {
-  test('只退役 legacy sound，保留其他字段并让工程角色覆盖默认值', () => {
-    const current = manifest()
-    const next = closePalSoundManifest(current)
-    expect(next).not.toBe(current)
-    expect(current.assets.legacy?.families).toEqual([
-      'sound',
-      'sprite',
-      'battle-sprite',
-      'effect-sprite',
-    ])
-    expect(next.assets.roles).toEqual({
-      ...PAL_ASSET_ROLES,
-      'audio.battleEscapeSound': 'sound.authored.escape',
-    })
-    expect(next.assets.legacy).toEqual({
-      families: ['sprite', 'battle-sprite', 'effect-sprite'],
-      root: '/extracted/data',
-      sprites: 'sprite',
-    })
+describe('PAL current manifest', () => {
+  test('只生成 content16/SAVE8，且没有迁移描述或 legacy 资源通道', () => {
+    const manifest = buildPalCurrentManifest(catalog())
+    expect(manifest.contentVersion).toBe(16)
+    expect(manifest.minimumSaveVersion).toBe(8)
+    expect(manifest.assets).toEqual({ catalog: 'assets/index.json', roles: PAL_ASSET_ROLES })
+    expect(manifest).not.toHaveProperty('migrations')
+    expect(manifest.assets).not.toHaveProperty('legacy')
+    expect(manifest.content).not.toHaveProperty('scripts')
   })
 
-  test('传入 catalog 时立即拒绝不存在的作者角色', () => {
-    const catalog: AssetCatalogV1 = { version: 1, assets: {} }
-    expect(() => closePalSoundManifest(manifest(), catalog)).toThrow('不存在')
-  })
-
-  test('综合迁移 manifest 登记 stamps，把 contentVersion 3 升为 4 且不改输入', () => {
-    const current = legacyManifest()
-    const next = preparePalManifest(current)
-    expect(next.content.stamps).toBe('content/stamps.json')
-    expect(next.content.battleSprites).toBe('content/battle-sprites.json')
-    expect(next.contentVersion).toBe(4)
-    expect(current.contentVersion).toBe(3)
-    expect(current.content.stamps).toBeUndefined()
-    expect(next.assets.legacy).toEqual({
-      families: ['effect-sprite'],
-      root: '/extracted/data',
-    })
-    expect(current.assets.legacy?.families).toEqual([
-      'sound',
-      'sprite',
-      'battle-sprite',
-      'effect-sprite',
-    ])
+  test('资源角色必须全部存在于 catalog', () => {
+    expect(() => buildPalCurrentManifest({ version: 1, assets: {} })).toThrow('不存在')
   })
 })

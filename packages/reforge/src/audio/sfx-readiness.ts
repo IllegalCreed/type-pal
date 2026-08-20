@@ -4,7 +4,7 @@ import type {
   BattlerSounds,
   EnemyDef,
   ItemData,
-  ManifestAssetConfigV3,
+  ManifestAssetConfig,
   PoisonDef,
   SceneDef,
   SkillData,
@@ -183,7 +183,7 @@ export interface BattleBaseSoundInput extends BattleSoundTables {
   /** 进战时已在敌我身上的毒；两侧 tick 表不同，身份不得只用 poisonId。 */
   activePlayerPoisons?: readonly ActivePoison[]
   activeEnemyPoisons?: readonly ActivePoison[]
-  roles: ManifestAssetConfigV3['roles']
+  roles: ManifestAssetConfig['roles']
   encounterChoreography?: readonly unknown[]
   resolver?: ScriptResolver
   signal: AbortSignal

@@ -1,9 +1,7 @@
 import type { ActorDef } from './actor.js'
-import type { AssetId, ManifestAssetConfigV3 } from './asset.js'
-import type { EntityLifecycleTableV13 } from './entity-lifecycle-v13.js'
-import type { WorldScriptState } from './script.js'
-import type { ProjectMigrationDescriptorV1 } from './script-transition-v5.js'
-import { emptyWorldScriptStateV5, type WorldScriptStateV5 } from './script-v5.js'
+import type { AssetId, ManifestAssetConfig } from './asset.js'
+import type { EntityLifecycleTable } from './entity-lifecycle.js'
+import { emptyWorldScriptState, type WorldScriptState } from './author-script-core.js'
 import type { StatusId } from './skill.js'
 import { initialWorldVariablesV1, type WorldVariableRegistryV1 } from './world-variable.js'
 
@@ -16,7 +14,7 @@ export interface CarriedStatus {
 
 /** L1 世界态(跟存档走;现 demo 内存构造)。 */
 export interface WorldState {
-  /** 剧情脚本世界状态(M3a:flags/vars/entityState/entityStage;跟存档)。旧档缺省 → 空态。 */
+  /** 当前剧情脚本世界状态；缺省只允许出现在尚未建立运行世界的内存对象中。 */
   script?: WorldScriptState
   party: CharacterInstance[]
   /** C7 离队暂存区(D22 拍板):setParty 在 party ↔ reserve 间搬实例,等级/装备/HP 不丢
@@ -47,40 +45,9 @@ export interface WorldState {
    * 跟存档持久；缺省等价于倍率 1、无剩余时间。
    */
   hostileAwareness?: { rangeMultiplier: 0 | 3; remainingMs: number }
-}
-
-/** canonical script-v5 世界态；contentVersion 5..12 共用这一条脚本权威。 */
-export interface WorldStateV5 extends Omit<WorldState, 'script'> {
-  script?: WorldScriptStateV5
-}
-
-/** contentVersion 6 只断开开发期存档 epoch，不复制 canonical 世界态 schema。 */
-export type WorldStateV6 = WorldStateV5
-
-/** contentVersion 7 为 R13-2 游标交接断开开发期存档 epoch，不复制世界态 schema。 */
-export type WorldStateV7 = WorldStateV5
-
-/** contentVersion 8 只升级投掷内容 schema，不复制世界态或提高 SAVE_VERSION。 */
-export type WorldStateV8 = WorldStateV5
-
-/** contentVersion 9 合并 confirm 游标 epoch 与装备形象映射，不复制世界态 schema。 */
-export type WorldStateV9 = WorldStateV5
-
-/** contentVersion 10 只收紧敌人脚本与 battle context，不复制世界态 schema。 */
-export type WorldStateV10 = WorldStateV9
-/** contentVersion 11 只增加技能执行分支/表现事务 schema，不复制世界态。 */
-export type WorldStateV11 = WorldStateV10
-/** contentVersion 12 只增加敌队语义槽位 schema，不复制世界态。 */
-export type WorldStateV12 = WorldStateV11
-/** contentVersion 13 增加独立于 script authority 的实体生命周期表。 */
-export interface WorldStateV13 extends WorldStateV12 {
   /** 缺席或缺少具体实体条目均严格等价于 normal。 */
-  entityLifecycles?: EntityLifecycleTableV13
+  entityLifecycles?: EntityLifecycleTable
 }
-/** contentVersion 14 只升级作者对话身份，运行世界形状与 W9/content13 完全相同。 */
-export type WorldStateV14 = WorldStateV13
-/** contentVersion 16 增加项目级变量定义；存档仍只保存同一 WorldScriptStateV5 值表。 */
-export type WorldStateV16 = WorldStateV14
 
 /** manifest.startWorld —— initialWorld() 的数据化(loader 从工程 JSON 读,buildWorld 组装)。 */
 export interface StartWorld {
@@ -118,67 +85,19 @@ export const CONTENT_VERSION = 16 as const
 /** 当前工程仍允许读取的最早 SAVE envelope；不得从 CONTENT_VERSION 推导。 */
 export const CURRENT_PROJECT_MINIMUM_SAVE_VERSION = 8 as const
 
-/** manifest.json 的版本化公共形状。 */
-export interface ProjectManifest<V extends number> {
+/** 当前 manifest.json 的唯一公共形状。 */
+export interface CurrentManifest {
   id: string // 工程 id(= 文件夹名;稳定身份)
   name: string // 显示名(选单/标题)
-  contentVersion: V
+  contentVersion: typeof CONTENT_VERSION
   entryScene: string // 入口场景 id(= scenes.json 里的 scene.id)。多入口时 = 默认(无菜单/无 ?entry)开局的场景。
   /** 入口点列表(主菜单开局/DLC 入口)。缺省 = 从 entryScene+startWorld 合成一条 'new-game'(兼容)。 */
   entryPoints?: EntryPoint[]
   content: Record<string, string> // content 文件清单(kind → 相对路径)
-  assets: ManifestAssetConfigV3
+  assets: ManifestAssetConfig
   startWorld: StartWorld
-  /** 内容迁移注册表；历史存档真正需要某条 transition 时才读取并校验对应 sidecar。 */
-  migrations?: Record<string, ProjectMigrationDescriptorV1>
-  /** 缺席等于 1；高于此门槛的旧 envelope 才允许进入异步存档迁移预检。 */
-  minimumSaveVersion?: number
+  minimumSaveVersion: typeof CURRENT_PROJECT_MINIMUM_SAVE_VERSION
 }
-
-/** contentVersion 3 只允许项目升级边界读取。 */
-export type LegacyManifestV3 = ProjectManifest<3>
-
-/** contentVersion 4 只允许 P7 工程升级边界读取。 */
-export type LegacyManifestV4 = ProjectManifest<4>
-
-/** contentVersion 5 只允许开发期 epoch 晋升边界读取。 */
-export type LegacyManifestV5 = ProjectManifest<5>
-
-/** contentVersion 6 只允许 R13-2 epoch 晋升边界读取。 */
-export type LegacyManifestV6 = ProjectManifest<6>
-
-/** contentVersion 7 只允许 R13-3 投掷 schema 升级边界读取。 */
-export type LegacyManifestV7 = ProjectManifest<7>
-
-/** contentVersion 8 只允许 R13-4/E1 合并升级边界读取。 */
-export type LegacyManifestV8 = ProjectManifest<8>
-
-/** contentVersion 9 只允许 R13-5 敌人脚本升级边界读取。 */
-export type LegacyManifestV9 = ProjectManifest<9>
-/** contentVersion 10 只允许 R13-5/R13-6B 的升级边界读取。 */
-export type LegacyManifestV10 = ProjectManifest<10>
-/** contentVersion 11 只允许 B10 敌队槽位 successor 边界读取。 */
-export type LegacyManifestV11 = ProjectManifest<11>
-/** contentVersion 12 只允许 W9 生命周期 successor 边界读取。 */
-export type LegacyManifestV12 = ProjectManifest<12>
-
-/** contentVersion 13 只允许 C1-2 对话身份 successor 边界读取。 */
-export type LegacyManifestV13 = ProjectManifest<13>
-
-/** contentVersion 14 只允许敌队引用 successor 边界读取。 */
-export type ManifestV14 = ProjectManifest<14>
-
-/** contentVersion 16 当前工程清单。 */
-export type ManifestV16 = ProjectManifest<16>
-
-/** canonical loader 解析、runtime/editor 消费的当前工程清单。 */
-export type CurrentManifest = ProjectManifest<typeof CONTENT_VERSION>
-
-/**
- * 旧 v4 loader/editor shell 的兼容名称。P7 后不得用它判断当前版本；新代码用
- * CurrentManifest 或显式 ProjectManifest<10>。
- */
-export type LoadedManifest = LegacyManifestV4
 
 /** 角色实例(稳定 id;运行态)。绝对值属性,非原版 modifier。 */
 export interface CharacterInstance {
@@ -299,6 +218,7 @@ export function applySetParty(
 export function buildWorld(
   startWorld: StartWorld,
   actorsById: Record<string, ActorDef>,
+  worldVariables?: WorldVariableRegistryV1,
 ): WorldState {
   const party = startWorld.party.map((id) => {
     const a = actorsById[id]
@@ -309,7 +229,16 @@ export function buildWorld(
     if (seed?.mp !== undefined) inst.mp = seed.mp
     return inst
   })
+  const initial = worldVariables
+    ? initialWorldVariablesV1(worldVariables)
+    : { flags: {}, vars: {} }
   return {
+    script: {
+      ...emptyWorldScriptState(),
+      flags: initial.flags,
+      vars: initial.vars,
+    },
+    entityLifecycles: {},
     party,
     money: startWorld.money,
     // 拷贝(非引用):还原 initialWorld() 的 fresh-array 语义,防运行期改动回写污染 startWorld 源
@@ -318,40 +247,5 @@ export function buildWorld(
     ),
     inventory: startWorld.inventory.map((e) => ({ ...e })),
     ...(startWorld.resources ? { resources: { ...startWorld.resources } } : {}),
-  }
-}
-
-/**
- * contentVersion 13 新档世界构造器。
- *
- * v13 的脚本态与实体生命周期态都在创建时显式落成各自的 canonical 容器；调用方无需、
- * 也不得先构造 v12 世界再把它强转成 v13。生命周期空表严格表示所有实体均为 normal。
- */
-export function buildWorldV13(
-  startWorld: StartWorld,
-  actorsById: Record<string, ActorDef>,
-): WorldStateV13 {
-  return {
-    ...buildWorld(startWorld, actorsById),
-    script: emptyWorldScriptStateV5(),
-    entityLifecycles: {},
-  }
-}
-
-/** content16 新档构造器：只在创建时读取作者默认；读档路径绝不调用。 */
-export function buildWorldV16(
-  startWorld: StartWorld,
-  actorsById: Record<string, ActorDef>,
-  worldVariables: WorldVariableRegistryV1,
-): WorldStateV16 {
-  const world = buildWorldV13(startWorld, actorsById)
-  const initial = initialWorldVariablesV1(worldVariables)
-  return {
-    ...world,
-    script: {
-      ...(world.script ?? emptyWorldScriptStateV5()),
-      flags: initial.flags,
-      vars: initial.vars,
-    },
   }
 }

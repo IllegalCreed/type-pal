@@ -1,8 +1,8 @@
 import type { Command, ScriptStage } from '@type-pal/content'
-import { emptyWorldScriptState } from '@type-pal/content'
+import { emptyProjectedWorldScriptState, emptyWorldScriptState } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { SupersedingFadeDriver } from './fade-driver.js'
-import { buildPayload } from './save/ops.js'
+import { buildCurrentSavePayload } from './save/ops.js'
 import type { ScriptResolver } from './script-chunk-store.js'
 import type { ScriptHost } from './script-runner.js'
 import { ScriptRunner } from './script-runner.js'
@@ -132,7 +132,7 @@ function deferred<T>() {
 
 test('场景脚本覆写:双槽独立设置,both-zero 写入 null tombstone', async () => {
   const calls: string[] = []
-  const world = emptyWorldScriptState()
+  const world = emptyProjectedWorldScriptState()
   const r = new ScriptRunner(fakeHost(calls), world, new AbortController().signal)
   const enter = [{ body: [{ kind: 'clearDialog' as const }] }]
   const teleport = { chunk: 'scene/s059', id: 'scene/s059/teleport' }
@@ -149,14 +149,14 @@ test('场景脚本覆写:双槽独立设置,both-zero 写入 null tombstone', as
 
 test('结局命令调用宿主回标题', async () => {
   const calls: string[] = []
-  const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)
+  const r = new ScriptRunner(fakeHost(calls), emptyProjectedWorldScriptState(), new AbortController().signal)
   await r.run([{ kind: 'quitToTitle', videos: ['video.pal.004', 'video.pal.005'] }])
   expect(calls).toEqual(['quitToTitle(["video.pal.004","video.pal.005"])'])
 })
 
 test('setFollowers 先预载再原子提交；失败与 abort 都不污染世界', async () => {
   const calls: string[] = []
-  const world = emptyWorldScriptState()
+  const world = emptyProjectedWorldScriptState()
   const ok = fakeHost(calls)
   await new ScriptRunner(ok, world, new AbortController().signal).run([
     { kind: 'setFollowers', sprites: ['sprite-82'] },
@@ -200,7 +200,7 @@ test('setParty 必须等待宿主事务完成；reject/abort 后不执行下一�
   }
   const pending = new ScriptRunner(
     waiting,
-    emptyWorldScriptState(),
+    emptyProjectedWorldScriptState(),
     new AbortController().signal,
   ).run([
     { kind: 'setParty', members: ['lin-yueru'] },
@@ -218,7 +218,7 @@ test('setParty 必须等待宿主事务完成；reject/abort 后不执行下一�
     throw new Error('sprite preload failed')
   }
   await expect(
-    new ScriptRunner(rejected, emptyWorldScriptState(), new AbortController().signal).run([
+    new ScriptRunner(rejected, emptyProjectedWorldScriptState(), new AbortController().signal).run([
       { kind: 'setParty', members: ['zhao-linger'] },
       { kind: 'giveMoney', delta: 1 },
     ]),
@@ -233,7 +233,7 @@ test('setParty 必须等待宿主事务完成；reject/abort 后不执行下一�
     controller.abort()
   }
   await expect(
-    new ScriptRunner(aborted, emptyWorldScriptState(), controller.signal).run([
+    new ScriptRunner(aborted, emptyProjectedWorldScriptState(), controller.signal).run([
       { kind: 'setParty', members: ['anu'] },
       { kind: 'giveMoney', delta: 1 },
     ]),
@@ -243,7 +243,7 @@ test('setParty 必须等待宿主事务完成；reject/abort 后不执行下一�
 
 test('顺序执行 + 世界状态写入(flags/vars/entityState 双写)', async () => {
   const calls: string[] = []
-  const world = emptyWorldScriptState()
+  const world = emptyProjectedWorldScriptState()
   const r = new ScriptRunner(fakeHost(calls), world, new AbortController().signal)
   const body: Command[] = [
     { kind: 'dialog', cue: { rows: [{ text: 'dlg.1' }] } },
@@ -268,7 +268,7 @@ test('顺序执行 + 世界状态写入(flags/vars/entityState 双写)', async (
 
 test('0x6E clean nudgeParty 保留层号并兼容缺省 layer=0', async () => {
   const calls: string[] = []
-  const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)
+  const r = new ScriptRunner(fakeHost(calls), emptyProjectedWorldScriptState(), new AbortController().signal)
   await r.run([
     { kind: 'nudgeParty', dx: 0, dy: 0, layer: 6 },
     { kind: 'nudgeParty', dx: 16, dy: -8 },
@@ -278,7 +278,7 @@ test('0x6E clean nudgeParty 保留层号并兼容缺省 layer=0', async () => {
 
 test('loadScene 命名落点原样交给 host，不降级成默认或临时坐标', async () => {
   const calls: string[] = []
-  const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)
+  const r = new ScriptRunner(fakeHost(calls), emptyProjectedWorldScriptState(), new AbortController().signal)
   await r.run([
     { kind: 'loadScene', scene: 's001', entryId: 'west', facing: 'up' },
     { kind: 'loadScene', scene: 's001', entryId: 'east' },
@@ -291,7 +291,7 @@ test('loadScene 命名落点原样交给 host，不降级成默认或临时坐�
 
 test('R13-6B 黑屏配对与 source 场景过渡原样交给 host', async () => {
   const calls: string[] = []
-  const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)
+  const r = new ScriptRunner(fakeHost(calls), emptyProjectedWorldScriptState(), new AbortController().signal)
   await r.run([
     { kind: 'holdScreen', color: 'black', token: 'pal-night' },
     { kind: 'revealScreen', token: 'pal-night' },
@@ -317,14 +317,14 @@ test('R13-6B 黑屏配对与 source 场景过渡原样交给 host', async () => 
 
 test('过场编排:playVideo 命令按稳定 AssetId 阻塞播放', async () => {
   const calls: string[] = []
-  const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)
+  const r = new ScriptRunner(fakeHost(calls), emptyProjectedWorldScriptState(), new AbortController().signal)
   await r.run([{ kind: 'playVideo', asset: 'video.pal.001' }])
   expect(calls).toEqual(['playVideo("video.pal.001")'])
 })
 
 test('过场编排:playFrameAnimation 按 AssetId 传递区间与帧率', async () => {
   const calls: string[] = []
-  const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)
+  const r = new ScriptRunner(fakeHost(calls), emptyProjectedWorldScriptState(), new AbortController().signal)
   await r.run([
     {
       kind: 'playFrameAnimation',
@@ -343,7 +343,7 @@ test('setAmbience(W6 昼夜)→ host 分发氛围 id', async () => {
   const calls: string[] = []
   const r = new ScriptRunner(
     fakeHost(calls),
-    emptyWorldScriptState(),
+    emptyProjectedWorldScriptState(),
     new AbortController().signal,
     () => 0,
   )
@@ -365,7 +365,7 @@ describe('精灵预制动作命令', () => {
         release = resolve
       })
     }
-    const runner = new ScriptRunner(host, emptyWorldScriptState(), new AbortController().signal)
+    const runner = new ScriptRunner(host, emptyProjectedWorldScriptState(), new AbortController().signal)
     let finished = false
     const running = runner
       .run([
@@ -398,7 +398,7 @@ describe('精灵预制动作命令', () => {
       calls.push(`play:${args[0]}:${args[1].action}:${args[1].loop}`)
       return new Promise<void>(() => {})
     }
-    const runner = new ScriptRunner(host, emptyWorldScriptState(), new AbortController().signal)
+    const runner = new ScriptRunner(host, emptyProjectedWorldScriptState(), new AbortController().signal)
     await runner.run([
       {
         kind: 'playEntityAction',
@@ -434,7 +434,7 @@ describe('演出预览钩子(编辑器):onStep 路径上报 + 单步门', () => 
     const paths: string[] = []
     const host = fakeHost(calls)
     host.confirm = async () => false // 走 onNo 臂
-    const r = new ScriptRunner(host, emptyWorldScriptState(), new AbortController().signal, () => 0)
+    const r = new ScriptRunner(host, emptyProjectedWorldScriptState(), new AbortController().signal, () => 0)
     r.onStep = (ev) => paths.push(ev.path.join('/'))
     await r.runStages('k', [
       {
@@ -457,7 +457,7 @@ describe('演出预览钩子(编辑器):onStep 路径上报 + 单步门', () => 
     let gated = 0
     const r = new ScriptRunner(
       fakeHost(calls),
-      emptyWorldScriptState(),
+      emptyProjectedWorldScriptState(),
       new AbortController().signal,
       () => 0,
     )
@@ -481,7 +481,7 @@ describe('演出预览钩子(编辑器):onStep 路径上报 + 单步门', () => 
 
   test('宿主提交门在 void 命令后阻止下一命令与 stage cursor 提前推进', async () => {
     const calls: string[] = []
-    const world = emptyWorldScriptState()
+    const world = emptyProjectedWorldScriptState()
     const attempt = deferred<void>()
     let pending: Promise<void> | undefined
     const host = fakeHost(calls)
@@ -519,7 +519,7 @@ describe('演出预览钩子(编辑器):onStep 路径上报 + 单步门', () => 
 
 test('0x15/0x65 演出命令分发:姿势帧透传 gesture/member,换装走 setActorSprite', async () => {
   const calls: string[] = []
-  const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)
+  const r = new ScriptRunner(fakeHost(calls), emptyProjectedWorldScriptState(), new AbortController().signal)
   await r.run([
     { kind: 'setPartyFacing', facing: 'down', gesture: 9 },
     { kind: 'setPartyFacing', facing: 'right' }, // 无 gesture = 清姿势(host 侧语义)
@@ -539,7 +539,7 @@ describe('stages 阶段机', () => {
     { body: [{ kind: 'setVar', var: 'ran', value: 2 }] }, // 不可达(1 段 reset 回 0)
   ]
   test('advance 推进 → reset 回跳 → stay 缺省', async () => {
-    const world = emptyWorldScriptState()
+    const world = emptyProjectedWorldScriptState()
     const r = new ScriptRunner(fakeHost([]), world, new AbortController().signal)
     await r.runStages('e1', stages)
     expect(world.vars.ran).toBe(0)
@@ -551,7 +551,7 @@ describe('stages 阶段机', () => {
     expect(world.vars.ran).toBe(0)
   })
   test('stage 越界钳到末段', async () => {
-    const world = emptyWorldScriptState()
+    const world = emptyProjectedWorldScriptState()
     world.entityStage.e1 = 99
     const r = new ScriptRunner(fakeHost([]), world, new AbortController().signal)
     await r.runStages('e1', stages)
@@ -559,7 +559,7 @@ describe('stages 阶段机', () => {
   })
 
   test('已取消的空 stage 不得推进阶段', async () => {
-    const world = emptyWorldScriptState()
+    const world = emptyProjectedWorldScriptState()
     const controller = new AbortController()
     controller.abort()
     const r = new ScriptRunner(fakeHost([]), world, controller.signal)
@@ -572,7 +572,7 @@ describe('stages 阶段机', () => {
 
   test('scene onEnter 严格按 Prepare → Reveal → Body 执行', async () => {
     const calls: string[] = []
-    const world = emptyWorldScriptState()
+    const world = emptyProjectedWorldScriptState()
     const r = new ScriptRunner(fakeHost(calls), world, new AbortController().signal)
     await r.runStages(
       's:s001',
@@ -601,7 +601,7 @@ describe('stages 阶段机', () => {
   })
 
   test('非 onEnter 上下文执行 entry fail-loud', async () => {
-    const r = new ScriptRunner(fakeHost([]), emptyWorldScriptState(), new AbortController().signal)
+    const r = new ScriptRunner(fakeHost([]), emptyProjectedWorldScriptState(), new AbortController().signal)
     await expect(
       r.runStages('e1', [
         {
@@ -616,7 +616,7 @@ describe('stages 阶段机', () => {
 describe('stopScript 跳转臂终止(原版跳转命中链到 END 不落穿)', () => {
   test('嵌套臂内 stop 穿透终止全脚本:臂后命令不跑、阶段不转移', async () => {
     const calls: string[] = []
-    const world = emptyWorldScriptState()
+    const world = emptyProjectedWorldScriptState()
     const r = new ScriptRunner(fakeHost(calls), world, new AbortController().signal, () => 0)
     await r.runStages('e1', [
       {
@@ -636,7 +636,7 @@ describe('stopScript 跳转臂终止(原版跳转命中链到 END 不落穿)', (
   })
   test('不命中走落穿路径,自然收尾照常转移阶段', async () => {
     const calls: string[] = []
-    const world = emptyWorldScriptState()
+    const world = emptyProjectedWorldScriptState()
     const r = new ScriptRunner(fakeHost(calls), world, new AbortController().signal, () => 0.99)
     await r.runStages('e1', [
       {
@@ -664,7 +664,7 @@ test('abort:await 间隙取消,后续命令不再执行', async () => {
     calls.push('dialog')
     ac.abort() // 对话中途取消(模拟切场景/读档)
   }
-  const r = new ScriptRunner(host, emptyWorldScriptState(), ac.signal)
+  const r = new ScriptRunner(host, emptyProjectedWorldScriptState(), ac.signal)
   await expect(
     r.run([
       { kind: 'dialog', cue: { rows: [{ text: 'x' }] } },
@@ -680,7 +680,7 @@ test('并发 runner 的新 fade 连续接管画面，但旧 runner 不得继续�
   const host = fakeHost(calls)
   let clock = 0
   host.fade = (dir, ms, _color, signal) => driver.begin(dir === 'out' ? 1 : 0, clock, ms, signal)
-  const first = new ScriptRunner(host, emptyWorldScriptState(), new AbortController().signal).run([
+  const first = new ScriptRunner(host, emptyProjectedWorldScriptState(), new AbortController().signal).run([
     { kind: 'fade', dir: 'out', ms: 100 },
     { kind: 'giveMoney', delta: 1 },
   ])
@@ -688,7 +688,7 @@ test('并发 runner 的新 fade 连续接管画面，但旧 runner 不得继续�
   expect(driver.advance(40)).toBeCloseTo(0.4)
 
   clock = 40
-  const second = new ScriptRunner(host, emptyWorldScriptState(), new AbortController().signal).run([
+  const second = new ScriptRunner(host, emptyProjectedWorldScriptState(), new AbortController().signal).run([
     { kind: 'fade', dir: 'in', ms: 60 },
     { kind: 'giveMoney', delta: 2 },
   ])
@@ -701,7 +701,7 @@ test('并发 runner 的新 fade 连续接管画面，但旧 runner 不得继续�
 
 test('当前场景换底图只在重载成功后提交；reject/abort 均保留原 override', async () => {
   const makeWorld = () => {
-    const world = emptyWorldScriptState()
+    const world = emptyProjectedWorldScriptState()
     world.mapOverride = { s001: 'map.original' }
     return world
   }
@@ -739,7 +739,7 @@ test('当前场景换底图只在重载成功后提交；reject/abort 均保留�
 })
 
 test('当前场景换底图由 host 同拍提交运行态和持久态，提交后的 microtask abort 不得撕裂', async () => {
-  const world = emptyWorldScriptState()
+  const world = emptyProjectedWorldScriptState()
   world.mapOverride = { s001: 'map.original' }
   let runtimeMap = 'map.original'
   const controller = new AbortController()
@@ -787,7 +787,7 @@ test('多个 runner 只携带各自 signal；重启旧 auto 不误杀其他 runn
     commits.push(name)
   }
   const run = (name: (typeof names)[number]) =>
-    new ScriptRunner(host, emptyWorldScriptState(), controllers[name].signal).run([
+    new ScriptRunner(host, emptyProjectedWorldScriptState(), controllers[name].signal).run([
       { kind: 'giveItem', itemId: name },
     ])
 
@@ -823,7 +823,7 @@ test('全局停止分别取消全部 runner，所有延迟提交均为零', asyn
       }
       commits.push(index)
     }
-    return new ScriptRunner(host, emptyWorldScriptState(), controller.signal).run([
+    return new ScriptRunner(host, emptyProjectedWorldScriptState(), controller.signal).run([
       { kind: 'setParty', members: [`actor-${index}`] },
     ])
   })
@@ -836,7 +836,7 @@ test('全局停止分别取消全部 runner，所有延迟提交均为零', asyn
 describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
   test('branch:chance 注入 random 定率;then/else 二选一', async () => {
     const calls: string[] = []
-    const world = emptyWorldScriptState()
+    const world = emptyProjectedWorldScriptState()
     const mk = (rnd: number) =>
       new ScriptRunner(fakeHost(calls), world, new AbortController().signal, () => rnd)
     const body: Command[] = [
@@ -853,7 +853,7 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
   })
   test('branch:hasMoney/inParty/entityState/not 组合走 query/world', async () => {
     const calls: string[] = []
-    const world = emptyWorldScriptState()
+    const world = emptyProjectedWorldScriptState()
     world.entityState.e7 = 2
     const r = new ScriptRunner(fakeHost(calls), world, new AbortController().signal)
     await r.run([
@@ -895,7 +895,7 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
     const calls: string[] = []
     const r = new ScriptRunner(
       fakeHost(calls),
-      emptyWorldScriptState(),
+      emptyProjectedWorldScriptState(),
       new AbortController().signal,
     )
     await r.run([
@@ -929,7 +929,7 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
     const host = fakeHost(calls)
     let result: import('./battle/battle-result.js').BattleResult = 'defeat'
     host.startBattle = async () => result
-    const r = new ScriptRunner(host, emptyWorldScriptState(), new AbortController().signal)
+    const r = new ScriptRunner(host, emptyProjectedWorldScriptState(), new AbortController().signal)
     const body: Command[] = [
       {
         kind: 'startBattle',
@@ -952,7 +952,7 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
       calls.push(`battle(${team},f=${opts?.fieldId},m=${opts?.music})`)
       return 'victory'
     }
-    const r = new ScriptRunner(host, emptyWorldScriptState(), new AbortController().signal)
+    const r = new ScriptRunner(host, emptyProjectedWorldScriptState(), new AbortController().signal)
     await r.run([
       { kind: 'startBattle', enemyTeamId: 'team-27', fieldId: 22, music: 'music.pal.044' },
     ])
@@ -966,7 +966,7 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
       received = signal
       return 'victory'
     }
-    await new ScriptRunner(host, emptyWorldScriptState(), controller.signal).run([
+    await new ScriptRunner(host, emptyProjectedWorldScriptState(), controller.signal).run([
       { kind: 'startBattle', enemyTeamId: 'team-9' },
     ])
     expect(received).toBe(controller.signal)
@@ -979,7 +979,7 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
       calls.push(`teleportOut→${ok}`)
       return ok
     }
-    const r = new ScriptRunner(host, emptyWorldScriptState(), new AbortController().signal)
+    const r = new ScriptRunner(host, emptyProjectedWorldScriptState(), new AbortController().signal)
     const body: Command[] = [
       { kind: 'teleportOut', onFail: [{ kind: 'playSound', asset: 'sound.pal.042' }] },
       { kind: 'playSound', asset: 'sound.pal.001' },
@@ -1000,7 +1000,7 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
     const host = fakeHost(calls)
     let yes = false
     host.confirm = async () => yes
-    const r = new ScriptRunner(host, emptyWorldScriptState(), new AbortController().signal)
+    const r = new ScriptRunner(host, emptyProjectedWorldScriptState(), new AbortController().signal)
     const body: Command[] = [
       { kind: 'confirm', onNo: [{ kind: 'playSound', asset: 'sound.pal.007' }] },
       { kind: 'playSound', asset: 'sound.pal.001' },
@@ -1016,7 +1016,7 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
 
 test('E6b takeEntity/releaseEntity 派发到 host', async () => {
   const calls: string[] = []
-  const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)
+  const r = new ScriptRunner(fakeHost(calls), emptyProjectedWorldScriptState(), new AbortController().signal)
   await r.runStages('t', [
     {
       body: [
@@ -1041,7 +1041,7 @@ test('ditherScreen 阻塞后续命令，host 收口 Promise 后 abort 不会落�
       finishDither = resolve
     })
   const ac = new AbortController()
-  const runner = new ScriptRunner(host, emptyWorldScriptState(), ac.signal)
+  const runner = new ScriptRunner(host, emptyProjectedWorldScriptState(), ac.signal)
   const running = runner.run([
     { kind: 'ditherScreen', ms: 2160 },
     { kind: 'playSound', asset: 'sound.pal.001' },
@@ -1095,7 +1095,7 @@ describe('分片脚本 call/jump', () => {
     })
     const runner = new ScriptRunner(
       fakeHost(calls),
-      emptyWorldScriptState(),
+      emptyProjectedWorldScriptState(),
       new AbortController().signal,
       Math.random,
       resolver,
@@ -1116,7 +1116,7 @@ describe('分片脚本 call/jump', () => {
     const target = { chunk: 'scene/s001', id: 'scene/s001/target' }
     const runner = new ScriptRunner(
       fakeHost(calls),
-      emptyWorldScriptState(),
+      emptyProjectedWorldScriptState(),
       new AbortController().signal,
       () => 0,
       resolverOf({ [target.id]: [{ kind: 'playSound', asset: 'sound.pal.007' }] }),
@@ -1146,7 +1146,7 @@ describe('分片脚本 call/jump', () => {
     )
     const runner = new ScriptRunner(
       fakeHost(calls),
-      emptyWorldScriptState(),
+      emptyProjectedWorldScriptState(),
       new AbortController().signal,
       Math.random,
       resolver,
@@ -1163,7 +1163,7 @@ describe('分片脚本 call/jump', () => {
     const target = { chunk: 'shared/c00', id }
     const runner = new ScriptRunner(
       fakeHost(calls),
-      emptyWorldScriptState(),
+      emptyProjectedWorldScriptState(),
       new AbortController().signal,
       Math.random,
       resolverOf({ [id]: [{ kind: 'chasePlayer' }] }),
@@ -1179,7 +1179,7 @@ describe('分片脚本 call/jump', () => {
     const target = { chunk: 'shared/c00', id: 'shared/chase' }
     const runner = new ScriptRunner(
       fakeHost(calls),
-      emptyWorldScriptState(),
+      emptyProjectedWorldScriptState(),
       new AbortController().signal,
       Math.random,
       resolverOf({ [target.id]: [{ kind: 'chasePlayer' }] }),
@@ -1191,9 +1191,9 @@ describe('分片脚本 call/jump', () => {
   })
 
   test('连续访问 100 个跨场景脚本后，存档不携带已加载脚本体', async () => {
-    const script = emptyWorldScriptState()
+    const script = emptyProjectedWorldScriptState()
     const world = makeTestWorld()
-    world.script = script
+    world.script = emptyWorldScriptState()
     const visited: string[] = []
     const resolver: ScriptResolver = {
       async resolve(ref) {
@@ -1214,11 +1214,10 @@ describe('分片脚本 call/jump', () => {
     )
     const saveJson = (): string =>
       JSON.stringify(
-        buildPayload(
+        buildCurrentSavePayload(
           world,
           { sceneId: 's001', pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
           'pal',
-          1,
         ),
       )
     const baselineBytes = new TextEncoder().encode(saveJson()).byteLength
@@ -1247,7 +1246,7 @@ describe('分片脚本 call/jump', () => {
     })
     const runner = new ScriptRunner(
       fakeHost([]),
-      emptyWorldScriptState(),
+      emptyProjectedWorldScriptState(),
       new AbortController().signal,
       Math.random,
       resolver,
@@ -1262,7 +1261,7 @@ describe('分片脚本 call/jump', () => {
     const target = { chunk: 'shared/c00', id: 'shared/loop' }
     const noResolver = new ScriptRunner(
       fakeHost([]),
-      emptyWorldScriptState(),
+      emptyProjectedWorldScriptState(),
       new AbortController().signal,
     )
     await expect(noResolver.run([{ kind: 'callScript', ref: target }])).rejects.toThrow(
@@ -1279,7 +1278,7 @@ describe('分片脚本 call/jump', () => {
     }
     const loop = new ScriptRunner(
       fakeHost([]),
-      emptyWorldScriptState(),
+      emptyProjectedWorldScriptState(),
       ac.signal,
       Math.random,
       resolver,

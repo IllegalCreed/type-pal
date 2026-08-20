@@ -1,15 +1,16 @@
-import type { SceneDefV14, SharedScriptLibraryV14, StampTemplate } from '@type-pal/content'
+import type { AuthorSceneDef, AuthorScriptLibrary, StampTemplate } from '@type-pal/content'
 import {
-  validateScenesV14,
-  validateSharedScriptsV14,
+  validateAuthorScenes,
+  validateAuthorSharedScripts,
   validateStampTemplates,
   validateWorldVariableRegistryV1,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { buildRefIndex } from './ref-index.js'
 import { withUiReviewSamples } from './ui-review-samples.js'
+import type { ScriptEditorState } from './script-editor.js'
+import { collectWorldVariableReferencesV1 } from './world-variable-references.js'
 
-function scene(): SceneDefV14 {
+function scene(): AuthorSceneDef {
   return {
     id: 'scene-a',
     mapId: 'map-a',
@@ -33,7 +34,7 @@ function scene(): SceneDefV14 {
 describe('withUiReviewSamples', () => {
   test('adds valid review data without mutating the loaded project and feeds the real variable index', () => {
     const scenes = [scene()]
-    const sharedScripts: SharedScriptLibraryV14 = {}
+    const sharedScripts: AuthorScriptLibrary = {}
     const stamps: StampTemplate[] = []
     const worldVariables = {}
     const result = withUiReviewSamples({
@@ -53,18 +54,30 @@ describe('withUiReviewSamples', () => {
     expect(result.scenes[0]?.hooks?.onEnter?.initial).toBe('default')
     expect(result.scenes[0]?.hooks?.onEnter?.variants).toHaveProperty('ui-review-samples')
 
-    const refs = buildRefIndex(result.scenes)
-    expect([...refs.flags.keys()]).toEqual(['review.chapter.opened', 'review.quest.rewarded'])
-    expect([...refs.vars.keys()]).toEqual(['review.chapter.progress', 'review.reputation'])
-    expect(validateScenesV14(result.scenes)).toHaveLength(1)
-    expect(validateSharedScriptsV14(result.sharedScripts)).toEqual(result.sharedScripts)
+    const refs = collectWorldVariableReferencesV1({
+      scenes: result.scenes as unknown as ScriptEditorState['scenes'],
+      items: [],
+      sharedScripts: result.sharedScripts as unknown as ScriptEditorState['sharedScripts'],
+    })
+    expect(
+      [...refs.byId]
+        .filter(([, entries]) => entries.some((entry) => entry.kind === 'flag'))
+        .map(([id]) => id),
+    ).toEqual(['review.chapter.opened', 'review.quest.rewarded', 'review.quest.started'])
+    expect(
+      [...refs.byId]
+        .filter(([, entries]) => entries.some((entry) => entry.kind === 'number'))
+        .map(([id]) => id),
+    ).toEqual(['review.chapter.progress', 'review.reputation', 'review.quest.progress'])
+    expect(validateAuthorScenes(result.scenes)).toHaveLength(1)
+    expect(validateAuthorSharedScripts(result.sharedScripts)).toEqual(result.sharedScripts)
     expect(validateStampTemplates(result.stamps)).toEqual(result.stamps)
     expect(validateWorldVariableRegistryV1(result.worldVariables)).toEqual(result.worldVariables)
     expect(Object.keys(result.worldVariables)).toHaveLength(7)
   })
 
   test('preserves existing namespaced records and stays idempotent', () => {
-    const existingScript: SharedScriptLibraryV14[string] = {
+    const existingScript: AuthorScriptLibrary[string] = {
       name: '真实作者脚本',
       self: 'none',
       body: [],

@@ -17,13 +17,15 @@ import {
   type AssetRecordV1,
   encodeFrameSequenceSync,
   FRAME_SEQUENCE_MEDIA_TYPE,
-  type ManifestAssetConfigV3,
+  type ManifestAssetConfig,
   palBattleBackgroundAssetId,
   palBattleSpriteAssetId,
   palFaceAssetId,
   palFrameAnimationAssetId,
   palItemIconAssetId,
+  palMagicEffectSpriteAssetId,
   palMusicAssetId,
+  PAL_PHYSICAL_EFFECT_ASSET_ID,
   palPortraitAssetId,
   palSoundAssetId,
   palSpriteAssetId,
@@ -78,6 +80,9 @@ export interface PalAssetMigrationReport {
   itemIconBytes: number
   battleBackgrounds: number
   battleBackgroundBytes: number
+  effectSprites: number
+  effectSpriteBytes: number
+  effectSpriteFrames: number
   tilesets: number
   tilesetBytes: number
   tilesetFrames: number
@@ -269,14 +274,14 @@ export const PAL_AUDIO_ROLES = {
   'audio.bossVictoryMusic': palMusicAssetId(2),
   'audio.normalVictoryMusic': palMusicAssetId(3),
   'audio.openingMenuMusic': palMusicAssetId(4),
-} as const satisfies ManifestAssetConfigV3['roles']
+} as const satisfies ManifestAssetConfig['roles']
 
 export const PAL_SOUND_ROLES = {
   'audio.battleItemUseSound': palSoundAssetId(28),
   'audio.battleCoopCastSound': palSoundAssetId(29),
   'audio.battleEscapeSound': palSoundAssetId(45),
   'audio.battleEnemyTransformSound': palSoundAssetId(47),
-} as const satisfies ManifestAssetConfigV3['roles']
+} as const satisfies ManifestAssetConfig['roles']
 
 export const PAL_ASSET_ROLES = {
   ...PAL_AUDIO_ROLES,
@@ -284,7 +289,7 @@ export const PAL_ASSET_ROLES = {
   'video.startupTrademark': palVideoAssetId(1),
   'video.startupSplash': palVideoAssetId(2),
   'visual.standardColorTable': 'color.project-standard',
-} as const satisfies ManifestAssetConfigV3['roles']
+} as const satisfies ManifestAssetConfig['roles']
 
 export const PAL_RNG_LEGACY_PALETTE: Readonly<Record<number, number>> = { 3: 2, 6: 3, 7: 6 }
 
@@ -490,6 +495,67 @@ function loadPalStaticImages(repo: string): {
       battleBackgrounds: 52,
       battleBackgroundBytes,
     },
+  }
+}
+
+function loadPalEffectSprites(repo: string): {
+  binaries: PalBinaryAssetSource[]
+  report: Pick<
+    PalAssetMigrationReport,
+    'effectSprites' | 'effectSpriteBytes' | 'effectSpriteFrames'
+  >
+} {
+  const specs = [
+    {
+      id: PAL_PHYSICAL_EFFECT_ASSET_ID,
+      file: 'effect.rle',
+      label: 'PAL 物理命中特效',
+      output: 'physical-hit.rle',
+    },
+    ...Array.from({ length: 55 }, (_, chunk) => {
+      const source = String(chunk).padStart(2, '0')
+      const output = String(chunk).padStart(3, '0')
+      return {
+        id: palMagicEffectSpriteAssetId(chunk),
+        file: `fire-${source}.rle`,
+        label: `PAL 法术特效 ${output}`,
+        output: `magic-${output}.rle`,
+      }
+    }),
+  ]
+  const binaries: PalBinaryAssetSource[] = []
+  let effectSpriteBytes = 0
+  let effectSpriteFrames = 0
+  for (const spec of specs) {
+    const sourcePath = resolve(repo, `data/extracted/data/magic/${spec.file}`)
+    const compressed = readFileSync(sourcePath)
+    if (compressed[0] !== 0x1f || compressed[1] !== 0x8b)
+      throw new Error(`${spec.label}: 期望 gzip RLE`)
+    const frames = parseSpriteChunkStrict(gunzipSync(compressed))
+    if (frames.length === 0) throw new Error(`${spec.label}: 不含帧`)
+    effectSpriteBytes += compressed.byteLength
+    effectSpriteFrames += frames.length
+    binaries.push(
+      fileSource(spec.id, sourcePath, {
+        kind: 'effect-sprite',
+        path: `assets/migrated/effect-sprites/${spec.output}`,
+        mediaType: 'application/vnd.type-pal.rle',
+        label: spec.label,
+        origin: { kind: 'legacy-migrated', ref: `data/magic/${spec.file}` },
+      }),
+    )
+  }
+  if (
+    binaries.length !== 56 ||
+    effectSpriteBytes !== 652_870 ||
+    effectSpriteFrames !== 922
+  )
+    throw new Error(
+      `PAL 特效精灵基线漂移: assets=${binaries.length} bytes=${effectSpriteBytes} frames=${effectSpriteFrames}`,
+    )
+  return {
+    binaries,
+    report: { effectSprites: binaries.length, effectSpriteBytes, effectSpriteFrames },
   }
 }
 
@@ -924,7 +990,7 @@ export function loadPalAssets(
   catalog: AssetCatalogV1
   binaries: PalBinaryAssetSource[]
   worldSpriteFrameCounts: number[]
-  roles: ManifestAssetConfigV3['roles']
+  roles: ManifestAssetConfig['roles']
   report: PalAssetMigrationReport
 } {
   const binaries = [...midiIds]
@@ -977,6 +1043,8 @@ export function loadPalAssets(
   binaries.push(...sounds.binaries)
   const staticImages = loadPalStaticImages(repo)
   binaries.push(...staticImages.binaries)
+  const effectSprites = loadPalEffectSprites(repo)
+  binaries.push(...effectSprites.binaries)
   const worldSprites = loadPalWorldSprites(repo)
   binaries.push(...worldSprites.binaries)
   const battleSprites = loadPalBattleSprites(repo)
@@ -1031,7 +1099,7 @@ export function loadPalAssets(
   }
   validateAssetCatalog(catalog)
   const catalogBytes = Object.values(catalog.assets).reduce((sum, record) => sum + record.bytes, 0)
-  if (Object.keys(catalog.assets).length !== 1_879 || catalogBytes !== 68_439_367)
+  if (Object.keys(catalog.assets).length !== 1_935 || catalogBytes !== 69_092_237)
     throw new Error(
       `PAL 物理 catalog 基线漂移: records=${Object.keys(catalog.assets).length} bytes=${catalogBytes}`,
     )
@@ -1047,6 +1115,7 @@ export function loadPalAssets(
       ...frameAnimations.report,
       ...sounds.report,
       ...staticImages.report,
+      ...effectSprites.report,
       ...worldSprites.report,
       ...battleSprites.report,
       tilesets: uniqueMapNums.length,

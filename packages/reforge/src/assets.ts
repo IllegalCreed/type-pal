@@ -9,6 +9,8 @@ import {
   type BattleSpriteDef,
   type BattleSpriteProfileKind,
   battleSpriteDefinitionFrameIndices,
+  palMagicEffectSpriteAssetId,
+  PAL_PHYSICAL_EFFECT_ASSET_ID,
   type ProjectMap,
   validateProjectMap,
 } from '@type-pal/content'
@@ -25,34 +27,26 @@ import {
   type WorldSpriteChunkResult,
 } from '@type-pal/shared'
 import type { AssetResolver } from './asset-resolver.js'
-import type { LegacyAssetAdapter } from './file-source.js'
+import type { FileSource } from './file-source.js'
 
-/** 工程资源根 + 子目录(由 loader 从 manifest.assets 解析,main 注入给 load*)。 */
+/** 当前工程资源读取上下文；工程文件与 catalog 资源都只走一条 FileSource。 */
 export interface AssetBase {
-  root: string // 如 `projects/<id>/assets`
-  palettes: string
-  /** 仅供 contentVersion 3 未迁移资源族使用；音乐等 catalog 资源不得经此读取。 */
-  io: LegacyAssetAdapter
-  /** 已迁移资源的唯一解析器；标准颜色、音乐、音效、视频等不得回落到 legacy 路径。 */
-  assetResolver?: AssetResolver
+  source: FileSource
+  assetResolver: AssetResolver
 }
 
 /** 资产缺失指路（新 clone 最常见坑：PAL 提取源尚未准备）。 */
 const ASSET_HINT =
   '资产缺失?新 clone 需先放入 data/raw 并跑:pnpm extract(见 docs/dev-servers.md「新人前置」)'
 
-async function readAssetBytes(base: AssetBase, path: string, label: string): Promise<ArrayBuffer> {
+async function readAssetJson<T>(base: AssetBase, path: string): Promise<T> {
   try {
-    return await base.io.readBytes(path)
+    return await base.source.readJson<T>(path)
   } catch (error) {
     throw new Error(
-      `${label}: ${path} —— ${ASSET_HINT}；${error instanceof Error ? error.message : String(error)}`,
+      `${path} —— ${ASSET_HINT}；${error instanceof Error ? error.message : String(error)}`,
     )
   }
-}
-
-async function readAssetJson<T>(base: AssetBase, path: string): Promise<T> {
-  return base.io.readJson<T>(path)
 }
 
 /** 从工程 content 路径读取唯一作者态地图，并在加载边界完整校验。 */
@@ -61,7 +55,6 @@ export async function loadProjectMap(base: AssetBase, mapPath: string): Promise<
 }
 
 export async function loadStandardPalette(base: AssetBase): Promise<Palette> {
-  if (!base.assetResolver) throw new Error('工程未挂载 AssetResolver，无法读取工程标准色彩')
   const text = await base.assetResolver.readRoleText('visual.standardColorTable')
   let palette: Partial<Palette>
   try {
@@ -90,7 +83,6 @@ export async function loadStandardPalette(base: AssetBase): Promise<Palette> {
  * AssetId 是唯一输入；物理路径只能由 catalog 解析。
  */
 export async function loadTileset(base: AssetBase, asset: AssetId): Promise<Map<number, RleFrame>> {
-  if (!base.assetResolver) throw new Error('工程未挂载 AssetResolver，无法读取瓦片集')
   return loadTilesetAsset(base.assetResolver, asset)
 }
 
@@ -144,7 +136,7 @@ export interface SpriteAssetReader {
 
 /**
  * 已读取字节的公共校验/解码核。profile 只能由 record.origin 决定；调用方不得按 AssetId
- * 或文件名选择 legacy 容错。
+ * 或文件名选择原始 PAL 坏尾容错。
  */
 export async function decodeWorldSpriteAssetBytes(
   record: AssetRecordV1,
@@ -427,22 +419,32 @@ export async function loadBattleSpriteDefinition(
   return { definition, sprite }
 }
 
-/** 物理命中特效精灵(chunk 10 = {root}/magic/effect.rle,gzip RLE;M4d-2)。 */
-export async function loadEffectSprite(base: AssetBase): Promise<LoadedSprite> {
-  const raw = await readAssetBytes(base, `${base.root}/magic/effect.rle`, 'effect sprite')
+async function loadEffectSpriteAsset(base: AssetBase, asset: AssetId): Promise<LoadedSprite> {
+  const record = base.assetResolver.record(asset, 'effect-sprite')
+  if (record.mediaType !== 'application/vnd.type-pal.rle')
+    throw new Error(`effect-sprite AssetId "${asset}": mediaType 非法 ${record.mediaType}`)
+  const raw = await base.assetResolver.readBytes(asset, 'effect-sprite')
+  if (raw.byteLength !== record.bytes)
+    throw new Error(
+      `effect-sprite AssetId "${asset}": bytes 登记 ${record.bytes}，实际 ${raw.byteLength}`,
+    )
+  const hash = await contentSha256(raw)
+  if (hash !== record.sha256) throw new Error(`effect-sprite AssetId "${asset}": sha256 不符`)
+  const compressed = new Uint8Array(raw)
+  if (compressed[0] !== 0x1f || compressed[1] !== 0x8b)
+    throw new Error(`effect-sprite AssetId "${asset}": 期望 gzip RLE`)
   const frames = parseSpriteChunk(await decompressGzip(new Blob([raw])))
   return { frames, anchorX: 0, anchorY: 0 }
 }
 
-/** 法术特效精灵(FIRE.MKF chunk = {root}/magic/fire-NN.rle;M4d-2b)。 */
+/** 物理命中特效精灵。 */
+export async function loadEffectSprite(base: AssetBase): Promise<LoadedSprite> {
+  return loadEffectSpriteAsset(base, PAL_PHYSICAL_EFFECT_ASSET_ID)
+}
+
+/** 法术特效精灵；技能保存源 chunk，资源路径只由 catalog 解析。 */
 export async function loadFireSprite(base: AssetBase, chunk: number): Promise<LoadedSprite> {
-  const raw = await readAssetBytes(
-    base,
-    `${base.root}/magic/fire-${String(chunk).padStart(2, '0')}.rle`,
-    `fire sprite ${chunk}`,
-  )
-  const frames = parseSpriteChunk(await decompressGzip(new Blob([raw])))
-  return { frames, anchorX: 0, anchorY: 0 }
+  return loadEffectSpriteAsset(base, palMagicEffectSpriteAssetId(chunk))
 }
 
 /** 战场条目(battle-fields.json):常驻波幅 + 五灵加成(fight.c:244 双向乘入法术伤害)。 */
@@ -451,19 +453,6 @@ export interface BattleFieldEntry {
   magicEffect?: { wind: number; thunder: number; water: number; fire: number; earth: number }
   /** 背景图稳定引用；缺席明确表示黑底。 */
   background?: AssetId
-}
-
-/** 战场表(id → BattleFieldEntry)。缺文件由调用方 catch 空表兜底。 */
-export async function loadBattleFields(base: AssetBase): Promise<Map<number, BattleFieldEntry>> {
-  const arr = await readAssetJson<
-    Array<{ id: number; screenWave?: number; magicEffect?: BattleFieldEntry['magicEffect'] }>
-  >(base, `${base.root}/battle-fields.json`)
-  return new Map(
-    arr.map((f) => [
-      f.id,
-      { screenWave: f.screenWave ?? 0, ...(f.magicEffect ? { magicEffect: f.magicEffect } : {}) },
-    ]),
-  )
 }
 
 /**
@@ -484,7 +473,6 @@ export async function loadBattleBgFull(
   asset: AssetId,
   palette: Palette,
 ): Promise<BattleBgAsset> {
-  if (!base.assetResolver) throw new Error('工程未挂载 AssetResolver，无法读取战场背景')
   const record = base.assetResolver.record(asset, 'battle-background')
   const bytes = await base.assetResolver.readBytes(asset, 'battle-background')
   let bitmap: ImageBitmap

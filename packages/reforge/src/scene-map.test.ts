@@ -11,14 +11,13 @@ import { loadProjectMap, loadTileset } from './assets.js'
 import { loadSceneMap } from './scene-map.js'
 
 const base: AssetBase = {
-  root: '/proj/data',
-  palettes: 'palette',
-  io: {
+  source: {
     readText: async () => '',
     readJson: async <T>() => ({}) as T,
     readBytes: async () => new ArrayBuffer(0),
     urlFor: async (path) => path,
   },
+  assetResolver: {} as never,
 }
 const fakeMap: ProjectMap = {
   version: 4,

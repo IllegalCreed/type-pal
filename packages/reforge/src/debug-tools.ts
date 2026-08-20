@@ -6,18 +6,18 @@
  *   生产构建 tree-shake 掉 `if(false)` 动态 import 分支。
  * - 全部状态内存态，不落档；世界变更走 runDetached（host 意图守卫）或 dev 内存 mutation。
  * - 命令注册表复用现有 host/命令能力，不新建执行路径。
- * - 任意脚本/触发器触发走 detached（runDetachedV5ScriptChain 语义），不用 startScript 静默丢。
+ * - 任意脚本/触发器触发走 detached current runtime，不用 startScript 静默丢。
  * - 输入隔离：面板 keydown/keyup stopPropagation，焦点期不吞游戏键，Esc 只关 overlay。
  */
 import type {
   ActivePoison,
   CharacterInstance,
-  SceneDefV5,
+  RuntimeSceneDef,
   StatusId,
   WorldState,
 } from '@type-pal/content'
-import type { LoadedProjectV5 } from './loader-v5.js'
-import type { ScriptProjectRuntimeV5 } from './script-project-v5.js'
+import type { LoadedCurrentProject } from './project-loader.js'
+import type { ScriptProjectRuntime } from './runtime-script-project.js'
 import type { BattleResult } from './battle/battle-result.js'
 
 export interface DebugFrameStep {
@@ -48,17 +48,17 @@ export interface DebugPresetMember {
 export interface DebugToolsContext {
   world(): WorldState
   sceneId(): string
-  /** canonical script-v5 场景定义（触发器/脚本枚举与触发用）。 */
-  scene(): SceneDefV5 | undefined
-  canonicalProject: LoadedProjectV5
-  runtime(): ScriptProjectRuntimeV5 | undefined
+  /** current canonical 场景定义（触发器/脚本枚举与触发用）。 */
+  scene(): RuntimeSceneDef | undefined
+  canonicalProject: LoadedCurrentProject
+  runtime(): ScriptProjectRuntime | undefined
   runnerBusy(): boolean
   dialogBusy(): boolean
   /** D14-2(K2):呈现占用(intent 在途 ∪ runner 活跃)——触发确认判定用。 */
   presentationBusy(): boolean
   runDetached<T>(
     signal: AbortSignal,
-    invoke: (runtime: ScriptProjectRuntimeV5, signal: AbortSignal) => Promise<T>,
+    invoke: (runtime: ScriptProjectRuntime, signal: AbortSignal) => Promise<T>,
   ): Promise<T>
   startBattleDev(
     request: {
@@ -511,7 +511,7 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
       button.remove()
       setStatus(`[${runId}] ${item.label} → ${statusText}`, color)
     }
-    const invoke = (runtime: ScriptProjectRuntimeV5, signal: AbortSignal): Promise<unknown> => {
+    const invoke = (runtime: ScriptProjectRuntime, signal: AbortSignal): Promise<unknown> => {
       switch (item.kind) {
         case 'script':
           return runtime.runSharedScript(item.id, { signal })
@@ -881,7 +881,7 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
     const arg = (i: number): string | undefined => parts[i]
     const signal = new AbortController()
     const detached = <T>(
-      invoke: (runtime: ScriptProjectRuntimeV5, s: AbortSignal) => Promise<T>,
+      invoke: (runtime: ScriptProjectRuntime, s: AbortSignal) => Promise<T>,
     ): Promise<T> => ctx.runDetached(signal.signal, invoke)
     const sceneSwitch = (): boolean =>
       cmd === 'scene' || cmd === 'run-script' || cmd === 'run-trigger'

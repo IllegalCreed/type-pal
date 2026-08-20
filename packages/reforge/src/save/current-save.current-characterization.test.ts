@@ -1,13 +1,13 @@
 import {
-  buildEntityLifecycleReferenceIndexV13,
-  type ProjectManifest,
-  type WorldStateV16,
+  buildEntityLifecycleReferenceIndex,
+  type CurrentManifest,
+  type WorldState,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { normalizePayloadV16, preflightSaveMigrationV16 } from './migration-v16.js'
-import type { SavePayloadV8Content16 } from './types.js'
+import { normalizeCurrentSave, preflightCurrentSave } from './current-codec.js'
+import type { CurrentSavePayload } from './types.js'
 
-function manifest(): ProjectManifest<16> {
+function manifest(): CurrentManifest {
   return {
     id: 'demo',
     name: 'Demo',
@@ -20,7 +20,7 @@ function manifest(): ProjectManifest<16> {
   }
 }
 
-function world(): WorldStateV16 {
+function world(): WorldState {
   return {
     party: [],
     money: 7,
@@ -37,7 +37,7 @@ function world(): WorldStateV16 {
   }
 }
 
-function payload(): SavePayloadV8Content16 {
+function payload(): CurrentSavePayload {
   return {
     version: 8,
     contentVersion: 16,
@@ -51,7 +51,7 @@ function payload(): SavePayloadV8Content16 {
   }
 }
 
-const references = buildEntityLifecycleReferenceIndexV13([
+const references = buildEntityLifecycleReferenceIndex([
   { id: 's001', entities: [{ id: 'e001' }] },
 ])
 
@@ -59,8 +59,8 @@ describe('current SAVE8/content16 contract before migration-layer removal', () =
   test('round-trips the current envelope without mutating input or resetting world values', async () => {
     const raw = payload()
     const before = structuredClone(raw)
-    const resolver = await preflightSaveMigrationV16({ manifest: manifest(), payload: raw })
-    const normalized = normalizePayloadV16(raw, resolver, references)
+    const resolver = await preflightCurrentSave({ manifest: manifest(), payload: raw })
+    const normalized = normalizeCurrentSave(raw, resolver, references)
 
     expect(normalized).toEqual(before)
     expect(normalized).not.toBe(raw)
@@ -75,7 +75,7 @@ describe('current SAVE8/content16 contract before migration-layer removal', () =
     [9, 16],
   ])('rejects non-current SAVE%s/content%s before normalization', async (version, contentVersion) => {
     const raw = { ...payload(), version, contentVersion }
-    await expect(preflightSaveMigrationV16({ manifest: manifest(), payload: raw })).rejects.toThrow(
+    await expect(preflightCurrentSave({ manifest: manifest(), payload: raw })).rejects.toThrow(
       /只接受 SAVE8\/content16/,
     )
   })
@@ -83,7 +83,7 @@ describe('current SAVE8/content16 contract before migration-layer removal', () =
   test('rejects malformed or dangling current lifecycle references', async () => {
     const raw = payload()
     raw.world.entityLifecycles = { s001: { missing: { phase: 'removed' } } }
-    const resolver = await preflightSaveMigrationV16({ manifest: manifest(), payload: raw })
-    expect(() => normalizePayloadV16(raw, resolver, references)).toThrow(/未知 entity id/)
+    const resolver = await preflightCurrentSave({ manifest: manifest(), payload: raw })
+    expect(() => normalizeCurrentSave(raw, resolver, references)).toThrow(/未知 entity id/)
   })
 })

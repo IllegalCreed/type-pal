@@ -404,7 +404,7 @@ describe('WorldSpriteLibrary', () => {
     await verifyInspectorTabs(host, '大世界精灵检查器', ['动作', /^引用 \d+$/, '源资源'])
   })
 
-  test('世界状态外观、跟随队列和脚本覆写分别说明其引用角色', async () => {
+  test('current 世界状态外观和跟随队列分别说明其引用角色', async () => {
     const session = new EditSession(
       editorState([definitions[1]!], {
         scenes: [],
@@ -416,7 +416,7 @@ describe('WorldSpriteLibrary', () => {
                 id: 'hero-save',
                 template: 'hero',
                 appearance: { spriteId: 'hero-static' },
-              },
+              } as never,
             ],
             money: 0,
             learnedSkills: {},
@@ -425,19 +425,10 @@ describe('WorldSpriteLibrary', () => {
               flags: {},
               vars: {},
               entityState: {},
-              entityStage: {},
+              behaviors: {},
               followers: ['hero-static'],
-              sceneScriptOverrides: {
-                s001: {
-                  onEnter: [
-                    {
-                      body: [{ kind: 'setFollowers', sprites: ['hero-static'] }],
-                    },
-                  ],
-                },
-              },
             },
-          } as never,
+          },
         ],
       }),
     )
@@ -451,8 +442,6 @@ describe('WorldSpriteLibrary', () => {
     expect(text).toContain('角色运行态外观')
     expect(text).toContain('世界状态 0 · 跟随者队列')
     expect(text).toContain('跟随队列外观')
-    expect(text).toContain('世界状态 0 · 场景脚本覆写')
-    expect(text).toContain('运行态脚本引用')
   })
 
   test('动作引用按钮传出可编辑来源的精确 locator，而不是降级成定义级跳转', async () => {

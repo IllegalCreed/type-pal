@@ -1,4 +1,4 @@
-import type { SceneDef, SceneDefV5, ScriptFlowV5 } from '@type-pal/content'
+import type { SceneDef, BaseSceneDef, BaseScriptFlow } from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
 import { Playback } from './playback.js'
 
@@ -9,14 +9,14 @@ const scene: SceneDef = {
   entities: [],
 }
 
-const canonicalScene: SceneDefV5 = {
+const canonicalScene: BaseSceneDef = {
   id: 's001',
   mapId: 'map-001',
   entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
   entities: [],
 }
 
-const choiceFlow: ScriptFlowV5 = {
+const choiceFlow: BaseScriptFlow = {
   kind: 'stateMachine',
   machine: {
     id: 'preview-choice',
@@ -108,7 +108,7 @@ describe('Playback', () => {
 
   test('canonical holdScreen 持有黑幕，匹配的 revealScreen 淡入恢复', async () => {
     const playback = new Playback(scene)
-    const flow: ScriptFlowV5 = {
+    const flow: BaseScriptFlow = {
       kind: 'stages',
       initial: 'preview',
       stages: [
@@ -191,7 +191,7 @@ describe('Playback', () => {
   test.each([
     { accepted: false, facing: 'left' as const },
     { accepted: true, facing: 'right' as const },
-  ])('canonical v5 preview executes the real commandOutcome arm ($accepted)', async ({
+  ])('canonical preview executes the real commandOutcome arm ($accepted)', async ({
     accepted,
     facing,
   }) => {
@@ -230,7 +230,7 @@ describe('Playback', () => {
 
   test('canonical shared preview resolves callScript without mutating the authored library', async () => {
     const playback = new Playback(scene)
-    const flow: ScriptFlowV5 = {
+    const flow: BaseScriptFlow = {
       kind: 'stages',
       initial: 'preview',
       stages: [

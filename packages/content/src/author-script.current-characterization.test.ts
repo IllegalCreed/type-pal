@@ -1,17 +1,17 @@
 import type { ActorDef } from './actor.js'
 import { describe, expect, test } from 'vitest'
 import {
-  checkAuthorCommandsV13 as checkAuthorCommands,
-  checkEntityBehaviorsV13 as checkEntityBehaviors,
-  checkEntityPagesV13 as checkEntityPages,
-  checkSceneHooksV13 as checkSceneHooks,
-  checkScriptFlowV13 as checkScriptFlow,
-  checkSharedScriptLibraryV13 as checkSharedScriptLibrary,
-} from './script-v13.js'
+  checkRuntimeCommands as checkAuthorCommands,
+  checkRuntimeEntityBehaviors as checkEntityBehaviors,
+  checkRuntimeEntityPages as checkEntityPages,
+  checkRuntimeSceneHooks as checkSceneHooks,
+  checkRuntimeScriptFlow as checkScriptFlow,
+  checkRuntimeScriptLibrary as checkSharedScriptLibrary,
+} from './runtime-script.js'
 import {
-  checkAuthorCommandsV14 as checkCurrentAuthorCommands,
-  resolveDialogueTreeV14ToV13 as resolveDialogueTree,
-} from './script-v14.js'
+  checkAuthorCommands as checkCurrentAuthorCommands,
+  resolveAuthorDialogueTree as resolveDialogueTree,
+} from './author-script.js'
 
 const target = { scene: 's001', entity: 'e001' }
 

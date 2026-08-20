@@ -11,7 +11,7 @@ import {
   WorldVariableInUseError,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
-import type { CanonicalScriptReferenceV5 } from '../core/script-v5-editor.js'
+import type { CanonicalScriptReference } from '../core/script-editor.js'
 import type {
   WorldVariableReferenceIndexV1,
   WorldVariableReferenceV1,
@@ -68,7 +68,7 @@ export function VarsTab(props: {
   session: EditSession
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
-  onOpenReference?: (reference: CanonicalScriptReferenceV5) => void
+  onOpenReference?: (reference: CanonicalScriptReference) => void
   tabBar?: React.ReactNode
 }) {
   const { variables, references, session, focusObjectId, onObjectFocus, onOpenReference, tabBar } =

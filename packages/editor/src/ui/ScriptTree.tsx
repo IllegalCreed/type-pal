@@ -8,7 +8,7 @@
 import type {
   ActorDef,
   Command,
-  DialogueCueV14,
+  AuthorDialogueCue,
   Locale,
   SceneDef,
   SceneEntryPresentation,
@@ -16,7 +16,7 @@ import type {
   ScriptCondition,
   ScriptStage,
 } from '@type-pal/content'
-import { lookupText, parseRichText, resolveDialogueIdentityV14 } from '@type-pal/content'
+import { lookupText, parseRichText, resolveDialogueIdentity } from '@type-pal/content'
 import { useEffect, useRef } from 'react'
 import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 
@@ -102,10 +102,10 @@ export function describeScriptCommand(
     case 'gameOver':
       return { icon: '💀', label: '战败流程(渐红 + 文案 + 读档)' }
     case 'dialog': {
-      const cue = cmd.cue as typeof cmd.cue | DialogueCueV14
+      const cue = cmd.cue as typeof cmd.cue | AuthorDialogueCue
       const resolved =
         'identity' in cue
-          ? resolveDialogueIdentityV14(
+          ? resolveDialogueIdentity(
               cue.identity,
               actors ?? {},
               'editor.scriptTree.dialogue.identity',

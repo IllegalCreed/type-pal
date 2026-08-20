@@ -1688,10 +1688,6 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
                     <span className="project-status-error">✕ {catalogStatus.message}</span>
                   )}
                 </dd>
-                <dt>legacy families</dt>
-                <dd>
-                  <code>{manifest.assets.legacy?.families.join(', ') || '无'}</code>
-                </dd>
                 <dt>未知顶层字段</dt>
                 <dd>
                   <code>{unknownManifestKeys.join(', ') || '无'}</code>

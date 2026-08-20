@@ -8,7 +8,7 @@
   "exports": {
     ".": "./src/index.ts",
     "./entity-action-player": "./src/entity-action-player.ts",
-    "./script-compiler-v5": "./src/script-compiler-v5.ts"
+    "./script-compiler-core": "./src/script-compiler-core.ts"
   },
   "scripts": {
     "dev": "vite --port 6050 --strictPort",

@@ -1,4 +1,4 @@
-import { renameDialoguePortraitExpressionV14 } from '@type-pal/content'
+import { renameDialoguePortraitExpression } from '@type-pal/content'
 import type { EditorState } from './edit-session.js'
 import type { Command } from './commands.js'
 import { collectEditorDialoguePortraitReferences } from './actor-references.js'
@@ -40,7 +40,7 @@ function expressionBlockers(state: EditorState, actorId: string, expression?: st
   )
 }
 
-/** 表情 key 与全部 content14 cue 引用一次改写、一次 undo。 */
+/** 表情 key 与全部当前 cue 引用一次改写、一次 undo。 */
 export class RenameActorPortraitExpressionCommand implements Command {
   readonly label = '重命名人物表情'
   private previous: DialogueStateSlice | undefined
@@ -74,7 +74,7 @@ export class RenameActorPortraitExpressionCommand implements Command {
     )
     let rewritten = 0
     const rename = <T,>(value: T): T => {
-      const result = renameDialoguePortraitExpressionV14(value, this.actorId, this.from, to)
+      const result = renameDialoguePortraitExpression(value, this.actorId, this.from, to)
       rewritten += result.rewritten
       return result.value
     }

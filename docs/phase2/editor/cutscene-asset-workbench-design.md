@@ -2,6 +2,8 @@
 
 > 状态: done（2026-07-17），A7-3 实现、返工、三方 review 与用户验收均已完成。
 > 任务卡: [`A7-3-cutscene-asset-workbench.md`](../../ops/tasks/A7-3-cutscene-asset-workbench.md)
+> current-only 注记（2026-08-20）：本文保留任务发生时的历史现状与迁移步骤；当前产品 manifest 只含
+> catalog/roles，不存在 `assets.legacy`。下面涉及 legacy family 的描述只表示当时已经完成的清理动作。
 
 ## 1. 目标
 
@@ -209,7 +211,7 @@ type PlayFrameAnimationCommand = {
 - `migrate` 解码 12 段，以每段已考证颜色表烘焙 RGBA，再编码 TPFS。
 - 20 条 `playRng` 改写为 `playFrameAnimation`，`chunkIdx` 映射稳定 AssetId，原 speed 映射 `frameRate`。
 - `rngPaletteId`、运行时 `getPalette(non-zero)` 和 RNG 外部 manifest 全部删除。
-- `rng`、`video` 在成功物化与引用改写后从 `manifest.assets.legacy.families` 删除。
+- 当时的 `rng`、`video` legacy family 已在物化与引用改写后删除；current manifest 不存在 legacy family。
 
 ### 5.3 作者所有权
 

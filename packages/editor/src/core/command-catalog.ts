@@ -1,12 +1,12 @@
 /**
  * 指令目录(opcode 库,2026-07-05 作者定义:「能查询都有哪些可用的 opcode」)。
- * canonical v5 作者指令手册:kind / 名 / 参数 / 语义 / 原版 opcode 对照。
- * 条目集合必须与 AUTHOR_COMMAND_V5_KINDS 完全一致，由 EventLibTab.test.tsx 锁定。
+ * 当前作者指令手册:kind / 名 / 参数 / 语义 / 原版 opcode 对照。
+ * 条目集合必须与 BASE_AUTHOR_COMMAND_KINDS 完全一致，由 EventLibTab.test.tsx 锁定。
  */
-import type { AuthorCommandV5 } from '@type-pal/content'
+import type { BaseAuthorCommand } from '@type-pal/content'
 
 export interface CatalogEntry {
-  kind: AuthorCommandV5['kind']
+  kind: BaseAuthorCommand['kind']
   icon: string
   name: string
   group:
@@ -837,7 +837,7 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
       ['cursorHandoff', '跨行为游标映射(可选)'],
     ],
     desc: '按稳定行为 id 切换实体触发或自动脚本；不再内嵌替换脚本体。',
-    origin: '0x24/0x25 的 canonical v5 表达',
+    origin: '0x24/0x25 的当前表达',
   },
   {
     kind: 'selectEntityPage',
@@ -862,7 +862,7 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
       ['selection.value.range', '触发距离(可选)'],
     ],
     desc: '继承、禁用或显式设置实体的交互/接触触发方式与距离。',
-    origin: '0x40 的 canonical v5 表达',
+    origin: '0x40 的当前表达',
   },
   {
     kind: 'selectSceneHooks',
@@ -875,7 +875,7 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
       ['selection.onTeleport', '传送出口 hook 的 inherit/disabled/use'],
     ],
     desc: '一次切换场景进场与传送出口 hook；未提供的槽保持不变。',
-    origin: '0x6D 的 canonical v5 表达',
+    origin: '0x6D 的当前表达',
   },
   {
     kind: 'stopScript',

@@ -1,7 +1,7 @@
 # 能力地图（Capability Map）— 第二阶段的进度真值表
 
 > **这是一份活文档。** 每做完一格、发现一格、改一格判据,都要更新它。它取代旧的 roadmap §8「复刻覆盖矩阵」当「第二阶段做到哪了」的真值。
-> **(最近补账:2026-07-21 —— A7-3W 大世界精灵 catalog 单链已 done；A7-3B 战斗精灵已完成三方审查和用户验收，legacy 候选只余 effect-sprite/image；A7-3T 瓦片集 catalog 单链已完成三方审查和用户验收；A7-2 四类静态图 AssetId 闭包与 engine chrome 自包含完成三方审查和用户验收；W7G 多层组合模板与可持久放置组闭环完成；A7-1 SFX 闭包完成并使 X2 音频双侧 ✅；此前已登记 W8 地图内容选择与实例属性编辑、X7-1 manifest 工程工作台、A7-3 视频/完整帧动画工程闭包、R2 脚本单一模型 N3✅ / N1-1 对话控制码退出 N1✅ / X3-1 场景入场呈现事务 / ED-4A 精灵/触发区创建闭环 / W7F 单格式地图 / N6 共享脚本 / ED-2 八模块导航 / A7-0 音乐闭包)**
+> **(最近补账:2026-08-20 —— ARCH-CURRENT-ONLY-1 已完成 current-only 实现并进入审查：当前唯一格式为 content16 / SAVE8；旧类型、upgrader、sidecar、产品版本分支与 extracted runtime fallback 已删除；PAL catalog 现为 1,935 条，含 56 个 effect sprite。A7 最终 ✅ 等本卡三方 review accept 后更新。此前各批次历史见任务卡和资源闭包审计。)**
 > 配套阅读:[北极星与用法](roadmap.md) §8–§9 / [铁律](READ-FIRST.md) / [决策 D20](decisions.md)。
 > 状态符号:`✅done` `⚠️半done(一边done一边缺)` `❌缺(两边都缺)` `—不适用`。
 >
@@ -94,11 +94,11 @@
 | 格 | 名字 | 引擎 | 编辑器 | 原版考题 | 备注 |
 |---|---|---|---|---|---|
 | N1 | 对话播放 | ✅ | ✅ | 客栈开场李大娘 | done(N1-1,2026-07-15):唯一 `DialogueCue + rows` 模型、旧码只在 migrate、全量 PAL 重生成、MG2 零计划、三方复验与用户验收完成 |
-| N2 | 事件触发 | ✅ | ✅ | onEnter/物品触发 | done；N3-1 已把实体 Page、trigger/auto Behavior 与 onEnter/onTeleport Hook variant 发布为 stable-id canonical V5，编辑器可选择、引用和回链；R13 全链已于 2026-08-06 完成用户确认性验收。 |
-| N3 | 脚本演出 | ✅ | ✅ | 客栈开场自动演出 | done;async 解释器+预览。**R2 done（2026-07-15）**：可执行 `unmigrated` 与旧 opcode 第二解释器（`runLegacyOp`）已退役。**N3-1 done（2026-08-06）**：canonical script schema 保持 V5，P7/R13 append-only 发布、源语义 closure、迁移 replay、编辑器与下游 C8/ED-5I 回归均完成三方 `accept` 和用户确认性验收；提交 `e70987d6` 已收口。 |
+| N2 | 事件触发 | ✅ | ✅ | onEnter/物品触发 | done；实体 Page、trigger/auto Behavior 与 onEnter/onTeleport Hook variant 使用 stable-id canonical 当前模型，编辑器可选择、引用和回链；历史 N3-1/R13 验收结论继续有效。 |
+| N3 | 脚本演出 | ✅ | ✅ | 客栈开场自动演出 | done；async 解释器+预览。可执行 `unmigrated`、旧 opcode 第二解释器和带版本后缀的脚本产品模型均已退役；当前 content16 直接使用 `AuthorCommand` / `AuthorScriptFlow` / `WorldScriptState`。 |
 | N4 | 事件模板库 | — | ✅ | — | done;编辑器产物,引擎无依赖 |
 | N5 | 条件/变量/flag | ✅ | ✅ | 全局 flag | 引擎 done;编辑器(2026-07-05):数据模式「变量」页(flag/var 总览+读写明细)+ 物品页「被事件引用」区(737 处),点引用跳事件模式定位源(ref-index 全脚本递归扫描,含 branch/confirm/startBattle 子命令与 hostile.onLose) |
-| N6 | 共享脚本/子程序 | ✅ | ✅ | s001+s002 双调用方 | **done(2026-07-15；canonical V5 发布 2026-07-25；R13 收口 2026-08-06)**：作者库 CRUD/稳定 id/callScript/引用安全/保存重开/MG2 保留均已落地；canonical 库现为 `content/shared-scripts.json`，调用只存 ScriptId+可选 EntityAddress self，不再保存 chunk；作者界面隐藏“迁移内部实现”，物品私有脚本归物品内联拥有；N3-1 R13 全局源语义闭包已完成用户确认性验收。 |
+| N6 | 共享脚本/子程序 | ✅ | ✅ | s001+s002 双调用方 | **done**：作者库 CRUD/稳定 id/callScript/引用安全/保存重开均已落地；canonical 库为 `content/shared-scripts.json`，调用只存 ScriptId+可选 EntityAddress self，不保存 chunk；脚本分片和“迁移内部实现”已从当前产品删除。 |
 | N7 | **演出接管** | ✅ | ✅ | 隐龙窟/试炼窟 | done(2026-07-07):显式 take/release(E6b)+ mount/follow 权威,非冻帧。两考题实测:隐龙窟门口演出全链(对话/转向/切场景/setParty)+ 试炼窟芦苇漂共乘 |
 | N8 | 过场编排(mp4/帧动画 CG) | ✅ | ✅ | 开场 CG/帧动画序列 | **done（A7-3，2026-07-17）**：视频与完整帧动画使用稳定 AssetId 和工程内文件；运行时支持全段/分段/帧率/显式预览跳过，剧情默认不可跳；编辑器支持双列表、内嵌视频、完整帧时间轴、导入/替换/量化/多选重排/时长/引用保护/保存重开。C1-C5 返工、LAN HTTPS/FSA、OPFS 真句柄 round-trip、三方审查与用户验收完成。BGM/SFX 仍由脚本编排，不绑素材 |
 
@@ -125,10 +125,10 @@
 | 格 | 名字 | 引擎 | 编辑器 | 原版考题 | 备注 |
 |---|---|---|---|---|---|
 | X0 | 主菜单四项 | ✅ | — | 状态/装备/术/系统 | done;引擎 UI |
-| X1 | **存档/读档+状态快照** | ✅ | — | 存档 | 完整流程实测(quick/manual 30 槽/位置+world 快照/同场景实体复位/跨刷新持久)。当前 epoch 为 **SAVE 8 / contentVersion 15 / minimumSaveVersion 8**；contentVersion 9→10→11→12→13→14→15 的发布链均保持 SAVE8 identity，当前产品只接受 canonical content15，SAVE 1..7 在历史 sidecar I/O 前早失败。canonical Page/Behavior/Hook cursor、WorldScriptStateV5、entity lifecycle 与稳定 enemyTeamId 保持唯一真值；历史转换只供发布 seal/byte-pin 复验。 |
+| X1 | **存档/读档+状态快照** | ✅ | — | 存档 | 完整流程实测(quick/manual 30 槽/位置+world 快照/同场景实体复位/跨刷新持久)。当前唯一格式为 **SAVE 8 / contentVersion 16 / minimumSaveVersion 8**；loader 与 codec 直接验证 canonical current，`WorldScriptState`、entity lifecycle 与稳定 enemyTeamId 是唯一真值。正式上线前不保留 SAVE1..7/content1..15 的 upgrader、sidecar、fixture 或产品入口，历史由 Git 保存。 |
 | X2 | 音频(BGM/SFX) | ✅ | ✅ | 场景音乐 | **done（A7-0/A7-0A + A7-1，2026-07-18）**：MIDI、soundfont 与 SFX 均为稳定 AssetId 和工程资产，运行与编辑试听只经 AssetResolver/FileSource；标题菜单曲、战斗提示音、角色/敌人/技能/召唤音效全部数据化。编辑器支持音乐/音效导入、替换、改名、试听、选择、引用保护删除、保存重开与旧工程一次性升级；数字文件名、应用根 soundfont、`legacy.sounds` 和运行时音效字面量已退役。边界:X2=音频基建与资源生命周期，W5=场景侧引用与切换；未实现的战斗表现事件继续记 B5，不反向降级 X2 |
 | X3 | 标题/流程/结局 | ✅ | — | 新游戏/通关 | 主菜单标题屏(FBP2 底图 + entryPoints 竖排)+「新的故事」新游戏流 +「旧的回忆」读档(→存档浏览→doLoad 跳开场)；**X3-1 done(2026-07-15)**：场景入场呈现事务(Prepare→Reveal→Body 显式元数据、SceneEntrySession 生命周期、编辑器三区编辑)；**结局流 done（R2，2026-07-14）**：原版 0xA0 迁为作者可编辑的 `quitToTitle(videos[])`，PAL s281 播 `video.pal.004/005/006` 后回 `?menu`，双路径 E2E、三方审查与用户验收完成。持续通关回归归 Q1 全流程 E2E，不另开 X3 产品卡。开局数据侧见 X7 |
-| X4 | 资源管线(RGBA 化) | ⚠️ | — | — | A7-2 已退役 `data/baked`：立绘/头像/物品图标由 migrate 确定性物化进工程 catalog，战场背景保留索引 PNG 与标准色量化；85 个默认 UI slot、标题、字形和光标进入 bundler-owned engine chrome。A7-3T tileset、A7-3W world sprite 与 A7-3B battle sprite 均保持 gzip indexed RLE 且已 done；当前只余 effect-sprite/image 两项，不能提前把 X4/A7 标 done |
+| X4 | 资源管线(RGBA 化) | ⚠️ | — | — | current-only 实现已 catalog-only：PAL 1,935 条资产记录；56 个 effect sprite（652,870 B / 922 帧）由 migrate 确定性物化；editor/reforge 不再读取 extracted、`assets.legacy` 或目录 fallback。ARCH-CURRENT-ONLY-1 尚待三方 review accept，因此本表暂保留 ⚠️。 |
 | X6 | 工程生命周期 | ✅ | ✅ | — | **P1–P4 落地(2026-07-09)**:FileSource 抽象(httpSource/fsaSource,覆盖内容+素材)→ 启动屏 ProjectPicker(克隆/空白·打开本地·最近)→ 增量保存(快照-diff)+ IndexedDB 句柄(手势重连)+ 编辑器内「工程」菜单(新建/打开/另存为)。真实用户本地 app 闭环。见 editor/project-lifecycle-{design,p1..p4}。打包导出 zip 已由 A5 完成 |
 | X5 | **跳转预览/沙盒启动** | ✅ | ✅ | 跳任意演出 | v1:编辑器「🎮 引擎试玩」→ ?scene&pos&facing 落事件现场;?pos = dev 语义跳过 onEnter。**本地工程试玩修复(2026-07-10)**:曾写死 6051(永远 pal → 空白工程开出李逍遥,作者报);FSA 句柄跨不了源 → 引擎入口拆 `bootGame(project)` + 编辑器**同源 play.html**(IndexedDB 句柄→手势授权→fsaSource 磁盘启动;无句柄回退 dev 种子 http),试玩/试打/试放三处全改同源。世界态前置(flag 快照)待补 |
 | X7 | 入口点/开局档(多DLC入口) | ✅ | ✅ | 新游戏开局 | **done（X7-1，2026-07-17）**：引擎由 entryPoints/startWorld 驱动主菜单与开局；编辑器工程模块提供概览、全局资源与启动、入口点与开局、问题与高级四页工作台，稳定 id 深链、默认真源/入口继承、队伍/背包/技能/金钱/seedStats、角色绑定、诊断跳转和保存重开闭环均已完成；PAL 默认新档恢复原版种子 |
@@ -150,12 +150,12 @@
 | 格 | 名字 | 引擎 | 编辑器 | 备注 |
 |---|---|---|---|---|
 | A1 | 预制素材库(服务器端 + 版本化) | — | ❌ | 服务器托管 RGBA 素材包,带版本号;开发期=原版烘色,完成期=自有替代美术(避版权) |
-| A2 | 新建工程:下载预制库写进工程 | — | ✅ | **P4 落地(2026-07-09)**:cloneFromPal 流式逐文件下载→写本地工程。A7-2 四类静态图、A7-3T tileset 与 A7-3W world sprite 均从 catalog 复制；A7-3B 实现候选也让 battle-sprite 按 catalog gzip 字节逐字节复制。过渡期只剩 effect-sprite/image 来自 extracted；catalog-only 总门禁归 A7-4 |
+| A2 | 新建工程:下载预制库写进工程 | — | ✅ | `cloneFromPal` 流式逐文件下载当前 catalog→写本地工程；所有资源族（含 effect sprite/image）走同一 catalog 字节链，不再复制 extracted 清单或 legacy lane。 |
 | A3 | 新建工程向导(空白/加载预制 二选) | — | ✅ | **P4 落地**:ProjectPicker 启动屏(从 pal 克隆 / 打开本地 / 新建空白〔高级,gated on 地图模块〕/ 最近工程 + 克隆进度条)。非 Chromium 提示换浏览器 |
 | A4 | 用户上传自有素材 | — | ✅ | **已覆盖精灵、瓦片集、角色/敌人战斗外观、音乐、SFX、视频、完整帧动画及四类静态图**：A7-2 图像工作台支持立绘/头像/物品图标导入替换，战场真彩图在导入边界确定性量化并预览工程效果；引用保护、undo/redo、pending blob 与保存重开共用 catalog 链。默认字体/UI 属引擎，不是工程上传能力 |
 | A5 | 工程自包含分发(打包导出) | — | ✅ | **done(2026-07-10 A5)**:工程菜单「🗜 导出 zip」= FSA 目录递归原样打包下载(零依赖 zip 器:原生 deflate/CRC32/UTF-8 名/时间恒1980 可复现;读磁盘,dirty 提醒先保存;dev 种子工程禁用)。「另存为」丢磁盘素材债已修(整树拷贝+覆写,见 A5 卡) |
 | A6 | 预制库主动更新检查(可选) | — | ❌ | 用户显式触发:检查服务器新版 → 选择是否拉取覆盖。非自动;非 MVP |
-| A7 | 工程资源闭包与稳定资源注册表 | ⚠️ | ⚠️ | **进行中（R3/R7）**：音乐/soundfont、SFX、视频/完整帧动画、四类静态图与 engine chrome 已闭包；A7-3T tileset、A7-3W world sprite 与 **A7-3B battle sprite 均已 done**。A7-3B 已完成三方审查和用户验收：172 records / 171 definitions / 179 refs / 171 used / 5 shared / 1 unused，900,973 gzip B / 775 帧 / 6 legacy 坏尾；定义/资产编辑、runtime active appearance、local/save/transport 单链已接通。当前已发布链占用 contentVersion 11（N3 后续）、12（B10-1）、13（W9）、14（C1-2）、15（ED-ENEMY-1）；A7-4 启动时必须重新核定**下一未占用 epoch**，本地图不预先承诺固定版本号。A7 待办仍有 effect-sprite/image 两项，版本抬升本身不等于资源闭包。**A7 全部完成前不得标 ✅**。总设计见[资源闭包审计](foundation/a7-resource-closure-audit.md) |
+| A7 | 工程资源闭包与稳定资源注册表 | ⚠️ | ⚠️ | **实现完成，审查中**：content16 manifest 只含 catalog/roles，PAL 1,935 records；tileset/world sprite/battle sprite/effect sprite/image 均走 AssetId→catalog→AssetResolver/FileSource 单链，clone/save/export/runtime 无 extracted 或 legacy fallback。ARCH-CURRENT-ONLY-1 三方 review accept 前暂不标 ✅；历史批次数字见[资源闭包审计](foundation/a7-resource-closure-audit.md)。 |
 
 > A1-A6 是编辑器侧的素材与分发动作，故 `引擎—`；A7 是跨引擎、编辑器、内容 schema 与迁移器的工程资源闭包能力，因此两侧都按实际完成度记账。引擎只消费 manifest/catalog 指针与工程目录文件，不关心素材来源。未决子问题(A1 版权策略与素材规模 / A2 下载协议与进度 / A4 支持的素材格式)留「做 A 领域」那轮 brainstorm 细化。
 
@@ -188,7 +188,7 @@
 
    当前 ⚠️ 候选池（不是已承诺任务）:
    - B2：缺战场条目的完整编辑器 CRUD 七环
-   - X4/A7：只余 effect-sprite/image 与 catalog-only 总门禁，但属于高风险资源管线
+   - X4/A7：current-only 与 catalog-only 实现已完成；等待 ARCH-CURRENT-ONLY-1 三方 review 收口
    - B5：战斗表现仍有精调与未落演出
 
    明确低优先/按需:

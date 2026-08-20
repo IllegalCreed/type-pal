@@ -3,7 +3,7 @@
  *
  * Business modules are migrated to the React primitives incrementally, but no
  * page is allowed to keep a different visual grammar in the meantime. This
- * stylesheet is deliberately loaded after editor.css so legacy `.in`, scoped
+ * stylesheet is deliberately loaded after editor.css so historical `.in`, scoped
  * input rules and browser defaults cannot change the canonical geometry.
  * Dense editors must opt in with `data-ds-density="compact"`; narrow layout is
  * never a reason to silently shrink a control.

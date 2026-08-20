@@ -1,4 +1,4 @@
-/** 项目级作者变量定义；运行值仍只存在于 WorldScriptStateV5。 */
+/** 项目级作者变量定义；运行值仍只存在于 WorldScriptState。 */
 
 export type WorldVariableKindV1 = 'flag' | 'number'
 

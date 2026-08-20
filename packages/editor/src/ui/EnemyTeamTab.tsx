@@ -13,7 +13,7 @@ import {
   type BlockingEnemyTeamReference,
   enemyTeamReferences,
 } from '../core/enemy-team-references.js'
-import type { ScriptEditorStateV5 } from '../core/script-v5-editor.js'
+import type { ScriptEditorState } from '../core/script-editor.js'
 import {
   DsActionLink,
   DsButton,
@@ -54,7 +54,7 @@ export function EnemyTeamTab(props: {
   locale: Locale
   projectId: string
   session: EditSession
-  scriptState?: ScriptEditorStateV5
+  scriptState?: ScriptEditorState
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
   onOpenEnemy?: (id: string) => void

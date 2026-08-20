@@ -14,13 +14,12 @@ describe('httpSource', () => {
     expect(await s.readText('content/a.json')).toContain('projects/pal/content/a.json')
   })
 
-  test('普通源拒绝绝对路径；显式 legacy adapter 才可读取', async () => {
+  test('所有读取都拒绝绝对路径', async () => {
     const fetchMock = vi.fn(async () => new Response('x', { status: 200 }))
     vi.stubGlobal('fetch', fetchMock)
     const s = httpSource('projects/pal')
     await expect(s.readText('/extracted/data/maps/1.json')).rejects.toThrow('禁止绝对路径')
-    await s.legacy?.readText('/extracted/data/maps/1.json')
-    expect(fetchMock).toHaveBeenCalledWith('/extracted/data/maps/1.json')
+    expect(fetchMock).not.toHaveBeenCalled()
   })
 
   test('readBytes 返回 ArrayBuffer', async () => {
@@ -61,10 +60,9 @@ describe('httpSource', () => {
     expect(fetchMock.mock.calls[0]?.[1]?.signal).toBe(ac.signal)
   })
 
-  test('urlFor:相对拼 base，绝对路径只在 legacy adapter 原样返回', async () => {
+  test('urlFor:相对拼 base，绝对路径被拒绝', async () => {
     const s = httpSource('projects/pal')
     expect(await s.urlFor('content/a.json')).toBe('projects/pal/content/a.json')
     await expect(s.urlFor('/extracted/x.png')).rejects.toThrow('禁止绝对路径')
-    expect(await s.legacy?.urlFor('/extracted/x.png')).toBe('/extracted/x.png')
   })
 })

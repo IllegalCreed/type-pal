@@ -10,7 +10,6 @@
  * 状态：资产迁移已起（asset-pipeline.md，UI box 首切片）；数据迁移（脚本 / 对话 → schema）③ 阶段。
  */
 export { bakeIndexedRgba } from './bake-indexed-rgba.js'
-export * from './pal-b10-enemy-team-slots.js'
 export * from './pal-sprite-action-census.js'
 export * from './pal-sprite-action-materialize.js'
 export * from './project-map-audit.js'

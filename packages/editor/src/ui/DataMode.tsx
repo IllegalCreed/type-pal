@@ -26,10 +26,10 @@ import type { ItemReference } from '../core/item-references.js'
 import type { ManifestLike } from '../core/project-diagnostics.js'
 import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import type {
-  CanonicalScriptReferenceV5,
-  ScriptEditorStateV5,
-  ScriptV5EditSession,
-} from '../core/script-v5-editor.js'
+  CanonicalScriptReference,
+  ScriptEditorState,
+  ScriptEditSession,
+} from '../core/script-editor.js'
 import type { SpriteAutomaticScriptInstanceSite } from '../core/world-sprite-behavior.js'
 import {
   collectWorldVariableReferencesV1,
@@ -38,7 +38,7 @@ import {
 import { AmbienceTab } from './AmbienceTab.js'
 import { BattleFieldTab } from './BattleFieldTab.js'
 import { BattleSpriteLibrary } from './BattleSpriteLibrary.js'
-import { CanonicalSharedScriptTabV5 } from './CanonicalSharedScriptTabV5.js'
+import { CanonicalSharedScriptTab } from './SharedScriptTab.js'
 import { CutsceneTab } from './CutsceneTab.js'
 import { EnemyTab } from './EnemyTab.js'
 import { EnemyTeamTab } from './EnemyTeamTab.js'
@@ -136,7 +136,7 @@ export function DataMode(props: {
   onOpenEnemyTeam?: (id: string) => void
   onOpenScript?: (id: string) => void
   onOpenWorldVariable?: (id: string) => void
-  onOpenCanonicalReference?: (reference: CanonicalScriptReferenceV5) => void
+  onOpenCanonicalReference?: (reference: CanonicalScriptReference) => void
   onOpenItemReference?: (reference: ItemReference) => void
   onOpenBattleDataReference?: (reference: BattleDataReference) => void
   onOpenProjectIssues?: () => void
@@ -147,9 +147,9 @@ export function DataMode(props: {
   onJumpWorldSpriteAutomaticScriptInstance?: (site: SpriteAutomaticScriptInstanceSite) => void
   onJumpBattleSpriteReference?: (reference: BattleSpriteDefinitionReference) => void
   onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
-  scriptV5?: {
-    state: ScriptEditorStateV5
-    session: ScriptV5EditSession
+  script?: {
+    state: ScriptEditorState
+    session: ScriptEditSession
   }
   historyCoordinator?: EditorHistoryCoordinator
 }) {
@@ -208,10 +208,10 @@ export function DataMode(props: {
     onJumpWorldSpriteAutomaticScriptInstance,
     onJumpBattleSpriteReference,
     onStatusNotice,
-    scriptV5,
+    script,
   } = props
   const variableReferences = collectWorldVariableReferencesV1(
-    scriptV5?.state ?? worldVariableScriptStateFromEditorStateV1(session.getState()),
+    script?.state ?? worldVariableScriptStateFromEditorStateV1(session.getState()),
   )
   const [spriteDomain, setSpriteDomain] = useState<'world' | 'battle'>(
     () =>
@@ -277,7 +277,7 @@ export function DataMode(props: {
         locale={locale}
         projectId={manifest.id}
         session={session}
-        scriptState={scriptV5?.state}
+        scriptState={script?.state}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}
         onOpenEnemy={props.onOpenEnemy}
@@ -313,7 +313,7 @@ export function DataMode(props: {
         onOpenItemReference={onOpenItemReference}
         onOpenProjectIssues={onOpenProjectIssues}
         tabBar={tabBar}
-        scriptV5={scriptV5}
+        script={script}
         historyCoordinator={props.historyCoordinator}
       />
     )
@@ -489,7 +489,7 @@ export function DataMode(props: {
         onOpenBattleFieldReference={onOpenBattleFieldReference}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}
-        scriptState={scriptV5?.state}
+        scriptState={script?.state}
       />
     )
   }
@@ -514,7 +514,7 @@ export function DataMode(props: {
 
   if (tab === 'scripts') {
     const state = session.getState()
-    if (scriptV5) {
+    if (script) {
       const references = createScriptReferenceCatalog({
         locale,
         items: itemList,
@@ -525,16 +525,16 @@ export function DataMode(props: {
         ambiences,
         mapIndex,
         assetCatalog,
-        authorScripts: Object.entries(scriptV5.state.sharedScripts).map(([id, script]) => ({
+        authorScripts: Object.entries(script.state.sharedScripts).map(([id, script]) => ({
           id,
           name: script.name,
         })),
       })
       return (
-        <CanonicalSharedScriptTabV5
+        <CanonicalSharedScriptTab
           tabBar={tabBar}
-          state={scriptV5.state}
-          session={scriptV5.session}
+          state={script.state}
+          session={script.session}
           projectId={manifest.id}
           projectMaps={state.maps}
           mapIndex={state.mapIndex}
@@ -548,7 +548,7 @@ export function DataMode(props: {
           onSelectedScriptId={onObjectFocus}
           onError={(message) => onStatusNotice?.({ kind: 'error', message })}
           context={{
-            state: scriptV5.state,
+            state: script.state,
             shellScenes: scenes,
             locale,
             assetCatalog,
@@ -578,7 +578,7 @@ export function DataMode(props: {
     return (
       <section className="canonical-script-load-error" role="alert">
         <h2>无法加载可复用脚本</h2>
-        <p>当前工程没有建立 canonical Script V5 编辑会话。请重新打开工程后再试。</p>
+        <p>当前工程没有建立 canonical Script Current 编辑会话。请重新打开工程后再试。</p>
       </section>
     )
   }
@@ -644,7 +644,7 @@ export function DataMode(props: {
         onJumpActionReference={onJumpWorldSpriteActionReference}
         onJumpAutomaticScriptInstance={onJumpWorldSpriteAutomaticScriptInstance}
         onStatusNotice={onStatusNotice}
-        canonicalV5={scriptV5?.state}
+        canonical={script?.state}
       />
     )
 

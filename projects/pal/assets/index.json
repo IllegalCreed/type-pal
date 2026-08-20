@@ -10177,6 +10177,678 @@
       "bytes": 94880,
       "sha256": "8b13937abe515e1a40a0aa3557e6675c1b56f33603e833e062bff8cfae57e57b"
     },
+    "effect-sprite.pal.physical-hit": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/physical-hit.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 物理命中特效",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/effect.rle"
+      },
+      "bytes": 8557,
+      "sha256": "ecf122420da62e55686d19817ab257e6fca75010aafee706ac6fef7a07d3f774"
+    },
+    "effect-sprite.pal.magic.000": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-000.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 000",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-00.rle"
+      },
+      "bytes": 5409,
+      "sha256": "870d0a326de5acefc2a25d989fee0a88f0b9b02b8fbd0fea3b1bdd8689ae80c2"
+    },
+    "effect-sprite.pal.magic.001": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-001.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 001",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-01.rle"
+      },
+      "bytes": 4378,
+      "sha256": "2df2ad807870de70cd1321d9aa0ab07c079b40f91a5e44f8d0d5fbce6b84e513"
+    },
+    "effect-sprite.pal.magic.002": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-002.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 002",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-02.rle"
+      },
+      "bytes": 11322,
+      "sha256": "aa3f1d31f6407395076930c1b714e8476227aac256b1f5d49f03c3f7708826b3"
+    },
+    "effect-sprite.pal.magic.003": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-003.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 003",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-03.rle"
+      },
+      "bytes": 6071,
+      "sha256": "00e96d9f09284d563c2b07da88204c5e0d73f2c38a905be63fd555c3065903e5"
+    },
+    "effect-sprite.pal.magic.004": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-004.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 004",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-04.rle"
+      },
+      "bytes": 1467,
+      "sha256": "08ee5650a86d81e12630681a428c303dfc6f3afaf6153fa22f1a166c3315a95d"
+    },
+    "effect-sprite.pal.magic.005": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-005.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 005",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-05.rle"
+      },
+      "bytes": 2871,
+      "sha256": "3d84023047063368f0be4d04feb38430ec4ea87df90eb14cbf3d3b3357299ee7"
+    },
+    "effect-sprite.pal.magic.006": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-006.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 006",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-06.rle"
+      },
+      "bytes": 1652,
+      "sha256": "0ae990cbd623c9a073e630c28d369e3fbdf70f20080fa876ec2549f6f109c71d"
+    },
+    "effect-sprite.pal.magic.007": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-007.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 007",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-07.rle"
+      },
+      "bytes": 20579,
+      "sha256": "c8179f88f1647585b9dab042cc1127bb0c2bdb0301f4652ab84bf3dbd3c852f6"
+    },
+    "effect-sprite.pal.magic.008": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-008.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 008",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-08.rle"
+      },
+      "bytes": 9886,
+      "sha256": "dc443d802cd80ebe812b4c72da46cef9e453ecc2a90ab0743460448e01499583"
+    },
+    "effect-sprite.pal.magic.009": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-009.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 009",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-09.rle"
+      },
+      "bytes": 16234,
+      "sha256": "87af9a1541150ff2b8fa1e7dc0ea86ce5d3754b5c0b55a69929ea14dd298a2a6"
+    },
+    "effect-sprite.pal.magic.010": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-010.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 010",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-10.rle"
+      },
+      "bytes": 10822,
+      "sha256": "82dec109af11a30add80ba9f648253ef728982149af496e0a459bb99018f3213"
+    },
+    "effect-sprite.pal.magic.011": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-011.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 011",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-11.rle"
+      },
+      "bytes": 19947,
+      "sha256": "f7776788f479d06bf9c8c17dd854d70af0c1333c4876c9a2341d9e088d3a6575"
+    },
+    "effect-sprite.pal.magic.012": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-012.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 012",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-12.rle"
+      },
+      "bytes": 32573,
+      "sha256": "a11821ae2ad1c78f490ca929b7f84da60605598d54c15a14b0f00eebe9f0680d"
+    },
+    "effect-sprite.pal.magic.013": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-013.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 013",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-13.rle"
+      },
+      "bytes": 4506,
+      "sha256": "83e09a2ec8f986e809d7f105b65fad58a1df662d1f5e40138b86610a5b6f7edd"
+    },
+    "effect-sprite.pal.magic.014": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-014.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 014",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-14.rle"
+      },
+      "bytes": 2732,
+      "sha256": "6c4182fe0eec4199b14eac5f1dda9e52753a88402b482bc119470f3f2b4a4e90"
+    },
+    "effect-sprite.pal.magic.015": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-015.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 015",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-15.rle"
+      },
+      "bytes": 13742,
+      "sha256": "b552294e1276ec863785d3743d4d37f635b46e256cf2f6d986168ccd6f9b8cc1"
+    },
+    "effect-sprite.pal.magic.016": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-016.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 016",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-16.rle"
+      },
+      "bytes": 17820,
+      "sha256": "a7ae35eb62755070b7932c84be760997e61ddfad66d58c64a56d847844f3cab6"
+    },
+    "effect-sprite.pal.magic.017": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-017.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 017",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-17.rle"
+      },
+      "bytes": 20257,
+      "sha256": "c4d4b3d0762a4f8b446b9460ae11e6ba3b0e71ab446869ec7eb1078f945bbb8c"
+    },
+    "effect-sprite.pal.magic.018": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-018.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 018",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-18.rle"
+      },
+      "bytes": 14103,
+      "sha256": "3bd2846921cf5ee8328cb6ef1785ae120ba3831380e5eca5932fe73cf3abd761"
+    },
+    "effect-sprite.pal.magic.019": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-019.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 019",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-19.rle"
+      },
+      "bytes": 990,
+      "sha256": "a7f5d7347442c29f95678ff368ec1677a8b4d02ae080a22155a2e759bea3ea75"
+    },
+    "effect-sprite.pal.magic.020": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-020.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 020",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-20.rle"
+      },
+      "bytes": 9314,
+      "sha256": "b50630fc3923b87bcb0a5a790ba93bde7275de3778f119039d754ecd320f2818"
+    },
+    "effect-sprite.pal.magic.021": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-021.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 021",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-21.rle"
+      },
+      "bytes": 8223,
+      "sha256": "d1ede0bc4055509e58e165088dc75f4b593ac8fa97098698bc99d2db687e1a5f"
+    },
+    "effect-sprite.pal.magic.022": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-022.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 022",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-22.rle"
+      },
+      "bytes": 8173,
+      "sha256": "01a241adacb69fc56dfe6781820f4eb948192c73a6698bfd7091eed6df1d2d77"
+    },
+    "effect-sprite.pal.magic.023": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-023.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 023",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-23.rle"
+      },
+      "bytes": 6951,
+      "sha256": "f0b413c09b638a589c454b5d45d3038e0b159e9733c5b69cc2428923e8de1070"
+    },
+    "effect-sprite.pal.magic.024": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-024.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 024",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-24.rle"
+      },
+      "bytes": 882,
+      "sha256": "ae08a57f2556148f8543262534dd4fef9fc1058fce575a60343981b4713ab7fa"
+    },
+    "effect-sprite.pal.magic.025": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-025.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 025",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-25.rle"
+      },
+      "bytes": 18646,
+      "sha256": "ac9aeefd786668fff6df9ac866bcf725d0a464be08f4fb65cd7c915fa58adf3a"
+    },
+    "effect-sprite.pal.magic.026": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-026.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 026",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-26.rle"
+      },
+      "bytes": 11533,
+      "sha256": "0ed66fc7e5ab8cee70a3d86d6483755c4ccd73329dad3576c95ddc4164141ea5"
+    },
+    "effect-sprite.pal.magic.027": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-027.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 027",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-27.rle"
+      },
+      "bytes": 4230,
+      "sha256": "2a1f0632ff5788970f6b47f5a6db74fc9026bccc793caa3dd6d9745869664104"
+    },
+    "effect-sprite.pal.magic.028": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-028.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 028",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-28.rle"
+      },
+      "bytes": 2026,
+      "sha256": "9fac3830fe9689db4ce4ad690424e9cef8ce1251655ff8d94a4f72fd65a3c1d8"
+    },
+    "effect-sprite.pal.magic.029": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-029.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 029",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-29.rle"
+      },
+      "bytes": 13718,
+      "sha256": "011d08b85a4200d3aa9392fd834d1323cc79d1cb26c718b3ac6dd7fe7ce2fbef"
+    },
+    "effect-sprite.pal.magic.030": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-030.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 030",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-30.rle"
+      },
+      "bytes": 5718,
+      "sha256": "17335014c89e394b669269af5ec629171bc7cba4a27f1dc5e13464a5ae152663"
+    },
+    "effect-sprite.pal.magic.031": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-031.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 031",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-31.rle"
+      },
+      "bytes": 711,
+      "sha256": "45a95ce9ae39e0c7cf5a9f1729443f166ec15af09f0493b08e8c120dee4f83f5"
+    },
+    "effect-sprite.pal.magic.032": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-032.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 032",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-32.rle"
+      },
+      "bytes": 14120,
+      "sha256": "6301e40e761154edad77955ab46abcdf44c91a4930632583c473234826c5f7f5"
+    },
+    "effect-sprite.pal.magic.033": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-033.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 033",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-33.rle"
+      },
+      "bytes": 13355,
+      "sha256": "8866cdbb69b5c598100902f58f8bc5344420e2fac647513303bb6a85b0859050"
+    },
+    "effect-sprite.pal.magic.034": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-034.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 034",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-34.rle"
+      },
+      "bytes": 29372,
+      "sha256": "5ae0367866c44421febca204e0349b55649b82b484626cabec0182b2b5e97c30"
+    },
+    "effect-sprite.pal.magic.035": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-035.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 035",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-35.rle"
+      },
+      "bytes": 17224,
+      "sha256": "c878594b872cf8f9256d1489014b95dd94325246208ac8fd31946ad19d72a865"
+    },
+    "effect-sprite.pal.magic.036": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-036.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 036",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-36.rle"
+      },
+      "bytes": 23506,
+      "sha256": "90b3ec8a9beba97df15f0d60270a878ef10a428589710804f668815fef12e8f7"
+    },
+    "effect-sprite.pal.magic.037": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-037.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 037",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-37.rle"
+      },
+      "bytes": 32666,
+      "sha256": "03a11c02318dfc38bfe0132e9328dd987e0559dda2a198b91f0f5b5ffba778a5"
+    },
+    "effect-sprite.pal.magic.038": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-038.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 038",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-38.rle"
+      },
+      "bytes": 8615,
+      "sha256": "018cf99c345130a8bb9f169effb3706a8cd92b08a2173491f2fdf961cab4ee78"
+    },
+    "effect-sprite.pal.magic.039": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-039.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 039",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-39.rle"
+      },
+      "bytes": 11172,
+      "sha256": "4481c8d839bb99bb0f98c36a3354df529e8a35d0a23cf3e3ae34e5e02ef259ad"
+    },
+    "effect-sprite.pal.magic.040": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-040.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 040",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-40.rle"
+      },
+      "bytes": 5213,
+      "sha256": "89c6478047256a671c281e2e00465788a03c1748044d7c2297fc5d148114b387"
+    },
+    "effect-sprite.pal.magic.041": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-041.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 041",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-41.rle"
+      },
+      "bytes": 11428,
+      "sha256": "edbdc2275173c73b0509decfc6489b129ec43ca3c6ba71db619f08df0f1fb2b8"
+    },
+    "effect-sprite.pal.magic.042": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-042.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 042",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-42.rle"
+      },
+      "bytes": 11860,
+      "sha256": "2a681b4b7dc3844ce83961844f59b7623090c3e2214d7f99a705113b498b1235"
+    },
+    "effect-sprite.pal.magic.043": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-043.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 043",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-43.rle"
+      },
+      "bytes": 16715,
+      "sha256": "a26942a8530cb001967f3f1424e046cfb79d6330c394fc398745f7df7fbc0386"
+    },
+    "effect-sprite.pal.magic.044": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-044.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 044",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-44.rle"
+      },
+      "bytes": 17043,
+      "sha256": "07e305c5017101636ee7cc9a846e52657b77857c46e21d4a6a9ddb887fe907fb"
+    },
+    "effect-sprite.pal.magic.045": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-045.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 045",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-45.rle"
+      },
+      "bytes": 11278,
+      "sha256": "c83704c6f886822da724a4458d205b249510e10b647bc95a01a8c6d228135285"
+    },
+    "effect-sprite.pal.magic.046": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-046.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 046",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-46.rle"
+      },
+      "bytes": 25771,
+      "sha256": "4ea031a6e49b9589de4e4750034bb6ba295a402f491e0bdd3d35f3df53b32e2c"
+    },
+    "effect-sprite.pal.magic.047": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-047.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 047",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-47.rle"
+      },
+      "bytes": 17537,
+      "sha256": "301686bd4ff70418df03638a1a906faa15b72eb8b4f94afe887f2e044f43b3b0"
+    },
+    "effect-sprite.pal.magic.048": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-048.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 048",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-48.rle"
+      },
+      "bytes": 7020,
+      "sha256": "dc414a9254fe057f58482f93c9d98855ca06c7c4b92ba51eaed83c61b3b573c1"
+    },
+    "effect-sprite.pal.magic.049": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-049.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 049",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-49.rle"
+      },
+      "bytes": 6372,
+      "sha256": "1ad34c752f72cd49d0d169b89444e8460ecba4c1dfaf7c665244c98d0be4f4b9"
+    },
+    "effect-sprite.pal.magic.050": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-050.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 050",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-50.rle"
+      },
+      "bytes": 2232,
+      "sha256": "3fe25b9af9c357b5964704de446c72b92b7dafa99a0a57fcf494a464b7a345b4"
+    },
+    "effect-sprite.pal.magic.051": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-051.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 051",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-51.rle"
+      },
+      "bytes": 2025,
+      "sha256": "659858ee0fe8e800d9211e277b4f3e6a81f47a376e387ea88ae916d493883427"
+    },
+    "effect-sprite.pal.magic.052": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-052.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 052",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-52.rle"
+      },
+      "bytes": 8894,
+      "sha256": "8e609afa8a96be55ad454c386bffe7fef30a8b07ad65d9c9f55ac3a6a57e2886"
+    },
+    "effect-sprite.pal.magic.053": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-053.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 053",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-53.rle"
+      },
+      "bytes": 13812,
+      "sha256": "b72692798b17431ce7b25c92f9d373b0caad623772654bead6c261b0d5572bc3"
+    },
+    "effect-sprite.pal.magic.054": {
+      "kind": "effect-sprite",
+      "path": "assets/migrated/effect-sprites/magic-054.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 法术特效 054",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "data/magic/fire-54.rle"
+      },
+      "bytes": 29597,
+      "sha256": "d7c70a832d5011a511884bc609d39e501eb975d8eb52bc8056e34f4707b5fe6b"
+    },
     "sprite.pal.001": {
       "kind": "sprite",
       "path": "assets/migrated/sprites/001.rle",

@@ -3,17 +3,17 @@
  *
  * ready / turnStart 必须保留 PAL 的 battle-local persistent cursor，不能再投影成绝对回合
  * AiRule；battleEnd 则是一次性 canonical onDefeated body，生成前严格限制为单 stage 与
- * EnemyOnDefeatedCommandV10 子集。
+ * EnemyOnDefeatedCommand 子集。
  */
 import {
   type AiRule,
   type BattleChoreography,
   checkEnemyHookFlow,
-  checkEnemyOnDefeatedCommandsV10,
+  checkEnemyOnDefeatedCommands,
   type EnemyFallback,
   type EnemyHookChannel,
   type EnemyHookFlow,
-  type EnemyOnDefeatedCommandV10,
+  type EnemyOnDefeatedCommand,
 } from '@type-pal/content'
 import {
   type EnemyHookOwner,
@@ -30,7 +30,7 @@ export interface EnemyScriptTranslation {
   hooks?: Partial<Record<EnemyHookChannel, EnemyHookFlow>>
   /** PAL 敌钩演出归 hook owner；这里只保留兼容输出形状，成功时恒为空。 */
   choreography: BattleChoreography[]
-  onDefeated?: EnemyOnDefeatedCommandV10[]
+  onDefeated?: EnemyOnDefeatedCommand[]
   /** 新 translator 遇缺口 fail-loud；成功迁移时恒为空。 */
   pending: string[]
   /** R13-5 source disposition 的生成期一手证据；不写入内容 schema。 */
@@ -104,7 +104,7 @@ export function translateEnemyScripts(
     if (!stages || stages.length !== 1)
       throw new Error(`${path}: 期望恰好 1 个 stage，收到 ${stages?.length ?? 0}`)
     const body: unknown = stages[0]?.body
-    checkEnemyOnDefeatedCommandsV10(body, `${path}.body`)
+    checkEnemyOnDefeatedCommands(body, `${path}.body`)
     out.battleEndSource = {
       rootAddress: address,
       reachableSourceAddresses: scriptStageSourceAddresses(stages[0]!),

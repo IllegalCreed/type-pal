@@ -15,17 +15,15 @@
 
 import {
   type AssetCatalogV1,
-  checkSharedScriptLibraryV13,
-  checkSharedScriptLibraryV14,
+  checkAuthorScriptLibrary,
   formatProjectMap,
   formatStampTemplates,
   type ProjectMap,
   type SceneDef,
-  type SceneDefV13,
-  type SceneDefV14,
+  type RuntimeSceneDef,
+  type AuthorSceneDef,
   type ScriptChunkV1,
-  type SharedScriptLibraryV13,
-  type SharedScriptLibraryV14,
+  type AuthorScriptLibrary,
   type StampTemplate,
   validateAssetCatalog,
   validateMapIndex,
@@ -36,11 +34,7 @@ import {
   decodeWorldSpriteAssetBytes,
   decompressGzip,
   type FileSource,
-  type LoadedProjectCore,
-  type LoadedProjectV5Core,
-  type LoadedProjectV13Core,
-  type LoadedProjectV14Core,
-  type LoadedProjectV16,
+  type LoadedCurrentProjectCore,
   parseSpriteChunkStrict,
 } from '@type-pal/reforge'
 import { binarySnapshotSignature, sha256Hex } from './binary-signature.js'
@@ -48,12 +42,7 @@ import type { EditorState } from './edit-session.js'
 import { assertProjectSaveValid } from './project-diagnostics.js'
 import { assertScriptProjectValid } from './script-references.js'
 
-type EditorSourceProject =
-  | LoadedProjectCore
-  | LoadedProjectV5Core
-  | LoadedProjectV13Core
-  | LoadedProjectV14Core
-  | LoadedProjectV16
+type EditorSourceProject = LoadedCurrentProjectCore
 
 /**
  * 只读工程 → 可变工作副本。by-id Record 翻成数组(Object.values,保原数组序);
@@ -62,7 +51,7 @@ type EditorSourceProject =
  */
 export function toEditorState(
   project: EditorSourceProject,
-  scenes: SceneDef[] | SceneDefV13[] | SceneDefV14[],
+  scenes: SceneDef[] | RuntimeSceneDef[] | AuthorSceneDef[],
   projectMaps: Record<string, ProjectMap> = {}, // 键 = 稳定 map id；缺席 = 尚未按需加载
   scriptChunks: Record<string, ScriptChunkV1> = {},
   stamps?: StampTemplate[],
@@ -77,50 +66,33 @@ export function toEditorState(
     maps: projectMaps,
     mapIndex: project.mapIndex,
     // W7B:tileset 注册表(loader 已 guard;缺省空)+ 上传字节暂存(载入时空,只存新上传)
-    tilesets: project.tilesets ?? [],
+    tilesets: project.tilesets,
     stamps: stamps ?? [],
-    worldVariables:
-      'worldVariables' in project
-        ? validateWorldVariableRegistryV1(structuredClone(project.worldVariables))
-        : {},
+    worldVariables: validateWorldVariableRegistryV1(structuredClone(project.worldVariables)),
     tilesetBlobs: {},
-    scriptIndex: 'scriptIndex' in project ? project.scriptIndex : undefined,
+    scriptIndex: undefined,
     scriptChunks,
     migrationDiagnostics: structuredClone(project.migrationDiagnostics),
-    ...('authorContent' in project
-      ? {
-          sharedScripts: structuredClone(
-            project.authorContent.sharedScripts,
-          ) as unknown as SharedScriptLibraryV13,
-        }
-      : 'sharedScripts' in project
-        ? {
-            sharedScripts: structuredClone(
-              (project as { sharedScripts: SharedScriptLibraryV13 }).sharedScripts,
-            ),
-          }
-        : {}),
+    sharedScripts: structuredClone(
+      project.authorContent.sharedScripts,
+    ) as unknown as EditorState['sharedScripts'],
     // by-id Record → 数组(Object.values 保序:indexById 按原数组序插入)
     actors: Object.values(project.actorsById),
     skills: Object.values(project.skills),
-    items: ('authorContent' in project
-      ? project.authorContent.items
-      : Object.values(project.items)) as EditorState['items'],
+    items: project.authorContent.items as EditorState['items'],
     sprites: Object.values(project.spritesById),
     battleSprites: Object.values(project.battleSpritesById),
     // M4c-3:敌人/敌队(by-id → 数组)
-    enemies: ('authorContent' in project
-      ? project.authorContent.enemies
-      : Object.values(project.enemiesById ?? {})) as EditorState['enemies'],
-    enemyTeams: Object.values(project.enemyTeamsById ?? {}),
+    enemies: project.authorContent.enemies as EditorState['enemies'],
+    enemyTeams: Object.values(project.enemyTeamsById),
     // D24:战场表(数组直传;缺 = 空)
-    battleFields: project.battleFields ?? [],
+    battleFields: project.battleFields,
     // B10:毒表(loader 原序数组直传;⚠ 勿用 poisonsById 转 —— 数值键升序重排破坏 round-trip)
-    poisons: project.poisons ?? [],
+    poisons: project.poisons,
     // W6:氛围表(数组直传;缺 = 空)
-    ambiences: project.ambiences ?? [],
+    ambiences: project.ambiences,
     // 商店表(数组直传;缺 = 空)
-    shops: project.shops ?? [],
+    shops: project.shops,
     // Record(非 by-id):直传
     levelUp: project.levelUp,
     locale: project.locale,
@@ -176,7 +148,7 @@ export function serializeProject(
     files[rel] = value
   }
   const content = state.manifest.content
-  if (state.manifest.contentVersion === 16 && !content.worldVariables)
+  if (!content.worldVariables)
     throw new Error('serializeProject: 当前工程缺 manifest.content.worldVariables')
   if (!content.stamps && state.stamps.length > 0)
     throw new Error('serializeProject: 工程有图章模板但 manifest.content.stamps 未登记')
@@ -192,8 +164,6 @@ export function serializeProject(
   const mapIndex = validateMapIndex(state.mapIndex)
   const mapIndexRel = content.maps
   if (mapIndexRel) {
-    if (state.manifest.contentVersion < 2)
-      throw new Error('serializeProject: 声明 map index 的工程 contentVersion 必须 >= 2')
     addFile(mapIndexRel, mapIndex, '地图索引')
     const indexedIds = new Set<string>()
     for (const asset of mapIndex.maps) {
@@ -258,9 +228,7 @@ export function serializeProject(
   if (content.sharedScripts !== undefined) {
     if (!state.sharedScripts)
       throw new Error('serializeProject: manifest 声明 sharedScripts 但 state.sharedScripts 缺失')
-    if (state.manifest.contentVersion === 16)
-      checkSharedScriptLibraryV14(state.sharedScripts as unknown as SharedScriptLibraryV14)
-    else checkSharedScriptLibraryV13(state.sharedScripts)
+    checkAuthorScriptLibrary(state.sharedScripts as unknown as AuthorScriptLibrary)
     addFile(content.sharedScripts, state.sharedScripts, '共享脚本')
   }
 
@@ -540,7 +508,7 @@ export async function preflightProjectWriteSet(files: Record<string, unknown>): 
     for (const [rel, value] of Object.entries(files)) {
       if (!(value instanceof ArrayBuffer)) continue
       const records = recordsByPath.get(rel)
-      if (!records) continue // 尚未闭环的 battle/effect/image 等 legacy 二进制。
+      if (!records) continue // 非 catalog 管理的工程附属二进制不参与资源记录校验。
       const hash = await sha256Hex(value)
       for (const record of records)
         if (record.bytes !== value.byteLength || record.sha256 !== hash)

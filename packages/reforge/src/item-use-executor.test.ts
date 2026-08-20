@@ -114,7 +114,7 @@ describe('C8 · executeWorldItemUse 外部事务边界', () => {
 
   test('物品私有脚本可与纯效果按原顺序执行，最后只消耗一次', async () => {
     let active = world('book')
-    const ref: ScriptRef = { chunk: '__script-v5-runtime', id: 'item:book:use' }
+    const ref: ScriptRef = { chunk: '__author-script-runtime', id: 'item:book:use' }
     const runScript = vi.fn(async () => {
       expect(active.hostileAwareness).toEqual({
         rangeMultiplier: 0,
@@ -211,7 +211,7 @@ describe('C8 · executeWorldItemUse 外部事务边界', () => {
             effects: [
               {
                 kind: 'runScript',
-                script: { chunk: '__script-v5-runtime', id: 'item:book:use' },
+                script: { chunk: '__author-script-runtime', id: 'item:book:use' },
               },
               { kind: 'healHp', amount: 10 },
             ],

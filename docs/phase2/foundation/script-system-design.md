@@ -1,22 +1,20 @@
 # 剧情脚本系统
 
-> **当前实现（contentVersion 10，canonical script schema V5，2026-07-31）**：N3-1 已把
-> canonical 脚本模型发布到
-> `packages/content/src/script-v5.ts`、`scene-v5.ts`、`item-v5.ts`，compiler/runtime/editor/save
-> 均消费同一模型。R13-1～R13-5 依次占用 contentVersion 6～10，但都没有复制或重命名
-> canonical V5 脚本 schema；v8 扩充独立投掷能力，v9 增加确认结果 transition，v10 收紧
-> 敌人脚本与 battle context。本文后半保留的 v0 草稿只用于追溯早期取舍，字段名和
-> 作者模型不再是当前契约。
+> **当前实现（contentVersion 16 / SAVE 8，2026-08-20）**：canonical 脚本模型没有版本后缀，位于
+> `packages/content/src/author-script*.ts`、`runtime-script.ts`、`author-scene.ts` 与
+> `runtime-scene.ts`；compiler/runtime/editor/save 直接消费当前模型。正式上线前不支持历史工程或
+> 存档，旧脚本类型、upgrader、sidecar、fixture 和产品迁移入口已删除。本文后半保留的 v0 草稿只用于
+> 追溯早期取舍，字段名和作者模型不再是当前契约。
 > 最终验收状态见
 > [`N3-1` 任务卡](../../ops/tasks/N3-1-script-control-flow-modernization.md)。
 
-## contentVersion 10 / canonical script V5 契约
+## contentVersion 16 / canonical script 契约
 
 ### 作者身份与存储
 
 - 实体只用复合地址 `EntityAddress { scene, entity }`。命令、条件、`self` 和存档映射均不得保存
   脱离场景的裸实体 id。
-- `SceneDefV5.entities[].pages[]` 以稳定 `PageId` 命名；Page 只选择行为、触发方式和外观，
+- `AuthorSceneDef.entities[].pages[]` 以稳定 `PageId` 命名；Page 只选择行为、触发方式和外观，
   不内嵌匿名脚本。
 - `behaviors.trigger/auto` 是按稳定 `BehaviorId` 登记的具名本地行为；Page 的
   `trigger`/`auto` 只保存选择。运行时也可通过 `selectEntityPage`、
@@ -24,7 +22,7 @@
 - 场景 `hooks.onEnter/onTeleport` 是按稳定 `HookId` 登记的 variant registry，并各自拥有
   `initial` 选择。运行时切换统一使用 `selectSceneHooks`。
 - 真正跨处复用的脚本只存在于 `content/shared-scripts.json`，形状为
-  `Record<ScriptId, SharedAuthorScriptV5>`。`callScript` 只保存稳定 `script` id 和可选
+  `AuthorScriptLibrary`。`callScript` 只保存稳定 `script` id 和可选
   `EntityAddress self`，不保存 chunk 提示。
 - 共享脚本库只编辑项目级正文、作者元数据与 `self` 调用契约，不伪造默认场景或调用实体。需要地图、实体和
   播放语境的验证从真实场景调用点进入场景工作台；共享库本身不提供 owner-less 地图预览。
@@ -32,17 +30,17 @@
 
 ### 控制流
 
-`ScriptFlowV5` 有两种 canonical 形态：
+`AuthorScriptFlow` 有两种 canonical 形态：
 
 ```ts
-type ScriptFlowV5 =
+type AuthorScriptFlow =
   | {
       kind: 'stages'
       initial: StageId
       stages: Array<{
         id: StageId
-        entry?: AuthorSceneEntryPresentationV5
-        body: AuthorCommandV5[]
+        entry?: BaseSceneEntryPresentation
+        body: AuthorCommand[]
         next?: StageId
       }>
     }
@@ -57,28 +55,28 @@ type ScriptFlowV5 =
           StateId,
           {
             label: string
-            entry?: AuthorSceneEntryPresentationV5
-            body: AuthorCommandV5[]
-            next: StateTransitionV5
+            entry?: BaseSceneEntryPresentation
+            body: AuthorCommand[]
+            next: BaseStateTransition
           }
         >
       }
     }
 
-type StateTransitionV5 =
+type BaseStateTransition =
   | { kind: 'stay' }
   | { kind: 'restart' }
   | { kind: 'continue'; state: StateId }
   | { kind: 'advance'; state: StateId }
   | { kind: 'to'; state: StateId; yield: 'macroTask' | 'worldTick' }
-  | { kind: 'branch'; cond: AuthorConditionV5; then: StateTransitionV5; else: StateTransitionV5 }
+  | { kind: 'branch'; cond: AuthorCondition; then: BaseStateTransition; else: BaseStateTransition }
   | {
       kind: 'commandOutcome'
       commandId: CommandId
       command: 'confirm'
       outcome: 'no'
-      then: StateTransitionV5
-      else: StateTransitionV5
+      then: BaseStateTransition
+      else: BaseStateTransition
     }
 ```
 
@@ -99,12 +97,12 @@ compiler 将 canonical flow 降成只存在于内存或可删缓存的 `Executab
 
 ### 编辑器分层与场景预览
 
-- `CanonicalScriptBodyEditorV5` 是所有 `AuthorCommandV5[]` 的唯一作者态正文组件；
-  `CanonicalScriptFlowEditorV5` 在它外层统一编辑 stage/state/transition。共享脚本、物品私有脚本、
+- `CanonicalScriptBodyEditor` 是所有 `AuthorCommand[]` 的唯一作者态正文组件；
+  `CanonicalScriptFlowEditor` 在它外层统一编辑 stage/state/transition。共享脚本、物品私有脚本、
   实体 Behavior 和场景 Hook 只保留各自的 identity、选择、引用和元数据外壳，不各写一套正文
   编辑器。
-- 所有修改都派发到同一个 `ScriptV5EditSession`，因此共用 schema/reference/cursor 校验以及
-  undo/redo/save 闭环。canonical v5 作者界面不以整段 JSON textarea 作为日常编辑入口。
+- 所有修改都派发到同一个 `ScriptEditSession`，因此共用 schema/reference/cursor 校验以及
+  undo/redo/save 闭环。canonical 作者界面不以整段 JSON textarea 作为日常编辑入口。
 - 场景脚本入口仍是完整场景工作台：上半区保留真实地图和播放、单步、重置、引擎试玩，下半区
   是可调高度的通用脚本编辑抽屉，可在“场景 Hook / 实体行为”间切换。不能因为正文组件统一而
   降级成脱离地图的纯表单。
@@ -114,7 +112,7 @@ compiler 将 canonical flow 降成只存在于内存或可删缓存的 `Executab
 
 ### 持久状态与调度
 
-- `WorldScriptStateV5` 保存 flags/vars、按场景分区的 `entityState/entityPos/entityLayer`，
+- `WorldScriptState` 保存 flags/vars、按场景分区的 `entityState/entityPos/entityLayer`，
   以及 Page/Behavior/Hook 选择、epoch 和 `FlowCursor`。
 - 存档只在 flow safe-point 捕获 cursor；不持久化 command index、调用栈或 wait 中间相位。
 - 默认 auto 的 100ms compatibility boundary、段间 40ms、hidden/authority 等兼容调度由
@@ -123,26 +121,13 @@ compiler 将 canonical flow 降成只存在于内存或可删缓存的 `Executab
 - Page/Behavior/Hook 选择真正变化时递增 owner epoch；旧 invocation 持 lease 跑到下一
   safe-point，过期 cursor 的 CAS 会被丢弃。
 
-### 历史 v4→v9 与当前 v9→v10 边界
+### 当前加载与发布边界
 
-- HTTP/runtime loader 只接受 current contentVersion 10。
-- canonical 结构迁移只发生在历史 v4 → v5：旧工程在本地编辑器 `open-local` 入口进入
-  staging/journal 工作台；descriptor、sidecar 和 ledger 保持 byte-pin。
-- 唯一可证明的单页/单段工程可自动投影。多 Page/Stage、重复实体地址、重复 cursor 和动态绑定
-  会停在零写迁移工作台，由作者命名或选择 `broadcast-v4`/单一目标。
-- 选择全部解决后先显示 allocation/alias 预览；作者再次确认且 input digest 未变化时，才把新字节
-  写入 `.type-pal/migration-staging/`，发布可前滚 journal，并始终最后提交 manifest。
-- 不能无损结构化的控制流继续 fail-loud；不得套用 PAL baseline、猜数组位置或静默丢正文。
-- R13-1 的历史 v5→v6 只断开开发期存档 epoch，canonical script schema 仍是 V5。
-- R13-2 的历史 v6→v7 把 SAVE/minimum 升至 7；cursor handoff 世界语义仍由
-  `WorldScriptStateV5` 承载。
-- R13-3 的历史 v7→v8 只补齐独立投掷 schema；R13-4 的历史 v8→v9 增加稳定
-  `commandOutcome` 确认分支并把装备战斗形象收敛为按角色映射，同时把 SAVE/minimum 升至 8。
-- R13-5 的当前 v9→v10 收紧敌人 hook、battle choreography 与 `onDefeated` context union。
-  本地编辑器把 content 5～9 经各自纯升级器直接合成 current 10/8，递归扫描 enemies、
-  scene/shared/item 内嵌 battle context；完整预检后始终最后提交 manifest。
-- 当前存档 envelope 是 SAVE 8。SAVE8/content9 只做不读 sidecar 的 content10 identity
-  normalization；SAVE7 及更早在任何历史 sidecar I/O 前早失败。
+- HTTP/runtime/editor loader 只接受 contentVersion 16；存档只接受 SAVE 8 / content16。
+- 迁移器从真实提取输入与当前作者 baseline 直接构建 current publication，三方 merge、完整闭包预检后
+  最后提交 manifest；不发布脚本分片、版本 transition 或 migration sidecar。
+- 旧工程和旧开发期存档可由 Git 取回对应历史代码重建，但不进入当前产品路径。发现版本不匹配时
+  fail-loud，不猜字段、不读取旧 sidecar，也不保留“以后可能用到”的兼容 fallback。
 
 ---
 

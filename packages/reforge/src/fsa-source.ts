@@ -4,7 +4,7 @@
  * urlFor 产 blob URL —— 一次性解码类调用方须在解码后 revokeObjectURL(design §3;缓存层管理)。
  */
 import { validateProjectRelativePath } from '@type-pal/content'
-import { type FileSource, projectRelativeLegacyAdapter } from './file-source.js'
+import type { FileSource } from './file-source.js'
 
 function throwIfAborted(signal?: AbortSignal): void {
   if (signal?.aborted) throw new DOMException('file read aborted', 'AbortError')
@@ -62,6 +62,5 @@ export function fsaSource(dir: FileSystemDirectoryHandle): FileSource {
       urls.clear()
     },
   }
-  source.legacy = projectRelativeLegacyAdapter(source)
   return source
 }

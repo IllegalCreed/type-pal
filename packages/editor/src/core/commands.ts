@@ -93,7 +93,7 @@ import {
 } from './battle-field-references.js'
 import type { EditorState } from './edit-session.js'
 import { blockingEnemyTeamReferences } from './enemy-team-references.js'
-import { collectEntityAddressReferencesV13 } from './entity-address-references-v13.js'
+import { collectEntityAddressReferences } from './entity-address-references.js'
 import { createEmptyScriptStages } from './entity-placement.js'
 import { blockingItemReferences } from './item-references.js'
 import {
@@ -109,7 +109,7 @@ import {
   prepareProjectMapPatch,
 } from './map-patch.js'
 import { findSceneEntryReferences, findScriptReferences } from './script-references.js'
-import type { ScriptEditorStateV5 } from './script-v5-editor.js'
+import type { ScriptEditorState } from './script-editor.js'
 import {
   resolveStampStructureOperation,
   type StampStructureResolutionOptions,
@@ -461,7 +461,7 @@ export class DeleteEntityCommand implements Command {
       this.sceneId,
       scene.entities.filter((_, i) => i !== index),
     )
-    const references = collectEntityAddressReferencesV13(next).filter(
+    const references = collectEntityAddressReferences(next).filter(
       (reference) => reference.sceneId === this.sceneId && reference.entityId === this.entityId,
     )
     if (references.length)
@@ -2347,7 +2347,7 @@ export class DeleteItemCommand implements Command {
   constructor(
     private readonly itemId: string,
     private readonly canonicalState:
-      | (() => ScriptEditorStateV5 | undefined)
+      | (() => ScriptEditorState | undefined)
       | undefined = undefined,
   ) {}
 
@@ -2356,7 +2356,7 @@ export class DeleteItemCommand implements Command {
     if (index < 0) return state
     const canonicalState = this.canonicalState?.()
     if (this.canonicalState && !canonicalState)
-      throw new Error('删除 v5 物品前无法读取 canonical 脚本引用')
+      throw new Error('删除物品前无法读取 canonical 脚本引用')
     const blockers = blockingItemReferences(state, this.itemId, canonicalState)
     if (blockers.length)
       throw new Error(

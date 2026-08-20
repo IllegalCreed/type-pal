@@ -1,4 +1,4 @@
-import { emptyWorldScriptState, emptyWorldScriptStateV5 } from '@type-pal/content'
+import { emptyWorldScriptState } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { commitItemEntityPlacement, planItemEntityPlacement } from './item-use-placement.js'
 import { buildBlankProjectMap } from './project-map.js'
@@ -46,7 +46,7 @@ describe('C8 · placeEntityInFront host state', () => {
     ).toBeUndefined()
   })
 
-  test('successful plan writes exact coordinate/state to canonical and legacy worlds', () => {
+  test('successful plan writes exact coordinate/state to the current world', () => {
     const pos = planItemEntityPlacement({
       target,
       currentSceneId: 's048',
@@ -57,16 +57,11 @@ describe('C8 · placeEntityInFront host state', () => {
     })
     expect(pos).toEqual({ col: 2, row: 1, height: 3 })
 
-    const canonical = emptyWorldScriptStateV5()
-    commitItemEntityPlacement({ kind: 'v5', value: canonical }, target, 2, pos!)
+    const canonical = emptyWorldScriptState()
+    commitItemEntityPlacement(canonical, target, 2, pos!)
     expect(canonical.entityPos).toEqual({
       s048: { e797: { col: 2, row: 1, height: 3 } },
     })
     expect(canonical.entityState).toEqual({ s048: { e797: 2 } })
-
-    const legacy = emptyWorldScriptState()
-    commitItemEntityPlacement({ kind: 'legacy', value: legacy }, target, 2, pos!)
-    expect(legacy.entityPos).toEqual({ e797: { col: 2, row: 1, height: 3 } })
-    expect(legacy.entityState).toEqual({ e797: 2 })
   })
 })

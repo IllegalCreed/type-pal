@@ -283,7 +283,7 @@
                           "kind": "loadLastSave"
                         }
                       ],
-                      "team": 239
+                      "enemyTeamId": "team-239"
                     },
                     {
                       "kind": "setMultiEntityState",
@@ -571,7 +571,7 @@
                           "kind": "loadLastSave"
                         }
                       ],
-                      "team": 239
+                      "enemyTeamId": "team-239"
                     },
                     {
                       "kind": "setMultiEntityState",
@@ -859,7 +859,7 @@
                           "kind": "loadLastSave"
                         }
                       ],
-                      "team": 316
+                      "enemyTeamId": "team-316"
                     },
                     {
                       "kind": "setMultiEntityState",
@@ -1147,7 +1147,7 @@
                           "kind": "loadLastSave"
                         }
                       ],
-                      "team": 316
+                      "enemyTeamId": "team-316"
                     },
                     {
                       "kind": "setMultiEntityState",
@@ -1814,7 +1814,7 @@
                           "kind": "loadLastSave"
                         }
                       ],
-                      "team": 318
+                      "enemyTeamId": "team-318"
                     },
                     {
                       "kind": "setMultiEntityState",
@@ -2099,7 +2099,7 @@
                           "kind": "loadLastSave"
                         }
                       ],
-                      "team": 318
+                      "enemyTeamId": "team-318"
                     },
                     {
                       "kind": "setMultiEntityState",
@@ -2384,7 +2384,7 @@
                           "kind": "loadLastSave"
                         }
                       ],
-                      "team": 319
+                      "enemyTeamId": "team-319"
                     },
                     {
                       "kind": "setMultiEntityState",
@@ -2672,7 +2672,7 @@
                           "kind": "loadLastSave"
                         }
                       ],
-                      "team": 319
+                      "enemyTeamId": "team-319"
                     },
                     {
                       "kind": "setMultiEntityState",
@@ -3712,7 +3712,7 @@
                           "kind": "loadLastSave"
                         }
                       ],
-                      "team": 319
+                      "enemyTeamId": "team-319"
                     },
                     {
                       "kind": "setMultiEntityState",
@@ -3997,7 +3997,7 @@
                           "kind": "loadLastSave"
                         }
                       ],
-                      "team": 319
+                      "enemyTeamId": "team-319"
                     },
                     {
                       "kind": "setMultiEntityState",
@@ -4282,7 +4282,7 @@
                           "kind": "loadLastSave"
                         }
                       ],
-                      "team": 318
+                      "enemyTeamId": "team-318"
                     },
                     {
                       "kind": "setMultiEntityState",
@@ -4567,7 +4567,7 @@
                           "kind": "loadLastSave"
                         }
                       ],
-                      "team": 318
+                      "enemyTeamId": "team-318"
                     },
                     {
                       "kind": "setMultiEntityState",
@@ -5454,7 +5454,6 @@
       "sprite": "sprite-548",
       "collide": true,
       "hostile": {
-        "team": 319,
         "chase": {
           "range": 12,
           "speed": 4
@@ -5466,7 +5465,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-319"
       }
     },
     {
@@ -5479,7 +5479,6 @@
       "sprite": "sprite-548",
       "collide": true,
       "hostile": {
-        "team": 239,
         "chase": {
           "range": 12,
           "speed": 4
@@ -5491,7 +5490,8 @@
         "onPlayerFlee": {
           "kind": "suspend",
           "ticks": 15
-        }
+        },
+        "enemyTeamId": "team-239"
       }
     },
     {

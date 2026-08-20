@@ -18,7 +18,7 @@ import type {
   AiAction,
   AiCond,
   AmbienceDef,
-  AuthorConditionV5,
+  AuthorCondition,
   BattleChoreographyAction,
   BattleFieldDef,
   BattleSpriteDef,
@@ -27,20 +27,20 @@ import type {
   EnemyDef,
   EnemyHookCommand,
   EnemyHookTransition,
-  EnemyOnDefeatedCommandV10,
+  EnemyOnDefeatedCommand,
   EnemyTeamDef,
   ItemData,
   LevelUpSkill,
-  LoadedManifest,
+  CurrentManifest,
   Locale,
   MapIndexV1,
   MigrationDiagnosticsV1,
   PoisonDef,
+  RuntimeScriptLibrary,
   SceneDef,
   ScriptChunkV1,
   ScriptIndexV1,
   ScriptStage,
-  SharedScriptLibraryV13,
   ShopDef,
   SkillData,
   SpriteDef,
@@ -96,8 +96,8 @@ export interface ContentBundle {
   scriptChunks?: Readonly<Record<string, ScriptChunkV1>>
   /** 作者共享脚本目录；仅登记项与 scene 私有根拥有可编辑的精确命令定位。 */
   scriptIndex?: ScriptIndexV1
-  /** v13 作者共享脚本正文；v5 工程可缺省。 */
-  sharedScripts?: SharedScriptLibraryV13
+  /** 当前作者共享脚本正文；纯运行时调用方可缺省。 */
+  sharedScripts?: RuntimeScriptLibrary
   /** 可见存档/运行态；删除保护可选传入，普通工程闭包可缺省。 */
   worlds?: readonly WorldState[]
   /** 迁移工具显式写出的作者待处理 sidecar；空白/纯作者工程缺省为空。 */
@@ -340,12 +340,6 @@ export function collectBattleSpriteDefinitionReferences(
           })
       })
     }
-    collectCommandBattleSpriteReferences(
-      world.script?.sceneScriptOverrides,
-      `worlds[${worldIndex}].script.sceneScriptOverrides`,
-      `world:${worldIndex}:sceneScriptOverrides`,
-      references,
-    )
   })
   return references
 }
@@ -492,9 +486,9 @@ function collectActionStages(
   locator: ActionLocatorFactory,
   out: SpriteActionReference[],
 ): void {
-  // Canonical v5/v13 pages bind a behavior id string instead of embedding legacy
-  // `{ stages }`. Those flows are scanned below from `behaviors`; do not let the
-  // legacy exact-locator path crash while inspecting a canonical project.
+  // Canonical pages bind a behavior id string instead of embedding `{ stages }`.
+  // Those flows are scanned below from `behaviors`; the renderer projection path
+  // must not treat a behavior id as an inline stage list.
   if (!Array.isArray(stages)) return
   stages.forEach((stage, stageIndex) => {
     if (stage.entry?.prepare.length)
@@ -652,14 +646,6 @@ export function collectSpriteActionReferences(
       references,
     )
   })
-  source.worlds?.forEach((world, worldIndex) => {
-    collectUnlocatedCommandSpriteActionReferences(
-      world.script?.sceneScriptOverrides,
-      `worlds[${worldIndex}].script.sceneScriptOverrides`,
-      `world:${worldIndex}:sceneScriptOverrides`,
-      references,
-    )
-  })
   return references
 }
 
@@ -736,18 +722,12 @@ export function collectSpriteDefinitionReferences(
         site: `world:${worldIndex}:followers`,
       })
     })
-    collectCommandSpriteReferences(
-      world.script?.sceneScriptOverrides,
-      `worlds[${worldIndex}].script.sceneScriptOverrides`,
-      `world:${worldIndex}:sceneScriptOverrides`,
-      references,
-    )
   })
   return references
 }
 
 /** 编辑器被编辑的内容工作副本 = ContentBundle + manifest(EditSession 用)。 */
-export type EditorContent = ContentBundle & { manifest: LoadedManifest }
+export type EditorContent = ContentBundle & { manifest: CurrentManifest }
 
 /** 跨引用完整性校验:返回所有悬空引用(空数组 = 干净)。 */
 export function validateReferences(b: ContentBundle): Issue[] {
@@ -914,7 +894,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
       })
   }
 
-  const validateAuthorCondition = (condition: AuthorConditionV5, where: string): void => {
+  const validateAuthorCondition = (condition: AuthorCondition, where: string): void => {
     switch (condition.kind) {
       case 'hasItem':
       case 'ownsItem':
@@ -962,7 +942,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
   }
 
   const validateOnDefeated = (
-    commands: readonly EnemyOnDefeatedCommandV10[],
+    commands: readonly EnemyOnDefeatedCommand[],
     where: string,
   ): void => {
     commands.forEach((command, index) => {

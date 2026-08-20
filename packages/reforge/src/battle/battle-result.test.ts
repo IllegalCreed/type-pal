@@ -4,7 +4,6 @@ import {
   battleResultRunsOnFlee,
   battleResultRunsOnLose,
   isBattleResult,
-  normalizeLegacyBattleResult,
 } from './battle-result.js'
 
 describe('BattleResult boundary', () => {
@@ -13,14 +12,6 @@ describe('BattleResult boundary', () => {
       expect(isBattleResult(result)).toBe(true)
     expect(isBattleResult('win')).toBe(false)
     expect(isBattleResult('flee')).toBe(false)
-  })
-
-  test('maps legacy results only at the explicit adapter boundary', () => {
-    expect(normalizeLegacyBattleResult('win')).toBe('victory')
-    expect(normalizeLegacyBattleResult('win', true)).toBe('enemyFled')
-    expect(normalizeLegacyBattleResult('lose')).toBe('defeat')
-    expect(normalizeLegacyBattleResult('flee')).toBe('playerFled')
-    expect(normalizeLegacyBattleResult('terminated')).toBe('terminated')
   })
 
   test('keeps reward and continuation policies unambiguous', () => {

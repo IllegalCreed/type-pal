@@ -5,7 +5,7 @@ import {
   normalizeMapAssetPath,
   validateMapIndex,
 } from './index.js'
-import { validateScenes, validateScenesForContentVersion } from './validate.js'
+import { validateScenes } from './validate.js'
 
 const scene = (mapId: unknown): unknown => ({
   id: 's',
@@ -81,12 +81,5 @@ describe('SceneDef 地图边界', () => {
   test('只接受直接稳定 mapId', () => {
     expect(validateScenes([scene('home')])[0]?.mapId).toBe('home')
     expect(() => validateScenes([scene({ legacyMapId: 'home' })])).toThrow('合法稳定地图 id')
-  })
-
-  test('contentVersion 2/3 fail-loud，版本 4 正常', () => {
-    expect(() => validateScenesForContentVersion([scene('home')], 1)).toThrow('请先迁移工程')
-    expect(() => validateScenesForContentVersion([scene('home')], 2)).toThrow('请先迁移工程')
-    expect(() => validateScenesForContentVersion([scene('home')], 3)).toThrow('请先迁移工程')
-    expect(validateScenesForContentVersion([scene('home')], 4)[0]?.mapId).toBe('home')
   })
 })

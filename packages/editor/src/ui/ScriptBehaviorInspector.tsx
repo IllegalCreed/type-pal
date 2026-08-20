@@ -1,0 +1,287 @@
+import type { EntityAddress, BaseEntityBehavior, Selection } from '@type-pal/content'
+import { useMemo, useState } from 'react'
+import {
+  AddEntityBehaviorCommand,
+  behaviorReferences,
+  type CanonicalScriptReference,
+  DeleteEntityBehaviorCommand,
+  describeCanonicalScriptReference,
+  presentSelection,
+  type ScriptEditorCommand,
+  type ScriptEditorState,
+  type ScriptCommandLocator,
+  UpdateEntityBehaviorCommand,
+} from '../core/script-editor.js'
+import {
+  CanonicalHelpTip,
+  type CanonicalScriptEditorContext,
+  CanonicalScriptFlowEditor,
+  nextGeneratedScriptSchemeId,
+  ScriptSchemeCreateDialog,
+  ScriptSchemeDetailsDialog,
+  ScriptSchemeStrip,
+} from './ScriptEditor.js'
+
+type BehaviorChannel = 'trigger' | 'auto'
+
+function entityOf(state: ScriptEditorState, target: EntityAddress) {
+  const scene = state.scenes.find((candidate) => candidate.id === target.scene)
+  return scene?.entities.find((candidate) => candidate.id === target.entity)
+}
+
+function defaultBehavior(label: string): BaseEntityBehavior {
+  return {
+    label,
+    order: 0,
+    flow: {
+      kind: 'stages',
+      initial: 'start',
+      stages: [{ id: 'start', body: [] }],
+    },
+  }
+}
+
+export function BehaviorSelectionEditor(props: {
+  selection: Selection<string>
+  behaviors: Readonly<Record<string, BaseEntityBehavior>>
+  onChange: (selection: Selection<string>) => void
+  label?: string
+}) {
+  const entries = useMemo(
+    () =>
+      Object.entries(props.behaviors).sort(
+        ([leftId, left], [rightId, right]) =>
+          left.order - right.order || leftId.localeCompare(rightId),
+      ),
+    [props.behaviors],
+  )
+  const value =
+    props.selection.kind === 'inherit'
+      ? '__inherit'
+      : props.selection.kind === 'disabled'
+        ? '__disabled'
+        : props.selection.value
+  const danglingValue =
+    props.selection.kind === 'use' && props.behaviors[props.selection.value] === undefined
+      ? props.selection.value
+      : undefined
+  const presentation = presentSelection(props.selection, (id) => {
+    const behavior = props.behaviors[id]
+    return behavior ? behavior.label : `${id}（引用失效）`
+  })
+
+  return (
+    <label className="script-selection">
+      <span className="field-label">{props.label ?? '当前使用的脚本'}</span>
+      <select
+        className="in"
+        aria-label={props.label ?? '当前使用的脚本'}
+        value={value}
+        onChange={(event) => {
+          if (event.target.value === '__inherit') props.onChange({ kind: 'inherit' })
+          else if (event.target.value === '__disabled') props.onChange({ kind: 'disabled' })
+          else props.onChange({ kind: 'use', value: event.target.value })
+        }}
+      >
+        <option value="__inherit">使用实体页面原本的脚本</option>
+        <option value="__disabled">不运行脚本</option>
+        {danglingValue ? <option value={danglingValue}>{danglingValue}（引用失效）</option> : null}
+        {entries.map(([id, behavior]) => (
+          <option key={id} value={id}>
+            {behavior.label}
+          </option>
+        ))}
+      </select>
+      <small className={`script-selection-status ${presentation.tone}`}>
+        {presentation.label}
+      </small>
+    </label>
+  )
+}
+
+export function ScriptBehaviorInspector(props: {
+  state: ScriptEditorState
+  target: EntityAddress
+  channel: BehaviorChannel
+  selectedBehaviorId?: string
+  onSelectBehavior?: (behaviorId: string) => void
+  onDispatch: (command: ScriptEditorCommand) => void
+  onOpenReference?: (reference: CanonicalScriptReference) => void
+  onOpenFlow?: (behaviorId: string) => void
+  focusCommand?: { locator: ScriptCommandLocator; revision: number }
+  onError?: (message: string) => void
+  editorContext?: CanonicalScriptEditorContext
+}) {
+  const entity = entityOf(props.state, props.target)
+  const registry = entity?.behaviors?.[props.channel] ?? {}
+  const entries = useMemo(
+    () =>
+      Object.entries(registry).sort(
+        ([leftId, left], [rightId, right]) =>
+          left.order - right.order || leftId.localeCompare(rightId),
+      ),
+    [registry],
+  )
+  const selectedId =
+    (props.selectedBehaviorId && registry[props.selectedBehaviorId]
+      ? props.selectedBehaviorId
+      : entries[0]?.[0]) ?? ''
+  const selected = registry[selectedId]
+  const [detailsId, setDetailsId] = useState<string>()
+  const detailsScheme = detailsId ? registry[detailsId] : undefined
+  const detailsReferences = detailsScheme
+    ? behaviorReferences(props.state, props.target, props.channel, detailsId!)
+    : []
+  const [createOpen, setCreateOpen] = useState(false)
+  const title = props.channel === 'trigger' ? '交互脚本' : '自动行为'
+  const description =
+    props.channel === 'trigger'
+      ? '玩家与当前实体交互或接触时执行。'
+      : '当前实体在场景中自行巡逻、转向或播放动作时循环执行。'
+
+  const dispatch = (command: ScriptEditorCommand): boolean => {
+    try {
+      props.onDispatch(command)
+      return true
+    } catch (error) {
+      props.onError?.(error instanceof Error ? error.message : String(error))
+      return false
+    }
+  }
+
+  const createScheme = (label: string): void => {
+    const id = nextGeneratedScriptSchemeId(Object.keys(registry), props.channel)
+    if (
+      dispatch(
+        new AddEntityBehaviorCommand(props.target, props.channel, id, defaultBehavior(label)),
+      )
+    ) {
+      props.onSelectBehavior?.(id)
+      setCreateOpen(false)
+    }
+  }
+
+  if (!entity)
+    return (
+      <section className="script-behavior-inspector empty" aria-label={title}>
+        <p>
+          实体不存在：{props.target.scene}/{props.target.entity}
+        </p>
+      </section>
+    )
+
+  return (
+    <section className="script-behavior-inspector" aria-label={title}>
+      <header className="script-behavior-heading">
+        <div className="script-heading-title">
+          <h4>{title}</h4>
+          <CanonicalHelpTip label={title}>{description}</CanonicalHelpTip>
+        </div>
+        {!entries.length ? <span>尚未创建</span> : null}
+      </header>
+
+      {selected ? (
+        <div className="script-behavior-detail script-primary-detail">
+          <ScriptSchemeStrip
+            title={title}
+            options={entries.map(([id, behavior]) => ({
+              id,
+              label: behavior.label,
+              flow: behavior.flow,
+            }))}
+            selectedId={selectedId}
+            onSelect={(id) => {
+              setCreateOpen(false)
+              props.onSelectBehavior?.(id)
+            }}
+            onDetails={setDetailsId}
+            onCreate={() => setCreateOpen(true)}
+          />
+
+          <CanonicalScriptFlowEditor
+            key={selectedId}
+            ownerLabel={selected.label}
+            flow={selected.flow}
+            context={props.editorContext}
+            onError={props.onError}
+            focusLocator={
+              props.focusCommand?.locator.owner.kind === 'entity-behavior' &&
+              props.focusCommand.locator.owner.sceneId === props.target.scene &&
+              props.focusCommand.locator.owner.entityId === props.target.entity &&
+              props.focusCommand.locator.owner.channel === props.channel &&
+              props.focusCommand.locator.owner.behaviorId === selectedId
+                ? props.focusCommand.locator
+                : undefined
+            }
+            focusRevision={
+              props.focusCommand?.locator.owner.kind === 'entity-behavior' &&
+              props.focusCommand.locator.owner.sceneId === props.target.scene &&
+              props.focusCommand.locator.owner.entityId === props.target.entity &&
+              props.focusCommand.locator.owner.channel === props.channel &&
+              props.focusCommand.locator.owner.behaviorId === selectedId
+                ? props.focusCommand.revision
+                : undefined
+            }
+            onChange={(flow) =>
+              dispatch(
+                new UpdateEntityBehaviorCommand(props.target, props.channel, selectedId, {
+                  flow,
+                }),
+              )
+            }
+          />
+        </div>
+      ) : (
+        <div className="script-create-first">
+          <strong>创建{title}</strong>
+          <p>{description}</p>
+          <button type="button" className="pv-btn" onClick={() => setCreateOpen(true)}>
+            ＋ 新建第一个方案
+          </button>
+        </div>
+      )}
+
+      {detailsId && detailsScheme ? (
+        <ScriptSchemeDetailsDialog
+          selectedName={detailsScheme.label}
+          references={detailsReferences.map((reference, index) => ({
+            key: `${reference.kind}:${reference.path}:${index}`,
+            reference,
+            label: describeCanonicalScriptReference(props.state, reference),
+          }))}
+          onOpenReference={(reference) => {
+            setDetailsId(undefined)
+            props.onOpenReference?.(reference)
+          }}
+          onClose={() => setDetailsId(undefined)}
+          onSave={(label) =>
+            dispatch(
+              new UpdateEntityBehaviorCommand(props.target, props.channel, detailsId, {
+                label,
+              }),
+            )
+          }
+          onDelete={() => {
+            if (
+              dispatch(new DeleteEntityBehaviorCommand(props.target, props.channel, detailsId))
+            ) {
+              if (selectedId === detailsId) {
+                const next = entries.find(([id]) => id !== detailsId)?.[0]
+                if (next) props.onSelectBehavior?.(next)
+              }
+              setDetailsId(undefined)
+            }
+          }}
+        />
+      ) : null}
+      {createOpen ? (
+        <ScriptSchemeCreateDialog
+          title={title}
+          first={!entries.length}
+          onClose={() => setCreateOpen(false)}
+          onCreate={createScheme}
+        />
+      ) : null}
+    </section>
+  )
+}

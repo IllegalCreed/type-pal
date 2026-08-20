@@ -13,7 +13,7 @@ export async function validateProjectZipEntries(entries: readonly ZipEntry[]): P
   const manifestBytes = byPath.get('manifest.json')
   if (!manifestBytes) throw new Error('工程缺 manifest.json')
   const manifest = JSON.parse(new TextDecoder().decode(manifestBytes)) as {
-    assets?: { catalog?: string; legacy?: { families?: unknown } }
+    assets?: { catalog?: string }
   }
   const catalogPath = manifest.assets?.catalog
   if (!catalogPath) throw new Error('工程 manifest 缺 assets.catalog')
@@ -25,13 +25,13 @@ export async function validateProjectZipEntries(entries: readonly ZipEntry[]): P
     if (!bytes) throw new Error(`ZIP 资源缺失: ${id} -> ${record.path}`)
     if (bytes.byteLength !== record.bytes || (await sha256Hex(bytes)) !== record.sha256)
       throw new Error(`ZIP 资源 bytes/sha256 不符: ${id}`)
-    if (record.kind === 'tileset') {
+    if (record.kind === 'tileset' || record.kind === 'effect-sprite') {
       if (
         record.mediaType !== 'application/vnd.type-pal.rle' ||
         bytes[0] !== 0x1f ||
         bytes[1] !== 0x8b
       )
-        throw new Error(`ZIP tileset 非 canonical gzip: ${id}`)
+        throw new Error(`ZIP ${record.kind} 非 canonical gzip: ${id}`)
     }
     if (record.kind === 'battle-sprite') {
       const arrayBuffer = bytes.buffer.slice(
@@ -47,21 +47,8 @@ export async function validateProjectZipEntries(entries: readonly ZipEntry[]): P
       }
     }
   }
-  const legacyFamilies = manifest.assets?.legacy?.families
-  if (
-    (!Array.isArray(legacyFamilies) || !legacyFamilies.includes('tileset')) &&
-    entries.some((entry) => entry.path.startsWith('assets/extracted/data/tileset/'))
-  )
-    throw new Error('ZIP 含已退役的 extracted tileset 副本')
-  if (
-    (!Array.isArray(legacyFamilies) || !legacyFamilies.includes('battle-sprite')) &&
-    entries.some(
-      (entry) =>
-        entry.path.startsWith('assets/extracted/data/battle-sprite/') ||
-        entry.path === 'assets/extracted/data/battle-sprites.json',
-    )
-  )
-    throw new Error('ZIP 含已退役的 extracted battle-sprite 副本')
+  if (entries.some((entry) => entry.path.startsWith('assets/extracted/')))
+    throw new Error('ZIP 含 catalog 外的 extracted 资源副本')
 }
 
 /** 递归收集 FSA 目录全部文件(路径正斜杠,相对工程根)。 */

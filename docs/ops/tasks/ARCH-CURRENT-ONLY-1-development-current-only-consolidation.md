@@ -1,6 +1,6 @@
 # ARCH-CURRENT-ONLY-1 - 开发期单版本架构收口
 
-Status: build
+Status: review
 Phase: phase2
 Capability: 跨域架构 / N3 + X1 + X4（不改变 capability-map 状态）
 Coding Owner: Codex
@@ -317,7 +317,9 @@ OPS-TST-PERF-B/C 未提交改动，未标 build/done。
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept（2026-08-20）** — direct content16/SAVE8、current author/runtime/editor/migrate、catalog-only
+  资源和 current publication 均已落地；产品静态边界 3/3 通过，四包 typecheck 通过，current PAL dry-run
+  `managed=537 writes=0 deletes=0 conflicts=0`。旧版本兼容审查见 Review，结论 `pass`。
 - Kimi: pending
 - GLM: pending
 - counter / 返工处理: pending
@@ -385,16 +387,39 @@ OPS-TST-PERF-B/C 未提交改动，未标 build/done。
 - Coding Owner: Codex
 - 修改文件:
   - `docs/ops/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md`
-  - 本任务卡与 `docs/ops/board.md`
+  - `packages/content/src/**`、`packages/reforge/src/**`、`packages/editor/src/**`
+  - `packages/migrate/src/**`、`packages/migrate/scripts/migrate-content.mts`、current PAL baseline/project
+  - current-only 架构/迁移/脚本/资源文档、本任务卡与 `docs/ops/board.md`
 - 实现摘要:
   - 2026-08-20 接管 `OPS-TST-PERF-B` 停线交接；失败候选不作为 authority，表示层 byte-order 差异不再建设兼容转换器。
   - 完成 GLM1 命名轴裁定：原 `V5 + V13 + V14` 表达的是现行脚本语义演进，能力保留并折叠为无版本 `current author-script`，不继续作为产品公开版本号。
   - 建立 G0 retention ledger，逐类记录 product epoch、保留/折叠/删除处置、唯一调用域与删除前 characterization 门禁；当前没有批准任何隔离旧版转换器例外。
+  - content 直接暴露 current author/runtime scene、script、dialogue、item、enemy、lifecycle 与校验模块；删除旧
+    upgrader、旧 epoch 类型、专属 fixture/test 和 public export，序列化边界只保留 content16。
+  - reforge 把 loader、project、compiler/runner/world/host adapter 与 SAVE8 codec 折叠为无版本 current 模块；
+    删除 v5/v13/v14/v16 委托链、legacy runtime shell 和 SAVE5..7/content4..15 migration 产品入口。
+  - editor 打开/保存只接受 current project；`App` 必须携带 current `ScriptEditSession`，普通交互投影不能绕过
+    `mergeEditorProjectionWithCurrentAuthorState` 单独保存。主会话与脚本会话按字段域分工，不存在旧 schema
+    双读/双写或可保存的 legacy shell；私有脚本占位在保存投影中 fail-closed 地替换为唯一 current 正文。
+  - PAL effect-sprite/image 已物化进唯一 catalog；删除 `assets.legacy`、LegacyAssetAdapter 与 extracted fallback。
+    current catalog 为 1,935 个资产，其中 effect sprite 56 个、922 帧、652,870 bytes。
+  - migrate 只保留 PAL raw source -> current publication：删除 `_transitions/`、旧 sidecar、rewind/seal、历史
+    epoch dispatcher/fixture/实验发布链；一次 current 三方 merge 后 manifest 最后提交。
+  - current PAL 已正式发布并复跑：首次计划 `writes=1 deletes=1 conflicts=0`，写入后 replay 与本次复验均为
+    `writes=0 deletes=0 conflicts=0`；闭包 `scenes=294 maps=223 assets=1935`。
+  - 更新版本矩阵：content16、SAVE8、Map4/AssetCatalogV1 等局部格式和 raw-source migration 是四条独立轴；
+    产品文档不再宣称支持旧工程/旧存档升级。
 - 运行命令:
-  - 全仓 product-version 静态 census（文件名、导入、schema/version 分支）
-  - `git diff --check`（文档阶段）
+  - `pnpm --filter @type-pal/{content,editor,reforge,migrate} typecheck`：四包通过。
+  - 最终相关包级门禁只执行一次：reforge `88 files / 820 tests`、migrate unit
+    `37 files / 324 tests` 直接通过；content/editor 暴露 1/19 个收口测试债后只定向返工，不重复整套长跑。
+  - 定向返工复验：content `validate-refs 37/37`；editor 原失败集合 `8 files / 85 tests` 复绿，最后一项
+    `ui-review-samples 3/3` 复绿；新增保存边界复验 `2 files / 10 tests` 通过。
+  - `pnpm --filter @type-pal/migrate migrate:content`：`managed=537 writes=0 deletes=0 conflicts=0`。
+  - `current-only-product-boundary.test.ts`：`3/3`；`git diff --check`：通过。
 - 浏览器 / 手工检查: N/A
-- 跳过的检查及原因: 还未运行实现测试；必须先补齐 KA2 要求的删除前 characterization，再开始折叠加载链。
+- 跳过的检查及原因: 按用户明确要求，修复最终门禁发现项后不再重复四包整套长跑；只复跑所有失败文件及
+  其保存边界。无视觉变化，不做页面巡检。
 
 ## 资源生成记录(如适用)
 
@@ -407,20 +432,28 @@ N/A
 - 验证方式: current 工程最小功能 smoke，不属于视觉验收。
 - 集中 E2E 用例 / 批次: N/A
 - 截图 / 像素检查路径: N/A
-- 结论: pending
-- 未完成项: build 后执行最小功能 smoke。
+- 结论: N/A；本卡不改变视觉或交互。
+- 未完成项: 无视觉项；等待 Kimi/GLM 代码审查。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
+- Codex 自审结论: **accept**。
+- 旧版本兼容审查: **pass（Codex，2026-08-20）**。
+  - product source 静态门禁未命中未批准的旧 loader/script/save epoch import/export、legacy shell、compat
+    branch 或旧 fixture。
+  - migration 静态门禁未命中 `_transitions/`、`content/migrations/`、旧 content/save 分支、rewind/seal、
+    `extractLegacyScriptEdges` 或旧 payload。
+  - 允许命中仅限 retention ledger 显式 current/provenance 项：Map4、AssetCatalogV1、ScriptChunk/IndexV1、
+    `legacy-migrated` origin、浏览器 `onupgradeneeded`、PAL raw legacy-dialog 解码。
+- Kimi/GLM 审查结论: pending
 - 必须返工项: pending
 - Accept / rework: pending
 
 ## 用户验收
 
-- 用户结论: 2026-08-19 已要求开卡；实现尚未开始。
-- 后续任务: 先收 Kimi、GLM 的 premise/design 独立签字；三签齐后再由 Codex 开始 G0。
+- 用户结论: 2026-08-19 要求开卡；2026-08-20 确认 OPS-TST-PERF-B 已按交接停线，由 Codex 开始实现。
+- 后续任务: Kimi 架构/公共接口审查，GLM 覆盖/迁移/测试矩阵审查；三方 accept 后再请用户最终验收。
 
 ## 交接日志
 
@@ -440,24 +473,28 @@ N/A
   列出（R13 seal 族/oracle manifest/migrate-content.mts/script-v5 目录）。三工程 content16、
   PAL raw 可重建、demo/e2e-own 无旧依赖实测。未改实现，未碰 PERF-B/C 改动，未标 build/done。
   Next: KA1 排序满足 + GLM1 裁定落卡后转 build。
+- 2026-08-20 Codex（Coding Owner）: 完成 G0-G5 current-only 收口、current PAL 正式发布/零差异复验、
+  product/migration 静态门禁和四包验证；签 **accept**，任务转 review。最终整套门禁只跑一次；其发现的
+  content/editor 失败均按文件定向复绿。Next: Kimi 独立代码/架构审查，不得修改实现或标 done。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: ARCH-CURRENT-ONLY-1 开发期单版本架构收口——GLM build 前覆盖/迁移审查
+接手任务: ARCH-CURRENT-ONLY-1 开发期单版本架构收口——Kimi review
 任务卡: docs/ops/tasks/ARCH-CURRENT-ONLY-1-development-current-only-consolidation.md
-当前状态: draft；Codex + Kimi（KA1-KA2）已签，待 GLM；不得开始实现
-你的角色: GLM，独立覆盖/迁移/测试矩阵审查
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、任务卡全文（含 Kimi 独立反证审查）
+当前状态: review；Codex 已实现并签 accept，Kimi/GLM review 待签；不得标 done
+你的角色: Kimi，独立代码/架构/公共接口主审
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、任务卡全文、
+docs/ops/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md
 请独立执行:
-1. 全仓旧版本依赖 census：content/reforge/editor/save/migrate 的 symbol/file/call-site 清单复核,
-   逐项核对「删除/折叠/隔离保留」分类没有漏项（特别注意 legacy asset family、旧 fixture、
-   旧 contentVersion 分支、public export）。
-2. 迁移可重建性：逐项证明当前工程（pal/demo/e2e-own）可由 raw source 重新生成；列出任何无法
-   重建的真实输入（若存在即走例外门）。
-3. 测试矩阵：characterization 先行（KA2）的覆盖面、current PAL 全量重生成双跑零 diff 门禁、
-   静态「无未批准旧版本 import/export」门禁的可执行性。
-4. KA1 排序门的可执行检查：本卡与 OPS-TST-PERF-B 的 migrate 文件交集清单。
-输出: 在任务卡签 premise verified + design agree 或 counter + 精确缺口；写回推进签字与交接日志；
-不得修改实现文件、不得代签、不得标 build/done。
+1. 核对 content/reforge/editor/save public surface 是否只剩 direct current content16/SAVE8；旧委托链、
+   legacy runtime shell、旧 upgrader/payload/fixture 是否确实从产品入口删除。
+2. 重点压力测试 editor 边界：主 EditSession 是 current 交互投影、ScriptEditSession 是脚本作者真值；
+   生产 App 必须携带后者且保存不能绕过唯一 merge。若你认为这仍构成任务卡禁止的“双作者态”，请 counter
+   并给出最小可验收边界，不要用命名争论代替调用链证据。
+3. 核对 catalog-only 资源与 PAL raw -> current publication 是否没有兼容 fallback；复核 retention allowlist
+   没有掩盖旧产品 reader。
+4. 复核 Build 中验证证据；无需重复长跑已有全量，只跑发现问题所需的最小 focused tests。
+输出: 在进入 done 前签 Kimi accept，或 counter + 精确 file:line 返工项；写回 Review/交接日志并给出 GLM
+下一位提示词。不得修改实现文件、不得代签 GLM、不得标 done。
 ```

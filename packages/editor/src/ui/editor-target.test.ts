@@ -173,7 +173,7 @@ describe('editorObjectTargetMissing', () => {
     ).toBe(true)
   })
 
-  test('脚本库深链同时识别 canonical v5 与旧版作者脚本', () => {
+  test('脚本库深链同时识别 canonical 作者脚本与 runtime script index', () => {
     const state = makeState({
       scriptIndex: {
         version: 1,
@@ -181,7 +181,7 @@ describe('editorObjectTargetMissing', () => {
         chunks: {},
         library: {
           'legacy/story': {
-            name: '旧版脚本',
+            name: '运行时脚本',
             self: 'none',
           },
         },

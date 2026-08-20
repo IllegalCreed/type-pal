@@ -836,7 +836,7 @@
                       "fieldId": 42,
                       "kind": "startBattle",
                       "music": "music.pal.038",
-                      "team": 42
+                      "enemyTeamId": "team-42"
                     },
                     {
                       "kind": "stopMusic"

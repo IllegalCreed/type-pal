@@ -1,4 +1,4 @@
-/* 编辑器业务样式；foundations 与完整 legacy alias 表由 design-system/tokens.css 统一提供。 */
+/* 编辑器业务样式；foundations 与历史选择器别名由 design-system/tokens.css 统一提供。 */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -12526,19 +12526,19 @@ button.sprite-frame-cell[draggable="true"]:active {
   outline-offset: 1px;
 }
 
-/* ── N3-1 canonical v5 具名行为检查器 ───────────────────── */
-.script-v5-behavior-inspector {
+/* ── N3-1 当前具名行为检查器 ─────────────────────────────── */
+.script-behavior-inspector {
   min-width: 0;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--panel);
 }
-.script-v5-entity-section {
+.script-entity-section {
   display: grid;
   gap: 8px;
 }
-.script-v5-page-binding {
+.script-page-binding {
   display: grid;
   gap: 7px;
   padding: 9px;
@@ -12546,47 +12546,47 @@ button.sprite-frame-cell[draggable="true"]:active {
   border-radius: 7px;
   background: color-mix(in srgb, var(--accent) 6%, var(--panel2));
 }
-.script-v5-page-binding label {
+.script-page-binding label {
   display: grid;
   gap: 4px;
   min-width: 0;
 }
-.script-v5-channel-tabs {
+.script-channel-tabs {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 5px;
 }
-.script-v5-channel-tabs button {
+.script-channel-tabs button {
   min-width: 0;
 }
-.script-v5-channel-tabs button.active {
+.script-channel-tabs button.active {
   border-color: color-mix(in srgb, var(--accent) 58%, var(--line));
   background: color-mix(in srgb, var(--accent) 14%, var(--panel2));
   color: var(--fg);
 }
-.inspector .script-v5-behavior-layout {
+.inspector .script-behavior-layout {
   grid-template-columns: minmax(0, 1fr);
 }
-.inspector .script-v5-behavior-list {
+.inspector .script-behavior-list {
   border-right: 0;
   border-bottom: 1px solid var(--line);
 }
-.inspector .script-v5-inline-edit,
-.inspector .script-v5-behavior-actions {
+.inspector .script-inline-edit,
+.inspector .script-behavior-actions {
   grid-template-columns: minmax(0, 1fr);
 }
-.inspector .script-v5-behavior-actions {
+.inspector .script-behavior-actions {
   display: grid;
 }
-.inspector .script-v5-behavior-actions form {
+.inspector .script-behavior-actions form {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
 }
-.script-v5-behavior-inspector.empty {
+.script-behavior-inspector.empty {
   padding: 14px;
   color: var(--dim);
 }
-.script-v5-behavior-heading {
+.script-behavior-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -12599,47 +12599,47 @@ button.sprite-frame-cell[draggable="true"]:active {
     var(--panel)
   );
 }
-.script-v5-behavior-heading > div {
+.script-behavior-heading > div {
   min-width: 0;
 }
-.script-v5-heading-title {
+.script-heading-title {
   display: flex;
   align-items: center;
   gap: 6px;
 }
-.script-v5-behavior-heading h4 {
+.script-behavior-heading h4 {
   margin: 0;
   font-size: 13px;
 }
-.script-v5-behavior-heading p {
+.script-behavior-heading p {
   margin: 0;
   color: var(--dim);
   font-size: 10px;
   line-height: 1.45;
 }
-.script-v5-behavior-heading code,
-.script-v5-behavior-heading > span {
+.script-behavior-heading code,
+.script-behavior-heading > span {
   color: var(--dim);
   font-size: 10px;
 }
-.script-v5-behavior-heading code {
+.script-behavior-heading code {
   display: block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.script-v5-behavior-layout {
+.script-behavior-layout {
   display: grid;
   grid-template-columns: minmax(178px, 0.7fr) minmax(280px, 1.3fr);
   min-width: 0;
 }
-.script-v5-behavior-list {
+.script-behavior-list {
   min-width: 0;
   padding: 8px;
   border-right: 1px solid var(--line);
   background: color-mix(in srgb, var(--panel2) 70%, var(--panel));
 }
-.script-v5-behavior-list > button {
+.script-behavior-list > button {
   display: grid;
   width: 100%;
   min-width: 0;
@@ -12652,13 +12652,13 @@ button.sprite-frame-cell[draggable="true"]:active {
   color: var(--fg);
   cursor: pointer;
 }
-.script-v5-behavior-list > button:hover,
-.script-v5-behavior-list > button.active {
+.script-behavior-list > button:hover,
+.script-behavior-list > button.active {
   border-color: color-mix(in srgb, var(--accent) 42%, var(--line));
   background: color-mix(in srgb, var(--accent) 10%, var(--panel2));
 }
-.script-v5-behavior-list > button code,
-.script-v5-behavior-list > button small {
+.script-behavior-list > button code,
+.script-behavior-list > button small {
   min-width: 0;
   overflow: hidden;
   color: var(--dim);
@@ -12666,38 +12666,38 @@ button.sprite-frame-cell[draggable="true"]:active {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.script-v5-empty-copy {
+.script-empty-copy {
   padding: 10px 6px 14px;
   color: var(--dim);
   line-height: 1.45;
 }
-.script-v5-create-behavior {
+.script-create-behavior {
   display: grid;
   gap: 5px;
   margin-top: 9px;
   padding-top: 9px;
   border-top: 1px solid var(--line);
 }
-.script-v5-create-behavior strong {
+.script-create-behavior strong {
   color: var(--dim);
   font-size: 11px;
 }
-.script-v5-create-behavior .in,
-.script-v5-create-behavior button {
+.script-create-behavior .in,
+.script-create-behavior button {
   width: 100%;
   min-width: 0;
 }
-.script-v5-behavior-detail {
+.script-behavior-detail {
   display: grid;
   align-content: start;
   gap: 12px;
   min-width: 0;
   padding: 12px;
 }
-.script-v5-behavior-detail.empty {
+.script-behavior-detail.empty {
   color: var(--dim);
 }
-.script-v5-primary-detail {
+.script-primary-detail {
   padding: 10px;
 }
 .canonical-help-tip {
@@ -12866,7 +12866,7 @@ button.sprite-frame-cell[draggable="true"]:active {
   color: var(--accent);
   outline: 0;
 }
-.script-v5-advanced,
+.script-advanced,
 .canonical-flow-advanced {
   min-width: 0;
   padding: 8px 9px;
@@ -12874,110 +12874,110 @@ button.sprite-frame-cell[draggable="true"]:active {
   border-radius: 6px;
   background: color-mix(in srgb, var(--panel2) 72%, transparent);
 }
-.script-v5-advanced > summary,
+.script-advanced > summary,
 .canonical-flow-advanced > summary {
   color: var(--dim);
   font-size: 10px;
   cursor: pointer;
   user-select: none;
 }
-.script-v5-advanced[open] > summary,
+.script-advanced[open] > summary,
 .canonical-flow-advanced[open] > summary {
   margin-bottom: 9px;
   color: var(--fg);
 }
-.script-v5-advanced > p,
+.script-advanced > p,
 .canonical-flow-advanced > p {
   margin: 0 0 10px;
   color: var(--dim);
   font-size: 10px;
   line-height: 1.5;
 }
-.script-v5-advanced > .field,
-.script-v5-advanced > .script-v5-reference-list,
-.script-v5-advanced > .script-v5-behavior-actions,
-.script-v5-advanced > .script-v5-create-behavior {
+.script-advanced > .field,
+.script-advanced > .script-reference-list,
+.script-advanced > .script-behavior-actions,
+.script-advanced > .script-create-behavior {
   margin-top: 10px;
 }
-.script-v5-create-first {
+.script-create-first {
   display: grid;
   gap: 8px;
   max-width: 520px;
   padding: 18px;
 }
-.script-v5-create-first p {
+.script-create-first p {
   margin: 0;
   color: var(--dim);
   line-height: 1.5;
 }
-.script-v5-behavior-detail .field {
+.script-behavior-detail .field {
   display: grid;
   gap: 5px;
 }
-.script-v5-inline-edit {
+.script-inline-edit {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 6px;
 }
-.script-v5-inline-edit .in {
+.script-inline-edit .in {
   min-width: 0;
 }
-.script-v5-flow-summary,
-.script-v5-reference-list {
+.script-flow-summary,
+.script-reference-list {
   min-width: 0;
   padding: 9px;
   border: 1px solid var(--line);
   border-radius: 6px;
   background: color-mix(in srgb, var(--panel2) 72%, transparent);
 }
-.script-v5-section-heading {
+.script-section-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
 }
-.script-v5-section-heading span,
-.script-v5-reference-list > p {
+.script-section-heading span,
+.script-reference-list > p {
   color: var(--dim);
   font-size: 10px;
 }
-.script-v5-flow-summary > button {
+.script-flow-summary > button {
   width: 100%;
   margin-top: 7px;
 }
-.script-v5-flow-summary ol {
+.script-flow-summary ol {
   display: grid;
   gap: 4px;
   margin-top: 8px;
   list-style: none;
 }
-.script-v5-flow-editor {
+.script-flow-editor {
   display: grid;
   gap: 7px;
   margin-top: 9px;
   padding-top: 9px;
   border-top: 1px solid var(--line);
 }
-.script-v5-flow-editor label {
+.script-flow-editor label {
   display: grid;
   gap: 5px;
 }
-.script-v5-flow-editor textarea {
+.script-flow-editor textarea {
   min-height: 220px;
   resize: vertical;
   font-size: 10px;
   line-height: 1.45;
 }
-.script-v5-flow-editor > div {
+.script-flow-editor > div {
   display: flex;
   justify-content: flex-end;
   gap: 6px;
 }
-.script-v5-flow-editor > small {
+.script-flow-editor > small {
   color: var(--dim);
   line-height: 1.4;
 }
-.script-v5-flow-summary li {
+.script-flow-summary li {
   display: grid;
   grid-template-columns: minmax(72px, 0.4fr) minmax(88px, 0.6fr);
   gap: 3px 8px;
@@ -12986,26 +12986,26 @@ button.sprite-frame-cell[draggable="true"]:active {
   border-radius: 4px;
   background: var(--panel);
 }
-.script-v5-flow-summary li code,
-.script-v5-flow-summary li span,
-.script-v5-flow-summary li small {
+.script-flow-summary li code,
+.script-flow-summary li span,
+.script-flow-summary li small {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.script-v5-flow-summary li small {
+.script-flow-summary li small {
   grid-column: 1 / -1;
   color: var(--dim);
   font-size: 10px;
 }
-.script-v5-reference-list ul {
+.script-reference-list ul {
   display: grid;
   gap: 4px;
   margin-top: 7px;
   list-style: none;
 }
-.script-v5-reference-list li button {
+.script-reference-list li button {
   display: grid;
   width: 100%;
   min-width: 0;
@@ -13017,48 +13017,48 @@ button.sprite-frame-cell[draggable="true"]:active {
   color: var(--fg);
   cursor: pointer;
 }
-.script-v5-reference-list li button:hover {
+.script-reference-list li button:hover {
   background: color-mix(in srgb, var(--accent) 9%, var(--panel));
 }
-.script-v5-reference-list li code {
+.script-reference-list li code {
   overflow: hidden;
   color: var(--dim);
   font-size: 9px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.script-v5-behavior-actions {
+.script-behavior-actions {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
 }
-.script-v5-behavior-actions form {
+.script-behavior-actions form {
   display: flex;
   min-width: 0;
   gap: 5px;
 }
-.script-v5-behavior-actions .in {
+.script-behavior-actions .in {
   min-width: 0;
 }
-.script-v5-behavior-actions .danger {
+.script-behavior-actions .danger {
   color: #ef9a9a;
 }
-.script-v5-selection {
+.script-selection {
   display: grid;
   gap: 5px;
   min-width: 0;
 }
-.script-v5-selection .in {
+.script-selection .in {
   min-width: 0;
 }
-.script-v5-selection-status {
+.script-selection-status {
   color: var(--dim);
 }
-.script-v5-selection-status.disabled {
+.script-selection-status.disabled {
   color: var(--warn);
 }
-.script-v5-selection-status.use {
+.script-selection-status.use {
   color: var(--ok);
 }
 .item-private-script-kind {
@@ -13067,34 +13067,34 @@ button.sprite-frame-cell[draggable="true"]:active {
   color: var(--accent);
   font-size: 11px;
 }
-.item-private-script-v5 {
+.item-private-script {
   display: grid;
   grid-column: 1 / -1;
   gap: 7px;
   min-width: 0;
 }
-.item-private-script-v5 > div:first-child {
+.item-private-script > div:first-child {
   display: grid;
   gap: 2px;
 }
-.item-private-script-v5 > div:first-child span,
-.item-private-script-v5 > small {
+.item-private-script > div:first-child span,
+.item-private-script > small {
   color: var(--dim);
   font-size: 10px;
 }
-.item-private-script-v5 textarea {
+.item-private-script textarea {
   min-height: 220px;
   resize: vertical;
   font-size: 10px;
   line-height: 1.45;
 }
-.item-private-script-v5 > div:last-child {
+.item-private-script > div:last-child {
   display: flex;
   justify-content: flex-end;
   gap: 6px;
 }
 
-/* P7-R1：共享/场景/物品共同使用的 canonical v5 脚本编辑器。 */
+/* P7-R1：共享/场景/物品共同使用的当前脚本编辑器。 */
 .canonical-script-editor {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
@@ -13943,7 +13943,7 @@ button.sprite-frame-cell[draggable="true"]:active {
 .canonical-shared-script-create-form .cf-err {
   margin: 0;
 }
-.item-private-script-v5 > .canonical-script-editor {
+.item-private-script > .canonical-script-editor {
   margin-top: 4px;
 }
 .canonical-script-drawer {
@@ -13961,23 +13961,23 @@ button.sprite-frame-cell[draggable="true"]:active {
   padding: 0 10px 10px;
   overflow: auto;
 }
-.canonical-script-drawer-body > .script-v5-behavior-inspector {
+.canonical-script-drawer-body > .script-behavior-inspector {
   border: 0;
   border-radius: 0;
   background: transparent;
 }
-.canonical-script-drawer-body .script-v5-behavior-heading {
+.canonical-script-drawer-body .script-behavior-heading {
   padding: 8px 2px;
   background: transparent;
 }
-.canonical-script-drawer-body .script-v5-primary-detail {
+.canonical-script-drawer-body .script-primary-detail {
   gap: 8px;
   padding: 8px 0 0;
 }
-.canonical-script-drawer-body .script-v5-behavior-layout {
+.canonical-script-drawer-body .script-behavior-layout {
   grid-template-columns: minmax(190px, 0.42fr) minmax(430px, 1.58fr);
 }
-.script-v5-hook-initial {
+.script-hook-initial {
   display: grid;
   grid-template-columns: 92px minmax(0, 1fr);
   align-items: center;
@@ -13986,10 +13986,10 @@ button.sprite-frame-cell[draggable="true"]:active {
   border-bottom: 1px solid var(--line);
   background: color-mix(in srgb, var(--accent) 5%, var(--panel2));
 }
-.script-v5-hook-initial .in {
+.script-hook-initial .in {
   min-width: 0;
 }
-.script-v5-hook-flow > .canonical-script-flow-editor {
+.script-hook-flow > .canonical-script-flow-editor {
   margin-top: 8px;
 }
 .canonical-scene-script-empty {
@@ -14001,34 +14001,34 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 
 @media (max-width: 900px) {
-  .script-v5-behavior-layout {
+  .script-behavior-layout {
     grid-template-columns: minmax(0, 1fr);
   }
-  .script-v5-behavior-list {
+  .script-behavior-list {
     border-right: 0;
     border-bottom: 1px solid var(--line);
   }
-  .script-v5-behavior-list > button {
+  .script-behavior-list > button {
     grid-template-columns: minmax(0, 1fr) auto;
     gap: 2px 8px;
   }
-  .script-v5-behavior-list > button small {
+  .script-behavior-list > button small {
     grid-column: 1 / -1;
   }
-  .canonical-script-drawer-body .script-v5-behavior-layout {
+  .canonical-script-drawer-body .script-behavior-layout {
     grid-template-columns: minmax(0, 1fr);
   }
 }
 
 @media (max-width: 720px) {
-  .script-v5-inline-edit,
-  .script-v5-behavior-actions {
+  .script-inline-edit,
+  .script-behavior-actions {
     grid-template-columns: minmax(0, 1fr);
   }
-  .script-v5-behavior-actions {
+  .script-behavior-actions {
     display: grid;
   }
-  .script-v5-behavior-actions form {
+  .script-behavior-actions form {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
   }
@@ -14038,7 +14038,7 @@ button.sprite-frame-cell[draggable="true"]:active {
  * Canonical Inspector content bridge.
  *
  * The shared Tab shell is already mandatory on every first-class Inspector.
- * Complex scene/project editors still contain legacy semantic markup, so this
+ * Complex scene/project editors still contain historical semantic markup, so this
  * bridge makes their sections, property rows, empty states and actions consume
  * the same geometry and state tokens as DsInspectorSection/DsPropertyRow and
  * the shared controls. Domain CSS may arrange specialized editors, but it may

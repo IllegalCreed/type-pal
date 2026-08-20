@@ -1,16 +1,16 @@
 import type {
   ActorDef,
-  AuthorCommandV5,
+  BaseAuthorCommand,
   Command,
   EntityDef,
-  EntityDefV5,
-  SceneDefV5,
+  BaseSceneEntityDef,
+  BaseSceneDef,
   ScriptChunkV1,
   ScriptCondition,
-  ScriptFlowV5,
+  BaseScriptFlow,
   ScriptRef,
   ScriptStage,
-  SharedScriptLibraryV5,
+  BaseScriptLibrary,
   SpriteDef,
   SpriteDefinitionReference,
 } from '@type-pal/content'
@@ -91,15 +91,15 @@ function actorsById(state: Pick<EditorState, 'actors'>): Record<string, ActorDef
   >
 }
 
-export interface CanonicalSpritePreviewStateV5 {
-  scenes: readonly SceneDefV5[]
-  sharedScripts: SharedScriptLibraryV5
+export interface CanonicalSpritePreviewState {
+  scenes: readonly BaseSceneDef[]
+  sharedScripts: BaseScriptLibrary
 }
 
-export const V5_PREVIEW_SHARED_CHUNK = '__script-v5-preview/shared'
+export const SCRIPT_PREVIEW_SHARED_CHUNK = '__author-script-preview/shared'
 
-function projectPreviewConditionV5(
-  condition: Extract<AuthorCommandV5, { kind: 'branch' | 'loop' }>['cond'],
+function projectPreviewCondition(
+  condition: Extract<BaseAuthorCommand, { kind: 'branch' | 'loop' }>['cond'],
 ): ScriptCondition {
   switch (condition.kind) {
     case 'entityState':
@@ -112,19 +112,19 @@ function projectPreviewConditionV5(
     case 'any':
       return {
         ...condition,
-        of: condition.of.map((child) => projectPreviewConditionV5(child)),
+        of: condition.of.map((child) => projectPreviewCondition(child)),
       }
     case 'not':
-      return { ...condition, cond: projectPreviewConditionV5(condition.cond) }
+      return { ...condition, cond: projectPreviewCondition(condition.cond) }
     default:
       return structuredClone(condition)
   }
 }
 
-function projectPreviewCommandsV5(
-  commands: readonly AuthorCommandV5[],
+function projectPreviewCommands(
+  commands: readonly BaseAuthorCommand[],
   self: { scene: string; entity: string },
-  sharedScripts: SharedScriptLibraryV5,
+  sharedScripts: BaseScriptLibrary,
   depth = 0,
 ): Command[] {
   if (depth > MAX_VISUAL_CALL_DEPTH)
@@ -265,18 +265,18 @@ function projectPreviewCommandsV5(
       case 'branch': {
         projected.push({
           kind: 'branch',
-          cond: projectPreviewConditionV5(command.cond),
-          then: projectPreviewCommandsV5(command.then, self, sharedScripts, depth + 1),
+          cond: projectPreviewCondition(command.cond),
+          then: projectPreviewCommands(command.then, self, sharedScripts, depth + 1),
           ...(command.else
             ? {
-                else: projectPreviewCommandsV5(command.else, self, sharedScripts, depth + 1),
+                else: projectPreviewCommands(command.else, self, sharedScripts, depth + 1),
               }
             : {}),
         })
         break
       }
       case 'loop': {
-        const body = projectPreviewCommandsV5(command.body, self, sharedScripts, depth + 1)
+        const body = projectPreviewCommands(command.body, self, sharedScripts, depth + 1)
         if (command.mode === 'until') {
           // until 至少执行一次；视觉投影只展开这条必然合法的首轮路径。
           projected.push(...body)
@@ -285,7 +285,7 @@ function projectPreviewCommandsV5(
         // while 的 0/1 次代表路径足以给帧预览，且不会伪称完整概率分布。
         projected.push({
           kind: 'branch',
-          cond: projectPreviewConditionV5(command.cond),
+          cond: projectPreviewCondition(command.cond),
           then: body,
         })
         break
@@ -293,7 +293,7 @@ function projectPreviewCommandsV5(
       case 'confirm':
         projected.push({
           ...structuredClone(command),
-          onNo: projectPreviewCommandsV5(command.onNo, self, sharedScripts, depth + 1),
+          onNo: projectPreviewCommands(command.onNo, self, sharedScripts, depth + 1),
         })
         break
       case 'startBattle':
@@ -303,12 +303,12 @@ function projectPreviewCommandsV5(
             ...structuredClone(battle),
             ...(onLose
               ? {
-                  onLose: projectPreviewCommandsV5(onLose, self, sharedScripts, depth + 1),
+                  onLose: projectPreviewCommands(onLose, self, sharedScripts, depth + 1),
                 }
               : {}),
             ...(onFlee
               ? {
-                  onFlee: projectPreviewCommandsV5(onFlee, self, sharedScripts, depth + 1),
+                  onFlee: projectPreviewCommands(onFlee, self, sharedScripts, depth + 1),
                 }
               : {}),
           })
@@ -319,7 +319,7 @@ function projectPreviewCommandsV5(
           kind: 'teleportOut',
           ...(command.onFail
             ? {
-                onFail: projectPreviewCommandsV5(command.onFail, self, sharedScripts, depth + 1),
+                onFail: projectPreviewCommands(command.onFail, self, sharedScripts, depth + 1),
               }
             : {}),
         })
@@ -342,7 +342,7 @@ function projectPreviewCommandsV5(
       case 'selectEntityBehavior':
       case 'selectEntityPage':
       case 'selectSceneHooks':
-        // 只改变 v5 后续脚本选择，不影响当前这次可视演出。
+        // 只改变后续脚本选择，不影响当前这次可视演出。
         break
       case 'callScript': {
         const shared = sharedScripts[command.script]
@@ -356,7 +356,7 @@ function projectPreviewCommandsV5(
         }
         projected.push({
           kind: 'callScript',
-          ref: { chunk: V5_PREVIEW_SHARED_CHUNK, id: command.script },
+          ref: { chunk: SCRIPT_PREVIEW_SHARED_CHUNK, id: command.script },
           ...(command.self ? { self: command.self.entity } : {}),
         })
         break
@@ -373,10 +373,10 @@ function orderedIds(initial: string, ids: readonly string[]): string[] {
   return [initial, ...ids.filter((id) => id !== initial)]
 }
 
-function projectPreviewFlowV5(
-  flow: ScriptFlowV5,
+function projectPreviewFlow(
+  flow: BaseScriptFlow,
   self: { scene: string; entity: string },
-  sharedScripts: SharedScriptLibraryV5,
+  sharedScripts: BaseScriptLibrary,
 ): ScriptStage[] {
   if (flow.kind === 'stages') {
     const byId = new Map(flow.stages.map((stage) => [stage.id, stage]))
@@ -393,12 +393,12 @@ function projectPreviewFlowV5(
           ...(stage.entry
             ? {
                 entry: {
-                  prepare: projectPreviewCommandsV5(stage.entry.prepare, self, sharedScripts),
+                  prepare: projectPreviewCommands(stage.entry.prepare, self, sharedScripts),
                   reveal: structuredClone(stage.entry.reveal),
                 },
               }
             : {}),
-          body: projectPreviewCommandsV5(stage.body, self, sharedScripts),
+          body: projectPreviewCommands(stage.body, self, sharedScripts),
           ...(target >= 0 && target !== index ? { next: target } : {}),
         },
       ]
@@ -422,12 +422,12 @@ function projectPreviewFlowV5(
         ...(state.entry
           ? {
               entry: {
-                prepare: projectPreviewCommandsV5(state.entry.prepare, self, sharedScripts),
+                prepare: projectPreviewCommands(state.entry.prepare, self, sharedScripts),
                 reveal: structuredClone(state.entry.reveal),
               },
             }
           : {}),
-        body: projectPreviewCommandsV5(state.body, self, sharedScripts),
+        body: projectPreviewCommands(state.body, self, sharedScripts),
         ...(target >= 0 && target !== index ? { next: target } : {}),
       },
     ]
@@ -435,25 +435,25 @@ function projectPreviewFlowV5(
 }
 
 /** 场景脚本工作台使用的只读预览 lowering；不进入保存或作者态。 */
-export function projectCanonicalScriptFlowPreviewV5(
-  flow: ScriptFlowV5,
+export function projectCanonicalScriptFlowPreview(
+  flow: BaseScriptFlow,
   self: { scene: string; entity: string },
-  sharedScripts: SharedScriptLibraryV5,
+  sharedScripts: BaseScriptLibrary,
 ): ScriptStage[] {
-  return projectPreviewFlowV5(flow, self, sharedScripts)
+  return projectPreviewFlow(flow, self, sharedScripts)
 }
 
 /** 为旧 PreviewCanvas 的内存解析器生成 canonical 共享脚本只读投影。 */
-export function projectCanonicalSharedScriptPreviewChunkV5(
-  sharedScripts: SharedScriptLibraryV5,
+export function projectCanonicalSharedScriptPreviewChunk(
+  sharedScripts: BaseScriptLibrary,
 ): ScriptChunkV1 {
   return {
     version: 1,
-    id: V5_PREVIEW_SHARED_CHUNK,
+    id: SCRIPT_PREVIEW_SHARED_CHUNK,
     scripts: Object.fromEntries(
       Object.entries(sharedScripts).map(([id, script]) => [
         id,
-        projectPreviewCommandsV5(
+        projectPreviewCommands(
           script.body,
           { scene: '__shared', entity: '__shared' },
           sharedScripts,
@@ -463,11 +463,11 @@ export function projectCanonicalSharedScriptPreviewChunkV5(
   }
 }
 
-function projectPreviewEntityV5(
+function projectPreviewEntity(
   sceneId: string,
   shell: EntityDef,
-  canonical: EntityDefV5,
-  sharedScripts: SharedScriptLibraryV5,
+  canonical: BaseSceneEntityDef,
+  sharedScripts: BaseScriptLibrary,
 ): EntityDef {
   const page =
     canonical.pages?.find((candidate) => candidate.id === canonical.initialPage) ??
@@ -481,7 +481,7 @@ function projectPreviewEntityV5(
       {
         ...(currentPage ?? {}),
         auto: {
-          stages: projectPreviewFlowV5(
+          stages: projectPreviewFlow(
             auto.flow,
             { scene: sceneId, entity: canonical.id },
             sharedScripts,
@@ -493,16 +493,16 @@ function projectPreviewEntityV5(
 }
 
 /**
- * canonical v5 脚本的只读视觉投影。它只为精灵实例行为预览恢复安全的帧/朝向/等待控制流，
+ * 当前脚本的只读视觉投影。它只为精灵实例行为预览恢复安全的帧/朝向/等待控制流，
  * 不进入保存、运行时或编辑命令；有副作用或无法证明的分支仍由既有验证保守标为 unavailable。
  */
-export function projectCanonicalSpritePreviewStateV5(
+export function projectCanonicalSpritePreviewState(
   shell: EditorState,
-  canonical: CanonicalSpritePreviewStateV5,
+  canonical: CanonicalSpritePreviewState,
 ): EditorState {
   const scenes = new Map(canonical.scenes.map((scene) => [scene.id, scene]))
   const scriptChunks = structuredClone(shell.scriptChunks)
-  scriptChunks[V5_PREVIEW_SHARED_CHUNK] = projectCanonicalSharedScriptPreviewChunkV5(
+  scriptChunks[SCRIPT_PREVIEW_SHARED_CHUNK] = projectCanonicalSharedScriptPreviewChunk(
     canonical.sharedScripts,
   )
   return {
@@ -516,7 +516,7 @@ export function projectCanonicalSpritePreviewStateV5(
         entities: scene.entities.map((entity) => {
           const canonicalEntity = entities.get(entity.id)
           return canonicalEntity
-            ? projectPreviewEntityV5(scene.id, entity, canonicalEntity, canonical.sharedScripts)
+            ? projectPreviewEntity(scene.id, entity, canonicalEntity, canonical.sharedScripts)
             : entity
         }),
       }
@@ -533,7 +533,7 @@ export function collectAutomaticScriptSpriteInstanceSites(
   const sites: SpriteAutomaticScriptInstanceSite[] = []
   state.scenes.forEach((scene, sceneIndex) => {
     scene.entities.forEach((entity, entityIndex) => {
-      // EditorState 的壳层场景在 canonical v5 投影前后可能短暂保留
+      // EditorState 的壳层场景在当前投影前后可能短暂保留
       // `page.auto = behaviorId`。只有旧壳层 `{ stages }` 才能作为预览脚本读取。
       if ((entity.pages?.[0]?.auto?.stages?.length ?? 0) === 0) return
       const sprite = resolveEntitySpriteId(entity, actors)
@@ -1220,12 +1220,6 @@ export function describeSpriteReferenceBehavior(
         kind: 'reference',
         label: '跟随队列外观',
         detail: '世界状态的编外跟随者队列直接引用此用途定义',
-      }
-    if (role === 'sceneScriptOverrides')
-      return {
-        kind: 'script',
-        label: '运行态脚本引用',
-        detail: '世界状态保存的场景脚本覆写会在运行时切换到此用途定义',
       }
     return { kind: 'reference', label: '世界状态引用', detail: '世界状态正在引用此用途定义' }
   }

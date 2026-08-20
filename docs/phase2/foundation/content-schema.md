@@ -234,8 +234,8 @@ interface DialogueCue {
 - `manifest.assets.roles` 是封闭的运行角色映射。A7-0/A7-0A 固定五个音频角色：MIDI soundfont、
   默认战斗曲、首领胜利曲、普通胜利曲和标题菜单音乐；角色值仍是 AssetId，不是路径。标题菜单音乐是
   应用壳临时态，不进入 `WorldState.audio.currentMusic`。
-- 未迁移的资源族只能集中在 `manifest.assets.legacy` 债务区。同一资源族不能同时出现在 catalog 与 legacy；
-  A7-0 后音乐和 soundfont 已完全退出 legacy。
+- `manifest.assets` 只允许 `catalog` 与封闭的 `roles`；不存在 `assets.legacy`、数字目录或运行时 fallback。
+  所有工程资源（包括 effect sprite）都必须先登记稳定 AssetId，再由 resolver/FileSource 读取 catalog 路径。
 - `SceneDef.music?: AssetId | null`：缺省延续、字符串切曲、`null` 停曲。`battleMusic` 与
   `startBattle.music` 同样使用 AssetId/null；脚本停曲必须是显式 `stopMusic`，不再用数字 0。
 - 持久音乐状态为 `WorldState.audio.currentMusic`。运行时内部不认识 `musicId/battleMusicId`、
@@ -294,7 +294,8 @@ interface SpriteDef {
 
 - canonical 定义不再接受 `spriteNum/path`。Actor、Entity、`setActorSprite`、`setActorAppearance.spriteId`
   和 `setFollowers.sprites` 继续引用 `SpriteDef.id`，不能直接保存 AssetId；
-  `WorldScriptState.followers` 同样是 `string[]`，旧数字只在迁移/旧存档升级边界出现。
+  `WorldScriptState.followers` 同样是 `string[]`。原始数字身份只允许由 migrate 在读取 PAL 原始输入时翻译，
+  不进入 current content、编辑器、运行时或存档边界。
 - 同一个 `AssetId` 可以被多个 SpriteDef 共享；定义标签与 AssetRecord 标签属于两个独立命名域。
   删除定义必须先检查语义消费者，只有最后一个定义解除引用后才可单独删除二进制记录。
 - `kind=sprite` 使用 gzip indexed RLE，mediaType 固定为 `application/vnd.type-pal.rle`。运行时与编辑器
@@ -304,9 +305,9 @@ interface SpriteDef {
 - `layout` 是声明语义，不保证历史资产真的拥有声明的全部帧。所有 idle/walk/loop/anim 取帧最终必须用
   实际解码帧数收口；越界候选回到第 0 帧，不能依赖数组访问的隐式 `undefined` 回退。
 
-PAL 冻结基线为 636 个 catalog 文件、580 个定义、559 个已用二进制、21 条共享关系和 77 个未引用
-warning；压缩源共 1,332,725 B、有效帧 4,133，30 个历史坏尾槽。`sprite` 已退出 legacy；随后 A7-3B
-正式落地并移除了 `battle-sprite`，当前只剩 `effect-sprite` 与 generic `image`。
+PAL 冻结基线为 636 个 world sprite catalog 文件、580 个定义、559 个已用二进制、21 条共享关系和
+77 个未引用 warning；压缩源共 1,332,725 B、有效帧 4,133，30 个历史坏尾槽。当前工程的所有
+sprite/effect/image 读取均为 catalog-only；这组数字仅描述 world sprite 历史审计批次。
 
 ### 6.7 战斗精灵索引资源(A7-3B,2026-07-21，done)
 
@@ -341,8 +342,8 @@ interface BattleSpriteDef {
 
 PAL 冻结结果为 172 个物理文件、171 个定义、179 条直接语义引用、171 个已用定义、5 个共享定义和唯一
 未引用资源 enemy 98；压缩源 900,973 B、有效帧 775、历史坏尾槽 6，combined tuple digest 为
-`ecbec106c6540de74adeec799bad19a22e7198272245c98b130522b0ac37a685`。本切片实现后 `battle-sprite`
-退出 legacy，剩余 `effect-sprite` 与 generic `image`。
+`ecbec106c6540de74adeec799bad19a22e7198272245c98b130522b0ac37a685`。本段是战斗精灵切片的历史冻结
+结果；当前 content16 工程已完成全资源 catalog-only 收口。
 
 ## 7. 内容工程目录结构
 
@@ -405,8 +406,8 @@ content/
 - 唯一加载链为 `ProjectMap.tilesetRefs[] -> TilesetDef.id -> TilesetDef.asset -> AssetRecord.path ->
   AssetResolver -> FileSource`；运行时按引用并集加载 registry，逐格通过 `sources` 解析。canonical 文件是
   gzip 包裹的 GOP 索引帧组，bytes/SHA 描述保存的 gzip 字节。
-- `path` 只允许在旧 contentVersion 3 本地工程的一次性升级输入中出现；canonical content、运行时和编辑器
-  工作态均拒绝 `path | asset` 双轨。
+- `path` 不属于任何 current 产品输入；只有 migrate 读取原始提取结果时可以把来源路径翻译成 AssetRecord。
+  canonical content、运行时、编辑器工作态和本地工程打开边界均拒绝 `path | asset` 双轨。
 - 上传管线:PNG → 网格切片 → **量化到工程标准色彩**(D25 第 4 条;最近邻,alpha<128 透明)→
   `encodeSpriteChunk` + gzip 落盘 —— 存索引 1B/px,不烘 RGBA(D25 第 2 条),渲染与
   原版同一条「索引帧 + 标准色彩 → bake」单路。tileset 不保存 `paletteId`，编辑器不暴露颜色表选择器。

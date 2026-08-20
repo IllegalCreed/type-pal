@@ -13,30 +13,20 @@ import type { AssetId } from './asset.js'
  * 帧布局 = 这张精灵图的结构(开放联合;战斗类 kind 留待战斗系统落地时加)。
  * - directional:4 向固定序 down/left/up/right;站立 = dir*framesPerDir(原版通式 dir*nSpriteFrames+frame)。
  * - static:无方向的默认定格布局；缺少实例覆写时画 frame 0，同一 asset 仍可包含并由脚本使用其它帧。
- * v3 的定义级 `loop` 已在 v3 -> v4 升级边界折叠为动作；v4 不再保留第二套动画真值。
+ * `loop` 仅描述资源本身的循环帧布局；可复用作者动作统一记录在 `poses`。
  */
 export type SpriteLayout =
   | { kind: 'directional'; framesPerDir: number }
   | { kind: 'static' }
-  /** @deprecated contentVersion 3 读取/升级及 legacy 预览专用；v4 validator 拒绝新写入。 */
+  /** 循环帧资源布局。 */
   | { kind: 'loop'; frameCount: number; ticksPerFrame?: number }
-
-/** contentVersion 3 的旧布局；只允许升级器读取。 */
-export type LegacySpriteLayoutV3 = SpriteLayout
 
 /**
  * ActionId 只在一个 SpriteDef 内稳定；持久引用必须同时保存 sprite + action，不能保存显示序号。
  */
 export type SpriteActionId = string
 
-/** contentVersion 3 的旧命名姿势；只允许升级器读取。 */
-export interface LegacyPoseDefV3 {
-  frames: number[]
-  mode: 'static' | 'loop'
-  ticksPerFrame?: number
-}
-
-/** v4 首期受限关键帧事件；动作不是第二套剧情脚本语言。 */
+/** 受限关键帧事件；动作不是第二套剧情脚本语言。 */
 export type SpriteActionCue = { kind: 'sound'; asset: AssetId }
 
 /** 动作时间线中的一个绝对源帧。 */
@@ -67,15 +57,6 @@ export interface SpriteActionBinding {
    * 进入循环段；单次动作或 loopFrom=0 时则是整条时间线的起始偏移。
    */
   startAtMs?: number
-}
-
-/** contentVersion 3 的旧 SpriteDef；只允许升级器读取。 */
-export interface LegacySpriteDefV3 {
-  id: string
-  asset: AssetId
-  label: string
-  layout: LegacySpriteLayoutV3
-  poses?: Record<string, LegacyPoseDefV3>
 }
 
 /** 精灵注册表项:语义 id → 二进制 AssetId + 人读标签 + 帧布局 + 预制动作。 */

@@ -12,25 +12,25 @@ import type {
   Facing,
   GridPos,
   SceneDef,
-  SceneDefV5,
-  ScriptFlowV5,
+  BaseSceneDef,
+  BaseScriptFlow,
   ScriptStage,
-  SharedScriptLibraryV5,
+  BaseScriptLibrary,
 } from '@type-pal/content'
 import {
+  emptyProjectedWorldScriptState,
   emptyWorldScriptState,
-  emptyWorldScriptStateV5,
   pixelDeltaToGridDelta,
 } from '@type-pal/content'
-import type { ScriptHost, ScriptResolver, ScriptStepEventV5, StepEvent } from '@type-pal/reforge'
+import type { ScriptHost, ScriptResolver, BaseScriptStepEvent, StepEvent } from '@type-pal/reforge'
 import {
-  compileScriptFlowV5,
-  executeLegacyScriptHostEffectV5,
-  FlowRuntimeCoordinatorV5,
-  MemorySharedScriptResolverV5,
-  ProjectScriptRuntimeHostV5,
+  compileBaseScriptFlow,
+  executeScriptHostEffect,
+  FlowRuntimeCoordinator,
+  BaseSharedScriptResolver,
+  BaseProjectScriptRuntimeHost,
   ScriptRunner,
-  ScriptRunnerV5,
+  ScriptRunnerCore,
 } from '@type-pal/reforge'
 
 export interface EntityOverlay {
@@ -214,7 +214,7 @@ export class Playback {
     this.abort = ac
     const runner = new ScriptRunner(
       this.host,
-      emptyWorldScriptState(),
+      emptyProjectedWorldScriptState(),
       ac.signal,
       Math.random,
       this.resolver,
@@ -265,15 +265,15 @@ export class Playback {
   }
 
   /**
-   * Canonical Script V5 预览：直接编译/运行原始 flow，不经过有损的 v5→v4 stages
-   * lowering。所有 world 写入只落到每次播放新建的 scratch world。
+   * Canonical Script 预览：直接编译/运行作者 flow，不经过渲染宿主的空 stages 投影。
+   * 所有 world 写入只落到每次播放新建的 scratch world。
    */
   playCanonical(
     key: string,
-    flow: ScriptFlowV5,
+    flow: BaseScriptFlow,
     options: {
-      scene: SceneDefV5
-      sharedScripts: SharedScriptLibraryV5
+      scene: BaseSceneDef
+      sharedScripts: BaseScriptLibrary
       self?: EntityAddress
       timing?: 'auto' | 'interactive'
       allowSceneEntry?: boolean
@@ -290,12 +290,12 @@ export class Playback {
     const ac = new AbortController()
     this.abort = ac
     const digest = 'e'.repeat(64)
-    const scratch = emptyWorldScriptStateV5()
-    const coordinator = new FlowRuntimeCoordinatorV5()
-    const runtimeHost = new ProjectScriptRuntimeHostV5(scratch, coordinator, {
+    const scratch = emptyWorldScriptState()
+    const coordinator = new FlowRuntimeCoordinator()
+    const runtimeHost = new BaseProjectScriptRuntimeHost(scratch, coordinator, {
       gate: () => this.waitForCommandGate(ac),
       executeEffect: (command, context, signal) =>
-        executeLegacyScriptHostEffectV5(this.host, command, context, signal, {
+        executeScriptHostEffect(this.host, command, context, signal, {
           currentSceneId: () => options.scene.id,
         }),
       scene: (sceneId) => {
@@ -359,12 +359,12 @@ export class Playback {
           if (signal.aborted) abort()
         }),
     })
-    const runner = new ScriptRunnerV5(
+    const runner = new ScriptRunnerCore(
       runtimeHost,
       ac.signal,
-      new MemorySharedScriptResolverV5(options.sharedScripts, digest),
+      new BaseSharedScriptResolver(options.sharedScripts, digest),
     )
-    runner.onStep = (event: ScriptStepEventV5) => {
+    runner.onStep = (event: BaseScriptStepEvent) => {
       this.activePath = event.path.join('/')
       const command =
         event.command.kind === 'leaf'
@@ -376,7 +376,7 @@ export class Playback {
     }
     void runner
       .runFlow(
-        compileScriptFlowV5(flow, {
+        compileBaseScriptFlow(flow, {
           canonicalContentDigest: digest,
           timing: options.timing ?? 'interactive',
           allowSceneEntry: options.allowSceneEntry,

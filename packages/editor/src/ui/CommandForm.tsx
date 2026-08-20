@@ -14,8 +14,8 @@ import type {
   BattleSpriteDef,
   Command,
   DialogueCue,
-  DialogueCueV14,
-  DialogueIdentityV14,
+  AuthorDialogueCue,
+  DialogueIdentity,
   Facing,
   GridPos,
   LoadSceneCommand,
@@ -266,7 +266,7 @@ export function CommandForm(props: {
   onOpenSpriteAction?: (spriteId: string, actionId: string) => void
   /** K2：新建/更新称谓 locale 与 cue 更新由调用方合成一次 undo。 */
   onDialogueSpeakerOverrideChange?: (text: string) => void
-  /** Legacy editors keep the escape-hatch JSON editor; canonical v5 authoring hides it. */
+  /** 非作者态展示可保留逃生 JSON 编辑器；当前作者态隐藏它。 */
   showRawJson?: boolean
   onChange: (next: Command) => void
 }) {
@@ -303,10 +303,10 @@ export function CommandForm(props: {
 
   switch (cmd.kind) {
     case 'dialog': {
-      const cue = cmd.cue as DialogueCue | DialogueCueV14
-      const cueV14 = 'identity' in cue ? cue : undefined
-      const cueLegacy = cueV14 ? undefined : (cue as DialogueCue)
-      const identity = cueV14?.identity
+      const cue = cmd.cue as DialogueCue | AuthorDialogueCue
+      const authorCue = 'identity' in cue ? cue : undefined
+      const runtimeCue = authorCue ? undefined : (cue as DialogueCue)
+      const identity = authorCue?.identity
       const firstPortrait = Object.entries(assetCatalog.assets).find(
         ([, record]) => record.kind === 'portrait',
       )?.[0]
@@ -317,7 +317,7 @@ export function CommandForm(props: {
         })
       return (
         <>
-          {cueV14 && identity ? (
+          {authorCue && identity ? (
             <>
               <Row label="身份">
                 <Sel
@@ -325,7 +325,7 @@ export function CommandForm(props: {
                   options={['narration', 'actor', 'unbound'] as const}
                   labels={['旁白 / 无人物', '预制人物', '未绑定称谓 / 旧内容']}
                   onChange={(kind) => {
-                    const next: DialogueIdentityV14 =
+                    const next: DialogueIdentity =
                       kind === 'narration'
                         ? { kind: 'narration' }
                         : kind === 'actor'
@@ -404,7 +404,7 @@ export function CommandForm(props: {
           ) : (
             <Row label="说话人">
               <Txt
-                value={cueLegacy?.speaker ? lookupText(cueLegacy.speaker, locale) : ''}
+                value={runtimeCue?.speaker ? lookupText(runtimeCue.speaker, locale) : ''}
                 onChange={(s) => setCue({ speaker: s || undefined })}
                 placeholder="(旁白)"
               />
@@ -489,7 +489,7 @@ export function CommandForm(props: {
               }}
             />
           </Row>
-          {cueV14 && identity?.kind === 'actor' ? (
+          {authorCue && identity?.kind === 'actor' ? (
             <Row label="人物立绘">
               <DsCheckbox
                 size="compact"
@@ -554,23 +554,23 @@ export function CommandForm(props: {
                 </>
               ) : null}
             </Row>
-          ) : cueV14 && identity?.kind === 'narration' ? null : (
+          ) : cue && identity?.kind === 'narration' ? null : (
             <Row label="立绘">
               <DsCheckbox
                 size="compact"
                 label="启用"
                 checked={
-                  cueV14
+                  cue
                     ? identity?.kind === 'unbound' && !!identity.portrait
-                    : cueLegacy?.portrait !== undefined
+                    : runtimeCue?.portrait !== undefined
                 }
                 disabled={
-                  cueV14
+                  cue
                     ? identity?.kind !== 'unbound' || (!identity.portrait && !firstPortrait)
-                    : !cueLegacy?.portrait && !firstPortrait
+                    : !runtimeCue?.portrait && !firstPortrait
                 }
                 onChange={(event) => {
-                  if (cueV14 && identity?.kind === 'unbound')
+                  if (cue && identity?.kind === 'unbound')
                     setCue({
                       identity: {
                         ...identity,
@@ -590,16 +590,16 @@ export function CommandForm(props: {
                 }}
               />
               {(
-                cueV14 && identity?.kind === 'unbound'
+                cue && identity?.kind === 'unbound'
                   ? identity.portrait
-                  : cueLegacy?.portrait
+                  : runtimeCue?.portrait
               ) ? (
                 <>
                   <ImageAssetPicker
                     value={
-                      (cueV14 && identity?.kind === 'unbound'
+                      (cue && identity?.kind === 'unbound'
                         ? identity.portrait
-                        : cueLegacy?.portrait)!.asset
+                        : runtimeCue?.portrait)!.asset
                     }
                     kind="portrait"
                     catalog={assetCatalog}
@@ -609,7 +609,7 @@ export function CommandForm(props: {
                     onOpenAsset={onOpenImage}
                     onChange={(asset) => {
                       if (!asset) return
-                      if (cueV14 && identity?.kind === 'unbound')
+                      if (cue && identity?.kind === 'unbound')
                         setCue({
                           identity: {
                             ...identity,
@@ -617,19 +617,19 @@ export function CommandForm(props: {
                           },
                         })
                       else
-                        setCue({ portrait: { asset, side: cueLegacy?.portrait?.side ?? 'right' } })
+                        setCue({ portrait: { asset, side: runtimeCue?.portrait?.side ?? 'right' } })
                     }}
                   />
                   <Sel
                     value={
-                      (cueV14 && identity?.kind === 'unbound'
+                      (cue && identity?.kind === 'unbound'
                         ? identity.portrait
-                        : cueLegacy?.portrait)!.side
+                        : runtimeCue?.portrait)!.side
                     }
                     options={['left', 'right'] as const}
                     labels={['左', '右']}
                     onChange={(side) => {
-                      if (cueV14 && identity?.kind === 'unbound')
+                      if (cue && identity?.kind === 'unbound')
                         setCue({
                           identity: {
                             ...identity,
@@ -642,7 +642,7 @@ export function CommandForm(props: {
                       else
                         setCue({
                           portrait: {
-                            asset: cueLegacy?.portrait?.asset ?? firstPortrait ?? '',
+                            asset: runtimeCue?.portrait?.asset ?? firstPortrait ?? '',
                             side,
                           },
                         })

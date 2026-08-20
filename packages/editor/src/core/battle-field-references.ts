@@ -5,15 +5,15 @@ import {
 } from '@type-pal/content'
 import type { EditorState } from './edit-session.js'
 import type {
-  CanonicalScriptReferenceV5,
-  ScriptEditorStateV5,
-} from './script-v5-editor.js'
-import { visitCanonicalScriptCommandsV5 } from './script-v5-editor.js'
+  CanonicalScriptReference,
+  ScriptEditorState,
+} from './script-editor.js'
+import { visitCanonicalScriptCommands } from './script-editor.js'
 
 export type BattleFieldReferenceLocator =
   | { kind: 'scene'; sceneId: string }
   | { kind: 'scene-entity'; sceneId: string; entityId: string }
-  | { kind: 'canonical-script'; reference: CanonicalScriptReferenceV5 }
+  | { kind: 'canonical-script'; reference: CanonicalScriptReference }
 
 export interface BlockingBattleFieldReference {
   fieldId: number
@@ -105,12 +105,12 @@ export function blockingBattleFieldReferences(
 export function battleFieldReferences(
   state: EditorState,
   fieldId: number,
-  canonicalState?: ScriptEditorStateV5,
+  canonicalState?: ScriptEditorState,
 ): BlockingBattleFieldReference[] {
   const blocking = blockingBattleFieldReferences(state, fieldId)
   if (!canonicalState) return blocking
   const structural = blocking.filter((reference) => reference.kind !== 'start-battle')
-  visitCanonicalScriptCommandsV5(canonicalState, (command, path, locator) => {
+  visitCanonicalScriptCommands(canonicalState, (command, path, locator) => {
     if (command.kind !== 'startBattle' || command.fieldId !== fieldId) return
     structural.push({
       fieldId,

@@ -3,90 +3,48 @@
 > 第二阶段 Reforge。下方 2026-06-30 v1 文本保留为历史设计；当前实现契约以本节和源码为准。
 > 先读 [READ-FIRST](../READ-FIRST.md)。
 
-## 当前实现：SAVE 8 / contentVersion 10（2026-07-31）
+## 当前实现：SAVE8 / content16（2026-08-20）
 
-`SAVE_VERSION` 与工程 `contentVersion` 是两个独立版本轴。当前写出的 payload 为：
+`SAVE_VERSION` 与工程 `contentVersion` 是两个独立版本轴。正式上线前只支持当前 canonical，
+当前写出的唯一 payload 为：
 
 ```ts
-interface SavePayloadV8 {
+interface CurrentSavePayload {
   version: 8
   projectId: string
-  contentVersion: 10
-  world: WorldStateV10
+  contentVersion: 16
+  world: WorldState
   position: { sceneId: string; pos: GridPos; facing: Facing }
 }
 ```
 
-R13-4 的历史 epoch 是 SAVE 8 / content 9；R13-5 只把敌人脚本和 battle context 公共
-schema 收紧到 content 10，SAVE 与 minimum 都保持 8，也不另造一套脚本世界态：
-`WorldStateV10 = WorldStateV9 = WorldStateV5`，`world.script` 仍由唯一的
-`WorldScriptStateV5` schema 承载。它使用复合实体地址和 canonical Page/Behavior/Hook 选择，保存
-`FlowCursor`，不保存 v4 `entityStage`、匿名 `sceneScriptOverrides`、command index、调用栈或 wait
-中间相位。存档请求通过 flow safe-point barrier 后才拍快照；超时或迁移失败均不提交半成品。
+`world.script` 由当前无版本领域模型 `WorldScriptState` 承载。它使用复合实体地址和
+Page/Behavior/Hook 选择，保存 `FlowCursor`，不保存匿名 command index、调用栈或 wait 中间相位。
+存档请求通过 flow safe-point barrier 后才拍快照；超时不提交半成品。
 
 ### 当前读档边界
 
-1. `preflightSaveMigration` 接受 current `SAVE 8 / content 10`，以及已发布的历史
-   `SAVE 8 / content 9`；后者产出无 sidecar 的 `content-v9-v10` identity resolver。它的参数
-   刻意不含 `FileSource`。
-2. `normalizePayloadV8` 始终在隔离副本中校验；8/9 只把 `contentVersion` 改为 10，
-   `world`、位置与工程 id 深相等，输入不受污染。
+1. `preflightCurrentSave` 只接受 `SAVE8/content16`；`normalizeCurrentSave` 校验后返回隔离副本。
+2. 非当前 SAVE、非 content16、工程 id 不匹配或非法 `minimumSaveVersion` 都 fail-loud；不读
+   sidecar、不尝试升级、不提供产品迁移入口。
+3. PAL 与其他开发期工程重新生成 current 数据；开发期旧存档重新开档。历史实现由 Git 保存。
 
-`manifest.minimumSaveVersion` 当前必须为 8。SAVE 1..7、SAVE 8/content 1..8、未来 SAVE 或
-未来 content 都会在任何 compatibility sidecar I/O 之前直接拒绝并提示新开游戏。工程 id
-不匹配或非法 minimum 同样 fail-loud。
+`manifest.minimumSaveVersion` 当前必须为 8。
 
-| payload `version` | payload `contentVersion` | content 10 工程结果 |
+| payload `version` | payload `contentVersion` | content16 工程结果 |
 |---:|---:|---|
-| 8 | 10 | current validator；克隆后返回 8/10 |
-| 8 | 9 | identity normalization 为 8/10；不读取历史 sidecar |
-| 1..7 | 任意 | 拒绝：开发期 epoch 已断开 |
-| 8 | 1..8 / 11+ | 拒绝：不是允许的 content epoch |
-| 9+ | 任意 | 拒绝：未来 SAVE |
-
-### 历史 4 → 5 迁移证明
-
-`script-v4-v5` descriptor、sidecar 和 normalizer 仍以原始字节 byte-pin，供历史迁移回归与
-MG2 证明使用；**当前 runtime 不调用它们**。历史 v5 工程中，4 → 5 sidecar 由 manifest
-migration registry 精确登记：
-
-```ts
-manifest.migrations['script-v4-v5'] = {
-  version: 1,
-  fromContentVersion: 4,
-  toContentVersion: 5,
-  path: 'content/migrations/script-v4-v5-save.json',
-  sha256: '...'
-}
-```
-
-sidecar 显式保存：
-
-- 裸实体 id → `EntityAddress` 的 `single` 或 `broadcast-v4` alias；
-- v4 stage index → 带 stage-count guard 的 canonical `FlowCursor`；
-- `sceneScriptOverrides` binding digest → 具名 HookId；
-- Page/Stage lineage、project-local allocation 和受保护 target closure。
-
-`broadcast-v4` 会把旧 `entityState/entityPos/entityLayer` 逐地址复制；scene hook cursor 会先按旧
-binding alias 解出当前 HookId，再只写对应 variant 的 cursor。任何未映射、歧义、目标缺失或冲突
-都会拒绝迁移。
+| 8 | 16 | current codec；校验并克隆返回 |
+| 1..7 / 9+ | 任意 | 拒绝：不是当前 SAVE envelope |
+| 8 | 非 16 | 拒绝：不是当前 content epoch |
 
 ### 实现锚点
 
-- `packages/reforge/src/save/types.ts`：`SAVE_VERSION = 8`、current `SavePayloadV8` 与
-  historical `LegacySavePayloadV8Content9`。
-- `packages/reforge/src/save/migration.ts`：current 8/10 预检、8/9→8/10 identity normalizer；
-  历史 v4→v5
-  preflight/normalizer 只保留作迁移证明。
-- `packages/reforge/src/save/epoch-v10.test.ts`：8/9 identity、current 8/10 与旧 epoch
-  在 sidecar I/O 前拒绝。
-- `packages/content/src/enemy-script-v10-upgrade.ts`：content 9→10 的纯敌人、内嵌 battle
-  choreography 与 manifest 变换。
-- `packages/content/src/script-transition-v5.ts`：migration descriptor/sidecar schema 与 validator。
-- `packages/editor/src/core/upgrade-local-v4-script-v5.ts`：历史 v4→v5 本地工程升级的
-  staging/journal、后续 epoch 合成、manifest-last 发布和中断前滚恢复。
-- `packages/editor/src/core/upgrade-local-v5-v6-epoch-v7.ts`：v5～v9 经纯升级器直接合成
-  current 10/8；递归预检 enemies、scene/shared/item 内嵌 battle context，最后提交 manifest。
+- `packages/reforge/src/save/types.ts`：`SAVE_VERSION = 8` 与唯一 `CurrentSavePayload`。
+- `packages/reforge/src/save/current-codec.ts`：current-only preflight/normalize、边界拒绝与隔离克隆。
+- `packages/reforge/src/save/current-save.current-characterization.test.ts`：当前 round-trip 和非当前
+  fail-loud 回归。
+- `packages/content/src/character.ts`：`CONTENT_VERSION = 16`、
+  `CURRENT_PROJECT_MINIMUM_SAVE_VERSION = 8`。
 
 ---
 

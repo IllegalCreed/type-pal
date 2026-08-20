@@ -15,7 +15,7 @@ import type {
   EntityDef,
   GridPos,
   HostileBehavior,
-  HostileBehaviorV13,
+  RuntimeHostileBehavior,
   Locale,
   MapAssetDefV1,
   SceneDef,
@@ -34,7 +34,7 @@ import {
   type AssetBase,
   buildBlankProjectMap,
   idleFrameIndex,
-  type LoadedProjectV16,
+  type LoadedCurrentProject,
   type ProjectMap,
   type TilesetDef,
 } from '@type-pal/reforge'
@@ -87,23 +87,23 @@ import { type Opened, openExistingProject, pickDir, saveProjectAs } from '../cor
 import { collectEditorStatusIssues } from '../core/project-diagnostics.js'
 import { serializeProjectWithMapCopies, writeProject } from '../core/project-io.js'
 import {
-  mergeEditorShellWithCurrentCanonicalScripts,
-  projectActiveScriptEditorStateV5,
-} from '../core/project-io-v5.js'
+  mergeEditorProjectionWithCurrentAuthorState,
+  projectActiveScriptEditorState,
+} from '../core/script-editor-projection.js'
 import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import {
   findSceneEntryReferences,
   type SceneEntryReferenceEntry,
 } from '../core/script-references.js'
 import {
-  type CanonicalScriptReferenceV5,
-  canonicalScriptReferenceDestinationExistsV5,
-  describeCanonicalScriptReferenceV5,
-  type ScriptEditorStateV5,
-  type ScriptV5EditSession,
-  SetEntityHostileOnLoseV5Command,
-  SetEntityPageBehaviorV5Command,
-} from '../core/script-v5-editor.js'
+  type CanonicalScriptReference,
+  canonicalScriptReferenceDestinationExists,
+  describeCanonicalScriptReference,
+  type ScriptEditorState,
+  type ScriptEditSession,
+  SetEntityHostileOnLoseCommand,
+  SetEntityPageBehaviorCommand,
+} from '../core/script-editor.js'
 import type { SpriteAutomaticScriptInstanceSite } from '../core/world-sprite-behavior.js'
 import { ActorMode } from './ActorMode.js'
 import { createEditorAppCommandRegistry, requireEditorAppCommand } from './app-command-registry.js'
@@ -115,11 +115,11 @@ import {
   toggleSceneScriptPanelState,
 } from './app-layout-commands.js'
 import { BattleFieldPicker } from './BattleFieldPicker.js'
-import { CanonicalSceneScriptWorkspaceV5 } from './CanonicalSceneScriptWorkspaceV5.js'
+import { CanonicalSceneScriptWorkspace } from './SceneScriptWorkspace.js'
 import {
-  CanonicalHostileOnLoseEditorV5,
-  type CanonicalScriptEditorContextV5,
-} from './CanonicalScriptEditorV5.js'
+  CanonicalHostileOnLoseEditor,
+  type CanonicalScriptEditorContext,
+} from './ScriptEditor.js'
 import { DataMode } from './DataMode.js'
 import type { DsMenuDefinition } from './design-system/index.js'
 import {
@@ -152,7 +152,7 @@ import {
   sameEditorLocation,
 } from './editor-navigation.js'
 import { editorObjectTargetMissing } from './editor-target.js'
-import { LifecycleCommandPanelV13 } from './LifecycleCommandPanelV13.js'
+import { LifecycleCommandPanel } from './LifecycleCommandPanel.js'
 import { MapMode } from './MapMode.js'
 import { MusicPicker } from './MusicPicker.js'
 import {
@@ -165,7 +165,7 @@ import { ProjectWorkbenchTab } from './ProjectWorkbenchTab.js'
 import { clampPanelSize, fitSidePanelWidths } from './panel-layout.js'
 import { type SceneAnchorSelection, SceneCanvas } from './SceneCanvas.js'
 import { ScriptDrawer } from './ScriptDrawer.js'
-import { ScriptV5BehaviorInspector } from './ScriptV5BehaviorInspector.js'
+import { ScriptBehaviorInspector } from './ScriptBehaviorInspector.js'
 import { disposeSoundPreview } from './SoundPicker.js'
 import { SpriteImageViewer, SpriteThumb } from './SpriteThumb.js'
 
@@ -250,9 +250,9 @@ function scrollKey(location: EditorLocation): string {
 
 export function App(props: {
   session: EditSession
-  project: LoadedProjectV16
-  scriptV5?: {
-    session: ScriptV5EditSession
+  project: LoadedCurrentProject
+  script: {
+    session: ScriptEditSession
   }
   /** 启动屏打开/克隆得到的工程目录句柄(P4):保存直接写回此夹,不再首存选夹。 */
   initialDir?: FileSystemDirectoryHandle
@@ -265,26 +265,26 @@ export function App(props: {
   const subscribe = useMemo(() => (cb: () => void) => session.subscribe(cb), [session])
   const getVersion = useMemo(() => () => session.getVersion(), [session])
   useSyncExternalStore(subscribe, getVersion) // 任一变化(含 markSaved / undo)都重渲染
-  const scriptV5Session = props.scriptV5?.session
+  const scriptSession = props.script.session
   const historyCoordinator = useMemo(
-    () => (scriptV5Session ? new EditorHistoryCoordinator(session, scriptV5Session) : undefined),
-    [scriptV5Session, session],
+    () => (scriptSession ? new EditorHistoryCoordinator(session, scriptSession) : undefined),
+    [scriptSession, session],
   )
-  const subscribeScriptV5 = useMemo(
-    () => (cb: () => void) => scriptV5Session?.subscribe(cb) ?? (() => undefined),
-    [scriptV5Session],
+  const subscribeScript = useMemo(
+    () => (cb: () => void) => scriptSession?.subscribe(cb) ?? (() => undefined),
+    [scriptSession],
   )
-  const getScriptV5Version = useMemo(
-    () => () => scriptV5Session?.getVersion() ?? 0,
-    [scriptV5Session],
+  const getScriptVersion = useMemo(
+    () => () => scriptSession?.getVersion() ?? 0,
+    [scriptSession],
   )
-  useSyncExternalStore(subscribeScriptV5, getScriptV5Version)
+  useSyncExternalStore(subscribeScript, getScriptVersion)
   const state = session.getState()
-  const storedScriptV5State = scriptV5Session?.getState()
-  const scriptV5State = storedScriptV5State
-    ? projectActiveScriptEditorStateV5(storedScriptV5State, state.items)
+  const storedScriptState = scriptSession?.getState()
+  const scriptState = storedScriptState
+    ? projectActiveScriptEditorState(storedScriptState, state.items)
     : undefined
-  const editorDirty = session.isDirty() || (scriptV5Session?.isDirty() ?? false)
+  const editorDirty = session.isDirty() || (scriptSession?.isDirty() ?? false)
   const assetReader = useMemo(
     () => createEditorAssetReader(project.source, () => session.getState()),
     [project.source, session],
@@ -404,9 +404,9 @@ export function App(props: {
 
   const [selected, setSelected] = useState<SceneSelection>(SCENE_SELECTION)
   const [placingEntity, setPlacingEntity] = useState(false)
-  const [scriptV5Channel, setScriptV5Channel] = useState<'trigger' | 'auto'>('trigger')
-  const [selectedBehaviorV5, setSelectedBehaviorV5] = useState<string>()
-  const [selectedPageV5, setSelectedPageV5] = useState<string>()
+  const [scriptChannel, setScriptChannel] = useState<'trigger' | 'auto'>('trigger')
+  const [selectedBehavior, setSelectedBehavior] = useState<string>()
+  const [selectedPage, setSelectedPage] = useState<string>()
   // 布置模式左栏统一管理画布内容层与辅助叠加层的显隐。
   const [canvasLayers, setCanvasLayers] = useState({
     base: true,
@@ -497,7 +497,7 @@ export function App(props: {
     revision: number
   }>()
   const [canonicalReferenceFocus, setCanonicalReferenceFocus] = useState<{
-    reference: CanonicalScriptReferenceV5
+    reference: CanonicalScriptReference
     revision: number
   }>()
   const [itemPrivateScriptFocus, setItemPrivateScriptFocus] = useState<{
@@ -646,14 +646,14 @@ export function App(props: {
   ): void => jumpToEvent(site.sceneId, `${site.entityId}:auto`)
   const openSharedScript = useCallback(
     (id: string): void => {
-      if (!scriptV5State?.sharedScripts[id] && !state.scriptIndex?.library?.[id]) return
+      if (!scriptState?.sharedScripts[id] && !state.scriptIndex?.library?.[id]) return
       setSharedScriptFocus(undefined)
       applyEditorLocation(editorLinks.sharedScript(id))
     },
-    [applyEditorLocation, scriptV5State?.sharedScripts, state.scriptIndex?.library],
+    [applyEditorLocation, scriptState?.sharedScripts, state.scriptIndex?.library],
   )
   const openScriptReference = (id: string, commandPath?: string): void => {
-    if (scriptV5State?.sharedScripts[id] || state.scriptIndex?.library?.[id]) {
+    if (scriptState?.sharedScripts[id] || state.scriptIndex?.library?.[id]) {
       if (commandPath)
         setSharedScriptFocus({
           id,
@@ -685,8 +685,8 @@ export function App(props: {
       focusRevision: nextPreciseFocusRevision(),
     })
   }
-  const openCanonicalReference = (reference: CanonicalScriptReferenceV5): void => {
-    if (!scriptV5State || !canonicalScriptReferenceDestinationExistsV5(scriptV5State, reference)) {
+  const openCanonicalReference = (reference: CanonicalScriptReference): void => {
+    if (!scriptState || !canonicalScriptReferenceDestinationExists(scriptState, reference)) {
       setWorkspaceNotice({
         kind: 'error',
         message: '引用位置已变化，请重新打开方案详情。',
@@ -699,7 +699,7 @@ export function App(props: {
     const confirmReferenceLocation = (): void =>
       setWorkspaceNotice({
         kind: 'info',
-        message: `已定位到：${describeCanonicalScriptReferenceV5(scriptV5State, reference)}。`,
+        message: `已定位到：${describeCanonicalScriptReference(scriptState, reference)}。`,
       })
 
     if (locator.kind === 'entity-page') {
@@ -707,7 +707,7 @@ export function App(props: {
       const targetEntity = targetScene?.entities.find(
         (candidate) => candidate.id === locator.entityId,
       )
-      const canonicalEntity = scriptV5State.scenes
+      const canonicalEntity = scriptState.scenes
         .find((candidate) => candidate.id === locator.sceneId)
         ?.entities.find((candidate) => candidate.id === locator.entityId)
       const pageIndex =
@@ -725,9 +725,9 @@ export function App(props: {
       setSelected({ kind: 'entity', id: locator.entityId })
       setPlacingEntity(false)
       setInspectorCollapsed(false)
-      setSelectedPageV5(locator.pageId)
-      setScriptV5Channel(locator.channel)
-      setSelectedBehaviorV5(page[locator.channel])
+      setSelectedPage(locator.pageId)
+      setScriptChannel(locator.channel)
+      setSelectedBehavior(page[locator.channel])
       setCanonicalPageFocus({
         sceneId: locator.sceneId,
         entityId: locator.entityId,
@@ -976,18 +976,18 @@ export function App(props: {
     setInspectorCollapsed(false)
   }
   const statusIssues = useMemo(
-    () => collectEditorStatusIssues(state, scriptV5State),
-    [scriptV5State, state],
+    () => collectEditorStatusIssues(state, scriptState),
+    [scriptState, state],
   )
   // C0:实体经 actor⊕sprite 解析;玩家精灵 = party[0] → ActorDef.spriteId(与引擎同路径)
   const actorsById = useMemo(
     () => Object.fromEntries(state.actors.map((a) => [a.id, a])) as Record<string, ActorDef>,
     [state.actors],
   )
-  const canonicalScriptEditorContextV5 = useMemo<CanonicalScriptEditorContextV5 | undefined>(() => {
-    if (!scriptV5State) return undefined
+  const canonicalScriptEditorContext = useMemo<CanonicalScriptEditorContext | undefined>(() => {
+    if (!scriptState) return undefined
     return {
-      state: scriptV5State,
+      state: scriptState,
       currentSceneId: scene.id,
       shellScenes: state.scenes,
       locale: state.locale,
@@ -1013,7 +1013,7 @@ export function App(props: {
         ambiences: state.ambiences ?? [],
         mapIndex: state.mapIndex,
         assetCatalog: state.assetCatalog,
-        authorScripts: Object.entries(scriptV5State.sharedScripts).map(([id, script]) => ({
+        authorScripts: Object.entries(scriptState.sharedScripts).map(([id, script]) => ({
           id,
           name: script.name,
         })),
@@ -1034,7 +1034,7 @@ export function App(props: {
     audioResolver,
     project.assetBase,
     scene.id,
-    scriptV5State,
+    scriptState,
     state.actors,
     state.ambiences,
     state.assetCatalog,
@@ -1179,26 +1179,26 @@ export function App(props: {
   const objectTargetMissing = editorObjectTargetMissing(
     state,
     location,
-    scriptV5State?.sharedScripts,
+    scriptState?.sharedScripts,
   )
-  const historyOwnerRef = useRef<'legacy' | 'v5'>('legacy')
+  const historyOwnerRef = useRef<'main' | 'script'>('main')
   useEffect(() => {
     let version = session.getHistoryVersion()
     return session.subscribe(() => {
       const next = session.getHistoryVersion()
-      if (next !== version) historyOwnerRef.current = 'legacy'
+      if (next !== version) historyOwnerRef.current = 'main'
       version = next
     })
   }, [session])
   useEffect(() => {
-    if (!scriptV5Session) return undefined
-    let version = scriptV5Session.getHistoryVersion()
-    return scriptV5Session.subscribe(() => {
-      const next = scriptV5Session.getHistoryVersion()
-      if (next !== version) historyOwnerRef.current = 'v5'
+    if (!scriptSession) return undefined
+    let version = scriptSession.getHistoryVersion()
+    return scriptSession.subscribe(() => {
+      const next = scriptSession.getHistoryVersion()
+      if (next !== version) historyOwnerRef.current = 'script'
       version = next
     })
-  }, [scriptV5Session])
+  }, [scriptSession])
 
   const reconcileLocationAfterHistory = useCallback((): void => {
     const current = locationRef.current
@@ -1206,55 +1206,55 @@ export function App(props: {
       editorObjectTargetMissing(
         session.getState(),
         current,
-        scriptV5Session?.getState().sharedScripts,
+        scriptSession?.getState().sharedScripts,
       )
     ) {
       const next = { ...current }
       delete next.objectId
       applyEditorLocation(next, 'replace')
     }
-  }, [applyEditorLocation, scriptV5Session, session])
+  }, [applyEditorLocation, scriptSession, session])
   const undo = useCallback((): void => {
     if (historyCoordinator?.undo()) {
       reconcileLocationAfterHistory()
       return
     }
     const preferred = historyOwnerRef.current
-    if (preferred === 'v5' && scriptV5Session?.undo()) return
+    if (preferred === 'script' && scriptSession?.undo()) return
     if (session.undo()) {
       reconcileLocationAfterHistory()
       return
     }
-    scriptV5Session?.undo()
-  }, [historyCoordinator, reconcileLocationAfterHistory, scriptV5Session, session])
+    scriptSession?.undo()
+  }, [historyCoordinator, reconcileLocationAfterHistory, scriptSession, session])
   const redo = useCallback((): void => {
     if (historyCoordinator?.redo()) {
       reconcileLocationAfterHistory()
       return
     }
     const preferred = historyOwnerRef.current
-    if (preferred === 'v5' && scriptV5Session?.redo()) return
+    if (preferred === 'script' && scriptSession?.redo()) return
     if (session.redo()) {
       reconcileLocationAfterHistory()
       return
     }
-    scriptV5Session?.redo()
-  }, [historyCoordinator, reconcileLocationAfterHistory, scriptV5Session, session])
+    scriptSession?.redo()
+  }, [historyCoordinator, reconcileLocationAfterHistory, scriptSession, session])
 
   const selEntity =
     selected.kind === 'entity' ? scene?.entities.find((e) => e.id === selected.id) : undefined
-  const canonicalEntityV5 = scriptV5State?.scenes
+  const canonicalEntity = scriptState?.scenes
     .find((candidate) => candidate.id === scene?.id)
     ?.entities.find((candidate) => candidate.id === selEntity?.id)
-  const canonicalPageV5 =
-    canonicalEntityV5?.pages?.find((page) => page.id === selectedPageV5) ??
-    canonicalEntityV5?.pages?.find((page) => page.id === canonicalEntityV5.initialPage) ??
-    canonicalEntityV5?.pages?.[0]
+  const canonicalPage =
+    canonicalEntity?.pages?.find((page) => page.id === selectedPage) ??
+    canonicalEntity?.pages?.find((page) => page.id === canonicalEntity.initialPage) ??
+    canonicalEntity?.pages?.[0]
   const selectedScriptOwnerKey = `${scene?.id ?? ''}\u0000${selEntity?.id ?? ''}`
   useEffect(() => {
     void selectedScriptOwnerKey
-    setSelectedPageV5(undefined)
-    setSelectedBehaviorV5(undefined)
+    setSelectedPage(undefined)
+    setSelectedBehavior(undefined)
   }, [selectedScriptOwnerKey])
   useEffect(() => {
     if (
@@ -1263,9 +1263,9 @@ export function App(props: {
       canonicalPageFocus.entityId !== selEntity?.id
     )
       return
-    setSelectedPageV5(canonicalPageFocus.pageId)
-    setScriptV5Channel(canonicalPageFocus.channel)
-    setSelectedBehaviorV5(canonicalPageFocus.behaviorId)
+    setSelectedPage(canonicalPageFocus.pageId)
+    setScriptChannel(canonicalPageFocus.channel)
+    setSelectedBehavior(canonicalPageFocus.behaviorId)
     setCanonicalPageFocus(undefined)
   }, [canonicalPageFocus, scene?.id, selEntity?.id])
   const selectedNamedEntryId = selected.kind === 'named-entry' ? selected.id : undefined
@@ -1428,15 +1428,12 @@ export function App(props: {
   }))
   const serializeEditorSnapshot = (
     shellState: ReturnType<EditSession['getState']>,
-    scriptState: ScriptEditorStateV5 | undefined,
+    scriptState: ScriptEditorState | undefined,
     includeAssetCopies: boolean,
   ): Promise<Record<string, unknown>> => {
-    if (!props.scriptV5 || !scriptState)
-      return serializeProjectWithMapCopies(shellState, project.source, {
-        includeAssetCopies,
-      })
+    if (!scriptState) throw new Error('current 作者态缺失，拒绝序列化交互投影')
     return serializeProjectWithMapCopies(
-      mergeEditorShellWithCurrentCanonicalScripts(scriptState, shellState),
+      mergeEditorProjectionWithCurrentAuthorState(scriptState, shellState),
       project.source,
       { includeAssetCopies },
     )
@@ -1462,8 +1459,8 @@ export function App(props: {
         rememberDirectory = true
       }
       const savedState = session.getState()
-      const savedScriptState = scriptV5Session?.getState()
-      const savedScriptVersion = scriptV5Session?.getVersion()
+      const savedScriptState = scriptSession?.getState()
+      const savedScriptVersion = scriptSession?.getVersion()
       const removePaths = [...session.getDeletedMapPaths(), ...session.getDeletedAssetPaths()]
       setSaveErr('')
       setSaveActivity({ phase: 'preparing' })
@@ -1491,11 +1488,11 @@ export function App(props: {
       // 若保存期间仍有后台 hydrate/command 生成新 state，磁盘只是开始时快照，不能误清 dirty。
       if (session.getState() === savedState) session.markSaved()
       if (
-        scriptV5Session &&
+        scriptSession &&
         savedScriptVersion !== undefined &&
-        scriptV5Session.getVersion() === savedScriptVersion
+        scriptSession.getVersion() === savedScriptVersion
       )
-        scriptV5Session.markSaved()
+        scriptSession.markSaved()
       if (rememberDirectory) {
         // 只有完整 writeProject 成功后才把目录升级为后续增量保存目标。若素材 fetch /
         // hash 校验 / 写盘中途失败，下一次仍按 HTTP 首存全量物化，不能提交半闭包工程。
@@ -1532,7 +1529,7 @@ export function App(props: {
     setSaveActivity({ phase: 'saving-as' })
     try {
       const savedState = session.getState()
-      const savedScriptState = scriptV5Session?.getState()
+      const savedScriptState = scriptSession?.getState()
       const removePaths = [...session.getDeletedMapPaths(), ...session.getDeletedAssetPaths()]
       const sourceDir = dirHandleRef.current ?? undefined
       // 必须在点击调用栈内同步启动，File System Access 的目录选择器才保有用户激活。
@@ -1623,7 +1620,7 @@ export function App(props: {
       label: '撤销',
       icon: 'undo',
       shortcut: '⌘Z',
-      enabled: session.canUndo() || (scriptV5Session?.canUndo() ?? false),
+      enabled: session.canUndo() || (scriptSession?.canUndo() ?? false),
       scope: 'global',
       defaultPlacement: 'fixed',
       execute: undo,
@@ -1633,7 +1630,7 @@ export function App(props: {
       label: '重做',
       icon: 'redo',
       shortcut: '⇧⌘Z',
-      enabled: session.canRedo() || (scriptV5Session?.canRedo() ?? false),
+      enabled: session.canRedo() || (scriptSession?.canRedo() ?? false),
       scope: 'global',
       defaultPlacement: 'fixed',
       execute: redo,
@@ -1874,9 +1871,9 @@ export function App(props: {
             stamps={state.stamps}
             mapIndex={state.mapIndex}
             onStatusNotice={setWorkspaceNotice}
-            scriptV5={
-              scriptV5Session && scriptV5State
-                ? { state: scriptV5State, session: scriptV5Session }
+            script={
+              scriptSession && scriptState
+                ? { state: scriptState, session: scriptSession }
                 : undefined
             }
             historyCoordinator={historyCoordinator}
@@ -2261,10 +2258,10 @@ export function App(props: {
                   onAddAt={addAt}
                   onClearSelection={() => setSelected(SCENE_SELECTION)}
                 />
-              ) : scriptV5Session && scriptV5State ? (
-                <CanonicalSceneScriptWorkspaceV5
+              ) : scriptSession && scriptState ? (
+                <CanonicalSceneScriptWorkspace
                   scene={scene}
-                  state={scriptV5State}
+                  state={scriptState}
                   selectedEntityId={selEntity?.id ?? null}
                   locale={state.locale}
                   sprites={state.sprites}
@@ -2282,8 +2279,8 @@ export function App(props: {
                     blocked: canvasLayers.blocked,
                     ghosts: canvasLayers.ghosts,
                   }}
-                  editorContext={canonicalScriptEditorContextV5}
-                  onDispatch={(command) => scriptV5Session.dispatch(command)}
+                  editorContext={canonicalScriptEditorContext}
+                  onDispatch={(command) => scriptSession.dispatch(command)}
                   onOpenReference={openCanonicalReference}
                   focusReference={canonicalReferenceFocus}
                   onError={(message) => setWorkspaceNotice({ kind: 'error', message })}
@@ -2367,7 +2364,7 @@ export function App(props: {
                       sprites={state.sprites}
                       assetBase={project.assetBase}
                       assetReader={assetReader}
-                      canonicalScriptV5={!!scriptV5Session}
+                      canonicalScript={!!scriptSession}
                       onJumpToEvent={jumpToEvent}
                       focusPageIndex={
                         entityPageFocus?.sceneId === scene.id &&
@@ -2397,22 +2394,22 @@ export function App(props: {
                     />
                   }
                   lifecycle={
-                    <LifecycleCommandPanelV13
+                    <LifecycleCommandPanel
                       session={session}
                       sceneId={scene.id}
                       entityId={selEntity.id}
                     />
                   }
                   behavior={
-                    scriptV5Session && scriptV5State && !drawer.open ? (
-                      <div className="section script-v5-entity-section">
-                        {canonicalEntityV5?.hostile ? (
-                          <CanonicalHostileOnLoseEditorV5
-                            value={canonicalEntityV5.hostile.onLose}
+                    scriptSession && scriptState && !drawer.open ? (
+                      <div className="section script-entity-section">
+                        {canonicalEntity?.hostile ? (
+                          <CanonicalHostileOnLoseEditor
+                            value={canonicalEntity.hostile.onLose}
                             context={
-                              canonicalScriptEditorContextV5
+                              canonicalScriptEditorContext
                                 ? {
-                                    ...canonicalScriptEditorContextV5,
+                                    ...canonicalScriptEditorContext,
                                     currentEntityId: selEntity.id,
                                   }
                                 : undefined
@@ -2430,8 +2427,8 @@ export function App(props: {
                                 : undefined
                             }
                             onChange={(onLose) =>
-                              scriptV5Session.dispatch(
-                                new SetEntityHostileOnLoseV5Command(
+                              scriptSession.dispatch(
+                                new SetEntityHostileOnLoseCommand(
                                   { scene: scene.id, entity: selEntity.id },
                                   onLose,
                                 ),
@@ -2440,25 +2437,25 @@ export function App(props: {
                             onError={(message) => setWorkspaceNotice({ kind: 'error', message })}
                           />
                         ) : null}
-                        {canonicalEntityV5 && canonicalPageV5 ? (
-                          <div className="script-v5-page-binding">
+                        {canonicalEntity && canonicalPage ? (
+                          <div className="script-page-binding">
                             <label>
                               <span className="field-label">实体页</span>
                               <select
                                 className="in"
-                                value={canonicalPageV5.id}
-                                onChange={(event) => setSelectedPageV5(event.target.value)}
+                                value={canonicalPage.id}
+                                onChange={(event) => setSelectedPage(event.target.value)}
                               >
-                                {(canonicalEntityV5.pages ?? []).map((page) => (
+                                {(canonicalEntity.pages ?? []).map((page) => (
                                   <option key={page.id} value={page.id}>
                                     {page.label} · {page.id}
-                                    {page.id === canonicalEntityV5.initialPage ? '（初始）' : ''}
+                                    {page.id === canonicalEntity.initialPage ? '（初始）' : ''}
                                   </option>
                                 ))}
                               </select>
                             </label>
                             {(['trigger', 'auto'] as const).map((channel) => {
-                              const registry = canonicalEntityV5.behaviors?.[channel] ?? {}
+                              const registry = canonicalEntity.behaviors?.[channel] ?? {}
                               return (
                                 <label key={channel}>
                                   <span className="field-label">
@@ -2466,12 +2463,12 @@ export function App(props: {
                                   </span>
                                   <select
                                     className="in"
-                                    value={canonicalPageV5[channel] ?? ''}
+                                    value={canonicalPage[channel] ?? ''}
                                     onChange={(event) =>
-                                      scriptV5Session.dispatch(
-                                        new SetEntityPageBehaviorV5Command(
+                                      scriptSession.dispatch(
+                                        new SetEntityPageBehaviorCommand(
                                           { scene: scene.id, entity: selEntity.id },
-                                          canonicalPageV5.id,
+                                          canonicalPage.id,
                                           channel,
                                           event.target.value || undefined,
                                         ),
@@ -2496,7 +2493,7 @@ export function App(props: {
                           </div>
                         ) : null}
                         <div
-                          className="script-v5-channel-tabs"
+                          className="script-channel-tabs"
                           role="tablist"
                           aria-label="行为通道"
                         >
@@ -2505,30 +2502,30 @@ export function App(props: {
                               key={channel}
                               type="button"
                               role="tab"
-                              aria-selected={scriptV5Channel === channel}
-                              className={scriptV5Channel === channel ? 'active' : ''}
+                              aria-selected={scriptChannel === channel}
+                              className={scriptChannel === channel ? 'active' : ''}
                               onClick={() => {
-                                setScriptV5Channel(channel)
-                                setSelectedBehaviorV5(undefined)
+                                setScriptChannel(channel)
+                                setSelectedBehavior(undefined)
                               }}
                             >
                               {channel === 'trigger' ? '触发行为' : '自动行为'}
                             </button>
                           ))}
                         </div>
-                        <ScriptV5BehaviorInspector
-                          state={scriptV5State}
+                        <ScriptBehaviorInspector
+                          state={scriptState}
                           target={{ scene: scene.id, entity: selEntity.id }}
-                          channel={scriptV5Channel}
-                          selectedBehaviorId={selectedBehaviorV5}
-                          onSelectBehavior={setSelectedBehaviorV5}
-                          onDispatch={(command) => scriptV5Session.dispatch(command)}
-                          editorContext={canonicalScriptEditorContextV5}
+                          channel={scriptChannel}
+                          selectedBehaviorId={selectedBehavior}
+                          onSelectBehavior={setSelectedBehavior}
+                          onDispatch={(command) => scriptSession.dispatch(command)}
+                          editorContext={canonicalScriptEditorContext}
                           onOpenReference={openCanonicalReference}
                           onOpenFlow={(behaviorId) =>
                             setWorkspaceNotice({
                               kind: 'info',
-                              message: `已选择 ${scriptV5Channel} 行为 ${behaviorId}；正文编辑器将在此 canonical 槽内打开。`,
+                              message: `已选择 ${scriptChannel} 行为 ${behaviorId}；正文编辑器将在此 canonical 槽内打开。`,
                             })
                           }
                           onError={(message) => setWorkspaceNotice({ kind: 'error', message })}
@@ -2927,8 +2924,8 @@ function EntityInspector(props: {
   sprites: SpriteDef[]
   assetBase: AssetBase
   assetReader: EditorAssetReader
-  /** v5 canonical 脚本由独立具名行为检查器编辑，禁止兼容壳重新创建 legacy stage。 */
-  canonicalScriptV5?: boolean
+  /** 当前 canonical 脚本由独立具名行为检查器编辑，禁止 renderer 投影重新创建作者正文。 */
+  canonicalScript?: boolean
   /** 跳事件模式定位此实体的触发/巡逻脚本(E2)。 */
   onJumpToEvent: (sceneId: string, srcKey: string) => void
   /** 从动作引用跳转时精确打开对应实体页。 */
@@ -2951,7 +2948,7 @@ function EntityInspector(props: {
     sprites,
     assetBase,
     assetReader,
-    canonicalScriptV5,
+    canonicalScript,
     onJumpToEvent,
     focusPageIndex,
     focusPageRevision,
@@ -2974,7 +2971,7 @@ function EntityInspector(props: {
   const spriteId = resolveEntitySpriteId(entity, actorsById)
   const spriteDef = spriteId ? sprites.find((sprite) => sprite.id === spriteId) : undefined
   const pageCount = Math.max(1, entity.pages?.length ?? 0)
-  const hostileV13 = entity.hostile as HostileBehaviorV13 | undefined
+  const hostile = entity.hostile as RuntimeHostileBehavior | undefined
   useEffect(() => {
     if (!entity.id) return
     setPageIndex((current) =>
@@ -3335,16 +3332,16 @@ function EntityInspector(props: {
                 <span className="field-label">胜利后</span>
                 <select
                   className="in"
-                  value={hostileV13?.onVictory.kind ?? 'remove'}
+                  value={hostile?.onVictory.kind ?? 'remove'}
                   onChange={(e) => {
-                    const kind = e.target.value as HostileBehaviorV13['onVictory']['kind']
+                    const kind = e.target.value as RuntimeHostileBehavior['onVictory']['kind']
                     if (kind === 'hide')
                       setHostile({
                         onVictory: {
                           kind,
                           ticks:
-                            hostileV13?.onVictory.kind === 'hide'
-                              ? hostileV13.onVictory.ticks
+                            hostile?.onVictory.kind === 'hide'
+                              ? hostile.onVictory.ticks
                               : 800,
                         },
                       })
@@ -3356,7 +3353,7 @@ function EntityInspector(props: {
                   <option value="remain">保持原样</option>
                 </select>
               </div>
-              {hostileV13?.onVictory.kind === 'hide' ? (
+              {hostile?.onVictory.kind === 'hide' ? (
                 <div className="field">
                   <span className="field-label">胜利隐藏 ticks</span>
                   <input
@@ -3364,7 +3361,7 @@ function EntityInspector(props: {
                     type="number"
                     min={1}
                     step={1}
-                    value={hostileV13.onVictory.ticks}
+                    value={hostile.onVictory.ticks}
                     onChange={(e) => {
                       const ticks = e.target.valueAsNumber
                       if (Number.isSafeInteger(ticks) && ticks > 0)
@@ -3377,16 +3374,16 @@ function EntityInspector(props: {
                 <span className="field-label">逃跑后</span>
                 <select
                   className="in"
-                  value={hostileV13?.onPlayerFlee.kind ?? 'remain'}
+                  value={hostile?.onPlayerFlee.kind ?? 'remain'}
                   onChange={(e) => {
-                    const kind = e.target.value as HostileBehaviorV13['onPlayerFlee']['kind']
+                    const kind = e.target.value as RuntimeHostileBehavior['onPlayerFlee']['kind']
                     if (kind === 'suspend')
                       setHostile({
                         onPlayerFlee: {
                           kind,
                           ticks:
-                            hostileV13?.onPlayerFlee.kind === 'suspend'
-                              ? hostileV13.onPlayerFlee.ticks
+                            hostile?.onPlayerFlee.kind === 'suspend'
+                              ? hostile.onPlayerFlee.ticks
                               : 15,
                         },
                       })
@@ -3397,7 +3394,7 @@ function EntityInspector(props: {
                   <option value="suspend">短暂暂停自动行为</option>
                 </select>
               </div>
-              {hostileV13?.onPlayerFlee.kind === 'suspend' ? (
+              {hostile?.onPlayerFlee.kind === 'suspend' ? (
                 <div className="field">
                   <span className="field-label">逃跑暂停 ticks</span>
                   <input
@@ -3405,7 +3402,7 @@ function EntityInspector(props: {
                     type="number"
                     min={1}
                     step={1}
-                    value={hostileV13.onPlayerFlee.ticks}
+                    value={hostile.onPlayerFlee.ticks}
                     onChange={(e) => {
                       const ticks = e.target.valueAsNumber
                       if (Number.isSafeInteger(ticks) && ticks > 0)
@@ -3415,7 +3412,7 @@ function EntityInspector(props: {
                 </div>
               ) : null}
             </>
-            {!canonicalScriptV5 ? (
+            {!canonicalScript ? (
               <>
                 <div className="field">
                   <span className="field-label">战败</span>
@@ -3452,7 +3449,7 @@ function EntityInspector(props: {
           </>
         )}
       </div>
-      {!canonicalScriptV5 ? (
+      {!canonicalScript ? (
         <div className="section">
           <h4>
             行为脚本 <span className="hint2">底部抽屉就地编(E2/E4)</span>

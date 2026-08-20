@@ -8,7 +8,7 @@ export type LifecycleTriggerKind = 'manual' | 'touch'
 export interface EntityLifecycleGateInput {
   staticHidden?: boolean
   staticCollide?: boolean
-  /** legacy entityState：<=0 隐藏，>=2 挡路，缺省保留静态 def。 */
+  /** 当前数值 entityState：<=0 隐藏，>=2 挡路，缺省保留静态 def。 */
   entityState?: number
   lifecycle?: EntityLifecycleEntry
   hasTrigger?: boolean

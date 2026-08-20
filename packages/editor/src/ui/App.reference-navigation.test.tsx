@@ -1,18 +1,18 @@
 // @vitest-environment jsdom
 
 import type { ItemData, SceneDef } from '@type-pal/content'
-import type { LoadedProjectV16 } from '@type-pal/reforge'
+import type { LoadedCurrentProject } from '@type-pal/reforge'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { type EditorState, EditSession } from '../core/edit-session.js'
 import type { ItemReference } from '../core/item-references.js'
-import { mergeEditorShellWithCurrentCanonicalScripts } from '../core/project-io-v5.js'
+import { mergeEditorProjectionWithCurrentAuthorState } from '../core/script-editor-projection.js'
 import {
-  type CanonicalScriptReferenceV5,
-  type ScriptEditorStateV5,
-  ScriptV5EditSession,
-} from '../core/script-v5-editor.js'
+  type CanonicalScriptReference,
+  type ScriptEditorState,
+  ScriptEditSession,
+} from '../core/script-editor.js'
 import { App } from './App.js'
 
 const probes = vi.hoisted(() => ({
@@ -29,8 +29,8 @@ vi.mock('./DataMode.js', () => ({
   },
 }))
 
-vi.mock('./CanonicalSceneScriptWorkspaceV5.js', () => ({
-  CanonicalSceneScriptWorkspaceV5: (props: unknown) => {
+vi.mock('./SceneScriptWorkspace.js', () => ({
+  CanonicalSceneScriptWorkspace: (props: unknown) => {
     probes.sceneWorkspace(props)
     return <div data-testid="scene-script-workspace" />
   },
@@ -57,7 +57,7 @@ function shellItem(): ItemData {
       effects: [
         {
           kind: 'runScript',
-          script: { chunk: '__script-v5-runtime', id: 'item:289:use' },
+          script: { chunk: '__author-script-runtime', id: 'item:289:use' },
         },
       ],
     },
@@ -118,7 +118,7 @@ function shellState(): EditorState {
   } as unknown as EditorState
 }
 
-function canonicalState(): ScriptEditorStateV5 {
+function canonicalState(): ScriptEditorState {
   return {
     scenes: [
       {
@@ -183,13 +183,12 @@ function canonicalState(): ScriptEditorStateV5 {
       },
     ],
     sharedScripts: {},
-    migrationSidecars: [],
   }
 }
 
 function itemReference(
   source: 'scene' | 'item',
-  reference: Extract<CanonicalScriptReferenceV5, { kind: 'command' }>,
+  reference: Extract<CanonicalScriptReference, { kind: 'command' }>,
 ): ItemReference {
   return {
     itemId: '289',
@@ -202,7 +201,7 @@ function itemReference(
   }
 }
 
-const itemPrivateReference: Extract<CanonicalScriptReferenceV5, { kind: 'command' }> = {
+const itemPrivateReference: Extract<CanonicalScriptReference, { kind: 'command' }> = {
   kind: 'command',
   path: 'items.289.use.effects[0].script.body[1].itemId',
   locator: {
@@ -213,7 +212,7 @@ const itemPrivateReference: Extract<CanonicalScriptReferenceV5, { kind: 'command
   },
 }
 
-const sceneReference: Extract<CanonicalScriptReferenceV5, { kind: 'command' }> = {
+const sceneReference: Extract<CanonicalScriptReference, { kind: 'command' }> = {
   kind: 'command',
   path: 'scenes.s047.entities.e760.behaviors.trigger.default.flow.stages.initial.body[1].itemId',
   locator: {
@@ -243,7 +242,7 @@ type DataModeProbe = {
 
 type SceneWorkspaceProbe = {
   selectedEntityId?: string | null
-  focusReference?: { reference: CanonicalScriptReferenceV5; revision: number }
+  focusReference?: { reference: CanonicalScriptReference; revision: number }
 }
 
 type SceneCanvasProbe = {
@@ -317,7 +316,6 @@ describe('App item reference navigation', () => {
       contentVersion: 16,
       minimumSaveVersion: 8,
     } as EditorState['manifest']
-    canonical.contentVersion = 16
     const source = {
       readText: vi.fn(async () => ''),
       readJson: vi.fn(async () => ({})),
@@ -329,16 +327,15 @@ describe('App item reference navigation', () => {
       assetBase: {},
       manifest: shell.manifest,
       authorContent: { items: canonical.items, sharedScripts: canonical.sharedScripts },
-      migrationRegistry: {},
       worldVariables: shell.worldVariables ?? {},
-    } as unknown as LoadedProjectV16
+    } as unknown as LoadedCurrentProject
     const session = new EditSession(shell)
     await act(async () =>
       root.render(
         <App
           session={session}
           project={project}
-          scriptV5={{ session: new ScriptV5EditSession(canonical) }}
+          script={{ session: new ScriptEditSession(canonical) }}
         />,
       ),
     )
@@ -516,7 +513,9 @@ describe('App item reference navigation', () => {
     expect(canvas().placingEntity).toBe(true)
     expect(toolbar.querySelector('[role="status"]')?.textContent).toContain('正在放置实体')
     expect(button('取消放置', toolbar)).toBeDefined()
-    expect(toolbar.querySelector<HTMLButtonElement>('[title="删除选中(Del)"]')?.disabled).toBe(true)
+    expect(
+      toolbar.querySelector<HTMLButtonElement>('[title="删除选中对象（Del）"]')?.disabled,
+    ).toBe(true)
     await act(async () =>
       window.dispatchEvent(
         new KeyboardEvent('keydown', { key: 'Delete', bubbles: true, cancelable: true }),
@@ -640,7 +639,6 @@ describe('App item reference navigation', () => {
   test('content16 场景脚本进入 canonical 工作区而不是 legacy stages 抽屉', async () => {
     window.history.replaceState({}, '', '/?module=scene&page=workspace&object=s047')
     const canonical = canonicalState()
-    canonical.contentVersion = 16
     canonical.scenes[0]!.entities[0]!.behaviors!.trigger!.default!.flow = {
       kind: 'stages',
       initial: 'initial',
@@ -681,16 +679,15 @@ describe('App item reference navigation', () => {
       assetBase: {},
       manifest: shell.manifest,
       authorContent: { items: canonical.items, sharedScripts: canonical.sharedScripts },
-      migrationRegistry: {},
       worldVariables: shell.worldVariables ?? {},
-    } as unknown as LoadedProjectV16
+    } as unknown as LoadedCurrentProject
 
     await act(async () =>
       root.render(
         <App
           session={new EditSession(shell)}
           project={project}
-          scriptV5={{ session: new ScriptV5EditSession(canonical) }}
+          script={{ session: new ScriptEditSession(canonical) }}
         />,
       ),
     )
@@ -702,9 +699,8 @@ describe('App item reference navigation', () => {
 
     expect(probes.sceneWorkspace).toHaveBeenCalled()
     const workspace = probes.sceneWorkspace.mock.calls.at(-1)?.[0] as {
-      state: ScriptEditorStateV5
+      state: ScriptEditorState
     }
-    expect(workspace.state.contentVersion).toBe(16)
     expect(workspace.state.scenes[0]!.entities[0]!.behaviors!.trigger!.default!.flow).toMatchObject(
       {
         kind: 'stages',
@@ -715,7 +711,6 @@ describe('App item reference navigation', () => {
 
   test('content16 保存合并保留 shell 空间改动与 canonical 身份对话', () => {
     const canonical = canonicalState()
-    canonical.contentVersion = 16
     canonical.scenes[0]!.entities[0]!.behaviors!.trigger!.default!.flow = {
       kind: 'stages',
       initial: 'initial',
@@ -742,7 +737,7 @@ describe('App item reference navigation', () => {
     } as EditorState['manifest']
     shell.scenes = structuredClone(canonical.scenes) as unknown as EditorState['scenes']
     shell.scenes[0]!.entry.pos = { col: 9, row: 8, height: 0 }
-    const shellBehavior = (shell.scenes[0] as unknown as ScriptEditorStateV5['scenes'][number])
+    const shellBehavior = (shell.scenes[0] as unknown as ScriptEditorState['scenes'][number])
       .entities[0]!.behaviors!.trigger!.default!
     shellBehavior.flow = {
       kind: 'stages',
@@ -750,11 +745,11 @@ describe('App item reference navigation', () => {
       stages: [{ id: 'initial', body: [] }],
     }
 
-    const merged = mergeEditorShellWithCurrentCanonicalScripts(canonical, shell)
+    const merged = mergeEditorProjectionWithCurrentAuthorState(canonical, shell)
     expect(merged.manifest.contentVersion).toBe(16)
     expect(merged.scenes[0]!.entry.pos).toEqual({ col: 9, row: 8, height: 0 })
     expect(
-      (merged.scenes[0] as unknown as ScriptEditorStateV5['scenes'][number]).entities[0]!.behaviors!
+      (merged.scenes[0] as unknown as ScriptEditorState['scenes'][number]).entities[0]!.behaviors!
         .trigger!.default!.flow,
     ).toMatchObject({
       stages: [

@@ -1,7 +1,6 @@
 /**
  * seed —— 自包含工程克隆的纯核(P4)。
- * relativizeManifest:pal 种子 manifest 的 legacy /extracted 绝对路径 → 工程内相对
- * assets/extracted，使克隆后的本地工程经 fsaSource 离线可读。
+ * relativizeManifest:深拷贝当前 manifest，避免克隆提交过程修改种子对象。
  * enumerateSeedFiles:汇总克隆要拉的**可复制**文件集(内容表 + 场景 + 全部素材);
  * manifest.json 本身走 relativizeManifest 单独写(不在此列)。
  */
@@ -9,12 +8,11 @@ import {
   type AssetCatalogV1,
   type AssetRecordV1,
   CONTENT_VERSION,
+  type CurrentManifest,
   CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
   formatProjectMap,
   type MapIndexV1,
-  type ProjectManifest,
   type ProjectMap,
-  type ScriptIndexV1,
 } from '@type-pal/content'
 import { sha256Hex } from './binary-signature.js'
 import { buildSeedAssets } from './seed-assets.js'
@@ -46,14 +44,13 @@ function buildSeedMap(): ProjectMap {
   }
 }
 
-/** 一个种子文件:从 src 读(种子源 rel;/ 开头=绝对透传)→ 写本地 rel。 */
+/** 一个种子文件:从工程内 src 读 → 写本地 rel。 */
 export interface SeedFile {
   rel: string
   src: string
   kind: 'json' | 'binary'
   /** 字节数(素材有;内容 JSON 未知记 0)—— 克隆进度按累计 size / totalBytes。 */
   size: number
-  sourceLane: 'project' | 'legacy'
   commitPhase: 'binary' | 'content' | 'catalog'
   catalogAsset?: {
     id: string
@@ -62,15 +59,6 @@ export interface SeedFile {
     sha256: string
     record: AssetRecordV1
   }
-}
-
-export interface FileList {
-  files: { path: string; size: number }[]
-}
-
-function relPath(s: string): string {
-  if (s.startsWith('/extracted')) return s.replace(/^\/extracted/, 'assets/extracted')
-  return s
 }
 
 /**
@@ -256,44 +244,24 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
   }
 }
 
-/** assets 各绝对路径字段相对化(子目录/相对值不变)。深拷,不改原对象。 */
-export function relativizeManifest<V extends number>(m: ProjectManifest<V>): ProjectManifest<V> {
-  const legacy = m.assets.legacy
-    ? (Object.fromEntries(
-        Object.entries(m.assets.legacy).map(([key, value]) => [
-          key,
-          typeof value === 'string' ? relPath(value) : structuredClone(value),
-        ]),
-      ) as NonNullable<ProjectManifest<V>['assets']['legacy']>)
-    : undefined
-  const assets: ProjectManifest<V>['assets'] = {
-    ...structuredClone(m.assets),
-    ...(legacy ? { legacy } : {}),
-  }
-  return { ...structuredClone(m), assets }
+/** 当前 manifest 深拷；所有路径在进入工程边界前已经是工程相对路径。 */
+export function relativizeManifest(m: CurrentManifest): CurrentManifest {
+  return structuredClone(m)
 }
 
 /** 场景目录(manifest.content.scenes;规整为以 / 结尾)。 */
-export function scenesDir(m: ProjectManifest<number>): string {
+export function scenesDir(m: CurrentManifest): string {
   const dir = m.content.scenes ?? 'content/scenes/'
-  return dir.endsWith('/') ? dir : `${dir}/`
-}
-
-export function scriptsDir(m: ProjectManifest<number>): string | undefined {
-  const dir = m.content.scripts
-  if (!dir) return undefined
   return dir.endsWith('/') ? dir : `${dir}/`
 }
 
 /**
  * 克隆要复制的文件集:内容表(manifest.content 各文件,scenes 目录除外)+ scenes index + 每场景
- * + 全部素材(catalog 精确闭包 + 尚未迁移族的 asset-manifest → assets/extracted/)。
+ * + catalog 登记的全部素材。
  */
 export function enumerateSeedFiles(
-  manifest: ProjectManifest<number>,
+  manifest: CurrentManifest,
   sceneIds: string[],
-  assetManifest: FileList,
-  scriptIndex?: ScriptIndexV1,
   mapIndex?: MapIndexV1,
   catalog?: AssetCatalogV1,
 ): SeedFile[] {
@@ -304,34 +272,19 @@ export function enumerateSeedFiles(
       src: rel,
       kind: 'json',
       size: 0,
-      sourceLane: 'project',
       commitPhase: 'content',
     })
   }
 
   // 内容表(scenes 是目录,跳过)
   for (const [key, val] of Object.entries(manifest.content)) {
-    if (key === 'scenes' || key === 'scripts' || typeof val !== 'string') continue
+    if (key === 'scenes' || typeof val !== 'string') continue
     json(val)
   }
-  for (const descriptor of Object.values(manifest.migrations ?? {}))
-    out.push({
-      rel: descriptor.path,
-      src: descriptor.path,
-      kind: 'binary',
-      size: 0,
-      sourceLane: 'project',
-      commitPhase: 'content',
-    })
   // 场景 index + 每场景
   const dir = scenesDir(manifest)
   json(`${dir}index.json`)
   for (const id of sceneIds) json(`${dir}${id}.json`)
-  const scriptDir = scriptsDir(manifest)
-  if (scriptDir && scriptIndex) {
-    json(`${scriptDir}index.json`)
-    for (const meta of Object.values(scriptIndex.chunks)) json(`${scriptDir}${meta.path}`)
-  }
   // map index 本身已由 manifest.content 循环加入；这里补齐其登记的所有地图 JSON。
   for (const asset of mapIndex?.maps ?? []) json(asset.path)
   for (const [id, record] of Object.entries(catalog?.assets ?? {}))
@@ -340,7 +293,6 @@ export function enumerateSeedFiles(
       src: record.path,
       kind: 'binary',
       size: record.bytes,
-      sourceLane: 'project',
       commitPhase: 'binary',
       catalogAsset: {
         id,
@@ -350,31 +302,11 @@ export function enumerateSeedFiles(
         record,
       },
     })
-  // 尚未 catalog 化的 battle/effect/image 仍从 extracted 复制；已闭环族只来自上面的 catalog records。
-  const legacyFamilies = new Set(manifest.assets.legacy?.families ?? [])
-  for (const f of assetManifest.files) {
-    if (!legacyFamilies.has('tileset') && /^data\/tileset\//.test(f.path)) continue
-    if (!legacyFamilies.has('sprite') && /^data\/sprite\//.test(f.path)) continue
-    if (
-      !legacyFamilies.has('battle-sprite') &&
-      (/^data\/battle-sprite\//.test(f.path) || f.path === 'data/battle-sprites.json')
-    )
-      continue
-    out.push({
-      rel: `assets/extracted/${f.path}`,
-      src: `/extracted/${f.path}`,
-      kind: 'binary',
-      size: f.size,
-      sourceLane: 'legacy',
-      commitPhase: 'binary',
-    })
-  }
   out.push({
     rel: manifest.assets.catalog,
     src: manifest.assets.catalog,
     kind: 'json',
     size: 0,
-    sourceLane: 'project',
     commitPhase: 'catalog',
   })
   const paths = new Set<string>()

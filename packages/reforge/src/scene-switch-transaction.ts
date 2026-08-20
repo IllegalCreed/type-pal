@@ -1,4 +1,4 @@
-import type { AssetId, WorldState } from '@type-pal/content'
+import type { AssetId, ProjectedWorldScriptState, WorldState } from '@type-pal/content'
 import { asyncIntentAbortError } from './async-intent.js'
 
 export interface SceneActorSpriteOverride {
@@ -30,6 +30,7 @@ function sortedEquipment(equipment: Readonly<Record<string, string>>): Array<[st
  */
 export function captureSceneSwitchDependencies(
   world: WorldState,
+  projection: ProjectedWorldScriptState,
   sceneId: string,
   actorOverrides: ReadonlyMap<string, SceneActorSpriteOverride>,
   useActorOverrides: boolean,
@@ -49,8 +50,8 @@ export function captureSceneSwitchDependencies(
       .sort(([leftId, leftCount], [rightId, rightCount]) =>
         leftId === rightId ? leftCount - rightCount : leftId.localeCompare(rightId),
       ),
-    sceneScriptOverride: JSON.stringify(world.script?.sceneScriptOverrides?.[sceneId] ?? null),
-    entryStage: world.script?.entityStage[`s:${sceneId}`] ?? 0,
+    sceneScriptOverride: JSON.stringify(projection.sceneScriptOverrides?.[sceneId] ?? null),
+    entryStage: projection.entityStage[`s:${sceneId}`] ?? 0,
     actorOverrides: useActorOverrides
       ? party.map(({ template }) => {
           const override = actorOverrides.get(template)

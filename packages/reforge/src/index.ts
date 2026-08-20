@@ -91,20 +91,6 @@ import { loadSceneMap } from './scene-map.js'
 export type { SceneMapAssets }
 export { loadSceneMap }
 
-import type { ContentJsons, LoadedProject, LoadedProjectCore } from './loader.js'
-// 工程 loader(manifest + content JSON → LoadedProject)
-import {
-  assembleProject,
-  loadAllProjectMaps,
-  loadAllScenes,
-  loadAllScriptChunks,
-  loadProject,
-  loadProjectFrom,
-  loadProjectMapById,
-  loadSceneDef,
-  loadStampTemplates,
-} from './loader.js'
-
 export type {
   IsometricMapContent,
   IsometricMapLayer,
@@ -137,8 +123,6 @@ export {
   battleResultRunsOnFlee,
   battleResultRunsOnLose,
   isBattleResult,
-  type LegacyBattleResult,
-  normalizeLegacyBattleResult,
 } from './battle/battle-result.js'
 export {
   advanceEntityLifecycleWorldStep,
@@ -151,75 +135,42 @@ export {
   tickEntityLifecycles,
 } from './entity-lifecycle.js'
 export {
-  applyWorldEntityLifecycleCommandV13,
-  commitEntityLifecycleCommandV13,
-  commitWorldEntityLifecycleCommandV13,
-  type EntityLifecycleCommandCommitV13,
-  type RuntimeLifecycleCommandV13,
-  reduceEntityLifecycleCommandV13,
-  type WorldEntityLifecycleCommandCommitV13,
+  applyWorldEntityEntityLifecycleCommand,
+  commitEntityEntityLifecycleCommand,
+  commitWorldEntityEntityLifecycleCommand,
+  type EntityLifecycleCommandCommit,
+  type RuntimeEntityLifecycleCommand,
+  reduceEntityEntityLifecycleCommand,
+  type WorldEntityLifecycleCommandCommit,
 } from './entity-lifecycle-command.js'
 // 文件源抽象(内容 + 素材统一「从哪读」;httpSource=dev/种子,fsaSource=本地工程)
 export { type FileSource, httpSource } from './file-source.js'
 export { fsaSource } from './fsa-source.js'
 export {
-  isV5RuntimeScriptRef,
-  legacyItemsFromV5,
-  legacyProjectShellFromV5,
-  legacySceneFromV5,
-  v5RuntimeScriptRef,
-} from './legacy-runtime-shell-v5.js'
+  isRuntimeScriptRef,
+  projectItemsView,
+  runtimeProjectView,
+  baseSceneView,
+  runtimeScriptRef,
+} from './runtime-project-view.js'
 export type {
-  ContentJsonsV5,
-  LoadedProjectV5,
-  LoadedProjectV5Core,
-} from './loader-v5.js'
+  CurrentAuthorContent,
+  CurrentContentJsons,
+  LoadedCurrentProject,
+  LoadedCurrentProjectCore,
+} from './project-loader.js'
 export {
-  assembleProjectV5,
-  loadAllProjectMapsV5,
-  loadAllScenesV5,
-  loadProjectV5,
-  loadProjectV5From,
-  loadSceneDefV5,
-  loadStampTemplatesV5,
-} from './loader-v5.js'
-export type { ContentJsonsV13, LoadedProjectV13, LoadedProjectV13Core } from './loader-v13.js'
-export {
-  assembleProjectV13,
-  loadAllProjectMapsV13,
-  loadAllScenesV13,
-  loadProjectV13,
-  loadProjectV13From,
-  loadSceneDefV13,
-  loadStampTemplatesV13,
-} from './loader-v13.js'
-export type {
-  ContentJsonsV14,
-  LoadedProjectAuthorContentV14,
-  LoadedProjectV14,
-  LoadedProjectV14Core,
-} from './loader-v14.js'
-export {
-  assembleProjectV14,
-  loadAllAuthorScenesV14,
-  loadAllProjectMapsV14,
-  loadAllScenesV14,
-  loadAuthorSceneDefV14,
-  loadProjectV14,
-  loadProjectV14From,
-  loadSceneDefV14,
-  loadStampTemplatesV14,
-} from './loader-v14.js'
-export type { LoadedProjectV16 } from './loader-v16.js'
-export {
-  loadAllAuthorScenesV16,
-  loadAllProjectMapsV16,
-  loadAllScenesV16,
-  loadProjectV16,
-  loadProjectV16From,
-  loadSceneDefV16,
-  loadStampTemplatesV16,
-} from './loader-v16.js'
+  assembleCurrentProject,
+  loadAllAuthorScenes,
+  loadAllProjectMaps,
+  loadAllScenes,
+  loadAuthorScene,
+  loadCurrentProject,
+  loadCurrentProjectFrom,
+  loadProjectMapById,
+  loadScene,
+  loadStampTemplates,
+} from './project-loader.js'
 export type {
   LatticePos,
   ProjectMapCollisionEdit,
@@ -251,19 +202,6 @@ export {
 } from './project-map.js'
 // 上传素材量化 + 图集网格切片(W7B;编码器在 shared rle-encode)
 export { quantizeToRleFrame, sliceAtlasGrid } from './quantize.js'
-export type { ContentJsons, LoadedProject, LoadedProjectCore }
-export {
-  assembleProject,
-  loadAllProjectMaps,
-  loadAllScenes,
-  loadAllScriptChunks,
-  loadProject,
-  loadProjectFrom,
-  loadProjectMapById,
-  loadSceneDef,
-  loadStampTemplates,
-}
-
 // 碰撞判定(编辑器画禁入格复用,与游戏同一套 → 不漂移)
 import { buildIsBlocked, isBlockedAt, sameGrid, sameLatticeCell } from './collision.js'
 
@@ -304,14 +242,14 @@ import { evalCondition, ScriptRunner } from './script-runner.js'
 export * from './item-use-executor.js'
 export type { ResolvedScript, ScriptResolver } from './script-chunk-store.js'
 export { MemoryScriptResolver, ScriptChunkStore } from './script-chunk-store.js'
-export * from './script-compiler-v5.js'
-export * from './script-compiler-v13.js'
-export * from './script-host-adapter-v5.js'
-export * from './script-project-v5.js'
-export * from './script-project-v13.js'
-export * from './script-runner-v5.js'
-export * from './script-runner-v13.js'
-export * from './script-world-v5.js'
+export * from './script-compiler-core.js'
+export * from './runtime-script-compiler.js'
+export * from './script-host-adapter.js'
+export * from './script-project-core.js'
+export * from './runtime-script-project.js'
+export * from './script-runner-core.js'
+export * from './runtime-script-runner.js'
+export * from './script-world.js'
 export type { ScriptHost, StepEvent }
 export { evalCondition, ScriptRunner }
 

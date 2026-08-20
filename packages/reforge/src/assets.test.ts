@@ -12,7 +12,7 @@ import {
   loadTileset,
   SpriteAssetCache,
 } from './assets.js'
-import { type FileSource, projectRelativeLegacyAdapter } from './file-source.js'
+import type { FileSource } from './file-source.js'
 
 const paletteCatalog: AssetCatalogV1 = {
   version: 1,
@@ -29,9 +29,7 @@ const paletteCatalog: AssetCatalogV1 = {
 }
 
 const base = (source: FileSource): AssetBase => ({
-  root: '/extracted/data',
-  palettes: 'palette',
-  io: source.legacy ?? projectRelativeLegacyAdapter(source),
+  source,
   assetResolver: new AssetResolver(
     'test',
     paletteCatalog,
@@ -59,7 +57,7 @@ describe('assets.ts 经 FileSource 读', () => {
     collision: [[0], [0]],
   }
 
-  test('地图走 legacy adapter，工程标准色彩只走角色 resolver', async () => {
+  test('地图走工程 source，工程标准色彩走角色 resolver', async () => {
     const fetchMock = vi.fn()
     vi.stubGlobal('fetch', fetchMock)
     const palette = {

@@ -28,6 +28,8 @@
 - 现有 `@type-pal/game` 引擎**冻结不动**，新引擎另起 package。
 - 新引擎**现代化**：场景自包含（map + sprites + events 随场景按需加载），跨场景影响走全局层；消除 `all.json` 全局脚本、per-role HP 这类全局耦合。
 - 为第三阶段 MMO **预留状态分层**（玩家私有 vs 世界共享），不挖死胡同。
+- **开发期 current-only**：正式上线前只支持当前 canonical 内容/存档格式；一次重迁完成后，同任务删除旧
+  upgrader、旧类型、fixture、版本分支、产品升级入口与兼容 fallback，历史由 Git 保存。
 
 ## 3. 关键架构判断
 
@@ -198,7 +200,7 @@ ProjectMapV2。[R2 事件脚本单一模型与 unmigrated 退役](../ops/tasks/R
 | 顺序 | 工作 | 已确认的问题 | 完成后进入 |
 |---:|---|---|---|
 | 1 | **R2 脚本单一模型** | **done（2026-07-14，三方复验 + 用户验收）**：原 66 个残余全部归类收口；17 个假缺失改按数组地址解析；产物零可执行 `unmigrated`，旧 opcode 第二解释器已删除 | R3/R7 |
-| 2 | **R3/A7 + R7 资源闭包/注册表** | 音乐、SFX、视频/帧动画及四类静态图已闭包，engine chrome 已自包含；C2-ACT 精灵预制动作消费闭环已 done；A7-3T tileset、A7-3W world sprite 与 **A7-3B battle sprite 均已 done**；A7-3B 已完成三方审查和用户验收（172 records / 171 definitions / 179 refs，900,973 B / 775 帧 / 6 legacy 坏尾）。当前 legacy 候选只余 effect-sprite/image；当前发布链已占用 contentVersion 11/12/13，A7-4 的 catalog-only 总门禁与 legacy 归零收口开卡时必须重新核定下一未占用 epoch，不预先承诺固定版本号 | ED-3；同时具备启动 Q1 的资源前提 |
+| 2 | **R3/A7 + R7 资源闭包/注册表** | current-only 实现已完成：content16 / SAVE8，PAL 1,935 catalog records，56 个 effect sprite 已物化；editor/reforge 无 extracted/legacy fallback，旧版本发布链已删除。等待 ARCH-CURRENT-ONLY-1 三方 review accept 后把 A7/X4 标 ✅ | ED-3；同时具备启动 Q1 的资源前提 |
 | 3 | **ED-3 工程引用图** | 地图删除仍靠临时 `mapAssetSceneReferences`，各资源删除/替换策略没有统一引用真值 | ED-4/ED-5 |
 | 4 | **ED-4/ED-5 创作生命周期** | 场景/实体以及角色、物品、技能、毒、商店等 CRUD 仍未全部形成创建→引用→修改→删除→运行闭环 | W8/W7G/ED-6 与能力复核 |
 | 5 | **W8 地图内容选择与属性编辑 → W7G 组合地物图章 + ED-6 效率层** | 地图能逐格画，但不能选中已有单格/多格只改高度等指定属性；图层重叠缺少稳定命中规则；树、桌椅、屋顶等多格结构仍要手找碎片并逐格重设高度/碰撞 | 大规模内容生产与 Q1 扩展 |

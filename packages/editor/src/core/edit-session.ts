@@ -10,11 +10,7 @@
 import type {
   AssetCatalogV1,
   ContentBundle,
-  LegacyManifestV12,
-  LoadedManifest,
-  ManifestV13,
-  ManifestV14,
-  ManifestV16,
+  CurrentManifest,
   MapIndexV1,
   ProjectMap,
   ScriptChunkV1,
@@ -31,7 +27,7 @@ export { MoveEntityCommand } from './commands.js'
 
 /** 被编辑的内容工作副本(ContentBundle + manifest)。命令 apply/invert 收/返它(不可变)。 */
 export interface EditorState extends ContentBundle {
-  manifest: LoadedManifest | LegacyManifestV12 | ManifestV13 | ManifestV14 | ManifestV16
+  manifest: CurrentManifest
   /** content16 项目级作者变量定义；运行时值不在编辑工作副本中混存。 */
   worldVariables?: WorldVariableRegistryV1
   /** W7G 作者态图章模板表；旧工程加载时规范化为空数组。 */
@@ -213,9 +209,9 @@ export class EditSession {
     let active = true
     return {
       rollback: (): void => {
-        if (!active) throw new Error('legacy transaction receipt 已失效')
+        if (!active) throw new Error('main transaction receipt 已失效')
         if (this.past.at(-1) !== cmd)
-          throw new Error(`无法回滚事务：legacy history 顶部不是「${cmd.label}」`)
+          throw new Error(`无法回滚事务：main history 顶部不是「${cmd.label}」`)
         active = false
         this.state = before.state
         this.past = before.past

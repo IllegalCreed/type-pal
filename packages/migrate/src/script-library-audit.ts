@@ -3,7 +3,7 @@ import type {
   Command,
   EnemyDef,
   EnemyHookFlow,
-  EnemyOnDefeatedCommandV10,
+  EnemyOnDefeatedCommand,
   SceneDef,
   ScriptChunkV1,
   ScriptIndexV1,
@@ -37,7 +37,7 @@ function commandCount(node: unknown): number {
 export type ScriptAuditRoot =
   | { domain: 'world-command'; id: string; body: readonly Command[] }
   | { domain: 'battle-choreography'; id: string; body: readonly BattleChoreographyAction[] }
-  | { domain: 'enemy-on-defeated'; id: string; body: readonly EnemyOnDefeatedCommandV10[] }
+  | { domain: 'enemy-on-defeated'; id: string; body: readonly EnemyOnDefeatedCommand[] }
   | { domain: 'enemy-hook'; id: string; flow: EnemyHookFlow }
 
 export function worldCommandAuditRoots(

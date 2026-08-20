@@ -3,10 +3,10 @@ import { describe, expect, test } from 'vitest'
 import type { EditorState } from './edit-session.js'
 import {
   blockingItemReferences,
-  collectCanonicalItemReferencesV5,
+  collectCanonicalItemReferences,
   collectItemReferences,
 } from './item-references.js'
-import type { ScriptEditorStateV5 } from './script-v5-editor.js'
+import type { ScriptEditorState } from './script-editor.js'
 
 function state(): EditorState {
   return {
@@ -621,47 +621,6 @@ describe('collectItemReferences', () => {
     }
   })
 
-  test('运行态场景脚本覆写进入只读保存引用与删除守卫', () => {
-    const current = state()
-    current.worlds![0]!.script = {
-      flags: {},
-      vars: {},
-      entityState: {},
-      entityStage: {},
-      sceneScriptOverrides: {
-        s: {
-          onEnter: [{ body: [{ kind: 'loseItem', itemId: 'target' }] }],
-          onTeleport: [{ body: [{ kind: 'giveItem', itemId: 'target' }] }],
-        },
-      },
-    }
-
-    const references = collectItemReferences(current).filter((reference) =>
-      reference.where.startsWith('worlds[0].script.sceneScriptOverrides["s"]'),
-    )
-    expect(references).toEqual([
-      expect.objectContaining({
-        source: 'save',
-        access: 'lose',
-        where: 'worlds[0].script.sceneScriptOverrides["s"].onEnter0/0.itemId',
-        locator: undefined,
-        unavailableReason: expect.stringContaining('只读'),
-      }),
-      expect.objectContaining({
-        source: 'save',
-        access: 'reward',
-        where: 'worlds[0].script.sceneScriptOverrides["s"].onTeleport0/0.itemId',
-        locator: undefined,
-        unavailableReason: expect.stringContaining('只读'),
-      }),
-    ])
-    expect(
-      blockingItemReferences(current, 'target').some((reference) =>
-        reference.where.includes('sceneScriptOverrides'),
-      ),
-    ).toBe(true)
-  })
-
   test('覆盖全部脚本页、共享脚本与嵌套/不可跳来源', () => {
     const refs = collectItemReferences(state()).filter((reference) => reference.itemId === 'target')
 
@@ -770,7 +729,7 @@ describe('collectItemReferences', () => {
         flag: `filler-${index}`,
         value: true,
       }))
-    const canonical: ScriptEditorStateV5 = {
+    const canonical: ScriptEditorState = {
       scenes: [
         {
           id: 's151',
@@ -832,10 +791,9 @@ describe('collectItemReferences', () => {
       ],
       items: [],
       sharedScripts: {},
-      migrationSidecars: [],
     }
 
-    const references = collectCanonicalItemReferencesV5(canonical).filter(
+    const references = collectCanonicalItemReferences(canonical).filter(
       (reference) => reference.itemId === '290',
     )
     expect(references).toHaveLength(2)
@@ -887,7 +845,7 @@ describe('collectItemReferences', () => {
   })
 
   test('canonical 连续流程条件参与删除守卫，物品私有脚本自有边不阻止自删除', () => {
-    const canonical: ScriptEditorStateV5 = {
+    const canonical: ScriptEditorState = {
       scenes: [
         {
           id: 's',
@@ -966,10 +924,9 @@ describe('collectItemReferences', () => {
         },
       ],
       sharedScripts: {},
-      migrationSidecars: [],
     }
 
-    const references = collectCanonicalItemReferencesV5(canonical).filter(
+    const references = collectCanonicalItemReferences(canonical).filter(
       (reference) => reference.itemId === 'target',
     )
     expect(references).toHaveLength(2)

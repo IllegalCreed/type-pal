@@ -40,14 +40,6 @@
       "video.startupTrademark": "video.pal.001",
       "video.startupSplash": "video.pal.002",
       "visual.standardColorTable": "color.project-standard"
-    },
-    "legacy": {
-      "families": [
-        "effect-sprite",
-        "image"
-      ],
-      "root": "/extracted/data",
-      "palettes": "palette"
     }
   },
   "startWorld": {
@@ -69,14 +61,5 @@
       "scene": "s000",
       "introVideo": "video.pal.003"
     }
-  ],
-  "migrations": {
-    "script-v4-v5": {
-      "version": 1,
-      "fromContentVersion": 4,
-      "toContentVersion": 5,
-      "path": "content/migrations/script-v4-v5-save.json",
-      "sha256": "30ce8717aa9f6f21e14d862cde2aa44dff8f3652833826b4506e49bc7a6a2ed0"
-    }
-  }
+  ]
 }

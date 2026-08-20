@@ -89,50 +89,13 @@ export interface AssetCatalogV1 {
   assets: Record<AssetId, AssetRecordV1>
 }
 
-export const LEGACY_ASSET_FAMILIES = [
-  'music',
-  'soundfont',
-  'sound',
-  'tileset',
-  'sprite',
-  'battle-sprite',
-  'effect-sprite',
-  'portrait',
-  'face',
-  'item-icon',
-  'battle-background',
-  'rng',
-  'video',
-  'color-table',
-  'image',
-] as const
-export type LegacyAssetFamily = (typeof LEGACY_ASSET_FAMILIES)[number]
-
-/** contentVersion 3 的迁移债务区；只有 LegacyAssetAdapter 可以解释这些旧目录。 */
-export interface LegacyAssetConfigV3 {
-  families: LegacyAssetFamily[]
-  root?: string
-  tilesets?: string
-  sprites?: string
-  palettes?: string
-  sounds?: string
-  portraits?: string
-  faces?: string
-  itemIcons?: string
-  images?: string
-  rng?: string
-  videos?: string
-}
-
-export interface ManifestAssetConfigV3 {
+export interface ManifestAssetConfig {
   catalog: string
   roles: Partial<Record<AssetRole, AssetId>>
-  legacy?: LegacyAssetConfigV3
 }
 
 const kindSet = new Set<string>(ASSET_KINDS)
 const roleSet = new Set<string>(ASSET_ROLES)
-const legacyFamilySet = new Set<string>(LEGACY_ASSET_FAMILIES)
 const originSet = new Set<string>(['legacy-migrated', 'authored', 'generated', 'licensed'])
 
 function objectAt(value: unknown, path: string): Record<string, unknown> {
@@ -200,20 +163,15 @@ export function validateAssetCatalog(value: unknown, where = 'assets/index.json'
   return value as AssetCatalogV1
 }
 
-function familyForKind(kind: AssetKind): LegacyAssetFamily {
-  return kind === 'frame-animation' ? 'rng' : kind
-}
-
-export function validateManifestAssetConfigV3(
+export function validateManifestAssetConfig(
   value: unknown,
   catalog?: AssetCatalogV1,
   where = 'manifest.assets',
-): ManifestAssetConfigV3 {
+): ManifestAssetConfig {
   const assets = objectAt(value, where)
-  if ('ui' in assets)
-    throw new Error(
-      `${where}.ui: 旧工程 UI 主题没有可安全升级的 slot 契约；请备份并移除该自定义后重开`,
-    )
+  for (const key of Object.keys(assets))
+    if (key !== 'catalog' && key !== 'roles')
+      throw new Error(`${where}.${key}: 当前工程资源配置只允许 catalog 与 roles`)
   validateProjectRelativePath(assets.catalog as string, `${where}.catalog`)
   const roles = objectAt(assets.roles, `${where}.roles`)
   for (const [role, id] of Object.entries(roles)) {
@@ -222,31 +180,8 @@ export function validateManifestAssetConfigV3(
       throw new Error(`${where}.roles.${role}: 期望非空 AssetId`)
   }
 
-  let families: LegacyAssetFamily[] = []
-  if (assets.legacy !== undefined) {
-    const legacy = objectAt(assets.legacy, `${where}.legacy`)
-    if ('ui' in legacy)
-      throw new Error(
-        `${where}.legacy.ui: 旧工程 UI 主题没有可安全升级的 slot 契约；请备份并移除该自定义后重开`,
-      )
-    if (!Array.isArray(legacy.families)) throw new Error(`${where}.legacy.families: 期望数组`)
-    families = legacy.families.map((family, index) => {
-      if (typeof family !== 'string' || !legacyFamilySet.has(family))
-        throw new Error(`${where}.legacy.families[${index}]: 未知 legacy family`)
-      return family as LegacyAssetFamily
-    })
-    if (new Set(families).size !== families.length)
-      throw new Error(`${where}.legacy.families: 不允许重复 family`)
-  }
-
   if (catalog) {
     const entries = Object.entries(catalog.assets)
-    const catalogFamilies = new Set(entries.map(([, record]) => familyForKind(record.kind)))
-    for (const family of families) {
-      if (catalogFamilies.has(family))
-        throw new Error(`${where}: 资源族 "${family}" 同时出现在 catalog 与 legacy`)
-    }
-
     const hasAudio = entries.some(
       ([, record]) => record.kind === 'music' || record.kind === 'soundfont',
     )
@@ -265,7 +200,7 @@ export function validateManifestAssetConfigV3(
         throw new Error(`${where}.roles.${role}: 期望 ${expected}，实际 ${record.kind}`)
     }
   }
-  return value as ManifestAssetConfigV3
+  return value as ManifestAssetConfig
 }
 
 export function palMusicAssetId(track: number): AssetId {
@@ -292,17 +227,18 @@ export function palFrameAnimationAssetId(chunk: number): AssetId {
   return `frame-animation.pal.${String(chunk).padStart(3, '0')}`
 }
 
+export const PAL_PHYSICAL_EFFECT_ASSET_ID: AssetId = 'effect-sprite.pal.physical-hit'
+
+export function palMagicEffectSpriteAssetId(chunk: number): AssetId {
+  if (!Number.isInteger(chunk) || chunk < 0)
+    throw new Error(`PAL 法术特效号必须是非负整数，收到 ${String(chunk)}`)
+  return `effect-sprite.pal.magic.${String(chunk).padStart(3, '0')}`
+}
+
 export function palPortraitAssetId(chunk: number): AssetId {
   if (!Number.isInteger(chunk) || chunk <= 0)
     throw new Error(`PAL 立绘号必须是正整数，收到 ${String(chunk)}`)
   return `portrait.pal.${String(chunk).padStart(3, '0')}`
-}
-
-/** 旧 PAL 的 0 是“无立绘”，只允许在升级边界被消解。 */
-export function legacyPalPortraitAssetId(chunk: number): AssetId | undefined {
-  if (!Number.isInteger(chunk) || chunk < 0)
-    throw new Error(`旧 PAL 立绘号必须是非负整数，收到 ${String(chunk)}`)
-  return chunk === 0 ? undefined : palPortraitAssetId(chunk)
 }
 
 export function palFaceAssetId(actorId: string): AssetId {
@@ -350,19 +286,6 @@ export function palBattleSpriteAssetId(
   return `battle-sprite.pal.${channel}.${String(spriteNum).padStart(3, '0')}`
 }
 
-/**
- * 只供旧 content/save 升级边界恢复大世界精灵号。
- * canonical PAL 资源和本地 v3 工程自有资源都把旧号持久编码进 AssetId；运行时加载绝不调用它猜路径。
- */
-export function legacyWorldSpriteNumberFromAsset(asset: AssetId): number | undefined {
-  const pal = /^sprite\.pal\.(\d+)$/.exec(asset)
-  const authored = /^sprite\.authored\.legacy-(\d+)(?:\.|$)/.exec(asset)
-  const raw = pal?.[1] ?? authored?.[1]
-  if (raw === undefined) return undefined
-  const value = Number(raw)
-  return Number.isInteger(value) && value > 0 ? value : undefined
-}
-
 export interface AssetReference {
   asset: AssetId
   expectedKind: AssetKind
@@ -380,11 +303,11 @@ export interface AssetReferenceSite {
 }
 
 export interface AssetReferenceSource {
-  assets?: ManifestAssetConfigV3
+  assets?: ManifestAssetConfig
   entryPoints?: readonly EntryPoint[]
   scenes?: readonly SceneDef[]
   scriptChunks?: Readonly<Record<string, ScriptChunkV1>> | readonly ScriptChunkV1[]
-  /** content13/14 作者共享脚本库；unknown 由 typed command walker 精确识别 AssetId 叶。 */
+  /** 当前作者共享脚本库；unknown 由 typed command walker 精确识别 AssetId 叶。 */
   sharedScripts?: unknown
   actors?: readonly ActorDef[]
   enemies?: readonly EnemyDef[]

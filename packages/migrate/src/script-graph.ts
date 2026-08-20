@@ -87,12 +87,8 @@ function addressOf(label: string | undefined): number | undefined {
   return match?.[1] === undefined ? undefined : Number(match[1])
 }
 
-type ScriptEdgeSemantics = 'legacy-v1' | 'source-v2'
-
-function extractScriptEdgesWithSemantics(
-  commands: readonly SourceCmd[],
-  semantics: ScriptEdgeSemantics,
-): ScriptEdge[] {
+/** PAL 原始脚本的当前执行边真值。 */
+export function extractPalSourceScriptEdges(commands: readonly SourceCmd[]): ScriptEdge[] {
   const edges: ScriptEdge[] = []
   const seen = new Set<string>()
   const add = (
@@ -113,14 +109,14 @@ function extractScriptEdgesWithSemantics(
       if (cmd.advance) add(index, index + 1, 'recovery', 'end.advance')
       if (cmd.reset) {
         add(index, cmd.resetTo, 'recovery', 'end.reset')
-        if (semantics === 'legacy-v1' || (cmd.idleFrames ?? 0) > 0)
+        if ((cmd.idleFrames ?? 0) > 0)
           add(index, index + 1, 'recovery', 'end.reset-idle-advance')
       }
       return
     }
     if (cmd.op === 'goto') {
       add(index, addressOf(cmd.to), 'execution', 'goto')
-      if (semantics === 'source-v2' && (cmd.frameDelay ?? 0) > 0)
+      if ((cmd.frameDelay ?? 0) > 0)
         add(index, index + 1, 'execution', 'goto-delay-expiry')
       return
     }
@@ -162,27 +158,6 @@ function extractScriptEdgesWithSemantics(
     add(index, index + 1, 'execution', 'fallthrough')
   })
   return edges
-}
-
-/**
- * P0/P7 已发布证据的历史 typed edge 规则。它刻意保留 delayed-goto 漏 expiry 与 reset0
- * 假 fallthrough，供旧 baseline/seal byte-pin；新控制账不得再使用。
- */
-export function extractLegacyScriptEdgesV1(commands: readonly SourceCmd[]): ScriptEdge[] {
-  return extractScriptEdgesWithSemantics(commands, 'legacy-v1')
-}
-
-/**
- * @deprecated 这个无版本名称只为历史调用兼容；新代码必须显式选择
- * `extractLegacyScriptEdgesV1` 或 `extractSourceScriptEdgesV2`。
- */
-export function extractScriptEdges(commands: readonly SourceCmd[]): ScriptEdge[] {
-  return extractLegacyScriptEdgesV1(commands)
-}
-
-/** R13-2 起的源执行真值：delayed goto 有 expiry fallthrough，reset0 没有 fallthrough。 */
-export function extractSourceScriptEdgesV2(commands: readonly SourceCmd[]): ScriptEdge[] {
-  return extractScriptEdgesWithSemantics(commands, 'source-v2')
 }
 
 function tarjan(
@@ -232,7 +207,7 @@ export function analyzeScriptGraph(
   commands: readonly SourceCmd[],
   roots: readonly ScriptRoot[],
 ): ScriptGraphAnalysis {
-  const edges = extractLegacyScriptEdgesV1(commands)
+  const edges = extractPalSourceScriptEdges(commands)
   const outgoing = Array.from({ length: commands.length }, () => [] as number[])
   for (const edge of edges) if (edge.kind !== 'binding') outgoing[edge.from]!.push(edge.to)
   const owners = Array.from({ length: commands.length }, () => new Set<string>())

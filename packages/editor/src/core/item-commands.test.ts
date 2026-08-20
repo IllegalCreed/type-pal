@@ -9,7 +9,7 @@ import {
 } from './commands.js'
 import type { EditorState } from './edit-session.js'
 import { EditSession } from './edit-session.js'
-import type { ScriptEditorStateV5 } from './script-v5-editor.js'
+import type { ScriptEditorState } from './script-editor.js'
 
 const item = (id: string): ItemData => ({
   id,
@@ -76,7 +76,7 @@ describe('物品 CRUD 命令', () => {
 
   test('DeleteItem 每次从 canonical provider 重算脚本引用', () => {
     const current = state([item('used')])
-    const canonical: ScriptEditorStateV5 = {
+    const canonical: ScriptEditorState = {
       scenes: [],
       items: [],
       sharedScripts: {
@@ -86,7 +86,6 @@ describe('物品 CRUD 命令', () => {
           body: [{ kind: 'giveItem', itemId: 'used' }],
         },
       },
-      migrationSidecars: [],
     }
     const command = new DeleteItemCommand('used', () => canonical)
 

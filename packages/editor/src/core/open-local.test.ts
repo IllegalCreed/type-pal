@@ -3,9 +3,9 @@ import { beforeEach, describe, expect, test, vi } from 'vitest'
 const reforge = vi.hoisted(() => ({
   dispose: vi.fn(),
   readJson: vi.fn(),
-  loadProjectV16From: vi.fn(),
-  loadAllAuthorScenesV16: vi.fn(),
-  loadStampTemplatesV16: vi.fn(),
+  loadCurrentProjectFrom: vi.fn(),
+  loadAllAuthorScenes: vi.fn(),
+  loadStampTemplates: vi.fn(),
 }))
 
 vi.mock('@type-pal/reforge', () => ({
@@ -13,9 +13,9 @@ vi.mock('@type-pal/reforge', () => ({
     readJson: reforge.readJson,
     dispose: reforge.dispose,
   })),
-  loadProjectV16From: reforge.loadProjectV16From,
-  loadAllAuthorScenesV16: reforge.loadAllAuthorScenesV16,
-  loadStampTemplatesV16: reforge.loadStampTemplatesV16,
+  loadCurrentProjectFrom: reforge.loadCurrentProjectFrom,
+  loadAllAuthorScenes: reforge.loadAllAuthorScenes,
+  loadStampTemplates: reforge.loadStampTemplates,
 }))
 
 import { openLocalProject } from './open-local.js'
@@ -28,23 +28,23 @@ describe('openLocalProject current canonical boundary', () => {
   beforeEach(() => {
     vi.resetAllMocks()
     reforge.readJson.mockResolvedValue({ contentVersion: 16 })
-    reforge.loadProjectV16From.mockResolvedValue({ manifest: { contentVersion: 16 } })
-    reforge.loadAllAuthorScenesV16.mockResolvedValue([{ id: 'scene-a' }])
-    reforge.loadStampTemplatesV16.mockResolvedValue([{ id: 'stamp-a' }])
+    reforge.loadCurrentProjectFrom.mockResolvedValue({ manifest: { contentVersion: 16 } })
+    reforge.loadAllAuthorScenes.mockResolvedValue([{ id: 'scene-a' }])
+    reforge.loadStampTemplates.mockResolvedValue([{ id: 'stamp-a' }])
   })
 
   test('opens contentVersion 16 through the canonical loader only', async () => {
     const opened = await openLocalProject(directory())
 
     expect(opened).toMatchObject({
-      kind: 'v16',
+      kind: 'current',
       scenes: [{ id: 'scene-a' }],
       stamps: [{ id: 'stamp-a' }],
       scriptChunks: {},
     })
-    expect(reforge.loadProjectV16From).toHaveBeenCalledOnce()
-    expect(reforge.loadAllAuthorScenesV16).toHaveBeenCalledOnce()
-    expect(reforge.loadStampTemplatesV16).toHaveBeenCalledOnce()
+    expect(reforge.loadCurrentProjectFrom).toHaveBeenCalledOnce()
+    expect(reforge.loadAllAuthorScenes).toHaveBeenCalledOnce()
+    expect(reforge.loadStampTemplates).toHaveBeenCalledOnce()
     expect(reforge.dispose).not.toHaveBeenCalled()
   })
 
@@ -56,7 +56,7 @@ describe('openLocalProject current canonical boundary', () => {
     await expect(openLocalProject(directory(`legacy-v${version}`))).rejects.toThrow(
       `contentVersion ${version}；开发期编辑器只接受当前 contentVersion 16`,
     )
-    expect(reforge.loadProjectV16From).not.toHaveBeenCalled()
+    expect(reforge.loadCurrentProjectFrom).not.toHaveBeenCalled()
     expect(reforge.dispose).toHaveBeenCalledOnce()
   })
 
@@ -70,7 +70,7 @@ describe('openLocalProject current canonical boundary', () => {
   })
 
   test('wraps canonical loader failures without falling back to an older loader', async () => {
-    reforge.loadProjectV16From.mockRejectedValue(new Error('bad current schema'))
+    reforge.loadCurrentProjectFrom.mockRejectedValue(new Error('bad current schema'))
 
     await expect(openLocalProject(directory('bad-current'))).rejects.toThrow(
       'canonical v16 内容无效(bad current schema)',

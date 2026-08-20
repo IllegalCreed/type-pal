@@ -2,23 +2,23 @@
  * 打开本地工程夹。开发期编辑器只接受当前 canonical contentVersion 16；旧工程必须由
  * 对应生成/迁移工具重建，编辑器本身不再携带版本升级器或双读分支。
  */
-import type { SceneDefV14, ScriptChunkV1, StampTemplate } from '@type-pal/content'
+import type { AuthorSceneDef, ScriptChunkV1, StampTemplate } from '@type-pal/content'
 import {
   fsaSource,
-  loadAllAuthorScenesV16,
-  loadProjectV16From,
-  loadStampTemplatesV16,
+  loadAllAuthorScenes,
+  loadCurrentProjectFrom,
+  loadStampTemplates,
 } from '@type-pal/reforge'
 
-export interface OpenedProjectV16 {
-  kind: 'v16'
-  project: Awaited<ReturnType<typeof loadProjectV16From>>
-  scenes: SceneDefV14[]
+export interface OpenedCurrentProject {
+  kind: 'current'
+  project: Awaited<ReturnType<typeof loadCurrentProjectFrom>>
+  scenes: AuthorSceneDef[]
   scriptChunks: Record<string, ScriptChunkV1>
   stamps: StampTemplate[]
 }
 
-export type OpenedProject = OpenedProjectV16
+export type OpenedProject = OpenedCurrentProject
 
 function manifestContentVersion(value: unknown): number | undefined {
   if (!value || typeof value !== 'object' || !('contentVersion' in value)) return undefined
@@ -48,12 +48,12 @@ export async function openLocalProject(dir: FileSystemDirectoryHandle): Promise<
   }
 
   try {
-    const project = await loadProjectV16From(source)
+    const project = await loadCurrentProjectFrom(source)
     const [scenes, stamps] = await Promise.all([
-      loadAllAuthorScenesV16(project),
-      loadStampTemplatesV16(project),
+      loadAllAuthorScenes(project),
+      loadStampTemplates(project),
     ])
-    return { kind: 'v16', project, scenes, scriptChunks: {}, stamps }
+    return { kind: 'current', project, scenes, scriptChunks: {}, stamps }
   } catch (error) {
     source.dispose?.()
     throw new Error(

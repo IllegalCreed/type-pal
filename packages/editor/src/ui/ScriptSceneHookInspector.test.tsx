@@ -1,0 +1,161 @@
+// @vitest-environment jsdom
+
+import type { BaseSceneDef } from '@type-pal/content'
+import { act, useState } from 'react'
+import { createRoot, type Root } from 'react-dom/client'
+import { renderToStaticMarkup } from 'react-dom/server'
+import { afterEach, beforeEach, describe, expect, test } from 'vitest'
+import {
+  type ScriptEditorCommand,
+  type ScriptEditorState,
+  ScriptEditSession,
+} from '../core/script-editor.js'
+import { ScriptSceneHookInspector } from './ScriptSceneHookInspector.js'
+
+const scene: BaseSceneDef = {
+  id: 's001',
+  mapId: 'map-001',
+  entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+  entities: [],
+  hooks: {
+    onEnter: {
+      initial: 'default',
+      variants: {
+        default: {
+          label: '默认进场',
+          order: 0,
+          flow: {
+            kind: 'stages',
+            initial: 'start',
+            stages: [
+              {
+                id: 'start',
+                body: [{ kind: 'setFlag', flag: 'entered', value: true }],
+              },
+            ],
+          },
+        },
+      },
+    },
+  },
+}
+
+const state: ScriptEditorState = {
+  scenes: [scene],
+  items: [],
+  sharedScripts: {},
+}
+
+describe('ScriptSceneHookInspector', () => {
+  let host: HTMLDivElement
+  let root: Root
+
+  beforeEach(() => {
+    ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+    host = document.createElement('div')
+    document.body.append(host)
+    root = createRoot(host)
+  })
+
+  afterEach(async () => {
+    await act(async () => root.unmount())
+    host.remove()
+  })
+
+  test('uses author-facing scene script language and the shared visual body editor', () => {
+    const html = renderToStaticMarkup(
+      <ScriptSceneHookInspector
+        state={state}
+        sceneId="s001"
+        slot="onEnter"
+        onDispatch={() => {}}
+      />,
+    )
+
+    expect(html).toContain('默认进场')
+    expect(html).toContain('默认方案')
+    expect(html).toContain('脚本正文')
+    expect(html).toContain('canonical-script-editor')
+    expect(html).toContain('方案详情')
+    expect(html).toContain('脚本方案')
+    expect(html).toContain('分次执行')
+    expect(html).not.toContain('进场脚本 · 脚本方案')
+    expect(html).not.toContain('当前方案')
+    expect(html).not.toContain('触发阶段')
+    expect(html).not.toContain('阶段')
+    expect(html).not.toContain('<select')
+    expect(html).not.toContain('高级管理')
+    expect(html).not.toContain('内部识别名')
+    expect(html).not.toContain('场景 Hook')
+    expect(html).not.toContain('Canonical ScriptFlow JSON')
+    expect(html).not.toContain('剧情版本')
+    expect(html).not.toContain('分段剧情')
+  })
+
+  test('stages the name and default setting, then saves them from one modal footer', async () => {
+    const session = new ScriptEditSession(structuredClone(state))
+
+    function Harness() {
+      const [editorState, setEditorState] = useState(session.getState())
+      const dispatch = (command: ScriptEditorCommand): void => {
+        session.dispatch(command)
+        setEditorState(session.getState())
+      }
+      return (
+        <ScriptSceneHookInspector
+          state={editorState}
+          sceneId="s001"
+          slot="onEnter"
+          onDispatch={dispatch}
+        />
+      )
+    }
+
+    await act(async () => root.render(<Harness />))
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label="打开“默认进场”的方案详情"]')!.click(),
+    )
+
+    const footer = host.querySelector<HTMLElement>('.canonical-script-modal-footer')!
+    expect(footer.textContent).toContain('删除方案')
+    expect(footer.textContent).toContain('取消')
+    expect(footer.textContent).toContain('保存')
+    expect(host.textContent).not.toContain('保存名称')
+    expect(host.textContent).not.toContain('所属入口')
+    expect(host.querySelector('.script-scheme-name-field > header')?.textContent).toContain(
+      '方案名称',
+    )
+    expect(
+      host.querySelector('.script-scheme-default-control .script-scheme-default-action button'),
+    ).not.toBeNull()
+    expect(host.querySelector('.script-scheme-details-section > .script-scheme-delete')).toBeNull()
+
+    const defaultButton = [...host.querySelectorAll<HTMLButtonElement>('button')].find(
+      (candidate) => candidate.textContent?.includes('取消默认'),
+    )!
+    await act(async () => defaultButton.click())
+    expect(session.getState().scenes[0]!.hooks?.onEnter?.initial).toBe('default')
+
+    const name = host.querySelector<HTMLInputElement>('[aria-label="方案名称"]')!
+    Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set?.call(
+      name,
+      '改名后的进场',
+    )
+    await act(async () => name.dispatchEvent(new Event('input', { bubbles: true })))
+    await act(async () =>
+      [...footer.querySelectorAll<HTMLButtonElement>('button')]
+        .find((candidate) => candidate.textContent === '保存')!
+        .click(),
+    )
+
+    expect(session.getState().scenes[0]!.hooks?.onEnter?.initial).toBeUndefined()
+    expect(session.getState().scenes[0]!.hooks?.onEnter?.variants.default?.label).toBe(
+      '改名后的进场',
+    )
+    expect(host.querySelector('[role="dialog"]')).toBeNull()
+    expect(session.undo()).toBe(true)
+    expect(session.canUndo()).toBe(false)
+    expect(session.getState().scenes[0]!.hooks?.onEnter?.initial).toBe('default')
+    expect(session.getState().scenes[0]!.hooks?.onEnter?.variants.default?.label).toBe('默认进场')
+  })
+})

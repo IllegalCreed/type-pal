@@ -9,8 +9,8 @@ import { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
 import type { ItemReference } from '../core/item-references.js'
-import { projectActiveScriptEditorStateV5 } from '../core/project-io-v5.js'
-import { type ScriptEditorStateV5, ScriptV5EditSession } from '../core/script-v5-editor.js'
+import { projectActiveScriptEditorState } from '../core/script-editor-projection.js'
+import { type ScriptEditorState, ScriptEditSession } from '../core/script-editor.js'
 import { ItemTab } from './ItemTab.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 
@@ -79,9 +79,9 @@ function Harness(props: {
     revision: number
   }
   assetReader?: EditorAssetReader
-  scriptV5?: {
-    state: ScriptEditorStateV5
-    session: ScriptV5EditSession
+  script?: {
+    state: ScriptEditorState
+    session: ScriptEditSession
   }
   historyCoordinator?: EditorHistoryCoordinator
 }) {
@@ -90,12 +90,12 @@ function Harness(props: {
     () => props.session.getVersion(),
   )
   useSyncExternalStore(
-    (callback) => props.scriptV5?.session.subscribe(callback) ?? (() => undefined),
-    () => props.scriptV5?.session.getVersion() ?? 0,
+    (callback) => props.script?.session.subscribe(callback) ?? (() => undefined),
+    () => props.script?.session.getVersion() ?? 0,
   )
   const current = props.session.getState()
-  const activeScriptState = props.scriptV5
-    ? projectActiveScriptEditorStateV5(props.scriptV5.session.getState(), current.items)
+  const activeScriptState = props.script
+    ? projectActiveScriptEditorState(props.script.session.getState(), current.items)
     : undefined
   return (
     <ItemTab
@@ -114,9 +114,9 @@ function Harness(props: {
       onOpenImage={props.onOpenImage}
       onOpenItemReference={props.onOpenItemReference}
       onOpenProjectIssues={props.onOpenProjectIssues}
-      scriptV5={
-        props.scriptV5 && activeScriptState
-          ? { state: activeScriptState, session: props.scriptV5.session }
+      script={
+        props.script && activeScriptState
+          ? { state: activeScriptState, session: props.script.session }
           : undefined
       }
       historyCoordinator={props.historyCoordinator}
@@ -702,7 +702,7 @@ describe('ItemTab', () => {
           effects: [
             {
               kind: 'runScript',
-              script: { chunk: '__script-v5-runtime', id: 'item:private:use' },
+              script: { chunk: '__author-script-runtime', id: 'item:private:use' },
             },
           ],
         },
@@ -710,7 +710,7 @@ describe('ItemTab', () => {
     ])
     initial.shops = []
     const session = new EditSession(initial)
-    const canonical: ScriptEditorStateV5 = {
+    const canonical: ScriptEditorState = {
       scenes: [],
       items: [
         {
@@ -737,15 +737,14 @@ describe('ItemTab', () => {
         },
       ],
       sharedScripts: {},
-      migrationSidecars: [],
     }
-    const scriptSession = new ScriptV5EditSession(canonical)
+    const scriptSession = new ScriptEditSession(canonical)
     const historyCoordinator = new EditorHistoryCoordinator(session, scriptSession)
     await act(async () =>
       root.render(
         <Harness
           session={session}
-          scriptV5={{ state: canonical, session: scriptSession }}
+          script={{ state: canonical, session: scriptSession }}
           historyCoordinator={historyCoordinator}
         />,
       ),
@@ -761,7 +760,7 @@ describe('ItemTab', () => {
       { kind: 'itemPrivateScript', script: { body: [{ flag: 'private-body' }] } },
     ])
     expect(
-      projectActiveScriptEditorStateV5(scriptSession.getState(), session.getState().items).items[0]!
+      projectActiveScriptEditorState(scriptSession.getState(), session.getState().items).items[0]!
         .use!.effects,
     ).toMatchObject([{ kind: 'itemPrivateScript' }, { kind: 'healHp', amount: 100 }])
 
@@ -832,7 +831,7 @@ describe('ItemTab', () => {
     ])
     initial.shops = []
     const session = new EditSession(initial)
-    const canonical: ScriptEditorStateV5 = {
+    const canonical: ScriptEditorState = {
       scenes: [],
       items: [
         {
@@ -850,15 +849,14 @@ describe('ItemTab', () => {
         },
       ],
       sharedScripts: {},
-      migrationSidecars: [],
     }
-    const scriptSession = new ScriptV5EditSession(canonical)
+    const scriptSession = new ScriptEditSession(canonical)
     const historyCoordinator = new EditorHistoryCoordinator(session, scriptSession)
     await act(async () =>
       root.render(
         <Harness
           session={session}
-          scriptV5={{ state: canonical, session: scriptSession }}
+          script={{ state: canonical, session: scriptSession }}
           historyCoordinator={historyCoordinator}
         />,
       ),
@@ -870,7 +868,7 @@ describe('ItemTab', () => {
     await act(async () => addButton.click())
 
     expect(session.getState().items[0]!.use!.effects).toMatchObject([
-      { kind: 'runScript', script: { chunk: '__script-v5-runtime', id: 'item:private:use' } },
+      { kind: 'runScript', script: { chunk: '__author-script-runtime', id: 'item:private:use' } },
     ])
     expect(scriptSession.getState().items[0]!.use!.effects).toMatchObject([
       {
@@ -894,7 +892,7 @@ describe('ItemTab', () => {
 
     // 投影(保存链同构)应含 canonical 私有正文
     expect(
-      projectActiveScriptEditorStateV5(scriptSession.getState(), session.getState().items).items[0]!
+      projectActiveScriptEditorState(scriptSession.getState(), session.getState().items).items[0]!
         .use!.effects,
     ).toMatchObject([{ kind: 'itemPrivateScript', script: { id: 'use' } }])
 
@@ -940,7 +938,7 @@ describe('ItemTab', () => {
           effects: [
             {
               kind: 'runScript',
-              script: { chunk: '__script-v5-runtime', id: 'item:private:use' },
+              script: { chunk: '__author-script-runtime', id: 'item:private:use' },
             },
           ],
         },
@@ -948,7 +946,7 @@ describe('ItemTab', () => {
     ])
     initial.shops = []
     const session = new EditSession(initial)
-    const canonical: ScriptEditorStateV5 = {
+    const canonical: ScriptEditorState = {
       scenes: [],
       items: [
         {
@@ -978,11 +976,10 @@ describe('ItemTab', () => {
         },
       ],
       sharedScripts: {},
-      migrationSidecars: [],
     }
-    const scriptV5 = {
+    const script = {
       state: canonical,
-      session: new ScriptV5EditSession(canonical),
+      session: new ScriptEditSession(canonical),
     }
     const focus = {
       itemId: 'private',
@@ -996,7 +993,7 @@ describe('ItemTab', () => {
       root.render(
         <Harness
           session={session}
-          scriptV5={scriptV5}
+          script={script}
           focusObjectId="private"
           focusPrivateScript={focus}
         />,
@@ -1014,7 +1011,7 @@ describe('ItemTab', () => {
       root.render(
         <Harness
           session={session}
-          scriptV5={scriptV5}
+          script={script}
           focusObjectId="private"
           focusPrivateScript={{ ...focus, revision: 2 }}
         />,
@@ -1036,7 +1033,7 @@ describe('ItemTab', () => {
     ])
     initial.shops = []
     const session = new EditSession(initial)
-    const canonical: ScriptEditorStateV5 = {
+    const canonical: ScriptEditorState = {
       scenes: [
         {
           id: 's151',
@@ -1098,17 +1095,16 @@ describe('ItemTab', () => {
       ],
       items: [],
       sharedScripts: {},
-      migrationSidecars: [],
     }
-    const scriptV5 = {
+    const script = {
       state: canonical,
-      session: new ScriptV5EditSession(canonical),
+      session: new ScriptEditSession(canonical),
     }
     const onOpenItemReference = vi.fn()
 
     await act(async () =>
       root.render(
-        <Harness session={session} scriptV5={scriptV5} onOpenItemReference={onOpenItemReference} />,
+        <Harness session={session} script={script} onOpenItemReference={onOpenItemReference} />,
       ),
     )
 
