@@ -35,6 +35,7 @@ describe('editor design-system static boundary', () => {
     const tokens = readFileSync(join(here, 'tokens.css'), 'utf8')
     const primitives = readFileSync(join(here, 'primitives.css'), 'utf8')
     const formScope = readFileSync(join(here, 'form-scope.css'), 'utf8')
+    const recipes = readFileSync(join(here, 'recipes.css'), 'utf8')
 
     expect(tokens).toMatch(/--ds-control-height:\s*36px;/)
     expect(tokens).toMatch(/--ds-control-height-compact:\s*30px;/)
@@ -68,6 +69,12 @@ describe('editor design-system static boundary', () => {
     )
     expect(formScope).toMatch(
       /label:not\(\.ds-check-label\)[\s\S]*?:has\([\s\S]*?input\[type="checkbox"\][\s\S]*?\)\s*\{[\s\S]*?border:\s*1px solid var\(--ds-border-control\);/,
+    )
+    expect(recipes).toMatch(
+      /\.ds-workbench-section__content\s*\{[\s\S]*?display:\s*grid;[\s\S]*?align-content:\s*start;[\s\S]*?gap:\s*var\(--ds-space-5\);/,
+    )
+    expect(recipes).toMatch(
+      /\.ds-workbench-section__content\s*>\s*\.ds-button\s*\{[\s\S]*?justify-self:\s*start;/,
     )
   })
 

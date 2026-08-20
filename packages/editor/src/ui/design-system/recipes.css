@@ -617,7 +617,14 @@
 }
 
 .ds-workbench-section__content {
+  display: grid;
+  align-content: start;
+  gap: var(--ds-space-5);
   padding: var(--ds-space-7);
+}
+
+.ds-workbench-section__content > .ds-button {
+  justify-self: start;
 }
 
 @container (max-width: 520px) {

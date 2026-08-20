@@ -2663,14 +2663,8 @@ html[data-panel-resize="horizontal"] * {
   width: min(620px, 100%);
   margin: 24px auto;
 }
-.actor-non-battler .ds-button {
-  margin-top: 14px;
-}
 .actor-stat-editor {
   grid-template-columns: repeat(4, minmax(120px, 1fr));
-}
-.actor-summary-chip-group + .actor-summary-chip-group {
-  margin-top: 16px;
 }
 .actor-summary-chip-group > span {
   display: block;
@@ -5587,7 +5581,6 @@ html[data-panel-resize="horizontal"] * {
   display: grid;
   gap: 8px;
   min-width: 0;
-  margin-top: 12px;
   padding-top: 12px;
   border-top: 1px solid var(--line);
 }
@@ -7348,21 +7341,21 @@ button.sprite-frame-cell[draggable="true"]:active {
   align-items: start;
   gap: var(--ds-space-5);
   min-width: 0;
-  margin-top: var(--ds-space-5);
 }
 .enemy-item-fields {
   grid-template-columns: minmax(0, 2fr) minmax(120px, 1fr);
+  margin-top: var(--ds-space-5);
 }
 .enemy-reward-grid {
   grid-template-columns: minmax(0, 2fr) repeat(2, minmax(130px, 1fr));
 }
 .enemy-reward-empty {
-  margin: var(--ds-space-5) 0 0;
+  margin: 0;
   color: var(--ds-text-muted);
   font: var(--ds-font-caption);
 }
 .enemy-preserved-note {
-  margin: var(--ds-space-6) 0 0;
+  margin: 0;
   padding-top: var(--ds-space-5);
   border-top: 1px solid var(--ds-border-subtle);
   color: var(--ds-text-muted);
@@ -7372,7 +7365,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   display: flex;
   align-items: center;
   gap: 4px;
-  margin-bottom: 4px;
   flex-wrap: nowrap;
 }
 .rule-row .in {
@@ -9434,7 +9426,6 @@ button.sprite-frame-cell[draggable="true"]:active {
 
 .skill-cost-items {
   max-width: none;
-  margin-top: 12px;
 }
 .skill-cost-item-row > .cf-named-ref-picker {
   min-width: 0;
@@ -9604,7 +9595,6 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .skill-effect-chain__add {
   width: max-content;
-  margin-top: var(--ds-space-5);
 }
 @container (max-width: 760px) {
   .skill-effect-card--with-preview {
@@ -10925,7 +10915,6 @@ button.sprite-frame-cell[draggable="true"]:active {
 .enemy-team-member-summary {
   display: grid;
   gap: var(--ds-space-2);
-  margin-top: var(--ds-space-3);
 }
 .enemy-team-member-summary > button {
   display: grid;
