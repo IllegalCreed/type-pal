@@ -1,12 +1,11 @@
 import type {
-  BaseAuthorCommand,
+  AuthorCommand,
   AuthorCondition,
   Command,
   EnemyOnDefeatedCommand,
   ScriptCondition,
-  BaseScriptFlow,
+  AuthorScriptFlow,
   ScriptStage,
-  BaseStateTransition,
 } from '@type-pal/content'
 import type { EditorState } from './edit-session.js'
 import {
@@ -16,6 +15,11 @@ import {
   type ScriptCommandLocator,
   visitCanonicalScriptCommands,
 } from './script-editor.js'
+
+type AuthorStateTransition = Extract<
+  AuthorScriptFlow,
+  { kind: 'stateMachine' }
+>['machine']['states'][string]['next']
 
 export type ItemReferenceAccess = 'read' | 'lose' | 'consume' | 'reward' | 'hold' | 'configure'
 
@@ -337,7 +341,7 @@ function scanEnemyOnDefeatedCommands(
 }
 
 function scanCanonicalStateTransitionItemReferences(
-  transition: BaseStateTransition,
+  transition: AuthorStateTransition,
   context: {
     source: 'scene'
     label: string
@@ -389,7 +393,7 @@ function scanCanonicalStateTransitionItemReferences(
 }
 
 function scanCanonicalFlowTransitionItemReferences(
-  flow: BaseScriptFlow,
+  flow: AuthorScriptFlow,
   context: { label: string; where: string },
   out: ItemReference[],
 ): void {
@@ -410,7 +414,7 @@ function scanCanonicalFlowTransitionItemReferences(
 export function collectCanonicalItemReferences(state: ScriptEditorState): ItemReference[] {
   const out: ItemReference[] = []
 
-  visitCanonicalScriptCommands(state, (command: BaseAuthorCommand, path, commandLocator) => {
+  visitCanonicalScriptCommands(state, (command: AuthorCommand, path, commandLocator) => {
     const source = canonicalReferenceSource(commandLocator)
     let reference: Extract<CanonicalScriptReference, { kind: 'command' }> | undefined
     let label: string | undefined

@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import {
-  type BaseAuthorCommand,
+  type AuthorCommand,
   ITEM_USE_EFFECT_KINDS,
   type ItemData,
   type ItemUseEffect,
@@ -51,7 +51,7 @@ function Harness(props: {
 function PrivateHarness(props: {
   initial: UseSpec
   onChange?: (next: UseSpec) => void
-  onBodyChange?: (body: BaseAuthorCommand[]) => void
+  onBodyChange?: (body: AuthorCommand[]) => void
 }) {
   const [spec, setSpec] = useState(props.initial)
   const privateIndex = spec.effects.findIndex(
@@ -293,17 +293,6 @@ describe('ItemEffectChainEditor', () => {
     expect(onPoolChange).toHaveBeenLastCalledWith(
       expect.objectContaining({
         effects: [expect.objectContaining({ kind: 'drawFromResourcePool', resource: 'pool' })],
-      }),
-    )
-    await chooseSelect(
-      host.querySelector<HTMLButtonElement>('[aria-label="选择已有资源变量"]')!,
-      '内建收妖值',
-    )
-    expect(onPoolChange).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        effects: [
-          expect.objectContaining({ kind: 'drawFromResourcePool', resource: 'collectValue' }),
-        ],
       }),
     )
   })

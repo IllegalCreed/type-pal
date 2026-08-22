@@ -8,9 +8,9 @@
 
 import type {
   ActorDef,
+  AuthorEntityPage,
+  AuthorSceneDef,
   AssetCatalogV1,
-  BaseEntityPage,
-  BaseSceneEntityDef,
   BattleFieldDef,
   BattleSpriteDefinitionReference,
   EnemyTeamDef,
@@ -89,6 +89,11 @@ import {
 } from '../core/entity-placement.js'
 import { exportProjectZip } from '../core/export-zip.js'
 import type { ItemReference } from '../core/item-references.js'
+import {
+  collectEntityAddressReferences,
+  entityAddressReferenceBlocksDeletion,
+  type EntityAddressReference,
+} from '../core/entity-address-references.js'
 import { type Opened, openExistingProject, pickDir, saveProjectAs } from '../core/open-actions.js'
 import { createEditorStatusIssueCollector } from '../core/project-diagnostics.js'
 import { serializeProjectWithMapCopies, writeProject } from '../core/project-io.js'
@@ -174,7 +179,6 @@ import {
   sameEditorLocation,
 } from './editor-navigation.js'
 import { editorObjectTargetMissing } from './editor-target.js'
-import { LifecycleCommandPanel } from './LifecycleCommandPanel.js'
 import { MapMode } from './MapMode.js'
 import { MusicPicker } from './MusicPicker.js'
 import {
@@ -217,8 +221,8 @@ function sceneEntryOutlineLabel(entry: SceneEntryPoint): string {
 }
 
 function initialCanonicalEntityPage(
-  entity: BaseSceneEntityDef | undefined,
-): BaseEntityPage | undefined {
+  entity: AuthorSceneDef['entities'][number] | undefined,
+): AuthorEntityPage | undefined {
   return entity?.pages?.find((page) => page.id === entity.initialPage) ?? entity?.pages?.[0]
 }
 
@@ -442,6 +446,7 @@ export function App(props: {
   }, [activeScrollKey])
 
   const [selected, setSelected] = useState<SceneSelection>(SCENE_SELECTION)
+  const sceneOutlineRowRef = useRef<HTMLButtonElement>(null)
   const [placingEntity, setPlacingEntity] = useState(false)
   const [scriptChannel, setScriptChannel] = useState<'trigger' | 'auto'>('trigger')
   const [selectedBehavior, setSelectedBehavior] = useState<string>()
@@ -1120,12 +1125,9 @@ export function App(props: {
     () => setOutlinerCollapsed((collapsed) => !collapsed),
     [setOutlinerCollapsed],
   )
-  const toggleInspector = useCallback(
-    () => {
-      if (inspectorAvailable) setInspectorCollapsed((collapsed) => !collapsed)
-    },
-    [inspectorAvailable, setInspectorCollapsed],
-  )
+  const toggleInspector = useCallback(() => {
+    if (inspectorAvailable) setInspectorCollapsed((collapsed) => !collapsed)
+  }, [inspectorAvailable, setInspectorCollapsed])
   const toggleScriptPanel = useCallback(() => {
     if (!scriptPanelAvailable) return
     if (!drawer.open) setPlacingEntity(false)
@@ -1292,6 +1294,10 @@ export function App(props: {
     canonicalEntity?.pages?.find((page) => page.id === selectedPage) ??
     canonicalEntity?.pages?.find((page) => page.id === canonicalEntity.initialPage) ??
     canonicalEntity?.pages?.[0]
+  const canonicalPageIndex = Math.max(
+    0,
+    canonicalEntity?.pages?.findIndex((page) => page.id === canonicalPage?.id) ?? 0,
+  )
   const selectedScriptOwnerKey = `${scene?.id ?? ''}\u0000${selEntity?.id ?? ''}`
   useEffect(() => {
     void selectedScriptOwnerKey
@@ -1310,6 +1316,17 @@ export function App(props: {
     setSelectedBehavior(canonicalPageFocus.behaviorId)
     setCanonicalPageFocus(undefined)
   }, [canonicalPageFocus, scene?.id, selEntity?.id])
+  useEffect(() => {
+    if (
+      !entityPageFocus ||
+      entityPageFocus.sceneId !== scene?.id ||
+      entityPageFocus.entityId !== selEntity?.id
+    )
+      return
+    const page = canonicalEntity?.pages?.[entityPageFocus.pageIndex]
+    if (page) setSelectedPage(page.id)
+    setEntityPageFocus(undefined)
+  }, [canonicalEntity?.pages, entityPageFocus, scene?.id, selEntity?.id])
   const selectedNamedEntryId = selected.kind === 'named-entry' ? selected.id : undefined
   const selectedAnchor: SceneAnchorSelection | null =
     selected.kind === 'default-entry'
@@ -1324,6 +1341,66 @@ export function App(props: {
         : [],
     [state, scene, selectedNamedEntryId],
   )
+  const entryReferencesById = useMemo(
+    () =>
+      new Map(
+        Object.keys(scene.entries ?? {}).map((entryId) => [
+          entryId,
+          findSceneEntryReferences(state, scene.id, entryId),
+        ]),
+      ),
+    [scene, state],
+  )
+  const entityReferenceState = useMemo(
+    () => (scriptState ? mergeEditorProjectionWithCurrentAuthorState(scriptState, state) : state),
+    [scriptState, state],
+  )
+  const entityReferencesByTarget = useMemo(() => {
+    const grouped = new Map<string, EntityAddressReference[]>()
+    for (const reference of collectEntityAddressReferences(entityReferenceState)) {
+      const target = { scene: reference.sceneId, entity: reference.entityId }
+      if (!entityAddressReferenceBlocksDeletion(reference, target)) continue
+      const key = `${reference.sceneId}\u0000${reference.entityId}`
+      const bucket = grouped.get(key)
+      if (bucket) bucket.push(reference)
+      else grouped.set(key, [reference])
+    }
+    return grouped
+  }, [entityReferenceState])
+  const entityReferences = (entityId: string): EntityAddressReference[] =>
+    entityReferencesByTarget.get(`${scene.id}\u0000${entityId}`) ?? []
+  const selectedEntityReferences = selEntity ? entityReferences(selEntity.id) : []
+  const openEntityAddressReference = (reference: EntityAddressReference): void => {
+    const locator = reference.locator
+    setWorkspaceNotice(undefined)
+    if (locator.kind === 'scene' || locator.kind === 'scene-entity') {
+      setPlaceSceneId(locator.sceneId)
+      applyEditorLocation(editorLinks.scene(locator.sceneId))
+      setSelected(
+        locator.kind === 'scene-entity'
+          ? { kind: 'entity', id: locator.entityId }
+          : SCENE_SELECTION,
+      )
+      setPlacingEntity(false)
+      return
+    }
+    if (locator.kind === 'shared-script') {
+      openSharedScript(locator.scriptId)
+      return
+    }
+    if (locator.kind === 'item') {
+      applyEditorLocation(editorLinks.item(locator.itemId))
+      return
+    }
+    if (locator.kind === 'enemy') {
+      applyEditorLocation(editorLinks.enemy(locator.enemyId))
+      return
+    }
+    setWorkspaceNotice({
+      kind: 'info',
+      message: `世界配置 ${locator.worldId ?? ''} 当前只读；引用路径为 ${reference.path}。`,
+    })
+  }
   const canonicalEntitiesById = new Map(
     (canonicalScene?.entities ?? []).map((entity) => [entity.id, entity]),
   )
@@ -1332,15 +1409,43 @@ export function App(props: {
     const page = entityId === selEntity?.id ? canonicalPage : initialCanonicalEntityPage(entity)
     return activePageTriggerActivation(page)
   }
-  const deleteSelected = useCallback((): void => {
-    if (!selEntity || !scene) return
-    historyCoordinator.dispatch(
-      new DeleteSceneEntityDefinitionCommand(scene.id, selEntity.id),
-      new DeleteEntityCommand(scene.id, selEntity.id),
-    )
-    setSelected(SCENE_SELECTION)
-  }, [historyCoordinator, scene, selEntity])
-  // 删除键:选中实体时删(在输入框里打字不触发)。
+  const deleteEntity = useCallback(
+    (entityId: string): void => {
+      if (
+        placingEntity ||
+        !scene ||
+        (entityReferencesByTarget.get(`${scene.id}\u0000${entityId}`)?.length ?? 0) > 0
+      )
+        return
+      historyCoordinator.dispatch(
+        new DeleteSceneEntityDefinitionCommand(scene.id, entityId),
+        new DeleteEntityCommand(scene.id, entityId, entityReferenceState),
+      )
+      setSelected(SCENE_SELECTION)
+      setWorkspaceNotice({ kind: 'info', message: `已删除实体 ${entityId}；可撤销。` })
+      requestAnimationFrame(() => sceneOutlineRowRef.current?.focus())
+    },
+    [
+      entityReferenceState,
+      entityReferencesByTarget,
+      historyCoordinator,
+      placingEntity,
+      scene,
+    ],
+  )
+  const deleteNamedEntry = useCallback(
+    (entryId: string): void => {
+      if (placingEntity || !scene.entries?.[entryId]) return
+      const references = findSceneEntryReferences(state, scene.id, entryId)
+      if (references.length) return
+      session.dispatch(new DeleteSceneEntryCommand(scene.id, entryId))
+      setSelected(SCENE_SELECTION)
+      setWorkspaceNotice({ kind: 'info', message: `已删除命名落点 ${entryId}；可撤销。` })
+      requestAnimationFrame(() => sceneOutlineRowRef.current?.focus())
+    },
+    [placingEntity, scene, session, state],
+  )
+  // 删除键与行尾动作共用同一删除入口；输入控件内不劫持。
   useEffect(() => {
     const onKey = (e: KeyboardEvent): void => {
       if (executeEditorSaveShortcut(e, saveCommandRef.current)) return
@@ -1363,13 +1468,14 @@ export function App(props: {
       if (
         (e.key === 'Delete' || e.key === 'Backspace') &&
         activeSubpage.kind === 'scene' &&
-        selEntity &&
         scene &&
+        (selected.kind === 'entity' || selected.kind === 'named-entry') &&
         !placingEntity &&
         !typing
       ) {
         e.preventDefault()
-        deleteSelected()
+        if (selected.kind === 'entity') deleteEntity(selected.id)
+        else if (selected.kind === 'named-entry') deleteNamedEntry(selected.id)
         return
       }
       // undo/redo 快捷键(⌘/Ctrl+Z,+Shift=redo;输入框内不劫持)
@@ -1387,13 +1493,13 @@ export function App(props: {
     return () => window.removeEventListener('keydown', onKey)
   }, [
     scene,
-    selEntity,
     selected,
     placingEntity,
     drawer.open,
     scriptPanelAvailable,
     activeSubpage.kind,
-    deleteSelected,
+    deleteEntity,
+    deleteNamedEntry,
     layoutCommandHandlers,
     redo,
     undo,
@@ -1459,24 +1565,6 @@ export function App(props: {
     )
     setSelected({ kind: 'entity', id })
     setPlacingEntity(false)
-  }
-  const deleteSelectedSceneObject = (): void => {
-    if (selEntity) {
-      deleteSelected()
-      return
-    }
-    if (
-      selected.kind !== 'named-entry' ||
-      !scene.entries?.[selected.id] ||
-      selectedEntryReferences.length
-    )
-      return
-    try {
-      session.dispatch(new DeleteSceneEntryCommand(scene.id, selected.id))
-      setSelected(SCENE_SELECTION)
-    } catch (error) {
-      window.alert(error instanceof Error ? error.message : String(error))
-    }
   }
   const sceneEntityGroups = (['预制人物', '自定义实体', '触发区'] as const).map((title) => ({
     title,
@@ -2072,6 +2160,7 @@ export function App(props: {
               </div>
               <div className="tree">
                 <DsCatalogRow
+                  ref={sceneOutlineRowRef}
                   selected={selected.kind === 'scene'}
                   leading={<span aria-hidden="true">🗺️</span>}
                   title={scene.id}
@@ -2110,20 +2199,43 @@ export function App(props: {
                   <span>默认落点</span>
                   <span className="k">落点</span>
                 </button>
-                {Object.entries(scene.entries ?? {}).map(([id, entry]) => (
-                  <button
-                    type="button"
-                    key={id}
-                    className={`node child${
-                      selected.kind === 'named-entry' && selected.id === id ? ' sel' : ''
-                    }`}
-                    onClick={() => selectSceneEntry({ kind: 'named-entry', id })}
-                  >
-                    <span className="ico">◇</span>
-                    <span className="node-label">{sceneEntryOutlineLabel(entry)}</span>
-                    <span className="k">落点</span>
-                  </button>
-                ))}
+                {Object.entries(scene.entries ?? {}).map(([id, entry]) => {
+                  const references = entryReferencesById.get(id) ?? []
+                  const selectedEntry = selected.kind === 'named-entry' && selected.id === id
+                  return (
+                    <div
+                      key={id}
+                      className={`scene-outline-action-row${selectedEntry ? ' selected' : ''}`}
+                    >
+                      <button
+                        type="button"
+                        className={`node child${selectedEntry ? ' sel' : ''}`}
+                        onClick={() => selectSceneEntry({ kind: 'named-entry', id })}
+                      >
+                        <span className="ico">◇</span>
+                        <span className="node-label">{sceneEntryOutlineLabel(entry)}</span>
+                        <span className="k">落点</span>
+                      </button>
+                      <span className="scene-outline-row-actions">
+                        <DsIconButton
+                          size="compact"
+                          variant="danger"
+                          icon="delete"
+                          label={`删除命名落点 ${sceneEntryOutlineLabel(entry)}`}
+                          disabled={placingEntity || references.length > 0}
+                          title={
+                            placingEntity
+                              ? '请先结束实体放置'
+                              : references.length
+                                ? `仍有 ${references.length} 处脚本引用；请到引用区处理`
+                                : `删除命名落点 ${sceneEntryOutlineLabel(entry)}`
+                          }
+                          onClick={() => deleteNamedEntry(id)}
+                        />
+                      </span>
+                    </div>
+                  )
+                })}
                 <DsCatalogGroupHeader
                   title="实体"
                   count={scene.entities.length}
@@ -2146,37 +2258,60 @@ export function App(props: {
                         count={group.entities.length}
                         level="secondary"
                       />
-                      {group.entities.map((e) => (
-                        <button
-                          type="button"
-                          key={e.id}
-                          className={`node child${
-                            selected.kind === 'entity' && selected.id === e.id ? ' sel' : ''
-                          }`}
-                          onClick={() => setSelected({ kind: 'entity', id: e.id })}
-                        >
-                          <span className="ico">
-                            {isActorEntity(e) ? '👤' : 'sprite' in e ? '📦' : '⬚'}
-                          </span>
-                          <span>{e.id}</span>
-                          <span
-                            className="k"
-                            title={
-                              isActorEntity(e)
-                                ? `角色来源：${actorsById[e.actor] ? lookupText(actorsById[e.actor]!.name, state.locale) : e.actor}`
-                                : 'sprite' in e
-                                  ? `资源来源：${state.sprites.find((sprite) => sprite.id === e.sprite)?.label || e.sprite}`
-                                  : `无外观触发区 · ${triggerActivationSummary(
-                                      outlineTriggerActivation(e.id),
-                                    )}`
-                            }
+                      {group.entities.map((e) => {
+                        const references = entityReferences(e.id)
+                        const selectedEntity = selected.kind === 'entity' && selected.id === e.id
+                        return (
+                          <div
+                            key={e.id}
+                            className={`scene-outline-action-row${selectedEntity ? ' selected' : ''}`}
                           >
-                            {'zone' in e
-                              ? triggerActivationSummary(outlineTriggerActivation(e.id))
-                              : entityShapeLabel(e)}
-                          </span>
-                        </button>
-                      ))}
+                            <button
+                              type="button"
+                              className={`node child${selectedEntity ? ' sel' : ''}`}
+                              onClick={() => setSelected({ kind: 'entity', id: e.id })}
+                            >
+                              <span className="ico">
+                                {isActorEntity(e) ? '👤' : 'sprite' in e ? '📦' : '⬚'}
+                              </span>
+                              <span>{e.id}</span>
+                              <span
+                                className="k"
+                                title={
+                                  isActorEntity(e)
+                                    ? `角色来源：${actorsById[e.actor] ? lookupText(actorsById[e.actor]!.name, state.locale) : e.actor}`
+                                    : 'sprite' in e
+                                      ? `资源来源：${state.sprites.find((sprite) => sprite.id === e.sprite)?.label || e.sprite}`
+                                      : `无外观触发区 · ${triggerActivationSummary(
+                                          outlineTriggerActivation(e.id),
+                                        )}`
+                                }
+                              >
+                                {'zone' in e
+                                  ? triggerActivationSummary(outlineTriggerActivation(e.id))
+                                  : entityShapeLabel(e)}
+                              </span>
+                            </button>
+                            <span className="scene-outline-row-actions">
+                              <DsIconButton
+                                size="compact"
+                                variant="danger"
+                                icon="delete"
+                                label={`删除实体 ${e.id}`}
+                                disabled={placingEntity || references.length > 0}
+                                title={
+                                  placingEntity
+                                    ? '请先结束实体放置'
+                                    : references.length
+                                      ? `仍有 ${references.length} 处引用；请到“引用”页处理`
+                                      : `删除实体 ${e.id}`
+                                }
+                                onClick={() => deleteEntity(e.id)}
+                              />
+                            </span>
+                          </div>
+                        )
+                      })}
                     </div>
                   ),
                 )}
@@ -2263,26 +2398,6 @@ export function App(props: {
                     <span className="sep" />
                   </>
                 ) : null}
-                <DsButton
-                  size="compact"
-                  variant="danger"
-                  onClick={deleteSelectedSceneObject}
-                  disabled={
-                    placingEntity ||
-                    (!selEntity &&
-                      (selected.kind !== 'named-entry' ||
-                        !scene.entries?.[selected.id] ||
-                        selectedEntryReferences.length > 0))
-                  }
-                  title={
-                    selected.kind === 'named-entry' && selectedEntryReferences.length
-                      ? `仍有 ${selectedEntryReferences.length} 处脚本引用，不能删除`
-                      : '删除选中对象（Del）'
-                  }
-                >
-                  🗑 删除
-                </DsButton>
-                <span className="sep" />
                 <DsButton
                   size="compact"
                   variant="quiet"
@@ -2443,8 +2558,13 @@ export function App(props: {
                   entity={selEntity}
                   locale={state.locale}
                   actorsById={actorsById}
+                  pages={canonicalEntity?.pages ?? []}
+                  page={canonicalPage}
+                  onPageChange={setSelectedPage}
                   properties={
                     <EntityInspector
+                      panel="properties"
+                      pageIndex={canonicalPageIndex}
                       entity={selEntity}
                       session={session}
                       sceneId={scene.id}
@@ -2456,9 +2576,7 @@ export function App(props: {
                       assetBase={project.assetBase}
                       assetReader={assetReader}
                       canonicalScript={!!scriptSession}
-                      canonicalPages={canonicalEntity?.pages}
                       canonicalPage={canonicalPage}
-                      onCanonicalPageChange={setSelectedPage}
                       onTriggerActivationChange={(pageId, activation) =>
                         scriptSession?.dispatch(
                           new SetEntityPageTriggerActivationCommand(
@@ -2469,23 +2587,6 @@ export function App(props: {
                         )
                       }
                       onJumpToEvent={jumpToEvent}
-                      focusPageIndex={
-                        entityPageFocus?.sceneId === scene.id &&
-                        entityPageFocus.entityId === selEntity.id
-                          ? entityPageFocus.pageIndex
-                          : undefined
-                      }
-                      focusPageRevision={
-                        entityPageFocus?.sceneId === scene.id &&
-                        entityPageFocus.entityId === selEntity.id
-                          ? entityPageFocus.revision
-                          : undefined
-                      }
-                      onPageFocusConsumed={(revision) =>
-                        setEntityPageFocus((current) =>
-                          current?.revision === revision ? undefined : current,
-                        )
-                      }
                       onOpenSpriteAction={(spriteId, actionId) =>
                         applyEditorLocation(editorLinks.worldSpriteAction(spriteId, actionId))
                       }
@@ -2493,147 +2594,169 @@ export function App(props: {
                       onOpenBattleField={(fieldId) =>
                         applyEditorLocation(editorLinks.battleField(fieldId))
                       }
-                      showHeader={false}
-                    />
-                  }
-                  lifecycle={
-                    <LifecycleCommandPanel
-                      session={session}
-                      sceneId={scene.id}
-                      entityId={selEntity.id}
                     />
                   }
                   behavior={
-                    scriptSession && scriptState && !drawer.open ? (
-                      <div className="section script-entity-section">
-                        {canonicalEntity?.hostile ? (
-                          <CanonicalHostileOnLoseEditor
-                            value={canonicalEntity.hostile.onLose}
-                            context={
-                              canonicalScriptEditorContext
-                                ? {
-                                    ...canonicalScriptEditorContext,
-                                    currentEntityId: selEntity.id,
-                                  }
-                                : undefined
-                            }
-                            focusCommandPath={
-                              entityHostileFocus?.sceneId === scene.id &&
-                              entityHostileFocus.entityId === selEntity.id
-                                ? entityHostileFocus.commandPath
-                                : undefined
-                            }
-                            focusRevision={
-                              entityHostileFocus?.sceneId === scene.id &&
-                              entityHostileFocus.entityId === selEntity.id
-                                ? entityHostileFocus.revision
-                                : undefined
-                            }
-                            onChange={(onLose) =>
-                              scriptSession.dispatch(
-                                new SetEntityHostileOnLoseCommand(
-                                  { scene: scene.id, entity: selEntity.id },
-                                  onLose,
-                                ),
-                              )
+                    <>
+                      <EntityInspector
+                        panel="behavior"
+                        pageIndex={canonicalPageIndex}
+                        entity={selEntity}
+                        session={session}
+                        sceneId={scene.id}
+                        locale={state.locale}
+                        actorsById={actorsById}
+                        enemyTeams={state.enemyTeams ?? []}
+                        battleFields={state.battleFields ?? []}
+                        sprites={state.sprites}
+                        assetBase={project.assetBase}
+                        assetReader={assetReader}
+                        canonicalScript={!!scriptSession}
+                        canonicalPage={canonicalPage}
+                        onTriggerActivationChange={(pageId, activation) =>
+                          scriptSession?.dispatch(
+                            new SetEntityPageTriggerActivationCommand(
+                              { scene: scene.id, entity: selEntity.id },
+                              pageId,
+                              activation,
+                            ),
+                          )
+                        }
+                        onJumpToEvent={jumpToEvent}
+                        onOpenSpriteAction={(spriteId, actionId) =>
+                          applyEditorLocation(editorLinks.worldSpriteAction(spriteId, actionId))
+                        }
+                        onOpenActor={(actorId) => applyEditorLocation(editorLinks.actor(actorId))}
+                        onOpenBattleField={(fieldId) =>
+                          applyEditorLocation(editorLinks.battleField(fieldId))
+                        }
+                      />
+                      {scriptSession && scriptState && !drawer.open ? (
+                        <div className="section script-entity-section">
+                          <h4>脚本行为</h4>
+                          {canonicalEntity?.hostile ? (
+                            <CanonicalHostileOnLoseEditor
+                              value={canonicalEntity.hostile.onLose}
+                              context={
+                                canonicalScriptEditorContext
+                                  ? {
+                                      ...canonicalScriptEditorContext,
+                                      currentEntityId: selEntity.id,
+                                    }
+                                  : undefined
+                              }
+                              focusCommandPath={
+                                entityHostileFocus?.sceneId === scene.id &&
+                                entityHostileFocus.entityId === selEntity.id
+                                  ? entityHostileFocus.commandPath
+                                  : undefined
+                              }
+                              focusRevision={
+                                entityHostileFocus?.sceneId === scene.id &&
+                                entityHostileFocus.entityId === selEntity.id
+                                  ? entityHostileFocus.revision
+                                  : undefined
+                              }
+                              onChange={(onLose) =>
+                                scriptSession.dispatch(
+                                  new SetEntityHostileOnLoseCommand(
+                                    { scene: scene.id, entity: selEntity.id },
+                                    onLose,
+                                  ),
+                                )
+                              }
+                              onError={(message) => setWorkspaceNotice({ kind: 'error', message })}
+                            />
+                          ) : null}
+                          {canonicalEntity && canonicalPage ? (
+                            <div className="script-page-binding">
+                              {(['trigger', 'auto'] as const).map((channel) => {
+                                const registry = canonicalEntity.behaviors?.[channel] ?? {}
+                                return (
+                                  <div key={channel}>
+                                    <span className="field-label">
+                                      {channel === 'trigger' ? '触发行为槽' : '自动行为槽'}
+                                    </span>
+                                    <DsSelect
+                                      aria-label={
+                                        channel === 'trigger' ? '触发行为槽' : '自动行为槽'
+                                      }
+                                      value={canonicalPage[channel] ?? ''}
+                                      options={[
+                                        { value: '', label: '显式无行为' },
+                                        ...Object.entries(registry)
+                                          .sort(
+                                            ([leftId, left], [rightId, right]) =>
+                                              left.order - right.order ||
+                                              leftId.localeCompare(rightId),
+                                          )
+                                          .map(([id, behavior]) => ({
+                                            value: id,
+                                            label: behavior.label,
+                                            description: id,
+                                          })),
+                                      ]}
+                                      onValueChange={(value) =>
+                                        scriptSession.dispatch(
+                                          new SetEntityPageBehaviorCommand(
+                                            { scene: scene.id, entity: selEntity.id },
+                                            canonicalPage.id,
+                                            channel,
+                                            value || undefined,
+                                          ),
+                                        )
+                                      }
+                                    />
+                                  </div>
+                                )
+                              })}
+                            </div>
+                          ) : null}
+                          <div className="script-channel-tabs" role="tablist" aria-label="行为通道">
+                            {(['trigger', 'auto'] as const).map((channel) => (
+                              <button
+                                key={channel}
+                                type="button"
+                                role="tab"
+                                aria-selected={scriptChannel === channel}
+                                className={scriptChannel === channel ? 'active' : ''}
+                                onClick={() => {
+                                  setScriptChannel(channel)
+                                  setSelectedBehavior(undefined)
+                                }}
+                              >
+                                {channel === 'trigger' ? '触发行为' : '自动行为'}
+                              </button>
+                            ))}
+                          </div>
+                          <ScriptBehaviorInspector
+                            state={scriptState}
+                            target={{ scene: scene.id, entity: selEntity.id }}
+                            channel={scriptChannel}
+                            selectedBehaviorId={selectedBehavior}
+                            onSelectBehavior={setSelectedBehavior}
+                            onDispatch={(command) => scriptSession.dispatch(command)}
+                            editorContext={canonicalScriptEditorContext}
+                            onOpenReference={openCanonicalReference}
+                            onOpenFlow={(behaviorId) =>
+                              setWorkspaceNotice({
+                                kind: 'info',
+                                message: `已选择 ${scriptChannel} 行为 ${behaviorId}；正文编辑器将在此 canonical 槽内打开。`,
+                              })
                             }
                             onError={(message) => setWorkspaceNotice({ kind: 'error', message })}
                           />
-                        ) : null}
-                        {canonicalEntity && canonicalPage ? (
-                          <div className="script-page-binding">
-                            <div>
-                              <span className="field-label">实体页</span>
-                              <DsSelect
-                                aria-label="实体页"
-                                value={canonicalPage.id}
-                                options={(canonicalEntity.pages ?? []).map((page) => ({
-                                  value: page.id,
-                                  label: page.label,
-                                  description: `${page.id}${
-                                    page.id === canonicalEntity.initialPage ? ' · 初始' : ''
-                                  }`,
-                                }))}
-                                onValueChange={setSelectedPage}
-                              />
-                            </div>
-                            {(['trigger', 'auto'] as const).map((channel) => {
-                              const registry = canonicalEntity.behaviors?.[channel] ?? {}
-                              return (
-                                <div key={channel}>
-                                  <span className="field-label">
-                                    {channel === 'trigger' ? '触发行为槽' : '自动行为槽'}
-                                  </span>
-                                  <DsSelect
-                                    aria-label={channel === 'trigger' ? '触发行为槽' : '自动行为槽'}
-                                    value={canonicalPage[channel] ?? ''}
-                                    options={[
-                                      { value: '', label: '显式无行为' },
-                                      ...Object.entries(registry)
-                                        .sort(
-                                          ([leftId, left], [rightId, right]) =>
-                                            left.order - right.order ||
-                                            leftId.localeCompare(rightId),
-                                        )
-                                        .map(([id, behavior]) => ({
-                                          value: id,
-                                          label: behavior.label,
-                                          description: id,
-                                        })),
-                                    ]}
-                                    onValueChange={(value) =>
-                                      scriptSession.dispatch(
-                                        new SetEntityPageBehaviorCommand(
-                                          { scene: scene.id, entity: selEntity.id },
-                                          canonicalPage.id,
-                                          channel,
-                                          value || undefined,
-                                        ),
-                                      )
-                                    }
-                                  />
-                                </div>
-                              )
-                            })}
-                          </div>
-                        ) : null}
-                        <div className="script-channel-tabs" role="tablist" aria-label="行为通道">
-                          {(['trigger', 'auto'] as const).map((channel) => (
-                            <button
-                              key={channel}
-                              type="button"
-                              role="tab"
-                              aria-selected={scriptChannel === channel}
-                              className={scriptChannel === channel ? 'active' : ''}
-                              onClick={() => {
-                                setScriptChannel(channel)
-                                setSelectedBehavior(undefined)
-                              }}
-                            >
-                              {channel === 'trigger' ? '触发行为' : '自动行为'}
-                            </button>
-                          ))}
                         </div>
-                        <ScriptBehaviorInspector
-                          state={scriptState}
-                          target={{ scene: scene.id, entity: selEntity.id }}
-                          channel={scriptChannel}
-                          selectedBehaviorId={selectedBehavior}
-                          onSelectBehavior={setSelectedBehavior}
-                          onDispatch={(command) => scriptSession.dispatch(command)}
-                          editorContext={canonicalScriptEditorContext}
-                          onOpenReference={openCanonicalReference}
-                          onOpenFlow={(behaviorId) =>
-                            setWorkspaceNotice({
-                              kind: 'info',
-                              message: `已选择 ${scriptChannel} 行为 ${behaviorId}；正文编辑器将在此 canonical 槽内打开。`,
-                            })
-                          }
-                          onError={(message) => setWorkspaceNotice({ kind: 'error', message })}
-                        />
-                      </div>
-                    ) : undefined
+                      ) : null}
+                    </>
                   }
+                  references={
+                    <EntityReferencePanel
+                      references={selectedEntityReferences}
+                      onOpen={openEntityAddressReference}
+                    />
+                  }
+                  referenceCount={selectedEntityReferences.length}
                 />
               ) : selected.kind === 'default-entry' ? (
                 <EntryInspector scene={scene} session={session} />
@@ -2972,13 +3095,88 @@ function PlacePalette(props: {
   )
 }
 
+function entityReferenceSourceLabel(reference: EntityAddressReference): string {
+  const locator = reference.locator
+  switch (locator.kind) {
+    case 'scene':
+      return `场景 ${locator.sceneId}`
+    case 'scene-entity':
+      return `场景 ${locator.sceneId} · 实体 ${locator.entityId}`
+    case 'shared-script':
+      return `共享脚本 ${locator.scriptId}`
+    case 'item':
+      return `物品 ${locator.itemId}`
+    case 'enemy':
+      return `敌人 ${locator.enemyId}`
+    case 'world':
+      return `世界配置 ${locator.worldId ?? ''}`.trim()
+  }
+}
+
+function EntityReferencePanel(props: {
+  references: readonly EntityAddressReference[]
+  onOpen: (reference: EntityAddressReference) => void
+}) {
+  const { references, onOpen } = props
+  return (
+    <section className="section entity-reference-section">
+      <DsReferencePanel
+        state={references.length ? 'ready' : 'empty'}
+        count={{ kind: 'exact', value: references.length }}
+        impact={{
+          kind: 'blocking',
+          description: references.length
+            ? '先处理全部外部引用，才能执行删除。'
+            : '当前没有外部引用；删除操作可用。',
+        }}
+      >
+        {references.length ? (
+          <DsReferenceList>
+            {references.map((reference) => {
+              const canOpen = reference.locator.kind !== 'world'
+              return (
+                <DsReferenceRow
+                  key={`${reference.path}:${reference.sceneId}:${reference.entityId}`}
+                  title={entityReferenceSourceLabel(reference)}
+                  detail={reference.path || '/'}
+                  labels={[{ label: '实体引用' }]}
+                  action={
+                    canOpen
+                      ? {
+                          label: '打开 ↗',
+                          onActivate: () => onOpen(reference),
+                        }
+                      : undefined
+                  }
+                  status={
+                    canOpen
+                      ? undefined
+                      : {
+                          label: '只读',
+                          reason: '世界配置当前没有可编辑的精确内容页。',
+                        }
+                  }
+                />
+              )
+            })}
+          </DsReferenceList>
+        ) : null}
+      </DsReferencePanel>
+    </section>
+  )
+}
+
 function SceneEntityInspectorTabs(props: {
   entity: EntityDef
   locale: Locale
   actorsById: Record<string, ActorDef>
+  pages: readonly AuthorEntityPage[]
+  page?: AuthorEntityPage
+  onPageChange: (pageId: string) => void
   properties: ReactNode
-  lifecycle: ReactNode
-  behavior?: ReactNode
+  behavior: ReactNode
+  references: ReactNode
+  referenceCount: number
 }) {
   const id = useId()
   const [activeId, setActiveId] = useState('properties')
@@ -2988,13 +3186,14 @@ function SceneEntityInspectorTabs(props: {
       : undefined
   const items = [
     { id: 'properties', label: '属性', panel: props.properties },
-    { id: 'lifecycle', label: '生命周期', panel: props.lifecycle },
-    ...(props.behavior ? [{ id: 'behavior', label: '行为', panel: props.behavior }] : []),
+    { id: 'behavior', label: '行为', panel: props.behavior },
+    {
+      id: 'references',
+      label: '引用',
+      count: props.referenceCount,
+      panel: props.references,
+    },
   ]
-
-  useEffect(() => {
-    if (activeId === 'behavior' && !props.behavior) setActiveId('properties')
-  }, [activeId, props.behavior])
 
   return (
     <div className="scene-entity-inspector">
@@ -3005,6 +3204,22 @@ function SceneEntityInspectorTabs(props: {
           {actorName ? <code> {props.entity.id}</code> : null}
         </div>
       </div>
+      {props.pages.length > 1 && props.page ? (
+        <div className="scene-entity-page-context">
+          <span className="field-label">实体页</span>
+          <DsSelect
+            size="compact"
+            aria-label="选择实体页"
+            value={props.page.id}
+            options={props.pages.map((page) => ({
+              value: page.id,
+              label: page.label,
+              description: page.id,
+            }))}
+            onValueChange={props.onPageChange}
+          />
+        </div>
+      ) : null}
       <DsInspectorTabs
         id={`${id}-scene-entity`}
         label="实体属性分区"
@@ -3017,6 +3232,8 @@ function SceneEntityInspectorTabs(props: {
 }
 
 function EntityInspector(props: {
+  panel: 'properties' | 'behavior'
+  pageIndex: number
   entity: EntityDef
   session: EditSession
   sceneId: string
@@ -3032,22 +3249,17 @@ function EntityInspector(props: {
   /** 当前 canonical 脚本由独立具名行为检查器编辑，禁止 renderer 投影重新创建作者正文。 */
   canonicalScript?: boolean
   /** 当前脚本作者真值中的实体页；触发方式/范围只能写这里，不能写 renderer 投影。 */
-  canonicalPages?: BaseEntityPage[]
-  canonicalPage?: BaseEntityPage
-  onCanonicalPageChange?: (pageId: string) => void
+  canonicalPage?: AuthorEntityPage
   onTriggerActivationChange?: (pageId: string, activation: TriggerActivation | undefined) => void
   /** 跳事件模式定位此实体的触发/巡逻脚本(E2)。 */
   onJumpToEvent: (sceneId: string, srcKey: string) => void
-  /** 从动作引用跳转时精确打开对应实体页。 */
-  focusPageIndex?: number
-  focusPageRevision?: number
-  onPageFocusConsumed?: (revision: number) => void
   onOpenSpriteAction?: (spriteId: string, actionId: string) => void
   onOpenActor?: (actorId: string) => void
   onOpenBattleField?: (fieldId: number) => void
-  showHeader?: boolean
 }) {
   const {
+    panel,
+    pageIndex,
     entity,
     session,
     sceneId,
@@ -3059,21 +3271,14 @@ function EntityInspector(props: {
     assetBase,
     assetReader,
     canonicalScript,
-    canonicalPages,
     canonicalPage,
-    onCanonicalPageChange,
     onTriggerActivationChange,
     onJumpToEvent,
-    focusPageIndex,
-    focusPageRevision,
-    onPageFocusConsumed,
     onOpenSpriteAction,
     onOpenActor,
     onOpenBattleField,
-    showHeader = true,
   } = props
   const [spriteViewerOpen, setSpriteViewerOpen] = useState(false)
-  const [pageIndex, setPageIndex] = useState(0)
   // 实体的中文显示名:actor 实体解引用到角色名(entity.actor 是 id 引用),否则回落实体 id。
   const actorName =
     isActorEntity(entity) && actorsById[entity.actor]
@@ -3084,24 +3289,8 @@ function EntityInspector(props: {
   }
   const spriteId = resolveEntitySpriteId(entity, actorsById)
   const spriteDef = spriteId ? sprites.find((sprite) => sprite.id === spriteId) : undefined
-  const pageCount = Math.max(1, canonicalPages?.length ?? entity.pages?.length ?? 0)
   const canonicalTriggerBound = Boolean(canonicalPage?.trigger)
   const hostile = entity.hostile as RuntimeHostileBehavior | undefined
-  useEffect(() => {
-    if (!entity.id) return
-    setPageIndex((current) => (current >= 0 && current < pageCount ? current : 0))
-  }, [entity.id, pageCount])
-  useEffect(() => {
-    if (!canonicalPage || !canonicalPages) return
-    const index = canonicalPages.findIndex((page) => page.id === canonicalPage.id)
-    if (index >= 0) setPageIndex(index)
-  }, [canonicalPage, canonicalPages])
-  useEffect(() => {
-    if (focusPageRevision == null || focusPageIndex == null) return
-    if (focusPageIndex < 0 || focusPageIndex >= pageCount) return
-    setPageIndex(focusPageIndex)
-    onPageFocusConsumed?.(focusPageRevision)
-  }, [focusPageIndex, focusPageRevision, onPageFocusConsumed, pageCount])
   const setPageAnimation = (
     animation: NonNullable<EntityDef['pages']>[number]['animation'],
   ): void => {
@@ -3116,7 +3305,7 @@ function EntityInspector(props: {
       : pages
     session.dispatch(new UpdateEntityCommand(sceneId, entity.id, { pages: nextPages }))
   }
-  const facing = entity.facing ?? 'down'
+  const facing = 'zone' in entity ? 'down' : (entity.facing ?? 'down')
   const dispatchHostile = (h: unknown): void => {
     session.dispatch(new UpdateEntityCommand(sceneId, entity.id, { hostile: h as HostileBehavior }))
   }
@@ -3131,593 +3320,576 @@ function EntityInspector(props: {
   }
   return (
     <>
-      {showHeader ? (
-        <div className="insp-head">
-          <div className="what">选中实体</div>
-          <div className="who">
-            {actorName ?? entity.id}
-            {actorName && <code> {entity.id}</code>}
-          </div>
-        </div>
-      ) : null}
-      <div className="section">
-        <h4>
-          页面与触发 <span className="hint2">动作资源在精灵库定义</span>
-        </h4>
-        <DsPropertyGrid>
-          {pageCount > 1 ? (
-            <DsPropertyRow label="实体页">
-              <DsSelect
-                size="compact"
-                aria-label="选择实体页"
-                value={String(pageIndex)}
-                options={Array.from({ length: pageCount }, (_, index) => ({
-                  value: String(index),
-                  label: canonicalPages?.[index]
-                    ? `${canonicalPages[index]!.label} · ${canonicalPages[index]!.id}`
-                    : `第 ${index + 1} 页${
-                        entity.pages?.[index]?.state === undefined
-                          ? ''
-                          : ` · state=${entity.pages[index]!.state}`
-                      }`,
-                }))}
-                onValueChange={(value) => {
-                  const nextIndex = Number(value)
-                  setPageIndex(nextIndex)
-                  const pageId = canonicalPages?.[nextIndex]?.id
-                  if (pageId) onCanonicalPageChange?.(pageId)
-                }}
-              />
-            </DsPropertyRow>
-          ) : null}
-          {canonicalPage && onTriggerActivationChange ? (
-            <>
-              <DsPropertyRow
-                label="触发方式"
-                help={
-                  canonicalTriggerBound
-                    ? undefined
-                    : '当前页尚未绑定触发行为；请先在“行为”页选择触发行为槽。'
-                }
-              >
-                <DsSelect
-                  size="compact"
-                  aria-label="实体页触发方式"
-                  value={
+      {panel === 'behavior' ? (
+        <div className="section">
+          <h4>
+            触发与动画 <span className="hint2">动作资源在精灵库定义</span>
+          </h4>
+          <DsPropertyGrid>
+            {canonicalPage && onTriggerActivationChange ? (
+              <>
+                <DsPropertyRow
+                  label="触发方式"
+                  help={
                     canonicalTriggerBound
-                      ? (canonicalPage.triggerActivation?.on ?? 'disabled')
-                      : 'disabled'
+                      ? undefined
+                      : '当前页尚未绑定触发行为；请先在“行为”页选择触发行为槽。'
                   }
-                  disabled={!canonicalTriggerBound}
-                  options={[
-                    { value: 'disabled', label: '不触发' },
-                    { value: 'interact', label: '交互（按键）' },
-                    { value: 'touch', label: '触碰（自动）' },
-                  ]}
-                  onValueChange={(value) => {
-                    if (value === 'disabled') {
-                      onTriggerActivationChange(canonicalPage.id, undefined)
-                      return
-                    }
-                    const on = value as TriggerActivation['on']
-                    onTriggerActivationChange(canonicalPage.id, {
-                      on,
-                      range: Math.max(
-                        canonicalPage.triggerActivation?.range ?? DEFAULT_ZONE_RANGE[on],
-                        DEFAULT_ZONE_RANGE[on],
-                      ),
-                    })
-                  }}
-                />
-              </DsPropertyRow>
-              {canonicalTriggerBound && canonicalPage.triggerActivation ? (
-                <DsPropertyRow label="触发半径">
-                  <DsNumberInput
+                >
+                  <DsSelect
                     size="compact"
-                    aria-label="实体页触发范围（格）"
-                    min={0}
-                    step={1}
-                    value={effectiveTriggerRange(canonicalPage.triggerActivation)}
-                    onChange={(event) =>
-                      onTriggerActivationChange(canonicalPage.id, {
-                        ...canonicalPage.triggerActivation!,
-                        range: Math.max(0, Math.round(Number(event.target.value))),
-                      })
+                    aria-label="实体页触发方式"
+                    value={
+                      canonicalTriggerBound
+                        ? (canonicalPage.triggerActivation?.on ?? 'disabled')
+                        : 'disabled'
                     }
+                    disabled={!canonicalTriggerBound}
+                    options={[
+                      { value: 'disabled', label: '不触发' },
+                      { value: 'interact', label: '交互（按键）' },
+                      { value: 'touch', label: '触碰（自动）' },
+                    ]}
+                    onValueChange={(value) => {
+                      if (value === 'disabled') {
+                        onTriggerActivationChange(canonicalPage.id, undefined)
+                        return
+                      }
+                      const on = value as TriggerActivation['on']
+                      onTriggerActivationChange(canonicalPage.id, {
+                        on,
+                        range: Math.max(
+                          canonicalPage.triggerActivation?.range ?? DEFAULT_ZONE_RANGE[on],
+                          DEFAULT_ZONE_RANGE[on],
+                        ),
+                      })
+                    }}
                   />
                 </DsPropertyRow>
-              ) : null}
-            </>
-          ) : null}
-          <EntityPageAnimationFields
-            page={entity.pages?.[pageIndex]}
-            sprite={spriteDef}
-            onChange={setPageAnimation}
-            onOpenAction={onOpenSpriteAction}
-          />
-        </DsPropertyGrid>
-      </div>
-      <div className="section">
-        <h4>外观 / 交互</h4>
-        {spriteDef && (
-          <div className="field entity-preview-field">
-            <span className="field-label">预览</span>
-            <div className="entity-sprite-preview">
-              <SpriteThumb
-                assetBase={assetBase}
-                assetReader={assetReader}
-                asset={spriteDef.asset}
-                revision={assetReader.record(spriteDef.asset, 'sprite').sha256}
-                frameIndex={idleFrameIndex(spriteDef.layout, facing)}
-                size={80}
-                label={spriteDef.label || spriteDef.id}
-                align="center"
-              />
-              <button
-                type="button"
-                className="entity-preview-zoom"
-                aria-label={`放大查看 ${spriteDef.label || spriteDef.id}`}
-                title="放大查看"
-                onClick={() => setSpriteViewerOpen(true)}
-              >
-                <span className="preview-zoom-icon" aria-hidden="true" />
-              </button>
-            </div>
-          </div>
-        )}
-        {/* actor 引用只读解算外观;普通 sprite 实体可换精灵;朝向暂只读。 */}
-        {isActorEntity(entity) ? (
-          <div className="field actor-entity-source">
-            <span className="field-label">预制人物（共享身份与资源）</span>
-            <div className="in pick actor-entity-source-row">
-              <span>{actorName ?? entity.actor}</span>
-              <span className="meta">→ {spriteId ?? '(未解析)'}</span>
-              <button
-                type="button"
-                className="mini"
-                aria-label={`打开人物 ${entity.actor}`}
-                title="在人物库打开"
-                onClick={() => onOpenActor?.(entity.actor)}
-              >
-                ↗
-              </button>
-            </div>
-            <p className="hint">位置、朝向、碰撞、显隐、页面脚本和敌对配置只属于当前场景实例。</p>
-            <button
-              type="button"
-              className="tool"
-              onClick={() => session.dispatch(new DetachActorEntityCommand(sceneId, entity.id))}
-            >
-              解除人物关联，保留当前精灵
-            </button>
-          </div>
-        ) : 'sprite' in entity ? (
-          <div className="field">
-            <span className="field-label">精灵</span>
-            <DsSelect
-              searchable="auto"
-              aria-label="实体精灵"
-              value={entity.sprite}
-              options={[
-                ...(!sprites.some((sprite) => sprite.id === entity.sprite)
-                  ? [{ value: entity.sprite, label: `${entity.sprite}（缺失）` }]
-                  : []),
-                ...sprites.map((sprite) => ({
-                  value: sprite.id,
-                  label: sprite.label || sprite.id,
-                  description: `${sprite.id} · ${sprite.asset}`,
-                })),
-              ]}
-              onValueChange={(value) =>
-                session.dispatch(new SetEntitySpriteCommand(sceneId, entity.id, value))
-              }
-            />
-          </div>
-        ) : (
-          <div className="field">
-            <span className="field-label">触发区</span>
-            <div className="in pick">
-              <span>无外观</span>
-              <span className="meta">触发器 / 脚本锚</span>
-            </div>
-          </div>
-        )}
-        <div className="field">
-          <span className="field-label">朝向</span>
-          <div className="in pick">
-            <span>{facing}</span>
-            <span className="meta">C1 可编</span>
-          </div>
-        </div>
-        <div className="field">
-          <span className="field-label">碰撞</span>
-          <DsCheckbox
-            label="阻挡通行"
-            checked={entity.collide === true}
-            onChange={(event) =>
-              session.dispatch(
-                new UpdateEntityCommand(sceneId, entity.id, {
-                  collide: event.currentTarget.checked,
-                }),
-              )
-            }
-          />
-        </div>
-        <div className="field">
-          <span className="field-label">初始显隐</span>
-          <div title="隐藏 = 游戏里初始不出现(剧情脚本 setEntityState 可显形);编辑器「隐藏实体(透视)」图层仍半透明可见">
-            <DsCheckbox
-              label="初始隐藏（待剧情出场）"
-              checked={entity.hidden === true}
-              onChange={(event) =>
-                session.dispatch(
-                  new UpdateEntityCommand(sceneId, entity.id, {
-                    hidden: event.currentTarget.checked ? true : undefined,
-                  }),
-                )
-              }
-            />
-          </div>
-        </div>
-      </div>
-      <div className="section">
-        <h4>
-          位置<span className="b2"> · 菱形轴</span>
-        </h4>
-        <div className="posrow">
-          <div className="cell">
-            <span>col</span>
-            <input
-              className="in mono"
-              type="number"
-              value={entity.pos.col}
-              onChange={(e) =>
-                Number.isFinite(e.target.valueAsNumber) && setPos({ col: e.target.valueAsNumber })
-              }
-            />
-          </div>
-          <div className="cell">
-            <span>row</span>
-            <input
-              className="in mono"
-              type="number"
-              value={entity.pos.row}
-              onChange={(e) =>
-                Number.isFinite(e.target.valueAsNumber) && setPos({ row: e.target.valueAsNumber })
-              }
-            />
-          </div>
-          <div className="cell">
-            <span>height</span>
-            <input
-              className="in mono"
-              type="number"
-              value={entity.pos.height}
-              onChange={(e) =>
-                Number.isFinite(e.target.valueAsNumber) &&
-                setPos({ height: e.target.valueAsNumber })
-              }
-            />
-          </div>
-        </div>
-      </div>
-      <div className="section">
-        <h4>
-          敌对行为<span className="b2"> · B9 数据驱动</span>
-        </h4>
-        <div className="field">
-          <span className="field-label">敌对</span>
-          <DsCheckbox
-            label="遇敌开战（触碰即开始战斗）"
-            checked={!!entity.hostile}
-            onChange={(event) =>
-              dispatchHostile(
-                event.currentTarget.checked
-                  ? {
-                      enemyTeamId: enemyTeams[0]?.id ?? 'missing-enemy-team',
-                      onVictory: { kind: 'remove' },
-                      onPlayerFlee: { kind: 'remain' },
-                    }
-                  : undefined,
-              )
-            }
-          />
-        </div>
-        {entity.hostile && (
-          <>
-            <div className="field">
-              <span className="field-label">敌队</span>
-              <DsSelect
-                searchable="auto"
-                aria-label="敌对实体敌队"
-                value={entity.hostile.enemyTeamId}
-                options={[
-                  ...(!enemyTeams.some((team) => team.id === entity.hostile!.enemyTeamId)
-                    ? [
-                        {
-                          value: entity.hostile.enemyTeamId,
-                          label: `${entity.hostile.enemyTeamId}（缺数据）`,
-                        },
-                      ]
-                    : []),
-                  ...enemyTeams.map((team) => ({
-                    value: team.id,
-                    label: team.id,
-                    description: `${team.slots.length} 槽`,
-                  })),
-                ]}
-                onValueChange={(value) => setHostile({ enemyTeamId: value })}
-              />
-            </div>
-            <div className="field">
-              <span className="field-label">战场</span>
-              <BattleFieldPicker
-                value={entity.hostile.battleFieldId}
-                fields={battleFields}
-                unsetLabel="跟随场景默认战场"
-                ariaLabel="敌对实体战场"
-                onOpen={onOpenBattleField}
-                onChange={(battleFieldId) => setHostile({ battleFieldId })}
-              />
-            </div>
-            <div className="field">
-              <span className="field-label">追逐</span>
-              <DsCheckbox
-                label="见人就追（不勾为原地怪）"
-                checked={!!entity.hostile.chase}
-                onChange={(event) =>
-                  setHostile({
-                    chase: event.currentTarget.checked ? { range: 6, speed: 2 } : undefined,
-                  })
-                }
-              />
-            </div>
-            {entity.hostile.chase && (
-              <div className="hostile-chase-options">
-                <div className="posrow hostile-chase-metrics">
-                  <div className="cell">
-                    <span>range 格</span>
-                    <input
-                      className="in mono"
-                      type="number"
-                      value={entity.hostile.chase.range}
-                      onChange={(e) =>
-                        Number.isFinite(e.target.valueAsNumber) &&
-                        setHostile({
-                          chase: { ...entity.hostile!.chase!, range: e.target.valueAsNumber },
+                {canonicalTriggerBound && canonicalPage.triggerActivation ? (
+                  <DsPropertyRow label="触发半径">
+                    <DsNumberInput
+                      size="compact"
+                      aria-label="实体页触发范围（格）"
+                      min={0}
+                      step={1}
+                      value={effectiveTriggerRange(canonicalPage.triggerActivation)}
+                      onChange={(event) =>
+                        onTriggerActivationChange(canonicalPage.id, {
+                          ...canonicalPage.triggerActivation!,
+                          range: Math.max(0, Math.round(Number(event.target.value))),
                         })
                       }
                     />
-                  </div>
-                  <div className="cell">
-                    <span>speed</span>
-                    <input
-                      className="in mono"
-                      type="number"
-                      value={entity.hostile.chase.speed}
-                      onChange={(e) =>
-                        Number.isFinite(e.target.valueAsNumber) &&
-                        setHostile({
-                          chase: { ...entity.hostile!.chase!, speed: e.target.valueAsNumber },
-                        })
-                      }
-                    />
-                  </div>
-                </div>
-                <DsCheckbox
-                  size="compact"
-                  label="追击时忽略地形与阻挡实体"
-                  checked={entity.hostile.chase.floating === true}
-                  onChange={(event) => {
-                    const chase = { ...entity.hostile!.chase!, floating: true }
-                    if (!event.currentTarget.checked)
-                      delete (chase as { floating?: boolean }).floating
-                    setHostile({ chase })
-                  }}
-                />
-              </div>
-            )}
-            <>
-              <div className="field">
-                <span className="field-label">胜利后</span>
-                <DsSelect
-                  aria-label="胜利后行为"
-                  value={hostile?.onVictory.kind ?? 'remove'}
-                  options={[
-                    { value: 'remove', label: '隐藏后从场景移除' },
-                    { value: 'hide', label: '隐藏后离屏重现' },
-                    { value: 'remain', label: '保持原样' },
-                  ]}
-                  onValueChange={(value) => {
-                    const kind = value as RuntimeHostileBehavior['onVictory']['kind']
-                    if (kind === 'hide')
-                      setHostile({
-                        onVictory: {
-                          kind,
-                          ticks: hostile?.onVictory.kind === 'hide' ? hostile.onVictory.ticks : 800,
-                        },
-                      })
-                    else setHostile({ onVictory: { kind } })
-                  }}
-                />
-              </div>
-              {hostile?.onVictory.kind === 'hide' ? (
-                <div className="field">
-                  <span className="field-label">胜利隐藏 ticks</span>
-                  <input
-                    className="in mono"
-                    type="number"
-                    min={1}
-                    step={1}
-                    value={hostile.onVictory.ticks}
-                    onChange={(e) => {
-                      const ticks = e.target.valueAsNumber
-                      if (Number.isSafeInteger(ticks) && ticks > 0)
-                        setHostile({ onVictory: { kind: 'hide', ticks } })
-                    }}
-                  />
-                </div>
-              ) : null}
-              <div className="field">
-                <span className="field-label">逃跑后</span>
-                <DsSelect
-                  aria-label="逃跑后行为"
-                  value={hostile?.onPlayerFlee.kind ?? 'remain'}
-                  options={[
-                    { value: 'remain', label: '保持原样' },
-                    { value: 'suspend', label: '短暂暂停自动行为' },
-                  ]}
-                  onValueChange={(value) => {
-                    const kind = value as RuntimeHostileBehavior['onPlayerFlee']['kind']
-                    if (kind === 'suspend')
-                      setHostile({
-                        onPlayerFlee: {
-                          kind,
-                          ticks:
-                            hostile?.onPlayerFlee.kind === 'suspend'
-                              ? hostile.onPlayerFlee.ticks
-                              : 15,
-                        },
-                      })
-                    else setHostile({ onPlayerFlee: { kind } })
-                  }}
-                />
-              </div>
-              {hostile?.onPlayerFlee.kind === 'suspend' ? (
-                <div className="field">
-                  <span className="field-label">逃跑暂停 ticks</span>
-                  <input
-                    className="in mono"
-                    type="number"
-                    min={1}
-                    step={1}
-                    value={hostile.onPlayerFlee.ticks}
-                    onChange={(e) => {
-                      const ticks = e.target.valueAsNumber
-                      if (Number.isSafeInteger(ticks) && ticks > 0)
-                        setHostile({ onPlayerFlee: { kind: 'suspend', ticks } })
-                    }}
-                  />
-                </div>
-              ) : null}
-            </>
-            {!canonicalScript ? (
-              <>
-                <div className="field">
-                  <span className="field-label">战败</span>
-                  <DsSelect
-                    aria-label="战败行为"
-                    value={Array.isArray(entity.hostile.onLose) ? 'custom' : ''}
-                    options={[
-                      { value: '', label: '游戏结束（渐红读档，默认）' },
-                      { value: 'custom', label: '自定义指令（剧情战输了也继续）' },
-                    ]}
-                    onValueChange={(value) =>
-                      setHostile({ onLose: value === 'custom' ? [] : undefined })
-                    }
-                  />
-                </div>
-                {Array.isArray(entity.hostile.onLose) ? (
-                  <textarea
-                    className="in cf-ta"
-                    key={`${entity.id}-onlose`}
-                    defaultValue={JSON.stringify(entity.hostile.onLose, null, 2)}
-                    placeholder='[{ "kind": "dialog", ... }] — Command[] JSON'
-                    onBlur={(e) => {
-                      try {
-                        const v = JSON.parse(e.target.value) as HostileBehavior['onLose']
-                        if (Array.isArray(v)) setHostile({ onLose: v })
-                      } catch {
-                        /* 解析失败不落盘;失焦保持原文供修 */
-                      }
-                    }}
-                    spellCheck={false}
-                  />
+                  </DsPropertyRow>
                 ) : null}
               </>
             ) : null}
-          </>
-        )}
-      </div>
-      {!canonicalScript ? (
-        <div className="section">
-          <h4>
-            行为脚本 <span className="hint2">底部抽屉就地编(E2/E4)</span>
-          </h4>
-          {/* 一眼徽标 + 单入口(创建/切换动作在抽屉头部,不重复) */}
-          <div className="lrow" style={{ gap: 8, alignItems: 'center' }}>
-            <span style={{ color: 'var(--dim)', fontSize: 12 }}>
-              {entity.pages?.[pageIndex]?.trigger
-                ? `🔗 ${entity.pages[pageIndex]!.trigger!.on === 'interact' ? '交互' : '触碰'}·${entity.pages[pageIndex]!.trigger!.stages.length}段`
-                : null}
-              {entity.pages?.[pageIndex]?.auto
-                ? ` 🔁 巡逻·${entity.pages[pageIndex]!.auto!.stages.length}段`
-                : null}
-              {!entity.pages?.[pageIndex]?.trigger && !entity.pages?.[pageIndex]?.auto
-                ? '(无脚本)'
-                : null}
-            </span>
-            {entity.pages?.[pageIndex]?.trigger || entity.pages?.[pageIndex]?.auto ? (
-              <button
-                type="button"
-                className="mini-txt"
-                onClick={() =>
-                  onJumpToEvent(
-                    sceneId,
-                    entity.pages?.[pageIndex]?.trigger
-                      ? `${entity.id}:trigger${pageIndex === 0 ? '' : `@${pageIndex}`}`
-                      : `${entity.id}:auto${pageIndex === 0 ? '' : `@${pageIndex}`}`,
+            <EntityPageAnimationFields
+              page={entity.pages?.[pageIndex]}
+              sprite={spriteDef}
+              onChange={setPageAnimation}
+              onOpenAction={onOpenSpriteAction}
+            />
+          </DsPropertyGrid>
+        </div>
+      ) : null}
+      {panel === 'properties' ? (
+        <>
+          <div className="section">
+            <h4>外观 / 交互</h4>
+            {spriteDef && (
+              <div className="field entity-preview-field">
+                <span className="field-label">预览</span>
+                <div className="entity-sprite-preview">
+                  <SpriteThumb
+                    assetBase={assetBase}
+                    assetReader={assetReader}
+                    asset={spriteDef.asset}
+                    revision={assetReader.record(spriteDef.asset, 'sprite').sha256}
+                    frameIndex={idleFrameIndex(spriteDef.layout, facing)}
+                    size={80}
+                    label={spriteDef.label || spriteDef.id}
+                    align="center"
+                  />
+                  <button
+                    type="button"
+                    className="entity-preview-zoom"
+                    aria-label={`放大查看 ${spriteDef.label || spriteDef.id}`}
+                    title="放大查看"
+                    onClick={() => setSpriteViewerOpen(true)}
+                  >
+                    <span className="preview-zoom-icon" aria-hidden="true" />
+                  </button>
+                </div>
+              </div>
+            )}
+            {/* actor 引用只读解算外观;普通 sprite 实体可换精灵;朝向暂只读。 */}
+            {isActorEntity(entity) ? (
+              <div className="field actor-entity-source">
+                <span className="field-label">预制人物（共享身份与资源）</span>
+                <div className="in pick actor-entity-source-row">
+                  <span>{actorName ?? entity.actor}</span>
+                  <span className="meta">→ {spriteId ?? '(未解析)'}</span>
+                  <button
+                    type="button"
+                    className="mini"
+                    aria-label={`打开人物 ${entity.actor}`}
+                    title="在人物库打开"
+                    onClick={() => onOpenActor?.(entity.actor)}
+                  >
+                    ↗
+                  </button>
+                </div>
+                <p className="hint">
+                  位置、朝向、碰撞、显隐、页面脚本和敌对配置只属于当前场景实例。
+                </p>
+                <button
+                  type="button"
+                  className="tool"
+                  onClick={() => session.dispatch(new DetachActorEntityCommand(sceneId, entity.id))}
+                >
+                  解除人物关联，保留当前精灵
+                </button>
+              </div>
+            ) : 'sprite' in entity ? (
+              <div className="field">
+                <span className="field-label">精灵</span>
+                <DsSelect
+                  searchable="auto"
+                  aria-label="实体精灵"
+                  value={entity.sprite}
+                  options={[
+                    ...(!sprites.some((sprite) => sprite.id === entity.sprite)
+                      ? [{ value: entity.sprite, label: `${entity.sprite}（缺失）` }]
+                      : []),
+                    ...sprites.map((sprite) => ({
+                      value: sprite.id,
+                      label: sprite.label || sprite.id,
+                      description: `${sprite.id} · ${sprite.asset}`,
+                    })),
+                  ]}
+                  onValueChange={(value) =>
+                    session.dispatch(new SetEntitySpriteCommand(sceneId, entity.id, value))
+                  }
+                />
+              </div>
+            ) : (
+              <div className="field">
+                <span className="field-label">触发区</span>
+                <div className="in pick">
+                  <span>无外观</span>
+                  <span className="meta">触发器 / 脚本锚</span>
+                </div>
+              </div>
+            )}
+            {'zone' in entity ? null : (
+              <div className="field">
+                <span className="field-label">朝向</span>
+                <div className="in pick">
+                  <span>{facing}</span>
+                  <span className="meta">场景实例</span>
+                </div>
+              </div>
+            )}
+            <div className="field">
+              <span className="field-label">碰撞</span>
+              <DsCheckbox
+                label="阻挡通行"
+                checked={entity.collide === true}
+                onChange={(event) =>
+                  session.dispatch(
+                    new UpdateEntityCommand(sceneId, entity.id, {
+                      collide: event.currentTarget.checked,
+                    }),
                   )
                 }
-              >
-                📜 编辑脚本
-              </button>
-            ) : (
+              />
+            </div>
+            <div className="field">
+              <span className="field-label">初始显隐</span>
+              <div title="隐藏 = 游戏里初始不出现(剧情脚本 setEntityState 可显形);编辑器「隐藏实体(透视)」图层仍半透明可见">
+                <DsCheckbox
+                  label="初始隐藏（待剧情出场）"
+                  checked={entity.hidden === true}
+                  onChange={(event) =>
+                    session.dispatch(
+                      new UpdateEntityCommand(sceneId, entity.id, {
+                        hidden: event.currentTarget.checked ? true : undefined,
+                      }),
+                    )
+                  }
+                />
+              </div>
+            </div>
+          </div>
+          <div className="section">
+            <h4>
+              位置<span className="b2"> · 菱形轴</span>
+            </h4>
+            <div className="posrow">
+              <div className="cell">
+                <span>col</span>
+                <input
+                  className="in mono"
+                  type="number"
+                  value={entity.pos.col}
+                  onChange={(e) =>
+                    Number.isFinite(e.target.valueAsNumber) &&
+                    setPos({ col: e.target.valueAsNumber })
+                  }
+                />
+              </div>
+              <div className="cell">
+                <span>row</span>
+                <input
+                  className="in mono"
+                  type="number"
+                  value={entity.pos.row}
+                  onChange={(e) =>
+                    Number.isFinite(e.target.valueAsNumber) &&
+                    setPos({ row: e.target.valueAsNumber })
+                  }
+                />
+              </div>
+              <div className="cell">
+                <span>height</span>
+                <input
+                  className="in mono"
+                  type="number"
+                  value={entity.pos.height}
+                  onChange={(e) =>
+                    Number.isFinite(e.target.valueAsNumber) &&
+                    setPos({ height: e.target.valueAsNumber })
+                  }
+                />
+              </div>
+            </div>
+          </div>
+        </>
+      ) : null}
+      {panel === 'behavior' ? (
+        <>
+          <div className="section">
+            <h4>
+              敌对行为<span className="b2"> · B9 数据驱动</span>
+            </h4>
+            <div className="field">
+              <span className="field-label">敌对</span>
+              <DsCheckbox
+                label="遇敌开战（触碰即开始战斗）"
+                checked={!!entity.hostile}
+                onChange={(event) =>
+                  dispatchHostile(
+                    event.currentTarget.checked
+                      ? {
+                          enemyTeamId: enemyTeams[0]?.id ?? 'missing-enemy-team',
+                          onVictory: { kind: 'remove' },
+                          onPlayerFlee: { kind: 'remain' },
+                        }
+                      : undefined,
+                  )
+                }
+              />
+            </div>
+            {entity.hostile && (
               <>
-                <button
-                  type="button"
-                  className="mini-txt"
-                  onClick={() => {
-                    session.dispatch(
-                      new CreateScriptSourceCommand(sceneId, {
-                        kind: 'trigger',
-                        entityId: entity.id,
-                        ...(pageIndex === 0 ? {} : { pageIndex }),
-                      }),
-                    )
-                    onJumpToEvent(
-                      sceneId,
-                      `${entity.id}:trigger${pageIndex === 0 ? '' : `@${pageIndex}`}`,
-                    )
-                  }}
-                >
-                  ＋触发
-                </button>
-                <button
-                  type="button"
-                  className="mini-txt"
-                  onClick={() => {
-                    session.dispatch(
-                      new CreateScriptSourceCommand(sceneId, {
-                        kind: 'auto',
-                        entityId: entity.id,
-                        ...(pageIndex === 0 ? {} : { pageIndex }),
-                      }),
-                    )
-                    onJumpToEvent(
-                      sceneId,
-                      `${entity.id}:auto${pageIndex === 0 ? '' : `@${pageIndex}`}`,
-                    )
-                  }}
-                >
-                  ＋巡逻
-                </button>
+                <div className="field">
+                  <span className="field-label">敌队</span>
+                  <DsSelect
+                    searchable="auto"
+                    aria-label="敌对实体敌队"
+                    value={entity.hostile.enemyTeamId}
+                    options={[
+                      ...(!enemyTeams.some((team) => team.id === entity.hostile!.enemyTeamId)
+                        ? [
+                            {
+                              value: entity.hostile.enemyTeamId,
+                              label: `${entity.hostile.enemyTeamId}（缺数据）`,
+                            },
+                          ]
+                        : []),
+                      ...enemyTeams.map((team) => ({
+                        value: team.id,
+                        label: team.id,
+                        description: `${team.slots.length} 槽`,
+                      })),
+                    ]}
+                    onValueChange={(value) => setHostile({ enemyTeamId: value })}
+                  />
+                </div>
+                <div className="field">
+                  <span className="field-label">战场</span>
+                  <BattleFieldPicker
+                    value={entity.hostile.battleFieldId}
+                    fields={battleFields}
+                    unsetLabel="跟随场景默认战场"
+                    ariaLabel="敌对实体战场"
+                    onOpen={onOpenBattleField}
+                    onChange={(battleFieldId) => setHostile({ battleFieldId })}
+                  />
+                </div>
+                <div className="field">
+                  <span className="field-label">追逐</span>
+                  <DsCheckbox
+                    label="见人就追（不勾为原地怪）"
+                    checked={!!entity.hostile.chase}
+                    onChange={(event) =>
+                      setHostile({
+                        chase: event.currentTarget.checked ? { range: 6, speed: 2 } : undefined,
+                      })
+                    }
+                  />
+                </div>
+                {entity.hostile.chase && (
+                  <div className="hostile-chase-options">
+                    <div className="posrow hostile-chase-metrics">
+                      <div className="cell">
+                        <span>range 格</span>
+                        <input
+                          className="in mono"
+                          type="number"
+                          value={entity.hostile.chase.range}
+                          onChange={(e) =>
+                            Number.isFinite(e.target.valueAsNumber) &&
+                            setHostile({
+                              chase: { ...entity.hostile!.chase!, range: e.target.valueAsNumber },
+                            })
+                          }
+                        />
+                      </div>
+                      <div className="cell">
+                        <span>speed</span>
+                        <input
+                          className="in mono"
+                          type="number"
+                          value={entity.hostile.chase.speed}
+                          onChange={(e) =>
+                            Number.isFinite(e.target.valueAsNumber) &&
+                            setHostile({
+                              chase: { ...entity.hostile!.chase!, speed: e.target.valueAsNumber },
+                            })
+                          }
+                        />
+                      </div>
+                    </div>
+                    <DsCheckbox
+                      size="compact"
+                      label="追击时忽略地形与阻挡实体"
+                      checked={entity.hostile.chase.floating === true}
+                      onChange={(event) => {
+                        const chase = { ...entity.hostile!.chase!, floating: true }
+                        if (!event.currentTarget.checked)
+                          delete (chase as { floating?: boolean }).floating
+                        setHostile({ chase })
+                      }}
+                    />
+                  </div>
+                )}
+                <>
+                  <div className="field">
+                    <span className="field-label">胜利后</span>
+                    <DsSelect
+                      aria-label="胜利后行为"
+                      value={hostile?.onVictory.kind ?? 'remove'}
+                      options={[
+                        { value: 'remove', label: '隐藏后从场景移除' },
+                        { value: 'hide', label: '隐藏后离屏重现' },
+                        { value: 'remain', label: '保持原样' },
+                      ]}
+                      onValueChange={(value) => {
+                        const kind = value as RuntimeHostileBehavior['onVictory']['kind']
+                        if (kind === 'hide')
+                          setHostile({
+                            onVictory: {
+                              kind,
+                              ticks:
+                                hostile?.onVictory.kind === 'hide' ? hostile.onVictory.ticks : 800,
+                            },
+                          })
+                        else setHostile({ onVictory: { kind } })
+                      }}
+                    />
+                  </div>
+                  {hostile?.onVictory.kind === 'hide' ? (
+                    <div className="field">
+                      <span className="field-label">胜利隐藏 ticks</span>
+                      <input
+                        className="in mono"
+                        type="number"
+                        min={1}
+                        step={1}
+                        value={hostile.onVictory.ticks}
+                        onChange={(e) => {
+                          const ticks = e.target.valueAsNumber
+                          if (Number.isSafeInteger(ticks) && ticks > 0)
+                            setHostile({ onVictory: { kind: 'hide', ticks } })
+                        }}
+                      />
+                    </div>
+                  ) : null}
+                  <div className="field">
+                    <span className="field-label">逃跑后</span>
+                    <DsSelect
+                      aria-label="逃跑后行为"
+                      value={hostile?.onPlayerFlee.kind ?? 'remain'}
+                      options={[
+                        { value: 'remain', label: '保持原样' },
+                        { value: 'suspend', label: '短暂暂停自动行为' },
+                      ]}
+                      onValueChange={(value) => {
+                        const kind = value as RuntimeHostileBehavior['onPlayerFlee']['kind']
+                        if (kind === 'suspend')
+                          setHostile({
+                            onPlayerFlee: {
+                              kind,
+                              ticks:
+                                hostile?.onPlayerFlee.kind === 'suspend'
+                                  ? hostile.onPlayerFlee.ticks
+                                  : 15,
+                            },
+                          })
+                        else setHostile({ onPlayerFlee: { kind } })
+                      }}
+                    />
+                  </div>
+                  {hostile?.onPlayerFlee.kind === 'suspend' ? (
+                    <div className="field">
+                      <span className="field-label">逃跑暂停 ticks</span>
+                      <input
+                        className="in mono"
+                        type="number"
+                        min={1}
+                        step={1}
+                        value={hostile.onPlayerFlee.ticks}
+                        onChange={(e) => {
+                          const ticks = e.target.valueAsNumber
+                          if (Number.isSafeInteger(ticks) && ticks > 0)
+                            setHostile({ onPlayerFlee: { kind: 'suspend', ticks } })
+                        }}
+                      />
+                    </div>
+                  ) : null}
+                </>
+                {!canonicalScript ? (
+                  <>
+                    <div className="field">
+                      <span className="field-label">战败</span>
+                      <DsSelect
+                        aria-label="战败行为"
+                        value={Array.isArray(entity.hostile.onLose) ? 'custom' : ''}
+                        options={[
+                          { value: '', label: '游戏结束（渐红读档，默认）' },
+                          { value: 'custom', label: '自定义指令（剧情战输了也继续）' },
+                        ]}
+                        onValueChange={(value) =>
+                          setHostile({ onLose: value === 'custom' ? [] : undefined })
+                        }
+                      />
+                    </div>
+                    {Array.isArray(entity.hostile.onLose) ? (
+                      <textarea
+                        className="in cf-ta"
+                        key={`${entity.id}-onlose`}
+                        defaultValue={JSON.stringify(entity.hostile.onLose, null, 2)}
+                        placeholder='[{ "kind": "dialog", ... }] — Command[] JSON'
+                        onBlur={(e) => {
+                          try {
+                            const v = JSON.parse(e.target.value) as HostileBehavior['onLose']
+                            if (Array.isArray(v)) setHostile({ onLose: v })
+                          } catch {
+                            /* 解析失败不落盘;失焦保持原文供修 */
+                          }
+                        }}
+                        spellCheck={false}
+                      />
+                    ) : null}
+                  </>
+                ) : null}
               </>
             )}
           </div>
-        </div>
+          {!canonicalScript ? (
+            <div className="section">
+              <h4>
+                行为脚本 <span className="hint2">底部抽屉就地编(E2/E4)</span>
+              </h4>
+              {/* 一眼徽标 + 单入口(创建/切换动作在抽屉头部,不重复) */}
+              <div className="lrow" style={{ gap: 8, alignItems: 'center' }}>
+                <span style={{ color: 'var(--dim)', fontSize: 12 }}>
+                  {entity.pages?.[pageIndex]?.trigger
+                    ? `🔗 ${entity.pages[pageIndex]!.trigger!.on === 'interact' ? '交互' : '触碰'}·${entity.pages[pageIndex]!.trigger!.stages.length}段`
+                    : null}
+                  {entity.pages?.[pageIndex]?.auto
+                    ? ` 🔁 巡逻·${entity.pages[pageIndex]!.auto!.stages.length}段`
+                    : null}
+                  {!entity.pages?.[pageIndex]?.trigger && !entity.pages?.[pageIndex]?.auto
+                    ? '(无脚本)'
+                    : null}
+                </span>
+                {entity.pages?.[pageIndex]?.trigger || entity.pages?.[pageIndex]?.auto ? (
+                  <button
+                    type="button"
+                    className="mini-txt"
+                    onClick={() =>
+                      onJumpToEvent(
+                        sceneId,
+                        entity.pages?.[pageIndex]?.trigger
+                          ? `${entity.id}:trigger${pageIndex === 0 ? '' : `@${pageIndex}`}`
+                          : `${entity.id}:auto${pageIndex === 0 ? '' : `@${pageIndex}`}`,
+                      )
+                    }
+                  >
+                    📜 编辑脚本
+                  </button>
+                ) : (
+                  <>
+                    <button
+                      type="button"
+                      className="mini-txt"
+                      onClick={() => {
+                        session.dispatch(
+                          new CreateScriptSourceCommand(sceneId, {
+                            kind: 'trigger',
+                            entityId: entity.id,
+                            ...(pageIndex === 0 ? {} : { pageIndex }),
+                          }),
+                        )
+                        onJumpToEvent(
+                          sceneId,
+                          `${entity.id}:trigger${pageIndex === 0 ? '' : `@${pageIndex}`}`,
+                        )
+                      }}
+                    >
+                      ＋触发
+                    </button>
+                    <button
+                      type="button"
+                      className="mini-txt"
+                      onClick={() => {
+                        session.dispatch(
+                          new CreateScriptSourceCommand(sceneId, {
+                            kind: 'auto',
+                            entityId: entity.id,
+                            ...(pageIndex === 0 ? {} : { pageIndex }),
+                          }),
+                        )
+                        onJumpToEvent(
+                          sceneId,
+                          `${entity.id}:auto${pageIndex === 0 ? '' : `@${pageIndex}`}`,
+                        )
+                      }}
+                    >
+                      ＋巡逻
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          ) : null}
+        </>
       ) : null}
-      {spriteViewerOpen && spriteDef && (
+      {panel === 'properties' && spriteViewerOpen && spriteDef && (
         <SpriteImageViewer
           assetBase={assetBase}
           assetReader={assetReader}

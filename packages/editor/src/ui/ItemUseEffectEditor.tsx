@@ -1,5 +1,5 @@
 import type {
-  BaseAuthorCommand,
+  AuthorCommand,
   ItemData,
   ItemRecipe,
   ItemUseEffect,
@@ -72,8 +72,8 @@ export interface ItemScriptOption {
 
 export interface ItemPrivateScriptBinding {
   label: string
-  body: BaseAuthorCommand[]
-  onChange: (body: BaseAuthorCommand[]) => void
+  body: AuthorCommand[]
+  onChange: (body: AuthorCommand[]) => void
   editorContext?: CanonicalScriptEditorContext
   focusCommandPath?: string
   focusRevision?: number

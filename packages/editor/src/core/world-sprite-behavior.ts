@@ -1,22 +1,23 @@
 import type {
   ActorDef,
-  BaseAuthorCommand,
+  AuthorCommand,
   Command,
   EntityDef,
-  BaseSceneEntityDef,
-  BaseSceneDef,
+  AuthorSceneDef,
   ScriptChunkV1,
   ScriptCondition,
-  BaseScriptFlow,
+  AuthorScriptFlow,
   ScriptRef,
   ScriptStage,
-  BaseScriptLibrary,
+  AuthorScriptLibrary,
   SpriteDef,
   SpriteDefinitionReference,
 } from '@type-pal/content'
 import { resolveEntitySpriteId } from '@type-pal/content'
 import { actualFrameIndex } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
+
+type AuthorSceneEntityDef = AuthorSceneDef['entities'][number]
 
 export interface SpriteTimedFrame {
   frame: number
@@ -92,14 +93,14 @@ function actorsById(state: Pick<EditorState, 'actors'>): Record<string, ActorDef
 }
 
 export interface CanonicalSpritePreviewState {
-  scenes: readonly BaseSceneDef[]
-  sharedScripts: BaseScriptLibrary
+  scenes: readonly AuthorSceneDef[]
+  sharedScripts: AuthorScriptLibrary
 }
 
 export const SCRIPT_PREVIEW_SHARED_CHUNK = '__author-script-preview/shared'
 
 function projectPreviewCondition(
-  condition: Extract<BaseAuthorCommand, { kind: 'branch' | 'loop' }>['cond'],
+  condition: Extract<AuthorCommand, { kind: 'branch' | 'loop' }>['cond'],
 ): ScriptCondition {
   switch (condition.kind) {
     case 'entityState':
@@ -122,9 +123,9 @@ function projectPreviewCondition(
 }
 
 function projectPreviewCommands(
-  commands: readonly BaseAuthorCommand[],
+  commands: readonly AuthorCommand[],
   self: { scene: string; entity: string },
-  sharedScripts: BaseScriptLibrary,
+  sharedScripts: AuthorScriptLibrary,
   depth = 0,
 ): Command[] {
   if (depth > MAX_VISUAL_CALL_DEPTH)
@@ -137,13 +138,6 @@ function projectPreviewCommands(
           kind: 'setEntityFrame',
           entity: command.target.entity,
           frame: command.frame,
-        })
-        break
-      case 'vanishEntity':
-        projected.push({
-          kind: 'vanishEntity',
-          ...(command.target ? { entity: command.target.entity } : {}),
-          ...(command.seconds === undefined ? {} : { seconds: command.seconds }),
         })
         break
       case 'setEntityState':
@@ -374,9 +368,9 @@ function orderedIds(initial: string, ids: readonly string[]): string[] {
 }
 
 function projectPreviewFlow(
-  flow: BaseScriptFlow,
+  flow: AuthorScriptFlow,
   self: { scene: string; entity: string },
-  sharedScripts: BaseScriptLibrary,
+  sharedScripts: AuthorScriptLibrary,
 ): ScriptStage[] {
   if (flow.kind === 'stages') {
     const byId = new Map(flow.stages.map((stage) => [stage.id, stage]))
@@ -436,16 +430,16 @@ function projectPreviewFlow(
 
 /** 场景脚本工作台使用的只读预览 lowering；不进入保存或作者态。 */
 export function projectCanonicalScriptFlowPreview(
-  flow: BaseScriptFlow,
+  flow: AuthorScriptFlow,
   self: { scene: string; entity: string },
-  sharedScripts: BaseScriptLibrary,
+  sharedScripts: AuthorScriptLibrary,
 ): ScriptStage[] {
   return projectPreviewFlow(flow, self, sharedScripts)
 }
 
 /** 为旧 PreviewCanvas 的内存解析器生成 canonical 共享脚本只读投影。 */
 export function projectCanonicalSharedScriptPreviewChunk(
-  sharedScripts: BaseScriptLibrary,
+  sharedScripts: AuthorScriptLibrary,
 ): ScriptChunkV1 {
   return {
     version: 1,
@@ -466,8 +460,8 @@ export function projectCanonicalSharedScriptPreviewChunk(
 function projectPreviewEntity(
   sceneId: string,
   shell: EntityDef,
-  canonical: BaseSceneEntityDef,
-  sharedScripts: BaseScriptLibrary,
+  canonical: AuthorSceneEntityDef,
+  sharedScripts: AuthorScriptLibrary,
 ): EntityDef {
   const page =
     canonical.pages?.find((candidate) => candidate.id === canonical.initialPage) ??

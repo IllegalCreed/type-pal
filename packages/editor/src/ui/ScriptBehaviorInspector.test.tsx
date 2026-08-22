@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import type { BaseAuthorCommand, BaseSceneDef } from '@type-pal/content'
+import type { AuthorCommand, AuthorSceneDef } from '@type-pal/content'
 import { act, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { renderToStaticMarkup } from 'react-dom/server'
@@ -14,7 +14,7 @@ import { BehaviorSelectionEditor, ScriptBehaviorInspector } from './ScriptBehavi
 
 const target = { scene: 's001', entity: 'e1' }
 
-function selectTalk(): BaseAuthorCommand {
+function selectTalk(): AuthorCommand {
   return {
     kind: 'selectEntityBehavior',
     target,
@@ -23,7 +23,7 @@ function selectTalk(): BaseAuthorCommand {
   }
 }
 
-function scene(): BaseSceneDef {
+function scene(): AuthorSceneDef {
   return {
     id: 's001',
     mapId: 'map-001',

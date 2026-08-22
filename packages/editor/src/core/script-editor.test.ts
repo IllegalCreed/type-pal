@@ -1,9 +1,9 @@
 import type {
-  BaseAuthorCommand,
-  BaseEntityBehavior,
-  BaseSceneHook,
-  BaseSceneDef,
-  BaseScriptFlow,
+  AuthorCommand,
+  AuthorEntityBehaviors,
+  AuthorSceneDef,
+  AuthorSceneHooks,
+  AuthorScriptFlow,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
@@ -41,7 +41,10 @@ import {
 } from './script-editor.js'
 
 const target = { scene: 's001', entity: 'e1' }
-function selectionCommand(behaviorId: string): BaseAuthorCommand {
+type AuthorEntityBehavior = NonNullable<AuthorEntityBehaviors['trigger']>[string]
+type AuthorSceneHook = NonNullable<AuthorSceneHooks['onEnter']>['variants'][string]
+
+function selectionCommand(behaviorId: string): AuthorCommand {
   return {
     kind: 'selectEntityBehavior',
     target,
@@ -50,7 +53,7 @@ function selectionCommand(behaviorId: string): BaseAuthorCommand {
   }
 }
 
-function stageFlow(stageId = 'start', body: BaseAuthorCommand[] = []): BaseScriptFlow {
+function stageFlow(stageId = 'start', body: AuthorCommand[] = []): AuthorScriptFlow {
   return {
     kind: 'stages',
     initial: stageId,
@@ -60,16 +63,25 @@ function stageFlow(stageId = 'start', body: BaseAuthorCommand[] = []): BaseScrip
 
 function behavior(
   id: string,
-  flow: BaseScriptFlow = stageFlow(id === 'talk' ? 'start' : id),
-): BaseEntityBehavior {
+  flow: AuthorScriptFlow = stageFlow(id === 'talk' ? 'start' : id),
+): AuthorEntityBehavior {
   return { label: id, order: id === 'talk' ? 0 : 1, flow }
 }
 
-function hook(label: string): BaseSceneHook {
+function hook(label: string): AuthorSceneHook {
   return { label, order: 0, flow: stageFlow() }
 }
 
-function scene(): BaseSceneDef {
+function entityStateCommands(): AuthorCommand[] {
+  return [
+    { kind: 'suspendEntity', target, ticks: 4 },
+    { kind: 'hideEntity', target, ticks: 8 },
+    { kind: 'restoreEntity', target },
+    { kind: 'removeEntity', target },
+  ]
+}
+
+function scene(): AuthorSceneDef {
   return {
     id: 's001',
     mapId: 'map-001',
@@ -501,6 +513,78 @@ describe('canonical script editor commands', () => {
     session.dispatch(new UpdateSharedScriptCommand('shared/user/select-talk', { body: [] }))
     session.dispatch(new DeleteSharedScriptCommand('shared/user/book'))
     expect(session.getState().sharedScripts['shared/user/book']).toBeUndefined()
+  })
+
+  test('validates nested entity-state commands in a shared script and preserves undo/redo', () => {
+    const nestedBodies: Record<string, AuthorCommand[]> = {
+      branch: [
+        {
+          kind: 'branch',
+          cond: { kind: 'flag', flag: 'enabled', is: true },
+          then: entityStateCommands(),
+        },
+      ],
+      loop: [
+        {
+          kind: 'loop',
+          mode: 'while',
+          cond: { kind: 'flag', flag: 'enabled', is: true },
+          body: entityStateCommands(),
+          yield: 'worldTick',
+          maxIterations: 8,
+        },
+      ],
+      confirm: [{ kind: 'confirm', onNo: entityStateCommands() }],
+      battle: [
+        {
+          kind: 'startBattle',
+          enemyTeamId: 'team-1',
+          onLose: entityStateCommands(),
+          onFlee: entityStateCommands(),
+        },
+      ],
+    }
+
+    for (const body of Object.values(nestedBodies)) {
+      const session = new ScriptEditSession(editorState())
+      expect(
+        session.dispatch(new UpdateSharedScriptCommand('shared/user/select-talk', { body })),
+      ).toBe(true)
+      expect(session.getState().sharedScripts['shared/user/select-talk']?.body).toEqual(body)
+      expect(session.undo()).toBe(true)
+      expect(session.redo()).toBe(true)
+      expect(session.getState().sharedScripts['shared/user/select-talk']?.body).toEqual(body)
+    }
+  })
+
+  test('rejects turning a trigger zone while preserving other zone state commands', () => {
+    const state = editorState()
+    state.scenes[0]!.entities.push({
+      id: 'zone-1',
+      zone: true,
+      pos: { col: 2, row: 3, height: 0 },
+    })
+    const session = new ScriptEditSession(state)
+    const zoneTarget = { scene: 's001', entity: 'zone-1' }
+
+    expect(() =>
+      session.dispatch(
+        new UpdateSharedScriptCommand('shared/user/select-talk', {
+          body: [{ kind: 'setEntityFacing', target: zoneTarget, facing: 'down' }],
+        }),
+      ),
+    ).toThrow(/触发区 "s001\/zone-1" 不支持朝向/)
+    expect(session.getState().sharedScripts['shared/user/select-talk']?.body).not.toEqual([
+      { kind: 'setEntityFacing', target: zoneTarget, facing: 'down' },
+    ])
+
+    expect(
+      session.dispatch(
+        new UpdateSharedScriptCommand('shared/user/select-talk', {
+          body: [{ kind: 'suspendEntity', target: zoneTarget, ticks: 1 }],
+        }),
+      ),
+    ).toBe(true)
   })
 
   test('edits scene Hook variants through stable ids and rewrites selections', () => {

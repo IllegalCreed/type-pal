@@ -7,6 +7,10 @@ Phase: phase2
 Capability: Editor cross-cutting（不改变 capability-map）
 Visual Verification Timing: dev-functional
 
+> 2026-08-23 后续收口：场景实体 Inspector 的“属性 / 生命周期 / 行为”历史基准已由
+> `ED-ENTITY-INSPECTOR-IA-1` 取代；current 基准为“属性 / 行为 / 引用 n”，生命周期状态动作只在通用
+> ScriptEditor 中作为普通指令编辑。本卡其余 shared Tab 骨架与滚动契约继续有效。
+
 ## 目标
 
 把第二阶段编辑器中“标题随正文滚动、多个语义模块纵向堆叠、业务页私有实现 Tab”的 Inspector 收敛为一个
@@ -87,7 +91,7 @@ Tab 化。新行为以上述 before -> after 为准，旧结论保留为历史�
 
 | 模块 / 页面 | 当前 Inspector | 判定与 canonical Tab | 当前证据 |
 |---|---|---|---|
-| scene / workspace | 实体已使用 shared；放置态是单一放置流程 | 已 Tab 化，防回归：实体“属性 / 生命周期 / 行为”；放置态不强行 Tab | App.tsx:2253-2274,2808-2847 |
+| scene / workspace | 实体已使用 shared；放置态是单一放置流程 | 已 Tab 化；后续 `ED-ENTITY-INSPECTOR-IA-1` 将实体基准收口为“属性 / 行为 / 引用 n”；放置态不强行 Tab | App.tsx:2253-2274,2808-2847 |
 | scene / ambience | 页面只有列表 + 主表，无 Inspector | 无需 Tab：没有右栏 | AmbienceTab.tsx:41-129 |
 | map / workspace | 私有 3 Tab、私有键盘/ref；无固定地图标题 | Tab 化：“属性 / 瓦片 / 组合”；补固定“地图 / 名称”，保留 activateInspectorTab 副作用 | MapMode.tsx:221-227,1302-1327,3312-3831 |
 | map / tileset | 上传/选中状态纵向堆叠；选中态含登记、说明、资源动作、全工程引用扫描 | Tab 化：选中态“资源 / 引用”；上传态是单一导入工作流，不虚构 Tab | TilesetTab.tsx:633-797,798-985 |

@@ -3,7 +3,6 @@ import type {
   EntityAddress,
   BaseSceneEntity,
   GridPos,
-  AuthorItemCoreMap,
   BaseSceneDef,
   BaseScriptLibrary,
   WorldScriptState,
@@ -457,19 +456,6 @@ export class BaseScriptProjectRuntime {
       ],
       options,
     )
-  }
-
-  async runItemPrivateScript(
-    items: AuthorItemCoreMap,
-    itemId: string,
-    scriptId: 'use',
-    options: RunBaseProjectCommandsOptions,
-  ): Promise<void> {
-    const script = items[itemId]?.use?.effects
-      .filter((effect) => effect.kind === 'itemPrivateScript')
-      .find((effect) => effect.script.id === scriptId)?.script
-    if (!script) throw new Error(`item private script 不存在: ${itemId}/${scriptId}`)
-    await this.runCommands(script.body, options)
   }
 
   async withSaveBarrier<T>(snapshot: () => SynchronousSnapshot<T>, timeoutMs = 10_000): Promise<T> {

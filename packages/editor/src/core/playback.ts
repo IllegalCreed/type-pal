@@ -7,30 +7,43 @@
  * 走位步进逻辑与引擎同源语义(半格步 + 像素轴朝向,见 reforge main.ts)。
  */
 import type {
+  ActorDef,
+  AuthorSceneDef,
+  AuthorScriptFlow,
+  AuthorScriptLibrary,
   DialogueCue,
   EntityAddress,
   Facing,
   GridPos,
+  RuntimeCommand,
+  RuntimeSceneDef,
+  RuntimeScriptFlow,
+  RuntimeScriptLibrary,
   SceneDef,
-  BaseSceneDef,
-  BaseScriptFlow,
   ScriptStage,
-  BaseScriptLibrary,
+  WorldState,
 } from '@type-pal/content'
 import {
+  buildEntityLifecycleReferenceIndex,
   emptyProjectedWorldScriptState,
-  emptyWorldScriptState,
   pixelDeltaToGridDelta,
+  resolveAuthorDialogueTree,
 } from '@type-pal/content'
-import type { ScriptHost, ScriptResolver, BaseScriptStepEvent, StepEvent } from '@type-pal/reforge'
+import type {
+  BaseRuntimeLeafCommand,
+  RuntimeLeafCommand,
+  ScriptHost,
+  ScriptResolver,
+  StepEvent,
+} from '@type-pal/reforge'
 import {
-  compileBaseScriptFlow,
+  compileRuntimeScriptFlow,
   executeScriptHostEffect,
   FlowRuntimeCoordinator,
-  BaseSharedScriptResolver,
-  BaseProjectScriptRuntimeHost,
+  ProjectScriptRuntimeHost,
+  RuntimeScriptRunner,
+  RuntimeSharedScriptResolver,
   ScriptRunner,
-  ScriptRunnerCore,
 } from '@type-pal/reforge'
 
 export interface EntityOverlay {
@@ -270,10 +283,11 @@ export class Playback {
    */
   playCanonical(
     key: string,
-    flow: BaseScriptFlow,
+    flow: AuthorScriptFlow,
     options: {
-      scene: BaseSceneDef
-      sharedScripts: BaseScriptLibrary
+      scene: AuthorSceneDef
+      sharedScripts: AuthorScriptLibrary
+      actorsById: Readonly<Record<string, ActorDef>>
       self?: EntityAddress
       timing?: 'auto' | 'interactive'
       allowSceneEntry?: boolean
@@ -290,23 +304,67 @@ export class Playback {
     const ac = new AbortController()
     this.abort = ac
     const digest = 'e'.repeat(64)
-    const scratch = emptyWorldScriptState()
+    const runtimeFlow = resolveAuthorDialogueTree(
+      flow,
+      options.actorsById,
+      'preview.flow',
+    ) as RuntimeScriptFlow
+    const runtimeScene = resolveAuthorDialogueTree(
+      options.scene,
+      options.actorsById,
+      'preview.scene',
+    ) as RuntimeSceneDef
+    const runtimeSharedScripts = resolveAuthorDialogueTree(
+      options.sharedScripts,
+      options.actorsById,
+      'preview.sharedScripts',
+    ) as RuntimeScriptLibrary
+    const scratch: WorldState = {
+      party: [],
+      money: 0,
+      learnedSkills: {},
+      inventory: [],
+      entityLifecycles: {},
+    }
     const coordinator = new FlowRuntimeCoordinator()
-    const runtimeHost = new BaseProjectScriptRuntimeHost(scratch, coordinator, {
+    const runtimeHost = new ProjectScriptRuntimeHost(scratch, coordinator, {
+      lifecycleReferences: buildEntityLifecycleReferenceIndex([runtimeScene]),
       gate: () => this.waitForCommandGate(ac),
-      executeEffect: (command, context, signal) =>
-        executeScriptHostEffect(this.host, command, context, signal, {
-          currentSceneId: () => options.scene.id,
-        }),
-      scene: (sceneId) => {
-        if (sceneId !== options.scene.id)
-          throw new Error(`预览仅加载当前场景 ${options.scene.id}，无法解析 ${sceneId}`)
-        return options.scene
+      executeEffect: (command, context, signal) => {
+        if (
+          command.kind === 'suspendEntity' ||
+          command.kind === 'hideEntity' ||
+          command.kind === 'restoreEntity' ||
+          command.kind === 'removeEntity'
+        ) {
+          if (command.target.scene === runtimeScene.id) {
+            const overlay = this.ov(command.target.entity)
+            if (command.kind === 'hideEntity' || command.kind === 'removeEntity')
+              overlay.hidden = true
+            else if (command.kind === 'restoreEntity') {
+              overlay.hidden = false
+              overlay.frame = 0
+            }
+          }
+          return
+        }
+        return executeScriptHostEffect(
+          this.host,
+          command as unknown as BaseRuntimeLeafCommand,
+          context,
+          signal,
+          { currentSceneId: () => runtimeScene.id },
+        )
       },
-      currentSceneId: () => options.scene.id,
-      currentSceneSessionId: () => `${options.scene.id}:${key}`,
+      scene: (sceneId) => {
+        if (sceneId !== runtimeScene.id)
+          throw new Error(`预览仅加载当前场景 ${runtimeScene.id}，无法解析 ${sceneId}`)
+        return runtimeScene
+      },
+      currentSceneId: () => runtimeScene.id,
+      currentSceneSessionId: () => `${runtimeScene.id}:${key}`,
       entityPosRelativeToParty: (target, dcol, drow) => {
-        if (target.scene !== options.scene.id)
+        if (target.scene !== runtimeScene.id)
           throw new Error(`预览相对摆位不属于当前场景: ${target.scene}/${target.entity}`)
         const entity = this.scene.entities.find((candidate) => candidate.id === target.entity)
         return {
@@ -323,9 +381,9 @@ export class Playback {
         money: () => this.host.query.money(),
         inParty: (actorId) => this.host.query.inParty(actorId),
         entityInScene: (target) =>
-          target.scene === options.scene.id && this.host.query.entityInScene(target.entity),
+          target.scene === runtimeScene.id && this.host.query.entityInScene(target.entity),
         facingEntity: (target, range) =>
-          target.scene === options.scene.id && this.host.query.facingEntity(target.entity, range),
+          target.scene === runtimeScene.id && this.host.query.facingEntity(target.entity, range),
       },
       confirm: (signal) => this.requestConfirm(signal),
       startBattle: (request, signal) =>
@@ -359,12 +417,12 @@ export class Playback {
           if (signal.aborted) abort()
         }),
     })
-    const runner = new ScriptRunnerCore(
+    const runner = new RuntimeScriptRunner(
       runtimeHost,
       ac.signal,
-      new BaseSharedScriptResolver(options.sharedScripts, digest),
+      new RuntimeSharedScriptResolver(runtimeSharedScripts, digest),
     )
-    runner.onStep = (event: BaseScriptStepEvent) => {
+    runner.onStep = (event) => {
       this.activePath = event.path.join('/')
       const command =
         event.command.kind === 'leaf'
@@ -376,7 +434,7 @@ export class Playback {
     }
     void runner
       .runFlow(
-        compileBaseScriptFlow(flow, {
+        compileRuntimeScriptFlow(runtimeFlow, {
           canonicalContentDigest: digest,
           timing: options.timing ?? 'interactive',
           allowSceneEntry: options.allowSceneEntry,

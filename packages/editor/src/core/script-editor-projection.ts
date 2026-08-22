@@ -1,11 +1,12 @@
 import type {
-  AuthorItemCore,
-  BaseSceneDef,
-  BaseSceneEntityDef,
+  AuthorItemData,
+  AuthorSceneDef,
   ItemData,
 } from '@type-pal/content'
 import type { EditorState } from './edit-session.js'
 import type { ScriptEditorState } from './script-editor.js'
+
+type AuthorSceneEntityDef = AuthorSceneDef['entities'][number]
 
 /**
  * 主 EditSession 保存地图与普通属性的 current 交互投影，ScriptEditSession 保存唯一的脚本作者真值。
@@ -15,8 +16,8 @@ import type { ScriptEditorState } from './script-editor.js'
 function mergeEntityShell(
   sceneId: string,
   shell: EditorState['scenes'][number]['entities'][number],
-  canonical: BaseSceneEntityDef | undefined,
-): BaseSceneEntityDef {
+  canonical: AuthorSceneEntityDef | undefined,
+): AuthorSceneEntityDef {
   const { pages: shellPages, hostile: shellHostile, ...shellBase } = structuredClone(shell)
   const pages = canonical?.pages ? structuredClone(canonical.pages) : undefined
   const initialPage = pages?.find((page) => page.id === canonical?.initialPage)
@@ -54,13 +55,13 @@ function mergeEntityShell(
     ...(pages ? { pages } : {}),
     ...(canonical?.initialPage ? { initialPage: canonical.initialPage } : {}),
     ...(hostile ? { hostile } : {}),
-  } as BaseSceneEntityDef
+  } as AuthorSceneEntityDef
 }
 
 function mergeSceneShell(
   shell: EditorState['scenes'][number],
-  canonical: BaseSceneDef | undefined,
-): BaseSceneDef {
+  canonical: AuthorSceneDef | undefined,
+): AuthorSceneDef {
   const {
     entities: shellEntities,
     onEnter: _projectedOnEnter,
@@ -82,9 +83,9 @@ function mergeSceneShell(
 /** 普通物品字段/效果顺序来自主会话；私有脚本正文来自脚本会话。 */
 function mergeCurrentItemShell(
   shell: ItemData,
-  canonical: AuthorItemCore | undefined,
-): AuthorItemCore {
-  const next = structuredClone(shell) as unknown as AuthorItemCore
+  canonical: AuthorItemData | undefined,
+): AuthorItemData {
+  const next = structuredClone(shell) as unknown as AuthorItemData
   const canonicalPrivate = new Map(
     (canonical?.use?.effects ?? []).flatMap((effect) =>
       effect.kind === 'itemPrivateScript'
@@ -96,7 +97,7 @@ function mergeCurrentItemShell(
     next.use = { target: 'scene', consuming: true, effects: [] }
   if (next.use) {
     const used = new Set<string>()
-    const effects: NonNullable<AuthorItemCore['use']>['effects'] = []
+    const effects: NonNullable<AuthorItemData['use']>['effects'] = []
     for (const effect of shell.use?.effects ?? []) {
       const projectedPrivate = effect as unknown as {
         kind?: string

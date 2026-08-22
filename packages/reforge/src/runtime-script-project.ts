@@ -444,7 +444,7 @@ export class ScriptProjectRuntime {
       .filter((effect) => effect.kind === 'itemPrivateScript')
       .find((effect) => effect.script.id === scriptId)?.script
     if (!script) throw new Error(`item private script 不存在: ${itemId}/${scriptId}`)
-    await this.runCommands(script.body as unknown as readonly RuntimeCommand[], options)
+    await this.runCommands(script.body, options)
   }
 
   async withSaveBarrier<T>(snapshot: () => SynchronousSnapshot<T>, timeoutMs = 10_000): Promise<T> {

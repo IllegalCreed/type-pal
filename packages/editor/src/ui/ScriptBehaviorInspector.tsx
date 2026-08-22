@@ -1,4 +1,4 @@
-import type { BaseEntityBehavior, EntityAddress, Selection } from '@type-pal/content'
+import type { AuthorSceneDef, EntityAddress, Selection } from '@type-pal/content'
 import { useMemo, useState } from 'react'
 import {
   AddEntityBehaviorCommand,
@@ -23,13 +23,16 @@ import {
 } from './ScriptEditor.js'
 
 type BehaviorChannel = 'trigger' | 'auto'
+type AuthorEntityBehavior = NonNullable<
+  NonNullable<AuthorSceneDef['entities'][number]['behaviors']>['trigger']
+>[string]
 
 function entityOf(state: ScriptEditorState, target: EntityAddress) {
   const scene = state.scenes.find((candidate) => candidate.id === target.scene)
   return scene?.entities.find((candidate) => candidate.id === target.entity)
 }
 
-function defaultBehavior(label: string): BaseEntityBehavior {
+function defaultBehavior(label: string): AuthorEntityBehavior {
   return {
     label,
     order: 0,
@@ -43,7 +46,7 @@ function defaultBehavior(label: string): BaseEntityBehavior {
 
 export function BehaviorSelectionEditor(props: {
   selection: Selection<string>
-  behaviors: Readonly<Record<string, BaseEntityBehavior>>
+  behaviors: Readonly<Record<string, AuthorEntityBehavior>>
   onChange: (selection: Selection<string>) => void
   label?: string
 }) {

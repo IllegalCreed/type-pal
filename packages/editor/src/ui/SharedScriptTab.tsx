@@ -1,4 +1,4 @@
-import type { MapIndexV1, BaseSharedScript } from '@type-pal/content'
+import type { AuthorScriptLibrary, MapIndexV1 } from '@type-pal/content'
 import type { ProjectMap, TilesetDef } from '@type-pal/reforge'
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import {
@@ -25,6 +25,8 @@ import {
   DsTextArea,
   DsTextInput,
 } from './design-system/index.js'
+
+type AuthorSharedScript = AuthorScriptLibrary[string]
 
 function nextScriptId(name: string, state: ScriptEditorState): string {
   const slug =
@@ -136,7 +138,7 @@ export function CanonicalSharedScriptTab(props: {
     props.onSelectedScriptId?.(id || undefined)
   }
 
-  const update = (patch: Partial<BaseSharedScript>): void => {
+  const update = (patch: Partial<AuthorSharedScript>): void => {
     if (selectedId) dispatch(new UpdateSharedScriptCommand(selectedId, patch))
   }
 
@@ -321,7 +323,7 @@ export function CanonicalSharedScriptTab(props: {
                     { value: 'optional', label: '可选' },
                     { value: 'required', label: '必须提供' },
                   ]}
-                  onValueChange={(value) => update({ self: value as BaseSharedScript['self'] })}
+                  onValueChange={(value) => update({ self: value as AuthorSharedScript['self'] })}
                 />
               )}
             </DsField>

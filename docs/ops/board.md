@@ -17,7 +17,7 @@
 | ARCH-CURRENT-ONLY-1 | 开发期单版本架构收口 | done | 三方 accept + 用户验收齐，整卡收口 | 旧产品版本层、升级入口与兼容 fallback 已清零；PAL replay 零差异 |
 | ED-PAL-WORKSPACE-MODES-1 | PAL 开发基线、评审沙盒与种子晋升边界 | done | 三方 accept + 用户验收齐，整卡收口 | GLM 终审：GP1-GP3/KP1-KP2 全落，focused 68+20 复跑全绿 | Codex accept；editor 134/981 + typecheck，全链路内部压力审查 P0/P1/P2 清零 |
 | MIG-PAL-ACTOR-FACE-1 | PAL 角色小头像缺席语义与迁移收口 | draft | Kimi/GLM 独立核 raw 数据并签 premise/design | 盖罗娇 frame 53 为 3×4 全透明；修迁移上游后走既有 battler 默认头像兜底 |
-| ED-ENTITY-INSPECTOR-IA-1 | 场景实体 Inspector、状态指令与删除入口收口 | draft | Kimi 独立核真并签 premise/design；随后 GLM 覆盖签 | 生命周期并入唯一指令系统；属性/行为/引用；zone 无朝向；删除归行尾 |
+| ED-ENTITY-INSPECTOR-IA-1 | 场景实体 Inspector、状态指令与删除入口收口 | review | Kimi/GLM 独立实现审查并签 accept | Codex build、自审与聚焦回归完成；两方 accept 前不得 done |
 | ED-MEDIA-ASSET-ACTIONS-1 | 媒体资源对象操作与生命周期统一 | draft | Kimi/GLM 独立审引用单真值、媒体 Hero 与删除事务 | 集合动作归左栏；当前资源替换/删除归 Hero；属性改名；音频工作台复用该合同 |
 | ED-AUDIO-WORKBENCH-1 | 音乐 / 音效统一资源工作台与音频时间轴 | draft | Kimi 审 transport/UI 架构；GLM 审引用/性能/测试 | 左目录、中 Hero+基本信息+真实时间轴、右引用/诊断；WAV PCM / MIDI 音符活动分流 |
 | ED-AMBIENCE-WORKBENCH-1 | 氛围滤镜工作台与真实场景预览 | draft | Kimi 审 compositor/preview 架构；GLM 审引用/事务/测试 | 左目录、中 Hero+字段+静态场景 A/B、右引用/说明；preview context 不持久化 |

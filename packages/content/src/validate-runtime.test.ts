@@ -84,4 +84,21 @@ describe('canonical runtime scene validation', () => {
       ]),
     ).toThrow(/禁止 vanishEntity/)
   })
+
+  test('rejects facing on a current zone entity', () => {
+    expect(() =>
+      validateRuntimeScenes([
+        scene({
+          entities: [
+            {
+              id: 'zone-1',
+              zone: true,
+              pos: { col: 1, row: 1, height: 0 },
+              facing: 'down',
+            },
+          ],
+        }),
+      ]),
+    ).toThrow(/zone 无朝向/)
+  })
 })

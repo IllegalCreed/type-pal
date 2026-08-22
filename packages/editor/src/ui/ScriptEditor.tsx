@@ -2,21 +2,20 @@ import type {
   ActorDef,
   AmbienceDef,
   AssetCatalogV1,
-  BaseAuthorCommand,
+  AuthorCommand,
   AuthorCondition,
   BattleFieldDef,
   BattleSpriteDef,
   Command,
   EnemyTeamDef,
   EntityAddress,
-  BaseHostileBehavior,
+  AuthorSceneDef,
   Locale,
   SceneDef,
   ScriptCondition,
-  BaseScriptFlow,
+  AuthorScriptFlow,
   ShopDef,
   SpriteDef,
-  BaseStateTransition,
   WorldVariableRegistryV1,
 } from '@type-pal/content'
 import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
@@ -25,6 +24,7 @@ import { cloneElement, useEffect, useId, useMemo, useRef, useState } from 'react
 import {
   type AuthorCommandChildKey,
   type AuthorCommandPath,
+  copyAuthorCommandAt,
   formatAuthorCommandPath,
   getAuthorCommandAt,
   insertAuthorCommandAfter,
@@ -58,6 +58,12 @@ import {
 import { musicAssets } from './MusicPicker.js'
 import { describeScriptCommand } from './ScriptTree.js'
 import { soundAssets } from './SoundPicker.js'
+
+type AuthorHostileBehavior = NonNullable<AuthorSceneDef['entities'][number]['hostile']>
+type AuthorStateTransition = Extract<
+  AuthorScriptFlow,
+  { kind: 'stateMachine' }
+>['machine']['states'][string]['next']
 
 function CanonicalField(props: {
   label: string
@@ -146,7 +152,7 @@ export function CanonicalScriptDialog(props: {
 export interface ScriptSchemeStripOption {
   id: string
   label: string
-  flow: BaseScriptFlow
+  flow: AuthorScriptFlow
   isDefault?: boolean
 }
 
@@ -442,7 +448,7 @@ interface DescribedCommand {
   children: Array<{
     key: AuthorCommandChildKey
     label: string
-    body: readonly BaseAuthorCommand[]
+    body: readonly AuthorCommand[]
   }>
 }
 
@@ -521,9 +527,12 @@ export const AUTHOR_COMMAND_PRESENTATION_ = {
   toggleDayNight: ['🌗', '切换昼夜'],
   unequip: ['🔓', '卸下装备'],
   unmountParty: ['🚶', '离开载具'],
-  vanishEntity: ['⊘', '实体暂时消失'],
+  suspendEntity: ['⏸', '暂停实体'],
+  hideEntity: ['🙈', '隐藏实体'],
+  restoreEntity: ['↩', '恢复实体'],
+  removeEntity: ['⛔', '移除实体'],
   wait: ['⏱', '等待'],
-} as const satisfies Record<BaseAuthorCommand['kind'], readonly [icon: string, label: string]>
+} as const satisfies Record<AuthorCommand['kind'], readonly [icon: string, label: string]>
 
 function addressLabel(address: EntityAddress): string {
   return `${address.scene}/${address.entity}`
@@ -564,7 +573,7 @@ function conditionLabel(condition: AuthorCondition): string {
   }
 }
 
-function commandChildren(command: BaseAuthorCommand): DescribedCommand['children'] {
+function commandChildren(command: AuthorCommand): DescribedCommand['children'] {
   switch (command.kind) {
     case 'branch':
       return [
@@ -605,14 +614,13 @@ function presentationCondition(condition: AuthorCondition): ScriptCondition {
   }
 }
 
-function presentationCommand(command: BaseAuthorCommand): Command | undefined {
+function presentationCommand(command: AuthorCommand): Command | undefined {
   switch (command.kind) {
-    case 'vanishEntity':
-      return {
-        kind: 'vanishEntity',
-        ...(command.target ? { entity: command.target.entity } : {}),
-        ...(command.seconds === undefined ? {} : { seconds: command.seconds }),
-      }
+    case 'suspendEntity':
+    case 'hideEntity':
+    case 'restoreEntity':
+    case 'removeEntity':
+      return undefined
     case 'setEntityState':
       return { kind: command.kind, entity: command.target.entity, state: command.state }
     case 'setMultiEntityState':
@@ -726,7 +734,7 @@ function presentationCommand(command: BaseAuthorCommand): Command | undefined {
 }
 
 function describeCommand(
-  command: BaseAuthorCommand,
+  command: AuthorCommand,
   context?: CanonicalScriptEditorContext,
 ): DescribedCommand {
   const children = commandChildren(command)
@@ -776,6 +784,24 @@ function describeCommand(
       }
     case 'selectSceneHooks':
       return { icon: '📜', label: `${command.scene} 切换场景脚本`, children }
+    case 'suspendEntity':
+      return {
+        icon: '⏸',
+        label: `暂停 ${addressLabel(command.target)}`,
+        detail: `${command.ticks} tick`,
+        children,
+      }
+    case 'hideEntity':
+      return {
+        icon: '🙈',
+        label: `隐藏 ${addressLabel(command.target)}`,
+        detail: `${command.ticks} tick 后允许离屏恢复`,
+        children,
+      }
+    case 'restoreEntity':
+      return { icon: '↩', label: `恢复 ${addressLabel(command.target)}`, children }
+    case 'removeEntity':
+      return { icon: '⛔', label: `移除 ${addressLabel(command.target)}`, children }
   }
   const presentation = presentationCommand(command)
   if (presentation && (context || command.kind !== 'dialog')) {
@@ -801,7 +827,12 @@ function describeCommand(
     return {
       icon: '💬',
       label: command.cue.rows.map((row) => row.text).join(' / ') || '空对话',
-      detail: command.cue.speaker,
+      detail:
+        command.cue.identity.kind === 'actor'
+          ? command.cue.identity.speakerOverride ?? command.cue.identity.actor
+          : command.cue.identity.kind === 'unbound'
+            ? command.cue.identity.speaker
+            : undefined,
       children,
     }
   const [icon, label] = AUTHOR_COMMAND_PRESENTATION_[command.kind]
@@ -815,7 +846,7 @@ function commandPathAfterInsert(path: AuthorCommandPath): string {
 }
 
 function CommandRows(props: {
-  body: readonly BaseAuthorCommand[]
+  body: readonly AuthorCommand[]
   parentPath: AuthorCommandPath
   context?: CanonicalScriptEditorContext
   selectedPath?: string
@@ -824,6 +855,7 @@ function CommandRows(props: {
   onSelect: (path: string) => void
   onEdit: (path: string) => void
   onInsert: (path: string) => void
+  onCopy: (path: string) => void
   onMove: (path: string, direction: -1 | 1) => void
   onRemove: (path: string) => void
 }) {
@@ -886,6 +918,12 @@ function CommandRows(props: {
                   onClick={() => props.onInsert(path)}
                 />
                 <DsIconButton
+                  label="复制"
+                  icon="copy"
+                  size="compact"
+                  onClick={() => props.onCopy(path)}
+                />
+                <DsIconButton
                   label="上移"
                   icon="chevron-up"
                   size="compact"
@@ -924,6 +962,7 @@ function CommandRows(props: {
                   onSelect={props.onSelect}
                   onEdit={props.onEdit}
                   onInsert={props.onInsert}
+                  onCopy={props.onCopy}
                   onMove={props.onMove}
                   onRemove={props.onRemove}
                 />
@@ -970,13 +1009,30 @@ function defaultCondition(kind: AuthorCondition['kind'], target?: EntityAddress)
   }
 }
 
+type ScriptEditorEntity = ScriptEditorState['scenes'][number]['entities'][number]
+
+function entitySupportsFacing(entity: ScriptEditorEntity): boolean {
+  return 'actor' in entity || 'sprite' in entity
+}
+
 function EntityAddressEditor(props: {
   value: EntityAddress
   state?: ScriptEditorState
+  entityFilter?: (entity: ScriptEditorEntity) => boolean
   onChange: (value: EntityAddress) => void
 }) {
   const scenes = props.state?.scenes ?? []
   const scene = scenes.find((candidate) => candidate.id === props.value.scene)
+  const acceptsEntity = props.entityFilter ?? (() => true)
+  const selectableScenes = props.entityFilter
+    ? scenes.filter((candidate) => candidate.entities.some(acceptsEntity))
+    : scenes
+  const selectableEntities = scene?.entities.filter(acceptsEntity) ?? []
+  const currentEntity = scene?.entities.find((candidate) => candidate.id === props.value.entity)
+  const sceneIsSelectable = selectableScenes.some((candidate) => candidate.id === scene?.id)
+  const entityIsSelectable = selectableEntities.some(
+    (candidate) => candidate.id === props.value.entity,
+  )
   return (
     <div className="canonical-address-editor">
       <div className="canonical-address-field">
@@ -987,16 +1043,27 @@ function EntityAddressEditor(props: {
             aria-label="场景"
             value={props.value.scene}
             options={[
-              ...(!scene
-                ? [{ value: props.value.scene, label: `${props.value.scene}（引用失效）` }]
+              ...(!scene || !sceneIsSelectable
+                ? [
+                    {
+                      value: props.value.scene,
+                      label: !scene
+                        ? `${props.value.scene}（引用失效）`
+                        : `${props.value.scene}（没有可转向实体）`,
+                      disabled: true,
+                    },
+                  ]
                 : []),
-              ...scenes.map((candidate) => ({ value: candidate.id, label: candidate.id })),
+              ...selectableScenes.map((candidate) => ({
+                value: candidate.id,
+                label: candidate.id,
+              })),
             ]}
             onValueChange={(sceneId) => {
-              const nextScene = scenes.find((candidate) => candidate.id === sceneId)
+              const nextScene = selectableScenes.find((candidate) => candidate.id === sceneId)
               props.onChange({
                 scene: sceneId,
-                entity: nextScene?.entities[0]?.id ?? props.value.entity,
+                entity: nextScene?.entities.find(acceptsEntity)?.id ?? props.value.entity,
               })
             }}
           />
@@ -1011,20 +1078,29 @@ function EntityAddressEditor(props: {
       </div>
       <div className="canonical-address-field">
         <span>实体</span>
-        {scene?.entities.length ? (
+        {scene ? (
           <DsSelect
             size="compact"
             aria-label="实体"
             value={props.value.entity}
             options={[
-              ...(!scene.entities.some((candidate) => candidate.id === props.value.entity)
-                ? [{ value: props.value.entity, label: `${props.value.entity}（引用失效）` }]
+              ...(!currentEntity || !entityIsSelectable
+                ? [
+                    {
+                      value: props.value.entity,
+                      label: !currentEntity
+                        ? `${props.value.entity}（引用失效）`
+                        : `${props.value.entity}（不支持朝向）`,
+                      disabled: true,
+                    },
+                  ]
                 : []),
-              ...scene.entities.map((candidate) => ({
+              ...selectableEntities.map((candidate) => ({
                 value: candidate.id,
                 label: candidate.id,
               })),
             ]}
+            disabled={selectableEntities.length === 0}
             onValueChange={(entity) => props.onChange({ ...props.value, entity })}
           />
         ) : (
@@ -1300,7 +1376,7 @@ function ConditionEditor(props: {
   )
 }
 
-const CUSTOM_COMMANDS = new Set<BaseAuthorCommand['kind']>([
+const CUSTOM_COMMANDS = new Set<AuthorCommand['kind']>([
   'cameraSnap',
   'chasePlayer',
   'endBattle',
@@ -1322,7 +1398,10 @@ const CUSTOM_COMMANDS = new Set<BaseAuthorCommand['kind']>([
   'toggleDayNight',
   'unequip',
   'unmountParty',
-  'vanishEntity',
+  'suspendEntity',
+  'hideEntity',
+  'restoreEntity',
+  'removeEntity',
   'setEntityState',
   'setMultiEntityState',
   'setEntityPos',
@@ -1366,6 +1445,7 @@ const PRIMITIVE_FIELD_LABELS: Readonly<Record<string, string>> = {
   level: '强度',
   progression: '变化速度',
   frames: '持续帧数',
+  ticks: '持续时间（tick）',
   ms: '持续时间（毫秒）',
   role: '角色序号',
   state: '状态（≤0 隐藏，1 显示，≥2 显示并挡路）',
@@ -1389,10 +1469,10 @@ const PRIMITIVE_FIELD_LABELS: Readonly<Record<string, string>> = {
 }
 
 function primitiveField(
-  command: BaseAuthorCommand,
+  command: AuthorCommand,
   key: string,
   value: string | number | boolean | undefined,
-  onChange: (command: BaseAuthorCommand) => void,
+  onChange: (command: AuthorCommand) => void,
 ) {
   if (value === undefined) return null
   const label = PRIMITIVE_FIELD_LABELS[key] ?? key
@@ -1404,7 +1484,7 @@ function primitiveField(
         label={label}
         checked={value}
         onChange={(event) =>
-          onChange({ ...command, [key]: event.target.checked } as BaseAuthorCommand)
+          onChange({ ...command, [key]: event.target.checked } as AuthorCommand)
         }
       />
     )
@@ -1421,7 +1501,7 @@ function primitiveField(
             { value: 'right', label: '向右' },
           ]}
           onValueChange={(nextValue) =>
-            onChange({ ...command, [key]: nextValue } as BaseAuthorCommand)
+            onChange({ ...command, [key]: nextValue } as AuthorCommand)
           }
         />
       </CanonicalField>
@@ -1439,7 +1519,7 @@ function primitiveField(
             { value: 'run', label: '奔跑' },
           ]}
           onValueChange={(nextValue) =>
-            onChange({ ...command, [key]: nextValue } as BaseAuthorCommand)
+            onChange({ ...command, [key]: nextValue } as AuthorCommand)
           }
         />
       </CanonicalField>
@@ -1459,7 +1539,7 @@ function primitiveField(
               stripCursorHandoff({
                 ...command,
                 [key]: channel,
-              } as BaseAuthorCommand),
+              } as AuthorCommand),
             )
           }
         />
@@ -1472,7 +1552,7 @@ function primitiveField(
           size="compact"
           value={value}
           onChange={(event) =>
-            onChange({ ...command, [key]: Number(event.target.value) } as BaseAuthorCommand)
+            onChange({ ...command, [key]: Number(event.target.value) } as AuthorCommand)
           }
         />
       ) : (
@@ -1480,7 +1560,7 @@ function primitiveField(
           size="compact"
           value={value}
           onChange={(event) =>
-            onChange({ ...command, [key]: event.target.value } as BaseAuthorCommand)
+            onChange({ ...command, [key]: event.target.value } as AuthorCommand)
           }
         />
       )}
@@ -1488,16 +1568,16 @@ function primitiveField(
   )
 }
 
-function stripCursorHandoff(command: BaseAuthorCommand): BaseAuthorCommand {
+function stripCursorHandoff(command: AuthorCommand): AuthorCommand {
   if (command.kind !== 'selectEntityBehavior' || command.cursorHandoff === undefined) return command
   const { cursorHandoff: _cursorHandoff, ...next } = command
   return next
 }
 
 function CanonicalCommandForm(props: {
-  command: BaseAuthorCommand
+  command: AuthorCommand
   context?: CanonicalScriptEditorContext
-  onChange: (command: BaseAuthorCommand) => void
+  onChange: (command: AuthorCommand) => void
 }) {
   const command = props.command
   const context = props.context
@@ -1530,7 +1610,7 @@ function CanonicalCommandForm(props: {
           onOpenImage={context.onOpenImage}
           onOpenBattleSprite={context.onOpenBattleSprite}
           onOpenSpriteAction={context.onOpenSpriteAction}
-          onChange={(next) => props.onChange(next as BaseAuthorCommand)}
+          onChange={(next) => props.onChange(next as AuthorCommand)}
         />
       )
   }
@@ -1961,7 +2041,10 @@ function CanonicalCommandForm(props: {
     command.kind === 'takeEntity' ||
     command.kind === 'mountParty' ||
     command.kind === 'ride' ||
-    command.kind === 'vanishEntity' ||
+    command.kind === 'suspendEntity' ||
+    command.kind === 'hideEntity' ||
+    command.kind === 'restoreEntity' ||
+    command.kind === 'removeEntity' ||
     command.kind === 'selectEntityBehavior' ||
     command.kind === 'selectEntityPage' ||
     command.kind === 'setEntityTriggerActivation'
@@ -1978,8 +2061,9 @@ function CanonicalCommandForm(props: {
           <EntityAddressEditor
             value={target}
             state={context?.state}
+            entityFilter={command.kind === 'setEntityFacing' ? entitySupportsFacing : undefined}
             onChange={(next) =>
-              props.onChange(stripCursorHandoff({ ...command, target: next } as BaseAuthorCommand))
+              props.onChange(stripCursorHandoff({ ...command, target: next } as AuthorCommand))
             }
           />
         ) : (
@@ -1995,7 +2079,7 @@ function CanonicalCommandForm(props: {
                   props.onChange({
                     ...command,
                     to: { ...command.to, col: Number(event.target.value) },
-                  } as BaseAuthorCommand)
+                  } as AuthorCommand)
                 }
               />
             </CanonicalField>
@@ -2007,7 +2091,7 @@ function CanonicalCommandForm(props: {
                   props.onChange({
                     ...command,
                     to: { ...command.to, row: Number(event.target.value) },
-                  } as BaseAuthorCommand)
+                  } as AuthorCommand)
                 }
               />
             </CanonicalField>
@@ -2023,7 +2107,7 @@ function CanonicalCommandForm(props: {
                   props.onChange({
                     ...command,
                     pos: { ...command.pos, col: Number(event.target.value) },
-                  } as BaseAuthorCommand)
+                  } as AuthorCommand)
                 }
               />
             </CanonicalField>
@@ -2035,7 +2119,7 @@ function CanonicalCommandForm(props: {
                   props.onChange({
                     ...command,
                     pos: { ...command.pos, row: Number(event.target.value) },
-                  } as BaseAuthorCommand)
+                  } as AuthorCommand)
                 }
               />
             </CanonicalField>
@@ -2384,8 +2468,8 @@ function CanonicalCommandForm(props: {
 
 interface InsertionChoice {
   label: string
-  commands: BaseAuthorCommand[]
-  kind?: BaseAuthorCommand['kind']
+  commands: AuthorCommand[]
+  kind?: AuthorCommand['kind']
   unavailableReason?: string
 }
 
@@ -2395,8 +2479,8 @@ interface InsertionGroup {
 }
 
 function visitCommandExamples(
-  commands: readonly BaseAuthorCommand[],
-  examples: Map<BaseAuthorCommand['kind'], BaseAuthorCommand>,
+  commands: readonly AuthorCommand[],
+  examples: Map<AuthorCommand['kind'], AuthorCommand>,
 ): void {
   for (const command of commands) {
     if (!examples.has(command.kind)) examples.set(command.kind, structuredClone(command))
@@ -2404,8 +2488,8 @@ function visitCommandExamples(
   }
 }
 
-function projectCommandExamples(state: ScriptEditorState): BaseAuthorCommand[] {
-  const examples = new Map<BaseAuthorCommand['kind'], BaseAuthorCommand>()
+function projectCommandExamples(state: ScriptEditorState): AuthorCommand[] {
+  const examples = new Map<AuthorCommand['kind'], AuthorCommand>()
   for (const scene of state.scenes) {
     for (const entity of scene.entities)
       for (const channel of ['trigger', 'auto'] as const)
@@ -2444,10 +2528,10 @@ function projectCommandExamples(state: ScriptEditorState): BaseAuthorCommand[] {
 }
 
 function cleanInsertionExample(
-  command: BaseAuthorCommand,
+  command: AuthorCommand,
   target: EntityAddress | undefined,
   sceneId: string | undefined,
-): BaseAuthorCommand {
+): AuthorCommand {
   let next = structuredClone(command)
   switch (next.kind) {
     case 'branch':
@@ -2480,12 +2564,12 @@ function cleanInsertionExample(
       if (sceneId) next = { ...next, scene: sceneId }
       break
   }
-  if (target && 'target' in next && next.target) next = { ...next, target } as BaseAuthorCommand
+  if (target && 'target' in next && next.target) next = { ...next, target } as AuthorCommand
   return next
 }
 
 function fallbackInsertionChoice(
-  kind: BaseAuthorCommand['kind'],
+  kind: AuthorCommand['kind'],
   context: CanonicalScriptEditorContext | undefined,
   target: EntityAddress | undefined,
 ): InsertionChoice {
@@ -2496,7 +2580,7 @@ function fallbackInsertionChoice(
     commands: [],
     unavailableReason: reason,
   })
-  const enabled = (command: BaseAuthorCommand): InsertionChoice => ({
+  const enabled = (command: AuthorCommand): InsertionChoice => ({
     kind,
     label: `${icon} ${label}`,
     commands: [command],
@@ -2539,6 +2623,14 @@ function fallbackInsertionChoice(
     }
     case 'releaseEntity':
       return enabled({ kind, ...(target ? { target } : {}) })
+    case 'suspendEntity':
+      return target ? enabled({ kind, target, ticks: 1 }) : unavailable('请先选择一个场景实体')
+    case 'hideEntity':
+      return target ? enabled({ kind, target, ticks: 1 }) : unavailable('请先选择一个场景实体')
+    case 'restoreEntity':
+      return target ? enabled({ kind, target }) : unavailable('请先选择一个场景实体')
+    case 'removeEntity':
+      return target ? enabled({ kind, target }) : unavailable('请先选择一个场景实体')
     case 'selectEntityPage':
       return target
         ? enabled({ kind, target, selection: { kind: 'inherit' } })
@@ -2566,6 +2658,7 @@ function insertionGroups(context?: CanonicalScriptEditorContext): InsertionGroup
     currentScene?.entities.find((candidate) => candidate.id === context?.currentEntityId) ??
     currentScene?.entities[0]
   const target = currentScene && entity ? { scene: currentScene.id, entity: entity.id } : undefined
+  const facingTarget = target && entity && entitySupportsFacing(entity) ? target : undefined
   const pos = entity?.pos ?? currentScene?.entry.pos ?? { col: 0, row: 0, height: 0 }
   const groups: InsertionGroup[] = [
     {
@@ -2573,7 +2666,12 @@ function insertionGroups(context?: CanonicalScriptEditorContext): InsertionGroup
       choices: [
         {
           label: '💬 对话',
-          commands: [{ kind: 'dialog', cue: { rows: [{ text: '(新对话)' }] } }],
+          commands: [
+            {
+              kind: 'dialog',
+              cue: { identity: { kind: 'narration' }, rows: [{ text: '(新对话)' }] },
+            },
+          ],
         },
         { label: '⏱ 等待', commands: [{ kind: 'wait', ms: 200 }] },
         {
@@ -2594,18 +2692,22 @@ function insertionGroups(context?: CanonicalScriptEditorContext): InsertionGroup
                 label: '🚶 实体走到',
                 commands: [
                   { kind: 'moveEntity', target, to: { ...pos }, speed: 'normal' },
-                ] as BaseAuthorCommand[],
+                ] as AuthorCommand[],
               },
               {
                 label: '👁 实体显隐',
-                commands: [{ kind: 'setEntityState', target, state: 1 }] as BaseAuthorCommand[],
+                commands: [{ kind: 'setEntityState', target, state: 1 }] as AuthorCommand[],
               },
-              {
-                label: '🧭 实体转向',
-                commands: [
-                  { kind: 'setEntityFacing', target, facing: 'down' },
-                ] as BaseAuthorCommand[],
-              },
+              ...(facingTarget
+                ? [
+                    {
+                      label: '🧭 实体转向',
+                      commands: [
+                        { kind: 'setEntityFacing', target: facingTarget, facing: 'down' },
+                      ] as AuthorCommand[],
+                    },
+                  ]
+                : []),
             ]
           : []),
         { label: '🌓 淡入/淡出', commands: [{ kind: 'fade', dir: 'out', ms: 300 }] },
@@ -2639,6 +2741,17 @@ function insertionGroups(context?: CanonicalScriptEditorContext): InsertionGroup
           commands: [{ kind: 'startBattle', enemyTeamId: 'team-0' }],
         },
       ],
+    },
+    {
+      title: '实体状态',
+      choices: target
+        ? [
+            { label: '⏸ 暂停实体', commands: [{ kind: 'suspendEntity', target, ticks: 1 }] },
+            { label: '🙈 隐藏实体', commands: [{ kind: 'hideEntity', target, ticks: 1 }] },
+            { label: '↩ 恢复实体', commands: [{ kind: 'restoreEntity', target }] },
+            { label: '⛔ 移除实体', commands: [{ kind: 'removeEntity', target }] },
+          ]
+        : [],
     },
     {
       title: '剧情逻辑与资源',
@@ -2708,15 +2821,19 @@ function insertionGroups(context?: CanonicalScriptEditorContext): InsertionGroup
       choices: [
         ...(target && item
           ? [
-              {
-                label: '📦 宝箱：开盖并给物品',
-                commands: [
-                  { kind: 'setEntityFacing', target, facing: 'down' },
-                  { kind: 'setEntityFrame', target, frame: 1 },
-                  { kind: 'dialog', cue: { rows: [{ text: '(得到物品！)' }] } },
-                  { kind: 'giveItem', itemId: item },
-                ],
-              } as InsertionChoice,
+              ...(facingTarget
+                ? [
+                    {
+                      label: '📦 宝箱：开盖并给物品',
+                      commands: [
+                        { kind: 'setEntityFacing', target: facingTarget, facing: 'down' },
+                        { kind: 'setEntityFrame', target: facingTarget, frame: 1 },
+                        { kind: 'dialog', cue: { rows: [{ text: '(得到物品！)' }] } },
+                        { kind: 'giveItem', itemId: item },
+                      ],
+                    } as InsertionChoice,
+                  ]
+                : []),
               {
                 label: '🌿 地上道具：拾取后消失',
                 commands: [
@@ -2727,12 +2844,12 @@ function insertionGroups(context?: CanonicalScriptEditorContext): InsertionGroup
               } as InsertionChoice,
             ]
           : []),
-        ...(target
+        ...(facingTarget
           ? [
               {
                 label: '🗣 NPC 搭话',
                 commands: [
-                  { kind: 'setEntityFacing', target, facing: 'down' },
+                  { kind: 'setEntityFacing', target: facingTarget, facing: 'down' },
                   { kind: 'dialog', cue: { rows: [{ text: '(新对话)' }] } },
                 ],
               } as InsertionChoice,
@@ -2741,20 +2858,25 @@ function insertionGroups(context?: CanonicalScriptEditorContext): InsertionGroup
                 commands: [
                   {
                     kind: 'moveEntity',
-                    target,
+                    target: facingTarget,
                     to: { ...pos, col: pos.col + 4 },
                     speed: 'slow',
                   },
                   { kind: 'wait', ms: 400 },
-                  { kind: 'moveEntity', target, to: { ...pos }, speed: 'slow' },
+                  {
+                    kind: 'moveEntity',
+                    target: facingTarget,
+                    to: { ...pos },
+                    speed: 'slow',
+                  },
                   { kind: 'wait', ms: 400 },
                 ],
               } as InsertionChoice,
               {
                 label: '👀 四向张望',
                 commands: (['down', 'left', 'up', 'right'] as const).flatMap((facing) => [
-                  { kind: 'setEntityFacing', target, facing },
-                  { kind: 'setEntityFrame', target, frame: 0 },
+                  { kind: 'setEntityFacing', target: facingTarget, facing },
+                  { kind: 'setEntityFrame', target: facingTarget, frame: 0 },
                   { kind: 'wait', ms: 600 },
                 ]),
               } as InsertionChoice,
@@ -2784,16 +2906,23 @@ function insertionGroups(context?: CanonicalScriptEditorContext): InsertionGroup
       command,
     ]),
   )
-  const more = (Object.keys(AUTHOR_COMMAND_PRESENTATION_) as BaseAuthorCommand['kind'][])
+  const more = (Object.keys(AUTHOR_COMMAND_PRESENTATION_) as AuthorCommand['kind'][])
     .filter((kind) => !represented.has(kind) && kind !== 'holdScreen' && kind !== 'revealScreen')
     .map((kind) => {
+      if (kind === 'setEntityFacing' && !facingTarget)
+        return {
+          kind,
+          label: '🧭 实体转向',
+          commands: [],
+          unavailableReason: '触发区没有朝向；请先选择一个可见实体',
+        } satisfies InsertionChoice
       const command = examples.get(kind)
       if (!command) return fallbackInsertionChoice(kind, context, target)
       const [icon, label] = AUTHOR_COMMAND_PRESENTATION_[kind]
       return {
         kind,
         label: `${icon} ${label}`,
-        commands: [cleanInsertionExample(command, target, currentScene?.id)] as BaseAuthorCommand[],
+        commands: [cleanInsertionExample(command, target, currentScene?.id)] as AuthorCommand[],
       }
     })
     .sort((left, right) => left.label.localeCompare(right.label, 'zh-CN'))
@@ -2806,10 +2935,10 @@ function insertionGroups(context?: CanonicalScriptEditorContext): InsertionGroup
 }
 
 function insertCommandsAfter(
-  body: readonly BaseAuthorCommand[],
+  body: readonly AuthorCommand[],
   path: AuthorCommandPath,
-  commands: readonly BaseAuthorCommand[],
-): { body: BaseAuthorCommand[]; selectedPath: string } {
+  commands: readonly AuthorCommand[],
+): { body: AuthorCommand[]; selectedPath: string } {
   let nextBody = [...body]
   let cursor = path
   for (const command of commands) {
@@ -2820,8 +2949,8 @@ function insertCommandsAfter(
 }
 
 export function CanonicalScriptBodyEditor(props: {
-  body: readonly BaseAuthorCommand[]
-  onChange: (body: BaseAuthorCommand[]) => void
+  body: readonly AuthorCommand[]
+  onChange: (body: AuthorCommand[]) => void
   context?: CanonicalScriptEditorContext
   onError?: (message: string) => void
   label?: string
@@ -2860,7 +2989,7 @@ export function CanonicalScriptBodyEditor(props: {
     if (props.focusRevision === undefined || props.focusCommandPath === undefined) return
     if (lastAppliedFocusRevisionRef.current === props.focusRevision) return
     lastAppliedFocusRevisionRef.current = props.focusRevision
-    let command: BaseAuthorCommand | undefined
+    let command: AuthorCommand | undefined
     try {
       command = getAuthorCommandAt(props.body, parseAuthorCommandPath(props.focusCommandPath))
     } catch {
@@ -2883,7 +3012,7 @@ export function CanonicalScriptBodyEditor(props: {
     // editorRef 始终读取最新 DOM，revision 检查会淘汰真正过期的定位请求。
   }, [props.body, props.focusCommandPath, props.focusRevision, props.onError])
 
-  const commit = (body: BaseAuthorCommand[]): boolean => {
+  const commit = (body: AuthorCommand[]): boolean => {
     try {
       props.onChange(body)
       return true
@@ -2938,6 +3067,11 @@ export function CanonicalScriptBodyEditor(props: {
               setSelectedPath(path)
               setEditingPath(undefined)
               setInsertPath(path)
+            }}
+            onCopy={(path) => {
+              const parsed = parseAuthorCommandPath(path)
+              if (commit(copyAuthorCommandAt(props.body, parsed)))
+                setSelectedPath(commandPathAfterInsert(parsed))
             }}
             onMove={(path, direction) => {
               const parsed = parseAuthorCommandPath(path)
@@ -3041,8 +3175,8 @@ export function CanonicalScriptBodyEditor(props: {
 }
 
 export function CanonicalHostileOnLoseEditor(props: {
-  value: BaseHostileBehavior['onLose']
-  onChange: (value: BaseHostileBehavior['onLose']) => void
+  value: AuthorHostileBehavior['onLose']
+  onChange: (value: AuthorHostileBehavior['onLose']) => void
   context?: CanonicalScriptEditorContext
   focusCommandPath?: string
   focusRevision?: number
@@ -3120,10 +3254,10 @@ export function CanonicalHostileOnLoseEditor(props: {
 }
 
 function defaultTransition(
-  kind: BaseStateTransition['kind'],
+  kind: AuthorStateTransition['kind'],
   states: readonly string[],
   commandIds: readonly string[],
-): BaseStateTransition {
+): AuthorStateTransition {
   const state = states[0] ?? 'state'
   switch (kind) {
     case 'stay':
@@ -3155,12 +3289,12 @@ function defaultTransition(
 }
 
 function TransitionEditor(props: {
-  value: BaseStateTransition
+  value: AuthorStateTransition
   states: readonly string[]
   commandIds: readonly string[]
   context?: CanonicalScriptEditorContext
   label?: string
-  onChange: (transition: BaseStateTransition) => void
+  onChange: (transition: AuthorStateTransition) => void
 }) {
   const transition = props.value
   return (
@@ -3181,7 +3315,7 @@ function TransitionEditor(props: {
           onValueChange={(kind) =>
             props.onChange(
               defaultTransition(
-                kind as BaseStateTransition['kind'],
+                kind as AuthorStateTransition['kind'],
                 props.states,
                 props.commandIds,
               ),
@@ -3289,9 +3423,9 @@ function TransitionEditor(props: {
   )
 }
 
-function confirmIds(body: readonly BaseAuthorCommand[]): string[] {
+function confirmIds(body: readonly AuthorCommand[]): string[] {
   const ids: string[] = []
-  const visit = (commands: readonly BaseAuthorCommand[]): void => {
+  const visit = (commands: readonly AuthorCommand[]): void => {
     for (const command of commands) {
       if (command.kind === 'confirm' && command.id) ids.push(command.id)
       for (const child of commandChildren(command)) visit(child.body)
@@ -3302,13 +3436,13 @@ function confirmIds(body: readonly BaseAuthorCommand[]): string[] {
 }
 
 function CanonicalFlowBodyTabs(props: {
-  prepare?: readonly BaseAuthorCommand[]
-  body: readonly BaseAuthorCommand[]
+  prepare?: readonly AuthorCommand[]
+  body: readonly AuthorCommand[]
   bodyLabel: string
   context?: CanonicalScriptEditorContext
   onError?: (message: string) => void
-  onPrepareChange?: (prepare: BaseAuthorCommand[]) => void
-  onBodyChange: (body: BaseAuthorCommand[]) => void
+  onPrepareChange?: (prepare: AuthorCommand[]) => void
+  onBodyChange: (body: AuthorCommand[]) => void
   focusSection?: 'prepare' | 'body'
   focusCommandPath?: string
   focusRevision?: number
@@ -3421,7 +3555,7 @@ function CanonicalFlowBodyTabs(props: {
   )
 }
 
-type TriggerStageFlow = Extract<BaseScriptFlow, { kind: 'stages' }>
+type TriggerStageFlow = Extract<AuthorScriptFlow, { kind: 'stages' }>
 
 export function removeTriggerStage(
   flow: TriggerStageFlow,
@@ -3444,8 +3578,8 @@ export function removeTriggerStage(
 }
 
 export function CanonicalScriptFlowEditor(props: {
-  flow: BaseScriptFlow
-  onChange: (flow: BaseScriptFlow) => boolean
+  flow: AuthorScriptFlow
+  onChange: (flow: AuthorScriptFlow) => boolean
   ownerLabel?: string
   context?: CanonicalScriptEditorContext
   onError?: (message: string) => void

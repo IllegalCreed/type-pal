@@ -1,18 +1,12 @@
 import type {
-  AuthorItemCore,
-  BaseAuthorCommand,
-  BaseSceneDef,
-  BaseScriptLibrary,
+  AuthorItemData,
+  AuthorCommand,
+  AuthorSceneDef,
+  AuthorScriptLibrary,
   EntityAddress,
   FlowCursor,
-  BaseHostileBehavior,
-  BaseEntityBehavior,
-  BaseSceneHook,
-  BaseScriptFlow,
+  AuthorScriptFlow,
   Selection,
-  BaseSceneEntityDef,
-  BaseSharedScript,
-  BaseStateTransition,
   TriggerActivation,
 } from '@type-pal/content'
 import {
@@ -22,10 +16,24 @@ import {
 } from '@type-pal/content'
 import { getAuthorCommandAt, parseAuthorCommandPath } from './author-command-edit.js'
 
+type AuthorSceneEntityDef = AuthorSceneDef['entities'][number]
+type AuthorHostileBehavior = NonNullable<AuthorSceneEntityDef['hostile']>
+type AuthorEntityBehavior = NonNullable<
+  NonNullable<AuthorSceneEntityDef['behaviors']>['trigger']
+>[string]
+type AuthorSceneHook = NonNullable<
+  NonNullable<NonNullable<AuthorSceneDef['hooks']>['onEnter']>['variants']
+>[string]
+type AuthorSharedScript = AuthorScriptLibrary[string]
+type AuthorStateTransition = Extract<
+  AuthorScriptFlow,
+  { kind: 'stateMachine' }
+>['machine']['states'][string]['next']
+
 export interface ScriptEditorState {
-  scenes: BaseSceneDef[]
-  items: AuthorItemCore[]
-  sharedScripts: BaseScriptLibrary
+  scenes: AuthorSceneDef[]
+  items: AuthorItemData[]
+  sharedScripts: AuthorScriptLibrary
 }
 
 export interface ScriptEditorCommand {
@@ -110,7 +118,7 @@ export type ScriptReferenceLocator =
       hookId: string
     }
 
-function sceneById(state: ScriptEditorState, sceneId: string): BaseSceneDef {
+function sceneById(state: ScriptEditorState, sceneId: string): AuthorSceneDef {
   const scene = state.scenes.find((candidate) => candidate.id === sceneId)
   if (!scene) throw new Error(`场景不存在 ${sceneId}`)
   return scene
@@ -137,7 +145,7 @@ function behavior(
   target: EntityAddress,
   channel: 'trigger' | 'auto',
   behaviorId: string,
-): BaseEntityBehavior {
+): AuthorEntityBehavior {
   const value = behaviorRegistry(state, target, channel)?.[behaviorId]
   if (!value)
     throw new Error(`behavior 不存在 ${target.scene}/${target.entity}/${channel}/${behaviorId}`)
@@ -163,8 +171,8 @@ function checkScriptId(id: string): void {
 }
 
 function walkCommands(
-  commands: BaseAuthorCommand[],
-  visit: (command: BaseAuthorCommand, path: string, locator: ScriptCommandLocator) => void,
+  commands: AuthorCommand[],
+  visit: (command: AuthorCommand, path: string, locator: ScriptCommandLocator) => void,
   path: string,
   owner: ScriptCommandOwner,
   container: ScriptCommandContainer,
@@ -223,8 +231,8 @@ function walkCommands(
 }
 
 function walkFlowCommands(
-  flow: BaseScriptFlow,
-  visit: (command: BaseAuthorCommand, path: string, locator: ScriptCommandLocator) => void,
+  flow: AuthorScriptFlow,
+  visit: (command: AuthorCommand, path: string, locator: ScriptCommandLocator) => void,
   path: string,
   owner: ScriptCommandOwner,
 ): void {
@@ -269,7 +277,7 @@ function walkFlowCommands(
 
 export function visitCanonicalScriptCommands(
   state: ScriptEditorState,
-  visit: (command: BaseAuthorCommand, path: string, locator: ScriptCommandLocator) => void,
+  visit: (command: AuthorCommand, path: string, locator: ScriptCommandLocator) => void,
 ): void {
   for (const scene of state.scenes) {
     for (const entity of scene.entities) {
@@ -339,9 +347,9 @@ export function visitCanonicalScriptCommands(
 }
 
 function mapCommands(
-  commands: BaseAuthorCommand[],
-  map: (command: BaseAuthorCommand) => BaseAuthorCommand,
-): BaseAuthorCommand[] {
+  commands: AuthorCommand[],
+  map: (command: AuthorCommand) => AuthorCommand,
+): AuthorCommand[] {
   return commands.map((raw) => {
     let command = clone(raw)
     switch (command.kind) {
@@ -377,9 +385,9 @@ function mapCommands(
 }
 
 function mapFlowCommands(
-  flow: BaseScriptFlow,
-  map: (command: BaseAuthorCommand) => BaseAuthorCommand,
-): BaseScriptFlow {
+  flow: AuthorScriptFlow,
+  map: (command: AuthorCommand) => AuthorCommand,
+): AuthorScriptFlow {
   if (flow.kind === 'stages')
     return {
       ...clone(flow),
@@ -423,7 +431,7 @@ function mapFlowCommands(
 
 function mapAllCommands(
   state: ScriptEditorState,
-  map: (command: BaseAuthorCommand) => BaseAuthorCommand,
+  map: (command: AuthorCommand) => AuthorCommand,
 ): void {
   for (const scene of state.scenes) {
     for (const entity of scene.entities) {
@@ -486,6 +494,16 @@ export function collectScriptReferenceIssues(state: ScriptEditorState): ScriptRe
   }
   visitCanonicalScriptCommands(state, (command, path) => {
     if (command.kind === 'callScript') check(command.script, `${path}.script`)
+    if (command.kind === 'setEntityFacing') {
+      const scene = state.scenes.find((candidate) => candidate.id === command.target.scene)
+      const entity = scene?.entities.find((candidate) => candidate.id === command.target.entity)
+      if (entity && 'zone' in entity)
+        issues.push({
+          severity: 'error',
+          path: `${path}.target`,
+          message: `触发区 "${command.target.scene}/${command.target.entity}" 不支持朝向`,
+        })
+    }
     if (command.kind !== 'selectEntityBehavior') return
     const scene = state.scenes.find((candidate) => candidate.id === command.target.scene)
     const entity = scene?.entities.find((candidate) => candidate.id === command.target.entity)
@@ -532,7 +550,7 @@ export function collectScriptReferenceIssues(state: ScriptEditorState): ScriptRe
   return issues
 }
 
-function flowContainsCursor(flow: BaseScriptFlow, cursor: FlowCursor): boolean {
+function flowContainsCursor(flow: AuthorScriptFlow, cursor: FlowCursor): boolean {
   if (flow.kind === 'stages')
     return cursor.kind === 'stage' && flow.stages.some((stage) => stage.id === cursor.stage)
   return (
@@ -599,7 +617,7 @@ function sceneHook(
   sceneId: string,
   slot: SceneHookSlot,
   hookId: string,
-): BaseSceneHook {
+): AuthorSceneHook {
   const value = sceneById(state, sceneId).hooks?.[slot]?.variants[hookId]
   if (!value) throw new Error(`hook 不存在 ${sceneId}/${slot}/${hookId}`)
   return value
@@ -657,7 +675,7 @@ function commandPositionLabel(commandPath: string): string {
 function commandOwnerFlow(
   state: ScriptEditorState,
   owner: ScriptCommandOwner,
-): BaseScriptFlow | undefined {
+): AuthorScriptFlow | undefined {
   if (owner.kind === 'entity-behavior')
     return state.scenes
       .find((scene) => scene.id === owner.sceneId)
@@ -674,7 +692,7 @@ function commandOwnerFlow(
 function commandLocatorBody(
   state: ScriptEditorState,
   locator: ScriptCommandLocator,
-): readonly BaseAuthorCommand[] | undefined {
+): readonly AuthorCommand[] | undefined {
   const { owner, container } = locator
   if (owner.kind === 'shared-script')
     return container.kind === 'body' ? state.sharedScripts[owner.scriptId]?.body : undefined
@@ -709,7 +727,7 @@ function commandLocatorBody(
 export function resolveCanonicalScriptCommand(
   state: ScriptEditorState,
   locator: ScriptCommandLocator,
-): BaseAuthorCommand | undefined {
+): AuthorCommand | undefined {
   const body = commandLocatorBody(state, locator)
   if (!body) return undefined
   try {
@@ -878,7 +896,7 @@ export class AddSceneEntityDefinitionCommand extends SnapshotCommand {
 
   constructor(
     private readonly sceneId: string,
-    private readonly entity: BaseSceneEntityDef,
+    private readonly entity: AuthorSceneEntityDef,
   ) {
     super()
   }
@@ -1046,7 +1064,7 @@ export class AddEntityBehaviorCommand extends SnapshotCommand {
     private readonly target: EntityAddress,
     private readonly channel: 'trigger' | 'auto',
     private readonly behaviorId: string,
-    private readonly value: BaseEntityBehavior,
+    private readonly value: AuthorEntityBehavior,
   ) {
     super()
   }
@@ -1150,7 +1168,7 @@ export class UpdateEntityBehaviorCommand extends SnapshotCommand {
     private readonly target: EntityAddress,
     private readonly channel: 'trigger' | 'auto',
     private readonly behaviorId: string,
-    private readonly patch: Partial<BaseEntityBehavior>,
+    private readonly patch: Partial<AuthorEntityBehavior>,
   ) {
     super()
   }
@@ -1198,7 +1216,7 @@ export class AddSceneHookCommand extends SnapshotCommand {
     private readonly sceneId: string,
     private readonly slot: SceneHookSlot,
     private readonly hookId: string,
-    private readonly value: BaseSceneHook,
+    private readonly value: AuthorSceneHook,
   ) {
     super()
   }
@@ -1291,7 +1309,7 @@ export class UpdateSceneHookCommand extends SnapshotCommand {
     private readonly sceneId: string,
     private readonly slot: SceneHookSlot,
     private readonly hookId: string,
-    private readonly patch: Partial<BaseSceneHook>,
+    private readonly patch: Partial<AuthorSceneHook>,
   ) {
     super()
   }
@@ -1391,7 +1409,7 @@ export class SetItemPrivateScriptBodyCommand extends SnapshotCommand {
     private readonly itemId: string,
     private readonly use: 'use' | 'throw',
     private readonly effectIndex: number,
-    private readonly body: BaseAuthorCommand[],
+    private readonly body: AuthorCommand[],
   ) {
     super()
   }
@@ -1439,7 +1457,7 @@ export class SetEntityHostileOnLoseCommand extends SnapshotCommand {
 
   constructor(
     private readonly target: EntityAddress,
-    private readonly onLose: BaseHostileBehavior['onLose'],
+    private readonly onLose: AuthorHostileBehavior['onLose'],
   ) {
     super()
   }
@@ -1458,7 +1476,7 @@ export class AddSharedScriptCommand extends SnapshotCommand {
 
   constructor(
     private readonly scriptId: string,
-    private readonly value: BaseSharedScript,
+    private readonly value: AuthorSharedScript,
   ) {
     super()
   }
@@ -1475,7 +1493,7 @@ export class UpdateSharedScriptCommand extends SnapshotCommand {
 
   constructor(
     private readonly scriptId: string,
-    private readonly patch: Partial<BaseSharedScript>,
+    private readonly patch: Partial<AuthorSharedScript>,
   ) {
     super()
   }
@@ -1563,7 +1581,7 @@ export function presentSelection<T>(
 }
 
 export function stateTransitionExecutionLabel(
-  transition: BaseStateTransition,
+  transition: AuthorStateTransition,
 ): '同步继续' | '下次激活' | '让步后同次继续' | '条件分派' {
   if (transition.kind === 'branch' || transition.kind === 'commandOutcome') return '条件分派'
   if (transition.kind === 'continue') return '同步继续'

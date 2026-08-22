@@ -1,6 +1,6 @@
 # ED-ENTITY-INSPECTOR-IA-1 - 场景实体 Inspector、状态指令与删除入口收口
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: 场景实体作者工作台 / current AuthorCommand
 Coding Owner: Codex
@@ -9,7 +9,7 @@ Reviewer: both
 Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
-Branch: TBD（当前 `codex/ed-pal-workspace-modes-1` 有未收口改动；三签前不得混入本卡实现）
+Branch: codex/ed-entity-inspector-ia-1
 
 ## 目标
 
@@ -126,11 +126,15 @@ find projects -path '*/content/scenes/*.json' -type f -print0 \
   - `<button>` 列表行内再嵌套删除 `<button>`；
   - Inspector 底部或画布工具栏重复删除入口。
 - 相关测试:
-  - `packages/editor/src/ui/LifecycleCommandPanel.test.tsx`
+  - `packages/editor/src/core/author-command-edit.test.ts`
+  - `packages/editor/src/core/script-editor.test.ts`
+  - `packages/editor/src/ui/ScriptEditor.test.tsx`
   - `packages/editor/src/ui/App.reference-navigation.test.tsx`
   - `packages/editor/src/core/entity-address-references.test.ts`
   - `packages/editor/src/core/commands.test.ts`
-  - `packages/content/src/runtime-script-lifecycle.test.ts`
+  - `packages/editor/src/ui/design-system/boundary.test.ts`
+  - `packages/content/src/validate.test.ts`
+  - `packages/content/src/validate-runtime.test.ts`
 
 ## 验收条件
 
@@ -228,11 +232,12 @@ find projects -path '*/content/scenes/*.json' -type f -print0 \
     就是纯删功能——`:24-319` 的自建命令类证伪。
 - counter / 分歧处理: 无；任一方 counter 则保持 draft/blocked，用户裁决后重签。
 - 缺签豁免: N/A
-- build 准入结论: blocked
+- build 准入结论: build allowed（2026-08-23；Codex/Kimi/GLM 三方 premise verified + design agree、
+  独立反证与用户开放指令均已齐，无 counter）
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: accept（2026-08-23；实现、自审、typecheck、content 422 项与 editor 聚焦 215 项通过）
 - Kimi: pending
 - GLM: pending
 - counter / 返工处理: pending
@@ -304,36 +309,72 @@ find projects -path '*/content/scenes/*.json' -type f -print0 \
 ## Build: 实现与自测
 
 - Coding Owner: Codex
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- 修改文件:
+  - `packages/content/src/index.ts`、`packages/content/src/validate.ts` 及相应 validator 测试；
+  - `packages/editor/src/core/author-command-edit.ts`、`script-editor.ts`、`command-catalog.ts`、
+    `entity-address-references.ts`、`commands.ts` 及相应测试；
+  - `packages/editor/src/ui/App.tsx`、`ScriptEditor.tsx`、脚本 Inspector/Workspace 投影、
+    `editor.css` 及相应 UI/boundary 测试；
+  - 删除 `packages/editor/src/core/lifecycle-command-editor.ts`、
+    `packages/editor/src/ui/LifecycleCommandPanel.tsx` 及其专用测试；
+  - 同步 current command 投影的 content/reforge 调用方、设计系统任务说明与本卡/看板。
+- 实现摘要:
+  - 唯一 current `AuthorCommand` 编辑链完整承载暂停、隐藏、恢复、移除四种实体状态指令，支持搜索、
+    插入、编辑、复制、嵌套正文与共享脚本；复制会递归清除 command id，未保留第二方言或兼容入口。
+  - 场景实体 Inspector 收口为“属性 / 行为 / 引用 n”，多页实体在标题与 Tab 之间共享当前页上下文；
+    行为页直接复用 canonical `ScriptEditor`，引用页复用 `DsReferenceList`。
+  - current zone 类型与 validator 均拒绝 `facing`；指令插入、编辑目标选择及保存前 issue collector
+    同时阻止 `setEntityFacing -> zone`，而暂停/隐藏/恢复/移除仍可作用于 zone。
+  - 实体与命名落点删除归位左侧复合列表行；引用集合与删除守卫读取同一 authoritative editor
+    snapshot，避免 shell/session 状态滞后；成功删除后焦点回到场景行，键盘删除、引用阻断、undo 保持闭环。
+- 运行命令与结果:
+  - `pnpm --filter @type-pal/content typecheck`：通过。
+  - `pnpm --filter @type-pal/content test`：33 files / 422 tests 通过。
+  - 各受影响 package typecheck：通过；最终再次运行 `pnpm --filter @type-pal/editor typecheck`：通过。
+  - 最终聚焦回归：
+    `pnpm --filter @type-pal/editor exec vitest run src/core/author-command-edit.test.ts
+    src/core/script-editor.test.ts src/core/entity-address-references.test.ts src/core/commands.test.ts
+    src/ui/ScriptEditor.test.tsx src/ui/App.reference-navigation.test.tsx
+    src/ui/design-system/boundary.test.ts`：7 files / 215 tests 通过。
+  - build 中已按约定只运行一次 editor 全量：135 files / 1025 tests 通过，另有 2 条旧 UI 文案/结构断言失败；
+    两条断言已随最终 IA 修正并在上述聚焦回归中通过。
+  - `git diff --check`：通过；三工程 `zone.facing` census：0。
+- 浏览器 / 手工检查: 在真实 PAL 场景工作台做最小功能性检查：actor/sprite/zone Inspector 三 Tab、
+  zone 无朝向、工具栏无泛化删除、左栏实体/命名落点行尾动作、引用计数与阻断入口均可达。
+- 跳过的检查及原因: 不重复运行耗时的 editor 全量测试；一次全量已有结果，最终变更由 215 项聚焦回归
+  覆盖，遵守用户“不重复 70 分钟长跑”的明确要求。完整 viewport/缩放视觉矩阵留给 review 抽查。
 
 ## 视觉验证记录(如适用)
 
 - Visual Verification Owner: Codex
 - Visual Verification Timing: dev-functional
-- 验证方式: pending
+- 验证方式: 本地真实 PAL 工程最小浏览器交互检查，结合 UI/boundary 自动测试。
 - 集中 E2E 用例 / 批次: N/A
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: pending
+- 截图 / 像素检查路径: 本轮为交互式检查，未保留新的仓库截图产物。
+- 结论: 核心 IA、删除作用域、zone 字段与唯一脚本入口均符合本卡设计，可进入独立 review。
+- 未完成项: Reviewer 可按需抽查 1280 宽和 150% 缩放；不阻塞代码 review。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- Codex 自审: accept（2026-08-23）。重点复核 authoritative reference snapshot、zone facing 三层阻断、
+  删除后的焦点回落、命名落点/实体键盘删除、item/enemy/shared/world 引用路由及旧方言边界。
+- Kimi 审查结论: pending
+- GLM 审查结论: pending
+- 必须返工项: pending（等待独立审查）
+- Accept / rework: review；Kimi 与 GLM 均 accept 前不得标记 done。
 
 ## 用户验收
 
 - 用户结论: pending
-- 后续任务: pending
+- 后续任务: Kimi/GLM 实现审查完成后交用户最终验收。
 
 ## 交接日志
 
+- 2026-08-23 Codex（Coding Owner）: build 完成并推进到 review。唯一 current AuthorCommand 入口、
+  三 Tab、zone 无 facing、同源引用/删除守卫、行尾删除与焦点回落均已落地；content 422 项、editor
+  最终聚焦 215 项及 typecheck 全绿。editor 全量只跑一次，最终未重复长跑。Next: Kimi/GLM 独立
+  implementation review；不得在两方 accept 前标记 done。
 - 2026-08-23 GLM（覆盖矩阵/validator/census/测试主审）: 审查完成，签 **premise verified
   + design agree（附 GE1-GE3）**。四命令词表/双方言/zone census=0（本人扩到三工程 5078 实体）
   全属实；GE1 钉方言消灭判定测试与四命令嵌套插入矩阵、GE2 钉 validator 负例、GE3 钉删除
@@ -353,21 +394,18 @@ find projects -path '*/content/scenes/*.json' -type f -print0 \
 ```text
 接手任务: ED-ENTITY-INSPECTOR-IA-1 场景实体 Inspector、状态指令与删除入口收口
 任务卡: docs/ops/tasks/ED-ENTITY-INSPECTOR-IA-1-scene-entity-inspector-command-unification.md
-当前状态: draft，Codex 已签 premise verified / design agree；build 准入仍 blocked
-你的角色: Kimi，架构与 current schema/公共指令编辑边界主审，并承担独立反证审查
+当前状态: review；Codex build 与自审已完成，Kimi/GLM implementation accept 尚缺
+你的角色: Kimi 或 GLM，按任务卡既定分工做独立实现审查
 先读: AGENTS.md；CLAUDE.md；docs/phase2/READ-FIRST.md；docs/ops/agent-workflow.md；本任务卡；
-  docs/phase2/editor/editor-design-system-v1.md:310-331,449-466；
-  packages/content/src/runtime-script.ts:24-44,137-172；packages/content/src/index.ts:61-73,106-107；
-  packages/editor/src/ui/App.tsx:2064-2173,2412-2628,2964-3707；
-  packages/editor/src/ui/ScriptEditor.tsx；packages/editor/src/core/entity-address-references.ts；
-  reference/sdlpal/script.c:1726-1731,1794-1800；packages/reforge/src/main.ts:5287-5311
-已完成: 已证明生命周期四动作是同一 AuthorCommand 树的叶而非独立数据；当前 zone 无视觉且触发不读 facing；
-  全 current projects 的 zone.facing census 为 0；已提出“属性 / 行为 / 引用 n”、行尾删除和单指令入口设计。
-请你做: 必须直接读取一手代码，独立核对 1) ScriptEditor 从 BaseAuthorCommand 收口到 AuthorCommand 是否会制造
-  双方言/公共 API 风险；2) 生命周期专用入口能否彻底删除；3) zone facing 类型/validator 收紧是否正确；
-  4) scene entity/named entry 行尾删除与引用阻断/跨 session undo 是否完整。写出最强反证和可证伪观察，
-  然后在任务卡签 premise verified + design agree，或签 counter 并列出必须修改项。
-不要做: 不得修改实现文件，不得把任务改为 build，不得用旧兼容层或第二编辑器化解类型问题。
-输出要求: 更新任务卡的 Kimi 签字、独立反证审查、主审立场和交接日志；若 agree，给出下一位 GLM 的可复制提示词；
-  若 counter，明确阻塞原因和需要用户裁决的问题。
+  当前分支 `codex/ed-entity-inspector-ia-1` 的完整 diff。
+已完成: 唯一 current AuthorCommand 编辑链、实体 Inspector 三 Tab、zone 无 facing、实体/命名落点行尾删除、
+  authoritative 引用快照与删除焦点回落已经实现；content 422 项、editor 最终聚焦 215 项与 typecheck 全绿。
+重点审查: 1) editor 生产代码不得残留 BaseAuthorCommand/生命周期第二写入口；2) setEntityFacing 对 zone
+  在插入、编辑和持久化检查三层均被阻止，但四种状态指令仍支持 zone；3) 引用 Tab 与删除守卫同一集合，
+  canonical session 已清引用时不被 stale shell 误阻断；4) entity/named-entry 行尾及 Delete 键事务、引用阻断、
+  undo/focus；5) item/enemy/shared/world 引用路由与 nested command 覆盖。
+验证约束: 只跑必要的聚焦测试；不要重复 editor 全量长跑。若发现 counter，给出最小复现与直接代码证据。
+不要做: 未经 counter/rework 指令不要修改实现；Kimi 与 GLM 两方 accept 前不得标记 done。
+输出要求: 在任务卡 Review 推进签字、Review 段和交接日志中签 `accept`，或签 `counter` 并列返工项；
+  向用户返回可直接转交另一审查方的提示词。
 ```

@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import type { SceneDef, BaseSceneDef, BaseScriptFlow, ScriptStage } from '@type-pal/content'
+import type { AuthorSceneDef, AuthorScriptFlow, SceneDef, ScriptStage } from '@type-pal/content'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
@@ -10,7 +10,7 @@ import { CanonicalSceneScriptWorkspace } from './SceneScriptWorkspace.js'
 type PreviewProbeProps = {
   scene: SceneDef
   stages: readonly ScriptStage[]
-  canonicalFlow?: BaseScriptFlow
+  canonicalFlow?: AuthorScriptFlow
   sourceKey: string
   focusEntityId?: string
   focusTriggerActivation?: { on: 'interact' | 'touch'; range?: number }
@@ -37,7 +37,7 @@ function canonicalScene(
   sceneLabel: string,
   entityLabel: string,
   flagPrefix: string,
-): BaseSceneDef {
+): AuthorSceneDef {
   return {
     id,
     mapId: `map-${id}`,
