@@ -178,10 +178,27 @@ find projects -path '*/content/scenes/*.json' -type f -print0 \
   - premise: pending
   - design: pending
 - GLM:
-  - premise: pending
-  - design: pending
-- 独立反证审查（至少一位非 Coding Owner 必填）:
-  - 审查者: pending（Kimi 优先）
+  - premise: **verified（2026-08-23，本人一手读码 + 三工程 census 复算，非代理）**：
+    1. **四状态命令在 current 词表**：suspendEntity/hideEntity/restoreEntity/removeEntity
+       均为 RuntimeCommand 叶（runtime-script.ts:25-28，词表 :139-140）——卡文属实。
+    2. **双方言实锤**：lifecycle-command-editor.ts 以 BaseAuthorCommand 为基类型自建
+       编辑链（13 处引用），与 script-editor.ts 的 AuthorCommand 链并存——第二写入口
+       属实；LifecycleCommandPanel 遍历同一 command tree 另建增删改。
+    3. **zone.facing census 复算（本人 node，比卡文更全）**：三工程 5078 实体 / 1382
+       zone / **zone 带 facing = 0**——卡文结论确认且本人扩到 demo/e2e-own 也为零；
+       收紧 schema 不需要迁移，current-only 纪律下不留 upgrader 成立。
+  - design: **agree（2026-08-23，附必落钉 GE1-GE3，不阻塞准入）**。单指令入口 +
+    属性/行为/引用 n 三 Tab + zone 无 facing + 行尾删除——与 ED-INSPECTOR-TABS-1/
+    REFERENCE-UI-1 冻结合同一致。
+  - **必落钉 GE1-GE3：**
+    - **GE1（方言消灭的判定测试）**：删除 LifecycleCommandPanel 后 boundary 加断言
+      `BaseAuthorCommand` 仅存于 script-editor 内部（或全零）；四种状态命令在指令
+      插入器可插入/编辑/排序（含 branch/loop/confirm 嵌套正文与共享脚本宿主）的
+      用例矩阵各至少一条。
+    - **GE2（zone facing 负例）**：validator 拒绝 zone.facing 的负例测试（含
+      `zone:true, facing:'down'` 直接 fail）；三工程 conformance 断言 0 命中。
+    - **GE3（删除事务矩阵）**：行尾删除/Delete 键/引用阻断/原子 undo-redo/选择回落
+      场景各一条测试；引用 Tab 与删除守卫使用同一 EntityAddress 引用集合的断言。
   - 独立证据锚点: pending
   - 可证伪观察: pending
 - counter / 分歧处理: 无；任一方 counter 则保持 draft/blocked，用户裁决后重签。
@@ -238,7 +255,7 @@ find projects -path '*/content/scenes/*.json' -type f -print0 \
 
 - Codex: 推荐取消第二指令入口；zone 朝向从 current 模型删除；删除归位列表行。
 - Kimi: pending
-- GLM: pending
+- GLM: premise verified + design agree（2026-08-23，附 GE1-GE3；三工程 zone census=0 复算）
 - 用户拍板: 2026-08-22 已同意生命周期并入指令系统；若审查方提出 IA/schema counter，再交用户裁决。
 
 ## 额度 / 代班记录(如适用)
@@ -284,6 +301,10 @@ find projects -path '*/content/scenes/*.json' -type f -print0 \
 
 ## 交接日志
 
+- 2026-08-23 GLM（覆盖矩阵/validator/census/测试主审）: 审查完成，签 **premise verified
+  + design agree（附 GE1-GE3）**。四命令词表/双方言/zone census=0（本人扩到三工程 5078 实体）
+  全属实；GE1 钉方言消灭判定测试与四命令嵌套插入矩阵、GE2 钉 validator 负例、GE3 钉删除
+  事务矩阵。未改实现，未代签 Kimi，未改准入结论。
 - 2026-08-22 Codex: 完成前提核真与 draft 设计；没有修改实现。Evidence: 本卡真值矩阵、current project
   zone.facing census。Next: Kimi 独立核真并签 premise/design；不得开始实现。
 

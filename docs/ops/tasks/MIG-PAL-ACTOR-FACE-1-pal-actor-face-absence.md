@@ -118,15 +118,58 @@ Branch: TBD
   - premise: verified（`DATA.MKF` chunk 9 frame 53 直接解码为 3×4、opaqueMask=0；schema/Editor/迁移调用域证据见真值矩阵）
   - design: agree（共享源事实 -> 资源生成与 Actor 映射 -> fresh PAL 重迁；不在产品层识别坏图）
 - Kimi:
-  - premise: pending
-  - design: pending
+  - premise: verified（2026-08-23 本人手工直解 raw：不依 shared decoder，直接读偏移表 slot 53 → 字节
+    `03 00 04 00 83 83 83 83` = 宽 3 高 4 + 四条 0x83 纯跳透明指令，12 像素 0 不透明，rawLen=8；
+    对照 slot 48-52 均为 36×35/32×32、727-829 不透明像素的真实头像。结论：frame 53 是原版全透明占位，
+    非 decoder/extractor 缺陷。另核 `ui.h:116` SPRITENUM_PLAYERFACE_FIRST=48 与 `uibattle.c:155-160`
+    的 `48+wPlayerRole` 取帧；`pal-assets.ts:260-267,412-430` 六项无条件生成、`migrate-content.ts:293`
+    无条件写 face；`actor.ts:120-121` face 缺席语义已在 schema；`ActorMode.tsx:111-130` 🧑/👤 兜底与
+    `ActorMode.test.tsx:203` 契约测试存在；runtime 仅预载显式声明的 face（`main.ts:418-422`）；
+    当前产物 `projects/pal` 确有 `face.pal.gai-luojiao`（68B，ref frame-53）且 `portraits.default=
+    portrait.pal.044` 保留；frozen census `sound-reference-audit.ts:488-495` 仍冻结 records=6/bytes=10392）
+  - design: agree（共享事实层单一“roleId→真实 face”表供 pal-assets 与 mapActor 共用；fresh 重迁一次收口
+    ActorDef/catalog/binary plan/PNG/census；Editor/Runtime 主实现不加尺寸/透明度/角色 id 特判，符合铁律
+    10/11 与 schema 既有缺席语义）
 - GLM:
-  - premise: pending
-  - design: pending
+  - premise: **verified（2026-08-23，本人一手独立解码，非代理；与 Kimi 手工字节证据独立互证）**。
+    本人用 node 内联 sdlpal 帧表语义（`palcommon.c:845-851`：`iFrameNum <<= 1; offset = word[N]<<1`，
+    即帧 N 读表字 N——字 0 兼作计数与帧 0 偏移的 broken-sprite hack，与仓库 rle.ts
+    parseSpriteChunk 的 `getUint16(i*2)` 同约定）自写 RLE 解码器直读 `data/raw/DATA.MKF`
+    chunk 9：**帧 48=36×35/727 不透明、49=36×35/802、50=36×35/744、51=32×32/803、
+    52=36×35/829（五张真实头像），帧 53=3×4/12 像素/0 不透明**——与 Codex 声明及 Kimi 的
+    `03 00 04 00 83 83 83 83` 字节证据三方一致。**排除提取器缺陷**：本人解码不经
+    pal-extract 代码路径，独立得到同尺寸同不透明计数；提取链无罪。当前产物 census 复核：
+    actors.json 六角色全部带 face（含 gai-luojiao:face.pal.gai-luojiao +
+    portraits.default=portrait.pal.044），`PAL_FACE_ACTORS` 六项数组与
+    mapActor 无条件写 face 属实。
+  - design: **agree（2026-08-23，附必落钉 GF1-GF2，不阻塞准入）**。共享事实层单一来源 →
+    资源生成与 mapActor 共用 → fresh 重迁 → census/baseline 更新 → 契约测试——方向正确，
+    符合铁律 10（修上游全量重迁）与"不在产品层猜坏图"。
+  - **必落钉 GF1-GF2：**
+    - **GF1（frame 52/53 表偏移约定写入卡）**：本席解码发现 sdlpal 帧表存在两种读法
+      （word[N] vs word[N+1]），两种读法下"五个真实头像"的绝对帧号差 1（word[N] 读法
+      为 48-52，word[N+1] 读法为 47-51）；**build 必须以 sdlpal 实现的 word[N] 约定
+      （palcommon.c:845-851 实读）为准并在共享事实层注释钉死该约定**，防止后续维护者
+      按"直觉"表头偏移改错帧号。本人两种读法都解过：word[N] 下 53=全透明（与 Kimi
+      字节证据一致），word[N+1] 下 52/53/54 均为 3×4 全透明——**结论对两种读法均成立
+      （roleId 5 槽必为全透明），但帧号引用必须统一**。
+    - **GF2（census 哨兵 + 孤儿文件白名单）**：fresh 重迁后的产物白名单必须显式列出
+      `gai-luojiao.png` 删除与其 catalog record/binary plan 引用边消失；静态图 census
+      从 6→5 的 `records/edges/bytes` 变化逐项入卡；二跑零计划断言含"孤儿 PNG 不复活"。
+  - 独立反证：若未来有人用 word[N+1] 约定解码声称"帧 53 是真实头像"，GF1 的约定钉 +
+    Kimi 字节证据（`83 83 83 83` 四条纯跳指令）可直接驳回。
 - 独立反证审查（至少一位非 Coding Owner 必填）:
-  - 审查者: pending
-  - 独立证据锚点: pending
-  - 可证伪观察: pending
+  - 审查者: Kimi
+  - 独立证据锚点: 手工 RLE 解码脚本（2026-08-23，已删）：`data/raw/DATA.MKF` chunk 9 declaredFrames=72，
+    slot 53 wordOffset 表项 → 原始 8 字节 `03 00 04 00 83 83 83 83`，逐指令解码 12/12 像素全透明；
+    slot 48/49/50/51/52 分别 727/802/744/803/829 不透明像素。`reference/sdlpal/ui.h:116`、
+    `reference/sdlpal/uibattle.c:155-160`（原版取帧关系）；`projects/pal/assets/index.json`
+    `face.pal.gai-luojiao` record（bytes=68，origin ref `images/ui/frame-53.png`）。
+  - 可证伪观察: 若 slot 53 原始字节流中含任一 <0x80 的像素写入指令（即存在不透明像素），前提即被推翻，
+    须转提取器缺陷处理——手工解码未见；若 `48+roleId` 不是原版取帧关系（例如存在 per-role face 表），
+    共享事实层的 roleId 映射即错误——`ui.h:116`/`uibattle.c:155-160` 与第一阶段消费点排除该解释；
+    若 Editor 兜底依赖 face 之外的尺寸/文件特征，`ActorMode.tsx:111-130` 会被证伪——直读确认只按
+    `actor.face` 缺席 + `battler` 存在选择 🧑。
 - counter / 分歧处理: N/A
 - 缺签豁免: N/A
 - build 准入结论: blocked
@@ -163,15 +206,18 @@ Branch: TBD
 ### 主审立场
 
 - Reviewer: GLM（数据迁移/测试矩阵主审；Kimi 补架构与端到端消费域）
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论: Kimi agree（2026-08-23，手工 raw 解码 + 全调用域直读）；GLM pending
+- 必改项: 无。build 期关注项（非门禁）: ①更新 frozen census 时把 face 段改为 records=5 并加 Gai absence
+  哨兵（卡内已列）；②确认 binary plan 删除 `face.pal.gai-luojiao` 后旧 PNG 由生成计划清理而非手工 rm；
+  ③`ROLE_SLUGS` 六角色表保持不变，新事实表只回答“有无真实 face”，不得顺手把 roleId 3/4 名字对调知识复制第二份。
+- 是否建议进入 build: 是（待 GLM 签字）
 
 ### 三方争议记录(按需)
 
 - Codex: 修上游共享事实并重迁；Editor/Runtime 不加特判。
-- Kimi: pending
-- GLM: pending
+- Kimi: 同意。补充：本卡前提的关键证据是 raw 层（8 字节纯跳透明指令流），已排除 decoder 缺陷这一最强
+  替代解释；消费域（runtime 预载、Editor 兜底、schema 缺席语义）均为可选安全，无需任何产品层特判。
+- GLM: premise verified + design agree（2026-08-23，附 GF1-GF2；独立解码与 Kimi 字节证据互证）
 - 用户拍板: 用户已确认“没有小头像应默认头像兜底”；其余 pending。
 
 ## 额度 / 代班记录(如适用)
@@ -229,6 +275,15 @@ Branch: TBD
 
 - 2026-08-22 Codex: 从 Editor 空白追到 PAL 迁移上游；直接解 raw `DATA.MKF` 证明 frame 53 为
   3×4 全透明，确认 Editor fallback 本身正确。Evidence: 真值矩阵。Next: Kimi/GLM 独立核真并签 build。
+- 2026-08-23 GLM（数据迁移/测试矩阵主审）: 独立解码完成并签 **premise verified + design agree
+  （附 GF1-GF2）**。自写 sdlpal word[N] 约定 RLE 解码器直读 raw：帧 48-52 真实（727-829 不透明）、
+  帧 53=3×4/0 不透明——三方独立一致，提取链无罪。GF1 钉帧表两种读法约定歧义（roleId 5 槽
+  全透明对两种读法均成立，帧号引用必须统一）；GF2 钉 census 哨兵与孤儿文件白名单。
+  未改实现文件，未代签 Kimi，未改 build 准入结论。
+- 2026-08-23 Kimi: 独立手工直解 raw DATA.MKF chunk 9 slot 53（偏移表 + 逐指令，不经 shared decoder），
+  确认 3×4 全透明占位为原版事实；核 ui.h/uibattle.c 取帧关系、迁移两处无条件生成点、schema 缺席语义、
+  Editor 兜底与 runtime 可选预载。签 premise verified / design agree，完成独立反证审查。未修改实现。
+  Next: GLM 做 raw 数据复核、迁移覆盖与测试矩阵审查并签字。
 
 ## 下一位 Agent 提示词
 

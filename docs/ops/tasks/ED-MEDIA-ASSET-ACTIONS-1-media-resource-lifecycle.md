@@ -126,8 +126,36 @@ Branch: codex/ed-pal-workspace-modes-1
   - premise: pending
   - design: pending
 - GLM:
-  - premise: pending
-  - design: pending
+  - premise: **verified（2026-08-23，本人一手读码 + git 考古，非代理）——附一处真值矩阵
+    事实修正（GM1，不推翻前提）**：
+    1. **UI 现状属实**：Image/Cutscene 的对象动作在 `DsCatalogControls.overflowActions`
+       （卡文锚点复核）；`window.confirm` 删除/dirty 切换属实；Cutscene 裸输入改名属实。
+    2. **sharedScripts 缺口成立但描述过时（→GM1）**：卡文称"引用适配器未传
+       sharedScripts"——git 考古证实该措辞基于 ecbb6259 时点（当时
+       editorAssetReferenceSource 确实无 sharedScripts）；**0ee277ab 已把它加入**
+       （当前 :8-27 有 `sharedScripts: state.sharedScripts`）。**真正的缺口仍在**：
+       主 EditSession 的 sharedScripts 只在保存时经
+       `mergeEditorProjectionWithCurrentAuthorState`（App.tsx:1492 serialize 路径）从
+       script session 合并——**编辑期间 Image/CutsceneTab 消费的引用快照读的是 stale
+       主态副本**，未保存的共享脚本新增 playVideo/图像引用仍可能被误删。修复方向
+       （接实时 canonical sharedScripts）正确，但真值矩阵该行应改为"传了 stale 副本"
+       而非"未传"。
+    3. **删除命令边界属实**：`DeleteAssetCommand` 注释"引用保护由调用方在 dispatch 前
+       执行"（commands.ts:3003-3013）——调用方快照不完整即真实风险。
+  - design: **agree（2026-08-23，附必落钉 GM1-GM3，不阻塞准入）**。Hero 承载当前对象
+    动作 / 属性区改名 / DsDialog 确认 / 引用-诊断-删除同源 typed snapshot——方向正确。
+  - **必落钉 GM1-GM3：**
+    - **GM1（真值矩阵行修正）**：build 前把"适配器未传 sharedScripts"改为"主态
+      sharedScripts 为 stale 副本（仅保存时合并）"；修复应让 Image/Cutscene 消费
+      `projectActiveScriptEditorState` 产出的 live sharedScripts（与 App:322 的
+      scriptState 同源），而非复制第二份合并逻辑。
+    - **GM2（typed snapshot 单源断言）**：展示、删除 preflight、保存诊断三处消费的
+      引用集合必须出自同一次 `collectEditorAssetReferences` 调用（或同一 memo）——
+      加一条测试断言三者在同一 state 下结果全等；扫描失败 fail-closed（删除零 mutation）。
+    - **GM3（undo 恢复二进制）**：删除 undo 必须同时恢复 catalog record 与 blob 字节
+      （DeleteAssetCommand 已有 previousBytes 预读）；测试覆盖"删除→保存→undo→保存"
+       后文件与 record 均在。与 ED-AUDIO-WORKBENCH-1 的复用边界写明：本卡交付合同，
+       音频卡不得第四套实现。
 - 独立反证审查:
   - 审查者: pending
   - 独立证据锚点: pending
@@ -194,6 +222,11 @@ Branch: codex/ed-pal-workspace-modes-1
 
 ## 交接日志
 
+- 2026-08-23 GLM（live reference 输入/删除原子性/测试矩阵）: 审查完成，签 **premise verified
+  + design agree（附 GM1-GM3）**。UI 现状与删除命令边界属实；**sharedScripts 缺口成立但措辞
+  过时——0ee277ab 已把主态 sharedScripts 传入 source，真缺口是编辑期间 stale 副本（仅保存时
+  merge）**，修复方向正确（GM1 修正矩阵行）；GM2 钉三处消费同一次 snapshot；GM3 钉 undo 恢复
+  二进制与音频卡复用边界。未改实现，未代签 Kimi，未改准入结论。
 - 2026-08-21 Codex: 完成 Image / Cutscene / Music / Sound / Tileset / Sprite 资源动作全量只读审计；创建本卡并签
   premise / design。Evidence: 本卡真值矩阵与 inventory。Next: Kimi / GLM 独立设计审查；三签齐前不得改实现。
 

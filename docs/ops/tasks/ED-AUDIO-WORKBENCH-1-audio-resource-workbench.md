@@ -153,10 +153,31 @@ Branch: codex/ed-pal-workspace-modes-1
   - premise: pending
   - design: pending
 - GLM:
-  - premise: pending
-  - design: pending
-- 独立反证审查（至少一位非 Coding Owner 必填）:
-  - 审查者: pending
+  - premise: **verified（2026-08-23，本人 catalog 全量 census + 一手读码，非代理）——附
+    一处措辞修正（GA1，与 MEDIA 卡 GM1 同源）**：
+    1. **格式 census（可证伪观察①的裁决）**：本人 node 全量扫 projects/pal/assets/
+       index.json——**music 86 项全部 MIDI mediaType、sound 363 项全部 WAV，other = 0**；
+       双后端策略（MIDI note-activity / WAV PCM）充足，无需重开格式矩阵，不 counter。
+    2. **两套旧页属实**：MusicTab:202-412 / SoundTab:206-427 分别复制目录+全量表格
+       （与卡文锚点一致）；BgmPlayer 未暴露 transport、SFX buffer 无时间轴属实。
+    3. **sharedScripts 措辞修正（→GA1）**：卡文引"editor-asset-references.ts:8-27 证明
+       sharedScripts 输入缺口"——当前 HEAD 该文件**已含** `sharedScripts: state.sharedScripts`
+       （0ee277ab 加入）；真缺口是编辑期间 stale 副本（同 MEDIA 卡 GM1），本卡修复
+       方向正确但该行需同步修正。
+  - design: **agree（2026-08-23，附必落钉 GA1-GA4，不阻塞准入）**。
+  - **必落钉 GA1-GA4：**
+    - **GA1（措辞同步 GM1）**：真值矩阵行改"stale 副本"口径；本卡与 MEDIA 卡的
+      live sharedScripts 修复必须**同源实现**（同一 collector 输入修正），两卡不得
+      各自拼第二份合并逻辑——实现顺序上 MEDIA 先行、本卡消费，或反之，二选一写明。
+    - **GA2（transport 确定性）**：MIDI transport 的 duration/currentTime/seek/pause
+      契约测试用合成 MIDI fixture（固定音长）；WAV PCM 峰值对同一 blob 二次计算
+      byte-stable；峰值/音符活动为 SHA 派生临时态（断言不写回 AssetRecord）。
+    - **GA3（生命周期竞态）**：快速换选中/换工程/SHA 替换时旧 Promise 丢弃（最后一次
+      生效）测试；AudioContext dispose；有界缓存的上限与淘汰测试；**363 项列表禁止
+      全量解码**（断言仅可见窗口±buffer 触发解码）。
+    - **GA4（虚拟列表合同补齐）**：现有 DsVirtualList 只有基本窗口+Home/End——本卡
+      需补方向键选择/roving/aria 后接入，合同测试先行；列表行无播放器/替换/删除按钮
+      的 boundary 断言。
   - 独立证据锚点: pending
   - 可证伪观察: pending
 - counter / 分歧处理: N/A
@@ -238,7 +259,7 @@ Branch: codex/ed-pal-workspace-modes-1
 
 - Codex: 真实 WAV 波形 + MIDI 音符活动时间轴；新增窄 reforge preview transport，不持久化 duration / waveform，不改 runtime BgmPlayer。
 - Kimi: pending
-- GLM: pending
+- GLM: premise verified + design agree（2026-08-23，附 GA1-GA4；格式 census 86 MIDI/363 WAV other=0）
 - 用户拍板: 2026-08-21 已拍板页面需整体重构并授权布局设计；MIDI 可视化真实性与 transport 风险待三方审查。
 
 ## 额度 / 代班记录(如适用)
@@ -294,6 +315,11 @@ Branch: codex/ed-pal-workspace-modes-1
 
 ## 交接日志
 
+- 2026-08-23 GLM（覆盖/格式 census/性能/测试矩阵）: 审查完成，签 **premise verified +
+  design agree（附 GA1-GA4）**。格式 census 全量实测：86 MIDI + 363 WAV、other=0——可证伪
+  观察①裁决为不触发；GA1 同步 MEDIA 卡 GM1 的 stale 副本口径修正与同源实现要求；GA2 钉
+  transport 确定性；GA3 钉竞态/有界缓存/禁全量解码；GA4 钉虚拟列表合同补齐先行。未改实现，
+  未代签 Kimi，未改准入结论。
 - 2026-08-21 Codex: 完成现有 Music/Sound UI、catalog/CRUD、引用输入、MIDI/WAV 播放与 Spessa transport 可行性只读审计；
   创建 draft 并签 premise/design。Evidence: 本卡真值矩阵与上下文锚点。Next: Kimi / GLM 独立设计审查；三签齐前不得修改实现文件。
 

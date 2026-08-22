@@ -183,10 +183,36 @@ Branch: codex/ed-pal-workspace-modes-1
   - premise: pending
   - design: pending
 - GLM:
-  - premise: pending
-  - design: pending
-- 独立反证审查（至少一位非 Coding Owner 必填）:
-  - 审查者: pending
+  - premise: **verified（2026-08-23，本人一手读码 + census，非代理）**：
+    1. **schema 纯度实测**：`AmbienceDef = {id, name, tint}`（ambience.ts:10-14 接口
+       仅三字段）；PAL ambiences.json 3 项、字段去重恰为 id/name/tint——"无 schema
+       变化"前提成立，preview context 不进 schema 可行。
+    2. **runtime 合成链 census**：`main.ts:1276 globalCompositeOperation='multiply'`
+       全帧单次合成；调用点 :6161（一切画完后）与卡文锚点一致；`setAmbience` 消费域
+       = main/script-runner/script-host-adapter 三处——共享 helper 抽取面与卡文
+       一致，无第四处隐藏 multiply。
+    3. **引用 collector**：ambience-references.ts:19-23 从 EditorState 组装
+       ScriptEditorState 且**已含 sharedScripts**（:23）——但同 MEDIA 卡 GM1 的
+       stale 副本问题：编辑期间共享脚本 setAmbience 新引用在保存前不可见。卡文
+       未列此输入域问题（→GN1，不推翻前提：本卡主要修预览与布局，引用面照
+       current 合同走即可，但删除门禁的正确性与 MEDIA 卡同源修复后自动受益）。
+    4. **现状 UI 属实**：AmbienceTab 全量表格 + CSS 样例条近似（卡文 :156-243）；
+       编辑器 playback 不染（playback.ts:715）。
+  - design: **agree（2026-08-23，附必落钉 GN1-GN3，不阻塞准入）**。左目录/中 Hero+
+    字段+真实场景 A/B/右引用说明；共享 compositor 单一真值；preview 上下文为纯 UI
+    态不持久化——与现有渲染地基和 DS 合同相容。
+  - **必落钉 GN1-GN3：**
+    - **GN1（引用输入域登记）**：本卡引用 Tab/删除门禁消费
+      ambience-references 的输入域；与 MEDIA 卡 GM1 的 live sharedScripts 修复
+      **同源受益**（不自行再修，但在卡内登记依赖，MEDIA 落地后本卡删除门禁
+      自动完整）。若 MEDIA 未先行，本卡引用面照 current 合同实现并注明。
+    - **GN2（合成单次 + 恒等跳过）**：共享 helper 提取后 runtime 与 editor preview
+      消费同一函数的断言；恒等白 tint 跳过合成的行为在两侧一致（测试各一条）；
+      **底帧只渲染一次**（换 tint/A-B 切换只重合成、不重跑 renderSceneFrame）
+      的缓存测试。
+    - **GN3（undo 粒度 + 过期丢弃）**：连续 tint 拖动形成单次 undo 事务（等值
+      提交短路）；换场景/换工程时过期预览结果丢弃（最后一次生效）；懒加载
+      单场景不得全量载入 223 图。
   - 独立证据锚点: pending
   - 可证伪观察: pending
 - counter / 分歧处理: N/A
@@ -284,7 +310,7 @@ Branch: codex/ed-pal-workspace-modes-1
 - Codex: 右栏采用 `引用 n / 说明`，诊断就近内联；中央 preview context 临时化；共享 renderer primitives 与唯一 compositor，
   不嵌完整 SceneCanvas，也不增加 schema。
 - Kimi: pending
-- GLM: pending
+- GLM: premise verified + design agree（2026-08-23，附 GN1-GN3；schema/合成链 census 属实）
 - 用户拍板: 2026-08-22 已拍板三栏方向并授权右 Inspector 设计；共享 compositor / preview 边界待三方审查。
 
 ## 额度 / 代班记录(如适用)
@@ -340,6 +366,11 @@ Branch: codex/ed-pal-workspace-modes-1
 
 ## 交接日志
 
+- 2026-08-23 GLM（数据/渲染链/测试矩阵）: 审查完成，签 **premise verified + design agree
+  （附 GN1-GN3）**。schema 纯度（3 字段/3 项实测）、单次 multiply 合成链（:1276/:6161）、
+  setAmbience 三消费域 census 属实；GN1 登记引用输入域与 MEDIA 卡同源依赖；GN2 钉合成
+  单次/恒等跳过/底帧一次渲染；GN3 钉 undo 粒度/过期丢弃/懒加载。未改实现，未代签 Kimi，
+  未改准入结论。
 - 2026-08-22 Codex: 完成 schema、runtime compositor、当前旧页、scene-stage 与引用 collector 只读审计；创建 draft 并签
   premise/design。Evidence: 本卡真值矩阵与上下文锚点。Next: Kimi / GLM 独立设计审查；三签齐前不得改实现文件。
 - 2026-08-22 Codex 并行只读预审: 确认右栏不重复字段、静态 preview context 不入 schema、共享 renderer primitives 而非
