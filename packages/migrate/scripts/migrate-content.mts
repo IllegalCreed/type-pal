@@ -25,7 +25,7 @@ import {
   recoverMigrationTransaction,
 } from '../src/migration-transaction.js'
 import { buildMigrationTransactionChanges } from '../src/migration-write-plan.js'
-import { materializePalAssets } from '../src/pal-assets.js'
+import { materializePalAssets, planPalAssetRetirements } from '../src/pal-assets.js'
 import {
   buildPalCurrentPublication,
   palAssetPreconditions,
@@ -79,6 +79,13 @@ const targetPublication = {
   files: plan.target,
   managedFiles: new Set(plan.target.keys()),
 }
+const currentCatalog = validateAssetCatalog(project.files.get('assets/index.json'))
+const targetCatalog = validateAssetCatalog(plan.target.get('assets/index.json'))
+const retiredAssets = planPalAssetRetirements({
+  repo,
+  previousCatalog: currentCatalog,
+  targetCatalog,
+})
 const validation = validatePalCurrentPublication({
   publication: targetPublication,
   manifest,
@@ -86,7 +93,7 @@ const validation = validatePalCurrentPublication({
 })
 console.log(
   `current plan: managed=${plan.summary.managed} writes=${plan.summary.writes} ` +
-    `deletes=${plan.summary.deletes} conflicts=0`,
+    `deletes=${plan.summary.deletes} conflicts=0 asset-deletes=${retiredAssets.length}`,
 )
 console.log(
   `closure: scenes=${validation.scenes} maps=${validation.maps} assets=${validation.assets} ` +
@@ -99,7 +106,6 @@ if (!write) {
 
 assertPalBaselineSnapshotCurrent(repo, baseline)
 assertProjectSnapshotCurrent(repo, project, publication.managedFiles)
-const targetCatalog = validateAssetCatalog(plan.target.get('assets/index.json'))
 const assetResult = materializePalAssets({
   repo,
   catalog: targetCatalog,
@@ -111,6 +117,7 @@ const changes = buildMigrationTransactionChanges({
   plan,
   previousBaseline: baseline,
   nextBaseline,
+  retiredAssets,
   nextManifest: manifest,
   manifestPreconditions: palAssetPreconditions(targetPublication),
 })
@@ -130,11 +137,19 @@ const publishedManaged = discoverProjectManagedFiles(
 )
 const publishedProject = loadProjectMigrationSnapshot(repo, publishedManaged)
 const replay = createMigrationPlan(publishedBaseline, publishedProject, publication)
-if (replay.conflicts.length || replay.writes.size || replay.deletes.length)
+const replayRetiredAssets = planPalAssetRetirements({
+  repo,
+  previousCatalog: validateAssetCatalog(publishedProject.files.get('assets/index.json')),
+  targetCatalog: validateAssetCatalog(replay.target.get('assets/index.json')),
+})
+if (replay.conflicts.length || replay.writes.size || replay.deletes.length || replayRetiredAssets.length)
   throw new Error(
-    `发布后非零差异: writes=${replay.writes.size} deletes=${replay.deletes.length} conflicts=${replay.conflicts.length}`,
+    `发布后非零差异: writes=${replay.writes.size} deletes=${replay.deletes.length} ` +
+      `conflicts=${replay.conflicts.length} asset-deletes=${replayRetiredAssets.length}`,
   )
 console.log(
   `assets: files=${assetResult.files} written=${assetResult.written} unchanged=${assetResult.unchanged} bytes=${assetResult.bytes}`,
 )
-console.log(`published: transaction-changes=${changes.length}; replay writes=0 deletes=0 conflicts=0`)
+console.log(
+  `published: transaction-changes=${changes.length}; replay writes=0 deletes=0 conflicts=0 asset-deletes=0`,
+)

@@ -190,6 +190,7 @@ import { applyPalScriptOverlays } from './script-overlays.js'
 import type { SourceCmd } from './source-facts.js'
 import {
   FACING_BY_DIR,
+  PAL_PLAYER_FACE_FRAME_BY_ROLE_ID,
   partyPosToGrid,
   ROLE_SLUGS,
   sceneSlug,
@@ -290,7 +291,9 @@ export function mapActor(
     spriteId: slug,
     // 头像组(C1):迁移填主头像(role.avatar);命名表情由编辑器人工加(原版无表情组数据)
     ...(role.avatar ? { portraits: { default: palPortraitAssetId(role.avatar) } } : {}),
-    face: palFaceAssetId(slug),
+    ...(PAL_PLAYER_FACE_FRAME_BY_ROLE_ID[role.id] !== undefined
+      ? { face: palFaceAssetId(slug) }
+      : {}),
     battler: {
       baseStats: {
         level: role.level,

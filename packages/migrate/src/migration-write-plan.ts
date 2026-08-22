@@ -9,6 +9,7 @@ import {
 } from './migration-baseline.js'
 import type { MigrationPlan } from './migration-plan.js'
 import type { TransactionChange, TransactionPrecondition } from './migration-transaction.js'
+import type { PalAssetRetirement } from './pal-assets.js'
 
 function differs(repo: string, path: string, content: string): boolean {
   const full = resolve(repo, path)
@@ -21,6 +22,7 @@ export function buildMigrationTransactionChanges(args: {
   plan: Pick<MigrationPlan, 'writes' | 'deletes'>
   previousBaseline?: MigrationSnapshot
   nextBaseline: MigrationSnapshot
+  retiredAssets?: readonly PalAssetRetirement[]
   /** 必须最后提交：新 manifest 只能在资源及其 catalog 已就绪后对运行时可见。 */
   nextManifest?: CurrentManifest
   manifestPreconditions?: readonly TransactionPrecondition[]
@@ -37,6 +39,24 @@ export function buildMigrationTransactionChanges(args: {
   for (const path of [...plan.deletes].sort()) {
     changes.push({ target: `projects/pal/${path}`, scope: 'project' })
   }
+  for (const retirement of [...(args.retiredAssets ?? [])].sort((a, b) =>
+    a.path.localeCompare(b.path) || a.id.localeCompare(b.id))) {
+    if (
+      retirement.path.includes('\\')
+      || retirement.path.split('/').some((part) => part === '' || part === '.' || part === '..')
+      || !retirement.path.startsWith('assets/migrated/')
+      || !/^[a-f0-9]{64}$/.test(retirement.expectedSha256)
+    )
+      throw new Error(`退役迁移资源计划无效: ${retirement.id} -> ${retirement.path}`)
+    changes.push({
+      target: `projects/pal/${retirement.path}`,
+      scope: 'project',
+      expectedPreviousHash: retirement.expectedSha256,
+    })
+  }
+
+  if (new Set(changes.map((change) => change.target)).size !== changes.length)
+    throw new Error('迁移写入计划包含重复工程目标')
 
   const desired = baselineWrites(nextBaseline)
   const statePath = `${PAL_BASELINE_REL}/_state.json`

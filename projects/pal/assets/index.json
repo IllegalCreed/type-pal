@@ -6745,18 +6745,6 @@
       "bytes": 2614,
       "sha256": "6b041641606337a85ea24132db9f878394c071edccb9c2c3d6a680f876aad78f"
     },
-    "face.pal.gai-luojiao": {
-      "kind": "face",
-      "path": "assets/migrated/faces/gai-luojiao.png",
-      "mediaType": "image/png",
-      "label": "PAL gai-luojiao 战斗头像",
-      "origin": {
-        "kind": "legacy-migrated",
-        "ref": "images/ui/frame-53.png"
-      },
-      "bytes": 68,
-      "sha256": "75790aedb28f9156ebcdb1798c7ac7d2326e32b46529ec881131fba2148bd8b2"
-    },
     "item-icon.pal.001": {
       "kind": "item-icon",
       "path": "assets/migrated/item-icons/001.png",

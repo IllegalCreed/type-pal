@@ -10,7 +10,7 @@ import {
   rmSync,
   writeFileSync,
 } from 'node:fs'
-import { dirname, resolve } from 'node:path'
+import { dirname, isAbsolute, resolve } from 'node:path'
 import { deflateSync, gunzipSync } from 'node:zlib'
 import {
   type AssetCatalogV1,
@@ -45,6 +45,7 @@ import {
 import { PNG } from 'pngjs'
 import { bakeIndexedRgba } from './bake-indexed-rgba.js'
 import { sha256 } from './migration-baseline.js'
+import { PAL_PLAYER_FACE_FRAME_BY_ROLE_ID, ROLE_SLUGS } from './source-facts.js'
 
 interface PalBinaryAssetBase {
   id: string
@@ -257,15 +258,6 @@ export function formatPalBattleSpriteReport(
   )
 }
 
-const PAL_FACE_ACTORS = [
-  'li-xiaoyao',
-  'zhao-linger',
-  'lin-yueru',
-  'wu-hou',
-  'anu',
-  'gai-luojiao',
-] as const
-
 export const PAL_AUDIO_ROLES = {
   'audio.midiSoundfont': 'soundfont.default',
   'audio.defaultBattleMusic': palMusicAssetId(37),
@@ -361,7 +353,7 @@ function assertIndexedBattleBackground(bytes: Uint8Array, label: string): void {
   }
 }
 
-function loadPalStaticImages(repo: string): {
+export function loadPalStaticImages(repo: string): {
   binaries: PalBinaryAssetSource[]
   report: Pick<
     PalAssetMigrationReport,
@@ -410,8 +402,9 @@ function loadPalStaticImages(repo: string): {
   if (portraits !== 88) throw new Error(`PAL 立绘期望 88 张，收到 ${portraits}`)
 
   let faceBytes = 0
-  for (const [roleId, actorId] of PAL_FACE_ACTORS.entries()) {
-    const frame = 48 + roleId
+  for (const [roleId, frame] of PAL_PLAYER_FACE_FRAME_BY_ROLE_ID.entries()) {
+    const actorId = ROLE_SLUGS[roleId]
+    if (!actorId) throw new Error(`PAL player face 存在未知 roleId ${roleId}`)
     const sourceRef = `images/ui/frame-${String(frame).padStart(2, '0')}.png`
     const bytes = bakeIndexedPng(
       resolve(repo, `data/extracted/${sourceRef}`),
@@ -488,7 +481,7 @@ function loadPalStaticImages(repo: string): {
     report: {
       portraits,
       portraitBytes,
-      faces: PAL_FACE_ACTORS.length,
+      faces: PAL_PLAYER_FACE_FRAME_BY_ROLE_ID.length,
       faceBytes,
       itemIcons: itemChunks.length,
       itemIconBytes,
@@ -1099,7 +1092,7 @@ export function loadPalAssets(
   }
   validateAssetCatalog(catalog)
   const catalogBytes = Object.values(catalog.assets).reduce((sum, record) => sum + record.bytes, 0)
-  if (Object.keys(catalog.assets).length !== 1_935 || catalogBytes !== 69_092_237)
+  if (Object.keys(catalog.assets).length !== 1_934 || catalogBytes !== 69_092_169)
     throw new Error(
       `PAL 物理 catalog 基线漂移: records=${Object.keys(catalog.assets).length} bytes=${catalogBytes}`,
     )
@@ -1142,6 +1135,46 @@ function assertBytes(path: string, record: AssetRecordV1): Buffer {
   if (actual !== record.sha256)
     throw new Error(`资源 sha256 不符: ${path}，登记 ${record.sha256}，实际 ${actual}`)
   return bytes
+}
+
+export interface PalAssetRetirement {
+  id: string
+  path: string
+  expectedSha256: string
+}
+
+function assertRetirableMigratedPath(path: string): void {
+  if (
+    isAbsolute(path)
+    || path.includes('\\')
+    || path.split('/').some((part) => part === '' || part === '.' || part === '..')
+    || !path.startsWith('assets/migrated/')
+  )
+    throw new Error(`退役迁移资源路径越界: ${path}`)
+}
+
+/**
+ * 只从旧 catalog 的生成器所有权推导退役文件；不扫描目录，也不触碰 authored/unmanaged 文件。
+ * 文件已被修改时 fail loud，实际删除交给可恢复 migration transaction。
+ */
+export function planPalAssetRetirements(args: {
+  repo: string
+  previousCatalog: AssetCatalogV1
+  targetCatalog: AssetCatalogV1
+}): PalAssetRetirement[] {
+  const previous = validateAssetCatalog(args.previousCatalog)
+  const target = validateAssetCatalog(args.targetCatalog)
+  const targetPaths = new Set(Object.values(target.assets).map((record) => record.path))
+  const retirements: PalAssetRetirement[] = []
+  for (const [id, record] of Object.entries(previous.assets)) {
+    if (record.origin.kind !== 'legacy-migrated' || targetPaths.has(record.path)) continue
+    assertRetirableMigratedPath(record.path)
+    const full = resolve(args.repo, 'projects/pal', record.path)
+    if (!existsSync(full)) continue
+    assertBytes(full, record)
+    retirements.push({ id, path: record.path, expectedSha256: record.sha256 })
+  }
+  return retirements.sort((a, b) => a.path.localeCompare(b.path) || a.id.localeCompare(b.id))
 }
 
 function assertSourceBytes(source: PalBinaryAssetSource): Uint8Array {

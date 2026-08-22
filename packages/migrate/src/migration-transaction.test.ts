@@ -1,4 +1,4 @@
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
 import { afterEach, describe, expect, test } from 'vitest'
@@ -21,6 +21,32 @@ afterEach(() => {
 })
 
 describe('migration transaction', () => {
+  test('退役文件提交前校验规划 hash，拒绝误删并允许匹配删除', () => {
+    const repo = tempRepo()
+    const target = resolve(repo, 'projects/pal/assets/migrated/faces/retired.png')
+    mkdirSync(resolve(repo, 'projects/pal/assets/migrated/faces'), { recursive: true })
+    writeFileSync(target, 'current')
+    expect(() =>
+      commitMigrationTransaction(repo, [
+        {
+          target: 'projects/pal/assets/migrated/faces/retired.png',
+          scope: 'project',
+          expectedPreviousHash: sha256('stale'),
+        },
+      ]),
+    ).toThrow('偏离规划快照')
+    expect(readFileSync(target, 'utf8')).toBe('current')
+
+    commitMigrationTransaction(repo, [
+      {
+        target: 'projects/pal/assets/migrated/faces/retired.png',
+        scope: 'project',
+        expectedPreviousHash: sha256('current'),
+      },
+    ])
+    expect(existsSync(target)).toBe(false)
+  })
+
   test('提交工程与 baseline 后清理 journal', () => {
     const repo = tempRepo()
     commitMigrationTransaction(repo, [

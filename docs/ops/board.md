@@ -16,11 +16,11 @@
 | ARCH-ENTRYPOINT-CANONICAL-1 | 显式启动入口与独立开局配置 | done | 三方 accept + 用户验收齐，整卡收口 | content17 三工程 canonical；默认/显式/menu/?scene 语义与编辑闭环已实现，终审无返工项 |
 | ARCH-CURRENT-ONLY-1 | 开发期单版本架构收口 | done | 三方 accept + 用户验收齐，整卡收口 | 旧产品版本层、升级入口与兼容 fallback 已清零；PAL replay 零差异 |
 | ED-PAL-WORKSPACE-MODES-1 | PAL 开发基线、评审沙盒与种子晋升边界 | done | 三方 accept + 用户验收齐，整卡收口 | GLM 终审：GP1-GP3/KP1-KP2 全落，focused 68+20 复跑全绿 | Codex accept；editor 134/981 + typecheck，全链路内部压力审查 P0/P1/P2 清零 |
-| MIG-PAL-ACTOR-FACE-1 | PAL 角色小头像缺席语义与迁移收口 | draft | Kimi/GLM 独立核 raw 数据并签 premise/design | 盖罗娇 frame 53 为 3×4 全透明；修迁移上游后走既有 battler 默认头像兜底 |
+| MIG-PAL-ACTOR-FACE-1 | PAL 角色小头像缺席语义与迁移收口 | review | Kimi + GLM 审迁移事实、受控退休与发布 census | Codex 实现/定向测试/typecheck/正式迁移 replay/浏览器 smoke 已通过；待三方 accept |
 | ED-ENTITY-INSPECTOR-IA-1 | 场景实体 Inspector、状态指令与删除入口收口 | done | 三方 accept + 用户验收齐，整卡收口 | 唯一指令入口、三 Tab、中文状态/朝向帮助、行尾删除与真实 PAL 294 场景回归闭环 |
 | ED-MEDIA-ASSET-ACTIONS-1 | 媒体资源对象操作与生命周期统一 | done | 三方 accept + 用户验收齐，整卡收口 | 集合动作归左栏、当前资源动作归 Hero；live 引用、fail-closed 删除与二进制 undo 闭环 |
 | ED-AUDIO-WORKBENCH-1 | 音乐 / 音效统一资源工作台与音频时间轴 | review | Kimi / GLM 独立审查，用户复验 | 播放终点已归一化；17 tests、双包 typecheck 与真 WAV DOM 复验通过 |
-| ED-AMBIENCE-WORKBENCH-1 | 氛围滤镜工作台与真实场景预览 | draft | Kimi 审 compositor/preview 架构；GLM 审引用/事务/测试 | 左目录、中 Hero+字段+静态场景 A/B、右引用/说明；preview context 不持久化 |
+| ED-AMBIENCE-WORKBENCH-1 | 氛围滤镜工作台与真实场景预览 | build | Codex 实现；Kimi/GLM 后续审查 | 三方 build 签字已齐且用户本轮放行；左目录、中 Hero+字段+静态场景 A/B、右引用/说明 |
 | ED-DS-2 | 编辑器设计系统代码基础与 Design Lab | done | 三方 accept + 用户验收齐，整卡收口 | 四入口同源、WK2 与 sash 边界复审通过；全量 118/872 独立复跑全绿 |
 | ED-AUDIT-2 | 编辑器全页面视觉、闭环与代码质量审计 | done | 三方 accept + 用户验收齐，整卡收口 | GA1/GA2 闭环（门禁 18/17/17/6）；census 脚本可复现、boundary 23/23 |
 | ED-BATTLE-UI-1 | 战斗数据工作台族与共享对象 Hero | done | 三方 accept + 用户验收齐，整卡收口 | N1-N6/BK1-BK3 + RK1 全闭环；editor 124 files / 912 tests + typecheck、1280×720 实机通过 |

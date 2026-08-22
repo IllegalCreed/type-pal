@@ -3,6 +3,10 @@
 > 日期：2026-07-19
 > 任务卡：[`A7-2-static-images-engine-chrome.md`](../../ops/tasks/A7-2-static-images-engine-chrome.md)
 > 状态：**done**；Codex / Kimi / GLM 三方审查与用户验收均已完成。A7/R7 总体仍未完成。
+>
+> **后续勘误（2026-08-23）**：MIG-PAL-ACTOR-FACE-1 以 raw RLE 字节重新核实，盖罗娇对应槽是
+> 全透明占位，不是有效 face。下文 `6 / 10,392 B` 等数字保留为当时验收记录；现行口径是
+> `5 / 10,324 B`，且 `ActorDef.face` 缺席后由编辑器通用头像兜底。
 
 ## 1. 结果
 

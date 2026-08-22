@@ -1,7 +1,7 @@
 # migrate 资产管线 — UI box 首切片（design + plan）
 
-> **现行结果（2026-08-20）**：本文主体保留资产管线的历史演进证据。当前产品格式为
-> contentVersion 17 / SAVE 8，`manifest.assets` 已 catalog-only；PAL 共 1,935 个 catalog 记录，新增的
+> **现行结果（2026-08-23）**：本文主体保留资产管线的历史演进证据。当前产品格式为
+> contentVersion 17 / SAVE 8，`manifest.assets` 已 catalog-only；PAL 共 1,934 个 catalog 记录，新增的
 > 56 个 effect sprite（652,870 B / 922 帧）由 migrate 确定性物化，runtime/editor 不再读取 extracted
 > 或 `assets.legacy`。现行发布命令见 `packages/migrate/README.md`。
 >
@@ -138,9 +138,10 @@ UI box 和地图章节记录各自历史切片；A7-0 开始补上统一的工�
 现行管线明确分为两种所有权：
 
 1. **工程内容静态图**由 `migrate:content` 从提取源和标准色表生成，登记到 `assets/index.json`，再物化到
-   `projects/pal/assets/migrated/**`。PAL 的冻结结果为：portrait 88 / 768,841 B，face 6 / 10,392 B，
-   item-icon 233 / 262,667 B，battle-background 52 / 4,422,281 B；合计 379 条记录、5,464,181 B、
-   2,656 条引用、4 条未引用 warning、0 missing、0 kind mismatch。
+   `projects/pal/assets/migrated/**`。PAL 的现行冻结结果为：portrait 88 / 768,841 B，face 5 / 10,324 B，
+   item-icon 233 / 262,667 B，battle-background 52 / 4,422,281 B；合计 378 条记录、5,464,113 B、
+   2,657 条引用、4 条未引用 warning、0 missing、0 kind mismatch。盖罗娇没有真实 face，依 schema
+   缺席语义使用可战斗角色通用占位；历史 A7-2 六张 face 口径由 MIG-PAL-ACTOR-FACE-1 勘误。
 2. **引擎默认 chrome**由 `pnpm --filter @type-pal/migrate run bake` 确定性重建到
    `packages/reforge/src/engine-chrome/assets/**`：85 个 UI PNG / 48,629 B，另含默认标题、对话光标、
    Unifont 许可与来源记录。它由 bundler 产 URL，不写入任何工程 catalog。

@@ -121,6 +121,19 @@ describe('M1a · 角色(装备槽真序哨兵)', () => {
     // C1:头像组(主头像 = role.avatar;命名表情由编辑器人工加)
     expect(li.portraits).toEqual({ default: 'portrait.pal.001' })
     expect(li.face).toBe('face.pal.li-xiaoyao')
+
+    const gai = out.actors.find((actor) => actor.id === 'gai-luojiao')!
+    expect(gai.portraits).toEqual({ default: 'portrait.pal.044' })
+    expect(gai).not.toHaveProperty('face')
+    expect(
+      out.actors.filter((actor) => actor.face).map(({ id, face }) => [id, face]),
+    ).toEqual([
+      ['li-xiaoyao', 'face.pal.li-xiaoyao'],
+      ['zhao-linger', 'face.pal.zhao-linger'],
+      ['lin-yueru', 'face.pal.lin-yueru'],
+      ['wu-hou', 'face.pal.wu-hou'],
+      ['anu', 'face.pal.anu'],
+    ])
   })
   test('6 角色齐 + expTable 100 级 + 战斗精灵定义引用', () => {
     expect(out.actors.map((a) => a.id)).toEqual([

@@ -8,14 +8,12 @@ import type {
   ProjectMap,
   RuntimeSceneDef,
   ShopDef,
-  TilesetDef,
 } from '@type-pal/content'
 import {
   CONTENT_VERSION,
   CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
   collectAssetReferences,
   mapAssetById,
-  palTilesetAssetId,
   resolveAuthorDialogueTree,
   validateActors,
   validateAssetCatalog,
@@ -44,9 +42,12 @@ import {
 } from '@type-pal/content'
 import type { MigrationSnapshot } from './migration-baseline.js'
 import type { TransactionPrecondition } from './migration-transaction.js'
-import type { MigrationJson, PalMigrationSources } from './pal-migration.js'
-import { auditAndConvertSourceMaps, type ProjectMapAuditReport } from './project-map-audit.js'
-import { mapIdFromSourceNumber, tilesetIdFromSourceNumber } from './project-map-converter.js'
+import {
+  buildPalMigration,
+  type MigrationJson,
+  type PalMigrationSources,
+} from './pal-migration.js'
+import type { ProjectMapAuditReport } from './project-map-audit.js'
 
 export interface PalCurrentPublication {
   files: Map<string, MigrationJson>
@@ -86,8 +87,9 @@ function requiredPath(path: string | undefined, label: string): string {
 }
 
 /**
- * 唯一发布模型：作者内容以 current baseline 为三方合并 base；可重建的 catalog、地图和瓦片集
- * 每次直接从 PAL 原始提取源生成，不保留任何中间发布链。
+ * 唯一发布模型：作者内容以 current baseline 为三方合并 base；可重建的 catalog、
+ * PAL 六名原始角色、地图和瓦片集每次直接从同一个纯生成核取值。角色分区
+ * 按 stable id 替换，baseline 中不属于 PAL 原始六角色的作者角色保留。
  */
 export function buildPalCurrentPublication(
   baseline: MigrationSnapshot,
@@ -99,7 +101,7 @@ export function buildPalCurrentPublication(
 
   const files = new Map(baseline.files)
   const managedFiles = new Set(baseline.managedFiles)
-  const converted = auditAndConvertSourceMaps(sources.tilemaps)
+  const generated = buildPalMigration(sources)
   const previousMapPaths = [...managedFiles].filter(
     (path) => /^content\/maps\/(?!index\.json$)[^/]+\.json$/.test(path),
   )
@@ -108,38 +110,33 @@ export function buildPalCurrentPublication(
     files.delete(path)
   }
 
-  const mapIndex = {
-    version: 1 as const,
-    maps: sources.tilemaps.map(({ mapNum }) => ({
-      id: mapIdFromSourceNumber(mapNum),
-      name: `PAL 地图 ${mapNum}`,
-      path: `content/maps/${mapIdFromSourceNumber(mapNum)}.json`,
-    })),
-  }
-  const tilesets: TilesetDef[] = sources.tilemaps.map(({ mapNum, source }) => {
-    const expectedPath = `tileset/${mapNum}.rle`
-    if (source.tileset !== expectedPath)
-      throw new Error(`map ${mapNum}: tileset 路径期望 ${expectedPath}，收到 ${source.tileset}`)
-    return {
-      id: tilesetIdFromSourceNumber(mapNum),
-      name: `PAL 瓦片集 ${mapNum}`,
-      category: 'builtin',
-      asset: palTilesetAssetId(mapNum),
-    }
-  })
   const put = (path: string, value: unknown): void => {
     files.set(path, asJson(value))
     managedFiles.add(path)
   }
-  put('assets/index.json', sources.assetCatalog)
-  put('content/maps/index.json', mapIndex)
-  put('content/tilesets.json', tilesets)
-  for (const { mapNum } of sources.tilemaps) {
-    const map = converted.maps.get(mapNum)
-    if (!map) throw new Error(`地图转换结果缺 map ${mapNum}`)
-    put(`content/maps/${mapIdFromSourceNumber(mapNum)}.json`, map)
-  }
-  return { files, managedFiles, mapReport: converted.report }
+  const baselineActors = validateActors(required(files, 'content/actors.json'))
+  const generatedActors = validateActors(required(generated.files, 'content/actors.json'))
+  const generatedActorIds = new Set(generatedActors.map(({ id }) => id))
+  if (generatedActorIds.size !== sources.migrate.roles.length)
+    throw new Error(
+      `PAL 原始角色分区数量漂移: actors=${generatedActorIds.size} roles=${sources.migrate.roles.length}`,
+    )
+  const authoredActors = baselineActors.filter(({ id }) => !generatedActorIds.has(id))
+
+  put('assets/index.json', required(generated.files, 'assets/index.json'))
+  put('content/actors.json', [...generatedActors, ...authoredActors])
+  put('content/maps/index.json', required(generated.files, 'content/maps/index.json'))
+  put('content/tilesets.json', required(generated.files, 'content/tilesets.json'))
+  const generatedMapPaths = [...generated.managedFiles]
+    .filter((path) => /^content\/maps\/(?!index\.json$)[^/]+\.json$/.test(path))
+    .sort()
+  if (generatedMapPaths.length !== sources.tilemaps.length)
+    throw new Error(
+      `PAL 地图分区数量漂移: files=${generatedMapPaths.length} sources=${sources.tilemaps.length}`,
+    )
+  for (const path of generatedMapPaths) put(path, required(generated.files, path))
+
+  return { files, managedFiles, mapReport: generated.report.maps }
 }
 
 /** current canonical 内容的内存发布门；在资源写入和事务 journal 创建之前执行。 */

@@ -203,6 +203,10 @@ describe('ActorMode 战斗关系节 (E18-1)', () => {
   test('角色列表与标题优先显示战斗小头像，未配置时回退人物占位', async () => {
     const currentActors = actors()
     currentActors[0] = { ...currentActors[0]!, face: 'face.hero' }
+    currentActors[1] = {
+      ...currentActors[1]!,
+      portraits: { default: 'portrait.guard-dialog' },
+    }
     currentActors.push({ id: 'npc', name: 'name.npc', spriteId: 'npc-sprite' })
     const current = state(currentActors)
     current.locale['name.npc'] = '路人'
@@ -238,6 +242,7 @@ describe('ActorMode 战斗关系节 (E18-1)', () => {
       [...faceAvatars].every((avatar) => avatar.querySelector('img')?.src === 'blob:face.hero'),
     ).toBe(true)
     expect(readBytes).toHaveBeenCalledWith('face.hero', 'face')
+    expect(readBytes).not.toHaveBeenCalledWith('portrait.guard-dialog', 'portrait')
     expect(host.querySelector('.actor-avatar--catalog.actor-avatar--fallback')?.textContent).toBe(
       '🧑',
     )

@@ -1,10 +1,12 @@
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, resolve } from 'node:path'
 import { CONTENT_VERSION, CURRENT_PROJECT_MINIMUM_SAVE_VERSION, type CurrentManifest } from '@type-pal/content'
 import { afterEach, describe, expect, test } from 'vitest'
-import type { MigrationSnapshot } from './migration-baseline.js'
+import { sha256, type MigrationSnapshot } from './migration-baseline.js'
+import { commitMigrationTransaction } from './migration-transaction.js'
 import { buildMigrationTransactionChanges } from './migration-write-plan.js'
+import { planPalAssetRetirements } from './pal-assets.js'
 import type { MigrationJson } from './pal-migration.js'
 
 const roots: string[] = []
@@ -71,5 +73,41 @@ describe('current migration transaction change list', () => {
     const changes = buildMigrationTransactionChanges({ repo, plan: { writes: new Map(), deletes: [] }, previousBaseline: old, nextBaseline: next })
     expect(changes).toContainEqual({ target: 'packages/migrate/baselines/pal/content/old.json', scope: 'baseline' })
     expect(changes.some((item) => item.target.endsWith('/content/keep.json'))).toBe(false)
+  })
+
+  test('退役迁移资源作为 project delete 进入同一事务且重放为空', () => {
+    const repo = tempRepo()
+    const bytes = Buffer.from('retired-asset')
+    const path = 'assets/migrated/faces/retired.png'
+    put(repo, `projects/pal/${path}`, bytes.toString())
+    const previousCatalog = {
+      version: 1 as const,
+      assets: {
+        'face.pal.retired': {
+          kind: 'face' as const,
+          path,
+          mediaType: 'image/png',
+          bytes: bytes.byteLength,
+          sha256: sha256(bytes),
+          origin: { kind: 'legacy-migrated' as const },
+        },
+      },
+    }
+    const targetCatalog = { version: 1 as const, assets: {} }
+    const retiredAssets = planPalAssetRetirements({ repo, previousCatalog, targetCatalog })
+    const changes = buildMigrationTransactionChanges({
+      repo,
+      plan: { writes: new Map(), deletes: [] },
+      nextBaseline: snapshot({}),
+      retiredAssets,
+    })
+    expect(changes).toContainEqual({
+      target: `projects/pal/${path}`,
+      scope: 'project',
+      expectedPreviousHash: sha256(bytes),
+    })
+    commitMigrationTransaction(repo, changes)
+    expect(existsSync(resolve(repo, 'projects/pal', path))).toBe(false)
+    expect(planPalAssetRetirements({ repo, previousCatalog, targetCatalog })).toEqual([])
   })
 })

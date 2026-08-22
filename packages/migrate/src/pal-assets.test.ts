@@ -10,10 +10,12 @@ import { sha256 } from './migration-baseline.js'
 import {
   formatPalBattleSpriteReport,
   formatPalWorldSpriteReport,
+  loadPalStaticImages,
   loadPalBattleSprites,
   loadPalSoundAssets,
   loadPalWorldSprites,
   materializePalAssets,
+  planPalAssetRetirements,
   PAL_BATTLE_SPRITE_ENEMY_TUPLE_DIGEST,
   PAL_BATTLE_SPRITE_LEGACY_TAIL_ANOMALIES,
   PAL_BATTLE_SPRITE_PLAYER_TUPLE_DIGEST,
@@ -26,6 +28,7 @@ import {
   PAL_ENEMY_BATTLE_SPRITE_FRAME_COUNTS,
   PAL_PLAYER_BATTLE_SPRITE_FRAME_COUNTS,
 } from './pal-battle-sprites.js'
+import { PAL_PLAYER_FACE_FRAME_BY_ROLE_ID, ROLE_SLUGS } from './source-facts.js'
 
 const roots: string[] = []
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
@@ -35,6 +38,106 @@ afterEach(() => {
 })
 
 describe('PAL 二进制资源所有权物化', () => {
+  test('仅规划旧 catalog 所有且未被目标复用的 legacy-migrated 文件', () => {
+    const temp = mkdtempSync(resolve(tmpdir(), 'type-pal-asset-retirement-'))
+    roots.push(temp)
+    const retiredBytes = Buffer.from('retired')
+    const authoredBytes = Buffer.from('authored')
+    const sharedBytes = Buffer.from('shared')
+    const unmanaged = resolve(temp, 'projects/pal/assets/migrated/videos/unmanaged.mp4')
+    const records = {
+      retired: {
+        kind: 'video' as const,
+        path: 'assets/migrated/videos/retired.mp4',
+        mediaType: 'video/mp4',
+        bytes: retiredBytes.byteLength,
+        sha256: sha256(retiredBytes),
+        origin: { kind: 'legacy-migrated' as const },
+      },
+      authored: {
+        kind: 'video' as const,
+        path: 'assets/authored/video/keep.mp4',
+        mediaType: 'video/mp4',
+        bytes: authoredBytes.byteLength,
+        sha256: sha256(authoredBytes),
+        origin: { kind: 'authored' as const },
+      },
+      shared: {
+        kind: 'video' as const,
+        path: 'assets/migrated/videos/shared.mp4',
+        mediaType: 'video/mp4',
+        bytes: sharedBytes.byteLength,
+        sha256: sha256(sharedBytes),
+        origin: { kind: 'legacy-migrated' as const },
+      },
+    }
+    for (const [path, bytes] of [
+      [records.retired.path, retiredBytes],
+      [records.authored.path, authoredBytes],
+      [records.shared.path, sharedBytes],
+    ] as const) {
+      const full = resolve(temp, 'projects/pal', path)
+      mkdirSync(dirname(full), { recursive: true })
+      writeFileSync(full, bytes)
+    }
+    mkdirSync(dirname(unmanaged), { recursive: true })
+    writeFileSync(unmanaged, 'unmanaged')
+
+    expect(
+      planPalAssetRetirements({
+        repo: temp,
+        previousCatalog: {
+          version: 1,
+          assets: {
+            'video.pal.001': records.retired,
+            'video.pal.002': records.authored,
+            'video.pal.003': records.shared,
+          },
+        },
+        targetCatalog: {
+          version: 1,
+          assets: { 'video.pal.004': records.shared },
+        },
+      }),
+    ).toEqual([
+      {
+        id: 'video.pal.001',
+        path: records.retired.path,
+        expectedSha256: records.retired.sha256,
+      },
+    ])
+    expect(readFileSync(unmanaged, 'utf8')).toBe('unmanaged')
+  })
+
+  test('旧迁移文件被修改后拒绝生成退役计划', () => {
+    const temp = mkdtempSync(resolve(tmpdir(), 'type-pal-asset-retirement-'))
+    roots.push(temp)
+    const original = Buffer.from('original')
+    const path = 'assets/migrated/videos/retired.mp4'
+    const full = resolve(temp, 'projects/pal', path)
+    mkdirSync(dirname(full), { recursive: true })
+    writeFileSync(full, 'author-change')
+    expect(() =>
+      planPalAssetRetirements({
+        repo: temp,
+        previousCatalog: {
+          version: 1,
+          assets: {
+            'video.pal.001': {
+              kind: 'video',
+              path,
+              mediaType: 'video/mp4',
+              bytes: original.byteLength,
+              sha256: sha256(original),
+              origin: { kind: 'legacy-migrated' },
+            },
+          },
+        },
+        targetCatalog: { version: 1, assets: {} },
+      }),
+    ).toThrow('资源 bytes 不符')
+  })
+
   test('四类静态图 authored 接管后逐字节保留，不物化对应迁移源', () => {
     const temp = mkdtempSync(resolve(tmpdir(), 'type-pal-static-assets-'))
     roots.push(temp)
@@ -268,6 +371,31 @@ describe('PAL 二进制资源所有权物化', () => {
       '资源路径冲突',
     )
     expect(existsSync(resolve(temp, 'projects/pal/assets/migrated/videos/shared.mp4'))).toBe(false)
+  })
+})
+
+describe('PAL 静态图小头像真值', () => {
+  test('仅生成 roleId 0..4 的五张真实 face，不登记盖罗娇透明槽', () => {
+    const loaded = loadPalStaticImages(repo)
+    const faces = loaded.binaries.filter((source) => source.record.kind === 'face')
+
+    expect(loaded.report.faces).toBe(5)
+    expect(loaded.report.faceBytes).toBe(10_324)
+    expect(PAL_PLAYER_FACE_FRAME_BY_ROLE_ID).toEqual([48, 49, 50, 51, 52])
+    expect(PAL_PLAYER_FACE_FRAME_BY_ROLE_ID.at(5)).toBeUndefined()
+    expect(faces.map((source) => source.id)).toEqual(
+      PAL_PLAYER_FACE_FRAME_BY_ROLE_ID.map((_, roleId) => `face.pal.${ROLE_SLUGS[roleId]}`),
+    )
+    expect(faces.map(({ record }) => record.origin)).toEqual(
+      PAL_PLAYER_FACE_FRAME_BY_ROLE_ID.map((frame) => ({
+        kind: 'legacy-migrated',
+        ref: `images/ui/frame-${frame}.png`,
+      })),
+    )
+    expect(faces.some((source) => source.id === 'face.pal.gai-luojiao')).toBe(false)
+    expect(
+      faces.some(({ record }) => record.origin.ref === 'images/ui/frame-53.png'),
+    ).toBe(false)
   })
 })
 

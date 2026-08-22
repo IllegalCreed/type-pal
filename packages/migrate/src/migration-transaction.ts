@@ -21,6 +21,8 @@ export interface TransactionChange {
   target: string
   scope: 'project' | 'baseline' | 'manifest'
   content?: string
+  /** 删除规划时读取到的旧文件 hash；提交前必须仍相同，避免误删并发改写的作者内容。 */
+  expectedPreviousHash?: string
   /** manifest 发布前必须仍满足的磁盘闭包；会持久化进 journal 供恢复路径复核。 */
   preconditions?: readonly TransactionPrecondition[]
 }
@@ -288,6 +290,16 @@ export function commitMigrationTransaction(
   if (new Set(normalized.map((change) => change.target)).size !== normalized.length)
     throw new Error('迁移事务包含重复目标')
   for (const change of normalized) {
+    if (change.expectedPreviousHash !== undefined) {
+      if (change.content !== undefined)
+        throw new Error(`只有删除操作可以携带 expectedPreviousHash: ${change.target}`)
+      if (!HASH_RE.test(change.expectedPreviousHash))
+        throw new Error(`事务 expectedPreviousHash 无效: ${change.target}`)
+      const target = resolve(repo, change.target)
+      const actual = existsSync(target) ? sha256(readFileSync(target)) : null
+      if (actual !== change.expectedPreviousHash)
+        throw new Error(`事务删除目标已偏离规划快照: ${change.target}`)
+    }
     if (change.preconditions?.some((precondition) => !/^[a-f0-9]{64}$/.test(precondition.hash)))
       throw new Error(`事务前置条件 hash 无效: ${change.target}`)
     if (change.scope !== 'manifest' && change.preconditions?.length)
@@ -308,6 +320,7 @@ export function commitMigrationTransaction(
         target: change.target,
         scope: change.scope,
         hash: change.content === undefined ? null : sha256(change.content),
+        expectedPreviousHash: change.expectedPreviousHash,
         preconditions: change.preconditions,
       })),
     ),

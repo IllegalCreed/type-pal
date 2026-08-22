@@ -225,8 +225,9 @@ content 里的东西分两类,**必须分开处理**(这是迁移的关键):
 引擎默认界面：typed engine-chrome slot -> bundler URL
 ```
 
-- PAL 的 `portrait`、`face`、`item-icon`、`battle-background` 已全部进入工程 catalog：共 379 条记录、
-  5,464,181 B、2,656 条 typed 引用；0 missing、0 kind mismatch。内容模型和编辑器不再保存数字号或路径。
+- PAL 的 `portrait`、`face`、`item-icon`、`battle-background` 已全部进入工程 catalog：共 378 条记录、
+  5,464,113 B、2,657 条 typed 引用；0 missing、0 kind mismatch。五张真实 face 均被引用；盖罗娇
+  不声明 face，编辑器按可选字段语义显示可战斗角色通用占位。内容模型和编辑器不再保存数字号或路径。
 - 默认标题、Unifont、对话光标和 85 个默认 UI slot 属于 Reforge 引擎壳；统一由
   `packages/reforge/src/engine-chrome/registry.ts` 交给 bundler，UI/标题/许可与来源记录位于其 `assets/**`，
   已跟踪的 BDF build asset 也会进入构建产物。它们不进入工程 catalog，也不进入 A5 工程 ZIP。

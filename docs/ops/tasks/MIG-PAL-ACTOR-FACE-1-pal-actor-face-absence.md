@@ -1,6 +1,6 @@
 # MIG-PAL-ACTOR-FACE-1 - PAL 角色小头像缺席语义与迁移收口
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: A7
 Coding Owner: Codex
@@ -9,7 +9,7 @@ Reviewer: both
 Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
-Branch: TBD
+Branch: codex/mig-pal-actor-face-1
 
 ## 目标
 
@@ -172,11 +172,12 @@ Branch: TBD
     `actor.face` 缺席 + `battler` 存在选择 🧑。
 - counter / 分歧处理: N/A
 - 缺签豁免: N/A
-- build 准入结论: blocked
+- build 准入结论: build allowed（2026-08-23，三方 premise/design 与独立反证均已核齐；无 counter）
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: accept（2026-08-23；实现 diff 自审、79+1+10 项定向测试、migrate/editor typecheck、正式迁移
+  一次写入后的零计划 replay、`git diff --check` 与角色页浏览器 smoke 均通过）
 - Kimi: pending
 - GLM: pending
 - counter / 返工处理: N/A
@@ -240,11 +241,34 @@ Branch: TBD
 ## Build: 实现与自测
 
 - Coding Owner: Codex
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- 修改文件:
+  - 迁移共享事实/生成/发布/退休事务：`packages/migrate/src/source-facts.ts`、`migrate-content.ts`、
+    `pal-assets.ts`、`migration-write-plan.ts`、`migration-transaction.ts`、`pal-current-publication.ts`、
+    `sound-reference-audit.ts`、`packages/migrate/scripts/migrate-content.mts` 及对应测试。
+  - 编辑器契约：`packages/editor/src/ui/ActorMode.test.tsx`。
+  - canonical 产物/baseline：PAL `actors.json`、`assets/index.json` 与 baseline `_state.json`；旧
+    `assets/migrated/faces/gai-luojiao.png` 由带旧哈希校验的退休计划删除。
+  - 现役能力/迁移文档与历史报告勘误：`docs/phase2/**` 本卡相关条目。
+- 实现摘要:
+  - 以只读 tuple 固定 PAL roleId 0..4 -> frame 48..52；资源生成与 `mapActor` 共用，roleId 5 不再
+    生成或声明 `face`，但继续保留 `portraits.default=portrait.pal.044`。
+  - 发布当前 PAL 时替换 raw-owned 六名角色并保留 author-owned 两名角色；当前 catalog census 收口为
+    1934 records / 69,092,169 bytes，face 收口为 5 records / 10,324 bytes / 5 refs。
+  - 新增受控 orphan 退休计划：只删除旧 catalog 持有、位于 `assets/migrated/**`、路径未复用且落盘
+    hash 与旧 catalog 一致的文件；事务在 apply 前再次核 hash，避免误删用户改写或非托管文件。
+  - publication gate 直接钉住八角色合成、盖罗娇 face/catalog/binary 缺席和五张真实 face 的引用闭包。
+- 运行命令:
+  - `pnpm --filter @type-pal/migrate test:fast -- migrate-content.test.ts pal-assets.test.ts migration-write-plan.test.ts migration-transaction.test.ts`：4 files / 79 tests passed。
+  - `pnpm --filter @type-pal/migrate test:pal -- pal-current-publication.pal.test.ts`：1 test passed。
+  - `pnpm --filter @type-pal/editor test -- ActorMode.test.tsx`：10 tests passed。
+  - `pnpm --filter @type-pal/migrate typecheck`、`pnpm --filter @type-pal/editor typecheck`：passed。
+  - PAL migration dry-run：`managed=537 writes=2 deletes=0 conflicts=0 asset-deletes=1`；正式写入一次后
+    replay 为 `writes=0 deletes=0 conflicts=0 asset-deletes=0`。
+  - `git diff --check`：passed。
+- 浏览器 / 手工检查: `http://localhost:6010/?ui_samples=1&module=actor` 选择盖罗娇；DOM 与页面均确认
+  左侧行和中间 Hero 显示 `🧑`，`gai-luojiao`/可入队信息保持，未读取对话立绘充当 face。
+- 跳过的检查及原因: 未重复跑 editor/migrate 全量长套件；本卡只影响已覆盖的迁移、发布和 Actor 展示域，
+  定向测试、两包 typecheck、正式迁移 replay 与浏览器 smoke 已覆盖验收条件。
 
 ## 资源生成记录(如适用)
 
@@ -262,9 +286,9 @@ Branch: TBD
 - Visual Verification Timing: dev-functional
 - 验证方式: PAL 评审沙盒角色页最小 smoke。
 - 集中 E2E 用例 / 批次: N/A
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: pending
+- 截图 / 像素检查路径: N/A（以浏览器 accessibility/DOM 快照核列表与 Hero 的实际呈现，未新增长期截图产物）
+- 结论: passed；盖罗娇两个入口均显示 battler 默认头像 `🧑`。
+- 未完成项: 无；等待 Kimi/GLM 实现审查。
 
 ## Review: 审查与返工
 
@@ -272,6 +296,15 @@ Branch: TBD
 - 审查结论: pending
 - 必须返工项: pending
 - Accept / rework: pending
+
+### 下一位 Agent 提示词
+
+请审查 `docs/ops/tasks/MIG-PAL-ACTOR-FACE-1-pal-actor-face-absence.md`，当前状态 `review`。先读
+`AGENTS.md`、`docs/phase2/READ-FIRST.md`、本任务卡的前提真值/验收条件，以及本分支提交 diff。不得修改
+实现文件、不得标记 done。重点独立核对：① frame 48..52 单一事实是否同时约束资源生成与 Actor 映射；
+②盖罗娇 portrait 保留但 face/catalog/binary/孤儿 PNG 均缺席；③退休计划只删旧 catalog 持有且 hash 未变的
+`assets/migrated/**` 文件，事务 TOCTOU 防护是否 fail-closed；④ publication census、replay 零计划与 Editor
+`🧑` 契约是否足以阻止回归。请在卡内签 `accept`，或写明 `counter`/必须返工项；签字前不得把卡转 done。
 
 ## 用户验收
 
