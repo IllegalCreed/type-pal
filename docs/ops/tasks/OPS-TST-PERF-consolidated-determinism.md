@@ -238,6 +238,8 @@ coverage 正确，consolidated probe 也可能没有足够收益。实现必须�
 - 2026-08-22 Codex: current-only census 证明 P2/P3/P4 shadow producer、release shared 路由和全部
   consolidated proof 对象均已删除；当前 40/340 清单没有对应 successor 集。卡转 `cancelled` 并从
   进行中看板移除；保留单一 current generator 的 source-backed determinism 证明。
+- 2026-08-23 User: 明确批准按 current-only 结论取消 `OPS-TST-PERF-C`，不恢复 P2/P3/P4
+  consolidated proof 或旧 release 路由。
 
 ## 下一位 Agent 提示词
 

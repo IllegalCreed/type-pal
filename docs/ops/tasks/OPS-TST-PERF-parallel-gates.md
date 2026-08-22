@@ -652,6 +652,7 @@ Primary-source 证据（三点，均为本席直接打开核实）：
 - 2026-08-22 Codex: current-only 静态 census 与一次性执行基线完成。旧 shared/fresh 路由和 runner
   实施对象为 0；fast 37/330 用时 10.03s，PAL 3/10 用时 46.91s，均通过。重建 runner 的收益
   前提不成立，卡转 `cancelled` 并从进行中看板移除。未修改实现文件，未复跑旧长测。
+- 2026-08-23 User: 明确批准按 current-only 结论取消 `OPS-TST-PERF-B`，不重建旧并行 runner。
 
 ## 下一位 Agent 提示词
 
