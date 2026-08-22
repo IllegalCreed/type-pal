@@ -87,7 +87,14 @@ const base: ContentBundle = {
       layout: { kind: 'directional', framesPerDir: 3 },
     },
   ],
-  startWorld: { party: ['hero'], money: 0, learnedSkills: {}, inventory: [] },
+  entryPoints: [
+    {
+      id: 'new-game',
+      label: '开始游戏',
+      scene: 's',
+      startWorld: { party: ['hero'], money: 0, learnedSkills: {}, inventory: [] },
+    },
+  ],
   mapIndex: {
     version: 1,
     maps: [{ id: 'map-001', name: '测试地图', path: 'content/maps/map-001.json' }],
@@ -930,17 +937,17 @@ test('E18-1:合法三字段(gates+fallback+互护)→ 零 issue', () => {
   }
   expect(validateReferences(b)).toEqual([])
 })
-test('startWorld.party 指向不存在角色 → 报 error', () => {
+test('entryPoint.startWorld.party 指向不存在角色 → 报 error', () => {
   const b = clone(base)
-  b.startWorld.party = ['nobody']
+  b.entryPoints[0]!.startWorld.party = ['nobody']
   expect(
     validateReferences(b).some((i) => i.severity === 'error' && /nobody/.test(i.where + i.message)),
   ).toBe(true)
 })
-test('startWorld.party 引无 battler 的 actor → 报 error(C0:入队必须可战斗)', () => {
+test('entryPoint.startWorld.party 引无 battler 的 actor → 报 error(C0:入队必须可战斗)', () => {
   const b = clone(base)
   b.actors.push({ id: 'villager', name: 'name.hero', spriteId: 'ghost' })
-  b.startWorld.party = ['villager']
+  b.entryPoints[0]!.startWorld.party = ['villager']
   expect(
     validateReferences(b).some(
       (i) =>
@@ -948,9 +955,9 @@ test('startWorld.party 引无 battler 的 actor → 报 error(C0:入队必须可
     ),
   ).toBe(true)
 })
-test('startWorld.learnedSkills 指向不存在技能 → 报 warn', () => {
+test('entryPoint.startWorld.learnedSkills 指向不存在技能 → 报 error', () => {
   const b = clone(base)
-  b.startWorld.learnedSkills = { hero: ['999'] }
+  b.entryPoints[0]!.startWorld.learnedSkills = { hero: ['999'] }
   expect(validateReferences(b).some((i) => /999/.test(i.where + i.message))).toBe(true)
 })
 test('EquipSpec.equipableBy 指向不存在角色 → 报 warn', () => {
@@ -1169,16 +1176,16 @@ test('Actor typed 引用补齐 setActorSprite/setActorAppearance/setParty 并保
   )
 })
 
-test('悬空 learnedSkills/levelUp actor 键是 warn，且 levelUp 技能校验仍保留', () => {
+test('入口悬空 learnedSkills actor 是 error，levelUp 悬空引用仍是 warn', () => {
   const b = clone(base)
-  b.startWorld.learnedSkills = { ghost: ['1'] }
+  b.entryPoints[0]!.startWorld.learnedSkills = { ghost: ['1'] }
   b.levelUp = { ghost: [{ level: 2, skillId: 'missing-skill' }] }
   const issues = validateReferences(b)
   expect(issues).toEqual(
     expect.arrayContaining([
       expect.objectContaining({
-        severity: 'warn',
-        where: 'startWorld.learnedSkills[ghost]',
+        severity: 'error',
+        where: 'entryPoints[new-game].startWorld.learnedSkills[ghost]',
       }),
       expect.objectContaining({ severity: 'warn', where: 'levelUp[ghost]' }),
       expect.objectContaining({ severity: 'warn', where: 'levelUp[ghost][0].skillId' }),

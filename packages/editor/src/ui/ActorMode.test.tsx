@@ -87,10 +87,19 @@ function state(actorsList: ActorDef[]): EditorState {
   return {
     manifest: {
       id: 'test',
-      contentVersion: 1,
-      engineVersion: 'test',
-      entryScene: 'scene-a',
-      startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+      name: '测试项目',
+      contentVersion: 17,
+      minimumSaveVersion: 8,
+      defaultEntryId: 'main',
+      content: {},
+      entryPoints: [
+        {
+          id: 'main',
+          label: '主要入口',
+          scene: 'scene-a',
+          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+        },
+      ],
       assets: { catalog: 'assets/index.json', roles: {} },
     },
     scenes: [],
@@ -101,7 +110,6 @@ function state(actorsList: ActorDef[]): EditorState {
     locale: { 'dlg.talk.0': '你好', 'name.hero': '主角', 'name.guard': '守护者' },
     sprites: [],
     battleSprites: [],
-    startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
     maps: {},
     mapIndex: { version: 1, maps: [] },
     tilesets: [],

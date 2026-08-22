@@ -6,11 +6,11 @@
  * UI、保存前校验和测试都消费同一组纯函数。
  */
 import {
-  ACTOR_REFERENCE_POLICIES,
   type AssetKind,
   type CurrentManifest,
   type EntryPoint,
   type SceneDef,
+  type StartWorld,
   validateAssetCatalog,
   validateAssetReferenceClosure,
   validateBattleFields,
@@ -38,7 +38,7 @@ import {
 export type ProjectIssueSeverity = 'error' | 'warn'
 
 export type ProjectIssueCode =
-  | 'missing-entry-scene'
+  | 'missing-default-entry'
   | 'empty-entry-points'
   | 'blank-entry-id'
   | 'noncanonical-entry-id'
@@ -85,18 +85,12 @@ const CURRENT_MANIFEST_TOP_LEVEL_KEYS = {
   id: true,
   name: true,
   contentVersion: true,
-  entryScene: true,
+  defaultEntryId: true,
   entryPoints: true,
   content: true,
   assets: true,
-  startWorld: true,
   minimumSaveVersion: true,
 } satisfies Record<keyof ManifestLike, true>
-
-/** 缺省 entryPoints 只在 UI/runtime 中合成，绝不直接写回 manifest。 */
-export function resolveProjectEntryPoints(manifest: ManifestLike): EntryPoint[] {
-  return manifest.entryPoints ?? [{ id: 'new-game', label: '开始游戏', scene: manifest.entryScene }]
-}
 
 /** 损坏恢复只允许改坏条目；合法唯一 id 仍是稳定引用，不借修复模式开放重命名。 */
 export function getRepairableEntryIndexes(entries: readonly EntryPoint[]): Set<number> {
@@ -120,17 +114,17 @@ export function validateManifestEntryPoints(
 ): ProjectIssue[] {
   const issues: ProjectIssue[] = []
   const sceneIds = new Set(scenes.map((scene) => scene.id))
-  if (!sceneIds.has(manifest.entryScene)) {
+  if (!manifest.entryPoints.some((entry) => entry.id === manifest.defaultEntryId)) {
     issues.push({
       severity: 'error',
-      code: 'missing-entry-scene',
-      message: `默认入口场景 "${manifest.entryScene}" 不存在`,
-      path: 'entryScene',
+      code: 'missing-default-entry',
+      message: `直接启动入口 "${manifest.defaultEntryId}" 不存在`,
+      path: 'defaultEntryId',
       target: { module: 'project', page: 'entrypoint' },
     })
   }
 
-  if (manifest.entryPoints && manifest.entryPoints.length === 0) {
+  if (manifest.entryPoints.length === 0) {
     issues.push({
       severity: 'error',
       code: 'empty-entry-points',
@@ -140,7 +134,7 @@ export function validateManifestEntryPoints(
     })
   }
 
-  const entries = resolveProjectEntryPoints(manifest)
+  const entries = manifest.entryPoints
   const idCounts = new Map<string, number>()
   for (const entry of entries) {
     const id = typeof entry.id === 'string' ? entry.id.trim() : ''
@@ -177,7 +171,7 @@ export function validateManifestEntryPoints(
       })
     }
     seen.add(id)
-    if (!sceneIds.has(entry.scene) && manifest.entryPoints !== undefined) {
+    if (!sceneIds.has(entry.scene)) {
       issues.push({
         severity: 'error',
         code: 'missing-entry-point-scene',
@@ -195,27 +189,12 @@ export function validateManifestEntryPoints(
 }
 
 function validateSeedStats(
-  startWorld: CurrentManifest['startWorld'],
-  actors: readonly { id: string }[],
+  startWorld: StartWorld,
   pathPrefix: string,
   target: ProjectIssue['target'] = { module: 'project', page: 'entrypoint' },
 ): ProjectIssue[] {
   const issues: ProjectIssue[] = []
-  const actorIds = new Set(actors.map((actor) => actor.id))
-  const actorReferencePolicy =
-    ACTOR_REFERENCE_POLICIES[
-      pathPrefix.startsWith('entryPoints[') ? 'entry-point-seed-stats' : 'manifest-seed-stats'
-    ]
   for (const [actorId, stats] of Object.entries(startWorld.seedStats ?? {})) {
-    if (!actorIds.has(actorId)) {
-      issues.push({
-        severity: actorReferencePolicy.danglingSeverity,
-        code: 'invalid-start-world',
-        message: `${actorReferencePolicy.label}角色 "${actorId}" 不在 actors 表`,
-        path: `${pathPrefix}.seedStats.${actorId}`,
-        target,
-      })
-    }
     for (const key of ['hp', 'mp'] as const) {
       const value = stats?.[key]
       if (value !== undefined && (!Number.isInteger(value) || value < 0)) {
@@ -233,7 +212,7 @@ function validateSeedStats(
 }
 
 function validateStartWorldResourceIssues(
-  startWorld: CurrentManifest['startWorld'],
+  startWorld: StartWorld,
   pathPrefix: string,
   target: ProjectIssue['target'] = { module: 'project', page: 'entrypoint' },
 ): ProjectIssue[] {
@@ -254,7 +233,7 @@ function validateStartWorldResourceIssues(
 }
 
 function validateStartWorldUniqueness(
-  startWorld: CurrentManifest['startWorld'],
+  startWorld: StartWorld,
   pathPrefix: string,
   target: ProjectIssue['target'] = { module: 'project', page: 'entrypoint' },
 ): ProjectIssue[] {
@@ -336,56 +315,47 @@ export function collectProjectIssues(state: EditorState): ProjectIssue[] {
       },
     })
   }
-  issues.push(...validateSeedStats(state.manifest.startWorld, state.actors, 'startWorld'))
-  issues.push(...validateStartWorldUniqueness(state.manifest.startWorld, 'startWorld'))
-  issues.push(...validateStartWorldResourceIssues(state.manifest.startWorld, 'startWorld'))
-  for (const issue of validateReferences(state)) {
-    if (!issue.where.startsWith('startWorld')) continue
-    issues.push({
-      severity: issue.severity,
-      code: 'invalid-start-world',
-      message: issue.message,
-      path: issue.where,
-      target: { module: 'project', page: 'entrypoint' },
-    })
-  }
-
-  const entries = state.manifest.entryPoints ?? []
+  const entries = state.manifest.entryPoints
   const entryIdCounts = new Map<string, number>()
   for (const entry of entries) {
     const id = entry.id.trim()
     if (id) entryIdCounts.set(id, (entryIdCounts.get(id) ?? 0) + 1)
   }
   for (const [index, entry] of entries.entries()) {
-    // 入口点覆盖沿用既有 content 引用校验；这里只改展示路径，不复制校验规则。
-    if (entry.startWorld) {
-      const normalizedId = entry.id.trim()
-      const target: ProjectIssue['target'] = {
-        module: 'project',
-        page: 'entrypoint',
-        ...(normalizedId && normalizedId === entry.id && entryIdCounts.get(normalizedId) === 1
-          ? { objectId: normalizedId }
-          : {}),
-      }
-      const pathPrefix = `entryPoints[${index}].startWorld`
-      issues.push(
-        ...validateSeedStats(entry.startWorld, state.actors, pathPrefix, target),
-        ...validateStartWorldUniqueness(entry.startWorld, pathPrefix, target),
-        ...validateStartWorldResourceIssues(entry.startWorld, pathPrefix, target),
-      )
-      const overrideIssues = validateReferences({ ...state, startWorld: entry.startWorld })
-      for (const issue of overrideIssues) {
-        if (!issue.where.startsWith('startWorld')) continue
-        issues.push({
-          severity: issue.severity,
-          code: 'invalid-start-world',
-          message: issue.message,
-          path: `entryPoints[${index}].${issue.where}`,
-          target,
-        })
-      }
+    const normalizedId = entry.id.trim()
+    const target: ProjectIssue['target'] = {
+      module: 'project',
+      page: 'entrypoint',
+      ...(normalizedId && normalizedId === entry.id && entryIdCounts.get(normalizedId) === 1
+        ? { objectId: normalizedId }
+        : {}),
     }
+    const pathPrefix = `entryPoints[${index}].startWorld`
+    issues.push(
+      ...validateSeedStats(entry.startWorld, pathPrefix, target),
+      ...validateStartWorldUniqueness(entry.startWorld, pathPrefix, target),
+      ...validateStartWorldResourceIssues(entry.startWorld, pathPrefix, target),
+    )
   }
+  for (const issue of validateReferences({ ...state, entryPoints: entries }))
+    if (issue.where.startsWith('entryPoints[')) {
+      const entry = entries.find(
+        (candidate) =>
+          entryIdCounts.get(candidate.id) === 1 &&
+          issue.where.startsWith(`entryPoints[${candidate.id}].`),
+      )
+      issues.push({
+        severity: issue.severity,
+        code: 'invalid-start-world',
+        message: issue.message,
+        path: issue.where,
+        target: {
+          module: 'project',
+          page: 'entrypoint',
+          ...(entry ? { objectId: entry.id } : {}),
+        },
+      })
+    }
 
   try {
     validateAssetCatalog(state.assetCatalog)
@@ -580,8 +550,11 @@ export function collectEditorStatusIssues(
   const projectedItemScriptPaths = canonical
     ? runtimeItemScriptProjectionPaths(state)
     : new Set<string>()
-  const contentIssues: EditorStatusIssue[] = validateReferences(state)
-    .filter((issue) => !issue.where.startsWith('startWorld'))
+  const contentIssues: EditorStatusIssue[] = validateReferences({
+    ...state,
+    entryPoints: state.manifest.entryPoints,
+  })
+    .filter((issue) => !issue.where.startsWith('entryPoints['))
     .filter((issue) => !projectedItemScriptPaths.has(issue.where))
     .map((issue) => ({
       severity: issue.severity,
@@ -739,46 +712,19 @@ export function assertProjectSaveValid(state: EditorState): void {
   if (variableIssue)
     throw new Error(`保存前世界变量校验失败：${variableIssue.path}: ${variableIssue.message}`)
 
-  const referenceErrors = [
-    ...validateReferences(state),
-    ...Array.from(
-      (state.manifest.entryPoints ?? []).flatMap((entry) =>
-        entry.startWorld
-          ? validateReferences({ ...state, startWorld: entry.startWorld })
-              .filter((issue) => issue.where.startsWith('startWorld'))
-              .map((issue) => ({
-                ...issue,
-                where: `entryPoints[${entry.id}].${issue.where}`,
-              }))
-          : [],
-      ),
-    ),
-  ].filter((issue) => issue.severity === 'error')
-  if (referenceErrors.length)
-    throw new Error(`保存前内容引用校验失败：${referenceErrors[0]!.message}`)
-  const startWorldInvariantErrors = [
-    ...validateSeedStats(state.manifest.startWorld, state.actors, 'startWorld'),
-    ...validateStartWorldUniqueness(state.manifest.startWorld, 'startWorld'),
-    ...validateStartWorldResourceIssues(state.manifest.startWorld, 'startWorld'),
-    ...(state.manifest.entryPoints ?? []).flatMap((entry, index) =>
-      entry.startWorld
-        ? [
-            ...validateSeedStats(
-              entry.startWorld,
-              state.actors,
-              `entryPoints[${index}].startWorld`,
-            ),
-            ...validateStartWorldUniqueness(entry.startWorld, `entryPoints[${index}].startWorld`),
-            ...validateStartWorldResourceIssues(
-              entry.startWorld,
-              `entryPoints[${index}].startWorld`,
-            ),
-          ]
-        : [],
-    ),
-  ]
+  const startWorldInvariantErrors = state.manifest.entryPoints.flatMap((entry, index) => [
+    ...validateSeedStats(entry.startWorld, `entryPoints[${index}].startWorld`),
+    ...validateStartWorldUniqueness(entry.startWorld, `entryPoints[${index}].startWorld`),
+    ...validateStartWorldResourceIssues(entry.startWorld, `entryPoints[${index}].startWorld`),
+  ])
   if (startWorldInvariantErrors.length)
     throw new Error(`保存前开局数据校验失败：${startWorldInvariantErrors[0]!.message}`)
+  const referenceErrors = validateReferences({
+    ...state,
+    entryPoints: state.manifest.entryPoints,
+  }).filter((issue) => issue.severity === 'error')
+  if (referenceErrors.length)
+    throw new Error(`保存前内容引用校验失败：${referenceErrors[0]!.message}`)
 
   try {
     validateAssetCatalog(state.assetCatalog)

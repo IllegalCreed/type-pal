@@ -76,7 +76,6 @@ function state(map: ProjectMap): EditorState {
     items: [],
     locale: {},
     sprites: [],
-    startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
     maps: { 'map-a': map },
     mapIndex: {
       version: 1,

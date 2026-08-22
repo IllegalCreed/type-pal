@@ -369,8 +369,7 @@ export function normalizeEditorLocation(
     ? (input?.module as EditorModuleId)
     : 'scene'
   const module = editorModule(moduleId)
-  const requestedSubpage =
-    moduleId === 'project' && input?.subpage === 'startworld' ? 'entrypoint' : input?.subpage
+  const requestedSubpage = input?.subpage
   const subpage = module.subpages.some((candidate) => candidate.id === requestedSubpage)
     ? (requestedSubpage as string)
     : module.defaultSubpage

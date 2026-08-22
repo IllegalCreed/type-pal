@@ -4,6 +4,7 @@ import {
   checkThrowSpec,
   validateActors,
   validateBattleFields,
+  validateCurrentManifestStartup,
   validateEnemies,
   validateItems,
   validateLocale,
@@ -1078,5 +1079,65 @@ describe('validateLocale · 对话行边界', () => {
     expect(validateLocale({ old: '第一行\n第二行' }, { allowSoftWrap: true })).toEqual({
       old: '第一行\n第二行',
     })
+  })
+})
+
+describe('validateCurrentManifestStartup · canonical content17 startup model', () => {
+  const world = () => ({ party: [], money: 0, learnedSkills: {}, inventory: [] })
+  const entry = (id: string, scene = `scene-${id}`) => ({
+    id,
+    label: id,
+    scene,
+    startWorld: world(),
+  })
+  const manifest = () => ({
+    id: 'demo',
+    name: 'Demo',
+    contentVersion: 17,
+    minimumSaveVersion: 8,
+    defaultEntryId: 'main',
+    entryPoints: [entry('main')],
+    content: { scenes: 'content/scenes/' },
+    assets: { catalog: 'assets/index.json', roles: {} },
+  })
+
+  test('接受非首项 default，并按稳定 id 返回真实入口', () => {
+    const value = {
+      ...manifest(),
+      defaultEntryId: 'dlc-b',
+      entryPoints: [entry('main'), entry('dlc-b')],
+    }
+    expect(validateCurrentManifestStartup(value, ['scene-main', 'scene-dlc-b']).defaultEntry.id).toBe(
+      'dlc-b',
+    )
+  })
+
+  test.each([
+    [{ ...manifest(), entryPoints: [] }, /至少需要一个真实入口/],
+    [{ ...manifest(), defaultEntryId: 'missing' }, /defaultEntryId.*missing.*不存在/],
+    [
+      { ...manifest(), entryPoints: [entry('main'), entry('main', 'scene-other')] },
+      /入口 id "main" 重复/,
+    ],
+    [{ ...manifest(), entryScene: 'scene-main' }, /entryScene: 未知字段/],
+    [{ ...manifest(), startWorld: world() }, /startWorld: 未知字段/],
+    [{ ...manifest(), contentVersion: 16 }, /contentVersion: 期望 17/],
+  ])('拒绝旧形状或破坏 canonical invariant %#', (value, expected) => {
+    expect(() => validateCurrentManifestStartup(value)).toThrow(expected)
+  })
+
+  test('非默认入口错误使用稳定入口 id 定位，数组重排不改变路径', () => {
+    const broken = { ...entry('dlc-b'), startWorld: { ...world(), seedStats: [] } }
+    for (const entryPoints of [[entry('main'), broken], [broken, entry('main')]])
+      expect(() =>
+        validateCurrentManifestStartup({ ...manifest(), entryPoints }),
+      ).toThrow(/entryPoints\[dlc-b\]\.startWorld\.seedStats/)
+  })
+
+  test('所有入口场景都必须存在于索引，包括非默认入口', () => {
+    const value = { ...manifest(), entryPoints: [entry('main'), entry('dlc-b')] }
+    expect(() => validateCurrentManifestStartup(value, ['scene-main'])).toThrow(
+      /entryPoints\[dlc-b\]\.scene.*不在 scenes\/index\.json/,
+    )
   })
 })

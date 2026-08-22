@@ -13,7 +13,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| ARCH-ENTRYPOINT-CANONICAL-1 | 显式启动入口与独立开局配置 | draft | 三签齐（GE1-GE4）；WORKSPACE-MODES 收口后干净分支转 build | GLM 裁定：11-15 字面量 11 处本卡清零；demo/e2e-own 需合成入口；ui_samples N/A |
+| ARCH-ENTRYPOINT-CANONICAL-1 | 显式启动入口与独立开局配置 | review | Kimi 架构复审，随后 GLM 覆盖终审 | content17 三工程 canonical；默认/显式/menu/?scene 语义与编辑闭环已实现，Codex 自验通过 |
 | ARCH-CURRENT-ONLY-1 | 开发期单版本架构收口 | review | 三方 accept 齐；仅剩用户验收最小 smoke | GLM 终审：census 170/69→0/0、replay 537/0/0/0 复跑、四包全绿 | 5 个死 sidecar 已删；静态边界 3/3、PAL 537/0/0/0 零差异 |
 | ED-PAL-WORKSPACE-MODES-1 | PAL 开发基线、评审沙盒与种子晋升边界 | done | 三方 accept + 用户验收齐，整卡收口 | GLM 终审：GP1-GP3/KP1-KP2 全落，focused 68+20 复跑全绿 | Codex accept；editor 134/981 + typecheck，全链路内部压力审查 P0/P1/P2 清零 |
 | MIG-PAL-ACTOR-FACE-1 | PAL 角色小头像缺席语义与迁移收口 | draft | Kimi/GLM 独立核 raw 数据并签 premise/design | 盖罗娇 frame 53 为 3×4 全透明；修迁移上游后走既有 battler 默认头像兜底 |

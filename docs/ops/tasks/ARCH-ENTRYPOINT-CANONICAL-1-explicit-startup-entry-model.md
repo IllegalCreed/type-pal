@@ -1,6 +1,6 @@
 # ARCH-ENTRYPOINT-CANONICAL-1 - 显式启动入口与独立开局配置
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: X7（入口与开局；不改变 capability-map 状态）
 Coding Owner: Codex
@@ -9,7 +9,7 @@ Reviewer: both
 Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
-Branch: TBD（待当前 ED-PAL-WORKSPACE-MODES-1 工作树收口后另开 `codex/arch-entrypoint-canonical-1`）
+Branch: codex/arch-entrypoint-canonical-1
 
 ## 目标
 
@@ -256,7 +256,9 @@ Branch: TBD（待当前 ED-PAL-WORKSPACE-MODES-1 工作树收口后另开 `codex
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: accept（content17 schema / loader / runtime / editor / publication / current-only 边界自验完成；
+  content 420、editor focused 75、reforge 828、migrate fast 330 全绿；PAL replay 537/0/0/0；最小浏览器
+  功能与窄视口检查 PASS。SFX 审计仅报告既有 72/74 对 64 的容量风险，未发现入口模型回归。）
 - Kimi: pending
 - GLM: pending
 - counter / 返工处理:
@@ -374,11 +376,47 @@ Branch: TBD（待当前 ED-PAL-WORKSPACE-MODES-1 工作树收口后另开 `codex
 ## Build: 实现与自测
 
 - Coding Owner: Codex
-- 修改文件: pending（build 门禁未开放）
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- 修改文件:
+  - content / schema：`packages/content/src/character.ts`、`validate.ts`、`validate-refs.ts`、asset / actor
+    引用扫描及其测试。
+  - runtime / save：`packages/reforge/src/project-loader.ts`、`startup-entry.ts`、`main.ts`、
+    `runtime-project-view.test.ts`、SAVE8 current codec / characterization；SFX readiness 当前审计入口。
+  - editor：`startup-entries.ts`、commands / session / diagnostics / IO / seed / navigation / reference 图，
+    `ProjectWorkbenchTab`、`EntryPointTab`、App / ItemTab 与相关组件测试。
+  - publication：PAL generator / publication / migration tests、current-only boundary、demo / e2e-own / PAL 三份
+    manifest；当前 schema / save / editor / capability 文档。
+- 实现摘要:
+  - `CONTENT_VERSION` 切到 17；manifest 只保留必填非空真实 `entryPoints` 与必填 `defaultEntryId`，每入口
+    完整拥有 `startWorld`；顶层 `entryScene` / `startWorld`、入口合成、可选继承和 content16 产品路径删除。
+  - loader 先校验入口不变式，再读取并统一校验所有入口 scene 与 StartWorld 引用；默认场景仅作为
+    `defaultEntryId` 派生缓存。boot / menu / `?entry` / `?scene` / battle preview 共用真实入口解析。
+  - 编辑器删除伪默认行和“跟随 / 独立”心智；新增、复制、设置直接启动和受保护删除走原子命令，新增从
+    当前选择做一次性深拷贝；无 object 深链选择直接启动项；ItemTab 不再成为顶层初始资源第二作者。
+  - PAL 上游生成器改为 canonical content17 后执行正式写入与内建 replay：`managed=537`，首次只写
+    manifest，replay `writes=0 / deletes=0 / conflicts=0`；demo / e2e-own 由各自 fixture 直接发布真实入口。
+  - `ui_samples` 仅叠加在已加载项目上且不生成 manifest，GE2 记为 N/A。
+- 运行命令:
+  - `pnpm --filter @type-pal/content check`：33 files / 420 tests PASS，typecheck PASS。
+  - editor 六个入口相关 focused suites：6 files / 75 tests PASS；`pnpm --filter @type-pal/editor typecheck` PASS。
+  - Reforge 全量：89 files / 828 tests PASS；`pnpm --filter @type-pal/reforge typecheck` PASS。本任务不重复
+    运行同一全量套件。
+  - `pnpm --filter @type-pal/migrate check:fast`：37 files / 330 tests PASS，typecheck PASS；PAL 重生成后
+    原失败两文件复核 2 files / 59 tests PASS。
+  - `pnpm --filter @type-pal/reforge audit:sfx-readiness`：当前 loader / sharedScripts 路径完整扫描成功；仅保留
+    既有容量风险 `fivePlayerTurnUpper=72`、`authorSixTurnUpper=74`（预算 64），因此审计按设计 exit 1；无入口
+    fallback、旧 loader 或 stale baseline violation。
+  - current-only census：产品代码中 `manifest.entryScene` / `manifest.startWorld` / 合成 fallback 为 0；三份
+    current manifest 顶层旧字段为 0；`contentVersion < 17` 仅保留 content / project-loader 两个显式 v16
+    拒绝负例。`git diff --check` PASS。
+- 浏览器 / 手工检查:
+  - 本地 `http://localhost:6010/?module=project&page=entrypoint`：PAL 单入口只显示真实 `new-game` 与“直接启动”
+    标识；新增入口一次性复制 scene / introVideo / StartWorld，切换直接启动项后列表和详情同步；随后两次 undo
+    恢复原数据，未触发保存。
+  - 1100×800 窄视口：body 与入口工作区 `clientWidth === scrollWidth === 1100`，无横向溢出；按钮、表单、
+    tooltip 均暴露可访问名称。测试后关闭临时页并重置 viewport。
+- 跳过的检查及原因:
+  - 不重复运行已通过的 Reforge 89/828 全量套件；遵守用户“一次通过即可”的时间要求。
+  - 不跑剧情菜单视频视觉 E2E；introVideo 时序由纯函数 / runtime 测试锁定，按项目纪律并入代码冻结后的集中 E2E。
 
 ## 资源生成记录(如适用)
 
@@ -394,18 +432,18 @@ Branch: TBD（待当前 ED-PAL-WORKSPACE-MODES-1 工作树收口后另开 `codex
 
 - Visual Verification Owner: Codex
 - Visual Verification Timing: dev-functional
-- 验证方式: pending
+- 验证方式: 本地浏览器 DOM / 交互检查 + 1100×800 overflow metrics；新增、设为直接启动、undo 均在内存完成，未保存 PAL。
 - 集中 E2E 用例 / 批次: 菜单 introVideo 时序并入代码冻结后的启动 E2E 批次。
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: pending
+- 截图 / 像素检查路径: N/A（本轮为功能布局检查，记录 DOM 与尺寸指标即可）。
+- 结论: PASS；真实入口、直接启动状态、一次性复制与窄视口均符合 canonical IA。
+- 未完成项: 菜单 introVideo 观感 / 时序只在冻结后的集中 E2E 最终确认一次。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
+- 审查结论: Codex 自验 accept；Kimi / GLM pending。
 - 必须返工项: pending
-- Accept / rework: pending
+- Accept / rework: review。
 
 ## 用户验收
 
@@ -417,6 +455,9 @@ Branch: TBD（待当前 ED-PAL-WORKSPACE-MODES-1 工作树收口后另开 `codex
 - 2026-08-22 Codex: 核对 content / runtime / loader / save / editor / migrate 一手证据，确认当前继承只在
   boot 配置层，创建完整高风险任务卡并签 Codex premise/design；未修改实现。Evidence: 本卡“前提真值门”与
   “上下文锚点”。Next: Kimi 独立核 runtime/save/schema 前提并签字，随后 GLM 覆盖审查。
+- 2026-08-22 Codex: 三方 premise/design 签字齐；先将既有工作树以 `0ee277ab` 提交并推送，再从该干净提交
+  创建 `codex/arch-entrypoint-canonical-1`，任务进入 build。Evidence: build 准入结论；`git status` clean。
+  Next: Codex 作为唯一 Coding Owner 实现 content17 canonical 入口模型。
 - 2026-08-22 Kimi: 独立直读一手代码（content schema/buildWorld、project-loader、main.ts boot/menu/?scene/
   battle preview、save types/ops/current-codec、editor diagnostics/commands/seed/ItemTab、migrate pal-manifest/
   publication、三份工程 manifest、validate-refs、audit-sfx-readiness），确认继承仅为 boot 配置层 fallback、
@@ -430,8 +471,41 @@ Branch: TBD（待当前 ED-PAL-WORKSPACE-MODES-1 工作树收口后另开 `codex
   11 处实测（10 stale + 1 故意负例）本卡清零**；ui_samples seed 裁定 N/A（零触 manifest）；
   GE3 token 形态精确化防误伤 entry.startWorld；GE4 补 seed/runtime-view/App 三测试锚点 + 1 笔误。
   三签齐，build 准入开放。未改实现文件，未代签。Next: Codex 在干净分支按提示词开工。
+- 2026-08-22 Codex: 完成 content17 canonical 入口模型、runtime 启动语义、编辑器入口工作台、迁移发布器、
+  三工程数据与 current-only 边界的一次切换；PAL 由上游重生成后 replay 为 537/0/0/0。验证：content
+  420、editor focused 75、reforge 828、migrate fast 330 全绿，相关 typecheck 全绿；浏览器验证新增、深拷贝、
+  设为直接启动、undo 与 1100px 窄视口通过且未保存 PAL。SFX audit 已迁到当前工程加载路径，仍如实报告既有
+  72/74 > 64 容量风险，不改阈值掩盖。Codex 签 implementation accept，任务进入 review。Next: Kimi 独立
+  复审 schema/runtime/save/current-only 落地；不得修改实现或重复跑 89/828 全量套件。
 
 ## 下一位 Agent 提示词
+
+### 当前：交 Kimi 架构 / runtime 复审
+
+```text
+接手任务: ARCH-ENTRYPOINT-CANONICAL-1 显式启动入口与独立开局配置——implementation review
+任务卡: docs/ops/tasks/ARCH-ENTRYPOINT-CANONICAL-1-explicit-startup-entry-model.md
+当前状态: review；Codex 已实现并自验 accept，Kimi / GLM review accept 尚缺；分支
+  codex/arch-entrypoint-canonical-1。
+你的角色: Kimi，架构 / schema / runtime 主审（先审，之后交 GLM 覆盖终审）。
+先读: AGENTS.md；docs/phase2/READ-FIRST.md；本任务卡全文；重点看 packages/content/src/character.ts、
+  validate.ts、validate-refs.ts；packages/reforge/src/startup-entry.ts、project-loader.ts、main.ts、
+  runtime-project-view.test.ts、save/current-codec.ts；packages/editor/src/core/startup-entries.ts、commands.ts、
+  project-diagnostics.ts、project-io.ts、ui/ProjectWorkbenchTab.tsx；packages/migrate/src/pal-manifest.ts、
+  pal-current-publication.ts、current-only-product-boundary.test.ts。
+已完成: content17 + 必填 defaultEntryId + 非空完整 entryPoints；顶层 entryScene/startWorld、继承、合成、
+  content16 产品路径删除；所有入口 scene/StartWorld 统一校验；默认/?entry/?menu/?scene/读档/battle preview
+  语义锁定；编辑器新增/复制/设默认/受保护删除/深链闭环；三工程 canonical；PAL replay 537/0/0/0。
+验证证据: content 420、editor focused 75、reforge 828、migrate fast 330 全绿；浏览器单入口/新增深拷贝/
+  切默认/undo/1100px 窄视口 PASS。SFX audit 当前路径跑通，但仍按既有预算报告 72/74 > 64，两项不要
+  当作本任务新回归，也不要改阈值掩盖。
+请输出: 独立核对 premise/design 落地与 runtime 语义，检查是否仍有第二真值/fallback/版本残留、loader
+  fail-loud 顺序和 save 不依赖入口；在任务卡签 implementation accept，或 counter 并写最小返工项及证据。
+不得做: 不修改实现文件；不标 done；不重跑已通过的 89/828 全量套件。若 accept，把可复制提示词交给 GLM
+  做 current-only / fixture / 文档 / 测试覆盖终审。
+```
+
+### 历史：build 前 GLM / Codex 提示词（保留交接事实）
 
 ```text
 接手任务: ARCH-ENTRYPOINT-CANONICAL-1 显式启动入口与独立开局配置

@@ -25,14 +25,20 @@ function state(): EditorState {
     manifest: {
       id: 'dialogue-expression',
       name: 'dialogue expression',
-      contentVersion: 15,
-      entryScene: 's',
+      contentVersion: 17,
+      defaultEntryId: 'main',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },
-      startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+      entryPoints: [
+        {
+          id: 'main',
+          label: '主要入口',
+          scene: 's',
+          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+        },
+      ],
       minimumSaveVersion: 8,
     },
-    startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
     scenes: [
       {
         id: 's',

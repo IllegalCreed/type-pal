@@ -174,7 +174,7 @@ export function auditPalSoundReferences(args: {
   files: ReadonlyMap<string, MigrationJson>
   items?: unknown
   assets: ManifestAssetConfig
-  entryPoints?: readonly EntryPoint[]
+  entryPoints: readonly EntryPoint[]
   translationReport: TranslateReport
 }): PalSoundReferenceAudit {
   const { files, sources } = args

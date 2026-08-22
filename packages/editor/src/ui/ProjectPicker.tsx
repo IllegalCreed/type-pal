@@ -1,5 +1,5 @@
 /**
- * 编辑器启动屏。只负责创建、选择和打开当前 canonical content16 项目；旧开发项目必须
+ * 编辑器启动屏。只负责创建、选择和打开当前 canonical content17 项目；旧开发项目必须
  * 重新生成，不在产品启动流程中提供兼容工作台。
  */
 import { useEffect, useState } from 'react'
@@ -98,7 +98,7 @@ export function ProjectPicker(props: {
       <div className="picker-card">
         <h1 className="picker-title">type-pal 编辑器</h1>
         <p className="picker-sub">
-          选择当前 canonical content16 项目开始编辑。旧开发项目请重新生成。
+          选择当前 canonical content17 项目开始编辑。旧开发项目请重新生成。
         </p>
 
         {busy ? (
@@ -128,11 +128,11 @@ export function ProjectPicker(props: {
               </button>
               <button type="button" className="picker-act" onClick={openProject}>
                 <span className="picker-act-t">打开项目</span>
-                <span className="picker-act-d">选择一个当前 content16 本地项目继续编辑。</span>
+                <span className="picker-act-d">选择一个当前 content17 本地项目继续编辑。</span>
               </button>
               <button type="button" className="picker-act" onClick={createBlank}>
                 <span className="picker-act-t">新建空白项目</span>
-                <span className="picker-act-d">创建包含起始场景与占位角色的 content16 项目。</span>
+                <span className="picker-act-d">创建包含起始场景与占位角色的 content17 项目。</span>
               </button>
             </div>
 

@@ -22,9 +22,9 @@ function state(fields: BattleFieldDef[], declared = true): EditorState {
     manifest: {
       id: 'test',
       name: '测试',
-      contentVersion: 13,
-      minEngineVersion: '2.0.0',
-      entryScene: 's001',
+      contentVersion: 17,
+      minimumSaveVersion: 8,
+      defaultEntryId: 'main',
       content: {
         scenes: 'content/scenes/index.json',
         items: 'content/items.json',
@@ -36,7 +36,14 @@ function state(fields: BattleFieldDef[], declared = true): EditorState {
         sharedScripts: 'content/shared-scripts.json',
         ...(declared ? { battleFields: 'content/battle-fields.json' } : {}),
       },
-      startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+      entryPoints: [
+        {
+          id: 'main',
+          label: '主要入口',
+          scene: 's001',
+          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+        },
+      ],
       assets: { catalog: 'assets/index.json', roles: {} },
     },
     scenes: [
@@ -56,7 +63,6 @@ function state(fields: BattleFieldDef[], declared = true): EditorState {
     sprites: [],
     battleSprites: [],
     battleFields: fields,
-    startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
     maps: {},
     mapIndex: { version: 1, maps: [] },
     stamps: [],

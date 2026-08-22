@@ -5,6 +5,7 @@ import type {
   GridPos,
   WorldState,
 } from '@type-pal/content'
+import { CONTENT_VERSION } from '@type-pal/content'
 import {
   SAVE_VERSION,
   type CurrentSavePayload,
@@ -41,7 +42,7 @@ export function buildCurrentSavePayload(
   position: { sceneId: string; pos: GridPos; facing: Facing },
   projectId: string,
 ): CurrentSavePayload {
-  return { version: SAVE_VERSION, projectId, contentVersion: 16, world, position }
+  return { version: SAVE_VERSION, projectId, contentVersion: CONTENT_VERSION, world, position }
 }
 
 export interface RestoredMusicDecision {

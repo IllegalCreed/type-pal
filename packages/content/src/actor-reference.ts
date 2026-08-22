@@ -7,11 +7,8 @@
 
 export type ActorReferenceKind =
   | 'scene-entity-actor'
-  | 'manifest-party'
   | 'entry-point-party'
-  | 'manifest-learned-skills'
   | 'entry-point-learned-skills'
-  | 'manifest-seed-stats'
   | 'entry-point-seed-stats'
   | 'condition-in-party'
   | 'enemy-condition-player-in-party'
@@ -40,12 +37,9 @@ export interface ActorReferencePolicy {
 export const ACTOR_REFERENCE_POLICIES: Readonly<Record<ActorReferenceKind, ActorReferencePolicy>> =
   Object.freeze({
     'scene-entity-actor': { label: '场景人物实例', ownership: 'external', danglingSeverity: 'error' },
-    'manifest-party': { label: '默认开局队伍', ownership: 'external', danglingSeverity: 'error' },
     'entry-point-party': { label: '入口开局队伍', ownership: 'external', danglingSeverity: 'error' },
-    'manifest-learned-skills': { label: '默认开局已学技能', ownership: 'external', danglingSeverity: 'warn' },
-    'entry-point-learned-skills': { label: '入口已学技能', ownership: 'external', danglingSeverity: 'warn' },
+    'entry-point-learned-skills': { label: '入口已学技能', ownership: 'external', danglingSeverity: 'error' },
     // seedStats 既是 Actor 引用，也是开局存档种子；保留既有保存前硬错误语义。
-    'manifest-seed-stats': { label: '默认开局属性播种', ownership: 'external', danglingSeverity: 'error' },
     'entry-point-seed-stats': { label: '入口属性播种', ownership: 'external', danglingSeverity: 'error' },
     'condition-in-party': { label: '脚本在队条件', ownership: 'external', danglingSeverity: 'error' },
     'enemy-condition-player-in-party': { label: '敌人玩家在队条件', ownership: 'external', danglingSeverity: 'error' },

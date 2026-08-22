@@ -23,7 +23,8 @@ const put = (repo: string, path: string, content: string): void => {
 }
 const manifest = (): CurrentManifest => ({
   id: 'pal', name: 'PAL', contentVersion: CONTENT_VERSION,
-  minimumSaveVersion: CURRENT_PROJECT_MINIMUM_SAVE_VERSION, entryScene: 's000',
+  minimumSaveVersion: CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
+  defaultEntryId: 'new-game',
   content: {
     scenes: 'content/scenes/', actors: 'content/actors.json', skills: 'content/skills.json',
     items: 'content/items.json', locale: 'content/locale.json', sprites: 'content/sprites.json',
@@ -35,7 +36,10 @@ const manifest = (): CurrentManifest => ({
     sharedScripts: 'content/shared-scripts.json', worldVariables: 'content/world-variables.json',
   },
   assets: { catalog: 'assets/index.json', roles: {} },
-  startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] }, entryPoints: [],
+  entryPoints: [{
+    id: 'new-game', label: '开始游戏', scene: 's000',
+    startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+  }],
 })
 
 afterEach(() => {

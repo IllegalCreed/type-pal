@@ -19,7 +19,7 @@ export function buildPalCurrentManifest(catalog: AssetCatalogV1): CurrentManifes
     name: '仙剑奇侠传·复刻',
     contentVersion: CONTENT_VERSION,
     minimumSaveVersion: CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
-    entryScene: 's000',
+    defaultEntryId: 'new-game',
     content: {
       scenes: 'content/scenes/',
       actors: 'content/actors.json',
@@ -42,18 +42,18 @@ export function buildPalCurrentManifest(catalog: AssetCatalogV1): CurrentManifes
       worldVariables: 'content/world-variables.json',
     },
     assets,
-    startWorld: {
-      party: ['li-xiaoyao'],
-      money: 0,
-      learnedSkills: { 'li-xiaoyao': ['296'] },
-      inventory: [],
-    },
     entryPoints: [
       {
         id: 'new-game',
         label: '新的故事',
         scene: 's000',
         introVideo: 'video.pal.003',
+        startWorld: {
+          party: ['li-xiaoyao'],
+          money: 0,
+          learnedSkills: { 'li-xiaoyao': ['296'] },
+          inventory: [],
+        },
       },
     ],
   }

@@ -1,8 +1,13 @@
 /**
- * 打开本地项目夹。开发期编辑器只接受当前 canonical contentVersion 16；旧项目必须由
+ * 打开本地项目夹。开发期编辑器只接受当前 canonical contentVersion；旧项目必须由
  * 对应生成/迁移工具重建，编辑器本身不再携带版本升级器或双读分支。
  */
-import type { AuthorSceneDef, ScriptChunkV1, StampTemplate } from '@type-pal/content'
+import {
+  CONTENT_VERSION,
+  type AuthorSceneDef,
+  type ScriptChunkV1,
+  type StampTemplate,
+} from '@type-pal/content'
 import {
   fsaSource,
   loadAllAuthorScenes,
@@ -39,11 +44,11 @@ export async function openLocalProject(dir: FileSystemDirectoryHandle): Promise<
   }
 
   const version = manifestContentVersion(rawManifest)
-  if (version !== 16) {
+  if (version !== CONTENT_VERSION) {
     source.dispose?.()
     const found = version === undefined ? '未知' : String(version)
     throw new Error(
-      `打开项目失败:「${dir.name}」是 contentVersion ${found}；开发期编辑器只接受当前 contentVersion 16，请用对应生成或迁移工具重新生成项目。`,
+      `打开项目失败:「${dir.name}」是 contentVersion ${found}；开发期编辑器只接受当前 contentVersion ${CONTENT_VERSION}，请用对应生成或迁移工具重新生成项目。`,
     )
   }
 
@@ -57,7 +62,7 @@ export async function openLocalProject(dir: FileSystemDirectoryHandle): Promise<
   } catch (error) {
     source.dispose?.()
     throw new Error(
-      `打开项目失败:「${dir.name}」的 canonical v16 内容无效(${error instanceof Error ? error.message : String(error)})`,
+      `打开项目失败:「${dir.name}」的 canonical v${CONTENT_VERSION} 内容无效(${error instanceof Error ? error.message : String(error)})`,
     )
   }
 }

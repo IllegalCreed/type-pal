@@ -3,7 +3,6 @@
 // 放 migrate(数据工具包,有 node fs + content 依赖;不耦合引擎 reforge)。
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import type { StartWorld } from '@type-pal/content'
 import {
   buildWorld,
   effectiveStat,
@@ -12,6 +11,7 @@ import {
   validateAuthorItems,
   validateLocale,
   validateAuthorScenes,
+  validateCurrentManifestStartup,
   validateSkills,
   validateSprites,
 } from '@type-pal/content'
@@ -20,14 +20,11 @@ import { describe, expect, test } from 'vitest'
 const root = fileURLToPath(new URL('../../../projects/demo/', import.meta.url))
 const read = (rel: string): unknown => JSON.parse(readFileSync(root + rel, 'utf8'))
 
-const manifest = read('manifest.json') as {
-  id: string
-  contentVersion: number
-  minimumSaveVersion: number
-  entryScene: string
-  startWorld: StartWorld
-}
 const sceneIds = read('content/scenes/index.json') as string[]
+const { manifest, defaultEntry } = validateCurrentManifestStartup(
+  read('manifest.json'),
+  sceneIds,
+)
 const scenes = validateAuthorScenes(sceneIds.map((id) => read(`content/scenes/${id}.json`)))
 const actors = validateActors(read('content/actors.json'))
 const assetCatalog = validateAssetCatalog(read('assets/index.json'))
@@ -46,9 +43,9 @@ const spritesById = byId(sprites)
 describe('demo 工程:真实 JSON 迁移保真 + buildWorld 端到端', () => {
   test('数据关键值:入口场景 / 技能 MP / 物品装备槽 / locale', () => {
     expect(manifest.id).toBe('demo')
-    expect(manifest.contentVersion).toBe(16)
+    expect(manifest.contentVersion).toBe(17)
     expect(manifest.minimumSaveVersion).toBe(8)
-    expect(scenes.find((s) => s.id === manifest.entryScene)).toBeDefined() // 入口场景可解析
+    expect(scenes.find((s) => s.id === defaultEntry.scene)).toBeDefined() // 默认入口场景可解析
     expect(skillsById['296']?.name).toBe('气疗术')
     expect(skillsById['296']?.cost.mp).toBe(6)
     expect(skillsById['298']?.cost.mp).toBe(18)
@@ -63,7 +60,7 @@ describe('demo 工程:真实 JSON 迁移保真 + buildWorld 端到端', () => {
   })
 
   test('buildWorld:李逍遥实例值 = 迁移前 initialWorld() 真值', () => {
-    const w = buildWorld(manifest.startWorld, actorsById)
+    const w = buildWorld(defaultEntry.startWorld, actorsById)
     const li = w.party[0]
     expect(li?.id).toBe('li-xiaoyao')
     expect(li?.hp).toBe(100) // seedStats 覆盖(< maxHP 150)
@@ -82,19 +79,19 @@ describe('demo 工程:真实 JSON 迁移保真 + buildWorld 端到端', () => {
   })
 
   test('effectiveStat:叠装备后 = 迁移前 oracle(防御 32+9=41 / 武术 33+2=35)', () => {
-    const li = buildWorld(manifest.startWorld, actorsById).party[0]
+    const li = buildWorld(defaultEntry.startWorld, actorsById).party[0]
     if (!li) throw new Error('no party')
     expect(effectiveStat(li, 'defense', itemsById)).toBe(41)
     expect(effectiveStat(li, 'attack', itemsById)).toBe(35)
   })
 
   test('buildWorld 返回拷贝(非引用):运行期改动不回写污染 startWorld 源', () => {
-    const w = buildWorld(manifest.startWorld, actorsById)
-    expect(w.learnedSkills).not.toBe(manifest.startWorld.learnedSkills)
-    expect(w.inventory).not.toBe(manifest.startWorld.inventory)
+    const w = buildWorld(defaultEntry.startWorld, actorsById)
+    expect(w.learnedSkills).not.toBe(defaultEntry.startWorld.learnedSkills)
+    expect(w.inventory).not.toBe(defaultEntry.startWorld.inventory)
     w.inventory.push({ itemId: 'x', count: 9 })
     w.learnedSkills['li-xiaoyao']?.push('zzz')
-    expect(manifest.startWorld.inventory).toHaveLength(3) // 源不受污染
-    expect(manifest.startWorld.learnedSkills['li-xiaoyao']).toEqual(['296', '298', '299', '345'])
+    expect(defaultEntry.startWorld.inventory).toHaveLength(3) // 源不受污染
+    expect(defaultEntry.startWorld.learnedSkills['li-xiaoyao']).toEqual(['296', '298', '299', '345'])
   })
 })

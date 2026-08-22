@@ -138,7 +138,6 @@ function state(stamps: StampTemplate[], maps: Record<string, ProjectMap>): Edito
     locale: {},
     sprites: [],
     battleSprites: [],
-    startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
     maps,
     mapIndex: {
       version: 1,

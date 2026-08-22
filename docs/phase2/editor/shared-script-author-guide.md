@@ -1,6 +1,6 @@
 # 脚本库与可复用脚本作者手册
 
-> 适用版本：contentVersion 16 / SAVE 8（2026-08-20）。脚本模型不带产品版本后缀；作者内容直接使用
+> 适用版本：contentVersion 17 / SAVE 8（2026-08-22）。脚本模型不带产品版本后缀；作者内容直接使用
 > `AuthorCommand`、`AuthorScriptFlow`、`AuthorScriptLibrary` 与 `WorldScriptState`。正式上线前只支持
 > 当前 canonical 工程；脚本分片、旧地址 sidecar、旧 upgrader 和“迁移内部实现”均已删除。
 
@@ -85,7 +85,7 @@ type AuthorScriptLibrary = Record<
 `stopScript` 后返回 caller；当前作者命令没有 `jumpScript`。
 
 “打开脚本”会进入目标脚本，“扫描调用位置”会列出场景 Behavior、Hook、物品和其他共享脚本中的
-直接调用方。contentVersion 16 作者界面不显示“迁移内部实现”页签；若工程仍含脚本分片、旧地址或
+直接调用方。contentVersion 17 作者界面不显示“迁移内部实现”页签；若项目仍含脚本分片、旧地址或
 旧版本字段，当前 loader 会直接拒绝，重新执行当前迁移发布即可，不提供产品内升级工作台。
 
 ## 物品私有脚本
@@ -111,4 +111,4 @@ type AuthorScriptLibrary = Record<
 
 当前发布以稳定 ScriptId、PageId、BehaviorId、HookId、StageId/StateId 作为作者冲突键，不以生成块
 或数组位置为键。作者独有共享脚本保留；双方修改同一 canonical identity 时显式冲突并保持零写。
-迁移器直接生成 contentVersion 16，发布前完整预检，manifest 最后写入；仓库不常驻旧脚本升级链。
+迁移器直接生成 contentVersion 17，发布前完整预检，manifest 最后写入；仓库不常驻旧脚本升级链。

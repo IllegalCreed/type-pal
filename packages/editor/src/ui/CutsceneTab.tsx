@@ -307,7 +307,7 @@ function describeReference(
   if (entryPoint)
     return {
       kind: '入口剧情视频',
-      owner: `入口点 ${state.manifest.entryPoints?.[Number(entryPoint[1])]?.id ?? `#${entryPoint[1]}`}`,
+      owner: `入口点 ${state.manifest.entryPoints[Number(entryPoint[1])]?.id ?? `#${entryPoint[1]}`}`,
     }
   const commandKind = reference.expectedKind === 'video' ? '播放视频' : '播放帧动画'
   const scene = /^scenes\[(\d+)](.*)$/.exec(where)

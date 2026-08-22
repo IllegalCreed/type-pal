@@ -92,11 +92,19 @@ function shellState(): EditorState {
     manifest: {
       id: 'test',
       name: 'Test',
-      contentVersion: 4,
-      entryScene: 's047',
+      contentVersion: 17,
+      minimumSaveVersion: 8,
+      defaultEntryId: 'main',
       content: {},
-      startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
       assets: { catalog: 'assets/index.json', roles: {} },
+      entryPoints: [
+        {
+          id: 'main',
+          label: '主要入口',
+          scene: 's047',
+          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+        },
+      ],
     },
     scenes: [shellScene()],
     actors: [],
@@ -109,7 +117,6 @@ function shellState(): EditorState {
     enemies: [],
     enemyTeams: [],
     battleFields: [],
-    startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
     maps: {},
     mapIndex: { version: 1, maps: [] },
     tilesets: [],
@@ -323,7 +330,7 @@ describe('App item reference navigation', () => {
   ): Promise<EditSession> => {
     shell.manifest = {
       ...shell.manifest,
-      contentVersion: 16,
+      contentVersion: 17,
       minimumSaveVersion: 8,
     } as EditorState['manifest']
     const source = {
@@ -353,6 +360,48 @@ describe('App item reference navigation', () => {
     )
     return session
   }
+
+  test('入口页无 object 时使用非首项直接启动入口', async () => {
+    window.history.replaceState({}, '', '/?module=project&page=entrypoint')
+    const shell = shellState()
+    shell.manifest = {
+      ...shell.manifest,
+      defaultEntryId: 'direct',
+      entryPoints: [
+        shell.manifest.entryPoints[0],
+        {
+          id: 'direct',
+          label: '直接入口',
+          scene: 's047',
+          startWorld: { party: [], money: 7, learnedSkills: {}, inventory: [] },
+        },
+      ],
+    }
+    await renderApp(shell)
+
+    expect(host.querySelector('.project-center h1')?.textContent).toBe('直接入口')
+  })
+
+  test('入口页显式 object 优先于直接启动入口', async () => {
+    window.history.replaceState({}, '', '/?module=project&page=entrypoint&object=main')
+    const shell = shellState()
+    shell.manifest = {
+      ...shell.manifest,
+      defaultEntryId: 'direct',
+      entryPoints: [
+        shell.manifest.entryPoints[0],
+        {
+          id: 'direct',
+          label: '直接入口',
+          scene: 's047',
+          startWorld: { party: [], money: 7, learnedSkills: {}, inventory: [] },
+        },
+      ],
+    }
+    await renderApp(shell)
+
+    expect(host.querySelector('.project-center h1')?.textContent).toBe('主要入口')
+  })
 
   test('当前物品的私有引用可重复产生新定位令牌并显示成功位置', async () => {
     await renderApp()
@@ -892,7 +941,7 @@ describe('App item reference navigation', () => {
     expect(row.textContent).toContain('s047 进场脚本')
   })
 
-  test('content16 场景脚本进入 canonical 工作区而不是 legacy stages 抽屉', async () => {
+  test('content17 场景脚本进入 canonical 工作区而不是 legacy stages 抽屉', async () => {
     window.history.replaceState({}, '', '/?module=scene&page=workspace&object=s047')
     const canonical = canonicalState()
     canonical.scenes[0]!.entities[0]!.behaviors!.trigger!.default!.flow = {
@@ -916,7 +965,7 @@ describe('App item reference navigation', () => {
     const shell = shellState()
     shell.manifest = {
       ...shell.manifest,
-      contentVersion: 16,
+      contentVersion: 17,
       minimumSaveVersion: 8,
       content: { ...shell.manifest.content, sharedScripts: 'content/shared-scripts.json' },
     } as EditorState['manifest']
@@ -966,7 +1015,7 @@ describe('App item reference navigation', () => {
     )
   })
 
-  test('content16 保存合并保留 shell 空间改动与 canonical 身份对话', () => {
+  test('content17 保存合并保留 shell 空间改动与 canonical 身份对话', () => {
     const canonical = canonicalState()
     canonical.scenes[0]!.entities[0]!.behaviors!.trigger!.default!.flow = {
       kind: 'stages',
@@ -989,7 +1038,7 @@ describe('App item reference navigation', () => {
     const shell = shellState()
     shell.manifest = {
       ...shell.manifest,
-      contentVersion: 16,
+      contentVersion: 17,
       minimumSaveVersion: 8,
     } as EditorState['manifest']
     shell.scenes = structuredClone(canonical.scenes) as unknown as EditorState['scenes']
@@ -1003,7 +1052,7 @@ describe('App item reference navigation', () => {
     }
 
     const merged = mergeEditorProjectionWithCurrentAuthorState(canonical, shell)
-    expect(merged.manifest.contentVersion).toBe(16)
+    expect(merged.manifest.contentVersion).toBe(17)
     expect(merged.scenes[0]!.entry.pos).toEqual({ col: 9, row: 8, height: 0 })
     expect(
       (merged.scenes[0] as unknown as ScriptEditorState['scenes'][number]).entities[0]!.behaviors!

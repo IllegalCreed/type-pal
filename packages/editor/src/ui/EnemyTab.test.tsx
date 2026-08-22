@@ -84,10 +84,19 @@ function state(): EditorState {
   return {
     manifest: {
       id: 'test-project',
-      contentVersion: 13,
-      minEngineVersion: '2.0.0',
-      entryScene: 's001',
-      startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+      name: '测试项目',
+      contentVersion: 17,
+      minimumSaveVersion: 8,
+      defaultEntryId: 'main',
+      content: {},
+      entryPoints: [
+        {
+          id: 'main',
+          label: '主要入口',
+          scene: 's001',
+          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+        },
+      ],
       assets: { catalog: 'assets/index.json', roles: {} },
     },
     scenes: [],
@@ -120,7 +129,6 @@ function state(): EditorState {
         },
       },
     ],
-    startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
     maps: {},
     mapIndex: { version: 1, maps: [] },
     tilesets: [],

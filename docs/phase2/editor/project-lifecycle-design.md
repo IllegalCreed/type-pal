@@ -90,7 +90,9 @@ fsaSource(dirHandle)  // 逐段 getDirectoryHandle→getFile;urlFor=URL.createOb
 buildBlankSkeleton(name)  // 内置模板:最小 manifest + 各内容表空 + 一个占位空场景;assets 夹空
   → showDirectoryPicker → writeProject(骨架) → 存句柄 → 打开
 ```
-- 骨架 = `manifest.json`(id/name/entryScene + 空 content 表 + 默认 startWorld + **空 assets/**)+ 各内容文件空 + `scenes/index.json` + **占位空场景**(entryScene 必须存在,否则 App 打不开)。
+- 骨架 = `manifest.json`（id/name + 非空 `entryPoints` + 命中真实入口的 `defaultEntryId` + 空 content 表 +
+  **空 assets/**）+ 各内容文件空 + `scenes/index.json` + **占位空场景**。占位入口完整拥有自己的
+  `startWorld`；当前 manifest 不含顶层 `entryScene` / `startWorld`。
 - ⚠ **空白项目真的没素材**(自包含 = 没共享可蹭)。占位场景在有自绘/导入地图前**无图可渲染** → 编辑器须容忍「无地图场景」= 空网格。真正可玩的从零新游戏(自绘地图 / 导入素材)**gated on 地图模块**。骨架本身便宜,归本切片必做。
 
 ### 4.3 打开本地
@@ -323,7 +325,7 @@ A7/R7 总体不能提前标 done。
 
 ## 19. 开发期 current-only 边界（2026-08-20，覆盖 §11–§18 中所有版本/升级口径）
 
-- 当前唯一产品格式为 `contentVersion: 16` / SAVE 8 / `minimumSaveVersion: 8`。loader、editor、runtime
+- 当前唯一产品格式为 `contentVersion: 17` / SAVE 8 / `minimumSaveVersion: 8`。loader、editor、runtime
   和 save codec 只消费这一组 canonical 类型，不按版本选择实现。
 - 本项目尚未正式上线；旧 content/save upgrader、旧类型、fixture、sidecar、产品升级入口和兼容 fallback
   已删除。历史版本轴只由 Git 和上文的历史记录保存，不能作为新代码的输入契约。

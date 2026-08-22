@@ -16,15 +16,17 @@ describe('editor asset reference source', () => {
       manifest: {
         id: 'shared-script-reference',
         name: '共享脚本资源引用',
-        contentVersion: 16,
+        contentVersion: 17,
         minimumSaveVersion: 8,
-        entryScene: 'scene.test',
+        defaultEntryId: 'main',
         content: {
           sharedScripts: 'content/shared-scripts.json',
           worldVariables: 'content/world-variables.json',
         },
         assets: { catalog: 'assets/index.json', roles: {} },
-        startWorld,
+        entryPoints: [
+          { id: 'main', label: '主要入口', scene: 'scene.test', startWorld },
+        ],
       },
       scenes: [
         {
@@ -41,7 +43,6 @@ describe('editor asset reference source', () => {
       locale: {},
       sprites: [],
       battleSprites: [],
-      startWorld,
       maps: {},
       mapIndex: {
         version: 1,

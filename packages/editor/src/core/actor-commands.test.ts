@@ -25,13 +25,19 @@ function state(actors: ActorDef[] = []): EditorState {
     manifest: {
       id: 'actor-crud',
       name: 'actor crud',
-      contentVersion: 13,
-      entryScene: 's',
+      contentVersion: 17,
+      defaultEntryId: 'main',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },
-      startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+      entryPoints: [
+        {
+          id: 'main',
+          label: '主要入口',
+          scene: 's',
+          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+        },
+      ],
     },
-    startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
     scenes: [
       {
         id: 's',

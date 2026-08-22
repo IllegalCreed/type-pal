@@ -4,7 +4,6 @@ import {
   type ActivePoison,
   type AssetId,
   buildWorld,
-  type EntryPoint,
   effectiveSkills,
   type ItemData,
   type StartWorld,
@@ -17,8 +16,8 @@ import {
 } from '../src/audio/sfx-readiness.js'
 import type { BattleAction } from '../src/battle/battle-core.js'
 import type { FileSource } from '../src/file-source.js'
-import { projectRelativeLegacyAdapter } from '../src/file-source.js'
-import { loadAllScenes, loadAllScriptChunks, loadProjectFrom } from '../src/loader.js'
+import { loadAllScenes, loadCurrentProjectFrom } from '../src/project-loader.js'
+import { requireDefaultEntry } from '../src/startup-entry.js'
 
 const repo = resolve(import.meta.dirname, '../../..')
 const projectDir = resolve(repo, 'projects/pal')
@@ -40,7 +39,6 @@ function localSource(root: string): FileSource {
       return `file://${full(rel)}`
     },
   }
-  source.legacy = projectRelativeLegacyAdapter(source)
   return source
 }
 
@@ -66,39 +64,33 @@ function mergeSounds(...sets: readonly ReadonlySet<AssetId>[]): Set<AssetId> {
 }
 
 const source = localSource(projectDir)
-const project = await loadProjectFrom(source)
+const project = await loadCurrentProjectFrom(source)
 const scenes = await loadAllScenes(project)
-const chunks = await loadAllScriptChunks(project)
 const signal = new AbortController().signal
-
-function assertNoScriptLease(where: string): void {
-  const leased = project.scriptStore?.stats.leased ?? 0
-  if (leased !== 0) throw new Error(`${where}: ScriptChunkStore 尚有 ${leased} 个 lease`)
-}
 
 let maxScene = { id: '', sounds: 0 }
 for (const scene of scenes) {
   const sounds = await collectSceneSoundAssets({
     scene,
-    ...(project.scriptStore ? { resolver: project.scriptStore } : {}),
+    sharedScripts: project.sharedScripts,
+    spritesById: project.spritesById,
     signal,
   })
   if (sounds.size > maxScene.sounds) maxScene = { id: scene.id, sounds: sounds.size }
-  assertNoScriptLease(`scene ${scene.id}`)
 }
 
-const allObjects: unknown[] = [...scenes, ...Object.values(chunks)]
+const allObjects: unknown[] = [...scenes, ...Object.values(project.sharedScripts)]
 const startBattles: Array<{
-  team: number
+  teamId: string
   choreography?: unknown[]
 }> = []
 const learnedByRole = new Map<number, Set<string>>()
 let sceneOverrideCommands = 0
 for (const root of allObjects)
   visitObjects(root, (object) => {
-    if (object.kind === 'startBattle' && Number.isInteger(object.team))
+    if (object.kind === 'startBattle' && typeof object.enemyTeamId === 'string')
       startBattles.push({
-        team: object.team as number,
+        teamId: object.enemyTeamId,
         ...(Array.isArray(object.choreography) ? { choreography: object.choreography } : {}),
       })
     if (object.kind === 'setSceneOnEnter' || object.kind === 'setSceneOnTeleport')
@@ -118,10 +110,11 @@ for (const root of allObjects)
 function enemyDefs(teamId: string) {
   const team = project.enemyTeamsById[teamId]
   if (!team) throw new Error(`readiness audit: 敌队不存在 ${teamId}`)
-  return team.members.map((id) => {
+  return team.slots.flatMap((id) => {
+    if (id === null) return []
     const enemy = project.enemiesById[id]
     if (!enemy) throw new Error(`readiness audit: ${teamId} 引用缺失敌人 ${id}`)
-    return enemy
+    return [enemy]
   })
 }
 
@@ -147,10 +140,9 @@ async function battleBaseSounds(
     poisonDefs: project.poisonsById,
     roles: project.manifest.assets.roles,
     ...(choreography.length ? { encounterChoreography: choreography } : {}),
-    ...(project.scriptStore ? { resolver: project.scriptStore } : {}),
+    sharedScripts: project.sharedScripts,
     signal,
   })
-  assertNoScriptLease(`battleBase ${teamId}`)
   return sounds
 }
 
@@ -165,18 +157,13 @@ async function teamEnvelope(
   return maximum
 }
 
-const entries: EntryPoint[] = project.manifest.entryPoints ?? [
-  {
-    id: 'new-game',
-    label: '开始游戏',
-    scene: project.manifest.entryScene,
-    startWorld: project.manifest.startWorld,
-  },
-]
+const entries = project.manifest.entryPoints
+const defaultStartWorld = requireDefaultEntry(project.manifest).startWorld
 const entryBaseEnvelopes: Record<string, { team: string; sounds: number }> = {}
 for (const entry of entries) {
-  const start = entry.startWorld ?? project.manifest.startWorld
-  entryBaseEnvelopes[entry.id] = await teamEnvelope((teamId) => battleBaseSounds(start, teamId))
+  entryBaseEnvelopes[entry.id] = await teamEnvelope((teamId) =>
+    battleBaseSounds(entry.startWorld, teamId),
+  )
 }
 const entryBaseMaximum = Object.entries(entryBaseEnvelopes).reduce(
   (maximum, [id, value]) => (value.sounds > maximum.sounds ? { entry: id, ...value } : maximum),
@@ -185,19 +172,20 @@ const entryBaseMaximum = Object.entries(entryBaseEnvelopes).reduce(
 
 let startBattleBaseMaximum = { index: -1, team: '', sounds: 0 }
 for (const [index, battle] of startBattles.entries()) {
-  const team = `team-${battle.team}`
-  const sounds = await battleBaseSounds(project.manifest.startWorld, team, battle.choreography)
+  const team = battle.teamId
+  const sounds = await battleBaseSounds(defaultStartWorld, team, battle.choreography)
   if (sounds.size > startBattleBaseMaximum.sounds)
     startBattleBaseMaximum = { index, team, sounds: sounds.size }
 }
 
 const actorOrder = Object.values(project.actorsById)
+const combatActorOrder = actorOrder.filter((actor) => actor.battler)
 const progressionParty = ['li-xiaoyao', 'zhao-linger', 'lin-yueru']
 const progressionSkills = Object.fromEntries(
   progressionParty.map((actorId) => [
     actorId,
     unique([
-      ...(project.manifest.startWorld.learnedSkills[actorId] ?? []),
+      ...(defaultStartWorld.learnedSkills[actorId] ?? []),
       ...(project.levelUp[actorId] ?? []).map((entry) => entry.skillId),
     ]),
   ]),
@@ -221,13 +209,13 @@ const progressionWithScripts: StartWorld = {
   ),
 }
 const allSixStart: StartWorld = {
-  party: actorOrder.map((actor) => actor.id),
+  party: combatActorOrder.map((actor) => actor.id),
   money: 0,
   learnedSkills: Object.fromEntries(
-    actorOrder.map((actor) => [
+    combatActorOrder.map((actor) => [
       actor.id,
       unique([
-        ...(project.manifest.startWorld.learnedSkills[actor.id] ?? []),
+        ...(defaultStartWorld.learnedSkills[actor.id] ?? []),
         ...(actor.battler?.initialMagic ?? []),
         ...(project.levelUp[actor.id] ?? []).map((entry) => entry.skillId),
         ...(learnedByRole.get(actorOrder.indexOf(actor)) ?? []),
@@ -332,32 +320,34 @@ const fivePlayerTurnUpper =
   authorBattleBaseMaximum.sounds + 5 * maxSingleAction.sounds + activePoisonUpper
 // 当前 runtime 没有玩家人数上限；PAL 作者数据共六角色，额外保留更强的六人包络门禁。
 const authorSixTurnUpper =
-  authorBattleBaseMaximum.sounds + actorOrder.length * maxSingleAction.sounds + activePoisonUpper
+  authorBattleBaseMaximum.sounds +
+  combatActorOrder.length * maxSingleAction.sounds +
+  activePoisonUpper
 
 let maxSceneWithItems = { id: '', sounds: 0 }
 for (const scene of scenes) {
   const sounds = await collectSceneSoundAssets({
     scene,
     inventoryItems: allItems,
-    ...(project.scriptStore ? { resolver: project.scriptStore } : {}),
+    sharedScripts: project.sharedScripts,
+    spritesById: project.spritesById,
     signal,
   })
   if (sounds.size > maxSceneWithItems.sounds)
     maxSceneWithItems = { id: scene.id, sounds: sounds.size }
-  assertNoScriptLease(`scene+all-items ${scene.id}`)
 }
 
 const expected = {
-  entryBaseMaximum: 26,
-  startBattleBaseMaximum: 26,
-  authorBattleBaseMaximum: 51,
+  entryBaseMaximum: 40,
+  startBattleBaseMaximum: 40,
+  authorBattleBaseMaximum: 62,
   maxSingleAction: 2,
   activePoisonUpper: 0,
-  fivePlayerTurnUpper: 61,
-  authorSixTurnUpper: 63,
-  legacyProgressionThree: 67,
-  legacyProgressionThreeWithScripts: 74,
-  legacyAuthorIntentSix: 94,
+  fivePlayerTurnUpper: 72,
+  authorSixTurnUpper: 74,
+  legacyProgressionThree: 71,
+  legacyProgressionThreeWithScripts: 78,
+  legacyAuthorIntentSix: 100,
 } as const
 const actual = {
   entryBaseMaximum: entryBaseMaximum.sounds,
@@ -393,14 +383,11 @@ if (authorSixTurnUpper > SFX_DECODE_BUDGET)
 if (maxScene.sounds > SFX_DECODE_BUDGET) violations.push(`scene:${maxScene.id}=${maxScene.sounds}`)
 if (maxSceneWithItems.sounds > SFX_DECODE_BUDGET)
   violations.push(`sceneWithItems:${maxSceneWithItems.id}=${maxSceneWithItems.sounds}`)
-const leased = project.scriptStore?.stats.leased ?? 0
-if (leased !== 0) violations.push(`scriptStore.leased=${leased}`)
-
 const report = {
   budget: SFX_DECODE_BUDGET,
   scenes: scenes.length,
   enemyTeams: Object.keys(project.enemyTeamsById).length,
-  scriptChunks: Object.keys(chunks).length,
+  sharedScripts: Object.keys(project.sharedScripts).length,
   startBattles: startBattles.length,
   sceneOverrideCommands,
   maxScene,
@@ -414,7 +401,6 @@ const report = {
   fivePlayerTurnUpper,
   authorSixTurnUpper,
   legacyFullLoadEvidence,
-  scriptStore: project.scriptStore?.stats,
   violations,
 }
 process.stdout.write(`${JSON.stringify(report, null, 2)}\n`)

@@ -8,18 +8,23 @@ function state(): EditorState {
     manifest: {
       id: 'actor-refs',
       name: 'actor refs',
-      contentVersion: 15,
-      entryScene: 's',
+      contentVersion: 17,
+      defaultEntryId: 'main',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },
-      startWorld: {
-        party: ['hero'],
-        money: 0,
-        learnedSkills: { hero: [] },
-        seedStats: { hero: { hp: 1 } },
-        inventory: [],
-      },
       entryPoints: [
+        {
+          id: 'main',
+          label: '主要入口',
+          scene: 's',
+          startWorld: {
+            party: ['hero'],
+            money: 0,
+            learnedSkills: { hero: [] },
+            seedStats: { hero: { hp: 1 } },
+            inventory: [],
+          },
+        },
         {
           id: 'alt',
           label: '另一入口',
@@ -34,7 +39,6 @@ function state(): EditorState {
         },
       ],
     },
-    startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
     scenes: [
       {
         id: 's',
@@ -129,11 +133,8 @@ function state(): EditorState {
 
 const EXTERNAL_KINDS = [
   'scene-entity-actor',
-  'manifest-party',
   'entry-point-party',
-  'manifest-learned-skills',
   'entry-point-learned-skills',
-  'manifest-seed-stats',
   'entry-point-seed-stats',
   'condition-in-party',
   'enemy-condition-player-in-party',
@@ -149,7 +150,7 @@ const EXTERNAL_KINDS = [
 ] as const satisfies readonly ActorReferenceKind[]
 
 describe('Actor 引用闭包', () => {
-  test('18 个作者外部定位变体逐项进入删除门禁并都有可跳转 locator', () => {
+  test('15 个作者外部定位变体逐项进入删除门禁并都有可跳转 locator', () => {
     const references = blockingActorReferences(state(), 'hero')
     expect(new Set(references.map((reference) => reference.kind))).toEqual(new Set(EXTERNAL_KINDS))
     for (const kind of EXTERNAL_KINDS) {
@@ -167,10 +168,11 @@ describe('Actor 引用闭包', () => {
     expect(references).toHaveLength(1)
     const current = state()
     current.scenes = []
-    current.manifest.startWorld.party = []
-    current.manifest.startWorld.learnedSkills = {}
-    current.manifest.startWorld.seedStats = {}
-    current.manifest.entryPoints = []
+    for (const entry of current.manifest.entryPoints) {
+      entry.startWorld.party = []
+      entry.startWorld.learnedSkills = {}
+      entry.startWorld.seedStats = {}
+    }
     current.actors = current.actors.filter((actor) => actor.id === 'hero')
     current.items = []
     current.enemies = []

@@ -80,12 +80,19 @@ async function localTarget(dir: FileSystemDirectoryHandle) {
 const manifest = {
   id: 'pal',
   name: 'PAL',
-  contentVersion: 16,
+  contentVersion: 17,
   minimumSaveVersion: 8,
-  entryScene: 's1',
+  defaultEntryId: 'main',
   content: { actors: 'content/actors.json', scenes: 'content/scenes/' },
   assets: { catalog: 'assets/index.json', roles: {} },
-  startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+  entryPoints: [
+    {
+      id: 'main',
+      label: '主要入口',
+      scene: 's1',
+      startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+    },
+  ],
 } satisfies CurrentManifest
 
 describe('cloneFromPal', () => {

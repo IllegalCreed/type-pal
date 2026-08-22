@@ -68,12 +68,12 @@ function projectState(): EditorState {
     manifest: {
       id: 'project-test',
       name: '测试项目',
-      contentVersion: 16,
+      contentVersion: 17,
       minimumSaveVersion: 8,
-      entryScene: 's000',
+      defaultEntryId: 'main',
       content: {},
-      startWorld,
       assets: { catalog: 'assets/index.json', roles: {} },
+      entryPoints: [{ id: 'main', label: '主要入口', scene: 's000', startWorld }],
     },
     scenes: [],
     actors: [],
@@ -85,7 +85,6 @@ function projectState(): EditorState {
     locale: {},
     sprites: [],
     battleSprites: [],
-    startWorld,
     maps: {},
     mapIndex: { version: 1, maps: [] },
     tilesets: [],
@@ -98,7 +97,7 @@ function projectState(): EditorState {
   } as unknown as EditorState
 }
 
-function projectTab(page: ProjectWorkbenchPage, session: EditSession) {
+function projectTab(page: ProjectWorkbenchPage, session: EditSession, focusObjectId?: string) {
   const state = session.getState()
   return (
     <ProjectWorkbenchTab
@@ -113,6 +112,7 @@ function projectTab(page: ProjectWorkbenchPage, session: EditSession) {
       session={session}
       editorState={state}
       assetReader={{} as never}
+      focusObjectId={focusObjectId}
     />
   )
 }
@@ -139,9 +139,10 @@ describe('项目问题列表', () => {
       ...issues(3, 'sound'),
       {
         severity: 'error',
-        code: 'missing-entry-scene',
-        message: '入口场景缺失',
-        path: 'entryScene',
+        code: 'missing-entry-point-scene',
+        message: '入口点场景缺失',
+        path: 'entryPoints[0].scene',
+        target: { module: 'project', page: 'entrypoint', objectId: 'main' },
       },
       {
         severity: 'warn',
@@ -160,7 +161,7 @@ describe('项目问题列表', () => {
         group.issues.length,
       ]),
     ).toEqual([
-      ['error', 'missing-entry-scene', '默认入口场景缺失', '默认入口场景缺失', 1],
+      ['error', 'missing-entry-point-scene', '入口点场景缺失', '入口点场景缺失', 1],
       ['warn', 'unused-asset', '未引用资源', '音乐', 2],
       ['warn', 'unused-asset', '未引用资源', '音效', 3],
       ['warn', 'migration-pending', '迁移待处理', '迁移待处理', 1],
@@ -185,7 +186,7 @@ describe('项目问题列表', () => {
     const mixed: ProjectIssue[] = [
       {
         severity: 'error',
-        code: 'missing-entry-scene',
+        code: 'missing-entry-point-scene',
         message: '入口场景缺失',
         path: longPath,
         target: { module: 'project', page: 'startup' },
@@ -238,6 +239,76 @@ describe('项目问题列表', () => {
 })
 
 describe('入口开局世界资源', () => {
+  test('无对象深链选中非首项的直接启动入口，显式对象仍精确定位', async () => {
+    const state = projectState()
+    state.manifest.entryPoints = [
+      ...state.manifest.entryPoints,
+      {
+        id: 'direct',
+        label: '直接入口',
+        scene: 's000',
+        startWorld: { party: [], money: 20, learnedSkills: {}, inventory: [] },
+      },
+    ]
+    state.manifest.defaultEntryId = 'direct'
+    const session = new EditSession(state)
+
+    await act(async () => root.render(projectTab('entrypoint', session)))
+    expect(host.querySelector('.project-center h1')?.textContent).toBe('直接入口')
+    expect(host.querySelector('.ds-catalog-row[aria-pressed="true"]')?.textContent).toContain(
+      'direct · 直接启动',
+    )
+
+    await act(async () => root.render(projectTab('entrypoint', session, 'main')))
+    expect(host.querySelector('.project-center h1')?.textContent).toBe('主要入口')
+  })
+
+  test('新增入口深拷当前入口，直接启动项与最后一项删除受不变式保护', async () => {
+    const state = projectState()
+    state.manifest.entryPoints.push({
+      id: 'alternate',
+      label: '备用入口',
+      scene: 's000',
+      introVideo: 'video.alt',
+      startWorld: {
+        party: [],
+        money: 88,
+        learnedSkills: {},
+        inventory: [],
+        resources: { alchemyEnergy: 7 },
+      },
+    })
+    const session = new EditSession(state)
+    await act(async () => root.render(projectTab('entrypoint', session, 'alternate')))
+
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label="新增入口"]')!.click(),
+    )
+    const afterAdd = session.getState().manifest.entryPoints
+    const created = afterAdd.at(-1)!
+    expect(created).toMatchObject({
+      label: '新入口',
+      scene: 's000',
+      introVideo: 'video.alt',
+      startWorld: { money: 88, resources: { alchemyEnergy: 7 } },
+    })
+    expect(created.startWorld).not.toBe(afterAdd[1]!.startWorld)
+
+    await act(async () => root.render(projectTab('entrypoint', session, created.id)))
+    const setDefault = button(host, '设为直接启动入口')
+    expect(setDefault.disabled).toBe(false)
+    await act(async () => setDefault.click())
+    expect(session.getState().manifest.defaultEntryId).toBe(created.id)
+
+    await act(async () => root.render(projectTab('entrypoint', session, created.id)))
+    expect(button(host, '删除当前入口').disabled).toBe(true)
+
+    const single = projectState()
+    const singleSession = new EditSession(single)
+    await act(async () => root.render(projectTab('entrypoint', singleSession)))
+    expect(button(host, '删除当前入口').disabled).toBe(true)
+  })
+
   test('角色初始状态使用中文业务标题，不暴露 schema 字段名', async () => {
     const session = new EditSession(projectState())
     await act(async () => root.render(projectTab('entrypoint', session)))
@@ -323,7 +394,7 @@ describe('项目设置工作区', () => {
     expect(resourceFamily?.textContent).toContain('208')
     expect(musicRow?.textContent).toContain('120')
     expect(soundRow?.textContent).toContain('88')
-    expect(host.querySelector('.project-center h1')?.textContent).toBe('默认入口场景缺失')
+    expect(host.querySelector('.project-center h1')?.textContent).toBe('入口点场景缺失')
 
     await act(async () => musicRow?.click())
 
@@ -356,7 +427,7 @@ describe('项目设置工作区', () => {
       ),
     )
 
-    expect(host.textContent).toContain('内容版本 16')
+    expect(host.textContent).toContain('内容版本 17')
     expect(host.textContent).toContain('最低存档版本 8')
 
     await act(async () =>
@@ -440,8 +511,8 @@ describe('项目设置工作区', () => {
   test.each([
     ['overview', '测试项目'],
     ['startup', '全局资源设置'],
-    ['entrypoint', '默认入口'],
-    ['advanced', '默认入口场景缺失'],
+    ['entrypoint', '主要入口'],
+    ['advanced', '入口点场景缺失'],
   ] as const)('%s 使用固定共享标题和独立正文滚动层', async (page, title) => {
     const session = new EditSession(projectState())
     await act(async () => root.render(projectTab(page, session)))

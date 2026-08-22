@@ -28,7 +28,7 @@ describe('current save operations', () => {
     })
   })
 
-  test('the only builder writes SAVE8/content16', () => {
+  test('the only builder writes SAVE8/content17 without startup-entry identity', () => {
     const world = currentWorld()
     const position = {
       sceneId: 's001',
@@ -38,12 +38,14 @@ describe('current save operations', () => {
     const payload = buildCurrentSavePayload(world, position, 'demo')
     expect(payload).toEqual({
       version: 8,
-      contentVersion: 16,
+      contentVersion: 17,
       projectId: 'demo',
       world,
       position,
     })
     expect(payload.world).toBe(world)
+    expect(payload).not.toHaveProperty('entryId')
+    expect(payload).not.toHaveProperty('defaultEntryId')
   })
 
   test('restored music never leaks the pre-load track', () => {

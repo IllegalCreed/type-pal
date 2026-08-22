@@ -1,5 +1,6 @@
 import {
   checkWorldScriptState,
+  CONTENT_VERSION,
   CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
   type CurrentManifest,
   type EntityLifecycleReferenceIndex,
@@ -10,7 +11,7 @@ import type { CurrentSavePayload } from './types.js'
 export interface CurrentSaveResolver {
   kind: 'current'
   projectId: string
-  contentVersion: 16
+  contentVersion: typeof CONTENT_VERSION
   saveVersion: 8
 }
 
@@ -59,17 +60,24 @@ export async function preflightCurrentSave(args: {
   manifest: CurrentManifest
   payload: SavePayloadHeader
 }): Promise<CurrentSaveResolver> {
-  if (args.manifest.contentVersion !== 16)
-    throw new Error(`工程 "${args.manifest.id}": current loader 只接受 contentVersion 16`)
+  if (args.manifest.contentVersion !== CONTENT_VERSION)
+    throw new Error(
+      `工程 "${args.manifest.id}": current loader 只接受 contentVersion ${CONTENT_VERSION}`,
+    )
   if (args.manifest.minimumSaveVersion !== CURRENT_PROJECT_MINIMUM_SAVE_VERSION)
-    throw new Error('contentVersion 16 的 minimumSaveVersion 必须为 8')
+    throw new Error(`contentVersion ${CONTENT_VERSION} 的 minimumSaveVersion 必须为 8`)
   if (args.payload.projectId !== args.manifest.id)
     throw new Error(`存档工程 "${args.payload.projectId}" 与当前工程 "${args.manifest.id}" 不匹配`)
-  if (args.payload.version !== 8 || args.payload.contentVersion !== 16)
+  if (args.payload.version !== 8 || args.payload.contentVersion !== CONTENT_VERSION)
     throw new Error(
-      `开发期只接受 SAVE8/content16，收到 SAVE${String(args.payload.version)}/content${String(args.payload.contentVersion)}`,
+      `开发期只接受 SAVE8/content${CONTENT_VERSION}，收到 SAVE${String(args.payload.version)}/content${String(args.payload.contentVersion)}`,
     )
-  return { kind: 'current', projectId: args.manifest.id, contentVersion: 16, saveVersion: 8 }
+  return {
+    kind: 'current',
+    projectId: args.manifest.id,
+    contentVersion: CONTENT_VERSION,
+    saveVersion: 8,
+  }
 }
 
 /**

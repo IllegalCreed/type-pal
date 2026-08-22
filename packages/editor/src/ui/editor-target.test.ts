@@ -4,7 +4,23 @@ import { editorObjectTargetMissing } from './editor-target.js'
 
 function makeState(overrides: Partial<EditorState> = {}): EditorState {
   return {
-    manifest: { entryScene: 'start' },
+    manifest: {
+      id: 'test',
+      name: 'Test',
+      contentVersion: 17,
+      minimumSaveVersion: 8,
+      defaultEntryId: 'main',
+      entryPoints: [
+        {
+          id: 'main',
+          label: '主要入口',
+          scene: 'start',
+          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+        },
+      ],
+      content: {},
+      assets: { catalog: 'assets/index.json', roles: {} },
+    },
     scenes: [],
     actors: [],
     sprites: [],
@@ -18,6 +34,24 @@ function makeState(overrides: Partial<EditorState> = {}): EditorState {
 }
 
 describe('editorObjectTargetMissing', () => {
+  test('入口点深链只接受真实稳定入口 id', () => {
+    const state = makeState()
+    expect(
+      editorObjectTargetMissing(state, {
+        module: 'project',
+        subpage: 'entrypoint',
+        objectId: 'main',
+      }),
+    ).toBe(false)
+    expect(
+      editorObjectTargetMissing(state, {
+        module: 'project',
+        subpage: 'entrypoint',
+        objectId: 'removed-entry',
+      }),
+    ).toBe(true)
+  })
+
   test('瓦片集撤销新增后识别 URL 残留；现存对象保持有效', () => {
     const state = makeState({
       tilesets: [

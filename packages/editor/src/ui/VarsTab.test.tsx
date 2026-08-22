@@ -51,12 +51,19 @@ function state(): EditorState {
     manifest: {
       id: 'test',
       name: 'test',
-      contentVersion: 16,
+      contentVersion: 17,
       minimumSaveVersion: 8,
-      entryScene: 's',
+      defaultEntryId: 'main',
       content: { worldVariables: 'content/world-variables.json' },
       assets: { catalog: 'assets/index.json', roles: {} },
-      startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+      entryPoints: [
+        {
+          id: 'main',
+          label: '主要入口',
+          scene: 's',
+          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+        },
+      ],
     },
     worldVariables: {
       'quest.started': {
@@ -81,7 +88,6 @@ function state(): EditorState {
     locale: {},
     sprites: [],
     battleSprites: [],
-    startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
     maps: {},
     mapIndex: { version: 1, maps: [] },
     tilesets: [],

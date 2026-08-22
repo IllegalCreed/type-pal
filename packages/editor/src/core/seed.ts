@@ -220,7 +220,15 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
       name: name.trim() || '新项目',
       contentVersion: CONTENT_VERSION,
       minimumSaveVersion: CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
-      entryScene: 'start',
+      defaultEntryId: 'new-game',
+      entryPoints: [
+        {
+          id: 'new-game',
+          label: '新的故事',
+          scene: 'start',
+          startWorld: { party: ['hero'], money: 0, learnedSkills: {}, inventory: [] },
+        },
+      ],
       content: {
         actors: 'content/actors.json',
         skills: 'content/skills.json',
@@ -239,7 +247,6 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
         catalog: 'assets/index.json',
         roles: { 'visual.standardColorTable': colorAsset },
       },
-      startWorld: { party: ['hero'], money: 0, learnedSkills: {}, inventory: [] },
     },
   }
 }

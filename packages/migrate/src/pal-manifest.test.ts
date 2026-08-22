@@ -31,10 +31,20 @@ function catalog(): AssetCatalogV1 {
 }
 
 describe('PAL current manifest', () => {
-  test('只生成 content16/SAVE8，且没有迁移描述或 legacy 资源通道', () => {
+  test('只生成 canonical content17/SAVE8，且没有旧顶层启动字段或 legacy 通道', () => {
     const manifest = buildPalCurrentManifest(catalog())
-    expect(manifest.contentVersion).toBe(16)
+    expect(manifest.contentVersion).toBe(17)
     expect(manifest.minimumSaveVersion).toBe(8)
+    expect(manifest.defaultEntryId).toBe('new-game')
+    expect(manifest.entryPoints).toEqual([
+      expect.objectContaining({
+        id: 'new-game',
+        scene: 's000',
+        startWorld: expect.objectContaining({ party: ['li-xiaoyao'] }),
+      }),
+    ])
+    expect(manifest).not.toHaveProperty('entryScene')
+    expect(manifest).not.toHaveProperty('startWorld')
     expect(manifest.assets).toEqual({ catalog: 'assets/index.json', roles: PAL_ASSET_ROLES })
     expect(manifest).not.toHaveProperty('migrations')
     expect(manifest.assets).not.toHaveProperty('legacy')

@@ -13,17 +13,23 @@ function state(): EditorState {
     manifest: {
       id: 'refs',
       name: 'refs',
-      contentVersion: 4,
-      entryScene: 's',
+      contentVersion: 17,
+      minimumSaveVersion: 8,
+      defaultEntryId: 'main',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },
-      startWorld: {
-        party: [],
-        money: 0,
-        learnedSkills: {},
-        inventory: [{ itemId: 'target', count: 1 }],
-      },
       entryPoints: [
+        {
+          id: 'main',
+          label: '主要入口',
+          scene: 's',
+          startWorld: {
+            party: [],
+            money: 0,
+            learnedSkills: {},
+            inventory: [{ itemId: 'target', count: 1 }],
+          },
+        },
         {
           id: 'chapter-2',
           label: '第二章',
@@ -257,7 +263,6 @@ function state(): EditorState {
         ],
       },
     ],
-    startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
     maps: {},
     mapIndex: { version: 1, maps: [] },
     stamps: [],
@@ -427,17 +432,17 @@ describe('collectItemReferences', () => {
       locator: { kind: 'shop', shopId: 7 },
     },
     {
-      name: '默认开局背包',
+      name: '主要入口背包',
       source: 'entry',
       access: 'hold',
-      where: 'manifest.startWorld.inventory[0].itemId',
-      locator: { kind: 'entry-point' },
+      where: 'manifest.entryPoints[0](main).startWorld.inventory[0].itemId',
+      locator: { kind: 'entry-point', entryPointId: 'main' },
     },
     {
       name: '命名入口背包',
       source: 'entry',
       access: 'hold',
-      where: 'manifest.entryPoints[0](chapter-2).startWorld.inventory[0].itemId',
+      where: 'manifest.entryPoints[1](chapter-2).startWorld.inventory[0].itemId',
       locator: { kind: 'entry-point', entryPointId: 'chapter-2' },
     },
     {

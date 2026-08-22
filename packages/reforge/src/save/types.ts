@@ -1,4 +1,5 @@
 import type {
+  CONTENT_VERSION,
   Facing,
   GridPos,
   WorldState,
@@ -41,7 +42,7 @@ export interface CurrentSavePayload {
   /** 存档所属工程 id(读档校验:防把 A 工程存档读进 B 工程)。 */
   projectId: string
   /** 存档时的工程内容版本(与 SAVE_VERSION 分轴:SAVE_VERSION=存档格式,contentVersion=工程内容)。 */
-  contentVersion: 16
+  contentVersion: typeof CONTENT_VERSION
   world: WorldState
   position: { sceneId: string; pos: GridPos; facing: Facing }
 }

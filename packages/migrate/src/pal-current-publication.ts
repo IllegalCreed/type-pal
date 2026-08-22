@@ -11,6 +11,8 @@ import type {
   TilesetDef,
 } from '@type-pal/content'
 import {
+  CONTENT_VERSION,
+  CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
   collectAssetReferences,
   mapAssetById,
   palTilesetAssetId,
@@ -21,6 +23,7 @@ import {
   validateBattleFields,
   validateBattleSprites,
   validateAuthorDialogueReferences,
+  validateCurrentManifestStartup,
   validateAuthorEnemies,
   validateEnemyTeams,
   validateEquipBattleSpriteReferences,
@@ -36,7 +39,6 @@ import {
   validateSkills,
   validateSprites,
   validateStampTemplates,
-  validateStartWorldResources,
   validateTilesets,
   validateWorldVariableRegistryV1,
 } from '@type-pal/content'
@@ -140,7 +142,7 @@ export function buildPalCurrentPublication(
   return { files, managedFiles, mapReport: converted.report }
 }
 
-/** current content16 的内存发布门；在资源写入和事务 journal 创建之前执行。 */
+/** current canonical 内容的内存发布门；在资源写入和事务 journal 创建之前执行。 */
 export function validatePalCurrentPublication(args: {
   publication: PalCurrentPublication
   manifest: CurrentManifest
@@ -148,8 +150,14 @@ export function validatePalCurrentPublication(args: {
 }): PalCurrentPublicationValidation {
   const { files, managedFiles } = args.publication
   const { manifest } = args
-  if (manifest.contentVersion !== 16 || manifest.minimumSaveVersion !== 8)
-    throw new Error('PAL current publication 只接受 content16 / SAVE8')
+  if (
+    manifest.contentVersion !== CONTENT_VERSION ||
+    manifest.minimumSaveVersion !== CURRENT_PROJECT_MINIMUM_SAVE_VERSION
+  )
+    throw new Error(
+      `PAL current publication 只接受 content${CONTENT_VERSION} / SAVE${CURRENT_PROJECT_MINIMUM_SAVE_VERSION}`,
+    )
+  validateCurrentManifestStartup(manifest)
   if ('migrations' in manifest || manifest.content.scripts !== undefined)
     throw new Error('PAL current manifest 禁止 migrations/content.scripts')
   const forbidden = [...managedFiles].filter((path) => FORBIDDEN_CURRENT_PATH.test(path))
@@ -157,10 +165,6 @@ export function validatePalCurrentPublication(args: {
 
   const catalog = validateAssetCatalog(required(files, manifest.assets.catalog))
   validateManifestAssetConfig(manifest.assets, catalog)
-  validateStartWorldResources(manifest.startWorld)
-  manifest.entryPoints?.forEach((entry, index) => {
-    if (entry.startWorld) validateStartWorldResources(entry.startWorld, `entryPoints[${index}]`)
-  })
   const actors = validateActors(
     required(files, requiredPath(manifest.content.actors, 'actors')),
   )
@@ -216,6 +220,7 @@ export function validatePalCurrentPublication(args: {
   const sceneIds = required(files, 'content/scenes/index.json')
   if (!Array.isArray(sceneIds) || sceneIds.some((id) => typeof id !== 'string'))
     throw new Error('content/scenes/index.json: 期望 string[]')
+  validateCurrentManifestStartup(manifest, sceneIds as string[])
   const authorScenes = validateAuthorScenes(
     (sceneIds as string[]).map((id) => required(files, `content/scenes/${id}.json`)),
   )
@@ -260,7 +265,7 @@ export function validatePalCurrentPublication(args: {
     locale,
     sprites,
     battleSprites,
-    startWorld: manifest.startWorld,
+    entryPoints: manifest.entryPoints,
     enemies: enemies as never,
     enemyTeams: enemyTeams as EnemyTeamDef[],
     battleFields,

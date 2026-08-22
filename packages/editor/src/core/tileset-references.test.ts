@@ -37,7 +37,6 @@ function state(maps: Record<string, ProjectMap>, stamps: StampTemplate[] = []): 
     items: [],
     locale: {},
     sprites: [],
-    startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
     maps,
     mapIndex,
     tilesets: [

@@ -75,10 +75,7 @@ export function editorObjectTargetMissing(
     return !canonicalSharedScripts?.[objectId] && !state.scriptIndex?.library?.[objectId]
   }
   if (subpage.kind === 'project' && subpage.projectPage === 'entrypoint') {
-    const entries = state.manifest.entryPoints ?? [
-      { id: 'new-game', label: '开始游戏', scene: state.manifest.entryScene },
-    ]
-    return !entries.some((entry) => entry.id === objectId)
+    return !state.manifest.entryPoints.some((entry) => entry.id === objectId)
   }
   return false
 }

@@ -3,7 +3,7 @@
 > 第二阶段 Reforge。下方 2026-06-30 v1 文本保留为历史设计；当前实现契约以本节和源码为准。
 > 先读 [READ-FIRST](../READ-FIRST.md)。
 
-## 当前实现：SAVE8 / content16（2026-08-20）
+## 当前实现：SAVE8 / content17（2026-08-22）
 
 `SAVE_VERSION` 与工程 `contentVersion` 是两个独立版本轴。正式上线前只支持当前 canonical，
 当前写出的唯一 payload 为：
@@ -12,7 +12,7 @@
 interface CurrentSavePayload {
   version: 8
   projectId: string
-  contentVersion: 16
+  contentVersion: 17
   world: WorldState
   position: { sceneId: string; pos: GridPos; facing: Facing }
 }
@@ -24,18 +24,18 @@ Page/Behavior/Hook 选择，保存 `FlowCursor`，不保存匿名 command index�
 
 ### 当前读档边界
 
-1. `preflightCurrentSave` 只接受 `SAVE8/content16`；`normalizeCurrentSave` 校验后返回隔离副本。
-2. 非当前 SAVE、非 content16、工程 id 不匹配或非法 `minimumSaveVersion` 都 fail-loud；不读
+1. `preflightCurrentSave` 只接受 `SAVE8/content17`；`normalizeCurrentSave` 校验后返回隔离副本。
+2. 非当前 SAVE、非 content17、工程 id 不匹配或非法 `minimumSaveVersion` 都 fail-loud；不读
    sidecar、不尝试升级、不提供产品迁移入口。
 3. PAL 与其他开发期工程重新生成 current 数据；开发期旧存档重新开档。历史实现由 Git 保存。
 
 `manifest.minimumSaveVersion` 当前必须为 8。
 
-| payload `version` | payload `contentVersion` | content16 工程结果 |
+| payload `version` | payload `contentVersion` | content17 工程结果 |
 |---:|---:|---|
-| 8 | 16 | current codec；校验并克隆返回 |
+| 8 | 17 | current codec；校验并克隆返回 |
 | 1..7 / 9+ | 任意 | 拒绝：不是当前 SAVE envelope |
-| 8 | 非 16 | 拒绝：不是当前 content epoch |
+| 8 | 非 17 | 拒绝：不是当前 content epoch |
 
 ### 实现锚点
 
@@ -43,7 +43,7 @@ Page/Behavior/Hook 选择，保存 `FlowCursor`，不保存匿名 command index�
 - `packages/reforge/src/save/current-codec.ts`：current-only preflight/normalize、边界拒绝与隔离克隆。
 - `packages/reforge/src/save/current-save.current-characterization.test.ts`：当前 round-trip 和非当前
   fail-loud 回归。
-- `packages/content/src/character.ts`：`CONTENT_VERSION = 16`、
+- `packages/content/src/character.ts`：`CONTENT_VERSION = 17`、
   `CURRENT_PROJECT_MINIMUM_SAVE_VERSION = 8`。
 
 ---

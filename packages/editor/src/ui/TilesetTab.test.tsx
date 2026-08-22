@@ -84,7 +84,6 @@ function editorState(map: ProjectMap, stamps: StampTemplate[] = []): EditorState
     locale: {},
     sprites: [],
     battleSprites: [],
-    startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
     maps: { 'map-a': map },
     mapIndex,
     tilesets,

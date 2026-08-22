@@ -96,14 +96,7 @@ function collectSkillReferences(state: EditorState): BattleDataReference[] {
         }),
       )
   }
-  collectLearned(
-    state.manifest.startWorld.learnedSkills,
-    'manifest.startWorld',
-    '默认开局',
-    { kind: 'entry-point' },
-  )
-  state.manifest.entryPoints?.forEach((entry, index) => {
-    if (!entry.startWorld) return
+  state.manifest.entryPoints.forEach((entry, index) => {
     collectLearned(
       entry.startWorld.learnedSkills,
       `manifest.entryPoints[${index}](${entry.id}).startWorld`,

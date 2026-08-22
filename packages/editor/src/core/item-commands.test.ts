@@ -30,13 +30,19 @@ function state(items: ItemData[] = []): EditorState {
     manifest: {
       id: 'items',
       name: 'items',
-      contentVersion: 4,
-      entryScene: 's',
+      contentVersion: 17,
+      defaultEntryId: 'main',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },
-      startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+      entryPoints: [
+        {
+          id: 'main',
+          label: '主要入口',
+          scene: 's',
+          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+        },
+      ],
     },
-    startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
     locale: {},
     sprites: [],
     battleSprites: [],
@@ -68,9 +74,9 @@ describe('物品 CRUD 命令', () => {
 
   test('DeleteItem 有外部引用时 fail-loud，不会产生半删除状态', () => {
     const current = state([item('used')])
-    current.manifest.startWorld.inventory = [{ itemId: 'used', count: 1 }]
+    current.manifest.entryPoints[0].startWorld.inventory = [{ itemId: 'used', count: 1 }]
 
-    expect(() => new DeleteItemCommand('used').apply(current)).toThrow(/默认开局/)
+    expect(() => new DeleteItemCommand('used').apply(current)).toThrow(/入口 主要入口/)
     expect(current.items.map((entry) => entry.id)).toEqual(['used'])
   })
 

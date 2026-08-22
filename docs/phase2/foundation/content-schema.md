@@ -5,6 +5,16 @@
 >
 > **每条决策的「为什么旧引擎不行」证据**见 [engine-debt-audit.md](engine-debt-audit.md)（文末有「schema 决策 ↔ finding」反查表）。本文只定「应该长什么样」，那份定「为什么必须这样」。
 
+## 当前 canonical 项目入口（contentVersion 17，2026-08-22）
+
+当前产品只接受 contentVersion 17。`manifest.entryPoints` 必填且非空；每个真实入口完整保存稳定 `id`、
+显示名、启动场景、可选开场视频和必填 `StartWorld`。`manifest.defaultEntryId` 必须命中其中一项，只决定无
+`menu` / `entry` 参数时直接启动哪一项；它不是父入口或模板。当前 manifest 不含顶层 `entryScene`、顶层
+`startWorld`，入口间也没有继承、合成或 fallback。SAVE 版本独立保持 8，payload 记录完整世界与位置，不记录入口 id。
+
+旧内容版本、旧顶层字段、可选入口表和缺省 StartWorld 不属于当前输入合同；开发期历史由 Git 保存，不在产品
+loader、editor 或 migrate publication 中保留 upgrader。
+
 ## 0. 这份文档定下什么（大白话）
 
 一句话：**给「游戏内容」定一套干净的存放格式，再把原版内容搬进来。** 具体八件事：
@@ -343,7 +353,7 @@ interface BattleSpriteDef {
 PAL 冻结结果为 172 个物理文件、171 个定义、179 条直接语义引用、171 个已用定义、5 个共享定义和唯一
 未引用资源 enemy 98；压缩源 900,973 B、有效帧 775、历史坏尾槽 6，combined tuple digest 为
 `ecbec106c6540de74adeec799bad19a22e7198272245c98b130522b0ac37a685`。本段是战斗精灵切片的历史冻结
-结果；当前 content16 工程已完成全资源 catalog-only 收口。
+结果；当前 content17 工程已完成全资源 catalog-only 收口。
 
 ## 7. 内容工程目录结构
 

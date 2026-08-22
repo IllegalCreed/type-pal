@@ -10,12 +10,19 @@ const scene = {
   entities: [],
 }
 
+const alternateScene = {
+  id: 's002',
+  mapId: 'map-002',
+  entry: { pos: { col: 1, row: 2, height: 0 }, facing: 'left' as const },
+  entities: [],
+}
+
 const manifest: CurrentManifest = {
   id: 'demo',
   name: 'Demo',
-  contentVersion: 16,
+  contentVersion: 17,
   minimumSaveVersion: 8,
-  entryScene: 's001',
+  defaultEntryId: 'main',
   content: {
     actors: 'content/actors.json',
     scenes: 'content/scenes/',
@@ -30,13 +37,20 @@ const manifest: CurrentManifest = {
     worldVariables: 'content/world-variables.json',
   },
   assets: { catalog: 'assets/index.json', roles: {} },
-  startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+  entryPoints: [
+    {
+      id: 'main',
+      label: '主要入口',
+      scene: 's001',
+      startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+    },
+  ],
 }
 
 const jsons = {
   actors: [],
   sceneIds: ['s001'],
-  entryScene: scene,
+  entryScenes: { s001: scene },
   skills: { skills: [], levelUp: {} },
   items: [],
   locale: {},
@@ -57,7 +71,7 @@ describe('current editor project IO', () => {
     const loaded = assembleCurrentProject(manifest, jsons)
     const state = toEditorState(loaded, [loaded.authorContent.entryScene])
 
-    expect(state.manifest.contentVersion).toBe(16)
+    expect(state.manifest.contentVersion).toBe(17)
     expect(state.scenes).toEqual([scene])
     expect(state.scriptIndex).toBeUndefined()
     expect(state.scriptChunks).toEqual({})
@@ -77,5 +91,48 @@ describe('current editor project IO', () => {
     expect(files['content/world-variables.json']).toEqual({})
     expect(Object.keys(files).some((path) => path.includes('migration'))).toBe(false)
     expect(Object.keys(files).some((path) => path.includes('scripts/index'))).toBe(false)
+  })
+
+  test('preserves every real entry and a non-first direct-start selector without derived fields', () => {
+    const multiManifest: CurrentManifest = {
+      ...manifest,
+      defaultEntryId: 'alternate',
+      entryPoints: [
+        manifest.entryPoints[0],
+        {
+          id: 'alternate',
+          label: '备用入口',
+          scene: 's002',
+          startWorld: { party: [], money: 42, learnedSkills: {}, inventory: [] },
+        },
+      ],
+    }
+    const multiJsons = {
+      ...jsons,
+      sceneIds: ['s001', 's002'],
+      entryScenes: { s001: scene, s002: alternateScene },
+      maps: {
+        version: 1,
+        maps: [
+          ...jsons.maps.maps,
+          { id: 'map-002', name: '备用地图', path: 'content/maps/map-002.json' },
+        ],
+      },
+    }
+    const loaded = assembleCurrentProject(multiManifest, multiJsons)
+    const state = toEditorState(loaded, Object.values(loaded.authorContent.entryScenes))
+    const files = serializeProject(state, {
+      mapCopies: {
+        'content/maps/map-001.json': '{"version":4}',
+        'content/maps/map-002.json': '{"version":4}',
+      },
+    })
+    const written = files['manifest.json'] as Record<string, unknown>
+
+    expect(state.scenes.map((candidate) => candidate.id)).toEqual(['s001', 's002'])
+    expect(written.defaultEntryId).toBe('alternate')
+    expect(written.entryPoints).toEqual(multiManifest.entryPoints)
+    expect(written).not.toHaveProperty('entryScene')
+    expect(written).not.toHaveProperty('startWorld')
   })
 })

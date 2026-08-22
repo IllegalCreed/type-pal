@@ -9,6 +9,7 @@ import {
   validateActors,
   validateAuthorItems,
   validateLocale,
+  validateCurrentManifestStartup,
   validateSkills,
   validateSprites,
 } from '@type-pal/content'
@@ -33,6 +34,8 @@ import {
 
 const root = fileURLToPath(new URL('../../../', import.meta.url))
 const readJson = <T>(rel: string): T => JSON.parse(readFileSync(root + rel, 'utf8')) as T
+const readPalStartWorld = (): Parameters<typeof buildWorld>[0] =>
+  validateCurrentManifestStartup(readJson('projects/pal/manifest.json')).defaultEntry.startWorld
 
 /** 测试观察器：沿 ref 展开行为视图，不改变真实迁移产物的去内联结构。 */
 function materializeScenes(scenes: SceneDef[], chunks: Record<string, ScriptChunkV1>): SceneDef[] {
@@ -284,10 +287,7 @@ describe('M1b · 装备效果(scriptOnEquip → EquipSpec)', () => {
   test('端到端:迁移物品 × buildWorld × effectiveStat = 防御 41 / 武术 35(状态板真值)', async () => {
     const { effectiveStat } = await import('@type-pal/content')
     const actorsById = Object.fromEntries(out.actors.map((a) => [a.id, a]))
-    const palManifest = readJson<{ startWorld: Parameters<typeof buildWorld>[0] }>(
-      'projects/pal/manifest.json',
-    )
-    const li = buildWorld(palManifest.startWorld, actorsById).party[0]!
+    const li = buildWorld(readPalStartWorld(), actorsById).party[0]!
     const itemsById = Object.fromEntries(out.items.map((i) => [i.id, i]))
     expect(effectiveStat(li, 'defense', itemsById)).toBe(41) // 32 + 六件装备Σ9(全来自翻译的 scriptOnEquip)
     expect(effectiveStat(li, 'attack', itemsById)).toBe(35) // 33 + 木剑 2
@@ -407,10 +407,7 @@ describe('M1a · 输出过 content 契约 + 可 buildWorld', () => {
     expect(() => validateSkills(out.skills)).not.toThrow()
     expect(() => validateLocale({ ...out.localeNames })).not.toThrow()
     const actorsById = Object.fromEntries(actors.map((a) => [a.id, a]))
-    const palManifest = readJson<{ startWorld: Parameters<typeof buildWorld>[0] }>(
-      'projects/pal/manifest.json',
-    )
-    const w = buildWorld(palManifest.startWorld, actorsById)
+    const w = buildWorld(readPalStartWorld(), actorsById)
     expect(w.party[0]?.hp).toBe(150)
     expect(w.party[0]?.mp).toBe(100)
     expect(w.learnedSkills['li-xiaoyao']).toEqual(['296'])

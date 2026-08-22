@@ -1,11 +1,19 @@
-import { emptyWorldScriptState, type AuthorItemCoreMap, type BaseSceneDef } from '@type-pal/content'
+import {
+  emptyWorldScriptState,
+  type AuthorItemCoreMap,
+  type BaseSceneDef,
+  type CurrentManifest,
+  type RuntimeSceneDef,
+} from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
+import type { LoadedCurrentProject } from './project-loader.js'
 import {
   isRuntimeScriptRef,
   projectItemsView,
   baseSceneView,
   projectedWorldScriptScratch,
   refreshSceneViewBindings,
+  runtimeProjectView,
 } from './runtime-project-view.js'
 
 function scene(): BaseSceneDef {
@@ -167,5 +175,46 @@ describe('current runtime projection', () => {
       entityStage: {},
       entityPos: { e001: { col: 3, row: 4, height: 0 } },
     })
+  })
+
+  test('keeps the default-entry scene projection read-only and never writes startup mirrors', () => {
+    const manifest: CurrentManifest = {
+      id: 'test',
+      name: 'Test',
+      contentVersion: 17,
+      minimumSaveVersion: 8,
+      defaultEntryId: 'second',
+      entryPoints: [
+        {
+          id: 'first',
+          label: '第一',
+          scene: 's001',
+          startWorld: { party: ['a'], money: 0, learnedSkills: {}, inventory: [] },
+        },
+        {
+          id: 'second',
+          label: '第二',
+          scene: 's002',
+          startWorld: { party: ['b'], money: 0, learnedSkills: {}, inventory: [] },
+        },
+      ],
+      content: {},
+      assets: { catalog: 'assets/index.json', roles: {} },
+    }
+    const derivedEntryScene = { ...scene(), id: 's002' } as RuntimeSceneDef
+    const source = {
+      manifest,
+      entryScene: derivedEntryScene,
+      items: {},
+    } as unknown as LoadedCurrentProject
+    const before = structuredClone(manifest)
+
+    const view = runtimeProjectView(source, emptyWorldScriptState())
+
+    expect(view.entryScene.id).toBe('s002')
+    expect(source.entryScene).toBe(derivedEntryScene)
+    expect(manifest).toEqual(before)
+    expect(Object.hasOwn(manifest, 'entryScene')).toBe(false)
+    expect(Object.hasOwn(manifest, 'startWorld')).toBe(false)
   })
 })

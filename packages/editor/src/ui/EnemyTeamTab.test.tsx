@@ -36,7 +36,23 @@ function enemy(id: string, exp: number): EnemyDef {
 
 function state(): EditorState {
   return {
-    manifest: { id: 'demo', contentVersion: 15 },
+    manifest: {
+      id: 'demo',
+      name: 'Demo',
+      contentVersion: 17,
+      minimumSaveVersion: 8,
+      defaultEntryId: 'main',
+      entryPoints: [
+        {
+          id: 'main',
+          label: '主要入口',
+          scene: 's001',
+          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+        },
+      ],
+      content: {},
+      assets: { catalog: 'assets/index.json', roles: {} },
+    },
     scenes: [
       {
         id: 's001',

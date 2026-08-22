@@ -1,9 +1,24 @@
 {
   "id": "e2e-own",
   "name": "E2E 自有内容烟测",
-  "contentVersion": 16,
+  "contentVersion": 17,
   "minimumSaveVersion": 8,
-  "entryScene": "start",
+  "defaultEntryId": "new-game",
+  "entryPoints": [
+    {
+      "id": "new-game",
+      "label": "新的故事",
+      "scene": "start",
+      "startWorld": {
+        "party": [
+          "hero"
+        ],
+        "money": 0,
+        "learnedSkills": {},
+        "inventory": []
+      }
+    }
+  ],
   "content": {
     "actors": "content/actors.json",
     "skills": "content/skills.json",
@@ -22,13 +37,5 @@
     "roles": {
       "visual.standardColorTable": "color.project-standard"
     }
-  },
-  "startWorld": {
-    "party": [
-      "hero"
-    ],
-    "money": 0,
-    "learnedSkills": {},
-    "inventory": []
   }
 }

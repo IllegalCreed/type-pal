@@ -207,20 +207,20 @@ URL 使用 `domain=battle&view=definition|asset&object=<id>`，诊断和消费�
 完整实现与验证见
 [`A7-3B 任务卡`](../../ops/tasks/A7-3B-battle-sprite-asset-closure.md)。
 
-### 5.6 manifest 工程工作台（X7-1，2026-07-16）
+### 5.6 manifest 项目工作台（X7-1；ARCH-ENTRYPOINT-CANONICAL-1 于 2026-08-22 更新）
 
-“工程”模块固定为四个权威子页：概览、全局资源与启动、入口与开局、问题。不得再把
+“项目”模块固定为四个权威子页：概览、全局资源与启动、入口与开局、问题。不得再把
 `startWorld` 暴露成与入口点并列的独立作者模块。
 
-- “入口与开局”左侧第一项是无 `menu` / `entry` 参数时使用的“默认入口（不经过标题菜单）”，它在同一详情中编辑
-  `manifest.entryScene + manifest.startWorld`。其余项是 `manifest.entryPoints` 中的标题菜单入口，按稳定
-  `EntryPoint.id` 选择和深链接，并在同一详情中编辑 `label`、`scene`、`introVideo` 与实际开局设置。
-- 每个菜单入口都对应一套有效开局：缺少 `entry.startWorld` 表示完整跟随默认入口的
-  `manifest.startWorld`；存在时必须是完整、自包含的 `StartWorld` 覆盖。UI 始终展示有效整套设置，跟随
-  状态下只读；点击复制后才形成可编辑的本入口独立设置。“改为跟随默认入口”删除整个可选字段，不写
-  半对象或 `undefined` 占位。
-- `manifest` 字段只有一个作者：工程页拥有 `name`、`entryScene`、`entryPoints`、`startWorld` 和
-  `assets.roles`；资源页拥有 catalog 与二进制；场景/脚本页拥有 `onEnter` 内的视频、RNG、BGM 和剧情编排。
+- “入口与开局”只列 `manifest.entryPoints` 中的真实入口，按稳定 `EntryPoint.id` 选择和深链接；每项在同一
+  详情中编辑 `label`、`scene`、`introVideo` 与完整 `startWorld`。`manifest.defaultEntryId` 仅用徽标和
+  “设为直接启动项”动作指出无 `menu` / `entry` 参数时使用哪一个真实入口，不产生额外的伪入口。
+- `entryPoints` 必填且非空，每个入口的 `startWorld` 都必填、完整、自包含。入口之间没有继承、跟随、覆盖或
+  隐式同步；新建 / 复制时可以一次性深拷贝当前入口作为起点，保存后两项完全独立。若未来需要持续共享，应另建
+  有名字、有引用和解绑闭环的显式 preset，不能把 `defaultEntryId` 当父入口。
+- `manifest` 字段只有一个作者：项目页拥有 `name`、`defaultEntryId`、`entryPoints` 和 `assets.roles`；资源页
+  拥有 catalog 与二进制；场景/脚本页拥有 hooks 内的视频、RNG、BGM 和剧情编排。当前 manifest 不含顶层
+  `entryScene` 或顶层 `startWorld`。
 - “全局资源与启动”页先把八项 `manifest.assets.roles` 按启动与标题菜单、战斗音乐、音频基础、视觉基础
   四组置顶编辑；概览必须显示绑定数量并提供直达入口。已绑定数量只是摘要，必选性和健康状态由 validator
   决定，不能要求八项全部存在。music/video 只有在 AssetId 存在且 kind 正确时才显示预览；SoundFont 和
@@ -228,11 +228,12 @@ URL 使用 `domain=battle&view=definition|asset&object=<id>`，诊断和消费�
 - 该页下半部的启动流程只是当前运行时分支的只读解释层。默认入口直接建世界并进入场景；标题菜单分支先消费启动
   资源角色，再选择入口、播放该入口的 `introVideo`、建立该入口世界并执行场景 `onEnter`。页面不得复制
   一套播放器或脚本执行逻辑。
-- `?module=project&page=entrypoint` 定位默认入口；附 `object=<EntryPoint.id>` 定位菜单入口。历史
+- `?module=project&page=entrypoint` 无 object 时定位 `defaultEntryId` 命中的入口；附
+  `object=<EntryPoint.id>` 定位指定真实入口。历史
   `page=startworld` 只做 URL 兼容归一化到 `entrypoint`，不保留旧页面。
-- 没有显式 `entryPoints` 的兼容工程只在 UI/runtime 合成 `new-game`；未编辑即保存不得物化该字段。入口
-  未覆盖 `startWorld`、默认开局未含 `seedStats` 时也必须保持字段缺席。保存前统一校验入口 id/scene、
-  StartWorld 引用、资源角色与 typed 资产闭包，错误跳回字段的唯一作者。
+- 保存前统一校验入口表非空、id 唯一、`defaultEntryId` 命中、入口 scene、每套 StartWorld 引用、资源角色与
+  typed 资产闭包，错误按稳定入口 id 跳回字段的唯一作者。contentVersion 17 不合成入口、不接受旧顶层字段，
+  也不保留 contentVersion 16 upgrader 或 fallback。
 - “问题”页只消费统一 diagnostics，并按严重度、问题类型与资源类型分组；项目身份和版本信息归“概览”，
   不在问题页重复。locale 编辑与状态归未来独立本地化工作台，问题页不建立第二个入口。
 

@@ -892,8 +892,8 @@ export function ActorMode(props: {
                     <ActorPanel
                       className="actor-card-wide actor-entry-summary"
                       eyebrow="入口"
-                      title="默认入口开局技能"
-                      description="这里展示新游戏入口为该角色配置的只读技能摘要。"
+                      title="直接启动入口技能"
+                      description="这里展示直接启动入口为该角色配置的只读技能摘要。"
                       actions={
                         <DsButton variant="secondary" onClick={onOpenStartSettings}>
                           前往“入口与开局”编辑

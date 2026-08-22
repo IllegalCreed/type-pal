@@ -18,15 +18,22 @@ function currentState(): EditorState {
     manifest: {
       id: 'current-editor-test',
       name: 'Current editor test',
-      contentVersion: 16,
-      entryScene: 's',
+      contentVersion: 17,
+      defaultEntryId: 'main',
       content: {
         scenes: 'content/scenes/',
         maps: 'content/maps/index.json',
         sharedScripts: 'content/shared-scripts.json',
       },
       assets: { catalog: 'assets/index.json', roles: {} },
-      startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+      entryPoints: [
+        {
+          id: 'main',
+          label: '主要入口',
+          scene: 's',
+          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+        },
+      ],
       minimumSaveVersion: 8,
     },
     scenes: [
@@ -91,7 +98,6 @@ function currentState(): EditorState {
     locale: {},
     sprites: [],
     battleSprites: [],
-    startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
     maps: {},
     mapIndex: { version: 1, maps: [] },
     assetCatalog: { version: 1, assets: {} },

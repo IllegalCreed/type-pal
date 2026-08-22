@@ -36,7 +36,21 @@ function fixture(): EditorState {
       { id: 9, name: '九号毒', curability: 'common', color: 0, counters: 10 },
       { id: 10, name: '十号毒', curability: 'common', color: 0, lethalWith: 9 },
     ],
-    manifest: { startWorld: { party: ['hero'], inventory: [], learnedSkills: { hero: ['skill-a'] } } },
+    manifest: {
+      entryPoints: [
+        {
+          id: 'main',
+          label: '主要入口',
+          scene: 's',
+          startWorld: {
+            party: ['hero'],
+            money: 0,
+            inventory: [],
+            learnedSkills: { hero: ['skill-a'] },
+          },
+        },
+      ],
+    },
   } as unknown as EditorState
 }
 

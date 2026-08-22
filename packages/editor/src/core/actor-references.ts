@@ -4,6 +4,7 @@ import {
   collectDialoguePortraitReferences,
   type DialoguePortraitReference,
   type ActorReferenceKind,
+  type StartWorld,
 } from '@type-pal/content'
 import type { EditorState } from './edit-session.js'
 
@@ -71,16 +72,13 @@ function scanActorTaggedNodes(
 }
 
 function scanStartWorld(
-  world: EditorState['manifest']['startWorld'],
+  world: StartWorld,
   prefix: string,
   context: ScanContext,
   kinds: {
-    party: Extract<ActorReferenceKind, 'manifest-party' | 'entry-point-party'>
-    learned: Extract<
-      ActorReferenceKind,
-      'manifest-learned-skills' | 'entry-point-learned-skills'
-    >
-    seed: Extract<ActorReferenceKind, 'manifest-seed-stats' | 'entry-point-seed-stats'>
+    party: Extract<ActorReferenceKind, 'entry-point-party'>
+    learned: Extract<ActorReferenceKind, 'entry-point-learned-skills'>
+    seed: Extract<ActorReferenceKind, 'entry-point-seed-stats'>
   },
   out: ActorReference[],
 ): void {
@@ -121,19 +119,7 @@ export function collectActorReferences(state: EditorState): ActorReference[] {
     )
   })
 
-  scanStartWorld(
-    state.manifest.startWorld,
-    'manifest.startWorld',
-    { label: '默认开局', locator: { kind: 'entry-point' } },
-    {
-      party: 'manifest-party',
-      learned: 'manifest-learned-skills',
-      seed: 'manifest-seed-stats',
-    },
-    out,
-  )
-  state.manifest.entryPoints?.forEach((entry, entryIndex) => {
-    if (!entry.startWorld) return
+  state.manifest.entryPoints.forEach((entry, entryIndex) => {
     scanStartWorld(
       entry.startWorld,
       `manifest.entryPoints[${entryIndex}](${entry.id}).startWorld`,

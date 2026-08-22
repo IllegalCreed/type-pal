@@ -25,8 +25,9 @@ function baseState(): EditorState {
     manifest: {
       id: 'test',
       name: 'test',
-      contentVersion: 4,
-      entryScene: 's1',
+      contentVersion: 17,
+      minimumSaveVersion: 8,
+      defaultEntryId: 'main',
       content: {
         scenes: 'content/scenes/',
         scripts: 'content/scripts/',
@@ -35,14 +36,15 @@ function baseState(): EditorState {
       assets: {
         catalog: 'assets/index.json',
         roles: {},
-        legacy: {
-          families: ['sprite', 'color-table'],
-          root: 'assets',
-          sprites: 'sprites',
-          palettes: 'palettes',
-        },
       },
-      startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+      entryPoints: [
+        {
+          id: 'main',
+          label: '主要入口',
+          scene: 's1',
+          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+        },
+      ],
     },
     scenes: [
       {
@@ -66,7 +68,6 @@ function baseState(): EditorState {
     locale: {},
     sprites: [],
     battleSprites: [],
-    startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
     maps: {},
     mapIndex: { version: 1, maps: [] },
     tilesets: [],

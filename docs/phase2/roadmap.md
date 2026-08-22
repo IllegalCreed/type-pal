@@ -200,7 +200,7 @@ ProjectMapV2。[R2 事件脚本单一模型与 unmigrated 退役](../ops/tasks/R
 | 顺序 | 工作 | 已确认的问题 | 完成后进入 |
 |---:|---|---|---|
 | 1 | **R2 脚本单一模型** | **done（2026-07-14，三方复验 + 用户验收）**：原 66 个残余全部归类收口；17 个假缺失改按数组地址解析；产物零可执行 `unmigrated`，旧 opcode 第二解释器已删除 | R3/R7 |
-| 2 | **R3/A7 + R7 资源闭包/注册表** | current-only 实现已完成：content16 / SAVE8，PAL 1,935 catalog records，56 个 effect sprite 已物化；editor/reforge 无 extracted/legacy fallback，旧版本发布链已删除。等待 ARCH-CURRENT-ONLY-1 三方 review accept 后把 A7/X4 标 ✅ | ED-3；同时具备启动 Q1 的资源前提 |
+| 2 | **R3/A7 + R7 资源闭包/注册表** | current-only 实现已完成：content17 / SAVE8，PAL 1,935 catalog records，56 个 effect sprite 已物化；editor/reforge 无 extracted/legacy fallback，旧版本发布链已删除。等待 ARCH-CURRENT-ONLY-1 三方 review accept 后把 A7/X4 标 ✅ | ED-3；同时具备启动 Q1 的资源前提 |
 | 3 | **ED-3 工程引用图** | 地图删除仍靠临时 `mapAssetSceneReferences`，各资源删除/替换策略没有统一引用真值 | ED-4/ED-5 |
 | 4 | **ED-4/ED-5 创作生命周期** | 场景/实体以及角色、物品、技能、毒、商店等 CRUD 仍未全部形成创建→引用→修改→删除→运行闭环 | W8/W7G/ED-6 与能力复核 |
 | 5 | **W8 地图内容选择与属性编辑 → W7G 组合地物图章 + ED-6 效率层** | 地图能逐格画，但不能选中已有单格/多格只改高度等指定属性；图层重叠缺少稳定命中规则；树、桌椅、屋顶等多格结构仍要手找碎片并逐格重设高度/碰撞 | 大规模内容生产与 Q1 扩展 |

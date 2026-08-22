@@ -62,7 +62,7 @@ describe('角色 schema(ActorDef)', () => {
   })
 })
 
-describe('buildWorld(manifest.startWorld 数据化)', () => {
+describe('buildWorld(入口 startWorld 数据化)', () => {
   test('组装:party instantiate + seedStats 覆盖 hp/mp + money/learnedSkills/inventory 直取', () => {
     const sw: StartWorld = {
       party: ['test-hero'],

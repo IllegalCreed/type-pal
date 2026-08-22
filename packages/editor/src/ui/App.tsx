@@ -92,6 +92,7 @@ import type { ItemReference } from '../core/item-references.js'
 import { type Opened, openExistingProject, pickDir, saveProjectAs } from '../core/open-actions.js'
 import { createEditorStatusIssueCollector } from '../core/project-diagnostics.js'
 import { serializeProjectWithMapCopies, writeProject } from '../core/project-io.js'
+import { findDefaultEntry } from '../core/startup-entries.js'
 import {
   AddSceneEntityDefinitionCommand,
   type CanonicalScriptReference,
@@ -310,6 +311,7 @@ export function App(props: {
   const getScriptVersion = useMemo(() => () => scriptSession?.getVersion() ?? 0, [scriptSession])
   const scriptVersion = useSyncExternalStore(subscribeScript, getScriptVersion)
   const state = session.getState()
+  const defaultEntry = findDefaultEntry(state.manifest)
   const storedScriptState = useMemo(() => {
     void scriptVersion
     return scriptSession?.getState()
@@ -458,7 +460,7 @@ export function App(props: {
     const target = location.objectId
     return target && state.scenes.some((scene) => scene.id === target)
       ? target
-      : state.manifest.entryScene
+      : (defaultEntry?.scene ?? '')
   })
   // 放置 palette:add 工具态右栏选择可见实体来源或触发区参数。
   const [placeMode, setPlaceMode] = useState<EntityPlacementMode>('sprite')
@@ -494,9 +496,9 @@ export function App(props: {
     }
   }, [location, state.scenes])
 
-  // 布置模式当前编辑场景(可切;默认入口)。切场景重置选中 —— 实体属于场景。
+  // 布置模式当前编辑场景(可切；初始取直接启动入口)。切场景重置选中 —— 实体属于场景。
   const scene = (state.scenes.find((s) => s.id === placeSceneId) ??
-    state.scenes.find((s) => s.id === state.manifest.entryScene))!
+    state.scenes.find((s) => s.id === defaultEntry?.scene))!
   const switchPlaceScene = (id: string): void => {
     setPlaceSceneId(id)
     setSelected(SCENE_SELECTION)
@@ -1091,7 +1093,7 @@ export function App(props: {
     applyEditorLocation,
     openSharedScript,
   ])
-  const leaderSpriteId = actorsById[state.manifest.startWorld.party[0] ?? '']?.spriteId
+  const leaderSpriteId = actorsById[defaultEntry?.startWorld.party[0] ?? '']?.spriteId
   const [bodyWidth, setBodyWidth] = useState(0)
   const [outlinerWidth, setOutlinerWidth] = useStoredPanelNumber(
     'type-pal:editor:layout-v2:outliner-width',
@@ -1402,11 +1404,12 @@ export function App(props: {
   }, [state.manifest.name])
 
   if (!scene && activeSubpage.kind !== 'project') {
+    const invalidEntryTarget = defaultEntry?.scene ?? state.manifest.defaultEntryId
     return (
       <div className="boot">
         <div className="boot-entry-error">
-          <div className="err">入口场景 "{state.manifest.entryScene}" 不在 scenes</div>
-          <p>项目仍可修复；请重新选择默认入口（不经过标题菜单）的起始场景。</p>
+          <div className="err">直接启动入口 "{invalidEntryTarget}" 无效</div>
+          <p>项目仍可修复；请重新选择直接启动入口（不经过标题菜单）的起始场景。</p>
           <DsButton
             variant="secondary"
             onClick={() =>
@@ -1894,7 +1897,7 @@ export function App(props: {
             assetBase={project.assetBase}
             session={session}
             levelUp={state.levelUp}
-            startSkills={state.manifest.startWorld.learnedSkills}
+            startSkills={defaultEntry?.startWorld.learnedSkills ?? {}}
             focusActorId={location.objectId}
             focusSection={location.actionId}
             onActorFocus={(id) => focusCurrentObject(id)}
@@ -2058,7 +2061,7 @@ export function App(props: {
                   options={state.scenes.map((candidate) => ({
                     value: candidate.id,
                     label: `${candidate.id}${
-                      candidate.id === state.manifest.entryScene ? '(入口)' : ''
+                      candidate.id === defaultEntry?.scene ? '(直接启动)' : ''
                     } · ${candidate.entities.length} 实体`,
                   }))}
                   aria-label="切换编辑场景"

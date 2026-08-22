@@ -1,7 +1,7 @@
 # A7/R7 工程资源闭包与稳定资源注册表审计
 
 > **现行结论（2026-08-20）**：本文件主体是 A7 各批次的历史审计。ARCH-CURRENT-ONLY-1 已将当前
-> content16 工程收口为 catalog-only：PAL 1,935 条记录，effect sprite 56 文件 / 652,870 B / 922 帧；
+> 当前 content17 项目延续 catalog-only：PAL 1,935 条记录，effect sprite 56 文件 / 652,870 B / 922 帧；
 > editor/reforge 不再读取 extracted 或 `assets.legacy`。以下“仍剩 effect-sprite/image”等结论只描述
 > 旧审计时间点，不再是当前产品事实。
 >

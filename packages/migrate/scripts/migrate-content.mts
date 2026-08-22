@@ -1,11 +1,12 @@
 /**
  * PAL current-only publication command.
  *
- * Default is a read-only plan. `--write` publishes content16/SAVE8, assets and the
+ * Default is a read-only plan. `--write` publishes content17/SAVE8, assets and the
  * current baseline in one recoverable transaction, then proves the same publication
  * produces a zero-diff plan. There is no bootstrap, intermediate epoch or old-project route.
  */
 
+import { readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { validateAssetCatalog } from '@type-pal/content'
@@ -114,6 +115,12 @@ const changes = buildMigrationTransactionChanges({
   manifestPreconditions: palAssetPreconditions(targetPublication),
 })
 commitMigrationTransaction(repo, changes)
+
+const publishedManifest = JSON.parse(
+  readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8'),
+) as unknown
+if (JSON.stringify(publishedManifest) !== JSON.stringify(manifest))
+  throw new Error('发布后 manifest 与 canonical generator 输出不一致')
 
 const publishedBaseline = loadPalBaseline(repo)
 if (!publishedBaseline) throw new Error('发布后 current baseline 丢失')

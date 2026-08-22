@@ -537,7 +537,15 @@ describe('typed 资源引用与文件闭包', () => {
     ]
     const refs = collectAssetReferences({
       assets,
-      entryPoints: [{ id: 'new-game', label: '新的故事', scene: 's', introVideo: 'video.pal.001' }],
+      entryPoints: [
+        {
+          id: 'new-game',
+          label: '新的故事',
+          scene: 's',
+          introVideo: 'video.pal.001',
+          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+        },
+      ],
       scenes: [scene],
       actors,
       enemies,

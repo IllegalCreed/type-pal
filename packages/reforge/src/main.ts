@@ -10,7 +10,6 @@ import {
   type EntityLifecycleEntry,
   type EntityLifecycleReferenceIndex,
   type EntityLifecycleTable,
-  type EntryPoint,
   type EquipDescribeCtx,
   effectiveGrantedStatuses,
   effectiveRegen,
@@ -86,6 +85,13 @@ import { expectDefined } from './defined.js'
 import { withWorldPreset } from './dev-preset.js'
 import { loadCursorFrames } from './dialog/dialog-assets.js'
 import { DialogBox } from './dialog/dialog-box.js'
+import {
+  requireDefaultEntry,
+  resolveInitialSceneId,
+  resolveStartupEntry,
+  shouldPlayEntryIntro,
+  shouldShowOpeningMenu,
+} from './startup-entry.js'
 import { startDialogue } from './dialogue.js'
 import {
   applyDitherPaletteTransition,
@@ -563,15 +569,14 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
       throw new Error(`reforge: ${what} 的精灵 "${spriteId ?? '(未解析)'}" 不在 sprites 注册表`)
     return def
   }
-  // 入口点(开局档):?entry=<id> 选一条 → 用它的 startWorld + 场景开局;缺省(无 ?entry / 无菜单)=
-  // manifest.entryScene + startWorld(兼容单入口)。存档状态走 startWorld(数据),开场叙事走该场景
-  // onEnter(脚本)—— 见 EntryPoint 注。主菜单 UI(照原版标题屏)日后接,现经 ?entry 选。
-  const entryPoints: EntryPoint[] = project.manifest.entryPoints ?? [
-    { id: 'new-game', label: '开始游戏', scene: project.manifest.entryScene },
-  ]
+  // 入口点(开局档):每条入口完整拥有 startWorld；defaultEntryId 只选择直接启动项。
+  const entryPoints = project.manifest.entryPoints
   const entryParam = params.get('entry')
-  let bootEntry = entryParam ? entryPoints.find((e) => e.id === entryParam) : undefined
-  if (entryParam && !bootEntry) console.warn(`[boot] 入口点 "${entryParam}" 不存在,走默认开局`)
+  const sceneParam = params.get('scene')
+  const entryResolution = resolveStartupEntry(project.manifest, entryParam)
+  let bootEntry = entryResolution.selectedEntry
+  if (entryResolution.invalidRequestedId)
+    console.warn(`[boot] 入口点 "${entryResolution.invalidRequestedId}" 不存在,走直接启动项`)
   // 主菜单「读取进度」选定的存档槽:非空 → boot 尾走 doLoad 还原(跳过 onEnter 开场演出)。
   let bootLoadSlot: SlotId | undefined
   // 存档存储 + 菜单 UI 资产提前建(菜单读档界面即用;总加载量与原先一致,仅提前到菜单前)。
@@ -597,7 +602,14 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
   }
   // 主菜单标题屏(?menu;dev 用 ?scene/?entry 直达跳过):照原版 FBP 2(盘0)+ 竖排 entryPoints + 读取进度。
   // 选开局项 → bootEntry(其 startWorld + 场景开局);选读档 → bootLoadSlot。(正式发布可翻默认走菜单,现 ?menu opt-in。)
-  if (params.has('menu') && !bootEntry) {
+  if (
+    shouldShowOpeningMenu({
+      menuRequested: params.has('menu'),
+      explicitEntryMatch: entryResolution.explicitMatch,
+      requestedSceneId: sceneParam,
+      sceneIds: project.sceneIds,
+    })
+  ) {
     if (!params.has('skip-startup')) {
       await playVideoSequence([
         project.manifest.assets.roles['video.startupTrademark'],
@@ -622,13 +634,15 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
     )
     if (decision.kind === 'load') bootLoadSlot = decision.slotId
     else {
-      bootEntry = entryPoints.find((e) => e.id === decision.entryId) ?? bootEntry
-      await playVideoAsset(bootEntry?.introVideo)
+      const chosen = entryPoints.find((entry) => entry.id === decision.entryId)
+      if (!chosen) throw new Error(`标题菜单返回未知入口 "${decision.entryId}"`)
+      bootEntry = chosen
+      if (shouldPlayEntryIntro('menu-entry')) await playVideoAsset(bootEntry.introVideo)
     }
   }
   // ?party=<id,id,…> dev 覆写开局队伍(验合击等多队员功能;满血在 buildWorld 后统一拉);首位应为世界队长
   const partyParam = params.get('party')
-  const baseStartWorld = bootEntry?.startWorld ?? project.manifest.startWorld
+  const baseStartWorld = bootEntry.startWorld
   const bootStartWorld = partyParam
     ? {
         ...baseStartWorld,
@@ -748,6 +762,7 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
   }
   const prepareItemSounds = (itemId: string): Promise<void> => sfx.prepare(itemSoundAssets(itemId))
   const prepareSceneSounds = async (def: SceneDef, worldView: WorldState): Promise<void> => {
+    const canonicalScene = await getCanonicalScene(def.id)
     const currentItems = new Map(
       worldView.inventory.flatMap((entry) => {
         const item = project.items[entry.itemId]
@@ -756,9 +771,9 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
     )
     for (const item of usableItems(worldView, project.items)) currentItems.set(item.id, item)
     const sounds = await collectSceneSoundAssets({
-      scene: def,
+      scene: canonicalScene,
       inventoryItems: [...currentItems.values()],
-      ...(project.scriptStore ? { resolver: project.scriptStore } : {}),
+      sharedScripts: canonicalProject.sharedScripts,
       spritesById: project.spritesById,
       signal: new AbortController().signal,
     })
@@ -1161,14 +1176,8 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
 
   // 初始场景:?scene=<id> dev 直达(须在 index),否则 manifest 入口。
   // ?pos=col,row(&facing=)覆盖落点 —— X5 跳转预览:编辑器「引擎试玩」跳到事件现场。
-  const sceneParam = params.get('scene')
-  // 场景优先级:?scene dev 直达 > 选中入口点的场景 > manifest 默认入口。
-  const initialSceneId =
-    sceneParam && project.sceneIds.includes(sceneParam)
-      ? sceneParam
-      : bootEntry?.scene && project.sceneIds.includes(bootEntry.scene)
-        ? bootEntry.scene
-        : project.entryScene.id
+  // 场景优先级:?scene dev 直达 > 选中入口点；只覆盖场景，不更换入口世界。
+  const initialSceneId = resolveInitialSceneId(sceneParam, project.sceneIds, bootEntry)
   const posParam = params.get('pos')?.split(',').map(Number)
   const spawnPos =
     posParam?.length === 2 && posParam.every(Number.isFinite)
@@ -2339,7 +2348,7 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
       poisonDefs: project.poisonsById,
       roles: project.manifest.assets.roles,
       encounterChoreography: encounterChoreo,
-      ...(project.scriptStore ? { resolver: project.scriptStore } : {}),
+      sharedScripts: canonicalProject.sharedScripts,
       signal: launchSignal,
     }).catch((error: unknown) => {
       if (isAbortError(error)) throw error
@@ -6851,13 +6860,13 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
       requestAnimationFrame(tick)
       return
     } catch (err) {
-      console.warn('[e2e-load] 恢复失败,落回默认新局:', err)
+      console.warn('[e2e-load] 恢复失败,落回当前已选入口新局:', err)
     }
   }
   // 主菜单「读取进度」开局:doLoad 还原存档世界 + 落存档场景,跳过 onEnter 开场演出 + dev 参数后即入主循环。
   if (bootLoadSlot) {
     if (!(await doLoad(bootLoadSlot))) {
-      // 读档失败(槽空/归一化拒/工程不符)→ 落回默认新局:应用世界态 + 跑入口 onEnter。
+      // 读档失败(槽空/归一化拒/工程不符)→ 落回当前已选入口新局:应用世界态 + 跑入口 onEnter。
       applyWorldToScene()
       startAutoRunners()
       const onEnter = sceneScriptBinding(scene, 'onEnter', runtimeScript)
@@ -7061,7 +7070,7 @@ async function renderBattlePreview(
     })
   }
 
-  const party = project.manifest.startWorld.party.slice(0, 3)
+  const party = requireDefaultEntry(project.manifest).startWorld.party.slice(0, 3)
   const players: BattleSpriteDraw[] = []
   for (const [i, aid] of party.entries()) {
     const definitionId = project.actorsById[aid]?.battler?.battleSprite

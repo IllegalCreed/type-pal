@@ -33,11 +33,19 @@ const PAL_WORKSPACE_ID = 'b71e6905-4422-4f0b-9bc4-a65f23f4c721'
 const palManifest = {
   id: 'pal',
   name: 'PAL',
-  contentVersion: 16,
+  contentVersion: 17,
   minimumSaveVersion: 8,
-  entryScene: 's001',
+  defaultEntryId: 'main',
   assets: { catalog: 'assets/index.json', roles: {} },
   content: { scenes: 'content/scenes/', maps: 'content/maps/index.json' },
+  entryPoints: [
+    {
+      id: 'main',
+      label: '主要入口',
+      scene: 's001',
+      startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+    },
+  ],
 }
 
 function palJsonFiles(): Record<string, unknown> {
@@ -241,13 +249,21 @@ describe('project creation and Save As target policy', () => {
     buildBlankProjectMock.mockResolvedValue({
       'manifest.json': {
         version: 1,
-        contentVersion: 16,
+        contentVersion: 17,
         minimumSaveVersion: 8,
         id: 'blank',
         name: 'Blank',
-        entryScene: 'start',
+        defaultEntryId: 'main',
         assets: { catalog: 'assets/index.json', roles: {} },
         content: { scenes: 'content/scenes/', maps: 'content/maps/index.json' },
+        entryPoints: [
+          {
+            id: 'main',
+            label: '主要入口',
+            scene: 'start',
+            startWorld: { party: ['hero'], money: 0, learnedSkills: {}, inventory: [] },
+          },
+        ],
       },
     })
     httpSourceMock.mockReturnValue({

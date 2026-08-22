@@ -88,10 +88,10 @@ describe('EditorLocation URL 契约', () => {
     expect(sameEditorLocation(normalized, { module: 'asset', subpage: 'sprite' })).toBe(true)
   })
 
-  it('旧默认开局深链归一化到统一入口与开局页', () => {
+  it('已删除的旧开局深链按非法页回到项目默认页', () => {
     expect(decodeEditorLocation('?module=project&page=startworld')).toEqual({
       module: 'project',
-      subpage: 'entrypoint',
+      subpage: 'overview',
     })
     expect(decodeEditorLocation('?module=project&page=entrypoint&object=chapter-2')).toEqual({
       module: 'project',

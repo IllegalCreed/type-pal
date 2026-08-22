@@ -24,6 +24,7 @@ import type { EditorHistoryCoordinator } from '../core/editor-history-coordinato
 import type { BlockingEnemyTeamReference } from '../core/enemy-team-references.js'
 import type { ItemReference } from '../core/item-references.js'
 import type { ManifestLike } from '../core/project-diagnostics.js'
+import { findDefaultEntry } from '../core/startup-entries.js'
 import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import type {
   CanonicalScriptReference,
@@ -537,6 +538,7 @@ export function DataMode(props: {
 
   if (tab === 'scripts') {
     const state = session.getState()
+    const defaultEntry = findDefaultEntry(manifest)
     if (script) {
       const references = createScriptReferenceCatalog({
         locale,
@@ -563,7 +565,7 @@ export function DataMode(props: {
           mapIndex={state.mapIndex}
           tilesets={tilesets}
           leaderSpriteId={
-            actors.find((actor) => actor.id === manifest.startWorld.party[0])?.spriteId
+            actors.find((actor) => actor.id === defaultEntry?.startWorld.party[0])?.spriteId
           }
           focusScriptId={focusScriptId}
           focusCommandPath={focusScriptCommandPath}

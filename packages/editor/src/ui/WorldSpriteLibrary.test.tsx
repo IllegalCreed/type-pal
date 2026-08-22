@@ -131,7 +131,6 @@ function editorState(
     sprites: [...entries],
     battleSprites: [],
     enemies: [],
-    startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
     maps: {},
     mapIndex: { version: 1, maps: [] },
     tilesets: [],

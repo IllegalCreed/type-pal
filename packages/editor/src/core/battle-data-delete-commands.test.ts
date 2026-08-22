@@ -21,7 +21,16 @@ function state(): EditorState {
     ],
     enemyTeams: [{ id: 'team-a', slots: ['enemy-a'] }],
     poisons: [{ id: 9, name: '九号毒', curability: 'common', color: 0 }],
-    manifest: { startWorld: { party: [], inventory: [], learnedSkills: {} } },
+    manifest: {
+      entryPoints: [
+        {
+          id: 'main',
+          label: '主要入口',
+          scene: 's',
+          startWorld: { party: [], money: 0, inventory: [], learnedSkills: {} },
+        },
+      ],
+    },
   } as unknown as EditorState
 }
 

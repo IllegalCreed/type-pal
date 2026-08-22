@@ -1,6 +1,6 @@
 # 剧情脚本系统
 
-> **当前实现（contentVersion 16 / SAVE 8，2026-08-20）**：canonical 脚本模型没有版本后缀，位于
+> **当前实现（contentVersion 17 / SAVE 8，2026-08-22）**：canonical 脚本模型没有版本后缀，位于
 > `packages/content/src/author-script*.ts`、`runtime-script.ts`、`author-scene.ts` 与
 > `runtime-scene.ts`；compiler/runtime/editor/save 直接消费当前模型。正式上线前不支持历史工程或
 > 存档，旧脚本类型、upgrader、sidecar、fixture 和产品迁移入口已删除。本文后半保留的 v0 草稿只用于
@@ -8,7 +8,7 @@
 > 最终验收状态见
 > [`N3-1` 任务卡](../../ops/tasks/N3-1-script-control-flow-modernization.md)。
 
-## contentVersion 16 / canonical script 契约
+## contentVersion 17 / canonical script 契约
 
 ### 作者身份与存储
 
@@ -123,7 +123,7 @@ compiler 将 canonical flow 降成只存在于内存或可删缓存的 `Executab
 
 ### 当前加载与发布边界
 
-- HTTP/runtime/editor loader 只接受 contentVersion 16；存档只接受 SAVE 8 / content16。
+- HTTP/runtime/editor loader 只接受 contentVersion 17；存档只接受 SAVE 8 / content17。
 - 迁移器从真实提取输入与当前作者 baseline 直接构建 current publication，三方 merge、完整闭包预检后
   最后提交 manifest；不发布脚本分片、版本 transition 或 migration sidecar。
 - 旧工程和旧开发期存档可由 Git 取回对应历史代码重建，但不进入当前产品路径。发现版本不匹配时

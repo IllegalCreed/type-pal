@@ -6,9 +6,9 @@ import { buildBlankProject, enumerateSeedFiles, relativizeManifest } from './see
 const manifest = {
   id: 'pal',
   name: 'PAL',
-  contentVersion: 16,
+  contentVersion: 17,
   minimumSaveVersion: 8,
-  entryScene: 's1',
+  defaultEntryId: 'main',
   content: {
     actors: 'content/actors.json',
     skills: 'content/skills.json',
@@ -18,7 +18,14 @@ const manifest = {
     catalog: 'assets/index.json',
     roles: {},
   },
-  startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+  entryPoints: [
+    {
+      id: 'main',
+      label: '主要入口',
+      scene: 's1',
+      startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+    },
+  ],
 } as unknown as CurrentManifest
 
 describe('relativizeManifest', () => {
@@ -93,14 +100,14 @@ describe('enumerateSeedFiles', () => {
 })
 
 describe('buildBlankProject(W-blank:开箱即玩)', () => {
-  test('名字 → id(kebab)+ 可玩骨架(主角入队 + 自有地图场景 + entryScene 存在)', async () => {
+  test('名字 → id(kebab)+ 可玩骨架(主角入队 + 自有地图场景 + 直接启动入口存在)', async () => {
     const files = await buildBlankProject('My Game')
     const m = files['manifest.json'] as {
       id: string
       contentVersion: number
       minimumSaveVersion: number
-      entryScene: string
-      startWorld: { party: string[] }
+      defaultEntryId: string
+      entryPoints: Array<{ id: string; scene: string; startWorld: { party: string[] } }>
       assets: {
         catalog: string
         roles: Record<string, string>
@@ -109,13 +116,16 @@ describe('buildBlankProject(W-blank:开箱即玩)', () => {
       content: Record<string, string>
     }
     expect(m.id).toBe('my-game')
-    expect(m.contentVersion).toBe(16)
+    expect(m.contentVersion).toBe(17)
     expect(m.content.worldVariables).toBe('content/world-variables.json')
     expect(files['content/world-variables.json']).toEqual({})
     expect(m.minimumSaveVersion).toBe(8)
-    expect(m.entryScene).toBe('start')
+    expect(m.defaultEntryId).toBe('new-game')
+    expect(m.entryPoints[0]?.scene).toBe('start')
+    expect(m).not.toHaveProperty('entryScene')
+    expect(m).not.toHaveProperty('startWorld')
     // 队伍非空(空 party → 引擎 boot 崩);assets 指项目内(不再指原版 extracted)
-    expect(m.startWorld.party).toEqual(['hero'])
+    expect(m.entryPoints[0]?.startWorld.party).toEqual(['hero'])
     expect(m.assets.catalog).toBe('assets/index.json')
     expect(m.assets.roles['visual.standardColorTable']).toBe('color.project-standard')
     expect(m.assets.legacy).toBeUndefined()

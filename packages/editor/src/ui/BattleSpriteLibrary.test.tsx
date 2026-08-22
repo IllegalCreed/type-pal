@@ -159,7 +159,6 @@ function state(entries: readonly BattleSpriteDef[]): EditorState {
     locale: {},
     sprites: [],
     battleSprites: [...entries],
-    startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
     maps: {},
     mapIndex: { version: 1, maps: [] },
     tilesets: [],

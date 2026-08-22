@@ -45,7 +45,7 @@ const sharedScripts = {
 const baseJsons = {
   actors,
   sceneIds: ['s001'],
-  entryScene: scene,
+  entryScenes: { s001: scene },
   skills: { skills: [], levelUp: {} },
   items: [],
   locale: { 'name.li': '李逍遥', 'line.hello': '你好' },
@@ -85,9 +85,17 @@ function manifest(over: Partial<CurrentManifest> = {}): CurrentManifest {
   return {
     id: 'demo',
     name: 'Demo',
-    contentVersion: 16,
+    contentVersion: 17,
     minimumSaveVersion: 8,
-    entryScene: 's001',
+    defaultEntryId: 'new-game',
+    entryPoints: [
+      {
+        id: 'new-game',
+        label: '开始游戏',
+        scene: 's001',
+        startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+      },
+    ],
     content: {
       actors: 'content/actors.json',
       scenes: 'content/scenes/',
@@ -102,7 +110,6 @@ function manifest(over: Partial<CurrentManifest> = {}): CurrentManifest {
       worldVariables: 'content/world-variables.json',
     },
     assets: { catalog: 'assets/index.json', roles: {} },
-    startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
     ...over,
   }
 }
@@ -130,11 +137,12 @@ function memorySource(files: Record<string, unknown>): FileSource {
 
 function files(projectManifest = manifest()): Record<string, unknown> {
   const content = projectManifest.content
-  return {
+  const projectFiles: Record<string, unknown> = {
     'manifest.json': projectManifest,
     [content.actors!]: baseJsons.actors,
-    [content.scenes! + 'index.json']: baseJsons.sceneIds,
-    [content.scenes! + 's001.json']: baseJsons.entryScene,
+    [content.scenes! + 'index.json']: [
+      ...new Set(projectManifest.entryPoints.map((entry) => entry.scene)),
+    ],
     [content.skills!]: baseJsons.skills,
     [content.items!]: baseJsons.items,
     [content.locale!]: baseJsons.locale,
@@ -146,12 +154,15 @@ function files(projectManifest = manifest()): Record<string, unknown> {
     [content.worldVariables!]: baseJsons.worldVariables,
     [projectManifest.assets.catalog]: baseJsons.assetCatalog,
   }
+  for (const entry of projectManifest.entryPoints)
+    projectFiles[content.scenes! + `${entry.scene}.json`] = { ...scene, id: entry.scene }
+  return projectFiles
 }
 
 describe('current project loader', () => {
   test('retains author identity and creates the runtime dialogue projection directly', () => {
     const project = assembleCurrentProject(manifest(), baseJsons)
-    expect(project.manifest.contentVersion).toBe(16)
+    expect(project.manifest.contentVersion).toBe(17)
     expect(project.authorContent.sharedScripts.hello?.body[0]).toHaveProperty(
       'cue.identity.actor',
       'actor.li',
@@ -174,14 +185,82 @@ describe('current project loader', () => {
 
   test('loads only current content without reading a migration sidecar', async () => {
     const loaded = await loadCurrentProjectFrom(memorySource(files()))
-    expect(loaded.manifest.contentVersion).toBe(16)
+    expect(loaded.manifest.contentVersion).toBe(17)
     expect(loaded.sharedScripts.hello?.body[0]).toHaveProperty('cue.speaker', 'name.li')
   })
 
+  test('loads and validates every real entry while deriving runtime cache from defaultEntryId', () => {
+    const second = { ...scene, id: 's002' }
+    const projectManifest = manifest({
+      defaultEntryId: 'default-entry',
+      entryPoints: [
+        {
+          id: 'other-entry',
+          label: '其他入口',
+          scene: 's001',
+          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+        },
+        {
+          id: 'default-entry',
+          label: '默认入口',
+          scene: 's002',
+          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+        },
+      ],
+    })
+    const project = assembleCurrentProject(projectManifest, {
+      ...baseJsons,
+      sceneIds: ['s001', 's002'],
+      entryScenes: { s001: scene, s002: second },
+    })
+    expect(project.entryScene.id).toBe('s002')
+    expect(Object.keys(project.authorContent.entryScenes)).toEqual(['s001', 's002'])
+  })
+
+  test('rejects a broken non-default entry world reference', () => {
+    const projectManifest = manifest({
+      entryPoints: [
+        manifest().entryPoints[0],
+        {
+          id: 'broken',
+          label: '损坏入口',
+          scene: 's002',
+          startWorld: { party: ['missing-actor'], money: 0, learnedSkills: {}, inventory: [] },
+        },
+      ],
+    })
+    expect(() =>
+      assembleCurrentProject(projectManifest, {
+        ...baseJsons,
+        sceneIds: ['s001', 's002'],
+        entryScenes: { s001: scene, s002: { ...scene, id: 's002' } },
+      }),
+    ).toThrow(/entryPoints\[broken\].*missing-actor/)
+  })
+
+  test('reports a missing non-default entry scene with the stable entry id', async () => {
+    const projectManifest = manifest({
+      entryPoints: [
+        manifest().entryPoints[0],
+        {
+          id: 'missing-scene-entry',
+          label: '缺失场景',
+          scene: 's002',
+          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+        },
+      ],
+    })
+    const projectFiles = files(projectManifest)
+    delete projectFiles['content/scenes/s002.json']
+    await expect(loadCurrentProjectFrom(memorySource(projectFiles))).rejects.toThrow(
+      /entryPoints\[missing-scene-entry\].*s002\.json/,
+    )
+  })
+
   test('rejects pre-current content at the only product boundary', async () => {
-    const oldManifest = { ...manifest(), contentVersion: 14 }
+    const oldManifest = { ...manifest(), contentVersion: 16 }
     await expect(
       loadCurrentProjectFrom(memorySource(files(oldManifest as CurrentManifest))),
-    ).rejects.toThrow(/只接受 contentVersion 16/)
+    ).rejects.toThrow(/contentVersion: 期望 17/)
   })
 })

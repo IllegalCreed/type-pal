@@ -456,8 +456,6 @@ function EffectFields(props: {
   onChange: (effect: ItemUseEffect) => void
   onOpenScript?: (id: string) => void
   onCreateAndBindScript?: () => void
-  worldResources?: Readonly<Record<string, number>>
-  onSetWorldResource?: (resource: string, initialValue: number) => void
   subjectItemId?: string
   consuming?: boolean
   scenes?: readonly SceneDef[]
@@ -751,8 +749,6 @@ function EffectFields(props: {
       )
     case 'drawFromResourcePool': {
       const resourceName = effect.resource.trim()
-      const isBuiltinResource = resourceName === 'collectValue'
-      const initialValue = props.worldResources?.[resourceName]
       const resizeRewards = (maxRoll: number): ItemUseEffect => {
         const rewards = [...effect.rewards]
         const fallback = rewards.at(-1) ?? { itemId: firstItem(items), count: 1 }
@@ -764,84 +760,23 @@ function EffectFields(props: {
           <div className="item-effect-grid">
             <div className="item-effect-field">
               <span>资源变量</span>
-              <div className="item-resource-key-control">
-                <DsTextInput
-                  monospace
-                  value={effect.resource}
-                  onChange={(event) => onChange({ ...effect, resource: event.target.value })}
-                  onBlur={(event) => {
-                    const resource = event.currentTarget.value.trim()
-                    if (resource !== effect.resource) onChange({ ...effect, resource })
-                  }}
-                  invalid={effect.resource !== resourceName}
-                  aria-label="资源变量名称"
-                />
-                <DsSelect
-                  size="compact"
-                  aria-label="选择已有资源变量"
-                  value={
-                    resourceName === 'collectValue' ||
-                    Object.hasOwn(props.worldResources ?? {}, resourceName)
-                      ? resourceName
-                      : ''
-                  }
-                  placeholder="选择已有资源…"
-                  options={[
-                    {
-                      value: 'collectValue',
-                      label: '内建收妖值',
-                      description: 'collectValue',
-                    },
-                    ...Object.keys(props.worldResources ?? {})
-                      .filter((resource) => resource !== 'collectValue')
-                      .sort()
-                      .map((resource) => ({ value: resource, label: resource })),
-                  ]}
-                  onValueChange={(resource) => onChange({ ...effect, resource })}
-                />
-              </div>
+              <DsTextInput
+                monospace
+                value={effect.resource}
+                onChange={(event) => onChange({ ...effect, resource: event.target.value })}
+                onBlur={(event) => {
+                  const resource = event.currentTarget.value.trim()
+                  if (resource !== effect.resource) onChange({ ...effect, resource })
+                }}
+                invalid={effect.resource !== resourceName}
+                aria-label="资源变量名称"
+              />
             </div>
             <NumberField
               label="最大点数"
               value={effect.maxRoll}
               onChange={(maxRoll) => onChange(resizeRewards(maxRoll))}
             />
-            {isBuiltinResource ? (
-              <div className="item-resource-initial-state">
-                <span>初始值</span>
-                <strong>内建收妖值（战斗累积）</strong>
-              </div>
-            ) : initialValue === undefined ? (
-              <div className="item-resource-initial-state">
-                <span>默认开局初始值</span>
-                <DsButton
-                  size="compact"
-                  variant="secondary"
-                  icon="add"
-                  disabled={!resourceName || !props.onSetWorldResource}
-                  onClick={() => props.onSetWorldResource?.(resourceName, 0)}
-                >
-                  初始化为 0
-                </DsButton>
-              </div>
-            ) : (
-              <label className="item-effect-field">
-                <span>默认开局初始值</span>
-                <input
-                  className="in mono"
-                  type="number"
-                  min={0}
-                  value={initialValue}
-                  onWheel={(event) => event.currentTarget.blur()}
-                  onChange={(event) =>
-                    props.onSetWorldResource?.(
-                      resourceName,
-                      Math.max(0, Math.floor(event.currentTarget.valueAsNumber || 0)),
-                    )
-                  }
-                />
-              </label>
-            )}
           </div>
           <ItemAmountList
             label="奖励档位"
@@ -853,6 +788,7 @@ function EffectFields(props: {
           />
           <p className="item-effect-help">
             随机抽取 1…当前资源值，封顶为 {effect.maxRoll}；扣除抽中点数后，使用对应档位的奖励。
+            各启动入口的资源初始值在“项目设置 → 入口与开局”中分别配置。
           </p>
           <label className="item-effect-field item-effect-field-wide">
             <span>不可用提示</span>
@@ -1036,8 +972,6 @@ interface ItemUseEffectChainEditorProps {
   /** ED-5J:新建物品私有脚本(use 槽);提供时在「添加效果」旁显示入口。 */
   onAddPrivateScript?: () => void
   onError?: (message: string) => void
-  worldResources?: Readonly<Record<string, number>>
-  onSetWorldResource?: (resource: string, initialValue: number) => void
   itemId?: string
   /** item-private effect 的 canonical 正文；索引与运行时投影中的占位 runScript 对齐。 */
   privateScripts?: Readonly<Record<number, ItemPrivateScriptBinding>>
@@ -1296,8 +1230,6 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
                 onChange={(next) => replaceAt(index, next)}
                 onOpenScript={props.onOpenScript}
                 onCreateAndBindScript={props.onCreateAndBindScript}
-                worldResources={props.worldResources}
-                onSetWorldResource={props.onSetWorldResource}
                 subjectItemId={props.itemId}
                 consuming={use.consuming}
                 scenes={props.scenes}

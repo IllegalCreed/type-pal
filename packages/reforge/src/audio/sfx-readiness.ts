@@ -6,6 +6,8 @@ import type {
   ItemData,
   ManifestAssetConfig,
   PoisonDef,
+  RuntimeSceneDef,
+  RuntimeScriptLibrary,
   SceneDef,
   SkillData,
   SpriteDef,
@@ -14,14 +16,12 @@ import {
   collectCommandAssetReferences,
   resolveSkillExecution,
   SOUND_ASSET_ROLES,
-  visitScriptRefs,
 } from '@type-pal/content'
 import type { BattleAction } from '../battle/battle-core.js'
 import {
   collectReachableEnemyDefs,
   collectReachableEnemySkillIds,
 } from '../battle/enemy-closure.js'
-import type { ScriptResolver } from '../script-chunk-store.js'
 
 function add(out: Set<AssetId>, asset: AssetId | undefined): void {
   if (asset) out.add(asset)
@@ -98,13 +98,30 @@ function collectActionCommandSounds(
   }
 }
 
-/**
- * 收集命令树及其 ScriptRef 闭包中的音效。所有 lease 都在返回/抛错前释放；ref.id 是
- * 稳定身份，既用于环检测，也避免同一脚本因不同 chunk hint 被重复加载。
- */
+function collectCalledScriptIds(node: unknown): string[] {
+  const ids: string[] = []
+  const stack: unknown[] = [node]
+  const seen = new WeakSet<object>()
+  while (stack.length) {
+    const current = stack.pop()
+    if (!current || typeof current !== 'object') continue
+    if (seen.has(current)) continue
+    seen.add(current)
+    if (Array.isArray(current)) {
+      stack.push(...current)
+      continue
+    }
+    const record = current as Record<string, unknown>
+    if (record.kind === 'callScript' && typeof record.script === 'string') ids.push(record.script)
+    stack.push(...Object.values(record))
+  }
+  return ids
+}
+
+/** 收集命令树及其 canonical sharedScripts 闭包中的音效；stable script id 同时用于去重与环检测。 */
 export async function collectScriptSoundAssets(
   roots: readonly unknown[],
-  resolver: ScriptResolver | undefined,
+  sharedScripts: RuntimeScriptLibrary | undefined,
   signal: AbortSignal,
   spritesById?: Readonly<Record<string, SpriteDef>>,
 ): Promise<Set<AssetId>> {
@@ -112,23 +129,19 @@ export async function collectScriptSoundAssets(
   const seen = new Set<string>()
 
   const visit = async (node: unknown, where: string): Promise<void> => {
+    signal.throwIfAborted()
     for (const reference of collectCommandAssetReferences(node, where))
       if (reference.expectedKind === 'sound') sounds.add(reference.asset)
     collectActionCommandSounds(node, sounds, spritesById, where)
 
-    const refs: import('@type-pal/content').ScriptRef[] = []
-    visitScriptRefs(node, (ref) => refs.push(ref))
-    for (const ref of refs) {
-      if (seen.has(ref.id)) continue
-      seen.add(ref.id)
-      if (!resolver)
-        throw new Error(`SFX readiness 无 ScriptResolver，无法解析 ScriptRef "${ref.id}"`)
-      const resolved = await resolver.resolve(ref, signal)
-      try {
-        await visit(resolved.body, `script:${resolved.ref.id}`)
-      } finally {
-        resolved.release()
-      }
+    for (const id of collectCalledScriptIds(node)) {
+      if (seen.has(id)) continue
+      seen.add(id)
+      if (!sharedScripts)
+        throw new Error(`SFX readiness 无 sharedScripts 注册表，无法解析脚本 "${id}"`)
+      const script = sharedScripts[id]
+      if (!script) throw new Error(`SFX readiness sharedScripts 缺脚本 "${id}"`)
+      await visit(script.body, `sharedScripts[${JSON.stringify(id)}].body`)
     }
   }
 
@@ -137,17 +150,17 @@ export async function collectScriptSoundAssets(
 }
 
 export async function collectSceneSoundAssets(input: {
-  scene: SceneDef
+  scene: SceneDef | RuntimeSceneDef
   /** 存档中的场景脚本覆写等动态命令根。 */
   additionalRoots?: readonly unknown[]
   inventoryItems?: readonly ItemData[]
   spritesById?: Readonly<Record<string, SpriteDef>>
-  resolver?: ScriptResolver
+  sharedScripts?: RuntimeScriptLibrary
   signal: AbortSignal
 }): Promise<Set<AssetId>> {
   const sounds = await collectScriptSoundAssets(
     [input.scene, ...(input.additionalRoots ?? [])],
-    input.resolver,
+    input.sharedScripts,
     input.signal,
     input.spritesById,
   )
@@ -185,7 +198,7 @@ export interface BattleBaseSoundInput extends BattleSoundTables {
   activeEnemyPoisons?: readonly ActivePoison[]
   roles: ManifestAssetConfig['roles']
   encounterChoreography?: readonly unknown[]
-  resolver?: ScriptResolver
+  sharedScripts?: RuntimeScriptLibrary
   signal: AbortSignal
 }
 
@@ -326,7 +339,7 @@ export async function collectBattleBaseSounds(input: BattleBaseSoundInput): Prom
 
   closure.drainPoisons()
 
-  const scripted = await collectScriptSoundAssets(scriptRoots, input.resolver, input.signal)
+  const scripted = await collectScriptSoundAssets(scriptRoots, input.sharedScripts, input.signal)
   for (const asset of scripted) closure.sounds.add(asset)
   return closure.sounds
 }

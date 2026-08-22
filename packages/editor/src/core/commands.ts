@@ -34,7 +34,6 @@ import type {
   SharedScriptMetaV1,
   SkillData,
   SpriteDef,
-  StartWorld,
   WorldVariableDefinitionV1,
 } from '@type-pal/content'
 import {
@@ -62,6 +61,7 @@ import {
   validateMapIndex,
   validateProjectRelativePath,
   validateSprites,
+  validateStartWorld,
   validateWorldVariableIdV1,
   validateWorldVariableRegistryV1,
 } from '@type-pal/content'
@@ -3379,60 +3379,6 @@ export class RenameProjectCommand implements Command {
   }
 }
 
-/** 改 manifest.entryScene；项目 id 与其它未知字段原样保留。 */
-export class UpdateEntrySceneCommand implements Command {
-  readonly label = '改默认入口场景'
-  private readonly next: string
-  private old = ''
-  private captured = false
-
-  constructor(next: string) {
-    this.next = next
-  }
-
-  apply(state: EditorState): EditorState {
-    if (!this.captured) {
-      this.old = state.manifest.entryScene
-      this.captured = true
-    }
-    return { ...state, manifest: { ...state.manifest, entryScene: this.next } }
-  }
-
-  invert(state: EditorState): EditorState {
-    return { ...state, manifest: { ...state.manifest, entryScene: this.old } }
-  }
-}
-
-/** 整体替换默认入口的 manifest.startWorld；同步顶层 ContentBundle 镜像。 */
-export class UpdateStartWorldCommand implements Command {
-  readonly label = '改默认入口开局'
-  private readonly next: StartWorld
-  private old: StartWorld | undefined
-  private captured = false
-
-  constructor(next: StartWorld) {
-    const copy = structuredClone(next)
-    if (copy.seedStats === undefined) delete copy.seedStats
-    this.next = copy
-  }
-
-  apply(state: EditorState): EditorState {
-    if (!this.captured) {
-      this.old = structuredClone(state.manifest.startWorld)
-      if (this.old.seedStats === undefined) delete this.old.seedStats
-      this.captured = true
-    }
-    const startWorld = structuredClone(this.next)
-    return { ...state, manifest: { ...state.manifest, startWorld }, startWorld }
-  }
-
-  invert(state: EditorState): EditorState {
-    if (!this.old) return state
-    const startWorld = structuredClone(this.old)
-    return { ...state, manifest: { ...state.manifest, startWorld }, startWorld }
-  }
-}
-
 /** 更新 manifest.assets.roles 的一个或多个稳定 AssetId；undefined 表示清除角色绑定。 */
 export class UpdateManifestAssetRolesCommand implements Command {
   readonly label = '改项目资源角色'
@@ -3475,49 +3421,83 @@ export class UpdateManifestAssetRolesCommand implements Command {
   }
 }
 
+export interface StartupEntryConfig {
+  defaultEntryId: string
+  entryPoints: EntryPoint[]
+}
+
+function cloneStartupEntryConfig(config: StartupEntryConfig): StartupEntryConfig {
+  const defaultEntryId = config.defaultEntryId.trim()
+  if (!defaultEntryId || defaultEntryId !== config.defaultEntryId)
+    throw new Error('直接启动入口 id 必须是无首尾空格的非空字符串')
+  if (config.entryPoints.length === 0) throw new Error('入口点列表不能为空，至少保留一个入口')
+  const ids = new Set<string>()
+  const entryPoints = config.entryPoints.map((entry, index) => {
+    const id = entry.id.trim()
+    if (!id) throw new Error('入口点 id 不能为空')
+    if (id !== entry.id) throw new Error(`入口点 id "${entry.id}" 不得包含首尾空格`)
+    if (ids.has(id)) throw new Error(`入口点 id "${id}" 重复`)
+    ids.add(id)
+    if (!entry.label.trim()) throw new Error(`入口点 "${id}" 的名称不能为空`)
+    if (!entry.scene.trim()) throw new Error(`入口点 "${id}" 的场景不能为空`)
+    const copy = structuredClone(entry)
+    copy.startWorld = validateStartWorld(copy.startWorld, `entryPoints[${index}].startWorld`)
+    if (copy.introVideo === undefined) delete copy.introVideo
+    return copy
+  })
+  if (!ids.has(defaultEntryId)) throw new Error(`直接启动入口 "${defaultEntryId}" 不存在`)
+  return { defaultEntryId, entryPoints }
+}
+
+function cloneNonEmptyEntryPoints(
+  entries: readonly EntryPoint[],
+): [EntryPoint, ...EntryPoint[]] {
+  if (entries.length === 0) throw new Error('入口点列表不能为空，至少保留一个入口')
+  return structuredClone(entries) as [EntryPoint, ...EntryPoint[]]
+}
+
 /**
- * 入口点(开局档)编辑:整表替换 manifest.entryPoints(增删改一次一命令)。
- * apply 首次捕获旧表供 invert 还原。缺省(manifest 无 entryPoints)= 从 entryScene 合成一条 new-game。
+ * 原子替换直接启动入口选择器与全部真实入口。apply/invert 的每个可见状态都保持
+ * 非空、唯一 id、defaultEntryId 命中以及完整 StartWorld 不变式。
  */
-export class SetEntryPointsCommand implements Command {
-  readonly label = '编辑入口点'
-  private readonly next: EntryPoint[]
-  private old: EntryPoint[] | undefined
+export class SetStartupEntriesCommand implements Command {
+  readonly label = '编辑启动入口'
+  private readonly next: StartupEntryConfig
+  private old: StartupEntryConfig | undefined
   private captured = false
 
-  constructor(next: EntryPoint[]) {
-    if (next.length === 0) throw new Error('入口点列表不能为空，至少保留一个入口')
-    const ids = new Set<string>()
-    for (const entry of next) {
-      const id = entry.id.trim()
-      if (!id) throw new Error('入口点 id 不能为空')
-      if (id !== entry.id) throw new Error(`入口点 id "${entry.id}" 不得包含首尾空格`)
-      if (ids.has(id)) throw new Error(`入口点 id "${id}" 重复`)
-      ids.add(id)
-    }
-    this.next = next.map((entry) => {
-      const copy = structuredClone(entry)
-      if (copy.introVideo === undefined) delete copy.introVideo
-      if (copy.startWorld === undefined) delete copy.startWorld
-      return copy
-    })
+  constructor(next: StartupEntryConfig) {
+    this.next = cloneStartupEntryConfig(next)
   }
 
   apply(state: EditorState): EditorState {
     if (!this.captured) {
-      this.old = state.manifest.entryPoints
-        ? structuredClone(state.manifest.entryPoints)
-        : undefined
+      this.old = cloneStartupEntryConfig({
+        defaultEntryId: state.manifest.defaultEntryId,
+        entryPoints: state.manifest.entryPoints,
+      })
       this.captured = true
     }
-    return { ...state, manifest: { ...state.manifest, entryPoints: structuredClone(this.next) } }
+    return {
+      ...state,
+      manifest: {
+        ...state.manifest,
+        defaultEntryId: this.next.defaultEntryId,
+        entryPoints: cloneNonEmptyEntryPoints(this.next.entryPoints),
+      },
+    }
   }
 
   invert(state: EditorState): EditorState {
-    const restored = { ...state.manifest }
-    if (this.old) restored.entryPoints = structuredClone(this.old)
-    else delete restored.entryPoints
-    return { ...state, manifest: restored }
+    if (!this.old) return state
+    return {
+      ...state,
+      manifest: {
+        ...state.manifest,
+        defaultEntryId: this.old.defaultEntryId,
+        entryPoints: cloneNonEmptyEntryPoints(this.old.entryPoints),
+      },
+    }
   }
 }
 

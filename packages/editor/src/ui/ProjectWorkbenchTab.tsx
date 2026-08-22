@@ -2,7 +2,7 @@
  * manifest-centered 项目工作台(X7-1)。
  *
  * 四个子页共享同一 manifest/Command 真源：概览、全局资源与启动、入口点与开局、问题。
- * 缺省 entryPoints 只在这里解析为 UI 兼容入口，只有用户真正编辑入口表时才物化保存。
+ * 当前版本只接受非空真实入口表；编辑直接启动入口和入口表时始终原子提交。
  */
 import type {
   ActorDef,
@@ -20,10 +20,8 @@ import { ASSET_ROLE_KINDS, ASSET_ROLES, AUDIO_ASSET_ROLES, lookupText } from '@t
 import { Fragment, type ReactNode, useEffect, useMemo, useState } from 'react'
 import {
   RenameProjectCommand,
-  SetEntryPointsCommand,
-  UpdateEntrySceneCommand,
+  SetStartupEntriesCommand,
   UpdateManifestAssetRolesCommand,
-  UpdateStartWorldCommand,
 } from '../core/commands.js'
 import type { EditorState, EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
@@ -32,8 +30,8 @@ import {
   getRepairableEntryIndexes,
   type ManifestLike,
   type ProjectIssue,
-  resolveProjectEntryPoints,
 } from '../core/project-diagnostics.js'
+import { findDefaultEntry } from '../core/startup-entries.js'
 import {
   DsButton,
   DsCatalogGroupEmpty,
@@ -202,7 +200,7 @@ export function IssueList(props: {
 }
 
 const PROJECT_ISSUE_GROUP_LABELS: Record<ProjectIssue['code'], string> = {
-  'missing-entry-scene': '默认入口场景缺失',
+  'missing-default-entry': '直接启动入口缺失',
   'empty-entry-points': '入口点列表为空',
   'blank-entry-id': '入口 ID 为空',
   'noncanonical-entry-id': '入口 ID 不规范',
@@ -1041,7 +1039,7 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
     onOpenLocation,
     issues,
   } = props
-  const entryPoints = useMemo(() => resolveProjectEntryPoints(manifest), [manifest])
+  const entryPoints = manifest.entryPoints
   const identityIssues = issues.filter((issue) =>
     ['blank-entry-id', 'noncanonical-entry-id', 'duplicate-entry-id'].includes(issue.code),
   )
@@ -1050,14 +1048,24 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
   useEffect(() => {
     setRepairIds(entryPoints.map((entry) => entry.id))
   }, [entryPoints])
-  const [selectedId, setSelectedId] = useState<string | undefined>(focusObjectId)
+  const [selectedId, setSelectedId] = useState<string | undefined>(() => {
+    if (focusObjectId && entryPoints.some((entry) => entry.id === focusObjectId))
+      return focusObjectId
+    return entryPoints.some((entry) => entry.id === manifest.defaultEntryId)
+      ? manifest.defaultEntryId
+      : undefined
+  })
   useEffect(() => {
     if (focusObjectId === undefined) {
-      setSelectedId(undefined)
+      setSelectedId(
+        entryPoints.some((entry) => entry.id === manifest.defaultEntryId)
+          ? manifest.defaultEntryId
+          : undefined,
+      )
       return
     }
     if (entryPoints.some((entry) => entry.id === focusObjectId)) setSelectedId(focusObjectId)
-  }, [entryPoints, focusObjectId])
+  }, [entryPoints, focusObjectId, manifest.defaultEntryId])
   const selected = selectedId ? entryPoints.find((entry) => entry.id === selectedId) : undefined
   const selectedIntroVideoAsset = selected?.introVideo
     ? assetCatalog.assets[selected.introVideo]
@@ -1070,8 +1078,8 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
         .sort(([left], [right]) => left.localeCompare(right)),
     [assetCatalog],
   )
-  const commit = (next: EntryPoint[]): void => {
-    session.dispatch(new SetEntryPointsCommand(next))
+  const commit = (next: EntryPoint[], defaultEntryId = manifest.defaultEntryId): void => {
+    session.dispatch(new SetStartupEntriesCommand({ defaultEntryId, entryPoints: next }))
   }
   const normalizedRepairIds = repairIds.map((id) => id.trim())
   const repairReady =
@@ -1128,14 +1136,26 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
                 className="btn"
                 disabled={!repairReady}
                 onClick={() => {
+                  const defaultIndex = entryPoints.findIndex(
+                    (entry) => entry.id === manifest.defaultEntryId,
+                  )
                   commit(
                     entryPoints.map((entry, index) => ({
                       ...entry,
                       id: normalizedRepairIds[index]!,
                     })),
+                    defaultIndex >= 0
+                      ? normalizedRepairIds[defaultIndex]!
+                      : manifest.defaultEntryId,
                   )
-                  setSelectedId(undefined)
-                  onObjectFocus?.(undefined)
+                  const repairedSelection =
+                    selectedId === undefined
+                      ? undefined
+                      : normalizedRepairIds[
+                          entryPoints.findIndex((entry) => entry.id === selectedId)
+                        ]
+                  setSelectedId(repairedSelection)
+                  onObjectFocus?.(repairedSelection)
                 }}
               >
                 应用 id 修复
@@ -1151,10 +1171,6 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
   }
   const patchEntry = (id: string, patch: Partial<EntryPoint>): void =>
     commit(entryPoints.map((entry) => (entry.id === id ? { ...entry, ...patch } : entry)))
-  const chooseDefault = (): void => {
-    setSelectedId(undefined)
-    onObjectFocus?.(undefined)
-  }
   const chooseEntry = (id: string): void => {
     setSelectedId(id)
     onObjectFocus?.(id)
@@ -1168,36 +1184,44 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
   }
   const addEntry = (): void => {
     const id = newEntryId()
-    commit([...entryPoints, { id, label: '新入口', scene: manifest.entryScene }])
+    const source = selected ?? findDefaultEntry(manifest)
+    if (!source) return
+    commit([
+      ...entryPoints,
+      {
+        id,
+        label: '新入口',
+        scene: source.scene,
+        ...(source.introVideo ? { introVideo: source.introVideo } : {}),
+        startWorld: structuredClone(source.startWorld),
+      },
+    ])
     chooseEntry(id)
   }
   const cloneEntry = (): void => {
+    if (!selected) return
     const id = newEntryId()
-    const source: EntryPoint = selected
-      ? structuredClone(selected)
-      : {
-          id,
-          label: '默认入口副本',
-          scene: manifest.entryScene,
-          startWorld: structuredClone(manifest.startWorld),
-        }
+    const source = structuredClone(selected)
     commit([
       ...entryPoints,
-      { ...source, id, label: selected ? `${selected.label} 副本` : source.label },
+      { ...source, id, label: `${selected.label} 副本` },
     ])
     chooseEntry(id)
   }
   const removeEntry = (): void => {
-    if (!selected || entryPoints.length <= 1) return
+    if (
+      !selected ||
+      entryPoints.length <= 1 ||
+      selected.id === manifest.defaultEntryId
+    )
+      return
     const remaining = entryPoints.filter((entry) => entry.id !== selected.id)
     commit(remaining)
-    chooseEntry(remaining[0]!.id)
+    chooseEntry(manifest.defaultEntryId)
   }
-  const updateOverride = (next: StartWorld): void => {
-    if (selected) patchEntry(selected.id, { startWorld: next })
-  }
-  const updateDefault = (next: StartWorld): void => {
-    session.dispatch(new UpdateStartWorldCommand(next))
+  const setSelectedAsDefault = (): void => {
+    if (!selected) return
+    commit([...entryPoints], selected.id)
   }
 
   return (
@@ -1206,39 +1230,45 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
         {tabBar}
         <DsListHeader
           title="入口点"
-          count={entryPoints.length + 1}
+          count={entryPoints.length}
           unit="项"
           help={{
             label: '入口点开局设置',
-            content: '每个标题菜单入口都可以跟随默认入口，也可以保存本入口自己的完整开局设置。',
+            content: '每个入口都保存完整场景与开局数据；“直接启动”只标记无参数启动时选择哪一项。',
           }}
           actions={[{ id: 'create-entry', label: '新增入口', icon: 'add', onClick: addEntry }]}
           overflowActions={[
-            { id: 'clone-entry', label: '复制当前入口', onClick: cloneEntry },
+            {
+              id: 'clone-entry',
+              label: '复制当前入口',
+              disabled: !selected,
+              onClick: cloneEntry,
+            },
+            {
+              id: 'set-default-entry',
+              label: '设为直接启动入口',
+              disabled: !selected || selected.id === manifest.defaultEntryId,
+              onClick: setSelectedAsDefault,
+            },
             {
               id: 'remove-entry',
               label: '删除当前入口',
               danger: true,
-              disabled: !selected || entryPoints.length <= 1,
+              disabled:
+                !selected ||
+                entryPoints.length <= 1 ||
+                selected.id === manifest.defaultEntryId,
               onClick: removeEntry,
             },
           ]}
         />
         <div className="project-entry-list">
-          <DsCatalogRow
-            leading="🧭"
-            title="默认入口"
-            meta={manifest.entryScene}
-            selected={selectedId === undefined}
-            onClick={chooseDefault}
-          />
-          <div className="project-entry-divider">标题菜单入口（各自带开局）</div>
           {entryPoints.map((entry) => (
             <DsCatalogRow
               key={entry.id}
-              leading="🚪"
+              leading={entry.id === manifest.defaultEntryId ? '🧭' : '🚪'}
               title={entry.label}
-              meta={entry.id}
+              meta={`${entry.id}${entry.id === manifest.defaultEntryId ? ' · 直接启动' : ''}`}
               selected={entry.id === selected?.id}
               onClick={() => chooseEntry(entry.id)}
             />
@@ -1247,17 +1277,21 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
       </div>
       <ProjectPageWorkspace
         eyebrow="项目设置 · 入口点"
-        title={selected ? selected.label : '默认入口'}
-        objectId={selected ? selected.id : 'manifest.entryScene + manifest.startWorld'}
-        meta={<DsTag tone="neutral">{selected ? '菜单入口 · 稳定 id' : '不经过标题菜单'}</DsTag>}
+        title={selected?.label ?? '选择一个入口'}
+        objectId={selected?.id ?? 'manifest.entryPoints'}
+        meta={
+          <DsTag tone="neutral">
+            {selected?.id === manifest.defaultEntryId ? '直接启动 · 稳定 id' : '菜单入口 · 稳定 id'}
+          </DsTag>
+        }
       >
         {selected ? (
           <>
             <section className="project-card">
               <h4>
                 入口信息{' '}
-                <DsHelpTip label="标题菜单入口">
-                  该入口可以配置自己的场景、入口视频与开局状态；稳定 ID 创建后保持不变。
+                  <DsHelpTip label="启动入口">
+                  每个入口都保存完整场景、入口视频与开局状态；稳定 ID 创建后保持不变。
                 </DsHelpTip>
               </h4>
               <label className="field">
@@ -1271,7 +1305,7 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
               <div className="field">
                 <span className="field-label">起始场景</span>
                 <DsSelect
-                  aria-label="菜单入口场景"
+                  aria-label="入口场景"
                   value={selected.scene}
                   options={[
                     ...(!sceneIds.includes(selected.scene)
@@ -1341,89 +1375,29 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
             <section className="project-card">
               <div className="project-title-row">
                 <h4>
-                  这个入口的开局设置{' '}
+                  开局设置{' '}
                   <DsHelpTip label="入口开局设置">
-                    跟随默认时，下方展示实际生效值但保持只读；需要不同队伍、资源或道具时，再复制为本入口独立设置。
+                    该入口拥有完整且独立的队伍、角色状态、资源和物品配置。
                   </DsHelpTip>
                 </h4>
-                <span className={`project-badge ${selected.startWorld ? 'custom' : ''}`}>
-                  {selected.startWorld ? '本入口独立设置' : '跟随默认入口'}
-                </span>
-              </div>
-              <div className="project-button-row">
-                {!selected.startWorld ? (
-                  <button
-                    type="button"
-                    className="btn"
-                    onClick={() =>
-                      patchEntry(selected.id, {
-                        startWorld: structuredClone(manifest.startWorld),
-                      })
-                    }
-                  >
-                    复制默认为本入口设置
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className="btn"
-                    onClick={() => patchEntry(selected.id, { startWorld: undefined })}
-                  >
-                    改为跟随默认入口
-                  </button>
-                )}
+                {selected.id === manifest.defaultEntryId ? (
+                  <span className="project-badge custom">直接启动</span>
+                ) : null}
               </div>
               <StartWorldFields
-                value={selected.startWorld ?? manifest.startWorld}
+                value={selected.startWorld}
                 actors={actors}
                 items={items}
                 skills={skills}
                 locale={locale}
-                readOnly={!selected.startWorld}
-                onChange={updateOverride}
+                onChange={(next: StartWorld) => patchEntry(selected.id, { startWorld: next })}
               />
             </section>
           </>
         ) : (
-          <>
-            <section className="project-card">
-              <h4>
-                入口信息{' '}
-                <DsHelpTip label="默认入口">
-                  无 menu / entry 参数时使用这里的场景和开局状态；它没有 introVideo，叙事由入口场景
-                  onEnter 负责。
-                </DsHelpTip>
-              </h4>
-              <div className="field">
-                <span className="field-label">起始场景</span>
-                <DsSelect
-                  aria-label="默认入口场景"
-                  value={manifest.entryScene}
-                  options={[
-                    ...(!sceneIds.includes(manifest.entryScene)
-                      ? [{ value: manifest.entryScene, label: `${manifest.entryScene}（缺失）` }]
-                      : []),
-                    ...sceneIds.map((id) => ({ value: id, label: id })),
-                  ]}
-                  onValueChange={(value) => session.dispatch(new UpdateEntrySceneCommand(value))}
-                />
-              </div>
-            </section>
-            <section className="project-card">
-              <div className="project-title-row">
-                <h4>这个入口的开局设置</h4>
-                <span className="project-badge custom">默认真源</span>
-              </div>
-              <StartWorldFields
-                value={manifest.startWorld}
-                actors={actors}
-                items={items}
-                skills={skills}
-                locale={locale}
-                onChange={updateDefault}
-              />
-            </section>
-          </>
+          <section className="project-card">
+            <PageHint>直接启动入口配置损坏；请先从左侧选择一个真实入口并设为直接启动。</PageHint>
+          </section>
         )}
       </ProjectPageWorkspace>
     </>
@@ -1445,9 +1419,10 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
   const issues = useMemo(() => collectProjectIssues(editorState), [editorState])
   if (page === 'entrypoint') return <EntryPointEditor {...props} issues={issues} />
 
-  const effectiveEntries = resolveProjectEntryPoints(manifest)
+  const effectiveEntries = manifest.entryPoints
   const firstEntry = effectiveEntries[0]
-  const defaultScene = scenes.find((scene) => scene.id === manifest.entryScene)
+  const defaultEntry = findDefaultEntry(manifest)
+  const defaultScene = scenes.find((scene) => scene.id === defaultEntry?.scene)
   const boundRoleCount = ASSET_ROLES.filter((role) => manifest.assets.roles[role]).length
   const openProjectPage = (next: ProjectWorkbenchPage, objectId?: string): void =>
     onOpenLocation?.({
@@ -1480,7 +1455,7 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
             <div className="project-step">
               <span>→</span>
               <span>启动链（只读）</span>
-              <code>默认入口 / 标题菜单</code>
+              <code>直接启动 / 标题菜单</code>
             </div>
           </div>
         </div>
@@ -1531,7 +1506,7 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
           </div>
           <section className="project-card">
             <h4>
-              默认入口（不经过标题菜单）{' '}
+              直接启动入口（不经过标题菜单）{' '}
               <DsHelpTip label="开发直达入口">
                 使用 entry 参数会选择该入口的场景与开局数据，但仍跳过启动视频、标题菜单和
                 introVideo。
@@ -1541,15 +1516,18 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
               <div className="project-flow-step">
                 <DsSequenceIndex value={1} accessibleLabel="第 1 步" />
                 <div>
-                  <strong>创建默认世界</strong>
-                  <p>读取 manifest.startWorld，不选择任何入口点。</p>
+                  <strong>创建入口世界</strong>
+                  <p>
+                    读取 defaultEntryId 对应入口的完整 startWorld：
+                    {defaultEntry?.id ?? '配置损坏'}。
+                  </p>
                 </div>
               </div>
               <div className="project-flow-step">
                 <DsSequenceIndex value={2} accessibleLabel="第 2 步" />
                 <div>
-                  <strong>进入默认场景</strong>
-                  <p>{manifest.entryScene}</p>
+                  <strong>进入入口场景</strong>
+                  <p>{defaultEntry?.scene ?? '入口配置损坏'}</p>
                 </div>
               </div>
               <div className="project-flow-step">
@@ -1581,7 +1559,7 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
                 <DsSequenceIndex value={4} accessibleLabel="第 4 步" />
                 <div>
                   <strong>选择入口点</strong>
-                  <p>播放该入口的 introVideo，再使用其完整开局（跟随默认或本入口独立设置）。</p>
+                  <p>播放该入口的 introVideo，再使用该入口保存的完整开局数据。</p>
                 </div>
               </div>
               <div className="project-flow-step">
@@ -1602,8 +1580,8 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
                   <strong>{entry.label}</strong>
                   <code>{entry.scene}</code>
                   <small>
-                    {entry.introVideo ?? '无入口视频'} ·{' '}
-                    {entry.startWorld ? '本入口独立设置' : '跟随默认入口'}
+                    {entry.introVideo ?? '无入口视频'}
+                    {entry.id === manifest.defaultEntryId ? ' · 直接启动' : ''}
                   </small>
                   <button
                     type="button"
@@ -1676,12 +1654,18 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
         <section className="project-card">
           <h4>启动摘要</h4>
           <div className="project-flow-mini">
-            <span>默认入口</span>
+            <span>直接启动入口</span>
             <strong>
-              {manifest.startWorld.party.length} 名队员 · {manifest.startWorld.money} 金钱
+              {defaultEntry
+                ? `${defaultEntry.startWorld.party.length} 名队员 · ${defaultEntry.startWorld.money} 金钱`
+                : '入口配置损坏'}
             </strong>
-            <code>{manifest.entryScene}</code>
-            <button type="button" className="btn" onClick={() => openProjectPage('entrypoint')}>
+            <code>{defaultEntry?.scene ?? manifest.defaultEntryId}</code>
+            <button
+              type="button"
+              className="btn"
+              onClick={() => openProjectPage('entrypoint', defaultEntry?.id)}
+            >
               编辑入口与开局
             </button>
           </div>
@@ -1708,7 +1692,7 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
           </div>
           <div className="project-flow-mini">
             <span>启动分支</span>
-            <strong>默认入口 / 标题菜单入口</strong>
+            <strong>直接启动入口 / 标题菜单入口</strong>
             <button type="button" className="btn" onClick={() => openProjectPage('startup')}>
               查看链路
             </button>

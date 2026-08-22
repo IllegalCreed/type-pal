@@ -16,6 +16,8 @@ import type {
   SceneDef,
   SkillData,
   SpriteDef,
+  CurrentManifest,
+  EntryPoint,
   StartWorld,
 } from './index.js'
 import type { ItemUseEffect, ThrowEffect } from './item.js'
@@ -35,6 +37,8 @@ import {
   type CommandValidationOptions,
 } from './author-script-core.js'
 import { ENEMY_RUNTIME_SKILL_EFFECT_KINDS } from './skill.js'
+import { CONTENT_VERSION, CURRENT_PROJECT_MINIMUM_SAVE_VERSION } from './character.js'
+import { validateManifestAssetConfig } from './asset.js'
 
 /** 显式要求的对象键;缺任一 throw。 */
 function requireKeys(obj: object, keys: readonly string[], ctx: string): void {
@@ -78,6 +82,158 @@ export function validateStartWorldResources(startWorld: unknown, ctx = 'startWor
     if (!Number.isSafeInteger(value) || Number(value) < 0)
       throw new Error(`${ctx}.resources.${key}: 必须是非负安全整数`)
   }
+}
+
+/** 当前 canonical 入口世界的完整形状；不做跨表引用检查。 */
+export function validateStartWorld(startWorld: unknown, ctx = 'startWorld'): StartWorld {
+  const world = assertObject(startWorld, ctx) as Record<string, unknown>
+  requireKeys(world, ['party', 'money', 'learnedSkills', 'inventory'], ctx)
+  requireOnlyKeys(
+    world,
+    ['party', 'money', 'learnedSkills', 'inventory', 'resources', 'seedStats'],
+    ctx,
+  )
+
+  const party = assertArray<unknown>(world.party, `${ctx}.party`)
+  party.forEach((actorId, index) => {
+    if (typeof actorId !== 'string' || actorId.trim().length === 0)
+      throw new Error(`${ctx}.party[${index}]: 期望非空角色 id`)
+  })
+  if (!Number.isSafeInteger(world.money) || Number(world.money) < 0)
+    throw new Error(`${ctx}.money: 必须是非负安全整数`)
+
+  const learnedSkills = assertObject(
+    world.learnedSkills,
+    `${ctx}.learnedSkills`,
+  ) as Record<string, unknown>
+  for (const [actorId, rawSkills] of Object.entries(learnedSkills)) {
+    if (actorId.trim().length === 0) throw new Error(`${ctx}.learnedSkills: 角色 id 不能为空`)
+    const skills = assertArray<unknown>(rawSkills, `${ctx}.learnedSkills.${actorId}`)
+    skills.forEach((skillId, index) => {
+      if (typeof skillId !== 'string' || skillId.trim().length === 0)
+        throw new Error(`${ctx}.learnedSkills.${actorId}[${index}]: 期望非空技能 id`)
+    })
+  }
+
+  const inventory = assertArray<unknown>(world.inventory, `${ctx}.inventory`)
+  inventory.forEach((rawEntry, index) => {
+    const entry = assertObject(rawEntry, `${ctx}.inventory[${index}]`) as Record<string, unknown>
+    requireKeys(entry, ['itemId', 'count'], `${ctx}.inventory[${index}]`)
+    requireOnlyKeys(entry, ['itemId', 'count'], `${ctx}.inventory[${index}]`)
+    if (typeof entry.itemId !== 'string' || entry.itemId.trim().length === 0)
+      throw new Error(`${ctx}.inventory[${index}].itemId: 期望非空物品 id`)
+    if (!Number.isSafeInteger(entry.count) || Number(entry.count) < 0)
+      throw new Error(`${ctx}.inventory[${index}].count: 必须是非负安全整数`)
+  })
+
+  if (world.seedStats !== undefined) {
+    const seedStats = assertObject(world.seedStats, `${ctx}.seedStats`) as Record<string, unknown>
+    for (const [actorId, rawStats] of Object.entries(seedStats)) {
+      if (actorId.trim().length === 0) throw new Error(`${ctx}.seedStats: 角色 id 不能为空`)
+      const stats = assertObject(rawStats, `${ctx}.seedStats.${actorId}`) as Record<string, unknown>
+      requireOnlyKeys(stats, ['hp', 'mp'], `${ctx}.seedStats.${actorId}`)
+      for (const key of ['hp', 'mp'] as const) {
+        const value = stats[key]
+        if (value !== undefined && (!Number.isSafeInteger(value) || Number(value) < 0))
+          throw new Error(`${ctx}.seedStats.${actorId}.${key}: 必须是非负安全整数`)
+      }
+    }
+  }
+
+  validateStartWorldResources(world, ctx)
+  return world as unknown as StartWorld
+}
+
+/**
+ * 校验 current manifest 的唯一启动模型并返回直接启动入口。
+ * 入口场景索引若传入，会同时验证所有入口，而不是只验证默认项。
+ */
+export function validateCurrentManifestStartup(
+  manifest: unknown,
+  sceneIds?: readonly string[],
+  ctx = 'manifest',
+): { manifest: CurrentManifest; defaultEntry: EntryPoint } {
+  const value = assertObject(manifest, ctx) as Record<string, unknown>
+  requireKeys(
+    value,
+    [
+      'id',
+      'name',
+      'contentVersion',
+      'defaultEntryId',
+      'entryPoints',
+      'content',
+      'assets',
+      'minimumSaveVersion',
+    ],
+    ctx,
+  )
+  requireOnlyKeys(
+    value,
+    [
+      'id',
+      'name',
+      'contentVersion',
+      'defaultEntryId',
+      'entryPoints',
+      'content',
+      'assets',
+      'minimumSaveVersion',
+    ],
+    ctx,
+  )
+  for (const key of ['id', 'name', 'defaultEntryId'] as const)
+    if (typeof value[key] !== 'string' || value[key].trim().length === 0)
+      throw new Error(`${ctx}.${key}: 期望非空 string`)
+  if (value.contentVersion !== CONTENT_VERSION)
+    throw new Error(`${ctx}.contentVersion: 期望 ${CONTENT_VERSION}`)
+  if (value.minimumSaveVersion !== CURRENT_PROJECT_MINIMUM_SAVE_VERSION)
+    throw new Error(`${ctx}.minimumSaveVersion: 期望 ${CURRENT_PROJECT_MINIMUM_SAVE_VERSION}`)
+  const content = assertObject(value.content, `${ctx}.content`) as Record<string, unknown>
+  for (const [key, path] of Object.entries(content)) {
+    if (key.trim().length === 0) throw new Error(`${ctx}.content: 内容键不能为空`)
+    if (typeof path !== 'string' || path.trim().length === 0)
+      throw new Error(`${ctx}.content.${key}: 期望非空工程相对路径`)
+  }
+  validateManifestAssetConfig(value.assets, undefined, `${ctx}.assets`)
+
+  const entries = assertArray<unknown>(value.entryPoints, `${ctx}.entryPoints`)
+  if (entries.length === 0) throw new Error(`${ctx}.entryPoints: 至少需要一个真实入口`)
+  const seen = new Set<string>()
+  const canonicalEntries = entries.map((rawEntry, index): EntryPoint => {
+    const indexCtx = `${ctx}.entryPoints[${index}]`
+    const entry = assertObject(rawEntry, indexCtx) as Record<string, unknown>
+    requireKeys(entry, ['id', 'label', 'scene', 'startWorld'], indexCtx)
+    if (typeof entry.id !== 'string' || entry.id.trim().length === 0)
+      throw new Error(`${indexCtx}.id: 期望非空 string`)
+    if (entry.id !== entry.id.trim()) throw new Error(`${indexCtx}.id: 不得包含首尾空格`)
+    const id = entry.id
+    if (seen.has(id)) throw new Error(`${indexCtx}.id: 入口 id "${id}" 重复`)
+    seen.add(id)
+    const entryCtx = `${ctx}.entryPoints[${id}]`
+    requireOnlyKeys(entry, ['id', 'label', 'scene', 'introVideo', 'startWorld'], entryCtx)
+    for (const key of ['label', 'scene'] as const)
+      if (typeof entry[key] !== 'string' || entry[key].trim().length === 0)
+        throw new Error(`${entryCtx}.${key}: 期望非空 string`)
+    for (const key of ['label', 'scene'] as const)
+      if ((entry[key] as string) !== (entry[key] as string).trim())
+        throw new Error(`${entryCtx}.${key}: 不得包含首尾空格`)
+    if (entry.introVideo !== undefined && (typeof entry.introVideo !== 'string' || !entry.introVideo))
+      throw new Error(`${entryCtx}.introVideo: 期望非空 AssetId`)
+    if (sceneIds && !sceneIds.includes(entry.scene as string))
+      throw new Error(`${entryCtx}.scene: 场景 "${String(entry.scene)}" 不在 scenes/index.json`)
+    return {
+      id,
+      label: entry.label as string,
+      scene: entry.scene as string,
+      ...(entry.introVideo === undefined ? {} : { introVideo: entry.introVideo as string }),
+      startWorld: validateStartWorld(entry.startWorld, `${entryCtx}.startWorld`),
+    }
+  })
+  const defaultEntry = canonicalEntries.find((entry) => entry.id === value.defaultEntryId)
+  if (!defaultEntry)
+    throw new Error(`${ctx}.defaultEntryId: 入口 "${String(value.defaultEntryId)}" 不存在`)
+  return { manifest: value as unknown as CurrentManifest, defaultEntry }
 }
 
 function validateOptionalAssetId(record: Record<string, unknown>, key: string, ctx: string): void {

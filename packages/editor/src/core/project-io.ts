@@ -54,7 +54,7 @@ type EditorSourceProject = LoadedCurrentProjectCore
 
 /**
  * 只读项目 → 可变工作副本。by-id Record 翻成数组(Object.values,保原数组序);
- * 数组/Record 直传;运行期派生物(entryScene/assetBase)丢弃。
+ * 数组/Record 直传；loader 派生的默认场景缓存与 assetBase 不进入 EditorState。
  * 参数取数据核 LoadedProjectCore(不需 IO source;运行期 LoadedProject 是其子类型,照传)。
  */
 export function toEditorState(
@@ -104,10 +104,8 @@ export function toEditorState(
     // Record(非 by-id):直传
     levelUp: project.levelUp,
     locale: project.locale,
-    // manifest 透传(内含 startWorld;editor 不另存 startWorld,以 manifest 为准)
+    // manifest 透传；启动入口及其开局世界只在 manifest.entryPoints 中保留一份真值。
     manifest: project.manifest,
-    // startWorld:ContentBundle 要求顶层字段,与 manifest.startWorld 同引用
-    startWorld: project.manifest.startWorld,
   }
 }
 
@@ -138,8 +136,7 @@ export function serializeProject(
   state: EditorState,
   opts?: { mapCopies?: Readonly<Record<string, string>> },
 ): Record<string, unknown> {
-  // G2：入口场景/入口点本地不变式必须在任一路径落盘前 fail-loud。
-  // 缺省 entryPoints 仍由 runtime/UI 合成兼容入口，不会被这里物化。
+  // canonical 入口不变式必须在任一路径落盘前 fail-loud。
   assertProjectSaveValid(state)
   if (state.scriptIndex || Object.keys(state.scriptChunks).length) {
     const diagnostics = assertScriptProjectValid(state)
@@ -247,7 +244,7 @@ export function serializeProject(
   }
   addFile(state.manifest.assets.catalog, validateAssetCatalog(state.assetCatalog), '资源注册表')
 
-  // manifest.json:整体还原(state.manifest 自带 startWorld,无需重组)。
+  // manifest.json 整体还原；每个入口的完整开局世界都在 entryPoints 中。
   addFile('manifest.json', state.manifest, '项目清单')
 
   return files

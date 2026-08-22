@@ -29,6 +29,7 @@ import type {
   EnemyHookTransition,
   EnemyOnDefeatedCommand,
   EnemyTeamDef,
+  EntryPoint,
   ItemData,
   LevelUpSkill,
   CurrentManifest,
@@ -45,7 +46,6 @@ import type {
   SkillData,
   SpriteDef,
   StampTemplate,
-  StartWorld,
   TilesetDef,
   WorldState,
 } from './index.js'
@@ -74,7 +74,8 @@ export interface ContentBundle {
   sprites: SpriteDef[]
   /** 战斗精灵定义表；canonical 工程必有，旧升级边界组装 bundle 前先补齐。 */
   battleSprites: BattleSpriteDef[]
-  startWorld: StartWorld
+  /** 当前工程的全部真实启动入口；每项拥有独立完整的初始世界。 */
+  entryPoints: readonly EntryPoint[]
   /** 敌人/敌队(M4c-3 编辑器工作台;旧调用方可缺省 = 空)。 */
   enemies?: EnemyDef[]
   enemyTeams?: EnemyTeamDef[]
@@ -727,7 +728,76 @@ export function collectSpriteDefinitionReferences(
 }
 
 /** 编辑器被编辑的内容工作副本 = ContentBundle + manifest(EditSession 用)。 */
-export type EditorContent = ContentBundle & { manifest: CurrentManifest }
+export type EditorContent = Omit<ContentBundle, 'entryPoints'> & { manifest: CurrentManifest }
+
+/**
+ * 启动入口的跨表闭包。current loader 与编辑器保存门共用，所有悬空边都属于
+ * 无法可靠创建新世界的硬错误；路径以稳定入口 id 定位，而不是依赖数组顺序。
+ */
+export function validateEntryPointStartWorldReferences(
+  entryPoints: readonly EntryPoint[],
+  actors: readonly ActorDef[],
+  skills: readonly Pick<SkillData, 'id'>[],
+  items: readonly Pick<ItemData, 'id'>[],
+): Issue[] {
+  const issues: Issue[] = []
+  const actorIds = new Set(actors.map((actor) => actor.id))
+  const actorsById = new Map(actors.map((actor) => [actor.id, actor]))
+  const skillIds = new Set(skills.map((skill) => skill.id))
+  const itemIds = new Set(items.map((item) => item.id))
+
+  for (const entryPoint of entryPoints) {
+    const world = entryPoint.startWorld
+    const prefix = `entryPoints[${entryPoint.id}].startWorld`
+    world.party.forEach((actorId, index) => {
+      const actor = actorsById.get(actorId)
+      if (!actor)
+        issues.push({
+          severity: 'error',
+          where: `${prefix}.party[${index}]`,
+          message: `队员 "${actorId}" 不在 actors 表`,
+        })
+      else if (!actor.battler)
+        issues.push({
+          severity: 'error',
+          where: `${prefix}.party[${index}]`,
+          message: `队员 "${actorId}" 无 battler(不可入队)`,
+        })
+    })
+    for (const [actorId, learnedSkillIds] of Object.entries(world.learnedSkills)) {
+      if (!actorIds.has(actorId))
+        issues.push({
+          severity: 'error',
+          where: `${prefix}.learnedSkills[${actorId}]`,
+          message: `已学技能所属角色 "${actorId}" 不在 actors`,
+        })
+      learnedSkillIds.forEach((skillId, index) => {
+        if (!skillIds.has(skillId))
+          issues.push({
+            severity: 'error',
+            where: `${prefix}.learnedSkills[${actorId}][${index}]`,
+            message: `已学仙术 "${skillId}" 不在 skills`,
+          })
+      })
+    }
+    world.inventory.forEach((inventoryEntry, index) => {
+      if (!itemIds.has(inventoryEntry.itemId))
+        issues.push({
+          severity: 'error',
+          where: `${prefix}.inventory[${index}].itemId`,
+          message: `物品 "${inventoryEntry.itemId}" 不在 items`,
+        })
+    })
+    for (const actorId of Object.keys(world.seedStats ?? {}))
+      if (!actorIds.has(actorId))
+        issues.push({
+          severity: 'error',
+          where: `${prefix}.seedStats[${actorId}]`,
+          message: `属性播种角色 "${actorId}" 不在 actors`,
+        })
+  }
+  return issues
+}
 
 /** 跨引用完整性校验:返回所有悬空引用(空数组 = 干净)。 */
 export function validateReferences(b: ContentBundle): Issue[] {
@@ -1220,41 +1290,8 @@ export function validateReferences(b: ContentBundle): Issue[] {
       })
   }
 
-  // ── startWorld ──────────────────────────────────────────
-  b.startWorld.party.forEach((actorId, pi) => {
-    if (!actorIds.has(actorId)) {
-      issues.push({
-        severity: 'error',
-        where: `startWorld.party[${pi}]`,
-        message: `队员 "${actorId}" 不在 actors 表`,
-      })
-    } else if (!actorsById[actorId]?.battler) {
-      // 入队必须可战斗(buildWorld/instantiate 会 throw)
-      issues.push({
-        severity: 'error',
-        where: `startWorld.party[${pi}]`,
-        message: `队员 "${actorId}" 无 battler(不可入队)`,
-      })
-    }
-  })
-  for (const [cid, skillIds2] of Object.entries(b.startWorld.learnedSkills)) {
-    skillIds2.forEach((skillId, si) => {
-      if (!skillIds.has(skillId))
-        issues.push({
-          severity: 'warn',
-          where: `startWorld.learnedSkills[${cid}][${si}]`,
-          message: `已学仙术 "${skillId}" 不在 skills`,
-        })
-    })
-  }
-  b.startWorld.inventory.forEach((entry, ii) => {
-    if (!itemIds.has(entry.itemId))
-      issues.push({
-        severity: 'warn',
-        where: `startWorld.inventory[${ii}].itemId`,
-        message: `物品 "${entry.itemId}" 不在 items`,
-      })
-  })
+  // ── entryPoints[].startWorld ────────────────────────────
+  issues.push(...validateEntryPointStartWorldReferences(b.entryPoints, b.actors, b.skills, b.items))
 
   // ── items ───────────────────────────────────────────────
   issues.push(...validateEquipBattleSpriteReferences(b.items, b.actors, b.battleSprites))
@@ -1419,15 +1456,16 @@ export function validateReferences(b: ContentBundle): Issue[] {
     })
     existingActorIssuePaths.add(reference.where)
   }
-  for (const actorId of Object.keys(b.startWorld.learnedSkills)) {
-    const where = `startWorld.learnedSkills[${actorId}]`
-    if (!actorIds.has(actorId) && !existingActorIssuePaths.has(where))
-      issues.push({
-        severity: ACTOR_REFERENCE_POLICIES['manifest-learned-skills'].danglingSeverity,
-        where,
-        message: `已学技能所属角色 "${actorId}" 不在 actors`,
-      })
-  }
+  for (const entryPoint of b.entryPoints)
+    for (const actorId of Object.keys(entryPoint.startWorld.learnedSkills)) {
+      const where = `entryPoints[${entryPoint.id}].startWorld.learnedSkills[${actorId}]`
+      if (!actorIds.has(actorId) && !existingActorIssuePaths.has(where))
+        issues.push({
+          severity: ACTOR_REFERENCE_POLICIES['entry-point-learned-skills'].danglingSeverity,
+          where,
+          message: `已学技能所属角色 "${actorId}" 不在 actors`,
+        })
+    }
 
   return issues
 }

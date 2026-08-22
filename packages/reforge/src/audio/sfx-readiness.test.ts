@@ -1,14 +1,13 @@
 import type {
-  Command,
   EnemyDef,
   ItemData,
-  ScriptRef,
+  RuntimeCommand,
+  RuntimeScriptLibrary,
   SkillData,
   SpriteDef,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import type { BattleAction } from '../battle/battle-core.js'
-import type { ResolvedScript, ScriptResolver } from '../script-chunk-store.js'
 import {
   collectBattleBaseSounds,
   collectSceneSoundAssets,
@@ -16,32 +15,17 @@ import {
   collectTurnActionSounds,
 } from './sfx-readiness.js'
 
-class Resolver implements ScriptResolver {
-  active = 0
-  peak = 0
-
-  constructor(private readonly scripts: Record<string, Command[]>) {}
-
-  async resolve(ref: ScriptRef): Promise<ResolvedScript> {
-    const body = this.scripts[ref.id]
-    if (!body) throw new Error(`missing ${ref.id}`)
-    this.active++
-    this.peak = Math.max(this.peak, this.active)
-    let released = false
-    return {
-      body,
-      ref,
-      release: () => {
-        if (released) return
-        released = true
-        this.active--
-      },
-    }
-  }
-}
-
-const ref = (id: string): ScriptRef => ({ chunk: 'c', id })
-const play = (asset: string): Command => ({ kind: 'playSound', asset })
+const play = (asset: string): Extract<RuntimeCommand, { kind: 'playSound' }> => ({
+  kind: 'playSound',
+  asset,
+})
+const library = (scripts: Record<string, RuntimeCommand[]>): RuntimeScriptLibrary =>
+  Object.fromEntries(
+    Object.entries(scripts).map(([id, body]) => [
+      id,
+      { name: id, self: 'none' as const, body },
+    ]),
+  )
 
 const enemy = (id: string, rules: EnemyDef['ai']['rules'] = []): EnemyDef => ({
   id,
@@ -141,28 +125,25 @@ const emptyTurn = (
 })
 
 describe('SFX readiness 收集', () => {
-  test('递归 ScriptRef、去环并在成功/失败时释放 lease', async () => {
-    const resolver = new Resolver({
-      a: [play('sound.a'), { kind: 'callScript', ref: ref('b') }],
-      b: [play('sound.b'), { kind: 'jumpScript', ref: ref('a') }],
+  test('递归 canonical sharedScripts、去环并对缺失脚本 fail-loud', async () => {
+    const sharedScripts = library({
+      a: [play('sound.a'), { kind: 'callScript', script: 'b' }],
+      b: [play('sound.b'), { kind: 'callScript', script: 'a' }],
     })
     const sounds = await collectScriptSoundAssets(
-      [[play('sound.root'), { kind: 'callScript', ref: ref('a') }]],
-      resolver,
+      [[play('sound.root'), { kind: 'callScript', script: 'a' }]],
+      sharedScripts,
       new AbortController().signal,
     )
     expect([...sounds].sort()).toEqual(['sound.a', 'sound.b', 'sound.root'])
-    expect(resolver.active).toBe(0)
-    expect(resolver.peak).toBe(2)
 
     await expect(
       collectScriptSoundAssets(
-        [[{ kind: 'callScript', ref: ref('missing') }]],
-        resolver,
+        [[{ kind: 'callScript', script: 'missing' }]],
+        sharedScripts,
         new AbortController().signal,
       ),
-    ).rejects.toThrow('missing')
-    expect(resolver.active).toBe(0)
+    ).rejects.toThrow('sharedScripts 缺脚本 "missing"')
   })
 
   test('场景包含实体脚本、覆写脚本与背包用品声音', async () => {
@@ -237,11 +218,11 @@ describe('SFX readiness 收集', () => {
         },
       },
     }
-    const resolver = new Resolver({
+    const sharedScripts = library({
       nested: [
         {
           kind: 'playEntityAction',
-          entity: 'e8',
+          target: { scene: 's', entity: 'e8' },
           sprite: 'sprite-8',
           action: 'flicker',
           loop: true,
@@ -270,15 +251,34 @@ describe('SFX readiness 收集', () => {
             ],
           },
         ],
-        onEnter: [{ body: [{ kind: 'callScript', ref: ref('nested') }] }],
+        hooks: {
+          onEnter: {
+            initial: 'main',
+            variants: {
+              main: {
+                label: '进入',
+                order: 0,
+                flow: {
+                  kind: 'stages',
+                  initial: 'initial',
+                  stages: [
+                    {
+                      id: 'initial',
+                      body: [{ kind: 'callScript', script: 'nested' }],
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
       },
       spritesById,
-      resolver,
+      sharedScripts,
       signal: new AbortController().signal,
     })
 
     expect([...sounds]).toEqual(['sound.flicker'])
-    expect(resolver.active).toBe(0)
   })
 
   test('动作 cue readiness 对缺失复合引用 fail-loud', async () => {

@@ -19,11 +19,11 @@ describe('loadPlayProject current canonical boundary', () => {
   beforeEach(() => {
     vi.resetAllMocks()
     reforge.fsaSource.mockReturnValue(reforge.source)
-    reforge.loadCurrentProject.mockResolvedValue({ manifest: { contentVersion: 16 } })
-    reforge.loadCurrentProjectFrom.mockResolvedValue({ manifest: { contentVersion: 16 } })
+    reforge.loadCurrentProject.mockResolvedValue({ manifest: { contentVersion: 17 } })
+    reforge.loadCurrentProjectFrom.mockResolvedValue({ manifest: { contentVersion: 17 } })
   })
 
-  test('loads repository projects through the current v16 loader', async () => {
+  test('loads repository projects through the current canonical loader', async () => {
     await loadPlayProject('pal')
 
     expect(reforge.loadCurrentProject).toHaveBeenCalledExactlyOnceWith('pal')
@@ -31,7 +31,7 @@ describe('loadPlayProject current canonical boundary', () => {
     expect(reforge.loadCurrentProjectFrom).not.toHaveBeenCalled()
   })
 
-  test('loads directory-backed projects through the current v16 loader', async () => {
+  test('loads directory-backed projects through the current canonical loader', async () => {
     const dir = { name: 'local-pal' } as FileSystemDirectoryHandle
 
     await loadPlayProject('pal', dir)

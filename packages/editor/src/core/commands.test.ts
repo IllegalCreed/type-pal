@@ -57,7 +57,7 @@ import {
   ResizeProjectMapCommand,
   SetActorBattleSpriteCommand,
   SetEnemyBattleSpriteCommand,
-  SetEntryPointsCommand,
+  SetStartupEntriesCommand,
   UpdateActorCommand,
   UpdateAmbienceCommand,
   UpdateAssetLabelCommand,
@@ -66,7 +66,6 @@ import {
   UpdateEnemyCommand,
   UpdateEnemyTeamsCommand,
   UpdateEntityCommand,
-  UpdateEntrySceneCommand,
   UpdateLevelUpCommand,
   UpdateManifestAssetRolesCommand,
   UpdatePoisonCommand,
@@ -75,7 +74,6 @@ import {
   UpdateScriptBodyCommand,
   UpdateScriptCommand,
   UpdateSpriteCommand,
-  UpdateStartWorldCommand,
   UpdateTriggerModeCommand,
   UpsertAssetCommand,
   UpsertAuthoredScriptCommand,
@@ -104,20 +102,21 @@ function st(): EditorState {
     manifest: {
       id: 'test',
       name: 'Test',
-      contentVersion: 4,
-      entryScene: 's',
+      contentVersion: 17,
+      defaultEntryId: 'main',
       content: { maps: 'content/maps/index.json' },
       assets: {
         catalog: 'assets/index.json',
         roles: {},
-        legacy: {
-          families: ['sprite', 'color-table'],
-          root: 'assets',
-          sprites: 'sprites',
-          palettes: 'palettes',
-        },
       },
-      startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+      entryPoints: [
+        {
+          id: 'main',
+          label: '主要入口',
+          scene: 's',
+          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+        },
+      ],
     },
     scenes: [
       {
@@ -141,7 +140,6 @@ function st(): EditorState {
       },
     ],
     battleSprites: [],
-    startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
     maps: {},
     mapIndex: { version: 1, maps: [] },
     assetCatalog: { version: 1, assets: {} },
@@ -2326,13 +2324,13 @@ describe('地图资产命令', () => {
     const s1 = command.apply(s0)
     expect(s1.mapIndex.maps).toEqual([{ id: 'home', name: '民居', path: 'content/maps/home.json' }])
     expect(s1.maps.home).toBeDefined()
-    expect(s1.manifest.contentVersion).toBe(4)
+    expect(s1.manifest.contentVersion).toBe(17)
     expect(s1.manifest.content.maps).toBe('content/maps/index.json')
     expect(s0.mapIndex.maps).toEqual([])
     const back = command.invert(s1)
     expect(back.mapIndex.maps).toEqual([])
     expect(back.maps.home).toBeUndefined()
-    expect(back.manifest.contentVersion).toBe(4)
+    expect(back.manifest.contentVersion).toBe(17)
     expect(back.manifest.content.maps).toBe('content/maps/index.json')
   })
 
@@ -2570,7 +2568,7 @@ describe('RenameProjectCommand', () => {
 })
 
 describe('X7 manifest 命令', () => {
-  test('entryScene / roles apply-invert 保留未知字段且源不变', () => {
+  test('roles apply-invert 保留未知字段且源不变', () => {
     const s0 = st()
     const originalManifest = s0.manifest
     s0.manifest = {
@@ -2578,62 +2576,128 @@ describe('X7 manifest 命令', () => {
       futureField: { keep: true },
       assets: { ...s0.manifest.assets, futureRoleMeta: 'keep' },
     } as never
-    const sceneCmd = new UpdateEntrySceneCommand('s')
     const roleCmd = new UpdateManifestAssetRolesCommand({ 'audio.openingMenuMusic': 'music.a' })
-    const s1 = sceneCmd.apply(s0)
-    const s2 = roleCmd.apply(s1)
-    expect(s2.manifest.entryScene).toBe('s')
+    const s2 = roleCmd.apply(s0)
     expect(s2.manifest.assets.roles['audio.openingMenuMusic']).toBe('music.a')
     expect((s2.manifest as never as { futureField: unknown }).futureField).toEqual({ keep: true })
     expect((s2.manifest.assets as never as { futureRoleMeta: unknown }).futureRoleMeta).toBe('keep')
     expect(originalManifest.assets.roles['audio.openingMenuMusic']).toBeUndefined()
     const backRoles = roleCmd.invert(s2)
-    const backScene = sceneCmd.invert(backRoles)
-    expect(backScene.manifest.entryScene).toBe(originalManifest.entryScene)
-    expect(backScene.manifest.assets.roles['audio.openingMenuMusic']).toBeUndefined()
+    expect(backRoles.manifest.assets.roles['audio.openingMenuMusic']).toBeUndefined()
   })
 
-  test('默认入口整套开局 apply-invert 同步顶层镜像并清除 seedStats 缺席字段', () => {
+  test('直接启动入口与入口表原子 apply-invert，且清除 introVideo 缺席字段', () => {
     const s0 = st()
-    const next = {
-      party: ['li'],
-      money: 99,
-      learnedSkills: { li: ['skill-a'] },
-      inventory: [{ itemId: 'item-a', count: 2 }],
-      seedStats: undefined,
+    const next: ConstructorParameters<typeof SetStartupEntriesCommand>[0] = {
+      defaultEntryId: 'alt',
+      entryPoints: [
+        {
+          id: 'main',
+          label: '主要入口',
+          scene: 's',
+          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+        },
+        {
+          id: 'alt',
+          label: '另一入口',
+          scene: 's',
+          introVideo: undefined,
+          startWorld: {
+            party: ['li'],
+            money: 99,
+            learnedSkills: { li: ['skill-a'] },
+            inventory: [{ itemId: 'item-a', count: 2 }],
+          },
+        },
+      ],
     }
-    const cmd = new UpdateStartWorldCommand(next)
+    const cmd = new SetStartupEntriesCommand(next)
+    ;(next.entryPoints[1]!.startWorld as { money: number }).money = 1
     const s1 = cmd.apply(s0)
-    expect(s1.manifest.startWorld).toEqual({
-      party: ['li'],
-      money: 99,
-      learnedSkills: { li: ['skill-a'] },
-      inventory: [{ itemId: 'item-a', count: 2 }],
+    expect(s1.manifest.defaultEntryId).toBe('alt')
+    expect(s1.manifest.entryPoints[1]!.startWorld.money).toBe(99)
+    expect(s1.manifest.entryPoints[1]!.startWorld).not.toBe(next.entryPoints[1]!.startWorld)
+    expect(Object.hasOwn(s1.manifest.entryPoints[1]!, 'introVideo')).toBe(false)
+    const restored = cmd.invert(s1)
+    expect(restored.manifest).toMatchObject({
+      defaultEntryId: 'main',
+      entryPoints: s0.manifest.entryPoints,
     })
-    expect(s1.startWorld).toBe(s1.manifest.startWorld)
-    expect(Object.hasOwn(s1.manifest.startWorld, 'seedStats')).toBe(false)
-    expect(cmd.invert(s1).manifest.startWorld).toEqual(s0.manifest.startWorld)
+    expect(restored.manifest.entryPoints).toEqual(s0.manifest.entryPoints)
+
+    const session = new EditSession(s0)
+    session.dispatch(new SetStartupEntriesCommand({
+      defaultEntryId: 'alt',
+      entryPoints: s1.manifest.entryPoints,
+    }))
+    expect(session.getState().manifest.defaultEntryId).toBe('alt')
+    expect(session.undo()).toBe(true)
+    expect(session.getState().manifest).toMatchObject({
+      defaultEntryId: 'main',
+      entryPoints: s0.manifest.entryPoints,
+    })
+    expect(session.redo()).toBe(true)
+    expect(session.getState().manifest.defaultEntryId).toBe('alt')
   })
 
-  test('入口点拒绝空/重复/带首尾空格 id，清除覆盖时不留下 undefined own key', () => {
-    expect(() => new SetEntryPointsCommand([])).toThrow(/不能为空/)
+  test('入口点拒绝空/重复/带首尾空格 id、缺失开局和无效默认入口', () => {
+    expect(() => new SetStartupEntriesCommand({ defaultEntryId: 'x', entryPoints: [] })).toThrow(
+      /不能为空/,
+    )
     expect(
       () =>
-        new SetEntryPointsCommand([
-          { id: 'x', label: 'x', scene: 's' },
-          { id: 'x', label: 'y', scene: 's' },
-        ]),
+        new SetStartupEntriesCommand({
+          defaultEntryId: 'x',
+          entryPoints: [
+            {
+              id: 'x',
+              label: 'x',
+              scene: 's',
+              startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+            },
+            {
+              id: 'x',
+              label: 'y',
+              scene: 's',
+              startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+            },
+          ],
+        }),
     ).toThrow(/重复/)
-    expect(() => new SetEntryPointsCommand([{ id: ' x', label: 'x', scene: 's' }])).toThrow(
-      /首尾空格/,
-    )
-    const s0 = st()
-    const cmd = new SetEntryPointsCommand([
-      { id: 'x', label: 'x', scene: 's', introVideo: undefined, startWorld: undefined },
-    ])
-    const s1 = cmd.apply(s0)
-    expect(Object.hasOwn(s1.manifest.entryPoints![0]!, 'introVideo')).toBe(false)
-    expect(Object.hasOwn(s1.manifest.entryPoints![0]!, 'startWorld')).toBe(false)
-    expect(cmd.invert(s1).manifest.entryPoints).toBeUndefined()
+    expect(
+      () =>
+        new SetStartupEntriesCommand({
+          defaultEntryId: ' x',
+          entryPoints: [
+            {
+              id: ' x',
+              label: 'x',
+              scene: 's',
+              startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+            },
+          ],
+        }),
+    ).toThrow(/首尾空格/)
+    expect(
+      () =>
+        new SetStartupEntriesCommand({
+          defaultEntryId: 'missing',
+          entryPoints: [
+            {
+              id: 'x',
+              label: 'x',
+              scene: 's',
+              startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+            },
+          ],
+        }),
+    ).toThrow(/不存在/)
+    expect(
+      () =>
+        new SetStartupEntriesCommand({
+          defaultEntryId: 'x',
+          entryPoints: [{ id: 'x', label: 'x', scene: 's' } as never],
+        }),
+    ).toThrow(/startWorld/)
   })
 })

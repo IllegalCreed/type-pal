@@ -595,16 +595,7 @@ export function collectItemReferences(
     })
   })
 
-  scanInventory(
-    state.manifest.startWorld.inventory,
-    '默认开局',
-    'manifest.startWorld',
-    { kind: 'entry-point' },
-    'entry',
-    out,
-  )
-  state.manifest.entryPoints?.forEach((entry, entryIndex) => {
-    if (!entry.startWorld) return
+  state.manifest.entryPoints.forEach((entry, entryIndex) => {
     scanInventory(
       entry.startWorld.inventory,
       `入口 ${entry.label}`,

@@ -1,12 +1,14 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { dirname, extname, join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { validateCurrentManifestStartup } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '../../..')
 const productRoots = [
   'packages/content/src',
   'packages/reforge/src',
+  'packages/reforge/scripts',
   'packages/editor/src',
 ] as const
 
@@ -32,6 +34,35 @@ const productSources = productRoots.flatMap(productionSources)
 const migrationSources = ['packages/migrate/src', 'packages/migrate/scripts'].flatMap(productionSources)
 
 describe('current-only product boundary', () => {
+  test.each(['demo', 'e2e-own', 'pal'])('%s manifest is canonical content17 startup data', (id) => {
+    const manifestPath = join(repoRoot, `projects/${id}/manifest.json`)
+    const manifest = JSON.parse(readFileSync(manifestPath, 'utf8')) as Record<string, unknown>
+    const content = manifest.content as Record<string, string>
+    const scenesPath = content.scenes
+    if (!scenesPath) throw new Error(`${id}: manifest 缺 content.scenes`)
+    const sceneDir = scenesPath.endsWith('/') ? scenesPath : `${scenesPath}/`
+    const ids = JSON.parse(
+      readFileSync(join(repoRoot, `projects/${id}/${sceneDir}index.json`), 'utf8'),
+    ) as string[]
+    expect(() => validateCurrentManifestStartup(manifest, ids, `projects/${id}/manifest.json`)).not.toThrow()
+    expect(Object.hasOwn(manifest, 'entryScene')).toBe(false)
+    expect(Object.hasOwn(manifest, 'startWorld')).toBe(false)
+  })
+
+  test('production code has no persisted top-level startup fallback', () => {
+    const violations = productSources.flatMap((path) => {
+      const rel = relative(repoRoot, path)
+      return readFileSync(path, 'utf8')
+        .split('\n')
+        .flatMap((line, index) =>
+          /\bmanifest\.(?:entryScene|startWorld)\b/.test(line)
+            ? [`${rel}:${index + 1}:${line.trim()}`]
+            : [],
+        )
+    })
+    expect(violations).toEqual([])
+  })
+
   test('has no product-epoch filenames', () => {
     const forbidden = productSources
       .map((path) => relative(repoRoot, path))
@@ -48,7 +79,8 @@ describe('current-only product boundary', () => {
       lines.forEach((line, index) => {
         const oldModule = /(?:from|export\s+\*\s+from)\s+['"][^'"]*(?:v5|v1[2-6]|legacy|compat|upgrade)[^'"]*['"]/i
         const oldPublicSymbol = /\b(?:export\s+)?(?:type|interface|class|function|const)\s+(?:Legacy\w*|Compat\w*|Upgrade\w*|\w*V(?:5|12|13|14|15|16)\w*)\b/
-        const oldProductBranch = /\b(?:contentVersion|minimumSaveVersion)\s*(?:===|!==|<=|>=|<|>)\s*(?:[1-7]|1[0-5])\b/
+        const oldProductBranch = /\b(?:contentVersion|minimumSaveVersion)\s*(?:===|!==|<=|>=|<|>)\s*(?:[1-7]|1[0-6])\b/
+        const oldProjectLoader = /(?:from\s+['"][^'"]*\/loader\.js['"]|\bloadProjectFrom\b|\bloadAllScriptChunks\b)/
         const oldSaveBranch =
           rel.startsWith('packages/reforge/src/save/') &&
           /\bversion\s*(?:===|!==|<=|>=|<|>)\s*[1-7]\b/.test(line)
@@ -56,6 +88,7 @@ describe('current-only product boundary', () => {
           oldModule.test(line) ||
           oldPublicSymbol.test(line) ||
           oldProductBranch.test(line) ||
+          oldProjectLoader.test(line) ||
           oldSaveBranch
         )
           violations.push(`${rel}:${index + 1}:${line.trim()}`)
@@ -72,7 +105,7 @@ describe('current-only product boundary', () => {
       source.split('\n').forEach((line, index) => {
         const historicalPublicationPath = /(?:_transitions\/|content\/migrations\/|script-v4-v5)/
         const oldProductBranch =
-          /\b(?:contentVersion|minimumSaveVersion)\s*(?:===|!==|<=|>=|<|>)\s*(?:[1-7]|1[0-5])\b/
+          /\b(?:contentVersion|minimumSaveVersion)\s*(?:===|!==|<=|>=|<|>)\s*(?:[1-7]|1[0-6])\b/
         const oldPublicationApi = /\b(?:rewind|transitionSeal|extractLegacyScriptEdges|LegacySavePayload)\b/i
         if (
           historicalPublicationPath.test(line) ||

@@ -1,9 +1,9 @@
 {
   "id": "pal",
   "name": "仙剑奇侠传·复刻",
-  "contentVersion": 16,
+  "contentVersion": 17,
   "minimumSaveVersion": 8,
-  "entryScene": "s000",
+  "defaultEntryId": "new-game",
   "content": {
     "scenes": "content/scenes/",
     "actors": "content/actors.json",
@@ -42,24 +42,24 @@
       "visual.standardColorTable": "color.project-standard"
     }
   },
-  "startWorld": {
-    "party": [
-      "li-xiaoyao"
-    ],
-    "money": 0,
-    "learnedSkills": {
-      "li-xiaoyao": [
-        "296"
-      ]
-    },
-    "inventory": []
-  },
   "entryPoints": [
     {
       "id": "new-game",
       "label": "新的故事",
       "scene": "s000",
-      "introVideo": "video.pal.003"
+      "introVideo": "video.pal.003",
+      "startWorld": {
+        "party": [
+          "li-xiaoyao"
+        ],
+        "money": 0,
+        "learnedSkills": {
+          "li-xiaoyao": [
+            "296"
+          ]
+        },
+        "inventory": []
+      }
     }
   ]
 }

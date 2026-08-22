@@ -186,15 +186,22 @@ const LOCAL_ID = '55555555-5555-4555-8555-555555555555'
 const manifest = {
   id: 'pal',
   name: 'PAL',
-  contentVersion: 16,
+  contentVersion: 17,
   minimumSaveVersion: 8,
-  entryScene: 's001',
+  defaultEntryId: 'main',
   content: {
     scenes: 'content/scenes/',
     maps: 'content/maps/index.json',
   },
   assets: { catalog: 'assets/index.json', roles: {} },
-  startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+  entryPoints: [
+    {
+      id: 'main',
+      label: '主要入口',
+      scene: 's001',
+      startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+    },
+  ],
 } satisfies CurrentManifest
 
 const sentinel = {

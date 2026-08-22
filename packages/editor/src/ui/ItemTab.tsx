@@ -41,7 +41,6 @@ import {
   CompositeCommand,
   DeleteItemCommand,
   UpdateItemCommand,
-  UpdateStartWorldCommand,
   UpsertAssetCommand,
   UpsertAuthoredScriptCommand,
 } from '../core/commands.js'
@@ -1712,19 +1711,6 @@ export function ItemTab(props: {
                       onCreateAndBindScript={createAndBindScript}
                       onError={(message) => onStatusNotice?.({ kind: 'error', message })}
                       itemId={item.id}
-                      worldResources={session.getState().manifest.startWorld.resources}
-                      onSetWorldResource={(resource, initialValue) => {
-                        const startWorld = session.getState().manifest.startWorld
-                        session.dispatch(
-                          new UpdateStartWorldCommand({
-                            ...startWorld,
-                            resources: {
-                              ...(startWorld.resources ?? {}),
-                              [resource]: initialValue,
-                            },
-                          }),
-                        )
-                      }}
                       scenes={editorState.scenes as readonly SceneDef[]}
                       privateScripts={privateScripts('use')}
                       onAddPrivateScript={script ? addPrivateScript : undefined}

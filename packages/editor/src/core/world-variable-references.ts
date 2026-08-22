@@ -248,7 +248,7 @@ export function collectWorldVariableReferencesV1(
   return { all, byId: mutable }
 }
 
-/** content15→16 一次性 seed 与作者“从未登记诊断创建”共用，跨类型立即停线。 */
+/** 从引用索引生成作者变量登记表；同一 id 跨类型使用时立即停线。 */
 export function buildWorldVariableRegistryFromReferencesV1(
   index: WorldVariableReferenceIndexV1,
 ): WorldVariableRegistryV1 {

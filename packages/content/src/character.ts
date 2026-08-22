@@ -49,7 +49,7 @@ export interface WorldState {
   entityLifecycles?: EntityLifecycleTable
 }
 
-/** manifest.startWorld —— initialWorld() 的数据化(loader 从工程 JSON 读,buildWorld 组装)。 */
+/** 入口的初始世界快照 —— initialWorld() 的数据化(loader 从工程 JSON 读,buildWorld 组装)。 */
 export interface StartWorld {
   party: string[] // 角色模板 id 列表(顺序 = 入队顺序)
   money: number
@@ -71,17 +71,17 @@ export interface StartWorld {
  * 加 DLC = 加一条 entryPoint(自己的 startWorld + 指向自己的场景 + 可选入口视频),零引擎改动。
  */
 export interface EntryPoint {
-  id: string // 稳定 id(new-game / dlc1 …;主菜单/存档引用)
+  id: string // 稳定 id(new-game / dlc1 …;主菜单、深链与作者工具引用；存档不保存入口 id)
   label: string // 主菜单按钮文案(如「开始游戏」)
   scene: string // 起始场景 id
   /** 选择该入口后、创建世界前播放的剧情视频；例:PAL WIN95 新游戏动画 3.mp4。 */
   introVideo?: AssetId
-  /** 该开局的初始存档状态(队伍/道具/技能/属性/金钱);缺省 = manifest.startWorld(兼容单入口老工程)。 */
-  startWorld?: StartWorld
+  /** 该开局独立拥有的初始存档状态(队伍/道具/技能/属性/金钱)。 */
+  startWorld: StartWorld
 }
 
 /** 工程内容 schema 版本；与存档 SAVE_VERSION 是两个独立的版本轴。 */
-export const CONTENT_VERSION = 16 as const
+export const CONTENT_VERSION = 17 as const
 /** 当前工程仍允许读取的最早 SAVE envelope；不得从 CONTENT_VERSION 推导。 */
 export const CURRENT_PROJECT_MINIMUM_SAVE_VERSION = 8 as const
 
@@ -90,12 +90,12 @@ export interface CurrentManifest {
   id: string // 工程 id(= 文件夹名;稳定身份)
   name: string // 显示名(选单/标题)
   contentVersion: typeof CONTENT_VERSION
-  entryScene: string // 入口场景 id(= scenes.json 里的 scene.id)。多入口时 = 默认(无菜单/无 ?entry)开局的场景。
-  /** 入口点列表(主菜单开局/DLC 入口)。缺省 = 从 entryScene+startWorld 合成一条 'new-game'(兼容)。 */
-  entryPoints?: EntryPoint[]
+  /** 无菜单、无显式 `?entry` 时直接启动的真实入口 id。只负责选择，不产生继承关系。 */
+  defaultEntryId: string
+  /** 真实入口点列表(主菜单开局/DLC 入口)。必须非空，每项完整自包含。 */
+  entryPoints: [EntryPoint, ...EntryPoint[]]
   content: Record<string, string> // content 文件清单(kind → 相对路径)
   assets: ManifestAssetConfig
-  startWorld: StartWorld
   minimumSaveVersion: typeof CURRENT_PROJECT_MINIMUM_SAVE_VERSION
 }
 
@@ -211,7 +211,7 @@ export function applySetParty(
 }
 
 /**
- * 从 manifest.startWorld 组装初始世界态(loader 的 content-op)。
+ * 从入口的 startWorld 组装初始世界态(loader 的 content-op)。
  *  = initialWorld() 的数据化版:对每个 party 角色 id instantiate → 应用 seedStats 覆盖 hp/mp → 组装。
  *  learnedSkills/inventory 直接取 startWorld(key = 实例 id,demo 单人 = 角色 id)。
  */
