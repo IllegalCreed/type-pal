@@ -1,7 +1,8 @@
 # OPS-TST-PERF-C - P2/P3/P4 consolidated determinism proof
 
-Status: blocked
-Execution: waiting（B 因 v4-only 前提纠偏转 rework；B 重签并转 review 前不得开始 C）
+Status: cancelled
+Execution: cancelled（2026-08-22；P2/P3/P4 shadow producer 与 release proof 路由已由
+ARCH-CURRENT-ONLY-1 删除，不在 current-only 中重建）
 Phase: ops
 Capability: test infrastructure / migration proof
 Coding Owner: Codex
@@ -10,7 +11,30 @@ Reviewer: Kimi + GLM
 Visual Verification Owner: N/A
 Visual Verification Timing: N/A
 Unavailable Agents: none（2026-08-10；须由用户转发真实席位复审）
-Branch: main
+Branch: codex/ops-tst-perf-current-baseline
+
+## 2026-08-22 current-only 终局处置
+
+本卡以下旧设计与签字按历史事实保留，但核心前提和全部专属实施对象均已消失：
+
+- `f1466374` 已删除 `experimental/script-v5/**`、P2/P3/P4 shadow tests、transform/transition/
+  validate、`shadow-harness.ts`、`pal-test-fixture.ts`、`vitest.tests.ts`、release config、proof
+  protocol、manifest/profiler/parallel runner。
+- HEAD 非文档 census 对 `buildDeterministicP[234]`、`live-double-build`、
+  `release-pal-shared`、`verificationMode`、`independentBuilds` 均为 0；tracked
+  `experimental/script-v5/**` 为 0。
+- 当前只有 40 files / 340 tests 的 unit+PAL 路由，一次性执行分别为 10.03s 与 46.91s；不存在
+  三个 producer 可供 consolidated proof 合并。
+
+处置：**取消，不转 rework，不生成 coverage map，不恢复旧 proof 链。** 当前仍有
+`pal-sprite-action-census.pal.test.ts:152-159` 对单一 `buildPalMigration` 的 source-backed 双建；
+它是 current determinism proof，不是本卡 P2/P3/P4 consolidation 的残余对象，缺少性能证据时不得
+删除。完整现状证据见
+`docs/ops/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md`。
+
+保留的原则只有：source-backed 证明不能由 pinned/self-digest 替代；显式 determinism 双建必须
+使用独立输入；发布 zero-diff replay、冲突/TOCTOU、原子事务与 closure fail-closed 继续由当前测试
+保护。旧三方签字因实施对象删除而失效，只保留为历史事实；`cancelled` 不补做旧实现验收。
 
 ## 目标
 
@@ -211,10 +235,11 @@ coverage 正确，consolidated probe 也可能没有足够收益。实现必须�
 - 2026-08-19 User: 纠正 B 的地图证明必须使用当前 canonical v4，不得还原旧结构。C 自身 PC1-PC3
   与 current mechanical baseline 前提未变化，但按既定执行顺序暂转 `blocked`。Next: 等 B 完成
   v4-only 重签、实现并转 `review` 后恢复 C `build`；不得提前生成 coverage map 或改 release route。
+- 2026-08-22 Codex: current-only census 证明 P2/P3/P4 shadow producer、release shared 路由和全部
+  consolidated proof 对象均已删除；当前 40/340 清单没有对应 successor 集。卡转 `cancelled` 并从
+  进行中看板移除；保留单一 current generator 的 source-backed determinism 证明。
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词：C 仅因执行顺序依赖 B 而等待；B 转 `review` 前不得开始实现。恢复时必须以
-当时仓库机械生成全量 shared 清单与断言 AST，历史 `24/138` 只作漂移记录、不得作为基线；仍须
-Codex/Kimi/GLM 三方 implementation accept，且不得删除 source-backed 双建、用 pinned bundle
-单独证明 producer、复用同一 lease 反转输入，或在三方 accept 前改默认 release route。
+无下一位 Agent 提示词：本卡已因 current-only 删除 P2/P3/P4 实施对象而取消。不得恢复 shadow
+producer 或旧 coverage/proof 路由；未来若出现新的 current determinism 性能问题，另开窄卡。

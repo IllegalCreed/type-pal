@@ -188,11 +188,18 @@ control，**无需再补三次 canonical**。
 未代签 Kimi。Evidence: profile-release.mts:357-505,511-606,688-729,824-850（PASS 契约）+ canonical
 test:release 实跑 exit 0 / 107/758+1skip / 2125.18s / digest 4e2d1fd8。
 
+## 2026-08-22 current-only 后续处置
+
+`ARCH-CURRENT-ONLY-1` 已删除本卡历史 B/C 所依赖的 release/shared/fresh 与 P2/P3/P4 shadow
+证明拓扑。current-only 一次性基线为 fast 10.03s、PAL 46.91s；据此 B/C 均已取消，不重建旧
+runner 或 proof 链。证据见
+`docs/ops/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md`。本卡 A 的历史 done 结论不变。
+
 ## 下一位 Agent 提示词
 
 ```text
 无下一位 Agent 提示词：本卡三方 final evidence accept 已齐并于 2026-08-12 收口为 done。
-B/C 不在本卡范围，仍须各自独立任务卡与三方设计签字后方可 build。
+B/C 已于 2026-08-22 因 current-only 删除实施对象而取消；不再等待独立 build。
 ```
 
 ## Kimi 设计复审（2026-08-10）

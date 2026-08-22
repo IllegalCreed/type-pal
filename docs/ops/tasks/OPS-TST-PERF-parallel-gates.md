@@ -1,8 +1,8 @@
 # OPS-TST-PERF-B - shared/fresh 隔离并行 release runner
 
-Status: build
-Execution: blocked inside build（current-v4 authority 表示合同在 focused gate fail-closed；
-实现候选不可提交，交由 ARCH-CURRENT-ONLY-1 单版本收口；最终 proof 继续延后）
+Status: cancelled
+Execution: cancelled（2026-08-22；ARCH-CURRENT-ONLY-1 已删除 shared/fresh release 路由，
+current-only 一次性基线合计 56.94s，不重建旧并行 runner）
 Phase: ops
 Capability: test infrastructure / release gate
 Coding Owner: Codex
@@ -11,7 +11,31 @@ Reviewer: Kimi + GLM
 Visual Verification Owner: N/A
 Visual Verification Timing: N/A
 Unavailable Agents: none（2026-08-10；须由用户转发真实席位复审）
-Branch: main
+Branch: codex/ops-tst-perf-current-baseline
+
+## 2026-08-22 current-only 终局处置
+
+本卡以下旧设计、签字和 build 记录按历史事实保留，但不再授权或描述当前实现。核心前提已经被
+`f1466374 refactor(arch): collapse development to current-only` 删除：
+
+- `vitest.release.config.ts`、`test:release`、`release-pal-shared`、`release-pal-fresh`、prepared
+  lease、fresh transaction proof、release manifest/canary、profiler 与 parallel runner 均不存在。
+- 当前唯一测试拓扑是 `unit` 与 `pal`：机械清单为 **37 files / 330 tests** 和
+  **3 files / 10 tests**，重复 file/title 为 0。
+- 2026-08-22 同一 HEAD 各执行一次：fast **10.03s / 331,497,472B max RSS**，PAL
+  **46.91s / 966,115,328B max RSS**，全部通过。分开运行墙钟总和 **56.94s**。
+- 即使假设完美重叠且没有争用，收益上限也只有 fast 的约 10 秒；重新引入跨进程隔离、资源采样、
+  sibling 终止、报告守恒与三轮串并行对照会制造新的基础设施债，已不符合本卡原先“减少约 6 分钟”
+  的收益前提。
+
+处置：**取消，不转 rework，不写实现。** 默认 current-only 命令保持不变；若未来出现新的可感知
+性能回归，以当时 current 清单另开窄卡，禁止恢复 release epoch、transition/rewind/seal、oracle、
+shared lease、fresh proof 或兼容 fallback。完整命令、环境与输出见
+`docs/ops/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md`。
+
+旧三方 premise/design 签字因实施对象消失而失效，只保留为历史记录；`cancelled` 不是 `done`，
+不需要以旧合同补跑实现验收。2026-08-22 User 在获知版本包袱已清除并询问是否恢复 B/C 后，授权
+Codex“按照你的节奏推进”；本次只做一次性现状测量与失效处置，没有复跑旧长测。
 
 ## 目标
 
@@ -625,19 +649,11 @@ Primary-source 证据（三点，均为本席直接打开核实）：
   （携带 PB1-PB4）**。签字后已提交代码只改 editor 43 files，未触及 v4 source/seal 前提；三签齐，
   B 恢复 `build`。Next: 先保存 PB3/PB4 机械证据，再删 pre-v4 投影并重建 v4 authority；定向门禁
   与固定提交完成前不得启动三组 proof。
+- 2026-08-22 Codex: current-only 静态 census 与一次性执行基线完成。旧 shared/fresh 路由和 runner
+  实施对象为 0；fast 37/330 用时 10.03s，PAL 3/10 用时 46.91s，均通过。重建 runner 的收益
+  前提不成立，卡转 `cancelled` 并从进行中看板移除。未修改实现文件，未复跑旧长测。
 
 ## 下一位 Agent 提示词
 
-可直接复制给 ARCH-CURRENT-ONLY-1 Coding Owner：
-
-> 继续 `ARCH-CURRENT-ONLY-1`，先完整阅读任务卡、`AGENTS.md`、`docs/phase2/READ-FIRST.md`、
-> `docs/ops/agent-workflow.md`、本 B 卡，以及
-> `docs/ops/evidence/OPS-TST-PERF-B-arch-current-only-handoff.md`。B 的 PB3 已机械闭合 15 个
-> transition/seal 域（9 rebuild / 6 preserve），PB4 已逐文件证明 927 个 enemy/script owned leaf
-> drift=0；但 source-backed current-v4 rebuild 与当前 baseline 有 295 个 items/scenes raw hash
-> 表示差异，focused gate fail-closed 为 `B2 battlefield rewind: successor surface 漂移`。
-> 不得恢复 v2/v3 parser、pre-v4 map 投影、compat fallback，也不得为 B 新增 full key-order
-> converter。请按 ARCH 已签设计完成开发期 current-only 收口，逐项裁决 handoff 清单的 delete /
-> fold into current / isolated source converter；不要修改 B runner 或运行 B 长测。输出干净固定提交、
-> focused/manifest/canary 可用的最终测试拓扑，以及 B 可接回执行一次正式 serial/parallel proof 的
-> 明确前提。不得代签 B 的 Codex/Kimi/GLM implementation accept，不得标记 B done。
+无下一位 Agent 提示词：本卡已因 current-only 删除实施对象且现行门禁不足一分钟而取消。后续不得
+恢复旧 runner/proof；只有新的 current-only 性能回归证据出现时才另开窄卡。
