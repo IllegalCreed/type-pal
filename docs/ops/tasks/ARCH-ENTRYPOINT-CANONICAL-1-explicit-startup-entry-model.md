@@ -1,6 +1,6 @@
 # ARCH-ENTRYPOINT-CANONICAL-1 - 显式启动入口与独立开局配置
 
-Status: review
+Status: done
 Phase: phase2
 Capability: X7（入口与开局；不改变 capability-map 状态）
 Coding Owner: Codex
@@ -259,11 +259,72 @@ Branch: codex/arch-entrypoint-canonical-1
 - Codex: accept（content17 schema / loader / runtime / editor / publication / current-only 边界自验完成；
   content 420、editor focused 75、reforge 828、migrate fast 330 全绿；PAL replay 537/0/0/0；最小浏览器
   功能与窄视口检查 PASS。SFX 审计仅报告既有 72/74 对 64 的容量风险，未发现入口模型回归。）
-- Kimi: pending
-- GLM: pending
-- counter / 返工处理:
+- Kimi: accept（2026-08-22，独立直读分支 ff5e3a96 一手代码复审，未复跑已通过套件）:
+  - schema: `character.ts:73-100` —— `EntryPoint.startWorld` 必填、`defaultEntryId` + 非空 tuple `entryPoints`、
+    顶层 `entryScene`/`startWorld` 消失、`CONTENT_VERSION = 17`；`EntryPoint.id` 注释已改“存档不保存入口 id”。
+  - 无第二真值 / 继承 / 合成 / fallback: 全仓 grep `manifest.entryScene`、`manifest.startWorld`、`entryPoints ??`、
+    `state.startWorld` 均 0 命中；`validate-refs.ts:78,1293-1294,1459-1461` —— `ContentBundle` 改持
+    `entryPoints`，引用校验逐入口走 `validateEntryPointStartWorldReferences`（含 party/battler/learnedSkills/
+    inventory/seedStats，错误路径用稳定入口 id），设计期发现的“入口级 StartWorld 只过形状校验”真实缺口已补。
+  - loader fail-loud 顺序: `project-loader.ts:313-365` —— 原始 manifest 先过 `validateCurrentManifestStartup`
+    （`validate.ts:151-237`：必填键 / 版本 / 入口非空 / id 唯一 / defaultEntryId 命中 / 每入口完整 startWorld
+    shape），再读 scene index 复核场景存在性，再按入口读 scene JSON（错误归因到 `entryPoints[id].scene`），
+    assemble 内统一校验所有入口场景与 StartWorld 引用；`entryScene` 派生缓存注释符合关注项 3
+    （`project-loader.ts:89,100`）。
+  - runtime 语义: `startup-entry.ts` 纯函数 + `startup-entry.test.ts` 锁定 —— 无参走 `defaultEntryId`；
+    无效 `?entry` warn 后回直接启动项（`main.ts:576-579`）；introVideo 仅 `menu-entry` 路由播放
+    （`main.ts:640`）；`?scene` 只覆盖场景不换世界（`main.ts:1180`）；battle preview 读直接启动入口
+    （`main.ts:7073`）；菜单返回未知入口改为 fail-loud（`main.ts:637-638`）。
+  - save: `types.ts:45` `contentVersion: typeof CONTENT_VERSION` 与常量同步；`current-codec.ts:63-81` preflight
+    门禁同步 17 且 fail-loud；payload 仍只含 world+position，`ops.test.ts:31` 有“不带入口身份”回归断言；
+    SAVE_VERSION 保持 8。
+  - editor: `SetStartupEntriesCommand`（`commands.ts:3424-3502`）原子维护 defaultEntryId+entryPoints，
+    apply/invert 均保不变式；UI 无伪默认行、徽标 + “设为直接启动入口”、删默认 / 删最后项 fail-closed、
+    新增 / 复制一次性 structuredClone（`ProjectWorkbenchTab.tsx:1185-1225`）；保存门
+    `assertProjectSaveValid` 先入口校验（`project-diagnostics.ts:655-659`）；ItemTab 顶层资源第二作者路径
+    已整段移除（`worldResources`/`onSetWorldResource` 全仓 0 命中），初始资源唯一作者归入口
+    StartWorldFields（`ProjectWorkbenchTab.tsx:663-967`）。
+  - current-only: `current-only-product-boundary.test.ts:37,80-108` 覆盖三工程 conformance 与 v1[0-6]
+    版本分支扫描；`contentVersion 1[0-6]` 字面量仅剩 2 处显式 v16 拒绝负例（卡内白名单允许）;
+    三份工程 manifest 均为 canonical content17。
+  - 语义偏差说明（已核，非返工）: 有效 `?scene` 现在会跳过 `?menu`（`startup-entry.ts:52-56` + 测试
+    57-58 锁定）。旧代码仅 `?entry` 跳菜单，但旧注释与本卡“?scene 开发直达最高优先级”一贯如此声明；
+    新行为与文档意图一致，属组合参数的收敛而非用户可见回归。
+  - 遗留观察（不阻塞，交 GLM 裁量）: `content/enemy-script.test.ts:85` describe 名仍含
+    “contentVersion 10 enemy script schema” 字样，是历史测试套件名而非版本分支代码；GE1 口径为
+    11-15 字面量，请 GLM 确认其是否需顺带改名。
+- GLM: **accept（2026-08-22 review 终审，本人一手读码 + focused 独立复跑，非代理；基于实现
+  提交 ff5e3a96）**。按委托五项逐一验证：
+  - **① GE4 三项补测真实落位 ✓**：seed.test:11-21 断言 canonical 形状（defaultEntryId
+    'main' + 非空 entryPoints）；runtime-project-view.test:204-215 断言 entryScene 为派生
+    缓存值；App.reference-navigation.test「入口页无 object 时使用非首项入口 / 显式 object
+    优先」+ ProjectWorkbenchTab.test「无对象深链选中非首项入口，显式对象仍精确定位」——
+    深链默认选中直接启动项的 UI 锚点在位。
+  - **② GE1 清零 + census 口径 ✓**：`contentVersion: 11-15` 字面量本人 rg 复跑 **0 命中**
+    （build 前 11 处全清）；`contentVersion < 17` 残留恰为两个故意负例（validate.test:1124
+    期望 17 拒绝 + project-loader.test:261 old manifest 16）——与 build 记录一致。
+    boundary 口径按 GE3 精确落地：:58 用 `manifest\.(?:entryScene|startWorld)` 限定形态
+    （entry.startWorld 合法不误伤）、:82/:108 禁产品码版本分支 1-16、负例仅存于测试文件
+    天然在产品码扫描域之外。
+  - **②b Kimi 移交观察裁量（enemy-script.test.ts:85 describe 名）**：该 describe 名
+    "contentVersion 10 enemy script schema" 实测导入并测试**当前** `validateEnemies`
+    （validate.js），是**陈旧标签而非版本字面量**——不在 GE1 census token（值字面量）域内，
+    零运行时/门禁影响。裁定：**非阻塞，登记为后续 content 触卡时的顺手改名债**（一行
+    describe 字符串），不重开 accept。
+  - **③ GE2 ✓**：三份 manifest 本人 node 实测全部 canonical（cv=17 + defaultEntryId
+    new-game + 各 1 个全自包含入口 + 顶层 entryScene/startWorld 清除）；统一 conformance
+    以 `test.each(['demo','e2e-own','pal'])('%s manifest is canonical content17 startup
+    data')` 落在 boundary:37——三工程同测同门；ui_samples N/A 已记 build 节。
+  - **④ 文档 ✓**：editor-design:210-235 重写为真实入口/直接启动选择器/无继承/显式 preset
+    另卡；capability-map 补账 2026-08-22（content17/SAVE8 + 本卡摘要）且 N3 行同步
+    content17；startup-entry.test 五用例锁定启动合同（含「入口 intro 仅在菜单选择新局时
+    播放」——introVideo 时序的代码层锁定）。
+  - **focused 独立复跑 ✓**（不重跑全量）：boundary 7/7 + startup-entry 5/5 + seed 9/9
+    全绿；四类禁用形态 census 0 命中采纳 Kimi 复核 + build 记录，SFX 72/74 容量风险确认
+    为既有、不动阈值。
+- counter / 返工处理: 无阻塞项；一条登记债（enemy-script.test:85 describe 改名）。
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **allowed（2026-08-22）——Codex + Kimi + GLM 三方 accept 齐，用户验收通过。**
 
 ## Draft: 设计与风险
 
@@ -441,13 +502,14 @@ Branch: codex/arch-entrypoint-canonical-1
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: Codex 自验 accept；Kimi / GLM pending。
-- 必须返工项: pending
-- Accept / rework: review。
+- 审查结论: Codex 自验 accept；Kimi accept（2026-08-22，独立直读一手代码，无返工项）；GLM accept
+  （2026-08-22，current-only / fixture / 文档 / 测试矩阵终审通过）。
+- 必须返工项: 无
+- Accept / rework: accept
 
 ## 用户验收
 
-- 用户结论: 2026-08-22 同意方案并要求实现；最终验收 pending。
+- 用户结论: 2026-08-22 确认三方审查签字齐，并明确同意验收通过。
 - 后续任务: 如真实出现跨入口持续共享需求，另开显式 StartWorld preset 卡，不在本卡恢复继承。
 
 ## 交接日志
@@ -477,10 +539,56 @@ Branch: codex/arch-entrypoint-canonical-1
   设为直接启动、undo 与 1100px 窄视口通过且未保存 PAL。SFX audit 已迁到当前工程加载路径，仍如实报告既有
   72/74 > 64 容量风险，不改阈值掩盖。Codex 签 implementation accept，任务进入 review。Next: Kimi 独立
   复审 schema/runtime/save/current-only 落地；不得修改实现或重复跑 89/828 全量套件。
+- 2026-08-22 Kimi: implementation review 完成，签 **accept**。独立直读分支 ff5e3a96：schema（character.ts
+  73-100）、loader 顺序（project-loader.ts:313-365 + validate.ts:151-237）、startup-entry 纯函数与测试、
+  main.ts 启动/菜单/?scene/battle preview 接线、save codec/types、editor 原子命令与 UI、ItemTab 第二作者
+  移除、migrate 生成器与 current-only 边界、三份工程 manifest；census grep 四类禁用形态 0 命中。四条设计期
+  关注项全部落地；记录一条已核语义收敛（有效 ?scene 跳过 ?menu，测试锁定，与文档一贯声明一致）和一条
+  非阻塞观察（enemy-script.test.ts:85 历史 describe 名含 contentVersion 10 字样，交 GLM 裁量）。未修改
+  实现文件，未标 done。Next: GLM 做 current-only / fixture / 文档 / 测试覆盖终审并签 review accept。
+- 2026-08-22 GLM（覆盖/current-only/fixture/文档/测试矩阵）: review 终审完成并签
+  **accept**。五项委托逐一验证：GE4 三补测真实落位（seed/runtime-view/App+ProjectWorkbench
+  深链锚点）；GE1 11-15 字面量 rg 复跑 0 命中、<17 残留恰两个故意负例、boundary 按 GE3
+  限定形态口径落地；**Kimi 移交观察裁定：enemy-script.test:85 describe 名为陈旧标签非版本
+  字面量（测的是当前 validateEnemies），登记为后续顺手改名债、非阻塞**；GE2 三工程全部
+  canonical（node 实测）+ test.each 统一 conformance + ui_samples N/A 在册；文档四处更新
+  与实现一致。focused boundary 7 + startup-entry 5 + seed 9 独立复跑全绿。三方 accept 齐，
+  待用户验收收口。
+- 2026-08-22 User + Codex: 用户确认三方签字齐并验收通过；任务转 `done`，无返工项。Next:
+  回到测试基础设施主线，先恢复 `OPS-TST-PERF-B`；B 转 `review` 后再解除 `OPS-TST-PERF-C` 阻塞。
 
 ## 下一位 Agent 提示词
 
-### 当前：交 Kimi 架构 / runtime 复审
+### 当前：无下一位 Agent 提示词
+
+本任务已完成三方 accept 与用户验收，等待仓库收口；后续工作转回 `OPS-TST-PERF-B`，不再从本卡交接。
+
+### 历史：交 GLM 覆盖终审（已完成）
+
+```text
+接手任务: ARCH-ENTRYPOINT-CANONICAL-1 显式启动入口与独立开局配置——review 终审（覆盖/current-only/文档/测试矩阵）
+任务卡: docs/ops/tasks/ARCH-ENTRYPOINT-CANONICAL-1-explicit-startup-entry-model.md
+当前状态: review；Codex 自验 accept，Kimi 已签 implementation accept；分支
+  codex/arch-entrypoint-canonical-1（ff5e3a96）。只差 GLM review accept。
+你的角色: GLM，覆盖 / current-only / fixture / 文档 / 测试矩阵终审。
+先读: 本任务卡全文（重点: 验收条件、Kimi 审查签字逐条证据、GE1-GE4 落钉要求）；
+  packages/migrate/src/current-only-product-boundary.test.ts；packages/reforge/src/startup-entry.test.ts；
+  packages/editor/src/core/seed.ts 与其测试；docs/phase2/editor/editor-design.md:210-235；
+  docs/phase2/capability-map.md 的 current version 描述；projects/ 三份 manifest.json。
+已核事实（勿重复全量复跑）: content 420 / editor focused 75 / reforge 828 / migrate fast 330 全绿；
+  Kimi 已核 schema、loader 顺序、runtime 语义、save 独立性与编辑器原子命令；四类禁用形态 census 0 命中；
+  SFX audit 72/74 > 64 为既有容量风险，不属本卡回归，不要改阈值。
+请你做: (1) 复核验收条件的测试矩阵与 GE4 三项补测是否真实落在测试文件里；(2) 复核 GE1 的 11-15 字面量
+  清零与 census 白名单口径，并裁量 Kimi 移交的非阻塞观察——packages/content/src/enemy-script.test.ts:85
+  的 describe 名 “contentVersion 10 enemy script schema” 是否需顺带改名；(3) 复核 GE2 demo/e2e-own 入口
+  合成机制与 ui_samples N/A 记录；(4) 复核文档更新（editor-design X7-1、capability-map、current
+  schema/save 文档）与任务卡自身记录一致；(5) 在任务卡签 GLM review accept，或 counter 并写最小返工项
+  及 file:line 证据。
+不得做: 不修改实现文件；不标 done；不重跑已通过的全量套件。
+输出要求: 签字后更新交接日志；若三方 accept 齐，给出交回用户验收的可复制提示词（done 由用户验收后收口）。
+```
+
+### 历史：交 Kimi implementation review（已完成，保留交接事实）
 
 ```text
 接手任务: ARCH-ENTRYPOINT-CANONICAL-1 显式启动入口与独立开局配置——implementation review
@@ -558,3 +666,18 @@ Branch: codex/arch-entrypoint-canonical-1
   不把 defaultEntryId 做成继承；SAVE8 envelope 不升版。
 完成后: 写 Build 记录并自验，交 Kimi 架构复审 + GLM 覆盖终审 + 用户验收。
 ```
+
+
+### 给用户（三方 accept 齐，验收提示词——可直接使用）
+
+验收路径（本地 `http://localhost:6010/`）：
+1. 工程 → 入口页：PAL 应只显示真实入口 new-game + "直接启动"徽标，无伪默认行、无"跟随/独立"。
+2. 新增入口：应一次性深拷贝当前入口（场景/视频/StartWorld）；复制后分别修改两入口的队伍/金钱，
+   互不影响；undo/redo 两步还原。
+3. 把另一入口"设为直接启动项"：徽标迁移、列表不变；尝试删除仍是直接启动项的入口应被阻止，
+   先切换默认后可删；最后一个入口不可删。
+4. 道具页不再出现顶层初始资源编辑（唯一作者归入口 StartWorld）。
+5. 启动：无参数与 ?entry=new-game 进同一入口且不播视频；?menu 列真实入口、选择后才播该入口
+   introVideo；?scene=xxx 仍直达场景但世界来自所选入口。
+6. 旧开发存档被明确拒绝（contentVersion 不匹配）属预期。
+验收通过后在任务卡"用户验收"节写结论，Status 改 done。
