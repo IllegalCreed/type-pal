@@ -107,7 +107,7 @@ export function PortraitEditor(props: {
   return (
     <div className="section portrait-editor">
       <h4>
-        对话立绘 <span className="hint2">主立绘 + 命名表情 · 均引用工程图片</span>
+        对话立绘 <span className="hint2">主立绘 + 命名表情 · 均引用项目图片</span>
       </h4>
       {error ? <div className="cf-warn">{error}</div> : null}
       {portraits ? (

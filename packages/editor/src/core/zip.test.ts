@@ -80,7 +80,7 @@ async function readZip(zip: Uint8Array): Promise<Map<string, Uint8Array>> {
   return out
 }
 
-describe('zip 打包器(A5 工程导出)', () => {
+describe('zip 打包器(A5 项目导出)', () => {
   test('crc32 已知值("123456789" → 0xCBF43926)', () => {
     expect(crc32(new TextEncoder().encode('123456789'))).toBe(0xcbf43926)
   })
@@ -135,7 +135,7 @@ describe('zip 打包器(A5 工程导出)', () => {
     expect(JSON.parse(dec.decode(back.get('content/scripts/shared/00.json')))).toEqual(chunk)
   })
 
-  test('工程导出采集保留 map index 与零引用地图', async () => {
+  test('项目导出采集保留 map index 与零引用地图', async () => {
     const entries = await collectProjectZipEntries(
       projectDir({
         'manifest.json': '{"id":"maps"}',

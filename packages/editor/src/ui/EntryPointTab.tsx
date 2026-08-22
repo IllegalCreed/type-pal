@@ -1,6 +1,6 @@
 /**
  * 旧数据页入口的兼容适配器。
- * 工程模块实际由 ProjectWorkbenchTab 负责；保留这个导出让历史调用方平滑迁移，
+ * 项目模块实际由 ProjectWorkbenchTab 负责；保留这个导出让历史调用方平滑迁移，
  * 不再维护第二份入口点编辑器。
  */
 import type {

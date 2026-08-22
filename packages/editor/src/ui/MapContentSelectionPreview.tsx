@@ -2,6 +2,7 @@ import type { Palette, ProjectMap, TilesetFrameRegistry } from '@type-pal/reforg
 import { bakeFrame, mapInstanceTilesetId, projectMapTileBlitRect } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef } from 'react'
 import type { VisualSlotRef } from '../core/map-selection.js'
+import { DsTag } from './design-system/controls.js'
 
 export interface MapContentSelectionPreviewProps {
   map: ProjectMap
@@ -125,7 +126,7 @@ export function MapContentSelectionPreview(props: MapContentSelectionPreviewProp
           <strong>{title}</strong>
           <span>{subtitle}</span>
         </div>
-        <small>{values.length} 个视觉实例</small>
+        <DsTag tone="neutral">{values.length} 个视觉实例</DsTag>
       </header>
       <div className="map-content-selection-preview-stage">
         {values.length === 0 ? (

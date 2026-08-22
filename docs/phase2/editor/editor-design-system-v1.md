@@ -1,12 +1,12 @@
 # Type-Pal 编辑器设计系统与交互规范 v1
 
-Status: draft v2.5.0 diagnostic presentation contract implemented, pending review（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
+Status: draft v2.8.0 interaction and information-architecture consolidation implemented, pending review（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
 
-Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）
+Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0）
 
 Applies to: `packages/editor` 的全部功能性界面
 
-Last updated: 2026-08-17
+Last updated: 2026-08-22
 
 > 本文是后续编辑器界面实施和验收的唯一规范入口。它定义产品语言、可复用合同和验收方法，不定义
 > content schema、业务命令、存档或运行时规则。角色模块与 B2 战场工作台是参考输入，不是自动正确的模板；
@@ -76,6 +76,24 @@ Last updated: 2026-08-17
 - 不用裸 `确定` 表达破坏性或不可逆动作；应写 `删除战场`、`覆盖资源`。
 - 中文为主；稳定 id、文件路径、枚举和代码使用等宽字体并允许复制。
 - 不使用含糊占位词：`其他`、`更多`、`高级` 必须有明确范围或摘要。
+- 产品界面统一使用“项目”，不得在同一语义上混用“工程”；代码、文件格式或第三方原文中的既有标识不强制翻译。
+
+### DS-P.6 说明价值门与披露方式
+
+任何说明文案在进入界面前必须回答“它会不会改变作者下一步的判断或操作”；不能回答则删除，不得用弱化颜色
+把冗余文案继续留在页面。说明按以下唯一矩阵落位：
+
+| 内容 | 表达方式 | 示例 |
+|---|---|---|
+| 当前状态、错误、风险、阻断原因、进度、空态与下一步 | 直接可见，并靠近作用对象 | `入口场景缺失`、`正在扫描 94/223`、`请先选择队员` |
+| 字段约束、单位、范围、校验错误 | `DsField` 的 help/error，与字段建立 `aria-describedby` | `范围 1–256`、`0 表示不限` |
+| 稳定概念、默认值、回退、职责边界等低频知识 | 标题或标签旁的圆形 `DsHelpTip` | 稳定 ID、默认入口、相对高度 |
+| 重复标题、复述页面结构、无新信息的“这里可以……” | 删除 | 已有“问题”标题后再写“这里查看问题” |
+
+- `DsHelpTip` 是概念帮助的唯一 primitive；视觉圆圈固定为 `18px`，命中区固定为 `32×32px`，不得让 `?` 因文字行高变成椭圆。
+- 概念帮助支持 hover、键盘 focus 与触屏激活，Esc 关闭；必须有 accessible name、`aria-describedby`、viewport
+  碰撞处理和 modal top-layer portal，禁止业务页再实现私有 tooltip。
+- tooltip 只解释，不承载完成任务所必需的信息；如果用户必须打开 tooltip 才知道为什么控件不可用，说明放置错误。
 
 ## 2. Foundations
 
@@ -159,6 +177,11 @@ Last updated: 2026-08-17
 - 圆角：输入/按钮 `6px`，卡片 `10px`，modal/drawer `12px`。同一容器层级不得混用随机圆角。
 - 阴影只用于 overlay、popover、modal 和浮动工具条；普通卡片使用 surface + border，不用阴影堆层级。
 - z-index 只允许通过语义层：base、sticky、popover、drawer、modal、toast；模块不得自造任意数字。
+- 同一字段组的标签、控件、帮助/错误按 `6 / 8 / 12px` 的固定垂直节奏排列；相邻字段默认 `12px`，二级分区
+  默认 `24px`。业务页不得靠零散 margin 修补某一行，也不得让相同尺寸档的输入和值行出现不同高度。
+- 同一 grid 行的同级卡片按该行最高内容等高，下一行重新计算；表单标签列、输入起点和尾部动作列必须逐行对齐。
+- Inspector 中两个并列语义分区必须通过 `DsInspectorSection` 的 section padding 与边界分隔；只靠标题字号或空白
+  猜分组不合格。单个连续表单内部不得滥加分割线。
 
 ### DS-F.5 图标
 
@@ -166,6 +189,9 @@ Last updated: 2026-08-17
 - 图标标准尺寸为 `16/20/24px`；同一工具条只用一个尺寸。
 - 无文字图标按钮必须有 `aria-label` 和 tooltip；有文字按钮不得重复朗读装饰图标。
 - 新建、复制、打开、删除、关闭、缩放等常用动作必须跨模块使用同一图标和方向。
+- 图标按语义登记，不能按外形临时复用：`open/jump`、`copy/duplicate`、`import/upload`、`save`、`delete` 必须
+  各自唯一；同一动作组要么全部使用“图标 + 文案”，要么全部纯文案，不得一半有图标一半没有。
+- emoji 可以作为内容类别或装饰提示，但不得充当生产操作图标、列表身份的唯一信息或跨模块语义注册表。
 
 ### DS-F.6 动效
 
@@ -233,8 +259,8 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 
 - Wide/Medium 顺序固定为：`文件　编辑　场景　地图　剧情　角色　物品　战斗　资源　项目设置`。十项使用同一
   高度、字号、padding、hover/open/focus 语法；文件/编辑与八个模块之间不得插竖线、品牌块或不同底色。
-- “文件”菜单左侧是紧凑的窗口身份区，只显示工程名；当前页面由工作区自身的标题表达，Header 不重复显示。
-  工程名单行省略且不形成第二行，并继续写入 `document.title`、显示在“项目设置”页。
+- “文件”菜单左侧是紧凑的窗口身份区，只显示项目名；当前页面由工作区自身的标题表达，Header 不重复显示。
+  项目名单行省略且不形成第二行，并继续写入 `document.title`、显示在“项目设置”页。
 - “文件”包含新建、打开、最近打开、保存、另存为、导入/导出、关闭；“编辑”包含撤销、重做、剪切、复制、
   粘贴、复制对象、删除、查找和命令面板。保存归“文件”，撤销/重做归“编辑”。
 - 八个模块在菜单中保持同级。存在多个子页的模块打开纵向下拉菜单，例如“战斗 → 技能 / 敌人 / 毒 / 战场”；
@@ -262,8 +288,9 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 
 **布局控制与分栏线**
 
-- Header 右侧在撤销/重做/保存之前提供一个紧凑“布局”按钮组，分别控制对象列表、当前工作区已有的上下分栏面板和 Inspector；
-  三个按钮使用统一的 `28×28px` 点击区、`16px` code-native SVG、tooltip 与 `aria-pressed`，不得使用 emoji。
+- Header 右侧在撤销/重做/保存之前提供一个紧凑“布局”按钮组，分别控制当前页面实际拥有的对象列表、上下
+  分栏面板和 Inspector；入口只在对应 capability 存在时渲染。按钮使用统一的 `28×28px` 点击区、`16px`
+  code-native SVG、tooltip 与 `aria-pressed`，不得使用 emoji。
 - “视图”菜单提供与 Header 按钮相同的三条显隐命令和“重置布局”；菜单、按钮和快捷键消费同一 command
   registry，不复制状态或 handler。对象列表/Inspector 的可见性与宽度可在本机记忆；场景脚本面板沿用现有
   `drawer.open` 与既有 canonical/legacy 高度记忆，不新建第二套 bottom state。恢复时仍须受 DS-L.2 主区
@@ -272,8 +299,9 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
   常驻悬浮箭头或按钮。键盘用户仍可聚焦 separator，用方向键调整、Home 重置。
 - 底部按钮在场景工作区必须控制已经存在的脚本/演出编辑面板：与场景工具栏“脚本”按钮、`drawer.open`、
   `CanonicalSceneScriptWorkspaceV5` / `ScriptDrawer` 共用同一 handler；不得新造全局问题/诊断 drawer，状态栏
-  继续只承担现有摘要。非场景工作区没有这个上下分栏面板时，中间按钮保持可见但 disabled，并通过 tooltip
-  说明“当前页面没有底部脚本面板”，不得凭空挤出空白底栏。
+  继续只承担现有摘要。非场景工作区没有这个 capability 时不渲染底部按钮；只有 capability 存在但因临时状态
+  暂不可用时才显示 disabled，并通过 tooltip 给出具体原因。对象列表、Inspector 与底部面板统一采用这条规则，
+  不得一处隐藏、一处保留无效按钮，也不得凭空挤出空白底栏。
 - 工具组内 gap `2–4px`，组间用轻量分隔线并留 `6–8px` 空间；默认按钮透明，仅 hover/focus/pressed
   抬升，保存才使用 primary surface。布局按钮的 pressed 状态必须同时由形状/背景和 `aria-pressed` 表达。
 
@@ -322,9 +350,9 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
   `DsMenuItem`。这些是五种语义入口，不是五套视觉皮肤；它们必须复用同一尺寸、圆角、状态 token 和焦点环。
 - 图标按钮必须使用稳定命中区、tooltip 和 accessible name。
 - 连续小动作采用 toolbar/button group；不能散落成无法判断作用域的 `×`、`↗`、`＋`。
-- 删除当前完整对象属于对象级动作，一律放入 `DsObjectHero.actions` 的右上角；右侧 Inspector 只显示引用、
-  阻断原因和定位入口。删除列表行、效果、帧等子项才放在对应行/卡片内，禁止把同一级删除在不同模块分别
-  放到标题、表单末尾和 Inspector 底部。
+- 完整对象的复制、重命名、删除等动作只能有一个 owner：列表本身是管理主面的，放在选中行尾部或其 overflow；
+  中央工作区是编辑主面的，放在 `DsObjectHero.actions`。右侧 Inspector 只显示选中对象属性、引用、诊断和
+  低频设置，不设“危险操作”“模板管理”或第二套保存/删除区。同一级动作不得在列表、Hero 和 Inspector 重复。
 - hover 不得改变控件尺寸或语义色：primary 保持主色，secondary 提升边框/表面，quiet 提升表面，danger
   保持危险边框和文字。focus-visible 优先于 hover，disabled/busy 不响应 hover。
 - `tool`、`btn`、`mini`、`mini-txt`、`pv-btn`、`item-action-button` 及业务页自造的
@@ -340,6 +368,8 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - 对象列表行使用贯穿列表可用宽度的直角选中背景与左侧强调线；禁止把选中行做成内缩圆角卡片，也禁止
   通过行间外边距把连续列表切成卡片流。列表内不得再出现与选择同色的无关 badge。
 - 空列表必须给出主创建动作；过滤为空应显示“无匹配项”并提供清除过滤，不能误导为数据库为空。
+- 集合级创建/导入属于 `DsListHeader`；针对当前对象的复制/删除按 DS-C.2 归属到行尾或 Hero。列表标题旁如需
+  解释低频集合概念，只能使用 `DsListHeader.help → DsHelpTip`，不得在标题下常驻一段复述列表用途的说明。
 
 ### DS-C.4 搜索与过滤
 
@@ -375,6 +405,8 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
   readonly 状态；业务模块不得复制原生控件后各自覆写一套皮肤。
 - 同一尺寸档的输入壳默认 `36px` 高；checkbox/radio/switch 的标签与控件组成同一完整命中区。字段前后缀、
   单位和清除按钮属于输入壳，不得靠业务页面绝对定位拼装。
+- `DsField.help` 只放当前字段的约束、单位、范围和输入后果；稳定概念或跨字段规则使用 DS-P.6 的
+  `DsHelpTip`。两者不得复制同一句话，错误出现时不得被 tooltip 隐藏。
 
 ### DS-C.6 选择控件、选择器与引用卡
 
@@ -417,6 +449,10 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - 卡片标题包括名称、可选摘要、状态/动作；低频动作放末尾或菜单，高频动作靠近对象。
 - 默认展开主任务分组。仅高级/低频分组可折叠，并记忆用户选择但不写内容数据。
 - “升级曲线与习得技能”这类主任务区域不得只剩折叠摘要；必须直接显示可编辑主内容。
+- Inspector 只允许 `DsInspectorTabs → DsInspectorSection → DsPropertyGrid/DsPropertyRow` 组成主要信息层级。
+  同级 section 自带统一 padding 和边界；业务页不得用裸 `h2 + p + div`、空白块或局部 margin 伪造二级面板。
+- Inspector tab 按用户任务划分，例如“属性 / 引用 / 诊断 / 绘制”；不得按底层文件或重复主工作区信息划分。
+  主区已有资源预览、完整编辑器或问题列表时，Inspector 不再复制一份只读镜像。
 
 ### DS-C.8 空、加载、错误与诊断
 
@@ -446,6 +482,17 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
   200% zoom 不得产生横向页面滚动。Design Lab `RF-17` 是 ready/clear/partial/failure、error/warning、
   button/link/article、152 条分页与长内容基准。
 
+#### DS-C.8b 问题信息架构（v2.8.0）
+
+- 专门的问题页只处理需要修复或关注的诊断；项目身份、版本、本地化统计等只读元数据回到项目概览或权威页面，
+  不得因为“高级”而混进问题分类。
+- 左侧先按严重度分成错误/警告，再按稳定 `code` 的问题族分组；同一问题族涉及多类资源时继续按资源类型分组。
+  每级显示 occurrence 总数，零值使用紧凑空态，不制造可点击假分组。
+- 右侧只显示当前组实例，不再重复“这是警告组、可跳转”等可从标题、计数和行操作直接读出的说明。分组标题、
+  摘要和行消息不得三次复述同一信息。
+- 问题分类必须由 collector 的稳定 code/type 驱动，禁止在 UI 按中文 message 解析；未知 code 明确进入“其他诊断”
+  并保留原 code，不能静默丢失。
+
 ### DS-C.9 Modal、drawer 与危险操作
 
 - modal 用于需要阻断背景的短决策；drawer 用于保留上下文的长表单/Inspector；不得互换滥用。
@@ -455,6 +502,16 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 
 ## 5. Workbench recipes
 
+### DS-R.0 区域职责与去重
+
+- 左侧列表回答“有哪些对象、当前选了谁、如何筛选和管理集合”；中间回答“当前对象是什么、主要编辑/预览任务
+  如何完成”；右侧 Inspector 回答“当前选择的属性、引用、诊断和低频设置是什么”。
+- 同一数据只能有一个权威编辑面。列表不得膨胀成表格主编辑器，主区不得再复制完整对象列表，Inspector 不得
+  重复中央预览、中央表单、集合操作或项目级保存。
+- 页面没有某一区域的真实任务时就不渲染该区域及其布局按钮；不得用空面板、禁用占位和“下一步”tab 填满壳。
+- 同类页面优先复用完整 recipe 与领域组件，而不是只复制颜色或按钮。地图与组合的画布/图层/瓦片选择等同义
+  能力，音乐与音效的列表/播放器，音频与氛围的工作台骨架，都应共享实现或显式差异接口。
+
 ### DS-R.1 对象型工作台
 
 适用：角色、敌人、物品、场景实体、战场等“列表中选对象并编辑”的领域。
@@ -462,8 +519,8 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - 左：可搜索对象列表与创建/复制；中：当前对象主编辑；右：摘要、引用、诊断或低频 Inspector。
 - Wide 可三栏；Medium/Narrow 的右侧必须 drawer 化，列表按 DS-L.2 折叠。
 - 主编辑按任务 tab/section 分组，不能把全部字段塞入永久 Inspector。
-- `DsObjectHero` 贯穿中央列并承载当前对象的 meta 与对象级 actions；它不进入内容滚动层。对象级删除遵循
-  DS-C.2 的固定位置，引用 Inspector 不重复第二个删除入口。
+- `DsObjectHero` 贯穿中央列并承载当前对象的 meta 与中央 owner 的对象级 actions；它不进入内容滚动层。
+  若完整对象操作已由左侧管理列表持有，Hero 不重复；引用 Inspector 永不增加第二个删除入口。
 - 正向参考：`ActorMode` 的对象列表头和明确任务分区、B2 的编辑卡/引用面板。
 - 必须修正的参考缺陷：角色页仍需服从统一 tokens、字段密度、响应式和状态合同；不能复制私有 CSS。
 - 反例：把行走图预览永久占据中央主位、把重要战斗/关系字段都挤入窄 Inspector。
@@ -472,8 +529,11 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 
 适用：静态图像、精灵、地图、战场背景、视频和帧动画。
 
-- 左：资源列表/过滤；中：占最大面积的预览画布；右：元数据、引用和资产操作。
+- 左：资源列表/过滤与集合管理；中：对象标题、必要基本信息和占最大面积的预览/播放器；右：属性、引用、诊断
+  和低频媒体设置。重命名、复制、删除等完整资源操作按 DS-C.2 只有一个 owner，不默认塞入 Inspector。
 - 预览工具条属于画布，位置稳定；元数据不得覆盖内容。
+- 音乐/音效使用同一音频工作台：左侧纵向列表，中间标题与基本信息，下方波形、时间线和播放控制，右侧引用与
+  音频属性；氛围沿用同一三段骨架，但中间主预览替换为可比较的场景滤镜效果，右侧编辑滤镜参数与引用。
 - Medium/Narrow 优先保留画布；列表和 Inspector 进入 drawer。媒体永远不能被压成面板顶部的小缩略图。
 - 正向参考：场景/地图画布既有 pan/zoom 操作和资源工作台的 typed 引用思想。
 - 反例修复：当前 `ImageTab` 将图片预览与表单共同挤在上部；应改为独立主画布，并复用 DS-M 合同。
@@ -520,6 +580,10 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 ### DS-I.3 Dirty、保存与长任务
 
 - dirty 状态在全局固定位置显示；离开/关闭前有未保存改动必须阻止或确认。
+- Header 右上角全局保存是项目持久化的唯一入口；字段修改经 command/session 立即进入同一 dirty 草稿，页面、
+  Inspector、对象卡和底栏不得再出现泛化的“保存名称”“保存组合”“保存作者元数据”等局部保存按钮。
+- 创建、导入、应用、生成、替换等有独立事务语义的局部动作可以保留准确动词，但执行后仍只更新全局 dirty，
+  不得伪装成已经写盘；modal 的“创建/应用”提交只关闭该短决策，不替代全局保存。
 - 保存必须是事务性：进行中、成功、失败都有稳定状态；失败不得清 dirty，也不得丢 undo/redo。
 - 超过 `500ms` 的任务显示进度或明确 busy 状态；超过 `2s` 应给阶段说明或可取消能力（若安全）。
 - 进度和结果通过 `role=status` / `aria-live=polite` 单一通道播报；错误使用 `role=alert`，避免重复播报。
@@ -621,8 +685,11 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 
 - Primitive 不读取业务 store、不知道 Actor/BattleField/Scene id，也不执行保存命令。
 - Recipe 只组织槽位、响应式和滚动；领域组件拥有数据和命令。
-- 同一语义在第三次出现前必须评估抽取；不是按视觉相似度复制 JSX 后再同步维护。
+- 同一语义第二次出现时必须检索现有 primitive/recipe，第三次出现前必须完成抽取或登记正式例外；不得按视觉
+  相似度复制 JSX 后再靠人工同步。修一个共享语义缺陷时必须搜索全仓同义 class/component/文案并列出迁移面。
 - Shared primitive 的公共 props 变更属于跨模块接口，必须有契约测试和迁移清单。
+- 已有局部组件被证实承担跨模块语义时，提升为 design-system primitive，并把行为、样式、ARIA、overlay 和测试
+  一起迁移；禁止只复制 CSS。`DsHelpTip`、`DsReference*`、`DsDiagnostic*`、`DsCatalogControls` 均遵守此路径。
 
 ### DS-IMP.4 禁止的反模式
 
@@ -631,6 +698,8 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - 在 render 中按名称/数组下标猜身份；引用选择器退化成裸 id 输入。
 - 异常捕获后返回空数组造成“看似没数据”；错误必须保留证据并可恢复。
 - 一个页面重复实现 pan/zoom、dialog focus trap、typed reference list 或 save 状态。
+- 用原生 `title`、业务私有绝对定位气泡或页面内 clipped popup 替代共享 tooltip/popover；弹层必须使用语义
+  z-index、viewport 碰撞和所属 modal 的 top layer。
 - 为修单个宽度新增不可解释 magic breakpoint；断点必须属于 DS-L.2 或有正式例外。
 
 ### DS-IMP.5 自动与人工规则映射
@@ -651,7 +720,7 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 规范落地阶段应建立与业务模块隔离的 `Design Lab`，使用固定本地 fixture 数据，不读真实工程、不写内容：
 
 - `FoundationGallery`：颜色、排版、间距、图标、状态。
-- `PatternGallery`：按钮、字段、tab、列表头、对象行、卡片、选择器、引用卡、空/错/加载、dialog/drawer。
+- `PatternGallery`：按钮、字段、tab、列表头、对象行、卡片、选择器、`DsHelpTip`、引用/诊断、空/错/加载、dialog/drawer。
 - `RecipeGallery`：Object、Media、Script、Table 四类完整壳。
 - `StressGallery`：长文本、大列表、错误、无图/宽图/高图、zoom/DPR 和 reduced motion。
 
@@ -675,9 +744,10 @@ Design Lab 是后续 ED-DS-2 的实现目标；本卡只冻结其输入和验收
 | RF-12 | Data table 500 行 | sticky header、单位/对齐、详情 drawer | Table recipe |
 | RF-13 | Modal/drawer/delete blocked | 焦点 trap/return、Esc、引用阻断 | 危险操作 |
 | RF-14 | reduced motion / 200% zoom | 无非必要动画，核心功能可达 | 无障碍 |
-| RF-15 | 单行 Header 菜单 + 常用操作 + 布局控制，1280 / 900 / 720 | Wide/Medium 十项同级；Narrow 显式文件/编辑/导航与模块分组；战斗 4 子页可见且 href 正确；布局三按钮与撤销/重做/保存无 wrap/scroll；按钮/menu 共用命令；弹层不被分栏线覆盖；工程名不挤 Header；分栏线无常驻悬浮按钮；场景页中间按钮与既有脚本面板同源开关，非场景页禁用且不生成底栏 | v2.2 应用壳 |
+| RF-15 | 单行 Header 菜单 + 常用操作 + 布局控制，1280 / 900 / 720 | Wide/Medium 十项同级；Narrow 显式文件/编辑/导航与模块分组；战斗 4 子页可见且 href 正确；当前 capability 的布局按钮与撤销/重做/保存无 wrap/scroll；按钮/menu 共用命令；弹层不被分栏线覆盖；项目名不挤 Header；分栏线无常驻悬浮按钮；场景页底部按钮与既有脚本面板同源开关，无该 capability 的页面不渲染对应入口 | v2.8 应用壳纠正 |
 | RF-16 | Reference simple/grouped/static/loading/partial/error/long-content | 精确与下界计数、occurrence、真实 button/link/article、长路径和静态原因符合 DS-C.6a | v2.3 引用合同 |
 | RF-17 | Diagnostic ready/clear/partial/failure + 152 条 mixed severity | error/warning 文字、真实 button/link/article、30/80 分页、单 live region、长路径与窄宽度符合 DS-C.8a | v2.5 诊断合同 |
+| RF-18 | Help/Inspector/action ownership + 1280/900/720/200% | 无效说明不存在；概念帮助为 18px 圆形视觉/稳定命中区，hover/focus/touch/Esc、viewport collision、modal top layer 与 ARIA 通过；Inspector section 节奏统一；完整对象动作与全局保存不重复 | v2.8 信息架构合同 |
 
 ### DS-PERF.1 大列表性能合同（G3）
 
@@ -818,10 +888,14 @@ MUST/MUST NOT 条款如需改变，不能写例外；必须升级规范版本并
 `CanonicalSceneScriptWorkspaceV5` 与旧版 `ScriptDrawer`；两种实现各自已有水平 resize 和高度记忆。
 
 v2.2 冻结以下纠正：Header 中间布局按钮、`视图 > 脚本面板`、场景工具栏“脚本”和 Cmd/Ctrl+Alt+B
-必须复用这一条现有开关；场景页打开后沿用当前面板内容、选中项和高度，关闭后回到完整场景画布。非场景页
-按钮 disabled 且显示原因。不得新增全局 `.editor` grid 行、第二套 bottomVisible/bottomHeight 或诊断 drawer。
+必须复用这一条现有开关；场景页打开后沿用当前面板内容、选中项和高度，关闭后回到完整场景画布。不存在该
+capability 的页面不渲染入口；capability 存在但临时不可用时才 disabled 并显示原因。不得新增全局 `.editor`
+grid 行、第二套 bottomVisible/bottomHeight 或诊断 drawer。
 场景脚本面板的水平分隔线继续负责 resize；在 Header/View/shortcut 恢复路径可用后，才可移除该分隔线上的
 常驻收起按钮，且不得误删 `ScriptDrawer` 内部其他分栏的 resize/toggle 能力。
+
+> 2026-08-22 用户实机纠正：不存在对应 panel capability 时，保留 disabled 入口会与“无 Inspector 即隐藏”
+> 形成不一致。当前规则由 DS-L.6 / RF-15 覆盖为“capability 不存在则不渲染；仅临时不可用才 disabled + 原因”。
 
 ## 附录 G：依据与边界
 
@@ -831,3 +905,14 @@ v2.2 冻结以下纠正：Header 中间布局按钮、`视图 > 脚本面板`、
   用户拍板的设计规范先行与后续三线审查范围。
 - [Vercel Web Interface Guidelines](https://raw.githubusercontent.com/vercel-labs/web-interface-guidelines/main/command.md)：
   无障碍、焦点、表单、动效、排版、状态、导航、触控与响应式外部基线。该外部基线不替代本项目产品裁决。
+
+## 附录 H：v2.8.0 interaction / IA consolidation（用户已定形，待 Kimi / GLM 重签）
+
+2026-08-22 连续实机审查暴露的不是孤立 padding，而是同义语义仍由业务页各自实现。v2.8 将以下裁决提升为
+全编辑器合同：无帮助价值的说明删除；稳定概念通过共享圆形 `DsHelpTip` 渐进披露，状态/错误/风险/下一步继续
+常显；字段与二级 section 使用统一垂直节奏；图标按语义登记；项目术语统一；完整对象操作只有一个 owner；
+Inspector 不重复中央主任务；全局保存是唯一写盘入口；没有真实 capability 的 panel 入口隐藏；问题页按严重度、
+稳定 code 和资源类型分组且不混入项目元数据；音乐/音效和氛围采用同一媒体工作台骨架。
+
+这次增量同时把脚本私有帮助控件提升为 design-system primitive，并规定“第二次检索、第三次前抽取”的重复治理
+门槛。后续发现同类问题必须修共享 owner 与采用面，不能继续逐截图打页面补丁。RF-18 是本次合同的最小回归面。

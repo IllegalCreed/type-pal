@@ -50,7 +50,7 @@ async function thumbnailBlob(
         image.data[offset + 2] !== index ||
         image.data[offset + 3] !== 255
       )
-        throw new Error(`战场背景像素 ${pixel} 不满足工程索引图契约`)
+        throw new Error(`战场背景像素 ${pixel} 不满足项目索引图契约`)
       const color = paletteColors[index] ?? [0, 0, 0]
       image.data[offset] = color[0]
       image.data[offset + 1] = color[1]
@@ -70,8 +70,8 @@ async function thumbnailBlob(
 }
 
 /**
- * 编辑器图片缩略图。始终从 EditorAssetReader 读 bytes，因此未保存 blob、FSA 工程与
- * HTTP 工程走同一条路径；组件拥有并释放 object URL，不把临时 URL 泄漏给调用方。
+ * 编辑器图片缩略图。始终从 EditorAssetReader 读 bytes，因此未保存 blob、FSA 项目与
+ * HTTP 项目走同一条路径；组件拥有并释放 object URL，不把临时 URL 泄漏给调用方。
  */
 export function ImageAssetThumbnail(props: {
   asset?: AssetId
@@ -79,7 +79,7 @@ export function ImageAssetThumbnail(props: {
   reader: EditorAssetReader
   /** 同 AssetId 替换后的内容版本；通常传 AssetRecord.sha256。 */
   revision?: string
-  /** 战场背景的工程标准色；有值时缩略图显示运行时着色效果，不暴露灰度索引图。 */
+  /** 战场背景的项目标准色；有值时缩略图显示运行时着色效果，不暴露灰度索引图。 */
   paletteColors?: PaletteColors
   alt?: string
   className?: string
@@ -178,7 +178,7 @@ export function ImageAssetPicker(props: {
               : []),
             ...options.map((asset) => ({ value: asset.id, label: imageAssetLabel(asset) })),
             ...(!options.length && !props.allowUnset
-              ? [{ value: UNSET, label: '工程没有可用图片' }]
+              ? [{ value: UNSET, label: '项目没有可用图片' }]
               : []),
           ]}
         />

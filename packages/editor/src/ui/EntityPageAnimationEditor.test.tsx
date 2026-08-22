@@ -61,6 +61,9 @@ describe('EntityPageAnimationEditor', () => {
     }
     await act(async () => root.render(<Harness />))
 
+    const presetRow = host.querySelector<HTMLElement>('[data-property-label="预制动作"]')!
+    expect(presetRow.querySelector('.ds-check-label')).not.toBeNull()
+
     const enabled = host.querySelector<HTMLInputElement>('input[type="checkbox"]')!
     await act(async () => enabled.click())
     expect(changes.at(-1)).toEqual({ sprite: 'sprite-77', action: 'loop', loop: true })
@@ -109,5 +112,25 @@ describe('EntityPageAnimationEditor', () => {
       button.textContent?.includes('打开动作'),
     )!
     expect(openAction.disabled).toBe(true)
+  })
+
+  test('无可解析精灵时开关与说明仍归入统一属性值列', async () => {
+    await act(async () =>
+      root.render(
+        <EntityPageAnimationEditor
+          page={{}}
+          pageIndex={0}
+          sprite={undefined}
+          onChange={() => {}}
+        />,
+      ),
+    )
+
+    const presetRow = host.querySelector<HTMLElement>('[data-property-label="预制动作"]')!
+    expect(presetRow).not.toBeNull()
+    expect(presetRow.querySelector('.ds-property-row__help')?.textContent).toBe(
+      '当前实体没有可解析精灵。',
+    )
+    expect(presetRow.querySelector<HTMLInputElement>('.ds-check-control')?.disabled).toBe(true)
   })
 })

@@ -257,7 +257,7 @@ export const EDITOR_MODULES: readonly EditorModuleDefinition[] = [
   },
   {
     id: 'project',
-    label: '工程',
+    label: '项目设置',
     icon: '🛠️',
     defaultSubpage: 'overview',
     subpages: [
@@ -278,7 +278,14 @@ export const EDITOR_MODULES: readonly EditorModuleDefinition[] = [
         projectPage: 'entrypoint',
         acceptsObject: true,
       },
-      { id: 'advanced', label: '问题与高级', icon: '⚠️', kind: 'project', projectPage: 'advanced' },
+      {
+        id: 'advanced',
+        label: '问题',
+        icon: '⚠️',
+        kind: 'project',
+        projectPage: 'advanced',
+        acceptsObject: true,
+      },
     ],
   },
 ]

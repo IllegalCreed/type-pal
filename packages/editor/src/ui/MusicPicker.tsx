@@ -120,7 +120,7 @@ export function MusicPicker(props: {
             ...(allowStop ? [{ value: STOP, label: '(停止音乐)' }] : []),
             ...options.map((asset) => ({ value: asset.id, label: musicLabel(asset) })),
             ...(!options.length && !allowUnset && !allowStop
-              ? [{ value: UNSET, label: '工程没有可用音乐' }]
+              ? [{ value: UNSET, label: '项目没有可用音乐' }]
               : []),
           ]}
         />

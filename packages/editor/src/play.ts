@@ -1,11 +1,11 @@
 /**
- * 编辑器同源试玩页(X5 落地本地工程)。「引擎试玩/试打/试放」都开本页。
+ * 编辑器同源试玩页(X5 落地本地项目)。「引擎试玩/试打/试放」都开本页。
  *
- * 为什么在编辑器里开引擎:本地工程 = FSA 文件夹句柄,**跨不了源** —— 6051 那台独立
- * reforge 永远读不到你的工程(曾写死 6051 → 空白工程试玩开出 pal 的李逍遥,作者报)。
+ * 为什么在编辑器里开引擎:本地项目 = FSA 文件夹句柄,**跨不了源** —— 6051 那台独立
+ * reforge 永远读不到你的项目(曾写死 6051 → 空白项目试玩开出 pal 的李逍遥,作者报)。
  * 编辑器同源:句柄存 IndexedDB(handle-store),本页取出 → fsaSource → bootGame。
  *
- * 双路:?project=<id> 且没有 workspace = 明确从 HTTP dev 工程启动；
+ * 双路:?project=<id> 且没有 workspace = 明确从 HTTP dev 项目启动；
  * ?workspace=<workspaceId>&project=<id> = 只从对应本地句柄启动，句柄丢失时 fail loud，
  * 绝不按同名 project id 静默回退到仓库 PAL。
  * 其余 URL 参数(scene/pos/facing/battle/skill…)由 bootGame 自己读 location.search,原样生效。
@@ -39,7 +39,7 @@ async function bootFromRecord(record: WorkspaceHandleRecord): Promise<void> {
 async function main(): Promise<void> {
   const params = new URLSearchParams(location.search)
   const projectId = params.get('project')
-  if (!projectId) return fail('缺 ?project=<工程id> 参数')
+  if (!projectId) return fail('缺 ?project=<项目id> 参数')
   const workspaceId = params.get('workspace')
 
   if (!workspaceId) {
@@ -54,7 +54,7 @@ async function main(): Promise<void> {
   } catch (error) {
     return fail(error instanceof Error ? error.message : String(error))
   }
-  // 本地工程:授权门。已 granted 直接起;否则要用户手势(浏览器安全要求)。
+  // 本地项目:授权门。已 granted 直接起;否则要用户手势(浏览器安全要求)。
   const state = await ensurePermission(record.handle, { withRequest: false })
   if (state === 'granted') {
     await bootFromRecord(record)
@@ -65,7 +65,7 @@ async function main(): Promise<void> {
     void (async () => {
       const s = await ensurePermission(record.handle, { withRequest: true })
       if (s !== 'granted') {
-        gateHint.textContent = '未授权,无法读取工程文件夹'
+        gateHint.textContent = '未授权,无法读取项目文件夹'
         return
       }
       gate.hidden = true

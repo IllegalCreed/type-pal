@@ -37,7 +37,7 @@ export function classifyDirectoryPicker(
         '请先用项目的 `pnpm --filter @type-pal/editor run dev:lan` 启动 HTTPS（默认端口 6010），' +
         '再访问终端输出的 HTTPS 地址，' +
         `或在运行编辑器的电脑上打开 ${localhostOrigin(environment.origin)}。` +
-        '切换地址后需要重新选择一次工程文件夹。',
+        '切换地址后需要重新选择一次项目文件夹。',
     }
   }
   if (!environment.hasDirectoryPicker) {

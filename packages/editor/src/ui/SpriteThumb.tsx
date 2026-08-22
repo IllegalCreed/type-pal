@@ -34,7 +34,7 @@ function loadThumb(
         if (!f) return null
         return bakeFrame(f, palette)
       } catch {
-        return null // 缺图静默(工程无此精灵资产)
+        return null // 缺图静默(项目无此精灵资产)
       }
     })()
     thumbCache.set(cacheKey, p)

@@ -1,12 +1,12 @@
 /**
- * 空白工程的占位素材(W-blank;**零原版字节**)—— 现生成:合成色盘 + 起始地形瓦片集 +
+ * 空白项目的占位素材(W-blank;**零原版字节**)—— 现生成:合成色盘 + 起始地形瓦片集 +
  * 占位主角行走精灵。全部手工指定调色板索引作画(非量化 —— 量化是给任意 RGBA 找近色用的,
  * 手绘直接指定索引更精确),经 encodeSpriteChunk + gzip 落成原版同构 .rle,与引擎资产管线一致。
  * 作者随后在编辑器里把这些占位替换成自己的素材(瓦片集/精灵/色盘皆可换)。
  */
 import { compressGzip, encodeSpriteChunk, type Palette, type RleFrame } from '@type-pal/reforge'
 
-// ── 合成色盘(工程自有的「盘 0」,非 PAL 原盘):前若干为占位美术用色,补黑到 256 ──
+// ── 合成色盘(项目自有的「盘 0」,非 PAL 原盘):前若干为占位美术用色,补黑到 256 ──
 // 索引即语义;渲染层照 D25 经色盘着色。作者永远看不到 palId,这是内部机制。
 const ART: [number, number, number][] = [
   [26, 30, 22], // 0 底/描边黑
@@ -119,7 +119,7 @@ async function toGzBuffer(frames: RleFrame[]): Promise<ArrayBuffer> {
   return ab
 }
 
-/** 生成空白工程占位素材:合成色盘 + 地形瓦片集 .rle + 主角精灵 .rle。 */
+/** 生成空白项目占位素材:合成色盘 + 地形瓦片集 .rle + 主角精灵 .rle。 */
 export async function buildSeedAssets(): Promise<{
   palette: Palette
   tilesetRle: ArrayBuffer
@@ -130,7 +130,7 @@ export async function buildSeedAssets(): Promise<{
     palette: SEED_PALETTE,
     tilesetRle: await toGzBuffer(TILE_FRAMES),
     spriteRle: await toGzBuffer(HERO_FRAMES),
-    // 空白工程保留可战斗能力时必须显式自包含；10 帧对应 player-fighter 命名 ABI。
+    // 空白项目保留可战斗能力时必须显式自包含；10 帧对应 player-fighter 命名 ABI。
     battleSpriteRle: await toGzBuffer(HERO_FRAMES.slice(0, 10)),
   }
 }

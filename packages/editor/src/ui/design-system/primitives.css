@@ -70,6 +70,93 @@
   font-family: var(--ds-font-mono);
 }
 
+.ds-help-tip {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.ds-help-tip > button {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: var(--ds-hit-target-compact);
+  height: var(--ds-hit-target-compact);
+  min-width: var(--ds-hit-target-compact);
+  min-height: var(--ds-hit-target-compact);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ds-text-secondary);
+  cursor: help;
+  font: 700 10px / 1 var(--ds-font-sans);
+}
+
+.ds-help-tip > button::before {
+  position: absolute;
+  box-sizing: border-box;
+  width: 18px;
+  height: 18px;
+  border: 1px solid color-mix(in srgb, var(--ds-text-secondary) 56%, transparent);
+  border-radius: 50%;
+  content: "";
+}
+
+.ds-help-tip > button > span {
+  position: relative;
+  z-index: 1;
+}
+
+.ds-help-tip > button:hover,
+.ds-help-tip > button:focus-visible {
+  color: var(--ds-action-primary);
+  outline: 0;
+}
+
+.ds-help-tip > button:hover::before,
+.ds-help-tip > button:focus-visible::before {
+  border-color: var(--ds-action-primary);
+}
+
+.ds-help-tip > button:focus-visible::before {
+  outline: 2px solid var(--ds-focus-ring);
+  outline-offset: 2px;
+}
+
+.ds-help-tooltip {
+  position: fixed;
+  z-index: var(--ds-z-popover);
+  width: max-content;
+  max-width: min(300px, calc(100vw - 40px));
+  padding: 7px 9px;
+  visibility: hidden;
+  border: 1px solid color-mix(in srgb, var(--ds-border-subtle) 82%, var(--ds-action-primary));
+  border-radius: var(--ds-radius-control);
+  background: var(--ds-surface-overlay);
+  color: var(--ds-text-primary);
+  box-shadow: var(--ds-elevation-popover);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-2px);
+  transition:
+    opacity var(--ds-motion-fast) ease,
+    transform var(--ds-motion-fast) ease,
+    visibility var(--ds-motion-fast);
+  font: var(--ds-font-caption);
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.ds-help-tooltip.is-open {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .ds-button--primary {
   border-color: var(--ds-action-primary);
   color: var(--ds-surface-canvas);
@@ -264,6 +351,7 @@
  * Anchor their tooltips inward so the invisible tooltip box cannot widen the
  * nearest scrolling workspace before it is shown. */
 .ds-control-group__actions .ds-tooltip__bubble,
+.ds-inspector-section__header > .ds-tooltip .ds-tooltip__bubble,
 .ds-catalog-group-header__actions .ds-tooltip__bubble {
   right: 0;
   left: auto;
@@ -1535,6 +1623,7 @@
   .ds-check-control::before,
   .ds-menu-trigger,
   .ds-toolbar-button,
+  .ds-help-tooltip,
   .ds-tooltip__bubble,
   .ds-switch-control::after {
     transition: none;

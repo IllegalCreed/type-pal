@@ -101,7 +101,7 @@ export function blockingBattleFieldReferences(
   return references
 }
 
-/** 编辑器引用面板：current canonical 工程以精确 command locator 取代 coarse JSON 路径。 */
+/** 编辑器引用面板：current canonical 项目以精确 command locator 取代 coarse JSON 路径。 */
 export function battleFieldReferences(
   state: EditorState,
   fieldId: number,

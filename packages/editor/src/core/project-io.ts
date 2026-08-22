@@ -1,9 +1,9 @@
 /**
- * 工程 IO(D-B1 布置模式 · 逻辑层 L3)。
+ * 项目 IO(D-B1 布置模式 · 逻辑层 L3)。
  *
  * 读入(LoadedProject → EditorState)与序列化(EditorState → 可落盘 JSON 文件集)。
  * UI(Claude)照契约调这三个:
- *   - toEditorState:把 loader 读入的工程(by-id Record)翻成编辑器工作副本(数组,对齐 JSON 文件)。
+ *   - toEditorState:把 loader 读入的项目(by-id Record)翻成编辑器工作副本(数组,对齐 JSON 文件)。
  *   - serializeProject:把工作副本序列化成 {相对路径: JSON 值} 的文件集(含 manifest.json)。
  *   - writeProject:FSA 落盘壳(逐文件创建目录 + 写出);真写留 Claude 浏览器验。
  *
@@ -53,7 +53,7 @@ import {
 type EditorSourceProject = LoadedCurrentProjectCore
 
 /**
- * 只读工程 → 可变工作副本。by-id Record 翻成数组(Object.values,保原数组序);
+ * 只读项目 → 可变工作副本。by-id Record 翻成数组(Object.values,保原数组序);
  * 数组/Record 直传;运行期派生物(entryScene/assetBase)丢弃。
  * 参数取数据核 LoadedProjectCore(不需 IO source;运行期 LoadedProject 是其子类型,照传)。
  */
@@ -157,9 +157,9 @@ export function serializeProject(
   }
   const content = state.manifest.content
   if (!content.worldVariables)
-    throw new Error('serializeProject: 当前工程缺 manifest.content.worldVariables')
+    throw new Error('serializeProject: 当前项目缺 manifest.content.worldVariables')
   if (!content.stamps && state.stamps.length > 0)
-    throw new Error('serializeProject: 工程有图章模板但 manifest.content.stamps 未登记')
+    throw new Error('serializeProject: 项目有图章模板但 manifest.content.stamps 未登记')
 
   // M2a-2:scenes 走 per-scene 目录(index.json + <id>.json);其余表域单文件。
   const dir = (content.scenes ?? 'content/scenes/').replace(/\/?$/, '/')
@@ -188,7 +188,7 @@ export function serializeProject(
     const orphanIds = Object.keys(state.maps).filter((id) => !indexedIds.has(id))
     if (orphanIds.length)
       throw new Error(`serializeProject: maps 存在未登记资产: ${orphanIds.join(', ')}`)
-  } else throw new Error('serializeProject: 工程缺 manifest.content.maps')
+  } else throw new Error('serializeProject: 项目缺 manifest.content.maps')
   // W7B 上传 tileset 字节:键即资产相对路径(ArrayBuffer → writeFile 走 Blob,diff 记 bin: 占位)
   for (const [rel, buf] of Object.entries(state.tilesetBlobs))
     addFile(rel, buf, `瓦片集上传 ${rel}`)
@@ -248,7 +248,7 @@ export function serializeProject(
   addFile(state.manifest.assets.catalog, validateAssetCatalog(state.assetCatalog), '资源注册表')
 
   // manifest.json:整体还原(state.manifest 自带 startWorld,无需重组)。
-  addFile('manifest.json', state.manifest, '工程清单')
+  addFile('manifest.json', state.manifest, '项目清单')
 
   return files
 }
@@ -340,7 +340,7 @@ export async function writeFile(
 
 function assertWorkspaceIdentityPathWritable(rel: string): void {
   if (isWorkspaceIdentityPath(rel))
-    throw new Error(`工程写入不能覆盖 workspace identity 旁车：${rel}`)
+    throw new Error(`项目写入不能覆盖 workspace identity 旁车：${rel}`)
 }
 
 async function readTextFileIfPresent(
@@ -545,7 +545,7 @@ export async function preflightProjectWriteSet(
     for (const [rel, value] of Object.entries(files)) {
       if (!(value instanceof ArrayBuffer)) continue
       const records = recordsByPath.get(rel)
-      if (!records) continue // 非 catalog 管理的工程附属二进制不参与资源记录校验。
+      if (!records) continue // 非 catalog 管理的项目附属二进制不参与资源记录校验。
       const hash = await sha256Hex(value)
       for (const record of records)
         if (record.bytes !== value.byteLength || record.sha256 !== hash)

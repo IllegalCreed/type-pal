@@ -62,7 +62,7 @@ function actor(id = 'hero', name = 'name.hero'): ActorDef {
 }
 
 describe('人物 CRUD 与解除关联', () => {
-  test('空白工程以 locale + Actor 单事务创建第一人，undo/redo 对称且默认无 levelUp', () => {
+  test('空白项目以 locale + Actor 单事务创建第一人，undo/redo 对称且默认无 levelUp', () => {
     const session = new EditSession(state())
     const command = new CompositeCommand('创建人物', [
       new UpdateLocaleCommand('name.hero', '主角'),

@@ -1,6 +1,6 @@
 # ED-PAL-WORKSPACE-MODES-1 - PAL 开发基线、评审沙盒与种子晋升边界
 
-Status: review
+Status: done
 Phase: phase2
 Capability: X6 / 编辑器工程生命周期（不改变 capability-map 状态）
 Coding Owner: Codex
@@ -287,11 +287,67 @@ Evidence: 上文全部 file:line 均为本席本次会话直接打开核实。�
 
 - Codex: **accept（2026-08-20）**。实现与最终门禁均完成；保存 / 身份 / PAL proof 三路内部只读压力审查
   结论均为 P0=0、P1=0、P2=0。最终只运行一轮完整 editor gate：134 files / 981 tests + typecheck 全绿。
-- Kimi: pending
-- GLM: pending
+- Kimi: **accept（2026-08-20 done 前架构/保存边界主审，本人一手读码 + focused 复跑 + 实机，
+  基于实现提交 896a8751，非代理）**。逐项核验：
+  - **capability 保存门 ✓**：写入 sink 只收不可伪造的冻结 capability（WeakMap 私有状态、
+    单次消费 phase ready→verifying→active 同步转移防竞态、workspace 注册锁、verify→prepare→
+    verify 双重校验）；嵌套 sink 只拿 mutation session（workspace-persistence.ts:142-172,
+    178-216）；菜单与 Cmd/Ctrl+S 共用同一 file.save 门。
+  - **PAL proof ✓**：sentinel + 启动时冻结的确定性指纹（路径只来自可信 boot manifest，
+    workspace-context.ts:201-225,227-246）；指纹在 mutation scope 入口重读目标值，部分写只推进
+    到实际观察完成的受控状态（workspace-persistence.ts:219-229），外部漂移 fail-closed。
+  - **discovery/identity lock ✓（KP1 落地）**：`.type-pal/workspace.json` marker 为权威 +
+    IndexedDB 加速；marker 在全局首存锁 + workspace 锁内作为首个 mutation 先于工程内容写入
+    （:594-613），失败不会留下无限制评审副本；命名空间含大小写/尾部别名硬化（:13-19）。
+  - **Save As TOCTOU ✓**：选目录时 preflight + 源/后代拒绝（assertSaveAsTargetOutsideSource），
+    序列化后与首次真写前动态复验（additionalVerify 在 scope 入口与首 mutation 各跑一次）；
+    `.type-pal` 无条件排除出复制（fsa-copy.ts:36）；sandbox 另存只产 sandbox-copy 新身份
+    （:628-631），永远拿不到 PAL 权限。
+  - **ui_samples 拒写 ✓**：`forceSandbox` 剥离任何已绑定目录/PAL 权限（:693-699）；沙盒首存
+    只接受空目录 + 无 marker 无 sentinel（:528-536,579-582）。
+  - **KP2 ✓**：`resolveOpenedWorkspaceContext`（:676-757）按 marker/sentinel/最近记录分类；
+    受限工作区缺失 marker 时拒绝降级为普通本地工程（:752-753）；普通操作不能获得 PAL 写权限
+    （:725-726）。
+  - **复跑 ✓**：本席独立执行 workspace-persistence/open-actions/handle-store/fsa-copy 四文件
+    53/53 通过；实机顶栏显示「PAL 开发基线」。
+  - 文档 §20 已建立工作区模式表与非 canonical identity 旁车节。
+  未改实现文件，未代签 GLM，未标 done。
+- GLM: **accept（2026-08-20 done 前覆盖/测试终审，本人一手读码 + focused 独立复跑，非代理；
+  基于实现提交 896a8751，39 文件 +4474）**。GP1-GP3 + KP1-KP2 逐钉独立验证：
+  - **GP1（九操作矩阵）✓ 超额覆盖**：本人 build 前点名的两条漏项路径各有专项测试——
+    `newBlankProject refuses a non-empty target before any project write`、`newFromPal
+    refuses a non-empty target before clone mutation`、Save As 同款（open-actions.test）；
+    快捷键/菜单/顶栏共用单命令 `file.save`（app-command-registry:1683 → App:1706 菜单
+    :1766）；workspace-persistence.test 29 用例覆盖首存空目录/capability 单次防伪造
+    （对象展开不可伪造）/绑定续写/指纹漂移零写拒绝/部分写同句柄恢复/marker 争用唯一胜出/
+    SaveAs 模式边界（沙盒→新沙盒 identity，PAL/local→普通本地）/非法 marker 不降级/
+    recent-marker 冲突 fail-closed。
+  - **GP2（marker 三测试面）✓ 全落**：①ZIP round-trip——"沙盒 marker 作为目录身份旁车随原样
+    ZIP 导出并逐字节 roundtrip"；②migrate managed-set——"工作区 identity 旁车不进入
+    managed census，并作为非托管字节受保护"且显式断言 `.type-pal/workspace.json`
+    not-managed/in-unmanaged-hash（migration-project-io.test:104-109）；③冲突回退——
+    "recent identity 与目录 marker 不一致时 fail-closed" + "非法或试图升权的 marker
+    不得降级为普通本地工程"。
+  - **GP3（指纹确定性）✓**："canonical JSON 指纹忽略对象 key 顺序，但保留数组顺序"——
+    直接回应本人"禁顺序敏感序列化"禁令；"PAL 首存要求可信 sentinel + boot 固定关键
+    快照"+"数组变化会使二次校验失败"+"写入和删除都不能覆盖 identity 旁车"。
+  - **KP1/KP2 ✓**：`.type-pal/pal-development.json` sentinel 实体在位（kind/version/
+    workspaceId/projectId）；"PAL sentinel 不能单独授予权限，必须由可信 HTTP context
+    复算目标指纹"；"force sandbox 打开可信 PAL 也只返回新的未绑定沙盒 authority"。
+  - **ui_samples zero-write ✓**："即使选择完全匹配的 PAL 开发目录也拒绝写入"（断言
+    `root.writes=0`）+"保存独立沙盒并按 marker 重开，PAL 受控快照保持不变"。
+  - **recent/play identity ✓**：DB current-only v2（"drops the old store and keeps
+    same-project workspaces separately"）+ 一目录一 identity/拒绝 blind-put 两条身份
+    测试；play-workspace 以 workspaceId 定位 + projectId 三方校验。
+  - **产品文案 ✓**：ProjectPicker:124 "从 PAL 开发快照创建本地工程"（稳定种子字样消失）；
+    App:1477 首写模式提示 + :1689 "保存 PAL 开发基线…"；lifecycle-design:411 明确
+    "不复制 sentinel/不继承写权限…稳定种子只能由未来内容冻结"。
+  - **focused 独立复跑 ✓**：workspace-persistence/open-actions/handle-store/zip/
+    play-workspace/clone/fsa-copy 7 files/68 tests + migrate 2 files/20 tests +
+    typecheck 全绿（完整 134/981 gate 按"只跑一轮"纪律未重复）。
 - counter / 返工处理: none
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **done allowed（2026-08-22）——Codex + GLM + Kimi 三方 accept 齐，用户验收通过。**
 
 ## Draft: 设计与风险
 
@@ -410,15 +466,15 @@ Evidence: 上文全部 file:line 均为本席本次会话直接打开核实。�
 - Reviewer: Kimi + GLM
 - 审查结论: Codex 自验通过；Kimi / GLM 正式 review 签字 pending。内部并行压力审查仅作为返工证据，
   不替代三贤人签字：save path、workspace identity、PAL fingerprint 三路均报 P0/P1/P2 清零。
-- 必须返工项: pending
-- Accept / rework: review
+- 必须返工项: none
+- Accept / rework: accept
 - 非阻塞 P3 / 后续硬化: 可继续收窄 `authorizedDirectory` / `saveWorkspaceHandle` 等低层导出并给
   `finishOpen(...registrationMutation)` 增加同 physical entry 的显式 API 断言；当前生产调用均在受控锁域，
   无已知绕过。全局 discovery lock 覆盖首次 clone / write 是安全优先的吞吐取舍，可另卡用 reservation 优化。
 
 ## 用户验收
 
-- 用户结论: 2026-08-20 已批准设计方向；实现验收 pending。
+- 用户结论: 2026-08-22 实现验收通过，同意提交推送并转入下一任务。
 - 后续任务: 最终稳定用户种子的内容冻结、promotion 与发布管线另卡处理。
 
 ## 交接日志
@@ -448,7 +504,27 @@ Evidence: 上文全部 file:line 均为本席本次会话直接打开核实。�
   `review`，Codex 签 accept。Next: Kimi 审架构与保存边界、GLM 审矩阵 / 文档 / 测试覆盖；不得在两席
   accept 前标 done。
 
+- 2026-08-20 GLM（覆盖/测试矩阵）: done 终审完成并签 **accept**。GP1 两条漏项路径
+  （newBlankProject/newFromPal）均有专项拒绝测试；九操作矩阵经 29 用例 persistence 套件超额
+  覆盖（capability 防伪造/指纹漂移零写/部分写恢复/SaveAs 模式边界）；GP2 三测试面全落（ZIP
+  round-trip/migrate managed-set 排除/冲突 fail-closed）；GP3 指纹忽略 key 顺序保数组顺序
+  （直接回应禁令）；KP1 sentinel 实体 + KP2 force-sandbox 拒绝升权；ui_samples 双向 zero-write
+  断言；DB v2 current-only 多 identity；文案全部改口"开发快照"。focused 7/68 + migrate 2/20
+  + typecheck 本席复跑全绿，完整 gate 按纪律未重复。未改实现文件，未代签 Kimi。
+  Next: Kimi accept + 用户验收。
+- 2026-08-20 Kimi: done 前架构/保存边界主审完成，签 **accept（896a8751，无返工项）**。
+  一手核验：capability 单次消费 + 锁内双重 verify + 嵌套 sink 只持 mutation session；PAL proof
+  冻结指纹 + 部分写只推进已观察状态；marker 双锁内先于内容写入（KP1）；Save As TOCTOU 复验 +
+  源/后代拒绝 + `.type-pal` 排除 + sandbox-copy 新身份；ui_samples forceSandbox 剥离一切绑定权限；
+  resolveOpenedWorkspaceContext 满足 KP2 归类与降级拒绝。本席复跑 workspace-persistence/
+  open-actions/handle-store/fsa-copy 53/53；实机顶栏「PAL 开发基线」确认。未改实现文件，
+  未代签 GLM，未标 done。Next: 用户验收。
+- 2026-08-22 User: 验收当前实现并授权提交推送。Evidence: 当前会话“对，先提交推送，然后开工”。
+  Next: Codex 收口 `codex/ed-pal-workspace-modes-1`，再切干净分支推进 ARCH-ENTRYPOINT-CANONICAL-1。
+
 ## 下一位 Agent 提示词
+
+当前无下一位 Agent 提示词；三方 accept 与用户验收已齐，任务收口。
 
 ### 给 Kimi（build 前审查——已完成）
 

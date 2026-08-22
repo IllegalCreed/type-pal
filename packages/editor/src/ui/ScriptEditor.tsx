@@ -21,8 +21,7 @@ import type {
 } from '@type-pal/content'
 import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
 import type { ReactElement, ReactNode } from 'react'
-import { cloneElement, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
-import { createPortal } from 'react-dom'
+import { cloneElement, useEffect, useId, useMemo, useRef, useState } from 'react'
 import {
   type AuthorCommandChildKey,
   type AuthorCommandPath,
@@ -49,6 +48,7 @@ import {
   DsCheckbox,
   DsDialog,
   DsField,
+  DsHelpTip,
   DsIconButton,
   DsNumberInput,
   DsSelect,
@@ -143,130 +143,6 @@ export function CanonicalScriptDialog(props: {
   )
 }
 
-export function CanonicalHelpTip(props: { label: string; children: ReactNode }) {
-  const tooltipId = useId()
-  const buttonRef = useRef<HTMLButtonElement>(null)
-  const tooltipRef = useRef<HTMLSpanElement>(null)
-  const [portalHost, setPortalHost] = useState<Element | null>(null)
-  const [dismissed, setDismissed] = useState(false)
-  const [hovered, setHovered] = useState(false)
-  const [focused, setFocused] = useState(false)
-  const [position, setPosition] = useState({ left: -10_000, top: -10_000 })
-  const open = !dismissed && (hovered || focused)
-
-  const placeTooltip = useCallback((button = buttonRef.current) => {
-    const tooltip = tooltipRef.current
-    if (!button || !tooltip) return
-    const buttonRect = button.getBoundingClientRect()
-    const tooltipRect = tooltip.getBoundingClientRect()
-    const viewportMargin = 20
-    const gap = 7
-    const left = Math.min(
-      Math.max(viewportMargin, buttonRect.left + buttonRect.width / 2 - tooltipRect.width / 2),
-      Math.max(viewportMargin, window.innerWidth - viewportMargin - tooltipRect.width),
-    )
-    const below = buttonRect.bottom + gap
-    const top =
-      below + tooltipRect.height <= window.innerHeight - viewportMargin
-        ? below
-        : Math.max(viewportMargin, buttonRect.top - gap - tooltipRect.height)
-    setPosition({ left, top })
-  }, [])
-
-  const prepareTooltip = (button: HTMLButtonElement) => {
-    setDismissed(false)
-    const nextPortalHost = button.closest('dialog') ?? document.body
-    if (nextPortalHost === portalHost) placeTooltip(button)
-    else {
-      setPortalHost(nextPortalHost)
-      setPosition({ left: -10_000, top: -10_000 })
-    }
-  }
-
-  useEffect(() => {
-    const button = buttonRef.current
-    if (!button) return
-    setPortalHost(button.closest('dialog') ?? document.body)
-  }, [])
-
-  useEffect(() => {
-    if (!open || !portalHost) return
-    const reposition = () => placeTooltip()
-    reposition()
-    window.addEventListener('resize', reposition)
-    document.addEventListener('scroll', reposition, true)
-    window.visualViewport?.addEventListener('resize', reposition)
-    window.visualViewport?.addEventListener('scroll', reposition)
-    const observer =
-      typeof ResizeObserver === 'undefined'
-        ? null
-        : new ResizeObserver(() => {
-            reposition()
-          })
-    if (buttonRef.current) observer?.observe(buttonRef.current)
-    if (tooltipRef.current) observer?.observe(tooltipRef.current)
-    return () => {
-      window.removeEventListener('resize', reposition)
-      document.removeEventListener('scroll', reposition, true)
-      window.visualViewport?.removeEventListener('resize', reposition)
-      window.visualViewport?.removeEventListener('scroll', reposition)
-      observer?.disconnect()
-    }
-  }, [open, placeTooltip, portalHost])
-
-  const visualTooltip = portalHost
-    ? createPortal(
-        <span
-          ref={tooltipRef}
-          className={`canonical-help-tooltip${open ? ' is-open' : ''}`}
-          aria-hidden="true"
-          style={{ left: position.left, top: position.top }}
-        >
-          {props.children}
-        </span>,
-        portalHost,
-      )
-    : null
-
-  return (
-    <>
-      <span
-        className={`canonical-help-tip${open ? ' is-open' : ''}${dismissed ? ' dismissed' : ''}`}
-      >
-        <DsButton
-          ref={buttonRef}
-          size="compact"
-          variant="quiet"
-          aria-label={`${props.label}说明`}
-          aria-describedby={tooltipId}
-          onMouseEnter={(event) => {
-            setHovered(true)
-            prepareTooltip(event.currentTarget)
-          }}
-          onMouseLeave={() => setHovered(false)}
-          onFocus={(event) => {
-            setFocused(true)
-            prepareTooltip(event.currentTarget)
-          }}
-          onBlur={() => setFocused(false)}
-          onKeyDown={(event) => {
-            if (event.key !== 'Escape' || !open) return
-            event.preventDefault()
-            event.stopPropagation()
-            setDismissed(true)
-          }}
-        >
-          ?
-        </DsButton>
-        <span id={tooltipId} role="tooltip" className="ds-visually-hidden">
-          {props.children}
-        </span>
-      </span>
-      {visualTooltip}
-    </>
-  )
-}
-
 export interface ScriptSchemeStripOption {
   id: string
   label: string
@@ -288,10 +164,10 @@ export function ScriptSchemeStrip(props: {
         <div className="script-section-heading">
           <strong className="script-section-title">脚本方案</strong>
           <span className="script-section-count">{props.options.length} 个方案</span>
-          <CanonicalHelpTip label="脚本方案">
+          <DsHelpTip label="脚本方案">
             同一脚本入口可以有多套方案。每套方案拥有独立的执行步骤和正文；剧情指令切换方案时，
             会整套切换。
-          </CanonicalHelpTip>
+          </DsHelpTip>
         </div>
         <DsButton size="compact" variant="secondary" icon="add" onClick={props.onCreate}>
           新建方案
@@ -415,9 +291,9 @@ export function ScriptSchemeDetailsDialog(props: {
         <div className="script-scheme-name-field">
           <header className="canonical-dialog-field-heading">
             <label htmlFor={nameInputId}>方案名称</label>
-            <CanonicalHelpTip label="脚本方案">
+            <DsHelpTip label="脚本方案">
               这是一套完整脚本。切换方案时，它拥有的执行步骤、出现前准备和正文会一起切换。
-            </CanonicalHelpTip>
+            </DsHelpTip>
           </header>
           <DsTextInput
             size="compact"
@@ -439,9 +315,9 @@ export function ScriptSchemeDetailsDialog(props: {
           <div className="script-scheme-default-control">
             <strong>{defaultDraft ? '默认方案' : '非默认方案'}</strong>
             <div className="script-scheme-default-action">
-              <CanonicalHelpTip label="默认方案">
+              <DsHelpTip label="默认方案">
                 {defaultDraft ? props.defaultControl.activeCopy : props.defaultControl.inactiveCopy}
-              </CanonicalHelpTip>
+              </DsHelpTip>
               <DsButton
                 size="compact"
                 variant="secondary"
@@ -457,9 +333,9 @@ export function ScriptSchemeDetailsDialog(props: {
         <div className="script-scheme-usage">
           <header className="canonical-dialog-field-heading">
             <strong>使用位置</strong>
-            <CanonicalHelpTip label="使用位置">
+            <DsHelpTip label="使用位置">
               页面或脚本指令可能正在使用这套方案。先改掉这些位置，才能安全删除方案。
-            </CanonicalHelpTip>
+            </DsHelpTip>
           </header>
           {props.references.length ? (
             <>
@@ -529,11 +405,11 @@ export function ScriptSchemeCreateDialog(props: {
         <div className="script-scheme-name-field">
           <header className="canonical-dialog-field-heading">
             <label htmlFor={nameInputId}>方案名称</label>
-            <CanonicalHelpTip label="新建脚本方案">
+            <DsHelpTip label="新建脚本方案">
               {props.first
                 ? '创建这个脚本入口的第一套方案。'
                 : '新方案从空白内容开始，已有方案不会受到影响。'}
-            </CanonicalHelpTip>
+            </DsHelpTip>
           </header>
           <DsTextInput
             size="compact"
@@ -1060,10 +936,7 @@ function CommandRows(props: {
   )
 }
 
-function defaultCondition(
-  kind: AuthorCondition['kind'],
-  target?: EntityAddress,
-): AuthorCondition {
+function defaultCondition(kind: AuthorCondition['kind'], target?: EntityAddress): AuthorCondition {
   switch (kind) {
     case 'flag':
       return { kind, flag: 'my-flag', is: true }
@@ -1216,9 +1089,7 @@ function ConditionEditor(props: {
             ['not', '取反'],
           ].map(([value, label]) => ({ value: value!, label: label! }))}
           onValueChange={(kind) =>
-            props.onChange(
-              defaultCondition(kind as AuthorCondition['kind'], target ?? firstTarget),
-            )
+            props.onChange(defaultCondition(kind as AuthorCondition['kind'], target ?? firstTarget))
           }
         />
       </CanonicalField>
@@ -2679,7 +2550,7 @@ function fallbackInsertionChoice(
     case 'unmountParty':
       return enabled({ kind })
     default:
-      return unavailable('当前工程没有这种指令的可复用样例')
+      return unavailable('当前项目没有这种指令的可复用样例')
   }
 }
 
@@ -3309,7 +3180,11 @@ function TransitionEditor(props: {
           ]}
           onValueChange={(kind) =>
             props.onChange(
-              defaultTransition(kind as BaseStateTransition['kind'], props.states, props.commandIds),
+              defaultTransition(
+                kind as BaseStateTransition['kind'],
+                props.states,
+                props.commandIds,
+              ),
             )
           }
         />
@@ -3657,9 +3532,9 @@ export function CanonicalScriptFlowEditor(props: {
             <span className="script-section-count canonical-flow-count">
               {flow.stages.length} 个步骤
             </span>
-            <CanonicalHelpTip label="分次执行">
+            <DsHelpTip label="分次执行">
               适用于对话、宝箱等每次运行内容会变化的脚本。每次运行只执行当前步骤；完成后可指定下次从哪一步开始。
-            </CanonicalHelpTip>
+            </DsHelpTip>
           </div>
           <div className="canonical-flow-actions">
             <DsButton
@@ -3796,9 +3671,9 @@ export function CanonicalScriptFlowEditor(props: {
               <section className="canonical-flow-setting">
                 <header className="canonical-dialog-field-heading">
                   <strong>起始步骤</strong>
-                  <CanonicalHelpTip label="起始步骤">
+                  <DsHelpTip label="起始步骤">
                     每套脚本方案只能有一个起始步骤。切换到这套方案后，第一次运行会从这里开始。
-                  </CanonicalHelpTip>
+                  </DsHelpTip>
                 </header>
                 <div className="canonical-stage-initial-setting">
                   <span>
@@ -3818,9 +3693,9 @@ export function CanonicalScriptFlowEditor(props: {
               <section className="canonical-flow-setting">
                 <header className="canonical-dialog-field-heading">
                   <label htmlFor={stageNextSelectId}>下次运行</label>
-                  <CanonicalHelpTip label="下次运行">
+                  <DsHelpTip label="下次运行">
                     当前步骤完成后，下一次运行这套方案时从哪个步骤开始。
-                  </CanonicalHelpTip>
+                  </DsHelpTip>
                 </header>
                 <DsSelect
                   size="compact"
@@ -3860,9 +3735,9 @@ export function CanonicalScriptFlowEditor(props: {
             <div className="canonical-stage-create-form">
               <div className="canonical-modal-context">
                 <span>所属方案：{props.ownerLabel ?? '当前脚本'}</span>
-                <CanonicalHelpTip label="新建步骤">
+                <DsHelpTip label="新建步骤">
                   新步骤拥有独立的出现前准备和脚本正文，只会加入当前脚本方案。
-                </CanonicalHelpTip>
+                </DsHelpTip>
               </div>
               <DsCheckbox
                 size="compact"
@@ -3929,11 +3804,11 @@ export function CanonicalScriptFlowEditor(props: {
         <div className="script-section-heading">
           <strong className="script-section-title">连续流程（高级）</strong>
           <span className="script-section-count canonical-flow-count">{ids.length} 个状态</span>
-          <CanonicalHelpTip label="连续流程">
+          <DsHelpTip label="连续流程">
             {flow.machine.cadence === 'transition'
               ? '这是按源指令逐拍迁移的流程：一个状态正文表示一条源指令的完整展开，正文内的多条指令会在同一帧执行；只有状态去向负责进入下一拍。'
               : '用于同一次运行内按条件或选择连续切换多个状态。普通脚本和“下次运行换内容”不需要使用。'}
-          </CanonicalHelpTip>
+          </DsHelpTip>
         </div>
         <CanonicalField label="起始状态">
           <DsSelect

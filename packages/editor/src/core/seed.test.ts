@@ -61,7 +61,7 @@ describe('enumerateSeedFiles', () => {
     expect(seed).toHaveLength(7)
   })
 
-  test('catalog 素材与内容项都只使用工程相对路径', () => {
+  test('catalog 素材与内容项都只使用项目相对路径', () => {
     const portrait = seed.find((f) => f.rel === 'assets/migrated/portraits/001.png')
     expect(portrait).toMatchObject({
       src: 'assets/migrated/portraits/001.png',
@@ -114,7 +114,7 @@ describe('buildBlankProject(W-blank:开箱即玩)', () => {
     expect(files['content/world-variables.json']).toEqual({})
     expect(m.minimumSaveVersion).toBe(8)
     expect(m.entryScene).toBe('start')
-    // 队伍非空(空 party → 引擎 boot 崩);assets 指工程内(不再指原版 extracted)
+    // 队伍非空(空 party → 引擎 boot 崩);assets 指项目内(不再指原版 extracted)
     expect(m.startWorld.party).toEqual(['hero'])
     expect(m.assets.catalog).toBe('assets/index.json')
     expect(m.assets.roles['visual.standardColorTable']).toBe('color.project-standard')
@@ -166,7 +166,7 @@ describe('buildBlankProject(W-blank:开箱即玩)', () => {
       mediaType: 'application/json',
       bytes: colorBytes.byteLength,
       sha256: await sha256Hex(colorBytes),
-      label: '工程标准色彩',
+      label: '项目标准色彩',
       origin: { kind: 'generated' },
     })
     expect(files['assets/generated/tilesets/starter.rle']).toBeInstanceOf(ArrayBuffer)

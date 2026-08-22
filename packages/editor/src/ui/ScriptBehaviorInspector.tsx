@@ -12,9 +12,8 @@ import {
   type ScriptEditorState,
   UpdateEntityBehaviorCommand,
 } from '../core/script-editor.js'
-import { DsSelect } from './design-system/controls.js'
+import { DsHelpTip, DsSelect } from './design-system/controls.js'
 import {
-  CanonicalHelpTip,
   type CanonicalScriptEditorContext,
   CanonicalScriptFlowEditor,
   nextGeneratedScriptSchemeId,
@@ -172,7 +171,7 @@ export function ScriptBehaviorInspector(props: {
       <header className="script-behavior-heading">
         <div className="script-heading-title">
           <h4>{title}</h4>
-          <CanonicalHelpTip label={title}>{description}</CanonicalHelpTip>
+          <DsHelpTip label={title}>{description}</DsHelpTip>
         </div>
         {!entries.length ? <span>尚未创建</span> : null}
       </header>

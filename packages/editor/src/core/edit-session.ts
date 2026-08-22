@@ -1,7 +1,7 @@
 /**
  * EditSession + 撤销/重做核(D-B0 第二根地基,最大防返工点)。
  *
- * 持有工程的不可变工作副本;所有改动经 dispatch(Command) —— 统一驱动 undo/redo + 通知。
+ * 持有项目的不可变工作副本;所有改动经 dispatch(Command) —— 统一驱动 undo/redo + 通知。
  * 铁律:命令不得原地 mutate 数据(命令返回新态)。React 经 subscribe + useSyncExternalStore
  * 订阅(B1 接),状态变 → 重渲染。
  *
@@ -30,7 +30,7 @@ export interface EditorState extends ContentBundle {
   manifest: CurrentManifest
   /** content16 项目级作者变量定义；运行时值不在编辑工作副本中混存。 */
   worldVariables?: WorldVariableRegistryV1
-  /** W7G 作者态图章模板表；旧工程加载时规范化为空数组。 */
+  /** W7G 作者态图章模板表；旧项目加载时规范化为空数组。 */
   stamps: StampTemplate[]
   /**
    * 自有地图工作副本:键 = map asset 稳定 id。文件路径只从 mapIndex 解析。
@@ -44,12 +44,12 @@ export interface EditorState extends ContentBundle {
    * tileset、world sprite 与 battle-sprite 已迁到 assetCatalog + assetBlobs，不得再消费此字段。
    */
   tilesetBlobs: Record<string, ArrayBuffer>
-  /** 分片脚本工作副本；普通 inline 工程均为空/undefined。 */
+  /** 分片脚本工作副本；普通 inline 项目均为空/undefined。 */
   scriptIndex?: ScriptIndexV1
   scriptChunks: Record<string, ScriptChunkV1>
-  /** 工程唯一资源注册表；音乐页与运行时共用同一份 AssetId -> path 真值。 */
+  /** 项目唯一资源注册表；音乐页与运行时共用同一份 AssetId -> path 真值。 */
   assetCatalog: AssetCatalogV1
-  /** 本会话新导入/替换的二进制，键为 catalog 中的工程相对 path。 */
+  /** 本会话新导入/替换的二进制，键为 catalog 中的项目相对 path。 */
   assetBlobs: Record<string, ArrayBuffer>
 }
 

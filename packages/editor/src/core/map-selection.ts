@@ -1,7 +1,7 @@
 /**
  * W8 地图内容选择的纯状态与命中逻辑。
  *
- * 这里的 selection 是编辑器工作区临时态：不进入 EditorState、工程 JSON、URL 或 undo 栈。
+ * 这里的 selection 是编辑器工作区临时态：不进入 EditorState、项目 JSON、URL 或 undo 栈。
  * 持久内容修改仍必须通过 Command。
  */
 import type { StampPlacementGroupV1 } from '@type-pal/content'

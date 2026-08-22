@@ -6,7 +6,9 @@ import {
   DsButton,
   DsCatalogControls,
   DsCatalogFilter,
+  DsCatalogGroupEmpty,
   DsCatalogGroupHeader,
+  DsCatalogGroupList,
   DsCatalogRow,
   DsDiagnosticList,
   DsDiagnosticPanel,
@@ -200,6 +202,24 @@ describe('object workbench recipes', () => {
     expect(headers[0]?.querySelector('.ds-catalog-group-header__actions .ds-button')).not.toBeNull()
     expect(headers[1]?.getAttribute('data-level')).toBe('secondary')
     expect(headers[1]?.querySelector('.ds-catalog-group-header__title')?.tagName).toBe('H4')
+  })
+
+  test('catalog group list owns nested-row indentation and empty-group rhythm', async () => {
+    await act(async () =>
+      root.render(
+        <DsCatalogGroupList label="问题分组">
+          <DsCatalogGroupHeader title="警告" count={1} />
+          <DsCatalogRow level="secondary" title="音乐" meta="unused-asset" />
+          <DsCatalogGroupEmpty>暂无错误</DsCatalogGroupEmpty>
+        </DsCatalogGroupList>,
+      ),
+    )
+    const list = host.querySelector('.ds-catalog-group-list')
+    const row = host.querySelector('.ds-catalog-row')
+    expect(list?.getAttribute('aria-label')).toBe('问题分组')
+    expect(row?.getAttribute('data-level')).toBe('secondary')
+    expect(row?.classList.contains('ds-catalog-row--secondary')).toBe(true)
+    expect(host.querySelector('.ds-catalog-group-list__empty')?.textContent).toBe('暂无错误')
   })
 
   test('central and inspector sections use separate semantic recipes', async () => {

@@ -1,5 +1,5 @@
 /**
- * seed —— 自包含工程克隆的纯核(P4)。
+ * seed —— 自包含项目克隆的纯核(P4)。
  * relativizeManifest:深拷贝当前 manifest，避免克隆提交过程修改种子对象。
  * enumerateSeedFiles:汇总克隆要拉的**可复制**文件集(内容表 + 场景 + 全部素材);
  * manifest.json 本身走 relativizeManifest 单独写(不在此列)。
@@ -44,7 +44,7 @@ function buildSeedMap(): ProjectMap {
   }
 }
 
-/** 一个种子文件:从工程内 src 读 → 写本地 rel。 */
+/** 一个种子文件:从项目内 src 读 → 写本地 rel。 */
 export interface SeedFile {
   rel: string
   src: string
@@ -62,7 +62,7 @@ export interface SeedFile {
 }
 
 /**
- * 空白工程骨架(P4「从头做」;W-blank:开箱即玩)。返回 {rel: 值} 文件集(writeProject 落盘;
+ * 空白项目骨架(P4「从头做」;W-blank:开箱即玩)。返回 {rel: 值} 文件集(writeProject 落盘;
  * 二进制值 = ArrayBuffer 走 Blob)。**零原版字节** —— 自产合成色盘 + 起始地形瓦片集 + 占位主角:
  * 点新建即出生在一间 12×12 草地房、可走动、被房间边界挡住。作者随后逐一替换占位素材。
  * async:占位素材 .rle 走浏览器 gzip(seed-assets)。
@@ -179,7 +179,7 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
           mediaType: 'application/json',
           bytes: colorBytes.byteLength,
           sha256: colorHash,
-          label: '工程标准色彩',
+          label: '项目标准色彩',
           origin: { kind: 'generated' },
         },
         [tilesetAsset]: {
@@ -217,7 +217,7 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
     [battleSpritePath]: battleSpriteRle,
     'manifest.json': {
       id,
-      name: name.trim() || '新工程',
+      name: name.trim() || '新项目',
       contentVersion: CONTENT_VERSION,
       minimumSaveVersion: CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
       entryScene: 'start',
@@ -244,7 +244,7 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
   }
 }
 
-/** 当前 manifest 深拷；所有路径在进入工程边界前已经是工程相对路径。 */
+/** 当前 manifest 深拷；所有路径在进入项目边界前已经是项目相对路径。 */
 export function relativizeManifest(m: CurrentManifest): CurrentManifest {
   return structuredClone(m)
 }

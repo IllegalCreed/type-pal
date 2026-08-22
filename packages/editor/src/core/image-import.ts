@@ -15,7 +15,7 @@ export function quantizeRgbaToPalette(
   palette: ImagePalette,
 ): QuantizedImage {
   if (rgba.length % 4 !== 0) throw new Error('RGBA 字节长度必须是 4 的倍数')
-  if (palette.length !== 256) throw new Error('工程标准色彩必须正好包含 256 色')
+  if (palette.length !== 256) throw new Error('项目标准色彩必须正好包含 256 色')
   const count = rgba.length / 4
   const indices = new Uint8Array(count)
   const indexedRgba = new Uint8ClampedArray(rgba.length)
@@ -117,7 +117,7 @@ export async function prepareAuthoredImage(
     }
     if (!palette) {
       bitmap.close()
-      throw new Error('战场背景导入缺工程标准色彩')
+      throw new Error('战场背景导入缺项目标准色彩')
     }
     const canvas = document.createElement('canvas')
     canvas.width = width

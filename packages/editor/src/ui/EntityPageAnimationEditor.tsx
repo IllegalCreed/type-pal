@@ -1,14 +1,19 @@
 import type { EntityPage, SpriteActionBinding, SpriteDef } from '@type-pal/content'
 import { sortedSpriteActions } from '../core/sprite-actions.js'
-import { DsSelect } from './design-system/controls.js'
+import { DsButton, DsCheckbox, DsNumberInput, DsSelect } from './design-system/controls.js'
+import { DsPropertyGrid, DsPropertyRow } from './design-system/recipes.js'
 
-export function EntityPageAnimationEditor(props: {
+interface EntityPageAnimationFieldsProps {
   page: EntityPage | undefined
-  pageIndex: number
   sprite: SpriteDef | undefined
   onChange: (binding: SpriteActionBinding | undefined) => void
   onOpenAction?: (spriteId: string, actionId: string) => void
-}) {
+}
+
+/**
+ * 实体页属性网格中的动作字段。布局由外层 DsPropertyGrid 统一持有，避免嵌套网格产生另一套行距。
+ */
+export function EntityPageAnimationFields(props: EntityPageAnimationFieldsProps) {
   const actions = sortedSpriteActions(props.sprite)
   const binding = props.page?.animation
   const selected = actions.find((entry) => entry.id === binding?.action)
@@ -36,33 +41,41 @@ export function EntityPageAnimationEditor(props: {
   }
 
   return (
-    <section
-      className="entity-page-animation-editor"
-      aria-label={`第 ${props.pageIndex + 1} 页默认动作`}
-    >
-      <div className="entity-page-animation-toggle">
-        <label>
-          <input
-            type="checkbox"
-            checked={!!binding}
-            disabled={!props.sprite || actions.length === 0}
-            onChange={(event) => (event.target.checked ? enable() : props.onChange(undefined))}
-          />
-          页面激活时播放预制动作
-        </label>
-        {!props.sprite ? (
-          <small>当前实体没有可解析精灵。</small>
-        ) : actions.length === 0 ? (
-          <small>精灵“{props.sprite.label || props.sprite.id}”尚未定义动作。</small>
-        ) : null}
-      </div>
+    <>
+      <DsPropertyRow
+        label="预制动作"
+        help={
+          !props.sprite
+            ? '当前实体没有可解析精灵。'
+            : actions.length === 0
+              ? `精灵“${props.sprite.label || props.sprite.id}”尚未定义动作。`
+              : undefined
+        }
+      >
+        <DsCheckbox
+          size="compact"
+          label="页面激活时播放预制动作"
+          checked={!!binding}
+          disabled={!props.sprite || actions.length === 0}
+          onChange={(event) => (event.target.checked ? enable() : props.onChange(undefined))}
+        />
+      </DsPropertyRow>
 
       {binding ? (
         <>
-          <div className="field">
-            <span className="field-label">动作</span>
+          <DsPropertyRow
+            label="动作"
+            help={
+              <span className={bindingValid ? undefined : 'entity-page-animation-status--invalid'}>
+                {bindingValid
+                  ? `引用 ${binding.sprite}/${binding.action}；每个场景实例拥有独立播放相位。`
+                  : '当前复合引用与实体精灵或动作定义不匹配，请重新选择。'}
+              </span>
+            }
+          >
             <div className="entity-page-animation-action-row">
               <DsSelect
+                size="compact"
                 aria-label="页面默认动作"
                 value={bindingValid ? binding.action : ''}
                 options={[
@@ -90,33 +103,29 @@ export function EntityPageAnimationEditor(props: {
                   })
                 }}
               />
-              <button
-                type="button"
-                className="mini-txt"
+              <DsButton
+                size="compact"
+                variant="secondary"
+                icon="open"
                 disabled={!bindingValid}
                 onClick={() => bindingValid && props.onOpenAction?.(binding.sprite, binding.action)}
               >
-                打开动作 ↗
-              </button>
+                打开动作
+              </DsButton>
             </div>
-          </div>
-          <div className="field">
-            <span className="field-label">播放</span>
-            <label className="entity-page-animation-checkbox">
-              <input
-                type="checkbox"
-                checked={binding.loop}
-                onChange={(event) => patch({ loop: event.target.checked })}
-              />
-              循环
-            </label>
-          </div>
-          <div className="field">
-            <span className="field-label">起始相位</span>
+          </DsPropertyRow>
+          <DsPropertyRow label="播放">
+            <DsCheckbox
+              size="compact"
+              label="循环"
+              checked={binding.loop}
+              onChange={(event) => patch({ loop: event.target.checked })}
+            />
+          </DsPropertyRow>
+          <DsPropertyRow label="起始相位">
             <div className="entity-page-animation-start">
-              <input
-                className="in mono"
-                type="number"
+              <DsNumberInput
+                size="compact"
                 min={0}
                 step={10}
                 value={binding.startAtMs ?? 0}
@@ -129,14 +138,27 @@ export function EntityPageAnimationEditor(props: {
               />
               <span>ms</span>
             </div>
-          </div>
-          <p className={`entity-page-animation-status${bindingValid ? '' : ' invalid'}`}>
-            {bindingValid
-              ? `引用 ${binding.sprite}/${binding.action}；每个场景实例拥有独立播放相位。`
-              : '当前复合引用与实体精灵或动作定义不匹配，请重新选择。'}
-          </p>
+          </DsPropertyRow>
         </>
       ) : null}
+    </>
+  )
+}
+
+/** 独立使用时仍提供完整的共享属性网格。 */
+export function EntityPageAnimationEditor(
+  props: EntityPageAnimationFieldsProps & { pageIndex: number },
+) {
+  return (
+    <section aria-label={`第 ${props.pageIndex + 1} 页默认动作`}>
+      <DsPropertyGrid>
+        <EntityPageAnimationFields
+          page={props.page}
+          sprite={props.sprite}
+          onChange={props.onChange}
+          onOpenAction={props.onOpenAction}
+        />
+      </DsPropertyGrid>
     </section>
   )
 }

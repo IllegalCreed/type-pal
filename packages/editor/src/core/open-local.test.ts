@@ -64,7 +64,7 @@ describe('openLocalProject current canonical boundary', () => {
     reforge.readJson.mockRejectedValue(new Error('404 manifest.json'))
 
     await expect(openLocalProject(directory('empty-folder'))).rejects.toThrow(
-      '打开工程失败:「empty-folder」里没有有效的 manifest.json(404 manifest.json)',
+      '打开项目失败:「empty-folder」里没有有效的 manifest.json(404 manifest.json)',
     )
     expect(reforge.dispose).toHaveBeenCalledOnce()
   })

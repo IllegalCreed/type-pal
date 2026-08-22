@@ -11,6 +11,7 @@ export interface EditorLayoutCommandState {
   outlinerVisible: boolean
   scriptPanelAvailable: boolean
   scriptPanelVisible: boolean
+  inspectorAvailable: boolean
   inspectorVisible: boolean
 }
 
@@ -20,6 +21,16 @@ export interface SceneScriptPanelState {
   internalScriptId: string | null
   commandPath: string | null
   focusRevision: number
+}
+
+export function editorPanelToolbarCommandIds(
+  state: Pick<EditorLayoutCommandState, 'scriptPanelAvailable' | 'inspectorAvailable'>,
+): readonly string[] {
+  return [
+    'view.toggle-outliner',
+    ...(state.scriptPanelAvailable ? ['view.toggle-script-panel'] : []),
+    ...(state.inspectorAvailable ? ['view.toggle-inspector'] : []),
+  ]
 }
 
 /** 所有纯开关入口共享该状态变换，避免菜单/快捷键残留陈旧的内部命令焦点。 */
@@ -80,8 +91,9 @@ export function createEditorLayoutCommands(
       label: 'Inspector',
       icon: 'panel-right',
       shortcut: '⌘⌥R',
-      enabled: true,
-      pressed: state.inspectorVisible,
+      enabled: state.inspectorAvailable,
+      disabledReason: state.inspectorAvailable ? undefined : '当前页面没有右侧属性面板',
+      pressed: state.inspectorAvailable && state.inspectorVisible,
       scope: 'global',
       defaultPlacement: 'fixed',
       execute: handlers.toggleInspector,

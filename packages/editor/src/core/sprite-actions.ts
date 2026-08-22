@@ -30,7 +30,7 @@ export interface DefaultEntityActionTarget {
   action: SortedSpriteAction
 }
 
-/** 按实体的基准外观解析默认动作；绝不借用全工程第一个动作制造悬空组合。 */
+/** 按实体的基准外观解析默认动作；绝不借用全项目第一个动作制造悬空组合。 */
 export function defaultActionTargetForEntity(
   entity: EntityDef | undefined,
   actors: Readonly<Record<string, ActorDef>>,

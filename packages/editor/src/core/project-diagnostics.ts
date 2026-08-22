@@ -1,5 +1,5 @@
 /**
- * 工程工作台共用诊断。
+ * 项目工作台共用诊断。
  *
  * 这里不建立第二套资产扫描器：资产引用统一来自 content 的
  * `collectAssetReferences`，入口点的 scene/id/数量约束是 manifest 本地不变式。
@@ -7,6 +7,7 @@
  */
 import {
   ACTOR_REFERENCE_POLICIES,
+  type AssetKind,
   type CurrentManifest,
   type EntryPoint,
   type SceneDef,
@@ -55,6 +56,7 @@ export type ProjectIssueCode =
   | 'manifest-assets-invalid'
   | 'invalid-item-data'
   | 'migration-pending'
+  | 'unknown-manifest-field'
 
 export type ManifestLike = CurrentManifest
 
@@ -63,6 +65,12 @@ export interface ProjectIssue {
   code: ProjectIssueCode
   message: string
   path: string
+  /** 资源诊断的结构化主体；分组和展示不得反向解析 message/path。 */
+  asset?: {
+    id: string
+    expectedKind?: AssetKind
+    actualKind?: AssetKind
+  }
   /** 深链接目标；只提供稳定 id，不把数组位置作为身份。 */
   target?: {
     module: 'scene' | 'asset' | 'item' | 'project'
@@ -72,6 +80,18 @@ export interface ProjectIssue {
     view?: 'definition' | 'asset'
   }
 }
+
+const CURRENT_MANIFEST_TOP_LEVEL_KEYS = {
+  id: true,
+  name: true,
+  contentVersion: true,
+  entryScene: true,
+  entryPoints: true,
+  content: true,
+  assets: true,
+  startWorld: true,
+  minimumSaveVersion: true,
+} satisfies Record<keyof ManifestLike, true>
 
 /** 缺省 entryPoints 只在 UI/runtime 中合成，绝不直接写回 manifest。 */
 export function resolveProjectEntryPoints(manifest: ManifestLike): EntryPoint[] {
@@ -285,9 +305,18 @@ function validateStartWorldUniqueness(
   return issues
 }
 
-/** 工程页问题汇总；资产正向引用来自唯一 collector。 */
+/** 项目页问题汇总；资产正向引用来自唯一 collector。 */
 export function collectProjectIssues(state: EditorState): ProjectIssue[] {
   const issues = validateManifestEntryPoints(state.manifest, state.scenes)
+  for (const key of Object.keys(state.manifest)) {
+    if (Object.hasOwn(CURRENT_MANIFEST_TOP_LEVEL_KEYS, key)) continue
+    issues.push({
+      severity: 'warn',
+      code: 'unknown-manifest-field',
+      message: `manifest 包含当前规范未登记的顶层字段 “${key}”`,
+      path: key,
+    })
+  }
   let catalogValid = true
   try {
     validateAuthorItems(state.items)
@@ -385,6 +414,9 @@ export function collectProjectIssues(state: EditorState): ProjectIssue[] {
 
   // 调用统一引用收集器 + closure validator，确保诊断覆盖脚本/场景/敌人引用；本页只展示摘要。
   const references = collectEditorAssetReferences(state)
+  const unusedAssetByPath = new Map(
+    Object.keys(state.assetCatalog.assets).map((id) => [`assets[${JSON.stringify(id)}]`, id]),
+  )
   for (const closure of catalogValid
     ? validateAssetReferenceClosure(state.assetCatalog, references)
     : []) {
@@ -406,7 +438,7 @@ export function collectProjectIssues(state: EditorState): ProjectIssue[] {
           : isRole
             ? 'missing-role-asset'
             : 'missing-asset'
-    const assetId = reference?.asset ?? /AssetId "([^"]+)"/.exec(closure.message)?.[1]
+    const assetId = reference?.asset ?? unusedAssetByPath.get(closure.where)
     const entryId =
       reference?.site.startsWith('entryPoint:') && reference.site.endsWith(':introVideo')
         ? reference.site.slice('entryPoint:'.length, -':introVideo'.length)
@@ -450,6 +482,15 @@ export function collectProjectIssues(state: EditorState): ProjectIssue[] {
       code,
       message: closure.message,
       path: reference?.site ?? closure.where,
+      ...(assetId
+        ? {
+            asset: {
+              id: assetId,
+              ...(expectedKind ? { expectedKind } : {}),
+              ...(actualKind ? { actualKind } : {}),
+            },
+          }
+        : {}),
       target: isIntro
         ? { module: 'project', page: 'entrypoint', ...(entryId ? { objectId: entryId } : {}) }
         : isRole
@@ -510,9 +551,9 @@ export function collectProjectIssues(state: EditorState): ProjectIssue[] {
 /**
  * 编辑器底部状态条的统一诊断摘要。
  *
- * `validateReferences` 仍是内容域跨表引用的唯一校验器；工程聚合器额外覆盖
- * manifest、资产闭包和入口不变式。这里仅合并两者，不把工程页的展示问题列表
- * 伪装成新的扫描器，也不重复计数 startWorld（工程聚合器已经负责这部分）。
+ * `validateReferences` 仍是内容域跨表引用的唯一校验器；项目聚合器额外覆盖
+ * manifest、资产闭包和入口不变式。这里仅合并两者，不把项目页的展示问题列表
+ * 伪装成新的扫描器，也不重复计数 startWorld（项目聚合器已经负责这部分）。
  */
 export interface EditorStatusIssue {
   severity: ProjectIssueSeverity
@@ -536,7 +577,9 @@ export function collectEditorStatusIssues(
   state: EditorState,
   canonical?: ScriptEditorState,
 ): EditorStatusIssue[] {
-  const projectedItemScriptPaths = canonical ? runtimeItemScriptProjectionPaths(state) : new Set<string>()
+  const projectedItemScriptPaths = canonical
+    ? runtimeItemScriptProjectionPaths(state)
+    : new Set<string>()
   const contentIssues: EditorStatusIssue[] = validateReferences(state)
     .filter((issue) => !issue.where.startsWith('startWorld'))
     .filter((issue) => !projectedItemScriptPaths.has(issue.where))
@@ -550,9 +593,7 @@ export function collectEditorStatusIssues(
     : []
   const worldVariableIssues: EditorStatusIssue[] = collectWorldVariableRegistryIssuesV1(
     state.worldVariables ?? {},
-    collectWorldVariableReferencesV1(
-      canonical ?? worldVariableScriptStateFromEditorStateV1(state),
-    ),
+    collectWorldVariableReferencesV1(canonical ?? worldVariableScriptStateFromEditorStateV1(state)),
   ).map((issue) => ({ severity: 'error', message: issue.message, path: issue.path }))
   const entityAddressIssues: EditorStatusIssue[] = collectMissingEntityAddressReferences(state).map(
     (reference) => ({
@@ -642,7 +683,7 @@ export function assertProjectSaveValid(state: EditorState): void {
   const errors = validateManifestEntryPoints(state.manifest, state.scenes).filter(
     (issue) => issue.severity === 'error',
   )
-  if (errors.length) throw new Error(`保存前工程校验失败：${errors[0]!.message}`)
+  if (errors.length) throw new Error(`保存前项目校验失败：${errors[0]!.message}`)
   if (state.manifest.content.battleFields !== undefined || state.battleFields !== undefined) {
     try {
       validateBattleFields(state.battleFields ?? [])
@@ -656,7 +697,9 @@ export function assertProjectSaveValid(state: EditorState): void {
     try {
       validate()
     } catch (error) {
-      throw new Error(`保存前${label}校验失败：${error instanceof Error ? error.message : String(error)}`)
+      throw new Error(
+        `保存前${label}校验失败：${error instanceof Error ? error.message : String(error)}`,
+      )
     }
   }
   validateSection('世界变量', () => {

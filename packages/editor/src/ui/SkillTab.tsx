@@ -785,7 +785,7 @@ export function SkillTab(props: {
   onObjectFocus?: (id: string | undefined) => void
   onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
   onOpenReference?: (reference: BattleDataReference) => void
-  /** 工程 id(同源试玩页;缺省 pal 兼容旧调用)。 */
+  /** 项目 id(同源试玩页;缺省 pal 兼容旧调用)。 */
   projectId?: string
   workspaceId?: string
 }) {
@@ -938,7 +938,7 @@ export function SkillTab(props: {
                   <DsActionLink
                     variant="secondary"
                     icon="open"
-                    title="开真实战斗临时授此技试放（不改存档/工程数据）"
+                    title="开真实战斗临时授此技试放（不改存档/项目数据）"
                     href={`play.html?${playProjectQuery(projectId, workspaceId)}&scene=s001&battle=0&skill=${encodeURIComponent(skill.id)}`}
                     target="_blank"
                     rel="noopener noreferrer"

@@ -246,7 +246,7 @@ describe('workspace persistence policy', () => {
     handleStore.discoveryTail = Promise.resolve()
   })
 
-  test('普通工程首存只接受空目录；未经授权的 writeFile 在 FSA mutation 前失败', async () => {
+  test('普通项目首存只接受空目录；未经授权的 writeFile 在 FSA mutation 前失败', async () => {
     const workspace = createLocalWorkspaceContext('local', 'save-as', LOCAL_ID)
     const occupied = emptyDir()
     setFile(occupied, 'keep.txt', 'keep')
@@ -397,7 +397,7 @@ describe('workspace persistence policy', () => {
     expect(concurrentRoot.writes).toBe(1)
   })
 
-  test('普通 HTTP 工程首存部分写入后只允许本会话同一目录续写', async () => {
+  test('普通 HTTP 项目首存部分写入后只允许本会话同一目录续写', async () => {
     const workspace = createLocalWorkspaceContext('local', 'local-directory', LOCAL_ID)
     const root = emptyDir('local-first-save')
     const handle = dirHandle(root)
@@ -597,7 +597,7 @@ describe('workspace persistence policy', () => {
     expect(getFile(root, 'content/changed.json')).toBeUndefined()
   })
 
-  test('工程写入和删除都不能覆盖 workspace identity 旁车', async () => {
+  test('项目写入和删除都不能覆盖 workspace identity 旁车', async () => {
     const root = emptyDir('local')
     const workspace = createLocalWorkspaceContext('local', 'save-as', LOCAL_ID)
     const target = await authorizeFirstSaveTarget(workspace, dirHandle(root))
@@ -724,7 +724,7 @@ describe('workspace persistence policy', () => {
     expect(() => assertSamePalDevelopmentProof(before, after)).toThrow('载入期间发生变化')
   })
 
-  test('Save As 保留模式边界：沙盒得到新 sandbox identity，PAL/local 降为普通本地工程', () => {
+  test('Save As 保留模式边界：沙盒得到新 sandbox identity，PAL/local 降为普通本地项目', () => {
     const sandbox = createSandboxWorkspaceContext('pal', 'ui-samples', SANDBOX_ID)
     const sandboxCopy = createSaveAsWorkspaceContext(sandbox)
     expect(sandboxCopy).toMatchObject({ mode: 'sandbox', source: 'sandbox-copy' })
@@ -764,7 +764,7 @@ describe('workspace persistence policy', () => {
     ).rejects.toThrow('已属于另一个目录')
   })
 
-  test('非法或试图升权的 workspace marker 不得降级为普通本地工程', async () => {
+  test('非法或试图升权的 workspace marker 不得降级为普通本地项目', async () => {
     const root = emptyDir()
     jsonFile(root, SANDBOX_WORKSPACE_MARKER_PATH, {
       kind: 'type-pal-editor-workspace',
@@ -901,6 +901,6 @@ describe('workspace persistence policy', () => {
           throw new Error('sandbox must win')
         },
       }),
-    ).rejects.toThrow('最近工程记录与目录中的 workspace identity 不一致')
+    ).rejects.toThrow('最近项目记录与目录中的 workspace identity 不一致')
   })
 })

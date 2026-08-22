@@ -17,6 +17,7 @@ import {
   useRef,
   useState,
 } from 'react'
+import { createPortal } from 'react-dom'
 import { DsFloatingLayer } from './floating-layer.js'
 import { DsIcon, type DsIconName } from './icons.js'
 
@@ -118,6 +119,136 @@ export function DsTooltip(props: { label: string; shortcut?: string; children: R
         {props.shortcut ? ` · ${props.shortcut}` : ''}
       </span>
     </span>
+  )
+}
+
+/**
+ * Low-frequency conceptual help. Current state, validation, blocking reasons and next actions
+ * must remain visible content instead of being hidden behind this control.
+ */
+export function DsHelpTip(props: { label: string; children: ReactNode }) {
+  const tooltipId = useId()
+  const buttonRef = useRef<HTMLButtonElement>(null)
+  const tooltipRef = useRef<HTMLSpanElement>(null)
+  const [portalHost, setPortalHost] = useState<Element | null>(null)
+  const [dismissed, setDismissed] = useState(false)
+  const [hovered, setHovered] = useState(false)
+  const [focused, setFocused] = useState(false)
+  const [position, setPosition] = useState({ left: -10_000, top: -10_000 })
+  const open = !dismissed && (hovered || focused)
+
+  const placeTooltip = useCallback((button = buttonRef.current) => {
+    const tooltip = tooltipRef.current
+    if (!button || !tooltip) return
+    const buttonRect = button.getBoundingClientRect()
+    const tooltipRect = tooltip.getBoundingClientRect()
+    const viewportMargin = 20
+    const gap = 7
+    const left = Math.min(
+      Math.max(viewportMargin, buttonRect.left + buttonRect.width / 2 - tooltipRect.width / 2),
+      Math.max(viewportMargin, window.innerWidth - viewportMargin - tooltipRect.width),
+    )
+    const below = buttonRect.bottom + gap
+    const top =
+      below + tooltipRect.height <= window.innerHeight - viewportMargin
+        ? below
+        : Math.max(viewportMargin, buttonRect.top - gap - tooltipRect.height)
+    setPosition({ left, top })
+  }, [])
+
+  const prepareTooltip = (button: HTMLButtonElement) => {
+    setDismissed(false)
+    const nextPortalHost = button.closest('dialog') ?? document.body
+    if (nextPortalHost === portalHost) placeTooltip(button)
+    else {
+      setPortalHost(nextPortalHost)
+      setPosition({ left: -10_000, top: -10_000 })
+    }
+  }
+
+  useEffect(() => {
+    const button = buttonRef.current
+    if (!button) return
+    setPortalHost(button.closest('dialog') ?? document.body)
+  }, [])
+
+  useEffect(() => {
+    if (!open || !portalHost) return
+    const reposition = () => placeTooltip()
+    reposition()
+    window.addEventListener('resize', reposition)
+    document.addEventListener('scroll', reposition, true)
+    window.visualViewport?.addEventListener('resize', reposition)
+    window.visualViewport?.addEventListener('scroll', reposition)
+    const observer =
+      typeof ResizeObserver === 'undefined'
+        ? null
+        : new ResizeObserver(() => {
+            reposition()
+          })
+    if (buttonRef.current) observer?.observe(buttonRef.current)
+    if (tooltipRef.current) observer?.observe(tooltipRef.current)
+    return () => {
+      window.removeEventListener('resize', reposition)
+      document.removeEventListener('scroll', reposition, true)
+      window.visualViewport?.removeEventListener('resize', reposition)
+      window.visualViewport?.removeEventListener('scroll', reposition)
+      observer?.disconnect()
+    }
+  }, [open, placeTooltip, portalHost])
+
+  useEffect(() => {
+    if (!open) return
+    const dismissOnEscape = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return
+      event.preventDefault()
+      setDismissed(true)
+    }
+    document.addEventListener('keydown', dismissOnEscape)
+    return () => document.removeEventListener('keydown', dismissOnEscape)
+  }, [open])
+
+  const visualTooltip = portalHost
+    ? createPortal(
+        <span
+          ref={tooltipRef}
+          className={`ds-help-tooltip${open ? ' is-open' : ''}`}
+          aria-hidden="true"
+          style={{ left: position.left, top: position.top }}
+        >
+          {props.children}
+        </span>,
+        portalHost,
+      )
+    : null
+
+  return (
+    <>
+      <span className={`ds-help-tip${open ? ' is-open' : ''}`}>
+        <button
+          ref={buttonRef}
+          type="button"
+          aria-label={`${props.label}说明`}
+          aria-describedby={tooltipId}
+          onMouseEnter={(event) => {
+            setHovered(true)
+            prepareTooltip(event.currentTarget)
+          }}
+          onMouseLeave={() => setHovered(false)}
+          onFocus={(event) => {
+            setFocused(true)
+            prepareTooltip(event.currentTarget)
+          }}
+          onBlur={() => setFocused(false)}
+        >
+          <span aria-hidden="true">?</span>
+        </button>
+        <span id={tooltipId} role="tooltip" className="ds-visually-hidden">
+          {props.children}
+        </span>
+      </span>
+      {visualTooltip}
+    </>
   )
 }
 
@@ -1153,6 +1284,7 @@ export function DsListHeader(props: {
   title: string
   count: number
   unit: string
+  help?: { label: string; content: ReactNode }
   actions?: readonly DsListHeaderAction[]
   overflowActions?: readonly DsListHeaderMenuItem[]
 }) {
@@ -1161,6 +1293,7 @@ export function DsListHeader(props: {
   return (
     <header className="ds-list-header">
       <h2 className="ds-list-header__title">{props.title}</h2>
+      {props.help ? <DsHelpTip label={props.help.label}>{props.help.content}</DsHelpTip> : null}
       <span className="ds-list-header__count">
         {props.count} {props.unit}
       </span>

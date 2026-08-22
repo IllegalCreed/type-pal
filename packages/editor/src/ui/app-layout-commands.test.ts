@@ -2,6 +2,7 @@ import { describe, expect, test, vi } from 'vitest'
 import {
   closeSceneScriptPanelState,
   createEditorLayoutCommands,
+  editorPanelToolbarCommandIds,
   executeEditorLayoutShortcut,
   type EditorLayoutCommandHandlers,
   toggleSceneScriptPanelState,
@@ -17,12 +18,32 @@ function handlers(): EditorLayoutCommandHandlers {
 }
 
 describe('editor layout commands', () => {
+  test('toolbar hides panel toggles when the current page has no matching panel', () => {
+    expect(
+      editorPanelToolbarCommandIds({
+        scriptPanelAvailable: false,
+        inspectorAvailable: false,
+      }),
+    ).toEqual(['view.toggle-outliner'])
+    expect(
+      editorPanelToolbarCommandIds({
+        scriptPanelAvailable: true,
+        inspectorAvailable: true,
+      }),
+    ).toEqual([
+      'view.toggle-outliner',
+      'view.toggle-script-panel',
+      'view.toggle-inspector',
+    ])
+  })
+
   test('menu and toolbar projections keep the exact same handlers used by shortcuts', () => {
     const actions = handlers()
     const commands = createEditorLayoutCommands(actions, {
       outlinerVisible: true,
       scriptPanelAvailable: true,
       scriptPanelVisible: false,
+      inspectorAvailable: true,
       inspectorVisible: true,
     })
     expect(commands.find((command) => command.id === 'view.toggle-outliner')?.execute).toBe(
@@ -55,11 +76,28 @@ describe('editor layout commands', () => {
       outlinerVisible: true,
       scriptPanelAvailable: false,
       scriptPanelVisible: false,
+      inspectorAvailable: true,
       inspectorVisible: true,
     }).find((candidate) => candidate.id === 'view.toggle-script-panel')
     expect(command).toMatchObject({
       enabled: false,
       disabledReason: '当前页面没有底部脚本面板',
+      pressed: false,
+    })
+  })
+
+  test('disables the inspector command on pages without object-specific properties', () => {
+    const actions = handlers()
+    const command = createEditorLayoutCommands(actions, {
+      outlinerVisible: true,
+      scriptPanelAvailable: false,
+      scriptPanelVisible: false,
+      inspectorAvailable: false,
+      inspectorVisible: false,
+    }).find((candidate) => candidate.id === 'view.toggle-inspector')
+    expect(command).toMatchObject({
+      enabled: false,
+      disabledReason: '当前页面没有右侧属性面板',
       pressed: false,
     })
   })

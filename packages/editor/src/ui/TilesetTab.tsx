@@ -680,7 +680,7 @@ export function TilesetTab(props: {
                   size="compact"
                   variant="danger"
                   busy={removalScanning}
-                  title="检查全工程引用后从注册表移除；操作可撤销"
+                  title="检查全项目引用后从注册表移除；操作可撤销"
                   onClick={runRemovalLifecycle}
                 >
                   {removalComplete && !removalHasReferences
@@ -697,7 +697,7 @@ export function TilesetTab(props: {
             <span aria-hidden="true">◆</span>
             <strong>{palette ? '选择瓦片集' : '正在准备瓦片预览…'}</strong>
             <small>
-              {palette ? '从左侧资源库选择，或上传新的图集。' : '正在读取工程色彩资源。'}
+              {palette ? '从左侧资源库选择，或上传新的图集。' : '正在读取项目色彩资源。'}
             </small>
           </div>
         )}
@@ -953,7 +953,7 @@ export function TilesetTab(props: {
                         </div>
                         {selectedRecord && session.getState().assetBlobs[selectedRecord.path] && (
                           <div className="tileset-source-note">
-                            尚未保存；保存工程后写入资产目录。
+                            尚未保存；保存项目后写入资产目录。
                           </div>
                         )}
                       </section>

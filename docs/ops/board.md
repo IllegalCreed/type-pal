@@ -13,8 +13,13 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| ARCH-CURRENT-ONLY-1 | 开发期单版本架构收口 | review | Kimi RA1 已落地，待 focused 复签 accept；GLM 终审并行 | 5 个死 sidecar 已删；静态边界 3/3、PAL 537/0/0/0 零差异 |
-| ED-PAL-WORKSPACE-MODES-1 | PAL 开发基线、评审沙盒与种子晋升边界 | review | Kimi 审保存架构；GLM 审矩阵 / 文档 / 测试覆盖 | Codex accept；editor 134/981 + typecheck，全链路内部压力审查 P0/P1/P2 清零 |
+| ARCH-ENTRYPOINT-CANONICAL-1 | 显式启动入口与独立开局配置 | draft | 三签齐（GE1-GE4）；WORKSPACE-MODES 收口后干净分支转 build | GLM 裁定：11-15 字面量 11 处本卡清零；demo/e2e-own 需合成入口；ui_samples N/A |
+| ARCH-CURRENT-ONLY-1 | 开发期单版本架构收口 | review | 三方 accept 齐；仅剩用户验收最小 smoke | GLM 终审：census 170/69→0/0、replay 537/0/0/0 复跑、四包全绿 | 5 个死 sidecar 已删；静态边界 3/3、PAL 537/0/0/0 零差异 |
+| ED-PAL-WORKSPACE-MODES-1 | PAL 开发基线、评审沙盒与种子晋升边界 | done | 三方 accept + 用户验收齐，整卡收口 | GLM 终审：GP1-GP3/KP1-KP2 全落，focused 68+20 复跑全绿 | Codex accept；editor 134/981 + typecheck，全链路内部压力审查 P0/P1/P2 清零 |
+| MIG-PAL-ACTOR-FACE-1 | PAL 角色小头像缺席语义与迁移收口 | draft | Kimi/GLM 独立核 raw 数据并签 premise/design | 盖罗娇 frame 53 为 3×4 全透明；修迁移上游后走既有 battler 默认头像兜底 |
+| ED-ENTITY-INSPECTOR-IA-1 | 场景实体 Inspector、状态指令与删除入口收口 | draft | Kimi 独立核真并签 premise/design；随后 GLM 覆盖签 | 生命周期并入唯一指令系统；属性/行为/引用；zone 无朝向；删除归行尾 |
+| ED-AUDIO-WORKBENCH-1 | 音乐 / 音效统一资源工作台与音频时间轴 | draft | Kimi 审 transport/UI 架构；GLM 审引用/性能/测试 | 左目录、中 Hero+基本信息+真实时间轴、右引用/诊断；WAV PCM / MIDI 音符活动分流 |
+| ED-AMBIENCE-WORKBENCH-1 | 氛围滤镜工作台与真实场景预览 | draft | Kimi 审 compositor/preview 架构；GLM 审引用/事务/测试 | 左目录、中 Hero+字段+静态场景 A/B、右引用/说明；preview context 不持久化 |
 | ED-DS-2 | 编辑器设计系统代码基础与 Design Lab | done | 三方 accept + 用户验收齐，整卡收口 | 四入口同源、WK2 与 sash 边界复审通过；全量 118/872 独立复跑全绿 |
 | ED-AUDIT-2 | 编辑器全页面视觉、闭环与代码质量审计 | done | 三方 accept + 用户验收齐，整卡收口 | GA1/GA2 闭环（门禁 18/17/17/6）；census 脚本可复现、boundary 23/23 |
 | ED-BATTLE-UI-1 | 战斗数据工作台族与共享对象 Hero | done | 三方 accept + 用户验收齐，整卡收口 | N1-N6/BK1-BK3 + RK1 全闭环；editor 124 files / 912 tests + typecheck、1280×720 实机通过 |

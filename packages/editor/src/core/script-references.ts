@@ -61,7 +61,7 @@ function selfAvailability(contract: SharedScriptSelf | undefined): SelfAvailabil
 }
 
 /**
- * 全工程脚本图。调用方只在保存/删除/打开引用面板时执行；PAL 全库约 8MiB，禁止放进输入热路径。
+ * 全项目脚本图。调用方只在保存/删除/打开引用面板时执行；PAL 全库约 8MiB，禁止放进输入热路径。
  */
 export function buildScriptReferenceIndex(state: EditorState): ScriptProjectDiagnostics {
   const references = new Map<string, ScriptReferenceEntry[]>()
@@ -92,7 +92,7 @@ export function buildScriptReferenceIndex(state: EditorState): ScriptProjectDiag
 
   const resolveRef = (ref: ScriptRef, where: string): void => {
     if (!state.scriptIndex) {
-      errors.push(`${where}: 工程没有脚本 index，无法解析 ${ref.id}`)
+      errors.push(`${where}: 项目没有脚本 index，无法解析 ${ref.id}`)
       return
     }
     const derived = deriveScriptChunk(ref.id, state.scriptIndex.shards)
@@ -315,6 +315,6 @@ export function findSceneEntryReferences(
 export function assertScriptProjectValid(state: EditorState): ScriptProjectDiagnostics {
   const diagnostics = buildScriptReferenceIndex(state)
   if (diagnostics.errors.length)
-    throw new Error(`脚本工程校验失败:\n${diagnostics.errors.join('\n')}`)
+    throw new Error(`脚本项目校验失败:\n${diagnostics.errors.join('\n')}`)
   return diagnostics
 }

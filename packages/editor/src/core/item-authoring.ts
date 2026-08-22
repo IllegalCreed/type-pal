@@ -7,7 +7,7 @@ function nextSerialId(prefix: string, existing: ReadonlySet<string>): string {
   }
 }
 
-/** 新工程与迁移工程共用的作者物品 id 分配；不依赖数组位置或旧 PAL 数字号。 */
+/** 新项目与迁移项目共用的作者物品 id 分配；不依赖数组位置或旧 PAL 数字号。 */
 export function nextAuthoredItemId(items: readonly Pick<ItemData, 'id'>[]): string {
   return nextSerialId('item', new Set(items.map((item) => item.id)))
 }

@@ -124,7 +124,7 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
     name: '播放视频',
     group: '演出/对话',
     params: [['asset', '视频 AssetId']],
-    desc: '播放工程视频并阻塞脚本，直到播放完成或玩家跳过。',
+    desc: '播放项目视频并阻塞脚本，直到播放完成或玩家跳过。',
   },
   {
     kind: 'playFrameAnimation',
@@ -136,7 +136,7 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
       ['startFrame/endFrame', '闭合帧区间(可选)'],
       ['frameRate', '覆盖容器逐帧速度(可选)'],
     ],
-    desc: '播放工程内真彩帧动画；可截取帧区间并覆盖播放速度。',
+    desc: '播放项目内真彩帧动画；可截取帧区间并覆盖播放速度。',
   },
   {
     kind: 'wait',

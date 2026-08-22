@@ -265,7 +265,7 @@ export function assertTilesetReplacementAllowed(
     proof.tilesetId !== tilesetId ||
     proof.asset !== asset
   )
-    throw new Error('替换瓦片集前必须完成全工程引用扫描。')
+    throw new Error('替换瓦片集前必须完成全项目引用扫描。')
   const record = state.assetCatalog.assets[asset]
   if (!record || record.sha256 !== proof.previousSha256)
     throw new Error('瓦片集资源已变化；请重新扫描。')
@@ -299,7 +299,7 @@ export function assertTilesetRemovalAllowed(
   proof: TilesetRemovalProof | undefined,
 ): asserts proof is TilesetRemovalProof {
   if (!(proof instanceof TilesetRemovalProof) || proof.tilesetId !== tilesetId)
-    throw new Error('移除瓦片集前必须完成全工程引用扫描。')
+    throw new Error('移除瓦片集前必须完成全项目引用扫描。')
   if (!sameIndex(state.mapIndex.maps, proof.mapIndex))
     throw new Error('地图索引已变化；请重新扫描瓦片集引用。')
   if (

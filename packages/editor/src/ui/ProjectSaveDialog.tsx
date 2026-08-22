@@ -14,7 +14,7 @@ function formatBytes(bytes: number): string {
 }
 
 /**
- * 工程落盘期间的顶层等待态。原生 modal dialog 把焦点和键盘一并圈住；写盘没有可回滚的取消契约，
+ * 项目落盘期间的顶层等待态。原生 modal dialog 把焦点和键盘一并圈住；写盘没有可回滚的取消契约，
  * 因此不提供“取消”按钮，也禁止 Esc 只关 UI、后台继续写文件。
  */
 export function ProjectSaveDialog(props: {
@@ -47,14 +47,14 @@ export function ProjectSaveDialog(props: {
     : undefined
   const title =
     activity.phase === 'saving-as'
-      ? '正在另存工程…'
-      : '正在保存工程…'
+      ? '正在另存项目…'
+      : '正在保存项目…'
   const detail =
     activity.phase === 'preparing'
-      ? '正在整理并校验工程内容，请勿关闭页面。'
+      ? '正在整理并校验项目内容，请勿关闭页面。'
       : activity.phase === 'saving-as'
         ? '正在复制素材并写入新目录，请勿关闭页面。'
-        : '正在写入工程文件，请勿关闭页面。'
+        : '正在写入项目文件，请勿关闭页面。'
 
   return createPortal(
     <dialog
@@ -79,7 +79,7 @@ export function ProjectSaveDialog(props: {
         <div
           className={`project-save-progress${determinate ? '' : ' indeterminate'}`}
           role="progressbar"
-          aria-label="工程保存进度"
+          aria-label="项目保存进度"
           aria-valuemin={determinate ? 0 : undefined}
           aria-valuemax={determinate ? 100 : undefined}
           aria-valuenow={percent}

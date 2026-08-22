@@ -80,21 +80,32 @@ export const DsCatalogRow = forwardRef<
   HTMLButtonElement,
   Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'title'> & {
     selected?: boolean
+    level?: 'primary' | 'secondary'
     leading?: ReactNode
     title: ReactNode
     meta?: ReactNode
     trailing?: ReactNode
   }
 >(function DsCatalogRow(props, ref) {
-  const { selected = false, leading, title, meta, trailing, className, ...buttonProps } = props
+  const {
+    selected = false,
+    level = 'primary',
+    leading,
+    title,
+    meta,
+    trailing,
+    className,
+    ...buttonProps
+  } = props
   return (
     <button
       type="button"
       {...buttonProps}
       ref={ref}
-      className={dsClasses('ds-catalog-row', className)}
+      className={dsClasses('ds-catalog-row', `ds-catalog-row--${level}`, className)}
       aria-pressed={selected}
       data-selected={selected || undefined}
+      data-level={level}
     >
       {leading ? <span className="ds-catalog-row__leading">{leading}</span> : null}
       <span className="ds-catalog-row__body">
@@ -140,6 +151,21 @@ export function DsCatalogGroupHeader(props: {
       ) : null}
     </div>
   )
+}
+
+/**
+ * 目录中的分组列表。负责滚动收缩、分组间节奏和空分组文案，业务页只提供分类语义。
+ */
+export function DsCatalogGroupList(props: { label: string; children: ReactNode }) {
+  return (
+    <nav className="ds-catalog-group-list" aria-label={props.label}>
+      {props.children}
+    </nav>
+  )
+}
+
+export function DsCatalogGroupEmpty(props: { children: ReactNode }) {
+  return <p className="ds-catalog-group-list__empty">{props.children}</p>
 }
 
 /**

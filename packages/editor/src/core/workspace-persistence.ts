@@ -447,7 +447,7 @@ export function assertSameWorkspaceMetadataInspection(
   after: WorkspaceMetadataInspection,
 ): void {
   if (JSON.stringify(before) !== JSON.stringify(after))
-    throw new Error('工作区 identity 在工程载入期间发生变化，请重新打开')
+    throw new Error('工作区 identity 在项目载入期间发生变化，请重新打开')
 }
 
 function assertNoInvalidMetadata(metadata: WorkspaceMetadataInspection): void {
@@ -485,7 +485,7 @@ async function assertBoundWorkspaceIdentity(
     return
   }
   if (metadata.sandbox.kind !== 'missing' || metadata.palDevelopment.kind !== 'missing')
-    throw new Error('普通本地工程的已绑定目录出现受限工作区 identity，拒绝写入')
+    throw new Error('普通本地项目的已绑定目录出现受限工作区 identity，拒绝写入')
 }
 
 /**
@@ -536,7 +536,7 @@ export async function preflightFirstSaveTarget(
     return
   }
   if (metadata.sandbox.kind !== 'missing' || metadata.palDevelopment.kind !== 'missing')
-    throw new Error('普通本地工程不能覆盖带工作区身份的目录')
+    throw new Error('普通本地项目不能覆盖带工作区身份的目录')
   if (opts.resumesInterruptedAttempt) {
     const previousAttempt = localFirstSaveAttempts.get(context)
     if (previousAttempt && (await previousAttempt.isSameEntry(dir))) {
@@ -643,7 +643,7 @@ function contextFromRecord(record: WorkspaceHandleRecord): WorkspaceContext {
       record.source !== 'sandbox-copy' &&
       record.source !== 'review-copy'
     )
-      throw new Error('最近工程记录的 sandbox 来源无效')
+      throw new Error('最近项目记录的 sandbox 来源无效')
     return createSandboxWorkspaceContext(record.projectId, record.source, record.workspaceId)
   }
   if (record.mode === 'local-project') {
@@ -653,7 +653,7 @@ function contextFromRecord(record: WorkspaceHandleRecord): WorkspaceContext {
       record.source !== 'save-as' &&
       record.source !== 'local-directory'
     )
-      throw new Error('最近工程记录的 local-project 来源无效')
+      throw new Error('最近项目记录的 local-project 来源无效')
     return createLocalWorkspaceContext(record.projectId, record.source, record.workspaceId)
   }
   throw new Error('PAL 开发基线必须重新验证 sentinel 与关键快照')
@@ -670,7 +670,7 @@ function assertExpectedWorkspaceIdentity(
     context.mode !== expected.mode ||
     context.source !== expected.source
   )
-    throw new Error('最近工程记录与目录中的 workspace identity 不一致')
+    throw new Error('最近项目记录与目录中的 workspace identity 不一致')
 }
 
 export async function resolveOpenedWorkspaceContext(
@@ -689,7 +689,7 @@ export async function resolveOpenedWorkspaceContext(
 
   const hint = options.workspaceHint
   if (hint && hint.projectId !== projectId)
-    throw new Error('新工作区 identity 与写入后的 manifest 工程 id 不一致')
+    throw new Error('新工作区 identity 与写入后的 manifest 项目 id 不一致')
   const finalize = (context: WorkspaceContext): WorkspaceContext => {
     assertExpectedWorkspaceIdentity(context, options.expectedIdentity)
     // Review/sample sessions may inspect any valid current project, but never expose its bound
@@ -702,7 +702,7 @@ export async function resolveOpenedWorkspaceContext(
   if (metadata.sandbox.kind === 'valid') {
     const marker = metadata.sandbox.value
     if (marker.projectId !== projectId)
-      throw new Error('工作区 identity 冲突：沙盒 marker 与 manifest 工程 id 不一致')
+      throw new Error('工作区 identity 冲突：沙盒 marker 与 manifest 项目 id 不一致')
     const context =
       hint ?? createSandboxWorkspaceContext(projectId, marker.source, marker.workspaceId)
     if (context.mode !== 'sandbox' || context.workspaceId !== marker.workspaceId)
@@ -716,14 +716,14 @@ export async function resolveOpenedWorkspaceContext(
         existing.projectId !== marker.projectId ||
         existing.source !== marker.source
       )
-        throw new Error('工作区 identity 冲突：沙盒 marker 与最近工程记录不一致')
+        throw new Error('工作区 identity 冲突：沙盒 marker 与最近项目记录不一致')
     }
     return finalize(context)
   }
 
   if (metadata.palDevelopment.kind === 'valid') {
     if (hint && hint.mode !== 'pal-development')
-      throw new Error('普通工程操作不能获得 PAL 开发基线写权限')
+      throw new Error('普通项目操作不能获得 PAL 开发基线写权限')
     const context = await options.loadTrustedPalContext()
     await assertPalDevelopmentTarget(context, dir, metadata)
     const existing = await loadWorkspaceRecord(context.workspaceId)
@@ -735,7 +735,7 @@ export async function resolveOpenedWorkspaceContext(
         existing.projectId !== context.projectId ||
         existing.source !== 'dev-http'
       )
-        throw new Error('工作区 identity 冲突：PAL sentinel 与最近工程记录不一致')
+        throw new Error('工作区 identity 冲突：PAL sentinel 与最近项目记录不一致')
     }
     return finalize(context)
   }
@@ -748,9 +748,9 @@ export async function resolveOpenedWorkspaceContext(
 
   const existing = await findWorkspaceRecordByHandle(dir)
   if (existing) {
-    if (existing.projectId !== projectId) throw new Error('最近工程记录与 manifest 工程 id 不一致')
+    if (existing.projectId !== projectId) throw new Error('最近项目记录与 manifest 项目 id 不一致')
     if (existing.mode !== 'local-project')
-      throw new Error('工作区 marker 缺失，拒绝把受限工作区降级为普通本地工程')
+      throw new Error('工作区 marker 缺失，拒绝把受限工作区降级为普通本地项目')
     return finalize(contextFromRecord(existing))
   }
   return finalize(createLocalWorkspaceContext(projectId, 'local-directory'))

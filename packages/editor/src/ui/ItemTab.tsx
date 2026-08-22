@@ -1137,7 +1137,7 @@ export function ItemTab(props: {
           })}
           {!items.length ? (
             <div className="item-catalog-empty">
-              <strong>工程还没有物品</strong>
+              <strong>项目还没有物品</strong>
               <span>新建一个稳定 ID 的空白物品，再逐项添加装备、使用或投掷能力。</span>
               <button type="button" className="tool primary" onClick={createItem}>
                 ＋ 新建第一个物品
@@ -1251,7 +1251,7 @@ export function ItemTab(props: {
                   <div className="item-base-section-heading">
                     <div>
                       <h4>图标资源</h4>
-                      <p>从工程资源选择，或导入新的 PNG；修改会立即反映到物品列表。</p>
+                      <p>从项目资源选择，或导入新的 PNG；修改会立即反映到物品列表。</p>
                     </div>
                     {item.icon ? <code>{item.icon}</code> : <span>未绑定</span>}
                   </div>
@@ -1896,7 +1896,7 @@ export function ItemTab(props: {
                         state="ready"
                         count={{ kind: 'exact', errors: 0, warnings: itemDiagnostics.length }}
                         summary="待迁移来源"
-                        description="旧版脚本源只读且未载入编辑器；请在工程问题面板核对诊断。"
+                        description="旧版脚本源只读且未载入编辑器；请在项目问题面板核对诊断。"
                       >
                         <DsDiagnosticList>
                           {itemDiagnostics.map((diagnostic) => (
@@ -1938,7 +1938,7 @@ export function ItemTab(props: {
                         label: blockers.length ? '阻断删除' : '仅信息',
                         description: itemReferences.length
                           ? '保留来源分组与判断、获得、失去、消耗、持有或配置语义。'
-                          : '全工程没有判断、获得、失去、消耗、持有或配置此物品。',
+                          : '全项目没有判断、获得、失去、消耗、持有或配置此物品。',
                       }}
                       summary={
                         blockers.length

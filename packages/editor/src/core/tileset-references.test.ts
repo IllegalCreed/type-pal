@@ -124,7 +124,7 @@ describe('W7G-E tileset 删除引用扫描', () => {
     })
     const proof = TilesetRemovalProof.fromScan(scan, mapIndex)
     const before = state(maps)
-    expect(() => new RemoveTilesetCommand('tiles-a').apply(before)).toThrow(/全工程引用扫描/)
+    expect(() => new RemoveTilesetCommand('tiles-a').apply(before)).toThrow(/全项目引用扫描/)
     expect(() =>
       new RemoveTilesetCommand('tiles-a', proof).apply({ ...before, stamps: [stamp('tiles-a')] }),
     ).toThrow(/组合模板/)

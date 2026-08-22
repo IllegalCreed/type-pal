@@ -14,7 +14,6 @@ import {
   UpdateSceneHookCommand,
 } from '../core/script-editor.js'
 import {
-  CanonicalHelpTip,
   type CanonicalScriptEditorContext,
   CanonicalScriptFlowEditor,
   nextGeneratedScriptSchemeId,
@@ -22,6 +21,7 @@ import {
   ScriptSchemeDetailsDialog,
   ScriptSchemeStrip,
 } from './ScriptEditor.js'
+import { DsHelpTip } from './design-system/index.js'
 
 function defaultHook(label: string): BaseSceneHook {
   return {
@@ -122,14 +122,11 @@ export function ScriptSceneHookInspector(props: {
     )
 
   return (
-    <section
-      className="script-behavior-inspector script-hook-inspector"
-      aria-label={copy.title}
-    >
+    <section className="script-behavior-inspector script-hook-inspector" aria-label={copy.title}>
       <header className="script-behavior-heading">
         <div className="script-heading-title">
           <h4>{copy.title}</h4>
-          <CanonicalHelpTip label={copy.title}>{copy.description}</CanonicalHelpTip>
+          <DsHelpTip label={copy.title}>{copy.description}</DsHelpTip>
         </div>
         {!entries.length ? <span>尚未创建</span> : null}
       </header>
@@ -176,9 +173,7 @@ export function ScriptSceneHookInspector(props: {
                 : undefined
             }
             onChange={(flow) =>
-              dispatch(
-                new UpdateSceneHookCommand(props.sceneId, props.slot, selectedId, { flow }),
-              )
+              dispatch(new UpdateSceneHookCommand(props.sceneId, props.slot, selectedId, { flow }))
             }
           />
         </div>

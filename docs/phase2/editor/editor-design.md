@@ -93,7 +93,7 @@ interface EditorMode {
 | 物品 | `item` | 物品、商店 |
 | 战斗 | `battle` | 技能、敌人、毒、战场 |
 | 资源 | `asset` | 精灵、音乐、过场素材 |
-| 工程 | `project` | 概览、全局资源与启动、入口与开局、问题与高级 |
+| 工程 | `project` | 概览、全局资源与启动、入口与开局、问题 |
 
 - 唯一注册表位于 `packages/editor/src/ui/editor-navigation.ts`;一级导航、二级导航、URL 解析和覆盖测试均由它派生。旧 `DataMode` 仅保留为内部页面适配器,不再是可见一级模块。
 - 统一位置类型为 `EditorLocation { module, subpage, objectId? }`,URL 形式为 `?module=<id>&page=<id>&object=<encoded-id>`。业务入口只能通过统一导航函数跳转,不得自行维护第二套路由状态。
@@ -209,7 +209,7 @@ URL 使用 `domain=battle&view=definition|asset&object=<id>`，诊断和消费�
 
 ### 5.6 manifest 工程工作台（X7-1，2026-07-16）
 
-“工程”模块固定为四个权威子页：概览、全局资源与启动、入口与开局、问题与高级。不得再把
+“工程”模块固定为四个权威子页：概览、全局资源与启动、入口与开局、问题。不得再把
 `startWorld` 暴露成与入口点并列的独立作者模块。
 
 - “入口与开局”左侧第一项是无 `menu` / `entry` 参数时使用的“默认入口（不经过标题菜单）”，它在同一详情中编辑
@@ -233,8 +233,8 @@ URL 使用 `domain=battle&view=definition|asset&object=<id>`，诊断和消费�
 - 没有显式 `entryPoints` 的兼容工程只在 UI/runtime 合成 `new-game`；未编辑即保存不得物化该字段。入口
   未覆盖 `startWorld`、默认开局未含 `seedStats` 时也必须保持字段缺席。保存前统一校验入口 id/scene、
   StartWorld 引用、资源角色与 typed 资产闭包，错误跳回字段的唯一作者。
-- locale 编辑不属于本工作台四页，留给独立内容/本地化任务；工程高级页只显示当前 locale 状态，避免
-  为补齐 manifest 概念而增加第二个文案编辑入口。
+- “问题”页只消费统一 diagnostics，并按严重度、问题类型与资源类型分组；项目身份和版本信息归“概览”，
+  不在问题页重复。locale 编辑与状态归未来独立本地化工作台，问题页不建立第二个入口。
 
 ## 6. 校验层(第四根)—— 编辑器的核心价值
 

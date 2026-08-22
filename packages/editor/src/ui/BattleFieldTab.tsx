@@ -288,7 +288,7 @@ export function BattleFieldTab(props: {
                 <p className="eyebrow">新建战场</p>
                 <h2>先确定稳定编号与名称</h2>
                 <p>
-                  空工程建议保留 #024 作为项目默认战场。编号提交后不可修改，但可以撤销本次创建。
+                  空项目建议保留 #024 作为项目默认战场。编号提交后不可修改，但可以撤销本次创建。
                 </p>
                 <div className="bf-create-grid">
                   <DsField label="编号">

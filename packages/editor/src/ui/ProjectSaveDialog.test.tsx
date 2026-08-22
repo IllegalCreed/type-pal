@@ -41,8 +41,8 @@ describe('ProjectSaveDialog', () => {
     const dialog = document.body.querySelector<HTMLDialogElement>('.project-save-dialog')!
     expect(dialog.open).toBe(true)
     expect(dialog.getAttribute('aria-modal')).toBe('true')
-    expect(dialog.textContent).toContain('正在保存工程')
-    expect(dialog.textContent).toContain('正在整理并校验工程内容')
+    expect(dialog.textContent).toContain('正在保存项目')
+    expect(dialog.textContent).toContain('正在整理并校验项目内容')
     expect(dialog.querySelector('[role="progressbar"]')?.hasAttribute('aria-valuenow')).toBe(false)
 
     const cancel = new Event('cancel', { cancelable: true })
@@ -61,7 +61,7 @@ describe('ProjectSaveDialog', () => {
     expect(document.body.textContent).toContain('50% · 512 B / 1 KB')
 
     await act(async () => root.render(<ProjectSaveDialog activity={{ phase: 'saving-as' }} />))
-    expect(document.body.textContent).toContain('正在另存工程')
+    expect(document.body.textContent).toContain('正在另存项目')
     expect(document.body.textContent).toContain('正在复制素材并写入新目录')
   })
 })

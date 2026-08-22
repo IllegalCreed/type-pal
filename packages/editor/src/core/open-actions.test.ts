@@ -299,7 +299,7 @@ describe('project creation and Save As target policy', () => {
 
     await expect(
       saveProjectAs(createLocalWorkspaceContext('pal', 'local-directory'), buildFiles, source),
-    ).rejects.toThrow('不能是源工程目录本身或其子目录')
+    ).rejects.toThrow('不能是源项目目录本身或其子目录')
     expect(buildFiles).not.toHaveBeenCalled()
     expect(writeProjectMock).not.toHaveBeenCalled()
   })
@@ -373,7 +373,7 @@ describe('project creation and Save As target policy', () => {
         async () => ({ 'manifest.json': { id: 'pal' } }),
         source,
       ),
-    ).rejects.toThrow('不能是源工程目录本身或其子目录')
+    ).rejects.toThrow('不能是源项目目录本身或其子目录')
     expect(sourceEntries).toHaveBeenCalledTimes(1)
     expect(sourceFile.getFile).toHaveBeenCalledTimes(1)
     expect(writeProjectMock).not.toHaveBeenCalled()
@@ -416,7 +416,7 @@ describe('project creation and Save As target policy', () => {
     })
 
     await expect(finishOpen(metadataDir)).rejects.toThrow(
-      '工作区 identity 在工程载入期间发生变化',
+      '工作区 identity 在项目载入期间发生变化',
     )
   })
 

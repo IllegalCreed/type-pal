@@ -19,7 +19,7 @@ describe('local play workspace identity', () => {
         'other',
         vi.fn(async () => record),
       ),
-    ).rejects.toThrow('工程 id 与本地 workspace identity 不一致')
+    ).rejects.toThrow('项目 id 与本地 workspace identity 不一致')
     await expect(
       resolvePlayWorkspaceRecord(
         record.workspaceId,
@@ -31,7 +31,7 @@ describe('local play workspace identity', () => {
 
   test('loaded manifest must agree with the workspace project identity', () => {
     expect(() => assertLoadedPlayProjectIdentity('pal', 'other')).toThrow(
-      'manifest 工程 id 与试玩 workspace identity 不一致',
+      'manifest 项目 id 与试玩 workspace identity 不一致',
     )
     expect(() => assertLoadedPlayProjectIdentity('pal', 'pal')).not.toThrow()
   })

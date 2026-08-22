@@ -110,11 +110,13 @@ import {
   DsCheckbox,
   DsInspectorSection,
   DsInspectorTabs,
+  DsNumberInput,
   DsPropertyGrid,
   DsPropertyRow,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
+  DsTextInput,
 } from './design-system/index.js'
 import { IsometricEditorCanvas } from './IsometricEditorCanvas.js'
 import { IsometricEditorSurface } from './IsometricEditorSurface.js'
@@ -136,7 +138,7 @@ import {
 } from './scene-stage.js'
 import { drawStampPlacementOverlay } from './stamp-placement-overlay.js'
 import { drawStampPlacementSelectionOverlay } from './stamp-placement-selection-overlay.js'
-import { CurrentPaintTileButton, TilePalettePicker } from './TilePickerGrid.js'
+import { TilePalettePicker } from './TilePickerGrid.js'
 
 const DEFAULT_COLS = 24
 const DEFAULT_ROWS = 24
@@ -393,7 +395,7 @@ export function MapMode(props: {
   useEffect(() => {
     if (stampSessionRef.current === session) return
     stampSessionRef.current = session
-    // 同 manifest.id 的另一工程副本仍会换 EditSession；图章作者态绝不能借 mapId/stampId 串过去。
+    // 同 manifest.id 的另一项目副本仍会换 EditSession；图章作者态绝不能借 mapId/stampId 串过去。
     setTool('pan')
     setInspectorTab('properties')
     setDrawPanelVisited(false)
@@ -421,7 +423,7 @@ export function MapMode(props: {
     hoverRef.current = null
     coordinateHoverRef.current = null
     setHoverPoint(null)
-    // mapId / placementId 在不同工程副本中可能相同；选择、隐藏/锁定与组内上下文都必须按会话隔离。
+    // mapId / placementId 在不同项目副本中可能相同；选择、隐藏/锁定与组内上下文都必须按会话隔离。
     dispatchWorkspace({ type: 'reset' })
   }, [session])
   const [paintTick, setPaintTick] = useState(0)
@@ -1253,17 +1255,6 @@ export function MapMode(props: {
     if (nextTab === 'draw') setDrawPanelVisited(true)
     if (nextTab !== 'properties') setCandidateMenu(undefined)
     onRequestInspectorOpen?.()
-  }
-
-  const openPaintTilePicker = (): void => {
-    activateInspectorTab('draw')
-    requestAnimationFrame(() => {
-      const selected = inspectorRef.current?.querySelector<HTMLButtonElement>(
-        '.tile-picker-item.is-selected',
-      )
-      selected?.scrollIntoView?.({ block: 'nearest', inline: 'nearest' })
-      selected?.focus({ preventScroll: true })
-    })
   }
 
   const activateMapTool = (nextTool: MapTool): void => {
@@ -2895,7 +2886,7 @@ export function MapMode(props: {
           })}
           {filteredAssets.length === 0 ? (
             <div className="map-list-empty">
-              {mapIndex.maps.length === 0 ? '还没有工程地图' : '没有匹配地图'}
+              {mapIndex.maps.length === 0 ? '还没有项目地图' : '没有匹配地图'}
             </div>
           ) : null}
         </div>
@@ -2989,16 +2980,6 @@ export function MapMode(props: {
                   onChange={(event) => setIncludeCollision(event.target.checked)}
                 />
               </>
-            }
-            paintTileControl={
-              <CurrentPaintTileButton
-                tilesetId={selectedTilesetId || undefined}
-                tilesetName={tilesets.find(({ id }) => id === selectedTilesetId)?.name}
-                tileId={selectedTile}
-                frame={selectedTiles.get(selectedTile)}
-                palette={loadedAssets?.palette}
-                onOpenPicker={openPaintTilePicker}
-              />
             }
             brushSize={brushSize}
             onBrushSizeChange={setBrushSize}
@@ -3399,16 +3380,16 @@ export function MapMode(props: {
                       onValidationError={(message) => notifyWorkspace('error', message)}
                     />
                   ) : (
-                    <div className="section map-properties-section" data-ds-density="compact">
+                    <div className="map-properties-section" data-ds-density="compact">
                       <DsInspectorSection title="地图">
                         {selectedAsset ? (
                           <DsPropertyGrid>
                             <DsPropertyRow label="名称" labelFor="map-properties-name">
-                              <input
+                              <DsTextInput
                                 id="map-properties-name"
                                 ref={mapNameInputRef}
                                 key={`${selectedAsset?.id}:${selectedAsset?.name}`}
-                                className="in"
+                                size="compact"
                                 aria-label="地图名称"
                                 defaultValue={selectedAsset?.name ?? ''}
                                 onBlur={(event) => {
@@ -3429,10 +3410,9 @@ export function MapMode(props: {
                             <DsPropertyRow label="尺寸">
                               {/* 左上锚定裁剪/扩展;失焦或回车提交,一次 = 一步撤销(缩图裁掉的内容 undo 可回) */}
                               <span className="size-edit">
-                                <input
+                                <DsNumberInput
                                   key={`w:${liveMap?.width}`}
-                                  className="in mono"
-                                  type="number"
+                                  size="compact"
                                   aria-label="地图宽度"
                                   min={1}
                                   max={256}
@@ -3460,10 +3440,9 @@ export function MapMode(props: {
                                   }}
                                 />
                                 ×
-                                <input
+                                <DsNumberInput
                                   key={`h:${liveMap?.height}`}
-                                  className="in mono"
-                                  type="number"
+                                  size="compact"
                                   aria-label="地图高度"
                                   min={1}
                                   max={256}
@@ -3504,9 +3483,9 @@ export function MapMode(props: {
                         ) : (
                           <>
                             <p className="hint2">当前场景引用的地图没有索引条目。</p>
-                            <button type="button" className="tool" onClick={createMap}>
-                              ＋ 新建地图
-                            </button>
+                            <DsButton size="compact" icon="add" onClick={createMap}>
+                              新建地图
+                            </DsButton>
                           </>
                         )}
                       </DsInspectorSection>
@@ -3514,10 +3493,10 @@ export function MapMode(props: {
                         <DsInspectorSection title="选中图层">
                           <DsPropertyGrid>
                             <DsPropertyRow label="名称" labelFor="map-active-layer-name">
-                              <input
+                              <DsTextInput
                                 id="map-active-layer-name"
                                 key={`${activeLayer.id}:${activeLayer.name}`}
-                                className="in"
+                                size="compact"
                                 aria-label="图层名称"
                                 defaultValue={activeLayer.name}
                                 disabled={activeLayerReadOnly}

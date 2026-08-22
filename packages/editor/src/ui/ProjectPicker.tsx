@@ -1,5 +1,5 @@
 /**
- * 编辑器启动屏。只负责创建、选择和打开当前 canonical content16 工程；旧开发工程必须
+ * 编辑器启动屏。只负责创建、选择和打开当前 canonical content16 项目；旧开发项目必须
  * 重新生成，不在产品启动流程中提供兼容工作台。
  */
 import { useEffect, useState } from 'react'
@@ -59,7 +59,7 @@ export function ProjectPicker(props: {
     }
   }
 
-  const openProject = run('打开工程', async () => {
+  const openProject = run('打开项目', async () => {
     const dir = await pickDir()
     return dir ? finishOpen(dir, { forceSandbox }) : null
   })
@@ -68,11 +68,11 @@ export function ProjectPicker(props: {
   const clonePal = run('从 pal 克隆', async () =>
     newFromPal(seedBaseUrl, (done, total) => setProgress({ done, total })),
   )
-  const createBlank = run('创建空白工程', newBlankProject)
+  const createBlank = run('创建空白项目', newBlankProject)
   const openRecent = (workspaceId: string): void => {
-    void run('打开最近工程', async () => {
+    void run('打开最近项目', async () => {
       const record = await loadWorkspaceRecord(workspaceId)
-      if (!record) throw new Error('句柄已失效，请使用「打开工程」重新选择文件夹。')
+      if (!record) throw new Error('句柄已失效，请使用「打开项目」重新选择文件夹。')
       const permission = await ensurePermission(record.handle, { withRequest: true })
       if (permission !== 'granted') throw new Error('未授权访问该文件夹。')
       return finishOpen(record.handle, { expectedIdentity: record, forceSandbox })
@@ -98,7 +98,7 @@ export function ProjectPicker(props: {
       <div className="picker-card">
         <h1 className="picker-title">type-pal 编辑器</h1>
         <p className="picker-sub">
-          选择当前 canonical content16 工程开始编辑。旧开发工程请重新生成。
+          选择当前 canonical content16 项目开始编辑。旧开发项目请重新生成。
         </p>
 
         {busy ? (
@@ -110,7 +110,7 @@ export function ProjectPicker(props: {
                   <div className="picker-bar-fill" style={{ width: `${percent}%` }} />
                 </div>
                 <div className="picker-busy-sub">
-                  下载工程 · {percent}% · {mb(progress.done)}/{mb(progress.total)} MB
+                  下载项目 · {percent}% · {mb(progress.done)}/{mb(progress.total)} MB
                 </div>
               </>
             ) : (
@@ -121,24 +121,24 @@ export function ProjectPicker(props: {
           <>
             <div className="picker-actions">
               <button type="button" className="picker-act primary" onClick={clonePal}>
-                <span className="picker-act-t">从 PAL 开发快照创建本地工程</span>
+                <span className="picker-act-t">从 PAL 开发快照创建本地项目</span>
                 <span className="picker-act-d">
                   当前快照仍随 E2E 持续完善，尚不是稳定用户种子。
                 </span>
               </button>
               <button type="button" className="picker-act" onClick={openProject}>
-                <span className="picker-act-t">打开工程</span>
-                <span className="picker-act-d">选择一个当前 content16 本地工程继续编辑。</span>
+                <span className="picker-act-t">打开项目</span>
+                <span className="picker-act-d">选择一个当前 content16 本地项目继续编辑。</span>
               </button>
               <button type="button" className="picker-act" onClick={createBlank}>
-                <span className="picker-act-t">新建空白工程</span>
-                <span className="picker-act-d">创建包含起始场景与占位角色的 content16 工程。</span>
+                <span className="picker-act-t">新建空白项目</span>
+                <span className="picker-act-d">创建包含起始场景与占位角色的 content16 项目。</span>
               </button>
             </div>
 
             {recent.length > 0 && (
               <div className="picker-recent">
-                <div className="picker-recent-h">最近工程</div>
+                <div className="picker-recent-h">最近项目</div>
                 {recent.map((entry) => (
                   <button
                     type="button"

@@ -1,0 +1,212 @@
+# ED-MEDIA-ASSET-ACTIONS-1 - 媒体资源对象操作与生命周期统一
+
+Status: draft
+Phase: phase2
+Capability: X2
+Coding Owner: Codex
+Generation Owner: N/A
+Reviewer: Kimi + GLM
+Visual Verification Owner: Codex
+Visual Verification Timing: dev-functional
+Unavailable Agents: none
+Branch: codex/ed-pal-workspace-modes-1
+
+## 目标
+
+统一图像与过场资源的对象身份、改名、替换、删除和确认交互：集合级导入留在左侧目录，当前资源的替换与删除进入
+中央媒体对象标题区，改名进入有标签的“属性 / 基本信息”，右侧引用与诊断只负责展示影响、阻断和定位。修复实时
+`sharedScripts` 未进入资源引用快照、从而可能误删仍被共享脚本引用资源的正确性缺口。音频工作台
+`ED-AUDIO-WORKBENCH-1` 后续复用本卡的资源生命周期合同，不再创建第四套资源操作。
+
+## 范围
+
+- 范围内:
+  - `ImageTab`、`CutsceneTab` 的集合动作、当前资源动作、改名、属性、引用 / 诊断布局归属。
+  - 中央预览上方使用紧凑 `DsObjectHero` 展示当前资源名称、AssetId、类型 / 来源与替换、删除动作。
+  - 图像 / 过场改名使用带可见标签的 `DsField + DsTextInput`；Enter / blur 提交，Escape 恢复，等值不提交。
+  - 删除与未保存帧动画切换使用共享 `DsDialog`；显示对象、影响、引用数，关闭后焦点返回触发点。
+  - Cutscene 私有分组列表迁为 `DsCatalogGroupHeader + DsCatalogRow`；真实空库与筛选空态分离。
+  - 资源引用适配器接入实时 canonical `sharedScripts`；展示、删除 preflight 与保存诊断消费同一 typed snapshot。
+  - 更新错误的 boundary 例外：目录 overflow 只允许集合动作，不再要求 Image / Cutscene 把对象操作放在 `...`。
+- 范围外:
+  - 不改 AssetId、catalog、content schema、manifest、资源文件格式、迁移器或 capability 状态。
+  - 不改视频播放器、帧动画编码 / 量化 / 时间线或 PNG 导入算法。
+  - 不把 Tileset、WorldSprite、BattleSprite 的领域扫描 / repair plan 抽平成通用资产流程。
+  - 不处理音乐 / 音效页面整体布局；由 `ED-AUDIO-WORKBENCH-1` 消费本卡合同。
+- 明确不做:
+  - 不在列表行放改名、替换或删除；右键 / overflow 如未来存在只能镜像 Hero，不得成为唯一入口。
+  - 不使用 `window.confirm`、自制 modal backdrop、裸 `.in/.btn/.mini-icon` 承载本卡生命周期操作。
+  - 不自动级联清理引用；引用存在或扫描失败时删除 fail closed。
+
+## 前提真值门
+
+### 一句话行为 / 工程前提
+
+图像与过场都已经使用稳定 AssetId 和通用资源命令，但当前 UI 把“集合动作”和“当前对象动作”混在左侧目录，且资源引用
+快照遗漏实时共享脚本；应只统一作者交互与引用输入，不改变资源数据或运行时播放语义。
+
+### 真值矩阵
+
+| 维度 | 当前真值 | 直接证据 |
+|---|---|---|
+| 原版 / primary source | N/A：原版没有本项目资源编辑器；本任务不改变视频、帧动画、图片内容与播放语义。 | `docs/phase2/READ-FIRST.md:1-35`；用户 2026-08-21 指出当前资源改名 / 删除不符合统一规范。 |
+| 第一阶段 | 第一阶段提供资源读取 / 播放经验，不提供当前作者工作台操作归属。 | `docs/phase2/READ-FIRST.md:68-90`; `docs/ops/tasks/A7-3-cutscene-asset-workbench.md` 记录二阶段新建的过场作者工作台。 |
+| 当前二阶段 | Image / Cutscene 的替换、删除位于 `DsCatalogControls.overflowActions`；改名位于右 Inspector，Cutscene 仍为裸输入；删除 / dirty 切换使用 `window.confirm`。引用适配器未传 `sharedScripts`，而删除命令要求调用方保护。 | `ImageTab.tsx:532-578,659-707`; `CutsceneTab.tsx:274-291,376-380,570-615,703-711`; `editor-asset-references.ts:8-27`; `commands.ts:3003-3013`。 |
+| 本任务目标 | 左侧只保留集合级导入；中央媒体 Hero 承载当前资源身份和替换 / 删除；属性区承载改名；右 Inspector 保留引用 / 诊断；所有删除使用包含 live sharedScripts 的同一引用快照。 | `editor-design-system-v1.md:304-327,451-479`; `editor-ui-audit-2026-08-15.md:85`; 用户本轮要求按通用规范复核。 |
+
+### 反证与替代解释
+
+- 最强替代解释: 媒体型工作台中央应只保留画布，所以对象操作放左侧 `...` 可以节省空间。
+  - 否决原因: `...` 属集合标题且在资源被筛选隐藏时仍作用于后台选中对象，目标不清晰；紧凑 Hero 可固定在预览上方，
+    不把媒体压成缩略图，并与对象删除统一位置合同一致。
+- 什么观察会推翻当前前提:
+  - 若用户明确裁定媒体资源不需要可见对象标题区、且所有对象操作必须只在右 Inspector，则需要更新 DS-C.2 / DS-R.2
+    冲突并重新签字；当前用户反馈正指向“现状不符合通用规范”。
+  - 若 live ScriptEditSession 已在调用 `collectEditorAssetReferences` 前被可靠合并进主 EditSession，则 sharedScripts 缺口不成立；
+    当前 `DataMode` 与保存边界代码证明它们在作者会话中仍是双 session，故反证未出现。
+- 已排查替代根因:
+  - runtime / 命令分类: 通用 Update / Upsert / DeleteAssetCommand 已存在，本卡不改其数据语义。
+  - 原版 / 第一阶段理解: 无作者 UI 真值可照抄。
+  - extractor / 数据解码: 不涉及资源内容解码错误。
+  - audit / test model: JSX、boundary 断言、collector 输入和 command 注释交叉证明，不仅依据截图。
+
+### 用户可见偏离
+
+- 是否主动偏离已核真值: yes（用户要求修正当前资源操作规范）
+- `before -> after` 一句话: 改名藏在右侧标题、替换 / 删除藏在左侧 `...`、浏览器原生确认 -> 当前资源标题明确显示目标与替换 / 删除，属性字段负责改名，共享对话框负责确认与引用阻断。
+- 代表场景: 选择 `video.pal.001` 后，中央标题显示“PAL 视频 001 / video.pal.001”，可直接替换或删除；右侧属性可改显示名称，引用页解释为何不能删除。
+- 用户裁决: 2026-08-21 用户指出该页资源重命名 / 删除未按通用规范，授权按统一合同审查；详细设计仍待三方签字。
+
+## 上下文锚点
+
+- `docs/phase2/READ-FIRST.md`。
+- `docs/phase2/editor/editor-design-system-v1.md:304-327,451-479`：按钮、危险操作、对象 / 媒体工作台合同。
+- `docs/phase2/editor/editor-ui-audit-2026-08-15.md:75-85,100-108`：U-12 对象级删除与媒体 / 资源长尾。
+- `packages/editor/src/ui/design-system/recipes.tsx:43-194,723-809`：Hero、CatalogRow、CatalogControls、Workbench / Inspector recipes。
+- `packages/editor/src/ui/ImageTab.tsx:532-707`、`CutsceneTab.tsx:140-196,274-291,376-380,570-711,893-1004`。
+- `packages/editor/src/core/editor-asset-references.ts:8-27`、`packages/content/src/asset.ts:305-312,535-541`。
+- `packages/editor/src/core/commands.ts:2905-3039`：已有通用资源命令及调用方删除保护边界。
+- 不得重新引入: 目录行内资源生命周期动作、目录 `...` 作为当前对象唯一入口、Inspector 标题裸输入、
+  `window.confirm`、自制确认弹窗、重复资源引用 collector。
+
+## 验收条件
+
+- 功能:
+  1. Image / Cutscene 左侧目录只承载筛选、类型 / 分组和导入；不存在当前资源替换 / 删除 overflow action。
+  2. 当前资源始终有中央紧凑 Hero；名称、AssetId 与操作目标一致，筛选隐藏当前项时不产生含糊操作。
+  3. 替换保留 AssetId 与现有格式校验；删除有引用或扫描失败时阻断，无引用时 `DsDialog` 确认，undo 恢复 record 和二进制。
+  4. 改名有可见 label，Enter / blur 单次提交，Escape / 无变化零提交；全局保存仍是唯一磁盘保存入口。
+  5. shared script 顶层及嵌套 `playVideo` / `playFrameAnimation` / 图像类引用（若内容合同支持）进入展示、删除门禁与保存诊断。
+  6. Cutscene 目录和属性使用共享 recipes；原视频播放器、帧动画编辑器和引用 / 诊断组件保持行为。
+  7. 删除后选择与 URL object 同步；真实空库、筛选空、busy/error 均有可访问恢复状态。
+- 测试:
+  - collector：live sharedScripts 顶层 / 嵌套资源引用命中，非目标 ID 不误中，扫描失败删除零 mutation。
+  - Image / Cutscene：Hero 操作位置、改名提交 / 取消、替换、删除 Dialog、引用阻断、undo/redo、deep link / 过滤。
+  - Cutscene dirty 帧动画切换、替换、删除统一 Dialog；关闭返回焦点。
+  - boundary：禁止 Image / Cutscene 对象动作进入 `DsCatalogControls.overflowActions`、`window.confirm`、裸重命名 input、自制 lifecycle modal；要求 Hero / shared rows / dialog。
+  - 定向 Vitest + editor typecheck + `git diff --check`；只运行一次必要长套件。
+- 文档:
+  - 消解 DS-R.2“右侧资产操作”与 DS-C.2“完整对象删除进 Hero”的歧义：右侧承载属性 / 元数据、引用、诊断；
+    当前完整资源替换 / 删除固定在媒体 Hero。
+  - 在 `ED-AUDIO-WORKBENCH-1` 记录复用本卡生命周期合同与依赖顺序。
+- 视觉 / 手工验证:
+  - 1280×720 与窄中央列各验证 Image、Video、FrameAnimation：Hero 不挤压媒体为缩略图，长名称 / ID 不横向溢出。
+  - 替换、引用阻断删除、可删除确认、dirty 切换 Dialog 的目标和焦点明确；浏览器 console 无错误。
+- E2E 用例登记:
+  - N/A：功能性编辑器界面，开发期做一次最小浏览器 smoke。
+
+## 推进签字
+
+### 进入 build 前:设计签字
+
+- Codex:
+  - premise: verified（Image / Cutscene JSX、reference adapter、content collector 与 DeleteAssetCommand 一手证据）
+  - design: agree（集合动作左栏；当前资源身份 / 替换 / 删除进紧凑媒体 Hero；属性区改名；统一 Dialog 与 live reference snapshot）
+- Kimi:
+  - premise: pending
+  - design: pending
+- GLM:
+  - premise: pending
+  - design: pending
+- 独立反证审查:
+  - 审查者: pending
+  - 独立证据锚点: pending
+  - 可证伪观察: pending
+- counter / 分歧处理: N/A
+- 缺签豁免: N/A
+- build 准入结论: blocked
+
+### 进入 done 前:审查签字
+
+- Codex: pending
+- Kimi: pending
+- GLM: pending
+- counter / 返工处理: N/A
+- 缺签豁免: N/A
+- done 准入结论: blocked
+
+## Draft: 设计与风险
+
+### 设计结论
+
+1. Collection action（导入 / 新建）进入 `DsCatalogControls.actions` 或对应 `DsCatalogGroupHeader`。
+2. Current resource action（替换 / 删除）进入中央 `DsObjectHero.actions`；危险按钮保持 danger，引用原因不塞进按钮文案。
+3. Rename 进入右侧 `属性` / `资源`的 `DsField + DsTextInput`，Hero 只显示已提交名称；AssetId/path/origin/mediaType/size 只读。
+4. Inspector 保持“属性 / 引用 / 诊断”语义；引用页拥有阻断原因与 locator，不复制删除按钮。
+5. `collectCurrentAuthorAssetReferences(mainState, liveScriptState)`（最终命名由实现决定）是 UI、删除 preflight、保存诊断的单一输入适配器。
+6. Cutscene 的视频 / 帧动画分组结构保留，但行壳与分组标题共享；18 项无需为本卡引入虚拟化。
+7. Image / Cutscene 只共享外壳和生命周期，不共享各自预览 / 导入算法；避免抽成巨型 `ResourceWorkbench`。
+
+### 已知风险
+
+- 新增 Hero 会压缩媒体预览高度：使用 compact actions / tag 合同，Hero 固定在预览滚动层之外，窄布局允许 meta / actions 换行。
+- sharedScripts 引用修复可能增加真实引用与阻断：这是正确性修复，必须以 occurrence 数和 locator 测试证明，不兼容漏扫。
+- dirty 帧动画 Dialog 与删除 Dialog 状态可能交叉：使用单一明确 dialog state / request，切换或删除结束前不得并发打开。
+- Image 与 Cutscene 的 Inspector 历史合同不同：不强行统一媒体元数据字段，只统一 Section / PropertyRow / lifecycle 位置。
+
+### 主审立场
+
+- Reviewer: Kimi 主审 UI 架构 / dialog / dirty lifecycle；GLM 主审 live reference 输入、删除原子性与测试矩阵。
+- 结论: pending
+- 必改项: pending
+- 是否建议进入 build: pending
+
+## Build: 实现与自测
+
+- Coding Owner: Codex
+- 修改文件: pending
+- 实现摘要: pending
+- 运行命令: pending
+- 浏览器 / 手工检查: pending
+- 跳过的检查及原因: pending
+
+## Review: 审查与返工
+
+- Reviewer: Kimi + GLM
+- 审查结论: pending
+- 必须返工项: pending
+- Accept / rework: pending
+
+## 用户验收
+
+- 用户结论: pending
+- 后续任务: Tileset / Sprite 专业资源页继续保留领域流程，仅共享确认 primitive 的迁移另行排期。
+
+## 交接日志
+
+- 2026-08-21 Codex: 完成 Image / Cutscene / Music / Sound / Tileset / Sprite 资源动作全量只读审计；创建本卡并签
+  premise / design。Evidence: 本卡真值矩阵与 inventory。Next: Kimi / GLM 独立设计审查；三签齐前不得改实现。
+
+## 下一位 Agent 提示词
+
+```text
+接手任务: ED-MEDIA-ASSET-ACTIONS-1 媒体资源对象操作与生命周期统一
+任务卡: docs/ops/tasks/ED-MEDIA-ASSET-ACTIONS-1-media-resource-lifecycle.md
+当前状态: draft；Codex 已签 premise verified + design agree；build 准入 blocked
+你的角色: Kimi 审 UI 架构、媒体 Hero、Dialog 与 dirty lifecycle；GLM 审 live sharedScripts 引用、删除原子性与测试矩阵
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、editor-design-system-v1.md DS-C.2/DS-R.2、editor-ui-audit U-12，以及卡内代码锚点
+已完成: 全资源动作 inventory；冻结集合动作左栏、当前资源替换/删除进媒体 Hero、属性区改名、引用/诊断只展示影响；发现 sharedScripts 漏扫会允许误删
+请你做: 独立读取一手代码核 premise，给可证伪观察；审查引用单真值、删除 preflight、Dialog/focus、Image/Cutscene 外壳和与 ED-AUDIO-WORKBENCH-1 的依赖；在卡中签 premise verified + design agree，或 counter 并列返工
+不要做: 不得修改实现文件；不得改 schema/migration/runtime 播放；不得自动级联清引用；不得标记 build/done
+输出要求: 更新签字、独立反证与主审立场，明确 agree/counter 和 build 是否可准入
+```

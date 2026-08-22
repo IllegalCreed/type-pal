@@ -1,4 +1,4 @@
-/** A7-3 过场资源工作台：工程内视频与完整帧动画的 CRUD、预览、编辑、引用和诊断。 */
+/** A7-3 过场资源工作台：项目内视频与完整帧动画的 CRUD、预览、编辑、引用和诊断。 */
 import {
   type AssetCatalogV1,
   type AssetId,
@@ -70,7 +70,7 @@ type CutsceneInspectorTab = 'resource' | 'references' | 'diagnostics'
 
 const ORIGIN_LABELS: Readonly<Record<AssetRecordV1['origin']['kind'], string>> = {
   'legacy-migrated': '原版迁移',
-  authored: '工程创作',
+  authored: '项目创作',
   generated: '生成资源',
   licensed: '授权资源',
 }
@@ -302,7 +302,7 @@ function describeReference(
 ): { kind: string; owner: string } {
   const where = reference.where
   const roleLabel = CUTSCENE_ROLE_LABELS[where]
-  if (roleLabel) return { kind: roleLabel, owner: '工程清单' }
+  if (roleLabel) return { kind: roleLabel, owner: '项目清单' }
   const entryPoint = /^entryPoints\[(\d+)]\.introVideo$/.exec(where)
   if (entryPoint)
     return {
@@ -478,7 +478,7 @@ export function CutsceneTab(props: {
       const decoded = await decodeFrameImages(pendingFrames.files, { preserveOrder: true })
       let colors: readonly (readonly [number, number, number])[] | undefined
       if (importTreatment === 'project-standard') {
-        setBusy('正在贴合工程标准色彩…')
+        setBusy('正在贴合项目标准色彩…')
         colors = (await loadStandardPalette(assetBase)).colors
       }
       const pixels = colors
@@ -571,7 +571,7 @@ export function CutsceneTab(props: {
     if (!selected || selectedReferences.length) return
     if (
       window.confirm(
-        `删除“${selected.record.label || selected.id}”？\n这会移除资源记录和工程内文件，可通过全局撤销恢复。`,
+        `删除“${selected.record.label || selected.id}”？\n这会移除资源记录和项目内文件，可通过全局撤销恢复。`,
       )
     ) {
       try {
@@ -798,7 +798,7 @@ export function CutsceneTab(props: {
                             <span>色彩</span>
                             <strong>
                               {frameMetadata?.colorTreatment === 'project-standard'
-                                ? '工程标准色彩'
+                                ? '项目标准色彩'
                                 : '保留原色'}
                             </strong>
                           </div>
@@ -820,7 +820,7 @@ export function CutsceneTab(props: {
                           kind: 'blocking',
                           description: selectedReferenceCount
                             ? '替换资源会保留这些引用；解除全部引用后才能删除。'
-                            : '当前工程没有引用此资源。',
+                            : '当前项目没有引用此资源。',
                         }}
                       >
                         {selectedReferences.length ? (
@@ -955,7 +955,7 @@ export function CutsceneTab(props: {
                 value={importTreatment}
                 options={[
                   { value: 'preserve', label: '保留原色' },
-                  { value: 'project-standard', label: '贴合工程标准色彩' },
+                  { value: 'project-standard', label: '贴合项目标准色彩' },
                 ]}
                 onValueChange={(value) =>
                   setImportTreatment(value as 'preserve' | 'project-standard')

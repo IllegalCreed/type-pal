@@ -243,7 +243,7 @@ test('非法投掷效果进入问题面板并被保存门拒绝', () => {
   )
 })
 
-describe('X7 工程入口不变式', () => {
+describe('X7 项目入口不变式', () => {
   test('缺省 entryPoints 只合成 UI 入口，不改 manifest，也不重复报告缺场景', () => {
     const manifest = { ...state().manifest, entryScene: 'missing' }
     expect(resolveProjectEntryPoints(manifest)).toEqual([
@@ -295,7 +295,7 @@ describe('X7 工程入口不变式', () => {
   })
 })
 
-describe('X7 工程诊断与保存门', () => {
+describe('X7 项目诊断与保存门', () => {
   test('未引用音乐和帧动画跳到资源模块的具体对象', () => {
     const base = state()
     const musicIds = [
@@ -453,6 +453,45 @@ describe('X7 工程诊断与保存门', () => {
       objectId: unusedAsset,
       domain: 'battle',
       view: 'asset',
+    })
+    expect(
+      unused.find((issue) => issue.code === 'unused-asset' && issue.message.includes(unusedAsset))
+        ?.asset,
+    ).toEqual({ id: unusedAsset, actualKind: 'battle-sprite' })
+  })
+
+  test('资源诊断保留期望与实际类型，不依赖中文消息分类', () => {
+    const base = state()
+    const wrongKind = collectProjectIssues({
+      ...base,
+      sprites: [{ ...heroSprite, asset: 'music.wrong-kind' }],
+      assetCatalog: {
+        version: 1,
+        assets: { 'music.wrong-kind': assetRecord('music', 'wrong-kind') },
+      },
+    })
+    expect(wrongKind.find((issue) => issue.code === 'asset-kind-mismatch')?.asset).toEqual({
+      id: 'music.wrong-kind',
+      expectedKind: 'sprite',
+      actualKind: 'music',
+    })
+  })
+
+  test('未知 manifest 顶层字段进入统一问题流，现行字段不产生假阳性', () => {
+    const base = state()
+    expect(
+      collectProjectIssues(base).some((issue) => issue.code === 'unknown-manifest-field'),
+    ).toBe(false)
+
+    const manifest = {
+      ...base.manifest,
+      futureField: { enabled: true },
+    } as unknown as CurrentManifest
+    expect(collectProjectIssues({ ...base, manifest })).toContainEqual({
+      severity: 'warn',
+      code: 'unknown-manifest-field',
+      message: 'manifest 包含当前规范未登记的顶层字段 “futureField”',
+      path: 'futureField',
     })
   })
 
@@ -857,7 +896,7 @@ describe('X7 工程诊断与保存门', () => {
     expect(() => assertProjectSaveValid({ ...base, manifest })).toThrow(/保存前开局数据校验失败/)
   })
 
-  test('合法工程通过保存门；重复入口和缺失角色资源 fail-loud', () => {
+  test('合法项目通过保存门；重复入口和缺失角色资源 fail-loud', () => {
     const base = state()
     expect(() => assertProjectSaveValid(base)).not.toThrow()
 

@@ -179,7 +179,7 @@ export function AmbienceTab(props: {
         <div className="et-scroll">
           {ambiences.length === 0 ? (
             <div className="insp-empty">
-              工程没带氛围表(manifest.content.ambiences 未声明)。「切氛围」指令将不生效。
+              项目没带氛围表(manifest.content.ambiences 未声明)。「切氛围」指令将不生效。
             </div>
           ) : (
             <table className="music-table amb-table">

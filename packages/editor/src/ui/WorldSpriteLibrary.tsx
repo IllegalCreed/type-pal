@@ -731,7 +731,7 @@ export function WorldSpriteLibrary(props: {
                   {creatingUsage ? (
                     <DsInspectorSection
                       title="新增用途定义"
-                      description={`初始布局：${KIND_FULL_LABEL[draftKind]} · 源容器 ${actualFrameCount ?? '…'} 帧；应用后才会写入工程。`}
+                      description={`初始布局：${KIND_FULL_LABEL[draftKind]} · 源容器 ${actualFrameCount ?? '…'} 帧；应用后才会写入项目。`}
                     >
                       <DsPropertyGrid>
                         <DsPropertyRow label="名称" labelFor="world-sprite-new-usage-label">

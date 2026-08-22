@@ -109,7 +109,7 @@ export class Playback {
   private moves: MoveJob[] = []
   private fadeJob: { dir: 'in' | 'out'; ms: number; done: number; resolve: () => void } | null =
     null
-  /** 纯表现层的 0x76 黑幕事务；不进入 scratch world，更不会写回工程。 */
+  /** 纯表现层的 0x76 黑幕事务；不进入 scratch world，更不会写回项目。 */
   private screenHoldToken: string | null = null
   private gateQueue: (() => void)[] = []
   private timers: { left: number; resolve: () => void }[] = []

@@ -56,7 +56,59 @@ describe('MapSelectionInspector React output', () => {
     expect(html).toContain('placeholder="混合"')
     expect(html).toContain('跳过 1 个空槽')
     expect(html).toContain('格点 / 碰撞')
+    expect(html).toContain('aria-label="清空地图选区"')
+    expect(html).toContain('aria-label="清空所选视觉实例"')
+    expect(html).toContain('aria-label="高度减 1"')
+    expect(html).toContain('aria-label="高度加 1"')
+    expect(html).toContain('role="tooltip"')
+    expect(html).not.toContain('修改只作用于指定通道')
     expect(html).not.toContain('aria-live="polite"')
+  })
+
+  test('图标动作保留清空、调高和移动语义', async () => {
+    const { map, selection } = fixture()
+    const host = document.createElement('div')
+    document.body.append(host)
+    const root = createRoot(host)
+    const onPatch = vi.fn()
+    const onMoveToLayer = vi.fn()
+    const onClearSelection = vi.fn()
+    await act(async () =>
+      root.render(
+        <MapSelectionInspector
+          map={map}
+          selection={selection}
+          activeLayerId="objects"
+          hiddenLayerIds={new Set()}
+          lockedLayerIds={new Set()}
+          onPatch={onPatch}
+          onValidationError={vi.fn()}
+          onMoveToLayer={onMoveToLayer}
+          onClearSelection={onClearSelection}
+        />,
+      ),
+    )
+
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label="清空地图选区"]')?.click(),
+    )
+    expect(onClearSelection).toHaveBeenCalledTimes(1)
+
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label="清空所选视觉实例"]')?.click(),
+    )
+    expect(onPatch).toHaveBeenLastCalledWith(expect.any(Object), ['objects'], '清空选区视觉实例')
+
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="高度加 1"]')?.click())
+    expect(onPatch).toHaveBeenLastCalledWith(expect.any(Object), ['objects'], '选区高度 +1')
+
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label="移动到图层：物件"]')?.click(),
+    )
+    expect(onMoveToLayer).toHaveBeenCalledWith('objects')
+
+    await act(async () => root.unmount())
+    host.remove()
   })
 
   test('隐藏或锁定成员显示原因并禁用写控件，不只靠颜色', () => {

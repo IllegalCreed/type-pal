@@ -1,8 +1,8 @@
 /**
  * @type-pal/editor 入口。
- * dev(VITE_PROJECT_ID 注入)→ 自动载入该工程(开发便利);`?picker` 强制启动屏(测试用)，
- * `?ui_samples` 只在内存追加视觉评审数据，不改仓库工程。
- * 生产(无 env)→ ProjectPicker 启动屏:新建(克隆/空白)/ 打开本地 / 最近工程(P4)。
+ * dev(VITE_PROJECT_ID 注入)→ 自动载入该项目(开发便利);`?picker` 强制启动屏(测试用)，
+ * `?ui_samples` 只在内存追加视觉评审数据，不改仓库项目。
+ * 生产(无 env)→ ProjectPicker 启动屏:新建(克隆/空白)/ 打开本地 / 最近项目(P4)。
  */
 import type { AuthorSceneDef, BaseSceneDef } from '@type-pal/content'
 import type { LoadedCurrentProject } from '@type-pal/reforge'
@@ -61,8 +61,8 @@ function currentCanonicalScriptState(
   }
 }
 /** 四态摊开:loading 只属于 dev 首次自动载入;picker 在任何模式下都是真启动屏。
- *  ⚠ 曾用 null 一态两义(dev=载入占位/生产=启动屏)→ dev 下「新建工程」回 null 永远卡
- *  「载入工程…」(自动载入 effect 只跑一次,没人再载入;用户 FSA 烟测第一步撞死)。 */
+ *  ⚠ 曾用 null 一态两义(dev=载入占位/生产=启动屏)→ dev 下「新建项目」回 null 永远卡
+ *  「载入项目…」(自动载入 effect 只跑一次,没人再载入;用户 FSA 烟测第一步撞死)。 */
 type Boot = Booted | { error: string } | 'loading' | 'picker'
 
 function Root() {
@@ -162,7 +162,7 @@ function Root() {
     })
   }
 
-  if (boot === 'loading') return <div className="boot">载入工程…</div>
+  if (boot === 'loading') return <div className="boot">载入项目…</div>
   if (boot === 'picker')
     return <ProjectPicker onOpened={onOpened} forceSandbox={UI_REVIEW_SAMPLES} />
   if ('error' in boot)

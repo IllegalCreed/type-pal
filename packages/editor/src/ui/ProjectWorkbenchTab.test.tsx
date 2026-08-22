@@ -6,20 +6,21 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import type { ProjectIssue } from '../core/project-diagnostics.js'
-import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 import {
+  groupProjectIssues,
   IssueList,
   type ProjectWorkbenchPage,
   ProjectWorkbenchTab,
   StartWorldFields,
 } from './ProjectWorkbenchTab.js'
 
-function issues(count: number): ProjectIssue[] {
+function issues(count: number, kind: 'music' | 'sound' = 'music'): ProjectIssue[] {
   return Array.from({ length: count }, (_, index) => ({
     severity: 'warn',
     code: 'unused-asset',
     message: `未引用资源 ${index + 1}`,
     path: `assets[${index + 1}]`,
+    asset: { id: `${kind}.${index + 1}`, actualKind: kind },
   }))
 }
 
@@ -66,10 +67,11 @@ function projectState(): EditorState {
   return {
     manifest: {
       id: 'project-test',
-      name: '测试工程',
-      contentVersion: 13,
-      minEngineVersion: '2.0.0',
+      name: '测试项目',
+      contentVersion: 16,
+      minimumSaveVersion: 8,
       entryScene: 's000',
+      content: {},
       startWorld,
       assets: { catalog: 'assets/index.json', roles: {} },
     },
@@ -130,7 +132,41 @@ afterEach(async () => {
   host.remove()
 })
 
-describe('工程问题列表', () => {
+describe('项目问题列表', () => {
+  test('按严重度、稳定 code 和资源类型聚合', () => {
+    const grouped = groupProjectIssues([
+      ...issues(2),
+      ...issues(3, 'sound'),
+      {
+        severity: 'error',
+        code: 'missing-entry-scene',
+        message: '入口场景缺失',
+        path: 'entryScene',
+      },
+      {
+        severity: 'warn',
+        code: 'migration-pending',
+        message: '迁移待处理',
+        path: 'migration',
+      },
+    ])
+
+    expect(
+      grouped.map((group) => [
+        group.severity,
+        group.code,
+        group.familyTitle,
+        group.title,
+        group.issues.length,
+      ]),
+    ).toEqual([
+      ['error', 'missing-entry-scene', '默认入口场景缺失', '默认入口场景缺失', 1],
+      ['warn', 'unused-asset', '未引用资源', '音乐', 2],
+      ['warn', 'unused-asset', '未引用资源', '音效', 3],
+      ['warn', 'migration-pending', '迁移待处理', '迁移待处理', 1],
+    ])
+  })
+
   test.each([0, 1, 30, 80, 81, 152, 303])('数量边界 %i 保持精确摘要与 80 项首屏', async (count) => {
     await act(async () => root.render(<IssueList issues={issues(count)} />))
 
@@ -138,6 +174,7 @@ describe('工程问题列表', () => {
     expect(host.querySelector('.ds-diagnostic-panel')?.getAttribute('data-state')).toBe(
       count ? 'ready' : 'clear',
     )
+    expect(host.querySelector('.ds-diagnostic-panel__description')).toBeNull()
     expect(host.textContent).toContain(`0 个错误 · ${count} 个警告`)
     expect(host.querySelector('.ds-diagnostic-list__pagination') !== null).toBe(count > 80)
   })
@@ -192,18 +229,6 @@ describe('工程问题列表', () => {
     expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(80)
   })
 
-  test('右侧摘要保持 30 项上限并提供全部问题入口', async () => {
-    const onViewAll = vi.fn()
-    await act(async () =>
-      root.render(<IssueList issues={issues(303)} compact onViewAll={onViewAll} />),
-    )
-
-    expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(30)
-    await act(async () => button(host, '查看全部 303 项').click())
-    expect(onViewAll).toHaveBeenCalledOnce()
-    expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(30)
-  })
-
   test('恰好 80 项时不显示多余的分批控件', async () => {
     await act(async () => root.render(<IssueList issues={issues(80)} />))
 
@@ -213,6 +238,14 @@ describe('工程问题列表', () => {
 })
 
 describe('入口开局世界资源', () => {
+  test('角色初始状态使用中文业务标题，不暴露 schema 字段名', async () => {
+    const session = new EditSession(projectState())
+    await act(async () => root.render(projectTab('entrypoint', session)))
+
+    expect(host.textContent).toContain('角色初始状态')
+    expect(host.textContent).not.toContain('seedStats')
+  })
+
   test('可新增、修改和删除稳定资源键，并拒绝重复定义 collectValue', async () => {
     await act(async () => root.render(<ResourceHarness />))
 
@@ -239,6 +272,116 @@ describe('入口开局世界资源', () => {
 })
 
 describe('项目设置工作区', () => {
+  test('问题页左栏按类型聚合，右栏只分页展示当前分组', async () => {
+    const state = projectState()
+    for (let index = 0; index < 208; index += 1) {
+      const kind = index < 120 ? 'music' : 'sound'
+      const id = `${kind}.unused.${index}`
+      state.assetCatalog.assets[id] = {
+        kind,
+        path:
+          kind === 'music'
+            ? `assets/authored/music/${index}.mid`
+            : `assets/authored/sounds/${index}.wav`,
+        mediaType: kind === 'music' ? 'audio/midi' : 'audio/wav',
+        bytes: 1,
+        sha256: index.toString(16).padStart(64, '0'),
+        origin: { kind: 'authored' },
+      }
+    }
+    const session = new EditSession(state)
+    const onObjectFocus = vi.fn()
+
+    await act(async () =>
+      root.render(
+        <ProjectWorkbenchTab
+          page="advanced"
+          manifest={state.manifest as never}
+          scenes={state.scenes}
+          actors={state.actors}
+          items={state.items}
+          skills={state.skills}
+          locale={state.locale}
+          assetCatalog={state.assetCatalog}
+          session={session}
+          editorState={state}
+          assetReader={{} as never}
+          onObjectFocus={onObjectFocus}
+        />,
+      ),
+    )
+
+    const resourceFamily = [
+      ...host.querySelectorAll<HTMLElement>('.ds-catalog-group-header--secondary'),
+    ].find((row) => row.textContent?.includes('未引用资源'))
+    const musicRow = [...host.querySelectorAll<HTMLButtonElement>('.ds-catalog-row')].find((row) =>
+      row.textContent?.includes('音乐'),
+    )
+    const soundRow = [...host.querySelectorAll<HTMLButtonElement>('.ds-catalog-row')].find((row) =>
+      row.textContent?.includes('音效'),
+    )
+    expect(resourceFamily?.textContent).toContain('208')
+    expect(musicRow?.textContent).toContain('120')
+    expect(soundRow?.textContent).toContain('88')
+    expect(host.querySelector('.project-center h1')?.textContent).toBe('默认入口场景缺失')
+
+    await act(async () => musicRow?.click())
+
+    expect(onObjectFocus).toHaveBeenCalledWith('diagnostic:warn:unused-asset:music')
+    expect(host.querySelector('.project-center h1')?.textContent).toBe('未引用资源 · 音乐')
+    expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(80)
+    expect(host.textContent).toContain('0 个错误 · 120 个警告')
+    expect(musicRow?.getAttribute('aria-controls')).toBe('project-issue-detail')
+    expect(musicRow?.getAttribute('aria-pressed')).toBe('true')
+  })
+
+  test('项目信息归概览，问题页不再混入高级信息和本地化状态', async () => {
+    const state = projectState()
+    const session = new EditSession(state)
+    await act(async () =>
+      root.render(
+        <ProjectWorkbenchTab
+          page="overview"
+          manifest={state.manifest as never}
+          scenes={state.scenes}
+          actors={state.actors}
+          items={state.items}
+          skills={state.skills}
+          locale={state.locale}
+          assetCatalog={state.assetCatalog}
+          session={session}
+          editorState={state}
+          assetReader={{} as never}
+        />,
+      ),
+    )
+
+    expect(host.textContent).toContain('内容版本 16')
+    expect(host.textContent).toContain('最低存档版本 8')
+
+    await act(async () =>
+      root.render(
+        <ProjectWorkbenchTab
+          page="advanced"
+          manifest={state.manifest as never}
+          scenes={state.scenes}
+          actors={state.actors}
+          items={state.items}
+          skills={state.skills}
+          locale={state.locale}
+          assetCatalog={state.assetCatalog}
+          session={session}
+          editorState={state}
+          assetReader={{} as never}
+        />,
+      ),
+    )
+
+    expect(host.textContent).not.toContain('高级信息')
+    expect(host.textContent).not.toContain('项目元数据')
+    expect(host.textContent).not.toContain('本地化状态')
+  })
+
   test('全局资源绑定行使用共享选择器和打开动作，并保持资源信息属于同一行', async () => {
     const state = projectState()
     state.manifest.assets.roles['video.startupTrademark'] = 'video.test'
@@ -295,10 +438,10 @@ describe('项目设置工作区', () => {
   })
 
   test.each([
-    ['overview', '测试工程'],
+    ['overview', '测试项目'],
     ['startup', '全局资源设置'],
     ['entrypoint', '默认入口'],
-    ['advanced', '问题与高级'],
+    ['advanced', '默认入口场景缺失'],
   ] as const)('%s 使用固定共享标题和独立正文滚动层', async (page, title) => {
     const session = new EditSession(projectState())
     await act(async () => root.render(projectTab(page, session)))
@@ -313,13 +456,7 @@ describe('项目设置工作区', () => {
     expect(workspace.querySelectorAll('h1')).toHaveLength(1)
     expect(content.contains(hero)).toBe(false)
     expect(content.classList.contains('ds-object-workspace__content')).toBe(true)
-    const inspectorContract = {
-      overview: ['工程概览检查器', '下一步'],
-      startup: ['全局启动检查器', '编辑边界'],
-      entrypoint: ['工程入口检查器', '字段归属'],
-      advanced: ['问题与高级检查器', '保存契约'],
-    } as const
-    const [label, contextLabel] = inspectorContract[page]
-    await verifyInspectorTabs(host, label, [/^问题 \d+$/, contextLabel])
+    expect(host.querySelector('.project-inspector')).toBeNull()
+    expect(host.querySelectorAll('.ds-diagnostic-panel')).toHaveLength(page === 'advanced' ? 1 : 0)
   })
 })

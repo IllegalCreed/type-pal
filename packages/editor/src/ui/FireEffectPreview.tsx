@@ -148,7 +148,7 @@ export function FireEffectPreview(props: {
         {frames === null ? (
           <div className="fire-preview__state" role="status">
             <strong>无法加载 FIRE #{anim.effectSprite}</strong>
-            <span>请修改特效号或检查工程资源。</span>
+            <span>请修改特效号或检查项目资源。</span>
           </div>
         ) : null}
         {Array.isArray(frames) ? (

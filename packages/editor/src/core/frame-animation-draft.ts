@@ -283,7 +283,7 @@ export type RgbColor = readonly [number, number, number]
 
 function nearestColor(r: number, g: number, b: number, colors: readonly RgbColor[]): RgbColor {
   let selected = colors[0]
-  if (!selected) throw new Error('工程标准色彩不能为空')
+  if (!selected) throw new Error('项目标准色彩不能为空')
   let best = Number.POSITIVE_INFINITY
   for (const color of colors) {
     const dr = r - color[0]
@@ -310,7 +310,7 @@ export function quantizeCompleteFrame(
   dimension(width, '量化宽度')
   dimension(height, '量化高度')
   assertPixelLength(width, height, rgba, '量化输入')
-  if (colors.length === 0) throw new Error('工程标准色彩不能为空')
+  if (colors.length === 0) throw new Error('项目标准色彩不能为空')
   const out = new Uint8Array(rgba)
   if (mode === 'nearest') {
     for (let offset = 0; offset < out.length; offset += 4) {

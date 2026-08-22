@@ -9,7 +9,7 @@ import type { ScriptEditorState } from './script-editor.js'
 
 /**
  * 主 EditSession 保存地图与普通属性的 current 交互投影，ScriptEditSession 保存唯一的脚本作者真值。
- * 这里是投影与作者真值在渲染/保存边界的唯一合并点；不存在旧工程 shell、版本转换、sidecar 或可绕过的
+ * 这里是投影与作者真值在渲染/保存边界的唯一合并点；不存在旧项目 shell、版本转换、sidecar 或可绕过的
  * 第二套脚本作者态。
  */
 function mergeEntityShell(

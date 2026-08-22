@@ -257,7 +257,7 @@ export function CommandForm(props: {
   hasImplicitSelf?: boolean
   /** 打开 callScript/jumpScript 目标；调用方决定留在场景内或进入作者共享库。 */
   onOpenScript?: (id: string) => void
-  /** 工程级变量登记表；变量与条件字段只允许从对应类型中选择。 */
+  /** 项目级变量登记表；变量与条件字段只允许从对应类型中选择。 */
   worldVariables?: WorldVariableRegistryV1
   onOpenWorldVariable?: (id: string) => void
   onOpenSound?: (id: string) => void
@@ -1541,7 +1541,7 @@ export function CommandForm(props: {
             />
           </Row>
           <p className="cf-warn">
-            角色仍使用原版数字槽位；它不是新工程可用的稳定角色引用，已纳入脚本模型现代化整改。
+            角色仍使用原版数字槽位；它不是新项目可用的稳定角色引用，已纳入脚本模型现代化整改。
           </p>
         </>
       )

@@ -476,7 +476,7 @@ export function collectCanonicalItemReferences(state: ScriptEditorState): ItemRe
 }
 
 /**
- * 物品删除和右栏检查器共用的全工程闭包。这里不复用旧 RefIndex：它只覆盖场景 page[0]，
+ * 物品删除和右栏检查器共用的全项目闭包。这里不复用旧 RefIndex：它只覆盖场景 page[0]，
  * 也没有共享脚本、开局、商店和战斗数据，不能承担破坏性删除门禁。
  */
 export function collectItemReferences(

@@ -184,13 +184,13 @@ afterEach(async () => {
 })
 
 describe('ItemTab', () => {
-  test('空工程可直接创建第一个物品并进入完整工作台', async () => {
+  test('空项目可直接创建第一个物品并进入完整工作台', async () => {
     const initial = state([])
     initial.shops = []
     const session = new EditSession(initial)
     await act(async () => root.render(<Harness session={session} />))
 
-    expect(host.textContent).toContain('工程还没有物品')
+    expect(host.textContent).toContain('项目还没有物品')
     await act(async () => button('新建第一个物品', host).click())
 
     expect(session.getState().items).toHaveLength(1)

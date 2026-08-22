@@ -3353,11 +3353,11 @@ export class DeleteSkillCommand implements Command {
 }
 
 /**
- * 重命名工程(manifest.name 显示名;id/文件夹名不变 —— 稳定标识与显示名分离,
+ * 重命名项目(manifest.name 显示名;id/文件夹名不变 —— 稳定标识与显示名分离,
  * 改名不断存档/URL 引用)。manifest 整替换,序列化随 manifest.json 落盘。
  */
 export class RenameProjectCommand implements Command {
-  readonly label = '重命名工程'
+  readonly label = '重命名项目'
   private readonly next: string
   private old = ''
   private captured = false
@@ -3379,7 +3379,7 @@ export class RenameProjectCommand implements Command {
   }
 }
 
-/** 改 manifest.entryScene；工程 id 与其它未知字段原样保留。 */
+/** 改 manifest.entryScene；项目 id 与其它未知字段原样保留。 */
 export class UpdateEntrySceneCommand implements Command {
   readonly label = '改默认入口场景'
   private readonly next: string
@@ -3435,7 +3435,7 @@ export class UpdateStartWorldCommand implements Command {
 
 /** 更新 manifest.assets.roles 的一个或多个稳定 AssetId；undefined 表示清除角色绑定。 */
 export class UpdateManifestAssetRolesCommand implements Command {
-  readonly label = '改工程资源角色'
+  readonly label = '改项目资源角色'
   private readonly patch: Partial<Record<AssetRole, AssetId | undefined>>
   private old: Partial<Record<AssetRole, AssetId | undefined>> | undefined
 

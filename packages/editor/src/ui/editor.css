@@ -115,7 +115,7 @@ body {
   }
 }
 
-/* 顶栏(响应式三件套见 .toolbar 注;工程名过长省略号收缩,不挤竖) */
+/* 顶栏(响应式三件套见 .toolbar 注;项目名过长省略号收缩,不挤竖) */
 .topbar {
   display: flex;
   flex-wrap: wrap;
@@ -178,7 +178,7 @@ body {
   margin-left: 4px;
 }
 
-/* 工程保存：原生 modal 位于浏览器 top layer，完整冻结编辑器而不靠魔法 z-index。 */
+/* 项目保存：原生 modal 位于浏览器 top layer，完整冻结编辑器而不靠魔法 z-index。 */
 .project-save-dialog {
   width: min(380px, calc(100vw - 32px));
   margin: auto;
@@ -943,7 +943,6 @@ html[data-panel-resize="horizontal"] * {
 .map-current-paint-tile.ds-button {
   gap: 5px;
   min-width: 58px;
-  padding: 3px 7px 3px 4px;
 }
 .map-current-paint-tile > span {
   display: inline-flex;
@@ -1287,46 +1286,22 @@ html[data-panel-resize="horizontal"] * {
   color: var(--ds-text-secondary);
   font: var(--ds-font-label);
 }
-.entity-page-animation-editor {
-  display: grid;
-  gap: 8px;
-  min-width: 0;
-}
-.entity-page-animation-toggle {
-  display: grid;
-  gap: 4px;
-  color: var(--fg);
-  font-size: 12px;
-}
-.entity-page-animation-toggle label,
-.entity-page-animation-checkbox {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-}
-.entity-page-animation-toggle small,
-.entity-page-animation-status {
-  margin: 0;
-  color: var(--faint);
-  font-size: 11px;
-  line-height: 1.45;
-}
 .entity-page-animation-action-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: 6px;
+  gap: var(--ds-space-3);
   min-width: 0;
 }
 .entity-page-animation-start {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  gap: 6px;
-  color: var(--dim);
-  font-size: 11px;
+  gap: var(--ds-space-3);
+  color: var(--ds-text-secondary);
+  font: var(--ds-font-caption);
 }
-.entity-page-animation-status.invalid {
-  color: var(--warn);
+.entity-page-animation-status--invalid {
+  color: var(--ds-status-warning);
 }
 .entity-preview-field {
   align-items: stretch;
@@ -1483,7 +1458,7 @@ html[data-panel-resize="horizontal"] * {
   }
 }
 
-/* X7-1 manifest 工程工作台。三栏容器复用 editor body，内容列自己滚动，避免窄视口把右栏推出屏幕。 */
+/* X7-1 manifest 项目工作台。三栏容器复用 editor body，内容列自己滚动，避免窄视口把右栏推出屏幕。 */
 .project-outliner {
   min-width: 0;
 }
@@ -1508,9 +1483,6 @@ html[data-panel-resize="horizontal"] * {
   overflow-y: auto;
 }
 .project-scroll > * {
-  min-width: 0;
-}
-.project-inspector {
   min-width: 0;
 }
 .project-hint {
@@ -1579,7 +1551,9 @@ html[data-panel-resize="horizontal"] * {
 .project-scroll > .project-card {
   margin-bottom: 0;
 }
-.project-card h4 {
+.project-card h4,
+.project-card__title {
+  margin-top: 0;
   margin-bottom: var(--ds-space-5);
   color: var(--ds-text-primary);
   font: var(--ds-font-title-sm);
@@ -1710,13 +1684,11 @@ html[data-panel-resize="horizontal"] * {
   padding: 7px 10px 10px;
 }
 .project-button-row .btn,
-.project-card .btn,
-.project-inspector .btn {
+.project-card .btn {
   flex: none;
 }
 .project-outliner .btn,
 .project-center .btn,
-.project-inspector .btn,
 .project-center .linked-value-open,
 .project-outliner .linked-value-open {
   min-height: 28px;
@@ -1733,7 +1705,6 @@ html[data-panel-resize="horizontal"] * {
 }
 .project-outliner .btn:hover:not(:disabled),
 .project-center .btn:hover:not(:disabled),
-.project-inspector .btn:hover:not(:disabled),
 .project-center .linked-value-open:hover:not(:disabled),
 .project-outliner .linked-value-open:hover:not(:disabled) {
   border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
@@ -1742,15 +1713,13 @@ html[data-panel-resize="horizontal"] * {
 }
 .project-outliner .btn:focus-visible,
 .project-center .btn:focus-visible,
-.project-inspector .btn:focus-visible,
 .project-center .linked-value-open:focus-visible,
 .project-outliner .linked-value-open:focus-visible {
   outline: 2px solid color-mix(in srgb, var(--accent) 70%, transparent);
   outline-offset: 1px;
 }
 .project-outliner .btn:disabled,
-.project-center .btn:disabled,
-.project-inspector .btn:disabled {
+.project-center .btn:disabled {
   opacity: 0.42;
   cursor: default;
 }
@@ -8611,7 +8580,7 @@ button.sprite-frame-cell[draggable="true"]:active {
   min-width: 0;
 }
 
-/* ── A7-2 工程静态图像：picker + 四族统一工作台 ── */
+/* ── A7-2 项目静态图像：picker + 四族统一工作台 ── */
 .image-asset-picker {
   display: flex;
   flex: 1;
@@ -11466,7 +11435,7 @@ button.sprite-frame-cell[draggable="true"]:active {
   font-size: 12px;
   line-height: 1.5;
 }
-/* 顶栏「工程」菜单(P4) */
+/* 顶栏「项目」菜单(P4) */
 .proj-menu-wrap {
   position: relative;
 }
@@ -12376,14 +12345,12 @@ button.sprite-frame-cell[draggable="true"]:active {
   white-space: nowrap;
 }
 .map-selection-head {
-  position: relative;
+  container-type: inline-size;
 }
-.map-selection-head > .mini {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: auto;
-  padding-inline: 7px;
+.map-selection-head > .ds-inspector-section__content {
+  display: grid;
+  min-width: 0;
+  gap: var(--ds-space-5);
 }
 .map-selection-summary .field > :last-child,
 .map-selection-field > :last-child {
@@ -12395,23 +12362,23 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .map-content-selection-preview {
   overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--accent) 34%, var(--line));
-  border-radius: 7px;
-  background: color-mix(in srgb, var(--panel2) 72%, var(--panel));
+  border: 1px solid color-mix(in srgb, var(--ds-action-primary) 34%, var(--ds-border-subtle));
+  border-radius: var(--ds-radius-control);
+  background: var(--ds-surface-raised);
 }
 .map-content-selection-preview > header {
   display: flex;
   min-width: 0;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  gap: 9px;
-  padding: 8px 9px;
-  border-bottom: 1px solid var(--line);
+  gap: var(--ds-space-4);
+  padding: var(--ds-space-4) var(--ds-space-5);
+  border-bottom: 1px solid var(--ds-border-subtle);
 }
 .map-content-selection-preview > header > div {
   display: grid;
   min-width: 0;
-  gap: 2px;
+  gap: var(--ds-space-1);
 }
 .map-content-selection-preview > header strong,
 .map-content-selection-preview > header span {
@@ -12420,26 +12387,18 @@ button.sprite-frame-cell[draggable="true"]:active {
   white-space: nowrap;
 }
 .map-content-selection-preview > header strong {
-  color: var(--fg);
-  font-size: 11px;
+  color: var(--ds-text-primary);
+  font: var(--ds-font-label);
 }
-.map-content-selection-preview > header span,
-.map-content-selection-preview > header small {
-  color: var(--faint);
-  font-size: 9px;
-}
-.map-content-selection-preview > header small {
-  flex: none;
-  padding: 2px 5px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  white-space: nowrap;
+.map-content-selection-preview > header > div > span {
+  color: var(--ds-text-muted);
+  font: var(--ds-font-caption);
 }
 .map-content-selection-preview-stage {
   display: grid;
-  min-height: 112px;
-  max-height: 176px;
-  padding: 10px;
+  min-height: 96px;
+  max-height: 144px;
+  padding: var(--ds-space-5);
   overflow: auto;
   place-items: center;
   background:
@@ -12451,35 +12410,32 @@ button.sprite-frame-cell[draggable="true"]:active {
   width: auto;
   max-width: 100%;
   height: auto;
-  max-height: 156px;
+  max-height: 120px;
   image-rendering: pixelated;
   filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.34));
 }
 .map-content-selection-preview-stage > span {
-  color: var(--faint);
-  font-size: 10px;
+  color: var(--ds-text-muted);
+  font: var(--ds-font-caption);
 }
 .map-content-selection-preview > p {
   margin: 0;
-  padding: 6px 8px;
-  border-top: 1px solid color-mix(in srgb, var(--warn) 32%, var(--line));
-  color: #e0b876;
-  font-size: 9px;
+  padding: var(--ds-space-3) var(--ds-space-5);
+  border-top: 1px solid color-mix(in srgb, var(--ds-status-warning) 32%, var(--ds-border-subtle));
+  color: var(--ds-status-warning);
+  font: var(--ds-font-caption);
 }
 .map-field-error {
-  grid-column: 2;
-  color: var(--err);
-  font-size: 11px;
-  line-height: 1.35;
+  color: var(--ds-status-danger);
 }
 .map-selection-warning {
-  margin-top: 7px;
-  padding: 7px 8px;
-  border: 1px solid color-mix(in srgb, var(--warn) 48%, var(--line));
-  border-radius: 5px;
-  background: color-mix(in srgb, var(--warn) 8%, transparent);
-  color: #e7c978;
-  font-size: 11px;
+  margin: 0;
+  padding: var(--ds-space-4);
+  border: 1px solid color-mix(in srgb, var(--ds-status-warning) 48%, var(--ds-border-subtle));
+  border-radius: var(--ds-radius-control);
+  background: color-mix(in srgb, var(--ds-status-warning) 8%, transparent);
+  color: var(--ds-status-warning);
+  font: var(--ds-font-caption);
   line-height: 1.45;
 }
 .map-inline-action {
@@ -12508,18 +12464,18 @@ button.sprite-frame-cell[draggable="true"]:active {
   white-space: nowrap;
 }
 .map-selection-notice {
-  margin: 10px 12px;
-  padding: 8px 9px;
-  border: 1px solid color-mix(in srgb, var(--accent) 36%, var(--line));
-  border-radius: 5px;
-  background: color-mix(in srgb, var(--accent) 7%, transparent);
-  color: var(--dim);
-  font-size: 11px;
+  margin: var(--ds-space-5) var(--ds-space-6);
+  padding: var(--ds-space-4);
+  border: 1px solid color-mix(in srgb, var(--ds-action-primary) 36%, var(--ds-border-subtle));
+  border-radius: var(--ds-radius-control);
+  background: color-mix(in srgb, var(--ds-action-primary) 7%, transparent);
+  color: var(--ds-text-secondary);
+  font: var(--ds-font-caption);
   line-height: 1.45;
 }
 .map-selection-notice.error {
-  border-color: color-mix(in srgb, var(--err) 48%, var(--line));
-  color: #ef9a9a;
+  border-color: color-mix(in srgb, var(--ds-status-danger) 48%, var(--ds-border-subtle));
+  color: var(--ds-status-danger);
 }
 
 /* ── W7G-D 图章放置组选区 / 组内编辑 ───────────────────── */
@@ -12789,63 +12745,115 @@ button.sprite-frame-cell[draggable="true"]:active {
 .script-primary-detail {
   padding: 10px;
 }
-.canonical-help-tip {
-  position: relative;
-  display: inline-flex;
-  flex: none;
+/* Entity lifecycle Inspector: one card per executable script branch, with
+ * command rows separated inside the branch instead of visually running together. */
+.lifecycle-command-editor .ds-inspector-section__content,
+.lifecycle-command-body-list,
+.lifecycle-command-list {
+  display: grid;
+  min-width: 0;
+}
+
+.lifecycle-command-editor {
+  container-type: inline-size;
+}
+
+.lifecycle-command-editor .ds-inspector-section__content,
+.lifecycle-command-body-list {
+  gap: var(--ds-space-5);
+}
+
+.lifecycle-command-body {
+  display: grid;
+  gap: var(--ds-space-5);
+}
+
+.lifecycle-command-body__header,
+.lifecycle-command-row__header,
+.lifecycle-command-body__actions,
+.lifecycle-command-row__heading {
+  display: flex;
+  min-width: 0;
   align-items: center;
-  vertical-align: middle;
 }
-.canonical-help-tip > button {
-  display: inline-grid;
-  place-items: center;
-  width: var(--ds-control-height-compact);
-  height: var(--ds-control-height-compact);
-  min-width: var(--ds-control-height-compact);
-  min-height: var(--ds-control-height-compact);
-  aspect-ratio: 1;
-  padding: 0;
-  border: 1px solid color-mix(in srgb, var(--dim) 56%, transparent);
-  border-radius: 50%;
-  background: transparent;
-  color: var(--dim);
-  cursor: help;
-  font: 700 12px / 1 var(--sans);
+
+.lifecycle-command-body__header,
+.lifecycle-command-row__header {
+  justify-content: space-between;
+  gap: var(--ds-space-5);
 }
-.canonical-help-tip > button:hover,
-.canonical-help-tip > button:focus-visible {
-  border-color: var(--accent);
-  color: var(--accent);
-  outline: 0;
+
+.lifecycle-command-body__heading {
+  display: grid;
+  min-width: 0;
+  gap: var(--ds-space-1);
 }
-.canonical-help-tooltip {
-  position: fixed;
-  z-index: 2400;
-  width: max-content;
-  max-width: min(300px, calc(100vw - 40px));
-  padding: 7px 9px;
-  visibility: hidden;
-  border: 1px solid color-mix(in srgb, var(--line) 82%, var(--accent));
-  border-radius: 5px;
-  background: var(--panel);
-  color: var(--fg);
-  box-shadow: 0 9px 28px rgba(0, 0, 0, 0.38);
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-2px);
-  transition:
-    opacity var(--ds-motion-fast) ease,
-    transform var(--ds-motion-fast) ease,
-    visibility var(--ds-motion-fast);
-  font: 400 10px / 1.55 var(--sans);
+
+.lifecycle-command-body__eyebrow,
+.lifecycle-command-body__meta {
+  color: var(--ds-text-muted);
+  font: var(--ds-font-caption);
+}
+
+.lifecycle-command-body__eyebrow {
+  color: var(--ds-action-primary);
+  font-weight: 650;
+}
+
+.lifecycle-command-body__title,
+.lifecycle-command-row__heading > h4 {
+  margin: 0;
+  color: var(--ds-text-primary);
+}
+
+.lifecycle-command-body__title {
+  font: var(--ds-font-title-sm);
   overflow-wrap: anywhere;
-  white-space: normal;
 }
-.canonical-help-tooltip.is-open {
-  visibility: visible;
-  opacity: 1;
-  transform: translateY(0);
+
+.lifecycle-command-body__actions,
+.lifecycle-command-row__heading {
+  flex: 0 0 auto;
+  gap: var(--ds-space-3);
 }
+
+.lifecycle-command-list {
+  overflow: hidden;
+  border: 1px solid var(--ds-border-subtle);
+  border-radius: var(--ds-radius-control);
+}
+
+.lifecycle-command-row {
+  display: grid;
+  min-width: 0;
+  gap: var(--ds-space-5);
+  padding: var(--ds-space-5);
+  background: color-mix(in srgb, var(--ds-surface-raised) 42%, transparent);
+}
+
+.lifecycle-command-row + .lifecycle-command-row {
+  border-top: 1px solid var(--ds-border-subtle);
+}
+
+.lifecycle-command-row__heading > h4 {
+  font: var(--ds-font-label);
+}
+
+.lifecycle-command-row__fields {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+  align-items: start;
+  gap: var(--ds-space-5);
+}
+
+@container (max-width: 440px) {
+  .lifecycle-command-body__header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
 .script-scheme-strip {
   display: grid;
   gap: 7px;

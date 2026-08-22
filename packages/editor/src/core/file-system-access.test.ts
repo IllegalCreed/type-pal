@@ -28,7 +28,7 @@ describe('File System Access 来源能力', () => {
       expect(availability.message).toContain('run dev:lan')
       expect(availability.message).toContain('默认端口 6010')
       expect(availability.message).toContain('http://localhost:6010')
-      expect(availability.message).toContain('重新选择一次工程文件夹')
+      expect(availability.message).toContain('重新选择一次项目文件夹')
     }
   })
 

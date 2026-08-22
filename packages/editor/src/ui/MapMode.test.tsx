@@ -532,6 +532,8 @@ describe('MapMode 地图内容选择交互', () => {
     ])
     expect(sections[0]?.querySelector('[aria-label="地图名称"]')).not.toBeNull()
     expect(sections[1]?.querySelector('[aria-label="图层名称"]')).not.toBeNull()
+    expect(host.querySelector('.map-properties-section .in')).toBeNull()
+    expect(host.querySelectorAll('.map-properties-section .ds-input--compact')).toHaveLength(4)
   })
 
   test('右栏三 Tab 关联完整且键盘循环，切换不改地图、选区或组合筛选状态', async () => {
@@ -1376,7 +1378,7 @@ describe('MapMode 地图内容选择交互', () => {
     expect(host.querySelector('.stamp-group-summary')?.textContent).toContain('collision-only-hit')
   })
 
-  test('切换到同 mapId / placementId 的另一工程会话会清空组选择与组内上下文', async () => {
+  test('切换到同 mapId / placementId 的另一项目会话会清空组选择与组内上下文', async () => {
     const { host, canvas, rerenderWithSession } = await mountMapMode({ map: placementMap() })
     await act(async () => button(host, '选择').click())
     await act(async () => pointer(canvas, 'dblclick'))
@@ -1448,7 +1450,7 @@ describe('MapMode 地图内容选择交互', () => {
     )
   })
 
-  test('切换 EditSession 会清掉旧工程正在进行的变换预览与剪贴板', async () => {
+  test('切换 EditSession 会清掉旧项目正在进行的变换预览与剪贴板', async () => {
     const { host, canvas, rerenderWithSession } = await mountMapMode()
     await selectFloor(host, canvas)
     await act(async () =>
@@ -1480,7 +1482,7 @@ describe('MapMode 地图内容选择交互', () => {
     expect(button(await openSelectionMenu(host), '粘贴').disabled).toBe(true)
   })
 
-  test('切换同 mapId 的 EditSession 会清掉旧工程删除二次确认', async () => {
+  test('切换同 mapId 的 EditSession 会清掉旧项目删除二次确认', async () => {
     const { host, rerenderWithSession } = await mountMapMode({ referenceSelectedMap: false })
     const deleteButton = host.querySelector<HTMLButtonElement>('[title="删除地图"]')!
     await act(async () => deleteButton.click())
@@ -1631,10 +1633,7 @@ describe('MapMode 地图内容选择交互', () => {
 
   test('选择与取样状态隔离：取样后保留地图选区并转回笔刷', async () => {
     const { host, canvas } = await mountMapMode()
-    const currentPaintTile = host.querySelector<HTMLButtonElement>(
-      '[aria-label="当前绘制瓦片：测试瓦片（tiles） · 瓦片 #1；打开瓦片面板"]',
-    )!
-    expect(currentPaintTile.querySelector('canvas')).not.toBeNull()
+    expect(host.querySelector('.map-current-paint-tile')).toBeNull()
     await selectFloor(host, canvas)
     expect(host.querySelector('.map-selection-head')?.textContent).toContain('1 个视觉实例')
     expect(host.querySelector('.map-selection-summary')?.textContent).toContain('地板')
@@ -1643,7 +1642,7 @@ describe('MapMode 地图内容选择交互', () => {
     await act(async () => pointer(canvas, 'pointerdown'))
     expect(host.querySelector('.map-selection-head')?.textContent).toContain('1 个视觉实例')
     expect(button(host, '笔刷').getAttribute('aria-pressed')).toBe('true')
-    await act(async () => currentPaintTile.click())
+    await act(async () => inspectorTab(host, '绘制').click())
     expect(inspectorTab(host, '绘制').getAttribute('aria-selected')).toBe('true')
     expect(host.querySelector('.map-tiles-head .hint2')?.textContent).toContain('#1')
   })
@@ -1743,7 +1742,7 @@ describe('MapMode 地图内容选择交互', () => {
     expect(button(host, '笔刷').getAttribute('aria-pressed')).toBe('false')
   })
 
-  test('同 ID 工程更换 EditSession 时清空组合放置态与最近使用', async () => {
+  test('同 ID 项目更换 EditSession 时清空组合放置态与最近使用', async () => {
     const template = stampTemplate()
     const { host, canvas, rerenderWithSession } = await mountMapMode({ stamps: [template] })
     await activateStamp(host)

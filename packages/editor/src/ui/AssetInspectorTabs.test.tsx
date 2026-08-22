@@ -84,7 +84,7 @@ function state(): EditorState {
   return {
     manifest: {
       id: 'test',
-      name: '测试工程',
+      name: '测试项目',
       contentVersion: 15,
       minEngineVersion: '2.0.0',
       entryScene: 's001',

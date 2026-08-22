@@ -32,7 +32,7 @@ describe('编辑器模块注册表', () => {
     expect(new Set(registered).size).toBe(DATA_PAGE_IDS.length)
   })
 
-  it('工程模块只有四个权威子页，入口与开局合并登记', () => {
+  it('项目模块只有四个权威子页，入口与开局合并登记', () => {
     const project = EDITOR_MODULES.find((module) => module.id === 'project')!
     expect(project.subpages.map((subpage) => subpage.id)).toEqual(PROJECT_PAGE_IDS)
     expect(project.subpages.find((subpage) => subpage.id === 'entrypoint')?.label).toBe(
@@ -41,6 +41,7 @@ describe('编辑器模块注册表', () => {
     expect(project.subpages.find((subpage) => subpage.id === 'startup')?.label).toBe(
       '全局资源与启动',
     )
+    expect(project.subpages.find((subpage) => subpage.id === 'advanced')?.acceptsObject).toBe(true)
     expect(project.subpages.some((subpage) => subpage.id === 'startworld')).toBe(false)
   })
 })

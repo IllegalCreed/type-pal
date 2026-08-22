@@ -74,7 +74,7 @@ export function blockingEnemyTeamReferences(
   return references
 }
 
-/** current canonical 工程以精确 command locator 取代 coarse JSON 路径。 */
+/** current canonical 项目以精确 command locator 取代 coarse JSON 路径。 */
 export function enemyTeamReferences(
   state: EditorState,
   enemyTeamId: string,

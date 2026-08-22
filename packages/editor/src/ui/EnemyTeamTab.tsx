@@ -284,7 +284,7 @@ export function EnemyTeamTab(props: {
                       href={`play.html?${playProjectQuery(projectId, workspaceId)}&battle=${encodeURIComponent(selected.id)}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      title="读取磁盘工程；未保存改动不会进入试玩"
+                      title="读取磁盘项目；未保存改动不会进入试玩"
                     >
                       试打
                     </DsActionLink>

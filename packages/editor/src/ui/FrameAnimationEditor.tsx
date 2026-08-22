@@ -811,7 +811,7 @@ export function FrameAnimationEditor(props: {
         <div className="fa-timeline-head">
           <strong>帧时间轴</strong>
           <span>{(draftDurationMs(draft) / 1000).toFixed(2)} 秒</span>
-          <span>{draft.colorTreatment === 'project-standard' ? '工程标准色彩' : '保留原色'}</span>
+          <span>{draft.colorTreatment === 'project-standard' ? '项目标准色彩' : '保留原色'}</span>
         </div>
         <div
           ref={timelineRef}

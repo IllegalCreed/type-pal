@@ -77,22 +77,22 @@ export function DataMode(props: {
   /** tileset 注册表 + 上传字节暂存(瓦片集页,W7B)。 */
   tilesets: import('@type-pal/reforge').TilesetDef[]
   tilesetBlobs: Record<string, ArrayBuffer>
-  /** W7G 图章模板与地图索引；图章库做 CRUD 和全工程来源扫描。 */
+  /** W7G 图章模板与地图索引；图章库做 CRUD 和全项目来源扫描。 */
   stamps: import('@type-pal/content').StampTemplate[]
   mapIndex: import('@type-pal/content').MapIndexV1
-  /** 战场表(战场页;D24;工程没带 = 空)。 */
+  /** 战场表(战场页;D24;项目没带 = 空)。 */
   battleFields: BattleFieldDef[]
-  /** 毒定义表(毒页,B10;工程没带 = 空)。 */
+  /** 毒定义表(毒页,B10;项目没带 = 空)。 */
   poisons: import('@type-pal/content').PoisonDef[]
-  /** 氛围表(氛围页,W6;工程没带 = 空)。 */
+  /** 氛围表(氛围页,W6;项目没带 = 空)。 */
   ambiences: import('@type-pal/content').AmbienceDef[]
-  /** 店铺表(商店页;工程没带 = 空)。 */
+  /** 店铺表(商店页;项目没带 = 空)。 */
   shops: import('@type-pal/content').ShopDef[]
   /** 技能数组(SkillTab 编辑;= session state.skills)。 */
   skillList: import('@type-pal/content').SkillData[]
   /** 全场景(N5 引用反向索引数据源;入口点场景下拉)。 */
   scenes: SceneDef[]
-  /** 工程清单(入口点页编 manifest.entryPoints)。 */
+  /** 项目清单(入口点页编 manifest.entryPoints)。 */
   manifest: ManifestLike
   workspaceId?: string
   /** 角色定义(入口点 startWorld 队伍选人)。 */
@@ -601,7 +601,7 @@ export function DataMode(props: {
     return (
       <section className="canonical-script-load-error" role="alert">
         <h2>无法加载可复用脚本</h2>
-        <p>当前工程没有建立 canonical Script Current 编辑会话。请重新打开工程后再试。</p>
+        <p>当前项目没有建立 canonical Script Current 编辑会话。请重新打开项目后再试。</p>
       </section>
     )
   }

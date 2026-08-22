@@ -62,7 +62,7 @@ const KIND_LABEL: Record<StaticImageKind, string> = {
 
 const ORIGIN_LABEL: Readonly<Record<AssetRecordV1['origin']['kind'], string>> = {
   'legacy-migrated': '原版迁移',
-  authored: '工程创作',
+  authored: '项目创作',
   generated: '生成资源',
   licensed: '授权资源',
 }
@@ -159,7 +159,7 @@ function ImageWorkspacePreview(props: {
               image.data[offset + 2] !== index ||
               image.data[offset + 3] !== 255
             )
-              throw new Error(`像素 ${pixel} 不是有效的工程战场背景`)
+              throw new Error(`像素 ${pixel} 不是有效的项目战场背景`)
             const color = palette.colors[index] ?? [0, 0, 0]
             image.data[offset] = color[0]
             image.data[offset + 1] = color[1]
@@ -368,7 +368,7 @@ function BattleImportReview(props: {
   return (
     <div className="image-import-review" role="dialog" aria-label="战场背景色彩适配预览">
       <div className="image-import-review-head">
-        <strong>确认工程色彩适配</strong>
+        <strong>确认项目色彩适配</strong>
         <span>保存的是右侧效果；运行时仍保留召唤换色能力。</span>
       </div>
       <div className="image-import-compare">
@@ -377,8 +377,8 @@ function BattleImportReview(props: {
           <figcaption>上传原图</figcaption>
         </figure>
         <figure>
-          {effectUrl ? <img src={effectUrl} alt="工程内效果" /> : null}
-          <figcaption>工程内效果</figcaption>
+          {effectUrl ? <img src={effectUrl} alt="项目内效果" /> : null}
+          <figcaption>项目内效果</figcaption>
         </figure>
       </div>
       <div className="image-import-review-actions">
@@ -478,7 +478,7 @@ export function ImageTab(props: {
       (cause: unknown) => {
         if (alive)
           setError(
-            `无法读取工程标准色彩：${cause instanceof Error ? cause.message : String(cause)}`,
+            `无法读取项目标准色彩：${cause instanceof Error ? cause.message : String(cause)}`,
           )
       },
     )
@@ -642,7 +642,7 @@ export function ImageTab(props: {
           />
         ) : missingFocusedId ? (
           <div className="cf-err image-missing-target">
-            引用目标 AssetId“{missingFocusedId}”不在工程 catalog；已停留在该问题，不会跳到其他图片。
+            引用目标 AssetId“{missingFocusedId}”不在项目 catalog；已停留在该问题，不会跳到其他图片。
           </div>
         ) : selected ? (
           <ImageWorkspacePreview
@@ -720,7 +720,7 @@ export function ImageTab(props: {
                           kind: 'blocking',
                           description: selectedReferenceCount
                             ? '替换图片会保留这些引用；解除全部引用后才能删除。'
-                            : '当前工程没有引用这张图片。',
+                            : '当前项目没有引用这张图片。',
                         }}
                       >
                         {selectedReferences.length ? (

@@ -1,5 +1,5 @@
 /**
- * cloneFromPal —— 从 pal 种子克隆自包含工程到本地夹(P4)。
+ * cloneFromPal —— 从 pal 种子克隆自包含项目到本地夹(P4)。
  * 逐文件下载→写(流式,单文件在内存,207MB 不 OOM);素材经 src 绝对透传(种子 httpSource)读。
  * manifest 单独相对化写(assets 指向本地 assets/**),使克隆后经 fsaSource 离线渲染。
  */
@@ -63,7 +63,7 @@ export async function cloneFromPal(
       done += f.size
       onProgress(done, total)
     }
-    // 工程提交点最后写；此前任一素材失败都不会发布指向半批文件的新 manifest。
+    // 项目提交点最后写；此前任一素材失败都不会发布指向半批文件的新 manifest。
     await writeFile(mutation, 'manifest.json', relativizeManifest(manifest))
   })
 }

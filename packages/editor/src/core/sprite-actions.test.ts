@@ -30,7 +30,7 @@ describe('sprite action editor helpers', () => {
     ])
   })
 
-  test('prop 实体只从自身精灵选择动作，不借用全工程第一项', () => {
+  test('prop 实体只从自身精灵选择动作，不借用全项目第一项', () => {
     const entity: EntityDef = {
       id: 'e1',
       sprite: 'hero',

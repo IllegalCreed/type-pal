@@ -231,7 +231,7 @@ export async function createPalDevelopmentWorkspaceContext(
   const manifest = trustedManifest ?? (await source.readJson<CurrentManifest>('manifest.json'))
   const sentinel = parsePalDevelopmentSentinel(await source.readJson(PAL_DEVELOPMENT_SENTINEL_PATH))
   if (sentinel.projectId !== manifest.id)
-    throw new Error('PAL 开发基线 sentinel 与可信 manifest 工程 id 不一致')
+    throw new Error('PAL 开发基线 sentinel 与可信 manifest 项目 id 不一致')
   const paths = palFingerprintPaths(manifest)
   const expectedFingerprint = await fingerprintJsonFiles(paths, (path) => source.readJson(path))
   return freezeWorkspace({
@@ -267,5 +267,5 @@ export function assertSamePalDevelopmentProof(
 export function workspaceModeLabel(context: Pick<WorkspaceContext, 'mode'>): string {
   if (context.mode === 'pal-development') return 'PAL 开发基线'
   if (context.mode === 'sandbox') return '评审沙盒'
-  return '本地工程'
+  return '本地项目'
 }

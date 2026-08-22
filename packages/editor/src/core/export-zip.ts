@@ -1,5 +1,5 @@
 /**
- * 工程导出 zip(A5)。工程自包含铁律 → 导出 = 把工程文件夹**原样**打包(递归全收,
+ * 项目导出 zip(A5)。项目自包含铁律 → 导出 = 把项目文件夹**原样**打包(递归全收,
  * 不挑不滤 —— 文件夹就是全部世界),分享/备份即这一个 zip。读磁盘:未保存改动不入包。
  */
 
@@ -11,14 +11,14 @@ import { buildZip, type ZipEntry } from './zip.js'
 export async function validateProjectZipEntries(entries: readonly ZipEntry[]): Promise<void> {
   const byPath = new Map(entries.map((entry) => [entry.path, entry.data]))
   const manifestBytes = byPath.get('manifest.json')
-  if (!manifestBytes) throw new Error('工程缺 manifest.json')
+  if (!manifestBytes) throw new Error('项目缺 manifest.json')
   const manifest = JSON.parse(new TextDecoder().decode(manifestBytes)) as {
     assets?: { catalog?: string }
   }
   const catalogPath = manifest.assets?.catalog
-  if (!catalogPath) throw new Error('工程 manifest 缺 assets.catalog')
+  if (!catalogPath) throw new Error('项目 manifest 缺 assets.catalog')
   const catalogBytes = byPath.get(catalogPath)
-  if (!catalogBytes) throw new Error(`工程缺 ${catalogPath}`)
+  if (!catalogBytes) throw new Error(`项目缺 ${catalogPath}`)
   const catalog = validateAssetCatalog(JSON.parse(new TextDecoder().decode(catalogBytes)))
   for (const [id, record] of Object.entries(catalog.assets)) {
     const bytes = byPath.get(record.path)
@@ -51,7 +51,7 @@ export async function validateProjectZipEntries(entries: readonly ZipEntry[]): P
     throw new Error('ZIP 含 catalog 外的 extracted 资源副本')
 }
 
-/** 递归收集 FSA 目录全部文件(路径正斜杠,相对工程根)。 */
+/** 递归收集 FSA 目录全部文件(路径正斜杠,相对项目根)。 */
 export async function collectProjectZipEntries(
   dir: FileSystemDirectoryHandle,
   prefix = '',
@@ -79,13 +79,13 @@ export async function collectProjectZipEntries(
   return out
 }
 
-/** 打包工程目录 → 触发浏览器下载 <projectId>.zip。返回条目数(UI 提示用)。 */
+/** 打包项目目录 → 触发浏览器下载 <projectId>.zip。返回条目数(UI 提示用)。 */
 export async function exportProjectZip(
   dir: FileSystemDirectoryHandle,
   projectId: string,
 ): Promise<number> {
   const entries = await collectProjectZipEntries(dir)
-  if (entries.length === 0) throw new Error('工程文件夹是空的')
+  if (entries.length === 0) throw new Error('项目文件夹是空的')
   await validateProjectZipEntries(entries)
   const zip = await buildZip(entries)
   const url = URL.createObjectURL(new Blob([zip as BlobPart], { type: 'application/zip' }))

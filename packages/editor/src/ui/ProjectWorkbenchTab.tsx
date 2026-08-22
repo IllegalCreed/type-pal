@@ -1,12 +1,13 @@
 /**
- * manifest-centered 工程工作台(X7-1)。
+ * manifest-centered 项目工作台(X7-1)。
  *
- * 四个子页共享同一 manifest/Command 真源：概览、全局资源与启动、入口点与开局、问题与高级。
+ * 四个子页共享同一 manifest/Command 真源：概览、全局资源与启动、入口点与开局、问题。
  * 缺省 entryPoints 只在这里解析为 UI 兼容入口，只有用户真正编辑入口表时才物化保存。
  */
 import type {
   ActorDef,
   AssetCatalogV1,
+  AssetKind,
   AssetRole,
   EntryPoint,
   ItemData,
@@ -15,14 +16,8 @@ import type {
   SkillData,
   StartWorld,
 } from '@type-pal/content'
-import {
-  ASSET_ROLE_KINDS,
-  ASSET_ROLES,
-  AUDIO_ASSET_ROLES,
-  lookupText,
-  validateAssetCatalog,
-} from '@type-pal/content'
-import { type ReactNode, useEffect, useMemo, useState } from 'react'
+import { ASSET_ROLE_KINDS, ASSET_ROLES, AUDIO_ASSET_ROLES, lookupText } from '@type-pal/content'
+import { Fragment, type ReactNode, useEffect, useMemo, useState } from 'react'
 import {
   RenameProjectCommand,
   SetEntryPointsCommand,
@@ -41,12 +36,15 @@ import {
 } from '../core/project-diagnostics.js'
 import {
   DsButton,
+  DsCatalogGroupEmpty,
+  DsCatalogGroupHeader,
+  DsCatalogGroupList,
   DsCatalogRow,
   DsControlGroup,
   DsDiagnosticList,
   DsDiagnosticPanel,
   DsDiagnosticRow,
-  DsInspectorTabs,
+  DsHelpTip,
   DsListHeader,
   DsObjectHero,
   DsSelect,
@@ -121,7 +119,7 @@ export const PROJECT_ASSET_ROLE_GROUPS: readonly {
   {
     id: 'audio-base',
     title: '音频基础',
-    description: 'MIDI 播放使用的工程级 SoundFont。',
+    description: 'MIDI 播放使用的项目级 SoundFont。',
     roles: ['audio.midiSoundfont'],
   },
   {
@@ -138,7 +136,7 @@ export const PROJECT_ASSET_ROLE_GROUPS: readonly {
   {
     id: 'visual-base',
     title: '视觉基础',
-    description: '工程标准色彩转换使用的色表。',
+    description: '项目标准色彩转换使用的色表。',
     roles: ['visual.standardColorTable'],
   },
 ]
@@ -155,31 +153,25 @@ function issueTarget(issue: ProjectIssue): EditorLocation | undefined {
 }
 
 const ISSUE_PAGE_SIZE = 80
-const COMPACT_ISSUE_LIMIT = 30
 
 export function IssueList(props: {
-  issues: ProjectIssue[]
+  issues: readonly ProjectIssue[]
   onOpenLocation?: (location: EditorLocation) => void
-  compact?: boolean
-  onViewAll?: () => void
 }) {
-  const { issues, onOpenLocation, compact = false, onViewAll } = props
-  const initialLimit = compact ? COMPACT_ISSUE_LIMIT : ISSUE_PAGE_SIZE
+  const { issues, onOpenLocation } = props
   const errors = issues.filter((issue) => issue.severity === 'error').length
   const warnings = issues.length - errors
   return (
     <DsDiagnosticPanel
       state={issues.length ? 'ready' : 'clear'}
       count={{ kind: 'exact', errors, warnings }}
-      description={issues.length ? '按严重度核对工程配置；可定位问题可直接跳转。' : undefined}
-      live={issues.length <= initialLimit}
+      live={issues.length <= ISSUE_PAGE_SIZE}
     >
       {issues.length ? (
         <DsDiagnosticList
-          initialVisibleCount={initialLimit}
+          initialVisibleCount={ISSUE_PAGE_SIZE}
           pageSize={ISSUE_PAGE_SIZE}
-          onViewAll={compact ? onViewAll : undefined}
-          allowShowAll={!compact}
+          allowShowAll
         >
           {issues.map((issue) => {
             const target = issueTarget(issue)
@@ -192,7 +184,11 @@ export function IssueList(props: {
                 path={issue.path}
                 action={
                   target && onOpenLocation
-                    ? { label: '跳转 ↗', onActivate: () => onOpenLocation(target) }
+                    ? {
+                        label: '跳转 ↗',
+                        ariaLabel: `跳转到：${issue.message}`,
+                        onActivate: () => onOpenLocation(target),
+                      }
                     : undefined
                 }
                 statusLabel={target ? '无法定位' : '仅提示'}
@@ -203,6 +199,94 @@ export function IssueList(props: {
       ) : null}
     </DsDiagnosticPanel>
   )
+}
+
+const PROJECT_ISSUE_GROUP_LABELS: Record<ProjectIssue['code'], string> = {
+  'missing-entry-scene': '默认入口场景缺失',
+  'empty-entry-points': '入口点列表为空',
+  'blank-entry-id': '入口 ID 为空',
+  'noncanonical-entry-id': '入口 ID 不规范',
+  'duplicate-entry-id': '入口 ID 重复',
+  'missing-entry-point-scene': '入口点场景缺失',
+  'missing-role-asset': '全局资源缺失',
+  'role-kind-mismatch': '全局资源类型错误',
+  'missing-asset': '引用资源缺失',
+  'asset-kind-mismatch': '资源类型错误',
+  'missing-intro-video': '入口视频缺失',
+  'intro-video-kind-mismatch': '入口视频类型错误',
+  'unused-asset': '未引用资源',
+  'invalid-start-world': '开局配置错误',
+  'asset-catalog-invalid': '资源目录无效',
+  'manifest-assets-invalid': '全局资源配置无效',
+  'invalid-item-data': '物品数据无效',
+  'migration-pending': '迁移待处理',
+  'unknown-manifest-field': '未知项目字段',
+}
+
+const ASSET_KIND_LABELS: Record<AssetKind, string> = {
+  music: '音乐',
+  sound: '音效',
+  soundfont: '音色库',
+  tileset: '瓦片集',
+  sprite: '场景精灵',
+  'battle-sprite': '战斗精灵',
+  'effect-sprite': '特效精灵',
+  portrait: '角色立绘',
+  face: '战斗头像',
+  'item-icon': '物品图标',
+  'battle-background': '战斗背景',
+  video: '视频',
+  'frame-animation': '帧动画',
+  'color-table': '色表',
+}
+
+export interface ProjectIssueGroup {
+  id: string
+  severity: ProjectIssue['severity']
+  code: ProjectIssue['code']
+  familyTitle: string
+  title: string
+  resourceKind?: AssetKind
+  issues: ProjectIssue[]
+}
+
+function issueResourceKind(issue: ProjectIssue): AssetKind | undefined {
+  return issue.code === 'unused-asset'
+    ? issue.asset?.actualKind
+    : (issue.asset?.expectedKind ?? issue.asset?.actualKind)
+}
+
+/**
+ * 左栏按严重度建立一级分区，再按稳定诊断 code 与资源类型聚合。
+ * message/path 只负责展示与定位，绝不承担分类语义。
+ */
+export function groupProjectIssues(issues: readonly ProjectIssue[]): ProjectIssueGroup[] {
+  const groups = new Map<string, ProjectIssueGroup>()
+  for (const issue of issues) {
+    const resourceKind = issueResourceKind(issue)
+    const id = `diagnostic:${issue.severity}:${issue.code}:${resourceKind ?? 'all'}`
+    const current = groups.get(id)
+    if (current) {
+      current.issues.push(issue)
+      continue
+    }
+    groups.set(id, {
+      id,
+      severity: issue.severity,
+      code: issue.code,
+      familyTitle: PROJECT_ISSUE_GROUP_LABELS[issue.code],
+      title: resourceKind
+        ? ASSET_KIND_LABELS[resourceKind]
+        : PROJECT_ISSUE_GROUP_LABELS[issue.code],
+      ...(resourceKind ? { resourceKind } : {}),
+      issues: [issue],
+    })
+  }
+  const values = [...groups.values()]
+  return [
+    ...values.filter((group) => group.severity === 'error'),
+    ...values.filter((group) => group.severity === 'warn'),
+  ]
 }
 
 function PageHint({ children }: { children: ReactNode }) {
@@ -228,6 +312,134 @@ function ProjectPageWorkspace(props: {
       />
       <div className="project-scroll ds-object-workspace__content">{props.children}</div>
     </main>
+  )
+}
+
+function ProjectAdvancedPage(
+  props: ProjectWorkbenchTabProps & { issues: readonly ProjectIssue[] },
+) {
+  const { tabBar, focusObjectId, onObjectFocus, onOpenLocation, issues } = props
+  const issueGroups = useMemo(() => groupProjectIssues(issues), [issues])
+  const errorGroups = issueGroups.filter((group) => group.severity === 'error')
+  const warningGroups = issueGroups.filter((group) => group.severity === 'warn')
+  const errorCount = errorGroups.reduce((count, group) => count + group.issues.length, 0)
+  const warningCount = warningGroups.reduce((count, group) => count + group.issues.length, 0)
+  const selectableIds = useMemo(() => new Set(issueGroups.map((group) => group.id)), [issueGroups])
+  const fallbackId = issueGroups[0]?.id
+  const [localSelectedId, setLocalSelectedId] = useState(() =>
+    focusObjectId && selectableIds.has(focusObjectId) ? focusObjectId : fallbackId,
+  )
+
+  useEffect(() => {
+    if (focusObjectId && selectableIds.has(focusObjectId)) {
+      setLocalSelectedId(focusObjectId)
+    }
+  }, [focusObjectId, selectableIds])
+
+  const selectedId =
+    localSelectedId && selectableIds.has(localSelectedId) ? localSelectedId : fallbackId
+  const selectedIssueGroup = issueGroups.find((group) => group.id === selectedId)
+  const selectedTitle = selectedIssueGroup
+    ? selectedIssueGroup.resourceKind
+      ? `${selectedIssueGroup.familyTitle} · ${selectedIssueGroup.title}`
+      : selectedIssueGroup.title
+    : '项目问题'
+  const selectedObjectId = selectedIssueGroup
+    ? `${selectedIssueGroup.code}${selectedIssueGroup.resourceKind ? `:${selectedIssueGroup.resourceKind}` : ''}`
+    : undefined
+  const selectedCount = selectedIssueGroup?.issues.length
+  const selectGroup = (id: string): void => {
+    setLocalSelectedId(id)
+    onObjectFocus?.(id)
+  }
+
+  const renderIssueGroup = (group: ProjectIssueGroup) => (
+    <DsCatalogRow
+      key={group.id}
+      level={group.resourceKind ? 'secondary' : 'primary'}
+      selected={selectedId === group.id}
+      title={group.title}
+      meta={group.resourceKind ?? group.code}
+      aria-controls="project-issue-detail"
+      trailing={
+        <DsTag tone={group.severity === 'error' ? 'danger' : 'warning'}>
+          {group.issues.length}
+        </DsTag>
+      }
+      onClick={() => selectGroup(group.id)}
+    />
+  )
+
+  const renderIssueFamilies = (groups: readonly ProjectIssueGroup[]) => {
+    const families = new Map<ProjectIssue['code'], ProjectIssueGroup[]>()
+    for (const group of groups) {
+      const family = families.get(group.code)
+      if (family) family.push(group)
+      else families.set(group.code, [group])
+    }
+    return [...families.entries()].map(([code, familyGroups]) => {
+      const hasResourceKinds = familyGroups.some((group) => group.resourceKind)
+      const count = familyGroups.reduce((sum, group) => sum + group.issues.length, 0)
+      return (
+        <Fragment key={code}>
+          {hasResourceKinds ? (
+            <DsCatalogGroupHeader
+              level="secondary"
+              title={PROJECT_ISSUE_GROUP_LABELS[code]}
+              count={count}
+            />
+          ) : null}
+          {familyGroups.map(renderIssueGroup)}
+        </Fragment>
+      )
+    })
+  }
+
+  return (
+    <>
+      <div className="outliner project-outliner">
+        {tabBar}
+        <DsListHeader title="问题" count={issues.length} unit="项" />
+        <DsCatalogGroupList label="项目问题分组">
+          <DsCatalogGroupHeader title="错误" count={errorCount} />
+          {errorGroups.length ? (
+            renderIssueFamilies(errorGroups)
+          ) : (
+            <DsCatalogGroupEmpty>暂无错误</DsCatalogGroupEmpty>
+          )}
+          <DsCatalogGroupHeader title="警告" count={warningCount} />
+          {warningGroups.length ? (
+            renderIssueFamilies(warningGroups)
+          ) : (
+            <DsCatalogGroupEmpty>暂无警告</DsCatalogGroupEmpty>
+          )}
+        </DsCatalogGroupList>
+      </div>
+      <ProjectPageWorkspace
+        eyebrow="项目设置 · 问题"
+        title={selectedTitle}
+        objectId={selectedObjectId}
+        summary={selectedIssueGroup ? undefined : '当前项目没有错误或警告。'}
+        meta={
+          selectedIssueGroup ? (
+            <DsTag tone={selectedIssueGroup.severity === 'error' ? 'danger' : 'warning'}>
+              {selectedCount} 项
+            </DsTag>
+          ) : null
+        }
+      >
+        <section id="project-issue-detail" className="project-card" aria-label="问题详情">
+          {selectedIssueGroup ? (
+            <>
+              <h2 className="project-card__title">分组详情</h2>
+              <IssueList issues={selectedIssueGroup.issues} onOpenLocation={onOpenLocation} />
+            </>
+          ) : (
+            <IssueList issues={[]} onOpenLocation={onOpenLocation} />
+          )}
+        </section>
+      </ProjectPageWorkspace>
+    </>
   )
 }
 
@@ -538,7 +750,7 @@ export function StartWorldFields(props: {
               </label>
             ))}
         </div>
-        {partyActors.length === 0 ? <PageHint>当前工程没有可参战角色。</PageHint> : null}
+        {partyActors.length === 0 ? <PageHint>当前项目没有可参战角色。</PageHint> : null}
       </section>
 
       <section className="project-card">
@@ -698,7 +910,11 @@ export function StartWorldFields(props: {
 
       <section className="project-card">
         <h4>
-          初始世界资源 <span className="b2">（物品炼化等机制按稳定键读写）</span>
+          初始世界资源{' '}
+          <DsHelpTip label="初始世界资源">
+            物品炼化等机制按稳定键读写。collectValue
+            是内建收妖值，不在这里重复定义；独立入口可以保存自己的资源初值。
+          </DsHelpTip>
         </h4>
         <div className="project-list-stack">
           {Object.entries(value.resources ?? {})
@@ -757,15 +973,15 @@ export function StartWorldFields(props: {
               ＋ 添加资源
             </button>
           </div>
-          <PageHint>
-            collectValue 是内建收妖值，不在此处重复定义。独立入口可以保存自己的资源初值。
-          </PageHint>
         </div>
       </section>
 
       <section className="project-card">
         <h4>
-          seedStats <span className="b2">（可选，覆盖角色初始 HP/MP）</span>
+          角色初始状态{' '}
+          <DsHelpTip label="角色初始状态">
+            可选。这里只覆盖本入口的开局 HP/MP，不修改角色定义。
+          </DsHelpTip>
         </h4>
         {seedActorIds.map((actorId) => {
           const actor = actors.find((candidate) => candidate.id === actorId)
@@ -802,65 +1018,9 @@ export function StartWorldFields(props: {
           )
         })}
         {seedActorIds.length === 0 ? (
-          <PageHint>未设置 seedStats。它不会改变角色定义，只是开局覆盖。</PageHint>
+          <PageHint>未设置角色初始状态覆盖；开局沿用角色定义。</PageHint>
         ) : null}
       </section>
-    </div>
-  )
-}
-
-function ProjectInspector(props: {
-  id: string
-  title: string
-  name: string
-  issues: ProjectIssue[]
-  contextLabel: string
-  context: ReactNode
-  onOpenLocation?: (location: EditorLocation) => void
-}) {
-  const [activeId, setActiveId] = useState<'issues' | 'context'>('issues')
-  return (
-    <div className="inspector inspector--tabbed project-inspector">
-      <div className="insp-head">
-        <div className="what">{props.title}</div>
-        <div className="who">{props.name}</div>
-      </div>
-      <DsInspectorTabs
-        id={props.id}
-        label={`${props.title}检查器`}
-        activeId={activeId}
-        onChange={(id) => setActiveId(id as 'issues' | 'context')}
-        items={[
-          {
-            id: 'issues',
-            label: '问题',
-            count: props.issues.length,
-            panel: (
-              <div className="section">
-                <IssueList
-                  issues={props.issues}
-                  onOpenLocation={props.onOpenLocation}
-                  compact
-                  onViewAll={
-                    props.onOpenLocation
-                      ? () =>
-                          props.onOpenLocation?.({
-                            module: 'project',
-                            subpage: 'advanced',
-                          } as EditorLocation)
-                      : undefined
-                  }
-                />
-              </div>
-            ),
-          },
-          {
-            id: 'context',
-            label: props.contextLabel,
-            panel: props.context,
-          },
-        ]}
-      />
     </div>
   )
 }
@@ -980,25 +1140,12 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
               >
                 应用 id 修复
               </button>
+              <DsHelpTip label="入口 ID 修复规则">
+                应用时会自动去掉首尾空格；修复完成后，稳定 ID 继续只读。
+              </DsHelpTip>
             </div>
-            <PageHint>应用时会自动去掉首尾空格；普通状态下 id 继续只读。</PageHint>
           </section>
         </ProjectPageWorkspace>
-        <ProjectInspector
-          id="project-entry-repair-inspector"
-          title="入口修复"
-          name={`${identityIssues.length} 项需要处理`}
-          issues={issues}
-          onOpenLocation={onOpenLocation}
-          contextLabel="修复说明"
-          context={
-            <div className="section">
-              <p className="project-copy">
-                先恢复稳定且唯一的入口 id；修复完成后才能继续编辑入口字段和开局覆盖。
-              </p>
-            </div>
-          }
-        />
       </>
     )
   }
@@ -1061,6 +1208,10 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
           title="入口点"
           count={entryPoints.length + 1}
           unit="项"
+          help={{
+            label: '入口点开局设置',
+            content: '每个标题菜单入口都可以跟随默认入口，也可以保存本入口自己的完整开局设置。',
+          }}
           actions={[{ id: 'create-entry', label: '新增入口', icon: 'add', onClick: addEntry }]}
           overflowActions={[
             { id: 'clone-entry', label: '复制当前入口', onClick: cloneEntry },
@@ -1073,9 +1224,6 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
             },
           ]}
         />
-        <PageHint>
-          每个入口都在这里对应一套实际开局设置；菜单入口可以跟随默认入口，也可以保存本入口自己的整套设置。
-        </PageHint>
         <div className="project-entry-list">
           <DsCatalogRow
             leading="🧭"
@@ -1101,17 +1249,17 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
         eyebrow="项目设置 · 入口点"
         title={selected ? selected.label : '默认入口'}
         objectId={selected ? selected.id : 'manifest.entryScene + manifest.startWorld'}
-        summary={
-          selected
-            ? '为标题菜单入口配置场景、入口视频与独立开局状态。'
-            : '不经过标题菜单时使用的默认场景与开局状态。'
-        }
         meta={<DsTag tone="neutral">{selected ? '菜单入口 · 稳定 id' : '不经过标题菜单'}</DsTag>}
       >
         {selected ? (
           <>
             <section className="project-card">
-              <h4>入口信息</h4>
+              <h4>
+                入口信息{' '}
+                <DsHelpTip label="标题菜单入口">
+                  该入口可以配置自己的场景、入口视频与开局状态；稳定 ID 创建后保持不变。
+                </DsHelpTip>
+              </h4>
               <label className="field">
                 <span className="field-label">标签</span>
                 <input
@@ -1192,15 +1340,16 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
             </section>
             <section className="project-card">
               <div className="project-title-row">
-                <h4>这个入口的开局设置</h4>
+                <h4>
+                  这个入口的开局设置{' '}
+                  <DsHelpTip label="入口开局设置">
+                    跟随默认时，下方展示实际生效值但保持只读；需要不同队伍、资源或道具时，再复制为本入口独立设置。
+                  </DsHelpTip>
+                </h4>
                 <span className={`project-badge ${selected.startWorld ? 'custom' : ''}`}>
                   {selected.startWorld ? '本入口独立设置' : '跟随默认入口'}
                 </span>
               </div>
-              <p className="project-copy">
-                下方始终展示这个入口实际会使用的完整开局。跟随默认时，这些控件只读，默认入口的修改会同步影响它；
-                需要不同队伍或道具时，再复制一份作为本入口独立设置。
-              </p>
               <div className="project-button-row">
                 {!selected.startWorld ? (
                   <button
@@ -1238,7 +1387,13 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
         ) : (
           <>
             <section className="project-card">
-              <h4>入口信息</h4>
+              <h4>
+                入口信息{' '}
+                <DsHelpTip label="默认入口">
+                  无 menu / entry 参数时使用这里的场景和开局状态；它没有 introVideo，叙事由入口场景
+                  onEnter 负责。
+                </DsHelpTip>
+              </h4>
               <div className="field">
                 <span className="field-label">起始场景</span>
                 <DsSelect
@@ -1253,9 +1408,6 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
                   onValueChange={(value) => session.dispatch(new UpdateEntrySceneCommand(value))}
                 />
               </div>
-              <PageHint>
-                这是无 menu / entry 参数时使用的入口；没有 introVideo，叙事由入口场景 onEnter 负责。
-              </PageHint>
             </section>
             <section className="project-card">
               <div className="project-title-row">
@@ -1274,22 +1426,6 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
           </>
         )}
       </ProjectPageWorkspace>
-      <ProjectInspector
-        id="project-entrypoint-inspector"
-        title="工程入口"
-        name={selected?.label ?? '默认入口'}
-        issues={issues}
-        onOpenLocation={onOpenLocation}
-        contextLabel="字段归属"
-        context={
-          <div className="section">
-            <p className="project-copy">
-              开局设置跟随当前入口编辑。入口视频只属于菜单入口；场景 onEnter 的 video/RNG/BGM
-              仍归脚本页。
-            </p>
-          </div>
-        }
-      />
     </>
   )
 }
@@ -1326,10 +1462,6 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
         <div className="outliner project-outliner">
           {tabBar}
           <DsListHeader title="全局资源" count={boundRoleCount} unit="项已绑定" />
-          <PageHint>
-            manifest.assets.roles 的 {ASSET_ROLES.length}{' '}
-            项设置都在本页，按用途分组；启动链放在设置之后解释实际消费顺序。
-          </PageHint>
           <div className="project-step-list">
             {PROJECT_ASSET_ROLE_GROUPS.map((group) => {
               const groupBoundCount = group.roles.filter(
@@ -1356,11 +1488,15 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
           eyebrow="项目设置"
           title="全局资源设置"
           objectId="manifest.assets.roles"
-          summary="选择工程运行时使用的稳定 AssetId；资源文件的导入、替换和预览仍在“资源”模块完成。"
           meta={
-            <DsTag tone="neutral">
-              {boundRoleCount}/{ASSET_ROLES.length} 已绑定
-            </DsTag>
+            <>
+              <DsHelpTip label="全局资源设置">
+                这里绑定项目运行时使用的稳定 AssetId；资源文件的导入、替换和预览仍在“资源”模块完成。
+              </DsHelpTip>
+              <DsTag tone="neutral">
+                {boundRoleCount}/{ASSET_ROLES.length} 已绑定
+              </DsTag>
+            </>
           }
         >
           {PROJECT_ASSET_ROLE_GROUPS.map((group) => {
@@ -1394,7 +1530,13 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
             </div>
           </div>
           <section className="project-card">
-            <h4>默认入口（不经过标题菜单）</h4>
+            <h4>
+              默认入口（不经过标题菜单）{' '}
+              <DsHelpTip label="开发直达入口">
+                使用 entry 参数会选择该入口的场景与开局数据，但仍跳过启动视频、标题菜单和
+                introVideo。
+              </DsHelpTip>
+            </h4>
             <div className="project-flow">
               <div className="project-flow-step">
                 <DsSequenceIndex value={1} accessibleLabel="第 1 步" />
@@ -1418,10 +1560,6 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
                 </div>
               </div>
             </div>
-            <PageHint>
-              使用 entry 参数属于开发直达：选择入口的场景/开局数据，但同样跳过启动视频、菜单和
-              introVideo。
-            </PageHint>
           </section>
           <section className="project-card">
             <h4>标题菜单分支（menu）</h4>
@@ -1479,264 +1617,104 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
             </div>
           </section>
         </ProjectPageWorkspace>
-        <ProjectInspector
-          id="project-startup-inspector"
-          title="全局启动"
-          name={manifest.name}
-          issues={issues}
-          onOpenLocation={onOpenLocation}
-          contextLabel="编辑边界"
-          context={
-            <div className="section">
-              <p className="project-copy">
-                manifest 全局角色和入口视频由工程页编辑；场景 onEnter 内的剧情视频、RNG、BGM
-                仍由脚本模块拥有。
-              </p>
-              <button
-                type="button"
-                className="btn"
-                onClick={() => openProjectPage('entrypoint', firstEntry?.id)}
-              >
-                编辑入口点
-              </button>
-            </div>
-          }
-        />
       </>
     )
   }
 
-  // overview / advanced 共用 manifest 只读元数据与问题聚合。
-  const unknownManifestKeys = Object.keys(manifest).filter(
-    (key) =>
-      ![
-        'id',
-        'name',
-        'contentVersion',
-        'entryScene',
-        'entryPoints',
-        'content',
-        'assets',
-        'startWorld',
-      ].includes(key),
-  )
-  const referenceCount = issues.length
-  let catalogStatus: { valid: true } | { valid: false; message: string } = { valid: true }
-  try {
-    validateAssetCatalog(assetCatalog)
-  } catch (error) {
-    catalogStatus = {
-      valid: false,
-      message: error instanceof Error ? error.message : String(error),
-    }
-  }
+  if (page === 'advanced') return <ProjectAdvancedPage {...props} issues={issues} />
+
   return (
     <>
       <div className="outliner project-outliner">
         {tabBar}
-        <DsListHeader
-          title={page === 'overview' ? '工程概览' : '问题与高级'}
-          count={page === 'overview' ? scenes.length : referenceCount}
-          unit={page === 'overview' ? '个场景' : '项问题'}
-        />
-        {page === 'overview' ? (
-          <>
-            <PageHint>
-              manifest 是工程自包含快照。这里编辑显示名并展示摘要，入口与开局页负责入口配置。
-            </PageHint>
-            <div className="project-summary-list">
-              <div>
-                工程 id <code>{manifest.id}</code>
-              </div>
-              <div>
-                保存状态 <strong>{session.isDirty() ? '有未保存改动' : '已保存'}</strong>
-              </div>
-              <div>
-                场景 <strong>{scenes.length}</strong>
-              </div>
-              <div>
-                入口点 <strong>{effectiveEntries.length}</strong>
-              </div>
-              <div>
-                资源 <strong>{Object.keys(assetCatalog.assets).length}</strong>
-              </div>
-            </div>
-          </>
-        ) : (
-          <>
-            <PageHint>高级信息只读；原始 JSON 和资源二进制不在这里编辑。</PageHint>
-            <div className="project-summary-list">
-              <div>
-                诊断 <strong>{referenceCount}</strong>
-              </div>
-              <div>
-                contentVersion <strong>{manifest.contentVersion}</strong>
-              </div>
-              <div>
-                未知顶层字段 <strong>{unknownManifestKeys.length}</strong>
-              </div>
-            </div>
-          </>
-        )}
+        <DsListHeader title="项目概览" count={scenes.length} unit="个场景" />
+        <div className="project-summary-list">
+          <div>
+            项目 ID <code>{manifest.id}</code>
+          </div>
+          <div>
+            保存状态 <strong>{session.isDirty() ? '有未保存改动' : '已保存'}</strong>
+          </div>
+          <div>
+            场景 <strong>{scenes.length}</strong>
+          </div>
+          <div>
+            入口点 <strong>{effectiveEntries.length}</strong>
+          </div>
+          <div>
+            资源 <strong>{Object.keys(assetCatalog.assets).length}</strong>
+          </div>
+          <div>
+            内容版本 <strong>{manifest.contentVersion}</strong>
+          </div>
+          <div>
+            最低存档版本 <strong>{manifest.minimumSaveVersion}</strong>
+          </div>
+        </div>
       </div>
       <ProjectPageWorkspace
-        eyebrow={page === 'overview' ? '项目设置 · 工程概览' : '项目设置'}
-        title={page === 'overview' ? manifest.name : '问题与高级'}
-        objectId={page === 'overview' ? manifest.id : 'manifest'}
-        summary={
-          page === 'overview'
-            ? '管理工程身份，并查看入口、全局资源与诊断摘要。'
-            : '统一查看引用与 validator 诊断，以及只读工程元数据。'
-        }
+        eyebrow="项目设置 · 项目概览"
+        title={manifest.name}
+        objectId={manifest.id}
         meta={
-          page === 'overview' ? (
-            <DsTag tone={issues.length ? 'warning' : 'neutral'}>
-              {issues.length ? `${issues.length} 项问题` : '配置健康'}
-            </DsTag>
-          ) : (
-            <DsTag tone={referenceCount ? 'warning' : 'neutral'}>{referenceCount} 项问题</DsTag>
-          )
+          <DsTag tone={issues.length ? 'warning' : 'neutral'}>
+            {issues.length ? `${issues.length} 项问题` : '配置健康'}
+          </DsTag>
         }
       >
-        {page === 'overview' ? (
-          <>
-            <section className="project-card">
-              <h4>工程身份</h4>
-              <label className="field">
-                <span className="field-label">显示名</span>
-                <input
-                  className="in"
-                  value={manifest.name}
-                  onChange={(event) =>
-                    session.dispatch(new RenameProjectCommand(event.target.value))
-                  }
-                />
-              </label>
-            </section>
-            <section className="project-card">
-              <h4>启动摘要</h4>
-              <div className="project-flow-mini">
-                <span>默认入口</span>
-                <strong>
-                  {manifest.startWorld.party.length} 名队员 · {manifest.startWorld.money} 金钱
-                </strong>
-                <code>{manifest.entryScene}</code>
-                <button type="button" className="btn" onClick={() => openProjectPage('entrypoint')}>
-                  编辑入口与开局
-                </button>
-              </div>
-              <div className="project-flow-mini">
-                <span>标题菜单</span>
-                <strong>{effectiveEntries.length} 个入口点</strong>
-                <button
-                  type="button"
-                  className="btn"
-                  onClick={() => openProjectPage('entrypoint', firstEntry?.id)}
-                >
-                  编辑入口
-                </button>
-              </div>
-              <div className="project-flow-mini">
-                <span>全局资源</span>
-                <strong>
-                  {boundRoleCount}/{ASSET_ROLES.length} 项已绑定
-                </strong>
-                <code>assets.roles</code>
-                <button type="button" className="btn" onClick={() => openProjectPage('startup')}>
-                  编辑 8 项设置
-                </button>
-              </div>
-              <div className="project-flow-mini">
-                <span>启动分支</span>
-                <strong>默认入口 / 标题菜单入口</strong>
-                <button type="button" className="btn" onClick={() => openProjectPage('startup')}>
-                  查看链路
-                </button>
-              </div>
-            </section>
-            <section className="project-card">
-              <h4>未解决问题</h4>
-              <IssueList issues={issues} onOpenLocation={onOpenLocation} />
-            </section>
-          </>
-        ) : (
-          <>
-            <section className="project-card">
-              <h4>问题面板</h4>
-              <IssueList issues={issues} onOpenLocation={onOpenLocation} />
-            </section>
-            <section className="project-card">
-              <h4>工程元数据（只读）</h4>
-              <dl className="project-meta">
-                <dt>id</dt>
-                <dd>
-                  <code>{manifest.id}</code>
-                </dd>
-                <dt>contentVersion</dt>
-                <dd>{manifest.contentVersion}</dd>
-                <dt>content</dt>
-                <dd>
-                  <code>{JSON.stringify(manifest.content)}</code>
-                </dd>
-                <dt>资源 catalog</dt>
-                <dd>
-                  <code>{manifest.assets.catalog}</code>
-                </dd>
-                <dt>catalog 校验</dt>
-                <dd>
-                  {catalogStatus.valid ? (
-                    <span className="project-status-ok">✓ 有效</span>
-                  ) : (
-                    <span className="project-status-error">✕ {catalogStatus.message}</span>
-                  )}
-                </dd>
-                <dt>未知顶层字段</dt>
-                <dd>
-                  <code>{unknownManifestKeys.join(', ') || '无'}</code>
-                </dd>
-              </dl>
-            </section>
-            <section className="project-card">
-              <h4>locale 归属</h4>
-              <PageHint>
-                locale 编辑不属于本卡四页，延后到独立内容/本地化任务；这里仅展示当前 locale。
-              </PageHint>
-            </section>
-          </>
-        )}
+        <section className="project-card">
+          <h4>项目身份</h4>
+          <label className="field">
+            <span className="field-label">显示名</span>
+            <input
+              className="in"
+              value={manifest.name}
+              onChange={(event) => session.dispatch(new RenameProjectCommand(event.target.value))}
+            />
+          </label>
+        </section>
+        <section className="project-card">
+          <h4>启动摘要</h4>
+          <div className="project-flow-mini">
+            <span>默认入口</span>
+            <strong>
+              {manifest.startWorld.party.length} 名队员 · {manifest.startWorld.money} 金钱
+            </strong>
+            <code>{manifest.entryScene}</code>
+            <button type="button" className="btn" onClick={() => openProjectPage('entrypoint')}>
+              编辑入口与开局
+            </button>
+          </div>
+          <div className="project-flow-mini">
+            <span>标题菜单</span>
+            <strong>{effectiveEntries.length} 个入口点</strong>
+            <button
+              type="button"
+              className="btn"
+              onClick={() => openProjectPage('entrypoint', firstEntry?.id)}
+            >
+              编辑入口
+            </button>
+          </div>
+          <div className="project-flow-mini">
+            <span>全局资源</span>
+            <strong>
+              {boundRoleCount}/{ASSET_ROLES.length} 项已绑定
+            </strong>
+            <code>assets.roles</code>
+            <button type="button" className="btn" onClick={() => openProjectPage('startup')}>
+              编辑 8 项设置
+            </button>
+          </div>
+          <div className="project-flow-mini">
+            <span>启动分支</span>
+            <strong>默认入口 / 标题菜单入口</strong>
+            <button type="button" className="btn" onClick={() => openProjectPage('startup')}>
+              查看链路
+            </button>
+          </div>
+        </section>
       </ProjectPageWorkspace>
-      <ProjectInspector
-        id={`project-${page}-inspector`}
-        title={page === 'overview' ? '工程概览' : '问题与高级'}
-        name={manifest.name}
-        issues={issues}
-        onOpenLocation={onOpenLocation}
-        contextLabel={page === 'overview' ? '下一步' : '保存契约'}
-        context={
-          page === 'overview' ? (
-            <div className="section">
-              <button type="button" className="btn" onClick={() => openProjectPage('startup')}>
-                编辑全局资源
-              </button>
-              <button
-                type="button"
-                className="btn"
-                onClick={() => openProjectPage('entrypoint')}
-                style={{ marginLeft: 6 }}
-              >
-                编辑入口与开局
-              </button>
-            </div>
-          ) : (
-            <div className="section">
-              <p className="project-copy">
-                保存会整体写回 manifest；所有未编辑字段（包括未知顶层字段）保持原对象，不提供裸 JSON
-                编辑。
-              </p>
-            </div>
-          )
-        }
-      />
     </>
   )
 }

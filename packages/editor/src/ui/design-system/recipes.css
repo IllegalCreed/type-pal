@@ -202,6 +202,10 @@
   background: var(--ds-action-primary);
 }
 
+.ds-catalog-row--secondary {
+  padding-left: 40px;
+}
+
 .ds-catalog-row:focus-visible {
   z-index: 1;
   outline: 2px solid var(--ds-focus-ring);
@@ -286,6 +290,20 @@
   display: flex;
   flex: 0 0 auto;
   align-items: center;
+}
+
+.ds-catalog-group-list {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+  padding-bottom: var(--ds-space-5);
+}
+
+.ds-catalog-group-list__empty {
+  margin: 0;
+  padding: var(--ds-space-2) var(--ds-space-5) var(--ds-space-3) var(--ds-space-6);
+  color: var(--ds-text-muted);
+  font: var(--ds-font-caption);
 }
 
 .ds-reference-panel,
@@ -650,7 +668,7 @@
 .ds-property-grid {
   display: grid;
   min-width: 0;
-  gap: var(--ds-space-2);
+  gap: var(--ds-space-4);
 }
 
 .ds-property-row {

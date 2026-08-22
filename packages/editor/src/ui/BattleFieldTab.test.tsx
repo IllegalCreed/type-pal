@@ -179,7 +179,7 @@ describe('BattleFieldTab B2-1 authoring closure', () => {
     expect(content?.querySelector('.bf-card')).toBeNull()
   })
 
-  test('空工程先编辑编号/名称再提交，首次创建同时登记 manifest', async () => {
+  test('空项目先编辑编号/名称再提交，首次创建同时登记 manifest', async () => {
     const session = new EditSession(state([], false))
     await act(async () => root.render(<Harness session={session} />))
     expect(host.textContent).toContain('还没有战场')

@@ -490,7 +490,7 @@ export function SpriteFrames(props: {
       {replaceIdx !== null && (
         <div className="pose-form">
           <span>
-            替换帧 <b>#{replaceIdx}</b>:选一张图(整图作为该帧,自动贴合工程主色)
+            替换帧 <b>#{replaceIdx}</b>:选一张图(整图作为该帧,自动贴合项目主色)
           </span>
           <DsButton variant="primary" onClick={() => replaceFileRef.current?.click()}>
             选图替换…

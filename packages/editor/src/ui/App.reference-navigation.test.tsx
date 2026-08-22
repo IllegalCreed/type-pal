@@ -605,6 +605,21 @@ describe('App item reference navigation', () => {
 
     const range = host.querySelector<HTMLInputElement>('[aria-label="实体页触发范围（格）"]')!
     expect(range.value).toBe('3')
+    const triggerGrid = range.closest('.ds-property-grid')
+    expect(triggerGrid).not.toBeNull()
+    expect(
+      host
+        .querySelector('[role="combobox"][aria-label="实体页触发方式"]')
+        ?.closest('.ds-property-grid'),
+    ).toBe(triggerGrid)
+    expect(
+      host.querySelector('[data-property-label="预制动作"]')?.closest('.ds-property-grid'),
+    ).toBe(triggerGrid)
+    expect(
+      [...triggerGrid!.querySelectorAll<HTMLElement>('.ds-property-row')].map(
+        (row) => row.dataset.propertyLabel,
+      ),
+    ).toEqual(['实体页', '触发方式', '触发半径', '预制动作'])
     const valueSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
     await act(async () => {
       valueSetter.call(range, '4')

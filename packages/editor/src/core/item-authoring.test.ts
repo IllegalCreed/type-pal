@@ -17,7 +17,7 @@ const item = (id: string): ItemData => ({
 })
 
 describe('item authoring ids', () => {
-  test('空工程与冲突工程都生成稳定作者 id', () => {
+  test('空项目与冲突项目都生成稳定作者 id', () => {
     expect(nextAuthoredItemId([])).toBe('item-001')
     expect(nextAuthoredItemId([item('267'), item('item-001'), item('item-003')])).toBe('item-002')
     expect(createBlankItem([])).toMatchObject({ id: 'item-001', name: '新物品' })

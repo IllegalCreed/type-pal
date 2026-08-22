@@ -1,7 +1,7 @@
 /**
  * 敌人工作台(M4c-3)—— 数据模式「敌人」标签:从头造新敌人的生产线。
  * 左:敌人列表(过滤/➕新建);中:数值 + AI 规则表格 + 物品交互;右:敌队(⚔ 一键试打 =
- * 同源试玩页 ?battle=<team>,复用真实引擎零仿真偏差(本地工程 FSA 句柄跨不了源)。
+ * 同源试玩页 ?battle=<team>,复用真实引擎零仿真偏差(本地项目 FSA 句柄跨不了源)。
  *
  * AI 规则表格:常见条件/动作下拉行编;物品交互与常用战败奖励均提供结构化编辑。
  * 未识别的高级 choreography/onDefeated 指令只读保留,编辑常用奖励时不得覆盖。
@@ -135,7 +135,7 @@ const ENEMY_SOUND_GROUPS: readonly {
 ]
 
 /** reforge(pal)地址:主机跟随编辑器访问地址(局域网/同事机不再错跳 localhost),端口按 dev-servers.md。 */
-// 同源试玩页；本地工程用 workspaceId 定位 FSA 句柄，projectId 只描述内容身份。
+// 同源试玩页；本地项目用 workspaceId 定位 FSA 句柄，projectId 只描述内容身份。
 
 /** 新敌人模板(史莱姆级;id 用 c 前缀避开迁移 objectIndex 空间)。 */
 function newEnemy(id: string, battleSprite: string): EnemyDef {
@@ -538,7 +538,7 @@ export function EnemyTab(props: {
   onOpenSound?: (id: string) => void
   /** 资产根(外观预览加载战斗精灵;缺省不渲预览)。 */
   assetBase?: import('@type-pal/reforge').AssetBase
-  /** 工程 id(同源试玩页;缺省 pal 兼容旧调用)。 */
+  /** 项目 id(同源试玩页;缺省 pal 兼容旧调用)。 */
   projectId?: string
   workspaceId?: string
   onOpenBattleSprite?: (id: string) => void
@@ -744,7 +744,7 @@ export function EnemyTab(props: {
                       href={`play.html?${playProjectQuery(projectId, workspaceId)}&battle=${encodeURIComponent(team.id)}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      title="读磁盘工程：改动须先保存"
+                      title="读磁盘项目：改动须先保存"
                     >
                       试打
                     </DsActionLink>
@@ -999,7 +999,7 @@ export function EnemyTab(props: {
                       label="启用附带效果"
                       checked={!!enemy.attackEquivItem}
                       disabled={!enemy.attackEquivItem && itemOptions.length === 0}
-                      title={itemOptions.length ? undefined : '工程中没有可选物品'}
+                      title={itemOptions.length ? undefined : '项目中没有可选物品'}
                       onChange={(event) =>
                         session.dispatch(
                           new UpdateEnemyCommand(enemy.id, {
@@ -1067,7 +1067,7 @@ export function EnemyTab(props: {
                   label="战败后发放物品"
                   checked={!!defeatedReward}
                   disabled={!defeatedReward && itemOptions.length === 0}
-                  title={itemOptions.length ? undefined : '工程中没有可选物品'}
+                  title={itemOptions.length ? undefined : '项目中没有可选物品'}
                   onChange={(event) =>
                     setDefeatedReward(
                       event.target.checked
@@ -1246,7 +1246,7 @@ export function EnemyTab(props: {
                 <DsInspectorSection title="从头造新敌人">
                   <p className="hint">
                     ＋ 新建 → 改名/数值 → 配 AI 规则(变身/施法/集火都在下拉里)→ 建敌队 → **💾 保存**
-                    → ⚔ 试打(试打读磁盘工程;需 reforge dev:pal 在跑,见 docs/dev-servers.md)。
+                    → ⚔ 试打(试打读磁盘项目;需 reforge dev:pal 在跑,见 docs/dev-servers.md)。
                   </p>
                 </DsInspectorSection>
               ),

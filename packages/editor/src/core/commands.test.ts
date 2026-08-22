@@ -423,7 +423,7 @@ describe('布置命令集 · 不可变 + invert', () => {
 })
 
 describe('新场景继承稳定地图引用', () => {
-  test('空白工程自有地图经 dispatch/undo/redo 始终保持 mapId', async () => {
+  test('空白项目自有地图经 dispatch/undo/redo 始终保持 mapId', async () => {
     const files = await buildBlankProject('W7E Test')
     const source = structuredClone(files['content/scenes/start.json']) as SceneDef
     const initial = st()
@@ -457,7 +457,7 @@ describe('新场景继承稳定地图引用', () => {
 describe('N6 分片脚本命令 · 原子状态 + invert', () => {
   const id = 'shared/user/demo-a1b2c3d4'
 
-  test('首次创建原子补 manifest/index/chunk，invert 恢复无脚本工程', () => {
+  test('首次创建原子补 manifest/index/chunk，invert 恢复无脚本项目', () => {
     const s0 = st()
     s0.scriptChunks = {}
     const cmd = new UpsertAuthoredScriptCommand(id, { name: '演示', self: 'none' }, [

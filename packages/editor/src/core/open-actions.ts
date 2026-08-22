@@ -1,5 +1,5 @@
 /**
- * 工程动作(P4)—— 启动屏与编辑器内「工程」菜单共享:新建(克隆/空白)/ 打开 / 另存为。
+ * 项目动作(P4)—— 启动屏与编辑器内「项目」菜单共享:新建(克隆/空白)/ 打开 / 另存为。
  * 每个动作 = 拿本地目录句柄(原生选夹,须用户手势)→ 操作 → openLocalProject 装配 → Opened。
  * 用户取消选夹 → 返回 null(调用方静默忽略)。
  */
@@ -61,13 +61,13 @@ export async function pickDir(): Promise<FileSystemDirectoryHandle | null> {
   }
 }
 
-/** 目录句柄 → 装配 Opened + 记入 IndexedDB(最近工程 / 重连)。 */
+/** 目录句柄 → 装配 Opened + 记入 IndexedDB(最近项目 / 重连)。 */
 export async function finishOpen(
   dir: FileSystemDirectoryHandle,
   options: FinishOpenOptions = {},
 ): Promise<Opened> {
   if (options.expectedIdentity && !(await options.expectedIdentity.handle.isSameEntry(dir)))
-    throw new Error('最近工程记录指向的目录句柄与本次打开目标不一致')
+    throw new Error('最近项目记录指向的目录句柄与本次打开目标不一致')
   // Metadata is inspected before canonical loading/registration:an invalid sidecar must never be
   // silently downgraded to an unrestricted local project or overwrite the evidence in IndexedDB.
   const metadata = await inspectWorkspaceMetadata(dir)
@@ -134,7 +134,7 @@ export async function finishOpen(
     : withWorkspaceDiscoveryLock(resolveAndBind)
 }
 
-/** 打开已有本地工程。取消 → null。 */
+/** 打开已有本地项目。取消 → null。 */
 export async function openExistingProject(
   options: Pick<FinishOpenOptions, 'forceSandbox'> = {},
 ): Promise<Opened | null> {
@@ -142,7 +142,7 @@ export async function openExistingProject(
   return dir ? finishOpen(dir, options) : null
 }
 
-/** 新建空白工程(选空夹 → 写骨架 → 打开)。取消 → null。 */
+/** 新建空白项目(选空夹 → 写骨架 → 打开)。取消 → null。 */
 export async function newBlankProject(): Promise<Opened | null> {
   const dir = await pickDir()
   if (!dir) return null
@@ -181,11 +181,11 @@ export async function assertSaveAsTargetOutsideSource(
 ): Promise<void> {
   const relative = await source.resolve(target)
   if (relative !== null)
-    throw new Error('另存为目标不能是源工程目录本身或其子目录，请选择独立空文件夹')
+    throw new Error('另存为目标不能是源项目目录本身或其子目录，请选择独立空文件夹')
 }
 
 /**
- * 另存为:先在原始点击手势内选目标夹，再异步组装当前工程文件集并写入。
+ * 另存为:先在原始点击手势内选目标夹，再异步组装当前项目文件集并写入。
  * File System Access 要求 transient user activation，不能先 await 序列化再弹 picker。
  */
 export async function saveProjectAs(
@@ -207,7 +207,7 @@ export async function saveProjectAs(
       : undefined,
   })
   // A5 债修:目标经空目录门后先整树拷贝源目录(磁盘素材不在编辑器 state,不拷即丢 ——
-  // 克隆工程 200MB assets 曾被另存为静默丢掉),再 writeProject 覆写内容文件(当前编辑赢)。
+  // 克隆项目 200MB assets 曾被另存为静默丢掉),再 writeProject 覆写内容文件(当前编辑赢)。
   return withAuthorizedWorkspaceMutation(target, async (mutation) => {
     if (srcDir) await copyDirRecursive(srcDir, mutation)
     await writeProject(mutation, files, { removePaths })

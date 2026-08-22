@@ -133,6 +133,7 @@ import {
 import {
   closeSceneScriptPanelState,
   createEditorLayoutCommands,
+  editorPanelToolbarCommandIds,
   type EditorLayoutCommandHandlers,
   executeEditorLayoutShortcut,
   toggleSceneScriptPanelState,
@@ -150,13 +151,15 @@ import {
   DsInspectorTabs,
   DsListHeader,
   DsNumberInput,
+  DsPropertyGrid,
+  DsPropertyRow,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
   DsSelect,
 } from './design-system/index.js'
 import { EditorAppHeader } from './EditorAppHeader.js'
-import { EntityPageAnimationEditor } from './EntityPageAnimationEditor.js'
+import { EntityPageAnimationFields } from './EntityPageAnimationEditor.js'
 import {
   decodeEditorLocation,
   EDITOR_MODULES,
@@ -280,15 +283,15 @@ export function App(props: {
   script: {
     session: ScriptEditSession
   }
-  /** 启动屏打开/克隆得到的工程目录句柄(P4):保存直接写回此夹,不再首存选夹。 */
+  /** 启动屏打开/克隆得到的项目目录句柄(P4):保存直接写回此夹,不再首存选夹。 */
   initialDir?: FileSystemDirectoryHandle
   /** 会话级工作区身份；不写进 manifest，所有目录 mutation 都由它授权。 */
   workspace: WorkspaceContext
-  /** `?ui_samples=1` 的强制约束会贯穿工程菜单打开路径。 */
+  /** `?ui_samples=1` 的强制约束会贯穿项目菜单打开路径。 */
   forceSandbox?: boolean
-  /** 「工程」菜单切到别的工程(打开/另存为)→ 上抛 main 重建 session。 */
+  /** 「项目」菜单切到别的项目(打开/另存为)→ 上抛 main 重建 session。 */
   onOpened?: (o: Opened) => void
-  /** 「工程」菜单「新建工程」→ 回启动屏。 */
+  /** 「项目」菜单「新建项目」→ 回启动屏。 */
   onBackToPicker?: () => void
 }) {
   const { session, project } = props
@@ -466,13 +469,13 @@ export function App(props: {
     interact: DEFAULT_ZONE_RANGE.interact,
   })
   const dirHandleRef = useRef<FileSystemDirectoryHandle | null>(props.initialDir ?? null)
-  /** 首存中断时尚未升级为工程句柄；保留尝试目录，重选同一目录时才能续用实际磁盘恢复快照。 */
+  /** 首存中断时尚未升级为项目句柄；保留尝试目录，重选同一目录时才能续用实际磁盘恢复快照。 */
   const saveAttemptDirRef = useRef<FileSystemDirectoryHandle | null>(props.initialDir ?? null)
   // 上次落盘快照(rel → 内容字符串):增量保存只写变化文件(P3)。首存后建立。
   const snapshotRef = useRef<Map<string, string> | null>(null)
   const [saveErr, setSaveErr] = useState('')
   const [saveActivity, setSaveActivity] = useState<ProjectSaveActivity | null>(null)
-  // React state 只负责展示；同步 ref 才能在首个 await 前防住双击和并发工程 IO。
+  // React state 只负责展示；同步 ref 才能在首个 await 前防住双击和并发项目 IO。
   const saveInFlightRef = useRef(false)
   const saveCommandRef = useRef<EditorAppCommand | null>(null)
   const [exporting, setExporting] = useState(false) // A5 导出 zip 进行中
@@ -1109,13 +1112,17 @@ export function App(props: {
     false,
   )
   const scriptPanelAvailable = location.module === 'scene' && location.subpage === 'workspace'
+  const inspectorAvailable = location.module !== 'project'
+  const effectiveInspectorCollapsed = inspectorCollapsed || !inspectorAvailable
   const toggleOutliner = useCallback(
     () => setOutlinerCollapsed((collapsed) => !collapsed),
     [setOutlinerCollapsed],
   )
   const toggleInspector = useCallback(
-    () => setInspectorCollapsed((collapsed) => !collapsed),
-    [setInspectorCollapsed],
+    () => {
+      if (inspectorAvailable) setInspectorCollapsed((collapsed) => !collapsed)
+    },
+    [inspectorAvailable, setInspectorCollapsed],
   )
   const toggleScriptPanel = useCallback(() => {
     if (!scriptPanelAvailable) return
@@ -1153,7 +1160,7 @@ export function App(props: {
   const requestedOutlinerWidth = outlinerCollapsed
     ? 0
     : clampPanelSize(outlinerWidth, OUTLINER_MIN_WIDTH, OUTLINER_MAX_WIDTH)
-  const requestedInspectorWidth = inspectorCollapsed
+  const requestedInspectorWidth = effectiveInspectorCollapsed
     ? 0
     : clampPanelSize(inspectorWidth, INSPECTOR_MIN_WIDTH, INSPECTOR_MAX_WIDTH)
   const fittedPanels = fitSidePanelWidths({
@@ -1161,7 +1168,7 @@ export function App(props: {
     left: requestedOutlinerWidth,
     right: requestedInspectorWidth,
     leftMin: outlinerCollapsed ? 0 : OUTLINER_MIN_WIDTH,
-    rightMin: inspectorCollapsed ? 0 : INSPECTOR_MIN_WIDTH,
+    rightMin: effectiveInspectorCollapsed ? 0 : INSPECTOR_MIN_WIDTH,
   })
   const visibleOutlinerWidth = fittedPanels.left
   const visibleInspectorWidth = fittedPanels.right
@@ -1399,7 +1406,7 @@ export function App(props: {
       <div className="boot">
         <div className="boot-entry-error">
           <div className="err">入口场景 "{state.manifest.entryScene}" 不在 scenes</div>
-          <p>工程仍可修复；请重新选择默认入口（不经过标题菜单）的起始场景。</p>
+          <p>项目仍可修复；请重新选择默认入口（不经过标题菜单）的起始场景。</p>
           <DsButton
             variant="secondary"
             onClick={() =>
@@ -1519,9 +1526,9 @@ export function App(props: {
       const removePaths = [...session.getDeletedMapPaths(), ...session.getDeletedAssetPaths()]
       setSaveErr('')
       setSaveActivity({ phase: 'preparing' })
-      // 先让原生 modal 进入 top layer，再开始可能较重的全工程序列化。
+      // 先让原生 modal 进入 top layer，再开始可能较重的全项目序列化。
       await new Promise<void>((resolve) => window.setTimeout(resolve, 0))
-      // HTTP 工程第一次选择本地目录时没有可复制的源目录，必须从 FileSource
+      // HTTP 项目第一次选择本地目录时没有可复制的源目录，必须从 FileSource
       // 把 catalog 的全部二进制一并物化，不能只写本会话新增的 assetBlobs。
       const files = await serializeEditorSnapshot(savedState, savedScriptState, rememberDirectory)
       let lastPercent = -1
@@ -1559,7 +1566,7 @@ export function App(props: {
         scriptSession.markSaved()
       if (rememberDirectory) {
         // 只有完整 writeProject 成功后才把目录升级为后续增量保存目标。若素材 fetch /
-        // hash 校验 / 写盘中途失败，下一次仍按 HTTP 首存全量物化，不能提交半闭包工程。
+        // hash 校验 / 写盘中途失败，下一次仍按 HTTP 首存全量物化，不能提交半闭包项目。
         dirHandleRef.current = dir
         saveAttemptDirRef.current = dir
       }
@@ -1573,7 +1580,7 @@ export function App(props: {
     }
   }
 
-  // 「工程」菜单(P4 native-app 手感:新建 / 打开别的 / 另存为)。切工程 → 上抛 main 重建 session。
+  // 「项目」菜单(P4 native-app 手感:新建 / 打开别的 / 另存为)。切项目 → 上抛 main 重建 session。
   const runProj = async (fn: () => Promise<Opened | null>): Promise<void> => {
     try {
       const o = await fn()
@@ -1613,7 +1620,7 @@ export function App(props: {
 
   const renameProject = (): void => {
     const current = state.manifest.name
-    const next = window.prompt('工程名称（文件夹与 id 不变）：', current)?.trim()
+    const next = window.prompt('项目名称（文件夹与 ID 不变）：', current)?.trim()
     if (next && next !== current) session.dispatch(new RenameProjectCommand(next))
   }
 
@@ -1635,7 +1642,7 @@ export function App(props: {
   const commands = createEditorAppCommandRegistry([
     {
       id: 'file.new',
-      label: '新建工程…',
+      label: '新建项目…',
       icon: 'open',
       enabled: props.onBackToPicker !== undefined,
       scope: 'global',
@@ -1644,7 +1651,7 @@ export function App(props: {
     },
     {
       id: 'file.open',
-      label: '打开工程…',
+      label: '打开项目…',
       icon: 'open',
       enabled: saveActivity === null,
       scope: 'global',
@@ -1653,7 +1660,7 @@ export function App(props: {
     },
     {
       id: 'file.rename',
-      label: '重命名工程…',
+      label: '重命名项目…',
       icon: 'more',
       enabled: saveActivity === null,
       scope: 'global',
@@ -1672,7 +1679,7 @@ export function App(props: {
       label: exporting ? '正在导出…' : '导出 ZIP…',
       icon: 'copy',
       enabled: Boolean(dirHandleRef.current) && saveActivity === null && !exporting,
-      disabledReason: dirHandleRef.current ? undefined : '请先打开或保存本地工程',
+      disabledReason: dirHandleRef.current ? undefined : '请先打开或保存本地项目',
       busy: exporting,
       scope: 'global',
       execute: exportZip,
@@ -1718,7 +1725,8 @@ export function App(props: {
       outlinerVisible: !outlinerCollapsed,
       scriptPanelAvailable,
       scriptPanelVisible: drawer.open,
-      inspectorVisible: !inspectorCollapsed,
+      inspectorAvailable,
+      inspectorVisible: !effectiveInspectorCollapsed,
     }),
   ])
   const saveCommand = requireEditorAppCommand(commands, 'file.save')
@@ -1738,7 +1746,7 @@ export function App(props: {
   }
   const moduleMenus: DsMenuDefinition[] = EDITOR_MODULES.map((module) => ({
     id: `module.${module.id}`,
-    label: module.id === 'project' ? '项目设置' : module.label,
+    label: module.label,
     visibility: 'wide-medium',
     items: module.subpages.map((subpage) => {
       const next: EditorLocation =
@@ -1762,7 +1770,7 @@ export function App(props: {
       module.subpages.map((subpage) => ({
         id: `navigation.${module.id}.${subpage.id}`,
         label: subpage.label,
-        section: module.id === 'project' ? '项目设置' : module.label,
+        section: module.label,
         href: editorLocationHref(
           location.module === module.id && location.subpage === subpage.id
             ? location
@@ -1828,7 +1836,7 @@ export function App(props: {
         menus={menus}
         commands={commands}
         toolbarCommandGroups={[
-          ['view.toggle-outliner', 'view.toggle-script-panel', 'view.toggle-inspector'],
+          editorPanelToolbarCommandIds({ scriptPanelAvailable, inspectorAvailable }),
           ['edit.undo', 'edit.redo', 'file.save'],
         ]}
         onNavigate={onHeaderNavigate}
@@ -1839,7 +1847,7 @@ export function App(props: {
         tabIndex={-1}
         aria-label={`${activeSubpage.label}工作区`}
         inert={saveActivity !== null ? true : undefined}
-        className={`body${outlinerCollapsed ? ' outliner-collapsed' : ''}${inspectorCollapsed ? ' inspector-collapsed' : ''}`}
+        className={`body${outlinerCollapsed ? ' outliner-collapsed' : ''}${effectiveInspectorCollapsed ? ' inspector-collapsed' : ''}`}
         style={bodyStyle}
       >
         {objectTargetMissing ? (
@@ -2672,21 +2680,23 @@ export function App(props: {
             )
           }
         />
-        <PanelResizeHandle
-          orientation="vertical"
-          className="app-inspector-resizer"
-          value={visibleInspectorWidth}
-          min={inspectorCollapsed ? 0 : INSPECTOR_MIN_WIDTH}
-          max={inspectorCollapsed ? 0 : inspectorResizeMax}
-          resizeLabel="调整右侧面板宽度"
-          disabled={inspectorCollapsed}
-          onReset={() => setInspectorWidth(INSPECTOR_DEFAULT_WIDTH)}
-          onResize={(delta) =>
-            setInspectorWidth((current) =>
-              clampPanelSize(current - delta, INSPECTOR_MIN_WIDTH, inspectorResizeMax),
-            )
-          }
-        />
+        {inspectorAvailable ? (
+          <PanelResizeHandle
+            orientation="vertical"
+            className="app-inspector-resizer"
+            value={visibleInspectorWidth}
+            min={inspectorCollapsed ? 0 : INSPECTOR_MIN_WIDTH}
+            max={inspectorCollapsed ? 0 : inspectorResizeMax}
+            resizeLabel="调整右侧面板宽度"
+            disabled={inspectorCollapsed}
+            onReset={() => setInspectorWidth(INSPECTOR_DEFAULT_WIDTH)}
+            onResize={(delta) =>
+              setInspectorWidth((current) =>
+                clampPanelSize(current - delta, INSPECTOR_MIN_WIDTH, inspectorResizeMax),
+              )
+            }
+          />
+        ) : null}
       </section>
 
       <div className="valbar" inert={saveActivity !== null ? true : undefined}>
@@ -2702,7 +2712,7 @@ export function App(props: {
           </>
         ) : (
           <span className="pill" style={{ color: 'var(--ok)' }}>
-            ✓ 引用与工程诊断无问题
+            ✓ 引用与项目诊断无问题
           </span>
         )}
         {workspaceNotice ? (
@@ -3131,96 +3141,98 @@ function EntityInspector(props: {
         <h4>
           页面与触发 <span className="hint2">动作资源在精灵库定义</span>
         </h4>
-        {pageCount > 1 ? (
-          <div className="field">
-            <span className="field-label">实体页</span>
-            <DsSelect
-              size="compact"
-              aria-label="选择实体页"
-              value={String(pageIndex)}
-              options={Array.from({ length: pageCount }, (_, index) => ({
-                value: String(index),
-                label: canonicalPages?.[index]
-                  ? `${canonicalPages[index]!.label} · ${canonicalPages[index]!.id}`
-                  : `第 ${index + 1} 页${
-                      entity.pages?.[index]?.state === undefined
-                        ? ''
-                        : ` · state=${entity.pages[index]!.state}`
-                    }`,
-              }))}
-              onValueChange={(value) => {
-                const nextIndex = Number(value)
-                setPageIndex(nextIndex)
-                const pageId = canonicalPages?.[nextIndex]?.id
-                if (pageId) onCanonicalPageChange?.(pageId)
-              }}
-            />
-          </div>
-        ) : null}
-        {canonicalPage && onTriggerActivationChange ? (
-          <>
-            <div className="field">
-              <span className="field-label">触发方式</span>
+        <DsPropertyGrid>
+          {pageCount > 1 ? (
+            <DsPropertyRow label="实体页">
               <DsSelect
                 size="compact"
-                aria-label="实体页触发方式"
-                value={
-                  canonicalTriggerBound
-                    ? (canonicalPage.triggerActivation?.on ?? 'disabled')
-                    : 'disabled'
-                }
-                disabled={!canonicalTriggerBound}
-                options={[
-                  { value: 'disabled', label: '不触发' },
-                  { value: 'interact', label: '交互（按键）' },
-                  { value: 'touch', label: '触碰（自动）' },
-                ]}
+                aria-label="选择实体页"
+                value={String(pageIndex)}
+                options={Array.from({ length: pageCount }, (_, index) => ({
+                  value: String(index),
+                  label: canonicalPages?.[index]
+                    ? `${canonicalPages[index]!.label} · ${canonicalPages[index]!.id}`
+                    : `第 ${index + 1} 页${
+                        entity.pages?.[index]?.state === undefined
+                          ? ''
+                          : ` · state=${entity.pages[index]!.state}`
+                      }`,
+                }))}
                 onValueChange={(value) => {
-                  if (value === 'disabled') {
-                    onTriggerActivationChange(canonicalPage.id, undefined)
-                    return
-                  }
-                  const on = value as TriggerActivation['on']
-                  onTriggerActivationChange(canonicalPage.id, {
-                    on,
-                    range: Math.max(
-                      canonicalPage.triggerActivation?.range ?? DEFAULT_ZONE_RANGE[on],
-                      DEFAULT_ZONE_RANGE[on],
-                    ),
-                  })
+                  const nextIndex = Number(value)
+                  setPageIndex(nextIndex)
+                  const pageId = canonicalPages?.[nextIndex]?.id
+                  if (pageId) onCanonicalPageChange?.(pageId)
                 }}
               />
-            </div>
-            {!canonicalTriggerBound ? (
-              <p className="hint2">当前页尚未绑定触发行为；请先在“行为”页选择触发行为槽。</p>
-            ) : null}
-            {canonicalTriggerBound && canonicalPage.triggerActivation ? (
-              <div className="field">
-                <span className="field-label">触发范围（半径）</span>
-                <DsNumberInput
+            </DsPropertyRow>
+          ) : null}
+          {canonicalPage && onTriggerActivationChange ? (
+            <>
+              <DsPropertyRow
+                label="触发方式"
+                help={
+                  canonicalTriggerBound
+                    ? undefined
+                    : '当前页尚未绑定触发行为；请先在“行为”页选择触发行为槽。'
+                }
+              >
+                <DsSelect
                   size="compact"
-                  aria-label="实体页触发范围（格）"
-                  min={0}
-                  step={1}
-                  value={effectiveTriggerRange(canonicalPage.triggerActivation)}
-                  onChange={(event) =>
-                    onTriggerActivationChange(canonicalPage.id, {
-                      ...canonicalPage.triggerActivation!,
-                      range: Math.max(0, Math.round(Number(event.target.value))),
-                    })
+                  aria-label="实体页触发方式"
+                  value={
+                    canonicalTriggerBound
+                      ? (canonicalPage.triggerActivation?.on ?? 'disabled')
+                      : 'disabled'
                   }
+                  disabled={!canonicalTriggerBound}
+                  options={[
+                    { value: 'disabled', label: '不触发' },
+                    { value: 'interact', label: '交互（按键）' },
+                    { value: 'touch', label: '触碰（自动）' },
+                  ]}
+                  onValueChange={(value) => {
+                    if (value === 'disabled') {
+                      onTriggerActivationChange(canonicalPage.id, undefined)
+                      return
+                    }
+                    const on = value as TriggerActivation['on']
+                    onTriggerActivationChange(canonicalPage.id, {
+                      on,
+                      range: Math.max(
+                        canonicalPage.triggerActivation?.range ?? DEFAULT_ZONE_RANGE[on],
+                        DEFAULT_ZONE_RANGE[on],
+                      ),
+                    })
+                  }}
                 />
-              </div>
-            ) : null}
-          </>
-        ) : null}
-        <EntityPageAnimationEditor
-          page={entity.pages?.[pageIndex]}
-          pageIndex={pageIndex}
-          sprite={spriteDef}
-          onChange={setPageAnimation}
-          onOpenAction={onOpenSpriteAction}
-        />
+              </DsPropertyRow>
+              {canonicalTriggerBound && canonicalPage.triggerActivation ? (
+                <DsPropertyRow label="触发半径">
+                  <DsNumberInput
+                    size="compact"
+                    aria-label="实体页触发范围（格）"
+                    min={0}
+                    step={1}
+                    value={effectiveTriggerRange(canonicalPage.triggerActivation)}
+                    onChange={(event) =>
+                      onTriggerActivationChange(canonicalPage.id, {
+                        ...canonicalPage.triggerActivation!,
+                        range: Math.max(0, Math.round(Number(event.target.value))),
+                      })
+                    }
+                  />
+                </DsPropertyRow>
+              ) : null}
+            </>
+          ) : null}
+          <EntityPageAnimationFields
+            page={entity.pages?.[pageIndex]}
+            sprite={spriteDef}
+            onChange={setPageAnimation}
+            onOpenAction={onOpenSpriteAction}
+          />
+        </DsPropertyGrid>
       </div>
       <div className="section">
         <h4>外观 / 交互</h4>

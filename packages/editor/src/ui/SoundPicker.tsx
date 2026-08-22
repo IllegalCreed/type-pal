@@ -130,7 +130,7 @@ export function SoundPicker(props: {
               : []),
             ...options.map((asset) => ({ value: asset.id, label: soundLabel(asset) })),
             ...(!options.length && !props.allowUnset
-              ? [{ value: UNSET, label: '工程没有可用音效' }]
+              ? [{ value: UNSET, label: '项目没有可用音效' }]
               : []),
           ]}
         />

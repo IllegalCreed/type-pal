@@ -131,7 +131,7 @@ export async function saveWorkspaceHandleUnderLock(
     try {
       sameEntry = await existing.handle.isSameEntry(handle)
     } catch {
-      throw new Error('现有工作区句柄无法验证，拒绝覆盖最近工程 identity')
+      throw new Error('现有工作区句柄无法验证，拒绝覆盖最近项目 identity')
     }
     if (!sameEntry) throw new Error('workspace identity 已绑定到另一个目录，拒绝覆盖')
     if (
@@ -139,7 +139,7 @@ export async function saveWorkspaceHandleUnderLock(
       existing.mode !== context.mode ||
       existing.source !== context.source
     )
-      throw new Error('最近工程记录与当前 workspace identity 不一致')
+      throw new Error('最近项目记录与当前 workspace identity 不一致')
   }
   await tx('readwrite', (store) =>
     store.put({
@@ -183,7 +183,7 @@ export async function loadWorkspaceHandle(
   return (await loadWorkspaceRecord(workspaceId))?.handle ?? null
 }
 
-/** 目录句柄是浏览器唯一可靠的同目录证据；用于无 marker 的普通本地工程恢复 identity。 */
+/** 目录句柄是浏览器唯一可靠的同目录证据；用于无 marker 的普通本地项目恢复 identity。 */
 export async function findWorkspaceRecordByHandle(
   handle: FileSystemDirectoryHandle,
 ): Promise<WorkspaceHandleRecord | null> {
@@ -200,7 +200,7 @@ export async function findWorkspaceRecordByHandle(
   return null
 }
 
-/** 最近工程按最近成功打开/保存排序。 */
+/** 最近项目按最近成功打开/保存排序。 */
 export async function listRecentWorkspaces(): Promise<
   Array<Pick<WorkspaceHandleRecord, 'workspaceId' | 'projectId' | 'name' | 'mode' | 'source'>>
 > {

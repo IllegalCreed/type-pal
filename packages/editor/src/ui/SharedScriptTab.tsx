@@ -9,7 +9,6 @@ import {
   UpdateSharedScriptCommand,
 } from '../core/script-editor.js'
 import {
-  CanonicalHelpTip,
   CanonicalScriptBodyEditor,
   CanonicalScriptDialog,
   type CanonicalScriptEditorContext,
@@ -19,6 +18,7 @@ import {
   DsCatalogControls,
   DsCatalogRow,
   DsField,
+  DsHelpTip,
   DsObjectHero,
   DsSelect,
   DsTag,
@@ -380,9 +380,9 @@ export function CanonicalSharedScriptTab(props: {
                 <label className="lb" htmlFor={createScriptId}>
                   稳定 ID
                 </label>
-                <CanonicalHelpTip label="稳定 ID">
+                <DsHelpTip label="稳定 ID">
                   用于其他脚本引用，创建后保持不变。通常保留自动生成的值即可。
-                </CanonicalHelpTip>
+                </DsHelpTip>
               </span>
               <DsTextInput
                 ref={createScriptIdInputRef}

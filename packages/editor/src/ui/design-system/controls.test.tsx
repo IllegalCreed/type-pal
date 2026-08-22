@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { act, createRef } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
+import { renderToStaticMarkup } from 'react-dom/server'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import {
   DsActionLink,
@@ -8,6 +9,7 @@ import {
   DsCheckbox,
   DsControlGroup,
   DsField,
+  DsHelpTip,
   DsIconButton,
   DsListHeader,
   DsMenuBar,
@@ -66,6 +68,79 @@ async function input(element: HTMLInputElement, value: string): Promise<void> {
 }
 
 describe('editor design-system controls', () => {
+  test('associates conceptual help with its trigger and lets Escape dismiss it', async () => {
+    await act(async () =>
+      root.render(<DsHelpTip label="分次执行">每次运行只执行当前步骤。</DsHelpTip>),
+    )
+
+    const wrapper = host.querySelector<HTMLElement>('.ds-help-tip')!
+    const button = host.querySelector<HTMLButtonElement>('button')!
+    const tooltip = host.querySelector<HTMLElement>('[role="tooltip"]')!
+    const visualTooltip = document.body.querySelector<HTMLElement>('.ds-help-tooltip')!
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id)
+    expect(visualTooltip.textContent).toBe(tooltip.textContent)
+    expect(wrapper.contains(visualTooltip)).toBe(false)
+    expect(button.hasAttribute('aria-expanded')).toBe(false)
+    expect(wrapper.classList.contains('is-open')).toBe(false)
+
+    await act(async () =>
+      button.dispatchEvent(new MouseEvent('mouseover', { bubbles: true, relatedTarget: null })),
+    )
+    expect(wrapper.classList.contains('is-open')).toBe(true)
+    await act(async () => button.focus())
+    await act(async () =>
+      button.dispatchEvent(
+        new MouseEvent('mouseout', { bubbles: true, relatedTarget: document.body }),
+      ),
+    )
+    expect(wrapper.classList.contains('is-open')).toBe(true)
+
+    const firstEscape = new KeyboardEvent('keydown', {
+      key: 'Escape',
+      bubbles: true,
+      cancelable: true,
+    })
+    await act(async () => button.dispatchEvent(firstEscape))
+    expect(firstEscape.defaultPrevented).toBe(true)
+    expect(wrapper.classList.contains('is-open')).toBe(false)
+    expect(document.activeElement).toBe(button)
+
+    const secondEscape = new KeyboardEvent('keydown', {
+      key: 'Escape',
+      bubbles: true,
+      cancelable: true,
+    })
+    await act(async () => button.dispatchEvent(secondEscape))
+    expect(secondEscape.defaultPrevented).toBe(false)
+    await act(async () => button.blur())
+    await act(async () => button.focus())
+    expect(wrapper.classList.contains('is-open')).toBe(true)
+  })
+
+  test('keeps help bubbles in the nearest dialog top layer and SSR descriptions inline', async () => {
+    const staticHtml = renderToStaticMarkup(
+      <DsHelpTip label="脚本方案">完整的方案说明。</DsHelpTip>,
+    )
+    const staticHost = document.createElement('div')
+    staticHost.innerHTML = staticHtml
+    const staticButton = staticHost.querySelector('button')!
+    const staticTooltip = staticHost.querySelector<HTMLElement>('[role="tooltip"]')!
+    expect(staticButton.getAttribute('aria-describedby')).toBe(staticTooltip.id)
+    expect(staticTooltip.textContent).toBe('完整的方案说明。')
+
+    await act(async () =>
+      root.render(
+        <dialog open>
+          <DsHelpTip label="脚本方案">完整的方案说明。</DsHelpTip>
+        </dialog>,
+      ),
+    )
+    const dialog = host.querySelector('dialog')!
+    const visualTooltip = dialog.querySelector<HTMLElement>('.ds-help-tooltip')
+    expect(visualTooltip?.parentElement).toBe(dialog)
+    expect(document.body.querySelectorAll('.ds-help-tooltip')).toHaveLength(1)
+  })
+
   test('buttons and action links share geometry while preserving native semantics', async () => {
     const buttonRef = createRef<HTMLButtonElement>()
     await act(async () =>
@@ -545,6 +620,7 @@ describe('editor design-system controls', () => {
           title="地图"
           count={223}
           unit="张"
+          help={{ label: '地图列表', content: '这里只列出当前项目中的地图。' }}
           actions={[{ id: 'create', label: '新建地图', icon: 'add', onClick: create }]}
           overflowActions={[{ id: 'duplicate', label: '复制地图', onClick: duplicate }]}
         />,
@@ -552,6 +628,7 @@ describe('editor design-system controls', () => {
     )
     expect(host.querySelector('.ds-list-header__title')?.textContent).toBe('地图')
     expect(host.querySelector('.ds-list-header__count')?.textContent).toContain('223 张')
+    expect(host.querySelector('[aria-label="地图列表说明"]')).not.toBeNull()
     const createButton = host.querySelector<HTMLButtonElement>('[aria-label="新建地图"]')!
     expect(createButton.classList).toContain('ds-list-header__action')
     expect(createButton.classList).toContain('ds-icon-button--compact')

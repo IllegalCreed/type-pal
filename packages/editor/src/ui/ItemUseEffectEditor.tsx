@@ -112,19 +112,19 @@ function signed(value: number, fallback = 1): number {
 
 function firstItem(items: readonly ItemData[], excludedId?: string): string {
   const id = items.find((item) => item.id !== excludedId)?.id
-  if (!id) throw new Error('工程没有物品，无法创建物品配方或奖励')
+  if (!id) throw new Error('项目没有物品，无法创建物品配方或奖励')
   return id
 }
 
 function firstPoison(poisons: readonly PoisonDef[]): string {
   const poison = poisons[0]
-  if (!poison) throw new Error('工程没有毒定义，无法创建施毒效果')
+  if (!poison) throw new Error('项目没有毒定义，无法创建施毒效果')
   return String(poison.id)
 }
 
 function firstScript(scripts: readonly ItemScriptOption[]): ScriptRef {
   const script = scripts[0]
-  if (!script) throw new Error('工程没有可复用脚本；请使用“新建并绑定脚本”')
+  if (!script) throw new Error('项目没有可复用脚本；请使用“新建并绑定脚本”')
   return script.ref
 }
 
@@ -196,7 +196,7 @@ export function defaultItemUseEffect(
     case 'placeEntityInFront': {
       const scene = scenes.find((candidate) => candidate.entities.length > 0)
       const entity = scene?.entities[0]
-      if (!scene || !entity) throw new Error('工程没有场景实体，无法创建放置实体效果')
+      if (!scene || !entity) throw new Error('项目没有场景实体，无法创建放置实体效果')
       return {
         kind,
         target: { scene: scene.id, entity: entity.id },

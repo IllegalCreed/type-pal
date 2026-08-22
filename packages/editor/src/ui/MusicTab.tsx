@@ -33,7 +33,7 @@ const ROLE_LABELS: Readonly<Record<string, string>> = {
 
 const ORIGIN_LABELS: Readonly<Record<AssetRecordV1['origin']['kind'], string>> = {
   'legacy-migrated': '原版迁移',
-  authored: '工程创作',
+  authored: '项目创作',
   generated: '生成资源',
   licensed: '授权资源',
 }
@@ -156,7 +156,7 @@ export function MusicTab(props: {
 
   const describeReference = (where: string): { kind: string; owner: string } => {
     const roleLabel = ROLE_LABELS[where]
-    if (roleLabel) return { kind: roleLabel, owner: '工程清单' }
+    if (roleLabel) return { kind: roleLabel, owner: '项目清单' }
 
     const sceneMatch = /^scenes\[(\d+)](.*)$/.exec(where)
     if (sceneMatch) {
@@ -238,7 +238,7 @@ export function MusicTab(props: {
       <div className="canvas-wrap data-body">
         <div className="et-scroll">
           {!entries.length ? (
-            <div className="insp-empty">工程中还没有音乐资源。</div>
+            <div className="insp-empty">项目中还没有音乐资源。</div>
           ) : (
             <table className="music-table asset-music-table">
               <colgroup>
@@ -376,7 +376,7 @@ export function MusicTab(props: {
                           kind: 'blocking',
                           description: selectedReferenceCount
                             ? '替换音乐会保留这些引用；解除全部引用后才能删除。'
-                            : '当前工程没有引用这首音乐。',
+                            : '当前项目没有引用这首音乐。',
                         }}
                       >
                         {selectedReferences.length ? (

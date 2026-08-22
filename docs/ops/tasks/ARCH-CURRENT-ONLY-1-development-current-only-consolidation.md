@@ -320,13 +320,39 @@ OPS-TST-PERF-B/C 未提交改动，未标 build/done。
 - Codex: **accept（2026-08-20）** — direct content16/SAVE8、current author/runtime/editor/migrate、catalog-only
   资源和 current publication 均已落地；产品静态边界 3/3 通过，四包 typecheck 通过，current PAL dry-run
   `managed=537 writes=0 deletes=0 conflicts=0`。旧版本兼容审查见 Review，结论 `pass`。
-- Kimi: **counter（2026-08-20，仅 RA1：`projects/pal/_transitions/` 5 个历史 sidecar 残留待删；
-  其余公共接口/editor 双 session 边界/资源面/ledger/静态门禁全部一手核验通过，详见 Review 节主审
-  记录）**。RA1 为纯死文件删除，落地 + boundary test 复绿后本席直接转 accept，不需重新全面复审。
-- GLM: pending
-- counter / 返工处理: Kimi RA1（见 Review 节）
+- Kimi: **accept（2026-08-20；先 counter 仅 RA1，RA1 经提交 de234143 落地后按承诺 focused 复验
+  转 accept）**。公共接口/editor 双 session 边界/资源面/ledger/静态门禁全部一手核验通过（详见
+  Review 节主审记录）；RA1 复验：`git ls-files` 对 `_transitions` 零命中且目录已删（de234143）、
+  `migrate:content` 复跑 `managed=537 writes=0 deletes=0 conflicts=0`、闭包
+  `scenes=294 maps=223 assets=1935`、`current-only-product-boundary.test.ts` 本席复跑 3/3。
+  RA1 闭环，转 accept。
+- GLM: **accept（2026-08-20 done 前覆盖/迁移/测试终审，本人一手读码 + 独立复算/复跑，非代理）**。
+  GLM1-GLM3 + KA1/KA2 逐钉独立验证：
+  - **KA1（排序门）✓**：PERF-B 停线交接链完整——`evidence/OPS-TST-PERF-B-arch-current-only-handoff.md`
+    记录 v4 authority 候选 focused gate 失败（seal 记 `rows,portrait` vs 现输入 `portrait,rows`
+    等 byte-order 漂移）、B 按用户停线规则不建兼容转换器、PB3/PB4 final-blocked 报告路径在册
+    （`build/release-runs/v4-authority-rebuild-8148083b/`）、PB4 已证 enemy/script owned leaf
+    未随重建漂移——seal/_transitions 删除走了记录在案的停线路径而非默认删除，4b78c7d9 同步
+    B 卡。
+  - **GLM1（V5 命名轴）✓**：折叠为无版本领域名——content `author-script-core.ts/author-script.ts`
+    + `author-script.current-characterization.test.ts`、editor `ScriptEditor.tsx`、
+    `SharedScriptTab.tsx`（原 Canonical 前缀随世代语义消解）；现行脚本编辑器主体未被误伤
+    （editor 全量 130/130 本席复跑）。
+  - **GLM2（dead upgrade）✓**：本人 build 前点名的七个 content upgrade 模块**全部删除**
+    （逐文件 ls 复核零存在）。
+  - **GLM3（静态门禁 + census）✓**：`current-only-product-boundary.test.ts` 本席复跑 3/3；
+    **本人 census 复算：产品三包旧版本 import 残留 0/0 文件**（基线 170 处/69 文件 → 0）。
+  - **EditorState union ✓**：`manifest: CurrentManifest` 单类型，LegacyManifestV12/V13/V14 零命中。
+  - **迁移不变式（本人独立复算/复跑）✓**：闭包 scenes=294 / maps=223 / assets=1935 与 build
+    记录一致；manifest `migrations`/`assets.legacy` 均 undefined（实测）；**migrate:content
+    replay 本人复跑 `managed=537 writes=0 deletes=0 conflicts=0`**（幂等）。备注：replay 报
+    reference-warnings=4 / asset-warnings=208，属闭包诊断非冲突（0 写入），登记为已知诊断面。
+  - **回归独立复跑 ✓**：四包 typecheck PASS；reforge 88/820、content 33/411、editor
+    130/130（首轮 1 文件级失败复跑即绿，判环境抖动）；characterization 定向 41+21 全绿。
+- counter / 返工处理: 无（RA1 已闭环）。
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: blocked——Codex + Kimi + GLM 三方 accept 齐；仅剩用户验收（current 工程
+  打开/编辑/保存/运行/读档最小 smoke）。
 
 ## Draft: 设计与风险
 
@@ -411,6 +437,14 @@ OPS-TST-PERF-B/C 未提交改动，未标 build/done。
     `writes=0 deletes=0 conflicts=0`；闭包 `scenes=294 maps=223 assets=1935`。
   - 更新版本矩阵：content16、SAVE8、Map4/AssetCatalogV1 等局部格式和 raw-source migration 是四条独立轴；
     产品文档不再宣称支持旧工程/旧存档升级。
+
+- 2026-08-20 GLM（覆盖/迁移/测试）: done 终审完成并签 **accept**。GLM1-GLM3 + KA1/KA2 逐钉
+  独立验证：KA1 停线交接链完整（handoff 文档 + byte-order 失败证据 + PB3/PB4 报告 + 用户停线
+  规则）；GLM1 折叠为 author-script/ScriptEditor 领域名且现行编辑器未误伤；GLM2 七个 dead
+  upgrade 全删；GLM3 boundary 3/3 + census 170/69→**0/0**；EditorState 单类型；迁移不变式
+  本人复跑 537/0/0/0 + 闭包 294/223/1935；四包 typecheck + reforge 820 + content 411 +
+  editor 130/130 复跑全绿（replay 诊断 warnings 4/208 登记为已知非阻塞）。未改实现文件，
+  未代签 Kimi。Next: 用户验收最小 smoke 后关卡。
 - 运行命令:
   - `pnpm --filter @type-pal/{content,editor,reforge,migrate} typecheck`：四包通过。
   - 最终相关包级门禁只执行一次：reforge `88 files / 820 tests`、migrate unit
@@ -448,8 +482,8 @@ N/A
     `extractLegacyScriptEdges` 或旧 payload。
   - 允许命中仅限 retention ledger 显式 current/provenance 项：Map4、AssetCatalogV1、ScriptChunk/IndexV1、
     `legacy-migrated` origin、浏览器 `onupgradeneeded`、PAL raw legacy-dialog 解码。
-- Kimi/GLM 审查结论: Kimi **counter（2026-08-20，仅一项精确返工 RA1；RA1 已于同日落地，待复签
-  accept）**；GLM pending
+- Kimi/GLM 审查结论: Kimi **accept（2026-08-20；RA1 经 de234143 落地，focused 复验全过后由
+  counter 转 accept）**；GLM pending
 - 必须返工项:
   - **RA1（唯一，`projects/pal/_transitions/` 残留删除；已完成）**：`b10-enemy-team-slots-v1.json`、
     `b2-battle-field-domain-v1.json`、`c1-dialogue-identity-v1.json`、`c1-npc-curation-v1.json`、
@@ -462,7 +496,7 @@ N/A
     落地后本席直接转 accept，不需要重新全面复审。Codex 已删除全部 5 个 git tracked sidecar；
     `migrate:content` 复验为 `managed=537 writes=0 deletes=0 conflicts=0`，闭包仍为
     `scenes=294 maps=223 assets=1935`；`current-only-product-boundary.test.ts` 为 `3/3`。
-- Accept / rework: RA1 已闭环，等待 Kimi 将 counter 转 accept；GLM 独立审查并行。
+- Accept / rework: RA1 已闭环，Kimi 已转 accept（2026-08-20）；GLM 独立审查并行。
 
 ### Kimi done 前主审记录（2026-08-20，本人一手读码 + focused 复跑，非代理）
 
@@ -531,22 +565,18 @@ pal-current-publication.ts:64 / current-only-product-boundary.test.ts:71-77 / �
 - 2026-08-20 Codex: 完成 Kimi RA1 返工，删除 `projects/pal/_transitions/` 全部 5 个 git tracked 历史
   sidecar；focused 复验 `migrate:content` 为 `537/0/0/0`、闭包 `294/223/1935`，current-only boundary
   `3/3`。未重复四包长测。Next: Kimi 直接复签 accept；GLM 继续独立终审。
+- 2026-08-20 Kimi: RA1 focused 复验完成，counter 转 **accept**。本席独立复跑：`git ls-files` 对
+  `_transitions` 零命中（de234143 已删 5 个 tracked sidecar）、`migrate:content` plan 复跑
+  `managed=537 writes=0 deletes=0 conflicts=0`、闭包 `scenes=294 maps=223 assets=1935`、
+  `current-only-product-boundary.test.ts` 3/3——与卡文证据逐项一致。RA1 闭环。未改实现文件，
+  未代签 GLM，未标 done。Next: GLM 终审 + 用户验收后关卡。
 
 ## 下一位 Agent 提示词
 
-### 给 Kimi（RA1 focused 复验并转 accept，可直接复制）
+### 给 Kimi（RA1 focused 复验——已完成）
 
-```text
-继续任务: ARCH-CURRENT-ONLY-1——Kimi RA1 focused 复验
-任务卡: docs/ops/tasks/ARCH-CURRENT-ONLY-1-development-current-only-consolidation.md
-当前状态: review；你此前仅因 RA1 counter，Codex 已删除 projects/pal/_transitions/ 5 个 tracked sidecar；
-GLM 终审 pending；不得标 done
-请只做你承诺的最小复验：
-1. 确认 projects/pal/_transitions/ 已无 tracked 文件；
-2. 核对任务卡记录的 migrate:content 537/0/0/0、闭包 294/223/1935 和 boundary 3/3 证据；
-3. RA1 闭环则把 Kimi counter 转 accept，并写回 Review/交接日志；若仍有问题，仅给精确 file:line/路径证据。
-不得修改实现文件、不得代签 GLM、不得标 done；无需重新全面复审或重跑长测试。
-```
+Kimi 已于 2026-08-20 完成 RA1 focused 复验并将 counter 转 accept（复验证据见交接日志），
+本节提示词不再适用。
 
 ### 给 GLM（done 前覆盖/迁移终审，可直接复制）
 

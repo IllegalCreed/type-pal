@@ -187,7 +187,7 @@ afterEach(async () => {
   vi.clearAllMocks()
 })
 
-describe('TilesetTab 全工程引用删除', () => {
+describe('TilesetTab 全项目引用删除', () => {
   test('搜索与分类覆盖各值、组合、空结果和清空恢复，且不偷换选择', async () => {
     const { host } = await mountTilesetTab({ mapB: buildBlankProjectMap(1, 1, 'tiles-b') })
     const rows = () => host.querySelectorAll('.tileset-library-row')

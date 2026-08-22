@@ -1,5 +1,5 @@
 /**
- * 打开本地工程夹。开发期编辑器只接受当前 canonical contentVersion 16；旧工程必须由
+ * 打开本地项目夹。开发期编辑器只接受当前 canonical contentVersion 16；旧项目必须由
  * 对应生成/迁移工具重建，编辑器本身不再携带版本升级器或双读分支。
  */
 import type { AuthorSceneDef, ScriptChunkV1, StampTemplate } from '@type-pal/content'
@@ -34,7 +34,7 @@ export async function openLocalProject(dir: FileSystemDirectoryHandle): Promise<
   } catch (error) {
     source.dispose?.()
     throw new Error(
-      `打开工程失败:「${dir.name}」里没有有效的 manifest.json(${error instanceof Error ? error.message : String(error)})`,
+      `打开项目失败:「${dir.name}」里没有有效的 manifest.json(${error instanceof Error ? error.message : String(error)})`,
     )
   }
 
@@ -43,7 +43,7 @@ export async function openLocalProject(dir: FileSystemDirectoryHandle): Promise<
     source.dispose?.()
     const found = version === undefined ? '未知' : String(version)
     throw new Error(
-      `打开工程失败:「${dir.name}」是 contentVersion ${found}；开发期编辑器只接受当前 contentVersion 16，请用对应生成或迁移工具重新生成工程。`,
+      `打开项目失败:「${dir.name}」是 contentVersion ${found}；开发期编辑器只接受当前 contentVersion 16，请用对应生成或迁移工具重新生成项目。`,
     )
   }
 
@@ -57,7 +57,7 @@ export async function openLocalProject(dir: FileSystemDirectoryHandle): Promise<
   } catch (error) {
     source.dispose?.()
     throw new Error(
-      `打开工程失败:「${dir.name}」的 canonical v16 内容无效(${error instanceof Error ? error.message : String(error)})`,
+      `打开项目失败:「${dir.name}」的 canonical v16 内容无效(${error instanceof Error ? error.message : String(error)})`,
     )
   }
 }

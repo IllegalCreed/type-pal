@@ -565,7 +565,7 @@ function DiagnosticFixture() {
     <DsDiagnosticRow
       key={id}
       severity={ordinal % 5 === 1 ? 'error' : 'warning'}
-      title={`工程问题 ${ordinal}`}
+      title={`项目问题 ${ordinal}`}
       code={ordinal % 5 === 1 ? 'missing-asset' : 'unused-asset'}
       path={`manifest.${'assets.roles.'.repeat(ordinal === 1 ? 10 : 1)}entry-${ordinal - 1}`}
       action={ordinal <= 2 ? { label: '跳转 ↗', onActivate: () => {} } : undefined}

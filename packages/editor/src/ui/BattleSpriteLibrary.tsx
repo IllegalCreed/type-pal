@@ -1482,7 +1482,7 @@ export function BattleSpriteLibrary(props: {
                     ) : null}
                     {creatingUsage ? (
                       <p className="ds-inspector-supporting-copy">
-                        新用途尚未写入工程；应用后才会成为一次可撤销修改。
+                        新用途尚未写入项目；应用后才会成为一次可撤销修改。
                       </p>
                     ) : null}
                     {!definition && !creatingUsage ? (

@@ -5,7 +5,7 @@
  *   (接在 4×N 帧之后平铺;入库后到中间帧工作区框选命名姿势,poses 体系 C1d)。
  * - 帧级编辑(替换某帧/追加帧带)**不在这里** —— 在中间帧工作区就地做
  *   (作者:「替换一帧还要回上传选追加?动线太复杂」)。
- * 量化贴盘 0 预览(所见即入库);保存工程时落盘 assets/authored/sprites/<content-hash>.rle。
+ * 量化贴盘 0 预览(所见即入库);保存项目时落盘 assets/authored/sprites/<content-hash>.rle。
  */
 import type { AssetRecordV1, SpriteDef, SpriteLayout } from '@type-pal/content'
 import type { AssetBase, Palette, RleFrame } from '@type-pal/reforge'
@@ -367,7 +367,7 @@ export function SpriteUploadWizard(props: {
             <>
               <div className="field">
                 <span className="field-label">入库预览</span>
-                <span className="hint2">已贴合工程主色(所见即入库,×2 展示)</span>
+                <span className="hint2">已贴合项目主色(所见即入库,×2 展示)</span>
               </div>
               {kind === 'directional' ? (
                 // 按行展示:前 4 行标 下/左/上/右,动作行标 动作 1..K

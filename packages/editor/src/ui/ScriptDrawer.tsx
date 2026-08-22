@@ -546,7 +546,7 @@ export function ScriptDrawer(props: {
   assetCatalog: AssetCatalogV1
   audioResolver: AudioAssetReader
   assetReader: EditorAssetReader
-  /** 工程 id(同源试玩页 ?project=)。 */
+  /** 项目 id(同源试玩页 ?project=)。 */
   projectId: string
   workspaceId?: string
   /** 氛围表(setAmbience 表单下拉;W6)。 */

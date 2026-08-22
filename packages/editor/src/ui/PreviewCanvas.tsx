@@ -113,7 +113,7 @@ export function PreviewCanvas(props: {
   scene: SceneDef
   stages: readonly ScriptStage[]
   sourceKey: string
-  /** 内容工程 id；本地试玩另带 workspaceId，只有不带 workspace 时才明确走 HTTP dev。 */
+  /** 内容项目 id；本地试玩另带 workspaceId，只有不带 workspace 时才明确走 HTTP dev。 */
   projectId: string
   workspaceId?: string
   /** 当前源的触发实体(未播时镜头对准它;onEnter 源 undefined = 对准玩家)。 */

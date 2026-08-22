@@ -8,7 +8,8 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import type { ProjectMapPatch } from '../core/map-patch.js'
 import type { MapSelection } from '../core/map-selection.js'
 import { summarizeMapSelection } from '../core/map-selection.js'
-import { DsSelect } from './design-system/controls.js'
+import { DsControlGroup, DsIconButton, DsNumberInput, DsSelect } from './design-system/controls.js'
+import { DsInspectorSection, DsPropertyGrid, DsPropertyRow } from './design-system/recipes.js'
 import { MapContentSelectionPreview } from './MapContentSelectionPreview.js'
 
 export interface MapSelectionInspectorProps {
@@ -100,6 +101,7 @@ export function MapSelectionInspector(props: MapSelectionInspectorProps) {
     !layerById.has(effectiveTargetLayerId) ||
     hiddenLayerIds.has(effectiveTargetLayerId) ||
     lockedLayerIds.has(effectiveTargetLayerId)
+  const targetLayerName = layerById.get(effectiveTargetLayerId)?.name ?? effectiveTargetLayerId
   const eligibleHeightRefs = useMemo(
     () =>
       selection.visualSlots.filter((ref) => {
@@ -204,22 +206,21 @@ export function MapSelectionInspector(props: MapSelectionInspectorProps) {
 
   return (
     <>
-      <div className="insp-head map-selection-head">
-        <div className="what">地图内容选区</div>
-        <div className="who">
-          {summary.visualInstanceCount} 个视觉实例 · {summary.gridPointCount} 个格点
-        </div>
-        <button
-          type="button"
-          className="mini"
-          disabled={Boolean(editingBlockedReason)}
-          onClick={onClearSelection}
-          title={editingBlockedReason ?? '清空选区 (Esc)'}
-        >
-          清空
-        </button>
-      </div>
-      <div className="section map-selection-preview-section">
+      <DsInspectorSection
+        className="map-selection-head"
+        title="地图内容选区"
+        description={`${summary.visualInstanceCount} 个视觉实例 · ${summary.gridPointCount} 个格点`}
+        actions={
+          <DsIconButton
+            icon="close"
+            label="清空地图选区"
+            shortcut="Esc"
+            size="compact"
+            disabled={Boolean(editingBlockedReason)}
+            onClick={onClearSelection}
+          />
+        }
+      >
         <MapContentSelectionPreview
           map={map}
           visualSlots={selection.visualSlots}
@@ -228,192 +229,227 @@ export function MapSelectionInspector(props: MapSelectionInspectorProps) {
           title={selectionPreviewTitle}
           subtitle={selectedLayers.map((layer) => layer.name).join('、') || '无视觉层'}
         />
-      </div>
-      <div className="section map-selection-summary">
-        <h4>摘要</h4>
-        <div className="field">
-          <span className="field-label">槽位</span>
-          <span className="mono">
-            {summary.visualSlotCount}（空 {summary.emptySlotCount}）
-          </span>
-        </div>
-        <div className="field">
-          <span className="field-label">图层</span>
-          <span>{selectedLayers.map((layer) => layer.name).join('、') || '无视觉层'}</span>
-        </div>
-        {bounds ? (
-          <div className="field">
-            <span className="field-label">范围</span>
+        <DsPropertyGrid className="map-selection-summary">
+          <DsPropertyRow label="槽位">
             <span className="mono">
-              r{bounds.minRow}:c{bounds.minCol} → r{bounds.maxRow}:c{bounds.maxCol}
+              {summary.visualSlotCount}（空 {summary.emptySlotCount}）
             </span>
-          </div>
-        ) : null}
+          </DsPropertyRow>
+          <DsPropertyRow label="图层">
+            {selectedLayers.map((layer) => layer.name).join('、') || '无视觉层'}
+          </DsPropertyRow>
+          {bounds ? (
+            <DsPropertyRow label="范围">
+              <span className="mono">
+                r{bounds.minRow}:c{bounds.minCol} → r{bounds.maxRow}:c{bounds.maxCol}
+              </span>
+            </DsPropertyRow>
+          ) : null}
+        </DsPropertyGrid>
         {warning ? <p className="map-selection-warning">⚠ {warning}</p> : null}
-      </div>
-      <div className="section">
-        <h4>
-          视觉实例 <span className="b2">分通道修改</span>
-        </h4>
-        <div className="field map-selection-field">
-          <span className="field-label">tileId</span>
-          <input
-            key={`tile:${mixedLabel(summary.tileId)}`}
-            className="in mono"
-            type="number"
-            min={0}
-            defaultValue={
-              summary.tileId.kind === 'single' && summary.tileId.value !== null
-                ? summary.tileId.value
-                : ''
+      </DsInspectorSection>
+
+      <DsInspectorSection title="视觉实例" description="分通道修改所选瓦片">
+        <DsPropertyGrid>
+          <DsPropertyRow
+            label="瓦片"
+            labelFor="map-selection-tile-id"
+            help={
+              fieldError?.field === 'tileId' ? (
+                <span id="map-tile-field-error" className="map-field-error" role="alert">
+                  {fieldError.message}
+                </span>
+              ) : undefined
             }
-            placeholder={mixedLabel(summary.tileId)}
-            disabled={writeDisabled || selection.visualSlots.length === 0}
-            aria-label="选区 tileId"
-            aria-invalid={fieldError?.field === 'tileId'}
-            aria-describedby={fieldError?.field === 'tileId' ? 'map-tile-field-error' : undefined}
-            onBlur={(event) => applyTileId(event.currentTarget.value)}
-            onKeyDown={(event) => {
-              if (event.key === 'Enter') event.currentTarget.blur()
-            }}
-          />
-          {fieldError?.field === 'tileId' ? (
-            <span id="map-tile-field-error" className="map-field-error">
-              {fieldError.message}
-            </span>
-          ) : null}
-        </div>
-        <button
-          type="button"
-          className="tool map-inline-action"
-          disabled={writeDisabled || selection.visualSlots.length === 0}
-          onClick={clearTiles}
-        >
-          清空视觉实例
-        </button>
-        <div className="field map-selection-field">
-          <span className="field-label">高度</span>
-          <input
-            key={`height:${mixedLabel(summary.height)}`}
-            className="in mono"
-            type="number"
-            min={0}
-            defaultValue={summary.height.kind === 'single' ? summary.height.value : ''}
-            placeholder={mixedLabel(summary.height)}
-            disabled={writeDisabled || eligibleHeightRefs.length === 0}
-            aria-label="选区实例高度"
-            aria-invalid={fieldError?.field === 'height'}
-            aria-describedby={fieldError?.field === 'height' ? 'map-height-field-error' : undefined}
-            onBlur={(event) => {
-              if (!event.currentTarget.value.trim()) {
-                setFieldError(undefined)
-                return
-              }
-              const value = Number(event.currentTarget.value)
-              if (!Number.isInteger(value) || value < 0) {
-                const message = '高度必须是非负整数。'
-                setFieldError({ field: 'height', message })
-                onValidationError(message)
-                return
-              }
-              applyHeight(value, `选区高度设为 ${value}`)
-            }}
-            onKeyDown={(event) => {
-              if (event.key === 'Enter') event.currentTarget.blur()
-            }}
-          />
-          {fieldError?.field === 'height' ? (
-            <span id="map-height-field-error" className="map-field-error">
-              {fieldError.message}
-            </span>
-          ) : null}
-        </div>
-        <div className="map-step-actions">
-          <button
-            type="button"
-            className="mini-txt map-step-button"
-            aria-label="高度减 1"
-            disabled={writeDisabled || eligibleHeightRefs.length === 0}
-            onClick={() => applyHeight((height) => height - 1, '选区高度 -1')}
           >
-            −1
-          </button>
-          <button
-            type="button"
-            className="mini-txt map-step-button"
-            aria-label="高度加 1"
-            disabled={writeDisabled || eligibleHeightRefs.length === 0}
-            onClick={() => applyHeight((height) => height + 1, '选区高度 +1')}
-          >
-            +1
-          </button>
-          <span className="hint2">
-            {skippedHeight ? `跳过 ${skippedHeight} 个空槽` : '仅改实例高度'}
-          </span>
-        </div>
-        <div className="field map-selection-field">
-          <span className="field-label">移到层</span>
-          <DsSelect
-            value={effectiveTargetLayerId}
-            aria-label="选区目标图层"
-            disabled={writeDisabled || summary.visualInstanceCount === 0}
-            options={map.layers.map((layer) => ({
-              value: layer.id,
-              label: layer.name,
-              description: layer.id,
-              disabled: hiddenLayerIds.has(layer.id) || lockedLayerIds.has(layer.id),
-            }))}
-            onValueChange={setTargetLayerId}
-          />
-        </div>
-        <button
-          type="button"
-          className="tool map-inline-action"
-          disabled={
-            writeDisabled ||
-            summary.visualInstanceCount === 0 ||
-            !effectiveTargetLayerId ||
-            targetLayerUnavailable
-          }
-          onClick={() => onMoveToLayer(effectiveTargetLayerId)}
-        >
-          移动到目标层…
-        </button>
-      </div>
-      <div className="section">
-        <h4>
-          格点 / 碰撞 <span className="b2">独立于视觉层</span>
-        </h4>
-        <div className="field map-selection-field">
-          <span className="field-label">collision</span>
-          <input
-            key={`collision:${mixedLabel(summary.collision)}`}
-            className="in mono"
-            type="number"
-            min={0}
-            defaultValue={summary.collision.kind === 'single' ? summary.collision.value : ''}
-            placeholder={mixedLabel(summary.collision)}
-            disabled={writeDisabled || selection.gridPoints.length === 0}
-            aria-label="选区 collision"
-            aria-invalid={fieldError?.field === 'collision'}
-            aria-describedby={
-              fieldError?.field === 'collision' ? 'map-collision-field-error' : undefined
+            <DsControlGroup
+              control={
+                <DsNumberInput
+                  id="map-selection-tile-id"
+                  key={`tile:${mixedLabel(summary.tileId)}`}
+                  min={0}
+                  size="compact"
+                  defaultValue={
+                    summary.tileId.kind === 'single' && summary.tileId.value !== null
+                      ? summary.tileId.value
+                      : ''
+                  }
+                  placeholder={mixedLabel(summary.tileId)}
+                  disabled={writeDisabled || selection.visualSlots.length === 0}
+                  aria-label="选区 tileId"
+                  invalid={fieldError?.field === 'tileId'}
+                  aria-describedby={
+                    fieldError?.field === 'tileId' ? 'map-tile-field-error' : undefined
+                  }
+                  onBlur={(event) => applyTileId(event.currentTarget.value)}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter') event.currentTarget.blur()
+                  }}
+                />
+              }
+              actions={
+                <DsIconButton
+                  icon="delete"
+                  label="清空所选视觉实例"
+                  variant="danger"
+                  size="compact"
+                  disabled={writeDisabled || selection.visualSlots.length === 0}
+                  onClick={clearTiles}
+                />
+              }
+            />
+          </DsPropertyRow>
+
+          <DsPropertyRow
+            label="高度"
+            labelFor="map-selection-height"
+            help={
+              fieldError?.field === 'height' ? (
+                <span id="map-height-field-error" className="map-field-error" role="alert">
+                  {fieldError.message}
+                </span>
+              ) : skippedHeight ? (
+                `仅修改有瓦片的实例；跳过 ${skippedHeight} 个空槽`
+              ) : (
+                '仅修改有瓦片的实例'
+              )
             }
-            onBlur={(event) => applyCollision(event.currentTarget.value)}
-            onKeyDown={(event) => {
-              if (event.key === 'Enter') event.currentTarget.blur()
-            }}
-          />
-          {fieldError?.field === 'collision' ? (
-            <span id="map-collision-field-error" className="map-field-error">
-              {fieldError.message}
-            </span>
-          ) : null}
+          >
+            <DsControlGroup
+              control={
+                <DsNumberInput
+                  id="map-selection-height"
+                  key={`height:${mixedLabel(summary.height)}`}
+                  min={0}
+                  size="compact"
+                  defaultValue={summary.height.kind === 'single' ? summary.height.value : ''}
+                  placeholder={mixedLabel(summary.height)}
+                  disabled={writeDisabled || eligibleHeightRefs.length === 0}
+                  aria-label="选区实例高度"
+                  invalid={fieldError?.field === 'height'}
+                  aria-describedby={
+                    fieldError?.field === 'height' ? 'map-height-field-error' : undefined
+                  }
+                  onBlur={(event) => {
+                    if (!event.currentTarget.value.trim()) {
+                      setFieldError(undefined)
+                      return
+                    }
+                    const value = Number(event.currentTarget.value)
+                    if (!Number.isInteger(value) || value < 0) {
+                      const message = '高度必须是非负整数。'
+                      setFieldError({ field: 'height', message })
+                      onValidationError(message)
+                      return
+                    }
+                    applyHeight(value, `选区高度设为 ${value}`)
+                  }}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter') event.currentTarget.blur()
+                  }}
+                />
+              }
+              actions={
+                <>
+                  <DsIconButton
+                    icon="chevron-down"
+                    label="高度减 1"
+                    size="compact"
+                    disabled={writeDisabled || eligibleHeightRefs.length === 0}
+                    onClick={() => applyHeight((height) => height - 1, '选区高度 -1')}
+                  />
+                  <DsIconButton
+                    icon="chevron-up"
+                    label="高度加 1"
+                    size="compact"
+                    disabled={writeDisabled || eligibleHeightRefs.length === 0}
+                    onClick={() => applyHeight((height) => height + 1, '选区高度 +1')}
+                  />
+                </>
+              }
+            />
+          </DsPropertyRow>
+
+          <DsPropertyRow label="图层" labelFor="map-selection-target-layer">
+            <DsControlGroup
+              control={
+                <DsSelect
+                  id="map-selection-target-layer"
+                  value={effectiveTargetLayerId}
+                  size="compact"
+                  aria-label="选区目标图层"
+                  disabled={writeDisabled || summary.visualInstanceCount === 0}
+                  options={map.layers.map((layer) => ({
+                    value: layer.id,
+                    label: layer.name,
+                    description: layer.id,
+                    disabled: hiddenLayerIds.has(layer.id) || lockedLayerIds.has(layer.id),
+                  }))}
+                  onValueChange={setTargetLayerId}
+                />
+              }
+              actions={
+                <DsIconButton
+                  icon="chevron-right"
+                  label={`移动到图层：${targetLayerName}`}
+                  size="compact"
+                  disabled={
+                    writeDisabled ||
+                    summary.visualInstanceCount === 0 ||
+                    !effectiveTargetLayerId ||
+                    targetLayerUnavailable
+                  }
+                  onClick={() => onMoveToLayer(effectiveTargetLayerId)}
+                />
+              }
+            />
+          </DsPropertyRow>
+        </DsPropertyGrid>
+      </DsInspectorSection>
+
+      <DsInspectorSection title="格点 / 碰撞" description="碰撞值独立于视觉层">
+        <DsPropertyGrid>
+          <DsPropertyRow
+            label="碰撞值"
+            labelFor="map-selection-collision"
+            help={
+              fieldError?.field === 'collision' ? (
+                <span id="map-collision-field-error" className="map-field-error" role="alert">
+                  {fieldError.message}
+                </span>
+              ) : undefined
+            }
+          >
+            <DsNumberInput
+              id="map-selection-collision"
+              key={`collision:${mixedLabel(summary.collision)}`}
+              min={0}
+              size="compact"
+              defaultValue={summary.collision.kind === 'single' ? summary.collision.value : ''}
+              placeholder={mixedLabel(summary.collision)}
+              disabled={writeDisabled || selection.gridPoints.length === 0}
+              aria-label="选区 collision"
+              invalid={fieldError?.field === 'collision'}
+              aria-describedby={
+                fieldError?.field === 'collision' ? 'map-collision-field-error' : undefined
+              }
+              onBlur={(event) => applyCollision(event.currentTarget.value)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') event.currentTarget.blur()
+              }}
+            />
+          </DsPropertyRow>
+        </DsPropertyGrid>
+      </DsInspectorSection>
+
+      {notice ? (
+        <div
+          className={`map-selection-notice${notice.kind === 'error' ? ' error' : ''}`}
+          role={notice.kind === 'error' ? 'alert' : 'status'}
+        >
+          {notice.message}
         </div>
-      </div>
-      <div className={`map-selection-notice${notice?.kind === 'error' ? ' error' : ''}`}>
-        {notice?.message ?? '修改只作用于指定通道；每次提交是一笔撤销。'}
-      </div>
+      ) : null}
     </>
   )
 }

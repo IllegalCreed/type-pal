@@ -43,7 +43,7 @@ export function createEditorAssetReader(
     readBytes,
     async readRoleBytes(role: AssetRole) {
       const asset = current().manifest.assets.roles[role]
-      if (!asset) throw new Error(`工程缺资源角色 "${role}"`)
+      if (!asset) throw new Error(`项目缺资源角色 "${role}"`)
       return readBytes(asset, ASSET_ROLE_KINDS[role])
     },
     async urlFor(asset: AssetId, expectedKind?: AssetKind) {

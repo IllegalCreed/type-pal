@@ -12,6 +12,7 @@ export function editorAssetReferenceSource(state: EditorState): AssetReferenceSo
     entryPoints: state.manifest.entryPoints,
     scenes: state.scenes,
     scriptChunks: state.scriptChunks,
+    sharedScripts: state.sharedScripts,
     actors: state.actors,
     enemies: state.enemies,
     items: state.items,

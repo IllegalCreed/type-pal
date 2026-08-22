@@ -87,6 +87,9 @@ describe('editor design-system static boundary', () => {
     expect(recipes).toMatch(
       /\.ds-workbench-section__content\s*>\s*\.ds-button\s*\{[\s\S]*?justify-self:\s*start;/,
     )
+    expect(recipes).toMatch(
+      /\.ds-property-grid\s*\{[\s\S]*?display:\s*grid;[\s\S]*?gap:\s*var\(--ds-space-4\);/,
+    )
   })
 
   test('keeps the scene shell checkboxes on the shared component', () => {
@@ -146,10 +149,25 @@ describe('editor design-system static boundary', () => {
     expect(businessCss).toMatch(
       /@container canonical-script-editor \(max-width:\s*460px\)[\s\S]*?\.canonical-script-row-actions\s*\{[\s\S]*?position:\s*static;[\s\S]*?flex:\s*0 0 100%;/,
     )
-    expect(businessCss).toMatch(
-      /\.canonical-help-tip\s*>\s*button\s*\{[\s\S]*?width:\s*var\(--ds-control-height-compact\);[\s\S]*?height:\s*var\(--ds-control-height-compact\);[\s\S]*?min-width:\s*var\(--ds-control-height-compact\);[\s\S]*?min-height:\s*var\(--ds-control-height-compact\);[\s\S]*?aspect-ratio:\s*1;/,
+  })
+
+  test('owns conceptual help geometry and overlay behavior in the design system', () => {
+    const primitives = readFileSync(join(here, 'primitives.css'), 'utf8')
+    expect(primitives).toMatch(
+      /\.ds-help-tip\s*>\s*button\s*\{[\s\S]*?width:\s*var\(--ds-hit-target-compact\);[\s\S]*?height:\s*var\(--ds-hit-target-compact\);[\s\S]*?min-width:\s*var\(--ds-hit-target-compact\);[\s\S]*?min-height:\s*var\(--ds-hit-target-compact\);[\s\S]*?border:\s*0;/,
     )
-    expect(businessCss).toMatch(/\.canonical-help-tooltip\s*\{[\s\S]*?position:\s*fixed;/)
+    expect(primitives).toMatch(
+      /\.ds-help-tip\s*>\s*button::before\s*\{[\s\S]*?width:\s*18px;[\s\S]*?height:\s*18px;[\s\S]*?border-radius:\s*50%;/,
+    )
+    expect(primitives).toMatch(
+      /\.ds-help-tip\s*>\s*button:focus-visible::before\s*\{[\s\S]*?outline:\s*2px solid var\(--ds-focus-ring\);/,
+    )
+    expect(primitives).toMatch(
+      /\.ds-help-tooltip\s*\{[\s\S]*?position:\s*fixed;[\s\S]*?z-index:\s*var\(--ds-z-popover\);/,
+    )
+    expect(primitives).toMatch(
+      /@media \(prefers-reduced-motion:\s*reduce\)[\s\S]*?\.ds-help-tooltip,[\s\S]*?transition:\s*none;/,
+    )
   })
 
   test('keeps stamp and tileset workspaces on shared object and map editing surfaces', () => {
@@ -205,7 +223,7 @@ describe('editor design-system static boundary', () => {
       (total, path) => total + (readFileSync(path, 'utf8').match(pattern)?.length ?? 0),
       0,
     )
-    expect(count, 'legacy native checkbox occurrences').toBe(11)
+    expect(count, 'legacy native checkbox occurrences').toBe(9)
   })
 
   test('does not grow remaining raw form controls while shared primitives replace them', () => {
@@ -215,9 +233,9 @@ describe('editor design-system static boundary', () => {
         path.endsWith('.tsx') && !path.endsWith('.test.tsx') && !path.includes('/design-system/'),
     )
     const ceilings = {
-      input: 132,
+      input: 121,
       textarea: 2,
-      label: 79,
+      label: 77,
     } as const
 
     for (const [tag, ceiling] of Object.entries(ceilings)) {
@@ -403,7 +421,6 @@ describe('editor design-system static boundary', () => {
       'ShopTab.tsx',
       'TilesetTab.tsx',
       'StampLibraryTab.tsx',
-      'ProjectWorkbenchTab.tsx',
       'App.tsx',
     ]
 
@@ -478,6 +495,7 @@ describe('editor design-system static boundary', () => {
       'ActorMode.tsx',
       'BattleSpriteLibrary.tsx',
       'ItemTab.tsx',
+      'LifecycleCommandPanel.tsx',
       'ShopTab.tsx',
       'SpriteActionEditor.tsx',
       'WorldSpriteLibrary.tsx',
@@ -528,6 +546,38 @@ describe('editor design-system static boundary', () => {
     expect(businessCss).toMatch(
       /:is\(\.inspector, \.scene-entity-inspector\) :is\(\.tool, \.btn, \.mini-txt\)\s*\{[\s\S]*?min-height:\s*var\(--ds-control-height-compact\);/,
     )
+
+    const lifecyclePanel = readFileSync(join(uiRoot, 'LifecycleCommandPanel.tsx'), 'utf8')
+    for (const component of [
+      'DsInspectorSection',
+      'DsCard',
+      'DsButton',
+      'DsIconButton',
+      'DsSelectField',
+      'DsNumberField',
+    ])
+      expect(lifecyclePanel, `LifecycleCommandPanel shared ${component}`).toContain(`<${component}`)
+    expect(lifecyclePanel).not.toMatch(/<(?:button|input)\b/)
+    expect(lifecyclePanel).not.toMatch(/className="(?:section|field)\b/)
+    expect(businessCss).toMatch(
+      /\.lifecycle-command-body-list\s*\{[\s\S]*?gap:\s*var\(--ds-space-5\);/,
+    )
+    expect(businessCss).toMatch(
+      /\.lifecycle-command-row\s*\+[\s\S]*?border-top:\s*1px solid var\(--ds-border-subtle\);/,
+    )
+
+    const pageAnimationEditor = readFileSync(join(uiRoot, 'EntityPageAnimationEditor.tsx'), 'utf8')
+    for (const component of [
+      'DsPropertyGrid',
+      'DsPropertyRow',
+      'DsCheckbox',
+      'DsNumberInput',
+      'DsButton',
+    ])
+      expect(pageAnimationEditor, `EntityPageAnimationEditor shared ${component}`).toContain(
+        `<${component}`,
+      )
+    expect(pageAnimationEditor).not.toMatch(/<(?:button|label|input)\b/)
   })
 
   test('keeps all audited Inspector reference faces on the canonical panel, list, and row contract', () => {
@@ -617,6 +667,10 @@ describe('editor design-system static boundary', () => {
     expect(businessCss).not.toMatch(
       /\.(?:project-issue|cutscene-diagnostic|item-diagnostic|stamp-placement-problems)\b/,
     )
+    const projectWorkbench = readFileSync(join(uiRoot, 'ProjectWorkbenchTab.tsx'), 'utf8')
+    expect(projectWorkbench).toMatch(/<DsCatalogGroupList\b/)
+    expect(projectWorkbench).toMatch(/<DsCatalogGroupHeader\b/)
+    expect(projectWorkbench).not.toMatch(/className=["']project-issue/)
     expect(businessCss).toMatch(/\.cf-err\b/)
 
     for (const file of ['ImageTab.tsx', 'SoundTab.tsx']) {
@@ -962,12 +1016,26 @@ describe('editor design-system static boundary', () => {
     const mapMode = readFileSync(join(uiRoot, 'MapMode.tsx'), 'utf8')
     const stampEditor = readFileSync(join(uiRoot, 'StampContentEditor.tsx'), 'utf8')
     const recipesCss = readFileSync(join(uiRoot, 'design-system/recipes.css'), 'utf8')
-    expect(mapMode).toMatch(/className="section map-properties-section" data-ds-density="compact"/)
+    expect(mapMode).toMatch(/className="map-properties-section" data-ds-density="compact"/)
     expect(mapMode).toContain('<DsPropertyGrid>')
     expect(stampEditor).toContain('<DsPropertyGrid>')
     expect(stampEditor).not.toContain('stamp-template-facts')
     expect(recipesCss).toMatch(
       /\.ds-property-row\s*\{[\s\S]*?min-height:\s*var\(--ds-control-height-compact\);[\s\S]*?grid-template-columns:\s*60px minmax\(0, 1fr\);/,
     )
+  })
+
+  test('uses 项目 as the single product term for editor projects', () => {
+    const srcRoot = dirname(dirname(here))
+    const sources = filesUnder(srcRoot).filter(
+      (path) =>
+        (path.endsWith('.ts') || path.endsWith('.tsx')) &&
+        !path.endsWith('.test.ts') &&
+        !path.endsWith('.test.tsx'),
+    )
+
+    for (const path of sources) {
+      expect(readFileSync(path, 'utf8'), path).not.toContain('工程')
+    }
   })
 })
