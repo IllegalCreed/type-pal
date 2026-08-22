@@ -150,8 +150,19 @@ Branch: codex/ed-pal-workspace-modes-1
     `spessasynth_lib/dist/index.d.ts:1075-1144` 证明 MIDI transport；`editor-asset-references.ts:8-27` 证明 sharedScripts 输入缺口）
   - design: agree（共享工作台 + 共享播放器壳 + MIDI/WAV 两后端；真实 PCM / note-activity 分流；先修引用真值）
 - Kimi:
-  - premise: pending
-  - design: pending
+  - premise: verified（2026-08-23 独立直读一手代码与类型声明，非复述）。已核：`MusicTab.tsx:202-250`
+    左栏只有 DsCatalogControls 无资源行、中央全量 `.music-table` 旧表格；`bgm.ts:21-48` BgmPlayer 只有
+    play/stop/resume/setEnabled，BgmSequencerAdapter 有 pause/play/fade 但无 currentTime/seek——preview
+    transport 确需新窄接口；`sfx.ts:40-57` SFX 适配器 decode/play/stop 无时间轴，WAV 预览须 editor 自建；
+    spessasynth_lib@4.3.6 `dist/index.d.ts` Sequencer：`get duration`(:1077)、`get/set currentTime`
+    (:1131-1135)、`pause()`(:1164)、`paused`、`getMIDI(): Promise<BasicMIDI>`——duration/seek/pause/音符
+    分析能力齐全；`virtual-list.tsx:3-59` 只有窗口 + Home/End 滚动，无选择/方向键/roving 合同；
+    本人独立 python census：`projects/pal/assets/index.json` music 86 项全 audio/midi、sound 363 项全
+    audio/wav，无非目标格式；sharedScripts 缺口同 MEDIA 卡（0ee277ab 后措辞应为 shell stale 副本，
+    编辑期无 live 回写，见该卡 Kimi 签字）。
+  - design: agree（共享工作台 + 格式策略注入边界正确；MIDI/WAV 双后端判别联合防止假 PCM；新增窄
+    preview transport 而非改 BgmPlayer 是对游戏语义的正确隔离；GA1-GA4 落钉可执行。依赖顺序确认：
+    ED-MEDIA-ASSET-ACTIONS-1 先行交付生命周期合同，本卡消费，禁止第四套资源操作）
 - GLM:
   - premise: **verified（2026-08-23，本人 catalog 全量 census + 一手读码，非代理）——附
     一处措辞修正（GA1，与 MEDIA 卡 GM1 同源）**：
@@ -178,8 +189,18 @@ Branch: codex/ed-pal-workspace-modes-1
     - **GA4（虚拟列表合同补齐）**：现有 DsVirtualList 只有基本窗口+Home/End——本卡
       需补方向键选择/roving/aria 后接入，合同测试先行；列表行无播放器/替换/删除按钮
       的 boundary 断言。
-  - 独立证据锚点: pending
-  - 可证伪观察: pending
+- 独立反证审查（至少一位非 Coding Owner 必填）:
+  - 审查者: Kimi
+  - 独立证据锚点: `node_modules/.pnpm/spessasynth_lib@4.3.6/.../dist/index.d.ts:1077,1131-1135,1164`
+    （Sequencer duration/currentTime get+set/pause）；`packages/reforge/src/audio/bgm.ts:6-12,21-48`
+    （一阶段守卫注释 + BgmPlayer/BgmSequencerAdapter 现状）；`packages/reforge/src/audio/sfx.ts:40-57`；
+    `packages/editor/src/ui/design-system/virtual-list.tsx:3-59`；`packages/editor/src/ui/MusicTab.tsx:202-250`；
+    2026-08-23 本人 python catalog census（86 MIDI / 363 WAV / other=0）。
+  - 可证伪观察: 若 catalog 存在非 MIDI music 或非 WAV sound，双策略不足须重开格式矩阵——本人 census
+    为 0；若锁定版 SpessaSynth 无 currentTime setter 或 pause，MIDI seek 失效须退回只读时间轴——d.ts
+    直读证伪；若 preview transport 必须改 BgmPlayer 才能工作，则“游戏语义不变”前提动摇——adapter 层
+    已分离（bgm.ts:39-48 独立于 player 接口），证伪未出现；若 ScriptEditSession 的 sharedScripts 在编辑期
+    已 live 合并进主会话，引用缺口不成立——coordinator/投影层直读未见（同 MEDIA 卡）。
 - counter / 分歧处理: N/A
 - 缺签豁免: N/A
 - build 准入结论: blocked
@@ -251,14 +272,23 @@ Branch: codex/ed-pal-workspace-modes-1
 ### 主审立场
 
 - Reviewer: Kimi 主审跨包 transport / 生命周期 / UI 架构；GLM 主审引用输入、性能与测试矩阵。
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论: Kimi agree（2026-08-23）+ GLM agree（2026-08-23，GA1-GA4）；Codex 已 agree
+- 必改项: 无新增；GA1-GA4 为 build 必落钉。
+- Kimi build 期关注项（非门禁）: ①preview transport 初始化必须携带 `bgm.ts:6-12` 的一阶段守卫
+  （secure context、soundfont RIFF 魔数、CC91=0 锁定、skipToFirstNoteOn=false、懒初始化），只能下沉共享
+  factory，不得另起一套丢掉守卫；②MIDI preview transport 不得复用 `BgmSequencerAdapter`（它按游戏语义
+  故意无 seek），新接口单列；③WAV pause/seek 用“停止 source 按 offset 重建”属预览可接受语义，但须测
+  快速连按不叠音；④DsVirtualList 补选择合同是共享公共接口变更，consumer census 与可选 props 后兼容
+  按卡内风险条执行。
+- 是否建议进入 build: 是（三签已齐；按本轮用户指令保持 draft 与准入 blocked，开放决定留给用户；
+  构建顺序上须在 ED-MEDIA-ASSET-ACTIONS-1 之后消费其生命周期合同）
 
 ### 三方争议记录(按需)
 
 - Codex: 真实 WAV 波形 + MIDI 音符活动时间轴；新增窄 reforge preview transport，不持久化 duration / waveform，不改 runtime BgmPlayer。
-- Kimi: pending
+- Kimi: 同意。补充：transport 可行性已由锁定版类型声明直读证实（duration/currentTime set/pause 均在）；
+  架构上最关键的是“共享只到 Spessa runtime factory 层”——BgmPlayer 的游戏语义（接管/fade/autoplay 记账）
+  与预览 transport 的 seek/pause 语义天然冲突，合并才是风险，分离不是。
 - GLM: premise verified + design agree（2026-08-23，附 GA1-GA4；格式 census 86 MIDI/363 WAV other=0）
 - 用户拍板: 2026-08-21 已拍板页面需整体重构并授权布局设计；MIDI 可视化真实性与 transport 风险待三方审查。
 
@@ -320,6 +350,13 @@ Branch: codex/ed-pal-workspace-modes-1
   观察①裁决为不触发；GA1 同步 MEDIA 卡 GM1 的 stale 副本口径修正与同源实现要求；GA2 钉
   transport 确定性；GA3 钉竞态/有界缓存/禁全量解码；GA4 钉虚拟列表合同补齐先行。未改实现，
   未代签 Kimi，未改准入结论。
+- 2026-08-23 Kimi（跨包 transport/生命周期/UI 架构）: 审查完成，签 **premise verified + design agree**。
+  独立直读 SpessaSynth 锁定版类型声明（duration/currentTime get+set/pause 均在）、BgmPlayer 与
+  BgmSequencerAdapter 现状、SFX 适配器、DsVirtualList 键盘合同、MusicTab 旧表格；自跑 python
+  catalog census（86 MIDI/363 WAV/other=0）。补四条 build 期关注项（一阶段 audio 守卫随 factory
+  下沉、preview transport 不复用 BgmSequencerAdapter、WAV 重建式 seek 防叠音、虚拟列表后兼容扩展）。
+  确认构建顺序：本卡在 ED-MEDIA-ASSET-ACTIONS-1 之后消费其生命周期合同。三签已齐；按本轮用户
+  指令保持 draft 与准入 blocked，开放决定留给用户。未修改实现文件。
 - 2026-08-21 Codex: 完成现有 Music/Sound UI、catalog/CRUD、引用输入、MIDI/WAV 播放与 Spessa transport 可行性只读审计；
   创建 draft 并签 premise/design。Evidence: 本卡真值矩阵与上下文锚点。Next: Kimi / GLM 独立设计审查；三签齐前不得修改实现文件。
 

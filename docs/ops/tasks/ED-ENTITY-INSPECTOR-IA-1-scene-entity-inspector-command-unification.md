@@ -175,8 +175,22 @@ find projects -path '*/content/scenes/*.json' -type f -print0 \
     current project zone.facing census = 0）
   - design: agree（单指令入口、“属性 / 行为 / 引用 n”、zone 无 facing、行尾删除）
 - Kimi:
-  - premise: pending
-  - design: pending
+  - premise: verified（2026-08-23 独立直读一手代码 + 自跑 census）。已核：四种状态命令是
+    `runtime-script.ts:24-44` 的 `EntityLifecycleCommand` 叶，属 `RuntimeCommand` 词表（:137-144）并有
+    专用校验（:162-176）；current `AuthorCommand = RewriteAuthorDialogueTree<RuntimeCommand>`
+    （`author-script.ts:37`）已含四叶，而 `ScriptEditor.tsx` 全文件 85 处钉在 `BaseAuthorCommand`——
+    方言收窄是真实工作量而非猜测；`lifecycle-command-editor.ts:24-319` 确为独立第二写链（自遍历
+    nestedCommandBodies/flowBodies + 自建 Insert/Update/Delete 命令类写同一正文），
+    `LifecycleCommandPanel.tsx:66-170` 只汇总同一树再编辑；`App.tsx:2991` 确挂“生命周期”Tab，
+    `:2266-2280` 中央 toolbar 确有泛化 danger“删除选中对象”；zone 无 facing 消费——`main.ts:5301-5319`
+    findTrigger 只读 trigger/range/pos + lifecycle gates，reforge 全仓 grep zone×facing 零命中，
+    `index.ts:61-107` facing 当前在 `EntityBase` 上对 zone 同样可选；本人实跑卡内 jq census：
+    三工程全部 scene JSON 中 `zone==true && has(facing)` 输出 0 行。原版锚点复核
+    `script.c:1726-1731`（0x4B sVanishTime=-15）、`:1794-1800`（0x52 sState*=-1 + vanishTime）。
+  - design: agree（唯一 ScriptEditor 收口到 current `AuthorCommand`；Inspector“属性/行为/引用 n”与
+    ED-INSPECTOR-TABS-1 / ED-REFERENCE-UI-1 冻结合同一致；facing 从 EntityBase 移入可见分支 +
+    validator 负例属零迁移 schema 收紧（census=0 已实测）；行尾删除 + 引用阻断 + 跨 session 原子 undo
+    方向正确。GE1-GE3 落钉可执行）
 - GLM:
   - premise: **verified（2026-08-23，本人一手读码 + 三工程 census 复算，非代理）**：
     1. **四状态命令在 current 词表**：suspendEntity/hideEntity/restoreEntity/removeEntity
@@ -199,8 +213,19 @@ find projects -path '*/content/scenes/*.json' -type f -print0 \
       `zone:true, facing:'down'` 直接 fail）；三工程 conformance 断言 0 命中。
     - **GE3（删除事务矩阵）**：行尾删除/Delete 键/引用阻断/原子 undo-redo/选择回落
       场景各一条测试；引用 Tab 与删除守卫使用同一 EntityAddress 引用集合的断言。
-  - 独立证据锚点: pending
-  - 可证伪观察: pending
+- 独立反证审查（至少一位非 Coding Owner 必填）:
+  - 审查者: Kimi
+  - 独立证据锚点: `packages/content/src/runtime-script.ts:24-44,137-176`；`packages/content/src/author-script.ts:37`；
+    `packages/editor/src/ui/ScriptEditor.tsx:5,526,1303`（BaseAuthorCommand 方言）；`packages/editor/src/core/
+    lifecycle-command-editor.ts:24-319`（第二写链）；`packages/editor/src/ui/App.tsx:2266-2280,2500,2991`；
+    `packages/reforge/src/main.ts:5301-5319`（findTrigger 不读 facing）；`packages/content/src/index.ts:61-107`
+    （EntityBase.facing 对 zone 可选）；2026-08-23 本人 jq census 输出 0 行（三工程 scenes/*.json 全量）。
+  - 可证伪观察: 若 runtime/preview/validator 任一处按 zone 实体读 facing（渲染朝向、触发扇形、校验缺省），
+    收紧前提即被推翻——grep 与 findTrigger 直读未见；若当前工程存在任一 zone.facing 数据，零迁移收紧即
+    失效——本人 census 为 0；若四种状态命令在 AuthorCommand 树外还有独立持久化（如实体级独立字段），
+    “同一命令树叶”前提失效——`runtime-script.ts` 词表与 `lifecycle-command-editor.ts` 的遍历目标证明
+    它们只存在于脚本正文；若 ScriptEditor 已能无损表达四叶且第二入口无独立写路径，删除 Lifecycle 入口
+    就是纯删功能——`:24-319` 的自建命令类证伪。
 - counter / 分歧处理: 无；任一方 counter 则保持 draft/blocked，用户裁决后重签。
 - 缺签豁免: N/A
 - build 准入结论: blocked
@@ -247,14 +272,22 @@ find projects -path '*/content/scenes/*.json' -type f -print0 \
 ### 主审立场
 
 - Reviewer: Kimi（命令方言/类型边界/删除事务主审），GLM（覆盖矩阵/validator/census/测试主审）
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论: Kimi agree（2026-08-23）+ GLM agree（2026-08-23，GE1-GE3）；Codex 已 agree
+- 必改项: 无新增；GE1-GE3 为 build 必落钉。
+- Kimi build 期关注项（非门禁）: ①ScriptEditor 换型只保留 current `AuthorCommand`，不得用
+  `BaseAuthorCommand | AuthorCommand` union 或 cast 伪兼容（卡内风险 1 同款，GE1 的 boundary 断言锁它）；
+  ②四种状态命令的插入分类/搜索/说明文案是发现性替代品，build 时须确认指令插入器有“实体状态”分组；
+  ③`EntityBase` 移出 facing 是 content 公共类型收窄，须同步检查 `SceneSpawn.inheritFacing` 等不相干
+  facing 用法不被误伤；④行复合化（选择 button + sibling 行尾动作）是全列表共享结构变更，注意命名落点
+  行与实体行同一合同。
+- 是否建议进入 build: 是（三签已齐；按本轮用户指令保持 draft 与准入 blocked，开放决定留给用户）
 
 ### 三方争议记录(按需)
 
 - Codex: 推荐取消第二指令入口；zone 朝向从 current 模型删除；删除归位列表行。
-- Kimi: pending
+- Kimi: 同意。补充：第二写链的真实代价不只是双 UI，而是 `lifecycle-command-editor.ts` 自建命令类
+  各自重做校验与漂移检测，删除后这些责任统一回到 ScriptEditor 的 current 命令链；zone facing 属于
+  “无效字段先成为用户承诺”的典型，census=0 时收紧是零成本窗口。
 - GLM: premise verified + design agree（2026-08-23，附 GE1-GE3；三工程 zone census=0 复算）
 - 用户拍板: 2026-08-22 已同意生命周期并入指令系统；若审查方提出 IA/schema counter，再交用户裁决。
 
@@ -305,6 +338,13 @@ find projects -path '*/content/scenes/*.json' -type f -print0 \
   + design agree（附 GE1-GE3）**。四命令词表/双方言/zone census=0（本人扩到三工程 5078 实体）
   全属实；GE1 钉方言消灭判定测试与四命令嵌套插入矩阵、GE2 钉 validator 负例、GE3 钉删除
   事务矩阵。未改实现，未代签 Kimi，未改准入结论。
+- 2026-08-23 Kimi（命令方言/类型边界/删除事务主审）: 审查完成，签 **premise verified + design agree**。
+  独立直读 runtime-script 词表与校验、author-script.ts:37 的 current AuthorCommand、ScriptEditor 的
+  BaseAuthorCommand 方言（85 处）、lifecycle-command-editor 第二写链、App 生命周期 Tab 与中央 toolbar
+  删除、findTrigger 触发域；自跑 jq census 三工程 zone.facing=0。恢复被前次编辑误删的“独立反证审查”
+  小节头并完成独立反证。补四条 build 期关注项（禁 union/cast 伪兼容、指令插入器“实体状态”分组、
+  公共类型收窄不误伤 SceneSpawn facing、行复合化同一合同）。三签已齐；按本轮用户指令保持 draft 与
+  准入 blocked，开放决定留给用户。未修改实现文件。
 - 2026-08-22 Codex: 完成前提核真与 draft 设计；没有修改实现。Evidence: 本卡真值矩阵、current project
   zone.facing census。Next: Kimi 独立核真并签 premise/design；不得开始实现。
 

@@ -206,17 +206,24 @@ Branch: TBD
 ### 主审立场
 
 - Reviewer: GLM（数据迁移/测试矩阵主审；Kimi 补架构与端到端消费域）
-- 结论: Kimi agree（2026-08-23，手工 raw 解码 + 全调用域直读）；GLM pending
+- 结论: Kimi agree（2026-08-23，手工 raw 解码 + 全调用域直读）+ GLM agree（2026-08-23，GF1-GF2；
+  独立解码互证）；Codex 已 agree
 - 必改项: 无。build 期关注项（非门禁）: ①更新 frozen census 时把 face 段改为 records=5 并加 Gai absence
   哨兵（卡内已列）；②确认 binary plan 删除 `face.pal.gai-luojiao` 后旧 PNG 由生成计划清理而非手工 rm；
   ③`ROLE_SLUGS` 六角色表保持不变，新事实表只回答“有无真实 face”，不得顺手把 roleId 3/4 名字对调知识复制第二份。
-- 是否建议进入 build: 是（待 GLM 签字）
+- 是否建议进入 build: 是（三签已齐；按本轮用户指令保持 draft 与准入 blocked，开放决定留给用户）
 
 ### 三方争议记录(按需)
 
 - Codex: 修上游共享事实并重迁；Editor/Runtime 不加特判。
 - Kimi: 同意。补充：本卡前提的关键证据是 raw 层（8 字节纯跳透明指令流），已排除 decoder 缺陷这一最强
   替代解释；消费域（runtime 预载、Editor 兜底、schema 缺席语义）均为可选安全，无需任何产品层特判。
+  对 GLM GF1 的补强（2026-08-23）：帧表读法在 sdlpal 源码层无歧义——`palcommon.h:28`
+  `typedef LPCBYTE LPCSPRITE`，`PAL_SpriteGetFrame` 的 `iFrameNum <<= 1` 后按**字节**取下标，
+  即 frame i 的 word offset = byte 2i 处 u16、`<<1` 得字节偏移，与 shared `rle.ts:167-183` 及本人手工
+  解码同约定；所谓 word[N+1] 读法只在把 lpSprite 误当 WORD* 时才出现。且经验自证：唯此读法下
+  48-52 五帧指令流恰好解满各自 36×35/32×32 像素、53 槽 8 字节恰好止于 54 槽偏移，错位读法不可能
+  得到这种逐帧严丝合缝。GF1 的“钉死约定”因此可直接落成一行注释引用 `palcommon.h:28`。
 - GLM: premise verified + design agree（2026-08-23，附 GF1-GF2；独立解码与 Kimi 字节证据互证）
 - 用户拍板: 用户已确认“没有小头像应默认头像兜底”；其余 pending。
 
@@ -284,6 +291,10 @@ Branch: TBD
   确认 3×4 全透明占位为原版事实；核 ui.h/uibattle.c 取帧关系、迁移两处无条件生成点、schema 缺席语义、
   Editor 兜底与 runtime 可选预载。签 premise verified / design agree，完成独立反证审查。未修改实现。
   Next: GLM 做 raw 数据复核、迁移覆盖与测试矩阵审查并签字。
+- 2026-08-23 Kimi（补）: 以 `palcommon.h:28`（`typedef LPCBYTE LPCSPRITE`）为 GF1 帧表约定提供源码级
+  定论——`iFrameNum <<= 1` 后按字节取下标，只存在 word offset @ byte 2i 一种正确读法，与 shared rle.ts
+  及本人手工解码同约定；错位读法不可能让 48-52 五帧指令流逐帧解满各自像素总数。三签已齐；按本轮
+  用户指令保持 draft 与准入 blocked，开放决定留给用户。
 
 ## 下一位 Agent 提示词
 

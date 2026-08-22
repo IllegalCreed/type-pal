@@ -123,8 +123,19 @@ Branch: codex/ed-pal-workspace-modes-1
   - premise: verified（Image / Cutscene JSX、reference adapter、content collector 与 DeleteAssetCommand 一手证据）
   - design: agree（集合动作左栏；当前资源身份 / 替换 / 删除进紧凑媒体 Hero；属性区改名；统一 Dialog 与 live reference snapshot）
 - Kimi:
-  - premise: pending
-  - design: pending
+  - premise: verified（2026-08-23 独立直读一手代码，与 GLM 非同源复核）。已核：`ImageTab.tsx:532-578`
+    替换/删除在 `overflowActions` 且 `window.confirm`（:534）；`CutsceneTab.tsx:274-291,570-615,703-711`
+    裸 `.in` 改名 input、overflow 删除、`window.confirm`；`commands.ts:3003` 引用保护在调用方。
+    独立确认 GLM GM1 措辞修正成立且可再收紧：`editor-asset-references.ts:9-25` 现传的是主会话
+    `state.sharedScripts`；`script-editor-projection.ts:10-14,152-171` 证明 ScriptEditSession 是唯一脚本
+    作者真值、shell 仅在 `App.tsx:1485-1496` 序列化边界合并；本人另核 `editor-history-coordinator.ts`
+    全文无 sharedScripts/sync/merge 路径（零命中），即编辑期不存在任何 shell 侧 live 同步。保存门因先
+    merge 而安全，真实缺口锁定在页面展示与删除 preflight（`ImageTab.tsx:406-407`、`CutsceneTab.tsx:410,418`
+    均只消费 shell state）。
+  - design: agree（Hero/左栏集合动作/属性区改名/共享 DsDialog 与 DS-C.2、DS-R.1/DS-R.2 合同一致；
+    `DsObjectHero`（recipes.tsx:46）与 `DsDialog`（overlays.tsx:46）均已存在，无新造 primitive；
+    设计结论 7 限制 Image/Cutscene 只共享生命周期外壳，防止巨型领域组件；GM1-GM3 落钉方向正确，
+    其中 GM1 的修复必须复用 `projectActiveScriptEditorState` 同源输出，不得在资源页另写合并逻辑）
 - GLM:
   - premise: **verified（2026-08-23，本人一手读码 + git 考古，非代理）——附一处真值矩阵
     事实修正（GM1，不推翻前提）**：
@@ -157,9 +168,15 @@ Branch: codex/ed-pal-workspace-modes-1
        后文件与 record 均在。与 ED-AUDIO-WORKBENCH-1 的复用边界写明：本卡交付合同，
        音频卡不得第四套实现。
 - 独立反证审查:
-  - 审查者: pending
-  - 独立证据锚点: pending
-  - 可证伪观察: pending
+  - 审查者: Kimi
+  - 独立证据锚点: `script-editor-projection.ts:10-14,152-171`（双 session 与唯一合并点）；
+    `App.tsx:313,322,1485-1496`（页面消费 shell；scriptState 经 projectActiveScriptEditorState；
+    保存才 merge）；`editor-history-coordinator.ts`（grep sharedScripts/sync/merge 零命中，无 live 回写）；
+    `ImageTab.tsx:406-407,532-578`；`CutsceneTab.tsx:410,418,570-615`；`commands.ts:3003-3039`。
+  - 可证伪观察: 若 shell.sharedScripts 存在编辑期 live 同步路径，sharedScripts 缺口不成立——直读
+    coordinator 与投影层未见；若 DS-R.2 禁止媒体页中央对象标题区，Hero 方案须重签——
+    `editor-design-system-v1.md:528-533` 只禁“默认塞 Inspector”，未禁 Hero；若 DeleteAssetCommand 已内建
+    引用检查，调用方 fail-closed 前提过时——`commands.ts:3003` 注释证伪。
 - counter / 分歧处理: N/A
 - 缺签豁免: N/A
 - build 准入结论: blocked
@@ -195,9 +212,14 @@ Branch: codex/ed-pal-workspace-modes-1
 ### 主审立场
 
 - Reviewer: Kimi 主审 UI 架构 / dialog / dirty lifecycle；GLM 主审 live reference 输入、删除原子性与测试矩阵。
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论: Kimi agree（2026-08-23）+ GLM agree（2026-08-23，GM1-GM3）；Codex 已 agree
+- 必改项: 无新增；GLM GM1-GM3 为 build 必落钉。
+- Kimi build 期关注项（非门禁）: ①GM1 修复的消费口必须与 `App.tsx:322` 的 `scriptState` 同源，禁止资源页
+  私写 session 合并；②dirty 帧动画切换 Dialog 与删除 Dialog 共用单一 dialog state，关闭后焦点回触发点；
+  ③Hero 固定在预览滚动层外，窄布局允许 meta/actions 换行，不把媒体压成缩略图；④卡面 `Branch:` 仍写
+  codex/ed-pal-workspace-modes-1，该工作树已收口（0ee277ab 入 main），build 分支由 Coding Owner 另开。
+- 是否建议进入 build: 是（三方 premise/design 已齐，待用户确认或按规程开放；本卡是
+  ED-AUDIO-WORKBENCH-1 的生命周期前置合同，应先构建）
 
 ## Build: 实现与自测
 
@@ -227,6 +249,12 @@ Branch: codex/ed-pal-workspace-modes-1
   过时——0ee277ab 已把主态 sharedScripts 传入 source，真缺口是编辑期间 stale 副本（仅保存时
   merge）**，修复方向正确（GM1 修正矩阵行）；GM2 钉三处消费同一次 snapshot；GM3 钉 undo 恢复
   二进制与音频卡复用边界。未改实现，未代签 Kimi，未改准入结论。
+- 2026-08-23 Kimi（UI 架构/dialog/dirty lifecycle）: 审查完成，签 **premise verified + design agree**。
+  独立直读 Image/Cutscene JSX、DeleteAssetCommand、DsObjectHero/DsDialog 与 DS 合同；独立确认 GM1 并
+  补证 `editor-history-coordinator.ts` 无任何 sharedScripts live 回写路径，缺口精确锁定在页面展示与删除
+  preflight 消费 shell stale 副本。补四条 build 期关注项（scriptState 同源、单一 dialog state、Hero 不压
+  预览、卡面 Branch 字段已过时）。三签已齐，但按本轮用户指令保持 draft 与 build 准入 blocked，开放
+  决定留给用户。未修改实现文件。
 - 2026-08-21 Codex: 完成 Image / Cutscene / Music / Sound / Tileset / Sprite 资源动作全量只读审计；创建本卡并签
   premise / design。Evidence: 本卡真值矩阵与 inventory。Next: Kimi / GLM 独立设计审查；三签齐前不得改实现。
 

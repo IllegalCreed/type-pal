@@ -180,8 +180,22 @@ Branch: codex/ed-pal-workspace-modes-1
     `AmbienceTab.tsx:156-243` 证明旧表格/CSS 预览；`SceneCanvas.tsx:136-198,343-367` 证明可复用渲染地基）
   - design: agree（左目录、中 Hero+字段+静态真实场景 A/B、右引用/说明；共享 compositor；preview context 不持久化）
 - Kimi:
-  - premise: pending
-  - design: pending
+  - premise: verified（2026-08-23 独立直读一手代码 + 全包 census）。已核：`ambience.ts:9-35`
+    AmbienceDef 恰为 id/name/tint + 恒等白（≥254）与 day 覆写语义；runtime 氛围出帧全量 census——
+    全包 grep `applyAmbienceTint`/multiply 仅三处真实命中：定义 `main.ts:1264-1280`（fade 推进
+    :1265-1273 与纯 multiply :1274-1279 同居一个闭包）、大世界出帧尾 `:6163`
+    （`!cinematicLayerDrawn` 显式跳过条件）、战斗分支 `:6435`；`dither-transition.ts:61` 只是注释。
+    另注意 `:6164-6165` 注释明确 0x73 dither 必须在氛围滤镜之后且 target 取本帧最终 canvas——
+    合成顺序约束真实存在。`AmbienceTab.tsx:156-243` 旧表格 + CSS 假预览（:218-222）+ 行内删除 +
+    颜色 onChange 逐次 dispatch（:207-211，undo 刷屏实锤）；`SceneCanvas.tsx:136-198` 的
+    useStageSize/useViewZoomPan/useSceneAssets 与 `renderSceneFrame`（SceneCanvas:343 /
+    PreviewCanvas:354 / isometric-map-render.ts:114 三处复用）证明预览地基可复用；
+    `ambience-references.ts:59-107` 删除门禁 collector 已支持 canonicalState 入参；
+    `playback.ts:715` 编辑器 playback 明确不染。
+  - design: agree（共享 compositor 只封装 multiply 绘制、不接管 fade/world state——当前闭包里
+    fade 推进与纯合成是可分离的两段，抽取面正确；预览复用 scene-stage primitives 而非整个
+    SceneCanvas；preview context session-local 不入 schema/save；颜色单事务 undo 修复了现存
+    onChange 逐次 dispatch 的真实问题。GN1-GN3 落钉可执行）
 - GLM:
   - premise: **verified（2026-08-23，本人一手读码 + census，非代理）**：
     1. **schema 纯度实测**：`AmbienceDef = {id, name, tint}`（ambience.ts:10-14 接口
@@ -213,8 +227,19 @@ Branch: codex/ed-pal-workspace-modes-1
     - **GN3（undo 粒度 + 过期丢弃）**：连续 tint 拖动形成单次 undo 事务（等值
       提交短路）；换场景/换工程时过期预览结果丢弃（最后一次生效）；懒加载
       单场景不得全量载入 223 图。
-  - 独立证据锚点: pending
-  - 可证伪观察: pending
+- 独立反证审查（至少一位非 Coding Owner 必填）:
+  - 审查者: Kimi
+  - 独立证据锚点: `packages/reforge/src/main.ts:1264-1280`（闭包内 fade+multiply 两段）、`:6163`
+    （大世界出口 + cinematic 跳过条件）、`:6435`（战斗出口）、`:6164-6165`（dither 顺序约束注释）；
+    `packages/content/src/ambience.ts:9-35`；`packages/editor/src/ui/AmbienceTab.tsx:185-243`；
+    `packages/editor/src/ui/SceneCanvas.tsx:136-198,343`；`packages/editor/src/ui/isometric-map-render.ts:114`；
+    `packages/editor/src/core/ambience-references.ts:59-107`；`packages/editor/src/core/playback.ts:715`。
+  - 可证伪观察: 若存在第三个 ambience multiply 出帧出口（cinematic 层自染、RNG 层、菜单壳层），共享
+    helper 调用域盘点即漏——全包 grep 仅 :6163/:6435 两调用点，cinematic 显式跳过、RNG 烘 RGBA 不染
+    （:6162 注释）；若 fade/lerp 与 multiply 不可分（互享闭包状态），窄 helper 抽取会改 runtime 行为——
+    直读 :1264-1280，multiply 段只依赖 ambienceShown 终值与 ctx，可分；若当前 AmbienceTab 颜色编辑已是
+    单事务，`undo 刷屏`论据失效——:207-211 onChange 逐次 dispatch 证伪；若 preview 场景资产不能懒加载
+    单场景，方案须先补读取边界——useSceneAssets(:188-198）按 mapId+spriteAssets 单项加载，证伪未出现。
 - counter / 分歧处理: N/A
 - 缺签豁免: N/A
 - build 准入结论: blocked
@@ -301,15 +326,23 @@ Branch: codex/ed-pal-workspace-modes-1
 ### 主审立场
 
 - Reviewer: Kimi 主审共享 compositor / scene preview 架构与 runtime 出口；GLM 主审引用 index、事务、状态矩阵与测试覆盖。
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论: Kimi agree（2026-08-23）+ GLM agree（2026-08-23，GN1-GN3）；Codex 已 agree
+- 必改项: 无新增；GN1-GN3 为 build 必落钉。
+- Kimi build 期关注项（非门禁）: ①共享 helper 必须把恒等跳过（`isIdentityTint`）包进函数内部，
+  两侧消费行为一致；fade/lerp 留在 runtime 闭包，不进 helper；②`main.ts:6164-6165` 的 dither 顺序
+  约束（0x73 在氛围滤镜之后、target 取本帧最终 canvas）抽取后不得改变调用顺序；③卡内“预览默认
+  manifest 默认 / 首个入口场景”写于入口卡合并前，build 时应经 `requireDefaultEntry(manifest)` 取
+  直接启动入口场景（ARCH-ENTRYPOINT-CANONICAL-1 已并入 main）；④预览底帧缓存键须含 scene identity
+  + 工程身份，防止换工程后旧底帧复用。
+- 是否建议进入 build: 是（三签已齐；按本轮用户指令保持 draft 与准入 blocked，开放决定留给用户）
 
 ### 三方争议记录(按需)
 
 - Codex: 右栏采用 `引用 n / 说明`，诊断就近内联；中央 preview context 临时化；共享 renderer primitives 与唯一 compositor，
   不嵌完整 SceneCanvas，也不增加 schema。
-- Kimi: pending
+- Kimi: 同意。补充：compositor census 的实际抽取面比卡文锚点更窄——fade 推进（:1265-1273）与纯
+  multiply（:1274-1279）同居一闭包，helper 只应抽后者；两调用点 + cinematic 显式跳过已全包确认无第四处；
+  AmbienceTab 现存 onChange 逐次 dispatch 是本卡单事务设计要消灭的真实缺陷，不是想象风险。
 - GLM: premise verified + design agree（2026-08-23，附 GN1-GN3；schema/合成链 census 属实）
 - 用户拍板: 2026-08-22 已拍板三栏方向并授权右 Inspector 设计；共享 compositor / preview 边界待三方审查。
 
@@ -371,6 +404,13 @@ Branch: codex/ed-pal-workspace-modes-1
   setAmbience 三消费域 census 属实；GN1 登记引用输入域与 MEDIA 卡同源依赖；GN2 钉合成
   单次/恒等跳过/底帧一次渲染；GN3 钉 undo 粒度/过期丢弃/懒加载。未改实现，未代签 Kimi，
   未改准入结论。
+- 2026-08-23 Kimi（共享 compositor/scene preview/runtime 出口）: 审查完成，签 **premise verified +
+  design agree**。全包 grep 确认 multiply 仅定义 :1264-1280 + 调用 :6163（cinematic 显式跳过）/
+  :6435（战斗）三处命中，无第四出口；指出 fade 推进与纯 multiply 同居一闭包、helper 只抽后者，
+  dither 顺序约束（:6164-6165）不得改变；核 AmbienceTab 旧表格/CSS 假预览/onChange 逐次 dispatch、
+  scene-stage primitives 与 renderSceneFrame 三处复用、playback.ts:715 不染。补四条 build 期关注项
+  （恒等跳进 helper、顺序保持、默认预览场景改走 requireDefaultEntry、底帧缓存键含工程身份）。
+  三签已齐；按本轮用户指令保持 draft 与准入 blocked，开放决定留给用户。未修改实现文件。
 - 2026-08-22 Codex: 完成 schema、runtime compositor、当前旧页、scene-stage 与引用 collector 只读审计；创建 draft 并签
   premise/design。Evidence: 本卡真值矩阵与上下文锚点。Next: Kimi / GLM 独立设计审查；三签齐前不得改实现文件。
 - 2026-08-22 Codex 并行只读预审: 确认右栏不重复字段、静态 preview context 不入 schema、共享 renderer primitives 而非
