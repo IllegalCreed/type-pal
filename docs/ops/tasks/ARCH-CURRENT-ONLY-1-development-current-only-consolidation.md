@@ -1,6 +1,6 @@
 # ARCH-CURRENT-ONLY-1 - 开发期单版本架构收口
 
-Status: review
+Status: done
 Phase: phase2
 Capability: 跨域架构 / N3 + X1 + X4（不改变 capability-map 状态）
 Coding Owner: Codex
@@ -351,8 +351,7 @@ OPS-TST-PERF-B/C 未提交改动，未标 build/done。
     130/130（首轮 1 文件级失败复跑即绿，判环境抖动）；characterization 定向 41+21 全绿。
 - counter / 返工处理: 无（RA1 已闭环）。
 - 缺签豁免: N/A
-- done 准入结论: blocked——Codex + Kimi + GLM 三方 accept 齐；仅剩用户验收（current 工程
-  打开/编辑/保存/运行/读档最小 smoke）。
+- done 准入结论: allowed——Codex + Kimi + GLM 三方 accept 齐；用户于 2026-08-23 明确验收通过。
 
 ## Draft: 设计与风险
 
@@ -532,8 +531,8 @@ pal-current-publication.ts:64 / current-only-product-boundary.test.ts:71-77 / �
 
 ## 用户验收
 
-- 用户结论: 2026-08-19 要求开卡；2026-08-20 确认 OPS-TST-PERF-B 已按交接停线，由 Codex 开始实现。
-- 后续任务: Kimi 架构/公共接口审查，GLM 覆盖/迁移/测试矩阵审查；三方 accept 后再请用户最终验收。
+- 用户结论: 2026-08-23 明确表示“我验收的直接通过”；本卡用户验收通过。
+- 后续任务: 无；本卡整卡收口。
 
 ## 交接日志
 
@@ -570,30 +569,8 @@ pal-current-publication.ts:64 / current-only-product-boundary.test.ts:71-77 / �
   `managed=537 writes=0 deletes=0 conflicts=0`、闭包 `scenes=294 maps=223 assets=1935`、
   `current-only-product-boundary.test.ts` 3/3——与卡文证据逐项一致。RA1 闭环。未改实现文件，
   未代签 GLM，未标 done。Next: GLM 终审 + 用户验收后关卡。
+- 2026-08-23 User: 明确验收通过；三方 accept 与用户验收均齐，任务转 `done`。
 
 ## 下一位 Agent 提示词
 
-### 给 Kimi（RA1 focused 复验——已完成）
-
-Kimi 已于 2026-08-20 完成 RA1 focused 复验并将 counter 转 accept（复验证据见交接日志），
-本节提示词不再适用。
-
-### 给 GLM（done 前覆盖/迁移终审，可直接复制）
-
-```text
-接手任务: ARCH-CURRENT-ONLY-1 开发期单版本架构收口——GLM done 前覆盖/迁移终审
-任务卡: docs/ops/tasks/ARCH-CURRENT-ONLY-1-development-current-only-consolidation.md
-当前状态: review；Codex accept、Kimi counter 的唯一 RA1 已落地并待其复签；不得标 done
-你的角色: GLM，独立覆盖/迁移/测试矩阵终审
-先读: 任务卡全文、docs/ops/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md、Review 节 Kimi 主审记录
-请独立执行:
-1. 复核 G0 retention ledger 的分类完整性：GLM2 七个 dead upgrade 模块删除、KA1 交集清单、
-   GLM1 命名轴裁定在实现中的落地形态。
-2. 独立复算 current PAL：migrate:content replay writes/deletes/conflicts=0/0/0、闭包
-   scenes=294 maps=223 assets=1935、effect-sprite 56/922 帧目录 census。
-3. 复核 characterization（KA2）覆盖与 current-only-product-boundary 静态门禁的召回率
-   （允许项是否全部落在 ledger allowlist）。
-4. 核对 RA1 落地后的零 diff 证据与测试矩阵收尾。
-输出: 在进入 done 前签 GLM accept 或 counter + 精确缺口；写回 Review/交接日志。
-不得修改实现文件、不得代签 Kimi、不得标 done。
-```
+无下一位 Agent 提示词；本卡已完成三方审查和用户验收，整卡收口。
