@@ -43,6 +43,12 @@ describe('editor design-system static boundary', () => {
     expect(tokens).toMatch(/--ds-font-body:\s*[^;]*14px\s*\/\s*20px[^;]*;/)
     expect(tokens).toMatch(/--ds-font-label:\s*[^;]*12px\s*\/\s*18px[^;]*;/)
     expect(primitives).toMatch(
+      /\.ds-button,[\s\S]*?min-height:\s*var\(--ds-control-height\);[\s\S]*?font:\s*var\(--ds-font-body\);/,
+    )
+    expect(primitives).toMatch(
+      /\.ds-button--compact\s*\{[\s\S]*?min-height:\s*var\(--ds-control-height-compact\);/,
+    )
+    expect(primitives).toMatch(
       /\.ds-input,[\s\S]*?min-height:\s*var\(--ds-control-height\);[\s\S]*?font:\s*var\(--ds-font-body\);/,
     )
     expect(primitives).toMatch(
@@ -245,7 +251,7 @@ describe('editor design-system static boundary', () => {
         path.endsWith('.tsx') && !path.endsWith('.test.tsx') && !path.includes('/design-system/'),
     )
     const ceilings = {
-      input: 114,
+      input: 113,
       textarea: 2,
       label: 75,
     } as const
@@ -379,6 +385,12 @@ describe('editor design-system static boundary', () => {
       const controlsSource = source.slice(start, start + (closing?.index ?? 0) + closing![0].length)
       expect(controlsSource, `${file} raw catalog control`).not.toMatch(/<(?:input|select)\b/)
     }
+
+    const ambienceSource = readFileSync(join(uiRoot, 'AmbienceTab.tsx'), 'utf8')
+    expect(ambienceSource).toMatch(/<DsCatalogRow\b/)
+    expect(ambienceSource).not.toMatch(/<DsCatalogFilter\b/)
+    expect(ambienceSource).not.toMatch(/className=["']ds-catalog-filter["']/)
+    expect(ambienceSource).not.toMatch(/type=["']search["']/)
 
     const recipes = readFileSync(join(here, 'recipes.css'), 'utf8')
     expect(recipes).toMatch(
@@ -662,6 +674,27 @@ describe('editor design-system static boundary', () => {
     const recipes = readFileSync(join(here, 'recipes.tsx'), 'utf8')
     expect(recipes).not.toMatch(/from ['"]\.\.\/core\//)
     expect(recipes).not.toMatch(/EditorState|EditorLocation|collector|Command/)
+  })
+
+  test('keeps the ambience workbench on shared object, reference, and real-preview contracts', () => {
+    const uiRoot = dirname(here)
+    const source = readFileSync(join(uiRoot, 'AmbienceTab.tsx'), 'utf8')
+    const preview = readFileSync(join(uiRoot, 'AmbienceScenePreview.tsx'), 'utf8')
+
+    for (const component of [
+      'DsCatalogRow',
+      'DsObjectHero',
+      'DsWorkbenchSection',
+      'DsInspectorTabs',
+      'DsReferencePanel',
+      'DsReferenceRow',
+    ])
+      expect(source, `AmbienceTab shared ${component}`).toContain(`<${component}`)
+
+    expect(source).not.toMatch(/<table\b|\bmusic-table\b|className=["'][^"']*\bin\b/)
+    expect(source).not.toMatch(/mix-blend-mode|amb-preview-(?:base|tint)|保存氛围/)
+    expect(preview).toMatch(/\brenderSceneFrame\b/)
+    expect(preview).toMatch(/\bcompositeAmbienceTint\b/)
   })
 
   test('keeps all six diagnostic faces on the public diagnostic contract', () => {

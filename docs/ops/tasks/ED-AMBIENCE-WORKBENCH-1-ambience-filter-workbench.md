@@ -1,6 +1,6 @@
 # ED-AMBIENCE-WORKBENCH-1 - 氛围滤镜工作台与真实场景预览
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: W6
 Coding Owner: Codex
@@ -9,7 +9,7 @@ Reviewer: Kimi + GLM
 Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
-Branch: codex/ed-pal-workspace-modes-1
+Branch: codex/ed-audio-workbench-1
 
 ## 目标
 
@@ -242,11 +242,13 @@ Branch: codex/ed-pal-workspace-modes-1
     单场景，方案须先补读取边界——useSceneAssets(:188-198）按 mapId+spriteAssets 单项加载，证伪未出现。
 - counter / 分歧处理: N/A
 - 缺签豁免: N/A
-- build 准入结论: blocked
+- build 准入结论: **allowed（2026-08-23）**——三方 premise/design 与独立反证均已核齐；前置任务均已完成；用户本轮明确要求先实现所有三签齐任务。
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept（2026-08-24）**——功能实现、共享 compositor、current-author 引用索引、异步预览竞态、
+  颜色单事务与设计系统边界已自审；editor 143 files / 1098 tests、reforge 91 files / 841 tests、双包
+  typecheck 与浏览器真实场景 smoke 均通过。独立只读压力复审另跑 editor 92/92、compositor 4/4，P0/P1 为零。
 - Kimi: pending
 - GLM: pending
 - counter / 返工处理: N/A
@@ -285,7 +287,8 @@ Branch: codex/ed-pal-workspace-modes-1
 - 渲染顺序固定：把 `renderSceneFrame` 结果写入未着色底帧 surface → 复制到底层可见 canvas → 对可见场景 canvas 调共享
   compositor；editor preview chrome/状态不进 canvas。原图模式只复制底帧，UI chrome 永远不染。tint 连续变化只重做最后
   两步，不重复执行场景资产组装与 `renderSceneFrame`。
-- 预览场景是 session-local UI 状态。默认优先 manifest 默认 / 首个入口场景；没有时取第一个可读场景。
+- 预览场景是 session-local UI 状态。默认严格取 `defaultEntryId` 对应入口的场景；入口或场景失效时
+  显式报错，无场景时显示空态，都不静默改选其他场景。
   明确选择后只在当前页面会话保留，不加入 undo/history/save。
 - 预览是 authored initial scene 的静态帧，不执行 onEnter。这样作者可以隔离观察滤镜；需要验证脚本切换、过渡、战斗和 UI
   时仍进入引擎试玩。
@@ -334,7 +337,7 @@ Branch: codex/ed-pal-workspace-modes-1
   manifest 默认 / 首个入口场景”写于入口卡合并前，build 时应经 `requireDefaultEntry(manifest)` 取
   直接启动入口场景（ARCH-ENTRYPOINT-CANONICAL-1 已并入 main）；④预览底帧缓存键须含 scene identity
   + 工程身份，防止换工程后旧底帧复用。
-- 是否建议进入 build: 是（三签已齐；按本轮用户指令保持 draft 与准入 blocked，开放决定留给用户）
+- 是否建议进入 build: 是；三签与用户放行已齐，Codex 已完成 build 并于 2026-08-24 转入 review。
 
 ### 三方争议记录(按需)
 
@@ -344,7 +347,7 @@ Branch: codex/ed-pal-workspace-modes-1
   multiply（:1274-1279）同居一闭包，helper 只应抽后者；两调用点 + cinematic 显式跳过已全包确认无第四处；
   AmbienceTab 现存 onChange 逐次 dispatch 是本卡单事务设计要消灭的真实缺陷，不是想象风险。
 - GLM: premise verified + design agree（2026-08-23，附 GN1-GN3；schema/合成链 census 属实）
-- 用户拍板: 2026-08-22 已拍板三栏方向并授权右 Inspector 设计；共享 compositor / preview 边界待三方审查。
+- 用户拍板: 2026-08-22 已拍板三栏方向并授权右 Inspector 设计；2026-08-23 三方审查齐全后，用户明确放行全部三签齐任务进入 build。
 
 ## 额度 / 代班记录(如适用)
 
@@ -359,11 +362,33 @@ Branch: codex/ed-pal-workspace-modes-1
 ## Build: 实现与自测
 
 - Coding Owner: Codex
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- 修改文件:
+  - runtime 共享合成：`packages/reforge/src/ambience-compositor.ts`、`packages/reforge/src/main.ts`、
+    `packages/reforge/src/index.ts` 及对应测试。
+  - editor 工作台与预览：`packages/editor/src/ui/AmbienceTab.tsx`、`AmbienceScenePreview.tsx`、
+    `scene-stage.ts`、`SceneCanvas.tsx`、`DataMode.tsx`、导航/目标解析、引用 collector、样式及对应测试。
+  - 规范与任务记录：`docs/phase2/ambience-design.md`、`docs/phase2/editor/editor-design-system-v1.md`、本任务卡与看板。
+- 实现摘要:
+  - 氛围页已改为左目录、中当前对象编辑与真实场景 A/B 预览、右引用/说明的统一工作台。
+  - runtime 与 editor 共同消费 `compositeAmbienceTint`；恒等白跳过，预览只重合成缓存底帧，不复制第二套公式。
+  - 预览严格取 canonical 默认入口或作者显式选择，复用当前内存地图并懒加载磁盘资源；工程/场景切换丢弃过期结果。
+  - 名称、HEX、RGB、原生取色器均采用本地 draft + 单次提交；无效 HEX、Escape、等值 blur 不污染命令栈。
+  - 目录计数、Inspector 与删除门禁共用一次 current-author 引用索引；chunk 与 live canonical state 同时覆盖。
+  - 颜色行使用默认 36px 控件档；设计规范明确禁止同一属性行局部 compact，并以边界测试锁定默认/紧凑高度 token。
+- 运行命令:
+  - 定向 editor：5 files / 68 tests passed。
+  - `pnpm --filter @type-pal/editor test`：143 files / 1098 tests passed（18.34s）。
+  - `pnpm --filter @type-pal/reforge test`：91 files / 841 tests passed（4.61s）。
+  - `pnpm --filter @type-pal/editor typecheck`、`pnpm --filter @type-pal/reforge typecheck`：passed。
+  - 相关文件 `biome check` / format：passed；最终 `git diff --check`：passed。
+  - 独立只读压力复审：editor 定向 7 files / 92 tests、reforge compositor 4/4、双包 typecheck：passed。
+- 浏览器 / 手工检查:
+  - localhost:6010 评审沙盒实测 `s042` 真实地图成功出帧；`day/night/warm` 快速切换后仍保持同一场景，无旧帧回写。
+  - 原图 / 滤镜后 A/B 可切换；`day #ffffff` 明确显示“不染色”，`night #75e5ff`、`warm #ffe666` 正确同步。
+  - DOM 几何实测 HEX 输入与“恢复不染色”按钮均为 36px；当前按钮不再误用 compact 尺寸。
+- 跳过的检查及原因:
+  - 未再重复执行第二轮全量长套件；最终全量已一次通过，随后仅执行聚焦回归、静态检查与浏览器 smoke。
+  - 1280×720、125%/150% 等效窄视口仍留给 Kimi/GLM 视觉复审或用户复验，不伪报已完成。
 
 ## 资源生成记录(如适用)
 
@@ -379,18 +404,18 @@ Branch: codex/ed-pal-workspace-modes-1
 
 - Visual Verification Owner: Codex
 - Visual Verification Timing: dev-functional
-- 验证方式: pending
+- 验证方式: in-app Browser + DOM snapshot + `getBoundingClientRect()` 几何量取；评审沙盒，不写入 PAL。
 - 集中 E2E 用例 / 批次: N/A
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: pending
+- 截图 / 像素检查路径: 本任务浏览器验收记录（2026-08-24）；`s042` 暖色真实地图截图已取证。
+- 结论: Wide 三栏、真实场景、A/B、白色恒等、快速切换、引用 Inspector 与颜色行 36px 同高均通过。
+- 未完成项: 1280×720 与 125%/150% 等效视口尚未单独截图；不阻塞进入 review，需在最终视觉审查中补验。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: Codex 自审 accept；内部独立只读压力复审 accept，P0/P1 blocker 为零；Kimi / GLM 正式 accept 待补。
+- 必须返工项: 当前无。非阻塞 P2 建议：补“fit 改变 view 仍只绘制一次”与“两场景 fixture 只加载当前场景”回归。
+- Accept / rework: **review**——实现可交审；三方 done 签字未齐，不标 done。
 
 ## 用户验收
 
@@ -399,6 +424,10 @@ Branch: codex/ed-pal-workspace-modes-1
 
 ## 交接日志
 
+- 2026-08-24 Codex: 完成实现、自测与最小浏览器验证，任务转 review。全量 editor 1098 / reforge 841、双包
+  typecheck 通过；`s042` 真实地图、day/night/warm A/B 与白色恒等通过；HEX 输入和尾部动作实测均 36px。
+  内部独立只读压力复审 accept，P0/P1 为零；待 Kimi / GLM 正式 review 签字与用户最终验收。
+- 2026-08-23 用户: 明确要求“把目前三签齐的都做了先”，本卡三方 build 前签字齐全且前置任务均已完成，准入改为 allowed，由 Codex 开始实现。
 - 2026-08-23 GLM（数据/渲染链/测试矩阵）: 审查完成，签 **premise verified + design agree
   （附 GN1-GN3）**。schema 纯度（3 字段/3 项实测）、单次 multiply 合成链（:1276/:6161）、
   setAmbience 三消费域 census 属实；GN1 登记引用输入域与 MEDIA 卡同源依赖；GN2 钉合成
@@ -422,12 +451,13 @@ Branch: codex/ed-pal-workspace-modes-1
 ```text
 接手任务: ED-AMBIENCE-WORKBENCH-1 氛围滤镜工作台与真实场景预览
 任务卡: docs/ops/tasks/ED-AMBIENCE-WORKBENCH-1-ambience-filter-workbench.md
-当前状态: draft，Codex 已签 premise verified + design agree；build 准入仍 blocked
-你的角色: Kimi 负责共享 compositor / scene preview / runtime 出口与 UI 架构审查；GLM 负责引用 index、编辑事务、状态与测试矩阵审查
+当前状态: review；Codex 已完成实现、自测并签 accept，Kimi / GLM done 前审查签字 pending
+你的角色: Kimi 负责共享 compositor / scene preview / runtime 出口终审；GLM 负责引用 index、编辑事务、状态与测试覆盖终审
 先读: AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、docs/phase2/ambience-design.md、editor-design-system-v1.md，以及卡内代码锚点
-已完成: 冻结左目录、中 Hero+基本信息+滤镜参数+静态真实场景 A/B、右引用/说明；preview context 不持久化；诊断就近内联
-请你做: 直接读取一手代码独立核 premise；给出可证伪观察；核对 runtime 所有 ambience 出口、共享 helper 边界、scene-stage 复用、
-颜色单事务 undo、一次引用 index、删除 live 重检、loading/error/empty 和响应式验收；在任务卡签 premise verified + design agree，或 counter
-不要做: 不得修改实现文件；不得改 schema/migration/runtime 语义；不得把 CSS/screenshot 近似当真实预览；不得新增局部保存或标记 build/done
-输出要求: 更新任务卡对应签字、独立反证审查和主审立场；明确 agree/counter 与 build 是否可准入
+已完成: 三栏氛围工作台、共享 compositor、真实静态场景 A/B、临时 preview context、current-author 引用索引、颜色单事务与设计系统高度边界；
+editor 1098 / reforge 841、双包 typecheck、s042/day-night-warm 浏览器 smoke 均通过
+请你做: 只读检查当前实现与 diff，重点核对 runtime 合成顺序/恒等跳过、底帧缓存与异步竞态、引用/删除单真值、undo 粒度、
+loading/error/empty、响应式与 shared DS 采用；在任务卡签 accept，或给出带 file:line 的 counter / 返工项
+不要做: 不得修改实现文件；不得改 schema/migration/runtime 语义；不得重复跑已有长全量；不得在 Kimi/GLM/user 验收未齐时标记 done
+输出要求: 更新 done 前对应签字与 Review；明确 accept/counter，并列出是否还有 P0/P1 blocker
 ```

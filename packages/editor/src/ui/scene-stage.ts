@@ -9,30 +9,49 @@
  */
 
 import type {
+  ActorDef,
   AssetCatalogV1,
   AssetId,
+  Facing,
   IsometricMapContent,
   MapIndexV1,
   SceneDef,
+  SpriteDef,
   TriggerActivation,
 } from '@type-pal/content'
-import { gridToPixel, mapAssetById, resolveTilesetAsset } from '@type-pal/content'
+import {
+  gridToPixel,
+  mapAssetById,
+  resolveEntitySpriteId,
+  resolveTilesetAsset,
+  spriteScreenY,
+} from '@type-pal/content'
 import type {
   AssetBase,
   LoadedSprite,
   Palette,
   ProjectMap,
   SceneMapAssets,
+  SpriteDraw,
   TilesetDef,
 } from '@type-pal/reforge'
 import {
   Canvas2DRenderer,
+  idleFrameIndex,
   loadProjectMap,
   loadStandardPalette,
   loadTilesetAsset,
   pixelToLattice,
 } from '@type-pal/reforge'
-import { type RefObject, useEffect, useRef, useState } from 'react'
+import {
+  type Dispatch,
+  type PointerEvent as ReactPointerEvent,
+  type RefObject,
+  type SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { effectiveTriggerRange } from '../core/entity-placement.js'
 import { loadEditorSprite } from '../core/sprite-assets.js'
@@ -93,6 +112,8 @@ export function useSceneAssets(opts: {
   authoringTilesetIds?: readonly string[]
   assetCatalog: AssetCatalogV1
   assetReader: EditorAssetReader
+  /** 项目/消费者身份；相同稳定 id 跨项目切换时必须使旧异步结果失效。 */
+  sourceKey?: string
 }): {
   status: 'loading' | 'ready' | 'error'
   err: string
@@ -109,6 +130,7 @@ export function useSceneAssets(opts: {
     authoringTilesetIds,
     assetCatalog,
     assetReader,
+    sourceKey = '',
   } = opts
   const loadedRef = useRef<StageAssets | null>(null)
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
@@ -143,15 +165,22 @@ export function useSceneAssets(opts: {
     const ctx = canvasRef.current?.getContext('2d')
     if (!ctx) return
     let alive = true
+    loadedRef.current = null
     setStatus('loading')
+    setErr('')
     void (async () => {
       try {
         const [{ map, tilesets: loadedTilesets }, palette] = await Promise.all([
           // 有实时副本 → 直接用它；否则按 mapId 从磁盘懒加载。
           (async () => {
             const map = liveMap ?? (await loadProjectMap(assetBase, projectMapPath))
+            // 磁盘回退时，瓦片集只能在地图读出后确定。旧实现提前从 liveMap
+            // 取 tilesetRefs，未 hydrate 的地图会以空 registry 进入 ready，最终只画黑屏。
+            const mapTilesetIds = [
+              ...new Set([...(map.tilesetRefs ?? []), ...(authoringTilesetIds ?? [])]),
+            ].sort()
             const loaded = await Promise.all(
-              requestedTilesetIds.map(
+              mapTilesetIds.map(
                 async (tilesetId) =>
                   [
                     tilesetId,
@@ -198,6 +227,7 @@ export function useSceneAssets(opts: {
     canvasRef,
     tilesetRef,
     tilesetRevision,
+    sourceKey,
   ])
   return { status, err, loadedRef }
 }
@@ -206,6 +236,147 @@ export interface StageView {
   zoom: number
   panX: number
   panY: number
+}
+
+/** 统一的“适应画布”公式；地图编辑、预览工作台不得各写一份。 */
+export function fitStageView(
+  box: { minX: number; minY: number; maxX: number; maxY: number },
+  size: { w: number; h: number },
+  padding = 0.92,
+): StageView {
+  const width = Math.max(1, box.maxX - box.minX)
+  const height = Math.max(1, box.maxY - box.minY)
+  const zoom = clamp(Math.min(size.w / width, size.h / height) * padding, 0.04, 16)
+  return {
+    zoom,
+    panX: box.minX - (size.w / zoom - width) / 2,
+    panY: box.minY - (size.h / zoom - height) / 2,
+  }
+}
+
+/** 共享的画布平移手势；调用页只绑定 handlers，不再复制 pointer 状态机。 */
+export function useStagePanGesture(
+  viewRef: RefObject<StageView>,
+  setView: Dispatch<SetStateAction<StageView>>,
+): {
+  onPointerDown: (event: ReactPointerEvent<HTMLCanvasElement>) => void
+  onPointerMove: (event: ReactPointerEvent<HTMLCanvasElement>) => void
+  onPointerUp: (event: ReactPointerEvent<HTMLCanvasElement>) => void
+  onPointerCancel: (event: ReactPointerEvent<HTMLCanvasElement>) => void
+} {
+  const dragRef = useRef<{
+    pointerId: number
+    clientX: number
+    clientY: number
+    view: StageView
+  } | null>(null)
+  const finish = (event: ReactPointerEvent<HTMLCanvasElement>): void => {
+    if (dragRef.current?.pointerId !== event.pointerId) return
+    if (event.currentTarget.hasPointerCapture(event.pointerId))
+      event.currentTarget.releasePointerCapture(event.pointerId)
+    dragRef.current = null
+  }
+  return {
+    onPointerDown: (event) => {
+      if (event.button !== 0) return
+      dragRef.current = {
+        pointerId: event.pointerId,
+        clientX: event.clientX,
+        clientY: event.clientY,
+        view: viewRef.current,
+      }
+      event.currentTarget.setPointerCapture(event.pointerId)
+    },
+    onPointerMove: (event) => {
+      const drag = dragRef.current
+      if (!drag || drag.pointerId !== event.pointerId) return
+      const scaleX = event.currentTarget.width / event.currentTarget.getBoundingClientRect().width
+      const scaleY = event.currentTarget.height / event.currentTarget.getBoundingClientRect().height
+      setView({
+        ...drag.view,
+        panX: drag.view.panX - ((event.clientX - drag.clientX) * scaleX) / drag.view.zoom,
+        panY: drag.view.panY - ((event.clientY - drag.clientY) * scaleY) / drag.view.zoom,
+      })
+    },
+    onPointerUp: finish,
+    onPointerCancel: finish,
+  }
+}
+
+/** 静态作者态场景所需的全部精灵资源；不加载触发区或初始隐藏实体。 */
+export function collectInitialSceneSpriteAssets(
+  scene: SceneDef,
+  sprites: readonly SpriteDef[],
+  actorsById: Readonly<Record<string, ActorDef>>,
+  leaderSpriteId?: string,
+): AssetId[] {
+  const spritesById = new Map(sprites.map((sprite) => [sprite.id, sprite]))
+  const assets = [leaderSpriteId ? spritesById.get(leaderSpriteId)?.asset : undefined]
+  for (const entity of scene.entities) {
+    if (entity.hidden || 'zone' in entity) continue
+    const spriteId = resolveEntitySpriteId(entity, actorsById)
+    if (spriteId) assets.push(spritesById.get(spriteId)?.asset)
+  }
+  return [...new Set(assets.filter((asset): asset is AssetId => Boolean(asset)))]
+}
+
+/** 把场景作者态转换成运行时同款静态 SpriteDraw；不执行任何场景或实体脚本。 */
+export function buildInitialSceneSpriteDraws(
+  scene: SceneDef,
+  sprites: readonly SpriteDef[],
+  actorsById: Readonly<Record<string, ActorDef>>,
+  spritesByAsset: ReadonlyMap<AssetId, LoadedSprite>,
+  leaderSpriteId?: string,
+): SpriteDraw[] {
+  const spritesById = new Map(sprites.map((sprite) => [sprite.id, sprite]))
+  const draws: SpriteDraw[] = []
+  const append = (
+    sprite: SpriteDef | undefined,
+    pos: SceneDef['entry']['pos'],
+    facing: Facing = 'down',
+    options: Pick<
+      SpriteDraw,
+      'baseYBias' | 'sortOffset' | 'coverILayer' | 'coverSortOffset' | 'occlusionTrigger'
+    > = {},
+  ) => {
+    if (!sprite) return
+    const loaded = spritesByAsset.get(sprite.asset)
+    const frame = loaded?.frames[idleFrameIndex(sprite.layout, facing, loaded.frames.length)]
+    if (!frame) return
+    const point = gridToPixel(pos)
+    draws.push({
+      frame,
+      worldX: point.x,
+      worldY: spriteScreenY(pos),
+      anchorX: Math.floor(frame.width / 2),
+      anchorY: frame.height,
+      ...options,
+    })
+  }
+  append(
+    leaderSpriteId ? spritesById.get(leaderSpriteId) : undefined,
+    scene.entry.pos,
+    scene.entry.facing,
+    {
+      sortOffset: 10,
+      coverILayer: 6,
+      coverSortOffset: 10,
+      baseYBias: 0,
+      occlusionTrigger: true,
+    },
+  )
+  for (const entity of scene.entities) {
+    if (entity.hidden || 'zone' in entity) continue
+    const spriteId = resolveEntitySpriteId(entity, actorsById)
+    const layer = entity.zBias ?? 0
+    append(spriteId ? spritesById.get(spriteId) : undefined, entity.pos, entity.facing ?? 'down', {
+      baseYBias: layer,
+      coverILayer: layer * 8 + 2,
+      coverSortOffset: layer * 8 + 9,
+      occlusionTrigger: 'actor' in entity,
+    })
+  }
+  return draws
 }
 
 /**

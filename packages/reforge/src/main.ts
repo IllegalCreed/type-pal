@@ -23,7 +23,6 @@ import {
   grantBattleRewards,
   gridToPixel,
   type RuntimeHostileBehavior,
-  isIdentityTint,
   lerpTint,
   lookupText,
   ownedItemCount,
@@ -219,6 +218,7 @@ import {
   type SpriteDraw,
   type TilesetFrameRegistry,
 } from './render.js'
+import { compositeAmbienceTint } from './ambience-compositor.js'
 import { renderSceneFrame } from './render-scene.js'
 import {
   browserConfirm,
@@ -1271,12 +1271,7 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
       )
       if (t >= 1) ambienceFx = null
     }
-    if (isIdentityTint(ambienceShown)) return
-    ctx.save()
-    ctx.globalCompositeOperation = 'multiply'
-    ctx.fillStyle = `rgb(${ambienceShown[0]},${ambienceShown[1]},${ambienceShown[2]})`
-    ctx.fillRect(0, 0, canvas.width, canvas.height)
-    ctx.restore()
+    compositeAmbienceTint(ctx, ambienceShown, canvas.width, canvas.height)
   }
   let scriptDialogResolve: (() => void) | null = null
   // ~NN 自动收尾时保留最后已呈现帧一拍。若下一条立即 loadScene，它会在重画前取走该帧。

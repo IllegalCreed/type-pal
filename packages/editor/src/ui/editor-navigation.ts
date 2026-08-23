@@ -73,7 +73,14 @@ export const EDITOR_MODULES: readonly EditorModuleDefinition[] = [
     defaultSubpage: 'workspace',
     subpages: [
       { id: 'workspace', label: '场景编排', icon: '🎬', kind: 'scene', acceptsObject: true },
-      { id: 'ambience', label: '氛围', icon: '🌗', kind: 'data', dataPage: 'ambience' },
+      {
+        id: 'ambience',
+        label: '氛围',
+        icon: '🌗',
+        kind: 'data',
+        dataPage: 'ambience',
+        acceptsObject: true,
+      },
     ],
   },
   {
@@ -527,6 +534,11 @@ export const editorLinks = {
     module: 'battle',
     subpage: 'poison',
     objectId: String(poisonId),
+  }),
+  ambience: (ambienceId: string): EditorLocation => ({
+    module: 'scene',
+    subpage: 'ambience',
+    objectId: ambienceId,
   }),
   battleField: (fieldId: number): EditorLocation => ({
     module: 'battle',

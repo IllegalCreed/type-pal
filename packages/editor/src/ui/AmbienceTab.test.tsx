@@ -4,7 +4,11 @@ import type { AmbienceDef } from '@type-pal/content'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { AddAmbienceCommand, DeleteAmbienceCommand } from '../core/commands.js'
+import {
+  AddAmbienceCommand,
+  DeleteAmbienceCommand,
+  UpdateAmbienceCommand,
+} from '../core/commands.js'
 import type { EditorState, EditSession } from '../core/edit-session.js'
 import type { ScriptEditorState, ScriptEditSession } from '../core/script-editor.js'
 import { AmbienceTab } from './AmbienceTab.js'
@@ -32,6 +36,12 @@ function setInputValue(input: HTMLInputElement, value: string) {
   input.dispatchEvent(new Event('input', { bubbles: true }))
 }
 
+function catalogRow(host: HTMLElement, title: string): HTMLButtonElement {
+  return [...host.querySelectorAll<HTMLButtonElement>('.ds-catalog-row')].find((row) =>
+    row.textContent?.includes(title),
+  )!
+}
+
 describe('AmbienceTab creation dialog', () => {
   let host: HTMLDivElement
   let root: Root
@@ -56,7 +66,10 @@ describe('AmbienceTab creation dialog', () => {
 
     await act(async () => {
       root.render(
-        <AmbienceTab ambiences={[day]} session={{ dispatch } as unknown as EditSession} />,
+        <AmbienceTab
+          ambiences={[day]}
+          session={sessionFor(editorState({ ambiences: [day] }), dispatch)}
+        />,
       )
     })
 
@@ -123,6 +136,7 @@ describe('AmbienceTab creation dialog', () => {
       root.render(<AmbienceTab ambiences={[day, review]} session={session} />)
     })
 
+    await act(async () => catalogRow(host, '123').click())
     const trigger = host.querySelector<HTMLButtonElement>('button[aria-label="删除氛围 123"]')!
     await act(async () => trigger.click())
 
@@ -131,7 +145,7 @@ describe('AmbienceTab creation dialog', () => {
     )!
     expect(dialog).not.toBeNull()
     expect(dialog.classList.contains('ds-dialog')).toBe(true)
-    expect(dialog.textContent).toContain('当前未发现脚本、昼夜切换或运行态引用')
+    expect(dialog.textContent).toContain('当前作者快照未发现脚本、昼夜切换或运行态引用')
     expect(dispatch).not.toHaveBeenCalled()
 
     const deleteButton = [...dialog.querySelectorAll<HTMLButtonElement>('button')].find(
@@ -148,9 +162,8 @@ describe('AmbienceTab creation dialog', () => {
     expect(dispatch).toHaveBeenCalledTimes(1)
     expect(dispatch.mock.calls[0]?.[0]).toBeInstanceOf(DeleteAmbienceCommand)
     expect(dialog.hasAttribute('open')).toBe(false)
-    expect(document.activeElement).toBe(
-      host.querySelector<HTMLButtonElement>('button[aria-label="删除氛围 白天"]'),
-    )
+    expect(document.activeElement).toBe(host.querySelector<HTMLButtonElement>('.ds-catalog-row'))
+    expect(document.activeElement?.textContent).toContain('白天')
     expect(confirm).not.toHaveBeenCalled()
   })
 
@@ -184,6 +197,7 @@ describe('AmbienceTab creation dialog', () => {
       )
     })
 
+    await act(async () => catalogRow(host, '123').click())
     await act(async () => {
       host.querySelector<HTMLButtonElement>('button[aria-label="删除氛围 123"]')?.click()
     })
@@ -205,5 +219,144 @@ describe('AmbienceTab creation dialog', () => {
     })
     expect(openReference).toHaveBeenCalledTimes(1)
     expect(dialog.hasAttribute('open')).toBe(false)
+  })
+
+  test('opens an exact deep link and reports a missing target without falling back', async () => {
+    const session = sessionFor(editorState())
+    await act(async () => {
+      root.render(<AmbienceTab ambiences={[day, review]} session={session} focusObjectId="123" />)
+    })
+
+    expect(host.querySelector('.ds-object-hero')?.textContent).toContain('123')
+    expect(
+      host.querySelector<HTMLButtonElement>('.ds-catalog-row[data-selected="true"]')?.textContent,
+    ).toContain('123')
+
+    await act(async () => {
+      root.render(
+        <AmbienceTab ambiences={[day, review]} session={session} focusObjectId="missing" />,
+      )
+    })
+
+    expect(host.querySelector('.ds-object-hero')).toBeNull()
+    expect(host.textContent).toContain('引用目标氛围“missing”不在当前项目')
+    expect(host.querySelector('.ds-catalog-row[data-selected="true"]')).toBeNull()
+  })
+
+  test('name equality is a no-op and one committed change creates one command', async () => {
+    const dispatch = vi.fn()
+    await act(async () => {
+      root.render(
+        <AmbienceTab
+          ambiences={[day]}
+          session={sessionFor(editorState({ ambiences: [day] }), dispatch)}
+        />,
+      )
+    })
+
+    const name = host.querySelector<HTMLInputElement>('input[value="白天"]')!
+    await act(async () => {
+      name.focus()
+      name.blur()
+    })
+    expect(dispatch).not.toHaveBeenCalled()
+
+    await act(async () => {
+      name.focus()
+      setInputValue(name, '晴昼')
+    })
+    await act(async () => name.blur())
+    expect(dispatch).toHaveBeenCalledTimes(1)
+    expect(dispatch.mock.calls[0]?.[0]).toBeInstanceOf(UpdateAmbienceCommand)
+  })
+
+  test('native color input previews continuously but commits only once when the field loses focus', async () => {
+    const dispatch = vi.fn()
+    await act(async () => {
+      root.render(
+        <AmbienceTab
+          ambiences={[day]}
+          session={sessionFor(editorState({ ambiences: [day] }), dispatch)}
+        />,
+      )
+    })
+
+    const color = host.querySelector<HTMLInputElement>('input[type="color"]')!
+    await act(async () => {
+      color.focus()
+      setInputValue(color, '#102030')
+      setInputValue(color, '#203040')
+    })
+    expect(dispatch).not.toHaveBeenCalled()
+
+    await act(async () => color.blur())
+    expect(dispatch).toHaveBeenCalledTimes(1)
+    expect(dispatch.mock.calls[0]?.[0]).toBeInstanceOf(UpdateAmbienceCommand)
+  })
+
+  test('颜色行的恢复动作与默认输入控件等高', async () => {
+    const tinted = { ...day, tint: [255, 230, 102] as [number, number, number] }
+    await act(async () => {
+      root.render(
+        <AmbienceTab
+          ambiences={[tinted]}
+          session={sessionFor(editorState({ ambiences: [tinted] }))}
+        />,
+      )
+    })
+
+    const reset = [...host.querySelectorAll<HTMLButtonElement>('button')].find(
+      (button) => button.textContent === '恢复不染色',
+    )!
+    expect(reset.classList.contains('ds-button--compact')).toBe(false)
+  })
+
+  test('Escape restores every editable field without dispatching the stale draft on blur', async () => {
+    const dispatch = vi.fn()
+    await act(async () => {
+      root.render(
+        <AmbienceTab
+          ambiences={[day]}
+          session={sessionFor(editorState({ ambiences: [day] }), dispatch)}
+        />,
+      )
+    })
+
+    const cancel = async (input: HTMLInputElement, value: string): Promise<void> => {
+      await act(async () => {
+        input.focus()
+        setInputValue(input, value)
+      })
+      await act(async () => {
+        input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))
+      })
+    }
+
+    const name = host.querySelector<HTMLInputElement>('input[value="白天"]')!
+    await cancel(name, '不会保存的名称')
+    expect(name.value).toBe('白天')
+
+    const hex = host.querySelector<HTMLInputElement>('input[aria-label="氛围颜色 HEX"]')!
+    await cancel(hex, '#102030')
+    expect(hex.value).toBe('#ffffff')
+
+    await cancel(hex, '#12')
+    expect(hex.value).toBe('#ffffff')
+    await act(async () => {
+      hex.focus()
+      setInputValue(hex, '#102030')
+    })
+    await act(async () => hex.blur())
+    expect(dispatch).toHaveBeenCalledTimes(1)
+    dispatch.mockClear()
+
+    const red = host.querySelector<HTMLInputElement>('input[aria-label="R 通道"]')!
+    await cancel(red, '96')
+    expect(red.value).toBe('255')
+
+    const color = host.querySelector<HTMLInputElement>('input[type="color"]')!
+    await cancel(color, '#405060')
+    expect(color.value).toBe('#ffffff')
+    expect(dispatch).not.toHaveBeenCalled()
   })
 })

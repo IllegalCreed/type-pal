@@ -375,8 +375,22 @@ export function DataMode(props: {
         ambiences={ambiences}
         session={session}
         script={script}
+        focusObjectId={focusObjectId}
+        onObjectFocus={onObjectFocus}
         onOpenReference={onOpenCanonicalReference}
         tabBar={tabBar}
+        preview={{
+          manifest,
+          scenes,
+          actors,
+          sprites,
+          assetBase,
+          assetCatalog,
+          assetReader,
+          mapIndex,
+          tilesets,
+          projectKey: `${manifest.id}:${workspaceId ?? ''}`,
+        }}
       />
     )
   }

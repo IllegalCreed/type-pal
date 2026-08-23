@@ -1,14 +1,22 @@
 // @vitest-environment jsdom
-import { loadTilesetAsset } from '@type-pal/reforge'
-import { act, useRef } from 'react'
+import { loadProjectMap, loadTilesetAsset } from '@type-pal/reforge'
+import { act, useEffect, useRef } from 'react'
 import { createRoot } from 'react-dom/client'
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import {
   drawGridBlocked,
   drawTriggerHighlight,
+  fitStageView,
   isCollisionOverlayMarked,
   useSceneAssets,
 } from './scene-stage.js'
+
+test('共享适应画布公式居中内容并保留统一边距', () => {
+  const view = fitStageView({ minX: 10, minY: 20, maxX: 110, maxY: 70 }, { w: 400, h: 300 })
+  expect(view.zoom).toBeCloseTo(3.68)
+  expect(view.panX).toBeCloseTo(5.652173913)
+  expect(view.panY).toBeCloseTo(4.239130435)
+})
 
 vi.mock('@type-pal/reforge', async (importOriginal) => {
   const original = await importOriginal<typeof import('@type-pal/reforge')>()
@@ -19,6 +27,7 @@ vi.mock('@type-pal/reforge', async (importOriginal) => {
       colors: Array.from({ length: 256 }, () => [0, 0, 0] as [number, number, number]),
       cycles: [],
     })),
+    loadProjectMap: vi.fn(async () => projectMap),
     loadTilesetAsset: vi.fn(async () => new Map()),
   }
 })
@@ -31,6 +40,7 @@ const projectMap = {
   layers: [{ id: 'floor', name: '地板', tiles: [[0], [null]], sources: [[0], [null]] }],
   collision: [[0], [0]],
 }
+const projectMapB = { ...projectMap, width: 2 }
 const tilesets = [{ id: 'tiles-a', name: 'A', category: 'test', asset: 'tileset.a' }]
 const assetBase = {} as never
 const assetReader = {} as never
@@ -60,6 +70,90 @@ function Harness(props: { sha256: string }) {
     assetReader,
   })
   return <canvas ref={canvasRef} />
+}
+
+function DiskMapHarness() {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  useSceneAssets({
+    canvasRef,
+    assetBase,
+    mapId: 'map-a',
+    spriteAssets: [],
+    projectMaps: {},
+    mapIndex: {
+      version: 1,
+      maps: [{ id: 'map-a', name: '测试地图', path: 'content/maps/map-a.json' }],
+    },
+    tilesets,
+    assetCatalog: {
+      version: 1,
+      assets: {
+        'tileset.a': {
+          kind: 'tileset',
+          path: 'assets/authored/tilesets/a.rle',
+          mediaType: 'application/vnd.type-pal.rle',
+          bytes: 1,
+          sha256: 'a'.repeat(64),
+          origin: { kind: 'authored' },
+        },
+      },
+    },
+    assetReader,
+  })
+  return <canvas ref={canvasRef} />
+}
+
+function DeferredMapHarness(props: {
+  mapId: string
+  sourceKey: string
+  onReady: (map: unknown) => void
+}) {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const result = useSceneAssets({
+    canvasRef,
+    assetBase,
+    mapId: props.mapId,
+    sourceKey: props.sourceKey,
+    spriteAssets: [],
+    projectMaps: {},
+    mapIndex: {
+      version: 1,
+      maps: [
+        { id: 'map-a', name: '地图 A', path: 'content/maps/map-a.json' },
+        { id: 'map-b', name: '地图 B', path: 'content/maps/map-b.json' },
+      ],
+    },
+    tilesets,
+    assetCatalog: {
+      version: 1,
+      assets: {
+        'tileset.a': {
+          kind: 'tileset',
+          path: 'assets/authored/tilesets/a.rle',
+          mediaType: 'application/vnd.type-pal.rle',
+          bytes: 1,
+          sha256: 'a'.repeat(64),
+          origin: { kind: 'authored' },
+        },
+      },
+    },
+    assetReader,
+  })
+  useEffect(() => {
+    if (result.status === 'ready') props.onReady(result.loadedRef.current?.map)
+  }, [props, result.loadedRef, result.status])
+  return <canvas ref={canvasRef} data-status={result.status} />
+}
+
+function deferred<T>(): {
+  promise: Promise<T>
+  resolve: (value: T) => void
+} {
+  let resolve!: (value: T) => void
+  const promise = new Promise<T>((done) => {
+    resolve = done
+  })
+  return { promise, resolve }
 }
 
 let host: HTMLDivElement
@@ -96,6 +190,60 @@ test('地图/场景舞台以 record sha 为失效键，同路径同长度替换�
   expect(vi.mocked(loadTilesetAsset)).toHaveBeenCalledTimes(1)
   await render('b'.repeat(64))
   expect(vi.mocked(loadTilesetAsset)).toHaveBeenCalledTimes(2)
+})
+
+test('磁盘回退地图按读取后的 tilesetRefs 加载瓦片集，不能 ready 后黑屏', async () => {
+  await act(async () => {
+    root.render(<DiskMapHarness />)
+    await new Promise((resolve) => window.setTimeout(resolve, 0))
+  })
+
+  expect(vi.mocked(loadProjectMap)).toHaveBeenCalledTimes(1)
+  expect(vi.mocked(loadTilesetAsset)).toHaveBeenCalledTimes(1)
+  expect(vi.mocked(loadTilesetAsset)).toHaveBeenCalledWith(assetReader, 'tileset.a')
+})
+
+test.each([
+  {
+    label: '场景切换改变 mapId',
+    first: { mapId: 'map-a', sourceKey: 'project-a\0scene-a\0map-a' },
+    second: { mapId: 'map-b', sourceKey: 'project-a\0scene-b\0map-b' },
+  },
+  {
+    label: '工程切换仅改变 sourceKey',
+    first: { mapId: 'map-a', sourceKey: 'project-a\0scene-a\0map-a' },
+    second: { mapId: 'map-a', sourceKey: 'project-b\0scene-a\0map-a' },
+  },
+])('$label 时丢弃迟到的旧地图结果', async ({ first, second }) => {
+  const oldLoad = deferred<typeof projectMap>()
+  const currentLoad = deferred<typeof projectMapB>()
+  vi.mocked(loadProjectMap)
+    .mockImplementationOnce(async () => oldLoad.promise)
+    .mockImplementationOnce(async () => currentLoad.promise)
+  const readyMaps: unknown[] = []
+  const onReady = (map: unknown): void => {
+    readyMaps.push(map)
+  }
+
+  await act(async () => {
+    root.render(<DeferredMapHarness {...first} onReady={onReady} />)
+    await Promise.resolve()
+  })
+  await act(async () => {
+    root.render(<DeferredMapHarness {...second} onReady={onReady} />)
+    await Promise.resolve()
+  })
+  currentLoad.resolve(projectMapB)
+  await act(async () => {
+    await new Promise((resolve) => window.setTimeout(resolve, 0))
+  })
+  expect(readyMaps.at(-1)).toBe(projectMapB)
+
+  oldLoad.resolve(projectMap)
+  await act(async () => {
+    await new Promise((resolve) => window.setTimeout(resolve, 0))
+  })
+  expect(readyMaps).toEqual([projectMapB])
 })
 
 test('碰撞遮罩忽略组合未记录的 null 与开放值 0，只标红显式非零碰撞', () => {

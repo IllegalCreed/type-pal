@@ -21,6 +21,7 @@ import { useEffect, useRef, useState } from 'react'
 import {
   drawGridBlocked,
   drawTriggerHighlight,
+  fitStageView,
   mapBoxOf,
   type StageAssets,
   useSceneAssets,
@@ -156,17 +157,9 @@ export function SceneCanvas(props: {
 
   // 地图像素包围盒(菱形投影 AABB;room 缺省 = 整图)。
   const mapBox = (map: StageAssets['map']) => mapBoxOf(map, undefined)
-  /** fit 整图到容器:zoom 使整图可见(留 4% 边),pan 居中。 */
+  /** fit 整图到容器；统一消费 scene-stage 的视图公式。 */
   const fitView = (map: StageAssets['map']): void => {
-    const b = mapBox(map)
-    const mw = b.maxX - b.minX
-    const mh = b.maxY - b.minY
-    const zoom = Math.min(size.w / mw, size.h / mh) * 0.96
-    setView({
-      zoom,
-      panX: b.minX - (size.w / zoom - mw) / 2,
-      panY: b.minY - (size.h / zoom - mh) / 2,
-    })
+    setView(fitStageView(mapBox(map), size, 0.96))
   }
 
   const spriteById = new Map(sprites.map((s) => [s.id, s]))

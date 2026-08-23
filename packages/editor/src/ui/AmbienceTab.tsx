@@ -1,14 +1,12 @@
 /**
- * 氛围页(数据模式·氛围标签,W6 昼夜)—— 氛围表一览:id | 名字 | 乘色 | 滤镜预览。
- * 乘色 = 全帧 multiply 滤镜色(引擎每帧最后一步);恒等白 [255,255,255] = 不染。
- * 预览 = 一条彩色样例上叠 mix-blend-mode:multiply 的滤镜色,所见即引擎效果。
- * 夜晚缺省值拟合自原版夜盘(R×0.458/G×0.899/B×1.0,见 docs/phase2/ambience-design.md)。
+ * 氛围滤镜工作台：左侧管理定义，中间编辑名称/乘色并在真实场景上 A/B 预览，
+ * 右侧只承载引用与说明。预览上下文属于会话状态，不进入撤销或保存。
  */
-import type { AmbienceDef } from '@type-pal/content'
-import { useId, useRef, useState } from 'react'
+import { AMBIENCE_IDENTITY, type AmbienceDef, isIdentityTint } from '@type-pal/content'
+import { type ReactNode, useEffect, useId, useMemo, useRef, useState } from 'react'
 import {
   type BlockingAmbienceReference,
-  blockingAmbienceReferences,
+  collectAmbienceReferenceIndex,
 } from '../core/ambience-references.js'
 import {
   AddAmbienceCommand,
@@ -17,56 +15,284 @@ import {
   UpdateAmbienceCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
-import type { CanonicalScriptReference, ScriptEditSession } from '../core/script-editor.js'
+import type {
+  CanonicalScriptReference,
+  ScriptEditorState,
+  ScriptEditSession,
+} from '../core/script-editor.js'
+import { AmbienceScenePreview, type AmbienceScenePreviewProps } from './AmbienceScenePreview.js'
 import {
   DsButton,
+  DsCatalogRow,
   DsDialog,
-  DsIconButton,
+  DsField,
+  DsInspectorSection,
+  DsInspectorTabs,
   DsListHeader,
+  DsNumberInput,
+  DsObjectHero,
+  DsObjectWorkspace,
+  DsPropertyGrid,
+  DsPropertyRow,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
+  DsStatus,
+  DsTag,
   DsTextField,
+  DsTextInput,
+  DsWorkbenchSection,
 } from './design-system/index.js'
 
-const toHex = (t: readonly [number, number, number]): string =>
-  `#${t.map((c) => Math.max(0, Math.min(255, c)).toString(16).padStart(2, '0')).join('')}`
-const fromHex = (h: string): [number, number, number] => [
-  Number.parseInt(h.slice(1, 3), 16),
-  Number.parseInt(h.slice(3, 5), 16),
-  Number.parseInt(h.slice(5, 7), 16),
-]
+type Tint = AmbienceDef['tint']
+type InspectorTab = 'references' | 'description'
+type PreviewProps = Omit<AmbienceScenePreviewProps, 'session' | 'tint'>
 
-function NameCell(props: { a: AmbienceDef; session: EditSession }) {
-  const { a, session } = props
-  const [draft, setDraft] = useState<string | null>(null)
+const WHITE_TINT: Tint = AMBIENCE_IDENTITY
+
+function clampChannel(value: number): number {
+  return Math.max(0, Math.min(255, Math.round(value)))
+}
+
+function sameTint(left: Tint, right: Tint): boolean {
+  return left[0] === right[0] && left[1] === right[1] && left[2] === right[2]
+}
+
+function toHex(tint: Tint): string {
+  return `#${tint.map((channel) => clampChannel(channel).toString(16).padStart(2, '0')).join('')}`
+}
+
+function parseHex(value: string): [number, number, number] | undefined {
+  const match = /^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i.exec(value.trim())
+  if (!match) return undefined
+  return [
+    Number.parseInt(match[1]!, 16),
+    Number.parseInt(match[2]!, 16),
+    Number.parseInt(match[3]!, 16),
+  ]
+}
+
+function AmbienceNameField(props: { ambience: AmbienceDef; session: EditSession }) {
+  const { ambience, session } = props
+  const [draft, setDraft] = useState(ambience.name)
+  const cancelBlurRef = useRef(false)
+
+  useEffect(() => setDraft(ambience.name), [ambience.name])
+
+  const commit = (): void => {
+    if (cancelBlurRef.current) {
+      cancelBlurRef.current = false
+      setDraft(ambience.name)
+      return
+    }
+    const name = draft.trim() || ambience.id
+    setDraft(name)
+    if (name !== ambience.name) session.dispatch(new UpdateAmbienceCommand(ambience.id, { name }))
+  }
+
   return (
-    <input
-      className="in"
-      value={draft ?? a.name}
-      onChange={(e) => setDraft(e.target.value)}
-      onBlur={() => {
-        if (draft !== null && draft !== a.name)
-          session.dispatch(new UpdateAmbienceCommand(a.id, { name: draft }))
-        setDraft(null)
-      }}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter') (e.target as HTMLInputElement).blur()
+    <DsTextField
+      label="名称"
+      value={draft}
+      autoComplete="off"
+      onChange={(event) => setDraft(event.target.value)}
+      onBlur={commit}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter') event.currentTarget.blur()
+        if (event.key === 'Escape') {
+          cancelBlurRef.current = true
+          setDraft(ambience.name)
+          event.currentTarget.blur()
+        }
       }}
     />
+  )
+}
+
+function AmbienceTintFields(props: {
+  ambience: AmbienceDef
+  session: EditSession
+  onPreviewChange: (tint: Tint) => void
+}) {
+  const { ambience, session, onPreviewChange } = props
+  const [draft, setDraft] = useState<Tint>(ambience.tint)
+  const [hexDraft, setHexDraft] = useState(toHex(ambience.tint))
+  const [hexError, setHexError] = useState('')
+  const cancelBlurRef = useRef(false)
+
+  useEffect(() => {
+    setDraft(ambience.tint)
+    setHexDraft(toHex(ambience.tint))
+    setHexError('')
+    onPreviewChange(ambience.tint)
+  }, [ambience.tint, onPreviewChange])
+
+  const preview = (next: Tint): void => {
+    setDraft(next)
+    setHexDraft(toHex(next))
+    setHexError('')
+    onPreviewChange(next)
+  }
+
+  const commit = (next: Tint = draft): void => {
+    if (cancelBlurRef.current) {
+      cancelBlurRef.current = false
+      preview(ambience.tint)
+      return
+    }
+    const canonical: Tint = [clampChannel(next[0]), clampChannel(next[1]), clampChannel(next[2])]
+    preview(canonical)
+    if (!sameTint(canonical, ambience.tint))
+      session.dispatch(new UpdateAmbienceCommand(ambience.id, { tint: canonical }))
+  }
+
+  const updateChannel = (index: 0 | 1 | 2, value: string): void => {
+    const parsed = Number(value)
+    if (!Number.isFinite(parsed)) return
+    const next: [number, number, number] = [...draft]
+    next[index] = clampChannel(parsed)
+    preview(next)
+  }
+
+  return (
+    <div className="ambience-tint-fields">
+      <div className="ambience-tint-fields__primary">
+        <DsField label="颜色" className="ambience-color-field">
+          {(control) => (
+            <span className="ambience-color-control">
+              <span
+                className="ambience-color-control__swatch"
+                style={{ backgroundColor: toHex(draft) }}
+                aria-hidden="true"
+              />
+              <input
+                {...control}
+                className="ambience-color-control__input"
+                type="color"
+                aria-label="氛围乘色"
+                value={toHex(draft)}
+                title="选择全帧乘法色"
+                onInput={(event) => {
+                  const next = parseHex(event.currentTarget.value)
+                  if (next) preview(next)
+                }}
+                onBlur={() => commit()}
+                onKeyDown={(event) => {
+                  if (event.key !== 'Escape') return
+                  cancelBlurRef.current = true
+                  preview(ambience.tint)
+                  event.currentTarget.blur()
+                }}
+              />
+            </span>
+          )}
+        </DsField>
+        <DsField label="HEX" error={hexError || undefined} className="ambience-hex-field">
+          {(control) => (
+            <DsTextInput
+              {...control}
+              value={hexDraft}
+              monospace
+              invalid={Boolean(hexError)}
+              aria-label="氛围颜色 HEX"
+              onChange={(event) => {
+                const value = event.target.value
+                setHexDraft(value)
+                const next = parseHex(value)
+                if (next) {
+                  setDraft(next)
+                  setHexError('')
+                  onPreviewChange(next)
+                }
+              }}
+              onBlur={() => {
+                if (cancelBlurRef.current) {
+                  commit()
+                  return
+                }
+                const next = parseHex(hexDraft)
+                if (!next) {
+                  setHexError('请输入 6 位十六进制颜色。')
+                  return
+                }
+                commit(next)
+              }}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') event.currentTarget.blur()
+                if (event.key === 'Escape') {
+                  cancelBlurRef.current = true
+                  preview(ambience.tint)
+                  event.currentTarget.blur()
+                }
+              }}
+            />
+          )}
+        </DsField>
+        <div className="ambience-tint-fields__status">
+          {isIdentityTint(draft) ? (
+            <DsTag tone="neutral">不染色</DsTag>
+          ) : (
+            <DsButton variant="secondary" onClick={() => commit(WHITE_TINT)}>
+              恢复不染色
+            </DsButton>
+          )}
+        </div>
+      </div>
+      <fieldset className="ambience-rgb-fields">
+        <legend className="ds-visually-hidden">RGB 通道</legend>
+        {(['R', 'G', 'B'] as const).map((label, index) => (
+          <DsField key={label} label={label}>
+            {(control) => (
+              <DsNumberInput
+                {...control}
+                min={0}
+                max={255}
+                value={draft[index]}
+                aria-label={`${label} 通道`}
+                onChange={(event) => updateChannel(index as 0 | 1 | 2, event.target.value)}
+                onBlur={() => commit()}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter') event.currentTarget.blur()
+                  if (event.key === 'Escape') {
+                    cancelBlurRef.current = true
+                    preview(ambience.tint)
+                    event.currentTarget.blur()
+                  }
+                }}
+              />
+            )}
+          </DsField>
+        ))}
+      </fieldset>
+    </div>
   )
 }
 
 export function AmbienceTab(props: {
   ambiences: AmbienceDef[]
   session: EditSession
-  script?: { session: ScriptEditSession }
+  preview?: PreviewProps
+  script?: { state?: ScriptEditorState; session: ScriptEditSession }
+  focusObjectId?: string
+  onObjectFocus?: (id: string | undefined) => void
   onOpenReference?: (reference: CanonicalScriptReference) => void
-  tabBar?: React.ReactNode
+  tabBar?: ReactNode
 }) {
-  const { ambiences, session, script, onOpenReference, tabBar } = props
+  const {
+    ambiences,
+    session,
+    preview,
+    script,
+    focusObjectId,
+    onObjectFocus,
+    onOpenReference,
+    tabBar,
+  } = props
   const createFormId = useId()
   const createIdFieldId = useId()
+  const [selectedId, setSelectedId] = useState(focusObjectId ?? ambiences[0]?.id ?? '')
+  const [previewTint, setPreviewTint] = useState<Tint>(ambiences[0]?.tint ?? WHITE_TINT)
+  const [inspectorTab, setInspectorTab] = useState<InspectorTab>('references')
   const [createOpen, setCreateOpen] = useState(false)
   const [createId, setCreateId] = useState('')
   const [createName, setCreateName] = useState('')
@@ -75,21 +301,61 @@ export function AmbienceTab(props: {
     id: string
     name: string
     references: BlockingAmbienceReference[]
+    scanError?: string
   }>()
   const deleteTriggerRef = useRef<HTMLButtonElement | null>(null)
-  const deleteButtonRefs = useRef(new Map<string, HTMLButtonElement>())
+  const rowRefs = useRef(new Map<string, HTMLButtonElement>())
   const outlinerRef = useRef<HTMLDivElement | null>(null)
 
-  const openCreate = () => {
+  useEffect(() => {
+    if (focusObjectId !== undefined) setSelectedId(focusObjectId)
+  }, [focusObjectId])
+
+  useEffect(() => {
+    if (focusObjectId !== undefined) return
+    if (selectedId && ambiences.some((ambience) => ambience.id === selectedId)) return
+    setSelectedId(ambiences[0]?.id ?? '')
+  }, [ambiences, focusObjectId, selectedId])
+
+  const selected = ambiences.find((ambience) => ambience.id === selectedId)
+  const missingFocusedId =
+    focusObjectId !== undefined && !ambiences.some((ambience) => ambience.id === focusObjectId)
+      ? focusObjectId
+      : undefined
+
+  useEffect(() => {
+    if (selected) setPreviewTint(selected.tint)
+  }, [selected])
+
+  const editorState = session.getState()
+  const scriptState = script?.state ?? script?.session.getState()
+  const referenceScan = useMemo(() => {
+    try {
+      return {
+        index: collectAmbienceReferenceIndex(editorState, scriptState),
+        error: '',
+      }
+    } catch (cause) {
+      return {
+        index: new Map<string, BlockingAmbienceReference[]>(),
+        error: cause instanceof Error ? cause.message : String(cause),
+      }
+    }
+  }, [editorState, scriptState])
+
+  const selectAmbience = (id: string | undefined): void => {
+    setSelectedId(id ?? '')
+    onObjectFocus?.(id)
+  }
+
+  const openCreate = (): void => {
     setCreateId('')
     setCreateName('')
     setCreateError('')
     setCreateOpen(true)
   }
 
-  const closeCreate = () => setCreateOpen(false)
-
-  const createAmbience = () => {
+  const createAmbience = (): void => {
     const id = createId.trim()
     if (!id) {
       setCreateError('请输入稳定 ID。')
@@ -102,32 +368,29 @@ export function AmbienceTab(props: {
       return
     }
     session.dispatch(new AddAmbienceCommand(id, createName.trim() || id))
+    selectAmbience(id)
     setCreateOpen(false)
   }
 
-  const beginDelete = (ambience: AmbienceDef, trigger: HTMLButtonElement) => {
+  const beginDelete = (ambience: AmbienceDef, trigger: HTMLButtonElement): void => {
     deleteTriggerRef.current = trigger
     setDeleteTarget({
       id: ambience.id,
       name: ambience.name,
-      references: blockingAmbienceReferences(
-        session.getState(),
-        ambience.id,
-        script?.session.getState(),
-      ),
+      references: referenceScan.index.get(ambience.id) ?? [],
+      scanError: referenceScan.error || undefined,
     })
   }
 
-  const closeDelete = () => {
+  const closeDelete = (): void => {
     setDeleteTarget(undefined)
     requestAnimationFrame(() => deleteTriggerRef.current?.focus())
   }
 
-  const confirmDelete = () => {
-    if (!deleteTarget || deleteTarget.references.length) return
+  const confirmDelete = (): void => {
+    if (!deleteTarget || deleteTarget.scanError || deleteTarget.references.length) return
     const targetIndex = ambiences.findIndex((ambience) => ambience.id === deleteTarget.id)
-    const nextFocusId =
-      ambiences[targetIndex + 1]?.id ?? ambiences[targetIndex - 1]?.id ?? undefined
+    const nextId = ambiences[targetIndex + 1]?.id ?? ambiences[targetIndex - 1]?.id
     try {
       session.dispatch(
         new DeleteAmbienceCommand(
@@ -136,9 +399,9 @@ export function AmbienceTab(props: {
         ),
       )
       setDeleteTarget(undefined)
+      selectAmbience(nextId)
       requestAnimationFrame(() => {
-        const nextDelete = nextFocusId ? deleteButtonRefs.current.get(nextFocusId) : undefined
-        if (nextDelete) nextDelete.focus()
+        if (nextId) rowRefs.current.get(nextId)?.focus()
         else
           outlinerRef.current
             ?.querySelector<HTMLButtonElement>('button[aria-label="新建氛围"]')
@@ -153,9 +416,11 @@ export function AmbienceTab(props: {
     }
   }
 
+  const selectedReferences = selected ? (referenceScan.index.get(selected.id) ?? []) : []
+
   return (
     <>
-      <div ref={outlinerRef} className="outliner data-outliner">
+      <div ref={outlinerRef} className="outliner data-outliner ambience-library-outliner">
         {tabBar}
         <DsListHeader
           title="氛围"
@@ -170,85 +435,236 @@ export function AmbienceTab(props: {
             },
           ]}
         />
-        <div className="insp-empty" style={{ marginTop: 8 }}>
-          全局昼夜色调(全帧乘法滤镜):脚本「切氛围」指令引用这里的 id,跨场景持续、随存档。 白 =
-          不染;夜晚缺省值拟合自原版夜盘。改色即改玩家看到的夜(引擎试玩验)。
-        </div>
+        <section className="ambience-library-outliner__list" aria-label="氛围目录">
+          {ambiences.map((ambience) => {
+            const count = referenceScan.index.get(ambience.id)?.length ?? 0
+            return (
+              <DsCatalogRow
+                key={ambience.id}
+                ref={(node) => {
+                  if (node) rowRefs.current.set(ambience.id, node)
+                  else rowRefs.current.delete(ambience.id)
+                }}
+                selected={selected?.id === ambience.id}
+                leading={
+                  <span
+                    className="ambience-swatch"
+                    style={{
+                      backgroundColor: toHex(
+                        selected?.id === ambience.id ? previewTint : ambience.tint,
+                      ),
+                    }}
+                    aria-hidden="true"
+                  />
+                }
+                title={ambience.name}
+                meta={ambience.id}
+                trailing={<DsTag tone="neutral">{count}</DsTag>}
+                onClick={() => selectAmbience(ambience.id)}
+              />
+            )
+          })}
+          {!ambiences.length ? <div className="insp-empty">项目中还没有氛围定义。</div> : null}
+        </section>
       </div>
-      <div className="canvas-wrap data-body">
-        <div className="et-scroll">
-          {ambiences.length === 0 ? (
-            <div className="insp-empty">
-              项目没带氛围表(manifest.content.ambiences 未声明)。「切氛围」指令将不生效。
-            </div>
-          ) : (
-            <table className="music-table amb-table">
-              <thead>
-                <tr>
-                  <th style={{ width: 90 }}>id</th>
-                  <th style={{ width: 180 }}>名字</th>
-                  <th style={{ width: 130 }}>乘色</th>
-                  <th>滤镜预览</th>
-                  <th className="amb-action-column">操作</th>
-                </tr>
-              </thead>
-              <tbody>
-                {ambiences.map((a) => (
-                  <tr key={a.id}>
-                    <td className="mono">{a.id}</td>
-                    <td>
-                      <NameCell a={a} session={session} />
-                    </td>
-                    <td>
-                      <span className="amb-tint">
-                        <input
-                          type="color"
-                          value={toHex(a.tint)}
-                          onChange={(e) =>
-                            session.dispatch(
-                              new UpdateAmbienceCommand(a.id, { tint: fromHex(e.target.value) }),
-                            )
-                          }
-                          title="全帧乘法色(白=不染)"
-                        />
-                        <span className="mono hint2">{toHex(a.tint)}</span>
-                      </span>
-                    </td>
-                    <td>
-                      {/* 样例条 × multiply 滤镜 = 引擎同款效果 */}
-                      <div className="amb-preview">
-                        <div className="amb-preview-base" />
-                        <div className="amb-preview-tint" style={{ background: toHex(a.tint) }} />
-                      </div>
-                    </td>
-                    <td className="amb-action-cell">
-                      <DsIconButton
-                        ref={(node) => {
-                          if (node) deleteButtonRefs.current.set(a.id, node)
-                          else deleteButtonRefs.current.delete(a.id)
-                        }}
-                        label={`删除氛围 ${a.name}`}
-                        icon="delete"
-                        variant="danger"
-                        size="compact"
-                        onClick={(event) => beginDelete(a, event.currentTarget)}
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
+
+      <DsObjectWorkspace
+        label="氛围工作区"
+        className="canvas-wrap data-body ambience-workspace"
+        contentClassName="ambience-workspace__scroll"
+        hero={
+          selected ? (
+            <DsObjectHero
+              eyebrow="氛围滤镜"
+              title={selected.name}
+              objectId={selected.id}
+              summary="全帧乘法色调；白色表示不染色。"
+              media={
+                <span
+                  className="ambience-hero-swatch"
+                  role="img"
+                  style={{ backgroundColor: toHex(previewTint) }}
+                  aria-label={`当前乘色 ${toHex(previewTint)}`}
+                />
+              }
+              meta={<DsTag tone="neutral">{selectedReferences.length} 处引用</DsTag>}
+              actions={
+                <DsButton
+                  size="compact"
+                  variant="danger"
+                  icon="delete"
+                  aria-label={`删除氛围 ${selected.name}`}
+                  onClick={(event) => beginDelete(selected, event.currentTarget)}
+                >
+                  删除
+                </DsButton>
+              }
+            />
+          ) : undefined
+        }
+      >
+        {missingFocusedId ? (
+          <DsStatus tone="error">
+            引用目标氛围“{missingFocusedId}”不在当前项目；不会跳到其他氛围。
+          </DsStatus>
+        ) : selected ? (
+          <>
+            <DsWorkbenchSection
+              title="基本信息"
+              description="名称可修改；稳定 ID 创建后保持不变，供剧情脚本长期引用。"
+            >
+              <AmbienceNameField key={selected.id} ambience={selected} session={session} />
+              <DsPropertyGrid>
+                <DsPropertyRow label="稳定 ID">
+                  <code>{selected.id}</code>
+                </DsPropertyRow>
+                <DsPropertyRow label="滤镜语义">全帧乘法</DsPropertyRow>
+              </DsPropertyGrid>
+            </DsWorkbenchSection>
+            <DsWorkbenchSection
+              title="滤镜颜色"
+              description="RGB、HEX 与取色器保持同步；连续取色只在确认时产生一条可撤销修改。"
+            >
+              <AmbienceTintFields
+                key={selected.id}
+                ambience={selected}
+                session={session}
+                onPreviewChange={setPreviewTint}
+              />
+            </DsWorkbenchSection>
+            <DsWorkbenchSection
+              title="场景效果"
+              description="使用当前作者快照中的真实场景，只预览静态初始帧；场景选择和视图操作不会保存。"
+            >
+              {preview ? (
+                <AmbienceScenePreview {...preview} session={session} tint={previewTint} />
+              ) : (
+                <DsStatus>当前宿主未提供场景预览上下文。</DsStatus>
+              )}
+            </DsWorkbenchSection>
+          </>
+        ) : (
+          <div className="insp-empty">选择一个氛围，或点击“新建氛围”。</div>
+        )}
+      </DsObjectWorkspace>
+
+      <aside className="inspector inspector--tabbed ambience-inspector">
+        <div className="insp-head">
+          <div className="what">氛围</div>
+          <div className="who">{selected?.name ?? '未选择'}</div>
         </div>
-      </div>
+        {selected ? (
+          <DsInspectorTabs
+            id="ambience-inspector"
+            label="氛围检查器"
+            activeId={inspectorTab}
+            onChange={(id) => setInspectorTab(id as InspectorTab)}
+            items={[
+              {
+                id: 'references',
+                label: '引用',
+                count: referenceScan.error ? undefined : selectedReferences.length,
+                panel: (
+                  <DsInspectorSection title="引用">
+                    <DsReferencePanel
+                      state={
+                        referenceScan.error
+                          ? 'error'
+                          : selectedReferences.length
+                            ? 'ready'
+                            : 'empty'
+                      }
+                      count={
+                        referenceScan.error
+                          ? { kind: 'unknown' }
+                          : { kind: 'exact', value: selectedReferences.length }
+                      }
+                      impact={{
+                        kind: 'blocking',
+                        description: referenceScan.error
+                          ? `引用扫描失败：${referenceScan.error}。为防止误删，删除已关闭。`
+                          : selectedReferences.length
+                            ? '这些脚本或运行态正在使用当前稳定 ID；解除全部引用后才能删除。'
+                            : '当前作者快照没有引用这个氛围。',
+                      }}
+                    >
+                      {selectedReferences.length ? (
+                        <DsReferenceList>
+                          {selectedReferences.map((reference, index) => (
+                            <DsReferenceRow
+                              key={`${reference.kind}:${reference.where}:${index}`}
+                              title={reference.label}
+                              path={reference.where}
+                              labels={[
+                                {
+                                  label:
+                                    reference.kind === 'world-state'
+                                      ? '运行态'
+                                      : reference.kind === 'toggle-day-night'
+                                        ? '昼夜切换'
+                                        : '剧情脚本',
+                                },
+                              ]}
+                              action={
+                                reference.locator && onOpenReference
+                                  ? {
+                                      label: '打开 ↗',
+                                      ariaLabel: `打开引用：${reference.label}`,
+                                      onActivate: () => onOpenReference(reference.locator!),
+                                    }
+                                  : undefined
+                              }
+                              status={
+                                reference.locator && onOpenReference
+                                  ? undefined
+                                  : {
+                                      label: '只读',
+                                      reason: '当前引用没有可编辑的精确位置。',
+                                    }
+                              }
+                            />
+                          ))}
+                        </DsReferenceList>
+                      ) : null}
+                    </DsReferencePanel>
+                  </DsInspectorSection>
+                ),
+              },
+              {
+                id: 'description',
+                label: '说明',
+                panel: (
+                  <>
+                    <DsInspectorSection title="滤镜语义">
+                      <p>
+                        氛围色在场景完成绘制后以 multiply 合成；白色和未知 ID
+                        都保持原图。当前氛围跨场景保留，并随存档恢复。
+                      </p>
+                    </DsInspectorSection>
+                    <DsInspectorSection title="预览边界">
+                      <p>
+                        预览只核对静态场景初始帧，不执行脚本、实体行为或时间推进，也不覆盖
+                        UI、战斗、过场和转场效果。
+                      </p>
+                    </DsInspectorSection>
+                  </>
+                ),
+              },
+            ]}
+          />
+        ) : (
+          <div className="insp-empty">未选择氛围。</div>
+        )}
+      </aside>
+
       <DsDialog
         open={createOpen}
         title="新建氛围"
-        description="创建后稳定 ID 用于脚本引用；初始为白色（不染），可在列表中继续调整乘色。"
-        onClose={closeCreate}
+        description="稳定 ID 供脚本引用；新建氛围默认为白色（不染）。"
+        onClose={() => setCreateOpen(false)}
         footer={
           <>
-            <DsButton onClick={closeCreate}>取消</DsButton>
+            <DsButton onClick={() => setCreateOpen(false)}>取消</DsButton>
             <DsButton type="submit" form={createFormId} variant="primary">
               创建氛围
             </DsButton>
@@ -276,7 +692,7 @@ export function AmbienceTab(props: {
             translate="no"
             placeholder="例如：dusk"
             value={createId}
-            help={createError ? undefined : '创建后不可修改，供剧情脚本长期引用。'}
+            help={createError ? undefined : '创建后不可修改。'}
             error={createError || undefined}
             onChange={(event) => {
               setCreateId(event.target.value)
@@ -289,18 +705,20 @@ export function AmbienceTab(props: {
             autoComplete="off"
             placeholder="留空则使用稳定 ID"
             value={createName}
-            help="用于编辑器列表展示，创建后仍可修改。"
             onChange={(event) => setCreateName(event.target.value)}
           />
         </form>
       </DsDialog>
+
       <DsDialog
         open={Boolean(deleteTarget)}
         title={`删除氛围“${deleteTarget?.name ?? ''}”？`}
         description={
-          deleteTarget?.references.length
-            ? `仍有 ${deleteTarget.references.length} 处引用；请先处理引用后再删除。`
-            : '删除后该定义将从氛围表移除；操作可通过撤销恢复。'
+          deleteTarget?.scanError
+            ? '引用扫描失败；为防止误删，当前不可删除。'
+            : deleteTarget?.references.length
+              ? `仍有 ${deleteTarget.references.length} 处引用；请先处理引用后再删除。`
+              : '删除后定义将从氛围表移除；可通过撤销恢复。'
         }
         onClose={closeDelete}
         footer={
@@ -308,7 +726,11 @@ export function AmbienceTab(props: {
             <DsButton onClick={closeDelete}>取消</DsButton>
             <DsButton
               variant="danger"
-              disabled={!deleteTarget || deleteTarget.references.length > 0}
+              disabled={
+                !deleteTarget ||
+                Boolean(deleteTarget.scanError) ||
+                deleteTarget.references.length > 0
+              }
               onClick={confirmDelete}
             >
               确认删除
@@ -316,15 +738,14 @@ export function AmbienceTab(props: {
           </>
         }
       >
-        {deleteTarget?.references.length ? (
+        {deleteTarget?.scanError ? (
+          <DsStatus tone="error">引用扫描失败：{deleteTarget.scanError}</DsStatus>
+        ) : deleteTarget?.references.length ? (
           <DsReferencePanel
             className="ambience-delete-references"
             state="ready"
             count={{ kind: 'exact', value: deleteTarget.references.length }}
-            impact={{
-              kind: 'blocking',
-              description: '删除会让剧情或运行态中的稳定 ID 失去定义。',
-            }}
+            impact={{ kind: 'blocking', description: '删除会使稳定 ID 失去定义。' }}
           >
             <DsReferenceList initialVisibleCount={3}>
               {deleteTarget.references.map((reference, index) => (
@@ -332,16 +753,7 @@ export function AmbienceTab(props: {
                   key={`${reference.kind}:${reference.where}:${index}`}
                   title={reference.label}
                   path={reference.where}
-                  labels={[
-                    {
-                      label:
-                        reference.kind === 'world-state'
-                          ? '运行态'
-                          : reference.kind === 'toggle-day-night'
-                            ? '昼夜切换'
-                            : '剧情脚本',
-                    },
-                  ]}
+                  labels={[{ label: reference.kind === 'world-state' ? '运行态' : '剧情脚本' }]}
                   action={
                     reference.locator && onOpenReference
                       ? {
@@ -355,22 +767,13 @@ export function AmbienceTab(props: {
                         }
                       : undefined
                   }
-                  status={
-                    reference.locator && onOpenReference
-                      ? undefined
-                      : {
-                          label: '暂不可定位',
-                          reason: '当前引用没有可编辑的精确位置。',
-                          tone: 'warning',
-                        }
-                  }
                 />
               ))}
             </DsReferenceList>
           </DsReferencePanel>
         ) : (
           <p className="ds-field__help ambience-delete-help">
-            当前未发现脚本、昼夜切换或运行态引用。
+            当前作者快照未发现脚本、昼夜切换或运行态引用。
           </p>
         )}
       </DsDialog>

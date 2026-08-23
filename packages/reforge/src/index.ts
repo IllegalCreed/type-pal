@@ -226,6 +226,10 @@ import { renderSceneFrame } from './render-scene.js'
 export type { RenderSceneFrameArgs }
 // 引擎启动函数(编辑器 play 页同源试玩;页面须备 <canvas id="screen">)
 export { bootGame, renderSceneFrame }
+export {
+  compositeAmbienceTint,
+  type AmbienceTint,
+} from './ambience-compositor.js'
 
 // 精灵帧下标计算(C0 布局数据化;editor 画布/角色模式走路预览共用,单一真源)
 import {

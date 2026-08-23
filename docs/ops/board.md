@@ -20,7 +20,7 @@
 | ED-ENTITY-INSPECTOR-IA-1 | 场景实体 Inspector、状态指令与删除入口收口 | done | 三方 accept + 用户验收齐，整卡收口 | 唯一指令入口、三 Tab、中文状态/朝向帮助、行尾删除与真实 PAL 294 场景回归闭环 |
 | ED-MEDIA-ASSET-ACTIONS-1 | 媒体资源对象操作与生命周期统一 | done | 三方 accept + 用户验收齐，整卡收口 | 集合动作归左栏、当前资源动作归 Hero；live 引用、fail-closed 删除与二进制 undo 闭环 |
 | ED-AUDIO-WORKBENCH-1 | 音乐 / 音效统一资源工作台与音频时间轴 | review | Kimi / GLM 独立审查，用户复验 | 播放终点已归一化；17 tests、双包 typecheck 与真 WAV DOM 复验通过 |
-| ED-AMBIENCE-WORKBENCH-1 | 氛围滤镜工作台与真实场景预览 | build | Codex 实现；Kimi/GLM 后续审查 | 三方 build 签字已齐且用户本轮放行；左目录、中 Hero+字段+静态场景 A/B、右引用/说明 |
+| ED-AMBIENCE-WORKBENCH-1 | 氛围滤镜工作台与真实场景预览 | review | Kimi / GLM 独立终审，用户复验 | 三栏工作台、共享 compositor、s042/day-night-warm A/B 与 36px 同行控件闭环；editor 1098 / reforge 841 全绿 |
 | ED-DS-2 | 编辑器设计系统代码基础与 Design Lab | done | 三方 accept + 用户验收齐，整卡收口 | 四入口同源、WK2 与 sash 边界复审通过；全量 118/872 独立复跑全绿 |
 | ED-AUDIT-2 | 编辑器全页面视觉、闭环与代码质量审计 | done | 三方 accept + 用户验收齐，整卡收口 | GA1/GA2 闭环（门禁 18/17/17/6）；census 脚本可复现、boundary 23/23 |
 | ED-BATTLE-UI-1 | 战斗数据工作台族与共享对象 Hero | done | 三方 accept + 用户验收齐，整卡收口 | N1-N6/BK1-BK3 + RK1 全闭环；editor 124 files / 912 tests + typecheck、1280×720 实机通过 |

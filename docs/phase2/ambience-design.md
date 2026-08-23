@@ -64,7 +64,9 @@ interface AmbienceDef { id: string; name: string; tint: [number, number, number]
   `globalCompositeOperation='multiply'` + fillRect 全画布。恒等色(≥254 全通道)跳过。
 - **两个出口都挂**:tick 的战斗分支早退(`activeBattle.render` 后)+ 大世界路径末尾
   —— 夜里进战斗照染(原版夜战就是夜盘,一阶段同)。
-- 编辑器场景画布**不染**(创作视图恒白天;要看夜色走「引擎试玩」)。
+- 普通编辑器场景画布**不染**（创作视图恒白天）。氛围工作台另有显式、只读的场景效果预览：它复用当前作者
+  快照和场景 renderer，在独立 surface 上调用 runtime 同一 multiply compositor；场景、相机、缩放和原图/滤镜
+  A/B 只属于临时预览上下文，不写入 content、撤销栈或存档。完整脚本过渡、战斗和 UI 染色仍走引擎试玩 / E2E。
 
 ## 6. 迁移(不动迁移器 —— MG2 红线)
 
@@ -75,7 +77,10 @@ interface AmbienceDef { id: string; name: string; tint: [number, number, number]
 
 - 指令手册(command-catalog)+ CommandForm:setAmbience 表单(氛围下拉,origin 0x53/0x54)。
 - `ambiences` 入 EditorState/序列化 round-trip(同 battleFields 惯例,manifest 声明才产出)。
-- 氛围表编辑:数据模式轻量入口(改名/调 RGB 乘色);新建氛围 = 作者自定义(血月/水下)。
+- 氛围工作台：左侧定义目录；中央编辑名称/RGB/HEX 并以真实静态场景 A/B 预览；右侧只展示引用与生效说明。
+  新建氛围 = 作者自定义（血月/水下），右上角全局保存是唯一落盘入口。
+- 预览底帧按工程、场景、地图修订和资源身份缓存；改 tint 或切换 A/B 只重做末端合成，不重复组装场景，也不
+  执行场景脚本、实体行为、战斗、菜单或时间推进。
 
 ## 8. 验收
 

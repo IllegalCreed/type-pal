@@ -44,6 +44,16 @@ describe('编辑器模块注册表', () => {
     expect(project.subpages.find((subpage) => subpage.id === 'advanced')?.acceptsObject).toBe(true)
     expect(project.subpages.some((subpage) => subpage.id === 'startworld')).toBe(false)
   })
+
+  it('氛围页接受稳定对象深链', () => {
+    const scene = EDITOR_MODULES.find((module) => module.id === 'scene')!
+    expect(scene.subpages.find((subpage) => subpage.id === 'ambience')?.acceptsObject).toBe(true)
+    expect(editorLinks.ambience('night')).toEqual({
+      module: 'scene',
+      subpage: 'ambience',
+      objectId: 'night',
+    })
+  })
 })
 
 describe('EditorLocation URL 契约', () => {

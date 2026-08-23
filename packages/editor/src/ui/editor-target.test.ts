@@ -27,6 +27,7 @@ function makeState(overrides: Partial<EditorState> = {}): EditorState {
     battleSprites: [],
     tilesets: [],
     stamps: [],
+    ambiences: [],
     mapIndex: { version: 1, maps: [] },
     assetCatalog: { version: 1, assets: {} },
     ...overrides,
@@ -89,6 +90,26 @@ describe('editorObjectTargetMissing', () => {
         objectId: 'ignored',
       }),
     ).toBe(false)
+  })
+
+  test('氛围深链只接受现存稳定 id', () => {
+    const state = makeState({
+      ambiences: [{ id: 'night', name: '夜晚', tint: [117, 229, 255] }],
+    })
+    expect(
+      editorObjectTargetMissing(state, {
+        module: 'scene',
+        subpage: 'ambience',
+        objectId: 'night',
+      }),
+    ).toBe(false)
+    expect(
+      editorObjectTargetMissing(state, {
+        module: 'scene',
+        subpage: 'ambience',
+        objectId: 'removed',
+      }),
+    ).toBe(true)
   })
 
   test('精灵页同时接受语义定义 id 与 sprite AssetId，拒绝其它资源和缺失目标', () => {
