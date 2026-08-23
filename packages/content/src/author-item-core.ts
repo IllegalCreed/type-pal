@@ -1,11 +1,12 @@
 import type { ItemData, ItemUseContext, ItemUseEffect, ThrowSpec, UseSpec } from './item.js'
 import { ITEM_USE_EFFECT_KINDS, itemUseEffectSupportsContext } from './item.js'
-import type { BaseAuthorCommand, ScriptId } from './author-script-core.js'
+import type { ScriptId } from './author-script-core.js'
+import type { RuntimeCommand } from './runtime-script.js'
 
 export interface ItemPrivateScript {
   id: 'use'
   label?: string
-  body: BaseAuthorCommand[]
+  body: RuntimeCommand[]
 }
 
 export type AuthorItemUseEffect =

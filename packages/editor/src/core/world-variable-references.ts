@@ -1,7 +1,6 @@
 import type {
   AuthorCondition,
-  BaseScriptFlow,
-  BaseStateTransition,
+  AuthorScriptFlow,
   WorldVariableKindV1,
   WorldVariableRegistryV1,
 } from '@type-pal/content'
@@ -13,6 +12,11 @@ import type {
   ScriptCommandOwner,
 } from './script-editor.js'
 import { visitCanonicalScriptCommands } from './script-editor.js'
+
+type AuthorStateTransition = Extract<
+  AuthorScriptFlow,
+  { kind: 'stateMachine' }
+>['machine']['states'][string]['next']
 
 export type WorldVariableAccessV1 = 'read' | 'write'
 
@@ -116,7 +120,7 @@ function collectCondition(
 }
 
 function collectTransition(
-  transition: BaseStateTransition,
+  transition: AuthorStateTransition,
   path: string,
   owner: ScriptCommandOwner,
   state: ScriptEditorState,
@@ -133,7 +137,7 @@ function collectTransition(
 }
 
 function collectFlowTransitions(
-  flow: BaseScriptFlow,
+  flow: AuthorScriptFlow,
   path: string,
   owner: ScriptCommandOwner,
   state: ScriptEditorState,

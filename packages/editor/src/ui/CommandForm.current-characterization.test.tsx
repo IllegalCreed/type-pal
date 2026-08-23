@@ -207,4 +207,26 @@ describe('CommandForm commit characterization', () => {
     act(() => option.click())
     expect(onChange).toHaveBeenLastCalledWith({ kind: 'fade', dir: 'out', ms: 300 })
   })
+
+  test('entity state uses the shared Chinese semantic selector and preserves raw values on open', () => {
+    const { onChange } = render({
+      kind: 'setEntityState',
+      entity: 'e4',
+      state: 3,
+    } as Command)
+
+    expect(row('状态').textContent).toContain('当前原值 3（显示，阻挡通行）')
+    expect(onChange).not.toHaveBeenCalled()
+    openSelect('状态')
+    const hidden = [...document.querySelectorAll<HTMLElement>('[role="option"]')].find(
+      (candidate) => candidate.textContent?.startsWith('隐藏'),
+    )
+    expect(hidden).toBeDefined()
+    act(() => hidden!.click())
+    expect(onChange).toHaveBeenLastCalledWith({
+      kind: 'setEntityState',
+      entity: 'e4',
+      state: 0,
+    })
+  })
 })

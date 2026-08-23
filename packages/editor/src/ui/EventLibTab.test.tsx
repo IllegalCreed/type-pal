@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import { BASE_AUTHOR_COMMAND_KINDS } from '@type-pal/content'
+import { RUNTIME_COMMAND_KINDS } from '@type-pal/content'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test } from 'vitest'
@@ -25,7 +25,7 @@ afterEach(async () => {
 
 describe('EventLibTab catalog controls', () => {
   test('handbook exactly covers the canonical author command vocabulary', () => {
-    const expected = Object.entries(BASE_AUTHOR_COMMAND_KINDS)
+    const expected = Object.entries(RUNTIME_COMMAND_KINDS)
       .filter(([, available]) => available)
       .map(([kind]) => kind)
       .sort()

@@ -59,4 +59,30 @@ describe('ScriptTree stable references', () => {
     expect(html).toContain('李逍遥（li-xiaoyao） 换精灵')
     expect(html).toContain('李逍遥练武（li-training）')
   })
+
+  test('实体状态摘要使用中文语义并明确保留的非常规原值', () => {
+    const references: ScriptReferenceCatalog = {
+      choices: () => [],
+      has: () => false,
+      label: (_kind, id) => id,
+    }
+    const html = renderToStaticMarkup(
+      createElement(ScriptTree, {
+        stages: [
+          {
+            body: [
+              { kind: 'setEntityState', entity: 'e1', state: 0 },
+              { kind: 'setMultiEntityState', entities: ['e2', 'e3'], state: 3 },
+            ],
+          },
+        ],
+        locale: {},
+        references,
+      }),
+    )
+
+    expect(html).toContain('e1 → 隐藏')
+    expect(html).toContain('批量设置 2 个实体 → 显示，阻挡通行（原值 3）')
+    expect(html).not.toContain('状态 → 0')
+  })
 })

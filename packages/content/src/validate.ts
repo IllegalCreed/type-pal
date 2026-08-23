@@ -309,6 +309,10 @@ function validateSceneArray(json: unknown): SceneDef[] {
       const refs = ['actor', 'sprite', 'zone'].filter((k) => k in eo).length
       if (refs !== 1)
         throw new Error(`scenes[${i}].entities[${j}]: 须恰有 actor/sprite/zone 之一(现 ${refs} 个)`)
+      if ('zone' in eo && 'facing' in eo)
+        throw new Error(`scenes[${i}].entities[${j}].facing: zone 无朝向`)
+      if (!('zone' in eo) && 'facing' in eo)
+        validateFacing(eo.facing, `scenes[${i}].entities[${j}].facing`)
       // M3:行为页(可选)形状检查
       if ('pages' in eo && (eo as { pages?: unknown }).pages !== undefined)
         checkEntityPages((eo as { pages: unknown }).pages, `scenes[${i}].entities[${j}].pages`)

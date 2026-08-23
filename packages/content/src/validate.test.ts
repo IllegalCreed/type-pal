@@ -1,3 +1,4 @@
+import type { EntityDef } from './index.js'
 import { describe, expect, test } from 'vitest'
 import { itemUseSupportsContext } from './item.js'
 import {
@@ -44,6 +45,32 @@ describe('validateScenes · 实体 actor ⊕ sprite(C0)', () => {
   })
   test('zone 触发区:zone:true 单独合法', () => {
     expect(() => validateScenes([mkScene({ entities: [mkEnt({ zone: true })] })])).not.toThrow()
+  })
+  test('zone 触发区拒绝无意义朝向，可见实体仍可声明朝向', () => {
+    expect(() =>
+      validateScenes([mkScene({ entities: [mkEnt({ zone: true, facing: 'down' })] })]),
+    ).toThrow('zone 无朝向')
+    expect(() =>
+      validateScenes([mkScene({ entities: [mkEnt({ sprite: 'vase', facing: 'left' })] })]),
+    ).not.toThrow()
+  })
+
+  test('zone 类型契约同样拒绝朝向字段', () => {
+    const validZone: Extract<EntityDef, { zone: true }> = {
+      id: 'zone',
+      pos: { col: 0, row: 0, height: 0 },
+      zone: true,
+    }
+    const invalidZone: Extract<EntityDef, { zone: true }> = {
+      id: 'zone-facing',
+      pos: { col: 0, row: 0, height: 0 },
+      zone: true,
+      // @ts-expect-error 当前 canonical zone 明确没有朝向。
+      facing: 'down',
+    }
+
+    expect(validZone.zone).toBe(true)
+    expect(invalidZone.zone).toBe(true)
   })
 })
 
@@ -1107,9 +1134,9 @@ describe('validateCurrentManifestStartup · canonical content17 startup model', 
       defaultEntryId: 'dlc-b',
       entryPoints: [entry('main'), entry('dlc-b')],
     }
-    expect(validateCurrentManifestStartup(value, ['scene-main', 'scene-dlc-b']).defaultEntry.id).toBe(
-      'dlc-b',
-    )
+    expect(
+      validateCurrentManifestStartup(value, ['scene-main', 'scene-dlc-b']).defaultEntry.id,
+    ).toBe('dlc-b')
   })
 
   test.each([
@@ -1128,10 +1155,13 @@ describe('validateCurrentManifestStartup · canonical content17 startup model', 
 
   test('非默认入口错误使用稳定入口 id 定位，数组重排不改变路径', () => {
     const broken = { ...entry('dlc-b'), startWorld: { ...world(), seedStats: [] } }
-    for (const entryPoints of [[entry('main'), broken], [broken, entry('main')]])
-      expect(() =>
-        validateCurrentManifestStartup({ ...manifest(), entryPoints }),
-      ).toThrow(/entryPoints\[dlc-b\]\.startWorld\.seedStats/)
+    for (const entryPoints of [
+      [entry('main'), broken],
+      [broken, entry('main')],
+    ])
+      expect(() => validateCurrentManifestStartup({ ...manifest(), entryPoints })).toThrow(
+        /entryPoints\[dlc-b\]\.startWorld\.seedStats/,
+      )
   })
 
   test('所有入口场景都必须存在于索引，包括非默认入口', () => {

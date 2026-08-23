@@ -733,6 +733,38 @@ html[data-panel-resize="horizontal"] * {
 .scene-entity-group {
   min-width: 0;
 }
+.scene-outline-action-row {
+  position: relative;
+  min-width: 0;
+}
+.scene-outline-action-row > .node {
+  padding-right: 42px;
+}
+.scene-outline-row-actions {
+  position: absolute;
+  top: 50%;
+  right: var(--ds-space-2);
+  display: flex;
+  align-items: center;
+  transform: translateY(-50%);
+  opacity: 0;
+  pointer-events: none;
+}
+.scene-outline-action-row:hover .scene-outline-row-actions,
+.scene-outline-action-row:focus-within .scene-outline-row-actions,
+.scene-outline-action-row.selected .scene-outline-row-actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+.scene-outline-action-row:hover .node,
+.scene-outline-action-row:focus-within .node {
+  background: var(--panel2);
+}
+.scene-outline-action-row .ds-tooltip__bubble {
+  right: 0;
+  left: auto;
+  transform: none;
+}
 .node {
   display: flex;
   align-items: center;
@@ -1217,6 +1249,15 @@ html[data-panel-resize="horizontal"] * {
 .scene-entity-inspector > .insp-head {
   flex: 0 0 auto;
 }
+.scene-entity-page-context {
+  display: grid;
+  flex: 0 0 auto;
+  grid-template-columns: minmax(0, 60px) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--ds-space-3);
+  padding: var(--ds-space-4) var(--ds-space-6);
+  border-bottom: 1px solid var(--line);
+}
 .inspector--tabbed > .ds-inspector-tabs,
 .scene-entity-inspector > .ds-inspector-tabs {
   flex: 1 1 auto;
@@ -1340,6 +1381,33 @@ html[data-panel-resize="horizontal"] * {
   border-color: var(--accent);
   color: var(--fg);
   outline: none;
+}
+.entity-facing-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0;
+}
+.entity-facing-help {
+  display: block;
+  width: min(176px, calc(100vw - 60px));
+}
+.entity-facing-help__diagram {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--ds-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background: var(--ds-surface-canvas);
+}
+.entity-facing-help__grid {
+  fill: color-mix(in srgb, var(--ds-surface-raised) 74%, transparent);
+  stroke: var(--ds-border-subtle);
+  stroke-width: 2;
+}
+.entity-facing-help__label {
+  fill: var(--ds-text-primary);
+  font: 700 14px / 1 var(--ds-font-sans);
 }
 .preview-zoom-icon {
   position: relative;
@@ -12745,115 +12813,6 @@ button.sprite-frame-cell[draggable="true"]:active {
 .script-primary-detail {
   padding: 10px;
 }
-/* Entity lifecycle Inspector: one card per executable script branch, with
- * command rows separated inside the branch instead of visually running together. */
-.lifecycle-command-editor .ds-inspector-section__content,
-.lifecycle-command-body-list,
-.lifecycle-command-list {
-  display: grid;
-  min-width: 0;
-}
-
-.lifecycle-command-editor {
-  container-type: inline-size;
-}
-
-.lifecycle-command-editor .ds-inspector-section__content,
-.lifecycle-command-body-list {
-  gap: var(--ds-space-5);
-}
-
-.lifecycle-command-body {
-  display: grid;
-  gap: var(--ds-space-5);
-}
-
-.lifecycle-command-body__header,
-.lifecycle-command-row__header,
-.lifecycle-command-body__actions,
-.lifecycle-command-row__heading {
-  display: flex;
-  min-width: 0;
-  align-items: center;
-}
-
-.lifecycle-command-body__header,
-.lifecycle-command-row__header {
-  justify-content: space-between;
-  gap: var(--ds-space-5);
-}
-
-.lifecycle-command-body__heading {
-  display: grid;
-  min-width: 0;
-  gap: var(--ds-space-1);
-}
-
-.lifecycle-command-body__eyebrow,
-.lifecycle-command-body__meta {
-  color: var(--ds-text-muted);
-  font: var(--ds-font-caption);
-}
-
-.lifecycle-command-body__eyebrow {
-  color: var(--ds-action-primary);
-  font-weight: 650;
-}
-
-.lifecycle-command-body__title,
-.lifecycle-command-row__heading > h4 {
-  margin: 0;
-  color: var(--ds-text-primary);
-}
-
-.lifecycle-command-body__title {
-  font: var(--ds-font-title-sm);
-  overflow-wrap: anywhere;
-}
-
-.lifecycle-command-body__actions,
-.lifecycle-command-row__heading {
-  flex: 0 0 auto;
-  gap: var(--ds-space-3);
-}
-
-.lifecycle-command-list {
-  overflow: hidden;
-  border: 1px solid var(--ds-border-subtle);
-  border-radius: var(--ds-radius-control);
-}
-
-.lifecycle-command-row {
-  display: grid;
-  min-width: 0;
-  gap: var(--ds-space-5);
-  padding: var(--ds-space-5);
-  background: color-mix(in srgb, var(--ds-surface-raised) 42%, transparent);
-}
-
-.lifecycle-command-row + .lifecycle-command-row {
-  border-top: 1px solid var(--ds-border-subtle);
-}
-
-.lifecycle-command-row__heading > h4 {
-  font: var(--ds-font-label);
-}
-
-.lifecycle-command-row__fields {
-  display: grid;
-  min-width: 0;
-  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
-  align-items: start;
-  gap: var(--ds-space-5);
-}
-
-@container (max-width: 440px) {
-  .lifecycle-command-body__header {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-}
-
 .script-scheme-strip {
   display: grid;
   gap: 7px;
@@ -13224,7 +13183,7 @@ button.sprite-frame-cell[draggable="true"]:active {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.canonical-script-editor-heading span {
+.canonical-script-editor-summary {
   flex: none;
   color: var(--dim);
   font-size: 10px;
@@ -13669,12 +13628,6 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .canonical-script-empty-add {
   width: 100%;
-  padding: 8px;
-  border: 1px dashed color-mix(in srgb, var(--accent) 45%, var(--line));
-  border-radius: 5px;
-  background: color-mix(in srgb, var(--accent) 5%, transparent);
-  color: var(--accent);
-  cursor: pointer;
 }
 .canonical-script-insert-grid {
   display: grid;
@@ -13699,26 +13652,6 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .canonical-script-insert-dialog .cf-insert {
   align-items: stretch;
-}
-.canonical-script-insert-dialog .cf-insert .pv-btn {
-  flex: 1 1 148px;
-  min-width: 0;
-  padding: 5px 8px;
-  text-align: left;
-  white-space: normal;
-}
-.canonical-script-insert-dialog .cf-insert .pv-btn > span,
-.canonical-script-insert-dialog .cf-insert .pv-btn > small {
-  display: block;
-}
-.canonical-script-insert-dialog .cf-insert .pv-btn > small {
-  margin-top: 3px;
-  color: var(--faint);
-  font-size: 9px;
-  line-height: 1.35;
-}
-.canonical-script-insert-dialog .cf-insert .pv-btn:disabled {
-  opacity: 0.58;
 }
 .canonical-command-form-fields,
 .canonical-condition-editor,

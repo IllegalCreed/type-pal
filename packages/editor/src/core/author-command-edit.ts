@@ -1,4 +1,4 @@
-import type { BaseAuthorCommand } from '@type-pal/content'
+import type { AuthorCommand } from '@type-pal/content'
 
 export type AuthorCommandChildKey =
   | 'then'
@@ -38,9 +38,9 @@ export function formatAuthorCommandPath(path: AuthorCommandPath): string {
 }
 
 export function authorCommandChildBody(
-  command: BaseAuthorCommand,
+  command: AuthorCommand,
   key: AuthorCommandChildKey,
-): readonly BaseAuthorCommand[] | undefined {
+): readonly AuthorCommand[] | undefined {
   switch (key) {
     case 'then':
       return command.kind === 'branch' ? command.then : undefined
@@ -60,10 +60,10 @@ export function authorCommandChildBody(
 }
 
 function withChildBody(
-  command: BaseAuthorCommand,
+  command: AuthorCommand,
   key: AuthorCommandChildKey,
-  body: BaseAuthorCommand[],
-): BaseAuthorCommand {
+  body: AuthorCommand[],
+): AuthorCommand {
   switch (key) {
     case 'then':
       if (command.kind !== 'branch') throw new Error(`${command.kind} 没有 then 子块`)
@@ -90,10 +90,10 @@ function withChildBody(
 }
 
 function updateListAtPath(
-  body: readonly BaseAuthorCommand[],
+  body: readonly AuthorCommand[],
   path: AuthorCommandPath,
-  update: (list: readonly BaseAuthorCommand[], index: number) => BaseAuthorCommand[],
-): BaseAuthorCommand[] {
+  update: (list: readonly AuthorCommand[], index: number) => AuthorCommand[],
+): AuthorCommand[] {
   const index = path[0]
   if (typeof index !== 'number') throw new Error(`canonical 指令路径必须从下标开始`)
   if (path.length === 1) return update(body, index)
@@ -110,9 +110,9 @@ function updateListAtPath(
 }
 
 export function getAuthorCommandAt(
-  body: readonly BaseAuthorCommand[],
+  body: readonly AuthorCommand[],
   path: AuthorCommandPath,
-): BaseAuthorCommand | undefined {
+): AuthorCommand | undefined {
   const index = path[0]
   if (typeof index !== 'number' || index < 0) return undefined
   const command = body[index]
@@ -125,10 +125,10 @@ export function getAuthorCommandAt(
 }
 
 export function updateAuthorCommandAt(
-  body: readonly BaseAuthorCommand[],
+  body: readonly AuthorCommand[],
   path: AuthorCommandPath,
-  command: BaseAuthorCommand,
-): BaseAuthorCommand[] {
+  command: AuthorCommand,
+): AuthorCommand[] {
   return updateListAtPath(body, path, (list, index) => {
     if (!list[index]) return [...list]
     const next = [...list]
@@ -138,19 +138,19 @@ export function updateAuthorCommandAt(
 }
 
 export function removeAuthorCommandAt(
-  body: readonly BaseAuthorCommand[],
+  body: readonly AuthorCommand[],
   path: AuthorCommandPath,
-): BaseAuthorCommand[] {
+): AuthorCommand[] {
   return updateListAtPath(body, path, (list, index) =>
     index < 0 || index >= list.length ? [...list] : list.filter((_, at) => at !== index),
   )
 }
 
 export function moveAuthorCommandAt(
-  body: readonly BaseAuthorCommand[],
+  body: readonly AuthorCommand[],
   path: AuthorCommandPath,
   direction: -1 | 1,
-): BaseAuthorCommand[] {
+): AuthorCommand[] {
   return updateListAtPath(body, path, (list, index) => {
     const target = index + direction
     if (index < 0 || index >= list.length || target < 0 || target >= list.length) return [...list]
@@ -161,13 +161,35 @@ export function moveAuthorCommandAt(
 }
 
 export function insertAuthorCommandAfter(
-  body: readonly BaseAuthorCommand[],
+  body: readonly AuthorCommand[],
   path: AuthorCommandPath,
-  command: BaseAuthorCommand,
-): BaseAuthorCommand[] {
+  command: AuthorCommand,
+): AuthorCommand[] {
   return updateListAtPath(body, path, (list, index) => {
     const next = [...list]
     next.splice(Math.max(0, Math.min(list.length, index + 1)), 0, structuredClone(command))
     return next
   })
+}
+
+export function copyAuthorCommandAt(
+  body: readonly AuthorCommand[],
+  path: AuthorCommandPath,
+): AuthorCommand[] {
+  const command = getAuthorCommandAt(body, path)
+  if (!command) return [...body]
+
+  const copyWithoutStableIds = (source: AuthorCommand): AuthorCommand => {
+    let copy: AuthorCommand =
+      source.kind === 'confirm'
+        ? { kind: 'confirm', onNo: structuredClone(source.onNo) }
+        : structuredClone(source)
+    for (const key of CHILD_KEYS) {
+      const child = authorCommandChildBody(copy, key)
+      if (child) copy = withChildBody(copy, key, child.map(copyWithoutStableIds))
+    }
+    return copy
+  }
+
+  return insertAuthorCommandAfter(body, path, copyWithoutStableIds(command))
 }

@@ -22,6 +22,7 @@ import type {
   EnemyTeamDef,
   EntityDef,
   EntryPoint,
+  Facing,
   GridPos,
   ItemData,
   LevelUpSkill,
@@ -97,7 +98,7 @@ import {
 } from './battle-field-references.js'
 import type { EditorState } from './edit-session.js'
 import { blockingEnemyTeamReferences } from './enemy-team-references.js'
-import { collectEntityAddressReferences } from './entity-address-references.js'
+import { blockingEntityAddressReferences } from './entity-address-references.js'
 import { createEmptyScriptStages } from './entity-placement.js'
 import { blockingItemReferences } from './item-references.js'
 import {
@@ -454,11 +455,26 @@ export class DeleteEntityCommand implements Command {
   readonly label = '删除实体'
   private readonly sceneId: string
   private readonly entityId: string
+  private readonly guardedReferences:
+    | ReturnType<typeof blockingEntityAddressReferences>
+    | undefined
   private removed: { entity: EntityDef; index: number } | undefined
 
-  constructor(sceneId: string, entityId: string) {
+  constructor(
+    sceneId: string,
+    entityId: string,
+    referenceState?: Pick<
+      EditorState,
+      'scenes' | 'items' | 'enemies' | 'sharedScripts' | 'worlds'
+    >,
+  ) {
     this.sceneId = sceneId
     this.entityId = entityId
+    // App 同时维护主工作副本与 canonical ScriptEditSession。调用方显式传入合并态时，
+    // 删除命令必须固化同一份阻断集合，不能在 apply 时退回扫描尚未同步的 shell。
+    this.guardedReferences = referenceState
+      ? blockingEntityAddressReferences(referenceState, { scene: sceneId, entity: entityId })
+      : undefined
   }
 
   apply(state: EditorState): EditorState {
@@ -472,9 +488,12 @@ export class DeleteEntityCommand implements Command {
       this.sceneId,
       scene.entities.filter((_, i) => i !== index),
     )
-    const references = collectEntityAddressReferences(next).filter(
-      (reference) => reference.sceneId === this.sceneId && reference.entityId === this.entityId,
-    )
+    const references =
+      this.guardedReferences ??
+      blockingEntityAddressReferences(state, {
+        scene: this.sceneId,
+        entity: this.entityId,
+      })
     if (references.length)
       throw new Error(
         '实体 "' + this.sceneId + '/' + this.entityId + '" 仍被引用：' + references[0]!.path,
@@ -499,9 +518,13 @@ export class DeleteEntityCommand implements Command {
 /** UpdateEntity 的 patch 范围(collide / facing / hostile / hidden / pages)。
  *  C0:'sprite' 移出——实体引用(actor⊕sprite)切换是 C1 的专门命令/UI,patch 不表达联合切换。
  *  B9:hostile 整对象替换(非深合并);传 undefined = 撤销敌对。 */
-export type EntityPatch = Partial<
-  Pick<EntityDef, 'collide' | 'facing' | 'hostile' | 'hidden' | 'pages'>
->
+export type EntityPatch = Partial<{
+  collide: EntityDef['collide']
+  facing: Facing
+  hostile: EntityDef['hostile']
+  hidden: EntityDef['hidden']
+  pages: EntityDef['pages']
+}>
 
 /**
  * 改实体字段(collide/interact/facing/hostile)。apply 记下**被 patch 覆盖的旧值**,
@@ -531,10 +554,19 @@ export class UpdateEntityCommand implements Command {
     if (!entity) return state
     // 首次 apply:对 patch 涉及的每个键,记下当前旧值(含 undefined)。
     if (!this.oldPatch) this.oldPatch = this.captureOld(entity)
+    if ('zone' in entity && 'facing' in this.patch && this.patch.facing !== undefined)
+      throw new Error(`触发区 "${this.sceneId}/${this.entityId}" 无朝向`)
     return withEntities(
       state,
       this.sceneId,
-      scene.entities.map((e) => (e.id === this.entityId ? { ...e, ...this.patch } : e)),
+      scene.entities.map((e) => {
+        if (e.id !== this.entityId) return e
+        if ('zone' in e) {
+          const { facing: _facing, ...patch } = this.patch
+          return { ...e, ...patch }
+        }
+        return { ...e, ...this.patch }
+      }),
     )
   }
 
@@ -558,7 +590,14 @@ export class UpdateEntityCommand implements Command {
     return withEntities(
       state,
       this.sceneId,
-      scene.entities.map((e) => (e.id === this.entityId ? { ...e, ...this.oldPatch } : e)),
+      scene.entities.map((e) => {
+        if (e.id !== this.entityId) return e
+        if ('zone' in e) {
+          const { facing: _facing, ...patch } = this.oldPatch!
+          return { ...e, ...patch }
+        }
+        return { ...e, ...this.oldPatch }
+      }),
     )
   }
 }
@@ -2357,9 +2396,7 @@ export class DeleteItemCommand implements Command {
 
   constructor(
     private readonly itemId: string,
-    private readonly canonicalState:
-      | (() => ScriptEditorState | undefined)
-      | undefined = undefined,
+    private readonly canonicalState: (() => ScriptEditorState | undefined) | undefined = undefined,
   ) {}
 
   apply(state: EditorState): EditorState {
@@ -3449,9 +3486,7 @@ function cloneStartupEntryConfig(config: StartupEntryConfig): StartupEntryConfig
   return { defaultEntryId, entryPoints }
 }
 
-function cloneNonEmptyEntryPoints(
-  entries: readonly EntryPoint[],
-): [EntryPoint, ...EntryPoint[]] {
+function cloneNonEmptyEntryPoints(entries: readonly EntryPoint[]): [EntryPoint, ...EntryPoint[]] {
   if (entries.length === 0) throw new Error('入口点列表不能为空，至少保留一个入口')
   return structuredClone(entries) as [EntryPoint, ...EntryPoint[]]
 }

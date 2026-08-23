@@ -4,6 +4,27 @@ export interface EntityAddressReference {
   sceneId: string
   entityId: string
   path: string
+  locator: EntityAddressReferenceLocator
+}
+
+export type EntityAddressReferenceLocator =
+  | { kind: 'scene'; sceneId: string }
+  | { kind: 'scene-entity'; sceneId: string; entityId: string }
+  | { kind: 'shared-script'; scriptId: string }
+  | { kind: 'item'; itemId: string }
+  | { kind: 'enemy'; enemyId: string }
+  | { kind: 'world'; worldId?: string }
+
+export function entityAddressReferenceBlocksDeletion(
+  reference: EntityAddressReference,
+  target: { scene: string; entity: string },
+): boolean {
+  if (reference.sceneId !== target.scene || reference.entityId !== target.entity) return false
+  return !(
+    reference.locator.kind === 'scene-entity' &&
+    reference.locator.sceneId === target.scene &&
+    reference.locator.entityId === target.entity
+  )
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -18,10 +39,13 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 function collectFrom(
   value: unknown,
   path: string,
+  locator: EntityAddressReferenceLocator,
   references: EntityAddressReference[],
 ): void {
   if (Array.isArray(value)) {
-    value.forEach((entry, index) => collectFrom(entry, path + '[' + index + ']', references))
+    value.forEach((entry, index) =>
+      collectFrom(entry, path + '[' + index + ']', locator, references),
+    )
     return
   }
   if (!isRecord(value)) return
@@ -37,33 +61,82 @@ function collectFrom(
       sceneId: value.scene,
       entityId: value.entity,
       path,
+      locator,
     })
     return
   }
   for (const [key, child] of Object.entries(value))
-    collectFrom(child, path + '.' + key, references)
+    collectFrom(child, path + '.' + key, locator, references)
 }
 
 export function collectEntityAddressReferences(
   state: Pick<EditorState, 'scenes' | 'items' | 'enemies' | 'sharedScripts' | 'worlds'>,
 ): EntityAddressReference[] {
   const references: EntityAddressReference[] = []
-  collectFrom(state.scenes, 'scenes', references)
-  collectFrom(state.sharedScripts ?? {}, 'sharedScripts', references)
-  collectFrom(state.items, 'items', references)
-  collectFrom(state.enemies ?? [], 'enemies', references)
-  collectFrom(state.worlds ?? [], 'worlds', references)
+  state.scenes.forEach((scene, sceneIndex) => {
+    const { entities, ...sceneWithoutEntities } = scene
+    collectFrom(
+      sceneWithoutEntities,
+      `scenes[${sceneIndex}]`,
+      { kind: 'scene', sceneId: scene.id },
+      references,
+    )
+    entities.forEach((entity, entityIndex) =>
+      collectFrom(
+        entity,
+        `scenes[${sceneIndex}].entities[${entityIndex}]`,
+        { kind: 'scene-entity', sceneId: scene.id, entityId: entity.id },
+        references,
+      ),
+    )
+  })
+  for (const [scriptId, script] of Object.entries(state.sharedScripts ?? {}))
+    collectFrom(
+      script,
+      `sharedScripts.${scriptId}`,
+      { kind: 'shared-script', scriptId },
+      references,
+    )
+  state.items.forEach((item, index) =>
+    collectFrom(item, `items[${index}]`, { kind: 'item', itemId: item.id }, references),
+  )
+  const enemies = state.enemies ?? []
+  enemies.forEach((enemy, index) =>
+    collectFrom(enemy, `enemies[${index}]`, { kind: 'enemy', enemyId: enemy.id }, references),
+  )
+  const worlds = state.worlds ?? []
+  worlds.forEach((world, index) =>
+    collectFrom(
+      world,
+      `worlds[${index}]`,
+      {
+        kind: 'world',
+        worldId: isRecord(world) && typeof world.id === 'string' ? world.id : undefined,
+      },
+      references,
+    ),
+  )
   return references
+}
+
+/**
+ * 删除阻断与 Inspector 引用 Tab 的唯一数据源。过滤目标实体自身脚本中的地址，
+ * 避免它们错误阻断一个本来可原子删除的对象。
+ */
+export function blockingEntityAddressReferences(
+  state: Pick<EditorState, 'scenes' | 'items' | 'enemies' | 'sharedScripts' | 'worlds'>,
+  target: { scene: string; entity: string },
+): EntityAddressReference[] {
+  return collectEntityAddressReferences(state).filter((reference) =>
+    entityAddressReferenceBlocksDeletion(reference, target),
+  )
 }
 
 export function collectMissingEntityAddressReferences(
   state: Pick<EditorState, 'scenes' | 'items' | 'enemies' | 'sharedScripts' | 'worlds'>,
 ): EntityAddressReference[] {
   const entities = new Map(
-    state.scenes.map((scene) => [
-      scene.id,
-      new Set(scene.entities.map((entity) => entity.id)),
-    ]),
+    state.scenes.map((scene) => [scene.id, new Set(scene.entities.map((entity) => entity.id))]),
   )
   return collectEntityAddressReferences(state).filter(
     (reference) => !entities.get(reference.sceneId)?.has(reference.entityId),

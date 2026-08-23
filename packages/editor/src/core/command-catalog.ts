@@ -1,12 +1,12 @@
 /**
  * 指令目录(opcode 库,2026-07-05 作者定义:「能查询都有哪些可用的 opcode」)。
  * 当前作者指令手册:kind / 名 / 参数 / 语义 / 原版 opcode 对照。
- * 条目集合必须与 BASE_AUTHOR_COMMAND_KINDS 完全一致，由 EventLibTab.test.tsx 锁定。
+ * 条目集合必须与当前 AuthorCommand 词表完全一致，由 EventLibTab.test.tsx 锁定。
  */
-import type { BaseAuthorCommand } from '@type-pal/content'
+import type { AuthorCommand } from '@type-pal/content'
 
 export interface CatalogEntry {
-  kind: BaseAuthorCommand['kind']
+  kind: AuthorCommand['kind']
   icon: string
   name: string
   group:
@@ -374,16 +374,44 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
     origin: '0x1A',
   },
   {
-    kind: 'vanishEntity',
-    icon: '💨',
-    name: '实体消失重现',
+    kind: 'suspendEntity',
+    icon: '⏸',
+    name: '暂停实体',
     group: '实体',
     params: [
-      ['target', '场景 + 实体地址(缺省=触发者)'],
-      ['seconds', '重现秒数(缺省不重现)'],
+      ['target', '场景 + 实体地址'],
+      ['ticks', '暂停的世界 tick 数'],
     ],
-    desc: '野怪战败重生窗;临时态不进存档。',
-    origin: 'B8 拆解',
+    desc: '暂时停止目标实体的行为，计时结束后恢复。',
+    origin: '0x4B',
+  },
+  {
+    kind: 'hideEntity',
+    icon: '🙈',
+    name: '隐藏实体',
+    group: '实体',
+    params: [
+      ['target', '场景 + 实体地址'],
+      ['ticks', '离屏后允许恢复的世界 tick 数'],
+    ],
+    desc: '隐藏目标实体；满足离屏与计时条件后恢复。',
+    origin: '0x52',
+  },
+  {
+    kind: 'restoreEntity',
+    icon: '↩',
+    name: '恢复实体',
+    group: '实体',
+    params: [['target', '场景 + 实体地址']],
+    desc: '立即清除目标实体的暂停或隐藏状态。',
+  },
+  {
+    kind: 'removeEntity',
+    icon: '⛔',
+    name: '移除实体',
+    group: '实体',
+    params: [['target', '场景 + 实体地址']],
+    desc: '从当前世界状态永久移除目标实体。',
   },
   // 世界状态
   {

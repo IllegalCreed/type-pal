@@ -7,14 +7,14 @@
 
 import type {
   ActorDef,
-  BaseAuthorCommand,
+  AuthorCommand,
   Command,
   Locale,
   MapIndexV1,
   SceneDef,
-  BaseScriptFlow,
+  AuthorScriptFlow,
   ScriptStage,
-  BaseScriptLibrary,
+  AuthorScriptLibrary,
   SpriteDef,
   TriggerActivation,
 } from '@type-pal/content'
@@ -66,12 +66,12 @@ function collectScriptSprites(stages: readonly ScriptStage[]): string[] {
 }
 
 function collectCanonicalScriptSprites(
-  flow: BaseScriptFlow,
-  sharedScripts: BaseScriptLibrary,
+  flow: AuthorScriptFlow,
+  sharedScripts: AuthorScriptLibrary,
 ): string[] {
   const out = new Set<string>()
   const visitedShared = new Set<string>()
-  const walk = (commands: readonly BaseAuthorCommand[]): void => {
+  const walk = (commands: readonly AuthorCommand[]): void => {
     for (const command of commands) {
       if (command.kind === 'setActorSprite') out.add(command.sprite)
       if (command.kind === 'setActorAppearance' && command.spriteId) out.add(command.spriteId)
@@ -135,8 +135,8 @@ export function PreviewCanvas(props: {
   playback: Playback
   /** 当前作者态入口：直接启动原始 flow；缺省使用运行时投影的 stages。 */
   startPlayback?: (paused: boolean) => void
-  canonicalFlow?: BaseScriptFlow
-  canonicalSharedScripts?: BaseScriptLibrary
+  canonicalFlow?: AuthorScriptFlow
+  canonicalSharedScripts?: AuthorScriptLibrary
   /** 网格/禁入/透视叠加(与布置模式同一开关;共享层绘制)。 */
   layers?: { grid: boolean; blocked: boolean; ghosts?: boolean }
   /** 无活动脚本源时的底部提示(地图仍照常渲染;缺省 = 不显示)。 */

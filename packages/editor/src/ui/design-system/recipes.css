@@ -696,9 +696,13 @@
   overflow-wrap: anywhere;
 }
 
-.ds-property-row__value > :is(.ds-input, .in) {
+.ds-property-row__value > :is(.ds-input, .in, .ds-check-label) {
   width: 100%;
   min-width: 0;
+}
+
+.ds-property-row__value > .ds-check-label {
+  white-space: normal;
 }
 
 .ds-property-row__help {

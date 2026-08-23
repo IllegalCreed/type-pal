@@ -7,12 +7,13 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { type EditorState, EditSession } from '../core/edit-session.js'
 import type { ItemReference } from '../core/item-references.js'
-import { mergeEditorProjectionWithCurrentAuthorState } from '../core/script-editor-projection.js'
 import {
   type CanonicalScriptReference,
   type ScriptEditorState,
   ScriptEditSession,
+  UpdateSharedScriptCommand,
 } from '../core/script-editor.js'
+import { mergeEditorProjectionWithCurrentAuthorState } from '../core/script-editor-projection.js'
 import { createLocalWorkspaceContext } from '../core/workspace-context.js'
 import { App } from './App.js'
 
@@ -377,7 +378,7 @@ describe('App item reference navigation', () => {
         },
       ],
     }
-    await renderApp(shell)
+    const session = await renderApp(shell)
 
     expect(host.querySelector('.project-center h1')?.textContent).toBe('直接入口')
   })
@@ -440,7 +441,7 @@ describe('App item reference navigation', () => {
     const workspace = probes.sceneWorkspace.mock.calls.at(-1)?.[0] as SceneWorkspaceProbe
     expect(workspace.selectedEntityId).toBe('e760')
     expect(workspace.focusReference?.reference).toEqual(sceneReference)
-    expect(host.querySelector('[role="status"]')?.textContent).toContain(
+    expect(host.querySelector('.valbar-status')?.textContent).toContain(
       '场景 s047 / 实体 e760 / 交互脚本“默认触发行为” / 步骤 1 / 脚本正文 / 第 2 条指令',
     )
 
@@ -508,7 +509,6 @@ describe('App item reference navigation', () => {
         id: 'e-zone',
         zone: true,
         pos: { col: 3, row: 3, height: 0 },
-        facing: 'down',
         pages: [],
       } as (typeof scene.entities)[number],
     )
@@ -634,6 +634,18 @@ describe('App item reference navigation', () => {
     const zoneRow = button('e-zone', tree)
     expect(zoneRow.textContent).toContain('交互 · 2 格')
     await act(async () => zoneRow.click())
+    const inspector = host.querySelector<HTMLElement>('.inspector')!
+    const tablist = inspector.querySelector<HTMLElement>(
+      '[role="tablist"][aria-label="实体属性分区"]',
+    )!
+    expect(
+      [...tablist.querySelectorAll('[role="tab"]')].map((tab) => tab.textContent?.trim()),
+    ).toEqual(['属性', '行为', '引用 0'])
+    expect(inspector.querySelector('[data-property-label="朝向"]')).toBeNull()
+    const hiddenCheckbox = [
+      ...inspector.querySelectorAll<HTMLLabelElement>('.ds-check-label'),
+    ].find((label) => label.textContent?.includes('初始隐藏（待剧情出场）'))
+    expect(hiddenCheckbox?.parentElement?.classList.contains('field')).toBe(true)
     expect(
       (probes.sceneCanvas.mock.calls.at(-1)?.[0] as SceneCanvasProbe).selectedTriggerActivation,
     ).toEqual({ on: 'interact', range: 2 })
@@ -647,6 +659,7 @@ describe('App item reference navigation', () => {
       (option) => option.textContent?.includes('备用模式'),
     )!
     await act(async () => alternatePage.click())
+    await act(async () => button('行为', tablist).click())
     expect(button('e-zone', tree).textContent).toContain('触碰 · 3 格')
     expect(
       (probes.sceneCanvas.mock.calls.at(-1)?.[0] as SceneCanvasProbe).selectedTriggerActivation,
@@ -668,7 +681,7 @@ describe('App item reference navigation', () => {
       [...triggerGrid!.querySelectorAll<HTMLElement>('.ds-property-row')].map(
         (row) => row.dataset.propertyLabel,
       ),
-    ).toEqual(['实体页', '触发方式', '触发半径', '预制动作'])
+    ).toEqual(['触发方式', '触发半径', '预制动作'])
     const valueSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
     await act(async () => {
       valueSetter.call(range, '4')
@@ -756,7 +769,7 @@ describe('App item reference navigation', () => {
     expect(button('entity-1', tree).textContent).toContain('交互 · 1 格')
 
     await act(async () =>
-      host.querySelector<HTMLButtonElement>('[title="删除选中对象（Del）"]')!.click(),
+      host.querySelector<HTMLButtonElement>('[aria-label="删除实体 entity-1"]')!.click(),
     )
     expect(session.getState().scenes[0]!.entities.some((entity) => entity.id === 'entity-1')).toBe(
       false,
@@ -796,6 +809,292 @@ describe('App item reference navigation', () => {
     expect(renderedScriptSession.getState().scenes[0]!.entities.at(-1)?.id).toBe('entity-1')
   })
 
+  test('实体引用页与行尾删除使用同一阻断集合', async () => {
+    window.history.replaceState({}, '', '/?module=scene&page=workspace&object=s047')
+    const shell = shellState()
+    shell.worlds = [
+      {
+        id: 'world-main',
+        review: { target: { scene: 's047', entity: 'e760' } },
+      },
+    ] as never
+    const canonical = canonicalState()
+    canonical.sharedScripts['shared/user/hide-e760'] = {
+      name: '隐藏测试实体',
+      self: 'none',
+      body: [
+        {
+          kind: 'hideEntity',
+          target: { scene: 's047', entity: 'e760' },
+          ticks: 1,
+        },
+      ],
+    }
+    const session = await renderApp(shell, canonical)
+
+    const tree = host.querySelector<HTMLElement>('.outliner .tree')!
+    await act(async () => button('e760', tree).click())
+    const deleteButton = host.querySelector<HTMLButtonElement>('[aria-label="删除实体 e760"]')!
+    expect(deleteButton.disabled).toBe(true)
+    expect(deleteButton.title).toContain('2 处引用')
+    await act(async () =>
+      window.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Delete', bubbles: true, cancelable: true }),
+      ),
+    )
+    expect(session.getState().scenes[0]!.entities).toHaveLength(1)
+    expect(renderedScriptSession.getState().scenes[0]!.entities).toHaveLength(1)
+    expect(host.querySelector('.insp-head .what')?.textContent).toContain('选中实体')
+
+    const tablist = host.querySelector<HTMLElement>('[role="tablist"][aria-label="实体属性分区"]')!
+    const referenceTab = button('引用 2', tablist)
+    await act(async () => referenceTab.click())
+    const panel = host.querySelector<HTMLElement>('.entity-reference-section')!
+    expect(panel.textContent).toContain('2 处引用会阻断删除')
+    expect(panel.textContent).toContain('共享脚本 shared/user/hide-e760')
+    const worldRow = [...panel.querySelectorAll<HTMLElement>('.ds-reference-row')].find((row) =>
+      row.textContent?.includes('世界配置 world-main'),
+    )!
+    expect(worldRow.tagName).toBe('ARTICLE')
+    expect(worldRow.querySelector('button')).toBeNull()
+    expect(worldRow.textContent).toContain('只读')
+    expect(worldRow.textContent).toContain('世界配置当前没有可编辑的精确内容页')
+
+    await act(async () => button('打开 ↗', panel).click())
+    const location = new URL(window.location.href)
+    expect(location.searchParams.get('module')).toBe('story')
+    expect(location.searchParams.get('page')).toBe('scripts')
+    expect(location.searchParams.get('object')).toBe('shared/user/hide-e760')
+  })
+
+  test('普通场景实体可用中文方向选择器修改朝向并查看等距方向图', async () => {
+    window.history.replaceState({}, '', '/?module=scene&page=workspace&object=s047')
+    const session = await renderApp()
+    const tree = host.querySelector<HTMLElement>('.outliner .tree')!
+    await act(async () => button('e760', tree).click())
+
+    const facingSelect = host.querySelector<HTMLButtonElement>(
+      '[role="combobox"][aria-label="实体朝向"]',
+    )!
+    expect(facingSelect.textContent).toContain('下')
+    expect(facingSelect.textContent).toContain('屏幕左下')
+
+    const help = host.querySelector<HTMLButtonElement>('[aria-label="场景实体朝向说明"]')!
+    await act(async () => help.focus())
+    const visualHelp = document.querySelector<HTMLElement>(
+      '.ds-help-tooltip.is-open .entity-facing-help',
+    )!
+    const directionDiagram = visualHelp.querySelector<SVGElement>('svg[role="img"]')!
+    expect(directionDiagram.getAttribute('aria-label')).toBe(
+      '等距地图方向：左在左上，上在右上，下在左下，右在右下',
+    )
+    expect([...directionDiagram.querySelectorAll('text')].map((node) => node.textContent)).toEqual([
+      '左',
+      '上',
+      '下',
+      '右',
+    ])
+    expect(directionDiagram.querySelectorAll('path')).toHaveLength(1)
+    expect(directionDiagram.querySelector('line, circle, ellipse')).toBeNull()
+
+    await act(async () => facingSelect.click())
+    const listbox = document.getElementById(facingSelect.getAttribute('aria-controls')!)!
+    const left = [...listbox.querySelectorAll<HTMLElement>('[role="option"]')].find(
+      (option) => option.textContent?.includes('左') && option.textContent.includes('屏幕左上'),
+    )!
+    await act(async () => left.click())
+
+    expect(session.getState().scenes[0]?.entities[0]?.facing).toBe('left')
+    const updatedSelect = host.querySelector<HTMLButtonElement>(
+      '[role="combobox"][aria-label="实体朝向"]',
+    )!
+    expect(updatedSelect.textContent).toContain('左')
+    expect(updatedSelect.textContent).toContain('屏幕左上')
+  })
+
+  test('脚本会话清理最后引用后，删除守卫使用同一份合并快照', async () => {
+    window.history.replaceState({}, '', '/?module=scene&page=workspace&object=s047')
+    const target = { scene: 's047', entity: 'e760' }
+    const shell = shellState()
+    ;(shell as EditorState & { sharedScripts: ScriptEditorState['sharedScripts'] }).sharedScripts =
+      {
+        'shared/user/hide-e760': {
+          name: '隐藏测试实体',
+          self: 'none',
+          body: [{ kind: 'hideEntity', target, ticks: 1 }],
+        },
+      }
+    const canonical = canonicalState()
+    canonical.sharedScripts['shared/user/hide-e760'] = {
+      name: '隐藏测试实体',
+      self: 'none',
+      body: [{ kind: 'hideEntity', target, ticks: 1 }],
+    }
+    const session = await renderApp(shell, canonical)
+    const tree = host.querySelector<HTMLElement>('.outliner .tree')!
+
+    await act(async () => button('e760', tree).click())
+    expect(host.querySelector<HTMLButtonElement>('[aria-label="删除实体 e760"]')?.disabled).toBe(
+      true,
+    )
+
+    await act(async () =>
+      renderedScriptSession.dispatch(
+        new UpdateSharedScriptCommand('shared/user/hide-e760', { body: [] }),
+      ),
+    )
+    const deleteButton = host.querySelector<HTMLButtonElement>('[aria-label="删除实体 e760"]')!
+    expect(deleteButton.disabled).toBe(false)
+    await act(async () => deleteButton.click())
+
+    expect(session.getState().scenes[0]!.entities).toHaveLength(0)
+    expect(renderedScriptSession.getState().scenes[0]!.entities).toHaveLength(0)
+    expect(document.activeElement).toBe(tree.querySelector('.ds-catalog-row'))
+  })
+
+  test('实体引用可跳转到物品来源', async () => {
+    window.history.replaceState({}, '', '/?module=scene&page=workspace&object=s047')
+    const target = { scene: 's047', entity: 'e760' }
+    const shell = shellState()
+    shell.items[0]!.use!.effects = [{ kind: 'placeEntityInFront', target, state: 1 }] as never
+    await renderApp(shell)
+    const tree = host.querySelector<HTMLElement>('.outliner .tree')!
+
+    await act(async () => button('e760', tree).click())
+    await act(async () =>
+      button(
+        '引用 1',
+        host.querySelector<HTMLElement>('[role="tablist"][aria-label="实体属性分区"]')!,
+      ).click(),
+    )
+    const panel = host.querySelector<HTMLElement>('.entity-reference-section')!
+    expect(panel.textContent).toContain('物品 289')
+    await act(async () => button('打开 ↗', panel).click())
+
+    const location = new URL(window.location.href)
+    expect(location.searchParams.get('module')).toBe('item')
+    expect(location.searchParams.get('page')).toBe('item')
+    expect(location.searchParams.get('object')).toBe('289')
+  })
+
+  test('实体引用可跳转到敌人来源', async () => {
+    window.history.replaceState({}, '', '/?module=scene&page=workspace&object=s047')
+    const target = { scene: 's047', entity: 'e760' }
+    const shell = shellState()
+    shell.enemies = [
+      {
+        id: 'enemy-1',
+        name: 'enemy.enemy-1.name',
+        battleSprite: 'battle.enemy-1',
+        yPosOffset: 0,
+        stats: {
+          health: 1,
+          level: 1,
+          exp: 0,
+          cash: 0,
+          attackStrength: 1,
+          magicStrength: 1,
+          defense: 0,
+          dexterity: 1,
+          fleeRate: 0,
+          physicalResistance: 0,
+          poisonResistance: 0,
+          elemResistance: [0, 0, 0, 0, 0],
+          dualMove: false,
+          collectValue: 0,
+        },
+        ai: { resistanceToSorcery: 0, rules: [] },
+        sounds: {},
+        onDefeated: [
+          {
+            kind: 'branch',
+            cond: { kind: 'entityInScene', target },
+            then: [],
+          },
+        ],
+      },
+    ] as never
+    await renderApp(shell)
+    const tree = host.querySelector<HTMLElement>('.outliner .tree')!
+
+    await act(async () => button('e760', tree).click())
+    await act(async () =>
+      button(
+        '引用 1',
+        host.querySelector<HTMLElement>('[role="tablist"][aria-label="实体属性分区"]')!,
+      ).click(),
+    )
+    const panel = host.querySelector<HTMLElement>('.entity-reference-section')!
+    expect(panel.textContent).toContain('敌人 enemy-1')
+    await act(async () => button('打开 ↗', panel).click())
+
+    const location = new URL(window.location.href)
+    expect(location.searchParams.get('module')).toBe('battle')
+    expect(location.searchParams.get('page')).toBe('enemy')
+    expect(location.searchParams.get('object')).toBe('enemy-1')
+  })
+
+  test('实体与命名落点的行尾按钮和 Delete 键共享可撤销删除路径', async () => {
+    window.history.replaceState({}, '', '/?module=scene&page=workspace&object=s047')
+    const shell = shellState()
+    shell.scenes[0]!.entries = {
+      camp: {
+        label: '营地',
+        pos: { col: 4, row: 5, height: 0 },
+        facing: 'left',
+      },
+    }
+    const session = await renderApp(shell)
+    const tree = host.querySelector<HTMLElement>('.outliner .tree')!
+
+    await act(async () => button('e760', tree).click())
+    await act(async () =>
+      window.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Delete', bubbles: true, cancelable: true }),
+      ),
+    )
+    expect(session.getState().scenes[0]!.entities).toHaveLength(0)
+    expect(renderedScriptSession.getState().scenes[0]!.entities).toHaveLength(0)
+    expect(host.querySelector('[role="status"]')?.textContent).toContain('已删除实体 e760；可撤销')
+    expect(
+      (probes.sceneCanvas.mock.calls.at(-1)?.[0] as SceneCanvasProbe).selectedEntityId,
+    ).toBeNull()
+    expect(document.activeElement).toBe(tree.querySelector('.ds-catalog-row'))
+
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="撤销"]')!.click())
+    expect(session.getState().scenes[0]!.entities).toHaveLength(1)
+    expect(renderedScriptSession.getState().scenes[0]!.entities).toHaveLength(1)
+
+    await act(async () => button('营地', tree).click())
+    const namedEntryDelete = host.querySelector<HTMLButtonElement>(
+      '[aria-label="删除命名落点 营地"]',
+    )!
+    expect(namedEntryDelete.parentElement?.closest('button')).toBeNull()
+    namedEntryDelete.focus()
+    expect(document.activeElement).toBe(namedEntryDelete)
+    await act(async () => namedEntryDelete.click())
+    expect(Object.keys(session.getState().scenes[0]!.entries ?? {})).toHaveLength(0)
+    expect(host.querySelector('[role="status"]')?.textContent).toContain(
+      '已删除命名落点 camp；可撤销',
+    )
+    expect(document.activeElement).toBe(tree.querySelector('.ds-catalog-row'))
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="撤销"]')!.click())
+    expect(session.getState().scenes[0]!.entries?.camp?.label).toBe('营地')
+
+    await act(async () => button('营地', tree).click())
+    await act(async () =>
+      window.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Delete', bubbles: true, cancelable: true }),
+      ),
+    )
+    expect(session.getState().scenes[0]!.entries?.camp).toBeUndefined()
+    expect(host.querySelector('.insp-head .what')?.textContent).toContain('选中场景')
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="撤销"]')!.click())
+    expect(session.getState().scenes[0]!.entries?.camp?.label).toBe('营地')
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="重做"]')!.click())
+    expect(session.getState().scenes[0]!.entries?.camp).toBeUndefined()
+  })
+
   test('场景直接操作移除伪工具，并统一放置、清选择、Esc 与脚本面板优先级', async () => {
     window.history.replaceState({}, '', '/?module=scene&page=workspace&object=s047')
     const shell = shellState()
@@ -809,6 +1108,7 @@ describe('App item reference navigation', () => {
 
     expect(toolbar.textContent).not.toContain('选择/移动')
     expect(toolbar.textContent).not.toContain('正在放置实体')
+    expect(toolbar.querySelector('[title="删除选中对象（Del）"]')).toBeNull()
     expect(canvas().placingEntity).toBe(false)
 
     await act(async () => entity.click())
@@ -818,9 +1118,9 @@ describe('App item reference navigation', () => {
     expect(canvas().placingEntity).toBe(true)
     expect(toolbar.querySelector('[role="status"]')?.textContent).toContain('正在放置实体')
     expect(button('取消放置', toolbar)).toBeDefined()
-    expect(
-      toolbar.querySelector<HTMLButtonElement>('[title="删除选中对象（Del）"]')?.disabled,
-    ).toBe(true)
+    expect(host.querySelector<HTMLButtonElement>('[aria-label="删除实体 e760"]')?.disabled).toBe(
+      true,
+    )
     await act(async () =>
       window.dispatchEvent(
         new KeyboardEvent('keydown', { key: 'Delete', bubbles: true, cancelable: true }),
@@ -930,15 +1230,28 @@ describe('App item reference navigation', () => {
       },
     ] as typeof scene.onEnter
 
-    await renderApp(shell)
+    const session = await renderApp(shell)
     await act(async () => button('西门', host.querySelector('.outliner')!).click())
 
+    const deleteButton = host.querySelector<HTMLButtonElement>('[aria-label="删除命名落点 西门"]')!
+    expect(deleteButton.disabled).toBe(true)
+    expect(deleteButton.title).toContain('1 处脚本引用')
     const panel = host.querySelector<HTMLElement>('.ds-reference-panel')!
     const row = panel.querySelector<HTMLElement>('.ds-reference-row')!
     expect(panel.textContent).toContain('1 处引用')
     expect(row.tagName).toBe('BUTTON')
     expect(row.getAttribute('aria-disabled')).toBeNull()
     expect(row.textContent).toContain('s047 进场脚本')
+
+    await act(async () => deleteButton.click())
+    await act(async () =>
+      window.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Delete', bubbles: true, cancelable: true }),
+      ),
+    )
+    expect(session.getState().scenes[0]!.entries?.['door-west']).toBeDefined()
+    expect(host.querySelector('.insp-head .what')?.textContent).toContain('选中命名落点')
+    expect(host.querySelector('[role="status"]')?.textContent).not.toContain('已删除')
   })
 
   test('content17 场景脚本进入 canonical 工作区而不是 legacy stages 抽屉', async () => {

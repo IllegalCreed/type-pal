@@ -233,9 +233,9 @@ describe('editor design-system static boundary', () => {
         path.endsWith('.tsx') && !path.endsWith('.test.tsx') && !path.includes('/design-system/'),
     )
     const ceilings = {
-      input: 121,
+      input: 120,
       textarea: 2,
-      label: 77,
+      label: 76,
     } as const
 
     for (const [tag, ceiling] of Object.entries(ceilings)) {
@@ -483,7 +483,7 @@ describe('editor design-system static boundary', () => {
       'CutsceneTab.tsx': /<DsCatalogControls[\s\S]*?overflowActions=\{/,
       'TilesetTab.tsx': /<TilesetPreview[\s\S]*?actions=\{/,
       'SharedScriptTab.tsx': /<DsObjectHero[\s\S]*?deleteSelectedScript/,
-      'App.tsx': /className="toolbar"[\s\S]*?deleteSelectedSceneObject/,
+      'App.tsx': /className="scene-outline-row-actions"[\s\S]*?deleteEntity/,
     }
     for (const [file, owner] of Object.entries(expectedOwners))
       expect(readFileSync(join(uiRoot, file), 'utf8'), `${file} lifecycle owner`).toMatch(owner)
@@ -495,7 +495,6 @@ describe('editor design-system static boundary', () => {
       'ActorMode.tsx',
       'BattleSpriteLibrary.tsx',
       'ItemTab.tsx',
-      'LifecycleCommandPanel.tsx',
       'ShopTab.tsx',
       'SpriteActionEditor.tsx',
       'WorldSpriteLibrary.tsx',
@@ -535,6 +534,10 @@ describe('editor design-system static boundary', () => {
     ])
       expect(recipes, selector).toContain(`.${selector}`)
 
+    expect(recipes).toMatch(
+      /\.ds-property-row__value > :is\(\.ds-input, \.in, \.ds-check-label\)\s*\{[\s\S]*?width:\s*100%;[\s\S]*?min-width:\s*0;/,
+    )
+
     const businessCss = readFileSync(join(uiRoot, 'editor.css'), 'utf8')
     expect(businessCss).toContain('Canonical Inspector content bridge')
     expect(businessCss).toMatch(
@@ -545,25 +548,6 @@ describe('editor design-system static boundary', () => {
     )
     expect(businessCss).toMatch(
       /:is\(\.inspector, \.scene-entity-inspector\) :is\(\.tool, \.btn, \.mini-txt\)\s*\{[\s\S]*?min-height:\s*var\(--ds-control-height-compact\);/,
-    )
-
-    const lifecyclePanel = readFileSync(join(uiRoot, 'LifecycleCommandPanel.tsx'), 'utf8')
-    for (const component of [
-      'DsInspectorSection',
-      'DsCard',
-      'DsButton',
-      'DsIconButton',
-      'DsSelectField',
-      'DsNumberField',
-    ])
-      expect(lifecyclePanel, `LifecycleCommandPanel shared ${component}`).toContain(`<${component}`)
-    expect(lifecyclePanel).not.toMatch(/<(?:button|input)\b/)
-    expect(lifecyclePanel).not.toMatch(/className="(?:section|field)\b/)
-    expect(businessCss).toMatch(
-      /\.lifecycle-command-body-list\s*\{[\s\S]*?gap:\s*var\(--ds-space-5\);/,
-    )
-    expect(businessCss).toMatch(
-      /\.lifecycle-command-row\s*\+[\s\S]*?border-top:\s*1px solid var\(--ds-border-subtle\);/,
     )
 
     const pageAnimationEditor = readFileSync(join(uiRoot, 'EntityPageAnimationEditor.tsx'), 'utf8')
@@ -807,6 +791,17 @@ describe('editor design-system static boundary', () => {
     }
   })
 
+  test('script editor summary styles do not leak into the shared add-command button label', () => {
+    const css = readFileSync(join(dirname(here), 'editor.css'), 'utf8')
+    const scriptTree = readFileSync(join(dirname(here), 'ScriptTree.tsx'), 'utf8')
+
+    expect(css).not.toMatch(/\.canonical-script-editor-heading\s+span\s*\{/)
+    expect(css).toMatch(/\.canonical-script-editor-summary\s*\{[^}]*color:\s*var\(--dim\)/s)
+    expect(css).not.toMatch(/\.canonical-script-empty-add\s*\{[^}]*(?:border|background|color):/s)
+    expect(scriptTree).not.toMatch(/className="tool scene-entry-add"/)
+    expect(scriptTree).toMatch(/<DsButton[\s\S]*?className="scene-entry-add"/)
+  })
+
   test('does not grow the legacy button-style families while they are being retired', () => {
     const uiRoot = dirname(here)
     const sources = filesUnder(uiRoot).filter(
@@ -1037,5 +1032,26 @@ describe('editor design-system static boundary', () => {
     for (const path of sources) {
       expect(readFileSync(path, 'utf8'), path).not.toContain('工程')
     }
+  })
+
+  test('keeps editor authoring on the current command dialect without a lifecycle side editor', () => {
+    const srcRoot = dirname(dirname(here))
+    const production = filesUnder(srcRoot).filter(
+      (path) =>
+        (path.endsWith('.ts') || path.endsWith('.tsx')) &&
+        !path.endsWith('.test.ts') &&
+        !path.endsWith('.test.tsx'),
+    )
+    const source = production.map((path) => readFileSync(path, 'utf8')).join('\n')
+
+    expect(
+      production.some(
+        (path) =>
+          path.endsWith('/core/lifecycle-command-editor.ts') ||
+          path.endsWith('/ui/LifecycleCommandPanel.tsx'),
+      ),
+    ).toBe(false)
+    expect(source).not.toMatch(/\bLifecycleCommandPanel\b|lifecycle-command-editor/)
+    expect(source).not.toMatch(/\bBaseAuthorCommand\b/)
   })
 })

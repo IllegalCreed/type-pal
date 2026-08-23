@@ -50,6 +50,7 @@ import {
   DsTextArea,
   DsTextInput,
 } from './design-system/index.js'
+import { EntityStateSelect } from './EntityStateSelect.js'
 import { ImageAssetPicker } from './ImageAssetPicker.js'
 import { MusicPicker } from './MusicPicker.js'
 import { NamedIdPicker } from './NamedIdPicker.js'
@@ -589,11 +590,7 @@ export function CommandForm(props: {
                     })
                 }}
               />
-              {(
-                cue && identity?.kind === 'unbound'
-                  ? identity.portrait
-                  : runtimeCue?.portrait
-              ) ? (
+              {(cue && identity?.kind === 'unbound' ? identity.portrait : runtimeCue?.portrait) ? (
                 <>
                   <ImageAssetPicker
                     value={
@@ -775,9 +772,8 @@ export function CommandForm(props: {
             <EntitySel value={cmd.entity} scene={scene} onChange={(id) => set({ entity: id })} />
           </Row>
           <Row label="状态">
-            <Num value={cmd.state} onChange={(n) => set({ state: n })} />
+            <EntityStateSelect value={cmd.state} onChange={(state) => set({ state })} />
           </Row>
-          <p className="hint">≤0 隐藏 · 1 现身 · ≥2 现身+挡路</p>
         </>
       )
     case 'setEntityFacing':

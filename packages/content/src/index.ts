@@ -62,15 +62,16 @@ export interface Dialogue {
  * 实体引用(C0/M3a):可见实体的外观来源是 actor 或 sprite；zone 是无外观触发区，三选一。
  * NPC、敌人、物件、宝箱等是独立玩法职责，不能从 SpriteDef id 或外观来源反推。
  */
-export type EntityRef = { actor: string } | { sprite: string } | { zone: true }
+export type EntityRef =
+  | { actor: string; facing?: Facing }
+  | { sprite: string; facing?: Facing }
+  | { zone: true; facing?: never }
 
-/** 实体公共字段(实例级:位置/朝向/碰撞/交互)。 */
+/** 实体公共字段(实例级:位置/碰撞/交互)。可见实体的朝向属于 EntityRef。 */
 export interface EntityBase {
   id: string
   /** 世界菱形轴逻辑坐标(D16);height=0 地面站立。 */
   pos: GridPos
-  /** 实例朝向(缺省 down;directional 布局才有视觉差)。 */
-  facing?: Facing
   /** 是否挡路（碰撞） */
   collide?: boolean
   /** 交互触发的对话 id */

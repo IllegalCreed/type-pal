@@ -1,4 +1,4 @@
-import type { AuthorItemCore, ItemData } from '@type-pal/content'
+import type { AuthorItemData, ItemData } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import type { EditorState } from './edit-session.js'
 import {
@@ -7,7 +7,7 @@ import {
 } from './script-editor-projection.js'
 import type { ScriptEditorState } from './script-editor.js'
 
-function item(bodyFlag: string, name = '物品'): AuthorItemCore {
+function item(bodyFlag: string, name = '物品'): AuthorItemData {
   return {
     id: 'item-1',
     name,

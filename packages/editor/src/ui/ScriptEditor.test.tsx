@@ -2,9 +2,10 @@
 
 import {
   type AssetCatalogV1,
-  BASE_AUTHOR_COMMAND_KINDS,
+  type AuthorCommand,
+  type AuthorScriptFlow,
+  RUNTIME_COMMAND_KINDS,
   type SceneDef,
-  type BaseScriptFlow,
 } from '@type-pal/content'
 import { act, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
@@ -67,7 +68,7 @@ describe('CanonicalScriptEditor author presentation', () => {
   })
 
   test('has an author-facing Chinese name for every enabled canonical command kind', () => {
-    const enabled = Object.entries(BASE_AUTHOR_COMMAND_KINDS)
+    const enabled = Object.entries(RUNTIME_COMMAND_KINDS)
       .filter(([, value]) => value)
       .map(([kind]) => kind)
       .sort()
@@ -157,7 +158,7 @@ describe('CanonicalScriptEditor author presentation', () => {
         (button.dataset.commandKinds ?? '').split(',').filter(Boolean),
       ),
     )
-    const enabledKinds = Object.entries(BASE_AUTHOR_COMMAND_KINDS)
+    const enabledKinds = Object.entries(RUNTIME_COMMAND_KINDS)
       .filter(([kind, enabled]) => enabled && kind !== 'holdScreen' && kind !== 'revealScreen')
       .map(([kind]) => kind)
     expect([...insertKinds].sort()).toEqual(enabledKinds.sort())
@@ -166,6 +167,265 @@ describe('CanonicalScriptEditor author presentation', () => {
     )
     expect(unavailableShared?.disabled).toBe(true)
     expect(unavailableShared?.textContent).toContain('请先在“剧情 → 脚本库”创建')
+  })
+
+  test('copies, reorders and removes an entity-state command through shared row actions', async () => {
+    function Harness() {
+      const [body, setBody] = useState<AuthorCommand[]>([
+        {
+          kind: 'suspendEntity',
+          target: { scene: 's001', entity: 'e1' },
+          ticks: 4,
+        },
+        {
+          kind: 'hideEntity',
+          target: { scene: 's001', entity: 'e1' },
+          ticks: 8,
+        },
+      ])
+      return <CanonicalScriptBodyEditor body={body} onChange={setBody} />
+    }
+
+    await act(async () => root.render(<Harness />))
+    let rows = host.querySelectorAll<HTMLElement>('.cmd-row')
+    expect(rows).toHaveLength(2)
+    await act(async () => rows[0]!.querySelector<HTMLButtonElement>('[aria-label="复制"]')!.click())
+
+    rows = host.querySelectorAll<HTMLElement>('.cmd-row')
+    expect(rows).toHaveLength(3)
+    expect(rows[0]!.textContent).toContain('暂停')
+    expect(rows[1]!.textContent).toContain('暂停')
+    expect(rows[2]!.textContent).toContain('隐藏')
+
+    await act(async () => rows[1]!.querySelector<HTMLButtonElement>('[aria-label="下移"]')!.click())
+    rows = host.querySelectorAll<HTMLElement>('.cmd-row')
+    expect(rows[1]!.textContent).toContain('隐藏')
+    expect(rows[2]!.textContent).toContain('暂停')
+
+    await act(async () => rows[2]!.querySelector<HTMLButtonElement>('[aria-label="删除"]')!.click())
+    expect(host.querySelectorAll<HTMLElement>('.cmd-row')).toHaveLength(2)
+  })
+
+  test('inserts and edits an entity-state command with the shared localized form', async () => {
+    const scene = {
+      id: 's001',
+      mapId: 'map-001',
+      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+      entities: [
+        {
+          id: 'e1',
+          sprite: 'npc',
+          pos: { col: 1, row: 2, height: 0 },
+        },
+      ],
+    }
+    const context: CanonicalScriptEditorContext = {
+      state: { scenes: [scene], items: [], sharedScripts: {} } as never,
+      currentSceneId: 's001',
+      currentEntityId: 'e1',
+      shellScenes: [scene as unknown as SceneDef],
+      locale: {},
+      assetCatalog: { version: 1, assets: {} },
+      audioResolver: {} as CanonicalScriptEditorContext['audioResolver'],
+      assetReader: {} as CanonicalScriptEditorContext['assetReader'],
+      references: { choices: () => [], has: () => false, label: (_kind, id) => id },
+      battleSprites: [],
+    }
+
+    function Harness() {
+      const [body, setBody] = useState<AuthorCommand[]>([])
+      return <CanonicalScriptBodyEditor body={body} context={context} onChange={setBody} />
+    }
+
+    await act(async () => root.render(<Harness />))
+    await act(async () =>
+      [...host.querySelectorAll<HTMLButtonElement>('button')]
+        .find((candidate) => candidate.textContent?.includes('添加指令'))!
+        .click(),
+    )
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[data-command-kinds="suspendEntity"]')!.click(),
+    )
+
+    let row = host.querySelector<HTMLElement>('.cmd-row')!
+    expect(row.textContent).toContain('暂停 s001/e1')
+    await act(async () =>
+      row.dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true })),
+    )
+    const dialog = host.querySelector<HTMLElement>('[role="dialog"]')!
+    expect(dialog.querySelector('[role="combobox"][aria-label="场景"]')).not.toBeNull()
+    expect(dialog.querySelector('[role="combobox"][aria-label="实体"]')).not.toBeNull()
+    expect(dialog.textContent).toContain('持续时间（tick）')
+
+    const ticks = dialog.querySelector<HTMLInputElement>('input[type="number"]')!
+    const valueSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
+    await act(async () => {
+      valueSetter.call(ticks, '6')
+      ticks.dispatchEvent(new Event('input', { bubbles: true }))
+    })
+    await act(async () =>
+      [...dialog.querySelectorAll<HTMLButtonElement>('button')]
+        .find((candidate) => candidate.textContent === '完成')!
+        .click(),
+    )
+    row = host.querySelector<HTMLElement>('.cmd-row')!
+    expect(row.textContent).toContain('6 tick')
+  })
+
+  test('edits entity state through Chinese semantic choices without rewriting an existing raw value', async () => {
+    const onChange = vi.fn()
+    await act(async () =>
+      root.render(
+        <CanonicalScriptBodyEditor
+          body={[
+            {
+              kind: 'setEntityState',
+              target: { scene: 's001', entity: 'e4' },
+              state: 3,
+            },
+          ]}
+          onChange={onChange}
+        />,
+      ),
+    )
+
+    const row = host.querySelector<HTMLElement>('.cmd-row')!
+    expect(row.textContent).toContain('e4 → 显示，阻挡通行（原值 3）')
+    await act(async () =>
+      row.dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true })),
+    )
+
+    expect(onChange).not.toHaveBeenCalled()
+    expect(combobox('状态').textContent).toContain('当前原值 3（显示，阻挡通行）')
+    const listbox = await openCombobox('状态')
+    const optionTexts = [...listbox.querySelectorAll<HTMLElement>('[role="option"]')].map(
+      (option) => option.textContent ?? '',
+    )
+    expect(optionTexts).toEqual([
+      expect.stringContaining('当前原值 3（显示，阻挡通行）'),
+      expect.stringContaining('隐藏'),
+      expect.stringContaining('显示，可通行'),
+      expect.stringContaining('显示，阻挡通行'),
+    ])
+    const passable = [...listbox.querySelectorAll<HTMLElement>('[role="option"]')].find((option) =>
+      option.textContent?.startsWith('显示，可通行'),
+    )!
+    await act(async () => passable.click())
+    expect(onChange).toHaveBeenLastCalledWith([
+      {
+        kind: 'setEntityState',
+        target: { scene: 's001', entity: 'e4' },
+        state: 1,
+      },
+    ])
+  })
+
+  test('uses the same semantic state selector for batch entity commands', async () => {
+    const onChange = vi.fn()
+    await act(async () =>
+      root.render(
+        <CanonicalScriptBodyEditor
+          body={[
+            {
+              kind: 'setMultiEntityState',
+              targets: [
+                { scene: 's001', entity: 'e1' },
+                { scene: 's001', entity: 'e2' },
+              ],
+              state: 0,
+            },
+          ]}
+          onChange={onChange}
+        />,
+      ),
+    )
+
+    const row = host.querySelector<HTMLElement>('.cmd-row')!
+    expect(row.textContent).toContain('批量设置 2 个实体 → 隐藏')
+    await act(async () =>
+      row.dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true })),
+    )
+    const listbox = await openCombobox('状态')
+    const blocking = [...listbox.querySelectorAll<HTMLElement>('[role="option"]')].find((option) =>
+      option.textContent?.startsWith('显示，阻挡通行'),
+    )!
+    await act(async () => blocking.click())
+    expect(onChange).toHaveBeenLastCalledWith([
+      {
+        kind: 'setMultiEntityState',
+        targets: [
+          { scene: 's001', entity: 'e1' },
+          { scene: 's001', entity: 'e2' },
+        ],
+        state: 2,
+      },
+    ])
+  })
+
+  test('keeps trigger zones out of entity-facing insertion and edit targets', async () => {
+    const scene = {
+      id: 's001',
+      mapId: 'map-001',
+      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+      entities: [
+        { id: 'zone-1', zone: true, pos: { col: 1, row: 2, height: 0 } },
+        { id: 'npc-1', sprite: 'npc', pos: { col: 3, row: 4, height: 0 } },
+      ],
+    }
+    const context: CanonicalScriptEditorContext = {
+      state: { scenes: [scene], items: [], sharedScripts: {} } as never,
+      currentSceneId: 's001',
+      currentEntityId: 'zone-1',
+      shellScenes: [scene as unknown as SceneDef],
+      locale: {},
+      assetCatalog: { version: 1, assets: {} },
+      audioResolver: {} as CanonicalScriptEditorContext['audioResolver'],
+      assetReader: {} as CanonicalScriptEditorContext['assetReader'],
+      references: { choices: () => [], has: () => false, label: (_kind, id) => id },
+      battleSprites: [],
+    }
+
+    await act(async () =>
+      root.render(
+        <CanonicalScriptBodyEditor
+          body={[
+            {
+              kind: 'setEntityFacing',
+              target: { scene: 's001', entity: 'zone-1' },
+              facing: 'down',
+            },
+          ]}
+          context={context}
+          onChange={() => {}}
+        />,
+      ),
+    )
+    await act(async () =>
+      [...host.querySelectorAll<HTMLButtonElement>('button')]
+        .find((candidate) => candidate.textContent?.includes('添加指令'))!
+        .click(),
+    )
+    const facingChoice = host.querySelector<HTMLButtonElement>(
+      '[data-command-kinds="setEntityFacing"]',
+    )!
+    expect(facingChoice.disabled).toBe(true)
+    expect(facingChoice.textContent).toContain('触发区没有朝向')
+    expect(
+      host.querySelector<HTMLButtonElement>('[data-command-kinds="suspendEntity"]')?.disabled,
+    ).toBe(false)
+
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="关闭"]')!.click())
+    const row = host.querySelector<HTMLElement>('.cmd-row')!
+    await act(async () =>
+      row.dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true })),
+    )
+    const entityOptions = await openCombobox('实体')
+    const zoneOption = [...entityOptions.querySelectorAll<HTMLElement>('[role="option"]')].find(
+      (option) => option.textContent?.includes('zone-1'),
+    )!
+    expect(zoneOption.getAttribute('aria-disabled')).toBe('true')
+    expect(zoneOption.textContent).toContain('不支持朝向')
+    expect(entityOptions.textContent).toContain('npc-1')
   })
 
   test('focuses a referenced command once per revision and fails closed for stale paths', async () => {
@@ -378,7 +638,13 @@ describe('CanonicalScriptEditor author presentation', () => {
     await act(async () =>
       root.render(
         <CanonicalScriptBodyEditor
-          body={[{ kind: 'dialog', cue: { rows: [{ text: '测试对话' }] } }, { kind: 'cameraSnap' }]}
+          body={[
+            {
+              kind: 'dialog',
+              cue: { identity: { kind: 'narration' }, rows: [{ text: '测试对话' }] },
+            },
+            { kind: 'cameraSnap' },
+          ]}
           context={context}
           onChange={() => {}}
         />,
@@ -389,7 +655,7 @@ describe('CanonicalScriptEditor author presentation', () => {
     await act(async () =>
       rows[0]!.dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true })),
     )
-    expect(host.textContent).toContain('说话人')
+    expect(host.textContent).toContain('身份')
     expect(host.textContent).not.toContain('应用 JSON')
     expect(host.querySelector('.cf-json')).toBeNull()
 
@@ -506,7 +772,7 @@ describe('CanonicalScriptEditor author presentation', () => {
                 },
                 rows: [{ text: 'dialog.hero' }],
               },
-            } as never,
+            },
           ]}
           context={context}
           onChange={() => {}}
@@ -520,7 +786,7 @@ describe('CanonicalScriptEditor author presentation', () => {
 
   test('separates trigger-stage creation, details, and deletion while preserving body tabs', async () => {
     function Harness() {
-      const [flow, setFlow] = useState<BaseScriptFlow>({
+      const [flow, setFlow] = useState<AuthorScriptFlow>({
         kind: 'stages' as const,
         initial: 'first',
         stages: [
@@ -639,7 +905,7 @@ describe('CanonicalScriptEditor author presentation', () => {
   })
 
   test('selects the referenced execution step without pulling the author back after edits', async () => {
-    const flow: BaseScriptFlow = {
+    const flow: AuthorScriptFlow = {
       kind: 'stages',
       initial: 'first',
       stages: [
@@ -728,7 +994,7 @@ describe('CanonicalScriptEditor author presentation', () => {
   })
 
   test('keeps development-save protection out of author-facing stage controls', async () => {
-    const flow: BaseScriptFlow = {
+    const flow: AuthorScriptFlow = {
       kind: 'stages',
       initial: 'first',
       stages: [
@@ -757,7 +1023,7 @@ describe('CanonicalScriptEditor author presentation', () => {
 
   test('preserves the preparation tab for state-machine entries', async () => {
     function Harness() {
-      const [flow, setFlow] = useState<BaseScriptFlow>({
+      const [flow, setFlow] = useState<AuthorScriptFlow>({
         kind: 'stateMachine',
         machine: {
           id: 'dialogue',

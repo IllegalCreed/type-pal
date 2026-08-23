@@ -1,4 +1,5 @@
 import type {
+  AuthorSceneDef,
   BaseSceneEntityDef,
   EntityDef,
   GridPos,
@@ -87,7 +88,7 @@ export function createCanonicalPlacedEntity(
   id: string,
   pos: GridPos,
   placement: EntityPlacement,
-): BaseSceneEntityDef {
+): AuthorSceneDef['entities'][number] {
   const base = { id, pos: structuredClone(pos) }
   if (placement.mode === 'actor') return { ...base, actor: placement.actorId }
   if (placement.mode === 'sprite') return { ...base, sprite: placement.spriteId }

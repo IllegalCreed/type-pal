@@ -4,7 +4,7 @@
  * `?ui_samples` 只在内存追加视觉评审数据，不改仓库项目。
  * 生产(无 env)→ ProjectPicker 启动屏:新建(克隆/空白)/ 打开本地 / 最近项目(P4)。
  */
-import type { AuthorSceneDef, BaseSceneDef } from '@type-pal/content'
+import type { AuthorSceneDef } from '@type-pal/content'
 import type { LoadedCurrentProject } from '@type-pal/reforge'
 import {
   httpSource,
@@ -55,7 +55,7 @@ function currentCanonicalScriptState(
   sharedScripts = project.authorContent.sharedScripts,
 ): ScriptEditorState {
   return {
-    scenes: structuredClone(scenes) as unknown as BaseSceneDef[],
+    scenes: structuredClone(scenes),
     items: structuredClone(project.authorContent.items) as unknown as ScriptEditorState['items'],
     sharedScripts: structuredClone(sharedScripts) as unknown as ScriptEditorState['sharedScripts'],
   }

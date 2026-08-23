@@ -1,4 +1,4 @@
-import type { SceneDef, BaseSceneDef, BaseScriptFlow } from '@type-pal/content'
+import type { AuthorSceneDef, AuthorScriptFlow, SceneDef } from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
 import { Playback } from './playback.js'
 
@@ -9,14 +9,14 @@ const scene: SceneDef = {
   entities: [],
 }
 
-const canonicalScene: BaseSceneDef = {
+const canonicalScene: AuthorSceneDef = {
   id: 's001',
   mapId: 'map-001',
   entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
   entities: [],
 }
 
-const choiceFlow: BaseScriptFlow = {
+const choiceFlow: AuthorScriptFlow = {
   kind: 'stateMachine',
   machine: {
     id: 'preview-choice',
@@ -108,7 +108,7 @@ describe('Playback', () => {
 
   test('canonical holdScreen 持有黑幕，匹配的 revealScreen 淡入恢复', async () => {
     const playback = new Playback(scene)
-    const flow: BaseScriptFlow = {
+    const flow: AuthorScriptFlow = {
       kind: 'stages',
       initial: 'preview',
       stages: [
@@ -126,6 +126,7 @@ describe('Playback', () => {
     playback.playCanonical('canonical:screen-hold', flow, {
       scene: canonicalScene,
       sharedScripts: {},
+      actorsById: {},
     })
 
     await vi.waitFor(() => {
@@ -202,6 +203,7 @@ describe('Playback', () => {
     playback.playCanonical('canonical:choice', choiceFlow, {
       scene: canonicalScene,
       sharedScripts: library,
+      actorsById: {},
     })
 
     await vi.waitFor(() => expect(playback.view.confirm).not.toBeNull())
@@ -218,6 +220,7 @@ describe('Playback', () => {
     playback.playCanonical('canonical:choice', choiceFlow, {
       scene: canonicalScene,
       sharedScripts: {},
+      actorsById: {},
     })
     await vi.waitFor(() => expect(playback.view.confirm).not.toBeNull())
 
@@ -230,7 +233,7 @@ describe('Playback', () => {
 
   test('canonical shared preview resolves callScript without mutating the authored library', async () => {
     const playback = new Playback(scene)
-    const flow: BaseScriptFlow = {
+    const flow: AuthorScriptFlow = {
       kind: 'stages',
       initial: 'preview',
       stages: [
@@ -253,6 +256,7 @@ describe('Playback', () => {
     playback.playCanonical('canonical:shared:turn-left', flow, {
       scene: canonicalScene,
       sharedScripts: library,
+      actorsById: {},
     })
 
     await vi.waitFor(() => expect(playback.mode).toBe('done'))

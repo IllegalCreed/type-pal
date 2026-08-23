@@ -228,6 +228,7 @@ export function CanonicalSceneScriptWorkspace(props: {
                   playback.playCanonical(previewSourceKey, activeFlow, {
                     scene: canonicalScene,
                     sharedScripts: props.state.sharedScripts,
+                    actorsById: props.actorsById,
                     ...(owner === 'entity'
                       ? {
                           self: {

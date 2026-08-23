@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import type { BaseSceneDef } from '@type-pal/content'
+import type { AuthorSceneDef } from '@type-pal/content'
 import { act, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { renderToStaticMarkup } from 'react-dom/server'
@@ -12,7 +12,7 @@ import {
 } from '../core/script-editor.js'
 import { ScriptSceneHookInspector } from './ScriptSceneHookInspector.js'
 
-const scene: BaseSceneDef = {
+const scene: AuthorSceneDef = {
   id: 's001',
   mapId: 'map-001',
   entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },

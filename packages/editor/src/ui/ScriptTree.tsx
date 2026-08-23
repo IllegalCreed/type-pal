@@ -19,7 +19,8 @@ import type {
 import { lookupText, parseRichText, resolveDialogueIdentity } from '@type-pal/content'
 import { useEffect, useRef } from 'react'
 import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js'
-import { DsSelect } from './design-system/controls.js'
+import { DsButton, DsSelect } from './design-system/controls.js'
+import { entityStateDisplayLabel } from './EntityStateSelect.js'
 
 /** locale 查文本;缺失回落显 id(不崩)。 */
 export function scriptTreeText(id: string | undefined, locale: Locale): string {
@@ -196,14 +197,12 @@ export function describeScriptCommand(
     case 'setEntityState':
       return {
         icon: '👁',
-        label: `${cmd.entity} 状态 → ${cmd.state}`,
-        detail: cmd.state <= 0 ? '隐藏' : cmd.state >= 2 ? '现身+挡路' : '现身',
+        label: `${cmd.entity} → ${entityStateDisplayLabel(cmd.state)}`,
       }
     case 'setMultiEntityState':
       return {
         icon: '👁',
-        label: `批量设 ${cmd.entities.length} 实体 → ${cmd.state}`,
-        detail: cmd.state <= 0 ? '隐藏' : cmd.state >= 2 ? '现身+挡路' : '现身',
+        label: `批量设置 ${cmd.entities.length} 个实体 → ${entityStateDisplayLabel(cmd.state)}`,
       }
     case 'setEntityPos':
       return { icon: '📍', label: `${cmd.entity} 定位`, detail: `(${cmd.pos.col},${cmd.pos.row})` }
@@ -595,13 +594,15 @@ function SceneEntrySections(props: {
               />
             ))
           ) : ctx.onRowAction ? (
-            <button
-              type="button"
-              className="tool scene-entry-add"
+            <DsButton
+              size="compact"
+              variant="secondary"
+              icon="add"
+              className="scene-entry-add"
               onClick={() => ctx.onRowAction?.(`${stageIndex}/entry/prepare/-1`, 'insert')}
             >
-              ＋ 添加准备指令
-            </button>
+              添加准备指令
+            </DsButton>
           ) : (
             <div className="script-empty">（无准备指令）</div>
           )}
@@ -752,13 +753,15 @@ export function ScriptTree(props: {
   const renderBody = (stage: ScriptStage, stageIndex: number) =>
     stage.body.length === 0 ? (
       ctx.onRowAction ? (
-        <button
-          type="button"
-          className="tool scene-entry-add"
+        <DsButton
+          size="compact"
+          variant="secondary"
+          icon="add"
+          className="scene-entry-add"
           onClick={() => ctx.onRowAction?.(`${stageIndex}/-1`, 'insert')}
         >
-          ＋ 插入第一条指令
-        </button>
+          插入第一条指令
+        </DsButton>
       ) : (
         <div className="script-empty">（空段）</div>
       )

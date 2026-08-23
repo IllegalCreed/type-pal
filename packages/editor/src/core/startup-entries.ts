@@ -8,6 +8,6 @@ export function findDefaultEntry(manifest: CurrentManifest): EntryPoint | undefi
 export function requireDefaultEntry(manifest: CurrentManifest): EntryPoint {
   const entry = findDefaultEntry(manifest)
   if (!entry)
-    throw new Error(`直接启动入口 "${manifest.defaultEntryId}" 不存在，请先修复工程入口配置`)
+    throw new Error(`直接启动入口 "${manifest.defaultEntryId}" 不存在，请先修复项目入口配置`)
   return entry
 }

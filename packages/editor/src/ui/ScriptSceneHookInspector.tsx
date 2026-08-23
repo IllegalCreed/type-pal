@@ -1,4 +1,4 @@
-import type { BaseSceneHook } from '@type-pal/content'
+import type { AuthorSceneDef } from '@type-pal/content'
 import { useMemo, useState } from 'react'
 import {
   AddSceneHookCommand,
@@ -23,7 +23,11 @@ import {
 } from './ScriptEditor.js'
 import { DsHelpTip } from './design-system/index.js'
 
-function defaultHook(label: string): BaseSceneHook {
+type AuthorSceneHook = NonNullable<
+  NonNullable<NonNullable<AuthorSceneDef['hooks']>['onEnter']>['variants']
+>[string]
+
+function defaultHook(label: string): AuthorSceneHook {
   return {
     label,
     order: 0,
