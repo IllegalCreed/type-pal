@@ -138,6 +138,12 @@ describe('editor design-system static boundary', () => {
     expect(recipes).toMatch(
       /\.ds-object-workspace__content\s*\{[\s\S]*?grid-auto-rows:\s*max-content;/,
     )
+    expect(recipes).toMatch(
+      /\.ds-object-workspace__content\s*\{[\s\S]*?flex:\s*1 1 auto;[\s\S]*?overflow:\s*auto;[\s\S]*?overscroll-behavior:\s*contain;/,
+    )
+    const audioWorkbench = readFileSync(join(dirname(here), 'AudioAssetWorkbench.tsx'), 'utf8')
+    expect(audioWorkbench).toMatch(/<DsObjectWorkspace\b/)
+    expect(audioWorkbench).not.toMatch(/<div className="audio-workspace__scroll">/)
   })
 
   test('keeps canonical script headings content-sized above the scrolling body', () => {
@@ -233,9 +239,9 @@ describe('editor design-system static boundary', () => {
         path.endsWith('.tsx') && !path.endsWith('.test.tsx') && !path.includes('/design-system/'),
     )
     const ceilings = {
-      input: 120,
+      input: 114,
       textarea: 2,
-      label: 76,
+      label: 75,
     } as const
 
     for (const [tag, ceiling] of Object.entries(ceilings)) {
@@ -343,8 +349,7 @@ describe('editor design-system static boundary', () => {
       'WorldSpriteLibrary.tsx',
       'BattleSpriteLibrary.tsx',
       'ImageTab.tsx',
-      'MusicTab.tsx',
-      'SoundTab.tsx',
+      'AudioAssetWorkbench.tsx',
       'CutsceneTab.tsx',
       'VarsTab.tsx',
     ]
@@ -414,8 +419,7 @@ describe('editor design-system static boundary', () => {
       'EnemyTab.tsx',
       'PoisonTab.tsx',
       'ImageTab.tsx',
-      'MusicTab.tsx',
-      'SoundTab.tsx',
+      'AudioAssetWorkbench.tsx',
       'CutsceneTab.tsx',
       'ActorMode.tsx',
       'ShopTab.tsx',
@@ -619,8 +623,7 @@ describe('editor design-system static boundary', () => {
       'WorldSpriteLibrary.tsx',
       'BattleSpriteLibrary.tsx',
       'ImageTab.tsx',
-      'MusicTab.tsx',
-      'SoundTab.tsx',
+      'AudioAssetWorkbench.tsx',
       'CutsceneTab.tsx',
     ]
 
@@ -661,7 +664,7 @@ describe('editor design-system static boundary', () => {
       'ProjectWorkbenchTab.tsx',
       'CutsceneTab.tsx',
       'ImageTab.tsx',
-      'SoundTab.tsx',
+      'AudioAssetWorkbench.tsx',
       'ItemTab.tsx',
       'StampPlacementInspector.tsx',
     ]
@@ -700,12 +703,12 @@ describe('editor design-system static boundary', () => {
       expect(source, `${file} dedicated diagnostic tab`).toMatch(/id:\s*['"]diagnostics['"]/)
     }
 
-    for (const file of ['SoundTab.tsx']) {
+    for (const file of ['AudioAssetWorkbench.tsx']) {
       const source = readFileSync(join(uiRoot, file), 'utf8')
       expect(source, `${file} inline diagnostic`).toMatch(
         /id:\s*['"]references['"][\s\S]*?<DsReferencePanel\b[\s\S]*?<DsDiagnosticPanel\b/,
       )
-      expect(source, `${file} no diagnostic tab`).not.toMatch(/id:\s*['"]diagnostics['"]/)
+      expect(source, `${file} diagnostic tab`).toMatch(/id:\s*['"]diagnostics['"]/)
       expect(source, `${file} closure issue is not cf-err`).not.toMatch(
         /selectedIssues\.map\([\s\S]{0,200}<div className=["']cf-err["']/,
       )

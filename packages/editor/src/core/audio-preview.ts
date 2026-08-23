@@ -286,7 +286,7 @@ export function createWavPreviewTransport(
   }
 }
 
-/** SHA 派生的临时分析缓存；LRU 上限防止大工程持续累积 AudioBuffer。 */
+/** SHA 派生的临时分析缓存；LRU 上限防止大项目持续累积 AudioBuffer。 */
 export class AudioPreviewCache<T> {
   readonly #limit: number
   readonly #values = new Map<string, T>()

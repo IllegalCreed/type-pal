@@ -781,6 +781,7 @@
 .ds-object-workspace__content {
   display: grid;
   width: 100%;
+  min-width: 0;
   min-height: 0;
   box-sizing: border-box;
   flex: 1 1 auto;
@@ -788,6 +789,8 @@
   gap: var(--ds-space-7);
   padding: var(--ds-space-8);
   overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
 }
 
 .ds-catalog-controls {

@@ -16,6 +16,7 @@ import {
   DsInspectorSection,
   DsInspectorTabs,
   DsObjectHero,
+  DsObjectWorkspace,
   DsPropertyGrid,
   DsPropertyRow,
   DsReferenceGroup,
@@ -80,6 +81,28 @@ describe('object workbench recipes', () => {
     expect(host.querySelector('.ds-object-hero__actions')?.textContent).toBe('试放')
     expect(host.querySelector('.ds-object-hero__meta .ds-tag')).not.toBeNull()
     expect(host.querySelector('.ds-object-hero__actions .ds-button')).not.toBeNull()
+  })
+
+  test('owns one constrained scroll content region below the object hero', async () => {
+    await act(async () =>
+      root.render(
+        <DsObjectWorkspace
+          label="音乐工作区"
+          className="domain-workspace"
+          contentClassName="domain-scroll"
+          hero={<DsObjectHero eyebrow="音乐" title="开场" />}
+        >
+          <DsWorkbenchSection title="基本信息">内容</DsWorkbenchSection>
+        </DsObjectWorkspace>,
+      ),
+    )
+    const workspace = host.querySelector('.ds-object-workspace.domain-workspace')!
+    expect(workspace.getAttribute('aria-label')).toBe('音乐工作区')
+    expect(workspace.querySelectorAll(':scope > .ds-object-hero')).toHaveLength(1)
+    const content = workspace.querySelector(
+      ':scope > .ds-object-workspace__content.domain-scroll',
+    )!
+    expect(content.querySelectorAll(':scope > .ds-workbench-section')).toHaveLength(1)
   })
 
   test('catalog row exposes one selected-state contract and preserves button behavior', async () => {

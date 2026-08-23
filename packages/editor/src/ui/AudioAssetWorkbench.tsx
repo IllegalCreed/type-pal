@@ -31,6 +31,7 @@ import {
   DsInspectorSection,
   DsInspectorTabs,
   DsObjectHero,
+  DsObjectWorkspace,
   DsPropertyGrid,
   DsPropertyRow,
   DsReferenceList,
@@ -589,13 +590,12 @@ export function AudioAssetWorkbench(props: {
           <div className="insp-empty">{entries.length ? '没有匹配的资源。' : strategy.emptyLabel}</div>
         )}
       </div>
-      <div className="canvas-wrap data-body audio-workspace">
-        {missingFocusedId ? (
-          <DsStatus tone="error">
-            引用目标 AssetId“{missingFocusedId}”不在项目 catalog；不会跳到其他资源。
-          </DsStatus>
-        ) : selected ? (
-          <>
+      <DsObjectWorkspace
+        label={`${strategy.title}工作区`}
+        className="canvas-wrap data-body audio-workspace"
+        contentClassName="audio-workspace__scroll"
+        hero={
+          !missingFocusedId && selected ? (
             <DsObjectHero
               className="media-asset-hero audio-asset-hero"
               eyebrow={strategy.title}
@@ -639,48 +639,55 @@ export function AudioAssetWorkbench(props: {
                 </>
               }
             />
-            <div className="audio-workspace__scroll">
-              <DsWorkbenchSection title="基本信息" description="名称可修改；稳定 ID 与文件信息保持只读。">
-                <MediaAssetNameField
-                  assetId={selected.id}
-                  label={selected.record.label}
-                  session={session}
-                />
-                <DsPropertyGrid>
-                  <DsPropertyRow label="AssetId">
-                    <code>{selected.id}</code>
-                  </DsPropertyRow>
-                  <DsPropertyRow label="格式">{selected.record.mediaType}</DsPropertyRow>
-                  <DsPropertyRow label="文件">
-                    <code>{selected.record.path}</code>
-                  </DsPropertyRow>
-                  <DsPropertyRow label="来源">
-                    {ORIGIN_LABELS[selected.record.origin.kind]}
-                  </DsPropertyRow>
-                  <DsPropertyRow label="大小">{formatBytes(selected.record.bytes)}</DsPropertyRow>
-                </DsPropertyGrid>
-              </DsWorkbenchSection>
-              <DsWorkbenchSection
-                title="试听"
-                description={
-                  strategy.kind === 'music'
-                    ? '时间轴显示 MIDI 音符活动，不代表 PCM 振幅。'
-                    : '时间轴来自当前 WAV 解码后的真实 PCM 峰值。'
-                }
-              >
-                <AudioAssetPlayer
-                  assetId={selected.id}
-                  sha256={selected.record.sha256}
-                  reader={reader}
-                  strategy={strategy}
-                />
-              </DsWorkbenchSection>
-            </div>
+          ) : undefined
+        }
+      >
+        {missingFocusedId ? (
+          <DsStatus tone="error">
+            引用目标 AssetId“{missingFocusedId}”不在项目 catalog；不会跳到其他资源。
+          </DsStatus>
+        ) : selected ? (
+          <>
+            <DsWorkbenchSection title="基本信息" description="名称可修改；稳定 ID 与文件信息保持只读。">
+              <MediaAssetNameField
+                assetId={selected.id}
+                label={selected.record.label}
+                session={session}
+              />
+              <DsPropertyGrid>
+                <DsPropertyRow label="AssetId">
+                  <code>{selected.id}</code>
+                </DsPropertyRow>
+                <DsPropertyRow label="格式">{selected.record.mediaType}</DsPropertyRow>
+                <DsPropertyRow label="文件">
+                  <code>{selected.record.path}</code>
+                </DsPropertyRow>
+                <DsPropertyRow label="来源">
+                  {ORIGIN_LABELS[selected.record.origin.kind]}
+                </DsPropertyRow>
+                <DsPropertyRow label="大小">{formatBytes(selected.record.bytes)}</DsPropertyRow>
+              </DsPropertyGrid>
+            </DsWorkbenchSection>
+            <DsWorkbenchSection
+              title="试听"
+              description={
+                strategy.kind === 'music'
+                  ? '时间轴显示 MIDI 音符活动，不代表 PCM 振幅。'
+                  : '时间轴来自当前 WAV 解码后的真实 PCM 峰值。'
+              }
+            >
+              <AudioAssetPlayer
+                assetId={selected.id}
+                sha256={selected.record.sha256}
+                reader={reader}
+                strategy={strategy}
+              />
+            </DsWorkbenchSection>
           </>
         ) : (
           <div className="insp-empty">{strategy.emptyLabel}</div>
         )}
-      </div>
+      </DsObjectWorkspace>
       <div className="inspector inspector--tabbed music-inspector audio-inspector">
         {selected ? (
           <DsInspectorTabs

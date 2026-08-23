@@ -94,6 +94,14 @@ describe('AudioAssetWorkbench async selection lifecycle', () => {
         />,
       )
     })
+    const workspace = host.querySelector('.audio-workspace.ds-object-workspace')!
+    expect(workspace.getAttribute('aria-label')).toBe('音乐工作区')
+    expect(workspace.querySelectorAll(':scope > .ds-object-hero')).toHaveLength(1)
+    expect(
+      workspace.querySelectorAll(
+        ':scope > .audio-workspace__scroll.ds-object-workspace__content',
+      ),
+    ).toHaveLength(1)
     await vi.waitFor(() => expect(requests).toHaveLength(1))
     expect(requests[0]?.asset).toBe('music.opening')
 

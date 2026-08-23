@@ -208,10 +208,10 @@ Branch: codex/ed-audio-workbench-1
 
 ### 进入 done 前:审查签字
 
-- Codex: **accept（2026-08-23）**——聚焦 Vitest 7 files / 26 tests、editor/reforge typecheck、`git diff --check`、真 PAL MIDI/WAV 浏览器 smoke 与净重载 console 均通过；A→B→A stale cache 竞态已有共享工作台级回归。
+- Codex: **accept（2026-08-23 滚动返工复验）**——中央内容区已接入 `DsObjectWorkspace` 的唯一滚动 owner；1280×720 实测 `clientHeight=504 / scrollHeight=872`，可滚至 `scrollTop=260`；聚焦 5 files / 70 tests 与 editor typecheck 通过。
 - Kimi: pending
 - GLM: pending
-- counter / 返工处理: N/A
+- counter / 返工处理: 2026-08-23 用户指出音效正文无法滚动。根因不是缺少局部 `overflow:auto`，而是页面私有 grid 把两张内容卡压缩后由卡片 `overflow:hidden` 裁切，外层因此检测不到溢出。已将 Hero / 正文结构收敛到共享 `DsObjectWorkspace`，为正文固化 `min-height:0 + flex:1 + grid-auto-rows:max-content + overflow:auto`，并由 boundary test 禁止音频页重新声明私有滚动壳。
 - 缺签豁免: N/A
 - done 准入结论: blocked
 
@@ -319,11 +319,13 @@ Branch: codex/ed-audio-workbench-1
   - 派生分析缓存真正包住 transport load，支持 inflight 去重、有界淘汰和 SHA 身份；A→B→A 竞态会在旧 A 被中止后重试当前 A，迟到 B 不得覆盖。
   - 页面隐藏时停止 rAF 时钟轮询，恢复可见且仍播放时再继续；切换资源、替换 SHA、卸载会停止旧 transport 并丢弃旧 generation。
   - Hero 持有替换/删除，中央基本信息持有改名/只读元数据；右侧只保留同源引用与诊断，全局保存仍是唯一保存入口。
+  - 滚动返工将中央 Hero + 长正文统一接入 `DsObjectWorkspace`；共享正文是唯一滚动 owner，页面只保留音频领域的宽度/背景覆写，不再复制高度、grid track 与 overflow 合同。
 - 运行命令:
   - `pnpm exec vitest run packages/editor/src/core/audio-preview.test.ts packages/editor/src/ui/AudioAssetWorkbench.test.tsx packages/editor/src/ui/MusicTab.test.tsx packages/editor/src/ui/SoundTab.test.ts packages/editor/src/ui/AssetInspectorTabs.test.tsx packages/editor/src/ui/design-system/virtual-list.test.tsx packages/reforge/src/audio/midi-preview.test.ts` → 7 files / 26 tests passed，2.13s。
   - `pnpm --filter @type-pal/editor typecheck` → passed。
   - `pnpm --filter @type-pal/reforge typecheck` → passed。
   - `git diff --check` → passed。
+  - 滚动返工：`pnpm exec vitest run packages/editor/src/ui/design-system/recipes.test.tsx packages/editor/src/ui/design-system/boundary.test.ts packages/editor/src/ui/AudioAssetWorkbench.test.tsx packages/editor/src/ui/MusicTab.test.tsx packages/editor/src/ui/SoundTab.test.ts` → 5 files / 70 tests passed，2.29s。
 - 浏览器 / 手工检查: localhost:6010 的 `ui_samples=1` 音乐/音效真实页面 smoke 已完成，详见视觉验证记录。
 - 跳过的检查及原因: 未重复运行完整 editor 长套件；本卡遵循用户要求只执行覆盖改动面的聚焦 Vitest、editor/reforge typecheck 与 `git diff --check`。
 
@@ -347,17 +349,18 @@ Branch: codex/ed-audio-workbench-1
   - 真 PAL MIDI 等待到“就绪 / 音符活动”，执行播放、暂停、停止并快速切换 `music.pal.001 → .002 → .001`。
   - 真 PAL WAV 等待到“就绪 / PCM 波形”，执行播放与停止；seek slider 已渲染且 enabled，transport seek 由聚焦自动化覆盖。
   - 最终带时间戳净重载后读取浏览器日志，新增 error/warn 为 0。
+  - 滚动返工在 1280×720 音效页直接读取 canonical content metrics：`clientHeight=504`、`scrollHeight=872`、`grid-auto-rows=max-content`、`overflow-y=auto`；实际执行滚动后 `scrollTop=260`（最大 368）。
 - 集中 E2E 用例 / 批次: N/A
 - 截图 / 像素检查路径: N/A（浏览器交互 smoke，未保存仓库截图）
-- 结论: 音乐 / 音效同源布局、真实时间轴标签、播放状态、快速切换与无横向溢出通过；StrictMode 初次卡 loading 与 stale cache 竞态均已修复并复验。
+- 结论: 音乐 / 音效同源布局、真实时间轴标签、播放状态、快速切换、无横向溢出及中央长内容滚动通过；StrictMode 初次卡 loading 与 stale cache 竞态均已修复并复验。
 - 未完成项: Kimi / GLM 独立 review 与用户最终验收。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: Codex 内部只读压力审查发现并已修复 AudioContext render 泄漏、缓存未包住 load、隐藏页 rAF、MIDI 自然结束重播、PCM sentinel、虚拟列表显式焦点与 A→B→A 中止重试问题；Kimi / GLM 待独立验收。
-- 必须返工项: 当前无已知 Codex 阻断项；若 Kimi / GLM counter，任务转 `rework`。
-- Accept / rework: Codex accept；Kimi / GLM pending，`done` 仍 blocked。
+- 审查结论: Codex 内部只读压力审查发现并已修复 AudioContext render 泄漏、缓存未包住 load、隐藏页 rAF、MIDI 自然结束重播、PCM sentinel、虚拟列表显式焦点与 A→B→A 中止重试问题；用户滚动 counter 已按共享对象工作区合同返工并浏览器复验；Kimi / GLM 待独立验收。
+- 必须返工项: 当前无已知 Codex 阻断项；Kimi / GLM 需审查最新共享滚动容器与 boundary ratchet，若 counter，任务转 `rework`。
+- Accept / rework: Codex accept（含滚动返工）；Kimi / GLM pending，`done` 仍 blocked。
 
 ## 用户验收
 
@@ -366,6 +369,7 @@ Branch: codex/ed-audio-workbench-1
 
 ## 交接日志
 
+- 2026-08-23 User + Codex（滚动 counter / 返工）: 用户指出音效中央页面再次无法滚动。DOM 一手证据显示私有 `.audio-workspace__scroll` 的两张卡分别从实际 383/431px 被压到约 224px，并由卡片 `overflow:hidden` 裁切；外层 `scrollHeight` 因而错误等于 `clientHeight=504`。Codex 新增共享 `DsObjectWorkspace`，音频页采用 canonical Hero + 单一正文滚动 owner；修复后正文 `504/872`，实际滚至 `scrollTop=260`，5 files / 70 tests 通过。任务返回 review。
 - 2026-08-23 Codex 内部 transport/cache 独立压力复核: **accept（不代签 Kimi/GLM）**。直接复核 A→B→A generation 隔离与单次重试、StrictMode 微任务清理、WAV/MIDI serial/dispose 和 MIDI 自然结束重播；独立聚焦测试与 typecheck 通过。仅登记非阻塞 P3：通用 `AudioPreviewCache.clear()` 若未来脱离当前 generation/dispose owner 复用，应增加 epoch/条件删除硬化；当前生产路径不受影响。
 - 2026-08-23 Codex（实现 / 集成 / 浏览器验证）: 完成共享音频工作台、WAV/MIDI 双 transport、真实 PCM/音符活动、有界虚拟目录与引用/诊断接线。内部压力审查先后定位并修复 StrictMode AudioContext 泄漏、分析缓存未包住实际 load、隐藏页 rAF、自然结束重播、PCM sentinel、显式焦点和 A→B→A cache 中止竞态；为最后一项新增共享工作台级回归。浏览器验证真 PAL MIDI/WAV 加载、播放状态、快速切换和无横向溢出通过。
 - 2026-08-23 GLM（覆盖/格式 census/性能/测试矩阵）: 审查完成，签 **premise verified +
@@ -390,11 +394,11 @@ Branch: codex/ed-audio-workbench-1
 ```text
 接手任务: ED-AUDIO-WORKBENCH-1 音乐 / 音效统一资源工作台与音频时间轴
 任务卡: docs/ops/tasks/ED-AUDIO-WORKBENCH-1-audio-resource-workbench.md
-当前状态: review；Codex 实现、自验与浏览器 smoke 已完成，Codex accept；Kimi / GLM review accept 待补
+当前状态: review；Codex 实现、自验、滚动返工与浏览器 smoke 已完成，Codex accept；Kimi / GLM review accept 待补
 你的角色: Kimi 负责跨包 transport / 生命周期 / 竞态审查；GLM 负责 GA1-GA4、缓存集成、测试矩阵与任务证据审查
 先读: AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、editor-design-system-v1.md、A7-0/A7-1 音频边界，以及卡内代码锚点
-已完成: 单一 AudioAssetWorkbench、86/363 有界目录、WAV PCM/MIDI 音符活动、双 transport、分析缓存、A→B→A 竞态回归、聚焦测试/typecheck 与浏览器 smoke
-请你做: 直接读取一手实现与最终验证证据，审查 transport 生命周期、StrictMode、缓存/竞态、虚拟列表、GA1-GA4 与设计系统采用面；在任务卡签 review accept，或 counter 并写明可复现返工项
+已完成: 单一 AudioAssetWorkbench、86/363 有界目录、WAV PCM/MIDI 音符活动、双 transport、分析缓存、A→B→A 竞态回归、共享 DsObjectWorkspace 唯一滚动 owner、聚焦测试/typecheck 与浏览器 smoke
+请你做: 直接读取一手实现与最终验证证据，审查 transport 生命周期、StrictMode、缓存/竞态、虚拟列表、GA1-GA4、共享滚动容器与 boundary ratchet；在任务卡签 review accept，或 counter 并写明可复现返工项
 不要做: review 阶段不得直接修改实现文件；若 counter，请把任务退回 rework；三方 accept 与用户验收前不得标记 done
 输出要求: 更新任务卡对应 review 签字与审查日志；明确 accept/counter、证据锚点和剩余风险
 ```

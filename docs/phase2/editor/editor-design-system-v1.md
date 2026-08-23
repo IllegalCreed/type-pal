@@ -521,6 +521,10 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - 主编辑按任务 tab/section 分组，不能把全部字段塞入永久 Inspector。
 - `DsObjectHero` 贯穿中央列并承载当前对象的 meta 与中央 owner 的对象级 actions；它不进入内容滚动层。
   若完整对象操作已由左侧管理列表持有，Hero 不重复；引用 Inspector 永不增加第二个删除入口。
+- Hero + 长内容必须由 `DsObjectWorkspace` 组成：工作区根负责 `flex + min-height:0 + overflow:hidden`，
+  `ds-object-workspace__content` 是中央列唯一滚动 owner，固定使用 `flex:1 1 auto`、`grid-auto-rows:max-content`
+  与 `overflow:auto`。领域页面只可追加背景、内容宽度和排版 class，不得重建一套私有滚动壳，也不得让卡片
+  在受限高度内压缩后用 `overflow:hidden` 吞掉内容。
 - 正向参考：`ActorMode` 的对象列表头和明确任务分区、B2 的编辑卡/引用面板。
 - 必须修正的参考缺陷：角色页仍需服从统一 tokens、字段密度、响应式和状态合同；不能复制私有 CSS。
 - 反例：把行走图预览永久占据中央主位、把重要战斗/关系字段都挤入窄 Inspector。

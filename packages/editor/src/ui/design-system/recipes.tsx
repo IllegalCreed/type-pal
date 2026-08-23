@@ -75,6 +75,30 @@ export function DsObjectHero(props: {
   )
 }
 
+/**
+ * 对象工作区的固定滚动壳。Hero 固定在中央列顶部，长内容只能由内部 content 持有滚动。
+ * 领域页面可追加 className 做背景或宽度布局，但不得另建并列的 overflow owner。
+ */
+export function DsObjectWorkspace(props: {
+  label: string
+  hero?: ReactNode
+  children: ReactNode
+  className?: string
+  contentClassName?: string
+}) {
+  return (
+    <section
+      className={dsClasses('ds-object-workspace', props.className)}
+      aria-label={props.label}
+    >
+      {props.hero}
+      <div className={dsClasses('ds-object-workspace__content', props.contentClassName)}>
+        {props.children}
+      </div>
+    </section>
+  )
+}
+
 /** 目录中的完整宽度对象行；选中态固定为方角面 + 左侧强调线。 */
 export const DsCatalogRow = forwardRef<
   HTMLButtonElement,

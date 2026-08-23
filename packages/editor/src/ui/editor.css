@@ -14192,20 +14192,6 @@ button.sprite-frame-cell[draggable="true"]:active {
     var(--ds-surface-canvas);
 }
 
-.audio-workspace > .ds-status {
-  margin: var(--ds-space-6);
-}
-
-.audio-workspace__scroll {
-  display: grid;
-  width: 100%;
-  min-height: 0;
-  align-content: start;
-  gap: var(--ds-space-6);
-  padding: var(--ds-space-7);
-  overflow: auto;
-}
-
 .audio-workspace__scroll > .ds-workbench-section {
   width: min(100%, 1040px);
   margin-inline: auto;
