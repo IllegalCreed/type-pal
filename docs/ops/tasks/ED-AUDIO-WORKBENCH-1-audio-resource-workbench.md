@@ -208,10 +208,10 @@ Branch: codex/ed-audio-workbench-1
 
 ### 进入 done 前:审查签字
 
-- Codex: **accept（2026-08-23 Tooltip / overlay 返工）**——普通 `DsTooltip` 与 `DsHelpTip` 已共用 `DsFloatingLayer` Portal；音频播放提示在浏览器中确认挂到 `BODY`、`position:fixed` 且完整位于视口内；72 tests 与 editor typecheck 通过。
+- Codex: **re-accept（2026-08-23 播放终点返工）**——WAV/MIDI 自然结束统一归一到精确终点；滑块改用 0–1 归一化进度，短于 1 秒的资源显示百分之一秒；MIDI 结束后的停止/拖动与播放中拖动均按显式位置语义收口。真实 `sound.pal.004` 播完后 DOM 为 `value=max=1`、进度线 `x1=160`、`0:00.53 / 0:00.53`；17 条聚焦回归与 editor/reforge typecheck 通过。
 - Kimi: pending
 - GLM: pending
-- counter / 返工处理: 2026-08-23 用户先指出音效正文无法滚动；已将 Hero / 正文结构收敛到共享 `DsObjectWorkspace` 并通过滚动复验。随后用户指出播放提示文字被截半；一手 CSS 证据为 `DsTooltip` 仍在局部父级内绝对定位，而 `DsWorkbenchSection` 必须保留 `overflow:hidden` 圆角裁切，局部 `z-index` 无法跨越裁切边界。现已让 `DsTooltip`、`DsHelpTip`、select/popover 统一消费共享 `DsFloatingLayer` Portal，普通页面落到 `document.body`、原生 modal 落到最近 `dialog[open]`；删除全部业务页 tooltip 定位补丁，并将控件浮层统一到 `--ds-z-popover`。浏览器实测播放提示未再裁切，返工已解决。
+- counter / 返工处理: 2026-08-23 用户先指出音效正文无法滚动；已将 Hero / 正文结构收敛到共享 `DsObjectWorkspace` 并通过滚动复验。随后用户指出播放提示文字被截半；已将 `DsTooltip`、`DsHelpTip`、select/popover 统一迁入 `DsFloatingLayer` Portal。用户再指出短 WAV 播完后滑块未到头；浏览器一手数据确认资源时长 `0.534s` 被 range 的固定 `step=0.01` 量化为 `0.53`，而波形进度线其实已到 `160/160`。现已改用归一化 range，并将 Spessa `isFinished` 接入 MIDI transport；内部复审继续补齐 Spessa 写 `currentTime` 不会清除 `isFinished`、以及播放中 seek 不得冻结进度的两组边界，返工均已解决。
 - 缺签豁免: N/A
 - done 准入结论: blocked
 
@@ -329,6 +329,8 @@ Branch: codex/ed-audio-workbench-1
   - 滚动返工：`pnpm exec vitest run packages/editor/src/ui/design-system/recipes.test.tsx packages/editor/src/ui/design-system/boundary.test.ts packages/editor/src/ui/AudioAssetWorkbench.test.tsx packages/editor/src/ui/MusicTab.test.tsx packages/editor/src/ui/SoundTab.test.ts` → 5 files / 70 tests passed，2.29s。
   - Tooltip / overlay 返工：`pnpm exec vitest run packages/editor/src/ui/design-system/floating-layer.test.tsx packages/editor/src/ui/design-system/controls.test.tsx packages/editor/src/ui/design-system/boundary.test.ts packages/editor/src/ui/AudioAssetWorkbench.test.tsx packages/editor/src/ui/MusicTab.test.tsx packages/editor/src/ui/SoundTab.test.ts` → 6 files / 72 tests passed，2.74s。
   - Tooltip / overlay 返工后 `pnpm --filter @type-pal/editor typecheck` → passed；`git diff --check` → passed。
+  - 播放终点返工：`pnpm exec vitest run packages/editor/src/ui/AudioAssetWorkbench.test.tsx packages/editor/src/core/audio-preview.test.ts packages/reforge/src/audio/midi-preview.test.ts` → 3 files / 17 tests passed，1.82s；覆盖短 WAV 精确终点、MIDI 自然结束、结束后停止/拖动续播、播放中拖动继续推进。
+  - 播放终点返工后 `pnpm --filter @type-pal/editor typecheck`、`pnpm --filter @type-pal/reforge typecheck`、`git diff --check` → passed。
 - 浏览器 / 手工检查: localhost:6010 的 `ui_samples=1` 音乐/音效真实页面 smoke 已完成，详见视觉验证记录。
 - 跳过的检查及原因: 未重复运行完整 editor 长套件；本卡遵循用户要求只执行覆盖改动面的聚焦 Vitest、editor/reforge typecheck 与 `git diff --check`。
 
@@ -354,17 +356,18 @@ Branch: codex/ed-audio-workbench-1
   - 最终带时间戳净重载后读取浏览器日志，新增 error/warn 为 0。
   - 滚动返工在 1280×720 音效页直接读取 canonical content metrics：`clientHeight=504`、`scrollHeight=872`、`grid-auto-rows=max-content`、`overflow-y=auto`；实际执行滚动后 `scrollTop=260`（最大 368）。
   - 播放按钮 hover 后直接读取提示层几何：文本“播放”，`rect=396,655–438,683`，1280×720 视口内完整可见；`position=fixed`、父节点为 `BODY`、不在圆角卡片内；浏览器新增 error/warn 为 0。
+  - 真 PAL `sound.pal.004`（时长 `0.534s`）自然播放完成后读取 DOM：range `value=1`、`max=1`、ratio `1`；波形进度线 `x1=160`；状态“就绪”；时间 `0:00.53 / 0:00.53`。
 - 集中 E2E 用例 / 批次: N/A
 - 截图 / 像素检查路径: N/A（浏览器交互 smoke，未保存仓库截图）
-- 结论: 音乐 / 音效同源布局、真实时间轴标签、播放状态、快速切换、无横向溢出、中央长内容滚动及动作提示跨裁切容器显示均通过；StrictMode 初次卡 loading 与 stale cache 竞态均已修复并复验。
+- 结论: 音乐 / 音效同源布局、真实时间轴标签、精确播放终点、快速切换、无横向溢出、中央长内容滚动及动作提示跨裁切容器显示均通过；StrictMode 初次卡 loading 与 stale cache 竞态均已修复并复验。
 - 未完成项: Kimi / GLM 独立 review 与用户最终验收。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: Codex 内部只读压力审查发现并已修复 AudioContext render 泄漏、缓存未包住 load、隐藏页 rAF、MIDI 自然结束重播、PCM sentinel、虚拟列表显式焦点与 A→B→A 中止重试问题；用户滚动与 Tooltip 裁切 counter 均已按共享对象工作区 / Portal 浮层合同返工并浏览器复验；Kimi / GLM 待独立验收。
+- 审查结论: Codex 内部只读压力审查发现并已修复 AudioContext render 泄漏、缓存未包住 load、隐藏页 rAF、MIDI 自然结束重播、PCM sentinel、虚拟列表显式焦点与 A→B→A 中止重试问题；用户滚动、Tooltip 裁切与播放终点 counter 均已按共享容器 / 浮层 / transport 合同返工并浏览器复验；Kimi / GLM 待独立验收。
 - 必须返工项: 当前无已知 Codex 阻断项；Kimi / GLM 需审查最新共享滚动容器、`DsFloatingLayer` 的 tooltip/help/select 合同与 boundary ratchet，若 counter，任务转 `rework`。菜单类浮层尚未全部迁入该几何 primitive，属于后续全局 overlay consolidation，不阻断本次 tooltip 裁切修复。
-- Accept / rework: Codex accept（含滚动与 Tooltip / overlay 返工）；Kimi / GLM pending，`done` 仍 blocked。
+- Accept / rework: Codex re-accept（含滚动、Tooltip / overlay 与播放终点返工）；Kimi / GLM pending，`done` 仍 blocked。
 
 ## 用户验收
 
@@ -373,6 +376,7 @@ Branch: codex/ed-audio-workbench-1
 
 ## 交接日志
 
+- 2026-08-23 User + Codex（播放终点 counter / 返工）: 用户指出短 WAV 播完后滑块未到终点。浏览器测得 `sound.pal.004 duration=0.534`，波形进度线已是 `160/160`，但原生 range 因 `step=0.01` 将值量化为 `0.53`；时间格式又向下取整成 `0:00 / 0:00`。Codex 将 seek UI 改为 0–1 归一化进度、短音效显示百分之一秒，并把 Spessa `isFinished` 接入 MIDI 自然结束与重播合同；内部复审再补 finished→stop、finished→seek→play 及 playing→seek→继续推进三条边界。3 files / 17 tests、editor/reforge typecheck、diff-check 通过；真资源播放后 DOM `value=max=1`、时间 `0:00.53 / 0:00.53`。任务返回 review。
 - 2026-08-23 User + Codex（Tooltip 裁切 counter / 返工）: 用户指出播放按钮提示文字被卡片截半，并要求统一处理图层。一手证据确认局部 `position:absolute` tooltip 无法逃逸 `DsWorkbenchSection overflow:hidden`；Codex 将 `DsTooltip`、`DsHelpTip` 与 select/popover 收敛到共享 `DsFloatingLayer` Portal，删除业务页定位补丁，并补内容宽度居中、viewport 避碰、dialog host、ARIA 与 light-dismiss 回归。6 files / 72 tests、editor typecheck、diff-check 通过；浏览器实测“播放”提示父节点为 `BODY`、fixed 且完整在视口内。任务返回 review。
 - 2026-08-23 User + Codex（滚动 counter / 返工）: 用户指出音效中央页面再次无法滚动。DOM 一手证据显示私有 `.audio-workspace__scroll` 的两张卡分别从实际 383/431px 被压到约 224px，并由卡片 `overflow:hidden` 裁切；外层 `scrollHeight` 因而错误等于 `clientHeight=504`。Codex 新增共享 `DsObjectWorkspace`，音频页采用 canonical Hero + 单一正文滚动 owner；修复后正文 `504/872`，实际滚至 `scrollTop=260`，5 files / 70 tests 通过。任务返回 review。
 - 2026-08-23 Codex 内部 transport/cache 独立压力复核: **accept（不代签 Kimi/GLM）**。直接复核 A→B→A generation 隔离与单次重试、StrictMode 微任务清理、WAV/MIDI serial/dispose 和 MIDI 自然结束重播；独立聚焦测试与 typecheck 通过。仅登记非阻塞 P3：通用 `AudioPreviewCache.clear()` 若未来脱离当前 generation/dispose owner 复用，应增加 epoch/条件删除硬化；当前生产路径不受影响。

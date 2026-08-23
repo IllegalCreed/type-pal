@@ -93,8 +93,14 @@ function formatBytes(bytes: number): string {
   return `${(bytes / 1024 / 1024).toFixed(1)} MB`
 }
 
-function formatTime(seconds: number): string {
+function formatTime(seconds: number, showSubseconds = false): string {
   const safe = Math.max(0, Number.isFinite(seconds) ? seconds : 0)
+  if (showSubseconds) {
+    const hundredths = Math.round(safe * 100)
+    const minutes = Math.floor(hundredths / 6000)
+    const remainder = (hundredths % 6000) / 100
+    return `${minutes}:${remainder.toFixed(2).padStart(5, '0')}`
+  }
   const minutes = Math.floor(safe / 60)
   return `${minutes}:${Math.floor(safe % 60)
     .toString()
@@ -271,23 +277,23 @@ function AudioAssetPlayer(props: {
   }
 
   const duration = timeline?.duration ?? clock.duration
+  const progress =
+    duration > 0 ? Math.max(0, Math.min(1, clock.currentTime / duration)) : 0
+  const showSubseconds = duration > 0 && duration < 1
   return (
     <div className="audio-player" data-audio-kind={props.strategy.kind}>
-      <AudioTimelineGraphic
-        timeline={timeline}
-        progress={duration > 0 ? clock.currentTime / duration : 0}
-      />
+      <AudioTimelineGraphic timeline={timeline} progress={progress} />
       <DsRangeInput
         className="audio-timeline__range"
         type="range"
         aria-label={`${props.strategy.title}试听进度`}
-        aria-valuetext={`${formatTime(clock.currentTime)} / ${formatTime(duration)}`}
+        aria-valuetext={`${formatTime(clock.currentTime, showSubseconds)} / ${formatTime(duration, showSubseconds)}`}
         min={0}
-        max={Math.max(duration, 0.001)}
-        step={0.01}
-        value={Math.min(clock.currentTime, Math.max(duration, 0.001))}
+        max={1}
+        step={0.001}
+        value={progress}
         disabled={status !== 'ready' || duration <= 0}
-        onChange={(event) => seek(Number(event.target.value))}
+        onChange={(event) => seek(Number(event.target.value) * duration)}
       />
       <div className="audio-player__transport">
         <DsIconButton
@@ -331,7 +337,8 @@ function AudioAssetPlayer(props: {
           }}
         />
         <output className="audio-player__time" aria-live="off">
-          {formatTime(clock.currentTime)} / {formatTime(duration)}
+          {formatTime(clock.currentTime, showSubseconds)} /{' '}
+          {formatTime(duration, showSubseconds)}
         </output>
         <span className="audio-player__spacer" />
         <span className="audio-player__state">

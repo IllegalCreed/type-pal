@@ -38,6 +38,7 @@ export interface MidiPreviewSequencerAdapter {
   currentTime: number
   readonly duration: number
   readonly paused: boolean
+  readonly finished: boolean
 }
 
 export interface MidiPreviewRuntimeAdapter {
@@ -147,6 +148,9 @@ export function createBrowserMidiPreviewRuntime(
           get paused() {
             return instance.paused
           },
+          get finished() {
+            return instance.isFinished
+          },
         }
         sequencer = adapter
         return adapter
@@ -181,6 +185,7 @@ export function createMidiPreviewTransport(
   let bytes: ArrayBuffer | undefined
   let activity: MidiNoteActivity | undefined
   let position = 0
+  let hasExplicitPosition = false
   let sequencer: MidiPreviewSequencerAdapter | undefined
   let loadedAsset: AssetId | undefined
   let initializePromise: Promise<MidiPreviewSequencerAdapter> | undefined
@@ -207,6 +212,7 @@ export function createMidiPreviewTransport(
     sequencer.pause()
     sequencer.load(bytes.slice(0), asset)
     sequencer.currentTime = clamp(position, 0, duration())
+    hasExplicitPosition = true
     loadedAsset = asset
   }
   const ensureSequencer = async (): Promise<MidiPreviewSequencerAdapter> => {
@@ -234,6 +240,7 @@ export function createMidiPreviewTransport(
       bytes = undefined
       activity = undefined
       position = 0
+      hasExplicitPosition = true
       loadedAsset = undefined
       sequencer?.pause()
       const promise = (async () => {
@@ -270,9 +277,14 @@ export function createMidiPreviewTransport(
         loadSequencer()
         const observedPosition =
           loadedAsset === asset ? clamp(instance.currentTime, 0, duration()) : position
-        position = observedPosition >= duration() ? 0 : observedPosition
+        const requestedPosition = hasExplicitPosition ? position : observedPosition
+        position =
+          (!hasExplicitPosition && instance.finished) || requestedPosition >= duration()
+            ? 0
+            : requestedPosition
         instance.currentTime = clamp(position, 0, duration())
         instance.play()
+        hasExplicitPosition = false
       })().finally(() => {
         if (playPromise?.serial === playRequest) playPromise = undefined
       })
@@ -282,27 +294,39 @@ export function createMidiPreviewTransport(
     pause() {
       cancelPendingPlay()
       if (!sequencer) return
-      position = clamp(sequencer.currentTime, 0, duration())
+      position = clamp(sequencer.finished ? duration() : sequencer.currentTime, 0, duration())
+      hasExplicitPosition = true
       sequencer.pause()
     },
     stop() {
       cancelPendingPlay()
       sequencer?.pause()
       position = 0
+      hasExplicitPosition = true
       if (sequencer) sequencer.currentTime = 0
     },
     seek(seconds) {
       cancelPendingPlay()
       position = clamp(seconds, 0, duration())
+      hasExplicitPosition = !sequencer || sequencer.paused || sequencer.finished
       if (sequencer) sequencer.currentTime = position
     },
     snapshot() {
-      const currentTime = sequencer && loadedAsset === asset ? sequencer.currentTime : position
+      const finished = Boolean(
+        !hasExplicitPosition && sequencer && loadedAsset === asset && sequencer.finished,
+      )
+      const currentTime = hasExplicitPosition
+        ? position
+        : finished
+        ? duration()
+        : sequencer && loadedAsset === asset
+          ? sequencer.currentTime
+          : position
       return {
         asset,
         currentTime: clamp(currentTime, 0, duration()),
         duration: duration(),
-        paused: sequencer?.paused ?? true,
+        paused: finished || (sequencer?.paused ?? true),
       }
     },
     dispose() {

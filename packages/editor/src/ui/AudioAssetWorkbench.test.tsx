@@ -135,3 +135,54 @@ describe('AudioAssetWorkbench async selection lifecycle', () => {
     expect(host.querySelector('.audio-player__time')?.textContent).toContain('0:00 / 0:09')
   })
 })
+
+describe('AudioAssetWorkbench timeline completion', () => {
+  test('renders a fractional short sound at the exact visual and slider endpoint', async () => {
+    const duration = 0.534
+    const transport: AudioWorkbenchTransport = {
+      load: vi.fn(async () => activity(duration, 1)),
+      play: vi.fn(async () => {}),
+      pause: vi.fn(),
+      stop: vi.fn(),
+      seek: vi.fn(),
+      snapshot: vi.fn(() => ({ currentTime: duration, duration, paused: true })),
+      dispose: vi.fn(),
+    }
+    const strategy: AudioAssetWorkbenchStrategy = {
+      kind: 'sound',
+      title: '音效',
+      unit: '项',
+      formatLabel: 'WAV',
+      importLabel: '导入 WAV',
+      accept: '.wav,audio/wav',
+      emptyLabel: '没有音效。',
+      prepareImport: vi.fn(),
+      allocateId: () => 'sound.authored.test',
+      createTransport: () => transport,
+      describeReference: (reference) => ({ title: reference.site, kind: '音效引用' }),
+    }
+
+    await act(async () => {
+      root.render(
+        <AudioAssetWorkbench
+          catalog={catalogControlsAssetCatalog}
+          reader={catalogControlsReader}
+          session={new EditSession(catalogControlsEditorState())}
+          strategy={strategy}
+          focusObjectId="sound.hit"
+        />,
+      )
+    })
+    await vi.waitFor(() =>
+      expect(host.querySelector('.audio-player__state')?.textContent).toBe('就绪'),
+    )
+
+    const range = host.querySelector<HTMLInputElement>('.audio-timeline__range')!
+    expect(range.valueAsNumber).toBe(1)
+    expect(range.max).toBe('1')
+    expect(host.querySelector('.audio-player__time')?.textContent).toContain(
+      '0:00.53 / 0:00.53',
+    )
+    expect(host.querySelector('.audio-timeline__progress')?.getAttribute('x1')).toBe('160')
+  })
+})

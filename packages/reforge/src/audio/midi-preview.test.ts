@@ -28,9 +28,15 @@ function midiBytes(): ArrayBuffer {
 function sequencer() {
   let currentTime = 0
   let paused = true
-  const load = vi.fn()
+  let finished = false
+  const load = vi.fn(() => {
+    currentTime = 0
+    paused = true
+    finished = false
+  })
   const play = vi.fn(() => {
     paused = false
+    finished = false
   })
   const pause = vi.fn(() => {
     paused = true
@@ -49,8 +55,21 @@ function sequencer() {
     get paused() {
       return paused
     },
+    get finished() {
+      return finished
+    },
   }
-  return { adapter, load, play, pause }
+  return {
+    adapter,
+    load,
+    play,
+    pause,
+    finish(value: number) {
+      currentTime = value
+      paused = true
+      finished = true
+    },
+  }
 }
 
 describe('MIDI preview analysis', () => {
@@ -124,6 +143,7 @@ describe('MIDI preview transport', () => {
     backend.adapter.currentTime = activity.duration / 2
     transport.pause()
     expect(transport.snapshot().paused).toBe(true)
+    expect(transport.snapshot().currentTime).toBe(activity.duration / 2)
     transport.seek(99)
     expect(transport.snapshot().currentTime).toBe(activity.duration)
     transport.stop()
@@ -136,6 +156,85 @@ describe('MIDI preview transport', () => {
     expect(backend.adapter.currentTime).toBe(0)
     transport.dispose()
     expect(runtime.dispose).toHaveBeenCalledOnce()
+  })
+
+  test('normalizes natural completion to the exact end and resets before replay', async () => {
+    const backend = sequencer()
+    const runtime = {
+      context: { state: 'running' as AudioContextState, resume: vi.fn(async () => {}) },
+      initialize: vi.fn(async () => backend.adapter),
+      dispose: vi.fn(),
+    } satisfies MidiPreviewRuntimeAdapter
+    const transport = createMidiPreviewTransport(
+      { readBytes: vi.fn(async () => midiBytes()) } as never,
+      runtime,
+    )
+
+    const activity = await transport.load('music.test')
+    await transport.play()
+    backend.finish(activity.duration * 0.8)
+
+    expect(transport.snapshot()).toMatchObject({
+      currentTime: activity.duration,
+      duration: activity.duration,
+      paused: true,
+    })
+
+    await transport.play()
+    expect(backend.adapter.currentTime).toBe(0)
+    expect(backend.play).toHaveBeenCalledTimes(2)
+  })
+
+  test('lets stop and seek override a completed sequencer before the next play', async () => {
+    const backend = sequencer()
+    const runtime = {
+      context: { state: 'running' as AudioContextState, resume: vi.fn(async () => {}) },
+      initialize: vi.fn(async () => backend.adapter),
+      dispose: vi.fn(),
+    } satisfies MidiPreviewRuntimeAdapter
+    const transport = createMidiPreviewTransport(
+      { readBytes: vi.fn(async () => midiBytes()) } as never,
+      runtime,
+    )
+
+    const activity = await transport.load('music.test')
+    await transport.play()
+    backend.finish(activity.duration * 0.8)
+
+    transport.stop()
+    expect(transport.snapshot()).toMatchObject({ currentTime: 0, paused: true })
+
+    const seekTarget = activity.duration * 0.4
+    transport.seek(seekTarget)
+    expect(transport.snapshot()).toMatchObject({ currentTime: seekTarget, paused: true })
+
+    await transport.play()
+    expect(backend.adapter.currentTime).toBe(seekTarget)
+    expect(backend.play).toHaveBeenCalledTimes(2)
+  })
+
+  test('continues reporting live sequencer time after seeking during playback', async () => {
+    const backend = sequencer()
+    const runtime = {
+      context: { state: 'running' as AudioContextState, resume: vi.fn(async () => {}) },
+      initialize: vi.fn(async () => backend.adapter),
+      dispose: vi.fn(),
+    } satisfies MidiPreviewRuntimeAdapter
+    const transport = createMidiPreviewTransport(
+      { readBytes: vi.fn(async () => midiBytes()) } as never,
+      runtime,
+    )
+
+    const activity = await transport.load('music.test')
+    await transport.play()
+    const seekTarget = activity.duration * 0.4
+    transport.seek(seekTarget)
+    backend.adapter.currentTime = seekTarget + 0.25
+
+    expect(transport.snapshot()).toMatchObject({
+      currentTime: seekTarget + 0.25,
+      paused: false,
+    })
   })
 
   test('stop cancels a pending resume and dispose cancels late synthesizer initialization', async () => {
