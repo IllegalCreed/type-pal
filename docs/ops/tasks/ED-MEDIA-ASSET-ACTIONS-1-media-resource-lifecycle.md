@@ -192,11 +192,64 @@ Branch: codex/ed-media-asset-actions-1
   `git diff --check`、1280×720 / 1024×720 浏览器 smoke 与 console 均通过。收口复审发现并修复
   “取消原生文件选择器误清 dirty”“多个 sharedScript 引用站点合并”“扫描失败显示 0 处”三项 P1；
   4 个相关文件 13 项回归、content / editor typecheck 与二次独立复审均通过。
-- Kimi: pending
-- GLM: pending
+- Kimi: accept（2026-08-23，独立直读 c8ace71e diff 与现行实现 + 聚焦复跑，非代理）。按委托三项重点：
+  - **布局统一 ✓**：Image/Cutscene 左栏只剩搜索/分组/导入（`overflowActions` 在两页零命中，
+    boundary.test.ts:508-530 静态门禁锁定）；中央 `DsObjectHero` 承载身份与替换/删除
+    （ImageTab.tsx:682-723、CutsceneTab.tsx:742-796）；右侧 `resource`/`references`/`diagnostics`
+    三 tab；改名复用共享 `MediaAssetNameField`（`DsField` 可见标签 + Enter/blur 提交、Escape 恢复、
+    等值零 dispatch，MediaAssetLifecycle.tsx:15-60）。
+  - **生命周期交互 ✓**：替换走 Hero + 隐藏 file input，原生选择器取消为无操作且重置 value、
+    replace target ref 即清（ImageTab.tsx:627-639、CutsceneTab.tsx:713-737）；删除 fail-closed——
+    扫描失败显示“未知（扫描失败）”且 confirm disabled、有引用 disabled；删除前经
+    `getCurrentAuthor?.() ?? currentAuthor` 复扫 live 态（ImageTab.tsx:544-547）。Cutscene 的删除与
+    dirty 切换共用单一 `lifecycleRequest` 状态机，`requestTransition` 把选择/导入/替换统一路由进同一
+    Dialog（CutsceneTab.tsx:396-437,1007-1028），无并发弹窗。DsDialog 焦点生命周期完整：open 时捕获
+    `document.activeElement`、autofocus 落点、close 后 rAF 焦点返回触发点（overlays.tsx:5-43）。
+  - **窄宽布局与 DS 复用 ✓**：Hero 用 DS 既有网格 `minmax(0,1fr) auto` + `min-width:0`、meta/actions
+    flex-wrap、窄断点回左（recipes.css:77-166,890-893）；`media-asset-hero` 仅为无规则扩展钩子，
+    无定制溢出风险；`MediaAssetConfirmDialog`/`MediaAssetNameField` 只用 Ds* 组件（boundary 测试
+    断言无裸 input/label/button）；旧 `cutscene-asset-row/group-header` CSS 类已被 boundary 禁回。
+  - 另核 GLM 域交叉点：`projectCurrentAuthorReferenceSlices` 与保存边界 merge 共用同一切片函数
+    （script-editor-projection.ts:146-182），满足 GM1“不得在页面内再拼一套合并”。
+  - 聚焦复跑：MediaAssetLifecycle/ImageTab/CutsceneTab/editor-asset-references/script-editor-projection/
+    workspace-persistence/boundary/AssetInspectorTabs 8 文件 93/93 通过；content asset 27/27 通过
+    （全量长套件按纪律采纳 Codex 记录，未重复）。
+  - 非阻塞观察：`media-asset-hero` className 当前无对应 CSS 规则，是纯扩展钩子；无害，记录在案。
+- GLM: **accept（2026-08-23 done 前覆盖/测试终审，本人一手读码 + focused 独立复跑，非代理；
+  基于实现提交 c8ace71e，23 文件 +1978/-683）**。按委托四项重点逐一验证：
+  - **① 同源引用 ✓（GM1 的正确落地）**：`editorAssetReferenceSource(state, currentAuthor)`
+    新增第二参——scene/items/sharedScripts 三切片经
+    `projectCurrentAuthorReferenceSlices`（script-editor-projection:153）从 **live
+    ScriptEditorState** 投影（与保存边界 mergeEditorProjectionWithCurrentAuthorState
+    **共用同一切片函数**，非第二套合并逻辑）；DataMode:456/:485 把 `script?.state`
+    显式传给 Image/Cutscene——正是我 GM1 钉的"消费 App 已投影 current author state，
+    不在页面内再拼"的实现形态。**stale 副本缺口闭合**：未保存共享脚本的
+    playVideo/playFrameAnimation 引用在编辑期间即进入快照。
+  - **② 多 sharedScript 独立站点 ✓（Codex 收口复审修复的 P1）**：content 侧
+    `sharedScripts[JSON.stringify(scriptId)].body` 逐脚本站点（asset.ts:549-555）；
+    测试断言两个脚本各引用同一资源时产出 `sharedScript:shared/test` 与
+    `sharedScript:shared/other` **两个独立 site**（editor-asset-references.test:88-95）
+    ——无站点合并。
+  - **③ fail-closed + 零 mutation ✓（GM2 落地）**：`tryCollectEditorAssetReferenceSnapshot`
+    返回 `{status:'error', message}` 而非空数组；ImageTab 删除路径双重使用——
+    首扫 error 即 `setError('引用扫描失败，未删除')` 并 return（**零 mutation**），
+    读字节后 finalScan 复扫防 TOCTOU（"读取资源期间新增了引用"二次守卫）；
+    CutsceneTab:446 同构。**这比我的 GM2 钉更强**——不仅同源还防了读-删间隙。
+  - **④ delete→save→undo→save 双恢复 ✓（GM3 落地）**：
+    workspace-persistence.test 专项测试完整链路：dispatch 删除（携 previousBytes
+    预读）→ writeProject 落盘（removePaths 生效，断言文件与 index.json record 均消失）
+    → undo（断言 catalog record **与 assetBlobs 字节逐字节相等**——DeleteAssetCommand
+    invert 用 `previousBytes.slice(0)` 恢复二进制）→ 再 writeProject（断言 record 与
+    文件均回来）。
+  - **focused 独立复跑 ✓**：editor-asset-references + workspace-persistence +
+    MediaAssetLifecycle 3 files/36 tests；ImageTab+CutsceneTab 7 tests；typecheck
+    全绿（全量长跑按纪律未重复，Codex 记录 content 424 + editor 1058+61 采纳）。
+  - 备注：Codex 收口复审自查修复的三项 P1（取消文件选择器误清 dirty / 多 sharedScript
+    站点合并 / 扫描失败显示 0 处）均与我 GM1-GM3 钉直接对应——钉的预判价值得到验证。
+- counter / 返工处理: 无（GLM 侧）。
 - counter / 返工处理: N/A
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: blocked——Codex + Kimi + GLM 三方 review accept 已齐；按流程待用户验收后收口，任何 Agent 不得自行标记 done。
 
 ## Draft: 设计与风险
 
@@ -270,9 +323,11 @@ Branch: codex/ed-media-asset-actions-1
 
 - Reviewer: Kimi + GLM
 - 审查结论: Codex self-review accept；内部并行 diff / UI / 引用压力审查提出的 3 项 P1 已修复，
-  三路复审均 accept；等待 Kimi / GLM 作为正式审查席独立签字。
-- 必须返工项: pending
-- Accept / rework: pending
+  三路复审均 accept；Kimi accept（2026-08-23，布局/生命周期交互/窄宽布局与 DS 复用直读核验 +
+  聚焦 8 文件 93/93 + content asset 27/27 复跑，逐条证据见“进入 done 前:审查签字” Kimi 段）；
+  GLM accept（2026-08-23，同源引用/独立站点/fail-closed/双恢复链路，见同节 GLM 段）。
+- 必须返工项: 无
+- Accept / rework: 三方 accept 已齐；待用户验收后收口。
 
 ## 用户验收
 
@@ -281,6 +336,15 @@ Branch: codex/ed-media-asset-actions-1
 
 ## 交接日志
 
+- 2026-08-23 Kimi（布局/交互主审）: implementation review 完成并签 **accept**。独立直读
+  c8ace71e：左栏集合动作/中央 DsObjectHero/右侧三 tab 布局统一；MediaAssetNameField（Enter/blur/
+  Escape/等值短路）与 MediaAssetConfirmDialog（fail-closed、未知引用数禁用）共享合同；
+  DsDialog 焦点捕获/落点/返回完整；Cutscene 删除与 dirty 切换共用单一 lifecycleRequest 状态机；
+  原生文件选择器取消无操作且 target ref 即清；DS Hero 网格 + flex-wrap + 窄断点静态确认；
+  boundary 测试锁定无 overflowActions/window.confirm/裸控件/旧 CSS 类；GM1 的切片函数与保存边界
+  共用同源落实。聚焦复跑 8 文件 93/93 + content asset 27/27 全绿；全量长套件采纳 Codex 记录未重复。
+  非阻塞观察：`media-asset-hero` 为无规则扩展钩子。未改实现文件，未代签 GLM，未标 done。
+  Next: 三方 accept 已齐，待用户验收收口。
 - 2026-08-23 Codex（收口复审）: 内部并行审查发现 dirty file-picker、sharedScript site 粒度、
   扫描失败计数三项 P1；全部修复并补回归。定向 13 项、collector 27 项、两包 typecheck 与 diff check
   通过，三路复审均 accept。内部子审查不代替 Kimi / GLM 正式签字，本卡保持 review。
@@ -302,18 +366,13 @@ Branch: codex/ed-media-asset-actions-1
 - 2026-08-23 User: 三签齐后明确“推进”，开放 build；Codex 更新分支与 GM1 真值措辞并接手实现。
 - 2026-08-21 Codex: 完成 Image / Cutscene / Music / Sound / Tileset / Sprite 资源动作全量只读审计；创建本卡并签
   premise / design。Evidence: 本卡真值矩阵与 inventory。Next: Kimi / GLM 独立设计审查；三签齐前不得改实现。
+- 2026-08-23 GLM（覆盖/删除原子性/测试矩阵）: done 终审完成并签 **accept**。四项委托
+  全过：①GM1 stale 副本缺口正确闭合（投影切片与保存边界共用、DataMode 显式传 live state）；
+  ②多 sharedScript 独立站点（逐脚本 site + 双脚本测试）；③fail-closed 双重扫描 + TOCTOU
+  守卫（强于 GM2 原钉）；④delete→save→undo→save 双恢复完整链路测试（record + 二进制逐字节）。
+  focused 36+7+typecheck 复跑全绿。Codex 三项 P1 自查修复与 GM1-GM3 钉一一对应。未改实现
+  文件，未代签 Kimi。Next: Kimi 布局/交互主审 + 用户验收。
 
 ## 下一位 Agent 提示词
 
-```text
-接手任务: ED-MEDIA-ASSET-ACTIONS-1 媒体资源对象操作与生命周期统一（实现审查）
-任务卡: docs/ops/tasks/ED-MEDIA-ASSET-ACTIONS-1-media-resource-lifecycle.md
-当前状态: review；Codex build、自测、浏览器 smoke 与 Codex accept 已完成；done 准入 blocked
-你的角色: Kimi 审 UI 架构、媒体 Hero、Dialog/focus 与 dirty lifecycle；GLM 审 live canonical 引用单真值、fail-closed 删除、undo 二进制恢复与测试矩阵
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、editor-design-system-v1.md DS-C.2/DS-R.2，以及本分支 diff
-已完成: Image/Cutscene 左栏集合动作、中央 Hero 当前对象动作、属性改名、共享 Dialog；live scene/item/sharedScript 引用投影；GM1-GM3 测试与两档视觉 smoke
-验证证据: 卡内 Build 段；content 424、受影响 UI 55、Inspector 契约 6、core 27、workspace 30 项通过；typecheck/build/diff 通过；长套件一次运行只有随后已定向修复的 3 条旧 DOM 契约失败
-请你做: 独立审查实现与测试；Kimi 重点核 Hero/目录/对话框/窄宽/focus，GLM 重点核同源 snapshot、场景 hook locator、扫描失败零 mutation、delete→save→undo→save 字节恢复；在 done 前签 `accept`，或签 `counter` 并列精确返工项
-不要做: 不得改实现文件，不得代签另一席，不得标记 done；若发现核心前提变化须转 rework 并重开签字
-输出要求: 更新任务卡审查签字、Review 结论与交接日志，明确 accept/counter；两席 accept 齐前保持 review
-```
+无下一位 Agent 提示词：Codex、Kimi、GLM 三方 review accept 均已齐（2026-08-23），等待用户验收/收口。
