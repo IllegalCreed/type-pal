@@ -494,16 +494,6 @@ export function collectScriptReferenceIssues(state: ScriptEditorState): ScriptRe
   }
   visitCanonicalScriptCommands(state, (command, path) => {
     if (command.kind === 'callScript') check(command.script, `${path}.script`)
-    if (command.kind === 'setEntityFacing') {
-      const scene = state.scenes.find((candidate) => candidate.id === command.target.scene)
-      const entity = scene?.entities.find((candidate) => candidate.id === command.target.entity)
-      if (entity && 'zone' in entity)
-        issues.push({
-          severity: 'error',
-          path: `${path}.target`,
-          message: `触发区 "${command.target.scene}/${command.target.entity}" 不支持朝向`,
-        })
-    }
     if (command.kind !== 'selectEntityBehavior') return
     const scene = state.scenes.find((candidate) => candidate.id === command.target.scene)
     const entity = scene?.entities.find((candidate) => candidate.id === command.target.entity)

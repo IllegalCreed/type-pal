@@ -557,7 +557,7 @@ describe('canonical script editor commands', () => {
     }
   })
 
-  test('rejects turning a trigger zone while preserving other zone state commands', () => {
+  test('preserves source-derived zone facing commands and other zone state commands', () => {
     const state = editorState()
     state.scenes[0]!.entities.push({
       id: 'zone-1',
@@ -567,14 +567,14 @@ describe('canonical script editor commands', () => {
     const session = new ScriptEditSession(state)
     const zoneTarget = { scene: 's001', entity: 'zone-1' }
 
-    expect(() =>
+    expect(
       session.dispatch(
         new UpdateSharedScriptCommand('shared/user/select-talk', {
           body: [{ kind: 'setEntityFacing', target: zoneTarget, facing: 'down' }],
         }),
       ),
-    ).toThrow(/触发区 "s001\/zone-1" 不支持朝向/)
-    expect(session.getState().sharedScripts['shared/user/select-talk']?.body).not.toEqual([
+    ).toBe(true)
+    expect(session.getState().sharedScripts['shared/user/select-talk']?.body).toEqual([
       { kind: 'setEntityFacing', target: zoneTarget, facing: 'down' },
     ])
 

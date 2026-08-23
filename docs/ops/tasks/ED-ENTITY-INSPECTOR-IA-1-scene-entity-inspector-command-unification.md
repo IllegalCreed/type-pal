@@ -1,6 +1,6 @@
 # ED-ENTITY-INSPECTOR-IA-1 - 场景实体 Inspector、状态指令与删除入口收口
 
-Status: review
+Status: rework
 Phase: phase2
 Capability: 场景实体作者工作台 / current AuthorCommand
 Coding Owner: Codex
@@ -52,7 +52,7 @@ Branch: codex/ed-entity-inspector-ia-1
 |---|---|---|
 | 原版 / primary source | 短暂停与隐藏/离屏恢复由事件对象自己的脚本 opcode 驱动，不是独立属性编辑模型。 | `reference/sdlpal/script.c:1726-1731,1794-1800`；`reference/sdlpal/play.c:87-105` |
 | 第一阶段 | 第一阶段仍在脚本解释器中执行 `0x4B/0x52`，分别写 `sVanishTime=-15` 与 `sState*=-1 + sVanishTime`。 | `packages/game/src/core/event-system.ts:241-242,4310-4326`；`docs/phase1/game-mechanics.md:1056-1152` |
-| 当前二阶段 | 四种状态动作已经是 `RuntimeCommand/AuthorCommand` 叶；独立 Lifecycle UI 又遍历同一 command tree 并自建增删改命令。zone 明定为无外观，渲染跳过 zone，触发查找只读 trigger/range/pos。中央 toolbar 同时删除实体/命名落点。 | `packages/content/src/runtime-script.ts:24-44,137-144`；`packages/editor/src/ui/LifecycleCommandPanel.tsx:66-89,95-170`；`packages/editor/src/core/lifecycle-command-editor.ts:24-55`；`packages/content/src/index.ts:61-73,106-107`；`packages/reforge/src/main.ts:1001-1006,5287-5311`；`packages/editor/src/ui/App.tsx:1455-1472,2240-2276` |
+| 当前二阶段 | 四种状态动作已经是 `RuntimeCommand/AuthorCommand` 叶；独立 Lifecycle UI 又遍历同一 command tree 并自建增删改命令。zone 明定为无外观，渲染跳过 zone，触发查找只读 trigger/range/pos。**静态作者字段 `zone.facing` 与脚本目标能力不是同一件事**：真实 PAL 的 `s056/e940` 是 zone，其自身脚本含 4 条 `setEntityFacing` 和 4 条 `setEntityFrame` 指向自己；Reforge runtime 会按目标实体执行朝向覆写。中央 toolbar 同时删除实体/命名落点。 | `packages/content/src/runtime-script.ts:24-44,137-144`；`projects/pal/content/scenes/s056.json`（`e940`）；`packages/reforge/src/script-host-adapter.ts:162-165`；`packages/reforge/src/main.ts:3113`；`packages/editor/src/ui/LifecycleCommandPanel.tsx:66-89,95-170`；`packages/editor/src/core/lifecycle-command-editor.ts:24-55`；`packages/content/src/index.ts:61-73,106-107`；`packages/reforge/src/main.ts:1001-1006,5287-5311`；`packages/editor/src/ui/App.tsx:1455-1472,2240-2276` |
 | 本任务目标 | 单一 current 指令编辑器承载四种状态命令；实体 Inspector 使用“属性 / 行为 / 引用 n”；zone 无 facing；删除回到左侧所属行。 | 用户 2026-08-22 决策；`docs/phase2/editor/editor-design-system-v1.md:320-327,449-466` |
 
 当前工程 census：
@@ -67,6 +67,18 @@ find projects -path '*/content/scenes/*.json' -type f -print0 \
 ```
 
 2026-08-22 输出为 0 行；因此收紧 zone 形状不需要迁移当前工程，也不允许为零真实输入保留 upgrader。
+
+### 2026-08-23 前提纠正 / 真实 PAL 加载事故
+
+- 上述 census 只证明持久化实体形状中没有静态 `zone.facing`，**不能证明脚本命令不得以 zone 为目标**。
+- 真实 canonical PAL `scenes.s056.entities.e940` 是 zone，脚本中存在 4 条
+  `setEntityFacing -> s056/e940`；Reforge runtime 和 host adapter 都会执行该命令。
+- build 新增的 `collectScriptReferenceIssues` fatal 规则把两层语义错误合并，导致整个 PAL 工程加载失败：
+  `scenes.s056.entities.e940...then[2].target: 触发区 "s056/e940" 不支持朝向`。
+- 纠正后的契约：zone 仍不得显示或持久化**静态初始朝向字段**；新建脚本的目标选择器可继续不提供 zone，
+  但现有 canonical `setEntityFacing -> zone` 必须可加载、保存和无损 round-trip。
+- 该观察直接推翻原卡“持久化检查也应阻止 zone 命令目标”的前提；任务退回 `rework`，原 build/review
+  签字仅保留为历史事实，不再授权 done。
 
 ### 反证与替代解释
 
@@ -173,13 +185,14 @@ find projects -path '*/content/scenes/*.json' -type f -print0 \
 
 ### 进入 build 前:设计签字
 
-- Codex:
-  - premise: verified（`reference/sdlpal/script.c:1726-1731,1794-1800`；
+- Codex（历史签字，2026-08-23 因真实 PAL 反证失效）:
+  - premise: **invalidated**（原签字依据：`reference/sdlpal/script.c:1726-1731,1794-1800`；
     `packages/content/src/runtime-script.ts:24-44`；`packages/reforge/src/main.ts:5287-5311`；
     current project zone.facing census = 0）
-  - design: agree（单指令入口、“属性 / 行为 / 引用 n”、zone 无 facing、行尾删除）
-- Kimi:
-  - premise: verified（2026-08-23 独立直读一手代码 + 自跑 census）。已核：四种状态命令是
+  - design: **invalidated**（原设计：单指令入口、“属性 / 行为 / 引用 n”、zone 无静态 facing、行尾删除；
+    其中把脚本目标能力一并禁用的推导错误）
+- Kimi（历史签字，2026-08-23 因真实 PAL 反证失效）:
+  - premise: **invalidated**（原签字为 2026-08-23 独立直读一手代码 + 自跑 census）。已核：四种状态命令是
     `runtime-script.ts:24-44` 的 `EntityLifecycleCommand` 叶，属 `RuntimeCommand` 词表（:137-144）并有
     专用校验（:162-176）；current `AuthorCommand = RewriteAuthorDialogueTree<RuntimeCommand>`
     （`author-script.ts:37`）已含四叶，而 `ScriptEditor.tsx` 全文件 85 处钉在 `BaseAuthorCommand`——
@@ -191,12 +204,12 @@ find projects -path '*/content/scenes/*.json' -type f -print0 \
     `index.ts:61-107` facing 当前在 `EntityBase` 上对 zone 同样可选；本人实跑卡内 jq census：
     三工程全部 scene JSON 中 `zone==true && has(facing)` 输出 0 行。原版锚点复核
     `script.c:1726-1731`（0x4B sVanishTime=-15）、`:1794-1800`（0x52 sState*=-1 + vanishTime）。
-  - design: agree（唯一 ScriptEditor 收口到 current `AuthorCommand`；Inspector“属性/行为/引用 n”与
+  - design: **invalidated**（原设计：唯一 ScriptEditor 收口到 current `AuthorCommand`；Inspector“属性/行为/引用 n”与
     ED-INSPECTOR-TABS-1 / ED-REFERENCE-UI-1 冻结合同一致；facing 从 EntityBase 移入可见分支 +
     validator 负例属零迁移 schema 收紧（census=0 已实测）；行尾删除 + 引用阻断 + 跨 session 原子 undo
     方向正确。GE1-GE3 落钉可执行）
-- GLM:
-  - premise: **verified（2026-08-23，本人一手读码 + 三工程 census 复算，非代理）**：
+- GLM（历史签字，2026-08-23 因真实 PAL 反证失效）:
+  - premise: **invalidated（原签字为 2026-08-23，本人一手读码 + 三工程 census 复算，非代理）**：
     1. **四状态命令在 current 词表**：suspendEntity/hideEntity/restoreEntity/removeEntity
        均为 RuntimeCommand 叶（runtime-script.ts:25-28，词表 :139-140）——卡文属实。
     2. **双方言实锤**：lifecycle-command-editor.ts 以 BaseAuthorCommand 为基类型自建
@@ -205,7 +218,7 @@ find projects -path '*/content/scenes/*.json' -type f -print0 \
     3. **zone.facing census 复算（本人 node，比卡文更全）**：三工程 5078 实体 / 1382
        zone / **zone 带 facing = 0**——卡文结论确认且本人扩到 demo/e2e-own 也为零；
        收紧 schema 不需要迁移，current-only 纪律下不留 upgrader 成立。
-  - design: **agree（2026-08-23，附必落钉 GE1-GE3，不阻塞准入）**。单指令入口 +
+  - design: **invalidated（原签字为 2026-08-23，附必落钉 GE1-GE3）**。单指令入口 +
     属性/行为/引用 n 三 Tab + zone 无 facing + 行尾删除——与 ED-INSPECTOR-TABS-1/
     REFERENCE-UI-1 冻结合同一致。
   - **必落钉 GE1-GE3：**
@@ -230,19 +243,82 @@ find projects -path '*/content/scenes/*.json' -type f -print0 \
     “同一命令树叶”前提失效——`runtime-script.ts` 词表与 `lifecycle-command-editor.ts` 的遍历目标证明
     它们只存在于脚本正文；若 ScriptEditor 已能无损表达四叶且第二入口无独立写路径，删除 Lifecycle 入口
     就是纯删功能——`:24-319` 的自建命令类证伪。
-- counter / 分歧处理: 无；任一方 counter 则保持 draft/blocked，用户裁决后重签。
+- counter / 分歧处理: Codex counter（2026-08-23）；真实 PAL `s056/e940` 与 primary source/runtime
+  推翻“命令目标为 zone 即非法”。本轮为恢复已挂开发站点的紧急 rework；不倒填新三签，修复后重新审查。
 - 缺签豁免: N/A
-- build 准入结论: build allowed（2026-08-23；Codex/Kimi/GLM 三方 premise verified + design agree、
-  独立反证与用户开放指令均已齐，无 counter）
+- build 准入结论: **historical build allowance invalidated / rework blocked for done**。旧三签只授权原方案；
+  当前紧急修复已按用户现场故障指令执行，完成后必须以纠正后的契约重新 review，不得直接 done。
 
 ### 进入 done 前:审查签字
 
-- Codex: accept（2026-08-23；实现、自审、typecheck、content 422 项与 editor 聚焦 215 项通过）
-- Kimi: pending
-- GLM: pending
-- counter / 返工处理: pending
+- Codex: **accept invalidated**（2026-08-23；真实 PAL `s056/e940` 加载失败推翻 zone 命令目标前提）
+- Kimi: **accept invalidated**（2026-08-23；以下审查记录作为历史保留，但其中“zone facing 多层阻断”结论已被真实 PAL 反证）。按委托六项：
+  - **① 方言清零 ✓**：`lifecycle-command-editor.ts`、`LifecycleCommandPanel.tsx` 及专用测试整文件删除；
+    editor src 全量 grep `BaseAuthorCommand` 仅余 `boundary.test.ts:1040` 的缺席断言（GE1 落钉成立）；
+    `author-command-edit.ts`/`command-catalog.ts`/`item-references.ts` 全部改用 current `AuthorCommand`，
+    无 union/cast 伪兼容（设计期关注项①）。
+  - **② 四命令 canonical ✓**：目录实体组四入口（command-catalog.ts:377-414）；插入器“实体状态”分组
+    （ScriptEditor.tsx:2746-2752，设计期关注项②落实）；通用 target 表单覆盖四命令（:2044-2047）；
+    递归树编辑覆盖 then/else/body/onNo/onLose/onFlee/onFail 与共享脚本宿主；复制递归清 id
+    （copyAuthorCommandAt）。
+  - **③ zone facing 多层阻断 ✓**：类型层 `EntityRef` zone 分支 `facing?: never`（index.ts:64-68）；
+    validator 层 `validate.ts:312-315` throw + `script-editor.ts:497-506` issue collector 拦截
+    setEntityFacing→zone；插入层目标为 zone 时选项禁用并给原因（ScriptEditor.tsx:2661,2912-2918）；
+    编辑层 `entitySupportsFacing` 过滤（:1014-1016,2064）；命令层 `UpdateEntityCommand` 对 zone+facing
+    直接 throw（commands.ts:557）。四状态命令仍可作用于 zone（无 filter）。SceneSpawn.facing 等不相干
+    用法未误伤（设计期关注项③）。
+  - **④ 删除归位与事务 ✓**：中央 toolbar 泛化“删除选中对象”已消失（grep 零命中）；行尾 danger
+    DsIconButton（App.tsx:2300-2307）；Delete/Backspace 与行尾共用同一入口且有输入控件豁免
+    （:1448-1473）；`historyCoordinator.dispatch` 原子对（:1420-1423）；删除后选择回落场景 +
+    aria-live“可撤销”提示 + rAF 焦点回场景行（:1424-1426,1442-1444）。
+  - **⑤ 同一 authoritative snapshot ✓**：`entityReferenceState` 经
+    `mergeEditorProjectionWithCurrentAuthorState(scriptState, state)` 合并 live 脚本会话（:1354-1357）；
+    引用 Tab、行尾/键盘删除守卫、`DeleteEntityCommand` 构造期固化的 guardedReferences 三方同源
+    （commands.ts:466-476,491-496）；自身脚本地址经 locator 过滤不再误阻断可原子删除对象。
+  - **⑥ 引用路由 ✓**：六类 typed locator（entity-address-references.ts:5-16）；scene/scene-entity
+    原地定位、shared-script/item/enemy 经 editorLinks 跳转、world 只读并显式说明（App.tsx:1373-1403），
+    无漏计无假跳转。
+  - **聚焦复跑 ✓**：卡列 7 文件 215/215 通过；content validate 双套 84/84 通过（本人本轮实跑；
+    全量长跑按纪律未重复）。
+  - 非阻塞观察：playback.ts 预览回退路径有一处 `as unknown as BaseRuntimeLeafCommand`，语义上是
+    排除四生命周期叶后的收窄，属 reforge 运行时分层类型，非编辑器作者方言残留。
+- GLM: **accept invalidated（2026-08-23；真实 PAL 加载事故暴露测试矩阵缺少 canonical 工程加载；以下为历史审查记录；
+  基于实现提交 e001d567，48 文件 +2778/-2250）**。按委托六项逐一验证：
+  - **① 方言清零 ✓**：`lifecycle-command-editor.ts`（319 行）与
+    `LifecycleCommandPanel.tsx` 及专用测试**整文件删除**（ls 零存在）；editor 生产码
+    `BaseAuthorCommand` rg 复跑**零命中**——content/reforge 侧残留的 Base* 是内部
+    类型/编译器 cast（scene-core/runtime-script-compiler），非编辑器写入口，符合卡文
+    "editor 不再保留"边界。
+  - **② 四命令 canonical 覆盖 ✓**：command-catalog 四入口（:377 suspend/:389 hide/
+    :401 restore/:409 remove）；ScriptEditor.test 断言插入/编辑/禁用态
+    （`[data-command-kinds="suspendEntity"]`）；author-command-edit.test 覆盖嵌套
+    正文与共享脚本宿主的递归树（:27,:143-165 四命令在遍历输出中）；复制递归清 id。
+  - **③ zone facing 三层 ✓**：validator 层 `zone 无朝向`（validate.ts:312-314，
+    'zone' in eo && 'facing' in eo 即 throw）；命令层 SetEntityFacing apply 前守卫
+    （commands.ts:557-558 同文案 fail）；插入/编辑层 ScriptEditor 目标选择器过滤
+    （专项测试：facingChoice.disabled + "触发区没有朝向"，suspend 等四命令仍可选 zone）；
+    validate-runtime.test 负例（:88-102）；PAL census 复跑 1382 zone / 0 facing。
+  - **④ 删除归位 ✓**：实体/命名落点删除在左侧复合列表行尾（App:2224/:2300
+    `删除命名落点/删除实体` label）；Delete 键与行尾动作共用同一 deleteEntity 入口
+    （:1448 注释+实现）；守卫阻断（entityReferencesByTarget 非空即 return）；
+    DeleteSceneEntityDefinitionCommand + DeleteEntityCommand 原子对经
+    historyCoordinator（undo 对称）；删除后 setSelected(SCENE_SELECTION) +
+    requestAnimationFrame 焦点回场景行。
+  - **⑤ 同一 authoritative snapshot ✓（本卡的关键正确性改进）**：
+    `entityReferenceState = scriptState ? mergeEditorProjectionWithCurrentAuthorState(...) : state`
+    （App:1354-1356）——引用 Tab、删除守卫、DeleteEntityCommand 三者消费**同一
+    merged live 态**，消除了我在 MEDIA 卡 GM1 指出的 stale shell 误判类缺陷在实体
+    引用域的变体。
+  - **⑥ 引用路径覆盖 ✓**：locator 联合含 scene/scene-entity/shared-script/item/
+    enemy/world 六类（entity-address-references.ts:10-16）；collector 输入域
+    scenes+items+enemies+sharedScripts+worlds 全枚举（:73-108 段实测）；world 类
+    locator 在 UI 有明确"不可打开"降级（App:3136 canOpen 判断）而非假跳转。
+  - **focused 独立复跑 ✓**：entity-address-references + author-command-edit +
+    ScriptEditor 3 files/32 tests、content validate 双套 84 tests、editor typecheck
+    全绿（全量长跑按纪律未重复，Codex 记录 content 422 + editor 聚焦 215 采纳）。
+- counter / 返工处理: 无。
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: blocked——三方旧 accept 已因核心前提变化失效；修复、真实 PAL 回归与重新审查完成前不得 done。
 
 ## Draft: 设计与风险
 
@@ -323,8 +399,8 @@ find projects -path '*/content/scenes/*.json' -type f -print0 \
     插入、编辑、复制、嵌套正文与共享脚本；复制会递归清除 command id，未保留第二方言或兼容入口。
   - 场景实体 Inspector 收口为“属性 / 行为 / 引用 n”，多页实体在标题与 Tab 之间共享当前页上下文；
     行为页直接复用 canonical `ScriptEditor`，引用页复用 `DsReferenceList`。
-  - current zone 类型与 validator 均拒绝 `facing`；指令插入、编辑目标选择及保存前 issue collector
-    同时阻止 `setEntityFacing -> zone`，而暂停/隐藏/恢复/移除仍可作用于 zone。
+  - current zone 类型与 validator 均拒绝静态 `facing`；本轮错误地让保存前 issue collector 也阻止
+    `setEntityFacing -> zone`，已确认会拦死真实 PAL，转入 rework 修正。
   - 实体与命名落点删除归位左侧复合列表行；引用集合与删除守卫读取同一 authoritative editor
     snapshot，避免 shell/session 状态滞后；成功删除后焦点回到场景行，键盘删除、引用阻断、undo 保持闭环。
 - 运行命令与结果:
@@ -341,8 +417,8 @@ find projects -path '*/content/scenes/*.json' -type f -print0 \
   - `git diff --check`：通过；三工程 `zone.facing` census：0。
 - 浏览器 / 手工检查: 在真实 PAL 场景工作台做最小功能性检查：actor/sprite/zone Inspector 三 Tab、
   zone 无朝向、工具栏无泛化删除、左栏实体/命名落点行尾动作、引用计数与阻断入口均可达。
-- 跳过的检查及原因: 不重复运行耗时的 editor 全量测试；一次全量已有结果，最终变更由 215 项聚焦回归
-  覆盖，遵守用户“不重复 70 分钟长跑”的明确要求。完整 viewport/缩放视觉矩阵留给 review 抽查。
+- 跳过的检查及原因: 此处沿用了已经过时的“全量耗时 70 分钟”判断；性能工作后当前 editor 全量已在
+  一分钟内。rework 完成后直接运行一次当前全量门禁，不再以耗时为由跳过。
 
 ## 视觉验证记录(如适用)
 
@@ -354,23 +430,54 @@ find projects -path '*/content/scenes/*.json' -type f -print0 \
 - 结论: 核心 IA、删除作用域、zone 字段与唯一脚本入口均符合本卡设计，可进入独立 review。
 - 未完成项: Reviewer 可按需抽查 1280 宽和 150% 缩放；不阻塞代码 review。
 
+## Rework: 真实 PAL 启动回归修复（2026-08-23）
+
+- 根因: `collectScriptReferenceIssues` 把静态 `zone.facing` 形状约束错误套到脚本命令目标，导致
+  `ScriptEditSession` 构造真实 PAL canonical state 时以首个 issue 中止整个编辑器启动。
+- 修复:
+  - 删除 editor-only 的 `setEntityFacing -> zone` fatal issue；不修改 PAL 生成数据、不给 zone 增加静态
+    facing 字段，也不改变 runtime/迁移语义。
+  - 把错误负例改为 source-derived zone facing 命令可 dispatch、保存和读回。
+  - 新增 `tests/pal-editor-boot.pal.test.ts`：真实读取 `projects/pal`、加载全部 294 个场景、按 `main.tsx`
+    组装 canonical script state、建立 `ScriptEditSession`，并从 session state 断言 `s056/e940` 仍为 zone
+    且 4 条 facing 命令无损保留。
+- 验证:
+  - 聚焦修复回归：2 files / 21 tests 通过，1.75s。
+  - `pnpm --filter @type-pal/editor test`：138 files / 1044 tests 全通过，21.38s；本轮只运行一次全量。
+  - `pnpm --filter @type-pal/editor typecheck`：通过。
+  - 最终 canary：1 file / 1 test 通过，2.92s；`git diff --check` 通过。
+  - 真实浏览器 `http://localhost:6010/`：PAL 开发基线成功进入“入口点”工作区，标题、菜单、保存状态、
+    294 场景工程上下文均已加载；截图中的“触发区 s056/e940 不支持朝向”启动错误消失。
+- 结论: 故障已修复且全量门禁恢复；任务仍保持 `rework`，等待 Kimi/GLM 按纠正后的前提重新签
+  premise/design 与 implementation accept 后再进入 done。
+
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- Codex 自审: accept（2026-08-23）。重点复核 authoritative reference snapshot、zone facing 三层阻断、
-  删除后的焦点回落、命名落点/实体键盘删除、item/enemy/shared/world 引用路由及旧方言边界。
-- Kimi 审查结论: pending
-- GLM 审查结论: pending
-- 必须返工项: pending（等待独立审查）
-- Accept / rework: review；Kimi 与 GLM 均 accept 前不得标记 done。
+- Codex 自审: counter / rework（2026-08-23）。真实 PAL `s056/e940` 证明脚本目标能力与静态 zone 字段
+  不同；新增 fatal 校验使工程无法加载。
+- Kimi 审查结论: 历史 accept 已失效，待修复后重审。
+- GLM 审查结论: 历史 accept 已失效，待修复后重审。
+- 必须返工项: 删除错误 fatal 校验；保留静态 `zone.facing` 禁止规则；补真实 `s056/e940` 加载/round-trip
+  回归；运行一次当前 editor 全量门禁并做真实 PAL 浏览器加载验证。
+- Accept / rework: rework。
 
 ## 用户验收
 
 - 用户结论: pending
-- 后续任务: Kimi/GLM 实现审查完成后交用户最终验收。
+- 后续任务: Codex 完成加载回归修复与全量验证后，Kimi/GLM 针对纠正后的前提重审。
 
 ## 交接日志
 
+- 2026-08-23 Codex（rework）: 用户以真实 PAL 加载失败反证 `setEntityFacing -> zone` fatal 规则；确认
+  `s056/e940` 有 4 条该命令且 runtime 支持。任务从 review 退回 rework，三方旧 accept 失效；将补真实
+  canonical 工程回归并在修复后运行一次当前一分钟内的 editor 全量门禁。
+
+- 2026-08-23 Kimi（implementation review）: 独立审查 e001d567 完整 diff 与现行实现，委托六项全部通过，
+  签 **accept**。一手证据与逐条结论见“进入 done 前:审查签字” Kimi 段；聚焦复跑 editor 7 文件 215/215、
+  content validate 双套 84/84 全绿（全量长跑按纪律未重复）。非阻塞观察一条：playback.ts 预览回退的
+  BaseRuntimeLeafCommand cast 属运行时分层收窄，非作者方言残留。未修改实现文件，未标 done。
+  三方 accept 已齐，任务待用户验收收口。
 - 2026-08-23 Codex（Coding Owner）: build 完成并推进到 review。唯一 current AuthorCommand 入口、
   三 Tab、zone 无 facing、同源引用/删除守卫、行尾删除与焦点回落均已落地；content 422 项、editor
   最终聚焦 215 项及 typecheck 全绿。editor 全量只跑一次，最终未重复长跑。Next: Kimi/GLM 独立
@@ -388,8 +495,35 @@ find projects -path '*/content/scenes/*.json' -type f -print0 \
   准入 blocked，开放决定留给用户。未修改实现文件。
 - 2026-08-22 Codex: 完成前提核真与 draft 设计；没有修改实现。Evidence: 本卡真值矩阵、current project
   zone.facing census。Next: Kimi 独立核真并签 premise/design；不得开始实现。
+- 2026-08-23 GLM（覆盖矩阵/validator/census/测试主审）: done 终审完成并签 **accept**。
+  六项委托全过：方言 319+108 行整文件删零残留、四命令插入/编辑/嵌套/共享脚本矩阵、zone
+  facing validator+命令+选择器三层（PAL 1382 zone/0 facing 复算）、删除行尾归位+Delete 共用
+  入口+原子 undo+焦点回落、**引用 Tab/守卫/命令同源 merged live snapshot（GM1 类缺陷在实体域
+  的正确解法）**、六类 locator 含 world 不可打开降级。focused 32+84+typecheck 独立复跑全绿。
+  未改实现文件，未代签 Kimi。Next: Kimi accept + 用户验收后关卡。
 
 ## 下一位 Agent 提示词
+
+```text
+接手任务: ED-ENTITY-INSPECTOR-IA-1 真实 PAL 启动回归重审
+任务卡: docs/ops/tasks/ED-ENTITY-INSPECTOR-IA-1-scene-entity-inspector-command-unification.md
+当前状态: rework；旧三方 premise/design/accept 已因真实 PAL 反证失效，Codex 紧急修复与验证完成
+你的角色: Kimi 或 GLM；重新独立核对纠正后的前提，并审查本分支最新 rework 提交
+先读: AGENTS.md；CLAUDE.md；docs/phase2/READ-FIRST.md；任务卡“2026-08-23 前提纠正”和 Rework 小节；
+  projects/pal/content/scenes/s056.json 的 e940；packages/editor/src/core/script-editor.ts；
+  packages/editor/tests/pal-editor-boot.pal.test.ts。
+已完成: 删除错误的 editor-only `setEntityFacing -> zone` fatal 校验；保留静态 `zone.facing` 类型/validator
+  禁止与新建目标选择过滤；真实 PAL 294 场景启动 canary 从 session state 锁定 e940 的 4 条命令；
+  editor 全量 138 files / 1044 tests（21.38s）与 typecheck 全绿；真实 localhost 页面成功启动。
+重点审查: 1) primary source、迁移器和 runtime 是否确实允许 source-derived zone facing command；
+  2) 修复是否只撤销错误 fatal 层，未给 zone 增加静态 facing；3) real-PAL smoke 是否准确复刻 main 启动边界；
+  4) 现有命令能无损加载/保存，而 UI 仍可不提供新建 zone-facing 目标。
+不要做: 不得手改 projects/pal 删除 4 条命令；不得新增 upgrader/fallback；审查期间不得改实现文件或标记 done。
+输出要求: 在任务卡按纠正后的前提重新签 `premise verified + design agree`，并签 implementation `accept`；
+  或签 `counter`，给出一手证据、最小复现和返工项。另一审查方与用户验收前不得 done。
+```
+
+### 历史：交 Kimi/GLM implementation review（已完成，保留交接事实）
 
 ```text
 接手任务: ED-ENTITY-INSPECTOR-IA-1 场景实体 Inspector、状态指令与删除入口收口
