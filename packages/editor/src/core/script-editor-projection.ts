@@ -1,8 +1,4 @@
-import type {
-  AuthorItemData,
-  AuthorSceneDef,
-  ItemData,
-} from '@type-pal/content'
+import type { AuthorItemData, AuthorSceneDef, ItemData } from '@type-pal/content'
 import type { EditorState } from './edit-session.js'
 import type { ScriptEditorState } from './script-editor.js'
 
@@ -150,15 +146,17 @@ export function projectActiveScriptEditorState(
   }
 }
 
-/** 保存边界：合并当前普通编辑会话与当前脚本会话，不做版本改写。 */
-export function mergeEditorProjectionWithCurrentAuthorState(
+/**
+ * 资源引用扫描只需要作者态覆盖的三个切片；避免为一次扫描深拷贝 maps、blob 与其余大表。
+ * 合并语义与保存边界相同：普通字段取 shell，脚本正文取 canonical。
+ */
+export function projectCurrentAuthorReferenceSlices(
   canonical: ScriptEditorState,
   shell: EditorState,
-): EditorState {
+): Pick<EditorState, 'scenes' | 'items' | 'sharedScripts'> {
   const canonicalScenes = new Map(canonical.scenes.map((scene) => [scene.id, scene]))
   const canonicalItems = new Map(canonical.items.map((item) => [item.id, item]))
   return {
-    ...structuredClone(shell),
     scenes: shell.scenes.map((scene) =>
       mergeSceneShell(scene, canonicalScenes.get(scene.id)),
     ) as unknown as EditorState['scenes'],
@@ -168,5 +166,17 @@ export function mergeEditorProjectionWithCurrentAuthorState(
     sharedScripts: structuredClone(
       canonical.sharedScripts,
     ) as unknown as EditorState['sharedScripts'],
+  }
+}
+
+/** 保存边界：合并当前普通编辑会话与当前脚本会话，不做版本改写。 */
+export function mergeEditorProjectionWithCurrentAuthorState(
+  canonical: ScriptEditorState,
+  shell: EditorState,
+): EditorState {
+  const author = projectCurrentAuthorReferenceSlices(canonical, shell)
+  return {
+    ...structuredClone(shell),
+    ...author,
   }
 }

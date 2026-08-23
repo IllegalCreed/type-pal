@@ -5,13 +5,21 @@ export async function verifyInspectorTabs(
   host: HTMLElement,
   label: string,
   expectedLabels: readonly (string | RegExp)[],
+  options: { identity?: 'inspector' | 'workbench-hero' } = {},
 ): Promise<void> {
   const tabList = host.querySelector<HTMLElement>(`[role="tablist"][aria-label="${label}"]`)
   expect(tabList, `${label} tablist`).not.toBeNull()
   const inspector = tabList?.closest<HTMLElement>('.inspector')
-  const heading = inspector?.querySelector<HTMLElement>(':scope > .insp-head')
-  expect(heading, `${label} fixed heading`).not.toBeNull()
-  expect(heading?.nextElementSibling?.contains(tabList ?? null)).toBe(true)
+  if (options.identity === 'workbench-hero') {
+    const hero = host.querySelector<HTMLElement>('.media-asset-hero.ds-object-hero')
+    expect(hero, `${label} workbench hero`).not.toBeNull()
+    expect(hero?.querySelector('.ds-object-hero__title')).not.toBeNull()
+    expect(inspector?.querySelector(':scope > .insp-head')).toBeNull()
+  } else {
+    const heading = inspector?.querySelector<HTMLElement>(':scope > .insp-head')
+    expect(heading, `${label} fixed heading`).not.toBeNull()
+    expect(heading?.nextElementSibling?.contains(tabList ?? null)).toBe(true)
+  }
 
   const tabs = [...(tabList?.querySelectorAll<HTMLButtonElement>('[role="tab"]') ?? [])]
   expect(tabs).toHaveLength(expectedLabels.length)

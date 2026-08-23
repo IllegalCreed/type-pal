@@ -24,13 +24,13 @@ import type { EditorHistoryCoordinator } from '../core/editor-history-coordinato
 import type { BlockingEnemyTeamReference } from '../core/enemy-team-references.js'
 import type { ItemReference } from '../core/item-references.js'
 import type { ManifestLike } from '../core/project-diagnostics.js'
-import { findDefaultEntry } from '../core/startup-entries.js'
-import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import type {
   CanonicalScriptReference,
   ScriptEditorState,
   ScriptEditSession,
 } from '../core/script-editor.js'
+import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
+import { findDefaultEntry } from '../core/startup-entries.js'
 import type { SpriteAutomaticScriptInstanceSite } from '../core/world-sprite-behavior.js'
 import {
   collectWorldVariableReferencesV1,
@@ -39,7 +39,6 @@ import {
 import { AmbienceTab } from './AmbienceTab.js'
 import { BattleFieldTab } from './BattleFieldTab.js'
 import { BattleSpriteLibrary } from './BattleSpriteLibrary.js'
-import { CanonicalSharedScriptTab } from './SharedScriptTab.js'
 import { CutsceneTab } from './CutsceneTab.js'
 import { EnemyTab } from './EnemyTab.js'
 import { EnemyTeamTab } from './EnemyTeamTab.js'
@@ -50,6 +49,7 @@ import { ImageTab } from './ImageTab.js'
 import { ItemTab } from './ItemTab.js'
 import { MusicTab } from './MusicTab.js'
 import { PoisonTab } from './PoisonTab.js'
+import { CanonicalSharedScriptTab } from './SharedScriptTab.js'
 import { ShopTab } from './ShopTab.js'
 import { SkillTab } from './SkillTab.js'
 import { SoundTab } from './SoundTab.js'
@@ -453,6 +453,8 @@ export function DataMode(props: {
         tabBar={tabBar}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}
+        currentAuthor={script?.state}
+        getCurrentAuthor={() => script?.session.getState()}
       />
     )
   }
@@ -480,6 +482,8 @@ export function DataMode(props: {
         tabBar={tabBar}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}
+        currentAuthor={script?.state}
+        getCurrentAuthor={() => script?.session.getState()}
       />
     )
   }

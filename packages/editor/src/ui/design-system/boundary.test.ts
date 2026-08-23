@@ -479,14 +479,52 @@ describe('editor design-system static boundary', () => {
     const expectedOwners: Record<string, RegExp> = {
       'WorldSpriteLibrary.tsx': /headerActions=\{/,
       'BattleSpriteLibrary.tsx': /<DsObjectHero[\s\S]*?actions=\{/,
-      'ImageTab.tsx': /<DsCatalogControls[\s\S]*?overflowActions=\{/,
-      'CutsceneTab.tsx': /<DsCatalogControls[\s\S]*?overflowActions=\{/,
+      'ImageTab.tsx': /<DsObjectHero[\s\S]*?actions=\{/,
+      'CutsceneTab.tsx': /<DsObjectHero[\s\S]*?actions=\{/,
       'TilesetTab.tsx': /<TilesetPreview[\s\S]*?actions=\{/,
       'SharedScriptTab.tsx': /<DsObjectHero[\s\S]*?deleteSelectedScript/,
       'App.tsx': /className="scene-outline-row-actions"[\s\S]*?deleteEntity/,
     }
     for (const [file, owner] of Object.entries(expectedOwners))
       expect(readFileSync(join(uiRoot, file), 'utf8'), `${file} lifecycle owner`).toMatch(owner)
+  })
+
+  test('keeps media lifecycle editing and confirmation on the shared contract', () => {
+    const uiRoot = dirname(here)
+    const helper = readFileSync(join(uiRoot, 'MediaAssetLifecycle.tsx'), 'utf8')
+    for (const component of [
+      'DsField',
+      'DsTextInput',
+      'DsDialog',
+      'DsPropertyGrid',
+      'DsPropertyRow',
+    ])
+      expect(helper, `MediaAssetLifecycle shared ${component}`).toContain(`<${component}`)
+    expect(helper).not.toMatch(/<(?:input|label|button)\b/)
+
+    const contracts = {
+      'ImageTab.tsx': [/<DsCatalogRow\b/],
+      'CutsceneTab.tsx': [
+        /<DsCatalogGroupList\b/,
+        /<DsCatalogGroupHeader\b/,
+        /<DsCatalogRow\b/,
+        /<DsCatalogGroupEmpty\b/,
+      ],
+    } as const
+    for (const [file, requirements] of Object.entries(contracts)) {
+      const source = readFileSync(join(uiRoot, file), 'utf8')
+      expect(source, `${file} object hero`).toMatch(/<DsObjectHero\b[\s\S]*?actions=\{/)
+      expect(source, `${file} shared name editor`).toMatch(/<MediaAssetNameField\b/)
+      expect(source, `${file} shared lifecycle dialog`).toMatch(/<MediaAssetConfirmDialog\b/)
+      expect(source, `${file} no catalog lifecycle overflow`).not.toMatch(
+        /<DsCatalogControls\b[\s\S]*?overflowActions=\{/,
+      )
+      expect(source, `${file} no native confirm`).not.toContain('window.confirm')
+      for (const requirement of requirements) expect(source, file).toMatch(requirement)
+    }
+
+    const businessCss = readFileSync(join(uiRoot, 'editor.css'), 'utf8')
+    expect(businessCss).not.toMatch(/\.(?:cutscene-asset-row|cutscene-group-header)\b/)
   })
 
   test('keeps Inspector content on one shared section, property, choice, and action grammar', () => {
@@ -657,7 +695,12 @@ describe('editor design-system static boundary', () => {
     expect(projectWorkbench).not.toMatch(/className=["']project-issue/)
     expect(businessCss).toMatch(/\.cf-err\b/)
 
-    for (const file of ['ImageTab.tsx', 'SoundTab.tsx']) {
+    for (const file of ['ImageTab.tsx', 'CutsceneTab.tsx']) {
+      const source = readFileSync(join(uiRoot, file), 'utf8')
+      expect(source, `${file} dedicated diagnostic tab`).toMatch(/id:\s*['"]diagnostics['"]/)
+    }
+
+    for (const file of ['SoundTab.tsx']) {
       const source = readFileSync(join(uiRoot, file), 'utf8')
       expect(source, `${file} inline diagnostic`).toMatch(
         /id:\s*['"]references['"][\s\S]*?<DsReferencePanel\b[\s\S]*?<DsDiagnosticPanel\b/,

@@ -15,19 +15,16 @@ import {
   useState,
   type WheelEvent,
 } from 'react'
-import {
-  DeleteAssetCommand,
-  UpdateAssetLabelCommand,
-  UpsertAssetCommand,
-} from '../core/commands.js'
+import { DeleteAssetCommand, UpsertAssetCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
-import { collectEditorAssetReferences } from '../core/editor-asset-references.js'
+import { tryCollectEditorAssetReferenceSnapshot } from '../core/editor-asset-references.js'
 import {
   nextAuthoredImageId,
   type PreparedImageImport,
   prepareAuthoredImage,
 } from '../core/image-import.js'
+import type { ScriptEditorState } from '../core/script-editor.js'
 import { STATIC_IMAGE_KINDS, type StaticImageKind } from '../core/static-image.js'
 import {
   DsButton,
@@ -36,15 +33,20 @@ import {
   DsDiagnosticList,
   DsDiagnosticPanel,
   DsDiagnosticRow,
+  DsInspectorSection,
   DsInspectorTabs,
+  DsObjectHero,
+  DsPropertyGrid,
+  DsPropertyRow,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
   DsTabs,
-  DsTextInput,
+  DsTag,
   DsZoomToolbar,
 } from './design-system/index.js'
 import { ImageAssetThumbnail, imageAssets } from './ImageAssetPicker.js'
+import { MediaAssetConfirmDialog, MediaAssetNameField } from './MediaAssetLifecycle.js'
 import {
   clampMediaPreviewZoom,
   fitMediaPreviewZoom,
@@ -67,31 +69,12 @@ const ORIGIN_LABEL: Readonly<Record<AssetRecordV1['origin']['kind'], string>> = 
   licensed: '授权资源',
 }
 
-type ImageInspectorTab = 'resource' | 'references'
+type ImageInspectorTab = 'resource' | 'references' | 'diagnostics'
 
 function formatBytes(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
   return `${(bytes / 1024 / 1024).toFixed(1)} MB`
-}
-
-function EditableName(props: { assetId: AssetId; label?: string; session: EditSession }) {
-  const [draft, setDraft] = useState<string | null>(null)
-  return (
-    <DsTextInput
-      value={draft ?? props.label ?? ''}
-      placeholder="未命名"
-      onChange={(event) => setDraft(event.target.value)}
-      onBlur={() => {
-        if (draft !== null && draft !== (props.label ?? ''))
-          props.session.dispatch(new UpdateAssetLabelCommand(props.assetId, draft))
-        setDraft(null)
-      }}
-      onKeyDown={(event) => {
-        if (event.key === 'Enter') event.currentTarget.blur()
-      }}
-    />
-  )
 }
 
 function ImageWorkspacePreview(props: {
@@ -401,10 +384,29 @@ export function ImageTab(props: {
   tabBar?: React.ReactNode
   focusObjectId?: AssetId
   onObjectFocus?: (id: string | undefined) => void
+  currentAuthor?: ScriptEditorState
+  getCurrentAuthor?: () => ScriptEditorState | undefined
 }) {
-  const { assetBase, catalog, reader, session, tabBar, focusObjectId, onObjectFocus } = props
+  const {
+    assetBase,
+    catalog,
+    reader,
+    session,
+    tabBar,
+    focusObjectId,
+    onObjectFocus,
+    currentAuthor,
+    getCurrentAuthor,
+  } = props
   const state = session.getState()
-  const allReferences = useMemo(() => collectEditorAssetReferences(state), [state])
+  const referenceResult = useMemo(
+    () => tryCollectEditorAssetReferenceSnapshot(state, currentAuthor),
+    [currentAuthor, state],
+  )
+  const allReferences =
+    referenceResult.status === 'ready' ? referenceResult.snapshot.references : []
+  const referenceScanError =
+    referenceResult.status === 'error' ? referenceResult.message : undefined
   const focusedReferenceKind = focusObjectId
     ? allReferences.find((reference) => reference.asset === focusObjectId)?.expectedKind
     : undefined
@@ -418,12 +420,15 @@ export function ImageTab(props: {
   const [inspectorTab, setInspectorTab] = useState<ImageInspectorTab>('resource')
   const [error, setError] = useState('')
   const [selectedId, setSelectedId] = useState<AssetId | null>(focusObjectId ?? null)
-  const [replaceId, setReplaceId] = useState<AssetId | undefined>()
+  const [deleteTargetId, setDeleteTargetId] = useState<AssetId | undefined>()
+  const [deleteBusy, setDeleteBusy] = useState(false)
   const [pendingBattle, setPendingBattle] = useState<PendingBattleImport | undefined>()
   const [battlePaletteColors, setBattlePaletteColors] = useState<
     readonly (readonly [number, number, number])[] | undefined
   >()
-  const inputRef = useRef<HTMLInputElement>(null)
+  const importInputRef = useRef<HTMLInputElement>(null)
+  const replaceInputRef = useRef<HTMLInputElement>(null)
+  const replaceTargetRef = useRef<AssetId | undefined>(undefined)
   const entries = useMemo(() => imageAssets(catalog, kind), [catalog, kind])
   const shown = entries.filter(
     (entry) =>
@@ -529,13 +534,47 @@ export function ImageTab(props: {
     ? closureIssues.filter((issue) => issue.message.includes(`"${selected.id}"`))
     : []
 
-  const deleteSelectedImage = (): void => {
-    if (!selected || selectedReferences.length) return
-    if (!window.confirm(`确认删除未被引用的图片 ${selected.id}？`)) return
-    void reader.readBytes(selected.id, kind).then(
-      (previousBytes) => session.dispatch(new DeleteAssetCommand(selected.id, previousBytes)),
-      (cause: unknown) => setError(cause instanceof Error ? cause.message : String(cause)),
-    )
+  const deleteTarget = deleteTargetId
+    ? entries.find((entry) => entry.id === deleteTargetId)
+    : undefined
+  const deleteSelectedImage = async (): Promise<void> => {
+    if (!deleteTarget) return
+    const targetId = deleteTarget.id
+    const targetKind = deleteTarget.record.kind as StaticImageKind
+    const scan = (): ReturnType<typeof tryCollectEditorAssetReferenceSnapshot> =>
+      tryCollectEditorAssetReferenceSnapshot(
+        session.getState(),
+        getCurrentAuthor?.() ?? currentAuthor,
+      )
+    const firstScan = scan()
+    if (firstScan.status === 'error') {
+      setError(`引用扫描失败，未删除：${firstScan.message}`)
+      return
+    }
+    if (firstScan.snapshot.references.some((reference) => reference.asset === targetId)) {
+      setError('资源已有引用，未删除。')
+      return
+    }
+    setDeleteBusy(true)
+    try {
+      const previousBytes = await reader.readBytes(targetId, targetKind)
+      const finalScan = scan()
+      if (finalScan.status === 'error')
+        throw new Error(`引用扫描失败，未删除：${finalScan.message}`)
+      if (finalScan.snapshot.references.some((reference) => reference.asset === targetId))
+        throw new Error('读取资源期间新增了引用，未删除。')
+      const targetIndex = entries.findIndex((entry) => entry.id === targetId)
+      const remaining = entries.filter((entry) => entry.id !== targetId)
+      const next = remaining[Math.min(targetIndex, remaining.length - 1)]
+      session.dispatch(new DeleteAssetCommand(targetId, previousBytes))
+      setSelectedId(next?.id ?? null)
+      onObjectFocus?.(next?.id)
+      setDeleteTargetId(undefined)
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : String(cause))
+    } finally {
+      setDeleteBusy(false)
+    }
   }
 
   return (
@@ -551,29 +590,7 @@ export function ImageTab(props: {
               id: 'import-image',
               label: '导入 PNG',
               icon: 'add',
-              onClick: () => inputRef.current?.click(),
-            },
-          ]}
-          overflowActions={[
-            {
-              id: 'replace-selected-image',
-              label: '替换当前图片…',
-              disabled: !selected,
-              onClick: () => {
-                if (!selected) return
-                setReplaceId(selected.id)
-                inputRef.current?.click()
-              },
-            },
-            {
-              id: 'delete-selected-image',
-              label: '删除当前图片…',
-              danger: true,
-              disabled: !selected || selectedReferences.length > 0,
-              title: selectedReferences.length
-                ? `仍有 ${selectedReferences.length} 处引用，不能删除`
-                : '删除当前图片',
-              onClick: deleteSelectedImage,
+              onClick: () => importInputRef.current?.click(),
             },
           ]}
           scope={
@@ -597,14 +614,26 @@ export function ImageTab(props: {
         />
         {error ? <div className="cf-err">{error}</div> : null}
         <input
-          ref={inputRef}
+          ref={importInputRef}
           type="file"
           accept=".png,image/png"
           hidden
           onChange={(event) => {
             const file = event.target.files?.[0]
-            if (file) void importFile(file, replaceId)
-            setReplaceId(undefined)
+            if (file) void importFile(file)
+            event.target.value = ''
+          }}
+        />
+        <input
+          ref={replaceInputRef}
+          type="file"
+          accept=".png,image/png"
+          hidden
+          onChange={(event) => {
+            const file = event.target.files?.[0]
+            const targetId = replaceTargetRef.current
+            replaceTargetRef.current = undefined
+            if (file && targetId) void importFile(file, targetId)
             event.target.value = ''
           }}
         />
@@ -630,7 +659,11 @@ export function ImageTab(props: {
               }}
             />
           ))}
-          {!shown.length ? <div className="insp-empty">此类型还没有图片。</div> : null}
+          {!shown.length ? (
+            <div className="insp-empty">
+              {entries.length ? '没有匹配的图片。' : `此项目还没有${KIND_LABEL[kind]}。`}
+            </div>
+          ) : null}
         </div>
       </div>
       <div className="canvas-wrap data-body image-workspace">
@@ -645,13 +678,57 @@ export function ImageTab(props: {
             引用目标 AssetId“{missingFocusedId}”不在项目 catalog；已停留在该问题，不会跳到其他图片。
           </div>
         ) : selected ? (
-          <ImageWorkspacePreview
-            key={`${selected.id}:${selected.record.sha256}`}
-            assetId={selected.id}
-            kind={kind}
-            reader={reader}
-            assetBase={assetBase}
-          />
+          <>
+            <DsObjectHero
+              className="media-asset-hero"
+              eyebrow={KIND_LABEL[kind]}
+              title={selected.record.label || '未命名'}
+              objectId={selected.id}
+              meta={
+                <>
+                  <DsTag tone="neutral">{KIND_LABEL[kind]}</DsTag>
+                  <DsTag tone="neutral">{ORIGIN_LABEL[selected.record.origin.kind]}</DsTag>
+                </>
+              }
+              actions={
+                <>
+                  <DsButton
+                    size="compact"
+                    variant="secondary"
+                    icon="upload"
+                    onClick={() => {
+                      replaceTargetRef.current = selected.id
+                      replaceInputRef.current?.click()
+                    }}
+                  >
+                    替换
+                  </DsButton>
+                  <DsButton
+                    size="compact"
+                    variant="danger"
+                    icon="delete"
+                    title={
+                      referenceScanError
+                        ? '查看删除阻断原因'
+                        : selectedReferenceCount
+                          ? `查看 ${selectedReferenceCount} 处阻断引用`
+                          : '删除当前图片'
+                    }
+                    onClick={() => setDeleteTargetId(selected.id)}
+                  >
+                    删除
+                  </DsButton>
+                </>
+              }
+            />
+            <ImageWorkspacePreview
+              key={`${selected.id}:${selected.record.sha256}`}
+              assetId={selected.id}
+              kind={kind}
+              reader={reader}
+              assetBase={assetBase}
+            />
+          </>
         ) : (
           <div className="insp-empty">导入或选择一张{KIND_LABEL[kind]}。</div>
         )}
@@ -666,116 +743,162 @@ export function ImageTab(props: {
             </p>
           </div>
         ) : selected ? (
-          <>
-            <div className="insp-head">
-              <div className="what">选中{KIND_LABEL[kind]}</div>
-              <div className="who">{selected.record.label || '未命名'}</div>
-            </div>
-            <DsInspectorTabs
-              id="image-inspector"
-              label="图片检查器"
-              activeId={inspectorTab}
-              onChange={(id) => setInspectorTab(id as ImageInspectorTab)}
-              items={[
-                {
-                  id: 'resource',
-                  label: '资源',
-                  panel: (
-                    <div className="section">
-                      <h4>资源信息</h4>
-                      <EditableName
-                        assetId={selected.id}
-                        label={selected.record.label}
-                        session={session}
-                      />
-                      <div className="music-meta-row">
-                        <span>AssetId</span>
+          <DsInspectorTabs
+            id="image-inspector"
+            label="图片检查器"
+            activeId={inspectorTab}
+            onChange={(id) => setInspectorTab(id as ImageInspectorTab)}
+            items={[
+              {
+                id: 'resource',
+                label: '属性',
+                panel: (
+                  <DsInspectorSection title="基本信息">
+                    <MediaAssetNameField
+                      assetId={selected.id}
+                      label={selected.record.label}
+                      session={session}
+                    />
+                    <DsPropertyGrid>
+                      <DsPropertyRow label="AssetId">
                         <code>{selected.id}</code>
-                      </div>
-                      <div className="music-meta-row">
-                        <span>文件</span>
+                      </DsPropertyRow>
+                      <DsPropertyRow label="文件">
                         <code>{selected.record.path}</code>
-                      </div>
-                      <div className="music-meta-row">
-                        <span>来源</span>
-                        <strong>{ORIGIN_LABEL[selected.record.origin.kind]}</strong>
-                      </div>
-                      <div className="music-meta-row">
-                        <span>大小</span>
-                        <strong>{formatBytes(selected.record.bytes)}</strong>
-                      </div>
-                    </div>
-                  ),
-                },
-                {
-                  id: 'references',
-                  label: '引用',
-                  count: selectedReferenceCount,
-                  panel: (
-                    <div className="section asset-reference-section">
-                      <DsReferencePanel
-                        state={selectedReferenceCount ? 'ready' : 'empty'}
-                        count={{ kind: 'exact', value: selectedReferenceCount }}
-                        impact={{
-                          kind: 'blocking',
-                          description: selectedReferenceCount
+                      </DsPropertyRow>
+                      <DsPropertyRow label="来源">
+                        {ORIGIN_LABEL[selected.record.origin.kind]}
+                      </DsPropertyRow>
+                      <DsPropertyRow label="大小">
+                        {formatBytes(selected.record.bytes)}
+                      </DsPropertyRow>
+                    </DsPropertyGrid>
+                  </DsInspectorSection>
+                ),
+              },
+              {
+                id: 'references',
+                label: '引用',
+                count: selectedReferenceCount,
+                panel: (
+                  <DsInspectorSection title="引用" className="asset-reference-section">
+                    <DsReferencePanel
+                      state={
+                        referenceScanError ? 'error' : selectedReferenceCount ? 'ready' : 'empty'
+                      }
+                      count={
+                        referenceScanError
+                          ? { kind: 'unknown' }
+                          : { kind: 'exact', value: selectedReferenceCount }
+                      }
+                      impact={{
+                        kind: 'blocking',
+                        description: referenceScanError
+                          ? `引用扫描失败：${referenceScanError}。为防止误删，删除已关闭。`
+                          : selectedReferenceCount
                             ? '替换图片会保留这些引用；解除全部引用后才能删除。'
                             : '当前项目没有引用这张图片。',
-                        }}
-                      >
-                        {selectedReferences.length ? (
-                          <DsReferenceList>
-                            {selectedReferences.map((reference) => (
-                              <DsReferenceRow
-                                key={`${reference.site}:${reference.where}`}
-                                title={reference.site}
-                                path={reference.where}
-                                occurrenceCount={reference.occurrences}
-                                status={{
-                                  label: '只读',
-                                  reason: '图片引用暂不支持从资源页精确定位。',
-                                }}
-                              />
-                            ))}
-                          </DsReferenceList>
-                        ) : null}
-                      </DsReferencePanel>
-                      <DsDiagnosticPanel
-                        state={selectedIssues.length ? 'ready' : 'clear'}
-                        count={{
-                          kind: 'exact',
-                          errors: selectedIssues.filter((issue) => issue.severity === 'error')
-                            .length,
-                          warnings: selectedIssues.filter((issue) => issue.severity === 'warn')
-                            .length,
-                        }}
-                        summary={selectedIssues.length ? undefined : '资源类型与引用闭包正常'}
-                      >
-                        {selectedIssues.length ? (
-                          <DsDiagnosticList>
-                            {selectedIssues.map((issue) => (
-                              <DsDiagnosticRow
-                                key={`${issue.code}:${issue.where}`}
-                                severity={issue.severity === 'error' ? 'error' : 'warning'}
-                                title={issue.message}
-                                code={issue.code}
-                                path={issue.where}
-                                statusLabel="仅提示"
-                              />
-                            ))}
-                          </DsDiagnosticList>
-                        ) : null}
-                      </DsDiagnosticPanel>
-                    </div>
-                  ),
-                },
-              ]}
-            />
-          </>
+                      }}
+                    >
+                      {selectedReferences.length ? (
+                        <DsReferenceList>
+                          {selectedReferences.map((reference) => (
+                            <DsReferenceRow
+                              key={`${reference.site}:${reference.where}`}
+                              title={reference.site}
+                              path={reference.where}
+                              occurrenceCount={reference.occurrences}
+                              status={{
+                                label: '只读',
+                                reason: '图片引用暂不支持从资源页精确定位。',
+                              }}
+                            />
+                          ))}
+                        </DsReferenceList>
+                      ) : null}
+                    </DsReferencePanel>
+                  </DsInspectorSection>
+                ),
+              },
+              {
+                id: 'diagnostics',
+                label: '诊断',
+                count: referenceScanError ? 1 : selectedIssues.length,
+                panel: (
+                  <DsInspectorSection title="诊断">
+                    <DsDiagnosticPanel
+                      state={
+                        referenceScanError ? 'failure' : selectedIssues.length ? 'ready' : 'clear'
+                      }
+                      count={
+                        referenceScanError
+                          ? { kind: 'unknown' }
+                          : {
+                              kind: 'exact',
+                              errors: selectedIssues.filter((issue) => issue.severity === 'error')
+                                .length,
+                              warnings: selectedIssues.filter((issue) => issue.severity === 'warn')
+                                .length,
+                            }
+                      }
+                      summary={
+                        referenceScanError
+                          ? '资源引用检查失败'
+                          : selectedIssues.length
+                            ? undefined
+                            : '资源类型与引用闭包正常'
+                      }
+                      description={referenceScanError}
+                    >
+                      {!referenceScanError && selectedIssues.length ? (
+                        <DsDiagnosticList>
+                          {selectedIssues.map((issue) => (
+                            <DsDiagnosticRow
+                              key={`${issue.code}:${issue.where}`}
+                              severity={issue.severity === 'error' ? 'error' : 'warning'}
+                              title={issue.message}
+                              code={issue.code}
+                              path={issue.where}
+                              statusLabel="仅提示"
+                            />
+                          ))}
+                        </DsDiagnosticList>
+                      ) : null}
+                    </DsDiagnosticPanel>
+                  </DsInspectorSection>
+                ),
+              },
+            ]}
+          />
         ) : (
           <div className="insp-empty">选择一张图片查看资源与引用。</div>
         )}
       </div>
+      <MediaAssetConfirmDialog
+        open={Boolean(deleteTarget)}
+        title="删除图片"
+        objectLabel={deleteTarget ? deleteTarget.record.label || deleteTarget.id : ''}
+        impact="移除资源记录和项目内文件；可通过全局撤销恢复。"
+        referenceCount={
+          referenceScanError
+            ? 'unknown'
+            : deleteTarget
+              ? (references.get(deleteTarget.id) ?? []).reduce(
+                  (total, reference) => total + reference.occurrences,
+                  0,
+                )
+              : 0
+        }
+        confirmLabel="删除图片"
+        confirmVariant="danger"
+        busy={deleteBusy}
+        confirmDisabled={
+          Boolean(referenceScanError) ||
+          Boolean(deleteTarget && references.get(deleteTarget.id)?.length)
+        }
+        onClose={() => setDeleteTargetId(undefined)}
+        onConfirm={() => void deleteSelectedImage()}
+      />
     </>
   )
 }

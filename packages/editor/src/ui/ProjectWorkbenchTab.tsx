@@ -31,6 +31,7 @@ import {
   type ManifestLike,
   type ProjectIssue,
 } from '../core/project-diagnostics.js'
+import type { ScriptEditorState } from '../core/script-editor.js'
 import { findDefaultEntry } from '../core/startup-entries.js'
 import {
   DsButton,
@@ -65,6 +66,7 @@ export interface ProjectWorkbenchTabProps {
   assetCatalog: AssetCatalogV1
   session: EditSession
   editorState: EditorState
+  currentAuthor?: ScriptEditorState
   assetReader: EditorAssetReader
   tabBar?: ReactNode
   focusObjectId?: string
@@ -1202,19 +1204,11 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
     if (!selected) return
     const id = newEntryId()
     const source = structuredClone(selected)
-    commit([
-      ...entryPoints,
-      { ...source, id, label: `${selected.label} 副本` },
-    ])
+    commit([...entryPoints, { ...source, id, label: `${selected.label} 副本` }])
     chooseEntry(id)
   }
   const removeEntry = (): void => {
-    if (
-      !selected ||
-      entryPoints.length <= 1 ||
-      selected.id === manifest.defaultEntryId
-    )
-      return
+    if (!selected || entryPoints.length <= 1 || selected.id === manifest.defaultEntryId) return
     const remaining = entryPoints.filter((entry) => entry.id !== selected.id)
     commit(remaining)
     chooseEntry(manifest.defaultEntryId)
@@ -1255,9 +1249,7 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
               label: '删除当前入口',
               danger: true,
               disabled:
-                !selected ||
-                entryPoints.length <= 1 ||
-                selected.id === manifest.defaultEntryId,
+                !selected || entryPoints.length <= 1 || selected.id === manifest.defaultEntryId,
               onClick: removeEntry,
             },
           ]}
@@ -1290,7 +1282,7 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
             <section className="project-card">
               <h4>
                 入口信息{' '}
-                  <DsHelpTip label="启动入口">
+                <DsHelpTip label="启动入口">
                   每个入口都保存完整场景、入口视频与开局状态；稳定 ID 创建后保持不变。
                 </DsHelpTip>
               </h4>
@@ -1413,10 +1405,14 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
     assetReader,
     session,
     editorState,
+    currentAuthor,
     tabBar,
     onOpenLocation,
   } = props
-  const issues = useMemo(() => collectProjectIssues(editorState), [editorState])
+  const issues = useMemo(
+    () => collectProjectIssues(editorState, currentAuthor),
+    [currentAuthor, editorState],
+  )
   if (page === 'entrypoint') return <EntryPointEditor {...props} issues={issues} />
 
   const effectiveEntries = manifest.entryPoints

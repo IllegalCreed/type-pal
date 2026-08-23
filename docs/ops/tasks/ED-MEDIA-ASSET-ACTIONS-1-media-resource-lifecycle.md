@@ -1,6 +1,6 @@
 # ED-MEDIA-ASSET-ACTIONS-1 - 媒体资源对象操作与生命周期统一
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: X2
 Coding Owner: Codex
@@ -9,7 +9,7 @@ Reviewer: Kimi + GLM
 Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
-Branch: codex/ed-pal-workspace-modes-1
+Branch: codex/ed-media-asset-actions-1
 
 ## 目标
 
@@ -51,7 +51,7 @@ Branch: codex/ed-pal-workspace-modes-1
 |---|---|---|
 | 原版 / primary source | N/A：原版没有本项目资源编辑器；本任务不改变视频、帧动画、图片内容与播放语义。 | `docs/phase2/READ-FIRST.md:1-35`；用户 2026-08-21 指出当前资源改名 / 删除不符合统一规范。 |
 | 第一阶段 | 第一阶段提供资源读取 / 播放经验，不提供当前作者工作台操作归属。 | `docs/phase2/READ-FIRST.md:68-90`; `docs/ops/tasks/A7-3-cutscene-asset-workbench.md` 记录二阶段新建的过场作者工作台。 |
-| 当前二阶段 | Image / Cutscene 的替换、删除位于 `DsCatalogControls.overflowActions`；改名位于右 Inspector，Cutscene 仍为裸输入；删除 / dirty 切换使用 `window.confirm`。引用适配器未传 `sharedScripts`，而删除命令要求调用方保护。 | `ImageTab.tsx:532-578,659-707`; `CutsceneTab.tsx:274-291,376-380,570-615,703-711`; `editor-asset-references.ts:8-27`; `commands.ts:3003-3013`。 |
+| 当前二阶段 | Image / Cutscene 的替换、删除位于 `DsCatalogControls.overflowActions`；改名位于右 Inspector，Cutscene 仍为裸输入；删除 / dirty 切换使用 `window.confirm`。引用适配器已读取主 EditSession 的 `sharedScripts`，但作者编辑期间的实时脚本只在保存边界合并，页面展示与删除 preflight 因而消费 stale 副本；删除命令又要求调用方保护。 | `ImageTab.tsx:406-407,532-578,659-707`; `CutsceneTab.tsx:274-291,376-380,410,418,570-615,703-711`; `editor-asset-references.ts:8-27`; `script-editor-projection.ts:10-14,152-171`; `App.tsx:313,322,1485-1496`; `commands.ts:3003-3013`。 |
 | 本任务目标 | 左侧只保留集合级导入；中央媒体 Hero 承载当前资源身份和替换 / 删除；属性区承载改名；右 Inspector 保留引用 / 诊断；所有删除使用包含 live sharedScripts 的同一引用快照。 | `editor-design-system-v1.md:304-327,451-479`; `editor-ui-audit-2026-08-15.md:85`; 用户本轮要求按通用规范复核。 |
 
 ### 反证与替代解释
@@ -75,7 +75,8 @@ Branch: codex/ed-pal-workspace-modes-1
 - 是否主动偏离已核真值: yes（用户要求修正当前资源操作规范）
 - `before -> after` 一句话: 改名藏在右侧标题、替换 / 删除藏在左侧 `...`、浏览器原生确认 -> 当前资源标题明确显示目标与替换 / 删除，属性字段负责改名，共享对话框负责确认与引用阻断。
 - 代表场景: 选择 `video.pal.001` 后，中央标题显示“PAL 视频 001 / video.pal.001”，可直接替换或删除；右侧属性可改显示名称，引用页解释为何不能删除。
-- 用户裁决: 2026-08-21 用户指出该页资源重命名 / 删除未按通用规范，授权按统一合同审查；详细设计仍待三方签字。
+- 用户裁决: 2026-08-21 用户指出该页资源重命名 / 删除未按通用规范，授权按统一合同审查；2026-08-23
+  三方设计签字齐后，用户明确“推进”，批准进入 build。
 
 ## 上下文锚点
 
@@ -179,11 +180,18 @@ Branch: codex/ed-pal-workspace-modes-1
     引用检查，调用方 fail-closed 前提过时——`commands.ts:3003` 注释证伪。
 - counter / 分歧处理: N/A
 - 缺签豁免: N/A
-- build 准入结论: blocked
+- build 准入结论: allowed（2026-08-23；三方 premise/design 齐，用户批准推进）
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept（2026-08-23）**。Image / Cutscene 已统一为左侧集合动作、中央 `DsObjectHero`
+  当前资源动作、右侧属性 / 引用 / 诊断；共享改名与确认对话框行为测试通过。实时 canonical
+  scene / item / sharedScript 引用进入同一 typed snapshot，扫描失败 fail closed；删除→保存→undo→保存
+  的 record 与二进制恢复测试通过。内容包全量 424 项通过；编辑器长套件一次运行中除 3 条旧 Inspector
+  DOM 契约外 1058 项通过，更新契约后该文件 6 项及受影响 UI 55 项通过；typecheck、production build、
+  `git diff --check`、1280×720 / 1024×720 浏览器 smoke 与 console 均通过。收口复审发现并修复
+  “取消原生文件选择器误清 dirty”“多个 sharedScript 引用站点合并”“扫描失败显示 0 处”三项 P1；
+  4 个相关文件 13 项回归、content / editor typecheck 与二次独立复审均通过。
 - Kimi: pending
 - GLM: pending
 - counter / 返工处理: N/A
@@ -224,16 +232,45 @@ Branch: codex/ed-pal-workspace-modes-1
 ## Build: 实现与自测
 
 - Coding Owner: Codex
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- 修改文件:
+  - `packages/content/src/asset.ts` / `asset.test.ts`
+  - `packages/editor/src/core/{script-editor-projection,editor-asset-references,project-diagnostics}.ts`
+    及对应测试、`workspace-persistence.test.ts`
+  - `packages/editor/src/ui/{ImageTab,CutsceneTab,MediaAssetLifecycle,DataMode,ProjectWorkbenchTab,App}.tsx`
+    及 UI / boundary / Inspector 契约测试、`editor.css`
+- 实现摘要:
+  - 抽出 `projectCurrentAuthorReferenceSlices`，让页面引用、删除 preflight、保存诊断复用同一份
+    “shell 元数据 + 当前 canonical 脚本正文”投影，不在资源页复制 session 合并逻辑。
+  - 资源引用快照改为 typed safe result；live scene hooks、items、sharedScripts 均进入引用源，扫描异常时
+    删除零 mutation。content collector 补齐 canonical scene hook variant 路径与稳定 site。
+  - Image / Cutscene 左侧只保留搜索、分组与导入；当前对象替换 / 删除进入中央 `DsObjectHero`；属性页
+    复用 `MediaAssetNameField`，删除与 dirty 切换复用 `MediaAssetConfirmDialog`。
+  - Cutscene 私有列表壳迁为 `DsCatalogGroupHeader + DsCatalogRow`，真实空库与筛选空分别表达；删除后
+    选择与 URL 目标按确定顺序同步。
+  - GM3 真实 workspace 测试覆盖删除→保存→markSaved→undo→保存，断言 catalog record 与原始文件字节恢复。
+- 运行命令:
+  - `pnpm --filter @type-pal/content check`：33 files / 424 tests passed。
+  - `pnpm --filter @type-pal/editor check`：typecheck passed；长套件一次执行，138/139 files、1058/1061
+    tests passed；唯一失败为本卡有意移除 Inspector 重复标题并新增独立诊断 tab 后的 3 条旧 DOM 断言。
+  - 更新该契约后 `vitest run src/ui/AssetInspectorTabs.test.tsx`：6/6 passed。
+  - 最终受影响 UI：5 files / 55 tests passed；此前 core 定向 27、workspace persistence 30 项通过。
+  - 收口 P1 定向回归：`editor-asset-references`、`MediaAssetLifecycle`、`ImageTab`、`CutsceneTab`
+    共 4 files / 13 tests passed；content asset collector 27/27 passed。
+  - `pnpm --filter @type-pal/editor typecheck`、`pnpm --filter @type-pal/editor build`、新增文件 Biome、
+    `git diff --check` 均通过。
+- 浏览器 / 手工检查:
+  - `?ui_samples=1&module=asset&page=image|cutscene`，1280×720 与 1024×720：中央 Hero 名称 / ID /
+    类型 / 来源 / 操作目标一致，Hero `scrollWidth === clientWidth`，正文未被压成缩略图。
+  - 过场引用阻断删除 Dialog 显示目标、影响和 1 处引用，危险确认 disabled；取消后焦点返回 Hero 删除按钮。
+  - 两页浏览器 console 无 error。
+- 跳过的检查及原因: 未第二次运行完整 editor 长套件；遵守用户“长套件不要重复跑”的明确要求。
+  已对唯一失败文件定向修复并通过 6/6，再以受影响 UI 55 项、typecheck、build 与浏览器 smoke 收口。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
+- 审查结论: Codex self-review accept；内部并行 diff / UI / 引用压力审查提出的 3 项 P1 已修复，
+  三路复审均 accept；等待 Kimi / GLM 作为正式审查席独立签字。
 - 必须返工项: pending
 - Accept / rework: pending
 
@@ -244,6 +281,13 @@ Branch: codex/ed-pal-workspace-modes-1
 
 ## 交接日志
 
+- 2026-08-23 Codex（收口复审）: 内部并行审查发现 dirty file-picker、sharedScript site 粒度、
+  扫描失败计数三项 P1；全部修复并补回归。定向 13 项、collector 27 项、两包 typecheck 与 diff check
+  通过，三路复审均 accept。内部子审查不代替 Kimi / GLM 正式签字，本卡保持 review。
+- 2026-08-23 Codex（Coding Owner）: build 完成并转 `review`。实现媒体 Hero / 共享名称与确认合同、
+  Cutscene DS 目录、live canonical 引用投影与 fail-closed 删除；GM1-GM3 均落地。内容全量 424、
+  受影响 UI 55、Inspector 契约 6、core 定向 27、workspace persistence 30 项通过；editor typecheck / build、
+  diff 与两档浏览器 smoke 通过。Codex 签 `accept`；等待 Kimi / GLM review，未标记 done。
 - 2026-08-23 GLM（live reference 输入/删除原子性/测试矩阵）: 审查完成，签 **premise verified
   + design agree（附 GM1-GM3）**。UI 现状与删除命令边界属实；**sharedScripts 缺口成立但措辞
   过时——0ee277ab 已把主态 sharedScripts 传入 source，真缺口是编辑期间 stale 副本（仅保存时
@@ -255,19 +299,21 @@ Branch: codex/ed-pal-workspace-modes-1
   preflight 消费 shell stale 副本。补四条 build 期关注项（scriptState 同源、单一 dialog state、Hero 不压
   预览、卡面 Branch 字段已过时）。三签已齐，但按本轮用户指令保持 draft 与 build 准入 blocked，开放
   决定留给用户。未修改实现文件。
+- 2026-08-23 User: 三签齐后明确“推进”，开放 build；Codex 更新分支与 GM1 真值措辞并接手实现。
 - 2026-08-21 Codex: 完成 Image / Cutscene / Music / Sound / Tileset / Sprite 资源动作全量只读审计；创建本卡并签
   premise / design。Evidence: 本卡真值矩阵与 inventory。Next: Kimi / GLM 独立设计审查；三签齐前不得改实现。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: ED-MEDIA-ASSET-ACTIONS-1 媒体资源对象操作与生命周期统一
+接手任务: ED-MEDIA-ASSET-ACTIONS-1 媒体资源对象操作与生命周期统一（实现审查）
 任务卡: docs/ops/tasks/ED-MEDIA-ASSET-ACTIONS-1-media-resource-lifecycle.md
-当前状态: draft；Codex 已签 premise verified + design agree；build 准入 blocked
-你的角色: Kimi 审 UI 架构、媒体 Hero、Dialog 与 dirty lifecycle；GLM 审 live sharedScripts 引用、删除原子性与测试矩阵
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、editor-design-system-v1.md DS-C.2/DS-R.2、editor-ui-audit U-12，以及卡内代码锚点
-已完成: 全资源动作 inventory；冻结集合动作左栏、当前资源替换/删除进媒体 Hero、属性区改名、引用/诊断只展示影响；发现 sharedScripts 漏扫会允许误删
-请你做: 独立读取一手代码核 premise，给可证伪观察；审查引用单真值、删除 preflight、Dialog/focus、Image/Cutscene 外壳和与 ED-AUDIO-WORKBENCH-1 的依赖；在卡中签 premise verified + design agree，或 counter 并列返工
-不要做: 不得修改实现文件；不得改 schema/migration/runtime 播放；不得自动级联清引用；不得标记 build/done
-输出要求: 更新签字、独立反证与主审立场，明确 agree/counter 和 build 是否可准入
+当前状态: review；Codex build、自测、浏览器 smoke 与 Codex accept 已完成；done 准入 blocked
+你的角色: Kimi 审 UI 架构、媒体 Hero、Dialog/focus 与 dirty lifecycle；GLM 审 live canonical 引用单真值、fail-closed 删除、undo 二进制恢复与测试矩阵
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、editor-design-system-v1.md DS-C.2/DS-R.2，以及本分支 diff
+已完成: Image/Cutscene 左栏集合动作、中央 Hero 当前对象动作、属性改名、共享 Dialog；live scene/item/sharedScript 引用投影；GM1-GM3 测试与两档视觉 smoke
+验证证据: 卡内 Build 段；content 424、受影响 UI 55、Inspector 契约 6、core 27、workspace 30 项通过；typecheck/build/diff 通过；长套件一次运行只有随后已定向修复的 3 条旧 DOM 契约失败
+请你做: 独立审查实现与测试；Kimi 重点核 Hero/目录/对话框/窄宽/focus，GLM 重点核同源 snapshot、场景 hook locator、扫描失败零 mutation、delete→save→undo→save 字节恢复；在 done 前签 `accept`，或签 `counter` 并列精确返工项
+不要做: 不得改实现文件，不得代签另一席，不得标记 done；若发现核心前提变化须转 rework 并重开签字
+输出要求: 更新任务卡审查签字、Review 结论与交接日志，明确 accept/counter；两席 accept 齐前保持 review
 ```

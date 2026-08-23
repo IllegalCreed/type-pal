@@ -196,14 +196,16 @@ describe('asset inspectors shared tabs', () => {
       )
       await Promise.resolve()
     })
-    await verifyInspectorTabs(host, '图片检查器', ['资源', '引用 2'])
+    await verifyInspectorTabs(host, '图片检查器', ['属性', '引用 2', '诊断 0'], {
+      identity: 'workbench-hero',
+    })
     expect(host.querySelectorAll('.ds-reference-row')).toHaveLength(1)
     expect(host.querySelector('.ds-reference-row')?.tagName).toBe('ARTICLE')
     expect(host.querySelector('.ds-reference-row__trailing')?.textContent).toContain('2 次')
     expect(host.querySelector('.ds-diagnostic-panel[data-state="clear"]')).not.toBeNull()
     expect(
       host.querySelectorAll('[role="tablist"][aria-label="图片检查器"] [role="tab"]'),
-    ).toHaveLength(2)
+    ).toHaveLength(3)
   })
 
   test('MusicTab 使用资源/引用 canonical Inspector', async () => {
@@ -258,13 +260,15 @@ describe('asset inspectors shared tabs', () => {
       )
       await Promise.resolve()
     })
-    await verifyInspectorTabs(host, '过场资源检查器', ['资源', '引用 2', /^诊断 \d+$/])
+    await verifyInspectorTabs(host, '过场资源检查器', ['属性', '引用 2', /^诊断 \d+$/], {
+      identity: 'workbench-hero',
+    })
     expect(host.querySelectorAll('.ds-reference-row')).toHaveLength(1)
     expect(host.querySelector('.ds-reference-row__trailing')?.textContent).toContain('2 次')
     expect(host.querySelector('.ds-diagnostic-panel[data-state="clear"]')).not.toBeNull()
   })
 
-  test('Image/Sound 诊断留在引用页并随当前资源过滤', async () => {
+  test('Image 独立诊断页与 Sound 引用页诊断均随当前资源过滤', async () => {
     const session = new EditSession(state())
     await act(async () => {
       root.render(
@@ -278,10 +282,14 @@ describe('asset inspectors shared tabs', () => {
       )
       await Promise.resolve()
     })
-    await verifyInspectorTabs(host, '图片检查器', ['资源', '引用 0'])
-    expect(
-      host.querySelectorAll('[role="tablist"][aria-label="图片检查器"] [role="tab"]'),
-    ).toHaveLength(2)
+    await verifyInspectorTabs(host, '图片检查器', ['属性', '引用 0', '诊断 1'], {
+      identity: 'workbench-hero',
+    })
+    const imageTabs = host.querySelectorAll<HTMLButtonElement>(
+      '[role="tablist"][aria-label="图片检查器"] [role="tab"]',
+    )
+    expect(imageTabs).toHaveLength(3)
+    await act(async () => imageTabs[2]!.click())
     expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(1)
     expect(host.querySelector('.ds-diagnostic-row')?.tagName).toBe('ARTICLE')
     expect(host.textContent).toContain('portrait.unused')

@@ -18,14 +18,10 @@ import {
   useRef,
   useState,
 } from 'react'
-import {
-  DeleteAssetCommand,
-  UpdateAssetLabelCommand,
-  UpsertAssetCommand,
-} from '../core/commands.js'
+import { DeleteAssetCommand, UpsertAssetCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
-import { collectEditorAssetReferences } from '../core/editor-asset-references.js'
+import { tryCollectEditorAssetReferenceSnapshot } from '../core/editor-asset-references.js'
 import type { FrameAnimationEncodeFrame } from '../core/frame-animation-codec.js'
 import type { FrameQuantization } from '../core/frame-animation-draft.js'
 import { decodeFrameImages, sortFrameImageFiles } from '../core/frame-animation-images.js'
@@ -33,14 +29,24 @@ import {
   encodeFrameAnimationInWorker,
   quantizeFrameAnimationInWorker,
 } from '../core/frame-animation-worker-client.js'
+import type { ScriptEditorState } from '../core/script-editor.js'
 import { mp4HasAudioTrack } from '../core/video-metadata.js'
 import {
+  DsButton,
   DsCatalogControls,
+  DsCatalogGroupEmpty,
+  DsCatalogGroupHeader,
+  DsCatalogGroupList,
+  DsCatalogRow,
   DsDiagnosticList,
   DsDiagnosticPanel,
   DsDiagnosticRow,
   DsIconButton,
+  DsInspectorSection,
   DsInspectorTabs,
+  DsObjectHero,
+  DsPropertyGrid,
+  DsPropertyRow,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
@@ -48,6 +54,7 @@ import {
   DsTag,
 } from './design-system/index.js'
 import { FrameAnimationEditor, type FrameAnimationMetadata } from './FrameAnimationEditor.js'
+import { MediaAssetConfirmDialog, MediaAssetNameField } from './MediaAssetLifecycle.js'
 
 interface AssetEntry {
   id: AssetId
@@ -67,6 +74,20 @@ interface PendingFrameImport {
 }
 
 type CutsceneInspectorTab = 'resource' | 'references' | 'diagnostics'
+
+type CutsceneLifecycleRequest =
+  | {
+      kind: 'discard'
+      objectLabel: string
+      nextActionLabel: string
+      action: () => void
+      onCancel?: () => void
+    }
+  | {
+      kind: 'delete'
+      targetId: AssetId
+      objectLabel: string
+    }
 
 const ORIGIN_LABELS: Readonly<Record<AssetRecordV1['origin']['kind'], string>> = {
   'legacy-migrated': '原版迁移',
@@ -154,41 +175,36 @@ function AssetList(props: {
   )
   return (
     <section className="cutscene-library-section">
-      <div className="cutscene-library-head">
-        <strong>{props.title}</strong>
-        <DsTag tone="neutral" monospace>
-          {shown.length} 项
-        </DsTag>
-        <DsIconButton
-          label={`导入${props.title}`}
-          icon="add"
-          variant="secondary"
-          size="compact"
-          onClick={props.onImport}
-        />
-      </div>
+      <DsCatalogGroupHeader
+        title={props.title}
+        count={shown.length}
+        actions={
+          <DsIconButton
+            label={`导入${props.title}`}
+            icon="add"
+            variant="secondary"
+            size="compact"
+            onClick={props.onImport}
+          />
+        }
+      />
       <div className="cutscene-asset-list">
         {shown.length ? (
           shown.map((entry) => (
-            <button
-              type="button"
+            <DsCatalogRow
               key={entry.id}
-              className={`cutscene-asset-row${props.selectedId === entry.id ? ' selected' : ''}`}
+              selected={props.selectedId === entry.id}
+              leading={entry.record.kind === 'video' ? '▶' : '▦'}
+              title={entry.record.label || entry.id}
+              meta={`${entry.id} · ${props.kindLabel}`}
+              trailing={<DsTag tone="neutral">{ORIGIN_LABELS[entry.record.origin.kind]}</DsTag>}
               onClick={() => props.onSelect(entry.id)}
-            >
-              <span className="cutscene-kind-mark" aria-hidden="true">
-                {entry.record.kind === 'video' ? '▶' : '▦'}
-              </span>
-              <span className="cutscene-asset-name">{entry.record.label || entry.id}</span>
-              <span
-                className="cutscene-origin-dot"
-                title={ORIGIN_LABELS[entry.record.origin.kind]}
-              />
-              <small>{props.kindLabel}</small>
-            </button>
+            />
           ))
         ) : (
-          <div className="cutscene-list-empty">没有匹配资源</div>
+          <DsCatalogGroupEmpty>
+            {props.entries.length ? `没有匹配的${props.title}。` : `此项目还没有${props.title}。`}
+          </DsCatalogGroupEmpty>
         )}
       </div>
     </section>
@@ -271,26 +287,6 @@ function EmbeddedVideo(props: {
   )
 }
 
-function EditableAssetName(props: { asset: AssetEntry; session: EditSession }) {
-  const [draft, setDraft] = useState<string | null>(null)
-  return (
-    <input
-      className="in"
-      value={draft ?? props.asset.record.label ?? ''}
-      placeholder="未命名"
-      onChange={(event) => setDraft(event.target.value)}
-      onBlur={() => {
-        if (draft !== null && draft !== (props.asset.record.label ?? ''))
-          props.session.dispatch(new UpdateAssetLabelCommand(props.asset.id, draft))
-        setDraft(null)
-      }}
-      onKeyDown={(event) => {
-        if (event.key === 'Enter') event.currentTarget.blur()
-      }}
-    />
-  )
-}
-
 const CUTSCENE_ROLE_LABELS: Readonly<Record<string, string>> = {
   'manifest.assets.roles.video.startupTrademark': '启动商标视频',
   'manifest.assets.roles.video.startupSplash': '启动开场视频',
@@ -342,8 +338,20 @@ export function CutsceneTab(props: {
   tabBar?: ReactNode
   focusObjectId?: AssetId
   onObjectFocus?: (id: string | undefined) => void
+  currentAuthor?: ScriptEditorState
+  getCurrentAuthor?: () => ScriptEditorState | undefined
 }) {
-  const { assetBase, catalog, reader, session, tabBar, focusObjectId, onObjectFocus } = props
+  const {
+    assetBase,
+    catalog,
+    reader,
+    session,
+    tabBar,
+    focusObjectId,
+    onObjectFocus,
+    currentAuthor,
+    getCurrentAuthor,
+  } = props
   const videos = useMemo(() => entriesOf(catalog, 'video'), [catalog])
   const animations = useMemo(() => entriesOf(catalog, 'frame-animation'), [catalog])
   const [selectedId, setSelectedId] = useState<AssetId | undefined>(
@@ -360,6 +368,8 @@ export function CutsceneTab(props: {
   const [videoMetadata, setVideoMetadata] = useState<VideoMetadata>()
   const [frameMetadata, setFrameMetadata] = useState<FrameAnimationMetadata>()
   const [frameEditorDirty, setFrameEditorDirty] = useState(false)
+  const [lifecycleRequest, setLifecycleRequest] = useState<CutsceneLifecycleRequest>()
+  const [deleteBusy, setDeleteBusy] = useState(false)
   const [pendingFrames, setPendingFrames] = useState<PendingFrameImport>()
   const [importTreatment, setImportTreatment] = useState<'preserve' | 'project-standard'>(
     'preserve',
@@ -370,53 +380,88 @@ export function CutsceneTab(props: {
   const videoReplaceRef = useRef<HTMLInputElement>(null)
   const frameImportRef = useRef<HTMLInputElement>(null)
   const frameReplaceRef = useRef<HTMLInputElement>(null)
+  const videoReplaceTargetRef = useRef<AssetId | undefined>(undefined)
+  const frameReplaceTargetRef = useRef<AssetId | undefined>(undefined)
 
   const allEntries = useMemo(() => [...videos, ...animations], [videos, animations])
   const selected = allEntries.find((entry) => entry.id === selectedId)
-  const confirmDiscardFrameEdits = useCallback(
-    () =>
-      !frameEditorDirty ||
-      window.confirm('当前帧动画有未保存修改，切换资源将丢弃这些修改。是否继续？'),
-    [frameEditorDirty],
+  const performSelect = useCallback(
+    (nextId: AssetId) => {
+      setSelectedId(nextId)
+      setFrameEditorDirty(false)
+      onObjectFocus?.(nextId)
+    },
+    [onObjectFocus],
+  )
+  const requestTransition = useCallback(
+    (nextActionLabel: string, action: () => void, onCancel?: () => void): boolean => {
+      if (!frameEditorDirty) {
+        action()
+        return true
+      }
+      setLifecycleRequest({
+        kind: 'discard',
+        objectLabel: selected?.record.label || selected?.id || '当前帧动画',
+        nextActionLabel,
+        action,
+        ...(onCancel ? { onCancel } : {}),
+      })
+      return false
+    },
+    [frameEditorDirty, selected],
   )
   const selectAsset = useCallback(
     (nextId: AssetId): boolean => {
       if (nextId === selectedId) return true
-      if (!confirmDiscardFrameEdits()) return false
-      setSelectedId(nextId)
-      setFrameEditorDirty(false)
-      onObjectFocus?.(nextId)
-      return true
+      const next = allEntries.find((entry) => entry.id === nextId)
+      return requestTransition(next?.record.label || nextId, () => performSelect(nextId))
     },
-    [confirmDiscardFrameEdits, onObjectFocus, selectedId],
+    [allEntries, performSelect, requestTransition, selectedId],
   )
   useEffect(() => {
     if (!focusObjectId || !allEntries.some((entry) => entry.id === focusObjectId)) return
     if (focusObjectId === selectedId) return
-    if (!confirmDiscardFrameEdits()) {
-      onObjectFocus?.(selectedId)
-      return
-    }
-    setSelectedId(focusObjectId)
-    setFrameEditorDirty(false)
-  }, [allEntries, confirmDiscardFrameEdits, focusObjectId, onObjectFocus, selectedId])
+    if (lifecycleRequest) return
+    const next = allEntries.find((entry) => entry.id === focusObjectId)
+    requestTransition(
+      next?.record.label || focusObjectId,
+      () => performSelect(focusObjectId),
+      () => onObjectFocus?.(selectedId),
+    )
+  }, [
+    allEntries,
+    focusObjectId,
+    lifecycleRequest,
+    onObjectFocus,
+    performSelect,
+    requestTransition,
+    selectedId,
+  ])
   useEffect(() => {
     if (!selected && allEntries[0]) setSelectedId(allEntries[0].id)
   }, [allEntries, selected])
 
   const state = session.getState()
+  const referenceResult = useMemo(
+    () => tryCollectEditorAssetReferenceSnapshot(state, currentAuthor),
+    [currentAuthor, state],
+  )
+  const allReferences =
+    referenceResult.status === 'ready' ? referenceResult.snapshot.references : []
+  const referenceScanError =
+    referenceResult.status === 'error' ? referenceResult.message : undefined
   const references = useMemo(() => {
     const result = new Map<AssetId, AssetReferenceSite[]>()
-    for (const reference of groupAssetReferencesBySite(collectEditorAssetReferences(state))) {
+    for (const reference of groupAssetReferencesBySite(allReferences)) {
       const list = result.get(reference.asset) ?? []
       list.push(reference)
       result.set(reference.asset, list)
     }
     return result
-  }, [state])
+  }, [allReferences])
   const closureIssues = useMemo(
-    () => validateAssetReferenceClosure(catalog, collectEditorAssetReferences(state)),
-    [catalog, state],
+    () => validateAssetReferenceClosure(catalog, allReferences),
+    [allReferences, catalog],
   )
   const selectedReferences = selected ? (references.get(selected.id) ?? []) : []
   const selectedReferenceCount = selectedReferences.reduce(
@@ -439,7 +484,6 @@ export function CutsceneTab(props: {
   }, [])
 
   const importVideo = async (file: File, replaceId?: AssetId): Promise<void> => {
-    if (!confirmDiscardFrameEdits()) return
     try {
       setBusy('正在导入视频…')
       setError('')
@@ -471,7 +515,6 @@ export function CutsceneTab(props: {
 
   const createFrameAnimation = async (): Promise<void> => {
     if (!pendingFrames) return
-    if (!confirmDiscardFrameEdits()) return
     try {
       setBusy('正在读取图片序列…')
       setError('')
@@ -567,19 +610,47 @@ export function CutsceneTab(props: {
     })
   }
 
+  const deleteTarget =
+    lifecycleRequest?.kind === 'delete'
+      ? allEntries.find((entry) => entry.id === lifecycleRequest.targetId)
+      : undefined
   const deleteSelected = async (): Promise<void> => {
-    if (!selected || selectedReferences.length) return
-    if (
-      window.confirm(
-        `删除“${selected.record.label || selected.id}”？\n这会移除资源记录和项目内文件，可通过全局撤销恢复。`,
+    if (!deleteTarget) return
+    const targetId = deleteTarget.id
+    const scan = (): ReturnType<typeof tryCollectEditorAssetReferenceSnapshot> =>
+      tryCollectEditorAssetReferenceSnapshot(
+        session.getState(),
+        getCurrentAuthor?.() ?? currentAuthor,
       )
-    ) {
-      try {
-        const previousBytes = await reader.readBytes(selected.id, selected.record.kind)
-        session.dispatch(new DeleteAssetCommand(selected.id, previousBytes))
-      } catch (cause) {
-        setError(cause instanceof Error ? cause.message : String(cause))
-      }
+    const firstScan = scan()
+    if (firstScan.status === 'error') {
+      setError(`引用扫描失败，未删除：${firstScan.message}`)
+      return
+    }
+    if (firstScan.snapshot.references.some((reference) => reference.asset === targetId)) {
+      setError('资源已有引用，未删除。')
+      return
+    }
+    setDeleteBusy(true)
+    try {
+      const previousBytes = await reader.readBytes(targetId, deleteTarget.record.kind)
+      const finalScan = scan()
+      if (finalScan.status === 'error')
+        throw new Error(`引用扫描失败，未删除：${finalScan.message}`)
+      if (finalScan.snapshot.references.some((reference) => reference.asset === targetId))
+        throw new Error('读取资源期间新增了引用，未删除。')
+      const targetIndex = allEntries.findIndex((entry) => entry.id === targetId)
+      const remaining = allEntries.filter((entry) => entry.id !== targetId)
+      const next = remaining[Math.min(targetIndex, remaining.length - 1)]
+      session.dispatch(new DeleteAssetCommand(targetId, previousBytes))
+      setFrameEditorDirty(false)
+      setSelectedId(next?.id)
+      onObjectFocus?.(next?.id)
+      setLifecycleRequest(undefined)
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : String(cause))
+    } finally {
+      setDeleteBusy(false)
     }
   }
 
@@ -591,28 +662,6 @@ export function CutsceneTab(props: {
           title="过场"
           count={videos.length + animations.length}
           unit="项"
-          overflowActions={[
-            {
-              id: 'replace-selected-cutscene',
-              label: selected?.record.kind === 'video' ? '替换当前视频…' : '替换当前帧动画…',
-              disabled: !selected,
-              onClick: () => {
-                if (selected?.record.kind === 'video') videoReplaceRef.current?.click()
-                else if (selected?.record.kind === 'frame-animation')
-                  frameReplaceRef.current?.click()
-              },
-            },
-            {
-              id: 'delete-selected-cutscene',
-              label: '删除当前过场资源…',
-              danger: true,
-              disabled: !selected || selectedReferences.length > 0,
-              title: selectedReferences.length
-                ? `有 ${selectedReferences.length} 处引用，不能删除`
-                : '删除当前过场资源',
-              onClick: () => void deleteSelected(),
-            },
-          ]}
           search={{
             'aria-label': '搜索过场资源',
             placeholder: '搜索名称或 AssetId',
@@ -620,24 +669,26 @@ export function CutsceneTab(props: {
             onChange: (event) => setFilter(event.target.value),
           }}
         />
-        <AssetList
-          title="视频"
-          kindLabel="视频"
-          entries={videos}
-          filter={filter}
-          selectedId={selectedId}
-          onSelect={selectAsset}
-          onImport={() => videoImportRef.current?.click()}
-        />
-        <AssetList
-          title="帧动画"
-          kindLabel="完整帧"
-          entries={animations}
-          filter={filter}
-          selectedId={selectedId}
-          onSelect={selectAsset}
-          onImport={() => frameImportRef.current?.click()}
-        />
+        <DsCatalogGroupList label="过场资源分组">
+          <AssetList
+            title="视频"
+            kindLabel="视频"
+            entries={videos}
+            filter={filter}
+            selectedId={selectedId}
+            onSelect={selectAsset}
+            onImport={() => requestTransition('导入视频', () => videoImportRef.current?.click())}
+          />
+          <AssetList
+            title="帧动画"
+            kindLabel="完整帧"
+            entries={animations}
+            filter={filter}
+            selectedId={selectedId}
+            onSelect={selectAsset}
+            onImport={() => requestTransition('新建帧动画', () => frameImportRef.current?.click())}
+          />
+        </DsCatalogGroupList>
         {busy ? <div className="cutscene-busy">{busy}</div> : null}
         {error ? <div className="cutscene-side-error cf-err">{error}</div> : null}
         <input
@@ -666,7 +717,9 @@ export function CutsceneTab(props: {
           accept="video/mp4,video/webm"
           onChange={(event) => {
             const file = event.target.files?.[0]
-            if (file && selected) void importVideo(file, selected.id)
+            const targetId = videoReplaceTargetRef.current
+            videoReplaceTargetRef.current = undefined
+            if (file && targetId) void importVideo(file, targetId)
             event.target.value = ''
           }}
         />
@@ -676,22 +729,87 @@ export function CutsceneTab(props: {
           multiple
           type="file"
           accept="image/png,image/jpeg,image/webp"
-          onChange={(event) => onFrameFiles(event, selected?.id)}
+          onChange={(event) => {
+            const targetId = frameReplaceTargetRef.current
+            frameReplaceTargetRef.current = undefined
+            onFrameFiles(event, targetId)
+          }}
         />
       </div>
 
       <div className="canvas-wrap data-body cutscene-main">
-        {selected?.record.kind === 'video' ? (
-          <EmbeddedVideo asset={selected} reader={reader} onMetadata={onVideoMetadata} />
-        ) : selected?.record.kind === 'frame-animation' ? (
-          <FrameAnimationEditor
-            asset={selected}
-            reader={reader}
-            assetBase={assetBase}
-            session={session}
-            onMetadata={onFrameMetadata}
-            onDirtyChange={setFrameEditorDirty}
+        {selected ? (
+          <DsObjectHero
+            className="media-asset-hero"
+            eyebrow={selected.record.kind === 'video' ? '视频资源' : '帧动画资源'}
+            title={selected.record.label || '未命名'}
+            objectId={selected.id}
+            meta={
+              <>
+                <DsTag tone="neutral">{ORIGIN_LABELS[selected.record.origin.kind]}</DsTag>
+                <DsTag tone="neutral">{selected.record.mediaType}</DsTag>
+              </>
+            }
+            actions={
+              <>
+                <DsButton
+                  size="compact"
+                  variant="secondary"
+                  icon="upload"
+                  onClick={() =>
+                    requestTransition(`替换 ${selected.record.label || selected.id}`, () => {
+                      if (selected.record.kind === 'video') {
+                        videoReplaceTargetRef.current = selected.id
+                        videoReplaceRef.current?.click()
+                      } else {
+                        frameReplaceTargetRef.current = selected.id
+                        frameReplaceRef.current?.click()
+                      }
+                    })
+                  }
+                >
+                  替换
+                </DsButton>
+                <DsButton
+                  size="compact"
+                  variant="danger"
+                  icon="delete"
+                  title={
+                    referenceScanError
+                      ? '查看删除阻断原因'
+                      : selectedReferenceCount
+                        ? `查看 ${selectedReferenceCount} 处阻断引用`
+                        : '删除当前过场资源'
+                  }
+                  onClick={() =>
+                    setLifecycleRequest({
+                      kind: 'delete',
+                      targetId: selected.id,
+                      objectLabel: selected.record.label || selected.id,
+                    })
+                  }
+                >
+                  删除
+                </DsButton>
+              </>
+            }
           />
+        ) : null}
+        {selected?.record.kind === 'video' ? (
+          <div className="cutscene-workspace-content">
+            <EmbeddedVideo asset={selected} reader={reader} onMetadata={onVideoMetadata} />
+          </div>
+        ) : selected?.record.kind === 'frame-animation' ? (
+          <div className="cutscene-workspace-content">
+            <FrameAnimationEditor
+              asset={selected}
+              reader={reader}
+              assetBase={assetBase}
+              session={session}
+              onMetadata={onFrameMetadata}
+              onDirtyChange={setFrameEditorDirty}
+            />
+          </div>
         ) : (
           <div className="cutscene-empty-workspace">
             <strong>还没有过场资源</strong>
@@ -702,193 +820,235 @@ export function CutsceneTab(props: {
 
       <div className="inspector inspector--tabbed cutscene-inspector">
         {selected ? (
-          <>
-            <div className="insp-head">
-              <div className="what">
-                {selected.record.kind === 'video' ? '选中视频' : '选中帧动画'}
-              </div>
-              <EditableAssetName asset={selected} session={session} />
-            </div>
-            <DsInspectorTabs
-              id="cutscene-inspector"
-              label="过场资源检查器"
-              activeId={inspectorTab}
-              onChange={(id) => setInspectorTab(id as CutsceneInspectorTab)}
-              items={[
-                {
-                  id: 'resource',
-                  label: '资源',
-                  panel: (
-                    <>
-                      <div className="section">
-                        <h4>资源</h4>
-                        <div className="music-meta-row">
-                          <span>AssetId</span>
+          <DsInspectorTabs
+            id="cutscene-inspector"
+            label="过场资源检查器"
+            activeId={inspectorTab}
+            onChange={(id) => setInspectorTab(id as CutsceneInspectorTab)}
+            items={[
+              {
+                id: 'resource',
+                label: '属性',
+                panel: (
+                  <>
+                    <DsInspectorSection title="基本信息">
+                      <MediaAssetNameField
+                        key={selected.id}
+                        assetId={selected.id}
+                        label={selected.record.label}
+                        session={session}
+                      />
+                      <DsPropertyGrid>
+                        <DsPropertyRow label="AssetId">
                           <code title={selected.id}>{selected.id}</code>
-                        </div>
-                        <div className="music-meta-row">
-                          <span>来源</span>
-                          <strong>{ORIGIN_LABELS[selected.record.origin.kind]}</strong>
-                        </div>
-                        <div className="music-meta-row">
-                          <span>文件</span>
+                        </DsPropertyRow>
+                        <DsPropertyRow label="来源">
+                          {ORIGIN_LABELS[selected.record.origin.kind]}
+                        </DsPropertyRow>
+                        <DsPropertyRow label="文件">
                           <code title={selected.record.path}>{selected.record.path}</code>
-                        </div>
-                        <div className="music-meta-row">
-                          <span>格式</span>
-                          <strong>{selected.record.mediaType}</strong>
-                        </div>
-                        <div className="music-meta-row">
-                          <span>大小</span>
-                          <strong>{formatBytes(selected.record.bytes)}</strong>
-                        </div>
-                      </div>
-                      {selected.record.kind === 'video' ? (
-                        <div className="section">
-                          <h4>媒体</h4>
-                          <div className="music-meta-row">
-                            <span>分辨率</span>
-                            <strong>
+                        </DsPropertyRow>
+                        <DsPropertyRow label="格式">{selected.record.mediaType}</DsPropertyRow>
+                        <DsPropertyRow label="大小">
+                          {formatBytes(selected.record.bytes)}
+                        </DsPropertyRow>
+                      </DsPropertyGrid>
+                    </DsInspectorSection>
+                    <DsInspectorSection title={selected.record.kind === 'video' ? '媒体' : '动画'}>
+                      <DsPropertyGrid>
+                        {selected.record.kind === 'video' ? (
+                          <>
+                            <DsPropertyRow label="分辨率">
                               {videoMetadata
                                 ? `${videoMetadata.width} × ${videoMetadata.height}`
                                 : '读取中'}
-                            </strong>
-                          </div>
-                          <div className="music-meta-row">
-                            <span>时长</span>
-                            <strong>
+                            </DsPropertyRow>
+                            <DsPropertyRow label="时长">
                               {videoMetadata ? formatDuration(videoMetadata.duration) : '读取中'}
-                            </strong>
-                          </div>
-                          <div className="music-meta-row">
-                            <span>音轨</span>
-                            <strong>
+                            </DsPropertyRow>
+                            <DsPropertyRow label="音轨">
                               {videoMetadata?.audio === 'yes'
                                 ? '有'
                                 : videoMetadata?.audio === 'no'
                                   ? '无'
                                   : '浏览器未报告'}
-                            </strong>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="section">
-                          <h4>动画</h4>
-                          <div className="music-meta-row">
-                            <span>画布</span>
-                            <strong>
+                            </DsPropertyRow>
+                          </>
+                        ) : (
+                          <>
+                            <DsPropertyRow label="画布">
                               {frameMetadata
                                 ? `${frameMetadata.width} × ${frameMetadata.height}`
                                 : '读取中'}
-                            </strong>
-                          </div>
-                          <div className="music-meta-row">
-                            <span>帧数</span>
-                            <strong>{frameMetadata?.frameCount ?? '读取中'}</strong>
-                          </div>
-                          <div className="music-meta-row">
-                            <span>时长</span>
-                            <strong>
+                            </DsPropertyRow>
+                            <DsPropertyRow label="帧数">
+                              {frameMetadata?.frameCount ?? '读取中'}
+                            </DsPropertyRow>
+                            <DsPropertyRow label="时长">
                               {frameMetadata
                                 ? formatDuration(frameMetadata.durationMs / 1000)
                                 : '读取中'}
-                            </strong>
-                          </div>
-                          <div className="music-meta-row">
-                            <span>色彩</span>
-                            <strong>
+                            </DsPropertyRow>
+                            <DsPropertyRow label="色彩">
                               {frameMetadata?.colorTreatment === 'project-standard'
                                 ? '项目标准色彩'
                                 : '保留原色'}
-                            </strong>
-                          </div>
-                        </div>
-                      )}
-                    </>
-                  ),
-                },
-                {
-                  id: 'references',
-                  label: '引用',
-                  count: selectedReferenceCount,
-                  panel: (
-                    <div className="section asset-reference-section">
-                      <DsReferencePanel
-                        state={selectedReferenceCount ? 'ready' : 'empty'}
-                        count={{ kind: 'exact', value: selectedReferenceCount }}
-                        impact={{
-                          kind: 'blocking',
-                          description: selectedReferenceCount
+                            </DsPropertyRow>
+                          </>
+                        )}
+                      </DsPropertyGrid>
+                    </DsInspectorSection>
+                  </>
+                ),
+              },
+              {
+                id: 'references',
+                label: '引用',
+                count: selectedReferenceCount,
+                panel: (
+                  <DsInspectorSection title="引用" className="asset-reference-section">
+                    <DsReferencePanel
+                      state={
+                        referenceScanError ? 'error' : selectedReferenceCount ? 'ready' : 'empty'
+                      }
+                      count={
+                        referenceScanError
+                          ? { kind: 'unknown' }
+                          : { kind: 'exact', value: selectedReferenceCount }
+                      }
+                      impact={{
+                        kind: 'blocking',
+                        description: referenceScanError
+                          ? `引用扫描失败：${referenceScanError}。为防止误删，删除已关闭。`
+                          : selectedReferenceCount
                             ? '替换资源会保留这些引用；解除全部引用后才能删除。'
                             : '当前项目没有引用此资源。',
-                        }}
-                      >
-                        {selectedReferences.length ? (
-                          <DsReferenceList>
-                            {selectedReferences.map((reference) => {
-                              const description = describeReference(reference, state)
-                              return (
-                                <DsReferenceRow
-                                  key={`${reference.site}:${reference.where}`}
-                                  title={description.owner}
-                                  path={reference.where}
-                                  labels={[{ label: description.kind }]}
-                                  occurrenceCount={reference.occurrences}
-                                  status={{
-                                    label: '只读',
-                                    reason: '过场引用暂不支持从资源页精确定位。',
-                                  }}
-                                />
-                              )
-                            })}
-                          </DsReferenceList>
-                        ) : null}
-                      </DsReferencePanel>
-                    </div>
-                  ),
-                },
-                {
-                  id: 'diagnostics',
-                  label: '诊断',
-                  count: selectedIssues.length,
-                  panel: (
-                    <div className="section">
-                      <DsDiagnosticPanel
-                        state={selectedIssues.length ? 'ready' : 'clear'}
-                        count={{
-                          kind: 'exact',
-                          errors: selectedIssues.filter((issue) => issue.severity === 'error')
-                            .length,
-                          warnings: selectedIssues.filter((issue) => issue.severity === 'warn')
-                            .length,
-                        }}
-                        summary={selectedIssues.length ? undefined : '资源类型与引用闭包正常'}
-                      >
-                        {selectedIssues.length ? (
-                          <DsDiagnosticList>
-                            {selectedIssues.map((issue) => (
-                              <DsDiagnosticRow
-                                key={`${issue.code}-${issue.where}`}
-                                severity={issue.severity === 'error' ? 'error' : 'warning'}
-                                title={issue.message}
-                                code={issue.code}
-                                path={issue.where}
-                                statusLabel="仅提示"
+                      }}
+                    >
+                      {selectedReferences.length ? (
+                        <DsReferenceList>
+                          {selectedReferences.map((reference) => {
+                            const description = describeReference(reference, state)
+                            return (
+                              <DsReferenceRow
+                                key={`${reference.site}:${reference.where}`}
+                                title={description.owner}
+                                path={reference.where}
+                                labels={[{ label: description.kind }]}
+                                occurrenceCount={reference.occurrences}
+                                status={{
+                                  label: '只读',
+                                  reason: '过场引用暂不支持从资源页精确定位。',
+                                }}
                               />
-                            ))}
-                          </DsDiagnosticList>
-                        ) : null}
-                      </DsDiagnosticPanel>
-                    </div>
-                  ),
-                },
-              ]}
-            />
-          </>
+                            )
+                          })}
+                        </DsReferenceList>
+                      ) : null}
+                    </DsReferencePanel>
+                  </DsInspectorSection>
+                ),
+              },
+              {
+                id: 'diagnostics',
+                label: '诊断',
+                count: referenceScanError ? 1 : selectedIssues.length,
+                panel: (
+                  <DsInspectorSection title="诊断">
+                    <DsDiagnosticPanel
+                      state={
+                        referenceScanError ? 'failure' : selectedIssues.length ? 'ready' : 'clear'
+                      }
+                      count={
+                        referenceScanError
+                          ? { kind: 'unknown' }
+                          : {
+                              kind: 'exact',
+                              errors: selectedIssues.filter((issue) => issue.severity === 'error')
+                                .length,
+                              warnings: selectedIssues.filter((issue) => issue.severity === 'warn')
+                                .length,
+                            }
+                      }
+                      summary={
+                        referenceScanError
+                          ? '资源引用检查失败'
+                          : selectedIssues.length
+                            ? undefined
+                            : '资源类型与引用闭包正常'
+                      }
+                      description={referenceScanError}
+                    >
+                      {!referenceScanError && selectedIssues.length ? (
+                        <DsDiagnosticList>
+                          {selectedIssues.map((issue) => (
+                            <DsDiagnosticRow
+                              key={`${issue.code}-${issue.where}`}
+                              severity={issue.severity === 'error' ? 'error' : 'warning'}
+                              title={issue.message}
+                              code={issue.code}
+                              path={issue.where}
+                              statusLabel="仅提示"
+                            />
+                          ))}
+                        </DsDiagnosticList>
+                      ) : null}
+                    </DsDiagnosticPanel>
+                  </DsInspectorSection>
+                ),
+              },
+            ]}
+          />
         ) : (
           <div className="insp-empty">选择一个过场资源查看属性与引用。</div>
         )}
       </div>
+
+      <MediaAssetConfirmDialog
+        open={Boolean(lifecycleRequest)}
+        title={lifecycleRequest?.kind === 'delete' ? '删除过场资源' : '放弃未保存修改'}
+        objectLabel={lifecycleRequest?.objectLabel ?? ''}
+        impact={
+          lifecycleRequest?.kind === 'delete'
+            ? `移除资源记录和项目内文件${frameEditorDirty ? '，并放弃当前帧动画修改' : ''}；可通过全局撤销恢复。`
+            : lifecycleRequest
+              ? `放弃当前帧动画修改，然后继续“${lifecycleRequest.nextActionLabel}”。`
+              : ''
+        }
+        referenceCount={
+          lifecycleRequest?.kind === 'delete' && referenceScanError
+            ? 'unknown'
+            : lifecycleRequest?.kind === 'delete'
+              ? (references.get(lifecycleRequest.targetId) ?? []).reduce(
+                  (total, reference) => total + reference.occurrences,
+                  0,
+                )
+              : 0
+        }
+        confirmLabel={lifecycleRequest?.kind === 'delete' ? '删除资源' : '放弃并继续'}
+        confirmVariant={lifecycleRequest?.kind === 'delete' ? 'danger' : 'primary'}
+        busy={deleteBusy}
+        confirmDisabled={
+          lifecycleRequest?.kind === 'delete' &&
+          (Boolean(referenceScanError) ||
+            Boolean(references.get(lifecycleRequest.targetId)?.length))
+        }
+        onClose={() => {
+          const request = lifecycleRequest
+          setLifecycleRequest(undefined)
+          if (request?.kind === 'discard') request.onCancel?.()
+        }}
+        onConfirm={() => {
+          const request = lifecycleRequest
+          if (!request) return
+          if (request.kind === 'delete') {
+            void deleteSelected()
+            return
+          }
+          setLifecycleRequest(undefined)
+          request.action()
+        }}
+      />
 
       {pendingFrames ? (
         <div className="modal-backdrop" role="presentation">

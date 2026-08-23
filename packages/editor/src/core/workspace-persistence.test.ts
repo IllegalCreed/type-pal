@@ -1,5 +1,5 @@
 import type { CurrentManifest } from '@type-pal/content'
-import type { FileSource } from '@type-pal/reforge'
+import { assembleCurrentProject, type FileSource } from '@type-pal/reforge'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 
 const handleStore = vi.hoisted(() => ({
@@ -32,7 +32,10 @@ vi.mock('./handle-store.js', () => ({
   saveWorkspaceHandleUnderLock: (...args: unknown[]) => handleStore.saveUnderLock(...args),
 }))
 
-import { writeFile, writeProject } from './project-io.js'
+import { sha256Hex } from './binary-signature.js'
+import { DeleteAssetCommand } from './commands.js'
+import { EditSession } from './edit-session.js'
+import { serializeProject, toEditorState, writeFile, writeProject } from './project-io.js'
 import {
   assertSamePalDevelopmentProof,
   createLocalWorkspaceContext,
@@ -275,9 +278,9 @@ describe('workspace persistence policy', () => {
     await preflightFirstSaveTarget(workspace, handle)
     const target = await authorizeFirstSaveTarget(workspace, handle)
 
-    expect(() =>
-      authorizedDirectory(target as unknown as AuthorizedWorkspaceMutation),
-    ).toThrow('active workspace mutation')
+    expect(() => authorizedDirectory(target as unknown as AuthorizedWorkspaceMutation)).toThrow(
+      'active workspace mutation',
+    )
     await withAuthorizedWorkspaceMutation(target, async (mutation) => {
       expect(authorizedDirectory(mutation)).toBe(handle)
     })
@@ -631,13 +634,121 @@ describe('workspace persistence policy', () => {
       '不能覆盖 workspace identity',
     )
     await expect(
-      writeProject(
-        target,
-        { 'manifest.json': {} },
-        { removePaths: ['.type-pal./workspace.json'] },
-      ),
+      writeProject(target, { 'manifest.json': {} }, { removePaths: ['.type-pal./workspace.json'] }),
     ).rejects.toThrow('不能覆盖 workspace identity')
     expect(root.writes).toBe(0)
+  })
+
+  test('资源删除保存后撤销再保存会同时恢复 catalog record 与原始二进制', async () => {
+    const assetId = 'portrait.lifecycle'
+    const assetPath = 'assets/authored/portraits/lifecycle.png'
+    const previousBytes = Uint8Array.from([0x89, 0x50, 0x4e, 0x47]).buffer as ArrayBuffer
+    const assetRecord = {
+      kind: 'portrait' as const,
+      path: assetPath,
+      mediaType: 'image/png',
+      bytes: previousBytes.byteLength,
+      sha256: await sha256Hex(previousBytes),
+      origin: { kind: 'authored' as const },
+    }
+    const lifecycleManifest: CurrentManifest = {
+      ...manifest,
+      id: 'media-lifecycle',
+      name: '媒体生命周期',
+      content: {
+        ...manifest.content,
+        sharedScripts: 'content/shared-scripts.json',
+        worldVariables: 'content/world-variables.json',
+      },
+    }
+    const scene = {
+      id: 's001',
+      mapId: 'map-001',
+      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' as const },
+      entities: [],
+    }
+    const loaded = assembleCurrentProject(lifecycleManifest, {
+      actors: [],
+      sceneIds: ['s001'],
+      entryScenes: { s001: scene },
+      skills: { skills: [], levelUp: {} },
+      items: [],
+      locale: {},
+      sprites: [],
+      battleSprites: [],
+      tilesets: [],
+      maps: {
+        version: 1,
+        maps: [{ id: 'map-001', name: '地图', path: 'content/maps/map-001.json' }],
+      },
+      sharedScripts: {},
+      worldVariables: {},
+      assetCatalog: { version: 1, assets: { [assetId]: assetRecord } },
+    })
+    const baseline = {
+      ...toEditorState(loaded, [loaded.authorContent.entryScene]),
+      assetBlobs: { [assetPath]: previousBytes },
+    }
+    const mapCopies = { 'content/maps/map-001.json': '{"version":4}\n' }
+    const root = emptyDir('media-lifecycle')
+    const handle = dirHandle(root)
+    const workspace = createLocalWorkspaceContext(lifecycleManifest.id, 'save-as', LOCAL_ID)
+    let snapshot = await writeProject(
+      await authorizeFirstSaveTarget(workspace, handle),
+      serializeProject(baseline, { mapCopies }),
+    )
+    expect(getFile(root, assetPath)?.bytes).toEqual(new Uint8Array(previousBytes))
+
+    handleStore.load.mockResolvedValue({
+      workspaceId: LOCAL_ID,
+      projectId: lifecycleManifest.id,
+      mode: 'local-project',
+      source: 'save-as',
+      handle,
+    })
+    const session = new EditSession({ ...baseline, assetBlobs: {} })
+    session.markSaved()
+    expect(session.dispatch(new DeleteAssetCommand(assetId, previousBytes))).toBe(true)
+    expect(session.getDeletedAssetPaths()).toEqual([assetPath])
+
+    snapshot = await writeProject(
+      await authorizeBoundWorkspaceTarget(workspace, handle),
+      serializeProject(session.getState(), { mapCopies }),
+      { prevSnapshot: snapshot, removePaths: session.getDeletedAssetPaths() },
+    )
+    session.markSaved()
+    expect(getFile(root, assetPath)).toBeUndefined()
+    expect(
+      (
+        JSON.parse(new TextDecoder().decode(getFile(root, 'assets/index.json')!.bytes)) as {
+          assets: Record<string, unknown>
+        }
+      ).assets,
+    ).not.toHaveProperty(assetId)
+
+    expect(session.undo()).toBe(true)
+    expect(session.getState().assetCatalog.assets[assetId]).toEqual(assetRecord)
+    expect(new Uint8Array(session.getState().assetBlobs[assetPath]!)).toEqual(
+      new Uint8Array(previousBytes),
+    )
+    expect(session.getDeletedAssetPaths()).toEqual([])
+
+    snapshot = await writeProject(
+      await authorizeBoundWorkspaceTarget(workspace, handle),
+      serializeProject(session.getState(), { mapCopies }),
+      { prevSnapshot: snapshot, removePaths: session.getDeletedAssetPaths() },
+    )
+    session.markSaved()
+    expect(
+      (
+        JSON.parse(new TextDecoder().decode(getFile(root, 'assets/index.json')!.bytes)) as {
+          assets: Record<string, unknown>
+        }
+      ).assets[assetId],
+    ).toEqual(assetRecord)
+    expect(getFile(root, assetPath)?.bytes).toEqual(new Uint8Array(previousBytes))
+    expect(snapshot.has(assetPath)).toBe(true)
+    expect(session.isDirty()).toBe(false)
   })
 
   test('sandbox marker source 必须是严格字符串而非可 String 化值', () => {

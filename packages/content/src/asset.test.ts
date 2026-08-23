@@ -6,6 +6,7 @@ import {
   collectCommandAssetReferences,
   groupAssetReferencesBySite,
   type ManifestAssetConfig,
+  PAL_PHYSICAL_EFFECT_ASSET_ID,
   palBattleBackgroundAssetId,
   palFaceAssetId,
   palFrameAnimationAssetId,
@@ -17,7 +18,6 @@ import {
   palSpriteAssetId,
   palTilesetAssetId,
   palVideoAssetId,
-  PAL_PHYSICAL_EFFECT_ASSET_ID,
   validateAssetCatalog,
   validateAssetFileClosure,
   validateAssetReferenceClosure,
@@ -235,10 +235,7 @@ describe('catalog 与当前 manifest', () => {
       'manifest.assets.ui',
     )
     expect(() =>
-      validateManifestAssetConfig(
-        { ...assets, legacy: { families: ['sprite'] } },
-        catalog,
-      ),
+      validateManifestAssetConfig({ ...assets, legacy: { families: ['sprite'] } }, catalog),
     ).toThrow('manifest.assets.legacy')
   })
 })
@@ -882,4 +879,41 @@ test('walker 按敌 hook 通道保留深层资源的精确路径与站点', () =
       },
     ]),
   )
+})
+
+test('walker 按 canonical 场景 hook 方案保留精确资源路径与站点', () => {
+  const scene = {
+    id: 'scene-hook',
+    mapId: 'map-hook',
+    entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+    entities: [],
+    hooks: {
+      onEnter: {
+        initial: 'intro',
+        variants: {
+          intro: {
+            label: '入场',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'start',
+              stages: [
+                {
+                  id: 'start',
+                  body: [{ kind: 'playVideo', asset: 'video.scene-hook' }],
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
+  }
+
+  expect(collectAssetReferences({ scenes: [scene] as never })).toContainEqual({
+    asset: 'video.scene-hook',
+    expectedKind: 'video',
+    where: 'scenes[0].hooks.onEnter.variants["intro"].flow.stages[0].body[0].asset',
+    site: 'scene:scene-hook:hook:onEnter:intro',
+  })
 })

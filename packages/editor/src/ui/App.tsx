@@ -2012,6 +2012,7 @@ export function App(props: {
             assetCatalog={state.assetCatalog}
             session={session}
             editorState={state}
+            currentAuthor={scriptState}
             focusObjectId={location.objectId}
             onObjectFocus={focusCurrentObject}
             onOpenLocation={applyEditorLocation}

@@ -13,14 +13,14 @@ import {
   type StartWorld,
   validateAssetCatalog,
   validateAssetReferenceClosure,
-  validateBattleFields,
   validateAuthorDialogueReferences,
   validateAuthorEnemies,
   validateAuthorItems,
-  validateManifestAssetConfig,
-  validateReferences,
   validateAuthorScenes,
   validateAuthorSharedScripts,
+  validateBattleFields,
+  validateManifestAssetConfig,
+  validateReferences,
   validateStartWorldResources,
   validateWorldVariableRegistryV1,
 } from '@type-pal/content'
@@ -284,8 +284,11 @@ function validateStartWorldUniqueness(
   return issues
 }
 
-/** 项目页问题汇总；资产正向引用来自唯一 collector。 */
-export function collectProjectIssues(state: EditorState): ProjectIssue[] {
+/** 项目页问题汇总；资产正向引用来自唯一 collector，并优先消费当前脚本作者态。 */
+export function collectProjectIssues(
+  state: EditorState,
+  currentAuthor?: ScriptEditorState,
+): ProjectIssue[] {
   const issues = validateManifestEntryPoints(state.manifest, state.scenes)
   for (const key of Object.keys(state.manifest)) {
     if (Object.hasOwn(CURRENT_MANIFEST_TOP_LEVEL_KEYS, key)) continue
@@ -383,7 +386,7 @@ export function collectProjectIssues(state: EditorState): ProjectIssue[] {
   }
 
   // 调用统一引用收集器 + closure validator，确保诊断覆盖脚本/场景/敌人引用；本页只展示摘要。
-  const references = collectEditorAssetReferences(state)
+  const references = collectEditorAssetReferences(state, currentAuthor)
   const unusedAssetByPath = new Map(
     Object.keys(state.assetCatalog.assets).map((id) => [`assets[${JSON.stringify(id)}]`, id]),
   )
@@ -575,12 +578,14 @@ export function collectEditorStatusIssues(
       path: reference.path,
     }),
   )
-  const projectIssues: EditorStatusIssue[] = collectProjectIssues(state).map((issue) => ({
-    severity: issue.severity,
-    message: issue.message,
-    path: issue.path,
-    ...(issue.target ? { target: issue.target } : {}),
-  }))
+  const projectIssues: EditorStatusIssue[] = collectProjectIssues(state, canonical).map(
+    (issue) => ({
+      severity: issue.severity,
+      message: issue.message,
+      path: issue.path,
+      ...(issue.target ? { target: issue.target } : {}),
+    }),
+  )
   const battleFieldIssues: EditorStatusIssue[] =
     (state.manifest.content.battleFields !== undefined || (state.battleFields?.length ?? 0) > 0) &&
     !(state.battleFields ?? []).some((field) => field.id === 24)

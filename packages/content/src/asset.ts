@@ -1,4 +1,5 @@
 import type { ActorDef } from './actor.js'
+import type { AuthorSceneDef } from './author-scene.js'
 import type { BattleSpriteDef } from './battle-sprite.js'
 import type { EntryPoint, WorldState } from './character.js'
 import type { BattleFieldDef, EnemyDef } from './enemy.js'
@@ -307,8 +308,8 @@ export interface AssetReferenceSource {
   entryPoints?: readonly EntryPoint[]
   scenes?: readonly SceneDef[]
   scriptChunks?: Readonly<Record<string, ScriptChunkV1>> | readonly ScriptChunkV1[]
-  /** 当前作者共享脚本库；unknown 由 typed command walker 精确识别 AssetId 叶。 */
-  sharedScripts?: unknown
+  /** 当前作者共享脚本库；每个脚本保留独立作者位置。 */
+  sharedScripts?: Readonly<Record<string, { body: unknown }>>
   actors?: readonly ActorDef[]
   enemies?: readonly EnemyDef[]
   items?: readonly ItemData[]
@@ -518,6 +519,18 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
       `scenes[${index}].entities`,
       `scene:${scene.id}:entities`,
     )
+    const hooks = (scene as unknown as { hooks?: AuthorSceneDef['hooks'] }).hooks
+    for (const slot of ['onEnter', 'onTeleport'] as const) {
+      const variants = hooks?.[slot]?.variants
+      if (!variants) continue
+      for (const [hookId, hook] of Object.entries(variants))
+        appendCommandAssetReferences(
+          references,
+          hook.flow,
+          `scenes[${index}].hooks.${slot}.variants[${JSON.stringify(hookId)}].flow`,
+          `scene:${scene.id}:hook:${slot}:${hookId}`,
+        )
+    }
   })
   const chunks = Array.isArray(source.scriptChunks)
     ? source.scriptChunks.map((chunk, index) => [chunk.id || String(index), chunk] as const)
@@ -532,12 +545,12 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
       )
     }
   })
-  if (source.sharedScripts)
+  for (const [scriptId, script] of Object.entries(source.sharedScripts ?? {}))
     appendCommandAssetReferences(
       references,
-      source.sharedScripts,
-      'sharedScripts',
-      'sharedScripts',
+      script.body,
+      `sharedScripts[${JSON.stringify(scriptId)}].body`,
+      `sharedScript:${scriptId}`,
     )
   source.actors?.forEach((actor, index) => {
     if (actor.portraits) {
@@ -608,12 +621,7 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
     }
   })
   source.items?.forEach((item, index) => {
-    appendCommandAssetReferences(
-      references,
-      item,
-      `items[${index}]`,
-      `item:${item.id}`,
-    )
+    appendCommandAssetReferences(references, item, `items[${index}]`, `item:${item.id}`)
     if (item.icon)
       references.push({
         asset: item.icon,
