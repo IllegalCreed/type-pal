@@ -269,6 +269,10 @@ Branch: codex/mig-pal-actor-face-1
   左侧行和中间 Hero 显示 `🧑`，`gai-luojiao`/可入队信息保持，未读取对话立绘充当 face。
 - 跳过的检查及原因: 未重复跑 editor/migrate 全量长套件；本卡只影响已覆盖的迁移、发布和 Actor 展示域，
   定向测试、两包 typecheck、正式迁移 replay 与浏览器 smoke 已覆盖验收条件。
+- 最新主线集成复验（2026-08-23，合入 `main@96c5e833` 后）:
+  `@type-pal/migrate` fast 37 files / 335 tests、PAL publication 3 files / 10 tests、
+  `@type-pal/editor` 138 files / 1050 tests 与 migrate/editor typecheck 全部通过；
+  `git diff --check` 通过，旧 `projects/pal/assets/migrated/faces/gai-luojiao.png` 保持缺席。
 
 ## 资源生成记录(如适用)
 
