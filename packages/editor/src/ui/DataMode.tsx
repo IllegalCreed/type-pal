@@ -434,11 +434,13 @@ export function DataMode(props: {
     return (
       <MusicTab
         catalog={assetCatalog}
-        resolver={audioResolver}
+        reader={assetReader}
         session={session}
         tabBar={tabBar}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}
+        currentAuthor={script?.state}
+        getCurrentAuthor={() => script?.session.getState()}
       />
     )
   }
@@ -468,6 +470,8 @@ export function DataMode(props: {
         tabBar={tabBar}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}
+        currentAuthor={script?.state}
+        getCurrentAuthor={() => script?.session.getState()}
       />
     )
   }

@@ -291,6 +291,20 @@ export const DsIconButton = forwardRef<
   )
 })
 
+/** 由领域动作按钮触发的隐藏文件选择器；统一隔离原生 file input。 */
+export const DsFileInput = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(
+  function DsFileInput(props, ref) {
+    return <input {...props} ref={ref} type="file" hidden />
+  },
+)
+
+/** 时间轴、缩放等连续数值控件的 canonical range 边界。 */
+export const DsRangeInput = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(
+  function DsRangeInput({ className, ...props }, ref) {
+    return <input {...props} ref={ref} className={classes('ds-range-input', className)} type="range" />
+  },
+)
+
 export function DsField(props: {
   id?: string
   label: string

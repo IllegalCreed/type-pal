@@ -1558,6 +1558,18 @@
   accent-color: var(--ds-action-primary);
 }
 
+.ds-range-input {
+  width: 100%;
+  min-width: 0;
+  accent-color: var(--ds-action-primary);
+  cursor: pointer;
+}
+
+.ds-range-input:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 .ds-zoom-toolbar__value {
   width: 48px;
   color: var(--ds-text-secondary);

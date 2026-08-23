@@ -116,6 +116,17 @@ export type { Palette, RleFrame } from '@type-pal/shared'
 // RLE 编码/解析转出口(W7B 上传管线;编辑器不直依赖 shared)
 export { encodeSpriteChunk, parseSpriteChunk, parseSpriteChunkStrict } from '@type-pal/shared'
 export { AssetResolver } from './asset-resolver.js'
+export {
+  analyzeMidiBytes,
+  createBrowserMidiPreviewRuntime,
+  createMidiNoteActivity,
+  createMidiPreviewTransport,
+  type MidiNoteActivity,
+  type MidiPreviewRuntimeAdapter,
+  type MidiPreviewSequencerAdapter,
+  type MidiPreviewSnapshot,
+  type MidiPreviewTransport,
+} from './audio/midi-preview.js'
 export { tilesFromChunkBytes } from './assets.js'
 export {
   type BattleResult,

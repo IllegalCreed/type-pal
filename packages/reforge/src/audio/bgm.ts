@@ -12,6 +12,7 @@
  * - 懒初始化:首次 play 才拉 worklet+soundfont —— 不放曲的工程(demo)零开销
  */
 import type { AssetId, AssetKind, AssetRole } from '@type-pal/content'
+import { initializeBrowserSpessaSynth } from './spessa-browser-runtime.js'
 
 export interface AudioAssetReader {
   readBytes(asset: AssetId, expectedKind?: AssetKind): Promise<ArrayBuffer>
@@ -73,36 +74,12 @@ function createBrowserBgmRuntime(resolver: AudioAssetReader): BgmRuntimeAdapter 
   return {
     context: ctx,
     async initialize() {
-      const { Sequencer, WorkletSynthesizer } = await import('spessasynth_lib')
-      if (!ctx.audioWorklet) {
-        const secure = typeof window !== 'undefined' ? window.isSecureContext : false
-        throw new Error(
-          `AudioWorklet 不可用:非 secure context(isSecureContext=${secure})。` +
-            '多半是 http:// 局域网 IP 访问 → 改 https:// 或 http://localhost。',
-        )
-      }
-      await ctx.audioWorklet.addModule('/spessasynth_processor.min.js')
-      const synth = new WorkletSynthesizer(ctx)
+      const { Sequencer } = await import('spessasynth_lib')
       // D12-1:master gain —— synth → gain → destination;fade 走 gain(adapter 封装)。
       const gain = ctx.createGain()
       gain.gain.value = 1
-      synth.connect(gain)
       gain.connect(ctx.destination)
-      const sfBytes = await resolver.readRoleBytes('audio.midiSoundfont')
-      const magic = String.fromCharCode(...new Uint8Array(sfBytes.slice(0, 4)))
-      if (magic !== 'RIFF') {
-        throw new Error(
-          `soundfont 非 RIFF(魔数 "${magic}",${sfBytes.byteLength} 字节)—— 多半文件缺失、` +
-            '资源角色 audio.midiSoundfont 指向了错误文件，请检查工程 assets/index.json',
-        )
-      }
-      await synth.soundBankManager.addSoundBank(sfBytes, 'main')
-      await synth.isReady
-      const REVERB_CC = 91 as Parameters<typeof synth.controllerChange>[1]
-      for (let ch = 0; ch < 16; ch++) {
-        synth.controllerChange(ch, REVERB_CC, 0)
-        synth.midiChannels[ch]?.lockController(REVERB_CC, true)
-      }
+      const synth = await initializeBrowserSpessaSynth(ctx, resolver, gain, 'main')
       const seq = new Sequencer(synth, { skipToFirstNoteOn: false })
       const fadeTo = (value: number, ms: number): void => {
         gain.gain.cancelScheduledValues(ctx.currentTime)

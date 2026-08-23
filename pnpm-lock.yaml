@@ -134,6 +134,9 @@ importers:
       '@type-pal/shared':
         specifier: workspace:*
         version: link:../shared
+      spessasynth_core:
+        specifier: 4.3.20
+        version: 4.3.20
       spessasynth_lib:
         specifier: ^4.3.6
         version: 4.3.6
@@ -1124,14 +1127,17 @@ packages:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
 
-  spessasynth_core@4.3.14:
-    resolution: {integrity: sha512-jOPfT7XZwpPOkh0FVGf7to9HqTxeLu9uvAojJP0nbLk0jETEjipjQd4cGyLmnVwj7GjgyWBNvBb+ysvu2Srzjg==}
+  spessasynth_core@4.3.20:
+    resolution: {integrity: sha512-RcYCXemGESRKIRbGEAGOwFgNSXcsuLMptjk3BmRTJJWtF6RH4KLRXKkUs6rzREUh3ooInfsJla/sRmWvwZzjhw==}
 
   spessasynth_lib@4.3.6:
     resolution: {integrity: sha512-EXMQaBHnbsnkTaLKzBYweZsNdT2oOgvF6wUR5AhdEuxwi0s0EAb7hAEVASEuj33E7tiGaH5Nf03jB10MoxCqZg==}
 
   stackback@0.0.2:
     resolution: {integrity: sha512-1XMJE5fQo1jGH6Y/7ebnwPOBEkIEnT4QF32d5R1+VXdXveM0IBMJt8zfaxX1P3QhVwrYe+576+jkANtSS2mBbw==}
+
+  stb-vorbis@0.0.6:
+    resolution: {integrity: sha512-CyvjJEGROIdnuZknwFvdOfMIO1ssUxO2OawsXCR3IlbJ8z2IMBjDe8FDxFJqBfLgf1ZOdqvoHAYx3Xk8q9rbbg==}
 
   std-env@4.1.0:
     resolution: {integrity: sha512-Rq7ybcX2RuC55r9oaPVEW7/xu3tj8u4GeBYHBWCychFtzMIr86A7e3PPEBPT37sHStKX3+TiX/Fr/ACmJLVlLQ==}
@@ -2199,13 +2205,17 @@ snapshots:
 
   source-map-js@1.2.1: {}
 
-  spessasynth_core@4.3.14: {}
+  spessasynth_core@4.3.20:
+    dependencies:
+      stb-vorbis: 0.0.6
 
   spessasynth_lib@4.3.6:
     dependencies:
-      spessasynth_core: 4.3.14
+      spessasynth_core: 4.3.20
 
   stackback@0.0.2: {}
+
+  stb-vorbis@0.0.6: {}
 
   std-env@4.1.0: {}
 

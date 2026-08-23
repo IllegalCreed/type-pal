@@ -24,6 +24,7 @@
   "dependencies": {
     "@type-pal/content": "workspace:*",
     "@type-pal/shared": "workspace:*",
+    "spessasynth_core": "4.3.20",
     "spessasynth_lib": "^4.3.6"
   },
   "devDependencies": {

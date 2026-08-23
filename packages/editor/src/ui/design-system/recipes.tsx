@@ -103,7 +103,8 @@ export const DsCatalogRow = forwardRef<
       {...buttonProps}
       ref={ref}
       className={dsClasses('ds-catalog-row', `ds-catalog-row--${level}`, className)}
-      aria-pressed={selected}
+      aria-pressed={buttonProps.role === 'option' ? undefined : selected}
+      aria-selected={buttonProps.role === 'option' ? selected : undefined}
       data-selected={selected || undefined}
       data-level={level}
     >

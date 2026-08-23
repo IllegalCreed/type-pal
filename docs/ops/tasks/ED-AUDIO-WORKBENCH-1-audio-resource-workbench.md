@@ -1,6 +1,6 @@
 # ED-AUDIO-WORKBENCH-1 - 音乐 / 音效统一资源工作台与音频时间轴
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: X2
 Coding Owner: Codex
@@ -9,7 +9,7 @@ Reviewer: Kimi + GLM
 Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
-Branch: codex/ed-pal-workspace-modes-1
+Branch: codex/ed-audio-workbench-1
 
 ## 目标
 
@@ -28,7 +28,7 @@ Branch: codex/ed-pal-workspace-modes-1
   - WAV 对当前选中资源做单项解码并生成真实 PCM 峰值；MIDI 解析时长与 note events，生成明确标注的“音符活动”概览。
   - MIDI 在 `@type-pal/reforge` 增加窄预览 transport，封装 SpessaSynth 的 duration/currentTime/pause/seek；现有游戏
     `BgmPlayer` 行为不改。WAV 使用 editor 预览 transport，不复用 runtime SFX 的 readiness / lastSFX 语义。
-  - 修复 current author state 中 `sharedScripts` 未进入音频引用扫描的问题；引用展示、删除门禁和保存诊断消费同一完整输入。
+  - 复用 `ED-MEDIA-ASSET-ACTIONS-1` 已完成的 live current-author 引用快照；引用展示、删除门禁和保存诊断消费同一完整输入。
   - 导入、替换、改名、引用阻断删除、undo/redo、未保存 blob 优先读取、deep link 与全局保存语义保持闭环。
   - 删除确认改用共享 `DsDialog`；错误使用可访问 live feedback，不再使用 `window.confirm` / 静态 `.cf-err`。
 - 范围外:
@@ -55,7 +55,7 @@ Branch: codex/ed-pal-workspace-modes-1
 |---|---|---|
 | 原版 / primary source | N/A：原版没有本项目内容编辑器；本任务不改变游戏音频内容或播放机制，不能从原版推导作者 UI。 | `docs/phase2/READ-FIRST.md:1-35` 明确第二阶段编辑器是全新重写；用户 2026-08-21 明确提出当前作者界面重构。 |
 | 第一阶段 | 第一阶段只提供 MIDI + soundfont 与 WAV 播放经验，不存在音乐 / 音效资源工作台可照抄的作者界面。 | `packages/reforge/src/audio/bgm.ts:1-12` 已记录移植的一阶段 MIDI / soundfont 工程约束；`docs/phase2/READ-FIRST.md:68-90` 要求重写前 harvest 机制知识，但无既有作者 UI 形态。 |
-| 当前二阶段 | Music/Sound 已使用同一 AssetId/catalog/command 地基，却分别复制目录、表格、资源 Inspector 和预览入口；左栏无资源行，中央全量渲染旧表格。BGM 公共接口未暴露 transport，SFX decoded buffer 也不提供时间轴。 | `packages/content/src/asset.ts:12-30,74-95`; `packages/editor/src/ui/MusicTab.tsx:202-412`; `packages/editor/src/ui/SoundTab.tsx:206-427`; `packages/editor/src/core/commands.ts:2905-3039`; `packages/reforge/src/audio/bgm.ts:21-48`; `packages/reforge/src/audio/sfx.ts:40-57,102-221`。 |
+| 当前二阶段 | Music/Sound 已使用同一 AssetId/catalog/command 地基，却分别复制目录、表格、资源 Inspector 和预览入口；左栏无资源行，中央全量渲染旧表格。BGM 公共接口未暴露 transport，SFX decoded buffer 也不提供时间轴。`ED-MEDIA-ASSET-ACTIONS-1` 已交付 live scene/item/sharedScript 引用投影与 fail-closed 生命周期合同，本卡直接消费，不再另写合并逻辑。 | `packages/content/src/asset.ts:12-30,74-95`; `packages/editor/src/ui/MusicTab.tsx:202-412`; `packages/editor/src/ui/SoundTab.tsx:206-427`; `packages/editor/src/core/commands.ts:2905-3039`; `packages/editor/src/core/editor-asset-references.ts`; `packages/editor/src/core/script-editor-projection.ts`; `packages/reforge/src/audio/bgm.ts:21-48`; `packages/reforge/src/audio/sfx.ts:40-57,102-221`。 |
 | 本任务目标 | 左栏目录、中间 Hero + 基本信息 + 音频时间轴播放器、右栏引用 / 诊断；两页只在格式策略与文案上分叉。WAV 画 PCM 波形，MIDI 画音符活动，播放器交互一致。 | 用户 2026-08-21 明确要求“列表应该在左边方列表的 panel 里面，中间应该是标题、基本信息的修改，还有一个带波形图的播放器，布局你来设计”；`docs/phase2/editor/editor-design-system-v1.md:458-479` 提供对象 / 媒体工作台共享合同。 |
 
 ### 反证与替代解释
@@ -80,7 +80,8 @@ Branch: codex/ed-pal-workspace-modes-1
 - `before -> after` 一句话: 左栏只有筛选、中央全量表格、右栏重复元数据 -> 左栏对象目录、中央当前对象编辑与统一播放器、右栏引用 / 诊断。
 - 代表场景: 在“资源 → 音乐”选择 `music.pal.001`，中央显示名称与 AssetId，可编辑名称并在音符活动时间轴上播放、暂停、seek；
   切到“音效”选择 WAV 后，同一位置显示真实波形与同款控制。
-- 用户裁决: 2026-08-21 用户已批准目标布局并授权 Coding Owner 设计。
+- 用户裁决: 2026-08-21 用户已批准目标布局并授权 Coding Owner 设计；2026-08-23
+  `ED-MEDIA-ASSET-ACTIONS-1` 三方 accept + 用户验收收口后，用户明确“继续”，批准本卡进入 build。
 
 ## 上下文锚点
 
@@ -94,7 +95,7 @@ Branch: codex/ed-pal-workspace-modes-1
   - `packages/editor/src/ui/design-system/recipes.tsx:46-107,724-855`: `DsObjectHero` / `DsCatalogRow` / Workbench / Inspector recipes。
   - `packages/editor/src/ui/design-system/virtual-list.tsx:3-58`: 现有虚拟列表只具基本窗口与 Home/End，需补选择 / 方向键合同。
   - `packages/editor/src/core/editor-asset-reader.ts:11-55`: 未保存 blob 优先、FSA/HTTP 同一资源读取真值。
-  - `packages/editor/src/core/editor-asset-references.ts:8-27`: 当前遗漏 canonical `sharedScripts` 的适配器边界。
+  - `packages/editor/src/core/editor-asset-references.ts`、`script-editor-projection.ts`: MEDIA 前置卡已完成 live current-author 引用投影；本卡必须复用。
   - `packages/reforge/src/audio/bgm.ts:21-48,61-131,154-287`: MIDI synth 与现有 BgmPlayer 状态机。
   - `packages/reforge/src/audio/sfx.ts:40-57,102-221`: WAV decode/LRU 与 runtime SFX 语义边界。
 - 已知坑 / 审计文档:
@@ -116,7 +117,7 @@ Branch: codex/ed-pal-workspace-modes-1
   1. Music/Sound 两页 DOM 骨架、布局间距、空态、loading/error、对象动作和 Inspector 完全同源；页面组件只提供格式策略 / 文案。
   2. 左栏在标题 / 搜索下渲染 `DsCatalogRow`；每行仅名称、AssetId、引用数，不含输入与对象级操作。筛选不偷换选择；无效 deep link 显式失效。
   3. 列表支持 ArrowUp/ArrowDown/Home/End/Enter 或等价 roving focus；选中项滚入视图；363 项只挂载有界窗口。
-  4. 中央 `DsObjectHero` 显示名称、AssetId、格式、来源、大小、引用数，替换 / 删除位于 Hero；删除有引用时阻断并展示原因，无引用时使用 DsDialog 确认。
+  4. 中央 `DsObjectHero` 与基本信息区共同显示名称、AssetId、格式、来源、大小、引用数；替换 / 删除位于 Hero；删除有引用时阻断并展示原因，无引用时使用 DsDialog 确认。
   5. “基本信息”只允许改显示名称；改名经现有 command、undo/redo 和全局保存闭环，焦点切换不触发无变化提交。
   6. “试听”播放器支持 play/pause/stop/seek、当前 / 总时长、键盘操作与错误反馈；换资源、替换 SHA、卸载或切工程立即停止旧音频并丢弃旧异步结果。
   7. WAV 可视化来自实际 PCM；MIDI 可视化来自 note events 并明确标“音符活动”，两者不写回工程文件。
@@ -203,11 +204,11 @@ Branch: codex/ed-pal-workspace-modes-1
     已 live 合并进主会话，引用缺口不成立——coordinator/投影层直读未见（同 MEDIA 卡）。
 - counter / 分歧处理: N/A
 - 缺签豁免: N/A
-- build 准入结论: blocked
+- build 准入结论: **allowed（2026-08-23）**——三方 premise/design 齐；MEDIA 前置合同已 done；用户明确批准继续。
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept（2026-08-23）**——聚焦 Vitest 7 files / 26 tests、editor/reforge typecheck、`git diff --check`、真 PAL MIDI/WAV 浏览器 smoke 与净重载 console 均通过；A→B→A stale cache 竞态已有共享工作台级回归。
 - Kimi: pending
 - GLM: pending
 - counter / 返工处理: N/A
@@ -225,7 +226,7 @@ Branch: codex/ed-pal-workspace-modes-1
 - 中栏：非滚动 `DsObjectHero` + 可滚动内容区：
   1. `基本信息`：单一显示名称编辑器 + 统一只读属性表。
   2. `试听`：播放器控制区 + 可视时间轴 + 状态 / 错误说明。
-- 右栏：`引用 n` 与 `问题 n` 两个 Inspector tab；删除重复的“资源”页。零问题仍保留同一 tab 结构，避免 Music/Sound 漂移。
+- 右栏：`引用 n` 与 `诊断 n` 两个 Inspector tab；删除重复的“资源”页。零诊断仍保留同一 tab 结构，避免 Music/Sound 漂移。
 
 #### 2. 共享组件与策略边界
 
@@ -237,7 +238,7 @@ Branch: codex/ed-pal-workspace-modes-1
 #### 3. 播放与分析数据流
 
 - 选中 key = `projectId + assetId + record.sha256`；只加载当前选中项。
-- controller 状态为 `idle | loading | ready | playing | paused | error`，包含 duration/currentTime/visualization。
+- 对外可观察状态等价于 `idle | loading | ready | playing | paused | error`，实现可内部组合资源加载状态、播放状态与 transport 暂停态；snapshot 包含 duration/currentTime/visualization。
 - WAV：`readBytes(sound)` → AudioContext decode → compact min/max peaks → buffer transport。pause/seek 通过停止 source 并按 offset 重建。
 - MIDI：`readBytes(music)` → BasicMIDI note/time analysis → compact activity buckets；SpessaSynth preview transport 暴露 sequencer 时长、当前时间、pause、seek。
 - 播放时仅在可见状态用 rAF 读取后端时钟；暂停 / 隐藏 / 卸载停止 rAF。可视化缓存有界，只缓存 compact buckets，不缓存全工程 PCM。
@@ -305,11 +306,26 @@ Branch: codex/ed-pal-workspace-modes-1
 ## Build: 实现与自测
 
 - Coding Owner: Codex
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- 修改文件:
+  - 共享 UI / 页面接线：`packages/editor/src/ui/AudioAssetWorkbench.tsx`、`MusicTab.tsx`、`SoundTab.tsx`、`DataMode.tsx`。
+  - WAV preview / 派生缓存：`packages/editor/src/core/audio-preview.ts`。
+  - MIDI preview：`packages/reforge/src/audio/midi-preview.ts`、`spessa-browser-runtime.ts`、`bgm.ts`、包入口与依赖清单。
+  - 共享目录 / 设计系统：`packages/editor/src/ui/design-system/{virtual-list.tsx,controls.tsx,recipes.tsx,primitives.css}` 与 `editor.css`。
+  - 聚焦回归：上述模块的同名测试，以及 `AudioAssetWorkbench.test.tsx`、`AssetInspectorTabs.test.tsx`。
+- 实现摘要:
+  - Music/Sound 已收敛为单一 `AudioAssetWorkbench`，只由薄策略层注入格式、目录文案、导入/替换和 preview transport。
+  - 86 MIDI / 363 WAV 目录使用有界虚拟列表；仅当前选中资源加载。WAV 生成真实 PCM peaks，MIDI 生成明确标注的音符活动。
+  - WAV 与 MIDI transport 均支持 play/pause/stop/seek、自然结束重播和 dispose；AudioContext 延迟到用户动作创建，避免 StrictMode render 泄漏。
+  - 派生分析缓存真正包住 transport load，支持 inflight 去重、有界淘汰和 SHA 身份；A→B→A 竞态会在旧 A 被中止后重试当前 A，迟到 B 不得覆盖。
+  - 页面隐藏时停止 rAF 时钟轮询，恢复可见且仍播放时再继续；切换资源、替换 SHA、卸载会停止旧 transport 并丢弃旧 generation。
+  - Hero 持有替换/删除，中央基本信息持有改名/只读元数据；右侧只保留同源引用与诊断，全局保存仍是唯一保存入口。
+- 运行命令:
+  - `pnpm exec vitest run packages/editor/src/core/audio-preview.test.ts packages/editor/src/ui/AudioAssetWorkbench.test.tsx packages/editor/src/ui/MusicTab.test.tsx packages/editor/src/ui/SoundTab.test.ts packages/editor/src/ui/AssetInspectorTabs.test.tsx packages/editor/src/ui/design-system/virtual-list.test.tsx packages/reforge/src/audio/midi-preview.test.ts` → 7 files / 26 tests passed，2.13s。
+  - `pnpm --filter @type-pal/editor typecheck` → passed。
+  - `pnpm --filter @type-pal/reforge typecheck` → passed。
+  - `git diff --check` → passed。
+- 浏览器 / 手工检查: localhost:6010 的 `ui_samples=1` 音乐/音效真实页面 smoke 已完成，详见视觉验证记录。
+- 跳过的检查及原因: 未重复运行完整 editor 长套件；本卡遵循用户要求只执行覆盖改动面的聚焦 Vitest、editor/reforge typecheck 与 `git diff --check`。
 
 ## 资源生成记录(如适用)
 
@@ -325,18 +341,23 @@ Branch: codex/ed-pal-workspace-modes-1
 
 - Visual Verification Owner: Codex
 - Visual Verification Timing: dev-functional
-- 验证方式: pending
+- 验证方式:
+  - 浏览器打开 `http://localhost:6010/?ui_samples=1&module=asset&page=music` 与 `...&page=sound&object=sound.pal.002`。
+  - 1280×720 检查左目录、Hero、中央基本信息/时间轴、右引用/诊断与页面横向溢出；同一实现此前已做 1024×720 窄宽度检查，本轮逻辑修复未改 CSS。
+  - 真 PAL MIDI 等待到“就绪 / 音符活动”，执行播放、暂停、停止并快速切换 `music.pal.001 → .002 → .001`。
+  - 真 PAL WAV 等待到“就绪 / PCM 波形”，执行播放与停止；seek slider 已渲染且 enabled，transport seek 由聚焦自动化覆盖。
+  - 最终带时间戳净重载后读取浏览器日志，新增 error/warn 为 0。
 - 集中 E2E 用例 / 批次: N/A
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: pending
+- 截图 / 像素检查路径: N/A（浏览器交互 smoke，未保存仓库截图）
+- 结论: 音乐 / 音效同源布局、真实时间轴标签、播放状态、快速切换与无横向溢出通过；StrictMode 初次卡 loading 与 stale cache 竞态均已修复并复验。
+- 未完成项: Kimi / GLM 独立 review 与用户最终验收。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: Codex 内部只读压力审查发现并已修复 AudioContext render 泄漏、缓存未包住 load、隐藏页 rAF、MIDI 自然结束重播、PCM sentinel、虚拟列表显式焦点与 A→B→A 中止重试问题；Kimi / GLM 待独立验收。
+- 必须返工项: 当前无已知 Codex 阻断项；若 Kimi / GLM counter，任务转 `rework`。
+- Accept / rework: Codex accept；Kimi / GLM pending，`done` 仍 blocked。
 
 ## 用户验收
 
@@ -345,11 +366,15 @@ Branch: codex/ed-pal-workspace-modes-1
 
 ## 交接日志
 
+- 2026-08-23 Codex 内部 transport/cache 独立压力复核: **accept（不代签 Kimi/GLM）**。直接复核 A→B→A generation 隔离与单次重试、StrictMode 微任务清理、WAV/MIDI serial/dispose 和 MIDI 自然结束重播；独立聚焦测试与 typecheck 通过。仅登记非阻塞 P3：通用 `AudioPreviewCache.clear()` 若未来脱离当前 generation/dispose owner 复用，应增加 epoch/条件删除硬化；当前生产路径不受影响。
+- 2026-08-23 Codex（实现 / 集成 / 浏览器验证）: 完成共享音频工作台、WAV/MIDI 双 transport、真实 PCM/音符活动、有界虚拟目录与引用/诊断接线。内部压力审查先后定位并修复 StrictMode AudioContext 泄漏、分析缓存未包住实际 load、隐藏页 rAF、自然结束重播、PCM sentinel、显式焦点和 A→B→A cache 中止竞态；为最后一项新增共享工作台级回归。浏览器验证真 PAL MIDI/WAV 加载、播放状态、快速切换和无横向溢出通过。
 - 2026-08-23 GLM（覆盖/格式 census/性能/测试矩阵）: 审查完成，签 **premise verified +
   design agree（附 GA1-GA4）**。格式 census 全量实测：86 MIDI + 363 WAV、other=0——可证伪
   观察①裁决为不触发；GA1 同步 MEDIA 卡 GM1 的 stale 副本口径修正与同源实现要求；GA2 钉
   transport 确定性；GA3 钉竞态/有界缓存/禁全量解码；GA4 钉虚拟列表合同补齐先行。未改实现，
   未代签 Kimi，未改准入结论。
+- 2026-08-23 User: `ED-MEDIA-ASSET-ACTIONS-1` 验收收口后明确“继续”；Codex 复核三方签字与
+  GA1 依赖已满足，将本卡转 build 并建立 `codex/ed-audio-workbench-1` 分支。
 - 2026-08-23 Kimi（跨包 transport/生命周期/UI 架构）: 审查完成，签 **premise verified + design agree**。
   独立直读 SpessaSynth 锁定版类型声明（duration/currentTime get+set/pause 均在）、BgmPlayer 与
   BgmSequencerAdapter 现状、SFX 适配器、DsVirtualList 键盘合同、MusicTab 旧表格；自跑 python
@@ -365,11 +390,11 @@ Branch: codex/ed-pal-workspace-modes-1
 ```text
 接手任务: ED-AUDIO-WORKBENCH-1 音乐 / 音效统一资源工作台与音频时间轴
 任务卡: docs/ops/tasks/ED-AUDIO-WORKBENCH-1-audio-resource-workbench.md
-当前状态: draft，Codex 已签 premise verified + design agree；build 准入仍 blocked
-你的角色: Kimi 负责跨包 transport / 生命周期 / UI 架构审查；GLM 负责引用输入、性能与测试矩阵审查
+当前状态: review；Codex 实现、自验与浏览器 smoke 已完成，Codex accept；Kimi / GLM review accept 待补
+你的角色: Kimi 负责跨包 transport / 生命周期 / 竞态审查；GLM 负责 GA1-GA4、缓存集成、测试矩阵与任务证据审查
 先读: AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、editor-design-system-v1.md、A7-0/A7-1 音频边界，以及卡内代码锚点
-已完成: 当前两页 / CRUD / 引用 / 播放链审计；冻结左目录、中 Hero+基本信息+播放器、右引用/诊断；WAV=PCM 波形，MIDI=音符活动
-请你做: 直接读取一手代码独立核 premise；给出可证伪观察；审查 sharedScripts 引用修复、MIDI preview transport、WAV controller、缓存/生命周期、虚拟列表与验收矩阵；在任务卡签 premise verified + design agree，或 counter 并写明返工项
-不要做: 不得修改实现文件；不得把 MIDI 音符活动冒充 PCM；不得改 schema/migration/runtime 游戏语义；不得标记 build/done
-输出要求: 更新任务卡对应签字、独立反证审查和主审立场；明确 agree/counter 与 build 是否可准入
+已完成: 单一 AudioAssetWorkbench、86/363 有界目录、WAV PCM/MIDI 音符活动、双 transport、分析缓存、A→B→A 竞态回归、聚焦测试/typecheck 与浏览器 smoke
+请你做: 直接读取一手实现与最终验证证据，审查 transport 生命周期、StrictMode、缓存/竞态、虚拟列表、GA1-GA4 与设计系统采用面；在任务卡签 review accept，或 counter 并写明可复现返工项
+不要做: review 阶段不得直接修改实现文件；若 counter，请把任务退回 rework；三方 accept 与用户验收前不得标记 done
+输出要求: 更新任务卡对应 review 签字与审查日志；明确 accept/counter、证据锚点和剩余风险
 ```

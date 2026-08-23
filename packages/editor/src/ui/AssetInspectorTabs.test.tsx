@@ -214,13 +214,15 @@ describe('asset inspectors shared tabs', () => {
       root.render(
         <MusicTab
           catalog={catalog}
-          resolver={reader as never}
+          reader={reader as never}
           session={session}
           focusObjectId="music.test"
         />,
       ),
     )
-    await verifyInspectorTabs(host, '音乐检查器', ['资源', '引用 2'])
+    await verifyInspectorTabs(host, '音乐检查器', ['引用 2', '诊断 0'], {
+      identity: 'workbench-hero',
+    })
     expect(host.querySelectorAll('.ds-reference-row')).toHaveLength(1)
     expect(host.querySelector('.ds-reference-row__trailing')?.textContent).toContain('2 次')
   })
@@ -237,7 +239,9 @@ describe('asset inspectors shared tabs', () => {
         />,
       ),
     )
-    await verifyInspectorTabs(host, '音效检查器', ['资源', '引用 2'])
+    await verifyInspectorTabs(host, '音效检查器', ['引用 2', '诊断 0'], {
+      identity: 'workbench-hero',
+    })
     expect(host.querySelectorAll('.ds-reference-row')).toHaveLength(1)
     expect(host.querySelector('.ds-reference-row__trailing')?.textContent).toContain('2 次')
     expect(host.querySelector('.ds-diagnostic-panel[data-state="clear"]')).not.toBeNull()
@@ -305,7 +309,9 @@ describe('asset inspectors shared tabs', () => {
         />,
       ),
     )
-    await verifyInspectorTabs(host, '音效检查器', ['资源', '引用 0'])
+    await verifyInspectorTabs(host, '音效检查器', ['引用 0', '诊断 1'], {
+      identity: 'workbench-hero',
+    })
     expect(
       host.querySelectorAll('[role="tablist"][aria-label="音效检查器"] [role="tab"]'),
     ).toHaveLength(2)

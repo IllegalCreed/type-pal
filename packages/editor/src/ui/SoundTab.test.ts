@@ -69,16 +69,14 @@ describe('A7-1 SoundTab WAV 导入', () => {
       const search = host.querySelector<HTMLInputElement>('input[aria-label="搜索音效"]')
       expect(search).not.toBeNull()
       expect(host.querySelector('.ds-list-header__count')?.textContent).toContain('2')
-      expect(host.querySelectorAll('.asset-music-table tbody tr')).toHaveLength(2)
+      expect(host.querySelectorAll('.ds-virtual-list__item')).toHaveLength(2)
 
       await setCatalogSearch(search!, 'heal')
       expect(host.querySelector('.ds-list-header__count')?.textContent).toContain('1')
-      expect(host.querySelectorAll('.asset-music-table tbody tr')).toHaveLength(1)
-      expect(host.querySelector<HTMLInputElement>('.asset-music-table tbody tr input')?.value).toBe(
-        '治疗音效',
-      )
-      expect(host.querySelector('.asset-music-table tbody tr.selected')).toBeNull()
-      expect(host.querySelector('.inspector .who')?.textContent).toBe('命中音效')
+      expect(host.querySelectorAll('.ds-virtual-list__item')).toHaveLength(1)
+      expect(host.querySelector('.ds-catalog-row__title')?.textContent).toBe('治疗音效')
+      expect(host.querySelector('.ds-catalog-row[data-selected]')).toBeNull()
+      expect(host.querySelector('.ds-object-hero__title')?.textContent).toBe('命中音效')
 
       const importButton = host.querySelector<HTMLButtonElement>('button[aria-label="导入 WAV"]')
       const importInput = host.querySelector<HTMLInputElement>('input[type="file"]')
@@ -90,12 +88,11 @@ describe('A7-1 SoundTab WAV 导入', () => {
 
       await setCatalogSearch(search!, '不存在')
       expect(host.querySelector('.ds-list-header__count')?.textContent).toContain('0')
-      expect(host.querySelectorAll('.asset-music-table tbody tr')).toHaveLength(0)
+      expect(host.querySelectorAll('.ds-virtual-list__item')).toHaveLength(0)
       await setCatalogSearch(search!, '')
-      expect(host.querySelectorAll('.asset-music-table tbody tr')).toHaveLength(2)
-      expect(
-        host.querySelector<HTMLInputElement>('.asset-music-table tbody tr.selected input')?.value,
-      ).toBe('命中音效')
+      expect(host.querySelectorAll('.ds-virtual-list__item')).toHaveLength(2)
+      expect(host.querySelector('.ds-catalog-row[data-selected] .ds-catalog-row__title')?.textContent)
+        .toBe('命中音效')
     } finally {
       await act(async () => root.unmount())
       host.remove()

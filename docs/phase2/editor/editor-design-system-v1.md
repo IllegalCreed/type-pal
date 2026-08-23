@@ -2,11 +2,11 @@
 
 Status: draft v2.8.0 interaction and information-architecture consolidation implemented, pending review（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
 
-Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0）
+Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）
 
 Applies to: `packages/editor` 的全部功能性界面
 
-Last updated: 2026-08-22
+Last updated: 2026-08-23
 
 > 本文是后续编辑器界面实施和验收的唯一规范入口。它定义产品语言、可复用合同和验收方法，不定义
 > content schema、业务命令、存档或运行时规则。角色模块与 B2 战场工作台是参考输入，不是自动正确的模板；
@@ -532,8 +532,17 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - 左：资源列表/过滤与集合管理；中：对象标题、必要基本信息和占最大面积的预览/播放器；右：属性、引用、诊断
   和低频媒体设置。重命名、复制、删除等完整资源操作按 DS-C.2 只有一个 owner，不默认塞入 Inspector。
 - 预览工具条属于画布，位置稳定；元数据不得覆盖内容。
-- 音乐/音效使用同一音频工作台：左侧纵向列表，中间标题与基本信息，下方波形、时间线和播放控制，右侧引用与
-  音频属性；氛围沿用同一三段骨架，但中间主预览替换为可比较的场景滤镜效果，右侧编辑滤镜参数与引用。
+- 音乐/音效使用同一音频工作台：左侧纵向列表，中间标题与基本信息，下方波形、时间线和播放控制，右侧只放
+  引用与诊断；氛围沿用同一三段骨架，但中间主预览替换为可比较的场景滤镜效果，右侧编辑滤镜参数与引用。
+- 音频目录行只显示名称、稳定 ID 与引用数；不得在行内放播放器、替换或删除，也不得为目录中的每个资源解码。
+  当前选中资源才允许按 `projectId + AssetId + sha256` 懒加载，切换资源、替换内容、切工程或卸载必须停止旧播放、
+  丢弃旧异步结果，并使用有界派生缓存。
+- 时间轴必须声明真实数据来源：WAV 只显示实际解码 PCM 的峰值，MIDI 只显示由 note events 计算的“音符活动”，
+  不得把音符密度命名为 PCM 波形。两类可视化均为临时派生状态，不写回资源记录或工程文件。
+- 播放器必须共用播放/暂停、停止、可访问 seek、当前时间/总时长以及 loading/error/ready 状态合同；仅在播放时
+  读取后端时钟。预览 transport 与游戏 BGM/SFX 的接管、fade、readiness 等运行时语义隔离。
+- 音频 Inspector 只承载引用与诊断；格式、路径、来源、大小等只读元数据留在中央基本信息区，替换与删除按
+  DS-C.2 由对象 Hero 单一持有，全局保存仍是唯一保存入口。
 - Medium/Narrow 优先保留画布；列表和 Inspector 进入 drawer。媒体永远不能被压成面板顶部的小缩略图。
 - 正向参考：场景/地图画布既有 pan/zoom 操作和资源工作台的 typed 引用思想。
 - 反例修复：当前 `ImageTab` 将图片预览与表单共同挤在上部；应改为独立主画布，并复用 DS-M 合同。
@@ -748,6 +757,7 @@ Design Lab 是后续 ED-DS-2 的实现目标；本卡只冻结其输入和验收
 | RF-16 | Reference simple/grouped/static/loading/partial/error/long-content | 精确与下界计数、occurrence、真实 button/link/article、长路径和静态原因符合 DS-C.6a | v2.3 引用合同 |
 | RF-17 | Diagnostic ready/clear/partial/failure + 152 条 mixed severity | error/warning 文字、真实 button/link/article、30/80 分页、单 live region、长路径与窄宽度符合 DS-C.8a | v2.5 诊断合同 |
 | RF-18 | Help/Inspector/action ownership + 1280/900/720/200% | 无效说明不存在；概念帮助为 18px 圆形视觉/稳定命中区，hover/focus/touch/Esc、viewport collision、modal top layer 与 ARIA 通过；Inspector section 节奏统一；完整对象动作与全局保存不重复 | v2.8 信息架构合同 |
+| RF-19 | 86 MIDI / 363 WAV 音频工作台，1280/900/720 | 目录有界挂载；仅选中项加载；WAV 标“PCM 波形”、MIDI 标“音符活动”；play/pause/stop/seek、切换停止、loading/error、引用/诊断和无横向溢出通过 | DS-R.2 音频真实性与生命周期合同 |
 
 ### DS-PERF.1 大列表性能合同（G3）
 
