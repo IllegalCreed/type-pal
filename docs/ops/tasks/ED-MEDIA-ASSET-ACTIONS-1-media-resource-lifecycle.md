@@ -1,6 +1,6 @@
 # ED-MEDIA-ASSET-ACTIONS-1 - 媒体资源对象操作与生命周期统一
 
-Status: review
+Status: done
 Phase: phase2
 Capability: X2
 Coding Owner: Codex
@@ -249,7 +249,7 @@ Branch: codex/ed-media-asset-actions-1
 - counter / 返工处理: 无（GLM 侧）。
 - counter / 返工处理: N/A
 - 缺签豁免: N/A
-- done 准入结论: blocked——Codex + Kimi + GLM 三方 review accept 已齐；按流程待用户验收后收口，任何 Agent 不得自行标记 done。
+- done 准入结论: **done allowed（2026-08-23）——Codex + Kimi + GLM 三方 review accept 已齐，用户验收通过。**
 
 ## Draft: 设计与风险
 
@@ -327,15 +327,18 @@ Branch: codex/ed-media-asset-actions-1
   聚焦 8 文件 93/93 + content asset 27/27 复跑，逐条证据见“进入 done 前:审查签字” Kimi 段）；
   GLM accept（2026-08-23，同源引用/独立站点/fail-closed/双恢复链路，见同节 GLM 段）。
 - 必须返工项: 无
-- Accept / rework: 三方 accept 已齐；待用户验收后收口。
+- Accept / rework: 三方 accept、用户验收通过；任务收口为 done。
 
 ## 用户验收
 
-- 用户结论: pending
+- 用户结论: **accept（2026-08-23）**。用户按图片 / 过场资源页的布局、改名、替换、删除阻断、
+  dirty 保护与窄宽表现口径完成产品验收，并明确回复“验收通过”。
 - 后续任务: Tileset / Sprite 专业资源页继续保留领域流程，仅共享确认 primitive 的迁移另行排期。
 
 ## 交接日志
 
+- 2026-08-23 User: 产品验收通过。Codex / Kimi / GLM 三方 review accept 已齐，done 门禁满足，
+  本卡正式收口。
 - 2026-08-23 Kimi（布局/交互主审）: implementation review 完成并签 **accept**。独立直读
   c8ace71e：左栏集合动作/中央 DsObjectHero/右侧三 tab 布局统一；MediaAssetNameField（Enter/blur/
   Escape/等值短路）与 MediaAssetConfirmDialog（fail-closed、未知引用数禁用）共享合同；
