@@ -8,13 +8,14 @@
 
 import type {
   ActorDef,
+  AssetCatalogV1,
   AuthorEntityPage,
   AuthorSceneDef,
-  AssetCatalogV1,
   BattleFieldDef,
   BattleSpriteDefinitionReference,
   EnemyTeamDef,
   EntityDef,
+  Facing,
   GridPos,
   HostileBehavior,
   Locale,
@@ -77,6 +78,11 @@ import { createEditorAssetReader, type EditorAssetReader } from '../core/editor-
 import { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
 import type { BlockingEnemyTeamReference } from '../core/enemy-team-references.js'
 import {
+  collectEntityAddressReferences,
+  type EntityAddressReference,
+  entityAddressReferenceBlocksDeletion,
+} from '../core/entity-address-references.js'
+import {
   activePageTriggerActivation,
   createCanonicalPlacedEntity,
   createPlacedEntity,
@@ -89,15 +95,9 @@ import {
 } from '../core/entity-placement.js'
 import { exportProjectZip } from '../core/export-zip.js'
 import type { ItemReference } from '../core/item-references.js'
-import {
-  collectEntityAddressReferences,
-  entityAddressReferenceBlocksDeletion,
-  type EntityAddressReference,
-} from '../core/entity-address-references.js'
 import { type Opened, openExistingProject, pickDir, saveProjectAs } from '../core/open-actions.js'
 import { createEditorStatusIssueCollector } from '../core/project-diagnostics.js'
 import { serializeProjectWithMapCopies, writeProject } from '../core/project-io.js'
-import { findDefaultEntry } from '../core/startup-entries.js'
 import {
   AddSceneEntityDefinitionCommand,
   type CanonicalScriptReference,
@@ -119,6 +119,7 @@ import {
   findSceneEntryReferences,
   type SceneEntryReferenceEntry,
 } from '../core/script-references.js'
+import { findDefaultEntry } from '../core/startup-entries.js'
 import type { WorkspaceContext } from '../core/workspace-context.js'
 import { workspaceModeLabel } from '../core/workspace-context.js'
 import {
@@ -139,8 +140,8 @@ import {
 import {
   closeSceneScriptPanelState,
   createEditorLayoutCommands,
-  editorPanelToolbarCommandIds,
   type EditorLayoutCommandHandlers,
+  editorPanelToolbarCommandIds,
   executeEditorLayoutShortcut,
   toggleSceneScriptPanelState,
 } from './app-layout-commands.js'
@@ -165,6 +166,7 @@ import {
   DsSelect,
 } from './design-system/index.js'
 import { EditorAppHeader } from './EditorAppHeader.js'
+import { ENTITY_FACING_OPTIONS, EntityFacingHelpTip } from './EntityFacingHelp.js'
 import { EntityPageAnimationFields } from './EntityPageAnimationEditor.js'
 import {
   decodeEditorLocation,
@@ -1425,13 +1427,7 @@ export function App(props: {
       setWorkspaceNotice({ kind: 'info', message: `已删除实体 ${entityId}；可撤销。` })
       requestAnimationFrame(() => sceneOutlineRowRef.current?.focus())
     },
-    [
-      entityReferenceState,
-      entityReferencesByTarget,
-      historyCoordinator,
-      placingEntity,
-      scene,
-    ],
+    [entityReferenceState, entityReferencesByTarget, historyCoordinator, placingEntity, scene],
   )
   const deleteNamedEntry = useCallback(
     (entryId: string): void => {
@@ -3424,7 +3420,7 @@ function EntityInspector(props: {
                 </div>
               </div>
             )}
-            {/* actor 引用只读解算外观;普通 sprite 实体可换精灵;朝向暂只读。 */}
+            {/* actor 引用只读解算外观；普通 sprite 实体可换精灵；朝向属于场景实例。 */}
             {isActorEntity(entity) ? (
               <div className="field actor-entity-source">
                 <span className="field-label">预制人物（共享身份与资源）</span>
@@ -3485,11 +3481,20 @@ function EntityInspector(props: {
             )}
             {'zone' in entity ? null : (
               <div className="field">
-                <span className="field-label">朝向</span>
-                <div className="in pick">
-                  <span>{facing}</span>
-                  <span className="meta">场景实例</span>
-                </div>
+                <span className="field-label entity-facing-label">
+                  <span>朝向</span>
+                  <EntityFacingHelpTip />
+                </span>
+                <DsSelect
+                  aria-label="实体朝向"
+                  value={facing}
+                  options={ENTITY_FACING_OPTIONS}
+                  onValueChange={(value) =>
+                    session.dispatch(
+                      new UpdateEntityCommand(sceneId, entity.id, { facing: value as Facing }),
+                    )
+                  }
+                />
               </div>
             )}
             <div className="field">
@@ -3506,21 +3511,22 @@ function EntityInspector(props: {
                 }
               />
             </div>
-            <div className="field">
+            <div
+              className="field"
+              title="隐藏 = 游戏里初始不出现(剧情脚本 setEntityState 可显形);编辑器「隐藏实体(透视)」图层仍半透明可见"
+            >
               <span className="field-label">初始显隐</span>
-              <div title="隐藏 = 游戏里初始不出现(剧情脚本 setEntityState 可显形);编辑器「隐藏实体(透视)」图层仍半透明可见">
-                <DsCheckbox
-                  label="初始隐藏（待剧情出场）"
-                  checked={entity.hidden === true}
-                  onChange={(event) =>
-                    session.dispatch(
-                      new UpdateEntityCommand(sceneId, entity.id, {
-                        hidden: event.currentTarget.checked ? true : undefined,
-                      }),
-                    )
-                  }
-                />
-              </div>
+              <DsCheckbox
+                label="初始隐藏（待剧情出场）"
+                checked={entity.hidden === true}
+                onChange={(event) =>
+                  session.dispatch(
+                    new UpdateEntityCommand(sceneId, entity.id, {
+                      hidden: event.currentTarget.checked ? true : undefined,
+                    }),
+                  )
+                }
+              />
             </div>
           </div>
           <div className="section">

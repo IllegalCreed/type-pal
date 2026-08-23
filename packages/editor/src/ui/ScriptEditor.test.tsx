@@ -197,16 +197,12 @@ describe('CanonicalScriptEditor author presentation', () => {
     expect(rows[1]!.textContent).toContain('暂停')
     expect(rows[2]!.textContent).toContain('隐藏')
 
-    await act(async () =>
-      rows[1]!.querySelector<HTMLButtonElement>('[aria-label="下移"]')!.click(),
-    )
+    await act(async () => rows[1]!.querySelector<HTMLButtonElement>('[aria-label="下移"]')!.click())
     rows = host.querySelectorAll<HTMLElement>('.cmd-row')
     expect(rows[1]!.textContent).toContain('隐藏')
     expect(rows[2]!.textContent).toContain('暂停')
 
-    await act(async () =>
-      rows[2]!.querySelector<HTMLButtonElement>('[aria-label="删除"]')!.click(),
-    )
+    await act(async () => rows[2]!.querySelector<HTMLButtonElement>('[aria-label="删除"]')!.click())
     expect(host.querySelectorAll<HTMLElement>('.cmd-row')).toHaveLength(2)
   })
 
@@ -248,9 +244,7 @@ describe('CanonicalScriptEditor author presentation', () => {
         .click(),
     )
     await act(async () =>
-      host
-        .querySelector<HTMLButtonElement>('[data-command-kinds="suspendEntity"]')!
-        .click(),
+      host.querySelector<HTMLButtonElement>('[data-command-kinds="suspendEntity"]')!.click(),
     )
 
     let row = host.querySelector<HTMLElement>('.cmd-row')!
@@ -276,6 +270,96 @@ describe('CanonicalScriptEditor author presentation', () => {
     )
     row = host.querySelector<HTMLElement>('.cmd-row')!
     expect(row.textContent).toContain('6 tick')
+  })
+
+  test('edits entity state through Chinese semantic choices without rewriting an existing raw value', async () => {
+    const onChange = vi.fn()
+    await act(async () =>
+      root.render(
+        <CanonicalScriptBodyEditor
+          body={[
+            {
+              kind: 'setEntityState',
+              target: { scene: 's001', entity: 'e4' },
+              state: 3,
+            },
+          ]}
+          onChange={onChange}
+        />,
+      ),
+    )
+
+    const row = host.querySelector<HTMLElement>('.cmd-row')!
+    expect(row.textContent).toContain('e4 → 显示，阻挡通行（原值 3）')
+    await act(async () =>
+      row.dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true })),
+    )
+
+    expect(onChange).not.toHaveBeenCalled()
+    expect(combobox('状态').textContent).toContain('当前原值 3（显示，阻挡通行）')
+    const listbox = await openCombobox('状态')
+    const optionTexts = [...listbox.querySelectorAll<HTMLElement>('[role="option"]')].map(
+      (option) => option.textContent ?? '',
+    )
+    expect(optionTexts).toEqual([
+      expect.stringContaining('当前原值 3（显示，阻挡通行）'),
+      expect.stringContaining('隐藏'),
+      expect.stringContaining('显示，可通行'),
+      expect.stringContaining('显示，阻挡通行'),
+    ])
+    const passable = [...listbox.querySelectorAll<HTMLElement>('[role="option"]')].find((option) =>
+      option.textContent?.startsWith('显示，可通行'),
+    )!
+    await act(async () => passable.click())
+    expect(onChange).toHaveBeenLastCalledWith([
+      {
+        kind: 'setEntityState',
+        target: { scene: 's001', entity: 'e4' },
+        state: 1,
+      },
+    ])
+  })
+
+  test('uses the same semantic state selector for batch entity commands', async () => {
+    const onChange = vi.fn()
+    await act(async () =>
+      root.render(
+        <CanonicalScriptBodyEditor
+          body={[
+            {
+              kind: 'setMultiEntityState',
+              targets: [
+                { scene: 's001', entity: 'e1' },
+                { scene: 's001', entity: 'e2' },
+              ],
+              state: 0,
+            },
+          ]}
+          onChange={onChange}
+        />,
+      ),
+    )
+
+    const row = host.querySelector<HTMLElement>('.cmd-row')!
+    expect(row.textContent).toContain('批量设置 2 个实体 → 隐藏')
+    await act(async () =>
+      row.dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true })),
+    )
+    const listbox = await openCombobox('状态')
+    const blocking = [...listbox.querySelectorAll<HTMLElement>('[role="option"]')].find((option) =>
+      option.textContent?.startsWith('显示，阻挡通行'),
+    )!
+    await act(async () => blocking.click())
+    expect(onChange).toHaveBeenLastCalledWith([
+      {
+        kind: 'setMultiEntityState',
+        targets: [
+          { scene: 's001', entity: 'e1' },
+          { scene: 's001', entity: 'e2' },
+        ],
+        state: 2,
+      },
+    ])
   })
 
   test('keeps trigger zones out of entity-facing insertion and edit targets', async () => {

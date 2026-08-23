@@ -1382,6 +1382,33 @@ html[data-panel-resize="horizontal"] * {
   color: var(--fg);
   outline: none;
 }
+.entity-facing-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0;
+}
+.entity-facing-help {
+  display: block;
+  width: min(176px, calc(100vw - 60px));
+}
+.entity-facing-help__diagram {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--ds-border-subtle);
+  border-radius: var(--ds-radius-control);
+  background: var(--ds-surface-canvas);
+}
+.entity-facing-help__grid {
+  fill: color-mix(in srgb, var(--ds-surface-raised) 74%, transparent);
+  stroke: var(--ds-border-subtle);
+  stroke-width: 2;
+}
+.entity-facing-help__label {
+  fill: var(--ds-text-primary);
+  font: 700 14px / 1 var(--ds-font-sans);
+}
 .preview-zoom-icon {
   position: relative;
   width: 10px;
@@ -13156,7 +13183,7 @@ button.sprite-frame-cell[draggable="true"]:active {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.canonical-script-editor-heading span {
+.canonical-script-editor-summary {
   flex: none;
   color: var(--dim);
   font-size: 10px;
@@ -13601,12 +13628,6 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .canonical-script-empty-add {
   width: 100%;
-  padding: 8px;
-  border: 1px dashed color-mix(in srgb, var(--accent) 45%, var(--line));
-  border-radius: 5px;
-  background: color-mix(in srgb, var(--accent) 5%, transparent);
-  color: var(--accent);
-  cursor: pointer;
 }
 .canonical-script-insert-grid {
   display: grid;
@@ -13631,26 +13652,6 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .canonical-script-insert-dialog .cf-insert {
   align-items: stretch;
-}
-.canonical-script-insert-dialog .cf-insert .pv-btn {
-  flex: 1 1 148px;
-  min-width: 0;
-  padding: 5px 8px;
-  text-align: left;
-  white-space: normal;
-}
-.canonical-script-insert-dialog .cf-insert .pv-btn > span,
-.canonical-script-insert-dialog .cf-insert .pv-btn > small {
-  display: block;
-}
-.canonical-script-insert-dialog .cf-insert .pv-btn > small {
-  margin-top: 3px;
-  color: var(--faint);
-  font-size: 9px;
-  line-height: 1.35;
-}
-.canonical-script-insert-dialog .cf-insert .pv-btn:disabled {
-  opacity: 0.58;
 }
 .canonical-command-form-fields,
 .canonical-condition-editor,

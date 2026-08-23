@@ -1,6 +1,6 @@
 # ED-ENTITY-INSPECTOR-IA-1 - 场景实体 Inspector、状态指令与删除入口收口
 
-Status: rework
+Status: done
 Phase: phase2
 Capability: 场景实体作者工作台 / current AuthorCommand
 Coding Owner: Codex
@@ -79,6 +79,66 @@ find projects -path '*/content/scenes/*.json' -type f -print0 \
   但现有 canonical `setEntityFacing -> zone` 必须可加载、保存和无损 round-trip。
 - 该观察直接推翻原卡“持久化检查也应阻止 zone 命令目标”的前提；任务退回 `rework`，原 build/review
   签字仅保留为历史事实，不再授权 done。
+
+
+#### 2026-08-23 GLM 前提纠正重签（重审 e9c96930 后）
+
+- GLM 重签 **premise verified + design agree（纠正后契约）**：
+  1. **两层语义区分成立 ✓（本人一手数据核实）**：`s056.e940` 为 `zone:true` 且**无静态
+     facing 字段**，但其脚本正文确有 **4 条 `setEntityFacing -> {scene:s056,entity:e940}`**
+     （本人 node 递归扫描 s056.json hooks+entities 独立计数 = 4，与卡文一致）——静态形状
+     约束与脚本命令目标是两个不同语义；原 build 把它们合并为 fatal 是真实前提错误，
+     PAL 全工程加载失败是被真实数据反证的事故。
+  2. **修复边界精确 ✓**：e9c96930 对 script-editor.ts 是**纯删除 10 行**
+     （collectScriptReferenceIssues 的 setEntityFacing→zone error 分支），零新增逻辑；
+     静态禁令三层完好——content validator `zone 无朝向`（validate.ts:313）、命令层
+     SetEntityFacingCommand 守卫（commands.ts:558）、ScriptEditor 新建目标选择器过滤
+     （"触发区没有朝向"测试仍在）；**修复后 e940 仍无静态 facing**（本人复算
+     facing=undefined）——没有为迁就命令打开静态字段。
+  3. **boot 测试覆盖准确 ✓**：`pal-editor-boot.pal.test.ts` 经 loadCurrentProjectFrom +
+     loadAllAuthorScenes 加载**全部 294 场景**（本人 node 复数 294 文件），按 main.tsx
+     同构组装 canonical ScriptEditorState 并构造 ScriptEditSession——事故的确切复现
+     路径；断言 e940 仍 zone + 4 条 facing 命令无损（测试内独立计数器与本人 node 扫描
+     同构）。**这同时补上了本卡缺失的"真实 PAL 全工程编辑器启动边界"回归**。
+  4. **focused 独立复跑 ✓**：boot 1/1、script-editor 20/20、content validate 81/81、
+     editor typecheck 全绿（全量 138/1044 按"只跑一次"纪律采纳 Codex 记录）。
+- **GLM 自我更正登记**：首轮 implementation accept 的③"zone facing 三层"把
+  collectScriptReferenceIssues 的 fatal 误读为正确的守卫层——实际是**越权的第四层**
+  （编辑器启动校验不应复述运行时合法的命令语义）。教训：审查"校验收紧"类改动必须
+  问"这条校验会不会拒绝运行时合法的既有数据"；负例测试只证明校验存在，不证明校验
+  边界正确。
+
+### 反证与替代解释
+
+#### 2026-08-23 Kimi 前提纠正重签（重审 e9c96930 后）
+
+- Kimi 重签 **premise verified + design agree（纠正后契约）**：
+  1. **两层语义区分成立 ✓（本人一手数据与 runtime 双路核实）**：本人 python 递归扫描
+     `projects/pal/content/scenes/s056.json`——`e940` 为 `zone:true`、无静态 facing 字段，且确有
+     **4 条** `setEntityFacing -> {s056/e940}`（behaviors.auto.default.flow.stages[0].body[1].then[2]、
+     then[5]、body[3]、body[6]，均 facing=down）；runtime 侧 `script-host-adapter.ts:162-165` 经
+     `activeEntity` 解析目标（zone 是合法实体）后调 `main.ts:3113-3116` 的 `setEntityFacing`
+     （直接写 `e.facing`，对 zone 无任何拒绝）。结论：静态持久化字段与脚本命令目标是两层语义；
+     原 census=0 只证明前者为空，不能推出后者非法——原卡把两层合并为 fatal 是真实前提错误。
+  2. **修复边界精确 ✓**：e9c96930 对 `script-editor.ts` 为纯删除 10 行（fatal issue 分支），
+     测试由负例翻转为 source-derived 命令可 dispatch/保存/读回的正例；`projects/pal` 零改动；
+     静态禁令三层完好——content validator `zone 无朝向`（validate.ts，e001d567 引入、本轮未动）、
+     `EntityRef` zone 分支 `facing?: never` 类型收窄未动、`UpdateEntityCommand` 命令层守卫未动、
+     新建/编辑目标选择器的 zone 过滤与“触发区没有朝向”不可用理由未动。没有为迁就命令给 zone
+     打开静态字段。
+  3. **boot 测试边界准确 ✓**：`pal-editor-boot.pal.test.ts` 经真实 FileSource
+     `loadCurrentProjectFrom` + `loadAllAuthorScenes` 加载全量场景（本人直读
+     `content/scenes/index.json` 复数 = 294 且含 s056）；canonical ScriptEditorState 组装与
+     `main.tsx:55-60` 同构；`ScriptEditSession` 构造经 `validateState`（script-editor.ts:852-858）
+     首 issue 即 throw——正是事故的复现路径；断言 e940 仍 zone 且 4 条 facing 命令无损。
+     这补上了本卡原验收矩阵缺失的“真实 PAL 全工程编辑器启动边界”。
+  4. **独立复跑 ✓**：聚焦 boot 1/1 + script-editor 20/20（2.03s）；本人本轮另跑了一次完整
+     editor 全量：138 files / 1044 tests 全绿（18.90s）—— Codex 的“全量已在一分钟内”记录属实，
+     此前“70 分钟长跑”认知确已过时。
+- **Kimi 自我更正登记**：首轮 accept 中我把 `collectScriptReferenceIssues` 的 setEntityFacing→zone
+  fatal 当作正确的“validator 层”证据引用（原③），实际上它是把静态字段纪律错误复述到脚本命令
+  目标的越权校验。教训与 GLM 同源：审查校验收紧改动时，负例测试只证明校验存在，不证明校验
+  边界正确；必须先问“这条校验会不会拒绝 runtime 合法的既有 canonical 数据”。
 
 ### 反证与替代解释
 
@@ -191,6 +251,10 @@ find projects -path '*/content/scenes/*.json' -type f -print0 \
     current project zone.facing census = 0）
   - design: **invalidated**（原设计：单指令入口、“属性 / 行为 / 引用 n”、zone 无静态 facing、行尾删除；
     其中把脚本目标能力一并禁用的推导错误）
+- Kimi（2026-08-23 重审 e9c96930 后）: **premise verified + design agree（纠正后契约）+
+  implementation accept**——重签依据见「2026-08-23 Kimi 前提纠正重签」节（s056/e940 一手数据
+  扫描、runtime 执行链、纯删 10 行修复边界、boot 294 场景、全量 138/1044 本人复跑；含对原③
+  误读的自我更正）。以下首轮签字按历史保留：
 - Kimi（历史签字，2026-08-23 因真实 PAL 反证失效）:
   - premise: **invalidated**（原签字为 2026-08-23 独立直读一手代码 + 自跑 census）。已核：四种状态命令是
     `runtime-script.ts:24-44` 的 `EntityLifecycleCommand` 叶，属 `RuntimeCommand` 词表（:137-144）并有
@@ -208,6 +272,10 @@ find projects -path '*/content/scenes/*.json' -type f -print0 \
     ED-INSPECTOR-TABS-1 / ED-REFERENCE-UI-1 冻结合同一致；facing 从 EntityBase 移入可见分支 +
     validator 负例属零迁移 schema 收紧（census=0 已实测）；行尾删除 + 引用阻断 + 跨 session 原子 undo
     方向正确。GE1-GE3 落钉可执行）
+- GLM（2026-08-23 重审 e9c96930 后）: **premise verified + design agree（纠正后契约）+
+  implementation accept**——重签依据见「2026-08-23 GLM 前提纠正重签」节（两层语义/
+  4 条命令/修复纯删 10 行三层守卫完好/boot 294 场景四项独立核实；含对原③误读的自我
+  更正）。以下首轮签字按历史保留：
 - GLM（历史签字，2026-08-23 因真实 PAL 反证失效）:
   - premise: **invalidated（原签字为 2026-08-23，本人一手读码 + 三工程 census 复算，非代理）**：
     1. **四状态命令在 current 词表**：suspendEntity/hideEntity/restoreEntity/removeEntity
@@ -251,8 +319,25 @@ find projects -path '*/content/scenes/*.json' -type f -print0 \
 
 ### 进入 done 前:审查签字
 
-- Codex: **accept invalidated**（2026-08-23；真实 PAL `s056/e940` 加载失败推翻 zone 命令目标前提）
-- Kimi: **accept invalidated**（2026-08-23；以下审查记录作为历史保留，但其中“zone facing 多层阻断”结论已被真实 PAL 反证）。按委托六项：
+- Codex: **accept**（2026-08-23，针对 rework 提交 `e9c96930` 补签）。确认错误的
+  `setEntityFacing -> zone` fatal 校验已删除，静态 `zone.facing` 禁令与新建目标过滤保持不变；
+  `pal-editor-boot.pal.test.ts` 覆盖真实 PAL 全部 294 场景并锁定 `s056/e940` 的 4 条来源命令无损。
+  采纳已记录的一次 editor 全量 138 files / 1044 tests、typecheck 与真实浏览器 PAL 启动证据，不重复跑门禁。
+- Kimi: **accept**（2026-08-23 重审 rework 提交 e9c96930 后重签）。纠正后契约四项独立核实：
+  - **两层语义 ✓**：本人 python 递归扫描 `s056.json`，e940 为 zone、无静态 facing，脚本含 4 条
+    source-derived `setEntityFacing -> s056/e940`（then[2]/then[5]/body[3]/body[6]，均 down）；
+    runtime 执行链 `script-host-adapter.ts:162-165` → `main.ts:3113-3116` 对 zone 无拒绝。
+    静态字段纪律与脚本命令目标是两层语义，原 fatal 合并是真实前提错误。
+  - **修复边界 ✓**：e9c96930 为纯删除 10 行 fatal 分支 + 负例转正例 + 新增 boot 测试；
+    `projects/pal` 零改动；静态禁令（validate.ts zone 无朝向、EntityRef `facing?: never`、
+    UpdateEntityCommand 守卫、插入/编辑选择器过滤）全部完好——没有给 zone 打开静态字段。
+  - **boot 测试 ✓**：真实 FileSource 加载 PAL 全量 294 场景（本人复数 index.json），
+    ScriptEditorState 组装与 main.tsx 同构，ScriptEditSession 构造的 validateState 首 issue 即
+    throw——事故复现路径准确；断言 e940 zone + 4 命令无损。
+  - **独立复跑 ✓**：聚焦 boot 1/1 + script-editor 20/20；本人本轮另跑完整 editor 全量
+    138 files / 1044 tests 全绿（18.90s），Codex 的“全量约一分钟内”记录属实。
+  历史 accept 记录（含原③误读）保留在下，自我更正见「2026-08-23 Kimi 前提纠正重签」节。
+- Kimi（历史记录，accept 已失效）: **accept invalidated**（2026-08-23；以下审查记录作为历史保留，但其中“zone facing 多层阻断”结论已被真实 PAL 反证）。按委托六项：
   - **① 方言清零 ✓**：`lifecycle-command-editor.ts`、`LifecycleCommandPanel.tsx` 及专用测试整文件删除；
     editor src 全量 grep `BaseAuthorCommand` 仅余 `boundary.test.ts:1040` 的缺席断言（GE1 落钉成立）；
     `author-command-edit.ts`/`command-catalog.ts`/`item-references.ts` 全部改用 current `AuthorCommand`，
@@ -282,7 +367,10 @@ find projects -path '*/content/scenes/*.json' -type f -print0 \
     全量长跑按纪律未重复）。
   - 非阻塞观察：playback.ts 预览回退路径有一处 `as unknown as BaseRuntimeLeafCommand`，语义上是
     排除四生命周期叶后的收窄，属 reforge 运行时分层类型，非编辑器作者方言残留。
-- GLM: **accept invalidated（2026-08-23；真实 PAL 加载事故暴露测试矩阵缺少 canonical 工程加载；以下为历史审查记录；
+- GLM: **accept**（2026-08-23，重审 rework 提交 `e9c96930` 后重签）。独立核实
+  `s056/e940` 的静态 zone 与 4 条脚本命令两层语义、纯删除 fatal 分支、真实 PAL 294 场景 boot 回归，
+  focused 1+20+81 与 typecheck 全绿；详细证据见前提纠正重签及交接日志。
+- GLM（历史记录，accept 已失效）: **accept invalidated（2026-08-23；真实 PAL 加载事故暴露测试矩阵缺少 canonical 工程加载；以下为历史审查记录；
   基于实现提交 e001d567，48 文件 +2778/-2250）**。按委托六项逐一验证：
   - **① 方言清零 ✓**：`lifecycle-command-editor.ts`（319 行）与
     `LifecycleCommandPanel.tsx` 及专用测试**整文件删除**（ls 零存在）；editor 生产码
@@ -318,7 +406,8 @@ find projects -path '*/content/scenes/*.json' -type f -print0 \
     全绿（全量长跑按纪律未重复，Codex 记录 content 422 + editor 聚焦 215 采纳）。
 - counter / 返工处理: 无。
 - 缺签豁免: N/A
-- done 准入结论: blocked——三方旧 accept 已因核心前提变化失效；修复、真实 PAL 回归与重新审查完成前不得 done。
+- done 准入结论: **三方 implementation accept 已齐，待用户最终验收**；用户验收前保持 `review`，
+  任何 Agent 不得自行标记 done。
 
 ## Draft: 设计与风险
 
@@ -454,20 +543,58 @@ find projects -path '*/content/scenes/*.json' -type f -print0 \
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
+- 2026-08-23 用户验收细节修正: “外观 / 交互”中独占 value 行的 checkbox 统一占满属性值列；移除
+  “初始显隐”仅用于 `title` 的中间 wrapper，使其与“碰撞”和输入/下拉右边缘一致；同时把
+  `DsPropertyRow` 的直接子 `DsCheckbox` 纳入共享满宽合同，工具栏、列表选项和嵌套 compact checkbox
+  保持内容宽。聚焦验证 `App.reference-navigation.test.tsx` + `design-system/boundary.test.ts` 共 56 项通过。
+- 2026-08-23 用户验收细节修正: 普通 actor/sprite 的场景实例朝向由英文只读值改为可编辑的中文
+  `DsSelect`，仍复用可撤销的 `UpdateEntityCommand`；zone 无静态朝向，继续不显示该字段。字段标题旁复用
+  通用 `DsHelpTip`；用户复验后将图示进一步收成单个等距菱形与“左 / 上 / 下 / 右”四字，移除人物、
+  箭头和重复副文案。聚焦验证 `App.reference-navigation.test.tsx` 与 editor typecheck 通过，并在真实 PAL
+  场景 Inspector 完成最小浏览器交互与 tooltip 可视检查；未重复运行全量。
+- 2026-08-23 用户验收细节修正: 单实体、批量实体及 legacy 指令表单的 `setEntityState` 统一改用共享
+  中文语义选择器；规范选项为“隐藏（0）/ 显示，可通行（1）/ 显示，阻挡通行（2）”，树摘要同步显示
+  中文语义。既有脚本若保存了 `3` 等非规范原值，选择器会展示并原样保留“当前原值”选项，只有用户主动
+  改选时才写入规范值，避免在不改变显隐/碰撞的同时破坏精确状态条件。editor 全量 138 files / 1049 tests
+  与 typecheck 通过；真实 PAL 脚本弹窗已检查三项中文选项、说明与当前值，未修改工程数据。
+- 2026-08-23 用户验收细节修正: “添加指令”本身已使用共享 `DsButton`，视觉差异来自
+  `.canonical-script-editor-heading span` 越界命中 `DsButton` 内部文字。摘要改用专属
+  `.canonical-script-editor-summary`，不再覆盖共享按钮的字号与颜色；同链路移除空状态按钮的重复加号和
+  私有皮肤，并将 ScriptTree 的“添加准备指令 / 插入第一条指令”迁至相同 `DsButton` 合同。聚焦验证
+  ScriptEditor + ScriptTree + boundary 共 63 项、editor typecheck、真实 PAL 页面视觉与 computed style
+  对比通过；“新建步骤 / 添加指令”均为 30px 高、12px/500 文字、6px 圆角。
 - Codex 自审: counter / rework（2026-08-23）。真实 PAL `s056/e940` 证明脚本目标能力与静态 zone 字段
   不同；新增 fatal 校验使工程无法加载。
-- Kimi 审查结论: 历史 accept 已失效，待修复后重审。
-- GLM 审查结论: 历史 accept 已失效，待修复后重审。
-- 必须返工项: 删除错误 fatal 校验；保留静态 `zone.facing` 禁止规则；补真实 `s056/e940` 加载/round-trip
-  回归；运行一次当前 editor 全量门禁并做真实 PAL 浏览器加载验证。
-- Accept / rework: rework。
+- Kimi 审查结论: 历史 accept 已失效；**2026-08-23 重审 e9c96930 后重签 premise verified +
+  design agree（纠正后契约）+ implementation accept**（四项独立核实见前提纠正重签节；含对原③
+  误读的自我更正；本轮另独立复跑完整 editor 全量 138/1044 全绿）。
+- GLM 审查结论: 历史 accept 已按前提纠正失效；**2026-08-23 重审 e9c96930 后重签
+  implementation accept**（四项独立核实见前提纠正重签节；附对原③项误读的自我更正）。
+- 必须返工项: 已全部完成并复验（删 fatal、留静态禁令、补 s056/e940 回归、editor 全量与真实
+  PAL 浏览器加载验证）。
+- Accept / rework: Codex + Kimi + GLM 已按纠正后契约重审 accept；等待用户最终验收。
 
 ## 用户验收
 
-- 用户结论: pending
-- 后续任务: Codex 完成加载回归修复与全量验证后，Kimi/GLM 针对纠正后的前提重审。
+- 用户结论: **accept（2026-08-23）**。用户确认推进，包含 Inspector IA、朝向帮助、中文状态选择、
+  独占 checkbox 对齐和“添加指令”共享按钮样式等验收修正。
+- 后续任务: 本卡完成；提交推送并合入 `main`，随后推进 `MIG-PAL-ACTOR-FACE-1`。
 
 ## 交接日志
+
+- 2026-08-23 Codex（rework 收口）: 针对提交 `e9c96930` 补签 **implementation accept**。确认仅撤销
+  错误的脚本目标 fatal 层，静态 zone 字段纪律未放宽；采纳已记录的一次 editor 全量 138/1044、
+  typecheck、真实 PAL 全工程启动与 Kimi/GLM 独立复跑证据。三方 accept 已齐，任务回到 `review`，
+  不重复跑测试。Next: 等待用户最终验收/收口。
+
+- 2026-08-23 Kimi（按纠正后前提重审 rework 提交 e9c96930）: 重签 **premise verified + design agree
+  （纠正后契约）+ implementation accept**。一手核实：python 递归扫描 s056.json 确认 e940 为 zone、
+  无静态 facing、含 4 条 source-derived setEntityFacing（then[2]/then[5]/body[3]/body[6]）；runtime 执行链
+  script-host-adapter.ts:162-165 → main.ts:3113-3116 对 zone 无拒绝——两层语义区分成立。修复为纯删
+  10 行 fatal 分支，projects/pal 零改动，静态禁令三层（validator/类型/命令/选择器）完好。boot 测试经
+  真实 FileSource 覆盖全 294 场景并精确复现事故路径。独立复跑：聚焦 21/21，另自跑完整 editor 全量
+  138 files/1044 tests 全绿（18.90s）。登记自我更正：首轮 accept 误把越权 fatal 当正确守卫层。
+  未修改实现文件，未标 done。Next: Codex 对 rework 补签 accept，用户验收后收口。
 
 - 2026-08-23 Codex（rework）: 用户以真实 PAL 加载失败反证 `setEntityFacing -> zone` fatal 规则；确认
   `s056/e940` 有 4 条该命令且 runtime 支持。任务从 review 退回 rework，三方旧 accept 失效；将补真实
@@ -501,8 +628,18 @@ find projects -path '*/content/scenes/*.json' -type f -print0 \
   入口+原子 undo+焦点回落、**引用 Tab/守卫/命令同源 merged live snapshot（GM1 类缺陷在实体域
   的正确解法）**、六类 locator 含 world 不可打开降级。focused 32+84+typecheck 独立复跑全绿。
   未改实现文件，未代签 Kimi。Next: Kimi accept + 用户验收后关卡。
+- 2026-08-23 GLM（重审）: 按"2026-08-23 前提纠正"重审修复提交 e9c96930，重签 **premise
+  verified + design agree + implementation accept**。四项独立核实：e940 静态无 facing + 脚本
+  4 条 setEntityFacing（node 计数）；修复纯删 10 行、静态禁令三层完好、未开静态字段；boot
+  测试经 loadAllAuthorScenes 覆盖全 294 场景且为事故确切复现路径；focused 1+20+81+typecheck
+  复跑全绿。**附自我更正：原③把越权 fatal 误读为守卫层，已登记"校验收紧须验既有合法数据"
+  教训**。未改实现文件，未代签 Kimi，未标 done。Next: Kimi 按纠正前提重审。
 
 ## 下一位 Agent 提示词
+
+无下一位 Agent 提示词，等待用户最终验收/收口。
+
+### 历史：真实 PAL 启动回归重审（已完成，保留交接事实）
 
 ```text
 接手任务: ED-ENTITY-INSPECTOR-IA-1 真实 PAL 启动回归重审

@@ -7,13 +7,13 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { type EditorState, EditSession } from '../core/edit-session.js'
 import type { ItemReference } from '../core/item-references.js'
-import { mergeEditorProjectionWithCurrentAuthorState } from '../core/script-editor-projection.js'
 import {
   type CanonicalScriptReference,
   type ScriptEditorState,
   ScriptEditSession,
   UpdateSharedScriptCommand,
 } from '../core/script-editor.js'
+import { mergeEditorProjectionWithCurrentAuthorState } from '../core/script-editor-projection.js'
 import { createLocalWorkspaceContext } from '../core/workspace-context.js'
 import { App } from './App.js'
 
@@ -642,6 +642,10 @@ describe('App item reference navigation', () => {
       [...tablist.querySelectorAll('[role="tab"]')].map((tab) => tab.textContent?.trim()),
     ).toEqual(['属性', '行为', '引用 0'])
     expect(inspector.querySelector('[data-property-label="朝向"]')).toBeNull()
+    const hiddenCheckbox = [
+      ...inspector.querySelectorAll<HTMLLabelElement>('.ds-check-label'),
+    ].find((label) => label.textContent?.includes('初始隐藏（待剧情出场）'))
+    expect(hiddenCheckbox?.parentElement?.classList.contains('field')).toBe(true)
     expect(
       (probes.sceneCanvas.mock.calls.at(-1)?.[0] as SceneCanvasProbe).selectedTriggerActivation,
     ).toEqual({ on: 'interact', range: 2 })
@@ -848,8 +852,8 @@ describe('App item reference navigation', () => {
     const panel = host.querySelector<HTMLElement>('.entity-reference-section')!
     expect(panel.textContent).toContain('2 处引用会阻断删除')
     expect(panel.textContent).toContain('共享脚本 shared/user/hide-e760')
-    const worldRow = [...panel.querySelectorAll<HTMLElement>('.ds-reference-row')].find(
-      (row) => row.textContent?.includes('世界配置 world-main'),
+    const worldRow = [...panel.querySelectorAll<HTMLElement>('.ds-reference-row')].find((row) =>
+      row.textContent?.includes('世界配置 world-main'),
     )!
     expect(worldRow.tagName).toBe('ARTICLE')
     expect(worldRow.querySelector('button')).toBeNull()
@@ -863,17 +867,63 @@ describe('App item reference navigation', () => {
     expect(location.searchParams.get('object')).toBe('shared/user/hide-e760')
   })
 
+  test('普通场景实体可用中文方向选择器修改朝向并查看等距方向图', async () => {
+    window.history.replaceState({}, '', '/?module=scene&page=workspace&object=s047')
+    const session = await renderApp()
+    const tree = host.querySelector<HTMLElement>('.outliner .tree')!
+    await act(async () => button('e760', tree).click())
+
+    const facingSelect = host.querySelector<HTMLButtonElement>(
+      '[role="combobox"][aria-label="实体朝向"]',
+    )!
+    expect(facingSelect.textContent).toContain('下')
+    expect(facingSelect.textContent).toContain('屏幕左下')
+
+    const help = host.querySelector<HTMLButtonElement>('[aria-label="场景实体朝向说明"]')!
+    await act(async () => help.focus())
+    const visualHelp = document.querySelector<HTMLElement>(
+      '.ds-help-tooltip.is-open .entity-facing-help',
+    )!
+    const directionDiagram = visualHelp.querySelector<SVGElement>('svg[role="img"]')!
+    expect(directionDiagram.getAttribute('aria-label')).toBe(
+      '等距地图方向：左在左上，上在右上，下在左下，右在右下',
+    )
+    expect([...directionDiagram.querySelectorAll('text')].map((node) => node.textContent)).toEqual([
+      '左',
+      '上',
+      '下',
+      '右',
+    ])
+    expect(directionDiagram.querySelectorAll('path')).toHaveLength(1)
+    expect(directionDiagram.querySelector('line, circle, ellipse')).toBeNull()
+
+    await act(async () => facingSelect.click())
+    const listbox = document.getElementById(facingSelect.getAttribute('aria-controls')!)!
+    const left = [...listbox.querySelectorAll<HTMLElement>('[role="option"]')].find(
+      (option) => option.textContent?.includes('左') && option.textContent.includes('屏幕左上'),
+    )!
+    await act(async () => left.click())
+
+    expect(session.getState().scenes[0]?.entities[0]?.facing).toBe('left')
+    const updatedSelect = host.querySelector<HTMLButtonElement>(
+      '[role="combobox"][aria-label="实体朝向"]',
+    )!
+    expect(updatedSelect.textContent).toContain('左')
+    expect(updatedSelect.textContent).toContain('屏幕左上')
+  })
+
   test('脚本会话清理最后引用后，删除守卫使用同一份合并快照', async () => {
     window.history.replaceState({}, '', '/?module=scene&page=workspace&object=s047')
     const target = { scene: 's047', entity: 'e760' }
     const shell = shellState()
-    ;(shell as EditorState & { sharedScripts: ScriptEditorState['sharedScripts'] }).sharedScripts = {
-      'shared/user/hide-e760': {
-        name: '隐藏测试实体',
-        self: 'none',
-        body: [{ kind: 'hideEntity', target, ticks: 1 }],
-      },
-    }
+    ;(shell as EditorState & { sharedScripts: ScriptEditorState['sharedScripts'] }).sharedScripts =
+      {
+        'shared/user/hide-e760': {
+          name: '隐藏测试实体',
+          self: 'none',
+          body: [{ kind: 'hideEntity', target, ticks: 1 }],
+        },
+      }
     const canonical = canonicalState()
     canonical.sharedScripts['shared/user/hide-e760'] = {
       name: '隐藏测试实体',
@@ -1022,9 +1072,7 @@ describe('App item reference navigation', () => {
     expect(namedEntryDelete.parentElement?.closest('button')).toBeNull()
     namedEntryDelete.focus()
     expect(document.activeElement).toBe(namedEntryDelete)
-    await act(async () =>
-      namedEntryDelete.click(),
-    )
+    await act(async () => namedEntryDelete.click())
     expect(Object.keys(session.getState().scenes[0]!.entries ?? {})).toHaveLength(0)
     expect(host.querySelector('[role="status"]')?.textContent).toContain(
       '已删除命名落点 camp；可撤销',
@@ -1185,9 +1233,7 @@ describe('App item reference navigation', () => {
     const session = await renderApp(shell)
     await act(async () => button('西门', host.querySelector('.outliner')!).click())
 
-    const deleteButton = host.querySelector<HTMLButtonElement>(
-      '[aria-label="删除命名落点 西门"]',
-    )!
+    const deleteButton = host.querySelector<HTMLButtonElement>('[aria-label="删除命名落点 西门"]')!
     expect(deleteButton.disabled).toBe(true)
     expect(deleteButton.title).toContain('1 处脚本引用')
     const panel = host.querySelector<HTMLElement>('.ds-reference-panel')!

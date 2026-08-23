@@ -55,6 +55,7 @@ import {
   DsTextArea,
   DsTextInput,
 } from './design-system/index.js'
+import { EntityStateSelect } from './EntityStateSelect.js'
 import { musicAssets } from './MusicPicker.js'
 import { describeScriptCommand } from './ScriptTree.js'
 import { soundAssets } from './SoundPicker.js'
@@ -829,7 +830,7 @@ function describeCommand(
       label: command.cue.rows.map((row) => row.text).join(' / ') || '空对话',
       detail:
         command.cue.identity.kind === 'actor'
-          ? command.cue.identity.speakerOverride ?? command.cue.identity.actor
+          ? (command.cue.identity.speakerOverride ?? command.cue.identity.actor)
           : command.cue.identity.kind === 'unbound'
             ? command.cue.identity.speaker
             : undefined,
@@ -868,7 +869,7 @@ function CommandRows(props: {
         className="canonical-script-empty-add"
         onClick={() => props.onInsert(formatAuthorCommandPath([...props.parentPath, -1]))}
       >
-        ＋ 添加第一条指令
+        添加第一条指令
       </DsButton>
     )
   return (
@@ -1448,7 +1449,7 @@ const PRIMITIVE_FIELD_LABELS: Readonly<Record<string, string>> = {
   ticks: '持续时间（tick）',
   ms: '持续时间（毫秒）',
   role: '角色序号',
-  state: '状态（≤0 隐藏，1 显示，≥2 显示并挡路）',
+  state: '状态',
   seconds: '重新出现等待（秒）',
   dcol: '横向格偏移',
   drow: '纵向格偏移',
@@ -1483,9 +1484,7 @@ function primitiveField(
         size="compact"
         label={label}
         checked={value}
-        onChange={(event) =>
-          onChange({ ...command, [key]: event.target.checked } as AuthorCommand)
-        }
+        onChange={(event) => onChange({ ...command, [key]: event.target.checked } as AuthorCommand)}
       />
     )
   if (key === 'facing' || key === 'dir')
@@ -1500,9 +1499,7 @@ function primitiveField(
             { value: 'up', label: '向上' },
             { value: 'right', label: '向右' },
           ]}
-          onValueChange={(nextValue) =>
-            onChange({ ...command, [key]: nextValue } as AuthorCommand)
-          }
+          onValueChange={(nextValue) => onChange({ ...command, [key]: nextValue } as AuthorCommand)}
         />
       </CanonicalField>
     )
@@ -1518,9 +1515,7 @@ function primitiveField(
             { value: 'fast', label: '快速' },
             { value: 'run', label: '奔跑' },
           ]}
-          onValueChange={(nextValue) =>
-            onChange({ ...command, [key]: nextValue } as AuthorCommand)
-          }
+          onValueChange={(nextValue) => onChange({ ...command, [key]: nextValue } as AuthorCommand)}
         />
       </CanonicalField>
     )
@@ -1559,9 +1554,7 @@ function primitiveField(
         <DsTextInput
           size="compact"
           value={value}
-          onChange={(event) =>
-            onChange({ ...command, [key]: event.target.value } as AuthorCommand)
-          }
+          onChange={(event) => onChange({ ...command, [key]: event.target.value } as AuthorCommand)}
         />
       )}
     </CanonicalField>
@@ -2050,7 +2043,14 @@ function CanonicalCommandForm(props: {
     command.kind === 'setEntityTriggerActivation'
   ) {
     const target = command.target
-    const ignored = new Set(['kind', 'target', 'selection', 'to', 'pos'])
+    const ignored = new Set([
+      'kind',
+      'target',
+      'selection',
+      'to',
+      'pos',
+      ...(command.kind === 'setEntityState' ? ['state'] : []),
+    ])
     const triggerActivation =
       command.kind === 'setEntityTriggerActivation' && command.selection.kind === 'use'
         ? command.selection.value
@@ -2069,6 +2069,14 @@ function CanonicalCommandForm(props: {
         ) : (
           <div className="hint">未指定目标：使用当前 self。</div>
         )}
+        {command.kind === 'setEntityState' ? (
+          <CanonicalField label="状态">
+            <EntityStateSelect
+              value={command.state}
+              onChange={(state) => props.onChange({ ...command, state })}
+            />
+          </CanonicalField>
+        ) : null}
         {'to' in command && command.to ? (
           <div className="canonical-grid-editor">
             <CanonicalField label="横向格坐标">
@@ -2289,10 +2297,9 @@ function CanonicalCommandForm(props: {
     return (
       <div className="canonical-command-form-fields">
         <CanonicalField label="状态">
-          <DsNumberInput
-            size="compact"
+          <EntityStateSelect
             value={command.state}
-            onChange={(event) => props.onChange({ ...command, state: Number(event.target.value) })}
+            onChange={(state) => props.onChange({ ...command, state })}
           />
         </CanonicalField>
         {command.targets.map((target, index) => (
@@ -3031,7 +3038,9 @@ export function CanonicalScriptBodyEditor(props: {
       <header className="canonical-script-editor-heading">
         <strong>{props.label ?? '脚本正文'}</strong>
         <div>
-          <span>{props.body.length} 条顶层指令 · 双击指令可编辑</span>
+          <span className="canonical-script-editor-summary">
+            {props.body.length} 条顶层指令 · 双击指令可编辑
+          </span>
           <DsButton
             size="compact"
             variant="secondary"

@@ -534,6 +534,10 @@ describe('editor design-system static boundary', () => {
     ])
       expect(recipes, selector).toContain(`.${selector}`)
 
+    expect(recipes).toMatch(
+      /\.ds-property-row__value > :is\(\.ds-input, \.in, \.ds-check-label\)\s*\{[\s\S]*?width:\s*100%;[\s\S]*?min-width:\s*0;/,
+    )
+
     const businessCss = readFileSync(join(uiRoot, 'editor.css'), 'utf8')
     expect(businessCss).toContain('Canonical Inspector content bridge')
     expect(businessCss).toMatch(
@@ -785,6 +789,17 @@ describe('editor design-system static boundary', () => {
         }
       }
     }
+  })
+
+  test('script editor summary styles do not leak into the shared add-command button label', () => {
+    const css = readFileSync(join(dirname(here), 'editor.css'), 'utf8')
+    const scriptTree = readFileSync(join(dirname(here), 'ScriptTree.tsx'), 'utf8')
+
+    expect(css).not.toMatch(/\.canonical-script-editor-heading\s+span\s*\{/)
+    expect(css).toMatch(/\.canonical-script-editor-summary\s*\{[^}]*color:\s*var\(--dim\)/s)
+    expect(css).not.toMatch(/\.canonical-script-empty-add\s*\{[^}]*(?:border|background|color):/s)
+    expect(scriptTree).not.toMatch(/className="tool scene-entry-add"/)
+    expect(scriptTree).toMatch(/<DsButton[\s\S]*?className="scene-entry-add"/)
   })
 
   test('does not grow the legacy button-style families while they are being retired', () => {
