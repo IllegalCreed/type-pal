@@ -760,11 +760,6 @@ html[data-panel-resize="horizontal"] * {
 .scene-outline-action-row:focus-within .node {
   background: var(--panel2);
 }
-.scene-outline-action-row .ds-tooltip__bubble {
-  right: 0;
-  left: auto;
-  transform: none;
-}
 .node {
   display: flex;
   align-items: center;
@@ -2859,11 +2854,6 @@ html[data-panel-resize="horizontal"] * {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.actor-inspector-linked-value .ds-tooltip__bubble {
-  right: 0;
-  left: auto;
-  transform: none;
-}
 
 /* 伤亡反应脚本：事件 → 概率分支 → 分支内容。 */
 .casualty-editor {
@@ -4338,11 +4328,6 @@ html[data-panel-resize="horizontal"] * {
 .stamp-library-entry.selected .stamp-origin-badge {
   visibility: hidden;
 }
-.stamp-library-row-actions .ds-tooltip__bubble {
-  right: 0;
-  left: auto;
-  transform: none;
-}
 .stamp-row-thumb {
   position: relative;
   display: block;
@@ -5023,9 +5008,6 @@ html[data-panel-resize="horizontal"] * {
   display: flex;
   flex: none;
   gap: 3px;
-}
-.stamp-draft-selection-bar .ds-tooltip__bubble {
-  inset: auto auto calc(100% + var(--ds-space-3)) 50%;
 }
 .stamp-draft-palette > header .ds-input {
   width: min(190px, 100%);
@@ -7497,11 +7479,6 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .et-team-row > .ds-select {
   flex: 1 1 auto;
-}
-.et-team-row > .ds-tooltip .ds-tooltip__bubble {
-  right: 0;
-  left: auto;
-  transform: none;
 }
 .et-team-row .in {
   flex: 1;
@@ -11554,12 +11531,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   flex: none;
   gap: var(--ds-space-3);
 }
-.map-layer-panel__header > .ds-tooltip .ds-tooltip__bubble,
-.map-layer-row .layer-order .ds-tooltip__bubble {
-  right: 0;
-  left: auto;
-  transform: none;
-}
 .map-layer-row {
   display: grid;
   grid-template-columns: 30px 30px minmax(0, 1fr) auto;
@@ -11570,11 +11541,6 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .map-layer-row > .ds-tooltip {
   display: block;
-}
-.map-layer-row > .ds-tooltip .ds-tooltip__bubble {
-  right: auto;
-  left: 0;
-  transform: none;
 }
 .map-layer-row:hover {
   background: var(--panel2);

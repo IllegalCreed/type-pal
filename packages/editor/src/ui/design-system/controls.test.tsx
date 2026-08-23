@@ -76,16 +76,17 @@ describe('editor design-system controls', () => {
     const wrapper = host.querySelector<HTMLElement>('.ds-help-tip')!
     const button = host.querySelector<HTMLButtonElement>('button')!
     const tooltip = host.querySelector<HTMLElement>('[role="tooltip"]')!
-    const visualTooltip = document.body.querySelector<HTMLElement>('.ds-help-tooltip')!
     expect(button.getAttribute('aria-describedby')).toBe(tooltip.id)
-    expect(visualTooltip.textContent).toBe(tooltip.textContent)
-    expect(wrapper.contains(visualTooltip)).toBe(false)
+    expect(document.body.querySelector('.ds-help-tooltip')).toBeNull()
     expect(button.hasAttribute('aria-expanded')).toBe(false)
     expect(wrapper.classList.contains('is-open')).toBe(false)
 
     await act(async () =>
       button.dispatchEvent(new MouseEvent('mouseover', { bubbles: true, relatedTarget: null })),
     )
+    const visualTooltip = document.body.querySelector<HTMLElement>('.ds-help-tooltip')!
+    expect(visualTooltip.textContent).toBe(tooltip.textContent)
+    expect(wrapper.contains(visualTooltip)).toBe(false)
     expect(wrapper.classList.contains('is-open')).toBe(true)
     await act(async () => button.focus())
     await act(async () =>
@@ -103,6 +104,7 @@ describe('editor design-system controls', () => {
     await act(async () => button.dispatchEvent(firstEscape))
     expect(firstEscape.defaultPrevented).toBe(true)
     expect(wrapper.classList.contains('is-open')).toBe(false)
+    expect(document.body.querySelector('.ds-help-tooltip')).toBeNull()
     expect(document.activeElement).toBe(button)
 
     const secondEscape = new KeyboardEvent('keydown', {
@@ -136,9 +138,48 @@ describe('editor design-system controls', () => {
       ),
     )
     const dialog = host.querySelector('dialog')!
+    const button = dialog.querySelector<HTMLButtonElement>('button')!
+    await act(async () =>
+      button.dispatchEvent(new MouseEvent('mouseover', { bubbles: true, relatedTarget: null })),
+    )
     const visualTooltip = dialog.querySelector<HTMLElement>('.ds-help-tooltip')
     expect(visualTooltip?.parentElement).toBe(dialog)
     expect(document.body.querySelectorAll('.ds-help-tooltip')).toHaveLength(1)
+  })
+
+  test('portals icon-button tooltips outside clipping cards and keeps inline descriptions', async () => {
+    await act(async () =>
+      root.render(
+        <section className="clipping-card" style={{ overflow: 'hidden' }}>
+          <DsIconButton label="播放" icon="play" variant="secondary" />
+        </section>,
+      ),
+    )
+
+    const card = host.querySelector<HTMLElement>('.clipping-card')!
+    const button = card.querySelector<HTMLButtonElement>('[aria-label="播放"]')!
+    const descriptionId = button.getAttribute('aria-describedby')
+    expect(descriptionId).not.toBeNull()
+    expect(card.querySelector<HTMLElement>(`#${descriptionId}`)?.textContent).toBe('播放')
+    expect(document.body.querySelector('.ds-tooltip__bubble')).toBeNull()
+
+    await act(async () =>
+      button.dispatchEvent(new MouseEvent('mouseover', { bubbles: true, relatedTarget: null })),
+    )
+    const visualTooltip = document.body.querySelector<HTMLElement>('.ds-tooltip__bubble')!
+    expect(visualTooltip.textContent).toBe('播放')
+    expect(card.contains(visualTooltip)).toBe(false)
+    expect(visualTooltip.parentElement).toBe(document.body)
+    expect(visualTooltip.getAttribute('aria-hidden')).toBe('true')
+
+    const escapeEvent = new KeyboardEvent('keydown', {
+      key: 'Escape',
+      bubbles: true,
+      cancelable: true,
+    })
+    await act(async () => button.dispatchEvent(escapeEvent))
+    expect(escapeEvent.defaultPrevented).toBe(true)
+    expect(document.body.querySelector('.ds-tooltip__bubble')).toBeNull()
   })
 
   test('buttons and action links share geometry while preserving native semantics', async () => {

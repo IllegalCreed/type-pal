@@ -324,13 +324,11 @@
 }
 
 .ds-tooltip__bubble {
-  position: absolute;
+  position: fixed;
   z-index: var(--ds-z-popover);
-  inset: calc(100% + var(--ds-space-3)) auto auto 50%;
   width: max-content;
   max-width: 280px;
   padding: var(--ds-space-2) var(--ds-space-4);
-  transform: translateX(-50%);
   border: 1px solid var(--ds-border-subtle);
   border-radius: var(--ds-radius-control);
   color: var(--ds-text-primary);
@@ -338,24 +336,8 @@
   box-shadow: 0 8px 24px color-mix(in srgb, var(--ds-media-black) 45%, transparent);
   font: var(--ds-font-caption);
   pointer-events: none;
-  opacity: 0;
-  transition: opacity var(--ds-motion-fast);
-}
-
-.ds-tooltip:hover .ds-tooltip__bubble,
-.ds-tooltip:focus-within .ds-tooltip__bubble {
-  opacity: 1;
-}
-
-/* Trailing control actions sit against the edge of narrow inspectors/cards/lists.
- * Anchor their tooltips inward so the invisible tooltip box cannot widen the
- * nearest scrolling workspace before it is shown. */
-.ds-control-group__actions .ds-tooltip__bubble,
-.ds-inspector-section__header > .ds-tooltip .ds-tooltip__bubble,
-.ds-catalog-group-header__actions .ds-tooltip__bubble {
-  right: 0;
-  left: auto;
-  transform: none;
+  overflow-wrap: anywhere;
+  white-space: normal;
 }
 
 .ds-field {
@@ -538,7 +520,7 @@
 
 .ds-select-popover {
   position: fixed;
-  z-index: var(--ds-z-toast);
+  z-index: var(--ds-z-popover);
   display: flex;
   box-sizing: border-box;
   min-width: 0;

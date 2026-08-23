@@ -1,9 +1,11 @@
 import {
   type AnchorHTMLAttributes,
   type ButtonHTMLAttributes,
+  cloneElement,
   forwardRef,
   type HTMLAttributes,
   type InputHTMLAttributes,
+  isValidElement,
   type MouseEventHandler,
   type KeyboardEvent as ReactKeyboardEvent,
   type ReactNode,
@@ -17,7 +19,6 @@ import {
   useRef,
   useState,
 } from 'react'
-import { createPortal } from 'react-dom'
 import { DsFloatingLayer } from './floating-layer.js'
 import { DsIcon, type DsIconName } from './icons.js'
 
@@ -111,91 +112,19 @@ export function DsTag(
 }
 
 export function DsTooltip(props: { label: string; shortcut?: string; children: ReactNode }) {
-  return (
-    <span className="ds-tooltip">
-      {props.children}
-      <span className="ds-tooltip__bubble" role="tooltip">
-        {props.label}
-        {props.shortcut ? ` · ${props.shortcut}` : ''}
-      </span>
-    </span>
-  )
-}
-
-/**
- * Low-frequency conceptual help. Current state, validation, blocking reasons and next actions
- * must remain visible content instead of being hidden behind this control.
- */
-export function DsHelpTip(props: { label: string; children: ReactNode }) {
   const tooltipId = useId()
-  const buttonRef = useRef<HTMLButtonElement>(null)
-  const tooltipRef = useRef<HTMLSpanElement>(null)
-  const [portalHost, setPortalHost] = useState<Element | null>(null)
-  const [dismissed, setDismissed] = useState(false)
+  const anchorRef = useRef<HTMLSpanElement>(null)
+  const layerRef = useRef<HTMLDivElement>(null)
   const [hovered, setHovered] = useState(false)
   const [focused, setFocused] = useState(false)
-  const [position, setPosition] = useState({ left: -10_000, top: -10_000 })
+  const [dismissed, setDismissed] = useState(false)
   const open = !dismissed && (hovered || focused)
-
-  const placeTooltip = useCallback((button = buttonRef.current) => {
-    const tooltip = tooltipRef.current
-    if (!button || !tooltip) return
-    const buttonRect = button.getBoundingClientRect()
-    const tooltipRect = tooltip.getBoundingClientRect()
-    const viewportMargin = 20
-    const gap = 7
-    const left = Math.min(
-      Math.max(viewportMargin, buttonRect.left + buttonRect.width / 2 - tooltipRect.width / 2),
-      Math.max(viewportMargin, window.innerWidth - viewportMargin - tooltipRect.width),
-    )
-    const below = buttonRect.bottom + gap
-    const top =
-      below + tooltipRect.height <= window.innerHeight - viewportMargin
-        ? below
-        : Math.max(viewportMargin, buttonRect.top - gap - tooltipRect.height)
-    setPosition({ left, top })
-  }, [])
-
-  const prepareTooltip = (button: HTMLButtonElement) => {
-    setDismissed(false)
-    const nextPortalHost = button.closest('dialog') ?? document.body
-    if (nextPortalHost === portalHost) placeTooltip(button)
-    else {
-      setPortalHost(nextPortalHost)
-      setPosition({ left: -10_000, top: -10_000 })
-    }
-  }
-
-  useEffect(() => {
-    const button = buttonRef.current
-    if (!button) return
-    setPortalHost(button.closest('dialog') ?? document.body)
-  }, [])
-
-  useEffect(() => {
-    if (!open || !portalHost) return
-    const reposition = () => placeTooltip()
-    reposition()
-    window.addEventListener('resize', reposition)
-    document.addEventListener('scroll', reposition, true)
-    window.visualViewport?.addEventListener('resize', reposition)
-    window.visualViewport?.addEventListener('scroll', reposition)
-    const observer =
-      typeof ResizeObserver === 'undefined'
-        ? null
-        : new ResizeObserver(() => {
-            reposition()
-          })
-    if (buttonRef.current) observer?.observe(buttonRef.current)
-    if (tooltipRef.current) observer?.observe(tooltipRef.current)
-    return () => {
-      window.removeEventListener('resize', reposition)
-      document.removeEventListener('scroll', reposition, true)
-      window.visualViewport?.removeEventListener('resize', reposition)
-      window.visualViewport?.removeEventListener('scroll', reposition)
-      observer?.disconnect()
-    }
-  }, [open, placeTooltip, portalHost])
+  const description = props.shortcut ? `${props.label} · ${props.shortcut}` : props.label
+  const child = isValidElement<{ 'aria-describedby'?: string }>(props.children)
+    ? cloneElement(props.children, {
+        'aria-describedby': classes(props.children.props['aria-describedby'], tooltipId),
+      })
+    : props.children
 
   useEffect(() => {
     if (!open) return
@@ -208,19 +137,70 @@ export function DsHelpTip(props: { label: string; children: ReactNode }) {
     return () => document.removeEventListener('keydown', dismissOnEscape)
   }, [open])
 
-  const visualTooltip = portalHost
-    ? createPortal(
-        <span
-          ref={tooltipRef}
-          className={`ds-help-tooltip${open ? ' is-open' : ''}`}
-          aria-hidden="true"
-          style={{ left: position.left, top: position.top }}
-        >
-          {props.children}
-        </span>,
-        portalHost,
-      )
-    : null
+  return (
+    <>
+      {/* biome-ignore lint/a11y/noStaticElementInteractions: wrapper only delegates hover/focus from the wrapped native control; it is not a separate interaction target. */}
+      <span
+        ref={anchorRef}
+        className="ds-tooltip"
+        onMouseEnter={() => {
+          setDismissed(false)
+          setHovered(true)
+        }}
+        onMouseLeave={() => setHovered(false)}
+        onFocusCapture={() => {
+          setDismissed(false)
+          setFocused(true)
+        }}
+        onBlurCapture={() => setFocused(false)}
+      >
+        {child}
+        <span id={tooltipId} role="tooltip" className="ds-visually-hidden">
+          {description}
+        </span>
+      </span>
+      <DsFloatingLayer
+        open={open}
+        anchorRef={anchorRef}
+        layerRef={layerRef}
+        className="ds-tooltip__bubble"
+        width="content"
+        align="center"
+        maxHeight={280}
+        gap={6}
+        dismissOnPointerDown={false}
+        ariaHidden
+        onDismiss={() => setDismissed(true)}
+      >
+        {description}
+      </DsFloatingLayer>
+    </>
+  )
+}
+
+/**
+ * Low-frequency conceptual help. Current state, validation, blocking reasons and next actions
+ * must remain visible content instead of being hidden behind this control.
+ */
+export function DsHelpTip(props: { label: string; children: ReactNode }) {
+  const tooltipId = useId()
+  const buttonRef = useRef<HTMLButtonElement>(null)
+  const tooltipRef = useRef<HTMLDivElement>(null)
+  const [dismissed, setDismissed] = useState(false)
+  const [hovered, setHovered] = useState(false)
+  const [focused, setFocused] = useState(false)
+  const open = !dismissed && (hovered || focused)
+
+  useEffect(() => {
+    if (!open) return
+    const dismissOnEscape = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return
+      event.preventDefault()
+      setDismissed(true)
+    }
+    document.addEventListener('keydown', dismissOnEscape)
+    return () => document.removeEventListener('keydown', dismissOnEscape)
+  }, [open])
 
   return (
     <>
@@ -230,14 +210,14 @@ export function DsHelpTip(props: { label: string; children: ReactNode }) {
           type="button"
           aria-label={`${props.label}说明`}
           aria-describedby={tooltipId}
-          onMouseEnter={(event) => {
+          onMouseEnter={() => {
             setHovered(true)
-            prepareTooltip(event.currentTarget)
+            setDismissed(false)
           }}
           onMouseLeave={() => setHovered(false)}
-          onFocus={(event) => {
+          onFocus={() => {
             setFocused(true)
-            prepareTooltip(event.currentTarget)
+            setDismissed(false)
           }}
           onBlur={() => setFocused(false)}
         >
@@ -247,7 +227,21 @@ export function DsHelpTip(props: { label: string; children: ReactNode }) {
           {props.children}
         </span>
       </span>
-      {visualTooltip}
+      <DsFloatingLayer
+        open={open}
+        anchorRef={buttonRef}
+        layerRef={tooltipRef}
+        className="ds-help-tooltip is-open"
+        width="content"
+        align="center"
+        maxHeight={360}
+        gap={7}
+        dismissOnPointerDown={false}
+        ariaHidden
+        onDismiss={() => setDismissed(true)}
+      >
+        {props.children}
+      </DsFloatingLayer>
     </>
   )
 }
@@ -301,7 +295,9 @@ export const DsFileInput = forwardRef<HTMLInputElement, InputHTMLAttributes<HTML
 /** 时间轴、缩放等连续数值控件的 canonical range 边界。 */
 export const DsRangeInput = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(
   function DsRangeInput({ className, ...props }, ref) {
-    return <input {...props} ref={ref} className={classes('ds-range-input', className)} type="range" />
+    return (
+      <input {...props} ref={ref} className={classes('ds-range-input', className)} type="range" />
+    )
   },
 )
 

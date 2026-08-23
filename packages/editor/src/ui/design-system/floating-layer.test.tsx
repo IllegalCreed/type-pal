@@ -10,6 +10,9 @@ let root: Root
 function Harness(props: {
   children?: ReactNode
   maxHeight?: number
+  width?: 'anchor' | 'content'
+  align?: 'start' | 'center' | 'end'
+  dismissOnPointerDown?: boolean
   onDismiss?: () => void
 }) {
   const anchorRef = useRef<HTMLButtonElement>(null)
@@ -25,6 +28,9 @@ function Harness(props: {
         layerRef={layerRef}
         className="test-floating-layer"
         maxHeight={props.maxHeight}
+        width={props.width}
+        align={props.align}
+        dismissOnPointerDown={props.dismissOnPointerDown}
         onDismiss={props.onDismiss ?? (() => undefined)}
       >
         {props.children ?? <button type="button">浮层内部</button>}
@@ -121,6 +127,49 @@ describe('DsFloatingLayer', () => {
     expect(layer.style.maxHeight).toBe('8px')
   })
 
+  test('centers content-sized layers in fixed viewport coordinates', async () => {
+    vi.spyOn(window, 'innerWidth', 'get').mockReturnValue(800)
+    vi.spyOn(window, 'innerHeight', 'get').mockReturnValue(600)
+    vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (
+      this: HTMLElement,
+    ) {
+      if (this.getAttribute('aria-label') === '锚点')
+        return {
+          x: 100,
+          y: 100,
+          width: 40,
+          height: 36,
+          top: 100,
+          right: 140,
+          bottom: 136,
+          left: 100,
+          toJSON: () => ({}),
+        }
+      if (this.classList.contains('test-floating-layer'))
+        return {
+          x: 0,
+          y: 0,
+          width: 80,
+          height: 24,
+          top: 0,
+          right: 80,
+          bottom: 24,
+          left: 0,
+          toJSON: () => ({}),
+        }
+      return new DOMRect()
+    })
+
+    await act(async () => root.render(<Harness width="content" align="center" />))
+    const layer = document.querySelector<HTMLDivElement>('.test-floating-layer')!
+    expect(layer.parentElement).toBe(document.body)
+    expect(layer.dataset.placement).toBe('bottom')
+    expect(layer.style.left).toBe('80px')
+    expect(layer.style.width).toBe('')
+    expect(layer.style.maxWidth).toBe('784px')
+    expect(layer.style.top).toBe('140px')
+  })
+
   test('light-dismiss ignores the anchor and layer but closes from outside', async () => {
     const onDismiss = vi.fn()
     await act(async () => root.render(<Harness onDismiss={onDismiss} />))
@@ -131,7 +180,21 @@ describe('DsFloatingLayer', () => {
     await act(async () => inside.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true })))
     expect(onDismiss).not.toHaveBeenCalled()
 
-    await act(async () => document.body.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true })))
+    await act(async () =>
+      document.body.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true })),
+    )
     expect(onDismiss).toHaveBeenCalledOnce()
+  })
+
+  test('can keep passive tooltip layers open during outside pointer input', async () => {
+    const onDismiss = vi.fn()
+    await act(async () =>
+      root.render(<Harness dismissOnPointerDown={false} onDismiss={onDismiss} />),
+    )
+
+    await act(async () =>
+      document.body.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true })),
+    )
+    expect(onDismiss).not.toHaveBeenCalled()
   })
 })

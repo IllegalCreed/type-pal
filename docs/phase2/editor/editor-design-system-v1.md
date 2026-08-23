@@ -93,6 +93,12 @@ Last updated: 2026-08-23
 - `DsHelpTip` 是概念帮助的唯一 primitive；视觉圆圈固定为 `18px`，命中区固定为 `32×32px`，不得让 `?` 因文字行高变成椭圆。
 - 概念帮助支持 hover、键盘 focus 与触屏激活，Esc 关闭；必须有 accessible name、`aria-describedby`、viewport
   碰撞处理和 modal top-layer portal，禁止业务页再实现私有 tooltip。
+- 图标/动作的短提示统一使用 `DsTooltip`，并与 `DsHelpTip`、select/popover 共用 `DsFloatingLayer`：普通页面 portal
+  到 `document.body`，原生 modal 内 portal 到最近的 `dialog[open]`，再用 viewport `position: fixed` 坐标避碰。
+- 业务页不得为 tooltip 写 `left/right/inset/transform/z-index` 修补。祖先的 `overflow` 会先裁切后代，局部提高
+  `z-index` 无法跨越该边界；只能由共享 Portal 浮层脱离滚动/圆角裁切容器。
+- tooltip、help tip 与 select/popover 统一使用 `--ds-z-popover`；`--ds-z-toast` 只保留给全局通知，不得拿来补救
+  控件浮层的遮挡问题。
 - tooltip 只解释，不承载完成任务所必需的信息；如果用户必须打开 tooltip 才知道为什么控件不可用，说明放置错误。
 
 ## 2. Foundations

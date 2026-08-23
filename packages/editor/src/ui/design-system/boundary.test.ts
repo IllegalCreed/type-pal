@@ -101,18 +101,24 @@ describe('editor design-system static boundary', () => {
     }
   })
 
-  test('keeps trailing catalog action tooltips inside narrow scrolling lists', () => {
+  test('keeps all control tooltips on the shared portal layer instead of business positioning', () => {
     const primitives = readFileSync(join(here, 'primitives.css'), 'utf8')
+    const controls = readFileSync(join(here, 'controls.tsx'), 'utf8')
+    const floatingLayer = readFileSync(join(here, 'floating-layer.tsx'), 'utf8')
     const businessCss = readFileSync(join(dirname(here), 'editor.css'), 'utf8')
     expect(primitives).toMatch(
-      /\.ds-catalog-group-header__actions \.ds-tooltip__bubble\s*\{[\s\S]*?right:\s*0;[\s\S]*?left:\s*auto;[\s\S]*?transform:\s*none;/,
+      /\.ds-tooltip__bubble\s*\{[\s\S]*?position:\s*fixed;[\s\S]*?z-index:\s*var\(--ds-z-popover\);/,
     )
-    expect(businessCss).toMatch(
-      /\.map-layer-panel__header > \.ds-tooltip \.ds-tooltip__bubble,[\s\S]*?\.map-layer-row \.layer-order \.ds-tooltip__bubble\s*\{[\s\S]*?right:\s*0;[\s\S]*?left:\s*auto;[\s\S]*?transform:\s*none;/,
+    expect(primitives).toMatch(
+      /\.ds-select-popover\s*\{[\s\S]*?position:\s*fixed;[\s\S]*?z-index:\s*var\(--ds-z-popover\);/,
     )
-    expect(businessCss).toMatch(
-      /\.map-layer-row > \.ds-tooltip \.ds-tooltip__bubble\s*\{[\s\S]*?right:\s*auto;[\s\S]*?left:\s*0;[\s\S]*?transform:\s*none;/,
+    expect(controls).toMatch(
+      /export function DsTooltip[\s\S]*?<DsFloatingLayer[\s\S]*?className="ds-tooltip__bubble"[\s\S]*?width="content"[\s\S]*?align="center"/,
     )
+    expect(floatingLayer).toMatch(
+      /anchorRef\.current\?\.closest\('dialog\[open\]'\) \?\? document\.body/,
+    )
+    expect(businessCss).not.toContain('.ds-tooltip__bubble')
   })
 
   test('keeps layer header actions visually separated', () => {

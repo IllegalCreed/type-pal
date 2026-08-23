@@ -19,7 +19,7 @@
 | MIG-PAL-ACTOR-FACE-1 | PAL 角色小头像缺席语义与迁移收口 | draft | Kimi/GLM 独立核 raw 数据并签 premise/design | 盖罗娇 frame 53 为 3×4 全透明；修迁移上游后走既有 battler 默认头像兜底 |
 | ED-ENTITY-INSPECTOR-IA-1 | 场景实体 Inspector、状态指令与删除入口收口 | done | 三方 accept + 用户验收齐，整卡收口 | 唯一指令入口、三 Tab、中文状态/朝向帮助、行尾删除与真实 PAL 294 场景回归闭环 |
 | ED-MEDIA-ASSET-ACTIONS-1 | 媒体资源对象操作与生命周期统一 | done | 三方 accept + 用户验收齐，整卡收口 | 集合动作归左栏、当前资源动作归 Hero；live 引用、fail-closed 删除与二进制 undo 闭环 |
-| ED-AUDIO-WORKBENCH-1 | 音乐 / 音效统一资源工作台与音频时间轴 | review | Kimi / GLM 审查最新滚动容器修复，用户复验 | 已接入共享对象工作区唯一滚动 owner；聚焦测试与浏览器滚动回归通过 |
+| ED-AUDIO-WORKBENCH-1 | 音乐 / 音效统一资源工作台与音频时间轴 | review | Kimi / GLM 独立审查，用户复验 | 播放 Tooltip 已迁入共享 Portal 浮层；72 tests、typecheck 与浏览器几何复验通过 |
 | ED-AMBIENCE-WORKBENCH-1 | 氛围滤镜工作台与真实场景预览 | draft | Kimi 审 compositor/preview 架构；GLM 审引用/事务/测试 | 左目录、中 Hero+字段+静态场景 A/B、右引用/说明；preview context 不持久化 |
 | ED-DS-2 | 编辑器设计系统代码基础与 Design Lab | done | 三方 accept + 用户验收齐，整卡收口 | 四入口同源、WK2 与 sash 边界复审通过；全量 118/872 独立复跑全绿 |
 | ED-AUDIT-2 | 编辑器全页面视觉、闭环与代码质量审计 | done | 三方 accept + 用户验收齐，整卡收口 | GA1/GA2 闭环（门禁 18/17/17/6）；census 脚本可复现、boundary 23/23 |
