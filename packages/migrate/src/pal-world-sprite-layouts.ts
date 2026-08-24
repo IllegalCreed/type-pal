@@ -35,6 +35,78 @@ export const PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES = [
     evidence:
       'scene s020/e344、s172/e2858、s196/e3343、s198/e3346、s203/e3423、s233/e4197、s281/e4803：extracted spriteNum=2、nSpriteFrames=3；归一只复用视觉定义且保持无 actor 绑定',
   },
+  {
+    semanticId: 'zhao-linger',
+    references: [
+      { sceneId: 's003', entityId: 'e68' },
+      { sceneId: 's016', entityId: 'e221' },
+      { sceneId: 's019', entityId: 'e270' },
+      { sceneId: 's021', entityId: 'e399' },
+      { sceneId: 's034', entityId: 'e572' },
+      { sceneId: 's059', entityId: 'e983' },
+    ],
+    evidence:
+      'scene s003/e68、s016/e221、s019/e270、s021/e399、s034/e572、s059/e983：extracted spriteNum=3、nSpriteFrames=3；归一只复用视觉定义且保持无 actor 绑定',
+  },
+  {
+    semanticId: 'lin-yueru',
+    references: [
+      { sceneId: 's021', entityId: 'e397' },
+      { sceneId: 's032', entityId: 'e548' },
+      { sceneId: 's039', entityId: 'e633' },
+      { sceneId: 's052', entityId: 'e887' },
+      { sceneId: 's059', entityId: 'e984' },
+      { sceneId: 's081', entityId: 'e1541' },
+      { sceneId: 's084', entityId: 'e1614' },
+      { sceneId: 's086', entityId: 'e1631' },
+      { sceneId: 's089', entityId: 'e1659' },
+      { sceneId: 's097', entityId: 'e1786' },
+      { sceneId: 's097', entityId: 'e1787' },
+      { sceneId: 's115', entityId: 'e2146' },
+      { sceneId: 's117', entityId: 'e2154' },
+      { sceneId: 's145', entityId: 'e2400' },
+      { sceneId: 's145', entityId: 'e2401' },
+      { sceneId: 's193', entityId: 'e3332' },
+      { sceneId: 's198', entityId: 'e3347' },
+      { sceneId: 's199', entityId: 'e3350' },
+    ],
+    evidence:
+      '18 个逐项 extracted 锚点见 references：spriteNum=7、nSpriteFrames=3；归一只复用视觉定义且保持无 actor 绑定',
+  },
+  {
+    semanticId: 'anu',
+    references: [
+      { sceneId: 's172', entityId: 'e2860' },
+      { sceneId: 's182', entityId: 'e2984' },
+      { sceneId: 's183', entityId: 'e2993' },
+      { sceneId: 's188', entityId: 'e3156' },
+      { sceneId: 's201', entityId: 'e3362' },
+      { sceneId: 's203', entityId: 'e3426' },
+      { sceneId: 's203', entityId: 'e3428' },
+      { sceneId: 's215', entityId: 'e3664' },
+      { sceneId: 's233', entityId: 'e4196' },
+      { sceneId: 's278', entityId: 'e4747' },
+      { sceneId: 's281', entityId: 'e4801' },
+    ],
+    evidence:
+      '11 个逐项 extracted 锚点见 references：spriteNum=5、nSpriteFrames=3；归一只复用视觉定义且保持无 actor 绑定',
+  },
+  {
+    semanticId: 'gai-luojiao',
+    references: [
+      { sceneId: 's083', entityId: 'e1572' },
+      { sceneId: 's106', entityId: 'e1979' },
+      { sceneId: 's109', entityId: 'e2040' },
+      { sceneId: 's110', entityId: 'e2056' },
+      { sceneId: 's110', entityId: 'e2058' },
+      { sceneId: 's205', entityId: 'e3449' },
+      { sceneId: 's215', entityId: 'e3657' },
+      { sceneId: 's232', entityId: 'e4192' },
+      { sceneId: 's245', entityId: 'e4332' },
+    ],
+    evidence:
+      '9 个逐项 extracted 锚点见 references：spriteNum=26、nSpriteFrames=3；归一只复用视觉定义且保持无 actor 绑定',
+  },
 ] as const
 
 export const PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIAS_IDS: ReadonlySet<string> = new Set(

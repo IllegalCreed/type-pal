@@ -183,7 +183,7 @@ export const PAL_WORLD_SPRITE_UNUSED_NUMBERS = [
 ] as const
 
 export const PAL_WORLD_SPRITE_SEMANTIC_DIGEST =
-  '6a1985116241edaa2737b8800c2c6aef4fed123320ca4b0c2be81922fab6bb22'
+  '07aea65893e7a31873776e310efcdcc4a3c194de81fd14858a40f4c9cbef9c34'
 
 function assertPalWorldSpriteBaseline(
   sprites: readonly SpriteDef[],
@@ -207,10 +207,10 @@ function assertPalWorldSpriteBaseline(
       ),
     ),
   )
-  if (sprites.length !== 576) throw new Error(`PAL SpriteDef 期望 576，收到 ${sprites.length}`)
+  if (sprites.length !== 572) throw new Error(`PAL SpriteDef 期望 572，收到 ${sprites.length}`)
   if (used.size !== 559) throw new Error(`PAL 已用 sprite AssetId 期望 559，收到 ${used.size}`)
-  if (sprites.length - used.size !== 17)
-    throw new Error(`PAL 共享 SpriteDef 关系期望 17，收到 ${sprites.length - used.size}`)
+  if (sprites.length - used.size !== 13)
+    throw new Error(`PAL 共享 SpriteDef 关系期望 13，收到 ${sprites.length - used.size}`)
   if (JSON.stringify(catalogIds) !== JSON.stringify(expectedCatalogIds))
     throw new Error('PAL sprite catalog AssetId 集合不是精确 1..636')
   if (JSON.stringify(unused) !== JSON.stringify(expectedUnused))

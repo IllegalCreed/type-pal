@@ -46,9 +46,7 @@ describe('PAL 场景角色精灵语义别名 overlay', () => {
     expect(first.sprites).toEqual([semantic])
     const rewrittenEntity = first.updatedScenes.get('s020')?.entities[0]
     expect(rewrittenEntity).toEqual(expect.objectContaining({ sprite: 'li-xiaoyao' }))
-    expect(
-      rewrittenEntity && isActorEntity(rewrittenEntity as unknown as EntityDef),
-    ).toBe(false)
+    expect(rewrittenEntity && isActorEntity(rewrittenEntity as unknown as EntityDef)).toBe(false)
     expect(rewrittenEntity).not.toHaveProperty('actor')
     expect(first.report).toEqual([
       {
@@ -114,5 +112,62 @@ describe('PAL 场景角色精灵语义别名 overlay', () => {
         aliases: [alias],
       }),
     ).toThrow(/纯迁移核场景引用集合漂移/)
+  })
+
+  test('完整角色域显式报告无候选角色，并拦截合成第五组严格重复', () => {
+    const wuHou: SpriteDef = {
+      id: 'wu-hou',
+      asset: 'sprite.pal.525',
+      label: '巫后(大世界)',
+      layout: { kind: 'directional', framesPerDir: 3 },
+    }
+    const args = {
+      currentSprites: [semantic, legacy, wuHou],
+      generatedSprites: [semantic, wuHou],
+      currentScenes: new Map([['s020', scene('s020', 'e344', 'sprite-2')]]),
+      generatedScenes: new Map([['s020', scene('s020', 'e344', 'li-xiaoyao')]]),
+      roleSpritesByNumber: new Map([
+        [2, semantic],
+        [525, wuHou],
+      ]),
+      aliases: [alias],
+    } as const
+    const result = applyPalWorldSpriteSemanticAliases(args)
+    expect(result.roleClosure).toEqual([
+      {
+        semanticId: 'li-xiaoyao',
+        legacyId: 'sprite-2',
+        configured: true,
+        currentLegacy: 'equivalent',
+        generatedLegacy: 'absent',
+      },
+      {
+        semanticId: 'wu-hou',
+        legacyId: 'sprite-525',
+        configured: false,
+        currentLegacy: 'absent',
+        generatedLegacy: 'absent',
+      },
+    ])
+
+    expect(() =>
+      applyPalWorldSpriteSemanticAliases({
+        ...args,
+        currentSprites: [
+          ...args.currentSprites,
+          { ...wuHou, id: 'sprite-525', label: '原精灵 525' },
+        ],
+      }),
+    ).toThrow(/wu-hou: 全角色语义别名闭包遗漏严格重复定义 sprite-525/)
+
+    expect(() =>
+      applyPalWorldSpriteSemanticAliases({
+        ...args,
+        generatedSprites: [
+          ...args.generatedSprites,
+          { ...wuHou, id: 'sprite-525', label: '原精灵 525' },
+        ],
+      }),
+    ).toThrow(/wu-hou: 全角色语义别名闭包遗漏严格重复定义 sprite-525/)
   })
 })

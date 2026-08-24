@@ -14,6 +14,14 @@ export interface PalWorldSpriteSemanticAliasReport {
   definitionRetired: boolean
 }
 
+export interface PalWorldRoleSpriteAliasClosureReport {
+  semanticId: string
+  legacyId: string
+  configured: boolean
+  currentLegacy: 'absent' | 'equivalent' | 'variant'
+  generatedLegacy: 'absent' | 'equivalent' | 'variant'
+}
+
 function comparableDefinition(sprite: SpriteDef): unknown {
   return {
     asset: sprite.asset,
@@ -22,9 +30,21 @@ function comparableDefinition(sprite: SpriteDef): unknown {
   }
 }
 
+function definitionsEquivalent(left: SpriteDef, right: SpriteDef): boolean {
+  return JSON.stringify(comparableDefinition(left)) === JSON.stringify(comparableDefinition(right))
+}
+
 function assertEquivalentDefinition(label: string, left: SpriteDef, right: SpriteDef): void {
-  if (JSON.stringify(comparableDefinition(left)) !== JSON.stringify(comparableDefinition(right)))
+  if (!definitionsEquivalent(left, right))
     throw new Error(`${label}: 资源、布局或动作容器不严格等价`)
+}
+
+function legacyState(
+  legacy: SpriteDef | undefined,
+  semantic: SpriteDef,
+): PalWorldRoleSpriteAliasClosureReport['currentLegacy'] {
+  if (!legacy) return 'absent'
+  return definitionsEquivalent(legacy, semantic) ? 'equivalent' : 'variant'
 }
 
 function entitySpriteReferences(
@@ -68,12 +88,52 @@ export function applyPalWorldSpriteSemanticAliases(args: {
   sprites: SpriteDef[]
   updatedScenes: Map<string, AuthorSceneDef>
   report: PalWorldSpriteSemanticAliasReport[]
+  roleClosure: PalWorldRoleSpriteAliasClosureReport[]
 } {
   const currentById = new Map(args.currentSprites.map((sprite) => [sprite.id, sprite]))
   const generatedById = new Map(args.generatedSprites.map((sprite) => [sprite.id, sprite]))
   const roleBySemanticId = new Map(
     [...args.roleSpritesByNumber].map(([spriteNum, sprite]) => [sprite.id, { spriteNum, sprite }]),
   )
+  const aliasBySemanticId = new Map(args.aliases.map((alias) => [alias.semanticId, alias]))
+  if (aliasBySemanticId.size !== args.aliases.length)
+    throw new Error('PAL 场景角色语义别名清单含重复 semanticId')
+  for (const alias of args.aliases) {
+    if (!roleBySemanticId.has(alias.semanticId))
+      throw new Error(`${alias.semanticId}: 语义别名不属于完整角色精灵域`)
+    if (!alias.references.length) throw new Error(`${alias.semanticId}: 语义别名缺逐引用证据`)
+  }
+  const roleClosure: PalWorldRoleSpriteAliasClosureReport[] = []
+  for (const [spriteNum, roleSprite] of [...args.roleSpritesByNumber].sort(
+    ([left], [right]) => left - right,
+  )) {
+    const semanticId = roleSprite.id
+    const legacyId = migratedSpriteId(spriteNum)
+    const currentSemantic = currentById.get(semanticId)
+    const generatedSemantic = generatedById.get(semanticId)
+    if (!currentSemantic || !generatedSemantic)
+      throw new Error(`${semanticId}: current/generated 缺完整角色域语义 SpriteDef`)
+    assertEquivalentDefinition(
+      `${semanticId}: current/generated`,
+      currentSemantic,
+      generatedSemantic,
+    )
+    assertEquivalentDefinition(`${semanticId}: role/generated`, roleSprite, generatedSemantic)
+    const currentLegacy = legacyState(currentById.get(legacyId), currentSemantic)
+    const generatedLegacy = legacyState(generatedById.get(legacyId), generatedSemantic)
+    const configured = aliasBySemanticId.has(semanticId)
+    if (!configured && (currentLegacy === 'equivalent' || generatedLegacy === 'equivalent'))
+      throw new Error(
+        `${semanticId}: 全角色语义别名闭包遗漏严格重复定义 ${legacyId}（current=${currentLegacy}, generated=${generatedLegacy}）`,
+      )
+    roleClosure.push({
+      semanticId,
+      legacyId,
+      configured,
+      currentLegacy,
+      generatedLegacy,
+    })
+  }
   const retiredIds = new Set<string>()
   const updatedScenes = new Map<string, AuthorSceneDef>()
   const report: PalWorldSpriteSemanticAliasReport[] = []
@@ -147,5 +207,6 @@ export function applyPalWorldSpriteSemanticAliases(args: {
     sprites: args.currentSprites.filter(({ id }) => !retiredIds.has(id)),
     updatedScenes,
     report,
+    roleClosure,
   }
 }

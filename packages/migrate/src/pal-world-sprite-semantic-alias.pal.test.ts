@@ -15,9 +15,21 @@ describe('PAL 大世界视觉语义别名产物', () => {
   test.each([
     'projects/pal/content',
     'packages/migrate/baselines/pal/content',
-  ])('%s 只保留稳定视觉定义且 7 个实体仍无 Actor 身份', (contentRoot) => {
+  ])('%s 只保留稳定视觉定义且 51 个实体仍无 Actor 身份', (contentRoot) => {
     const sprites = readJson(`${contentRoot}/sprites.json`) as SpriteDef[]
-    expect(sprites.some(({ id }) => id === 'sprite-2')).toBe(false)
+    expect(
+      sprites.filter(({ id }) =>
+        ['sprite-2', 'sprite-3', 'sprite-5', 'sprite-7', 'sprite-26'].includes(id),
+      ),
+    ).toEqual([])
+
+    expect(PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES).toHaveLength(5)
+    expect(
+      PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES.reduce(
+        (total, alias) => total + alias.references.length,
+        0,
+      ),
+    ).toBe(51)
 
     for (const alias of PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES)
       for (const { sceneId, entityId } of alias.references) {

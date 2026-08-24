@@ -210,9 +210,9 @@ describe.skipIf(!hasExtractedData)('PAL sprite action census golden', () => {
     })
     expect(first.digests).toEqual({
       acceptedSites: 'b6ee586cefe9a5b0762279f39892ab141247fcf761f279466f648b45f87c528b',
-      // MIG-PAL-WORLD-SPRITE-ALIAS-1：s020/e344、s172/e2858、s196/e3343 的拒绝证据
-      // 从重复 sprite-2 归一为 li-xiaoyao；分类、accepted/action 与其余实例保持冻结。
-      rejections: '2bb11c8f1e667424cb59edfe6151eaedebb81a0df9771577b73a2e5b902970a3',
+      // MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1：四组 44 个引用中 12 个 page0 auto
+      // 拒绝实例改用角色语义视觉 ID；分类、accepted/action 与其余实例保持冻结。
+      rejections: '6917b10e971528dc8225e51be153c6c805f74770723f1943c394406332c9f515',
       actions: 'a6dd0657ff7476d2c37021277540c92cdc43df888f16d712c87e40d3e7585c69',
     })
 
