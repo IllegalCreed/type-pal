@@ -1,7 +1,7 @@
 # ED-DS-3 编辑器设计系统全量采用与防回流门禁
 
-> **状态**：draft（待 Kimi / GLM 设计签字）
-> **负责人**：Codex（Coding Owner，待准入）
+> **状态**：build（2026-08-24 Codex / Kimi / GLM `premise verified + design agree` 齐）
+> **负责人**：Codex（Coding Owner）
 > **参与审查**：Kimi（公共组件 / 交互架构）、GLM（页面覆盖 / 规则审计）
 > **能力格**：ED2 编辑器设计系统与交互基础设施
 > **风险级别**：高（跨页面公共接口与用户可见交互）
@@ -148,10 +148,11 @@
 | Agent | premise | design | 证据 / 备注 |
 |---|---|---|---|
 | Codex | verified | agree | 已运行 legacy census，并核 `edit-session` / DS 现状；同语义共享 owner 与自动门禁符合用户多次裁决 |
-| Kimi | pending | pending | 需独立审公共合同、overlay / scroll owner、迁移风险与可证伪例外 |
-| GLM | pending | pending | 需独立审页面 registry 覆盖、allowlist、测试矩阵与规范更新 |
+| Kimi | **verified** | **agree** | 2026-08-24 独立核验，附 KD1-KD3（见下方 Kimi 审查节）；census 本人复跑逐数一致，四合同 owner 现状锚点已读 |
+| GLM | **verified** | **agree** | 附 GD1-GD3（见下方 GLM 审查节）；census 本人复跑逐数一致，registry 可机读推导 |
 
-**准入结论：不满足。Kimi / GLM 签字前不得修改实现文件或标记 build。**
+**准入结论：build allowed（2026-08-24，Codex + Kimi + GLM 三签齐；`ED-FIELD-COMMIT-1`
+已 done，同一 `DsField` + 控制件族冻结点满足）。**
 
 ### review -> done
 
@@ -163,4 +164,80 @@
 
 ## 下一位 Agent 提示词
 
-> 请审查任务卡 `docs/ops/tasks/ED-DS-3-editor-design-system-adoption-gate.md`。先读 `AGENTS.md`、`docs/phase2/READ-FIRST.md`、`docs/phase2/editor/editor-design-system-v1.md`、`docs/ops/tasks/ED-DS-2-editor-design-system-controls.md` 与 `docs/ops/tasks/ED-AUDIT-2-editor-full-surface-audit.md`，并自行运行 `node packages/editor/scripts/audit-legacy-controls.mjs`。请独立核验：页面范围是否从真实 registry 推导；Field / PropertyRow、ScrollableSurface、Overlay、Action / Destructive 的 owner 是否足以根治反复缺陷；allowlist 是否可证伪；门禁是否会误伤必要原生语义。把直接证据、最强反例和验收缺口写回任务卡，签 `premise verified + design agree` 或 `counter`。当前不得开始实现、不得标记 build / done。
+无下一位 Agent 提示词；三方设计签字与 FIELD 依赖均已满足，由 Codex 作为唯一 Coding Owner 进入 build。
+
+#### Kimi 审查（2026-08-24，公共组件/交互架构；本人一手复跑 census + 直读 DS/Session/App/非项目页字段路径）
+
+**premise verified（独立证据锚点）：**
+1. **census 复跑逐数一致**：`node packages/editor/scripts/audit-legacy-controls.mjs` 输出
+   files=84、button 186/input 113/select 0/textarea 2/label 75/img 6/checkbox 9、inline 66、
+   DsButton 203/DsIconButton 70/DsActionLink 3/DsToolbar 2/DsMenuItem 0、legacy tool 40/btn 18/
+   mini 13/mini-txt 20/pv-btn 5/mini-icon 3——与开卡基线完全一致；脚本 scope 已排除
+   design-system 与 test（脚本头 scope.exclude 直读确认）。
+2. **四合同 owner 现状直读**：字段 `DsField`/`DsTextInput`（controls.tsx:410）；滚动
+   `DsObjectWorkspace`（recipes.tsx:82，ED-AUDIO 卡已验证其为唯一滚动 owner）；Overlay
+   `DsFloatingLayer` portal + collision（floating-layer.tsx:9,51-56,136）与 `DsDialog` 焦点
+   生命周期（overlays.tsx:5-43）；动作四层级含 danger（editor-design-system-v1.md:340 DS-C.2）。
+   反复缺陷的根因确为“同语义多 owner”，公共 primitive 已存在——本卡是把采用面收口 + 防回流，
+   不是新造组件，方向正确。
+3. **页面 registry 可机读**：`editor-navigation.ts` 恰 33 个 `id:`（8 模块 + 25 二级页），
+   GD3 的双向闭合断言可执行。
+4. **最强反例核验**：隐藏原生 file input（import/replace 路径）与 canvas 是必要原生语义；
+   卡文已明确“raw 清零不是目标”且门禁只拦视觉常量类 inline style——该反例不推翻前提，
+   但必须落入 GD1 的机器可读 allowlist，而不是靠审查默契。
+
+**design agree（附 KD1-KD3，不阻塞准入，与 GD1-GD3 互补）：**
+- **KD1（迁移目标是既有 primitive，不是新造）**：ScrollableSurface/Overlay 合同应显式以
+  `DsObjectWorkspace` / `DsFloatingLayer` / `DsDialog` 的现行行为为合同文本来源；凡页面行为
+  与这些 primitive 冲突，默认改页面。防止本卡产出第三套“理想中的”合同文档与既有实现漂移。
+- **KD2（门禁误伤面的双负例）**：除 GLM 的 `.mimosa/` scope 观察外，build 首日须以两个
+  已知合法形态做负例回归——隐藏 `<input type=file>`（import/replace 合法路径）与动态几何
+  inline style（transform/scrollTop 类）不得触发红项；allowlist 格式即 GD1 七字段。
+- **KD3（与 ED-FIELD-COMMIT-1 的 Field API 联合冻结点）**：Field/PropertyRow 的视觉合同
+  （本卡）与 draft/commit 事务合同（ED-FIELD-COMMIT-1）必须冻结在同一个 API 表面上
+  （同一 `DsField`+控制件族），两卡同 Owner 串行实现；若冻结点分裂成“视觉字段”与“事务
+  字段”两套组件，即为回归信号，应停线重签。
+
+**可证伪观察**：若 registry 新增页面未被矩阵生成器拦截（GD3 双向闭合失效），或门禁首日把
+隐藏 file input / 动态几何 inline style 报为红项（KD2 负例失败），或某既有 primitive 行为与
+合同文档冲突时卡文要求改 primitive 而非页面（KD1 失守）——任一出现即转 blocked 重签。
+
+**验收缺口登记**：D 节 Design Lab 的“modal 内 select/popover 层级”已有 ED-AUDIO 的
+FloatingLayer 证据可复用；建议验收时直接引用该卡的浏览器几何证据，不重复巡检。
+
+#### GLM 审查（2026-08-24，页面覆盖/规则审计；本人一手复跑 census + registry 核验）
+
+**premise verified：**
+1. **census 本人复跑逐数一致**：`audit-legacy-controls.mjs` 输出 files=84、
+   button 186/input 113/select 0/textarea 2/label 75/img 6/checkbox 9、inline 66、
+   DsButton 203/DsIconButton 70/DsActionLink 3/DsToolbar 2/DsMenuItem 0、
+   legacy tool 40/btn 18/mini 13/mini-txt 20/pv-btn 5/mini-icon 3——与卡文开卡基线
+   **完全一致**。
+2. **页面闭包可从真实 registry 机读推导**：editor-navigation.ts 含 33 个 id
+   （8 模块 + 25 二级页），DataMode dispatch 覆盖各页组件——A 节"从 registry 生成
+   而非手写清单"**可执行**（ED-INSPECTOR-TABS/REFERENCE/CATALOG 三卡已用同法
+   验证过该路径的完备性）。
+3. **历史证据链**：ED-DS-2 系列与 ED-AUDIT-2（GA1/GA2）已把 census 方法论钉死
+   （token 词界 + 精确 ceiling），本卡扩展为按类别/页面/allowlist 门禁是自然演进。
+
+**design agree（附 GD1-GD3）：**
+- **GD1（allowlist 机器可读 schema 钉死）**：例外条目必须含
+  `{file, line, rule, owner, reason, verification, removalCondition}` 七字段并以
+  JSON/结构化格式落仓（如 `design-system-allowlist.json`）；boundary test 消费同一
+  文件而非测试内复制——防 allowlist 漂移为第二个手写清单。owner 必须是具名 Agent
+  或"card:ED-XXX"，不接受"team"。
+- **GD2（门禁输出契约）**：失败输出必须含 `file:line: rule-id: 发现物 → 推荐
+  owner + 修复建议`（非总数）；exit code 语义（0=通过 / 1=非 allowlist 违规 /
+  2=allowlist 自身损坏）三态区分，CI 可直接消费。
+- **GD3（页面矩阵生成器防漏）**：矩阵生成器除 registry 33 id 外，必须断言
+  "DataMode dispatch 的每个 return 组件都在矩阵中"（双向闭合）；新增页面若未注册
+  采用状态，生成器 exit 非零——把"新增页面自动进入矩阵"从口号变成机检。
+
+**测试矩阵核验**：D 节 Design Lab 覆盖滚动/overlay/tooltip/缩放/高度对齐——
+建议补两条：① modal 内打开 select 后 Esc 关闭顺序（先 popover 后 modal）的
+键盘合同；② 窄侧栏下 tooltip 位于视口右缘时的 collision 翻转。均并入既有
+RF fixture 体系，不新增第三套。
+
+**可证伪观察**：若 census 脚本对 `.mimosa/` 或生成产物误扫（scope 已排除
+design-system 与 test，但须确认新增目录），门禁第一天即大面积误报——build 首跑
+即知。
