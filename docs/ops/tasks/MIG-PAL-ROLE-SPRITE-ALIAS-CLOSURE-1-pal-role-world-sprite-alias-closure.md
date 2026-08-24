@@ -1,7 +1,7 @@
 # MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1 PAL 角色大世界精灵语义别名全量闭包
 
-> **状态**：draft（build blocked，待 Kimi / GLM 设计签字）
-> **负责人**：Codex（Coding Owner，待准入）
+> **状态**：build（2026-08-24 三方 `verified + agree` 齐）
+> **负责人**：Codex（Coding Owner）
 > **参与审查**：Kimi（迁移规则 / 闭包不变量）、GLM（全角色 / 全场景 census）
 > **能力格**：C2 内容迁移 / MG2 生成一致性
 > **风险级别**：高（asset pipeline / migration / generated project）
@@ -154,10 +154,10 @@ Codex 已用当前 scene `entity.id` 回查 `data/extracted/data/scene/<n>.json`
 | Agent | premise | design | 证据 / 备注 |
 |---|---|---|---|
 | Codex | **verified** | **agree** | 只读全库 census 得到唯一 4 组严格重复、44 引用 / 37 场景；44/44 回查 extracted spriteNum + nSpriteFrames 成功；根因定位到 alias ID 集合只有李逍遥。设计采用完整角色域双向闭包 + 逐引用证据，不自动按资源猜身份 |
-| Kimi | pending | pending | 需独立审 resolver、角色域闭包、current/generated 双向 fail-loud 与最强反例 |
-| GLM | pending | pending | 需独立复跑 4/44/37 census、至少抽查一名非赵灵儿角色的 extracted 证据与测试矩阵 |
+| Kimi | **verified** | **agree** | 2026-08-24 独立复跑全库 census（恰 4 组/44 引用/37 场景）+ 44/44 extracted 回查零失败 + resolver/门控直读，见下方 Kimi 审查节；附 KB1-KB2 |
+| GLM | **verified** | **agree**（附 GC1-GC2） | 4/44/37 全量独立复算逐数一致；林月如 18 项 extracted 全查 + 44/44 回查零失败；player-roles 四角色 spriteNum/walkFrames 核验；wu-hou 非重复确认；根因（alias 集合只有李逍遥）直读属实。见 GLM 独立 census 节 |
 
-**准入结论：blocked。** Kimi / GLM 写回任务卡并三签齐前不得修改迁移实现或生成产物。
+**准入结论：build allowed（2026-08-24，Codex + Kimi + GLM 三签齐）。** GC1-GC2 与 KB1-KB2 为 build 必落钉。
 
 ### review -> done
 
@@ -179,3 +179,91 @@ Codex 已用当前 scene `entity.id` 回查 `data/extracted/data/scene/<n>.json`
 ## 下一位 Agent 提示词
 
 > 请合并审查任务卡 `docs/ops/tasks/MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1-pal-role-world-sprite-alias-closure.md`。先读 `AGENTS.md`、`CLAUDE.md`、`docs/phase2/READ-FIRST.md`、历史卡 `MIG-PAL-WORLD-SPRITE-ALIAS-1`，再直读 `packages/migrate/src/pal-world-sprite-layouts.ts:17-42`、`migrate-content.ts:2286-2296`、`pal-world-sprite-semantic-alias.ts` 与 `data/extracted/data/player-roles.json`。用户已指出赵灵儿仍重复；Codex 全库 census 得到唯一剩余四组：赵灵儿 6、林月如 18、阿奴 11、盖罗娇 9，共 44 引用 / 37 场景。Kimi 请审完整角色域双向闭包、resolver 与 fail-loud；GLM 请独立复跑 4/44/37 并至少抽查一名非赵灵儿角色的 extracted spriteNum / nSpriteFrames。把直接证据、可证伪观察与测试缺口写回卡，签 `premise verified + design agree` 或 `counter`。三签未齐前不得修改实现文件、不得重迁、不得标记 build / done。
+
+
+#### GLM 独立 census 与审查（2026-08-24，全角色/全场景；本人 node 复算，非代理）
+
+**premise verified——六项独立复算：**
+
+1. **4 组严格重复 census 本人复跑逐数一致**：以 `{asset, layout, poses??null}` 为键对
+   577 个定义分组——**恰 4 组重复**：sprite-3↔zhao-linger（pal.003）、sprite-7↔
+   lin-yueru（pal.007）、sprite-5↔anu（pal.005）、sprite-26↔gai-luojiao（pal.026），
+   全部 directional/framesPerDir 3。无第五组。
+2. **44 引用 / 37 场景独立复算一致**：本人扫 generated scenes——zhao-linger 6 /
+   lin-yueru 18 / anu 11 / gai-luojiao 9 = **44**，分布于 **37** 个场景——与卡文逐数吻合。
+3. **44/44 extracted 回查零失败**：本人按 generated `entity.id` 回查对应 extracted
+   scene `eventObjects`——全部命中同一 id、spriteNum 精确匹配（3/7/5/26）、
+   `nSpriteFrames=3`。
+4. **非赵灵儿抽查超额为全查**：卡文要求至少抽查一名——**本人把林月如 sprite-7 全部
+   18 项逐一回查**（s021/e397 … s199/e3350），18/18 spriteNum=7、nSpriteFrames=3，
+   明细已留档。
+5. **player-roles 核验**：roleId 1=zhao-linger→spriteNum 3、roleId 2=lin-yueru→7、
+   roleId 4=anu→5、roleId 5=gai-luojiao→26，全部 `walkFrames=0`（按迁移合同落
+   directional 3 帧）——与卡文矩阵一致；**wu-hou（roleId 3, spriteNum 525）无
+   sprite-525 数字定义且无任何 asset 重复**——"巫后无候选"结论独立确认，不能手写减一。
+6. **根因直读**：`PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES`（layouts.ts:26-42）当前
+   **只列 li-xiaoyao 一组**；`roleSpriteAliasFor`（migrate-content.ts:2286-2296）的
+   scene 分支以 `sceneSemanticSpriteIds.has(roleSprite.id)` 门控——其余四角色被排除，
+   数字定义照常生成。根因属实。
+
+**design agree（附 GC1-GC2）：**
+
+- **GC1（闭包门禁的"无候选"显式化）**：设计第 3 条的全角色审计必须对六名角色逐一输出
+  `候选` 或 `无候选`——**wu-hou 的"无候选"须是被断言的结果**（sprite-525 数字定义
+  不存在 + 无 asset 重复），而非隐式缺席；测试须含"人为添加 sprite-525 重复后审计
+  变红"的负例，证明门禁真能抓第五组。
+- **GC2（44 清单与产物双向闭合 + GR1 扩展到 51）**：逐引用证据清单（44 项）与重迁
+  后 generated 场景引用集**双向 diff 为空**（清单外零引用、引用零遗漏——同上张卡的
+  fail-loud 形态）；GR1 身份边界扩展断言 51 实体（7+44）全部无 `actor` 字段 +
+  生产码 SpriteDef.id 身份比较扫描沿用 `pal-world-sprite-identity-boundary.test.ts`
+  并把新四语义 id 纳入其动态 actor-id 正则源。
+
+**可证伪观察**：①若重迁后任一语义定义的 asset/layout/poses/物理帧发生变化（验收第 5 条）
+——snapshot 对照拦截；②若 44 清单外出现 `sprite-3/5/7/26` 引用或清单内引用未归一
+——GC2 双向 diff 拦截；③若未来新增角色或 sprite 数字定义形成第五组重复而审计未红
+——GC1 负例证明门禁失效即停线。
+
+**测试缺口（build 前补）**：当前 `pal-world-sprite-identity-boundary.test.ts` 只动态
+取 actors.json 全 id——四语义 id 本就在 actors 中，无需改；但 44 引用归一断言与
+"清单双向闭合"断言是**新测试**，上张卡的 alias 测试只覆盖单组形态。
+#### Kimi 审查（2026-08-24，迁移规则/闭包不变量；本人 python 全量复算 + 代码直读，非代理）
+
+**premise verified（独立证据锚点）**：
+
+1. **全库严格重复闭包（本人复跑）**：以 `{asset, layout, poses ?? null}` 为比较键扫
+   `projects/pal/content/sprites.json`（577 定义），**恰好 4 个重复组**：
+   sprite-3/zhao-linger、sprite-7/lin-yueru、sprite-5/anu、sprite-26/gai-luojiao；
+   无第五组；`sprite-525` 不存在而 `wu-hou` 存在——“巫后无候选”是当前事实。
+2. **44 引用 / 37 场景（本人复跑）**：按卡面四组清单逐条比对，我的 census 与卡面
+   **逐条一致**（6/18/11/9，合计 44，场景 37）。
+3. **44/44 extracted 回查零失败（非抽查）**：用当前 `entity.id` 回查
+   `data/extracted/data/scene/<n>.json` 的 `eventObjects`，44 项全部唯一命中同 id、
+   `spriteNum` 与角色表一致（3/7/5/26）、`nSpriteFrames=3`。另扫全部 extracted 场景：
+   spriteNum∈{3,5,7,26} 且 `nSpriteFrames≠3` 的对象**为零**——无布局变体风险。
+4. **身份边界**：44 个当前生成实体**无一含 `actor` 字段**（本人逐条核验）；生产码身份
+   边界扫描由历史卡 GR1 测试在位（`pal-world-sprite-identity-boundary.test.ts`）。
+5. **根因与共享 resolver 直读**：`pal-world-sprite-layouts.ts:23-42` 当前别名清单只有
+   li-xiaoyao（7 引用）；`migrate-content.ts:2287-2297` 的 `roleSpriteAliasFor` 三重条件
+   （asset 相等 / layout 相等 / scene 用途需 allowlist）属实；`pal-migration.ts:493-502`
+   把 `PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIAS_IDS` 接进场景迁移——范围遗漏根因成立。
+   `pal-world-sprite-semantic-alias.ts` 的等价深比（asset+layout+poses）、引用集合双向
+   fail-loud 与只改 `sprite` 字段的 overlay 均已存在，可原样消费四组新条目。
+
+**可证伪观察**：若全库出现第五组严格重复（如未来迁移引入），闭包门禁必须 fail——设计 §3
+的双向一致性覆盖；若任一 44 对象的 extracted spriteNum/nSpriteFrames 与角色合同不符，本人
+复跑会失败——实跑零失败；若归一给任一实体新增 `actor`，GR1 扩展断言（51 项）应红——当前
+44 项零 actor；若 `roleSpriteAliasFor` 的 scene 用途绕开 allowlist，等价门控即失效——
+:2295 直读未见绕过。
+
+**design agree（附 KB1-KB2，不阻塞准入）**：
+- **KB1（闭包门禁的枚举源）**：候选集合必须由 `mapRoleSpritesByNumber` 的完整角色域 ×
+  current/generated 数字定义计算，并与别名证据清单双向相等；wu-hou 落为显式“无候选”、
+  li-xiaoyao 落为显式“已闭包”，禁止从六人手写减一。测试须含合成第五组 fixture 证明
+  fail-loud。
+- **KB2（复用既有 overlay，不新写第二套）**：四组新条目只扩
+  `PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES` 的逐引用证据（每项带 extracted 锚点文案），
+  overlay/门禁/发布应用点零新逻辑；migration diff 预期精确为 4 定义删除 + 44 行引用归一 +
+  baseline 镜像 + `_state.json`。
+
+**测试缺口登记**：GR1 身份断言需从 7 扩到 51 项；闭包门禁需合成第五组负例；
+current/generated 引用集合漂移负例沿用历史卡既有测试形态。

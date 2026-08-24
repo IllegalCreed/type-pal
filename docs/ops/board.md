@@ -17,7 +17,7 @@
 | ED-FIELD-COMMIT-1 | 编辑器字段草稿、提交与撤销边界统一 | draft | Kimi / GLM 独立审字段事务、撤销与性能合同 | 项目、物品、敌人、技能、战场统一根治每字符全局命令 |
 | ED-PROJECT-STARTUP-IA-1 | 入口与开局 / 全局资源与启动工作台收口 | draft | Kimi / GLM 审 IA；待 ED-DS-3 / ED-FIELD-COMMIT-1 合同冻结 | canonical 入口不变；收口队伍、重复行、资源试听、概览与开局交互 |
 | ARCH-ENTRY-ACTOR-SEED-1 | 入口角色完整初始状态所有权与快照模型 | draft | Kimi / GLM 独立核原版、一阶段与当前初始化真值 | schema 高风险；等级、经验、装备、属性唯一 owner 未核清前禁止 build |
-| MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1 | PAL 角色大世界精灵语义别名全量闭包 | draft | Kimi / GLM 独立审 4 组 / 44 引用与全角色闭包门禁 | 用户发现赵灵儿仍重复；纠正单角色范围遗漏，不重开已 done 旧卡 |
+| MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1 | PAL 角色大世界精灵语义别名全量闭包 | build | Codex 实现全角色闭包门禁并完整重迁 | 三方设计签字齐；纠正 4 定义 / 44 引用范围遗漏，不重开已 done 旧卡 |
 | MIG-PAL-WORLD-SPRITE-ALIAS-1 | PAL 大世界角色精灵语义别名收口 | done | 三方 accept + 用户确认齐，整卡收口 | `bde33d13`：1 重复定义 + 7 引用归一，迁移零计划，migrate 354 tests 全绿 |
 | ARCH-ENTRYPOINT-CANONICAL-1 | 显式启动入口与独立开局配置 | done | 三方 accept + 用户验收齐，整卡收口 | content17 三工程 canonical；默认/显式/menu/?scene 语义与编辑闭环已实现，终审无返工项 |
 | ARCH-CURRENT-ONLY-1 | 开发期单版本架构收口 | done | 三方 accept + 用户验收齐，整卡收口 | 旧产品版本层、升级入口与兼容 fallback 已清零；PAL replay 零差异 |
