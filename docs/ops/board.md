@@ -13,7 +13,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| ED-DS-3 | 编辑器设计系统全量采用与防回流门禁 | build | Codex 唯一 Coding Owner；落实 KD1-KD3 / GD1-GD3 | 三方设计签字与 FIELD 依赖齐；从 registry 生成矩阵并系统收口公共 owner / 门禁 |
+| ED-DS-3 | 编辑器设计系统全量采用与防回流门禁 | review | Kimi / GLM 审查 `9dd4e4a3`，分别落验收签字 | 实现、editor 145/1114、静态门禁与最小浏览器验证完成；Codex accept |
 | ED-FIELD-COMMIT-1 | 编辑器字段草稿、提交与撤销边界统一 | done | 三方 accept + 用户验收齐，整卡收口 | `b118ce3a`：公共草稿/提交合同、首批采用与 AST 防回流门禁完成 |
 | ED-PROJECT-STARTUP-IA-1 | 入口与开局 / 全局资源与启动工作台收口 | draft | Kimi / GLM 审 IA；待 ED-DS-3 / ED-FIELD-COMMIT-1 合同冻结 | canonical 入口不变；收口队伍、重复行、资源试听、概览与开局交互 |
 | ARCH-ENTRY-ACTOR-SEED-1 | 入口角色完整初始状态所有权与快照模型 | draft | Kimi / GLM 独立核原版、一阶段与当前初始化真值 | schema 高风险；等级、经验、装备、属性唯一 owner 未核清前禁止 build |

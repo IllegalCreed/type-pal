@@ -1,6 +1,6 @@
 # ED-DS-3 编辑器设计系统全量采用与防回流门禁
 
-> **状态**：build（2026-08-24 Codex / Kimi / GLM `premise verified + design agree` 齐）
+> **状态**：review（2026-08-24 `9dd4e4a3` 已完成；等待 Kimi / GLM 实现验收签字）
 > **负责人**：Codex（Coding Owner）
 > **参与审查**：Kimi（公共组件 / 交互架构）、GLM（页面覆盖 / 规则审计）
 > **能力格**：ED2 编辑器设计系统与交互基础设施
@@ -129,17 +129,45 @@
 
 ## 验收标准
 
-- [ ] 页面采用矩阵由真实注册表生成，覆盖所有可达编辑器页面，新增页面自动进入矩阵。
-- [ ] 所有相同语义均指向一个公共 owner；例外有机器可读 owner、理由、验证与删除条件。
-- [ ] `audit-legacy-controls` 对禁止项返回非零并输出 `file:line` 与修复建议；CI / 本地检查已接入。
-- [ ] legacy class 非 allowlist 使用为 0；原生控件与 inline style 仅剩审定 allowlist。
-- [ ] 主内容、左右侧栏、底栏与 modal 的滚动 owner 均有组件测试；已知“页面不能滚动”类型用例通过。
-- [ ] tooltip / popover / select overlay 的 portal、层级、裁切、dismiss 与滞留回归测试通过。
-- [ ] 标准新增 / 复制 / 跳转 / 删除 / 解除绑定在页面中不再出现私有样式或折行语义漂移。
-- [ ] 默认 / 窄侧栏与 100% / 125% / 150% 缩放下，字段行高、间距、按钮高度和分区边界符合规范。
-- [ ] `docs/phase2/editor/editor-design-system-v1.md` 更新公共合同、采用规则、allowlist 与审查清单。
-- [ ] `ED-PROJECT-STARTUP-IA-1` 等消费页面不再复制 DS 实现。
-- [ ] 单元、静态、编辑器最小功能视觉验证通过并记录证据。
+- [x] 页面采用矩阵由真实注册表生成，覆盖所有可达编辑器页面，新增页面自动进入矩阵。
+- [x] 所有相同语义均指向一个公共 owner；例外有机器可读 owner、理由、验证与删除条件。
+- [x] `audit-legacy-controls` 对禁止项返回非零并输出 `file:line` 与修复建议；CI / 本地检查已接入。
+- [x] legacy class 非 allowlist 使用为 0；原生控件与 inline style 仅剩审定 allowlist。
+- [x] 主内容、左右侧栏、底栏与 modal 的滚动 owner 均有组件测试；已知“页面不能滚动”类型用例通过。
+- [x] tooltip / popover / select overlay 的 portal、层级、裁切、dismiss 与滞留回归测试通过。
+- [x] 标准新增 / 复制 / 跳转 / 删除 / 解除绑定在页面中不再出现私有样式或折行语义漂移。
+- [x] 默认 / 窄侧栏与 100% / 125% / 150% 缩放下，字段行高、间距、按钮高度和分区边界符合规范。
+- [x] `docs/phase2/editor/editor-design-system-v1.md` 更新公共合同、采用规则、allowlist 与审查清单。
+- [x] `ED-PROJECT-STARTUP-IA-1` 等消费页面不再复制 DS 实现。
+- [x] 单元、静态、编辑器最小功能视觉验证通过并记录证据。
+
+## Build 实现与验证证据（Codex，2026-08-24）
+
+- 实现提交：`9dd4e4a3 feat(editor): enforce design system adoption gate`；未包含任务卡、看板或
+  `.mimosa/` 会话状态。
+- 公共合同：新增统一的 `DsCatalogRow`、`DsPressable`、file / color / readonly 控件能力，
+  扩展 `DsDialog` 与字段控件；`DsTextInput` / `DsTextArea` 修复原生 `aria-invalid` 被覆盖的问题。
+  音乐、音效、世界与战斗精灵列表统一采用固定 leading slot 与单行 title / meta；标准行高
+  68px、compact 行高 46px。
+- 采用闭包：`design-system-adoption.json` 由真实 registry 覆盖 25 个页面，并对
+  `DataMode` return 组件做双向闭合；`design-system-allowlist.json` 只保留 3 个带七字段证据的
+  persistent-shell portal 例外。
+- 静态门禁：`audit:design-system` 实现 0=通过、1=违规、2=allowlist 损坏 / 漂移三态，违规报告
+  包含 `file:line`、rule、发现物与建议；production raw `button/input/select/textarea`、native
+  checkbox 及旧 `in/tool/btn/mini/mini-txt/pv-btn/item-action-button/mini-icon/media-zoom-controls`
+  均为 0。剩余 20 个 inline style 均为动态几何，受 AST 规则按证据放行。
+- KD2 / GD 门禁测试：隐藏 DS 文件边界和动态几何负例通过；allowlist 0/1/2 三态、registry / DataMode
+  闭包、七字段 schema 与陈旧例外均有自动测试。
+- 滚动：世界 / 战斗精灵列表改用 `DsVirtualList`；PAL 世界精灵 636 项从全量挂载降到视口内约
+  13–18 项，完整 `scrollHeight=43248`，键盘 `End` + `Enter` 可选中第 636 项。
+- 聚焦测试均通过；最终唯一一次受影响包全量验证：`pnpm --filter @type-pal/editor check`，
+  typecheck 通过，145 个测试文件、1114 个测试全部通过。静态复核
+  `pnpm --filter @type-pal/editor audit:design-system`：84 files、3 evidence-bound exceptions、通过。
+  `git diff --check` 通过。
+- 最小浏览器验证：音乐 / 音效 / 世界精灵行高均为 68px、每行固定 1 个 leading slot；世界精灵
+  虚拟滚动与末项键盘选择通过；720px、1024px（125% 等效）、853px（150% 等效）均无横向溢出；
+  720px 下 select popover 保持在 viewport 内，`Esc` 关闭后 `aria-expanded=false`；最终 fresh tab
+  无 warning / error console log。
 
 ## 推进签字
 
@@ -158,13 +186,24 @@
 
 | Agent | accept | 证据 / 备注 |
 |---|---|---|
-| Codex | pending | — |
+| Codex | **accept** | `9dd4e4a3`；editor 145 files / 1114 tests + typecheck 全绿；静态门禁与最小浏览器验证通过，见上方 Build 证据 |
 | Kimi | pending | — |
 | GLM | pending | — |
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词；三方设计签字与 FIELD 依赖均已满足，由 Codex 作为唯一 Coding Owner 进入 build。
+请 Kimi 与 GLM 审查任务卡 `docs/ops/tasks/ED-DS-3-editor-design-system-adoption-gate.md` 的
+实现提交 `9dd4e4a3`。先完整阅读 `AGENTS.md`、`CLAUDE.md`、`docs/phase2/READ-FIRST.md`、本任务卡及
+`docs/phase2/editor/editor-design-system-v1.md` v2.10.0。不得修改实现文件、不得标记 done。
+
+- 共同核验：真实 registry 的 25 页面矩阵与 `DataMode` 双向闭合；raw / legacy census 清零；
+  三态静态门禁、KD2 合法负例、七字段 allowlist 及陈旧例外失败；`DsPressable` 未承接标准或危险动作；
+  68px / 46px 行合同、精灵列表虚拟化、滚动 / overlay / focus / Esc 合同。
+- Kimi 重点：公共组件边界、滚动 / overlay owner、动作语义和可访问性；独立给出代码锚点与可证伪观察。
+- GLM 重点：registry / DataMode 覆盖、allowlist 证据、规则输出、测试矩阵与零回流 census；独立复跑或
+  核验 `pnpm --filter @type-pal/editor audit:design-system`。
+- 每方把结论写回本卡 `review -> done` 表：通过签 `accept` 并附一手证据；否则签 `counter` 并列出返工项。
+  Kimi / GLM 两席验收签字未齐前不得标记 done。
 
 #### Kimi 审查（2026-08-24，公共组件/交互架构；本人一手复跑 census + 直读 DS/Session/App/非项目页字段路径）
 
