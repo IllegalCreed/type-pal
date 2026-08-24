@@ -1,7 +1,7 @@
 # MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1 PAL 角色大世界精灵语义别名全量闭包
 
-> **状态**：review（2026-08-24 全角色闭包、完整重迁与自验证完成）
-> **负责人**：Codex（Coding Owner，build 已完成）
+> **状态**：done（2026-08-24 三方 accept 与用户验收齐）
+> **负责人**：Codex（Coding Owner，已完成）
 > **参与审查**：Kimi（迁移规则 / 闭包不变量）、GLM（全角色 / 全场景 census）
 > **能力格**：C2 内容迁移 / MG2 生成一致性
 > **风险级别**：高（asset pipeline / migration / generated project）
@@ -164,8 +164,15 @@ Codex 已用当前 scene `entity.id` 回查 `data/extracted/data/scene/<n>.json`
 | Agent | accept | 证据 / 备注 |
 |---|---|---|
 | Codex | **accept** | 完整角色域闭包、合成第五组 current/generated 负例、51 实体身份边界、4 定义 / 44 引用精确 diff、current/baseline 正文镜像、replay 与二次 dry-run 零计划均通过；typecheck 与 migrate 全量覆盖完成，浏览器验证四个资源均只剩 1 个用途定义 |
-| Kimi | pending | — |
-| GLM | pending | — |
+| Kimi | **accept** | 2026-08-24 独立终审 0e84e565：①alias 清单本人复算 5 角色 / 51 引用（7/6/18/11/9）；②闭包门禁 `pal-world-sprite-semantic-alias.ts:106-136` 对完整角色域同时取 current/generated legacy 状态、未登记且等价即 fail-loud，合成 sprite-525 双负例测试在位（test:146-171），wu-hou 经 roleClosure 报告显式“无候选”；③归一仍只动 `sprite` 字段、三向等价含 poses，51 实体零 actor（pal.test.ts:18-43 + 本人全量核验）；④diff 精确：sprites.json 删恰 4 定义、37 场景每文件等增等减共 -44/+44、baseline 38 份正文 cmp 全等；⑤本人复跑 focused 5 文件 71/71 全绿 + dry-run replay 537/0/0/0/0 零计划。KB1/KB2 均落地 |
+| GLM | **accept** | 2026-08-24 done 前终审（提交 0e84e565，83 文件 +339/-211）：①alias 清单 5 角色 / 51 引用（本人 node 计数）；②全角色域门禁测试显式列 wu-hou/sprite-525 无候选 + 合成第五组重复负例 fail-loud 双断言（GC1 超额落地）；③resolver 三条件严格等价 + 不新增 actor（:77）；④diff 精确：sprites.json 删恰 4 定义，baselines 与 projects 双镜像均 -44/+44/+actor=0（37 场景）；⑤本人复跑 replay 537/0/0/0 幂等；产物终态 573 定义、四数字 ID 精确引用全仓零命中；focused 3 files/7 tests + typecheck 全绿 |
+
+**done 准入结论：满足。** 2026-08-24 三方 `accept` 齐，用户已在编辑器实看并确认无问题。
+
+## 用户验收
+
+- 2026-08-24 用户结论：**accept**（“我也看了没问题了”）。
+- 后续：恢复 `ED-FIELD-COMMIT-1`，本卡不再有下一位 Agent。
 
 ## Build 与验证
 
@@ -195,7 +202,11 @@ Codex 已用当前 scene `entity.id` 回查 `data/extracted/data/scene/<n>.json`
 
 ## 下一位 Agent 提示词
 
-### 当前 review 提示词
+### 当前收口
+
+> 无下一位 Agent 提示词；本卡三方 `accept` 与用户验收均已齐，已标记 `done`。
+
+### 历史 review 提示词
 
 > 请终审任务卡 `docs/ops/tasks/MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1-pal-role-world-sprite-alias-closure.md` 当前 review 实现。先读本卡 Build 证据与实现提交，再独立检查：alias 清单是否为 5 角色 / 51 引用；完整角色域闭包是否同时扫描 current/generated，显式报告巫后无候选并用合成 `sprite-525` 负例 fail-loud；共享 resolver/overlay 是否仍只在 asset/layout/poses 严格等价时归一且不新增 actor；生成 diff 是否精确为 4 定义 + 44 引用及镜像 baseline；二次迁移是否零计划。请复用现有全量与浏览器证据，避免重复跑耗时全量；把直接证据、返工项或 `accept` 写回 review -> done 表。Kimi / GLM accept 未齐前不得标记 done。
 
@@ -290,3 +301,7 @@ Codex 已用当前 scene `entity.id` 回查 `data/extracted/data/scene/<n>.json`
 
 **测试缺口登记**：GR1 身份断言需从 7 扩到 51 项；闭包门禁需合成第五组负例；
 current/generated 引用集合漂移负例沿用历史卡既有测试形态。
+- 2026-08-24 GLM（终审）: 按五项委托完成 done 前终审并签 **accept**。5/51 清单、巫后无候选
+  + 合成 525 负例 fail-loud（GC1 超额）、三条件等价与 actor 零新增（双镜像实测）、4 定义/
+  44 引用精确、replay 537 零计划幂等、573 定义四 ID 零残留、focused 7 tests + typecheck 全绿。
+  未改实现，未代签 Kimi，未标 done。
