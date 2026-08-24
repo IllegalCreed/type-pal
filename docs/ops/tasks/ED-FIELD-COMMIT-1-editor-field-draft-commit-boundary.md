@@ -1,6 +1,6 @@
 # ED-FIELD-COMMIT-1 - 编辑器字段草稿、提交与撤销边界统一
 
-Status: review（2026-08-24 implementation `b118ce3a`，Codex self-review accept；Kimi / GLM 待审）
+Status: done（2026-08-24 Codex / Kimi / GLM review accept + User accept）
 Phase: phase2
 Capability: 编辑器公共表单能力（不改变 capability-map 状态）
 Coding Owner: Codex
@@ -179,11 +179,34 @@ Branch: `codex/ed-audio-workbench-1`（用户交接的共享集成分支）
 - Codex: **accept（2026-08-24）**。实现提交 `b118ce3a`；公共合同测试覆盖 IME、Enter+blur 幂等、
   Escape、非法/空数字、对象切换、syncToken resync、undo/redo 与 100 次输入 0 command；真实编辑器抽查通过，
   代码 census/allowlist 门禁通过。
-- Kimi: pending
-- GLM: pending
-- counter / 返工处理:
+- Kimi: accept（2026-08-24，独立直读 b118ce3a 实现 + 聚焦复跑，非代理）。按委托四项：
+  - **IME / Enter+blur 幂等 / Escape / 对象切换 / undo-redo resync ✓**：共享控制器
+    `useDsDraftController`（controls.tsx:509-602）——草稿身份 = `draftKey + syncToken +
+    canonical value`（draftSource :464-466，KF2 合同化）；composition 期 Enter/validate/commit
+    全禁、blur 延期至 compositionEnd 后 microtask（:588-600，KF1 落公共层）；`committedRef`
+    签名幂等使 Enter 后 blur 零二次 dispatch（:534-552）；Escape 回 canonical；source 漂移即
+    丢弃陈旧草稿（:520-532）。合同测试在位：controls.test.tsx:81/:112/:143/:200/:224。
+  - **一次编辑周期严格一条命令 ✓**：签名幂等 + 等值不 dispatch（:547）；采用页逐字符
+    dispatch 已清零（本人 grep 六页 onChange→dispatch 零命中）。
+  - **数字 normalize 保留 floor/clamp ✓**：适配器顺序 parse→normalize→integer/range/领域
+    validate（:646-657）；floor/clamp 由显式 adapter 注入保留（ItemTab.tsx:1396/1411、
+    SkillTab.tsx:1268、EnemyTab.tsx:842/1000/1069/1133/1159、ActorMode.tsx:1337）；
+    非法与中间态不写入工程。
+  - **registry/AST 门禁 ✓**：TypeScript AST 而非正则；全生产面禁止连续控件 onChange 直接
+    dispatch，采用面另禁 14 个间接 patch 助手；采用清单绑定真实 registry 含 actor/workspace；
+    七字段机器可读 allowlist 当前为空（field-commit-adoption.json）。
+  - 聚焦复跑：controls/field-commit-boundary/boundary/EnemyTab/SkillTab/MediaAssetLifecycle
+    6 文件 94/94 通过；全量采纳卡内记录未重复。
+- GLM: **accept（2026-08-24 done 前终审，本人一手读码 + focused 独立复跑，非代理；基于实现提交 b118ce3a，19 文件 +1456/-317）**。按四项委托逐一验证：
+  - **① IME/Enter+blur/Escape/对象切换/undo-redo resync ✓（GF1/GF2 落地且超钉）**：核心控制器（controls.tsx:515-618 区域）实现 `committedRef` 签名幂等 + `draftKey/syncToken` 双轴 resync + `blurredWhileComposingRef`（合成中 blur 延迟提交）。测试实测——"keeps text local through IME and commits Enter plus blur exactly once"：composition 期间 validate/commits 零调用、Enter+blur 合计恰 1 次 commit；"handles Enter then another-field click as one history command across undo and redo"：恰 1 commit + dirty 转换恰 1（data-dirty-transitions='1'）+ undo/redo 往返值正确且 commits 仍恰 1——**GF1 三计数断言完整落地**；"cancels stale object drafts and resyncs canonical undo and redo values"：A 草稿未提交→切 B→blur 零 commit（**草稿不污染新对象**，GF2 负例）+ canonical undo/redo 后字段同步新值；Escape 取消恢复 canonical（非法 -1→Escape→回 10）。
+  - **② 一编辑周期一条命令 ✓**："keeps 100 input events local until one blur commit"（100 输入全本地、blur 才 1 次）+ 上述 Enter-click 三计数。
+  - **③ 数字 normalize 保留 floor/clamp ✓**：`DsDraftNumberInput` 领域注入 normalize（默认恒等），校验链 normalize→finite→integer→range；各页原语义逐字保留——ActorMode:1337 `Math.floor`、ProjectWorkbenchTab :695/:803/:942/:1015/:1030 `Math.max(0,Math.floor)`/`Math.max(1,Math.floor)` 全部页面显式注入。
+  - **④ registry/AST 门禁 ✓（GF3 超额：真 AST 非正则）**：`field-commit-boundary.test.ts` 用 TypeScript AST——`isContinuousControl` 精确分类（DsDraft* 豁免 / DsText* + textarea + input[type∉checkbox,radio,file,range,color,button,submit] 为连续值，**checkbox/radio 离散自动豁免**）；门禁双层——直接 dispatch 全仓禁 + `indirectProjectMutations`（on/patch/patchResource/patchSeed/patchStats/setAction/setCostItems/setDefeatedReward/setEffect/setRules 等 14 函数）仅 8 个 adopted surface 启用；adoption JSON 机器可读 + 七字段 schema 校验 + surface 双向绑定真实 registry（含 actor/workspace——**ActorMode 覆盖确认**，build 前 census 抓的 2 处已迁）。离散 allowlist 当前空数组、schema 就位。
+  - **focused 独立复跑 ✓**：controls+boundary 2 files/30 tests、EnemyTab+SkillTab 19 tests、typecheck 全绿（全量按纪律未重复）。
+- counter / 返工处理: 无
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **allowed / done（2026-08-24）**——Codex + Kimi + GLM 三方 review accept
+  与用户功能界面验收均已齐，无 counter、返工项或缺签豁免。
 
 ## Draft: 设计与风险
 
@@ -252,18 +275,23 @@ Branch: `codex/ed-audio-workbench-1`（用户交接的共享集成分支）
 
 - Reviewer: Kimi + GLM
 - Codex 自审: accept（`b118ce3a`；KF1-KF3/GF1-GF3 均有实现与测试锚点）
-- Kimi 审查结论: pending
-- GLM 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: review pending（Kimi / GLM 均 accept 前不得 done）
+- Kimi 审查结论: accept（2026-08-24；四项委托直读核验 + 聚焦 6 文件 94/94 复跑，证据见“进入 done 前:审查签字” Kimi 段）
+- GLM 审查结论: accept（2026-08-24；四项委托验证与复跑，见同节 GLM 段）
+- 必须返工项: 无
+- Accept / rework: **accept / done（2026-08-24）**。
 
 ## 用户验收
 
-- 用户结论: **accept（2026-08-24）**；用户已查看功能界面并确认“没问题”。该结论不替代 Kimi / GLM
-  的实现审查签字，本卡在两方 accept 前仍保持 review。
+- 用户结论: **accept（2026-08-24）**；用户已查看功能界面并确认“没问题”，随后确认三方签字完成。
 - 后续任务: `ED-PROJECT-STARTUP-IA-1` 应复用本卡公共合同。
 
 ## 交接日志
+
+- 2026-08-24 Kimi（done 前终审 b118ce3a）: 签 **accept**。独立直读共享控制器（draftKey+syncToken
+  身份、committedRef 幂等、IME 延期提交、Escape/source 漂移丢弃）、数字 normalize 适配器与各页
+  floor/clamp 保留点、AST 门禁（全局直 dispatch 禁 + 采用面间接 patch 禁 + registry 双向绑定 +
+  七字段空 allowlist）；采用页逐字符 dispatch grep 清零；聚焦 6 文件 94/94 复跑通过。
+  未修改实现文件，未代签 GLM，未标 done。三方 accept 已齐，待用户最终收口。
 
 - 2026-08-24 Kimi: 独立直读 edit-session dispatch 链、App 根订阅、EnemyTab/ProjectWorkbenchTab 逐字符
   命令路径、ItemTab 离散先例与 MediaAssetNameField 草稿先例；签 premise verified + design agree
@@ -273,26 +301,19 @@ Branch: `codex/ed-audio-workbench-1`（用户交接的共享集成分支）
 - 2026-08-24 Codex: 完成 `b118ce3a`，公共 draft/commit 合同、首批全域采用、registry/AST 门禁、
   聚焦/全量/浏览器验证闭环；自审 accept，任务转 review。Next: Kimi/GLM 独立代码审查与验收签字。
 - 2026-08-24 User: 已查看功能界面并确认没问题；用户验收 accept，仍待 Kimi/GLM 实现审查签字。
+- 2026-08-24 Codex: 核对任务卡内 Kimi / GLM 独立终审 accept 均已落账；结合 Codex accept 与
+  User accept，done 门禁满足，无返工项，本卡收口。
 
 ## 下一位 Agent 提示词
 
-```text
-审查任务: ED-FIELD-COMMIT-1 编辑器字段草稿、提交与撤销边界统一
-任务卡: docs/ops/tasks/ED-FIELD-COMMIT-1-editor-field-draft-commit-boundary.md
-当前状态: review；实现提交 b118ce3a；Codex self-review accept，Kimi/GLM pending
-你的角色: Kimi 或 GLM 独立代码审查/验收者
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、docs/phase2/editor/editor-design-system-v1.md，
-以及 controls.tsx、field-commit-adoption.json、field-commit-boundary.test.ts 和至少一个业务采用页
-已完成: 共享 text/number/textarea draft→validate→commit/cancel→resync；IME、Enter+blur、Escape、
-对象切换、undo/redo、100-input、registry/AST 门禁及真实浏览器验证
-重点审: KF1-KF3/GF1-GF3；数字 normalize 是否保持原 floor/clamp；静态门禁是否漏 ActorMode/间接 patch；
-allowlist 七字段 schema；input 113→101、textarea 2→1 的基线是否可信
-请输出: accept，或 counter/rework 的 file:line、复现命令和阻断理由；把结论写回本卡 done 前签字表
-允许改动: 只允许写任务卡审查记录；发现实现问题先签 rework/counter，不要由 reviewer 直接改实现
-禁止: Kimi/GLM 两签未齐不得标 done；不得重开已完成旧卡，不得提交 .mimosa
-```
+无下一位 Agent 提示词；本卡已完成三方终审与用户验收。后续按看板推进 `ED-DS-3`，不得重开本卡。
 - 2026-08-24 GLM（覆盖/census/测试矩阵）: 审查完成，签 **premise verified + design agree
   （附 GF1-GF3）**。dispatch 成本链与根订阅一手核实；EnemyTab:776 名字字段逐字符
   UpdateLocaleCommand 实锤；多页 census 比 卡文更广（ActorMode 2 处未列——GF3 要求
   registry 全页扫）。GF1 钉 dispatch/dirty/undo 三计数可证伪；GF2 钉 Enter+blur 双提交
   与草稿污染对象负例；GF3 钉离散白名单闭合与同 GD1 格式。未改实现，未代签 Kimi。
+- 2026-08-24 GLM（覆盖/census/测试矩阵）: done 终审完成并签 **accept**。GF1-GF3 全落地且
+  两处超钉：GF1 三计数完整断言 + Enter-click 幂等实测；GF3 门禁为真 TypeScript AST（非
+  正则）——连续值精确分类、checkbox/radio 离散自动豁免、间接 patch 14 函数仅 adopted
+  surface 启用、ActorMode 覆盖确认。数字 normalize 领域注入保留各页 floor/clamp。focused
+  30+19+typecheck 复跑全绿。未改实现，未代签 Kimi，未标 done。
