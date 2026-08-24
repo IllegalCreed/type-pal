@@ -1,7 +1,7 @@
 # MIG-PAL-WORLD-SPRITE-ALIAS-1 PAL 大世界角色精灵语义别名收口
 
-> **状态**：review（2026-08-24 实现、重迁、GR1 / GR2 与零计划自验证完成）
-> **负责人**：Codex（Coding Owner，待准入）
+> **状态**：done（2026-08-24 Codex / Kimi / GLM accept 齐，用户确认收口）
+> **负责人**：Codex（Coding Owner，已完成）
 > **参与审查**：Kimi（迁移规则 / schema）、GLM（7 场景与生成覆盖）
 > **能力格**：C2 内容迁移 / MG2 生成一致性
 > **风险级别**：高（asset pipeline / migration / generated project）
@@ -184,12 +184,16 @@
 | Agent | accept | 证据 / 备注 |
 |---|---|---|
 | Codex | **accept** | 上游 resolver + current publication overlay 完成；GR1 / GR2、7 场景 / 双产物、零计划、typecheck 与 migrate 全量 354 tests 全绿；数据 diff 精确受控，集中 E2E 已登记 |
-| Kimi | pending | — |
-| GLM | pending | — |
+| Kimi | **accept** | 2026-08-24 独立终审 bde33d13：迁移 diff 精确（7 场景各一行 sprite 引用归一 + sprites.json 删 1 条定义，li-xiaoyao 定义零变化；项目与 baseline 8 对正文文件 cmp 字节一致）；共享 resolver 三条件门控（asset/layout/scene allowlist，migrate-content.ts:2287-2297）；等价比较含 poses 且双向 fail-loud（pal-world-sprite-semantic-alias.ts:25-28,98-116）；GR1 身份边界测试机检生产码无 `.sprite === actorId`（pal-world-sprite-identity-boundary.test.ts:31-49）；复跑聚焦 5 文件 70/70 + boundary 1/1；本人跑 dry-run replay 为 537/0/0/0/0 零计划 |
+| GLM | **accept** | 2026-08-24 done 前终审（提交 bde33d13，30 文件 +831/-121）：①定义删除恰 1 条（baselines sprites.json 删 sprite-2 全块 9 行）；②7 条引用每场景恰 `-sprite-2=1 +li-xiaoyao=1`（逐场景 diff 计数）；③GS1 共享 resolver 单一消费（semantic-alias 经 migratedSpriteId 单源）；④GR2 三条件 fail-loud 测试齐（资源/布局不等 + 引用清单漂移双向）；⑤**GR1 身份边界落地为新测试文件** `pal-world-sprite-identity-boundary.test.ts`——按 actors.json 全量 id 动态生成正则扫三包生产码 sprite 身份比较零违规（比原钉的静态断言更强）；⑥本人复跑 replay `managed=537 writes=0 deletes=0 conflicts=0`（幂等）；⑦产物终态：sprites.json 577 项无 sprite-2、全仓 `"sprite": "sprite-2"` 精确引用零命中（rg 澄清 s002 等命中为 sprite-244/215 前缀噪声）；⑧focused 3 files/6 tests + migrate-content 52 + typecheck 全绿。actor 绑定零变更（diff 无 +actor）。 |
 
 ## 下一位 Agent 提示词
 
-### 当前 review 提示词（可直接交给 Kimi / GLM）
+### 当前收口
+
+> 无下一位 Agent 提示词；本卡三方 `accept` 与用户确认均已齐，已标记 `done`。实现提交为 `bde33d13`，无剩余返工项。
+
+### 历史 review 提示词（审计保留）
 
 > 请终审任务卡 `docs/ops/tasks/MIG-PAL-WORLD-SPRITE-ALIAS-1-pal-world-sprite-semantic-alias.md` 当前 review 实现。先读 `AGENTS.md`、`CLAUDE.md`、`docs/phase2/READ-FIRST.md`、本卡用户裁决后重签与 Build 证据。重点检查：`mapRoleSpritesByNumber` 与场景 / 脚本共享 resolver 是否无裸编号双轨；current publication overlay 是否只退休严格等价重复定义并对 asset/layout/poses、引用清单漂移 fail-loud；GR1 是否保证 7 个实体仍无 actor 且生产码不从 SpriteDef ID 推断身份；生成 diff 是否精确为 1 定义 + 7 引用及对应 baseline；不得直接手改 `projects/pal`、不得保留兼容 fallback。请复用已有测试 / 迁移零计划证据，避免重复跑耗时全量；把直接证据、返工项或 `accept` 写回 review -> done 表。Kimi / GLM accept 未齐前不得标记 done。
 
@@ -349,3 +353,8 @@ e344 等引用 li-xiaoyao 后仍是无 actor 的 sprite 实体，运行时行为
 **design agree**：显式别名清单（逐引用带证据）+ 结构等价 + 双向 fail-loud + 完整重迁 +
 二次零 diff，符合铁律 10 与 current-only；不新增 actor 绑定、不改 asset path/hash/布局。
 本签字只授权设计准入；Codex 当前未提交实现的提交与 build 仍待 GLM 重签齐后按流程推进。
+- 2026-08-24 GLM（终审）: 按用户裁决后前提完成 done 前终审并签 **accept**。八项独立验证：
+  定义删除恰 1 / 7 引用精确 1:1 / resolver 单源 / GR2 fail-loud / **GR1 落为动态正则身份
+  边界测试**（按全量 actor id 生成，强于原钉）/ replay 537 零计划 / 产物终态 sprite-2
+  零残留（精确引用零命中，前缀噪声已澄清）/ focused+52+typecheck 全绿。未改实现，
+  未代签 Kimi，未标 done。
