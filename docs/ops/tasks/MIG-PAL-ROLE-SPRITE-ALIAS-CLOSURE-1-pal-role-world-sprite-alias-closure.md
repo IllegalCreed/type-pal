@@ -1,7 +1,7 @@
 # MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1 PAL 角色大世界精灵语义别名全量闭包
 
-> **状态**：build（2026-08-24 三方 `verified + agree` 齐）
-> **负责人**：Codex（Coding Owner）
+> **状态**：review（2026-08-24 全角色闭包、完整重迁与自验证完成）
+> **负责人**：Codex（Coding Owner，build 已完成）
 > **参与审查**：Kimi（迁移规则 / 闭包不变量）、GLM（全角色 / 全场景 census）
 > **能力格**：C2 内容迁移 / MG2 生成一致性
 > **风险级别**：高（asset pipeline / migration / generated project）
@@ -136,16 +136,16 @@ Codex 已用当前 scene `entity.id` 回查 `data/extracted/data/scene/<n>.json`
 
 ## 验收标准
 
-- [ ] Kimi / GLM 分别独立签 `premise verified + design agree`，至少一方复跑全库 4/44/37 census。
-- [ ] 角色域严格重复闭包门禁覆盖六名角色，不允许只钉某一个具体 ID。
-- [ ] `sprite-3`、`sprite-5`、`sprite-7`、`sprite-26` 定义在 current / baseline 均不存在。
-- [ ] 44 个引用全部改为对应语义 ID；与显式证据清单双向闭合。
-- [ ] 四个语义定义迁移前后逐字段不变，asset / layout / poses / 物理帧不变。
-- [ ] 51 个 alias 实体均不新增 `actor`；生产码身份边界扫描保持通过。
-- [ ] 数据 diff 精确为 4 定义删除 + 44 引用归一及 baseline / `_state` 对应更新。
-- [ ] 完整迁移后二次运行 `writes=0 deletes=0 conflicts=0 asset-deletes=0`。
-- [ ] 聚焦测试先行；最终受影响 migrate 包全量测试只跑一次。
-- [ ] 功能性编辑器最小视觉验证：用途定义列表不再显示四组双项，滚动与选择保持正常。
+- [x] Kimi / GLM 分别独立签 `premise verified + design agree`，至少一方复跑全库 4/44/37 census。
+- [x] 角色域严格重复闭包门禁覆盖六名角色，不允许只钉某一个具体 ID。
+- [x] `sprite-3`、`sprite-5`、`sprite-7`、`sprite-26` 定义在 current / baseline 均不存在。
+- [x] 44 个引用全部改为对应语义 ID；与显式证据清单双向闭合。
+- [x] 四个语义定义迁移前后逐字段不变，asset / layout / poses / 物理帧不变。
+- [x] 51 个 alias 实体均不新增 `actor`；生产码身份边界扫描保持通过。
+- [x] 数据 diff 精确为 4 定义删除 + 44 引用归一及 baseline / `_state` 对应更新。
+- [x] 完整迁移后二次运行 `writes=0 deletes=0 conflicts=0 asset-deletes=0`。
+- [x] 聚焦测试先行；最终受影响 migrate 包全量测试只跑一次。
+- [x] 功能性编辑器最小视觉验证：用途定义列表不再显示四组双项，滚动与选择保持正常。
 
 ## 推进签字
 
@@ -163,20 +163,43 @@ Codex 已用当前 scene `entity.id` 回查 `data/extracted/data/scene/<n>.json`
 
 | Agent | accept | 证据 / 备注 |
 |---|---|---|
-| Codex | pending | — |
+| Codex | **accept** | 完整角色域闭包、合成第五组 current/generated 负例、51 实体身份边界、4 定义 / 44 引用精确 diff、current/baseline 正文镜像、replay 与二次 dry-run 零计划均通过；typecheck 与 migrate 全量覆盖完成，浏览器验证四个资源均只剩 1 个用途定义 |
 | Kimi | pending | — |
 | GLM | pending | — |
 
 ## Build 与验证
 
-- 实现提交：pending
-- 修改文件：pending
-- 聚焦测试：pending
-- 全量测试：pending
-- 迁移 / 二次零计划：pending
-- 浏览器证据：pending
+- 实现提交：`0e84e565 fix(migrate): close PAL role sprite aliases`。
+- 修改文件：扩展 `PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES` 为 5 角色 / 51 引用；
+  `applyPalWorldSpriteSemanticAliases` 新增完整角色域闭包报告与 current/generated 第五组拦截；
+  PAL 生成冻结值同步为纯生成 572 定义 / 13 共享关系；current 与 baseline 重迁 37 scenes + sprites，
+  baseline `_state` 随事务更新。
+- 数据证据：结构化 HEAD 对比得到 current sprites `577 -> 573`，仅删除
+  `sprite-3/5/7/26`；37 个 scene 文件恰 44 个 `sprite` 字段替换，unexpected=0；其余 573 个
+  定义逐字段不变；current/baseline 38 份正文逐字节一致；严格重复组为 0。
+- 聚焦测试：首轮 unit 3 files / 68 tests；最终 unit 4 files / 69 tests + PAL alias 1 file /
+  2 tests 全绿；golden 更新后 `pal-sprite-action-census.pal.test.ts` 1/1 通过。
+- 类型检查：`pnpm --filter @type-pal/migrate run typecheck` 通过。
+- 全量测试：按纪律仅运行一次；43 files / 355 tests 中 42 files / 354 tests 当场通过，唯一失败为
+  本卡 12 个 page0-auto 拒绝实例的预期 SpriteId golden 漂移；accepted/action digest 均不变。
+  核清并更新 rejection digest 后只复跑该聚焦文件，1/1 通过，不重复耗时全量。
+- 迁移：首次 dry-run `managed=537 writes=38 deletes=0 conflicts=0 asset-deletes=0`；正式
+  `--write` 为 transaction-changes=77，内部 replay 零计划；第二次独立 dry-run 为
+  `managed=537 writes=0 deletes=0 conflicts=0 asset-deletes=0`。closure 保持 scenes=294、
+  maps=223、assets=1934、既有 warning 口径 reference=4 / asset=182。
+- 浏览器证据：复用本机 `http://localhost:6010/`，PAL 003 / 005 / 007 / 026 左侧均显示
+  `1 个用途定义`；四次切换成功，精确 legacy ID 文本计数均为 0；赵灵儿详情只显示
+  `赵灵儿(大世界) / zhao-linger / 四向`，滚动、选择、帧布局正常；console warning/error=0。
+- 格式：5 个本轮小型 TS 文件 Biome check 通过；`pal-migration.ts` 本轮仅改摘要、定义数与共享数，
+  未机械重排其既有格式债；`git diff --check` 通过。
 
 ## 下一位 Agent 提示词
+
+### 当前 review 提示词
+
+> 请终审任务卡 `docs/ops/tasks/MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1-pal-role-world-sprite-alias-closure.md` 当前 review 实现。先读本卡 Build 证据与实现提交，再独立检查：alias 清单是否为 5 角色 / 51 引用；完整角色域闭包是否同时扫描 current/generated，显式报告巫后无候选并用合成 `sprite-525` 负例 fail-loud；共享 resolver/overlay 是否仍只在 asset/layout/poses 严格等价时归一且不新增 actor；生成 diff 是否精确为 4 定义 + 44 引用及镜像 baseline；二次迁移是否零计划。请复用现有全量与浏览器证据，避免重复跑耗时全量；把直接证据、返工项或 `accept` 写回 review -> done 表。Kimi / GLM accept 未齐前不得标记 done。
+
+### 历史 draft 提示词
 
 > 请合并审查任务卡 `docs/ops/tasks/MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1-pal-role-world-sprite-alias-closure.md`。先读 `AGENTS.md`、`CLAUDE.md`、`docs/phase2/READ-FIRST.md`、历史卡 `MIG-PAL-WORLD-SPRITE-ALIAS-1`，再直读 `packages/migrate/src/pal-world-sprite-layouts.ts:17-42`、`migrate-content.ts:2286-2296`、`pal-world-sprite-semantic-alias.ts` 与 `data/extracted/data/player-roles.json`。用户已指出赵灵儿仍重复；Codex 全库 census 得到唯一剩余四组：赵灵儿 6、林月如 18、阿奴 11、盖罗娇 9，共 44 引用 / 37 场景。Kimi 请审完整角色域双向闭包、resolver 与 fail-loud；GLM 请独立复跑 4/44/37 并至少抽查一名非赵灵儿角色的 extracted spriteNum / nSpriteFrames。把直接证据、可证伪观察与测试缺口写回卡，签 `premise verified + design agree` 或 `counter`。三签未齐前不得修改实现文件、不得重迁、不得标记 build / done。
 
