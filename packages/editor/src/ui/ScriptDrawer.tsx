@@ -65,7 +65,7 @@ import { createScriptReferenceCatalog } from '../core/script-reference-catalog.j
 import { createAuthoredScriptCall } from '../core/shared-script.js'
 import { defaultActionTargetForEntity } from '../core/sprite-actions.js'
 import { CommandForm } from './CommandForm.js'
-import { DsSelect } from './design-system/controls.js'
+import { DsDraftNumberInput, DsSelect } from './design-system/controls.js'
 import { musicAssets } from './MusicPicker.js'
 import {
   PanelResizeHandle,
@@ -1174,25 +1174,28 @@ export function ScriptDrawer(props: {
                     <span style={{ color: 'var(--faint)', fontSize: 11, alignSelf: 'center' }}>
                       距离
                     </span>
-                    <input
-                      className="in"
-                      type="number"
-                      min={0}
-                      style={{ width: 48, height: 22, fontSize: 12 }}
-                      title="触发距离(格;交互缺省 1,触碰缺省 0)"
-                      value={trig.range ?? (trig.on === 'touch' ? 0 : 1)}
-                      onChange={(e) =>
-                        session.dispatch(
-                          new UpdateTriggerModeCommand(
-                            scene.id,
-                            selectedEntityId,
-                            trig.on ?? 'interact',
-                            Math.max(0, Number(e.target.value) || 0),
-                            pageIndex,
-                          ),
-                        )
-                      }
-                    />
+                    <span className="script-trigger-range">
+                      <DsDraftNumberInput
+                        size="compact"
+                        min={0}
+                        normalize={(value) => Math.max(0, value)}
+                        draftKey={`scene:${scene.id}:entity:${selectedEntityId}:page:${pageIndex}:trigger.range`}
+                        syncToken={session.getHistoryVersion()}
+                        title="触发距离(格;交互缺省 1,触碰缺省 0)"
+                        value={trig.range ?? (trig.on === 'touch' ? 0 : 1)}
+                        onCommit={(value) =>
+                          session.dispatch(
+                            new UpdateTriggerModeCommand(
+                              scene.id,
+                              selectedEntityId,
+                              trig.on ?? 'interact',
+                              value ?? 0,
+                              pageIndex,
+                            ),
+                          )
+                        }
+                      />
+                    </span>
                   </span>
                 )
               })()

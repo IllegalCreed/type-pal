@@ -427,6 +427,301 @@ export const DsTextInput = forwardRef<
   )
 })
 
+type DsDraftInputState = {
+  source: string
+  value: string
+  error?: string
+}
+
+type DsDraftInputContract = {
+  /** Stable object + field identity. Changing it cancels the previous object's draft. */
+  draftKey: string
+  /** Optional external transaction version used to resync after undo/redo. */
+  syncToken?: string | number
+  validate?: (value: string) => string | undefined
+  onCommit: (value: string) => void
+  onCancel?: () => void
+}
+
+type DsDraftTextInputProps = Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  | 'className'
+  | 'style'
+  | 'size'
+  | 'value'
+  | 'defaultValue'
+  | 'onChange'
+  | 'onBlur'
+  | 'onKeyDown'
+  | 'onCompositionStart'
+  | 'onCompositionEnd'
+> &
+  DsFormControlAppearance &
+  DsDraftInputContract & {
+    value: string
+  }
+
+function draftSource(draftKey: string, syncToken: string | number | undefined, value: string) {
+  return `${draftKey}\0${syncToken ?? ''}\0${value}`
+}
+
+/**
+ * Canonical continuous-text transaction boundary.
+ * Input and IME composition stay local; blur/Enter commit once, Escape cancels, and
+ * identity/canonical changes discard stale drafts.
+ */
+export function DsDraftTextInput(props: DsDraftTextInputProps) {
+  const {
+    draftKey,
+    syncToken,
+    value: canonicalValue,
+    validate,
+    onCommit,
+    onCancel,
+    invalid,
+    title,
+    ...controlProps
+  } = props
+  const controller = useDsDraftController({
+    draftKey,
+    syncToken,
+    value: canonicalValue,
+    validate,
+    onCommit,
+    onCancel,
+  })
+  return (
+    <DsTextInput
+      {...controlProps}
+      value={controller.value}
+      invalid={invalid || Boolean(controller.error)}
+      title={controller.error ?? title}
+      data-ds-draft-commit={controlProps.type === 'number' ? 'number' : 'text'}
+      onChange={(event) => controller.change(event.target.value)}
+      onBlur={controller.blur}
+      onKeyDown={controller.keyDown}
+      onCompositionStart={controller.compositionStart}
+      onCompositionEnd={(event) => controller.compositionEnd(event.currentTarget.value)}
+    />
+  )
+}
+
+function useDsDraftController(props: DsDraftInputContract & { value: string }): {
+  value: string
+  error?: string
+  change(value: string): void
+  blur(): void
+  keyDown(event: ReactKeyboardEvent<HTMLInputElement | HTMLTextAreaElement>): void
+  compositionStart(): void
+  compositionEnd(value: string): void
+} {
+  const { draftKey, syncToken, value: canonicalValue, validate, onCommit, onCancel } = props
+  const source = draftSource(draftKey, syncToken, canonicalValue)
+  const [draft, setDraft] = useState<DsDraftInputState>({ source, value: canonicalValue })
+  const current = draft.source === source ? draft : { source, value: canonicalValue }
+  const currentRef = useRef<DsDraftInputState>(current)
+  const composingRef = useRef(false)
+  const blurredWhileComposingRef = useRef(false)
+  const committedRef = useRef<string | undefined>(undefined)
+
+  // Keep event handlers on the current object even before the synchronization effect runs.
+  currentRef.current = current
+
+  useEffect(() => {
+    if (draft.source !== source) setDraft({ source, value: canonicalValue })
+  }, [canonicalValue, draft.source, source])
+
+  const commit = useCallback((): boolean => {
+    const next = currentRef.current
+    if (next.source !== source) return true
+    const signature = `${source}\0${next.value}`
+    if (committedRef.current === signature) return true
+    const error = validate?.(next.value)
+    if (error) {
+      const invalidDraft = { ...next, error }
+      currentRef.current = invalidDraft
+      setDraft(invalidDraft)
+      return false
+    }
+    committedRef.current = signature
+    if (next.value !== canonicalValue) onCommit(next.value)
+    const cleanDraft = { source, value: next.value }
+    currentRef.current = cleanDraft
+    setDraft(cleanDraft)
+    return true
+  }, [canonicalValue, onCommit, source, validate])
+
+  return {
+    value: current.value,
+    error: current.error,
+    change: (value) => {
+      const next = { source, value }
+      committedRef.current = undefined
+      currentRef.current = next
+      setDraft(next)
+    },
+    blur: () => {
+      if (composingRef.current) {
+        blurredWhileComposingRef.current = true
+        return
+      }
+      commit()
+    },
+    keyDown: (event) => {
+      if (event.key === 'Enter') {
+        if (composingRef.current || event.nativeEvent.isComposing) return
+        event.preventDefault()
+        if (commit()) event.currentTarget.blur()
+        return
+      }
+      if (event.key !== 'Escape') return
+      event.preventDefault()
+      composingRef.current = false
+      blurredWhileComposingRef.current = false
+      committedRef.current = undefined
+      const cleanDraft = { source, value: canonicalValue }
+      currentRef.current = cleanDraft
+      setDraft(cleanDraft)
+      onCancel?.()
+      event.currentTarget.blur()
+    },
+    compositionStart: () => {
+      composingRef.current = true
+    },
+    compositionEnd: (value) => {
+      composingRef.current = false
+      const next = { source, value }
+      currentRef.current = next
+      setDraft(next)
+      if (blurredWhileComposingRef.current) {
+        blurredWhileComposingRef.current = false
+        queueMicrotask(commit)
+      }
+    },
+  }
+}
+
+type DsDraftNumberInputProps = Omit<
+  DsDraftTextInputProps,
+  'type' | 'inputMode' | 'value' | 'validate' | 'onCommit'
+> & {
+  value: number | undefined
+  allowEmpty?: boolean
+  enforceRange?: boolean
+  integer?: boolean
+  normalize?: (value: number) => number
+  validate?: (value: number) => string | undefined
+  onCommit: (value: number | undefined) => void
+}
+
+/** Number adapter for the shared draft boundary; empty/non-finite/out-of-range drafts never commit. */
+export function DsDraftNumberInput(props: DsDraftNumberInputProps) {
+  const {
+    value,
+    allowEmpty = false,
+    enforceRange = true,
+    integer = false,
+    min,
+    max,
+    validate,
+    normalize = (candidate) => candidate,
+    onCommit,
+    monospace = true,
+    ...controlProps
+  } = props
+  const parse = (draft: string): number | undefined => {
+    if (!draft.trim()) return undefined
+    const parsed = Number(draft)
+    return Number.isFinite(parsed) ? parsed : undefined
+  }
+  return (
+    <DsDraftTextInput
+      {...controlProps}
+      type="number"
+      inputMode="decimal"
+      min={min}
+      max={max}
+      monospace={monospace}
+      value={value === undefined ? '' : String(value)}
+      validate={(draft) => {
+        const parsed = parse(draft)
+        if (allowEmpty && parsed === undefined && !draft.trim()) return undefined
+        if (parsed === undefined) return '请输入有效数字。'
+        const normalized = normalize(parsed)
+        if (!Number.isFinite(normalized)) return '请输入有效数字。'
+        if (integer && !Number.isInteger(normalized)) return '请输入整数。'
+        if (enforceRange && min !== undefined && normalized < Number(min))
+          return `不能小于 ${min}。`
+        if (enforceRange && max !== undefined && normalized > Number(max))
+          return `不能大于 ${max}。`
+        return validate?.(normalized)
+      }}
+      onCommit={(draft) => {
+        const parsed = parse(draft)
+        if (parsed !== undefined) onCommit(normalize(parsed))
+        else if (allowEmpty && !draft.trim()) onCommit(undefined)
+      }}
+    />
+  )
+}
+
+type DsDraftTextAreaProps = Omit<
+  TextareaHTMLAttributes<HTMLTextAreaElement>,
+  | 'className'
+  | 'style'
+  | 'value'
+  | 'defaultValue'
+  | 'onChange'
+  | 'onBlur'
+  | 'onKeyDown'
+  | 'onCompositionStart'
+  | 'onCompositionEnd'
+> &
+  DsFormControlAppearance &
+  DsDraftInputContract & {
+    value: string
+  }
+
+/** Multiline adapter for the same draft transaction boundary; Enter remains a newline. */
+export function DsDraftTextArea(props: DsDraftTextAreaProps) {
+  const {
+    draftKey,
+    syncToken,
+    value,
+    validate,
+    onCommit,
+    onCancel,
+    invalid,
+    title,
+    ...controlProps
+  } = props
+  const controller = useDsDraftController({
+    draftKey,
+    syncToken,
+    value,
+    validate,
+    onCommit,
+    onCancel,
+  })
+  return (
+    <DsTextArea
+      {...controlProps}
+      value={controller.value}
+      invalid={invalid || Boolean(controller.error)}
+      title={controller.error ?? title}
+      data-ds-draft-commit="textarea"
+      onChange={(event) => controller.change(event.target.value)}
+      onBlur={controller.blur}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' && !event.metaKey && !event.ctrlKey) return
+        controller.keyDown(event)
+      }}
+      onCompositionStart={controller.compositionStart}
+      onCompositionEnd={(event) => controller.compositionEnd(event.currentTarget.value)}
+    />
+  )
+}
+
 export function DsTextField(
   props: DsFieldChromeProps &
     Omit<InputHTMLAttributes<HTMLInputElement>, 'className' | 'style' | 'size'> &
@@ -455,6 +750,41 @@ export function DsTextField(
     >
       {(field) => (
         <DsTextInput
+          {...controlProps}
+          id={field.id}
+          required={required}
+          invalid={Boolean(error) || controlProps.invalid}
+          aria-describedby={describedBy(ariaDescribedBy, field['aria-describedby'])}
+        />
+      )}
+    </DsField>
+  )
+}
+
+export function DsDraftTextField(props: DsFieldChromeProps & DsDraftTextInputProps) {
+  const {
+    id,
+    label,
+    layout,
+    required,
+    help,
+    error,
+    fieldClassName,
+    'aria-describedby': ariaDescribedBy,
+    ...controlProps
+  } = props
+  return (
+    <DsField
+      id={id}
+      label={label}
+      layout={layout}
+      required={required}
+      help={help}
+      error={error}
+      className={fieldClassName}
+    >
+      {(field) => (
+        <DsDraftTextInput
           {...controlProps}
           id={field.id}
           required={required}
@@ -525,6 +855,41 @@ export function DsNumberField(
   )
 }
 
+export function DsDraftNumberField(props: DsFieldChromeProps & DsDraftNumberInputProps) {
+  const {
+    id,
+    label,
+    layout,
+    required,
+    help,
+    error,
+    fieldClassName,
+    'aria-describedby': ariaDescribedBy,
+    ...controlProps
+  } = props
+  return (
+    <DsField
+      id={id}
+      label={label}
+      layout={layout}
+      required={required}
+      help={help}
+      error={error}
+      className={fieldClassName}
+    >
+      {(field) => (
+        <DsDraftNumberInput
+          {...controlProps}
+          id={field.id}
+          required={required}
+          invalid={Boolean(error) || controlProps.invalid}
+          aria-describedby={describedBy(ariaDescribedBy, field['aria-describedby'])}
+        />
+      )}
+    </DsField>
+  )
+}
+
 export const DsTextArea = forwardRef<
   HTMLTextAreaElement,
   Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'className' | 'style'> & DsFormControlAppearance
@@ -576,6 +941,41 @@ export function DsTextAreaField(
     >
       {(field) => (
         <DsTextArea
+          {...controlProps}
+          id={field.id}
+          required={required}
+          invalid={Boolean(error) || controlProps.invalid}
+          aria-describedby={describedBy(ariaDescribedBy, field['aria-describedby'])}
+        />
+      )}
+    </DsField>
+  )
+}
+
+export function DsDraftTextAreaField(props: DsFieldChromeProps & DsDraftTextAreaProps) {
+  const {
+    id,
+    label,
+    layout,
+    required,
+    help,
+    error,
+    fieldClassName,
+    'aria-describedby': ariaDescribedBy,
+    ...controlProps
+  } = props
+  return (
+    <DsField
+      id={id}
+      label={label}
+      layout={layout}
+      required={required}
+      help={help}
+      error={error}
+      className={fieldClassName}
+    >
+      {(field) => (
+        <DsDraftTextArea
           {...controlProps}
           id={field.id}
           required={required}

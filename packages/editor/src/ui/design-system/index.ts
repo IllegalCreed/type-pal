@@ -7,4 +7,4 @@ export * from './overlays.js'
 export * from './recipes.js'
 export * from './virtual-list.js'
 
-export const EDITOR_DESIGN_SYSTEM_VERSION = '2.8.0' as const
+export const EDITOR_DESIGN_SYSTEM_VERSION = '2.9.0' as const

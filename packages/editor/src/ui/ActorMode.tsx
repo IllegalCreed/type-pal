@@ -38,10 +38,11 @@ import { BattleSpriteUploader } from './BattleSpriteUploader.js'
 import { CasualtyEditor } from './CasualtyEditor.js'
 import {
   DsButton,
+  DsDraftNumberInput,
+  DsDraftTextInput,
   DsField,
   DsIconButton,
   DsListHeader,
-  DsNumberInput,
   DsSelect,
   DsTabs,
   DsTag,
@@ -526,19 +527,18 @@ export function ActorMode(props: {
                       <div>
                         <dt>显示名称</dt>
                         <dd>
-                          <DsTextInput
+                          <DsDraftTextInput
                             size="compact"
                             aria-label="人物显示名称"
-                            key={`${actor.id}:${locale[actor.name] ?? ''}`}
-                            defaultValue={nm(actor.name)}
-                            onKeyDown={(event) => {
-                              if (event.key === 'Enter') event.currentTarget.blur()
-                            }}
-                            onBlur={(event) => {
-                              const next = event.currentTarget.value.trim()
-                              if (next && next !== nm(actor.name))
-                                session.dispatch(new UpdateLocaleCommand(actor.name, next))
-                            }}
+                            draftKey={`actor:${actor.id}:name`}
+                            syncToken={session.getHistoryVersion()}
+                            value={nm(actor.name)}
+                            validate={(value) =>
+                              value.trim() ? undefined : '人物显示名称不能为空。'
+                            }
+                            onCommit={(value) =>
+                              session.dispatch(new UpdateLocaleCommand(actor.name, value.trim()))
+                            }
                           />
                         </dd>
                       </div>
@@ -732,41 +732,57 @@ export function ActorMode(props: {
                     >
                       <div className="statgrid actor-stat-editor">
                         <EditStat
+                          draftKey={`actor:${actor.id}:baseStats.level`}
+                          syncToken={session.getHistoryVersion()}
                           k="等级"
                           v={battler.baseStats.level}
                           on={(value) => setStat('level', value)}
                         />
                         <EditStat
+                          draftKey={`actor:${actor.id}:baseStats.maxHP`}
+                          syncToken={session.getHistoryVersion()}
                           k="体力"
                           v={battler.baseStats.maxHP}
                           on={(value) => setStat('maxHP', value)}
                         />
                         <EditStat
+                          draftKey={`actor:${actor.id}:baseStats.maxMP`}
+                          syncToken={session.getHistoryVersion()}
                           k="真气"
                           v={battler.baseStats.maxMP}
                           on={(value) => setStat('maxMP', value)}
                         />
                         <EditStat
+                          draftKey={`actor:${actor.id}:baseStats.attack`}
+                          syncToken={session.getHistoryVersion()}
                           k="武术"
                           v={battler.baseStats.attack}
                           on={(value) => setStat('attack', value)}
                         />
                         <EditStat
+                          draftKey={`actor:${actor.id}:baseStats.defense`}
+                          syncToken={session.getHistoryVersion()}
                           k="防御"
                           v={battler.baseStats.defense}
                           on={(value) => setStat('defense', value)}
                         />
                         <EditStat
+                          draftKey={`actor:${actor.id}:baseStats.magicAttack`}
+                          syncToken={session.getHistoryVersion()}
                           k="灵力"
                           v={battler.baseStats.magicAttack}
                           on={(value) => setStat('magicAttack', value)}
                         />
                         <EditStat
+                          draftKey={`actor:${actor.id}:baseStats.speed`}
+                          syncToken={session.getHistoryVersion()}
                           k="身法"
                           v={battler.baseStats.speed}
                           on={(value) => setStat('speed', value)}
                         />
                         <EditStat
+                          draftKey={`actor:${actor.id}:baseStats.luck`}
+                          syncToken={session.getHistoryVersion()}
                           k="吉运"
                           v={battler.baseStats.luck}
                           on={(value) => setStat('luck', value)}
@@ -1296,21 +1312,30 @@ function ActorNonBattler(props: { onOverview: () => void }) {
   )
 }
 
-function EditStat(props: { k: string; v: number; on: (value: number) => void }) {
+function EditStat(props: {
+  k: string
+  v: number
+  draftKey: string
+  syncToken: number
+  on: (value: number) => void
+}) {
   return (
     <DsField label={props.k} className="actor-stat-field">
       {(field) => (
-        <DsNumberInput
+        <DsDraftNumberInput
           {...field}
           size="compact"
           monospace
           name={`actor-${props.k}`}
           autoComplete="off"
           aria-label={props.k}
+          draftKey={props.draftKey}
+          syncToken={props.syncToken}
           value={props.v}
-          onChange={(event) =>
-            event.target.valueAsNumber >= 0 && props.on(Math.floor(event.target.valueAsNumber))
-          }
+          min={0}
+          integer
+          normalize={Math.floor}
+          onCommit={(value) => value !== undefined && props.on(value)}
         />
       )}
     </DsField>

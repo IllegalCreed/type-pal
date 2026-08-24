@@ -70,6 +70,9 @@ import {
   DsDiagnosticList,
   DsDiagnosticPanel,
   DsDiagnosticRow,
+  DsDraftNumberInput,
+  DsDraftTextArea,
+  DsDraftTextInput,
   DsIconButton,
   DsInspectorSection,
   DsInspectorTabs,
@@ -172,24 +175,32 @@ function defaultEquipEffect(kind: EquipEffect['kind']): EquipEffect {
   }
 }
 
-function Num(props: { v: number; on: (n: number) => void; w?: number }) {
+function Num(props: {
+  v: number
+  draftKey: string
+  syncToken: number
+  on: (n: number) => void
+  w?: number
+}) {
   return (
-    <input
-      className="in mono ef-num"
-      type="number"
-      style={props.w ? { width: props.w } : undefined}
-      value={props.v}
-      onChange={(e) =>
-        props.on(Number.isFinite(e.target.valueAsNumber) ? e.target.valueAsNumber : 0)
-      }
-      onWheel={(e) => e.currentTarget.blur()}
-    />
+    <span className="ef-num" style={props.w ? { width: props.w } : undefined}>
+      <DsDraftNumberInput
+        size="compact"
+        draftKey={props.draftKey}
+        syncToken={props.syncToken}
+        value={props.v}
+        onCommit={(value) => value !== undefined && props.on(value)}
+        onWheel={(event) => event.currentTarget.blur()}
+      />
+    </span>
   )
 }
 
 /** 单条装备效果的分支字段(镜像 SkillTab 的 EffectFields)。 */
 function EquipEffectFields(props: {
   e: EquipEffect
+  draftKey: string
+  syncToken: number
   skills: SkillData[]
   battleSprites: readonly BattleSpriteDef[]
   actors: readonly ActorDef[]
@@ -198,7 +209,18 @@ function EquipEffectFields(props: {
   on: (next: EquipEffect) => void
   onOpenBattleSprite?: (id: string) => void
 }) {
-  const { e, skills, battleSprites, actors, equipableBy, locale, on, onOpenBattleSprite } = props
+  const {
+    e,
+    draftKey,
+    syncToken,
+    skills,
+    battleSprites,
+    actors,
+    equipableBy,
+    locale,
+    on,
+    onOpenBattleSprite,
+  } = props
   switch (e.kind) {
     case 'statBonus':
       return (
@@ -215,7 +237,12 @@ function EquipEffectFields(props: {
           </div>
           <label>
             <span>加/减</span>
-            <Num v={e.delta} on={(n) => on({ ...e, delta: n })} />
+            <Num
+              v={e.delta}
+              draftKey={`${draftKey}.delta`}
+              syncToken={syncToken}
+              on={(n) => on({ ...e, delta: n })}
+            />
           </label>
         </>
       )
@@ -237,7 +264,12 @@ function EquipEffectFields(props: {
           </div>
           <label>
             <span>加/减</span>
-            <Num v={e.delta} on={(n) => on({ ...e, delta: n })} />
+            <Num
+              v={e.delta}
+              draftKey={`${draftKey}.delta`}
+              syncToken={syncToken}
+              on={(n) => on({ ...e, delta: n })}
+            />
           </label>
         </>
       )
@@ -259,7 +291,12 @@ function EquipEffectFields(props: {
           </div>
           <label>
             <span>抗 %</span>
-            <Num v={e.percent} on={(n) => on({ ...e, percent: n })} />
+            <Num
+              v={e.percent}
+              draftKey={`${draftKey}.percent`}
+              syncToken={syncToken}
+              on={(n) => on({ ...e, percent: n })}
+            />
           </label>
         </>
       )
@@ -302,7 +339,12 @@ function EquipEffectFields(props: {
       return (
         <label>
           <span>每回合</span>
-          <Num v={e.amount} on={(n) => on({ ...e, amount: n })} />
+          <Num
+            v={e.amount}
+            draftKey={`${draftKey}.amount`}
+            syncToken={syncToken}
+            on={(n) => on({ ...e, amount: n })}
+          />
         </label>
       )
     case 'battleSprite':
@@ -642,7 +684,6 @@ export function ItemTab(props: {
   const [confirmDeleteId, setConfirmDeleteId] = useState<string>()
   const [confirmScriptReplaceId, setConfirmScriptReplaceId] = useState<string>()
   const [inspectorTab, setInspectorTab] = useState<ItemInspectorTab>('overview')
-  const [descriptionDraft, setDescriptionDraft] = useState('')
   const iconInputRef = useRef<HTMLInputElement>(null)
   const deletedSelectionRef = useRef<{ id: string; sawAbsent: boolean } | undefined>(undefined)
   const editorState = session.getState()
@@ -709,9 +750,6 @@ export function ItemTab(props: {
           diagnostic.target.objectId === item.id && !item[diagnostic.target.capability],
       )
     : []
-  useEffect(() => {
-    setDescriptionDraft(item?.desc.join('\n') ?? '')
-  }, [item?.desc])
   const skillName = useMemo(() => {
     const names = new Map(skills.map((skill) => [skill.id, skill.name]))
     return (id: string): string | undefined => names.get(id)
@@ -1321,14 +1359,16 @@ export function ItemTab(props: {
                     </div>
                   </div>
                   <div className="item-identity-fields">
-                    <label className="item-field">
+                    <label className="item-field" htmlFor="item-name">
                       <span>名称</span>
-                      <input
-                        className="in"
+                      <DsDraftTextInput
                         name="item-name"
+                        id="item-name"
                         autoComplete="off"
+                        draftKey={`item:${item.id}:name`}
+                        syncToken={session.getHistoryVersion()}
                         value={item.name}
-                        onChange={(event) => patch({ name: event.target.value })}
+                        onCommit={(value) => patch({ name: value })}
                       />
                     </label>
                     <div className="item-readonly-field">
@@ -1346,42 +1386,34 @@ export function ItemTab(props: {
                     </div>
                   </div>
                   <div className="item-trade-fields">
-                    <label className="item-field">
+                    <label className="item-field" htmlFor="item-buy-price">
                       <span>买价</span>
-                      <input
-                        className="in mono"
+                      <DsDraftNumberInput
                         name="item-buy-price"
-                        type="number"
+                        id="item-buy-price"
                         min={0}
+                        integer
+                        normalize={(value) => Math.max(0, Math.floor(value))}
+                        draftKey={`item:${item.id}:buyPrice`}
+                        syncToken={session.getHistoryVersion()}
                         value={item.buyPrice}
                         onWheel={(event) => event.currentTarget.blur()}
-                        onChange={(event) =>
-                          patch({
-                            buyPrice: Math.max(
-                              0,
-                              Math.floor(event.currentTarget.valueAsNumber || 0),
-                            ),
-                          })
-                        }
+                        onCommit={(value) => value !== undefined && patch({ buyPrice: value })}
                       />
                     </label>
-                    <label className="item-field">
+                    <label className="item-field" htmlFor="item-sell-price">
                       <span>卖价</span>
-                      <input
-                        className="in mono"
+                      <DsDraftNumberInput
                         name="item-sell-price"
-                        type="number"
+                        id="item-sell-price"
                         min={0}
+                        integer
+                        normalize={(value) => Math.max(0, Math.floor(value))}
+                        draftKey={`item:${item.id}:sellPrice`}
+                        syncToken={session.getHistoryVersion()}
                         value={item.sellPrice}
                         onWheel={(event) => event.currentTarget.blur()}
-                        onChange={(event) =>
-                          patch({
-                            sellPrice: Math.max(
-                              0,
-                              Math.floor(event.currentTarget.valueAsNumber || 0),
-                            ),
-                          })
-                        }
+                        onCommit={(value) => value !== undefined && patch({ sellPrice: value })}
                       />
                     </label>
                     <label className="item-inline-check item-sellable">
@@ -1403,17 +1435,18 @@ export function ItemTab(props: {
                       <p>只写玩家能看到的风味说明；装备与使用效果由下方能力卡生成。</p>
                     </div>
                   </div>
-                  <label className="item-field item-field-description">
+                  <label className="item-field item-field-description" htmlFor="item-description">
                     <span>介绍</span>
-                    <textarea
-                      className="in cf-ta"
+                    <DsDraftTextArea
                       name="item-description"
+                      id="item-description"
                       autoComplete="off"
-                      value={descriptionDraft}
-                      onChange={(event) => setDescriptionDraft(event.target.value)}
-                      onBlur={(event) =>
+                      draftKey={`item:${item.id}:description`}
+                      syncToken={session.getHistoryVersion()}
+                      value={item.desc.join('\n')}
+                      onCommit={(value) =>
                         patch({
-                          desc: event.target.value.split('\n').filter((line) => line.trim() !== ''),
+                          desc: value.split('\n').filter((line) => line.trim() !== ''),
                         })
                       }
                       spellCheck={false}
@@ -1555,6 +1588,8 @@ export function ItemTab(props: {
                           <div className="ef-fields">
                             <EquipEffectFields
                               e={effect}
+                              draftKey={`item:${item.id}:equip.effects.${index}`}
+                              syncToken={session.getHistoryVersion()}
                               skills={skills}
                               battleSprites={battleSprites}
                               actors={actors}

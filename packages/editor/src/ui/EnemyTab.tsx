@@ -43,12 +43,12 @@ import {
   DsActionLink,
   DsButton,
   DsCheckbox,
+  DsDraftNumberInput,
+  DsDraftTextInput,
   DsField,
   DsIconButton,
-  DsNumberInput,
   DsSelect,
   DsTag,
-  DsTextInput,
 } from './design-system/controls.js'
 import {
   DsCatalogControls,
@@ -323,13 +323,15 @@ const TARGETS: { v: AiTarget; l: string }[] = [
 
 function RuleRow(props: {
   rule: AiRule
+  draftScope: string
+  syncToken: number
   enemies: EnemyDef[]
   skills: SkillData[]
   locale: Locale
   onChange: (r: AiRule) => void
   onOp: (op: 'up' | 'down' | 'del') => void
 }) {
-  const { rule, enemies, skills, locale, onChange, onOp } = props
+  const { rule, draftScope, syncToken, enemies, skills, locale, onChange, onOp } = props
   const ck = condKindOf(rule.when)
   const a = rule.do
   const setAction = (patch: Partial<AiAction>): void =>
@@ -381,12 +383,16 @@ function RuleRow(props: {
       </span>
       {ck === 'hpBelow' || ck === 'hpAbove' || ck === 'turnGte' || ck === 'chance' ? (
         <span className="rr-num">
-          <DsNumberInput
+          <DsDraftNumberInput
             size="compact"
             aria-label="条件数值"
+            draftKey={`${draftScope}:condition`}
+            syncToken={syncToken}
             value={condValueOf(rule.when)}
             onWheel={(e) => e.currentTarget.blur()}
-            onChange={(e) => onChange({ ...rule, when: makeCond(ck, Number(e.target.value)) })}
+            onCommit={(value) =>
+              value !== undefined && onChange({ ...rule, when: makeCond(ck, value) })
+            }
           />
         </span>
       ) : (
@@ -448,25 +454,31 @@ function RuleRow(props: {
             />
           </span>
           <span className="rr-num">
-            <DsNumberInput
+            <DsDraftNumberInput
               size="compact"
               aria-label="召唤数量"
               min={1}
+              normalize={(value) => Math.max(1, value)}
+              draftKey={`${draftScope}:summon.count`}
+              syncToken={syncToken}
               value={a.count}
               onWheel={(e) => e.currentTarget.blur()}
-              onChange={(e) => setAction({ count: Math.max(1, Number(e.target.value)) })}
+              onCommit={(value) => value !== undefined && setAction({ count: value })}
             />
           </span>
         </>
       ) : a.kind === 'divide' ? (
         <span className="rr-num">
-          <DsNumberInput
+          <DsDraftNumberInput
             size="compact"
             aria-label="分裂数量"
             min={1}
+            normalize={(value) => Math.max(1, value)}
+            draftKey={`${draftScope}:divide.copies`}
+            syncToken={syncToken}
             value={a.copies}
             onWheel={(e) => e.currentTarget.blur()}
-            onChange={(e) => setAction({ copies: Math.max(1, Number(e.target.value)) })}
+            onCommit={(value) => value !== undefined && setAction({ copies: value })}
           />
         </span>
       ) : (
@@ -770,11 +782,13 @@ export function EnemyTab(props: {
                 <div className="form-grid">
                   <DsField label="名字">
                     {({ id }) => (
-                      <DsTextInput
+                      <DsDraftTextInput
                         id={id}
+                        draftKey={`enemy:${enemy.id}:name`}
+                        syncToken={session.getHistoryVersion()}
                         value={nameOf(enemy)}
-                        onChange={(e) =>
-                          session.dispatch(new UpdateLocaleCommand(enemy.name, e.target.value))
+                        onCommit={(value) =>
+                          session.dispatch(new UpdateLocaleCommand(enemy.name, value))
                         }
                       />
                     )}
@@ -815,16 +829,18 @@ export function EnemyTab(props: {
                           const id = `${fieldPrefix}-stat-${key}`
                           return (
                             <DsField id={id} label={label} key={key}>
-                              <DsNumberInput
+                              <DsDraftNumberInput
                                 id={id}
                                 name={`enemy.${enemy.id}.stats.${key}`}
                                 autoComplete="off"
                                 monospace
+                                draftKey={`enemy:${enemy.id}:stats.${key}`}
+                                syncToken={session.getHistoryVersion()}
                                 value={enemy.stats[key]}
                                 onWheel={(event) => event.currentTarget.blur()}
-                                onChange={(event) =>
-                                  patchStats(key, Math.floor(event.target.valueAsNumber || 0))
-                                }
+                                integer
+                                normalize={Math.floor}
+                                onCommit={(value) => value !== undefined && patchStats(key, value)}
                               />
                             </DsField>
                           )
@@ -887,6 +903,8 @@ export function EnemyTab(props: {
                   <RuleRow
                     key={i}
                     rule={r}
+                    draftScope={`enemy:${enemy.id}:ai.${i}`}
+                    syncToken={session.getHistoryVersion()}
                     enemies={enemies}
                     skills={skills}
                     locale={locale}
@@ -968,20 +986,24 @@ export function EnemyTab(props: {
                         ) : null}
                         <DsField label="数量">
                           {({ id }) => (
-                            <DsNumberInput
+                            <DsDraftNumberInput
                               id={id}
                               name={`enemy.${enemy.id}.steal.count`}
                               min={1}
                               max={999}
                               monospace
+                              draftKey={`enemy:${enemy.id}:steal.count`}
+                              syncToken={session.getHistoryVersion()}
                               value={enemy.steal?.count ?? 1}
                               onWheel={(event) => event.currentTarget.blur()}
-                              onChange={(event) =>
+                              integer
+                              normalize={(value) => integerInRange(value, 1, 999, 1)}
+                              onCommit={(value) =>
                                 session.dispatch(
                                   new UpdateEnemyCommand(enemy.id, {
                                     steal: {
                                       ...enemy.steal!,
-                                      count: integerInRange(event.target.valueAsNumber, 1, 999, 1),
+                                      count: integerInRange(value ?? 1, 1, 999, 1),
                                     },
                                   }),
                                 )
@@ -1033,20 +1055,24 @@ export function EnemyTab(props: {
                         </DsField>
                         <DsField label="触发率（1–10）">
                           {({ id }) => (
-                            <DsNumberInput
+                            <DsDraftNumberInput
                               id={id}
                               name={`enemy.${enemy.id}.attackEquivItem.rate`}
                               min={1}
                               max={10}
                               monospace
+                              draftKey={`enemy:${enemy.id}:attackEquivItem.rate`}
+                              syncToken={session.getHistoryVersion()}
                               value={enemy.attackEquivItem?.rate ?? 1}
                               onWheel={(event) => event.currentTarget.blur()}
-                              onChange={(event) =>
+                              integer
+                              normalize={(value) => integerInRange(value, 1, 10, 1)}
+                              onCommit={(value) =>
                                 session.dispatch(
                                   new UpdateEnemyCommand(enemy.id, {
                                     attackEquivItem: {
                                       ...enemy.attackEquivItem!,
-                                      rate: integerInRange(event.target.valueAsNumber, 1, 10, 1),
+                                      rate: integerInRange(value ?? 1, 1, 10, 1),
                                     },
                                   }),
                                 )
@@ -1093,18 +1119,22 @@ export function EnemyTab(props: {
                     </DsField>
                     <DsField label="数量">
                       {({ id }) => (
-                        <DsNumberInput
+                        <DsDraftNumberInput
                           id={id}
                           name={`enemy.${enemy.id}.onDefeated.count`}
                           min={1}
                           max={999}
                           monospace
+                          draftKey={`enemy:${enemy.id}:onDefeated.count`}
+                          syncToken={session.getHistoryVersion()}
                           value={defeatedReward.count}
                           onWheel={(event) => event.currentTarget.blur()}
-                          onChange={(event) =>
+                          integer
+                          normalize={(value) => integerInRange(value, 1, 999, 1)}
+                          onCommit={(value) =>
                             setDefeatedReward({
                               ...defeatedReward,
-                              count: integerInRange(event.target.valueAsNumber, 1, 999, 1),
+                              count: integerInRange(value ?? 1, 1, 999, 1),
                             })
                           }
                         />
@@ -1115,18 +1145,22 @@ export function EnemyTab(props: {
                       help="100 表示必定获得；较低数值会保留原版的失败跳过逻辑。"
                     >
                       {({ id }) => (
-                        <DsNumberInput
+                        <DsDraftNumberInput
                           id={id}
                           name={`enemy.${enemy.id}.onDefeated.probability`}
                           min={0}
                           max={100}
                           monospace
+                          draftKey={`enemy:${enemy.id}:onDefeated.probability`}
+                          syncToken={session.getHistoryVersion()}
                           value={defeatedReward.probability}
                           onWheel={(event) => event.currentTarget.blur()}
-                          onChange={(event) =>
+                          integer
+                          normalize={(value) => integerInRange(value, 0, 100, 100)}
+                          onCommit={(value) =>
                             setDefeatedReward({
                               ...defeatedReward,
-                              probability: integerInRange(event.target.valueAsNumber, 0, 100, 100),
+                              probability: integerInRange(value ?? 100, 0, 100, 100),
                             })
                           }
                         />

@@ -172,6 +172,16 @@ function Harness(props: {
 let root: Root
 let host: HTMLDivElement
 
+const setAndCommit = async (input: HTMLInputElement, value: string): Promise<void> => {
+  const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
+  await act(async () => {
+    input.focus()
+    setter.call(input, value)
+    input.dispatchEvent(new Event('input', { bubbles: true }))
+    input.blur()
+  })
+}
+
 beforeEach(() => {
   ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
   host = document.createElement('div')
@@ -215,11 +225,7 @@ describe('EnemyTab shared workbench', () => {
       (candidate) => candidate.textContent?.trim() === '名字',
     )!
     const name = document.getElementById(nameLabel.htmlFor) as HTMLInputElement
-    const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
-    await act(async () => {
-      setter.call(name, '变身者·改')
-      name.dispatchEvent(new Event('input', { bubbles: true }))
-    })
+    await setAndCommit(name, '变身者·改')
     expect(session.getState().locale['name.enemy-b']).toBe('变身者·改')
 
     await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="新建敌人"]')!.click())
@@ -322,11 +328,7 @@ describe('EnemyTab shared workbench', () => {
     expect(host.querySelector('.enemy-sound-option')?.textContent).toContain('施法音优先')
 
     const health = host.querySelector<HTMLInputElement>('input[name$=".stats.health"]')!
-    const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
-    await act(async () => {
-      setter.call(health, '88')
-      health.dispatchEvent(new Event('input', { bubbles: true }))
-    })
+    await setAndCommit(health, '88')
     expect(session.getState().enemies?.[0]?.stats.health).toBe(88)
     await act(async () => expect(session.undo()).toBe(true))
     expect(session.getState().enemies?.[0]?.stats.health).toBe(50)
@@ -356,14 +358,10 @@ describe('EnemyTab shared workbench', () => {
     await act(async () => expect(session.undo()).toBe(true))
     expect(session.getState().enemies?.[0]?.steal).toEqual({ itemId: 'item-a', count: 2 })
 
-    const valueSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
     const probability = host.querySelector<HTMLInputElement>(
       'input[name="enemy.enemy-a.onDefeated.probability"]',
     )!
-    await act(async () => {
-      valueSetter.call(probability, '40')
-      probability.dispatchEvent(new Event('input', { bubbles: true }))
-    })
+    await setAndCommit(probability, '40')
     const changedCommands = session.getState().enemies?.[0]?.onDefeated ?? []
     expect(changedCommands[0]).toMatchObject({
       kind: 'branch',
@@ -380,10 +378,7 @@ describe('EnemyTab shared workbench', () => {
     const stealCount = host.querySelector<HTMLInputElement>(
       'input[name="enemy.enemy-a.steal.count"]',
     )!
-    await act(async () => {
-      valueSetter.call(stealCount, '4')
-      stealCount.dispatchEvent(new Event('input', { bubbles: true }))
-    })
+    await setAndCommit(stealCount, '4')
     expect(session.getState().enemies?.[0]?.steal?.count).toBe(4)
     await act(async () => expect(session.undo()).toBe(true))
     expect(session.getState().enemies?.[0]?.steal?.count).toBe(2)

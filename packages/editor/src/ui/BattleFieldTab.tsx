@@ -27,8 +27,9 @@ import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { ScriptEditorState } from '../core/script-editor.js'
 import {
   DsButton,
+  DsDraftNumberInput,
+  DsDraftTextInput,
   DsField,
-  DsNumberInput,
   DsTextInput,
 } from './design-system/controls.js'
 import {
@@ -348,11 +349,13 @@ export function BattleFieldTab(props: {
                   <div className="bf-card-fields">
                     <DsField label="名称">
                       {({ id }) => (
-                        <DsTextInput
+                        <DsDraftTextInput
                           id={id}
+                          draftKey={`battlefield:${field.id}:name`}
+                          syncToken={session.getHistoryVersion()}
                           value={field.name ?? ''}
                           placeholder="未命名战场"
-                          onChange={(event) => patch({ name: event.target.value || undefined })}
+                          onCommit={(value) => patch({ name: value || undefined })}
                         />
                       )}
                     </DsField>
@@ -380,13 +383,13 @@ export function BattleFieldTab(props: {
                   >
                     <DsField label="强度">
                       {({ id }) => (
-                        <DsNumberInput
+                        <DsDraftNumberInput
                           id={id}
                           monospace
+                          draftKey={`battlefield:${field.id}:screenWave`}
+                          syncToken={session.getHistoryVersion()}
                           value={field.screenWave}
-                          onChange={(event) =>
-                            patch({ screenWave: Number(event.target.value) || 0 })
-                          }
+                          onCommit={(value) => patch({ screenWave: value ?? 0 })}
                         />
                       )}
                     </DsField>
@@ -400,17 +403,20 @@ export function BattleFieldTab(props: {
                       {(Object.keys(ELEM_LABEL) as (keyof ElementVec)[]).map((key) => (
                         <DsField key={key} label={ELEM_LABEL[key]}>
                           {({ id }) => (
-                            <DsNumberInput
+                            <DsDraftNumberInput
                               id={id}
                               monospace
                               min={-10}
                               max={10}
+                              enforceRange={false}
+                              draftKey={`battlefield:${field.id}:magicEffect.${key}`}
+                              syncToken={session.getHistoryVersion()}
                               value={field.magicEffect[key]}
-                              onChange={(event) =>
+                              onCommit={(value) =>
                                 patch({
                                   magicEffect: {
                                     ...field.magicEffect,
-                                    [key]: Number(event.target.value) || 0,
+                                    [key]: value ?? 0,
                                   },
                                 })
                               }

@@ -43,6 +43,8 @@ import {
   DsDiagnosticList,
   DsDiagnosticPanel,
   DsDiagnosticRow,
+  DsDraftNumberInput,
+  DsDraftTextInput,
   DsHelpTip,
   DsListHeader,
   DsObjectHero,
@@ -610,11 +612,6 @@ function RoleBindings(props: {
   )
 }
 
-function numberOrZero(value: string): number {
-  const parsed = Number(value)
-  return Number.isFinite(parsed) ? Math.max(0, Math.floor(parsed)) : 0
-}
-
 export function StartWorldFields(props: {
   value: StartWorld
   actors: ActorDef[]
@@ -622,9 +619,21 @@ export function StartWorldFields(props: {
   skills: SkillData[]
   locale: Locale
   readOnly?: boolean
+  draftScope?: string
+  syncToken?: number
   onChange: (next: StartWorld) => void
 }) {
-  const { value, actors, items, skills, locale, readOnly = false, onChange } = props
+  const {
+    value,
+    actors,
+    items,
+    skills,
+    locale,
+    readOnly = false,
+    draftScope = 'startWorld',
+    syncToken = 0,
+    onChange,
+  } = props
   const [newResourceKey, setNewResourceKey] = useState('')
   const patch = (next: Partial<StartWorld>): void => onChange({ ...value, ...next })
   const partyActors = actors.filter((actor) => actor.battler)
@@ -652,11 +661,11 @@ export function StartWorldFields(props: {
     else delete learnedSkills[actorId]
     patch({ learnedSkills })
   }
-  const patchSeed = (actorId: string, key: 'hp' | 'mp', raw: string): void => {
+  const patchSeed = (actorId: string, key: 'hp' | 'mp', next: number | undefined): void => {
     const seedStats = { ...(value.seedStats ?? {}) }
     const stats = { ...(seedStats[actorId] ?? {}) }
-    if (raw.trim() === '') delete stats[key]
-    else stats[key] = numberOrZero(raw)
+    if (next === undefined) delete stats[key]
+    else stats[key] = Math.max(0, Math.floor(next))
     if (Object.keys(stats).length) seedStats[actorId] = stats
     else delete seedStats[actorId]
     patch({ seedStats: Object.keys(seedStats).length ? seedStats : undefined })
@@ -677,15 +686,18 @@ export function StartWorldFields(props: {
   return (
     <div className="project-form-stack">
       <div className="project-field-grid">
-        <label className="field">
+        <label className="field" htmlFor="start-world-money">
           <span className="field-label">金钱</span>
-          <input
-            className="in"
-            type="number"
+          <DsDraftNumberInput
+            id="start-world-money"
             min={0}
+            integer
+            normalize={(next) => Math.max(0, Math.floor(next))}
+            draftKey={`${draftScope}:money`}
+            syncToken={syncToken}
             value={value.money}
             disabled={readOnly}
-            onChange={(event) => patch({ money: numberOrZero(event.target.value) })}
+            onCommit={(next) => next !== undefined && patch({ money: next })}
           />
         </label>
       </div>
@@ -785,18 +797,18 @@ export function StartWorldFields(props: {
                   })
                 }
               />
-              <input
-                className="in project-count"
-                type="number"
+              <DsDraftNumberInput
                 min={1}
+                integer
+                normalize={(count) => Math.max(1, Math.floor(count))}
+                draftKey={`${draftScope}:inventory.${index}.count`}
+                syncToken={syncToken}
                 value={row.count}
                 disabled={readOnly}
-                onChange={(event) =>
+                onCommit={(count) =>
                   patch({
                     inventory: inventory.map((item, itemIndex) =>
-                      itemIndex === index
-                        ? { ...item, count: Math.max(1, numberOrZero(event.target.value)) }
-                        : item,
+                      itemIndex === index ? { ...item, count: count ?? 1 } : item,
                     ),
                   })
                 }
@@ -922,18 +934,20 @@ export function StartWorldFields(props: {
             .map(([key, initialValue]) => (
               <div className="project-inline-row project-resource-row" key={key}>
                 <code>{key}</code>
-                <label>
+                <span>
                   初始值{' '}
-                  <input
-                    className="in project-count"
-                    type="number"
+                  <DsDraftNumberInput
                     min={0}
+                    integer
+                    normalize={(next) => Math.max(0, Math.floor(next))}
+                    draftKey={`${draftScope}:resources.${key}`}
+                    syncToken={syncToken}
                     value={initialValue}
                     disabled={readOnly}
                     aria-label={`${key} 初始值`}
-                    onChange={(event) => patchResource(key, numberOrZero(event.target.value))}
+                    onCommit={(value) => patchResource(key, value)}
                   />
-                </label>
+                </span>
                 <button
                   type="button"
                   className="btn"
@@ -992,28 +1006,36 @@ export function StartWorldFields(props: {
                 {actor ? lookupText(actor.name, locale) : actorId}
               </span>
               <code>{actorId}</code>
-              <label>
+              <span>
                 HP{' '}
-                <input
-                  className="in project-count"
-                  type="number"
+                <DsDraftNumberInput
                   min={0}
-                  value={stats.hp ?? ''}
+                  integer
+                  allowEmpty
+                  normalize={(next) => Math.max(0, Math.floor(next))}
+                  draftKey={`${draftScope}:seedStats.${actorId}.hp`}
+                  syncToken={syncToken}
+                  value={stats.hp}
                   disabled={readOnly}
-                  onChange={(event) => patchSeed(actorId, 'hp', event.target.value)}
+                  aria-label={`${actorId} 初始 HP`}
+                  onCommit={(value) => patchSeed(actorId, 'hp', value)}
                 />
-              </label>
-              <label>
+              </span>
+              <span>
                 MP{' '}
-                <input
-                  className="in project-count"
-                  type="number"
+                <DsDraftNumberInput
                   min={0}
-                  value={stats.mp ?? ''}
+                  integer
+                  allowEmpty
+                  normalize={(next) => Math.max(0, Math.floor(next))}
+                  draftKey={`${draftScope}:seedStats.${actorId}.mp`}
+                  syncToken={syncToken}
+                  value={stats.mp}
                   disabled={readOnly}
-                  onChange={(event) => patchSeed(actorId, 'mp', event.target.value)}
+                  aria-label={`${actorId} 初始 MP`}
+                  onCommit={(value) => patchSeed(actorId, 'mp', value)}
                 />
-              </label>
+              </span>
             </div>
           )
         })}
@@ -1286,12 +1308,14 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
                   每个入口都保存完整场景、入口视频与开局状态；稳定 ID 创建后保持不变。
                 </DsHelpTip>
               </h4>
-              <label className="field">
+              <label className="field" htmlFor="entry-label">
                 <span className="field-label">标签</span>
-                <input
-                  className="in"
+                <DsDraftTextInput
+                  id="entry-label"
+                  draftKey={`entry:${selected.id}:label`}
+                  syncToken={session.getHistoryVersion()}
                   value={selected.label}
-                  onChange={(event) => patchEntry(selected.id, { label: event.target.value })}
+                  onCommit={(value) => patchEntry(selected.id, { label: value })}
                 />
               </label>
               <div className="field">
@@ -1377,6 +1401,8 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
                 ) : null}
               </div>
               <StartWorldFields
+                draftScope={`entry:${selected.id}:startWorld`}
+                syncToken={session.getHistoryVersion()}
                 value={selected.startWorld}
                 actors={actors}
                 items={items}
@@ -1638,12 +1664,15 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
       >
         <section className="project-card">
           <h4>项目身份</h4>
-          <label className="field">
+          <label className="field" htmlFor="project-display-name">
             <span className="field-label">显示名</span>
-            <input
-              className="in"
+            <DsDraftTextInput
+              id="project-display-name"
+              draftKey={`project:${manifest.id}:name`}
+              syncToken={session.getHistoryVersion()}
               value={manifest.name}
-              onChange={(event) => session.dispatch(new RenameProjectCommand(event.target.value))}
+              validate={(value) => (value.trim() ? undefined : '项目显示名不能为空。')}
+              onCommit={(value) => session.dispatch(new RenameProjectCommand(value))}
             />
           </label>
         </section>

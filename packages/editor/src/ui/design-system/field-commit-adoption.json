@@ -1,0 +1,74 @@
+{
+  "version": 1,
+  "surfaces": [
+    {
+      "registry": ["project/overview", "project/entrypoint"],
+      "file": "ProjectWorkbenchTab.tsx",
+      "fields": [
+        "project.name",
+        "entry.label",
+        "startWorld.money",
+        "startWorld.inventory.count",
+        "startWorld.resources.*",
+        "startWorld.seedStats.*.hp",
+        "startWorld.seedStats.*.mp"
+      ]
+    },
+    {
+      "registry": ["actor/workspace"],
+      "file": "ActorMode.tsx",
+      "fields": ["actor.name", "actor.battler.baseStats.*"]
+    },
+    {
+      "registry": ["item/item"],
+      "file": "ItemTab.tsx",
+      "fields": [
+        "item.name",
+        "item.buyPrice",
+        "item.sellPrice",
+        "item.desc",
+        "item.equip.effects.*"
+      ]
+    },
+    {
+      "registry": ["battle/enemy"],
+      "file": "EnemyTab.tsx",
+      "fields": [
+        "enemy.name",
+        "enemy.stats.*",
+        "enemy.ai.*",
+        "enemy.steal.count",
+        "enemy.attackEquivItem.rate",
+        "enemy.onDefeated.item.*"
+      ]
+    },
+    {
+      "registry": ["battle/skill"],
+      "file": "SkillTab.tsx",
+      "fields": [
+        "skill.name",
+        "skill.cost.*",
+        "skill.lifetimeLimit",
+        "skill.desc",
+        "skill.effects.*",
+        "skill.execution.*"
+      ]
+    },
+    {
+      "registry": ["battle/battlefield"],
+      "file": "BattleFieldTab.tsx",
+      "fields": ["battleField.name", "battleField.screenWave", "battleField.magicEffect.*"]
+    },
+    {
+      "registry": ["scene/workspace"],
+      "file": "ScriptDrawer.tsx",
+      "fields": ["scene.entity.pages.*.trigger.range"]
+    },
+    {
+      "registry": ["asset/image", "asset/music", "asset/sound", "asset/cutscene"],
+      "file": "MediaAssetLifecycle.tsx",
+      "fields": ["asset.label"]
+    }
+  ],
+  "allowlist": []
+}

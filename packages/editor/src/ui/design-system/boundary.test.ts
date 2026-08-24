@@ -251,9 +251,9 @@ describe('editor design-system static boundary', () => {
         path.endsWith('.tsx') && !path.endsWith('.test.tsx') && !path.includes('/design-system/'),
     )
     const ceilings = {
-      input: 113,
-      textarea: 2,
-      label: 75,
+      input: 101,
+      textarea: 1,
+      label: 72,
     } as const
 
     for (const [tag, ceiling] of Object.entries(ceilings)) {
@@ -516,7 +516,7 @@ describe('editor design-system static boundary', () => {
     const helper = readFileSync(join(uiRoot, 'MediaAssetLifecycle.tsx'), 'utf8')
     for (const component of [
       'DsField',
-      'DsTextInput',
+      'DsDraftTextInput',
       'DsDialog',
       'DsPropertyGrid',
       'DsPropertyRow',

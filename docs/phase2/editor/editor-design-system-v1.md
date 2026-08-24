@@ -1,12 +1,12 @@
 # Type-Pal 编辑器设计系统与交互规范 v1
 
-Status: draft v2.8.0 interaction and information-architecture consolidation implemented, pending review（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
+Status: draft v2.9.0 field transaction boundary implemented, pending review（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
 
-Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）
+Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）
 
 Applies to: `packages/editor` 的全部功能性界面
 
-Last updated: 2026-08-23
+Last updated: 2026-08-24
 
 > 本文是后续编辑器界面实施和验收的唯一规范入口。它定义产品语言、可复用合同和验收方法，不定义
 > content schema、业务命令、存档或运行时规则。角色模块与 B2 战场工作台是参考输入，不是自动正确的模板；
@@ -416,6 +416,25 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - `DsField.help` 只放当前字段的约束、单位、范围和输入后果；稳定概念或跨字段规则使用 DS-P.6 的
   `DsHelpTip`。两者不得复制同一句话，错误出现时不得被 tooltip 隐藏。
 
+#### DS-C.5a 连续字段事务边界（v2.9.0）
+
+- 项目数据中的 text / number / textarea 统一使用 `DsDraftTextInput`、`DsDraftNumberInput`、
+  `DsDraftTextArea` 及其 `DsField` 组合版本。输入和 IME composition 只更新组件本地草稿；blur 或文本/数字
+  字段的 Enter 才 validate 并提交，Escape 恢复 canonical 值。textarea 的普通 Enter 保留换行，
+  `Ctrl/Cmd+Enter` 才按确认处理。
+- 业务页必须提供稳定的 `draftKey`（对象身份 + 字段路径）与可用时的 session `syncToken`。对象切换、外部
+  undo/redo 或 canonical 值变化时，旧草稿必须丢弃并显示新 canonical；不得把对象 A 的草稿提交给对象 B。
+- 一次编辑周期最多调用一次 `onCommit`。Enter 引发的 blur 不得二次提交；等值提交不调用业务回调、不产生
+  command、dirty 或通知。数字中间态（空、负号、小数点）可以留在草稿，只有通过 integer/min/max/领域校验
+  后才能提交；已有字段的 floor/clamp 语义必须通过显式 `normalize` 适配器保留，事务收口不得借机改变业务值。
+- compositionstart 到 compositionend 期间禁止提交或显示校验错误；若合成期间失焦，只能在 compositionend
+  后执行一次待定提交。业务页不得再复制私有 `useState + onBlur`、debounce 或页面级保存按钮。
+- 允许即时提交的离散动作仅限 checkbox、radio、select、toggle、颜色选择和拖拽完成事件；range/timeline
+  等连续交互必须由领域组件明确拥有单次手势事务，不能借“即时预览”制造逐像素 undo。
+- 采用清单与例外真源是 `field-commit-adoption.json`。例外必须具备
+  `{file,line,rule,owner,reason,verification,removalCondition}` 七字段；未登记的连续控件
+  `onChange -> dispatch/项目 patch` 由静态门禁拒绝。
+
 ### DS-C.6 选择控件、选择器与引用卡
 
 - 单选固定短枚举使用统一 `Select`；需要搜索或展示“名称 + 稳定 id”的长列表使用 `Combobox`；不得用
@@ -606,7 +625,7 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 ### DS-I.3 Dirty、保存与长任务
 
 - dirty 状态在全局固定位置显示；离开/关闭前有未保存改动必须阻止或确认。
-- Header 右上角全局保存是项目持久化的唯一入口；字段修改经 command/session 立即进入同一 dirty 草稿，页面、
+- Header 右上角全局保存是项目持久化的唯一入口；连续字段只在确认后经 command/session 进入同一 dirty 状态，页面、
   Inspector、对象卡和底栏不得再出现泛化的“保存名称”“保存组合”“保存作者元数据”等局部保存按钮。
 - 创建、导入、应用、生成、替换等有独立事务语义的局部动作可以保留准确动词，但执行后仍只更新全局 dirty，
   不得伪装成已经写盘；modal 的“创建/应用”提交只关闭该短决策，不替代全局保存。

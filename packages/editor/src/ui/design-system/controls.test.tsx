@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { act, createRef } from 'react'
+import { act, createRef, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
@@ -8,6 +8,8 @@ import {
   DsButton,
   DsCheckbox,
   DsControlGroup,
+  DsDraftNumberInput,
+  DsDraftTextInput,
   DsField,
   DsHelpTip,
   DsIconButton,
@@ -67,7 +69,238 @@ async function input(element: HTMLInputElement, value: string): Promise<void> {
   })
 }
 
+async function blur(element: HTMLInputElement): Promise<void> {
+  await act(async () => element.blur())
+}
+
+async function composition(element: HTMLInputElement, type: 'compositionstart' | 'compositionend') {
+  await act(async () => element.dispatchEvent(new CompositionEvent(type, { bubbles: true })))
+}
+
 describe('editor design-system controls', () => {
+  test('keeps text local through IME and commits Enter plus blur exactly once', async () => {
+    const commits = vi.fn()
+    const validate = vi.fn(() => undefined)
+    await act(async () =>
+      root.render(
+        <DsDraftTextInput
+          aria-label="项目名称"
+          draftKey="project:name"
+          syncToken={0}
+          value="仙剑"
+          validate={validate}
+          onCommit={commits}
+        />,
+      ),
+    )
+    const field = host.querySelector<HTMLInputElement>('input')!
+    await act(async () => field.focus())
+    await composition(field, 'compositionstart')
+    await input(field, '仙剑奇侠传')
+    await keyDown(field, 'Enter', { isComposing: true })
+    expect(commits).not.toHaveBeenCalled()
+    expect(validate).not.toHaveBeenCalled()
+    await composition(field, 'compositionend')
+    expect(commits).not.toHaveBeenCalled()
+    await keyDown(field, 'Enter')
+    await blur(field)
+    expect(commits).toHaveBeenCalledTimes(1)
+    expect(commits).toHaveBeenCalledWith('仙剑奇侠传')
+    expect(validate).toHaveBeenCalledTimes(1)
+  })
+
+  test('cancels stale object drafts and resyncs canonical undo and redo values', async () => {
+    const commits = vi.fn()
+    const renderField = async (draftKey: string, value: string, syncToken: number) => {
+      await act(async () =>
+        root.render(
+          <DsDraftTextInput
+            aria-label="名称"
+            draftKey={draftKey}
+            syncToken={syncToken}
+            value={value}
+            onCommit={commits}
+          />,
+        ),
+      )
+    }
+    await renderField('actor:a:name', '李逍遥', 0)
+    const field = host.querySelector<HTMLInputElement>('input')!
+    await input(field, '未提交的甲')
+    await renderField('actor:b:name', '赵灵儿', 0)
+    expect(field.value).toBe('赵灵儿')
+    await blur(field)
+    expect(commits).not.toHaveBeenCalled()
+
+    await renderField('actor:b:name', '新名字', 1)
+    expect(field.value).toBe('新名字')
+    await renderField('actor:b:name', '赵灵儿', 2)
+    expect(field.value).toBe('赵灵儿')
+    await renderField('actor:b:name', '新名字', 3)
+    expect(field.value).toBe('新名字')
+  })
+
+  test('rejects invalid numbers, cancels with Escape, and commits one valid integer', async () => {
+    const commits = vi.fn()
+    await act(async () =>
+      root.render(
+        <DsDraftNumberInput
+          aria-label="买价"
+          draftKey="item:potion:buyPrice"
+          value={10}
+          min={0}
+          integer
+          onCommit={commits}
+        />,
+      ),
+    )
+    const field = host.querySelector<HTMLInputElement>('input')!
+    await act(async () => field.focus())
+    await input(field, '')
+    await blur(field)
+    expect(commits).not.toHaveBeenCalled()
+    expect(field.getAttribute('aria-invalid')).toBe('true')
+    expect(field.title).toBe('请输入有效数字。')
+
+    await input(field, '-1')
+    await keyDown(field, 'Escape')
+    expect(field.value).toBe('10')
+    expect(commits).not.toHaveBeenCalled()
+
+    await input(field, '25')
+    await keyDown(field, 'Enter')
+    await blur(field)
+    expect(commits).toHaveBeenCalledTimes(1)
+    expect(commits).toHaveBeenCalledWith(25)
+  })
+
+  test('normalizes legacy domain values before integer and range validation', async () => {
+    const commits = vi.fn()
+    await act(async () =>
+      root.render(
+        <DsDraftNumberInput
+          aria-label="价格"
+          draftKey="item:price"
+          value={10}
+          min={0}
+          integer
+          normalize={(value) => Math.max(0, Math.floor(value))}
+          onCommit={commits}
+        />,
+      ),
+    )
+    const field = host.querySelector<HTMLInputElement>('input')!
+    await act(async () => field.focus())
+    await input(field, '-1.7')
+    await blur(field)
+    expect(commits).toHaveBeenCalledOnce()
+    expect(commits).toHaveBeenCalledWith(0)
+  })
+
+  test('keeps 100 input events local until one blur commit', async () => {
+    const commits = vi.fn()
+    const validate = vi.fn(() => undefined)
+    await act(async () =>
+      root.render(
+        <DsDraftTextInput
+          aria-label="长文本"
+          draftKey="performance:text"
+          value=""
+          validate={validate}
+          onCommit={commits}
+        />,
+      ),
+    )
+    const field = host.querySelector<HTMLInputElement>('input')!
+    await act(async () => field.focus())
+    for (let index = 1; index <= 100; index += 1) await input(field, '字'.repeat(index))
+    expect(commits).not.toHaveBeenCalled()
+    expect(validate).not.toHaveBeenCalled()
+    await blur(field)
+    expect(commits).toHaveBeenCalledTimes(1)
+    expect(validate).toHaveBeenCalledTimes(1)
+  })
+
+  test('handles Enter then another-field click as one history command across undo and redo', async () => {
+    const commits = vi.fn()
+    function HistoryHarness() {
+      const [history, setHistory] = useState({
+        past: [] as string[],
+        current: '旧值',
+        future: [] as string[],
+        version: 0,
+        dirtyTransitions: 0,
+      })
+      return (
+        <>
+          <DsDraftTextInput
+            aria-label="名称"
+            draftKey="history:name"
+            syncToken={history.version}
+            value={history.current}
+            onCommit={(next) => {
+              commits(next)
+              setHistory((value) => ({
+                past: [...value.past, value.current],
+                current: next,
+                future: [],
+                version: value.version + 1,
+                dirtyTransitions: value.dirtyTransitions + 1,
+              }))
+            }}
+          />
+          <button type="button" aria-label="另一个字段">
+            另一个字段
+          </button>
+          <button
+            type="button"
+            aria-label="撤销"
+            onClick={() =>
+              setHistory((value) => ({
+                ...value,
+                past: value.past.slice(0, -1),
+                current: value.past.at(-1) ?? value.current,
+                future: [value.current, ...value.future],
+                version: value.version + 1,
+              }))
+            }
+          >
+            撤销
+          </button>
+          <button
+            type="button"
+            aria-label="重做"
+            onClick={() =>
+              setHistory((value) => ({
+                ...value,
+                past: [...value.past, value.current],
+                current: value.future[0] ?? value.current,
+                future: value.future.slice(1),
+                version: value.version + 1,
+              }))
+            }
+          >
+            重做
+          </button>
+          <output data-dirty-transitions>{history.dirtyTransitions}</output>
+        </>
+      )
+    }
+    await act(async () => root.render(<HistoryHarness />))
+    const field = host.querySelector<HTMLInputElement>('input')!
+    await act(async () => field.focus())
+    await input(field, '新值')
+    await keyDown(field, 'Enter')
+    await click(host.querySelector<HTMLButtonElement>('[aria-label="另一个字段"]')!)
+    expect(commits).toHaveBeenCalledTimes(1)
+    expect(field.value).toBe('新值')
+    expect(host.querySelector('[data-dirty-transitions]')?.textContent).toBe('1')
+    await click(host.querySelector<HTMLButtonElement>('[aria-label="撤销"]')!)
+    expect(field.value).toBe('旧值')
+    await click(host.querySelector<HTMLButtonElement>('[aria-label="重做"]')!)
+    expect(field.value).toBe('新值')
+    expect(commits).toHaveBeenCalledTimes(1)
+  })
   test('associates conceptual help with its trigger and lets Escape dismiss it', async () => {
     await act(async () =>
       root.render(<DsHelpTip label="分次执行">每次运行只执行当前步骤。</DsHelpTip>),
@@ -207,19 +440,17 @@ describe('editor design-system controls', () => {
     expect(document.body.querySelector('.ds-tooltip__bubble')).toBeNull()
 
     await act(async () => {
-      previous.dispatchEvent(
-        new MouseEvent('mouseout', { bubbles: true, relatedTarget: next }),
-      )
-      next.dispatchEvent(
-        new MouseEvent('mouseover', { bubbles: true, relatedTarget: previous }),
-      )
+      previous.dispatchEvent(new MouseEvent('mouseout', { bubbles: true, relatedTarget: next }))
+      next.dispatchEvent(new MouseEvent('mouseover', { bubbles: true, relatedTarget: previous }))
     })
     const bubbles = document.body.querySelectorAll<HTMLElement>('.ds-tooltip__bubble')
     expect(bubbles).toHaveLength(1)
     expect(bubbles[0]?.textContent).toBe('下一帧')
 
     await act(async () => {
-      next.dispatchEvent(new MouseEvent('mouseout', { bubbles: true, relatedTarget: document.body }))
+      next.dispatchEvent(
+        new MouseEvent('mouseout', { bubbles: true, relatedTarget: document.body }),
+      )
       previous.blur()
       next.focus()
     })

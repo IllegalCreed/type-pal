@@ -127,8 +127,10 @@ afterEach(async () => {
 const setInput = async (input: HTMLInputElement, value: string): Promise<void> => {
   const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
   await act(async () => {
+    input.focus()
     setter.call(input, value)
     input.dispatchEvent(new Event('input', { bubbles: true }))
+    input.blur()
   })
 }
 

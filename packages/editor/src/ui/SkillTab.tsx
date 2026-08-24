@@ -35,16 +35,16 @@ import {
   DsActionLink,
   DsButton,
   DsCheckbox,
+  DsDraftNumberField,
+  DsDraftNumberInput,
+  DsDraftTextAreaField,
+  DsDraftTextField,
+  DsDraftTextInput,
   DsField,
   DsIconButton,
-  DsNumberField,
-  DsNumberInput,
   DsSelect,
   DsSelectField,
   DsTag,
-  DsTextAreaField,
-  DsTextField,
-  DsTextInput,
 } from './design-system/controls.js'
 import {
   DsCatalogControls,
@@ -167,6 +167,8 @@ function defaultEffect(
 function N(props: {
   id?: string
   v: number | undefined
+  draftScope: string
+  syncToken: number
   on: (n: number | undefined) => void
   ph?: string
   w?: number
@@ -176,18 +178,20 @@ function N(props: {
 }) {
   return (
     <span className="skill-number-control" style={props.w ? { width: props.w } : undefined}>
-      <DsNumberInput
+      <DsDraftNumberInput
         id={props.id}
         size="compact"
         monospace
         aria-label={props.ariaLabel}
         min={props.min}
         step={props.step}
-        value={props.v ?? ''}
+        enforceRange={false}
+        draftKey={`${props.draftScope}:${props.id ?? props.ariaLabel ?? 'number'}`}
+        syncToken={props.syncToken}
+        value={props.v}
+        allowEmpty
         placeholder={props.ph}
-        onChange={(e) =>
-          props.on(Number.isFinite(e.target.valueAsNumber) ? e.target.valueAsNumber : undefined)
-        }
+        onCommit={props.on}
         onWheel={(e) => e.currentTarget.blur()}
       />
     </span>
@@ -205,6 +209,8 @@ function EffectField(props: { label: string; help?: string; children: (id: strin
 /** 单条效果的分支字段。 */
 function EffectFields(props: {
   e: SkillEffect
+  draftScope: string
+  syncToken: number
   on: (next: SkillEffect) => void
   assetCatalog: AssetCatalogV1
   assetReader: EditorAssetReader
@@ -212,13 +218,31 @@ function EffectFields(props: {
   onOpenSound?: (id: string) => void
   onOpenBattleSprite?: (id: string) => void
 }) {
-  const { e, on, assetCatalog, assetReader, battleSprites, onOpenSound, onOpenBattleSprite } = props
+  const {
+    e,
+    draftScope,
+    syncToken,
+    on,
+    assetCatalog,
+    assetReader,
+    battleSprites,
+    onOpenSound,
+    onOpenBattleSprite,
+  } = props
   switch (e.kind) {
     case 'damage':
       return (
         <>
           <EffectField label="威力">
-            {(id) => <N id={id} v={e.power} on={(n) => on({ ...e, power: n ?? 0 })} />}
+            {(id) => (
+              <N
+                draftScope={draftScope}
+                syncToken={syncToken}
+                id={id}
+                v={e.power}
+                on={(n) => on({ ...e, power: n ?? 0 })}
+              />
+            )}
           </EffectField>
           <EffectField label="五行">
             {(id) => (
@@ -254,7 +278,15 @@ function EffectFields(props: {
             )}
           </EffectField>
           <EffectField label="增减">
-            {(id) => <N id={id} v={e.delta} on={(delta) => on({ ...e, delta: delta ?? 0 })} />}
+            {(id) => (
+              <N
+                draftScope={draftScope}
+                syncToken={syncToken}
+                id={id}
+                v={e.delta}
+                on={(delta) => on({ ...e, delta: delta ?? 0 })}
+              />
+            )}
           </EffectField>
         </>
       )
@@ -262,13 +294,29 @@ function EffectFields(props: {
     case 'healMp':
       return (
         <EffectField label="量">
-          {(id) => <N id={id} v={e.amount} on={(n) => on({ ...e, amount: n ?? 0 })} />}
+          {(id) => (
+            <N
+              draftScope={draftScope}
+              syncToken={syncToken}
+              id={id}
+              v={e.amount}
+              on={(n) => on({ ...e, amount: n ?? 0 })}
+            />
+          )}
         </EffectField>
       )
     case 'revive':
       return (
         <EffectField label="回 max%">
-          {(id) => <N id={id} v={e.hpPercent} on={(n) => on({ ...e, hpPercent: n ?? 0 })} />}
+          {(id) => (
+            <N
+              draftScope={draftScope}
+              syncToken={syncToken}
+              id={id}
+              v={e.hpPercent}
+              on={(n) => on({ ...e, hpPercent: n ?? 0 })}
+            />
+          )}
         </EffectField>
       )
     case 'applyStatus':
@@ -286,7 +334,15 @@ function EffectFields(props: {
             )}
           </EffectField>
           <EffectField label="回合">
-            {(id) => <N id={id} v={e.turns} on={(n) => on({ ...e, turns: n ?? 1 })} />}
+            {(id) => (
+              <N
+                draftScope={draftScope}
+                syncToken={syncToken}
+                id={id}
+                v={e.turns}
+                on={(n) => on({ ...e, turns: n ?? 1 })}
+              />
+            )}
           </EffectField>
         </>
       )
@@ -315,11 +371,13 @@ function EffectFields(props: {
       return (
         <EffectField label="毒 id">
           {(id) => (
-            <DsTextInput
+            <DsDraftTextInput
               id={id}
               size="compact"
+              draftKey={`${draftScope}:poisonId`}
+              syncToken={syncToken}
               value={e.poisonId}
-              onChange={(ev) => on({ ...e, poisonId: ev.target.value })}
+              onCommit={(value) => on({ ...e, poisonId: value })}
             />
           )}
         </EffectField>
@@ -346,12 +404,14 @@ function EffectFields(props: {
           </EffectField>
           <EffectField label="指定毒">
             {(id) => (
-              <DsTextInput
+              <DsDraftTextInput
                 id={id}
                 size="compact"
+                draftKey={`${draftScope}:poisonId`}
+                syncToken={syncToken}
                 value={e.poisonId ?? ''}
                 placeholder="(任意)"
-                onChange={(ev) => on({ ...e, poisonId: ev.target.value || undefined })}
+                onCommit={(value) => on({ ...e, poisonId: value || undefined })}
               />
             )}
           </EffectField>
@@ -377,7 +437,15 @@ function EffectFields(props: {
             )}
           </EffectField>
           <EffectField label="+%">
-            {(id) => <N id={id} v={e.percent} on={(n) => on({ ...e, percent: n ?? 0 })} />}
+            {(id) => (
+              <N
+                draftScope={draftScope}
+                syncToken={syncToken}
+                id={id}
+                v={e.percent}
+                on={(n) => on({ ...e, percent: n ?? 0 })}
+              />
+            )}
           </EffectField>
           <EffectField label="持续">
             {(id) => (
@@ -396,7 +464,13 @@ function EffectFields(props: {
             )}
           </EffectField>
           {e.duration !== 'battle' && (
-            <N v={e.duration} ariaLabel="持续回合数" on={(n) => on({ ...e, duration: n ?? 3 })} />
+            <N
+              draftScope={draftScope}
+              syncToken={syncToken}
+              v={e.duration}
+              ariaLabel="持续回合数"
+              on={(n) => on({ ...e, duration: n ?? 3 })}
+            />
           )}
         </>
       )
@@ -404,11 +478,22 @@ function EffectFields(props: {
       return (
         <>
           <EffectField label="概率%">
-            {(id) => <N id={id} v={e.chance} on={(n) => on({ ...e, chance: n })} ph="(无)" />}
+            {(id) => (
+              <N
+                draftScope={draftScope}
+                syncToken={syncToken}
+                id={id}
+                v={e.chance}
+                on={(n) => on({ ...e, chance: n })}
+                ph="(无)"
+              />
+            )}
           </EffectField>
           <EffectField label="HP≤%">
             {(id) => (
               <N
+                draftScope={draftScope}
+                syncToken={syncToken}
                 id={id}
                 v={e.hpAtMostPercent}
                 on={(n) => on({ ...e, hpAtMostPercent: n })}
@@ -427,7 +512,15 @@ function EffectFields(props: {
     case 'steal':
       return (
         <EffectField label="成功率">
-          {(id) => <N id={id} v={e.rate} on={(n) => on({ ...e, rate: n ?? 0 })} />}
+          {(id) => (
+            <N
+              draftScope={draftScope}
+              syncToken={syncToken}
+              id={id}
+              v={e.rate}
+              on={(n) => on({ ...e, rate: n ?? 0 })}
+            />
+          )}
         </EffectField>
       )
     case 'summon':
@@ -448,11 +541,27 @@ function EffectFields(props: {
           </EffectField>
           <EffectField label="现身帧速">
             {(id) => (
-              <N id={id} v={e.speed} on={(n) => on({ ...e, speed: n ?? undefined })} ph="0" />
+              <N
+                draftScope={draftScope}
+                syncToken={syncToken}
+                id={id}
+                v={e.speed}
+                on={(n) => on({ ...e, speed: n ?? undefined })}
+                ph="0"
+              />
             )}
           </EffectField>
           <EffectField label="背景染色" help="负数调暗，正数调亮，0 表示不染色">
-            {(id) => <N id={id} v={e.tint} on={(n) => on({ ...e, tint: n ?? undefined })} ph="0" />}
+            {(id) => (
+              <N
+                draftScope={draftScope}
+                syncToken={syncToken}
+                id={id}
+                v={e.tint}
+                on={(n) => on({ ...e, tint: n ?? undefined })}
+                ph="0"
+              />
+            )}
           </EffectField>
           <EffectField label="现身音效">
             {(id) => (
@@ -490,17 +599,50 @@ function EffectFields(props: {
       return (
         <>
           <EffectField label="消耗上限" help="消耗为当前金钱与此上限的较小值">
-            {(id) => <N id={id} v={e.maxSpend} on={(n) => on({ ...e, maxSpend: n ?? 5000 })} />}
+            {(id) => (
+              <N
+                draftScope={draftScope}
+                syncToken={syncToken}
+                id={id}
+                v={e.maxSpend}
+                on={(n) => on({ ...e, maxSpend: n ?? 5000 })}
+              />
+            )}
           </EffectField>
           <EffectField label="分子" help="基伤 = 消耗 × 分子 ÷ 分母">
-            {(id) => <N id={id} v={e.num} on={(n) => on({ ...e, num: n ?? 1 })} w={48} />}
+            {(id) => (
+              <N
+                draftScope={draftScope}
+                syncToken={syncToken}
+                id={id}
+                v={e.num}
+                on={(n) => on({ ...e, num: n ?? 1 })}
+                w={48}
+              />
+            )}
           </EffectField>
           <EffectField label="分母">
-            {(id) => <N id={id} v={e.den} on={(n) => on({ ...e, den: n ?? 1 })} w={48} />}
+            {(id) => (
+              <N
+                draftScope={draftScope}
+                syncToken={syncToken}
+                id={id}
+                v={e.den}
+                on={(n) => on({ ...e, den: n ?? 1 })}
+                w={48}
+              />
+            )}
           </EffectField>
           <EffectField label="五灵">
             {(id) => (
-              <N id={id} v={e.elemental} on={(n) => on({ ...e, elemental: n ?? 0 })} w={48} />
+              <N
+                draftScope={draftScope}
+                syncToken={syncToken}
+                id={id}
+                v={e.elemental}
+                on={(n) => on({ ...e, elemental: n ?? 0 })}
+                w={48}
+              />
             )}
           </EffectField>
         </>
@@ -625,6 +767,8 @@ function SkillEffectCard(props: {
 
 function ExecutionOverrideEditor(props: {
   side: 'player' | 'enemy'
+  draftScope: string
+  syncToken: number
   override: SkillExecutionOverride
   fallbackAnimation: SkillData['animation']
   onChange: (next: SkillExecutionOverride) => void
@@ -637,6 +781,8 @@ function ExecutionOverrideEditor(props: {
 }) {
   const {
     side,
+    draftScope,
+    syncToken,
     override,
     fallbackAnimation,
     onChange,
@@ -686,6 +832,8 @@ function ExecutionOverrideEditor(props: {
             <EffectField label="倍率">
               {(id) => (
                 <N
+                  draftScope={`${draftScope}:prepare`}
+                  syncToken={syncToken}
                   id={id}
                   v={prepare.multiplier}
                   on={(value) => setPrepare(true, value ?? 0)}
@@ -731,6 +879,8 @@ function ExecutionOverrideEditor(props: {
             >
               <EffectFields
                 e={effect}
+                draftScope={`${draftScope}:effects.${index}`}
+                syncToken={syncToken}
                 on={(next) => setEffect(index, next)}
                 assetCatalog={assetCatalog}
                 assetReader={assetReader}
@@ -967,10 +1117,12 @@ export function SkillTab(props: {
                 description="配置施法目标、资源消耗、战外可用性与玩家可见说明。"
               >
                 <div className="battle-data-grid">
-                  <DsTextField
+                  <DsDraftTextField
                     label="名字"
+                    draftKey={`skill:${skill.id}:name`}
+                    syncToken={session.getHistoryVersion()}
                     value={skill.name}
-                    onChange={(e) => patch({ name: e.target.value })}
+                    onCommit={(value) => patch({ name: value })}
                   />
                   <DsSelectField
                     label="目标"
@@ -981,73 +1133,74 @@ export function SkillTab(props: {
                       label: target.label,
                     }))}
                   />
-                  <DsNumberField
+                  <DsDraftNumberField
                     label="耗真气"
+                    draftKey={`skill:${skill.id}:cost.mp`}
+                    syncToken={session.getHistoryVersion()}
                     monospace
-                    value={skill.cost.mp ?? ''}
+                    value={skill.cost.mp}
+                    allowEmpty
                     placeholder="0"
                     onWheel={(event) => event.currentTarget.blur()}
-                    onChange={(event) =>
+                    onCommit={(value) =>
                       patch({
                         cost: {
                           ...skill.cost,
-                          mp: Number.isFinite(event.currentTarget.valueAsNumber)
-                            ? event.currentTarget.valueAsNumber
-                            : undefined,
+                          mp: value,
                         },
                       })
                     }
                   />
-                  <DsNumberField
+                  <DsDraftNumberField
                     label="耗体力"
+                    draftKey={`skill:${skill.id}:cost.stamina`}
+                    syncToken={session.getHistoryVersion()}
                     monospace
-                    value={skill.cost.stamina ?? ''}
+                    value={skill.cost.stamina}
+                    allowEmpty
                     placeholder="0"
                     onWheel={(event) => event.currentTarget.blur()}
-                    onChange={(event) =>
+                    onCommit={(value) =>
                       patch({
                         cost: {
                           ...skill.cost,
-                          stamina: Number.isFinite(event.currentTarget.valueAsNumber)
-                            ? event.currentTarget.valueAsNumber
-                            : undefined,
+                          stamina: value,
                         },
                       })
                     }
                   />
-                  <DsNumberField
+                  <DsDraftNumberField
                     label="耗金钱"
+                    draftKey={`skill:${skill.id}:cost.money`}
+                    syncToken={session.getHistoryVersion()}
                     monospace
-                    value={skill.cost.money ?? ''}
+                    value={skill.cost.money}
+                    allowEmpty
                     placeholder="0"
                     onWheel={(event) => event.currentTarget.blur()}
-                    onChange={(event) =>
+                    onCommit={(value) =>
                       patch({
                         cost: {
                           ...skill.cost,
-                          money: Number.isFinite(event.currentTarget.valueAsNumber)
-                            ? event.currentTarget.valueAsNumber
-                            : undefined,
+                          money: value,
                         },
                       })
                     }
                   />
-                  <DsNumberField
+                  <DsDraftNumberField
                     label="一生限用"
+                    draftKey={`skill:${skill.id}:lifetimeLimit`}
+                    syncToken={session.getHistoryVersion()}
                     title="一生/全周目限用次数，达到后从角色习得列表移除并提示用尽；留空 = 不限（酒神 9 次）"
                     monospace
                     min={1}
+                    enforceRange={false}
                     step={1}
-                    value={skill.lifetimeLimit ?? ''}
+                    value={skill.lifetimeLimit}
+                    allowEmpty
                     placeholder="不限"
                     onWheel={(event) => event.currentTarget.blur()}
-                    onChange={(event) =>
-                      patch({
-                        lifetimeLimit: Number.isFinite(event.currentTarget.valueAsNumber)
-                          ? event.currentTarget.valueAsNumber
-                          : undefined,
-                      })
-                    }
+                    onCommit={(value) => patch({ lifetimeLimit: value })}
                   />
                   <DsCheckbox
                     label="战外可用"
@@ -1106,17 +1259,20 @@ export function SkillTab(props: {
                             setCostItems(next)
                           }}
                         />
-                        <DsNumberInput
+                        <DsDraftNumberInput
                           size="compact"
                           monospace
                           min={1}
                           step={1}
+                          integer
+                          normalize={(value) => Math.max(1, Math.trunc(value))}
+                          draftKey={`skill:${skill.id}:cost.items.${index}.amount`}
+                          syncToken={session.getHistoryVersion()}
                           aria-label={`消耗物品数量 ${index + 1}`}
                           value={entry.amount}
                           onWheel={(event) => event.currentTarget.blur()}
-                          onChange={(event) => {
-                            const raw = event.currentTarget.valueAsNumber
-                            const amount = Number.isFinite(raw) && raw >= 1 ? Math.trunc(raw) : 1
+                          onCommit={(amount) => {
+                            if (amount === undefined) return
                             const next = [...entries]
                             next[index] = { ...entry, amount }
                             setCostItems(next)
@@ -1133,14 +1289,13 @@ export function SkillTab(props: {
                     )
                   })}
                 </div>
-                <DsTextAreaField
+                <DsDraftTextAreaField
                   fieldClassName="skill-description-field"
                   label="说明"
-                  key={`${skill.id}-desc`}
-                  defaultValue={skill.desc}
-                  onBlur={(e) => {
-                    if (e.target.value !== skill.desc) patch({ desc: e.target.value })
-                  }}
+                  draftKey={`skill:${skill.id}:desc`}
+                  syncToken={session.getHistoryVersion()}
+                  value={skill.desc}
+                  onCommit={(value) => patch({ desc: value })}
                   spellCheck={false}
                 />
               </DsWorkbenchSection>
@@ -1195,6 +1350,8 @@ export function SkillTab(props: {
                       >
                         <EffectFields
                           e={e}
+                          draftScope={`skill:${skill.id}:effects.${i}`}
+                          syncToken={session.getHistoryVersion()}
                           on={(next) => setEffect(i, next)}
                           assetCatalog={assetCatalog}
                           assetReader={assetReader}
@@ -1244,6 +1401,8 @@ export function SkillTab(props: {
                     <div key={side} className="section-subpanel">
                       <ExecutionOverrideEditor
                         side={side}
+                        draftScope={`skill:${skill.id}:execution.${side}`}
+                        syncToken={session.getHistoryVersion()}
                         override={override}
                         fallbackAnimation={skill.animation}
                         onChange={(next) => setExecution(side, next)}
