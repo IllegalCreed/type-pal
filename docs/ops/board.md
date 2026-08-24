@@ -14,7 +14,7 @@
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | ED-DS-3 | 编辑器设计系统全量采用与防回流门禁 | draft | Kimi / GLM 独立审公共合同、页面 registry 与门禁 | 从真实页面注册表生成覆盖；收口旧组件、滚动、弹层、字段和动作并阻断回流 |
-| ED-FIELD-COMMIT-1 | 编辑器字段草稿、提交与撤销边界统一 | build | Codex 实现共享 draft/validate/commit/cancel/resync 合同与采用门禁 | 三方设计签字齐；项目、物品、敌人、技能、战场统一根治每字符全局命令 |
+| ED-FIELD-COMMIT-1 | 编辑器字段草稿、提交与撤销边界统一 | review | Kimi / GLM 审 `b118ce3a`；Codex / User 已 accept | 公共合同、首批采用、AST 门禁与浏览器验证完成；待两方验收签字 |
 | ED-PROJECT-STARTUP-IA-1 | 入口与开局 / 全局资源与启动工作台收口 | draft | Kimi / GLM 审 IA；待 ED-DS-3 / ED-FIELD-COMMIT-1 合同冻结 | canonical 入口不变；收口队伍、重复行、资源试听、概览与开局交互 |
 | ARCH-ENTRY-ACTOR-SEED-1 | 入口角色完整初始状态所有权与快照模型 | draft | Kimi / GLM 独立核原版、一阶段与当前初始化真值 | schema 高风险；等级、经验、装备、属性唯一 owner 未核清前禁止 build |
 | MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1 | PAL 角色大世界精灵语义别名全量闭包 | done | 三方 accept + 用户验收齐，整卡收口 | `0e84e565`：4 定义 + 44 引用归一，严格重复为 0，replay 零计划 |

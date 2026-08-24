@@ -1,6 +1,6 @@
 # ED-FIELD-COMMIT-1 - 编辑器字段草稿、提交与撤销边界统一
 
-Status: build（2026-08-24 Codex / Kimi / GLM `verified + agree` 齐）
+Status: review（2026-08-24 implementation `b118ce3a`，Codex self-review accept；Kimi / GLM 待审）
 Phase: phase2
 Capability: 编辑器公共表单能力（不改变 capability-map 状态）
 Coding Owner: Codex
@@ -176,7 +176,9 @@ Branch: `codex/ed-audio-workbench-1`（用户交接的共享集成分支）
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept（2026-08-24）**。实现提交 `b118ce3a`；公共合同测试覆盖 IME、Enter+blur 幂等、
+  Escape、非法/空数字、对象切换、syncToken resync、undo/redo 与 100 次输入 0 command；真实编辑器抽查通过，
+  代码 census/allowlist 门禁通过。
 - Kimi: pending
 - GLM: pending
 - counter / 返工处理:
@@ -209,22 +211,56 @@ Branch: `codex/ed-audio-workbench-1`（用户交接的共享集成分支）
 ## Build: 实现与自测
 
 - Coding Owner: Codex
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- Implementation commit: `b118ce3a fix(editor): unify field commit boundaries`
+- 修改文件:
+  - 公共合同与测试: `packages/editor/src/ui/design-system/controls.tsx`、`controls.test.tsx`、
+    `field-commit-adoption.json`、`field-commit-boundary.test.ts`、`boundary.test.ts`。
+  - 首批采用: `ProjectWorkbenchTab`、`ItemTab`、`EnemyTab`、`SkillTab`、`BattleFieldTab`、
+    `ActorMode`、`MediaAssetLifecycle`、`ScriptDrawer` 及相应测试/最小样式。
+  - 合同文档/版本: `editor-design-system-v1.md`，DS version `2.9.0`。
+- 实现摘要:
+  - 新增同一 `DsField + control` 家族内的 `DsDraftTextInput / DsDraftNumberInput /
+    DsDraftTextArea` 与 Field 组合版本；公共层统一 draft→validate→commit/cancel→resync。
+  - `draftKey + syncToken + canonical value` 共同定义草稿身份；IME 合成期零校验/零提交，Enter+blur
+    用 commit signature 幂等，Escape 恢复，外部 undo/redo 与对象切换丢弃旧草稿。
+  - 数字适配支持 required/optional、integer/min/max、领域 `normalize`；原有 floor/clamp 通过显式
+    adapter 保留，没有借事务重构改变业务值。
+  - registry 采用清单覆盖 project/actor/item/enemy/skill/battlefield/scene/media；全 UI 禁止
+    continuous `onChange -> dispatch`，采用面同时禁止间接 project patch。机器 allowlist 为七字段 schema，
+    当前为空；离散 checkbox/select/toggle/color/drag 不进入该规则。
+  - 原生生产控件基线随真实迁移下降：input `113 -> 101`、textarea `2 -> 1`、label `75 -> 72`。
+- 运行命令 / 结果:
+  - `pnpm --filter @type-pal/editor typecheck`：pass。
+  - 聚焦回归（公共合同 + boundary + 8 个采用页）：10 files / 144 tests pass。
+  - 最终 editor 全量：143 / 144 files、1106 / 1108 tests pass；仅两个静态合同按预期发现
+    “原生控件数量下降、媒体 owner 从 DsTextInput 升为 DsDraftTextInput”。更新精确下降基线/owner 后，
+    聚焦 `boundary + field-boundary + MediaAssetLifecycle` 3 files / 48 tests pass；遵守“最终全量不重复”纪律，
+    未再跑第二遍耗时全量。
+  - 100 次连续 input 合同测试：输入期 commit=0、validate=0；blur 后恰好 commit=1、validate=1。
+- 浏览器 / 手工检查:
+  - 项目名：中文草稿期间 heading/toolbar history 不变；Enter 后一条 undo，undo/redo 均显示 canonical；
+    最后撤销并 reload 回磁盘“已保存”。
+  - 物品名：中文草稿失焦后一次提交，单次 undo 完整恢复；敌人/技能/战场中文草稿 Escape 恢复 canonical。
+  - 720px viewport：字段未横向溢出或跳焦；战场页滚动可达，输入/选择器仍完整。控制台 warning/error 为 0；
+    viewport 已 reset，浏览器验收状态已 reload 清除。
+- 跳过的检查及原因:
+  - 未重复跑第二次 editor 全量；第一次最终全量的非通过项仅为已聚焦修正并验证的静态精确基线。
+  - 浏览器 API 不暴露 PerformanceObserver longtask 明细；以 100-input 零 command 合同、真实工具栏 history
+    证据和无可见卡顿作为当前性能证据，reviewer 如需 trace 可在同一页面补录，不应重复功能巡检。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
+- Codex 自审: accept（`b118ce3a`；KF1-KF3/GF1-GF3 均有实现与测试锚点）
+- Kimi 审查结论: pending
+- GLM 审查结论: pending
 - 必须返工项: pending
-- Accept / rework: pending
+- Accept / rework: review pending（Kimi / GLM 均 accept 前不得 done）
 
 ## 用户验收
 
-- 用户结论: pending
+- 用户结论: **accept（2026-08-24）**；用户已查看功能界面并确认“没问题”。该结论不替代 Kimi / GLM
+  的实现审查签字，本卡在两方 accept 前仍保持 review。
 - 后续任务: `ED-PROJECT-STARTUP-IA-1` 应复用本卡公共合同。
 
 ## 交接日志
@@ -234,19 +270,26 @@ Branch: `codex/ed-audio-workbench-1`（用户交接的共享集成分支）
   （附 KF1-KF3：IME 进公共层、resync 身份键合同化、一次编辑周期一条命令的连续序列用例）。
   三签齐，build 准入开放。未修改实现文件。
 - 2026-08-24 Codex: 完成代码证据 census 并开卡；当前仅文档，不改实现。Next: Kimi/GLM 独立签 premise/design。
+- 2026-08-24 Codex: 完成 `b118ce3a`，公共 draft/commit 合同、首批全域采用、registry/AST 门禁、
+  聚焦/全量/浏览器验证闭环；自审 accept，任务转 review。Next: Kimi/GLM 独立代码审查与验收签字。
+- 2026-08-24 User: 已查看功能界面并确认没问题；用户验收 accept，仍待 Kimi/GLM 实现审查签字。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: ED-FIELD-COMMIT-1 编辑器字段草稿、提交与撤销边界统一
+审查任务: ED-FIELD-COMMIT-1 编辑器字段草稿、提交与撤销边界统一
 任务卡: docs/ops/tasks/ED-FIELD-COMMIT-1-editor-field-draft-commit-boundary.md
-当前状态: draft；Codex 已签 premise/design，build 仍 blocked
-你的角色: Kimi 或 GLM 设计审查者
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、ED-SHARED-SCRIPT-UI-1 与字段/Session 代码锚点
-已完成: 已确认每次 dispatch 的全局通知成本，并列出项目/物品/敌人/技能/战场采用面
-请你做: 独立核证至少一个非项目页输入路径，给出可证伪观察，审共享 draft/commit API、IME/undo/census 门禁并在卡内签字
-不要做: 不得修改实现文件；三方签字未齐不得标 build 或 done
-输出要求: premise verified/counter、design agree/counter、直接证据、必改项
+当前状态: review；实现提交 b118ce3a；Codex self-review accept，Kimi/GLM pending
+你的角色: Kimi 或 GLM 独立代码审查/验收者
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、docs/phase2/editor/editor-design-system-v1.md，
+以及 controls.tsx、field-commit-adoption.json、field-commit-boundary.test.ts 和至少一个业务采用页
+已完成: 共享 text/number/textarea draft→validate→commit/cancel→resync；IME、Enter+blur、Escape、
+对象切换、undo/redo、100-input、registry/AST 门禁及真实浏览器验证
+重点审: KF1-KF3/GF1-GF3；数字 normalize 是否保持原 floor/clamp；静态门禁是否漏 ActorMode/间接 patch；
+allowlist 七字段 schema；input 113→101、textarea 2→1 的基线是否可信
+请输出: accept，或 counter/rework 的 file:line、复现命令和阻断理由；把结论写回本卡 done 前签字表
+允许改动: 只允许写任务卡审查记录；发现实现问题先签 rework/counter，不要由 reviewer 直接改实现
+禁止: Kimi/GLM 两签未齐不得标 done；不得重开已完成旧卡，不得提交 .mimosa
 ```
 - 2026-08-24 GLM（覆盖/census/测试矩阵）: 审查完成，签 **premise verified + design agree
   （附 GF1-GF3）**。dispatch 成本链与根订阅一手核实；EnemyTab:776 名字字段逐字符
