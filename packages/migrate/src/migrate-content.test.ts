@@ -8,8 +8,8 @@ import {
   pixelToGrid,
   validateActors,
   validateAuthorItems,
-  validateLocale,
   validateCurrentManifestStartup,
+  validateLocale,
   validateSkills,
   validateSprites,
 } from '@type-pal/content'
@@ -18,7 +18,7 @@ import {
   buildLabelIndex,
   createSceneR13TranslationSession,
   type MigrateSources,
-  mapRoleSpriteIdsByNumber,
+  mapRoleSpritesByNumber,
   mapScenesStatic,
   mergeExtras,
   mergeSceneScriptBindings,
@@ -181,7 +181,12 @@ describe('M1a · 精灵表', () => {
   })
 
   test('旧编号到角色语义 id 显式映射，错误资源与一号多义都 fail-loud', () => {
-    expect([...mapRoleSpriteIdsByNumber(src.roles, out.sprites)]).toEqual([
+    expect(
+      [...mapRoleSpritesByNumber(src.roles, out.sprites)].map(([spriteNum, sprite]) => [
+        spriteNum,
+        sprite.id,
+      ]),
+    ).toEqual([
       [2, 'li-xiaoyao'],
       [3, 'zhao-linger'],
       [7, 'lin-yueru'],
@@ -190,13 +195,13 @@ describe('M1a · 精灵表', () => {
       [26, 'gai-luojiao'],
     ])
     expect(() =>
-      mapRoleSpriteIdsByNumber(src.roles, [
+      mapRoleSpritesByNumber(src.roles, [
         { ...out.sprites[0]!, asset: 'sprite.pal.999' },
         ...out.sprites.slice(1),
       ]),
     ).toThrow(/资源应为 sprite\.pal\.002/)
     expect(() =>
-      mapRoleSpriteIdsByNumber(
+      mapRoleSpritesByNumber(
         [{ ...src.roles[0]!, spriteNum: src.roles[1]!.spriteNum }, ...src.roles.slice(1)],
         [{ ...out.sprites[0]!, asset: out.sprites[1]!.asset }, ...out.sprites.slice(1)],
       ),
@@ -703,7 +708,7 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
     readJson<{ segments: { commands: SourceCmd[] }[] }>(
       'data/extracted/events/shared.json',
     ).segments.flatMap((s) => s.commands)
-  const roleSpriteIdsByNum = mapRoleSpriteIdsByNumber(src.roles, out.sprites)
+  const roleSpritesByNum = mapRoleSpritesByNumber(src.roles, out.sprites)
   const out2 = mapScenesStatic(
     [readScene(1), readScene(3), readScene(4), readScene(5)],
     new Map([
@@ -713,7 +718,7 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
       [5, readEvents(5)],
       [-1, readShared()], // 共享段:s005 的 autoLabel(L_35636/L_35639)在此
     ]),
-    roleSpriteIdsByNum,
+    roleSpritesByNum,
   )
   const byId = new Map(out2.scenes.map((s) => [s.id, s]))
   const expandedScenes = materializeScenes(out2.scenes, out2.scriptChunks)
@@ -938,7 +943,7 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
         [7, readEvents(7)],
         [-1, readShared()],
       ]),
-      roleSpriteIdsByNum,
+      roleSpritesByNum,
     )
     const s7 = materializeScenes(out.scenes, out.scriptChunks)[0]!
     expect(s7.onTeleport?.length).toBeGreaterThan(0)

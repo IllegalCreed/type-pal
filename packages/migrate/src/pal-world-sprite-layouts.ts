@@ -14,6 +14,33 @@ export interface PalWorldSpriteLayoutOverlay {
   evidence: string
 }
 
+/**
+ * 场景实体可以复用角色已登记 SpriteDef 的逐项视觉等价审计。
+ *
+ * semanticId 只指稳定视觉定义，不赋予 Actor 身份。每个引用必须有 extracted 场景锚点，
+ * 且资源、布局与动作容器严格等价；新增项禁止从 spriteNum 或资源哈希批量推广。
+ */
+export const PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES = [
+  {
+    semanticId: 'li-xiaoyao',
+    references: [
+      { sceneId: 's020', entityId: 'e344' },
+      { sceneId: 's172', entityId: 'e2858' },
+      { sceneId: 's196', entityId: 'e3343' },
+      { sceneId: 's198', entityId: 'e3346' },
+      { sceneId: 's203', entityId: 'e3423' },
+      { sceneId: 's233', entityId: 'e4197' },
+      { sceneId: 's281', entityId: 'e4803' },
+    ],
+    evidence:
+      'scene s020/e344、s172/e2858、s196/e3343、s198/e3346、s203/e3423、s233/e4197、s281/e4803：extracted spriteNum=2、nSpriteFrames=3；归一只复用视觉定义且保持无 actor 绑定',
+  },
+] as const
+
+export const PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIAS_IDS: ReadonlySet<string> = new Set(
+  PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES.map(({ semanticId }) => semanticId),
+)
+
 export const PAL_WORLD_SPRITE_LAYOUT_OVERLAYS = [
   // 物理帧不足 4×3，且脚本用 0x15 gesture 把它们当无方向绝对帧带。
   {

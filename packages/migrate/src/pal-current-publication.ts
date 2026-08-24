@@ -1,11 +1,9 @@
 import type {
   AmbienceDef,
-  AuthorSceneDef,
   CurrentManifest,
   EnemyTeamDef,
   MigrationDiagnosticsV1,
   PoisonDef,
-  ProjectMap,
   RuntimeSceneDef,
   ShopDef,
 } from '@type-pal/content'
@@ -40,6 +38,7 @@ import {
   validateTilesets,
   validateWorldVariableRegistryV1,
 } from '@type-pal/content'
+import { mapRoleSpritesByNumber } from './migrate-content.js'
 import type { MigrationSnapshot } from './migration-baseline.js'
 import type { TransactionPrecondition } from './migration-transaction.js'
 import {
@@ -47,6 +46,8 @@ import {
   type MigrationJson,
   type PalMigrationSources,
 } from './pal-migration.js'
+import { PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES } from './pal-world-sprite-layouts.js'
+import { applyPalWorldSpriteSemanticAliases } from './pal-world-sprite-semantic-alias.js'
 import type { ProjectMapAuditReport } from './project-map-audit.js'
 
 export interface PalCurrentPublication {
@@ -123,8 +124,38 @@ export function buildPalCurrentPublication(
     )
   const authoredActors = baselineActors.filter(({ id }) => !generatedActorIds.has(id))
 
+  const currentSprites = validateSprites(required(files, 'content/sprites.json'))
+  const generatedSprites = validateSprites(required(generated.files, 'content/sprites.json'))
+  const sceneValues = (source: ReadonlyMap<string, MigrationJson>, label: string) => {
+    const ids = required(source, 'content/scenes/index.json')
+    if (!Array.isArray(ids) || ids.some((id) => typeof id !== 'string'))
+      throw new Error(`${label}: content/scenes/index.json 期望 string[]`)
+    return ids.map((id) => required(source, `content/scenes/${id as string}.json`))
+  }
+  const currentScenes = validateAuthorScenes(sceneValues(files, 'PAL current baseline'))
+  const generatedSceneValues = sceneValues(generated.files, 'PAL generated publication')
+  const generatedScenes = generatedSceneValues.map((value, index) => {
+    if (!value || typeof value !== 'object')
+      throw new Error(`PAL generated publication: scenes[${index}] 期望 object`)
+    const scene = value as Record<string, unknown>
+    if (typeof scene.id !== 'string' || !Array.isArray(scene.entities))
+      throw new Error(`PAL generated publication: scenes[${index}] 缺 id/entities`)
+    return { id: scene.id, entities: scene.entities }
+  })
+  const spriteAliases = applyPalWorldSpriteSemanticAliases({
+    currentSprites,
+    generatedSprites,
+    currentScenes: new Map(currentScenes.map((scene) => [scene.id, scene])),
+    generatedScenes: new Map(generatedScenes.map((scene) => [scene.id, scene])),
+    roleSpritesByNumber: mapRoleSpritesByNumber(sources.migrate.roles, generatedSprites),
+    aliases: PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES,
+  })
+
   put('assets/index.json', required(generated.files, 'assets/index.json'))
   put('content/actors.json', [...generatedActors, ...authoredActors])
+  put('content/sprites.json', spriteAliases.sprites)
+  for (const [sceneId, scene] of spriteAliases.updatedScenes)
+    put(`content/scenes/${sceneId}.json`, scene)
   put('content/maps/index.json', required(generated.files, 'content/maps/index.json'))
   put('content/tilesets.json', required(generated.files, 'content/tilesets.json'))
   const generatedMapPaths = [...generated.managedFiles]

@@ -210,9 +210,9 @@ describe.skipIf(!hasExtractedData)('PAL sprite action census golden', () => {
     })
     expect(first.digests).toEqual({
       acceptedSites: 'b6ee586cefe9a5b0762279f39892ab141247fcf761f279466f648b45f87c528b',
-      // R13-1：0x04 显式 owner 从错误的 e<WORD> 纠正为 1-based e<WORD-1>。
-      // 只改变被拒实例的 external-write 证据；accepted/action 与全部分类计数保持冻结。
-      rejections: 'e9df791439a9964ef302202a489feed2cb53170f469ffa58e42026413a9518bc',
+      // MIG-PAL-WORLD-SPRITE-ALIAS-1：s020/e344、s172/e2858、s196/e3343 的拒绝证据
+      // 从重复 sprite-2 归一为 li-xiaoyao；分类、accepted/action 与其余实例保持冻结。
+      rejections: '2bb11c8f1e667424cb59edfe6151eaedebb81a0df9771577b73a2e5b902970a3',
       actions: 'a6dd0657ff7476d2c37021277540c92cdc43df888f16d712c87e40d3e7585c69',
     })
 

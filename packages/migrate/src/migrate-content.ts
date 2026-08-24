@@ -355,28 +355,28 @@ export function mapSprites(roles: readonly SourceRole[]): SpriteDef[] {
  * SpriteDef.id 显式建立，不能从 AssetId/path 反推；同一旧编号若落到多个语义定义则
  * 无法替脚本猜测意图，必须 fail-loud。
  */
-export function mapRoleSpriteIdsByNumber(
+export function mapRoleSpritesByNumber(
   roles: readonly SourceRole[],
   sprites: readonly SpriteDef[],
-): ReadonlyMap<number, string> {
+): ReadonlyMap<number, SpriteDef> {
   const spritesById = new Map(sprites.map((sprite) => [sprite.id, sprite]))
-  const result = new Map<number, string>()
+  const result = new Map<number, SpriteDef>()
   for (const role of roles) {
     const id = ROLE_SLUGS[role.id]
-    if (!id) throw new Error(`mapRoleSpriteIdsByNumber: 未知 roleId ${role.id}`)
+    if (!id) throw new Error(`mapRoleSpritesByNumber: 未知 roleId ${role.id}`)
     const sprite = spritesById.get(id)
-    if (!sprite) throw new Error(`mapRoleSpriteIdsByNumber: 角色 ${id} 缺少语义 SpriteDef`)
+    if (!sprite) throw new Error(`mapRoleSpritesByNumber: 角色 ${id} 缺少语义 SpriteDef`)
     const expectedAsset = palSpriteAssetId(role.spriteNum)
     if (sprite.asset !== expectedAsset)
       throw new Error(
-        `mapRoleSpriteIdsByNumber: 角色 ${id} 的资源应为 ${expectedAsset}，实际 ${sprite.asset}`,
+        `mapRoleSpritesByNumber: 角色 ${id} 的资源应为 ${expectedAsset}，实际 ${sprite.asset}`,
       )
     const existing = result.get(role.spriteNum)
-    if (existing !== undefined && existing !== id)
+    if (existing !== undefined && existing.id !== id)
       throw new Error(
-        `mapRoleSpriteIdsByNumber: 旧精灵号 ${role.spriteNum} 同时对应 ${existing} 与 ${id}`,
+        `mapRoleSpritesByNumber: 旧精灵号 ${role.spriteNum} 同时对应 ${existing.id} 与 ${id}`,
       )
-    result.set(role.spriteNum, id)
+    result.set(role.spriteNum, sprite)
   }
   return result
 }
@@ -1982,6 +1982,8 @@ export interface SceneMigrationOptions {
   palSemanticProfile?: 'historical-r13-4' | 'current-r13-6a' | 'current-r13-6b'
   /** 冻结历史 authority 的 PAL 引用形状；当前产品保持 stable-id。 */
   palReferenceSchema?: 'legacy' | 'stable-id'
+  /** 已逐项核清视觉等价、允许场景实体复用的稳定 SpriteDef.id；不得据此推断 Actor 身份。 */
+  sceneSemanticSpriteIds?: ReadonlySet<string>
 }
 
 /**
@@ -2045,8 +2047,8 @@ export function mergeSceneScriptBindings(disk: SceneDef, fresh: SceneDef): Scene
 export function mapScenesStatic(
   srcScenes: readonly SourceScene[],
   eventsByScene: ReadonlyMap<number, readonly SourceCmd[]>,
-  /** 迁移边界显式建立的旧 spriteNum → 角色语义 SpriteDef.id 映射。 */
-  roleSpriteIdsByNum: ReadonlyMap<number, string> = new Map(),
+  /** 迁移边界显式建立的旧 spriteNum → 角色语义 SpriteDef 映射。 */
+  roleSpritesByNum: ReadonlyMap<number, SpriteDef> = new Map(),
   /** 物品/法术/敌 AI/角色钩子等不属于场景的执行根。 */
   globalRoots: readonly ScriptRoot[] = [],
   /** 生产迁移按 catalog 过滤空 sound chunk。 */
@@ -2271,6 +2273,8 @@ export function mapScenesStatic(
     source: 'scene' | 'pal-overlay'
     evidence: string
     label: string
+    /** 稳定视觉定义由角色迁移持有；场景只复用 id，不能再生成一份重复 SpriteDef。 */
+    externalDefinition?: true
   }
   const layoutKey = (layout: SpriteDef['layout']): string =>
     layout.kind === 'directional'
@@ -2280,6 +2284,17 @@ export function mapScenesStatic(
         : 'static'
   const sceneLayout = (nSpriteFrames: number): SpriteDef['layout'] =>
     nSpriteFrames > 0 ? { kind: 'directional', framesPerDir: nSpriteFrames } : { kind: 'static' }
+  const roleSpriteAliasFor = (
+    spriteNum: number,
+    layout: SpriteDef['layout'] | undefined,
+    usage: 'script' | 'scene',
+  ): SpriteDef | undefined => {
+    const roleSprite = roleSpritesByNum.get(spriteNum)
+    if (!roleSprite || roleSprite.asset !== palSpriteAssetId(spriteNum)) return undefined
+    if (layout && layoutKey(roleSprite.layout) !== layoutKey(layout)) return undefined
+    if (usage === 'scene' && !options.sceneSemanticSpriteIds?.has(roleSprite.id)) return undefined
+    return roleSprite
+  }
   type SceneLayoutEvidence = {
     nSpriteFrames: number
     sceneId: number
@@ -2323,18 +2338,35 @@ export function mapScenesStatic(
         left.nSpriteFrames - right.nSpriteFrames,
     )
     const overlay = overlaysBySprite.get(spriteNum)
-    const primaryLayout = overlay?.layout ?? sceneLayout(sceneEvidence[0]?.nSpriteFrames ?? 0)
+    const semanticRoleSprite = roleSpriteAliasFor(spriteNum, undefined, 'scene')
+    const primaryLayout =
+      semanticRoleSprite?.layout ??
+      overlay?.layout ??
+      sceneLayout(sceneEvidence[0]?.nSpriteFrames ?? 0)
     const primaryKey = layoutKey(primaryLayout)
     const layouts = new Map<string, LayoutRegistration>()
-    if (overlay) {
-      layouts.set(primaryKey, {
+    if (semanticRoleSprite) {
+      layouts.set(layoutKey(semanticRoleSprite.layout), {
         spriteNum,
-        id: migratedSpriteId(spriteNum),
-        layout: overlay.layout,
-        source: 'pal-overlay',
-        evidence: overlay.evidence,
-        label: `原精灵 ${spriteNum}(0x65 换装)`,
+        id: semanticRoleSprite.id,
+        layout: semanticRoleSprite.layout,
+        source: 'scene',
+        evidence: `player-roles spriteNum=${spriteNum}`,
+        label: semanticRoleSprite.label,
+        externalDefinition: true,
       })
+    }
+    if (overlay) {
+      const key = layoutKey(overlay.layout)
+      if (!layouts.has(key))
+        layouts.set(key, {
+          spriteNum,
+          id: migratedSpriteId(spriteNum),
+          layout: overlay.layout,
+          source: 'pal-overlay',
+          evidence: overlay.evidence,
+          label: `原精灵 ${spriteNum}(0x65 换装)`,
+        })
     }
     for (const evidence of sceneEvidence) {
       const layout = sceneLayout(evidence.nSpriteFrames)
@@ -2342,26 +2374,25 @@ export function mapScenesStatic(
       const matchesPrimary = key === primaryKey
       // overlay 与场景证据相同 = 同一个 stable base；保留历史人读 label，避免纯布局修复
       // 与作者改名形成无意义 MG2 冲突。不同布局才建立 scene -f<n> 变体。
-      const registration: LayoutRegistration =
-        matchesPrimary && layouts.has(key)
-          ? layouts.get(key)!
-          : {
-              spriteNum,
-              nSpriteFrames: evidence.nSpriteFrames,
-              id: matchesPrimary
-                ? migratedSpriteId(spriteNum)
-                : migratedSpriteId(spriteNum, evidence.nSpriteFrames),
-              layout,
-              source: 'scene',
-              evidence: `scene ${sceneSlug(evidence.sceneId)}/e${evidence.entityId} nSpriteFrames=${evidence.nSpriteFrames}`,
-              label: `原精灵 ${spriteNum}`,
-            }
+      const registration: LayoutRegistration = layouts.has(key)
+        ? layouts.get(key)!
+        : {
+            spriteNum,
+            nSpriteFrames: evidence.nSpriteFrames,
+            id: matchesPrimary
+              ? migratedSpriteId(spriteNum)
+              : migratedSpriteId(spriteNum, evidence.nSpriteFrames),
+            layout,
+            source: 'scene',
+            evidence: `scene ${sceneSlug(evidence.sceneId)}/e${evidence.entityId} nSpriteFrames=${evidence.nSpriteFrames}`,
+            label: `原精灵 ${spriteNum}`,
+          }
       layouts.set(key, registration)
       sceneRegistrationByKey.set(`${spriteNum}:${evidence.nSpriteFrames}`, registration)
     }
     registrationsBySprite.set(spriteNum, layouts)
     for (const registration of layouts.values())
-      if (registration.id !== migratedSpriteId(spriteNum))
+      if (!registration.externalDefinition && registration.id !== migratedSpriteId(spriteNum))
         report.layoutConflicts.push(registration.id)
   }
   report.layoutConflicts.sort()
@@ -2373,6 +2404,7 @@ export function mapScenesStatic(
     registration: LayoutRegistration,
     recordEvidence: boolean,
   ): string => {
+    if (registration.externalDefinition) return registration.id
     if (!definitions.has(registration.id))
       definitions.set(registration.id, {
         id: registration.id,
@@ -2409,8 +2441,8 @@ export function mapScenesStatic(
     num: number,
     ensure: (registration: LayoutRegistration) => string,
   ): string => {
-    const roleSpriteId = roleSpriteIdsByNum.get(num)
-    if (roleSpriteId) return roleSpriteId
+    const roleSprite = roleSpriteAliasFor(num, undefined, 'script')
+    if (roleSprite) return roleSprite.id
     const layouts = registrationsBySprite.get(num)
     if (!layouts?.size) throw new Error(`sprite ${num} 缺布局证据；禁止从脚本资源号猜布局`)
     const overlay = overlaysBySprite.get(num)

@@ -25,7 +25,7 @@ import type {
   SourceScene,
 } from './migrate-content.js'
 import {
-  mapRoleSpriteIdsByNumber,
+  mapRoleSpritesByNumber,
   mapScenesStatic,
   migrateAll,
   migratedSpriteId,
@@ -47,7 +47,10 @@ import {
 } from './pal-derived-content.js'
 import { auditPalSpriteActions } from './pal-sprite-action-census.js'
 import { materializePalSpriteActions } from './pal-sprite-action-materialize.js'
-import { PAL_WORLD_SPRITE_LAYOUT_DEBT_AUDIT } from './pal-world-sprite-layouts.js'
+import {
+  PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIAS_IDS,
+  PAL_WORLD_SPRITE_LAYOUT_DEBT_AUDIT,
+} from './pal-world-sprite-layouts.js'
 import {
   auditAndConvertSourceMaps,
   type ProjectMapAuditReport,
@@ -180,7 +183,7 @@ export const PAL_WORLD_SPRITE_UNUSED_NUMBERS = [
 ] as const
 
 export const PAL_WORLD_SPRITE_SEMANTIC_DIGEST =
-  '1e432a3bfe109e1174f796cf3c77861fe9f6f32dbcc966132922c6526387af01'
+  '6a1985116241edaa2737b8800c2c6aef4fed123320ca4b0c2be81922fab6bb22'
 
 function assertPalWorldSpriteBaseline(
   sprites: readonly SpriteDef[],
@@ -204,10 +207,10 @@ function assertPalWorldSpriteBaseline(
       ),
     ),
   )
-  if (sprites.length !== 577) throw new Error(`PAL SpriteDef 期望 577，收到 ${sprites.length}`)
+  if (sprites.length !== 576) throw new Error(`PAL SpriteDef 期望 576，收到 ${sprites.length}`)
   if (used.size !== 559) throw new Error(`PAL 已用 sprite AssetId 期望 559，收到 ${used.size}`)
-  if (sprites.length - used.size !== 18)
-    throw new Error(`PAL 共享 SpriteDef 关系期望 18，收到 ${sprites.length - used.size}`)
+  if (sprites.length - used.size !== 17)
+    throw new Error(`PAL 共享 SpriteDef 关系期望 17，收到 ${sprites.length - used.size}`)
   if (JSON.stringify(catalogIds) !== JSON.stringify(expectedCatalogIds))
     throw new Error('PAL sprite catalog AssetId 集合不是精确 1..636')
   if (JSON.stringify(unused) !== JSON.stringify(expectedUnused))
@@ -487,7 +490,7 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
   const sceneOutput = mapScenesStatic(
     sources.scenes,
     sources.eventsByScene,
-    mapRoleSpriteIdsByNumber(sources.migrate.roles, migrated.sprites),
+    mapRoleSpritesByNumber(sources.migrate.roles, migrated.sprites),
     globalRoots,
     soundAssetForNum,
     {
@@ -495,6 +498,7 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
       globalScriptAliases: itemUseScriptAliases,
       palSemanticProfile,
       palReferenceSchema: 'stable-id',
+      sceneSemanticSpriteIds: PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIAS_IDS,
     },
   )
   const boss = applyPalBossEncounterOverlay(

@@ -17,7 +17,7 @@
 | ED-FIELD-COMMIT-1 | 编辑器字段草稿、提交与撤销边界统一 | draft | Kimi / GLM 独立审字段事务、撤销与性能合同 | 项目、物品、敌人、技能、战场统一根治每字符全局命令 |
 | ED-PROJECT-STARTUP-IA-1 | 入口与开局 / 全局资源与启动工作台收口 | draft | Kimi / GLM 审 IA；待 ED-DS-3 / ED-FIELD-COMMIT-1 合同冻结 | canonical 入口不变；收口队伍、重复行、资源试听、概览与开局交互 |
 | ARCH-ENTRY-ACTOR-SEED-1 | 入口角色完整初始状态所有权与快照模型 | draft | Kimi / GLM 独立核原版、一阶段与当前初始化真值 | schema 高风险；等级、经验、装备、属性唯一 owner 未核清前禁止 build |
-| MIG-PAL-WORLD-SPRITE-ALIAS-1 | PAL 大世界角色精灵语义别名收口 | draft | Kimi / GLM 独立核 7 场景用途与严格等价规则 | 修迁移上游；7 引用归一，完整重迁不再生成 `sprite-2` |
+| MIG-PAL-WORLD-SPRITE-ALIAS-1 | PAL 大世界角色精灵语义别名收口 | review | Kimi / GLM 终审实现、GR1 / GR2 与精确迁移 diff | Codex accept；1 重复定义 + 7 引用归一，迁移零计划，migrate 354 tests 全绿 |
 | ARCH-ENTRYPOINT-CANONICAL-1 | 显式启动入口与独立开局配置 | done | 三方 accept + 用户验收齐，整卡收口 | content17 三工程 canonical；默认/显式/menu/?scene 语义与编辑闭环已实现，终审无返工项 |
 | ARCH-CURRENT-ONLY-1 | 开发期单版本架构收口 | done | 三方 accept + 用户验收齐，整卡收口 | 旧产品版本层、升级入口与兼容 fallback 已清零；PAL replay 零差异 |
 | ED-PAL-WORKSPACE-MODES-1 | PAL 开发基线、评审沙盒与种子晋升边界 | done | 三方 accept + 用户验收齐，整卡收口 | GLM 终审：GP1-GP3/KP1-KP2 全落，focused 68+20 复跑全绿 | Codex accept；editor 134/981 + typecheck，全链路内部压力审查 P0/P1/P2 清零 |

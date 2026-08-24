@@ -1,4 +1,4 @@
-import type { Command } from '@type-pal/content'
+import type { Command, SpriteDef } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
   mapScenesStatic,
@@ -50,7 +50,74 @@ const changeSpriteScript = (target: number): SourceCmd[] => [
   { op: 'end' },
 ]
 
+const liXiaoyaoSprite: SpriteDef = {
+  id: 'li-xiaoyao',
+  asset: 'sprite.pal.002',
+  label: '李逍遥(大世界)',
+  layout: { kind: 'directional', framesPerDir: 3 },
+}
+
 describe('大世界精灵布局注册表', () => {
+  test('严格等价的角色语义定义同时服务场景实体与数字脚本且不重复登记', () => {
+    const migrated = mapScenesStatic(
+      [scene(0, [entity(1, 2, 3, { triggerMode: 1, triggerLabel: 'L_1' })])],
+      new Map([[0, changeSpriteScript(2)]]),
+      new Map([[2, liXiaoyaoSprite]]),
+      [],
+      undefined,
+      { sceneSemanticSpriteIds: new Set(['li-xiaoyao']) },
+    )
+
+    expect(migrated.scenes[0]?.entities[0]).toEqual(
+      expect.objectContaining({ sprite: 'li-xiaoyao' }),
+    )
+    expect(actorSpriteCommands(migrated.scriptChunks)).toEqual([
+      { kind: 'setActorSprite', actor: 'li-xiaoyao', sprite: 'li-xiaoyao' },
+    ])
+    expect(migrated.sprites.filter(({ asset }) => asset === 'sprite.pal.002')).toEqual([])
+  })
+
+  test('角色候选资源不同不归一，场景保持独立定义', () => {
+    const migrated = mapScenesStatic(
+      [scene(0, [entity(1, 2, 3)])],
+      new Map([[0, []]]),
+      new Map([[2, { ...liXiaoyaoSprite, asset: 'sprite.pal.003' }]]),
+      [],
+      undefined,
+      { sceneSemanticSpriteIds: new Set(['li-xiaoyao']) },
+    )
+
+    expect(migrated.scenes[0]?.entities[0]).toEqual(expect.objectContaining({ sprite: 'sprite-2' }))
+    expect(migrated.sprites).toContainEqual({
+      id: 'sprite-2',
+      asset: 'sprite.pal.002',
+      label: '原精灵 2',
+      layout: { kind: 'directional', framesPerDir: 3 },
+    })
+  })
+
+  test('角色候选布局不同不归一，场景建立显式布局变体', () => {
+    const migrated = mapScenesStatic(
+      [scene(0, [entity(1, 2, 0)])],
+      new Map([[0, []]]),
+      new Map([[2, liXiaoyaoSprite]]),
+      [],
+      undefined,
+      { sceneSemanticSpriteIds: new Set(['li-xiaoyao']) },
+    )
+
+    expect(migrated.scenes[0]?.entities[0]).toEqual(
+      expect.objectContaining({ sprite: 'sprite-2-f0' }),
+    )
+    expect(migrated.sprites).toContainEqual({
+      id: 'sprite-2-f0',
+      asset: 'sprite.pal.002',
+      label: '原精灵 2',
+      layout: { kind: 'static' },
+    })
+    expect(migrated.sprites.some(({ id }) => id === 'li-xiaoyao')).toBe(false)
+  })
+
   test('脚本先消费、静态场景后声明时仍共用一个稳定 static 定义', () => {
     const sources = [
       scene(0, [entity(1, 100, 0, { triggerMode: 1, triggerLabel: 'L_1' })]),
