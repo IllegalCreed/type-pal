@@ -1,6 +1,6 @@
 # ED-FIELD-COMMIT-1 - 编辑器字段草稿、提交与撤销边界统一
 
-Status: draft
+Status: build（2026-08-24 Codex / Kimi / GLM `verified + agree` 齐）
 Phase: phase2
 Capability: 编辑器公共表单能力（不改变 capability-map 状态）
 Coding Owner: Codex
@@ -9,7 +9,7 @@ Reviewer: Kimi + GLM
 Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
-Branch: `codex/ed-field-commit-1`
+Branch: `codex/ed-audio-workbench-1`（用户交接的共享集成分支）
 
 ## 目标
 
@@ -113,18 +113,66 @@ Branch: `codex/ed-field-commit-1`
   - premise: verified（`edit-session.ts:178-190` 与 `App.tsx:304-307` 证明每次 dispatch 的全局成本；上述五类页面存在直接命令路径）
   - design: agree（共享 draft/commit 合同 + 全页面 census + 静态门禁）
 - Kimi:
-  - premise: pending
-  - design: pending
+  - premise: verified（2026-08-24 独立直读，非代理）。`edit-session.ts:178-191` dispatch 全链
+    （apply→past.push→future 清→dirty→historyVersion++→notify）逐行核实；`App.tsx:305-307`
+    `useSyncExternalStore(subscribe, getVersion)` 订阅整个 session——逐字符 dispatch 确有全局
+    重渲染 + 历史写入双重成本。非项目页直读：`EnemyTab.tsx:773-779` 名字字段 onChange 逐字符
+    dispatch `UpdateLocaleCommand`；项目页 `ProjectWorkbenchTab.tsx:1643-1647` 显示名 raw
+    `<input className="in">` 逐字符 `RenameProjectCommand`（同时还属 DS-3 的原生控件红项）；
+    离散白名单先例 `ItemTab.tsx:1387-1395` checkbox 即时提交合法；既有草稿合同先例
+    `MediaAssetLifecycle.tsx:15-60`（identity 键草稿 + Enter/blur/Escape）证明公共合同可落地。
+  - design: agree（共享 draft→validate→commit/cancel→resync 合同 + census 门禁方向正确；
+    附 KF1-KF3，与 GLM GF1-GF3 互补，不阻塞准入）:
+    - **KF1（IME 必须进公共层）**：compositionstart/end 期间的值不得提交、不得触发 validate
+      报错闪烁；该行为只在公共组件实现一次，禁止页面自补。
+    - **KF2（resync 身份键先例上升为合同）**：草稿必须同时键入对象身份 + canonical 值版本
+      （MediaAssetNameField 的 `identity = assetId+committed` 模式），外部 undo/redo、对象切换、
+      保存重开一律丢弃草稿显示 canonical；Enter 提交后 blur 不得二次 dispatch（commit guard
+      幂等，同 GF2）。
+    - **KF3（一次编辑周期恰好一条 command 的边界用例）**：连续输入→Enter→立即指针点击另一
+      字段（blur 紧随）→undo→redo，全链 dispatch 恰 1 次且 redo 后字段显示 canonical 新值；
+      该序列进公共合同测试，不只测单步。
 - GLM:
-  - premise: pending
-  - design: pending
+  - premise: **verified（2026-08-24，本人一手读码 + 多页 dispatch census，非代理）**：
+    1. **dispatch 全局成本属实**：`EditSession.dispatch`（edit-session.ts:178-190）
+       apply→入 past→清 future→置脏→historyVersion++→notify() 全链逐字核实；
+       App.tsx:304-307 `useSyncExternalStore(subscribe, getVersion)` 订阅整个
+       session——每字符 dispatch = 每字符全编辑器重渲染，前提成立。
+    2. **非项目页直接 dispatch 实锤（EnemyTab）**：名字字段
+       `<DsTextInput onChange={(e) => session.dispatch(new UpdateLocaleCommand(...))}>`
+       （:776-778）——每个字符一次 Locale 命令 + 一次 undo 记录；另 :979/:1003
+       两处数字字段同构。**多页 census（multiline rg）**：EnemyTab 4、
+       ProjectWorkbenchTab 2、ActorMode 2——比卡文列的五页更广（卡文未列
+       ActorMode），census 门禁须以 registry 全页扫而非清单。
+    3. **本地草稿先例**：ItemTab:1388-1392 的 checkbox onChange→patch 是**离散**
+       即时提交（合法白名单形态）；连续值字段确无既有草稿合同——缺口成立。
+  - design: **agree（2026-08-24，附 GF1-GF3，不阻塞准入）**。draft→validate→
+    commit/cancel→resync 公共合同 + registry census 门禁方向正确。
+  - **必落钉 GF1-GF3：**
+    - **GF1（command/dirty/undo 次数可证伪测试）**：每个采用字段至少一条测试
+      断言"一次编辑周期 dispatch 恰 1 次、isDirty 翻转恰 1 次、undo 恢复完整
+      旧值且不残留"；用 spy 计数而非时间断言（时间断言只作 perf 辅证）。
+    - **GF2（双提交与草稿污染钉）**：Enter 后立即 blur（焦点已离开）不得二次
+      dispatch（commit guard 幂等）；**对象切换（A 改到一半切 B）时 A 的草稿
+      不得写入 B**——resync 合同的专项负例；外部 undo/redo 后输入框必须显示
+      canonical 新值（草稿丢弃）。
+    - **GF3（离散白名单闭合）**：白名单形态钉为"checkbox/select/toggle/颜色/
+      拖拽"等离散事件；门禁按事件处理器 AST/正则识别 `onChange→dispatch` 中
+      **text/number input** 才违规——ActorMode 的 2 处（数字字段）须入采用面，
+      checkbox 类（如 ItemTab:1388）自动豁免；白名单机器可读并与 GD1 allowlist
+      同格式。
+  - 独立反证：若根订阅隔离后每字符 dispatch 实测无成本（卡文反证条款），本卡
+    性能动机减弱但事务语义动机（undo 被逐字符淹没）仍独立成立——不推翻。
 - 独立反证审查（至少一位非 Coding Owner 必填）:
-  - 审查者: pending
-  - 独立证据锚点: pending
-  - 可证伪观察: pending
+  - 审查者: GLM（2026-08-24，见上）
+  - 独立证据锚点: edit-session.ts:178-190 / App.tsx:304-307 / EnemyTab.tsx:776-778,
+    979-1003 / 多页 census（Enemy 4/PWT 2/Actor 2）/ ItemTab:1388 离散先例
+  - 可证伪观察: ①若 GF1 计数测试在任何采用页测出 >1 dispatch 即 commit guard
+    漏（GF2 拦截）；②若对象切换后 canonical 值被旧草稿覆盖即 resync 缺陷；
+    ③若门禁扫不出 ActorMode 的 2 处数字 dispatch 即 census 正则漏连续值形态。
 - counter / 分歧处理: N/A
 - 缺签豁免: N/A
-- build 准入结论: blocked
+- build 准入结论: allowed（2026-08-24，Codex + Kimi + GLM 三签齐；GF1-GF3 与 KF1-KF3 为 build 必落钉）
 
 ### 进入 done 前:审查签字
 
@@ -154,9 +202,9 @@ Branch: `codex/ed-field-commit-1`
 ### 主审立场
 
 - Reviewer: Kimi
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论: agree（2026-08-24，独立直读 dispatch 链、根订阅与两个非项目页字段路径；KF1-KF3 已写回）
+- 必改项: 无新增；GF1-GF3（GLM）+ KF1-KF3（Kimi）为 build 必落钉。
+- 是否建议进入 build: 是（三签齐；与 ED-DS-3 的 Field API 联合冻结点按 KD3 执行，同 Owner 串行）
 
 ## Build: 实现与自测
 
@@ -181,6 +229,10 @@ Branch: `codex/ed-field-commit-1`
 
 ## 交接日志
 
+- 2026-08-24 Kimi: 独立直读 edit-session dispatch 链、App 根订阅、EnemyTab/ProjectWorkbenchTab 逐字符
+  命令路径、ItemTab 离散先例与 MediaAssetNameField 草稿先例；签 premise verified + design agree
+  （附 KF1-KF3：IME 进公共层、resync 身份键合同化、一次编辑周期一条命令的连续序列用例）。
+  三签齐，build 准入开放。未修改实现文件。
 - 2026-08-24 Codex: 完成代码证据 census 并开卡；当前仅文档，不改实现。Next: Kimi/GLM 独立签 premise/design。
 
 ## 下一位 Agent 提示词
@@ -196,3 +248,8 @@ Branch: `codex/ed-field-commit-1`
 不要做: 不得修改实现文件；三方签字未齐不得标 build 或 done
 输出要求: premise verified/counter、design agree/counter、直接证据、必改项
 ```
+- 2026-08-24 GLM（覆盖/census/测试矩阵）: 审查完成，签 **premise verified + design agree
+  （附 GF1-GF3）**。dispatch 成本链与根订阅一手核实；EnemyTab:776 名字字段逐字符
+  UpdateLocaleCommand 实锤；多页 census 比 卡文更广（ActorMode 2 处未列——GF3 要求
+  registry 全页扫）。GF1 钉 dispatch/dirty/undo 三计数可证伪；GF2 钉 Enter+blur 双提交
+  与草稿污染对象负例；GF3 钉离散白名单闭合与同 GD1 格式。未改实现，未代签 Kimi。
