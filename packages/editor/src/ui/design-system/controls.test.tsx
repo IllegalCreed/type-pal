@@ -182,6 +182,50 @@ describe('editor design-system controls', () => {
     expect(document.body.querySelector('.ds-tooltip__bubble')).toBeNull()
   })
 
+  test('dismisses pointer-triggered tooltips instead of keeping clicked controls sticky', async () => {
+    await act(async () =>
+      root.render(
+        <>
+          <DsIconButton label="上一帧" icon="chevron-left" variant="secondary" />
+          <DsIconButton label="下一帧" icon="chevron-right" variant="secondary" />
+        </>,
+      ),
+    )
+
+    const previous = host.querySelector<HTMLButtonElement>('[aria-label="上一帧"]')!
+    const next = host.querySelector<HTMLButtonElement>('[aria-label="下一帧"]')!
+
+    await act(async () =>
+      previous.dispatchEvent(new MouseEvent('mouseover', { bubbles: true, relatedTarget: null })),
+    )
+    expect(document.body.querySelector('.ds-tooltip__bubble')?.textContent).toBe('上一帧')
+
+    await act(async () => {
+      previous.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true }))
+      previous.focus()
+    })
+    expect(document.body.querySelector('.ds-tooltip__bubble')).toBeNull()
+
+    await act(async () => {
+      previous.dispatchEvent(
+        new MouseEvent('mouseout', { bubbles: true, relatedTarget: next }),
+      )
+      next.dispatchEvent(
+        new MouseEvent('mouseover', { bubbles: true, relatedTarget: previous }),
+      )
+    })
+    const bubbles = document.body.querySelectorAll<HTMLElement>('.ds-tooltip__bubble')
+    expect(bubbles).toHaveLength(1)
+    expect(bubbles[0]?.textContent).toBe('下一帧')
+
+    await act(async () => {
+      next.dispatchEvent(new MouseEvent('mouseout', { bubbles: true, relatedTarget: document.body }))
+      previous.blur()
+      next.focus()
+    })
+    expect(document.body.querySelector('.ds-tooltip__bubble')?.textContent).toBe('下一帧')
+  })
+
   test('buttons and action links share geometry while preserving native semantics', async () => {
     const buttonRef = createRef<HTMLButtonElement>()
     await act(async () =>

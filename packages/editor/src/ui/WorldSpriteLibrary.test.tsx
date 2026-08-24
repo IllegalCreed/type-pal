@@ -356,12 +356,48 @@ describe('WorldSpriteLibrary', () => {
       ),
     ]
     expect(usageButtons).toHaveLength(2)
+    expect(
+      usageButtons
+        .find((candidate) => candidate.textContent?.includes('主角行走'))
+        ?.getAttribute('aria-pressed'),
+    ).toBe('true')
     await act(async () =>
       usageButtons.find((candidate) => candidate.textContent?.includes('主角静止'))?.click(),
     )
     expect(
       host.querySelector('#world-sprite-inspector-panel-references')?.textContent,
     ).not.toContain('先选择一个用途定义')
+  })
+
+  test('从源资源进入动作时默认选中首个用途，不要求再次点击用途卡片', async () => {
+    const session = new EditSession(editorState(definitions))
+    await act(async () =>
+      root.render(
+        library(definitions, session, {
+          view: 'asset',
+          focusObjectId: 'sprite.shared',
+        }),
+      ),
+    )
+
+    expect(
+      host.querySelector('[data-world-resource]')?.getAttribute('data-world-active-definition'),
+    ).toBeNull()
+
+    await act(async () => button('动作').click())
+
+    expect(
+      host.querySelector('[data-world-resource]')?.getAttribute('data-world-active-definition'),
+    ).toBe('hero-walk')
+    expect(
+      [
+        ...host.querySelectorAll<HTMLButtonElement>(
+          '[role="group"][aria-label="选择用途定义"] .ds-catalog-row',
+        ),
+      ]
+        .find((candidate) => candidate.textContent?.includes('主角行走'))
+        ?.getAttribute('aria-pressed'),
+    ).toBe('true')
   })
 
   test('受控地址回灌后仍停留在引用，不跳回动作', async () => {

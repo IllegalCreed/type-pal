@@ -477,6 +477,22 @@ export function WorldSpriteLibrary(props: {
   const inspectorLabel =
     definition?.label || displayLabel || (consumers.length ? '选择一个用途定义' : '未选择')
 
+  const changeInspectorTab = (nextTab: InspectorTab): void => {
+    setInspectorTab(nextTab)
+    if (nextTab === 'source' || definition || creatingUsage) return
+    const nextDefinition = consumers[0]
+    if (!nextDefinition) return
+    pendingInspectorTab.current = {
+      view: 'definition',
+      objectId: nextDefinition.id,
+      tab: nextTab,
+    }
+    setSelectedId(nextDefinition.id)
+    setSelectedActionId(undefined)
+    props.onViewChange('definition', nextDefinition.id)
+    props.onObjectFocus?.(nextDefinition.id)
+  }
+
   return (
     <>
       <div className="outliner data-outliner battle-sprite-outliner world-sprite-outliner">
@@ -663,7 +679,7 @@ export function WorldSpriteLibrary(props: {
           id="world-sprite-inspector"
           label="大世界精灵检查器"
           activeId={inspectorTab}
-          onChange={(id) => setInspectorTab(id as InspectorTab)}
+          onChange={(id) => changeInspectorTab(id as InspectorTab)}
           items={[
             {
               id: 'layout',

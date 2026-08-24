@@ -115,6 +115,7 @@ export function DsTooltip(props: { label: string; shortcut?: string; children: R
   const tooltipId = useId()
   const anchorRef = useRef<HTMLSpanElement>(null)
   const layerRef = useRef<HTMLDivElement>(null)
+  const pointerInitiatedFocus = useRef(false)
   const [hovered, setHovered] = useState(false)
   const [focused, setFocused] = useState(false)
   const [dismissed, setDismissed] = useState(false)
@@ -148,11 +149,21 @@ export function DsTooltip(props: { label: string; shortcut?: string; children: R
           setHovered(true)
         }}
         onMouseLeave={() => setHovered(false)}
+        onPointerDownCapture={() => {
+          pointerInitiatedFocus.current = true
+          setDismissed(true)
+          setHovered(false)
+          setFocused(false)
+        }}
         onFocusCapture={() => {
+          if (pointerInitiatedFocus.current) return
           setDismissed(false)
           setFocused(true)
         }}
-        onBlurCapture={() => setFocused(false)}
+        onBlurCapture={() => {
+          pointerInitiatedFocus.current = false
+          setFocused(false)
+        }}
       >
         {child}
         <span id={tooltipId} role="tooltip" className="ds-visually-hidden">
