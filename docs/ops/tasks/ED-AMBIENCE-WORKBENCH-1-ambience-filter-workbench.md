@@ -1,6 +1,6 @@
 # ED-AMBIENCE-WORKBENCH-1 - 氛围滤镜工作台与真实场景预览
 
-Status: review
+Status: done
 Phase: phase2
 Capability: W6
 Coding Owner: Codex
@@ -249,11 +249,47 @@ Branch: codex/ed-audio-workbench-1
 - Codex: **accept（2026-08-24）**——功能实现、共享 compositor、current-author 引用索引、异步预览竞态、
   颜色单事务与设计系统边界已自审；editor 143 files / 1098 tests、reforge 91 files / 841 tests、双包
   typecheck 与浏览器真实场景 smoke 均通过。独立只读压力复审另跑 editor 92/92、compositor 4/4，P0/P1 为零。
-- Kimi: pending
-- GLM: pending
+- Kimi: accept（2026-08-24，独立直读 b3713656 与现行实现 + 聚焦复跑，非代理）。按委托重点逐项：
+  - **共享 compositor 与调用顺序 ✓**：`ambience-compositor.ts:11-23` 唯一实现且恒等跳过内建
+    （设计期关注项①落实）；`main.ts` diff 仅把 multiply 块替换为 `compositeAmbienceTint` 调用，
+    fade/lerp 仍留 runtime 闭包，大世界（:6163，`!cinematicLayerDrawn` 守卫）与战斗（:6435）两调用点
+    与顺序不变，0x73 dither 仍在滤镜之后（设计期关注项②落实）；cinematic/RNG 边界未动。
+  - **真实场景预览 ✓**：`AmbienceScenePreview.tsx` 只组合 scene-stage primitives
+    （useStageSize/useViewZoomPan/useStagePanGesture/useSceneAssets/renderSceneFrame/
+    buildInitialSceneSpriteDraws），不嵌 SceneCanvas、无命中/拖动/选择/overlay；未着色底帧缓存键含
+    projectKey+scene+mapId+mapRevision+view+spriteAssets，改 tint/A-B 只在 rAF 里重复制底帧 +
+    重合成（:143-200，不重跑 renderSceneFrame）；默认场景经 `findDefaultEntry`（设计期关注项③
+    落实，ARCH 入口卡后的 canonical 形态）；预览场景/A/B/缩放全为 session-local state，不进
+    undo/save/schema（:258-279）；失效 deep link 显式报错不静默改选（:290-295）。
+  - **last-result-wins ✓**：`useSceneAssets` 新增 `sourceKey` 身份失效（scene-stage.ts），过期异步
+    结果丢弃；预览组件按 `projectKey+scene.id` remount；切换工程清选择并回默认入口场景。
+  - **编辑事务/引用/删除 ✓**：名称与颜色均 local draft + 单次 dispatch + 等值短路（:77-96,137-146）；
+    引用索引经 `collectAmbienceReferenceIndex(editorState, scriptState)` 一次构建、memo，目录计数/
+    Inspector/删除 dialog 三方同源（:332-344）；扫描失败 fail-closed；`DeleteAmbienceCommand` 带
+    live session getter 在 apply 重检（:396-399）；删除后焦点返回触发点、选择移邻、可全局 undo。
+  - 聚焦复跑：AmbienceTab/AmbienceScenePreview/ambience-references/ambience-compositor/scene-stage
+    5 文件 30/30 通过（全量长套件采纳卡内记录，未重复）。
+  - 非阻塞记录：卡内视觉验证的 1280×720 与 125%/150% 等效窄视口截图仍未补（Codex 已如实标注），
+    留给用户最终验收时复验；不阻塞代码 accept。
+- GLM: **accept（2026-08-23 done 前数据/渲染链/测试终审，本人一手读码 + census 复跑，非代理）**。
+  GN1-GN3 逐钉验证：
+  - **schema 纯度 ✓**：AmbienceDef 接口仍恰三字段（ambience.ts:10-14）；PAL
+    ambiences.json 3 项字段去重恰 id/name/tint——**preview context 未进 schema**。
+  - **同一 compositor ✓（GN2 核心）**：`compositeAmbienceTint` 唯一实现于 reforge
+    ambience-compositor.ts，**runtime main.ts 与 editor AmbienceScenePreview.tsx 同
+    import 同函数**——无第二份 multiply；恒等跳过与全帧语义两侧一致。
+  - **懒加载当前场景 ✓（GN3）**：AmbienceScenePreview 经 loadSceneAssets 按当前预览
+    场景取资产（非全量 223 图）；renderSceneFrame 复用共享渲染地基。
+  - **引用索引同源 ✓（GN1）**：AmbienceTab 消费 core/ambience-references（与删除守卫
+    同 collector）；测试 "lists blocking references and keeps deletion disabled" 在位。
+  - **单次 undo 事务 ✓（GN3）**："name equality is a no-op and one committed change
+    creates one command"（等值短路 + 单命令）测试在位。
+  - **focused 复跑 ✓**：AmbienceTab + AmbienceScenePreview 13 tests 全绿；typecheck
+    PASS。MIDI note activity/PCM 波形分属 AUDIO 卡域，本卡预览为场景帧不复用音频
+    transport——卡文边界一致。
 - counter / 返工处理: N/A
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **done allowed（2026-08-24）——Codex + Kimi + GLM 三方 review accept 已齐，用户验收通过。**
 
 ## Draft: 设计与风险
 
@@ -413,17 +449,26 @@ Branch: codex/ed-audio-workbench-1
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: Codex 自审 accept；内部独立只读压力复审 accept，P0/P1 blocker 为零；Kimi / GLM 正式 accept 待补。
-- 必须返工项: 当前无。非阻塞 P2 建议：补“fit 改变 view 仍只绘制一次”与“两场景 fixture 只加载当前场景”回归。
-- Accept / rework: **review**——实现可交审；三方 done 签字未齐，不标 done。
+- 审查结论: Codex 自审 accept；内部独立只读压力复审 accept，P0/P1 blocker 为零；GLM accept
+  （2026-08-23，GN1-GN3 逐钉，见“进入 done 前:审查签字” GLM 段）；Kimi accept（2026-08-24，
+  compositor/调用顺序/预览底帧缓存/竞态/事务逐项直读 + 聚焦 5 文件 30/30 复跑，见同节 Kimi 段）。
+- 必须返工项: 无。非阻塞 P2 建议：补“fit 改变 view 仍只绘制一次”与“两场景 fixture 只加载当前场景”回归。
+- Accept / rework: 三方 accept、用户验收通过；任务收口为 done。窄视口专项截图作为非阻塞后续证据，不重开本卡。
 
 ## 用户验收
 
-- 用户结论: pending
+- 用户结论: **accept（2026-08-24）**。用户确认三项待验任务均无问题；氛围工作台、真实场景预览与统一控件布局完成验收。
 - 后续任务: 如果需要验证战斗/UI/脚本过渡的完整动态氛围效果，另开受控 runtime preview 任务，不扩本卡静态画布。
 
 ## 交接日志
 
+- 2026-08-24 User: 最终验收通过；三方 review accept 已齐，任务收口为 done。
+- 2026-08-24 Kimi（done 终审）: 签 **accept**。独立直读 b3713656：compositeAmbienceTint 唯一实现且
+  恒等跳过内建；main.ts 仅换调用、两出帧点与 dither 顺序不变；AmbienceScenePreview 复用 scene-stage
+  primitives、底帧缓存键含 project/scene/mapRevision/view、tint/A-B 只重合成缓存底帧；useSceneAssets
+  sourceKey 失效 + 组件 remount 实现 last-result-wins；preview context 全 session-local；引用索引一次
+  构建三方同源、删除 live 重检 fail-closed、焦点返回。聚焦 5 文件 30/30 复跑通过；全量采纳卡内记录。
+  未修改实现文件，未代签 GLM，未标 done。Next: 三方 accept 已齐，待用户验收（窄视口截图随最终验收补验）。
 - 2026-08-24 Codex: 完成实现、自测与最小浏览器验证，任务转 review。全量 editor 1098 / reforge 841、双包
   typecheck 通过；`s042` 真实地图、day/night/warm A/B 与白色恒等通过；HEX 输入和尾部动作实测均 36px。
   内部独立只读压力复审 accept，P0/P1 为零；待 Kimi / GLM 正式 review 签字与用户最终验收。
@@ -445,19 +490,11 @@ Branch: codex/ed-audio-workbench-1
 - 2026-08-22 Codex 并行只读预审: 确认右栏不重复字段、静态 preview context 不入 schema、共享 renderer primitives 而非
   整个 `SceneCanvas`；补充未着色底帧缓存、rAF 合成与“不覆盖 UI / 战斗 / cinematic / 过渡”的预览边界。该预审不代替
   Kimi / GLM 推进签字。
+- 2026-08-23 GLM（数据/渲染链/测试矩阵）: done 终审完成并签 **accept**。schema 三字段
+  纯度实测；compositeAmbienceTint 单一实现双消费（runtime+editor 同 import）；懒加载当前
+  场景；引用索引与禁删同源；等值短路+单命令 undo 测试在位；focused 13+typecheck 全绿。
+  未改实现，未代签 Kimi，未标 done。
 
 ## 下一位 Agent 提示词
 
-```text
-接手任务: ED-AMBIENCE-WORKBENCH-1 氛围滤镜工作台与真实场景预览
-任务卡: docs/ops/tasks/ED-AMBIENCE-WORKBENCH-1-ambience-filter-workbench.md
-当前状态: review；Codex 已完成实现、自测并签 accept，Kimi / GLM done 前审查签字 pending
-你的角色: Kimi 负责共享 compositor / scene preview / runtime 出口终审；GLM 负责引用 index、编辑事务、状态与测试覆盖终审
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、docs/phase2/ambience-design.md、editor-design-system-v1.md，以及卡内代码锚点
-已完成: 三栏氛围工作台、共享 compositor、真实静态场景 A/B、临时 preview context、current-author 引用索引、颜色单事务与设计系统高度边界；
-editor 1098 / reforge 841、双包 typecheck、s042/day-night-warm 浏览器 smoke 均通过
-请你做: 只读检查当前实现与 diff，重点核对 runtime 合成顺序/恒等跳过、底帧缓存与异步竞态、引用/删除单真值、undo 粒度、
-loading/error/empty、响应式与 shared DS 采用；在任务卡签 accept，或给出带 file:line 的 counter / 返工项
-不要做: 不得修改实现文件；不得改 schema/migration/runtime 语义；不得重复跑已有长全量；不得在 Kimi/GLM/user 验收未齐时标记 done
-输出要求: 更新 done 前对应签字与 Review；明确 accept/counter，并列出是否还有 P0/P1 blocker
-```
+无下一位 Agent 提示词：三方 review accept 与用户验收均已完成，任务已收口。

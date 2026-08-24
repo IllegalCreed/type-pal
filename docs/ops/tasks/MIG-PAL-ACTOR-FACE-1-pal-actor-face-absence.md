@@ -1,6 +1,6 @@
 # MIG-PAL-ACTOR-FACE-1 - PAL 角色小头像缺席语义与迁移收口
 
-Status: review
+Status: done
 Phase: phase2
 Capability: A7
 Coding Owner: Codex
@@ -178,11 +178,45 @@ Branch: codex/mig-pal-actor-face-1
 
 - Codex: accept（2026-08-23；实现 diff 自审、79+1+10 项定向测试、migrate/editor typecheck、正式迁移
   一次写入后的零计划 replay、`git diff --check` 与角色页浏览器 smoke 均通过）
-- Kimi: pending
-- GLM: pending
+- Kimi: accept（2026-08-24，独立直读实现 + 产物 + 复跑，非代理）。按委托重点逐项：
+  - **单一事实 ✓**：`source-facts.ts:36` `PAL_PLAYER_FACE_FRAME_BY_ROLE_ID = [48,49,50,51,52]`（冻结
+    tuple，注释钉 palcommon.c:848-851 帧表约定）；资源生成（`pal-assets.ts:405-411` 按表生成五张
+    face）与 `mapActor`（`migrate-content.ts:294` 仅当 roleId 在表内才写 face）共用同一来源，
+    `ROLE_SLUGS` 六角色表保持不动。
+  - **产物收口 ✓**：本人直读 `projects/pal`——actors.json 中盖罗娇 `face` 缺席且
+    `portraits.default=portrait.pal.044` 保留（另两名非 battler NPC 同样无 face）；catalog 恰 5 条
+    `face.pal.*`（frame-48..52，bytes 1742/2129/1782/2057/2614）；`assets/migrated/faces/` 目录恰
+    5 张 PNG，`gai-luojiao.png` 不存在。
+  - **受控退休 ✓**：`planPalAssetRetirements`（pal-assets.ts:1158-1182）只从旧 catalog 的
+    `legacy-migrated` 记录推导、路径未被新 catalog 复用、强制 `assets/migrated/` 前缀与反遍历校验、
+    落盘 hash 偏离即 fail loud；事务层 `expectedPreviousHash` 只允许删除携带、commit 前再核
+    （migration-transaction.ts:290-303），TOCTOU fail-closed。
+  - **replay 不复生 ✓**：本人本轮跑 `migrate:content` dry-run：`managed=537 writes=0 deletes=0
+    conflicts=0 asset-deletes=0`；frozen census 已收口 face 5 records/10324 bytes
+    （sound-reference-audit.ts）与 catalog 基线 1934/69092169（pal-assets.ts:1095）。
+  - **Editor 兜底 ✓**：`ActorMode.test.tsx` 契约测试（有 portrait 无 face 的 battler 走 🧑）本人复跑
+    10/10 通过；migrate 聚焦 4 文件 79/79 通过（含二次物化零写入）。
+  - 其余五张头像字节与 id 不变（catalog 记录与 census bytes 双侧一致）。
+- GLM: **accept（2026-08-23 done 前数据/迁移终审，本人独立 census + replay 复跑，非代理）**。
+  GF1-GF2 逐钉验证：
+  - **GF1（帧表约定钉死）✓ 落地**：source-facts.ts:26-36 注释逐字引用
+    palcommon.c:848-851 的 `word[N]` 语义并明示"不是 word[N+1]"，事实表
+    `PAL_PLAYER_FACE_FRAME_BY_ROLE_ID = [48,49,50,51,52]` 冻结——正是本席钉的形态。
+  - **GF2（census 哨兵 + 孤儿白名单）✓**：本人独立复算——**face=5**（li/zhao/lin/wu/anu，
+    bytes 1742/2129/1782/2057/2614B）；**盖罗娇 face 缺席 + portraits.default=
+    portrait.pal.044 保留**；catalog/落盘 `gai-luojiao` **零命中**；**migrate:content
+    replay 本席复跑 `managed=537 writes=0 deletes=0 conflicts=0`**（幂等）；assets
+    1934（前卡 1935 - 1 face）。sound-reference-audit.ts 与 pal-current-publication
+    均 doubly 更新（4d76246e stat）。
+  - **共享事实层单源 ✓**：mapActor（migrate-content:294）与 pal-assets（:48）**同 import
+    同表**，PAL_FACE_ACTORS 六项硬编码数组已删。
+  - **回退契约测试 ✓**：ActorMode.test "角色列表与标题优先显示战斗小头像，未配置时回退
+    人物占位"在位。
+  - **focused 复跑 ✓**：pal-current-publication+migrate-content 53 tests、ActorMode
+    10 tests 全绿。
 - counter / 返工处理: N/A
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **done allowed（2026-08-24）——Codex + Kimi + GLM 三方 review accept 已齐，用户验收通过。**
 
 ## Draft: 设计与风险
 
@@ -292,31 +326,34 @@ Branch: codex/mig-pal-actor-face-1
 - 集中 E2E 用例 / 批次: N/A
 - 截图 / 像素检查路径: N/A（以浏览器 accessibility/DOM 快照核列表与 Hero 的实际呈现，未新增长期截图产物）
 - 结论: passed；盖罗娇两个入口均显示 battler 默认头像 `🧑`。
-- 未完成项: 无；等待 Kimi/GLM 实现审查。
+- 未完成项: 无。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: Codex self accept；Kimi accept（2026-08-24，单一事实/产物收口/受控退休/replay 零计划/
+  Editor 兜底逐项直读核验）；GLM accept（2026-08-23，GF1-GF2、正式产物 census、零计划 replay 与
+  Editor 回退契约复核），证据均见“进入 done 前:审查签字”。
+- 必须返工项: 无
+- Accept / rework: 三方 accept、用户验收通过；任务收口为 done。
 
 ### 下一位 Agent 提示词
 
-请审查 `docs/ops/tasks/MIG-PAL-ACTOR-FACE-1-pal-actor-face-absence.md`，当前状态 `review`。先读
-`AGENTS.md`、`docs/phase2/READ-FIRST.md`、本任务卡的前提真值/验收条件，以及本分支提交 diff。不得修改
-实现文件、不得标记 done。重点独立核对：① frame 48..52 单一事实是否同时约束资源生成与 Actor 映射；
-②盖罗娇 portrait 保留但 face/catalog/binary/孤儿 PNG 均缺席；③退休计划只删旧 catalog 持有且 hash 未变的
-`assets/migrated/**` 文件，事务 TOCTOU 防护是否 fail-closed；④ publication census、replay 零计划与 Editor
-`🧑` 契约是否足以阻止回归。请在卡内签 `accept`，或写明 `counter`/必须返工项；签字前不得把卡转 done。
+无下一位 Agent 提示词：三方 review accept 与用户验收均已完成，任务已收口。
 
 ## 用户验收
 
-- 用户结论: 2026-08-22 已确认期望：无小头像时默认头像兜底；实现验收 pending。
-- 后续任务: pending
+- 用户结论: **accept（2026-08-24）**。用户确认三项待验任务均无问题；本卡按“无小头像时使用默认头像兜底”完成验收。
+- 后续任务: 无。
 
 ## 交接日志
 
+- 2026-08-24 User: 最终验收通过；三方 review accept 已齐，任务收口为 done。
+- 2026-08-24 Kimi（done 终审）: 签 **accept**。独立核实：source-facts 单一 tuple 同时约束生成与
+  mapActor；projects/pal 产物（5 face、盖罗娇 face 缺席 + portrait.pal.044 保留、faces 目录恰 5 PNG）；
+  退休计划 origin/路径/hash 三重约束 + 事务 expectedPreviousHash commit 前复核；本人跑 dry-run replay
+  为 537/0/0/0/0 零计划；migrate 聚焦 79/79、ActorMode 契约 10/10 复跑通过。未修改实现文件，
+  未代签 GLM，未标 done。Next: GLM 覆盖终审后用户验收。
 - 2026-08-22 Codex: 从 Editor 空白追到 PAL 迁移上游；直接解 raw `DATA.MKF` 证明 frame 53 为
   3×4 全透明，确认 Editor fallback 本身正确。Evidence: 真值矩阵。Next: Kimi/GLM 独立核真并签 build。
 - 2026-08-23 GLM（数据迁移/测试矩阵主审）: 独立解码完成并签 **premise verified + design agree
@@ -332,6 +369,10 @@ Branch: codex/mig-pal-actor-face-1
   定论——`iFrameNum <<= 1` 后按字节取下标，只存在 word offset @ byte 2i 一种正确读法，与 shared rle.ts
   及本人手工解码同约定；错位读法不可能让 48-52 五帧指令流逐帧解满各自像素总数。三签已齐；按本轮
   用户指令保持 draft 与准入 blocked，开放决定留给用户。
+- 2026-08-23 GLM（数据迁移/测试矩阵主审）: done 终审完成并签 **accept**。GF1 帧表约定
+  注释+冻结表落地；GF2 独立复算 face=5/缺席/portrait 保留/catalog 零命中/replay 537 零计划
+  全过；共享事实层 mapActor+pal-assets 同表单源；回退契约测试在位；focused 53+10 复跑全绿。
+  未改实现，未代签 Kimi，未标 done。
 
 ## 下一位 Agent 提示词
 

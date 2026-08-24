@@ -1,6 +1,6 @@
 # ED-AUDIO-WORKBENCH-1 - 音乐 / 音效统一资源工作台与音频时间轴
 
-Status: review
+Status: done
 Phase: phase2
 Capability: X2
 Coding Owner: Codex
@@ -209,11 +209,56 @@ Branch: codex/ed-audio-workbench-1
 ### 进入 done 前:审查签字
 
 - Codex: **re-accept（2026-08-23 播放终点返工）**——WAV/MIDI 自然结束统一归一到精确终点；滑块改用 0–1 归一化进度，短于 1 秒的资源显示百分之一秒；MIDI 结束后的停止/拖动与播放中拖动均按显式位置语义收口。真实 `sound.pal.004` 播完后 DOM 为 `value=max=1`、进度线 `x1=160`、`0:00.53 / 0:00.53`；17 条聚焦回归与 editor/reforge typecheck 通过。
-- Kimi: pending
-- GLM: pending
+- Kimi: accept（2026-08-24，独立直读当前分支实现 + 聚焦复跑，非代理）。按委托重点逐项：
+  - **统一工作台 ✓**：MusicTab.tsx（125 行）/SoundTab.tsx（76 行）仅剩策略注入
+    （`MUSIC_STRATEGY.createTransport = createMidiPreviewTransport`，MusicTab.tsx:100-124）；
+    `AudioAssetWorkbench.tsx` 单组件持有目录/Hero/基本信息/试听/Inspector；`DsObjectWorkspace`
+    的 content 是唯一滚动 owner（:600-697）。
+  - **MIDI transport ✓**：`midi-preview.ts` 窄接口封装 Sequencer 的 load/play/pause/currentTime±/
+    duration/paused/isFinished（:132-154）；自然结束经 `finished` 归一到 duration，结束后重播归 0
+    （:278-287），seek clamp 且显式位置语义清晰（:308-313）；serial/playSerial 双 guard + inflight
+    去重 + dispose 全链（:204-345）。
+  - **WAV transport ✓**：真实 PCM 峰值（`computePcmPeaks` 逐 bucket 扫全部声道，audio-preview.ts:53-86）；
+    seek 用“停 source 按 offset 重建”（:259-269）；`onEnded` 归 `position = duration()` 精确终点
+    （:178-184），结束后 play 归 0 重播（:235）；offset 钳到 duration-0.001 防越界启动（:187）；
+    `releaseSource` 幂等。
+  - **缓存/异步/清理 ✓**：`AudioPreviewCache` LRU(16) + inflight 去重 + 超限淘汰（audio-preview.ts:
+    290-335）；`AudioAssetPlayer` 以 `projectId+assetId+sha256` 为 identity，generation guard 下
+    A→B→A 竞态对旧 A 中止后重试当前 A、迟到 B 不覆盖（AudioAssetWorkbench.tsx:180-221）；换工程清
+    缓存（:236-239）；换 transport/卸载经 token 化 microtask dispose（:223-235，StrictMode 安全）；
+    rAF 时钟仅播放期运行、页面隐藏即停、可见且仍播放时恢复（:241-271）。
+  - **BgmPlayer 不受影响 ✓**：游戏 BgmPlayer 接口未动；只把 worklet/soundfont 初始化下沉为共享
+    `initializeBrowserSpessaSynth`（spessa-browser-runtime.ts:14-44），一阶段守卫（secure context、
+    RIFF 魔数、CC91=0+lock、skipToFirstNoteOn=false）随 factory 完整保留，preview 用独立
+    `preview` 音色 bank 与 `loopCount=0`。
+  - **虚拟列表与浮层 ✓**：`DsVirtualList` 补齐 selectedKey/ArrowUp/ArrowDown/roving control
+    （virtual-list.tsx:16-37,119-120）；tooltip/select 经 `DsFloatingLayer` createPortal 到 body，
+    getBoundingClientRect 定位 + 避碰，不被祖先裁切（floating-layer.tsx:9,51-56,136）。
+  - 聚焦复跑：audio-preview/AudioAssetWorkbench/MusicTab/SoundTab/AssetInspectorTabs/virtual-list/
+    floating-layer/midi-preview 8 文件 36/36 通过（全量长套件按纪律采纳卡内记录，未重复）。
+- GLM: **accept（2026-08-23 done 前覆盖/性能/测试终审，本人一手读码 + census 复跑，非代理）**。
+  GA1-GA4 逐钉验证：
+  - **格式 census 复跑 ✓**：music 86 全 MIDI / sound 363 全 WAV / other=0——双后端策略
+    维持有效。
+  - **GA1（同源 live 引用）✓**：AudioAssetWorkbench 与 Image/Cutscene 同构消费
+    tryCollectEditorAssetReferenceSnapshot + currentAuthor 投影切片（与 MEDIA 卡同源
+    实现，未拼第二份合并逻辑——本席 GM1/GA1 跨卡协调要求的落地形态）。
+  - **GA2（transport 确定性）✓**：audio-preview 确定性 min/max peaks / 全幅常量桶非空
+    哨兵 / play-pause-seek-natural-completion-disposal / stop 取消 pending resume
+    等专项测试齐（audio-preview.test 12 项含 exact-end——Codex 播放终点返工后 re-accept
+    对应的"分数短音在精确视觉与滑条终点"用例在位）。
+  - **GA3（竞态/缓存）✓**：A→B→A 取消复用专项测试（AudioAssetWorkbench.test:54）+
+    inflight 去重 + LRU 淘汰 + AudioContext 懒分配（"deduplicates inflight analysis
+    and evicts the least-recently-used" / "does not allocate an AudioContext until
+    the committed transport loads"）。
+  - **GA4（虚拟列表合同）✓**：DsVirtualList 在 workbench :568 消费；roving
+    Arrow/Home/End 选择合同测试（virtual-list.test:62）——本席钉的"补齐方向键合同
+    先行"落地。
+  - **focused 复跑 ✓**：AudioAssetWorkbench + audio-preview + virtual-list
+    12+12 tests 全绿；typecheck PASS。
 - counter / 返工处理: 2026-08-23 用户先指出音效正文无法滚动；已将 Hero / 正文结构收敛到共享 `DsObjectWorkspace` 并通过滚动复验。随后用户指出播放提示文字被截半；已将 `DsTooltip`、`DsHelpTip`、select/popover 统一迁入 `DsFloatingLayer` Portal。用户再指出短 WAV 播完后滑块未到头；浏览器一手数据确认资源时长 `0.534s` 被 range 的固定 `step=0.01` 量化为 `0.53`，而波形进度线其实已到 `160/160`。现已改用归一化 range，并将 Spessa `isFinished` 接入 MIDI transport；内部复审继续补齐 Spessa 写 `currentTime` 不会清除 `isFinished`、以及播放中 seek 不得冻结进度的两组边界，返工均已解决。
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **done allowed（2026-08-24）——Codex + Kimi + GLM 三方 review accept 已齐，用户验收通过。**
 
 ## Draft: 设计与风险
 
@@ -360,21 +405,31 @@ Branch: codex/ed-audio-workbench-1
 - 集中 E2E 用例 / 批次: N/A
 - 截图 / 像素检查路径: N/A（浏览器交互 smoke，未保存仓库截图）
 - 结论: 音乐 / 音效同源布局、真实时间轴标签、精确播放终点、快速切换、无横向溢出、中央长内容滚动及动作提示跨裁切容器显示均通过；StrictMode 初次卡 loading 与 stale cache 竞态均已修复并复验。
-- 未完成项: Kimi / GLM 独立 review 与用户最终验收。
+- 未完成项: 无。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: Codex 内部只读压力审查发现并已修复 AudioContext render 泄漏、缓存未包住 load、隐藏页 rAF、MIDI 自然结束重播、PCM sentinel、虚拟列表显式焦点与 A→B→A 中止重试问题；用户滚动、Tooltip 裁切与播放终点 counter 均已按共享容器 / 浮层 / transport 合同返工并浏览器复验；Kimi / GLM 待独立验收。
-- 必须返工项: 当前无已知 Codex 阻断项；Kimi / GLM 需审查最新共享滚动容器、`DsFloatingLayer` 的 tooltip/help/select 合同与 boundary ratchet，若 counter，任务转 `rework`。菜单类浮层尚未全部迁入该几何 primitive，属于后续全局 overlay consolidation，不阻断本次 tooltip 裁切修复。
-- Accept / rework: Codex re-accept（含滚动、Tooltip / overlay 与播放终点返工）；Kimi / GLM pending，`done` 仍 blocked。
+- 审查结论: Codex 内部只读压力审查发现并已修复 AudioContext render 泄漏、缓存未包住 load、隐藏页 rAF、MIDI 自然结束重播、PCM sentinel、虚拟列表显式焦点与 A→B→A 中止重试问题；用户滚动、Tooltip 裁切与播放终点 counter 均已按共享容器 / 浮层 / transport 合同返工并浏览器复验；Kimi accept（2026-08-24，统一工作台/双 transport/缓存竞态清理/滚动 owner/浮层逐项直读核验 + 聚焦 8 文件 36/36 复跑）；GLM accept（2026-08-23，GA1-GA4、格式 census、确定性 transport、缓存竞态与虚拟列表合同复核），证据均见“进入 done 前:审查签字”。
+- 必须返工项: 无；菜单类浮层尚未全部迁入 `DsFloatingLayer` 几何 primitive，属后续全局 overlay consolidation，不阻断本卡。
+- Accept / rework: 三方 accept、用户验收通过；任务收口为 done。
 
 ## 用户验收
 
-- 用户结论: pending
+- 用户结论: **accept（2026-08-24）**。用户确认三项待验任务均无问题；统一音频工作台、滚动/浮层返工与精确播放终点完成验收。
 - 后续任务: 真实 MIDI 合成 PCM 波形若仍需要，另开离线渲染 / 缓存任务。
 
 ## 交接日志
+
+- 2026-08-24 User: 最终验收通过；三方 review accept 已齐，任务收口为 done。
+- 2026-08-24 Kimi（done 终审）: 签 **accept**。独立直读：MusicTab/SoundTab 薄策略层 + 单一
+  AudioAssetWorkbench；midi-preview.ts 窄 transport（finished 归一、结束重播归 0、显式位置 seek、
+  serial 双 guard、dispose）；audio-preview.ts WAV 真实 PCM 峰值、offset 重建式 seek、onEnded 精确
+  终点、AudioPreviewCache LRU/inflight/淘汰；AudioAssetPlayer 的 generation 竞态、A→B→A 重试、
+  token 化 microtask dispose、隐藏页 rAF 停止；bgm.ts 仅下沉共享 factory 且一阶段守卫完整，
+  BgmPlayer 接口未动；虚拟列表键盘合同与 DsFloatingLayer Portal 防裁切。聚焦 8 文件 36/36 复跑
+  通过；全量长套件采纳卡内记录未重复。未修改实现文件，未代签 GLM，未标 done。
+  Next: GLM 覆盖终审后用户验收。
 
 - 2026-08-23 User + Codex（播放终点 counter / 返工）: 用户指出短 WAV 播完后滑块未到终点。浏览器测得 `sound.pal.004 duration=0.534`，波形进度线已是 `160/160`，但原生 range 因 `step=0.01` 将值量化为 `0.53`；时间格式又向下取整成 `0:00 / 0:00`。Codex 将 seek UI 改为 0–1 归一化进度、短音效显示百分之一秒，并把 Spessa `isFinished` 接入 MIDI 自然结束与重播合同；内部复审再补 finished→stop、finished→seek→play 及 playing→seek→继续推进三条边界。3 files / 17 tests、editor/reforge typecheck、diff-check 通过；真资源播放后 DOM `value=max=1`、时间 `0:00.53 / 0:00.53`。任务返回 review。
 - 2026-08-23 User + Codex（Tooltip 裁切 counter / 返工）: 用户指出播放按钮提示文字被卡片截半，并要求统一处理图层。一手证据确认局部 `position:absolute` tooltip 无法逃逸 `DsWorkbenchSection overflow:hidden`；Codex 将 `DsTooltip`、`DsHelpTip` 与 select/popover 收敛到共享 `DsFloatingLayer` Portal，删除业务页定位补丁，并补内容宽度居中、viewport 避碰、dialog host、ARIA 与 light-dismiss 回归。6 files / 72 tests、editor typecheck、diff-check 通过；浏览器实测“播放”提示父节点为 `BODY`、fixed 且完整在视口内。任务返回 review。
@@ -397,17 +452,11 @@ Branch: codex/ed-audio-workbench-1
   指令保持 draft 与准入 blocked，开放决定留给用户。未修改实现文件。
 - 2026-08-21 Codex: 完成现有 Music/Sound UI、catalog/CRUD、引用输入、MIDI/WAV 播放与 Spessa transport 可行性只读审计；
   创建 draft 并签 premise/design。Evidence: 本卡真值矩阵与上下文锚点。Next: Kimi / GLM 独立设计审查；三签齐前不得修改实现文件。
+- 2026-08-23 GLM（覆盖/性能/测试矩阵）: done 终审完成并签 **accept**。格式 census 复跑
+  86/363/0；GA1 与 MEDIA 卡同源投影切片；GA2 确定性峰值+exact-end；GA3 A→B→A 竞态+
+  LRU+懒 AudioContext；GA4 虚拟列表 roving 键盘合同。focused 12+12+typecheck 全绿。
+  未改实现，未代签 Kimi，未标 done。
 
 ## 下一位 Agent 提示词
 
-```text
-接手任务: ED-AUDIO-WORKBENCH-1 音乐 / 音效统一资源工作台与音频时间轴
-任务卡: docs/ops/tasks/ED-AUDIO-WORKBENCH-1-audio-resource-workbench.md
-当前状态: review；Codex 实现、自验、滚动与 Tooltip / overlay 返工及浏览器 smoke 已完成，Codex accept；Kimi / GLM review accept 待补
-你的角色: Kimi 负责跨包 transport / 生命周期 / 竞态审查；GLM 负责 GA1-GA4、缓存集成、测试矩阵与任务证据审查
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、editor-design-system-v1.md、A7-0/A7-1 音频边界，以及卡内代码锚点
-已完成: 单一 AudioAssetWorkbench、86/363 有界目录、WAV PCM/MIDI 音符活动、双 transport、分析缓存、A→B→A 竞态回归、共享 DsObjectWorkspace 唯一滚动 owner、DsTooltip/DsHelpTip/select 共用 DsFloatingLayer Portal、聚焦测试/typecheck 与浏览器 smoke
-请你做: 直接读取一手实现与最终验证证据，审查 transport 生命周期、StrictMode、缓存/竞态、虚拟列表、GA1-GA4、共享滚动容器、Portal 浮层与 boundary ratchet；在任务卡签 review accept，或 counter 并写明可复现返工项
-不要做: review 阶段不得直接修改实现文件；若 counter，请把任务退回 rework；三方 accept 与用户验收前不得标记 done
-输出要求: 更新任务卡对应 review 签字与审查日志；明确 accept/counter、证据锚点和剩余风险
-```
+无下一位 Agent 提示词：三方 review accept 与用户验收均已完成，任务已收口。

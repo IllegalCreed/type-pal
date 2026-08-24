@@ -13,14 +13,19 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| ED-DS-3 | 编辑器设计系统全量采用与防回流门禁 | draft | Kimi / GLM 独立审公共合同、页面 registry 与门禁 | 从真实页面注册表生成覆盖；收口旧组件、滚动、弹层、字段和动作并阻断回流 |
+| ED-FIELD-COMMIT-1 | 编辑器字段草稿、提交与撤销边界统一 | draft | Kimi / GLM 独立审字段事务、撤销与性能合同 | 项目、物品、敌人、技能、战场统一根治每字符全局命令 |
+| ED-PROJECT-STARTUP-IA-1 | 入口与开局 / 全局资源与启动工作台收口 | draft | Kimi / GLM 审 IA；待 ED-DS-3 / ED-FIELD-COMMIT-1 合同冻结 | canonical 入口不变；收口队伍、重复行、资源试听、概览与开局交互 |
+| ARCH-ENTRY-ACTOR-SEED-1 | 入口角色完整初始状态所有权与快照模型 | draft | Kimi / GLM 独立核原版、一阶段与当前初始化真值 | schema 高风险；等级、经验、装备、属性唯一 owner 未核清前禁止 build |
+| MIG-PAL-WORLD-SPRITE-ALIAS-1 | PAL 大世界角色精灵语义别名收口 | draft | Kimi / GLM 独立核 7 场景用途与严格等价规则 | 修迁移上游；7 引用归一，完整重迁不再生成 `sprite-2` |
 | ARCH-ENTRYPOINT-CANONICAL-1 | 显式启动入口与独立开局配置 | done | 三方 accept + 用户验收齐，整卡收口 | content17 三工程 canonical；默认/显式/menu/?scene 语义与编辑闭环已实现，终审无返工项 |
 | ARCH-CURRENT-ONLY-1 | 开发期单版本架构收口 | done | 三方 accept + 用户验收齐，整卡收口 | 旧产品版本层、升级入口与兼容 fallback 已清零；PAL replay 零差异 |
 | ED-PAL-WORKSPACE-MODES-1 | PAL 开发基线、评审沙盒与种子晋升边界 | done | 三方 accept + 用户验收齐，整卡收口 | GLM 终审：GP1-GP3/KP1-KP2 全落，focused 68+20 复跑全绿 | Codex accept；editor 134/981 + typecheck，全链路内部压力审查 P0/P1/P2 清零 |
-| MIG-PAL-ACTOR-FACE-1 | PAL 角色小头像缺席语义与迁移收口 | review | Kimi + GLM 审迁移事实、受控退休与发布 census | Codex 实现/定向测试/typecheck/正式迁移 replay/浏览器 smoke 已通过；待三方 accept |
+| MIG-PAL-ACTOR-FACE-1 | PAL 角色小头像缺席语义与迁移收口 | done | 三方 accept + 用户验收齐，整卡收口 | 迁移 replay、受控退休与默认头像兜底均已核验 |
 | ED-ENTITY-INSPECTOR-IA-1 | 场景实体 Inspector、状态指令与删除入口收口 | done | 三方 accept + 用户验收齐，整卡收口 | 唯一指令入口、三 Tab、中文状态/朝向帮助、行尾删除与真实 PAL 294 场景回归闭环 |
 | ED-MEDIA-ASSET-ACTIONS-1 | 媒体资源对象操作与生命周期统一 | done | 三方 accept + 用户验收齐，整卡收口 | 集合动作归左栏、当前资源动作归 Hero；live 引用、fail-closed 删除与二进制 undo 闭环 |
-| ED-AUDIO-WORKBENCH-1 | 音乐 / 音效统一资源工作台与音频时间轴 | review | Kimi / GLM 独立审查，用户复验 | 播放终点已归一化；17 tests、双包 typecheck 与真 WAV DOM 复验通过 |
-| ED-AMBIENCE-WORKBENCH-1 | 氛围滤镜工作台与真实场景预览 | review | Kimi / GLM 独立终审，用户复验 | 三栏工作台、共享 compositor、s042/day-night-warm A/B 与 36px 同行控件闭环；editor 1098 / reforge 841 全绿 |
+| ED-AUDIO-WORKBENCH-1 | 音乐 / 音效统一资源工作台与音频时间轴 | done | 三方 accept + 用户验收齐，整卡收口 | 播放终点、滚动与浮层返工已复验 |
+| ED-AMBIENCE-WORKBENCH-1 | 氛围滤镜工作台与真实场景预览 | done | 三方 accept + 用户验收齐，整卡收口 | 共享 compositor、真实场景 A/B 与控件合同已核验 |
 | ED-DS-2 | 编辑器设计系统代码基础与 Design Lab | done | 三方 accept + 用户验收齐，整卡收口 | 四入口同源、WK2 与 sash 边界复审通过；全量 118/872 独立复跑全绿 |
 | ED-AUDIT-2 | 编辑器全页面视觉、闭环与代码质量审计 | done | 三方 accept + 用户验收齐，整卡收口 | GA1/GA2 闭环（门禁 18/17/17/6）；census 脚本可复现、boundary 23/23 |
 | ED-BATTLE-UI-1 | 战斗数据工作台族与共享对象 Hero | done | 三方 accept + 用户验收齐，整卡收口 | N1-N6/BK1-BK3 + RK1 全闭环；editor 124 files / 912 tests + typecheck、1280×720 实机通过 |
