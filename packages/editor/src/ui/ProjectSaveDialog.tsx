@@ -1,5 +1,4 @@
-import { useEffect, useId, useRef } from 'react'
-import { createPortal } from 'react-dom'
+import { DsDialog } from './design-system/index.js'
 
 export type ProjectSaveActivity =
   | { phase: 'choosing-directory' }
@@ -14,41 +13,19 @@ function formatBytes(bytes: number): string {
 }
 
 /**
- * 项目落盘期间的顶层等待态。原生 modal dialog 把焦点和键盘一并圈住；写盘没有可回滚的取消契约，
+ * 项目落盘期间的顶层等待态。共享 DsDialog 把焦点和键盘一并圈住；写盘没有可回滚的取消契约，
  * 因此不提供“取消”按钮，也禁止 Esc 只关 UI、后台继续写文件。
  */
 export function ProjectSaveDialog(props: {
   activity: Exclude<ProjectSaveActivity, { phase: 'choosing-directory' }>
 }) {
   const { activity } = props
-  const dialogRef = useRef<HTMLDialogElement>(null)
-  const returnFocusRef = useRef<HTMLElement | null>(null)
-  const titleId = useId()
-  const detailId = useId()
-
-  useEffect(() => {
-    const dialog = dialogRef.current
-    if (!dialog) return
-    returnFocusRef.current = document.activeElement as HTMLElement | null
-    if (!dialog.open) dialog.showModal()
-    dialog.focus()
-    return () => {
-      if (dialog.open) dialog.close()
-      const target = returnFocusRef.current
-      if (target?.isConnected && !(target instanceof HTMLButtonElement && target.disabled))
-        target.focus()
-    }
-  }, [])
-
   const writing = activity.phase === 'writing'
   const determinate = writing && activity.total > 0
   const percent = determinate
     ? Math.min(100, Math.floor((activity.completed / activity.total) * 100))
     : undefined
-  const title =
-    activity.phase === 'saving-as'
-      ? '正在另存项目…'
-      : '正在保存项目…'
+  const title = activity.phase === 'saving-as' ? '正在另存项目…' : '正在保存项目…'
   const detail =
     activity.phase === 'preparing'
       ? '正在整理并校验项目内容，请勿关闭页面。'
@@ -56,16 +33,15 @@ export function ProjectSaveDialog(props: {
         ? '正在复制素材并写入新目录，请勿关闭页面。'
         : '正在写入项目文件，请勿关闭页面。'
 
-  return createPortal(
-    <dialog
-      ref={dialogRef}
+  return (
+    <DsDialog
+      open
+      title={title}
+      description={detail}
       className="project-save-dialog"
-      aria-labelledby={titleId}
-      aria-describedby={detailId}
-      aria-busy="true"
-      aria-modal="true"
-      tabIndex={-1}
-      onCancel={(event) => event.preventDefault()}
+      dismissible={false}
+      ariaBusy
+      onClose={() => undefined}
     >
       <div
         className="project-save-dialog-content"
@@ -74,8 +50,6 @@ export function ProjectSaveDialog(props: {
         aria-atomic="true"
       >
         <span className="project-save-spinner" aria-hidden="true" />
-        <h2 id={titleId}>{title}</h2>
-        <p id={detailId}>{detail}</p>
         <div
           className={`project-save-progress${determinate ? '' : ' indeterminate'}`}
           role="progressbar"
@@ -92,7 +66,6 @@ export function ProjectSaveDialog(props: {
             : '正在处理，请稍候…'}
         </output>
       </div>
-    </dialog>,
-    document.body,
+    </DsDialog>
   )
 }

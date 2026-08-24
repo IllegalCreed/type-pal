@@ -117,6 +117,7 @@ import {
   DsReferencePanel,
   DsReferenceRow,
   DsTextInput,
+  DsPressable,
 } from './design-system/index.js'
 import { IsometricEditorCanvas } from './IsometricEditorCanvas.js'
 import { IsometricEditorSurface } from './IsometricEditorSurface.js'
@@ -3180,7 +3181,7 @@ export function MapMode(props: {
                           candidateMenu.candidates.map((row) => {
                             if (row.kind === 'stamp-placement')
                               return (
-                                <button
+                                <DsPressable
                                   type="button"
                                   key={`stamp:${row.placementId}`}
                                   role="option"
@@ -3198,11 +3199,11 @@ export function MapMode(props: {
                                     {row.ref.col}
                                   </code>
                                   <span>整组</span>
-                                </button>
+                                </DsPressable>
                               )
                             const candidate = row.candidate
                             return (
-                              <button
+                              <DsPressable
                                 type="button"
                                 key={`cell:${candidate.ref.layerId}:${candidate.ref.row}:${candidate.ref.col}`}
                                 role="option"
@@ -3227,16 +3228,20 @@ export function MapMode(props: {
                                     : `#${candidate.tileId} H${candidate.height}`}
                                 </code>
                                 <span>{candidate.pixelHit ? '像素' : '逻辑格'}</span>
-                              </button>
+                              </DsPressable>
                             )
                           })
                         ) : (
                           <span className="hint2">没有候选</span>
                         )}
                       </div>
-                      <button type="button" className="tool" onClick={() => closeCandidateMenu()}>
+                      <DsButton
+                        onClick={() => closeCandidateMenu()}
+                        size="compact"
+                        variant="secondary"
+                      >
                         关闭候选
-                      </button>
+                      </DsButton>
                     </section>
                   ) : null}
                   {transformIntent && transformPlan ? (
@@ -3274,58 +3279,58 @@ export function MapMode(props: {
                       {transformIntent.kind === 'move' ? (
                         <fieldset className="map-transform-nudge">
                           <legend className="map-a11y-legend">微调移动目标</legend>
-                          <button
-                            type="button"
-                            className="mini"
+                          <DsButton
                             aria-label="沿倾斜地图坐标向上移动（屏幕右上）"
                             title="上：移动到右上相邻菱形格"
                             onClick={() => adjustTransform('up')}
+                            size="compact"
+                            variant="secondary"
                           >
                             ↗
-                          </button>
-                          <button
-                            type="button"
-                            className="mini"
+                          </DsButton>
+                          <DsButton
                             aria-label="沿倾斜地图坐标向下移动（屏幕左下）"
                             title="下：移动到左下相邻菱形格"
                             onClick={() => adjustTransform('down')}
+                            size="compact"
+                            variant="secondary"
                           >
                             ↙
-                          </button>
-                          <button
-                            type="button"
-                            className="mini"
+                          </DsButton>
+                          <DsButton
                             aria-label="沿倾斜地图坐标向左移动（屏幕左上）"
                             title="左：移动到左上相邻菱形格"
                             onClick={() => adjustTransform('left')}
+                            size="compact"
+                            variant="secondary"
                           >
                             ↖
-                          </button>
-                          <button
-                            type="button"
-                            className="mini"
+                          </DsButton>
+                          <DsButton
                             aria-label="沿倾斜地图坐标向右移动（屏幕右下）"
                             title="右：移动到右下相邻菱形格"
                             onClick={() => adjustTransform('right')}
+                            size="compact"
+                            variant="secondary"
                           >
                             ↘
-                          </button>
+                          </DsButton>
                         </fieldset>
                       ) : null}
                       <div className="map-transform-actions">
-                        <button
-                          type="button"
-                          className="tool"
+                        <DsButton
                           disabled={
                             transformPlan.issues.length > 0 || Boolean(transformPermissionMessage)
                           }
                           onClick={() => requestTransformDrop()}
+                          size="compact"
+                          variant="secondary"
                         >
                           确认位置
-                        </button>
-                        <button type="button" className="tool" onClick={cancelTransform}>
+                        </DsButton>
+                        <DsButton onClick={cancelTransform} size="compact" variant="secondary">
                           取消
-                        </button>
+                        </DsButton>
                       </div>
                     </fieldset>
                   ) : null}
@@ -3673,16 +3678,16 @@ export function MapMode(props: {
               替换；本次操作仍可一步撤销。
             </p>
             <div className="stamp-lifecycle-actions">
-              <button
+              <DsPressable
                 ref={transformConflictAdjustRef}
                 type="button"
                 onClick={returnToTransformAdjustment}
               >
                 返回调整
-              </button>
-              <button type="button" className="danger" onClick={confirmTransformOverwrite}>
+              </DsPressable>
+              <DsButton size="compact" variant="danger" onClick={confirmTransformOverwrite}>
                 {transformOverwriteIntent.kind === 'move' ? '覆盖并移动' : '覆盖并粘贴'}
-              </button>
+              </DsButton>
             </div>
           </div>
         </div>
@@ -3716,23 +3721,23 @@ export function MapMode(props: {
                 ))}
             </ul>
             <div className="stamp-lifecycle-actions">
-              <button
+              <DsPressable
                 ref={stampStructureCancelRef}
                 type="button"
                 onClick={() => closeStampStructureDialog()}
               >
                 取消
-              </button>
-              <button type="button" onClick={() => confirmStampStructureOperation('ungroup')}>
+              </DsPressable>
+              <DsPressable type="button" onClick={() => confirmStampStructureOperation('ungroup')}>
                 先解组 {stampStructureIntent.placementIds.length} 个组合并继续
-              </button>
-              <button
-                type="button"
-                className="danger"
+              </DsPressable>
+              <DsButton
+                size="compact"
+                variant="danger"
                 onClick={() => confirmStampStructureOperation('delete-groups')}
               >
                 删除 {stampStructureIntent.placementIds.length} 个组合并继续
-              </button>
+              </DsButton>
             </div>
           </div>
         </div>

@@ -11,6 +11,7 @@ import {
   DsDraftNumberInput,
   DsDraftTextInput,
   DsField,
+  DsFilePicker,
   DsHelpTip,
   DsIconButton,
   DsListHeader,
@@ -559,6 +560,12 @@ describe('editor design-system controls', () => {
             onValueChange={() => undefined}
           />
           <DsTextArea aria-label="说明" defaultValue="说明文字" />
+          <DsFilePicker
+            label="选择图片"
+            description="PNG / WebP"
+            aria-label="导入图片"
+            accept="image/png,image/webp"
+          />
           <DsControlGroup
             leading={<span data-testid="leading">缩略图</span>}
             control={
@@ -586,6 +593,9 @@ describe('editor design-system controls', () => {
     expect(numberInput?.type).toBe('number')
     expect(numberInput?.inputMode).toBe('decimal')
     expect(numberInput?.classList).toContain('ds-control--monospace')
+    const fileInput = host.querySelector<HTMLInputElement>('[aria-label="导入图片"]')
+    expect(fileInput?.type).toBe('file')
+    expect(fileInput?.closest('.ds-file-picker')?.textContent).toContain('PNG / WebP')
     expect(
       host.querySelector<HTMLButtonElement>('[role="combobox"][aria-label="紧凑模式"]')?.classList,
     ).toContain('ds-select--compact')

@@ -99,22 +99,36 @@ describe('object workbench recipes', () => {
     const workspace = host.querySelector('.ds-object-workspace.domain-workspace')!
     expect(workspace.getAttribute('aria-label')).toBe('音乐工作区')
     expect(workspace.querySelectorAll(':scope > .ds-object-hero')).toHaveLength(1)
-    const content = workspace.querySelector(
-      ':scope > .ds-object-workspace__content.domain-scroll',
-    )!
+    const content = workspace.querySelector(':scope > .ds-object-workspace__content.domain-scroll')!
     expect(content.querySelectorAll(':scope > .ds-workbench-section')).toHaveLength(1)
   })
 
-  test('catalog row exposes one selected-state contract and preserves button behavior', async () => {
+  test('catalog row owns selected state, density, and the optional leading slot', async () => {
     const onClick = vi.fn()
     await act(async () =>
-      root.render(<DsCatalogRow selected title="李逍遥" meta="li-xiaoyao" onClick={onClick} />),
+      root.render(
+        <DsCatalogRow
+          selected
+          title="李逍遥"
+          meta="li-xiaoyao"
+          leading={<span>▶</span>}
+          onClick={onClick}
+        />,
+      ),
     )
     const row = host.querySelector<HTMLButtonElement>('.ds-catalog-row')!
     expect(row.getAttribute('aria-pressed')).toBe('true')
     expect(row.dataset.selected).toBe('true')
+    expect(row.dataset.density).toBe('standard')
+    expect(row.dataset.leading).toBe('present')
+    expect(row.querySelector('.ds-catalog-row__leading')?.textContent).toBe('▶')
     await act(async () => row.click())
     expect(onClick).toHaveBeenCalledOnce()
+
+    await act(async () => root.render(<DsCatalogRow density="compact" title="紧凑项" />))
+    const compact = host.querySelector<HTMLButtonElement>('.ds-catalog-row')!
+    expect(compact.dataset.density).toBe('compact')
+    expect(compact.dataset.leading).toBe('none')
   })
 
   test('catalog filter owns one shrink-safe compact search shell', async () => {

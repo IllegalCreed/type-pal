@@ -15,7 +15,7 @@ import {
   type WavPreviewTransport,
 } from '../core/audio-preview.js'
 import { DeleteAssetCommand, UpsertAssetCommand } from '../core/commands.js'
-import type { EditSession, EditorState } from '../core/edit-session.js'
+import type { EditorState, EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { tryCollectEditorAssetReferenceSnapshot } from '../core/editor-asset-references.js'
 import type { ScriptEditorState } from '../core/script-editor.js'
@@ -27,6 +27,7 @@ import {
   DsDiagnosticPanel,
   DsDiagnosticRow,
   DsFileInput,
+  DsIcon,
   DsIconButton,
   DsInspectorSection,
   DsInspectorTabs,
@@ -34,10 +35,10 @@ import {
   DsObjectWorkspace,
   DsPropertyGrid,
   DsPropertyRow,
+  DsRangeInput,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
-  DsRangeInput,
   DsStatus,
   DsTag,
   DsVirtualList,
@@ -113,8 +114,7 @@ function isAbortError(cause: unknown): boolean {
 
 function AudioTimelineGraphic(props: { timeline?: AudioTimeline; progress: number }) {
   const timeline = props.timeline
-  if (!timeline)
-    return <div className="audio-timeline__empty">选择资源后读取时间轴。</div>
+  if (!timeline) return <div className="audio-timeline__empty">选择资源后读取时间轴。</div>
   const progressX = Math.max(0, Math.min(1, props.progress)) * 160
   return (
     <div className="audio-timeline__graphic">
@@ -146,9 +146,7 @@ function AudioTimelineGraphic(props: { timeline?: AudioTimeline; progress: numbe
             })}
         <line className="audio-timeline__progress" x1={progressX} x2={progressX} y1="0" y2="64" />
       </svg>
-      <DsTag tone="neutral">
-        {timeline.kind === 'note-activity' ? '音符活动' : 'PCM 波形'}
-      </DsTag>
+      <DsTag tone="neutral">{timeline.kind === 'note-activity' ? '音符活动' : 'PCM 波形'}</DsTag>
     </div>
   )
 }
@@ -165,10 +163,13 @@ function AudioAssetPlayer(props: {
   )
   const generationRef = useRef(0)
   const playRequestRef = useRef(0)
-  const transportLifecycleRef = useRef<{
-    transport: AudioWorkbenchTransport
-    token: object
-  } | undefined>(undefined)
+  const transportLifecycleRef = useRef<
+    | {
+        transport: AudioWorkbenchTransport
+        token: object
+      }
+    | undefined
+  >(undefined)
   const analysisCacheRef = useRef(new AudioPreviewCache<AudioTimeline>(16))
   const [timeline, setTimeline] = useState<AudioTimeline>()
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
@@ -191,9 +192,7 @@ function AudioAssetPlayer(props: {
       const cachedTimeline = analysisCacheRef.current.get(identity)
       const loading = cachedTimeline
         ? transport.load(props.assetId, identity, cachedTimeline)
-        : analysisCacheRef.current.load(identity, () =>
-            transport.load(props.assetId, identity),
-          )
+        : analysisCacheRef.current.load(identity, () => transport.load(props.assetId, identity))
       void loading
         .then((result) => {
           if (generation !== generationRef.current) return
@@ -233,10 +232,7 @@ function AudioAssetPlayer(props: {
       })
     }
   }, [transport])
-  useEffect(
-    () => () => analysisCacheRef.current.clear(),
-    [props.reader.projectId],
-  )
+  useEffect(() => () => analysisCacheRef.current.clear(), [props.reader.projectId])
 
   useEffect(() => {
     if (!playing) return
@@ -277,8 +273,7 @@ function AudioAssetPlayer(props: {
   }
 
   const duration = timeline?.duration ?? clock.duration
-  const progress =
-    duration > 0 ? Math.max(0, Math.min(1, clock.currentTime / duration)) : 0
+  const progress = duration > 0 ? Math.max(0, Math.min(1, clock.currentTime / duration)) : 0
   const showSubseconds = duration > 0 && duration < 1
   return (
     <div className="audio-player" data-audio-kind={props.strategy.kind}>
@@ -337,8 +332,7 @@ function AudioAssetPlayer(props: {
           }}
         />
         <output className="audio-player__time" aria-live="off">
-          {formatTime(clock.currentTime, showSubseconds)} /{' '}
-          {formatTime(duration, showSubseconds)}
+          {formatTime(clock.currentTime, showSubseconds)} / {formatTime(duration, showSubseconds)}
         </output>
         <span className="audio-player__spacer" />
         <span className="audio-player__state">
@@ -433,7 +427,7 @@ export function AudioAssetWorkbench(props: {
       : undefined
   const selected = missingFocusedId
     ? undefined
-    : entries.find((entry) => entry.id === selectedId) ?? entries[0]
+    : (entries.find((entry) => entry.id === selectedId) ?? entries[0])
 
   useEffect(() => {
     if (!focusObjectId) return
@@ -467,9 +461,7 @@ export function AudioAssetWorkbench(props: {
       const previous = targetId ? catalog.assets[targetId] : undefined
       if (previous && previous.kind !== strategy.kind)
         throw new Error(`不能用 ${strategy.kind} 替换 ${previous.kind} 资源`)
-      const previousBytes = targetId
-        ? await reader.readBytes(targetId, strategy.kind)
-        : undefined
+      const previousBytes = targetId ? await reader.readBytes(targetId, strategy.kind) : undefined
       const prepared = await strategy.prepareImport(file, previous?.label)
       const id = targetId ?? strategy.allocateId(catalog, prepared.hash)
       session.dispatch(new UpsertAssetCommand(id, prepared.record, prepared.bytes, previousBytes))
@@ -585,6 +577,7 @@ export function AudioAssetWorkbench(props: {
                   tabIndex={control.tabIndex}
                   onFocus={control.onFocus}
                   selected={selected?.id === entry.id}
+                  leading={<DsIcon name="play" />}
                   title={entry.record.label || entry.id}
                   meta={entry.id}
                   trailing={count ? <DsTag tone="neutral">{count}</DsTag> : undefined}
@@ -594,7 +587,9 @@ export function AudioAssetWorkbench(props: {
             }}
           />
         ) : (
-          <div className="insp-empty">{entries.length ? '没有匹配的资源。' : strategy.emptyLabel}</div>
+          <div className="insp-empty">
+            {entries.length ? '没有匹配的资源。' : strategy.emptyLabel}
+          </div>
         )}
       </div>
       <DsObjectWorkspace
@@ -655,7 +650,10 @@ export function AudioAssetWorkbench(props: {
           </DsStatus>
         ) : selected ? (
           <>
-            <DsWorkbenchSection title="基本信息" description="名称可修改；稳定 ID 与文件信息保持只读。">
+            <DsWorkbenchSection
+              title="基本信息"
+              description="名称可修改；稳定 ID 与文件信息保持只读。"
+            >
               <MediaAssetNameField
                 assetId={selected.id}
                 label={selected.record.label}

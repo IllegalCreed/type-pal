@@ -30,6 +30,18 @@ export type DsButtonVariant = 'primary' | 'secondary' | 'quiet' | 'danger'
 export type DsControlSize = 'default' | 'compact'
 export type DsTagTone = 'accent' | 'neutral' | 'warning' | 'danger'
 
+/**
+ * Unskinned semantic button for rich domain surfaces such as tiles, frames and tree rows.
+ * Standard text/icon actions must use DsButton or DsIconButton instead.
+ */
+export const DsPressable = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTMLButtonElement>>(
+  function DsPressable({ type = 'button', className, ...props }, ref) {
+    return (
+      <button {...props} ref={ref} type={type} className={classes('ds-pressable', className)} />
+    )
+  },
+)
+
 export const DsButton = forwardRef<
   HTMLButtonElement,
   ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -108,6 +120,26 @@ export function DsTag(
     >
       {children}
     </span>
+  )
+}
+
+/** Read-only value chrome for property rows; unlike a disabled input, its text stays selectable. */
+export function DsReadonlyValue(
+  props: HTMLAttributes<HTMLSpanElement> & {
+    as?: 'span' | 'div'
+    monospace?: boolean
+  },
+) {
+  const { as: Element = 'span', monospace = false, className, ...rest } = props
+  return (
+    <Element
+      {...rest}
+      className={classes(
+        'ds-readonly-value',
+        monospace && 'ds-readonly-value--monospace',
+        className,
+      )}
+    />
   )
 }
 
@@ -303,6 +335,24 @@ export const DsFileInput = forwardRef<HTMLInputElement, InputHTMLAttributes<HTML
   },
 )
 
+/** Visible, keyboard-focusable file picker. Product pages own only the file semantics. */
+export const DsFilePicker = forwardRef<
+  HTMLInputElement,
+  Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'hidden' | 'className' | 'children'> & {
+    label: ReactNode
+    description?: ReactNode
+    className?: string
+  }
+>(function DsFilePicker({ label, description, className, disabled, ...inputProps }, ref) {
+  return (
+    <label className={classes('ds-file-picker', disabled && 'is-disabled', className)}>
+      <span className="ds-file-picker__label">{label}</span>
+      {description ? <small className="ds-file-picker__description">{description}</small> : null}
+      <input {...inputProps} ref={ref} type="file" disabled={disabled} />
+    </label>
+  )
+})
+
 /** 时间轴、缩放等连续数值控件的 canonical range 边界。 */
 export const DsRangeInput = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(
   function DsRangeInput({ className, ...props }, ref) {
@@ -311,6 +361,16 @@ export const DsRangeInput = forwardRef<HTMLInputElement, InputHTMLAttributes<HTM
     )
   },
 )
+
+/** 浏览器原生取色语义的 canonical 外观；业务页只提供颜色值与离散 change 回调。 */
+export const DsColorInput = forwardRef<
+  HTMLInputElement,
+  Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'style'>
+>(function DsColorInput({ className, ...props }, ref) {
+  return (
+    <input {...props} ref={ref} className={classes('ds-color-input', className)} type="color" />
+  )
+})
 
 export function DsField(props: {
   id?: string
@@ -409,10 +469,16 @@ type DsFormControlAppearance = {
 
 export const DsTextInput = forwardRef<
   HTMLInputElement,
-  Omit<InputHTMLAttributes<HTMLInputElement>, 'className' | 'style' | 'size'> &
-    DsFormControlAppearance
+  Omit<InputHTMLAttributes<HTMLInputElement>, 'style' | 'size'> & DsFormControlAppearance
 >(function DsTextInput(props, ref) {
-  const { invalid, size = 'default', monospace = false, ...rest } = props
+  const {
+    className,
+    invalid,
+    size = 'default',
+    monospace = false,
+    'aria-invalid': ariaInvalid,
+    ...rest
+  } = props
   return (
     <input
       {...rest}
@@ -421,8 +487,9 @@ export const DsTextInput = forwardRef<
         'ds-input',
         size === 'compact' && 'ds-input--compact',
         monospace && 'ds-control--monospace',
+        className,
       )}
-      aria-invalid={invalid || undefined}
+      aria-invalid={invalid || ariaInvalid || undefined}
     />
   )
 })
@@ -798,10 +865,9 @@ export function DsDraftTextField(props: DsFieldChromeProps & DsDraftTextInputPro
 
 export const DsNumberInput = forwardRef<
   HTMLInputElement,
-  Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'className' | 'style' | 'size'> &
-    DsFormControlAppearance
+  Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'style' | 'size'> & DsFormControlAppearance
 >(function DsNumberInput(
-  props: Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'className' | 'style' | 'size'> &
+  props: Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'style' | 'size'> &
     DsFormControlAppearance,
   ref,
 ) {
@@ -892,13 +958,19 @@ export function DsDraftNumberField(props: DsFieldChromeProps & DsDraftNumberInpu
 
 export const DsTextArea = forwardRef<
   HTMLTextAreaElement,
-  Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'className' | 'style'> & DsFormControlAppearance
+  Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'style'> & DsFormControlAppearance
 >(function DsTextArea(
-  props: Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'className' | 'style'> &
-    DsFormControlAppearance,
+  props: Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'style'> & DsFormControlAppearance,
   ref,
 ) {
-  const { invalid, size = 'default', monospace = false, ...rest } = props
+  const {
+    className,
+    invalid,
+    size = 'default',
+    monospace = false,
+    'aria-invalid': ariaInvalid,
+    ...rest
+  } = props
   return (
     <textarea
       {...rest}
@@ -907,8 +979,9 @@ export const DsTextArea = forwardRef<
         'ds-textarea',
         size === 'compact' && 'ds-textarea--compact',
         monospace && 'ds-control--monospace',
+        className,
       )}
-      aria-invalid={invalid || undefined}
+      aria-invalid={invalid || ariaInvalid || undefined}
     />
   )
 })
@@ -1593,15 +1666,22 @@ export function DsCheckbox(
     label: ReactNode
     indeterminate?: boolean
     size?: DsControlSize
+    className?: string
   },
 ) {
-  const { label, indeterminate = false, size = 'default', ...inputProps } = props
+  const { label, indeterminate = false, size = 'default', className, ...inputProps } = props
   const ref = useRef<HTMLInputElement>(null)
   useEffect(() => {
     if (ref.current) ref.current.indeterminate = indeterminate
   }, [indeterminate])
   return (
-    <label className={classes('ds-check-label', size === 'compact' && 'ds-check-label--compact')}>
+    <label
+      className={classes(
+        'ds-check-label',
+        size === 'compact' && 'ds-check-label--compact',
+        className,
+      )}
+    >
       <input
         {...inputProps}
         ref={ref}

@@ -19,7 +19,7 @@ import type {
 import { lookupText, parseRichText, resolveDialogueIdentity } from '@type-pal/content'
 import { useEffect, useRef } from 'react'
 import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js'
-import { DsButton, DsSelect } from './design-system/controls.js'
+import { DsButton, DsNumberInput, DsSelect, DsPressable } from './design-system/controls.js'
 import { entityStateDisplayLabel } from './EntityStateSelect.js'
 
 /** locale 查文本;缺失回落显 id(不崩)。 */
@@ -489,27 +489,27 @@ function CommandRow(props: { cmd: Command; depth: number; path: string; ctx: Row
         {ctx.onRowAction ? (
           // biome-ignore lint/a11y/useKeyWithClickEvents lint/a11y/noStaticElementInteractions: 仅挡冒泡防误选中;真交互是内部 button(可聚焦/键盘)
           <span className="cmd-ops" onClick={(e) => e.stopPropagation()}>
-            <button
+            <DsPressable
               type="button"
               title="在此后插入"
               onClick={() => ctx.onRowAction?.(path, 'insert')}
             >
               ＋
-            </button>
-            <button type="button" title="上移" onClick={() => ctx.onRowAction?.(path, 'up')}>
+            </DsPressable>
+            <DsPressable type="button" title="上移" onClick={() => ctx.onRowAction?.(path, 'up')}>
               ↑
-            </button>
-            <button type="button" title="下移" onClick={() => ctx.onRowAction?.(path, 'down')}>
+            </DsPressable>
+            <DsPressable type="button" title="下移" onClick={() => ctx.onRowAction?.(path, 'down')}>
               ↓
-            </button>
-            <button
+            </DsPressable>
+            <DsPressable
               type="button"
               className="del"
               title="删除"
               onClick={() => ctx.onRowAction?.(path, 'remove')}
             >
               ✕
-            </button>
+            </DsPressable>
           </span>
         ) : null}
       </div>
@@ -560,15 +560,15 @@ function SceneEntrySections(props: {
           <span className="scene-entry-note">默认淡出 → 切场 → 淡入</span>
         </span>
         {onChange ? (
-          <button
-            type="button"
-            className="mini-txt"
+          <DsButton
             onClick={() =>
               onChange({ prepare: [], reveal: { kind: 'fade', outMs: 260, inMs: 260 } })
             }
+            size="compact"
+            variant="secondary"
           >
             设为显式入场
-          </button>
+          </DsButton>
         ) : null}
       </div>
     )
@@ -638,9 +638,8 @@ function SceneEntrySections(props: {
           {entry.reveal.kind === 'dither' ? (
             <label>
               时长
-              <input
-                className="in scene-reveal-number"
-                type="number"
+              <DsNumberInput
+                className="scene-reveal-number"
                 min={0}
                 value={entry.reveal.ms}
                 disabled={!onChange}
@@ -659,9 +658,8 @@ function SceneEntrySections(props: {
             <>
               <label>
                 淡出
-                <input
-                  className="in scene-reveal-number"
-                  type="number"
+                <DsNumberInput
+                  className="scene-reveal-number"
                   min={0}
                   value={entry.reveal.outMs}
                   disabled={!onChange}
@@ -677,9 +675,8 @@ function SceneEntrySections(props: {
               </label>
               <label>
                 淡入
-                <input
-                  className="in scene-reveal-number"
-                  type="number"
+                <DsNumberInput
+                  className="scene-reveal-number"
                   min={0}
                   value={entry.reveal.inMs}
                   disabled={!onChange}
@@ -696,9 +693,9 @@ function SceneEntrySections(props: {
             </>
           ) : null}
           {onChange ? (
-            <button type="button" className="mini-txt danger" onClick={() => onChange(undefined)}>
+            <DsButton onClick={() => onChange(undefined)} size="compact" variant="danger">
               恢复默认
-            </button>
+            </DsButton>
           ) : null}
         </div>
       </details>
@@ -821,23 +818,23 @@ export function ScriptTree(props: {
                     />
                   </span>
                   <span className="spacer" />
-                  <button
-                    type="button"
-                    className="mini-txt"
+                  <DsButton
                     title="在本段之后插入新段"
                     onClick={() => onStageAction(i, { kind: 'addAfter' })}
+                    size="compact"
+                    variant="secondary"
                   >
                     ＋段
-                  </button>
+                  </DsButton>
                   {stages.length > 1 ? (
-                    <button
-                      type="button"
-                      className="mini-txt"
+                    <DsButton
                       title="删除本段(指向它的跳转自动清除;可撤销)"
                       onClick={() => onStageAction(i, { kind: 'remove' })}
+                      size="compact"
+                      variant="secondary"
                     >
                       🗑段
-                    </button>
+                    </DsButton>
                   ) : null}
                 </>
               ) : (

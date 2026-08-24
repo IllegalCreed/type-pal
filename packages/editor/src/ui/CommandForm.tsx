@@ -11,10 +11,10 @@
 import type {
   AmbienceDef,
   AssetCatalogV1,
+  AuthorDialogueCue,
   BattleSpriteDef,
   Command,
   DialogueCue,
-  AuthorDialogueCue,
   DialogueIdentity,
   Facing,
   GridPos,
@@ -1270,7 +1270,7 @@ export function CommandForm(props: {
             >
               添加队员
             </DsButton>
-            <span style={{ opacity: 0.6, fontSize: 12 }}>顺序=站位;落选进 reserve 不丢状态</span>
+            <span className="ds-supporting-copy">顺序=站位;落选进 reserve 不丢状态</span>
           </Row>
         </>
       )

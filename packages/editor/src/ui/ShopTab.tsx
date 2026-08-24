@@ -139,9 +139,7 @@ export function ShopTab(props: {
                           </span>
                         </span>
                         <span className="shop-stock-actions">
-                          <button
-                            type="button"
-                            className="mini"
+                          <DsButton
                             aria-label={`上移 ${itemName}`}
                             title="上移"
                             disabled={i === 0}
@@ -152,12 +150,12 @@ export function ShopTab(props: {
                               a[i] = t
                               setItems(a)
                             }}
+                            size="compact"
+                            variant="secondary"
                           >
                             ↑
-                          </button>
-                          <button
-                            type="button"
-                            className="mini"
+                          </DsButton>
+                          <DsButton
                             aria-label={`下移 ${itemName}`}
                             title="下移"
                             disabled={i === shop.items.length - 1}
@@ -168,18 +166,21 @@ export function ShopTab(props: {
                               a[i] = t
                               setItems(a)
                             }}
+                            size="compact"
+                            variant="secondary"
                           >
                             ↓
-                          </button>
-                          <button
-                            type="button"
-                            className="mini shop-stock-remove"
+                          </DsButton>
+                          <DsButton
+                            className="shop-stock-remove"
                             aria-label={`下架 ${itemName}`}
                             title="下架"
                             onClick={() => setItems(shop.items.filter((_, j) => j !== i))}
+                            size="compact"
+                            variant="secondary"
                           >
                             ✕
-                          </button>
+                          </DsButton>
                         </span>
                       </div>
                     )

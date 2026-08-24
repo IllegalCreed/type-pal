@@ -27,7 +27,14 @@ import {
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { loadEditorSprite } from '../core/sprite-assets.js'
-import { DsButton, DsSelect } from './design-system/controls.js'
+import {
+  DsButton,
+  DsFileInput,
+  DsNumberInput,
+  DsSelect,
+  DsTextInput,
+  DsPressable,
+} from './design-system/controls.js'
 
 /** 读用户选图 → RGBA(量化/切帧的公共前置)。 */
 async function fileToRgba(file: File): Promise<{ rgba: Uint8Array; w: number; h: number }> {
@@ -389,16 +396,11 @@ export function SpriteFrames(props: {
 
   if (err)
     return (
-      <div className="insp-empty" style={{ padding: 40, color: 'var(--err)' }}>
+      <div className="insp-empty sprite-frames-empty sprite-frames-empty--error">
         精灵加载失败: {err}
       </div>
     )
-  if (!loaded)
-    return (
-      <div className="insp-empty" style={{ padding: 40 }}>
-        载入精灵 {sprite.asset}…
-      </div>
-    )
+  if (!loaded) return <div className="insp-empty sprite-frames-empty">载入精灵 {sprite.asset}…</div>
 
   const total = loaded.frames.length
   // 精灵所有帧的最大包围盒 → 统一 cell 尺寸(帧大小不一也整齐;每帧底对齐居中不裁)
@@ -428,8 +430,8 @@ export function SpriteFrames(props: {
   return (
     <div className="sprite-frames">
       <div className="toolbar">
-        <span style={{ fontWeight: 600 }}>{sprite.label}</span>
-        <span className="hint" style={{ marginLeft: 8 }}>
+        <span className="sprite-frames-title">{sprite.label}</span>
+        <span className="hint sprite-frames-summary">
           {sprite.asset} · {total} 帧 · {layoutDesc(layout)}
         </span>
         {consumers.length > 1 && (
@@ -459,11 +461,9 @@ export function SpriteFrames(props: {
             >
               删除末帧
             </DsButton>
-            <input
+            <DsFileInput
               ref={appendFileRef}
-              type="file"
               accept="image/png,image/webp,image/gif"
-              style={{ display: 'none' }}
               onChange={(e) => {
                 const f = e.target.files?.[0]
                 e.target.value = ''
@@ -473,11 +473,9 @@ export function SpriteFrames(props: {
                   .catch((er) => setErr(er instanceof Error ? er.message : String(er)))
               }}
             />
-            <input
+            <DsFileInput
               ref={replaceFileRef}
-              type="file"
               accept="image/png,image/webp,image/gif"
-              style={{ display: 'none' }}
               onChange={(e) => {
                 const f = e.target.files?.[0]
                 e.target.value = ''
@@ -505,12 +503,10 @@ export function SpriteFrames(props: {
           <span>
             追加帧:{appendDraft.w}×{appendDraft.h} 切
           </span>
-          <input
-            className="in mono"
-            type="number"
+          <DsNumberInput
+            className="sprite-frames-slice-input"
             min={1}
             max={16}
-            style={{ width: 52 }}
             value={appendDraft.cols}
             onChange={(e) =>
               setAppendDraft({
@@ -520,12 +516,10 @@ export function SpriteFrames(props: {
             }
           />
           <span>列 ×</span>
-          <input
-            className="in mono"
-            type="number"
+          <DsNumberInput
+            className="sprite-frames-slice-input"
             min={1}
             max={16}
-            style={{ width: 52 }}
             value={appendDraft.rows}
             onChange={(e) =>
               setAppendDraft({
@@ -541,7 +535,7 @@ export function SpriteFrames(props: {
               {appendDraft.h / appendDraft.rows} · 接在 #{total} 起(可框选命名姿势)
             </span>
           ) : (
-            <span style={{ color: 'var(--err)' }}>切不开:宽高须整除列/行</span>
+            <span className="sprite-frames-error">切不开:宽高须整除列/行</span>
           )}
           <DsButton
             variant="primary"
@@ -592,7 +586,7 @@ export function SpriteFrames(props: {
                     const idx = di * fpd + fi
                     const missing = idx >= total
                     return (
-                      <button
+                      <DsPressable
                         type="button"
                         key={idx}
                         disabled={!editable || missing}
@@ -626,7 +620,7 @@ export function SpriteFrames(props: {
                         <span className="ftag">
                           {missing ? '缺失→0' : fi === 0 ? '站立' : `迈${fi}`}
                         </span>
-                      </button>
+                      </DsPressable>
                     )
                   })}
                 </div>
@@ -635,17 +629,17 @@ export function SpriteFrames(props: {
             {total > walkCount && (
               <div className="dirgroup">
                 <div className="gh">
-                  <span className="chip" style={{ background: '#a06cd5' }} />
+                  <span className="chip sprite-frames-action-chip" />
                   动作帧
                   <code>
                     帧 {walkCount}–{total - 1} · 命名/引用走下方姿势
                   </code>
                 </div>
-                <div className="cells" style={{ flexWrap: 'wrap' }}>
+                <div className="cells sprite-frames-wrapped-cells">
                   {Array.from({ length: total - walkCount }, (_, k) => {
                     const idx = walkCount + k
                     return (
-                      <button
+                      <DsPressable
                         type="button"
                         key={idx}
                         disabled={!editable}
@@ -659,7 +653,7 @@ export function SpriteFrames(props: {
                       >
                         <span className="fidx">{idx}</span>
                         <FrameCell canvas={baked[idx]} maxW={maxW} maxH={maxH} scale={2} />
-                      </button>
+                      </DsPressable>
                     )
                   })}
                 </div>
@@ -671,7 +665,7 @@ export function SpriteFrames(props: {
             </div>
           </>
         ) : (
-          <div className="cells" style={{ flexWrap: 'wrap' }}>
+          <div className="cells sprite-frames-wrapped-cells">
             {layout.kind === 'loop' && (
               <div className="fcell" title="循环预览(引擎同源,250ms/帧)">
                 <span className="fidx">▶</span>
@@ -687,7 +681,7 @@ export function SpriteFrames(props: {
               </div>
             )}
             {loaded.frames.map((_, idx) => (
-              <button
+              <DsPressable
                 type="button"
                 key={idx}
                 disabled={!editable}
@@ -701,7 +695,7 @@ export function SpriteFrames(props: {
               >
                 <span className="fidx">{idx}</span>
                 <FrameCell canvas={baked[idx]} maxW={maxW} maxH={maxH} scale={2} />
-              </button>
+              </DsPressable>
             ))}
           </div>
         )}
@@ -717,14 +711,14 @@ export function SpriteFrames(props: {
               <div key={actionId} className="posecard">
                 <div className="pc-head">
                   <b>{action.label}</b>
-                  <button
+                  <DsPressable
                     type="button"
                     className="pc-del"
                     title="删除动作"
                     onClick={() => deletePose(actionId)}
                   >
                     ×
-                  </button>
+                  </DsPressable>
                 </div>
                 <div className="pf">
                   <AnimCell
@@ -759,14 +753,14 @@ export function SpriteFrames(props: {
             <div className="unassigned">
               <span>未分配帧(点选):</span>
               {unassigned.map((i) => (
-                <button
+                <DsPressable
                   type="button"
                   key={i}
                   className={`uf${selFrames.has(i) ? ' sel' : ''}`}
                   onClick={() => toggleFrame(i)}
                 >
                   {i}
-                </button>
+                </DsPressable>
               ))}
             </div>
           ) : null}
@@ -779,8 +773,7 @@ export function SpriteFrames(props: {
                     <FrameCell key={fi} canvas={baked[fi]} maxW={maxW} maxH={maxH} scale={1.1} />
                   ))}
               </span>
-              <input
-                className="in"
+              <DsTextInput
                 placeholder="姿势名(摔倒/坐下/施法…)"
                 value={poseName}
                 onChange={(e) => setPoseName(e.target.value)}

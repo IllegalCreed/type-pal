@@ -23,6 +23,97 @@
     opacity var(--ds-motion-fast);
 }
 
+.ds-color-input {
+  box-sizing: border-box;
+  width: var(--ds-control-height);
+  min-width: var(--ds-control-height);
+  height: var(--ds-control-height);
+  padding: var(--ds-space-1);
+  border: 1px solid var(--ds-border-control);
+  border-radius: var(--ds-radius-control);
+  background: var(--ds-surface-raised);
+  cursor: pointer;
+}
+
+.ds-color-input:focus-visible {
+  outline: 2px solid var(--ds-focus-ring);
+  outline-offset: 2px;
+}
+
+.ds-readonly-value {
+  display: flex;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: var(--ds-control-height-compact);
+  align-items: center;
+  padding: var(--ds-space-2) var(--ds-space-4);
+  overflow: hidden;
+  border: 1px solid var(--ds-border-control);
+  border-radius: var(--ds-radius-control);
+  color: var(--ds-text-primary);
+  background: var(--ds-surface-raised);
+  font: var(--ds-font-caption);
+  text-overflow: ellipsis;
+}
+
+.ds-readonly-value--monospace {
+  font-family: var(--ds-font-mono);
+}
+
+.ds-file-picker {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ds-space-5);
+  min-width: 0;
+  padding: var(--ds-space-4) var(--ds-space-5);
+  overflow: hidden;
+  border: 1px dashed color-mix(in srgb, var(--ds-action-primary) 55%, var(--ds-border-subtle));
+  border-radius: var(--ds-radius-control);
+  background: color-mix(in srgb, var(--ds-action-primary) 7%, var(--ds-surface-raised));
+  color: var(--ds-action-primary);
+  cursor: pointer;
+}
+
+.ds-file-picker:hover:not(.is-disabled) {
+  border-color: var(--ds-action-primary);
+  background: color-mix(in srgb, var(--ds-action-primary) 11%, var(--ds-surface-raised));
+}
+
+.ds-file-picker__label,
+.ds-file-picker__description {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ds-file-picker__description {
+  color: var(--ds-text-tertiary);
+  font: var(--ds-font-code);
+}
+
+.ds-file-picker input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.ds-file-picker:focus-within {
+  outline: 2px solid var(--ds-focus-ring);
+  outline-offset: 2px;
+}
+
+.ds-file-picker.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 .ds-button {
   padding: var(--ds-space-3) var(--ds-space-5);
 }
@@ -1585,6 +1676,11 @@
   position: relative;
   overflow: auto;
   contain: strict;
+}
+
+.ds-virtual-list[data-fill="true"] {
+  min-height: 0;
+  flex: 1 1 auto;
 }
 
 .ds-virtual-list__spacer {

@@ -1180,9 +1180,7 @@ export function EnemyTab(props: {
             </div>
           </>
         ) : (
-          <div className="insp-empty" style={{ padding: 40 }}>
-            无敌人;点 ＋ 新建。
-          </div>
+          <div className="insp-empty ds-empty-state--roomy">无敌人;点 ＋ 新建。</div>
         )}
       </div>
 

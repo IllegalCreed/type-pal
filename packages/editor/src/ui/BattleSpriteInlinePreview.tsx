@@ -1,3 +1,4 @@
+import { DsPressable } from './design-system/index.js'
 import type { AssetId, BattleSpriteDef, BattleSpriteProfileKind } from '@type-pal/content'
 import type { AssetBase, Palette, RleFrame } from '@type-pal/reforge'
 import {
@@ -87,7 +88,7 @@ function FrameThumbnail(props: {
   )
   if (props.onSelect)
     return (
-      <button
+      <DsPressable
         type="button"
         className={`battle-frame-thumb${props.selected ? ' selected' : ''}`}
         aria-pressed={props.selected}
@@ -95,7 +96,7 @@ function FrameThumbnail(props: {
         onClick={() => props.onSelect?.(props.index)}
       >
         {content}
-      </button>
+      </DsPressable>
     )
   return <figure className="battle-frame-thumb">{content}</figure>
 }

@@ -12,7 +12,7 @@ import {
   type ScriptEditorState,
   UpdateEntityBehaviorCommand,
 } from '../core/script-editor.js'
-import { DsHelpTip, DsSelect } from './design-system/controls.js'
+import { DsButton, DsHelpTip, DsSelect } from './design-system/controls.js'
 import {
   type CanonicalScriptEditorContext,
   CanonicalScriptFlowEditor,
@@ -234,9 +234,9 @@ export function ScriptBehaviorInspector(props: {
         <div className="script-create-first">
           <strong>创建{title}</strong>
           <p>{description}</p>
-          <button type="button" className="pv-btn" onClick={() => setCreateOpen(true)}>
+          <DsButton onClick={() => setCreateOpen(true)} size="compact" variant="secondary">
             ＋ 新建第一个方案
-          </button>
+          </DsButton>
         </div>
       )}
 

@@ -8,6 +8,7 @@ import { useMemo } from 'react'
 import type { ProjectMapPatch } from '../core/map-patch.js'
 import type { GridPointRef, StampGroupCellSelection, VisualSlotRef } from '../core/map-selection.js'
 import { buildStampPlacementIndex } from '../core/stamp-ownership.js'
+import { DsButton, DsNumberInput, DsPressable } from './design-system/index.js'
 import { MapContentSelectionPreview } from './MapContentSelectionPreview.js'
 
 export interface StampPlacementSelectionInspectorProps {
@@ -201,7 +202,7 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
           ) : null}
         </div>
         <div className="section stamp-group-actions">
-          <button
+          <DsPressable
             type="button"
             className="stamp-primary-action"
             disabled={!single || Boolean(editingBlockedReason)}
@@ -209,8 +210,8 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
             onClick={() => single && onEnterEdit(single.id)}
           >
             进入组内编辑
-          </button>
-          <button
+          </DsPressable>
+          <DsPressable
             type="button"
             className="stamp-secondary-action"
             disabled={
@@ -219,15 +220,15 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
             onClick={() => onUngroup(placements.map((placement) => placement.id))}
           >
             解组（保留地图内容）
-          </button>
+          </DsPressable>
           {single && onOpenSource ? (
-            <button
+            <DsPressable
               type="button"
               className="stamp-secondary-action"
               onClick={() => onOpenSource(single.sourceStampId)}
             >
               在组合库中定位 ↗
-            </button>
+            </DsPressable>
           ) : null}
         </div>
         <div className={`map-selection-notice${notice?.kind === 'error' ? ' error' : ''}`}>
@@ -251,9 +252,9 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
       <div className="insp-head stamp-group-selection-head editing">
         <div className="what">放置组 / {editing.sourceStampName ?? editing.id}</div>
         <div className="who">活动层：{activeLayer?.name ?? activeLayerId} · Esc 退出组内</div>
-        <button type="button" className="mini" onClick={onExitEdit}>
+        <DsButton onClick={onExitEdit} size="compact" variant="secondary">
           退出组内
-        </button>
+        </DsButton>
       </div>
       <div className="section map-selection-preview-section">
         <MapContentSelectionPreview
@@ -286,10 +287,8 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
         <h4>视觉成员</h4>
         <div className="field map-selection-field">
           <span className="field-label">tileId</span>
-          <input
+          <DsNumberInput
             key={`group-tile:${editing.id}:${activeLayerId}:${mixedValue(activeTiles)}`}
-            className="in mono"
-            type="number"
             min={0}
             defaultValue={mixedValue(activeTiles)}
             placeholder={activeTiles.length ? '混合' : '本层无成员'}
@@ -311,10 +310,8 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
         </div>
         <div className="field map-selection-field">
           <span className="field-label">高度</span>
-          <input
+          <DsNumberInput
             key={`group-height:${editing.id}:${activeLayerId}:${mixedValue(activeHeights)}`}
-            className="in mono"
-            type="number"
             min={0}
             defaultValue={mixedValue(activeHeights)}
             placeholder={activeHeights.length ? '混合' : '无高度成员'}
@@ -334,9 +331,8 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
             onKeyDown={(event) => event.key === 'Enter' && event.currentTarget.blur()}
           />
         </div>
-        <button
-          type="button"
-          className="tool danger map-inline-action"
+        <DsButton
+          className="map-inline-action"
           disabled={
             activeReadOnly ||
             activeVisual.length === 0 ||
@@ -352,9 +348,11 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
               removeVisualSlots: activeVisual,
             })
           }
+          size="compact"
+          variant="danger"
         >
           擦除当前层选中成员
-        </button>
+        </DsButton>
       </div>
       <div className="section stamp-group-edit-fields">
         <h4>
@@ -365,10 +363,8 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
         </h4>
         <div className="field map-selection-field">
           <span className="field-label">collision</span>
-          <input
+          <DsNumberInput
             key={`group-collision:${editing.id}:${mixedValue(collisionValues)}`}
-            className="in mono"
-            type="number"
             min={0}
             defaultValue={mixedValue(collisionValues)}
             placeholder={collisionValues.length ? '混合' : '无成员'}
@@ -388,9 +384,8 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
             onKeyDown={(event) => event.key === 'Enter' && event.currentTarget.blur()}
           />
         </div>
-        <button
-          type="button"
-          className="tool map-inline-action"
+        <DsButton
+          className="map-inline-action"
           disabled={collisionReadOnly || selectedGridPoints.length === 0}
           title="只移除组身份；当前碰撞值保持不变"
           onClick={() =>
@@ -398,9 +393,11 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
               removeGridPoints: selectedGridPoints,
             })
           }
+          size="compact"
+          variant="secondary"
         >
           移出碰撞成员（保留值）
-        </button>
+        </DsButton>
         {collisionReadOnly ? (
           <p className="map-selection-warning">
             ⚠ 碰撞属于完整放置组；组涉及的所有视觉层可写后才能修改。

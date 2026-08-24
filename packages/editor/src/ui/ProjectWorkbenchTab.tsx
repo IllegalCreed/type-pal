@@ -39,6 +39,7 @@ import {
   DsCatalogGroupHeader,
   DsCatalogGroupList,
   DsCatalogRow,
+  DsCheckbox,
   DsControlGroup,
   DsDiagnosticList,
   DsDiagnosticPanel,
@@ -51,6 +52,7 @@ import {
   DsSelect,
   DsSequenceIndex,
   DsTag,
+  DsTextInput,
 } from './design-system/index.js'
 import type { EditorLocation } from './editor-navigation.js'
 import { SoundPicker } from './SoundPicker.js'
@@ -716,32 +718,35 @@ export function StartWorldFields(props: {
                   {actor ? lookupText(actor.name, locale) : `${actorId}（缺失）`}
                 </span>
                 <code>{actorId}</code>
-                <button
-                  type="button"
-                  className="btn project-party-move"
+                <DsButton
+                  className="project-party-move"
                   disabled={readOnly || index === 0}
                   onClick={() => moveParty(actorId, -1)}
                   aria-label="上移队员"
+                  size="compact"
+                  variant="secondary"
                 >
                   ↑
-                </button>
-                <button
-                  type="button"
-                  className="btn project-party-move"
+                </DsButton>
+                <DsButton
+                  className="project-party-move"
                   disabled={readOnly || index === value.party.length - 1}
                   onClick={() => moveParty(actorId, 1)}
                   aria-label="下移队员"
+                  size="compact"
+                  variant="secondary"
                 >
                   ↓
-                </button>
-                <button
-                  type="button"
-                  className="btn project-party-remove"
+                </DsButton>
+                <DsButton
+                  className="project-party-remove"
                   disabled={readOnly}
                   onClick={() => toggleParty(actorId)}
+                  size="compact"
+                  variant="secondary"
                 >
                   移出
-                </button>
+                </DsButton>
               </div>
             )
           })}
@@ -751,15 +756,17 @@ export function StartWorldFields(props: {
           {partyActors
             .filter((actor) => !value.party.includes(actor.id))
             .map((actor) => (
-              <label key={actor.id}>
-                <input
-                  type="checkbox"
-                  checked={false}
-                  disabled={readOnly}
-                  onChange={() => toggleParty(actor.id)}
-                />{' '}
-                加入 {lookupText(actor.name, locale)} <code>{actor.id}</code>
-              </label>
+              <DsCheckbox
+                key={actor.id}
+                label={
+                  <>
+                    加入 {lookupText(actor.name, locale)} <code>{actor.id}</code>
+                  </>
+                }
+                checked={false}
+                disabled={readOnly}
+                onChange={() => toggleParty(actor.id)}
+              />
             ))}
         </div>
         {partyActors.length === 0 ? <PageHint>当前项目没有可参战角色。</PageHint> : null}
@@ -813,29 +820,29 @@ export function StartWorldFields(props: {
                   })
                 }
               />
-              <button
-                type="button"
-                className="btn"
+              <DsButton
                 disabled={readOnly}
                 onClick={() =>
                   patch({ inventory: inventory.filter((_, itemIndex) => itemIndex !== index) })
                 }
+                size="compact"
+                variant="secondary"
               >
                 删除
-              </button>
+              </DsButton>
             </div>
           ))}
-          <button
-            type="button"
-            className="btn"
+          <DsButton
             disabled={readOnly || addableItems.length === 0}
             onClick={() => {
               const itemId = addableItems[0]?.id
               if (itemId) patch({ inventory: [...inventory, { itemId, count: 1 }] })
             }}
+            size="compact"
+            variant="secondary"
           >
             ＋ 添加道具
-          </button>
+          </DsButton>
           {inventory.length === 0 ? <PageHint>无初始道具。</PageHint> : null}
         </div>
       </section>
@@ -885,9 +892,7 @@ export function StartWorldFields(props: {
                       )
                     }
                   />
-                  <button
-                    type="button"
-                    className="btn"
+                  <DsButton
                     disabled={readOnly}
                     onClick={() =>
                       setSkills(
@@ -895,22 +900,24 @@ export function StartWorldFields(props: {
                         actorSkills.filter((_, skillIndex) => skillIndex !== index),
                       )
                     }
+                    size="compact"
+                    variant="secondary"
                   >
                     删除
-                  </button>
+                  </DsButton>
                 </div>
               ))}
-              <button
-                type="button"
-                className="btn"
+              <DsButton
                 disabled={readOnly || addableSkills.length === 0}
                 onClick={() => {
                   const skillId = addableSkills[0]?.id
                   if (skillId) setSkills(actorId, [...actorSkills, skillId])
                 }}
+                size="compact"
+                variant="secondary"
               >
                 ＋ 添加技能
-              </button>
+              </DsButton>
               {actorSkills.length === 0 ? <PageHint>未配置初始技能。</PageHint> : null}
             </div>
           )
@@ -948,19 +955,18 @@ export function StartWorldFields(props: {
                     onCommit={(value) => patchResource(key, value)}
                   />
                 </span>
-                <button
-                  type="button"
-                  className="btn"
+                <DsButton
                   disabled={readOnly}
                   onClick={() => patchResource(key, undefined)}
+                  size="compact"
+                  variant="secondary"
                 >
                   删除
-                </button>
+                </DsButton>
               </div>
             ))}
           <div className="project-inline-row project-resource-create">
-            <input
-              className="in mono"
+            <DsTextInput
               value={newResourceKey}
               disabled={readOnly}
               aria-label="新世界资源稳定键"
@@ -972,10 +978,9 @@ export function StartWorldFields(props: {
                   addResource()
                 }
               }}
+              monospace
             />
-            <button
-              type="button"
-              className="btn"
+            <DsButton
               disabled={
                 readOnly ||
                 !newResourceKey.trim() ||
@@ -983,9 +988,11 @@ export function StartWorldFields(props: {
                 Object.hasOwn(value.resources ?? {}, newResourceKey.trim())
               }
               onClick={addResource}
+              size="compact"
+              variant="secondary"
             >
               ＋ 添加资源
-            </button>
+            </DsButton>
           </div>
         </div>
       </section>
@@ -1134,8 +1141,7 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
               {entryPoints.map((entry, index) => (
                 <label className="field" key={`repair:${index}`}>
                   <span className="field-label">入口 {index + 1}</span>
-                  <input
-                    className="in"
+                  <DsTextInput
                     aria-label={`入口 ${index + 1} id`}
                     value={repairIds[index] ?? ''}
                     disabled={!repairableEntryIndexes.has(index)}
@@ -1155,9 +1161,7 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
               ))}
             </div>
             <div className="project-button-row">
-              <button
-                type="button"
-                className="btn"
+              <DsButton
                 disabled={!repairReady}
                 onClick={() => {
                   const defaultIndex = entryPoints.findIndex(
@@ -1181,9 +1185,11 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
                   setSelectedId(repairedSelection)
                   onObjectFocus?.(repairedSelection)
                 }}
+                size="compact"
+                variant="secondary"
               >
                 应用 id 修复
-              </button>
+              </DsButton>
               <DsHelpTip label="入口 ID 修复规则">
                 应用时会自动去掉首尾空格；修复完成后，稳定 ID 继续只读。
               </DsHelpTip>
@@ -1370,9 +1376,7 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
                     }
                   />
                   {selected.introVideo && onOpenLocation ? (
-                    <button
-                      type="button"
-                      className="btn"
+                    <DsButton
                       title={`查看入口视频 ${selected.introVideo}`}
                       onClick={() =>
                         onOpenLocation({
@@ -1381,9 +1385,11 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
                           objectId: selected.introVideo!,
                         })
                       }
+                      size="compact"
+                      variant="secondary"
                     >
                       预览 ↗
-                    </button>
+                    </DsButton>
                   ) : null}
                 </span>
               </div>
@@ -1605,13 +1611,13 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
                     {entry.introVideo ?? '无入口视频'}
                     {entry.id === manifest.defaultEntryId ? ' · 直接启动' : ''}
                   </small>
-                  <button
-                    type="button"
-                    className="btn"
+                  <DsButton
                     onClick={() => openProjectPage('entrypoint', entry.id)}
+                    size="compact"
+                    variant="secondary"
                   >
                     编辑
-                  </button>
+                  </DsButton>
                 </div>
               ))}
             </div>
@@ -1686,24 +1692,24 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
                 : '入口配置损坏'}
             </strong>
             <code>{defaultEntry?.scene ?? manifest.defaultEntryId}</code>
-            <button
-              type="button"
-              className="btn"
+            <DsButton
               onClick={() => openProjectPage('entrypoint', defaultEntry?.id)}
+              size="compact"
+              variant="secondary"
             >
               编辑入口与开局
-            </button>
+            </DsButton>
           </div>
           <div className="project-flow-mini">
             <span>标题菜单</span>
             <strong>{effectiveEntries.length} 个入口点</strong>
-            <button
-              type="button"
-              className="btn"
+            <DsButton
               onClick={() => openProjectPage('entrypoint', firstEntry?.id)}
+              size="compact"
+              variant="secondary"
             >
               编辑入口
-            </button>
+            </DsButton>
           </div>
           <div className="project-flow-mini">
             <span>全局资源</span>
@@ -1711,16 +1717,16 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
               {boundRoleCount}/{ASSET_ROLES.length} 项已绑定
             </strong>
             <code>assets.roles</code>
-            <button type="button" className="btn" onClick={() => openProjectPage('startup')}>
+            <DsButton onClick={() => openProjectPage('startup')} size="compact" variant="secondary">
               编辑 8 项设置
-            </button>
+            </DsButton>
           </div>
           <div className="project-flow-mini">
             <span>启动分支</span>
             <strong>直接启动入口 / 标题菜单入口</strong>
-            <button type="button" className="btn" onClick={() => openProjectPage('startup')}>
+            <DsButton onClick={() => openProjectPage('startup')} size="compact" variant="secondary">
               查看链路
-            </button>
+            </DsButton>
           </div>
         </section>
       </ProjectPageWorkspace>

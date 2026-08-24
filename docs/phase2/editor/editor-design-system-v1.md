@@ -1,8 +1,8 @@
 # Type-Pal 编辑器设计系统与交互规范 v1
 
-Status: draft v2.9.0 field transaction boundary implemented, pending review（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
+Status: draft v2.10.0 full editor adoption gate implemented, pending review（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
 
-Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）
+Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）
 
 Applies to: `packages/editor` 的全部功能性界面
 
@@ -401,6 +401,27 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - v2.4.0 的正式采用域为 8 模块 / 24 个 current-canonical 路由页，其中 17 个生产组件消费该 recipe；
   `MapStampPalette` 等主工作区临时 palette 与非 canonical fallback 不冒充正式左侧目录，也不得新增长期兼容皮肤。
 
+#### DS-C.4b 目录行与全量采用门禁（v2.10.0）
+
+- current-canonical 左侧对象行统一由 `DsCatalogRow` 持有结构、选中态、focus 和密度。标准行固定
+  `68px`，紧凑行固定 `46px`；title / meta 各单行截断，trailing 不参与正文换行。业务页不得通过标签折行、
+  私有 padding 或内容高度改变同一列表中某一项的行高。
+- `leading` 是固定 `36px` 的公共槽位。一个列表族必须选择一致的媒体策略：音乐 / 音效用播放语义图标，
+  精灵定义用预览或稳定占位图标；不能因某一项暂时没有媒体而让正文水平跳动。同一列表族若不需要媒体，所有项
+  一起省略该槽，不允许有的有、有的无。
+- 全量采用真源为 `design-system-adoption.json`，其 registry 集合必须与 `EDITOR_MODULES` 的 25 个可达子页
+  双向闭合；数据页还必须与 `DataMode` 每个 return 的生产组件闭合。新增、删除或换挂载组件时，门禁必须要求
+  同步更新，不允许靠人工记忆维护另一份页面清单。
+- 每页必须登记 catalog / scroll / overlay / field / action 五个 owner 以及采用状态。页面只能消费公共 owner；
+  canvas、虚拟列表或领域选择面确需原生 button 语义时，必须经无皮肤的 `DsPressable` 统一 type / ref 边界；
+  标准文字动作与图标动作仍只能用 `DsButton` / `DsIconButton`，不得拿 `DsPressable` 逃避动作层级。
+- 静态门禁拒绝 legacy class、raw form control、原生危险动作、私有 dialog / overlay portal 和可由 token / class
+  表达的静态 inline style，并输出 `file:line + rule + found + 推荐 owner`。动态几何 style 保留；隐藏原生 file
+  input 只能封装在 `DsFileInput` / `DsFilePicker` 内。
+- 合理例外唯一真源为 `design-system-allowlist.json`，字段固定为
+  `{file,line,rule,owner,reason,verification,removalCondition}`。行号失效、规则消失或字段损坏视为 stale，门禁
+  以 exit 2 失败；未批准违规以 exit 1 失败；完全通过为 exit 0。
+
 ### DS-C.5 表单字段
 
 - 每个输入必须有程序化 label；placeholder 不得代替 label。
@@ -794,6 +815,7 @@ Design Lab 是后续 ED-DS-2 的实现目标；本卡只冻结其输入和验收
 | RF-17 | Diagnostic ready/clear/partial/failure + 152 条 mixed severity | error/warning 文字、真实 button/link/article、30/80 分页、单 live region、长路径与窄宽度符合 DS-C.8a | v2.5 诊断合同 |
 | RF-18 | Help/Inspector/action ownership + 1280/900/720/200% | 无效说明不存在；概念帮助为 18px 圆形视觉/稳定命中区，hover/focus/touch/Esc、viewport collision、modal top layer 与 ARIA 通过；Inspector section 节奏统一；完整对象动作与全局保存不重复 | v2.8 信息架构合同 |
 | RF-19 | 86 MIDI / 363 WAV 音频工作台，1280/900/720 | 目录有界挂载；仅选中项加载；WAV 标“PCM 波形”、MIDI 标“音符活动”；play/pause/stop/seek、切换停止、loading/error、引用/诊断和无横向溢出通过 | DS-R.2 音频真实性与生命周期合同 |
+| RF-20 | 25 registry 页面 + 标准/紧凑目录行 + allowlist 负例 | registry/DataMode 双向闭合；68/46px 行高、leading 策略、title/meta 截断一致；legacy/raw/static 违规 exit 1，损坏/stale allowlist exit 2，动态几何与 DS 内 file input 不误报 | v2.10 全量采用门禁 |
 
 ### DS-PERF.1 大列表性能合同（G3）
 

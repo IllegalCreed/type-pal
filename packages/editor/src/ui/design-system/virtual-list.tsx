@@ -96,9 +96,7 @@ export function DsVirtualList<T>(props: {
             ? requestAnimationFrame
             : (callback: FrameRequestCallback) => window.setTimeout(callback, 0)
         schedule(() =>
-          root
-            .querySelector<HTMLElement>(`[data-virtual-index="${index}"] button`)
-            ?.focus(),
+          root.querySelector<HTMLElement>(`[data-virtual-index="${index}"] button`)?.focus(),
         )
       }
     }
@@ -109,6 +107,7 @@ export function DsVirtualList<T>(props: {
     <div
       ref={rootRef}
       className="ds-virtual-list"
+      data-fill={props.fill || undefined}
       role="list"
       aria-label={props.label}
       tabIndex={props.onSelect ? -1 : 0}
@@ -140,7 +139,10 @@ export function DsVirtualList<T>(props: {
               aria-setsize={props.items.length}
               data-active={index === activeIndex || undefined}
               data-virtual-index={index}
-              style={{ height: props.itemHeight, transform: `translateY(${index * props.itemHeight}px)` }}
+              style={{
+                height: props.itemHeight,
+                transform: `translateY(${index * props.itemHeight}px)`,
+              }}
               onPointerMove={() => setActiveIndex(index)}
             >
               {props.renderItem(item, index, {

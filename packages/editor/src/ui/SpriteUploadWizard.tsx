@@ -21,6 +21,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { sha256Hex } from '../core/binary-signature.js'
 import { AddSpriteCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import { DsButton, DsFilePicker, DsNumberInput, DsTextInput } from './design-system/index.js'
 
 function FrameThumb(props: { frame: RleFrame; palette: Palette; idx: number }) {
   const { frame, palette, idx } = props
@@ -230,15 +231,16 @@ export function SpriteUploadWizard(props: {
         <span className="field-label">初始用途</span>
         <div className="sprite-upload-kind-options">
           {KIND_META.map((k) => (
-            <button
-              type="button"
+            <DsButton
               key={k.v}
-              className={kind === k.v ? 'tool active' : 'tool'}
+              size="compact"
+              variant={kind === k.v ? 'primary' : 'secondary'}
+              aria-pressed={kind === k.v}
               disabled={submitting}
               onClick={() => setKind(k.v)}
             >
               {k.label}
-            </button>
+            </DsButton>
           ))}
         </div>
       </div>
@@ -247,20 +249,16 @@ export function SpriteUploadWizard(props: {
 
       <div className="field">
         <span className="field-label">图片文件</span>
-        <label className="sprite-file-picker">
-          <span>选择图片…</span>
-          <small>PNG / WebP / GIF</small>
-          <input
-            className="sprite-file-input"
-            type="file"
-            accept="image/png,image/webp,image/gif"
-            disabled={submitting}
-            onChange={(e) => {
-              const f = e.target.files?.[0]
-              if (f) void pickFile(f)
-            }}
-          />
-        </label>
+        <DsFilePicker
+          label="选择图片…"
+          description="PNG / WebP / GIF"
+          accept="image/png,image/webp,image/gif"
+          disabled={submitting}
+          onChange={(e) => {
+            const f = e.target.files?.[0]
+            if (f) void pickFile(f)
+          }}
+        />
       </div>
 
       {draft && (
@@ -276,9 +274,7 @@ export function SpriteUploadWizard(props: {
             <>
               <div className="field">
                 <span className="field-label">每向帧数</span>
-                <input
-                  className="in mono"
-                  type="number"
+                <DsNumberInput
                   min={1}
                   max={16}
                   disabled={submitting}
@@ -289,9 +285,7 @@ export function SpriteUploadWizard(props: {
               </div>
               <div className="field">
                 <span className="field-label">动作帧行</span>
-                <input
-                  className="in mono"
-                  type="number"
+                <DsNumberInput
                   min={0}
                   max={12}
                   disabled={submitting}
@@ -307,9 +301,7 @@ export function SpriteUploadWizard(props: {
           {kind === 'loop' && (
             <div className="field">
               <span className="field-label">帧数</span>
-              <input
-                className="in mono"
-                type="number"
+              <DsNumberInput
                 min={1}
                 max={64}
                 disabled={submitting}
@@ -322,9 +314,7 @@ export function SpriteUploadWizard(props: {
             <div className="sprite-source-grid-fields">
               <label>
                 <span>源帧列数</span>
-                <input
-                  className="in mono"
-                  type="number"
+                <DsNumberInput
                   min={1}
                   max={64}
                   disabled={submitting}
@@ -336,9 +326,7 @@ export function SpriteUploadWizard(props: {
               </label>
               <label>
                 <span>源帧行数</span>
-                <input
-                  className="in mono"
-                  type="number"
+                <DsNumberInput
                   min={1}
                   max={64}
                   disabled={submitting}
@@ -401,43 +389,44 @@ export function SpriteUploadWizard(props: {
           )}
           <div className="field">
             <span className="field-label">ID</span>
-            <input
-              className="in mono"
+            <DsTextInput
               disabled={submitting}
               value={newId}
               onChange={(e) => setNewId(e.target.value)}
               placeholder="kebab-case,唯一"
+              monospace
             />
           </div>
           <div className="field">
             <span className="field-label">标签</span>
-            <input
-              className="in"
+            <DsTextInput
               disabled={submitting}
               value={newLabel}
               onChange={(e) => setNewLabel(e.target.value)}
             />
           </div>
-          <button
-            type="button"
-            className="tool sprite-upload-submit"
+          <DsButton
+            className="sprite-upload-submit"
             disabled={submitting || !grid || quantized.length === 0}
             onClick={() => void submit()}
+            size="compact"
+            variant="secondary"
           >
             {submitting ? '处理中…' : '✓ 入库'}
-          </button>
+          </DsButton>
         </>
       )}
-      <button
-        type="button"
-        className="tool sprite-upload-cancel"
+      <DsButton
+        className="sprite-upload-cancel"
         disabled={submitting}
         onClick={() => {
           if (!submittingRef.current) onDone(null)
         }}
+        size="compact"
+        variant="secondary"
       >
         取消
-      </button>
+      </DsButton>
       {err && <div className="err">{err}</div>}
     </div>
   )

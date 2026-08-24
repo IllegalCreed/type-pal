@@ -1,6 +1,7 @@
 import type { ProjectMap, StampTemplate } from '@type-pal/content'
 import type { StampLayerMapping, StampPlacementPlan } from '../core/stamp-placement.js'
 import {
+  DsButton,
   DsDiagnosticList,
   DsDiagnosticPanel,
   DsDiagnosticRow,
@@ -120,15 +121,15 @@ export function StampPlacementInspector(props: {
                   onValueChange={(value) => onMapSlot(slot.id, value)}
                 />
               </div>
-              <button
-                type="button"
-                className="mini"
+              <DsButton
                 disabled={!canUseActive}
                 onClick={() => activeLayer && onMapSlot(slot.id, activeLayer.id)}
                 title={canUseActive ? `映射到活动层 ${activeLayer?.name}` : '活动层不可写'}
+                size="compact"
+                variant="secondary"
               >
                 用活动层
-              </button>
+              </DsButton>
             </div>
           )
         })}
@@ -190,21 +191,21 @@ export function StampPlacementInspector(props: {
         </div>
       ) : null}
       <div className="stamp-placement-actions">
-        <button type="button" className="tool active" disabled={!plan?.canApply} onClick={onCommit}>
+        <DsButton disabled={!plan?.canApply} onClick={onCommit} size="compact" variant="primary">
           放置
-        </button>
+        </DsButton>
         {plan?.issues.length === 0 && plan.conflicts.length > 0 ? (
-          <button type="button" className="tool danger" onClick={onOverwrite}>
+          <DsButton onClick={onOverwrite} size="compact" variant="danger">
             覆盖普通格并放置
-          </button>
+          </DsButton>
         ) : null}
-        <button type="button" className="tool" onClick={onCancel}>
+        <DsButton onClick={onCancel} size="compact" variant="secondary">
           退出组合工具
-        </button>
+        </DsButton>
         {onOpenLibrary ? (
-          <button type="button" className="tool" onClick={onOpenLibrary}>
+          <DsButton onClick={onOpenLibrary} size="compact" variant="secondary">
             在库中打开 ↗
-          </button>
+          </DsButton>
         ) : null}
       </div>
     </div>

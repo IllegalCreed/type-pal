@@ -87,10 +87,7 @@ export function DsObjectWorkspace(props: {
   contentClassName?: string
 }) {
   return (
-    <section
-      className={dsClasses('ds-object-workspace', props.className)}
-      aria-label={props.label}
-    >
+    <section className={dsClasses('ds-object-workspace', props.className)} aria-label={props.label}>
       {props.hero}
       <div className={dsClasses('ds-object-workspace__content', props.contentClassName)}>
         {props.children}
@@ -105,6 +102,7 @@ export const DsCatalogRow = forwardRef<
   Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'title'> & {
     selected?: boolean
     level?: 'primary' | 'secondary'
+    density?: 'compact' | 'standard'
     leading?: ReactNode
     title: ReactNode
     meta?: ReactNode
@@ -114,6 +112,7 @@ export const DsCatalogRow = forwardRef<
   const {
     selected = false,
     level = 'primary',
+    density = 'standard',
     leading,
     title,
     meta,
@@ -131,6 +130,8 @@ export const DsCatalogRow = forwardRef<
       aria-selected={buttonProps.role === 'option' ? selected : undefined}
       data-selected={selected || undefined}
       data-level={level}
+      data-density={density}
+      data-leading={leading ? 'present' : 'none'}
     >
       {leading ? <span className="ds-catalog-row__leading">{leading}</span> : null}
       <span className="ds-catalog-row__body">

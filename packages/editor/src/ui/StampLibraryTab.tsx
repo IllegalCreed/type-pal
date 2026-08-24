@@ -23,6 +23,7 @@ import {
   DsReferenceRow,
   DsSelect,
   DsTextInput,
+  DsPressable,
 } from './design-system/index.js'
 import { StampContentEditor } from './StampContentEditor.js'
 import { StampMiniPreview } from './StampPreviewCanvas.js'
@@ -235,7 +236,10 @@ export function StampLibraryTab(props: {
     onObjectFocus?.(id)
     setContentEditor({ mode: 'create', template: structuredClone(next) })
     setCreateOpen(false)
-    onStatusNotice?.({ kind: 'info', message: `正在创建组合“${name}”；首次绘制后进入全局撤销与保存。` })
+    onStatusNotice?.({
+      kind: 'info',
+      message: `正在创建组合“${name}”；首次绘制后进入全局撤销与保存。`,
+    })
   }
   const updateContent = (next: StampTemplate, takeOwnership: boolean): void => {
     const hasVisual = next.layers.some((layer) =>
@@ -258,9 +262,7 @@ export function StampLibraryTab(props: {
         `${template.id}-copy`,
         stamps.map((template) => template.id),
       )
-      session.dispatch(
-        new DuplicateStampTemplateCommand(template.id, id, `${template.name} 副本`),
-      )
+      session.dispatch(new DuplicateStampTemplateCommand(template.id, id, `${template.name} 副本`))
       requestFocusTemplate(id)
     } catch (cause) {
       const message = cause instanceof Error ? cause.message : String(cause)
@@ -295,10 +297,10 @@ export function StampLibraryTab(props: {
           </span>
           <div>
             {item.mapIds.map((mapId) => (
-              <button key={mapId} type="button" onClick={() => onOpenMap?.(mapId)}>
+              <DsPressable key={mapId} type="button" onClick={() => onOpenMap?.(mapId)}>
                 {mapIndex.maps.find((asset) => asset.id === mapId)?.name ?? mapId}
                 <span>打开 ↗</span>
-              </button>
+              </DsPressable>
             ))}
           </div>
         </div>
@@ -381,7 +383,7 @@ export function StampLibraryTab(props: {
                 key={template.id}
                 className={`stamp-library-entry${isSelected ? ' selected' : ''}`}
               >
-                <button
+                <DsPressable
                   type="button"
                   className={`stamp-library-row${isSelected ? ' selected' : ''}`}
                   aria-current={isSelected ? 'true' : undefined}
@@ -440,7 +442,7 @@ export function StampLibraryTab(props: {
                   <span className={`stamp-origin-badge ${template.origin}`}>
                     {template.origin === 'migrated' ? '预置' : '作者'}
                   </span>
-                </button>
+                </DsPressable>
                 <div className="stamp-library-row-actions" aria-label={`${template.name} 操作`}>
                   <DsIconButton
                     size="compact"
@@ -466,25 +468,25 @@ export function StampLibraryTab(props: {
         </section>
         {pageCount > 1 ? (
           <nav className="stamp-library-pages" aria-label="组合模板分页">
-            <button
+            <DsPressable
               type="button"
               aria-label="上一页组合模板"
               disabled={safePage === 0}
               onClick={() => setPage((value) => Math.max(0, value - 1))}
             >
               ‹
-            </button>
+            </DsPressable>
             <span className="mono">
               {safePage + 1}/{pageCount}
             </span>
-            <button
+            <DsPressable
               type="button"
               aria-label="下一页组合模板"
               disabled={safePage === pageCount - 1}
               onClick={() => setPage((value) => Math.min(pageCount - 1, value + 1))}
             >
               ›
-            </button>
+            </DsPressable>
           </nav>
         ) : null}
         {contentEditor ? <div ref={bindLayersHost} className="stamp-layer-host" /> : null}

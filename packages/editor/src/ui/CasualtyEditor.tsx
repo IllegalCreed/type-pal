@@ -13,7 +13,14 @@ import { lookupText } from '@type-pal/content'
 import { useState } from 'react'
 import { UpdateActorCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
-import { DsSelect, DsSequenceIndex } from './design-system/index.js'
+import {
+  DsButton,
+  DsNumberInput,
+  DsSelect,
+  DsSequenceIndex,
+  DsTextInput,
+  DsPressable,
+} from './design-system/index.js'
 
 export type CasualtySlot = 'friendDeath' | 'dying'
 
@@ -134,18 +141,19 @@ export function CasualtyEditor(props: {
         </div>
         <div className="casualty-editor-actions">
           {script ? (
-            <button
-              type="button"
-              className="mini-txt casualty-remove-slot"
+            <DsButton
+              className="casualty-remove-slot"
               title="移除当前事件配置；两个事件都移除后会清除整个伤亡脚本"
               onClick={() => dispatchCasualty(undefined)}
+              size="compact"
+              variant="secondary"
             >
               移除当前事件
-            </button>
+            </DsButton>
           ) : null}
-          <button type="button" className="tool casualty-done" onClick={onClose}>
+          <DsButton className="casualty-done" onClick={onClose} size="compact" variant="secondary">
             ✓ 完成
-          </button>
+          </DsButton>
         </div>
       </header>
 
@@ -154,7 +162,7 @@ export function CasualtyEditor(props: {
           const meta = SLOT_META[candidate]
           const configured = actor.battler.casualty?.[candidate] !== undefined
           return (
-            <button
+            <DsPressable
               key={candidate}
               type="button"
               role="tab"
@@ -165,7 +173,7 @@ export function CasualtyEditor(props: {
               <span>{meta.label}</span>
               <small>{meta.description}</small>
               <em>{configured ? '已配置' : '未配置'}</em>
-            </button>
+            </DsPressable>
           )
         })}
       </div>
@@ -175,13 +183,13 @@ export function CasualtyEditor(props: {
           <span aria-hidden="true">◇</span>
           <h3>{SLOT_META[slot].label}尚未配置</h3>
           <p>{SLOT_META[slot].description}，目前不会播放额外台词或施加效果。</p>
-          <button
-            type="button"
-            className="tool"
+          <DsButton
             onClick={() => dispatchCasualty({ gates: [], fallback: emptyBranch() })}
+            size="compact"
+            variant="secondary"
           >
             ＋ 配置此事件
-          </button>
+          </DsButton>
         </div>
       ) : (
         <div className="casualty-workbench">
@@ -201,7 +209,7 @@ export function CasualtyEditor(props: {
                 const selected = target.kind === 'gate' && target.index === index
                 return (
                   <div key={index} className={`arow casualty-gate-row${selected ? ' sel' : ''}`}>
-                    <button
+                    <DsPressable
                       type="button"
                       className="casualty-branch-select"
                       data-gate-select="true"
@@ -218,12 +226,10 @@ export function CasualtyEditor(props: {
                           {gate.branch.lines.length} 条台词 · {gate.branch.effects.length} 个效果
                         </small>
                       </span>
-                    </button>
+                    </DsPressable>
                     <label className="casualty-chance-field">
                       <span>阈值</span>
-                      <input
-                        type="number"
-                        className="in mono"
+                      <DsNumberInput
                         min={1}
                         max={100}
                         step={1}
@@ -238,23 +244,29 @@ export function CasualtyEditor(props: {
                       />
                       <span>%</span>
                     </label>
-                    <button
-                      type="button"
-                      className="mini-txt casualty-delete-branch"
+                    <DsButton
+                      className="casualty-delete-branch"
                       aria-label={`删除第 ${index + 1} 个概率分支`}
                       title="删除概率分支"
                       onClick={() => removeGate(index)}
+                      size="compact"
+                      variant="secondary"
                     >
                       ✕
-                    </button>
+                    </DsButton>
                   </div>
                 )
               })}
             </div>
-            <button type="button" className="tool casualty-add-branch" onClick={addGate}>
+            <DsButton
+              className="casualty-add-branch"
+              onClick={addGate}
+              size="compact"
+              variant="secondary"
+            >
               ＋ 添加概率分支
-            </button>
-            <button
+            </DsButton>
+            <DsPressable
               type="button"
               className={`arow casualty-fallback-row${target.kind === 'fallback' ? ' sel' : ''}`}
               onClick={() => setTarget({ kind: 'fallback' })}
@@ -268,7 +280,7 @@ export function CasualtyEditor(props: {
                 </small>
               </span>
               <em>必定执行</em>
-            </button>
+            </DsPressable>
           </aside>
 
           <main className="casualty-branch-editor">
@@ -317,33 +329,32 @@ function BranchEditor(props: {
             <span>演出内容</span>
             <h4>台词</h4>
           </div>
-          <button
-            type="button"
-            className="mini-txt"
+          <DsButton
             onClick={() => setLines([...branch.lines, { text: '', style: 'bottom' }])}
+            size="compact"
+            variant="secondary"
           >
             ＋ 台词
-          </button>
+          </DsButton>
         </header>
         <div className="casualty-item-list">
           {branch.lines.map((line, index) => (
             <article key={index} className="casualty-item-card">
               <header>
                 <strong>台词 {index + 1}</strong>
-                <button
-                  type="button"
-                  className="mini-txt"
+                <DsButton
                   aria-label={`删除台词 ${index + 1}`}
                   onClick={() => setLines(branch.lines.filter((_, i) => i !== index))}
+                  size="compact"
+                  variant="secondary"
                 >
                   ✕
-                </button>
+                </DsButton>
               </header>
               <div className="casualty-line-fields">
                 <label>
                   <span>文本 ID</span>
-                  <input
-                    className="in mono"
+                  <DsTextInput
                     placeholder="文本 id（如 dlg.1208）"
                     value={line.text}
                     onChange={(event) =>
@@ -353,6 +364,7 @@ function BranchEditor(props: {
                         ),
                       )
                     }
+                    monospace
                   />
                 </label>
                 <div className="casualty-field">
@@ -395,27 +407,27 @@ function BranchEditor(props: {
             <span>状态变化</span>
             <h4>效果</h4>
           </div>
-          <button
-            type="button"
-            className="mini-txt"
+          <DsButton
             onClick={() => setEffects([...branch.effects, { kind: 'heal', resource: 'hp' }])}
+            size="compact"
+            variant="secondary"
           >
             ＋ 效果
-          </button>
+          </DsButton>
         </header>
         <div className="casualty-item-list">
           {branch.effects.map((effect, index) => (
             <article key={index} className="casualty-item-card casualty-effect-card">
               <header>
                 <strong>效果 {index + 1}</strong>
-                <button
-                  type="button"
-                  className="mini-txt"
+                <DsButton
                   aria-label={`删除效果 ${index + 1}`}
                   onClick={() => setEffects(branch.effects.filter((_, i) => i !== index))}
+                  size="compact"
+                  variant="secondary"
                 >
                   ✕
-                </button>
+                </DsButton>
               </header>
               <div className="casualty-effect-fields">
                 <div className="casualty-field">
@@ -487,9 +499,7 @@ function BranchEditor(props: {
                     <label>
                       <span>提升比例</span>
                       <span className="casualty-percent-input">
-                        <input
-                          type="number"
-                          className="in mono"
+                        <DsNumberInput
                           min={1}
                           step={1}
                           value={effect.percent}

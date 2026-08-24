@@ -1,3 +1,4 @@
+import { DsPressable } from './design-system/index.js'
 import {
   type Dispatch,
   type KeyboardEvent as ReactKeyboardEvent,
@@ -168,7 +169,7 @@ export function PanelResizeHandle(props: {
         onPointerCancel={endPointer}
       />
       {props.onToggle && props.toggleDirection && props.toggleLabel ? (
-        <button
+        <DsPressable
           type="button"
           className="panel-resizer-toggle"
           title={props.toggleLabel}
@@ -181,7 +182,7 @@ export function PanelResizeHandle(props: {
             className={`panel-resizer-toggle-icon panel-resizer-toggle-icon-${props.toggleDirection}`}
             aria-hidden="true"
           />
-        </button>
+        </DsPressable>
       ) : null}
     </div>
   )

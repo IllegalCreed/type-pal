@@ -46,10 +46,12 @@ import {
   DsButton,
   DsCheckbox,
   DsField,
+  DsFileInput,
   DsIconButton,
   DsNumberInput,
   DsSelect,
   DsZoomToolbar,
+  DsPressable,
 } from './design-system/index.js'
 import {
   clampMediaPreviewZoom,
@@ -128,7 +130,7 @@ function FrameThumbnail(props: {
     }
   }, [draft, index, reader])
   return (
-    <button
+    <DsPressable
       type="button"
       className={`fa-frame${selected ? ' selected' : ''}${current ? ' current' : ''}`}
       style={{ left: index * TIMELINE_ITEM_WIDTH }}
@@ -142,7 +144,7 @@ function FrameThumbnail(props: {
     >
       <canvas ref={canvasRef} />
       <span>{index + 1}</span>
-    </button>
+    </DsPressable>
   )
 }
 
@@ -791,18 +793,16 @@ export function FrameAnimationEditor(props: {
         {busy ? <span className="fa-status">{busy}</span> : null}
       </div>
 
-      <input
+      <DsFileInput
         ref={insertRef}
         hidden
         multiple
-        type="file"
         accept="image/png,image/jpeg,image/webp"
         onChange={(event) => onFileInput(event, 'insert')}
       />
-      <input
+      <DsFileInput
         ref={replaceRef}
         hidden
-        type="file"
         accept="image/png,image/jpeg,image/webp"
         onChange={(event) => onFileInput(event, 'replace')}
       />

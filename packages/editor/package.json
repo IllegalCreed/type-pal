@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "audit:design-system": "node scripts/audit-legacy-controls.mjs --gate",
     "dev": "VITE_PROJECT_ID=pal vite --port 6010 --strictPort",
     "dev:lan": "EDITOR_LAN_HTTPS=1 VITE_PROJECT_ID=pal vite --host 0.0.0.0 --port 6010 --strictPort",
     "build": "vite build",

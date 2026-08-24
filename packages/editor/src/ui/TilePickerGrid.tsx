@@ -1,7 +1,7 @@
 import type { Palette, RleFrame } from '@type-pal/reforge'
 import { bakeFrame } from '@type-pal/reforge'
 import { memo, useLayoutEffect, useRef } from 'react'
-import { DsButton, DsSelect } from './design-system/index.js'
+import { DsButton, DsSelect, DsPressable } from './design-system/index.js'
 
 export interface TilePickerGridProps {
   ariaLabel: string
@@ -99,7 +99,7 @@ const TilePickerItem = memo(function TilePickerItem(props: {
   onPick: (tileId: number) => void
 }) {
   return (
-    <button
+    <DsPressable
       type="button"
       className={`tile-picker-item${props.selected ? ' is-selected' : ''}`}
       title={`瓦片 #${props.tileId}`}
@@ -108,7 +108,7 @@ const TilePickerItem = memo(function TilePickerItem(props: {
       onClick={() => props.onPick(props.tileId)}
     >
       <TileFramePreview frame={props.frame} palette={props.palette} />
-    </button>
+    </DsPressable>
   )
 })
 

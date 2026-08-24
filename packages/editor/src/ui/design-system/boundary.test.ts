@@ -230,7 +230,7 @@ describe('editor design-system static boundary', () => {
     }
   })
 
-  test('does not grow legacy native checkboxes while shared checkboxes replace them', () => {
+  test('keeps native checkboxes out of production editor pages', () => {
     const uiRoot = dirname(here)
     const sources = filesUnder(uiRoot).filter(
       (path) =>
@@ -241,7 +241,7 @@ describe('editor design-system static boundary', () => {
       (total, path) => total + (readFileSync(path, 'utf8').match(pattern)?.length ?? 0),
       0,
     )
-    expect(count, 'legacy native checkbox occurrences').toBe(9)
+    expect(count, 'legacy native checkbox occurrences').toBe(0)
   })
 
   test('does not grow remaining raw form controls while shared primitives replace them', () => {
@@ -251,9 +251,10 @@ describe('editor design-system static boundary', () => {
         path.endsWith('.tsx') && !path.endsWith('.test.tsx') && !path.includes('/design-system/'),
     )
     const ceilings = {
-      input: 101,
-      textarea: 1,
-      label: 72,
+      button: 0,
+      input: 0,
+      textarea: 0,
+      label: 61,
     } as const
 
     for (const [tag, ceiling] of Object.entries(ceilings)) {
@@ -887,20 +888,21 @@ describe('editor design-system static boundary', () => {
     expect(scriptTree).toMatch(/<DsButton[\s\S]*?className="scene-entry-add"/)
   })
 
-  test('does not grow the legacy button-style families while they are being retired', () => {
+  test('keeps retired button-style families out of production pages', () => {
     const uiRoot = dirname(here)
     const sources = filesUnder(uiRoot).filter(
       (path) =>
         path.endsWith('.tsx') && !path.endsWith('.test.tsx') && !path.includes('/design-system/'),
     )
     const ceilings = {
-      tool: 48,
-      btn: 23,
-      mini: 14,
-      'mini-txt': 23,
-      'pv-btn': 5,
+      in: 0,
+      tool: 0,
+      btn: 0,
+      mini: 0,
+      'mini-txt': 0,
+      'pv-btn': 0,
       'item-action-button': 0,
-      'mini-icon': 3,
+      'mini-icon': 0,
       'media-zoom-controls': 0,
     } as const
 
@@ -913,7 +915,7 @@ describe('editor design-system static boundary', () => {
           source.match(/className\s*=\s*(?:"[^"]*"|'[^']*'|\{`[\s\S]*?`\}|\{"[^"]*"\})/g) ?? []
         for (const className of classNames) count += className.match(tokenPattern)?.length ?? 0
       }
-      expect(count, `${token} legacy class occurrences`).toBeLessThanOrEqual(ceiling)
+      expect(count, `${token} legacy class occurrences`).toBe(ceiling)
     }
   })
 
@@ -935,8 +937,8 @@ describe('editor design-system static boundary', () => {
     )
     expect(source).not.toMatch(/<(?:input|select)\b/)
     expect(source).not.toMatch(/className\s*=\s*["'][^"']*(?:^|\s)(?:in|mini)(?:\s|$)/m)
-    expect(source.match(/<button\b/g)).toHaveLength(1)
-    expect(source).toMatch(/<button[\s\S]*?className=\{`map-stamp-card/)
+    expect(source.match(/<DsPressable\b/g)).toHaveLength(1)
+    expect(source).toMatch(/<DsPressable[\s\S]*?className=\{`map-stamp-card/)
     expect(source).not.toMatch(/<(?:DsCatalogControls|DsListHeader)\b/)
   })
 

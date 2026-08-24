@@ -2,7 +2,7 @@ import type { AssetCatalogV1, StampTemplate } from '@type-pal/content'
 import type { AssetBase, TilesetDef } from '@type-pal/reforge'
 import { memo, useMemo, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
-import { DsButton, DsSelect, DsTextInput } from './design-system/index.js'
+import { DsButton, DsSelect, DsTextInput, DsPressable } from './design-system/index.js'
 import { StampMiniPreview } from './StampPreviewCanvas.js'
 
 const INITIAL_LIMIT = 60
@@ -101,7 +101,7 @@ export const MapStampPalette = memo(function MapStampPalette(props: {
               0,
             )
             return (
-              <button
+              <DsPressable
                 key={stamp.id}
                 type="button"
                 className={`map-stamp-card${stamp.id === activeStampId ? ' selected' : ''}`}
@@ -125,7 +125,7 @@ export const MapStampPalette = memo(function MapStampPalette(props: {
                   </small>
                 </span>
                 {recentRank.has(stamp.id) ? <span className="map-stamp-recent">最近</span> : null}
-              </button>
+              </DsPressable>
             )
           })}
         </div>

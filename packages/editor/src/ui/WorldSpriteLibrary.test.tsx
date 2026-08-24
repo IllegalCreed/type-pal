@@ -10,11 +10,11 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
-import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import type {
   SpriteAutomaticScriptBehaviorSummary,
   SpriteAutomaticScriptInstanceSite,
 } from '../core/world-sprite-behavior.js'
+import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 import { WorldSpriteLibrary } from './WorldSpriteLibrary.js'
 
@@ -217,7 +217,7 @@ describe('WorldSpriteLibrary', () => {
     const onBattleDomain = vi.fn()
     const session = new EditSession(editorState(definitions))
     await act(async () => root.render(library(definitions, session, { onBattleDomain })))
-    const rows = () => host.querySelectorAll('.world-sprite-outliner .battle-sprite-resource-row')
+    const rows = () => host.querySelectorAll('.world-sprite-outliner .sprite-resource-row')
     const search = host.querySelector<HTMLInputElement>('input[aria-label="过滤大世界精灵库"]')!
     expect(rows()).toHaveLength(2)
 
@@ -253,22 +253,20 @@ describe('WorldSpriteLibrary', () => {
     const session = new EditSession(editorState(definitions))
     await act(async () => root.render(library(definitions, session)))
 
-    expect(
-      host.querySelectorAll('.world-sprite-outliner .battle-sprite-resource-row'),
-    ).toHaveLength(2)
+    expect(host.querySelectorAll('.world-sprite-outliner .sprite-resource-row')).toHaveLength(2)
     expect(host.querySelector('.sprite-library-switch')).toBeNull()
-    expect(host.querySelector('.sprite-list')?.textContent).not.toContain('sprite.shared')
-    expect(host.querySelector('.sprite-list')?.textContent).not.toContain('.rle')
-    expect(host.querySelector('.sprite-list')?.textContent).toContain('2 个用途定义')
-    expect(host.querySelector('.sprite-list')?.textContent).toContain('四向')
-    expect(host.querySelector('.sprite-list')?.textContent).toContain('默认定格')
-    expect(host.querySelector('.sprite-list')?.textContent).toContain('待定义')
+    expect(host.querySelector('.ds-virtual-list')?.textContent).not.toContain('sprite.shared')
+    expect(host.querySelector('.ds-virtual-list')?.textContent).not.toContain('.rle')
+    expect(host.querySelector('.ds-virtual-list')?.textContent).toContain('2 个用途定义')
+    expect(host.querySelector('.ds-virtual-list')?.textContent).toContain('四向')
+    expect(host.querySelector('.ds-virtual-list')?.textContent).toContain('默认定格')
+    expect(host.querySelector('.ds-virtual-list')?.textContent).toContain('待定义')
     expect(
       host.querySelector('[role="combobox"][aria-label="按用途与实例行为筛选源帧资源"]'),
     ).not.toBeNull()
     expect(
-      [...host.querySelectorAll('.sprite-resource-tags em')].filter(
-        (tag) => tag.textContent === '四向',
+      [...host.querySelectorAll('.sprite-resource-row .ds-catalog-row__meta')].filter((meta) =>
+        meta.textContent?.includes('四向'),
       ),
     ).toHaveLength(1)
     const upload = host.querySelector('.ds-list-header__action[aria-label="导入源帧资源"]')!
@@ -685,13 +683,11 @@ describe('WorldSpriteLibrary', () => {
       ),
     )
 
-    expect(host.querySelector('.sprite-list')?.textContent).toContain('自动脚本')
+    expect(host.querySelector('.ds-virtual-list')?.textContent).toContain('自动脚本')
     expect(host.querySelector('[data-world-resource]')?.textContent).not.toContain('自动脚本切帧')
     await chooseSelectOption('按用途与实例行为筛选源帧资源', '含自动脚本')
-    expect(
-      host.querySelectorAll('.world-sprite-outliner .battle-sprite-resource-row'),
-    ).toHaveLength(1)
-    expect(host.querySelector('.sprite-list')?.textContent).toContain('共享精灵帧')
+    expect(host.querySelectorAll('.world-sprite-outliner .sprite-resource-row')).toHaveLength(1)
+    expect(host.querySelector('.ds-virtual-list')?.textContent).toContain('共享精灵帧')
 
     await act(async () => button('引用').click())
     expect(host.querySelector('.world-sprite-inspector')?.textContent).toContain(
@@ -732,15 +728,11 @@ describe('WorldSpriteLibrary', () => {
     await act(async () => root.render(library(entries, session)))
 
     await chooseSelectOption('按用途与实例行为筛选源帧资源', '含循环动作')
-    expect(
-      host.querySelectorAll('.world-sprite-outliner .battle-sprite-resource-row'),
-    ).toHaveLength(1)
-    expect(host.querySelector('.sprite-list')?.textContent).toContain('未配置精灵帧')
+    expect(host.querySelectorAll('.world-sprite-outliner .sprite-resource-row')).toHaveLength(1)
+    expect(host.querySelector('.ds-virtual-list')?.textContent).toContain('未配置精灵帧')
 
     await chooseSelectOption('按用途与实例行为筛选源帧资源', '含自动脚本')
-    expect(
-      host.querySelectorAll('.world-sprite-outliner .battle-sprite-resource-row'),
-    ).toHaveLength(0)
+    expect(host.querySelectorAll('.world-sprite-outliner .sprite-resource-row')).toHaveLength(0)
   })
 
   test('actor 场景实例的自动脚本也会命中其外观用途', async () => {
@@ -774,9 +766,7 @@ describe('WorldSpriteLibrary', () => {
     await act(async () => root.render(library(definitions, session)))
 
     await chooseSelectOption('按用途与实例行为筛选源帧资源', '含自动脚本')
-    expect(
-      host.querySelectorAll('.world-sprite-outliner .battle-sprite-resource-row'),
-    ).toHaveLength(1)
-    expect(host.querySelector('.sprite-list')?.textContent).toContain('共享精灵帧')
+    expect(host.querySelectorAll('.world-sprite-outliner .sprite-resource-row')).toHaveLength(1)
+    expect(host.querySelector('.ds-virtual-list')?.textContent).toContain('共享精灵帧')
   })
 })

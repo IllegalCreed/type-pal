@@ -1,3 +1,4 @@
+import { DsPressable } from './design-system/index.js'
 import {
   type AssetCatalogV1,
   mapInstanceHeight,
@@ -350,7 +351,7 @@ export function StampPreviewCanvas(props: {
             0,
           )
           return (
-            <button
+            <DsPressable
               key={layer.id}
               type="button"
               className={visible ? 'active' : ''}
@@ -367,10 +368,10 @@ export function StampPreviewCanvas(props: {
               <i aria-hidden="true" />
               <span>{layer.name}</span>
               <small>{count}</small>
-            </button>
+            </DsPressable>
           )
         })}
-        <button
+        <DsPressable
           type="button"
           className={showCollision ? 'active collision' : 'collision'}
           aria-pressed={showCollision}
@@ -379,7 +380,7 @@ export function StampPreviewCanvas(props: {
           <i aria-hidden="true" />
           <span>碰撞叠层</span>
           <small>{collisionMembers(template).length}</small>
-        </button>
+        </DsPressable>
       </fieldset>
     </section>
   )

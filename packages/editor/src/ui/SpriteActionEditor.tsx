@@ -13,10 +13,12 @@ import {
   DsCatalogRow,
   DsCheckbox,
   DsInspectorSection,
+  DsNumberInput,
   DsPropertyGrid,
   DsPropertyRow,
   DsSelect,
   DsTextInput,
+  DsPressable,
 } from './design-system/index.js'
 import { SpriteFrameCanvas, type SpriteFrameView } from './SpriteFrameWorkbench.js'
 import { SPRITE_FRAME_DRAG_MIME } from './SpriteResourceViewer.js'
@@ -81,10 +83,8 @@ function StepDurationInput(props: {
     if (value !== props.value) props.onCommit(value)
   }
   return (
-    <input
+    <DsNumberInput
       id={props.id}
-      className="in mono"
-      type="number"
       min={1}
       step={10}
       value={draft}
@@ -362,9 +362,7 @@ export function SpriteActionEditor(props: {
               <b>动作 #{actionNumber} · 帧时间线</b>
               <span>从中间原始帧池拖入；拖动步骤可换序</span>
             </div>
-            <button
-              type="button"
-              className="tool"
+            <DsButton
               disabled={
                 props.selectedSourceFrame < 0 || props.selectedSourceFrame >= props.frames.length
               }
@@ -374,9 +372,11 @@ export function SpriteActionEditor(props: {
                   action.steps.length,
                 )
               }
+              size="compact"
+              variant="secondary"
             >
               ＋ 追加已选 #{props.selectedSourceFrame}
-            </button>
+            </DsButton>
           </div>
           <ol className="sprite-action-timeline">
             {action.steps.map((step, index) => (
@@ -386,7 +386,7 @@ export function SpriteActionEditor(props: {
                   onDragOver={(event) => event.preventDefault()}
                   onDrop={(event) => acceptDrop(event, index)}
                 >
-                  <button
+                  <DsPressable
                     type="button"
                     aria-label={`在第 ${index + 1} 步之前插入已选源帧 ${props.selectedSourceFrame}`}
                     disabled={
@@ -398,12 +398,12 @@ export function SpriteActionEditor(props: {
                     }
                   >
                     ＋ 在此插入 #{props.selectedSourceFrame}
-                  </button>
+                  </DsPressable>
                 </li>
                 <li
                   className={`sprite-action-step${action.loopFrom === index ? ' loop-start' : ''}`}
                 >
-                  <button
+                  <DsPressable
                     type="button"
                     className="sprite-action-drag-handle"
                     aria-label={`拖动第 ${index + 1} 步调整顺序`}
@@ -417,7 +417,7 @@ export function SpriteActionEditor(props: {
                     }}
                   >
                     ≡
-                  </button>
+                  </DsPressable>
                   <SpriteFrameCanvas
                     source={props.frames[step.frame]?.canvas}
                     width={56}
@@ -447,33 +447,36 @@ export function SpriteActionEditor(props: {
                     </label>
                   </div>
                   <div className="sprite-action-step-buttons">
-                    <button
-                      type="button"
-                      className="tool icon-only"
+                    <DsButton
+                      className="icon-only"
                       aria-label={`第 ${index + 1} 步上移`}
                       disabled={index === 0}
                       onClick={() => reorderStep(index, index - 1)}
+                      size="compact"
+                      variant="secondary"
                     >
                       ↑
-                    </button>
-                    <button
-                      type="button"
-                      className="tool icon-only"
+                    </DsButton>
+                    <DsButton
+                      className="icon-only"
                       aria-label={`第 ${index + 1} 步下移`}
                       disabled={index === action.steps.length - 1}
                       onClick={() => reorderStep(index, index + 2)}
+                      size="compact"
+                      variant="secondary"
                     >
                       ↓
-                    </button>
-                    <button
-                      type="button"
-                      className="tool icon-only danger-action"
+                    </DsButton>
+                    <DsButton
+                      className="icon-only danger-action"
                       aria-label={`删除第 ${index + 1} 步`}
                       disabled={action.steps.length <= 1}
                       onClick={() => removeStep(index)}
+                      size="compact"
+                      variant="secondary"
                     >
                       ×
-                    </button>
+                    </DsButton>
                   </div>
                   <div className="sprite-action-cues">
                     {(step.cues ?? []).map((cue, cueIndex) => (
@@ -500,9 +503,8 @@ export function SpriteActionEditor(props: {
                             }))
                           }
                         />
-                        <button
-                          type="button"
-                          className="tool icon-only danger-action"
+                        <DsButton
+                          className="icon-only danger-action"
                           aria-label="移除同步音效"
                           onClick={() =>
                             updateAction((current) => ({
@@ -519,14 +521,14 @@ export function SpriteActionEditor(props: {
                               }),
                             }))
                           }
+                          size="compact"
+                          variant="secondary"
                         >
                           ×
-                        </button>
+                        </DsButton>
                       </label>
                     ))}
-                    <button
-                      type="button"
-                      className="tool"
+                    <DsButton
                       disabled={!firstSoundAsset(props.catalog)}
                       onClick={() => {
                         const asset = firstSoundAsset(props.catalog)
@@ -543,9 +545,11 @@ export function SpriteActionEditor(props: {
                           ),
                         }))
                       }}
+                      size="compact"
+                      variant="secondary"
                     >
                       ＋ 同步音效
-                    </button>
+                    </DsButton>
                   </div>
                 </li>
               </Fragment>
@@ -556,7 +560,7 @@ export function SpriteActionEditor(props: {
               onDrop={(event) => acceptDrop(event, action.steps.length)}
             >
               <span>拖到这里追加源帧</span>
-              <button
+              <DsPressable
                 type="button"
                 disabled={
                   props.selectedSourceFrame < 0 || props.selectedSourceFrame >= props.frames.length
@@ -569,32 +573,33 @@ export function SpriteActionEditor(props: {
                 }
               >
                 ＋ 追加已选 #{props.selectedSourceFrame}
-              </button>
+              </DsPressable>
             </li>
           </ol>
 
           <div className="sprite-action-footer">
             {actionReferences.length ? (
-              <button
-                type="button"
-                className="tool"
+              <DsButton
                 onClick={() => props.onOpenReferences?.(actionId)}
+                size="compact"
+                variant="secondary"
               >
                 查看 {actionReferences.length} 个引用 ↗
-              </button>
+              </DsButton>
             ) : (
               <span className="hint2">当前动作尚未被场景引用。</span>
             )}
             <span className="spacer" />
-            <button
-              type="button"
-              className="tool danger-action"
+            <DsButton
+              className="danger-action"
               disabled={actionReferences.length > 0}
               title={actionReferences.length ? '存在引用，先到“使用位置”处理引用' : undefined}
               onClick={deleteAction}
+              size="compact"
+              variant="secondary"
             >
               删除动作
-            </button>
+            </DsButton>
           </div>
         </div>
       ) : null}

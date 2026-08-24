@@ -1,7 +1,6 @@
 import type { StampTemplate } from '@type-pal/content'
 import type { ProjectMap } from '@type-pal/reforge'
-import { useEffect, useId, useMemo, useRef, useState } from 'react'
-import { createPortal } from 'react-dom'
+import { useId, useMemo, useRef, useState } from 'react'
 import type { EditSession } from '../core/edit-session.js'
 import type { MapSelection } from '../core/map-selection.js'
 import { AddStampTemplateCommand, ReplaceStampTemplateCommand } from '../core/stamp-commands.js'
@@ -10,7 +9,14 @@ import {
   defaultStampTemplateAnchor,
   nextStampTemplateId,
 } from '../core/stamp-template.js'
-import { DsCheckbox, DsSelect } from './design-system/index.js'
+import {
+  DsButton,
+  DsCheckbox,
+  DsDialog,
+  DsNumberInput,
+  DsSelect,
+  DsTextInput,
+} from './design-system/index.js'
 
 type CellsSelection = Extract<MapSelection, { kind: 'cells' }>
 type InvalidField = 'id' | 'name' | 'anchor-row' | 'anchor-col' | 'target'
@@ -76,15 +82,12 @@ export function StampTemplateDialog(props: {
   const [takeOwnership, setTakeOwnership] = useState(false)
   const [error, setError] = useState('')
   const [invalidField, setInvalidField] = useState<InvalidField>()
-  const dialogRef = useRef<HTMLDialogElement>(null)
   const idRef = useRef<HTMLInputElement>(null)
   const nameRef = useRef<HTMLInputElement>(null)
   const anchorRowRef = useRef<HTMLInputElement>(null)
   const anchorColRef = useRef<HTMLInputElement>(null)
   const targetRef = useRef<HTMLButtonElement>(null)
   const errorRef = useRef<HTMLParagraphElement>(null)
-  const returnFocusRef = useRef<HTMLElement | null>(null)
-  const titleId = useId()
   const errorId = useId()
   const target = compatible.find((template) => template.id === targetId)
   const collisionZeroCount = selection.gridPoints.filter(
@@ -94,18 +97,6 @@ export function StampTemplateDialog(props: {
     const layer = map.layers.find((candidate) => candidate.id === ref.layerId)
     return layer?.tiles[ref.row]?.[ref.col] != null
   }).length
-
-  useEffect(() => {
-    const dialog = dialogRef.current
-    if (!dialog) return
-    returnFocusRef.current = document.activeElement as HTMLElement | null
-    if (!dialog.open) dialog.showModal()
-    nameRef.current?.focus()
-    return () => {
-      if (dialog.open) dialog.close()
-      returnFocusRef.current?.focus()
-    }
-  }, [])
 
   const selectTarget = (nextId: string): void => {
     setTargetId(nextId)
@@ -219,16 +210,14 @@ export function StampTemplateDialog(props: {
     }
   }
 
-  return createPortal(
-    <dialog
-      ref={dialogRef}
+  return (
+    <DsDialog
+      open
+      title="保存为组合"
+      description="地图选区 → 可复用模板"
       className="stamp-template-dialog"
-      aria-labelledby={titleId}
-      aria-describedby={error ? errorId : undefined}
-      onCancel={(event) => {
-        event.preventDefault()
-        onClose()
-      }}
+      closeLabel="关闭保存组合对话框"
+      onClose={onClose}
     >
       <form
         method="dialog"
@@ -237,36 +226,26 @@ export function StampTemplateDialog(props: {
           submit()
         }}
       >
-        <header className="stamp-dialog-head">
-          <div>
-            <span>地图选区 → 可复用模板</span>
-            <h2 id={titleId}>保存为组合</h2>
-          </div>
-          <button type="button" aria-label="关闭保存组合对话框" onClick={onClose}>
-            ×
-          </button>
-        </header>
-
         <div className="stamp-dialog-body">
           <fieldset className="stamp-dialog-mode">
             <legend className="stamp-sr-only">保存方式</legend>
-            <button
-              type="button"
-              className={mode === 'create' ? 'active' : ''}
+            <DsButton
+              size="compact"
+              variant={mode === 'create' ? 'primary' : 'secondary'}
               aria-pressed={mode === 'create'}
               onClick={() => switchMode('create')}
             >
               新建模板
-            </button>
-            <button
-              type="button"
-              className={mode === 'update' ? 'active' : ''}
+            </DsButton>
+            <DsButton
+              size="compact"
+              variant={mode === 'update' ? 'primary' : 'secondary'}
               aria-pressed={mode === 'update'}
               disabled={compatible.length === 0}
               onClick={() => switchMode('update')}
             >
               更新已有模板
-            </button>
+            </DsButton>
           </fieldset>
 
           {mode === 'update' ? (
@@ -291,9 +270,8 @@ export function StampTemplateDialog(props: {
               <span>
                 ID <small>创建后保持稳定</small>
               </span>
-              <input
+              <DsTextInput
                 ref={idRef}
-                className="mono"
                 name="stamp-id"
                 value={id}
                 aria-invalid={invalidField === 'id'}
@@ -304,6 +282,7 @@ export function StampTemplateDialog(props: {
                   setId(event.target.value)
                   if (invalidField === 'id') setInvalidField(undefined)
                 }}
+                monospace
               />
             </label>
           )}
@@ -311,7 +290,7 @@ export function StampTemplateDialog(props: {
           <div className="stamp-dialog-grid">
             <label className="stamp-dialog-field">
               <span>名称</span>
-              <input
+              <DsTextInput
                 ref={nameRef}
                 name="stamp-name"
                 value={name}
@@ -328,7 +307,7 @@ export function StampTemplateDialog(props: {
               <span>
                 分类 <small>可选</small>
               </span>
-              <input
+              <DsTextInput
                 name="stamp-category"
                 value={category}
                 autoComplete="off"
@@ -342,11 +321,9 @@ export function StampTemplateDialog(props: {
             <legend>显式锚点</legend>
             <label>
               <span>行</span>
-              <input
+              <DsNumberInput
                 ref={anchorRowRef}
-                className="mono"
                 name="stamp-anchor-row"
-                type="number"
                 step={1}
                 inputMode="numeric"
                 value={anchorRow}
@@ -360,11 +337,9 @@ export function StampTemplateDialog(props: {
             </label>
             <label>
               <span>列</span>
-              <input
+              <DsNumberInput
                 ref={anchorColRef}
-                className="mono"
                 name="stamp-anchor-col"
-                type="number"
                 step={1}
                 inputMode="numeric"
                 value={anchorCol}
@@ -388,7 +363,7 @@ export function StampTemplateDialog(props: {
                   <strong>{layer.id}</strong>
                   <small>{layer.count} 成员</small>
                 </span>
-                <input
+                <DsTextInput
                   name={`stamp-slot-${layer.id}`}
                   value={slotNames[layer.id] ?? ''}
                   aria-label={`${layer.id} 局部槽名称`}
@@ -482,15 +457,14 @@ export function StampTemplateDialog(props: {
         </div>
 
         <footer className="stamp-dialog-actions">
-          <button type="button" onClick={onClose}>
+          <DsButton size="compact" variant="secondary" onClick={onClose}>
             取消
-          </button>
-          <button type="submit" className="primary">
+          </DsButton>
+          <DsButton type="submit" size="compact" variant="primary">
             {mode === 'create' ? '创建组合' : '替换模板内容'}
-          </button>
+          </DsButton>
         </footer>
       </form>
-    </dialog>,
-    document.body,
+    </DsDialog>
   )
 }

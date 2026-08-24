@@ -50,21 +50,27 @@ export function DsDialog(props: {
   children: ReactNode
   footer?: ReactNode
   closeLabel?: string
+  className?: string
+  dismissible?: boolean
+  ariaBusy?: boolean
   onClose: () => void
 }) {
   const ref = useRef<HTMLDialogElement>(null)
   const titleId = `${props.title.replace(/\s+/g, '-')}-dialog-title`
+  const dismissible = props.dismissible ?? true
   useDialogState(ref, props.open, props.onClose)
   return (
     <dialog
       ref={ref}
       role="dialog"
-      className="ds-dialog"
+      className={`ds-dialog${props.className ? ` ${props.className}` : ''}`}
       aria-labelledby={titleId}
       aria-label={props.title}
+      aria-modal="true"
+      aria-busy={props.ariaBusy || undefined}
       onCancel={(event) => {
         event.preventDefault()
-        props.onClose()
+        if (dismissible) props.onClose()
       }}
     >
       <header className="ds-overlay__header">
@@ -72,7 +78,9 @@ export function DsDialog(props: {
           {props.title}
         </h2>
         <span className="ds-spacer" />
-        <DsIconButton label={props.closeLabel ?? '关闭'} icon="close" onClick={props.onClose} />
+        {dismissible ? (
+          <DsIconButton label={props.closeLabel ?? '关闭'} icon="close" onClick={props.onClose} />
+        ) : null}
       </header>
       <div className="ds-overlay__body">
         {props.description ? <p className="ds-field__help">{props.description}</p> : null}

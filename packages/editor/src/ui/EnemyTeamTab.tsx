@@ -22,6 +22,7 @@ import {
   DsIconButton,
   DsSelect,
   DsTextInput,
+  DsPressable,
 } from './design-system/controls.js'
 import {
   DsCatalogControls,
@@ -364,7 +365,7 @@ export function EnemyTeamTab(props: {
                   </div>
                   <div className="enemy-team-member-summary">
                     {members.map((enemy, index) => (
-                      <button
+                      <DsPressable
                         type="button"
                         key={`${enemy.id}:${index}`}
                         onClick={() => onOpenEnemy?.(enemy.id)}
@@ -378,7 +379,7 @@ export function EnemyTeamTab(props: {
                             : '不可偷取'}
                         </span>
                         <span>{enemy.onDefeated?.length ?? 0} 条战败指令</span>
-                      </button>
+                      </DsPressable>
                     ))}
                     {!members.length ? (
                       <p className="hint">

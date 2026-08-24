@@ -50,11 +50,14 @@ import {
   DsButton,
   DsCatalogControls,
   DsCatalogRow,
+  DsFileInput,
   DsInspectorSection,
   DsInspectorTabs,
+  DsNumberInput,
   DsObjectHero,
   DsPropertyGrid,
   DsPropertyRow,
+  DsRangeInput,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
@@ -64,6 +67,8 @@ import {
   DsTabs,
   DsTag,
   DsTextInput,
+  DsVirtualList,
+  DsPressable,
 } from './design-system/index.js'
 import { type SemanticFrameGroup, SpriteFrameCanvas } from './SpriteFrameWorkbench.js'
 
@@ -334,9 +339,7 @@ function NumberField(props: {
   return (
     <label className="battle-profile-field">
       <span>{props.label}</span>
-      <input
-        className="in mono"
-        type="number"
+      <DsNumberInput
         min={props.min ?? 0}
         value={props.value ?? ''}
         placeholder={props.optional ? '无' : undefined}
@@ -416,8 +419,7 @@ function ProfileEditor(props: {
       </section>
       <label className="battle-boundary-field">
         <span>待机结束：#{idleEnd - 1}</span>
-        <input
-          type="range"
+        <DsRangeInput
           min={1}
           max={total}
           value={idleEnd}
@@ -426,8 +428,7 @@ function ProfileEditor(props: {
       </label>
       <label className="battle-boundary-field">
         <span>施法结束：{magicEnd === idleEnd ? '无施法段' : `#${magicEnd - 1}`}</span>
-        <input
-          type="range"
+        <DsRangeInput
           min={idleEnd}
           max={total}
           value={magicEnd}
@@ -1086,9 +1087,7 @@ export function BattleSpriteLibrary(props: {
       </span>
       <label>
         列
-        <input
-          className="in mono"
-          type="number"
+        <DsNumberInput
           min={1}
           max={16}
           value={rawAppendDraft.cols}
@@ -1103,9 +1102,7 @@ export function BattleSpriteLibrary(props: {
       <span>×</span>
       <label>
         行
-        <input
-          className="in mono"
-          type="number"
+        <DsNumberInput
           min={1}
           max={16}
           value={rawAppendDraft.rows}
@@ -1124,21 +1121,21 @@ export function BattleSpriteLibrary(props: {
           : '图片宽高必须能被行列整除'}
       </span>
       <span className="spacer" />
-      <button type="button" className="tool" onClick={() => setRawAppendDraft(undefined)}>
+      <DsButton onClick={() => setRawAppendDraft(undefined)} size="compact" variant="secondary">
         取消
-      </button>
-      <button
-        type="button"
-        className="tool primary"
+      </DsButton>
+      <DsButton
         disabled={
           rawEditorBusy ||
           rawAppendDraft.w % rawAppendDraft.cols !== 0 ||
           rawAppendDraft.h % rawAppendDraft.rows !== 0
         }
         onClick={() => void appendRawFrames()}
+        size="compact"
+        variant="primary"
       >
         确认追加
-      </button>
+      </DsButton>
     </div>
   ) : null
 
@@ -1198,36 +1195,41 @@ export function BattleSpriteLibrary(props: {
             />
           }
         />
-        <div className="sprite-list">
-          {shownAssets.map(([asset, assetRecord]) => {
-            const entries = definitionsByAsset.get(asset) ?? []
-            const tags = (['player-fighter', 'enemy', 'summon'] as const).filter((profileKind) =>
-              entries.some((entry) => entry.profile.kind === profileKind),
-            )
-            return (
-              <button
-                type="button"
-                key={asset}
-                className={`arow battle-sprite-resource-row sprite-resource-row${asset === selectedAsset ? ' sel' : ''}`}
-                aria-pressed={asset === selectedAsset}
-                title={asset}
-                onClick={() => focusResource(asset)}
-              >
-                <span className="nm">
-                  <b>{assetRecord.label ?? entries[0]?.label ?? asset}</b>
-                  <span className="sprite-resource-tags">
-                    {tags.length ? (
-                      tags.map((tag) => <em key={tag}>{PROFILE_LABEL[tag]}</em>)
-                    ) : (
-                      <em className="unconfigured">未配置</em>
-                    )}
-                  </span>
-                </span>
-              </button>
-            )
-          })}
-          {!shownAssets.length ? <div className="insp-empty">没有匹配的精灵。</div> : null}
-        </div>
+        {shownAssets.length ? (
+          <DsVirtualList
+            label="战斗精灵目录"
+            items={shownAssets}
+            itemHeight={68}
+            height={720}
+            fill
+            overscan={5}
+            getKey={([asset]) => asset}
+            selectedKey={selectedAsset}
+            onSelect={([asset]) => focusResource(asset)}
+            renderItem={([asset, assetRecord], _index, control) => {
+              const entries = definitionsByAsset.get(asset) ?? []
+              const tags = (['player-fighter', 'enemy', 'summon'] as const).filter((profileKind) =>
+                entries.some((entry) => entry.profile.kind === profileKind),
+              )
+              const metadata = tags.length ? tags.map((tag) => PROFILE_LABEL[tag]) : ['未配置']
+              return (
+                <DsCatalogRow
+                  className="sprite-resource-row"
+                  tabIndex={control.tabIndex}
+                  onFocus={control.onFocus}
+                  selected={asset === selectedAsset}
+                  leading={<span aria-hidden="true">▦</span>}
+                  title={assetRecord.label ?? entries[0]?.label ?? asset}
+                  meta={metadata.join(' · ')}
+                  aria-label={`${assetRecord.label ?? entries[0]?.label ?? asset}，${metadata.join('，')}`}
+                  onClick={() => focusResource(asset)}
+                />
+              )
+            }}
+          />
+        ) : (
+          <div className="insp-empty">没有匹配的精灵。</div>
+        )}
       </div>
 
       <div className="center actor-center battle-sprite-center ds-object-workspace">
@@ -1285,16 +1287,14 @@ export function BattleSpriteLibrary(props: {
               <h3>导入战斗精灵</h3>
               <label>
                 <span>配置 id 前缀</span>
-                <input
-                  className="in"
+                <DsTextInput
                   value={uploadId}
                   onChange={(event) => setUploadId(event.target.value)}
                 />
               </label>
               <label>
                 <span>显示名</span>
-                <input
-                  className="in"
+                <DsTextInput
                   value={uploadLabel}
                   onChange={(event) => setUploadLabel(event.target.value)}
                 />
@@ -1344,10 +1344,9 @@ export function BattleSpriteLibrary(props: {
             </div>
           ) : record?.kind === 'battle-sprite' ? (
             <>
-              <input
+              <DsFileInput
                 ref={rawReplaceFileRef}
                 className="sprite-hidden-file-input"
-                type="file"
                 accept="image/png,image/webp,image/gif"
                 onChange={(event) => {
                   const file = event.target.files?.[0]
@@ -1355,10 +1354,9 @@ export function BattleSpriteLibrary(props: {
                   if (file) void replaceRawFrame(file, rawReplaceIndex.current)
                 }}
               />
-              <input
+              <DsFileInput
                 ref={rawAppendFileRef}
                 className="sprite-hidden-file-input"
-                type="file"
                 accept="image/png,image/webp,image/gif"
                 onChange={(event) => {
                   const file = event.target.files?.[0]
@@ -1597,7 +1595,7 @@ export function BattleSpriteLibrary(props: {
                                       onPlayerStageDrop(event, slot.key)
                                     }}
                                   >
-                                    <button
+                                    <DsPressable
                                       type="button"
                                       className="battle-action-stage-select"
                                       aria-pressed={selected}
@@ -1627,9 +1625,9 @@ export function BattleSpriteLibrary(props: {
                                           <code>#{frame}</code>
                                         )}
                                       </span>
-                                    </button>
+                                    </DsPressable>
                                     <span className="battle-action-stage-controls">
-                                      <button
+                                      <DsPressable
                                         type="button"
                                         aria-label={`用已选 #${selectedRawFrame} 替换${slot.label}`}
                                         onClick={() =>
@@ -1637,15 +1635,15 @@ export function BattleSpriteLibrary(props: {
                                         }
                                       >
                                         用已选 #{selectedRawFrame}
-                                      </button>
+                                      </DsPressable>
                                       {slot.optional && frame !== undefined ? (
-                                        <button
+                                        <DsPressable
                                           type="button"
                                           aria-label={`清除${slot.label}`}
                                           onClick={() => clearOptionalPlayerStage(slot.key)}
                                         >
                                           清除
-                                        </button>
+                                        </DsPressable>
                                       ) : null}
                                     </span>
                                     {dropTarget ? (

@@ -7,10 +7,10 @@
 import type { AssetId } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { actualFrameIndex, bakeFrame, loadStandardPalette } from '@type-pal/reforge'
-import { useEffect, useId, useRef, useState } from 'react'
-import { createPortal } from 'react-dom'
+import { useEffect, useRef, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { loadEditorSprite } from '../core/sprite-assets.js'
+import { DsDialog, DsIconButton } from './design-system/index.js'
 
 const thumbCache = new Map<string, Promise<HTMLCanvasElement | null>>()
 
@@ -131,74 +131,35 @@ export function SpriteImageViewer(props: {
 }) {
   const { assetBase, assetReader, asset, revision, frameIndex = 0, label, onClose } = props
   const [zoom, setZoom] = useState(4)
-  const dialogRef = useRef<HTMLDialogElement>(null)
-  const closeRef = useRef<HTMLButtonElement>(null)
-  const titleId = useId()
-
-  useEffect(() => {
-    const dialog = dialogRef.current
-    if (!dialog) return
-    if (!dialog.open) dialog.showModal()
-    closeRef.current?.focus()
-    return () => {
-      if (dialog.open) dialog.close()
-    }
-  }, [])
-
-  return createPortal(
-    <dialog
-      ref={dialogRef}
+  return (
+    <DsDialog
+      open
+      title={label}
+      description={`${asset} · 帧 ${frameIndex}`}
       className="sprite-image-viewer"
-      aria-labelledby={titleId}
-      onCancel={(event) => {
-        event.preventDefault()
-        onClose()
-      }}
+      closeLabel="关闭图片查看器"
+      onClose={onClose}
     >
-      <header className="sprite-image-viewer-header">
-        <div className="sprite-image-viewer-title">
-          <strong id={titleId}>{label}</strong>
-          <span>
-            {asset} · 帧 {frameIndex}
-          </span>
-        </div>
-        <fieldset className="sprite-image-viewer-tools">
-          <legend className="sprite-image-viewer-tools-label">图片缩放</legend>
-          <button
-            type="button"
-            className="sprite-image-viewer-tool"
-            aria-label="缩小"
-            title="缩小"
-            disabled={zoom <= 1}
-            onClick={() => setZoom((value) => Math.max(1, value - 1))}
-          >
-            <span className="sprite-viewer-minus" aria-hidden="true" />
-          </button>
-          <output className="sprite-image-viewer-zoom" aria-live="polite">
-            {zoom}×
-          </output>
-          <button
-            type="button"
-            className="sprite-image-viewer-tool"
-            aria-label="放大"
-            title="放大"
-            disabled={zoom >= 12}
-            onClick={() => setZoom((value) => Math.min(12, value + 1))}
-          >
-            <span className="sprite-viewer-plus" aria-hidden="true" />
-          </button>
-          <button
-            ref={closeRef}
-            type="button"
-            className="sprite-image-viewer-tool close"
-            aria-label="关闭图片查看器"
-            title="关闭"
-            onClick={onClose}
-          >
-            <span className="sprite-viewer-close" aria-hidden="true" />
-          </button>
-        </fieldset>
-      </header>
+      <fieldset className="sprite-image-viewer-tools">
+        <legend className="sprite-image-viewer-tools-label">图片缩放</legend>
+        <DsIconButton
+          icon="zoom-out"
+          label="缩小"
+          variant="secondary"
+          disabled={zoom <= 1}
+          onClick={() => setZoom((value) => Math.max(1, value - 1))}
+        />
+        <output className="sprite-image-viewer-zoom" aria-live="polite">
+          {zoom}×
+        </output>
+        <DsIconButton
+          icon="zoom-in"
+          label="放大"
+          variant="secondary"
+          disabled={zoom >= 12}
+          onClick={() => setZoom((value) => Math.min(12, value + 1))}
+        />
+      </fieldset>
       <div className="sprite-image-viewer-stage">
         <SpriteThumb
           assetBase={assetBase}
@@ -212,7 +173,6 @@ export function SpriteImageViewer(props: {
           maxScale={zoom}
         />
       </div>
-    </dialog>,
-    document.body,
+    </DsDialog>
   )
 }

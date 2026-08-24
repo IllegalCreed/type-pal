@@ -1,0 +1,305 @@
+{
+  "version": 1,
+  "pages": [
+    {
+      "registry": "scene/workspace",
+      "components": ["App.tsx", "ScriptDrawer.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "DsCatalogControls + DsCatalogRow",
+        "scroll": "editor shell center / Inspector single owners",
+        "overlay": "DsFloatingLayer + DsDialog",
+        "field": "DsField + DsPropertyRow + DsDraft controls",
+        "action": "DsButton + DsIconButton"
+      }
+    },
+    {
+      "registry": "scene/ambience",
+      "components": ["AmbienceTab.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "DsCatalogControls + DsCatalogRow",
+        "scroll": "DsObjectWorkspace",
+        "overlay": "DsDialog",
+        "field": "DsField + DsPropertyRow",
+        "action": "DsButton + DsIconButton"
+      }
+    },
+    {
+      "registry": "map/workspace",
+      "components": ["MapMode.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "DsCatalogControls + DsCatalogRow",
+        "scroll": "IsometricEditorSurface + Inspector single owner",
+        "overlay": "DsFloatingLayer + DsDialog",
+        "field": "DsPropertyRow + DS controls",
+        "action": "DsButton + DsIconButton"
+      }
+    },
+    {
+      "registry": "map/tileset",
+      "components": ["TilesetTab.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "DsCatalogControls + DsCatalogRow",
+        "scroll": "DsObjectWorkspace",
+        "overlay": "DsDialog",
+        "field": "DsField + DsPropertyRow",
+        "action": "DsButton + DsIconButton"
+      }
+    },
+    {
+      "registry": "map/stamp",
+      "components": ["StampLibraryTab.tsx", "StampTemplateDialog.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "DsCatalogControls + DsCatalogRow",
+        "scroll": "IsometricEditorSurface + DsObjectWorkspace",
+        "overlay": "DsDialog",
+        "field": "DsField + DsPropertyRow",
+        "action": "DsButton + DsIconButton"
+      }
+    },
+    {
+      "registry": "story/scripts",
+      "components": ["SharedScriptTab.tsx", "ScriptEditor.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "DsCatalogControls + DsCatalogRow",
+        "scroll": "canonical script editor body",
+        "overlay": "DsDialog + DsFloatingLayer",
+        "field": "DsField + DS controls",
+        "action": "DsButton + DsIconButton"
+      }
+    },
+    {
+      "registry": "story/vars",
+      "components": ["VarsTab.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "DsCatalogControls + DsCatalogRow",
+        "scroll": "DsObjectWorkspace",
+        "overlay": "DsDialog",
+        "field": "DsField + DsPropertyRow",
+        "action": "DsButton + DsIconButton"
+      }
+    },
+    {
+      "registry": "story/events",
+      "components": ["EventLibTab.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "DsCatalogControls",
+        "scroll": "event library content",
+        "overlay": "N/A: read-only catalog",
+        "field": "DsCatalogFilter",
+        "action": "N/A: read-only catalog"
+      }
+    },
+    {
+      "registry": "actor/workspace",
+      "components": ["ActorMode.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "DsCatalogControls + DsCatalogRow",
+        "scroll": "DsObjectWorkspace + DsInspectorTabs",
+        "overlay": "DsDialog + DsFloatingLayer",
+        "field": "DsField + DsPropertyRow + DsDraft controls",
+        "action": "DsButton + DsIconButton"
+      }
+    },
+    {
+      "registry": "item/item",
+      "components": ["ItemTab.tsx", "ItemUseEffectEditor.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "DsCatalogControls + DsCatalogRow",
+        "scroll": "DsObjectWorkspace + DsInspectorTabs",
+        "overlay": "DsDialog + DsFloatingLayer",
+        "field": "DsField + DsPropertyRow + DsDraft controls",
+        "action": "DsButton + DsIconButton"
+      }
+    },
+    {
+      "registry": "item/shop",
+      "components": ["ShopTab.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "DsCatalogControls + DsCatalogRow",
+        "scroll": "DsObjectWorkspace + DsInspectorTabs",
+        "overlay": "DsDialog",
+        "field": "DsPropertyRow + DS controls",
+        "action": "DsButton + DsIconButton"
+      }
+    },
+    {
+      "registry": "battle/skill",
+      "components": ["SkillTab.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "DsCatalogControls + DsCatalogRow",
+        "scroll": "DsObjectWorkspace + DsInspectorTabs",
+        "overlay": "DsFloatingLayer",
+        "field": "DsField + DsPropertyRow + DsDraft controls",
+        "action": "DsButton + DsIconButton"
+      }
+    },
+    {
+      "registry": "battle/enemy",
+      "components": ["EnemyTab.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "DsCatalogControls + DsCatalogRow",
+        "scroll": "DsObjectWorkspace + DsInspectorTabs",
+        "overlay": "DsFloatingLayer",
+        "field": "DsField + DsPropertyRow + DsDraft controls",
+        "action": "DsButton + DsIconButton"
+      }
+    },
+    {
+      "registry": "battle/enemy-team",
+      "components": ["EnemyTeamTab.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "DsCatalogControls + DsCatalogRow",
+        "scroll": "DsObjectWorkspace + DsInspectorTabs",
+        "overlay": "DsDialog",
+        "field": "DsField + DsPropertyRow",
+        "action": "DsButton + DsIconButton"
+      }
+    },
+    {
+      "registry": "battle/poison",
+      "components": ["PoisonTab.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "DsCatalogControls + DsCatalogRow",
+        "scroll": "DsObjectWorkspace + DsInspectorTabs",
+        "overlay": "DsDialog",
+        "field": "DsField + DsPropertyRow",
+        "action": "DsButton + DsIconButton"
+      }
+    },
+    {
+      "registry": "battle/battlefield",
+      "components": ["BattleFieldTab.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "DsCatalogControls + DsCatalogRow",
+        "scroll": "DsObjectWorkspace + DsInspectorTabs",
+        "overlay": "DsFloatingLayer",
+        "field": "DsField + DsPropertyRow + DsDraft controls",
+        "action": "DsButton + DsIconButton"
+      }
+    },
+    {
+      "registry": "asset/sprite",
+      "components": ["WorldSpriteLibrary.tsx", "BattleSpriteLibrary.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "DsCatalogControls + DsCatalogRow",
+        "scroll": "DsObjectWorkspace + DsInspectorTabs",
+        "overlay": "DsDialog + DsFloatingLayer",
+        "field": "DsPropertyRow + DS controls",
+        "action": "DsButton + DsIconButton"
+      }
+    },
+    {
+      "registry": "asset/image",
+      "components": ["ImageTab.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "DsCatalogControls + DsCatalogRow",
+        "scroll": "image workspace + DsInspectorTabs",
+        "overlay": "DsDialog",
+        "field": "DsPropertyRow + MediaAssetNameField",
+        "action": "DsButton + DsIconButton"
+      }
+    },
+    {
+      "registry": "asset/music",
+      "components": ["MusicTab.tsx", "AudioAssetWorkbench.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "DsCatalogControls + DsCatalogRow + DsVirtualList",
+        "scroll": "DsObjectWorkspace",
+        "overlay": "DsDialog",
+        "field": "DsPropertyRow + MediaAssetNameField",
+        "action": "DsButton + DsIconButton"
+      }
+    },
+    {
+      "registry": "asset/sound",
+      "components": ["SoundTab.tsx", "AudioAssetWorkbench.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "DsCatalogControls + DsCatalogRow + DsVirtualList",
+        "scroll": "DsObjectWorkspace",
+        "overlay": "DsDialog",
+        "field": "DsPropertyRow + MediaAssetNameField",
+        "action": "DsButton + DsIconButton"
+      }
+    },
+    {
+      "registry": "asset/cutscene",
+      "components": ["CutsceneTab.tsx", "FrameAnimationEditor.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "DsCatalogControls + DsCatalogRow",
+        "scroll": "DsObjectWorkspace + DsInspectorTabs",
+        "overlay": "DsDialog",
+        "field": "DsPropertyRow + MediaAssetNameField",
+        "action": "DsButton + DsIconButton"
+      }
+    },
+    {
+      "registry": "project/overview",
+      "components": ["ProjectWorkbenchTab.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "N/A: project form",
+        "scroll": "project workbench content",
+        "overlay": "DsDialog",
+        "field": "DsField + DsPropertyRow + DsDraft controls",
+        "action": "DsButton + DsIconButton"
+      }
+    },
+    {
+      "registry": "project/startup",
+      "components": ["ProjectWorkbenchTab.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "DsCatalogRow",
+        "scroll": "project workbench content",
+        "overlay": "DsDialog",
+        "field": "DsField + DsPropertyRow + DsDraft controls",
+        "action": "DsButton + DsIconButton"
+      }
+    },
+    {
+      "registry": "project/entrypoint",
+      "components": ["ProjectWorkbenchTab.tsx", "EntryPointTab.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "DsCatalogRow",
+        "scroll": "project workbench content",
+        "overlay": "DsDialog",
+        "field": "DsField + DsPropertyRow + DsDraft controls",
+        "action": "DsButton + DsIconButton"
+      }
+    },
+    {
+      "registry": "project/advanced",
+      "components": ["ProjectWorkbenchTab.tsx"],
+      "status": "adopted",
+      "owners": {
+        "catalog": "DsCatalogGroupList + DsCatalogRow",
+        "scroll": "project workbench content",
+        "overlay": "DsDialog",
+        "field": "DsField + DS controls",
+        "action": "DsButton + DsIconButton"
+      }
+    }
+  ]
+}

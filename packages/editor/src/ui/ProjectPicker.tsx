@@ -1,3 +1,4 @@
+import { DsPressable } from './design-system/index.js'
 /**
  * 编辑器启动屏。只负责创建、选择和打开当前 canonical content17 项目；旧开发项目必须
  * 重新生成，不在产品启动流程中提供兼容工作台。
@@ -120,27 +121,27 @@ export function ProjectPicker(props: {
         ) : (
           <>
             <div className="picker-actions">
-              <button type="button" className="picker-act primary" onClick={clonePal}>
+              <DsPressable type="button" className="picker-act primary" onClick={clonePal}>
                 <span className="picker-act-t">从 PAL 开发快照创建本地项目</span>
                 <span className="picker-act-d">
                   当前快照仍随 E2E 持续完善，尚不是稳定用户种子。
                 </span>
-              </button>
-              <button type="button" className="picker-act" onClick={openProject}>
+              </DsPressable>
+              <DsPressable type="button" className="picker-act" onClick={openProject}>
                 <span className="picker-act-t">打开项目</span>
                 <span className="picker-act-d">选择一个当前 content17 本地项目继续编辑。</span>
-              </button>
-              <button type="button" className="picker-act" onClick={createBlank}>
+              </DsPressable>
+              <DsPressable type="button" className="picker-act" onClick={createBlank}>
                 <span className="picker-act-t">新建空白项目</span>
                 <span className="picker-act-d">创建包含起始场景与占位角色的 content17 项目。</span>
-              </button>
+              </DsPressable>
             </div>
 
             {recent.length > 0 && (
               <div className="picker-recent">
                 <div className="picker-recent-h">最近项目</div>
                 {recent.map((entry) => (
-                  <button
+                  <DsPressable
                     type="button"
                     key={entry.workspaceId}
                     className="picker-recent-item"
@@ -149,7 +150,7 @@ export function ProjectPicker(props: {
                     <span className="mono">{entry.projectId}</span>
                     <span className="picker-recent-name">{entry.name}</span>
                     <span className="picker-recent-mode">{workspaceModeLabel(entry)}</span>
-                  </button>
+                  </DsPressable>
                 ))}
               </div>
             )}

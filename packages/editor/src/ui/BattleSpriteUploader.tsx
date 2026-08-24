@@ -13,7 +13,7 @@ import {
   sliceAtlasGrid,
 } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { DsButton } from './design-system/controls.js'
+import { DsButton, DsFilePicker, DsNumberInput } from './design-system/controls.js'
 
 function FrameThumb(props: { frame: RleFrame; palette: Palette; idx: number }) {
   const { frame, palette, idx } = props
@@ -119,29 +119,25 @@ export function BattleSpriteUploader(props: {
     <div className="bsu">
       <div className="field">
         <span className="field-label">图片</span>
-        <label className="sprite-file-picker bsu-file-picker">
-          <span>选择图片…</span>
-          <small>PNG / WebP / GIF</small>
-          <input
-            aria-label="选择战斗精灵图片"
-            type="file"
-            accept="image/png,image/webp,image/gif"
-            disabled={submitting}
-            onChange={(e) => {
-              const f = e.target.files?.[0]
-              if (f) void pickFile(f)
-            }}
-          />
-        </label>
+        <DsFilePicker
+          className="bsu-file-picker"
+          label="选择图片…"
+          description="PNG / WebP / GIF"
+          aria-label="选择战斗精灵图片"
+          accept="image/png,image/webp,image/gif"
+          disabled={submitting}
+          onChange={(e) => {
+            const f = e.target.files?.[0]
+            if (f) void pickFile(f)
+          }}
+        />
       </div>
       {rgba && (
         <>
           <div className="field">
             <span className="field-label">帧尺寸</span>
             <span className="size-edit">
-              <input
-                className="in mono"
-                type="number"
+              <DsNumberInput
                 aria-label="战斗精灵帧宽"
                 disabled={submitting}
                 min={1}
@@ -150,9 +146,7 @@ export function BattleSpriteUploader(props: {
                 onChange={(e) => setFrameW(Math.floor(e.target.valueAsNumber) || 0)}
               />
               ×
-              <input
-                className="in mono"
-                type="number"
+              <DsNumberInput
                 aria-label="战斗精灵帧高"
                 disabled={submitting}
                 min={1}

@@ -7,12 +7,13 @@ import {
   describeCanonicalScriptReference,
   SaveSceneHookDetailsCommand,
   type SceneHookSlot,
+  type ScriptCommandLocator,
   type ScriptEditorCommand,
   type ScriptEditorState,
-  type ScriptCommandLocator,
   sceneHookReferences,
   UpdateSceneHookCommand,
 } from '../core/script-editor.js'
+import { DsButton, DsHelpTip } from './design-system/index.js'
 import {
   type CanonicalScriptEditorContext,
   CanonicalScriptFlowEditor,
@@ -21,7 +22,6 @@ import {
   ScriptSchemeDetailsDialog,
   ScriptSchemeStrip,
 } from './ScriptEditor.js'
-import { DsHelpTip } from './design-system/index.js'
 
 type AuthorSceneHook = NonNullable<
   NonNullable<NonNullable<AuthorSceneDef['hooks']>['onEnter']>['variants']
@@ -185,9 +185,9 @@ export function ScriptSceneHookInspector(props: {
         <div className="script-create-first">
           <strong>创建{copy.title}</strong>
           <p>{copy.description}</p>
-          <button type="button" className="pv-btn" onClick={() => setCreateOpen(true)}>
+          <DsButton onClick={() => setCreateOpen(true)} size="compact" variant="secondary">
             ＋ 新建第一个方案
-          </button>
+          </DsButton>
         </div>
       )}
 

@@ -33,6 +33,7 @@ import {
   DsDiagnosticList,
   DsDiagnosticPanel,
   DsDiagnosticRow,
+  DsFileInput,
   DsInspectorSection,
   DsInspectorTabs,
   DsObjectHero,
@@ -613,9 +614,8 @@ export function ImageTab(props: {
           }}
         />
         {error ? <div className="cf-err">{error}</div> : null}
-        <input
+        <DsFileInput
           ref={importInputRef}
-          type="file"
           accept=".png,image/png"
           hidden
           onChange={(event) => {
@@ -624,9 +624,8 @@ export function ImageTab(props: {
             event.target.value = ''
           }}
         />
-        <input
+        <DsFileInput
           ref={replaceInputRef}
-          type="file"
           accept=".png,image/png"
           hidden
           onChange={(event) => {

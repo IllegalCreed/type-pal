@@ -24,6 +24,7 @@ import { AmbienceScenePreview, type AmbienceScenePreviewProps } from './Ambience
 import {
   DsButton,
   DsCatalogRow,
+  DsColorInput,
   DsDialog,
   DsField,
   DsInspectorSection,
@@ -165,10 +166,9 @@ function AmbienceTintFields(props: {
                 style={{ backgroundColor: toHex(draft) }}
                 aria-hidden="true"
               />
-              <input
+              <DsColorInput
                 {...control}
                 className="ambience-color-control__input"
-                type="color"
                 aria-label="氛围乘色"
                 value={toHex(draft)}
                 title="选择全帧乘法色"

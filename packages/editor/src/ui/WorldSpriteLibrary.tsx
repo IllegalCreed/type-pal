@@ -41,6 +41,7 @@ import {
   DsSelect,
   DsTabs,
   DsTextInput,
+  DsVirtualList,
 } from './design-system/index.js'
 import { SpriteActionEditor } from './SpriteActionEditor.js'
 import type { SpriteFrameView } from './SpriteFrameWorkbench.js'
@@ -549,49 +550,54 @@ export function WorldSpriteLibrary(props: {
             />
           }
         />
-        <div className="sprite-list">
-          {shownAssets.map(([asset, assetRecord]) => {
-            const entries = definitionsByAsset.get(asset) ?? []
-            const tags = (['directional', 'static', 'loop'] as const).filter((layoutKind) =>
-              entries.some((entry) => entry.layout.kind === layoutKind),
-            )
-            const hasActions = entries.some((entry) => Object.keys(entry.poses ?? {}).length > 0)
-            const hasLoopingAction = entries.some((entry) =>
-              Object.values(entry.poses ?? {}).some((action) => action.loopFrom !== undefined),
-            )
-            const hasAutomaticScript = entries.some((entry) =>
-              automaticScriptDefinitionIds.has(entry.id),
-            )
-            return (
-              <button
-                type="button"
-                key={asset}
-                className={`arow battle-sprite-resource-row sprite-resource-row${asset === selectedAsset ? ' sel' : ''}`}
-                aria-pressed={asset === selectedAsset}
-                title={asset}
-                onClick={() => focusResource(asset)}
-              >
-                <span className="nm">
-                  <b>{assetRecord.label ?? entries[0]?.label ?? asset}</b>
-                  <small className="sprite-resource-use-count">
-                    {entries.length ? `${entries.length} 个用途定义` : '无用途定义'}
-                  </small>
-                  <span className="sprite-resource-tags">
-                    {tags.length ? (
-                      tags.map((tag) => <em key={tag}>{KIND_LABEL[tag]}</em>)
-                    ) : (
-                      <em className="unconfigured">待定义</em>
-                    )}
-                    {hasActions ? <em>预制动作</em> : null}
-                    {hasLoopingAction ? <em>循环动作</em> : null}
-                    {hasAutomaticScript ? <em className="scripted">自动脚本</em> : null}
-                  </span>
-                </span>
-              </button>
-            )
-          })}
-          {!shownAssets.length ? <div className="insp-empty">没有匹配的精灵。</div> : null}
-        </div>
+        {shownAssets.length ? (
+          <DsVirtualList
+            label="大世界精灵目录"
+            items={shownAssets}
+            itemHeight={68}
+            height={720}
+            fill
+            overscan={5}
+            getKey={([asset]) => asset}
+            selectedKey={selectedAsset}
+            onSelect={([asset]) => focusResource(asset)}
+            renderItem={([asset, assetRecord], _index, control) => {
+              const entries = definitionsByAsset.get(asset) ?? []
+              const tags = (['directional', 'static', 'loop'] as const).filter((layoutKind) =>
+                entries.some((entry) => entry.layout.kind === layoutKind),
+              )
+              const hasActions = entries.some((entry) => Object.keys(entry.poses ?? {}).length > 0)
+              const hasLoopingAction = entries.some((entry) =>
+                Object.values(entry.poses ?? {}).some((action) => action.loopFrom !== undefined),
+              )
+              const hasAutomaticScript = entries.some((entry) =>
+                automaticScriptDefinitionIds.has(entry.id),
+              )
+              const metadata = [
+                entries.length ? `${entries.length} 个用途定义` : '无用途定义',
+                ...(tags.length ? tags.map((tag) => KIND_LABEL[tag]) : ['待定义']),
+                ...(hasActions ? ['预制动作'] : []),
+                ...(hasLoopingAction ? ['循环动作'] : []),
+                ...(hasAutomaticScript ? ['自动脚本'] : []),
+              ]
+              return (
+                <DsCatalogRow
+                  className="sprite-resource-row"
+                  tabIndex={control.tabIndex}
+                  onFocus={control.onFocus}
+                  selected={asset === selectedAsset}
+                  leading={<span aria-hidden="true">▦</span>}
+                  title={assetRecord.label ?? entries[0]?.label ?? asset}
+                  meta={metadata.join(' · ')}
+                  aria-label={`${assetRecord.label ?? entries[0]?.label ?? asset}，${metadata.join('，')}`}
+                  onClick={() => focusResource(asset)}
+                />
+              )
+            }}
+          />
+        ) : (
+          <div className="insp-empty">没有匹配的精灵。</div>
+        )}
       </div>
 
       <div className="center actor-center battle-sprite-center world-sprite-center">

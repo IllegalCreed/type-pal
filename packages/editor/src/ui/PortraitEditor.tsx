@@ -8,6 +8,7 @@ import {
 import { UpdateActorCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { DsButton, DsTextInput } from './design-system/index.js'
 import { ImageAssetPicker } from './ImageAssetPicker.js'
 
 function ExpressionRow(props: {
@@ -24,8 +25,8 @@ function ExpressionRow(props: {
   const [draft, setDraft] = useState<string | null>(null)
   return (
     <div className="pt-row">
-      <input
-        className="in pt-name"
+      <DsTextInput
+        className="pt-name"
         aria-label={`${name}表情名`}
         value={draft ?? name}
         onChange={(event) => setDraft(event.target.value)}
@@ -49,9 +50,14 @@ function ExpressionRow(props: {
         ariaLabel={`${name}立绘`}
         onOpenAsset={onOpenAsset}
       />
-      <button type="button" className="mini" title="删除此表情" onClick={() => onRemove(name)}>
+      <DsButton
+        title="删除此表情"
+        onClick={() => onRemove(name)}
+        size="compact"
+        variant="secondary"
+      >
         ✕
-      </button>
+      </DsButton>
     </div>
   )
 }
@@ -125,14 +131,14 @@ export function PortraitEditor(props: {
               ariaLabel="默认对话立绘"
               onOpenAsset={onOpenAsset}
             />
-            <button
-              type="button"
-              className="mini"
+            <DsButton
               title="删除整个立绘组"
               onClick={() => dispatchPortraitCommand(new RemoveActorPortraitSetCommand(actor.id))}
+              size="compact"
+              variant="secondary"
             >
               ✕
-            </button>
+            </DsButton>
           </div>
           {Object.entries(portraits.expressions ?? {}).map(([name, asset]) => (
             <ExpressionRow
@@ -157,33 +163,33 @@ export function PortraitEditor(props: {
               }
             />
           ))}
-          <button
-            type="button"
-            className="tool"
+          <DsButton
             onClick={() =>
               setExpressions({
                 ...(portraits.expressions ?? {}),
                 [newExpressionName()]: portraits.default,
               })
             }
+            size="compact"
+            variant="secondary"
           >
             ＋ 添加表情
-          </button>
+          </DsButton>
         </>
       ) : (
         <div className="field">
           <div className="hint">（无立绘组——对话不会显示角色立绘）</div>
-          <button
-            type="button"
-            className="tool"
+          <DsButton
             disabled={!available}
             title={available ? undefined : '请先在图片库导入 portrait'}
             onClick={() => {
               if (available) dispatch({ default: available })
             }}
+            size="compact"
+            variant="secondary"
           >
             ＋ 添加立绘组
-          </button>
+          </DsButton>
         </div>
       )}
     </div>

@@ -1,3 +1,4 @@
+import { DsPressable } from './design-system/index.js'
 import {
   EDITOR_MODULES,
   type EditorLocation,
@@ -18,7 +19,7 @@ export function ModuleNav(props: {
     <nav className={`module-nav${compact ? ' compact' : ''}`} aria-label="编辑器模块">
       <div className="module-nav-items">
         {EDITOR_MODULES.map((module) => (
-          <button
+          <DsPressable
             type="button"
             key={module.id}
             className={`module-nav-item${module.id === activeModule ? ' active' : ''}`}
@@ -31,10 +32,10 @@ export function ModuleNav(props: {
               {module.icon}
             </span>
             <span className="module-nav-label">{module.label}</span>
-          </button>
+          </DsPressable>
         ))}
       </div>
-      <button
+      <DsPressable
         type="button"
         className="module-nav-toggle"
         title={forcedCompact ? '窄窗口自动收起' : compact ? '展开模块导航' : '收起模块导航'}
@@ -47,7 +48,7 @@ export function ModuleNav(props: {
           aria-hidden="true"
         />
         <span className="module-nav-label">{forcedCompact ? '自动收起' : '收起'}</span>
-      </button>
+      </DsPressable>
     </nav>
   )
 }
@@ -67,7 +68,7 @@ export function ModuleSubnav(props: {
       aria-label={`${module.label}子页`}
     >
       {module.subpages.map((subpage) => (
-        <button
+        <DsPressable
           type="button"
           role="tab"
           key={subpage.id}
@@ -77,7 +78,7 @@ export function ModuleSubnav(props: {
         >
           <span aria-hidden="true">{subpage.icon}</span>
           <span>{subpage.label}</span>
-        </button>
+        </DsPressable>
       ))}
     </div>
   )

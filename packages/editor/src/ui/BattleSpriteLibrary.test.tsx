@@ -5,9 +5,9 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
-import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import type { BattleSpriteResourceSnapshot } from './BattleSpriteInlinePreview.js'
 import { BattleSpriteLibrary } from './BattleSpriteLibrary.js'
+import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 import type { SemanticFrameGroup } from './SpriteFrameWorkbench.js'
 
@@ -250,7 +250,7 @@ describe('BattleSpriteLibrary', () => {
   test('领域深链、搜索和全部用途筛选覆盖组合、空结果与清空恢复，且不偷换选择', async () => {
     const onWorldDomain = vi.fn()
     await act(async () => root.render(library(definitions, { onWorldDomain })))
-    const rows = () => host.querySelectorAll('.battle-sprite-outliner .battle-sprite-resource-row')
+    const rows = () => host.querySelectorAll('.battle-sprite-outliner .sprite-resource-row')
     const search = host.querySelector<HTMLInputElement>('input[aria-label="过滤战斗精灵库"]')!
     expect(rows()).toHaveLength(2)
 
@@ -275,9 +275,9 @@ describe('BattleSpriteLibrary', () => {
     await setCatalogSearch(search, '')
     await chooseSelectOption('用途筛选', '全部')
     expect(rows()).toHaveLength(2)
-    expect(
-      host.querySelector('.battle-sprite-resource-row[aria-pressed="true"]')?.textContent,
-    ).toContain('共享战斗帧')
+    expect(host.querySelector('.sprite-resource-row[aria-pressed="true"]')?.textContent).toContain(
+      '共享战斗帧',
+    )
   })
 
   test('检查器使用共享动作/引用/源文件 Tab 完整键盘与 ARIA 合同', async () => {
@@ -288,16 +288,18 @@ describe('BattleSpriteLibrary', () => {
   test('源文件和用途合并为一份资源列表，导入入口位于筛选器上方', async () => {
     await act(async () => root.render(library(definitions)))
 
-    const rows = host.querySelectorAll('.battle-sprite-resource-row')
+    const rows = host.querySelectorAll('.sprite-resource-row')
     expect(rows).toHaveLength(2)
     expect(host.querySelector('.sprite-library-switch')).toBeNull()
-    expect(host.querySelector('.sprite-list')?.textContent).not.toContain('battle-sprite.shared')
-    expect(host.querySelector('.sprite-list')?.textContent).not.toContain('.rle')
-    expect(host.querySelector('.sprite-list')?.textContent).toContain('玩家战斗')
-    expect(host.querySelector('.sprite-list')?.textContent).toContain('未配置')
+    expect(host.querySelector('.ds-virtual-list')?.textContent).not.toContain(
+      'battle-sprite.shared',
+    )
+    expect(host.querySelector('.ds-virtual-list')?.textContent).not.toContain('.rle')
+    expect(host.querySelector('.ds-virtual-list')?.textContent).toContain('玩家战斗')
+    expect(host.querySelector('.ds-virtual-list')?.textContent).toContain('未配置')
     expect(
-      [...host.querySelectorAll('.sprite-resource-tags em')].filter(
-        (tag) => tag.textContent === '玩家战斗',
+      [...host.querySelectorAll('.sprite-resource-row .ds-catalog-row__meta')].filter((meta) =>
+        meta.textContent?.includes('玩家战斗'),
       ),
     ).toHaveLength(1)
 

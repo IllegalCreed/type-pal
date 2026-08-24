@@ -36,14 +36,19 @@ import {
 import {
   DsButton,
   DsCatalogControls,
+  DsFileInput,
   DsInspectorTabs,
+  DsNumberInput,
   DsObjectHero,
   DsReferenceGroup,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
+  DsReadonlyValue,
   DsSelect,
   DsTag,
+  DsTextInput,
+  DsPressable,
 } from './design-system/index.js'
 
 const FRAME_PAGE_SIZE = 128
@@ -100,25 +105,25 @@ function PagedFrameGrid(props: { frames: readonly RleFrame[]; palette: Palette }
         </div>
         {pageCount > 1 && (
           <nav className="tileset-page-actions" aria-label="瓦片预览分页">
-            <button
+            <DsPressable
               type="button"
               aria-label="上一页瓦片"
               disabled={safePage === 0}
               onClick={() => setPage((value) => Math.max(0, value - 1))}
             >
               ‹
-            </button>
+            </DsPressable>
             <span className="mono">
               {safePage + 1}/{pageCount}
             </span>
-            <button
+            <DsPressable
               type="button"
               aria-label="下一页瓦片"
               disabled={safePage === pageCount - 1}
               onClick={() => setPage((value) => Math.min(pageCount - 1, value + 1))}
             >
               ›
-            </button>
+            </DsPressable>
           </nav>
         )}
       </div>
@@ -576,7 +581,7 @@ export function TilesetTab(props: {
             <div className="tileset-list-empty">没有匹配的瓦片集。</div>
           ) : null}
           {shownTilesets.map((tileset) => (
-            <button
+            <DsPressable
               key={tileset.id}
               type="button"
               className={`tileset-library-row${!uploading && selectedId === tileset.id ? ' selected' : ''}`}
@@ -598,7 +603,7 @@ export function TilesetTab(props: {
               <span className="tileset-category-badge" title={tileset.category}>
                 {categoryLabel(tileset.category)}
               </span>
-            </button>
+            </DsPressable>
           ))}
         </fieldset>
       </div>
@@ -616,9 +621,8 @@ export function TilesetTab(props: {
                 </DsButton>
               }
             />
-            <input
+            <DsFileInput
               ref={fileRef}
-              type="file"
               accept="image/png,image/webp,image/gif"
               hidden
               onChange={(event) => {
@@ -653,7 +657,7 @@ export function TilesetTab(props: {
                 )}
               </>
             ) : (
-              <button
+              <DsPressable
                 type="button"
                 className="tileset-upload-empty"
                 onClick={() => fileRef.current?.click()}
@@ -661,7 +665,7 @@ export function TilesetTab(props: {
                 <span aria-hidden="true">▦</span>
                 <strong>选择一张瓦片图集</strong>
                 <small>支持 PNG、WebP、GIF；导入后按网格切片。</small>
-              </button>
+              </DsPressable>
             )}
           </div>
         ) : selected && palette ? (
@@ -720,10 +724,8 @@ export function TilesetTab(props: {
                 <label className="field-label" htmlFor={tileWidthId}>
                   瓦宽
                 </label>
-                <input
+                <DsNumberInput
                   id={tileWidthId}
-                  className="in mono"
-                  type="number"
                   min={1}
                   max={400}
                   inputMode="numeric"
@@ -739,10 +741,8 @@ export function TilesetTab(props: {
                 <label className="field-label" htmlFor={tileHeightId}>
                   瓦高
                 </label>
-                <input
+                <DsNumberInput
                   id={tileHeightId}
-                  className="in mono"
-                  type="number"
                   min={1}
                   max={400}
                   inputMode="numeric"
@@ -834,23 +834,22 @@ export function TilesetTab(props: {
                 <label className="field-label" htmlFor={newIdId}>
                   ID
                 </label>
-                <input
+                <DsTextInput
                   id={newIdId}
-                  className="in mono"
                   autoComplete="off"
                   spellCheck={false}
                   value={newId}
                   onChange={(event) => setNewId(event.target.value)}
                   placeholder="例如 forest-set…"
+                  monospace
                 />
               </div>
               <div className="field">
                 <label className="field-label" htmlFor={newNameId}>
                   名称
                 </label>
-                <input
+                <DsTextInput
                   id={newNameId}
-                  className="in"
                   autoComplete="off"
                   value={newName}
                   onChange={(event) => setNewName(event.target.value)}
@@ -861,9 +860,8 @@ export function TilesetTab(props: {
                 <label className="field-label" htmlFor={newCategoryId}>
                   分类
                 </label>
-                <input
+                <DsTextInput
                   id={newCategoryId}
-                  className="in"
                   autoComplete="off"
                   spellCheck={false}
                   value={newCategory}
@@ -873,15 +871,15 @@ export function TilesetTab(props: {
               </div>
             </section>
             <section className="section tileset-inspector-actions">
-              <button
+              <DsPressable
                 type="button"
                 className="tileset-primary-action"
                 disabled={!draft || quantized.length === 0 || !palette}
                 onClick={() => void submit()}
               >
                 {replaceTargetId ? '替换瓦片集图像' : '入库瓦片集'}
-              </button>
-              <button
+              </DsPressable>
+              <DsPressable
                 type="button"
                 className="tileset-secondary-action"
                 onClick={() => {
@@ -893,7 +891,7 @@ export function TilesetTab(props: {
                 }}
               >
                 取消上传
-              </button>
+              </DsPressable>
             </section>
           </>
         ) : selected ? (
@@ -917,12 +915,13 @@ export function TilesetTab(props: {
                         <h4>登记信息</h4>
                         <div className="field">
                           <span className="field-label">ID</span>
-                          <div className="in mono tileset-readonly">{selected.id}</div>
+                          <DsReadonlyValue as="div" className="tileset-readonly" monospace>
+                            {selected.id}
+                          </DsReadonlyValue>
                         </div>
                         <div className="field">
                           <span className="field-label">名称</span>
-                          <input
-                            className="in"
+                          <DsTextInput
                             aria-label="瓦片集名称"
                             value={editName}
                             onChange={(event) => setEditName(event.target.value)}
@@ -934,8 +933,7 @@ export function TilesetTab(props: {
                         </div>
                         <div className="field">
                           <span className="field-label">分类</span>
-                          <input
-                            className="in"
+                          <DsTextInput
                             aria-label="瓦片集分类"
                             value={editCategory}
                             onChange={(event) => setEditCategory(event.target.value)}
@@ -947,9 +945,14 @@ export function TilesetTab(props: {
                         </div>
                         <div className="field tileset-path-field">
                           <span className="field-label">文件</span>
-                          <div className="in mono tileset-readonly" title={selectedRecord?.path}>
+                          <DsReadonlyValue
+                            as="div"
+                            className="tileset-readonly"
+                            monospace
+                            title={selectedRecord?.path}
+                          >
                             {selectedRecord?.path ?? 'catalog 缺失'}
-                          </div>
+                          </DsReadonlyValue>
                         </div>
                         {selectedRecord && session.getState().assetBlobs[selectedRecord.path] && (
                           <div className="tileset-source-note">
@@ -1065,7 +1068,7 @@ export function TilesetTab(props: {
                         ) : null}
                       </DsReferencePanel>
                       {removalScan ? (
-                        <button
+                        <DsPressable
                           type="button"
                           className="tileset-secondary-action"
                           onClick={() => {
@@ -1076,7 +1079,7 @@ export function TilesetTab(props: {
                           }}
                         >
                           取消移除
-                        </button>
+                        </DsPressable>
                       ) : null}
                     </section>
                   ),

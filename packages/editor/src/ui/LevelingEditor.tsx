@@ -7,7 +7,7 @@
 import type { ActorDef, LevelUpSkill, SkillDataMap } from '@type-pal/content'
 import { UpdateLevelUpCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
-import { DsSelect } from './design-system/controls.js'
+import { DsButton, DsNumberInput, DsSelect } from './design-system/controls.js'
 
 export function LevelingEditor(props: {
   actor: ActorDef & { battler: NonNullable<ActorDef['battler']> }
@@ -39,18 +39,17 @@ export function LevelingEditor(props: {
             : '无曲线'}
         </span>
       </div>
-      <button type="button" className="tool" onClick={onEditCurve}>
+      <DsButton onClick={onEditCurve} size="compact" variant="secondary">
         📈 编辑曲线(中区拖点)
-      </button>
-      <div className="field" style={{ marginTop: 6 }}>
+      </DsButton>
+      <div className="field leveling-skill-field">
         <span className="field-label">升级学技能</span>
         <div className="hint2">升到该级自动习得(战后结算「练成」;等级线也画在曲线图上)</div>
       </div>
       {levelUpRows.map((r, i) => (
         <div className="pt-row" key={`${r.level}-${r.skillId}-${i}`}>
-          <input
-            className="in mono entry-n"
-            type="number"
+          <DsNumberInput
+            className="entry-n"
             title="等级"
             value={r.level}
             onChange={(e) => {
@@ -80,26 +79,26 @@ export function LevelingEditor(props: {
               dispatchRows(rows)
             }}
           />
-          <button
-            type="button"
-            className="mini"
+          <DsButton
             title="删除此行"
             onClick={() => dispatchRows(levelUpRows.filter((_, j) => j !== i))}
+            size="compact"
+            variant="secondary"
           >
             ✕
-          </button>
+          </DsButton>
         </div>
       ))}
-      <button
-        type="button"
-        className="tool"
+      <DsButton
         onClick={() => {
           const maxLv = levelUpRows.reduce((m, r) => Math.max(m, r.level), 0)
           dispatchRows([...levelUpRows, { level: maxLv + 1, skillId: skillIds[0] ?? '' }])
         }}
+        size="compact"
+        variant="secondary"
       >
         ＋ 添加学技能行
-      </button>
+      </DsButton>
     </div>
   )
 }

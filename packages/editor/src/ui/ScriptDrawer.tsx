@@ -65,7 +65,7 @@ import { createScriptReferenceCatalog } from '../core/script-reference-catalog.j
 import { createAuthoredScriptCall } from '../core/shared-script.js'
 import { defaultActionTargetForEntity } from '../core/sprite-actions.js'
 import { CommandForm } from './CommandForm.js'
-import { DsDraftNumberInput, DsSelect } from './design-system/controls.js'
+import { DsButton, DsDraftNumberInput, DsSelect } from './design-system/controls.js'
 import { musicAssets } from './MusicPicker.js'
 import {
   PanelResizeHandle,
@@ -1012,25 +1012,18 @@ export function ScriptDrawer(props: {
       />
       <div className="script-drawer">
         <div className="drawer-head">
-          <span
-            className="t"
-            style={{
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              minWidth: 40,
-            }}
-          >
+          <span className="t script-drawer-title">
             📜 {scene.id}
             {selectedEntityId ? ` · ${selectedEntityId}` : ''}
           </span>
           {/* 源页签(作者:源列一栏冗余 → 收进头部):有则切换,缺则就地创建 */}
           <span className="drawer-tabs">
             {sources.map((s) => (
-              <button
+              <DsButton
                 key={s.key}
-                type="button"
-                className={`mini-txt${active?.key === s.key ? ' sel' : ''}`}
+                size="compact"
+                variant={active?.key === s.key ? 'primary' : 'quiet'}
+                aria-pressed={active?.key === s.key}
                 title={s.sub}
                 onClick={() => {
                   setSrcKey(s.key)
@@ -1038,15 +1031,13 @@ export function ScriptDrawer(props: {
                 }}
               >
                 {ICON[s.kind]} {KIND_LABEL[s.kind]}
-              </button>
+              </DsButton>
             ))}
             {selectedEntityId ? (
               <>
                 {!scene.entities.find((e) => e.id === selectedEntityId)?.pages?.[activePageIndex]
                   ?.trigger && (
-                  <button
-                    type="button"
-                    className="mini-txt"
+                  <DsButton
                     title="给选中实体创建交互触发脚本"
                     onClick={() => {
                       session.dispatch(
@@ -1058,15 +1049,15 @@ export function ScriptDrawer(props: {
                       )
                       setSrcKey(entitySourceKey(selectedEntityId, 'trigger', activePageIndex))
                     }}
+                    size="compact"
+                    variant="secondary"
                   >
                     ＋触发
-                  </button>
+                  </DsButton>
                 )}
                 {!scene.entities.find((e) => e.id === selectedEntityId)?.pages?.[activePageIndex]
                   ?.auto && (
-                  <button
-                    type="button"
-                    className="mini-txt"
+                  <DsButton
                     title="给选中实体创建巡逻/自动脚本"
                     onClick={() => {
                       session.dispatch(
@@ -1078,30 +1069,30 @@ export function ScriptDrawer(props: {
                       )
                       setSrcKey(entitySourceKey(selectedEntityId, 'auto', activePageIndex))
                     }}
+                    size="compact"
+                    variant="secondary"
                   >
                     ＋巡逻
-                  </button>
+                  </DsButton>
                 )}
               </>
             ) : (
               <>
                 {!scene.onEnter?.length && (
-                  <button
-                    type="button"
-                    className="mini-txt"
+                  <DsButton
                     title="创建进场脚本"
                     onClick={() => {
                       session.dispatch(new CreateScriptSourceCommand(scene.id, { kind: 'onEnter' }))
                       setSrcKey('__onEnter__')
                     }}
+                    size="compact"
+                    variant="secondary"
                   >
                     ＋进场脚本
-                  </button>
+                  </DsButton>
                 )}
                 {!scene.onTeleport?.length && (
-                  <button
-                    type="button"
-                    className="mini-txt"
+                  <DsButton
                     title="创建传送出口脚本(引路蜂/土灵珠用它把队伍送出本场景;通常淡出+loadScene 回洞口)"
                     onClick={() => {
                       session.dispatch(
@@ -1109,27 +1100,29 @@ export function ScriptDrawer(props: {
                       )
                       setSrcKey('__onTeleport__')
                     }}
+                    size="compact"
+                    variant="secondary"
                   >
                     ＋传送出口
-                  </button>
+                  </DsButton>
                 )}
               </>
             )}
           </span>
           {internalScriptId ? (
             <span className="drawer-internal-nav">
-              <button
-                type="button"
-                className="mini-txt"
+              <DsButton
                 title="返回上一级脚本"
                 onClick={() => {
                   setInternalTrail((current) => current.slice(0, -1))
                   setSelPath(null)
                   setInsertFor(null)
                 }}
+                size="compact"
+                variant="secondary"
               >
                 ← 返回
-              </button>
+              </DsButton>
               <code title={internalScriptId}>{internalScriptId}</code>
             </span>
           ) : null}
@@ -1146,9 +1139,7 @@ export function ScriptDrawer(props: {
                 if (!trig) return null
                 return (
                   <span className="drawer-tabs" title="触发方式与距离(格)">
-                    <span style={{ color: 'var(--faint)', fontSize: 11, alignSelf: 'center' }}>
-                      方式
-                    </span>
+                    <span className="script-drawer-field-label">方式</span>
                     <span className="script-drawer-trigger-mode">
                       <DsSelect
                         size="compact"
@@ -1171,9 +1162,7 @@ export function ScriptDrawer(props: {
                         }
                       />
                     </span>
-                    <span style={{ color: 'var(--faint)', fontSize: 11, alignSelf: 'center' }}>
-                      距离
-                    </span>
+                    <span className="script-drawer-field-label">距离</span>
                     <span className="script-trigger-range">
                       <DsDraftNumberInput
                         size="compact"
@@ -1201,31 +1190,22 @@ export function ScriptDrawer(props: {
               })()
             : null}
           {active && !internalScriptId ? (
-            <button
-              type="button"
-              className="mini-txt"
-              style={{ marginLeft: 10, color: 'var(--err)' }}
+            <DsButton
+              className="script-drawer-delete"
               title="删除当前脚本源(可 ↶ 撤销)"
               onClick={() => {
                 session.dispatch(new DeleteScriptSourceCommand(scene.id, sourceRefOf(active.key)))
                 setSrcKey(null)
               }}
+              size="compact"
+              variant="danger"
             >
               🗑 删此脚本
-            </button>
+            </DsButton>
           ) : null}
           <span className="spacer" />
           <span
-            style={{
-              color: 'var(--faint)',
-              fontSize: 11,
-              marginRight: 8,
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              minWidth: 0,
-              flex: '0 1 auto',
-            }}
+            className="script-drawer-context"
             title="改动即入 undo(↺/↻);▶ 预览是临时副本,不改数据"
           >
             改动即入 undo · ▶ 预览不改数据
@@ -1328,17 +1308,17 @@ export function ScriptDrawer(props: {
                       <div className="cf-group">调用可复用脚本</div>
                       <div className="cf-insert">
                         {authoredScripts.map(([id, meta]) => (
-                          <button
+                          <DsButton
                             key={id}
-                            type="button"
-                            className="pv-btn"
                             onClick={() => {
                               if (!scriptIndex) return
                               insertCommands([createAuthoredScriptCall(scriptIndex, id)])
                             }}
+                            size="compact"
+                            variant="secondary"
                           >
                             ↪ {meta.name}
-                          </button>
+                          </DsButton>
                         ))}
                       </div>
                     </div>
@@ -1348,24 +1328,24 @@ export function ScriptDrawer(props: {
                       <div className="cf-group">{g.title}</div>
                       <div className="cf-insert">
                         {g.items.map((t) => (
-                          <button
+                          <DsButton
                             key={t.label}
-                            type="button"
-                            className="pv-btn"
                             onClick={() => {
                               if (activeInsertContext) insertCommands(t.make(activeInsertContext))
                             }}
+                            size="compact"
+                            variant="secondary"
                           >
                             {t.label}
-                          </button>
+                          </DsButton>
                         ))}
                       </div>
                     </div>
                   ))}
-                  <div className="cf-insert" style={{ marginTop: 6 }}>
-                    <button type="button" className="pv-btn" onClick={() => setInsertFor(null)}>
+                  <div className="cf-insert cf-insert--detached">
+                    <DsButton onClick={() => setInsertFor(null)} size="compact" variant="secondary">
                       取消
-                    </button>
+                    </DsButton>
                   </div>
                 </div>
               ) : null}

@@ -67,12 +67,14 @@ import {
   DsButton,
   DsCatalogControls,
   DsCatalogRow,
+  DsCheckbox,
   DsDiagnosticList,
   DsDiagnosticPanel,
   DsDiagnosticRow,
   DsDraftNumberInput,
   DsDraftTextArea,
   DsDraftTextInput,
+  DsFileInput,
   DsIconButton,
   DsInspectorSection,
   DsInspectorTabs,
@@ -85,7 +87,9 @@ import {
   DsReferenceRow,
   DsSelect,
   DsTag,
+  DsTextInput,
   DsWorkbenchSection,
+  DsPressable,
 } from './design-system/index.js'
 import { ImageAssetThumbnail, imageAssetLabel, imageAssets } from './ImageAssetPicker.js'
 import {
@@ -558,10 +562,9 @@ function ItemIconBrowser(props: {
             <label className="visually-hidden" htmlFor="item-icon-filter">
               搜索物品图标
             </label>
-            <input
+            <DsTextInput
               ref={filterRef}
               id="item-icon-filter"
-              className="in"
               placeholder="搜索图标名称或 AssetId…"
               autoComplete="off"
               value={filter}
@@ -570,7 +573,7 @@ function ItemIconBrowser(props: {
             <span>{shown.length} 项</span>
           </div>
           <fieldset className="item-icon-browser-grid" aria-label="物品图标">
-            <button
+            <DsPressable
               type="button"
               aria-pressed={!props.value}
               className={`item-icon-option${!props.value ? ' selected' : ''}`}
@@ -581,9 +584,9 @@ function ItemIconBrowser(props: {
             >
               <span className="item-icon-unset">无</span>
               <span>不使用图标</span>
-            </button>
+            </DsPressable>
             {shown.map((option) => (
-              <button
+              <DsPressable
                 type="button"
                 aria-pressed={props.value === option.id}
                 className={`item-icon-option${props.value === option.id ? ' selected' : ''}`}
@@ -603,7 +606,7 @@ function ItemIconBrowser(props: {
                 />
                 <span>{option.record.label ?? option.id}</span>
                 <code>{option.id}</code>
-              </button>
+              </DsPressable>
             ))}
           </fieldset>
           {!shown.length ? <div className="insp-empty">没有匹配的图标资源。</div> : null}
@@ -1176,26 +1179,26 @@ export function ItemTab(props: {
             <div className="item-catalog-empty">
               <strong>项目还没有物品</strong>
               <span>新建一个稳定 ID 的空白物品，再逐项添加装备、使用或投掷能力。</span>
-              <button type="button" className="tool primary" onClick={createItem}>
+              <DsButton onClick={createItem} size="compact" variant="primary">
                 ＋ 新建第一个物品
-              </button>
+              </DsButton>
             </div>
           ) : !shown.length ? (
             <div className="item-catalog-empty">
               <strong>没有匹配项</strong>
-              <button
-                type="button"
-                className="tool"
+              <DsButton
                 onClick={() => {
                   setFilter('')
                   setFilterMode('all')
                 }}
+                size="compact"
+                variant="secondary"
               >
                 清除筛选
-              </button>
-              <button type="button" className="tool primary" onClick={createItem}>
+              </DsButton>
+              <DsButton onClick={createItem} size="compact" variant="primary">
                 ＋ 新物品
-              </button>
+              </DsButton>
             </div>
           ) : null}
         </div>
@@ -1308,10 +1311,9 @@ export function ItemTab(props: {
                         reader={assetReader}
                         onSelect={(icon) => patch({ icon })}
                       />
-                      <input
+                      <DsFileInput
                         ref={iconInputRef}
                         className="visually-hidden"
-                        type="file"
                         accept="image/png"
                         aria-label="导入 PNG 并设置为物品图标"
                         onChange={(event) => {
@@ -1416,15 +1418,12 @@ export function ItemTab(props: {
                         onCommit={(value) => value !== undefined && patch({ sellPrice: value })}
                       />
                     </label>
-                    <label className="item-inline-check item-sellable">
-                      <input
-                        className="item-checkbox"
-                        type="checkbox"
-                        checked={item.sellable}
-                        onChange={(event) => patch({ sellable: event.target.checked })}
-                      />
-                      商店可收购
-                    </label>
+                    <DsCheckbox
+                      className="item-inline-check item-sellable"
+                      label="商店可收购"
+                      checked={item.sellable}
+                      onChange={(event) => patch({ sellable: event.target.checked })}
+                    />
                   </div>
                 </section>
 
@@ -1461,20 +1460,18 @@ export function ItemTab(props: {
                 title="装备能力"
                 description="决定装备槽、可装备角色及实时派生效果。"
                 actions={
-                  <label className="item-capability-toggle">
-                    <input
-                      type="checkbox"
-                      checked={!!equip}
-                      onChange={(event) =>
-                        patchEquip(
-                          event.target.checked
-                            ? { slot: 'weapon', equipableBy: [], effects: [] }
-                            : undefined,
-                        )
-                      }
-                    />
-                    {equip ? '已启用' : '启用装备'}
-                  </label>
+                  <DsCheckbox
+                    className="item-capability-toggle"
+                    label={equip ? '已启用' : '启用装备'}
+                    checked={!!equip}
+                    onChange={(event) =>
+                      patchEquip(
+                        event.target.checked
+                          ? { slot: 'weapon', equipableBy: [], effects: [] }
+                          : undefined,
+                      )
+                    }
+                  />
                 }
               >
                 {equip ? (
@@ -1499,31 +1496,29 @@ export function ItemTab(props: {
                         {actors
                           .filter((actor) => actor.battler)
                           .map((actor) => (
-                            <label key={actor.id}>
-                              <input
-                                type="checkbox"
-                                checked={equip.equipableBy.includes(actor.id)}
-                                onChange={(event) => {
-                                  const checked = event.target.checked
-                                  const effects = checked
-                                    ? equip.effects
-                                    : equip.effects.map((effect) => {
-                                        if (effect.kind !== 'battleSprite') return effect
-                                        const byActor = { ...effect.byActor }
-                                        delete byActor[actor.id]
-                                        return { ...effect, byActor }
-                                      })
-                                  patchEquip({
-                                    ...equip,
-                                    equipableBy: checked
-                                      ? [...equip.equipableBy, actor.id]
-                                      : equip.equipableBy.filter((id) => id !== actor.id),
-                                    effects,
-                                  })
-                                }}
-                              />
-                              {lookupText(actor.name, locale)}
-                            </label>
+                            <DsCheckbox
+                              key={actor.id}
+                              label={lookupText(actor.name, locale)}
+                              checked={equip.equipableBy.includes(actor.id)}
+                              onChange={(event) => {
+                                const checked = event.target.checked
+                                const effects = checked
+                                  ? equip.effects
+                                  : equip.effects.map((effect) => {
+                                      if (effect.kind !== 'battleSprite') return effect
+                                      const byActor = { ...effect.byActor }
+                                      delete byActor[actor.id]
+                                      return { ...effect, byActor }
+                                    })
+                                patchEquip({
+                                  ...equip,
+                                  equipableBy: checked
+                                    ? [...equip.equipableBy, actor.id]
+                                    : equip.equipableBy.filter((id) => id !== actor.id),
+                                  effects,
+                                })
+                              }}
+                            />
                           ))}
                       </fieldset>
                     </div>
@@ -1679,16 +1674,14 @@ export function ItemTab(props: {
                 title="使用能力"
                 description="可组合回复、状态、剧情脚本、场景出口、合成和资源池等现代化效果。"
                 actions={
-                  <label className="item-capability-toggle">
-                    <input
-                      type="checkbox"
-                      checked={!!item.use}
-                      onChange={(event) =>
-                        event.target.checked ? enableUse() : patch({ use: undefined })
-                      }
-                    />
-                    {item.use ? '已启用' : '启用使用'}
-                  </label>
+                  <DsCheckbox
+                    className="item-capability-toggle"
+                    label={item.use ? '已启用' : '启用使用'}
+                    checked={!!item.use}
+                    onChange={(event) =>
+                      event.target.checked ? enableUse() : patch({ use: undefined })
+                    }
+                  />
                 }
               >
                 {item.use ? (
@@ -1710,29 +1703,29 @@ export function ItemTab(props: {
                           <span>
                             新脚本会成为唯一用途，当前 {item.use.effects.length} 个效果将被替换。
                           </span>
-                          <button
-                            type="button"
-                            className="tool primary"
+                          <DsButton
                             onClick={() => createAndBindScript(true)}
+                            size="compact"
+                            variant="primary"
                           >
                             确认新建并替换
-                          </button>
-                          <button
-                            type="button"
-                            className="tool"
+                          </DsButton>
+                          <DsButton
                             onClick={() => setConfirmScriptReplaceId(undefined)}
+                            size="compact"
+                            variant="secondary"
                           >
                             取消
-                          </button>
+                          </DsButton>
                         </div>
                       ) : (
-                        <button
-                          type="button"
-                          className="tool"
+                        <DsButton
                           onClick={() => createAndBindScript()}
+                          size="compact"
+                          variant="secondary"
                         >
                           ＋ 新建剧情脚本并绑定…
-                        </button>
+                        </DsButton>
                       )}
                     </div>
                     <ItemEffectChainEditor
@@ -1764,16 +1757,14 @@ export function ItemTab(props: {
                 title="投掷能力"
                 description="用于战斗中的投掷效果与命中特效；与“使用”能力可同时存在。"
                 actions={
-                  <label className="item-capability-toggle">
-                    <input
-                      type="checkbox"
-                      checked={!!item.throw}
-                      onChange={(event) =>
-                        event.target.checked ? enableThrow() : patch({ throw: undefined })
-                      }
-                    />
-                    {item.throw ? '已启用' : '启用投掷'}
-                  </label>
+                  <DsCheckbox
+                    className="item-capability-toggle"
+                    label={item.throw ? '已启用' : '启用投掷'}
+                    checked={!!item.throw}
+                    onChange={(event) =>
+                      event.target.checked ? enableThrow() : patch({ throw: undefined })
+                    }
+                  />
                 }
               >
                 {item.throw ? (
@@ -1862,9 +1853,9 @@ export function ItemTab(props: {
         ) : (
           <div className="item-workbench-empty">
             <strong>{items.length ? '当前筛选没有可编辑项' : '创建第一个物品开始编辑'}</strong>
-            <button type="button" className="tool primary" onClick={createItem}>
+            <DsButton onClick={createItem} size="compact" variant="primary">
               ＋ 新建物品
-            </button>
+            </DsButton>
           </div>
         )}
       </div>

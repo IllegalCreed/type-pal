@@ -10,6 +10,7 @@ import type { ActorDef, LevelUpSkill, SkillDataMap } from '@type-pal/content'
 import { useEffect, useRef, useState } from 'react'
 import { UpdateActorCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import { DsButton, DsNumberInput } from './design-system/index.js'
 
 /** 生成累计经验表:table[0]=0;第 i 级需求 = first + step×(i−1),向后累计。 */
 export function genExpTable(first: number, step: number, n: number): number[] {
@@ -152,32 +153,30 @@ export function LevelCurveEditor(props: {
   const visIdxs = Array.from({ length: iTo - iFrom + 1 }, (_, k) => iFrom + k)
 
   return (
-    <div className="dscroll" style={{ padding: '12px 16px' }}>
-      <div className="toolbar" style={{ marginBottom: 6 }}>
-        <span style={{ fontWeight: 600 }}>升级曲线 · {actor.id}</span>
-        <span className="hint" style={{ marginLeft: 8 }}>
-          拖点调值 · 滚轮横向缩放 · 拖空白平移
-        </span>
+    <div className="dscroll level-curve-editor">
+      <div className="toolbar level-curve-toolbar">
+        <span className="level-curve-title">升级曲线 · {actor.id}</span>
+        <span className="hint level-curve-hint">拖点调值 · 滚轮横向缩放 · 拖空白平移</span>
         <span className="spacer" />
         {view && (
           <>
             <span className="hint">
               L{Math.round(vs)}–{Math.round(ve)}
             </span>
-            <button type="button" className="tool" onClick={() => setView(null)}>
+            <DsButton onClick={() => setView(null)} size="compact" variant="secondary">
               🔍 全览
-            </button>
+            </DsButton>
           </>
         )}
-        <button type="button" className="tool" onClick={onClose}>
+        <DsButton onClick={onClose} size="compact" variant="secondary">
           ← 返回精灵帧
-        </button>
+        </DsButton>
       </div>
 
       <svg
         ref={svgRef}
+        className="level-curve-chart"
         viewBox={`0 0 ${W} ${H}`}
-        style={{ width: '100%', maxWidth: 900, touchAction: 'none', display: 'block' }}
         onPointerDown={(e) => {
           // 空白处按下 = 平移(点上的 pointerdown 已 stopPropagation)
           if (dragRef.current) return
@@ -278,6 +277,7 @@ export function LevelCurveEditor(props: {
         <path d={path} fill="none" stroke="var(--accent)" strokeWidth={2} />
         {visIdxs.map((i) => (
           <circle
+            className="level-curve-point"
             key={`p${i}`}
             cx={x(i)}
             cy={y(table[i]!)}
@@ -285,7 +285,6 @@ export function LevelCurveEditor(props: {
             fill={sel === i ? 'var(--accent)' : 'var(--panel3)'}
             stroke="var(--accent)"
             strokeWidth={2}
-            style={{ cursor: 'ns-resize' }}
             onPointerDown={(e) => {
               e.stopPropagation() // 别触发空白平移
               e.currentTarget.setPointerCapture(e.pointerId)
@@ -296,14 +295,12 @@ export function LevelCurveEditor(props: {
         ))}
       </svg>
 
-      <div className="field" style={{ marginTop: 8, flexWrap: 'wrap', gap: 8 }}>
+      <div className="field level-curve-fields">
         <span className="field-label">级数</span>
-        <input
-          className="in mono"
-          type="number"
+        <DsNumberInput
+          className="level-curve-input level-curve-input--short"
           min={2}
           max={99}
-          style={{ width: 64 }}
           value={n}
           onChange={(e) => {
             const nn = Math.max(2, Math.min(99, Math.floor(e.target.valueAsNumber) || 2))
@@ -315,11 +312,9 @@ export function LevelCurveEditor(props: {
         {sel !== null && sel < n && (
           <>
             <span className="field-label">第 {sel} 级累计</span>
-            <input
-              className="in mono"
-              type="number"
+            <DsNumberInput
+              className="level-curve-input level-curve-input--long"
               min={0}
-              style={{ width: 90 }}
               value={table[sel] ?? 0}
               onChange={(e) => {
                 const v = Math.max(0, Math.floor(e.target.valueAsNumber) || 0)
@@ -332,36 +327,32 @@ export function LevelCurveEditor(props: {
         )}
         <span className="sep" />
         <span className="field-label">首级需</span>
-        <input
-          className="in mono"
-          type="number"
+        <DsNumberInput
+          className="level-curve-input level-curve-input--short"
           min={1}
-          style={{ width: 64 }}
           value={genFirst}
           onChange={(e) => setGenFirst(Math.max(1, Math.floor(e.target.valueAsNumber) || 1))}
         />
         <span className="field-label">每级递增</span>
-        <input
-          className="in mono"
-          type="number"
+        <DsNumberInput
+          className="level-curve-input level-curve-input--short"
           min={0}
-          style={{ width: 64 }}
           value={genStep}
           onChange={(e) => setGenStep(Math.max(0, Math.floor(e.target.valueAsNumber) || 0))}
         />
-        <button
-          type="button"
-          className="tool"
+        <DsButton
           onClick={() => {
             const next = genExpTable(genFirst, genStep, n)
             setTable(next)
             commit(next)
           }}
+          size="compact"
+          variant="secondary"
         >
           ⚡ 按增量生成
-        </button>
+        </DsButton>
         {!monotonic && (
-          <span style={{ color: 'var(--err)' }}>⚠ 曲线有回落(后级阈值低于前级),请检查</span>
+          <span className="level-curve-warning">⚠ 曲线有回落(后级阈值低于前级),请检查</span>
         )}
       </div>
       <p className="hint2">

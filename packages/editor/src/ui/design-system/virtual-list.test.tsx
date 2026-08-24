@@ -59,9 +59,34 @@ function list(
 }
 
 describe('DsVirtualList selection contract', () => {
+  test('marks fill mode so the shared CSS owns the only scroll surface', async () => {
+    await act(async () =>
+      root.render(
+        <DsVirtualList
+          label="填充目录"
+          items={[0]}
+          itemHeight={68}
+          height={720}
+          fill
+          getKey={(item) => item}
+          renderItem={(item) => <button type="button">项目 {item}</button>}
+        />,
+      ),
+    )
+    expect(host.querySelector('.ds-virtual-list')?.getAttribute('data-fill')).toBe('true')
+  })
+
   test('virtualizes rows and supports roving Arrow/Home/End selection', async () => {
     const onSelect = vi.fn<(item: number) => void>()
-    await act(async () => root.render(list(Array.from({ length: 100 }, (_, index) => index), 0, onSelect)))
+    await act(async () =>
+      root.render(
+        list(
+          Array.from({ length: 100 }, (_, index) => index),
+          0,
+          onSelect,
+        ),
+      ),
+    )
 
     expect(host.querySelectorAll('.ds-virtual-list__item')).toHaveLength(7)
     const first = host.querySelector<HTMLButtonElement>('[data-virtual-index="0"] button')!

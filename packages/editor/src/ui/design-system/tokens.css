@@ -1,7 +1,7 @@
 :root {
   color-scheme: dark;
 
-  --ds-version: "2.9.0";
+  --ds-version: "2.10.0";
   --ds-surface-canvas: #1b1d23;
   --ds-surface-panel: #232732;
   --ds-surface-raised: #2b303c;
@@ -47,6 +47,9 @@
   --ds-control-height: 36px;
   --ds-control-height-compact: 30px;
   --ds-control-height-object-action: 32px;
+  --ds-catalog-row-height: 68px;
+  --ds-catalog-row-height-compact: 46px;
+  --ds-catalog-row-leading-size: 36px;
   --ds-hit-target-compact: 32px;
   --ds-toolbar-height: 40px;
   --ds-radius-control: 6px;

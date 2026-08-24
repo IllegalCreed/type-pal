@@ -13,7 +13,15 @@ import type {
   UseSpec,
 } from '@type-pal/content'
 import { itemUseEffectSupportsContext } from '@type-pal/content'
-import { DsButton, DsIconButton, DsSelect, DsTextInput } from './design-system/controls.js'
+import {
+  DsButton,
+  DsCheckbox,
+  DsIconButton,
+  DsNumberInput,
+  DsReadonlyValue,
+  DsSelect,
+  DsTextInput,
+} from './design-system/controls.js'
 import { CanonicalScriptBodyEditor, type CanonicalScriptEditorContext } from './ScriptEditor.js'
 
 const STATUSES: { value: StatusId; label: string }[] = [
@@ -219,9 +227,7 @@ function NumberField(props: {
   return (
     <label className="item-effect-field">
       <span>{props.label}</span>
-      <input
-        className="in mono"
-        type="number"
+      <DsNumberInput
         min={props.min}
         max={props.max}
         value={props.value}
@@ -295,9 +301,8 @@ function ItemAmountList(props: {
               onChange(next)
             }}
           />
-          <input
-            className="in mono item-amount-count"
-            type="number"
+          <DsNumberInput
+            className="item-amount-count"
             min={1}
             aria-label={`${props.label}数量 ${index + 1}`}
             value={entry.count}
@@ -509,22 +514,20 @@ function EffectFields(props: {
           {STATUSES.map((status) => {
             const checked = effect.statuses.includes(status.value)
             return (
-              <label key={status.value}>
-                <input
-                  type="checkbox"
-                  checked={checked}
-                  onChange={(event) => {
-                    if (!event.target.checked && effect.statuses.length === 1) return
-                    onChange({
-                      ...effect,
-                      statuses: event.target.checked
-                        ? [...effect.statuses, status.value]
-                        : effect.statuses.filter((value) => value !== status.value),
-                    })
-                  }}
-                />
-                {status.label}
-              </label>
+              <DsCheckbox
+                key={status.value}
+                label={status.label}
+                checked={checked}
+                onChange={(event) => {
+                  if (!event.target.checked && effect.statuses.length === 1) return
+                  onChange({
+                    ...effect,
+                    statuses: event.target.checked
+                      ? [...effect.statuses, status.value]
+                      : effect.statuses.filter((value) => value !== status.value),
+                  })
+                }}
+              />
             )
           })}
         </fieldset>
@@ -706,12 +709,11 @@ function EffectFields(props: {
         <>
           <div className="item-effect-field">
             <span>当前场景钩子</span>
-            <span className="in item-effect-readonly">传送出口 onTeleport</span>
+            <DsReadonlyValue className="item-effect-readonly">传送出口 onTeleport</DsReadonlyValue>
           </div>
           <label className="item-effect-field item-effect-field-wide">
             <span>不可用提示</span>
-            <input
-              className="in"
+            <DsTextInput
               value={effect.unavailableMessage ?? ''}
               placeholder="留空则使用默认提示"
               onChange={(event) => {
@@ -737,8 +739,7 @@ function EffectFields(props: {
           />
           <label className="item-effect-field item-effect-field-wide">
             <span>材料不足提示</span>
-            <input
-              className="in"
+            <DsTextInput
               value={effect.unavailableMessage ?? ''}
               onChange={(event) =>
                 onChange({ ...effect, unavailableMessage: event.target.value || undefined })
@@ -792,8 +793,7 @@ function EffectFields(props: {
           </p>
           <label className="item-effect-field item-effect-field-wide">
             <span>不可用提示</span>
-            <input
-              className="in"
+            <DsTextInput
               value={effect.unavailableMessage ?? ''}
               onChange={(event) =>
                 onChange({ ...effect, unavailableMessage: event.target.value || undefined })
@@ -945,8 +945,7 @@ function EffectFields(props: {
           />
           <label className="item-effect-field item-effect-field-wide">
             <span>无法放置时提示</span>
-            <input
-              className="in"
+            <DsTextInput
               value={effect.unavailableMessage ?? ''}
               onChange={(event) =>
                 onChange({ ...effect, unavailableMessage: event.target.value || undefined })
@@ -1101,44 +1100,38 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
             }
           />
         </div>
-        <label className="item-inline-check">
-          <input
-            type="checkbox"
-            checked={use.consuming}
-            onChange={(event) => {
-              const consuming = event.target.checked
-              const selfIsIngredient =
-                consuming &&
-                use.effects.some(
-                  (effect) =>
-                    effect.kind === 'craftRecipe' &&
-                    effect.recipes.some((recipe) =>
-                      recipe.ingredients.some((entry) => entry.itemId === props.itemId),
-                    ),
-                )
-              if (selfIsIngredient) {
-                props.onError?.('先从配方材料中移除当前工具，再开启“成功后消耗”。')
-                return
-              }
-              onChange({ ...use, consuming })
-            }}
-          />
-          成功后消耗
-        </label>
-        <label className="item-inline-check">
-          <input
-            type="checkbox"
-            checked={use.battleOnly === true}
-            disabled={
-              !use.effects.length ||
-              !use.effects.every((effect) => itemUseEffectSupportsContext(effect, 'battle'))
+        <DsCheckbox
+          className="item-inline-check"
+          label="成功后消耗"
+          checked={use.consuming}
+          onChange={(event) => {
+            const consuming = event.target.checked
+            const selfIsIngredient =
+              consuming &&
+              use.effects.some(
+                (effect) =>
+                  effect.kind === 'craftRecipe' &&
+                  effect.recipes.some((recipe) =>
+                    recipe.ingredients.some((entry) => entry.itemId === props.itemId),
+                  ),
+              )
+            if (selfIsIngredient) {
+              props.onError?.('先从配方材料中移除当前工具，再开启“成功后消耗”。')
+              return
             }
-            onChange={(event) =>
-              onChange({ ...use, battleOnly: event.target.checked || undefined })
-            }
-          />
-          仅战斗可用
-        </label>
+            onChange({ ...use, consuming })
+          }}
+        />
+        <DsCheckbox
+          className="item-inline-check"
+          label="仅战斗可用"
+          checked={use.battleOnly === true}
+          disabled={
+            !use.effects.length ||
+            !use.effects.every((effect) => itemUseEffectSupportsContext(effect, 'battle'))
+          }
+          onChange={(event) => onChange({ ...use, battleOnly: event.target.checked || undefined })}
+        />
         <div className="item-effect-field">
           <span>成功后菜单</span>
           <DsSelect
@@ -1164,7 +1157,9 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
           <div className="item-effect-row-head">
             <span className="item-effect-index">效果 {index + 1}</span>
             {props.privateScripts?.[index] ? (
-              <span className="in item-effect-kind item-private-script-kind">物品私有脚本</span>
+              <DsReadonlyValue className="item-effect-kind item-private-script-kind">
+                物品私有脚本
+              </DsReadonlyValue>
             ) : (
               <span className="item-effect-kind">
                 <DsSelect

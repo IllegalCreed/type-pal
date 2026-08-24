@@ -1,5 +1,5 @@
 import { type ReactNode, useId } from 'react'
-import { DsButton, DsIconButton, DsTag } from './design-system/index.js'
+import { DsButton, DsIconButton, DsRangeInput, DsTag, DsPressable } from './design-system/index.js'
 
 export interface LayerStackControlItem {
   id: string
@@ -44,9 +44,8 @@ export function LayerPaintContext(props: {
       </div>
       <div className="map-paint-context__control">
         <label htmlFor={rangeId}>显示高度</label>
-        <input
+        <DsRangeInput
           id={rangeId}
-          type="range"
           min={0}
           max={props.maxViewHeight}
           step={1}
@@ -123,7 +122,7 @@ export function LayerStackControls(props: {
               label={layer.locked ? '解锁图层' : '锁定图层'}
               aria-pressed={layer.locked}
             />
-            <button
+            <DsPressable
               type="button"
               className="layer-name"
               onClick={() => props.onSelect(layer.id)}
@@ -132,7 +131,7 @@ export function LayerStackControls(props: {
             >
               <span>{layer.name}</span>
               {layer.detail ? <small>{layer.detail}</small> : null}
-            </button>
+            </DsPressable>
             {layer.id === props.activeId ? (
               <span className="layer-order">
                 <DsIconButton

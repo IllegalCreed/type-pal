@@ -160,10 +160,14 @@ import {
   DsNumberInput,
   DsPropertyGrid,
   DsPropertyRow,
+  DsPressable,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
+  DsReadonlyValue,
   DsSelect,
+  DsTextArea,
+  DsTextInput,
 } from './design-system/index.js'
 import { EditorAppHeader } from './EditorAppHeader.js'
 import { ENTITY_FACING_OPTIONS, EntityFacingHelpTip } from './EntityFacingHelp.js'
@@ -2187,7 +2191,7 @@ export function App(props: {
                     />
                   }
                 />
-                <button
+                <DsPressable
                   type="button"
                   className={`node child${selected.kind === 'default-entry' ? ' sel' : ''}`}
                   onClick={() => selectSceneEntry(DEFAULT_ENTRY_SELECTION)}
@@ -2195,7 +2199,7 @@ export function App(props: {
                   <span className="ico">📍</span>
                   <span>默认落点</span>
                   <span className="k">落点</span>
-                </button>
+                </DsPressable>
                 {Object.entries(scene.entries ?? {}).map(([id, entry]) => {
                   const references = entryReferencesById.get(id) ?? []
                   const selectedEntry = selected.kind === 'named-entry' && selected.id === id
@@ -2204,7 +2208,7 @@ export function App(props: {
                       key={id}
                       className={`scene-outline-action-row${selectedEntry ? ' selected' : ''}`}
                     >
-                      <button
+                      <DsPressable
                         type="button"
                         className={`node child${selectedEntry ? ' sel' : ''}`}
                         onClick={() => selectSceneEntry({ kind: 'named-entry', id })}
@@ -2212,7 +2216,7 @@ export function App(props: {
                         <span className="ico">◇</span>
                         <span className="node-label">{sceneEntryOutlineLabel(entry)}</span>
                         <span className="k">落点</span>
-                      </button>
+                      </DsPressable>
                       <span className="scene-outline-row-actions">
                         <DsIconButton
                           size="compact"
@@ -2263,7 +2267,7 @@ export function App(props: {
                             key={e.id}
                             className={`scene-outline-action-row${selectedEntity ? ' selected' : ''}`}
                           >
-                            <button
+                            <DsPressable
                               type="button"
                               className={`node child${selectedEntity ? ' sel' : ''}`}
                               onClick={() => setSelected({ kind: 'entity', id: e.id })}
@@ -2288,7 +2292,7 @@ export function App(props: {
                                   ? triggerActivationSummary(outlineTriggerActivation(e.id))
                                   : entityShapeLabel(e)}
                               </span>
-                            </button>
+                            </DsPressable>
                             <span className="scene-outline-row-actions">
                               <DsIconButton
                                 size="compact"
@@ -2711,7 +2715,7 @@ export function App(props: {
                           ) : null}
                           <div className="script-channel-tabs" role="tablist" aria-label="行为通道">
                             {(['trigger', 'auto'] as const).map((channel) => (
-                              <button
+                              <DsPressable
                                 key={channel}
                                 type="button"
                                 role="tab"
@@ -2723,7 +2727,7 @@ export function App(props: {
                                 }}
                               >
                                 {channel === 'trigger' ? '触发行为' : '自动行为'}
-                              </button>
+                              </DsPressable>
                             ))}
                           </div>
                           <ScriptBehaviorInspector
@@ -2834,9 +2838,7 @@ export function App(props: {
             </span>
           </>
         ) : (
-          <span className="pill" style={{ color: 'var(--ok)' }}>
-            ✓ 引用与项目诊断无问题
-          </span>
+          <span className="pill is-success">✓ 引用与项目诊断无问题</span>
         )}
         {workspaceNotice ? (
           <span className="valbar-status" role="status" aria-live="polite">
@@ -2879,9 +2881,9 @@ function MissingEditorTarget(props: {
       <div className="center missing-editor-target">
         <strong>目标不存在</strong>
         <code>{props.objectId}</code>
-        <button type="button" className="tool" onClick={props.onClear}>
+        <DsButton onClick={props.onClear} size="compact" variant="secondary">
           打开当前页面
-        </button>
+        </DsButton>
       </div>
       <div className="inspector">
         <div className="insp-empty">引用目标可能已删除或尚未载入。</div>
@@ -2952,36 +2954,35 @@ function PlacePalette(props: {
       <div className="section">
         <fieldset className="place-segments">
           <legend className="place-control-legend">创建方式</legend>
-          <button
+          <DsPressable
             type="button"
             className={mode === 'actor' ? 'active' : ''}
             aria-pressed={mode === 'actor'}
             onClick={() => onModeChange('actor')}
           >
             预制人物
-          </button>
-          <button
+          </DsPressable>
+          <DsPressable
             type="button"
             className={mode === 'sprite' ? 'active' : ''}
             aria-pressed={mode === 'sprite'}
             onClick={() => onModeChange('sprite')}
           >
             自定义实体
-          </button>
-          <button
+          </DsPressable>
+          <DsPressable
             type="button"
             className={!visibleMode ? 'active' : ''}
             aria-pressed={!visibleMode}
             onClick={() => onModeChange(mode === 'interact-zone' ? 'interact-zone' : 'touch-zone')}
           >
             触发区
-          </button>
+          </DsPressable>
         </fieldset>
 
         {visibleMode ? (
           <>
-            <input
-              className="in"
+            <DsTextInput
               aria-label="过滤可见实体来源"
               placeholder="过滤名称、ID 或精灵号"
               value={filter}
@@ -2992,28 +2993,26 @@ function PlacePalette(props: {
           <>
             <fieldset className="place-segments secondary">
               <legend className="place-control-legend">触发方式</legend>
-              <button
+              <DsPressable
                 type="button"
                 className={triggerOn === 'touch' ? 'active' : ''}
                 aria-pressed={triggerOn === 'touch'}
                 onClick={() => onModeChange('touch-zone')}
               >
                 触碰
-              </button>
-              <button
+              </DsPressable>
+              <DsPressable
                 type="button"
                 className={triggerOn === 'interact' ? 'active' : ''}
                 aria-pressed={triggerOn === 'interact'}
                 onClick={() => onModeChange('interact-zone')}
               >
                 交互
-              </button>
+              </DsPressable>
             </fieldset>
             <label className="place-range-field">
               <span>范围</span>
-              <input
-                className="in mono"
-                type="number"
+              <DsNumberInput
                 min={0}
                 max={99}
                 value={zoneRanges[triggerOn]}
@@ -3032,7 +3031,7 @@ function PlacePalette(props: {
             {shownActors.map((actor) => {
               const sprite = spriteById.get(actor.spriteId)
               return (
-                <button
+                <DsPressable
                   type="button"
                   key={actor.id}
                   className={`palette-row${actor.id === selectedActorId ? ' sel' : ''}`}
@@ -3053,7 +3052,7 @@ function PlacePalette(props: {
                     {lookupText(actor.name, locale)}
                     <span className="sub">预制人物 · {actor.id}</span>
                   </span>
-                </button>
+                </DsPressable>
               )
             })}
             {shownActors.length === 0 && <div className="insp-empty">(无匹配)</div>}
@@ -3063,7 +3062,7 @@ function PlacePalette(props: {
         {mode === 'sprite' && (
           <div className="palette-list">
             {shownSprites.map((s) => (
-              <button
+              <DsPressable
                 type="button"
                 key={s.id}
                 className={`palette-row${s.id === selectedSpriteId ? ' sel' : ''}`}
@@ -3082,7 +3081,7 @@ function PlacePalette(props: {
                     自定义实体 · {KIND_ICON[s.layout.kind] ?? ''} {s.asset}
                   </span>
                 </span>
-              </button>
+              </DsPressable>
             ))}
             {shownSprites.length === 0 && <div className="insp-empty">(无匹配)</div>}
           </div>
@@ -3409,7 +3408,7 @@ function EntityInspector(props: {
                     label={spriteDef.label || spriteDef.id}
                     align="center"
                   />
-                  <button
+                  <DsPressable
                     type="button"
                     className="entity-preview-zoom"
                     aria-label={`放大查看 ${spriteDef.label || spriteDef.id}`}
@@ -3417,7 +3416,7 @@ function EntityInspector(props: {
                     onClick={() => setSpriteViewerOpen(true)}
                   >
                     <span className="preview-zoom-icon" aria-hidden="true" />
-                  </button>
+                  </DsPressable>
                 </div>
               </div>
             )}
@@ -3425,29 +3424,29 @@ function EntityInspector(props: {
             {isActorEntity(entity) ? (
               <div className="field actor-entity-source">
                 <span className="field-label">预制人物（共享身份与资源）</span>
-                <div className="in pick actor-entity-source-row">
+                <DsReadonlyValue as="div" className="pick actor-entity-source-row">
                   <span>{actorName ?? entity.actor}</span>
                   <span className="meta">→ {spriteId ?? '(未解析)'}</span>
-                  <button
-                    type="button"
-                    className="mini"
+                  <DsButton
                     aria-label={`打开人物 ${entity.actor}`}
                     title="在人物库打开"
                     onClick={() => onOpenActor?.(entity.actor)}
+                    size="compact"
+                    variant="secondary"
                   >
                     ↗
-                  </button>
-                </div>
+                  </DsButton>
+                </DsReadonlyValue>
                 <p className="hint">
                   位置、朝向、碰撞、显隐、页面脚本和敌对配置只属于当前场景实例。
                 </p>
-                <button
-                  type="button"
-                  className="tool"
+                <DsButton
                   onClick={() => session.dispatch(new DetachActorEntityCommand(sceneId, entity.id))}
+                  size="compact"
+                  variant="secondary"
                 >
                   解除人物关联，保留当前精灵
-                </button>
+                </DsButton>
               </div>
             ) : 'sprite' in entity ? (
               <div className="field">
@@ -3474,10 +3473,10 @@ function EntityInspector(props: {
             ) : (
               <div className="field">
                 <span className="field-label">触发区</span>
-                <div className="in pick">
+                <DsReadonlyValue as="div" className="pick">
                   <span>无外观</span>
                   <span className="meta">触发器 / 脚本锚</span>
-                </div>
+                </DsReadonlyValue>
               </div>
             )}
             {'zone' in entity ? null : (
@@ -3537,9 +3536,7 @@ function EntityInspector(props: {
             <div className="posrow">
               <div className="cell">
                 <span>col</span>
-                <input
-                  className="in mono"
-                  type="number"
+                <DsNumberInput
                   value={entity.pos.col}
                   onChange={(e) =>
                     Number.isFinite(e.target.valueAsNumber) &&
@@ -3549,9 +3546,7 @@ function EntityInspector(props: {
               </div>
               <div className="cell">
                 <span>row</span>
-                <input
-                  className="in mono"
-                  type="number"
+                <DsNumberInput
                   value={entity.pos.row}
                   onChange={(e) =>
                     Number.isFinite(e.target.valueAsNumber) &&
@@ -3561,9 +3556,7 @@ function EntityInspector(props: {
               </div>
               <div className="cell">
                 <span>height</span>
-                <input
-                  className="in mono"
-                  type="number"
+                <DsNumberInput
                   value={entity.pos.height}
                   onChange={(e) =>
                     Number.isFinite(e.target.valueAsNumber) &&
@@ -3653,9 +3646,7 @@ function EntityInspector(props: {
                     <div className="posrow hostile-chase-metrics">
                       <div className="cell">
                         <span>range 格</span>
-                        <input
-                          className="in mono"
-                          type="number"
+                        <DsNumberInput
                           value={entity.hostile.chase.range}
                           onChange={(e) =>
                             Number.isFinite(e.target.valueAsNumber) &&
@@ -3667,9 +3658,7 @@ function EntityInspector(props: {
                       </div>
                       <div className="cell">
                         <span>speed</span>
-                        <input
-                          className="in mono"
-                          type="number"
+                        <DsNumberInput
                           value={entity.hostile.chase.speed}
                           onChange={(e) =>
                             Number.isFinite(e.target.valueAsNumber) &&
@@ -3721,9 +3710,7 @@ function EntityInspector(props: {
                   {hostile?.onVictory.kind === 'hide' ? (
                     <div className="field">
                       <span className="field-label">胜利隐藏 ticks</span>
-                      <input
-                        className="in mono"
-                        type="number"
+                      <DsNumberInput
                         min={1}
                         step={1}
                         value={hostile.onVictory.ticks}
@@ -3763,9 +3750,7 @@ function EntityInspector(props: {
                   {hostile?.onPlayerFlee.kind === 'suspend' ? (
                     <div className="field">
                       <span className="field-label">逃跑暂停 ticks</span>
-                      <input
-                        className="in mono"
-                        type="number"
+                      <DsNumberInput
                         min={1}
                         step={1}
                         value={hostile.onPlayerFlee.ticks}
@@ -3795,8 +3780,8 @@ function EntityInspector(props: {
                       />
                     </div>
                     {Array.isArray(entity.hostile.onLose) ? (
-                      <textarea
-                        className="in cf-ta"
+                      <DsTextArea
+                        className="cf-ta"
                         key={`${entity.id}-onlose`}
                         defaultValue={JSON.stringify(entity.hostile.onLose, null, 2)}
                         placeholder='[{ "kind": "dialog", ... }] — Command[] JSON'
@@ -3822,8 +3807,8 @@ function EntityInspector(props: {
                 行为脚本 <span className="hint2">底部抽屉就地编(E2/E4)</span>
               </h4>
               {/* 一眼徽标 + 单入口(创建/切换动作在抽屉头部,不重复) */}
-              <div className="lrow" style={{ gap: 8, alignItems: 'center' }}>
-                <span style={{ color: 'var(--dim)', fontSize: 12 }}>
+              <div className="lrow script-summary-row">
+                <span className="script-summary-copy">
                   {entity.pages?.[pageIndex]?.trigger
                     ? `🔗 ${entity.pages[pageIndex]!.trigger!.on === 'interact' ? '交互' : '触碰'}·${entity.pages[pageIndex]!.trigger!.stages.length}段`
                     : null}
@@ -3835,9 +3820,7 @@ function EntityInspector(props: {
                     : null}
                 </span>
                 {entity.pages?.[pageIndex]?.trigger || entity.pages?.[pageIndex]?.auto ? (
-                  <button
-                    type="button"
-                    className="mini-txt"
+                  <DsButton
                     onClick={() =>
                       onJumpToEvent(
                         sceneId,
@@ -3846,14 +3829,14 @@ function EntityInspector(props: {
                           : `${entity.id}:auto${pageIndex === 0 ? '' : `@${pageIndex}`}`,
                       )
                     }
+                    size="compact"
+                    variant="secondary"
                   >
                     📜 编辑脚本
-                  </button>
+                  </DsButton>
                 ) : (
                   <>
-                    <button
-                      type="button"
-                      className="mini-txt"
+                    <DsButton
                       onClick={() => {
                         session.dispatch(
                           new CreateScriptSourceCommand(sceneId, {
@@ -3867,12 +3850,12 @@ function EntityInspector(props: {
                           `${entity.id}:trigger${pageIndex === 0 ? '' : `@${pageIndex}`}`,
                         )
                       }}
+                      size="compact"
+                      variant="secondary"
                     >
                       ＋触发
-                    </button>
-                    <button
-                      type="button"
-                      className="mini-txt"
+                    </DsButton>
+                    <DsButton
                       onClick={() => {
                         session.dispatch(
                           new CreateScriptSourceCommand(sceneId, {
@@ -3886,9 +3869,11 @@ function EntityInspector(props: {
                           `${entity.id}:auto${pageIndex === 0 ? '' : `@${pageIndex}`}`,
                         )
                       }}
+                      size="compact"
+                      variant="secondary"
                     >
                       ＋巡逻
-                    </button>
+                    </DsButton>
                   </>
                 )}
               </div>
@@ -3953,28 +3938,25 @@ function EntryInspector(props: { scene: SceneDef; session: EditSession }) {
         </h4>
         <div className="field">
           <span className="field-label">坐标</span>
-          <div className="row" style={{ gap: 6 }}>
-            <input
-              className="in mono entry-n"
-              type="number"
+          <div className="row entry-coordinate-row">
+            <DsNumberInput
+              className="entry-n"
               title="列 col"
               value={scene.entry.pos.col}
               onChange={(e) =>
                 Number.isFinite(e.target.valueAsNumber) && patch({ col: e.target.valueAsNumber })
               }
             />
-            <input
-              className="in mono entry-n"
-              type="number"
+            <DsNumberInput
+              className="entry-n"
               title="行 row"
               value={scene.entry.pos.row}
               onChange={(e) =>
                 Number.isFinite(e.target.valueAsNumber) && patch({ row: e.target.valueAsNumber })
               }
             />
-            <input
-              className="in mono entry-n"
-              type="number"
+            <DsNumberInput
+              className="entry-n"
               title="高度 height"
               value={scene.entry.pos.height ?? 0}
               onChange={(e) =>
@@ -3992,7 +3974,7 @@ function EntryInspector(props: { scene: SceneDef; session: EditSession }) {
             onValueChange={(value) => patch({ facing: value as SceneDef['entry']['facing'] })}
           />
         </div>
-        <div className="insp-empty" style={{ marginTop: 8 }}>
+        <div className="insp-empty ds-empty-state--offset">
           也可直接在画布上拖动红色菱形标记改坐标。这是「正常走进来」的落点;引路蜂/土灵珠把队伍送去哪,
           由本场景的<b>传送出口</b>脚本(📜 脚本模式)决定,和这里无关。
         </div>
@@ -4198,9 +4180,8 @@ function NamedEntryInspector(props: {
           <label className="field-label" htmlFor={`entry-label-${scene.id}-${entryId}`}>
             名称
           </label>
-          <input
+          <DsTextInput
             id={`entry-label-${scene.id}-${entryId}`}
-            className="in"
             value={labelDraft}
             placeholder="未命名落点"
             onChange={(event) => setLabelDraft(event.target.value)}
@@ -4223,9 +4204,7 @@ function NamedEntryInspector(props: {
             {(['col', 'row', 'height'] as const).map((axis) => (
               <label key={axis}>
                 <span>{axis === 'height' ? 'h' : axis}</span>
-                <input
-                  className="in mono"
-                  type="number"
+                <DsNumberInput
                   value={entry.pos[axis] ?? 0}
                   onChange={(event) => {
                     if (!Number.isFinite(event.target.valueAsNumber)) return

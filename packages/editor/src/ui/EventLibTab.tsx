@@ -47,7 +47,7 @@ export function EventLibTab(props: { tabBar?: React.ReactNode }) {
             onChange: (event) => setFilter(event.target.value),
           }}
         />
-        <div className="insp-empty" style={{ marginTop: 8 }}>
+        <div className="insp-empty ds-empty-state--offset">
           当前全部作者指令的参考手册(参数/语义/原版 opcode 对照);在通用脚本编辑器
           「添加指令」中使用。事件本身在场景中配置。
         </div>

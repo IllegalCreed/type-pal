@@ -26,6 +26,7 @@ import {
   DsSelect,
   DsTag,
   DsTextInput,
+  DsPressable,
 } from './design-system/controls.js'
 import {
   DsCatalogControls,
@@ -252,13 +253,13 @@ function RelationOverview(props: { poisons: PoisonDef[]; onPick: (id: number) =>
         {lethalPairs.length ? (
           lethalPairs.map((pr) => (
             <div key={`${pr.a}-${pr.b}`} className="rel-line">
-              <button type="button" className="rel-poison" onClick={() => onPick(pr.a)}>
+              <DsPressable type="button" className="rel-poison" onClick={() => onPick(pr.a)}>
                 {nameOf(pr.a)}
-              </button>
+              </DsPressable>
               <span className="rel-op">☠</span>
-              <button type="button" className="rel-poison" onClick={() => onPick(pr.b)}>
+              <DsPressable type="button" className="rel-poison" onClick={() => onPick(pr.b)}>
                 {nameOf(pr.b)}
-              </button>
+              </DsPressable>
               {!pr.symmetric && (
                 <span className="rel-warn" title="仅单向指回:另一侧 lethalWith 没指回来">
                   ⚠ 不对称
@@ -280,9 +281,9 @@ function RelationOverview(props: { poisons: PoisonDef[]; onPick: (id: number) =>
               {c.ids.map((id, i) => (
                 <span key={id} className="rel-chain-node">
                   {i > 0 && <span className="rel-op">→</span>}
-                  <button type="button" className="rel-poison" onClick={() => onPick(id)}>
+                  <DsPressable type="button" className="rel-poison" onClick={() => onPick(id)}>
                     {nameOf(id)}
-                  </button>
+                  </DsPressable>
                 </span>
               ))}
               {c.loop && (
@@ -531,9 +532,7 @@ export function PoisonTab(props: {
             </div>
           </>
         ) : (
-          <div className="insp-empty" style={{ padding: 40 }}>
-            无毒定义
-          </div>
+          <div className="insp-empty ds-empty-state--roomy">无毒定义</div>
         )}
       </div>
 

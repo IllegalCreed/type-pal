@@ -7,7 +7,7 @@ import {
   useRef,
   useState,
 } from 'react'
-import { DsButton, DsIconButton, DsTag } from './design-system/controls.js'
+import { DsButton, DsIconButton, DsTag, DsPressable } from './design-system/controls.js'
 import { DsObjectHero } from './design-system/recipes.js'
 
 export interface SpriteFrameView {
@@ -184,7 +184,7 @@ function FrameCell(props: {
   if (!props.onSelect)
     return <figure className={`sprite-frame-cell${exists ? '' : ' missing'}`}>{body}</figure>
   return (
-    <button
+    <DsPressable
       type="button"
       className={`sprite-frame-cell${props.selected ? ' selected' : ''}${exists ? '' : ' missing'}`}
       aria-pressed={props.selected}
@@ -198,7 +198,7 @@ function FrameCell(props: {
       onClick={() => props.onSelect?.(props.index)}
     >
       {body}
-    </button>
+    </DsPressable>
   )
 }
 
@@ -365,9 +365,9 @@ function FrameRowView(props: {
     <div className={`semantic-frame-row${props.row.active ? ' active' : ''}`}>
       <div className="semantic-frame-row-label">
         {props.onActivate ? (
-          <button type="button" onClick={props.onActivate}>
+          <DsPressable type="button" onClick={props.onActivate}>
             {props.row.label}
-          </button>
+          </DsPressable>
         ) : (
           <b>{props.row.label}</b>
         )}
@@ -438,7 +438,7 @@ export function SemanticFrameShelf(props: {
             key={group.id}
             className={`semantic-frame-group${group.active ? ' active' : ''}`}
           >
-            <button
+            <DsPressable
               type="button"
               className="semantic-frame-group-head"
               aria-pressed={group.active}
@@ -449,7 +449,7 @@ export function SemanticFrameShelf(props: {
                 <code>{group.id}</code>
               </span>
               <em>{group.typeLabel}</em>
-            </button>
+            </DsPressable>
             <div className="semantic-frame-rows">
               {group.rows.map((row) => (
                 <FrameRowView
@@ -508,13 +508,13 @@ export function InstanceBehaviorShelf(props: {
                 <div className="instance-behavior-group-actions">
                   <em>实例脚本</em>
                   {props.onOpenLocations ? (
-                    <button
+                    <DsPressable
                       type="button"
                       className="instance-behavior-location-link"
                       onClick={() => props.onOpenLocations?.(group.id)}
                     >
                       查看全部 {groupInstanceCount} 个使用位置 ↗
-                    </button>
+                    </DsPressable>
                   ) : null}
                 </div>
               </div>

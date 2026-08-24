@@ -8,13 +8,13 @@
 import type {
   ActorDef,
   AuthorCommand,
+  AuthorScriptFlow,
+  AuthorScriptLibrary,
   Command,
   Locale,
   MapIndexV1,
   SceneDef,
-  AuthorScriptFlow,
   ScriptStage,
-  AuthorScriptLibrary,
   SpriteDef,
   TriggerActivation,
 } from '@type-pal/content'
@@ -27,8 +27,8 @@ import {
   walkFrameIndex,
 } from '@type-pal/reforge'
 import { type KeyboardEvent, useEffect, useMemo, useRef, useState } from 'react'
-import type { Playback } from '../core/playback.js'
 import { playProjectQuery } from '../core/play-url.js'
+import type { Playback } from '../core/playback.js'
 import { DsButton, DsSelect, DsTag, DsToolbar } from './design-system/index.js'
 import {
   drawGridBlocked,
@@ -525,7 +525,7 @@ export function PreviewCanvas(props: {
           ref={canvasRef}
           width={size.w}
           height={size.h}
-          style={{ cursor: 'grab', touchAction: 'none' }}
+          className="preview-canvas--interactive"
           onPointerDown={(e) => {
             panDragRef.current = {
               sx: e.clientX,

@@ -20,7 +20,14 @@ import { ReplaceSpriteAssetCommand, type SpriteReplacementProof } from '../core/
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { loadEditorSprite } from '../core/sprite-assets.js'
-import { DsButton, DsField, DsNumberInput, DsObjectHero, DsTag } from './design-system/index.js'
+import {
+  DsButton,
+  DsField,
+  DsFileInput,
+  DsNumberInput,
+  DsObjectHero,
+  DsTag,
+} from './design-system/index.js'
 import {
   RawFrameInspector,
   type SemanticFrameGroup,
@@ -596,10 +603,9 @@ export function SpriteResourceViewer(props: {
     <div className="sprite-resource-viewer ds-object-workspace">
       {resourceHero}
       <div className="sprite-resource-viewer-scroll ds-object-workspace__content">
-        <input
+        <DsFileInput
           ref={replaceFileRef}
           className="sprite-hidden-file-input"
-          type="file"
           accept="image/png,image/webp,image/gif"
           onChange={(event) => {
             const file = event.target.files?.[0]
@@ -607,10 +613,9 @@ export function SpriteResourceViewer(props: {
             if (file) void replaceSelected(file)
           }}
         />
-        <input
+        <DsFileInput
           ref={appendFileRef}
           className="sprite-hidden-file-input"
-          type="file"
           accept="image/png,image/webp,image/gif"
           onChange={(event) => {
             const file = event.target.files?.[0]

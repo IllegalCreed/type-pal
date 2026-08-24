@@ -700,14 +700,10 @@ export function DataMode(props: {
     <>
       <div className="outliner data-outliner">
         {tabBar}
-        <div className="insp-empty" style={{ padding: 20 }}>
-          {unavailable}
-        </div>
+        <div className="insp-empty ds-empty-state--compact">{unavailable}</div>
       </div>
       <div className="center actor-center">
-        <div className="insp-empty" style={{ padding: 40 }}>
-          {unavailable}
-        </div>
+        <div className="insp-empty ds-empty-state--roomy">{unavailable}</div>
       </div>
       <div className="inspector">
         <div className="insp-empty">{unavailable}</div>

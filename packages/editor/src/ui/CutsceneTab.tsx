@@ -41,9 +41,11 @@ import {
   DsDiagnosticList,
   DsDiagnosticPanel,
   DsDiagnosticRow,
+  DsFileInput,
   DsIconButton,
   DsInspectorSection,
   DsInspectorTabs,
+  DsNumberInput,
   DsObjectHero,
   DsPropertyGrid,
   DsPropertyRow,
@@ -691,10 +693,9 @@ export function CutsceneTab(props: {
         </DsCatalogGroupList>
         {busy ? <div className="cutscene-busy">{busy}</div> : null}
         {error ? <div className="cutscene-side-error cf-err">{error}</div> : null}
-        <input
+        <DsFileInput
           ref={videoImportRef}
           hidden
-          type="file"
           accept="video/mp4,video/webm"
           onChange={(event) => {
             const file = event.target.files?.[0]
@@ -702,18 +703,16 @@ export function CutsceneTab(props: {
             event.target.value = ''
           }}
         />
-        <input
+        <DsFileInput
           ref={frameImportRef}
           hidden
           multiple
-          type="file"
           accept="image/png,image/jpeg,image/webp"
           onChange={(event) => onFrameFiles(event)}
         />
-        <input
+        <DsFileInput
           ref={videoReplaceRef}
           hidden
-          type="file"
           accept="video/mp4,video/webm"
           onChange={(event) => {
             const file = event.target.files?.[0]
@@ -723,11 +722,10 @@ export function CutsceneTab(props: {
             event.target.value = ''
           }}
         />
-        <input
+        <DsFileInput
           ref={frameReplaceRef}
           hidden
           multiple
-          type="file"
           accept="image/png,image/jpeg,image/webp"
           onChange={(event) => {
             const targetId = frameReplaceTargetRef.current
@@ -1067,40 +1065,38 @@ export function CutsceneTab(props: {
                 <li className="cutscene-import-file" key={`${file.name}-${file.size}-${index}`}>
                   <span>{index + 1}</span>
                   <code title={file.name}>{file.name}</code>
-                  <button
-                    type="button"
-                    className="mini-icon"
+                  <DsButton
                     title="上移"
                     disabled={index === 0}
                     onClick={() => movePendingFrame(index, -1)}
+                    size="compact"
+                    variant="secondary"
                   >
                     ↑
-                  </button>
-                  <button
-                    type="button"
-                    className="mini-icon"
+                  </DsButton>
+                  <DsButton
                     title="下移"
                     disabled={index === pendingFrames.files.length - 1}
                     onClick={() => movePendingFrame(index, 1)}
+                    size="compact"
+                    variant="secondary"
                   >
                     ↓
-                  </button>
-                  <button
-                    type="button"
-                    className="mini-icon danger"
+                  </DsButton>
+                  <DsButton
                     title="排除此帧"
                     onClick={() => removePendingFrame(index)}
+                    size="compact"
+                    variant="danger"
                   >
                     ×
-                  </button>
+                  </DsButton>
                 </li>
               ))}
             </ol>
             <label>
               默认帧率
-              <input
-                className="in"
-                type="number"
+              <DsNumberInput
                 min="0.1"
                 step="0.1"
                 value={importFps}
@@ -1138,17 +1134,15 @@ export function CutsceneTab(props: {
               </div>
             ) : null}
             <div className="modal-actions">
-              <button
-                type="button"
-                className="btn"
+              <DsButton
                 disabled={Boolean(busy)}
                 onClick={() => setPendingFrames(undefined)}
+                size="compact"
+                variant="secondary"
               >
                 取消
-              </button>
-              <button
-                type="button"
-                className="btn primary"
+              </DsButton>
+              <DsButton
                 disabled={
                   Boolean(busy) ||
                   pendingFrames.files.length === 0 ||
@@ -1156,9 +1150,11 @@ export function CutsceneTab(props: {
                   importFps <= 0
                 }
                 onClick={() => void createFrameAnimation()}
+                size="compact"
+                variant="primary"
               >
                 {busy || '创建'}
-              </button>
+              </DsButton>
             </div>
           </div>
         </div>

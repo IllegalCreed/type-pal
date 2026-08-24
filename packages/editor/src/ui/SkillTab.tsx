@@ -1436,9 +1436,7 @@ export function SkillTab(props: {
             </div>
           </>
         ) : (
-          <div className="insp-empty" style={{ padding: 40 }}>
-            无技能
-          </div>
+          <div className="insp-empty ds-empty-state--roomy">无技能</div>
         )}
       </div>
       <div className="inspector inspector--tabbed battle-data-inspector">

@@ -306,7 +306,7 @@ export function EnemyAnimPreview(props: {
         <section className="ea-stage" aria-label="战斗精灵动作预览">
           <canvas
             ref={canvasRef}
-            style={{ imageRendering: 'pixelated' }}
+            className="ds-pixel-canvas"
             role="img"
             aria-label={`${enemy.id}敌人战斗动画预览`}
           />
