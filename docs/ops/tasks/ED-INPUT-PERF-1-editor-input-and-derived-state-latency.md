@@ -1,6 +1,6 @@
 # ED-INPUT-PERF-1 - 编辑器输入提交与全局派生状态性能收口
 
-Status: done（2026-08-26 三方实现验收 accept + 用户确认收口）
+Status: done（2026-08-26 三方实现验收 accept + 用户体验验收通过）
 Phase: phase2
 Capability: Editor cross-cutting（不改变 capability-map）
 Coding Owner: Codex
@@ -415,11 +415,12 @@ PAL 作者工程；另有未进入旧采用清单的连续字段仍逐字符派�
 ## 用户验收
 
 - 用户结论：2026-08-25 确认原约 1 秒停顿不可接受并要求系统处理；2026-08-26 在三方实现验收签字
-  写入任务卡后回复“签了”，确认按现有验收结论收口，无新增返工项。
+  写入任务卡后确认收口，随后明确反馈“通过，效率提高太多了”。用户体验验收通过，无新增返工项。
 - 后续任务：本卡无；ED-CATALOG-ROW-IA-1 与 ED-PROJECT-STARTUP-IA-1 继续各走自己的设计门禁。
 
 ## 交接日志
 
+- 2026-08-26 User：实际使用后明确验收“通过，效率提高太多了”；本卡保持 done，无返工项。
 - 2026-08-26 Codex：核对任务卡中 Codex / Kimi / GLM done 前 accept 均实际写入、无 counter；用户确认
   “签了”。任务转 done，仅提交任务卡与看板状态，不重复运行实现测试。无下一位 Agent 提示词。
 - 2026-08-26 Kimi（done 前验收 a7109fd4）：签 **accept**。独立直读 Worker 协议（最小诊断态、init+patch、
