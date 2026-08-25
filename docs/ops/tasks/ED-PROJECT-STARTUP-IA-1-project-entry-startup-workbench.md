@@ -1,6 +1,6 @@
 # ED-PROJECT-STARTUP-IA-1 - 入口与开局 / 全局资源与启动工作台收口
 
-Status: draft（2026-08-25 刷新合同三签齐；等待 ARCH-ENTRY-ACTOR-SEED-1 用户验收后排期 build）
+Status: build（2026-08-26 三签与 ARCH-ENTRY-ACTOR-SEED-1 用户验收齐；Codex 单 Owner 实现）
 Phase: phase2
 Capability: X7
 Coding Owner: Codex
@@ -9,7 +9,7 @@ Reviewer: Kimi + GLM
 Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
-Branch: `codex/ed-audio-workbench-1`
+Branch: `codex/ed-project-startup-ia-1`
 
 ## 目标
 
@@ -323,6 +323,8 @@ Branch: `codex/ed-audio-workbench-1`
 
 ## 交接日志
 
+- 2026-08-26 User + Codex: 用户确认 `ARCH-ENTRY-ACTOR-SEED-1` 最终验收通过；该卡已收口 `done`。
+  本卡所有前置与三方 build 签字齐，转入 `build`，由 Codex 作为唯一 Coding Owner 开始实现。
 - 2026-08-25 Kimi: 按 2026-08-25 刷新合同重签。直读当前概览四行摘要（裸 s000/assets.roles/写死
   “编辑 8 项”/重复启动分支）与三张摘要卡的 live 派生来源（manifest entryPoints、lookupText、
   validateManifestAssetConfig、validateManifestEntryPoints）；确认 ARCH-SEED ownership 已冻结实现、
@@ -342,16 +344,16 @@ Branch: `codex/ed-audio-workbench-1`
 ```text
 接手任务: ED-PROJECT-STARTUP-IA-1 入口与开局 / 全局资源与启动工作台收口
 任务卡: docs/ops/tasks/ED-PROJECT-STARTUP-IA-1-project-entry-startup-workbench.md
-当前状态: draft；刷新合同三签齐、build 设计准入已开放；排期前置仅剩 ARCH-ENTRY-ACTOR-SEED-1 用户最终验收
+当前状态: build；刷新合同三签与 ARCH-ENTRY-ACTOR-SEED-1 用户验收均已完成
 你的角色: Codex（唯一 Coding Owner）
 先读: AGENTS.md、docs/phase2/READ-FIRST.md、ARCH-ENTRYPOINT-CANONICAL-1、ARCH-ENTRY-ACTOR-SEED-1、
       ED-DS-3、ED-FIELD-COMMIT-1、本任务卡、ProjectWorkbenchTab.tsx:1332-1631
 已完成: DS/FIELD 公共合同已 done；ARCH actor ownership 已获三方 review accept；用户新增裁决要求概览删除
         s000/assets.roles/写死数量/重复启动分支，改为默认开局、标题菜单、启动资源三张直观摘要卡；
         Kimi（KI1-KI2）与 GLM（GPS1-GPS2）已按刷新合同独立重签
-请你做: ARCH 用户验收完成后进入 build；实现队伍/库存/资源/试听工作流和三张摘要卡，确保所有字段由 live
+请你做: 实现队伍/库存/资源/试听工作流和三张摘要卡，确保所有字段由 live
         canonical state 派生，并覆盖角色/物品显示名、资源三态、长名称/窄宽、焦点、撤销和两个唯一导航闭环
-不要做: ARCH 用户验收前不得修改实现；不得恢复入口继承/伪入口/fallback；不得增加 schema；不得用机器
+不要做: 不得恢复入口继承/伪入口/fallback；不得增加 schema；不得用机器
         token、写死数量或页面局部保存
 输出要求: 独立提交；聚焦测试、最小功能界面验证与 Build / Review 证据；实现后转 review，等待三方 accept
 ```
