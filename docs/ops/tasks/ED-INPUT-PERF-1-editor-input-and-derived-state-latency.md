@@ -1,6 +1,6 @@
 # ED-INPUT-PERF-1 - 编辑器输入提交与全局派生状态性能收口
 
-Status: review（2026-08-25 Codex build / 自验完成，等待 Kimi / GLM 验收签字）
+Status: done（2026-08-26 三方实现验收 accept + 用户确认收口）
 Phase: phase2
 Capability: Editor cross-cutting（不改变 capability-map）
 Coding Owner: Codex
@@ -263,13 +263,41 @@ PAL 作者工程；另有未进入旧采用清单的连续字段仍逐字符派�
   differential / revision race / failed fail-closed、selector、字段事务与确定性 scanner 计数均有测试。
   PAL 五字段 20 次最终实测 input p95 6.8–8.2ms、commit max 8.6–18.2ms、worker p95
   392.1–432.0ms、urgent Long Task 0；typecheck、design gates、production build 通过。
-- Kimi: pending
-- GLM: pending
+- Kimi: accept（2026-08-26，独立直读 a7109fd4 实现 + 聚焦复跑，非代理）。按委托五项：
+  - **Worker ✓**：最小诊断态 `EditorDiagnosticState = EditorState 减 maps/assetBlobs/tilesetBlobs`
+    （editor-derived-contract.ts:23-26）；init 一次 + record/slice patch，patch 强制 baseRevision 匹配
+    否则显式要求全量初始化（editor-derived-core.ts:81-82）；回复携带双 revision + epoch/jobId。
+  - **双 revision 丢旧 ✓**：revision = 两 session historyVersion（editor-derived-store.ts:124-129）；
+    receive 只接受 epoch 与 activeJobId 双匹配且 revision 等于当前目标（:385-405）；旧 revision 回复
+    触发重发而非落库；`effectiveEditorDerivedStatus`（:56-70）把过期 current/stale/failed 解析为
+    stale/checking，旧结果绝不冒充最新。
+  - **fail-closed ✓**：worker onerror/onmessageerror/failed 回复均走 `fail()`——terminate worker、
+    置 failed 并保留 lastKnown（:263-275,294-301,398-400）；UI 经 EditorDiagnosticsBar 显式
+    检查中/诊断失败/stale（EditorDiagnosticsBar.tsx:38,62,80），任何状态不显示“0 项”伪健康。
+  - **同步保存门 ✓**：serialize 时现场 `mergeEditorProjectionWithCurrentAuthorState`（App.tsx:1686）
+    后 `assertProjectSaveValid` + `assertScriptProjectValid`（project-io.ts:140-142）同步校验 current
+    state，不读 derived snapshot。
+  - **session cleanup ✓**：derivedStore memo 于 session pair（App.tsx:340-344），pair 替换或卸载时
+    effect cleanup 调 `stop()`——退订两 session、terminate worker、epoch+1 使迟到回复失效
+    （store :407-427）。
+  - 另核 B gate 两项：非地图 fast path 为 maps/mapIndex identity 短路（edit-session.ts:493-494）；
+    scene entry 引用索引改为消费快照预建结果（App.tsx:1395-1396），render 内逐 entry 重建路径
+    与 status/project collector 直调全部消失（本人 grep 复核）。
+  - 聚焦复跑：derived-store/project-diagnostics/session-selector/script-editor/SharedScriptTab/
+    PoisonTab/App.reference-navigation/battle-data-references/project-io 9 文件 110/110 全绿；
+    全量采纳卡内记录未重复。
+- GLM: **accept（2026-08-25 done 前终审，本人一手读码 + focused 独立复跑 + 原始样本核验，非代理；基于实现提交 a7109fd4，97 文件 +9227/-1546）**。按委托四项逐一验证：
+  - **① 字段 census 闭合（GPerf1）✓**：adoption JSON 从 8 surfaces 升级为 **25 页 / 30 事务 / kind={field-draft:20, aggregate-draft:10}**（5 页 not-applicable 显式登记）——build 前钉的三个漏面全部收编：PoisonTab（battle/poison 页、DsDraft* 消费）、SharedScriptTab（story/scripts 页）、ScriptEditor 指令弹窗（scene/workspace + story/scripts + item/item 的 productionFiles 均列 ScriptEditor.tsx，aggregate-draft 即弹窗整条 draft 新类别——**GPerf1 要求的"显式新类别"落地**）。boundary 测试同步扩（+441 行）。
+  - **② seeded random differential（GPerf2）✓**：`20 seeded random mutations from one base keep patches equal to cold worker and sync`——**固定 seed（0x1 起、+0x6d2b79f5 步进）真随机 record mutation、覆盖 5 lane**（本人读测试体确认非固定轮转；Codex counter 区自检也确认了原版缺陷并已改为真随机）。五类 invalid fixture 逐名核实：invalid asset reference / invalid startWorld seed / dangling entity address / missing canonical shared script + 第五类（world-variable 未登记——`state.manifest.content.worldVariable` 在 stale-save fixture 中出现）——**GPerf2 五类 + 随机 ≥20 轮全落地**；正反双态（`valid`/`matches` 伴随 `invalid`）由 `test.each` 两个循环消费（:681 stale-save 授权 + :785 worker/sync differential 正反对照）。
+  - **③ 五类 stale-save ✓**：`keeps the current-state save validator authoritative while the worker snapshot is stale` + `test.each` 五类 `"stale worker cannot authorize save for $name"`——stale worker 结果**不能授权保存**，同步 save validator 仍拒绝全部五类 invalid（含独立缺失 canonical ScriptId oracle，Codex 自检补齐）。
+  - **④ scanner 计数 + 性能原始样本（GPerf3）✓**：`runs no global scanner synchronously for a metadata commit`——**六个 spy 精确到函数名**（validateReferences / projectCurrentAuthorReferenceSlices / mergeEditorProjectionWithCurrentAuthorState / collectEntityAddressReferences / collectProjectIssues / collectEditorAssetReferences）+ `for ([name, scanner]) expect(scanner, name).toHaveBeenCalledTimes(0)`——**GPerf3 原钉逐字落地**；31-entry scene `buildCanonicalSceneEntryReferenceIndex` 恰 31 键专项在（script-references.test）；App.tsx 根 render `statusIssueCollector`/`collectEntityAddressReferences`/`mergeEditorProjectionWithCurrentAuthorState` **全部零直调**（本人 rg 复核）、ProjectWorkbenchTab `collectProjectIssues` 零命中——四处同步全扫全部移除。**性能原始样本核验**：evidence 文件 83 行含五字段各 20 次 input/commit/worker 原始数组（20 元素逐一对得上 p95/max 表）；全部 commit max ≤18.2ms、Long Task 0、worker p95 ≤432ms——预算达标且无"只报均值藏长尾"。
+  - **focused 独立复跑 ✓**：derived-store + derived-contract 22 tests、field-commit-boundary 4 tests、typecheck 全绿（editor 全量按纪律不重跑，采纳 Codex 145/1122 记录）。
 - counter / 返工处理：2026-08-25 Codex 内部终检发现两项自验缺口：原“20 轮”是固定轮转而非随机、保存门
   缺 canonical `ScriptId` 独立 oracle。已改为固定 seed、同一 base 的 20 轮随机 record mutation（覆盖 5 lane），
   并在同步保存门复用 canonical command visits 校验脚本引用；五类 stale-save fixture 与独立缺失 ScriptId 测试已通过。
 - 缺签豁免：N/A
-- done 准入结论：blocked（仅缺 Kimi / GLM 实现验收签字与用户最终验收）
+- done 准入结论：**allowed / done（2026-08-26）**——Codex + Kimi + GLM 三方实现验收 accept 已齐、
+  无 counter；用户确认签字完成并同意按验收结论收口。
 
 ## Draft: 设计与风险
 
@@ -371,24 +399,35 @@ PAL 作者工程；另有未进入旧采用清单的连续字段仍逐字符派�
 - 截图 / 像素检查路径：N/A；本卡以交互与 layout metrics 为判据，详细数值见性能证据文档。
 - 结论：默认视口与 125% 等效窄视口均无 body 横向溢出；工作区持有纵向滚动；焦点、blur、undo 可操作；
   状态栏由“检查中”进入当前 186 项诊断，未出现失败伪装零问题。
-- 未完成项：Kimi / GLM 可复用现有浏览器与证据做非 Owner 验收，无需重复采样全部五字段。
+- 未完成项：无。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
 - 审查结论：Codex 自验 accept；内部架构 / UI 只读终检无 blocker。内部 gate 终检提出 GPerf2 随机性与同步
-  ScriptId 保存 oracle 两项 blocker，Codex 已返工并聚焦验证；同席复核确认两项闭合、无 blocker；Kimi / GLM
-  正式验收 pending。
-- 必须返工项：内部终检两项已清零；正式 reviewer pending。
-- Accept / rework: review pending
+  ScriptId 保存 oracle 两项 blocker，Codex 已返工并聚焦验证；同席复核确认两项闭合、无 blocker；
+  GLM accept（2026-08-25，census/differential/stale-save/计数与原始样本核验）；Kimi accept
+  （2026-08-26，Worker/双 revision/fail-closed/同步保存门/session cleanup 直读核验 + 聚焦 9 文件
+  110/110 复跑，证据见“进入 done 前:审查签字” Kimi 段）。
+- 必须返工项：无
+- Accept / rework: **accept / done**。
 
 ## 用户验收
 
-- 用户结论: 2026-08-25 已确认当前约 1 秒停顿不可接受并要求系统处理；最终验收 pending。
-- 后续任务：Kimi / GLM 验收签字齐后，请用户复测任一项目、角色、物品、毒或共享脚本字段；不在本卡夹带
-  ED-CATALOG-ROW-IA-1 或 ED-PROJECT-STARTUP-IA-1 的信息架构改动。
+- 用户结论：2026-08-25 确认原约 1 秒停顿不可接受并要求系统处理；2026-08-26 在三方实现验收签字
+  写入任务卡后回复“签了”，确认按现有验收结论收口，无新增返工项。
+- 后续任务：本卡无；ED-CATALOG-ROW-IA-1 与 ED-PROJECT-STARTUP-IA-1 继续各走自己的设计门禁。
 
 ## 交接日志
+
+- 2026-08-26 Codex：核对任务卡中 Codex / Kimi / GLM done 前 accept 均实际写入、无 counter；用户确认
+  “签了”。任务转 done，仅提交任务卡与看板状态，不重复运行实现测试。无下一位 Agent 提示词。
+- 2026-08-26 Kimi（done 前验收 a7109fd4）：签 **accept**。独立直读 Worker 协议（最小诊断态、init+patch、
+  baseRevision 强制）、store（双 revision 丢旧、effective status 解析、epoch/jobId 竞态控制）、fail-closed
+  （worker 失败保留 lastKnown、永不伪“0 项”）、同步保存门（serialize 现场 merge + 同步双 assert，不读
+  快照）、session cleanup（pair 替换/卸载 stop 退订双 session 并 terminate worker）；另核 fast path
+  identity 短路与 scene entry 索引改消费快照。聚焦 9 文件 110/110 复跑全绿；全量采纳卡内记录未重复。
+  未修改实现，未代签 GLM，未标 done。三方 accept 已齐，待用户最终验收。
 
 - 2026-08-25 Codex 内部终检：架构 / UI 无 blocker；gate 审查指出固定轮转不满足 seeded random、同步保存门
   未独立拒绝 canonical missing ScriptId。Codex 停止提交，补齐同 base 20 轮随机差分、五类 stale-save 与
@@ -407,6 +446,11 @@ PAL 作者工程；另有未进入旧采用清单的连续字段仍逐字符派�
   build 准入齐。Evidence: 本卡 build 前签字表。Next: Codex 按 A/B/C gate 单 Owner 实现与验证。
 
 ## 下一位 Agent 提示词
+
+无下一位 Agent 提示词：任务已由 Codex / GLM / Kimi 三方验收 accept，用户于 2026-08-26 确认收口，
+ED-INPUT-PERF-1 已 done。
+
+### 历史：交 Kimi / GLM review 验收（已完成，保留交接事实）
 
 ```text
 接手任务：ED-INPUT-PERF-1 编辑器输入提交与全局派生状态性能收口——review 验收
@@ -484,3 +528,9 @@ GLM 已独立坐实（勿重复，聚焦你的域）: 根 render 四处同步全
 输出: premise verified/counter + design agree/counter、一手 file:line、必落钉；写回签字行与交接日志。
 不要做: 不得改实现；不得重开 ED-FIELD-COMMIT-1；签字齐前三方不得标 build。
 ```
+- 2026-08-25 GLM（覆盖/differential/性能矩阵）: done 终审完成并签 **accept**。GPerf1-GPerf3 逐钉验证：
+  25 页/30 事务 census（三漏面收编 + aggregate-draft 新类别）；固定 seed 20 轮真随机 5-lane differential
+  + 五类 invalid fixture 正反双循环；五类 stale-save 不授权 + 独立 ScriptId oracle；六 spy 计数恰 0 +
+  31-entry index 专项 + App/PWT 四处同步全扫零直调；evidence 原始样本 20×3 数组逐项对表、commit max
+  ≤18.2ms / Long Task 0 / worker p95 ≤432ms。focused 22+4+typecheck 复跑全绿。未改实现，未代签
+  Kimi，未标 done。

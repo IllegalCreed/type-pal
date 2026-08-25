@@ -13,7 +13,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| ED-INPUT-PERF-1 | 编辑器输入提交与全局派生状态性能收口 | review | Kimi / GLM 按任务卡 Build / 性能证据验收并签 accept / counter | 五字段 commit max 8.6–18.2ms、urgent Long Task 0；Codex accept |
+| ED-INPUT-PERF-1 | 编辑器输入提交与全局派生状态性能收口 | done | 三方 accept + 用户确认齐，整卡收口 | `a7109fd4`：五字段 commit max 8.6–18.2ms、urgent Long Task 0 |
 | ED-DS-3 | 编辑器设计系统全量采用与防回流门禁 | done | 三方 accept 齐，整卡收口 | `9dd4e4a3`：25 页面采用闭包、公共 owner、三态静态门禁与精灵虚拟滚动完成 |
 | ED-FIELD-COMMIT-1 | 编辑器字段草稿、提交与撤销边界统一 | done | 三方 accept + 用户验收齐，整卡收口 | `b118ce3a`：公共草稿/提交合同、首批采用与 AST 防回流门禁完成 |
 | ED-PROJECT-STARTUP-IA-1 | 入口与开局 / 全局资源与启动工作台收口 | draft | 等待 ARCH-ENTRY-ACTOR-SEED-1 三方 accept；随后按冻结 ownership 刷新设计签字 | 不得把角色初始状态 schema 偷塞进 IA 卡 |
