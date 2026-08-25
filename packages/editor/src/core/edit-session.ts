@@ -213,6 +213,7 @@ export class EditSession {
         if (this.past.at(-1) !== cmd)
           throw new Error(`无法回滚事务：main history 顶部不是「${cmd.label}」`)
         active = false
+        const rollbackFrom = this.state
         this.state = before.state
         this.past = before.past
         this.future = before.future
@@ -224,7 +225,7 @@ export class EditSession {
         this.mapRevisions.clear()
         for (const [id, revision] of before.mapRevisions) this.mapRevisions.set(id, revision)
         this.mapLru = before.mapLru
-        this.syncStampUsageAfterStateChange(this.state)
+        this.syncStampUsageAfterStateChange(rollbackFrom, this.state)
         this.historyVersion += 1
         this.notify()
       },
@@ -490,6 +491,7 @@ export class EditSession {
   }
 
   private trackMapChanges(before: EditorState, after: EditorState): void {
+    if (before.maps === after.maps && before.mapIndex === after.mapIndex) return
     const ids = new Set([...Object.keys(before.maps), ...Object.keys(after.maps)])
     for (const id of ids) {
       if (before.maps[id] === after.maps[id]) continue
@@ -498,7 +500,7 @@ export class EditSession {
       this.pinnedMapIds.add(id)
       this.touchMap(id)
     }
-    this.syncStampUsageAfterStateChange(after)
+    this.syncStampUsageAfterStateChange(before, after)
   }
 
   private async readMapForStampUsage(mapId: string): Promise<ProjectMap> {
@@ -508,8 +510,9 @@ export class EditSession {
     return this.loadMap(mapId)
   }
 
-  private syncStampUsageAfterStateChange(state: EditorState): void {
-    const validIds = new Set(state.mapIndex.maps.map(({ id }) => id))
+  private syncStampUsageAfterStateChange(before: EditorState, after: EditorState): void {
+    const beforeValidIds = new Set(before.mapIndex.maps.map(({ id }) => id))
+    const validIds = new Set(after.mapIndex.maps.map(({ id }) => id))
     let changed = false
     for (const mapId of [...this.stampUsageByMap.keys()])
       if (!validIds.has(mapId)) changed = this.removeStampUsageForMap(mapId, false) || changed
@@ -518,8 +521,12 @@ export class EditSession {
         this.stampUsageFailures.delete(mapId)
         changed = true
       }
-    for (const [mapId, map] of Object.entries(state.maps))
-      if (validIds.has(mapId)) changed = this.updateStampUsageForMap(mapId, map, false) || changed
+    for (const mapId of validIds) {
+      const map = after.maps[mapId]
+      if (!map) continue
+      if (beforeValidIds.has(mapId) && before.maps[mapId] === map) continue
+      changed = this.updateStampUsageForMap(mapId, map, false) || changed
+    }
     if (changed) this.emitStampUsageUpdate()
   }
 

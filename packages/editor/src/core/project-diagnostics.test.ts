@@ -6,19 +6,37 @@ import type {
   SceneDef,
   SpriteDef,
 } from '@type-pal/content'
+import { validateReferences } from '@type-pal/content'
 import { runtimeScriptRef } from '@type-pal/reforge'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import type { EditorState } from './edit-session.js'
-import { collectEditorAssetReferences } from './editor-asset-references.js'
+import { collectEditorAssetDiagnostics } from './asset-diagnostics.js'
+import { blockingActorReferenceMap } from './actor-references.js'
+import { blockingPoisonReferenceMap } from './battle-data-references.js'
+import { collectEntityAddressReferences } from './entity-address-references.js'
+import {
+  collectEditorAssetReferences,
+  collectEditorAssetReferenceSnapshotFromSlices,
+} from './editor-asset-references.js'
+import { itemReferenceMap } from './item-references.js'
 import {
   assertProjectSaveValid,
   collectEditorStatusIssues,
   collectProjectIssues,
+  createEditorDiagnosticsSnapshotCollector,
   createEditorStatusIssueCollector,
   getRepairableEntryIndexes,
   validateManifestEntryPoints,
 } from './project-diagnostics.js'
-import type { ScriptEditorState } from './script-editor.js'
+import {
+  buildCanonicalSchemeReferenceIndexesFromVisits,
+  collectCanonicalScriptCommandVisits,
+  collectScriptReferenceIssuesFromVisits,
+  type ScriptEditorState,
+} from './script-editor.js'
+import { projectCurrentAuthorReferenceSlices } from './script-editor-projection.js'
+import { buildCanonicalSceneEntryReferenceIndexFromVisits } from './script-references.js'
+import { collectWorldVariableReferencesV1FromVisits } from './world-variable-references.js'
 
 const hero = {
   id: 'hero',
@@ -160,6 +178,151 @@ function assetRecord(kind: AssetKind, stem: string): AssetRecordV1 {
     origin: { kind: 'authored' },
   }
 }
+
+test('combined diagnostics runs each full scanner once per revision', () => {
+  const validate = vi.fn(validateReferences)
+  const project = vi.fn(projectCurrentAuthorReferenceSlices)
+  const collectAssets = vi.fn(collectEditorAssetReferenceSnapshotFromSlices)
+  const collectAssetDiagnostics = vi.fn(collectEditorAssetDiagnostics)
+  const collectVisits = vi.fn(collectCanonicalScriptCommandVisits)
+  const collectScriptIssues = vi.fn(collectScriptReferenceIssuesFromVisits)
+  const collectWorldVariables = vi.fn(collectWorldVariableReferencesV1FromVisits)
+  const collectEntities = vi.fn(collectEntityAddressReferences)
+  const buildEntryIndex = vi.fn(buildCanonicalSceneEntryReferenceIndexFromVisits)
+  const buildSchemeIndexes = vi.fn(buildCanonicalSchemeReferenceIndexesFromVisits)
+  const collectActors = vi.fn(blockingActorReferenceMap)
+  const collectItems = vi.fn(itemReferenceMap)
+  const collectPoisons = vi.fn(blockingPoisonReferenceMap)
+  const collect = createEditorDiagnosticsSnapshotCollector({
+    validateReferences: validate,
+    projectCurrentAuthorReferenceSlices: project,
+    collectEditorAssetReferenceSnapshotFromSlices: collectAssets,
+    collectEditorAssetDiagnostics: collectAssetDiagnostics,
+    collectCanonicalScriptCommandVisits: collectVisits,
+    collectScriptReferenceIssuesFromVisits: collectScriptIssues,
+    collectWorldVariableReferencesV1FromVisits: collectWorldVariables,
+    collectEntityAddressReferences: collectEntities,
+    buildCanonicalSceneEntryReferenceIndexFromVisits: buildEntryIndex,
+    buildCanonicalSchemeReferenceIndexesFromVisits: buildSchemeIndexes,
+    blockingActorReferenceMap: collectActors,
+    itemReferenceMap: collectItems,
+    blockingPoisonReferenceMap: collectPoisons,
+  })
+  const shell = state()
+  const canonical: ScriptEditorState = {
+    scenes: structuredClone(shell.scenes) as ScriptEditorState['scenes'],
+    items: structuredClone(shell.items) as ScriptEditorState['items'],
+    sharedScripts: {
+      'entry-index-perf': {
+        name: '31 落点索引',
+        self: 'none',
+        body: Array.from({ length: 31 }, (_, index) => ({
+          kind: 'loadScene' as const,
+          scene: 's000',
+          entryId: `perf-entry-${index + 1}`,
+        })),
+      },
+    },
+  }
+
+  const snapshot = collect(shell, canonical)
+  expect(snapshot.statusIssues).toEqual(collectEditorStatusIssues(shell, canonical))
+  expect(snapshot.projectIssues).toEqual(collectProjectIssues(shell, canonical))
+  expect(validate).toHaveBeenCalledOnce()
+  expect(project).toHaveBeenCalledOnce()
+  expect(collectAssets).toHaveBeenCalledOnce()
+  expect(collectAssetDiagnostics).toHaveBeenCalledOnce()
+  expect(collectVisits).toHaveBeenCalledOnce()
+  expect(collectScriptIssues).toHaveBeenCalledOnce()
+  expect(collectWorldVariables).toHaveBeenCalledOnce()
+  expect(collectEntities).toHaveBeenCalledOnce()
+  expect(buildEntryIndex).toHaveBeenCalledOnce()
+  expect(buildSchemeIndexes).toHaveBeenCalledOnce()
+  expect(collectActors).toHaveBeenCalledOnce()
+  expect(collectItems).toHaveBeenCalledOnce()
+  expect(collectPoisons).toHaveBeenCalledOnce()
+  expect(
+    [...snapshot.sceneEntryReferenceIndex.keys()].filter((key) => key.includes('perf-entry-')),
+  ).toHaveLength(31)
+
+  validate.mockClear()
+  project.mockClear()
+  collectAssets.mockClear()
+  collectAssetDiagnostics.mockClear()
+  collectVisits.mockClear()
+  collectScriptIssues.mockClear()
+  collectWorldVariables.mockClear()
+  collectEntities.mockClear()
+  buildEntryIndex.mockClear()
+  buildSchemeIndexes.mockClear()
+  collectActors.mockClear()
+  collectItems.mockClear()
+  collectPoisons.mockClear()
+  collect(shell)
+  expect(validate).toHaveBeenCalledOnce()
+  expect(project).not.toHaveBeenCalled()
+  expect(collectAssets).toHaveBeenCalledOnce()
+  expect(collectAssetDiagnostics).toHaveBeenCalledOnce()
+  expect(collectVisits).toHaveBeenCalledOnce()
+  expect(collectScriptIssues).not.toHaveBeenCalled()
+  expect(collectWorldVariables).toHaveBeenCalledOnce()
+  expect(collectEntities).toHaveBeenCalledOnce()
+  expect(buildEntryIndex).not.toHaveBeenCalled()
+  expect(buildSchemeIndexes).not.toHaveBeenCalled()
+  expect(collectActors).toHaveBeenCalledOnce()
+  expect(collectItems).toHaveBeenCalledOnce()
+  expect(collectPoisons).toHaveBeenCalledOnce()
+})
+
+test('current-author projection excludes canonical item records deleted from the shell', () => {
+  const shell = state({
+    scenes: [],
+    items: [
+      {
+        id: 'target',
+        name: '目标物品',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+      },
+    ],
+  })
+  const canonical: ScriptEditorState = {
+    scenes: [],
+    items: [
+      structuredClone(shell.items[0]!) as ScriptEditorState['items'][number],
+      {
+        id: 'deleted-owner',
+        name: '已删脚本物品',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        use: {
+          target: 'scene',
+          consuming: false,
+          effects: [
+            {
+              kind: 'itemPrivateScript',
+              script: {
+                id: 'use',
+                label: '已删除 owner 的正文',
+                body: [{ kind: 'giveItem', itemId: 'target', count: 1 }],
+              },
+            },
+          ],
+        },
+      },
+    ] as ScriptEditorState['items'],
+    sharedScripts: {},
+  }
+  const snapshot = createEditorDiagnosticsSnapshotCollector()(shell, canonical)
+  expect(snapshot.itemReferenceIndex.get('target')).toBeUndefined()
+  expect(snapshot.statusIssues.some((issue) => issue.message.includes('deleted-owner'))).toBe(
+    false,
+  )
+})
 
 test('C8 迁移诊断进入统一问题面板并精确跳到物品；能力已补齐时不再提示', () => {
   const diagnostic = {
@@ -967,6 +1130,23 @@ describe('X7 项目诊断与保存门', () => {
     }
     expect(() => assertProjectSaveValid(brokenChunk)).toThrow(
       /保存前内容引用校验失败.*missing-sprite/,
+    )
+  })
+
+  test('保存门独立拒绝 canonical 共享脚本的缺失 ScriptId', () => {
+    const base = state()
+    const broken: EditorState = {
+      ...base,
+      sharedScripts: {
+        broken: {
+          name: '缺失引用',
+          self: 'none',
+          body: [{ kind: 'callScript', script: 'shared/missing' }],
+        },
+      },
+    }
+    expect(() => assertProjectSaveValid(broken)).toThrow(
+      /保存前脚本引用校验失败.*shared\/missing/,
     )
   })
 

@@ -82,9 +82,13 @@ describe('EntityPageAnimationEditor', () => {
 
     const phase = host.querySelector<HTMLInputElement>('[aria-label="动作起始相位（毫秒）"]')!
     await act(async () => {
+      phase.focus()
       Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set?.call(phase, '240')
       phase.dispatchEvent(new Event('input', { bubbles: true }))
     })
+    expect(changes.at(-1)).toMatchObject({ action: 'late', loop: true })
+    expect(changes.at(-1)).not.toHaveProperty('startAtMs')
+    await act(async () => phase.blur())
     expect(changes.at(-1)).toMatchObject({ action: 'late', loop: true, startAtMs: 240 })
 
     await act(async () =>

@@ -2,8 +2,8 @@
  * 指令属性表单(C-track v1)—— 事件模式右栏:选中树行 → 编辑该指令参数。
  *
  * 高频指令给专控件;其余(branch/startBattle/confirm/页切换等结构类)
- * 走 JSON 兜底(textarea + 应用,保证全指令可编)。每次变更即 onChange(整指令替换,
- * 由 EventMode 经 script-edit 纯函数 + UpdateScriptCommand 落进 EditSession)。
+ * 走 JSON 兜底(textarea + 应用,保证全指令可编)。每次变更通过 onChange 产出整条新指令；
+ * canonical 调用方必须在弹层/侧栏持有 aggregate draft，并只在“完成”时写入编辑会话。
  *
  * 对话文本:cue.rows[].text 是 TextId(locale 键);编辑即改写为**字面量**(lookupText
  * 未命中回显原文,引擎/预览同语义)——新写的行直接放中文,旧行一改即脱离 locale 键。

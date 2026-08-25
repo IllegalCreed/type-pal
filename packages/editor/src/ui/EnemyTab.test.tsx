@@ -145,6 +145,7 @@ function Harness(props: {
   session: EditSession
   focusObjectId?: string
   onOpenReference?: (reference: BattleDataReference) => void
+  withAssetBase?: boolean
 }) {
   useSyncExternalStore(
     (callback) => props.session.subscribe(callback),
@@ -161,6 +162,7 @@ function Harness(props: {
       session={props.session}
       assetCatalog={current.assetCatalog}
       assetReader={{} as never}
+      assetBase={props.withAssetBase ? ({} as never) : undefined}
       battleSprites={current.battleSprites}
       projectId="test-project"
       focusObjectId={props.focusObjectId}
@@ -196,6 +198,15 @@ afterEach(async () => {
 })
 
 describe('EnemyTab shared workbench', () => {
+  test('profile fields stay disabled until the referenced sprite frames are ready', async () => {
+    const session = new EditSession(state())
+    await act(async () => root.render(<Harness session={session} withAssetBase />))
+    const label = [...host.querySelectorAll<HTMLLabelElement>('label')].find(
+      (candidate) => candidate.textContent?.trim() === '待机帧',
+    )!
+    expect((document.getElementById(label.htmlFor) as HTMLInputElement).disabled).toBe(true)
+  })
+
   test('目录搜索覆盖命中、空结果与清空恢复，且不会偷换深链选择', async () => {
     const session = new EditSession(state())
     await act(async () => root.render(<Harness session={session} focusObjectId="enemy-b" />))

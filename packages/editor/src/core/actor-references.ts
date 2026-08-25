@@ -159,6 +159,7 @@ export function collectActorReferences(state: EditorState): ActorReference[] {
           context,
         )
     })
+    scanActorTaggedNodes(item, `items[${itemIndex}](${item.id})`, context, out)
   })
 
   for (const [chunkId, chunk] of Object.entries(state.scriptChunks ?? {}))
@@ -230,13 +231,26 @@ export function collectActorReferences(state: EditorState): ActorReference[] {
 }
 
 export function blockingActorReferences(state: EditorState, actorId: string): ActorReference[] {
-  return collectActorReferences(state).filter((reference) => {
-    if (reference.actorId !== actorId) return false
-    const ownership = ACTOR_REFERENCE_POLICIES[reference.kind].ownership
-    if (ownership === 'companion') return false
-    if (reference.ownerActorId === actorId) return false
-    return true
-  })
+  return collectActorReferences(state).filter(
+    (reference) => reference.actorId === actorId && actorReferenceBlocksDeletion(reference),
+  )
+}
+
+export function actorReferenceBlocksDeletion(reference: ActorReference): boolean {
+  const ownership = ACTOR_REFERENCE_POLICIES[reference.kind].ownership
+  return ownership !== 'companion' && reference.ownerActorId !== reference.actorId
+}
+
+/** 删除门与人物检查器共用的一次性阻断引用索引。 */
+export function blockingActorReferenceMap(state: EditorState): Map<string, ActorReference[]> {
+  const result = new Map<string, ActorReference[]>()
+  for (const reference of collectActorReferences(state)) {
+    if (!actorReferenceBlocksDeletion(reference)) continue
+    const list = result.get(reference.actorId) ?? []
+    list.push(reference)
+    result.set(reference.actorId, list)
+  }
+  return result
 }
 
 export function actorReferenceMap(state: EditorState): Map<string, ActorReference[]> {

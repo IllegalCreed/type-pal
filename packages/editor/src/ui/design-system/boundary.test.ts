@@ -616,7 +616,7 @@ describe('editor design-system static boundary', () => {
       'DsPropertyGrid',
       'DsPropertyRow',
       'DsCheckbox',
-      'DsNumberInput',
+      'DsDraftNumberInput',
       'DsButton',
     ])
       expect(pageAnimationEditor, `EntityPageAnimationEditor shared ${component}`).toContain(

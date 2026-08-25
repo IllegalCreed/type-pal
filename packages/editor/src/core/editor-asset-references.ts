@@ -7,6 +7,11 @@ import type { EditorState } from './edit-session.js'
 import type { ScriptEditorState } from './script-editor.js'
 import { projectCurrentAuthorReferenceSlices } from './script-editor-projection.js'
 
+export type EditorCurrentAuthorReferenceSlices = Pick<
+  EditorState,
+  'scenes' | 'items' | 'sharedScripts'
+>
+
 export interface EditorAssetReferenceSnapshot {
   /** 同一份 source 同时供资源页展示、删除门禁和保存诊断消费。 */
   source: AssetReferenceSource
@@ -23,6 +28,14 @@ export function editorAssetReferenceSource(
   currentAuthor?: ScriptEditorState,
 ): AssetReferenceSource {
   const author = currentAuthor ? projectCurrentAuthorReferenceSlices(currentAuthor, state) : state
+  return editorAssetReferenceSourceFromSlices(state, author)
+}
+
+/** Build the typed walker input from the already projected author slices. */
+export function editorAssetReferenceSourceFromSlices(
+  state: EditorState,
+  author: EditorCurrentAuthorReferenceSlices,
+): AssetReferenceSource {
   return {
     assets: state.manifest.assets,
     entryPoints: state.manifest.entryPoints,
@@ -47,6 +60,14 @@ export function collectEditorAssetReferenceSnapshot(
   currentAuthor?: ScriptEditorState,
 ): EditorAssetReferenceSnapshot {
   const source = editorAssetReferenceSource(state, currentAuthor)
+  return { source, references: collectAssetReferences(source) }
+}
+
+export function collectEditorAssetReferenceSnapshotFromSlices(
+  state: EditorState,
+  author: EditorCurrentAuthorReferenceSlices,
+): EditorAssetReferenceSnapshot {
+  const source = editorAssetReferenceSourceFromSlices(state, author)
   return { source, references: collectAssetReferences(source) }
 }
 

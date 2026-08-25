@@ -37,6 +37,7 @@ describe('MusicTab catalog controls', () => {
       root.render(
         <StrictMode>
           <MusicTab
+            assetDiagnostics={[]}
             catalog={catalogControlsAssetCatalog}
             reader={reader as never}
             session={session}

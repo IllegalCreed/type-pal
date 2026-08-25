@@ -35,7 +35,7 @@ import {
   isRuntimeScriptRef,
   runtimeScriptRef,
 } from '@type-pal/reforge'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   AddItemCommand,
   CompositeCommand,
@@ -44,16 +44,13 @@ import {
   UpsertAssetCommand,
   UpsertAuthoredScriptCommand,
 } from '../core/commands.js'
-import type { EditSession } from '../core/edit-session.js'
+import type { EditorState, EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import type { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
 import { nextAuthoredImageId, prepareAuthoredImage } from '../core/image-import.js'
 import { cloneItemForAuthoring, createBlankItem } from '../core/item-authoring.js'
-import {
-  blockingItemReferences,
-  type ItemReference,
-  itemReferenceMap,
-} from '../core/item-references.js'
+import type { ItemReference } from '../core/item-references.js'
 import {
   AddItemPrivateScriptCommand,
   type ScriptEditorState,
@@ -456,6 +453,80 @@ function abilityTags(item: ItemData): string[] {
   )
 }
 
+interface ItemCatalogRowsProps {
+  items: readonly ItemData[]
+  selectedId: string | undefined
+  referenceMap: ReadonlyMap<string, readonly ItemReference[]>
+  pendingIds: ReadonlySet<string>
+  assetCatalog: AssetCatalogV1
+  assetReader: EditorAssetReader
+  onSelect: (id: string) => void
+}
+
+function ItemCatalogRowsView(props: ItemCatalogRowsProps) {
+  return props.items.map((candidate) => {
+    const tags = abilityTags(candidate)
+    const refs = props.referenceMap.get(candidate.id)?.length ?? 0
+    return (
+      <DsCatalogRow
+        key={candidate.id}
+        selected={candidate.id === props.selectedId}
+        leading={
+          <ImageAssetThumbnail
+            asset={candidate.icon}
+            kind="item-icon"
+            reader={props.assetReader}
+            revision={
+              candidate.icon ? props.assetCatalog.assets[candidate.icon]?.sha256 : undefined
+            }
+            className="item-list-icon"
+          />
+        }
+        title={candidate.name}
+        meta={[
+          candidate.id,
+          ...tags,
+          refs ? `引用 ${refs}` : undefined,
+          props.pendingIds.has(candidate.id) ? '待迁移' : undefined,
+        ]
+          .filter(Boolean)
+          .join(' · ')}
+        onClick={() => props.onSelect(candidate.id)}
+      />
+    )
+  })
+}
+
+function sameItemCatalogRows(left: ItemCatalogRowsProps, right: ItemCatalogRowsProps): boolean {
+  if (
+    left.selectedId !== right.selectedId ||
+    left.assetCatalog !== right.assetCatalog ||
+    left.assetReader !== right.assetReader ||
+    left.onSelect !== right.onSelect ||
+    left.items.length !== right.items.length
+  )
+    return false
+
+  return left.items.every((item, index) => {
+    const next = right.items[index]
+    return (
+      !!next &&
+      item.id === next.id &&
+      item.name === next.name &&
+      item.icon === next.icon &&
+      !!item.equip === !!next.equip &&
+      !!item.use === !!next.use &&
+      !!item.throw === !!next.throw &&
+      (left.referenceMap.get(item.id)?.length ?? 0) ===
+        (right.referenceMap.get(next.id)?.length ?? 0) &&
+      left.pendingIds.has(item.id) === right.pendingIds.has(next.id)
+    )
+  })
+}
+
+/** Detail-only edits must not rebuild the entire 234-row PAL catalog. */
+const ItemCatalogRows = memo(ItemCatalogRowsView, sameItemCatalogRows)
+
 function summarizeUse(item: ItemData, items: readonly ItemData[]): string[] {
   if (!item.use) return ['未启用使用能力']
   const itemName = (id: string): string =>
@@ -652,6 +723,10 @@ export function ItemTab(props: {
     session: ScriptEditSession
   }
   historyCoordinator?: EditorHistoryCoordinator
+  itemReferenceIndex: ReadonlyMap<string, readonly ItemReference[]>
+  itemReferenceStatus: EditorDerivedStatus
+  getCurrentAuthorState: () => EditorState | undefined
+  getCurrentScriptState: () => ScriptEditorState | undefined
 }) {
   const {
     items,
@@ -680,6 +755,10 @@ export function ItemTab(props: {
     tabBar,
     script,
     historyCoordinator,
+    itemReferenceIndex,
+    itemReferenceStatus,
+    getCurrentAuthorState,
+    getCurrentScriptState,
   } = props
   const [filter, setFilter] = useState('')
   const [filterMode, setFilterMode] = useState<ItemFilter>('all')
@@ -690,10 +769,7 @@ export function ItemTab(props: {
   const iconInputRef = useRef<HTMLInputElement>(null)
   const deletedSelectionRef = useRef<{ id: string; sawAbsent: boolean } | undefined>(undefined)
   const editorState = session.getState()
-  const referenceMap = useMemo(
-    () => itemReferenceMap(editorState, script?.state),
-    [editorState, script?.state],
-  )
+  const referenceMap = itemReferenceIndex
   const diagnostics = editorState.migrationDiagnostics?.diagnostics ?? []
   const pendingIds = new Set(
     diagnostics
@@ -747,6 +823,22 @@ export function ItemTab(props: {
   const item = items.find((candidate) => candidate.id === selId)
   const itemReferences = item ? (referenceMap.get(item.id) ?? []) : []
   const blockers = itemReferences.filter((reference) => reference.ownerItemId !== item?.id)
+  const itemReferenceCount =
+    itemReferenceStatus === 'current'
+      ? { kind: 'exact' as const, value: itemReferences.length }
+      : itemReferences.length
+        ? { kind: 'at-least' as const, value: itemReferences.length }
+        : { kind: 'unknown' as const }
+  const itemReferencePanelState =
+    itemReferenceStatus === 'current'
+      ? itemReferences.length
+        ? ('ready' as const)
+        : ('empty' as const)
+      : itemReferenceStatus === 'failed'
+        ? ('error' as const)
+        : itemReferenceStatus === 'stale'
+          ? ('partial' as const)
+          : ('loading' as const)
   const itemDiagnostics = item
     ? diagnostics.filter(
         (diagnostic) =>
@@ -765,15 +857,16 @@ export function ItemTab(props: {
     const names = new Map(actors.map((actor) => [actor.id, lookupText(actor.name, locale)]))
     return (id: string): string | undefined => names.get(id)
   }, [actors, locale])
-  const scriptOptions = (() => {
-    if (script)
-      return Object.entries(script.state.sharedScripts)
-        .map(([id, script]) => ({
+  const sharedScripts = script?.state.sharedScripts
+  const scriptOptions = useMemo<ItemScriptOption[]>(() => {
+    if (sharedScripts)
+      return Object.entries(sharedScripts)
+        .map(([id, sharedScript]) => ({
           ref: runtimeScriptRef(id),
-          label: `${script.name} · ${id}`,
+          label: `${sharedScript.name} · ${id}`,
         }))
         .sort((left, right) => left.label.localeCompare(right.label, 'zh-CN'))
-    const index = session.getState().scriptIndex
+    const index = editorState.scriptIndex
     if (!index) return []
     return Object.entries(index.library ?? {})
       .flatMap(([id, meta]) => {
@@ -781,9 +874,18 @@ export function ItemTab(props: {
         return chunk ? [{ ref: { id, chunk }, label: `${meta.name} · ${id}` }] : []
       })
       .sort((left, right) => left.label.localeCompare(right.label, 'zh-CN'))
-  })() as ItemScriptOption[]
+  }, [editorState.scriptIndex, sharedScripts])
+  const privateScriptPrefix = item ? `item:${item.id}:` : ''
+  const hasPrivateScript = (['use', 'throw'] as const).some((slot) =>
+    (item?.[slot]?.effects ?? []).some(
+      (effect) =>
+        effect.kind === 'runScript' &&
+        isRuntimeScriptRef(effect.script) &&
+        effect.script.id.startsWith(privateScriptPrefix),
+    ),
+  )
   const canonicalScriptEditorContext = useMemo<CanonicalScriptEditorContext | undefined>(() => {
-    if (!script) return undefined
+    if (!script || !hasPrivateScript) return undefined
     const shell = session.getState()
     const references = createScriptReferenceCatalog({
       locale,
@@ -827,6 +929,7 @@ export function ItemTab(props: {
     assetReader,
     audioResolver,
     battleSprites,
+    hasPrivateScript,
     items,
     locale,
     onOpenBattleSprite,
@@ -839,9 +942,18 @@ export function ItemTab(props: {
     skills,
   ])
   const privateScripts = (slot: 'use' | 'throw') => {
-    const storedItem = script?.session
-      .getState()
-      .items.find((candidate) => candidate.id === item?.id)
+    const prefix = item ? `item:${item.id}:` : ''
+    const shellScripts = (item?.[slot]?.effects ?? []).flatMap((shellEffect, shellIndex) =>
+      shellEffect.kind === 'runScript' &&
+      isRuntimeScriptRef(shellEffect.script) &&
+      shellEffect.script.id.startsWith(prefix)
+        ? [{ shellEffect, shellIndex }]
+        : [],
+    )
+    if (!script || !item || !shellScripts.length) return {}
+    // `script.state` is the immutable render snapshot supplied by the connector. Calling
+    // ScriptEditSession.getState() here cloned the entire PAL canonical tree on every render.
+    const storedItem = script.state.items.find((candidate) => candidate.id === item.id)
     const stored = new Map(
       (storedItem?.[slot]?.effects ?? []).flatMap((effect, canonicalIndex) =>
         effect.kind === 'itemPrivateScript'
@@ -849,15 +961,8 @@ export function ItemTab(props: {
           : [],
       ),
     )
-    const prefix = item ? `item:${item.id}:` : ''
     return Object.fromEntries(
-      (item?.[slot]?.effects ?? []).flatMap((shellEffect, shellIndex) => {
-        if (
-          shellEffect.kind !== 'runScript' ||
-          !isRuntimeScriptRef(shellEffect.script) ||
-          !shellEffect.script.id.startsWith(prefix)
-        )
-          return []
+      shellScripts.flatMap(({ shellEffect, shellIndex }) => {
         const privateId = shellEffect.script.id.slice(prefix.length)
         const source = stored.get(privateId as 'use')
         if (!source) return []
@@ -892,13 +997,13 @@ export function ItemTab(props: {
     )
   }
 
-  const patch = (next: Partial<Omit<ItemData, 'id'>>): void => {
-    if (item) session.dispatch(new UpdateItemCommand(item.id, next))
-  }
-  const patchUse = (next: UseSpec): void => {
-    if (!item) return
-    patch({ use: next })
-  }
+  const patch = useCallback(
+    (next: Partial<Omit<ItemData, 'id'>>): void => {
+      if (selId) session.dispatch(new UpdateItemCommand(selId, next))
+    },
+    [selId, session],
+  )
+  const patchUse = useCallback((next: UseSpec): void => patch({ use: next }), [patch])
   const patchThrow = (next: ThrowSpec): void => {
     if (!item) return
     patch({ throw: next })
@@ -915,12 +1020,15 @@ export function ItemTab(props: {
     ? describeEquipEffects(equip.effects, { skillName, battleSpriteName, actorName })
     : []
 
-  const selectItem = (id: string): void => {
-    setSelId(id)
-    setConfirmDeleteId(undefined)
-    setConfirmScriptReplaceId(undefined)
-    onObjectFocus?.(id)
-  }
+  const selectItem = useCallback(
+    (id: string): void => {
+      setSelId(id)
+      setConfirmDeleteId(undefined)
+      setConfirmScriptReplaceId(undefined)
+      onObjectFocus?.(id)
+    },
+    [onObjectFocus],
+  )
   const createItem = (): void => {
     const created = createBlankItem(items)
     session.dispatch(new AddItemCommand(created))
@@ -935,18 +1043,8 @@ export function ItemTab(props: {
   }
   const deleteItem = (): void => {
     if (!item) return
-    const currentBlockers = blockingItemReferences(
-      session.getState(),
-      item.id,
-      script?.session.getState(),
-    )
-    if (currentBlockers.length) {
-      setInspectorTab('references')
-      setConfirmDeleteId(undefined)
-      onStatusNotice?.({
-        kind: 'error',
-        message: `${item.name} 仍被 ${currentBlockers.length} 处引用；请先在右侧“引用”逐项处理。`,
-      })
+    if (itemReferenceStatus !== 'current') {
+      onStatusNotice?.({ kind: 'error', message: '物品引用仍在检查，暂不能删除。' })
       return
     }
     const index = items.findIndex((candidate) => candidate.id === item.id)
@@ -954,7 +1052,11 @@ export function ItemTab(props: {
     try {
       deletedSelectionRef.current = { id: item.id, sawAbsent: false }
       session.dispatch(
-        new DeleteItemCommand(item.id, script ? () => script.session.getState() : undefined),
+        new DeleteItemCommand(
+          item.id,
+          script ? getCurrentScriptState : undefined,
+          getCurrentAuthorState,
+        ),
       )
       setSelId(next)
       setConfirmDeleteId(undefined)
@@ -968,55 +1070,59 @@ export function ItemTab(props: {
       })
     }
   }
-  const createAndBindScript = (confirmed = false): void => {
-    if (!item) return
-    if (script) {
-      onStatusNotice?.({
-        kind: 'error',
-        message: '共享脚本必须从具名共享库创建；物品私有逻辑请直接编辑当前物品内联正文。',
-      })
-      return
-    }
-    const state = session.getState()
-    const current = state.items.find((candidate) => candidate.id === item.id)
-    if (!current) return
-    if (!confirmed && current.use?.effects.length) {
-      setConfirmScriptReplaceId(current.id)
-      onStatusNotice?.({
-        kind: 'info',
-        message: '共享剧情脚本必须独占用途链；确认后会替换当前效果。',
-      })
-      return
-    }
-    const index = state.scriptIndex ?? createScriptIndex()
-    const id = createAuthoredScriptId(`${current.name}使用`, Object.keys(index.library ?? {}))
-    const chunk = deriveScriptChunk(id, index.shards)
-    if (!chunk) {
-      onStatusNotice?.({ kind: 'error', message: `无法为 ${id} 推导脚本分片。` })
-      return
-    }
-    const scriptRef: ScriptRef = { id, chunk }
-    const nextUse: UseSpec = {
-      ...(current.use ?? { consuming: true, effects: [] }),
-      target: 'scene',
-      effects: [{ kind: 'runScript', script: scriptRef }],
-      menuAfterUse: current.use?.menuAfterUse ?? 'close',
-    }
-    delete nextUse.battleOnly
-    session.dispatch(
-      new CompositeCommand('新建并绑定物品使用脚本', [
-        new UpsertAuthoredScriptCommand(id, { name: `${current.name}使用`, self: 'none' }, []),
-        new UpdateItemCommand(current.id, { use: nextUse }),
-      ]),
-    )
-    setConfirmScriptReplaceId(undefined)
-    onStatusNotice?.({ kind: 'info', message: `已创建并绑定 ${id}。` })
-    onOpenScript?.(id)
-  }
+  const createAndBindScript = useCallback(
+    (confirmed = false): void => {
+      if (!selId) return
+      if (script?.session) {
+        onStatusNotice?.({
+          kind: 'error',
+          message: '共享脚本必须从具名共享库创建；物品私有逻辑请直接编辑当前物品内联正文。',
+        })
+        return
+      }
+      const state = session.getState()
+      const current = state.items.find((candidate) => candidate.id === selId)
+      if (!current) return
+      if (!confirmed && current.use?.effects.length) {
+        setConfirmScriptReplaceId(current.id)
+        onStatusNotice?.({
+          kind: 'info',
+          message: '共享剧情脚本必须独占用途链；确认后会替换当前效果。',
+        })
+        return
+      }
+      const index = state.scriptIndex ?? createScriptIndex()
+      const id = createAuthoredScriptId(`${current.name}使用`, Object.keys(index.library ?? {}))
+      const chunk = deriveScriptChunk(id, index.shards)
+      if (!chunk) {
+        onStatusNotice?.({ kind: 'error', message: `无法为 ${id} 推导脚本分片。` })
+        return
+      }
+      const scriptRef: ScriptRef = { id, chunk }
+      const nextUse: UseSpec = {
+        ...(current.use ?? { consuming: true, effects: [] }),
+        target: 'scene',
+        effects: [{ kind: 'runScript', script: scriptRef }],
+        menuAfterUse: current.use?.menuAfterUse ?? 'close',
+      }
+      delete nextUse.battleOnly
+      session.dispatch(
+        new CompositeCommand('新建并绑定物品使用脚本', [
+          new UpsertAuthoredScriptCommand(id, { name: `${current.name}使用`, self: 'none' }, []),
+          new UpdateItemCommand(current.id, { use: nextUse }),
+        ]),
+      )
+      setConfirmScriptReplaceId(undefined)
+      onStatusNotice?.({ kind: 'info', message: `已创建并绑定 ${id}。` })
+      onOpenScript?.(id)
+    },
+    [onOpenScript, onStatusNotice, script?.session, selId, session],
+  )
   /** 新建私有脚本是一个跨 session 作者事务；正文与 shell ref 必须成对撤销/重做。 */
-  const addPrivateScript = (): void => {
-    if (!item || !script) return
-    const storedItem = script.session.getState().items.find((candidate) => candidate.id === item.id)
+  const scriptSession = script?.session
+  const addPrivateScript = useCallback((): void => {
+    if (!item || !scriptSession) return
+    const storedItem = scriptSession.getState().items.find((candidate) => candidate.id === item.id)
     const exists = (storedItem?.use?.effects ?? []).some(
       (effect) => effect.kind === 'itemPrivateScript',
     )
@@ -1053,7 +1159,11 @@ export function ItemTab(props: {
         message: cause instanceof Error ? cause.message : String(cause),
       })
     }
-  }
+  }, [historyCoordinator, item?.id, item?.name, onStatusNotice, scriptSession, session])
+  const reportItemEffectError = useCallback(
+    (message: string): void => onStatusNotice?.({ kind: 'error', message }),
+    [onStatusNotice],
+  )
   const importIcon = async (file: File): Promise<void> => {
     if (!item) return
     const targetId = item.id
@@ -1144,37 +1254,15 @@ export function ItemTab(props: {
           }
         />
         <div className="sprite-list item-catalog-list">
-          {shown.map((candidate) => {
-            const tags = abilityTags(candidate)
-            const refs = referenceMap.get(candidate.id)?.length ?? 0
-            return (
-              <DsCatalogRow
-                key={candidate.id}
-                selected={candidate.id === item?.id}
-                leading={
-                  <ImageAssetThumbnail
-                    asset={candidate.icon}
-                    kind="item-icon"
-                    reader={assetReader}
-                    revision={
-                      candidate.icon ? assetCatalog.assets[candidate.icon]?.sha256 : undefined
-                    }
-                    className="item-list-icon"
-                  />
-                }
-                title={candidate.name}
-                meta={[
-                  candidate.id,
-                  ...tags,
-                  refs ? `引用 ${refs}` : undefined,
-                  pendingIds.has(candidate.id) ? '待迁移' : undefined,
-                ]
-                  .filter(Boolean)
-                  .join(' · ')}
-                onClick={() => selectItem(candidate.id)}
-              />
-            )
-          })}
+          <ItemCatalogRows
+            items={shown}
+            selectedId={item?.id}
+            referenceMap={referenceMap}
+            pendingIds={pendingIds}
+            assetCatalog={assetCatalog}
+            assetReader={assetReader}
+            onSelect={selectItem}
+          />
           {!items.length ? (
             <div className="item-catalog-empty">
               <strong>项目还没有物品</strong>
@@ -1241,7 +1329,12 @@ export function ItemTab(props: {
                   {confirmDeleteId === item.id ? (
                     <span className="item-delete-confirm">
                       <span>确定删除？</span>
-                      <DsButton variant="danger" icon="delete" onClick={deleteItem}>
+                      <DsButton
+                        variant="danger"
+                        icon="delete"
+                        disabled={itemReferenceStatus !== 'current' || blockers.length > 0}
+                        onClick={deleteItem}
+                      >
                         确认
                       </DsButton>
                       <DsButton variant="secondary" onClick={() => setConfirmDeleteId(undefined)}>
@@ -1252,6 +1345,14 @@ export function ItemTab(props: {
                     <DsButton
                       variant="danger"
                       icon="delete"
+                      disabled={itemReferenceStatus !== 'current' || blockers.length > 0}
+                      title={
+                        itemReferenceStatus !== 'current'
+                          ? '物品引用仍在检查，暂不能删除'
+                          : blockers.length
+                            ? `仍有 ${blockers.length} 处引用，请先从右侧处理`
+                            : '删除物品'
+                      }
                       onClick={() => setConfirmDeleteId(item.id)}
                     >
                       删除
@@ -1734,14 +1835,16 @@ export function ItemTab(props: {
                       items={items}
                       poisons={poisons}
                       scripts={scriptOptions}
-                      onChange={(next) => patchUse(next as UseSpec)}
+                      onChange={patchUse}
                       onOpenScript={onOpenScript}
                       onCreateAndBindScript={createAndBindScript}
-                      onError={(message) => onStatusNotice?.({ kind: 'error', message })}
+                      onError={reportItemEffectError}
                       itemId={item.id}
                       scenes={editorState.scenes as readonly SceneDef[]}
                       privateScripts={privateScripts('use')}
                       onAddPrivateScript={script ? addPrivateScript : undefined}
+                      draftScope={`item:${item.id}:use`}
+                      syncToken={session.getHistoryVersion()}
                     />
                   </div>
                 ) : (
@@ -1828,6 +1931,8 @@ export function ItemTab(props: {
                           assetReader={assetReader}
                           assetBase={assetBase}
                           onOpenSound={onOpenSound}
+                          draftScope={`item:${item.id}:throw.presentation.animation`}
+                          syncToken={session.getHistoryVersion()}
                         />
                       ) : (
                         <p className="item-effect-help">
@@ -1840,6 +1945,8 @@ export function ItemTab(props: {
                       poisons={poisons}
                       onChange={patchThrow}
                       onError={(message) => onStatusNotice?.({ kind: 'error', message })}
+                      draftScope={`item:${item.id}:throw`}
+                      syncToken={session.getHistoryVersion()}
                     />
                   </div>
                 ) : (
@@ -1943,8 +2050,8 @@ export function ItemTab(props: {
                 panel: (
                   <div className="item-inspector-scroll">
                     <DsReferencePanel
-                      state={itemReferences.length ? 'ready' : 'empty'}
-                      count={{ kind: 'exact', value: itemReferences.length }}
+                      state={itemReferencePanelState}
+                      count={itemReferenceCount}
                       impact={{
                         kind: blockers.length ? 'blocking' : 'informational',
                         label: blockers.length ? '阻断删除' : '仅信息',

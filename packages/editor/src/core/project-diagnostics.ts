@@ -9,6 +9,7 @@ import {
   type AssetKind,
   type CurrentManifest,
   type EntryPoint,
+  type Issue,
   type SceneDef,
   type StartWorld,
   validateAssetCatalog,
@@ -24,14 +25,52 @@ import {
   validateWorldVariableRegistryV1,
 } from '@type-pal/content'
 import { isRuntimeScriptRef } from '@type-pal/reforge'
-import { collectEditorAssetDiagnostics } from './asset-diagnostics.js'
-import type { EditorState } from './edit-session.js'
-import { collectEditorAssetReferences } from './editor-asset-references.js'
-import { collectMissingEntityAddressReferences } from './entity-address-references.js'
-import { collectScriptReferenceIssues, type ScriptEditorState } from './script-editor.js'
 import {
-  collectWorldVariableReferencesV1,
+  collectEditorAssetDiagnostics,
+  type EditorAssetDiagnostic,
+} from './asset-diagnostics.js'
+import {
+  blockingActorReferenceMap,
+  type ActorReference,
+} from './actor-references.js'
+import {
+  blockingPoisonReferenceMap,
+  type BattleDataReference,
+} from './battle-data-references.js'
+import type { EditorState } from './edit-session.js'
+import {
+  collectEditorAssetReferences,
+  collectEditorAssetReferenceSnapshotFromSlices,
+  type EditorAssetReferenceSnapshot,
+} from './editor-asset-references.js'
+import {
+  collectEntityAddressReferences,
+  collectMissingEntityAddressReferences,
+  missingEntityAddressReferencesFrom,
+  type EntityAddressReference,
+} from './entity-address-references.js'
+import { itemReferenceMap, type ItemReference } from './item-references.js'
+import {
+  buildCanonicalSchemeReferenceIndexesFromVisits,
+  type CanonicalSchemeReferenceIndexes,
+  type CanonicalScriptCommandVisit,
+  collectCanonicalScriptCommandVisits,
+  collectScriptReferenceIssuesFromVisits,
+  type ScriptEditorState,
+  type ScriptReferenceIssue,
+} from './script-editor.js'
+import {
+  projectCurrentAuthorReferenceSlices,
+  scriptEditorStateFromCurrentAuthorSlices,
+} from './script-editor-projection.js'
+import {
+  buildCanonicalSceneEntryReferenceIndexFromVisits,
+  type SceneEntryReferenceEntry,
+} from './script-references.js'
+import {
+  collectWorldVariableReferencesV1FromVisits,
   collectWorldVariableRegistryIssuesV1,
+  type WorldVariableReferenceIndexV1,
   worldVariableScriptStateFromEditorStateV1,
 } from './world-variable-references.js'
 
@@ -269,10 +308,16 @@ function validateStartWorldUniqueness(
   return issues
 }
 
-/** 项目页问题汇总；资产正向引用来自唯一 collector，并优先消费当前脚本作者态。 */
-export function collectProjectIssues(
+interface EditorDiagnosticScan {
+  referenceIssues: readonly Issue[]
+  assetSnapshot: EditorAssetReferenceSnapshot
+  assetDiagnostics: readonly EditorAssetDiagnostic[]
+}
+
+/** 项目页问题汇总；scanner 已由同一 revision 的 orchestrator 统一执行。 */
+function collectProjectIssuesFromScan(
   state: EditorState,
-  currentAuthor?: ScriptEditorState,
+  scan: EditorDiagnosticScan,
 ): ProjectIssue[] {
   const issues = validateManifestEntryPoints(state.manifest, state.scenes)
   for (const key of Object.keys(state.manifest)) {
@@ -325,7 +370,7 @@ export function collectProjectIssues(
       ...validateStartWorldResourceIssues(entry.startWorld, pathPrefix, target),
     )
   }
-  for (const issue of validateReferences({ ...state, entryPoints: entries }))
+  for (const issue of scan.referenceIssues)
     if (issue.where.startsWith('entryPoints[')) {
       const entry = entries.find(
         (candidate) =>
@@ -371,10 +416,8 @@ export function collectProjectIssues(
   }
 
   // 调用统一引用收集器 + closure validator，确保诊断覆盖脚本/场景/敌人引用；本页只展示摘要。
-  const references = collectEditorAssetReferences(state, currentAuthor)
-  for (const closure of catalogValid
-    ? collectEditorAssetDiagnostics(state.assetCatalog, references)
-    : []) {
+  const references = scan.assetSnapshot.references
+  for (const closure of catalogValid ? scan.assetDiagnostics : []) {
     const reference = closure.reference
     const isIntro =
       reference?.site.startsWith('entryPoint:') ?? closure.where.includes('introVideo')
@@ -528,17 +571,19 @@ function runtimeItemScriptProjectionPaths(state: EditorState): Set<string> {
   return paths
 }
 
-export function collectEditorStatusIssues(
+function collectEditorStatusIssuesFromScan(
   state: EditorState,
-  canonical?: ScriptEditorState,
+  canonical: ScriptEditorState | undefined,
+  referenceIssues: readonly Issue[],
+  projectIssues: readonly ProjectIssue[],
+  scriptReferenceIssues: readonly ScriptReferenceIssue[],
+  worldVariableReferences: WorldVariableReferenceIndexV1,
+  entityAddressReferences: readonly EntityAddressReference[],
 ): EditorStatusIssue[] {
   const projectedItemScriptPaths = canonical
     ? runtimeItemScriptProjectionPaths(state)
     : new Set<string>()
-  const contentIssues: EditorStatusIssue[] = validateReferences({
-    ...state,
-    entryPoints: state.manifest.entryPoints,
-  })
+  const contentIssues: EditorStatusIssue[] = referenceIssues
     .filter((issue) => !issue.where.startsWith('entryPoints['))
     .filter((issue) => !projectedItemScriptPaths.has(issue.where))
     .map((issue) => ({
@@ -546,21 +591,21 @@ export function collectEditorStatusIssues(
       message: issue.message,
       path: issue.where,
     }))
-  const canonicalScriptIssues: EditorStatusIssue[] = canonical
-    ? collectScriptReferenceIssues(canonical)
-    : []
+  const canonicalScriptIssues: EditorStatusIssue[] = canonical ? [...scriptReferenceIssues] : []
   const worldVariableIssues: EditorStatusIssue[] = collectWorldVariableRegistryIssuesV1(
     state.worldVariables ?? {},
-    collectWorldVariableReferencesV1(canonical ?? worldVariableScriptStateFromEditorStateV1(state)),
+    worldVariableReferences,
   ).map((issue) => ({ severity: 'error', message: issue.message, path: issue.path }))
-  const entityAddressIssues: EditorStatusIssue[] = collectMissingEntityAddressReferences(state).map(
-    (reference) => ({
+  const entityAddressIssues: EditorStatusIssue[] = missingEntityAddressReferencesFrom(
+    state.scenes,
+    entityAddressReferences,
+  ).map((reference) => ({
       severity: 'error',
       message: '实体 "' + reference.sceneId + '/' + reference.entityId + '" 不在 scenes',
       path: reference.path,
     }),
   )
-  const projectIssues: EditorStatusIssue[] = collectProjectIssues(state, canonical).map(
+  const projectStatusIssues: EditorStatusIssue[] = projectIssues.map(
     (issue) => ({
       severity: issue.severity,
       message: issue.message,
@@ -585,12 +630,165 @@ export function collectEditorStatusIssues(
     ...canonicalScriptIssues,
     ...worldVariableIssues,
     ...entityAddressIssues,
-    ...projectIssues,
+    ...projectStatusIssues,
     ...battleFieldIssues,
   ]) {
     unique.set(`${issue.severity}:${issue.path}:${issue.message}`, issue)
   }
   return [...unique.values()]
+}
+
+export interface EditorDiagnosticsSnapshot {
+  statusIssues: EditorStatusIssue[]
+  projectIssues: ProjectIssue[]
+  assetSnapshot: EditorAssetReferenceSnapshot
+  assetDiagnostics: EditorAssetDiagnostic[]
+  entityAddressReferences: EntityAddressReference[]
+  actorReferenceIndex: Map<string, ActorReference[]>
+  itemReferenceIndex: Map<string, ItemReference[]>
+  poisonReferenceIndex: Map<string, BattleDataReference[]>
+  worldVariableReferences: WorldVariableReferenceIndexV1
+  sceneEntryReferenceIndex: Map<string, SceneEntryReferenceEntry[]>
+  canonicalSchemeReferenceIndexes: CanonicalSchemeReferenceIndexes
+}
+
+export interface EditorDiagnosticsDependencies {
+  validateReferences: typeof validateReferences
+  projectCurrentAuthorReferenceSlices: typeof projectCurrentAuthorReferenceSlices
+  collectEditorAssetReferenceSnapshotFromSlices: typeof collectEditorAssetReferenceSnapshotFromSlices
+  collectEditorAssetDiagnostics: typeof collectEditorAssetDiagnostics
+  collectCanonicalScriptCommandVisits: typeof collectCanonicalScriptCommandVisits
+  collectScriptReferenceIssuesFromVisits: typeof collectScriptReferenceIssuesFromVisits
+  collectWorldVariableReferencesV1FromVisits: typeof collectWorldVariableReferencesV1FromVisits
+  collectEntityAddressReferences: typeof collectEntityAddressReferences
+  buildCanonicalSceneEntryReferenceIndexFromVisits: typeof buildCanonicalSceneEntryReferenceIndexFromVisits
+  buildCanonicalSchemeReferenceIndexesFromVisits: typeof buildCanonicalSchemeReferenceIndexesFromVisits
+  blockingActorReferenceMap: typeof blockingActorReferenceMap
+  itemReferenceMap: typeof itemReferenceMap
+  blockingPoisonReferenceMap: typeof blockingPoisonReferenceMap
+}
+
+/**
+ * The only full diagnostics orchestrator for one editor revision. Content validation, current
+ * author projection and asset collection each run once; status and project consumers share it.
+ */
+export function createEditorDiagnosticsSnapshotCollector(
+  overrides: Partial<EditorDiagnosticsDependencies> = {},
+): (state: EditorState, canonical?: ScriptEditorState) => EditorDiagnosticsSnapshot {
+  const dependencies: EditorDiagnosticsDependencies = {
+    validateReferences,
+    projectCurrentAuthorReferenceSlices,
+    collectEditorAssetReferenceSnapshotFromSlices,
+    collectEditorAssetDiagnostics,
+    collectCanonicalScriptCommandVisits,
+    collectScriptReferenceIssuesFromVisits,
+    collectWorldVariableReferencesV1FromVisits,
+    collectEntityAddressReferences,
+    buildCanonicalSceneEntryReferenceIndexFromVisits,
+    buildCanonicalSchemeReferenceIndexesFromVisits,
+    blockingActorReferenceMap,
+    itemReferenceMap,
+    blockingPoisonReferenceMap,
+    ...overrides,
+  }
+  return (state, canonical) => {
+    const author = canonical
+      ? dependencies.projectCurrentAuthorReferenceSlices(canonical, state)
+      : state
+    const currentAuthorState: EditorState = {
+      ...state,
+      scenes: author.scenes as EditorState['scenes'],
+      items: author.items as EditorState['items'],
+      sharedScripts: author.sharedScripts as EditorState['sharedScripts'],
+    }
+    const scriptState: ScriptEditorState = canonical
+      ? scriptEditorStateFromCurrentAuthorSlices(canonical, author)
+      : worldVariableScriptStateFromEditorStateV1(currentAuthorState)
+    const referenceIssues = dependencies.validateReferences({
+      ...currentAuthorState,
+      entryPoints: currentAuthorState.manifest.entryPoints,
+    })
+    const commandVisits: CanonicalScriptCommandVisit[] =
+      dependencies.collectCanonicalScriptCommandVisits(scriptState)
+    const assetSnapshot = dependencies.collectEditorAssetReferenceSnapshotFromSlices(
+      currentAuthorState,
+      author,
+    )
+    const assetDiagnostics = dependencies.collectEditorAssetDiagnostics(
+      currentAuthorState.assetCatalog,
+      assetSnapshot.references,
+    )
+    const entityAddressReferences =
+      dependencies.collectEntityAddressReferences(currentAuthorState)
+    const scriptReferenceIssues = canonical
+      ? dependencies.collectScriptReferenceIssuesFromVisits(scriptState, commandVisits)
+      : []
+    const worldVariableReferences = dependencies.collectWorldVariableReferencesV1FromVisits(
+      scriptState,
+      commandVisits,
+    )
+    const sceneEntryReferenceIndex = canonical
+      ? dependencies.buildCanonicalSceneEntryReferenceIndexFromVisits(scriptState, commandVisits)
+      : new Map<string, SceneEntryReferenceEntry[]>()
+    const canonicalSchemeReferenceIndexes = canonical
+      ? dependencies.buildCanonicalSchemeReferenceIndexesFromVisits(scriptState, commandVisits)
+      : { behavior: new Map(), sceneHook: new Map() }
+    const actorReferenceIndex = dependencies.blockingActorReferenceMap(currentAuthorState)
+    const itemReferenceIndex = dependencies.itemReferenceMap(
+      currentAuthorState,
+      canonical ? scriptState : undefined,
+    )
+    const poisonReferenceIndex = dependencies.blockingPoisonReferenceMap(currentAuthorState)
+    const scan = { referenceIssues, assetSnapshot, assetDiagnostics }
+    const projectIssues = collectProjectIssuesFromScan(currentAuthorState, scan)
+    const statusIssues = collectEditorStatusIssuesFromScan(
+      currentAuthorState,
+      canonical ? scriptState : undefined,
+      referenceIssues,
+      projectIssues,
+      scriptReferenceIssues,
+      worldVariableReferences,
+      entityAddressReferences,
+    )
+    return {
+      statusIssues,
+      projectIssues,
+      assetSnapshot,
+      assetDiagnostics,
+      entityAddressReferences,
+      actorReferenceIndex,
+      itemReferenceIndex,
+      poisonReferenceIndex,
+      worldVariableReferences,
+      sceneEntryReferenceIndex,
+      canonicalSchemeReferenceIndexes,
+    }
+  }
+}
+
+const collectCombinedEditorDiagnostics = createEditorDiagnosticsSnapshotCollector()
+
+export function collectEditorDiagnosticsSnapshot(
+  state: EditorState,
+  canonical?: ScriptEditorState,
+): EditorDiagnosticsSnapshot {
+  return collectCombinedEditorDiagnostics(state, canonical)
+}
+
+/** Compatibility wrapper for synchronous save/actions and focused pure-function tests. */
+export function collectProjectIssues(
+  state: EditorState,
+  currentAuthor?: ScriptEditorState,
+): ProjectIssue[] {
+  return collectEditorDiagnosticsSnapshot(state, currentAuthor).projectIssues
+}
+
+/** Compatibility wrapper for synchronous save/actions and focused pure-function tests. */
+export function collectEditorStatusIssues(
+  state: EditorState,
+  canonical?: ScriptEditorState,
+): EditorStatusIssue[] {
+  return collectEditorDiagnosticsSnapshot(state, canonical).statusIssues
 }
 
 function sameWorldVariableDiagnosticShape(
@@ -681,6 +879,16 @@ export function assertProjectSaveValid(state: EditorState): void {
       actors: state.actors,
     }),
   )
+  const currentScriptState = worldVariableScriptStateFromEditorStateV1(state)
+  const currentCommandVisits = collectCanonicalScriptCommandVisits(currentScriptState)
+  const scriptReferenceIssue = collectScriptReferenceIssuesFromVisits(
+    currentScriptState,
+    currentCommandVisits,
+  )[0]
+  if (scriptReferenceIssue)
+    throw new Error(
+      `保存前脚本引用校验失败：${scriptReferenceIssue.path}: ${scriptReferenceIssue.message}`,
+    )
   const missingEntityAddress = collectMissingEntityAddressReferences(state)[0]
   if (missingEntityAddress)
     throw new Error(
@@ -694,7 +902,7 @@ export function assertProjectSaveValid(state: EditorState): void {
     )
   const variableIssue = collectWorldVariableRegistryIssuesV1(
     state.worldVariables ?? {},
-    collectWorldVariableReferencesV1(worldVariableScriptStateFromEditorStateV1(state)),
+    collectWorldVariableReferencesV1FromVisits(currentScriptState, currentCommandVisits),
   )[0]
   if (variableIssue)
     throw new Error(`保存前世界变量校验失败：${variableIssue.path}: ${variableIssue.message}`)

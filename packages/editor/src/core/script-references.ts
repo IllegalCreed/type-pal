@@ -1,6 +1,13 @@
 import type { Command, ScriptRef, SharedScriptSelf } from '@type-pal/content'
 import { checkScriptLibrary, deriveScriptChunk, isScriptRef } from '@type-pal/content'
 import type { EditorState } from './edit-session.js'
+import {
+  type CanonicalScriptCommandVisit,
+  type CanonicalScriptReference,
+  collectCanonicalScriptCommandVisits,
+  describeCanonicalScriptReference,
+  type ScriptEditorState,
+} from './script-editor.js'
 
 export type ScriptReferenceKind = 'call' | 'jump' | 'binding'
 
@@ -22,6 +29,7 @@ export interface SceneEntryReferenceEntry {
   entryId: string
   caller: ScriptReferenceCaller
   path: string
+  canonical?: CanonicalScriptReference
 }
 
 export interface ScriptProjectDiagnostics {
@@ -41,6 +49,42 @@ interface ScanContext {
 
 export function sceneEntryReferenceKey(sceneId: string, entryId: string): string {
   return JSON.stringify([sceneId, entryId])
+}
+
+/** Current canonical author-state index; one visitor pass serves every named-entry row. */
+export function buildCanonicalSceneEntryReferenceIndexFromVisits(
+  state: ScriptEditorState,
+  visits: readonly CanonicalScriptCommandVisit[],
+): Map<string, SceneEntryReferenceEntry[]> {
+  const index = new Map<string, SceneEntryReferenceEntry[]>()
+  for (const { command, path, locator } of visits) {
+    if (command.kind !== 'loadScene' || !command.entryId) continue
+    const reference: CanonicalScriptReference = { kind: 'command', path, locator }
+    const key = sceneEntryReferenceKey(command.scene, command.entryId)
+    const entries = index.get(key) ?? []
+    entries.push({
+      targetSceneId: command.scene,
+      entryId: command.entryId,
+      caller: {
+        type: 'global',
+        sourceKey: `canonical:${path}`,
+        label: describeCanonicalScriptReference(state, reference),
+      },
+      path,
+      canonical: reference,
+    })
+    index.set(key, entries)
+  }
+  return index
+}
+
+export function buildCanonicalSceneEntryReferenceIndex(
+  state: ScriptEditorState,
+): Map<string, SceneEntryReferenceEntry[]> {
+  return buildCanonicalSceneEntryReferenceIndexFromVisits(
+    state,
+    collectCanonicalScriptCommandVisits(state),
+  )
 }
 
 function pushRef(

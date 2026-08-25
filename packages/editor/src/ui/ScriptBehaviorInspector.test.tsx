@@ -389,6 +389,12 @@ describe('ScriptBehaviorInspector', () => {
       (candidate) => candidate.value === 'talked',
     )!
     await act(async () => setInput(flagInput, 'edited-inline'))
+    expect(session.isDirty()).toBe(false)
+    await act(async () =>
+      [...host.querySelectorAll<HTMLButtonElement>('button')]
+        .find((candidate) => candidate.textContent === '完成')!
+        .click(),
+    )
     expect(session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.talk!.flow).toMatchObject(
       {
         kind: 'stages',

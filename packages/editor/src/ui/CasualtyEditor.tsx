@@ -15,10 +15,10 @@ import { UpdateActorCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import {
   DsButton,
-  DsNumberInput,
+  DsDraftNumberInput,
+  DsDraftTextInput,
   DsSelect,
   DsSequenceIndex,
-  DsTextInput,
   DsPressable,
 } from './design-system/index.js'
 
@@ -62,6 +62,7 @@ export function CasualtyEditor(props: {
   onClose: () => void
 }) {
   const { actor, session, locale, onClose } = props
+  const syncToken = session.getHistoryVersion()
   const [slot, setSlot] = useState<CasualtySlot>('friendDeath')
   const [target, setTarget] = useState<BranchTarget>({ kind: 'fallback' })
   const script = actor.battler.casualty?.[slot]
@@ -229,18 +230,22 @@ export function CasualtyEditor(props: {
                     </DsPressable>
                     <label className="casualty-chance-field">
                       <span>阈值</span>
-                      <DsNumberInput
+                      <DsDraftNumberInput
+                        draftKey={`actor:${actor.id}:casualty:${slot}:gate:${index}:chance`}
+                        syncToken={syncToken}
                         min={1}
                         max={100}
                         step={1}
+                        integer
+                        normalize={(value) =>
+                          Math.max(1, Math.min(100, Math.trunc(value)))
+                        }
                         aria-label={`第 ${index + 1} 个概率分支阈值`}
                         value={gate.chance}
-                        onChange={(event) =>
-                          setGateChance(
-                            index,
-                            Math.max(1, Math.min(100, Math.trunc(Number(event.target.value) || 1))),
-                          )
-                        }
+                        onCommit={(value) => {
+                          const chance = Math.max(1, Math.min(100, value ?? 1))
+                          if (chance !== gate.chance) setGateChance(index, chance)
+                        }}
                       />
                       <span>%</span>
                     </label>
@@ -290,6 +295,10 @@ export function CasualtyEditor(props: {
                 locale={locale}
                 onChange={setBranch}
                 header={target.kind === 'fallback' ? '兜底分支' : `概率分支 ${target.index + 1}`}
+                draftScope={`actor:${actor.id}:casualty:${slot}:${
+                  target.kind === 'fallback' ? 'fallback' : `gate:${target.index}`
+                }`}
+                syncToken={syncToken}
               />
             ) : (
               <div className="casualty-empty-state">该分支已删除，请在左侧选择其他分支。</div>
@@ -305,9 +314,11 @@ function BranchEditor(props: {
   branch: CasualtyBranch
   locale: Locale
   header: string
+  draftScope: string
+  syncToken: number
   onChange: (next: CasualtyBranch) => void
 }) {
-  const { branch, locale, header, onChange } = props
+  const { branch, locale, header, draftScope, syncToken, onChange } = props
   const setLines = (lines: CasualtyBranch['lines']): void => onChange({ ...branch, lines })
   const setEffects = (effects: CasualtyBranch['effects']): void => onChange({ ...branch, effects })
 
@@ -354,13 +365,15 @@ function BranchEditor(props: {
               <div className="casualty-line-fields">
                 <label>
                   <span>文本 ID</span>
-                  <DsTextInput
+                  <DsDraftTextInput
                     placeholder="文本 id（如 dlg.1208）"
+                    draftKey={`${draftScope}:line:${index}:text`}
+                    syncToken={syncToken}
                     value={line.text}
-                    onChange={(event) =>
+                    onCommit={(text) =>
                       setLines(
                         branch.lines.map((item, i) =>
-                          i === index ? { ...item, text: event.target.value } : item,
+                          i === index ? { ...item, text } : item,
                         ),
                       )
                     }
@@ -499,25 +512,28 @@ function BranchEditor(props: {
                     <label>
                       <span>提升比例</span>
                       <span className="casualty-percent-input">
-                        <DsNumberInput
+                        <DsDraftNumberInput
+                          draftKey={`${draftScope}:effect:${index}:percent`}
+                          syncToken={syncToken}
                           min={1}
                           step={1}
+                          integer
+                          normalize={(value) => Math.max(1, Math.trunc(value))}
                           value={effect.percent}
-                          onChange={(event) =>
+                          onCommit={(percent) => {
+                            const nextPercent = Math.max(1, percent ?? 1)
+                            if (nextPercent === effect.percent) return
                             setEffects(
                               branch.effects.map((item, i) =>
                                 i === index
                                   ? {
                                       ...item,
-                                      percent: Math.max(
-                                        1,
-                                        Math.trunc(Number(event.target.value) || 1),
-                                      ),
+                                      percent: nextPercent,
                                     }
                                   : item,
                               ),
                             )
-                          }
+                          }}
                         />
                         <span>%</span>
                       </span>

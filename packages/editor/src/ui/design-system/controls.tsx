@@ -506,7 +506,8 @@ type DsDraftInputContract = {
   /** Optional external transaction version used to resync after undo/redo. */
   syncToken?: string | number
   validate?: (value: string) => string | undefined
-  onCommit: (value: string) => void
+  /** Return false when the canonical mutation was rejected so the draft resyncs. */
+  onCommit: (value: string) => void | boolean
   onCancel?: () => void
 }
 
@@ -610,8 +611,15 @@ function useDsDraftController(props: DsDraftInputContract & { value: string }): 
       setDraft(invalidDraft)
       return false
     }
+    const accepted = next.value === canonicalValue ? true : onCommit(next.value)
+    if (accepted === false) {
+      committedRef.current = undefined
+      const cleanDraft = { source, value: canonicalValue }
+      currentRef.current = cleanDraft
+      setDraft(cleanDraft)
+      return false
+    }
     committedRef.current = signature
-    if (next.value !== canonicalValue) onCommit(next.value)
     const cleanDraft = { source, value: next.value }
     currentRef.current = cleanDraft
     setDraft(cleanDraft)
@@ -635,15 +643,18 @@ function useDsDraftController(props: DsDraftInputContract & { value: string }): 
       commit()
     },
     keyDown: (event) => {
+      if (
+        (event.key === 'Enter' || event.key === 'Escape') &&
+        (composingRef.current || event.nativeEvent.isComposing || event.nativeEvent.keyCode === 229)
+      )
+        return
       if (event.key === 'Enter') {
-        if (composingRef.current || event.nativeEvent.isComposing) return
         event.preventDefault()
         if (commit()) event.currentTarget.blur()
         return
       }
       if (event.key !== 'Escape') return
       event.preventDefault()
-      composingRef.current = false
       blurredWhileComposingRef.current = false
       committedRef.current = undefined
       const cleanDraft = { source, value: canonicalValue }
@@ -678,7 +689,7 @@ type DsDraftNumberInputProps = Omit<
   integer?: boolean
   normalize?: (value: number) => number
   validate?: (value: number) => string | undefined
-  onCommit: (value: number | undefined) => void
+  onCommit: (value: number | undefined) => void | boolean
 }
 
 /** Number adapter for the shared draft boundary; empty/non-finite/out-of-range drafts never commit. */
@@ -725,8 +736,12 @@ export function DsDraftNumberInput(props: DsDraftNumberInputProps) {
       }}
       onCommit={(draft) => {
         const parsed = parse(draft)
-        if (parsed !== undefined) onCommit(normalize(parsed))
-        else if (allowEmpty && !draft.trim()) onCommit(undefined)
+        if (parsed !== undefined) {
+          const normalized = normalize(parsed)
+          return normalized === value ? false : onCommit(normalized)
+        }
+        if (allowEmpty && !draft.trim()) return value === undefined ? false : onCommit(undefined)
+        return false
       }}
     />
   )

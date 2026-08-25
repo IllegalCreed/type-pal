@@ -36,8 +36,17 @@ export interface ScriptEditorState {
   sharedScripts: AuthorScriptLibrary
 }
 
+export interface ScriptEditorAffectedRecords {
+  /** Cross-record rewrites (for example a semantic id rename) require a full script refresh. */
+  all?: true
+  scenes?: readonly string[]
+  items?: readonly string[]
+  sharedScripts?: readonly string[]
+}
+
 export interface ScriptEditorCommand {
   readonly label: string
+  readonly affectedRecords: ScriptEditorAffectedRecords
   apply(state: ScriptEditorState): ScriptEditorState
   invert(state: ScriptEditorState): ScriptEditorState
 }
@@ -346,6 +355,23 @@ export function visitCanonicalScriptCommands(
     )
 }
 
+export interface CanonicalScriptCommandVisit {
+  command: AuthorCommand
+  path: string
+  locator: ScriptCommandLocator
+}
+
+/** Materialize one canonical command walk so every derived index for a revision can reuse it. */
+export function collectCanonicalScriptCommandVisits(
+  state: ScriptEditorState,
+): CanonicalScriptCommandVisit[] {
+  const visits: CanonicalScriptCommandVisit[] = []
+  visitCanonicalScriptCommands(state, (command, path, locator) => {
+    visits.push({ command, path, locator })
+  })
+  return visits
+}
+
 function mapCommands(
   commands: AuthorCommand[],
   map: (command: AuthorCommand) => AuthorCommand,
@@ -475,7 +501,10 @@ export interface ScriptReferenceIssue {
  * 当前共享脚本引用闭包。`__author-script-runtime` ScriptRef 只是 UI/宿主投影，
  * 不能拿旧 ScriptChunk 校验器判断；真正的作者引用必须在这里按稳定 ScriptId 对 sharedScripts 验证。
  */
-export function collectScriptReferenceIssues(state: ScriptEditorState): ScriptReferenceIssue[] {
+export function collectScriptReferenceIssuesFromVisits(
+  state: ScriptEditorState,
+  visits: readonly CanonicalScriptCommandVisit[],
+): ScriptReferenceIssue[] {
   const issues: ScriptReferenceIssue[] = []
   const sharedIds = new Set(Object.keys(state.sharedScripts))
   const check = (scriptId: string, path: string): void => {
@@ -492,9 +521,9 @@ export function collectScriptReferenceIssues(state: ScriptEditorState): ScriptRe
         check(effect.script, `items.${item.id}.use.effects[${index}].script`)
     }
   }
-  visitCanonicalScriptCommands(state, (command, path) => {
+  for (const { command, path } of visits) {
     if (command.kind === 'callScript') check(command.script, `${path}.script`)
-    if (command.kind !== 'selectEntityBehavior') return
+    if (command.kind !== 'selectEntityBehavior') continue
     const scene = state.scenes.find((candidate) => candidate.id === command.target.scene)
     const entity = scene?.entities.find((candidate) => candidate.id === command.target.entity)
     if (!entity) {
@@ -503,7 +532,7 @@ export function collectScriptReferenceIssues(state: ScriptEditorState): ScriptRe
         path: `${path}.target`,
         message: `实体 "${command.target.scene}/${command.target.entity}" 不存在`,
       })
-      return
+      continue
     }
     const registry = entity.behaviors?.[command.channel]
     const selected =
@@ -514,7 +543,7 @@ export function collectScriptReferenceIssues(state: ScriptEditorState): ScriptRe
         path: `${path}.selection.value`,
         message: `${command.channel} behavior "${command.selection.value}" 不存在`,
       })
-    if (!command.cursorHandoff) return
+    if (!command.cursorHandoff) continue
     const source = registry?.[command.cursorHandoff.fromBehavior]
     if (!source)
       issues.push({
@@ -536,8 +565,12 @@ export function collectScriptReferenceIssues(state: ScriptEditorState): ScriptRe
           message: '目标游标不属于目标 behavior',
         })
     }
-  })
+  }
   return issues
+}
+
+export function collectScriptReferenceIssues(state: ScriptEditorState): ScriptReferenceIssue[] {
+  return collectScriptReferenceIssuesFromVisits(state, collectCanonicalScriptCommandVisits(state))
 }
 
 function flowContainsCursor(flow: AuthorScriptFlow, cursor: FlowCursor): boolean {
@@ -638,6 +671,112 @@ export function sceneHookReferences(
       references.push({ kind: 'command', path, locator })
   })
   return references
+}
+
+export function canonicalBehaviorReferenceKey(
+  target: EntityAddress,
+  channel: 'trigger' | 'auto',
+  behaviorId: string,
+): string {
+  return JSON.stringify([target.scene, target.entity, channel, behaviorId])
+}
+
+export function canonicalSceneHookReferenceKey(
+  sceneId: string,
+  slot: SceneHookSlot,
+  hookId: string,
+): string {
+  return JSON.stringify([sceneId, slot, hookId])
+}
+
+export interface CanonicalSchemeReferenceIndexes {
+  behavior: Map<string, CanonicalScriptReference[]>
+  sceneHook: Map<string, CanonicalScriptReference[]>
+}
+
+/** Build all behavior/hook reverse references from the shared one-pass command materialization. */
+export function buildCanonicalSchemeReferenceIndexesFromVisits(
+  state: ScriptEditorState,
+  visits: readonly CanonicalScriptCommandVisit[],
+): CanonicalSchemeReferenceIndexes {
+  const behavior = new Map<string, CanonicalScriptReference[]>()
+  const sceneHook = new Map<string, CanonicalScriptReference[]>()
+  const push = (
+    index: Map<string, CanonicalScriptReference[]>,
+    key: string,
+    reference: CanonicalScriptReference,
+  ): void => {
+    index.set(key, [...(index.get(key) ?? []), reference])
+  }
+
+  for (const scene of state.scenes) {
+    for (const entity of scene.entities) {
+      for (const page of entity.pages ?? []) {
+        for (const channel of ['trigger', 'auto'] as const) {
+          const behaviorId = page[channel]
+          if (!behaviorId) continue
+          push(
+            behavior,
+            canonicalBehaviorReferenceKey(
+              { scene: scene.id, entity: entity.id },
+              channel,
+              behaviorId,
+            ),
+            {
+              kind: 'page',
+              path: `scenes.${scene.id}.entities.${entity.id}.pages.${page.id}.${channel}`,
+              locator: {
+                kind: 'entity-page',
+                sceneId: scene.id,
+                entityId: entity.id,
+                pageId: page.id,
+                channel,
+              },
+            },
+          )
+        }
+      }
+    }
+    for (const slot of ['onEnter', 'onTeleport'] as const) {
+      const hookId = scene.hooks?.[slot]?.initial
+      if (!hookId) continue
+      push(sceneHook, canonicalSceneHookReferenceKey(scene.id, slot, hookId), {
+        kind: 'initial',
+        path: `scenes.${scene.id}.hooks.${slot}.initial`,
+        locator: { kind: 'scene-hook-initial', sceneId: scene.id, slot, hookId },
+      })
+    }
+  }
+
+  for (const { command, path, locator } of visits) {
+    if (command.kind === 'selectEntityBehavior') {
+      const selectionId = command.selection.kind === 'use' ? command.selection.value : undefined
+      if (selectionId)
+        push(
+          behavior,
+          canonicalBehaviorReferenceKey(command.target, command.channel, selectionId),
+          { kind: 'command', path, locator },
+        )
+      const sourceId = command.cursorHandoff?.fromBehavior
+      if (sourceId && sourceId !== selectionId)
+        push(
+          behavior,
+          canonicalBehaviorReferenceKey(command.target, command.channel, sourceId),
+          { kind: 'command', path: `${path}.cursorHandoff.fromBehavior`, locator },
+        )
+    }
+    if (command.kind !== 'selectSceneHooks') continue
+    for (const slot of ['onEnter', 'onTeleport'] as const) {
+      const selection = command.selection[slot]
+      if (selection?.kind !== 'use') continue
+      push(
+        sceneHook,
+        canonicalSceneHookReferenceKey(command.scene, slot, selection.value),
+        { kind: 'command', path, locator },
+      )
+    }
+  }
+  return { behavior, sceneHook }
 }
 
 const COMMAND_PATH_LABELS: Readonly<Record<string, string>> = {
@@ -862,27 +1001,31 @@ abstract class SnapshotCommand implements ScriptEditorCommand {
   private after?: ScriptEditorState
 
   abstract readonly label: string
+  abstract readonly affectedRecords: ScriptEditorAffectedRecords
   protected abstract transform(state: ScriptEditorState): void
 
   apply(state: ScriptEditorState): ScriptEditorState {
-    if (this.after) return clone(this.after)
-    this.before = clone(state)
+    if (this.after) return this.after
+    this.before = state
     const next = clone(state)
     this.transform(next)
     validateState(next)
-    this.after = clone(next)
+    this.after = next
     return next
   }
 
   invert(_state: ScriptEditorState): ScriptEditorState {
     if (!this.before) throw new Error(`${this.label}: 尚未 apply`)
-    return clone(this.before)
+    return this.before
   }
 }
 
 /** 新放置实体同步登记进 current canonical 场景；与主会话 AddEntityCommand 成对提交。 */
 export class AddSceneEntityDefinitionCommand extends SnapshotCommand {
   readonly label = '新增 canonical 场景实体'
+  get affectedRecords() {
+    return { scenes: [this.sceneId] }
+  }
 
   constructor(
     private readonly sceneId: string,
@@ -903,6 +1046,9 @@ export class AddSceneEntityDefinitionCommand extends SnapshotCommand {
 /** 删除 current canonical 场景实体；与主会话 DeleteEntityCommand 成对提交。 */
 export class DeleteSceneEntityDefinitionCommand extends SnapshotCommand {
   readonly label = '删除 canonical 场景实体'
+  get affectedRecords() {
+    return { scenes: [this.sceneId] }
+  }
 
   constructor(
     private readonly sceneId: string,
@@ -927,6 +1073,7 @@ export class ScriptEditSession {
   private dirty = false
   private version = 0
   private historyVersion = 0
+  private readonly affectedRecordsByVersion = new Map<number, ScriptEditorAffectedRecords>()
   private readonly listeners = new Set<() => void>()
 
   constructor(state: ScriptEditorState) {
@@ -936,6 +1083,11 @@ export class ScriptEditSession {
 
   getState(): ScriptEditorState {
     return clone(this.state)
+  }
+
+  /** Internal immutable snapshot for render/derived-store consumers; callers must never mutate it. */
+  getStateSnapshot(): ScriptEditorState {
+    return this.state
   }
 
   isDirty(): boolean {
@@ -953,6 +1105,26 @@ export class ScriptEditSession {
 
   getHistoryVersion(): number {
     return this.historyVersion
+  }
+
+  getAffectedRecordsSince(historyVersion: number): ScriptEditorAffectedRecords {
+    if (historyVersion >= this.historyVersion) return {}
+    const scenes = new Set<string>()
+    const items = new Set<string>()
+    const sharedScripts = new Set<string>()
+    for (let version = historyVersion + 1; version <= this.historyVersion; version += 1) {
+      const affected = this.affectedRecordsByVersion.get(version)
+      if (!affected) return { all: true }
+      if (affected.all) return { all: true }
+      for (const id of affected.scenes ?? []) scenes.add(id)
+      for (const id of affected.items ?? []) items.add(id)
+      for (const id of affected.sharedScripts ?? []) sharedScripts.add(id)
+    }
+    return {
+      ...(scenes.size ? { scenes: [...scenes] } : {}),
+      ...(items.size ? { items: [...items] } : {}),
+      ...(sharedScripts.size ? { sharedScripts: [...sharedScripts] } : {}),
+    }
   }
 
   canUndo(): boolean {
@@ -974,6 +1146,7 @@ export class ScriptEditSession {
     this.future = []
     this.dirty = true
     this.historyVersion += 1
+    this.affectedRecordsByVersion.set(this.historyVersion, command.affectedRecords)
     this.notify()
     return true
   }
@@ -998,6 +1171,7 @@ export class ScriptEditSession {
         this.future = before.future
         this.dirty = before.dirty
         this.historyVersion += 1
+        this.affectedRecordsByVersion.set(this.historyVersion, command.affectedRecords)
         this.notify()
       },
     }
@@ -1015,6 +1189,7 @@ export class ScriptEditSession {
     if (!this.isRedoTop(command)) return false
     this.future.pop()
     this.historyVersion += 1
+    this.affectedRecordsByVersion.set(this.historyVersion, {})
     this.notify()
     return true
   }
@@ -1026,6 +1201,7 @@ export class ScriptEditSession {
     this.future.push(command)
     this.dirty = true
     this.historyVersion += 1
+    this.affectedRecordsByVersion.set(this.historyVersion, command.affectedRecords)
     this.notify()
     return true
   }
@@ -1037,6 +1213,7 @@ export class ScriptEditSession {
     this.past.push(command)
     this.dirty = true
     this.historyVersion += 1
+    this.affectedRecordsByVersion.set(this.historyVersion, command.affectedRecords)
     this.notify()
     return true
   }
@@ -1049,6 +1226,9 @@ export class ScriptEditSession {
 
 export class AddEntityBehaviorCommand extends SnapshotCommand {
   readonly label = '新增具名行为'
+  get affectedRecords() {
+    return { scenes: [this.target.scene] }
+  }
 
   constructor(
     private readonly target: EntityAddress,
@@ -1075,6 +1255,9 @@ export class AddEntityBehaviorCommand extends SnapshotCommand {
 
 export class CopyEntityBehaviorCommand extends SnapshotCommand {
   readonly label = '复制具名行为'
+  get affectedRecords() {
+    return { scenes: [this.target.scene] }
+  }
 
   constructor(
     private readonly target: EntityAddress,
@@ -1103,6 +1286,7 @@ export class CopyEntityBehaviorCommand extends SnapshotCommand {
 
 export class RenameEntityBehaviorCommand extends SnapshotCommand {
   readonly label = '重命名具名行为'
+  readonly affectedRecords = { all: true } as const
 
   constructor(
     private readonly target: EntityAddress,
@@ -1153,6 +1337,9 @@ export class RenameEntityBehaviorCommand extends SnapshotCommand {
 
 export class UpdateEntityBehaviorCommand extends SnapshotCommand {
   readonly label = '编辑具名行为'
+  get affectedRecords() {
+    return { scenes: [this.target.scene] }
+  }
 
   constructor(
     private readonly target: EntityAddress,
@@ -1174,6 +1361,9 @@ export class UpdateEntityBehaviorCommand extends SnapshotCommand {
 
 export class DeleteEntityBehaviorCommand extends SnapshotCommand {
   readonly label = '删除具名行为'
+  get affectedRecords() {
+    return { scenes: [this.target.scene] }
+  }
 
   constructor(
     private readonly target: EntityAddress,
@@ -1201,6 +1391,9 @@ export class DeleteEntityBehaviorCommand extends SnapshotCommand {
 
 export class AddSceneHookCommand extends SnapshotCommand {
   readonly label = '新增场景 Hook'
+  get affectedRecords() {
+    return { scenes: [this.sceneId] }
+  }
 
   constructor(
     private readonly sceneId: string,
@@ -1230,6 +1423,9 @@ export class AddSceneHookCommand extends SnapshotCommand {
 
 export class CopySceneHookCommand extends SnapshotCommand {
   readonly label = '复制场景 Hook'
+  get affectedRecords() {
+    return { scenes: [this.sceneId] }
+  }
 
   constructor(
     private readonly sceneId: string,
@@ -1257,6 +1453,7 @@ export class CopySceneHookCommand extends SnapshotCommand {
 
 export class RenameSceneHookCommand extends SnapshotCommand {
   readonly label = '重命名场景 Hook'
+  readonly affectedRecords = { all: true } as const
 
   constructor(
     private readonly sceneId: string,
@@ -1294,6 +1491,9 @@ export class RenameSceneHookCommand extends SnapshotCommand {
 
 export class UpdateSceneHookCommand extends SnapshotCommand {
   readonly label = '编辑场景 Hook'
+  get affectedRecords() {
+    return { scenes: [this.sceneId] }
+  }
 
   constructor(
     private readonly sceneId: string,
@@ -1316,6 +1516,9 @@ export class UpdateSceneHookCommand extends SnapshotCommand {
 /** 方案详情弹窗的一次保存：名称与默认状态共用一个撤销单元。 */
 export class SaveSceneHookDetailsCommand extends SnapshotCommand {
   readonly label = '保存场景脚本方案详情'
+  get affectedRecords() {
+    return { scenes: [this.sceneId] }
+  }
 
   constructor(
     private readonly sceneId: string,
@@ -1341,6 +1544,9 @@ export class SaveSceneHookDetailsCommand extends SnapshotCommand {
 
 export class SetSceneHookInitialCommand extends SnapshotCommand {
   readonly label = '选择场景初始 Hook'
+  get affectedRecords() {
+    return { scenes: [this.sceneId] }
+  }
 
   constructor(
     private readonly sceneId: string,
@@ -1362,6 +1568,9 @@ export class SetSceneHookInitialCommand extends SnapshotCommand {
 
 export class DeleteSceneHookCommand extends SnapshotCommand {
   readonly label = '删除场景 Hook'
+  get affectedRecords() {
+    return { scenes: [this.sceneId] }
+  }
 
   constructor(
     private readonly sceneId: string,
@@ -1394,6 +1603,9 @@ export class DeleteSceneHookCommand extends SnapshotCommand {
 
 export class SetItemPrivateScriptBodyCommand extends SnapshotCommand {
   readonly label = '编辑物品私有脚本'
+  get affectedRecords() {
+    return { items: [this.itemId] }
+  }
 
   constructor(
     private readonly itemId: string,
@@ -1417,6 +1629,9 @@ export class SetItemPrivateScriptBodyCommand extends SnapshotCommand {
 /** ED-5J:新建物品私有脚本(use 槽内联正文,归当前物品拥有;不动共享库)。 */
 export class AddItemPrivateScriptCommand extends SnapshotCommand {
   readonly label = '新建物品私有脚本'
+  get affectedRecords() {
+    return { items: [this.itemId] }
+  }
 
   constructor(
     private readonly itemId: string,
@@ -1444,6 +1659,9 @@ export class AddItemPrivateScriptCommand extends SnapshotCommand {
 
 export class SetEntityHostileOnLoseCommand extends SnapshotCommand {
   readonly label = '编辑战败后脚本'
+  get affectedRecords() {
+    return { scenes: [this.target.scene] }
+  }
 
   constructor(
     private readonly target: EntityAddress,
@@ -1463,6 +1681,9 @@ export class SetEntityHostileOnLoseCommand extends SnapshotCommand {
 
 export class AddSharedScriptCommand extends SnapshotCommand {
   readonly label = '新增共享脚本'
+  get affectedRecords() {
+    return { sharedScripts: [this.scriptId] }
+  }
 
   constructor(
     private readonly scriptId: string,
@@ -1480,6 +1701,9 @@ export class AddSharedScriptCommand extends SnapshotCommand {
 
 export class UpdateSharedScriptCommand extends SnapshotCommand {
   readonly label = '编辑共享脚本'
+  get affectedRecords() {
+    return { sharedScripts: [this.scriptId] }
+  }
 
   constructor(
     private readonly scriptId: string,
@@ -1495,8 +1719,78 @@ export class UpdateSharedScriptCommand extends SnapshotCommand {
   }
 }
 
+export type SharedScriptMetadataPatch = Partial<
+  Pick<AuthorSharedScript, 'name' | 'description' | 'self'>
+>
+
+const SHARED_SCRIPT_METADATA_KEYS = new Set(['name', 'description', 'self'])
+
+function validateSharedScriptMetadataPatch(patch: SharedScriptMetadataPatch): void {
+  for (const key of Object.keys(patch))
+    if (!SHARED_SCRIPT_METADATA_KEYS.has(key))
+      throw new Error(`共享脚本元数据不允许修改 ${key}`)
+  if ('name' in patch && (typeof patch.name !== 'string' || !patch.name.trim()))
+    throw new Error('共享脚本显示名不能为空')
+  if (
+    'description' in patch &&
+    patch.description !== undefined &&
+    typeof patch.description !== 'string'
+  )
+    throw new Error('共享脚本说明必须是 string 或 undefined')
+  if (
+    'self' in patch &&
+    patch.self !== 'none' &&
+    patch.self !== 'optional' &&
+    patch.self !== 'required'
+  )
+    throw new Error('共享脚本 self 契约必须是 none|optional|required')
+}
+
+/** Metadata-only fast path: scalar fields cannot invalidate command/reference structure. */
+export class UpdateSharedScriptMetadataCommand implements ScriptEditorCommand {
+  readonly label = '编辑共享脚本元数据'
+  private before?: ScriptEditorState
+  private after?: ScriptEditorState
+  private readonly patch: SharedScriptMetadataPatch
+
+  get affectedRecords() {
+    return { sharedScripts: [this.scriptId] }
+  }
+
+  constructor(
+    private readonly scriptId: string,
+    patch: SharedScriptMetadataPatch,
+  ) {
+    validateSharedScriptMetadataPatch(patch)
+    this.patch = { ...patch }
+  }
+
+  apply(state: ScriptEditorState): ScriptEditorState {
+    if (this.after) return this.after
+    const source = state.sharedScripts[this.scriptId]
+    if (!source) throw new Error(`共享脚本不存在 ${this.scriptId}`)
+    this.before = state
+    this.after = {
+      ...state,
+      sharedScripts: {
+        ...state.sharedScripts,
+        [this.scriptId]: { ...source, ...this.patch },
+      },
+    }
+    return this.after
+  }
+
+  invert(_state: ScriptEditorState): ScriptEditorState {
+    if (!this.before) throw new Error(`${this.label}: 尚未 apply`)
+    return this.before
+  }
+}
+
 export class DeleteSharedScriptCommand extends SnapshotCommand {
   readonly label = '删除共享脚本'
+  get affectedRecords() {
+    return { sharedScripts: [this.scriptId] }
+  }
 
   constructor(private readonly scriptId: string) {
     super()
@@ -1510,6 +1804,9 @@ export class DeleteSharedScriptCommand extends SnapshotCommand {
 
 export class SetEntityPageBehaviorCommand extends SnapshotCommand {
   readonly label = '选择实体页行为'
+  get affectedRecords() {
+    return { scenes: [this.target.scene] }
+  }
 
   constructor(
     private readonly target: EntityAddress,
@@ -1537,6 +1834,9 @@ export class SetEntityPageBehaviorCommand extends SnapshotCommand {
 /** 当前 canonical 实体页的静态触发方式；与行为槽分离，修改后由同一脚本会话撤销/保存。 */
 export class SetEntityPageTriggerActivationCommand extends SnapshotCommand {
   readonly label = '编辑实体页触发方式'
+  get affectedRecords() {
+    return { scenes: [this.target.scene] }
+  }
 
   constructor(
     private readonly target: EntityAddress,

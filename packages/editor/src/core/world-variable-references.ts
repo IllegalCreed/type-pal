@@ -7,11 +7,12 @@ import type {
 import type { EditorState } from './edit-session.js'
 import type {
   CanonicalScriptReference,
+  CanonicalScriptCommandVisit,
   ScriptEditorState,
   ScriptCommandLocator,
   ScriptCommandOwner,
 } from './script-editor.js'
-import { visitCanonicalScriptCommands } from './script-editor.js'
+import { collectCanonicalScriptCommandVisits } from './script-editor.js'
 
 type AuthorStateTransition = Extract<
   AuthorScriptFlow,
@@ -200,11 +201,12 @@ function collectAllTransitionConditions(
 }
 
 /** canonical collector；迁移 seed、保存门、删除保护与 UI 必须全部消费本函数。 */
-export function collectWorldVariableReferencesV1(
+export function collectWorldVariableReferencesV1FromVisits(
   state: ScriptEditorState,
+  visits: readonly CanonicalScriptCommandVisit[],
 ): WorldVariableReferenceIndexV1 {
   const all: WorldVariableReferenceV1[] = []
-  visitCanonicalScriptCommands(state, (command, path, locator) => {
+  for (const { command, path, locator } of visits) {
     const base = {
       owner: locator.owner,
       ownerLabel: ownerLabel(state, locator.owner),
@@ -240,7 +242,7 @@ export function collectWorldVariableReferencesV1(
       })
     if (command.kind === 'branch' || command.kind === 'loop')
       collectCondition(command.cond, `${path}.cond`, locator.owner, state, all, locator)
-  })
+  }
   collectAllTransitionConditions(state, all)
   all.sort((left, right) => left.path.localeCompare(right.path))
   const mutable = new Map<string, WorldVariableReferenceV1[]>()
@@ -250,6 +252,15 @@ export function collectWorldVariableReferencesV1(
     else mutable.set(reference.id, [reference])
   }
   return { all, byId: mutable }
+}
+
+export function collectWorldVariableReferencesV1(
+  state: ScriptEditorState,
+): WorldVariableReferenceIndexV1 {
+  return collectWorldVariableReferencesV1FromVisits(
+    state,
+    collectCanonicalScriptCommandVisits(state),
+  )
 }
 
 /** 从引用索引生成作者变量登记表；同一 id 跨类型使用时立即停线。 */

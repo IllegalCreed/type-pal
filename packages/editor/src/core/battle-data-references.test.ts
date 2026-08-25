@@ -2,6 +2,7 @@ import type { EditorState } from './edit-session.js'
 import { describe, expect, test } from 'vitest'
 import {
   blockingEnemyReferences,
+  blockingPoisonReferenceMap,
   blockingPoisonReferences,
   blockingSkillReferences,
 } from './battle-data-references.js'
@@ -78,5 +79,17 @@ describe('battle data deletion references', () => {
       'poison-lethal-pair',
       'skill-poison',
     ])
+  })
+
+  test('builds one poison index with single-target parity and ignores owner self-edges', () => {
+    const state = fixture()
+    state.poisons![0]!.counters = 9
+    const index = blockingPoisonReferenceMap(state)
+    expect(index.get('9')).toEqual(blockingPoisonReferences(state, 9))
+    expect(index.get('9')?.map((entry) => entry.kind)).toEqual([
+      'poison-lethal-pair',
+      'skill-poison',
+    ])
+    expect(index.get('9')?.some((entry) => entry.ownerId === entry.targetId)).toBe(false)
   })
 })

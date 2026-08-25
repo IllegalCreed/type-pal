@@ -1,7 +1,9 @@
-import type { AssetCatalogV1, AssetId, AssetRecordV1 } from '@type-pal/content'
+import type { AssetCatalogV1, AssetId, AssetRecordV1, AssetReference } from '@type-pal/content'
 import { createWavPreviewTransport } from '../core/audio-preview.js'
+import type { EditorAssetDiagnostic } from '../core/asset-diagnostics.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import type { ScriptEditorState } from '../core/script-editor.js'
 import {
   asAudioWorkbenchTransport,
@@ -71,6 +73,10 @@ export function SoundTab(props: {
   onObjectFocus?: (id: string | undefined) => void
   currentAuthor?: ScriptEditorState
   getCurrentAuthor?: () => ScriptEditorState | undefined
+  assetReferences?: readonly AssetReference[]
+  assetDiagnostics: readonly EditorAssetDiagnostic[]
+  assetReferenceStatus?: EditorDerivedStatus
+  assetReferenceMessage?: string
 }) {
   return <AudioAssetWorkbench {...props} strategy={SOUND_STRATEGY} />
 }

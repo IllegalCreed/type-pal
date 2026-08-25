@@ -5,6 +5,8 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { collectEditorAssetDiagnostics } from '../core/asset-diagnostics.js'
+import { collectEditorAssetReferences } from '../core/editor-asset-references.js'
 import { CutsceneTab } from './CutsceneTab.js'
 import { ImageTab } from './ImageTab.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
@@ -165,6 +167,15 @@ const reader = {
   urlFor: vi.fn(async () => ''),
 }
 
+const assetReferenceProps = {
+  assetReferences: collectEditorAssetReferences(state()),
+  assetDiagnostics: collectEditorAssetDiagnostics(
+    catalog,
+    collectEditorAssetReferences(state()),
+  ),
+  assetReferenceStatus: 'current' as const,
+}
+
 let root: Root
 let host: HTMLDivElement
 
@@ -186,6 +197,7 @@ describe('asset inspectors shared tabs', () => {
     await act(async () => {
       root.render(
         <ImageTab
+          {...assetReferenceProps}
           assetBase={{} as never}
           catalog={catalog}
           reader={reader as never}
@@ -212,6 +224,7 @@ describe('asset inspectors shared tabs', () => {
     await act(async () =>
       root.render(
         <MusicTab
+          {...assetReferenceProps}
           catalog={catalog}
           reader={reader as never}
           session={session}
@@ -231,6 +244,7 @@ describe('asset inspectors shared tabs', () => {
     await act(async () =>
       root.render(
         <SoundTab
+          {...assetReferenceProps}
           catalog={catalog}
           reader={reader as never}
           session={session}
@@ -254,6 +268,7 @@ describe('asset inspectors shared tabs', () => {
     await act(async () => {
       root.render(
         <CutsceneTab
+          {...assetReferenceProps}
           assetBase={{} as never}
           catalog={catalog}
           reader={reader as never}
@@ -276,6 +291,7 @@ describe('asset inspectors shared tabs', () => {
     await act(async () => {
       root.render(
         <ImageTab
+          {...assetReferenceProps}
           assetBase={{} as never}
           catalog={catalog}
           reader={reader as never}
@@ -307,6 +323,7 @@ describe('asset inspectors shared tabs', () => {
     await act(async () =>
       root.render(
         <SoundTab
+          {...assetReferenceProps}
           catalog={catalog}
           reader={reader as never}
           session={session}
@@ -333,6 +350,7 @@ describe('asset inspectors shared tabs', () => {
       await act(async () => {
         root.render(
           <CutsceneTab
+            {...assetReferenceProps}
             assetBase={{} as never}
             catalog={catalog}
             reader={reader as never}

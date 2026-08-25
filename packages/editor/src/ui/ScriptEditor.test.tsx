@@ -207,6 +207,7 @@ describe('CanonicalScriptEditor author presentation', () => {
   })
 
   test('inserts and edits an entity-state command with the shared localized form', async () => {
+    const changes = vi.fn()
     const scene = {
       id: 's001',
       mapId: 'map-001',
@@ -234,7 +235,16 @@ describe('CanonicalScriptEditor author presentation', () => {
 
     function Harness() {
       const [body, setBody] = useState<AuthorCommand[]>([])
-      return <CanonicalScriptBodyEditor body={body} context={context} onChange={setBody} />
+      return (
+        <CanonicalScriptBodyEditor
+          body={body}
+          context={context}
+          onChange={(next) => {
+            changes(next)
+            setBody(next)
+          }}
+        />
+      )
     }
 
     await act(async () => root.render(<Harness />))
@@ -246,19 +256,65 @@ describe('CanonicalScriptEditor author presentation', () => {
     await act(async () =>
       host.querySelector<HTMLButtonElement>('[data-command-kinds="suspendEntity"]')!.click(),
     )
+    changes.mockClear()
 
     let row = host.querySelector<HTMLElement>('.cmd-row')!
     expect(row.textContent).toContain('暂停 s001/e1')
     await act(async () =>
       row.dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true })),
     )
-    const dialog = host.querySelector<HTMLElement>('[role="dialog"]')!
+    let dialog = host.querySelector<HTMLElement>('[role="dialog"]')!
     expect(dialog.querySelector('[role="combobox"][aria-label="场景"]')).not.toBeNull()
     expect(dialog.querySelector('[role="combobox"][aria-label="实体"]')).not.toBeNull()
     expect(dialog.textContent).toContain('持续时间（tick）')
 
-    const ticks = dialog.querySelector<HTMLInputElement>('input[type="number"]')!
+    await act(async () =>
+      [...dialog.querySelectorAll<HTMLButtonElement>('button')]
+        .find((candidate) => candidate.textContent === '完成')!
+        .click(),
+    )
+    expect(changes).not.toHaveBeenCalled()
+
+    row = host.querySelector<HTMLElement>('.cmd-row')!
+    await act(async () =>
+      row.dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true })),
+    )
+    dialog = host.querySelector<HTMLElement>('[role="dialog"]')!
     const valueSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
+    let ticks = dialog.querySelector<HTMLInputElement>('input[type="number"]')!
+    await act(async () => {
+      valueSetter.call(ticks, '6')
+      ticks.dispatchEvent(new Event('input', { bubbles: true }))
+      valueSetter.call(ticks, '1')
+      ticks.dispatchEvent(new Event('input', { bubbles: true }))
+    })
+    await act(async () =>
+      [...dialog.querySelectorAll<HTMLButtonElement>('button')]
+        .find((candidate) => candidate.textContent === '完成')!
+        .click(),
+    )
+    expect(changes).not.toHaveBeenCalled()
+
+    row = host.querySelector<HTMLElement>('.cmd-row')!
+    await act(async () =>
+      row.dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true })),
+    )
+    dialog = host.querySelector<HTMLElement>('[role="dialog"]')!
+    ticks = dialog.querySelector<HTMLInputElement>('input[type="number"]')!
+    await act(async () => {
+      valueSetter.call(ticks, '6')
+      ticks.dispatchEvent(new Event('input', { bubbles: true }))
+    })
+    expect(changes).not.toHaveBeenCalled()
+    await act(async () => dialog.querySelector<HTMLButtonElement>('[aria-label="关闭"]')!.click())
+    expect(changes).not.toHaveBeenCalled()
+
+    row = host.querySelector<HTMLElement>('.cmd-row')!
+    await act(async () =>
+      row.dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true })),
+    )
+    dialog = host.querySelector<HTMLElement>('[role="dialog"]')!
+    ticks = dialog.querySelector<HTMLInputElement>('input[type="number"]')!
     await act(async () => {
       valueSetter.call(ticks, '6')
       ticks.dispatchEvent(new Event('input', { bubbles: true }))
@@ -268,6 +324,7 @@ describe('CanonicalScriptEditor author presentation', () => {
         .find((candidate) => candidate.textContent === '完成')!
         .click(),
     )
+    expect(changes).toHaveBeenCalledOnce()
     row = host.querySelector<HTMLElement>('.cmd-row')!
     expect(row.textContent).toContain('6 tick')
   })
@@ -311,6 +368,12 @@ describe('CanonicalScriptEditor author presentation', () => {
       option.textContent?.startsWith('显示，可通行'),
     )!
     await act(async () => passable.click())
+    expect(onChange).not.toHaveBeenCalled()
+    await act(async () =>
+      [...host.querySelectorAll<HTMLButtonElement>('button')]
+        .find((candidate) => candidate.textContent === '完成')!
+        .click(),
+    )
     expect(onChange).toHaveBeenLastCalledWith([
       {
         kind: 'setEntityState',
@@ -350,6 +413,12 @@ describe('CanonicalScriptEditor author presentation', () => {
       option.textContent?.startsWith('显示，阻挡通行'),
     )!
     await act(async () => blocking.click())
+    expect(onChange).not.toHaveBeenCalled()
+    await act(async () =>
+      [...host.querySelectorAll<HTMLButtonElement>('button')]
+        .find((candidate) => candidate.textContent === '完成')!
+        .click(),
+    )
     expect(onChange).toHaveBeenLastCalledWith([
       {
         kind: 'setMultiEntityState',
@@ -721,13 +790,19 @@ describe('CanonicalScriptEditor author presentation', () => {
     )
     expect(bambooOption).toBeDefined()
     await act(async () => bambooOption!.click())
+    expect(onChange).not.toHaveBeenCalled()
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label="打开战场 25"]')!.click(),
+    )
+    expect(onOpenBattleField).toHaveBeenCalledWith(25)
+    await act(async () =>
+      [...host.querySelectorAll<HTMLButtonElement>('button')]
+        .find((candidate) => candidate.textContent === '完成')!
+        .click(),
+    )
     expect(onChange).toHaveBeenLastCalledWith([
       expect.objectContaining({ kind: 'startBattle', enemyTeamId: 'team-1', fieldId: 25 }),
     ])
-    await act(async () =>
-      host.querySelector<HTMLButtonElement>('[aria-label="打开战场 24"]')!.click(),
-    )
-    expect(onOpenBattleField).toHaveBeenCalledWith(24)
   })
 
   test('resolves current actor identity in canonical command summaries', async () => {
@@ -1022,6 +1097,7 @@ describe('CanonicalScriptEditor author presentation', () => {
   })
 
   test('preserves the preparation tab for state-machine entries', async () => {
+    const changes = vi.fn()
     function Harness() {
       const [flow, setFlow] = useState<AuthorScriptFlow>({
         kind: 'stateMachine',
@@ -1046,6 +1122,7 @@ describe('CanonicalScriptEditor author presentation', () => {
         <CanonicalScriptFlowEditor
           flow={flow}
           onChange={(next) => {
+            changes(next)
             setFlow(next)
             return true
           }}
@@ -1060,6 +1137,22 @@ describe('CanonicalScriptEditor author presentation', () => {
       expect.stringContaining('脚本正文'),
     ])
     expect(host.querySelector('[aria-label="第一次交谈 · 正文"]')).not.toBeNull()
+
+    const stateName = host.querySelector<HTMLInputElement>('.canonical-state-label input')!
+    const valueSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
+    await act(async () => {
+      for (let index = 0; index < 100; index += 1) {
+        valueSetter.call(stateName, `第一次交谈 ${index}`)
+        stateName.dispatchEvent(new Event('input', { bubbles: true }))
+      }
+    })
+    expect(changes).not.toHaveBeenCalled()
+    await act(async () => {
+      stateName.focus()
+      stateName.blur()
+    })
+    expect(changes).toHaveBeenCalledOnce()
+    expect(changes.mock.calls[0]?.[0].machine.states.first.label).toBe('第一次交谈 99')
 
     await act(async () => tabs[0]!.click())
     expect(host.querySelector('[aria-label="画面出现前的准备"]')).not.toBeNull()

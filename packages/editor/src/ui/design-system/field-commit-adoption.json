@@ -1,73 +1,520 @@
 {
-  "version": 1,
-  "surfaces": [
+  "version": 2,
+  "pages": [
     {
-      "registry": ["project/overview", "project/entrypoint"],
-      "file": "ProjectWorkbenchTab.tsx",
-      "fields": [
-        "project.name",
-        "entry.label",
-        "startWorld.money",
-        "startWorld.inventory.count",
-        "startWorld.resources.*",
-        "startWorld.seedStats.*.hp",
-        "startWorld.seedStats.*.mp"
+      "registry": "scene/workspace",
+      "status": "adopted",
+      "productionFiles": [
+        "App.tsx",
+        "EntityPageAnimationEditor.tsx",
+        "ScriptDrawer.tsx",
+        "ScriptEditor.tsx",
+        "CommandForm.tsx",
+        "ScriptSceneHookInspector.tsx",
+        "ScriptBehaviorInspector.tsx"
+      ],
+      "transactions": [
+        {
+          "id": "scene-entity-and-entry-fields",
+          "kind": "field-draft",
+          "fields": [
+            "scene.entities.*.pages.*.triggerActivation.range",
+            "scene.entities.*.pos.*",
+            "scene.entities.*.hostile.chase.*",
+            "scene.entities.*.hostile.onVictory.ticks",
+            "scene.entities.*.hostile.onPlayerFlee.ticks",
+            "scene.entities.*.pages.*.animation.startAtMs",
+            "scene.entry.pos.*",
+            "scene.entries.*.label",
+            "scene.entries.*.pos.*",
+            "scriptFlow.states.*.label"
+          ],
+          "verification": "App.reference-navigation.test.tsx + EntityPageAnimationEditor.test.tsx"
+        },
+        {
+          "id": "canonical-command-dialog",
+          "kind": "aggregate-draft",
+          "owner": "CanonicalScriptBodyEditor.editingDraft",
+          "files": ["ScriptEditor.tsx", "CommandForm.tsx"],
+          "controlOwners": [
+            "CanonicalCommandForm",
+            "CommandForm",
+            "Num",
+            "Txt",
+            "JsonForm",
+            "EntityAddressEditor",
+            "ConditionEditor",
+            "primitiveField"
+          ],
+          "fields": ["AuthorCommand.*"],
+          "verification": "ScriptEditor.test.tsx"
+        },
+        {
+          "id": "script-scheme-details",
+          "kind": "aggregate-draft",
+          "owner": "ScriptSchemeDetailsDialog.nameDraft",
+          "files": ["ScriptEditor.tsx"],
+          "controlOwners": ["ScriptSchemeDetailsDialog"],
+          "fields": ["scriptScheme.name", "scriptScheme.default"],
+          "verification": "ScriptEditor.test.tsx"
+        },
+        {
+          "id": "drawer-command-editor",
+          "kind": "aggregate-draft",
+          "owner": "ScriptDrawer.commandDraft",
+          "files": ["ScriptDrawer.tsx", "CommandForm.tsx"],
+          "controlOwners": ["CommandForm", "Num", "Txt", "JsonForm"],
+          "fields": ["legacyCommand.*", "locale.*.speakerOverride"],
+          "verification": "ScriptDrawer.test.tsx"
+        }
       ]
     },
     {
-      "registry": ["actor/workspace"],
-      "file": "ActorMode.tsx",
-      "fields": ["actor.name", "actor.battler.baseStats.*"]
-    },
-    {
-      "registry": ["item/item"],
-      "file": "ItemTab.tsx",
-      "fields": [
-        "item.name",
-        "item.buyPrice",
-        "item.sellPrice",
-        "item.desc",
-        "item.equip.effects.*"
+      "registry": "scene/ambience",
+      "status": "adopted",
+      "productionFiles": ["AmbienceTab.tsx"],
+      "transactions": [
+        {
+          "id": "ambience-fields",
+          "kind": "field-draft",
+          "fields": ["ambiences.*.name", "ambiences.*.tint.*"],
+          "verification": "AmbienceTab.test.tsx"
+        }
       ]
     },
     {
-      "registry": ["battle/enemy"],
-      "file": "EnemyTab.tsx",
-      "fields": [
-        "enemy.name",
-        "enemy.stats.*",
-        "enemy.ai.*",
-        "enemy.steal.count",
-        "enemy.attackEquivItem.rate",
-        "enemy.onDefeated.item.*"
+      "registry": "map/workspace",
+      "status": "adopted",
+      "productionFiles": [
+        "MapMode.tsx",
+        "MapSelectionInspector.tsx",
+        "StampPlacementSelectionInspector.tsx",
+        "StampTemplateDialog.tsx"
+      ],
+      "transactions": [
+        {
+          "id": "map-and-selection-fields",
+          "kind": "field-draft",
+          "fields": [
+            "mapIndex.maps.*.name",
+            "maps.*.width",
+            "maps.*.height",
+            "maps.*.layers.*.name",
+            "mapSelection.tileId",
+            "mapSelection.height",
+            "mapSelection.collision",
+            "stampPlacement.tileId",
+            "stampPlacement.height",
+            "stampPlacement.collision"
+          ],
+          "verification": "MapMode.test.tsx + MapSelectionInspector.test.tsx"
+        },
+        {
+          "id": "stamp-template-dialog",
+          "kind": "aggregate-draft",
+          "owner": "StampTemplateDialog",
+          "files": ["StampTemplateDialog.tsx"],
+          "controlOwners": ["StampTemplateDialog"],
+          "fields": [
+            "stamps.*.name",
+            "stamps.*.category",
+            "stamps.*.slotNames",
+            "stamps.*.anchor",
+            "stamps.*.includeCollision",
+            "stamps.*.takeOwnership"
+          ],
+          "verification": "StampTemplateDialog.test.tsx"
+        }
       ]
     },
     {
-      "registry": ["battle/skill"],
-      "file": "SkillTab.tsx",
-      "fields": [
-        "skill.name",
-        "skill.cost.*",
-        "skill.lifetimeLimit",
-        "skill.desc",
-        "skill.effects.*",
-        "skill.execution.*"
+      "registry": "map/tileset",
+      "status": "adopted",
+      "productionFiles": ["TilesetTab.tsx"],
+      "transactions": [
+        {
+          "id": "tileset-metadata",
+          "kind": "field-draft",
+          "fields": ["tilesets.*.name", "tilesets.*.category"],
+          "verification": "TilesetTab.test.tsx"
+        }
       ]
     },
     {
-      "registry": ["battle/battlefield"],
-      "file": "BattleFieldTab.tsx",
-      "fields": ["battleField.name", "battleField.screenWave", "battleField.magicEffect.*"]
+      "registry": "map/stamp",
+      "status": "adopted",
+      "productionFiles": ["StampLibraryTab.tsx", "StampContentEditor.tsx"],
+      "transactions": [
+        {
+          "id": "stamp-fields",
+          "kind": "field-draft",
+          "fields": ["stamps.*.name", "stamps.*.category", "stamps.*.width", "stamps.*.height"],
+          "verification": "StampLibraryTab.test.tsx"
+        }
+      ]
     },
     {
-      "registry": ["scene/workspace"],
-      "file": "ScriptDrawer.tsx",
-      "fields": ["scene.entity.pages.*.trigger.range"]
+      "registry": "story/scripts",
+      "status": "adopted",
+      "productionFiles": ["SharedScriptTab.tsx", "ScriptEditor.tsx", "CommandForm.tsx"],
+      "transactions": [
+        {
+          "id": "shared-script-metadata",
+          "kind": "field-draft",
+          "fields": ["sharedScripts.*.name", "sharedScripts.*.description"],
+          "verification": "SharedScriptTab.test.tsx"
+        },
+        {
+          "id": "shared-script-command-dialog",
+          "kind": "aggregate-draft",
+          "owner": "CanonicalScriptBodyEditor.editingDraft",
+          "files": ["ScriptEditor.tsx", "CommandForm.tsx"],
+          "controlOwners": [
+            "CanonicalCommandForm",
+            "CommandForm",
+            "Num",
+            "Txt",
+            "JsonForm",
+            "EntityAddressEditor",
+            "ConditionEditor",
+            "primitiveField"
+          ],
+          "fields": ["AuthorCommand.*"],
+          "verification": "ScriptEditor.test.tsx"
+        }
+      ]
     },
     {
-      "registry": ["asset/image", "asset/music", "asset/sound", "asset/cutscene"],
-      "file": "MediaAssetLifecycle.tsx",
-      "fields": ["asset.label"]
+      "registry": "story/vars",
+      "status": "adopted",
+      "productionFiles": ["VarsTab.tsx"],
+      "transactions": [
+        {
+          "id": "world-variable-draft",
+          "kind": "field-draft",
+          "owner": "VarsTab.draft",
+          "fields": [
+            "worldVariables.*.name",
+            "worldVariables.*.description",
+            "worldVariables.*.initial"
+          ],
+          "verification": "VarsTab.test.tsx"
+        }
+      ]
+    },
+    {
+      "registry": "story/events",
+      "status": "not-applicable",
+      "reason": "只读指令手册；唯一文本输入是 local filter。"
+    },
+    {
+      "registry": "actor/workspace",
+      "status": "adopted",
+      "productionFiles": [
+        "ActorMode.tsx",
+        "CasualtyEditor.tsx",
+        "LevelingEditor.tsx",
+        "LevelCurveEditor.tsx",
+        "PortraitEditor.tsx"
+      ],
+      "transactions": [
+        {
+          "id": "actor-fields",
+          "kind": "field-draft",
+          "fields": [
+            "actor.name",
+            "actor.battler.baseStats.*",
+            "actor.battler.leveling.levelUps.*.level",
+            "actor.battler.leveling.expTable.*",
+            "actor.battler.casualty.*.gates.*.chance",
+            "actor.battler.casualty.*.lines.*.text",
+            "actor.battler.casualty.*.effects.*.percent",
+            "actor.portraits.expressions.*.name"
+          ],
+          "verification": "ActorMode.test.tsx + CasualtyEditor.test.tsx + LevelCurveEditor.ui.test.tsx + LevelingEditor.test.tsx"
+        },
+        {
+          "id": "level-curve-generator",
+          "kind": "aggregate-draft",
+          "owner": "LevelCurveEditor.genFirst",
+          "files": ["LevelCurveEditor.tsx"],
+          "controlOwners": ["LevelCurveEditor"],
+          "fields": ["actor.battler.leveling.expTable"],
+          "verification": "LevelCurveEditor.ui.test.tsx"
+        }
+      ]
+    },
+    {
+      "registry": "item/item",
+      "status": "adopted",
+      "productionFiles": [
+        "ItemTab.tsx",
+        "ItemUseEffectEditor.tsx",
+        "SkillAnimationEditor.tsx",
+        "ScriptEditor.tsx",
+        "CommandForm.tsx"
+      ],
+      "transactions": [
+        {
+          "id": "item-fields",
+          "kind": "field-draft",
+          "fields": [
+            "items.*.name",
+            "items.*.buyPrice",
+            "items.*.sellPrice",
+            "items.*.desc",
+            "items.*.equip.effects.*",
+            "items.*.use.effects.*",
+            "items.*.throw.effects.*",
+            "items.*.throw.presentation.animation.*"
+          ],
+          "verification": "ItemTab.test.tsx + ItemUseEffectEditor.test.tsx"
+        },
+        {
+          "id": "item-private-script-dialog",
+          "kind": "aggregate-draft",
+          "owner": "CanonicalScriptBodyEditor.editingDraft",
+          "files": ["ScriptEditor.tsx", "CommandForm.tsx"],
+          "controlOwners": [
+            "CanonicalCommandForm",
+            "CommandForm",
+            "Num",
+            "Txt",
+            "JsonForm",
+            "EntityAddressEditor",
+            "ConditionEditor",
+            "primitiveField"
+          ],
+          "fields": ["items.*.privateScript.AuthorCommand.*"],
+          "verification": "ScriptEditor.test.tsx"
+        }
+      ]
+    },
+    {
+      "registry": "item/shop",
+      "status": "not-applicable",
+      "reason": "货单只使用 select/button 离散提交；无 canonical text/number/textarea。"
+    },
+    {
+      "registry": "battle/skill",
+      "status": "adopted",
+      "productionFiles": ["SkillTab.tsx", "SkillAnimationEditor.tsx"],
+      "transactions": [
+        {
+          "id": "skill-fields",
+          "kind": "field-draft",
+          "fields": [
+            "skills.*.name",
+            "skills.*.desc",
+            "skills.*.lifetimeLimit",
+            "skills.*.cost.*",
+            "skills.*.effects.*",
+            "skills.*.animation.*",
+            "skills.*.execution.*.animation.*"
+          ],
+          "verification": "SkillTab.test.tsx"
+        }
+      ]
+    },
+    {
+      "registry": "battle/enemy",
+      "status": "adopted",
+      "productionFiles": ["EnemyTab.tsx", "EnemyAnimPreview.tsx"],
+      "transactions": [
+        {
+          "id": "enemy-fields",
+          "kind": "field-draft",
+          "fields": [
+            "enemies.*.name",
+            "enemies.*.stats.*",
+            "enemies.*.ai.rules.*",
+            "enemies.*.steal.count",
+            "enemies.*.attackEquivItem.rate",
+            "enemies.*.onDefeated.*",
+            "enemies.*.yPosOffset",
+            "battleSprites.*.profile.*"
+          ],
+          "verification": "EnemyTab.test.tsx"
+        }
+      ]
+    },
+    {
+      "registry": "battle/enemy-team",
+      "status": "not-applicable",
+      "reason": "现有敌队编辑是离散槽位选择；filter/create ID 均为新对象 local state。"
+    },
+    {
+      "registry": "battle/poison",
+      "status": "adopted",
+      "productionFiles": ["PoisonTab.tsx"],
+      "transactions": [
+        {
+          "id": "poison-fields",
+          "kind": "field-draft",
+          "fields": ["poisons.*.name", "poisons.*.color", "poisons.*.playerTicks.*", "poisons.*.enemyTicks.*"],
+          "verification": "PoisonTab.test.tsx"
+        }
+      ]
+    },
+    {
+      "registry": "battle/battlefield",
+      "status": "adopted",
+      "productionFiles": ["BattleFieldTab.tsx"],
+      "transactions": [
+        {
+          "id": "battlefield-fields",
+          "kind": "field-draft",
+          "fields": ["battleFields.*.name", "battleFields.*.screenWave", "battleFields.*.magicEffect.*"],
+          "verification": "BattleFieldTab.test.tsx"
+        }
+      ]
+    },
+    {
+      "registry": "asset/sprite",
+      "status": "adopted",
+      "productionFiles": [
+        "WorldSpriteLibrary.tsx",
+        "SpriteActionEditor.tsx",
+        "BattleSpriteLibrary.tsx"
+      ],
+      "transactions": [
+        {
+          "id": "world-sprite-fields",
+          "kind": "field-draft",
+          "fields": [
+            "sprites.*.layout.framesPerDir",
+            "sprites.*.poses.*.label",
+            "sprites.*.poses.*.steps.*.durationMs"
+          ],
+          "verification": "WorldSpriteLibrary.test.tsx + SpriteActionEditor.test.tsx"
+        },
+        {
+          "id": "battle-sprite-definition",
+          "kind": "aggregate-draft",
+          "owner": "BattleSpriteLibrary.draftProfile",
+          "files": ["BattleSpriteLibrary.tsx"],
+          "controlOwners": ["BattleSpriteLibrary", "ProfileEditor", "NumberField"],
+          "fields": ["battleSprites.*.label", "battleSprites.*.profile"],
+          "verification": "BattleSpriteLibrary.test.tsx"
+        }
+      ]
+    },
+    {
+      "registry": "asset/image",
+      "status": "adopted",
+      "productionFiles": ["ImageTab.tsx", "MediaAssetLifecycle.tsx"],
+      "transactions": [
+        {
+          "id": "image-asset-label",
+          "kind": "field-draft",
+          "owner": "MediaAssetNameField",
+          "fields": ["assets.*.label"],
+          "verification": "MediaAssetLifecycle.test.tsx"
+        }
+      ]
+    },
+    {
+      "registry": "asset/music",
+      "status": "adopted",
+      "productionFiles": ["MusicTab.tsx", "AudioAssetWorkbench.tsx", "MediaAssetLifecycle.tsx"],
+      "transactions": [
+        {
+          "id": "music-asset-label",
+          "kind": "field-draft",
+          "owner": "MediaAssetNameField",
+          "fields": ["assets.*.label"],
+          "verification": "MediaAssetLifecycle.test.tsx"
+        }
+      ]
+    },
+    {
+      "registry": "asset/sound",
+      "status": "adopted",
+      "productionFiles": ["SoundTab.tsx", "AudioAssetWorkbench.tsx", "MediaAssetLifecycle.tsx"],
+      "transactions": [
+        {
+          "id": "sound-asset-label",
+          "kind": "field-draft",
+          "owner": "MediaAssetNameField",
+          "fields": ["assets.*.label"],
+          "verification": "MediaAssetLifecycle.test.tsx"
+        }
+      ]
+    },
+    {
+      "registry": "asset/cutscene",
+      "status": "adopted",
+      "productionFiles": ["CutsceneTab.tsx", "MediaAssetLifecycle.tsx", "FrameAnimationEditor.tsx"],
+      "transactions": [
+        {
+          "id": "cutscene-asset-label",
+          "kind": "field-draft",
+          "owner": "MediaAssetNameField",
+          "fields": ["assets.*.label"],
+          "verification": "MediaAssetLifecycle.test.tsx"
+        },
+        {
+          "id": "frame-animation-editor",
+          "kind": "aggregate-draft",
+          "owner": "FrameAnimationEditor.history",
+          "files": ["FrameAnimationEditor.tsx"],
+          "controlOwners": ["FrameAnimationEditor"],
+          "fields": ["frameAnimation.defaultFrameMs", "frameAnimation.frames", "frameAnimation.colorTreatment"],
+          "verification": "FrameAnimationEditor.test.ts"
+        }
+      ]
+    },
+    {
+      "registry": "project/overview",
+      "status": "adopted",
+      "productionFiles": ["ProjectWorkbenchTab.tsx"],
+      "transactions": [
+        {
+          "id": "project-name",
+          "kind": "field-draft",
+          "fields": ["project.name"],
+          "verification": "ProjectWorkbenchTab.test.tsx"
+        }
+      ]
+    },
+    {
+      "registry": "project/startup",
+      "status": "not-applicable",
+      "reason": "当前页只绑定全局资源，均为离散 picker/select；启动链只读。"
+    },
+    {
+      "registry": "project/entrypoint",
+      "status": "adopted",
+      "productionFiles": ["ProjectWorkbenchTab.tsx"],
+      "transactions": [
+        {
+          "id": "entrypoint-fields",
+          "kind": "field-draft",
+          "fields": [
+            "entryPoints.*.label",
+            "entryPoints.*.startWorld.money",
+            "entryPoints.*.startWorld.inventory.*.count",
+            "entryPoints.*.startWorld.resources.*",
+            "entryPoints.*.startWorld.seedStats.*.hp",
+            "entryPoints.*.startWorld.seedStats.*.mp"
+          ],
+          "verification": "ProjectWorkbenchTab.test.tsx"
+        },
+        {
+          "id": "entrypoint-id-repair",
+          "kind": "aggregate-draft",
+          "owner": "EntryPointEditor.repairIds",
+          "files": ["ProjectWorkbenchTab.tsx"],
+          "controlOwners": ["EntryPointEditor"],
+          "fields": ["entryPoints.*.id"],
+          "verification": "ProjectWorkbenchTab.test.tsx"
+        }
+      ]
+    },
+    {
+      "registry": "project/advanced",
+      "status": "not-applicable",
+      "reason": "诊断问题页只读，无 canonical 连续字段。"
     }
   ],
   "allowlist": []

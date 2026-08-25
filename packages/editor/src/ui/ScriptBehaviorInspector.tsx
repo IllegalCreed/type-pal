@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react'
 import {
   AddEntityBehaviorCommand,
   behaviorReferences,
+  canonicalBehaviorReferenceKey,
   type CanonicalScriptReference,
   DeleteEntityBehaviorCommand,
   describeCanonicalScriptReference,
@@ -110,6 +111,7 @@ export function ScriptBehaviorInspector(props: {
   focusCommand?: { locator: ScriptCommandLocator; revision: number }
   onError?: (message: string) => void
   editorContext?: CanonicalScriptEditorContext
+  referenceIndex?: ReadonlyMap<string, readonly CanonicalScriptReference[]>
 }) {
   const entity = entityOf(props.state, props.target)
   const registry = entity?.behaviors?.[props.channel] ?? {}
@@ -129,7 +131,11 @@ export function ScriptBehaviorInspector(props: {
   const [detailsId, setDetailsId] = useState<string>()
   const detailsScheme = detailsId ? registry[detailsId] : undefined
   const detailsReferences = detailsScheme
-    ? behaviorReferences(props.state, props.target, props.channel, detailsId!)
+    ? props.referenceIndex
+      ? (props.referenceIndex.get(
+          canonicalBehaviorReferenceKey(props.target, props.channel, detailsId!),
+        ) ?? [])
+      : behaviorReferences(props.state, props.target, props.channel, detailsId!)
     : []
   const [createOpen, setCreateOpen] = useState(false)
   const title = props.channel === 'trigger' ? '交互脚本' : '自动行为'

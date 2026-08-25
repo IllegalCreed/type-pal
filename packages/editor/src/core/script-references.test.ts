@@ -7,7 +7,9 @@ import {
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import type { EditorState } from './edit-session.js'
+import type { ScriptEditorState } from './script-editor.js'
 import {
+  buildCanonicalSceneEntryReferenceIndex,
   buildScriptReferenceIndex,
   findSceneEntryReferences,
   findScriptReferences,
@@ -208,6 +210,45 @@ describe('N6 脚本引用图', () => {
 })
 
 describe('W4-1 命名落点引用图', () => {
+  test('canonical visitor builds one reusable index for a 31-entry scene', () => {
+    const entryIds = Array.from({ length: 31 }, (_, index) => `entry-${index + 1}`)
+    const canonical: ScriptEditorState = {
+      scenes: [],
+      items: [],
+      sharedScripts: {
+        'shared/user/entry-index': {
+          name: '落点索引',
+          self: 'none',
+          body: [
+            {
+              kind: 'branch',
+              cond: { kind: 'flag', flag: 'enabled', is: true },
+              then: entryIds.map((entryId) => ({
+                kind: 'loadScene' as const,
+                scene: 's2',
+                entryId,
+              })),
+            },
+          ],
+        },
+      },
+    }
+
+    const index = buildCanonicalSceneEntryReferenceIndex(canonical)
+    expect(index.size).toBe(31)
+    for (const entryId of entryIds) {
+      const references = index.get(JSON.stringify(['s2', entryId]))
+      expect(references).toHaveLength(1)
+      const canonical = references?.[0]?.canonical
+      if (!canonical || canonical.locator.kind !== 'command')
+        throw new Error(`expected canonical command locator for ${entryId}`)
+      expect(canonical.locator.owner).toEqual({
+        kind: 'shared-script',
+        scriptId: 'shared/user/entry-index',
+      })
+    }
+  })
+
   test('同一 walker 覆盖场景槽、实体页、共享 chunk、分支与战败命令', () => {
     const entryId = 'door-west'
     const load = (): Command => ({ kind: 'loadScene', scene: 's2', entryId })

@@ -275,6 +275,20 @@ function button(text: string, root: ParentNode = document): HTMLButtonElement {
   return match
 }
 
+async function waitForAssertion(assertion: () => void): Promise<void> {
+  let lastError: unknown
+  for (let attempt = 0; attempt < 20; attempt += 1) {
+    try {
+      assertion()
+      return
+    } catch (error) {
+      lastError = error
+    }
+    await act(async () => new Promise<void>((resolve) => setTimeout(resolve, 0)))
+  }
+  throw lastError
+}
+
 describe('App item reference navigation', () => {
   let host: HTMLDivElement
   let root: Root
@@ -359,6 +373,9 @@ describe('App item reference navigation', () => {
         />,
       ),
     )
+    // The production diagnostics owner is asynchronous. Wait for the inline worker instead of
+    // asserting against its intentional fail-closed "checking" frame.
+    await act(async () => new Promise<void>((resolve) => setTimeout(resolve, 0)))
     return session
   }
 
@@ -683,10 +700,16 @@ describe('App item reference navigation', () => {
       ),
     ).toEqual(['触发方式', '触发半径', '预制动作'])
     const valueSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
+    const historyBeforeRangeDraft = renderedScriptSession.getHistoryVersion()
     await act(async () => {
+      range.focus()
       valueSetter.call(range, '4')
       range.dispatchEvent(new Event('input', { bubbles: true }))
     })
+    expect(renderedScriptSession.getHistoryVersion()).toBe(historyBeforeRangeDraft)
+    expect(button('e-zone', tree).textContent).toContain('触碰 · 3 格')
+    await act(async () => range.blur())
+    expect(renderedScriptSession.getHistoryVersion()).toBe(historyBeforeRangeDraft + 1)
     expect(button('e-zone', tree).textContent).toContain('触碰 · 4 格')
     expect(
       (probes.sceneCanvas.mock.calls.at(-1)?.[0] as SceneCanvasProbe).selectedTriggerActivation,
@@ -815,6 +838,8 @@ describe('App item reference navigation', () => {
     shell.worlds = [
       {
         id: 'world-main',
+        party: [],
+        inventory: [],
         review: { target: { scene: 's047', entity: 'e760' } },
       },
     ] as never
@@ -836,7 +861,11 @@ describe('App item reference navigation', () => {
     await act(async () => button('e760', tree).click())
     const deleteButton = host.querySelector<HTMLButtonElement>('[aria-label="删除实体 e760"]')!
     expect(deleteButton.disabled).toBe(true)
-    expect(deleteButton.title).toContain('2 处引用')
+    await waitForAssertion(() =>
+      expect(
+        host.querySelector<HTMLButtonElement>('[aria-label="删除实体 e760"]')?.title,
+      ).toContain('2 处引用'),
+    )
     await act(async () =>
       window.dispatchEvent(
         new KeyboardEvent('keydown', { key: 'Delete', bubbles: true, cancelable: true }),
@@ -1224,13 +1253,30 @@ describe('App item reference navigation', () => {
         facing: 'left',
       },
     }
-    scene.onEnter = [
-      {
-        body: [{ kind: 'loadScene', scene: 's047', entryId: 'door-west' }],
+    const canonical = canonicalState()
+    canonical.scenes[0]!.hooks = {
+      onEnter: {
+        initial: 'entry-reference',
+        variants: {
+          'entry-reference': {
+            label: '进场落点引用',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'start',
+              stages: [
+                {
+                  id: 'start',
+                  body: [{ kind: 'loadScene', scene: 's047', entryId: 'door-west' }],
+                },
+              ],
+            },
+          },
+        },
       },
-    ] as typeof scene.onEnter
+    }
 
-    const session = await renderApp(shell)
+    const session = await renderApp(shell, canonical)
     await act(async () => button('西门', host.querySelector('.outliner')!).click())
 
     const deleteButton = host.querySelector<HTMLButtonElement>('[aria-label="删除命名落点 西门"]')!
@@ -1241,7 +1287,7 @@ describe('App item reference navigation', () => {
     expect(panel.textContent).toContain('1 处引用')
     expect(row.tagName).toBe('BUTTON')
     expect(row.getAttribute('aria-disabled')).toBeNull()
-    expect(row.textContent).toContain('s047 进场脚本')
+    expect(row.textContent).toContain('进场落点引用')
 
     await act(async () => deleteButton.click())
     await act(async () =>

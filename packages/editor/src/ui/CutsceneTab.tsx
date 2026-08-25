@@ -3,6 +3,7 @@ import {
   type AssetCatalogV1,
   type AssetId,
   type AssetRecordV1,
+  type AssetReference,
   type AssetReferenceSite,
   FRAME_SEQUENCE_MEDIA_TYPE,
   groupAssetReferencesBySite,
@@ -18,10 +19,11 @@ import {
   useState,
 } from 'react'
 import { DeleteAssetCommand, UpsertAssetCommand } from '../core/commands.js'
-import { collectEditorAssetDiagnostics } from '../core/asset-diagnostics.js'
+import type { EditorAssetDiagnostic } from '../core/asset-diagnostics.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { tryCollectEditorAssetReferenceSnapshot } from '../core/editor-asset-references.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import type { FrameAnimationEncodeFrame } from '../core/frame-animation-codec.js'
 import type { FrameQuantization } from '../core/frame-animation-draft.js'
 import { decodeFrameImages, sortFrameImageFiles } from '../core/frame-animation-images.js'
@@ -342,6 +344,10 @@ export function CutsceneTab(props: {
   onObjectFocus?: (id: string | undefined) => void
   currentAuthor?: ScriptEditorState
   getCurrentAuthor?: () => ScriptEditorState | undefined
+  assetReferences?: readonly AssetReference[]
+  assetDiagnostics: readonly EditorAssetDiagnostic[]
+  assetReferenceStatus?: EditorDerivedStatus
+  assetReferenceMessage?: string
 }) {
   const {
     assetBase,
@@ -353,6 +359,10 @@ export function CutsceneTab(props: {
     onObjectFocus,
     currentAuthor,
     getCurrentAuthor,
+    assetReferences = [],
+    assetDiagnostics,
+    assetReferenceStatus = 'checking',
+    assetReferenceMessage,
   } = props
   const videos = useMemo(() => entriesOf(catalog, 'video'), [catalog])
   const animations = useMemo(() => entriesOf(catalog, 'frame-animation'), [catalog])
@@ -444,14 +454,15 @@ export function CutsceneTab(props: {
   }, [allEntries, selected])
 
   const state = session.getState()
-  const referenceResult = useMemo(
-    () => tryCollectEditorAssetReferenceSnapshot(state, currentAuthor),
-    [currentAuthor, state],
-  )
-  const allReferences =
-    referenceResult.status === 'ready' ? referenceResult.snapshot.references : []
+  const allReferences = assetReferences
   const referenceScanError =
-    referenceResult.status === 'error' ? referenceResult.message : undefined
+    assetReferenceStatus === 'current'
+      ? undefined
+      : assetReferenceStatus === 'failed'
+        ? (assetReferenceMessage ?? '派生引用检查失败')
+        : assetReferenceStatus === 'stale'
+          ? '引用正在刷新，当前仅保留上一版结果'
+          : '引用正在检查'
   const references = useMemo(() => {
     const result = new Map<AssetId, AssetReferenceSite[]>()
     for (const reference of groupAssetReferencesBySite(allReferences)) {
@@ -461,10 +472,7 @@ export function CutsceneTab(props: {
     }
     return result
   }, [allReferences])
-  const closureIssues = useMemo(
-    () => collectEditorAssetDiagnostics(catalog, allReferences),
-    [allReferences, catalog],
-  )
+  const closureIssues = assetDiagnostics
   const selectedReferences = selected ? (references.get(selected.id) ?? []) : []
   const selectedReferenceCount = selectedReferences.reduce(
     (total, reference) => total + reference.occurrences,

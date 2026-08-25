@@ -55,6 +55,8 @@ export function CanonicalSceneScriptWorkspace(props: {
   onOpenReference?: (reference: CanonicalScriptReference) => void
   focusReference?: { reference: CanonicalScriptReference; revision: number }
   onError?: (message: string) => void
+  behaviorReferenceIndex?: ReadonlyMap<string, readonly CanonicalScriptReference[]>
+  sceneHookReferenceIndex?: ReadonlyMap<string, readonly CanonicalScriptReference[]>
 }) {
   const [owner, setOwner] = useState<'scene' | 'entity'>(
     props.selectedEntityId ? 'entity' : 'scene',
@@ -324,6 +326,7 @@ export function CanonicalSceneScriptWorkspace(props: {
                   : undefined
               }
               onError={props.onError}
+              referenceIndex={props.sceneHookReferenceIndex}
               editorContext={
                 props.editorContext
                   ? {
@@ -357,6 +360,7 @@ export function CanonicalSceneScriptWorkspace(props: {
                   : undefined
               }
               onError={props.onError}
+              referenceIndex={props.behaviorReferenceIndex}
               editorContext={
                 props.editorContext
                   ? {

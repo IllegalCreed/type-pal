@@ -135,10 +135,17 @@ export function blockingEntityAddressReferences(
 export function collectMissingEntityAddressReferences(
   state: Pick<EditorState, 'scenes' | 'items' | 'enemies' | 'sharedScripts' | 'worlds'>,
 ): EntityAddressReference[] {
+  return missingEntityAddressReferencesFrom(state.scenes, collectEntityAddressReferences(state))
+}
+
+export function missingEntityAddressReferencesFrom(
+  scenes: Pick<EditorState, 'scenes'>['scenes'],
+  references: readonly EntityAddressReference[],
+): EntityAddressReference[] {
   const entities = new Map(
-    state.scenes.map((scene) => [scene.id, new Set(scene.entities.map((entity) => entity.id))]),
+    scenes.map((scene) => [scene.id, new Set(scene.entities.map((entity) => entity.id))]),
   )
-  return collectEntityAddressReferences(state).filter(
+  return references.filter(
     (reference) => !entities.get(reference.sceneId)?.has(reference.entityId),
   )
 }

@@ -58,6 +58,7 @@ describe('A7-1 SoundTab WAV 导入', () => {
       await act(async () => {
         root.render(
           createElement(SoundTab, {
+            assetDiagnostics: [],
             catalog: catalogControlsAssetCatalog,
             reader: catalogControlsReader,
             session,

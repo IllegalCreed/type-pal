@@ -7,10 +7,10 @@
  * 检查器侧只留摘要 + 入口按钮(LevelingEditor)。
  */
 import type { ActorDef, LevelUpSkill, SkillDataMap } from '@type-pal/content'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { UpdateActorCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
-import { DsButton, DsNumberInput } from './design-system/index.js'
+import { DsButton, DsDraftNumberInput, DsNumberInput } from './design-system/index.js'
 
 /** 生成累计经验表:table[0]=0;第 i 级需求 = first + step×(i−1),向后累计。 */
 export function genExpTable(first: number, step: number, n: number): number[] {
@@ -56,7 +56,11 @@ export function LevelCurveEditor(props: {
   onClose: () => void
 }) {
   const { actor, levelUpRows, skills, session, onClose } = props
-  const source = actor.battler.leveling?.expTable ?? genExpTable(15, 25, 20)
+  const syncToken = session.getHistoryVersion()
+  const source = useMemo(
+    () => actor.battler.leveling?.expTable ?? genExpTable(15, 25, 20),
+    [actor.battler.leveling?.expTable],
+  )
   const [table, setTable] = useState<number[]>(source)
   const [sel, setSel] = useState<number | null>(null)
   const [genFirst, setGenFirst] = useState(15)
@@ -297,32 +301,44 @@ export function LevelCurveEditor(props: {
 
       <div className="field level-curve-fields">
         <span className="field-label">级数</span>
-        <DsNumberInput
-          className="level-curve-input level-curve-input--short"
-          min={2}
-          max={99}
-          value={n}
-          onChange={(e) => {
-            const nn = Math.max(2, Math.min(99, Math.floor(e.target.valueAsNumber) || 2))
-            const next = resizeExpTable(table, nn)
-            setTable(next)
-            commit(next)
-          }}
-        />
+        <span className="level-curve-input level-curve-input--short">
+          <DsDraftNumberInput
+            draftKey={`actor:${actor.id}:leveling:level-count`}
+            syncToken={syncToken}
+            min={2}
+            max={99}
+            integer
+            normalize={Math.trunc}
+            value={n}
+            onCommit={(value) => {
+              const nn = Math.max(2, Math.min(99, value ?? 2))
+              if (nn === n) return
+              const next = resizeExpTable(table, nn)
+              setTable(next)
+              commit(next)
+            }}
+          />
+        </span>
         {sel !== null && sel < n && (
           <>
             <span className="field-label">第 {sel} 级累计</span>
-            <DsNumberInput
-              className="level-curve-input level-curve-input--long"
-              min={0}
-              value={table[sel] ?? 0}
-              onChange={(e) => {
-                const v = Math.max(0, Math.floor(e.target.valueAsNumber) || 0)
-                const next = table.map((old, i) => (i === sel ? v : old))
-                setTable(next)
-                commit(next)
-              }}
-            />
+            <span className="level-curve-input level-curve-input--long">
+              <DsDraftNumberInput
+                draftKey={`actor:${actor.id}:leveling:exp-table:${sel}`}
+                syncToken={syncToken}
+                min={0}
+                integer
+                normalize={Math.trunc}
+                value={table[sel] ?? 0}
+                onCommit={(value) => {
+                  const v = Math.max(0, value ?? 0)
+                  if (v === table[sel]) return
+                  const next = table.map((old, i) => (i === sel ? v : old))
+                  setTable(next)
+                  commit(next)
+                }}
+              />
+            </span>
           </>
         )}
         <span className="sep" />

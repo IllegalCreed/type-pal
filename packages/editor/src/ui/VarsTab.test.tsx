@@ -3,7 +3,12 @@ import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { type EditorState, EditSession } from '../core/edit-session.js'
-import type { WorldVariableReferenceIndexV1 } from '../core/world-variable-references.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import type { ScriptEditorState } from '../core/script-editor.js'
+import {
+  type WorldVariableReferenceIndexV1,
+  worldVariableScriptStateFromEditorStateV1,
+} from '../core/world-variable-references.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { VarsTab } from './VarsTab.js'
 
@@ -121,12 +126,19 @@ afterEach(async () => {
   vi.unstubAllGlobals()
 })
 
-async function render(focusObjectId?: string): Promise<void> {
+async function render(
+  focusObjectId?: string,
+  referenceStatus: EditorDerivedStatus = 'current',
+  getCurrentScriptState: () => ScriptEditorState | undefined = () =>
+    worldVariableScriptStateFromEditorStateV1(session.getState()),
+): Promise<void> {
   await act(async () =>
     root.render(
       <VarsTab
         variables={session.getState().worldVariables ?? {}}
         references={references}
+        referenceStatus={referenceStatus}
+        getCurrentScriptState={getCurrentScriptState}
         session={session}
         focusObjectId={focusObjectId}
       />,
@@ -135,6 +147,35 @@ async function render(focusObjectId?: string): Promise<void> {
 }
 
 describe('VarsTab world variable workbench', () => {
+  test('引用快照过期时禁删，current canonical 新引用仍在命令边界阻断', async () => {
+    await render('unused', 'stale')
+    const deleteButton = [...host.querySelectorAll<HTMLButtonElement>('button')].find(
+      (button) => button.textContent?.trim() === '删除变量',
+    )!
+    expect(deleteButton.disabled).toBe(true)
+    expect(deleteButton.title).toContain('引用仍在检查')
+
+    const canonical: ScriptEditorState = {
+      scenes: [],
+      items: [],
+      sharedScripts: {
+        live: {
+          name: '当前变量写入',
+          self: 'none',
+          body: [{ kind: 'setFlag', flag: 'unused', value: true }],
+        },
+      },
+    }
+    await render('unused', 'current', () => canonical)
+    const currentDelete = [...host.querySelectorAll<HTMLButtonElement>('button')].find(
+      (button) => button.textContent?.trim() === '删除变量',
+    )!
+    expect(currentDelete.disabled).toBe(false)
+    await act(async () => currentDelete.click())
+    expect(session.getState().worldVariables).toHaveProperty('unused')
+    expect(host.textContent).toContain('仍有 1 处引用')
+  })
+
   test('groups definitions by type, searches metadata and exposes undeclared diagnostics', async () => {
     await render()
     expect(host.querySelector('.ds-list-header__count')?.textContent).toBe('3 项')

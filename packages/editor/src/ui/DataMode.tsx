@@ -7,7 +7,6 @@ import type {
   BattleSpriteDefinitionReference,
   EnemyDef,
   EnemyTeamDef,
-  ItemDataMap,
   Locale,
   SceneDef,
   SkillDataMap,
@@ -19,23 +18,25 @@ import { type ReactNode, useEffect, useMemo, useState } from 'react'
 import type { BattleDataReference } from '../core/battle-data-references.js'
 import type { BlockingBattleFieldReference } from '../core/battle-field-references.js'
 import type { EditSession } from '../core/edit-session.js'
+import type { EditorDerivedData } from '../core/editor-derived-contract.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
 import type { BlockingEnemyTeamReference } from '../core/enemy-team-references.js'
 import type { ItemReference } from '../core/item-references.js'
-import type { ManifestLike } from '../core/project-diagnostics.js'
+import type { ManifestLike, ProjectIssue } from '../core/project-diagnostics.js'
 import type {
   CanonicalScriptReference,
   ScriptEditorState,
   ScriptEditSession,
 } from '../core/script-editor.js'
 import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
-import { findDefaultEntry } from '../core/startup-entries.js'
-import type { SpriteAutomaticScriptInstanceSite } from '../core/world-sprite-behavior.js'
 import {
-  collectWorldVariableReferencesV1,
-  worldVariableScriptStateFromEditorStateV1,
-} from '../core/world-variable-references.js'
+  mergeEditorProjectionWithCurrentAuthorState,
+  projectCurrentAuthorScriptEditorState,
+} from '../core/script-editor-projection.js'
+import { findDefaultEntry } from '../core/startup-entries.js'
+import { worldVariableScriptStateFromEditorStateV1 } from '../core/world-variable-references.js'
+import type { SpriteAutomaticScriptInstanceSite } from '../core/world-sprite-behavior.js'
 import { AmbienceTab } from './AmbienceTab.js'
 import { BattleFieldTab } from './BattleFieldTab.js'
 import { BattleSpriteLibrary } from './BattleSpriteLibrary.js'
@@ -64,7 +65,6 @@ export function DataMode(props: {
   sprites: SpriteDef[]
   battleSprites: readonly BattleSpriteDef[]
   skills: SkillDataMap
-  items: ItemDataMap
   /** 物品数组(ItemTab 编辑;= session state.items)。 */
   itemList: import('@type-pal/content').ItemData[]
   locale: Locale
@@ -95,6 +95,10 @@ export function DataMode(props: {
   scenes: SceneDef[]
   /** 项目清单(入口点页编 manifest.entryPoints)。 */
   manifest: ManifestLike
+  projectIssues: readonly ProjectIssue[]
+  projectDiagnosticsStatus: 'checking' | 'stale' | 'current' | 'failed'
+  derivedData?: EditorDerivedData
+  derivedDiagnosticsMessage?: string
   workspaceId?: string
   /** 角色定义(入口点 startWorld 队伍选人)。 */
   actors: import('@type-pal/content').ActorDef[]
@@ -213,19 +217,34 @@ export function DataMode(props: {
     onStatusNotice,
     script,
   } = props
-  const fallbackScriptSource = session.getState()
-  const variableReferences = useMemo(
-    () =>
-      collectWorldVariableReferencesV1(
-        script?.state ?? worldVariableScriptStateFromEditorStateV1(fallbackScriptSource),
-      ),
-    [
-      fallbackScriptSource.items,
-      fallbackScriptSource.scenes,
-      fallbackScriptSource.sharedScripts,
-      script?.state,
-    ],
+  const variableReferences = props.derivedData?.worldVariableReferences ?? {
+    all: [],
+    byId: new Map(),
+  }
+  const assetReferences = props.derivedData?.assetReferences ?? []
+  const assetDiagnostics = props.derivedData?.assetDiagnostics ?? []
+  const itemReferenceIndex = useMemo(
+    () => new Map(props.derivedData?.itemReferenceIndex ?? []),
+    [props.derivedData?.itemReferenceIndex],
   )
+  const poisonReferenceIndex = useMemo(
+    () => new Map(props.derivedData?.poisonReferenceIndex ?? []),
+    [props.derivedData?.poisonReferenceIndex],
+  )
+  const getCurrentAuthorState = () =>
+    script
+      ? mergeEditorProjectionWithCurrentAuthorState(
+          script.session.getStateSnapshot(),
+          session.getState(),
+        )
+      : session.getState()
+  const getCurrentScriptState = () =>
+    script
+      ? projectCurrentAuthorScriptEditorState(
+          script.session.getStateSnapshot(),
+          session.getState(),
+        )
+      : worldVariableScriptStateFromEditorStateV1(session.getState())
   const [spriteDomain, setSpriteDomain] = useState<'world' | 'battle'>(
     () =>
       controlledSpriteDomain ??
@@ -330,6 +349,10 @@ export function DataMode(props: {
         tabBar={tabBar}
         script={script}
         historyCoordinator={props.historyCoordinator}
+        itemReferenceIndex={itemReferenceIndex}
+        itemReferenceStatus={props.projectDiagnosticsStatus}
+        getCurrentAuthorState={getCurrentAuthorState}
+        getCurrentScriptState={getCurrentScriptState}
       />
     )
   }
@@ -362,6 +385,8 @@ export function DataMode(props: {
         poisons={poisons}
         items={itemList}
         session={session}
+        referenceIndex={poisonReferenceIndex}
+        referenceStatus={props.projectDiagnosticsStatus}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}
         onOpenReference={props.onOpenBattleDataReference}
@@ -450,6 +475,10 @@ export function DataMode(props: {
         catalog={assetCatalog}
         reader={assetReader}
         session={session}
+        assetReferences={assetReferences}
+        assetDiagnostics={assetDiagnostics}
+        assetReferenceStatus={props.projectDiagnosticsStatus}
+        assetReferenceMessage={props.derivedDiagnosticsMessage}
         tabBar={tabBar}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}
@@ -466,6 +495,10 @@ export function DataMode(props: {
         catalog={assetCatalog}
         reader={assetReader}
         session={session}
+        assetReferences={assetReferences}
+        assetDiagnostics={assetDiagnostics}
+        assetReferenceStatus={props.projectDiagnosticsStatus}
+        assetReferenceMessage={props.derivedDiagnosticsMessage}
         tabBar={tabBar}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}
@@ -481,6 +514,10 @@ export function DataMode(props: {
         catalog={assetCatalog}
         reader={assetReader}
         session={session}
+        assetReferences={assetReferences}
+        assetDiagnostics={assetDiagnostics}
+        assetReferenceStatus={props.projectDiagnosticsStatus}
+        assetReferenceMessage={props.derivedDiagnosticsMessage}
         tabBar={tabBar}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}
@@ -497,6 +534,10 @@ export function DataMode(props: {
         catalog={assetCatalog}
         reader={assetReader}
         session={session}
+        assetReferences={assetReferences}
+        assetDiagnostics={assetDiagnostics}
+        assetReferenceStatus={props.projectDiagnosticsStatus}
+        assetReferenceMessage={props.derivedDiagnosticsMessage}
         tabBar={tabBar}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}
@@ -518,6 +559,8 @@ export function DataMode(props: {
         assetCatalog={assetCatalog}
         assetReader={assetReader}
         session={session}
+        issues={props.projectIssues}
+        diagnosticsStatus={props.projectDiagnosticsStatus}
         tabBar={tabBar}
       />
     )
@@ -549,6 +592,8 @@ export function DataMode(props: {
       <VarsTab
         variables={session.getState().worldVariables ?? {}}
         references={variableReferences}
+        referenceStatus={props.projectDiagnosticsStatus}
+        getCurrentScriptState={getCurrentScriptState}
         session={session}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}

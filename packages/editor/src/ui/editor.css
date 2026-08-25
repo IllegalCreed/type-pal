@@ -5571,6 +5571,11 @@ html[data-panel-resize="horizontal"] * {
 .level-curve-input--long {
   width: 90px;
 }
+.level-curve-input > .ds-input,
+.entry-n > .ds-input,
+.item-amount-count > .ds-input {
+  width: 100%;
+}
 
 .level-curve-warning,
 .sprite-frames-error,

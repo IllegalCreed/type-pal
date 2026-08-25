@@ -202,7 +202,7 @@ describe('CasualtyEditor (E18-1)', () => {
     expect(created.fallback).toEqual({ lines: [], effects: [] })
   })
 
-  test('概率门可键盘选择，概率/增益输入只写入整数', async () => {
+  test('概率门可键盘选择，概率/增益输入只在 blur 时各写入一次整数', async () => {
     const withBuff: CasualtyScript = {
       ...script,
       fallback: {
@@ -226,13 +226,19 @@ describe('CasualtyEditor (E18-1)', () => {
     const setNumber = async (input: HTMLInputElement, value: string): Promise<void> => {
       const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
       await act(async () => {
+        input.focus()
         setter.call(input, value)
         input.dispatchEvent(new Event('input', { bubbles: true }))
       })
     }
     const chance = row.querySelector<HTMLInputElement>('input[type="number"]')!
     expect(chance.step).toBe('1')
+    const chanceHistory = session.getHistoryVersion()
     await setNumber(chance, '12.7')
+    expect(session.getHistoryVersion()).toBe(chanceHistory)
+    expect(session.getState().actors[0]!.battler!.casualty!.friendDeath!.gates[0]!.chance).toBe(75)
+    await act(async () => chance.blur())
+    expect(session.getHistoryVersion()).toBe(chanceHistory + 1)
     expect(session.getState().actors[0]!.battler!.casualty!.friendDeath!.gates[0]!.chance).toBe(12)
 
     await act(async () => host.querySelector<HTMLButtonElement>('button.arow')!.click())
@@ -240,8 +246,48 @@ describe('CasualtyEditor (E18-1)', () => {
       ...host.querySelectorAll<HTMLInputElement>('input[type="number"][min="1"]'),
     ].at(-1)!
     expect(percent.step).toBe('1')
+    const percentHistory = session.getHistoryVersion()
     await setNumber(percent, '7.9')
+    expect(session.getHistoryVersion()).toBe(percentHistory)
+    await act(async () => percent.blur())
+    expect(session.getHistoryVersion()).toBe(percentHistory + 1)
     const effect = session.getState().actors[0]!.battler!.casualty!.friendDeath!.fallback.effects[0]
     expect(effect).toMatchObject({ kind: 'tempStatBuff', percent: 7 })
+  })
+
+  test('台词文本保持本地草稿，Enter + blur 只产生一条命令，Escape 不提交', async () => {
+    const session = new EditSession(state(battlerActor({ friendDeath: script })))
+    await act(async () => {
+      root = createRoot(host)
+      root.render(<Harness session={session} actor={session.getState().actors[0]!} />)
+    })
+    await act(async () => gateSelect('75').click())
+    const input = host.querySelector<HTMLInputElement>('input[placeholder^="文本 id"]')!
+    const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
+    const history = session.getHistoryVersion()
+    await act(async () => {
+      setter.call(input, 'dlg.changed')
+      input.dispatchEvent(new Event('input', { bubbles: true }))
+    })
+    expect(session.getHistoryVersion()).toBe(history)
+    expect(
+      session.getState().actors[0]!.battler!.casualty!.friendDeath!.gates[0]!.branch.lines[0]!
+        .text,
+    ).toBe('dlg.talk.0')
+    await act(async () => input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })))
+    expect(session.getHistoryVersion()).toBe(history + 1)
+    expect(
+      session.getState().actors[0]!.battler!.casualty!.friendDeath!.gates[0]!.branch.lines[0]!
+        .text,
+    ).toBe('dlg.changed')
+
+    const committedHistory = session.getHistoryVersion()
+    await act(async () => {
+      setter.call(input, 'dlg.cancelled')
+      input.dispatchEvent(new Event('input', { bubbles: true }))
+      input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))
+    })
+    expect(session.getHistoryVersion()).toBe(committedHistory)
+    expect(input.value).toBe('dlg.changed')
   })
 })

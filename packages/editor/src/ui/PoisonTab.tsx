@@ -5,10 +5,9 @@
  * 序列/关系);右侧全局关系总览(致死对对称性校验 + 相克链推导,数据错一眼看出)。
  */
 import type { ItemData, PoisonCurability, PoisonDef, PoisonTick } from '@type-pal/content'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   type BattleDataReference,
-  blockingPoisonReferences,
 } from '../core/battle-data-references.js'
 import {
   AddPoisonCommand,
@@ -17,15 +16,16 @@ import {
   UpdatePoisonCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import {
   DsButton,
   DsCheckbox,
+  DsDraftNumberInput,
+  DsDraftTextInput,
   DsField,
   DsIconButton,
-  DsNumberInput,
   DsSelect,
   DsTag,
-  DsTextInput,
   DsPressable,
 } from './design-system/controls.js'
 import {
@@ -55,20 +55,23 @@ const CURABILITY_BADGE: Record<PoisonCurability, string> = {
 }
 
 function Num(props: {
+  draftKey: string
+  syncToken: number
   v: number | undefined
   on: (n: number | undefined) => void
   ph?: string
   size?: 'default' | 'compact'
 }) {
   return (
-    <DsNumberInput
+    <DsDraftNumberInput
+      draftKey={props.draftKey}
+      syncToken={props.syncToken}
       size={props.size}
       monospace
-      value={props.v ?? ''}
+      value={props.v}
+      allowEmpty
       placeholder={props.ph}
-      onChange={(e) =>
-        props.on(Number.isFinite(e.target.valueAsNumber) ? e.target.valueAsNumber : undefined)
-      }
+      onCommit={props.on}
       onWheel={(e) => e.currentTarget.blur()}
     />
   )
@@ -76,6 +79,8 @@ function Num(props: {
 
 /** 单条 tick 的一行编辑(扣血/半血/产道具/自解)。 */
 function TickRow(props: {
+  draftScope: string
+  syncToken: number
   tick: PoisonTick
   items: ItemData[]
   onChange: (next: PoisonTick) => void
@@ -85,7 +90,8 @@ function TickRow(props: {
   last: boolean
   idx: number
 }) {
-  const { tick, items, onChange, onRemove, onMove, first, last, idx } = props
+  const { draftScope, syncToken, tick, items, onChange, onRemove, onMove, first, last, idx } =
+    props
   // patch 语义:undefined = 删键(落盘 JSON 不留空键)
   const set = (p: Partial<PoisonTick>): void => {
     const next = { ...tick, ...p } as Record<string, unknown>
@@ -97,10 +103,23 @@ function TickRow(props: {
       <DsSequenceIndex value={idx + 1} accessibleLabel={`第 ${idx + 1} 回合`} />
       <div className="ef-fields">
         <DsField label="扣血">
-          <Num size="compact" v={tick.hpDelta} on={(n) => set({ hpDelta: n })} />
+          <Num
+            draftKey={`${draftScope}:hp-delta`}
+            syncToken={syncToken}
+            size="compact"
+            v={tick.hpDelta}
+            on={(n) => set({ hpDelta: n })}
+          />
         </DsField>
         <DsField label="半血上限">
-          <Num size="compact" v={tick.halveHp} ph="留空 = 无" on={(n) => set({ halveHp: n })} />
+          <Num
+            draftKey={`${draftScope}:halve-hp`}
+            syncToken={syncToken}
+            size="compact"
+            v={tick.halveHp}
+            ph="留空 = 无"
+            on={(n) => set({ halveHp: n })}
+          />
         </DsField>
         <DsField label="产道具">
           {(field) => (
@@ -154,14 +173,18 @@ function TickRow(props: {
 }
 
 /** tick 序列编辑器(玩家/敌人各一份)。 */
-function TicksEditor(props: {
+interface TicksEditorProps {
+  draftScope: string
+  syncToken: number
   title: string
   hint: string
   ticks: PoisonTick[] | undefined
   items: ItemData[]
   onChange: (next: PoisonTick[] | undefined) => void
-}) {
-  const { title, hint, ticks, items, onChange } = props
+}
+
+function TicksEditorView(props: TicksEditorProps) {
+  const { draftScope, syncToken, title, hint, ticks, items, onChange } = props
   const list = ticks ?? []
   const setAt = (i: number, next: PoisonTick): void => {
     const arr = [...list]
@@ -173,6 +196,8 @@ function TicksEditor(props: {
       {list.map((t, i) => (
         <TickRow
           key={`t${i}-${list.length}`}
+          draftScope={`${draftScope}:${i}`}
+          syncToken={syncToken}
           tick={t}
           items={items}
           idx={i}
@@ -203,6 +228,18 @@ function TicksEditor(props: {
     </DsWorkbenchSection>
   )
 }
+
+/** Name/relationship edits do not invalidate either tick editor. */
+const TicksEditor = memo(
+  TicksEditorView,
+  (left, right) =>
+    left.draftScope === right.draftScope &&
+    left.title === right.title &&
+    left.hint === right.hint &&
+    left.ticks === right.ticks &&
+    left.items === right.items &&
+    left.onChange === right.onChange,
+)
 
 /** 全局关系总览:致死对(对称性校验)+ 相克链(单向环推导)。数据驱动,配错一眼看出。 */
 function RelationOverview(props: { poisons: PoisonDef[]; onPick: (id: number) => void }) {
@@ -305,11 +342,22 @@ export function PoisonTab(props: {
   poisons: PoisonDef[]
   items: ItemData[]
   session: EditSession
+  referenceIndex: ReadonlyMap<string, readonly BattleDataReference[]>
+  referenceStatus: EditorDerivedStatus
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
   onOpenReference?: (reference: BattleDataReference) => void
 }) {
-  const { poisons, items, session, focusObjectId, onObjectFocus, onOpenReference } = props
+  const {
+    poisons,
+    items,
+    session,
+    referenceIndex,
+    referenceStatus,
+    focusObjectId,
+    onObjectFocus,
+    onOpenReference,
+  } = props
   const [filter, setFilter] = useState('')
   const [selId, setSelId] = useState<number>(poisons[0]?.id ?? 0)
   const [inspectorTab, setInspectorTab] = useState<PoisonInspectorTab>('references')
@@ -320,7 +368,24 @@ export function PoisonTab(props: {
     [poisons, filter],
   )
   const poison = poisons.find((p) => p.id === selId) ?? shown[0]
-  const references = poison ? blockingPoisonReferences(session.getState(), poison.id) : []
+  const syncToken = session.getHistoryVersion()
+  const references = poison ? (referenceIndex.get(String(poison.id)) ?? []) : []
+  const referenceCount =
+    referenceStatus === 'current'
+      ? { kind: 'exact' as const, value: references.length }
+      : references.length
+        ? { kind: 'at-least' as const, value: references.length }
+        : { kind: 'unknown' as const }
+  const referencePanelState =
+    referenceStatus === 'current'
+      ? references.length
+        ? ('ready' as const)
+        : ('empty' as const)
+      : referenceStatus === 'failed'
+        ? ('error' as const)
+        : referenceStatus === 'stale'
+          ? ('partial' as const)
+          : ('loading' as const)
   const others = poisons.filter((p) => p.id !== poison?.id)
   const selectPoison = (id: number): void => {
     setSelId(id)
@@ -340,11 +405,22 @@ export function PoisonTab(props: {
     }
   }, [focusObjectId, poisons])
 
-  const patch = (p: Partial<Omit<PoisonDef, 'id'>>): void => {
-    if (poison) session.dispatch(new UpdatePoisonCommand(poison.id, p))
-  }
+  const patch = useCallback(
+    (p: Partial<Omit<PoisonDef, 'id'>>): void => {
+      if (poison?.id !== undefined) session.dispatch(new UpdatePoisonCommand(poison.id, p))
+    },
+    [poison?.id, session],
+  )
+  const patchPlayerTicks = useCallback(
+    (ticks: PoisonTick[] | undefined): void => patch({ playerTicks: ticks }),
+    [patch],
+  )
+  const patchEnemyTicks = useCallback(
+    (ticks: PoisonTick[] | undefined): void => patch({ enemyTicks: ticks }),
+    [patch],
+  )
   const removePoison = (): void => {
-    if (!poison || references.length) return
+    if (!poison || referenceStatus !== 'current' || references.length) return
     if (!window.confirm(`删除毒 ${poison.name}(${poison.id})？此操作可以撤销。`)) return
     const index = poisons.findIndex((entry) => entry.id === poison.id)
     const next = poisons[index + 1] ?? poisons[index - 1]
@@ -418,9 +494,11 @@ export function PoisonTab(props: {
                 <DsButton
                   variant="danger"
                   icon="delete"
-                  disabled={references.length > 0}
+                  disabled={referenceStatus !== 'current' || references.length > 0}
                   title={
-                    references.length
+                    referenceStatus !== 'current'
+                      ? '毒引用仍在检查，暂不能删除'
+                      : references.length
                       ? `仍有 ${references.length} 处引用，请先从右侧处理`
                       : '删除毒'
                   }
@@ -435,10 +513,12 @@ export function PoisonTab(props: {
                 <div className="battle-data-grid">
                   <DsField label="名字">
                     {(field) => (
-                      <DsTextInput
+                      <DsDraftTextInput
                         {...field}
+                        draftKey={`poison:${poison.id}:name`}
+                        syncToken={syncToken}
                         value={poison.name}
-                        onChange={(e) => patch({ name: e.target.value })}
+                        onCommit={(name) => patch({ name })}
                       />
                     )}
                   </DsField>
@@ -462,24 +542,33 @@ export function PoisonTab(props: {
                     )}
                   </DsField>
                   <DsField label="染色#" help="状态页头像染色的调色板色号；0 = 不染">
-                    <Num v={poison.color} on={(n) => patch({ color: n ?? 0 })} />
+                    <Num
+                      draftKey={`poison:${poison.id}:color`}
+                      syncToken={syncToken}
+                      v={poison.color}
+                      on={(n) => patch({ color: n ?? 0 })}
+                    />
                   </DsField>
                 </div>
               </DsWorkbenchSection>
 
               <TicksEditor
+                draftScope={`poison:${poison.id}:player-ticks`}
+                syncToken={syncToken}
                 title="玩家中毒 · 逐回合"
                 hint="每回合跑一格、指针前进;到尾重复末格(勾「自解」则移除)"
                 ticks={poison.playerTicks}
                 items={items}
-                onChange={(ticks) => patch({ playerTicks: ticks })}
+                onChange={patchPlayerTicks}
               />
               <TicksEditor
+                draftScope={`poison:${poison.id}:enemy-ticks`}
+                syncToken={syncToken}
                 title="敌人中毒 · 逐回合"
                 hint="同毒对敌通常更狠(原版双档);留空 = 对敌无 DoT"
                 ticks={poison.enemyTicks}
                 items={items}
-                onChange={(ticks) => patch({ enemyTicks: ticks })}
+                onChange={patchEnemyTicks}
               />
 
               <DsWorkbenchSection
@@ -558,13 +647,16 @@ export function PoisonTab(props: {
                   description="技能、物品和其他毒定义中的关系边会阻断删除。"
                 >
                   <DsReferencePanel
-                    state={references.length ? 'ready' : 'empty'}
-                    count={{ kind: 'exact', value: references.length }}
+                    state={referencePanelState}
+                    count={referenceCount}
                     impact={{
                       kind: 'blocking',
-                      description: references.length
-                        ? '解除技能、物品或其他毒定义中的关系边后才能删除。'
-                        : '当前毒定义可以安全删除。',
+                      description:
+                        referenceStatus !== 'current'
+                          ? '引用结果尚未刷新完成；当前仅展示上一份已知结果，暂不能删除。'
+                          : references.length
+                            ? '解除技能、物品或其他毒定义中的关系边后才能删除。'
+                            : '当前毒定义可以安全删除。',
                     }}
                   >
                     {references.length ? (

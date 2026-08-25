@@ -110,6 +110,48 @@ describe('editor design-system controls', () => {
     expect(validate).toHaveBeenCalledTimes(1)
   })
 
+  test('does not cancel or commit an IME draft for Escape or keyCode 229', async () => {
+    const commits = vi.fn()
+    const cancels = vi.fn()
+    await act(async () =>
+      root.render(
+        <DsDraftTextInput
+          aria-label="人物名称"
+          draftKey="actor:hero:name"
+          value="李逍遥"
+          onCommit={commits}
+          onCancel={cancels}
+        />,
+      ),
+    )
+    const field = host.querySelector<HTMLInputElement>('input')!
+    await act(async () => field.focus())
+    await composition(field, 'compositionstart')
+    await input(field, '李逍遥新')
+    await keyDown(field, 'Escape', { isComposing: true })
+    expect(document.activeElement).toBe(field)
+    expect(field.value).toBe('李逍遥新')
+    expect(cancels).not.toHaveBeenCalled()
+
+    await composition(field, 'compositionend')
+    for (const key of ['Enter', 'Escape']) {
+      const imeKey = new KeyboardEvent('keydown', {
+        key,
+        bubbles: true,
+        cancelable: true,
+      })
+      Object.defineProperty(imeKey, 'keyCode', { value: 229 })
+      await act(async () => field.dispatchEvent(imeKey))
+    }
+    expect(document.activeElement).toBe(field)
+    expect(field.value).toBe('李逍遥新')
+    expect(commits).not.toHaveBeenCalled()
+    expect(cancels).not.toHaveBeenCalled()
+    await keyDown(field, 'Enter')
+    expect(commits).toHaveBeenCalledOnce()
+    expect(commits).toHaveBeenCalledWith('李逍遥新')
+  })
+
   test('cancels stale object drafts and resyncs canonical undo and redo values', async () => {
     const commits = vi.fn()
     const renderField = async (draftKey: string, value: string, syncToken: number) => {
@@ -196,6 +238,37 @@ describe('editor design-system controls', () => {
     await blur(field)
     expect(commits).toHaveBeenCalledOnce()
     expect(commits).toHaveBeenCalledWith(0)
+  })
+
+  test('resyncs the canonical value when a mutation rejects the commit', async () => {
+    let accepted = false
+    const commits = vi.fn(() => accepted)
+    await act(async () =>
+      root.render(
+        <DsDraftNumberInput
+          aria-label="动作帧"
+          draftKey="enemy:a:idle.count"
+          value={3}
+          integer
+          onCommit={commits}
+        />,
+      ),
+    )
+    const field = host.querySelector<HTMLInputElement>('input')!
+    await act(async () => field.focus())
+    await input(field, '9')
+    await blur(field)
+    expect(commits).toHaveBeenCalledWith(9)
+    expect(field.value).toBe('3')
+
+    accepted = true
+    await act(async () => field.focus())
+    await input(field, '8')
+    await keyDown(field, 'Enter')
+    await blur(field)
+    expect(commits).toHaveBeenCalledTimes(2)
+    expect(commits).toHaveBeenLastCalledWith(8)
+    expect(field.value).toBe('8')
   })
 
   test('keeps 100 input events local until one blur commit', async () => {

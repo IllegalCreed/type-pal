@@ -1,11 +1,18 @@
 // @vitest-environment jsdom
 import type { ActorDef, CasualtyScript } from '@type-pal/content'
-import { act, useSyncExternalStore } from 'react'
+import { act, useMemo, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { blockingActorReferenceMap } from '../core/actor-references.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import type {
+  EditorDerivedStore,
+  EditorDerivedStoreSnapshot,
+} from '../core/editor-derived-store.js'
+import { ScriptEditSession } from '../core/script-editor.js'
 import { ActorMode } from './ActorMode.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 
@@ -123,12 +130,69 @@ function state(actorsList: ActorDef[]): EditorState {
   } as unknown as EditorState
 }
 
-function Harness(props: { session: EditSession; assetReader?: EditorAssetReader }) {
+function Harness(props: {
+  session: EditSession
+  assetReader?: EditorAssetReader
+  referenceStatus?: EditorDerivedStatus
+  referenceIndex?: ReturnType<typeof blockingActorReferenceMap>
+  getCurrentAuthorState?: () => EditorState | undefined
+}) {
   useSyncExternalStore(
     (callback) => props.session.subscribe(callback),
     () => props.session.getVersion(),
   )
   const current = props.session.getState()
+  const scriptSession = useMemo(
+    () => new ScriptEditSession({ scenes: [], items: [], sharedScripts: {} }),
+    [],
+  )
+  const referenceData = {
+    statusIssues: [],
+    projectIssues: [],
+    sceneEntryReferences: [],
+    entityAddressReferences: [],
+    assetReferences: [],
+    assetDiagnostics: [],
+    actorReferenceIndex: [
+      ...(props.referenceIndex ?? blockingActorReferenceMap(current)),
+    ] as never,
+    itemReferenceIndex: [],
+    poisonReferenceIndex: [],
+    worldVariableReferences: { all: [], byId: new Map() },
+    canonicalBehaviorReferences: [],
+    canonicalSceneHookReferences: [],
+  }
+  const revision = {
+    mainHistoryVersion: props.session.getHistoryVersion(),
+    scriptHistoryVersion: scriptSession.getHistoryVersion(),
+  }
+  const referenceStatus = props.referenceStatus ?? 'current'
+  const snapshot: EditorDerivedStoreSnapshot =
+    referenceStatus === 'current'
+      ? { status: 'current', revision, data: referenceData }
+      : referenceStatus === 'failed'
+        ? {
+            status: 'failed',
+            targetRevision: revision,
+            message: '测试诊断失败',
+            lastKnown: { revision, data: referenceData },
+          }
+        : referenceStatus === 'checking'
+          ? { status: 'checking', targetRevision: revision }
+          : {
+              status: 'stale',
+              targetRevision: revision,
+              lastKnown: { revision, data: referenceData },
+            }
+  const derivedStore = useMemo<EditorDerivedStore>(
+    () => ({
+      start: () => () => undefined,
+      retry: () => undefined,
+      subscribe: () => () => false,
+      getSnapshot: () => snapshot,
+    }),
+    [snapshot],
+  )
   return (
     <ActorMode
       actors={current.actors}
@@ -142,6 +206,9 @@ function Harness(props: { session: EditSession; assetReader?: EditorAssetReader 
       assetCatalog={current.assetCatalog}
       assetReader={props.assetReader ?? ({} as EditorAssetReader)}
       levelUp={current.levelUp}
+      derivedStore={derivedStore}
+      scriptSession={scriptSession}
+      getCurrentAuthorState={props.getCurrentAuthorState ?? (() => props.session.getState())}
     />
   )
 }
@@ -449,5 +516,40 @@ describe('ActorMode 人物预制 CRUD', () => {
     await act(async () => button('删除人物').click())
     expect(session.getState().actors.some((entry) => entry.id === 'hero')).toBe(true)
     expect(host.querySelector('[role="alert"]')).toBeNull()
+  })
+
+  test('快照过期时禁删，点击边界出现新引用时仍 fail-closed', async () => {
+    const current = state([{ id: 'hero', name: 'name.hero', spriteId: 'hero-sprite' }])
+    const session = new EditSession(current)
+    await act(async () => {
+      root = createRoot(host)
+      root.render(<Harness session={session} referenceStatus="stale" />)
+    })
+    expect(button('删除人物').disabled).toBe(true)
+    expect(button('删除人物').title).toContain('引用仍在检查')
+
+    const currentAuthor = structuredClone(current)
+    currentAuthor.scenes = [
+      {
+        id: 'live-scene',
+        mapId: 'live-map',
+        entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+        entities: [{ id: 'live', pos: { col: 1, row: 1, height: 0 }, actor: 'hero' }],
+      },
+    ]
+    await act(async () => {
+      root.render(
+        <Harness
+          session={session}
+          referenceStatus="current"
+          referenceIndex={new Map()}
+          getCurrentAuthorState={() => currentAuthor}
+        />,
+      )
+    })
+    expect(button('删除人物').disabled).toBe(false)
+    await act(async () => button('删除人物').click())
+    expect(session.getState().actors.some((actor) => actor.id === 'hero')).toBe(true)
+    expect(host.textContent).toContain('live-scene / 实体 live')
   })
 })

@@ -7,6 +7,8 @@ import {
   type ScriptEditorState,
   type ScriptEditSession,
   UpdateSharedScriptCommand,
+  UpdateSharedScriptMetadataCommand,
+  type SharedScriptMetadataPatch,
 } from '../core/script-editor.js'
 import {
   CanonicalScriptBodyEditor,
@@ -17,12 +19,13 @@ import {
   DsButton,
   DsCatalogControls,
   DsCatalogRow,
+  DsDraftTextArea,
+  DsDraftTextInput,
   DsField,
   DsHelpTip,
   DsObjectHero,
   DsSelect,
   DsTag,
-  DsTextArea,
   DsTextInput,
 } from './design-system/index.js'
 
@@ -81,7 +84,6 @@ export function CanonicalSharedScriptTab(props: {
   const createScriptIdInputRef = useRef<HTMLInputElement>(null)
   const createWasOpenRef = useRef(false)
   const selected = props.state.sharedScripts[selectedId]
-  const [nameDraft, setNameDraft] = useState(selected?.name ?? '')
   const shown = ids.filter((id) => {
     const script = props.state.sharedScripts[id]
     const needle = filter.trim().toLowerCase()
@@ -97,8 +99,6 @@ export function CanonicalSharedScriptTab(props: {
     }
     if (!selectedId || !props.state.sharedScripts[selectedId]) setSelectedId(ids[0] ?? '')
   }, [ids, props.focusScriptId, props.state.sharedScripts, selectedId])
-
-  useEffect(() => setNameDraft(selected?.name ?? ''), [selected?.name])
 
   useEffect(() => {
     if (createOpen) {
@@ -138,8 +138,12 @@ export function CanonicalSharedScriptTab(props: {
     props.onSelectedScriptId?.(id || undefined)
   }
 
-  const update = (patch: Partial<AuthorSharedScript>): void => {
-    if (selectedId) dispatch(new UpdateSharedScriptCommand(selectedId, patch))
+  const updateMetadata = (patch: SharedScriptMetadataPatch): void => {
+    if (selectedId) dispatch(new UpdateSharedScriptMetadataCommand(selectedId, patch))
+  }
+
+  const updateBody = (body: AuthorSharedScript['body']): void => {
+    if (selectedId) dispatch(new UpdateSharedScriptCommand(selectedId, { body }))
   }
 
   const closeCreate = (): void => {
@@ -264,7 +268,7 @@ export function CanonicalSharedScriptTab(props: {
               body={selected.body}
               context={{ ...props.context, hasImplicitSelf: selected.self === 'required' }}
               onError={props.onError}
-              onChange={(body) => update({ body })}
+              onChange={updateBody}
               focusCommandPath={
                 props.focusScriptId === selectedId ? props.focusCommandPath : undefined
               }
@@ -282,33 +286,31 @@ export function CanonicalSharedScriptTab(props: {
             <h4>作者元数据</h4>
             <DsField label="显示名" className="v-field">
               {(field) => (
-                <DsTextInput
+                <DsDraftTextInput
                   {...field}
                   name="shared-script-display-name"
                   autoComplete="off"
-                  value={nameDraft}
-                  onChange={(event) => setNameDraft(event.target.value)}
-                  onKeyDown={(event) => {
-                    if (event.key === 'Enter') event.currentTarget.blur()
-                  }}
-                  onBlur={(event) => {
-                    const next = event.currentTarget.value.trim()
-                    if (!next) {
-                      setNameDraft(selected.name)
-                      return
-                    }
-                    setNameDraft(next)
-                    if (next !== selected.name) update({ name: next })
+                  draftKey={`shared-script:${selectedId}:name`}
+                  syncToken={props.session.getHistoryVersion()}
+                  value={selected.name}
+                  validate={(value) => (value.trim() ? undefined : '显示名不能为空。')}
+                  onCommit={(value) => {
+                    const name = value.trim()
+                    if (name !== selected.name) updateMetadata({ name })
                   }}
                 />
               )}
             </DsField>
             <DsField label="说明" className="v-field">
               {(field) => (
-                <DsTextArea
+                <DsDraftTextArea
                   {...field}
+                  draftKey={`shared-script:${selectedId}:description`}
+                  syncToken={props.session.getHistoryVersion()}
                   value={selected.description ?? ''}
-                  onChange={(event) => update({ description: event.target.value || undefined })}
+                  onCommit={(description) =>
+                    updateMetadata({ description: description || undefined })
+                  }
                 />
               )}
             </DsField>
@@ -323,7 +325,9 @@ export function CanonicalSharedScriptTab(props: {
                     { value: 'optional', label: '可选' },
                     { value: 'required', label: '必须提供' },
                   ]}
-                  onValueChange={(value) => update({ self: value as AuthorSharedScript['self'] })}
+                  onValueChange={(value) =>
+                    updateMetadata({ self: value as AuthorSharedScript['self'] })
+                  }
                 />
               )}
             </DsField>

@@ -2,7 +2,7 @@ import type { AssetCatalogV1, AssetId, SkillAnimation } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { useId } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
-import { DsCheckbox, DsField, DsNumberInput, DsSelect } from './design-system/controls.js'
+import { DsCheckbox, DsDraftNumberInput, DsField, DsSelect } from './design-system/controls.js'
 import { FireEffectPreview } from './FireEffectPreview.js'
 import { SoundPicker } from './SoundPicker.js'
 
@@ -18,6 +18,8 @@ function AnimationNumberField(props: {
   min?: number
   max?: number
   emptyValue?: number
+  draftKey: string
+  syncToken: string | number
   onChange: (value: number | undefined) => void
 }) {
   return (
@@ -29,19 +31,23 @@ function AnimationNumberField(props: {
       className="skill-animation-field"
     >
       {(control) => (
-        <DsNumberInput
+        <DsDraftNumberInput
           {...control}
+          draftKey={props.draftKey}
+          syncToken={props.syncToken}
           monospace
           name={props.id}
           autoComplete="off"
           min={props.min}
           max={props.max}
-          value={props.value === props.emptyValue ? '' : (props.value ?? '')}
+          enforceRange={false}
+          value={props.value === props.emptyValue ? undefined : props.value}
+          allowEmpty={!props.required || props.emptyValue !== undefined}
+          integer
           placeholder={props.placeholder}
           onWheel={(event) => event.currentTarget.blur()}
-          onChange={(event) => {
-            const raw = event.currentTarget.valueAsNumber
-            if (!Number.isFinite(raw)) {
+          onCommit={(raw) => {
+            if (raw === undefined) {
               props.onChange(props.emptyValue ?? (props.required ? (props.min ?? 0) : undefined))
               return
             }
@@ -62,6 +68,8 @@ export function SkillAnimationEditor(props: {
   assetReader: EditorAssetReader
   assetBase?: AssetBase
   onOpenSound?: (id: AssetId) => void
+  draftScope: string
+  syncToken: string | number
 }) {
   const fieldPrefix = useId()
   const fieldId = (name: string): string => `${fieldPrefix}-${name}`
@@ -92,6 +100,8 @@ export function SkillAnimationEditor(props: {
                 min={0}
                 max={NO_FIRE_EFFECT_SPRITE - 1}
                 emptyValue={NO_FIRE_EFFECT_SPRITE}
+                draftKey={`${props.draftScope}:effectSprite`}
+                syncToken={props.syncToken}
                 onChange={(effectSprite) =>
                   patch('effectSprite', effectSprite ?? NO_FIRE_EFFECT_SPRITE)
                 }
@@ -116,6 +126,8 @@ export function SkillAnimationEditor(props: {
                 label="X 偏移"
                 value={props.animation.xOffset}
                 placeholder="0"
+                draftKey={`${props.draftScope}:xOffset`}
+                syncToken={props.syncToken}
                 onChange={(value) => patch('xOffset', value)}
               />
               <AnimationNumberField
@@ -123,6 +135,8 @@ export function SkillAnimationEditor(props: {
                 label="Y 偏移"
                 value={props.animation.yOffset}
                 placeholder="0"
+                draftKey={`${props.draftScope}:yOffset`}
+                syncToken={props.syncToken}
                 onChange={(value) => patch('yOffset', value)}
               />
               <AnimationNumberField
@@ -130,6 +144,8 @@ export function SkillAnimationEditor(props: {
                 label="层级偏移"
                 value={props.animation.layerOffset}
                 placeholder="0"
+                draftKey={`${props.draftScope}:layerOffset`}
+                syncToken={props.syncToken}
                 onChange={(value) => patch('layerOffset', value)}
               />
             </div>
@@ -143,6 +159,8 @@ export function SkillAnimationEditor(props: {
                 label="速度"
                 value={props.animation.speed}
                 placeholder="0"
+                draftKey={`${props.draftScope}:speed`}
+                syncToken={props.syncToken}
                 onChange={(value) => patch('speed', value)}
               />
               <AnimationNumberField
@@ -150,6 +168,8 @@ export function SkillAnimationEditor(props: {
                 label="循环起点"
                 value={props.animation.fireDelay}
                 placeholder="0"
+                draftKey={`${props.draftScope}:fireDelay`}
+                syncToken={props.syncToken}
                 onChange={(value) => patch('fireDelay', value)}
               />
               <AnimationNumberField
@@ -157,6 +177,8 @@ export function SkillAnimationEditor(props: {
                 label="循环次数"
                 value={props.animation.effectTimes}
                 placeholder="1"
+                draftKey={`${props.draftScope}:effectTimes`}
+                syncToken={props.syncToken}
                 onChange={(value) => patch('effectTimes', value)}
               />
             </div>
@@ -170,6 +192,8 @@ export function SkillAnimationEditor(props: {
                 label="震屏帧"
                 value={props.animation.shake}
                 placeholder="0"
+                draftKey={`${props.draftScope}:shake`}
+                syncToken={props.syncToken}
                 onChange={(value) => patch('shake', value)}
               />
               <AnimationNumberField
@@ -178,6 +202,8 @@ export function SkillAnimationEditor(props: {
                 value={props.animation.preShake?.frames}
                 placeholder="关闭"
                 min={1}
+                draftKey={`${props.draftScope}:preShake.frames`}
+                syncToken={props.syncToken}
                 onChange={(frames) =>
                   patch(
                     'preShake',
@@ -197,6 +223,8 @@ export function SkillAnimationEditor(props: {
                   value={props.animation.preShake.level}
                   required
                   min={1}
+                  draftKey={`${props.draftScope}:preShake.level`}
+                  syncToken={props.syncToken}
                   onChange={(level) =>
                     patch('preShake', {
                       ...props.animation.preShake!,
@@ -210,6 +238,8 @@ export function SkillAnimationEditor(props: {
                 label="屏波"
                 value={props.animation.wave}
                 placeholder="0"
+                draftKey={`${props.draftScope}:wave`}
+                syncToken={props.syncToken}
                 onChange={(value) => patch('wave', value)}
               />
               <DsField

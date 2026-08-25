@@ -20,7 +20,7 @@ import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
 import { BattleSpriteUploader } from './BattleSpriteUploader.js'
-import { DsButton, DsField, DsNumberInput, DsTag } from './design-system/controls.js'
+import { DsButton, DsDraftNumberInput, DsField, DsTag } from './design-system/controls.js'
 
 type Mode = 'idle' | 'magic' | 'attack'
 const MODES: readonly { id: Mode; label: string }[] = [
@@ -69,21 +69,32 @@ function frameSequence(
 
 function NumberInput(props: {
   id: string
+  draftKey: string
   value: number
+  disabled?: boolean
   min?: number
   max?: number
-  onChange: (value: number) => void
+  syncToken: number
+  onChange: (value: number) => void | boolean
 }) {
   return (
-    <DsNumberInput
+    <DsDraftNumberInput
       id={props.id}
+      draftKey={props.draftKey}
+      syncToken={props.syncToken}
+      disabled={props.disabled}
       monospace
       value={props.value}
       min={props.min ?? 0}
       max={props.max}
+      enforceRange={false}
+      integer
       autoComplete="off"
       onWheel={(event) => event.currentTarget.blur()}
-      onChange={(event) => props.onChange(Math.floor(event.target.valueAsNumber || 0))}
+      onCommit={(value) => {
+        const next = Math.floor(value ?? 0)
+        return next === props.value ? true : props.onChange(next)
+      }}
     />
   )
 }
@@ -132,6 +143,7 @@ export function EnemyAnimPreview(props: {
     loadedFrames.sha256 === revision
       ? loadedFrames.frames
       : []
+  const profileReady = Boolean(definition && revision && frames.length)
 
   useEffect(() => {
     let alive = true
@@ -204,36 +216,43 @@ export function EnemyAnimPreview(props: {
     )
   }, [frames, sequence.frames, tick])
 
-  const patchProfile = (next: EnemyBattleSpriteProfile): void => {
-    if (!definition || !revision || !frames.length) return
+  const patchProfile = (next: EnemyBattleSpriteProfile): boolean => {
+    if (!definition || !revision || !frames.length) return false
     if (
       referenceCount > 1 &&
       !window.confirm(`该定义被 ${referenceCount} 处内容共享，修改动作 ABI 会同时生效。继续吗？`)
     )
-      return
+      return false
     try {
-      session.dispatch(
-        new UpdateBattleSpriteDefinitionCommand(
-          definition.id,
-          { profile: next },
-          { asset: definition.asset, sha256: revision, actualFrameCount: frames.length },
-        ),
-      )
+      if (
+        !session.dispatch(
+          new UpdateBattleSpriteDefinitionCommand(
+            definition.id,
+            { profile: next },
+            { asset: definition.asset, sha256: revision, actualFrameCount: frames.length },
+          ),
+        )
+      ) {
+        setEditError('战斗精灵定义已变化，请重新选择后再编辑。')
+        return false
+      }
       setEditError('')
+      return true
     } catch (reason) {
       setEditError(reason instanceof Error ? reason.message : String(reason))
+      return false
     }
   }
 
-  const patchCounts = (key: 'idle' | 'magic' | 'attack', count: number): void => {
-    if (!profile) return
+  const patchCounts = (key: 'idle' | 'magic' | 'attack', count: number): boolean => {
+    if (!profile) return false
     const counts = {
       idle: profile.idle.count,
       magic: profile.magic.count,
       attack: profile.attack.count,
       [key]: Math.max(key === 'idle' ? 1 : 0, count),
     }
-    patchProfile({
+    return patchProfile({
       ...profile,
       idle: { start: 0, count: counts.idle },
       magic: { start: counts.idle, count: counts.magic },
@@ -339,22 +358,31 @@ export function EnemyAnimPreview(props: {
                 <DsField id={`${fieldIdPrefix}-idle-count`} label="待机帧">
                   <NumberInput
                     id={`${fieldIdPrefix}-idle-count`}
+                    draftKey={`enemy:${enemy.id}:battle-sprite:${definition?.id ?? enemy.battleSprite}:profile:idle.count`}
                     value={profile.idle.count}
+                    disabled={!profileReady}
                     min={1}
+                    syncToken={session.getHistoryVersion()}
                     onChange={(n) => patchCounts('idle', n)}
                   />
                 </DsField>
                 <DsField id={`${fieldIdPrefix}-magic-count`} label="施法帧">
                   <NumberInput
                     id={`${fieldIdPrefix}-magic-count`}
+                    draftKey={`enemy:${enemy.id}:battle-sprite:${definition?.id ?? enemy.battleSprite}:profile:magic.count`}
                     value={profile.magic.count}
+                    disabled={!profileReady}
+                    syncToken={session.getHistoryVersion()}
                     onChange={(n) => patchCounts('magic', n)}
                   />
                 </DsField>
                 <DsField id={`${fieldIdPrefix}-attack-count`} label="攻击帧">
                   <NumberInput
                     id={`${fieldIdPrefix}-attack-count`}
+                    draftKey={`enemy:${enemy.id}:battle-sprite:${definition?.id ?? enemy.battleSprite}:profile:attack.count`}
                     value={profile.attack.count}
+                    disabled={!profileReady}
+                    syncToken={session.getHistoryVersion()}
                     onChange={(n) => patchCounts('attack', n)}
                   />
                 </DsField>
@@ -366,8 +394,11 @@ export function EnemyAnimPreview(props: {
                 <DsField id={`${fieldIdPrefix}-idle-speed`} label="待机速度">
                   <NumberInput
                     id={`${fieldIdPrefix}-idle-speed`}
+                    draftKey={`enemy:${enemy.id}:battle-sprite:${definition?.id ?? enemy.battleSprite}:profile:idleTicksPerFrame`}
                     value={profile.idleTicksPerFrame}
+                    disabled={!profileReady}
                     min={1}
+                    syncToken={session.getHistoryVersion()}
                     onChange={(idleTicksPerFrame) =>
                       patchProfile({ ...profile, idleTicksPerFrame })
                     }
@@ -376,15 +407,20 @@ export function EnemyAnimPreview(props: {
                 <DsField id={`${fieldIdPrefix}-action-speed`} label="行动速度">
                   <NumberInput
                     id={`${fieldIdPrefix}-action-speed`}
+                    draftKey={`enemy:${enemy.id}:battle-sprite:${definition?.id ?? enemy.battleSprite}:profile:actTicksPerFrame`}
                     value={profile.actTicksPerFrame}
+                    disabled={!profileReady}
+                    syncToken={session.getHistoryVersion()}
                     onChange={(actTicksPerFrame) => patchProfile({ ...profile, actTicksPerFrame })}
                   />
                 </DsField>
                 <DsField id={`${fieldIdPrefix}-y-offset`} label="Y 偏移">
                   <NumberInput
                     id={`${fieldIdPrefix}-y-offset`}
+                    draftKey={`enemy:${enemy.id}:yPosOffset`}
                     value={enemy.yPosOffset}
                     min={-200}
+                    syncToken={session.getHistoryVersion()}
                     onChange={(yPosOffset) =>
                       session.dispatch(new UpdateEnemyCommand(enemy.id, { yPosOffset }))
                     }

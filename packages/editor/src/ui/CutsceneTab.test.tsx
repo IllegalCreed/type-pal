@@ -3,6 +3,7 @@ import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { EditSession } from '../core/edit-session.js'
+import { collectEditorAssetReferences } from '../core/editor-asset-references.js'
 import { CutsceneTab } from './CutsceneTab.js'
 import {
   catalogControlsAssetCatalog,
@@ -40,6 +41,9 @@ describe('CutsceneTab catalog controls', () => {
     await act(async () => {
       root.render(
         <CutsceneTab
+          assetDiagnostics={[]}
+          assetReferences={[]}
+          assetReferenceStatus="current"
           assetBase={{} as never}
           catalog={catalogControlsAssetCatalog}
           reader={catalogControlsReader as never}
@@ -84,6 +88,9 @@ describe('CutsceneTab catalog controls', () => {
     await act(async () => {
       root.render(
         <CutsceneTab
+          assetDiagnostics={[]}
+          assetReferences={[]}
+          assetReferenceStatus="current"
           assetBase={{} as never}
           catalog={emptyCatalog}
           reader={catalogControlsReader as never}
@@ -101,27 +108,29 @@ describe('CutsceneTab catalog controls', () => {
   test('fails closed when the live shared script still references the selected video', async () => {
     const session = new EditSession(catalogControlsEditorState())
     const readBytes = vi.fn(catalogControlsReader.readBytes)
+    const currentAuthor = {
+      scenes: [],
+      items: [],
+      sharedScripts: {
+        'shared/live-video': {
+          name: '实时过场脚本',
+          self: 'none',
+          body: [{ kind: 'playVideo', asset: 'video.opening' }],
+        },
+      },
+    } as never
     await act(async () => {
       root.render(
         <CutsceneTab
+          assetDiagnostics={[]}
+          assetReferences={collectEditorAssetReferences(session.getState(), currentAuthor)}
+          assetReferenceStatus="current"
           assetBase={{} as never}
           catalog={catalogControlsAssetCatalog}
           reader={{ ...catalogControlsReader, readBytes } as never}
           session={session}
           focusObjectId="video.opening"
-          currentAuthor={
-            {
-              scenes: [],
-              items: [],
-              sharedScripts: {
-                'shared/live-video': {
-                  name: '实时过场脚本',
-                  self: 'none',
-                  body: [{ kind: 'playVideo', asset: 'video.opening' }],
-                },
-              },
-            } as never
-          }
+          currentAuthor={currentAuthor}
         />,
       )
       await Promise.resolve()
@@ -152,6 +161,9 @@ describe('CutsceneTab catalog controls', () => {
     await act(async () => {
       root.render(
         <CutsceneTab
+          assetDiagnostics={[]}
+          assetReferences={[]}
+          assetReferenceStatus="current"
           assetBase={{} as never}
           catalog={catalogControlsAssetCatalog}
           reader={catalogControlsReader as never}

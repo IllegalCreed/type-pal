@@ -259,6 +259,7 @@ describe('ItemEffectChainEditor', () => {
       (input) => input.closest('label')?.textContent?.includes('毒抗增量'),
     )!
     await input(poisonInput, '-8')
+    await act(async () => poisonInput.dispatchEvent(new FocusEvent('focusout', { bubbles: true })))
     expect(onPoisonChange).toHaveBeenLastCalledWith(
       expect.objectContaining({ effects: [{ kind: 'extraPoisonRes', amount: 1 }] }),
     )
@@ -274,7 +275,7 @@ describe('ItemEffectChainEditor', () => {
             effects: [
               {
                 kind: 'drawFromResourcePool',
-                resource: ' pool ',
+                resource: 'pool',
                 maxRoll: 1,
                 rewards: [{ itemId: 'material', count: 1 }],
               },
@@ -286,7 +287,7 @@ describe('ItemEffectChainEditor', () => {
     )
     const resourceInput = host.querySelector<HTMLInputElement>('input[aria-label="资源变量名称"]')!
     expect(host.querySelector('datalist, input[list]')).toBeNull()
-    expect(resourceInput.getAttribute('aria-invalid')).toBe('true')
+    await input(resourceInput, ' pool ')
     await act(async () =>
       resourceInput.dispatchEvent(new FocusEvent('focusout', { bubbles: true })),
     )
@@ -614,6 +615,12 @@ describe('ItemEffectChainEditor', () => {
       (candidate) => candidate.value === 'before',
     )!
     await input(flagInput, 'after')
+    expect(onBodyChange).not.toHaveBeenCalled()
+    await act(async () =>
+      [...host.querySelectorAll<HTMLButtonElement>('button')]
+        .find((candidate) => candidate.textContent === '完成')!
+        .click(),
+    )
     expect(onBodyChange).toHaveBeenCalledWith([{ kind: 'setFlag', flag: 'after', value: true }])
   })
 })

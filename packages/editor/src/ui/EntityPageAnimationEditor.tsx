@@ -1,6 +1,6 @@
 import type { EntityPage, SpriteActionBinding, SpriteDef } from '@type-pal/content'
 import { sortedSpriteActions } from '../core/sprite-actions.js'
-import { DsButton, DsCheckbox, DsNumberInput, DsSelect } from './design-system/controls.js'
+import { DsButton, DsCheckbox, DsDraftNumberInput, DsSelect } from './design-system/controls.js'
 import { DsPropertyGrid, DsPropertyRow } from './design-system/recipes.js'
 
 interface EntityPageAnimationFieldsProps {
@@ -8,6 +8,8 @@ interface EntityPageAnimationFieldsProps {
   sprite: SpriteDef | undefined
   onChange: (binding: SpriteActionBinding | undefined) => void
   onOpenAction?: (spriteId: string, actionId: string) => void
+  draftScope?: string
+  syncToken?: string | number
 }
 
 /**
@@ -124,15 +126,18 @@ export function EntityPageAnimationFields(props: EntityPageAnimationFieldsProps)
           </DsPropertyRow>
           <DsPropertyRow label="起始相位">
             <div className="entity-page-animation-start">
-              <DsNumberInput
+              <DsDraftNumberInput
                 size="compact"
+                draftKey={`${props.draftScope ?? 'entity-page-animation'}:startAtMs`}
+                syncToken={props.syncToken}
                 min={0}
                 step={10}
+                integer
                 value={binding.startAtMs ?? 0}
                 aria-label="动作起始相位（毫秒）"
-                onChange={(event) => {
-                  if (!Number.isFinite(event.target.valueAsNumber)) return
-                  const startAtMs = Math.max(0, Math.trunc(event.target.valueAsNumber))
+                onCommit={(value) => {
+                  if (value === undefined) return
+                  const startAtMs = Math.max(0, Math.trunc(value))
                   patch(startAtMs === 0 ? { startAtMs: undefined } : { startAtMs })
                 }}
               />
@@ -157,6 +162,8 @@ export function EntityPageAnimationEditor(
           sprite={props.sprite}
           onChange={props.onChange}
           onOpenAction={props.onOpenAction}
+          draftScope={props.draftScope ?? `entity-page-animation:${props.pageIndex}`}
+          syncToken={props.syncToken}
         />
       </DsPropertyGrid>
     </section>

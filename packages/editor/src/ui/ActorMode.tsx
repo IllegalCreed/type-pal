@@ -18,8 +18,8 @@ import type {
 } from '@type-pal/content'
 import { lookupText } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
-import { type ReactNode, useEffect, useMemo, useState } from 'react'
-import { type ActorReference, blockingActorReferences } from '../core/actor-references.js'
+import { memo, type ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
+import type { ActorReference } from '../core/actor-references.js'
 import { prepareBattleSpriteImport } from '../core/battle-sprite-import.js'
 import {
   AddActorCommand,
@@ -31,8 +31,13 @@ import {
   UpdateActorCommand,
   UpdateLocaleCommand,
 } from '../core/commands.js'
-import type { EditSession } from '../core/edit-session.js'
+import type { EditorState, EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import {
+  effectiveEditorDerivedStatus,
+  type EditorDerivedStore,
+} from '../core/editor-derived-store.js'
+import type { ScriptEditSession } from '../core/script-editor.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
 import { BattleSpriteUploader } from './BattleSpriteUploader.js'
 import { CasualtyEditor } from './CasualtyEditor.js'
@@ -67,6 +72,7 @@ import { LevelingEditor } from './LevelingEditor.js'
 import { PortraitEditor } from './PortraitEditor.js'
 import { SoundPicker } from './SoundPicker.js'
 import { SpriteFrames } from './SpriteFrames.js'
+import { useEditorDerivedSnapshotAfterPaint } from './session-selector.js'
 
 type ActorInspectorTab = 'summary' | 'references'
 
@@ -154,6 +160,9 @@ export function ActorMode(props: {
   onOpenSound?: (id: string) => void
   onOpenImage?: (id: string) => void
   onOpenActorReference?: (reference: ActorReference) => void
+  derivedStore: EditorDerivedStore
+  scriptSession: ScriptEditSession
+  getCurrentAuthorState: () => EditorState | undefined
 }) {
   const {
     actors,
@@ -177,11 +186,12 @@ export function ActorMode(props: {
     onOpenSound,
     onOpenImage,
     onOpenActorReference,
+    derivedStore,
+    scriptSession,
+    getCurrentAuthorState,
   } = props
   const [selId, setSelId] = useState(focusActorId ?? actors[0]?.id ?? '')
   const [section, setSection] = useState<ActorWorkspaceSection>(() => actorSection(focusSection))
-  const [inspectorTab, setInspectorTab] = useState<ActorInspectorTab>('summary')
-  const [battleUpload, setBattleUpload] = useState(false)
   const [centerEditor, setCenterEditor] = useState<'curve' | 'casualty' | null>(null)
   const [actorDraft, setActorDraft] = useState<
     | { mode: 'create'; id: string; displayName: string; spriteId: string }
@@ -278,47 +288,68 @@ export function ActorMode(props: {
     }
   }
 
-  const deleteActor = (): void => {
-    if (!actor) return
-    try {
-      if (!session.dispatch(new DeleteActorCommand(actor.id))) return
-      setMutationError('')
-      const fallback = session.getState().actors[0]?.id ?? ''
-      setSelId(fallback)
-      onActorFocus?.(fallback)
-    } catch (error) {
-      setMutationError(error instanceof Error ? error.message : String(error))
-    }
-  }
-
-  const actorReferences = actor ? blockingActorReferences(session.getState(), actor.id) : []
-
-  const setStat = (key: keyof BattlerSpec['baseStats'], value: number): void => {
-    if (!actor?.battler || !Number.isFinite(value)) return
-    const baseStats = { ...actor.battler.baseStats, [key]: value }
-    session.dispatch(new UpdateActorCommand(actor.id, { battler: { ...actor.battler, baseStats } }))
-  }
-
-  const setInitialMagic = (initialMagic: string[]): void => {
-    if (!actor?.battler) return
-    session.dispatch(
-      new UpdateActorCommand(actor.id, { battler: { ...actor.battler, initialMagic } }),
-    )
-  }
-
-  const setBattlerSound = (key: keyof BattlerSounds, value: AssetId | undefined): void => {
-    if (!actor?.battler) return
-    const sounds = { ...actor.battler.sounds, [key]: value }
-    if (value === undefined) delete sounds[key]
-    session.dispatch(
-      new UpdateActorCommand(actor.id, {
-        battler: {
-          ...actor.battler,
-          sounds: Object.keys(sounds).length ? sounds : undefined,
-        },
-      }),
-    )
-  }
+  const selectedActorId = actor?.id
+  const setStat = useCallback(
+    (key: keyof BattlerSpec['baseStats'], value: number): void => {
+      if (!Number.isFinite(value)) return
+      const current = session.getState().actors.find((candidate) => candidate.id === selectedActorId)
+      if (!current?.battler) return
+      const baseStats = { ...current.battler.baseStats, [key]: value }
+      session.dispatch(
+        new UpdateActorCommand(current.id, {
+          battler: { ...current.battler, baseStats },
+        }),
+      )
+    },
+    [selectedActorId, session],
+  )
+  const setInitialMagic = useCallback(
+    (initialMagic: string[]): void => {
+      const current = session.getState().actors.find((candidate) => candidate.id === selectedActorId)
+      if (!current?.battler) return
+      session.dispatch(
+        new UpdateActorCommand(current.id, {
+          battler: { ...current.battler, initialMagic },
+        }),
+      )
+    },
+    [selectedActorId, session],
+  )
+  const setBattlerSound = useCallback(
+    (key: keyof BattlerSounds, value: AssetId | undefined): void => {
+      const current = session.getState().actors.find((candidate) => candidate.id === selectedActorId)
+      if (!current?.battler) return
+      const sounds = { ...current.battler.sounds, [key]: value }
+      if (value === undefined) delete sounds[key]
+      session.dispatch(
+        new UpdateActorCommand(current.id, {
+          battler: {
+            ...current.battler,
+            sounds: Object.keys(sounds).length ? sounds : undefined,
+          },
+        }),
+      )
+    },
+    [selectedActorId, session],
+  )
+  const battlerSoundHandlers = useMemo(
+    () =>
+      Object.fromEntries(
+        BATTLER_SOUND_FIELDS.map(({ key }) => [
+          key,
+          (value: AssetId | undefined) => setBattlerSound(key, value),
+        ]),
+      ) as Record<keyof BattlerSounds, (value: AssetId | undefined) => void>,
+    [setBattlerSound],
+  )
+  const setBattleSprite = useCallback(
+    (id: string) => {
+      if (selectedActorId)
+        session.dispatch(new SetActorBattleSpriteCommand(selectedActorId, id))
+    },
+    [selectedActorId, session],
+  )
+  const openLevelCurve = useCallback(() => setCenterEditor('curve'), [])
 
   const relationshipSummary = battler
     ? [
@@ -489,19 +520,19 @@ export function ActorMode(props: {
                 </>
               }
               actions={
-                <DsButton
-                  variant="danger"
-                  icon="delete"
-                  disabled={actorReferences.length > 0}
-                  title={
-                    actorReferences.length
-                      ? `仍有 ${actorReferences.length} 处引用，请先从右侧处理`
-                      : '删除人物'
-                  }
-                  onClick={deleteActor}
-                >
-                  删除人物
-                </DsButton>
+                <ActorDeleteButton
+                  actorId={actor.id}
+                  session={session}
+                  scriptSession={scriptSession}
+                  derivedStore={derivedStore}
+                  getCurrentAuthorState={getCurrentAuthorState}
+                  onError={setMutationError}
+                  onDeleted={(fallback) => {
+                    setMutationError('')
+                    setSelId(fallback)
+                    onActorFocus?.(fallback)
+                  }}
+                />
               }
             />
 
@@ -731,158 +762,32 @@ export function ActorMode(props: {
               {section === 'battle' ? (
                 battler ? (
                   <div className="actor-detail-grid">
-                    <ActorPanel
-                      className="actor-card-wide"
-                      eyebrow="战斗"
-                      title="基础能力"
-                      description="编辑角色的当前/最大体力与真气基线，以及等级和基础属性。"
-                    >
-                      <div className="statgrid actor-stat-editor">
-                        <EditStat
-                          draftKey={`actor:${actor.id}:baseStats.level`}
-                          syncToken={session.getHistoryVersion()}
-                          k="等级"
-                          v={battler.baseStats.level}
-                          on={(value) => setStat('level', value)}
-                        />
-                        <EditStat
-                          draftKey={`actor:${actor.id}:baseStats.hp`}
-                          syncToken={session.getHistoryVersion()}
-                          k="当前体力"
-                          v={battler.baseStats.hp}
-                          on={(value) => setStat('hp', value)}
-                        />
-                        <EditStat
-                          draftKey={`actor:${actor.id}:baseStats.maxHP`}
-                          syncToken={session.getHistoryVersion()}
-                          k="最大体力"
-                          v={battler.baseStats.maxHP}
-                          on={(value) => setStat('maxHP', value)}
-                        />
-                        <EditStat
-                          draftKey={`actor:${actor.id}:baseStats.mp`}
-                          syncToken={session.getHistoryVersion()}
-                          k="当前真气"
-                          v={battler.baseStats.mp}
-                          on={(value) => setStat('mp', value)}
-                        />
-                        <EditStat
-                          draftKey={`actor:${actor.id}:baseStats.maxMP`}
-                          syncToken={session.getHistoryVersion()}
-                          k="最大真气"
-                          v={battler.baseStats.maxMP}
-                          on={(value) => setStat('maxMP', value)}
-                        />
-                        <EditStat
-                          draftKey={`actor:${actor.id}:baseStats.attack`}
-                          syncToken={session.getHistoryVersion()}
-                          k="武术"
-                          v={battler.baseStats.attack}
-                          on={(value) => setStat('attack', value)}
-                        />
-                        <EditStat
-                          draftKey={`actor:${actor.id}:baseStats.defense`}
-                          syncToken={session.getHistoryVersion()}
-                          k="防御"
-                          v={battler.baseStats.defense}
-                          on={(value) => setStat('defense', value)}
-                        />
-                        <EditStat
-                          draftKey={`actor:${actor.id}:baseStats.magicAttack`}
-                          syncToken={session.getHistoryVersion()}
-                          k="灵力"
-                          v={battler.baseStats.magicAttack}
-                          on={(value) => setStat('magicAttack', value)}
-                        />
-                        <EditStat
-                          draftKey={`actor:${actor.id}:baseStats.speed`}
-                          syncToken={session.getHistoryVersion()}
-                          k="身法"
-                          v={battler.baseStats.speed}
-                          on={(value) => setStat('speed', value)}
-                        />
-                        <EditStat
-                          draftKey={`actor:${actor.id}:baseStats.luck`}
-                          syncToken={session.getHistoryVersion()}
-                          k="吉运"
-                          v={battler.baseStats.luck}
-                          on={(value) => setStat('luck', value)}
-                        />
-                      </div>
-                    </ActorPanel>
+                    <ActorBaseStatsPanel
+                      actorId={actor.id}
+                      baseStats={battler.baseStats}
+                      syncToken={session.getHistoryVersion()}
+                      onStat={setStat}
+                    />
 
-                    <ActorPanel
-                      eyebrow="表现"
-                      title="战斗形象"
-                      description="选择角色战斗精灵，或上传新的帧带定义。"
-                      actions={
-                        <DsButton
-                          size="compact"
-                          variant="secondary"
-                          onClick={() => setBattleUpload((value) => !value)}
-                        >
-                          {battleUpload ? '收起上传' : '上传帧带'}
-                        </DsButton>
-                      }
-                    >
-                      <BattleSpritePicker
-                        value={battler.battleSprite}
-                        definitions={battleSprites}
-                        kind="player-fighter"
-                        onChange={(id) =>
-                          session.dispatch(new SetActorBattleSpriteCommand(actor.id, id))
-                        }
-                        onOpenDefinition={onOpenBattleSprite}
-                        ariaLabel="角色战斗精灵"
-                      />
-                      {battleUpload ? (
-                        <BattleSpriteUploader
-                          assetBase={assetBase}
-                          onApply={async (bytes, frameCount) => {
-                            const prepared = await prepareBattleSpriteImport(session.getState(), {
-                              hint: actor.id,
-                              label: `${nm(actor.name)} 战斗精灵`,
-                              kind: 'player-fighter',
-                              bytes,
-                              frameCount,
-                              reader: assetReader,
-                            })
-                            session.dispatch(
-                              new CompositeCommand('上传并设置角色战斗精灵', [
-                                new AddBattleSpriteCommand(
-                                  prepared.definition,
-                                  prepared.record,
-                                  prepared.bytes,
-                                  prepared.frameCount,
-                                ),
-                                new SetActorBattleSpriteCommand(actor.id, prepared.definition.id),
-                              ]),
-                            )
-                            setBattleUpload(false)
-                          }}
-                          onCancel={() => setBattleUpload(false)}
-                        />
-                      ) : null}
-                    </ActorPanel>
+                    <ActorBattleAppearancePanel
+                      actorId={actor.id}
+                      actorLabel={nm(actor.name)}
+                      battleSprite={battler.battleSprite}
+                      definitions={battleSprites}
+                      assetBase={assetBase}
+                      assetReader={assetReader}
+                      session={session}
+                      onChange={setBattleSprite}
+                      onOpenDefinition={onOpenBattleSprite}
+                    />
 
-                    <ActorPanel
-                      eyebrow="配置"
-                      title="初始装备与仙术"
-                      description="角色首次加入队伍时，运行时会从这里深拷贝出厂仙术。"
-                    >
-                      <SummaryChips
-                        label="初始装备"
-                        values={Object.entries(battler.initialEquipment).map(
-                          ([slot, itemId]) =>
-                            `${items[itemId]?.name ?? itemId} · ${SLOT_LABEL[slot] ?? slot}`,
-                        )}
-                      />
-                      <InitialMagicEditor
-                        value={battler.initialMagic}
-                        skills={skills}
-                        onChange={setInitialMagic}
-                      />
-                    </ActorPanel>
+                    <ActorInitialSetupPanel
+                      equipment={battler.initialEquipment}
+                      magic={battler.initialMagic}
+                      items={items}
+                      skills={skills}
+                      onMagicChange={setInitialMagic}
+                    />
 
                     <ActorPanel
                       className="actor-card-wide"
@@ -895,35 +800,17 @@ export function ActorMode(props: {
                         levelUpRows={levelUp[actor.id] ?? []}
                         skills={skills}
                         session={session}
-                        onEditCurve={() => setCenterEditor('curve')}
+                        onEditCurve={openLevelCurve}
                       />
                     </ActorPanel>
 
-                    <ActorPanel
-                      className="actor-card-wide"
-                      eyebrow="声音"
-                      title="战斗音效"
-                      description="配置普攻、施法、受击、濒死与阵亡等战斗反馈音效。"
-                    >
-                      <div className="sound-field-list actor-sound-grid">
-                        {BATTLER_SOUND_FIELDS.map(({ key, label }) => (
-                          <DsField label={label} key={key}>
-                            {(field) => (
-                              <SoundPicker
-                                id={field.id}
-                                value={battler.sounds?.[key]}
-                                onChange={(value) => setBattlerSound(key, value)}
-                                catalog={assetCatalog}
-                                reader={assetReader}
-                                allowUnset
-                                ariaLabel={`${label}音效`}
-                                onOpenAsset={onOpenSound}
-                              />
-                            )}
-                          </DsField>
-                        ))}
-                      </div>
-                    </ActorPanel>
+                    <ActorSoundPanel
+                      sounds={battler.sounds}
+                      handlers={battlerSoundHandlers}
+                      catalog={assetCatalog}
+                      reader={assetReader}
+                      onOpenAsset={onOpenSound}
+                    />
                   </div>
                 ) : (
                   <ActorNonBattler onOverview={() => openSection('overview')} />
@@ -1122,131 +1009,254 @@ export function ActorMode(props: {
         )}
       </main>
 
-      <aside className="inspector inspector--tabbed actor-summary-panel">
-        <div className="insp-head actor-summary-head">
-          <div className="what">角色</div>
-          <div className="who">{actor ? nm(actor.name) : '未选择'}</div>
-          {actor ? <code translate="no">{actor.id}</code> : null}
-        </div>
-        {actor ? (
-          <DsInspectorTabs
-            id="actor-inspector"
-            label="角色检查器"
-            activeId={inspectorTab}
-            onChange={(id) => setInspectorTab(id as ActorInspectorTab)}
-            items={[
-              {
-                id: 'summary',
-                label: '摘要',
-                panel: (
-                  <>
-                    <DsInspectorSection title="身份与资源">
+      <ActorInspector
+        actor={actor}
+        sprite={sprite}
+        displayName={actor ? nm(actor.name) : '未选择'}
+        session={session}
+        scriptSession={scriptSession}
+        derivedStore={derivedStore}
+        onOpenSprite={onOpenSprite}
+        onOpenActorReference={onOpenActorReference}
+      />
+    </>
+  )
+}
+
+function useActorReferenceState(
+  actorId: string | undefined,
+  session: EditSession,
+  scriptSession: ScriptEditSession,
+  derivedStore: EditorDerivedStore,
+) {
+  const snapshot = useEditorDerivedSnapshotAfterPaint(derivedStore)
+  const data =
+    snapshot.status === 'current'
+      ? snapshot.data
+      : snapshot.status === 'stale' || snapshot.status === 'failed'
+        ? snapshot.lastKnown?.data
+        : undefined
+  const references = actorId
+    ? (data?.actorReferenceIndex.find(([id]) => id === actorId)?.[1] ?? [])
+    : []
+  const status = effectiveEditorDerivedStatus(snapshot, {
+    mainHistoryVersion: session.getHistoryVersion(),
+    scriptHistoryVersion: scriptSession.getHistoryVersion(),
+  })
+  return { references, status }
+}
+
+function ActorDeleteButton(props: {
+  actorId: string
+  session: EditSession
+  scriptSession: ScriptEditSession
+  derivedStore: EditorDerivedStore
+  getCurrentAuthorState: () => EditorState | undefined
+  onError: (message: string) => void
+  onDeleted: (fallbackActorId: string) => void
+}) {
+  const { references, status } = useActorReferenceState(
+    props.actorId,
+    props.session,
+    props.scriptSession,
+    props.derivedStore,
+  )
+  return (
+    <DsButton
+      variant="danger"
+      icon="delete"
+      disabled={status !== 'current' || references.length > 0}
+      title={
+        status !== 'current'
+          ? '人物引用仍在检查，暂不能删除'
+          : references.length
+            ? `仍有 ${references.length} 处引用，请先从右侧处理`
+            : '删除人物'
+      }
+      onClick={() => {
+        if (status !== 'current') {
+          props.onError('人物引用仍在检查，暂不能删除。')
+          return
+        }
+        try {
+          if (
+            !props.session.dispatch(
+              new DeleteActorCommand(props.actorId, props.getCurrentAuthorState),
+            )
+          )
+            return
+          props.onDeleted(props.session.getState().actors[0]?.id ?? '')
+        } catch (error) {
+          props.onError(error instanceof Error ? error.message : String(error))
+        }
+      }}
+    >
+      删除人物
+    </DsButton>
+  )
+}
+
+function ActorInspector(props: {
+  actor: ActorDef | undefined
+  sprite: SpriteDef | undefined
+  displayName: string
+  session: EditSession
+  scriptSession: ScriptEditSession
+  derivedStore: EditorDerivedStore
+  onOpenSprite?: (id: string) => void
+  onOpenActorReference?: (reference: ActorReference) => void
+}) {
+  const [activeTab, setActiveTab] = useState<ActorInspectorTab>('summary')
+  const { references, status } = useActorReferenceState(
+    props.actor?.id,
+    props.session,
+    props.scriptSession,
+    props.derivedStore,
+  )
+  const actor = props.actor
+  const battler = actor?.battler
+  const referenceCount =
+    status === 'current'
+      ? { kind: 'exact' as const, value: references.length }
+      : references.length
+        ? { kind: 'at-least' as const, value: references.length }
+        : { kind: 'unknown' as const }
+  const referencePanelState =
+    status === 'current'
+      ? references.length
+        ? ('ready' as const)
+        : ('empty' as const)
+      : status === 'failed'
+        ? ('error' as const)
+        : status === 'stale'
+          ? ('partial' as const)
+          : ('loading' as const)
+
+  return (
+    <aside className="inspector inspector--tabbed actor-summary-panel">
+      <div className="insp-head actor-summary-head">
+        <div className="what">角色</div>
+        <div className="who">{props.displayName}</div>
+        {actor ? <code translate="no">{actor.id}</code> : null}
+      </div>
+      {actor ? (
+        <DsInspectorTabs
+          id="actor-inspector"
+          label="角色检查器"
+          activeId={activeTab}
+          onChange={(id) => setActiveTab(id as ActorInspectorTab)}
+          items={[
+            {
+              id: 'summary',
+              label: '摘要',
+              panel: (
+                <>
+                  <DsInspectorSection title="身份与资源">
+                    <DsPropertyGrid>
+                      <DsPropertyRow label="类型">
+                        {battler ? '可入队 / 可参战' : 'NPC / 剧情角色'}
+                      </DsPropertyRow>
+                      <DsPropertyRow label="名称 ID">
+                        <code className="ds-inspector-readonly" translate="no">
+                          {actor.name}
+                        </code>
+                      </DsPropertyRow>
+                      <DsPropertyRow label="大世界精灵">
+                        <span className="actor-inspector-linked-value">
+                          <span>{props.sprite?.label ?? actor.spriteId}</span>
+                          <DsIconButton
+                            size="compact"
+                            variant="secondary"
+                            icon="open"
+                            label={`在资源库打开精灵 ${actor.spriteId}`}
+                            onClick={() => props.onOpenSprite?.(actor.spriteId)}
+                          />
+                        </span>
+                      </DsPropertyRow>
+                    </DsPropertyGrid>
+                  </DsInspectorSection>
+
+                  {battler ? (
+                    <DsInspectorSection title="当前摘要">
                       <DsPropertyGrid>
-                        <DsPropertyRow label="类型">
-                          {battler ? '可入队 / 可参战' : 'NPC / 剧情角色'}
+                        <DsPropertyRow label="等级">{battler.baseStats.level}</DsPropertyRow>
+                        <DsPropertyRow label="当前 / 最大体力">
+                          {battler.baseStats.hp} / {battler.baseStats.maxHP}
                         </DsPropertyRow>
-                        <DsPropertyRow label="名称 ID">
-                          <code className="ds-inspector-readonly" translate="no">
-                            {actor.name}
-                          </code>
+                        <DsPropertyRow label="当前 / 最大真气">
+                          {battler.baseStats.mp} / {battler.baseStats.maxMP}
                         </DsPropertyRow>
-                        <DsPropertyRow label="大世界精灵">
-                          <span className="actor-inspector-linked-value">
-                            <span>{sprite?.label ?? actor.spriteId}</span>
-                            <DsIconButton
-                              size="compact"
-                              variant="secondary"
-                              icon="open"
-                              label={`在资源库打开精灵 ${actor.spriteId}`}
-                              onClick={() => onOpenSprite?.(actor.spriteId)}
-                            />
-                          </span>
+                        <DsPropertyRow label="装备 / 仙术">
+                          {Object.keys(battler.initialEquipment).length} /{' '}
+                          {battler.initialMagic.length}
+                        </DsPropertyRow>
+                        <DsPropertyRow label="立绘 / 表情">
+                          {actor.portraits
+                            ? 1 + Object.keys(actor.portraits.expressions ?? {}).length
+                            : 0}
                         </DsPropertyRow>
                       </DsPropertyGrid>
                     </DsInspectorSection>
-
-                    {battler ? (
-                      <DsInspectorSection title="当前摘要">
-                        <DsPropertyGrid>
-                          <DsPropertyRow label="等级">{battler.baseStats.level}</DsPropertyRow>
-                          <DsPropertyRow label="当前 / 最大体力">
-                            {battler.baseStats.hp} / {battler.baseStats.maxHP}
-                          </DsPropertyRow>
-                          <DsPropertyRow label="当前 / 最大真气">
-                            {battler.baseStats.mp} / {battler.baseStats.maxMP}
-                          </DsPropertyRow>
-                          <DsPropertyRow label="装备 / 仙术">
-                            {Object.keys(battler.initialEquipment).length} /{' '}
-                            {battler.initialMagic.length}
-                          </DsPropertyRow>
-                          <DsPropertyRow label="立绘 / 表情">
-                            {actor.portraits
-                              ? 1 + Object.keys(actor.portraits.expressions ?? {}).length
-                              : 0}
-                          </DsPropertyRow>
-                        </DsPropertyGrid>
-                      </DsInspectorSection>
+                  ) : null}
+                </>
+              ),
+            },
+            {
+              id: 'references',
+              label: '引用',
+              count: references.length,
+              panel: (
+                <section className="section actor-reference-section">
+                  <DsReferencePanel
+                    state={referencePanelState}
+                    count={referenceCount}
+                    impact={{
+                      kind: 'blocking',
+                      description: references.length
+                        ? '解除外部引用后才能删除人物。'
+                        : '删除人物不会回收共享精灵、立绘或 locale 文本。',
+                    }}
+                  >
+                    {references.length ? (
+                      <DsReferenceList>
+                        {references.map((reference) => (
+                          <DsReferenceRow
+                            key={`${reference.kind}:${reference.where}`}
+                            title={reference.label}
+                            detail={reference.detail}
+                            path={reference.where}
+                            action={
+                              reference.locator && props.onOpenActorReference
+                                ? {
+                                    label: '打开',
+                                    onActivate: () => props.onOpenActorReference?.(reference),
+                                  }
+                                : undefined
+                            }
+                            status={
+                              reference.locator && props.onOpenActorReference
+                                ? undefined
+                                : {
+                                    label: '暂不可定位',
+                                    reason:
+                                      reference.unavailableReason ?? '当前没有可编辑的精确位置。',
+                                    tone: 'warning',
+                                  }
+                            }
+                          />
+                        ))}
+                      </DsReferenceList>
                     ) : null}
-                  </>
-                ),
-              },
-              {
-                id: 'references',
-                label: '引用',
-                count: actorReferences.length,
-                panel: (
-                  <section className="section actor-reference-section">
-                    <DsReferencePanel
-                      state={actorReferences.length ? 'ready' : 'empty'}
-                      count={{ kind: 'exact', value: actorReferences.length }}
-                      impact={{
-                        kind: 'blocking',
-                        description: actorReferences.length
-                          ? '解除外部引用后才能删除人物。'
-                          : '删除人物不会回收共享精灵、立绘或 locale 文本。',
-                      }}
-                    >
-                      {actorReferences.length ? (
-                        <DsReferenceList>
-                          {actorReferences.map((reference) => (
-                            <DsReferenceRow
-                              key={`${reference.kind}:${reference.where}`}
-                              title={reference.label}
-                              detail={reference.detail}
-                              path={reference.where}
-                              action={
-                                reference.locator && onOpenActorReference
-                                  ? {
-                                      label: '打开',
-                                      onActivate: () => onOpenActorReference(reference),
-                                    }
-                                  : undefined
-                              }
-                              status={
-                                reference.locator && onOpenActorReference
-                                  ? undefined
-                                  : {
-                                      label: '暂不可定位',
-                                      reason:
-                                        reference.unavailableReason ?? '当前没有可编辑的精确位置。',
-                                      tone: 'warning',
-                                    }
-                              }
-                            />
-                          ))}
-                        </DsReferenceList>
-                      ) : null}
-                    </DsReferencePanel>
-                  </section>
-                ),
-              },
-            ]}
-          />
-        ) : (
-          <div className="insp-empty">无角色</div>
-        )}
-      </aside>
-    </>
+                  </DsReferencePanel>
+                </section>
+              ),
+            },
+          ]}
+        />
+      ) : (
+        <div className="insp-empty">无角色</div>
+      )}
+    </aside>
   )
 }
 
@@ -1259,13 +1269,280 @@ function SummaryStat(props: { label: string; value: number | string }) {
   )
 }
 
-function InitialMagicEditor(props: {
+const BASE_STAT_FIELDS: readonly {
+  key: keyof BattlerSpec['baseStats']
+  label: string
+}[] = [
+  { key: 'level', label: '等级' },
+  { key: 'hp', label: '当前体力' },
+  { key: 'maxHP', label: '最大体力' },
+  { key: 'mp', label: '当前真气' },
+  { key: 'maxMP', label: '最大真气' },
+  { key: 'attack', label: '武术' },
+  { key: 'defense', label: '防御' },
+  { key: 'magicAttack', label: '灵力' },
+  { key: 'speed', label: '身法' },
+  { key: 'luck', label: '吉运' },
+]
+
+const ActorBaseStatsPanel = memo(function ActorBaseStatsPanel(props: {
+  actorId: string
+  baseStats: BattlerSpec['baseStats']
+  syncToken: number
+  onStat: (key: keyof BattlerSpec['baseStats'], value: number) => void
+}) {
+  return (
+    <ActorPanel
+      className="actor-card-wide"
+      eyebrow="战斗"
+      title="基础能力"
+      description="编辑角色的当前/最大体力与真气基线，以及等级和基础属性。"
+    >
+      <div className="statgrid actor-stat-editor">
+        {BASE_STAT_FIELDS.map(({ key, label }) => (
+          <ActorStatField
+            key={key}
+            actorId={props.actorId}
+            statKey={key}
+            syncToken={props.syncToken}
+            label={label}
+            value={props.baseStats[key]}
+            onStat={props.onStat}
+          />
+        ))}
+      </div>
+    </ActorPanel>
+  )
+})
+
+const ActorStatField = memo(
+  function ActorStatField(props: {
+    actorId: string
+    statKey: keyof BattlerSpec['baseStats']
+    syncToken: number
+    label: string
+    value: number
+    onStat: (key: keyof BattlerSpec['baseStats'], value: number) => void
+  }) {
+    return (
+      <EditStat
+        draftKey={`actor:${props.actorId}:baseStats.${props.statKey}`}
+        syncToken={props.syncToken}
+        k={props.label}
+        v={props.value}
+        on={(value) => props.onStat(props.statKey, value)}
+      />
+    )
+  },
+  (left, right) =>
+    left.actorId === right.actorId &&
+    left.statKey === right.statKey &&
+    left.label === right.label &&
+    left.value === right.value &&
+    left.onStat === right.onStat,
+)
+
+const ActorBattleAppearancePanel = memo(function ActorBattleAppearancePanel(props: {
+  actorId: string
+  actorLabel: string
+  battleSprite?: string
+  definitions: readonly BattleSpriteDef[]
+  assetBase: AssetBase
+  assetReader: EditorAssetReader
+  session: EditSession
+  onChange: (id: string) => void
+  onOpenDefinition?: (id: string) => void
+}) {
+  const [uploadOpen, setUploadOpen] = useState(false)
+  return (
+    <ActorPanel
+      eyebrow="表现"
+      title="战斗形象"
+      description="选择角色战斗精灵，或上传新的帧带定义。"
+      actions={
+        <DsButton
+          size="compact"
+          variant="secondary"
+          onClick={() => setUploadOpen((value) => !value)}
+        >
+          {uploadOpen ? '收起上传' : '上传帧带'}
+        </DsButton>
+      }
+    >
+      <BattleSpritePicker
+        value={props.battleSprite}
+        definitions={props.definitions}
+        kind="player-fighter"
+        onChange={props.onChange}
+        onOpenDefinition={props.onOpenDefinition}
+        ariaLabel="角色战斗精灵"
+      />
+      {uploadOpen ? (
+        <BattleSpriteUploader
+          assetBase={props.assetBase}
+          onApply={async (bytes, frameCount) => {
+            const prepared = await prepareBattleSpriteImport(props.session.getState(), {
+              hint: props.actorId,
+              label: `${props.actorLabel} 战斗精灵`,
+              kind: 'player-fighter',
+              bytes,
+              frameCount,
+              reader: props.assetReader,
+            })
+            props.session.dispatch(
+              new CompositeCommand('上传并设置角色战斗精灵', [
+                new AddBattleSpriteCommand(
+                  prepared.definition,
+                  prepared.record,
+                  prepared.bytes,
+                  prepared.frameCount,
+                ),
+                new SetActorBattleSpriteCommand(props.actorId, prepared.definition.id),
+              ]),
+            )
+            setUploadOpen(false)
+          }}
+          onCancel={() => setUploadOpen(false)}
+        />
+      ) : null}
+    </ActorPanel>
+  )
+})
+
+function sameStringRecord(
+  left: object | undefined,
+  right: object | undefined,
+): boolean {
+  if (left === right) return true
+  const leftEntries = Object.entries(left ?? {})
+  const rightEntries = Object.entries(right ?? {})
+  return (
+    leftEntries.length === rightEntries.length &&
+    leftEntries.every(
+      ([key, value]) => (right as Record<string, unknown> | undefined)?.[key] === value,
+    )
+  )
+}
+
+const ActorInitialSetupPanel = memo(
+  function ActorInitialSetupPanel(props: {
+    equipment: BattlerSpec['initialEquipment']
+    magic: string[]
+    items: ItemDataMap
+    skills: SkillDataMap
+    onMagicChange: (value: string[]) => void
+  }) {
+    const equipmentLabels = useMemo(
+      () =>
+        Object.entries(props.equipment).map(
+          ([slot, itemId]) =>
+            `${props.items[itemId]?.name ?? itemId} · ${SLOT_LABEL[slot] ?? slot}`,
+        ),
+      [props.equipment, props.items],
+    )
+    return (
+      <ActorPanel
+        eyebrow="配置"
+        title="初始装备与仙术"
+        description="角色首次加入队伍时，运行时会从这里深拷贝出厂仙术。"
+      >
+        <SummaryChips label="初始装备" values={equipmentLabels} />
+        <InitialMagicEditor
+          value={props.magic}
+          skills={props.skills}
+          onChange={props.onMagicChange}
+        />
+      </ActorPanel>
+    )
+  },
+  (left, right) =>
+    sameStringRecord(left.equipment, right.equipment) &&
+    left.magic.length === right.magic.length &&
+    left.magic.every((value, index) => value === right.magic[index]) &&
+    left.items === right.items &&
+    left.skills === right.skills &&
+    left.onMagicChange === right.onMagicChange,
+)
+
+const ActorSoundPanel = memo(
+  function ActorSoundPanel(props: {
+    sounds?: BattlerSounds
+    handlers: Record<keyof BattlerSounds, (value: AssetId | undefined) => void>
+    catalog: AssetCatalogV1
+    reader: EditorAssetReader
+    onOpenAsset?: (id: string) => void
+  }) {
+    return (
+      <ActorPanel
+        className="actor-card-wide"
+        eyebrow="声音"
+        title="战斗音效"
+        description="配置普攻、施法、受击、濒死与阵亡等战斗反馈音效。"
+      >
+        <div className="sound-field-list actor-sound-grid">
+          {BATTLER_SOUND_FIELDS.map(({ key, label }) => (
+            <DsField label={label} key={key}>
+              {(field) => (
+                <SoundPicker
+                  id={field.id}
+                  value={props.sounds?.[key]}
+                  onChange={props.handlers[key]}
+                  catalog={props.catalog}
+                  reader={props.reader}
+                  allowUnset
+                  ariaLabel={`${label}音效`}
+                  onOpenAsset={props.onOpenAsset}
+                />
+              )}
+            </DsField>
+          ))}
+        </div>
+      </ActorPanel>
+    )
+  },
+  (left, right) =>
+    sameStringRecord(left.sounds, right.sounds) &&
+    left.handlers === right.handlers &&
+    left.catalog === right.catalog &&
+    left.reader === right.reader &&
+    left.onOpenAsset === right.onOpenAsset,
+)
+
+const InitialMagicEditor = memo(function InitialMagicEditor(props: {
   value: string[]
   skills: SkillDataMap
   onChange: (value: string[]) => void
 }) {
-  const skillIds = Object.keys(props.skills)
-  const addableSkillIds = skillIds.filter((skillId) => !props.value.includes(skillId))
+  const skillIds = useMemo(() => Object.keys(props.skills), [props.skills])
+  const valueKey = props.value.join('\0')
+  const addableSkillIds = useMemo(
+    () => skillIds.filter((skillId) => !props.value.includes(skillId)),
+    // UpdateActorCommand clones battler arrays; the semantic key avoids rebuilding unchanged rows.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [skillIds, valueKey],
+  )
+  const rowOptions = useMemo(
+    () =>
+      props.value.map((skillId, index) => [
+        ...(!props.skills[skillId] ? [{ value: skillId, label: `${skillId}（缺失）` }] : []),
+        ...skillIds
+          .filter(
+            (candidate) =>
+              candidate === skillId ||
+              !props.value.some(
+                (existing, existingIndex) => existingIndex !== index && existing === candidate,
+              ),
+          )
+          .map((candidate) => ({
+            value: candidate,
+            label: props.skills[candidate]?.name ?? candidate,
+            description: candidate,
+          })),
+      ]),
+    // See valueKey above; identical cloned arrays intentionally reuse the option collections.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [props.skills, skillIds, valueKey],
+  )
   return (
     <div className="actor-initial-magic-editor">
       <span className="field-label">初始仙术</span>
@@ -1275,23 +1552,7 @@ function InitialMagicEditor(props: {
             size="compact"
             aria-label={`第 ${index + 1} 项初始仙术`}
             value={skillId}
-            options={[
-              ...(!props.skills[skillId] ? [{ value: skillId, label: `${skillId}（缺失）` }] : []),
-              ...skillIds
-                .filter(
-                  (candidate) =>
-                    candidate === skillId ||
-                    !props.value.some(
-                      (existing, existingIndex) =>
-                        existingIndex !== index && existing === candidate,
-                    ),
-                )
-                .map((candidate) => ({
-                  value: candidate,
-                  label: props.skills[candidate]?.name ?? candidate,
-                  description: candidate,
-                })),
-            ]}
+            options={rowOptions[index] ?? []}
             onValueChange={(next) =>
               props.onChange(
                 props.value.map((existing, existingIndex) =>
@@ -1325,7 +1586,12 @@ function InitialMagicEditor(props: {
       </DsButton>
     </div>
   )
-}
+}, (left, right) =>
+  left.skills === right.skills &&
+  left.onChange === right.onChange &&
+  left.value.length === right.value.length &&
+  left.value.every((value, index) => value === right.value[index]),
+)
 
 function ActorPanel(props: {
   eyebrow?: ReactNode

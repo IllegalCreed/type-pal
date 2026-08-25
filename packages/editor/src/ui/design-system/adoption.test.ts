@@ -43,7 +43,7 @@ describe('design-system adoption gate', () => {
       cwd: packageRoot,
       encoding: 'utf8',
     })
-    expect(output).toContain('design-system gate passed: 84 files, 3 evidence-bound exceptions')
+    expect(output).toContain('design-system gate passed: 86 files, 3 evidence-bound exceptions')
   })
 
   test('keeps legitimate native and dynamic geometry behind public boundaries', () => {

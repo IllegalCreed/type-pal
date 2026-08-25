@@ -224,12 +224,17 @@ describe('CanonicalSharedScriptTab', () => {
     ).toBe(false)
 
     const description = host.querySelector<HTMLTextAreaElement>('.shared-meta textarea')!
+    const historyBeforeDescription = session.getHistoryVersion()
     Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')?.set?.call(
       description,
       '逐键提交说明',
     )
     await act(async () => description.dispatchEvent(new Event('input', { bubbles: true })))
+    expect(session.getState().sharedScripts['shared/user/book']?.description).toBeUndefined()
+    expect(session.getHistoryVersion()).toBe(historyBeforeDescription)
+    await act(async () => description.dispatchEvent(new FocusEvent('focusout', { bubbles: true })))
     expect(session.getState().sharedScripts['shared/user/book']?.description).toBe('逐键提交说明')
+    expect(session.getHistoryVersion()).toBe(historyBeforeDescription + 1)
 
     const self = host.querySelector<HTMLButtonElement>('[aria-label="self 契约"]')!
     await act(async () => self.click())

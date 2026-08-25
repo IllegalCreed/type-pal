@@ -5,7 +5,7 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
-import type { ProjectIssue } from '../core/project-diagnostics.js'
+import { collectProjectIssues, type ProjectIssue } from '../core/project-diagnostics.js'
 import {
   groupProjectIssues,
   IssueList,
@@ -106,7 +106,8 @@ function projectTab(page: ProjectWorkbenchPage, session: EditSession, focusObjec
       locale={state.locale}
       assetCatalog={state.assetCatalog}
       session={session}
-      editorState={state}
+      issues={collectProjectIssues(state)}
+      diagnosticsStatus="current"
       assetReader={{} as never}
       focusObjectId={focusObjectId}
     />
@@ -430,7 +431,8 @@ describe('项目设置工作区', () => {
           locale={state.locale}
           assetCatalog={state.assetCatalog}
           session={session}
-          editorState={state}
+          issues={collectProjectIssues(state)}
+          diagnosticsStatus="current"
           assetReader={{} as never}
           onObjectFocus={onObjectFocus}
         />,
@@ -481,7 +483,8 @@ describe('项目设置工作区', () => {
           locale={state.locale}
           assetCatalog={state.assetCatalog}
           session={session}
-          editorState={state}
+          issues={collectProjectIssues(state)}
+          diagnosticsStatus="current"
           assetReader={{} as never}
         />,
       ),
@@ -501,7 +504,8 @@ describe('项目设置工作区', () => {
           locale={state.locale}
           assetCatalog={state.assetCatalog}
           session={session}
-          editorState={state}
+          issues={collectProjectIssues(state)}
+          diagnosticsStatus="current"
           assetReader={{} as never}
         />,
       ),
@@ -538,7 +542,8 @@ describe('项目设置工作区', () => {
           locale={state.locale}
           assetCatalog={state.assetCatalog}
           session={session}
-          editorState={state}
+          issues={collectProjectIssues(state)}
+          diagnosticsStatus="current"
           assetReader={{} as never}
           onOpenLocation={onOpenLocation}
         />,
@@ -585,7 +590,8 @@ describe('项目设置工作区', () => {
           locale={state.locale}
           assetCatalog={state.assetCatalog}
           session={session}
-          editorState={state}
+          issues={collectProjectIssues(state)}
+          diagnosticsStatus="current"
           assetReader={{} as never}
           onOpenLocation={onOpenLocation}
         />,

@@ -2,11 +2,14 @@ import {
   type AssetCatalogV1,
   type AssetId,
   type AssetRecordV1,
+  type AssetReference,
   type AssetReferenceSite,
 } from '@type-pal/content'
 import { createMidiPreviewTransport } from '@type-pal/reforge'
 import type { EditSession, EditorState } from '../core/edit-session.js'
+import type { EditorAssetDiagnostic } from '../core/asset-diagnostics.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import type { ScriptEditorState } from '../core/script-editor.js'
 import {
   asAudioWorkbenchTransport,
@@ -120,6 +123,10 @@ export function MusicTab(props: {
   onObjectFocus?: (id: string | undefined) => void
   currentAuthor?: ScriptEditorState
   getCurrentAuthor?: () => ScriptEditorState | undefined
+  assetReferences?: readonly AssetReference[]
+  assetDiagnostics: readonly EditorAssetDiagnostic[]
+  assetReferenceStatus?: EditorDerivedStatus
+  assetReferenceMessage?: string
 }) {
   return <AudioAssetWorkbench {...props} strategy={MUSIC_STRATEGY} />
 }

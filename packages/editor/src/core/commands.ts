@@ -113,7 +113,11 @@ import {
   preparedProjectMapPatchChanged,
   prepareProjectMapPatch,
 } from './map-patch.js'
-import { findSceneEntryReferences, findScriptReferences } from './script-references.js'
+import {
+  findSceneEntryReferences,
+  findScriptReferences,
+  type SceneEntryReferenceEntry,
+} from './script-references.js'
 import type { ScriptEditorState } from './script-editor.js'
 import {
   resolveStampStructureOperation,
@@ -230,13 +234,21 @@ export class DeleteWorldVariableCommand implements Command {
   readonly label = '删除世界变量'
   private previous?: WorldVariableDefinitionV1
 
-  constructor(private readonly id: string) {}
+  constructor(
+    private readonly id: string,
+    private readonly currentScriptState:
+      | (() => ScriptEditorState | undefined)
+      | undefined = undefined,
+  ) {}
 
   apply(state: EditorState): EditorState {
     const current = state.worldVariables?.[this.id]
     if (!current) return state
+    const currentScriptState = this.currentScriptState?.()
+    if (this.currentScriptState && !currentScriptState)
+      throw new Error('删除世界变量前无法读取当前脚本引用')
     const references = collectWorldVariableReferencesV1(
-      worldVariableScriptStateFromEditorStateV1(state),
+      currentScriptState ?? worldVariableScriptStateFromEditorStateV1(state),
     ).byId.get(this.id)
     if (references?.length) throw new WorldVariableInUseError(this.id, references.length)
     if (!this.previous) this.previous = structuredClone(current)
@@ -719,13 +731,18 @@ export class DeleteSceneEntryCommand implements Command {
   constructor(
     private readonly sceneId: string,
     private readonly entryId: string,
+    private readonly currentReferences: (
+      state: EditorState,
+      sceneId: string,
+      entryId: string,
+    ) => SceneEntryReferenceEntry[] = findSceneEntryReferences,
   ) {}
 
   apply(state: EditorState): EditorState {
     const scene = findScene(state, this.sceneId)
     const entry = scene?.entries?.[this.entryId]
     if (!scene || !entry) return state
-    const references = findSceneEntryReferences(state, this.sceneId, this.entryId)
+    const references = this.currentReferences(state, this.sceneId, this.entryId)
     if (references.length) throw new SceneEntryInUseError(this.sceneId, this.entryId, references)
     if (!this.removed) this.removed = structuredClone(entry)
     const entries = { ...(scene.entries ?? {}) }
@@ -2206,12 +2223,18 @@ export class DeleteActorCommand implements Command {
   private hadLevelUp = false
   private index = -1
 
-  constructor(private readonly actorId: string) {}
+  constructor(
+    private readonly actorId: string,
+    private readonly currentAuthorState: (() => EditorState | undefined) | undefined = undefined,
+  ) {}
 
   apply(state: EditorState): EditorState {
     const index = state.actors.findIndex((actor) => actor.id === this.actorId)
     if (index < 0) return state
-    const blockers = blockingActorReferences(state, this.actorId)
+    const currentAuthorState = this.currentAuthorState?.()
+    if (this.currentAuthorState && !currentAuthorState)
+      throw new Error('删除人物前无法读取当前作者态引用')
+    const blockers = blockingActorReferences(currentAuthorState ?? state, this.actorId)
     if (blockers.length)
       throw new Error(
         `人物 ${this.actorId} 仍被 ${blockers.length} 处引用：\n${blockers
@@ -2397,15 +2420,23 @@ export class DeleteItemCommand implements Command {
   constructor(
     private readonly itemId: string,
     private readonly canonicalState: (() => ScriptEditorState | undefined) | undefined = undefined,
+    private readonly currentAuthorState: (() => EditorState | undefined) | undefined = undefined,
   ) {}
 
   apply(state: EditorState): EditorState {
     const index = state.items.findIndex((item) => item.id === this.itemId)
     if (index < 0) return state
+    const currentAuthorState = this.currentAuthorState?.()
+    if (this.currentAuthorState && !currentAuthorState)
+      throw new Error('删除物品前无法读取当前作者态引用')
     const canonicalState = this.canonicalState?.()
     if (this.canonicalState && !canonicalState)
       throw new Error('删除物品前无法读取 canonical 脚本引用')
-    const blockers = blockingItemReferences(state, this.itemId, canonicalState)
+    const blockers = blockingItemReferences(
+      currentAuthorState ?? state,
+      this.itemId,
+      canonicalState,
+    )
     if (blockers.length)
       throw new Error(
         `物品 ${this.itemId} 仍被 ${blockers.length} 处引用：\n${blockers

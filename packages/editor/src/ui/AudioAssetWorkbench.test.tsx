@@ -86,6 +86,7 @@ describe('AudioAssetWorkbench async selection lifecycle', () => {
     await act(async () => {
       root.render(
         <AudioAssetWorkbench
+          assetDiagnostics={[]}
           catalog={catalogControlsAssetCatalog}
           reader={catalogControlsReader}
           session={new EditSession(catalogControlsEditorState())}
@@ -165,6 +166,7 @@ describe('AudioAssetWorkbench timeline completion', () => {
     await act(async () => {
       root.render(
         <AudioAssetWorkbench
+          assetDiagnostics={[]}
           catalog={catalogControlsAssetCatalog}
           reader={catalogControlsReader}
           session={new EditSession(catalogControlsEditorState())}

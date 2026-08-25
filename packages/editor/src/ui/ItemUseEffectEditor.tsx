@@ -13,14 +13,15 @@ import type {
   UseSpec,
 } from '@type-pal/content'
 import { itemUseEffectSupportsContext } from '@type-pal/content'
+import { createContext, memo, type ReactNode, useContext } from 'react'
 import {
   DsButton,
   DsCheckbox,
+  DsDraftNumberInput,
+  DsDraftTextInput,
   DsIconButton,
-  DsNumberInput,
   DsReadonlyValue,
   DsSelect,
-  DsTextInput,
 } from './design-system/controls.js'
 import { CanonicalScriptBodyEditor, type CanonicalScriptEditorContext } from './ScriptEditor.js'
 
@@ -72,6 +73,23 @@ const SCENE_EFFECTS = new Set<ItemUseEffect['kind']>([
   'modifyHostileAwareness',
   'placeEntityInFront',
 ])
+
+const ItemEffectDraftContext = createContext({ scope: 'item-effect', syncToken: 0 as string | number })
+
+function ItemEffectDraftScope(props: {
+  scope: string
+  syncToken?: string | number
+  children: ReactNode
+}) {
+  const parent = useContext(ItemEffectDraftContext)
+  return (
+    <ItemEffectDraftContext.Provider
+      value={{ scope: `${parent.scope}:${props.scope}`, syncToken: props.syncToken ?? parent.syncToken }}
+    >
+      {props.children}
+    </ItemEffectDraftContext.Provider>
+  )
+}
 
 export interface ItemScriptOption {
   ref: ScriptRef
@@ -224,16 +242,21 @@ function NumberField(props: {
   signed?: boolean
   allowZero?: boolean
 }) {
+  const draft = useContext(ItemEffectDraftContext)
   return (
     <label className="item-effect-field">
       <span>{props.label}</span>
-      <DsNumberInput
+      <DsDraftNumberInput
+        draftKey={`${draft.scope}:number:${props.label}`}
+        syncToken={draft.syncToken}
         min={props.min}
         max={props.max}
+        enforceRange={false}
         value={props.value}
+        integer
         onWheel={(event) => event.currentTarget.blur()}
-        onChange={(event) => {
-          const raw = event.currentTarget.valueAsNumber
+        onCommit={(raw) => {
+          if (raw === undefined) return
           let next = props.allowZero
             ? Number.isFinite(raw)
               ? Math.trunc(raw)
@@ -258,6 +281,7 @@ function ItemAmountList(props: {
   ordered?: boolean
   onChange: (entries: { itemId: string; count: number }[]) => void
 }) {
+  const draft = useContext(ItemEffectDraftContext)
   const { entries, items, onChange } = props
   const minimum = props.minimum ?? 1
   return (
@@ -301,18 +325,24 @@ function ItemAmountList(props: {
               onChange(next)
             }}
           />
-          <DsNumberInput
-            className="item-amount-count"
-            min={1}
-            aria-label={`${props.label}数量 ${index + 1}`}
-            value={entry.count}
-            onWheel={(event) => event.currentTarget.blur()}
-            onChange={(event) => {
-              const next = [...entries]
-              next[index] = { ...entry, count: positive(event.currentTarget.valueAsNumber) }
-              onChange(next)
-            }}
-          />
+          <span className="item-amount-count">
+            <DsDraftNumberInput
+              draftKey={`${draft.scope}:amount:${props.label}:${index}`}
+              syncToken={draft.syncToken}
+              min={1}
+              enforceRange={false}
+              integer
+              aria-label={`${props.label}数量 ${index + 1}`}
+              value={entry.count}
+              onWheel={(event) => event.currentTarget.blur()}
+              onCommit={(value) => {
+                if (value === undefined) return
+                const next = [...entries]
+                next[index] = { ...entry, count: positive(value) }
+                onChange(next)
+              }}
+            />
+          </span>
           {props.ordered ? (
             <>
               <DsIconButton
@@ -371,7 +401,8 @@ function RecipeEditor(props: {
   return (
     <div className="item-recipe-list">
       {recipes.map((recipe, index) => (
-        <div className="item-recipe" key={`recipe-${index}`}>
+        <ItemEffectDraftScope scope={`recipe:${index}`} key={`recipe-${index}`}>
+          <div className="item-recipe">
           <div className="item-effect-subhead">
             <strong>配方 {index + 1}</strong>
             <span
@@ -427,7 +458,8 @@ function RecipeEditor(props: {
             items={items}
             onChange={(products) => patch(index, { ...recipe, products })}
           />
-        </div>
+          </div>
+        </ItemEffectDraftScope>
       ))}
       <DsButton
         size="compact"
@@ -464,8 +496,11 @@ function EffectFields(props: {
   subjectItemId?: string
   consuming?: boolean
   scenes?: readonly SceneDef[]
+  draftScope?: string
+  syncToken?: string | number
 }) {
   const { effect, items, poisons, scripts, onChange } = props
+  const draft = useContext(ItemEffectDraftContext)
   switch (effect.kind) {
     case 'healHp':
     case 'healMp':
@@ -713,11 +748,12 @@ function EffectFields(props: {
           </div>
           <label className="item-effect-field item-effect-field-wide">
             <span>不可用提示</span>
-            <DsTextInput
+            <DsDraftTextInput
+              draftKey={`${draft.scope}:unavailableMessage`}
+              syncToken={draft.syncToken}
               value={effect.unavailableMessage ?? ''}
               placeholder="留空则使用默认提示"
-              onChange={(event) => {
-                const value = event.target.value
+              onCommit={(value) => {
                 onChange(
                   value
                     ? { ...effect, unavailableMessage: value }
@@ -739,10 +775,12 @@ function EffectFields(props: {
           />
           <label className="item-effect-field item-effect-field-wide">
             <span>材料不足提示</span>
-            <DsTextInput
+            <DsDraftTextInput
+              draftKey={`${draft.scope}:recipeUnavailableMessage`}
+              syncToken={draft.syncToken}
               value={effect.unavailableMessage ?? ''}
-              onChange={(event) =>
-                onChange({ ...effect, unavailableMessage: event.target.value || undefined })
+              onCommit={(value) =>
+                onChange({ ...effect, unavailableMessage: value || undefined })
               }
             />
           </label>
@@ -761,14 +799,12 @@ function EffectFields(props: {
           <div className="item-effect-grid">
             <div className="item-effect-field">
               <span>资源变量</span>
-              <DsTextInput
+              <DsDraftTextInput
+                draftKey={`${draft.scope}:resource`}
+                syncToken={draft.syncToken}
                 monospace
                 value={effect.resource}
-                onChange={(event) => onChange({ ...effect, resource: event.target.value })}
-                onBlur={(event) => {
-                  const resource = event.currentTarget.value.trim()
-                  if (resource !== effect.resource) onChange({ ...effect, resource })
-                }}
+                onCommit={(value) => onChange({ ...effect, resource: value.trim() })}
                 invalid={effect.resource !== resourceName}
                 aria-label="资源变量名称"
               />
@@ -793,10 +829,12 @@ function EffectFields(props: {
           </p>
           <label className="item-effect-field item-effect-field-wide">
             <span>不可用提示</span>
-            <DsTextInput
+            <DsDraftTextInput
+              draftKey={`${draft.scope}:poolUnavailableMessage`}
+              syncToken={draft.syncToken}
               value={effect.unavailableMessage ?? ''}
-              onChange={(event) =>
-                onChange({ ...effect, unavailableMessage: event.target.value || undefined })
+              onCommit={(value) =>
+                onChange({ ...effect, unavailableMessage: value || undefined })
               }
             />
           </label>
@@ -945,10 +983,12 @@ function EffectFields(props: {
           />
           <label className="item-effect-field item-effect-field-wide">
             <span>无法放置时提示</span>
-            <DsTextInput
+            <DsDraftTextInput
+              draftKey={`${draft.scope}:placementUnavailableMessage`}
+              syncToken={draft.syncToken}
               value={effect.unavailableMessage ?? ''}
-              onChange={(event) =>
-                onChange({ ...effect, unavailableMessage: event.target.value || undefined })
+              onCommit={(value) =>
+                onChange({ ...effect, unavailableMessage: value || undefined })
               }
             />
           </label>
@@ -975,6 +1015,8 @@ interface ItemUseEffectChainEditorProps {
   /** item-private effect 的 canonical 正文；索引与运行时投影中的占位 runScript 对齐。 */
   privateScripts?: Readonly<Record<number, ItemPrivateScriptBinding>>
   scenes?: readonly SceneDef[]
+  draftScope?: string
+  syncToken?: string | number
 }
 
 function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
@@ -1069,7 +1111,13 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
     })
 
   return (
-    <div className="item-effect-chain">
+    <ItemEffectDraftContext.Provider
+      value={{
+        scope: props.draftScope ?? `item:${props.itemId ?? 'unknown'}:use`,
+        syncToken: props.syncToken ?? 0,
+      }}
+    >
+      <div className="item-effect-chain">
       <div className="item-use-options">
         <div className="item-effect-field">
           <span>目标</span>
@@ -1217,18 +1265,20 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
                 onError={props.onError}
               />
             ) : (
-              <EffectFields
-                effect={effect}
-                items={items}
-                poisons={poisons}
-                scripts={scripts}
-                onChange={(next) => replaceAt(index, next)}
-                onOpenScript={props.onOpenScript}
-                onCreateAndBindScript={props.onCreateAndBindScript}
-                subjectItemId={props.itemId}
-                consuming={use.consuming}
-                scenes={props.scenes}
-              />
+              <ItemEffectDraftScope scope={`effect:${index}:${effect.kind}`}>
+                <EffectFields
+                  effect={effect}
+                  items={items}
+                  poisons={poisons}
+                  scripts={scripts}
+                  onChange={(next) => replaceAt(index, next)}
+                  onOpenScript={props.onOpenScript}
+                  onCreateAndBindScript={props.onCreateAndBindScript}
+                  subjectItemId={props.itemId}
+                  consuming={use.consuming}
+                  scenes={props.scenes}
+                />
+              </ItemEffectDraftScope>
             )}
           </div>
         </div>
@@ -1280,7 +1330,8 @@ function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
           添加脚本
         </DsButton>
       ) : null}
-    </div>
+      </div>
+    </ItemEffectDraftContext.Provider>
   )
 }
 
@@ -1581,6 +1632,8 @@ export interface ThrowEffectChainEditorProps {
   poisons: readonly PoisonDef[]
   onChange: (next: ThrowSpec) => void
   onError?: (message: string) => void
+  draftScope?: string
+  syncToken?: string | number
 }
 
 export function ThrowEffectChainEditor(props: ThrowEffectChainEditorProps) {
@@ -1599,7 +1652,10 @@ export function ThrowEffectChainEditor(props: ThrowEffectChainEditorProps) {
     }
   }
   return (
-    <div className="item-effect-chain item-throw-effect-chain">
+    <ItemEffectDraftContext.Provider
+      value={{ scope: props.draftScope ?? 'item:throw', syncToken: props.syncToken ?? 0 }}
+    >
+      <div className="item-effect-chain item-throw-effect-chain">
       <div className="item-use-options">
         <div className="item-effect-field">
           <span>投掷目标</span>
@@ -1676,11 +1732,13 @@ export function ThrowEffectChainEditor(props: ThrowEffectChainEditorProps) {
             </span>
           </div>
           <div className="item-effect-grid">
-            <ThrowEffectFields
-              effect={effect}
-              poisons={poisons}
-              onChange={(next) => replaceAt(index, next)}
-            />
+            <ItemEffectDraftScope scope={`effect:${index}:${effect.kind}`}>
+              <ThrowEffectFields
+                effect={effect}
+                poisons={poisons}
+                onChange={(next) => replaceAt(index, next)}
+              />
+            </ItemEffectDraftScope>
           </div>
         </div>
       ))}
@@ -1699,7 +1757,8 @@ export function ThrowEffectChainEditor(props: ThrowEffectChainEditorProps) {
       >
         添加效果
       </DsButton>
-    </div>
+      </div>
+    </ItemEffectDraftContext.Provider>
   )
 }
 
@@ -1711,13 +1770,15 @@ type ItemEffectChainEditorProps =
       poisons: readonly PoisonDef[]
       onChange: (next: ThrowSpec) => void
       onError?: (message: string) => void
+      draftScope?: string
+      syncToken?: string | number
       items: readonly ItemData[]
       scripts: readonly ItemScriptOption[]
       itemId?: string
     }
 
 /** @deprecated 新代码请分别使用用途编辑器和 ThrowEffectChainEditor。 */
-export function ItemEffectChainEditor(props: ItemEffectChainEditorProps) {
+function ItemEffectChainEditorView(props: ItemEffectChainEditorProps) {
   if (props.ability === 'throw')
     return (
       <ThrowEffectChainEditor
@@ -1725,7 +1786,74 @@ export function ItemEffectChainEditor(props: ItemEffectChainEditorProps) {
         poisons={props.poisons}
         onChange={props.onChange}
         onError={props.onError}
+        draftScope={props.draftScope}
+        syncToken={props.syncToken}
       />
     )
   return <ItemUseEffectChainEditor {...props} />
 }
+
+function sameItemChoiceRows(left: readonly ItemData[], right: readonly ItemData[]): boolean {
+  return (
+    left.length === right.length &&
+    left.every(
+      (item, index) => item.id === right[index]?.id && item.name === right[index]?.name,
+    )
+  )
+}
+
+function samePrivateScriptBindings(
+  left: Readonly<Record<number, ItemPrivateScriptBinding>> | undefined,
+  right: Readonly<Record<number, ItemPrivateScriptBinding>> | undefined,
+): boolean {
+  if (left === right) return true
+  const leftKeys = Object.keys(left ?? {})
+  const rightKeys = Object.keys(right ?? {})
+  if (leftKeys.length !== rightKeys.length) return false
+  return leftKeys.every((key) => {
+    const before = left?.[Number(key)]
+    const after = right?.[Number(key)]
+    return (
+      !!before &&
+      !!after &&
+      before.label === after.label &&
+      before.body === after.body &&
+      before.editorContext === after.editorContext &&
+      before.focusCommandPath === after.focusCommandPath &&
+      before.focusRevision === after.focusRevision
+    )
+  })
+}
+
+function sameItemEffectChainProps(
+  left: ItemEffectChainEditorProps,
+  right: ItemEffectChainEditorProps,
+): boolean {
+  if (left.ability !== right.ability || left.spec !== right.spec) return false
+  if (left.ability === 'throw' || right.ability === 'throw')
+    return (
+      left.ability === 'throw' &&
+      right.ability === 'throw' &&
+      left.poisons === right.poisons &&
+      left.onChange === right.onChange &&
+      left.onError === right.onError &&
+      left.draftScope === right.draftScope
+    )
+  return (
+    left.poisons === right.poisons &&
+    left.scripts === right.scripts &&
+    left.onChange === right.onChange &&
+    left.onError === right.onError &&
+    left.onOpenScript === right.onOpenScript &&
+    left.onCreateAndBindScript === right.onCreateAndBindScript &&
+    left.onAddPrivateScript === right.onAddPrivateScript &&
+    left.itemId === right.itemId &&
+    left.scenes === right.scenes &&
+    left.draftScope === right.draftScope &&
+    sameItemChoiceRows(left.items, right.items) &&
+    samePrivateScriptBindings(left.privateScripts, right.privateScripts)
+  )
+}
+
+/** Description/price-only item edits do not invalidate the capability editor subtree. */
+export const ItemEffectChainEditor = memo(ItemEffectChainEditorView, sameItemEffectChainProps)

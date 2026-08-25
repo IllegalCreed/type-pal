@@ -519,6 +519,13 @@ const DRAWER_SIDE_MAX_WIDTH = 720
 const DRAWER_TREE_MIN_WIDTH = 220
 const RESIZER_SIZE = 1
 
+interface DrawerCommandDraft {
+  identity: string
+  source: Command
+  command: Command
+  localeUpdate?: { key: string; text: string }
+}
+
 export function ScriptDrawer(props: {
   scene: SceneDef
   scenes: SceneDef[]
@@ -726,11 +733,13 @@ export function ScriptDrawer(props: {
   // ── 脚本编辑:选中行 → 右栏表单;行按钮 插/移/删;整 stages 经指令落 session ──
   const [selPath, setSelPath] = useState<string | null>(null)
   const [insertFor, setInsertFor] = useState<string | null>(null)
+  const [commandDraft, setCommandDraft] = useState<DrawerCommandDraft | undefined>()
   const lastAppliedFocusRevisionRef = useRef<number | undefined>(undefined)
   // biome-ignore lint/correctness/useExhaustiveDependencies: 切场景/切源即回到该场景源并清临时选择
   useEffect(() => {
     setSelPath(null)
     setInsertFor(null)
+    setCommandDraft(undefined)
     setInternalTrail([])
   }, [scene.id, active?.key])
   useEffect(() => {
@@ -739,6 +748,7 @@ export function ScriptDrawer(props: {
     else return
     setSelPath(null)
     setInsertFor(null)
+    setCommandDraft(undefined)
   }, [focusCommandRevision, focusInternalScriptId])
   useEffect(() => {
     if (!focusCommandPath || focusCommandRevision == null) return
@@ -796,6 +806,58 @@ export function ScriptDrawer(props: {
     if (command) session.dispatch(command)
   }
   const selCmd = selPath ? getCommandAt(editingStages, parsePath(selPath)) : undefined
+  const commandDraftIdentity =
+    selPath && selCmd ? `${internalScriptId ?? active?.key ?? 'script'}:${selPath}` : undefined
+  const activeCommandDraft =
+    commandDraftIdentity && selCmd
+      ? commandDraft?.identity === commandDraftIdentity && commandDraft.source === selCmd
+        ? commandDraft
+        : { identity: commandDraftIdentity, source: selCmd, command: selCmd }
+      : undefined
+
+  useEffect(() => {
+    setCommandDraft((current) => {
+      if (!commandDraftIdentity || !selCmd) return undefined
+      if (current?.identity === commandDraftIdentity && current.source === selCmd) return current
+      return { identity: commandDraftIdentity, source: selCmd, command: selCmd }
+    })
+  }, [commandDraftIdentity, selCmd])
+
+  const cancelCommandDraft = (): void => {
+    setCommandDraft(undefined)
+    setSelPath(null)
+  }
+
+  const commitCommandDraft = (): void => {
+    if (!activeCommandDraft || !selPath) return
+    const path = parsePath(selPath)
+    const stageIndex = path[0]
+    if (typeof stageIndex !== 'number') return
+    const commandChanged =
+      JSON.stringify(activeCommandDraft.source) !== JSON.stringify(activeCommandDraft.command)
+    const out = commandChanged
+      ? updateCommandAt(editingStages, path, activeCommandDraft.command)
+      : editingStages
+    const edit =
+      out !== editingStages ? editedCommand(out, stageIndex, path[1] === 'entry') : undefined
+    const localeUpdate = activeCommandDraft.localeUpdate
+    const draftCue = (activeCommandDraft.command as { cue?: AuthorDialogueCue }).cue
+    const localeUpdateStillOwned =
+      draftCue?.identity.kind === 'actor' &&
+      draftCue.identity.speakerOverride === localeUpdate?.key
+    const localeEdit =
+      localeUpdateStillOwned &&
+      localeUpdate &&
+      localeUpdate.text &&
+      locale[localeUpdate.key] !== localeUpdate.text
+        ? new UpdateLocaleCommand(localeUpdate.key, localeUpdate.text)
+        : undefined
+    if (edit && localeEdit)
+      session.dispatch(new CompositeCommand('编辑脚本指令', [localeEdit, edit]))
+    else if (edit) session.dispatch(edit)
+    else if (localeEdit) session.dispatch(localeEdit)
+    setCommandDraft(undefined)
+  }
 
   const openScriptTarget = (id: string): void => {
     if (scriptIndex?.library?.[id]) {
@@ -813,6 +875,7 @@ export function ScriptDrawer(props: {
 
   const onRowAction = (path: string, action: RowAction): void => {
     if (!editingStages.length) return
+    setCommandDraft(undefined)
     const p = parsePath(path)
     const stageIndex = p[0]
     if (typeof stageIndex !== 'number') return
@@ -1207,9 +1270,9 @@ export function ScriptDrawer(props: {
           <span className="spacer" />
           <span
             className="script-drawer-context"
-            title="改动即入 undo(↺/↻);▶ 预览是临时副本,不改数据"
+            title="表单点完成后写入一步 undo；结构操作即时写入；预览不改数据"
           >
-            改动即入 undo · ▶ 预览不改数据
+            完成后入 undo · ▶ 预览不改数据
           </span>
         </div>
         <div
@@ -1350,8 +1413,23 @@ export function ScriptDrawer(props: {
                   </div>
                 </div>
               ) : null}
-              {selCmd && selPath ? (
-                <div className="section">
+              {selCmd && selPath && activeCommandDraft ? (
+                <div
+                  className="section"
+                  onKeyDown={(event) => {
+                    if (
+                      event.defaultPrevented ||
+                      event.nativeEvent.defaultPrevented ||
+                      event.key !== 'Escape' ||
+                      event.nativeEvent.isComposing ||
+                      event.nativeEvent.keyCode === 229
+                    )
+                      return
+                    event.preventDefault()
+                    event.stopPropagation()
+                    cancelCommandDraft()
+                  }}
+                >
                   <h4>
                     编辑指令 <span className="cf-path">{selPath}</span>
                   </h4>
@@ -1359,9 +1437,17 @@ export function ScriptDrawer(props: {
                     actors={actorsById}
                     battleSprites={battleSprites}
                     sprites={sprites}
-                    cmd={selCmd}
+                    cmd={activeCommandDraft.command}
                     scene={scene}
-                    locale={locale}
+                    locale={
+                      activeCommandDraft.localeUpdate
+                        ? {
+                            ...locale,
+                            [activeCommandDraft.localeUpdate.key]:
+                              activeCommandDraft.localeUpdate.text,
+                          }
+                        : locale
+                    }
                     assetCatalog={assetCatalog}
                     audioResolver={audioResolver}
                     assetReader={assetReader}
@@ -1380,10 +1466,7 @@ export function ScriptDrawer(props: {
                     onOpenBattleSprite={onOpenBattleSprite}
                     onOpenSpriteAction={onOpenSpriteAction}
                     onDialogueSpeakerOverrideChange={(text) => {
-                      const path = parsePath(selPath)
-                      const stageIndex = path[0]
-                      if (typeof stageIndex !== 'number') return
-                      const cue = (selCmd as { cue?: AuthorDialogueCue }).cue
+                      const cue = (activeCommandDraft.command as { cue?: AuthorDialogueCue }).cue
                       if (!cue || !('identity' in cue) || cue.identity.kind !== 'actor') return
                       const currentKey = cue.identity.speakerOverride
                       const sourceKey = (internalScriptId ?? active?.key ?? 'script').replace(
@@ -1397,31 +1480,39 @@ export function ScriptDrawer(props: {
                       if (text) identity.speakerOverride = localeKey
                       else delete identity.speakerOverride
                       const next = {
-                        ...(selCmd as object),
+                        ...(activeCommandDraft.command as object),
                         cue: { ...cue, identity },
                       } as unknown as Command
-                      const out = updateCommandAt(editingStages, path, next)
-                      if (out === editingStages) return
-                      const edit = editedCommand(out, stageIndex, path[1] === 'entry')
-                      if (!edit) return
-                      session.dispatch(
-                        text
-                          ? new CompositeCommand('修改人物称谓', [
-                              new UpdateLocaleCommand(localeKey, text),
-                              edit,
-                            ])
-                          : edit,
-                      )
+                      setCommandDraft({
+                        ...activeCommandDraft,
+                        command: next,
+                        localeUpdate: { key: localeKey, text },
+                      })
                     }}
-                    onChange={(next) => {
-                      const path = parsePath(selPath)
-                      const stageIndex = path[0]
-                      if (typeof stageIndex !== 'number') return
-                      const out = updateCommandAt(editingStages, path, next)
-                      if (out !== editingStages)
-                        dispatchEdited(out, stageIndex, path[1] === 'entry')
-                    }}
+                    onChange={(command) =>
+                      setCommandDraft({ ...activeCommandDraft, command })
+                    }
                   />
+                  <div className="ds-inspector-actions">
+                    <DsButton size="compact" variant="secondary" onClick={cancelCommandDraft}>
+                      取消
+                    </DsButton>
+                    <DsButton
+                      size="compact"
+                      variant="primary"
+                      disabled={
+                        JSON.stringify(activeCommandDraft.source) ===
+                          JSON.stringify(activeCommandDraft.command) &&
+                        (!activeCommandDraft.localeUpdate ||
+                          !activeCommandDraft.localeUpdate.text ||
+                          locale[activeCommandDraft.localeUpdate.key] ===
+                            activeCommandDraft.localeUpdate.text)
+                      }
+                      onClick={commitCommandDraft}
+                    >
+                      完成
+                    </DsButton>
+                  </div>
                 </div>
               ) : null}
               {playback.view.logs.length > 0 ? (

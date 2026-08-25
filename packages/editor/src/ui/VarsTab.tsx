@@ -11,7 +11,8 @@ import {
   WorldVariableInUseError,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
-import type { CanonicalScriptReference } from '../core/script-editor.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import type { CanonicalScriptReference, ScriptEditorState } from '../core/script-editor.js'
 import type {
   WorldVariableReferenceIndexV1,
   WorldVariableReferenceV1,
@@ -65,14 +66,25 @@ function refsFor(
 export function VarsTab(props: {
   variables: WorldVariableRegistryV1
   references: WorldVariableReferenceIndexV1
+  referenceStatus: EditorDerivedStatus
+  getCurrentScriptState: () => ScriptEditorState | undefined
   session: EditSession
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
   onOpenReference?: (reference: CanonicalScriptReference) => void
   tabBar?: React.ReactNode
 }) {
-  const { variables, references, session, focusObjectId, onObjectFocus, onOpenReference, tabBar } =
-    props
+  const {
+    variables,
+    references,
+    referenceStatus,
+    getCurrentScriptState,
+    session,
+    focusObjectId,
+    onObjectFocus,
+    onOpenReference,
+    tabBar,
+  } = props
   const [filter, setFilter] = useState('')
   const [selectedId, setSelectedId] = useState(
     focusObjectId && variables[focusObjectId] ? focusObjectId : (Object.keys(variables)[0] ?? ''),
@@ -84,6 +96,22 @@ export function VarsTab(props: {
   const [notice, setNotice] = useState<string>()
   const selected = variables[selectedId]
   const selectedRefs = refsFor(references, selected ? selectedId : undefined)
+  const referenceCount =
+    referenceStatus === 'current'
+      ? { kind: 'exact' as const, value: selectedRefs.length }
+      : selectedRefs.length
+        ? { kind: 'at-least' as const, value: selectedRefs.length }
+        : { kind: 'unknown' as const }
+  const referencePanelState =
+    referenceStatus === 'current'
+      ? selectedRefs.length
+        ? ('ready' as const)
+        : ('empty' as const)
+      : referenceStatus === 'failed'
+        ? ('error' as const)
+        : referenceStatus === 'stale'
+          ? ('partial' as const)
+          : ('loading' as const)
   const [draft, setDraft] = useState<Draft>(() =>
     selected ? draftOf(selected) : { name: '', description: '', initial: false },
   )
@@ -210,8 +238,8 @@ export function VarsTab(props: {
   }
   const remove = (): void => {
     if (!selected) return
-    if (selectedRefs.length) {
-      setNotice(`仍有 ${selectedRefs.length} 处引用，请先从右侧处理。`)
+    if (referenceStatus !== 'current') {
+      setNotice('变量引用仍在检查，暂不能删除。')
       return
     }
     if (!window.confirm(`删除世界变量 ${selectedId}？此操作可以撤销。`)) return
@@ -219,7 +247,7 @@ export function VarsTab(props: {
     const index = ids.indexOf(selectedId)
     const nextId = ids[index + 1] ?? ids[index - 1] ?? ''
     try {
-      session.dispatch(new DeleteWorldVariableCommand(selectedId))
+      session.dispatch(new DeleteWorldVariableCommand(selectedId, getCurrentScriptState))
       setSelectedId(nextId)
       onObjectFocus?.(nextId || undefined)
     } catch (error) {
@@ -392,7 +420,14 @@ export function VarsTab(props: {
                   <DsButton
                     variant="danger"
                     icon="delete"
-                    disabled={selectedRefs.length > 0}
+                    disabled={referenceStatus !== 'current' || selectedRefs.length > 0}
+                    title={
+                      referenceStatus !== 'current'
+                        ? '变量引用仍在检查，暂不能删除'
+                        : selectedRefs.length
+                          ? `仍有 ${selectedRefs.length} 处引用，请先从右侧处理`
+                          : '删除变量'
+                    }
                     onClick={remove}
                   >
                     删除变量
@@ -480,8 +515,8 @@ export function VarsTab(props: {
         </header>
         {selected ? (
           <DsReferencePanel
-            state={selectedRefs.length ? 'ready' : 'empty'}
-            count={{ kind: 'exact', value: selectedRefs.length }}
+            state={referencePanelState}
+            count={referenceCount}
             impact={{
               kind: 'blocking',
               description: selectedRefs.length

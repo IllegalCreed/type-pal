@@ -915,6 +915,8 @@ function ExecutionOverrideEditor(props: {
           assetReader={assetReader}
           assetBase={assetBase}
           onOpenSound={onOpenSound}
+          draftScope={`${draftScope}:animation`}
+          syncToken={syncToken}
         />
       )}
     </div>
@@ -1388,6 +1390,8 @@ export function SkillTab(props: {
                   assetReader={assetReader}
                   assetBase={assetBase}
                   onOpenSound={onOpenSound}
+                  draftScope={`skill:${skill.id}:animation`}
+                  syncToken={session.getHistoryVersion()}
                 />
               </DsWorkbenchSection>
 

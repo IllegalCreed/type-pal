@@ -7,10 +7,15 @@ import { UpdateItemCommand, UpsertAuthoredScriptCommand } from '../core/commands
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
-import type { ItemReference } from '../core/item-references.js'
+import { itemReferenceMap, type ItemReference } from '../core/item-references.js'
 import { type ScriptEditorState, ScriptEditSession } from '../core/script-editor.js'
-import { projectActiveScriptEditorState } from '../core/script-editor-projection.js'
+import {
+  mergeEditorProjectionWithCurrentAuthorState,
+  projectActiveScriptEditorState,
+  projectCurrentAuthorScriptEditorState,
+} from '../core/script-editor-projection.js'
 import { ItemTab } from './ItemTab.js'
 import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 
@@ -92,6 +97,10 @@ function Harness(props: {
     session: ScriptEditSession
   }
   historyCoordinator?: EditorHistoryCoordinator
+  referenceStatus?: EditorDerivedStatus
+  referenceIndex?: ReturnType<typeof itemReferenceMap>
+  getCurrentAuthorState?: () => EditorState | undefined
+  getCurrentScriptState?: () => ScriptEditorState | undefined
 }) {
   useSyncExternalStore(
     (callback) => props.session.subscribe(callback),
@@ -124,10 +133,32 @@ function Harness(props: {
       onOpenProjectIssues={props.onOpenProjectIssues}
       script={
         props.script && activeScriptState
-          ? { state: activeScriptState, session: props.script.session }
+          ? { state: props.script.session.getStateSnapshot(), session: props.script.session }
           : undefined
       }
       historyCoordinator={props.historyCoordinator}
+      itemReferenceIndex={props.referenceIndex ?? itemReferenceMap(current, activeScriptState)}
+      itemReferenceStatus={props.referenceStatus ?? 'current'}
+      getCurrentAuthorState={
+        props.getCurrentAuthorState ??
+        (() =>
+          props.script
+            ? mergeEditorProjectionWithCurrentAuthorState(
+                props.script.session.getStateSnapshot(),
+                props.session.getState(),
+              )
+            : props.session.getState())
+      }
+      getCurrentScriptState={
+        props.getCurrentScriptState ??
+        (() =>
+          props.script
+            ? projectCurrentAuthorScriptEditorState(
+                props.script.session.getStateSnapshot(),
+                props.session.getState(),
+              )
+            : undefined)
+      }
     />
   )
 }
@@ -272,12 +303,53 @@ describe('ItemTab', () => {
       (candidate) => candidate.textContent?.includes('剧情钥匙'),
     )!
     await act(async () => original.click())
-    await act(async () => button('删除', host.querySelector('.item-title-actions')!).click())
-    await act(async () => button('确认', host.querySelector('.item-title-actions')!).click())
+    const deleteButton = button('删除', host.querySelector('.item-title-actions')!)
+    expect(deleteButton.disabled).toBe(true)
+    expect(deleteButton.title).toContain('仍有 1 处引用')
+    const referenceTab = [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(
+      (candidate) => candidate.textContent?.includes('引用'),
+    )!
+    await act(async () => referenceTab.click())
 
     expect(session.getState().items.some((entry) => entry.id === 'item-a')).toBe(true)
     expect(host.querySelector('[role="tab"][aria-selected="true"]')?.textContent).toContain('引用')
     expect(host.textContent).toContain('商店 7')
+  })
+
+  test('引用快照过期时禁删，点击边界的 canonical 新引用仍阻断删除', async () => {
+    const current = state()
+    current.shops = []
+    const session = new EditSession(current)
+    await act(async () =>
+      root.render(<Harness session={session} referenceStatus="stale" referenceIndex={new Map()} />),
+    )
+    expect(button('删除', host.querySelector('.item-title-actions')!).disabled).toBe(true)
+
+    const canonical: ScriptEditorState = {
+      scenes: [],
+      items: structuredClone(current.items) as ScriptEditorState['items'],
+      sharedScripts: {
+        live: {
+          name: '当前奖励',
+          self: 'none',
+          body: [{ kind: 'giveItem', itemId: 'item-a', count: 1 }],
+        },
+      },
+    }
+    const scriptSession = new ScriptEditSession(canonical)
+    await act(async () =>
+      root.render(
+        <Harness
+          session={session}
+          script={{ state: canonical, session: scriptSession }}
+          referenceStatus="current"
+          referenceIndex={new Map()}
+        />,
+      ),
+    )
+    await act(async () => button('删除', host.querySelector('.item-title-actions')!).click())
+    await act(async () => button('确认', host.querySelector('.item-title-actions')!).click())
+    expect(session.getState().items.some((item) => item.id === 'item-a')).toBe(true)
   })
 
   test('目录搜索和全部能力筛选覆盖组合、空结果与清空恢复，且不偷换选择', async () => {
@@ -666,10 +738,16 @@ describe('ItemTab', () => {
       )!
     const numberField = (label: string): HTMLInputElement =>
       field(label).querySelector<HTMLInputElement>('input[type="number"]')!
-    await setInput(numberField('特效号'), '24')
-    await setInput(numberField('X 偏移'), '-12')
-    await setInput(numberField('层级偏移'), '1')
-    await setInput(numberField('速度'), '-1')
+    for (const [label, value] of [
+      ['特效号', '24'],
+      ['X 偏移', '-12'],
+      ['层级偏移', '1'],
+      ['速度', '-1'],
+    ] as const) {
+      const input = numberField(label)
+      await setInput(input, value)
+      await act(async () => input.dispatchEvent(new FocusEvent('focusout', { bubbles: true })))
+    }
     const placement = field('落点').querySelector<HTMLButtonElement>('[role="combobox"]')!
     await chooseComboboxOption(placement, '敌群中心')
     const sound = combobox('音效', presentation)

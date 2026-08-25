@@ -216,5 +216,19 @@ export const blockingSkillReferences = (state: EditorState, skillId: string) =>
   blocking(state, 'skill', skillId)
 export const blockingEnemyReferences = (state: EditorState, enemyId: string) =>
   blocking(state, 'enemy', enemyId)
+
+export function blockingPoisonReferenceMap(
+  state: EditorState,
+): Map<string, BattleDataReference[]> {
+  const index = new Map<string, BattleDataReference[]>()
+  for (const reference of collectBattleDataReferences(state, 'poison')) {
+    if (reference.ownerId === reference.targetId) continue
+    const entries = index.get(reference.targetId) ?? []
+    entries.push(reference)
+    index.set(reference.targetId, entries)
+  }
+  return index
+}
+
 export const blockingPoisonReferences = (state: EditorState, poisonId: number) =>
-  blocking(state, 'poison', String(poisonId))
+  blockingPoisonReferenceMap(state).get(String(poisonId)) ?? []

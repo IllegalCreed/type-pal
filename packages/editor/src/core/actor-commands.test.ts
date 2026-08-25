@@ -173,6 +173,20 @@ describe('人物 CRUD 与解除关联', () => {
     expect(current.actors).toEqual([actor()])
   })
 
+  test('DeleteActor 在动作边界读取 current author 新引用', () => {
+    const shell = state([actor()])
+    const currentAuthor = structuredClone(shell)
+    currentAuthor.scenes[0]!.entities = [
+      { id: 'live', pos: { col: 1, row: 1, height: 0 }, actor: 'hero' },
+    ]
+    expect(() =>
+      new DeleteActorCommand('hero', () => currentAuthor).apply(shell),
+    ).toThrow(/场景 s \/ 实体 live/)
+    expect(() => new DeleteActorCommand('hero', () => undefined).apply(shell)).toThrow(
+      /无法读取当前作者态引用/,
+    )
+  })
+
   test('解除人物关联只替换 actor→sprite，所有实例字段与行为保持并可 undo/redo', () => {
     const source: EntityDef = {
       id: 'npc',

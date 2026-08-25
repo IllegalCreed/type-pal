@@ -114,4 +114,26 @@ describe('world variable EditSession commands', () => {
     expect(session.undo()).toBe(true)
     expect(session.getState().worldVariables).toHaveProperty('unused')
   })
+
+  test('DeleteWorldVariable 在动作边界读取 current canonical，并在读取失败时 fail-closed', () => {
+    const current = state()
+    current.sharedScripts = {}
+    const canonical = {
+      scenes: [],
+      items: [],
+      sharedScripts: {
+        live: {
+          name: '当前正文',
+          self: 'none' as const,
+          body: [{ kind: 'setVar' as const, var: 'unused', value: 1 }],
+        },
+      },
+    }
+    expect(() => new DeleteWorldVariableCommand('unused', () => canonical).apply(current)).toThrow(
+      WorldVariableInUseError,
+    )
+    expect(() => new DeleteWorldVariableCommand('unused', () => undefined).apply(current)).toThrow(
+      /无法读取当前脚本引用/,
+    )
+  })
 })

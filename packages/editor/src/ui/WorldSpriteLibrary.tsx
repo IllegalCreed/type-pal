@@ -31,7 +31,7 @@ import {
   DsCatalogRow,
   DsInspectorSection,
   DsInspectorTabs,
-  DsNumberInput,
+  DsDraftNumberInput,
   DsPropertyGrid,
   DsPropertyRow,
   DsReferenceGroup,
@@ -425,16 +425,21 @@ export function WorldSpriteLibrary(props: {
     }
   }
 
-  const dispatchLayout = (layout: SpriteLayout): void => {
+  const dispatchLayout = (layout: SpriteLayout): boolean => {
     if (!definition || !loadedProof) {
       props.onStatusNotice?.({ kind: 'error', message: '精灵帧尚未载入，不能修改布局。' })
-      return
+      return false
     }
     try {
-      props.session.dispatch(new UpdateSpriteCommand(definition.id, { layout }, loadedProof))
+      if (!props.session.dispatch(new UpdateSpriteCommand(definition.id, { layout }, loadedProof))) {
+        props.onStatusNotice?.({ kind: 'error', message: '精灵用途定义已变化，请重新选择后再编辑。' })
+        return false
+      }
       props.onStatusNotice?.(undefined)
+      return true
     } catch (reason) {
       reportError(reason)
+      return false
     }
   }
 
@@ -843,23 +848,24 @@ export function WorldSpriteLibrary(props: {
                           </DsPropertyRow>
                           {definition.layout.kind === 'directional' ? (
                             <DsPropertyRow label="每向帧数" labelFor="world-sprite-frames-per-dir">
-                              <DsNumberInput
+                              <DsDraftNumberInput
                                 id="world-sprite-frames-per-dir"
                                 name="world-sprite-frames-per-dir"
                                 size="compact"
+                                draftKey={`sprite:${definition.id}:layout:framesPerDir`}
+                                syncToken={props.session.getHistoryVersion()}
                                 min={1}
                                 max={Math.max(1, Math.floor((actualFrameCount ?? 0) / 4))}
+                                integer
                                 disabled={!loadedProof}
                                 value={definition.layout.framesPerDir}
-                                onChange={(event) => {
-                                  if (
-                                    Number.isInteger(event.target.valueAsNumber) &&
-                                    event.target.valueAsNumber > 0
-                                  )
-                                    dispatchLayout({
+                                onCommit={(value) => {
+                                  if (value !== undefined && Number.isInteger(value) && value > 0)
+                                    return dispatchLayout({
                                       kind: 'directional',
-                                      framesPerDir: event.target.valueAsNumber,
+                                      framesPerDir: value,
                                     })
+                                  return false
                                 }}
                               />
                             </DsPropertyRow>

@@ -1,4 +1,5 @@
 import type { BattleSpriteDef, BattleSpriteProfileKind } from '@type-pal/content'
+import { memo, useMemo } from 'react'
 import {
   DsControlGroup,
   type DsControlSize,
@@ -6,7 +7,7 @@ import {
   DsSelect,
 } from './design-system/controls.js'
 
-export function BattleSpritePicker(props: {
+function BattleSpritePickerImpl(props: {
   id?: string
   value?: string
   definitions: readonly BattleSpriteDef[]
@@ -18,12 +19,48 @@ export function BattleSpritePicker(props: {
   unsetLabel?: string
   size?: DsControlSize
 }) {
-  const compatible = props.definitions.filter((entry) => entry.profile.kind === props.kind)
+  const compatible = useMemo(
+    () => props.definitions.filter((entry) => entry.profile.kind === props.kind),
+    [props.definitions, props.kind],
+  )
   const selected = props.value
     ? props.definitions.find((entry) => entry.id === props.value)
     : undefined
   const missing = !!props.value && !selected
   const incompatible = !!selected && selected.profile.kind !== props.kind
+  const options = useMemo(
+    () => [
+      ...(props.allowUnset
+        ? [{ value: '', label: props.unsetLabel ?? '（不改战斗形象）' }]
+        : []),
+      ...(missing && props.value ? [{ value: props.value, label: `缺失：${props.value}` }] : []),
+      ...(incompatible && selected
+        ? [
+            {
+              value: selected.id,
+              label: `不兼容：${selected.label} · 实际 ${selected.profile.kind}`,
+            },
+          ]
+        : []),
+      ...(!props.allowUnset && !props.value && compatible.length === 0
+        ? [{ value: '', label: `暂无 ${props.kind} 定义` }]
+        : []),
+      ...compatible.map((entry) => ({
+        value: entry.id,
+        label: `${entry.label} · ${entry.id}`,
+      })),
+    ],
+    [
+      compatible,
+      incompatible,
+      missing,
+      props.allowUnset,
+      props.kind,
+      props.unsetLabel,
+      props.value,
+      selected,
+    ],
+  )
   return (
     <DsControlGroup
       className="linked-control"
@@ -35,29 +72,7 @@ export function BattleSpritePicker(props: {
           aria-label={props.ariaLabel ?? '战斗精灵定义'}
           invalid={missing || incompatible}
           onValueChange={props.onChange}
-          options={[
-            ...(props.allowUnset
-              ? [{ value: '', label: props.unsetLabel ?? '（不改战斗形象）' }]
-              : []),
-            ...(missing && props.value
-              ? [{ value: props.value, label: `缺失：${props.value}` }]
-              : []),
-            ...(incompatible && selected
-              ? [
-                  {
-                    value: selected.id,
-                    label: `不兼容：${selected.label} · 实际 ${selected.profile.kind}`,
-                  },
-                ]
-              : []),
-            ...(!props.allowUnset && !props.value && compatible.length === 0
-              ? [{ value: '', label: `暂无 ${props.kind} 定义` }]
-              : []),
-            ...compatible.map((entry) => ({
-              value: entry.id,
-              label: `${entry.label} · ${entry.id}`,
-            })),
-          ]}
+          options={options}
         />
       }
       actions={
@@ -73,3 +88,5 @@ export function BattleSpritePicker(props: {
     />
   )
 }
+
+export const BattleSpritePicker = memo(BattleSpritePickerImpl)

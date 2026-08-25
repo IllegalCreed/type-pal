@@ -32,6 +32,9 @@ describe('ImageTab catalog controls', () => {
     await act(async () => {
       root.render(
         <ImageTab
+          assetDiagnostics={[]}
+          assetReferences={[]}
+          assetReferenceStatus="current"
           assetBase={{} as never}
           catalog={catalogControlsAssetCatalog}
           reader={catalogControlsReader as never}
@@ -92,6 +95,9 @@ describe('ImageTab catalog controls', () => {
     await act(async () => {
       root.render(
         <ImageTab
+          assetDiagnostics={[]}
+          assetReferences={[]}
+          assetReferenceStatus="current"
           assetBase={{} as never}
           catalog={catalogControlsAssetCatalog}
           reader={catalogControlsReader as never}
@@ -134,6 +140,10 @@ describe('ImageTab catalog controls', () => {
     await act(async () => {
       root.render(
         <ImageTab
+          assetDiagnostics={[]}
+          assetReferences={[]}
+          assetReferenceStatus="failed"
+          assetReferenceMessage="scan exploded"
           assetBase={{} as never}
           catalog={catalogControlsAssetCatalog}
           reader={{ ...catalogControlsReader, readBytes } as never}

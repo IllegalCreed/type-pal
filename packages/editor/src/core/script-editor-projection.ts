@@ -141,7 +141,7 @@ export function projectActiveScriptEditorState(
 ): ScriptEditorState {
   const canonicalItems = new Map(canonical.items.map((item) => [item.id, item]))
   return {
-    ...structuredClone(canonical),
+    ...canonical,
     items: shellItems.map((item) => mergeCurrentItemShell(item, canonicalItems.get(item.id))),
   }
 }
@@ -166,6 +166,27 @@ export function projectCurrentAuthorReferenceSlices(
     sharedScripts: structuredClone(
       canonical.sharedScripts,
     ) as unknown as EditorState['sharedScripts'],
+  }
+}
+
+/** Current canonical command view constrained to the shell's current record set and ordering. */
+export function projectCurrentAuthorScriptEditorState(
+  canonical: ScriptEditorState,
+  shell: EditorState,
+): ScriptEditorState {
+  const author = projectCurrentAuthorReferenceSlices(canonical, shell)
+  return scriptEditorStateFromCurrentAuthorSlices(canonical, author)
+}
+
+export function scriptEditorStateFromCurrentAuthorSlices(
+  canonical: ScriptEditorState,
+  author: Pick<EditorState, 'scenes' | 'items' | 'sharedScripts'>,
+): ScriptEditorState {
+  return {
+    ...canonical,
+    scenes: author.scenes as ScriptEditorState['scenes'],
+    items: author.items as ScriptEditorState['items'],
+    sharedScripts: author.sharedScripts as ScriptEditorState['sharedScripts'],
   }
 }
 

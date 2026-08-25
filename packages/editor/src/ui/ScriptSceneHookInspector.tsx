@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react'
 import {
   AddSceneHookCommand,
   type CanonicalScriptReference,
+  canonicalSceneHookReferenceKey,
   DeleteSceneHookCommand,
   describeCanonicalScriptReference,
   SaveSceneHookDetailsCommand,
@@ -72,6 +73,7 @@ export function ScriptSceneHookInspector(props: {
   focusCommand?: { locator: ScriptCommandLocator; revision: number }
   onError?: (message: string) => void
   editorContext?: CanonicalScriptEditorContext
+  referenceIndex?: ReadonlyMap<string, readonly CanonicalScriptReference[]>
 }) {
   const scene = props.state.scenes.find((candidate) => candidate.id === props.sceneId)
   const channel = scene?.hooks?.[props.slot]
@@ -92,7 +94,11 @@ export function ScriptSceneHookInspector(props: {
   const [detailsId, setDetailsId] = useState<string>()
   const detailsScheme = detailsId ? variants[detailsId] : undefined
   const detailsReferences = detailsScheme
-    ? sceneHookReferences(props.state, props.sceneId, props.slot, detailsId!)
+    ? props.referenceIndex
+      ? (props.referenceIndex.get(
+          canonicalSceneHookReferenceKey(props.sceneId, props.slot, detailsId!),
+        ) ?? [])
+      : sceneHookReferences(props.state, props.sceneId, props.slot, detailsId!)
     : []
   const [createOpen, setCreateOpen] = useState(false)
   const copy = sourceCopy(props.slot)

@@ -1,6 +1,6 @@
 import type { AssetCatalogV1, AssetId, AssetRecordV1 } from '@type-pal/content'
 import { SfxPlayer } from '@type-pal/reforge'
-import { useState } from 'react'
+import { memo, useMemo, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import {
   DsControlGroup,
@@ -98,7 +98,7 @@ export function SoundPreviewButton(props: {
   )
 }
 
-export function SoundPicker(props: {
+function SoundPickerImpl(props: {
   id?: string
   value: AssetId | undefined
   onChange: (value: AssetId | undefined) => void
@@ -109,10 +109,26 @@ export function SoundPicker(props: {
   onOpenAsset?: (asset: AssetId) => void
   size?: DsControlSize
 }) {
-  const options = soundAssets(props.catalog)
+  const options = useMemo(
+    () => soundAssets(props.catalog).map((asset) => ({ value: asset.id, label: soundLabel(asset) })),
+    [props.catalog],
+  )
   const current = props.value ? props.catalog.assets[props.value] : undefined
   const currentValid = current?.kind === 'sound'
   const selected = props.value ?? UNSET
+  const selectOptions = useMemo(
+    () => [
+      ...(props.allowUnset ? [{ value: UNSET, label: '(无音效)' }] : []),
+      ...(props.value && !currentValid
+        ? [{ value: props.value, label: `⚠ ${props.value}（缺失或类型错误）` }]
+        : []),
+      ...options,
+      ...(!options.length && !props.allowUnset
+        ? [{ value: UNSET, label: '项目没有可用音效' }]
+        : []),
+    ],
+    [currentValid, options, props.allowUnset, props.value],
+  )
   return (
     <DsControlGroup
       className="music-picker sound-picker"
@@ -123,16 +139,7 @@ export function SoundPicker(props: {
           aria-label={props.ariaLabel ?? '音效'}
           value={selected}
           onValueChange={(value) => props.onChange(value === UNSET ? undefined : value)}
-          options={[
-            ...(props.allowUnset ? [{ value: UNSET, label: '(无音效)' }] : []),
-            ...(props.value && !currentValid
-              ? [{ value: props.value, label: `⚠ ${props.value}（缺失或类型错误）` }]
-              : []),
-            ...options.map((asset) => ({ value: asset.id, label: soundLabel(asset) })),
-            ...(!options.length && !props.allowUnset
-              ? [{ value: UNSET, label: '项目没有可用音效' }]
-              : []),
-          ]}
+          options={selectOptions}
         />
       }
       actions={
@@ -158,3 +165,5 @@ export function SoundPicker(props: {
     />
   )
 }
+
+export const SoundPicker = memo(SoundPickerImpl)

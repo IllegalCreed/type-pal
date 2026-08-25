@@ -8,6 +8,7 @@ import type {
 import { act, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { RemoveSpriteDefinitionCommand, UpsertAssetCommand } from '../core/commands.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import type {
@@ -31,7 +32,7 @@ vi.mock('./SpriteResourceViewer.js', async () => {
       onAutomaticBehaviorLocations?: (definitionId: string) => void
     }) => {
       React.useEffect(() => {
-        props.onLoaded?.({ asset: props.asset, revision: props.revision, actualFrameCount: 5 })
+        props.onLoaded?.({ asset: props.asset, revision: props.revision, actualFrameCount: 20 })
       }, [props.asset, props.onLoaded, props.revision])
       return (
         <div
@@ -190,6 +191,7 @@ function library(
     onJumpAutomaticScriptInstance?: (site: SpriteAutomaticScriptInstanceSite) => void
     onViewChange?: (view: 'definition' | 'asset', objectId?: string) => void
     onBattleDomain?: () => void
+    onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
   } = {},
 ) {
   return (
@@ -208,11 +210,101 @@ function library(
       onJumpReference={options.onJumpReference}
       onJumpActionReference={options.onJumpActionReference}
       onJumpAutomaticScriptInstance={options.onJumpAutomaticScriptInstance}
+      onStatusNotice={options.onStatusNotice}
     />
   )
 }
 
 describe('WorldSpriteLibrary', () => {
+  test('目标定义被移除后的 dispatch noop 会回灌 canonical 草稿', async () => {
+    const session = new EditSession(editorState(definitions))
+    const onStatusNotice = vi.fn()
+    await act(async () =>
+      root.render(
+        library(definitions, session, { focusObjectId: 'hero-walk', onStatusNotice }),
+      ),
+    )
+    const field = host.querySelector<HTMLInputElement>('#world-sprite-frames-per-dir')!
+    await act(async () => {
+      session.dispatch(new RemoveSpriteDefinitionCommand('hero-walk'))
+    })
+    const beforeRejected = session.getHistoryVersion()
+    const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set
+    await act(async () => {
+      field.focus()
+      setter?.call(field, '4')
+      field.dispatchEvent(new Event('input', { bubbles: true }))
+      field.blur()
+    })
+    expect(session.getHistoryVersion()).toBe(beforeRejected)
+    expect(field.value).toBe('3')
+    expect(onStatusNotice).toHaveBeenLastCalledWith(
+      expect.objectContaining({ kind: 'error', message: expect.stringContaining('已变化') }),
+    )
+  })
+
+  test('布局提交失败会回灌 canonical，恢复有效证明后只产生一条命令', async () => {
+    const session = new EditSession(editorState(definitions))
+    const onStatusNotice = vi.fn()
+    await act(async () =>
+      root.render(
+        library(definitions, session, { focusObjectId: 'hero-walk', onStatusNotice }),
+      ),
+    )
+    const field = host.querySelector<HTMLInputElement>('#world-sprite-frames-per-dir')!
+    const record = catalog.assets['sprite.shared']!
+    session.dispatch(
+      new UpsertAssetCommand(
+        'sprite.shared',
+        { ...record, sha256: 'c'.repeat(64) },
+        new ArrayBuffer(4),
+      ),
+    )
+    const beforeRejected = session.getHistoryVersion()
+    const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set
+    await act(async () => {
+      field.focus()
+      setter?.call(field, '4')
+      field.dispatchEvent(new Event('input', { bubbles: true }))
+      field.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: 'Enter',
+          bubbles: true,
+          cancelable: true,
+        }),
+      )
+      field.blur()
+    })
+    expect(session.getHistoryVersion()).toBe(beforeRejected)
+    expect(field.value).toBe('3')
+    expect(onStatusNotice).toHaveBeenLastCalledWith(
+      expect.objectContaining({ kind: 'error' }),
+    )
+
+    session.dispatch(
+      new UpsertAssetCommand('sprite.shared', record, new ArrayBuffer(4)),
+    )
+    const beforeAccepted = session.getHistoryVersion()
+    await act(async () => {
+      field.focus()
+      setter?.call(field, '4')
+      field.dispatchEvent(new Event('input', { bubbles: true }))
+      field.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: 'Enter',
+          bubbles: true,
+          cancelable: true,
+        }),
+      )
+      field.blur()
+    })
+    expect(session.getHistoryVersion()).toBe(beforeAccepted + 1)
+    expect(session.getState().sprites[0]?.layout).toEqual({
+      kind: 'directional',
+      framesPerDir: 4,
+    })
+  })
+
   test('领域深链、搜索和全部用途筛选覆盖组合、空结果与清空恢复，且不偷换选择', async () => {
     const onBattleDomain = vi.fn()
     const session = new EditSession(editorState(definitions))

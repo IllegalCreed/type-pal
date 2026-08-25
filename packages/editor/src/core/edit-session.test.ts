@@ -133,6 +133,88 @@ test('map revision 只随该地图内容变化且覆盖 dispatch/undo/redo，过
   expect(sess.getVersion()).toBeGreaterThan(beforeVersion)
 })
 
+test('非地图命令不读取地图内容或重建组合来源索引', () => {
+  const state = withMapIndex('map-a')
+  const map = buildBlankProjectMap(2, 1, 'tileset-001')
+  let authoringReads = 0
+  Object.defineProperty(map, 'authoring', {
+    configurable: true,
+    get: () => {
+      authoringReads += 1
+      return undefined
+    },
+  })
+  state.maps = { 'map-a': map }
+  const session = new EditSession(state)
+  authoringReads = 0
+
+  session.dispatch(new MoveEntityCommand('s', 'e', { col: 2, row: 3, height: 0 }))
+  session.undo()
+  session.redo()
+  const receipt = session.dispatchForTransaction(
+    new MoveEntityCommand('s', 'e', { col: 4, row: 5, height: 0 }),
+  )
+  receipt?.rollback()
+
+  expect(authoringReads).toBe(0)
+  expect(session.getMapRevision('map-a')).toBe(0)
+})
+
+test('地图变化只读取 identity 改变的地图，mapIndex 改名零读取', () => {
+  const state = withMapIndex('a', 'b')
+  const beforeA = mapWithStampSources('tree')
+  const afterA = mapWithStampSources('rock')
+  const mapB = mapWithStampSources('house')
+  let afterAReads = 0
+  let mapBReads = 0
+  const afterAAuthoring = afterA.authoring
+  const mapBAuthoring = mapB.authoring
+  Object.defineProperty(afterA, 'authoring', {
+    configurable: true,
+    get: () => {
+      afterAReads += 1
+      return afterAAuthoring
+    },
+  })
+  Object.defineProperty(mapB, 'authoring', {
+    configurable: true,
+    get: () => {
+      mapBReads += 1
+      return mapBAuthoring
+    },
+  })
+  state.maps = { a: beforeA, b: mapB }
+  const session = new EditSession(state)
+  afterAReads = 0
+  mapBReads = 0
+  const replaceA: Command = {
+    label: '只替换地图 a',
+    apply: (current) => ({ ...current, maps: { ...current.maps, a: afterA } }),
+    invert: (current) => ({ ...current, maps: { ...current.maps, a: beforeA } }),
+  }
+  session.dispatch(replaceA)
+  expect(afterAReads).toBe(1)
+  expect(mapBReads).toBe(0)
+
+  afterAReads = 0
+  const renameIndex: Command = {
+    label: '只改地图显示名',
+    apply: (current) => ({
+      ...current,
+      mapIndex: {
+        ...current.mapIndex,
+        maps: current.mapIndex.maps.map((asset) =>
+          asset.id === 'a' ? { ...asset, name: 'A renamed' } : asset,
+        ),
+      },
+    }),
+    invert: (current) => current,
+  }
+  session.dispatch(renameIndex)
+  expect(afterAReads).toBe(0)
+  expect(mapBReads).toBe(0)
+})
+
 test('noop command 不入历史、不置脏、不通知，也不清 redo', () => {
   const sess = new EditSession(mkState())
   const fn = vi.fn()

@@ -3,7 +3,10 @@ import type { PoisonDef, SkillData } from '@type-pal/content'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import type { BattleDataReference } from '../core/battle-data-references.js'
+import {
+  blockingPoisonReferenceMap,
+  type BattleDataReference,
+} from '../core/battle-data-references.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
@@ -71,6 +74,8 @@ function Harness(props: {
   session: EditSession
   focusObjectId?: string
   onOpenReference?: (reference: BattleDataReference) => void
+  referenceIndex?: ReadonlyMap<string, readonly BattleDataReference[]>
+  referenceStatus?: 'checking' | 'stale' | 'current' | 'failed'
 }) {
   useSyncExternalStore(
     (callback) => props.session.subscribe(callback),
@@ -82,6 +87,8 @@ function Harness(props: {
       poisons={current.poisons ?? []}
       items={current.items}
       session={props.session}
+      referenceIndex={props.referenceIndex ?? blockingPoisonReferenceMap(current)}
+      referenceStatus={props.referenceStatus ?? 'current'}
       focusObjectId={props.focusObjectId}
       onOpenReference={props.onOpenReference}
     />
@@ -142,11 +149,18 @@ describe('PoisonTab shared workbench', () => {
     )!
     const name = document.getElementById(nameLabel.htmlFor) as HTMLInputElement
     const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
+    const historyBefore = session.getHistoryVersion()
     await act(async () => {
-      setter.call(name, '无影毒·改')
-      name.dispatchEvent(new Event('input', { bubbles: true }))
+      for (let index = 1; index <= 100; index += 1) {
+        setter.call(name, `无影毒·改${index}`)
+        name.dispatchEvent(new Event('input', { bubbles: true }))
+      }
     })
-    expect(session.getState().poisons?.find((entry) => entry.id === 2)?.name).toBe('无影毒·改')
+    expect(session.getState().poisons?.find((entry) => entry.id === 2)?.name).toBe('无影毒')
+    expect(session.getHistoryVersion()).toBe(historyBefore)
+    await act(async () => name.dispatchEvent(new FocusEvent('focusout', { bubbles: true })))
+    expect(session.getState().poisons?.find((entry) => entry.id === 2)?.name).toBe('无影毒·改100')
+    expect(session.getHistoryVersion()).toBe(historyBefore + 1)
 
     const create = host.querySelector<HTMLButtonElement>('button[aria-label="新建毒"]')!
     await act(async () => create.click())
@@ -196,5 +210,60 @@ describe('PoisonTab shared workbench', () => {
     expect(session.getState().poisons?.map((entry) => entry.id)).toEqual([1])
     await act(async () => expect(session.undo()).toBe(true))
     expect(session.getState().poisons?.map((entry) => entry.id)).toEqual([1, 2])
+  })
+
+  test('引用快照未就绪时 fail-closed，失败与过期状态不伪装成零引用', async () => {
+    const session = new EditSession(state())
+    await act(async () =>
+      root.render(
+        <Harness
+          session={session}
+          focusObjectId="2"
+          referenceIndex={new Map()}
+          referenceStatus="stale"
+        />,
+      ),
+    )
+    const remove = [...host.querySelectorAll<HTMLButtonElement>('button')].find(
+      (button) => button.textContent === '删除毒',
+    )!
+    expect(remove.disabled).toBe(true)
+    expect(remove.title).toContain('仍在检查')
+    expect(host.querySelector('.ds-reference-panel')?.getAttribute('data-state')).toBe('partial')
+    expect(host.textContent).toContain('数量未知')
+
+    await act(async () =>
+      root.render(
+        <Harness
+          session={session}
+          focusObjectId="2"
+          referenceIndex={new Map()}
+          referenceStatus="failed"
+        />,
+      ),
+    )
+    expect(host.querySelector('.ds-reference-panel')?.getAttribute('data-state')).toBe('error')
+    expect(host.textContent).toContain('无法完成引用检查')
+  })
+
+  test('派生索引漏掉当前引用时，删除命令仍同步重验并阻断', async () => {
+    vi.spyOn(window, 'confirm').mockReturnValue(true)
+    const session = new EditSession(state())
+    await act(async () =>
+      root.render(
+        <Harness
+          session={session}
+          focusObjectId="1"
+          referenceIndex={new Map()}
+          referenceStatus="current"
+        />,
+      ),
+    )
+    const remove = [...host.querySelectorAll<HTMLButtonElement>('button')].find(
+      (button) => button.textContent === '删除毒',
+    )!
+    expect(remove.disabled).toBe(false)
+    await act(async () => remove.click())
+    expect(session.getState().poisons?.some((entry) => entry.id === 1)).toBe(true)
   })
 })

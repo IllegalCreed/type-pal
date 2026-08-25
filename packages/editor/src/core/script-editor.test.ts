@@ -5,7 +5,7 @@ import type {
   AuthorSceneHooks,
   AuthorScriptFlow,
 } from '@type-pal/content'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import {
   AddEntityBehaviorCommand,
   AddSceneEntityDefinitionCommand,
@@ -38,6 +38,7 @@ import {
   UpdateEntityBehaviorCommand,
   UpdateSceneHookCommand,
   UpdateSharedScriptCommand,
+  UpdateSharedScriptMetadataCommand,
 } from './script-editor.js'
 
 const target = { scene: 's001', entity: 'e1' }
@@ -513,6 +514,62 @@ describe('canonical script editor commands', () => {
     session.dispatch(new UpdateSharedScriptCommand('shared/user/select-talk', { body: [] }))
     session.dispatch(new DeleteSharedScriptCommand('shared/user/book'))
     expect(session.getState().sharedScripts['shared/user/book']).toBeUndefined()
+  })
+
+  test('updates shared-script metadata with structure sharing and exact undo/redo', () => {
+    const session = new ScriptEditSession(editorState())
+    const before = session.getStateSnapshot()
+    const targetBefore = before.sharedScripts['shared/user/select-talk']!
+    const otherId = Object.keys(before.sharedScripts).find((id) => id !== 'shared/user/select-talk')
+    const otherBefore = otherId ? before.sharedScripts[otherId] : undefined
+    const cloneSpy = vi.spyOn(globalThis, 'structuredClone')
+
+    session.dispatch(
+      new UpdateSharedScriptMetadataCommand('shared/user/select-talk', {
+        name: '选择对话（改）',
+        description: '结构共享元数据',
+        self: 'optional',
+      }),
+    )
+    const after = session.getStateSnapshot()
+    expect(cloneSpy).not.toHaveBeenCalled()
+    expect(after).not.toBe(before)
+    expect(after.scenes).toBe(before.scenes)
+    expect(after.items).toBe(before.items)
+    expect(after.sharedScripts).not.toBe(before.sharedScripts)
+    expect(after.sharedScripts['shared/user/select-talk']).not.toBe(targetBefore)
+    expect(after.sharedScripts['shared/user/select-talk']?.body).toBe(targetBefore.body)
+    if (otherId) expect(after.sharedScripts[otherId]).toBe(otherBefore)
+    expect(session.getAffectedRecordsSince(0)).toEqual({
+      sharedScripts: ['shared/user/select-talk'],
+    })
+
+    expect(session.undo()).toBe(true)
+    expect(session.getStateSnapshot()).toBe(before)
+    expect(session.redo()).toBe(true)
+    expect(session.getStateSnapshot()).toBe(after)
+    cloneSpy.mockRestore()
+  })
+
+  test('rejects invalid shared-script metadata without entering history', () => {
+    const session = new ScriptEditSession(editorState())
+    const history = session.getHistoryVersion()
+    expect(
+      () => new UpdateSharedScriptMetadataCommand('shared/user/select-talk', { name: '   ' }),
+    ).toThrow(/不能为空/)
+    expect(
+      () =>
+        new UpdateSharedScriptMetadataCommand('shared/user/select-talk', {
+          body: [],
+        } as never),
+    ).toThrow(/不允许修改 body/)
+    expect(
+      () =>
+        new UpdateSharedScriptMetadataCommand('shared/user/select-talk', {
+          self: 'sometimes',
+        } as never),
+    ).toThrow(/none\|optional\|required/)
+    expect(session.getHistoryVersion()).toBe(history)
   })
 
   test('validates nested entity-state commands in a shared script and preserves undo/redo', () => {

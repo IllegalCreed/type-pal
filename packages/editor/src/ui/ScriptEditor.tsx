@@ -47,6 +47,7 @@ import {
   DsButton,
   DsCheckbox,
   DsDialog,
+  DsDraftTextInput,
   DsField,
   DsHelpTip,
   DsIconButton,
@@ -2967,12 +2968,15 @@ export function CanonicalScriptBodyEditor(props: {
   const editorRef = useRef<HTMLElement>(null)
   const lastAppliedFocusRevisionRef = useRef<number | undefined>(undefined)
   const [selectedPath, setSelectedPath] = useState<string>()
-  const [editingPath, setEditingPath] = useState<string>()
+  const [editingDraft, setEditingDraft] = useState<{
+    path: string
+    sourceBody: readonly AuthorCommand[]
+    command: AuthorCommand
+  }>()
+  const editingPath = editingDraft?.path
   const [insertPath, setInsertPath] = useState<string>()
   const [insertSearch, setInsertSearch] = useState('')
-  const editing = editingPath
-    ? getAuthorCommandAt(props.body, parseAuthorCommandPath(editingPath))
-    : undefined
+  const editing = editingDraft?.command
   const groups = useMemo(() => insertionGroups(props.context), [props.context])
   const visibleGroups = useMemo(() => {
     const query = insertSearch.trim().toLocaleLowerCase()
@@ -2988,9 +2992,13 @@ export function CanonicalScriptBodyEditor(props: {
   useEffect(() => {
     if (selectedPath && !getAuthorCommandAt(props.body, parseAuthorCommandPath(selectedPath)))
       setSelectedPath(undefined)
-    if (editingPath && !getAuthorCommandAt(props.body, parseAuthorCommandPath(editingPath)))
-      setEditingPath(undefined)
-  }, [props.body, selectedPath, editingPath])
+    if (
+      editingDraft &&
+      (editingDraft.sourceBody !== props.body ||
+        !getAuthorCommandAt(props.body, parseAuthorCommandPath(editingDraft.path)))
+    )
+      setEditingDraft(undefined)
+  }, [props.body, selectedPath, editingDraft])
 
   useEffect(() => {
     if (props.focusRevision === undefined || props.focusCommandPath === undefined) return
@@ -3069,12 +3077,18 @@ export function CanonicalScriptBodyEditor(props: {
             }}
             onEdit={(path) => {
               setSelectedPath(path)
-              setEditingPath(path)
+              const command = getAuthorCommandAt(props.body, parseAuthorCommandPath(path))
+              if (!command) return
+              setEditingDraft({
+                path,
+                sourceBody: props.body,
+                command: structuredClone(command),
+              })
               setInsertPath(undefined)
             }}
             onInsert={(path) => {
               setSelectedPath(path)
-              setEditingPath(undefined)
+              setEditingDraft(undefined)
               setInsertPath(path)
             }}
             onCopy={(path) => {
@@ -3095,7 +3109,7 @@ export function CanonicalScriptBodyEditor(props: {
             onRemove={(path) => {
               if (commit(removeAuthorCommandAt(props.body, parseAuthorCommandPath(path)))) {
                 setSelectedPath(undefined)
-                setEditingPath(undefined)
+                setEditingDraft(undefined)
               }
             }}
           />
@@ -3161,9 +3175,22 @@ export function CanonicalScriptBodyEditor(props: {
       {editing && editingPath ? (
         <CanonicalScriptDialog
           title={`编辑：${describeCommand(editing, props.context).label}`}
-          onClose={() => setEditingPath(undefined)}
+          onClose={() => setEditingDraft(undefined)}
           footer={
-            <DsButton size="compact" variant="primary" onClick={() => setEditingPath(undefined)}>
+            <DsButton
+              size="compact"
+              variant="primary"
+              onClick={() => {
+                const path = parseAuthorCommandPath(editingPath)
+                const source = getAuthorCommandAt(props.body, path)
+                if (JSON.stringify(source) === JSON.stringify(editing)) {
+                  setEditingDraft(undefined)
+                  return
+                }
+                if (commit(updateAuthorCommandAt(props.body, path, editing)))
+                  setEditingDraft(undefined)
+              }}
+            >
               完成
             </DsButton>
           }
@@ -3172,8 +3199,8 @@ export function CanonicalScriptBodyEditor(props: {
             command={editing}
             context={props.context}
             onChange={(command) =>
-              commit(
-                updateAuthorCommandAt(props.body, parseAuthorCommandPath(editingPath), command),
+              setEditingDraft((current) =>
+                current && current.path === editingPath ? { ...current, command } : current,
               )
             }
           />
@@ -4009,17 +4036,19 @@ export function CanonicalScriptFlowEditor(props: {
       {state && stateId ? (
         <>
           <CanonicalField label="状态名称" className="canonical-state-label">
-            <DsTextInput
+            <DsDraftTextInput
               size="compact"
+              draftKey={`canonical-flow:${flow.machine.id}:${stateId}:label`}
+              syncToken={props.focusRevision}
               value={state.label}
-              onChange={(event) =>
+              onCommit={(label) =>
                 props.onChange({
                   ...flow,
                   machine: {
                     ...flow.machine,
                     states: {
                       ...flow.machine.states,
-                      [stateId]: { ...state, label: event.target.value },
+                      [stateId]: { ...state, label },
                     },
                   },
                 })

@@ -175,6 +175,49 @@ describe('Actor 引用闭包', () => {
     expect(blockingActorReferences(current, 'hero')).toEqual([])
   })
 
+  test('物品私有脚本中的人物命令进入删除门禁', () => {
+    const current = state()
+    current.scenes = []
+    for (const entry of current.manifest.entryPoints) {
+      entry.startWorld.party = []
+      entry.startWorld.seedStats = {}
+    }
+    current.actors = current.actors.filter((actor) => actor.id === 'hero')
+    current.items = [
+      {
+        id: 'private-script-item',
+        name: '私有脚本物品',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        use: {
+          target: 'scene',
+          consuming: false,
+          effects: [
+            {
+              kind: 'itemPrivateScript',
+              script: {
+                id: 'use',
+                label: '换队伍',
+                body: [{ kind: 'setParty', members: ['hero'] }],
+              },
+            },
+          ],
+        },
+      },
+    ] as never
+    current.enemies = []
+    const reference = blockingActorReferences(current, 'hero').find(
+      (entry) => entry.kind === 'command-set-party-member',
+    )
+    expect(reference).toMatchObject({
+      label: '物品 私有脚本物品',
+      locator: { kind: 'item', itemId: 'private-script-item' },
+    })
+    expect(reference?.where).toContain('items[0](private-script-item)')
+  })
+
   test.each([
     ['world-party-template', 'party'],
     ['world-reserve-template', 'reserve'],

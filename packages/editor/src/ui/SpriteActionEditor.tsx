@@ -5,19 +5,19 @@ import type {
   SpriteActionStep,
   SpriteDef,
 } from '@type-pal/content'
-import { Fragment, type DragEvent as ReactDragEvent, useEffect, useMemo, useState } from 'react'
+import { Fragment, type DragEvent as ReactDragEvent, useEffect, useMemo } from 'react'
 import { type SpriteLayoutEditProof, UpdateSpriteCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import {
   DsButton,
   DsCatalogRow,
   DsCheckbox,
+  DsDraftNumberInput,
+  DsDraftTextInput,
   DsInspectorSection,
-  DsNumberInput,
   DsPropertyGrid,
   DsPropertyRow,
   DsSelect,
-  DsTextInput,
   DsPressable,
 } from './design-system/index.js'
 import { SpriteFrameCanvas, type SpriteFrameView } from './SpriteFrameWorkbench.js'
@@ -69,33 +69,25 @@ function firstSoundAsset(catalog: AssetCatalogV1): string | undefined {
 
 function StepDurationInput(props: {
   id: string
+  draftKey: string
+  syncToken: number
   value: number
-  onCommit: (value: number) => void
+  disabled?: boolean
+  onCommit: (value: number) => void | boolean
 }) {
-  const [draft, setDraft] = useState(String(props.value))
-  useEffect(() => setDraft(String(props.value)), [props.value])
-  const commit = (): void => {
-    const value = Number(draft)
-    if (!Number.isInteger(value) || value <= 0) {
-      setDraft(String(props.value))
-      return
-    }
-    if (value !== props.value) props.onCommit(value)
-  }
   return (
-    <DsNumberInput
+    <DsDraftNumberInput
       id={props.id}
+      draftKey={props.draftKey}
+      syncToken={props.syncToken}
+      disabled={props.disabled}
       min={1}
       step={10}
-      value={draft}
-      onChange={(event) => setDraft(event.target.value)}
-      onBlur={commit}
-      onKeyDown={(event) => {
-        if (event.key === 'Enter') event.currentTarget.blur()
-        if (event.key === 'Escape') {
-          setDraft(String(props.value))
-          event.currentTarget.blur()
-        }
+      integer
+      value={props.value}
+      onCommit={(value) => {
+        if (value === undefined || value === props.value) return false
+        return props.onCommit(value)
       }}
     />
   )
@@ -125,17 +117,10 @@ export function SpriteActionEditor(props: {
         (reference) => reference.sprite === props.definition.id && reference.action === actionId,
       )
     : []
-  const [labelDraft, setLabelDraft] = useState(action?.label ?? '')
-
   useEffect(() => {
     if (!actions.some(([candidate]) => candidate === props.selectedActionId))
       props.onSelectedActionChange?.(actions[0]?.[0])
   }, [actions, props.onSelectedActionChange, props.selectedActionId])
-
-  useEffect(() => {
-    void actionId
-    setLabelDraft(action?.label ?? '')
-  }, [action?.label, actionId])
 
   const reportError = (reason: unknown): void =>
     props.onStatusNotice?.({
@@ -143,28 +128,35 @@ export function SpriteActionEditor(props: {
       message: reason instanceof Error ? reason.message : String(reason),
     })
 
-  const commitPoses = (poses: Record<string, SpriteActionDef> | undefined): void => {
+  const commitPoses = (poses: Record<string, SpriteActionDef> | undefined): boolean => {
     if (!props.proof) {
       reportError('源帧尚未读取完成，不能编辑动作。')
-      return
+      return false
     }
     try {
-      props.session.dispatch(
-        new UpdateSpriteCommand(
-          props.definition.id,
-          { poses: poses && Object.keys(poses).length ? poses : undefined },
-          props.proof,
-        ),
-      )
+      if (
+        !props.session.dispatch(
+          new UpdateSpriteCommand(
+            props.definition.id,
+            { poses: poses && Object.keys(poses).length ? poses : undefined },
+            props.proof,
+          ),
+        )
+      ) {
+        reportError('精灵用途定义已变化，请重新选择后再编辑。')
+        return false
+      }
       props.onStatusNotice?.(undefined)
+      return true
     } catch (reason) {
       reportError(reason)
+      return false
     }
   }
 
-  const updateAction = (transform: (current: SpriteActionDef) => SpriteActionDef): void => {
-    if (!actionId || !action) return
-    commitPoses({
+  const updateAction = (transform: (current: SpriteActionDef) => SpriteActionDef): boolean => {
+    if (!actionId || !action) return false
+    return commitPoses({
       ...props.definition.poses,
       [actionId]: transform(structuredClone(action)),
     })
@@ -173,7 +165,7 @@ export function SpriteActionEditor(props: {
   const createAction = (): void => {
     const id = nextActionId(props.definition)
     const order = Math.max(-1, ...actions.map(([, value]) => value.order ?? -1)) + 1
-    commitPoses({
+    const created = commitPoses({
       ...props.definition.poses,
       [id]: {
         label: `动作 ${actions.length + 1}`,
@@ -189,7 +181,7 @@ export function SpriteActionEditor(props: {
         ],
       },
     })
-    props.onSelectedActionChange?.(id)
+    if (created) props.onSelectedActionChange?.(id)
   }
 
   const deleteAction = (): void => {
@@ -200,7 +192,7 @@ export function SpriteActionEditor(props: {
     commitPoses(poses)
   }
 
-  const insertStep = (step: SpriteActionStep, targetIndex: number): void =>
+  const insertStep = (step: SpriteActionStep, targetIndex: number): void => {
     updateAction((current) => {
       const loopStep = current.loopFrom === undefined ? undefined : current.steps[current.loopFrom]
       const steps = [...current.steps]
@@ -209,8 +201,9 @@ export function SpriteActionEditor(props: {
       if (loopStep) next.loopFrom = steps.indexOf(loopStep)
       return next
     })
+  }
 
-  const reorderStep = (sourceIndex: number, targetIndex: number): void =>
+  const reorderStep = (sourceIndex: number, targetIndex: number): void => {
     updateAction((current) => {
       if (
         sourceIndex < 0 ||
@@ -229,8 +222,9 @@ export function SpriteActionEditor(props: {
       if (loopStep) next.loopFrom = steps.indexOf(loopStep)
       return next
     })
+  }
 
-  const removeStep = (index: number): void =>
+  const removeStep = (index: number): void => {
     updateAction((current) => {
       if (current.steps.length <= 1) return current
       const steps = current.steps.filter((_, position) => position !== index)
@@ -241,6 +235,7 @@ export function SpriteActionEditor(props: {
       }
       return next
     })
+  }
 
   const acceptDrop = (event: ReactDragEvent, targetIndex: number): void => {
     event.preventDefault()
@@ -301,18 +296,20 @@ export function SpriteActionEditor(props: {
         <div className="sprite-action-detail">
           <DsPropertyGrid>
             <DsPropertyRow label="名称" labelFor="sprite-action-name">
-              <DsTextInput
+              <DsDraftTextInput
                 id="sprite-action-name"
                 name="sprite-action-name"
                 autoComplete="off"
                 size="compact"
-                value={labelDraft}
-                onChange={(event) => setLabelDraft(event.target.value)}
-                onBlur={() => {
-                  const label = labelDraft.trim()
-                  if (!label) setLabelDraft(action.label)
-                  else if (label !== action.label)
-                    updateAction((current) => ({ ...current, label }))
+                draftKey={`sprite:${props.definition.id}:action:${actionId}:label`}
+                syncToken={props.session.getHistoryVersion()}
+                disabled={!props.proof}
+                value={action.label}
+                validate={(value) => (value.trim() ? undefined : '动作名称不能为空。')}
+                onCommit={(value) => {
+                  const label = value.trim()
+                  if (!label || label === action.label) return false
+                  return updateAction((current) => ({ ...current, label }))
                 }}
               />
             </DsPropertyRow>
@@ -433,7 +430,10 @@ export function SpriteActionEditor(props: {
                       停留
                       <StepDurationInput
                         id={`sprite-action-step-${actionNumber}-${index}-duration`}
+                        draftKey={`sprite:${props.definition.id}:action:${actionId}:step:${index}:${step.frame}:${(step.cues ?? []).map((cue) => cue.asset).join(',')}:durationMs`}
+                        syncToken={props.session.getHistoryVersion()}
                         value={step.durationMs}
+                        disabled={!props.proof}
                         onCommit={(durationMs) =>
                           updateAction((current) => ({
                             ...current,

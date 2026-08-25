@@ -51,7 +51,6 @@ import {
   useMemo,
   useRef,
   useState,
-  useSyncExternalStore,
 } from 'react'
 import type { ActorReference } from '../core/actor-references.js'
 import type { BattleDataReference } from '../core/battle-data-references.js'
@@ -61,7 +60,6 @@ import {
   AddSceneCommand,
   BindSceneMapCommand,
   CreateMapAssetCommand,
-  CreateScriptSourceCommand,
   DeleteEntityCommand,
   DeleteSceneEntryCommand,
   DetachActorEntityCommand,
@@ -74,6 +72,11 @@ import {
   UpsertSceneEntryCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import {
+  createEditorDerivedStore,
+  effectiveEditorDerivedStatus,
+  isEditorDerivedSnapshotCurrent,
+} from '../core/editor-derived-store.js'
 import { createEditorAssetReader, type EditorAssetReader } from '../core/editor-asset-reader.js'
 import { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
 import type { BlockingEnemyTeamReference } from '../core/enemy-team-references.js'
@@ -96,7 +99,6 @@ import {
 import { exportProjectZip } from '../core/export-zip.js'
 import type { ItemReference } from '../core/item-references.js'
 import { type Opened, openExistingProject, pickDir, saveProjectAs } from '../core/open-actions.js'
-import { createEditorStatusIssueCollector } from '../core/project-diagnostics.js'
 import { serializeProjectWithMapCopies, writeProject } from '../core/project-io.js'
 import {
   AddSceneEntityDefinitionCommand,
@@ -116,7 +118,8 @@ import {
 } from '../core/script-editor-projection.js'
 import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import {
-  findSceneEntryReferences,
+  buildCanonicalSceneEntryReferenceIndex,
+  sceneEntryReferenceKey,
   type SceneEntryReferenceEntry,
 } from '../core/script-references.js'
 import { findDefaultEntry } from '../core/startup-entries.js'
@@ -130,7 +133,6 @@ import {
   withAuthorizedWorkspaceMutation,
 } from '../core/workspace-persistence.js'
 import type { SpriteAutomaticScriptInstanceSite } from '../core/world-sprite-behavior.js'
-import { ActorMode } from './ActorMode.js'
 import {
   createEditorAppCommandRegistry,
   type EditorAppCommand,
@@ -146,7 +148,11 @@ import {
   toggleSceneScriptPanelState,
 } from './app-layout-commands.js'
 import { BattleFieldPicker } from './BattleFieldPicker.js'
-import { DataMode } from './DataMode.js'
+import {
+  ConnectedActorMode,
+  ConnectedDataMode,
+  ConnectedProjectWorkbench,
+} from './ConnectedEditorPages.js'
 import type { DsMenuDefinition } from './design-system/index.js'
 import {
   DsButton,
@@ -154,6 +160,8 @@ import {
   DsCatalogRow,
   DsCheckbox,
   DsControlGroup,
+  DsDraftNumberInput,
+  DsDraftTextInput,
   DsIconButton,
   DsInspectorTabs,
   DsListHeader,
@@ -166,10 +174,10 @@ import {
   DsReferenceRow,
   DsReadonlyValue,
   DsSelect,
-  DsTextArea,
   DsTextInput,
 } from './design-system/index.js'
 import { EditorAppHeader } from './EditorAppHeader.js'
+import { EditorDiagnosticsBar } from './EditorDiagnosticsBar.js'
 import { ENTITY_FACING_OPTIONS, EntityFacingHelpTip } from './EntityFacingHelp.js'
 import { EntityPageAnimationFields } from './EntityPageAnimationEditor.js'
 import {
@@ -193,7 +201,12 @@ import {
   useStoredPanelNumber,
 } from './PanelResizeHandle.js'
 import { type ProjectSaveActivity, ProjectSaveDialog } from './ProjectSaveDialog.js'
-import { ProjectWorkbenchTab } from './ProjectWorkbenchTab.js'
+import {
+  shallowSelectorArrayEqual,
+  useEditSessionSelector,
+  useEditorDerivedSelector,
+  useScriptEditSessionSelector,
+} from './session-selector.js'
 import { clampPanelSize, fitSidePanelWidths } from './panel-layout.js'
 import { type SceneAnchorSelection, SceneCanvas } from './SceneCanvas.js'
 import { CanonicalSceneScriptWorkspace } from './SceneScriptWorkspace.js'
@@ -288,6 +301,19 @@ function scrollKey(location: EditorLocation): string {
   return `${location.module}:${location.subpage}`
 }
 
+/** C-gate ownership is explicit; unknown/future pages keep the legacy root subscription. */
+export function editorPageOwnsSessionSubscription(location: EditorLocation): boolean {
+  const subpage = editorSubpage(location)
+  return (
+    subpage.kind === 'actor' ||
+    subpage.kind === 'project' ||
+    (subpage.kind === 'data' &&
+      (subpage.dataPage === 'item' ||
+        subpage.dataPage === 'poison' ||
+        subpage.dataPage === 'scripts'))
+  )
+}
+
 export function App(props: {
   session: EditSession
   project: LoadedCurrentProject
@@ -306,26 +332,72 @@ export function App(props: {
   onBackToPicker?: () => void
 }) {
   const { session, project } = props
-  const subscribe = useMemo(() => (cb: () => void) => session.subscribe(cb), [session])
-  const getVersion = useMemo(() => () => session.getVersion(), [session])
-  useSyncExternalStore(subscribe, getVersion) // 任一变化(含 markSaved / undo)都重渲染
   const scriptSession = props.script.session
   const historyCoordinator = useMemo(
     () => new EditorHistoryCoordinator(session, scriptSession),
     [scriptSession, session],
   )
-  const subscribeScript = useMemo(
-    () => (cb: () => void) => scriptSession?.subscribe(cb) ?? (() => undefined),
-    [scriptSession],
+  const derivedStore = useMemo(
+    () => createEditorDerivedStore({ mainSession: session, scriptSession }),
+    [scriptSession, session],
   )
-  const getScriptVersion = useMemo(() => () => scriptSession?.getVersion() ?? 0, [scriptSession])
-  const scriptVersion = useSyncExternalStore(subscribeScript, getScriptVersion)
+  useEffect(() => derivedStore.start(), [derivedStore])
+
+  const bodyRef = useRef<HTMLDivElement>(null)
+  const storedNavigationRef = useRef(readStoredEditorNavigation(props.workspace.workspaceId))
+  const [location, setLocation] = useState<EditorLocation>(() =>
+    initialEditorLocation(storedNavigationRef.current),
+  )
+  const locationRef = useRef(location)
+  const [moduleLocations, setModuleLocations] = useState<
+    Partial<Record<EditorModuleId, EditorLocation>>
+  >(() => ({ ...storedNavigationRef.current.modules, [location.module]: location }))
+  const moduleLocationsRef = useRef(moduleLocations)
+  const scrollPositionsRef = useRef(storedNavigationRef.current.scroll ?? {})
+  const selectorOwnedPage = editorPageOwnsSessionSubscription(location)
+
+  // Connected pages subscribe inside their active workspace. The root keeps only chrome metadata;
+  // map/scene and unknown future pages retain the full legacy version subscription.
+  useEditSessionSelector(
+    session,
+    (snapshot) =>
+      selectorOwnedPage
+        ? ([
+            'connected',
+            snapshot.state.manifest.name,
+            snapshot.dirty,
+            snapshot.canUndo,
+            snapshot.canRedo,
+          ] as const)
+        : (['legacy', snapshot.version] as const),
+    shallowSelectorArrayEqual,
+  )
+  useScriptEditSessionSelector(
+    scriptSession,
+    (snapshot) =>
+      selectorOwnedPage
+        ? (['connected', snapshot.dirty, snapshot.canUndo, snapshot.canRedo] as const)
+        : (['legacy', snapshot.version] as const),
+    shallowSelectorArrayEqual,
+  )
+  const subscribedDerivedSnapshot = useEditorDerivedSelector(
+    derivedStore,
+    (snapshot) => (selectorOwnedPage ? undefined : snapshot),
+  )
+  const derivedSnapshot = subscribedDerivedSnapshot ?? derivedStore.getSnapshot()
+  const derivedData =
+    derivedSnapshot.status === 'current'
+      ? derivedSnapshot.data
+      : derivedSnapshot.status === 'stale' || derivedSnapshot.status === 'failed'
+        ? derivedSnapshot.lastKnown?.data
+        : undefined
+  const scriptHistoryVersion = scriptSession?.getHistoryVersion() ?? 0
   const state = session.getState()
   const defaultEntry = findDefaultEntry(state.manifest)
   const storedScriptState = useMemo(() => {
-    void scriptVersion
-    return scriptSession?.getState()
-  }, [scriptSession, scriptVersion])
+    void scriptHistoryVersion
+    return scriptSession?.getStateSnapshot()
+  }, [scriptHistoryVersion, scriptSession])
   const scriptState = useMemo(
     () =>
       storedScriptState
@@ -345,17 +417,6 @@ export function App(props: {
     [assetReader],
   )
   const audioResolver = assetReader
-  const bodyRef = useRef<HTMLDivElement>(null)
-  const storedNavigationRef = useRef(readStoredEditorNavigation(props.workspace.workspaceId))
-  const [location, setLocation] = useState<EditorLocation>(() =>
-    initialEditorLocation(storedNavigationRef.current),
-  )
-  const locationRef = useRef(location)
-  const [moduleLocations, setModuleLocations] = useState<
-    Partial<Record<EditorModuleId, EditorLocation>>
-  >(() => ({ ...storedNavigationRef.current.modules, [location.module]: location }))
-  const moduleLocationsRef = useRef(moduleLocations)
-  const scrollPositionsRef = useRef(storedNavigationRef.current.scroll ?? {})
   const navigationStorageKey = editorNavigationKey(props.workspace.workspaceId)
   const [workspaceNotice, setWorkspaceNotice] = useState<
     { kind: 'info' | 'error'; message: string } | undefined
@@ -1026,8 +1087,6 @@ export function App(props: {
     setSelected({ kind: 'entity', id: locator.entityId })
     setInspectorCollapsed(false)
   }
-  const statusIssueCollector = useMemo(createEditorStatusIssueCollector, [])
-  const statusIssues = statusIssueCollector(state, scriptState)
   // C0:实体经 actor⊕sprite 解析;玩家精灵 = party[0] → ActorDef.spriteId(与引擎同路径)
   const actorsById = useMemo(
     () => Object.fromEntries(state.actors.map((a) => [a.id, a])) as Record<string, ActorDef>,
@@ -1331,6 +1390,31 @@ export function App(props: {
     setEntityPageFocus(undefined)
   }, [canonicalEntity?.pages, entityPageFocus, scene?.id, selEntity?.id])
   const selectedNamedEntryId = selected.kind === 'named-entry' ? selected.id : undefined
+  const sceneReferencesActive = activeSubpage.kind === 'scene'
+  const sceneEntryReferenceIndex = useMemo(
+    () => new Map(derivedData?.sceneEntryReferences ?? []),
+    [derivedData?.sceneEntryReferences],
+  )
+  const canonicalBehaviorReferenceIndex = useMemo(
+    () => new Map(derivedData?.canonicalBehaviorReferences ?? []),
+    [derivedData?.canonicalBehaviorReferences],
+  )
+  const canonicalSceneHookReferenceIndex = useMemo(
+    () => new Map(derivedData?.canonicalSceneHookReferences ?? []),
+    [derivedData?.canonicalSceneHookReferences],
+  )
+  const currentDerivedRevision = {
+    mainHistoryVersion: session.getHistoryVersion(),
+    scriptHistoryVersion: scriptSession.getHistoryVersion(),
+  }
+  const derivedReferenceSnapshotCurrent = isEditorDerivedSnapshotCurrent(
+    derivedSnapshot,
+    currentDerivedRevision,
+  )
+  const effectiveDerivedStatus = effectiveEditorDerivedStatus(
+    derivedSnapshot,
+    currentDerivedRevision,
+  )
   const selectedAnchor: SceneAnchorSelection | null =
     selected.kind === 'default-entry'
       ? { kind: 'default' }
@@ -1339,28 +1423,28 @@ export function App(props: {
         : null
   const selectedEntryReferences = useMemo(
     () =>
-      scene && selectedNamedEntryId
-        ? findSceneEntryReferences(state, scene.id, selectedNamedEntryId)
+      scene && selectedNamedEntryId && sceneReferencesActive
+        ? (sceneEntryReferenceIndex.get(sceneEntryReferenceKey(scene.id, selectedNamedEntryId)) ??
+          [])
         : [],
-    [state, scene, selectedNamedEntryId],
+    [scene, sceneEntryReferenceIndex, sceneReferencesActive, selectedNamedEntryId],
   )
   const entryReferencesById = useMemo(
     () =>
-      new Map(
-        Object.keys(scene.entries ?? {}).map((entryId) => [
-          entryId,
-          findSceneEntryReferences(state, scene.id, entryId),
-        ]),
-      ),
-    [scene, state],
-  )
-  const entityReferenceState = useMemo(
-    () => (scriptState ? mergeEditorProjectionWithCurrentAuthorState(scriptState, state) : state),
-    [scriptState, state],
+      sceneReferencesActive
+        ? new Map(
+            Object.keys(scene.entries ?? {}).map((entryId) => [
+              entryId,
+              sceneEntryReferenceIndex.get(sceneEntryReferenceKey(scene.id, entryId)) ?? [],
+            ]),
+          )
+        : new Map<string, SceneEntryReferenceEntry[]>(),
+    [scene, sceneEntryReferenceIndex, sceneReferencesActive],
   )
   const entityReferencesByTarget = useMemo(() => {
     const grouped = new Map<string, EntityAddressReference[]>()
-    for (const reference of collectEntityAddressReferences(entityReferenceState)) {
+    if (!sceneReferencesActive) return grouped
+    for (const reference of derivedData?.entityAddressReferences ?? []) {
       const target = { scene: reference.sceneId, entity: reference.entityId }
       if (!entityAddressReferenceBlocksDeletion(reference, target)) continue
       const key = `${reference.sceneId}\u0000${reference.entityId}`
@@ -1369,7 +1453,7 @@ export function App(props: {
       else grouped.set(key, [reference])
     }
     return grouped
-  }, [entityReferenceState])
+  }, [derivedData?.entityAddressReferences, sceneReferencesActive])
   const entityReferences = (entityId: string): EntityAddressReference[] =>
     entityReferencesByTarget.get(`${scene.id}\u0000${entityId}`) ?? []
   const selectedEntityReferences = selEntity ? entityReferences(selEntity.id) : []
@@ -1414,33 +1498,58 @@ export function App(props: {
   }
   const deleteEntity = useCallback(
     (entityId: string): void => {
-      if (
-        placingEntity ||
-        !scene ||
-        (entityReferencesByTarget.get(`${scene.id}\u0000${entityId}`)?.length ?? 0) > 0
-      )
+      if (placingEntity || !scene) return
+      if (!derivedReferenceSnapshotCurrent) {
+        setWorkspaceNotice({ kind: 'info', message: '正在刷新实体引用，请稍后再删除。' })
         return
+      }
+      const currentReferenceState = mergeEditorProjectionWithCurrentAuthorState(
+        scriptSession.getStateSnapshot(),
+        session.getState(),
+      )
+      const currentReferences = collectEntityAddressReferences(currentReferenceState).filter(
+        (reference) =>
+          entityAddressReferenceBlocksDeletion(reference, { scene: scene.id, entity: entityId }),
+      )
+      if (currentReferences.length) return
       historyCoordinator.dispatch(
         new DeleteSceneEntityDefinitionCommand(scene.id, entityId),
-        new DeleteEntityCommand(scene.id, entityId, entityReferenceState),
+        new DeleteEntityCommand(scene.id, entityId, currentReferenceState),
       )
       setSelected(SCENE_SELECTION)
       setWorkspaceNotice({ kind: 'info', message: `已删除实体 ${entityId}；可撤销。` })
       requestAnimationFrame(() => sceneOutlineRowRef.current?.focus())
     },
-    [entityReferenceState, entityReferencesByTarget, historyCoordinator, placingEntity, scene],
+    [
+      derivedReferenceSnapshotCurrent,
+      historyCoordinator,
+      placingEntity,
+      scene,
+      scriptSession,
+      session,
+    ],
   )
   const deleteNamedEntry = useCallback(
     (entryId: string): void => {
       if (placingEntity || !scene.entries?.[entryId]) return
-      const references = findSceneEntryReferences(state, scene.id, entryId)
+      if (!derivedReferenceSnapshotCurrent) {
+        setWorkspaceNotice({ kind: 'info', message: '正在刷新脚本引用，请稍后再删除。' })
+        return
+      }
+      const currentIndex = buildCanonicalSceneEntryReferenceIndex(scriptSession.getStateSnapshot())
+      const references = currentIndex.get(sceneEntryReferenceKey(scene.id, entryId)) ?? []
       if (references.length) return
-      session.dispatch(new DeleteSceneEntryCommand(scene.id, entryId))
+      session.dispatch(
+        new DeleteSceneEntryCommand(scene.id, entryId, (_state, targetSceneId, targetEntryId) => {
+          const fresh = buildCanonicalSceneEntryReferenceIndex(scriptSession.getStateSnapshot())
+          return fresh.get(sceneEntryReferenceKey(targetSceneId, targetEntryId)) ?? []
+        }),
+      )
       setSelected(SCENE_SELECTION)
       setWorkspaceNotice({ kind: 'info', message: `已删除命名落点 ${entryId}；可撤销。` })
       requestAnimationFrame(() => sceneOutlineRowRef.current?.focus())
     },
-    [placingEntity, scene, session, state],
+    [derivedReferenceSnapshotCurrent, placingEntity, scene, scriptSession, session],
   )
   // 删除键与行尾动作共用同一删除入口；输入控件内不劫持。
   useEffect(() => {
@@ -1972,83 +2081,47 @@ export function App(props: {
             onWorkspaceNotice={setWorkspaceNotice}
           />
         ) : activeSubpage.kind === 'actor' ? (
-          <ActorMode
-            actors={state.actors}
-            sprites={state.sprites}
-            battleSprites={state.battleSprites}
-            items={Object.fromEntries(state.items.map((i) => [i.id, i]))}
-            skills={Object.fromEntries(state.skills.map((sk) => [sk.id, sk]))}
-            locale={state.locale}
+          <ConnectedActorMode
+            derivedStore={derivedStore}
+            scriptSession={scriptSession}
             assetBase={project.assetBase}
             session={session}
-            levelUp={state.levelUp}
             focusActorId={location.objectId}
             focusSection={location.actionId}
             onActorFocus={(id) => focusCurrentObject(id)}
             onSectionChange={(section) => {
-              const actorId = location.objectId ?? state.actors[0]?.id
+              const actorId = location.objectId ?? session.getState().actors[0]?.id
               if (actorId) applyEditorLocation(editorLinks.actor(actorId, section), 'replace')
             }}
             onOpenSprite={(id) => applyEditorLocation(editorLinks.actorSprite(id))}
             onOpenBattleSprite={(id) => applyEditorLocation(editorLinks.battleSprite(id))}
-            assetCatalog={state.assetCatalog}
             assetReader={assetReader}
             onOpenSound={(id) => applyEditorLocation(editorLinks.sound(id))}
             onOpenImage={(id) => applyEditorLocation(editorLinks.image(id))}
             onOpenActorReference={openActorReference}
           />
         ) : activeSubpage.kind === 'project' && activeSubpage.projectPage ? (
-          <ProjectWorkbenchTab
+          <ConnectedProjectWorkbench
+            derivedStore={derivedStore}
+            scriptSession={scriptSession}
             page={activeSubpage.projectPage}
-            manifest={state.manifest}
-            scenes={state.scenes}
-            actors={state.actors}
-            items={state.items}
-            locale={state.locale}
-            assetCatalog={state.assetCatalog}
             session={session}
-            editorState={state}
-            currentAuthor={scriptState}
             focusObjectId={location.objectId}
             onObjectFocus={focusCurrentObject}
             onOpenLocation={applyEditorLocation}
             assetReader={assetReader}
           />
         ) : activeSubpage.kind === 'data' && activeSubpage.dataPage ? (
-          <DataMode
-            itemList={state.items}
-            sprites={state.sprites}
-            battleSprites={state.battleSprites}
-            skills={Object.fromEntries(state.skills.map((sk) => [sk.id, sk]))}
-            items={Object.fromEntries(state.items.map((i) => [i.id, i]))}
-            locale={state.locale}
+          <ConnectedDataMode
+            derivedStore={derivedStore}
+            scriptSession={scriptSession}
             assetBase={project.assetBase}
             session={session}
-            enemies={state.enemies ?? []}
-            enemyTeams={state.enemyTeams ?? []}
-            assetCatalog={state.assetCatalog}
             assetReader={assetReader}
             audioResolver={audioResolver}
-            tilesets={state.tilesets ?? []}
-            tilesetBlobs={state.tilesetBlobs}
-            stamps={state.stamps}
-            mapIndex={state.mapIndex}
             onStatusNotice={setWorkspaceNotice}
-            script={
-              scriptSession && scriptState
-                ? { state: scriptState, session: scriptSession }
-                : undefined
-            }
             historyCoordinator={historyCoordinator}
-            battleFields={state.battleFields ?? []}
-            poisons={state.poisons ?? []}
-            ambiences={state.ambiences ?? []}
-            shops={state.shops ?? []}
-            scenes={state.scenes}
-            manifest={state.manifest}
             workspaceId={playWorkspaceId}
-            actors={state.actors}
-            skillList={state.skills}
             onJumpToEvent={jumpToEvent}
             focusScriptId={activeSubpage.dataPage === 'scripts' ? location.objectId : undefined}
             focusScriptRevision={
@@ -2215,10 +2288,16 @@ export function App(props: {
                           variant="danger"
                           icon="delete"
                           label={`删除命名落点 ${sceneEntryOutlineLabel(entry)}`}
-                          disabled={placingEntity || references.length > 0}
+                          disabled={
+                            placingEntity ||
+                            !derivedReferenceSnapshotCurrent ||
+                            references.length > 0
+                          }
                           title={
                             placingEntity
                               ? '请先结束实体放置'
+                              : !derivedReferenceSnapshotCurrent
+                                ? '正在刷新脚本引用，暂不允许删除'
                               : references.length
                                 ? `仍有 ${references.length} 处脚本引用；请到引用区处理`
                                 : `删除命名落点 ${sceneEntryOutlineLabel(entry)}`
@@ -2291,10 +2370,16 @@ export function App(props: {
                                 variant="danger"
                                 icon="delete"
                                 label={`删除实体 ${e.id}`}
-                                disabled={placingEntity || references.length > 0}
+                                disabled={
+                                  placingEntity ||
+                                  !derivedReferenceSnapshotCurrent ||
+                                  references.length > 0
+                                }
                                 title={
                                   placingEntity
                                     ? '请先结束实体放置'
+                                    : !derivedReferenceSnapshotCurrent
+                                      ? '正在刷新实体引用，暂不允许删除'
                                     : references.length
                                       ? `仍有 ${references.length} 处引用；请到“引用”页处理`
                                       : `删除实体 ${e.id}`
@@ -2478,6 +2563,8 @@ export function App(props: {
                     ghosts: canvasLayers.ghosts,
                   }}
                   editorContext={canonicalScriptEditorContext}
+                  behaviorReferenceIndex={canonicalBehaviorReferenceIndex}
+                  sceneHookReferenceIndex={canonicalSceneHookReferenceIndex}
                   onDispatch={(command) => scriptSession.dispatch(command)}
                   onOpenReference={openCanonicalReference}
                   focusReference={canonicalReferenceFocus}
@@ -2568,8 +2655,8 @@ export function App(props: {
                       sprites={state.sprites}
                       assetBase={project.assetBase}
                       assetReader={assetReader}
-                      canonicalScript={!!scriptSession}
                       canonicalPage={canonicalPage}
+                      triggerSyncToken={scriptSession?.getHistoryVersion() ?? 0}
                       onTriggerActivationChange={(pageId, activation) =>
                         scriptSession?.dispatch(
                           new SetEntityPageTriggerActivationCommand(
@@ -2579,7 +2666,6 @@ export function App(props: {
                           ),
                         )
                       }
-                      onJumpToEvent={jumpToEvent}
                       onOpenSpriteAction={(spriteId, actionId) =>
                         applyEditorLocation(editorLinks.worldSpriteAction(spriteId, actionId))
                       }
@@ -2604,8 +2690,8 @@ export function App(props: {
                         sprites={state.sprites}
                         assetBase={project.assetBase}
                         assetReader={assetReader}
-                        canonicalScript={!!scriptSession}
                         canonicalPage={canonicalPage}
+                        triggerSyncToken={scriptSession?.getHistoryVersion() ?? 0}
                         onTriggerActivationChange={(pageId, activation) =>
                           scriptSession?.dispatch(
                             new SetEntityPageTriggerActivationCommand(
@@ -2615,7 +2701,6 @@ export function App(props: {
                             ),
                           )
                         }
-                        onJumpToEvent={jumpToEvent}
                         onOpenSpriteAction={(spriteId, actionId) =>
                           applyEditorLocation(editorLinks.worldSpriteAction(spriteId, actionId))
                         }
@@ -2730,6 +2815,7 @@ export function App(props: {
                             onSelectBehavior={setSelectedBehavior}
                             onDispatch={(command) => scriptSession.dispatch(command)}
                             editorContext={canonicalScriptEditorContext}
+                            referenceIndex={canonicalBehaviorReferenceIndex}
                             onOpenReference={openCanonicalReference}
                             onOpenFlow={(behaviorId) =>
                               setWorkspaceNotice({
@@ -2763,6 +2849,7 @@ export function App(props: {
                   session={session}
                   onJumpToEvent={jumpToEvent}
                   onOpenScript={openScriptReference}
+                  onOpenCanonicalReference={openCanonicalReference}
                 />
               ) : (
                 <SceneInspector
@@ -2818,38 +2905,16 @@ export function App(props: {
         ) : null}
       </section>
 
-      <div className="valbar" inert={saveActivity !== null ? true : undefined}>
-        {statusIssues.length > 0 ? (
-          <>
-            <span className="pill warn">⚠ {statusIssues.length} 项待处理</span>
-            <span className="msg">
-              {statusIssues
-                .slice(0, 2)
-                .map((i) => i.message)
-                .join(' · ')}
-            </span>
-          </>
-        ) : (
-          <span className="pill is-success">✓ 引用与项目诊断无问题</span>
-        )}
-        {workspaceNotice ? (
-          <span className="valbar-status" role="status" aria-live="polite">
-            <span className={`pill${workspaceNotice.kind === 'error' ? ' warn' : ''}`}>
-              {workspaceNotice.kind === 'error' ? '⚠' : 'ⓘ'} {activeSubpage.label}
-            </span>
-            <span className="msg">{workspaceNotice.message}</span>
-          </span>
-        ) : null}
-        <span className="spacer" />
-        <span
-          role={saveErr ? 'alert' : undefined}
-          style={{ color: saveErr ? 'var(--err)' : 'var(--faint)', fontSize: 11 }}
-        >
-          {saveErr
-            ? `保存失败: ${saveErr}`
-            : `${workspaceModeLabel(props.workspace)} · ${editorDirty ? '未保存改动' : '已保存'}`}
-        </span>
-      </div>
+      <EditorDiagnosticsBar
+        session={session}
+        scriptSession={scriptSession}
+        derivedStore={derivedStore}
+        activePageLabel={activeSubpage.label}
+        workspaceLabel={workspaceModeLabel(props.workspace)}
+        workspaceNotice={workspaceNotice}
+        saveError={saveErr}
+        busy={saveActivity !== null}
+      />
 
       {saveActivity && saveActivity.phase !== 'choosing-directory' ? (
         <ProjectSaveDialog activity={saveActivity} />
@@ -3234,13 +3299,11 @@ function EntityInspector(props: {
   sprites: SpriteDef[]
   assetBase: AssetBase
   assetReader: EditorAssetReader
-  /** 当前 canonical 脚本由独立具名行为检查器编辑，禁止 renderer 投影重新创建作者正文。 */
-  canonicalScript?: boolean
   /** 当前脚本作者真值中的实体页；触发方式/范围只能写这里，不能写 renderer 投影。 */
   canonicalPage?: AuthorEntityPage
+  /** Script history owns canonical trigger activation fields. */
+  triggerSyncToken: number
   onTriggerActivationChange?: (pageId: string, activation: TriggerActivation | undefined) => void
-  /** 跳事件模式定位此实体的触发/巡逻脚本(E2)。 */
-  onJumpToEvent: (sceneId: string, srcKey: string) => void
   onOpenSpriteAction?: (spriteId: string, actionId: string) => void
   onOpenActor?: (actorId: string) => void
   onOpenBattleField?: (fieldId: number) => void
@@ -3258,15 +3321,15 @@ function EntityInspector(props: {
     sprites,
     assetBase,
     assetReader,
-    canonicalScript,
     canonicalPage,
+    triggerSyncToken,
     onTriggerActivationChange,
-    onJumpToEvent,
     onOpenSpriteAction,
     onOpenActor,
     onOpenBattleField,
   } = props
   const [spriteViewerOpen, setSpriteViewerOpen] = useState(false)
+  const syncToken = session.getHistoryVersion()
   // 实体的中文显示名:actor 实体解引用到角色名(entity.actor 是 id 引用),否则回落实体 id。
   const actorName =
     isActorEntity(entity) && actorsById[entity.actor]
@@ -3356,18 +3419,24 @@ function EntityInspector(props: {
                 </DsPropertyRow>
                 {canonicalTriggerBound && canonicalPage.triggerActivation ? (
                   <DsPropertyRow label="触发半径">
-                    <DsNumberInput
+                    <DsDraftNumberInput
                       size="compact"
                       aria-label="实体页触发范围（格）"
+                      draftKey={`scene:${sceneId}:entity:${entity.id}:page:${canonicalPage.id}:trigger-range`}
+                      syncToken={triggerSyncToken}
                       min={0}
                       step={1}
+                      integer
+                      normalize={Math.round}
                       value={effectiveTriggerRange(canonicalPage.triggerActivation)}
-                      onChange={(event) =>
+                      onCommit={(value) => {
+                        const range = Math.max(0, value ?? 0)
+                        if (range === effectiveTriggerRange(canonicalPage.triggerActivation!)) return
                         onTriggerActivationChange(canonicalPage.id, {
                           ...canonicalPage.triggerActivation!,
-                          range: Math.max(0, Math.round(Number(event.target.value))),
+                          range,
                         })
-                      }
+                      }}
                     />
                   </DsPropertyRow>
                 ) : null}
@@ -3378,6 +3447,8 @@ function EntityInspector(props: {
               sprite={spriteDef}
               onChange={setPageAnimation}
               onOpenAction={onOpenSpriteAction}
+              draftScope={`scene:${sceneId}:entity:${entity.id}:page:${canonicalPage?.id ?? pageIndex}:animation`}
+              syncToken={session.getHistoryVersion()}
             />
           </DsPropertyGrid>
         </div>
@@ -3527,32 +3598,35 @@ function EntityInspector(props: {
             <div className="posrow">
               <div className="cell">
                 <span>col</span>
-                <DsNumberInput
+                <DsDraftNumberInput
+                  draftKey={`scene:${sceneId}:entity:${entity.id}:pos:col`}
+                  syncToken={syncToken}
                   value={entity.pos.col}
-                  onChange={(e) =>
-                    Number.isFinite(e.target.valueAsNumber) &&
-                    setPos({ col: e.target.valueAsNumber })
-                  }
+                  onCommit={(col) => {
+                    if (col !== undefined && col !== entity.pos.col) setPos({ col })
+                  }}
                 />
               </div>
               <div className="cell">
                 <span>row</span>
-                <DsNumberInput
+                <DsDraftNumberInput
+                  draftKey={`scene:${sceneId}:entity:${entity.id}:pos:row`}
+                  syncToken={syncToken}
                   value={entity.pos.row}
-                  onChange={(e) =>
-                    Number.isFinite(e.target.valueAsNumber) &&
-                    setPos({ row: e.target.valueAsNumber })
-                  }
+                  onCommit={(row) => {
+                    if (row !== undefined && row !== entity.pos.row) setPos({ row })
+                  }}
                 />
               </div>
               <div className="cell">
                 <span>height</span>
-                <DsNumberInput
+                <DsDraftNumberInput
+                  draftKey={`scene:${sceneId}:entity:${entity.id}:pos:height`}
+                  syncToken={syncToken}
                   value={entity.pos.height}
-                  onChange={(e) =>
-                    Number.isFinite(e.target.valueAsNumber) &&
-                    setPos({ height: e.target.valueAsNumber })
-                  }
+                  onCommit={(height) => {
+                    if (height !== undefined && height !== entity.pos.height) setPos({ height })
+                  }}
                 />
               </div>
             </div>
@@ -3637,26 +3711,30 @@ function EntityInspector(props: {
                     <div className="posrow hostile-chase-metrics">
                       <div className="cell">
                         <span>range 格</span>
-                        <DsNumberInput
+                        <DsDraftNumberInput
+                          draftKey={`scene:${sceneId}:entity:${entity.id}:hostile:chase:range`}
+                          syncToken={syncToken}
                           value={entity.hostile.chase.range}
-                          onChange={(e) =>
-                            Number.isFinite(e.target.valueAsNumber) &&
+                          onCommit={(range) => {
+                            if (range !== undefined && range !== entity.hostile!.chase!.range)
                             setHostile({
-                              chase: { ...entity.hostile!.chase!, range: e.target.valueAsNumber },
+                              chase: { ...entity.hostile!.chase!, range },
                             })
-                          }
+                          }}
                         />
                       </div>
                       <div className="cell">
                         <span>speed</span>
-                        <DsNumberInput
+                        <DsDraftNumberInput
+                          draftKey={`scene:${sceneId}:entity:${entity.id}:hostile:chase:speed`}
+                          syncToken={syncToken}
                           value={entity.hostile.chase.speed}
-                          onChange={(e) =>
-                            Number.isFinite(e.target.valueAsNumber) &&
+                          onCommit={(speed) => {
+                            if (speed !== undefined && speed !== entity.hostile!.chase!.speed)
                             setHostile({
-                              chase: { ...entity.hostile!.chase!, speed: e.target.valueAsNumber },
+                              chase: { ...entity.hostile!.chase!, speed },
                             })
-                          }
+                          }}
                         />
                       </div>
                     </div>
@@ -3701,13 +3779,23 @@ function EntityInspector(props: {
                   {hostile?.onVictory.kind === 'hide' ? (
                     <div className="field">
                       <span className="field-label">胜利隐藏 ticks</span>
-                      <DsNumberInput
+                      <DsDraftNumberInput
+                        draftKey={`scene:${sceneId}:entity:${entity.id}:hostile:on-victory:ticks`}
+                        syncToken={syncToken}
                         min={1}
                         step={1}
+                        integer
                         value={hostile.onVictory.ticks}
-                        onChange={(e) => {
-                          const ticks = e.target.valueAsNumber
-                          if (Number.isSafeInteger(ticks) && ticks > 0)
+                        onCommit={(ticks) => {
+                          if (
+                            ticks !== undefined &&
+                            Number.isSafeInteger(ticks) &&
+                            ticks > 0 &&
+                            ticks !==
+                              (hostile?.onVictory.kind === 'hide'
+                                ? hostile.onVictory.ticks
+                                : undefined)
+                          )
                             setHostile({ onVictory: { kind: 'hide', ticks } })
                         }}
                       />
@@ -3741,135 +3829,32 @@ function EntityInspector(props: {
                   {hostile?.onPlayerFlee.kind === 'suspend' ? (
                     <div className="field">
                       <span className="field-label">逃跑暂停 ticks</span>
-                      <DsNumberInput
+                      <DsDraftNumberInput
+                        draftKey={`scene:${sceneId}:entity:${entity.id}:hostile:on-player-flee:ticks`}
+                        syncToken={syncToken}
                         min={1}
                         step={1}
+                        integer
                         value={hostile.onPlayerFlee.ticks}
-                        onChange={(e) => {
-                          const ticks = e.target.valueAsNumber
-                          if (Number.isSafeInteger(ticks) && ticks > 0)
+                        onCommit={(ticks) => {
+                          if (
+                            ticks !== undefined &&
+                            Number.isSafeInteger(ticks) &&
+                            ticks > 0 &&
+                            ticks !==
+                              (hostile?.onPlayerFlee.kind === 'suspend'
+                                ? hostile.onPlayerFlee.ticks
+                                : undefined)
+                          )
                             setHostile({ onPlayerFlee: { kind: 'suspend', ticks } })
                         }}
                       />
                     </div>
                   ) : null}
                 </>
-                {!canonicalScript ? (
-                  <>
-                    <div className="field">
-                      <span className="field-label">战败</span>
-                      <DsSelect
-                        aria-label="战败行为"
-                        value={Array.isArray(entity.hostile.onLose) ? 'custom' : ''}
-                        options={[
-                          { value: '', label: '游戏结束（渐红读档，默认）' },
-                          { value: 'custom', label: '自定义指令（剧情战输了也继续）' },
-                        ]}
-                        onValueChange={(value) =>
-                          setHostile({ onLose: value === 'custom' ? [] : undefined })
-                        }
-                      />
-                    </div>
-                    {Array.isArray(entity.hostile.onLose) ? (
-                      <DsTextArea
-                        className="cf-ta"
-                        key={`${entity.id}-onlose`}
-                        defaultValue={JSON.stringify(entity.hostile.onLose, null, 2)}
-                        placeholder='[{ "kind": "dialog", ... }] — Command[] JSON'
-                        onBlur={(e) => {
-                          try {
-                            const v = JSON.parse(e.target.value) as HostileBehavior['onLose']
-                            if (Array.isArray(v)) setHostile({ onLose: v })
-                          } catch {
-                            /* 解析失败不落盘;失焦保持原文供修 */
-                          }
-                        }}
-                        spellCheck={false}
-                      />
-                    ) : null}
-                  </>
-                ) : null}
               </>
             )}
           </div>
-          {!canonicalScript ? (
-            <div className="section">
-              <h4>
-                行为脚本 <span className="hint2">底部抽屉就地编(E2/E4)</span>
-              </h4>
-              {/* 一眼徽标 + 单入口(创建/切换动作在抽屉头部,不重复) */}
-              <div className="lrow script-summary-row">
-                <span className="script-summary-copy">
-                  {entity.pages?.[pageIndex]?.trigger
-                    ? `🔗 ${entity.pages[pageIndex]!.trigger!.on === 'interact' ? '交互' : '触碰'}·${entity.pages[pageIndex]!.trigger!.stages.length}段`
-                    : null}
-                  {entity.pages?.[pageIndex]?.auto
-                    ? ` 🔁 巡逻·${entity.pages[pageIndex]!.auto!.stages.length}段`
-                    : null}
-                  {!entity.pages?.[pageIndex]?.trigger && !entity.pages?.[pageIndex]?.auto
-                    ? '(无脚本)'
-                    : null}
-                </span>
-                {entity.pages?.[pageIndex]?.trigger || entity.pages?.[pageIndex]?.auto ? (
-                  <DsButton
-                    onClick={() =>
-                      onJumpToEvent(
-                        sceneId,
-                        entity.pages?.[pageIndex]?.trigger
-                          ? `${entity.id}:trigger${pageIndex === 0 ? '' : `@${pageIndex}`}`
-                          : `${entity.id}:auto${pageIndex === 0 ? '' : `@${pageIndex}`}`,
-                      )
-                    }
-                    size="compact"
-                    variant="secondary"
-                  >
-                    📜 编辑脚本
-                  </DsButton>
-                ) : (
-                  <>
-                    <DsButton
-                      onClick={() => {
-                        session.dispatch(
-                          new CreateScriptSourceCommand(sceneId, {
-                            kind: 'trigger',
-                            entityId: entity.id,
-                            ...(pageIndex === 0 ? {} : { pageIndex }),
-                          }),
-                        )
-                        onJumpToEvent(
-                          sceneId,
-                          `${entity.id}:trigger${pageIndex === 0 ? '' : `@${pageIndex}`}`,
-                        )
-                      }}
-                      size="compact"
-                      variant="secondary"
-                    >
-                      ＋触发
-                    </DsButton>
-                    <DsButton
-                      onClick={() => {
-                        session.dispatch(
-                          new CreateScriptSourceCommand(sceneId, {
-                            kind: 'auto',
-                            entityId: entity.id,
-                            ...(pageIndex === 0 ? {} : { pageIndex }),
-                          }),
-                        )
-                        onJumpToEvent(
-                          sceneId,
-                          `${entity.id}:auto${pageIndex === 0 ? '' : `@${pageIndex}`}`,
-                        )
-                      }}
-                      size="compact"
-                      variant="secondary"
-                    >
-                      ＋巡逻
-                    </DsButton>
-                  </>
-                )}
-              </div>
-            </div>
-          ) : null}
         </>
       ) : null}
       {panel === 'properties' && spriteViewerOpen && spriteDef && (
@@ -3895,6 +3880,7 @@ function EntityInspector(props: {
  */
 function EntryInspector(props: { scene: SceneDef; session: EditSession }) {
   const { scene, session } = props
+  const syncToken = session.getHistoryVersion()
   const facings: SceneDef['entry']['facing'][] = ['down', 'up', 'left', 'right']
   const patch = (
     next: Partial<{
@@ -3930,30 +3916,40 @@ function EntryInspector(props: { scene: SceneDef; session: EditSession }) {
         <div className="field">
           <span className="field-label">坐标</span>
           <div className="row entry-coordinate-row">
-            <DsNumberInput
-              className="entry-n"
-              title="列 col"
-              value={scene.entry.pos.col}
-              onChange={(e) =>
-                Number.isFinite(e.target.valueAsNumber) && patch({ col: e.target.valueAsNumber })
-              }
-            />
-            <DsNumberInput
-              className="entry-n"
-              title="行 row"
-              value={scene.entry.pos.row}
-              onChange={(e) =>
-                Number.isFinite(e.target.valueAsNumber) && patch({ row: e.target.valueAsNumber })
-              }
-            />
-            <DsNumberInput
-              className="entry-n"
-              title="高度 height"
-              value={scene.entry.pos.height ?? 0}
-              onChange={(e) =>
-                Number.isFinite(e.target.valueAsNumber) && patch({ height: e.target.valueAsNumber })
-              }
-            />
+            <span className="entry-n">
+              <DsDraftNumberInput
+                title="列 col"
+                draftKey={`scene:${scene.id}:default-entry:col`}
+                syncToken={syncToken}
+                value={scene.entry.pos.col}
+                onCommit={(col) => {
+                  if (col !== undefined && col !== scene.entry.pos.col) patch({ col })
+                }}
+              />
+            </span>
+            <span className="entry-n">
+              <DsDraftNumberInput
+                title="行 row"
+                draftKey={`scene:${scene.id}:default-entry:row`}
+                syncToken={syncToken}
+                value={scene.entry.pos.row}
+                onCommit={(row) => {
+                  if (row !== undefined && row !== scene.entry.pos.row) patch({ row })
+                }}
+              />
+            </span>
+            <span className="entry-n">
+              <DsDraftNumberInput
+                title="高度 height"
+                draftKey={`scene:${scene.id}:default-entry:height`}
+                syncToken={syncToken}
+                value={scene.entry.pos.height ?? 0}
+                onCommit={(height) => {
+                  if (height !== undefined && height !== (scene.entry.pos.height ?? 0))
+                    patch({ height })
+                }}
+              />
+            </span>
           </div>
         </div>
         <div className="field">
@@ -4145,10 +4141,19 @@ function NamedEntryInspector(props: {
   session: EditSession
   onJumpToEvent: (sceneId: string, sourceKey: string) => void
   onOpenScript: (scriptId: string) => void
+  onOpenCanonicalReference: (reference: CanonicalScriptReference) => void
 }) {
-  const { scene, entryId, entry, references, session, onJumpToEvent, onOpenScript } = props
-  const [labelDraft, setLabelDraft] = useState(entry.label ?? '')
-  useEffect(() => setLabelDraft(entry.label ?? ''), [entry.label])
+  const {
+    scene,
+    entryId,
+    entry,
+    references,
+    session,
+    onJumpToEvent,
+    onOpenScript,
+    onOpenCanonicalReference,
+  } = props
+  const syncToken = session.getHistoryVersion()
   const patch = (next: Partial<SceneEntryPoint>): void => {
     session.dispatch(
       new UpsertSceneEntryCommand(scene.id, entryId, {
@@ -4171,17 +4176,15 @@ function NamedEntryInspector(props: {
           <label className="field-label" htmlFor={`entry-label-${scene.id}-${entryId}`}>
             名称
           </label>
-          <DsTextInput
+          <DsDraftTextInput
             id={`entry-label-${scene.id}-${entryId}`}
-            value={labelDraft}
+            draftKey={`scene:${scene.id}:named-entry:${entryId}:label`}
+            syncToken={syncToken}
+            value={entry.label ?? ''}
             placeholder="未命名落点"
-            onChange={(event) => setLabelDraft(event.target.value)}
-            onBlur={(event) => {
-              const label = event.currentTarget.value.trim()
+            onCommit={(value) => {
+              const label = value.trim()
               if (label !== (entry.label ?? '')) patch({ label: label || undefined })
-            }}
-            onKeyDown={(event) => {
-              if (event.key === 'Enter') event.currentTarget.blur()
             }}
           />
         </div>
@@ -4195,11 +4198,13 @@ function NamedEntryInspector(props: {
             {(['col', 'row', 'height'] as const).map((axis) => (
               <label key={axis}>
                 <span>{axis === 'height' ? 'h' : axis}</span>
-                <DsNumberInput
+                <DsDraftNumberInput
+                  draftKey={`scene:${scene.id}:named-entry:${entryId}:pos:${axis}`}
+                  syncToken={syncToken}
                   value={entry.pos[axis] ?? 0}
-                  onChange={(event) => {
-                    if (!Number.isFinite(event.target.valueAsNumber)) return
-                    patch({ pos: { ...entry.pos, [axis]: event.target.valueAsNumber } })
+                  onCommit={(value) => {
+                    if (value === undefined || value === (entry.pos[axis] ?? 0)) return
+                    patch({ pos: { ...entry.pos, [axis]: value } })
                   }}
                   onWheel={(event) => event.currentTarget.blur()}
                 />
@@ -4241,7 +4246,7 @@ function NamedEntryInspector(props: {
           {references.length ? (
             <DsReferenceList>
               {references.map((reference) => {
-                const canOpen = reference.caller.type !== 'global'
+                const canOpen = reference.canonical !== undefined || reference.caller.type !== 'global'
                 return (
                   <DsReferenceRow
                     key={sceneEntryReferenceIdentity(reference)}
@@ -4253,7 +4258,9 @@ function NamedEntryInspector(props: {
                         ? {
                             label: '打开',
                             onActivate: () => {
-                              if (reference.caller.type === 'scene')
+                              if (reference.canonical)
+                                onOpenCanonicalReference(reference.canonical)
+                              else if (reference.caller.type === 'scene')
                                 onJumpToEvent(reference.caller.sceneId, reference.caller.sourceKey)
                               else if (reference.caller.type === 'script')
                                 onOpenScript(reference.caller.scriptId)

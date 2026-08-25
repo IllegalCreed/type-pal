@@ -2165,6 +2165,35 @@ test('W4-1 改名/移动不改变两处引用的稳定 id；引用落点禁止�
   expect(command.invert(s1).scenes[0]?.entries?.free?.label).toBe('无引用')
 })
 
+test('W4-1 删除落点 redo 会重新核对当前 canonical 引用', () => {
+  const initial = st()
+  initial.scenes[0] = {
+    ...initial.scenes[0]!,
+    entries: { target: { label: '目标', pos: { col: 1, row: 2, height: 0 } } },
+  }
+  let referenced = false
+  const command = new DeleteSceneEntryCommand('s', 'target', (_state, sceneId, entryId) =>
+    referenced
+      ? [
+          {
+            targetSceneId: sceneId,
+            entryId,
+            caller: { type: 'global', sourceKey: 'canonical:test', label: '当前 canonical 脚本' },
+            path: 'sharedScripts.test.body[0]',
+          },
+        ]
+      : [],
+  )
+  const session = new EditSession(initial)
+  session.dispatch(command)
+  expect(session.getState().scenes[0]?.entries?.target).toBeUndefined()
+  session.undo()
+  referenced = true
+  expect(() => session.redo()).toThrow(/正被 1 处脚本引用/)
+  expect(session.getState().scenes[0]?.entries?.target).toBeDefined()
+  expect(session.canRedo()).toBe(true)
+})
+
 describe('C6 升级学技能命令(levelUp 表)', () => {
   function stLv(): EditorState {
     const base = st()

@@ -5,11 +5,12 @@
  * - 升级学技能行(skills.json 的 levelUp[actorId];level + 技能下拉,UpdateLevelUpCommand)
  */
 import type { ActorDef, LevelUpSkill, SkillDataMap } from '@type-pal/content'
+import { memo, useMemo } from 'react'
 import { UpdateLevelUpCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
-import { DsButton, DsNumberInput, DsSelect } from './design-system/controls.js'
+import { DsButton, DsDraftNumberInput, DsSelect } from './design-system/controls.js'
 
-export function LevelingEditor(props: {
+function LevelingEditorImpl(props: {
   actor: ActorDef & { battler: NonNullable<ActorDef['battler']> }
   levelUpRows: LevelUpSkill[]
   skills: SkillDataMap
@@ -18,7 +19,26 @@ export function LevelingEditor(props: {
 }) {
   const { actor, levelUpRows, skills, session, onEditCurve } = props
   const expTable = actor.battler.leveling?.expTable ?? []
-  const skillIds = Object.keys(skills)
+  const skillOptions = useMemo(
+    () =>
+      Object.entries(skills).map(([skillId, skill]) => ({
+        value: skillId,
+        label: skill?.name ?? skillId,
+        description: skillId,
+      })),
+    [skills],
+  )
+  const skillIds = useMemo(() => skillOptions.map((option) => option.value), [skillOptions])
+  const rowOptions = useMemo(
+    () =>
+      levelUpRows.map((row) =>
+        skills[row.skillId]
+          ? skillOptions
+          : [{ value: row.skillId, label: `${row.skillId}（缺失）` }, ...skillOptions],
+      ),
+    [levelUpRows, skillOptions, skills],
+  )
+  const syncToken = session.getHistoryVersion()
 
   const dispatchRows = (rows: LevelUpSkill[]): void => {
     session.dispatch(
@@ -48,31 +68,25 @@ export function LevelingEditor(props: {
       </div>
       {levelUpRows.map((r, i) => (
         <div className="pt-row" key={`${r.level}-${r.skillId}-${i}`}>
-          <DsNumberInput
-            className="entry-n"
-            title="等级"
-            value={r.level}
-            onChange={(e) => {
-              if (!Number.isFinite(e.target.valueAsNumber)) return
-              const rows = [...levelUpRows]
-              rows[i] = { ...r, level: e.target.valueAsNumber }
-              dispatchRows(rows)
-            }}
-            onWheel={(e) => e.currentTarget.blur()}
-          />
+          <span className="entry-n">
+            <DsDraftNumberInput
+              title="等级"
+              draftKey={`actor:${actor.id}:level-up:${i}:level`}
+              syncToken={syncToken}
+              value={r.level}
+              onCommit={(level) => {
+                if (level === undefined || level === r.level) return
+                const rows = [...levelUpRows]
+                rows[i] = { ...r, level }
+                dispatchRows(rows)
+              }}
+              onWheel={(e) => e.currentTarget.blur()}
+            />
+          </span>
           <DsSelect
             aria-label={`等级 ${r.level} 学习的技能`}
             value={r.skillId}
-            options={[
-              ...(!skillIds.includes(r.skillId)
-                ? [{ value: r.skillId, label: `${r.skillId}（缺失）` }]
-                : []),
-              ...skillIds.map((skillId) => ({
-                value: skillId,
-                label: skills[skillId]?.name ?? skillId,
-                description: skillId,
-              })),
-            ]}
+            options={rowOptions[i] ?? skillOptions}
             onValueChange={(value) => {
               const rows = [...levelUpRows]
               rows[i] = { ...r, skillId: value }
@@ -102,3 +116,21 @@ export function LevelingEditor(props: {
     </div>
   )
 }
+
+function sameNumbers(left: readonly number[], right: readonly number[]): boolean {
+  return left.length === right.length && left.every((value, index) => value === right[index])
+}
+
+export const LevelingEditor = memo(
+  LevelingEditorImpl,
+  (left, right) =>
+    left.actor.id === right.actor.id &&
+    sameNumbers(
+      left.actor.battler.leveling?.expTable ?? [],
+      right.actor.battler.leveling?.expTable ?? [],
+    ) &&
+    left.levelUpRows === right.levelUpRows &&
+    left.skills === right.skills &&
+    left.session === right.session &&
+    left.onEditCurve === right.onEditCurve,
+)

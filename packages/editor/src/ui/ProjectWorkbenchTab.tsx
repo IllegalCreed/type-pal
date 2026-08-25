@@ -23,15 +23,13 @@ import {
   UpdateManifestAssetRolesCommand,
 } from '../core/commands.js'
 import { EDITOR_ASSET_KIND_LABELS } from '../core/asset-diagnostics.js'
-import type { EditorState, EditSession } from '../core/edit-session.js'
+import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import {
-  collectProjectIssues,
   getRepairableEntryIndexes,
   type ManifestLike,
   type ProjectIssue,
 } from '../core/project-diagnostics.js'
-import type { ScriptEditorState } from '../core/script-editor.js'
 import { findDefaultEntry } from '../core/startup-entries.js'
 import {
   DsButton,
@@ -69,8 +67,8 @@ export interface ProjectWorkbenchTabProps {
   locale: Locale
   assetCatalog: AssetCatalogV1
   session: EditSession
-  editorState: EditorState
-  currentAuthor?: ScriptEditorState
+  issues: readonly ProjectIssue[]
+  diagnosticsStatus: 'checking' | 'stale' | 'current' | 'failed'
   assetReader: EditorAssetReader
   tabBar?: ReactNode
   focusObjectId?: string
@@ -311,7 +309,14 @@ function ProjectPageWorkspace(props: {
 function ProjectAdvancedPage(
   props: ProjectWorkbenchTabProps & { issues: readonly ProjectIssue[] },
 ) {
-  const { tabBar, focusObjectId, onObjectFocus, onOpenLocation, issues } = props
+  const {
+    tabBar,
+    focusObjectId,
+    onObjectFocus,
+    onOpenLocation,
+    issues,
+    diagnosticsStatus,
+  } = props
   const issueGroups = useMemo(() => groupProjectIssues(issues), [issues])
   const errorGroups = issueGroups.filter((group) => group.severity === 'error')
   const warningGroups = issueGroups.filter((group) => group.severity === 'warn')
@@ -394,25 +399,50 @@ function ProjectAdvancedPage(
           {errorGroups.length ? (
             renderIssueFamilies(errorGroups)
           ) : (
-            <DsCatalogGroupEmpty>暂无错误</DsCatalogGroupEmpty>
+            <DsCatalogGroupEmpty>
+              {diagnosticsStatus === 'current' ? '暂无错误' : '等待当前诊断'}
+            </DsCatalogGroupEmpty>
           )}
           <DsCatalogGroupHeader title="警告" count={warningCount} />
           {warningGroups.length ? (
             renderIssueFamilies(warningGroups)
           ) : (
-            <DsCatalogGroupEmpty>暂无警告</DsCatalogGroupEmpty>
+            <DsCatalogGroupEmpty>
+              {diagnosticsStatus === 'current' ? '暂无警告' : '等待当前诊断'}
+            </DsCatalogGroupEmpty>
           )}
         </DsCatalogGroupList>
       </div>
       <ProjectPageWorkspace
         eyebrow="项目设置 · 问题"
         title={selectedTitle}
-        summary={selectedIssueGroup ? undefined : '当前项目没有错误或警告。'}
+        summary={
+          selectedIssueGroup
+            ? undefined
+            : diagnosticsStatus === 'current'
+              ? '当前项目没有错误或警告。'
+              : diagnosticsStatus === 'failed'
+                ? '当前诊断不可用，未把空列表视为健康。'
+                : '正在检查当前项目；暂不判定配置健康。'
+        }
         meta={
-          selectedIssueGroup ? (
-            <DsTag tone={selectedIssueGroup.severity === 'error' ? 'danger' : 'warning'}>
-              {selectedCount} 项
-            </DsTag>
+          selectedIssueGroup || diagnosticsStatus !== 'current' ? (
+            <>
+              {selectedIssueGroup ? (
+                <DsTag tone={selectedIssueGroup.severity === 'error' ? 'danger' : 'warning'}>
+                  {selectedCount} 项
+                </DsTag>
+              ) : null}
+              {diagnosticsStatus !== 'current' ? (
+                <DsTag tone="warning">
+                  {diagnosticsStatus === 'failed'
+                    ? '诊断失败 · 显示上一版'
+                    : diagnosticsStatus === 'stale'
+                      ? '正在刷新 · 显示上一版'
+                      : '正在检查'}
+                </DsTag>
+              ) : null}
+            </>
           ) : null
         }
       >
@@ -423,8 +453,12 @@ function ProjectAdvancedPage(
               onOpenLocation={onOpenLocation}
               statusOwner="external"
             />
-          ) : (
+          ) : diagnosticsStatus === 'current' ? (
             <IssueList issues={[]} onOpenLocation={onOpenLocation} />
+          ) : (
+            <p role="status">
+              {diagnosticsStatus === 'failed' ? '诊断失败，请从底部状态栏重试。' : '诊断检查中…'}
+            </p>
           )}
         </section>
       </ProjectPageWorkspace>
@@ -1337,16 +1371,11 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
     assetCatalog,
     assetReader,
     session,
-    editorState,
-    currentAuthor,
+    issues,
     tabBar,
     onOpenLocation,
   } = props
-  const issues = useMemo(
-    () => collectProjectIssues(editorState, currentAuthor),
-    [currentAuthor, editorState],
-  )
-  if (page === 'entrypoint') return <EntryPointEditor {...props} issues={issues} />
+  if (page === 'entrypoint') return <EntryPointEditor {...props} issues={[...issues]} />
 
   const effectiveEntries = manifest.entryPoints
   const firstEntry = effectiveEntries[0]
@@ -1564,8 +1593,14 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
         title={manifest.name}
         objectId={manifest.id}
         meta={
-          <DsTag tone={issues.length ? 'warning' : 'neutral'}>
-            {issues.length ? `${issues.length} 项问题` : '配置健康'}
+          <DsTag tone={issues.length || props.diagnosticsStatus !== 'current' ? 'warning' : 'neutral'}>
+            {issues.length
+              ? `${issues.length} 项问题`
+              : props.diagnosticsStatus === 'current'
+                ? '配置健康'
+                : props.diagnosticsStatus === 'failed'
+                  ? '诊断失败'
+                  : '检查中'}
           </DsTag>
         }
       >
