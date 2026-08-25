@@ -1,7 +1,7 @@
 # ARCH-ENTRY-ACTOR-SEED-1 入口角色完整初始状态所有权与快照模型
 
-> **状态**：draft（前提真值与用户裁决完成；Codex 已签，待 Kimi / GLM 按最终行为刷新 premise / design 签字，禁止进入 build）
-> **负责人**：Codex（Coding Owner，待准入）
+> **状态**：build（2026-08-25 Codex / Kimi / GLM 按用户裁决重签 `premise verified + design agree` 齐）
+> **负责人**：Codex（Coding Owner）
 > **参与审查**：Kimi（架构 / schema）、GLM（原版与数据覆盖）
 > **能力格**：X7 项目数据与持久化语义
 > **风险级别**：高（schema / save / migration / 新游戏初始化）
@@ -74,12 +74,12 @@
 6. 保存只持久化运行时角色与 `WorldState.learnedSkills`，不得回写 `ActorDef` 或 `StartWorld`；编辑器撤销/重开保持当前 HP/MP 覆盖的稀疏形状。
 7. schema 切换只保留当前 canonical 版本；迁移器从角色表生成 `initialMagic`，停止向 manifest 双写 `learnedSkills`，重迁当前工程并以二次运行零 diff 证明收口，禁止直接手改 `projects/pal`。
 
-## 分阶段实施合同（三签前未授权）
+## 分阶段实施合同（三签齐，已授权）
 
 1. **truth audit（完成）**：原版、一阶段、当前二阶段初始化调用链与代表角色数据矩阵已由三方直接核验。
 2. **contract + user decision（完成）**：唯一 owner、当前值/最大值边界、继承、序列化和用户可见文案已冻结。
-3. **signature refresh（当前）**：Kimi / GLM 按最终 `before -> after` 分别重签 `premise verified + design agree` 或给出 `counter`；旧 premise 签字只作历史证据。
-4. **schema + migration**：一次切换到 canonical 版本，重迁 PAL，删除旧字段与 fallback。
+3. **signature refresh（完成）**：Kimi / GLM 已按最终 `before -> after` 分别重签 `premise verified + design agree`；旧 premise 签字只作历史证据。
+4. **schema + migration（当前）**：一次切换到 canonical 版本，重迁 PAL，删除旧字段与 fallback。
 5. **runtime**：新游戏与首次入队从 `initialMagic` 初始化运行时技能，保留进度与存档语义。
 6. **editor**：在正确页面暴露权威输入；入口只显示当前 HP/MP 稀疏覆盖与真实入口级世界状态。
 7. **tests**：新游戏、首次入队、离队/归队、保存重开、多入口、空值继承与二次迁移零 diff 闭环。
@@ -88,7 +88,7 @@
 
 - [x] 原版 / 一阶段 / 当前二阶段 / 目标四向矩阵均有精确 `file:line` 或上游一手证据，关键项无 `unknown`。
 - [x] 每个初始字段只有一个权威 owner，并记录默认值、继承、显式覆盖、序列化和运行时应用时点。
-- [ ] 三方分别签署有效 `premise verified` 与 `design agree`，且至少一位非 Coding Owner 提供独立证据与可证伪观察。
+- [x] 三方分别签署有效 `premise verified` 与 `design agree`，且 Kimi / GLM 均提供独立证据与可证伪观察。
 - [x] 用户确认最终 `before -> after` 行为（2026-08-25，入口 HP/MP = 当前值覆盖，非最大值）。
 - [ ] 若修改 schema：当前工程一次性重迁 / 重生成，旧类型、旧 fixture、兼容 fallback 与旧产品入口同步删除。
 - [ ] 同一角色默认入口与非默认入口的初始化有自动化测试；入口无覆盖时结果可由角色定义稳定重算。
@@ -103,10 +103,10 @@
 | Agent | premise | design | 证据 / 备注 |
 |---|---|---|---|
 | Codex | **verified** | **agree** | 2026-08-25 独立直读 `reference/sdlpal/global.c:427-465`、`packages/game/src/core/game-state.ts:1394-1431`、`packages/content/src/actor.ts:67-82` 与 `packages/content/src/character.ts:52-63,218-249`；确认当前/最大值独立、角色表持技能、当前二阶段技能双写且 runtime 只认入口副本。用户已裁决按冻结合同消除双写。 |
-| Kimi | **pending（旧 verified 历史保留）** | **pending（按用户裁决刷新）** | 2026-08-24 真值门已独立完成；因用户可见 `before -> after` 已从候选冻结为正式合同，旧签按门禁失效。请复核“当前值覆盖、最大值归角色、删除 `StartWorld.learnedSkills`、首次实例化从 `initialMagic` 播种 runtime”完整合同后重签或 counter。 |
-| GLM | **pending（旧 verified 历史保留）** | **pending（按用户裁决刷新）** | 2026-08-24 独立数据矩阵完成并提供 roleId 1 = 28/240 的当前/最大值实证；因最终行为已冻结，旧签按门禁失效。请复核迁移/验证/测试闭包与冻结合同后重签或 counter。 |
+| Kimi | **verified** | **agree**（附 KS1-KS3） | 2026-08-25 按冻结合同重签：端到端调用链直读核实（initialMagic 零 runtime 消费、入队播种缺口、离队/读档不覆盖逐点验证），见下方「Kimi 冻结合同重签节」 |
+| GLM | **verified** | **agree**（附 GSeed1-GSeed3） | 2026-08-25 按冻结合同独立重签——primary source（global.c:427-465）/当前端到端链/双写现状/带伤开局 demo 实证/首次入队缺口全部一手核实，见 GLM 冻结合同重签节 |
 
-**准入结论：不满足。禁止修改实现、schema、生成器或 `projects/pal`。**
+**准入结论：build allowed（2026-08-25，Codex + Kimi + GLM 按冻结合同三签齐）。** GSeed1-GSeed3 与 KS1-KS3 为 build 必落钉；schema 切换、迁移与旧路径删除须同卡一次完成。
 
 ### review -> done
 
@@ -118,7 +118,11 @@
 
 ## 下一位 Agent 提示词
 
-#### 当前合并设计复审提示词（Kimi / GLM 分别签字，2026-08-25）
+#### 当前交接状态（2026-08-25）
+
+无下一位 Agent 提示词；三方 build 准入签字已齐，Codex 作为唯一 Coding Owner 进入实现。Kimi / GLM 的下一次交接发生在 `review`，届时必须基于实现与验证证据分别签 `accept`，签字前不得标记 done。
+
+#### 合并设计复审提示词（历史，已完成）
 
 > 请复审 `docs/ops/tasks/ARCH-ENTRY-ACTOR-SEED-1-entry-actor-initial-state.md` 的冻结合同，并把结论直接写回任务卡。先完整阅读 `AGENTS.md`、`CLAUDE.md`、`docs/phase2/READ-FIRST.md`、`docs/phase1/game-mechanics.md`、本任务卡，以及卡内列出的一手代码锚点。用户已于 2026-08-25 裁决：`ActorDef` 持有等级、当前/最大 HP/MP 基线、属性、装备和初始技能；入口 `seedStats.hp/mp` 仅是开局**当前值**稀疏覆盖，空值继承角色，入口绝不持有 `maxHP/maxMP`；删除配置侧 `StartWorld.learnedSkills`，角色首次实例化时从 `ActorDef.battler.initialMagic` 深拷贝到运行时 `WorldState.learnedSkills`，离队/归队、读档不得重新播种。请独立核对至少一处 primary source 与当前端到端调用链，重点检查：①新游戏与后续首次入队均能初始化技能；②运行时学习/遗忘与保存重开不被覆盖；③迁移只改上游并删除旧 schema、fixture、fallback，PAL 完整重迁且二次运行零 diff；④编辑器明确“当前值/继承”，不把最大值或角色快照塞回入口；⑤ED-PROJECT-STARTUP-IA-1 只消费冻结 ownership，不代做本卡 schema。请分别输出并写回有效的 `premise verified + design agree`，或 `counter`、直接证据与必改项。**签字齐前不得修改实现/schema/生成器/projects/pal，不得标记 build 或 done。**
 
@@ -194,3 +198,98 @@ manifest entryPoints[].startWorld + actors.json，各自无对方字段副本（
 
 **重复所有权检查**：baseStats/initialEquipment/initialMagic 均单点持有于 ActorDef，
 buildWorld 只实例化+条件覆盖——无派生快照固化；唯一双表达 = learnedSkills vs initialMagic。
+
+
+#### GLM 冻结合同重签（2026-08-25；独立核验，非沿用旧签）
+
+**premise verified——五项独立核验：**
+
+1. **primary source 重核**：`PAL_LoadDefaultGame`（global.c:427-465）把 PlayerRoles 整表
+   （含 HP/MP 当前值与最大值的**独立字段**、魔法 32 槽）拷入运行时——当前值与最大值在
+   原版就是分开的两个 per-role 字段（roleId 1 = hp 28 / maxHP 240），**入口"当前值覆盖、
+   最大值归角色"的合同与原版结构一致**，非新发明。
+2. **当前端到端链直读**：`buildWorld`（character.ts:213-249）先 instantiate 再条件应用
+   seedStats hp/mp（**已实现"空=继承"语义**），`learnedSkills` 直接从
+   `startWorld.learnedSkills` 深拷贝（:245-246）——runtime 只认入口副本，双写属实。
+3. **双写现状 census（三工程）**：PAL `startWorld.learnedSkills={li-xiaoyao:[296]}` vs
+   ActorDef 六角色全部已有 `battler.initialMagic`（本人 node 逐角色枚举：li=[296]、
+   zhao=[312,316,...10 项]、lin=[298,337]…）——**配置侧双写且只有初始队员有入口副本**。
+4. **带伤开局工程实证（本人一手）**：demo 工程 seedStats `hp:100/mp:30` vs 角色表
+   `maxHP:150/maxMP:100`——当前值低于最大值正是合同条款 2 的"带伤/缺蓝开局"活用例；
+   该语义在编辑器 UI 未说明（卡文 before 属实）。
+5. **首次入队缺口实证（合同条款 5 的现状依据）**：PAL `learnedSkills` 只有 li-xiaoyao
+   一个键——zhao-linger 等五名非初始角色首次入队时 `world.learnedSkills[actorId]`
+   不存在；运行时 `learnSkill` 有 `??= []` 防空（main.ts learnSkill 回调）但**只会追加
+   学到的技能，不会播种 initialMagic**——非初始角色入队即"裸技能"出场。条款 5"首次
+   入队必须初始化"正是修此缺口。
+
+**design agree（附 GSeed1-GSeed3）：**
+
+- **GSeed1（首次入队播种的唯一时点机检）**：入队/首次实例化播种的判定必须以
+  `world.learnedSkills[actorId] === undefined` 为**唯一**触发（防"离队清空后归队重新
+  播种覆盖已遗忘技能"——条款 5 负例）；测试矩阵须含——新游戏初始队、**非初始角色
+  首次入队（重点）**、离队→学习遗忘→归队（进度不丢）、保存重开（运行时技能从存档
+  恢复不重播种）、多入口同角色（seedStats 稀疏差异正确）。
+- **GSeed2（迁移收口与二次零 diff）**：`pal-manifest.ts` 停止写
+  `learnedSkills: {'li-xiaoyao':['296']}`（当前 :52 一处，Codex 已定位）；ActorDef 的
+  `initialMagic` 已在生成器输出中（六角色全有）——迁移只删入口侧副本；重迁后
+  `startWorld.learnedSkills` 键为空/字段删除、三工程（pal/demo/e2e-own——demo 有
+  4 技能入口副本需同步删）二次运行零计划；demo 的 seedStats hp/mp 保留（当前值语义）。
+- **GSeed3（编辑器 UI 语义显式化）**：入口 HP/MP 控件必须标注"当前值 · 空白 = 继承
+  角色默认（如 李逍遥 150/150）"——我核实的 demo 100/30 用例说明作者确实在用带伤开局，
+  UI 不说明继承来源即误导（用户此前把当前值误解为最大值正是此因）；不得出现
+  maxHP/maxMP 输入框。
+
+**边界确认**：ED-PROJECT-STARTUP-IA-1 明确"不修改 StartWorld schema；角色等级/装备/
+属性来源由本卡决策"（:30）且"角色 seed schema 完整留在本卡"（:141）——该卡只消费
+冻结合同，未代做 schema。
+
+**可证伪观察**：①若实现中入队播种以"角色不在 party"而非 learnedSkills undefined
+  触发，离队归队即重播种（GSeed1 负例拦截）；②若重迁后任一工程 learnedSkills 残留或
+  initialMagic 丢失（对照六角色清单快照：li=[296]/zhao=10 项/lin=[298,337]/wu=10 项/
+  anu=10 项/gai=7 项——本节留档为 diff 白名单基线）；③若编辑器出现 maxHP/maxMP 入口
+  控件（GSeed3 拦截）。
+#### Kimi 冻结合同重签（2026-08-25；按用户裁决独立核验，非沿用旧签）
+
+**premise verified（新证据，在 2026-08-24 真值门之外增量直读端到端调用链）**：
+
+1. **初始技能双写与 runtime 单消费（复核+增量）**：PAL 当前 `battler.initialMagic` 六角色齐全
+   （li=['296']、zhao=10 项、lin=['298','337']、wu=10 项、anu=10 项、gai=7 项——本人直读
+   actors.json），而入口 `startWorld.learnedSkills` 只有 `li-xiaoyao:['296']`；
+   **reforge 生产码对 `initialMagic` 零消费**（grep 排除 test/fixtures 后零命中）——
+   初始技能配置真值只有角色表一侧被迁移，runtime 播种只认入口副本，合同第 4 条的删除方向
+   （删入口副本、从 initialMagic 播种）是唯一不丢数据的方向。
+2. **首次入队播种缺口真实存在**：技能播种当前只在 `buildWorld` 发生（character.ts:245-247）；
+   后续入队走 `applySetParty`（character.ts:189-211）+ `instantiate`（:168-179），均不触碰
+   `world.learnedSkills`；当前 PAL 中灵儿/月如等的 authored 初始技能因此完全依赖脚本
+   `learnSkill` 或根本不到达 runtime（仅 6 个场景文件含 learnSkill）。冻结合同第 5 条
+   “新游戏和后续首次入队都必须初始化”正中该缺口。
+3. **离队/归队、读档不覆盖的现有语义**：`applySetParty` 以模板 id 池化保留既有实例
+   （:194-210，离队进 reserve 不清数据）；`learnSkill` 只增不重置（main.ts:3208-3217，
+   `??= []` + 去重 push）；`battle-session.ts:2522-2525` 的 lifetimeLimit 遗忘只删条目；
+   读档恢复完整 world（save/types.ts:39-47），不经过 buildWorld——运行时技能进度不被
+   覆盖的结论在当前代码链上成立，合同第 5 条只是把它钉成不变式。
+4. **编辑器现状**：入口 seedStats 编辑确为 hp/mp 输入（ProjectWorkbenchTab 的
+   StartWorldFields 区），无 maxHP/maxMP 控件；冻结合同要求补的是“当前值/空=继承角色定义”
+   文案与删除初始技能行，属 UI 表达而非新 schema。
+5. **ED-PROJECT-STARTUP-IA-1 边界**：该卡范围外明示“不修改 StartWorld schema；角色来源由
+   本卡决策”，只消费冻结 ownership，未代做本卡 schema——直读其卡面确认。
+
+**design agree（附 KS1-KS3，build 必落钉）**：
+- **KS1（播种单一落点）**：`instantiate()` 看不到 `WorldState`，播种帮助函数必须同时被
+  `buildWorld`（初始队伍）与 `applySetParty`（后续首次入队）调用，且以
+  `world.learnedSkills[actorId] === undefined` 为“首次”判据——已有条目（含运行时学/忘后的
+  形状）一律不重播种。两调用点各配一条播种 + 一条不重播种测试。
+- **KS2（current-only 切版清单）**：删除 `StartWorld.learnedSkills` 须同卡完成——
+  CONTENT_VERSION 升版；PAL 生成器停写入口 learnedSkills；demo 入口的
+  `['296','298','299','345']` 迁入 demo 角色定义 initialMagic；e2e-own fixture 同步；
+  validate-refs 的 entryPoints.startWorld.learnedSkills 校验、audit-sfx-readiness、
+  editor StartWorldFields 技能行全部删除；PAL 完整重迁 + dry-run 二次零计划。
+- **KS3（编辑器继承语义文案）**：入口 HP/MP 控件必须显示“当前值”与空态继承来源
+  （如“留空 = 继承角色定义，当前为满值 150/100”）；不得出现 maxHP/maxMP 输入或
+  “从角色复制快照”类动作（防止把派生值固化进入口）。
+
+**可证伪观察**：若 `applySetParty`/`buildWorld` 之外存在第三条实例化路径（如读档重建实例），
+播种合同漏盖——grep 未见，GLM 可复核；若 demo 或其他工程的初始技能无法由角色定义表达
+（如按入口给不同技能），删除入口副本即丢语义——当前三工程均可由 initialMagic 承载；
+若种子判据用“是否在队”而非 learnedSkills 条目存在性，离队归队即重播种（KS1 负例拦截）。
