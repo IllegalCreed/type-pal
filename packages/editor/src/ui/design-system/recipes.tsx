@@ -672,6 +672,7 @@ export function DsDiagnosticRow(props: {
 export function DsDiagnosticList(props: {
   children: ReactNode
   className?: string
+  layout?: 'stack' | 'adaptive-grid'
   initialVisibleCount?: number
   pageSize?: number
   onViewAll?: () => void
@@ -693,7 +694,13 @@ export function DsDiagnosticList(props: {
   const allowShowAll = props.allowShowAll ?? true
   const canCollapse = !props.onViewAll && allowShowAll && visible.length > initialVisibleCount
   return (
-    <div className={dsClasses('ds-diagnostic-list', props.className)}>
+    <div
+      className={dsClasses(
+        'ds-diagnostic-list',
+        props.layout === 'adaptive-grid' && 'ds-diagnostic-list--adaptive-grid',
+        props.className,
+      )}
+    >
       <ul className="ds-diagnostic-list__items">
         {visible.map((entry, index) => (
           <li

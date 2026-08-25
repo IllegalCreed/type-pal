@@ -180,7 +180,7 @@ describe('项目问题列表', () => {
     expect(host.querySelector('.ds-diagnostic-list__pagination') !== null).toBe(count > 80)
   })
 
-  test('混合严重度保留长路径，并区分可跳转与静态行', async () => {
+  test('混合严重度保留机器定位但不常驻显示，并区分可跳转与静态行', async () => {
     const onOpenLocation = vi.fn()
     const longPath = `manifest.${'assets.roles.'.repeat(14)}startup`
     const mixed: ProjectIssue[] = [
@@ -204,7 +204,10 @@ describe('项目问题列表', () => {
     expect([...rows].map((row) => row.tagName)).toEqual(['BUTTON', 'ARTICLE'])
     expect(rows[0]?.textContent).toContain('错误')
     expect(rows[1]?.textContent).toContain('警告')
-    expect(host.querySelector('.ds-diagnostic-row__path')?.textContent).toBe(longPath)
+    expect(host.querySelector('.ds-diagnostic-list--adaptive-grid')).not.toBeNull()
+    expect(host.querySelector('.ds-diagnostic-row__code')).toBeNull()
+    expect(host.querySelector('.ds-diagnostic-row__path')).toBeNull()
+    expect(host.textContent).not.toContain(longPath)
     await act(async () => rows[0]?.click())
     expect(onOpenLocation).toHaveBeenCalledOnce()
     expect(onOpenLocation).toHaveBeenCalledWith(
@@ -235,6 +238,19 @@ describe('项目问题列表', () => {
 
     expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(80)
     expect(host.querySelector('.ds-diagnostic-list__pagination')).toBeNull()
+  })
+
+  test('长说明保持单列，短句才启用自适应网格', async () => {
+    const detailed: ProjectIssue = {
+      severity: 'warn',
+      code: 'migration-pending',
+      message: `迁移证据：${'需要完整保留上下文。'.repeat(10)}`,
+      path: 'migrationDiagnostics.diagnostics[0]',
+    }
+    await act(async () => root.render(<IssueList issues={[detailed]} />))
+
+    expect(host.querySelector('.ds-diagnostic-list--adaptive-grid')).toBeNull()
+    expect(host.querySelector('.ds-diagnostic-row')?.textContent).toContain(detailed.message)
   })
 })
 
@@ -402,8 +418,12 @@ describe('项目设置工作区', () => {
     expect(host.querySelector('.project-center h1')?.textContent).toBe('未引用资源 · 音乐')
     expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(80)
     expect(host.querySelector('.ds-object-hero__meta')?.textContent).toContain('120 项')
+    expect(host.querySelector('.ds-object-hero__id')).toBeNull()
     expect(host.querySelector('#project-issue-detail .ds-status')).toBeNull()
     expect(host.textContent).not.toContain('0 个错误 · 120 个警告')
+    expect(host.textContent).not.toContain('unused-asset')
+    expect(host.textContent).not.toContain('分组详情')
+    expect(host.querySelector('.ds-diagnostic-list--adaptive-grid')).not.toBeNull()
     expect(musicRow?.getAttribute('aria-controls')).toBe('project-issue-detail')
     expect(musicRow?.getAttribute('aria-pressed')).toBe('true')
   })

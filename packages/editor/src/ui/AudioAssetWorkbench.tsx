@@ -5,7 +5,6 @@ import {
   type AssetRecordV1,
   type AssetReferenceSite,
   groupAssetReferencesBySite,
-  validateAssetReferenceClosure,
 } from '@type-pal/content'
 import type { MidiNoteActivity, MidiPreviewTransport } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
@@ -14,6 +13,7 @@ import {
   type PcmPeaks,
   type WavPreviewTransport,
 } from '../core/audio-preview.js'
+import { collectEditorAssetDiagnostics } from '../core/asset-diagnostics.js'
 import { DeleteAssetCommand, UpsertAssetCommand } from '../core/commands.js'
 import type { EditorState, EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
@@ -398,7 +398,7 @@ export function AudioAssetWorkbench(props: {
     return byAsset
   }, [allReferences])
   const closureIssues = useMemo(
-    () => validateAssetReferenceClosure(catalog, allReferences),
+    () => collectEditorAssetDiagnostics(catalog, allReferences),
     [allReferences, catalog],
   )
   const [filter, setFilter] = useState('')
@@ -444,7 +444,7 @@ export function AudioAssetWorkbench(props: {
     0,
   )
   const selectedIssues = selected
-    ? closureIssues.filter((issue) => issue.message.includes(`"${selected.id}"`))
+    ? closureIssues.filter((issue) => issue.assetId === selected.id)
     : []
   const deleteTarget = deleteTargetId
     ? entries.find((entry) => entry.id === deleteTargetId)
@@ -785,9 +785,7 @@ export function AudioAssetWorkbench(props: {
                             <DsDiagnosticRow
                               key={`${issue.code}:${issue.where}`}
                               severity={issue.severity === 'error' ? 'error' : 'warning'}
-                              title={issue.message}
-                              code={issue.code}
-                              path={issue.where}
+                              title={issue.title}
                               statusLabel="仅提示"
                             />
                           ))}

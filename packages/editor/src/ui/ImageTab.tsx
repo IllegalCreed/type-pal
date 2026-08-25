@@ -3,7 +3,6 @@ import {
   type AssetId,
   type AssetRecordV1,
   groupAssetReferencesBySite,
-  validateAssetReferenceClosure,
 } from '@type-pal/content'
 import { type AssetBase, loadStandardPalette } from '@type-pal/reforge'
 import {
@@ -16,6 +15,7 @@ import {
   type WheelEvent,
 } from 'react'
 import { DeleteAssetCommand, UpsertAssetCommand } from '../core/commands.js'
+import { collectEditorAssetDiagnostics } from '../core/asset-diagnostics.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { tryCollectEditorAssetReferenceSnapshot } from '../core/editor-asset-references.js'
@@ -454,7 +454,7 @@ export function ImageTab(props: {
     return result
   }, [allReferences])
   const closureIssues = useMemo(
-    () => validateAssetReferenceClosure(catalog, allReferences),
+    () => collectEditorAssetDiagnostics(catalog, allReferences),
     [allReferences, catalog],
   )
 
@@ -532,7 +532,7 @@ export function ImageTab(props: {
     0,
   )
   const selectedIssues = selected
-    ? closureIssues.filter((issue) => issue.message.includes(`"${selected.id}"`))
+    ? closureIssues.filter((issue) => issue.assetId === selected.id)
     : []
 
   const deleteTarget = deleteTargetId
@@ -855,9 +855,7 @@ export function ImageTab(props: {
                             <DsDiagnosticRow
                               key={`${issue.code}:${issue.where}`}
                               severity={issue.severity === 'error' ? 'error' : 'warning'}
-                              title={issue.message}
-                              code={issue.code}
-                              path={issue.where}
+                              title={issue.title}
                               statusLabel="仅提示"
                             />
                           ))}

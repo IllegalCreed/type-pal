@@ -6,7 +6,6 @@ import {
   type AssetReferenceSite,
   FRAME_SEQUENCE_MEDIA_TYPE,
   groupAssetReferencesBySite,
-  validateAssetReferenceClosure,
 } from '@type-pal/content'
 import { type AssetBase, loadStandardPalette } from '@type-pal/reforge'
 import {
@@ -19,6 +18,7 @@ import {
   useState,
 } from 'react'
 import { DeleteAssetCommand, UpsertAssetCommand } from '../core/commands.js'
+import { collectEditorAssetDiagnostics } from '../core/asset-diagnostics.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { tryCollectEditorAssetReferenceSnapshot } from '../core/editor-asset-references.js'
@@ -462,7 +462,7 @@ export function CutsceneTab(props: {
     return result
   }, [allReferences])
   const closureIssues = useMemo(
-    () => validateAssetReferenceClosure(catalog, allReferences),
+    () => collectEditorAssetDiagnostics(catalog, allReferences),
     [allReferences, catalog],
   )
   const selectedReferences = selected ? (references.get(selected.id) ?? []) : []
@@ -471,11 +471,7 @@ export function CutsceneTab(props: {
     0,
   )
   const selectedIssues = selected
-    ? closureIssues.filter(
-        (issue) =>
-          issue.where.includes(JSON.stringify(selected.id)) ||
-          issue.message.includes(`"${selected.id}"`),
-      )
+    ? closureIssues.filter((issue) => issue.assetId === selected.id)
     : []
 
   const onFrameMetadata = useCallback((metadata?: FrameAnimationMetadata) => {
@@ -983,9 +979,7 @@ export function CutsceneTab(props: {
                             <DsDiagnosticRow
                               key={`${issue.code}-${issue.where}`}
                               severity={issue.severity === 'error' ? 'error' : 'warning'}
-                              title={issue.message}
-                              code={issue.code}
-                              path={issue.where}
+                              title={issue.title}
                               statusLabel="仅提示"
                             />
                           ))}

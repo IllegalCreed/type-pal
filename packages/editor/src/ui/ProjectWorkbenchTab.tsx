@@ -23,6 +23,7 @@ import {
   SetStartupEntriesCommand,
   UpdateManifestAssetRolesCommand,
 } from '../core/commands.js'
+import { EDITOR_ASSET_KIND_LABELS } from '../core/asset-diagnostics.js'
 import type { EditorState, EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import {
@@ -157,6 +158,7 @@ function issueTarget(issue: ProjectIssue): EditorLocation | undefined {
 }
 
 const ISSUE_PAGE_SIZE = 80
+const ADAPTIVE_ISSUE_TITLE_MAX_LENGTH = 72
 
 export function IssueList(props: {
   issues: readonly ProjectIssue[]
@@ -166,6 +168,10 @@ export function IssueList(props: {
   const { issues, onOpenLocation, statusOwner } = props
   const errors = issues.filter((issue) => issue.severity === 'error').length
   const warnings = issues.length - errors
+  const compact = issues.every(
+    (issue) =>
+      issue.message.length <= ADAPTIVE_ISSUE_TITLE_MAX_LENGTH && !issue.message.includes('\n'),
+  )
   return (
     <DsDiagnosticPanel
       state={issues.length ? 'ready' : 'clear'}
@@ -175,6 +181,7 @@ export function IssueList(props: {
     >
       {issues.length ? (
         <DsDiagnosticList
+          layout={compact ? 'adaptive-grid' : 'stack'}
           initialVisibleCount={ISSUE_PAGE_SIZE}
           pageSize={ISSUE_PAGE_SIZE}
           allowShowAll
@@ -186,8 +193,6 @@ export function IssueList(props: {
                 key={`${issue.code}:${issue.path}:${issue.message}`}
                 severity={issue.severity === 'error' ? 'error' : 'warning'}
                 title={issue.message}
-                code={issue.code}
-                path={issue.path}
                 action={
                   target && onOpenLocation
                     ? {
@@ -229,23 +234,6 @@ const PROJECT_ISSUE_GROUP_LABELS: Record<ProjectIssue['code'], string> = {
   'unknown-manifest-field': '未知项目字段',
 }
 
-const ASSET_KIND_LABELS: Record<AssetKind, string> = {
-  music: '音乐',
-  sound: '音效',
-  soundfont: '音色库',
-  tileset: '瓦片集',
-  sprite: '场景精灵',
-  'battle-sprite': '战斗精灵',
-  'effect-sprite': '特效精灵',
-  portrait: '角色立绘',
-  face: '战斗头像',
-  'item-icon': '物品图标',
-  'battle-background': '战斗背景',
-  video: '视频',
-  'frame-animation': '帧动画',
-  'color-table': '色表',
-}
-
 export interface ProjectIssueGroup {
   id: string
   severity: ProjectIssue['severity']
@@ -282,7 +270,7 @@ export function groupProjectIssues(issues: readonly ProjectIssue[]): ProjectIssu
       code: issue.code,
       familyTitle: PROJECT_ISSUE_GROUP_LABELS[issue.code],
       title: resourceKind
-        ? ASSET_KIND_LABELS[resourceKind]
+        ? EDITOR_ASSET_KIND_LABELS[resourceKind]
         : PROJECT_ISSUE_GROUP_LABELS[issue.code],
       ...(resourceKind ? { resourceKind } : {}),
       issues: [issue],
@@ -350,9 +338,6 @@ function ProjectAdvancedPage(
       ? `${selectedIssueGroup.familyTitle} · ${selectedIssueGroup.title}`
       : selectedIssueGroup.title
     : '项目问题'
-  const selectedObjectId = selectedIssueGroup
-    ? `${selectedIssueGroup.code}${selectedIssueGroup.resourceKind ? `:${selectedIssueGroup.resourceKind}` : ''}`
-    : undefined
   const selectedCount = selectedIssueGroup?.issues.length
   const selectGroup = (id: string): void => {
     setLocalSelectedId(id)
@@ -365,7 +350,6 @@ function ProjectAdvancedPage(
       level={group.resourceKind ? 'secondary' : 'primary'}
       selected={selectedId === group.id}
       title={group.title}
-      meta={group.resourceKind ?? group.code}
       aria-controls="project-issue-detail"
       trailing={
         <DsTag tone={group.severity === 'error' ? 'danger' : 'warning'}>
@@ -424,7 +408,6 @@ function ProjectAdvancedPage(
       <ProjectPageWorkspace
         eyebrow="项目设置 · 问题"
         title={selectedTitle}
-        objectId={selectedObjectId}
         summary={selectedIssueGroup ? undefined : '当前项目没有错误或警告。'}
         meta={
           selectedIssueGroup ? (
@@ -436,14 +419,11 @@ function ProjectAdvancedPage(
       >
         <section id="project-issue-detail" className="project-card" aria-label="问题详情">
           {selectedIssueGroup ? (
-            <>
-              <h2 className="project-card__title">分组详情</h2>
-              <IssueList
-                issues={selectedIssueGroup.issues}
-                onOpenLocation={onOpenLocation}
-                statusOwner="external"
-              />
-            </>
+            <IssueList
+              issues={selectedIssueGroup.issues}
+              onOpenLocation={onOpenLocation}
+              statusOwner="external"
+            />
           ) : (
             <IssueList issues={[]} onOpenLocation={onOpenLocation} />
           )}

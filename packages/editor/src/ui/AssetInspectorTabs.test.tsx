@@ -295,8 +295,14 @@ describe('asset inspectors shared tabs', () => {
     expect(imageTabs).toHaveLength(3)
     await act(async () => imageTabs[2]!.click())
     expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(1)
-    expect(host.querySelector('.ds-diagnostic-row')?.tagName).toBe('ARTICLE')
-    expect(host.textContent).toContain('portrait.unused')
+    const imageDiagnostic = host.querySelector('.ds-diagnostic-row')
+    expect(imageDiagnostic?.tagName).toBe('ARTICLE')
+    expect(imageDiagnostic?.textContent).toContain(
+      '未使用立绘（ID：portrait.unused）当前未被使用',
+    )
+    expect(imageDiagnostic?.textContent).not.toMatch(/AssetId|unused-asset|assets\[/)
+    expect(imageDiagnostic?.querySelector('.ds-diagnostic-row__code')).toBeNull()
+    expect(imageDiagnostic?.querySelector('.ds-diagnostic-row__path')).toBeNull()
     expect(host.textContent).not.toContain('sound.unused 当前未被引用')
 
     await act(async () =>
@@ -316,7 +322,9 @@ describe('asset inspectors shared tabs', () => {
       host.querySelectorAll('[role="tablist"][aria-label="音效检查器"] [role="tab"]'),
     ).toHaveLength(2)
     expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(1)
-    expect(host.textContent).toContain('sound.unused')
+    const soundDiagnostic = host.querySelector('.ds-diagnostic-row')
+    expect(soundDiagnostic?.textContent).toContain('未使用音效（ID：sound.unused）当前未被使用')
+    expect(soundDiagnostic?.textContent).not.toMatch(/AssetId|unused-asset|assets\[/)
     expect(host.textContent).not.toContain('portrait.unused 当前未被引用')
   })
 
@@ -339,6 +347,7 @@ describe('asset inspectors shared tabs', () => {
     await render('video.unused')
     expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(1)
     expect(host.querySelector('.ds-diagnostic-row')?.tagName).toBe('ARTICLE')
+    expect(host.textContent).toContain('未使用视频（ID：video.unused）当前未被使用')
     expect(host.textContent).toContain('video.unused')
 
     await render('video.test')

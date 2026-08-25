@@ -504,7 +504,7 @@ describe('X7 项目诊断与保存门', () => {
     expect(collectProjectIssues({ ...base, manifest })).toContainEqual({
       severity: 'warn',
       code: 'unknown-manifest-field',
-      message: 'manifest 包含当前规范未登记的顶层字段 “futureField”',
+      message: '项目配置包含当前规范未登记的顶层字段 “futureField”',
       path: 'futureField',
     })
   })

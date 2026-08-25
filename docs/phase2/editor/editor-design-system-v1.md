@@ -1,8 +1,8 @@
 # Type-Pal 编辑器设计系统与交互规范 v1
 
-Status: implemented v2.10.2 diagnostic summary ownership（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
+Status: implemented v2.10.3 author-facing diagnostics and adaptive grid（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
 
-Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）
+Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2～v2.10.3）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）
 
 Applies to: `packages/editor` 的全部功能性界面
 
@@ -520,9 +520,10 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - Panel 状态固定为 `ready / clear / partial / failure`。完整结果使用 exact 错误/警告计数；读取不全只允许
   `at-least`，失败使用 unknown，禁止把下界伪装成精确数量。每个 Panel 只保留一个 live region；Row 不得逐条
   使用 `role=alert`。
-- Row 严重度固定为 `error / warning`，文字标签必须先于消息出现，不能只靠颜色。内容顺序固定为：严重度 →
-  消息 → code/detail → 可选择复制且 `overflow-wrap:anywhere` 的 path/evidence → 尾部“跳转”或
-  “在问题面板查看”文案 + 共享 `open` 图标，或者 `无法定位` / `仅提示` 静态状态。领域 label 禁止手写 `↗`。
+- Row 严重度固定为 `error / warning`，文字标签必须先于消息出现，不能只靠颜色。生产界面默认只显示“严重度 →
+  一句作者可读中文问题 → 必要动作”；稳定对象 ID 可原样保留，机器 code、schema path 与英文 kind 必须留在数据层，
+  不得常驻复述同一问题。只有位置或证据提供了标题之外的新信息时才可使用 detail/path，且展示标签必须中文化；
+  尾部动作使用“跳转”或“在问题面板查看”+ 共享 `open` 图标，领域 label 禁止手写 `↗`。
 - 定位行只允许三种原生根：可分享定位用 `<a>`，命令式定位用 `<button>`，静态或不可定位用 `<article>`。
   禁止嵌套交互控件和 disabled 假动作。Reference 与 Diagnostic 是两个公开语义合同，但二者必须通过内部中性
   locator row frame 共用根节点、padding、border、hover/focus、响应式和尾部几何；不得再复制第三套行骨架。
@@ -541,6 +542,8 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
   每级显示 occurrence 总数，零值使用紧凑空态，不制造可点击假分组。
 - 右侧只显示当前组实例，不再重复“这是警告组、可跳转”等可从标题、计数和行操作直接读出的说明。分组标题、
   摘要和行消息不得三次复述同一信息。
+- 只有单句问题与必要动作的低信息量列表使用 `DsDiagnosticList layout="adaptive-grid"`，由容器宽度自动排成一至
+  多列；含长证据/技术详情的列表保持单列。禁止固定写死“两列”或让窄容器产生横向滚动。
 - 问题分类必须由 collector 的稳定 code/type 驱动，禁止在 UI 按中文 message 解析；未知 code 明确进入“其他诊断”
   并保留原 code，不能静默丢失。
 

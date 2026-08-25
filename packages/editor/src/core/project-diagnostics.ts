@@ -12,7 +12,6 @@ import {
   type SceneDef,
   type StartWorld,
   validateAssetCatalog,
-  validateAssetReferenceClosure,
   validateAuthorDialogueReferences,
   validateAuthorEnemies,
   validateAuthorItems,
@@ -25,6 +24,7 @@ import {
   validateWorldVariableRegistryV1,
 } from '@type-pal/content'
 import { isRuntimeScriptRef } from '@type-pal/reforge'
+import { collectEditorAssetDiagnostics } from './asset-diagnostics.js'
 import type { EditorState } from './edit-session.js'
 import { collectEditorAssetReferences } from './editor-asset-references.js'
 import { collectMissingEntityAddressReferences } from './entity-address-references.js'
@@ -201,7 +201,7 @@ function validateSeedStats(
         issues.push({
           severity: 'error',
           code: 'invalid-start-world',
-          message: `seedStats.${actorId}.${key} 必须是非负整数`,
+          message: `角色 “${actorId}”的开局当前 ${key.toUpperCase()} 必须是非负整数`,
           path: `${pathPrefix}.seedStats.${actorId}.${key}`,
           target,
         })
@@ -295,7 +295,7 @@ export function collectProjectIssues(
     issues.push({
       severity: 'warn',
       code: 'unknown-manifest-field',
-      message: `manifest 包含当前规范未登记的顶层字段 “${key}”`,
+      message: `项目配置包含当前规范未登记的顶层字段 “${key}”`,
       path: key,
     })
   }
@@ -387,13 +387,10 @@ export function collectProjectIssues(
 
   // 调用统一引用收集器 + closure validator，确保诊断覆盖脚本/场景/敌人引用；本页只展示摘要。
   const references = collectEditorAssetReferences(state, currentAuthor)
-  const unusedAssetByPath = new Map(
-    Object.keys(state.assetCatalog.assets).map((id) => [`assets[${JSON.stringify(id)}]`, id]),
-  )
   for (const closure of catalogValid
-    ? validateAssetReferenceClosure(state.assetCatalog, references)
+    ? collectEditorAssetDiagnostics(state.assetCatalog, references)
     : []) {
-    const reference = references.find((candidate) => candidate.where === closure.where)
+    const reference = closure.reference
     const isIntro =
       reference?.site.startsWith('entryPoint:') ?? closure.where.includes('introVideo')
     const isRole = reference?.site.startsWith('manifest.assets.roles.') ?? false
@@ -411,12 +408,12 @@ export function collectProjectIssues(
           : isRole
             ? 'missing-role-asset'
             : 'missing-asset'
-    const assetId = reference?.asset ?? unusedAssetByPath.get(closure.where)
+    const assetId = closure.assetId
     const entryId =
       reference?.site.startsWith('entryPoint:') && reference.site.endsWith(':introVideo')
         ? reference.site.slice('entryPoint:'.length, -':introVideo'.length)
         : undefined
-    const expectedKind = reference?.expectedKind
+    const expectedKind = closure.expectedKind
     const spriteDefinitionIndex = reference
       ? /^sprites\[(\d+)\]\.asset$/.exec(reference.where)?.[1]
       : undefined
@@ -431,7 +428,7 @@ export function collectProjectIssues(
       battleSpriteDefinitionIndex === undefined
         ? undefined
         : state.battleSprites[Number(battleSpriteDefinitionIndex)]?.id
-    const actualKind = assetId ? state.assetCatalog.assets[assetId]?.kind : undefined
+    const actualKind = closure.actualKind
     const targetKind = actualKind ?? expectedKind
     const assetPage =
       targetKind === 'music'
@@ -453,7 +450,7 @@ export function collectProjectIssues(
     issues.push({
       severity: closure.severity,
       code,
-      message: closure.message,
+      message: closure.title,
       path: reference?.site ?? closure.where,
       ...(assetId
         ? {
@@ -747,8 +744,8 @@ export function assertProjectSaveValid(state: EditorState): void {
   }
 
   const references = collectEditorAssetReferences(state)
-  const closureErrors = validateAssetReferenceClosure(state.assetCatalog, references).filter(
+  const closureErrors = collectEditorAssetDiagnostics(state.assetCatalog, references).filter(
     (issue) => issue.severity === 'error',
   )
-  if (closureErrors.length) throw new Error(`保存前资源引用校验失败：${closureErrors[0]!.message}`)
+  if (closureErrors.length) throw new Error(`保存前资源引用校验失败：${closureErrors[0]!.title}`)
 }

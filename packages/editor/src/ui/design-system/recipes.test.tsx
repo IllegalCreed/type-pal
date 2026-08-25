@@ -592,11 +592,12 @@ describe('object workbench recipes', () => {
     ))
     await act(async () =>
       root.render(
-        <DsDiagnosticList initialVisibleCount={80} pageSize={80}>
+        <DsDiagnosticList layout="adaptive-grid" initialVisibleCount={80} pageSize={80}>
           {rows}
         </DsDiagnosticList>,
       ),
     )
+    expect(host.querySelector('.ds-diagnostic-list--adaptive-grid')).not.toBeNull()
     expect(host.querySelectorAll('.ds-diagnostic-row')).toHaveLength(80)
     expect(host.textContent).toContain('已显示 80 / 152 项')
     expect(host.querySelectorAll('[role="status"], [role="alert"]')).toHaveLength(1)
