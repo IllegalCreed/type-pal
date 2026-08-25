@@ -1,6 +1,6 @@
 # ED-DS-3 编辑器设计系统全量采用与防回流门禁
 
-> **状态**：review（2026-08-24 `9dd4e4a3` 已完成；等待 Kimi / GLM 实现验收签字）
+> **状态**：done（2026-08-25 Codex / Kimi / GLM 三方 `accept` 齐）
 > **负责人**：Codex（Coding Owner）
 > **参与审查**：Kimi（公共组件 / 交互架构）、GLM（页面覆盖 / 规则审计）
 > **能力格**：ED2 编辑器设计系统与交互基础设施
@@ -187,23 +187,14 @@
 | Agent | accept | 证据 / 备注 |
 |---|---|---|
 | Codex | **accept** | `9dd4e4a3`；editor 145 files / 1114 tests + typecheck 全绿；静态门禁与最小浏览器验证通过，见上方 Build 证据 |
-| Kimi | pending | — |
-| GLM | pending | — |
+| Kimi | **accept** | 2026-08-24 独立终审 9dd4e4a3：①本人跑 `audit:design-system`——84 files / 3 evidence-bound exceptions 通过；legacy census 复跑 raw button/input/select/textarea 与 legacy 类全 0，inline 剩 20 均为动态几何负例放行；②25 页采用矩阵与真实 registry 精确相等且每页五 owner 齐全（adoption.test.ts:14-35），DataMode/AST 闭包测试直接执行真实门禁脚本；③allowlist 3 条均为 StampContentEditor 持久壳层布局桥（非浮层），七字段 schema + 0/1/2 三态机检（GD1/GD2 落地）；④公共组件只补真空缺：DsPressable 注释明示不承接标准/危险动作，实测用于物品图标网格与 stamp 卡片等富表面（ItemTab.tsx:576-610、StampPlacementSelectionInspector.tsx:205-231），DsFilePicker/DsColorInput/DsReadonlyValue 同理，aria-invalid 覆盖修复正确；⑤行合同 68/46px 落入 tokens.css:50-51；世界精灵虚拟化 636 项有界挂载 + End/Enter 选择测试通过；⑥聚焦复跑 adoption/boundary/controls/recipes/virtual-list/WorldSpriteLibrary 6 文件 115/115 全绿；全量 145/1114 采纳卡内记录未重复 |
+| GLM | **accept** | 2026-08-24 done 前终审（提交 9dd4e4a3，73 文件 +2656/-1539）：**①**本人复跑 `node scripts/design-system-audit.mjs --gate`（= audit:design-system）exit 0，输出 "design-system gate passed: 84 files, 3 evidence-bound exceptions"；**②**census 对比开卡基线零回流：native button 186→**0**、input 113→**0**、select 0、textarea 2→**0**、checkbox 9→**0**、inline 66→**20**（纯动态几何）；legacy class 全家族（tool 40/btn 18/mini 13/mini-txt 20/pv-btn 5/mini-icon 3）→**全零**；DS 采用上升（DsButton 203→309）；**页面级 raw `<input>` 零命中**（仅存 10 处全在 design-system 公共组件本体——census 排除域合法）；**③**allowlist 3 条 exception（StampContentEditor:636-638 private-overlay-portal）**七字段全齐**（file/line/rule/owner/reason/verification/removalCondition，owner=card:ED-DS-3）——GD1 落地；**④**adoption matrix 25 页面 + 四个测试：registry 双向闭合（每注册页恰一条记录）、registry×DataMode return×allowlist×source AST 四向闭合、KD2 双负例（DsFileInput/DsFilePicker 公共化 + BattleSpriteUploader 动态几何 style 实测断言）、陈旧 exception exit 2 / 违规 exit 1 / 通过 exit 0 **三态**——GD2/GD3/KD2 全落地；**⑤**inline style 20 处全为动态几何（width*2/pixelated 类）；**⑥**focused 4 files/97 tests + typecheck 全绿（全量 145/1114 采纳 Codex 记录）。滚动/overlay 合同（KD1 以 DsObjectWorkspace/DsFloatingLayer 为文本源）由 recipes 测试"one constrained scroll content region"/"inspector tabs one visible scroll panel"承载。 |
+
+**收口结论：done（2026-08-25，三方 accept 齐，无 counter / 返工项）。**
 
 ## 下一位 Agent 提示词
 
-请 Kimi 与 GLM 审查任务卡 `docs/ops/tasks/ED-DS-3-editor-design-system-adoption-gate.md` 的
-实现提交 `9dd4e4a3`。先完整阅读 `AGENTS.md`、`CLAUDE.md`、`docs/phase2/READ-FIRST.md`、本任务卡及
-`docs/phase2/editor/editor-design-system-v1.md` v2.10.0。不得修改实现文件、不得标记 done。
-
-- 共同核验：真实 registry 的 25 页面矩阵与 `DataMode` 双向闭合；raw / legacy census 清零；
-  三态静态门禁、KD2 合法负例、七字段 allowlist 及陈旧例外失败；`DsPressable` 未承接标准或危险动作；
-  68px / 46px 行合同、精灵列表虚拟化、滚动 / overlay / focus / Esc 合同。
-- Kimi 重点：公共组件边界、滚动 / overlay owner、动作语义和可访问性；独立给出代码锚点与可证伪观察。
-- GLM 重点：registry / DataMode 覆盖、allowlist 证据、规则输出、测试矩阵与零回流 census；独立复跑或
-  核验 `pnpm --filter @type-pal/editor audit:design-system`。
-- 每方把结论写回本卡 `review -> done` 表：通过签 `accept` 并附一手证据；否则签 `counter` 并列出返工项。
-  Kimi / GLM 两席验收签字未齐前不得标记 done。
+无下一位 Agent 提示词；ED-DS-3 已完成三方验收并收口，等待后续任务消费稳定公共合同。
 
 #### Kimi 审查（2026-08-24，公共组件/交互架构；本人一手复跑 census + 直读 DS/Session/App/非项目页字段路径）
 
@@ -280,3 +271,9 @@ RF fixture 体系，不新增第三套。
 **可证伪观察**：若 census 脚本对 `.mimosa/` 或生成产物误扫（scope 已排除
 design-system 与 test，但须确认新增目录），门禁第一天即大面积误报——build 首跑
 即知。
+- 2026-08-24 GLM（页面覆盖/规则审计）: done 终审完成并签 **accept**。GD1-GD3/KD2 逐钉验证：
+  gate 三态 exit（0/1/2）+ 七字段 allowlist 3 条 + 25 页面 registry×DataMode×AST 四向闭合 +
+  KD2 双负例（file input 公共化 DsFilePicker + 动态几何实测）。census 零回流：native
+  button/input/textarea/checkbox 与 legacy 全家族全部归零、页面级 raw input 零命中（10 处
+  仅存公共组件本体）、inline 66→20 全动态几何、DsButton 203→309。gate 复跑 exit 0。focused
+  97+typecheck 全绿。未改实现，未代签 Kimi，未标 done。
