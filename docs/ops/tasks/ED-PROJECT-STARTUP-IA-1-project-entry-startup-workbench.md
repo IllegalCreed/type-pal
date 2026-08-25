@@ -1,6 +1,6 @@
 # ED-PROJECT-STARTUP-IA-1 - 入口与开局 / 全局资源与启动工作台收口
 
-Status: draft
+Status: draft（2026-08-25 刷新合同三签齐；等待 ARCH-ENTRY-ACTOR-SEED-1 用户验收后排期 build）
 Phase: phase2
 Capability: X7
 Coding Owner: Codex
@@ -9,7 +9,7 @@ Reviewer: Kimi + GLM
 Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
 Unavailable Agents: none
-Branch: `codex/ed-project-startup-ia-1`
+Branch: `codex/ed-audio-workbench-1`
 
 ## 目标
 
@@ -24,7 +24,10 @@ Branch: `codex/ed-project-startup-ia-1`
   - 队伍改为“有序成员列表 + 可搜索添加器”，不再铺满候选 checkbox；上移/下移/移除保持稳定顺序。
   - 库存、技能、资源值复用标准重复行与标准新增/删除动作，窄宽度不折断动作。
   - “全局资源与启动”：按 `ASSET_ROLES` 与分组源动态渲染，音乐/音效原位试听与“打开资源页”分离。
-  - 项目概览删除写死数量和重复流程编辑入口；启动链只保留有决策价值的摘要/帮助。
+  - 项目概览删除写死数量和重复流程编辑入口；启动链改为三张直观摘要卡：默认开局、标题菜单、启动资源。
+    默认开局直接展示入口名称、队员姓名、金钱、初始物品与开场视频状态；标题菜单展示可选故事数量/名称；
+    启动资源展示已配置/待配置/配置错误以及对应的可读角色名称。`s000`、`assets.roles`、`?entry` 等机器标识
+    不常驻概览。
   - 所有连续输入复用 `ED-FIELD-COMMIT-1` 的字段提交合同。
 - 范围外:
   - 不修改 `StartWorld`、`EntryPoint`、`AssetRole` schema；角色等级/装备/属性来源由 `ARCH-ENTRY-ACTOR-SEED-1` 决策。
@@ -48,8 +51,8 @@ Branch: `codex/ed-project-startup-ia-1`
 |---|---|---|
 | 原版 / primary source | N/A：这是二阶段项目作者工具；原版只提供内容参考，不定义本工作台 IA。 | `docs/phase2/READ-FIRST.md:1` |
 | 第一阶段 | N/A：一阶段没有该 manifest 作者工作台；本卡不改变游戏内标题菜单形态。 | `docs/phase2/READ-FIRST.md:32` |
-| 当前二阶段 | `EntryPoint.startWorld` 必填且完整，`defaultEntryId` 只选择；当前页面仍使用候选 checkbox、raw `btn`、写死“编辑 8 项设置”，音乐只“前往预览”而音效可原位播放。 | `packages/content/src/character.ts:52`、`:73`、`:89`；`packages/editor/src/ui/ProjectWorkbenchTab.tsx:693`、`:756`、`:911`、`:1430`、`:1660`；`packages/content/src/asset.ts:33` |
-| 本任务目标 | 不改 schema/启动语义，只把现有字段与资源角色组织成统一、可理解、可试听、可撤销的工作台。 | 用户 2026-08-24 拍板；本卡验收条件 |
+| 当前二阶段 | `EntryPoint.startWorld` 必填且完整，`defaultEntryId` 只选择；角色初始技能已归 `ActorDef.initialMagic`，入口只持有队伍、当前 HP/MP 稀疏覆盖、物品、资源和金钱。当前概览仍直接显示 `s000`、`assets.roles`、写死“编辑 8 项设置”，并用“启动分支”重复前两行。 | `packages/content/src/character.ts:52-77,89-96`；`packages/editor/src/ui/ProjectWorkbenchTab.tsx:1587-1631`；`docs/ops/tasks/ARCH-ENTRY-ACTOR-SEED-1-entry-actor-initial-state.md:163-167` |
+| 本任务目标 | 不改 schema/启动语义，只把现有字段与资源角色组织成统一、可理解、可试听、可撤销的工作台；项目概览只显示普通作者能直接判断的启动信息。 | 用户 2026-08-24、2026-08-25 拍板；本卡验收条件 |
 
 ### 反证与替代解释
 
@@ -64,9 +67,11 @@ Branch: `codex/ed-project-startup-ia-1`
 ### 用户可见偏离
 
 - 是否主动偏离已核真值: yes
-- `before -> after` 一句话: 分散 checkbox、raw 按钮、重复流程说明和跳转预览 -> 有序添加/重复行/原位试听/单一摘要的标准工作台。
+- `before -> after` 一句话: 分散 checkbox、raw 按钮、重复流程说明、跳转预览和 `s000/assets.roles` 机器摘要 ->
+  有序添加/重复行/原位试听，以及“默认开局/标题菜单/启动资源”三张可读摘要卡。
 - 代表场景: 编辑默认入口队伍与初始技能；在全局资源中试听默认战斗音乐；项目概览跳到对应唯一作者页。
-- 用户裁决: 2026-08-24 用户要求将已指出的入口、开局、全局资源与启动缺陷系统收口。
+- 用户裁决: 2026-08-24 用户要求将入口、开局、全局资源与启动缺陷系统收口；2026-08-25 用户明确指出
+  `s000`、`assets.roles` 等普通人无法理解，要求重做摘要并展示重要、直观的信息。
 
 ## 上下文锚点
 
@@ -102,11 +107,20 @@ Branch: `codex/ed-project-startup-ia-1`
   - 库存、技能、资源使用同一重复行合同；删除动作不换行，空态与新增路径清楚。
   - 音乐和音效都能原位试听；试听与打开资源页是两个明确动作；切曲停止前一资源。
   - 全局资源角色及分组由源码常量动态生成，界面无“编辑 8 项”等陈旧数字。
-  - 项目概览只给摘要与唯一导航，不重复完整问题列表或第二套启动流程。
+  - 项目概览只保留三张摘要卡与两个唯一导航 owner：
+    - 默认开局：入口显示名为主标题；队伍显示解析后的角色姓名，并展示金钱、初始物品种类/总数、起始位置和
+      开场视频是否已配置；场景引用损坏时显示可操作的“起始位置需要修复”，而不是裸 scene ID。
+    - 标题菜单：显示可选故事数量；少量入口直接列显示名，长列表给数量与首项摘要，不显示入口稳定 ID。
+    - 启动资源：显示已配置/待配置数量；类型错误或悬空绑定单列“需要处理”，并显示可读资源角色名称。未配置的
+      可选角色不得伪装成错误；详情进入资源设置页。
+  - 概览不得常驻 `s000`、`assets.roles`、`manifest.*`、`?entry/?menu/?scene`、写死“8 项”或重复“启动分支”。
+    技术 ID 只在详情/帮助中按需披露。
 - 测试:
   - schema closure 测试证明 `ASSET_ROLES` 每项恰好进入一个可见分组，数量变化无需改文案。
   - 入口全操作、队伍顺序、重复行、原位试听、焦点与单步 undo 覆盖。
   - 连续字段命令次数遵守 `ED-FIELD-COMMIT-1`。
+  - 概览专项测试覆盖正常/缺损默认入口、单/多入口、资源全齐/缺失、长名称；断言机器 token 和写死数量不出现，
+    三张卡及两个导航动作读取 live manifest，入口/资源变化后摘要同步刷新。
 - 文档:
   - 更新 `docs/phase2/editor/editor-design.md:210`，删除“八项/四组”等过期描述并记录实际数据驱动合同。
 - 视觉 / 手工验证:
@@ -115,7 +129,74 @@ Branch: `codex/ed-project-startup-ia-1`
 
 ## 推进签字
 
-### 进入 build 前:设计签字
+### 当前进入 build 前签字（2026-08-25 设计刷新）
+
+- Codex:
+  - premise: **verified（2026-08-25）**。`character.ts:52-77,89-96` 与 ARCH 卡三方 review accept 证明入口
+    ownership 已冻结；`ProjectWorkbenchTab.tsx:1587-1631` 直接证明裸 `s000`、`assets.roles`、写死数量和重复启动分支。
+  - design: **agree（2026-08-25）**。概览改为默认开局/标题菜单/启动资源三张摘要卡；只消费现有 manifest、
+    actor/item/asset 数据，不增加 schema，不复制入口或资源编辑器。
+- Kimi:
+  - premise: **verified（2026-08-25 按刷新后合同独立重签，非沿用 08-24 旧签）**。当前概览直读
+    `ProjectWorkbenchTab.tsx:1586-1631`：四行 project-flow-mini 常驻 `<code>` 场景 id 与
+    `assets.roles`、写死“编辑 8 项设置”（实际 `ASSET_ROLES` 12 项，asset.ts:33-47）、重复
+    “启动分支”行——用户指认全部属实。三张摘要卡的可派生性逐字段核过 live 来源：入口名/队伍/
+    金钱/物品/开场视频 ← manifest entryPoints（canonical 模型 ARCH 卡已收口）；角色/物品显示名
+    ← actors/items + locale `lookupText`（既有先例 :703）；资源已配置/待配置/类型错误 ←
+    validateManifestAssetConfig + 既有 project diagnostics；起始位置损坏 ← validateManifestEntryPoints
+    的 missing-entry-point-scene。单/多入口、损坏入口、长名称、窄宽度均可用现有 DS primitive 表达。
+    ARCH-ENTRY-ACTOR-SEED-1 ownership 已冻结并实现（0558819e 本人已 accept），DS-3/FIELD-COMMIT-1
+    公共合同均已 done——KP3 的排期前置已满足。
+  - design: **agree（2026-08-25，附 KI1-KI2；KP1 与 GLM GP1-GP2 继续有效）**：
+    - **KI1（资源角色展示名单一来源）**：启动资源卡的可读角色名必须由 typed registry 从
+      `ASSET_ROLES` 派生（label/kind/分组/必需性同源），页面不得另写 12 项文案表——否则数量
+      变化又要手改文案（GP1 的结构派生延伸到 label 层）。
+    - **KI2（起始位置的健康态表达）**：当前 schema 场景无人类可读名；健康态不得常驻裸
+      `s000`——建议只显示“已就绪/需修复”状态与配置状态，scene id 只进详情/DsHelpTip；
+      损坏态显示可操作的“起始位置需要修复”并带唯一导航（卡面验收同向，此处把健康态也锁死）。
+- GLM:
+  - premise: **verified（2026-08-25，本人一手读码 + 派生性逐项核验，非代理）**：
+    1. **现状实锤**：`ProjectWorkbenchTab:1587-1631` 直读确认——`:1587` "启动摘要"标题
+       下 `:1620` 裸 `<code>assets.roles</code>`、`:1622` 写死"编辑 8 项设置"（ASSET_ROLES
+       实为 12 项，我 08-24 已独立枚举）、`:1626-1627` "启动分支 / 直接启动入口 / 标题
+       菜单入口"重复描述——卡文 before 全部属实。
+    2. **三卡字段 live canonical 可派生性逐项核验**：
+       - **默认开局卡**：入口显示名=entryPoint.label（manifest 现有）；角色姓名=
+         `lookupText(actor.name, locale)`（locale.ts 现有导出）；金钱/物品=StartWorld
+         现有；起始位置=entry.scene 可解析为场景名（scenes 表现有）——**全部可从
+         live state 派生，零新增 schema**；scene 损坏检测依据 validate.ts:206-207
+         已有 scene 存在性校验（编辑器侧需引用同一 scenes 集合做 live 判定）。
+       - **标题菜单卡**：可选故事数=entryPoints.length（live）；少量入口直接列/
+         长列表摘要=纯派生逻辑。
+       - **启动资源卡**：已配置/待配置=遍历 ASSET_ROLES 对照 manifest.assets.roles
+         （live）；可读角色名=ProjectWorkbenchTab 已有 role→中文 label 映射
+         （'默认战斗音乐'等，非新增）；类型错误/悬空=validate-refs 现有域。
+    3. **ARCH-SEED 冻结消费确认**：卡文"入口与开局"节只编辑 party/money/inventory/
+       resources/seedStats——**全部在冻结合同允许域**；无等级/装备/属性/技能入口字段。
+  - design: **agree（2026-08-25，附 GPS1-GPS2，不阻塞准入；KP1-KP3/GP1-GP2 历史钉
+    中未失效者继续携带）**：
+    - **GPS1（scene 损坏判定的单一真值源）**：概览"起始位置需要修复"的判定必须消费
+      与 validate.ts:206-207 同一 scenes 集合（live manifest 的 scenes/index 或
+      project-diagnostics 现有 issue collector），不得在概览组件里自写第二份场景
+      存在性检查——两份判定会漂移。
+    - **GPS2（资源"待配置"与"类型错误"不得混淆）**：启动资源卡的三态（已配置/待配置/
+      需要处理）中，**未配置的可选角色是中性状态不是错误**（卡文已含）；测试须含
+      "可选角色空 + 必选角色类型错"的组合用例，断言只有后者进"需要处理"。
+  - 独立反证审查:
+    - 审查者: GLM（2026-08-25，见上）。
+    - 独立证据锚点: ProjectWorkbenchTab:1587-1631 / locale.ts lookupText /
+      validate.ts:206-207 / asset.ts ASSET_ROLES:33-46 / ProjectWorkbenchTab
+      role→label 映射 / ARCH-SEED 冻结合同条款 2-3。
+    - 可证伪观察: ①若概览组件自写场景存在性判定与 validator 漂移（GPS1 断言同一
+      输入源）；②若可选空角色被标为错误（GPS2 组合用例拦截）；③若任一摘要字段
+      实现时发现需要新增 manifest/entry 字段才能派生——推翻"零 schema"承诺即停线。
+- counter / 分歧处理: N/A
+- 缺签豁免: N/A
+- build 准入结论: **allowed（2026-08-25，Codex + Kimi（KI1-KI2）+ GLM（GPS1-GPS2）按刷新后合同
+  三签齐；KP1/GP1-GP2 中未失效钉继续携带；ED-DS-3 与 ED-FIELD-COMMIT-1 公共合同已 done，
+  ARCH-ENTRY-ACTOR-SEED-1 ownership 已冻结并实现）。**
+
+### 历史 build 前设计签字（2026-08-24；已因本次设计刷新失效）
 
 - Codex:
   - premise: verified（`character.ts:73-96` 证明 canonical 入口模型；`ProjectWorkbenchTab.tsx:693-1017` 与 `:1430-1694` 证明现有交互/旧控件/写死摘要）
@@ -197,6 +278,12 @@ Branch: `codex/ed-project-startup-ia-1`
 - 库存/技能/资源使用同一 `repeatable row` recipe；选择/值/动作保持单行，窄容器按规范降为明确的上下块。
 - 资源角色列表由 typed registry 派生 label/kind/group/required/preview capability，杜绝 UI 单独维护数量与分组。
 - 音乐/音效试听共用现有 resolver/player；资源页导航使用真实 action link，不拿“前往预览”代替播放。
+- 项目概览使用三张自适应摘要卡，不再使用横向“标签/值/代码/动作”技术巡检表：
+  - 默认开局：入口显示名 + 角色姓名 + 金钱 + 初始物品 + 起始位置/开场视频状态；动作“编辑开局”。
+  - 标题菜单：可选故事数量和显示名摘要；动作“管理入口”。
+  - 启动资源：已配置/待配置/需要处理状态和人类可读资源角色名称；动作“配置资源”。
+  - 入口/scene/asset 技术 ID 不常驻；必要概念放 `DsHelpTip`，同名歧义在详情页以稳定 ID 消解。
+- Wide 三卡横排，窄容器自然降为单列；每卡只保留一个动作，不重复“启动分支/查看链路”。
 
 ### 已知风险
 
@@ -208,9 +295,10 @@ Branch: `codex/ed-project-startup-ia-1`
 ### 主审立场
 
 - Reviewer: Kimi
-- 结论: agree（2026-08-24；canonical 入口不变前提直读核实，KP1-KP3 已写回）
-- 必改项: 无新增；KP1（试听复用 AUDIO 卡通道）与 KP3（构建顺序在 DS-3/FIELD-COMMIT-1 之后）为 build 约束。
-- 是否建议进入 build: 是（待 GLM 签字；排期上须在两张基础卡之后）
+- 结论: agree（2026-08-25 按刷新后合同重签，KI1-KI2 已写回；GLM GPS1-GPS2 互补）
+- 必改项: 无新增；KI1（资源角色 label 单一来源）、KI2（起始位置健康态不显示裸 scene id）、
+  KP1（试听单通道）、GPS1（场景损坏判定单一真值源）、GPS2（待配置≠错误）为 build 必落钉。
+- 是否建议进入 build: 是（三签齐，前置合同已全部落地）
 
 ## Build: 实现与自测
 
@@ -235,6 +323,14 @@ Branch: `codex/ed-project-startup-ia-1`
 
 ## 交接日志
 
+- 2026-08-25 Kimi: 按 2026-08-25 刷新合同重签。直读当前概览四行摘要（裸 s000/assets.roles/写死
+  “编辑 8 项”/重复启动分支）与三张摘要卡的 live 派生来源（manifest entryPoints、lookupText、
+  validateManifestAssetConfig、validateManifestEntryPoints）；确认 ARCH-SEED ownership 已冻结实现、
+  DS-3/FIELD-COMMIT-1 合同已 done；签 premise verified + design agree（附 KI1 资源 label 单一来源、
+  KI2 起始位置健康态不显示裸 scene id）。未修改实现。三签齐，准入开放。
+- 2026-08-25 User + Codex: 用户指出概览中的 `s000`、`assets.roles` 和重复链路普通人无法理解；Codex 直读
+  当前实现与冻结后的 actor ownership，刷新为三张直观摘要卡合同。旧 2026-08-24 设计签字按规则失效；
+  Next: Kimi / GLM 按最新版联合重签，签字前不得改实现。
 - 2026-08-24 Kimi: 独立核 canonical 入口模型不变前提（character.ts:89-100）、ASSET_ROLES 12 项枚举、
   当前页遗留（raw btn/checkbox 墙/写死“编辑 8 项”/“前往预览”/逐字符命令）；确认边界完整（不恢复继承/
   伪入口/fallback、seed schema 留在 ARCH-ENTRY-ACTOR-SEED-1）；签 premise verified + design agree
@@ -246,13 +342,18 @@ Branch: `codex/ed-project-startup-ia-1`
 ```text
 接手任务: ED-PROJECT-STARTUP-IA-1 入口与开局 / 全局资源与启动工作台收口
 任务卡: docs/ops/tasks/ED-PROJECT-STARTUP-IA-1-project-entry-startup-workbench.md
-当前状态: draft；build blocked
-你的角色: Kimi 或 GLM 设计审查者
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、ARCH-ENTRYPOINT-CANONICAL-1、本任务卡、editor-design.md:210、ProjectWorkbenchTab 相关锚点
-已完成: 已把业务 IA 与角色 seed schema 扩展拆开，列明队伍/重复行/资源角色/原位试听/概览收口验收
-请你做: 独立核 canonical 入口不变前提，审队伍添加器、资源 registry、试听与响应式闭环并在卡内签字
-不要做: 不得改 schema 或实现；不得恢复入口继承/伪入口；三签未齐不得进入 build
-输出要求: premise verified/counter、design agree/counter、直接证据、必改项
+当前状态: draft；刷新合同三签齐、build 设计准入已开放；排期前置仅剩 ARCH-ENTRY-ACTOR-SEED-1 用户最终验收
+你的角色: Codex（唯一 Coding Owner）
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、ARCH-ENTRYPOINT-CANONICAL-1、ARCH-ENTRY-ACTOR-SEED-1、
+      ED-DS-3、ED-FIELD-COMMIT-1、本任务卡、ProjectWorkbenchTab.tsx:1332-1631
+已完成: DS/FIELD 公共合同已 done；ARCH actor ownership 已获三方 review accept；用户新增裁决要求概览删除
+        s000/assets.roles/写死数量/重复启动分支，改为默认开局、标题菜单、启动资源三张直观摘要卡；
+        Kimi（KI1-KI2）与 GLM（GPS1-GPS2）已按刷新合同独立重签
+请你做: ARCH 用户验收完成后进入 build；实现队伍/库存/资源/试听工作流和三张摘要卡，确保所有字段由 live
+        canonical state 派生，并覆盖角色/物品显示名、资源三态、长名称/窄宽、焦点、撤销和两个唯一导航闭环
+不要做: ARCH 用户验收前不得修改实现；不得恢复入口继承/伪入口/fallback；不得增加 schema；不得用机器
+        token、写死数量或页面局部保存
+输出要求: 独立提交；聚焦测试、最小功能界面验证与 Build / Review 证据；实现后转 review，等待三方 accept
 ```
 - 2026-08-24 GLM（覆盖/数据/测试矩阵）: 审查完成，签 **premise verified + design agree
   （附 GP1-GP2）**。ASSET_ROLES 12 项独立枚举（audio 9+video 2+visual 1）vs :1686 写死
@@ -260,3 +361,9 @@ Branch: `codex/ed-project-startup-ia-1`
   可复用（KP1 可行）；入口原子 commit 边界完好。GP1 钉分组由结构派生+第四类前缀自动红；
   GP2 钉试听单通道与不写 WorldState 断言。**build 硬前置：ED-DS-3/FIELD-COMMIT 公共
   合同落地**。未改实现，未代签 Kimi。
+- 2026-08-25 GLM（设计刷新重签）: 按 2026-08-25 三摘要卡新设计完成独立审查并重签
+  **premise verified + design agree（附 GPS1-GPS2）**。现状裸 token/写死 8 项/重复分支
+  实锤；三卡字段逐项核验全部可从 live canonical state 派生（lookupText/ASSET_ROLES 对照/
+  role→label 现有映射/validate.ts:206 scene 校验），零新增 schema；ARCH-SEED 冻结域消费
+  确认。GPS1 钉 scene 损坏判定单源；GPS2 钉可选待配置与类型错误不混淆。未改实现，未代签
+  Kimi。
