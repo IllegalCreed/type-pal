@@ -4,12 +4,12 @@ import { readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, test } from 'vitest'
-import { EDITOR_MODULES } from '../editor-navigation.js'
 import {
   evaluateAllowlist,
   findEmbeddedNavigationGlyphActions,
   isEmbeddedNavigationGlyphAction,
 } from '../../../scripts/design-system-audit.mjs'
+import { EDITOR_MODULES } from '../editor-navigation.js'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const packageRoot = join(here, '../../..')
@@ -43,7 +43,7 @@ describe('design-system adoption gate', () => {
       cwd: packageRoot,
       encoding: 'utf8',
     })
-    expect(output).toContain('design-system gate passed: 86 files, 3 evidence-bound exceptions')
+    expect(output).toContain('design-system gate passed: 87 files, 3 evidence-bound exceptions')
   })
 
   test('keeps legitimate native and dynamic geometry behind public boundaries', () => {

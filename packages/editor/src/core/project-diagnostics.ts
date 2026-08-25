@@ -6,7 +6,9 @@
  * UI、保存前校验和测试都消费同一组纯函数。
  */
 import {
+  ASSET_ROLES,
   type AssetKind,
+  type AssetRole,
   type CurrentManifest,
   type EntryPoint,
   type Issue,
@@ -25,31 +27,22 @@ import {
   validateWorldVariableRegistryV1,
 } from '@type-pal/content'
 import { isRuntimeScriptRef } from '@type-pal/reforge'
-import {
-  collectEditorAssetDiagnostics,
-  type EditorAssetDiagnostic,
-} from './asset-diagnostics.js'
-import {
-  blockingActorReferenceMap,
-  type ActorReference,
-} from './actor-references.js'
-import {
-  blockingPoisonReferenceMap,
-  type BattleDataReference,
-} from './battle-data-references.js'
+import { type ActorReference, blockingActorReferenceMap } from './actor-references.js'
+import { collectEditorAssetDiagnostics, type EditorAssetDiagnostic } from './asset-diagnostics.js'
+import { type BattleDataReference, blockingPoisonReferenceMap } from './battle-data-references.js'
 import type { EditorState } from './edit-session.js'
 import {
-  collectEditorAssetReferences,
   collectEditorAssetReferenceSnapshotFromSlices,
+  collectEditorAssetReferences,
   type EditorAssetReferenceSnapshot,
 } from './editor-asset-references.js'
 import {
   collectEntityAddressReferences,
   collectMissingEntityAddressReferences,
-  missingEntityAddressReferencesFrom,
   type EntityAddressReference,
+  missingEntityAddressReferencesFrom,
 } from './entity-address-references.js'
-import { itemReferenceMap, type ItemReference } from './item-references.js'
+import { type ItemReference, itemReferenceMap } from './item-references.js'
 import {
   buildCanonicalSchemeReferenceIndexesFromVisits,
   type CanonicalSchemeReferenceIndexes,
@@ -110,6 +103,8 @@ export interface ProjectIssue {
     expectedKind?: AssetKind
     actualKind?: AssetKind
   }
+  /** manifest 资源角色诊断的结构化角色；概览不得反向解析 message/path。 */
+  assetRole?: AssetRole
   /** 深链接目标；只提供稳定 id，不把数组位置作为身份。 */
   target?: {
     module: 'scene' | 'asset' | 'item' | 'project'
@@ -416,12 +411,14 @@ function collectProjectIssuesFromScan(
   }
 
   // 调用统一引用收集器 + closure validator，确保诊断覆盖脚本/场景/敌人引用；本页只展示摘要。
-  const references = scan.assetSnapshot.references
   for (const closure of catalogValid ? scan.assetDiagnostics : []) {
     const reference = closure.reference
     const isIntro =
       reference?.site.startsWith('entryPoint:') ?? closure.where.includes('introVideo')
     const isRole = reference?.site.startsWith('manifest.assets.roles.') ?? false
+    const assetRole = isRole
+      ? ASSET_ROLES.find((role) => reference?.site === `manifest.assets.roles.${role}`)
+      : undefined
     const isUnused = closure.code === 'unused-asset'
     const code: ProjectIssueCode = isUnused
       ? 'unused-asset'
@@ -489,6 +486,7 @@ function collectProjectIssuesFromScan(
             },
           }
         : {}),
+      ...(assetRole ? { assetRole } : {}),
       target: isIntro
         ? { module: 'project', page: 'entrypoint', ...(entryId ? { objectId: entryId } : {}) }
         : isRole
@@ -600,19 +598,16 @@ function collectEditorStatusIssuesFromScan(
     state.scenes,
     entityAddressReferences,
   ).map((reference) => ({
-      severity: 'error',
-      message: '实体 "' + reference.sceneId + '/' + reference.entityId + '" 不在 scenes',
-      path: reference.path,
-    }),
-  )
-  const projectStatusIssues: EditorStatusIssue[] = projectIssues.map(
-    (issue) => ({
-      severity: issue.severity,
-      message: issue.message,
-      path: issue.path,
-      ...(issue.target ? { target: issue.target } : {}),
-    }),
-  )
+    severity: 'error',
+    message: `实体 "${reference.sceneId}/${reference.entityId}" 不在 scenes`,
+    path: reference.path,
+  }))
+  const projectStatusIssues: EditorStatusIssue[] = projectIssues.map((issue) => ({
+    severity: issue.severity,
+    message: issue.message,
+    path: issue.path,
+    ...(issue.target ? { target: issue.target } : {}),
+  }))
   const battleFieldIssues: EditorStatusIssue[] =
     (state.manifest.content.battleFields !== undefined || (state.battleFields?.length ?? 0) > 0) &&
     !(state.battleFields ?? []).some((field) => field.id === 24)
@@ -718,8 +713,7 @@ export function createEditorDiagnosticsSnapshotCollector(
       currentAuthorState.assetCatalog,
       assetSnapshot.references,
     )
-    const entityAddressReferences =
-      dependencies.collectEntityAddressReferences(currentAuthorState)
+    const entityAddressReferences = dependencies.collectEntityAddressReferences(currentAuthorState)
     const scriptReferenceIssues = canonical
       ? dependencies.collectScriptReferenceIssuesFromVisits(scriptState, commandVisits)
       : []

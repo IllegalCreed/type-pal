@@ -9,15 +9,15 @@ import type {
 import { validateReferences } from '@type-pal/content'
 import { runtimeScriptRef } from '@type-pal/reforge'
 import { describe, expect, test, vi } from 'vitest'
-import type { EditorState } from './edit-session.js'
-import { collectEditorAssetDiagnostics } from './asset-diagnostics.js'
 import { blockingActorReferenceMap } from './actor-references.js'
+import { collectEditorAssetDiagnostics } from './asset-diagnostics.js'
 import { blockingPoisonReferenceMap } from './battle-data-references.js'
-import { collectEntityAddressReferences } from './entity-address-references.js'
+import type { EditorState } from './edit-session.js'
 import {
-  collectEditorAssetReferences,
   collectEditorAssetReferenceSnapshotFromSlices,
+  collectEditorAssetReferences,
 } from './editor-asset-references.js'
+import { collectEntityAddressReferences } from './entity-address-references.js'
 import { itemReferenceMap } from './item-references.js'
 import {
   assertProjectSaveValid,
@@ -319,9 +319,7 @@ test('current-author projection excludes canonical item records deleted from the
   }
   const snapshot = createEditorDiagnosticsSnapshotCollector()(shell, canonical)
   expect(snapshot.itemReferenceIndex.get('target')).toBeUndefined()
-  expect(snapshot.statusIssues.some((issue) => issue.message.includes('deleted-owner'))).toBe(
-    false,
-  )
+  expect(snapshot.statusIssues.some((issue) => issue.message.includes('deleted-owner'))).toBe(false)
 })
 
 test('C8 迁移诊断进入统一问题面板并精确跳到物品；能力已补齐时不再提示', () => {
@@ -1043,10 +1041,12 @@ describe('X7 项目诊断与保存门', () => {
       ],
     }
     const issues = collectProjectIssues({ ...base, manifest })
-    expect(issues.find((issue) => issue.code === 'missing-role-asset')?.target).toEqual({
+    const roleIssue = issues.find((issue) => issue.code === 'missing-role-asset')
+    expect(roleIssue?.target).toEqual({
       module: 'project',
       page: 'startup',
     })
+    expect(roleIssue?.assetRole).toBe('video.startupSplash')
     expect(issues.find((issue) => issue.code === 'missing-intro-video')?.target).toEqual({
       module: 'project',
       page: 'entrypoint',
@@ -1145,9 +1145,7 @@ describe('X7 项目诊断与保存门', () => {
         },
       },
     }
-    expect(() => assertProjectSaveValid(broken)).toThrow(
-      /保存前脚本引用校验失败.*shared\/missing/,
-    )
+    expect(() => assertProjectSaveValid(broken)).toThrow(/保存前脚本引用校验失败.*shared\/missing/)
   })
 
   test('初始队伍和道具都拒绝重复 id', () => {

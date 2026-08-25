@@ -16,7 +16,7 @@
 | ED-INPUT-PERF-1 | 编辑器输入提交与全局派生状态性能收口 | done | 三方 accept + 用户确认齐，整卡收口 | `a7109fd4`：五字段 commit max 8.6–18.2ms、urgent Long Task 0 |
 | ED-DS-3 | 编辑器设计系统全量采用与防回流门禁 | done | 三方 accept 齐，整卡收口 | `9dd4e4a3`：25 页面采用闭包、公共 owner、三态静态门禁与精灵虚拟滚动完成 |
 | ED-FIELD-COMMIT-1 | 编辑器字段草稿、提交与撤销边界统一 | done | 三方 accept + 用户验收齐，整卡收口 | `b118ce3a`：公共草稿/提交合同、首批采用与 AST 防回流门禁完成 |
-| ED-PROJECT-STARTUP-IA-1 | 入口与开局 / 全局资源与启动工作台收口 | build | Codex 单 Owner 实现；完成聚焦测试与功能界面验证后转 review | 三签与 actor ownership 前置齐；删除机器摘要并完成入口/资源工作流 |
+| ED-PROJECT-STARTUP-IA-1 | 入口与开局 / 全局资源与启动工作台收口 | review | Kimi + GLM 正式 code/test/visual review；双 accept 后用户验收 | Codex build、Editor 1203 与 PAL 1280/900/720 验证完成；当前无 blocker |
 | ED-CATALOG-ROW-IA-1 | 编辑器对象目录行信息层级收口 | draft | 三签齐，等待 Codex 排期 build | 21 文件 / 24 消费点矩阵；战场 ID 回归 meta、物品降噪、毒无图标保持 |
 | ARCH-ENTRY-ACTOR-SEED-1 | 入口角色完整初始状态所有权与快照模型 | done | 三方 accept + 用户验收齐，整卡收口 | content18、首次技能播种、当前 HP/MP 继承 UI 与 PAL replay 已完成 |
 | MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1 | PAL 角色大世界精灵语义别名全量闭包 | done | 三方 accept + 用户验收齐，整卡收口 | `0e84e565`：4 定义 + 44 引用归一，严格重复为 0，replay 零计划 |

@@ -3,18 +3,19 @@
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { claimEditorAudioPreview, stopEditorAudioPreview } from '../core/audio-preview-session.js'
 import { EditSession } from '../core/edit-session.js'
-import {
-  catalogControlsAssetCatalog,
-  catalogControlsEditorState,
-  catalogControlsReader,
-} from './catalog-controls-test-utils.js'
 import {
   AudioAssetWorkbench,
   type AudioAssetWorkbenchStrategy,
   type AudioTimeline,
   type AudioWorkbenchTransport,
 } from './AudioAssetWorkbench.js'
+import {
+  catalogControlsAssetCatalog,
+  catalogControlsEditorState,
+  catalogControlsReader,
+} from './catalog-controls-test-utils.js'
 
 function deferred<T>() {
   let resolve!: (value: T) => void
@@ -39,6 +40,7 @@ let host: HTMLDivElement
 let root: Root
 
 beforeEach(() => {
+  stopEditorAudioPreview()
   ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
   host = document.createElement('div')
   document.body.append(host)
@@ -46,6 +48,7 @@ beforeEach(() => {
 })
 
 afterEach(async () => {
+  stopEditorAudioPreview()
   await act(async () => root.unmount())
   host.remove()
 })
@@ -99,9 +102,7 @@ describe('AudioAssetWorkbench async selection lifecycle', () => {
     expect(workspace.getAttribute('aria-label')).toBe('音乐工作区')
     expect(workspace.querySelectorAll(':scope > .ds-object-hero')).toHaveLength(1)
     expect(
-      workspace.querySelectorAll(
-        ':scope > .audio-workspace__scroll.ds-object-workspace__content',
-      ),
+      workspace.querySelectorAll(':scope > .audio-workspace__scroll.ds-object-workspace__content'),
     ).toHaveLength(1)
     await vi.waitFor(() => expect(requests).toHaveLength(1))
     expect(requests[0]?.asset).toBe('music.opening')
@@ -162,6 +163,7 @@ describe('AudioAssetWorkbench timeline completion', () => {
       createTransport: () => transport,
       describeReference: (reference) => ({ title: reference.site, kind: '音效引用' }),
     }
+    const session = new EditSession(catalogControlsEditorState())
 
     await act(async () => {
       root.render(
@@ -169,7 +171,7 @@ describe('AudioAssetWorkbench timeline completion', () => {
           assetDiagnostics={[]}
           catalog={catalogControlsAssetCatalog}
           reader={catalogControlsReader}
-          session={new EditSession(catalogControlsEditorState())}
+          session={session}
           strategy={strategy}
           focusObjectId="sound.hit"
         />,
@@ -182,9 +184,21 @@ describe('AudioAssetWorkbench timeline completion', () => {
     const range = host.querySelector<HTMLInputElement>('.audio-timeline__range')!
     expect(range.valueAsNumber).toBe(1)
     expect(range.max).toBe('1')
-    expect(host.querySelector('.audio-player__time')?.textContent).toContain(
-      '0:00.53 / 0:00.53',
-    )
+    expect(host.querySelector('.audio-player__time')?.textContent).toContain('0:00.53 / 0:00.53')
     expect(host.querySelector('.audio-timeline__progress')?.getAttribute('x1')).toBe('160')
+
+    const previousOwner = { stop: vi.fn() }
+    claimEditorAudioPreview(previousOwner)
+    await act(async () => {
+      host.querySelector<HTMLButtonElement>('[aria-label="播放"]')!.click()
+      await Promise.resolve()
+    })
+    expect(previousOwner.stop).toHaveBeenCalledOnce()
+    expect(transport.play).toHaveBeenCalledOnce()
+    expect(session.getHistoryVersion()).toBe(0)
+
+    const stopsBeforeReplacement = vi.mocked(transport.stop).mock.calls.length
+    claimEditorAudioPreview({ stop: vi.fn() })
+    expect(transport.stop).toHaveBeenCalledTimes(stopsBeforeReplacement + 1)
   })
 })

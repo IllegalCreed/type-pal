@@ -9,12 +9,17 @@ import {
 } from '@type-pal/content'
 import type { MidiNoteActivity, MidiPreviewTransport } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import type { EditorAssetDiagnostic } from '../core/asset-diagnostics.js'
 import {
   AudioPreviewCache,
   type PcmPeaks,
   type WavPreviewTransport,
 } from '../core/audio-preview.js'
-import type { EditorAssetDiagnostic } from '../core/asset-diagnostics.js'
+import {
+  claimEditorAudioPreview,
+  type EditorAudioPreviewOwner,
+  releaseEditorAudioPreview,
+} from '../core/audio-preview-session.js'
 import { DeleteAssetCommand, UpsertAssetCommand } from '../core/commands.js'
 import type { EditorState, EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
@@ -172,29 +177,45 @@ function AudioAssetPlayer(props: {
       }
     | undefined
   >(undefined)
-  const analysisCacheRef = useRef(new AudioPreviewCache<AudioTimeline>(16))
+  // biome-ignore lint/correctness/useExhaustiveDependencies: each project owns an isolated decoded-analysis cache.
+  const analysisCache = useMemo(
+    () => new AudioPreviewCache<AudioTimeline>(16),
+    [props.reader.projectId],
+  )
   const [timeline, setTimeline] = useState<AudioTimeline>()
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
   const [error, setError] = useState('')
   const [playing, setPlaying] = useState(false)
   const [clock, setClock] = useState({ currentTime: 0, duration: 0, paused: true })
+  const previewOwner = useMemo<EditorAudioPreviewOwner>(
+    () => ({
+      stop() {
+        playRequestRef.current++
+        transport.stop()
+        setPlaying(false)
+        setClock(transport.snapshot())
+      },
+    }),
+    [transport],
+  )
   const identity = `${props.reader.projectId}\0${props.assetId}\0${props.sha256}`
 
   useEffect(() => {
     const generation = ++generationRef.current
     playRequestRef.current++
+    releaseEditorAudioPreview(previewOwner)
     transport.stop()
     setPlaying(false)
     setClock({ currentTime: 0, duration: 0, paused: true })
-    const cached = analysisCacheRef.current.get(identity)
+    const cached = analysisCache.get(identity)
     setTimeline(cached)
     setStatus('loading')
     setError('')
     const load = (retryCanceledInflight: boolean): void => {
-      const cachedTimeline = analysisCacheRef.current.get(identity)
+      const cachedTimeline = analysisCache.get(identity)
       const loading = cachedTimeline
         ? transport.load(props.assetId, identity, cachedTimeline)
-        : analysisCacheRef.current.load(identity, () => transport.load(props.assetId, identity))
+        : analysisCache.load(identity, () => transport.load(props.assetId, identity))
       void loading
         .then((result) => {
           if (generation !== generationRef.current) return
@@ -217,9 +238,10 @@ function AudioAssetPlayer(props: {
     return () => {
       generationRef.current++
       playRequestRef.current++
+      releaseEditorAudioPreview(previewOwner)
       transport.stop()
     }
-  }, [identity, props.assetId, transport])
+  }, [analysisCache, identity, previewOwner, props.assetId, transport])
 
   useEffect(() => {
     const previous = transportLifecycleRef.current
@@ -227,14 +249,15 @@ function AudioAssetPlayer(props: {
     const token = {}
     transportLifecycleRef.current = { transport, token }
     return () => {
+      releaseEditorAudioPreview(previewOwner)
       queueMicrotask(() => {
         if (transportLifecycleRef.current?.token !== token) return
         transport.dispose()
         transportLifecycleRef.current = undefined
       })
     }
-  }, [transport])
-  useEffect(() => () => analysisCacheRef.current.clear(), [props.reader.projectId])
+  }, [previewOwner, transport])
+  useEffect(() => () => analysisCache.clear(), [analysisCache])
 
   useEffect(() => {
     if (!playing) return
@@ -248,6 +271,7 @@ function AudioAssetPlayer(props: {
       setClock(next)
       if (next.paused) {
         setPlaying(false)
+        releaseEditorAudioPreview(previewOwner)
         return
       }
       frame = window.requestAnimationFrame(updateClock)
@@ -266,7 +290,7 @@ function AudioAssetPlayer(props: {
       if (frame) window.cancelAnimationFrame(frame)
       document.removeEventListener('visibilitychange', handleVisibility)
     }
-  }, [playing, transport])
+  }, [playing, previewOwner, transport])
 
   const seek = (value: number): void => {
     playRequestRef.current++
@@ -304,10 +328,12 @@ function AudioAssetPlayer(props: {
               transport.pause()
               setPlaying(false)
               setClock(transport.snapshot())
+              releaseEditorAudioPreview(previewOwner)
               return
             }
             setError('')
             const request = ++playRequestRef.current
+            claimEditorAudioPreview(previewOwner)
             void transport
               .play()
               .then(() => {
@@ -317,6 +343,7 @@ function AudioAssetPlayer(props: {
               })
               .catch((cause: unknown) => {
                 if (request !== playRequestRef.current || isAbortError(cause)) return
+                releaseEditorAudioPreview(previewOwner)
                 setError(cause instanceof Error ? cause.message : String(cause))
               })
           }}
@@ -331,6 +358,7 @@ function AudioAssetPlayer(props: {
             transport.stop()
             setPlaying(false)
             setClock(transport.snapshot())
+            releaseEditorAudioPreview(previewOwner)
           }}
         />
         <output className="audio-player__time" aria-live="off">

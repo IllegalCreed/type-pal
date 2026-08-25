@@ -8,21 +8,21 @@ import type {
   ActorDef,
   AssetCatalogV1,
   AssetKind,
-  AssetRole,
   EntryPoint,
   ItemData,
   Locale,
   SceneDef,
   StartWorld,
 } from '@type-pal/content'
-import { ASSET_ROLE_KINDS, ASSET_ROLES, AUDIO_ASSET_ROLES, lookupText } from '@type-pal/content'
-import { Fragment, type ReactNode, useEffect, useMemo, useState } from 'react'
+import { lookupText } from '@type-pal/content'
+import { Fragment, type ReactNode, useEffect, useMemo, useRef, useState } from 'react'
+import { EDITOR_ASSET_KIND_LABELS } from '../core/asset-diagnostics.js'
+import { stopEditorAudioPreview } from '../core/audio-preview-session.js'
 import {
   RenameProjectCommand,
   SetStartupEntriesCommand,
   UpdateManifestAssetRolesCommand,
 } from '../core/commands.js'
-import { EDITOR_ASSET_KIND_LABELS } from '../core/asset-diagnostics.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import {
@@ -33,11 +33,11 @@ import {
 import { findDefaultEntry } from '../core/startup-entries.js'
 import {
   DsButton,
+  DsCard,
   DsCatalogGroupEmpty,
   DsCatalogGroupHeader,
   DsCatalogGroupList,
   DsCatalogRow,
-  DsCheckbox,
   DsControlGroup,
   DsDiagnosticList,
   DsDiagnosticPanel,
@@ -46,15 +46,25 @@ import {
   DsDraftNumberInput,
   DsDraftTextInput,
   DsHelpTip,
+  DsIconButton,
   DsListHeader,
   DsObjectHero,
   DsSelect,
+  DsSelectField,
   DsSequenceIndex,
   DsTag,
   DsTextInput,
 } from './design-system/index.js'
 import type { EditorLocation } from './editor-navigation.js'
-import { SoundPicker } from './SoundPicker.js'
+import { ProjectAudioPreviewButton } from './ProjectAudioPreviewButton.js'
+import {
+  PROJECT_ASSET_ROLE_GROUPS,
+  type ProjectAssetRoleDefinition,
+  projectAssetRoleStatus,
+  projectAssetRoleStatuses,
+} from './project-asset-roles.js'
+
+export { PROJECT_ASSET_ROLE_GROUPS } from './project-asset-roles.js'
 
 export type ProjectWorkbenchPage = 'overview' | 'startup' | 'entrypoint' | 'advanced'
 
@@ -76,73 +86,6 @@ export interface ProjectWorkbenchTabProps {
   onOpenLocation?: (location: EditorLocation) => void
 }
 
-const ROLE_LABELS: Record<AssetRole, string> = {
-  'audio.midiSoundfont': 'MIDI 音色库',
-  'audio.defaultBattleMusic': '默认战斗音乐',
-  // SDL 把这个 role 作为不可逃/特殊战的胜利结算曲选择；升级判断随后发生，
-  // 升级屏本身不另播曲，不能把这个 role 误标成独立的 levelUp 音乐。
-  // 这里不展示 PAL 迁移时的默认编号，作者可以自由绑定任意 music AssetId。
-  'audio.bossVictoryMusic': '特殊战胜利结算音乐',
-  'audio.normalVictoryMusic': '普通胜利音乐',
-  'audio.openingMenuMusic': '标题菜单音乐',
-  'audio.battleItemUseSound': '战斗物品使用音效',
-  'audio.battleCoopCastSound': '合击起手音效',
-  'audio.battleEscapeSound': '逃跑音效',
-  'audio.battleEnemyTransformSound': '敌人变身音效',
-  'video.startupTrademark': '启动商标视频',
-  'video.startupSplash': '启动开场视频',
-  'visual.standardColorTable': '标准色表',
-}
-
-const STARTUP_ROLES: AssetRole[] = [
-  'video.startupTrademark',
-  'video.startupSplash',
-  'audio.openingMenuMusic',
-]
-
-export const PROJECT_ASSET_ROLE_GROUPS: readonly {
-  id: string
-  title: string
-  description: string
-  roles: readonly AssetRole[]
-}[] = [
-  {
-    id: 'startup',
-    title: '启动与标题菜单',
-    description: '启动商标、开场视频和标题菜单音乐。',
-    roles: STARTUP_ROLES,
-  },
-  {
-    id: 'battle',
-    title: '战斗音乐',
-    description: '普通战斗、特殊战胜利结算（升级屏沿用）和普通胜利的全局默认音乐。',
-    roles: ['audio.defaultBattleMusic', 'audio.bossVictoryMusic', 'audio.normalVictoryMusic'],
-  },
-  {
-    id: 'audio-base',
-    title: '音频基础',
-    description: 'MIDI 播放使用的项目级 SoundFont。',
-    roles: ['audio.midiSoundfont'],
-  },
-  {
-    id: 'battle-sfx',
-    title: '战斗音效',
-    description: '物品使用、合击、逃跑与敌人变身的全局回退音效。',
-    roles: [
-      'audio.battleItemUseSound',
-      'audio.battleCoopCastSound',
-      'audio.battleEscapeSound',
-      'audio.battleEnemyTransformSound',
-    ],
-  },
-  {
-    id: 'visual-base',
-    title: '视觉基础',
-    description: '项目标准色彩转换使用的色表。',
-    roles: ['visual.standardColorTable'],
-  },
-]
-
 function issueTarget(issue: ProjectIssue): EditorLocation | undefined {
   if (!issue.target) return undefined
   return {
@@ -156,6 +99,7 @@ function issueTarget(issue: ProjectIssue): EditorLocation | undefined {
 
 const ISSUE_PAGE_SIZE = 80
 const ADAPTIVE_ISSUE_TITLE_MAX_LENGTH = 72
+const PROJECT_NUMBER_FORMAT = new Intl.NumberFormat('zh-CN')
 
 export function IssueList(props: {
   issues: readonly ProjectIssue[]
@@ -309,14 +253,7 @@ function ProjectPageWorkspace(props: {
 function ProjectAdvancedPage(
   props: ProjectWorkbenchTabProps & { issues: readonly ProjectIssue[] },
 ) {
-  const {
-    tabBar,
-    focusObjectId,
-    onObjectFocus,
-    onOpenLocation,
-    issues,
-    diagnosticsStatus,
-  } = props
+  const { tabBar, focusObjectId, onObjectFocus, onOpenLocation, issues, diagnosticsStatus } = props
   const issueGroups = useMemo(() => groupProjectIssues(issues), [issues])
   const errorGroups = issueGroups.filter((group) => group.severity === 'error')
   const warningGroups = issueGroups.filter((group) => group.severity === 'warn')
@@ -471,25 +408,16 @@ function RoleBindings(props: {
   assetCatalog: AssetCatalogV1
   session: EditSession
   assetReader: EditorAssetReader
-  roles?: readonly AssetRole[]
+  roles: readonly ProjectAssetRoleDefinition[]
   onOpenLocation?: (location: EditorLocation) => void
 }) {
-  const {
-    manifest,
-    assetCatalog,
-    session,
-    assetReader,
-    roles = ASSET_ROLES,
-    onOpenLocation,
-  } = props
-  const hasAudioCatalog = Object.values(assetCatalog.assets).some(
-    (record) => record.kind === 'music' || record.kind === 'soundfont',
-  )
+  const { manifest, assetCatalog, session, assetReader, roles, onOpenLocation } = props
   return (
     <div className="project-role-list">
-      {roles.map((role) => {
-        const expected = ASSET_ROLE_KINDS[role]
-        const required = hasAudioCatalog && role in AUDIO_ASSET_ROLES
+      {roles.map((definition) => {
+        const { role, kind: expected, label } = definition
+        const status = projectAssetRoleStatus(definition, manifest.assets, assetCatalog)
+        const required = status.required
         const current = manifest.assets.roles[role] ?? ''
         const candidates = Object.entries(assetCatalog.assets)
           .filter(([, record]) => record.kind === expected)
@@ -505,18 +433,9 @@ function RoleBindings(props: {
                 : undefined
         const libraryLabel =
           targetSubpage === 'music' ? '音乐库' : targetSubpage === 'sound' ? '音效库' : '过场素材库'
-        const bindingError = current
-          ? !currentRecord
-            ? `AssetId ${current} 不存在`
-            : currentRecord.kind !== expected
-              ? `类型错误：当前是 ${currentRecord.kind}，这里需要 ${expected}`
-              : undefined
-          : undefined
-        const validRecord = currentRecord?.kind === expected ? currentRecord : undefined
-        const roleHint =
-          role === 'audio.bossVictoryMusic'
-            ? '不可逃战胜利后播放；若随后升级，升级屏继续沿用此曲。可自由绑定音乐资源。'
-            : undefined
+        const bindingError = status.state === 'error' ? status.message : undefined
+        const validRecord = status.state === 'configured' ? status.record : undefined
+        const expectedLabel = EDITOR_ASSET_KIND_LABELS[expected]
         const controlId = `project-role-${role.replaceAll('.', '-')}`
         const labelId = `${controlId}-label`
         const descriptionId = `${controlId}-description`
@@ -527,7 +446,7 @@ function RoleBindings(props: {
             ? [
                 {
                   value: current,
-                  label: `${current}（类型 ${currentRecord.kind}，需要 ${expected}）`,
+                  label: `${current}（当前是${EDITOR_ASSET_KIND_LABELS[currentRecord.kind]}，需要${expectedLabel}）`,
                 },
               ]
             : []),
@@ -540,89 +459,85 @@ function RoleBindings(props: {
           <div className="project-role-row" key={role}>
             <div className="project-role-label">
               <div className="project-role-label-head">
-                <strong id={labelId}>{ROLE_LABELS[role]}</strong>
+                <strong id={labelId}>{label}</strong>
                 <DsTag tone={required ? 'accent' : 'neutral'}>{required ? '必选' : '可选'}</DsTag>
+                <DsHelpTip label={label}>
+                  稳定资源角色：<code translate="no">{role}</code>；需要{expectedLabel}资源。
+                  {definition.help ? ` ${definition.help}` : ''}
+                </DsHelpTip>
               </div>
-              <small>
-                <code translate="no">{role}</code> · 期望 {expected}
-              </small>
-              {roleHint ? <small className="project-role-hint">{roleHint}</small> : null}
             </div>
             <div className="project-role-binding">
-              {expected === 'sound' ? (
-                <SoundPicker
-                  id={controlId}
-                  value={current || undefined}
-                  onChange={(asset) =>
-                    session.dispatch(new UpdateManifestAssetRolesCommand({ [role]: asset }))
-                  }
-                  catalog={assetCatalog}
-                  reader={assetReader}
-                  allowUnset
-                  ariaLabel={`${ROLE_LABELS[role]}资源`}
-                  onOpenAsset={(asset) =>
-                    onOpenLocation?.({ module: 'asset', subpage: 'sound', objectId: asset })
-                  }
-                />
-              ) : (
-                <DsControlGroup
-                  className="project-role-binding-control"
-                  control={
-                    <DsSelect
-                      id={controlId}
-                      aria-labelledby={labelId}
-                      aria-describedby={bindingError || validRecord ? descriptionId : undefined}
-                      value={current}
-                      required={required}
-                      invalid={Boolean(bindingError)}
-                      searchable="auto"
-                      options={selectionOptions}
-                      onValueChange={(value) =>
-                        session.dispatch(
-                          new UpdateManifestAssetRolesCommand({
-                            [role]: value || undefined,
-                          }),
-                        )
-                      }
-                    />
-                  }
-                  actions={
-                    onOpenLocation && targetSubpage ? (
+              <DsControlGroup
+                className="project-role-binding-control"
+                control={
+                  <DsSelect
+                    id={controlId}
+                    aria-labelledby={labelId}
+                    aria-describedby={bindingError || validRecord ? descriptionId : undefined}
+                    value={current}
+                    required={required}
+                    invalid={Boolean(bindingError)}
+                    searchable="auto"
+                    options={selectionOptions}
+                    onValueChange={(value) =>
+                      session.dispatch(
+                        new UpdateManifestAssetRolesCommand({
+                          [role]: value || undefined,
+                        }),
+                      )
+                    }
+                  />
+                }
+                actions={
+                  <>
+                    {validRecord && (expected === 'music' || expected === 'sound') ? (
+                      <ProjectAudioPreviewButton
+                        asset={current}
+                        label={validRecord.label ?? label}
+                        kind={expected}
+                        cacheKey={validRecord.sha256}
+                        reader={assetReader}
+                      />
+                    ) : null}
+                    {onOpenLocation && targetSubpage ? (
                       <DsButton
                         variant="secondary"
                         icon="open"
-                        title={validRecord ? `查看资源 ${current}` : `打开${libraryLabel}`}
-                        onClick={() =>
+                        title={validRecord ? `打开资源 ${current}` : `打开${libraryLabel}`}
+                        onClick={() => {
+                          stopEditorAudioPreview()
                           onOpenLocation({
                             module: 'asset',
                             subpage: targetSubpage,
                             ...(validRecord ? { objectId: current } : {}),
                           })
-                        }
+                        }}
                       >
                         {validRecord
-                          ? '前往预览'
+                          ? '打开资源'
                           : candidates.length
                             ? `打开${libraryLabel}`
                             : `前往${libraryLabel}导入`}
                       </DsButton>
-                    ) : undefined
-                  }
-                />
-              )}
+                    ) : null}
+                  </>
+                }
+              />
               {bindingError ? (
                 <span id={descriptionId} className="project-role-error">
                   {bindingError}
                 </span>
               ) : validRecord ? (
                 <span id={descriptionId} className="project-role-resource" title={validRecord.path}>
-                  <DsTag tone="neutral">{validRecord.kind}</DsTag>
-                  <code translate="no">{validRecord.path}</code>
+                  <DsTag tone="neutral">{expectedLabel}</DsTag>
+                  <span>{validRecord.label ?? current}</span>
                 </span>
               ) : null}
-              {expected !== 'sound' && !(onOpenLocation && targetSubpage) ? (
+              {!(expected === 'music' || expected === 'sound') &&
+              !(onOpenLocation && targetSubpage) ? (
                 <span className="project-role-no-preview">
-                  当前没有 {expected} 专用资源页；这里只能绑定 catalog 中已有项。
+                  当前没有{expectedLabel}专用资源页；这里只能绑定资源库中已有项。
                 </span>
               ) : null}
             </div>
@@ -654,16 +569,61 @@ export function StartWorldFields(props: {
     onChange,
   } = props
   const [newResourceKey, setNewResourceKey] = useState('')
+  const [partyCandidateId, setPartyCandidateId] = useState('')
+  const [inventoryCandidateId, setInventoryCandidateId] = useState('')
+  const [announcement, setAnnouncement] = useState('')
+  const rootRef = useRef<HTMLDivElement>(null)
+  const partyRemoveRefs = useRef(new Map<string, HTMLButtonElement>())
+  const pendingPartyFocusRef = useRef<{ actorId?: string } | undefined>(undefined)
+  // biome-ignore lint/correctness/useExhaustiveDependencies: external command/object resync clears unfinished add-row choices.
+  useEffect(() => {
+    setNewResourceKey('')
+    setPartyCandidateId('')
+    setInventoryCandidateId('')
+  }, [draftScope, syncToken])
+  // biome-ignore lint/correctness/useExhaustiveDependencies: live feedback survives same-object commands and resets only on object switch.
+  useEffect(() => {
+    setAnnouncement('')
+  }, [draftScope])
+  // biome-ignore lint/correctness/useExhaustiveDependencies: a changed ordered party means the requested row/fallback now exists in the DOM.
+  useEffect(() => {
+    const pending = pendingPartyFocusRef.current
+    if (!pending) return
+    pendingPartyFocusRef.current = undefined
+    const target = pending.actorId
+      ? partyRemoveRefs.current.get(pending.actorId)
+      : rootRef.current?.querySelector<HTMLButtonElement>('#start-world-party-adder')
+    target?.focus()
+  }, [value.party])
   const patch = (next: Partial<StartWorld>): void => onChange({ ...value, ...next })
   const partyActors = actors.filter((actor) => actor.battler)
+  const addablePartyActors = partyActors.filter((actor) => !value.party.includes(actor.id))
   const seedActorIds = Array.from(new Set([...value.party, ...Object.keys(value.seedStats ?? {})]))
   const inventory = value.inventory ?? []
   const addableItems = items.filter((item) => !inventory.some((entry) => entry.itemId === item.id))
-  const toggleParty = (id: string): void => {
-    const party = value.party.includes(id)
-      ? value.party.filter((candidate) => candidate !== id)
-      : [...value.party, id]
+  const selectedPartyCandidate = addablePartyActors.some((actor) => actor.id === partyCandidateId)
+    ? partyCandidateId
+    : ''
+  const selectedInventoryCandidate = addableItems.some((item) => item.id === inventoryCandidateId)
+    ? inventoryCandidateId
+    : ''
+  const addParty = (): void => {
+    const actor = addablePartyActors.find((candidate) => candidate.id === selectedPartyCandidate)
+    if (!actor) return
+    pendingPartyFocusRef.current = { actorId: actor.id }
+    patch({ party: [...value.party, actor.id] })
+    setPartyCandidateId('')
+    setAnnouncement(`已将${lookupText(actor.name, locale)}加入初始队伍。`)
+  }
+  const removeParty = (id: string): void => {
+    const actor = actors.find((candidate) => candidate.id === id)
+    const index = value.party.indexOf(id)
+    const party = value.party.filter((candidate) => candidate !== id)
+    pendingPartyFocusRef.current = {
+      actorId: party[Math.min(Math.max(index, 0), party.length - 1)],
+    }
     patch({ party })
+    setAnnouncement(`已将${actor ? lookupText(actor.name, locale) : id}移出初始队伍。`)
   }
   const moveParty = (id: string, delta: -1 | 1): void => {
     const index = value.party.indexOf(id)
@@ -672,6 +632,10 @@ export function StartWorldFields(props: {
     const party = [...value.party]
     ;[party[index], party[target]] = [party[target]!, party[index]!]
     patch({ party })
+    const actor = actors.find((candidate) => candidate.id === id)
+    setAnnouncement(
+      `${actor ? lookupText(actor.name, locale) : id}已移到初始队伍第 ${target + 1} 位。`,
+    )
   }
   const patchSeed = (actorId: string, key: 'hp' | 'mp', next: number | undefined): void => {
     const seedStats = { ...(value.seedStats ?? {}) }
@@ -696,7 +660,7 @@ export function StartWorldFields(props: {
   }
 
   return (
-    <div className="project-form-stack">
+    <div ref={rootRef} className="project-form-stack">
       <div className="project-field-grid">
         <label className="field" htmlFor="start-world-money">
           <span className="field-label">金钱</span>
@@ -721,139 +685,192 @@ export function StartWorldFields(props: {
         <div className="project-party-order">
           {value.party.map((actorId, index) => {
             const actor = actors.find((candidate) => candidate.id === actorId)
+            const actorName = actor ? lookupText(actor.name, locale) : `${actorId}（缺失）`
             return (
-              <div className="project-party-row" key={`${actorId}:${index}`}>
+              <div className="project-party-row" key={actorId}>
                 <DsSequenceIndex value={index + 1} accessibleLabel={`初始队伍第 ${index + 1} 位`} />
-                <span className="project-party-name">
-                  {actor ? lookupText(actor.name, locale) : `${actorId}（缺失）`}
+                <span className="project-party-name" title={actorName}>
+                  {actorName}
                 </span>
                 <code>{actorId}</code>
-                <DsButton
-                  className="project-party-move"
-                  disabled={readOnly || index === 0}
-                  onClick={() => moveParty(actorId, -1)}
-                  aria-label="上移队员"
-                  size="compact"
-                  variant="secondary"
-                >
-                  ↑
-                </DsButton>
-                <DsButton
-                  className="project-party-move"
-                  disabled={readOnly || index === value.party.length - 1}
-                  onClick={() => moveParty(actorId, 1)}
-                  aria-label="下移队员"
-                  size="compact"
-                  variant="secondary"
-                >
-                  ↓
-                </DsButton>
-                <DsButton
-                  className="project-party-remove"
-                  disabled={readOnly}
-                  onClick={() => toggleParty(actorId)}
-                  size="compact"
-                  variant="secondary"
-                >
-                  移出
-                </DsButton>
+                <span className="project-party-actions">
+                  <DsIconButton
+                    disabled={readOnly || index === 0}
+                    onClick={() => moveParty(actorId, -1)}
+                    label={`上移${actorName}`}
+                    icon="chevron-up"
+                    size="compact"
+                    variant="secondary"
+                  />
+                  <DsIconButton
+                    disabled={readOnly || index === value.party.length - 1}
+                    onClick={() => moveParty(actorId, 1)}
+                    label={`下移${actorName}`}
+                    icon="chevron-down"
+                    size="compact"
+                    variant="secondary"
+                  />
+                  <DsIconButton
+                    ref={(node) => {
+                      if (node) partyRemoveRefs.current.set(actorId, node)
+                      else partyRemoveRefs.current.delete(actorId)
+                    }}
+                    disabled={readOnly}
+                    onClick={() => removeParty(actorId)}
+                    label={`移出${actorName}`}
+                    icon="delete"
+                    size="compact"
+                    variant="danger"
+                  />
+                </span>
               </div>
             )
           })}
           {value.party.length === 0 ? <PageHint>当前没有队员；请从下方加入。</PageHint> : null}
         </div>
-        <div className="project-check-grid">
-          {partyActors
-            .filter((actor) => !value.party.includes(actor.id))
-            .map((actor) => (
-              <DsCheckbox
-                key={actor.id}
-                label={
-                  <>
-                    加入 {lookupText(actor.name, locale)} <code>{actor.id}</code>
-                  </>
-                }
-                checked={false}
-                disabled={readOnly}
-                onChange={() => toggleParty(actor.id)}
-              />
-            ))}
+        <div className="project-repeat-composer project-party-composer">
+          <DsSelectField
+            id="start-world-party-adder"
+            label="添加队员"
+            fieldClassName="project-composer-field"
+            aria-label="添加队员"
+            searchable
+            value={selectedPartyCandidate}
+            disabled={readOnly || addablePartyActors.length === 0}
+            placeholder="搜索角色名称或 ID…"
+            options={addablePartyActors.map((actor) => ({
+              value: actor.id,
+              label: lookupText(actor.name, locale),
+              description: actor.id,
+            }))}
+            onValueChange={setPartyCandidateId}
+          />
+          <DsButton
+            disabled={readOnly || !selectedPartyCandidate}
+            onClick={addParty}
+            icon="add"
+            size="compact"
+            variant="secondary"
+          >
+            加入队伍
+          </DsButton>
         </div>
         {partyActors.length === 0 ? <PageHint>当前项目没有可参战角色。</PageHint> : null}
+        {partyActors.length > 0 && addablePartyActors.length === 0 ? (
+          <PageHint>所有可参战角色都已在初始队伍中。</PageHint>
+        ) : null}
+        <span className="sr-only" role="status" aria-live="polite">
+          {announcement}
+        </span>
       </section>
 
       <section className="project-card">
         <h4>初始道具</h4>
         <div className="project-list-stack">
-          {inventory.map((row, index) => (
-            <div className="project-inline-row" key={`${row.itemId}:${index}`}>
-              <DsSelect
-                size="compact"
-                aria-label={`第 ${index + 1} 项初始道具`}
-                value={row.itemId}
-                disabled={readOnly}
-                options={[
-                  ...(!items.some((item) => item.id === row.itemId)
-                    ? [{ value: row.itemId, label: `${row.itemId}（缺失）` }]
-                    : []),
-                  ...items
-                    .filter(
-                      (item) =>
-                        item.id === row.itemId ||
-                        !inventory.some(
-                          (entry, itemIndex) => itemIndex !== index && entry.itemId === item.id,
+          {inventory.map((row, index) => {
+            const itemName = items.find((item) => item.id === row.itemId)?.name ?? row.itemId
+            return (
+              <div className="project-repeat-row project-inventory-row" key={row.itemId}>
+                <DsSequenceIndex value={index + 1} accessibleLabel={`初始道具第 ${index + 1} 项`} />
+                <DsSelect
+                  size="compact"
+                  aria-label={`第 ${index + 1} 项初始道具`}
+                  searchable
+                  value={row.itemId}
+                  disabled={readOnly}
+                  options={[
+                    ...(!items.some((item) => item.id === row.itemId)
+                      ? [{ value: row.itemId, label: `${row.itemId}（缺失）` }]
+                      : []),
+                    ...items
+                      .filter(
+                        (item) =>
+                          item.id === row.itemId ||
+                          !inventory.some(
+                            (entry, itemIndex) => itemIndex !== index && entry.itemId === item.id,
+                          ),
+                      )
+                      .map((item) => ({ value: item.id, label: item.name, description: item.id })),
+                  ]}
+                  onValueChange={(value) =>
+                    patch({
+                      inventory: inventory.map((item, itemIndex) =>
+                        itemIndex === index ? { ...item, itemId: value } : item,
+                      ),
+                    })
+                  }
+                />
+                <span className="project-count">
+                  <DsDraftNumberInput
+                    aria-label={`${itemName}的初始数量`}
+                    min={1}
+                    integer
+                    normalize={(count) => Math.max(1, Math.floor(count))}
+                    draftKey={`${draftScope}:inventory.${index}.count`}
+                    syncToken={syncToken}
+                    value={row.count}
+                    disabled={readOnly}
+                    onCommit={(count) =>
+                      patch({
+                        inventory: inventory.map((item, itemIndex) =>
+                          itemIndex === index ? { ...item, count: count ?? 1 } : item,
                         ),
-                    )
-                    .map((item) => ({ value: item.id, label: item.name, description: item.id })),
-                ]}
-                onValueChange={(value) =>
-                  patch({
-                    inventory: inventory.map((item, itemIndex) =>
-                      itemIndex === index ? { ...item, itemId: value } : item,
-                    ),
-                  })
-                }
-              />
-              <DsDraftNumberInput
-                min={1}
-                integer
-                normalize={(count) => Math.max(1, Math.floor(count))}
-                draftKey={`${draftScope}:inventory.${index}.count`}
-                syncToken={syncToken}
-                value={row.count}
-                disabled={readOnly}
-                onCommit={(count) =>
-                  patch({
-                    inventory: inventory.map((item, itemIndex) =>
-                      itemIndex === index ? { ...item, count: count ?? 1 } : item,
-                    ),
-                  })
-                }
-              />
-              <DsButton
-                disabled={readOnly}
-                onClick={() =>
-                  patch({ inventory: inventory.filter((_, itemIndex) => itemIndex !== index) })
-                }
-                size="compact"
-                variant="secondary"
-              >
-                删除
-              </DsButton>
-            </div>
-          ))}
-          <DsButton
-            disabled={readOnly || addableItems.length === 0}
-            onClick={() => {
-              const itemId = addableItems[0]?.id
-              if (itemId) patch({ inventory: [...inventory, { itemId, count: 1 }] })
-            }}
-            size="compact"
-            variant="secondary"
-          >
-            ＋ 添加道具
-          </DsButton>
+                      })
+                    }
+                  />
+                </span>
+                <DsIconButton
+                  disabled={readOnly}
+                  onClick={() =>
+                    patch({ inventory: inventory.filter((_, itemIndex) => itemIndex !== index) })
+                  }
+                  label={`删除初始道具${itemName}`}
+                  icon="delete"
+                  size="compact"
+                  variant="danger"
+                />
+              </div>
+            )
+          })}
+          <div className="project-repeat-composer">
+            <DsSelectField
+              id="start-world-inventory-adder"
+              label="添加道具"
+              fieldClassName="project-composer-field"
+              aria-label="添加初始道具"
+              searchable
+              value={selectedInventoryCandidate}
+              disabled={readOnly || addableItems.length === 0}
+              placeholder="搜索道具名称或 ID…"
+              options={addableItems.map((item) => ({
+                value: item.id,
+                label: item.name,
+                description: item.id,
+              }))}
+              onValueChange={setInventoryCandidateId}
+            />
+            <DsButton
+              disabled={readOnly || !selectedInventoryCandidate}
+              onClick={() => {
+                const item = addableItems.find(
+                  (candidate) => candidate.id === selectedInventoryCandidate,
+                )
+                if (!item) return
+                patch({ inventory: [...inventory, { itemId: item.id, count: 1 }] })
+                setInventoryCandidateId('')
+                setAnnouncement(`已添加初始道具${item.name}。`)
+              }}
+              icon="add"
+              size="compact"
+              variant="secondary"
+            >
+              添加道具
+            </DsButton>
+          </div>
           {inventory.length === 0 ? <PageHint>无初始道具。</PageHint> : null}
+          {inventory.length > 0 && addableItems.length === 0 ? (
+            <PageHint>所有道具都已加入初始库存。</PageHint>
+          ) : null}
         </div>
       </section>
 
@@ -869,7 +886,7 @@ export function StartWorldFields(props: {
           {Object.entries(value.resources ?? {})
             .sort(([left], [right]) => left.localeCompare(right))
             .map(([key, initialValue]) => (
-              <div className="project-inline-row project-resource-row" key={key}>
+              <div className="project-repeat-row project-resource-row" key={key}>
                 <code>{key}</code>
                 <span>
                   初始值{' '}
@@ -885,25 +902,32 @@ export function StartWorldFields(props: {
                     onCommit={(value) => patchResource(key, value)}
                   />
                 </span>
-                <DsButton
+                <DsIconButton
                   disabled={readOnly}
                   onClick={() => patchResource(key, undefined)}
+                  label={`删除世界资源 ${key}`}
+                  icon="delete"
                   size="compact"
-                  variant="secondary"
-                >
-                  删除
-                </DsButton>
+                  variant="danger"
+                />
               </div>
             ))}
-          <div className="project-inline-row project-resource-create">
+          <div className="project-repeat-composer project-resource-create">
             <DsTextInput
               value={newResourceKey}
+              name="startWorldResourceKey"
+              autoComplete="off"
+              spellCheck={false}
               disabled={readOnly}
               aria-label="新世界资源稳定键"
-              placeholder="新资源键，如 alchemyEnergy"
+              placeholder="新资源键，如 alchemyEnergy…"
               onChange={(event) => setNewResourceKey(event.target.value)}
               onKeyDown={(event) => {
-                if (event.key === 'Enter') {
+                if (
+                  event.key === 'Enter' &&
+                  !event.nativeEvent.isComposing &&
+                  event.nativeEvent.keyCode !== 229
+                ) {
                   event.preventDefault()
                   addResource()
                 }
@@ -918,10 +942,11 @@ export function StartWorldFields(props: {
                 Object.hasOwn(value.resources ?? {}, newResourceKey.trim())
               }
               onClick={addResource}
+              icon="add"
               size="compact"
               variant="secondary"
             >
-              ＋ 添加资源
+              添加资源
             </DsButton>
           </div>
         </div>
@@ -1071,9 +1096,14 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
           <section className="project-card">
             <div className="project-form-stack">
               {entryPoints.map((entry, index) => (
-                <label className="field" key={`repair:${index}`}>
+                <label
+                  className="field"
+                  htmlFor={`entry-id-repair-${index}`}
+                  key={`repair:${index}`}
+                >
                   <span className="field-label">入口 {index + 1}</span>
                   <DsTextInput
+                    id={`entry-id-repair-${index}`}
                     aria-label={`入口 ${index + 1} id`}
                     value={repairIds[index] ?? ''}
                     disabled={!repairableEntryIndexes.has(index)}
@@ -1173,6 +1203,15 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
     commit(remaining)
     chooseEntry(manifest.defaultEntryId)
   }
+  const moveEntry = (delta: -1 | 1): void => {
+    if (!selected) return
+    const index = entryPoints.findIndex((entry) => entry.id === selected.id)
+    const target = index + delta
+    if (index < 0 || target < 0 || target >= entryPoints.length) return
+    const next = [...entryPoints]
+    ;[next[index], next[target]] = [next[target]!, next[index]!]
+    commit(next)
+  }
   const setSelectedAsDefault = (): void => {
     if (!selected) return
     commit([...entryPoints], selected.id)
@@ -1192,6 +1231,18 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
           }}
           actions={[{ id: 'create-entry', label: '新增入口', icon: 'add', onClick: addEntry }]}
           overflowActions={[
+            {
+              id: 'move-entry-up',
+              label: '上移当前入口',
+              disabled: !selected || entryPoints[0]?.id === selected.id,
+              onClick: () => moveEntry(-1),
+            },
+            {
+              id: 'move-entry-down',
+              label: '下移当前入口',
+              disabled: !selected || entryPoints.at(-1)?.id === selected.id,
+              onClick: () => moveEntry(1),
+            },
             {
               id: 'clone-entry',
               label: '复制当前入口',
@@ -1314,13 +1365,14 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
                       <DsButton
                         icon="open"
                         title={`查看入口视频 ${selected.introVideo}`}
-                        onClick={() =>
+                        onClick={() => {
+                          stopEditorAudioPreview()
                           onOpenLocation({
                             module: 'asset',
                             subpage: 'cutscene',
                             objectId: selected.introVideo!,
                           })
-                        }
+                        }}
                         variant="secondary"
                       >
                         前往预览
@@ -1363,201 +1415,197 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
   )
 }
 
-export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
+function ProjectStartupPage(props: ProjectWorkbenchTabProps) {
+  const { manifest, assetCatalog, assetReader, session, tabBar, onOpenLocation } = props
+  const statuses = projectAssetRoleStatuses(manifest.assets, assetCatalog)
+  const statusByRole = new Map(statuses.map((status) => [status.definition.role, status]))
+  const configuredCount = statuses.filter((status) => status.state === 'configured').length
+  const errorCount = statuses.filter((status) => status.state === 'error').length
+  const [selectedGroupId, setSelectedGroupId] = useState(PROJECT_ASSET_ROLE_GROUPS[0]?.id)
+  const openGroup = (groupId: (typeof PROJECT_ASSET_ROLE_GROUPS)[number]['id']): void => {
+    setSelectedGroupId(groupId)
+    document.getElementById(`project-role-group-${groupId}`)?.scrollIntoView({ block: 'start' })
+  }
+
+  return (
+    <>
+      <div className="outliner project-outliner">
+        {tabBar}
+        <DsListHeader title="全局资源" count={configuredCount} unit="项已配置" />
+        <DsCatalogGroupList label="全局资源分组">
+          {PROJECT_ASSET_ROLE_GROUPS.map((group) => {
+            const groupStatuses = group.roles.map(
+              (definition) => statusByRole.get(definition.role)!,
+            )
+            const groupConfigured = groupStatuses.filter(
+              (status) => status.state === 'configured',
+            ).length
+            const groupErrors = groupStatuses.filter((status) => status.state === 'error').length
+            return (
+              <DsCatalogRow
+                key={group.id}
+                title={group.title}
+                meta={`${groupConfigured}/${group.roles.length} 已配置`}
+                selected={selectedGroupId === group.id}
+                aria-controls={`project-role-group-${group.id}`}
+                trailing={
+                  groupErrors ? <DsTag tone="warning">{groupErrors} 项待处理</DsTag> : undefined
+                }
+                onClick={() => openGroup(group.id)}
+              />
+            )
+          })}
+        </DsCatalogGroupList>
+      </div>
+      <ProjectPageWorkspace
+        eyebrow="项目设置 · 全局资源"
+        title="全局资源与启动"
+        summary="按用途配置项目级音乐、音效、视频与视觉资源；音乐和音效可在原位试听。"
+        meta={
+          <>
+            <DsHelpTip label="全局资源设置">
+              这里只选择运行时使用的项目级资源；导入、替换和资源详情仍由资源模块负责。
+            </DsHelpTip>
+            <DsTag tone={errorCount ? 'warning' : 'neutral'}>
+              {configuredCount}/{statuses.length} 已配置
+              {errorCount ? ` · ${errorCount} 项待处理` : ''}
+            </DsTag>
+          </>
+        }
+      >
+        {PROJECT_ASSET_ROLE_GROUPS.map((group) => {
+          const groupStatuses = group.roles.map((definition) => statusByRole.get(definition.role)!)
+          const groupConfigured = groupStatuses.filter(
+            (status) => status.state === 'configured',
+          ).length
+          const groupErrors = groupStatuses.filter((status) => status.state === 'error').length
+          return (
+            <section
+              id={`project-role-group-${group.id}`}
+              className="project-card project-role-group"
+              key={group.id}
+            >
+              <div className="project-role-group-head">
+                <div>
+                  <h4>{group.title}</h4>
+                  <p className="project-copy">{group.description}</p>
+                </div>
+                <DsTag tone={groupErrors ? 'warning' : 'neutral'}>
+                  {groupConfigured}/{group.roles.length} 已配置
+                  {groupErrors ? ` · ${groupErrors} 项待处理` : ''}
+                </DsTag>
+              </div>
+              <RoleBindings
+                manifest={manifest}
+                assetCatalog={assetCatalog}
+                assetReader={assetReader}
+                session={session}
+                roles={group.roles}
+                onOpenLocation={onOpenLocation}
+              />
+            </section>
+          )
+        })}
+      </ProjectPageWorkspace>
+    </>
+  )
+}
+
+function readableList(values: readonly string[], overflowLabel: string): string {
+  if (!values.length) return '无'
+  const visible = values.slice(0, 3)
+  const remaining = values.length - visible.length
+  return `${visible.join('、')}${remaining ? `，另有 ${PROJECT_NUMBER_FORMAT.format(remaining)} ${overflowLabel}` : ''}`
+}
+
+function ProjectOverviewPage(props: ProjectWorkbenchTabProps) {
   const {
-    page,
     manifest,
     scenes,
+    actors,
+    items,
+    locale,
     assetCatalog,
-    assetReader,
     session,
     issues,
+    diagnosticsStatus,
     tabBar,
     onOpenLocation,
   } = props
-  if (page === 'entrypoint') return <EntryPointEditor {...props} issues={[...issues]} />
-
-  const effectiveEntries = manifest.entryPoints
-  const firstEntry = effectiveEntries[0]
+  const entries = manifest.entryPoints
   const defaultEntry = findDefaultEntry(manifest)
-  const defaultScene = scenes.find((scene) => scene.id === defaultEntry?.scene)
-  const boundRoleCount = ASSET_ROLES.filter((role) => manifest.assets.roles[role]).length
   const openProjectPage = (next: ProjectWorkbenchPage, objectId?: string): void =>
     onOpenLocation?.({
       module: 'project',
       subpage: next,
       ...(objectId ? { objectId } : {}),
     } as EditorLocation)
-
-  if (page === 'startup') {
-    return (
-      <>
-        <div className="outliner project-outliner">
-          {tabBar}
-          <DsListHeader title="全局资源" count={boundRoleCount} unit="项已绑定" />
-          <div className="project-step-list">
-            {PROJECT_ASSET_ROLE_GROUPS.map((group) => {
-              const groupBoundCount = group.roles.filter(
-                (role) => manifest.assets.roles[role],
-              ).length
-              return (
-                <div className="project-step" key={group.id}>
-                  <span>●</span>
-                  <span>{group.title}</span>
-                  <code>
-                    {groupBoundCount}/{group.roles.length} 已绑定
-                  </code>
-                </div>
-              )
-            })}
-            <div className="project-step">
-              <span>→</span>
-              <span>启动链（只读）</span>
-              <code>直接启动 / 标题菜单</code>
-            </div>
-          </div>
-        </div>
-        <ProjectPageWorkspace
-          eyebrow="项目设置"
-          title="全局资源设置"
-          objectId="manifest.assets.roles"
-          meta={
-            <>
-              <DsHelpTip label="全局资源设置">
-                这里绑定项目运行时使用的稳定 AssetId；资源文件的导入、替换和预览仍在“资源”模块完成。
-              </DsHelpTip>
-              <DsTag tone="neutral">
-                {boundRoleCount}/{ASSET_ROLES.length} 已绑定
-              </DsTag>
-            </>
-          }
-        >
-          {PROJECT_ASSET_ROLE_GROUPS.map((group) => {
-            const groupBoundCount = group.roles.filter((role) => manifest.assets.roles[role]).length
-            return (
-              <section className="project-card" key={group.id}>
-                <div className="project-role-group-head">
-                  <div>
-                    <h4>{group.title}</h4>
-                    <p className="project-copy">{group.description}</p>
-                  </div>
-                  <span className="project-badge">
-                    {groupBoundCount}/{group.roles.length} 已绑定
-                  </span>
-                </div>
-                <RoleBindings
-                  manifest={manifest}
-                  assetCatalog={assetCatalog}
-                  assetReader={assetReader}
-                  session={session}
-                  roles={group.roles}
-                  onOpenLocation={onOpenLocation}
-                />
-              </section>
-            )
-          })}
-          <div className="project-section-heading">
-            <div>
-              <h2>启动链</h2>
-              <span className="project-copy">只读解释层 · 与当前运行时分支一致</span>
-            </div>
-          </div>
-          <section className="project-card">
-            <h4>
-              直接启动入口（不经过标题菜单）{' '}
-              <DsHelpTip label="开发直达入口">
-                使用 entry 参数会选择该入口的场景与开局数据，但仍跳过启动视频、标题菜单和
-                introVideo。
-              </DsHelpTip>
-            </h4>
-            <div className="project-flow">
-              <div className="project-flow-step">
-                <DsSequenceIndex value={1} accessibleLabel="第 1 步" />
-                <div>
-                  <strong>创建入口世界</strong>
-                  <p>
-                    读取 defaultEntryId 对应入口的完整 startWorld：
-                    {defaultEntry?.id ?? '配置损坏'}。
-                  </p>
-                </div>
-              </div>
-              <div className="project-flow-step">
-                <DsSequenceIndex value={2} accessibleLabel="第 2 步" />
-                <div>
-                  <strong>进入入口场景</strong>
-                  <p>{defaultEntry?.scene ?? '入口配置损坏'}</p>
-                </div>
-              </div>
-              <div className="project-flow-step">
-                <DsSequenceIndex value={3} accessibleLabel="第 3 步" />
-                <div>
-                  <strong>执行场景 onEnter</strong>
-                  <p>{defaultScene ? '脚本模块所有；video/RNG/BGM 只读展示。' : '入口场景缺失'}</p>
-                </div>
-              </div>
-            </div>
-          </section>
-          <section className="project-card">
-            <h4>标题菜单分支（menu）</h4>
-            <div className="project-flow">
-              {STARTUP_ROLES.map((role, index) => (
-                <div className="project-flow-step" key={role}>
-                  <DsSequenceIndex value={index + 1} accessibleLabel={`第 ${index + 1} 步`} />
-                  <div>
-                    <strong>{ROLE_LABELS[role]}</strong>
-                    <p>
-                      {manifest.assets.roles[role]
-                        ? `AssetId ${manifest.assets.roles[role]}`
-                        : '未绑定'}
-                    </p>
-                  </div>
-                </div>
-              ))}
-              <div className="project-flow-step">
-                <DsSequenceIndex value={4} accessibleLabel="第 4 步" />
-                <div>
-                  <strong>选择入口点</strong>
-                  <p>播放该入口的 introVideo，再使用该入口保存的完整开局数据。</p>
-                </div>
-              </div>
-              <div className="project-flow-step">
-                <DsSequenceIndex value={5} accessibleLabel="第 5 步" />
-                <div>
-                  <strong>进入入口场景</strong>
-                  <p>随后执行该场景 onEnter；脚本内容仍由剧情/场景模块编辑。</p>
-                </div>
-              </div>
-            </div>
-          </section>
-          <section className="project-card">
-            <h4>标题菜单入口点</h4>
-            <div className="project-entry-summary-list">
-              {effectiveEntries.map((entry) => (
-                <div className="project-entry-summary" key={entry.id}>
-                  <span>菜单项</span>
-                  <strong>{entry.label}</strong>
-                  <code>{entry.scene}</code>
-                  <small>
-                    {entry.introVideo ?? '无入口视频'}
-                    {entry.id === manifest.defaultEntryId ? ' · 直接启动' : ''}
-                  </small>
-                  <DsButton
-                    onClick={() => openProjectPage('entrypoint', entry.id)}
-                    size="compact"
-                    variant="secondary"
-                  >
-                    编辑
-                  </DsButton>
-                </div>
-              ))}
-            </div>
-          </section>
-        </ProjectPageWorkspace>
-      </>
-    )
-  }
-
-  if (page === 'advanced') return <ProjectAdvancedPage {...props} issues={issues} />
+  const defaultEntryIssues = issues.filter(
+    (issue) =>
+      issue.code === 'missing-default-entry' ||
+      (defaultEntry && issue.target?.objectId === defaultEntry.id),
+  )
+  const hasMissingScene = defaultEntryIssues.some(
+    (issue) => issue.code === 'missing-entry-point-scene',
+  )
+  const hasIntroIssue = defaultEntryIssues.some((issue) =>
+    ['missing-intro-video', 'intro-video-kind-mismatch'].includes(issue.code),
+  )
+  const entryHealth =
+    diagnosticsStatus !== 'current'
+      ? diagnosticsStatus === 'failed'
+        ? '诊断暂不可用'
+        : '正在检查'
+      : !defaultEntry || defaultEntryIssues.some((issue) => issue.code === 'missing-default-entry')
+        ? '默认入口需要修复'
+        : hasMissingScene
+          ? '需要修复'
+          : '已就绪'
+  const introHealth =
+    diagnosticsStatus !== 'current'
+      ? diagnosticsStatus === 'failed'
+        ? '诊断暂不可用'
+        : '正在检查'
+      : !defaultEntry
+        ? '等待入口修复'
+        : hasIntroIssue
+          ? '需要修复'
+          : defaultEntry.introVideo
+            ? '已配置'
+            : '未配置（可选）'
+  const partyNames = (defaultEntry?.startWorld.party ?? []).map((actorId) => {
+    const actor = actors.find((candidate) => candidate.id === actorId)
+    return actor ? lookupText(actor.name, locale) : '未知角色'
+  })
+  const inventory = defaultEntry?.startWorld.inventory ?? []
+  const inventoryNames = inventory.map((entry) => {
+    const item = items.find((candidate) => candidate.id === entry.itemId)
+    return item?.name ?? '未知道具'
+  })
+  const inventoryCount = inventory.reduce((sum, entry) => sum + entry.count, 0)
+  const menuNames = entries.map((entry) => entry.label.trim() || '未命名入口')
+  const entryVideoCount = entries.filter((entry) => entry.introVideo).length
+  const roleStatuses = projectAssetRoleStatuses(manifest.assets, assetCatalog)
+  const diagnosticRoleErrors = new Set(
+    issues
+      .filter((issue) => ['missing-role-asset', 'role-kind-mismatch'].includes(issue.code))
+      .flatMap((issue) => (issue.assetRole ? [issue.assetRole] : [])),
+  )
+  const roleErrors = roleStatuses.filter(
+    (status) => status.state === 'error' || diagnosticRoleErrors.has(status.definition.role),
+  )
+  const configuredRoles = roleStatuses.filter((status) => status.state === 'configured').length
+  const optionalRoles = roleStatuses.filter(
+    (status) => status.state === 'unconfigured' && !status.required,
+  ).length
+  const resourceHealth =
+    diagnosticsStatus !== 'current'
+      ? diagnosticsStatus === 'failed'
+        ? '诊断暂不可用'
+        : '正在检查资源配置'
+      : roleErrors.length
+        ? `${PROJECT_NUMBER_FORMAT.format(roleErrors.length)} 项需要处理`
+        : '资源配置检查通过'
 
   return (
     <>
@@ -1575,7 +1623,7 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
             场景 <strong>{scenes.length}</strong>
           </div>
           <div>
-            入口点 <strong>{effectiveEntries.length}</strong>
+            入口点 <strong>{entries.length}</strong>
           </div>
           <div>
             资源 <strong>{Object.keys(assetCatalog.assets).length}</strong>
@@ -1593,12 +1641,12 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
         title={manifest.name}
         objectId={manifest.id}
         meta={
-          <DsTag tone={issues.length || props.diagnosticsStatus !== 'current' ? 'warning' : 'neutral'}>
+          <DsTag tone={issues.length || diagnosticsStatus !== 'current' ? 'warning' : 'neutral'}>
             {issues.length
               ? `${issues.length} 项问题`
-              : props.diagnosticsStatus === 'current'
+              : diagnosticsStatus === 'current'
                 ? '配置健康'
-                : props.diagnosticsStatus === 'failed'
+                : diagnosticsStatus === 'failed'
                   ? '诊断失败'
                   : '检查中'}
           </DsTag>
@@ -1618,54 +1666,136 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
             />
           </label>
         </section>
-        <section className="project-card">
-          <h4>启动摘要</h4>
-          <div className="project-flow-mini">
-            <span>直接启动入口</span>
-            <strong>
-              {defaultEntry
-                ? `${defaultEntry.startWorld.party.length} 名队员 · ${defaultEntry.startWorld.money} 金钱`
-                : '入口配置损坏'}
-            </strong>
-            <code>{defaultEntry?.scene ?? manifest.defaultEntryId}</code>
-            <DsButton
-              onClick={() => openProjectPage('entrypoint', defaultEntry?.id)}
-              size="compact"
-              variant="secondary"
-            >
-              编辑入口与开局
-            </DsButton>
-          </div>
-          <div className="project-flow-mini">
-            <span>标题菜单</span>
-            <strong>{effectiveEntries.length} 个入口点</strong>
-            <DsButton
-              onClick={() => openProjectPage('entrypoint', firstEntry?.id)}
-              size="compact"
-              variant="secondary"
-            >
-              编辑入口
-            </DsButton>
-          </div>
-          <div className="project-flow-mini">
-            <span>全局资源</span>
-            <strong>
-              {boundRoleCount}/{ASSET_ROLES.length} 项已绑定
-            </strong>
-            <code>assets.roles</code>
-            <DsButton onClick={() => openProjectPage('startup')} size="compact" variant="secondary">
-              编辑 8 项设置
-            </DsButton>
-          </div>
-          <div className="project-flow-mini">
-            <span>启动分支</span>
-            <strong>直接启动入口 / 标题菜单入口</strong>
-            <DsButton onClick={() => openProjectPage('startup')} size="compact" variant="secondary">
-              查看链路
-            </DsButton>
-          </div>
+        <section className="project-startup-summary-grid" aria-label="启动摘要">
+          <DsCard
+            title="默认开局"
+            className="project-startup-summary-card"
+            actions={
+              <DsButton
+                onClick={() => openProjectPage('entrypoint', defaultEntry?.id)}
+                size="compact"
+                variant="secondary"
+                icon="edit"
+              >
+                编辑开局
+              </DsButton>
+            }
+          >
+            <p className="project-summary-lead">
+              {defaultEntry?.label.trim() || '直接启动入口尚未配置'}
+            </p>
+            <dl className="project-startup-facts">
+              <div>
+                <dt>队伍</dt>
+                <dd>{readableList(partyNames, '名队员')}</dd>
+              </div>
+              <div>
+                <dt>金钱</dt>
+                <dd>
+                  {defaultEntry
+                    ? `${PROJECT_NUMBER_FORMAT.format(defaultEntry.startWorld.money)} 金钱`
+                    : '等待入口修复'}
+                </dd>
+              </div>
+              <div>
+                <dt>道具</dt>
+                <dd>
+                  {inventory.length
+                    ? `${PROJECT_NUMBER_FORMAT.format(inventory.length)} 种、共 ${PROJECT_NUMBER_FORMAT.format(inventoryCount)} 件：${readableList(inventoryNames, '种道具')}`
+                    : '无初始道具'}
+                </dd>
+              </div>
+              <div>
+                <dt>起始位置</dt>
+                <dd>{entryHealth}</dd>
+              </div>
+              <div>
+                <dt>开场视频</dt>
+                <dd>{introHealth}</dd>
+              </div>
+            </dl>
+          </DsCard>
+          <DsCard
+            title="标题菜单"
+            className="project-startup-summary-card"
+            actions={
+              <DsButton
+                onClick={() => openProjectPage('entrypoint', entries[0]?.id)}
+                size="compact"
+                variant="secondary"
+                icon="edit"
+              >
+                编辑入口
+              </DsButton>
+            }
+          >
+            <p className="project-summary-lead">
+              {PROJECT_NUMBER_FORMAT.format(entries.length)} 个可选入口
+            </p>
+            <dl className="project-startup-facts">
+              <div>
+                <dt>菜单项</dt>
+                <dd>{readableList(menuNames, '个入口')}</dd>
+              </div>
+              <div>
+                <dt>入口视频</dt>
+                <dd>
+                  {entryVideoCount
+                    ? `${PROJECT_NUMBER_FORMAT.format(entryVideoCount)} 个入口已配置`
+                    : '均未配置（可选）'}
+                </dd>
+              </div>
+            </dl>
+          </DsCard>
+          <DsCard
+            title="启动资源"
+            className="project-startup-summary-card"
+            actions={
+              <DsButton
+                onClick={() => openProjectPage('startup')}
+                size="compact"
+                variant="secondary"
+                icon="edit"
+              >
+                编辑资源
+              </DsButton>
+            }
+          >
+            <p className="project-summary-lead">{resourceHealth}</p>
+            <dl className="project-startup-facts">
+              <div>
+                <dt>已配置</dt>
+                <dd>
+                  {PROJECT_NUMBER_FORMAT.format(configuredRoles)}/
+                  {PROJECT_NUMBER_FORMAT.format(roleStatuses.length)} 项
+                </dd>
+              </div>
+              <div>
+                <dt>可选留空</dt>
+                <dd>{PROJECT_NUMBER_FORMAT.format(optionalRoles)} 项</dd>
+              </div>
+              {roleErrors.length ? (
+                <div>
+                  <dt>待处理</dt>
+                  <dd>
+                    {readableList(
+                      roleErrors.map((status) => status.definition.label),
+                      '项设置',
+                    )}
+                  </dd>
+                </div>
+              ) : null}
+            </dl>
+          </DsCard>
         </section>
       </ProjectPageWorkspace>
     </>
   )
+}
+
+export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
+  if (props.page === 'entrypoint') return <EntryPointEditor {...props} issues={[...props.issues]} />
+  if (props.page === 'startup') return <ProjectStartupPage {...props} />
+  if (props.page === 'advanced') return <ProjectAdvancedPage {...props} issues={props.issues} />
+  return <ProjectOverviewPage {...props} />
 }

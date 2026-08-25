@@ -1,6 +1,6 @@
 # ED-PROJECT-STARTUP-IA-1 - 入口与开局 / 全局资源与启动工作台收口
 
-Status: build（2026-08-26 三签与 ARCH-ENTRY-ACTOR-SEED-1 用户验收齐；Codex 单 Owner 实现）
+Status: review（2026-08-26 Codex build、自测、PAL 功能界面验证与内部压力审查完成；待 Kimi / GLM 正式 review accept）
 Phase: phase2
 Capability: X7
 Coding Owner: Codex
@@ -14,15 +14,15 @@ Branch: `codex/ed-project-startup-ia-1`
 ## 目标
 
 在不重开 canonical 入口模型的前提下，把“入口与开局”“全局资源与启动”和项目概览中的入口摘要整理成清晰、紧凑、
-可撤销的作者工作流：有序队伍用列表管理，库存/技能/世界资源使用标准重复行，全局音乐与音效都可原位试听，所有
+可撤销的作者工作流：有序队伍用列表管理，库存/世界资源使用标准重复行，全局音乐与音效都可原位试听，所有
 增删、输入、帮助、响应式与滚动行为遵守统一设计系统。
 
 ## 范围
 
 - 范围内:
-  - “入口与开局”：默认入口标识、入口列表操作、队伍顺序、库存、初始技能、世界资源和现有 HP/MP 覆盖的 IA/控件收口。
+  - “入口与开局”：默认入口标识、入口列表操作、队伍顺序、库存、世界资源和现有 HP/MP 覆盖的 IA/控件收口。
   - 队伍改为“有序成员列表 + 可搜索添加器”，不再铺满候选 checkbox；上移/下移/移除保持稳定顺序。
-  - 库存、技能、资源值复用标准重复行与标准新增/删除动作，窄宽度不折断动作。
+  - 库存、资源值复用标准重复行与标准新增/删除动作，窄宽度不折断动作。
   - “全局资源与启动”：按 `ASSET_ROLES` 与分组源动态渲染，音乐/音效原位试听与“打开资源页”分离。
   - 项目概览删除写死数量和重复流程编辑入口；启动链改为三张直观摘要卡：默认开局、标题菜单、启动资源。
     默认开局直接展示入口名称、队员姓名、金钱、初始物品与开场视频状态；标题菜单展示可选故事数量/名称；
@@ -69,7 +69,7 @@ Branch: `codex/ed-project-startup-ia-1`
 - 是否主动偏离已核真值: yes
 - `before -> after` 一句话: 分散 checkbox、raw 按钮、重复流程说明、跳转预览和 `s000/assets.roles` 机器摘要 ->
   有序添加/重复行/原位试听，以及“默认开局/标题菜单/启动资源”三张可读摘要卡。
-- 代表场景: 编辑默认入口队伍与初始技能；在全局资源中试听默认战斗音乐；项目概览跳到对应唯一作者页。
+- 代表场景: 编辑默认入口队伍与初始库存；在全局资源中试听默认战斗音乐；项目概览跳到对应唯一作者页。
 - 用户裁决: 2026-08-24 用户要求将入口、开局、全局资源与启动缺陷系统收口；2026-08-25 用户明确指出
   `s000`、`assets.roles` 等普通人无法理解，要求重做摘要并展示重要、直观的信息。
 
@@ -104,7 +104,8 @@ Branch: `codex/ed-project-startup-ia-1`
   - 默认入口只是入口列表中的真实项和明确徽标；重排后仍由稳定 ID 指向同一入口。
   - 新建、复制、设默认、删除保护、undo/redo、保存重开保持 canonical 入口语义。
   - 队伍为有序列表 + 可搜索添加器；上移、下移、移除和键盘操作闭环，不显示候选 checkbox 墙。
-  - 库存、技能、资源使用同一重复行合同；删除动作不换行，空态与新增路径清楚。
+  - 库存、资源使用同一重复行合同；删除动作不换行，空态与新增路径清楚。角色初始技能只由
+    `ActorDef.initialMagic` 持有，入口页不显示或保存技能快照。
   - 音乐和音效都能原位试听；试听与打开资源页是两个明确动作；切曲停止前一资源。
   - 全局资源角色及分组由源码常量动态生成，界面无“编辑 8 项”等陈旧数字。
   - 项目概览只保留三张摘要卡与两个唯一导航 owner：
@@ -262,7 +263,10 @@ Branch: `codex/ed-project-startup-ia-1`
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept（2026-08-26）**。canonical schema/runtime 未改；入口动作仍由单个
+  `SetStartupEntriesCommand` 原子提交，typed role registry、结构化 diagnostic role、全局单一音频试听 owner、
+  三张 live 摘要卡、有序队伍/库存/资源重复行与 FIELD 合同均已落地。Editor 全量 158 files / 1203 tests、
+  最终聚焦 9 files / 77 tests、typecheck、build、DS gate 与 PAL 1280/900/720 功能界面验证通过。
 - Kimi: pending
 - GLM: pending
 - counter / 返工处理:
@@ -275,7 +279,7 @@ Branch: `codex/ed-project-startup-ia-1`
 
 - 页面仍采用左侧真实对象/分组、中央标题与主编辑、必要时右侧 Inspector 的统一壳；启动链退为紧凑摘要和帮助。
 - 队伍采用 ordered collection；候选角色通过搜索/选择添加，选中成员行动作复用标准 reorder/remove 控件。
-- 库存/技能/资源使用同一 `repeatable row` recipe；选择/值/动作保持单行，窄容器按规范降为明确的上下块。
+- 库存/资源使用同一 `repeatable row` recipe；选择/值/动作保持单行，窄容器按规范降为明确的上下块。
 - 资源角色列表由 typed registry 派生 label/kind/group/required/preview capability，杜绝 UI 单独维护数量与分组。
 - 音乐/音效试听共用现有 resolver/player；资源页导航使用真实 action link，不拿“前往预览”代替播放。
 - 项目概览使用三张自适应摘要卡，不再使用横向“标签/值/代码/动作”技术巡检表：
@@ -303,26 +307,62 @@ Branch: `codex/ed-project-startup-ia-1`
 ## Build: 实现与自测
 
 - Coding Owner: Codex
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- 修改文件:
+  - `packages/editor/src/ui/ProjectWorkbenchTab.tsx` / `.test.tsx`、`editor.css`、
+    `design-system/primitives.css`、`design-system/field-commit-adoption.json`。
+  - `packages/editor/src/ui/project-asset-roles.ts` / `.test.ts`、`project-role-groups.test.ts`。
+  - `packages/editor/src/core/project-diagnostics.ts` / `.test.ts`。
+  - `packages/editor/src/core/audio-preview-session.ts` / `.test.ts`、
+    `ProjectAudioPreviewButton.tsx` / `.test.tsx`、`MusicPicker.tsx` / `.test.tsx`、
+    `SoundPicker.tsx` / `.test.ts`、`AudioAssetWorkbench.tsx` / `.test.tsx`。
+  - `packages/editor/src/ui/design-system/adoption.test.ts`、`docs/phase2/editor/editor-design.md`。
+- 实现摘要:
+  - `ASSET_ROLES` 现在经唯一 typed registry 派生中文名、kind、分组、前缀和 canonical 必需性；概览与启动页
+    共用该 registry，diagnostics 以结构化 `assetRole` 关联，不解析 message/path。
+  - 概览删除重复启动链，固定为“默认开局 / 标题菜单 / 启动资源”三张 live 自适应卡；缺损默认入口、场景、
+    intro、stale/failed diagnostics 与资源悬空/错型全部 fail-closed，摘要不常驻机器 token。
+  - 入口页补齐复制、重排、删除保护、有序队伍、可搜索队员/道具添加器、资源重复行、HP/MP 稀疏覆盖；
+    add/remove 后焦点接力与 aria-live 完整，IME 组合态 Enter 不误新增，一动作只写一条命令。
+  - 项目页、MusicPicker、SoundPicker、AudioAssetWorkbench 共用一个试听 owner；快速音效 A→B 隔离迟到
+    prepare，项目页播放自然结束释放 owner，任何“打开资源/前往预览”先停止试听且不写 history/world。
+  - 顶栏窄导航断点统一到 1199px；400/520 容器下资源试听与打开动作、重复行均无覆盖或横向溢出。
+- 运行命令:
+  - `pnpm --filter @type-pal/editor check`：**158 files / 1203 tests passed**，typecheck passed。
+  - 最终审查修正后：`pnpm --filter @type-pal/editor typecheck` + 9 个聚焦文件：
+    **9 files / 77 tests passed**。
+  - `pnpm --filter @type-pal/editor audit:design-system`：**87 files，3 个 evidence-bound exceptions，passed**。
+  - `pnpm --filter @type-pal/editor build`：passed；仅保留既有 chunk-size warning。
+  - 本卡 18 个改动 TS/TSX 文件 `biome check`：passed；`git diff --check`：passed。
+- 浏览器 / 手工检查（真实 PAL，`?module=project`）:
+  - 1280×900：概览三卡同排；启动角色行、中央滚动层、资源动作均无 overflow；真实 MIDI/WAV 互切会停止
+    前一项，无 alert / console error。
+  - 900×900、720×900：概览自然单列；启动与入口页只有 `.project-scroll` 一个纵向 scroll owner；队伍、
+    库存、资源 composer、DsSelect portal、Escape 焦点恢复与试听/打开动作不重叠。
+  - 1024×900：顶栏收为“导航”；1200×900、1280×900 恢复完整菜单；三档菜单与 toolbar overlap 均为 0，
+    document horizontal overflow 均为 0。
+  - 金钱字段实机 Enter 提交后 undo 恢复、redo 可用；未执行保存。
+- 跳过的检查及原因:
+  - 无跳过。仓库级 `pnpm lint` 已实际运行但失败：当前 HEAD 中本卡未修改的 `packages/content` 等文件存在
+    370 errors / 43 warnings 的既有全仓 Biome 债；本卡没有越界批量改写这些文件，改动 TS/TSX 已单独检查全绿。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: Kimi / GLM 正式审查 pending；Codex 内部三路只读压力审查（合同、测试、真实浏览器 UI）均 accept，
+  不替代三贤人正式签字。
+- 必须返工项: 当前无已知 blocker/high；若正式审查提出 counter，保持 `review/rework`，不得标记 done。
+- Accept / rework: pending（等待 Kimi + GLM）
 
 ## 用户验收
 
 - 用户结论: pending
-- 后续任务: 角色完整初始状态由 `ARCH-ENTRY-ACTOR-SEED-1` 独立决定。
+- 后续任务: Kimi / GLM 双 accept 后交用户验收；整卡 done 后建议排期 `ED-CATALOG-ROW-IA-1`。
 
 ## 交接日志
 
+- 2026-08-26 Codex: 单 Owner build 完成并转 `review`。Editor 全量 1203、最终聚焦 77、typecheck、build、
+  DS gate 与真实 PAL 1280/900/720 验证通过；内部合同/测试/UI 压力审查 accept。Next: Kimi + GLM 对当前
+  commit candidate 正式 code/test/visual review，未双签前不得标记 done。
 - 2026-08-26 User + Codex: 用户确认 `ARCH-ENTRY-ACTOR-SEED-1` 最终验收通过；该卡已收口 `done`。
   本卡所有前置与三方 build 签字齐，转入 `build`，由 Codex 作为唯一 Coding Owner 开始实现。
 - 2026-08-25 Kimi: 按 2026-08-25 刷新合同重签。直读当前概览四行摘要（裸 s000/assets.roles/写死
@@ -342,20 +382,24 @@ Branch: `codex/ed-project-startup-ia-1`
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: ED-PROJECT-STARTUP-IA-1 入口与开局 / 全局资源与启动工作台收口
-任务卡: docs/ops/tasks/ED-PROJECT-STARTUP-IA-1-project-entry-startup-workbench.md
-当前状态: build；刷新合同三签与 ARCH-ENTRY-ACTOR-SEED-1 用户验收均已完成
-你的角色: Codex（唯一 Coding Owner）
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、ARCH-ENTRYPOINT-CANONICAL-1、ARCH-ENTRY-ACTOR-SEED-1、
-      ED-DS-3、ED-FIELD-COMMIT-1、本任务卡、ProjectWorkbenchTab.tsx:1332-1631
-已完成: DS/FIELD 公共合同已 done；ARCH actor ownership 已获三方 review accept；用户新增裁决要求概览删除
-        s000/assets.roles/写死数量/重复启动分支，改为默认开局、标题菜单、启动资源三张直观摘要卡；
-        Kimi（KI1-KI2）与 GLM（GPS1-GPS2）已按刷新合同独立重签
-请你做: 实现队伍/库存/资源/试听工作流和三张摘要卡，确保所有字段由 live
-        canonical state 派生，并覆盖角色/物品显示名、资源三态、长名称/窄宽、焦点、撤销和两个唯一导航闭环
-不要做: 不得恢复入口继承/伪入口/fallback；不得增加 schema；不得用机器
-        token、写死数量或页面局部保存
-输出要求: 独立提交；聚焦测试、最小功能界面验证与 Build / Review 证据；实现后转 review，等待三方 accept
+请正式审查任务卡 docs/ops/tasks/ED-PROJECT-STARTUP-IA-1-project-entry-startup-workbench.md。
+当前状态 review，分支 codex/ed-project-startup-ia-1，Coding Owner 为 Codex；不得修改实现文件或标记 done。
+
+先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、docs/ops/board.md、本任务卡，以及
+docs/phase2/editor/editor-design.md §5.6。重点核：
+1) entryPoints/defaultEntryId/ActorDef.initialMagic ownership 未漂移，每个入口动作仅一条 SetStartupEntriesCommand；
+2) typed role registry 对 ASSET_ROLES 闭合，optional 留空中性，悬空/错型与 stale diagnostics fail-closed；
+3) 项目页/MusicPicker/SoundPicker/AudioAssetWorkbench 单一试听 owner，音效 A→B 无迟到叠播，打开资源先 stop，
+   不写 history 或 WorldState.audio.currentMusic；
+4) 概览三卡只消费 live manifest，缺损默认入口、单/多入口、长名称与机器 token 负断言齐；
+5) 1280/900/720 的滚动、弹层、动作重叠、焦点、IME、undo/redo 与 1024/1200 顶栏断点。
+
+已有证据：editor check 158 files/1203 tests；最终聚焦 9 files/77 tests；typecheck、build、DS gate；
+真实 PAL 1280/900/720 及顶栏 1024/1200/1280 均通过。仓库级 lint 的 370 errors/43 warnings 位于本卡
+未修改的既有文件，本卡 18 个改动 TS/TSX 的 Biome check 通过。
+
+请把结论直接写回本卡“进入 done 前:审查签字”和 Review：accept，或 counter + 可复现证据/返工项。
+Kimi/GLM 两席未全部 accept 前，不得标记 done；不得开始下一张实现卡。
 ```
 - 2026-08-24 GLM（覆盖/数据/测试矩阵）: 审查完成，签 **premise verified + design agree
   （附 GP1-GP2）**。ASSET_ROLES 12 项独立枚举（audio 9+video 2+visual 1）vs :1686 写死

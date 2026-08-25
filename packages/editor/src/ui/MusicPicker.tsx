@@ -2,6 +2,11 @@
 import type { AssetCatalogV1, AssetId, AssetRecordV1 } from '@type-pal/content'
 import { type AudioAssetReader, createBgmPlayer } from '@type-pal/reforge'
 import { useSyncExternalStore } from 'react'
+import {
+  claimEditorAudioPreview,
+  type EditorAudioPreviewOwner,
+  releaseEditorAudioPreview,
+} from '../core/audio-preview-session.js'
 import { DsControlGroup, DsIconButton, DsSelect } from './design-system/controls.js'
 
 export interface MusicAsset {
@@ -25,10 +30,17 @@ function notify(): void {
   for (const listener of listeners) listener()
 }
 
-export function stopPreview(): void {
+function stopMusicPreview(): void {
   player?.stop()
   playingAsset = null
   notify()
+}
+
+const musicPreviewOwner: EditorAudioPreviewOwner = { stop: stopMusicPreview }
+
+export function stopPreview(): void {
+  stopMusicPreview()
+  releaseEditorAudioPreview(musicPreviewOwner)
 }
 
 function togglePreview(reader: AudioAssetReader, asset: AssetId): void {
@@ -41,7 +53,13 @@ function togglePreview(reader: AudioAssetReader, asset: AssetId): void {
     player = createBgmPlayer(reader)
     playerReader = reader
   }
-  player.play(asset, true)
+  claimEditorAudioPreview(musicPreviewOwner)
+  try {
+    player.play(asset, true)
+  } catch (error) {
+    releaseEditorAudioPreview(musicPreviewOwner)
+    throw error
+  }
   playingAsset = asset
   notify()
 }

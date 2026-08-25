@@ -1,6 +1,13 @@
 import type { AssetCatalogV1, AssetId, AssetRecordV1 } from '@type-pal/content'
 import { SfxPlayer } from '@type-pal/reforge'
 import { memo, useMemo, useState } from 'react'
+import {
+  claimEditorAudioPreview,
+  type EditorAudioPreviewOwner,
+  isEditorAudioPreviewOwner,
+  releaseEditorAudioPreview,
+  stopEditorAudioPreview,
+} from '../core/audio-preview-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import {
   DsControlGroup,
@@ -27,7 +34,22 @@ export function soundLabel(asset: SoundAsset): string {
 
 let previewReader: EditorAssetReader | undefined
 let previewPlayer: SfxPlayer | undefined
+let previewRequest = 0
 const previewFingerprints = new Map<AssetId, string>()
+const soundPreviewOwner: EditorAudioPreviewOwner = {
+  stop() {
+    previewRequest++
+    void disposeSoundPlayer()
+  },
+}
+
+async function disposeSoundPlayer(): Promise<void> {
+  const player = previewPlayer
+  previewPlayer = undefined
+  previewReader = undefined
+  previewFingerprints.clear()
+  await player?.dispose()
+}
 
 async function playerFor(reader: EditorAssetReader): Promise<SfxPlayer> {
   if (!previewPlayer || previewReader !== reader) {
@@ -55,17 +77,27 @@ export async function prepareSoundPreview(
 }
 
 export async function previewSound(reader: EditorAssetReader, asset: AssetId): Promise<void> {
-  const player = await prepareSoundPreview(reader, asset)
-  player.play(asset)
+  // SfxPlayer 允许多个 active source；同一个 picker owner 重新 claim 不会自动 stop。
+  // 因此每次新试听都先结束全局旧 owner，并用 request 隔离仍在 prepare 的旧资源。
+  stopEditorAudioPreview()
+  const request = ++previewRequest
+  claimEditorAudioPreview(soundPreviewOwner)
+  try {
+    const player = await prepareSoundPreview(reader, asset)
+    if (request !== previewRequest || !isEditorAudioPreviewOwner(soundPreviewOwner)) return
+    player.play(asset)
+  } catch (error) {
+    if (request !== previewRequest || !isEditorAudioPreviewOwner(soundPreviewOwner)) return
+    releaseEditorAudioPreview(soundPreviewOwner)
+    throw error
+  }
 }
 
 export async function disposeSoundPreview(reader?: EditorAssetReader): Promise<void> {
   if (reader && previewReader !== reader) return
-  const player = previewPlayer
-  previewPlayer = undefined
-  previewReader = undefined
-  previewFingerprints.clear()
-  await player?.dispose()
+  previewRequest++
+  releaseEditorAudioPreview(soundPreviewOwner)
+  await disposeSoundPlayer()
 }
 
 const UNSET = '__unset__'
@@ -110,7 +142,8 @@ function SoundPickerImpl(props: {
   size?: DsControlSize
 }) {
   const options = useMemo(
-    () => soundAssets(props.catalog).map((asset) => ({ value: asset.id, label: soundLabel(asset) })),
+    () =>
+      soundAssets(props.catalog).map((asset) => ({ value: asset.id, label: soundLabel(asset) })),
     [props.catalog],
   )
   const current = props.value ? props.catalog.assets[props.value] : undefined
@@ -156,7 +189,10 @@ function SoundPickerImpl(props: {
               icon="open"
               label={`在音效库打开 ${props.value}`}
               onClick={() => {
-                if (props.value) props.onOpenAsset?.(props.value)
+                if (props.value) {
+                  stopEditorAudioPreview()
+                  props.onOpenAsset?.(props.value)
+                }
               }}
             />
           ) : null}

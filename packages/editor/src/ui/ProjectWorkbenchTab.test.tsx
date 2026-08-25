@@ -1,8 +1,10 @@
 // @vitest-environment jsdom
-import type { StartWorld } from '@type-pal/content'
+import { ASSET_ROLE_KINDS, ASSET_ROLES, type StartWorld } from '@type-pal/content'
 import { act, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { claimEditorAudioPreview, stopEditorAudioPreview } from '../core/audio-preview-session.js'
+import { SetStartupEntriesCommand } from '../core/commands.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import { collectProjectIssues, type ProjectIssue } from '../core/project-diagnostics.js'
@@ -38,21 +40,22 @@ async function input(element: HTMLInputElement, value: string): Promise<void> {
   })
 }
 
+async function chooseSelectOption(trigger: HTMLButtonElement, label: string): Promise<void> {
+  await act(async () => trigger.click())
+  const option = [...document.querySelectorAll<HTMLElement>('[role="option"]')].find((candidate) =>
+    candidate.textContent?.includes(label),
+  )
+  expect(option).toBeDefined()
+  await act(async () => option!.click())
+}
+
 function ResourceHarness() {
   const [value, setValue] = useState<StartWorld>({
     party: [],
     money: 0,
     inventory: [],
   })
-  return (
-    <StartWorldFields
-      value={value}
-      actors={[]}
-      items={[]}
-      locale={{}}
-      onChange={setValue}
-    />
-  )
+  return <StartWorldFields value={value} actors={[]} items={[]} locale={{}} onChange={setValue} />
 }
 
 function projectState(): EditorState {
@@ -118,6 +121,7 @@ let root: Root
 let host: HTMLDivElement
 
 beforeEach(() => {
+  stopEditorAudioPreview()
   ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
   host = document.createElement('div')
   document.body.append(host)
@@ -125,6 +129,7 @@ beforeEach(() => {
 })
 
 afterEach(async () => {
+  stopEditorAudioPreview()
   await act(async () => root.unmount())
   host.remove()
 })
@@ -293,9 +298,7 @@ describe('入口开局世界资源', () => {
     const session = new EditSession(state)
     await act(async () => root.render(projectTab('entrypoint', session, 'alternate')))
 
-    await act(async () =>
-      host.querySelector<HTMLButtonElement>('[aria-label="新增入口"]')!.click(),
-    )
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="新增入口"]')!.click())
     const afterAdd = session.getState().manifest.entryPoints
     const created = afterAdd.at(-1)!
     expect(created).toMatchObject({
@@ -319,6 +322,231 @@ describe('入口开局世界资源', () => {
     const singleSession = new EditSession(single)
     await act(async () => root.render(projectTab('entrypoint', singleSession)))
     expect(button(host, '删除当前入口').disabled).toBe(true)
+  })
+
+  test('入口重排一次动作只写一条命令，并保持直接启动 ID 不变', async () => {
+    const state = projectState()
+    state.manifest.entryPoints.push(
+      {
+        id: 'alternate',
+        label: '备用入口',
+        scene: 's000',
+        startWorld: { party: [], money: 0, inventory: [] },
+      },
+      {
+        id: 'challenge',
+        label: '挑战入口',
+        scene: 's000',
+        startWorld: { party: [], money: 0, inventory: [] },
+      },
+    )
+    const session = new EditSession(state)
+    await act(async () => root.render(projectTab('entrypoint', session, 'alternate')))
+
+    await act(async () => button(host, '上移当前入口').click())
+    expect(session.getHistoryVersion()).toBe(1)
+    expect(session.getState().manifest.entryPoints.map((entry) => entry.id)).toEqual([
+      'alternate',
+      'main',
+      'challenge',
+    ])
+    expect(session.getState().manifest.defaultEntryId).toBe('main')
+
+    expect(session.undo()).toBe(true)
+    expect(session.getState().manifest.entryPoints.map((entry) => entry.id)).toEqual([
+      'main',
+      'alternate',
+      'challenge',
+    ])
+    expect(session.getState().manifest.defaultEntryId).toBe('main')
+    expect(session.redo()).toBe(true)
+    expect(session.getState().manifest.entryPoints.map((entry) => entry.id)).toEqual([
+      'alternate',
+      'main',
+      'challenge',
+    ])
+    expect(session.getState().manifest.defaultEntryId).toBe('main')
+  })
+
+  test('复制入口与删除非默认入口各写一条命令，并可单步撤销重做', async () => {
+    const state = projectState()
+    state.manifest.entryPoints.push({
+      id: 'alternate',
+      label: '备用入口',
+      scene: 's000',
+      startWorld: { party: [], money: 18, inventory: [] },
+    })
+    const session = new EditSession(state)
+    await act(async () => root.render(projectTab('entrypoint', session, 'alternate')))
+
+    await act(async () => button(host, '复制当前入口').click())
+    expect(session.getHistoryVersion()).toBe(1)
+    const copy = session.getState().manifest.entryPoints.at(-1)!
+    expect(copy).toMatchObject({ label: '备用入口 副本', scene: 's000' })
+    expect(copy.startWorld).not.toBe(session.getState().manifest.entryPoints[1]!.startWorld)
+
+    await act(async () => root.render(projectTab('entrypoint', session, copy.id)))
+    await act(async () => button(host, '删除当前入口').click())
+    expect(session.getHistoryVersion()).toBe(2)
+    expect(session.getState().manifest.entryPoints.some((entry) => entry.id === copy.id)).toBe(
+      false,
+    )
+    expect(session.undo()).toBe(true)
+    expect(session.getState().manifest.entryPoints.some((entry) => entry.id === copy.id)).toBe(true)
+    expect(session.redo()).toBe(true)
+    expect(session.getState().manifest.entryPoints.some((entry) => entry.id === copy.id)).toBe(
+      false,
+    )
+  })
+
+  test('队伍使用可搜索添加器，排序和移出各自保持单命令边界', async () => {
+    const state = projectState()
+    state.actors = [
+      {
+        id: 'hero',
+        name: 'name.hero',
+        spriteId: 'sprite.hero',
+        battler: {
+          battleSprite: 'battle.hero',
+          baseStats: {
+            level: 1,
+            hp: 100,
+            maxHP: 100,
+            mp: 30,
+            maxMP: 30,
+            attack: 1,
+            defense: 1,
+            magicAttack: 1,
+            speed: 1,
+            luck: 1,
+          },
+          initialEquipment: {},
+          initialMagic: [],
+        },
+      },
+      {
+        id: 'friend',
+        name: 'name.friend',
+        spriteId: 'sprite.friend',
+        battler: {
+          battleSprite: 'battle.friend',
+          baseStats: {
+            level: 1,
+            hp: 80,
+            maxHP: 80,
+            mp: 50,
+            maxMP: 50,
+            attack: 1,
+            defense: 1,
+            magicAttack: 1,
+            speed: 1,
+            luck: 1,
+          },
+          initialEquipment: {},
+          initialMagic: [],
+        },
+      },
+    ]
+    state.locale['name.hero'] = '主角'
+    state.locale['name.friend'] = '伙伴'
+    state.manifest.entryPoints[0]!.startWorld.party = ['hero']
+    const session = new EditSession(state)
+    await act(async () => root.render(projectTab('entrypoint', session)))
+
+    expect(host.querySelector('.project-check-grid')).toBeNull()
+    const adder = host.querySelector<HTMLButtonElement>('[aria-label="添加队员"]')!
+    expect(adder.getAttribute('role')).toBe('combobox')
+    await chooseSelectOption(adder, '伙伴')
+    await act(async () => button(host, '加入队伍').click())
+    expect(session.getHistoryVersion()).toBe(1)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.party).toEqual(['hero', 'friend'])
+    await act(async () => root.render(projectTab('entrypoint', session)))
+    expect(host.querySelector('[role="status"]')?.textContent).toContain('伙伴加入初始队伍')
+    expect(document.activeElement?.getAttribute('aria-label')).toBe('移出伙伴')
+
+    const moveFriend = host.querySelector<HTMLButtonElement>('[aria-label="上移伙伴"]')!
+    await act(async () => {
+      moveFriend.focus()
+      moveFriend.click()
+    })
+    expect(session.getHistoryVersion()).toBe(2)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.party).toEqual(['friend', 'hero'])
+    await act(async () => root.render(projectTab('entrypoint', session)))
+    expect(document.activeElement?.getAttribute('aria-label')).toBe('上移伙伴')
+    expect(session.undo()).toBe(true)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.party).toEqual(['hero', 'friend'])
+
+    await act(async () => root.render(projectTab('entrypoint', session)))
+    const beforeRemove = session.getHistoryVersion()
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="移出伙伴"]')!.click())
+    expect(session.getHistoryVersion()).toBe(beforeRemove + 1)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.party).toEqual(['hero'])
+    await act(async () => root.render(projectTab('entrypoint', session)))
+    expect(host.querySelector('[role="status"]')?.textContent).toContain('伙伴移出初始队伍')
+    expect(document.activeElement?.getAttribute('aria-label')).toBe('移出主角')
+    expect(session.undo()).toBe(true)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.party).toEqual(['hero', 'friend'])
+    expect(session.redo()).toBe(true)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.party).toEqual(['hero'])
+  })
+
+  test('库存显式选择新增项，数量 Enter + blur 只产生一条命令', async () => {
+    const state = projectState()
+    state.items = [
+      {
+        id: 'herb',
+        name: '止血草',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+      },
+      {
+        id: 'pill',
+        name: '还神丹',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+      },
+    ]
+    const session = new EditSession(state)
+    await act(async () => root.render(projectTab('entrypoint', session)))
+
+    const adder = host.querySelector<HTMLButtonElement>('[aria-label="添加初始道具"]')!
+    await chooseSelectOption(adder, '还神丹')
+    await act(async () => button(host, '添加道具').click())
+    expect(session.getHistoryVersion()).toBe(1)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.inventory).toEqual([
+      { itemId: 'pill', count: 1 },
+    ])
+
+    await act(async () => root.render(projectTab('entrypoint', session)))
+    const count = host.querySelector<HTMLInputElement>('[aria-label="还神丹的初始数量"]')!
+    const beforeCount = session.getHistoryVersion()
+    await act(async () => count.focus())
+    await input(count, '6')
+    await act(async () =>
+      count.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })),
+    )
+    expect(session.getHistoryVersion()).toBe(beforeCount + 1)
+    await act(async () => count.blur())
+    expect(session.getHistoryVersion()).toBe(beforeCount + 1)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.inventory).toEqual([
+      { itemId: 'pill', count: 6 },
+    ])
+
+    await act(async () => root.render(projectTab('entrypoint', session)))
+    const beforeDelete = session.getHistoryVersion()
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label="删除初始道具还神丹"]')!.click(),
+    )
+    expect(session.getHistoryVersion()).toBe(beforeDelete + 1)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.inventory).toEqual([])
+    expect(session.undo()).toBe(true)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.inventory).toEqual([
+      { itemId: 'pill', count: 6 },
+    ])
   })
 
   test('开局当前状态使用中文业务标题，不暴露 schema 字段名', async () => {
@@ -391,11 +619,73 @@ describe('入口开局世界资源', () => {
     expect(valueInput.value).toBe('7')
 
     const row = valueInput.closest('.project-resource-row')!
-    await act(async () => button(row as HTMLElement, '删除').click())
+    await act(async () =>
+      (row as HTMLElement)
+        .querySelector<HTMLButtonElement>('[aria-label="删除世界资源 alchemyEnergy"]')!
+        .click(),
+    )
     expect(host.querySelector('input[aria-label="alchemyEnergy 初始值"]')).toBeNull()
 
     await input(keyInput, 'collectValue')
     expect(addButton.disabled).toBe(true)
+  })
+
+  test('中文输入法确认资源键时不把组合态 Enter 当成新增动作', async () => {
+    await act(async () => root.render(<ResourceHarness />))
+
+    const keyInput = host.querySelector<HTMLInputElement>('input[aria-label="新世界资源稳定键"]')!
+    await input(keyInput, 'alchemyEnergy')
+    await act(async () =>
+      keyInput.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Enter', keyCode: 229, bubbles: true }),
+      ),
+    )
+    expect(host.querySelector('input[aria-label="alchemyEnergy 初始值"]')).toBeNull()
+
+    await act(async () =>
+      keyInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })),
+    )
+    expect(host.querySelector('input[aria-label="alchemyEnergy 初始值"]')).not.toBeNull()
+  })
+
+  test('世界资源新增、提交、删除各自只写一条命令并可单步撤销', async () => {
+    const session = new EditSession(projectState())
+    await act(async () => root.render(projectTab('entrypoint', session)))
+
+    const keyInput = host.querySelector<HTMLInputElement>('input[aria-label="新世界资源稳定键"]')!
+    await input(keyInput, 'alchemyEnergy')
+    await act(async () => button(host, '添加资源').click())
+    expect(session.getHistoryVersion()).toBe(1)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.resources).toEqual({
+      alchemyEnergy: 0,
+    })
+
+    await act(async () => root.render(projectTab('entrypoint', session)))
+    const valueInput = host.querySelector<HTMLInputElement>(
+      'input[aria-label="alchemyEnergy 初始值"]',
+    )!
+    const beforeValue = session.getHistoryVersion()
+    await input(valueInput, '9')
+    await act(async () =>
+      valueInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })),
+    )
+    await act(async () => valueInput.blur())
+    expect(session.getHistoryVersion()).toBe(beforeValue + 1)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.resources).toEqual({
+      alchemyEnergy: 9,
+    })
+
+    await act(async () => root.render(projectTab('entrypoint', session)))
+    const beforeDelete = session.getHistoryVersion()
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label="删除世界资源 alchemyEnergy"]')!.click(),
+    )
+    expect(session.getHistoryVersion()).toBe(beforeDelete + 1)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.resources).toBeUndefined()
+    expect(session.undo()).toBe(true)
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.resources).toEqual({
+      alchemyEnergy: 9,
+    })
   })
 })
 
@@ -516,6 +806,349 @@ describe('项目设置工作区', () => {
     expect(host.textContent).not.toContain('本地化状态')
   })
 
+  test('概览只用三张可读启动卡，并把场景健康交给统一诊断', async () => {
+    const state = projectState()
+    state.scenes = [
+      {
+        id: 's000',
+        mapId: 'map.start',
+        entry: { pos: { x: 0, y: 0 }, facing: 'south' },
+        entities: [],
+      },
+    ] as never
+    state.actors = [
+      {
+        id: 'hero',
+        name: 'name.hero',
+        spriteId: 'sprite.hero',
+        battler: {
+          battleSprite: 'battle.hero',
+          baseStats: {
+            level: 1,
+            hp: 100,
+            maxHP: 100,
+            mp: 30,
+            maxMP: 30,
+            attack: 1,
+            defense: 1,
+            magicAttack: 1,
+            speed: 1,
+            luck: 1,
+          },
+          initialEquipment: {},
+          initialMagic: [],
+        },
+      },
+    ]
+    state.locale['name.hero'] = '李逍遥'
+    state.items = [
+      {
+        id: 'herb',
+        name: '止血草',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+      },
+    ]
+    state.manifest.entryPoints[0]!.startWorld = {
+      party: ['hero'],
+      money: 250,
+      inventory: [{ itemId: 'herb', count: 3 }],
+    }
+    state.manifest.entryPoints.push(
+      {
+        id: 'story-2',
+        label: '这是一个非常长但必须完整呈现的第二故事入口名称',
+        scene: 's000',
+        startWorld: { party: [], money: 0, inventory: [] },
+      },
+      {
+        id: 'story-3',
+        label: '第三故事',
+        scene: 's000',
+        startWorld: { party: [], money: 0, inventory: [] },
+      },
+      {
+        id: 'story-4',
+        label: '第四故事',
+        scene: 's000',
+        startWorld: { party: [], money: 0, inventory: [] },
+      },
+    )
+    const session = new EditSession(state)
+    const onOpenLocation = vi.fn()
+    await act(async () =>
+      root.render(
+        <ProjectWorkbenchTab
+          page="overview"
+          manifest={state.manifest as never}
+          scenes={state.scenes}
+          actors={state.actors}
+          items={state.items}
+          locale={state.locale}
+          assetCatalog={state.assetCatalog}
+          session={session}
+          issues={collectProjectIssues(state)}
+          diagnosticsStatus="current"
+          assetReader={{} as never}
+          onOpenLocation={onOpenLocation}
+        />,
+      ),
+    )
+
+    const cards = host.querySelectorAll('.project-startup-summary-card')
+    expect(cards).toHaveLength(3)
+    expect([...cards].map((card) => card.querySelector('h2')?.textContent)).toEqual([
+      '默认开局',
+      '标题菜单',
+      '启动资源',
+    ])
+    expect(host.textContent).toContain('李逍遥')
+    expect(host.textContent).toContain('250 金钱')
+    expect(host.textContent).toContain('止血草')
+    expect(host.textContent).toContain('起始位置已就绪')
+    expect(host.textContent).toContain('这是一个非常长但必须完整呈现的第二故事入口名称')
+    expect(host.textContent).toContain('另有 1 个入口')
+    expect(host.textContent).not.toContain('assets.roles')
+    expect(host.textContent).not.toContain('manifest.')
+    expect(host.textContent).not.toContain('?entry')
+    expect(host.textContent).not.toContain('?menu')
+    expect(host.textContent).not.toContain('?scene')
+    expect(host.textContent).not.toContain('启动分支')
+    expect(host.textContent).not.toContain('编辑 8 项设置')
+
+    await act(async () => button(host, '编辑开局').click())
+    await act(async () => button(host, '编辑入口').click())
+    await act(async () => button(host, '编辑资源').click())
+    expect(new Set(onOpenLocation.mock.calls.map(([location]) => location.subpage))).toEqual(
+      new Set(['entrypoint', 'startup']),
+    )
+  })
+
+  test('概览在 live 入口表变化后同步标题菜单、默认开局和导航对象', async () => {
+    const state = projectState()
+    state.scenes = [
+      {
+        id: 's000',
+        mapId: 'map.start',
+        entry: { pos: { x: 0, y: 0 }, facing: 'south' },
+        entities: [],
+      },
+    ] as never
+    const session = new EditSession(state)
+    const onOpenLocation = vi.fn()
+    const renderOverview = async () => {
+      const current = session.getState()
+      await act(async () =>
+        root.render(
+          <ProjectWorkbenchTab
+            page="overview"
+            manifest={current.manifest as never}
+            scenes={current.scenes}
+            actors={current.actors}
+            items={current.items}
+            locale={current.locale}
+            assetCatalog={current.assetCatalog}
+            session={session}
+            issues={collectProjectIssues(current)}
+            diagnosticsStatus="current"
+            assetReader={{} as never}
+            onOpenLocation={onOpenLocation}
+          />,
+        ),
+      )
+    }
+
+    await renderOverview()
+    expect(host.querySelector('.project-startup-summary-grid')?.textContent).toContain(
+      '1 个可选入口',
+    )
+
+    session.dispatch(
+      new SetStartupEntriesCommand({
+        defaultEntryId: 'story',
+        entryPoints: [
+          ...session.getState().manifest.entryPoints,
+          {
+            id: 'story',
+            label: '新的直接启动故事',
+            scene: 's000',
+            startWorld: { party: [], money: 88, inventory: [] },
+          },
+        ],
+      }),
+    )
+    await renderOverview()
+
+    const summary = host.querySelector('.project-startup-summary-grid')!
+    expect(summary.textContent).toContain('新的直接启动故事')
+    expect(summary.textContent).toContain('2 个可选入口')
+    await act(async () => button(summary as HTMLElement, '编辑开局').click())
+    expect(onOpenLocation).toHaveBeenLastCalledWith({
+      module: 'project',
+      subpage: 'entrypoint',
+      objectId: 'story',
+    })
+  })
+
+  test('缺失场景和非当前诊断都 fail-closed，不显示技术场景 ID 冒充健康', async () => {
+    const state = projectState()
+    const session = new EditSession(state)
+    await act(async () => root.render(projectTab('overview', session)))
+
+    expect(host.textContent).toContain('起始位置需要修复')
+    expect(host.querySelector('.project-startup-summary-grid')?.textContent).not.toContain('s000')
+
+    state.manifest.entryPoints[0]!.introVideo = 'video.pending'
+    await act(async () =>
+      root.render(
+        <ProjectWorkbenchTab
+          page="overview"
+          manifest={state.manifest as never}
+          scenes={state.scenes}
+          actors={state.actors}
+          items={state.items}
+          locale={state.locale}
+          assetCatalog={state.assetCatalog}
+          session={session}
+          issues={[]}
+          diagnosticsStatus="stale"
+          assetReader={{} as never}
+        />,
+      ),
+    )
+    expect(host.textContent).toContain('起始位置正在检查')
+    expect(host.textContent).toContain('开场视频正在检查')
+    expect(host.textContent).not.toContain('开场视频已配置')
+    expect(host.textContent).toContain('正在检查资源配置')
+    expect(host.textContent).not.toContain('配置检查通过')
+
+    await act(async () =>
+      root.render(
+        <ProjectWorkbenchTab
+          page="overview"
+          manifest={state.manifest as never}
+          scenes={state.scenes}
+          actors={state.actors}
+          items={state.items}
+          locale={state.locale}
+          assetCatalog={state.assetCatalog}
+          session={session}
+          issues={[]}
+          diagnosticsStatus="failed"
+          assetReader={{} as never}
+        />,
+      ),
+    )
+    expect(host.textContent).toContain('开场视频诊断暂不可用')
+    expect(host.textContent).not.toContain('开场视频已配置')
+  })
+
+  test('缺损默认入口与单入口菜单显示可读状态，不把稳定 ID 放进摘要卡', async () => {
+    const state = projectState()
+    state.manifest.defaultEntryId = 'missing-default'
+    const session = new EditSession(state)
+
+    await act(async () =>
+      root.render(
+        <ProjectWorkbenchTab
+          page="overview"
+          manifest={state.manifest as never}
+          scenes={state.scenes}
+          actors={state.actors}
+          items={state.items}
+          locale={state.locale}
+          assetCatalog={state.assetCatalog}
+          session={session}
+          issues={collectProjectIssues(state)}
+          diagnosticsStatus="current"
+          assetReader={{} as never}
+        />,
+      ),
+    )
+
+    const summary = host.querySelector('.project-startup-summary-grid')!
+    expect(summary.textContent).toContain('直接启动入口尚未配置')
+    expect(summary.textContent).toContain('默认入口需要修复')
+    expect(summary.textContent).toContain('1 个可选入口')
+    expect(summary.textContent).toContain('主要入口')
+    expect(summary.textContent).not.toContain('missing-default')
+    expect(summary.textContent).not.toContain('s000')
+  })
+
+  test('启动资源卡随 live 绑定从全齐切到悬空与错型，并保持可选留空中性', async () => {
+    const state = projectState()
+    state.scenes = [
+      {
+        id: 's000',
+        mapId: 'map.start',
+        entry: { pos: { x: 0, y: 0 }, facing: 'south' },
+        entities: [],
+      },
+    ] as never
+    for (const [index, role] of ASSET_ROLES.entries()) {
+      const id = `asset.role.${index}`
+      const kind = ASSET_ROLE_KINDS[role]
+      state.manifest.assets.roles[role] = id
+      state.assetCatalog.assets[id] = {
+        kind,
+        path: `assets/test/${index}`,
+        mediaType: 'application/octet-stream',
+        bytes: 1,
+        sha256: index.toString(16).padStart(64, '0'),
+        origin: { kind: 'authored' },
+      }
+    }
+    const session = new EditSession(state)
+    const renderOverview = async () =>
+      act(async () =>
+        root.render(
+          <ProjectWorkbenchTab
+            page="overview"
+            manifest={state.manifest as never}
+            scenes={state.scenes}
+            actors={state.actors}
+            items={state.items}
+            locale={state.locale}
+            assetCatalog={state.assetCatalog}
+            session={session}
+            issues={collectProjectIssues(state)}
+            diagnosticsStatus="current"
+            assetReader={{} as never}
+          />,
+        ),
+      )
+
+    await renderOverview()
+    let resourceCard = [
+      ...host.querySelectorAll<HTMLElement>('.project-startup-summary-card'),
+    ].find((card) => card.querySelector('h2')?.textContent === '启动资源')!
+    expect(resourceCard.textContent).toContain('资源配置检查通过')
+    expect(resourceCard.textContent).toContain('12/12 项')
+
+    const wrongId = state.manifest.assets.roles['audio.defaultBattleMusic']!
+    state.assetCatalog.assets[wrongId] = {
+      ...state.assetCatalog.assets[wrongId]!,
+      kind: 'video',
+    }
+    state.manifest.assets.roles['audio.normalVictoryMusic'] = 'music.missing'
+    delete state.manifest.assets.roles['audio.battleEscapeSound']
+    await renderOverview()
+
+    resourceCard = [...host.querySelectorAll<HTMLElement>('.project-startup-summary-card')].find(
+      (card) => card.querySelector('h2')?.textContent === '启动资源',
+    )!
+    expect(resourceCard.textContent).toContain('2 项需要处理')
+    expect(resourceCard.textContent).toContain('默认战斗音乐')
+    expect(resourceCard.textContent).toContain('普通胜利音乐')
+    expect(resourceCard.textContent).toContain('可选留空1 项')
+    const pendingRoles = [...resourceCard.querySelectorAll('div')].find(
+      (row) => row.querySelector('dt')?.textContent === '待处理',
+    )
+    expect(pendingRoles?.textContent).not.toContain('逃跑音效')
+  })
+
   test('全局资源绑定行使用共享选择器和打开动作，并保持资源信息属于同一行', async () => {
     const state = projectState()
     state.manifest.assets.roles['video.startupTrademark'] = 'video.test'
@@ -556,21 +1189,26 @@ describe('项目设置工作区', () => {
     const select = row.querySelector<HTMLButtonElement>('.ds-select')!
     expect(select.getAttribute('aria-labelledby')).toBe('project-role-video-startupTrademark-label')
     expect(row.querySelector('select.in')).toBeNull()
-    expect(row.querySelector('.project-role-resource')?.textContent).toContain(
+    expect(row.querySelector('.project-role-resource')?.textContent).toContain('测试视频')
+    expect(row.querySelector('.project-role-resource')?.getAttribute('title')).toBe(
       'assets/video/test.mp4',
     )
 
-    const preview = button(row, '前往预览')
+    const preview = button(row, '打开资源')
     expect(preview.classList.contains('ds-button')).toBe(true)
     expect(preview.classList.contains('btn')).toBe(false)
     expect(preview.classList.contains('ds-button--compact')).toBe(false)
     expect(preview.querySelector('.ds-icon')).not.toBeNull()
+    const previewOwner = { stop: vi.fn() }
+    claimEditorAudioPreview(previewOwner)
     await act(async () => preview.click())
+    expect(previewOwner.stop).toHaveBeenCalledOnce()
     expect(onOpenLocation).toHaveBeenCalledWith({
       module: 'asset',
       subpage: 'cutscene',
       objectId: 'video.test',
     })
+    expect(session.getHistoryVersion()).toBe(0)
   })
 
   test('入口视频与全局视频使用相同的预览动作合同', async () => {
@@ -606,17 +1244,21 @@ describe('项目设置工作区', () => {
     expect(preview.classList.contains('ds-button--compact')).toBe(false)
     expect(preview.querySelector('.ds-icon')).not.toBeNull()
 
+    const previewOwner = { stop: vi.fn() }
+    claimEditorAudioPreview(previewOwner)
     await act(async () => preview.click())
+    expect(previewOwner.stop).toHaveBeenCalledOnce()
     expect(onOpenLocation).toHaveBeenCalledWith({
       module: 'asset',
       subpage: 'cutscene',
       objectId: 'video.alt',
     })
+    expect(session.getHistoryVersion()).toBe(0)
   })
 
   test.each([
     ['overview', '测试项目'],
-    ['startup', '全局资源设置'],
+    ['startup', '全局资源与启动'],
     ['entrypoint', '主要入口'],
     ['advanced', '入口点场景缺失'],
   ] as const)('%s 使用固定共享标题和独立正文滚动层', async (page, title) => {

@@ -221,13 +221,18 @@ URL 使用 `domain=battle&view=definition|asset&object=<id>`，诊断和消费�
 - `manifest` 字段只有一个作者：项目页拥有 `name`、`defaultEntryId`、`entryPoints` 和 `assets.roles`；资源页
   拥有 catalog 与二进制；场景/脚本页拥有 hooks 内的视频、RNG、BGM 和剧情编排。当前 manifest 不含顶层
   `entryScene` 或顶层 `startWorld`。
-- “全局资源与启动”页先把八项 `manifest.assets.roles` 按启动与标题菜单、战斗音乐、音频基础、视觉基础
-  四组置顶编辑；概览必须显示绑定数量并提供直达入口。已绑定数量只是摘要，必选性和健康状态由 validator
-  决定，不能要求八项全部存在。music/video 只有在 AssetId 存在且 kind 正确时才显示预览；SoundFont 和
-  color-table 在专用资源页落地前必须明确标注当前只能绑定 catalog 已有项。
-- 该页下半部的启动流程只是当前运行时分支的只读解释层。默认入口直接建世界并进入场景；标题菜单分支先消费启动
-  资源角色，再选择入口、播放该入口的 `introVideo`、建立该入口世界并执行场景 `onEnter`。页面不得复制
-  一套播放器或脚本执行逻辑。
+- “全局资源与启动”页由唯一的 typed role registry 生成角色、分组、中文名、类型、必选条件和帮助文案；角色
+  数量与分组数量不得写死。已配置数量只是摘要，必选性和健康状态由同一 registry 与 validator 决定，不能
+  要求可选角色全部存在。music / sound 在 AssetId 存在且 kind 正确时提供原位试听，并与音乐库、音效库共用
+  一个编辑器试听 owner；video 提供资源页直达，SoundFont 和 color-table 明确标注当前只能绑定 catalog 已有项。
+- “全局资源与启动”页只负责资源角色，不重复入口表或运行时启动链。概览固定用“默认开局”“标题菜单”“启动资源”
+  三张人话卡说明队伍、金钱、库存、入口、视频与资源健康，并只提供“入口与开局”“全局资源与启动”两个编辑
+  目的地；不得常驻显示 scene / role / query 等机器路径。默认入口的场景健康必须消费统一 diagnostics，不能在
+  卡片里另写一套场景存在性判断。
+- 开局队伍是有序列表，通过可搜索角色添加器加入并可原位上移、下移、移出；初始库存也通过可搜索道具添加器明确
+  选择，不得使用 checkbox 墙或默认添加第一项。队伍、库存、世界资源和当前 HP/MP 每个离散动作只提交一条
+  `SetStartupEntriesCommand`，字段草稿继续服从共享 draft / validate / commit / cancel / resync 合同。角色
+  初始技能仍由 `ActorDef.initialMagic` 唯一持有，入口页不得恢复技能快照。
 - `?module=project&page=entrypoint` 无 object 时定位 `defaultEntryId` 命中的入口；附
   `object=<EntryPoint.id>` 定位指定真实入口。历史
   `page=startworld` 只做 URL 兼容归一化到 `entrypoint`，不保留旧页面。

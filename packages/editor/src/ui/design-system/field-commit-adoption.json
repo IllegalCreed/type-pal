@@ -351,7 +351,12 @@
         {
           "id": "poison-fields",
           "kind": "field-draft",
-          "fields": ["poisons.*.name", "poisons.*.color", "poisons.*.playerTicks.*", "poisons.*.enemyTicks.*"],
+          "fields": [
+            "poisons.*.name",
+            "poisons.*.color",
+            "poisons.*.playerTicks.*",
+            "poisons.*.enemyTicks.*"
+          ],
           "verification": "PoisonTab.test.tsx"
         }
       ]
@@ -364,7 +369,11 @@
         {
           "id": "battlefield-fields",
           "kind": "field-draft",
-          "fields": ["battleFields.*.name", "battleFields.*.screenWave", "battleFields.*.magicEffect.*"],
+          "fields": [
+            "battleFields.*.name",
+            "battleFields.*.screenWave",
+            "battleFields.*.magicEffect.*"
+          ],
           "verification": "BattleFieldTab.test.tsx"
         }
       ]
@@ -459,7 +468,11 @@
           "owner": "FrameAnimationEditor.history",
           "files": ["FrameAnimationEditor.tsx"],
           "controlOwners": ["FrameAnimationEditor"],
-          "fields": ["frameAnimation.defaultFrameMs", "frameAnimation.frames", "frameAnimation.colorTreatment"],
+          "fields": [
+            "frameAnimation.defaultFrameMs",
+            "frameAnimation.frames",
+            "frameAnimation.colorTreatment"
+          ],
           "verification": "FrameAnimationEditor.test.ts"
         }
       ]
@@ -480,7 +493,7 @@
     {
       "registry": "project/startup",
       "status": "not-applicable",
-      "reason": "当前页只绑定全局资源，均为离散 picker/select；启动链只读。"
+      "reason": "当前页只绑定全局资源角色，编辑动作均为离散 picker/select，不含连续输入字段。"
     },
     {
       "registry": "project/entrypoint",
