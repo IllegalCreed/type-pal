@@ -3139,7 +3139,7 @@ function EntityReferencePanel(props: {
                   action={
                     canOpen
                       ? {
-                          label: '打开 ↗',
+                          label: '打开',
                           onActivate: () => onOpen(reference),
                         }
                       : undefined
@@ -4259,7 +4259,7 @@ function NamedEntryInspector(props: {
                     action={
                       canOpen
                         ? {
-                            label: '打开 ↗',
+                            label: '打开',
                             onActivate: () => {
                               if (reference.caller.type === 'scene')
                                 onJumpToEvent(reference.caller.sceneId, reference.caller.sourceKey)

@@ -1120,8 +1120,9 @@ export function ScriptDrawer(props: {
                 }}
                 size="compact"
                 variant="secondary"
+                icon="chevron-left"
               >
-                ← 返回
+                返回
               </DsButton>
               <code title={internalScriptId}>{internalScriptId}</code>
             </span>

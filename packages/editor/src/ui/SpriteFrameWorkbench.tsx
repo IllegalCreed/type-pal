@@ -7,7 +7,7 @@ import {
   useRef,
   useState,
 } from 'react'
-import { DsButton, DsIconButton, DsTag, DsPressable } from './design-system/controls.js'
+import { DsButton, DsIconButton, DsPressable, DsTag } from './design-system/controls.js'
 import { DsObjectHero } from './design-system/recipes.js'
 
 export interface SpriteFrameView {
@@ -508,13 +508,15 @@ export function InstanceBehaviorShelf(props: {
                 <div className="instance-behavior-group-actions">
                   <em>实例脚本</em>
                   {props.onOpenLocations ? (
-                    <DsPressable
-                      type="button"
+                    <DsButton
+                      size="compact"
+                      variant="quiet"
+                      icon="open"
                       className="instance-behavior-location-link"
                       onClick={() => props.onOpenLocations?.(group.id)}
                     >
-                      查看全部 {groupInstanceCount} 个使用位置 ↗
-                    </DsPressable>
+                      查看全部 {groupInstanceCount} 个使用位置
+                    </DsButton>
                   ) : null}
                 </div>
               </div>

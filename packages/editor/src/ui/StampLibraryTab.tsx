@@ -15,15 +15,16 @@ import {
   DsButton,
   DsCatalogControls,
   DsDialog,
+  DsIcon,
   DsIconButton,
   DsInspectorTabs,
+  DsPressable,
   DsReferenceGroup,
   DsReferenceList,
   DsReferencePanel,
   DsReferenceRow,
   DsSelect,
   DsTextInput,
-  DsPressable,
 } from './design-system/index.js'
 import { StampContentEditor } from './StampContentEditor.js'
 import { StampMiniPreview } from './StampPreviewCanvas.js'
@@ -299,7 +300,10 @@ export function StampLibraryTab(props: {
             {item.mapIds.map((mapId) => (
               <DsPressable key={mapId} type="button" onClick={() => onOpenMap?.(mapId)}>
                 {mapIndex.maps.find((asset) => asset.id === mapId)?.name ?? mapId}
-                <span>打开 ↗</span>
+                <span>
+                  <DsIcon name="open" />
+                  打开
+                </span>
               </DsPressable>
             ))}
           </div>
@@ -614,7 +618,7 @@ export function StampLibraryTab(props: {
                                   action={
                                     onOpenMap
                                       ? {
-                                          label: '打开地图 ↗',
+                                          label: '打开地图',
                                           onActivate: () => onOpenMap(mapId),
                                         }
                                       : undefined

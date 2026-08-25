@@ -1480,7 +1480,7 @@ export function SkillTab(props: {
                             action={
                               reference.locator && onOpenReference
                                 ? {
-                                    label: '打开 ↗',
+                                    label: '打开',
                                     onActivate: () => onOpenReference(reference),
                                   }
                                 : undefined

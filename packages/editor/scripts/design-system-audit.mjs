@@ -103,15 +103,48 @@ function shortFound(node, source) {
   return node.getText(source).split('\n')[0].trim().slice(0, 96)
 }
 
-const navigationActionWords = /(?:打开|查看|预览|跳转|定位|管理|编辑|引用)/
+const navigationActionWords = /(?:打开|查看|预览|跳转|定位|管理|编辑|引用|返回)/
+const embeddedNavigationGlyphs = /[←-⇿]/u
 
 /** Standard navigation actions use DsIcon(open); directional controls may still use arrow glyphs. */
 export function isEmbeddedNavigationGlyphAction(tag, sourceText) {
   return (
-    (tag === 'DsButton' || tag === 'DsActionLink') &&
-    sourceText.includes('↗') &&
+    ['DsActionLink', 'DsButton', 'DsDiagnosticRow', 'DsPressable', 'DsReferenceRow'].includes(
+      tag,
+    ) &&
+    embeddedNavigationGlyphs.test(sourceText) &&
     navigationActionWords.test(sourceText)
   )
+}
+
+function embeddedNavigationGlyphNodes(source) {
+  const matches = []
+  const visit = (node) => {
+    const tagNode = ts.isJsxElement(node)
+      ? node.openingElement
+      : ts.isJsxSelfClosingElement(node)
+        ? node
+        : undefined
+    if (tagNode && isEmbeddedNavigationGlyphAction(jsxTag(tagNode), node.getText(source)))
+      matches.push(tagNode)
+    ts.forEachChild(node, visit)
+  }
+  visit(source)
+  return matches
+}
+
+export function findEmbeddedNavigationGlyphActions(sourceText) {
+  const source = ts.createSourceFile(
+    'NavigationGlyphFixture.tsx',
+    sourceText,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TSX,
+  )
+  return embeddedNavigationGlyphNodes(source).map((node) => ({
+    line: source.getLineAndCharacterOfPosition(node.getStart(source)).line + 1,
+    tag: jsxTag(node),
+  }))
 }
 
 function collectViolations() {
@@ -135,18 +168,15 @@ function collectViolations() {
       true,
       ts.ScriptKind.TSX,
     )
+    for (const node of embeddedNavigationGlyphNodes(source))
+      add(
+        path,
+        source,
+        node,
+        'embedded-navigation-glyph',
+        'use DsIcon/DsButton icon="open" with plain action text; do not encode navigation icons in the label',
+      )
     const visit = (node) => {
-      if (ts.isJsxElement(node)) {
-        const tag = jsxTag(node.openingElement)
-        if (isEmbeddedNavigationGlyphAction(tag, node.getText(source)))
-          add(
-            path,
-            source,
-            node.openingElement,
-            'embedded-navigation-glyph',
-            'use icon="open" with plain action text; do not encode navigation icons in the label',
-          )
-      }
       if (ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node)) {
         const tag = jsxTag(node)
         const tokens = classTokens(node)

@@ -261,7 +261,7 @@ export function VarsTab(props: {
       labels={[{ label: reference.access === 'read' ? '读取' : '写入' }]}
       action={
         reference.reference && onOpenReference
-          ? { label: '打开 ↗', onActivate: () => onOpenReference(reference.reference!) }
+          ? { label: '打开', onActivate: () => onOpenReference(reference.reference!) }
           : undefined
       }
       status={

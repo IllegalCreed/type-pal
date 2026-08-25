@@ -222,13 +222,14 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
             解组（保留地图内容）
           </DsPressable>
           {single && onOpenSource ? (
-            <DsPressable
-              type="button"
-              className="stamp-secondary-action"
+            <DsButton
+              size="compact"
+              variant="secondary"
+              icon="open"
               onClick={() => onOpenSource(single.sourceStampId)}
             >
-              在组合库中定位 ↗
-            </DsPressable>
+              在组合库中定位
+            </DsButton>
           ) : null}
         </div>
         <div className={`map-selection-notice${notice?.kind === 'error' ? ' error' : ''}`}>

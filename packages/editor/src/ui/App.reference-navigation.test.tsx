@@ -860,7 +860,7 @@ describe('App item reference navigation', () => {
     expect(worldRow.textContent).toContain('只读')
     expect(worldRow.textContent).toContain('世界配置当前没有可编辑的精确内容页')
 
-    await act(async () => button('打开 ↗', panel).click())
+    await act(async () => button('打开', panel).click())
     const location = new URL(window.location.href)
     expect(location.searchParams.get('module')).toBe('story')
     expect(location.searchParams.get('page')).toBe('scripts')
@@ -969,7 +969,7 @@ describe('App item reference navigation', () => {
     )
     const panel = host.querySelector<HTMLElement>('.entity-reference-section')!
     expect(panel.textContent).toContain('物品 289')
-    await act(async () => button('打开 ↗', panel).click())
+    await act(async () => button('打开', panel).click())
 
     const location = new URL(window.location.href)
     expect(location.searchParams.get('module')).toBe('item')
@@ -1026,7 +1026,7 @@ describe('App item reference navigation', () => {
     )
     const panel = host.querySelector<HTMLElement>('.entity-reference-section')!
     expect(panel.textContent).toContain('敌人 enemy-1')
-    await act(async () => button('打开 ↗', panel).click())
+    await act(async () => button('打开', panel).click())
 
     const location = new URL(window.location.href)
     expect(location.searchParams.get('module')).toBe('battle')

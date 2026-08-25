@@ -1730,7 +1730,7 @@ export function BattleSpriteLibrary(props: {
                               action={
                                 props.onJumpReference
                                   ? {
-                                      label: '打开 ↗',
+                                      label: '打开',
                                       onActivate: () => props.onJumpReference?.(reference),
                                     }
                                   : undefined

@@ -430,7 +430,7 @@ export function EnemyTeamTab(props: {
                     labels={[{ label: reference.kind === 'hostile' ? '敌对实体' : '剧情开战' }]}
                     action={
                       reference.locator && onOpenReference
-                        ? { label: '打开 ↗', onActivate: () => onOpenReference(reference) }
+                        ? { label: '打开', onActivate: () => onOpenReference(reference) }
                         : undefined
                     }
                     status={

@@ -189,7 +189,7 @@ export function IssueList(props: {
                 action={
                   target && onOpenLocation
                     ? {
-                        label: '跳转 ↗',
+                        label: '跳转',
                         ariaLabel: `跳转到：${issue.message}`,
                         onActivate: () => onOpenLocation(target),
                       }

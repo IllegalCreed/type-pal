@@ -1922,7 +1922,7 @@ export function ItemTab(props: {
                               action={
                                 onOpenProjectIssues
                                   ? {
-                                      label: '在问题面板查看 ↗',
+                                      label: '在问题面板查看',
                                       onActivate: onOpenProjectIssues,
                                     }
                                   : undefined
@@ -1984,7 +1984,7 @@ export function ItemTab(props: {
                                       action={
                                         reference.locator && onOpenItemReference
                                           ? {
-                                              label: '打开 ↗',
+                                              label: '打开',
                                               onActivate: () => onOpenItemReference(reference),
                                             }
                                           : undefined

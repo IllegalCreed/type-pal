@@ -482,7 +482,7 @@ export function BattleFieldTab(props: {
                     action={
                       reference.locator && onOpenBattleFieldReference
                         ? {
-                            label: '打开 ↗',
+                            label: '打开',
                             onActivate: () => onOpenBattleFieldReference(reference),
                           }
                         : undefined

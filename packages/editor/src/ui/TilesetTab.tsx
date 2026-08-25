@@ -777,7 +777,7 @@ export function TilesetTab(props: {
                           action={
                             onOpenMap
                               ? {
-                                  label: '打开 ↗',
+                                  label: '打开',
                                   onActivate: () => onOpenMap(reference.mapId),
                                 }
                               : undefined
@@ -807,7 +807,7 @@ export function TilesetTab(props: {
                           action={
                             onOpenStamp
                               ? {
-                                  label: '打开 ↗',
+                                  label: '打开',
                                   onActivate: () => onOpenStamp(reference.id),
                                 }
                               : undefined
@@ -1012,7 +1012,7 @@ export function TilesetTab(props: {
                                   action={
                                     onOpenMap
                                       ? {
-                                          label: '打开 ↗',
+                                          label: '打开',
                                           ariaLabel: `打开地图 ${reference.mapId}`,
                                           onActivate: () => onOpenMap(reference.mapId),
                                         }
@@ -1046,7 +1046,7 @@ export function TilesetTab(props: {
                                   action={
                                     onOpenStamp
                                       ? {
-                                          label: '打开 ↗',
+                                          label: '打开',
                                           ariaLabel: `打开组合 ${reference.id}`,
                                           onActivate: () => onOpenStamp(reference.id),
                                         }

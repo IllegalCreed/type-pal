@@ -961,7 +961,7 @@ export function WorldSpriteLibrary(props: {
                                     action={
                                       props.onJumpActionReference && reference.locator
                                         ? {
-                                            label: '打开引用 ↗',
+                                            label: '打开引用',
                                             onActivate: () =>
                                               props.onJumpActionReference?.(reference),
                                           }
@@ -1039,7 +1039,7 @@ export function WorldSpriteLibrary(props: {
                                   action={
                                     props.onJumpAutomaticScriptInstance
                                       ? {
-                                          label: '编辑自动脚本 ↗',
+                                          label: '编辑自动脚本',
                                           onActivate: () =>
                                             props.onJumpAutomaticScriptInstance?.(site),
                                         }
@@ -1079,7 +1079,7 @@ export function WorldSpriteLibrary(props: {
                                     action={
                                       canOpen
                                         ? {
-                                            label: canOpenAutomatic ? '编辑自动脚本 ↗' : '打开 ↗',
+                                            label: canOpenAutomatic ? '编辑自动脚本' : '打开',
                                             onActivate: () => {
                                               if (
                                                 automaticSite &&

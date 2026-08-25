@@ -3622,7 +3622,7 @@ export function MapMode(props: {
                                 title={`场景 ${sceneId}`}
                                 detail="使用当前地图"
                                 action={{
-                                  label: '打开 ↗',
+                                  label: '打开',
                                   ariaLabel: `打开场景 ${sceneId}`,
                                   onActivate: () => onOpenScene(sceneId),
                                 }}

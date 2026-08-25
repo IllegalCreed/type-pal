@@ -370,7 +370,7 @@ describe('object workbench recipes', () => {
             title="人物 wu-hou"
             detail="初始仙术"
             path="actors[3].battler.initialMagic[0]"
-            action={{ label: '打开 ↗', onActivate: onClick }}
+            action={{ label: '打开', onActivate: onClick }}
           />
         </DsReferenceList>,
       ),
@@ -381,6 +381,8 @@ describe('object workbench recipes', () => {
     expect(row.querySelector('.ds-reference-row__path')?.textContent).toBe(
       'actors[3].battler.initialMagic[0]',
     )
+    expect(row.querySelector('.ds-reference-row__trailing .ds-icon')).not.toBeNull()
+    expect(row.textContent).not.toContain('↗')
     await act(async () => row.click())
     expect(onClick).toHaveBeenCalledOnce()
   })
@@ -423,12 +425,12 @@ describe('object workbench recipes', () => {
             key="button"
             title="可定位命令"
             labels={[{ label: '阻断删除', tone: 'warning' }]}
-            action={{ label: '打开 ↗', onActivate }}
+            action={{ label: '打开', onActivate }}
           />
           <DsReferenceRow
             key="link"
             title="可分享位置"
-            action={{ label: '在新页打开 ↗', href: '/editor?module=scene' }}
+            action={{ label: '在新页打开', href: '/editor?module=scene' }}
           />
           <DsReferenceRow
             key="static"
@@ -525,12 +527,12 @@ describe('object workbench recipes', () => {
             title="资源缺失"
             code="missing-asset"
             path={longPath}
-            action={{ label: '跳转 ↗', ariaLabel: '跳转到缺失资源', onActivate }}
+            action={{ label: '跳转', ariaLabel: '跳转到缺失资源', onActivate }}
           />
           <DsDiagnosticRow
             severity="warning"
             title="迁移待核对"
-            action={{ label: '在问题面板查看 ↗', href: '/editor?module=project' }}
+            action={{ label: '在问题面板查看', href: '/editor?module=project' }}
           />
           <DsDiagnosticRow severity="warning" title="只读来源" statusLabel="无法定位" />
         </DsDiagnosticList>,
@@ -542,6 +544,9 @@ describe('object workbench recipes', () => {
     expect(rows[0]?.textContent).toMatch(/^错误资源缺失missing-asset/)
     expect(rows[1]?.textContent).toContain('警告迁移待核对')
     expect(rows[2]?.textContent).toContain('无法定位')
+    expect(rows[0]?.querySelector('.ds-diagnostic-row__trailing .ds-icon')).not.toBeNull()
+    expect(rows[1]?.querySelector('.ds-diagnostic-row__trailing .ds-icon')).not.toBeNull()
+    expect(host.textContent).not.toContain('↗')
     expect(host.querySelector('.ds-diagnostic-row[disabled]')).toBeNull()
     expect(rows[0]?.querySelector('button, a')).toBeNull()
     expect(rows[0]?.getAttribute('aria-label')).toBe('跳转到缺失资源')

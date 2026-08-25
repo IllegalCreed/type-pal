@@ -1,8 +1,8 @@
 # Type-Pal 编辑器设计系统与交互规范 v1
 
-Status: draft v2.10.0 full editor adoption gate implemented, pending review（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
+Status: implemented v2.10.1 navigation action glyph consolidation（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
 
-Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）
+Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）
 
 Applies to: `packages/editor` 的全部功能性界面
 
@@ -483,7 +483,8 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 - 引用行只能有三种原生根：可分享定位用 `<a>`，命令式精确定位用 `<button>`，只读或不可定位用
   `<article>`。禁止用 disabled button 表达“只读 / 暂不可定位”；静态行必须写出状态和原因。
 - 行内顺序固定为：来源/访问/影响标签 → 可读名称 → detail/occurrence → 等宽 path → 尾部打开动作或静态状态。
-  颜色之外必须有文字；`打开 ↗`、`只读`、`暂不可定位` 占同一尾部位置。
+  颜色之外必须有文字；可定位行使用“打开”类文案 + 共享 `open` 图标，`只读`、`暂不可定位` 等静态状态
+  占同一尾部位置。禁止把 `↗` 作为字符串塞入领域 label。
 - 标题可单行省略但完整值必须通过 title/详情可达；path 必须 `overflow-wrap:anywhere` 且可选中复制。120 字符
   路径、200% zoom 和窄 Inspector 不得产生横向页面滚动或第二个无边界滚动 owner。
 - design-system 只接收展示值、状态、callback/href，不读取 EditorState、collector、locator 类型或 Command。
@@ -518,8 +519,8 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
   `at-least`，失败使用 unknown，禁止把下界伪装成精确数量。每个 Panel 只保留一个 live region；Row 不得逐条
   使用 `role=alert`。
 - Row 严重度固定为 `error / warning`，文字标签必须先于消息出现，不能只靠颜色。内容顺序固定为：严重度 →
-  消息 → code/detail → 可选择复制且 `overflow-wrap:anywhere` 的 path/evidence → 尾部 `跳转 ↗`、
-  `在问题面板查看 ↗`、`无法定位` 或 `仅提示`。
+  消息 → code/detail → 可选择复制且 `overflow-wrap:anywhere` 的 path/evidence → 尾部“跳转”或
+  “在问题面板查看”文案 + 共享 `open` 图标，或者 `无法定位` / `仅提示` 静态状态。领域 label 禁止手写 `↗`。
 - 定位行只允许三种原生根：可分享定位用 `<a>`，命令式定位用 `<button>`，静态或不可定位用 `<article>`。
   禁止嵌套交互控件和 disabled 假动作。Reference 与 Diagnostic 是两个公开语义合同，但二者必须通过内部中性
   locator row frame 共用根节点、padding、border、hover/focus、响应式和尾部几何；不得再复制第三套行骨架。

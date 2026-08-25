@@ -608,7 +608,9 @@ describe('ItemTab', () => {
     await act(async () =>
       button('引用', host.querySelector('[role="tablist"][aria-label="物品检查器"]')!).click(),
     )
-    await act(async () => button('打开 ↗', host).click())
+    const referenceRow = host.querySelector<HTMLButtonElement>('.ds-reference-row')!
+    expect(referenceRow.textContent).toContain('打开')
+    await act(async () => referenceRow.click())
     expect(onOpenItemReference).toHaveBeenCalledWith(
       expect.objectContaining({ locator: { kind: 'shop', shopId: 7 } }),
     )

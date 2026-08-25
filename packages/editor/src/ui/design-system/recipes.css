@@ -556,7 +556,11 @@
 
 .ds-reference-row__trailing,
 .ds-diagnostic-row__trailing {
+  display: inline-flex;
   max-width: 8.5rem;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--ds-space-2);
   color: var(--ds-action-primary);
   font-weight: 650;
   text-align: end;
@@ -596,6 +600,7 @@
   .ds-reference-row__trailing,
   .ds-diagnostic-row__trailing {
     max-width: none;
+    justify-content: flex-start;
     text-align: start;
   }
 }

@@ -1213,7 +1213,7 @@ export function ActorMode(props: {
                               action={
                                 reference.locator && onOpenActorReference
                                   ? {
-                                      label: '打开 ↗',
+                                      label: '打开',
                                       onActivate: () => onOpenActorReference(reference),
                                     }
                                   : undefined

@@ -608,7 +608,7 @@ export function AmbienceTab(props: {
                               action={
                                 reference.locator && onOpenReference
                                   ? {
-                                      label: '打开 ↗',
+                                      label: '打开',
                                       ariaLabel: `打开引用：${reference.label}`,
                                       onActivate: () => onOpenReference(reference.locator!),
                                     }
@@ -757,7 +757,7 @@ export function AmbienceTab(props: {
                   action={
                     reference.locator && onOpenReference
                       ? {
-                          label: '打开 ↗',
+                          label: '打开',
                           ariaLabel: `打开引用：${reference.label}`,
                           onActivate: () => {
                             setDeleteTarget(undefined)

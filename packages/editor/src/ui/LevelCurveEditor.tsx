@@ -168,8 +168,8 @@ export function LevelCurveEditor(props: {
             </DsButton>
           </>
         )}
-        <DsButton onClick={onClose} size="compact" variant="secondary">
-          ← 返回精灵帧
+        <DsButton onClick={onClose} size="compact" variant="secondary" icon="chevron-left">
+          返回精灵帧
         </DsButton>
       </div>
 

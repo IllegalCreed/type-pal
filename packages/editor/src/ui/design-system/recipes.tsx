@@ -19,6 +19,7 @@ import {
   DsTextInput,
   dsClasses,
 } from './controls.js'
+import { DsIcon } from './icons.js'
 
 export type DsWorkbenchKind = 'object' | 'media' | 'script' | 'table'
 
@@ -472,7 +473,8 @@ export function DsReferenceRow(props: {
         {props.occurrenceCount && props.occurrenceCount > 1
           ? `${props.occurrenceCount} 次 · `
           : null}
-        {props.action?.label ?? props.status?.label ?? '只读'}
+        {props.action ? <DsIcon name="open" /> : null}
+        {props.action?.label ?? (props.action ? '打开' : (props.status?.label ?? '只读'))}
       </span>
     </>
   )
@@ -641,7 +643,8 @@ export function DsDiagnosticRow(props: {
         {props.path ? <code className="ds-diagnostic-row__path">{props.path}</code> : null}
       </span>
       <span className="ds-diagnostic-row__trailing">
-        {props.action?.label ?? props.statusLabel ?? '仅提示'}
+        {props.action ? <DsIcon name="open" /> : null}
+        {props.action?.label ?? (props.action ? '跳转' : (props.statusLabel ?? '仅提示'))}
       </span>
     </>
   )

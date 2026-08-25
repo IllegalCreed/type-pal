@@ -7,6 +7,7 @@ import { describe, expect, test } from 'vitest'
 import { EDITOR_MODULES } from '../editor-navigation.js'
 import {
   evaluateAllowlist,
+  findEmbeddedNavigationGlyphActions,
   isEmbeddedNavigationGlyphAction,
 } from '../../../scripts/design-system-audit.mjs'
 
@@ -94,15 +95,22 @@ describe('design-system adoption gate', () => {
   })
 
   test('rejects navigation glyphs embedded in standard action labels without blocking direction controls', () => {
-    expect(
-      isEmbeddedNavigationGlyphAction('DsButton', '<DsButton>前往预览 ↗</DsButton>'),
-    ).toBe(true)
+    expect(isEmbeddedNavigationGlyphAction('DsButton', '<DsButton>前往预览 ↗</DsButton>')).toBe(
+      true,
+    )
     expect(
       isEmbeddedNavigationGlyphAction(
         'DsButton',
         '<DsButton aria-label="沿地图坐标向右上移动">↗</DsButton>',
       ),
     ).toBe(false)
-    expect(isEmbeddedNavigationGlyphAction('DsReferenceRow', '打开 ↗')).toBe(false)
+    expect(isEmbeddedNavigationGlyphAction('DsReferenceRow', '打开 ↗')).toBe(true)
+    expect(isEmbeddedNavigationGlyphAction('DsButton', '← 返回')).toBe(true)
+    expect(isEmbeddedNavigationGlyphAction('DsButton', '跳转 →')).toBe(true)
+    expect(
+      findEmbeddedNavigationGlyphActions(
+        `<DsDiagnosticRow action={{ label: '跳转 ↗', onActivate }} />`,
+      ),
+    ).toEqual([{ line: 1, tag: 'DsDiagnosticRow' }])
   })
 })
