@@ -1,6 +1,6 @@
 # ARCH-ENTRY-ACTOR-SEED-1 入口角色完整初始状态所有权与快照模型
 
-> **状态**：review（2026-08-25 三方 `accept` 已齐；等待用户最终验收 / 收口）
+> **状态**：done（2026-08-26 三方 `accept` + 用户最终验收齐，整卡收口）
 > **负责人**：Codex（Coding Owner）
 > **参与审查**：Kimi（架构 / schema）、GLM（原版与数据覆盖）
 > **能力格**：X7 项目数据与持久化语义
@@ -166,18 +166,22 @@
 | Kimi | **accept** | 2026-08-25 独立终审 0558819e：①播种合同双落点——`seedActorInitialSkills` 以键严格 `undefined` 为首次判据、深拷贝 initialMagic、无 battler fail-loud，同挂 buildWorld 与 applySetParty（character.ts:178-190,214-218,244）；已有空数组/离队归队/学忘/读档不重播，异步 setParty 原子提交 party+reserve+learnedSkills（main.ts:3247-3279）；②schema——StartWorld.learnedSkills 删除且 validator 拒未知字段，CONTENT_VERSION=18，SAVE8 envelope 不变（save/types.ts:13,45）；③迁移——pal-manifest 停写入口技能，demo 345 迁入角色 initialMagic（demo actors.json 实测 ['296','298','299','345']），三 manifest 均 content18 且无 learnedSkills 键；本人复跑 dry-run replay 537/0/0/0/0；④编辑器——入口页“当前 HP/MP、留空继承（继承 150/100 占位提示）”、无最大值输入无技能行；ActorMode 独立编辑当前/最大与初始仙术且可 undo；⑤loader 硬门 initialMagic→skills（project-loader.ts:247-248）+ actor validator 拒空/重复 id；⑥census 零命中配置侧 learnedSkills；KS1-KS3 全部落地。聚焦复跑：content/validate/save/loader/ProjectWorkbench/ActorMode 190/190 + migrate 14/14 全绿；全量采纳卡内记录未重复 |
 | GLM | **accept** | 2026-08-25 done 前终审（提交 0558819e，95 文件 +879/-655）：**GSeed1 ✓**——`seedActorInitialSkills` 以 `learnedSkills[instanceId] !== undefined` 为唯一触发（character.ts），注释明示"已有键（包括空数组）表示运行进度，绝不重播"；applySetParty 首次入队（不在 party 也不在 reserve）才 instantiate+播种，reserve 搬回原样不触发；测试矩阵超钉——"已有空技能键首次入队也不重播"/"离队进 reserve 状态不丢"/"离队后学习/遗忘进度归队不被出厂技能覆盖"/"入队中途失败不留半提交"全在（character.test）；**GSeed2 ✓**——三工程 manifest `startWorld.learnedSkills` 全删（本人 node 复核 pal/demo/e2e-own）；pal-manifest.ts 迁移侧零命中；本人复跑 replay `managed=537 writes=0 deletes=0 conflicts=0`；六角色 initialMagic 逐项对照本人留档基线全吻合（1/10/2/10/10/7；jiu-jianxian/li-daniang 为 C1-3 NPC 无 battler 非原始表）；demo 的 4 技能副本已同步删且 seedStats hp:100/mp:30 保留（带伤开局语义保持）；**GSeed3 ✓**——UI 落于 ProjectWorkbenchTab"开局当前状态"区：DsHelpTip 明示"只覆盖开局当前 HP/MP；留空即继承角色定义的当前值，最大值始终由角色定义持有"+ 每字段 `placeholder=继承 N` + `aria-label=留空继承 N`（继承不可用降级）；无 maxHP/maxMP 入口控件；seedStats 稀疏形状（空对象删除键）+ "seedStats 的 0 是有效当前值"专项测试。focused content 140 tests + 双 typecheck 全绿（全量 146/1122 采纳记录）。 |
 
-**done 准入结论：三方 `accept` 已齐且无 `counter`；任务保持 `review`，等待用户最终验收后由 Codex 收口。**
+**done 准入结论：allowed（2026-08-26，三方 `accept` 已齐且无 `counter`；用户已确认角色初始状态验收通过）。**
+
+### 用户最终验收
+
+- 2026-08-26 User：**accept**。确认入口 HP/MP 是开局当前值，留空继承角色定义；最大值、属性、装备和
+  初始技能由角色定义持有。本卡标记 `done`。
 
 ## 下一位 Agent 提示词
 
 #### 当前交接状态（2026-08-25）
 
-实现保持 `review`；Codex、Kimi、GLM 三方 `accept` 已齐且无 `counter`。当前没有待转交的审查席位，
-等待用户对“当前 HP/MP 稀疏覆盖 + 角色定义持有完整初始状态”做最终验收后，由 Codex 标记 `done`。
+实现、三方终审与用户最终验收均已完成，任务状态为 `done`。当前没有待转交的审查席位。
 
 #### 无下一位 Agent 提示词（当前）
 
-三方实现终审已完成；等待用户最终验收 / 收口。
+任务已收口；后续由 `ED-PROJECT-STARTUP-IA-1` 消费冻结后的角色字段 ownership，不重开本卡。
 
 #### Kimi / GLM 合并实现终审提示词（历史，已完成）
 
@@ -368,3 +372,4 @@ buildWorld 只实例化+条件覆盖——无派生快照固化；唯一双表�
   删除 + 迁移零双写 + replay 537 零计划 + 六角色 initialMagic 基线全吻合 + demo 带伤开局
   seedStats 保留；GSeed3 UI"开局当前状态"区 HelpTip+placeholder+aria 三层继承说明、无最大值
   控件、0 值有效专项。focused 140+双 typecheck 全绿。未改实现，未代签 Kimi，未标 done。
+- 2026-08-26 User：确认角色初始状态验收通过；Codex 按三方 `accept` 与用户结论将本卡收口为 `done`。
