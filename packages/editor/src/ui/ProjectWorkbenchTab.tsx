@@ -161,14 +161,16 @@ const ISSUE_PAGE_SIZE = 80
 export function IssueList(props: {
   issues: readonly ProjectIssue[]
   onOpenLocation?: (location: EditorLocation) => void
+  statusOwner?: 'panel' | 'external'
 }) {
-  const { issues, onOpenLocation } = props
+  const { issues, onOpenLocation, statusOwner } = props
   const errors = issues.filter((issue) => issue.severity === 'error').length
   const warnings = issues.length - errors
   return (
     <DsDiagnosticPanel
       state={issues.length ? 'ready' : 'clear'}
       count={{ kind: 'exact', errors, warnings }}
+      statusOwner={statusOwner}
       live={issues.length <= ISSUE_PAGE_SIZE}
     >
       {issues.length ? (
@@ -436,7 +438,11 @@ function ProjectAdvancedPage(
           {selectedIssueGroup ? (
             <>
               <h2 className="project-card__title">分组详情</h2>
-              <IssueList issues={selectedIssueGroup.issues} onOpenLocation={onOpenLocation} />
+              <IssueList
+                issues={selectedIssueGroup.issues}
+                onOpenLocation={onOpenLocation}
+                statusOwner="external"
+              />
             </>
           ) : (
             <IssueList issues={[]} onOpenLocation={onOpenLocation} />

@@ -1,8 +1,8 @@
 # Type-Pal 编辑器设计系统与交互规范 v1
 
-Status: implemented v2.10.1 navigation action glyph consolidation（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
+Status: implemented v2.10.2 diagnostic summary ownership（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）
 
-Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）
+Owner: ED-DS-1（v1.0.0）/ ED-DS-2（v1.1.0～v2.2.0）/ ED-REFERENCE-UI-1（v2.3.0）/ ED-CATALOG-CONTROLS-1（v2.4.0）/ ED-DIAGNOSTIC-UI-1（v2.5.0）/ continuous UX consolidation（v2.6.0～v2.8.0、v2.10.2）/ ED-FIELD-COMMIT-1（v2.9.0）/ ED-DS-3（v2.10.0～v2.10.1）/ ED-AUDIO-WORKBENCH-1（DS-R.2 音频合同）
 
 Applies to: `packages/editor` 的全部功能性界面
 
@@ -513,7 +513,9 @@ Header 替代旧 `136px/52px` 左侧一级导航列，业务工作区不得再�
 #### DS-C.8a 诊断呈现合同（v2.5.0）
 
 - 页面级、Inspector 与工具内的诊断只允许使用 `DsDiagnosticPanel → DsDiagnosticList →
-  DsDiagnosticRow`。Panel 拥有状态与错误/警告计数，List 拥有 `list/listitem` 和分页，Row 拥有严重度、消息、
+  DsDiagnosticRow`。Panel 默认拥有状态与错误/警告计数；仅当紧邻父级 `DsObjectHero` 已展示当前分组的同一精确
+  总数时，完整 `ready + exact` 结果可用 `statusOwner="external"` 避免重复摘要，`partial / failure` 不得外移或隐藏。
+  禁止页面 CSS 隐藏状态。List 拥有 `list/listitem` 和分页，Row 拥有严重度、消息、
   code/detail、证据路径与定位状态；领域页面不得继续用 `cf-err` 或私有卡片复制同义诊断列表。
 - Panel 状态固定为 `ready / clear / partial / failure`。完整结果使用 exact 错误/警告计数；读取不全只允许
   `at-least`，失败使用 unknown，禁止把下界伪装成精确数量。每个 Panel 只保留一个 live region；Row 不得逐条

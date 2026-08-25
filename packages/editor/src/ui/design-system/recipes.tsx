@@ -541,6 +541,7 @@ function diagnosticPanelSummary(
 export function DsDiagnosticPanel(props: {
   state: DsDiagnosticPanelState
   count?: DsDiagnosticCount
+  statusOwner?: 'panel' | 'external'
   summary?: ReactNode
   description?: ReactNode
   action?: ReactNode
@@ -552,6 +553,10 @@ export function DsDiagnosticPanel(props: {
   const errors = props.count && props.count.kind !== 'unknown' ? props.count.errors : 0
   const warnings = props.count && props.count.kind !== 'unknown' ? props.count.warnings : 0
   const live = props.live ?? true
+  const statusIsExternal =
+    props.statusOwner === 'external' &&
+    props.state === 'ready' &&
+    props.count?.kind === 'exact'
   const tone =
     props.state === 'failure' || errors > 0
       ? 'error'
@@ -566,33 +571,35 @@ export function DsDiagnosticPanel(props: {
       data-state={props.state}
       aria-label={props.label ?? '诊断'}
     >
-      <div
-        className={dsClasses('ds-status', tone !== 'neutral' && `ds-status--${tone}`)}
-        role={live ? (tone === 'error' ? 'alert' : 'status') : undefined}
-        aria-live={live ? (tone === 'error' ? 'assertive' : 'polite') : undefined}
-      >
-        <span className="ds-diagnostic-panel__status">
-          <span className="ds-diagnostic-panel__meta">
-            <DsTag tone={tone === 'error' ? 'danger' : tone === 'warning' ? 'warning' : 'neutral'}>
-              {props.state === 'clear'
-                ? '正常'
-                : props.state === 'partial'
-                  ? '结果不完整'
-                  : props.state === 'failure'
-                    ? '检查失败'
-                    : '诊断'}
-            </DsTag>
-            <span className="ds-diagnostic-panel__count">{diagnosticCountLabel(props.count)}</span>
+      {statusIsExternal ? null : (
+        <div
+          className={dsClasses('ds-status', tone !== 'neutral' && `ds-status--${tone}`)}
+          role={live ? (tone === 'error' ? 'alert' : 'status') : undefined}
+          aria-live={live ? (tone === 'error' ? 'assertive' : 'polite') : undefined}
+        >
+          <span className="ds-diagnostic-panel__status">
+            <span className="ds-diagnostic-panel__meta">
+              <DsTag tone={tone === 'error' ? 'danger' : tone === 'warning' ? 'warning' : 'neutral'}>
+                {props.state === 'clear'
+                  ? '正常'
+                  : props.state === 'partial'
+                    ? '结果不完整'
+                    : props.state === 'failure'
+                      ? '检查失败'
+                      : '诊断'}
+              </DsTag>
+              <span className="ds-diagnostic-panel__count">{diagnosticCountLabel(props.count)}</span>
+            </span>
+            <strong className="ds-diagnostic-panel__summary">
+              {props.summary ?? diagnosticPanelSummary(props.state, props.count)}
+            </strong>
+            {props.description ? (
+              <span className="ds-diagnostic-panel__description">{props.description}</span>
+            ) : null}
           </span>
-          <strong className="ds-diagnostic-panel__summary">
-            {props.summary ?? diagnosticPanelSummary(props.state, props.count)}
-          </strong>
-          {props.description ? (
-            <span className="ds-diagnostic-panel__description">{props.description}</span>
-          ) : null}
-        </span>
-        {props.action}
-      </div>
+          {props.action}
+        </div>
+      )}
       {props.children ? <div className="ds-diagnostic-panel__body">{props.children}</div> : null}
     </section>
   )

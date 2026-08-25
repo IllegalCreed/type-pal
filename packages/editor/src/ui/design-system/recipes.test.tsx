@@ -516,6 +516,33 @@ describe('object workbench recipes', () => {
       expect(panel.querySelectorAll('[role="status"], [role="alert"]')).toHaveLength(1)
   })
 
+  test('diagnostic panels can defer an exact ready summary without hiding incomplete state', async () => {
+    await act(async () =>
+      root.render(
+        <>
+          <DsDiagnosticPanel
+            state="ready"
+            count={{ kind: 'exact', errors: 0, warnings: 2 }}
+            statusOwner="external"
+          >
+            <span>两条诊断明细</span>
+          </DsDiagnosticPanel>
+          <DsDiagnosticPanel
+            state="partial"
+            count={{ kind: 'at-least', errors: 0, warnings: 2 }}
+            statusOwner="external"
+          />
+        </>,
+      ),
+    )
+
+    const readyPanel = host.querySelector('[data-state="ready"]')
+    const partialPanel = host.querySelector('[data-state="partial"]')
+    expect(readyPanel?.querySelector('.ds-status')).toBeNull()
+    expect(readyPanel?.textContent).toContain('两条诊断明细')
+    expect(partialPanel?.querySelector('.ds-status')?.textContent).toContain('结果不完整')
+  })
+
   test('diagnostic rows keep severity text and use real button, link, or article roots', async () => {
     const onActivate = vi.fn()
     const longPath = `manifest.${'deep.path.'.repeat(20)}asset`
