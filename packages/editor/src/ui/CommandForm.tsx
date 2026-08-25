@@ -899,7 +899,7 @@ export function CommandForm(props: {
             disabled={!onOpenSpriteAction || !selectedSprite}
             onClick={() => onOpenSpriteAction?.(cmd.sprite, cmd.action)}
           >
-            {selectedAction ? '在精灵库编辑此动作 ↗' : '打开精灵并修复引用 ↗'}
+            {selectedAction ? '在精灵库编辑此动作' : '打开精灵并修复引用'}
           </DsButton>
         </>
       )

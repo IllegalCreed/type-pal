@@ -5,7 +5,10 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, test } from 'vitest'
 import { EDITOR_MODULES } from '../editor-navigation.js'
-import { evaluateAllowlist } from '../../../scripts/design-system-audit.mjs'
+import {
+  evaluateAllowlist,
+  isEmbeddedNavigationGlyphAction,
+} from '../../../scripts/design-system-audit.mjs'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const packageRoot = join(here, '../../..')
@@ -88,5 +91,18 @@ describe('design-system adoption gate', () => {
     expect(evaluateAllowlist({ version: 1, entries: [entry] }, [violation]).code).toBe(0)
     expect(evaluateAllowlist({ version: 1, entries: [entry] }, []).code).toBe(2)
     expect(evaluateAllowlist({ version: 1, entries: [{ file: 'Example.tsx' }] }, []).code).toBe(2)
+  })
+
+  test('rejects navigation glyphs embedded in standard action labels without blocking direction controls', () => {
+    expect(
+      isEmbeddedNavigationGlyphAction('DsButton', '<DsButton>前往预览 ↗</DsButton>'),
+    ).toBe(true)
+    expect(
+      isEmbeddedNavigationGlyphAction(
+        'DsButton',
+        '<DsButton aria-label="沿地图坐标向右上移动">↗</DsButton>',
+      ),
+    ).toBe(false)
+    expect(isEmbeddedNavigationGlyphAction('DsReferenceRow', '打开 ↗')).toBe(false)
   })
 })

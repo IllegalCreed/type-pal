@@ -500,11 +500,54 @@ describe('项目设置工作区', () => {
     const preview = button(row, '前往预览')
     expect(preview.classList.contains('ds-button')).toBe(true)
     expect(preview.classList.contains('btn')).toBe(false)
+    expect(preview.classList.contains('ds-button--compact')).toBe(false)
+    expect(preview.querySelector('.ds-icon')).not.toBeNull()
     await act(async () => preview.click())
     expect(onOpenLocation).toHaveBeenCalledWith({
       module: 'asset',
       subpage: 'cutscene',
       objectId: 'video.test',
+    })
+  })
+
+  test('入口视频与全局视频使用相同的预览动作合同', async () => {
+    const state = projectState()
+    state.manifest.entryPoints[0]!.introVideo = 'video.alt'
+    const session = new EditSession(state)
+    const onOpenLocation = vi.fn()
+
+    await act(async () =>
+      root.render(
+        <ProjectWorkbenchTab
+          page="entrypoint"
+          manifest={state.manifest as never}
+          scenes={state.scenes}
+          actors={state.actors}
+          items={state.items}
+          skills={state.skills}
+          locale={state.locale}
+          assetCatalog={state.assetCatalog}
+          session={session}
+          editorState={state}
+          assetReader={{} as never}
+          onOpenLocation={onOpenLocation}
+        />,
+      ),
+    )
+
+    const field = [...host.querySelectorAll<HTMLElement>('.field')].find((candidate) =>
+      candidate.textContent?.includes('入口视频'),
+    )!
+    const preview = button(field, '前往预览')
+    expect(field.querySelector('.ds-control-group')).not.toBeNull()
+    expect(preview.classList.contains('ds-button--compact')).toBe(false)
+    expect(preview.querySelector('.ds-icon')).not.toBeNull()
+
+    await act(async () => preview.click())
+    expect(onOpenLocation).toHaveBeenCalledWith({
+      module: 'asset',
+      subpage: 'cutscene',
+      objectId: 'video.alt',
     })
   })
 

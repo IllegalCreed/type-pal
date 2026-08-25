@@ -583,8 +583,9 @@ export function SpriteActionEditor(props: {
                 onClick={() => props.onOpenReferences?.(actionId)}
                 size="compact"
                 variant="secondary"
+                icon="open"
               >
-                查看 {actionReferences.length} 个引用 ↗
+                查看 {actionReferences.length} 个引用
               </DsButton>
             ) : (
               <span className="hint2">当前动作尚未被场景引用。</span>

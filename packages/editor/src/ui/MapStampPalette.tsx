@@ -143,8 +143,8 @@ export const MapStampPalette = memo(function MapStampPalette(props: {
         ) : null}
         <span className="spacer" />
         {onOpenLibrary ? (
-          <DsButton size="compact" variant="secondary" onClick={onOpenLibrary}>
-            管理组合 ↗
+          <DsButton size="compact" variant="secondary" icon="open" onClick={onOpenLibrary}>
+            管理组合
           </DsButton>
         ) : null}
       </div>

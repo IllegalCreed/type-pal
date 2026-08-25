@@ -1340,58 +1340,62 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
               </div>
               <div className="field">
                 <span className="field-label">入口视频</span>
-                <span className="project-entry-video-control">
-                  <DsSelect
-                    aria-label="入口视频"
-                    value={selected.introVideo ?? ''}
-                    options={[
-                      { value: '', label: '无（由场景脚本负责叙事）' },
-                      ...(selected.introVideo && !assetCatalog.assets[selected.introVideo]
-                        ? [
-                            {
-                              value: selected.introVideo,
-                              label: `${selected.introVideo}（缺失）`,
-                            },
-                          ]
-                        : []),
-                      ...(selected.introVideo &&
-                      selectedIntroVideoAsset &&
-                      selectedIntroVideoAsset.kind !== 'video'
-                        ? [
-                            {
-                              value: selected.introVideo,
-                              label: selected.introVideo,
-                              description: `类型 ${selectedIntroVideoAsset.kind}`,
-                            },
-                          ]
-                        : []),
-                      ...videoAssets.map(([id, asset]) => ({
-                        value: id,
-                        label: asset.label ?? id,
-                        description: asset.label ? id : undefined,
-                      })),
-                    ]}
-                    onValueChange={(value) =>
-                      patchEntry(selected.id, { introVideo: value || undefined })
-                    }
-                  />
-                  {selected.introVideo && onOpenLocation ? (
-                    <DsButton
-                      title={`查看入口视频 ${selected.introVideo}`}
-                      onClick={() =>
-                        onOpenLocation({
-                          module: 'asset',
-                          subpage: 'cutscene',
-                          objectId: selected.introVideo!,
-                        })
+                <DsControlGroup
+                  control={
+                    <DsSelect
+                      aria-label="入口视频"
+                      value={selected.introVideo ?? ''}
+                      options={[
+                        { value: '', label: '无（由场景脚本负责叙事）' },
+                        ...(selected.introVideo && !assetCatalog.assets[selected.introVideo]
+                          ? [
+                              {
+                                value: selected.introVideo,
+                                label: `${selected.introVideo}（缺失）`,
+                              },
+                            ]
+                          : []),
+                        ...(selected.introVideo &&
+                        selectedIntroVideoAsset &&
+                        selectedIntroVideoAsset.kind !== 'video'
+                          ? [
+                              {
+                                value: selected.introVideo,
+                                label: selected.introVideo,
+                                description: `类型 ${selectedIntroVideoAsset.kind}`,
+                              },
+                            ]
+                          : []),
+                        ...videoAssets.map(([id, asset]) => ({
+                          value: id,
+                          label: asset.label ?? id,
+                          description: asset.label ? id : undefined,
+                        })),
+                      ]}
+                      onValueChange={(value) =>
+                        patchEntry(selected.id, { introVideo: value || undefined })
                       }
-                      size="compact"
-                      variant="secondary"
-                    >
-                      预览 ↗
-                    </DsButton>
-                  ) : null}
-                </span>
+                    />
+                  }
+                  actions={
+                    selected.introVideo && onOpenLocation ? (
+                      <DsButton
+                        icon="open"
+                        title={`查看入口视频 ${selected.introVideo}`}
+                        onClick={() =>
+                          onOpenLocation({
+                            module: 'asset',
+                            subpage: 'cutscene',
+                            objectId: selected.introVideo!,
+                          })
+                        }
+                        variant="secondary"
+                      >
+                        前往预览
+                      </DsButton>
+                    ) : undefined
+                  }
+                />
               </div>
             </section>
             <section className="project-card">

@@ -103,6 +103,17 @@ function shortFound(node, source) {
   return node.getText(source).split('\n')[0].trim().slice(0, 96)
 }
 
+const navigationActionWords = /(?:打开|查看|预览|跳转|定位|管理|编辑|引用)/
+
+/** Standard navigation actions use DsIcon(open); directional controls may still use arrow glyphs. */
+export function isEmbeddedNavigationGlyphAction(tag, sourceText) {
+  return (
+    (tag === 'DsButton' || tag === 'DsActionLink') &&
+    sourceText.includes('↗') &&
+    navigationActionWords.test(sourceText)
+  )
+}
+
 function collectViolations() {
   const failures = []
   const add = (path, source, node, rule, recommendation) => {
@@ -125,6 +136,17 @@ function collectViolations() {
       ts.ScriptKind.TSX,
     )
     const visit = (node) => {
+      if (ts.isJsxElement(node)) {
+        const tag = jsxTag(node.openingElement)
+        if (isEmbeddedNavigationGlyphAction(tag, node.getText(source)))
+          add(
+            path,
+            source,
+            node.openingElement,
+            'embedded-navigation-glyph',
+            'use icon="open" with plain action text; do not encode navigation icons in the label',
+          )
+      }
       if (ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node)) {
         const tag = jsxTag(node)
         const tokens = classTokens(node)

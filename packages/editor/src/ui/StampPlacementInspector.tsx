@@ -203,8 +203,8 @@ export function StampPlacementInspector(props: {
           退出组合工具
         </DsButton>
         {onOpenLibrary ? (
-          <DsButton onClick={onOpenLibrary} size="compact" variant="secondary">
-            在库中打开 ↗
+          <DsButton onClick={onOpenLibrary} size="compact" variant="secondary" icon="open">
+            在库中打开
           </DsButton>
         ) : null}
       </div>

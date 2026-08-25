@@ -205,7 +205,8 @@ describe('ScriptBehaviorInspector', () => {
     const sharedReference = [...host.querySelectorAll<HTMLButtonElement>('button')].find(
       (candidate) => candidate.textContent?.includes('可复用脚本“路线”'),
     )!
-    expect(sharedReference.textContent).toContain('打开 ↗')
+    expect(sharedReference.textContent).toContain('打开')
+    expect(sharedReference.querySelector('.ds-icon')).not.toBeNull()
 
     await act(async () => sharedReference.click())
     expect(onOpenReference).toHaveBeenCalledWith({

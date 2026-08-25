@@ -2066,15 +2066,6 @@ html[data-panel-resize="horizontal"] * {
   font-family: inherit;
   white-space: normal;
 }
-.project-entry-video-control {
-  display: flex;
-  gap: 6px;
-  min-width: 0;
-}
-.project-entry-video-control > .in {
-  flex: 1;
-  min-width: 0;
-}
 .project-entry-summary-list {
   display: grid;
   gap: 6px;

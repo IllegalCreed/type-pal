@@ -359,7 +359,7 @@ export function ScriptSchemeDetailsDialog(props: {
                         onClick={() => props.onOpenReference?.(reference.reference)}
                       >
                         <span>{reference.label}</span>
-                        <small aria-hidden="true">打开 ↗</small>
+                        <small aria-hidden="true">打开</small>
                       </DsButton>
                     ) : (
                       <span>{reference.label}</span>

@@ -3427,15 +3427,14 @@ function EntityInspector(props: {
                 <DsReadonlyValue as="div" className="pick actor-entity-source-row">
                   <span>{actorName ?? entity.actor}</span>
                   <span className="meta">→ {spriteId ?? '(未解析)'}</span>
-                  <DsButton
-                    aria-label={`打开人物 ${entity.actor}`}
+                  <DsIconButton
+                    label={`打开人物 ${entity.actor}`}
                     title="在人物库打开"
+                    icon="open"
                     onClick={() => onOpenActor?.(entity.actor)}
                     size="compact"
                     variant="secondary"
-                  >
-                    ↗
-                  </DsButton>
+                  />
                 </DsReadonlyValue>
                 <p className="hint">
                   位置、朝向、碰撞、显隐、页面脚本和敌对配置只属于当前场景实例。
