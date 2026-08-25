@@ -121,18 +121,63 @@ Branch: `codex/ed-project-startup-ia-1`
   - premise: verified（`character.ts:73-96` 证明 canonical 入口模型；`ProjectWorkbenchTab.tsx:693-1017` 与 `:1430-1694` 证明现有交互/旧控件/写死摘要）
   - design: agree（业务 IA 与 schema 扩展拆卡，复用字段提交和设计系统 primitive）
 - Kimi:
-  - premise: pending
-  - design: pending
+  - premise: verified（2026-08-24 独立直读，非代理）。canonical 入口模型现状属实：
+    `character.ts:89-100` 必填非空 entryPoints + defaultEntryId 纯选择器（ARCH-ENTRYPOINT-CANONICAL-1
+    已收口，本卡不重开）；当前页遗留属实——`ProjectWorkbenchTab.tsx:697-752` 队伍区 raw
+    `<button className="btn">` 上移/下移/移出 + 原生 checkbox 候选墙；`:1643-1647` 项目名 raw
+    `<input className="in">` 逐字符 dispatch；`:1686` 写死“编辑 8 项设置”而 `asset.ts:33`
+    `ASSET_ROLES` 实为 12 项（本人枚举）；`:581` 音乐“前往预览”跳转代替原位试听。
+    前提“只改作者 IA、不改数据真值”成立。
+  - design: agree（2026-08-24，附 KP1-KP3，不阻塞准入）:
+    - **KP1（试听复用 AUDIO 卡通道）**：原位试听必须消费 ED-AUDIO-WORKBENCH-1 交付的
+      preview transport/factory（midi-preview.ts/audio-preview.ts），不得在项目页新写第三套
+      音频播放路径；“切曲停止前一资源”由单一 preview owner 保证。
+    - **KP2（有序队伍 + 可搜索添加器的键盘闭环）**：上移/下移/移除/添加全部键盘可达且有
+      aria 状态反馈；重复行的删除动作窄容器换行规则遵循 DS 合同，不页面自定。
+    - **KP3（构建顺序）**：本卡消费 `ED-FIELD-COMMIT-1` 字段合同与 `ED-DS-3` 的重复行/
+      动作 primitive；在那两卡公共合同落地前，本卡 build 不得先写私有替代控件（依赖
+      顺序即卡内“建议实施顺序”的延伸）。
+  - 边界确认：卡面“明确不做”已覆盖入口继承/伪入口/fallback/写死数量/页面保存/逐字符命令；
+    角色 seed schema（等级/装备/属性/初始技能所有权）完整留在 ARCH-ENTRY-ACTOR-SEED-1，
+    本卡仅做现有 HP/MP 覆盖的 IA 收口，未偷塞 schema 扩展。
 - GLM:
-  - premise: pending
-  - design: pending
+  - premise: **verified（2026-08-24，本人一手读码 + 独立枚举，非代理；与 Kimi 互证）**：
+    1. **canonical 入口模型**：character.ts:89-100 必填非空 entryPoints + defaultEntryId
+       纯选择器——ARCH-ENTRYPOINT-CANONICAL-1 产物完好，本卡不重开（独立确认）。
+    2. **ASSET_ROLES 独立枚举 = 12 项**（asset.ts:33-46 本人数出：audio 9 + video 2 +
+       visual 1）；`:1686` 写死"编辑 8 项设置"与 12 不符——陈旧数字实锤。
+    3. **raw 控件残留**：ProjectWorkbenchTab :806/:818/:878 三处 `className="btn"`
+       （队伍上移/下移/移出区）；项目名 raw input 逐字符 dispatch（FIELD-COMMIT 卡
+       已核）；:581 音乐"前往预览"跳转代替原位试听。
+    4. **试听通道可复用**：midi-preview.ts 的 MidiPreviewTransport 接口 +
+       editor audio-preview.ts 在位（AUDIO 卡产物）——KP1 复用方案可行。
+    5. **入口单一 commit**：:1083-1085 SetStartupEntriesCommand 原子提交在位
+       （ARCH 卡产物），本卡 IA 改造不改此边界。
+  - design: **agree（2026-08-24，附 GP1-GP2，不阻塞准入；KP1-KP3 全部同意并互补）**：
+    - **GP1（动态分组闭合测试的数据面）**：schema closure 测试除"每项恰好一个分组"外，
+      须断言 **分组定义由 ASSET_ROLES 结构派生（kind 前缀）而非第二份手写分组表**——
+      12 项当前恰好 audio.*/video.*/visual.* 三前缀，若未来新增第四类前缀分组测试
+      应自动红，而不是静默落入"其他"。
+    - **GP2（试听单通道断言）**：原位试听与"打开资源页"的分离须有测试证明项目页
+      preview 与资源页 preview **不共存**（项目页试听中切到资源页则前者停止）——
+      单一 preview owner 的机检形态；另试听不写 WorldState.audio.currentMusic 的
+      断言（卡文"明确不做"的测试化）。
+  - 独立反证：若 ASSET_ROLES 出现无法归 kind 的角色名（当前 12 项均有 audio/video/
+    visual 前缀），GP1 分组测试红即停线重估分组规则。
 - 独立反证审查（至少一位非 Coding Owner 必填）:
-  - 审查者: pending
-  - 独立证据锚点: pending
-  - 可证伪观察: pending
+  - 审查者: Kimi（2026-08-24）
+  - 独立证据锚点: `packages/content/src/character.ts:89-100`（canonical 入口模型）；
+    `packages/content/src/asset.ts:33-47`（ASSET_ROLES 12 项枚举）；
+    `packages/editor/src/ui/ProjectWorkbenchTab.tsx:581,697-752,1643-1647,1686`
+    （跳转预览/原始控件/逐字符命令/写死数量）；`packages/editor/src/ui/AudioAssetWorkbench.tsx:600-697`
+    与 `packages/reforge/src/audio/midi-preview.ts:20-32`（可复用的试听通道与 transport 接口）。
+  - 可证伪观察: 若 `ASSET_ROLES` 存在无法按 kind 分组的异常角色，动态分组前提动摇——12 项枚举
+    全部落在 audio/video/visual 三类；若 ED-FIELD-COMMIT-1/ED-DS-3 冻结的 primitive 无法表达
+    有序队伍或重复行，本卡须退回重签——两卡设计均已含对应合同且三签齐；若某启动链说明被删后
+    作者无法理解 `?entry`/`?menu`/`?scene` 优先级，摘要+DsHelpTip 方案不足——用户裁决条款已覆盖。
 - counter / 分歧处理: N/A
 - 缺签豁免: N/A
-- build 准入结论: blocked
+- build 准入结论: blocked——Kimi（KP1-KP3）+ GLM（GP1-GP2）签字齐；**build 排期硬前置：ED-DS-3 与 ED-FIELD-COMMIT-1 公共合同实际落地后**（两卡本席已签 premise/design，见各自任务卡）
 
 ### 进入 done 前:审查签字
 
@@ -163,9 +208,9 @@ Branch: `codex/ed-project-startup-ia-1`
 ### 主审立场
 
 - Reviewer: Kimi
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论: agree（2026-08-24；canonical 入口不变前提直读核实，KP1-KP3 已写回）
+- 必改项: 无新增；KP1（试听复用 AUDIO 卡通道）与 KP3（构建顺序在 DS-3/FIELD-COMMIT-1 之后）为 build 约束。
+- 是否建议进入 build: 是（待 GLM 签字；排期上须在两张基础卡之后）
 
 ## Build: 实现与自测
 
@@ -190,6 +235,10 @@ Branch: `codex/ed-project-startup-ia-1`
 
 ## 交接日志
 
+- 2026-08-24 Kimi: 独立核 canonical 入口模型不变前提（character.ts:89-100）、ASSET_ROLES 12 项枚举、
+  当前页遗留（raw btn/checkbox 墙/写死“编辑 8 项”/“前往预览”/逐字符命令）；确认边界完整（不恢复继承/
+  伪入口/fallback、seed schema 留在 ARCH-ENTRY-ACTOR-SEED-1）；签 premise verified + design agree
+  （附 KP1-KP3）。待 GLM 签字；build 排期在 ED-DS-3/ED-FIELD-COMMIT-1 公共合同之后。未修改实现文件。
 - 2026-08-24 Codex: 核对 canonical 入口、12 项资源角色和当前页面遗留，开独立 IA 卡。Next: Kimi/GLM 设计签字。
 
 ## 下一位 Agent 提示词
@@ -205,3 +254,9 @@ Branch: `codex/ed-project-startup-ia-1`
 不要做: 不得改 schema 或实现；不得恢复入口继承/伪入口；三签未齐不得进入 build
 输出要求: premise verified/counter、design agree/counter、直接证据、必改项
 ```
+- 2026-08-24 GLM（覆盖/数据/测试矩阵）: 审查完成，签 **premise verified + design agree
+  （附 GP1-GP2）**。ASSET_ROLES 12 项独立枚举（audio 9+video 2+visual 1）vs :1686 写死
+  "8 项"实锤；raw btn 三处/跳转预览/逐字符 dispatch 独立确认；midi/audio preview 通道
+  可复用（KP1 可行）；入口原子 commit 边界完好。GP1 钉分组由结构派生+第四类前缀自动红；
+  GP2 钉试听单通道与不写 WorldState 断言。**build 硬前置：ED-DS-3/FIELD-COMMIT 公共
+  合同落地**。未改实现，未代签 Kimi。
