@@ -42,7 +42,6 @@ function ResourceHarness() {
   const [value, setValue] = useState<StartWorld>({
     party: [],
     money: 0,
-    learnedSkills: {},
     inventory: [],
   })
   return (
@@ -50,7 +49,6 @@ function ResourceHarness() {
       value={value}
       actors={[]}
       items={[]}
-      skills={[]}
       locale={{}}
       onChange={setValue}
     />
@@ -61,14 +59,13 @@ function projectState(): EditorState {
   const startWorld: StartWorld = {
     party: [],
     money: 0,
-    learnedSkills: {},
     inventory: [],
   }
   return {
     manifest: {
       id: 'project-test',
       name: '测试项目',
-      contentVersion: 17,
+      contentVersion: 18,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: {},
@@ -106,7 +103,6 @@ function projectTab(page: ProjectWorkbenchPage, session: EditSession, focusObjec
       scenes={state.scenes}
       actors={state.actors}
       items={state.items}
-      skills={state.skills}
       locale={state.locale}
       assetCatalog={state.assetCatalog}
       session={session}
@@ -263,7 +259,7 @@ describe('入口开局世界资源', () => {
         id: 'direct',
         label: '直接入口',
         scene: 's000',
-        startWorld: { party: [], money: 20, learnedSkills: {}, inventory: [] },
+        startWorld: { party: [], money: 20, inventory: [] },
       },
     ]
     state.manifest.defaultEntryId = 'direct'
@@ -289,7 +285,6 @@ describe('入口开局世界资源', () => {
       startWorld: {
         party: [],
         money: 88,
-        learnedSkills: {},
         inventory: [],
         resources: { alchemyEnergy: 7 },
       },
@@ -325,12 +320,57 @@ describe('入口开局世界资源', () => {
     expect(button(host, '删除当前入口').disabled).toBe(true)
   })
 
-  test('角色初始状态使用中文业务标题，不暴露 schema 字段名', async () => {
+  test('开局当前状态使用中文业务标题，不暴露 schema 字段名', async () => {
     const session = new EditSession(projectState())
     await act(async () => root.render(projectTab('entrypoint', session)))
 
-    expect(host.textContent).toContain('角色初始状态')
+    expect(host.textContent).toContain('开局当前状态')
+    expect(host.textContent).toContain('留空即继承角色定义的当前值')
     expect(host.textContent).not.toContain('seedStats')
+  })
+
+  test('当前 HP/MP 显示角色继承值，清空后保持稀疏覆盖', async () => {
+    const state = projectState()
+    state.actors = [
+      {
+        id: 'hero',
+        name: 'name.hero',
+        spriteId: 'sprite.hero',
+        battler: {
+          battleSprite: 'battle.hero',
+          baseStats: {
+            level: 1,
+            hp: 100,
+            maxHP: 150,
+            mp: 30,
+            maxMP: 80,
+            attack: 1,
+            defense: 1,
+            magicAttack: 1,
+            speed: 1,
+            luck: 1,
+          },
+          initialEquipment: {},
+          initialMagic: [],
+        },
+      },
+    ]
+    state.locale['name.hero'] = '主角'
+    state.manifest.entryPoints[0]!.startWorld.party = ['hero']
+    state.manifest.entryPoints[0]!.startWorld.seedStats = { hero: { hp: 80 } }
+    const session = new EditSession(state)
+    await act(async () => root.render(projectTab('entrypoint', session)))
+
+    const hp = host.querySelector<HTMLInputElement>('input[aria-label^="hero 开局当前 HP"]')!
+    const mp = host.querySelector<HTMLInputElement>('input[aria-label^="hero 开局当前 MP"]')!
+    expect(hp.placeholder).toBe('继承 100')
+    expect(mp.placeholder).toBe('继承 30')
+    expect(host.textContent).not.toContain('初始技能')
+
+    await act(async () => hp.focus())
+    await input(hp, '')
+    await act(async () => hp.blur())
+    expect(session.getState().manifest.entryPoints[0]!.startWorld.seedStats).toBeUndefined()
   })
 
   test('可新增、修改和删除稳定资源键，并拒绝重复定义 collectValue', async () => {
@@ -387,7 +427,6 @@ describe('项目设置工作区', () => {
           scenes={state.scenes}
           actors={state.actors}
           items={state.items}
-          skills={state.skills}
           locale={state.locale}
           assetCatalog={state.assetCatalog}
           session={session}
@@ -439,7 +478,6 @@ describe('项目设置工作区', () => {
           scenes={state.scenes}
           actors={state.actors}
           items={state.items}
-          skills={state.skills}
           locale={state.locale}
           assetCatalog={state.assetCatalog}
           session={session}
@@ -449,7 +487,7 @@ describe('项目设置工作区', () => {
       ),
     )
 
-    expect(host.textContent).toContain('内容版本 17')
+    expect(host.textContent).toContain('内容版本 18')
     expect(host.textContent).toContain('最低存档版本 8')
 
     await act(async () =>
@@ -460,7 +498,6 @@ describe('项目设置工作区', () => {
           scenes={state.scenes}
           actors={state.actors}
           items={state.items}
-          skills={state.skills}
           locale={state.locale}
           assetCatalog={state.assetCatalog}
           session={session}
@@ -498,7 +535,6 @@ describe('项目设置工作区', () => {
           scenes={state.scenes}
           actors={state.actors}
           items={state.items}
-          skills={state.skills}
           locale={state.locale}
           assetCatalog={state.assetCatalog}
           session={session}
@@ -546,7 +582,6 @@ describe('项目设置工作区', () => {
           scenes={state.scenes}
           actors={state.actors}
           items={state.items}
-          skills={state.skills}
           locale={state.locale}
           assetCatalog={state.assetCatalog}
           session={session}

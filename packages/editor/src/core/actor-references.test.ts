@@ -8,7 +8,7 @@ function state(): EditorState {
     manifest: {
       id: 'actor-refs',
       name: 'actor refs',
-      contentVersion: 17,
+      contentVersion: 18,
       defaultEntryId: 'main',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },
@@ -20,7 +20,6 @@ function state(): EditorState {
           startWorld: {
             party: ['hero'],
             money: 0,
-            learnedSkills: { hero: [] },
             seedStats: { hero: { hp: 1 } },
             inventory: [],
           },
@@ -32,7 +31,6 @@ function state(): EditorState {
           startWorld: {
             party: ['hero'],
             money: 0,
-            learnedSkills: { hero: [] },
             seedStats: { hero: { mp: 1 } },
             inventory: [],
           },
@@ -134,7 +132,6 @@ function state(): EditorState {
 const EXTERNAL_KINDS = [
   'scene-entity-actor',
   'entry-point-party',
-  'entry-point-learned-skills',
   'entry-point-seed-stats',
   'condition-in-party',
   'enemy-condition-player-in-party',
@@ -150,7 +147,7 @@ const EXTERNAL_KINDS = [
 ] as const satisfies readonly ActorReferenceKind[]
 
 describe('Actor 引用闭包', () => {
-  test('15 个作者外部定位变体逐项进入删除门禁并都有可跳转 locator', () => {
+  test('14 个作者外部定位变体逐项进入删除门禁并都有可跳转 locator', () => {
     const references = blockingActorReferences(state(), 'hero')
     expect(new Set(references.map((reference) => reference.kind))).toEqual(new Set(EXTERNAL_KINDS))
     for (const kind of EXTERNAL_KINDS) {
@@ -170,7 +167,6 @@ describe('Actor 引用闭包', () => {
     current.scenes = []
     for (const entry of current.manifest.entryPoints) {
       entry.startWorld.party = []
-      entry.startWorld.learnedSkills = {}
       entry.startWorld.seedStats = {}
     }
     current.actors = current.actors.filter((actor) => actor.id === 'hero')

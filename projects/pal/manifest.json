@@ -1,7 +1,7 @@
 {
   "id": "pal",
   "name": "仙剑奇侠传·复刻",
-  "contentVersion": 17,
+  "contentVersion": 18,
   "minimumSaveVersion": 8,
   "defaultEntryId": "new-game",
   "content": {
@@ -53,11 +53,6 @@
           "li-xiaoyao"
         ],
         "money": 0,
-        "learnedSkills": {
-          "li-xiaoyao": [
-            "296"
-          ]
-        },
         "inventory": []
       }
     }

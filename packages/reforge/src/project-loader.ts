@@ -31,6 +31,7 @@ import {
   CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
   mapAssetById,
   resolveAuthorDialogueTree,
+  validateActorInitialMagicReferences,
   validateActors,
   validateAssetCatalog,
   validateBattleFields,
@@ -240,10 +241,11 @@ export function assembleCurrentProject(
   const startupIssue = validateEntryPointStartWorldReferences(
     manifest.entryPoints,
     actors,
-    skills,
     authorItems,
   )[0]
   if (startupIssue) throw new Error(`${startupIssue.where}: ${startupIssue.message}`)
+  const initialMagicIssue = validateActorInitialMagicReferences(actors, skills)[0]
+  if (initialMagicIssue) throw new Error(`${initialMagicIssue.where}: ${initialMagicIssue.message}`)
   const authorEntryScene = authorEntryScenes[defaultEntry.scene]
   if (!authorEntryScene)
     throw new Error(

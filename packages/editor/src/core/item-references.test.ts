@@ -13,7 +13,7 @@ function state(): EditorState {
     manifest: {
       id: 'refs',
       name: 'refs',
-      contentVersion: 17,
+      contentVersion: 18,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: {},
@@ -26,7 +26,6 @@ function state(): EditorState {
           startWorld: {
             party: [],
             money: 0,
-            learnedSkills: {},
             inventory: [{ itemId: 'target', count: 1 }],
           },
         },
@@ -37,7 +36,6 @@ function state(): EditorState {
           startWorld: {
             party: [],
             money: 0,
-            learnedSkills: {},
             inventory: [{ itemId: 'target', count: 2 }],
           },
         },

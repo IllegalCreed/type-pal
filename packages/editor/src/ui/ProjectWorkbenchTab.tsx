@@ -13,7 +13,6 @@ import type {
   ItemData,
   Locale,
   SceneDef,
-  SkillData,
   StartWorld,
 } from '@type-pal/content'
 import { ASSET_ROLE_KINDS, ASSET_ROLES, AUDIO_ASSET_ROLES, lookupText } from '@type-pal/content'
@@ -45,6 +44,7 @@ import {
   DsDiagnosticList,
   DsDiagnosticPanel,
   DsDiagnosticRow,
+  DsDraftNumberField,
   DsDraftNumberInput,
   DsDraftTextInput,
   DsHelpTip,
@@ -66,7 +66,6 @@ export interface ProjectWorkbenchTabProps {
   scenes: SceneDef[]
   actors: ActorDef[]
   items: ItemData[]
-  skills: SkillData[]
   locale: Locale
   assetCatalog: AssetCatalogV1
   session: EditSession
@@ -604,7 +603,6 @@ export function StartWorldFields(props: {
   value: StartWorld
   actors: ActorDef[]
   items: ItemData[]
-  skills: SkillData[]
   locale: Locale
   readOnly?: boolean
   draftScope?: string
@@ -615,7 +613,6 @@ export function StartWorldFields(props: {
     value,
     actors,
     items,
-    skills,
     locale,
     readOnly = false,
     draftScope = 'startWorld',
@@ -626,7 +623,6 @@ export function StartWorldFields(props: {
   const patch = (next: Partial<StartWorld>): void => onChange({ ...value, ...next })
   const partyActors = actors.filter((actor) => actor.battler)
   const seedActorIds = Array.from(new Set([...value.party, ...Object.keys(value.seedStats ?? {})]))
-  const skillActorIds = Array.from(new Set([...value.party, ...Object.keys(value.learnedSkills)]))
   const inventory = value.inventory ?? []
   const addableItems = items.filter((item) => !inventory.some((entry) => entry.itemId === item.id))
   const toggleParty = (id: string): void => {
@@ -642,12 +638,6 @@ export function StartWorldFields(props: {
     const party = [...value.party]
     ;[party[index], party[target]] = [party[target]!, party[index]!]
     patch({ party })
-  }
-  const setSkills = (actorId: string, next: string[]): void => {
-    const learnedSkills = { ...value.learnedSkills }
-    if (next.length) learnedSkills[actorId] = next
-    else delete learnedSkills[actorId]
-    patch({ learnedSkills })
   }
   const patchSeed = (actorId: string, key: 'hp' | 'mp', next: number | undefined): void => {
     const seedStats = { ...(value.seedStats ?? {}) }
@@ -834,86 +824,6 @@ export function StartWorldFields(props: {
       </section>
 
       <section className="project-card">
-        <h4>初始技能</h4>
-        {skillActorIds.map((actorId) => {
-          const actor = actors.find((candidate) => candidate.id === actorId)
-          const actorSkills = value.learnedSkills[actorId] ?? []
-          const addableSkills = skills.filter((skill) => !actorSkills.includes(skill.id))
-          const inParty = value.party.includes(actorId)
-          return (
-            <div className="project-skill-group" key={actorId}>
-              <div className="project-subtitle">
-                {actor ? lookupText(actor.name, locale) : actorId} <code>{actorId}</code>
-                {!inParty ? <span className="project-badge warning">不在初始队伍</span> : null}
-              </div>
-              {actorSkills.map((skillId, index) => (
-                <div className="project-inline-row" key={`${skillId}:${index}`}>
-                  <DsSelect
-                    size="compact"
-                    aria-label={`${actorId} 的第 ${index + 1} 个初始技能`}
-                    value={skillId}
-                    disabled={readOnly}
-                    options={[
-                      ...(!skills.some((skill) => skill.id === skillId)
-                        ? [{ value: skillId, label: `${skillId}（缺失）` }]
-                        : []),
-                      ...skills
-                        .filter(
-                          (skill) =>
-                            skill.id === skillId ||
-                            !actorSkills.some(
-                              (id, skillIndex) => skillIndex !== index && id === skill.id,
-                            ),
-                        )
-                        .map((skill) => ({
-                          value: skill.id,
-                          label: skill.name,
-                          description: skill.id,
-                        })),
-                    ]}
-                    onValueChange={(value) =>
-                      setSkills(
-                        actorId,
-                        actorSkills.map((id, skillIndex) => (skillIndex === index ? value : id)),
-                      )
-                    }
-                  />
-                  <DsButton
-                    disabled={readOnly}
-                    onClick={() =>
-                      setSkills(
-                        actorId,
-                        actorSkills.filter((_, skillIndex) => skillIndex !== index),
-                      )
-                    }
-                    size="compact"
-                    variant="secondary"
-                  >
-                    删除
-                  </DsButton>
-                </div>
-              ))}
-              <DsButton
-                disabled={readOnly || addableSkills.length === 0}
-                onClick={() => {
-                  const skillId = addableSkills[0]?.id
-                  if (skillId) setSkills(actorId, [...actorSkills, skillId])
-                }}
-                size="compact"
-                variant="secondary"
-              >
-                ＋ 添加技能
-              </DsButton>
-              {actorSkills.length === 0 ? <PageHint>未配置初始技能。</PageHint> : null}
-            </div>
-          )
-        })}
-        {skillActorIds.length === 0 ? (
-          <PageHint>先选择队伍成员，再配置其初始技能。</PageHint>
-        ) : null}
-      </section>
-
-      <section className="project-card">
         <h4>
           初始世界资源{' '}
           <DsHelpTip label="初始世界资源">
@@ -985,55 +895,58 @@ export function StartWorldFields(props: {
 
       <section className="project-card">
         <h4>
-          角色初始状态{' '}
-          <DsHelpTip label="角色初始状态">
-            可选。这里只覆盖本入口的开局 HP/MP，不修改角色定义。
+          开局当前状态{' '}
+          <DsHelpTip label="开局当前状态">
+            可选。这里只覆盖本入口的开局当前
+            HP/MP；留空即继承角色定义的当前值，最大值始终由角色定义持有。
           </DsHelpTip>
         </h4>
         {seedActorIds.map((actorId) => {
           const actor = actors.find((candidate) => candidate.id === actorId)
           const stats = value.seedStats?.[actorId] ?? {}
+          const inheritedHp = actor?.battler?.baseStats.hp
+          const inheritedMp = actor?.battler?.baseStats.mp
           return (
             <div className="project-inline-row project-seed-row" key={actorId}>
               <span className="project-subtitle">
                 {actor ? lookupText(actor.name, locale) : actorId}
               </span>
               <code>{actorId}</code>
-              <span>
-                HP{' '}
-                <DsDraftNumberInput
-                  min={0}
-                  integer
-                  allowEmpty
-                  normalize={(next) => Math.max(0, Math.floor(next))}
-                  draftKey={`${draftScope}:seedStats.${actorId}.hp`}
-                  syncToken={syncToken}
-                  value={stats.hp}
-                  disabled={readOnly}
-                  aria-label={`${actorId} 初始 HP`}
-                  onCommit={(value) => patchSeed(actorId, 'hp', value)}
-                />
-              </span>
-              <span>
-                MP{' '}
-                <DsDraftNumberInput
-                  min={0}
-                  integer
-                  allowEmpty
-                  normalize={(next) => Math.max(0, Math.floor(next))}
-                  draftKey={`${draftScope}:seedStats.${actorId}.mp`}
-                  syncToken={syncToken}
-                  value={stats.mp}
-                  disabled={readOnly}
-                  aria-label={`${actorId} 初始 MP`}
-                  onCommit={(value) => patchSeed(actorId, 'mp', value)}
-                />
-              </span>
+              <DsDraftNumberField
+                label="当前 HP"
+                layout="inline"
+                min={0}
+                integer
+                allowEmpty
+                normalize={(next) => Math.max(0, Math.floor(next))}
+                draftKey={`${draftScope}:seedStats.${actorId}.hp`}
+                syncToken={syncToken}
+                value={stats.hp}
+                disabled={readOnly}
+                aria-label={`${actorId} 开局当前 HP，留空继承 ${inheritedHp ?? '未知'}`}
+                placeholder={inheritedHp === undefined ? '继承不可用' : `继承 ${inheritedHp}`}
+                onCommit={(value) => patchSeed(actorId, 'hp', value)}
+              />
+              <DsDraftNumberField
+                label="当前 MP"
+                layout="inline"
+                min={0}
+                integer
+                allowEmpty
+                normalize={(next) => Math.max(0, Math.floor(next))}
+                draftKey={`${draftScope}:seedStats.${actorId}.mp`}
+                syncToken={syncToken}
+                value={stats.mp}
+                disabled={readOnly}
+                aria-label={`${actorId} 开局当前 MP，留空继承 ${inheritedMp ?? '未知'}`}
+                placeholder={inheritedMp === undefined ? '继承不可用' : `继承 ${inheritedMp}`}
+                onCommit={(value) => patchSeed(actorId, 'mp', value)}
+              />
             </div>
           )
         })}
         {seedActorIds.length === 0 ? (
-          <PageHint>未设置角色初始状态覆盖；开局沿用角色定义。</PageHint>
+          <PageHint>未设置当前 HP/MP 覆盖；开局继承角色定义的当前值。</PageHint>
         ) : null}
       </section>
     </div>
@@ -1046,7 +959,6 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
     scenes,
     actors,
     items,
-    skills,
     locale,
     assetCatalog,
     session,
@@ -1389,7 +1301,7 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
                 <h4>
                   开局设置{' '}
                   <DsHelpTip label="入口开局设置">
-                    该入口拥有完整且独立的队伍、角色状态、资源和物品配置。
+                    该入口拥有独立的队伍顺序、当前 HP/MP 覆盖、资源和物品配置。
                   </DsHelpTip>
                 </h4>
                 {selected.id === manifest.defaultEntryId ? (
@@ -1402,7 +1314,6 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
                 value={selected.startWorld}
                 actors={actors}
                 items={items}
-                skills={skills}
                 locale={locale}
                 onChange={(next: StartWorld) => patchEntry(selected.id, { startWorld: next })}
               />

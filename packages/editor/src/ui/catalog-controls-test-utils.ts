@@ -102,12 +102,12 @@ export const catalogControlsAssetCatalog: AssetCatalogV1 = {
 export function catalogControlsEditorState(
   assetCatalog: AssetCatalogV1 = catalogControlsAssetCatalog,
 ): EditorState {
-  const startWorld = { party: [], money: 0, learnedSkills: {}, inventory: [] }
+  const startWorld = { party: [], money: 0, inventory: [] }
   return {
     manifest: {
       id: 'catalog-controls-test',
       name: '目录控件测试',
-      contentVersion: 17,
+      contentVersion: 18,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       entryPoints: [{ id: 'main', label: '主要入口', scene: 's001', startWorld }],

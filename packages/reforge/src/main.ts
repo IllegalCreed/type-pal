@@ -81,7 +81,7 @@ import { isBlockedAt, sameGrid } from './collision.js'
 import { CutsceneController, type CutsceneExecutor } from './cutscene-controller.js'
 import { DeferredTouchTrigger } from './deferred-trigger.js'
 import { expectDefined } from './defined.js'
-import { withWorldPreset } from './dev-preset.js'
+import { type WorldPreset, withWorldPreset } from './dev-preset.js'
 import { loadCursorFrames } from './dialog/dialog-assets.js'
 import { DialogBox } from './dialog/dialog-box.js'
 import {
@@ -298,10 +298,7 @@ import { playVideo as playVideoOverlay } from './video-player.js'
 type ScriptBattleOptions = NonNullable<Parameters<ScriptHost['startBattle']>[1]>
 type DebugBattleOptions = ScriptBattleOptions & {
   enemyOverride?: string[]
-  partyPreset?: {
-    party: CharacterInstance[]
-    inventory?: { itemId: string; count: number }[]
-  }
+  partyPreset?: WorldPreset
 }
 
 // 切片 1 · 第一步：把真实 map 56（黑水镇民居）整张渲染出来，看清里头几间民居、挑一间。
@@ -3279,6 +3276,7 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
         commit: (candidate) => {
           targetWorld.party = candidate.party
           targetWorld.reserve = candidate.reserve
+          targetWorld.learnedSkills = candidate.learnedSkills
           trail = seedFormationTrail(player.pos, facing)
           followerFrozen.length = 0
           followerPos.length = 0
@@ -3592,10 +3590,7 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
     request: {
       enemyTeamId: string
       enemyOverride?: string[]
-      partyPreset?: {
-        party: CharacterInstance[]
-        inventory?: { itemId: string; count: number }[]
-      }
+      partyPreset?: WorldPreset
       fieldId?: number
     },
     signal: AbortSignal,
@@ -6959,18 +6954,23 @@ export async function bootGame(inputProject: LoadedCurrentProject): Promise<void
         presentationBusy: () => presentation.busy(),
         runDetached: (signal, invoke) => runDetachedScriptChain(signal, invoke),
         startBattleDev,
-        buildPresetParty: (actorIds, seedStats) =>
-          buildWorld(
-            { party: actorIds, money: 0, learnedSkills: {}, inventory: [], seedStats },
+        buildPresetParty: (actorIds, seedStats) => {
+          const built = buildWorld(
+            { party: actorIds, money: 0, inventory: [], seedStats },
             project.actorsById,
-          ).party,
+          )
+          return { party: built.party, learnedSkills: built.learnedSkills }
+        },
         setParty: (actorIds) => {
           // ?party 语义(内存态,不落档):覆写 world.party + 满血满蓝。
           const built = buildWorld(
-            { party: actorIds, money: 0, learnedSkills: {}, inventory: [], seedStats: {} },
+            { party: actorIds, money: 0, inventory: [], seedStats: {} },
             project.actorsById,
           )
           world.party = built.party
+          for (const [actorId, skillIds] of Object.entries(built.learnedSkills))
+            if (world.learnedSkills[actorId] === undefined)
+              world.learnedSkills[actorId] = [...skillIds]
           for (const c of world.party) {
             c.hp = c.maxHP
             c.mp = c.maxMP

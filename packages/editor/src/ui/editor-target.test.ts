@@ -7,7 +7,7 @@ function makeState(overrides: Partial<EditorState> = {}): EditorState {
     manifest: {
       id: 'test',
       name: 'Test',
-      contentVersion: 17,
+      contentVersion: 18,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       entryPoints: [
@@ -15,7 +15,7 @@ function makeState(overrides: Partial<EditorState> = {}): EditorState {
           id: 'main',
           label: '主要入口',
           scene: 'start',
-          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+          startWorld: { party: [], money: 0, inventory: [] },
         },
       ],
       content: {},

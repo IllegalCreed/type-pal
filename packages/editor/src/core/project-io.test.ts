@@ -20,7 +20,7 @@ const alternateScene = {
 const manifest: CurrentManifest = {
   id: 'demo',
   name: 'Demo',
-  contentVersion: 17,
+  contentVersion: 18,
   minimumSaveVersion: 8,
   defaultEntryId: 'main',
   content: {
@@ -42,7 +42,7 @@ const manifest: CurrentManifest = {
       id: 'main',
       label: '主要入口',
       scene: 's001',
-      startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+      startWorld: { party: [], money: 0, inventory: [] },
     },
   ],
 }
@@ -71,7 +71,7 @@ describe('current editor project IO', () => {
     const loaded = assembleCurrentProject(manifest, jsons)
     const state = toEditorState(loaded, [loaded.authorContent.entryScene])
 
-    expect(state.manifest.contentVersion).toBe(17)
+    expect(state.manifest.contentVersion).toBe(18)
     expect(state.scenes).toEqual([scene])
     expect(state.scriptIndex).toBeUndefined()
     expect(state.scriptChunks).toEqual({})
@@ -103,7 +103,7 @@ describe('current editor project IO', () => {
           id: 'alternate',
           label: '备用入口',
           scene: 's002',
-          startWorld: { party: [], money: 42, learnedSkills: {}, inventory: [] },
+          startWorld: { party: [], money: 42, inventory: [] },
         },
       ],
     }

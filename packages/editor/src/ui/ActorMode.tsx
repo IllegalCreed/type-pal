@@ -144,7 +144,6 @@ export function ActorMode(props: {
   assetCatalog: AssetCatalogV1
   assetReader: EditorAssetReader
   levelUp: Record<string, LevelUpSkill[]>
-  startSkills: Record<string, string[]>
   navigation?: React.ReactNode
   focusActorId?: string
   focusSection?: string
@@ -154,7 +153,6 @@ export function ActorMode(props: {
   onOpenBattleSprite?: (id: string) => void
   onOpenSound?: (id: string) => void
   onOpenImage?: (id: string) => void
-  onOpenStartSettings?: () => void
   onOpenActorReference?: (reference: ActorReference) => void
 }) {
   const {
@@ -169,7 +167,6 @@ export function ActorMode(props: {
     assetCatalog,
     assetReader,
     levelUp,
-    startSkills,
     navigation,
     focusActorId,
     focusSection,
@@ -179,7 +176,6 @@ export function ActorMode(props: {
     onOpenBattleSprite,
     onOpenSound,
     onOpenImage,
-    onOpenStartSettings,
     onOpenActorReference,
   } = props
   const [selId, setSelId] = useState(focusActorId ?? actors[0]?.id ?? '')
@@ -300,9 +296,14 @@ export function ActorMode(props: {
   const setStat = (key: keyof BattlerSpec['baseStats'], value: number): void => {
     if (!actor?.battler || !Number.isFinite(value)) return
     const baseStats = { ...actor.battler.baseStats, [key]: value }
-    if (key === 'maxHP') baseStats.hp = value
-    if (key === 'maxMP') baseStats.mp = value
     session.dispatch(new UpdateActorCommand(actor.id, { battler: { ...actor.battler, baseStats } }))
+  }
+
+  const setInitialMagic = (initialMagic: string[]): void => {
+    if (!actor?.battler) return
+    session.dispatch(
+      new UpdateActorCommand(actor.id, { battler: { ...actor.battler, initialMagic } }),
+    )
   }
 
   const setBattlerSound = (key: keyof BattlerSounds, value: AssetId | undefined): void => {
@@ -635,8 +636,14 @@ export function ActorMode(props: {
                       >
                         <div className="actor-stat-summary">
                           <SummaryStat label="等级" value={battler.baseStats.level} />
-                          <SummaryStat label="体力" value={battler.baseStats.maxHP} />
-                          <SummaryStat label="真气" value={battler.baseStats.maxMP} />
+                          <SummaryStat
+                            label="当前 / 最大体力"
+                            value={`${battler.baseStats.hp} / ${battler.baseStats.maxHP}`}
+                          />
+                          <SummaryStat
+                            label="当前 / 最大真气"
+                            value={`${battler.baseStats.mp} / ${battler.baseStats.maxMP}`}
+                          />
                           <SummaryStat label="武术" value={battler.baseStats.attack} />
                           <SummaryStat label="防御" value={battler.baseStats.defense} />
                           <SummaryStat label="灵力" value={battler.baseStats.magicAttack} />
@@ -728,7 +735,7 @@ export function ActorMode(props: {
                       className="actor-card-wide"
                       eyebrow="战斗"
                       title="基础能力"
-                      description="编辑角色等级、体力、真气、武术、防御、灵力、身法与吉运。"
+                      description="编辑角色的当前/最大体力与真气基线，以及等级和基础属性。"
                     >
                       <div className="statgrid actor-stat-editor">
                         <EditStat
@@ -739,16 +746,30 @@ export function ActorMode(props: {
                           on={(value) => setStat('level', value)}
                         />
                         <EditStat
+                          draftKey={`actor:${actor.id}:baseStats.hp`}
+                          syncToken={session.getHistoryVersion()}
+                          k="当前体力"
+                          v={battler.baseStats.hp}
+                          on={(value) => setStat('hp', value)}
+                        />
+                        <EditStat
                           draftKey={`actor:${actor.id}:baseStats.maxHP`}
                           syncToken={session.getHistoryVersion()}
-                          k="体力"
+                          k="最大体力"
                           v={battler.baseStats.maxHP}
                           on={(value) => setStat('maxHP', value)}
                         />
                         <EditStat
+                          draftKey={`actor:${actor.id}:baseStats.mp`}
+                          syncToken={session.getHistoryVersion()}
+                          k="当前真气"
+                          v={battler.baseStats.mp}
+                          on={(value) => setStat('mp', value)}
+                        />
+                        <EditStat
                           draftKey={`actor:${actor.id}:baseStats.maxMP`}
                           syncToken={session.getHistoryVersion()}
-                          k="真气"
+                          k="最大真气"
                           v={battler.baseStats.maxMP}
                           on={(value) => setStat('maxMP', value)}
                         />
@@ -847,7 +868,7 @@ export function ActorMode(props: {
                     <ActorPanel
                       eyebrow="配置"
                       title="初始装备与仙术"
-                      description="查看角色加入队伍时携带的装备与已经掌握的仙术。"
+                      description="角色首次加入队伍时，运行时会从这里深拷贝出厂仙术。"
                     >
                       <SummaryChips
                         label="初始装备"
@@ -856,11 +877,10 @@ export function ActorMode(props: {
                             `${items[itemId]?.name ?? itemId} · ${SLOT_LABEL[slot] ?? slot}`,
                         )}
                       />
-                      <SummaryChips
-                        label="初始仙术"
-                        values={battler.initialMagic.map(
-                          (skillId) => skills[skillId]?.name ?? skillId,
-                        )}
+                      <InitialMagicEditor
+                        value={battler.initialMagic}
+                        skills={skills}
+                        onChange={setInitialMagic}
                       />
                     </ActorPanel>
 
@@ -903,25 +923,6 @@ export function ActorMode(props: {
                           </DsField>
                         ))}
                       </div>
-                    </ActorPanel>
-
-                    <ActorPanel
-                      className="actor-card-wide actor-entry-summary"
-                      eyebrow="入口"
-                      title="直接启动入口技能"
-                      description="这里展示直接启动入口为该角色配置的只读技能摘要。"
-                      actions={
-                        <DsButton variant="secondary" onClick={onOpenStartSettings}>
-                          前往“入口与开局”编辑
-                        </DsButton>
-                      }
-                    >
-                      <SummaryChips
-                        label="只读摘要"
-                        values={(startSkills[actor.id] ?? []).map(
-                          (skillId) => skills[skillId]?.name ?? skillId,
-                        )}
-                      />
                     </ActorPanel>
                   </div>
                 ) : (
@@ -1168,8 +1169,11 @@ export function ActorMode(props: {
                       <DsInspectorSection title="当前摘要">
                         <DsPropertyGrid>
                           <DsPropertyRow label="等级">{battler.baseStats.level}</DsPropertyRow>
-                          <DsPropertyRow label="体力 / 真气">
-                            {battler.baseStats.maxHP} / {battler.baseStats.maxMP}
+                          <DsPropertyRow label="当前 / 最大体力">
+                            {battler.baseStats.hp} / {battler.baseStats.maxHP}
+                          </DsPropertyRow>
+                          <DsPropertyRow label="当前 / 最大真气">
+                            {battler.baseStats.mp} / {battler.baseStats.maxMP}
                           </DsPropertyRow>
                           <DsPropertyRow label="装备 / 仙术">
                             {Object.keys(battler.initialEquipment).length} /{' '}
@@ -1246,11 +1250,79 @@ export function ActorMode(props: {
   )
 }
 
-function SummaryStat(props: { label: string; value: number }) {
+function SummaryStat(props: { label: string; value: number | string }) {
   return (
     <div className="actor-summary-stat">
       <span>{props.label}</span>
       <strong>{props.value}</strong>
+    </div>
+  )
+}
+
+function InitialMagicEditor(props: {
+  value: string[]
+  skills: SkillDataMap
+  onChange: (value: string[]) => void
+}) {
+  const skillIds = Object.keys(props.skills)
+  const addableSkillIds = skillIds.filter((skillId) => !props.value.includes(skillId))
+  return (
+    <div className="actor-initial-magic-editor">
+      <span className="field-label">初始仙术</span>
+      {props.value.map((skillId, index) => (
+        <div className="actor-initial-magic-row" key={`${skillId}:${index}`}>
+          <DsSelect
+            size="compact"
+            aria-label={`第 ${index + 1} 项初始仙术`}
+            value={skillId}
+            options={[
+              ...(!props.skills[skillId] ? [{ value: skillId, label: `${skillId}（缺失）` }] : []),
+              ...skillIds
+                .filter(
+                  (candidate) =>
+                    candidate === skillId ||
+                    !props.value.some(
+                      (existing, existingIndex) =>
+                        existingIndex !== index && existing === candidate,
+                    ),
+                )
+                .map((candidate) => ({
+                  value: candidate,
+                  label: props.skills[candidate]?.name ?? candidate,
+                  description: candidate,
+                })),
+            ]}
+            onValueChange={(next) =>
+              props.onChange(
+                props.value.map((existing, existingIndex) =>
+                  existingIndex === index ? next : existing,
+                ),
+              )
+            }
+          />
+          <DsButton
+            size="compact"
+            variant="secondary"
+            onClick={() =>
+              props.onChange(props.value.filter((_, itemIndex) => itemIndex !== index))
+            }
+          >
+            移除
+          </DsButton>
+        </div>
+      ))}
+      {props.value.length === 0 ? <span className="hint">未配置初始仙术。</span> : null}
+      <DsButton
+        size="compact"
+        variant="secondary"
+        disabled={addableSkillIds.length === 0}
+        onClick={() => {
+          const skillId = addableSkillIds[0]
+          if (skillId) props.onChange([...props.value, skillId])
+        }}
+      >
+        ＋ 添加初始仙术
+      </DsButton>
     </div>
   )
 }

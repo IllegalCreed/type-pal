@@ -1,7 +1,7 @@
 # @type-pal/migrate — PAL current 内容供应链
 
 本包是第二阶段唯一允许读取第一阶段提取数据的桥：离线读取 `data/extracted`，向
-`projects/pal` 发布当前 `contentVersion 17 / SAVE8` 工程。运行时和编辑器不依赖本包。
+`projects/pal` 发布当前 `contentVersion 18 / SAVE8` 工程。运行时和编辑器不依赖本包。
 
 ## 当前发布模型
 

@@ -54,7 +54,7 @@ function state(overrides: Partial<EditorState> = {}): EditorState & { manifest: 
   const manifest: CurrentManifest = {
     id: 'test',
     name: 'Test',
-    contentVersion: 17,
+    contentVersion: 18,
     minimumSaveVersion: 8,
     defaultEntryId: 'new-game',
     content: {
@@ -69,7 +69,7 @@ function state(overrides: Partial<EditorState> = {}): EditorState & { manifest: 
         id: 'new-game',
         label: '新的故事',
         scene: 's000',
-        startWorld: { party: ['hero'], money: 0, learnedSkills: {}, inventory: [] },
+        startWorld: { party: ['hero'], money: 0, inventory: [] },
       },
     ],
   }
@@ -251,9 +251,9 @@ test('非法投掷效果进入问题面板并被保存门拒绝', () => {
 describe('X7 项目入口不变式', () => {
   test('直接启动入口必须命中真实入口，不合成兼容入口', () => {
     const manifest = { ...state().manifest, defaultEntryId: 'missing' }
-    expect(validateManifestEntryPoints(manifest, state().scenes).map((issue) => issue.code)).toEqual([
-      'missing-default-entry',
-    ])
+    expect(
+      validateManifestEntryPoints(manifest, state().scenes).map((issue) => issue.code),
+    ).toEqual(['missing-default-entry'])
     expect(validateManifestEntryPoints(manifest, state().scenes)[0]?.target).toEqual({
       module: 'project',
       page: 'entrypoint',
@@ -268,13 +268,13 @@ describe('X7 项目入口不变式', () => {
           id: ' duplicate ',
           label: 'A',
           scene: 'missing-a',
-          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+          startWorld: { party: [], money: 0, inventory: [] },
         },
         {
           id: 'duplicate',
           label: 'B',
           scene: 'missing-b',
-          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+          startWorld: { party: [], money: 0, inventory: [] },
         },
       ],
     }
@@ -286,9 +286,7 @@ describe('X7 项目入口不变式', () => {
       validateManifestEntryPoints(
         { ...manifest, entryPoints: [] } as unknown as CurrentManifest,
         state().scenes,
-      ).some(
-        (issue) => issue.code === 'empty-entry-points',
-      ),
+      ).some((issue) => issue.code === 'empty-entry-points'),
     ).toBe(true)
     expect(
       validateManifestEntryPoints(manifest, state().scenes).find(
@@ -877,7 +875,7 @@ describe('X7 项目诊断与保存门', () => {
           label: '第一章',
           scene: 's000',
           introVideo: 'video.intro',
-          startWorld: { party: ['hero'], money: 0, learnedSkills: {}, inventory: [] },
+          startWorld: { party: ['hero'], money: 0, inventory: [] },
         },
       ],
     }
@@ -906,7 +904,6 @@ describe('X7 项目诊断与保存门', () => {
           startWorld: {
             party: ['hero'],
             money: 0,
-            learnedSkills: {},
             inventory: [],
             seedStats: { hero: { hp: 1.5 }, ghost: { mp: 1 } },
           },
@@ -934,13 +931,13 @@ describe('X7 项目诊断与保存门', () => {
           id: 'same',
           label: 'A',
           scene: 's000',
-          startWorld: { party: ['hero'], money: 0, learnedSkills: {}, inventory: [] },
+          startWorld: { party: ['hero'], money: 0, inventory: [] },
         },
         {
           id: 'same',
           label: 'B',
           scene: 's000',
-          startWorld: { party: ['hero'], money: 0, learnedSkills: {}, inventory: [] },
+          startWorld: { party: ['hero'], money: 0, inventory: [] },
         },
       ],
     }
@@ -973,7 +970,7 @@ describe('X7 项目诊断与保存门', () => {
     )
   })
 
-  test('初始队伍、道具和每名角色的技能都拒绝重复 id', () => {
+  test('初始队伍和道具都拒绝重复 id', () => {
     const base = state({
       skills: [
         {
@@ -1006,7 +1003,6 @@ describe('X7 项目诊断与保存门', () => {
           startWorld: {
             party: ['hero', 'hero'],
             money: 0,
-            learnedSkills: { hero: ['skill-a', 'skill-a'] },
             inventory: [
               { itemId: 'item-a', count: 1 },
               { itemId: 'item-a', count: 2 },
@@ -1021,20 +1017,19 @@ describe('X7 项目诊断与保存门', () => {
     expect(duplicateIssues.map((issue) => issue.path)).toEqual([
       'entryPoints[0].startWorld.party[1]',
       'entryPoints[0].startWorld.inventory[1].itemId',
-      'entryPoints[0].startWorld.learnedSkills.hero[1]',
     ])
     expect(() => assertProjectSaveValid({ ...base, manifest })).toThrow(
       /保存前开局数据校验失败.*重复/,
     )
   })
 
-  test('content17 保存门要求 registry 路径，并阻断未登记与错型变量引用', () => {
+  test('content18 保存门要求 registry 路径，并阻断未登记与错型变量引用', () => {
     const legacy = state()
     const current: EditorState = {
       ...legacy,
       manifest: {
         ...legacy.manifest,
-        contentVersion: 17,
+        contentVersion: 18,
         minimumSaveVersion: 8,
         content: {
           ...legacy.manifest.content,

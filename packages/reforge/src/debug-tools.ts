@@ -17,6 +17,7 @@ import type {
   WorldState,
 } from '@type-pal/content'
 import type { LoadedCurrentProject } from './project-loader.js'
+import type { WorldPreset } from './dev-preset.js'
 import type { ScriptProjectRuntime } from './runtime-script-project.js'
 import type { BattleResult } from './battle/battle-result.js'
 
@@ -64,7 +65,7 @@ export interface DebugToolsContext {
     request: {
       enemyTeamId: string
       enemyOverride?: string[]
-      partyPreset?: { party: CharacterInstance[]; inventory?: { itemId: string; count: number }[] }
+      partyPreset?: WorldPreset
       fieldId?: number
     },
     signal: AbortSignal,
@@ -72,7 +73,7 @@ export interface DebugToolsContext {
   buildPresetParty(
     actorIds: string[],
     seedStats: Record<string, { hp?: number; mp?: number }>,
-  ): CharacterInstance[]
+  ): WorldPreset
   setParty(actorIds: string[]): void
   grantSkill(actorId: string, skillId: string): void
   frameStep: DebugFrameStep
@@ -755,8 +756,8 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
       return
     }
     const ac = new AbortController()
-    const party = ctx.buildPresetParty(actorIds, seedStats)
-    applyPresetOverrides(party, presetMembers)
+    const preset = ctx.buildPresetParty(actorIds, seedStats)
+    applyPresetOverrides(preset.party, presetMembers)
     setStatus('战斗启动中…', '#8fd0ff')
     void ctx
       .startBattleDev(
@@ -764,8 +765,8 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
           enemyTeamId: customEnemies ? 'debug-custom' : teamSel.value,
           ...(customEnemies ? { enemyOverride: customEnemies } : {}),
           ...(inventory.length
-            ? { partyPreset: { party, inventory } }
-            : { partyPreset: { party } }),
+            ? { partyPreset: { ...preset, inventory } }
+            : { partyPreset: preset }),
           ...(fields.length ? { fieldId } : {}),
         },
         ac.signal,

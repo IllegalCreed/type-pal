@@ -1,6 +1,6 @@
 # ARCH-ENTRY-ACTOR-SEED-1 入口角色完整初始状态所有权与快照模型
 
-> **状态**：build（2026-08-25 Codex / Kimi / GLM 按用户裁决重签 `premise verified + design agree` 齐）
+> **状态**：review（2026-08-25 实现、重迁、自验证与功能界面验收完成；等待 Kimi / GLM `accept`）
 > **负责人**：Codex（Coding Owner）
 > **参与审查**：Kimi（架构 / schema）、GLM（原版与数据覆盖）
 > **能力格**：X7 项目数据与持久化语义
@@ -33,7 +33,7 @@
 |---|---|---|---|
 | 原版 / primary source | 新游戏初始化由 `PAL_LoadDefaultGame` 把 DATA.MKF chunk 3 的整张 PlayerRoles 表整体拷入运行时：等级/HP/MP/五维属性/装备 6 槽/魔法 32 槽全部为该表的 per-role 静态 authored 值；主经验 memset 0、八类隐藏经验 wLevel 初始化为角色等级；金钱/背包/队伍清零，队伍由开场脚本装配 | `reference/sdlpal/global.c:378-465`（PAL_LoadDefaultGame）；`data/extracted/data/player-roles.json` roleId 0（level 1、HP/MP 150/100 满、33/32/20/28/32、equipment [196,225,208,166,235,249]、magic[0]=296）；`docs/phase1/game-mechanics.md:65` | verified（Kimi 2026-08-24 直读） |
 | 第一阶段 | 一阶段忠实同一链：`hydratePlayerRolesRuntime` 把 player-roles.json 基线逐字段拷入 PlayerRolesRuntime（等级/HP/MP/属性/装备/魔法 SoA）；`loadDefaultGame` 对齐 PAL_LoadDefaultGame 清零进度字段并设 8 类经验 wLevel=角色等级 | `packages/game/src/core/game-state.ts:1384-1442`（hydrate）；`packages/game/src/core/game-state.ts:1444-1465`（loadDefaultGame）；`docs/phase1/game-mechanics.md:65` | verified（Kimi 2026-08-24 直读） |
-| 当前二阶段 | `StartWorld` 只提供 `party`、`money`、`learnedSkills`、`inventory`、`resources` 与仅含 `hp/mp` 的 `seedStats`；`buildWorld` 先实例化角色，再应用 HP/MP 覆盖 | `packages/content/src/character.ts:52`、`packages/content/src/character.ts:73`、`packages/content/src/character.ts:213`；`packages/content/src/validate.ts:87` | verified |
+| 实现前当前二阶段 | `StartWorld` 只提供 `party`、`money`、`learnedSkills`、`inventory`、`resources` 与仅含 `hp/mp` 的 `seedStats`；`buildWorld` 先实例化角色，再应用 HP/MP 覆盖 | `packages/content/src/character.ts:52`、`packages/content/src/character.ts:73`、`packages/content/src/character.ts:213`；`packages/content/src/validate.ts:87` | verified |
 | 本任务目标 | 角色定义持有等级、当前/最大 HP/MP 基线、属性、装备与初始技能；入口只持世界级初值及当前 HP/MP 稀疏覆盖，删除配置侧 `StartWorld.learnedSkills` 双写 | 本卡已裁决的 `before -> after`；`packages/content/src/actor.ts:67-82`；`packages/content/src/character.ts:52-63,213-249` | verified（用户 2026-08-25 裁决） |
 
 ### 最强替代解释
@@ -79,10 +79,10 @@
 1. **truth audit（完成）**：原版、一阶段、当前二阶段初始化调用链与代表角色数据矩阵已由三方直接核验。
 2. **contract + user decision（完成）**：唯一 owner、当前值/最大值边界、继承、序列化和用户可见文案已冻结。
 3. **signature refresh（完成）**：Kimi / GLM 已按最终 `before -> after` 分别重签 `premise verified + design agree`；旧 premise 签字只作历史证据。
-4. **schema + migration（当前）**：一次切换到 canonical 版本，重迁 PAL，删除旧字段与 fallback。
-5. **runtime**：新游戏与首次入队从 `initialMagic` 初始化运行时技能，保留进度与存档语义。
-6. **editor**：在正确页面暴露权威输入；入口只显示当前 HP/MP 稀疏覆盖与真实入口级世界状态。
-7. **tests**：新游戏、首次入队、离队/归队、保存重开、多入口、空值继承与二次迁移零 diff 闭环。
+4. **schema + migration（完成）**：一次切换到 canonical content18，重迁 PAL，删除旧字段与 fallback。
+5. **runtime（完成）**：新游戏与首次入队从 `initialMagic` 初始化运行时技能，保留进度与存档语义。
+6. **editor（完成）**：在正确页面暴露权威输入；入口只显示当前 HP/MP 稀疏覆盖与真实入口级世界状态。
+7. **tests（完成）**：新游戏、首次入队、离队/归队、保存重开、多入口、空值继承与二次迁移零 diff 闭环。
 
 ## 验收标准
 
@@ -90,11 +90,61 @@
 - [x] 每个初始字段只有一个权威 owner，并记录默认值、继承、显式覆盖、序列化和运行时应用时点。
 - [x] 三方分别签署有效 `premise verified` 与 `design agree`，且 Kimi / GLM 均提供独立证据与可证伪观察。
 - [x] 用户确认最终 `before -> after` 行为（2026-08-25，入口 HP/MP = 当前值覆盖，非最大值）。
-- [ ] 若修改 schema：当前工程一次性重迁 / 重生成，旧类型、旧 fixture、兼容 fallback 与旧产品入口同步删除。
-- [ ] 同一角色默认入口与非默认入口的初始化有自动化测试；入口无覆盖时结果可由角色定义稳定重算。
-- [ ] 编辑器不再展示无来源、无继承说明的空 HP/MP 框；字段放置与实际 ownership 一致。
-- [ ] 保存、撤销、重开不把派生值固化成冗余快照。
-- [ ] 全量验证与 PAL 代表入口 E2E 登记完成。
+- [x] 若修改 schema：当前工程一次性重迁 / 重生成，旧类型、旧 fixture、兼容 fallback 与旧产品入口同步删除。
+- [x] 同一角色默认入口与非默认入口的初始化有自动化测试；入口无覆盖时结果可由角色定义稳定重算。
+- [x] 编辑器不再展示无来源、无继承说明的空 HP/MP 框；字段放置与实际 ownership 一致。
+- [x] 保存、撤销、重开不把派生值固化成冗余快照。
+- [x] 全量验证与 PAL 代表入口 E2E 登记完成。
+
+## Build / Review 证据（2026-08-25）
+
+### 实现闭包
+
+- `CONTENT_VERSION` 一次切到 18；配置侧删除 `StartWorld.learnedSkills`，validator 将旧字段作为未知字段拒绝，
+  `WorldState.learnedSkills`、SAVE8 payload 与学习 / 遗忘运行态保持不变。
+- `buildWorld` 与 `applySetParty` 共用首次播种合同：只在实例技能键严格为 `undefined` 时深拷贝
+  `ActorDef.battler.initialMagic`；已有空数组、离队 / 归队、剧情学习 / 遗忘和读档均不重播。异步
+  `setParty` 只在资源预载成功后原子提交 party / reserve / learnedSkills；debug 换队与试打预设同步收口。
+- loader 对 `ActorDef.battler.initialMagic -> skills` 建立硬错误门；actor validator 拒绝空技能 id 和重复 id。
+- 编辑器入口页删除技能副本，只显示“开局当前 HP / MP”与逐角色继承值；角色页独立编辑当前 / 最大
+  HP/MP 基线和初始仙术，均走现有 command / draft 合同并可撤销。
+- PAL 只改迁移上游 `pal-manifest.ts` 后完整重迁；demo 把有意的御剑术 `345` 迁入角色
+  `initialMagic` 并补齐自包含 SkillData；e2e-own 同步 current schema。生成结果白名单只有
+  `projects/pal/manifest.json`。
+
+### 迁移与静态证据
+
+- PAL 正式写入后的内建 replay 与独立第二次 dry-run 均为
+  `managed=537 / writes=0 / deletes=0 / conflicts=0 / asset-deletes=0`；baseline 无漂移。
+- 生产代码与三份 manifest 中配置侧 `startWorld.learnedSkills`、`entry-point-learned-skills`、
+  `start-world-learned` 全部零命中；运行态 `WorldState.learnedSkills` 保留。`git diff --check` 通过。
+- repo-wide `pnpm lint` 仍报告仓库既有 296 项诊断（包括本卡未触碰的历史格式与 callback 写法），不能作为
+  当前绿色门禁；本卡新增原生 label 曾被 design-system boundary 精确拦截，改为 `DsDraftNumberField` 后
+  静态测试与 `audit:design-system` 均复绿（84 files / 3 个有证据例外），未抬 allowlist。
+
+### 自动化验证
+
+- content 全量：33 files / 432 tests，typecheck 通过；额外三份核心聚焦复审 140/140 通过。
+- reforge 全量：91 files / 842 tests，typecheck 通过；覆盖 loader 硬门、新游戏、首次入队、异步事务、
+  debug 旁路与 SAVE8 空技能键 exact round-trip。
+- migrate 全量：43 files / 355 tests，typecheck 通过；PAL publication / current-only / demo 345 闭包通过。
+- editor 初次全量中 145 files / 1121 tests 通过，仅 design-system boundary 因新增两个 raw label 失败；
+  改为 `DsDraftNumberField` 后先由 boundary 42/42、ProjectWorkbench 25/25 与 typecheck 复绿。收口时因误格式化
+  噪声被机械重建为 HEAD 排版 + 语义 diff，为排除重建丢改而补跑当前全量，最终 146 files / 1122 tests、
+  typecheck 与 `audit:design-system` 全绿；不再重复运行。
+- `audit:sfx-readiness` 已按新 runtime 真值更新 legacy 全量预载反证为 77 / 83 / 100；当前只剩已登记的
+  `fivePlayerTurnUpper=72`、`authorSixTurnUpper=74` 对预算 64 风险而按设计 exit 1。该风险早于本卡、
+  不是 initialMagic 播种回归，禁止升预算或删门禁；后续须另开高风险卡拆分 battle-base readiness。
+
+### 功能界面与 E2E 登记
+
+- PAL 入口页实机：空 HP 显示 `继承 150`、空 MP 显示 `继承 100`，页面无入口技能编辑；HP 输入 88 后
+  Enter 只产生一次可撤销提交，undo 恢复稀疏空值。
+- PAL 角色页实机：当前 / 最大体力、当前 / 最大真气四项独立显示；初始仙术可添加且 undo 回到一项。
+  1100x800 下 body / document / main 均无横向溢出，内部滚动可达初始仙术卡；全新页签控制台零 error。
+- PAL 代表运行 E2E 已登记：`new-game` 应从李逍遥角色定义得到 150/150、100/100 与技能 296；后续
+  赵灵儿首次 `setParty` 应得到其完整 `initialMagic`，离队归队和 SAVE8 重开不得重播。状态链已由本卡
+  content / reforge 集成测试覆盖；剧情观感继续按项目纪律进入代码冻结后的集中 E2E。
 
 ## 推进签字
 
@@ -112,7 +162,7 @@
 
 | Agent | accept | 证据 / 备注 |
 |---|---|---|
-| Codex | pending | — |
+| Codex | **accept** | 2026-08-25 自审 + 独立只读压力审查无 P0-P2；content 432、editor 1122、reforge 842、migrate 355 全绿，四包 typecheck 与 DS gate 通过；PAL replay / 二跑零计划，1100px 实机与撤销闭环通过。 |
 | Kimi | pending | — |
 | GLM | pending | — |
 
@@ -120,7 +170,21 @@
 
 #### 当前交接状态（2026-08-25）
 
-无下一位 Agent 提示词；三方 build 准入签字已齐，Codex 作为唯一 Coding Owner 进入实现。Kimi / GLM 的下一次交接发生在 `review`，届时必须基于实现与验证证据分别签 `accept`，签字前不得标记 done。
+实现已进入 `review`；Codex 已签 `accept`，等待 Kimi / GLM 基于上方 Build / Review 证据分别终审。
+两席签字前不得标记 done；审查阶段不得修改实现文件，若发现问题应签 `counter` 并列出精确返工项。
+
+#### Kimi / GLM 合并实现终审提示词（当前，可直接复制）
+
+> 请对任务卡 `docs/ops/tasks/ARCH-ENTRY-ACTOR-SEED-1-entry-actor-initial-state.md` 做 `review -> done`
+> 合并终审，并把各自结论直接写回任务卡签字表。先完整阅读 `AGENTS.md`、`CLAUDE.md`、
+> `docs/phase2/READ-FIRST.md`、本任务卡及其 Build / Review 证据，再审当前分支最新一笔本卡实现提交。
+> 当前阶段只读审查，**不得修改实现文件、不得自行标记 done**。Kimi 重点核对 schema / save / runtime：
+> `ActorDef` 单一 owner、`=== undefined` 首次播种、空数组与离队/归队/读档不重播、异步 setParty 失败
+> 原子性、loader 硬引用门、debug 旁路和 current-only content18。GLM 重点核对数据 / 迁移 / 覆盖：demo
+> 技能 345 语义闭包、PAL 只改上游并 replay + 二跑零计划、配置侧旧字段零残留、测试矩阵与 1100px
+> 浏览器证据。两席都须确认 SFX 77/83 只是更新后的 legacy 全量预载反证，审计仍因既有 72/74 风险
+> exit 1，禁止通过升 64 或删门禁消音。请各自输出并写回 `accept`，或签 `counter` 并给出精确
+> `file:line`、复现命令和必改项；三方 accept 齐后才可由 Coding Owner 收口 done。
 
 #### 合并设计复审提示词（历史，已完成）
 

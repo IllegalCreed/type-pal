@@ -8,11 +8,11 @@ import {
   shouldShowOpeningMenu,
 } from './startup-entry.js'
 
-const world = (party: string[]) => ({ party, money: 0, learnedSkills: {}, inventory: [] })
+const world = (party: string[]) => ({ party, money: 0, inventory: [] })
 const manifest = (): CurrentManifest => ({
   id: 'demo',
   name: 'Demo',
-  contentVersion: 17,
+  contentVersion: 18,
   minimumSaveVersion: 8,
   defaultEntryId: 'second',
   entryPoints: [

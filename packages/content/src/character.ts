@@ -53,20 +53,17 @@ export interface WorldState {
 export interface StartWorld {
   party: string[] // 角色模板 id 列表(顺序 = 入队顺序)
   money: number
-  /** ⚠ key = 实例 id(character.ts:99 现状:实例 id === 模板 id,demo 单人 1:1)。
-   *    多人工程实例 id 会带实例化区分,届时 key 约定需调整;A 期单人 demo 不受影响。 */
-  learnedSkills: Record<string, string[]>
   inventory: { itemId: string; count: number }[]
   /** 可扩展世界资源池初值；`collectValue` 等历史专用字段仍由各自兼容访问器管理。 */
   resources?: Record<string, number>
-  /** demo 低 HP/MP 播种(覆盖模板 baseStats.hp/mp);可选,缺省则用模板值。 */
+  /** 开局当前 HP/MP 的稀疏覆盖;留空继承角色 baseStats.hp/mp，不覆盖最大值。 */
   seedStats?: Record<string, { hp?: number; mp?: number }>
 }
 
 /**
  * 入口点(开局档)—— 主菜单一个按钮 = 一个开局。「开始游戏」是一条,DLC 入口各是一条。
  * 分工(2026-07-06 定):**存档状态走数据(startWorld),叙事走入口视频或场景脚本**。
- * 判据「读档也能得到它吗」—— 是(队伍/道具/技能/属性/金钱)= 数据;否(入口视频/梦境/对白)=
+ * 判据「读档也能得到它吗」—— 是(队伍/道具/当前资源/金钱)= 数据;否(入口视频/梦境/对白)=
  * 入口点 introVideo 或该场景 onEnter 脚本。
  * 加 DLC = 加一条 entryPoint(自己的 startWorld + 指向自己的场景 + 可选入口视频),零引擎改动。
  */
@@ -76,12 +73,12 @@ export interface EntryPoint {
   scene: string // 起始场景 id
   /** 选择该入口后、创建世界前播放的剧情视频；例:PAL WIN95 新游戏动画 3.mp4。 */
   introVideo?: AssetId
-  /** 该开局独立拥有的初始存档状态(队伍/道具/技能/属性/金钱)。 */
+  /** 该开局独立拥有的初始世界状态(队伍/道具/当前资源/金钱)。 */
   startWorld: StartWorld
 }
 
 /** 工程内容 schema 版本；与存档 SAVE_VERSION 是两个独立的版本轴。 */
-export const CONTENT_VERSION = 17 as const
+export const CONTENT_VERSION = 18 as const
 /** 当前工程仍允许读取的最早 SAVE envelope；不得从 CONTENT_VERSION 推导。 */
 export const CURRENT_PROJECT_MINIMUM_SAVE_VERSION = 8 as const
 
@@ -178,6 +175,18 @@ export function instantiate(actor: ActorDef): CharacterInstance {
   }
 }
 
+/** 角色首次实例化时播种出厂技能。已有键（包括空数组）表示运行进度，绝不重播。 */
+function seedActorInitialSkills(
+  learnedSkills: Record<string, string[]>,
+  actor: ActorDef,
+  instanceId: string,
+): void {
+  if (learnedSkills[instanceId] !== undefined) return
+  const battler = actor.battler
+  if (!battler) throw new Error(`seedActorInitialSkills: 角色 "${actor.id}" 无 battler`)
+  learnedSkills[instanceId] = [...battler.initialMagic]
+}
+
 /**
  * C7 队伍变更(D22 reserve 暂存区):把 world.party 变成 members 指定的阵容(顺序即站位)。
  *  - 已在队 → 原实例保留(等级/装备/HP 不丢);
@@ -195,6 +204,7 @@ export function applySetParty(
   for (const c of world.party) pool.set(c.template, c)
   for (const c of world.reserve ?? []) pool.set(c.template, c)
   const nextParty: CharacterInstance[] = []
+  const nextLearnedSkills = { ...world.learnedSkills }
   for (const id of members) {
     const kept = pool.get(id)
     if (kept) {
@@ -204,22 +214,26 @@ export function applySetParty(
     }
     const a = actorsById[id]
     if (!a) throw new Error(`setParty: 角色 "${id}" 不在 actors 表`)
-    nextParty.push(instantiate(a))
+    const inst = instantiate(a)
+    nextParty.push(inst)
+    seedActorInitialSkills(nextLearnedSkills, a, inst.id)
   }
   world.party = nextParty
   world.reserve = [...pool.values()] // 落选的全体(含原 reserve 未点名者)留暂存
+  world.learnedSkills = nextLearnedSkills
 }
 
 /**
  * 从入口的 startWorld 组装初始世界态(loader 的 content-op)。
  *  = initialWorld() 的数据化版:对每个 party 角色 id instantiate → 应用 seedStats 覆盖 hp/mp → 组装。
- *  learnedSkills/inventory 直接取 startWorld(key = 实例 id,demo 单人 = 角色 id)。
+ *  初始技能从 ActorDef.battler.initialMagic 播种；inventory 从入口拷贝。
  */
 export function buildWorld(
   startWorld: StartWorld,
   actorsById: Record<string, ActorDef>,
   worldVariables?: WorldVariableRegistryV1,
 ): WorldState {
+  const learnedSkills: Record<string, string[]> = {}
   const party = startWorld.party.map((id) => {
     const a = actorsById[id]
     if (!a) throw new Error(`buildWorld: 角色 "${id}" 不在 actors 表`)
@@ -227,6 +241,7 @@ export function buildWorld(
     const seed = startWorld.seedStats?.[id]
     if (seed?.hp !== undefined) inst.hp = seed.hp
     if (seed?.mp !== undefined) inst.mp = seed.mp
+    seedActorInitialSkills(learnedSkills, a, inst.id)
     return inst
   })
   const initial = worldVariables
@@ -241,10 +256,7 @@ export function buildWorld(
     entityLifecycles: {},
     party,
     money: startWorld.money,
-    // 拷贝(非引用):还原 initialWorld() 的 fresh-array 语义,防运行期改动回写污染 startWorld 源
-    learnedSkills: Object.fromEntries(
-      Object.entries(startWorld.learnedSkills).map(([id, ids]) => [id, [...ids]]),
-    ),
+    learnedSkills,
     inventory: startWorld.inventory.map((e) => ({ ...e })),
     ...(startWorld.resources ? { resources: { ...startWorld.resources } } : {}),
   }

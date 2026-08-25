@@ -31,9 +31,9 @@ function catalog(): AssetCatalogV1 {
 }
 
 describe('PAL current manifest', () => {
-  test('只生成 canonical content17/SAVE8，且没有旧顶层启动字段或 legacy 通道', () => {
+  test('只生成 canonical content18/SAVE8，且没有旧顶层启动字段或 legacy 通道', () => {
     const manifest = buildPalCurrentManifest(catalog())
-    expect(manifest.contentVersion).toBe(17)
+    expect(manifest.contentVersion).toBe(18)
     expect(manifest.minimumSaveVersion).toBe(8)
     expect(manifest.defaultEntryId).toBe('new-game')
     expect(manifest.entryPoints).toEqual([
@@ -45,6 +45,7 @@ describe('PAL current manifest', () => {
     ])
     expect(manifest).not.toHaveProperty('entryScene')
     expect(manifest).not.toHaveProperty('startWorld')
+    expect(manifest.entryPoints[0]?.startWorld).not.toHaveProperty('learnedSkills')
     expect(manifest.assets).toEqual({ catalog: 'assets/index.json', roles: PAL_ASSET_ROLES })
     expect(manifest).not.toHaveProperty('migrations')
     expect(manifest.assets).not.toHaveProperty('legacy')

@@ -81,7 +81,7 @@ function manifest(overrides: Partial<CurrentManifest> = {}): CurrentManifest {
   return {
     id: 'demo',
     name: 'Demo',
-    contentVersion: 17,
+    contentVersion: 18,
     minimumSaveVersion: 8,
     defaultEntryId: 'new-game',
     entryPoints: [
@@ -89,7 +89,7 @@ function manifest(overrides: Partial<CurrentManifest> = {}): CurrentManifest {
         id: 'new-game',
         label: '开始',
         scene: scene.id,
-        startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+        startWorld: { party: [], money: 0, inventory: [] },
       },
     ],
     content: {},
@@ -274,7 +274,7 @@ describe('AmbienceScenePreview', () => {
                 id: 'new-game',
                 label: '开始',
                 scene: 'missing-scene',
-                startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+                startWorld: { party: [], money: 0, inventory: [] },
               },
             ],
           })}

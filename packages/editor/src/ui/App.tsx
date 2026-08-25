@@ -978,9 +978,6 @@ export function App(props: {
       case 'actor':
         applyEditorLocation(editorLinks.actor(locator.actorId))
         return
-      case 'entry-point':
-        applyEditorLocation(editorLinks.entryPoint(locator.entryPointId))
-        return
       case 'item':
         applyEditorLocation(editorLinks.item(locator.itemId))
         return
@@ -1985,7 +1982,6 @@ export function App(props: {
             assetBase={project.assetBase}
             session={session}
             levelUp={state.levelUp}
-            startSkills={defaultEntry?.startWorld.learnedSkills ?? {}}
             focusActorId={location.objectId}
             focusSection={location.actionId}
             onActorFocus={(id) => focusCurrentObject(id)}
@@ -1999,9 +1995,6 @@ export function App(props: {
             assetReader={assetReader}
             onOpenSound={(id) => applyEditorLocation(editorLinks.sound(id))}
             onOpenImage={(id) => applyEditorLocation(editorLinks.image(id))}
-            onOpenStartSettings={() =>
-              applyEditorLocation({ module: 'project', subpage: 'entrypoint' })
-            }
             onOpenActorReference={openActorReference}
           />
         ) : activeSubpage.kind === 'project' && activeSubpage.projectPage ? (
@@ -2011,7 +2004,6 @@ export function App(props: {
             scenes={state.scenes}
             actors={state.actors}
             items={state.items}
-            skills={state.skills}
             locale={state.locale}
             assetCatalog={state.assetCatalog}
             session={session}

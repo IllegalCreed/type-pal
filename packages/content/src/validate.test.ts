@@ -380,6 +380,28 @@ describe('validateActors(C0)', () => {
       ]),
     ).toThrow('期望非空 AssetId')
   })
+  test('初始仙术必须是非空、不重复的 skill id 数组', () => {
+    expect(() =>
+      validateActors([
+        { id: 'a', name: 'n', spriteId: 's', battler: { ...battler, initialMagic: '296' } },
+      ]),
+    ).toThrow(/initialMagic.*期望数组/)
+    expect(() =>
+      validateActors([
+        { id: 'a', name: 'n', spriteId: 's', battler: { ...battler, initialMagic: [''] } },
+      ]),
+    ).toThrow(/期望非空 skill id/)
+    expect(() =>
+      validateActors([
+        {
+          id: 'a',
+          name: 'n',
+          spriteId: 's',
+          battler: { ...battler, initialMagic: ['296', '296'] },
+        },
+      ]),
+    ).toThrow(/初始仙术 "296" 重复/)
+  })
   test('立绘组与 face 只接受 AssetId，expressions 全量检查', () => {
     expect(() =>
       validateActors([
@@ -1078,7 +1100,6 @@ describe('validateStartWorldResources', () => {
   const startWorld = (resources?: unknown): unknown => ({
     party: [],
     money: 0,
-    learnedSkills: {},
     inventory: [],
     ...(resources === undefined ? {} : { resources }),
   })
@@ -1109,8 +1130,8 @@ describe('validateLocale · 对话行边界', () => {
   })
 })
 
-describe('validateCurrentManifestStartup · canonical content17 startup model', () => {
-  const world = () => ({ party: [], money: 0, learnedSkills: {}, inventory: [] })
+describe('validateCurrentManifestStartup · canonical content18 startup model', () => {
+  const world = () => ({ party: [], money: 0, inventory: [] })
   const entry = (id: string, scene = `scene-${id}`) => ({
     id,
     label: id,
@@ -1120,7 +1141,7 @@ describe('validateCurrentManifestStartup · canonical content17 startup model', 
   const manifest = () => ({
     id: 'demo',
     name: 'Demo',
-    contentVersion: 17,
+    contentVersion: 18,
     minimumSaveVersion: 8,
     defaultEntryId: 'main',
     entryPoints: [entry('main')],
@@ -1148,7 +1169,19 @@ describe('validateCurrentManifestStartup · canonical content17 startup model', 
     ],
     [{ ...manifest(), entryScene: 'scene-main' }, /entryScene: 未知字段/],
     [{ ...manifest(), startWorld: world() }, /startWorld: 未知字段/],
-    [{ ...manifest(), contentVersion: 16 }, /contentVersion: 期望 17/],
+    [{ ...manifest(), contentVersion: 17 }, /contentVersion: 期望 18/],
+    [
+      {
+        ...manifest(),
+        entryPoints: [
+          {
+            ...entry('main'),
+            startWorld: { ...world(), learnedSkills: { hero: ['296'] } },
+          },
+        ],
+      },
+      /learnedSkills: 未知字段/,
+    ],
   ])('拒绝旧形状或破坏 canonical invariant %#', (value, expected) => {
     expect(() => validateCurrentManifestStartup(value)).toThrow(expected)
   })

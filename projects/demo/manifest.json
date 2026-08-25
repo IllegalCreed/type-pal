@@ -1,7 +1,7 @@
 {
   "id": "demo",
   "name": "鬼界·民居(验证 demo)",
-  "contentVersion": 17,
+  "contentVersion": 18,
   "minimumSaveVersion": 8,
   "defaultEntryId": "new-game",
   "entryPoints": [
@@ -14,14 +14,6 @@
           "li-xiaoyao"
         ],
         "money": 0,
-        "learnedSkills": {
-          "li-xiaoyao": [
-            "296",
-            "298",
-            "299",
-            "345"
-          ]
-        },
         "inventory": [
           {
             "itemId": "267",

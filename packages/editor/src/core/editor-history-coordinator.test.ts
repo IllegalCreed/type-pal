@@ -30,7 +30,7 @@ const legacyState = (): EditorState =>
     stamps: [],
     manifest: {
       id: 'test',
-      contentVersion: 17,
+      contentVersion: 18,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: {},
@@ -40,7 +40,7 @@ const legacyState = (): EditorState =>
           id: 'main',
           label: '主要入口',
           scene: 's',
-          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+          startWorld: { party: [], money: 0, inventory: [] },
         },
       ],
     },

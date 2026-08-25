@@ -181,7 +181,7 @@ describe('current runtime projection', () => {
     const manifest: CurrentManifest = {
       id: 'test',
       name: 'Test',
-      contentVersion: 17,
+      contentVersion: 18,
       minimumSaveVersion: 8,
       defaultEntryId: 'second',
       entryPoints: [
@@ -189,13 +189,13 @@ describe('current runtime projection', () => {
           id: 'first',
           label: '第一',
           scene: 's001',
-          startWorld: { party: ['a'], money: 0, learnedSkills: {}, inventory: [] },
+          startWorld: { party: ['a'], money: 0, inventory: [] },
         },
         {
           id: 'second',
           label: '第二',
           scene: 's002',
-          startWorld: { party: ['b'], money: 0, learnedSkills: {}, inventory: [] },
+          startWorld: { party: ['b'], money: 0, inventory: [] },
         },
       ],
       content: {},

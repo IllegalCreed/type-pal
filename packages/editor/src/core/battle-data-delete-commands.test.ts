@@ -27,7 +27,7 @@ function state(): EditorState {
           id: 'main',
           label: '主要入口',
           scene: 's',
-          startWorld: { party: [], money: 0, inventory: [], learnedSkills: {} },
+          startWorld: { party: [], money: 0, inventory: [] },
         },
       ],
     },

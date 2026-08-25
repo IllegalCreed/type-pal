@@ -1,7 +1,7 @@
 {
   "id": "e2e-own",
   "name": "E2E 自有内容烟测",
-  "contentVersion": 17,
+  "contentVersion": 18,
   "minimumSaveVersion": 8,
   "defaultEntryId": "new-game",
   "entryPoints": [
@@ -14,7 +14,6 @@
           "hero"
         ],
         "money": 0,
-        "learnedSkills": {},
         "inventory": []
       }
     }

@@ -85,7 +85,7 @@ function manifest(over: Partial<CurrentManifest> = {}): CurrentManifest {
   return {
     id: 'demo',
     name: 'Demo',
-    contentVersion: 17,
+    contentVersion: 18,
     minimumSaveVersion: 8,
     defaultEntryId: 'new-game',
     entryPoints: [
@@ -93,7 +93,7 @@ function manifest(over: Partial<CurrentManifest> = {}): CurrentManifest {
         id: 'new-game',
         label: '开始游戏',
         scene: 's001',
-        startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+        startWorld: { party: [], money: 0, inventory: [] },
       },
     ],
     content: {
@@ -162,7 +162,7 @@ function files(projectManifest = manifest()): Record<string, unknown> {
 describe('current project loader', () => {
   test('retains author identity and creates the runtime dialogue projection directly', () => {
     const project = assembleCurrentProject(manifest(), baseJsons)
-    expect(project.manifest.contentVersion).toBe(17)
+    expect(project.manifest.contentVersion).toBe(18)
     expect(project.authorContent.sharedScripts.hello?.body[0]).toHaveProperty(
       'cue.identity.actor',
       'actor.li',
@@ -183,9 +183,38 @@ describe('current project loader', () => {
     expect(() => assembleCurrentProject(manifest(), invalid)).toThrow(/缺表情 "missing"/)
   })
 
+  test('拒绝角色唯一出厂技能种子中的悬空 skill id', () => {
+    const invalid = structuredClone(baseJsons)
+    invalid.actors.push({
+      id: 'hero',
+      name: 'name.li',
+      spriteId: 'sprite.li',
+      battler: {
+        battleSprite: 'battle.hero',
+        baseStats: {
+          level: 1,
+          hp: 10,
+          maxHP: 10,
+          mp: 5,
+          maxMP: 5,
+          attack: 1,
+          defense: 1,
+          magicAttack: 1,
+          speed: 1,
+          luck: 1,
+        },
+        initialEquipment: {},
+        initialMagic: ['missing-skill'],
+      },
+    } as never)
+    expect(() => assembleCurrentProject(manifest(), invalid)).toThrow(
+      /actors\[1\]\(hero\)\.battler\.initialMagic\[0\].*missing-skill/,
+    )
+  })
+
   test('loads only current content without reading a migration sidecar', async () => {
     const loaded = await loadCurrentProjectFrom(memorySource(files()))
-    expect(loaded.manifest.contentVersion).toBe(17)
+    expect(loaded.manifest.contentVersion).toBe(18)
     expect(loaded.sharedScripts.hello?.body[0]).toHaveProperty('cue.speaker', 'name.li')
   })
 
@@ -198,13 +227,13 @@ describe('current project loader', () => {
           id: 'other-entry',
           label: '其他入口',
           scene: 's001',
-          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+          startWorld: { party: [], money: 0, inventory: [] },
         },
         {
           id: 'default-entry',
           label: '默认入口',
           scene: 's002',
-          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+          startWorld: { party: [], money: 0, inventory: [] },
         },
       ],
     })
@@ -225,7 +254,7 @@ describe('current project loader', () => {
           id: 'broken',
           label: '损坏入口',
           scene: 's002',
-          startWorld: { party: ['missing-actor'], money: 0, learnedSkills: {}, inventory: [] },
+          startWorld: { party: ['missing-actor'], money: 0, inventory: [] },
         },
       ],
     })
@@ -246,7 +275,7 @@ describe('current project loader', () => {
           id: 'missing-scene-entry',
           label: '缺失场景',
           scene: 's002',
-          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+          startWorld: { party: [], money: 0, inventory: [] },
         },
       ],
     })
@@ -258,9 +287,9 @@ describe('current project loader', () => {
   })
 
   test('rejects pre-current content at the only product boundary', async () => {
-    const oldManifest = { ...manifest(), contentVersion: 16 }
+    const oldManifest = { ...manifest(), contentVersion: 17 }
     await expect(
       loadCurrentProjectFrom(memorySource(files(oldManifest as CurrentManifest))),
-    ).rejects.toThrow(/contentVersion: 期望 17/)
+    ).rejects.toThrow(/contentVersion: 期望 18/)
   })
 })

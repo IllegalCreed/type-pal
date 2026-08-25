@@ -13,14 +13,13 @@ describe('editor asset reference source', () => {
     const startWorld = {
       party: [],
       money: 0,
-      learnedSkills: {},
       inventory: [],
     }
     const state = {
       manifest: {
         id: 'shared-script-reference',
         name: '共享脚本资源引用',
-        contentVersion: 17,
+        contentVersion: 18,
         minimumSaveVersion: 8,
         defaultEntryId: 'main',
         content: {
@@ -104,7 +103,6 @@ describe('editor asset reference source', () => {
     const startWorld = {
       party: [],
       money: 0,
-      learnedSkills: {},
       inventory: [],
     }
     const records = Object.fromEntries(
@@ -129,7 +127,7 @@ describe('editor asset reference source', () => {
       manifest: {
         id: 'live-reference-state',
         name: '实时引用作者态',
-        contentVersion: 17,
+        contentVersion: 18,
         minimumSaveVersion: 8,
         defaultEntryId: 'main',
         content: {

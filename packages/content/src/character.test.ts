@@ -63,11 +63,10 @@ describe('角色 schema(ActorDef)', () => {
 })
 
 describe('buildWorld(入口 startWorld 数据化)', () => {
-  test('组装:party instantiate + seedStats 覆盖 hp/mp + money/learnedSkills/inventory 直取', () => {
+  test('组装:party instantiate + seedStats 覆盖当前 hp/mp + 角色定义播种技能', () => {
     const sw: StartWorld = {
       party: ['test-hero'],
       money: 50,
-      learnedSkills: { 'test-hero': ['296', '298'] },
       inventory: [{ itemId: '267', count: 1 }],
       seedStats: { 'test-hero': { hp: 100, mp: 30 } },
     }
@@ -78,21 +77,60 @@ describe('buildWorld(入口 startWorld 数据化)', () => {
     expect(w.party[0]?.hp).toBe(100) // seedStats 覆盖(模板 150 → 100)
     expect(w.party[0]?.mp).toBe(30) // seedStats 覆盖(模板 100 → 30)
     expect(w.party[0]?.maxHP).toBe(150) // maxHP 不被 seedStats 动
-    expect(w.learnedSkills['test-hero']).toEqual(['296', '298'])
+    expect(w.party[0]?.maxMP).toBe(100) // maxMP 不被 seedStats 动
+    expect(w.learnedSkills['test-hero']).toEqual(['296'])
     expect(w.inventory).toEqual([{ itemId: '267', count: 1 }])
   })
+  test('运行时技能深拷贝，学习或遗忘不回写角色定义', () => {
+    const w = buildWorld({ party: ['test-hero'], money: 0, inventory: [] }, { 'test-hero': hero })
+    w.learnedSkills['test-hero']!.push('298')
+    expect(hero.battler?.initialMagic).toEqual(['296'])
+  })
   test('无 seedStats → 用 battler.baseStats 的 hp/mp', () => {
-    const sw: StartWorld = { party: ['test-hero'], money: 0, learnedSkills: {}, inventory: [] }
+    const sw: StartWorld = { party: ['test-hero'], money: 0, inventory: [] }
     const w = buildWorld(sw, { 'test-hero': hero })
     expect(w.party[0]?.hp).toBe(150)
     expect(w.party[0]?.mp).toBe(100)
   })
+  test('seedStats 的 0 是有效当前值，单字段覆盖不固化另一项', () => {
+    const w = buildWorld(
+      {
+        party: ['test-hero'],
+        money: 0,
+        inventory: [],
+        seedStats: { 'test-hero': { hp: 0 } },
+      },
+      { 'test-hero': hero },
+    )
+    expect(w.party[0]?.hp).toBe(0)
+    expect(w.party[0]?.mp).toBe(100)
+    expect(w.party[0]?.maxHP).toBe(150)
+  })
+  test('同一角色的不同入口只改当前 hp/mp，最大值与初始技能稳定继承定义', () => {
+    const normal = buildWorld(
+      { party: ['test-hero'], money: 0, inventory: [] },
+      { 'test-hero': hero },
+    )
+    const wounded = buildWorld(
+      {
+        party: ['test-hero'],
+        money: 0,
+        inventory: [],
+        seedStats: { 'test-hero': { hp: 12, mp: 3 } },
+      },
+      { 'test-hero': hero },
+    )
+    expect([normal.party[0]?.hp, normal.party[0]?.maxHP]).toEqual([150, 150])
+    expect([wounded.party[0]?.hp, wounded.party[0]?.maxHP]).toEqual([12, 150])
+    expect([wounded.party[0]?.mp, wounded.party[0]?.maxMP]).toEqual([3, 100])
+    expect(wounded.learnedSkills).toEqual(normal.learnedSkills)
+  })
   test('缺角色 → throw', () => {
-    const sw: StartWorld = { party: ['nobody'], money: 0, learnedSkills: {}, inventory: [] }
+    const sw: StartWorld = { party: ['nobody'], money: 0, inventory: [] }
     expect(() => buildWorld(sw, {})).toThrow('不在 actors')
   })
   test('party 引无 battler 的 actor → throw(经 instantiate)', () => {
-    const sw: StartWorld = { party: ['villager'], money: 0, learnedSkills: {}, inventory: [] }
+    const sw: StartWorld = { party: ['villager'], money: 0, inventory: [] }
     expect(() => buildWorld(sw, { villager })).toThrow(/battler/)
   })
 
@@ -100,7 +138,6 @@ describe('buildWorld(入口 startWorld 数据化)', () => {
     const sw: StartWorld = {
       party: ['test-hero'],
       money: 50,
-      learnedSkills: { 'test-hero': ['296'] },
       inventory: [{ itemId: '267', count: 1 }],
     }
     const w = buildWorld(sw, { 'test-hero': hero })
@@ -116,7 +153,6 @@ describe('buildWorld variable defaults', () => {
     const start: StartWorld = {
       party: ['test-hero'],
       money: 0,
-      learnedSkills: {},
       inventory: [],
     }
     const world = buildWorld(
@@ -153,6 +189,7 @@ describe('applySetParty —— C7 队伍变更(D22 reserve 暂存区)', () => {
           luck: 10,
         },
         initialEquipment: {},
+        initialMagic: ['hero-skill'],
       },
     },
     'test-mate': {
@@ -173,15 +210,13 @@ describe('applySetParty —— C7 队伍变更(D22 reserve 暂存区)', () => {
           luck: 8,
         },
         initialEquipment: {},
+        initialMagic: ['mate-skill'],
       },
     },
   } as unknown as Record<string, import('./actor.js').ActorDef>
 
   function world(): WorldState {
-    const w = buildWorld(
-      { party: ['test-hero'], money: 0, learnedSkills: {}, inventory: [] },
-      actors,
-    )
+    const w = buildWorld({ party: ['test-hero'], money: 0, inventory: [] }, actors)
     return w
   }
 
@@ -190,6 +225,14 @@ describe('applySetParty —— C7 队伍变更(D22 reserve 暂存区)', () => {
     applySetParty(w, ['test-hero', 'test-mate'], actors)
     expect(w.party.map((c) => c.template)).toEqual(['test-hero', 'test-mate'])
     expect(w.party[1]?.hp).toBe(90)
+    expect(w.learnedSkills['test-mate']).toEqual(['mate-skill'])
+  })
+
+  test('已有空技能键表示运行进度，首次入队也不重播', () => {
+    const w = world()
+    w.learnedSkills['test-mate'] = []
+    applySetParty(w, ['test-hero', 'test-mate'], actors)
+    expect(w.learnedSkills['test-mate']).toEqual([])
   })
 
   test('离队进 reserve,状态不丢;再入队原样搬回', () => {
@@ -203,6 +246,20 @@ describe('applySetParty —— C7 队伍变更(D22 reserve 暂存区)', () => {
     applySetParty(w, ['test-hero', 'test-mate'], actors) // 回归
     expect(w.party[1]?.hp).toBe(7) // 原实例
     expect(w.reserve).toEqual([])
+  })
+
+  test('离队后的学习/遗忘进度在归队时不被出厂技能覆盖', () => {
+    const w = world()
+    applySetParty(w, ['test-hero', 'test-mate'], actors)
+    w.learnedSkills['test-mate'] = ['learned-later']
+    applySetParty(w, ['test-hero'], actors)
+    applySetParty(w, ['test-hero', 'test-mate'], actors)
+    expect(w.learnedSkills['test-mate']).toEqual(['learned-later'])
+
+    w.learnedSkills['test-mate'] = []
+    applySetParty(w, ['test-hero'], actors)
+    applySetParty(w, ['test-hero', 'test-mate'], actors)
+    expect(w.learnedSkills['test-mate']).toEqual([])
   })
 
   test('members 顺序 = 站位序(队长在前)', () => {
@@ -223,5 +280,14 @@ describe('applySetParty —— C7 队伍变更(D22 reserve 暂存区)', () => {
   test('未知角色 id 抛错', () => {
     const w = world()
     expect(() => applySetParty(w, ['nobody'], actors)).toThrow(/不在 actors 表/)
+  })
+
+  test('入队中途失败不留队伍或技能半提交', () => {
+    const w = world()
+    const before = JSON.parse(JSON.stringify(w)) as WorldState
+    expect(() => applySetParty(w, ['test-hero', 'test-mate', 'nobody'], actors)).toThrow(
+      /不在 actors 表/,
+    )
+    expect(w).toEqual(before)
   })
 })

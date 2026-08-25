@@ -74,9 +74,14 @@ describe('withWorldPreset (D13-1 K2)', () => {
     let seen: WorldState['party'] | undefined
     await withWorldPreset(
       world,
-      { party: makePresetParty(), inventory: [{ itemId: 'elixir', count: 9 }] },
+      {
+        party: makePresetParty(),
+        learnedSkills: { ninja: ['shadow-step'] },
+        inventory: [{ itemId: 'elixir', count: 9 }],
+      },
       async () => {
         seen = structuredClone(world.party)
+        expect(world.learnedSkills).toEqual({ ninja: ['shadow-step'] })
         expect(world.inventory).toEqual([{ itemId: 'elixir', count: 9 }])
       },
     )

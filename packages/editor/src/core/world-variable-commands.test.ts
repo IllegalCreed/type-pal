@@ -12,7 +12,7 @@ function state(): EditorState {
     manifest: {
       id: 'variables',
       name: 'Variables',
-      contentVersion: 17,
+      contentVersion: 18,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: { worldVariables: 'content/world-variables.json' },
@@ -22,7 +22,7 @@ function state(): EditorState {
           id: 'main',
           label: '主要入口',
           scene: 's',
-          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+          startWorld: { party: [], money: 0, inventory: [] },
         },
       ],
     },

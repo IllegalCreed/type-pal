@@ -2,7 +2,6 @@ import type { EditorState } from './edit-session.js'
 
 export type BattleDataReferenceLocator =
   | { kind: 'actor'; actorId: string }
-  | { kind: 'entry-point'; entryPointId?: string }
   | { kind: 'item'; itemId: string }
   | { kind: 'skill'; skillId: string }
   | { kind: 'enemy'; enemyId: string }
@@ -78,32 +77,6 @@ function collectSkillReferences(state: EditorState): BattleDataReference[] {
         locator: { kind: 'actor', actorId },
       }),
     )
-
-  const collectLearned = (
-    learnedSkills: Record<string, string[]>,
-    where: string,
-    label: string,
-    locator: BattleDataReferenceLocator,
-  ): void => {
-    for (const [actorId, skillIds] of Object.entries(learnedSkills))
-      skillIds.forEach((skillId, index) =>
-        add(output, 'skill', skillId, {
-          kind: 'start-world-learned',
-          label,
-          where: `${where}.learnedSkills.${actorId}[${index}]`,
-          detail: `人物 ${actorId} 的开局已学仙术`,
-          locator,
-        }),
-      )
-  }
-  state.manifest.entryPoints.forEach((entry, index) => {
-    collectLearned(
-      entry.startWorld.learnedSkills,
-      `manifest.entryPoints[${index}](${entry.id}).startWorld`,
-      `入口 ${entry.label}`,
-      { kind: 'entry-point', entryPointId: entry.id },
-    )
-  })
 
   state.items.forEach((item, itemIndex) => {
     item.equip?.effects.forEach((effect, effectIndex) => {

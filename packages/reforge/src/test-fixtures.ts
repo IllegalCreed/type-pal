@@ -30,7 +30,7 @@ const hero: ActorDef = {
       luck: 32,
     },
     initialEquipment: { weapon: '166', accessory: '249' },
-    initialMagic: ['296'],
+    initialMagic: ['296', '298', '299'],
     battleSprite: 'battle-sprite.li-xiaoyao',
   },
 }
@@ -128,7 +128,6 @@ const testSkills: SkillDataMap = {
 const startWorld: StartWorld = {
   party: ['li-xiaoyao'],
   money: 0,
-  learnedSkills: { 'li-xiaoyao': ['296', '298', '299'] },
   inventory: [
     { itemId: '267', count: 1 },
     { itemId: '61', count: 2 },

@@ -9,6 +9,7 @@ import type { CharacterInstance, WorldState } from '@type-pal/content'
 
 export interface WorldPreset {
   party: CharacterInstance[]
+  learnedSkills?: Record<string, string[]>
   inventory?: { itemId: string; count: number }[]
 }
 
@@ -19,6 +20,10 @@ export async function withWorldPreset<T>(
 ): Promise<T> {
   const saved = structuredClone(world)
   world.party = preset.party
+  if (preset.learnedSkills)
+    world.learnedSkills = Object.fromEntries(
+      Object.entries(preset.learnedSkills).map(([actorId, skillIds]) => [actorId, [...skillIds]]),
+    )
   if (preset.inventory) world.inventory = preset.inventory
   try {
     return await fn()

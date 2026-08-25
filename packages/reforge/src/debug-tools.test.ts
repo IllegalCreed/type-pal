@@ -38,7 +38,7 @@ function harness() {
     presentationBusy: () => false,
     runDetached: async () => undefined,
     startBattleDev,
-    buildPresetParty: () => [],
+    buildPresetParty: () => ({ party: [], learnedSkills: {} }),
     setParty: () => undefined,
     grantSkill: () => undefined,
     frameStep: {

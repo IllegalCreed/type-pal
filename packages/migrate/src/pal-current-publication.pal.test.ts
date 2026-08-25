@@ -13,7 +13,7 @@ import { loadPalMigrationSources } from './pal-migration-io.js'
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 
 describe('PAL current-only publication', () => {
-  it('publishes the current baseline and raw-owned partitions directly as content17/SAVE8', () => {
+  it('publishes the current baseline and raw-owned partitions directly as content18/SAVE8', () => {
     const baseline = loadPalBaseline(repo)
     expect(baseline).toBeDefined()
     const sources = loadPalMigrationSources(repo)

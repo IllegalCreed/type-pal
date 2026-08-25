@@ -75,23 +75,16 @@ function scanStartWorld(
   world: StartWorld,
   prefix: string,
   context: ScanContext,
-  kinds: {
-    party: Extract<ActorReferenceKind, 'entry-point-party'>
-    learned: Extract<ActorReferenceKind, 'entry-point-learned-skills'>
-    seed: Extract<ActorReferenceKind, 'entry-point-seed-stats'>
-  },
   out: ActorReference[],
 ): void {
   world.party.forEach((actorId, index) =>
-    add(out, actorId, kinds.party, `${prefix}.party[${index}]`, context),
+    add(out, actorId, 'entry-point-party', `${prefix}.party[${index}]`, context),
   )
-  for (const actorId of Object.keys(world.learnedSkills))
-    add(out, actorId, kinds.learned, `${prefix}.learnedSkills.${actorId}`, context)
   for (const actorId of Object.keys(world.seedStats ?? {}))
-    add(out, actorId, kinds.seed, `${prefix}.seedStats.${actorId}`, context)
+    add(out, actorId, 'entry-point-seed-stats', `${prefix}.seedStats.${actorId}`, context)
 }
 
-/** 18 个作者外部位置 + levelUp 伴随表 + 2 个可选运行态位置的唯一编辑器 collector。 */
+/** 作者外部位置 + levelUp 伴随表 + 可选运行态位置的唯一编辑器 collector。 */
 export function collectActorReferences(state: EditorState): ActorReference[] {
   const out: ActorReference[] = []
 
@@ -124,11 +117,6 @@ export function collectActorReferences(state: EditorState): ActorReference[] {
       entry.startWorld,
       `manifest.entryPoints[${entryIndex}](${entry.id}).startWorld`,
       { label: `入口 ${entry.label}`, locator: { kind: 'entry-point', entryPointId: entry.id } },
-      {
-        party: 'entry-point-party',
-        learned: 'entry-point-learned-skills',
-        seed: 'entry-point-seed-stats',
-      },
       out,
     )
   })

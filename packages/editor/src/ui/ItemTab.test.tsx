@@ -30,7 +30,7 @@ function state(items: ItemData[] = [item()]): EditorState {
     manifest: {
       id: 'test',
       name: '测试项目',
-      contentVersion: 17,
+      contentVersion: 18,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: {},
@@ -39,7 +39,7 @@ function state(items: ItemData[] = [item()]): EditorState {
           id: 'main',
           label: '主要入口',
           scene: 'scene-a',
-          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+          startWorld: { party: [], money: 0, inventory: [] },
         },
       ],
       assets: { catalog: 'assets/index.json', roles: {} },

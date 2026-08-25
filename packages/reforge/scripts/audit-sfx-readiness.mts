@@ -185,7 +185,7 @@ const progressionSkills = Object.fromEntries(
   progressionParty.map((actorId) => [
     actorId,
     unique([
-      ...(defaultStartWorld.learnedSkills[actorId] ?? []),
+      ...(project.actorsById[actorId]?.battler?.initialMagic ?? []),
       ...(project.levelUp[actorId] ?? []).map((entry) => entry.skillId),
     ]),
   ]),
@@ -193,37 +193,32 @@ const progressionSkills = Object.fromEntries(
 const progressionStart: StartWorld = {
   party: progressionParty,
   money: 0,
-  learnedSkills: progressionSkills,
   inventory: [],
 }
-const progressionWithScripts: StartWorld = {
-  ...progressionStart,
-  learnedSkills: Object.fromEntries(
-    progressionParty.map((actorId) => {
-      const role = actorOrder.findIndex((actor) => actor.id === actorId)
-      return [
-        actorId,
-        unique([...(progressionSkills[actorId] ?? []), ...(learnedByRole.get(role) ?? [])]),
-      ]
-    }),
-  ),
-}
+const progressionWithScriptSkills = Object.fromEntries(
+  progressionParty.map((actorId) => {
+    const role = actorOrder.findIndex((actor) => actor.id === actorId)
+    return [
+      actorId,
+      unique([...(progressionSkills[actorId] ?? []), ...(learnedByRole.get(role) ?? [])]),
+    ]
+  }),
+)
 const allSixStart: StartWorld = {
   party: combatActorOrder.map((actor) => actor.id),
   money: 0,
-  learnedSkills: Object.fromEntries(
-    combatActorOrder.map((actor) => [
-      actor.id,
-      unique([
-        ...(defaultStartWorld.learnedSkills[actor.id] ?? []),
-        ...(actor.battler?.initialMagic ?? []),
-        ...(project.levelUp[actor.id] ?? []).map((entry) => entry.skillId),
-        ...(learnedByRole.get(actorOrder.indexOf(actor)) ?? []),
-      ]),
-    ]),
-  ),
   inventory: [],
 }
+const allSixSkills = Object.fromEntries(
+  combatActorOrder.map((actor) => [
+    actor.id,
+    unique([
+      ...(actor.battler?.initialMagic ?? []),
+      ...(project.levelUp[actor.id] ?? []).map((entry) => entry.skillId),
+      ...(learnedByRole.get(actorOrder.indexOf(actor)) ?? []),
+    ]),
+  ]),
+)
 
 const authorBattleBaseMaximum = await teamEnvelope((teamId) =>
   battleBaseSounds(allSixStart, teamId),
@@ -255,8 +250,12 @@ function fullLoadActions(skillIds: readonly string[], items: readonly ItemData[]
   return actions
 }
 
-function effectiveSkillIds(start: StartWorld): string[] {
+function effectiveSkillIds(start: StartWorld, learnedSkills?: Record<string, string[]>): string[] {
   const world = buildWorld(start, project.actorsById)
+  if (learnedSkills)
+    world.learnedSkills = Object.fromEntries(
+      Object.entries(learnedSkills).map(([actorId, skillIds]) => [actorId, [...skillIds]]),
+    )
   return unique(
     world.party.flatMap((character) =>
       effectiveSkills(world.learnedSkills[character.id] ?? [], character, project.items),
@@ -278,19 +277,19 @@ const legacyFullLoadEvidence = {
   'progression-three': await legacyFullLoadSounds(
     progressionStart,
     'team-291',
-    effectiveSkillIds(progressionStart),
+    effectiveSkillIds(progressionStart, progressionSkills),
   ),
   'progression-three+script-learn': await legacyFullLoadSounds(
-    progressionWithScripts,
+    progressionStart,
     'team-291',
-    effectiveSkillIds(progressionWithScripts),
+    effectiveSkillIds(progressionStart, progressionWithScriptSkills),
   ),
   'author-intent-six': await teamEnvelope(async (teamId) => {
     const base = await battleBaseSounds(allSixStart, teamId)
     return mergeSounds(
       base,
       turnSounds(
-        fullLoadActions(unique(Object.values(allSixStart.learnedSkills).flat()), allItems),
+        fullLoadActions(unique(Object.values(allSixSkills).flat()), allItems),
         allPoisons,
         allPoisons,
       ),
@@ -345,8 +344,9 @@ const expected = {
   activePoisonUpper: 0,
   fivePlayerTurnUpper: 72,
   authorSixTurnUpper: 74,
-  legacyProgressionThree: 71,
-  legacyProgressionThreeWithScripts: 78,
+  // ActorDef.initialMagic 现由 runtime 真正播种；legacy 全量预载反证必须计入三名角色的出厂仙术。
+  legacyProgressionThree: 77,
+  legacyProgressionThreeWithScripts: 83,
   legacyAuthorIntentSix: 100,
 } as const
 const actual = {

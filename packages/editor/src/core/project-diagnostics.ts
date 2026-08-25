@@ -266,21 +266,6 @@ function validateStartWorldUniqueness(
     itemSeen.add(entry.itemId)
   }
 
-  for (const [actorId, skillIds] of Object.entries(startWorld.learnedSkills)) {
-    const skillSeen = new Set<string>()
-    for (const [index, skillId] of skillIds.entries()) {
-      if (skillSeen.has(skillId)) {
-        issues.push({
-          severity: 'error',
-          code: 'invalid-start-world',
-          message: `角色 "${actorId}" 的初始技能 "${skillId}" 重复`,
-          path: `${pathPrefix}.learnedSkills.${actorId}[${index}]`,
-          target,
-        })
-      }
-      skillSeen.add(skillId)
-    }
-  }
   return issues
 }
 

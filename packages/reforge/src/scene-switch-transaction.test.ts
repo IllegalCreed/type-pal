@@ -26,7 +26,7 @@ function deferred<T>() {
 
 function worldFixture(): WorldState {
   const world = buildWorld(
-    { party: ['hero'], money: 10, learnedSkills: {}, inventory: [{ itemId: 'herb', count: 2 }] },
+    { party: ['hero'], money: 10, inventory: [{ itemId: 'herb', count: 2 }] },
     {
       hero: {
         id: 'hero',

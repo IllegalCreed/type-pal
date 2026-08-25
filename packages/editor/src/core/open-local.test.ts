@@ -27,8 +27,8 @@ function directory(name = 'fixture'): FileSystemDirectoryHandle {
 describe('openLocalProject current canonical boundary', () => {
   beforeEach(() => {
     vi.resetAllMocks()
-    reforge.readJson.mockResolvedValue({ contentVersion: 17 })
-    reforge.loadCurrentProjectFrom.mockResolvedValue({ manifest: { contentVersion: 17 } })
+    reforge.readJson.mockResolvedValue({ contentVersion: 18 })
+    reforge.loadCurrentProjectFrom.mockResolvedValue({ manifest: { contentVersion: 18 } })
     reforge.loadAllAuthorScenes.mockResolvedValue([{ id: 'scene-a' }])
     reforge.loadStampTemplates.mockResolvedValue([{ id: 'stamp-a' }])
   })
@@ -49,11 +49,11 @@ describe('openLocalProject current canonical boundary', () => {
   })
 
   test('rejects a non-current contentVersion before loading project data', async () => {
-    const version = 18
+    const version = 19
     reforge.readJson.mockResolvedValue({ contentVersion: version })
 
     await expect(openLocalProject(directory(`future-v${version}`))).rejects.toThrow(
-      `contentVersion ${version}；开发期编辑器只接受当前 contentVersion 17`,
+      `contentVersion ${version}；开发期编辑器只接受当前 contentVersion 18`,
     )
     expect(reforge.loadCurrentProjectFrom).not.toHaveBeenCalled()
     expect(reforge.dispose).toHaveBeenCalledOnce()
@@ -72,7 +72,7 @@ describe('openLocalProject current canonical boundary', () => {
     reforge.loadCurrentProjectFrom.mockRejectedValue(new Error('bad current schema'))
 
     await expect(openLocalProject(directory('bad-current'))).rejects.toThrow(
-      'canonical v17 内容无效(bad current schema)',
+      'canonical v18 内容无效(bad current schema)',
     )
     expect(reforge.dispose).toHaveBeenCalledOnce()
   })

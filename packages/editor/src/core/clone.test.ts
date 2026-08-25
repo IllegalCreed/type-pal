@@ -80,7 +80,7 @@ async function localTarget(dir: FileSystemDirectoryHandle) {
 const manifest = {
   id: 'pal',
   name: 'PAL',
-  contentVersion: 17,
+  contentVersion: 18,
   minimumSaveVersion: 8,
   defaultEntryId: 'main',
   content: { actors: 'content/actors.json', scenes: 'content/scenes/' },
@@ -90,7 +90,7 @@ const manifest = {
       id: 'main',
       label: '主要入口',
       scene: 's1',
-      startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+      startWorld: { party: [], money: 0, inventory: [] },
     },
   ],
 } satisfies CurrentManifest

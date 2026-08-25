@@ -46,7 +46,6 @@ function fixture(): EditorState {
             party: ['hero'],
             money: 0,
             inventory: [],
-            learnedSkills: { hero: ['skill-a'] },
           },
         },
       ],
@@ -62,7 +61,6 @@ describe('battle data deletion references', () => {
       'actor-initial-magic',
       'enemy-cast',
       'level-up',
-      'start-world-learned',
     ])
   })
 

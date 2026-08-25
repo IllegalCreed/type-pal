@@ -40,7 +40,7 @@ const manifest = (): CurrentManifest => ({
   assets: { catalog: 'assets/index.json', roles: {} },
   entryPoints: [{
     id: 'new-game', label: '开始游戏', scene: 's000',
-    startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+    startWorld: { party: [], money: 0, inventory: [] },
   }],
 })
 

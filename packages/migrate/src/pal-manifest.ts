@@ -51,7 +51,6 @@ export function buildPalCurrentManifest(catalog: AssetCatalogV1): CurrentManifes
         startWorld: {
           party: ['li-xiaoyao'],
           money: 0,
-          learnedSkills: { 'li-xiaoyao': ['296'] },
           inventory: [],
         },
       },

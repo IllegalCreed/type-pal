@@ -6,7 +6,7 @@ import { buildBlankProject, enumerateSeedFiles, relativizeManifest } from './see
 const manifest = {
   id: 'pal',
   name: 'PAL',
-  contentVersion: 17,
+  contentVersion: 18,
   minimumSaveVersion: 8,
   defaultEntryId: 'main',
   content: {
@@ -23,7 +23,7 @@ const manifest = {
       id: 'main',
       label: '主要入口',
       scene: 's1',
-      startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+      startWorld: { party: [], money: 0, inventory: [] },
     },
   ],
 } as unknown as CurrentManifest
@@ -116,7 +116,7 @@ describe('buildBlankProject(W-blank:开箱即玩)', () => {
       content: Record<string, string>
     }
     expect(m.id).toBe('my-game')
-    expect(m.contentVersion).toBe(17)
+    expect(m.contentVersion).toBe(18)
     expect(m.content.worldVariables).toBe('content/world-variables.json')
     expect(files['content/world-variables.json']).toEqual({})
     expect(m.minimumSaveVersion).toBe(8)
@@ -126,6 +126,7 @@ describe('buildBlankProject(W-blank:开箱即玩)', () => {
     expect(m).not.toHaveProperty('startWorld')
     // 队伍非空(空 party → 引擎 boot 崩);assets 指项目内(不再指原版 extracted)
     expect(m.entryPoints[0]?.startWorld.party).toEqual(['hero'])
+    expect(m.entryPoints[0]?.startWorld).not.toHaveProperty('learnedSkills')
     expect(m.assets.catalog).toBe('assets/index.json')
     expect(m.assets.roles['visual.standardColorTable']).toBe('color.project-standard')
     expect(m.assets.legacy).toBeUndefined()

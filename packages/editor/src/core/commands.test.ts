@@ -102,7 +102,7 @@ function st(): EditorState {
     manifest: {
       id: 'test',
       name: 'Test',
-      contentVersion: 17,
+      contentVersion: 18,
       defaultEntryId: 'main',
       content: { maps: 'content/maps/index.json' },
       assets: {
@@ -114,7 +114,7 @@ function st(): EditorState {
           id: 'main',
           label: '主要入口',
           scene: 's',
-          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+          startWorld: { party: [], money: 0, inventory: [] },
         },
       ],
     },
@@ -2324,13 +2324,13 @@ describe('地图资产命令', () => {
     const s1 = command.apply(s0)
     expect(s1.mapIndex.maps).toEqual([{ id: 'home', name: '民居', path: 'content/maps/home.json' }])
     expect(s1.maps.home).toBeDefined()
-    expect(s1.manifest.contentVersion).toBe(17)
+    expect(s1.manifest.contentVersion).toBe(18)
     expect(s1.manifest.content.maps).toBe('content/maps/index.json')
     expect(s0.mapIndex.maps).toEqual([])
     const back = command.invert(s1)
     expect(back.mapIndex.maps).toEqual([])
     expect(back.maps.home).toBeUndefined()
-    expect(back.manifest.contentVersion).toBe(17)
+    expect(back.manifest.contentVersion).toBe(18)
     expect(back.manifest.content.maps).toBe('content/maps/index.json')
   })
 
@@ -2595,7 +2595,7 @@ describe('X7 manifest 命令', () => {
           id: 'main',
           label: '主要入口',
           scene: 's',
-          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+          startWorld: { party: [], money: 0, inventory: [] },
         },
         {
           id: 'alt',
@@ -2605,17 +2605,19 @@ describe('X7 manifest 命令', () => {
           startWorld: {
             party: ['li'],
             money: 99,
-            learnedSkills: { li: ['skill-a'] },
             inventory: [{ itemId: 'item-a', count: 2 }],
+            seedStats: { li: { hp: 12 } },
           },
         },
       ],
     }
     const cmd = new SetStartupEntriesCommand(next)
     ;(next.entryPoints[1]!.startWorld as { money: number }).money = 1
+    next.entryPoints[1]!.startWorld.seedStats!.li!.hp = 1
     const s1 = cmd.apply(s0)
     expect(s1.manifest.defaultEntryId).toBe('alt')
     expect(s1.manifest.entryPoints[1]!.startWorld.money).toBe(99)
+    expect(s1.manifest.entryPoints[1]!.startWorld.seedStats?.li?.hp).toBe(12)
     expect(s1.manifest.entryPoints[1]!.startWorld).not.toBe(next.entryPoints[1]!.startWorld)
     expect(Object.hasOwn(s1.manifest.entryPoints[1]!, 'introVideo')).toBe(false)
     const restored = cmd.invert(s1)
@@ -2653,13 +2655,13 @@ describe('X7 manifest 命令', () => {
               id: 'x',
               label: 'x',
               scene: 's',
-              startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+              startWorld: { party: [], money: 0, inventory: [] },
             },
             {
               id: 'x',
               label: 'y',
               scene: 's',
-              startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+              startWorld: { party: [], money: 0, inventory: [] },
             },
           ],
         }),
@@ -2673,7 +2675,7 @@ describe('X7 manifest 命令', () => {
               id: ' x',
               label: 'x',
               scene: 's',
-              startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+              startWorld: { party: [], money: 0, inventory: [] },
             },
           ],
         }),
@@ -2687,7 +2689,7 @@ describe('X7 manifest 命令', () => {
               id: 'x',
               label: 'x',
               scene: 's',
-              startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+              startWorld: { party: [], money: 0, inventory: [] },
             },
           ],
         }),

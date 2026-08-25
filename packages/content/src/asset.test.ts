@@ -540,7 +540,7 @@ describe('typed 资源引用与文件闭包', () => {
           label: '新的故事',
           scene: 's',
           introVideo: 'video.pal.001',
-          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+          startWorld: { party: [], money: 0, inventory: [] },
         },
       ],
       scenes: [scene],

@@ -56,6 +56,26 @@
       "animation": {
         "effectSprite": 29
       }
+    },
+    {
+      "id": "345",
+      "name": "御剑术",
+      "desc": "蜀山派入门剑法，攻击敌方单人。",
+      "cost": {
+        "mp": 10
+      },
+      "usableOutsideBattle": false,
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damage",
+          "power": 77,
+          "elemental": 0
+        }
+      ],
+      "animation": {
+        "effectSprite": 5
+      }
     }
   ],
   "levelUp": {

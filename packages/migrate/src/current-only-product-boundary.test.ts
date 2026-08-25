@@ -34,7 +34,7 @@ const productSources = productRoots.flatMap(productionSources)
 const migrationSources = ['packages/migrate/src', 'packages/migrate/scripts'].flatMap(productionSources)
 
 describe('current-only product boundary', () => {
-  test.each(['demo', 'e2e-own', 'pal'])('%s manifest is canonical content17 startup data', (id) => {
+  test.each(['demo', 'e2e-own', 'pal'])('%s manifest is canonical content18 startup data', (id) => {
     const manifestPath = join(repoRoot, `projects/${id}/manifest.json`)
     const manifest = JSON.parse(readFileSync(manifestPath, 'utf8')) as Record<string, unknown>
     const content = manifest.content as Record<string, string>
@@ -47,6 +47,8 @@ describe('current-only product boundary', () => {
     expect(() => validateCurrentManifestStartup(manifest, ids, `projects/${id}/manifest.json`)).not.toThrow()
     expect(Object.hasOwn(manifest, 'entryScene')).toBe(false)
     expect(Object.hasOwn(manifest, 'startWorld')).toBe(false)
+    for (const entry of manifest.entryPoints as Array<{ startWorld: Record<string, unknown> }>)
+      expect(entry.startWorld).not.toHaveProperty('learnedSkills')
   })
 
   test('production code has no persisted top-level startup fallback', () => {
@@ -66,7 +68,7 @@ describe('current-only product boundary', () => {
   test('has no product-epoch filenames', () => {
     const forbidden = productSources
       .map((path) => relative(repoRoot, path))
-      .filter((path) => /(?:^|[-_.])(v(?:5|8|9|1[0-6])|legacy|compat|upgrade)(?:[-_.]|$)/i.test(path))
+      .filter((path) => /(?:^|[-_.])(v(?:5|8|9|1[0-7])|legacy|compat|upgrade)(?:[-_.]|$)/i.test(path))
     expect(forbidden).toEqual([])
   })
 
@@ -77,9 +79,11 @@ describe('current-only product boundary', () => {
       const rel = relative(repoRoot, path)
       const lines = source.split('\n')
       lines.forEach((line, index) => {
-        const oldModule = /(?:from|export\s+\*\s+from)\s+['"][^'"]*(?:v5|v1[2-6]|legacy|compat|upgrade)[^'"]*['"]/i
-        const oldPublicSymbol = /\b(?:export\s+)?(?:type|interface|class|function|const)\s+(?:Legacy\w*|Compat\w*|Upgrade\w*|\w*V(?:5|12|13|14|15|16)\w*)\b/
-        const oldProductBranch = /\b(?:contentVersion|minimumSaveVersion)\s*(?:===|!==|<=|>=|<|>)\s*(?:[1-7]|1[0-6])\b/
+        const oldModule = /(?:from|export\s+\*\s+from)\s+['"][^'"]*(?:v5|v1[2-7]|legacy|compat|upgrade)[^'"]*['"]/i
+        const oldPublicSymbol = /\b(?:export\s+)?(?:type|interface|class|function|const)\s+(?:Legacy\w*|Compat\w*|Upgrade\w*|\w*V(?:5|12|13|14|15|16|17)\w*)\b/
+        const oldProductBranch =
+          /\b(?:contentVersion|minimumSaveVersion)\s*(?:===|!==|<=|>=|<|>)\s*(?:[1-7]|1[0-7])\b/
+        const retiredStartWorldSkills = /\.startWorld\.learnedSkills|startWorld[^\n]*learnedSkills/
         const oldProjectLoader = /(?:from\s+['"][^'"]*\/loader\.js['"]|\bloadProjectFrom\b|\bloadAllScriptChunks\b)/
         const oldSaveBranch =
           rel.startsWith('packages/reforge/src/save/') &&
@@ -88,6 +92,7 @@ describe('current-only product boundary', () => {
           oldModule.test(line) ||
           oldPublicSymbol.test(line) ||
           oldProductBranch.test(line) ||
+          retiredStartWorldSkills.test(line) ||
           oldProjectLoader.test(line) ||
           oldSaveBranch
         )
@@ -104,8 +109,7 @@ describe('current-only product boundary', () => {
       const rel = relative(repoRoot, path)
       source.split('\n').forEach((line, index) => {
         const historicalPublicationPath = /(?:_transitions\/|content\/migrations\/|script-v4-v5)/
-        const oldProductBranch =
-          /\b(?:contentVersion|minimumSaveVersion)\s*(?:===|!==|<=|>=|<|>)\s*(?:[1-7]|1[0-6])\b/
+        const oldProductBranch = /\b(?:contentVersion|minimumSaveVersion)\s*(?:===|!==|<=|>=|<|>)\s*(?:[1-7]|1[0-7])\b/
         const oldPublicationApi = /\b(?:rewind|transitionSeal|extractLegacyScriptEdges|LegacySavePayload)\b/i
         if (
           historicalPublicationPath.test(line) ||

@@ -11,7 +11,7 @@ function manifest(): CurrentManifest {
   return {
     id: 'demo',
     name: 'Demo',
-    contentVersion: 17,
+    contentVersion: 18,
     minimumSaveVersion: 8,
     defaultEntryId: 'new-game',
     entryPoints: [
@@ -19,7 +19,7 @@ function manifest(): CurrentManifest {
         id: 'new-game',
         label: '开始游戏',
         scene: 's001',
-        startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+        startWorld: { party: [], money: 0, inventory: [] },
       },
     ],
     content: {},
@@ -29,9 +29,27 @@ function manifest(): CurrentManifest {
 
 function world(): WorldState {
   return {
-    party: [],
+    party: [
+      {
+        id: 'hero',
+        template: 'hero',
+        level: 1,
+        exp: 0,
+        hp: 0,
+        maxHP: 10,
+        mp: 0,
+        maxMP: 5,
+        attack: 1,
+        defense: 1,
+        magicAttack: 1,
+        speed: 1,
+        luck: 1,
+        equipment: {},
+        tags: [],
+      },
+    ],
     money: 7,
-    learnedSkills: {},
+    learnedSkills: { hero: [] },
     skillUseCounts: {},
     inventory: [],
     script: {
@@ -47,7 +65,7 @@ function world(): WorldState {
 function payload(): CurrentSavePayload {
   return {
     version: 8,
-    contentVersion: 17,
+    contentVersion: 18,
     projectId: 'demo',
     world: world(),
     position: {
@@ -62,7 +80,7 @@ const references = buildEntityLifecycleReferenceIndex([
   { id: 's001', entities: [{ id: 'e001' }] },
 ])
 
-describe('current SAVE8/content17 contract', () => {
+describe('current SAVE8/content18 contract', () => {
   test('round-trips the current envelope without mutating input or resetting world values', async () => {
     const raw = payload()
     const before = structuredClone(raw)
@@ -74,18 +92,19 @@ describe('current SAVE8/content17 contract', () => {
     expect(normalized.world).not.toBe(raw.world)
     expect(normalized.world.entityLifecycles).not.toBe(raw.world.entityLifecycles)
     expect(raw).toEqual(before)
+    expect(normalized.world.learnedSkills.hero).toEqual([])
     expect(normalized).not.toHaveProperty('entryId')
     expect(normalized).not.toHaveProperty('defaultEntryId')
   })
 
   test.each([
-    [7, 17],
-    [8, 16],
-    [9, 17],
+    [7, 18],
+    [8, 17],
+    [9, 18],
   ])('rejects non-current SAVE%s/content%s before normalization', async (version, contentVersion) => {
     const raw = { ...payload(), version, contentVersion }
     await expect(preflightCurrentSave({ manifest: manifest(), payload: raw })).rejects.toThrow(
-      /只接受 SAVE8\/content17/,
+      /只接受 SAVE8\/content18/,
     )
   })
 

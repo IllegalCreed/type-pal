@@ -226,7 +226,7 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
           id: 'new-game',
           label: '新的故事',
           scene: 'start',
-          startWorld: { party: ['hero'], money: 0, learnedSkills: {}, inventory: [] },
+          startWorld: { party: ['hero'], money: 0, inventory: [] },
         },
       ],
       content: {

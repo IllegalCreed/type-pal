@@ -1,7 +1,7 @@
 # migrate 资产管线 — UI box 首切片（design + plan）
 
-> **现行结果（2026-08-23）**：本文主体保留资产管线的历史演进证据。当前产品格式为
-> contentVersion 17 / SAVE 8，`manifest.assets` 已 catalog-only；PAL 共 1,934 个 catalog 记录，新增的
+> **现行结果（2026-08-25）**：本文主体保留资产管线的历史演进证据。当前产品格式为
+> contentVersion 18 / SAVE 8，`manifest.assets` 已 catalog-only；PAL 共 1,934 个 catalog 记录，新增的
 > 56 个 effect sprite（652,870 B / 922 帧）由 migrate 确定性物化，runtime/editor 不再读取 extracted
 > 或 `assets.legacy`。现行发布命令见 `packages/migrate/README.md`。
 >

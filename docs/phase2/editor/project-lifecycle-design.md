@@ -325,7 +325,7 @@ A7/R7 总体不能提前标 done。
 
 ## 19. 开发期 current-only 边界（2026-08-20，覆盖 §11–§18 中所有版本/升级口径）
 
-- 当前唯一产品格式为 `contentVersion: 17` / SAVE 8 / `minimumSaveVersion: 8`。loader、editor、runtime
+- 当前唯一产品格式为 `contentVersion: 18` / SAVE 8 / `minimumSaveVersion: 8`。loader、editor、runtime
   和 save codec 只消费这一组 canonical 类型，不按版本选择实现。
 - 本项目尚未正式上线；旧 content/save upgrader、旧类型、fixture、sidecar、产品升级入口和兼容 fallback
   已删除。历史版本轴只由 Git 和上文的历史记录保存，不能作为新代码的输入契约。

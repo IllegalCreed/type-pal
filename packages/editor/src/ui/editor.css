@@ -1758,15 +1758,9 @@ html[data-panel-resize="horizontal"] * {
   width: 72px;
   flex: 0 0 72px;
 }
-.project-list-stack,
-.project-skill-group {
+.project-list-stack {
   display: grid;
   gap: 6px;
-}
-.project-skill-group + .project-skill-group {
-  margin-top: 12px;
-  padding-top: 10px;
-  border-top: 1px solid var(--line);
 }
 .project-subtitle {
   display: flex;
@@ -1834,8 +1828,7 @@ html[data-panel-resize="horizontal"] * {
   opacity: 0.42;
   cursor: default;
 }
-.project-list-stack > .btn,
-.project-skill-group > .btn {
+.project-list-stack > .btn {
   justify-self: start;
 }
 .project-entry-list {
@@ -2798,6 +2791,20 @@ html[data-panel-resize="horizontal"] * {
   color: var(--dim);
   font-size: 11px;
   font-weight: 600;
+}
+.actor-initial-magic-editor {
+  display: grid;
+  gap: 7px;
+  margin-top: 12px;
+}
+.actor-initial-magic-row {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) auto;
+  gap: 7px;
+  align-items: center;
+}
+.actor-initial-magic-editor > .btn {
+  justify-self: start;
 }
 .actor-sound-grid {
   display: grid;

@@ -22,7 +22,7 @@ function state(fields: BattleFieldDef[], declared = true): EditorState {
     manifest: {
       id: 'test',
       name: '测试',
-      contentVersion: 17,
+      contentVersion: 18,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: {
@@ -41,7 +41,7 @@ function state(fields: BattleFieldDef[], declared = true): EditorState {
           id: 'main',
           label: '主要入口',
           scene: 's001',
-          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+          startWorld: { party: [], money: 0, inventory: [] },
         },
       ],
       assets: { catalog: 'assets/index.json', roles: {} },

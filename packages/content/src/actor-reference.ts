@@ -8,7 +8,6 @@
 export type ActorReferenceKind =
   | 'scene-entity-actor'
   | 'entry-point-party'
-  | 'entry-point-learned-skills'
   | 'entry-point-seed-stats'
   | 'condition-in-party'
   | 'enemy-condition-player-in-party'
@@ -38,7 +37,6 @@ export const ACTOR_REFERENCE_POLICIES: Readonly<Record<ActorReferenceKind, Actor
   Object.freeze({
     'scene-entity-actor': { label: '场景人物实例', ownership: 'external', danglingSeverity: 'error' },
     'entry-point-party': { label: '入口开局队伍', ownership: 'external', danglingSeverity: 'error' },
-    'entry-point-learned-skills': { label: '入口已学技能', ownership: 'external', danglingSeverity: 'error' },
     // seedStats 既是 Actor 引用，也是开局存档种子；保留既有保存前硬错误语义。
     'entry-point-seed-stats': { label: '入口属性播种', ownership: 'external', danglingSeverity: 'error' },
     'condition-in-party': { label: '脚本在队条件', ownership: 'external', danglingSeverity: 'error' },

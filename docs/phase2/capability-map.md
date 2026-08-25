@@ -1,7 +1,7 @@
 # 能力地图（Capability Map）— 第二阶段的进度真值表
 
 > **这是一份活文档。** 每做完一格、发现一格、改一格判据,都要更新它。它取代旧的 roadmap §8「复刻覆盖矩阵」当「第二阶段做到哪了」的真值。
-> **(最近补账:2026-08-23 —— 当前唯一格式已切到 content17 / SAVE8；ARCH-ENTRYPOINT-CANONICAL-1 将启动配置收敛为非空真实入口、`defaultEntryId` 直接启动选择器和每入口独立 StartWorld。旧类型、upgrader、sidecar、产品版本分支与 extracted runtime fallback 继续保持删除；PAL catalog 为 1,934 条，含 56 个 effect sprite。A7 最终 ✅ 仍等 ARCH-CURRENT-ONLY-1 三方 review accept 后更新。此前各批次历史见任务卡和资源闭包审计。)**
+> **(最近补账:2026-08-25 —— 当前唯一格式已切到 content18 / SAVE8；ARCH-ENTRYPOINT-CANONICAL-1 将启动配置收敛为非空真实入口、`defaultEntryId` 直接启动选择器和每入口独立 StartWorld。旧类型、upgrader、sidecar、产品版本分支与 extracted runtime fallback 继续保持删除；PAL catalog 为 1,934 条，含 56 个 effect sprite。A7 最终 ✅ 仍等 ARCH-CURRENT-ONLY-1 三方 review accept 后更新。此前各批次历史见任务卡和资源闭包审计。)**
 > 配套阅读:[北极星与用法](roadmap.md) §8–§9 / [铁律](READ-FIRST.md) / [决策 D20](decisions.md)。
 > 状态符号:`✅done` `⚠️半done(一边done一边缺)` `❌缺(两边都缺)` `—不适用`。
 >
@@ -95,7 +95,7 @@
 |---|---|---|---|---|---|
 | N1 | 对话播放 | ✅ | ✅ | 客栈开场李大娘 | done(N1-1,2026-07-15):唯一 `DialogueCue + rows` 模型、旧码只在 migrate、全量 PAL 重生成、MG2 零计划、三方复验与用户验收完成 |
 | N2 | 事件触发 | ✅ | ✅ | onEnter/物品触发 | done；实体 Page、trigger/auto Behavior 与 onEnter/onTeleport Hook variant 使用 stable-id canonical 当前模型，编辑器可选择、引用和回链；历史 N3-1/R13 验收结论继续有效。 |
-| N3 | 脚本演出 | ✅ | ✅ | 客栈开场自动演出 | done；async 解释器+预览。可执行 `unmigrated`、旧 opcode 第二解释器和带版本后缀的脚本产品模型均已退役；当前 content17 直接使用 `AuthorCommand` / `AuthorScriptFlow` / `WorldScriptState`。 |
+| N3 | 脚本演出 | ✅ | ✅ | 客栈开场自动演出 | done；async 解释器+预览。可执行 `unmigrated`、旧 opcode 第二解释器和带版本后缀的脚本产品模型均已退役；当前 content18 直接使用 `AuthorCommand` / `AuthorScriptFlow` / `WorldScriptState`。 |
 | N4 | 事件模板库 | — | ✅ | — | done;编辑器产物,引擎无依赖 |
 | N5 | 条件/变量/flag | ✅ | ✅ | 全局 flag | 引擎 done;编辑器(2026-07-05):数据模式「变量」页(flag/var 总览+读写明细)+ 物品页「被事件引用」区(737 处),点引用跳事件模式定位源(ref-index 全脚本递归扫描,含 branch/confirm/startBattle 子命令与 hostile.onLose) |
 | N6 | 共享脚本/子程序 | ✅ | ✅ | s001+s002 双调用方 | **done**：作者库 CRUD/稳定 id/callScript/引用安全/保存重开均已落地；canonical 库为 `content/shared-scripts.json`，调用只存 ScriptId+可选 EntityAddress self，不保存 chunk；脚本分片和“迁移内部实现”已从当前产品删除。 |
@@ -125,13 +125,13 @@
 | 格 | 名字 | 引擎 | 编辑器 | 原版考题 | 备注 |
 |---|---|---|---|---|---|
 | X0 | 主菜单四项 | ✅ | — | 状态/装备/术/系统 | done;引擎 UI |
-| X1 | **存档/读档+状态快照** | ✅ | — | 存档 | 完整流程实测(quick/manual 30 槽/位置+world 快照/同场景实体复位/跨刷新持久)。当前唯一格式为 **SAVE 8 / contentVersion 17 / minimumSaveVersion 8**；loader 与 codec 直接验证 canonical current，`WorldScriptState`、entity lifecycle 与稳定 enemyTeamId 是唯一真值。正式上线前不保留 SAVE1..7/content1..16 的 upgrader、sidecar、fixture 或产品入口，历史由 Git 保存。 |
+| X1 | **存档/读档+状态快照** | ✅ | — | 存档 | 完整流程实测(quick/manual 30 槽/位置+world 快照/同场景实体复位/跨刷新持久)。当前唯一格式为 **SAVE 8 / contentVersion 18 / minimumSaveVersion 8**；loader 与 codec 直接验证 canonical current，`WorldScriptState`、entity lifecycle 与稳定 enemyTeamId 是唯一真值。正式上线前不保留 SAVE1..7/content1..17 的 upgrader、sidecar、fixture 或产品入口，历史由 Git 保存。 |
 | X2 | 音频(BGM/SFX) | ✅ | ✅ | 场景音乐 | **done（A7-0/A7-0A + A7-1，2026-07-18）**：MIDI、soundfont 与 SFX 均为稳定 AssetId 和工程资产，运行与编辑试听只经 AssetResolver/FileSource；标题菜单曲、战斗提示音、角色/敌人/技能/召唤音效全部数据化。编辑器支持音乐/音效导入、替换、改名、试听、选择、引用保护删除、保存重开与旧工程一次性升级；数字文件名、应用根 soundfont、`legacy.sounds` 和运行时音效字面量已退役。边界:X2=音频基建与资源生命周期，W5=场景侧引用与切换；未实现的战斗表现事件继续记 B5，不反向降级 X2 |
 | X3 | 标题/流程/结局 | ✅ | — | 新游戏/通关 | 主菜单标题屏(FBP2 底图 + entryPoints 竖排)+「新的故事」新游戏流 +「旧的回忆」读档(→存档浏览→doLoad 跳开场)；**X3-1 done(2026-07-15)**：场景入场呈现事务(Prepare→Reveal→Body 显式元数据、SceneEntrySession 生命周期、编辑器三区编辑)；**结局流 done（R2，2026-07-14）**：原版 0xA0 迁为作者可编辑的 `quitToTitle(videos[])`，PAL s281 播 `video.pal.004/005/006` 后回 `?menu`，双路径 E2E、三方审查与用户验收完成。持续通关回归归 Q1 全流程 E2E，不另开 X3 产品卡。开局数据侧见 X7 |
 | X4 | 资源管线(RGBA 化) | ⚠️ | — | — | current-only 实现已 catalog-only：PAL 1,934 条资产记录；56 个 effect sprite（652,870 B / 922 帧）由 migrate 确定性物化；editor/reforge 不再读取 extracted、`assets.legacy` 或目录 fallback。ARCH-CURRENT-ONLY-1 尚待三方 review accept，因此本表暂保留 ⚠️。 |
 | X6 | 工程生命周期 | ✅ | ✅ | — | **P1–P4 落地(2026-07-09)**:FileSource 抽象(httpSource/fsaSource,覆盖内容+素材)→ 启动屏 ProjectPicker(克隆/空白·打开本地·最近)→ 增量保存(快照-diff)+ IndexedDB 句柄(手势重连)+ 编辑器内「工程」菜单(新建/打开/另存为)。真实用户本地 app 闭环。见 editor/project-lifecycle-{design,p1..p4}。打包导出 zip 已由 A5 完成 |
 | X5 | **跳转预览/沙盒启动** | ✅ | ✅ | 跳任意演出 | v1:编辑器「🎮 引擎试玩」→ ?scene&pos&facing 落事件现场;?pos = dev 语义跳过 onEnter。**本地工程试玩修复(2026-07-10)**:曾写死 6051(永远 pal → 空白工程开出李逍遥,作者报);FSA 句柄跨不了源 → 引擎入口拆 `bootGame(project)` + 编辑器**同源 play.html**(IndexedDB 句柄→手势授权→fsaSource 磁盘启动;无句柄回退 dev 种子 http),试玩/试打/试放三处全改同源。世界态前置(flag 快照)待补 |
-| X7 | 入口点/开局档(多DLC入口) | ✅ | ✅ | 新游戏开局 | **done（X7-1；ARCH-ENTRYPOINT-CANONICAL-1 于 2026-08-22 收敛）**：content17 以非空 `entryPoints` 为唯一入口真值，每项完整拥有 scene / introVideo / StartWorld；稳定 `defaultEntryId` 只选择无参数直接启动项，不承担继承。编辑器只列真实入口，支持稳定 id 深链、一次性复制、原子设置默认、队伍/背包/技能/金钱/seedStats、角色绑定、诊断跳转和保存重开；PAL 直接启动入口恢复原版种子。 |
+| X7 | 入口点/开局档(多DLC入口) | ✅ | ✅ | 新游戏开局 | **done（X7-1；ARCH-ENTRYPOINT-CANONICAL-1 于 2026-08-22 收敛，ARCH-ENTRY-ACTOR-SEED-1 于 2026-08-25 实现待终审）**：content18 以非空 `entryPoints` 为唯一入口真值，每项完整拥有 scene / introVideo / StartWorld；稳定 `defaultEntryId` 只选择无参数直接启动项，不承担继承。入口页只编辑队伍顺序、背包、金钱、世界资源与当前 HP/MP 稀疏覆盖；角色页是等级、当前/最大 HP/MP 基线、属性、装备与初始技能的唯一作者入口。运行时首次实例化从角色定义播种技能，入口不保存技能副本；PAL 直接启动入口恢复原版种子。 |
 
 ### 迁移器(Migrator)— 工具域,完成期退役 — 2 格
 
@@ -155,7 +155,7 @@
 | A4 | 用户上传自有素材 | — | ✅ | **已覆盖精灵、瓦片集、角色/敌人战斗外观、音乐、SFX、视频、完整帧动画及四类静态图**：A7-2 图像工作台支持立绘/头像/物品图标导入替换，战场真彩图在导入边界确定性量化并预览工程效果；引用保护、undo/redo、pending blob 与保存重开共用 catalog 链。默认字体/UI 属引擎，不是工程上传能力 |
 | A5 | 工程自包含分发(打包导出) | — | ✅ | **done(2026-07-10 A5)**:工程菜单「🗜 导出 zip」= FSA 目录递归原样打包下载(零依赖 zip 器:原生 deflate/CRC32/UTF-8 名/时间恒1980 可复现;读磁盘,dirty 提醒先保存;dev 种子工程禁用)。「另存为」丢磁盘素材债已修(整树拷贝+覆写,见 A5 卡) |
 | A6 | 预制库主动更新检查(可选) | — | ❌ | 用户显式触发:检查服务器新版 → 选择是否拉取覆盖。非自动;非 MVP |
-| A7 | 工程资源闭包与稳定资源注册表 | ⚠️ | ⚠️ | **实现完成，审查中**：content17 manifest 的资源配置只含 catalog/roles，PAL 1,934 records；tileset/world sprite/battle sprite/effect sprite/image 均走 AssetId→catalog→AssetResolver/FileSource 单链，clone/save/export/runtime 无 extracted 或 legacy fallback。ARCH-CURRENT-ONLY-1 三方 review accept 前暂不标 ✅；历史批次数字见[资源闭包审计](foundation/a7-resource-closure-audit.md)。 |
+| A7 | 工程资源闭包与稳定资源注册表 | ⚠️ | ⚠️ | **实现完成，审查中**：content18 manifest 的资源配置只含 catalog/roles，PAL 1,934 records；tileset/world sprite/battle sprite/effect sprite/image 均走 AssetId→catalog→AssetResolver/FileSource 单链，clone/save/export/runtime 无 extracted 或 legacy fallback。ARCH-CURRENT-ONLY-1 三方 review accept 前暂不标 ✅；历史批次数字见[资源闭包审计](foundation/a7-resource-closure-audit.md)。 |
 
 > A1-A6 是编辑器侧的素材与分发动作，故 `引擎—`；A7 是跨引擎、编辑器、内容 schema 与迁移器的工程资源闭包能力，因此两侧都按实际完成度记账。引擎只消费 manifest/catalog 指针与工程目录文件，不关心素材来源。未决子问题(A1 版权策略与素材规模 / A2 下载协议与进度 / A4 支持的素材格式)留「做 A 领域」那轮 brainstorm 细化。
 

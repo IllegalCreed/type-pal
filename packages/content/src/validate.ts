@@ -87,12 +87,8 @@ export function validateStartWorldResources(startWorld: unknown, ctx = 'startWor
 /** 当前 canonical 入口世界的完整形状；不做跨表引用检查。 */
 export function validateStartWorld(startWorld: unknown, ctx = 'startWorld'): StartWorld {
   const world = assertObject(startWorld, ctx) as Record<string, unknown>
-  requireKeys(world, ['party', 'money', 'learnedSkills', 'inventory'], ctx)
-  requireOnlyKeys(
-    world,
-    ['party', 'money', 'learnedSkills', 'inventory', 'resources', 'seedStats'],
-    ctx,
-  )
+  requireKeys(world, ['party', 'money', 'inventory'], ctx)
+  requireOnlyKeys(world, ['party', 'money', 'inventory', 'resources', 'seedStats'], ctx)
 
   const party = assertArray<unknown>(world.party, `${ctx}.party`)
   party.forEach((actorId, index) => {
@@ -101,19 +97,6 @@ export function validateStartWorld(startWorld: unknown, ctx = 'startWorld'): Sta
   })
   if (!Number.isSafeInteger(world.money) || Number(world.money) < 0)
     throw new Error(`${ctx}.money: 必须是非负安全整数`)
-
-  const learnedSkills = assertObject(
-    world.learnedSkills,
-    `${ctx}.learnedSkills`,
-  ) as Record<string, unknown>
-  for (const [actorId, rawSkills] of Object.entries(learnedSkills)) {
-    if (actorId.trim().length === 0) throw new Error(`${ctx}.learnedSkills: 角色 id 不能为空`)
-    const skills = assertArray<unknown>(rawSkills, `${ctx}.learnedSkills.${actorId}`)
-    skills.forEach((skillId, index) => {
-      if (typeof skillId !== 'string' || skillId.trim().length === 0)
-        throw new Error(`${ctx}.learnedSkills.${actorId}[${index}]: 期望非空技能 id`)
-    })
-  }
 
   const inventory = assertArray<unknown>(world.inventory, `${ctx}.inventory`)
   inventory.forEach((rawEntry, index) => {
@@ -456,6 +439,18 @@ export function validateActors(json: unknown): ActorDef[] {
         throw new Error(`actors[${i}].battler: 旧 battleSpriteNum/battleSpritePath 已退役`)
       if (typeof bo.battleSprite !== 'string' || bo.battleSprite.length === 0)
         throw new Error(`actors[${i}].battler.battleSprite: 期望非空 BattleSpriteDef.id`)
+      const initialMagic = assertArray<unknown>(
+        bo.initialMagic,
+        `actors[${i}].battler.initialMagic`,
+      )
+      const initialMagicIds = new Set<string>()
+      initialMagic.forEach((skillId, skillIndex) => {
+        if (typeof skillId !== 'string' || skillId.trim().length === 0)
+          throw new Error(`actors[${i}].battler.initialMagic[${skillIndex}]: 期望非空 skill id`)
+        if (initialMagicIds.has(skillId))
+          throw new Error(`actors[${i}].battler.initialMagic: 初始仙术 "${skillId}" 重复`)
+        initialMagicIds.add(skillId)
+      })
       if (bo.sounds !== undefined)
         validateSoundFields(
           bo.sounds,

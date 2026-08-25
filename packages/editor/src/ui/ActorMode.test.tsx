@@ -88,7 +88,7 @@ function state(actorsList: ActorDef[]): EditorState {
     manifest: {
       id: 'test',
       name: '测试项目',
-      contentVersion: 17,
+      contentVersion: 18,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: {},
@@ -97,14 +97,14 @@ function state(actorsList: ActorDef[]): EditorState {
           id: 'main',
           label: '主要入口',
           scene: 'scene-a',
-          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+          startWorld: { party: [], money: 0, inventory: [] },
         },
       ],
       assets: { catalog: 'assets/index.json', roles: {} },
     },
     scenes: [],
     actors: actorsList,
-    skills: [{ id: '99', name: '合体技', effects: [] } as never],
+    skills: [{ id: '99', name: '测试仙术', effects: [] } as never],
     levelUp: {},
     items: [],
     locale: { 'dlg.talk.0': '你好', 'name.hero': '主角', 'name.guard': '守护者' },
@@ -142,7 +142,6 @@ function Harness(props: { session: EditSession; assetReader?: EditorAssetReader 
       assetCatalog={current.assetCatalog}
       assetReader={props.assetReader ?? ({} as EditorAssetReader)}
       levelUp={current.levelUp}
-      startSkills={{}}
     />
   )
 }
@@ -168,6 +167,48 @@ function setInputValue(input: HTMLInputElement, value: string): void {
   setter?.call(input, value)
   input.dispatchEvent(new Event('input', { bubbles: true }))
 }
+
+async function commitInput(input: HTMLInputElement, value: string): Promise<void> {
+  await act(async () => setInputValue(input, value))
+  await act(async () =>
+    input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })),
+  )
+}
+
+describe('ActorMode 初始状态唯一所有权', () => {
+  test('角色页直接编辑 initialMagic，且单次操作可撤销', async () => {
+    const session = new EditSession(state(actors()))
+    await act(async () => {
+      root = createRoot(host)
+      root.render(<Harness session={session} />)
+    })
+    await act(async () => button('战斗与成长').click())
+    expect(host.textContent).not.toContain('直接启动入口技能')
+
+    await act(async () => button('添加初始仙术').click())
+    expect(session.getState().actors[0]!.battler!.initialMagic).toEqual(['99'])
+    await act(async () => button('移除').click())
+    expect(session.getState().actors[0]!.battler!.initialMagic).toEqual([])
+    await act(async () => session.undo())
+    expect(session.getState().actors[0]!.battler!.initialMagic).toEqual(['99'])
+    await act(async () => session.undo())
+    expect(session.getState().actors[0]!.battler!.initialMagic).toEqual([])
+  })
+
+  test('当前值与最大值分别编辑，改最大值不覆盖当前值', async () => {
+    const session = new EditSession(state(actors()))
+    await act(async () => {
+      root = createRoot(host)
+      root.render(<Harness session={session} />)
+    })
+    await act(async () => button('战斗与成长').click())
+    const currentHp = host.querySelector<HTMLInputElement>('input[aria-label="当前体力"]')!
+    const maxHp = host.querySelector<HTMLInputElement>('input[aria-label="最大体力"]')!
+    await commitInput(currentHp, '80')
+    await commitInput(maxHp, '120')
+    expect(session.getState().actors[0]!.battler!.baseStats).toMatchObject({ hp: 80, maxHP: 120 })
+  })
+})
 
 describe('ActorMode 战斗关系节 (E18-1)', () => {
   test('角色检查器只保留摘要与引用，不重复主工作区分区导航', async () => {

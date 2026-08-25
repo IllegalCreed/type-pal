@@ -85,7 +85,7 @@ function state(): EditorState {
     manifest: {
       id: 'test',
       name: '测试项目',
-      contentVersion: 17,
+      contentVersion: 18,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: {},
@@ -94,7 +94,7 @@ function state(): EditorState {
           id: 'main',
           label: '主要入口',
           scene: 's001',
-          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+          startWorld: { party: [], money: 0, inventory: [] },
         },
       ],
       assets: { catalog: 'assets/index.json', roles: {} },
@@ -174,7 +174,6 @@ beforeEach(() => {
   document.body.append(host)
   root = createRoot(host)
 })
-
 afterEach(async () => {
   await act(async () => root.unmount())
   host.remove()

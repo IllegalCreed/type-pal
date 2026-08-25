@@ -43,13 +43,14 @@ const spritesById = byId(sprites)
 describe('demo 工程:真实 JSON 迁移保真 + buildWorld 端到端', () => {
   test('数据关键值:入口场景 / 技能 MP / 物品装备槽 / locale', () => {
     expect(manifest.id).toBe('demo')
-    expect(manifest.contentVersion).toBe(17)
+    expect(manifest.contentVersion).toBe(18)
     expect(manifest.minimumSaveVersion).toBe(8)
     expect(scenes.find((s) => s.id === defaultEntry.scene)).toBeDefined() // 默认入口场景可解析
     expect(skillsById['296']?.name).toBe('气疗术')
     expect(skillsById['296']?.cost.mp).toBe(6)
     expect(skillsById['298']?.cost.mp).toBe(18)
     expect(skillsById['299']?.cost.mp).toBe(40)
+    expect(skillsById['345']).toMatchObject({ name: '御剑术', target: 'oneEnemy' })
     expect(itemsById['208']?.equip?.slot).toBe('body')
     expect(locale['name.li-xiaoyao']).toBe('李逍遥')
     // C0:actor→sprite 链可解析(引擎玩家精灵走此路径,替代写死 2)
@@ -85,13 +86,15 @@ describe('demo 工程:真实 JSON 迁移保真 + buildWorld 端到端', () => {
     expect(effectiveStat(li, 'attack', itemsById)).toBe(35)
   })
 
-  test('buildWorld 返回拷贝(非引用):运行期改动不回写污染 startWorld 源', () => {
+  test('buildWorld 返回拷贝(非引用):运行期技能不回写角色定义', () => {
     const w = buildWorld(defaultEntry.startWorld, actorsById)
-    expect(w.learnedSkills).not.toBe(defaultEntry.startWorld.learnedSkills)
+    const initialMagic = actorsById['li-xiaoyao']!.battler!.initialMagic
+    expect(w.learnedSkills['li-xiaoyao']).not.toBe(initialMagic)
     expect(w.inventory).not.toBe(defaultEntry.startWorld.inventory)
     w.inventory.push({ itemId: 'x', count: 9 })
     w.learnedSkills['li-xiaoyao']?.push('zzz')
     expect(defaultEntry.startWorld.inventory).toHaveLength(3) // 源不受污染
-    expect(defaultEntry.startWorld.learnedSkills['li-xiaoyao']).toEqual(['296', '298', '299', '345'])
+    expect(initialMagic).toEqual(['296', '298', '299', '345'])
+    expect(defaultEntry.startWorld).not.toHaveProperty('learnedSkills')
   })
 })

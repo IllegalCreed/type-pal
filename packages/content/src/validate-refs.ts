@@ -730,6 +730,26 @@ export function collectSpriteDefinitionReferences(
 /** 编辑器被编辑的内容工作副本 = ContentBundle + manifest(EditSession 用)。 */
 export type EditorContent = Omit<ContentBundle, 'entryPoints'> & { manifest: CurrentManifest }
 
+/** 角色出厂技能是首次实例化的唯一权威种子，悬空 id 必须在 loader 前硬失败。 */
+export function validateActorInitialMagicReferences(
+  actors: readonly ActorDef[],
+  skills: readonly Pick<SkillData, 'id'>[],
+): Issue[] {
+  const issues: Issue[] = []
+  const skillIds = new Set(skills.map((skill) => skill.id))
+  actors.forEach((actor, actorIndex) => {
+    actor.battler?.initialMagic.forEach((skillId, skillIndex) => {
+      if (skillIds.has(skillId)) return
+      issues.push({
+        severity: 'error',
+        where: `actors[${actorIndex}](${actor.id}).battler.initialMagic[${skillIndex}]`,
+        message: `初始仙术 "${skillId}" 不在 skills`,
+      })
+    })
+  })
+  return issues
+}
+
 /**
  * 启动入口的跨表闭包。current loader 与编辑器保存门共用，所有悬空边都属于
  * 无法可靠创建新世界的硬错误；路径以稳定入口 id 定位，而不是依赖数组顺序。
@@ -737,13 +757,11 @@ export type EditorContent = Omit<ContentBundle, 'entryPoints'> & { manifest: Cur
 export function validateEntryPointStartWorldReferences(
   entryPoints: readonly EntryPoint[],
   actors: readonly ActorDef[],
-  skills: readonly Pick<SkillData, 'id'>[],
   items: readonly Pick<ItemData, 'id'>[],
 ): Issue[] {
   const issues: Issue[] = []
   const actorIds = new Set(actors.map((actor) => actor.id))
   const actorsById = new Map(actors.map((actor) => [actor.id, actor]))
-  const skillIds = new Set(skills.map((skill) => skill.id))
   const itemIds = new Set(items.map((item) => item.id))
 
   for (const entryPoint of entryPoints) {
@@ -764,22 +782,6 @@ export function validateEntryPointStartWorldReferences(
           message: `队员 "${actorId}" 无 battler(不可入队)`,
         })
     })
-    for (const [actorId, learnedSkillIds] of Object.entries(world.learnedSkills)) {
-      if (!actorIds.has(actorId))
-        issues.push({
-          severity: 'error',
-          where: `${prefix}.learnedSkills[${actorId}]`,
-          message: `已学技能所属角色 "${actorId}" 不在 actors`,
-        })
-      learnedSkillIds.forEach((skillId, index) => {
-        if (!skillIds.has(skillId))
-          issues.push({
-            severity: 'error',
-            where: `${prefix}.learnedSkills[${actorId}][${index}]`,
-            message: `已学仙术 "${skillId}" 不在 skills`,
-          })
-      })
-    }
     world.inventory.forEach((inventoryEntry, index) => {
       if (!itemIds.has(inventoryEntry.itemId))
         issues.push({
@@ -1188,15 +1190,6 @@ export function validateReferences(b: ContentBundle): Issue[] {
             message: `初始装备 "${itemId}" 不在 items`,
           })
       }
-      // battler.initialMagic → skills(缺 = warn)
-      battler.initialMagic.forEach((skillId, mi) => {
-        if (!skillIds.has(skillId))
-          issues.push({
-            severity: 'warn',
-            where: `${where}.battler.initialMagic[${mi}]`,
-            message: `初始仙术 "${skillId}" 不在 skills`,
-          })
-      })
       // E18-1(G2/K2/K3):三字段引用校验。
       // coveredBy → actor 存在且可战斗(error);指向自己 = warn(运行时死者 hp=0 天然不触发)。
       if (battler.coveredBy !== undefined) {
@@ -1291,7 +1284,8 @@ export function validateReferences(b: ContentBundle): Issue[] {
   }
 
   // ── entryPoints[].startWorld ────────────────────────────
-  issues.push(...validateEntryPointStartWorldReferences(b.entryPoints, b.actors, b.skills, b.items))
+  issues.push(...validateEntryPointStartWorldReferences(b.entryPoints, b.actors, b.items))
+  issues.push(...validateActorInitialMagicReferences(b.actors, b.skills))
 
   // ── items ───────────────────────────────────────────────
   issues.push(...validateEquipBattleSpriteReferences(b.items, b.actors, b.battleSprites))
@@ -1456,16 +1450,5 @@ export function validateReferences(b: ContentBundle): Issue[] {
     })
     existingActorIssuePaths.add(reference.where)
   }
-  for (const entryPoint of b.entryPoints)
-    for (const actorId of Object.keys(entryPoint.startWorld.learnedSkills)) {
-      const where = `entryPoints[${entryPoint.id}].startWorld.learnedSkills[${actorId}]`
-      if (!actorIds.has(actorId) && !existingActorIssuePaths.has(where))
-        issues.push({
-          severity: ACTOR_REFERENCE_POLICIES['entry-point-learned-skills'].danglingSeverity,
-          where,
-          message: `已学技能所属角色 "${actorId}" 不在 actors`,
-        })
-    }
-
   return issues
 }

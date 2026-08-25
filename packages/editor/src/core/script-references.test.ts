@@ -25,7 +25,7 @@ function baseState(): EditorState {
     manifest: {
       id: 'test',
       name: 'test',
-      contentVersion: 17,
+      contentVersion: 18,
       minimumSaveVersion: 8,
       defaultEntryId: 'main',
       content: {
@@ -42,7 +42,7 @@ function baseState(): EditorState {
           id: 'main',
           label: '主要入口',
           scene: 's1',
-          startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+          startWorld: { party: [], money: 0, inventory: [] },
         },
       ],
     },
